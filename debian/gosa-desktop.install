@@ -1,0 +1,5 @@
+gosa-core/contrib/desktoprc	/etc/gosa
+gosa-core/contrib/gosa		/usr/bin
+debian/gosa.xpm			/usr/share/pixmaps
+debian/gosa-16.xpm		/usr/share/pixmaps
+debian/gosa-desktop.desktop 	/usr/share/applications

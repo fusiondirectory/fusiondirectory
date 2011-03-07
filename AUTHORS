@@ -1,0 +1,87 @@
+FusionDirectory AUTHORS
+============
+
+This is the alphabetical list of all people that have
+contributed to the FusionDirectory project, beeing code, translations,
+documentation and additional help.
+
+* Markus Amersdorfer <der.plusch@subnet.at>
+  Wiki setup, Testing, hints, proposals
+
+* Alessandro Amici <a.amici@bopen.it>
+  Italian translation
+
+* Holger Burbach <burbach@gonicus.de>
+  Kerberos PHP module
+
+* Craig Chang <craig0310@gmail.com>
+  Fixes for magic_quotes_qpc
+
+* Guillaume Delecourt <guillaume.delecourt@opensides.be>
+  Setup fixes, nagios tab plugin, xls addons ldapmanager
+  pptp connectivity option, phpscheduleit connectivity option
+
+* Dan Ellis <danellis@rushmore.com>
+  Sieve lib is taken from him
+
+* Alejandro Escanero Blanco <aescanero@chaosdimension.org>
+  Fixes, improvements, translation, Guide and some extensions
+
+* Fabian Hickert <hickert@gonicus.de>
+  Improvements for setup, various fixes and plugins
+
+* Eric Kilfoil <eric@ipass.net>
+  ldap.inc is taken from him
+
+* Niels Klomp <nk@careworks.nl>
+  Dutch translation
+  
+* Steve Moitozo <god at zilla dot us>
+  Password checker
+
+* Benoit Mortier <benoit.mortier@opensides.be>
+  Butracking, QA, French translation
+
+* Igor Muratov <migor@altlinux.org>
+  Various fixes and speed enhancements
+
+* Michael Pasdziernik <mp@secio.de>
+  Documentation for GOsa and safe-mode, fixes
+
+* Cajus Pollmeier <pollmeier@gonicus.de>
+  Virtually everyting which is GOsa related
+
+* Piotr Rybicki <meritus@innervision.pl>
+  Polish translation
+
+* Henning Schmiedehausen <hps@intermeta.de>
+  Various fixes, support for user defined people/group base
+
+* Alfred Schröder <schroeder@gonicus.de>
+  German translation
+
+* Thomas Schüßler <tulpe@atomar.de>
+  debuglib.inc is taken from him
+
+* Jan Wenzel <jan.wenzel@gonicus.de>
+  Implementation and research for samba munged dial support,
+  fixing of "Fiptehlers"(TM) in the german translations.
+
+* Leila El Hitori <leila.elhitori@opensides.be>
+  French online documentation
+  English online documentation
+  
+* Vincent Seynhaeve
+  Xls export plugin <vincent.seynhaeve@opensides.be>
+  
+* Wouter Verhelst <wouter@debian.org>
+  accept-to-gettext code that helps for language conversation
+
+* Antoine Gallavardin <antoine.gallavardin@free.fr>
+  Dhcp plugin patch to manage key and update zone in dhcp for dyndns
+
+* Leonid Bogdanov <leonid_bogdanov@mail.ru>
+  patch for the manager fonctionnality in the Genral user tab
+
+* Olivier BONHOMME <obonhomme@nerim.net>
+  Corrected RPM building

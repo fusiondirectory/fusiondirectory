@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ ! -f contrib/extract-locale ]; then
+  echo "This script has to be executed in the fusiondirectory root !"
+  exit 1
+fi
+
+for i in $(find | grep messages.po | grep -v svn | grep -v LC_MES); do cp $i $(echo $i | sed 's#^.*/\([^/]*\)/[^/]*$#\1.po#'); done

@@ -1,0 +1,167 @@
+#!/bin/bash
+
+generate_po() {
+  ORIG=`pwd`
+  TEMPDIR="/tmp/gosa-locale"
+  TRUE=`which true`
+
+  echo
+  echo "Creating temporary directory..."
+  [ -d $TEMPDIR ] && rm -rf $TEMPDIR
+  mkdir $TEMPDIR
+
+  echo "Creating copy of GOsa..."
+  tar c . | tar x -C $TEMPDIR
+
+  echo "Converting .tpl files..."
+  pushd . &> /dev/null
+  cd $TEMPDIR
+
+  for template in $(find . -name '*.tpl'); do
+    echo "* converting .tpl files: $(basename $template)"
+    sed -e 's/{t}/<?php $t= _("/g;s!{/t}!");?>!g' $template > $template.new
+    mv $template.new $template
+  done
+
+  for template in $(find . -name '*.xml'); do
+    echo "* converting .xml files: $(basename $template)"
+    sed -e 's/<label>/<?php $t= _("/g;s!</label>!");?>!g' $template > $template.new
+    mv $template.new $template
+  done
+
+  for class in $(find . -name 'class_*.inc'); do
+    echo "* converting class_*.inc files: $(basename $class)"
+    sed -e 's/\($pl[DH][^=]*\)= *"\([^"]*\)";$/\1= _("\2");/g' $class > $class.new
+    mv $class.new $class
+  done
+
+  echo "Extracting languages..."
+  [ -f locale/${l_path}messages.po ] && rm locale/${l_path}messages.po
+  find . -name '*.[ctpix][mophn][nlpc]' | xgettext -f - --keyword=must -d Domain -L PHP -n -o locale/${l_path}messages.po
+
+  echo "Merging po files with existing ones"
+  error=0
+  for f in locale/${l_path}??/LC_MESSAGES; do
+    [[ "$f" == "locale/${l_path}??/LC_MESSAGES" ]] && break
+    echo -n "* merging $f/messages.po: "
+    [ ! -f $f/messages.po ] && touch $f/messages.po
+
+    # If we're in a plugin of a trunk checkout, we can use the gosa-all messages.po as a dictionary
+    DICT_FILE_ALL="$ORIG/../../gosa-all/gosa/${f/locale/locale/core}/messages.po"
+    DICT_FILE_CORE="$ORIG/../../gosa-core/${f/locale/locale/core}/messages.po"
+    DICT=""
+    [ -r $DICT_FILE_ALL ] && DICT="-C $DICT_FILE_ALL"
+    [ ${#DICT} -eq 0 ] && [ -r $DICT_FILE_CORE ] && DICT="-C $DICT_FILE_CORE"
+    msgmerge $DICT $f/messages.po locale/${l_path}messages.po --output-file=$f/messages.po.tmp &> /dev/null
+
+    # Filter out duplicates
+    msguniq $f/messages.po.tmp --output-file=$f/messages.po.new &> /dev/null
+    rm $f/messages.po.tmp
+
+    # Do an extra check for dummy dir 'locale/en/LC_MESSAGES'
+    if [ $? -ne 0 ]; then
+      [ "$f" == "locale/${l_path}en/LC_MESSAGES" ] && $TRUE
+    fi
+
+    if [ $? -eq 0 ]; then
+      echo "done";
+    else
+      echo "failed";
+      error=1
+    fi
+
+  done
+
+  echo "Copying new po files, making backups..."
+  find locale/${l_path} -name messages.po | while read f; do
+
+    if [ -f $ORIG/$f ]; then
+      mv $ORIG/$f $ORIG/$f.orig
+    fi
+
+    echo $f | grep -q "locale/${l_path}messages.po"
+    if [ $? -ne 0 ]; then
+      echo "* replaced $ORIG/$f"
+      cp $f.new $ORIG/$f
+    else
+      cp $f $ORIG/$f
+    fi
+
+  done
+
+  rm -rf $TEMPDIR
+
+  echo
+  if [ $error -eq 0 ]; then
+    if [ $ASSUME_Y -eq 1 ]; then
+      find $ORIG/ -type f -name 'messages.po.orig' -exec rm -f {} \;
+    else
+      read -p "Do you want to erase the message.po.orig files? (y/n)" -n1 ans
+
+      if [ "$ans" == "y" -o "$ans" == "Y" ]; then
+        find $ORIG/ -type f -name 'messages.po.orig' -exec rm -f {} \;
+      fi
+    fi
+
+  else
+    echo "There were errors during the transition. Please fix!"
+    exit 1
+  fi
+
+cat <<-EOF
+
+---------------------------------------------------------------------
+
+Now edit all files that have been replaced above (i.e. using kbabel
+or gtranslator) and mail the changes to gosa@oss.gonicus.de to be 
+included in the next release.
+
+To see the changes you've made in GOsa, run "msgfmt messages.po" on
+your freshly edited files and restart your apache after that. Set
+the webbrowser to the language you've edited and go back to the
+login screen.
+
+---------------------------------------------------------------------
+
+EOF
+
+  popd &> /dev/null
+}
+
+#
+# MAIN
+#
+GENERATE=0
+ASSUME_Y=0
+while getopts ":gyh" opt
+do
+  case $opt in
+    g) GENERATE=1;
+       ;;
+    y) ASSUME_Y=1;
+       ;;
+    h|--help)
+       echo "Usage: $(basename $0) [-g] [-y]"
+       echo "       -g extract strings from GOsa and generate po files"
+       echo "       -y assume yes"
+       exit 1
+       ;;
+  esac
+done
+shift $(($OPTIND - 1))
+
+# If there's a plugin.dsc in ., then assume "plugin"
+if [ -f plugin.dsc ]; then
+	l_path=""
+else
+	l_path="core/"
+fi
+
+# Default to generate
+if [ $GENERATE -eq 0 ]; then
+  GENERATE=1
+fi
+
+[ $GENERATE -eq 1 ] && generate_po
+
+# vim:tabstop=2:expandtab:shiftwidth=2:syntax:ruler:

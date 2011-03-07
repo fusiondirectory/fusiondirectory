@@ -1,0 +1,9 @@
+These RPM-Packages do not support selinux. To use of FusionDirectory, please
+
+* Create a selinux policy for the RPM package to work correctly. Send
+  your work to contact@fusiondirectory.org in order to be included in the next
+  upstream package.
+
+* Disable selinux by typing
+  # setenforce 0
+

@@ -1,0 +1,55 @@
+#! /bin/sh
+# postrm script for GOsa
+#
+
+set -e
+
+case "$1" in
+  purge|remove)
+
+        # Pure here
+        if [ "$1" = "purge" ] ; then
+          if [ -d /var/spool/gosa ] ; then
+            echo "Removing /var/spool/gosa as requested."
+            rm -Rf /var/spool/gosa
+          fi
+        fi
+
+        if [ -d /etc/apache2/conf.d ]; then
+          # Remove GOsa include
+          [ -L /etc/apache2/conf.d/gosa.conf ] && rm -f /etc/apache2/conf.d/gosa.conf
+
+          # Restart servers
+          if [ -x /usr/sbin/invoke-rc.d ]; then
+            invoke-rc.d apache2 restart
+          else
+            /etc/init.d/apache2 restart
+          fi
+        fi
+
+        if [ -d /etc/lighttpd/conf-available ]; then
+          # Remove GOsa include
+          [ -L /etc/lighttpd/conf-enabled/99gosa-lighttpd.conf ] && rm -f /etc/lighttpd/conf-enabled/99gosa-lighttpd.conf
+
+          # Restart servers
+          if [ -x /usr/sbin/invoke-rc.d ]; then
+            invoke-rc.d lighttpd restart
+          else
+            /etc/init.d/lighttpd restart
+          fi
+        fi
+        
+        ;;
+
+  upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+        ;;
+
+  *)
+        echo "postrm called with unknown argument \`$1'" >&2
+        exit 0
+        ;;
+esac
+
+#DEBHELPER#
+
+exit 0

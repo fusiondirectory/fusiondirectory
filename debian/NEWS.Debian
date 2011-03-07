@@ -1,0 +1,20 @@
+The GOsa schema have been moved to a new place, they are now
+in /etc/ldap/schema/gosa.
+
+You have to adapt you slapd.conf accordingly
+
+# These should be present for GOsa.
+include         /etc/ldap/schema/gosa/samba3.schema
+include         /etc/ldap/schema/gosa/gosystem.schema
+include         /etc/ldap/schema/gosa/gofon.schema
+include         /etc/ldap/schema/gosa/gofax.schema
+include         /etc/ldap/schema/gosa/goto.schema
+include         /etc/ldap/schema/gosa/goserver.schema
+include         /etc/ldap/schema/gosa/gosa-samba3.schema
+include         /etc/ldap/schema/gosa/trust.schema
+
+After adapting you can remove the gosa schema in /etc/ldap/schema
+
+Benoit Mortier 01/05/2010
+
+

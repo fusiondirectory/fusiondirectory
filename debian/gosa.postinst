@@ -1,0 +1,111 @@
+#!/bin/sh
+# postinst script for gosa
+#
+# see: dh_installdeb(1)
+
+set -e
+
+case "$1" in
+  configure)
+      ;;
+
+  abort-upgrade|abort-remove|abort-deconfigure)
+      ;;
+
+  triggered)
+      update-gosa
+      exit 0
+      ;;
+
+  *)
+      echo "postinst called with unknown argument \`$1'" >&2
+      exit 1
+      ;;
+esac
+
+#DEBHELPER#
+
+# Set ID's
+WEBUSER="www-data"
+WEBGROUP="www-data"
+
+# Create empty inclusion file for apache
+if [ ! -f /etc/gosa/gosa.secrets ]; then
+    touch /etc/gosa/gosa.secrets
+    chmod 600 /etc/gosa/gosa.secrets
+fi
+
+if [ -d /etc/apache2/conf.d ]; then
+
+  # Copy GOsa configuration to conf.d directories
+  if [ ! -L /etc/apache2/conf.d/gosa.conf ]; then
+
+    # Remove old instances of this file
+    if [ -f /etc/apache2/conf.d/gosa.conf ]; then
+      echo "Found old gosa apache configuration in /etc/apache2/conf.d - moving it to gosa.conf.orig..."
+      echo "Please check for changes in /etc/gosa/gosa-apache.conf if you modified this file!"
+      mv /etc/apache2/conf.d/gosa.conf /etc/apache2/conf.d/gosa.conf.orig
+    fi
+
+    echo "Making /gosa available in /etc/apache2/conf.d"
+
+    # Add GOsa include file
+    ln -s /etc/gosa/gosa-apache.conf /etc/apache2/conf.d/gosa.conf
+  fi
+  
+  # Add support for RequestHeader
+  a2enmod headers
+
+  # Finally restart servers
+  if [ -x /usr/sbin/invoke-rc.d ]; then
+    invoke-rc.d apache2 reload
+  else
+    /etc/init.d/apache2 reload
+  fi
+fi
+
+if [ -d /etc/lighttpd/conf-available ]; then
+
+  # Copy GOsa configuration to conf-available directories /etc/lighttpd/conf-available
+  if [ ! -L /etc/lighttpd/conf-enabled/99gosa-lighttpd.conf ]; then
+
+    # Remove old instances of this file
+    if [ -f /etc/lighttpd/conf-enabled/99gosa-lighttpd.conf ]; then
+      echo "Found old gosa apache configuration in /etc/lighttpd/conf-enabled - moving it to orig.gosa-lighttpd.conf ..."
+      echo "Please check for changes in /etc/lighttpd/conf-available/orig.99gosa-lighttpd.conf if you modified this file!"
+      mv /etc/lighttpd/conf-enabled/99gosa-lighttpd.conf /etc/lighttpd/conf-available/orig.gosa-lighttpd.conf
+    fi
+
+    echo "Making /gosa available in /etc/lighttpd/conf-enabled/"
+
+    # Add GOsa include file
+    ln -s /etc/gosa/gosa-lighttpd.conf /etc/lighttpd/conf-enabled/99gosa-lighttpd.conf
+  fi
+
+  # Finally restart servers
+  if [ -x /usr/sbin/invoke-rc.d ]; then
+    invoke-rc.d lighttpd reload
+  else
+    /etc/init.d/lighttpd reload
+  fi
+
+fi
+
+# Add links for safe mode
+[ ! -d /usr/share/gosa/bin ] && mkdir -p /usr/share/gosa/bin
+for source in /usr/bin/convert /usr/bin/lpstat; do
+  if [ -e $source ]; then
+    target=/usr/share/gosa/bin/${source##*/}
+    [ ! -L $target ] && ln -sf $source $target
+  fi
+done
+
+# Fix permission in /var/(spool|cache)/gosa
+chown root.$WEBGROUP -R /var/spool/gosa
+chmod 770 -R /var/spool/gosa
+chown root.$WEBGROUP -R /var/cache/gosa
+chmod 770 -R /var/cache/gosa
+
+update-gosa
+
+exit 0

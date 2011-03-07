@@ -1,0 +1,14 @@
+In order to run FusionDirectory in PHP's safe mode, these changes in your php.ini
+have been tested:
+
+magic_quotes_qpc = On
+allow_url_fopen = No
+register_globals = Off
+safe_mode = On
+safe_mode_include_dir = "/usr/share/fusiondirectory:/var/spool/fusiondirectory"
+safe_mode_exec_dir = "/usr/lib/fusiondirectory"
+safe_mode_allowed_env_vars = PHP_,LANG
+open_basedir = "/etc/fusiondirectory:/var/spool/fusiondirectory:/var/cache/fusiondirectory:/usr/share/fusiondirectory:/tmp"
+include_path = ".:/usr/share/php:/usr/share/fusiondirectory:/var/spool/fusiondirectory:/usr/share/fusiondirectory/safe_bin"
+disable_functions = system, shell_exec, passthru, phpinfo, show_source
+

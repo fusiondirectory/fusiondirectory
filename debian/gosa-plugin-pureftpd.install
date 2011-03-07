@@ -1,0 +1,4 @@
+pureftpd/personal		/usr/share/gosa/plugins
+pureftpd/help/guide.xml		/usr/share/gosa/doc/plugins/pureftpd
+pureftpd/locale			/usr/share/gosa/locale/plugins/pureftpd
+pureftpd/contrib		/usr/share/doc/gosa-plugin-pureftpd

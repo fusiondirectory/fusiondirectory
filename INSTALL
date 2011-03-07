@@ -1,0 +1,112 @@
+FusionDirectory 1.0 QUICK INSTALL
+=================================
+
+Prequisite:
+
+You have a system up and running. It has apache and PHP installed
+and there is a blank (or prefilled) but working LDAP available.
+
+---
+
+Installing FusionDirectory from source:
+
+Unpack the FusionDirectory tarball and move the main fusiondirectory
+directory to a place your webserver is configured to find it. The default
+location will be /usr/share/fusiondirectory. For later reference, I assume
+that you've choosen this path, too.
+
+Create the directory /var/spool/fusiondirectory for the smarty compile directory.
+Make it read/write for the webserver (additional chmod 770). You may
+want to move it elsewhere, configure it in fusiondirectory.conf.
+
+Create the configuration directory /etc/fusiondirectory and make sure
+that your webserver can read it.
+
+As a summmary, you now have these directories for FusionDirectory:
+
+/etc/fusiondirectory
+/var/spool/fusiondirectory
+/usr/share/fusiondirectory
+
+Update the class cache:
+
+Run "update-fusiondirectory" from the FusionDirectory main directory.
+
+After this has been done, include settings for FusionDirectory in your apache
+config:
+
+# Set alias to FusionDirectory
+Alias /fusiondirectory /usr/share/fusiondirectory/html
+
+Assumed you've installed PHP >= 5.2.0, reload your apache webserver
+and do your first FusionDirectory dry run without configuration:
+
+http[s]://your-server/fusiondirectory
+
+FusionDirectory setup will perform some basic system checks about general
+prerequisites. The setup asks some questions and provides a basic
+fusiondirectory.conf to save in /etc/fusiondirectory. Follow the instructions
+until you're able to log in.
+
+You're done. Lets play with the GUI.
+
+---
+
+* Installing from Packages
+
+If you install FusionDirectory from packages, all the steps from above will
+be done automatically. Go to the setup:
+
+http[s]://your-server/fusiondirectory
+
+FusionDirectory setup will perform some basic system checks about general
+prerequisites. The setup asks some questions and provides a basic
+fusiondirectory.conf to save in /etc/fusiondirectory. Follow the instructions
+until you're able to log in.
+
+You're done. Lets play with the GUI.
+
+---
+
+* Migrating an existing tree
+
+To migrate an existing LDAP tree, you've to do all steps from above,
+plus some modifications:
+
+- FusionDirectory only shows users that have the objectClass gosaAccount
+  This one has been introduced for several reasons. First, there are
+  cases you want to hide special accounts from regular admins (i.e.
+  a samba admin account which is used to log windows machines into
+  their domain, where changing a password by accident has bad consequences).
+  Secondly the gosaAccount keeps the lm/nt password hashes and the
+  attributes for the last password change - with the consequence that
+  adding a samba account "later" will not require the user to reset
+  the password.
+
+- FusionDirectory only recognizes subtrees (or departments in FusionDirectory's
+  view of things) that have the objectClass gosaDepartment. You can hide subtrees
+  from FusionDirectory by not putting this objectClass inside.
+
+The FusionDirectory setup may be used to do these migrations, but it is not meant
+to work in every possible circumstance. For the first time:
+
+DO NOT WORK ON PRODUCTIVE DATA IF YOU DON'T KNOW WHAT YOU'RE DOING!
+
+That should be all. Entries should be visible in FusionDirectory now. Be aware that if
+your naming policy of user cn's differs from the way FusionDirectory handles it, the
+entries get rewritten to a FusionDirectory style dn.
+
+---
+
+* Further information
+
+To improve this piece of software, please report all kind of errors, either
+using the bug tracker on https://forge.fusiondirectory.org
+
+Documentation: http://www.fusiondirectory.org
+Mailinglist:   http://lists.fusiondirectory.org/
+
+Have fun!
+
+---
+The FusionDirectory project <contact@fusiondirectory.org>

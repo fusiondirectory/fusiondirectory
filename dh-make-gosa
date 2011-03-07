@@ -1,0 +1,425 @@
+#!/bin/bash
+# This code is part of GOsa (http://www.gosa-project.org)
+# Copyright (C) 2008 GONICUS GmbH
+#
+# ID: $$Id: dh-make-gosa 15665 2010-02-22 11:39:34Z cajus $$
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+usage() {
+  echo "Usage: ${0##*/} [--no-break] [--section section name] [-b|--branch branch] [-e|--email mail] [--depends] plugin-dir|plugin.tar.gz" >&2
+  exit 1
+}
+
+
+remove_empty_docs() {
+	for dir in $(find help); do
+		len=$(echo $dir | wc -c)
+		echo $len $dir
+	done | sort -rn | while read dummy dir; do
+
+		if [ -d $dir ]; then
+			cnt=$(ls -1A $dir | wc -l)
+			if [ $cnt -eq 0 ]; then
+				echo "Removing empty $dir"
+				rm -rf "$dir"
+				sed -i "/$(echo -n $dir | sed 's/\//\\\//g')/d" debian/install
+			fi
+		fi
+
+	done
+}
+
+
+load_dsc() {
+  if [ -r "$1" ]; then
+    PL_NAME=$(sed -n 's/"//g;s/^name\s*=\s*\(.*\)$/\1/p' "$1")
+    PL_VERSION=$(sed -n 's/"//g;s/^version\s*=\s*\(.*\)$/\1/p' "$1")
+    TDEPENDS=$(sed -n 's/"//g;s/^depends\s*=\s*\(.*\)$/\1/p' "$1")
+		TDEPENDS=$(echo $TDEPENDS | tr , " ")
+    for dep in $TDEPENDS; do
+      PL_DEPENDS="gosa-plugin-$dep, $PL_DEPENDS"
+    done
+    TCONFLICTS=$(sed -n 's/"//g;s/^conflicts\s*=\s*\(.*\)$/\1/p' "$1")
+    for dep in $TCONFLICTS; do
+      PL_CONFLICTS="gosa-plugin-$dep, $PL_CONFLICTS"
+    done
+    PL_DESCRIPTION=$(sed -n 's/"//g;s/^description\s*=\s*\(.*\)$/\1/p' "$1")
+    PL_AUTHOR=$(sed -n 's/"//g;s/^author\s*=\s*\([^<]*\).*$/\1/p' "$1")
+    PL_MAIL=$(sed -n 's/"//g;s/^author\s*=[^<].*<\([^>]*\).*$/\1/p' "$1")
+    PL_MAINTAINER=$(sed -n 's/"//g;s/^maintainer\s*=[^<].*<\([^>]*\).*$/\1/p' "$1")
+    PL_HOMEPAGE=$(sed -n 's/"//g;s/^homepage\s*=\s*\(.*\)$/\1/p' "$1")
+  else
+    echo "Error: cannot find description file" >&2
+    exit 1
+  fi
+}
+
+
+TEMP=`getopt -o e:r: --long download,release:,email:,depends:,section: -n 'dh-make-gosa' -- "$@"`
+if [ $? != 0 ] ; then
+  echo "Error: cannot get command line information" >&2
+  exit 1
+fi
+
+eval set -- "$TEMP"
+
+# Load command  line vars
+RELEASE=trunk
+DOWNLOAD=
+DEPENDS=
+NOBREAK=
+SECTION=web
+DEST=
+while true; do
+  case "$1" in
+    -e|--email) DEBMAIL=$2
+                shift 2
+                ;;
+    -r|--release)
+                if [ "$2" != "trunk" ]; then
+                  RELEASE=tags/$2
+                fi
+                shift 2
+                ;;
+    --depends)  DEPENDS="$2"
+                shift 2
+                ;;
+    --section)  SECTION="$2"
+                shift 2
+                ;;
+    --no-break) NOBREAK=1
+                shift 1
+                ;;
+    --dest)     DEST=$2/
+                shift 2
+                ;;
+    --download) DOWNLOAD=yes
+		echo "Download is not implemented yet"
+		exit 1
+                ;;
+    --)         shift
+                break
+                ;;
+    *)          usage
+                ;;
+  esac
+done
+
+[ $# -ne 1 ] && usage
+file=$*
+
+# Three possiblities
+if [ -d "$file" ]; then
+
+  # It's a local directory
+  load_dsc $file/plugin.dsc
+
+  # Setup build environment
+  if [ "$OVERRIDE_VERSION" ]; then
+	  BUILD_PATH=${DEST}gosa-plugin-${PL_NAME}-${OVERRIDE_VERSION}
+  else
+	  BUILD_PATH=${DEST}gosa-plugin-${PL_NAME}-${PL_VERSION}
+  fi
+  if [ -d "$BUILD_PATH" ]; then
+    echo "Error: build path $BUILD_PATH already exists" >&2
+    exit 2
+  fi
+  cp -a "$PL_NAME" "$BUILD_PATH"
+
+elif [ -f "$file" ]; then
+
+  # It's a compressed user contributed file
+  TMPDIR="/tmp/dh-make-gosa-$PPID"
+  if [ -d "/tmp/dh-make-gosa-$PPID"  ]; then
+    echo "Error: directory $TMPDIR exists" >&2
+    exit 4
+  fi
+
+  # Untar
+  mkdir -p "$TMPDIR"
+  tar --extract --directory "$TMPDIR" -fz "$file" >/dev/null 2>&1
+  if [ $? -ne 0 ]; then
+    echo "Error: cannot extract plugin file - invalid file format" >&2
+    exit 5
+  fi
+
+  # It's a local directory
+  load_dsc TMPDIR/*/plugin.dsc
+
+  # Setup build environment
+  BUILD_PATH=${DEST}gosa-plugin-${PL_NAME}-${PL_VERSION}
+  mv "$TMPDIR/*" "$BUILD_PATH"
+
+else
+
+  echo "Error: cannot find plugin $file" >&2
+  exit 5
+
+fi
+
+
+PL_DEPENDS=$(echo $PL_DEPENDS$DEPENDS | sed 's/,\s*$//')
+echo "Debian package summary ========================================"
+echo "Plugin:       $PL_NAME"
+echo "Version:      $PL_VERSION"
+echo "Description:  $PL_DESCRIPTION"
+echo "Depends:      $PL_DEPENDS"
+echo "Conflicts:    $PL_CONFLICTS"
+echo "Author name:  $PL_AUTHOR"
+echo "Author email: $PL_MAIL"
+echo "Maintainer email: $PL_MAINTAINER"
+echo "Homepage:     $PL_HOMEPAGE"
+echo
+read -s -n 1 -p "Do you want to continue? (y/n)" ans; echo
+[ "$ans" != "y" ] && exit 0
+
+cd "$BUILD_PATH"
+
+# Use gosa-plugin skelleton
+echo "Calling dh_make..."
+echo | dh_make -e "$PL_MAINTAINER" -c gpl -s -n -f gosa-plugin-${PL_NAME}-${PL_VERSION}.tar.gz >/dev/null 2>&1
+if [ $? -ne 0 ]; then
+	echo "Failed to call dh_make - aborting!"
+	exit 1
+fi
+
+echo "Apdapting debian descriptive files..."
+
+# Generate install file
+for dir in admin personal addons gofax gofon generic; do
+	[ -d $dir ] && printf "$dir\t\t\t/usr/share/gosa/plugins\n" >> debian/install
+done
+for dir in help/*; do
+	printf "$dir\t\t\t/usr/share/gosa/doc/plugins/$PL_NAME\n" >> debian/install
+done
+for dir in $(ls -1 locale | grep -v "^en$" | grep -v "^messages.po$"); do
+	printf "locale/$dir\t\t\t/usr/share/gosa/locale/plugins/$PL_NAME\n" >> debian/install
+done
+
+# Generate dirs
+echo "usr/share/gosa" > debian/dirs
+
+# If we've a contrib directory include it to the docs
+if [ -d contrib ]; then
+	echo "contrib /usr/share/doc/gosa-plugin-$PL_NAME" >> debian/install
+fi
+if [ -d etc ]; then
+	echo "etc/* /etc/gosa" >> debian/install
+fi
+if [ -d html ]; then
+	for i in html/*; do
+		echo "$i /usr/share/gosa/html/plugins/$PL_NAME" >> debian/install
+	done
+fi
+
+# Fix copyright
+sed -i '/^### OR ###/,/^########/d' debian/copyright
+sed -i '/^#/d;/^.*likewise for another author.*$/d' debian/copyright
+year=$(date +%Y)
+sed -i "s/.Copyright (C) YYYY Name OfAuthor./Copyright \(C) $year $PL_AUTHOR/g" debian/copyright
+sed -i "s/<Copyright (C) YYYY Firtname Lastname>/Copyright \(C) $year $PL_AUTHOR/g" debian/copyright
+sed -i "s/.url:\/\/example.com./http:\/\/www.gosa-project.org/g" debian/copyright
+sed -i "/.put author's name and email here.\
+/d" debian/copyright
+sed -i '/^Upstream/,/^$/d' debian/copyright
+sed -i 's/ C)/ (C)/g' debian/copyright
+sed -i 's/GPL/GPL-2/g' debian/copyright
+sed -i 's/The Debian packaging is/The Debian packaging is Copyright (C)/g' debian/copyright
+
+# Adapt control
+sed -i "s#^Section: unknown#Section: $SECTION#g" debian/control
+sed -i 's/^Architecture: any/Architecture: all/g' debian/control
+sed -i "s#^Homepage: <insert the upstream URL, if relevant>#Homepage: $PL_HOMEPAGE#g" debian/control
+
+if [ "$PL_DEPENDS" ]; then
+	sed -i "s/^Depends: .*$/Depends: gosa, $PL_DEPENDS/g" debian/control
+else
+	sed -i 's/^Depends: .*$/Depends: gosa/g' debian/control
+fi
+if [ "$PL_CONFLICTS" ]; then
+	sed -i "11iConflicts: $PL_CONFLICTS" debian/control
+fi
+if [ -z "$NOBREAK" ]; then
+  sed -i "12iBreaks: gosa (<2.6)" debian/control
+fi
+sed -i 's/^\(Build-Depends: .*\)$/\1, dpatch/g' debian/control
+sed -i 's/^Standards-Version: 3.7.3/Standards-Version: 3.8.3/g' debian/control
+
+sed -i "s/^Description: .*$/Description: $PL_NAME plugin for GOsa/g" debian/control
+sed -i "s/^ <.*$/ %DESCRIPTION%/g" debian/control
+dsc=$(tempfile)
+{
+echo $PL_DESCRIPTION 
+cat <<EOF
+.
+GOsa is a combination of system-administrator and end-user web
+interface, designed to handle LDAP based setups.
+EOF
+}| fmt -suw79 | sed 's/^/ /g' > $dsc
+sed -i "/%DESCRIPTION%/r $dsc" debian/control
+sed -i "/%DESCRIPTION%/d" debian/control
+rm $dsc
+
+# Do we need to generate another package for schema files?
+if ls contrib/*schema &> /dev/null; then
+	echo etc/ldap/schema/gosa > debian/gosa-plugin-${PL_NAME}-schema.dirs
+	ls -1 contrib/*schema | sed 's%$% /etc/ldap/schema/gosa%g' > debian/gosa-plugin-${PL_NAME}-schema.install
+
+	cat <<-EOF >> debian/control
+	
+	Package: gosa-plugin-${PL_NAME}-schema
+	Architecture: all
+	Recommends: slapd
+	Description: LDAP schema for GOsa plugin ${PL_NAME}
+	 This package includes the LDAP schema needed by the GOsa
+	 ${PL_NAME} plugin.
+	 .
+	 GOsa is a combination of system-administrator and end-user web
+	 interface, designed to handle LDAP based setups.
+	EOF
+fi
+
+# Create patch directory
+[ ! -d debian/patches ] && mkdir debian/patches
+
+# Create empty patch list
+cat <<EOF > debian/patches/00list
+This file left intentionnaly blank
+EOF
+
+# Adapt README.debian
+cat <<EOF > debian/README.Debian
+README.Debian for GOsa $PL_NAME plugin $PL_VERSION
+-------------------------------------------
+
+Please read the main GOsa README.Debian file for more information.
+
+----
+$PL_AUTHOR <$PL_MAIL>  Fri 02 Jun 2006 16:23:50 +0200
+EOF
+
+# Adapt README.source
+cat <<EOF > debian/README.source
+/usr/share/doc/dpatch/README.source.gz
+EOF
+
+# Fix README
+sed -i "s/Comments regarding the Package/After installing this plugin you may need to reload apache../g" debian/README
+
+# Fix rules
+cat <<EOF > debian/rules
+#!/usr/bin/make -f
+# -*- makefile -*-
+# GOsa default plugin debhelper file.
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+configure: configure-stamp
+configure-stamp:
+	dh_testdir
+	touch configure-stamp
+
+patch: patch-stamp
+patch-stamp:
+	dpatch apply-all
+	dpatch cat-all >patch-stamp
+
+build: patch build-stamp
+
+build-stamp: configure-stamp 
+	dh_testdir
+
+	touch $@
+
+clean: clean-patched unpatch
+clean-patched:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp configure-stamp
+	dh_clean 
+
+unpatch:
+	dpatch deapply-all
+	rm -rf patch-stamp debian/patched
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_installdirs
+
+# Build architecture-independent files here.
+binary-indep: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs 
+	dh_installdocs
+	dh_installexamples
+	dh_install
+	dh_installman
+	dh_strip
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep
+
+binary-arch:
+.PHONY: build clean binary-indep binary install configure
+EOF
+
+# Adapt postinst/postrm
+for file in postinst postrm; do
+sed 's!#DEBHELPER#!#DEBHELPER#\
+\
+# Get apache versions running\
+servers=""\
+for srv in apache apache-ssl apache2; do\
+        if [ -x /usr/sbin/$srv ]; then\
+                servers="$srv $servers"\
+        fi\
+done\
+\
+# Update gosa\
+update-gosa\
+\
+# Finally restart servers\
+for server in $servers; do\
+        if [ -x /usr/sbin/invoke-rc.d ]; then\
+                invoke-rc.d $server restart\
+        else\
+                /etc/init.d/$server restart\
+        fi\
+done\
+\
+!' debian/$file.ex > debian/$file
+done
+
+# Remove examples
+rm debian/*ex debian/*EX >/dev/null 2>&1
+
+# Remove empty docs
+remove_empty_docs
+
+echo "Done."
+

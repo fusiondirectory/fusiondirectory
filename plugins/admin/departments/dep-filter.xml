@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<filterdef>
+  <definition>
+    <category>departments</category>
+    <template>dep-filter.tpl</template>
+    <initial>true</initial>
+  </definition>
+
+  <search>
+    <query>
+      <backend>LDAP</backend>
+      <filter>(&amp;(objectClass=gosaDepartment)$NAME)</filter>
+      <attribute>dn</attribute>
+      <attribute>objectClass</attribute>
+      <attribute>ou</attribute>
+      <attribute>description</attribute>
+    </query>
+    <scope>auto</scope>
+  </search>
+
+  <element>
+    <type>textfield</type>
+    <tag>NAME</tag>
+    <size>18</size>
+    <maxlength>60</maxlength>
+    <default></default>
+    <unset></unset>
+    <set>(|(ou=*$*)(dc=*$*)(c=*$*)(l=*$*)(o=*$*))</set>
+    <alphabet>false</alphabet>
+    <autocomplete>
+      <backend>LDAP</backend>
+      <filter>(&amp;(objectClass=gosaDepartment)(|(ou=*$NAME*)(dc=*$NAME*)(l=*$NAME*)(c=*$NAME*)(o=*$NAME*)))</filter>
+      <attribute>cn</attribute>
+      <attribute>dc</attribute>
+      <attribute>c</attribute>
+      <attribute>l</attribute>
+      <attribute>o</attribute>
+      <frequency>0.5</frequency>
+      <characters>3</characters>
+    </autocomplete>
+  </element>
+
+</filterdef>

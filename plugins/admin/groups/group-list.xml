@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<list>
+  <definition>
+    <departmentBrowser>true</departmentBrowser>
+    <departmentRootVisible>false</departmentRootVisible>
+    <baseMode>true</baseMode>
+    <multiSelect>true</multiSelect>
+    <template>group-list.tpl</template>
+    <module>groups</module>
+    <label>List of groups</label>
+    <defaultSortColumn>1</defaultSortColumn>
+
+    <objectType>
+      <label>Group</label>
+      <objectClass>posixGroup</objectClass>
+      <category>groups</category>
+      <class>group</class>
+      <image>plugins/groups/images/groups.png</image>
+    </objectType>
+
+    <objectType>
+      <label>Group submenu entry</label>
+      <objectClass>gotoSubmenuEntry</objectClass>
+      <category>groups</category>
+      <class>group</class>
+      <image>plugins/groups/images/groups.png</image>
+    </objectType>
+
+    <objectType>
+      <label>Group menu entry</label>
+      <objectClass>gotoMenuEntry</objectClass>
+      <category>groups</category>
+      <class>group</class>
+      <image>plugins/groups/images/groups.png</image>
+    </objectType>
+
+
+  </definition>
+
+  <table>
+    <layout>|20px;c|||120px|150px;r|</layout>
+
+    <department>
+      <value>%{filter:objectType(dn,objectClass)}</value>
+    </department>
+
+    <department>
+      <value>%{filter:departmentLink(row,dn,description)}</value>
+      <span>2</span>
+    </department>
+
+    <column>
+      <value>%{filter:objectType(dn,objectClass)}</value>
+    </column>
+
+    <column>
+      <label>Name</label>
+      <sortAttribute>cn</sortAttribute>
+      <sortType>string</sortType>
+      <value>%{filter:link(row,dn,"%s",cn)}</value>
+      <export>true</export>
+    </column>
+
+    <column>
+      <label>Description</label>
+      <sortAttribute>description</sortAttribute>
+      <sortType>string</sortType>
+      <value>%{filter:link(row,dn,"%s",description)}</value>
+      <export>true</export>
+    </column>
+
+    <column>
+      <label>Properties</label>
+      <value>%{filter:filterProperties(row,objectClass)}</value>
+    </column>
+
+    <column>
+      <label>Actions</label>
+      <value>%{filter:actions(dn,row,objectClass)}</value>
+    </column>
+
+  </table>
+
+  <actionmenu>
+
+    <action>
+     <type>sub</type>
+     <image>images/lists/new.png</image>
+     <label>Create</label>
+
+     <action>
+      <name>new</name>
+      <type>entry</type>
+      <image>plugins/groups/images/new.png</image>
+      <label>Group</label>
+     </action>
+    </action>
+
+    <action>
+      <type>separator</type>
+    </action>
+
+    <action>
+      <name>edit</name>
+      <type>entry</type>
+      <image>images/lists/edit.png</image>
+      <label>Edit</label>
+    </action>
+
+    <action>
+      <name>remove</name>
+      <type>entry</type>
+      <image>images/lists/trash.png</image>
+      <label>Remove</label>
+    </action>
+
+    <action>
+      <name>sendMessage</name>
+      <type>entry</type>
+      <depends>DaemonEvent_notify</depends>
+      <image>plugins/goto/images/notify.png</image>
+      <label>Send message</label>
+    </action>
+
+    <action>
+      <type>exporter</type>
+    </action>
+
+    <action>
+      <type>separator</type>
+    </action>
+
+    <action>
+      <type>copypaste</type>
+    </action>
+
+    <action>
+      <type>snapshot</type>
+    </action>
+
+  </actionmenu>
+
+  <actiontriggers snapshot="true" copypaste="true">
+
+    <action>
+      <name>cp</name>
+      <type>copypaste</type>
+    </action>
+
+    <action>
+      <name>edit</name>
+      <type>entry</type>
+      <image>images/lists/edit.png</image>
+      <label>Edit group</label>
+    </action>
+
+    <action>
+      <name>snapshot</name>
+      <type>snapshot</type>
+    </action>
+
+    <action>
+      <name>remove</name>
+      <type>entry</type>
+      <image>images/lists/trash.png</image>
+      <acl>groups/group[d]</acl>
+      <label>Remove group</label>
+    </action>
+
+  </actiontriggers>
+
+</list>

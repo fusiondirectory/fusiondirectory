@@ -1,0 +1,24 @@
+Author: <cajus@debian.org>
+Description: Fix location of auto-generated online help.
+--- a/html/helpviewer.php
++++ b/gosa-core/html/helpviewer.php
+@@ -104,7 +104,7 @@
+ if(session::global_is_set('current_class_for_help')){
+ 
+   /* Create new XML parser with the path to the Xml file */
+-  $xml = new parseXml("../doc/guide.xml");
++  $xml = new parseXml("/etc/gosa/guide.xml");
+   
+   /* Generate help array */
+   $str = $xml->parse();
+--- a/update-gosa
++++ b/gosa-core/update-gosa
+@@ -195,7 +195,7 @@
+ 
+ function rescan_guide()
+ {
+-	$master_guide= "doc/guide.xml";
++	$master_guide= "/etc/gosa/guide.xml";
+ 	echo "Updating Online Help Index...\n";
+ 	$master_guide_content="<?xml version=\"1.0\"?>\n".
+ 		"<!--\n".

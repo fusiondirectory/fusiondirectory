@@ -1,0 +1,4 @@
+openxchange/personal		/usr/share/gosa/plugins
+openxchange/help/guide.xml	/usr/share/gosa/doc/plugins/openxchange
+openxchange/locale		/usr/share/gosa/locale/plugins/openxchange
+openxchange/contrib		/usr/share/doc/gosa-plugin-openxchange

@@ -1,0 +1,4 @@
+phpgw/personal			/usr/share/gosa/plugins
+phpgw/help/guide.xml		/usr/share/gosa/doc/plugins/phpgw
+phpgw/locale			/usr/share/gosa/locale/plugins/phpgw
+phpgw/contrib			/usr/share/doc/gosa-plugin-phpgw

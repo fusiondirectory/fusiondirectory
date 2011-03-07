@@ -1,0 +1,47 @@
+
+=head1 NAME
+
+update-fusiondirectory - class cache updater and plugin manager for FusionDirectory
+
+=head1 SYNOPSIS
+
+update-fusiondirectory [OPTION]
+
+=head1 DESCRIPTION
+
+update-fusiondirectory is a script that help you to manage your fusiondirectory instance
+
+=over 5
+
+=item B<install dsc>       Install the plugin using the dsc information placed in the plugin source directory.
+
+=item B<remove plugin>     Remove the plugin named "plugin" from the current configuration.
+
+=item B<list>              Lists installed plugins
+
+=item B<rescan-i18n>       Rebuilds the translations
+
+=item B<rescan-classes>    Rebuilds the class list
+
+=back
+
+=head1 BUGS
+
+Please report any bugs, or post any suggestions, to the fusiondirectory mailing list fusiondirectory-users or to 
+<https://forge.fusiondirectory.org/projects/fdirectory/issues/new>
+
+
+=head1 LICENCE AND COPYRIGHT
+
+This code is part of FusionDirectory <http://www.fusiondirectory.org>
+
+Copyright (C) 2003-2010 GONICUS GmbH
+Copyright (C) 2011 FusionDirectory Project
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+=cut
+

@@ -1,0 +1,5 @@
+rsyslog/admin		/usr/share/gosa/plugins
+rsyslog/addons		/usr/share/gosa/plugins
+rsyslog/locale		/usr/share/gosa/locale/plugins/rsyslog
+rsyslog/contrib		/usr/share/doc/gosa-plugin-rsyslog
+rsyslog/html/images	/usr/share/gosa/html/plugins/rsyslog

@@ -1,0 +1,205 @@
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
+import os
+import re
+import sys
+import shutil
+import tarfile
+import subprocess
+import logging
+from optparse import OptionParser
+from os.path import join
+from tempfile import mkdtemp
+
+# Version setter
+VERSION = "1.0"
+methods = {}
+
+
+# Check if pysvn is installed
+try:
+    import pysvn
+
+    def load_svn(base_url, release, tmp_dir):
+        source = base_url + "/" + release
+        svn = pysvn.Client()
+
+        for part in ["gosa-core", "gosa-plugins"]:
+            print("Retrieving %s from SVN..." % part)
+            rev = svn.export(source + "/" + part, join(tmp_dir, part))
+
+        return "svn" + str(rev.number)
+
+    methods["svn"] = load_svn
+except:
+    pass
+
+
+def tar_extract(name, target):
+    tar = tarfile.open(name, "r:gz")
+    tar.extractall(target)
+    tar.close()
+
+def tar_create(name, source):
+    tar = tarfile.open(name, "w:gz")
+    tar.add(source)
+    tar.close()
+
+def build(release, base_url, target="/tmp", method="svn", key_id=None, cleanup=True):
+
+    # Absolutize target
+    target = os.path.abspath(target)
+
+    # Create target and temporary directory
+    try:
+        tmp_dir = mkdtemp()
+        target_dir = join(target, "gosa")
+        os.makedirs(target_dir)
+
+        # Get data
+        if method in methods:
+            rev = methods[method](base_url, release, tmp_dir)
+        else:
+            print("Error: method '%s' is notavailable" % method)
+
+        # Prepare gosa-core for archiving
+        core_dir = join(tmp_dir, "gosa", "gosa-core")
+        os.makedirs(join(tmp_dir, "gosa"))
+        shutil.move(join(tmp_dir, "gosa-core"), join(tmp_dir, "gosa"))
+        shutil.move(join(core_dir, "debian"), target_dir)
+
+        # Remove all but .php files provided by GOsa
+        smarty_dir = join(core_dir, "include", "smarty")
+        for rfile in [f for f in os.listdir(join(smarty_dir, "plugins"))
+            if not f in ["block.render.php", "block.t.php", "function.msgPool.php",
+            "function.factory.php"]]:
+
+            os.remove(join(smarty_dir, "plugins", rfile))
+
+        for rfile in [join(smarty_dir, f) for f in os.listdir(smarty_dir)]:
+            if os.path.basename(rfile) != "plugins":
+                if os.path.isdir(rfile):
+                    shutil.rmtree(rfile)
+                else:
+                    os.remove(rfile)
+
+        # Get target version number
+        version = None
+        with open(join(core_dir, "Changelog")) as f:
+            for line in f.readlines():
+                if line.startswith("* gosa"):
+                    version = line.split(" ")[2].strip()
+                    break
+
+        # If we're in trunk or branches, add revision to version
+        if re.match(r"^(trunk|branches/)", release):
+            version = "%s+%s" % (version, rev)
+            os.chdir(target_dir)
+            subprocess.call(["dch", "--newversion=" + version + "-1",
+                "--no-force-save-on-release", "Development snapshot"])
+
+        # Build gosa-core tar file
+        os.chdir(tmp_dir)
+        tar_create(join(target, "gosa_%s.orig.tar.gz" % version), "gosa")
+
+        # Clean up and build plugin archives
+        tars = []
+        os.chdir(join(tmp_dir, "gosa-plugins"))
+        for f in os.listdir(join(tmp_dir, "gosa-plugins")):
+            pth = join(target, "gosa_%s.orig-%s.tar.gz" % (version, f))
+            if os.path.exists(join(tmp_dir, "gosa-plugins", f, "plugin.dsc")):
+                os.remove(join(tmp_dir, "gosa-plugins", f, "plugin.dsc"))
+            tar_create(pth, f)
+            tars.append(pth)
+
+        # Stage build directory
+        tar_extract(join(target, "gosa_%s.orig.tar.gz" % version), target)
+        for tar_file in tars:
+            tar_extract(tar_file, target_dir)
+
+        # Build packages
+        print("Building packages to %s" % target)
+        os.chdir(target_dir)
+        if key_id:
+            status = subprocess.call(["dpkg-buildpackage", "-k", key_id, "-rfakeroot"])
+        else:
+            status = subprocess.call(["dpkg-buildpackage", "-uc", "-us", "-rfakeroot"])
+
+        # Bail out?
+        if status:
+            raise Exception("Build failed: exit code %s" % status)
+
+    except Exception as detail:
+        print("Error:", str(detail))
+
+    # Cleanup
+    finally:
+        if cleanup:
+            if os.path.exists(tmp_dir):
+                shutil.rmtree(tmp_dir)
+            if os.path.exists(target_dir):
+                shutil.rmtree(target_dir)
+
+def main():
+    # Sanity check
+    for cli, pkg in [("/usr/bin/dpkg-buildpackage", "dpkg-dev"),
+        ("/usr/bin/fakeroot", "fakeroot"),
+        ("/usr/bin/dch", "devscripts"),
+        ("/usr/bin/dh", "debhelper")]:
+
+        if not os.path.exists(cli):
+            print("Error: %s is missing, please install %s" % (cli, pkg))
+            exit(1)
+
+    # Methods available?
+    if not methods:
+        print("Error: no retrieval methods available, please install python-svn")
+        exit(1)
+
+    # Parse commandline options
+    op = OptionParser(usage="%prog - GOsa packaging aid",
+        version="%prog " + VERSION)
+    op.add_option("-s", "--source", dest="source",
+        default="https://oss.gonicus.de/repositories/gosa",
+        help="retrieval base path [%default]", metavar="URL")
+    op.add_option("-t", "--target", dest="target",
+        default=".",
+        help="target directory [%default]", metavar="PATH")
+    op.add_option("-m", "--method", dest="method",
+        default="svn",
+        help="retrieval method [%default]", metavar="METHOD")
+    op.add_option("-n", "--no-cleanup", action="store_false",
+        dest="cleanup", default=True,
+        help="don't clean up temporary files")
+    op.add_option("-k", "--key-id", dest="key_id",
+        default=None,
+        help="GPG key ID used for signing if applicable", metavar="KEY_ID")
+
+    (options, args) = op.parse_args()
+    if len(args) != 1:
+        op.print_help()
+        exit(1)
+
+    # Allow version shortcut, but prepend tags/
+    release = args[0]
+    if re.match(r"^[0-9]", release):
+        release = "tags/" + release
+
+    # Validate release
+    if not re.match(r"^(tags/.|branches/.|trunk$)", release):
+        print("Error: release must be in the format tags/x (or just x), branches/x or trunk")
+        exit(1)
+
+    # Start build
+    build(release, options.source, options.target,
+        options.method, options.key_id, options.cleanup)
+
+
+""" Main GOsa packaging aid """
+if __name__ == '__main__':
+    if not sys.stdout.encoding:
+        sys.stdout = codecs.getwriter('utf8')(sys.stdout)
+    if not sys.stderr.encoding:
+        sys.stderr = codecs.getwriter('utf8')(sys.stderr)
+
+    main()

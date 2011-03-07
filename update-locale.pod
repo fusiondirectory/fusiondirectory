@@ -1,0 +1,42 @@
+
+=head1 NAME
+
+update-locale - update localization files
+
+=head1 SYNOPSIS
+
+update-locale [-h] [-g] [-y]
+
+=head1 DESCRIPTION
+
+update-locale is a script that update/generate the .po files for FusionDirectory
+
+=over 3
+
+=item B<-g>        extract strings from FusionDirectory and generate po files
+
+=item B<-y>        assume yes
+
+=item B<-h>        help
+
+=back
+
+=head1 BUGS
+
+Please report any bugs, or post any suggestions, to the fusiondirectory mailing list fusiondirectory-users or to
+<https://forge.fusiondirectory.org/projects/fdirectory/issues/new>
+
+=head1 LICENCE AND COPYRIGHT
+
+This code is part of FusionDirectory <http://www.fusiondirectory.org>
+
+Copyright (C) 2003-2010 GONICUS GmbH
+Copyright (C) 2011 FusionDirectory Project
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+=cut
+

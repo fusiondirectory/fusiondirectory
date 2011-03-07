@@ -1,0 +1,72 @@
+FusionDirectory 1.0 README
+==========================
+
+* Information
+
+FusionDirectory is a LDAP administration frontend for user administration.
+It is not a generic frontend to ldap servers. Informations are stored
+in the way the underlying concepts suppose them to be stored (i.e.
+people accounts are stored in "ou=people" subtrees, etc.) This can
+be configured marginally.
+
+Complete setups applying Kerberos, AFS, LDAP, Mail, Proxy and Fax setups
+are not trivial at all. You should be familiar with these components and
+with your UNIX installation, of course. This file is not an introduction
+to any of these components. See INSTALL for a quick overview about what
+to do, to get the things up and running.
+
+* Translations
+
+FusionDirectory is not available in your native language? Just read on...
+
+Translations (or I18N) in FusionDirectory is done by the gettext library.
+As a result, every set of translations is stored inside of one directory
+per language as a text file called "messages.po".
+
+For FusionDirectory you've to differenciate between fusiondirectory and
+fusiondirectory-plugins. The core as a translation and every plugin has
+a seperate translation, too.
+
+FusionDirectory core can be translated by taking a look at the locales/core
+directory. Just take the messages.po file and copy it to some other
+location and put your translations into the msgstr fields of this
+file. For more comfort, use programs like i.e. kbabel or poedit to
+achieve this. You may look at the de/LC_MESSAGES for the way how it
+works.
+
+If you're ready with that, create a directory for your language using
+the ISO shortcuts (i.e. es for spain) with a subdirectory LC_MESSAGES.
+In case of spain this will be
+
+ fusiondirectory/locales/core/es/LC_MESSAGES
+
+and put the freshly translated messages.po in this directory.
+
+To test this, you've deploy the messages.po file in your running copy
+of FusionDirectory and run the "update-fusiondirectory" command, to let
+FusionDirectory merge the translations. Then, Make sure your apache has
+locale support or, in case of debian, that the specific locale will be
+generated (via dpkg-reconfigure locales).
+
+You may want your translations to be included in the main FusionDirectory repository,
+then just send the .po file to us.
+
+For fusiondirectory-plugins, every plugin has a locales directory. Translation works
+like described for fusiondirectory.
+
+Always run update-fusiondirectory after you've added translations in order to let
+FusionDirectory compile and re-sync the translations.
+
+
+* NOTES
+
+Be sure that 'gosaUserTemplates' are not able to log into your server,
+since they may have no password set. Example configs can be found in
+the contrib directory.
+
+Have fun!
+
+---
+
+The FusionDirectory project <contact@fusiondirectory.org>
+

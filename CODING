@@ -1,0 +1,208 @@
+FusionDirectory coding guidelines
+=================================
+
+* Scope of style guidelines
+
+In order to keep the code consistent, please use the following conventions.
+These conventions are no judgement call on your coding abilities, but more
+of a style and look call.
+
+
+* Indentation and line length
+
+As a basic style rule, please use spaces instead of tabulators. This will
+remove problems when using "diff".
+
+For VI users, this can be achieved by the following settings:
+
+8<----------------------------------------------------------------------------
+set expandtab
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
+8<----------------------------------------------------------------------------
+
+The line length should not exceed 80 characters. There is one exception for
+i18n strings that must not be split for gettext.
+
+
+*  Performance and Readability 
+
+It is more important to be correct than to be fast. 
+It is more important to be maintainable than to be fast. 
+Fast code that is difficult to maintain is likely going to be looked down upon.
+
+
+* Comments
+
+Avoid perl style comments using "#". Always use "//" for single line comments
+and /* */ blocks for multi line comments.
+
+8<----------------------------------------------------------------------------
+/*
+ * This is a long comment...
+ * ... which should look like this.
+ */
+
+// Short comment
+8<----------------------------------------------------------------------------
+
+
+* Documentation
+
+8<----------------------------------------------------------------------------
+
+* File format
+
+UTF-8, LF - not CR LF
+
+* White spaces
+
+Use a space before an opening parenthesis when calling functions, or indexing, like this:
+
+8<----------------------------------------------------------------------------
+# Methods
+foo ($parameter);
+
+# Arrays
+$b = $value [0];
+
+# Readability
+if ($b + 5 > foo (bar () + 4)){
+}
+8<----------------------------------------------------------------------------
+
+Don't layout your code like this, always minimize spaces:
+
+8<----------------------------------------------------------------------------
+var $most           = "something";
+8<----------------------------------------------------------------------------
+
+
+Always use spaces to seperate arguments after commata:
+
+8<----------------------------------------------------------------------------
+function foo ($param1, $param2)
+8<----------------------------------------------------------------------------
+
+Always use single spaces to split logical and mathematical operations:
+
+8<----------------------------------------------------------------------------
+if ( $a > 6 && $b == 17 && (foo ($b) < 1) ){
+}
+8<----------------------------------------------------------------------------
+
+
+* Braces
+
+If statements with or without else clauses are formatted like this:
+
+8<----------------------------------------------------------------------------
+if ($value) {
+    foo ();
+    bar ();
+}
+
+if ($value) {
+    foo ();
+} else {
+    bar ();
+}
+8<----------------------------------------------------------------------------
+
+Switches are formatted like this:
+
+8<----------------------------------------------------------------------------
+switch ($reason) {
+    case 'fine':
+        foo ();
+        break;
+
+    case 'well':
+        bar ();
+        break;
+}
+8<----------------------------------------------------------------------------
+
+
+Always use use braces for single line blocks:
+
+8<----------------------------------------------------------------------------
+if ($value) {
+    foo ();
+}
+8<----------------------------------------------------------------------------
+
+Function definitions, Classes and Methods have an opening brace on the next
+line:
+
+8<----------------------------------------------------------------------------
+function bar ()
+{
+    ...
+}
+8<----------------------------------------------------------------------------
+
+
+* Casing
+
+Always use camel casing with lowercase characters in the beginning for multi-
+word identifiers:
+
+8<----------------------------------------------------------------------------
+function checkForValidity (){
+  $testSucceeded = false;
+  ...
+}
+8<----------------------------------------------------------------------------
+
+
+* Naming
+
+Non trivial variable names should speak for themselves from within the context.
+
+8<----------------------------------------------------------------------------
+// Use
+$hour = 5;
+// instead of
+$g = 5;
+8<----------------------------------------------------------------------------
+
+Find short function names that describe what the function does - in order to
+make the code read like a written sentence.
+
+8<----------------------------------------------------------------------------
+if ( configReadable ("/etc/foo.conf") ){
+}
+8<----------------------------------------------------------------------------
+
+Use uppercase for constants/defines and _ if possible:
+
+8<----------------------------------------------------------------------------
+if ( $speedUp == TRUE ) {
+  $wait = SHORT_WAIT;
+} else {
+  $wait = LONG_WAIT;
+}
+8<----------------------------------------------------------------------------
+
+
+* PHP specific
+
+Open and close tags:
+
+  <?php 
+  // Something here 
+  ?> 
+
+
+HTML
+
+Do not include HTML code inside of your PHP file. Use smarty templating if
+possible.
+
+
+Code inclusion
+
+Use require_once instead of include.
+

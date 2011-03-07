@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<list>
+  <definition>
+    <departmentBrowser>false</departmentBrowser>
+    <departmentRootVisible>false</departmentRootVisible>
+    <baseMode>true</baseMode>
+    <multiSelect>true</multiSelect>
+    <template>dep-list.tpl</template>
+    <module>departments</module>
+    <label>List of departments</label>
+    <defaultSortColumn>1</defaultSortColumn>
+
+    <objectType>
+      <label>Domain</label>
+      <objectClass>domain</objectClass>
+      <category>department</category>
+      <class>domain</class>
+      <image>plugins/departments/images/domain.png</image>
+    </objectType>
+
+    <objectType>
+      <label>Domain component</label>
+      <objectClass>dcObject</objectClass>
+      <category>department</category>
+      <class>dcObject</class>
+      <image>plugins/departments/images/dc.png</image>
+    </objectType>
+
+    <objectType>
+      <label>Country</label>
+      <objectClass>country</objectClass>
+      <category>department</category>
+      <class>country</class>
+      <image>plugins/departments/images/country.png</image>
+    </objectType>
+
+    <objectType>
+      <label>Locality</label>
+      <objectClass>locality</objectClass>
+      <category>department</category>
+      <class>locality</class>
+      <image>plugins/departments/images/locality.png</image>
+    </objectType>
+
+    <objectType>
+      <label>Organization</label>
+      <objectClass>organization</objectClass>
+      <category>department</category>
+      <class>organization</class>
+      <image>plugins/departments/images/organization.png</image>
+    </objectType>
+
+    <objectType>
+      <label>Department</label>
+      <objectClass>organizationalUnit</objectClass>
+      <category>department</category>
+      <class>department</class>
+      <image>images/lists/folder.png</image>
+    </objectType>
+  </definition>
+
+  <table>
+    <layout>|20px;c|||70px;r|</layout>
+
+    <column>
+      <value>%{filter:objectType(dn,objectClass)}</value>
+    </column>
+
+    <column>
+      <label>Department</label>
+      <sortAttribute>ou</sortAttribute>
+      <sortType>string</sortType>
+      <value>%{filter:depLabel(row,dn,"%s",ou,pid,base)}</value>
+      <export>true</export>
+    </column>
+
+    <column>
+      <label>Description</label>
+      <sortAttribute>description</sortAttribute>
+      <sortType>string</sortType>
+      <value>%{filter:depLabel(row,dn,"%s",description,pid,base)}</value>
+      <export>true</export>
+    </column>
+
+    <column>
+      <label>Actions</label>
+      <value>%{filter:actions(dn,row,objectClass)}</value>
+    </column>
+
+  </table>
+
+  <actionmenu>
+
+    <action>
+     <type>sub</type>
+     <image>images/lists/new.png</image>
+     <label>Create</label>
+
+     <action>
+      <name>new_domain</name>
+      <type>entry</type>
+      <label>Domain</label>
+      <image>plugins/departments/images/domain.png</image>
+     </action>
+    
+     <action>
+      <name>new_dcObject</name>
+      <type>entry</type>
+      <label>Domain component</label>
+      <image>plugins/departments/images/dc.png</image>
+     </action>
+
+     <action>
+      <name>new_country</name>
+      <type>entry</type>
+      <label>Country</label>
+      <image>plugins/departments/images/country.png</image>
+     </action>
+
+     <action>
+      <name>new_locality</name>
+      <type>entry</type>
+      <label>Locality</label>
+      <image>plugins/departments/images/locality.png</image>
+     </action>
+
+     <action>
+      <name>new_organization</name>
+      <type>entry</type>
+      <label>Organization</label>
+      <image>plugins/departments/images/organization.png</image>
+     </action>
+
+     <action>
+      <name>new_organizationalUnit</name>
+      <type>entry</type>
+      <label>Department</label>
+      <image>images/lists/folder.png</image>
+     </action>
+
+    </action>
+
+    <action>
+      <type>separator</type>
+    </action>
+
+    <action>
+      <type>exporter</type>
+    </action>
+
+    <action>
+      <type>separator</type>
+    </action>
+
+    <action>
+      <name>remove</name>
+      <type>entry</type>
+      <image>images/lists/trash.png</image>
+      <label>Remove</label>
+    </action>
+
+  </actionmenu>
+
+  <actiontriggers snapshot="false" copypaste="false">
+
+    <action>
+      <name>edit</name>
+      <type>entry</type>
+      <nospan></nospan>
+      <image>images/lists/edit.png</image>
+      <label>Edit</label>
+    </action>
+
+    <action>
+      <name>remove</name>
+      <type>entry</type>
+      <nospan></nospan>
+      <image>images/lists/trash.png</image>
+      <acl>department[d]</acl>
+      <label>Remove</label>
+    </action>
+
+  </actiontriggers>
+
+</list>

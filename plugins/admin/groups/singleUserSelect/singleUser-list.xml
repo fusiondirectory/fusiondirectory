@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<list>
+  <definition>
+    <departmentBrowser>true</departmentBrowser>
+    <departmentRootVisible>false</departmentRootVisible>
+    <baseMode>true</baseMode>
+    <multiSelect>false</multiSelect>
+    <template>../plugins/admin/groups/singleUserSelect/singleUser-list.tpl</template>
+    <label>Please select the desired entries</label>
+    <defaultSortColumn>1</defaultSortColumn>
+
+    <objectType>
+      <label>User</label>
+      <objectClass>gosaAccount</objectClass>
+      <category>users</category>
+      <class>user</class>
+      <image>plugins/users/images/select_user.png</image>
+    </objectType>
+
+  </definition>
+
+  <table>
+    <layout>|20px;c||||80px;r|</layout>
+
+    <department>
+      <value>%{filter:objectType(dn,objectClass)}</value>
+    </department>
+
+    <department>
+      <value>%{filter:departmentLink(row,dn,description)}</value>
+      <span>1</span>
+    </department>
+
+    <column>
+      <value>%{filter:objectType(dn,objectClass)}</value>
+    </column>
+
+    <column>
+      <label>Given name</label>
+      <sortAttribute>givenName</sortAttribute>
+      <sortType>string</sortType>
+      <value>%{givenName}</value>
+      <export>true</export>
+    </column>
+
+    <column>
+      <label>Surname</label>
+      <sortAttribute>sn</sortAttribute>
+      <sortType>string</sortType>
+      <value>%{sn}</value>
+      <export>true</export>
+    </column>
+
+    <column>
+      <label>Login</label>
+      <sortAttribute>uid</sortAttribute>
+      <sortType>string</sortType>
+      <value>%{uid}</value>
+      <export>true</export>
+    </column>
+
+    <column>
+      <label>Actions</label>
+      <value>%{filter:actions(dn,row,objectClass)}</value>
+    </column>
+
+
+  </table>
+
+  <actionmenu>
+  </actionmenu>
+
+  <actiontriggers snapshot="false" copypaste="false">
+    <action>
+      <name>selectUser</name>
+      <type>entry</type>
+      <image>images/empty.png</image>
+      <label>Select user</label>
+    </action>
+    <action>
+      <name>selectUser</name>
+      <type>entry</type>
+      <image>images/lists/edit.png</image>
+      <label>Select user</label>
+    </action>
+  </actiontriggers>
+
+</list>

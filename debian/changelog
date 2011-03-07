@@ -1,0 +1,109 @@
+gosa (2.6.12-1) unstable; urgency=low
+
+  [ Cajus Pollmeier ]
+  * New upstream release
+
+ -- Cajus Pollmeier <pollmeier@gonicus.de>  Tue, 18 Jan 2011 15:40:37 +0100
+
+gosa (2.6.11-2) unstable; urgency=low
+
+  * Corrected wrong dirs on gosa-plugin-mail 
+  * Corrected wrong dirs on gosa-plugin-gofon
+  * Added missing scripts in gosa-dev package
+  * Added missing README.squid to gosa-plugin-squid package
+  * Added patch for security in using gosa hook for password
+  * package explicitly depends on preform MPM (Closes: #591043)
+  * default config refers to missing FCGIWrapper (Closes: #591046)
+
+ -- Benoit Mortier <benoit.mortier@opensides.be>  Sun, 17 Oct 2010 16:00:00 +0200
+
+gosa (2.6.11-1) unstable; urgency=low
+
+  [ Cajus Pollmeier ]
+  * New upstream release
+
+  [ Benoit Mortier ]
+
+  * Samba schema file is incompatible with Samba shipped with lenny
+    (Closes: #582899)
+  * package explicitly depends on preform MPM (Closes: #591043)
+  * default config refers to missing FCGIWrapper (Closes: #591046)
+
+ -- Benoit Mortier <benoit.mortier@opensides.be>  Fri, 13 Aug 2010 11:00:29 +0200
+
+gosa (2.6.10-2) unstable; urgency=low
+
+  * Removed faulty patch due to 3.0 source conversion
+  * Prevented /usr/share/doc/gosa.conf to be compressed
+    to make setup configuration file saving work again
+
+ -- Benoit Mortier <benoit.mortier@opensides.be>  Tue, 27 Jul 2010 18:49:07 +0200
+
+gosa (2.6.10-1) unstable; urgency=low
+
+  [ Cajus Pollmeier ]
+  * New upstream release
+
+  [ Benoit Mortier ]
+  * Switch to dpkg-source 3.0 (quilt) format
+  * gosa fails with: "Fatal error: Call to undefined function
+    print_array() (Closes: #573220)
+  * GOSa fails to add IP and MAC addresses to samba created hosts
+    (Closes: #582896)
+
+ -- Benoit Mortier <benoit.mortier@opensides.be>  Tue, 20 Jul 2010 12:48:02 +0200
+
+gosa (2.6.9-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Cajus Pollmeier <cajus@debian.org>  Mon, 15 Mar 2010 11:28:48 +0100
+
+gosa (2.6.8-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Cajus Pollmeier <cajus@debian.org>  Mon, 15 Feb 2010 14:19:14 +0100
+
+gosa (2.6.7-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Cajus Pollmeier <cajus@debian.org>  Wed, 27 Jan 2010 21:53:12 +0100
+
+gosa (2.6.6-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Cajus Pollmeier <cajus@debian.org>  Mon, 05 Oct 2009 15:03:41 +0200
+
+gosa (2.6.5-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Cajus Pollmeier <cajus@debian.org>  Wed, 25 Feb 2009 13:36:18 +0100
+
+gosa (2.6.4-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Cajus Pollmeier <cajus@debian.org>  Fri, 06 Feb 2009 11:35:38 +0100
+
+gosa (2.6.3-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Cajus Pollmeier <cajus@debian.org>  Thu, 15 Jan 2009 11:43:15 +0100
+
+gosa (2.6.2-1) unstable; urgency=low
+
+  * New upstream release 
+
+ -- Cajus Pollmeier <cajus@debian.org>  Fri, 19 Dec 2008 09:51:32 +0100
+
+gosa (2.6.1-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Cajus Pollmeier <cajus@debian.org>  Mon, 07 Apr 2008 11:18:53 +0200
+

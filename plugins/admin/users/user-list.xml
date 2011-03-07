@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<list>
+  <definition>
+    <departmentBrowser>true</departmentBrowser>
+    <departmentRootVisible>false</departmentRootVisible>
+    <baseMode>true</baseMode>
+    <multiSelect>true</multiSelect>
+    <template>user-list.tpl</template>
+    <module>users</module>
+    <label>List of users</label>
+    <defaultSortColumn>1</defaultSortColumn>
+
+    <objectType>
+      <label>Template</label>
+      <objectClass>gosaUserTemplate</objectClass>
+      <category>users</category>
+      <class>user</class>
+      <image>plugins/users/images/select_template.png</image>
+    </objectType>
+
+    <objectType>
+      <label>User</label>
+      <objectClass>gosaAccount</objectClass>
+      <category>users</category>
+      <class>user</class>
+      <image>plugins/users/images/select_user.png</image>
+    </objectType>
+
+  </definition>
+
+  <table>
+    <layout>|20px;c||||150px|185px;r|</layout>
+
+    <department>
+      <value>%{filter:objectType(dn,objectClass)}</value>
+    </department>
+
+    <department>
+      <value>%{filter:departmentLink(row,dn,description)}</value>
+      <span>3</span>
+    </department>
+
+    <column>
+      <value>%{filter:objectType(dn,objectClass)}</value>
+    </column>
+
+    <column>
+      <label>Surname</label>
+      <sortAttribute>sn</sortAttribute>
+      <sortType>string</sortType>
+      <value>%{filter:link(row,dn,"%s",sn)}</value>
+      <export>true</export>
+    </column>
+
+    <column>
+      <label>Given name</label>
+      <sortAttribute>givenName</sortAttribute>
+      <sortType>string</sortType>
+      <value>%{filter:link(row,dn,"%s",givenName)}</value>
+      <export>true</export>
+    </column>
+
+    <column>
+      <label>Login</label>
+      <sortAttribute>uid</sortAttribute>
+      <sortType>string</sortType>
+      <value>%{filter:link(row,dn,"%s",uid)}</value>
+      <export>true</export>
+    </column>
+
+    <column>
+      <label>Properties</label>
+      <value>%{filter:filterProperties(row,objectClass)}</value>
+    </column>
+
+    <column>
+      <label>Actions</label>
+      <value>%{filter:actions(dn,row,objectClass)}</value>
+    </column>
+
+  </table>
+
+  <actionmenu>
+
+    <action>
+     <type>sub</type>
+     <image>images/lists/new.png</image>
+     <label>Create</label>
+
+     <action>
+      <name>new</name>
+      <type>entry</type>
+      <image>plugins/users/images/list_new_user.png</image>
+      <label>User</label>
+     </action>
+
+     <action>
+      <name>new_template</name>
+      <type>entry</type>
+      <image>plugins/users/images/select_template.png</image>
+      <label>Template</label>
+     </action>
+    </action>
+
+    <action>
+      <type>separator</type>
+    </action>
+
+    <action>
+      <name>edit</name>
+      <type>entry</type>
+      <image>images/lists/edit.png</image>
+      <label>Edit</label>
+    </action>
+
+    <action>
+      <name>remove</name>
+      <type>entry</type>
+      <image>images/lists/trash.png</image>
+      <label>Remove</label>
+    </action>
+
+    <action>
+      <name>password</name>
+      <type>entry</type>
+      <image>plugins/users/images/list_password.png</image>
+      <label>Change password</label>
+    </action>
+
+    <action>
+      <type>separator</type>
+    </action>
+
+    <action>
+      <name>lockUsers</name>
+      <type>entry</type>
+      <image>images/lists/locked.png</image>
+      <acl>uniBonnAccount/password[w]</acl>
+      <label>Lock users</label>
+    </action>
+
+    <action>
+      <name>unlockUsers</name>
+      <type>entry</type>
+      <image>images/lists/unlocked.png</image>
+      <acl>uniBonnAccount/password[w]</acl>
+      <label>Unlock users</label>
+    </action>
+
+    <action>
+      <name>sendMessage</name>
+      <type>entry</type>
+      <depends>DaemonEvent_notify</depends>
+      <image>plugins/goto/images/notify.png</image>
+      <label>Send message</label>
+    </action>
+
+    <action>
+      <type>separator</type>
+    </action>
+
+    <action>
+      <name>templatize</name>
+      <type>entry</type>
+      <image>plugins/users/images/wizard.png</image>
+      <label>Apply template</label>
+    </action>
+
+    <action>
+      <type>separator</type>
+    </action>
+
+    <action>
+      <type>exporter</type>
+    </action>
+
+    <action>
+      <type>separator</type>
+    </action>
+
+    <action>
+      <type>copypaste</type>
+    </action>
+
+    <action>
+      <type>snapshot</type>
+    </action>
+
+  </actionmenu>
+
+  <actiontriggers snapshot="true" copypaste="true">
+
+    <action>
+      <name>newfromtpl</name>
+      <type>entry</type>
+      <image>images/lists/new.png</image>
+      <objectclass>gosaUserTemplate</objectclass>
+      <label>New user from template</label>
+    </action>
+
+    <action>
+      <name>cp</name>
+      <objectclass>!gosaUserTemplate</objectclass>
+      <type>copypaste</type>
+    </action>
+
+    <action>
+      <name>edit</name>
+      <type>entry</type>
+      <objectclass>gosaAccount</objectclass>
+      <image>images/lists/edit.png</image>
+      <label>Edit user</label>
+    </action>
+
+    <action>
+      <name>lock</name>
+      <type>entry</type>
+      <objectclass>!gosaUserTemplate</objectclass>
+      <image>%{filter:lockImage(userPassword)}</image>
+      <acl>uniBonnAccount/password[w]</acl>
+      <label>%{filter:lockLabel(userPassword)}</label>
+    </action>
+
+    <action>
+      <name>password</name>
+      <type>entry</type>
+      <objectclass>!gosaUserTemplate</objectclass>
+      <image>plugins/users/images/list_password.png</image>
+      <label>Change password</label>
+    </action>
+
+    <action>
+      <name>snapshot</name>
+      <type>snapshot</type>
+      <objectclass>!gosaUserTemplate</objectclass>
+    </action>
+
+    <action>
+      <name>remove</name>
+      <type>entry</type>
+      <image>images/lists/trash.png</image>
+      <objectclass>gosaAccount</objectclass>
+      <acl>users/user[d]</acl>
+      <label>Remove user</label>
+    </action>
+
+  </actiontriggers>
+
+</list>

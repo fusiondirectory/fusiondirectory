@@ -1,0 +1,4 @@
+phpscheduleit/personal			/usr/share/gosa/plugins
+phpscheduleit/help/guide.xml		/usr/share/gosa/doc/plugins/phpscheduleit
+phpscheduleit/locale			/usr/share/gosa/locale/plugins/phpscheduleit
+phpscheduleit/contrib			/usr/share/doc/gosa-plugin-phpscheduleit

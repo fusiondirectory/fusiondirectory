@@ -1,0 +1,3 @@
+rolemanagement/admin		/usr/share/gosa/plugins
+rolemanagement/locale		/usr/share/gosa/locale/plugins/rolemanagement
+rolemanagement/html/images	/usr/share/gosa/html/plugins/rolemanagement

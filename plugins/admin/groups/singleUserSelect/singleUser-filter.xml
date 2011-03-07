@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<filterdef>
+  <definition>
+    <category>groups</category>
+    <template>../plugins/admin/groups/singleUserSelect/singleUser-filter.tpl</template>
+    <initial>true</initial>
+  </definition>
+
+  <search>
+    <query>
+      <backend>LDAPBlacklist</backend>
+      <filter>(&amp;(objectClass=gosaAccount)$NAME)</filter>
+      <attribute>dn</attribute>
+      <attribute>objectClass</attribute>
+      <attribute>cn</attribute>
+      <attribute>sn</attribute>
+      <attribute>givenName</attribute>
+      <attribute>uid</attribute>
+      <attribute>description</attribute>
+    </query>
+    <scope>auto</scope>
+  </search>
+
+  <element>
+    <type>textfield</type>
+    <tag>NAME</tag>
+    <size>20</size>
+    <maxlength>60</maxlength>
+    <default></default>
+    <unset></unset>
+    <set>(|(sn=*$*)(givenName=*$*)(cn=*$*)(uid=*$*))</set>
+    <alphabet>true</alphabet>
+    <autocomplete>
+      <backend>LDAPBlacklist</backend>
+      <filter>(&amp;(objectClass=gosaAccount)(|(sn=*$NAME*)(givenName=*$NAME*)(cn=*$NAME*)(uid=*$NAME*)))</filter>
+      <attribute>cn</attribute>
+      <frequency>0.5</frequency>
+      <characters>3</characters>
+    </autocomplete>
+  </element>
+
+</filterdef>

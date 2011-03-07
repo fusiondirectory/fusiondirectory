@@ -1,0 +1,1436 @@
+.TH gosa.conf 5 "2008-04-07" "GOsa 2.6"
+.SH NAME
+gosa.conf - GOsa configuration file
+.SH DESCRIPTION
+The gosa.conf file contains configuration information for
+.IR GOsa,
+a powerful GPL'ed framework for managing accounts and systems in
+LDAP databases.
+.PP
+The gosa.conf file is a XML style configuration file. It is parsed by
+the GOsa web application during log in.  The file may contain
+extra tabs and newlines for formatting purposes.  Tag keywords in the
+file are case-insensitive. Comments should be placed outside of XML
+tags and should be encapsulated inside of <!-- --> tags.
+.PP
+The gosa.conf file can be used to configure the look and feel, behaviour
+and access control of the GOsa webinterface.
+.SH Configuration layout
+
+The configuration has to be specified inside of the <conf> tags. It
+basically consists of three main parts: menu definition, definition
+of subdialogs (tabbed dialogs) and the main configuration - including
+information about several locations.
+
+.B Layout example:
+
+.nf
+  <?xml version="1.0"?>
+  
+  <conf configVersion="...." >
+    <!-- Menu definition -->
+    <menu>
+    ...
+    </menu>
+  
+    <!-- Tabbed dialog definitions -->
+    ...
+  
+    <!-- Global setup -->
+    <main>
+  
+       <!-- Location specific setups -->
+       <location name="">
+         ...
+       </location>
+  
+    </main>
+  
+  </conf>
+.fi
+
+.SH Menu definition
+
+This tag defines the side and icon menu inside the
+interface. Defining an entry here is no guarantie to get it shown,
+though. Only entries with matching ACL's get shown.
+
+There are two types of entries inside of the menu: section and plugin
+
+.B Defining a section
+
+Open a 
+.I <section>
+tag including a 
+.I name
+attribute. This will show up in the menu as a new section later on.
+Own entries are not handled via I18N by default. Close the 
+.I </section>
+tag after your plugin definitions.
+
+.B Defining a plugin
+
+Open a 
+.I <plugin>
+tag including a 
+.I "class"
+attribute. The 
+.I "class" 
+should be present inside your GOsa setup - the entry will be ignored if it is not.
+
+Plugins should have an 
+.I "acl"
+entry, that allows GOsa to decide wether a user is allowed to see a plugin or not.
+The 
+.I "acl"
+string matches with an ACL definition done inside of GOsa.
+
+You can override an icon by specifying the 
+.I "icon"
+attribute.
+
+For every plugin, you can provide at least four additional hooks: 
+.I postcreate,
+.I postremove,
+.I postmodify
+and
+.I check.
+These can be used to perform special actions when a plugins gets
+a create, delete, modify or check request. As a parameter, these
+keywords get a shell script or program to the task.
+
+.I The
+.B create / delete / modify
+.I keywords
+
+These keywords take a full executable path of a script. You can
+provide certain parameters in form of LDAP attributes. '%uid'
+will pass the current user id, '%dn' the current object dn, etc.
+
+The script gets executed after create, delete or modify tasks.
+
+.I The
+.B check
+.I keyword
+
+This keyword takes a full executable path of a script. Check is
+triggered after you press the
+\-I "Apply"
+or
+\-I "OK"
+button. The complete LDAP entry as it will be written to the
+LDAP is passed to your script. If parts of the entry do not
+match some logic of your script, just print an error message
+to STDOUT. GOsa will show this message and abort the current
+process of saving the entry to the LDAP.
+
+.B Example menu definition:
+
+.nf
+  <menu>
+    <section name="My account">
+      <plugin acl="users/user:self" class="user" check="/usr/local/bin/test_user.sh" />
+      <plugin acl="users/samba:self" class="sambaAccount" postcreate="/usr/local/bin/create_share '%uid'" />
+    </section>
+  </menu>
+.fi
+
+.SH Tabbed dialog definitions
+
+Tab definitions define the sub plugins which get included for certain
+tabbed dialogs. If you change something here, never (!) remove the
+primary (the first) "tab" tag which is defined. Most tabbed dialogs
+need a primary plugin.
+
+.I "*tab"
+should be looked for by a defined plugin. This one will take
+every 
+.I "tab"
+defined
+.I "class"
+and will show it inside of a tabbed dialog
+with the header defined in
+.I "name".
+
+.B Example tabbed dialog definition:
+
+.nf
+  <grouptabs>
+    <tab class="group" name="Generic" />
+    <tab class="environment" name="Environment" />
+    <tab class="appgroup" name="Applications" />
+    <tab class="mailgroup" name="Mail" />
+  </grouptabs>
+.fi
+
+.SH Main section
+
+The main section defines global settings, which might be overridden by
+each location definition inside of this global definition.
+
+.B Example layout:
+
+.nf
+  <main default="Example Net"
+        listSummary="false"
+        ... >
+
+        <location name="Example Net"
+                  hash="md5"
+                  accountPrimaryAttribute="cn"
+                  ...
+
+                  <referral uri="ldaps://ldap.example.net:636/dc=example,dc=net"
+                            admin="cn=gosa-admin,dc=example,dc=net"
+                            password="secret" />
+
+        </location>
+
+  </main>
+
+.fi
+
+.PP
+.B Generic options
+
+.PP
+.B forceGlobals
+.I bool
+.PP
+The
+.I forceGlobals
+statement enables PHP security checks to force register_global settings to
+be switched off.
+.PP
+
+.B forceSSL
+.I bool
+.PP
+The
+.I forceSSL
+statement enables PHP security checks to force encrypted access to the web
+interface. GOsa will try to redirect to the same URL - just with https://.
+.PP
+
+.B warnSSL
+.I bool
+.PP
+The
+.I warnSSL
+statement enables PHP security checks to detect non encrypted access to
+the web interface. GOsa will display a warning in this case.
+.PP
+
+.B modificationDetectionAttribute
+.I string
+.PP
+The
+.I modificationDetectionAttribute
+statement enables GOsa to check if a entry currently being edited has
+been modified from someone else outside GOsa in the meantime. It will
+display an informative dialog then. It can be set to
+.I entryCSN
+for OpenLDAP based systems or
+.I contextCSN
+for Sun DS based systems.
+.PP
+
+.B logging
+.I string
+.PP
+The
+.I logging
+statement enables event logging on GOsa side. Setting it to 
+.I true,
+GOsa will log every action a user performs via syslog. If you use
+rsyslog and configure it to mysql logging, you can browse all events
+within GOsa.
+
+GOsa will not log anything, if the logging value is empty or set to
+false.
+.PP
+
+.B loginAttribute
+.I string
+.PP
+The
+.I loginAttribute
+statement tells GOsa which LDAP attribute is used as the login name
+during login. It can be set to
+.I uid, mail
+or
+.I both.
+.PP
+
+.B copyPaste
+.I bool
+.PP
+The
+.I copyPaste
+statement enables copy and paste for LDAP entries managed with GOsa.
+.PP
+
+.B snapshots
+.I bool
+.PP
+The
+.I snapshots
+statement enables a snapshot mechaism in GOsa. This enables you to save
+certain states of entries and restore them later on.
+.PP
+
+.B snapshotBase
+.I dn
+.PP
+The
+.I snapshotBase
+statement defines the base where snapshots should be stored inside of
+the LDAP.
+.PP
+
+.B snapshotURI
+.I uri 
+.PP
+The
+.I snapshotURI
+variable defines the LDAP URI for the server which is used to do object
+snapshots.
+.PP
+
+.B snapshotAdminDn
+.I dn
+.PP
+The
+.I snapshotAdminDn
+variable defines the user which is used to authenticate when connecting
+to
+.I snapshotURI.
+.PP
+
+.B snapshotAdminPassword
+.I string
+.PP
+The
+.I snapshotAdminPassword
+variable defines the credentials which are used in combination with
+.I snapshotAdminDn
+and
+.I snapshotURI
+in order to authenticate.
+.PP
+
+.B config
+.I dn
+.PP
+The
+.I config
+statement defines the LDAP base, where GOsa stores management information,
+such as site wide locking and user notifications.
+.PP
+
+.B templateCompileDirectory
+.I path
+.PP
+The
+.I templateCompileDirectory
+statements defines the path, where the PHP templating engins
+.I smarty
+should store its compiled GOsa templates for improved speed. This path
+needs to be writeable by the user your webserver is running with.
+.PP
+
+.B timezone
+.I string
+.PP
+The
+.I timezone
+statements defines the timezone used inside of GOsa to handle date
+related tasks, such as password expiery, vacation messages, etc.
+The
+.I timezone
+value should be a unix conform timezone value like in /etc/timezone.
+.PP
+
+.B honourIvbbAttributes
+.I bool
+.PP
+The
+.I honourIvbbAttributes
+statement enables the IVBB mode inside of GOsa. You need the ivbb.schema
+file from used by german authorities.
+.PP
+
+.B strictNamingRules
+.I bool
+.PP
+The
+.I strictNamingRules
+statement enables strict checking of uids and group names. If you need
+characters like . or - inside of your accounts, set this to
+.I false.
+.PP
+
+.B honourUnitTags
+.I bool
+.PP
+The
+.I honourUnitTags
+statement enables checking of
+.I unitTag
+attributes when using administrative units. If this is set to
+.I true
+GOsa can only see objects inside the administrative unit a
+user is logged into.
+.PP
+
+.B rfc2307bis
+.I bool
+.PP
+The
+.I rfc2307bis
+statement enables rfc2307bis style groups in GOsa. You can use
+.I member
+attributes instead of memberUid in this case. To make it work
+on unix systems, you've to adjust your NSS configuration to
+use rfc2307bis style groups, too.
+.PP
+
+.B ppdPath
+.I path
+.PP
+The
+.I ppdPath
+variable defines where to store PPD files for the GOto environment plugins.
+.PP
+
+.B resolutions
+.I path
+.PP
+The
+.I resolutions
+variable defines a plain text file which contains additional resolutions
+to be shown in the environment and system plugins.
+.PP
+
+.B htaccessAuthentication
+.I bool
+.PP
+The
+.I htaccessAuthentication
+variable tells GOsa to use either htaccess authentication or LDAP authentication. This
+can be used if you want to use i.e. kerberos to authenticate the users.
+.PP
+
+.B gosaSupportURI
+.I URI
+.PP
+The
+.I gosaSupportURI
+defines the major gosa-si server host and the password for GOsa to connect to it.
+can be used if you want to use i.e. kerberos to authenticate the users.
+
+The format is:
+
+.nf
+credentials@host:port
+.fi
+.PP
+
+
+.B Browser and display options
+
+.B listSummary
+.I true/false
+.PP
+The
+.I listSummary
+statement determines whether a status bar will be shown on the bottom of
+GOsa generated lists, displaying a short summary of type and number of
+elements in the list.
+.PP
+
+.B iconsize
+.I size value
+.PP
+The
+.I iconsize
+statement sets the icon size in the main menu. Its value should be something
+like 48x48.
+.PP
+
+.B sendCompressedOutput
+.I true/false
+.PP
+The
+.I sendCompressedOutput
+statement determines whether PHP should send compressed HTML pages to
+browsers or not. This may increase or decrease the performance, depending
+on your network.
+.PP
+
+.B storeFilterSettings
+.I true/false
+.PP
+The
+.I storeFilterSettings
+statement determines whether GOsa should store filter and plugin settings
+inside of a cookie.
+.PP
+
+.B language
+.I string
+.PP
+The
+.I language
+statement defines the default language used by GOsa. Normally GOsa autodetects
+the language from the browser settings. If this is not working or you want to
+force the language, just add the language code (i.e. de for german) here.
+.PP
+
+.B theme
+.I string
+.PP
+The
+.I theme
+statement defines what theme is used to display GOsa pages. You can install some
+corporate identity like theme and/or modify certain templates to fit your needs
+within themes. Take a look at the GOsa
+.I FAQ
+for more information.
+.PP
+
+.B sessionLifetime
+.I int
+.PP
+The
+.I sessionLifetime
+value defines when a session will expire in seconds. For Debian systems, this will
+not work because the sessions will be removed by a cron job instead. Please modify
+the value inside of your php.ini instead.
+.PP
+
+.B primaryGroupFilter
+.I bool
+.PP
+The
+.I primaryGroupFilter
+variable enables or disables the group filter to show primary user groups. It is
+time consuming to evaluate which groups are primary and which are not. So you may
+want to set it to
+.I true
+if your group plugin is slow.
+.PP
+
+.B iePngWorkaround
+.I bool
+.PP
+The
+.I iePngWorkaround
+variable enables or disables a workaround for IE < 7 in order to display transparent
+PNG files correctly. This drastically slows down browsing. Please use Firefox or Opera
+instead.
+.PP
+.PP
+
+
+.B Password options
+.PP
+.B passwordMinLength
+.I integer
+.PP
+The
+.I passwordMinLength
+statement determines whether a newly entered password has to be of
+a minimum length.
+.PP
+
+.B passwordMinDiffer
+.I integer
+.PP
+The
+.I passwordMinDiffer
+statement determines whether a newly entered password has to be checked
+to have at least n different characters.
+.PP
+
+.B passwordHook
+.I path
+.PP
+The
+.I passwordHook
+can specify an external script to handle password settings at some other
+location besides the LDAP. It will be called this way:
+
+.nf
+/path/to/your/script "username" "oldpassword" "newpassword"
+.fi
+
+.B handleExpiredAccounts
+.I bool
+.PP
+The
+.I handleExpiredAccounts
+statement enables shadow attribute tests during the login to the GOsa web
+interface and forces password renewal or account lockout.
+.PP
+
+.B useSaslForKerberos
+.I bool
+.PP
+The
+.I useSaslForKerberos
+statement defines the way the kerberos realm is stored in the
+.I userPassword
+attribute. Set it to
+.I true
+in order to get {sasl}user@REALM.NET, or to
+.I false
+to get {kerberos}user@REALM.NET. The latter is outdated, but may be
+needed from time to time.
+.PP
+.PP
+
+
+.B LDAP options
+.PP
+.B ldapMaxQueryTime
+.I integer
+.PP
+The
+.I ldapMaxQueryTime
+statement tells GOsa to stop LDAP actions if there is no answer within the
+specified number of seconds.
+.PP
+
+.B schemaCheck
+.I bool
+.PP
+The
+.I schemaCheck
+statement enables or disables schema checking during login. It is recommended
+to switch this on in order to let GOsa handle object creation more efficient.
+.PP
+
+.B ldapTLS
+.I bool
+.PP
+The
+.I ldapTLS
+statement enables or disables TLS operating on LDAP connections.
+.PP
+
+.B accountPrimaryAttribute
+.I cn/uid
+.PP
+The
+.I accountPrimaryAttribute
+option tells GOsa how to create new accounts. Possible values are
+.I uid
+and
+.I cn.
+In the first case GOsa creates uid style DN entries:
+.nf
+uid=superuser,ou=staff,dc=example,dc=net
+.fi
+In the second case, GOsa creates cn style DN entries:
+.nf
+cn=Foo Bar,ou=staff,dc=example,dc=net
+.fi
+If you choose "cn" to be your
+.I accountPrimaryAttribute
+you can decide whether to include the personal title in your dn by
+selecting
+.I personalTitleInDN.
+.PP
+
+.B accountRDN
+.I pattern
+.PP
+The
+.I accountRDN
+option tells GOsa to use a placeholder pattern for generating account
+RDNs. A pattern can include attribute names prefaced by a % and normal
+text:
+.nf
+accountRDN="cn=%sn %givenName"
+.fi
+This will generate a RDN consisting of cn=.... filled with surname and
+given name of the edited account. This option disables the use of
+.I accountPrimaryAttribute
+and
+.I personalTitleInDn
+in your config. The latter attributes are maintained for compatibility.
+
+
+.B personalTitleInDN
+.I bool
+.PP
+The
+.I personalTitleInDN
+option tells GOsa to include the personal title in user DNs when
+.I accountPrimaryAttribute
+is set to "cn".
+
+.B userRDN
+.I string
+.PP
+The
+.I userRDN
+statement defines the location where new accounts will be created inside of
+defined departments. The default is
+.I ou=people.
+.PP
+
+.B groupsRDN
+.I string
+.PP
+The
+.I groupsRDN
+statement defines the location where new groups will be created inside of
+defined departments. The default is
+.I ou=groups.
+.PP
+
+.B sudoRDN
+.I string
+.PP
+The
+.I sudoRDN
+statement defines the location where new groups will be created inside of
+defined departments. The default is
+.I ou=groups.
+.PP
+
+.B sambaMachineAccountRDN
+.I string
+.PP
+This statement defines the location where GOsa looks for new samba workstations.
+.PP
+
+.B ogroupRDN
+.I string
+.PP
+This statement defines the location where GOsa creates new object groups inside of defined
+departments. Default is
+.I ou=groups.
+.PP
+
+.B serverRDN
+.I string
+.PP
+This statement defines the location where GOsa creates new servers inside of defined
+departments. Default is
+.I ou=servers.
+.PP
+
+.B terminalRDN
+.I string
+.PP
+This statement defines the location where GOsa creates new terminals inside of defined
+departments. Default is
+.I ou=terminals.
+.PP
+
+.B workstationRDN
+.I string
+.PP
+This statement defines the location where GOsa creates new workstations inside of defined
+departments. Default is
+.I ou=workstations.
+.PP
+
+.B printerRDN
+.I string
+.PP
+This statement defines the location where GOsa creates new printers inside of defined
+departments. Default is
+.I ou=printers.
+.PP
+
+.B componentRDN
+.I string
+.PP
+This statement defines the location where GOsa creates new network components inside of defined
+departments. Default is
+.I ou=components.
+.PP
+
+.B phoneRDN
+.I string
+.PP
+This statement defines the location where GOsa creates new phones inside of defined
+departments. Default is
+.I ou=phones.
+.PP
+
+.B phoneConferenceRDN
+.I string
+.PP
+This statement defines the location where GOsa creates new phone conferences inside of defined
+departments. Default is
+.I ou=conferences.
+.PP
+
+.B faxBlocklistRDN
+.I string
+.PP
+This statement defines the location where GOsa creates new fax blocklists inside of defined
+departments. Default is
+.I ou=blocklists.
+.PP
+
+.B systemIncomingRDN
+.I string
+.PP
+This statement defines the location where GOsa looks for new systems to be joined to the LDAP.
+Default is
+.I ou=incoming.
+.PP
+
+.B systemRDN
+.I string
+.PP
+This statement defines the base location for servers, workstations, terminals, phones and
+components. Default is
+.I ou=systems.
+.PP
+
+.B ogroupRDN
+.I string
+.PP
+This statement defines the location where GOsa looks for object groups.
+Default is
+.I ou=groups.
+.PP
+
+.B aclRoleRDN
+.I string
+.PP
+This statement defines the location where GOsa stores ACL role definitions.
+Default is
+.I ou=aclroles.
+.PP
+
+.B phoneMacroRDN
+.I string
+.PP
+This statement defines the location where GOsa stores phone macros for use with the Asterisk
+phone server.
+Default is
+.I ou=macros,ou=asterisk,ou=configs,ou=systems.
+.PP
+
+.B faiBaseRDN
+.I string
+.PP
+This statement defines the location where GOsa looks for FAI settings.
+Default is
+.I ou=fai,ou=configs,ou=systems.
+.PP
+
+.B faiScriptRDN, faiHookRDN, faiTemplateRDN, faiVariableRDN, faiProfileRDN, faiPackageRDN, faiPartitionRDN 
+.I string
+.PP
+These statement define the location where GOsa stores FAI classes. The complete base for the
+corresponding class is an additive of
+.B faiBaseRDN
+an and this value.
+.PP
+
+.B deviceRDN
+.I string
+.PP
+This statement defines the location where GOsa looks for devices.
+Default is
+.I ou=devices.
+.PP
+
+.B mimetypeRDN
+.I string
+.PP
+This statement defines the location where GOsa stores mime type definitions.
+Default is
+.I ou=mimetypes.
+.PP
+
+.B applicationRDN
+.I string
+.PP
+This statement defines the location where GOsa stores application definitions.
+Default is
+.I ou=apps.
+.PP
+
+.B ldapFilterNestingLimit
+.I integer
+.PP
+The
+.I ldapFilterNestingLimit
+statement can be used to speed up group handling for groups with several hundreds of members.
+The default behaviour is, that GOsa will resolv the memberUid values in a group to real names.
+To achieve this, it writes a single filter to minimize searches. Some LDAP servers (namely
+Sun DS) simply crash when the filter gets too big. You can set a member limit, where GOsa will
+stop to do these lookups.
+.PP
+
+.B ldapSizelimit
+.I integer
+.PP
+The
+.I ldapSizelimit
+statement tells GOsa to retrieve the specified maximum number of results. The user will get
+a warning, that not all entries were shown.
+.PP
+
+.B ldapFollowReferrals
+.I bool
+.PP
+The
+.I ldapFollowReferrals
+statement tells GOsa to follow LDAP referrals.
+.PP
+.PP
+
+
+.B Account creation options
+.PP
+.B uidNumberBase
+.I integer
+.PP
+The
+.I uidNumberBase
+statement defines where to start looking for a new free user id. This should be synced
+with your
+.I adduser.conf
+to avoid overlapping uidNumber values between local and LDAP based lookups. The uidNumberBase
+can even be dynamic. Take a look at the
+.I baseIdHook
+definition below.
+.PP
+
+.B gidNumberBase
+.I integer
+.PP
+The
+.I gidNumberBase
+statement defines where to start looking for a new free group id. This should be synced
+with your
+.I adduser.conf
+to avoid overlapping gidNumber values between local and LDAP based lookups. The gidNumberBase
+can even be dynamic. Take a look at the
+.I nextIdHook
+definition below.
+.PP
+
+.B idAllocationMethod
+.I traditional/pool
+.PP
+The
+.I idAllocationMethod
+statement defines how GOsa generates numeric user and group id values. If it is set to
+.I traditional
+GOsa will do create a lock and perform a search for the next free ID. The lock will be
+removed after the procedure completes.
+.I pool
+will use the sambaUnixIdPool objectclass settings inside your LDAP. This one is unsafe,
+because it does not check for concurrent LDAP access and already used IDs in this range. 
+On the other hand it is much faster.
+.PP
+
+.B minId
+.I integer
+.PP
+The
+.I minId
+statement defines the minimum assignable user or group id to avoid security leaks with
+uid 0 accounts. This is used for the
+.I traditional
+method
+.PP
+
+.B uidNumberPoolMin/gidNumberPoolMin
+.I integer
+.PP
+The
+.I uidNumberPoolMin/gidNumberPoolMin
+statement defines the minimum assignable user/group id for use with the
+.I pool
+method.
+.PP
+
+.B uidNumberPoolMax/gidNumberPoolMax
+.I integer
+.PP
+The
+.I uidNumberPoolMin/gidNumberPoolMin
+statement defines the highest assignable user/group id for use with the
+.I pool
+method.
+.PP
+
+.B nextIdHook
+.I path
+.PP
+The
+.I nextIdHook
+statement defines a script to be called for finding the next free id for users or groups
+externaly. It gets called with the current entry "dn" and the attribute to be ID'd. It
+should return an integer value.
+.PP
+
+.B hash
+.I string
+.PP
+The
+.I hash
+statement defines the default password hash to choose for new accounts. Valid values are
+.I crypt/standard-des, crypt/md5, crypt/enhanced-des, crypt/blowfish, md5, sha, ssha, smd5, clear
+and
+.I sasl.
+These values will be overridden when using templates.
+.PP
+
+.B idGenerator
+.I string
+.PP
+The
+.I idGenerator
+statement describes an automatic way to generate new user ids. There are two basic
+functions supported - which can be combined:
+
+ a) using attributes
+
+    You can specify LDAP attributes (currently only sn and givenName) in
+    braces {} and add a percent sign befor it. Optionally you can strip it
+    down to a number of characters, specified in []. I.e.
+
+.nf
+      idGenerator="{%sn}-{%givenName[2-4]}"
+.fi
+
+    will generate an ID using the full surname, adding a dash, and adding at
+    least the first two characters of givenName. If this ID is used, it'll
+    use up to four characters. If no automatic generation is possible, a
+    input box is shown.
+
+ b) using automatic id's
+
+    I.e. specifying
+
+.nf
+      idGenerator="acct{id:3}"
+.fi
+
+    will generate a three digits id with the next free entry appended to
+    "acct".
+
+.nf
+      idGenerator="acct{id!1}"
+.fi
+
+    will generate a one digit id with the next free entry appended to
+    "acct" - if needed.
+
+.nf
+      idGenerator="ext{id#3}"
+.fi
+
+    will generate a three digits random number appended to "ext".
+.PP
+.PP
+
+
+.B Samba options
+.PP
+.B sambaSID
+.I string
+.PP
+The
+.I sambaSID
+statement defines a samba SID if not available inside of the LDAP. You can retrieve
+the current sid by
+.I net getlocalsid.
+.PP
+
+.B sambaRidBase
+.I integer
+.PP
+The
+.I sambaRidBase
+statement defines the base id to add to ordinary sid calculations - if not available
+inside of the LDAP.
+.PP
+
+.B sambaHashHook
+.I path
+.PP
+The
+.I sambaHashHook
+statement contains an executable to generate samba hash values. This is required
+for password synchronization, but not required if you apply gosa-si services.
+If you don't have mkntpasswd from the samba distribution installed, you can use
+perl to generate the hash:
+
+.nf
+perl \-MCrypt::SmbHash \-e "print join(q[:], ntlmgen \\$ARGV[0]), $/;"
+.if
+.PP
+
+.B sambaidmapping
+.I bool
+.PP
+The
+.I sambaidmapping
+statement tells GOsa to maintain sambaIdmapEntry objects. Depending on your
+setup this can drastically improve the windows login performance.
+.PP
+.PP
+
+.B Asterisk options
+.PP
+.B ctiHook
+.I path
+.PP
+The
+.I ctiHook
+statement defines a script to be executed if someone clicks on a phone number
+inside of the addressbook plugin. It gets called with two parameters:
+
+.nf
+ctiHook $source_number $destination_number
+.fi
+
+This script can be used to do automatted dialing from the addressbook.
+.PP
+.PP
+
+.B Mail options
+.PP
+.B mailMethod
+.I Cyrus/SendmailCyrus/Kolab/Kolab22
+.PP
+The
+.I mailMethod
+statement tells GOsa which mail method the setup should use to communicate
+with a possible mail server. Leave this undefined if your mail method does
+not match the predefined ones.
+
+.I Cyrus
+maintains accounts and sieve scripts in cyrus servers.
+.I Kolab/Kolab22
+is like cyrus, but lets the kolab daemon maintain the accounts.
+.I SendmailCyrus is based on sendmail LDAP attributes.
+.PP
+
+.B cyrusUseSlashes
+.I bool
+.PP
+The
+.I cyrusUseSlashes
+statement determines if GOsa should use "foo/bar" or "foo.bar" namespaces
+in IMAP. Unix style is with slashes.
+
+.B cyrusDeleteMailbox
+.I bool
+.PP
+The
+.I cyrusDeleteMailbox
+statement determines if GOsa should remove the mailbox from your IMAP
+server or keep it after the account is deleted in LDAP.
+
+.B cyrusAutocreateFolders
+.I string
+.PP
+The
+.I cyrusAutocreateFolders
+statement contains a comma separated list of personal IMAP folders that
+should be created along initial account creation.
+
+.B postfixRestrictionFilters
+.I path
+.PP
+The
+.I postfixRestrictionFilters
+statement defines a file to include for the postfix module in order
+to display user defined restriction filters.
+
+.B postfixProtocols
+.I path
+.PP
+The
+.I postfixProtocols
+statement defines a file to include for the postfix module in order
+to display user defined protocols.
+
+.B mailAttribute
+.I mail/uid
+.PP
+The
+.I mailAttribute
+statement determines which attribute GOsa will use to create accounts.
+Valid values are
+.I mail
+and
+.I uid.
+
+.B imapTimeout
+.I Integer (default 10) 
+.PP
+The
+.I imapTimeout
+statement sets the connection timeout for imap actions.
+
+.B mailFolderCreation
+Every mail method has its own way to create mail accounts like 
+.I share/development
+or 
+.I shared.development@example.com
+which is used to identify the accounts, set quotas or add acls. 
+
+To override the methods default account creation syntax, you can set the
+.I mailFolderCreation
+option.
+
+.I Examples
+
+.nf
+ mailFolderCreation="%prefix%%cn%"              => "shared.development"
+ mailFolderCreation="my-prefix.%cn%%domain%"    => "my-prefix.development@example.com">
+.fi
+
+.I Placeholders
+
+.nf
+ %prefix%    The methods default prefix. (Depends on cyrusUseSlashes=FALSE/TRUE)
+ %cn%        The groups/users cn.
+ %uid%       The users uid.
+ %mail%      The objects mail attribute.
+ %domain%    The domain part of the objects mail attribute.
+ %mailpart%  The user address part of the mail address.
+ %uattrib%   Depends on mailAttribute="uid/mail".
+.fi
+
+
+.B mailUserCreation
+This attribute allows to override the user account creation syntax, see
+the
+.I mailFolderCreation
+description for more details. 
+
+.I Examples
+
+.nf
+ mailUserCreation="%prefix%%uid%"           => "user.foobar"
+ mailUserCreation=my-prefix.%uid%%domain%"  => "my-prefix.foobar@example.com"
+.fi
+
+
+.B vacationTemplateDirectory
+.I path
+.PP
+The
+.I vacationTemplateDirectory
+statement sets the path where GOsa will look for vacation message
+templates. Default is /etc/gosa/vacation.
+
+Example template /etc/gosa/vacation/business.txt:
+
+.nf
+   DESC:Away from desk
+   Hi, I'm currently away from my desk. You can contact me on
+   my cell phone via %mobile.
+
+   Greetings,
+   %givenName %sn
+.fi
+.PP
+
+
+.B Debug options
+.PP
+.B displayerrors
+.I bool
+.PP
+The
+.I displayerrors
+statement tells GOsa to show PHP errors in the upper part of the screen. This
+should be disabled in productive deployments, because there might be some
+important passwords arround.
+.PP
+
+.B ldapstats
+.I bool
+.PP
+The
+.I ldapstats
+statement tells GOsa to track LDAP timing statistics to the syslog. This may
+help to find indexing problems or bad search filters.
+.PP
+
+.B ignoreAcl
+.I dn
+.PP
+The
+.I ignoreAcl
+value tells GOsa to ignore complete ACL sets for the given DN. Add your
+DN here and you'll be able to restore accidently dropped ACLs.
+.PP
+
+.B debuglevel
+.I integer
+.PP
+The
+.I debuglevel
+value tells GOsa to display certain information on each page load. Value
+is an AND combination of the following byte values:
+
+DEBUG_TRACE   = 1
+
+DEBUG_LDAP    = 2
+
+DEBUG_MYSQL   = 4
+
+DEBUG_SHELL   = 8
+
+DEBUG_POST    = 16
+
+DEBUG_SESSION = 32
+
+DEBUG_CONFIG  = 64
+
+DEBUG_ACL     = 128
+
+DEBUG_SI      = 256
+
+DEBUG_MAIL    = 512
+.PP
+
+
+.SH LDAP resource definition
+
+For every location you define inside your gosa.conf, you need at least
+one entry of the type
+.I referral.
+These entries define the way how to connect to some directory service.
+
+.B Example:
+
+.nf
+  <referral uri="ldap://ldap.example.net/dc=example,dc=net"
+            admin="cn=gosa-admin,dc=example,dc=net"
+            password="secret" />
+.fi
+
+.I uri
+is a valid LDAP uri extendet by the base this referral is responsible for.
+.I admin
+is the DN which has the permission to write LDAP entries. And
+.I password
+is the corresponding password for this DN.
+
+You can define a set of referrals if you have several server to
+connect to.
+
+.SH Settings for the environment plugin
+
+In order to make full use of the environment plugin, you may want
+to define the location where kiosk profiles will be stored on the
+servers harddisk.
+
+This is done by the
+.I kioskPath
+keyword defined within the
+.I environment
+class definition inside your gosa.conf.
+
+.B Example:
+
+.nf
+  <plugin acl="users/environment"
+          class="environment"
+          kioskPath="/var/spool/kiosk"/>
+.fi
+
+Make sure, that this path is writeable by GOsa.
+
+.SH Settings for the FAI plugin
+
+The FAI plugin can be used in a way that it generates branched or
+freezed releases inside your repository. Specifying the
+.I postcreate
+and
+.I postmodify
+keywords in the
+.I servrepository
+definition, calls the provided script as a hook when adding or
+removing branches. This script should do the rest inside of your
+repository.
+
+.B Example:
+
+.nf
+  <tab class="servrepository" 
+          repositoryBranchHook="/opt/dak/bin/get_extra_repos"
+          postcreate="/opt/dak/bin/handle_repository '%lock_dn' '%lock_name' '%lock_type' />
+.fi
+
+.I %lock_dn
+keeps the base DN of the source branch,
+.I %lock_name
+the name of the new branch and
+.I %lock_type
+is either "freeze" or "branch".
+
+The
+.I repositoryBranchHook
+outputs additional releases, that are not retrieveable with the standard
+GOsa/FAI methods.
+
+If you have only one release, or want to define a default release to be shown
+by GOsa, define the
+.I defaultFaiRelease="ou=sarge,ou=fai,ou=configs,ou=syst..."
+within the 
+.I faiManagement
+class definition
+
+.SH Settings for the addressbook plugin
+
+The addressbook plugin can be configured to store the addressbook data on
+a special location. Use the
+.I addressbookBaseDN
+keyword within the
+.I addressbook
+class definition inside your gosa.conf to configure this location.
+
+Default:
+.I ou=addressbook.
+
+.SH Settings for system plugins
+For the
+.I workstationStartup
+and
+.I terminalStartup
+classes, you can define the
+.I systemKernelsHook
+keyword. It can load additional kernels that are not retrieveable by
+standard GOsa/FAI mechanisms.
+
+In order to make use of SNMP information, you can set the
+.I snmpCommunity
+in the
+.I terminfo
+class definition.
+
+To enable the burn CD image function, you can specify the
+.I systemIsoHook
+in the
+.I workgeneric
+class. You will get a CD symbol in the systems list - which calls
+the hook if pressed.
+
+.SH AUTHOR
+.B gosa.conf(5)
+was written by Cajus Pollmeier for
+the GOsa project (
+.B http://www.gosa-project.org
+).

@@ -1,0 +1,36 @@
+# GOsa desktop file installer.
+# Copyright (C) 2007 Cajus Pollmeier <cajus@debian.org>
+# This file is distributed under the same license as the gosa-desktop package.
+# Cajus Pollmeier <cajus@debian.org>, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gosa\n"
+"Report-Msgid-Bugs-To: cajus@debian.org\n"
+"POT-Creation-Date: 2007-06-27 10:59+0200\n"
+"PO-Revision-Date: 2007-10-25 19:19+0100\n"
+"Last-Translator: Bart Cornelis <cobaco@skolelinux.no>\n"
+"Language-Team: debian-l10n-dutch <debian-l10n-dutch@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Dutch\n"
+
+#. Type: string
+#. Description
+#: ../gosa-desktop.templates:1001
+msgid "URL to your GOsa installation:"
+msgstr "URL naar uw GOsa-installatie:"
+
+#. Type: string
+#. Description
+#: ../gosa-desktop.templates:1001
+msgid "The gosa start script can automatically point your browser to a system wide default location of your GOsa instance."
+msgstr "Het gosa-startscript kan uw browser automatisch naar een systeemwijde standaardlocatie van uw GOsa-instantie wijzen."
+
+#. Type: string
+#. Description
+#: ../gosa-desktop.templates:1001
+msgid "Enter the URL in order to set this default."
+msgstr "Om deze standaardwaarde in te stellen dient u hier de URL ervan in te voeren."
+

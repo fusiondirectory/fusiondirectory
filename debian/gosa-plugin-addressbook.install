@@ -1,0 +1,6 @@
+addressbook/addons			/usr/share/gosa/plugins
+addressbook/help			/usr/share/gosa/doc/plugins/addressbook
+addressbook/help/guide.xml		/usr/share/gosa/doc/plugins/addressbook
+addressbook/locale			/usr/share/gosa/locale/plugins/addressbook
+addressbook/html/getvcard.php		/usr/share/gosa/html/plugins/addressbook
+addressbook/html/images			/usr/share/gosa/html/plugins/addressbook

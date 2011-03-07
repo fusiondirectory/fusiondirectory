@@ -1,0 +1,4 @@
+opsi/admin			/usr/share/gosa/plugins
+opsi/help/guide.xml		/usr/share/gosa/doc/plugins/opsi
+opsi/locale			/usr/share/gosa/locale/plugins/opsi
+opsi/html/images		/usr/share/gosa/html/plugins/opsi

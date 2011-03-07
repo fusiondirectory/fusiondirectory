@@ -1,0 +1,3 @@
+uw-imap/personal	/usr/share/gosa/plugins
+uw-imap/locale		/usr/share/gosa/locale/plugins/uw-imap
+uw-imap/contrib		/usr/share/doc/gosa-plugin-uw-imap

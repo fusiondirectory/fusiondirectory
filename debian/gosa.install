@@ -1,0 +1,14 @@
+gosa-core/update-gosa			/usr/sbin
+gosa-core/bin/gosa-encrypt-passwords	/usr/sbin
+gosa-core/html				/usr/share/gosa
+gosa-core/ihtml				/usr/share/gosa
+gosa-core/include			/usr/share/gosa
+gosa-core/locale			/usr/share/gosa
+gosa-core/plugins			/usr/share/gosa
+gosa-core/setup				/usr/share/gosa
+debian/gosa-apache.conf			/etc/gosa
+debian/gosa-lighttpd.conf		/etc/gosa
+gosa-core/contrib/shells		/etc/gosa
+gosa-core/contrib/encodings		/etc/gosa
+gosa-core/contrib/openldap/slapd.conf	/usr/share/doc/gosa/slapd.conf-example
+gosa-core/contrib/gosa.conf		/usr/share/doc/gosa

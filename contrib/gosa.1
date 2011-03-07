@@ -1,0 +1,41 @@
+.TH gosa 1
+.SH NAME
+gosa \- start script for the GOsa web interface
+.SH SYNOPSIS
+.PP
+.B gosa
+[
+URL
+]
+.SH DESCRIPTION
+Start the 
+.B GOsa
+web interface using a gecko based browser and generate
+a special browser profile for
+.B GOsa
+usage. This profile will disable
+normal style browser navigation and URL fields.
+.SH OPTIONS
+.TP
+.BR URL
+Open this URL when launching the browser with the GOsa profile. This
+option is optional and may be preset by the
+.B configuration
+files.
+.SH "RETURN VALUE"
+The script return zero values on success.
+.SH EXAMPLES
+.B gosa
+https://admin.example.net
+.SH FILES
+Presetting the URL works by placing something like
+.B URL="http://admin.example.net"
+inside one of these files:
+.br
+.nf
+.\" set tabstop to longest possible filename, plus a wee bit
+.ta \w'/usr/lib/perl/getopts.pl   'u
+\fI/etc/gosa/desktoprc\fR	system wide setting
+\fI$HOME/.gosa-desktop\fR	user specific setting
+.SH AUTHOR
+Cajus Pollmeier <cajus@debian.org>

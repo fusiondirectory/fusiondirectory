@@ -1,0 +1,4 @@
+connectivity/personal			/usr/share/gosa/plugins
+connectivity/help/guide.xml		/usr/share/gosa/doc/plugins/connectivity
+connectivity/locale			/usr/share/gosa/locale/plugins/connectivity
+connectivity/html/images		/usr/share/gosa/html/plugins/connectivity

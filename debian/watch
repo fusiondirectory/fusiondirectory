@@ -1,0 +1,3 @@
+version=3
+
+http://oss.gonicus.de/pub/gosa/gosa-(.*)\.tar\.gz

@@ -1,0 +1,59 @@
+dn: cn={9}gofax
+objectClass: olcSchemaConfig
+cn: {9}gofax
+olcAttributeTypes: {0}( 1.3.6.1.4.1.10098.1.1.7.1 NAME 'goFaxDeliveryMode' DES
+ C 'goFax delivery mode is defined here' EQUALITY caseExactIA5Match SUBSTR cas
+ eExactIA5SubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE )
+olcAttributeTypes: {1}( 1.3.6.1.4.1.10098.1.1.7.2 NAME 'goFaxPrinter' DESC 'de
+ fines which printer is used to print a fax' EQUALITY caseExactIA5Match SUBSTR
+  caseExactIA5SubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALU
+ E )
+olcAttributeTypes: {2}( 1.3.6.1.4.1.10098.1.1.7.3 NAME 'goFaxDivertNumber' DES
+ C 'for fax diversion services' SYNTAX 1.3.6.1.4.1.1466.115.121.1.22 SINGLE-VA
+ LUE )
+olcAttributeTypes: {3}( 1.3.6.1.4.1.10098.1.1.7.4 NAME 'goFaxLanguage' DESC 'p
+ referred language for the users goFax entry' EQUALITY caseExactIA5Match SUBST
+ R caseExactIA5SubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VAL
+ UE )
+olcAttributeTypes: {4}( 1.3.6.1.4.1.10098.1.1.7.5 NAME 'goFaxFormat' DESC 'def
+ ines the fileformat for mailattachments' EQUALITY caseExactIA5Match SUBSTR ca
+ seExactIA5SubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE )
+olcAttributeTypes: {5}( 1.3.6.1.4.1.10098.1.1.7.6 NAME 'goFaxRBlocklist' DESC 
+ 'defines faxnumbers the user is not allowed to get fax from' EQUALITY caseExa
+ ctIA5Match SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+olcAttributeTypes: {6}( 1.3.6.1.4.1.10098.1.1.7.8 NAME 'goFaxSBlocklist' DESC 
+ 'defines faxnumbers the user is not allowed to fax to' EQUALITY caseExactIA5M
+ atch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+olcAttributeTypes: {7}( 1.3.6.1.4.1.10098.1.1.7.7 NAME 'goFaxRBlockgroups' DES
+ C 'defines groups of receive blocklists the user belongs to' EQUALITY caseExa
+ ctIA5Match SUBSTR caseExactIA5SubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121
+ .1.26 )
+olcAttributeTypes: {8}( 1.3.6.1.4.1.10098.1.1.7.9 NAME 'goFaxSBlockgroups' DES
+ C 'defines groups of sender blocklists the user belongs to' EQUALITY caseExac
+ tIA5Match SUBSTR caseExactIA5SubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.
+ 1.26 )
+olcAttributeTypes: {9}( 1.3.6.1.4.1.10098.1.1.7.10 NAME 'goFaxIsEnabled' DESC 
+ 'This account is enabled or not' EQUALITY caseExactIA5Match SUBSTR caseExactI
+ A5SubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE )
+olcAttributeTypes: {10}( 1.3.6.1.4.1.10098.1.1.7.11 NAME 'facsimileAlternateTe
+ lephoneNumber' EQUALITY telephoneNumberMatch SUBSTR telephoneNumberSubstrings
+ Match SYNTAX 1.3.6.1.4.1.1466.115.121.1.50{32} )
+olcObjectClasses: {0}( 1.3.6.1.4.1.10098.1.2.1.11 NAME 'goFaxAccount' DESC 'go
+ Fax Account objectclass (v1.0.4)' SUP top AUXILIARY MUST ( goFaxDeliveryMode 
+ $ facsimileTelephoneNumber $ uid $ goFaxIsEnabled ) MAY ( goFaxPrinter $ goFa
+ xDivertNumber $ goFaxLanguage $ goFaxFormat $ goFaxRBlocklist $ goFaxRBlockgr
+ oups $ goFaxSBlocklist $ goFaxSBlockgroups $ mail $ facsimileAlternateTelepho
+ neNumber ) )
+olcObjectClasses: {1}( 1.3.6.1.4.1.10098.1.2.1.12 NAME 'goFaxSBlock' DESC 'goF
+ ax send blocklist groups (v1.0.4)' STRUCTURAL MUST cn MAY ( goFaxSBlocklist $
+  description ) )
+olcObjectClasses: {2}( 1.3.6.1.4.1.10098.1.2.1.13 NAME 'goFaxRBlock' DESC 'goF
+ ax receive blocklist groups (v1.0.4)' STRUCTURAL MUST cn MAY ( goFaxRBlocklis
+ t $ description ) )
+structuralObjectClass: olcSchemaConfig
+entryUUID: fbaf77bc-f065-102e-9609-79233977c302
+creatorsName: cn=config
+createTimestamp: 20100510095600Z
+entryCSN: 20100510095600.855485Z#000000#000#000000
+modifiersName: cn=config
+modifyTimestamp: 20100510095600Z

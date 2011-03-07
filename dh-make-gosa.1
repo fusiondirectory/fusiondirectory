@@ -1,0 +1,89 @@
+.TH DH-MAKE-GOSA 1 "2008-04-07" "GOsa v2.6" "Debian"
+.SH NAME
+dh-make-gosa \- Debianizes the source of a given gosa plugin
+.SH SYNOPSIS
+.B dh-make-gosa [OPTION]...
+.B SOURCE
+.SH DESCRIPTION
+.B dh-make-gosa
+takes a directory or tar ball of an existing gosa plugin
+and adds debian information to it. Feel free to use
+.I dpkg-buildpackage
+to generate your own gosa-plugin package from source or
+svn and enable it in the
+.BR gosa.conf (5)
+file to activate it.
+.SH OPTIONS
+.\"[-r|--release release] [--section section] [-e|--email mail] [--depends] plugin-dir|plugin.tar.gz
+
+.IP "-r debian-release, --release debian-release"
+Set the Debian release to
+.B debian-release
+when generating the Debian tree. Default is the
+.I unstable
+release.
+
+.IP "--dest destination-directory"
+Place where
+.B dh-make-gosa
+will place its working data while generating the source directory.
+Defaults to the current directory.
+
+.IP "--section debian-section"
+Set the Debian section to
+.B debian-section
+when generating the Debian tree.  Defaults to the the
+.I web
+section.
+
+.IP "--depends package,package,..."
+Add additional dependencies to the Debian tree which did not get
+listed in the
+.I plugin.dsc
+file. This is a comma separated list of Debian package names.
+
+.IP "-e mail, --email mail"
+Overrides the Debian packager defined inside the
+.I plugin.dsc
+file by the one specified by
+.B mail.
+
+.SH Example usage
+
+.nf
+# Check out a plugin from SVN
+svn co https://oss.gonicus.de/repositories/gosa/trunk/gosa-plugins/samba /tmp/samba
+
+# Debianize the tree
+cd /tmp
+dh-make-gosa --email cajus@debian.org --release etch --section web samba
+
+# Build debian package
+cd samba
+dpkg-buildpackage \-uc \-us \-rfakeroot
+.fi
+
+To build everything from the subversion repository which is GOsa related, please
+take a look at the contributed
+.B make-gosa-package
+script.
+
+.SH AUTHOR
+Cajus Pollmeier <cajus@debian.org>
+
+.SH BUGS
+
+Please report any bugs, or post any suggestions, to the GOsa mailing list <gosa-devel@oss.gonicus.de> or to <https://oss.gonicus.de/labs/gosa>
+
+
+.SH LICENCE AND COPYRIGHT
+
+This code is part of GOsa (<http://www.gosa-project.org>)
+
+Copyright (C) 2003-2010 GONICUS GmbH
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
