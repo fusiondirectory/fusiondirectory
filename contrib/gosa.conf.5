@@ -1,20 +1,20 @@
-.TH gosa.conf 5 "2008-04-07" "GOsa 2.6"
+.TH fusiondirectory.conf 5 "2008-04-07" "FusionDirectory 1.0"
 .SH NAME
-gosa.conf - GOsa configuration file
+fusiondirectory.conf - FusionDirectory configuration file
 .SH DESCRIPTION
-The gosa.conf file contains configuration information for
-.IR GOsa,
+The fusiondirectory.conf file contains configuration information for
+.IR FusionDirectory,
 a powerful GPL'ed framework for managing accounts and systems in
 LDAP databases.
 .PP
-The gosa.conf file is a XML style configuration file. It is parsed by
-the GOsa web application during log in.  The file may contain
+The fusiondirectory.conf file is a XML style configuration file. It is parsed by
+the FusionDirectory web application during log in.  The file may contain
 extra tabs and newlines for formatting purposes.  Tag keywords in the
 file are case-insensitive. Comments should be placed outside of XML
 tags and should be encapsulated inside of <!-- --> tags.
 .PP
-The gosa.conf file can be used to configure the look and feel, behaviour
-and access control of the GOsa webinterface.
+The fusiondirectory.conf file can be used to configure the look and feel, behaviour
+and access control of the FusionDirectory webinterface.
 .SH Configuration layout
 
 The configuration has to be specified inside of the <conf> tags. It
@@ -76,14 +76,14 @@ tag including a
 .I "class"
 attribute. The 
 .I "class" 
-should be present inside your GOsa setup - the entry will be ignored if it is not.
+should be present inside your FusionDirectory setup - the entry will be ignored if it is not.
 
 Plugins should have an 
 .I "acl"
-entry, that allows GOsa to decide wether a user is allowed to see a plugin or not.
+entry, that allows FusionDirectory to decide wether a user is allowed to see a plugin or not.
 The 
 .I "acl"
-string matches with an ACL definition done inside of GOsa.
+string matches with an ACL definition done inside of FusionDirectory.
 
 You can override an icon by specifying the 
 .I "icon"
@@ -121,7 +121,7 @@ or
 button. The complete LDAP entry as it will be written to the
 LDAP is passed to your script. If parts of the entry do not
 match some logic of your script, just print an error message
-to STDOUT. GOsa will show this message and abort the current
+to STDOUT. FusionDirectory will show this message and abort the current
 process of saving the entry to the LDAP.
 
 .B Example menu definition:
@@ -181,7 +181,7 @@ each location definition inside of this global definition.
                   ...
 
                   <referral uri="ldaps://ldap.example.net:636/dc=example,dc=net"
-                            admin="cn=gosa-admin,dc=example,dc=net"
+                            admin="cn=fusiondirectory-admin,dc=example,dc=net"
                             password="secret" />
 
         </location>
@@ -209,7 +209,7 @@ be switched off.
 The
 .I forceSSL
 statement enables PHP security checks to force encrypted access to the web
-interface. GOsa will try to redirect to the same URL - just with https://.
+interface. FusionDirectory will try to redirect to the same URL - just with https://.
 .PP
 
 .B warnSSL
@@ -218,7 +218,7 @@ interface. GOsa will try to redirect to the same URL - just with https://.
 The
 .I warnSSL
 statement enables PHP security checks to detect non encrypted access to
-the web interface. GOsa will display a warning in this case.
+the web interface. FusionDirectory will display a warning in this case.
 .PP
 
 .B modificationDetectionAttribute
@@ -226,8 +226,8 @@ the web interface. GOsa will display a warning in this case.
 .PP
 The
 .I modificationDetectionAttribute
-statement enables GOsa to check if a entry currently being edited has
-been modified from someone else outside GOsa in the meantime. It will
+statement enables FusionDirectory to check if a entry currently being edited has
+been modified from someone else outside FusionDirectory in the meantime. It will
 display an informative dialog then. It can be set to
 .I entryCSN
 for OpenLDAP based systems or
@@ -240,13 +240,13 @@ for Sun DS based systems.
 .PP
 The
 .I logging
-statement enables event logging on GOsa side. Setting it to 
+statement enables event logging on FusionDirectory side. Setting it to 
 .I true,
-GOsa will log every action a user performs via syslog. If you use
+FusionDirectory will log every action a user performs via syslog. If you use
 rsyslog and configure it to mysql logging, you can browse all events
-within GOsa.
+within FusionDirectory.
 
-GOsa will not log anything, if the logging value is empty or set to
+FusionDirectory will not log anything, if the logging value is empty or set to
 false.
 .PP
 
@@ -255,7 +255,7 @@ false.
 .PP
 The
 .I loginAttribute
-statement tells GOsa which LDAP attribute is used as the login name
+statement tells FusionDirectory which LDAP attribute is used as the login name
 during login. It can be set to
 .I uid, mail
 or
@@ -267,7 +267,7 @@ or
 .PP
 The
 .I copyPaste
-statement enables copy and paste for LDAP entries managed with GOsa.
+statement enables copy and paste for LDAP entries managed with FusionDirectory.
 .PP
 
 .B snapshots
@@ -275,7 +275,7 @@ statement enables copy and paste for LDAP entries managed with GOsa.
 .PP
 The
 .I snapshots
-statement enables a snapshot mechaism in GOsa. This enables you to save
+statement enables a snapshot mechaism in FusionDirectory. This enables you to save
 certain states of entries and restore them later on.
 .PP
 
@@ -324,7 +324,7 @@ in order to authenticate.
 .PP
 The
 .I config
-statement defines the LDAP base, where GOsa stores management information,
+statement defines the LDAP base, where FusionDirectory stores management information,
 such as site wide locking and user notifications.
 .PP
 
@@ -335,7 +335,7 @@ The
 .I templateCompileDirectory
 statements defines the path, where the PHP templating engins
 .I smarty
-should store its compiled GOsa templates for improved speed. This path
+should store its compiled FusionDirectory templates for improved speed. This path
 needs to be writeable by the user your webserver is running with.
 .PP
 
@@ -344,7 +344,7 @@ needs to be writeable by the user your webserver is running with.
 .PP
 The
 .I timezone
-statements defines the timezone used inside of GOsa to handle date
+statements defines the timezone used inside of FusionDirectory to handle date
 related tasks, such as password expiery, vacation messages, etc.
 The
 .I timezone
@@ -356,7 +356,7 @@ value should be a unix conform timezone value like in /etc/timezone.
 .PP
 The
 .I honourIvbbAttributes
-statement enables the IVBB mode inside of GOsa. You need the ivbb.schema
+statement enables the IVBB mode inside of FusionDirectory. You need the ivbb.schema
 file from used by german authorities.
 .PP
 
@@ -379,7 +379,7 @@ statement enables checking of
 .I unitTag
 attributes when using administrative units. If this is set to
 .I true
-GOsa can only see objects inside the administrative unit a
+FusionDirectory can only see objects inside the administrative unit a
 user is logged into.
 .PP
 
@@ -388,7 +388,7 @@ user is logged into.
 .PP
 The
 .I rfc2307bis
-statement enables rfc2307bis style groups in GOsa. You can use
+statement enables rfc2307bis style groups in FusionDirectory. You can use
 .I member
 attributes instead of memberUid in this case. To make it work
 on unix systems, you've to adjust your NSS configuration to
@@ -417,16 +417,16 @@ to be shown in the environment and system plugins.
 .PP
 The
 .I htaccessAuthentication
-variable tells GOsa to use either htaccess authentication or LDAP authentication. This
+variable tells FusionDirectory to use either htaccess authentication or LDAP authentication. This
 can be used if you want to use i.e. kerberos to authenticate the users.
 .PP
 
-.B gosaSupportURI
+.B fusiondirectorySupportURI
 .I URI
 .PP
 The
-.I gosaSupportURI
-defines the major gosa-si server host and the password for GOsa to connect to it.
+.I fusiondirectorySupportURI
+defines the major goto-si server host and the password for FusionDirectory to connect to it.
 can be used if you want to use i.e. kerberos to authenticate the users.
 
 The format is:
@@ -445,7 +445,7 @@ credentials@host:port
 The
 .I listSummary
 statement determines whether a status bar will be shown on the bottom of
-GOsa generated lists, displaying a short summary of type and number of
+FusionDirectory generated lists, displaying a short summary of type and number of
 elements in the list.
 .PP
 
@@ -473,7 +473,7 @@ on your network.
 .PP
 The
 .I storeFilterSettings
-statement determines whether GOsa should store filter and plugin settings
+statement determines whether FusionDirectory should store filter and plugin settings
 inside of a cookie.
 .PP
 
@@ -482,7 +482,7 @@ inside of a cookie.
 .PP
 The
 .I language
-statement defines the default language used by GOsa. Normally GOsa autodetects
+statement defines the default language used by FusionDirectory. Normally FusionDirectory autodetects
 the language from the browser settings. If this is not working or you want to
 force the language, just add the language code (i.e. de for german) here.
 .PP
@@ -492,9 +492,9 @@ force the language, just add the language code (i.e. de for german) here.
 .PP
 The
 .I theme
-statement defines what theme is used to display GOsa pages. You can install some
+statement defines what theme is used to display FusionDirectory pages. You can install some
 corporate identity like theme and/or modify certain templates to fit your needs
-within themes. Take a look at the GOsa
+within themes. Take a look at the FusionDirectory
 .I FAQ
 for more information.
 .PP
@@ -570,7 +570,7 @@ location besides the LDAP. It will be called this way:
 .PP
 The
 .I handleExpiredAccounts
-statement enables shadow attribute tests during the login to the GOsa web
+statement enables shadow attribute tests during the login to the FusionDirectory web
 interface and forces password renewal or account lockout.
 .PP
 
@@ -598,7 +598,7 @@ needed from time to time.
 .PP
 The
 .I ldapMaxQueryTime
-statement tells GOsa to stop LDAP actions if there is no answer within the
+statement tells FusionDirectory to stop LDAP actions if there is no answer within the
 specified number of seconds.
 .PP
 
@@ -608,7 +608,7 @@ specified number of seconds.
 The
 .I schemaCheck
 statement enables or disables schema checking during login. It is recommended
-to switch this on in order to let GOsa handle object creation more efficient.
+to switch this on in order to let FusionDirectory handle object creation more efficient.
 .PP
 
 .B ldapTLS
@@ -624,15 +624,15 @@ statement enables or disables TLS operating on LDAP connections.
 .PP
 The
 .I accountPrimaryAttribute
-option tells GOsa how to create new accounts. Possible values are
+option tells FusionDirectory how to create new accounts. Possible values are
 .I uid
 and
 .I cn.
-In the first case GOsa creates uid style DN entries:
+In the first case FusionDirectory creates uid style DN entries:
 .nf
 uid=superuser,ou=staff,dc=example,dc=net
 .fi
-In the second case, GOsa creates cn style DN entries:
+In the second case, FusionDirectory creates cn style DN entries:
 .nf
 cn=Foo Bar,ou=staff,dc=example,dc=net
 .fi
@@ -648,7 +648,7 @@ selecting
 .PP
 The
 .I accountRDN
-option tells GOsa to use a placeholder pattern for generating account
+option tells FusionDirectory to use a placeholder pattern for generating account
 RDNs. A pattern can include attribute names prefaced by a % and normal
 text:
 .nf
@@ -667,7 +667,7 @@ in your config. The latter attributes are maintained for compatibility.
 .PP
 The
 .I personalTitleInDN
-option tells GOsa to include the personal title in user DNs when
+option tells FusionDirectory to include the personal title in user DNs when
 .I accountPrimaryAttribute
 is set to "cn".
 
@@ -704,13 +704,13 @@ defined departments. The default is
 .B sambaMachineAccountRDN
 .I string
 .PP
-This statement defines the location where GOsa looks for new samba workstations.
+This statement defines the location where FusionDirectory looks for new samba workstations.
 .PP
 
 .B ogroupRDN
 .I string
 .PP
-This statement defines the location where GOsa creates new object groups inside of defined
+This statement defines the location where FusionDirectory creates new object groups inside of defined
 departments. Default is
 .I ou=groups.
 .PP
@@ -718,7 +718,7 @@ departments. Default is
 .B serverRDN
 .I string
 .PP
-This statement defines the location where GOsa creates new servers inside of defined
+This statement defines the location where FusionDirectory creates new servers inside of defined
 departments. Default is
 .I ou=servers.
 .PP
@@ -726,7 +726,7 @@ departments. Default is
 .B terminalRDN
 .I string
 .PP
-This statement defines the location where GOsa creates new terminals inside of defined
+This statement defines the location where FusionDirectory creates new terminals inside of defined
 departments. Default is
 .I ou=terminals.
 .PP
@@ -734,7 +734,7 @@ departments. Default is
 .B workstationRDN
 .I string
 .PP
-This statement defines the location where GOsa creates new workstations inside of defined
+This statement defines the location where FusionDirectory creates new workstations inside of defined
 departments. Default is
 .I ou=workstations.
 .PP
@@ -742,7 +742,7 @@ departments. Default is
 .B printerRDN
 .I string
 .PP
-This statement defines the location where GOsa creates new printers inside of defined
+This statement defines the location where FusionDirectory creates new printers inside of defined
 departments. Default is
 .I ou=printers.
 .PP
@@ -750,7 +750,7 @@ departments. Default is
 .B componentRDN
 .I string
 .PP
-This statement defines the location where GOsa creates new network components inside of defined
+This statement defines the location where FusionDirectory creates new network components inside of defined
 departments. Default is
 .I ou=components.
 .PP
@@ -758,7 +758,7 @@ departments. Default is
 .B phoneRDN
 .I string
 .PP
-This statement defines the location where GOsa creates new phones inside of defined
+This statement defines the location where FusionDirectory creates new phones inside of defined
 departments. Default is
 .I ou=phones.
 .PP
@@ -766,7 +766,7 @@ departments. Default is
 .B phoneConferenceRDN
 .I string
 .PP
-This statement defines the location where GOsa creates new phone conferences inside of defined
+This statement defines the location where FusionDirectory creates new phone conferences inside of defined
 departments. Default is
 .I ou=conferences.
 .PP
@@ -774,7 +774,7 @@ departments. Default is
 .B faxBlocklistRDN
 .I string
 .PP
-This statement defines the location where GOsa creates new fax blocklists inside of defined
+This statement defines the location where FusionDirectory creates new fax blocklists inside of defined
 departments. Default is
 .I ou=blocklists.
 .PP
@@ -782,7 +782,7 @@ departments. Default is
 .B systemIncomingRDN
 .I string
 .PP
-This statement defines the location where GOsa looks for new systems to be joined to the LDAP.
+This statement defines the location where FusionDirectory looks for new systems to be joined to the LDAP.
 Default is
 .I ou=incoming.
 .PP
@@ -798,7 +798,7 @@ components. Default is
 .B ogroupRDN
 .I string
 .PP
-This statement defines the location where GOsa looks for object groups.
+This statement defines the location where FusionDirectory looks for object groups.
 Default is
 .I ou=groups.
 .PP
@@ -806,7 +806,7 @@ Default is
 .B aclRoleRDN
 .I string
 .PP
-This statement defines the location where GOsa stores ACL role definitions.
+This statement defines the location where FusionDirectory stores ACL role definitions.
 Default is
 .I ou=aclroles.
 .PP
@@ -814,7 +814,7 @@ Default is
 .B phoneMacroRDN
 .I string
 .PP
-This statement defines the location where GOsa stores phone macros for use with the Asterisk
+This statement defines the location where FusionDirectory stores phone macros for use with the Asterisk
 phone server.
 Default is
 .I ou=macros,ou=asterisk,ou=configs,ou=systems.
@@ -823,7 +823,7 @@ Default is
 .B faiBaseRDN
 .I string
 .PP
-This statement defines the location where GOsa looks for FAI settings.
+This statement defines the location where FusionDirectory looks for FAI settings.
 Default is
 .I ou=fai,ou=configs,ou=systems.
 .PP
@@ -831,7 +831,7 @@ Default is
 .B faiScriptRDN, faiHookRDN, faiTemplateRDN, faiVariableRDN, faiProfileRDN, faiPackageRDN, faiPartitionRDN 
 .I string
 .PP
-These statement define the location where GOsa stores FAI classes. The complete base for the
+These statement define the location where FusionDirectory stores FAI classes. The complete base for the
 corresponding class is an additive of
 .B faiBaseRDN
 an and this value.
@@ -840,7 +840,7 @@ an and this value.
 .B deviceRDN
 .I string
 .PP
-This statement defines the location where GOsa looks for devices.
+This statement defines the location where FusionDirectory looks for devices.
 Default is
 .I ou=devices.
 .PP
@@ -848,7 +848,7 @@ Default is
 .B mimetypeRDN
 .I string
 .PP
-This statement defines the location where GOsa stores mime type definitions.
+This statement defines the location where FusionDirectory stores mime type definitions.
 Default is
 .I ou=mimetypes.
 .PP
@@ -856,7 +856,7 @@ Default is
 .B applicationRDN
 .I string
 .PP
-This statement defines the location where GOsa stores application definitions.
+This statement defines the location where FusionDirectory stores application definitions.
 Default is
 .I ou=apps.
 .PP
@@ -867,9 +867,9 @@ Default is
 The
 .I ldapFilterNestingLimit
 statement can be used to speed up group handling for groups with several hundreds of members.
-The default behaviour is, that GOsa will resolv the memberUid values in a group to real names.
+The default behaviour is, that FusionDirectory will resolv the memberUid values in a group to real names.
 To achieve this, it writes a single filter to minimize searches. Some LDAP servers (namely
-Sun DS) simply crash when the filter gets too big. You can set a member limit, where GOsa will
+Sun DS) simply crash when the filter gets too big. You can set a member limit, where FusionDirectory will
 stop to do these lookups.
 .PP
 
@@ -878,7 +878,7 @@ stop to do these lookups.
 .PP
 The
 .I ldapSizelimit
-statement tells GOsa to retrieve the specified maximum number of results. The user will get
+statement tells FusionDirectory to retrieve the specified maximum number of results. The user will get
 a warning, that not all entries were shown.
 .PP
 
@@ -887,7 +887,7 @@ a warning, that not all entries were shown.
 .PP
 The
 .I ldapFollowReferrals
-statement tells GOsa to follow LDAP referrals.
+statement tells FusionDirectory to follow LDAP referrals.
 .PP
 .PP
 
@@ -927,9 +927,9 @@ definition below.
 .PP
 The
 .I idAllocationMethod
-statement defines how GOsa generates numeric user and group id values. If it is set to
+statement defines how FusionDirectory generates numeric user and group id values. If it is set to
 .I traditional
-GOsa will do create a lock and perform a search for the next free ID. The lock will be
+FusionDirectory will do create a lock and perform a search for the next free ID. The lock will be
 removed after the procedure completes.
 .I pool
 will use the sambaUnixIdPool objectclass settings inside your LDAP. This one is unsafe,
@@ -1067,7 +1067,7 @@ inside of the LDAP.
 The
 .I sambaHashHook
 statement contains an executable to generate samba hash values. This is required
-for password synchronization, but not required if you apply gosa-si services.
+for password synchronization, but not required if you apply goto-si services.
 If you don't have mkntpasswd from the samba distribution installed, you can use
 perl to generate the hash:
 
@@ -1081,7 +1081,7 @@ perl \-MCrypt::SmbHash \-e "print join(q[:], ntlmgen \\$ARGV[0]), $/;"
 .PP
 The
 .I sambaidmapping
-statement tells GOsa to maintain sambaIdmapEntry objects. Depending on your
+statement tells FusionDirectory to maintain sambaIdmapEntry objects. Depending on your
 setup this can drastically improve the windows login performance.
 .PP
 .PP
@@ -1111,7 +1111,7 @@ This script can be used to do automatted dialing from the addressbook.
 .PP
 The
 .I mailMethod
-statement tells GOsa which mail method the setup should use to communicate
+statement tells FusionDirectory which mail method the setup should use to communicate
 with a possible mail server. Leave this undefined if your mail method does
 not match the predefined ones.
 
@@ -1127,7 +1127,7 @@ is like cyrus, but lets the kolab daemon maintain the accounts.
 .PP
 The
 .I cyrusUseSlashes
-statement determines if GOsa should use "foo/bar" or "foo.bar" namespaces
+statement determines if FusionDirectory should use "foo/bar" or "foo.bar" namespaces
 in IMAP. Unix style is with slashes.
 
 .B cyrusDeleteMailbox
@@ -1135,7 +1135,7 @@ in IMAP. Unix style is with slashes.
 .PP
 The
 .I cyrusDeleteMailbox
-statement determines if GOsa should remove the mailbox from your IMAP
+statement determines if FusionDirectory should remove the mailbox from your IMAP
 server or keep it after the account is deleted in LDAP.
 
 .B cyrusAutocreateFolders
@@ -1167,7 +1167,7 @@ to display user defined protocols.
 .PP
 The
 .I mailAttribute
-statement determines which attribute GOsa will use to create accounts.
+statement determines which attribute FusionDirectory will use to create accounts.
 Valid values are
 .I mail
 and
@@ -1230,10 +1230,10 @@ description for more details.
 .PP
 The
 .I vacationTemplateDirectory
-statement sets the path where GOsa will look for vacation message
-templates. Default is /etc/gosa/vacation.
+statement sets the path where FusionDirectory will look for vacation message
+templates. Default is /etc/fusiondirectory/vacation.
 
-Example template /etc/gosa/vacation/business.txt:
+Example template /etc/fusiondirectory/vacation/business.txt:
 
 .nf
    DESC:Away from desk
@@ -1253,7 +1253,7 @@ Example template /etc/gosa/vacation/business.txt:
 .PP
 The
 .I displayerrors
-statement tells GOsa to show PHP errors in the upper part of the screen. This
+statement tells FusionDirectory to show PHP errors in the upper part of the screen. This
 should be disabled in productive deployments, because there might be some
 important passwords arround.
 .PP
@@ -1263,7 +1263,7 @@ important passwords arround.
 .PP
 The
 .I ldapstats
-statement tells GOsa to track LDAP timing statistics to the syslog. This may
+statement tells FusionDirectory to track LDAP timing statistics to the syslog. This may
 help to find indexing problems or bad search filters.
 .PP
 
@@ -1272,7 +1272,7 @@ help to find indexing problems or bad search filters.
 .PP
 The
 .I ignoreAcl
-value tells GOsa to ignore complete ACL sets for the given DN. Add your
+value tells FusionDirectory to ignore complete ACL sets for the given DN. Add your
 DN here and you'll be able to restore accidently dropped ACLs.
 .PP
 
@@ -1281,7 +1281,7 @@ DN here and you'll be able to restore accidently dropped ACLs.
 .PP
 The
 .I debuglevel
-value tells GOsa to display certain information on each page load. Value
+value tells FusionDirectory to display certain information on each page load. Value
 is an AND combination of the following byte values:
 
 DEBUG_TRACE   = 1
@@ -1308,7 +1308,7 @@ DEBUG_MAIL    = 512
 
 .SH LDAP resource definition
 
-For every location you define inside your gosa.conf, you need at least
+For every location you define inside your fusiondirectory.conf, you need at least
 one entry of the type
 .I referral.
 These entries define the way how to connect to some directory service.
@@ -1317,7 +1317,7 @@ These entries define the way how to connect to some directory service.
 
 .nf
   <referral uri="ldap://ldap.example.net/dc=example,dc=net"
-            admin="cn=gosa-admin,dc=example,dc=net"
+            admin="cn=fusiondirectory-admin,dc=example,dc=net"
             password="secret" />
 .fi
 
@@ -1341,7 +1341,7 @@ This is done by the
 .I kioskPath
 keyword defined within the
 .I environment
-class definition inside your gosa.conf.
+class definition inside your fusiondirectory.conf.
 
 .B Example:
 
@@ -1351,7 +1351,7 @@ class definition inside your gosa.conf.
           kioskPath="/var/spool/kiosk"/>
 .fi
 
-Make sure, that this path is writeable by GOsa.
+Make sure, that this path is writeable by FusionDirectory.
 
 .SH Settings for the FAI plugin
 
@@ -1384,10 +1384,10 @@ is either "freeze" or "branch".
 The
 .I repositoryBranchHook
 outputs additional releases, that are not retrieveable with the standard
-GOsa/FAI methods.
+FusionDirectory/FAI methods.
 
 If you have only one release, or want to define a default release to be shown
-by GOsa, define the
+by FusionDirectory, define the
 .I defaultFaiRelease="ou=sarge,ou=fai,ou=configs,ou=syst..."
 within the 
 .I faiManagement
@@ -1400,7 +1400,7 @@ a special location. Use the
 .I addressbookBaseDN
 keyword within the
 .I addressbook
-class definition inside your gosa.conf to configure this location.
+class definition inside your fusiondirectory.conf to configure this location.
 
 Default:
 .I ou=addressbook.
@@ -1413,7 +1413,7 @@ and
 classes, you can define the
 .I systemKernelsHook
 keyword. It can load additional kernels that are not retrieveable by
-standard GOsa/FAI mechanisms.
+standard FusionDirectory/FAI mechanisms.
 
 In order to make use of SNMP information, you can set the
 .I snmpCommunity
@@ -1429,8 +1429,8 @@ class. You will get a CD symbol in the systems list - which calls
 the hook if pressed.
 
 .SH AUTHOR
-.B gosa.conf(5)
+.B fusiondirectory.conf(5)
 was written by Cajus Pollmeier for
-the GOsa project (
-.B http://www.gosa-project.org
+the FusionDirectory project (
+.B http://www.fusiondirectory-project.org
 ).
