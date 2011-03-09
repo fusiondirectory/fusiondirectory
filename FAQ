@@ -1,5 +1,4 @@
-This is the textual form of the FusionDirectory FAQ. Online information with
-comments is set up at Wiki: https://oss.gonicus.de/labs/gosa/wiki/documentation
+This is the textual form of the FusionDirectory FAQ.
 
 Q: When creating many users for one department, I need to fill some
    fields again and again. Is there a shortcut for that?
@@ -14,9 +13,9 @@ A: Just create a user template and pre-fill all values you need. You
 Q: Can FusionDirectory execute commands after creating/editing/removing users,
    departments, etc.
 
-A: Yes. Edit /etc/gosa/fusiondirectory.conf's menu section. Each plugin may has
-   an entry "postremove", "postmodify" and "postcreate".  You can use
-   ldap attributes as command line options.
+A: Yes. Edit /etc/fusiondirectory/fusiondirectory.conf's menu section. Each plugin
+   have an entry "postremove", "postmodify" and "postcreate".  You can use ldap
+   attributes as command line options.
    i.E. postcreate="/usr/bin/sudo /usr/local/sbin/ftp.setperms %uid '%givenName'"
 
 
@@ -26,8 +25,8 @@ Q: I'd like to  modify the look of FusionDirectory to fit our CI. How can I crea
 A: Themes are splitted into two parts. ihtml/ contains templates which
    generate the ui, html/ contains all parts that must be readable from
    clients. FusionDirectory first looks for predefined files in the directory indirectly
-   defined via the "theme" parameter in /etc/gosa/fusiondirectory.conf. If it can't
-   find them here, it'll use the default one.
+   defined via the "theme" parameter in /etc/fusiondirectory/fusiondirectory.conf. If it
+   can't find them here, it'll use the default one.
 
    So start over by copying html/themes/default to html/themes/yourtheme
    and ihtml/themes/default to ihtml/themes/yourtheme. Change fusiondirectory.conf to
@@ -96,7 +95,8 @@ Q: The online help doesn't exist in my language, can i translate it to my langua
 A: Yes. Just go to the doc/guide/user/en directory and copy the lyx-source directory
    to a new directory in doc/guide/user/<your language>. You have to use the lyx
    program create the online help in your language. When you have finish just run
-   ./gen_online_help from the gosa root directory to generate the online docs.
+   ./update_online_help from the FusionDirectory root directory to generate the
+   online docs.
 
    
 Q: Can I specify some kind of password policies?
@@ -122,13 +122,13 @@ A: There's the possibility to add a password hook in fusiondirectory.conf's main
 Q: What about templates for vacation messages?
 
 A: Create a directory to keep a set of vacation messages which are readable by the
-   user that runs your apache. In this example I'll use /etc/gosa/vacation for that.
+   user that runs your apache. In this example I'll use /etc/fusiondirectory/vacation for that.
 
    Put your vacation files in there containing a "DESC:some descriptive text" as the
    first line followed by the normal vacation text. You can use all attributes from
    the generic tab. I.e.:
 
-    /etc/gosa/vacation/business.txt 
+    /etc/fusiondirectory/vacation/business.txt 
 
    |--> 
     DESC:Away from desk
@@ -139,7 +139,7 @@ A: Create a directory to keep a set of vacation messages which are readable by t
     %givenName %sn
    |<--
  
-   Place the config option vacationTemplateDirectory="/etc/gosa/vacation" in the location found in
+   Place the config option vacationTemplateDirectory="/etc/fusiondirectory/vacation" in the location found in
    fusiondirectory.conf and a template box is show in the vacation mail tab.
 
 
@@ -371,7 +371,7 @@ Q: Is there a way to use ACL independet filtering when using administrative unit
 A: Yes. Set "honourUnitTags" to "true" in your fusiondirectory.conf's location section.
 
 
-Q: How can i active the account expiration code for the gosa interface?
+Q: How can i active the account expiration code for the FusionDirectory interface?
 
 A: Yes. Just set "handleExpiredAccounts" to "true" in your fusiondirectory.conf's main section.
 
@@ -454,7 +454,7 @@ A: Yes - place the rfc2307bis="true" inside of the location section of
 Q: Can FusionDirectory show some vendor information for given MAC addresses?
 
 A: Yes. Download http://standards.ieee.org/regauth/oui/oui.txt and place
-   it in /etc/gosa/oui.txt.
+   it in /etc/fusiondirectory/oui.txt.
 
 
 Q: FusionDirectory sessions expire too quick. Is there a way to change this?
@@ -537,15 +537,15 @@ A: It looks like you are missing an administrativ account.
 
 Q: The Unix's user's shell list is empty (unconfigured)
 
-A: Just copy or link your /etc/shell in /etc/gosa.
+A: Just copy or link your /etc/shell in /etc/fusiondirectory.
 
 
 Q: After upgrading FusionDirectory, the setup.php doesn't work or looks broken. 
 
-A: You should delete all files in /var/spool/gosa
+A: You should delete all files in /var/spool/fusiondirectory
 
    |--> 
-    # cd /var/spool/gosa
+    # cd /var/spool/fusiondirectory
     # rm -rf *
    |<--
 
