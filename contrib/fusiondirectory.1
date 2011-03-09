@@ -1,31 +1,31 @@
-.TH gosa 1
+.TH fusiondirectory 1
 .SH NAME
-gosa \- start script for the GOsa web interface
+fusiondirectory \- start script for the FusionDirectory web interface
 .SH SYNOPSIS
 .PP
-.B gosa
+.B fusiondirectory
 [
 URL
 ]
 .SH DESCRIPTION
 Start the 
-.B GOsa
+.B FusionDirectory
 web interface using a gecko based browser and generate
 a special browser profile for
-.B GOsa
+.B FusionDirectory
 usage. This profile will disable
 normal style browser navigation and URL fields.
 .SH OPTIONS
 .TP
 .BR URL
-Open this URL when launching the browser with the GOsa profile. This
+Open this URL when launching the browser with the FusionDirectory profile. This
 option is optional and may be preset by the
 .B configuration
 files.
 .SH "RETURN VALUE"
 The script return zero values on success.
 .SH EXAMPLES
-.B gosa
+.B fusiondirectory
 https://admin.example.net
 .SH FILES
 Presetting the URL works by placing something like
@@ -35,7 +35,8 @@ inside one of these files:
 .nf
 .\" set tabstop to longest possible filename, plus a wee bit
 .ta \w'/usr/lib/perl/getopts.pl   'u
-\fI/etc/gosa/desktoprc\fR	system wide setting
-\fI$HOME/.gosa-desktop\fR	user specific setting
-.SH AUTHOR
+\fI/etc/fusiondirectory/desktoprc\fR	system wide setting
+\fI$HOME/.fusiondirectory-desktop\fR	user specific setting
+.SH AUTHORS
 Cajus Pollmeier <cajus@debian.org>
+FusionDirectory Project <contact@fusiondirectory.org>
