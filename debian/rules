@@ -5,5 +5,5 @@
 
 override_dh_compress:
 	dh_compress
-	gzip -d debian/gosa/usr/share/doc/gosa/gosa.conf.gz
+	gzip -d debian/fusiondirectory/usr/share/doc/fusiondirectory/fusiondirectory.conf.gz
 

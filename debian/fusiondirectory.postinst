@@ -1,0 +1,111 @@
+#!/bin/sh
+# postinst script for fusiondirectory
+#
+# see: dh_installdeb(1)
+
+set -e
+
+case "$1" in
+  configure)
+      ;;
+
+  abort-upgrade|abort-remove|abort-deconfigure)
+      ;;
+
+  triggered)
+      update-fusiondirectory
+      exit 0
+      ;;
+
+  *)
+      echo "postinst called with unknown argument \`$1'" >&2
+      exit 1
+      ;;
+esac
+
+#DEBHELPER#
+
+# Set ID's
+WEBUSER="www-data"
+WEBGROUP="www-data"
+
+# Create empty inclusion file for apache
+if [ ! -f /etc/fusiondirectory/fusiondirectory.secrets ]; then
+    touch /etc/fusiondirectory/fusiondirectory.secrets
+    chmod 600 /etc/fusiondirectory/fusiondirectory.secrets
+fi
+
+if [ -d /etc/apache2/conf.d ]; then
+
+  # Copy FusionDirectory configuration to conf.d directories
+  if [ ! -L /etc/apache2/conf.d/fusiondirectory.conf ]; then
+
+    # Remove old instances of this file
+    if [ -f /etc/apache2/conf.d/fusiondirectory.conf ]; then
+      echo "Found old fusiondirectory apache configuration in /etc/apache2/conf.d - moving it to fusiondirectory.conf.orig..."
+      echo "Please check for changes in /etc/fusiondirectory/fusiondirectory-apache.conf if you modified this file!"
+      mv /etc/apache2/conf.d/fusiondirectory.conf /etc/apache2/conf.d/fusiondirectory.conf.orig
+    fi
+
+    echo "Making /fusiondirectory available in /etc/apache2/conf.d"
+
+    # Add FusionDirectory include file
+    ln -s /etc/fusiondirectory/fusiondirectory-apache.conf /etc/apache2/conf.d/fusiondirectory.conf
+  fi
+  
+  # Add support for RequestHeader
+  a2enmod headers
+
+  # Finally restart servers
+  if [ -x /usr/sbin/invoke-rc.d ]; then
+    invoke-rc.d apache2 reload
+  else
+    /etc/init.d/apache2 reload
+  fi
+fi
+
+if [ -d /etc/lighttpd/conf-available ]; then
+
+  # Copy FusionDirectory configuration to conf-available directories /etc/lighttpd/conf-available
+  if [ ! -L /etc/lighttpd/conf-enabled/99fusiondirectory-lighttpd.conf ]; then
+
+    # Remove old instances of this file
+    if [ -f /etc/lighttpd/conf-enabled/99fusiondirectory-lighttpd.conf ]; then
+      echo "Found old fusiondirectory apache configuration in /etc/lighttpd/conf-enabled - moving it to orig.fusiondirectory-lighttpd.conf ..."
+      echo "Please check for changes in /etc/lighttpd/conf-available/orig.99fusiondirectory-lighttpd.conf if you modified this file!"
+      mv /etc/lighttpd/conf-enabled/99fusiondirectory-lighttpd.conf /etc/lighttpd/conf-available/orig.fusiondirectory-lighttpd.conf
+    fi
+
+    echo "Making /fusiondirectory available in /etc/lighttpd/conf-enabled/"
+
+    # Add FusionDirectory include file
+    ln -s /etc/fusiondirectory/fusiondirectory-lighttpd.conf /etc/lighttpd/conf-enabled/99fusiondirectory-lighttpd.conf
+  fi
+
+  # Finally restart servers
+  if [ -x /usr/sbin/invoke-rc.d ]; then
+    invoke-rc.d lighttpd reload
+  else
+    /etc/init.d/lighttpd reload
+  fi
+
+fi
+
+# Add links for safe mode
+[ ! -d /usr/share/fusiondirectory/bin ] && mkdir -p /usr/share/fusiondirectory/bin
+for source in /usr/bin/convert /usr/bin/lpstat; do
+  if [ -e $source ]; then
+    target=/usr/share/fusiondirectory/bin/${source##*/}
+    [ ! -L $target ] && ln -sf $source $target
+  fi
+done
+
+# Fix permission in /var/(spool|cache)/fusiondirectory
+chown root.$WEBGROUP -R /var/spool/fusiondirectory
+chmod 770 -R /var/spool/fusiondirectory
+chown root.$WEBGROUP -R /var/cache/fusiondirectory
+chmod 770 -R /var/cache/fusiondirectory
+
+update-fusiondirectory
+
+exit 0

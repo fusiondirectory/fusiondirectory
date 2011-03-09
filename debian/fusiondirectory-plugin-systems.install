@@ -1,0 +1,5 @@
+systems/admin		/usr/share/fusiondirectory/plugins
+systems/help		/usr/share/fusiondirectory/doc/plugins/systems
+systems/help/guide.xml	/usr/share/fusiondirectory/doc/plugins/systems
+systems/locale		/usr/share/fusiondirectory/locale/plugins/systems
+systems/html/images	/usr/share/fusiondirectory/html/plugins/systems

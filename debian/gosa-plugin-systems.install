@@ -1,5 +1,0 @@
-systems/admin		/usr/share/gosa/plugins
-systems/help		/usr/share/gosa/doc/plugins/systems
-systems/help/guide.xml	/usr/share/gosa/doc/plugins/systems
-systems/locale		/usr/share/gosa/locale/plugins/systems
-systems/html/images	/usr/share/gosa/html/plugins/systems

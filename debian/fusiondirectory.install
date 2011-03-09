@@ -1,0 +1,14 @@
+fusiondirectory-core/update-fusiondirectory			/usr/sbin
+fusiondirectory-core/bin/fusiondirectory-encrypt-passwords	/usr/sbin
+fusiondirectory-core/html					/usr/share/fusiondirectory
+fusiondirectory-core/ihtml					/usr/share/fusiondirectory
+fusiondirectory-core/include					/usr/share/fusiondirectory
+fusiondirectory-core/locale					/usr/share/fusiondirectory
+fusiondirectory-core/plugins					/usr/share/fusiondirectory
+fusiondirectory-core/setup					/usr/share/fusiondirectory
+debian/fusiondirectory-apache.conf				/etc/fusiondirectory
+debian/fusiondirectory-lighttpd.conf				/etc/fusiondirectory
+fusiondirectory-core/contrib/shells				/etc/fusiondirectory
+fusiondirectory-core/contrib/encodings				/etc/fusiondirectory
+fusiondirectory-core/contrib/openldap/slapd.conf		/usr/share/doc/fusiondirectory/slapd.conf-example
+fusiondirectory-core/contrib/fusiondirectory.conf		/usr/share/doc/fusiondirectory

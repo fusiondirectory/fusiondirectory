@@ -1,5 +1,0 @@
-gosa-core/update-locale			/usr/bin
-gosa-core/update-pdf-help		/usr/bin
-gosa-core/update-online-help		/usr/bin
-gosa-core/dh-make-gosa			/usr/bin
-gosa-core/contrib/extract-locale	/usr/bin

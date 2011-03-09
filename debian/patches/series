@@ -3,3 +3,9 @@
 03_fix_class_mapping.patch
 04_fix_locale_location.patch
 05_fix_online_help_location.patch
+06_hook_password_class_plugin.patch
+07_hook_password_function.patch
+08_acl_debug_output.patch
+09_typo_cvs_template.patch
+10_dep_filter_sub.patch
+11_dep_filter_sub_xml.patch

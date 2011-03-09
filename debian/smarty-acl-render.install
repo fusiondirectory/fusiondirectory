@@ -1,2 +1,2 @@
-gosa-core/include/smarty/plugins/block.render.php     /usr/share/php/smarty/libs/plugins
-gosa-core/include/smarty/plugins/function.msgPool.php /usr/share/php/smarty/libs/plugins
+fusiondirectory-core/include/smarty/plugins/block.render.php     /usr/share/php/smarty/libs/plugins
+fusiondirectory-core/include/smarty/plugins/function.msgPool.php /usr/share/php/smarty/libs/plugins

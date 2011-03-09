@@ -1,11 +1,11 @@
 [Desktop Entry]
 MimeType=text/plain;
-GenericName=GOsa²
-Exec=/usr/bin/gosa
-Icon=gosa
+GenericName=FusionDirectory
+Exec=/usr/bin/fusiondirectory
+Icon=fusiondirectory
 Path=/usr/bin
 Type=Application
 Terminal=false
-Name=GOsa
+Name=FusionDirectory
 X-KDE-StartupNotify=true
 Categories=Qt;KDE;Utility;System;

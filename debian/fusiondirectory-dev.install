@@ -1,0 +1,5 @@
+fusiondirectory-core/update-locale		/usr/bin
+fusiondirectory-core/update-pdf-help		/usr/bin
+fusiondirectory-core/update-online-help		/usr/bin
+fusiondirectory-core/dh-make-fusiondirectory	/usr/bin
+fusiondirectory-core/contrib/extract-locale	/usr/bin
