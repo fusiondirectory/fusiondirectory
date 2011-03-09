@@ -2,7 +2,7 @@
 
 generate_po() {
   ORIG=`pwd`
-  TEMPDIR="/tmp/gosa-locale"
+  TEMPDIR="/tmp/fusiondirectory-locale"
   TRUE=`which true`
 
   echo
@@ -10,7 +10,7 @@ generate_po() {
   [ -d $TEMPDIR ] && rm -rf $TEMPDIR
   mkdir $TEMPDIR
 
-  echo "Creating copy of GOsa..."
+  echo "Creating copy of FusionDirectory..."
   tar c . | tar x -C $TEMPDIR
 
   echo "Converting .tpl files..."
@@ -47,12 +47,12 @@ generate_po() {
     [ ! -f $f/messages.po ] && touch $f/messages.po
 
     # If we're in a plugin of a trunk checkout, we can use the gosa-all messages.po as a dictionary
-    DICT_FILE_ALL="$ORIG/../../gosa-all/gosa/${f/locale/locale/core}/messages.po"
-    DICT_FILE_CORE="$ORIG/../../gosa-core/${f/locale/locale/core}/messages.po"
-    DICT=""
-    [ -r $DICT_FILE_ALL ] && DICT="-C $DICT_FILE_ALL"
-    [ ${#DICT} -eq 0 ] && [ -r $DICT_FILE_CORE ] && DICT="-C $DICT_FILE_CORE"
-    msgmerge $DICT $f/messages.po locale/${l_path}messages.po --output-file=$f/messages.po.tmp &> /dev/null
+    #DICT_FILE_ALL="$ORIG/../../gosa-all/gosa/${f/locale/locale/core}/messages.po"
+    #DICT_FILE_CORE="$ORIG/../../gosa-core/${f/locale/locale/core}/messages.po"
+    #DICT=""
+    #[ -r $DICT_FILE_ALL ] && DICT="-C $DICT_FILE_ALL"
+    #[ ${#DICT} -eq 0 ] && [ -r $DICT_FILE_CORE ] && DICT="-C $DICT_FILE_CORE"
+    #msgmerge $DICT $f/messages.po locale/${l_path}messages.po --output-file=$f/messages.po.tmp &> /dev/null
 
     # Filter out duplicates
     msguniq $f/messages.po.tmp --output-file=$f/messages.po.new &> /dev/null
@@ -113,11 +113,11 @@ cat <<-EOF
 ---------------------------------------------------------------------
 
 Now edit all files that have been replaced above (i.e. using kbabel
-or gtranslator) and mail the changes to gosa@oss.gonicus.de to be 
-included in the next release.
+gtranslator, localize or poedit) and mail the changes to
+contact@fusiondirectory.org to be included in the next release.
 
-To see the changes you've made in GOsa, run "msgfmt messages.po" on
-your freshly edited files and restart your apache after that. Set
+To see the changes you've made in FusionDirectory, run "msgfmt messages.po"
+on your freshly edited files and restart your apache after that. Set
 the webbrowser to the language you've edited and go back to the
 login screen.
 
@@ -142,7 +142,7 @@ do
        ;;
     h|--help)
        echo "Usage: $(basename $0) [-g] [-y]"
-       echo "       -g extract strings from GOsa and generate po files"
+       echo "       -g extract strings from FusionDirectory and generate po files"
        echo "       -y assume yes"
        exit 1
        ;;
