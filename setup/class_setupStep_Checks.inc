@@ -125,7 +125,7 @@ class Step_Checks extends setup_step
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* Checking generate LM/NT password hashes */
-    #TODO: either this, or gosa-si will do the hash generation
+    #TODO: either this, or goto-si will do the hash generation
     $query= "mkntpwd 2>&1";
     $output= shell_exec ($query);
     $have_mkntpwd= preg_match("/^Usage: mkntpwd /", $output);
@@ -137,7 +137,7 @@ class Step_Checks extends setup_step
 
     $N = msgPool::checkingFor(_("samba hash generator"));
     $D = _("GOsa requires this command to synchronize POSIX and samba passwords.");
-    $S = _("Deploy a gosa-si installation or install the perl Crypt::SmbHash modules.");
+    $S = _("Deploy a goto-si installation or install the perl Crypt::SmbHash modules.");
     $R = $have_mkntpwd;
     $M = TRUE;
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );

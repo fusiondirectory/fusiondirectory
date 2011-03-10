@@ -22,7 +22,7 @@
 
   {if isset($ieworkaround)}<script language="javascript"src="include/png.js" type="text/javascript"></script>{/if}
   <script language="javascript" src="include/prototype.js" type="text/javascript"></script>
-  <script language="javascript" src="include/gosa.js" type="text/javascript"></script>
+  <script language="javascript" src="include/fusiondirectory.js" type="text/javascript"></script>
   <script language="javascript" src="include/pwdStrength.js" type="text/javascript"></script>
 </head>
 

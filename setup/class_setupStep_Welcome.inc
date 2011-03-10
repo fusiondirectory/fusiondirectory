@@ -45,7 +45,7 @@ class Step_Welcome  extends setup_step
     $smarty = get_smarty();
     $smarty->assign('auth_id', session_id());
 
-    $smarty->assign("path",'/tmp/gosa.auth');
+    $smarty->assign("path",'/tmp/fusiondirectory.auth');
     return($smarty->fetch(get_template_path("setup_welcome.tpl",TRUE,dirname(__FILE__))));
   }
 
@@ -54,7 +54,7 @@ class Step_Welcome  extends setup_step
     $id = "";
     
     /* Get auth ID from file */
-    $path = '/tmp/gosa.auth';
+    $path = '/tmp/fusiondirectory.auth';
     if (file_exists($path) && is_readable($path)){
       $contents= file($path);
       $id= chop($contents[0]);
