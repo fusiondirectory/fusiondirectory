@@ -1,0 +1,4 @@
+openxchange/personal		/usr/share/fusiondirectory/plugins
+openxchange/help/guide.xml	/usr/share/fusiondirectory/doc/plugins/openxchange
+openxchange/locale		/usr/share/fusiondirectory/locale/plugins/openxchange
+openxchange/contrib		/usr/share/doc/fusiondirectory-plugin-openxchange

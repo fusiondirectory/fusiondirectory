@@ -1,0 +1,5 @@
+kolab/admin			/usr/share/fusiondirectory/plugins
+kolab/personal			/usr/share/fusiondirectory/plugins
+kolab/help/guide.xml		/usr/share/fusiondirectory/doc/plugins/kolab
+kolab/locale			/usr/share/fusiondirectory/locale/plugins/kolab
+kolab/contrib			/usr/share/doc/fusiondirectory-plugin-kolab

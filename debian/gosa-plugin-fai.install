@@ -1,6 +1,0 @@
-fai/admin			/usr/share/gosa/plugins
-fai/help/de			/usr/share/gosa/doc/plugins/fai
-fai/help/guide.xml		/usr/share/gosa/doc/plugins/fai
-fai/locale			/usr/share/gosa/locale/plugins/fai
-fai/contrib			/usr/share/doc/gosa-plugin-fai
-fai/html/images			/usr/share/gosa/html/plugins/fai

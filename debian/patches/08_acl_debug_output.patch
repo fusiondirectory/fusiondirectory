@@ -1,7 +1,7 @@
-Index: gosa/gosa-core/include/class_userinfo.inc
+Index: fusiondirectory/fusiondirectory-core/include/class_userinfo.inc
 ===================================================================
---- gosa.orig/gosa-core/include/class_userinfo.inc	2010-12-05 13:05:37.000000000 +0100
-+++ gosa/gosa-core/include/class_userinfo.inc	2010-12-05 13:06:18.000000000 +0100
+--- fusiondirectory.orig/fusiondirectory-core/include/class_userinfo.inc	2010-12-05 13:05:37.000000000 +0100
++++ fusiondirectory/fusiondirectory-core/include/class_userinfo.inc	2010-12-05 13:06:18.000000000 +0100
 @@ -708,7 +708,6 @@
              }
            }

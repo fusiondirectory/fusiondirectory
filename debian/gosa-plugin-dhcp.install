@@ -1,4 +1,0 @@
-dhcp/admin			/usr/share/gosa/plugins
-dhcp/help/guide.xml		/usr/share/gosa/doc/plugins/dhcp
-dhcp/locale			/usr/share/gosa/locale/plugins/dhcp
-dhcp/contrib			/usr/share/doc/gosa-plugin-dhcp

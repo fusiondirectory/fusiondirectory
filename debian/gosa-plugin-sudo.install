@@ -1,5 +1,0 @@
-sudo/admin			/usr/share/gosa/plugins
-sudo/help/guide.xml		/usr/share/gosa/doc/plugins/sudo
-sudo/locale			/usr/share/gosa/locale/plugins/sudo
-sudo/contrib			/usr/share/doc/gosa-plugin-sudo
-sudo/html/images		/usr/share/gosa/html/plugins/sudo

@@ -1,8 +1,0 @@
-?package(gosa-desktop):\
-	needs="x11"\
-	section="Applications/System/Administration"\
-	hints="KDE"\
-        icon32x32="/usr/share/pixmaps/gosa.xpm"\
-        icon16x16="/usr/share/pixmaps/gosa-16.xpm"\
-	title="GOsa"\
-	command="gosa"

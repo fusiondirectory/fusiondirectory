@@ -1,0 +1,5 @@
+log/admin			/usr/share/fusiondirectory/plugins
+log/help/guide.xml		/usr/share/fusiondirectory/doc/plugins/log
+log/locale			/usr/share/fusiondirectory/locale/plugins/log
+log/contrib			/usr/share/doc/fusiondirectory-plugin-log
+log/html/images			/usr/share/fusiondirectory/html/plugins/log

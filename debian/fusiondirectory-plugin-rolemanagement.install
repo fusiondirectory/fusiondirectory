@@ -1,0 +1,3 @@
+rolemanagement/admin		/usr/share/fusiondirectory/plugins
+rolemanagement/locale		/usr/share/fusiondirectory/locale/plugins/rolemanagement
+rolemanagement/html/images	/usr/share/fusiondirectory/html/plugins/rolemanagement

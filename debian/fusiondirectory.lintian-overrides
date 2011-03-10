@@ -1,0 +1,7 @@
+fusiondirectory: extra-license-file usr/share/fusiondirectory/setup/class_setupStep_License.inc
+fusiondirectory: extra-license-file usr/share/fusiondirectory/setup/license.txt
+fusiondirectory: extra-license-file usr/share/fusiondirectory/setup/setup_license.tpl
+fusiondirectory: embedded-javascript-library usr/share/fusiondirectory/html/include/prototype.js
+fusiondirectory: embedded-javascript-library usr/share/fusiondirectory/html/include/scriptaculous.js
+fusiondirectory: embedded-php-library usr/share/fusiondirectory/include/smarty/Smarty.class.php
+

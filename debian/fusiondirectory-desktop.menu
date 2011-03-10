@@ -1,0 +1,8 @@
+?package(fusiondirectory-desktop):\
+	needs="x11"\
+	section="Applications/System/Administration"\
+	hints="KDE"\
+        icon32x32="/usr/share/pixmaps/fusiondirectory.xpm"\
+        icon16x16="/usr/share/pixmaps/fusiondirectory-16.xpm"\
+	title="FusionDirectory"\
+	command="fusiondirectory"

@@ -1,4 +1,0 @@
-mit-krb5/admin			/usr/share/gosa/plugins
-mit-krb5/help/guide.xml		/usr/share/gosa/doc/plugins/mit-krb5
-mit-krb5/locale			/usr/share/gosa/locale/plugins/mit-krb5
-mit-krb5/contrib		/usr/share/doc/gosa-plugin-mit-krb5

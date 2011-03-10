@@ -1,0 +1,4 @@
+connectivity/personal			/usr/share/fusiondirectory/plugins
+connectivity/help/guide.xml		/usr/share/fusiondirectory/doc/plugins/connectivity
+connectivity/locale			/usr/share/fusiondirectory/locale/plugins/connectivity
+connectivity/html/images		/usr/share/fusiondirectory/html/plugins/connectivity

@@ -1,7 +1,7 @@
-Index: gosa/gosa-core/plugins/admin/departments/dep-filter.xml
+Index: fusiondirectory/fusiondirectory-core/plugins/admin/departments/dep-filter.xml
 ===================================================================
---- gosa.orig/gosa-core/plugins/admin/departments/dep-filter.xml	2010-12-05 13:17:51.000000000 +0100
-+++ gosa/gosa-core/plugins/admin/departments/dep-filter.xml	2010-12-05 13:18:20.000000000 +0100
+--- fusiondirectory.orig/fusiondirectory-core/plugins/admin/departments/dep-filter.xml	2010-12-05 13:17:51.000000000 +0100
++++ fusiondirectory/fusiondirectory-core/plugins/admin/departments/dep-filter.xml	2010-12-05 13:18:20.000000000 +0100
 @@ -16,7 +16,7 @@
        <attribute>ou</attribute>
        <attribute>description</attribute>

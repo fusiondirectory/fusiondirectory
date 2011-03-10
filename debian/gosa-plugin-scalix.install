@@ -1,5 +1,0 @@
-scalix/admin			/usr/share/gosa/plugins
-scalix/personal			/usr/share/gosa/plugins
-scalix/help/guide.xml		/usr/share/gosa/doc/plugins/scalix
-scalix/locale			/usr/share/gosa/locale/plugins/scalix
-scalix/html/images		/usr/share/gosa/html/plugins/scalix

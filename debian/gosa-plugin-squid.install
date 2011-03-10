@@ -1,5 +1,0 @@
-squid/personal		/usr/share/gosa/plugins
-squid/help/guide.xml	/usr/share/gosa/doc/plugins/squid
-squid/locale		/usr/share/gosa/locale/plugins/squid
-squid/contrib		/usr/share/doc/gosa-plugin-squid
-squid/README.squid	/usr/share/doc/gosa-plugin-squid/contrib

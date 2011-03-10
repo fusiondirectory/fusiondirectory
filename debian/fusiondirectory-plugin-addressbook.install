@@ -1,0 +1,6 @@
+addressbook/addons			/usr/share/fusiondirectory/plugins
+addressbook/help			/usr/share/fusiondirectory/doc/plugins/addressbook
+addressbook/help/guide.xml		/usr/share/fusiondirectory/doc/plugins/addressbook
+addressbook/locale			/usr/share/fusiondirectory/locale/plugins/addressbook
+addressbook/html/getvcard.php		/usr/share/fusiondirectory/html/plugins/addressbook
+addressbook/html/images			/usr/share/fusiondirectory/html/plugins/addressbook

@@ -1,5 +1,0 @@
-log/admin			/usr/share/gosa/plugins
-log/help/guide.xml		/usr/share/gosa/doc/plugins/log
-log/locale			/usr/share/gosa/locale/plugins/log
-log/contrib			/usr/share/doc/gosa-plugin-log
-log/html/images			/usr/share/gosa/html/plugins/log

@@ -1,58 +1,58 @@
 Author: <cajus@debian.org>
 Description: Fix location of auto-generated class mapping file
-Index: gosa/gosa-core/include/class_config.inc
+Index: fusiondirectory/fusiondirectory-core/include/class_config.inc
 ===================================================================
---- gosa.orig/gosa-core/include/class_config.inc	2010-02-05 13:51:35.000000000 +0000
-+++ gosa/gosa-core/include/class_config.inc	2010-10-01 06:51:28.478555098 +0000
+--- fusiondirectory.orig/fusiondirectory-core/include/class_config.inc	2010-02-05 13:51:35.000000000 +0000
++++ fusiondirectory/fusiondirectory-core/include/class_config.inc	2010-10-01 06:51:28.478555098 +0000
 @@ -100,12 +100,12 @@
          if we have installed or removed plugins. 
       */
      if(session::global_is_set("class_location.inc:timestamp")){
 -      $tmp = stat("../include/class_location.inc");
-+      $tmp = stat("/var/cache/gosa/class.cache");
++      $tmp = stat("/var/cache/fusiondirectory/class.cache");
        if($tmp['mtime'] != session::global_get("class_location.inc:timestamp")){
          session::global_un_set("plist");
        }
      }
 -    $tmp = stat("../include/class_location.inc");
-+    $tmp = stat("/var/cache/gosa/class.cache");
++    $tmp = stat("/var/cache/fusiondirectory/class.cache");
      session::global_set("class_location.inc:timestamp",$tmp['mtime']);
  
      if($this->filename != "" && filemtime($this->filename) != $this->last_modified){
-Index: gosa/gosa-core/include/functions.inc
+Index: fusiondirectory/fusiondirectory-core/include/functions.inc
 ===================================================================
---- gosa.orig/gosa-core/include/functions.inc	2010-10-01 06:51:28.000000000 +0000
-+++ gosa/gosa-core/include/functions.inc	2010-10-01 06:51:55.250554318 +0000
+--- fusiondirectory.orig/fusiondirectory-core/include/functions.inc	2010-10-01 06:51:28.000000000 +0000
++++ fusiondirectory/fusiondirectory-core/include/functions.inc	2010-10-01 06:51:55.250554318 +0000
 @@ -73,7 +73,7 @@
  define('DES3_CBC_SHA1',16);
 
  /* Include required files */
 -require_once("class_location.inc");
-+require_once("/var/cache/gosa/class.cache");
++require_once("/var/cache/fusiondirectory/class.cache");
  require_once ("functions_debug.inc");
  require_once ("accept-to-gettext.inc");
  
-Index: gosa/gosa-core/update-gosa
+Index: fusiondirectory/fusiondirectory-core/update-fusiondirectory
 ===================================================================
---- gosa.orig/gosa-core/update-gosa	2008-06-10 07:56:22.000000000 +0000
-+++ gosa/gosa-core/update-gosa	2010-10-01 06:51:28.481554589 +0000
+--- fusiondirectory.orig/fusiondirectory-core/update-fusiondirectory	2008-06-10 07:56:22.000000000 +0000
++++ fusiondirectory/fusiondirectory-core/update-fusiondirectory	2010-10-01 06:51:28.481554589 +0000
 @@ -21,7 +21,7 @@
   * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
   */
  
--define ("GOSA_HOME", dirname(__FILE__));
-+define ("GOSA_HOME", "/usr/share/gosa");
- define ("LOCALE_DIR", GOSA_HOME."/locale");
- define ("PLUGSTATE_DIR", GOSA_HOME."/state");
+-define ("FUSIONDIRECTORY_HOME", dirname(__FILE__));
++define ("FUSIONDIRECTORY_HOME", "/usr/share/fusiondirectory");
+ define ("LOCALE_DIR", FUSIONDIRECTORY_HOME."/locale");
+ define ("PLUGSTATE_DIR", FUSIONDIRECTORY_HOME."/state");
  
 @@ -122,8 +122,8 @@
  function rescan_classes()
  {
  	echo "Updating class cache...\n";
 -	$class_mapping= get_classes();
--	$filename= GOSA_HOME."/include/class_location.inc";
-+	$class_mapping= get_classes("/usr/share/gosa");
-+	$filename= "/var/cache/gosa/class.cache";
+-	$filename= FUSIONDIRECTORY_HOME."/include/class_location.inc";
++	$class_mapping= get_classes("/usr/share/fusiondirectory");
++	$filename= "/var/cache/fusiondirectory/class.cache";
  
  	/* Sanity checks */
  	if (!file_exists($filename) || is_writable($filename)) {

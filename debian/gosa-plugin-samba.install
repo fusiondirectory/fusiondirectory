@@ -1,6 +1,0 @@
-samba/admin			/usr/share/gosa/plugins
-samba/personal			/usr/share/gosa/plugins
-samba/help/guide.xml		/usr/share/gosa/doc/plugins/samba
-samba/locale			/usr/share/gosa/locale/plugins/samba
-samba/contrib			/usr/share/doc/gosa-plugin-samba
-samba/html/images 		/usr/share/gosa/html/plugins/samba

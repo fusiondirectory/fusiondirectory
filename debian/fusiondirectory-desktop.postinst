@@ -1,0 +1,13 @@
+#!/bin/sh
+
+set -e
+
+#DEBHELPER#
+
+# Source debconf library.
+. /usr/share/debconf/confmodule
+
+db_get fusiondirectory-desktop/url
+if [ -n "$RET" ]; then
+    echo "URL='$RET'" > /etc/fusiondirectory/desktoprc
+fi

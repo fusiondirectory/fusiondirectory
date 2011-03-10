@@ -1,0 +1,3 @@
+opengroupware/personal			/usr/share/fusiondirectory/plugins
+opengroupware/help/guide.xml		/usr/share/fusiondirectory/doc/plugins/opengroupware
+opengroupware/locale			/usr/share/fusiondirectory/locale/plugins/opengroupware

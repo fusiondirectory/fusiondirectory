@@ -1,7 +1,7 @@
-Index: gosa/ldapmanager/addons/ldapmanager/contentcsv.tpl
+Index: fusiondirectory/ldapmanager/addons/ldapmanager/contentcsv.tpl
 ===================================================================
---- gosa.orig/ldapmanager/addons/ldapmanager/contentcsv.tpl	2010-12-05 13:09:24.000000000 +0100
-+++ gosa/ldapmanager/addons/ldapmanager/contentcsv.tpl	2010-12-05 13:11:37.000000000 +0100
+--- fusiondirectory.orig/ldapmanager/addons/ldapmanager/contentcsv.tpl	2010-12-05 13:09:24.000000000 +0100
++++ fusiondirectory/ldapmanager/addons/ldapmanager/contentcsv.tpl	2010-12-05 13:11:37.000000000 +0100
 @@ -1,5 +1,5 @@
  <p>
 -  {t}The CSV import plugin provides methods to generate user accounts from a file containing Comma Seperated Values. The administrator can decide which columns should be transfered to which attribute. Note that you must have at least the UID, GIVENNAME and SURENAME set.{/t}
