@@ -254,7 +254,7 @@ class Step_Feedback  extends setup_step
       $str .="\nDistribution: ".$this->distribution;
       $str .="\nWeb Server: ".$this->web_server;
       $str .="\nPHP_Version: ".$this->php_version;
-      $str .="\nGOsa_Version: ".strip_tags(get_gosa_version());
+      $str .="\nFusionDirectory_Version: ".strip_tags(get_gosa_version());
       $str .="\nLDAP Server: ".$this->ldap_server;
       $str .="\nObject count: ".$this->object_count;
       $str .="\nMissing features: ".($this->want_to_see_next);

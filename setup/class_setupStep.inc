@@ -24,7 +24,7 @@ class setup_step extends plugin
 {
   var $s_title      = "Still undefined";
   var $s_title_long = "This is a still undefined long title";
-  var $s_info       = "This info is still undefined. This setup step detect the type of your ldap. This is a basic requirement for gosa.";
+  var $s_info       = "This info is still undefined. This setup step detect the type of your ldap. for gosa.This is a basic requirement for fusiondirectory.";
   var $is_active    = false;
   var $is_enabled   = false;
   var $is_completed = false;
