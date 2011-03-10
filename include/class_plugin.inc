@@ -1204,7 +1204,7 @@ class plugin
   }
 
 
-  /*! \brief    Calls external hooks which are defined for this plugin (gosa.conf)
+  /*! \brief    Calls external hooks which are defined for this plugin (fusiondirectory.conf)
    *            Replaces placeholder by class values of this plugin instance.
    *  @param    Allows to a add special replacements.
    */
@@ -1416,7 +1416,7 @@ class plugin
       return;
     }
 
-    /* Get configuration from gosa.conf */
+    /* Get configuration from fusiondirectory.conf */
     $config = $this->config;
 
     /* Create lokal ldap connection */

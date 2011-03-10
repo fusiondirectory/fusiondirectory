@@ -24,7 +24,7 @@
  *  \ingroup coreclasses
  *
  * The configuration class, responsible for parsing and querying the
- * gosa configuration file.
+ * fusiondirectory configuration file.
  */
 
 class config  {
@@ -149,7 +149,7 @@ class config  {
     $xmldata= fread($fh, 100000);
     fclose($fh);
     if(!xml_parse($this->parser, chop($xmldata))){
-      $msg = sprintf(_("XML error in gosa.conf: %s at line %d"),
+      $msg = sprintf(_("XML error in fusiondirectory.conf: %s at line %d"),
             xml_error_string(xml_get_error_code($this->parser)),
             xml_get_current_line_number($this->parser));
       msg_dialog::display(_("Configuration error"), $msg, FATAL_ERROR_DIALOG);
@@ -1084,7 +1084,7 @@ class config  {
    *
    *  This function checks if the configuration file version matches the
    *  version of the gosa version, by comparing it with the configuration
-   *  file version of the example gosa.conf that comes with GOsa.
+   *  file version of the example fusiondirectory.conf that comes with GOsa.
    *  If a version mismatch occurs an error is triggered.
    * */
   function check_config_version()
@@ -1097,7 +1097,7 @@ class config  {
      */
     session::global_set("LastChecked",$this->config_version);
 
-    $current = md5(file_get_contents(CONFIG_TEMPLATE_DIR."/gosa.conf"));
+    $current = md5(file_get_contents(CONFIG_TEMPLATE_DIR."/fusiondirectory.conf"));
 
     /* Check contributed config version and current config version.
      */
@@ -1112,7 +1112,7 @@ class config  {
    *  On debian systems the session files are deleted with
    *  a cronjob, which detects all files older than specified 
    *  in php.ini:'session.gc_maxlifetime' and removes them.
-   *  This function checks if the gosa.conf value matches the range
+   *  This function checks if the fusiondirectory.conf value matches the range
    *  defined by session.gc_maxlifetime.
    *
    *  \return boolean TRUE or FALSE depending on weither the settings match

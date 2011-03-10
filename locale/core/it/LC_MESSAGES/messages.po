@@ -621,7 +621,7 @@ msgstr "Terminal Server"
 #: html/password.php:58 html/index.php:144
 #, fuzzy, php-format
 msgid "GOsa configuration %s/%s is not readable. Aborted."
-msgstr "Il file di configurazione di GOsa %s/gosa.conf non è legibile."
+msgstr "Il file di configurazione di GOsa %s/fusiondirectory.conf non è legibile."
 
 #: html/password.php:74 html/index.php:144 html/index.php:216
 #: html/main.php:268
@@ -716,7 +716,7 @@ msgstr "Rilevato un conflitto di sessione"
 
 #: html/index.php:64
 msgid ""
-"The session lifetime configured in your gosa.conf will be overridden by php."
+"The session lifetime configured in your fusiondirectory.conf will be overridden by php."
 "ini settings."
 msgstr ""
 
@@ -1857,7 +1857,7 @@ msgstr ""
 #: include/utils/class_timezone.inc:47
 #, php-format
 msgid ""
-"The timezone setting '%s' in your gosa.conf is not valid. Cannot calculate "
+"The timezone setting '%s' in your fusiondirectory.conf is not valid. Cannot calculate "
 "correct timezone offset."
 msgstr ""
 
@@ -2538,7 +2538,7 @@ msgstr ""
 
 #: include/class_config.inc:152
 #, php-format
-msgid "XML error in gosa.conf: %s at line %d"
+msgid "XML error in fusiondirectory.conf: %s at line %d"
 msgstr ""
 
 #: include/class_config.inc:318
@@ -5517,12 +5517,12 @@ msgstr "File di configurazione"
 msgid ""
 "Your configuration file is currently world readable. Please update the file "
 "permissions!"
-msgstr "Il file di configurazione di GOsa %s/gosa.conf non è legibile."
+msgstr "Il file di configurazione di GOsa %s/fusiondirectory.conf non è legibile."
 
 #: setup/class_setupStep_Finish.inc:106
 #, fuzzy
 msgid "The configuration is currently not readable or it does not exists."
-msgstr "Il file di configurazione di GOsa %s/gosa.conf non è legibile."
+msgstr "Il file di configurazione di GOsa %s/fusiondirectory.conf non è legibile."
 
 #: setup/class_setupStep_Finish.inc:115
 #, fuzzy, php-format

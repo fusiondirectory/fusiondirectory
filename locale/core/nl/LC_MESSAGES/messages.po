@@ -656,7 +656,7 @@ msgstr "Terminal server"
 #: html/password.php:58 html/index.php:144
 #, fuzzy, php-format
 msgid "GOsa configuration %s/%s is not readable. Aborted."
-msgstr "GOsa configuratie %s/gosa.conf is niet leesbaar. Geannuleerd."
+msgstr "GOsa configuratie %s/fusiondirectory.conf is niet leesbaar. Geannuleerd."
 
 #: html/password.php:74 html/index.php:144 html/index.php:216
 #: html/main.php:268
@@ -754,7 +754,7 @@ msgstr "De sessie zal niet versleuteld zijn."
 
 #: html/index.php:64
 msgid ""
-"The session lifetime configured in your gosa.conf will be overridden by php."
+"The session lifetime configured in your fusiondirectory.conf will be overridden by php."
 "ini settings."
 msgstr ""
 
@@ -1415,7 +1415,7 @@ msgid ""
 "administrator!"
 msgstr ""
 "Kan de blokkade informatie niet ophalen uit de LDAP database. Controleer a.u."
-"b. de 'config' regel in gosa.conf!"
+"b. de 'config' regel in fusiondirectory.conf!"
 
 #: include/functions.inc:825
 #, fuzzy, php-format
@@ -1915,7 +1915,7 @@ msgstr "%s%% resultaat in bestand %s"
 #: include/utils/class_timezone.inc:47
 #, php-format
 msgid ""
-"The timezone setting '%s' in your gosa.conf is not valid. Cannot calculate "
+"The timezone setting '%s' in your fusiondirectory.conf is not valid. Cannot calculate "
 "correct timezone offset."
 msgstr ""
 
@@ -2611,8 +2611,8 @@ msgstr "Onbekende FAI status %s"
 
 #: include/class_config.inc:152
 #, php-format
-msgid "XML error in gosa.conf: %s at line %d"
-msgstr "XML fout in gosa.conf: %s op regel %d"
+msgid "XML error in fusiondirectory.conf: %s at line %d"
+msgstr "XML fout in fusiondirectory.conf: %s op regel %d"
 
 #: include/class_config.inc:318
 #, fuzzy
@@ -5606,12 +5606,12 @@ msgstr "Configuratie bestand"
 msgid ""
 "Your configuration file is currently world readable. Please update the file "
 "permissions!"
-msgstr "GOsa configuratie %s/gosa.conf is niet leesbaar. Geannuleerd."
+msgstr "GOsa configuratie %s/fusiondirectory.conf is niet leesbaar. Geannuleerd."
 
 #: setup/class_setupStep_Finish.inc:106
 #, fuzzy
 msgid "The configuration is currently not readable or it does not exists."
-msgstr "GOsa configuratie %s/gosa.conf is niet leesbaar. Geannuleerd."
+msgstr "GOsa configuratie %s/fusiondirectory.conf is niet leesbaar. Geannuleerd."
 
 #: setup/class_setupStep_Finish.inc:115
 #, fuzzy, php-format
@@ -8514,10 +8514,10 @@ msgstr "automatisch"
 
 #, fuzzy
 #~ msgid ""
-#~ "Setting for SMBHASH in gosa.conf is incorrect! Cannot change Samba "
+#~ "Setting for SMBHASH in fusiondirectory.conf is incorrect! Cannot change Samba "
 #~ "password."
 #~ msgstr ""
-#~ "De instelling voor 'SMBHASH' in gosa.conf is niet correct. Kan het samba "
+#~ "De instelling voor 'SMBHASH' in fusiondirectory.conf is niet correct. Kan het samba "
 #~ "wachtwoord niet veranderen."
 
 #, fuzzy

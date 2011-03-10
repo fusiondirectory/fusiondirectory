@@ -630,7 +630,7 @@ msgstr "Błąd krytyczny"
 #: html/password.php:58 html/index.php:144
 #, fuzzy, php-format
 msgid "GOsa configuration %s/%s is not readable. Aborted."
-msgstr "Nie można czytać pliku konfiguracji %s/gosa.conf. Kończę."
+msgstr "Nie można czytać pliku konfiguracji %s/fusiondirectory.conf. Kończę."
 
 #: html/password.php:74 html/index.php:144 html/index.php:216
 #: html/main.php:268
@@ -722,7 +722,7 @@ msgstr "Sesja nie jest szyfrowana!"
 
 #: html/index.php:64
 msgid ""
-"The session lifetime configured in your gosa.conf will be overridden by php."
+"The session lifetime configured in your fusiondirectory.conf will be overridden by php."
 "ini settings."
 msgstr ""
 
@@ -984,7 +984,7 @@ msgid ""
 "set."
 msgstr ""
 "Funkcjonalność snapshot jest włączona, lecz wymagana zmienna '%s' nie jest "
-"skonfigurowana w gosa.conf."
+"skonfigurowana w fusiondirectory.conf."
 
 #: include/class_SnapshotHandler.inc:59 include/class_config.inc:1160
 #, fuzzy, php-format
@@ -993,7 +993,7 @@ msgid ""
 "is missing. Please install '%s'."
 msgstr ""
 "Funkcjonalność snapshot jest włączona, lecz wymagana zmienna '%s' nie jest "
-"skonfigurowana w gosa.conf."
+"skonfigurowana w fusiondirectory.conf."
 
 #: include/class_acl.inc:27
 msgid "Access control"
@@ -1362,7 +1362,7 @@ msgid ""
 "administrator!"
 msgstr ""
 "Nie można pobrać informacji o blokadach w bazie LDAP. Proszę sprawdzić wpis "
-"'config' w gosa.conf!"
+"'config' w fusiondirectory.conf!"
 
 #: include/functions.inc:825
 #, fuzzy, php-format
@@ -1846,7 +1846,7 @@ msgstr "%s%% trafień w pliku %s"
 #: include/utils/class_timezone.inc:47
 #, php-format
 msgid ""
-"The timezone setting '%s' in your gosa.conf is not valid. Cannot calculate "
+"The timezone setting '%s' in your fusiondirectory.conf is not valid. Cannot calculate "
 "correct timezone offset."
 msgstr ""
 
@@ -2527,8 +2527,8 @@ msgstr "Nieznany wpis  '%s'!"
 
 #: include/class_config.inc:152
 #, php-format
-msgid "XML error in gosa.conf: %s at line %d"
-msgstr "Błąd XML w pliku gosa.conf: %s w linii %d"
+msgid "XML error in fusiondirectory.conf: %s at line %d"
+msgstr "Błąd XML w pliku fusiondirectory.conf: %s w linii %d"
 
 #: include/class_config.inc:318
 #, fuzzy
@@ -5440,12 +5440,12 @@ msgstr "Plik konfiguracyjny"
 msgid ""
 "Your configuration file is currently world readable. Please update the file "
 "permissions!"
-msgstr "Nie można czytać pliku konfiguracji %s/gosa.conf. Kończę."
+msgstr "Nie można czytać pliku konfiguracji %s/fusiondirectory.conf. Kończę."
 
 #: setup/class_setupStep_Finish.inc:106
 #, fuzzy
 msgid "The configuration is currently not readable or it does not exists."
-msgstr "Nie można czytać pliku konfiguracji %s/gosa.conf. Kończę."
+msgstr "Nie można czytać pliku konfiguracji %s/fusiondirectory.conf. Kończę."
 
 #: setup/class_setupStep_Finish.inc:115
 #, fuzzy, php-format
@@ -8291,10 +8291,10 @@ msgstr "Automatycznie"
 
 #, fuzzy
 #~ msgid ""
-#~ "Setting for SMBHASH in gosa.conf is incorrect! Cannot change Samba "
+#~ "Setting for SMBHASH in fusiondirectory.conf is incorrect! Cannot change Samba "
 #~ "password."
 #~ msgstr ""
-#~ "Parametr SMBHASH w gosa.conf jest nieprawidłowy! Nie można zmienić hasła "
+#~ "Parametr SMBHASH w fusiondirectory.conf jest nieprawidłowy! Nie można zmienić hasła "
 #~ "Samba."
 
 #, fuzzy

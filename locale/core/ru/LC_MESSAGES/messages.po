@@ -648,7 +648,7 @@ msgstr "Терминал-сервер"
 #, fuzzy, php-format
 msgid "GOsa configuration %s/%s is not readable. Aborted."
 msgstr ""
-"Не удается прочитать файл настройки GOsa %s/gosa.conf. Операция прервана."
+"Не удается прочитать файл настройки GOsa %s/fusiondirectory.conf. Операция прервана."
 
 #: html/password.php:74 html/index.php:144 html/index.php:216
 #: html/main.php:268
@@ -742,7 +742,7 @@ msgstr "Данные, передаваемые в течение этого се
 
 #: html/index.php:64
 msgid ""
-"The session lifetime configured in your gosa.conf will be overridden by php."
+"The session lifetime configured in your fusiondirectory.conf will be overridden by php."
 "ini settings."
 msgstr ""
 
@@ -1413,7 +1413,7 @@ msgid ""
 "administrator!"
 msgstr ""
 "Не удается считать блокировку в базе данных LDAP. Проверьте, раздел \"config"
-"\" в файле gosa.conf!"
+"\" в файле fusiondirectory.conf!"
 
 #: include/functions.inc:825
 #, fuzzy, php-format
@@ -1897,7 +1897,7 @@ msgstr ""
 #: include/functions_helpviewer.inc:45
 #, fuzzy, php-format
 msgid "XML error in guide.xml: %s at line %d"
-msgstr "Ошибка XML в gosa.conf: %s в строке %d"
+msgstr "Ошибка XML в fusiondirectory.conf: %s в строке %d"
 
 #: include/functions_helpviewer.inc:88
 msgid "No help available for this plugin."
@@ -1916,7 +1916,7 @@ msgstr ""
 #: include/utils/class_timezone.inc:47
 #, php-format
 msgid ""
-"The timezone setting '%s' in your gosa.conf is not valid. Cannot calculate "
+"The timezone setting '%s' in your fusiondirectory.conf is not valid. Cannot calculate "
 "correct timezone offset."
 msgstr ""
 
@@ -2604,8 +2604,8 @@ msgstr "состояние неизвестно"
 
 #: include/class_config.inc:152
 #, php-format
-msgid "XML error in gosa.conf: %s at line %d"
-msgstr "Ошибка XML в gosa.conf: %s в строке %d"
+msgid "XML error in fusiondirectory.conf: %s at line %d"
+msgstr "Ошибка XML в fusiondirectory.conf: %s в строке %d"
 
 #: include/class_config.inc:318
 #, fuzzy
@@ -5641,13 +5641,13 @@ msgid ""
 "Your configuration file is currently world readable. Please update the file "
 "permissions!"
 msgstr ""
-"Не удается прочитать файл настройки GOsa %s/gosa.conf. Операция прервана."
+"Не удается прочитать файл настройки GOsa %s/fusiondirectory.conf. Операция прервана."
 
 #: setup/class_setupStep_Finish.inc:106
 #, fuzzy
 msgid "The configuration is currently not readable or it does not exists."
 msgstr ""
-"Не удается прочитать файл настройки GOsa %s/gosa.conf. Операция прервана."
+"Не удается прочитать файл настройки GOsa %s/fusiondirectory.conf. Операция прервана."
 
 #: setup/class_setupStep_Finish.inc:115
 #, fuzzy, php-format
@@ -5657,7 +5657,7 @@ msgid ""
 "shouldn't. You may want to execute these commands to achieve this "
 "requirement:"
 msgstr ""
-"Поместив файл gosa.conf в каталог /etc/gosa, убедитесь, что только "
+"Поместив файл fusiondirectory.conf в каталог /etc/gosa, убедитесь, что только "
 "пользователь веб-сервера может его читать. Для этого вам, возможно, "
 "понадобится выполнить следующие команды:"
 
@@ -8457,10 +8457,10 @@ msgstr "автоматически"
 
 #, fuzzy
 #~ msgid ""
-#~ "Setting for SMBHASH in gosa.conf is incorrect! Cannot change Samba "
+#~ "Setting for SMBHASH in fusiondirectory.conf is incorrect! Cannot change Samba "
 #~ "password."
 #~ msgstr ""
-#~ "Параметр SMBHASH в gosa.conf некорректен! Не удается сменить пароль Samba."
+#~ "Параметр SMBHASH в fusiondirectory.conf некорректен! Не удается сменить пароль Samba."
 
 #, fuzzy
 #~ msgid "User delted"

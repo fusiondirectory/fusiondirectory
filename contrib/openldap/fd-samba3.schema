@@ -393,7 +393,7 @@ objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.19 NAME 'gosaSnapshotObject'
        MAY  ( description ) )
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.20 NAME 'gosaConfig'
-       DESC 'Settings for gosa. Replaces parts of the gosa.conf. (v2.6)' SUP top STRUCTURAL
+       DESC 'Settings for gosa. Replaces parts of the fusiondirectory.conf. (v2.6)' SUP top STRUCTURAL
        MAY  ( gosaSetting ) )
 
 # GOto submenu entries

@@ -719,7 +719,7 @@ class userinfo
   }
 
  
-  /*! \brief  Returns TRUE if the current user is configured in IGNORE_ACL=".." in your gosa.conf 
+  /*! \brief  Returns TRUE if the current user is configured in IGNORE_ACL=".." in your fusiondirectory.conf 
       @param  Return Boolean TRUE if we have to skip ACL checks else FALSE.
    */ 
   function ignore_acl_for_current_user()

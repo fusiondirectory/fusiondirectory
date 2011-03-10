@@ -48,7 +48,7 @@ class setup
     $this->o_steps[$i++] = new Step_Finish();
     $this->i_steps = $i-1;
 
-    /* Ensure that setup is not reachable if gosa.conf (CONFIG_FILE) */
+    /* Ensure that setup is not reachable if fusiondirectory.conf (CONFIG_FILE) */
     if(file_exists(CONFIG_DIR."/".CONFIG_FILE)){
       session::destroy();
       header("Location: index.php")    ;

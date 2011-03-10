@@ -35,10 +35,10 @@ if(!isset($_SERVER['CONFIG_DIR'])){
 }
 
 /* Allow setting the config file in the apache configuration
-    e.g.  SetEnv CONFIG_FILE gosa.conf.2.6
+    e.g.  SetEnv CONFIG_FILE fusiondirectory.conf.2.6
  */
 if(!isset($_SERVER['CONFIG_FILE'])){
-  define ("CONFIG_FILE", "gosa.conf");
+  define ("CONFIG_FILE", "fusiondirectory.conf");
 }else{
   define ("CONFIG_FILE",$_SERVER['CONFIG_FILE']);
 }
@@ -251,7 +251,7 @@ function get_browser_language()
     }
   }
 
-  /* Check for global language settings in gosa.conf */
+  /* Check for global language settings in fusiondirectory.conf */
   if (isset ($config) && $config->get_cfg_value('language') != ""){
     $lang = $config->get_cfg_value('language');
     if(!preg_match("/utf/i",$lang)){
@@ -2061,7 +2061,7 @@ function recurse($rule, $variables)
  *
  *  Unroll given rule string by filling in attributes.
  *
- * \param string 'rule' The rule string from gosa.conf.
+ * \param string 'rule' The rule string from fusiondirectory.conf.
  * \param array 'attributes' A dictionary of attribute/value mappings
  * \return string Expanded string, still containing the id keyword.
  */
@@ -2105,7 +2105,7 @@ function expand_id($rule, $attributes)
  *  Unroll given rule string by filling in attributes and replacing
  *  all keywords.
  *
- * \param string 'rule' The rule string from gosa.conf.
+ * \param string 'rule' The rule string from fusiondirectory.conf.
  * \param array 'attributes' A dictionary of attribute/value mappings
  * \return array List of valid not used uids
  */

@@ -634,7 +634,7 @@ msgstr "终端服务器"
 #: html/password.php:58 html/index.php:144
 #, fuzzy, php-format
 msgid "GOsa configuration %s/%s is not readable. Aborted."
-msgstr "GOsa 配置 %s/gosa.conf 不可读取。退出。"
+msgstr "GOsa 配置 %s/fusiondirectory.conf 不可读取。退出。"
 
 #: html/password.php:74 html/index.php:144 html/index.php:216
 #: html/main.php:268
@@ -728,7 +728,7 @@ msgstr "会话不会被加密。"
 
 #: html/index.php:64
 msgid ""
-"The session lifetime configured in your gosa.conf will be overridden by php."
+"The session lifetime configured in your fusiondirectory.conf will be overridden by php."
 "ini settings."
 msgstr ""
 
@@ -1377,7 +1377,7 @@ msgstr ""
 msgid ""
 "Cannot create locking information in LDAP tree. Please contact your "
 "administrator!"
-msgstr "无法获得 LDAP 数据库的锁信息。检查 gosa.conf 中的 'config' 条目！"
+msgstr "无法获得 LDAP 数据库的锁信息。检查 fusiondirectory.conf 中的 'config' 条目！"
 
 #: include/functions.inc:825
 #, fuzzy, php-format
@@ -1862,7 +1862,7 @@ msgstr "%s%% 点击率于文件 %s"
 #: include/utils/class_timezone.inc:47
 #, php-format
 msgid ""
-"The timezone setting '%s' in your gosa.conf is not valid. Cannot calculate "
+"The timezone setting '%s' in your fusiondirectory.conf is not valid. Cannot calculate "
 "correct timezone offset."
 msgstr ""
 
@@ -2539,8 +2539,8 @@ msgstr "未知 FAIstate %s"
 
 #: include/class_config.inc:152
 #, php-format
-msgid "XML error in gosa.conf: %s at line %d"
-msgstr "XML 出错于 gosa.conf: %s ，行 %d"
+msgid "XML error in fusiondirectory.conf: %s at line %d"
+msgstr "XML 出错于 fusiondirectory.conf: %s ，行 %d"
 
 #: include/class_config.inc:318
 #, fuzzy
@@ -5491,12 +5491,12 @@ msgstr "需要 XML 功能来解析配置文件。"
 msgid ""
 "Your configuration file is currently world readable. Please update the file "
 "permissions!"
-msgstr "GOsa 配置 %s/gosa.conf 不可读取。退出。"
+msgstr "GOsa 配置 %s/fusiondirectory.conf 不可读取。退出。"
 
 #: setup/class_setupStep_Finish.inc:106
 #, fuzzy
 msgid "The configuration is currently not readable or it does not exists."
-msgstr "GOsa 配置 %s/gosa.conf 不可读取。退出。"
+msgstr "GOsa 配置 %s/fusiondirectory.conf 不可读取。退出。"
 
 #: setup/class_setupStep_Finish.inc:115
 #, fuzzy, php-format
@@ -8282,9 +8282,9 @@ msgstr "自动"
 
 #, fuzzy
 #~ msgid ""
-#~ "Setting for SMBHASH in gosa.conf is incorrect! Cannot change Samba "
+#~ "Setting for SMBHASH in fusiondirectory.conf is incorrect! Cannot change Samba "
 #~ "password."
-#~ msgstr "在 gosa.conf 中 SMBHASH 的设置不正确！无法修改 Samba 口令。"
+#~ msgstr "在 fusiondirectory.conf 中 SMBHASH 的设置不正确！无法修改 Samba 口令。"
 
 #, fuzzy
 #~ msgid "User delted"

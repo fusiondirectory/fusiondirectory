@@ -253,7 +253,7 @@ class SnapshotHandler {
       return;
     }
 
-    /* Get configuration from gosa.conf */
+    /* Get configuration from fusiondirectory.conf */
     $config = $this->config;
 
     /* Create lokal ldap connection */

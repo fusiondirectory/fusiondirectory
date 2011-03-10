@@ -22,7 +22,7 @@
 
 class Step_Finish extends setup_step
 {
-  var $gosa_conf_contrib   = "/gosa.conf";
+  var $gosa_conf_contrib   = "/fusiondirectory.conf";
   var $cfg_file_written = FALSE;
   var $header_image = "images/setup/server.png";
 
@@ -60,12 +60,12 @@ class Step_Finish extends setup_step
       $webgroup = $info['name'];
     }
 
-    /* Check if there is currently an active gosa.conf 
+    /* Check if there is currently an active fusiondirectory.conf 
      */
     $exists = file_exists(CONFIG_DIR."/".CONFIG_FILE); 
 
     /* Redirect to GOsa login, if : 
-     *   - gosa.conf exists
+     *   - fusiondirectory.conf exists
      *   - Permisssion are set correctly 
      */ 
     if(isset($_POST['next']) && $exists && !$this->is_world_readable(CONFIG_DIR."/".CONFIG_FILE)){

@@ -750,10 +750,10 @@ msgstr "La session n'est pas cryptée !"
 
 #: html/index.php:64
 msgid ""
-"The session lifetime configured in your gosa.conf will be overridden by php."
+"The session lifetime configured in your fusiondirectory.conf will be overridden by php."
 "ini settings."
 msgstr ""
-"La durée de validité des sessions configurée dans votre gosa.conf sera "
+"La durée de validité des sessions configurée dans votre fusiondirectory.conf sera "
 "remplacée par celle définie dans votre php.ini."
 
 #: html/index.php:165
@@ -1891,10 +1891,10 @@ msgstr "%s%% de correspondance dans le fichier %s"
 #: include/utils/class_timezone.inc:47
 #, php-format
 msgid ""
-"The timezone setting '%s' in your gosa.conf is not valid. Cannot calculate "
+"The timezone setting '%s' in your fusiondirectory.conf is not valid. Cannot calculate "
 "correct timezone offset."
 msgstr ""
-"Le fuseau horaire '%s' indiqué dans votre gosa.conf est invalide. Impossible "
+"Le fuseau horaire '%s' indiqué dans votre fusiondirectory.conf est invalide. Impossible "
 "de calculer le décalage horaire correct."
 
 #: include/utils/class_xml.inc:48
@@ -2565,8 +2565,8 @@ msgstr "Impossible d'enlever l'entrée %s !"
 
 #: include/class_config.inc:152
 #, php-format
-msgid "XML error in gosa.conf: %s at line %d"
-msgstr "Erreur XML dans gosa.conf: %s à la ligne %d"
+msgid "XML error in fusiondirectory.conf: %s at line %d"
+msgstr "Erreur XML dans fusiondirectory.conf: %s à la ligne %d"
 
 #: include/class_config.inc:318
 msgid "Cannot bind to LDAP. Please contact the system administrator."

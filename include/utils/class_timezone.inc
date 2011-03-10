@@ -39,14 +39,14 @@ class timezone {
       $stamp = time();
     }
 
-    /* Is there a timezone configured in the gosa configuration (gosa.conf) */
+    /* Is there a timezone configured in the fusiondirectory configuration (fusiondirectory.conf) */
     if ($config->get_cfg_value("timezone") != ""){
 
       /* Get zonename */
       $tz = $config->get_cfg_value("timezone");
 
       if(!@date_default_timezone_set($tz)){
-        msg_dialog::display(_("Configuration error"), sprintf(_("The timezone setting '%s' in your gosa.conf is not valid. Cannot calculate correct timezone offset."), $tz), ERROR_DIALOG);
+        msg_dialog::display(_("Configuration error"), sprintf(_("The timezone setting '%s' in your fusiondirectory.conf is not valid. Cannot calculate correct timezone offset."), $tz), ERROR_DIALOG);
       }
       $tz_delta = date("Z", $stamp);
       $tz_delta = $tz_delta / 3600 ;

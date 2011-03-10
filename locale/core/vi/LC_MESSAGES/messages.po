@@ -742,10 +742,10 @@ msgstr "Phiên không được mã hóa!"
 
 #: html/index.php:64
 msgid ""
-"The session lifetime configured in your gosa.conf will be overridden by php."
+"The session lifetime configured in your fusiondirectory.conf will be overridden by php."
 "ini settings."
 msgstr ""
-"Thời gian hạn định của phiên được cấu hình trong file gosa.conf của bạn sẽ "
+"Thời gian hạn định của phiên được cấu hình trong file fusiondirectory.conf của bạn sẽ "
 "được ghi đè lên bởi các thiết lập php.ini."
 
 #: html/index.php:165
@@ -1875,10 +1875,10 @@ msgstr "%s%% tỷ lệ hit trong file %s"
 #: include/utils/class_timezone.inc:47
 #, php-format
 msgid ""
-"The timezone setting '%s' in your gosa.conf is not valid. Cannot calculate "
+"The timezone setting '%s' in your fusiondirectory.conf is not valid. Cannot calculate "
 "correct timezone offset."
 msgstr ""
-"Múi giờ thiết lập '%s' trong gosa.config không hợp lệ. Không thể tính toán "
+"Múi giờ thiết lập '%s' trong fusiondirectory.config không hợp lệ. Không thể tính toán "
 "chính xác thời gian bù thêm vào múi giờ."
 
 #: include/utils/class_xml.inc:48
@@ -2540,8 +2540,8 @@ msgstr "Không thể xóa entry %s!"
 
 #: include/class_config.inc:152
 #, php-format
-msgid "XML error in gosa.conf: %s at line %d"
-msgstr "Lỗi XML trong gosa.conf: %s tại dòng %d"
+msgid "XML error in fusiondirectory.conf: %s at line %d"
+msgstr "Lỗi XML trong fusiondirectory.conf: %s tại dòng %d"
 
 #: include/class_config.inc:318
 msgid "Cannot bind to LDAP. Please contact the system administrator."
