@@ -47,7 +47,7 @@ BuildArch:		noarch
 	%define apacheuser apache 
 	%define apachegroup apache 
 	%define webconf	/etc/httpd/conf.d/	
-	%define docdir /usr/share/doc/gosa-%{version}
+	%define docdir /usr/share/doc/fusiondirectory-%{version}
 %endif
 
 %description
@@ -191,17 +191,17 @@ done
 # Copy files for gosa
 mkdir -p %{buildroot}/usr/sbin
 mkdir -p %{buildroot}/etc/gosa
-mkdir -p %{buildroot}/usr/share/doc/gosa
+mkdir -p %{buildroot}/usr/share/doc/fusiondirectory
 mkdir -p %{buildroot}%{webconf}
 
 touch %{buildroot}/etc/gosa/gosa.secrets
-mv contrib/gosa.conf		%{buildroot}/usr/share/doc/gosa
+mv contrib/gosa.conf		%{buildroot}/usr/share/doc/fusiondirectory
 mv update-gosa 			%{buildroot}/usr/sbin
 mv bin/gosa-encrypt-passwords 	%{buildroot}/usr/sbin
 mv debian/gosa-apache.conf 	%{buildroot}%{webconf}
 mv contrib/shells 		%{buildroot}/etc/gosa
 mv contrib/encodings 		%{buildroot}/etc/gosa
-mv contrib/openldap/slapd.conf 	%{buildroot}/usr/share/doc/gosa/slapd.conf-example
+mv contrib/openldap/slapd.conf 	%{buildroot}/usr/share/doc/fusiondirectory/slapd.conf-example
 mv -f doc manual
 
 # Cleanup manual dirs
@@ -278,7 +278,7 @@ mv contrib/gosa.1.gz 		%{buildroot}/usr/share/man/man1/
 gzip -c contrib/gosa.conf.5 > contrib/gosa.conf.5.gz
 mv contrib/gosa.conf.5.gz 		%{buildroot}/usr/share/man/man5/
 
-mkdir -p %{buildroot}/usr/share/doc/gosa-%{version}
+mkdir -p %{buildroot}/usr/share/doc/fusiondirectory-%{version}
 rm -rf %{buildroot}/usr/share/gosa/contrib
 
 ########################
@@ -309,9 +309,9 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %doc %attr(-,root,root) AUTHORS README README.safemode Changelog COPYING INSTALL FAQ CODING
-%config %attr(-,root,root) /usr/share/doc/gosa/gosa.conf
+%config %attr(-,root,root) /usr/share/doc/fusiondirectory/gosa.conf
 #%attr(-,root,root) /contrib/openldap
-%config %attr(-,root,root) /usr/share/doc/gosa/slapd.conf-example
+%config %attr(-,root,root) /usr/share/doc/fusiondirectory/slapd.conf-example
 %attr(755,root,root) /usr/sbin/update-gosa
 %attr(755,root,root) /usr/share/man/man1/gosa-encrypt-passwords.1.gz
 %attr(755,root,root) /usr/share/man/man1/update-gosa.1.gz

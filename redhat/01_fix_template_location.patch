@@ -6,7 +6,7 @@ diff -urNad gosa-core~/include/functions.inc gosa-core/include/functions.inc
 
  /* Define common locatitions */
 -define ("CONFIG_TEMPLATE_DIR", "../contrib");
-+define ("CONFIG_TEMPLATE_DIR", "/usr/share/doc/gosa");
++define ("CONFIG_TEMPLATE_DIR", "/usr/share/doc/fusiondirectory");
  define ("TEMP_DIR","/var/cache/gosa/tmp");
 
  /* Define get_list flags */
