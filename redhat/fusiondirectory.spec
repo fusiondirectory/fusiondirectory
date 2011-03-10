@@ -177,7 +177,7 @@ mkdir -p %{buildroot}/usr/share/gosa
 
 # Create files for temporary stuff
 for i in compile config cache; do \
-  mkdir -p %{buildroot}/var/spool/gosa/$i ; \
+  mkdir -p %{buildroot}/var/spool/fusiondirectory/$i ; \
 done
 mkdir -p %{buildroot}/var/cache/gosa
 
@@ -295,13 +295,13 @@ rm -rf %{buildroot}
 
 %pre
 # Cleanup compile dir on updates, always exit cleanly even on errors
-[ -d /var/spool/gosa ] && rm -rf /var/spool/gosa/* ; exit 0
+[ -d /var/spool/fusiondirectory ] && rm -rf /var/spool/fusiondirectory/* ; exit 0
 
 ########################
 
 %postun
 # Remove temporary files, just to be sure
-[ -d /var/spool/gosa ] && rm -rf /var/spool/gosa ; exit 0
+[ -d /var/spool/fusiondirectory ] && rm -rf /var/spool/fusiondirectory ; exit 0
 [ -d /usr/share/gosa ] && rm -rf /usr/share/gosa ; exit 0
 
 ########################
@@ -320,7 +320,7 @@ rm -rf %{buildroot}
 %attr(644,root,root) /etc/gosa/encodings
 %attr(755,root,root) /usr/sbin/gosa-encrypt-passwords
 %config(noreplace) %attr(0644,root,root) %{webconf}/gosa-apache.conf
-%attr(0700, %{apacheuser}, %{apachegroup}) /var/spool/gosa
+%attr(0700, %{apacheuser}, %{apachegroup}) /var/spool/fusiondirectory
 %attr(0755, root,root) /usr/share/gosa
 #%attr(0755, root,root) /usr/share/gosa/html
 #%attr(0755, root,root) /usr/share/gosa/ihtml

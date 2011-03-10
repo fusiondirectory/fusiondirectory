@@ -73,7 +73,7 @@ if(session::global_get('_LAST_PAGE_REQUEST') == ""){
   session::global_set('_LAST_PAGE_REQUEST',time());
 }else{
 
-  /* check GOsa.conf for defined session lifetime */
+  /* check FusionDirectoryµ.conf for defined session lifetime */
   $max_life= $config->get_cfg_value("sessionLifetime", 60*60*2);
 
   /* get time difference between last page reload */
@@ -95,7 +95,7 @@ if(session::global_get('_LAST_PAGE_REQUEST') == ""){
 @DEBUG (DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, "config");
 
 /* Set template compile directory */
-$smarty->compile_dir= $config->get_cfg_value("templateCompileDirectory", '/var/spool/gosa');
+$smarty->compile_dir= $config->get_cfg_value("templateCompileDirectory", '/var/spool/fusiondirectory');
 
 /* Set default */
 $reload_navigation = false;
@@ -146,7 +146,7 @@ if (!session::global_is_set('plist')){
       } else {
         msg_dialog::display(_("Fatal error"),
             sprintf(_("Cannot locate file '%s' - please run '%s' to fix this"),
-              "$BASE_DIR/$path", "<b>update-gosa</b>"), FATAL_ERROR_DIALOG);
+              "$BASE_DIR/$path", "<b>update-fusiondirectory</b>"), FATAL_ERROR_DIALOG);
         exit;
       }
     }
@@ -165,7 +165,7 @@ $plist= session::global_get('plist');
 if (isset($global_check) && $config->get_cfg_value("forceglobals") == "true"){
   msg_dialog::display(
             _("PHP configuration"),
-            _("Fatal error: Register globals is on. GOsa will refuse to login unless this is fixed by an administrator."),
+            _("Fatal error: Register globals is on. FusionDirectoryµ will refuse to login unless this is fixed by an administrator."),
             FATAL_ERROR_DIALOG);
 
   new log("security","login","",array(),"Register globals is on. For security reasons, this should be turned off.") ;
@@ -194,7 +194,7 @@ if ($config->get_cfg_value("handleExpiredAccounts") == "true"){
     if ($expired == POSIX_WARN_ABOUT_EXPIRATION && !session::is_set('POSIX_WARN_ABOUT_EXPIRATION__DONE')){
 
         // The users password is about to xpire soon, display a warning message.
-        new log("security","gosa","",array(),"password for user \"$ui->username\" is about to expire") ;
+        new log("security","fusiondirectory","",array(),"password for user \"$ui->username\" is about to expire") ;
         msg_dialog::display(_("Password change"), _("Your password is about to expire, please change your password!"), INFO_DIALOG);
         session::set('POSIX_WARN_ABOUT_EXPIRATION__DONE', TRUE);
     
@@ -202,7 +202,7 @@ if ($config->get_cfg_value("handleExpiredAccounts") == "true"){
 
         // The password is expired, we are now going to enforce a new one from the user.
 
-        // Hide the GOsa menus to avoid leaving the enforced password change dialog.
+        // Hide the FusionDirectoryµ menus to avoid leaving the enforced password change dialog.
         $smarty->assign("hideMenus", TRUE);
         $plug = (isset($_GET['plug'])) ? $_GET['plug'] : null;
 
@@ -224,7 +224,7 @@ if (isset($_GET['plug']) && $plist->plugin_access_allowed($_GET['plug'])){
   $plugin_dir= $plist->get_path($plug);
   session::global_set('plugin_dir',$plugin_dir);
   if ($plugin_dir == ""){
-    new log("security","gosa","",array(),"main.php called with invalid plug parameter \"$plug\"") ;
+    new log("security","fusiondirectory","",array(),"main.php called with invalid plug parameter \"$plug\"") ;
     header ("Location: logout.php");
     exit;
   }
@@ -318,7 +318,7 @@ if (session::global_get('js')==FALSE){
   $smarty->assign("help_method", "href='helpviewer.php$plug' target='_blank'");
 } else {
   $smarty->assign("javascript", "true");
-  $smarty->assign("help_method"," onclick=\"return popup('helpviewer.php$plug','GOsa help');\"");
+  $smarty->assign("help_method"," onclick=\"return popup('helpviewer.php$plug','FusionDirectoryµ help');\"");
 }
 
 if($ui->ignore_acl_for_current_user()){
@@ -431,7 +431,7 @@ if (isset($_POST['_channel_'])){
 } else {
 	$smarty->assign("channel", "");
 }
-$smarty->assign ("title","GOsa");
+$smarty->assign ("title","FusionDirectoryµ");
 $display= "<!-- headers.tpl-->".$smarty->fetch(get_template_path('headers.tpl')).
           $smarty->fetch(get_template_path('framework.tpl'));
 
@@ -440,10 +440,10 @@ $display= "<!-- headers.tpl-->".$smarty->fetch(get_template_path('headers.tpl'))
 */
 $cookie = array();
 
-if(isset($_COOKIE['GOsa_Filter_Settings'])){
-  $cookie = unserialize(base64_decode($_COOKIE['GOsa_Filter_Settings']));
-}elseif(isset($HTTP_COOKIE_VARS['GOsa_Filter_Settings'])){
-  $cookie = unserialize(base64_decode($HTTP_COOKIE_VARS['GOsa_Filter_Settings']));
+if(isset($_COOKIE['FusionDirectoryµ_Filter_Settings'])){
+  $cookie = unserialize(base64_decode($_COOKIE['FusionDirectoryµ_Filter_Settings']));
+}elseif(isset($HTTP_COOKIE_VARS['FusionDirectoryµ_Filter_Settings'])){
+  $cookie = unserialize(base64_decode($HTTP_COOKIE_VARS['FusionDirectoryµ_Filter_Settings']));
 }
 
 /* Save filters? */
@@ -457,7 +457,7 @@ if($config->get_cfg_value("storeFilterSettings") == "true"){
   if(isset($_GET['plug'])){
     $cookie[$ui->dn]['plug'] = $_GET['plug'];
   }
-  @setcookie("GOsa_Filter_Settings",base64_encode(serialize($cookie)),time() + (60*60*24));
+  @setcookie("FusionDirectoryµ_Filter_Settings",base64_encode(serialize($cookie)),time() + (60*60*24));
 }
 
 /* Show page... */

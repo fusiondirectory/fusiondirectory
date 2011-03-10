@@ -41,7 +41,7 @@ class Step_Config3 extends setup_step
               "user_filter_cookie" => true,
               "ppd_path" => "/var/spool/ppd/",
               "ppd_path_active" => FALSE,
-              "compile" =>  "/var/spool/gosa",
+              "compile" =>  "/var/spool/fusiondirectory",
               "snmpcommunity" =>  "goto",
               "debuglevel" => 0,
               "session_lifetime" => 7200,
@@ -79,9 +79,9 @@ class Step_Config3 extends setup_step
 
   function update_strings()
   {
-    $this->s_title      = _("GOsa settings 3/3");
-    $this->s_title_long = _("GOsa settings 3/3");
-    $this->s_info       = _("Tweak some GOsa core behaviour");
+    $this->s_title      = _("FusionDirectory settings 3/3");
+    $this->s_title_long = _("FusionDirectory settings 3/3");
+    $this->s_info       = _("Tweak some FusionDirectory core behaviour");
   }
   
 

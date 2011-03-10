@@ -55,7 +55,7 @@ session::set('LastError',"");
 
 /* Check if CONFIG_FILE is accessible */
 if (!is_readable(CONFIG_DIR."/".CONFIG_FILE)){
-  msg_dialog::display(_("Fatal error"), sprintf(_("GOsa configuration %s/%s is not readable. Aborted."),CONFIG_DIR,CONFIG_FILE), FATAL_ERROR_DIALOG);
+  msg_dialog::display(_("Fatal error"), sprintf(_("FusionDirectory configuration %s/%s is not readable. Aborted."),CONFIG_DIR,CONFIG_FILE), FATAL_ERROR_DIALOG);
   exit;
 }
 
@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] != "POST"){
 }
 
 /* Set template compile directory */
-$smarty->compile_dir= $config->get_cfg_value("templateCompileDirectory", '/var/spool/gosa');
+$smarty->compile_dir= $config->get_cfg_value("templateCompileDirectory", '/var/spool/fusiondirectory');
 
 /* Check for compile directory */
 if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))){

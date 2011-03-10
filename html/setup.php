@@ -59,7 +59,7 @@ session::set('errorsAlreadyPosted',array());
 session::set('LastError',"");
 
 /* Set template compile directory */
-$smarty->compile_dir= '/var/spool/gosa/';
+$smarty->compile_dir= '/var/spool/fusiondirectory/';
 
 /* Check for compile directory */
 if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))){

@@ -61,7 +61,7 @@ function displayLogin()
 
   if(!$config->check_session_lifetime()){
     $smarty->assign ("lifetime", _("Warning").": ".
-        _("The session lifetime configured in your gosa.conf will be overridden by php.ini settings."));
+        _("The session lifetime configured in your fusiondirectory.conf will be overridden by php.ini settings."));
   }else{
     $smarty->assign ("lifetime", "");
   }
@@ -139,9 +139,9 @@ if(isset($_POST['javascript']) && $_POST['javascript'] == "true") {
   session::global_set('js',FALSE);
 }
 
-/* Check if gosa.conf (.CONFIG_FILE) is accessible */
+/* Check if fusiondirectory.conf (.CONFIG_FILE) is accessible */
 if (!is_readable(CONFIG_DIR."/".CONFIG_FILE)){
-  msg_dialog::display(_("Configuration error"),sprintf(_("GOsa configuration %s/%s is not readable. Aborted."), CONFIG_DIR,CONFIG_FILE),FATAL_ERROR_DIALOG);
+  msg_dialog::display(_("Configuration error"),sprintf(_("FusionDirectory configuration %s/%s is not readable. Aborted."), CONFIG_DIR,CONFIG_FILE),FATAL_ERROR_DIALOG);
   exit();
 }
 
@@ -158,7 +158,7 @@ if ($config->get_cfg_value("sendCompressedOutput") != ""){
 }
 
 /* Set template compile directory */
-$smarty->compile_dir= $config->get_cfg_value("templateCompileDirectory", '/var/spool/gosa');
+$smarty->compile_dir= $config->get_cfg_value("templateCompileDirectory", '/var/spool/fusiondirectory');
 
 /* Check for compile directory */
 if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))){
@@ -330,7 +330,7 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
       session::global_set('ui',$ui);
       session::global_set('session_cnt',0);
 
-      /* Let GOsa trigger a new connection for each POST, save
+      /* Let FusionDirectory trigger a new connection for each POST, save
          config to session. */
       $config->get_departments();
       $config->make_idepartments();
@@ -339,12 +339,12 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
       /* Restore filter settings from cookie, if available */
       if($config->get_cfg_value("storeFilterSettings") == "true"){
 
-        if(isset($_COOKIE['GOsa_Filter_Settings']) || isset($HTTP_COOKIE_VARS['GOsa_Filter_Settings'])){
+        if(isset($_COOKIE['FusionDirectory_Filter_Settings']) || isset($HTTP_COOKIE_VARS['FusionDirectory_Filter_Settings'])){
 
-          if(isset($_COOKIE['GOsa_Filter_Settings'])){
-            $cookie_all = unserialize(base64_decode($_COOKIE['GOsa_Filter_Settings']));
+          if(isset($_COOKIE['FusionDirectory_Filter_Settings'])){
+            $cookie_all = unserialize(base64_decode($_COOKIE['FusionDirectory_Filter_Settings']));
           }else{
-            $cookie_all = unserialize(base64_decode($HTTP_COOKIE_VARS['GOsa_Filter_Settings']));
+            $cookie_all = unserialize(base64_decode($HTTP_COOKIE_VARS['FusionDirectory_Filter_Settings']));
           }
           if(isset($cookie_all[$ui->dn])){
             $cookie = $cookie_all[$ui->dn];
