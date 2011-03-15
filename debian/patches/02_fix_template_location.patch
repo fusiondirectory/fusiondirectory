@@ -1,7 +1,7 @@
 Author: <cajus@debian.org>
 Description: Fix location of configuration template.
---- a/core/functions.inc
-+++ b/core/include/functions.inc
+--- core/functions.inc
++++ core/include/functions.inc
 @@ -40,7 +40,7 @@
  }
  
