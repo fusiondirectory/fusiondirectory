@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Liste der Anwendungen</TITLE>
+<META NAME="description" CONTENT="Liste der Anwendungen">
+<META NAME="keywords" CONTENT="applications">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-15">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="applications.css">
+
+</HEAD>
+
+<BODY >
+
+<H1><A NAME="SECTION00010000000000000000">
+Liste der Anwendungen</A>
+</H1>
+
+<P>
+Die Liste der Anwendungen dient als Ausgangspunkt für alle weiteren
+Schritte. Sie wird erreicht über den Menüeintrag <SPAN  CLASS="textbf"><SPAN ID="hue18">Anwendungen</SPAN></SPAN>
+aus der Kategorie <SPAN  CLASS="textbf">Administration</SPAN> (Menü am linken Rand des
+Bildschirms). Bei Auswahl wird die Liste der Anwendungen geladen (Überschrift:
+<SPAN  CLASS="textsf"><SPAN ID="hue107"><SPAN  CLASS="textit">Anwendungsverwaltung</SPAN></SPAN></SPAN>).
+
+<P>
+Die Liste ist in zwei Spalten geteilt:
+
+<P>
+
+<UL>
+<LI>Die erste Spalte enthält zunächst die verfügbaren Abteilungen, dann
+die Namen der Anwendungen (alphabetisch sortiert)
+</LI>
+<LI>Die zweite Spalte enthält Knöpfe für die möglichen Aktionen, um Verwaltungsaufgaben
+durchzuführen (Ausschneiden, Kopieren, Bearbeiten, Entfernen)
+</LI>
+</UL>
+Die vier Knöpfe <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_root.png"
+ ALT="Image list_root">, <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_back.png"
+ ALT="Image list_back">,
+<IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_home.png"
+ ALT="Image list_home">, und <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_reload.png"
+ ALT="Image list_reload">
+oberhalb der Liste dienen zur Navigation innerhalb der Abteilungshierarchie:
+
+<P>
+
+<UL>
+<LI><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_root.png"
+ ALT="Image list_root">: Zur Wurzel
+</LI>
+<LI><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_back.png"
+ ALT="Image list_back">: Eine Abteilung nach oben
+</LI>
+<LI><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_home.png"
+ ALT="Image list_home">: Zur Basis des angemeldeten Benutzers
+</LI>
+<LI><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_reload.png"
+ ALT="Image list_reload">: Aktuelle Abteilung neu laden
+</LI>
+</UL>
+Es ist weiterhin möglich, die Anzeige der Anwendungen mithilfe
+von Filtern zu beeinflussen (Kasten <SPAN  CLASS="textbf">Filter</SPAN> <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./rocket.png"
+ ALT="Image rocket">
+am rechten Rand):
+
+<P>
+
+<UL>
+<LI><SPAN ID="hue38">Nach Namen suchen :</SPAN>
+<P>
+- Klick auf <SPAN  CLASS="textbf">*</SPAN> zeigt alle Anwendungen an
+
+<P>
+<SPAN ID="hue41">- Klick auf einen Buchstaben zeigt alle Anwendungen
+an, deren Name mit dem gewählten Buchstaben beginnt</SPAN>
+<P>
+<SPAN ID="hue43">- Klick auf eine Zahl zeigt alle Anwendungen an,
+deren Name mit der gewählten Ziffer beginnt</SPAN>
+<P>
+</LI>
+<LI>Schnellsuche <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./search.png"
+ ALT="Image search">: Suchkriterium (z.B.
+Name der Anwendung) eingeben, Klick auf Knopf <SPAN  CLASS="textit">Filter anwenden</SPAN>.
+</LI>
+</UL>
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html21"
+  HREF="node2.html">Eine Anwendung hinzufügen / Eine bestehende Anwendung bearbeiten</A>
+<LI><A NAME="tex2html22"
+  HREF="node3.html">Allgemein</A>
+<UL>
+<LI><A NAME="tex2html23"
+  HREF="node4.html">Optionen</A>
+<LI><A NAME="tex2html24"
+  HREF="node5.html">Skript</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html25"
+  HREF="node6.html">Optionen</A>
+<LI><A NAME="tex2html26"
+  HREF="node7.html">Referenzen</A>
+</UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+Jan Wenzel
+2008-03-13
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>List of blocklists</TITLE>
+<META NAME="description" CONTENT="List of blocklists">
+<META NAME="keywords" CONTENT="blocklists">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-15">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="blocklists.css">
+
+</HEAD>
+
+<BODY >
+
+<H1><A NAME="SECTION00010000000000000000">
+List of blocklists</A>
+</H1>
+
+<P>
+The administrator can configure a blocklist when clicking on the <SPAN  CLASS="textbf"><SPAN ID="hue27">FAX
+Blocklists</SPAN></SPAN> button in the <SPAN  CLASS="textbf">Administration</SPAN> menu on the left.
+The <SPAN  CLASS="textsf"><SPAN ID="hue30">Blocklist</SPAN></SPAN> <SPAN  CLASS="textsf"><SPAN ID="hue77"><SPAN  CLASS="textit">M<SMALL>ANAGEMENT</SMALL></SPAN></SPAN></SPAN>
+page is displayed.
+
+<P>
+She is divided on two columns :
+
+<P>
+- The first column is used to display the list of blocklist, 
+
+<P>
+- The second column contains icons which are the actions you can execute
+on blocklist. 
+
+<P>
+- Those icons ( <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_back.png"
+ ALT="Image list_back">, <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_root.png"
+ ALT="Image list_root">,
+<IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_home.png"
+ ALT="Image list_home"> ) are used to modify the display
+according to the department, the icons predominate other selections
+of display.
+<P>
+<BR>
+
+
+<P>
+It's from the <SPAN  CLASS="textsf">Blocklist Management</SPAN> page that the system
+administrator manage the list of blocklist of the organization.
+
+<P>
+It's possible to modify the display of blocklist by using the table
+called Filters <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./rocket.png"
+ ALT="Image rocket"> :
+
+<P>
+
+<UL>
+<LI><SPAN ID="hue42">To search on names :</SPAN>
+<P>
+- Click on the asterisk to show all blocklists;
+
+<P>
+<SPAN ID="hue44">- Click on a letter to show all the blocklists starting
+with this letter;</SPAN>
+<P>
+<SPAN ID="hue46">- Click on a number to show all blocklists starting
+with this number.</SPAN>
+<P>
+</LI>
+<LI>For a fast search <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./search.png"
+ ALT="Image search"> : fill the field
+by the name of the application searched and click on the <SPAN  CLASS="textit">Apply
+filter</SPAN> button.
+</LI>
+</UL>
+
+<P>
+<BR>
+To create and configure blocklists, the administrator click on <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_new_blocklist.png"
+ ALT="Image list_new_blocklist">.
+
+<P>
+The administrator uses tabs to configure the blocklist.
+
+<P>
+To save changes use the <SPAN  CLASS="textit">Save</SPAN> button, to come back without saving
+use the <SPAN  CLASS="textit">Cancel</SPAN> button.
+
+<P>
+All the fields followed by an asterisk must be filled.
+
+<P>
+
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html18"
+  HREF="node2.html">Generic</A>
+<LI><A NAME="tex2html19"
+  HREF="node3.html">Blocked numbers</A>
+<LI><A NAME="tex2html20"
+  HREF="node4.html">Information</A>
+</UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+Jan Wenzel
+2008-03-13
+</ADDRESS>
+</BODY>
+</HTML>

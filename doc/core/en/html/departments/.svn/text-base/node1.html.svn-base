@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>List of departments</TITLE>
+<META NAME="description" CONTENT="List of departments">
+<META NAME="keywords" CONTENT="departments">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-15">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="departments.css">
+
+</HEAD>
+
+<BODY >
+
+<H1><A NAME="SECTION00010000000000000000">
+List of departments</A>
+</H1>
+
+<P>
+The administrator can create or modify a department or to access informations
+when clicking on the <SPAN  CLASS="textbf"><SPAN ID="hue27">Departements</SPAN></SPAN> button
+in the <SPAN  CLASS="textbf">Administration</SPAN> menu on the left. The <SPAN  CLASS="textsf"><SPAN ID="hue30">Department</SPAN></SPAN>
+<SPAN  CLASS="textsf"><SPAN ID="hue82"><SPAN  CLASS="textit">M<SMALL>ANAGEMENT</SMALL></SPAN></SPAN></SPAN> page is displayed.
+
+<P>
+She is divided on two columns :
+
+<P>
+- The first column is used to display the names of department, 
+
+<P>
+- The second column contains icons which are the actions you can execute
+on departments. 
+
+<P>
+- Those icons ( <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_back.png"
+ ALT="Image list_back">, <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_root.png"
+ ALT="Image list_root">,
+<IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_home.png"
+ ALT="Image list_home"> ) are used to modify the display
+according to the department, the icons predominate other selections
+of display.
+<P>
+<BR>
+
+
+<P>
+It's from the <SPAN  CLASS="textsf">Department Management</SPAN> page that the
+system administrator manage the list of deparments of the organization.
+
+<P>
+It's possible to modify the diplay of departments by using the table
+called Filters <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./rocket.png"
+ ALT="Image rocket"> :
+
+<P>
+
+<UL>
+<LI><SPAN ID="hue42">To search on names :</SPAN>
+<P>
+- Click on the asterisk to show all departments;
+
+<P>
+<SPAN ID="hue44">- Click on a letter to show all the departments
+starting with this letter;</SPAN>
+<P>
+<SPAN ID="hue46">- Click on a number to show all departments starting
+with this number.</SPAN>
+<P>
+</LI>
+<LI>For a fast search <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./search.png"
+ ALT="Image search"> : fill the field
+by the name of the department searched and click on the <SPAN  CLASS="textit">Apply
+filter</SPAN> button.
+</LI>
+</UL>
+
+<P>
+<BR>
+
+
+<P>
+To create a department click on <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_new_department.png"
+ ALT="Image list_new_department">.
+
+<P>
+You will see tabs. The administrator uses tabs to configure the department. 
+
+<P>
+To save changes use the <SPAN  CLASS="textit">Save</SPAN> button, to come back without saving
+use the <SPAN  CLASS="textit">Cancel</SPAN> button.
+
+<P>
+All the fields followed by an asterisk must be filled.
+
+<P>
+
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html19"
+  HREF="node2.html">Generic</A>
+<UL>
+<LI><A NAME="tex2html20"
+  HREF="node3.html">Properties</A>
+<LI><A NAME="tex2html21"
+  HREF="node4.html">Location</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html22"
+  HREF="node5.html">References</A>
+</UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+Jan Wenzel
+2008-03-13
+</ADDRESS>
+</BODY>
+</HTML>

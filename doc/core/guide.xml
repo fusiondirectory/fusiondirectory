@@ -1,0 +1,67 @@
+<ENTRY name="generic"										VALUE="Generic"						PATH=""																				FILE="" />
+<ENTRY name="userManagement"						VALUE="Users"							PATH="../doc/core/__LANG__/html/users"				FILE="index.html" />
+<ENTRY name="user"											VALUE="User"							PATH="../doc/core/__LANG__/html/users"				FILE="node2.html" />
+<ENTRY name="posixAccount"							VALUE="Unix"							PATH="../doc/core/__LANG__/html/users"				FILE="node5.html" />
+<ENTRY name="environment"								VALUE="Environment"				PATH="../doc/core/__LANG__/html/users"				FILE="node10.html" />
+<ENTRY name="mailAccount"								VALUE="Mail"							PATH="../doc/core/__LANG__/html/users"				FILE="node17.html" />
+<ENTRY name="sambaAccount"							VALUE="Samba"							PATH="../doc/core/__LANG__/html/users"				FILE="node22.html" />
+<ENTRY name="connectivity"							VALUE="Connectivity"			PATH="../doc/core/__LANG__/html/users"				FILE="node26.html" />
+<ENTRY name="gofaxAccount"							VALUE="Fax"								PATH="../doc/core/__LANG__/html/users"				FILE="node32.html" />
+<ENTRY name="phoneAccount"							VALUE="Phone account"			PATH="../doc/core/__LANG__/html/users"				FILE="node37.html" />
+<ENTRY NAME="ppdManager"								VALUE=""									PATH=""																				FILE="" />
+<ENTRY NAME="password"									VALUE="Password"					PATH="../doc/core/__LANG__/html/users"				FILE="node41.html" />
+<ENTRY NAME="hotplugDialog"							VALUE="Hotplug device"		PATH="../doc/core/__LANG__/html/users"				FILE="node15.html" />
+<ENTRY NAME="kioskManagementDialog"			VALUE="Kiosk profile"			PATH="../doc/core/__LANG__/html/users"				FILE="node12.html" />
+<ENTRY NAME="selectPrinterDialog"				VALUE=""									PATH=""																				FILE="" />
+<ENTRY NAME="logonManagementDialog"			VALUE="Logon scripts"			PATH="../doc/core/__LANG__/html/users"				FILE="node13.html" />
+<ENTRY NAME="nagiosAccount"							VALUE=""									PATH=""																				FILE="" />
+<ENTRY NAME="blocklist"									VALUE="Fax Blocklists"		PATH="../doc/core/__LANG__/html/faxreports"		FILE="index.html" />
+<ENTRY NAME="faxreport"									VALUE="Fax Reports"				PATH="../doc/core/__LANG__/html/faxreports"		FILE="node1.html" />
+<ENTRY NAME="csvimport"									VALUE="CSV import"				PATH="../doc/core/__LANG__/html/ldapmanager"	FILE="index.html" />
+<ENTRY NAME="ldifimport"								VALUE="Ldif import"				PATH="../doc/core/__LANG__/html/ldapmanager"	FILE="index.html" />
+<ENTRY NAME="ldifexport"								VALUE="Ldif export"				PATH="../doc/core/__LANG__/html/ldapmanager"	FILE="index.html" />
+<ENTRY NAME="xlsexport"									VALUE="Xls export"				PATH="../doc/core/__LANG__/html/ldapmanager"	FILE="index.html" />
+<ENTRY NAME="logview"										VALUE="Log view"					PATH="../doc/core/__LANG__/html/logview"			FILE="logview.html" />
+<ENTRY NAME="mailgroup"									VALUE="Mail group"				PATH="../doc/core/__LANG__/html/groups"				FILE="node11.html" />
+<ENTRY NAME="appgroup"									VALUE="Application group"	PATH="../doc/core/__LANG__/html/groups"				FILE="node11.html" />
+<ENTRY NAME="groupManagement"						VALUE="Groups"						PATH="../doc/core/__LANG__/html/groups"				FILE="index.html" />
+<ENTRY NAME="applicationParameters"			VALUE="Application"				PATH="../doc/core/__LANG__/html/applications"	FILE="index.html" />
+<ENTRY NAME="applicationManagement"			VALUE="Application"				PATH="../doc/core/__LANG__/html/applications"	FILE="index.html" />
+<ENTRY NAME="application"								VALUE="Application"				PATH="../doc/core/__LANG__/html/applications"	FILE="index.html" />
+<ENTRY NAME="departmentManagement"			VALUE="Department"				PATH="../doc/core/__LANG__/html/departments"	FILE="index.html" />
+<ENTRY NAME="department"								VALUE="Department"				PATH="../doc/core/__LANG__/html/departments"	FILE="index.html" />
+<ENTRY NAME="phoneGeneric"							VALUE="Generic"						PATH="../doc/core/__LANG__/html/users"				FILE="node37.html" />
+<ENTRY NAME="phonequeue"								VALUE="Phone queue"				PATH="../doc/core/__LANG__/html/ogroups"			FILE="index.html" />
+<ENTRY NAME="conference"								VALUE="Phone conference"	PATH="../doc/core/__LANG__/html/conference"		FILE="index.html" />
+<ENTRY NAME="phoneConferenceManagment"	VALUE="Phone conference"	PATH="../doc/core/__LANG__/html/conference"		FILE="index.html" />
+<ENTRY NAME="mailqueue"									VALUE="Mail queue"				PATH="../doc/core/__LANG__/html/mailqueue"		FILE="node1.html" />
+<ENTRY NAME="gofonMacro"								VALUE="Phone macro"				PATH="../doc/core/__LANG__/html/macro"				FILE="index.html" />
+<ENTRY NAME="macro"											VALUE="Phone macro"				PATH="../doc/core/__LANG__/html/macro"				FILE="index.html" />
+<ENTRY NAME="macroParameter"						VALUE="Phone macro"				PATH="../doc/core/__LANG__/html/macro"				FILE="index.html" />
+<ENTRY NAME="ogroup"										VALUE="Object group"			PATH="../doc/core/__LANG__/html/ogroups"			FILE="index.html" />
+<ENTRY NAME="ogroupManagement"					VALUE="Object group"			PATH="../doc/core/__LANG__/html/ogroups"			FILE="index.html" />
+<ENTRY NAME="mailogroup"								VALUE="Object group"			PATH="../doc/core/__LANG__/html/ogroups"			FILE="index.html" />
+<ENTRY NAME="selectUserToPrinterDialog"	VALUE=""									PATH=""																				FILE="" />
+<ENTRY NAME="printerPPDSelectionDialog"	VALUE=""									PATH=""																				FILE="" />
+<ENTRY NAME="printerPPDDialog"					VALUE=""									PATH=""																				FILE="" />
+<ENTRY NAME="printgeneric"							VALUE=""									PATH=""																				FILE="" />
+<ENTRY NAME="componentGeneric"					VALUE=""									PATH=""																				FILE="" />
+<ENTRY NAME="fonreport"									VALUE="Phone Reports"			PATH="../doc/core/__LANG__/html/fonreports"		FILE="node1.html" />
+<ENTRY NAME="reference"									VALUE=""									PATH=""																				FILE="" />
+<ENTRY NAME="certificate"								VALUE=""									PATH=""																				FILE="" />
+<ENTRY NAME="config"										VALUE=""									PATH=""																				FILE="" />
+<ENTRY NAME="userinfo"									VALUE=""									PATH=""																				FILE="" />
+<ENTRY NAME="sieve"											VALUE=""									PATH=""																				FILE="" />
+<ENTRY NAME="sambaMungedDial"						VALUE=""									PATH=""																				FILE="" />
+<ENTRY NAME="passwordMethodssha"				VALUE="Passwort"					PATH="../doc/core/__LANG__/html/users"				FILE="node41.html" />
+<ENTRY NAME="passwordMethodCrypt"				VALUE="Passwort"					PATH="../doc/core/__LANG__/html/users"				FILE="node41.html" />
+<ENTRY NAME="passwordMethod"						VALUE="Passwort"					PATH="../doc/core/__LANG__/html/users"				FILE="node41.html" />
+<ENTRY NAME="passwordMethodsha"					VALUE="Passwort"					PATH="../doc/core/__LANG__/html/users"				FILE="node41.html" />
+<ENTRY NAME="passwordMethodsmd5"				VALUE="Passwort"					PATH="../doc/core/__LANG__/html/users"				FILE="node41.html" />
+<ENTRY NAME="passwordMethodkerberos"		VALUE="Passwort"					PATH="../doc/core/__LANG__/html/users"				FILE="node41.html" />
+<ENTRY NAME="passwordMethodMd5"					VALUE="Passwort"					PATH="../doc/core/__LANG__/html/users"				FILE="node41.html" />
+<ENTRY NAME="passwordMethodClear"				VALUE="Passwort"					PATH="../doc/core/__LANG__/html/users"				FILE="node41.html" />
+<ENTRY NAME="mailMethod"								VALUE="Mail"							PATH="../doc/core/__LANG__/html/users"				FILE="node17.html" />
+<ENTRY NAME="mailMethodKolab"						VALUE="Mail"							PATH="../doc/core/__LANG__/html/users"				FILE="node17.html" />
+<ENTRY NAME="mailMethodSendmailCyrus"		VALUE="Mail"							PATH="../doc/core/__LANG__/html/users"				FILE="node17.html" />
+<ENTRY NAME="mailMethodCyrus"						VALUE="Mail"							PATH="../doc/core/__LANG__/html/users"				FILE="node17.html" />

@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Informations</TITLE>
+<META NAME="description" CONTENT="Informations">
+<META NAME="keywords" CONTENT="applications">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-15">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="applications.css">
+
+</HEAD>
+
+<BODY >
+
+<H3><A NAME="SECTION00011100000000000000">
+Informations</A>
+</H3>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Nom de l'application<SPAN ID="hue75">*</SPAN></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Indiquez le nom de l'application.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Nom à afficher<SPAN ID="hue76">*</SPAN></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Nom de l'application qui sera visible par l'utilisateur</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Exécuter<SPAN ID="hue77">*</SPAN></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Application à exécuter avec ses paramètres éventuels</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Description</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Description de l'application</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Base</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Faites votre sélection dans la liste déroulante du département associé
+à l'application.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Icône</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Sélectionnez l'image dans l'arborescence de votre système, ensuite
+cliquez sur le bouton Mise à jour. L'icône est alors associée à l'application.</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<P>
+<BR>
+
+
+<P>
+<BR><HR>
+<ADDRESS>
+Jan Wenzel
+2008-03-13
+</ADDRESS>
+</BODY>
+</HTML>

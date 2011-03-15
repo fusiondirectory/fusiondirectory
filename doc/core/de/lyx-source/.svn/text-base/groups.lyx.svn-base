@@ -1,0 +1,985 @@
+#LyX 1.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 221
+\textclass article
+\language ngerman
+\inputencoding auto
+\fontscheme default
+\graphics default
+\paperfontsize default
+\spacing single 
+\papersize a4paper
+\paperpackage a4
+\use_geometry 0
+\use_amsmath 1
+\use_natbib 0
+\use_numerical_citations 0
+\paperorientation portrait
+\leftmargin 10mm
+\topmargin 10mm
+\rightmargin 10mm
+\bottommargin 20mm
+\headheight 10mm
+\headsep 10mm
+\footskip 10mm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\quotes_times 2
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+
+\layout Title
+
+
+\series bold 
+Gruppenverwaltung
+\layout Section
+
+Liste der Gruppen
+\layout Standard
+
+Die Liste der Gruppen dient als Ausgangspunkt für alle weiteren Schritte.
+ Sie wird erreicht über den Menüeintrag 
+\series bold 
+\color blue
+Gruppen
+\series default 
+\color default
+ aus der Kategorie 
+\series bold 
+Administration
+\series default 
+ (Menü am linken Rand des Bildschirms).
+ Bei Auswahl wird die Liste der Gruppen geladen (Überschrift: Gruppenverwaltung).
+ Auf dieser Seite können Gruppen hinzugefügt, bearbeitet oder entfernt werden.
+\layout Standard
+
+Die Liste ist in drei Spalten geteilt:
+\layout Itemize
+
+Die erste Spalte enthält zunächst die verfügbaren Abteilungen, dann die
+ Namen der Gruppn (alphabetisch sortiert)
+\layout Itemize
+
+Die zweite Spalte enthält Knöpfe für den Schnellzugriff auf die verschiedenen
+ Reiter der Gruppe (nur verfügbar, wenn die entsprechende Erweiterung aktiviert
+ ist).
+ Sie dient daher ausserdem für einen schnellen Überblick über die aktivierten
+ Erweiterungen einer Gruppe
+\begin_deeper 
+\layout Itemize
+
+Die möglichen Symbole und ihre Bedeutung:
+\newline 
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features>
+<column alignment="center" valignment="top" leftline="true" width="0">
+<column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Symbol
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Bedeutung
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\begin_inset Graphics
+	filename images/select_groups.png
+
+\end_inset 
+
+
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Gruppe verfügt über UNIX-Eigenschaften
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\begin_inset Graphics
+	filename images/smallenv.png
+
+\end_inset 
+
+
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Gruppe verfügt über Umgebungs-Einstellungen
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\begin_inset Graphics
+	filename images/mailto.png
+
+\end_inset 
+
+
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Gruppe verfügt über ein Mail-Konto
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\begin_inset Graphics
+	filename images/select_winstation.png
+
+\end_inset 
+
+
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Gruppe verfügt über SAMBA-Eigenschaften
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\begin_inset Graphics
+	filename images/select_application.png
+
+\end_inset 
+
+
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Gruppe verfügt über Anwendungs-Eigenschaften
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\end_deeper 
+\layout Itemize
+
+Die dritte Spalte enthält Knöpfe für die möglichen Aktionen, um Verwaltungsaufga
+ben durchzuführen (Ausschneiden, Kopieren, Bearbeiten, Entfernen)
+\layout Standard
+\added_space_bottom medskip 
+Die Knöpfe (
+\begin_inset Graphics
+	filename images/list_root.png
+
+\end_inset 
+
+, 
+\begin_inset Graphics
+	filename images/list_back.png
+
+\end_inset 
+
+, 
+\begin_inset Graphics
+	filename images/list_home.png
+
+\end_inset 
+
+, 
+\begin_inset Graphics
+	filename images/list_reload.png
+
+\end_inset 
+
+) dienen zur Navigation innerhalb der Abteilungshierarchie:
+\layout Itemize
+
+
+\begin_inset Graphics
+	filename images/list_root.png
+
+\end_inset 
+
+ Zur Wurzel
+\layout Itemize
+
+
+\begin_inset Graphics
+	filename images/list_back.png
+
+\end_inset 
+
+ Eine Abteilung nach oben
+\layout Itemize
+
+
+\begin_inset Graphics
+	filename images/list_home.png
+
+\end_inset 
+
+ Zur Basis des Benutzers
+\layout Itemize
+
+
+\begin_inset Graphics
+	filename images/list_reload.png
+
+\end_inset 
+
+ Aktuelle Abteilung neu laden
+\layout Standard
+
+Es ist weiterhin möglich, die Anzeige der Gruppen mithilfe von Filtern zu
+ beeinflussen (Kasten 
+\series bold 
+Filter
+\series default 
+ 
+\begin_inset Graphics
+	filename images/rocket.png
+
+\end_inset 
+
+ am rechten Rand):
+\layout Itemize
+
+
+\color black
+Nach Namen suchen:
+\begin_deeper 
+\layout Itemize
+
+Klick auf * zeigt alle Gruppen an
+\layout Itemize
+
+Klick auf einen Buchstaben zeigt alle Gruppen an, deren Namen mit dem gewählten
+ Buchstaben beginnt
+\layout Itemize
+
+Klick auf eine Ziffer zeigt alle Gruppen an, deren Name mit der gewählten
+ Ziffer beginnt
+\end_deeper 
+\layout Itemize
+
+Weitere Suchoptionen:
+\newline 
+(Die folgenden Filter arbeiten so, dass nur Gruppen angezeigt werden, die
+ über mindestens eine der ausgewählten Optionen verfügen; Standardmässig
+ werden alle Gruppen angezeigt
+\begin_deeper 
+\layout Itemize
+
+
+\emph on 
+Zeige primäre Gruppen
+\emph default 
+: Zeigt Gruppen, die für mindestens einen Benutzer die primäre Gruppe ist
+\layout Itemize
+
+
+\emph on 
+Zeige Samba-Gruppen
+\emph default 
+: Zeigt Gruppen, die über Samba-Eigenschaften verfügen
+\layout Itemize
+
+
+\emph on 
+Zeige Anwendungs-Gruppen
+\emph default 
+: Zeigt Gruppen, die über Anwendungs-Eigenschaften verfügen
+\layout Itemize
+
+
+\emph on 
+Zeige E-Mail-Gruppen
+\emph default 
+: Zeigt Gruppen, die über ein Mail-Konto verfügen
+\layout Itemize
+
+
+\emph on 
+Zeige Funktions-Gruppen
+\emph default 
+: Zeigt Gruppen, die nur über die generischen Attribute verfügen
+\end_deeper 
+\layout Itemize
+
+Komplexere Einschränkungen über reguläre Ausdrücke bieten die Textfelder
+ im unteren Bereich des Kastens Filter: 
+\begin_deeper 
+\layout Itemize
+
+Im ersten Feld kann nach Namen gesucht werden, die auf den eingebenen regulären
+ Ausdruck passen.
+\layout Itemize
+
+Im zweiten Feld kann nach Gruppen anhand eines eingebenen Benutzerausdrucks
+ gesucht werden, es werden also Gruppen gefunden, in denen ein auf den Suchausdr
+uck passender Benutzer Mitglied ist.
+\end_deeper 
+\layout Subsection*
+
+Gruppe anlegen
+\layout Standard
+
+Um eine neue Gruppe anzulegen klicken Sie auf den Knopf 
+\begin_inset Graphics
+	filename images/list_new_group.png
+
+\end_inset 
+
+.
+ Befolgen Sie dann die nachfolgende Beschreibung für die Bearbeitung bestehender
+ Gruppen.
+\layout Subsubsection*
+
+Eine bestehende Gruppe bearbeiten
+\layout Standard
+
+Klicken Sie in der Liste der Gruppen auf den Gruppennamen der Gruppe, die
+ Sie bearbeiten möchten.
+ Die Seite, die nun geladen wird, verfügt über Reiter, die jeweils für eine
+ Erweiterung stehen (aktuell sind dies u.a.
+ Allgemein, Umgebung, Anwendungen, Mail, Zugriffsregeln, usw.).
+\layout Subsubsection*
+
+Generelle Informationen
+\layout Itemize
+
+Um die Bearbeitung der Gruppe (auch neuer Gruppen) abzuschliessen, drücken
+ Sie auf den Knopf 
+\emph on 
+Speichern
+\emph default 
+ unten rechts; Um den Vorgang zu verwerfen, drücken Sie auf den Knopf 
+\emph on 
+Abbrechen
+\emph default 
+, der sich ebenfalls unten rechts befindet.
+\layout Itemize
+
+Alle Felder, die mit einem roten Sternchen 
+\color red
+*
+\color default
+ enden, sind Pflichtfelder und müssen daher zwingend ausgefüllt werden.
+\layout Itemize
+
+In der rechten, oberen Ecke findet sich der komplette dn der aktuell geöffneten
+ Gruppe.
+\layout Subsection
+\pagebreak_top 
+Allgemein
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="11cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Gruppenname
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Der Name der Gruppe
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Beschreibung
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Beschreibung (oder ein Kommentar) der Gruppe
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Basis
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Abteilung der Gruppe (Die Verwaltung der Abteilungen geschieht über
+ den Knopf 
+\series bold 
+\color blue
+Abteilungen
+\series default 
+\color default
+ im linken Menü).
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Itemize
+
+
+\emph on 
+Erzwinge GID
+\emph default 
+: Mit dieser Funktion kann die UNIX GID einmalig auf bestimmten Wert gesetzt
+ werden
+\layout Itemize
+
+[Samba-Gruppe]
+\emph on 
+ in der Domain 
+\emph default 
+[Domäne]: Diese Einstellung legt fest, ob die Gruppe auch für Windows-Benutzer
+ aktviert ist.
+ Dabei können Sie die folgenden Einstellungsmöglichkeiten wählen:
+\begin_deeper 
+\layout Itemize
+
+
+\emph on 
+Samba-Gruppe
+\emph default 
+: Die Gruppe ist eine normale Samba-Gruppe
+\layout Itemize
+
+
+\emph on 
+Domänen-Administratoren
+\emph default 
+: Die Gruppe ist speziell für Domänen-Administratoren
+\layout Itemize
+
+
+\emph on 
+Domänen-Benutzer
+\emph default 
+: Die Gruppe ist speziell für Domänen-Benutzer
+\layout Itemize
+
+
+\emph on 
+Domänen-Gäste
+\emph default 
+: Die Gruppe ist speziell für Domänen-Gäste
+\end_deeper 
+\layout Itemize
+
+
+\emph on 
+Mitglieder sind in einer Telefon-Gruppe
+\emph default 
+: Diese Funktion dient dazu, organisatorische Bereiche auch telefonisch
+ abzutrennen.
+ Weitere Dokumentation wird folgen.
+\layout Itemize
+
+
+\emph on 
+Gruppenmitglieder
+\emph default 
+: Die Gruppe verfügt über Mitglieder, die in dieser Liste aufgeführt werden.
+ Es können Mitglieder hinzugefügt und entfernt werden:
+\begin_deeper 
+\layout Itemize
+
+
+\emph on 
+Hinzufügen
+\emph default 
+: Um ein Gruppenmitglieder hinzuzufügen, drücken Sie auf den Knopf 
+\emph on 
+Hinzufügen
+\emph default 
+.
+ Wählen Sie aus der Liste einen oder mehrere Benutzer und drücken Sie auf
+ den Knopf 
+\emph on 
+Hinzufügen
+\emph default 
+.
+ Die neuen Mitglieder werden nun in der Liste aufgeführt.
+\newline 
+Wenn Sie den Vorgang abbrechen möchten, drücken Sie auf den Knopf 
+\emph on 
+Abbrechen
+\emph default 
+.
+\end_deeper 
+\layout Subsection
+\added_space_top bigskip 
+Umgebung
+\layout Standard
+
+Um die Umgebungs-Erweiterung zu aktivieren, drücken Sie auf den Knopf 
+\emph on 
+Umgebungs-Erweiterung hinzufügen
+\emph default 
+.
+ Um die Umgebungs-Erweiterung wieder zu entfernen, drücken Sie auf den Knopf
+ 
+\emph on 
+Umgebungs-Erweiterung entfernen
+\emph default 
+.
+\layout Subsubsection
+
+Profile
+\layout Itemize
+
+
+\emph on 
+Benutze Profil-Verwaltung
+\emph default 
+:
+\begin_deeper 
+\layout Itemize
+
+
+\emph on 
+Profil-Pfad
+\emph default 
+:
+\layout Itemize
+
+
+\emph on 
+Profil-Kontingent
+\emph default 
+:
+\layout Itemize
+
+
+\emph on 
+Profil lokal zwischenspeichern
+\emph default 
+:
+\end_deeper 
+\layout Itemize
+
+
+\emph on 
+Kiosk-Profil
+\emph default 
+: Wenn die Gruppe über ein Kiosk-Profil verfügen soll, wählen Sie das gewünschte
+ Profil aus der Liste.
+ 
+\begin_deeper 
+\layout Itemize
+
+
+\emph on 
+Verwalten
+\emph default 
+: Um die Kiosk-Profile zu verwalten, klicken Sie auf den Knopf 
+\emph on 
+Verwalten
+\emph default 
+.
+ Hier können Sie vorhandene Kiosk-Profile entfernen, sowie neue Kiosk-Profile
+ hinzufügen.
+\end_deeper 
+\layout Itemize
+
+
+\emph on 
+Auflösung änderbar während des Betriebs
+\emph default 
+: Wenn Sie möchten, dass Mitglieder dieser Gruppe die Auflösung Ihres Arbeitspla
+tzrechners während der Sitzung ändern dürfen, aktivieren Sie diese Option.
+\layout Itemize
+
+
+\emph on 
+Auflösung
+\emph default 
+: Legen Sie die Auflösung für Arbeitsplatzrechner, die dieses Kiosk-Profil
+ verwenden, fest, indem Sie die gewünschte Auflösung aus der Liste wählen.
+ Um automatisch die beste Auflösung zu verwenden, wählen Sie 
+\emph on 
+auto
+\emph default 
+.
+\layout Subsubsection
+
+Freigaben
+\layout Subsubsection
+\added_space_top medskip 
+Anmelde-Skripte
+\layout Subsubsection
+\added_space_top medskip 
+Hotplug-Geräte
+\layout Subsubsection
+\added_space_top medskip 
+Drucker
+\layout Subsection
+\added_space_top bigskip 
+Anwendungen
+\layout Standard
+
+Um die Anwendungs-Eigenschaften für diese Gruppe zu aktivieren, drücken
+ Sie auf den Knopf 
+\emph on 
+Anwendungen erstellen
+\emph default 
+.
+ Um die Anwendungs-Eigenschaften wieder zu entfernen, drücken Sie auf den
+ Knopf 
+\emph on 
+Anwendung entfernen
+\emph default 
+.
+\layout Subsection
+\added_space_top bigskip 
+Mail
+\layout Standard
+
+Ein Mail-Konto einer Gruppe ist ein gemeinsam genutzter Ordner (
+\emph on 
+Shared Folder
+\emph default 
+) auf einem IMAP-Server, d.h.
+ dass mehr als ein Benutzer Zugriff auf die Mails in diesem Ordner hat.
+ Diese Ordner sind sinnvoll, um z.B.
+ Verteiler anzulegen, aber auch, um Dateien (wie z.B.
+ Kalender oder Adressbücher) abzulegen.
+ Um ein Mail-Konto für die Gruppe zu erstellen, drücken Sie auf den Knopf
+ 
+\emph on 
+Neues Mail-Konto erzeugen
+\emph default 
+.
+ Um ein vorhandenes Mail-Konto wieder zu entfernen, drücken Sie auf den
+ Knopf 
+\emph on 
+Mail-Konto entfernen
+\emph default 
+.
+\layout Subsubsection
+
+Allgemein
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="11cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Primäre Adresse
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die primäre Adresse des gemeinsam genutzten Ordners
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Server
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Wählen Sie den Mail-Server aus der Liste, auf dem das Konto verwaltet wird.
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Kontingent-Nutzung
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Zeigt die Ausnutzung des Kontingents an (Wenn ein Kontingent definiert wurde)
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Kontingent-Größe
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Grösse des Kontingents der Mail-Benutzung der Gruppe (in KB).
+ Dies betrifft ein- u.
+ ausgehende Mail.
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsubsection
+\added_space_top medskip 
+Alternative Adressen
+\layout Standard
+
+Alternative Adressen sind weitere Adressen, unter denen der gemeinsam genutzte
+ Ordner Mails empfangen soll.
+\layout Standard
+
+Verwenden Sie den Knopf 
+\emph on 
+Hinzufügen
+\emph default 
+ um eine alternative Adresse hinzuzufügen.
+ Wenn Sie eine Adresse entfernen möchten, markieren Sie diese und drücken
+ Sie auf den Knopf 
+\emph on 
+Entfernen
+\emph default 
+.
+\layout Subsubsection
+\added_space_top medskip 
+Geteilter Ordner
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="6cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Standard-Berechtigungen
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Wählen Sie die Berechtigung, die für alle Benutzer gilt, die nicht explizit
+ aufgeführt sind.
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Mitglieder-Berechtigungen
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Wählen Sie die Berechtigung, die für alle Benutzer gilt, die Mitglieder
+ in dieser Gruppe sind.
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Weitere Email-Adresse
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Wählen Sie die Berechtung für eine weitere Email-Adresse.
+ Drücken Sie auf 
+\emph on 
+Hinzufügen
+\emph default 
+, um die Adresse mit der Berechtigung hinzuzufügen.
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsubsection
+\added_space_top medskip 
+Weiterleiten der Nachrichten an nicht-Gruppenmitglieder
+\layout Standard
+
+Mithilfe dieser Eigenschaften können Nachrichten, die an den gemeinsam genutzten
+ Order geschickt werden, automatisch an weitere Adressen versendet werden.
+ Geben Sie dazu in das Textfeld die Adresse ein, die Mails empfangen soll
+ und drücken Sie auf den Knopf 
+\emph on 
+Hinzufügen
+\emph default 
+.
+ Wenn Sie einen oder mehrere Benutzer in die Liste aufnehmen möchten, die
+ in dieser Organisation bereits über ein Mail-Konto verfügen, drücken Sie
+ auf den Knopf 
+\emph on 
+Lokale hinzufügen
+\emph default 
+.
+ Wählen Sie den oder die gewünschten Benutzer aus der Liste, in dem Sie
+ diese markieren und klicken Sie auf den Knopf 
+\emph on 
+Hinzufügen
+\emph default 
+, um Sie in die Liste zu übernehmen.
+\layout Subsection
+\added_space_top bigskip 
+Zugriffsregeln
+\layout Standard
+
+Mithilfe der Zugriffsregeln kann fein granuliert eingestellt werden, über
+ welchen GOsa-spezifischen Rechte die Mitglieder dieser Gruppe verfügen.
+ 
+\layout Subsection
+\added_space_top bigskip 
+Referenzen
+\layout Standard
+
+Unter Referenzen werden alle Verbindungen dieser Gruppe zu anderen Teilen
+ des LDAP-Baumes angezeigt.
+\the_end

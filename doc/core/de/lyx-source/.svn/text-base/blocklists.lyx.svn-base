@@ -1,0 +1,342 @@
+#LyX 1.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 221
+\textclass article
+\language ngerman
+\inputencoding auto
+\fontscheme default
+\graphics default
+\paperfontsize default
+\spacing single 
+\papersize a4paper
+\paperpackage a4
+\use_geometry 0
+\use_amsmath 1
+\use_natbib 0
+\use_numerical_citations 0
+\paperorientation portrait
+\leftmargin 10mm
+\topmargin 10mm
+\rightmargin 10mm
+\bottommargin 20mm
+\headheight 10mm
+\headsep 10mm
+\footskip 10mm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\quotes_times 2
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+
+\layout Title
+
+
+\series bold 
+Sperrlistenverwaltung
+\layout Section
+
+Liste der Sperrlisten
+\layout Standard
+
+Die Liste der Sperrlisten dient als Ausgangspunkt für alle weiteren Schritte.
+ Sie wird erreicht über den Menüeintrag 
+\series bold 
+\color blue
+Fax-Sperrlisten
+\series default 
+\color default
+ aus der Kategorie 
+\series bold 
+Administration
+\series default 
+ (Menü am linken Rand des Bildschirms).
+ Bei Auswahl wird die Liste der Sperrlisten geladen (Überschrift: 
+\emph on 
+Sperrlistenverwaltung)
+\emph default 
+.
+ Auf dieser Seite können Sperrlisten hinzugefügt, bearbeitet oder entfernt
+ werden.
+\layout Standard
+
+Die Liste ist in zwei Spalten geteilt:
+\layout Itemize
+
+Die erste Spalte enthält die Namen der Sperrlisten
+\layout Itemize
+
+Die zweite Spalte enthält Knöpfe für die möglichen Aktionen, um Verwaltungsaufga
+ben durchzuführen (Bearbeiten, Entfernen)
+\layout Standard
+\added_space_bottom medskip 
+Die vier Knöpfe 
+\begin_inset Graphics
+	filename images/list_root.png
+
+\end_inset 
+
+, 
+\begin_inset Graphics
+	filename images/list_back.png
+
+\end_inset 
+
+, 
+\begin_inset Graphics
+	filename images/list_home.png
+
+\end_inset 
+
+, und 
+\begin_inset Graphics
+	filename images/list_reload.png
+
+\end_inset 
+
+ oberhalb der Liste dienen zur Navigation innerhalb der Abteilungshierarchie:
+\layout Itemize
+
+
+\begin_inset Graphics
+	filename images/list_root.png
+
+\end_inset 
+
+: Zur Wurzel
+\layout Itemize
+
+
+\begin_inset Graphics
+	filename images/list_back.png
+
+\end_inset 
+
+: Eine Abteilung nach oben
+\layout Itemize
+
+
+\begin_inset Graphics
+	filename images/list_home.png
+
+\end_inset 
+
+: Zur Basis des angemeldeten Benutzers
+\layout Itemize
+
+
+\begin_inset Graphics
+	filename images/list_reload.png
+
+\end_inset 
+
+: Aktuelle Abteilung neu laden
+\layout Standard
+
+Es ist weiterhin möglich, die Anzeige der Sperrlisten mithilfe von Filtern
+ zu beeinflussen (Kasten 
+\series bold 
+Filter
+\series default 
+ 
+\begin_inset Graphics
+	filename images/rocket.png
+
+\end_inset 
+
+ am rechten Rand):
+\layout Itemize
+
+
+\color black
+Nach Namen suchen :
+\begin_deeper 
+\layout Standard
+
+- Klick auf 
+\series bold 
+*
+\series default 
+ zeigt alle Sperrlisten an
+\layout Standard
+
+
+\color black
+- Klick auf einen Buchstaben zeigt alle
+\color default
+ Sperrlisten
+\color black
+ an, deren Name mit dem gewählten Buchstaben beginnt
+\layout Standard
+
+
+\color black
+- Klick auf eine Zahl zeigt alle 
+\color default
+Sperrlisten
+\color black
+ an, deren Name mit der gewählten Ziffer beginnt
+\end_deeper 
+\layout Itemize
+
+Schnellsuche 
+\begin_inset Graphics
+	filename images/search.png
+
+\end_inset 
+
+: Suchkriterium (z.B.
+ Name der Sperrlisten) eingeben, Klick auf Knopf 
+\emph on 
+Filter anwenden
+\emph default 
+.
+\begin_deeper 
+\layout Standard
+\added_space_top medskip 
+Um eine neue Sperrliste zu erstellen, drücken Sie auf den Knopf 
+\begin_inset Graphics
+	filename images/list_new_blocklist.png
+
+\end_inset 
+
+ oberhalb der Liste.
+ 
+\layout Standard
+
+Um eine bestehende Sperrliste zu bearbeiten, drücken Sie auf den Namen der
+ Sperrliste
+\end_deeper 
+\layout Subsection
+\pagebreak_top 
+Allgemein
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+List
+\color black
+enname
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Name der Sperrliste
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Basis
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Wählen Sie aus der Liste die Abteilung, der die Liste zugeordnet werden
+ soll
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Typ
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Wählen Sie aus der Liste, ob die Sperrliste für eingehende (
+\emph on 
+empfangen
+\emph default 
+) oder ausgehende (
+\emph on 
+senden
+\emph default 
+) Faxe verwendet werden soll.
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Beschreibung
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Kurze Beschreibung der Sperrliste
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsection
+\added_space_top bigskip 
+Gesperrte Nummern
+\layout Standard
+
+In der Liste der gesperrten Nummern, werden alle Nummern aufgeführt, die
+ momentan dieser Liste zugeordnet sind.
+ Um eine weitere Nummer einzufügen, geben Sie die Nummer in das Textfeld
+ unterhalb der Liste ein und drücken Sie auf den Knopf 
+\emph on 
+Hinzufügen
+\emph default 
+.
+ Um eine oder mehrere Nummern aus der Liste zu entfernen, markieren Sie
+ diese in der Liste und drücken Sie auf den Knopf 
+\emph on 
+Entfernen
+\emph default 
+.
+\layout Subsection
+\added_space_top bigskip 
+Information
+\layout Standard
+
+Hier wird Ihnen lediglich die Information eingeblendet, dass Sie in den
+ Nummern Platzhalter (z.B.
+ *) verwenden können.
+\layout Standard
+
+\the_end

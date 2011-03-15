@@ -1,0 +1,2863 @@
+#LyX 1.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 221
+\textclass article
+\language ngerman
+\inputencoding auto
+\fontscheme default
+\graphics default
+\paperfontsize default
+\spacing single 
+\papersize a4paper
+\paperpackage a4
+\use_geometry 0
+\use_amsmath 0
+\use_natbib 0
+\use_numerical_citations 0
+\paperorientation portrait
+\leftmargin 10mm
+\topmargin 10mm
+\rightmargin 10mm
+\bottommargin 20mm
+\headheight 10mm
+\headsep 10mm
+\footskip 10mm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\quotes_times 2
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+
+\layout Title
+
+
+\series bold 
+Benutzerverwaltung
+\layout Section
+
+Liste der Benutzer
+\layout Standard
+
+Die Liste der Benutzer dient als Ausgangspunkt für alle weiteren Schritte.
+ Sie wird erreicht über den Menüeintrag 
+\series bold 
+\color blue
+Benutzer
+\series default 
+\color default
+ aus der Kategorie 
+\series bold 
+Administration
+\series default 
+ (Menü am linken Rand des Bildschirms).
+ Bei Auswahl wird die Liste der Benutzer geladen (Überschrift: 
+\emph on 
+Benutzerverwaltung)
+\emph default 
+.
+ Auf dieser Seite können Benutzer hinzugefügt, bearbeitet oder entfernt
+ werden.
+\layout Standard
+
+Die Liste ist in drei Spalten geteilt:
+\layout Itemize
+
+Die erste Spalte enthält zunächst die verfügbaren Abteilungen, dann die
+ Namen der Benutzer (alphabetisch sortiert).
+\layout Itemize
+
+Die zweite Spalte enthält Knöpfe für den Schnellzugriff auf die verschiedenen
+ Reiter des Benutzers (nur verfügbar, wenn die entsprechende Eigenschaft
+ aktiviert ist).
+ Sie dient ausserdem für einen schnellen Überblick über die aktivierten
+ Eigenschaften eines Benutzers.
+\begin_deeper 
+\layout Itemize
+
+Die möglichen Symbole und ihre Bedeutung:
+\newline 
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="9" columns="2">
+<features>
+<column alignment="center" valignment="top" leftline="true" width="0">
+<column alignment="left" valignment="top" leftline="true" rightline="true" width="0">
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Symbol
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Bedeutung
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\begin_inset Graphics
+	filename images/penguin.png
+	scale 60
+	keepAspectRatio
+	clip
+
+\end_inset 
+
+
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Benutzer verfügt über allgemeine Eigenschaften
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\begin_inset Graphics
+	filename images/select_user.png
+	scale 60
+	keepAspectRatio
+
+\end_inset 
+
+
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Benutzer verfügt über ein UNIX-Konto
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\begin_inset Graphics
+	filename images/smallenv.png
+
+\end_inset 
+
+
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Benutzer verfügt über Umgebungs-Einstellungen
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\begin_inset Graphics
+	filename images/mailto.png
+
+\end_inset 
+
+
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Benutzer verfügt über ein Mail-Konto
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\begin_inset Graphics
+	filename images/select_phone.png
+
+\end_inset 
+
+
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Benutzer verfügt über ein Telefon-Konto
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\begin_inset Graphics
+	filename images/fax_small.png
+
+\end_inset 
+
+
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Benutzer verfügt über ein Fax-Konto
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\begin_inset Graphics
+	filename images/select_winstation.png
+
+\end_inset 
+
+
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Benutzer verfügt über ein SAMBA-Konto
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\begin_inset Graphics
+	filename images/select_netatalk.png
+
+\end_inset 
+
+
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Benutzer verfügt über ein Netatalk-Konto
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\end_deeper 
+\layout Itemize
+
+Die dritte Spalte enthält Knöpfe für die möglichen Aktionen, um Verwaltungsaufga
+ben durchzuführen (Ausschneiden, Kopieren, Bearbeiten, Entfernen)
+\layout Standard
+
+Die vier Knöpfe 
+\begin_inset Graphics
+	filename images/list_root.png
+
+\end_inset 
+
+, 
+\begin_inset Graphics
+	filename images/list_back.png
+
+\end_inset 
+
+ , 
+\begin_inset Graphics
+	filename images/list_home.png
+
+\end_inset 
+
+ und 
+\begin_inset Graphics
+	filename images/list_reload.png
+
+\end_inset 
+
+ oberhalb der Liste dienen zur Navigation innerhalb der Abteilungshierarchie:
+\layout Itemize
+
+
+\begin_inset Graphics
+	filename images/list_root.png
+
+\end_inset 
+
+: Zur Wurzel
+\layout Itemize
+
+
+\begin_inset Graphics
+	filename images/list_back.png
+
+\end_inset 
+
+: Eine Abteilung nach oben
+\layout Itemize
+
+
+\begin_inset Graphics
+	filename images/list_home.png
+
+\end_inset 
+
+: Zur Basis des angemeldeten Benutzers
+\layout Itemize
+
+
+\begin_inset Graphics
+	filename images/list_reload.png
+
+\end_inset 
+
+: Aktuelle Abteilung neu laden
+\layout Standard
+
+
+\color black
+Es ist weiterhin möglich, die Anzeige der Benutzer mithilfe von Filtern
+ zu beeinflussen (Kasten 
+\series bold 
+Filter
+\series default 
+ 
+\begin_inset Graphics
+	filename images/rocket.png
+
+\end_inset 
+
+ am rechten Rand): 
+\layout Itemize
+
+
+\color black
+Nach Namen suchen:
+\begin_deeper 
+\layout Itemize
+
+
+\color black
+Klick auf * zeigt alle Benutzer an
+\layout Itemize
+
+
+\color black
+Klick auf einen Buchstaben zeigt alle Benutzer an, deren Name mit dem gewählten
+ Buchstaben beginnt
+\layout Itemize
+
+Klick auf eine Ziffer zeigt alle Benutzer an, deren Name mit der gewählten
+ Ziffer beginnt
+\end_deeper 
+\layout Itemize
+
+Weitere Suchoptionen:
+\newline 
+(Die folgenden Filter arbeiten so, dass nur Benutzer angezeigt werden, die
+ über mindestens eine der ausgewählten Optionen verfügen; Standardmässig
+ werden alle echten Benutzer angezeigt, also keine Vorlagen)
+\begin_deeper 
+\layout Itemize
+
+
+\emph on 
+Zeige Vorlagen
+\emph default 
+: Zeigt Benutzervorlagen (standardmässig deaktiviert)
+\layout Itemize
+
+
+\emph on 
+Zeige zweckbezogene Benutzer
+\emph default 
+: Benutzer, die ausschliesslich über die allgemeinen Angaben verfügen
+\layout Itemize
+
+
+\emph on 
+Zeige UNIX-Benutzer
+\emph default 
+: Benutzer, für die die UNIX-Erweiterung aktiviert ist
+\layout Itemize
+
+
+\emph on 
+Zeige Mail-Benutzer
+\emph default 
+: Benutzer, für die die Mail-Erweiterung aktiviert ist
+\layout Itemize
+
+
+\emph on 
+Zeige SAMBA-Benutzer
+\emph default 
+: Benutzer, für die die SAMBA-Erweiterung aktiviert ist
+\layout Itemize
+
+
+\emph on 
+Zeige Proxy-Benutzer
+\emph default 
+: Benutzer, für die das Proxy-Konto aktiviert ist
+\end_deeper 
+\layout Itemize
+
+Zusätzlich zu der o.g.
+ funktionalen Filterung kann die Liste durch lexikalische Filterung weiter
+ eingeschränkt werden.
+ Dazu dienen zum Einen die vordefinierten Buchstaben/Zahlen, die die Liste
+ für Benutzer einschränken, die mit dem gewählten Buchstaben/der Ziffer
+ beginnen.
+ Komplexere Einschränkungen über reguläre Ausdrücke bietet das Textfeld
+ im unteren Bereich des Kastens 
+\series bold 
+Filter
+\series default 
+ (beginnt mit dem Symbol 
+\begin_inset Graphics
+	filename images/search.png
+
+\end_inset 
+
+).
+ In dieses Feld können Sie beliebige Buchstaben/Ziffern-Kombinationen eingeben,
+ um die Suche einzuschränken.
+ Um die Suchergebnisse in der Liste anzeigen zu lassen, Klicken Sie auf
+ 
+\emph on 
+Filter anwenden
+\emph default 
+.
+\layout Subsection*
+
+Benutzerkonto anlegen
+\layout Standard
+
+Um ein neues Benutzerkonto anzulegen klicken Sie auf den Knopf 
+\begin_inset Graphics
+	filename images/list_new_user.png
+
+\end_inset 
+
+.
+ Befolgen Sie dann die nachfolgende Beschreibung für die Bearbeitung bestehender
+ Benutzerkonten.
+ Sie müssen zusätzlich am Ende des Vorgangs ein Passwort vergeben.
+\layout Subsubsection*
+
+Ein bestehendes Benutzerkonto bearbeiten
+\layout Standard
+
+Klicken Sie in der Liste der Benutzer auf den Benutzernamen des gewünschten
+ Benutzers.
+ Die Seite, die nun geladen wird, verfügt über Reiter, die jeweils für eine
+ Erweiterung stehen (aktuell sind dies u.a.
+ Allgemein, Unix, Umgebung, usw.).
+\layout Subsubsection*
+
+Generelle Informationen
+\layout Itemize
+
+Um die Bearbeitung des Benutzers (auch neuer Benutzer) abzuschliessen, drücken
+ Sie auf den Knopf 
+\emph on 
+Speichern
+\emph default 
+ unten rechts; Um den Vorgang zu verwerfen, drücken Sie auf den Knopf 
+\emph on 
+Abbrechen
+\emph default 
+, der sich ebenfalls unten rechts befindet.
+\layout Itemize
+
+Alle Felder, die mit einem roten Sternchen 
+\color red
+*
+\color default
+ enden, sind Pflichtfelder und müssen daher zwingend ausgefüllt werden.
+\layout Itemize
+
+In der rechten, oberen Ecke findet sich der komplette 
+\emph on 
+dn
+\emph default 
+ des aktuell geöffneten Benutzers.
+\layout Subsection
+\pagebreak_top 
+Allgemein
+\layout Subsubsection
+
+Persönliche Informationen
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="16" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\color black
+Nachname
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Nachname des Benutzers
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\color black
+Vorname
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Vorname des Benutzers
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\color black
+Kennung
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Kennung (=Benutzername) des Benutzers
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Titel
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Anrede (Herr, Frau etc.)
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Akademischer Titel
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Akademischer Titel (z.B.
+ Prof., Dr., Prof.
+ Dr., etc.)
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Geburtsdatum
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Mit dem Knopf 
+\emph on 
+Setzen
+\emph default 
+ kann das Geburtsdatum eingestellt werden
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Geschlecht
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Wählen Sie den passenden Eintrag aus der Liste.
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Bevorzugte Sprache
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Sprache der Oberfläche (de_DE=Deutsch, en = Englisch, etc.)
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Basis
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Abteilung des Benutzers (Die Verwaltung der Abteilungen geschieht über
+ den Knopf
+\series bold 
+\color blue
+ Abteilungen
+\series default 
+\color default
+ im linken Menü).
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Benutzerbild
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Um ein Bild des Benutzers zu speichern, drücken Sie auf den Knopf 
+\emph on 
+Bild ändern
+\emph default 
+.
+ Wählen Sie das gewünschte Bild.
+ Das Bild wird nun angezeigt.
+ Um es zu speichern, drücken Sie auf den Knopf 
+\emph on 
+Speichern
+\emph default 
+.
+ Wenn Sie das Bild nicht speichern möchten, drücken Sie auf den Knopf 
+\emph on 
+abbrechen
+\emph default 
+.
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Adresse
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Privat-Adresse des Benutzers
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Privat-Telefon
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Private Telefonnummer des Benutzers (Sie sollten diese sinnvollerweise
+ im internationalen Format einfügen, z.B.
+ +49 1234 555-0)
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Homepage
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Homepage des Benutzers
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Passwort-Speicherung
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Wählen Sie die Methode aus, mit der das Passwort verschlüsselt werden soll,
+ bevor es im LDAP gespeichert wird.
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Zertifikate
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\color black
+Drücken Sie auf den Knopf 
+\emph on 
+Zertifikate bearbeiten.
+
+\emph default 
+ Sie können dann drei verschiedene Zertifikate hochladen.
+ Zum Speichern der Zertifikate, drücken Sie auf 
+\emph on 
+Speichern
+\emph default 
+.
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Kerberos
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Drücken Sie auf den Knopf 
+\emph on 
+Eigenschaften bearbeiten
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsubsection
+\added_space_top medskip 
+Angabe zur Organisationseinheit
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="13" columns="2">
+<features>
+<column alignment="left" valignment="top" leftline="true" width="5cm">
+<column alignment="left" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Organisation
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Der Name der Organisation (z.B.
+ GONICUS GmbH)
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Abteilung
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Der Name der Abteilung (z.B.
+ Technik)
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Abteilungs-Nr.
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Nummer der Abteilung (z.B.
+ )
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Angestellten-Nr.
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Nummer des Angestellten
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Anstellungsart
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Position des Angestellten
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Zimmer-Nr.
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Zimmernummer des Angestellten
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Telefon
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Telefonnummer des Angestellten
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Mobiltelefon
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Mobiltelefonnummer des Angestellten
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Pager
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Pager-Nummer des Angestellten
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Fax
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Faxnummer des Angestellten
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Ort
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Der Ort der Organisation (oder Abteilung)
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Land
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Das Land der Organisation (oder Abteilung)
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Adresse
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Postadresse der Organisation (oder Abteilung)
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsection
+\added_space_top bigskip 
+Unix
+\layout Standard
+
+Um die Unix-Erweiterung zu aktivieren, drücken Sie auf den Knopf 
+\emph on 
+UNIX-Konto
+\emph default 
+ erstellen.
+\layout Subsubsection
+
+Generic
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Basisverzeichnis
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Das persönliche Verzeichnis des Benutzers
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Shell
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Shell, die beim Anmelden ausgeführt werden soll (/bin/false sorgt dafür,
+ dass sich der Benutzer nicht anmelden kann)
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Primäre Gruppe
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die primäre Gruppe des Benutzers, zu der er hinzugefügt werden soll (Um
+ Gruppen zu verwalten, klicken Sie aus dem Menü-Abschnitt 
+\series bold 
+Administration
+\series default 
+ auf den Knopf
+\series bold 
+\color blue
+ Gruppen
+\series default 
+\color default
+)
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Status
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Zeigt an, ob das Konto aktiv ist
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Erzwinge UID/GID
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Mit dieser Funktion können die UNIX UID und GID auf einen bestimmten Wert
+ erzwungen werden.
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsubsection
+\added_space_top medskip 
+Gruppenmitgliedschaft
+\layout Standard
+
+Die Liste zeigt alle UNIX-Gruppen, in denen der Benutzer Mitglied ist.
+ Um eine weitere Mitgliedschaft hinzuzufügen, klicken Sie auf den Knopf
+ 
+\emph on 
+Hinzufügen
+\emph default 
+ unterhalb der Liste.
+ Markieren Sie eine oder mehrere Gruppen und klicken Sie auf hinzufügen.
+ Um den Benutzer aus einer oder mehrerer Gruppen zu entfernen, markieren
+ Sie eine oder mehrere Gruppen und klicken auf 
+\emph on 
+Entfernen
+\emph default 
+ unterhalb der Liste.
+\layout Subsubsection
+\added_space_top medskip 
+Konto
+\layout Standard
+
+Die Einstellungen dieser Kategorie beziehen sich auf Einschränkungen für
+ das Passwort des Benutzers (dies betrifft selbstverständlich lediglich
+ das UNIX-Konto):
+\layout Itemize
+
+
+\emph on 
+Der Benutzer muss bei ersten Anmelden sein Passwort ändern
+\emph default 
+: Mit dem Setzen dieser Option wird erzwungen, dass der Benutzer beim ersten
+ Anmeldevorgang zunächst sein Passwort ändern muss.
+\layout Itemize
+
+
+\emph on 
+Passwort kann bis zu
+\emph default 
+ [Anzahl der Tage] 
+\emph on 
+Tage nach der letzten Änderung nicht geändert werden
+\emph default 
+:
+\layout Itemize
+
+
+\emph on 
+Der Benutzer muss sein Passwort nach
+\emph default 
+ [Anzahl der Tage]
+\emph on 
+ Tagen ändern
+\emph default 
+: Mit dem Setzen dieser Option erhält der Benutzer nach dem gewählten Zeitraum
+ die Aufforderung, sein Passwort zu ändern.
+\layout Itemize
+
+Passwort läuft ab am [Datum]: Mit dem Setzen dieser Option kann der Benutzer
+ sich mit Ablauf des gewählten Datums nicht mehr anmelden.
+\layout Itemize
+
+
+\emph on 
+Konto nach 
+\emph default 
+[Anzahl der Tage]
+\emph on 
+ Tagen nach Ablauf ohne Aktivität deaktivieren
+\emph default 
+: Wenn der gewählte Zeitraum ohne Aktivität (ohne Anmeldung) erreicht wurde,
+ wird das Passwort deaktiviert, der Benutzer kann sich somit nicht mehr
+ anmelden.
+\layout Itemize
+
+
+\emph on 
+Benutzer 
+\emph default 
+[Anzahl der Tage]
+\emph on 
+ Tage vor dem Ablauf des Passwortes warnen
+\emph default 
+: Der Benutzer erhält eine Warnung, dass sein Passwort zum festgelegten
+ Zeitpunk abläuft.
+\layout Subsubsection
+\added_space_top medskip 
+System-Vertrauen
+\layout Standard
+
+Dieser Abschnitt dient der Definition von Zugriffsbeschränkungen auf definierte
+ Systeme, Geräte, etc.
+ 
+\layout Standard
+
+Die möglichen Vertrauensmodi:
+\layout Itemize
+
+
+\emph on 
+deaktiviert
+\emph default 
+: Der Benutzer darf sich auf allen Hosts anmelden.
+\layout Itemize
+
+
+\emph on 
+Vollzugriff
+\emph default 
+: Der Benutzer darf sich auf allen Hosts anmelden.
+\layout Itemize
+
+
+\emph on 
+erlaube Zugriff auf diese Hosts
+\emph default 
+: Der Benutzer darf sich nur auf den aufgeführten Hosts anmelden.
+\begin_deeper 
+\layout Itemize
+
+
+\emph on 
+Hinzufügen
+\emph default 
+: Um einen oder mehrere Hosts in die Liste aufzunehmen, klicken Sie auf
+ den Knopf 
+\emph on 
+Hinzufügen
+\emph default 
+.
+ Aus der Liste der Hosts wählen Sie einen oder mehrere zulässige Hosts und
+ klicken Sie auf den Knopf 
+\emph on 
+Hinzufügen
+\emph default 
+.
+ Die Hosts werden nun in der Liste aufgeführt.
+ Um den Vorgang abzubrechen, klicken Sie auf den Knopf 
+\emph on 
+Abbrechen
+\emph default 
+.
+\layout Itemize
+
+
+\emph on 
+Entfernen
+\emph default 
+: Um einen oder mehrere Hosts aus der Liste zu entfernen, markieren Sie
+ den oder die gewünschten Hosts aus der Liste und drücken Sie den Knopf
+ Entfernen.
+ Die Hosts werden nun nicht mehr in der Liste aufgeführt.
+\end_deeper 
+\layout Subsection
+\added_space_top bigskip 
+Umgebung
+\layout Standard
+
+Um die Umgebungserweiterung für einen Benutzer zu aktivieren, klicken Sie
+ auf den Knopf 
+\emph on 
+Umgebungs-Erweiterung hinzufügen
+\emph default 
+.
+ Wenn Sie die Umgebungserweiterung deaktivieren möchten, klicken Sie auf
+ den Knopf 
+\emph on 
+Umgebungs-Erweiterung-entfernen
+\emph default 
+.
+\layout Standard
+\added_space_top defskip \noindent 
+Wenn die Erweiterung aktiv ist, finden sich folgende Einstellmöglichkeiten:
+\layout Subsubsection
+
+Profile
+\layout Subsubsection
+\added_space_top medskip 
+Kiosk-Profil
+\layout Subsubsection
+\added_space_top medskip 
+Anmelde-Skripte
+\layout Subsubsection
+\added_space_top medskip 
+Freigaben
+\layout Subsubsection
+\added_space_top medskip 
+Hotplug-Geräte
+\layout Subsubsection
+\added_space_top medskip 
+Drucker
+\layout Subsection
+\added_space_top bigskip 
+Mail
+\layout Standard
+
+Das Mailkonto wird in direkter Verbindung mit dem Mailserver verwaltet.
+ Um eines für den Benutzer anzulegen, klicken Sie auf 
+\shape italic 
+Neues Mail-Konto erzeugen
+\shape default 
+.
+ Wenn Sie das Mailkonto wieder entfernen möchten, klicken Sie auf 
+\emph on 
+Mail-Konto entfernen
+\emph default 
+.
+\layout Subsubsection
+
+Allgemein
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\color black
+Primäre Adresse
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Mail-Adresse des Benutzers
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Server
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Der Server, auf dem das Postfach des Benutzers gespeichert werden soll.
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Kontingent-Nutzung
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Der momentan genutzte Speicherplatz des Kontingents.
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Kontingent-Größe
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die maximale Größe der Mailbox
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsubsection
+\added_space_top medskip 
+Alternative Adressen
+\layout Standard
+
+Alternative Adressen sind weitere Adressen, unter denen der Benutzer Mails
+ empfangen soll.
+ 
+\layout Standard
+
+Verwenden Sie den Knopf 
+\emph on 
+Hinzufügen
+\emph default 
+ um eine alternative Adresse hinzuzufügen.
+ Wenn Sie eine Adresse entfernen möchten, markieren Sie diese und drücken
+ Sie auf den Knopf 
+\emph on 
+Entfernen
+\emph default 
+.
+\layout Subsubsection
+\added_space_top medskip 
+Mail-Einstellungen
+\layout Standard
+
+Unter diese Kategorie fallen weitere Einstellungsmöglichkeiten:
+\layout Itemize
+
+
+\emph on 
+Keine Zustellung in eigenes Postfach
+\emph default 
+: Wenn diese Option aktiviert ist, werden ankommende Mails ausschliesslich
+ an die Adressen gesendet, die im Kasten 
+\emph on 
+Nachrichten weiterleiten an
+\emph default 
+ (s.
+ u.)aufgeführt sind.
+ Eine Speicherung der Nachricht im Postfach des Benutzers findet nicht statt.
+\layout Itemize
+
+
+\emph on 
+Urlaubsbenachrichtigung aktivieren
+\emph default 
+: Wenn diese Option aktiviert ist, wird der Inhalt des Kastens Urlaubsbenachrich
+tung an den Sender jeder ankommenden Mail gesendet.
+\layout Itemize
+
+
+\emph on 
+Verschiebe Mails mit einem SPAM-Level größer als [Spam-Level] in den Ordner
+ [Ordner]
+\emph default 
+: Die ankommenden Mails werden auf möglichen Spam-Inhalt geprüft.
+ Diese Prüfung erkennt SPAM mit einer gewissen Wahrscheinlichkeit, die als
+ Spam-Level in den Kopf der Nachricht geschrieben wird (üblicherweise haben
+ SPAM-Mails einen SPAM-Level ab 4-6).
+\newline 
+Wenn Sie diese Option aktivieren, werden Mails die über mindestens den gewählten
+ SPAM-Level verfügen in den gewünschten Ziel-Ordner verschoben, ohne dass
+ diese direkt im Posteingang des Benutzers sichtbar sind.
+\layout Itemize
+
+
+\emph on 
+Mails abweisen, die größer sind als [Größe] MB
+\emph default 
+: Ankommende Mails (für diesen Benutzer), die größer sind als der angegebene
+ Wert (in MB), werden nicht zugestellt.
+\layout Itemize
+
+
+\emph on 
+\color black
+Nachrichten weiterleiten an
+\emph default 
+: 
+\newline 
+Dieser Kasten dient dazu, Kopien der ankommenden Mails an weitere Adressen
+ zu versenden (z.B.
+ Telefone, PDAs etc.).
+\begin_deeper 
+\layout Standard
+
+
+\color black
+- Adresse hinzufügen: Um eine Adresse hinzuzufügen, tragen Sie diese in
+ das Textfeld unterhalb des Kastens ein und drücken den Knopf 
+\emph on 
+Hinzufügen
+\emph default 
+.
+ Die Adresse wird nun in der Liste aufgeführt.
+\layout Standard
+
+
+\color black
+- Lokale Adresse hinzufügen: Um eine lokale Adresse (=Adresse auf demselben
+ Mail-Server) hinzuzufügen, tragen Sie den Namen des Postfachs in das Textfeld
+ unterhalb des Kastens ein und drücken den Knopf 
+\emph on 
+Lokale hinzufügen
+\emph default 
+.
+ Die lokale Adresse wird nun in der Liste aufgeführt.
+\layout Standard
+
+
+\color black
+- (Lokale) Adresse entfernen: Um eine Adresse wieder aus der Liste zu entfernen,
+ markieren Sie den entsprechenden Eintrag in der Liste und drücken den Knopf
+ 
+\emph on 
+Entfernen
+\emph default 
+.
+ Der Eintrag wird nun nicht mehr in der Liste aufgeführt.
+\end_deeper 
+\layout Subsubsection
+\added_space_top medskip 
+Erweiterte Mail-Einstellungen
+\layout Itemize
+
+
+\emph on 
+Der Benutzer darf nur lokale Mails senden und empfangen
+\emph default 
+: Wenn diese Option aktiv ist, darf der Benutzer ausschliesslich Mails an
+ interne Adressaten versenden und von diesen empfangen.
+ Eingehende Mails von externen Adressen werden nicht zugestellt.
+\layout Itemize
+
+
+\emph on 
+Eigenes Sieve-Skript verwenden
+\emph default 
+: Wenn diese Option aktiv ist, werden alle Mail-Einstellungen deaktiviert!
+ Dies ist erforderlich, wenn eigene Sieve-Skripte verwendet werden sollen,
+ da diese sonst überschrieben werden.
+\layout Subsection
+\added_space_top bigskip 
+Samba
+\layout Standard
+
+Um ein Samba-Konto für den Benutzer zu erstellen, klicken Sie auf den Knopf
+\shape italic 
+ Samba-Konto erstellen
+\shape default 
+.
+\layout Subsubsection
+
+Allgemein
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Basisverzeichnis
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Der Pfad zum Basisverzeichnis des Benutzers in UNC-Notation (z.B.
+ 
+\backslash 
+
+\backslash 
+SERVER
+\backslash 
+homes
+\backslash 
+user).
+ Wählen Sie aus der Liste, unter welchem Laufwerksbuchstaben das Basisverzeichni
+s verbunden wird.
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Domäne
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Domäne, zu der der Benutzer zugeordnet ist.
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Anmeldeskript
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Das Programm, das beim Start der Sitzung ausgeführt wird.
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Profil-Pfad
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Das Arbeitsverzeichnis, in dem das Programm ausgeführt wird.
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsubsection
+\added_space_top medskip 
+Terminal-Server
+\layout Itemize
+
+
+\emph on 
+Anmeldung am Terminalserver zulassen
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="2" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Basisverzeichnis
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Der Pfad zum Basisverzeichnis des Benutzers in UNC-Notation (z.B.
+ 
+\backslash 
+
+\backslash 
+SERVER
+\backslash 
+homes
+\backslash 
+user).
+ Wählen Sie aus der Liste, unter welchem Laufwerksbuchstaben das Basisverzeichni
+s verbunden wird.
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Profil-Pfad
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Der Pfad zum Profil des Benutzers
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Itemize
+
+
+\emph on 
+Client-Konfiguration übernehmen
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="2" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Startprogramm
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Das Programm, das beim Start der Sitzung ausgeführt wird.
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Arbeitsverzeichnis
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Das Arbeitsverzeichnis, in dem das Programm ausgeführt wird.
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+ 
+\layout Itemize
+
+
+\emph on 
+Zeitlimit (in Minuten) 
+\emph default 
+Mit Hilfe der nachfolgenden Optionen kann für den Benutzer die Sitzung zeitlich
+ begrenzt werden:
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Verbinden
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die maximale Dauer, die der Benutzer verbunden sein darf - nach Ablauf wird
+ die Verbindung getrennt.
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Trennen
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Eine nicht mehr verbundene Sitzung des Benutzers wird nach Ablauf dieser
+ Zeit automatisch beendet.
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Leerlauf
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Eine verbundene aber untätige Sitzung des Benutzers wird nach Ablauf dieser
+ Zeit automatisch beendet.
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Itemize
+
+
+\emph on 
+Client-Geräte
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Client-Laufwerke beim Anmelden verbinden
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die lokalen Laufwerke des Clients als Netzlaufwerke verbinden
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Client-Drucker beim Anmelden verbinden
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die lokalen Drucker des Clients als Netzwerkdrucker verbinden
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Standard-Drucker vom Client wählen
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Als Standard-Drucker den Standard-Drucker des Clients verwenden
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Itemize
+
+Verschiedenes:
+\begin_deeper 
+\layout Standard
+
+- 
+\emph on 
+Spiegeln
+\emph default 
+: Diese Option steuert das Verhalten der Remoteüberwachung:
+\layout Itemize
+
+
+\emph on 
+deaktiviert
+\emph default 
+: Remoteüberwachung ist deaktiviert
+\layout Itemize
+
+
+\emph on 
+Eingabe EIN, Benachrichtigen EIN
+\emph default 
+: Sitzung kann gesteuert werden, Benutzer wird gefragt
+\layout Itemize
+
+
+\emph on 
+Eingabe EIN, Benachrichtigen AUS
+\emph default 
+: Sitzung kann gesteuert werden, Benutzer wird nicht gefragt
+\layout Itemize
+
+
+\emph on 
+Eingabe AUS, Benachrichtigen EIN
+\emph default 
+: Sitzung wird nur angezeigt, Benutzer wird gefragt
+\layout Itemize
+
+
+\emph on 
+Eingabe AUS, Benachrichtigen AUS
+\emph default 
+: Sitzung wird nur angezeigt, Benutzer wird nicht gefragt
+\layout Standard
+
+-
+\emph on 
+ Bei Trennung oder abgelaufenem Zeitlimit
+\emph default 
+: Sie können wählen, ob eine Sitzung, die getrennt wurde (vom Client oder
+ durch ein abgelaufenes Zeitlimit) automatisch zurückgesetzt werden soll,
+ oder nicht: Zum Zurücksetzen wählen Sie 
+\emph on 
+zurücksetzen
+\emph default 
+.
+ Bei 
+\emph on 
+trennen
+\emph default 
+ bleibt die Sitzung erhalten.
+\layout Standard
+
+- 
+\emph on 
+Wiederherstellen falls unterbrochen
+\emph default 
+: Wenn eine Sitzung des Benutzers unterbrochen wurde (Absturz, Netzwerkprobleme
+ etc.) kann mithilfe dieser Einstellung festgelegt werden, dass sich der
+ Benutzer nur von dem ursprünglichen Client in seine noch aktive Sitzung
+ verbinden darf.
+ Wenn diese gewünscht ist, wählen Sie den Eintrag 
+\emph on 
+nur von vorherigem Client
+\emph default 
+.
+ Mit der Einstellung 
+\emph on 
+von jedem Client
+\emph default 
+ darf der Benutzer sich von jedem Client zu seiner Sitzung verbinden.
+\end_deeper 
+\layout Subsubsection
+\added_space_top medskip 
+Zugriffsoptionen
+\layout Standard
+
+Die unter Zugriffsoptionen aufgeführten Einstellung dienen zum Anpassen
+ der Passwort-Einstellungen.
+ Sie sollten genau aufpassen, welche Einstellungen Sie vornehmen.
+\layout Itemize
+
+Die folgenden Optionen sind verfügbar:
+\begin_deeper 
+\layout Itemize
+
+
+\emph on 
+Der Benutzer darf das Passwort vom Client aus ändern
+\emph default 
+: Wenn diese Option aktiv ist, darf der Benutzer vom Windows-Client sein
+ Passwort ändern.
+\layout Itemize
+
+
+\emph on 
+Die Anmeldung vom Windows-Client erfordert kein Passwort
+\emph default 
+: Wenn diese Option aktiv ist, benötigt der Benutzer kein Passwort, um sich
+ anzumelden.
+\layout Itemize
+
+
+\emph on 
+Samba-Konto sperren
+\emph default 
+: Wenn diese Option aktiv ist, kann der Benutzer sich nicht mehr verbinden.
+\layout Itemize
+
+
+\emph on 
+Passwort läuft ab am
+\emph default 
+: Wählen Sie ein Datum, an dem das Passwort abläuft, das Konto wird dann
+ automatisch gesperrt.
+\layout Itemize
+
+
+\emph on 
+Limitiere Logon-Zeit
+\emph default 
+: Zu dieser Einstellung sind keine Informationen verfügbar (sambaLogonTime).
+\layout Itemize
+
+
+\emph on 
+Limitiere Logoff-Zeit
+\emph default 
+: Zu dieser Einstellung sind keine Informationen verfügbar (sambaLogoffTime).
+\layout Itemize
+
+
+\emph on 
+Konto läuft ab am
+\emph default 
+: Wählen Sie ein Datum, an dem das Konto automatisch gesperrt wird.
+\end_deeper 
+\layout Itemize
+
+
+\emph on 
+Erlaube Verbindungen nur von diesen Arbeitsstationen
+\emph default 
+: Wenn Sie den Zugriff des Benutzers auf eine bis mehrere Arbeitsstationen
+ beschränken möchten, tragen Sie diese in die Liste ein.
+ Wenn die Liste leer ist, ist der Zugriff von allen Clients möglich.
+\begin_deeper 
+\layout Itemize
+
+
+\emph on 
+Hinzufügen
+\emph default 
+: Um eine Arbeitsstation hinzufügen, klicken Sie auf den Knopf 
+\emph on 
+Hinzufügen
+\emph default 
+ und wählen Sie eine oder mehrere Arbeitsstationen aus der Liste, indem
+ Sie sei markieren.
+ Wenn Sie mit der Auswahl zufrieden sind, drücken Sie den Knopf 
+\emph on 
+Hinzufügen
+\emph default 
+.
+ Die gewünschten Arbeitsstation werden nun in der Liste aufgeführt.
+\layout Itemize
+
+
+\emph on 
+Entfernen
+\emph default 
+: Um eine oder mehrere Arbeitsstationen aus der Liste zu entfernen, markieren
+ Sie den oder die gewünschten Einträge in der Liste und drücken auf den
+ Knopf entfernen.
+ Die markierten Arbeitsstationen werden nun nicht mehr in der Liste aufgeführt.
+\end_deeper 
+\layout Subsection
+\added_space_top bigskip 
+Konnektivität
+\layout Standard
+
+Unter diesem Reiter finden sich diverse Möglichkeiten, um die Zugriffsmöglichkei
+ten des Benutzers zu erweitern:
+\layout Subsubsection
+
+Proxy Konto
+\layout Standard
+
+Mit diesem Konto können Sie dem Benutzer den Zugriff auf den Proxy-Server
+ erlauben:
+\layout Itemize
+
+
+\emph on 
+Filtern von unerwünschten Inhalten (z.B.
+ pornografische oder gewalttätige Inhalte)
+\emph default 
+: Diese Option aktiviert den Inhaltsfilter für den Benutzer.
+ Dies hat zur Folge, dass keine Seiten aufgerufen werden können, die über
+ fragwürdige Inhalte verfügen (bzw.
+ vom Filter als solche erkannt werden).
+\layout Itemize
+
+
+\emph on 
+Inhaltsfilterung nur während der Arbeitszeit
+\emph default 
+: Die Inhaltsfilterung kann mit dieser Option ausschliesslich für die Arbeitszei
+t aktiviert werden (wählen Sie den Zeitraum).
+ Ausserhalb der eingestellten Arbeitszeit ist der Zugriff uneingeschränkt.
+\layout Itemize
+
+
+\emph on 
+Proxynutzung durch Kontingent einschränken
+\emph default 
+: Mit dieser Option können Sie die maximal übertragene Menge für einen Zeitraum
+ für den Benutzer festlegen.
+ Wenn die Menge erreicht ist, kann der Benutzer keine Seiten mehr aufrufen.
+\layout Subsubsection
+
+FTP Konto
+\layout Standard
+
+Mit diesem Konto können Sie dem Benutzer den Zugriff auf den FTP-Server
+ erlauben:
+\layout Itemize
+
+Bandbreite: Erlaubt Einschränkung der Bandbreite (Aus Sicht des Benutzers)
+\begin_deeper 
+\layout Itemize
+
+
+\emph on 
+Upload-Bandbreite
+\emph default 
+: Die maximale Bandbreite für den Upload (Senderichtung).
+ Wenn Sie 0 eintragen, ist die Beschränkung nicht aktiv.
+\layout Itemize
+
+
+\emph on 
+Download-Bandbreite
+\emph default 
+: Die maximale Bandbreite für den Download (Empfangsrichtung).
+ Wenn Sie 0 eintragen, ist die Beschränkung nicht aktiv.
+\end_deeper 
+\layout Itemize
+
+Verhältnis: Der Benutzer kann gezwungen werden, ein Verhältnis von Up- und
+ Download von Dateien einzuhalten.
+\begin_deeper 
+\layout Itemize
+
+
+\emph on 
+Hoch- / heruntergeladene Dateien
+\emph default 
+: Stellen Sie das Verhältnis in Dateien ein (z.B.
+ 4/1: 4 Dateien müssen hochgeladen werden, damit der Benutzer eine Datei
+ herunterladen darf).
+\end_deeper 
+\layout Itemize
+
+Kontingent: Einschränkung des Kontingents in Dateien oder übertragenen Datenmeng
+en
+\begin_deeper 
+\layout Itemize
+
+
+\emph on 
+Dateien
+\emph default 
+: Die maximale Anzahl an Dateien, die der Benutzer übertragen darf.
+ Wenn Sie 0 eintragen, ist die Beschränkung nicht aktiv.
+\layout Itemize
+
+
+\emph on 
+Größe
+\emph default 
+: Die maximale Datenmenge, die der Benutzer übertragen darf.
+ Wenn Sie 0 eintragen, ist die Beschränkung nicht aktiv.
+\end_deeper 
+\layout Itemize
+
+Verschiedenes:
+\begin_deeper 
+\layout Itemize
+
+Temporäres Abschalten des FTP-Zugriffs: Mit dieser Option können Sie den
+ Zugriff auf den FTP-Server deaktivieren, ohne dabei die vorgenommenen Einstellu
+ngen zu verlieren.
+\end_deeper 
+\layout Subsubsection
+
+WebDAV-Konto
+\layout Standard
+
+Mit diesem Konto können Sie dem Benutzer den Zugriff auf den WebDAV-Server
+ erlauben.
+\layout Subsubsection
+
+phpGroupware-Konto
+\layout Standard
+
+Mit diesem Konto können Sie dem Benutzer den Zugriff auf den phpGroupware-Server
+ erlauben.
+\layout Subsubsection
+
+Intranet-Konto
+\layout Standard
+\added_space_bottom smallskip 
+Mit diesem Konto können Sie dem Benutzer den Zugriff auf den Intranet-Server
+ erlauben.
+\layout Subsubsection
+
+Opengroupware
+\layout Standard
+
+Mit dieser Option können Sie dem Benutzer den Zugriff auf den Opengroupware-Serv
+er erlauben:
+\layout Itemize
+
+
+\emph on 
+Örtliches Team
+\emph default 
+: Das örtliche Team, zu dem der Benutzer gehören wird.
+\layout Itemize
+
+
+\emph on 
+Benutzer-Vorlage
+\emph default 
+: 
+\layout Itemize
+
+
+\emph on 
+Gesperrt
+\emph default 
+: Diese Option dient dazu, das Opengroupware-Konto zeitweilig zu sperren,
+ ohne die Einstellungen zu verlieren.
+ Wenn sie aktiv ist, kann der Benutzer sich nicht zum Opengroupware-Server
+ verbinden.
+\layout Itemize
+
+
+\emph on 
+Teams
+\emph default 
+: Aktivieren Sie die Teams, denen der Benutzer angehören soll.
+\layout Subsubsection
+
+PPTP-Konto
+\layout Standard
+\added_space_bottom smallskip 
+Mit diesem Konto können Sie dem Benutzer den VPN-Zugriff via PPTP erlauben.
+\layout Subsubsection
+
+PHPScheduleit-Konto
+\layout Standard
+\added_space_bottom smallskip 
+Mit diesem Konto können Sie dem Benutzer den Zugriff auf den PHPscheduleit-Serve
+r erlauben:
+\layout Subsubsection
+
+GLPI-Konto
+\layout Standard
+
+If you activated the GLPI option, the user will access GLPI software.
+\layout Subsection
+\added_space_top bigskip 
+Fax
+\layout Standard
+
+Um für den Benutzer die Fax-Erweiterung zu aktivieren, klicken Sie auf den
+ Knopf 
+\emph on 
+Fax-Konto er
+\emph default 
+zeugen.
+ Um die Erweiterung wieder zu entfernen, klicken Sie auf den Knopf 
+\emph on 
+Fax-Konto entfernen
+\emph default 
+.
+\layout Subsubsection
+
+Allgemein
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Fax
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Fax-Nummer des Benutzers
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Sprache
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Wählen Sie die gewünschte Sprache aus der Liste
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Auslieferungsformat
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Wählen Sie das gewünschte Format aus der Liste
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsubsection
+\added_space_top medskip 
+Auslieferungsmethode
+\layout Itemize
+
+
+\emph on 
+Temporäres Abschalten der Fax-Benutzung
+\emph default 
+: Deaktiviert das Fax-Konto des Benutzers, ohne die Einstellungen zu verlieren
+ (Wenn Sie das Konto dauerhaft entfernen möchten, klicken Sie den Knopf
+ 
+\emph on 
+Fax-Konto entfernen
+\emph default 
+).
+\layout Itemize
+
+
+\emph on 
+Fax als Mail ausliefern an
+\emph default 
+: Die Mail-Adresse, an die das Fax im ausgewählten Format gesendet wird
+ (Üblicherweise die Mailbox des Benutzers).
+\layout Itemize
+
+
+\emph on 
+Fax an Drucker weiterleiten
+\emph default 
+: Wählen Sie aus der Liste den Drucker, auf dem ein empfangenes Fax gedruckt
+ wird.
+\layout Subsubsection
+\added_space_top medskip 
+Alternative Fax-Nummern
+\layout Standard
+
+Es ist möglich, weitere Fax-Nummern für den Benutzer einzutragen.
+ Alle alternativen Nummern, die dem Benutzer zugeordnet sind, werden in
+ der Liste aufgeführt.
+\layout Itemize
+
+
+\emph on 
+Hinzufügen
+\emph default 
+: Um eine Nummer hinzuzufügen, geben Sie die Nummer in das Textfeld links
+ neben dem Knopf ein und drücken Sie auf den Knopf 
+\emph on 
+Hinzufügen
+\emph default 
+.
+\layout Itemize
+
+
+\emph on 
+Lokale hinzufügen
+\emph default 
+: Um eine Nummer hinzuzufügen, die bereits einem Benutzer zugeordnet wurde,
+ drücken Sie auf den Knopf 
+\emph on 
+Lokale hinzufügen
+\emph default 
+.
+ Wählen Sie nun aus der Liste einen oder mehrere Benutzer, deren Faxnummern
+ dem aktuell geöffneten Benutzer zugeordet wählen sollen, und drücken Sie
+ den Knopf 
+\emph on 
+Hinzufügen
+\emph default 
+.
+ Um den Vorgang abzubrechen, drücken Sie auf den Knopf 
+\emph on 
+Abbrechen
+\emph default 
+.
+\layout Itemize
+
+
+\emph on 
+Entfernen
+\emph default 
+: Um eine oder mehrere Nummern wieder zu entfernen, markieren Sie diese
+ in der Liste (mit gedrückter STRG-Taste können Sie mehrere Nummern markieren)
+ und drücken Sie den Knopf 
+\emph on 
+Entfernen
+\emph default 
+.
+ Die Nummern werden nun nicht mehr in der Liste aufgeführt.
+\layout Subsubsection
+\added_space_top medskip 
+Sperrlisten
+\layout Standard
+
+Die Sperrlisten dienen dazu, den Empfang und Versand von und zu bestimmten
+ Nummern zu unterbinden, um z.B.
+ Werbefaxe zu vermeiden.
+ Die Dialoge der Sperrlisten für eingehende und ausgehende Faxe verhalten
+ sich analog, weshalb im Folgenden einfach darauf verzichtet wird, vorzuschreibe
+n, welchen 
+\emph on 
+Bearbeiten
+\emph default 
+-Knopf Sie gedrückt haben.
+\layout Paragraph*
+
+Bearbeiten:
+\layout Standard
+
+Wenn Sie den Knopf 
+\emph on 
+Bearbeiten
+\emph default 
+ gedrückt haben, sehen Sie eine zweigeteilte Seite.
+ Auf der linken Seite sehen Sie die aktuell gültigen Nummern/Listen, gegen
+ die ein-/ bzw.
+ ausgehende Nummern geprüft werden.
+ Um eine Nummer hinzuzufügen, geben Sie diese um Textfeld unterhalb der
+ Liste ein und klicken Sie den Knopf 
+\emph on 
+Hinzufügen
+\emph default 
+.
+ Um eine bereits bestehende Liste aus einer Unterabteilung hinzuzufügen
+ wählen Sie in der rechten Liste die Unterabteilung, die die Liste enthält
+ und drücken Sie den Knopf 
+\emph on 
+Liste zu den Sperrlisten hinzufügen
+\emph default 
+.
+ Um eine oder mehrere Nummern/Listen aus der Liste zu entfernen, markieren
+ Sie diese/n und drücken Sie den Knopf 
+\emph on 
+Entfernen
+\emph default 
+.
+\layout Subsection
+\added_space_top bigskip 
+Telefon
+\layout Standard
+
+Um die Telefon-Erweiterung für den Benutzer zu aktivieren, klicken Sie auf
+ den Knopf 
+\emph on 
+Telefon-Konto erstellen
+\emph default 
+.
+ Wenn Sie die Erweiterung wieder entfernen möchten, klicken Sie auf den
+ Knopf 
+\emph on 
+Telefon-Konto entfernen
+\emph default 
+.
+\layout Subsubsection
+
+Telefonnummern
+\layout Standard
+
+In dieser Liste werden die Telefonnummern aufgeführt, die dem Benutzer zugeordne
+t sind.
+\layout Itemize
+
+
+\emph on 
+Nummer hinzufügen
+\emph default 
+: Geben Sie die Nummer in die Eingabezeile ein und drücken Sie den Knopf
+ 
+\emph on 
+Hinzufügen
+\layout Itemize
+
+Nummer entfernen: Markieren Sie die Nummer aus der Liste und drücken Sie
+ den Knopf 
+\emph on 
+Entfernen.
+\layout Subsubsection
+\added_space_top medskip 
+Telefon-Hardware
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Telefon
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Wählen Sie das Telefon aus der Liste, wenn der Benutzer ein 
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Voicemail-PIN
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Geben Sie den vierstelligen PIN-Code ein, den der Benutzer eingeben muss,
+ um seine Mailbox zu erreichen.
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Telefon-PIN
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Geben Sie den vierstelligen PIN-Code ein, den der Benutzer eingeben muss,
+ um sich an seinem Telefon anzumelden.
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsubsection
+\added_space_top medskip 
+Telefon-Makro
+\layout Standard
+
+Wählen Sie aus der Liste das Makro, das ausgeführt werden soll, wenn der
+ Benutzer eine Nummer wählt (Gegebenenfalls müssen/können noch weitere Makrospez
+ifische Optionen eingestellt werden, z.B.
+ Nummer der Mailbox, Weiterleitungen, Zeit bis Weiterleitung, etc.).
+\layout Subsection
+\added_space_top bigskip 
+Referenzen
+\layout Standard
+
+Unter Referenzen findet sich eine Auflistung aller Verbindungen des Benutzers
+ zu anderen Einträge im LDAP (z.B.
+ Gruppen, Systeme etc.).
+\the_end

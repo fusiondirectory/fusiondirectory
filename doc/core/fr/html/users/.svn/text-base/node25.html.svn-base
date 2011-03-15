@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Options d'accès</TITLE>
+<META NAME="description" CONTENT="Options d'accès">
+<META NAME="keywords" CONTENT="users">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-15">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="users.css">
+
+</HEAD>
+
+<BODY >
+
+<H3><A NAME="SECTION00015300000000000000">
+Options d'accès</A>
+</H3>
+
+<P>
+
+<UL>
+<LI>Il s'agit de la gestion du mot de passe de l'utilisateur. Différentes
+propositions peuvent être cochées à la fois mais l'administrateur
+doit veiller à rester cohérent pour éviter les conflits dans l'application
+de ses choix.
+</LI>
+<LI>Le champ à droite doit être rempli par les noms de stations à partir
+desquelles l'utilisateur peut se connecter. L'administrateur doit
+utiliser les boutons <SPAN  CLASS="textit">Ajouter</SPAN> pour y insérer les noms de stations.
+Le bouton <SPAN  CLASS="textit">Ajouter</SPAN> renvoie à la liste des stations. Utilisez
+le bouton <SPAN  CLASS="textit">Supprimer</SPAN> pour effacer des stations.
+</LI>
+</UL>
+
+<P><P>
+<BR>
+
+
+<P>
+<BR><HR>
+<ADDRESS>
+Jan Wenzel
+2008-03-13
+</ADDRESS>
+</BODY>
+</HTML>

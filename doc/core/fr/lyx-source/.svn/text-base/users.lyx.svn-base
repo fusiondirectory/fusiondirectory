@@ -1,0 +1,2035 @@
+#LyX 1.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 221
+\textclass article
+\language frenchb
+\inputencoding auto
+\fontscheme default
+\graphics default
+\paperfontsize default
+\spacing single 
+\papersize a4paper
+\paperpackage a4
+\use_geometry 1
+\use_amsmath 0
+\use_natbib 0
+\use_numerical_citations 0
+\paperorientation portrait
+\leftmargin 10mm
+\topmargin 10mm
+\rightmargin 10mm
+\bottommargin 20mm
+\headheight 10mm
+\headsep 10mm
+\footskip 10mm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\quotes_times 2
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\bullet 0
+	1
+	20
+	-1
+\end_bullet
+\bullet 1
+	1
+	20
+	-1
+\end_bullet
+\bullet 2
+	1
+	20
+	-1
+\end_bullet
+\bullet 3
+	1
+	20
+	4
+\end_bullet
+
+\layout Title
+
+
+\series bold 
+ADMINISTRATION DES UTILISATEURS
+\layout Section
+
+Utilisateurs
+\layout Standard
+
+L'administrateur peut créer ou modifier un compte ou accéder aux informations
+ sur un compte en cliquant sur le bouton 
+\series bold 
+\color blue
+utilisateurs
+\series default 
+\color default
+ de la partie 
+\series bold 
+Administration
+\series default 
+ dans le menu à gauche.
+ La page
+\family sans 
+\color black
+ Administration des utilisateurs
+\family default 
+\color default
+ s'affiche, elle est divisée en trois colonnes.
+ Au fur et à mesure que les utilisateurs sont configurés ils apparaîtront
+ dans la première colonne, classés selon leur département.
+ 
+\layout Standard
+
+Les deux dernières colonnes comportent des icônes qui sont des raccourcis
+ vers les propriétés de chaque utilisateur et les actions à exécuter sur
+ l'utilisateur.
+ Les flèches en entête ( 
+\begin_inset Graphics
+	filename images/list_back.png
+
+\end_inset 
+
+, 
+\begin_inset Graphics
+	filename images/list_root.png
+
+\end_inset 
+
+, 
+\begin_inset Graphics
+	filename images/list_home.png
+
+\end_inset 
+
+ ) servent à modifier l'affichage selon le département, elles prédominent
+ sur toutes autres sélections d'affichage.
+\layout Standard
+
+C'est à partir de la page 
+\family sans 
+\color black
+Administration des utilisateurs
+\family default 
+\color default
+ que l'administrateur système aura une vue globale et pourra gérer la liste
+ des utilisateurs.
+ 
+\layout Standard
+
+
+\color black
+Dans la partie droite de la page se trouve un tableau intitulé Filtres 
+\begin_inset Graphics
+	filename images/rocket.png
+
+\end_inset 
+
+.
+ 
+\layout Itemize
+
+
+\color black
+Ce tableau sert à modifier l'affichage de la liste des utilisateurs :
+\begin_deeper 
+\layout Standard
+
+
+\color black
+- Cliquer sur une lettre pour que s'affichent tous les utilisateurs dont
+ le nom commence par la lettre sélectionnée;
+\layout Standard
+
+
+\color black
+- Cliquez sur l'astérisque et tous les noms d'utilisateurs apparaîtront
+ classés alphabétiquement.
+\end_deeper 
+\layout Itemize
+
+Plus bas d'autres possibilités d'affichage sont possibles :
+\begin_deeper 
+\layout Standard
+
+- Cochez une ou plusieurs propositions pour un affichage ciblé;
+\layout Standard
+
+- Insérez soit une lettre soit un numéro tous deux suivis de l'astérisque
+ soit un nom d'utilisateur dans le champ précédé d'une loupe 
+\begin_inset Graphics
+	filename images/search.png
+
+\end_inset 
+
+, cette icône symbolise la recherche d'un item.
+ Cliquez sur le bouton Appliquer pour faire apparaître le(s) utilisateur(s)
+ recherché(s).
+\end_deeper 
+\layout Standard
+
+Pour créer un compte cliquez sur 
+\begin_inset Graphics
+	filename images/list_new_user.png
+
+\end_inset 
+
+.
+ Si le compte est déjà créé cliquez sur le compte lui-même.
+\layout Standard
+
+Apparaît alors l'espace de configuration munie d'onglets qui représentent
+ chacun un espace de configuration.
+ Ces onglets sont des extensions apportées à GOsa.
+ L'administrateur configure ces extensions pour chaque utilisateur.
+\layout Standard
+\added_space_bottom medskip 
+Pour terminer la configuration, cliquez sur le bouton Terminé en bas à droite.
+ Pour revenir à 
+\color black
+la liste des utilisateurs
+\color default
+ cliquez sur le bouton Annuler.
+ 
+\newline 
+
+\layout Standard
+
+Tous les champs précédés d'une astérisque doivent être remplis obligatoirement.
+\layout Standard
+
+Dans le haut à droite vous avez à la fois l'identitée de l'utilisateur sur
+ lequel vous travaillez mais aussi sa place dans l'arbre LDAP.
+\layout Standard
+
+L'image 
+\begin_inset Graphics
+	filename images/closedlock.png
+
+\end_inset 
+
+ signale que l'utilisateur est en mode verrouillé.
+ Ce mode pemet d'éviter les modifications simultanées.
+\layout Subsection
+\pagebreak_top 
+Informations générales
+\layout Subsubsection
+
+Informations personnelles
+\layout Standard
+\added_space_bottom medskip 
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="15" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Nom
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Introduisez le nom de l'utilisateur 
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Prénom
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Introduisez le prénom de l'utilisateur
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Identifiant
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Introduisez l'identificateur de l'utilisateur
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Titre personnel
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Introduisez le titre (Madame, Mademoiselle ou Monsieur) de l'utilisateur
+ 
+\color red
+?
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Titre Universitaire
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Introduisez le diplome obtenu
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Date de naissance
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Cliquez sur le bouton 
+\begin_inset Quotes erd
+\end_inset 
+
+ Remplir
+\begin_inset Quotes erd
+\end_inset 
+
+ pour voir apparaître une liste déroulante
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Sexe 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Faites votre séléction dans la liste déroulante
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Langue
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Faites votre séléction dans la liste déroulante
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Base
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Choix du département.
+ (la création de départements se fait à partir du bouton 
+\series bold 
+\color blue
+département
+\series default 
+\color default
+ dans le menu de g
+\color black
+auche
+\color default
+ dans la partie 
+\series bold 
+Administration
+\series default 
+).
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Adresse
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Introduisez l'adresse personnelle de l'utilisateur
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Numéro de téléphone privé 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Introduisez le numéro privé selon la nomenclature nationale ou internationale.
+ (veillez à garder la même nomenclature pour tous les utilisateurs)
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Page d'accueil
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Introduisez l'url de la page personnelle de l'utilisateur
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Format de stockage des mots de passe 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Faites votre séléction dans la liste déroulante
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Certificats
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\color black
+Cliquez sur le bouton
+\begin_inset Quotes erd
+\end_inset 
+
+ Modification des certificats
+\begin_inset Quotes erd
+\end_inset 
+
+.
+ GOsa vous propose trois types de certificats à rechercher dans l' arborescence
+ de votre ordinateur.
+ Pour enregistrer cliquez sur le bouton
+\begin_inset Quotes erd
+\end_inset 
+
+ Terminé
+\begin_inset Quotes erd
+\end_inset 
+
+.
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Kerberos
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\color black
+Cliquez sur le bouton
+\begin_inset Quotes erd
+\end_inset 
+
+ Modifier les propriétés
+\begin_inset Quotes erd
+\end_inset 
+
+.
+ 
+\color red
+?
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Standard
+
+Vous pouvez aussi si vous le désirez agrémenter d'une photo le profil de
+ l'utilisateur en cliquant sur le bouton 
+\shape italic 
+changer la photo
+\shape default 
+.
+ Vous parcourez alors l'arborescence de votre ordinateur pour aller chercher
+ l'image.
+\layout Subsubsection
+\added_space_top medskip 
+Informations sur l'entreprise
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="13" columns="2">
+<features>
+<column alignment="left" valignment="top" leftline="true" width="5cm">
+<column alignment="left" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Entreprise
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Introduisez le nom de la société
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Département
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Introduisez le nom du département auquel appartient l'utilisateur 
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+N° du département
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Introduisez le numéro du département
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+N° de l'employé
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Introduisez le numéro attribué à l'utilisateur
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Type de l'employé
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Précisez son statut dans la société
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+N° du bureau
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Introduisez le numéro du bureau dans lequel travaille l'utilisateur
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Téléphone
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Introduisez le numéro de téléphone de l'utilisateur
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Portable
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Introduisez le numéro du mobile ou GSM de l'utilisateur
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Bip
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Introduisez le numéro du bipeur de l'utilisateur
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Fax
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Introduisez le numéro de Fax de l'utilisateur
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Lieu 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Introduisez la localisation du bureau de l'utilisateur si la société possède
+ des succursales
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Département 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Introduisez le nom de la région où la société est localisée 
+\color red
+?
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Adresse
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Introduisez l'adresse de l'entreprise
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsection
+\added_space_top bigskip 
+Unix
+\layout Standard
+
+Pour activer le compte Unix pour un utilisateur cliquez sur le bouton 
+\shape italic 
+créer un compte unix.
+\layout Subsubsection
+
+Informations générales
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Répertoire home
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Introduisez le chemin vers le répertoire de l'utilisateur
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Shell
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Choisir dans la liste déroulante le type de shell (console) utilisé
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Groupe principal
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Indiquez le groupe principal auquel appartient l'utilisateur.
+ (Pour la création de groupe allez au bouton 
+\series bold 
+\color blue
+Groupes
+\series default 
+\color default
+ dans le menu de gauche dans la partie 
+\series bold 
+Administration
+\series default 
+)
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Statut
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Indique si le compte est activé ou non
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Forcer l'UID/GID
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Cochez si vous désirez forcer l'uid/gid de l'utilisateur à une certaine
+ valeur
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsubsection
+\added_space_top medskip 
+Appartient aux groupes
+\layout Standard
+
+Utilisez les boutons 
+\emph on 
+Ajouter
+\emph default 
+ et 
+\emph on 
+Supprimer
+\emph default 
+ pour insérer ou effacer les groupes dans le champ vide.
+ Le bouton 
+\emph on 
+Ajouter
+\emph default 
+ renvoie à la liste des groupes crées par l'administrateur.
+ L'utilisateur peut appartenir à un ou plusieurs groupes.
+\layout Subsubsection
+\added_space_top medskip 
+Compte
+\layout Standard
+
+Il s'agit de la gestion du mot de passe de l'utilisateur.
+ Différentes propositions peuvent être cochées à la fois mais l'administrateur
+ doit veiller à rester cohérent pour éviter les conflits dans l'application
+ de ses choix.
+\layout Subsubsection
+\added_space_top medskip 
+Système de confiance
+\layout Standard
+
+Le système de confiance sert à gèrer l'accès de l'utilisateur aux différents
+ systèmes, phériphériques, etc...
+ .
+ Le système de confiance peut être en mode :
+\layout Itemize
+
+désactivé, 
+\layout Itemize
+
+accès complet : l'utilisateur à l'accès complet aux systèmes,
+\layout Itemize
+
+permettre l'accès à ces hôtes : 
+\begin_deeper 
+\layout Standard
+
+- Utilisez le bouton 
+\emph on 
+Ajouter
+\emph default 
+ pour faire apparaître la liste des hôtes auxquels l'utilisateur pourrait
+ avoir accès, 
+\layout Standard
+
+- Utilisez le bouton 
+\emph on 
+Supprimer
+\emph default 
+ pour effacer les hôtes auxquels l'utilisateur n'a plus accès.
+\end_deeper 
+\layout Subsection
+\added_space_top bigskip 
+Environnement
+\layout Standard
+
+Cliquez sur le bouton 
+\shape italic 
+ajouter une extension environnemental
+\shape default 
+ pour voir apparaître les différents points destinés à la configuration
+ environnementale de l'utilisateur.
+\layout Subsubsection
+
+Profiles
+\layout Subsubsection
+\added_space_top medskip 
+Kiosk profile
+\layout Subsubsection
+\added_space_top medskip 
+Logon scripts
+\layout Subsubsection
+\added_space_top medskip 
+Attach share
+\layout Subsubsection
+\added_space_top medskip 
+Hotplug devices
+\layout Subsubsection
+\added_space_top medskip 
+Imprimante
+\layout Subsection
+\added_space_top bigskip 
+Mail
+\layout Standard
+
+Le compte émail est lié au serveur de messagerie.
+ Pour activer le compte de messagerie d'un utilisateur cliquez sur 
+\shape italic 
+Créer un compte émail
+\shape default 
+.
+\layout Subsubsection
+
+Informations générales
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Adresse principale
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Introduisez l'adresse de messagerie de l'utilisateur 
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Serveur
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Sélectionnez le serveur ou est stockée le compte de messagerie de l'utilisateur
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Utilisation des quota
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Précisez si vous désirez appliquer un quota au niveau du compte de messagerie
+ de l'utilisateur
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Tailles du quota
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Précisez en KB la taille du quota
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsubsection
+\added_space_top medskip 
+Alternative addresses
+\layout Standard
+
+L'utilisateur peut être en possession d'alias.
+ Ces alias sont à insérer dans le champ adresses alternatives.
+ 
+\layout Standard
+
+Utilisez le bouton 
+\emph on 
+Ajouter
+\emph default 
+ pour insérer les alias.
+ L'alias doit être introduit dans le champ vide précédant le bouton 
+\emph on 
+Ajouter
+\emph default 
+.
+ Utilisez le bouton 
+\emph on 
+Supprimer
+\emph default 
+ pour effacer les alias.
+\layout Subsubsection
+\added_space_top medskip 
+Options du compte de messagerie
+\layout Standard
+
+Gestion des options du compte de messagerie de l'utilisateur :
+\layout Itemize
+
+Aucune distribution des messages dans la boite de l'utilisateur : envoie
+ une copie à l'adresse mentionnée dans 
+\emph on 
+transférer les messages vers
+\emph default 
+ , sans en mettre une copie dans la messagerie de l'utilisateur.
+\layout Itemize
+
+Activer la notification d'absence : envoie le message écrit dans 
+\emph on 
+message d'absence
+\emph default 
+.
+\layout Itemize
+
+Déplacer les messages ayant un niveau de spam supérieur à (a) vers le répertoire
+ (b) : envoie les messages ayant un score supérieur à (a) dans le répertoire
+ (b).
+\layout Itemize
+
+Rejeter les messages plus gros que (c) MB : ne pas accepter les messages
+ plus gros que (c) MB.
+\layout Itemize
+
+Utilisez les boutons 
+\emph on 
+Ajouter
+\emph default 
+ ou 
+\emph on 
+Ajouter en local
+\emph default 
+\color black
+ pour la gestion des adresses : 
+\begin_deeper 
+\layout Standard
+
+
+\color black
+- Le bouton 
+\emph on 
+Ajouter en local
+\emph default 
+ permet de sélectionner parmis la liste des adresses locales.
+ 
+\layout Standard
+
+
+\color black
+- Le bouton 
+\emph on 
+Ajouter
+\emph default 
+ permet l'ajout d'adresses extérieures au système.
+\layout Standard
+
+
+\color black
+- Utilisez le bouton 
+\emph on 
+Supprimer
+\emph default 
+ pour effacer les adresses de messagerie.
+\end_deeper 
+\layout Subsubsection
+\added_space_top medskip 
+Options de messagerie avancées
+\layout Itemize
+
+Les utilisateurs ne sont autorisés qu'a envoyé et recevoir des emails locaux
+ : l'administrateur peut forcer l'envoi et la reception des messages en
+ local uniquement.
+\layout Itemize
+
+Utiliser des scripts sieve personnalisés : l'administrateur peut écrire
+ des scripts sieve qui établissent les règles de gestion de la messagerie.
+ 
+\emph on 
+Attention ! cela désactive toutes les options de messagerie
+\emph default 
+.
+\layout Subsection
+\added_space_top bigskip 
+Samba
+\layout Standard
+
+Pour créer un compte samba pour un utilisateur cliquez sur le bouton 
+\shape italic 
+Créer un compte samba
+\shape default 
+.
+\layout Subsubsection
+
+Informations générales
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Répertoire Home
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Indiquez le chemin du répertoire personnel de l'utilisateur en notation
+ UNC ex: 
+\backslash 
+
+\backslash 
+SERVER
+\backslash 
+homes
+\backslash 
+utilisateur.
+ Choisissez dans la liste déroulante la lettre associée au répertoire personnel
+ de l'utilisateur.
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Domaine
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Séléctionnez le domaine dans lequel se trouve la machine de l'utilisateur
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Chemin du Script
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Indiquez le script de démarrage de l'utilisateur
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Chemin du Profile
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Indiquez le chemin pour accéder au profile de l'utilisateur
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsubsection
+\added_space_top medskip 
+Serveur de terminal
+\layout Itemize
+
+Permet la connexion sur un serveur de terminal
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="2" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Répertoire Home
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Indiquez le chemin du répertoire personnel de l'utilisateur en notation
+ UNC ex: 
+\backslash 
+
+\backslash 
+SERVER
+\backslash 
+homes
+\backslash 
+utilisateur.
+ Choisissez dans la liste déroulante la lettre associée au répertoire personnel
+ de l'utilisateur.
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Chemin du Profile
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Indiquez le chemin pour accéder au profile de l'utilisateur
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Itemize
+
+Hérite de la configuration du client
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="2" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Programme initial
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Indiquez le chemin vers l'application par défaut
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Répertoire Home
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Indiquez le chemin pour accéder au repertoire de base de l'application 
+\color red
+?
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+ 
+\layout Itemize
+
+Configuration du temps d'attente (en minutes) :
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Connexion
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Cochez afin d'indiquer le temps d'attente maximum lors d'une connexion
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Déconnexion
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Cochez afin d'indiquer le temps d'attente maximum lors d'une déconnexion
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+En attente
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Cochez afin d'indiquer le temps d'attente maximum lors d'une requête
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Itemize
+
+Périphériques clients :
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Connecter les lecteurs clients à l'identification
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Cochez afin de connecter les lecteurs de l'utilisateur lors de l'identification
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Connecter les imprimantes clients à l'identification
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Cochez afin de connecter les imprimantes de l'utilisateur lors de l'identificati
+on
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Imprimante par défaut
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Cochez afin de définir l'imprimante par défaut de l'utilisateur lors de
+ l'identification
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Itemize
+
+Divers :
+\begin_deeper 
+\layout Standard
+
+- Masquer : 
+\color red
+?
+\layout Standard
+
+- Sur interrompu ou temps d'attente dépassé : permet de choisir si il faut
+ déconnecter le client ou faire une remise à zéro.
+\layout Standard
+
+- Reconnexion si déconnecté : permet de choisir si la reconnexion doit être
+ faite depuis le même client, ou si elle peut être effectuée depuis un autre
+ client.
+\end_deeper 
+\layout Subsubsection
+\added_space_top medskip 
+Options d'accès
+\layout Itemize
+
+Il s'agit de la gestion du mot de passe de l'utilisateur.
+ Différentes propositions peuvent être cochées à la fois mais l'administrateur
+ doit veiller à rester cohérent pour éviter les conflits dans l'application
+ de ses choix.
+\layout Itemize
+
+Le champ à droite doit être rempli par les noms de stations à partir desquelles
+ l'utilisateur peut se connecter.
+ L'administrateur doit utiliser les boutons 
+\emph on 
+Ajouter
+\emph default 
+ pour y insérer les noms de stations.
+ Le bouton 
+\emph on 
+Ajouter
+\emph default 
+ renvoie à la liste des stations.
+ Utilisez le bouton 
+\emph on 
+Supprimer
+\emph default 
+ pour effacer des stations.
+\layout Subsection
+\added_space_top bigskip 
+Connectivité
+\layout Standard
+
+L'administrateur peut affiner la gestion du compte de l'utilisateur en configura
+nt les services supplémentaires auquel il peut se connecter.
+\layout Subparagraph*
+
+Compte Proxy
+\layout Standard
+
+Si vous activez l'option Proxy pour l'utilisateur vous pouvez filtrer sur
+ le contenu, limité l'accès à certaines heures et restreindre le téléchargement.
+\layout Subparagraph
+\added_space_top smallskip 
+Compte FTP
+\layout Standard
+
+Si vous activez l'option FTP, vous pouvez régler la bande passante montante
+ et descendante, le ratio des données et le quota à ne pas dépasser pour
+ le transfert de fichiers .
+ Vous pouvez aussi à partir de cet endroit désactiver le compte FTP.
+\layout Subparagraph
+\added_space_top smallskip 
+Compte WebDAV
+\layout Standard
+
+Si vous activez l'option WebDav, l'utilisateur aura accès au serveur WebDAV
+ 
+\layout Subparagraph
+\added_space_top smallskip 
+Compte PHPGroupware
+\layout Standard
+
+Si vous activez l'option PHPGroupware, l'utilisateur aura accès au logiciel
+ PHPGroupware
+\layout Subparagraph
+\added_space_top smallskip 
+Compte Intranet 
+\layout Standard
+\added_space_bottom smallskip 
+Si vous activez l'option Intranet, l'utilisateur aura accès au serveur Intranet
+\layout Standard
+
+
+\series bold 
+Compte PPTP
+\layout Standard
+\added_space_bottom smallskip 
+Si vous activez l'option PPTP, l'utilisateur aura accès au serveur PPTP
+\layout Standard
+
+
+\series bold 
+Compte PHPScheduleIt
+\series default 
+ 
+\layout Standard
+\added_space_bottom smallskip 
+Si vous activez l'option PHPScheduleIt, l'utilisateur aura accès au logiciel
+ PHPScheduleIt
+\layout Standard
+
+
+\series bold 
+Compte GLPI
+\series default 
+ 
+\layout Standard
+
+Si vous activez l'option GLPI, l'utilisateur aura accès au logiciel GLPI
+\layout Subsection
+\added_space_top bigskip 
+Fax
+\layout Standard
+
+Pour créer un compte Fax pour un utilisateur cliquez sur le bouton
+\shape italic 
+ Créer un compte Fax.
+\layout Subsubsection
+
+Informations générales
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Fax
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insérez le numéro de fax de l'utilisateur
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Langue
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Faites votre sélection dans la liste déroulante
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Format de distribution
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Faites votre sélection dans la liste déroulante
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsubsection
+\added_space_top medskip 
+Méthodes de distribution
+\layout Itemize
+
+Desactiver temporairement l'utilisation du fax : interdit l'utilisation
+ du fax par cet utilisateur.
+\layout Itemize
+
+Délivrer les fax comme des mails : envoie les fax sous le format de distribution
+ défini dans la messagerie de l'utilisateur
+\layout Itemize
+
+Imprimer directement les fax : permet de sélectionner l'imprimante à laquelle
+ envoyer les fax reçus par cet utilisateur
+\layout Subsubsection
+\added_space_top medskip 
+Numéros de fax alternatif
+\layout Standard
+
+L'administrateur peut compléter la configuration du fax par une série d'autres
+ numéros de fax utilisés dans la société.
+ Utilisez les boutons Ajouter, Ajouter en local pour remplir le champ.
+\layout Itemize
+
+Le bouton 
+\emph on 
+Ajouter en local
+\emph default 
+ renvoie à la liste des numéros de fax.
+ 
+\layout Itemize
+
+Le bouton 
+\emph on 
+Ajouter
+\emph default 
+ permet d'insérer des numéros de fax autres que ceux de la liste.
+ 
+\layout Standard
+
+Utilisez le bouton 
+\emph on 
+Supprimer
+\emph default 
+ pour effacer des numéros de fax.
+\layout Subsubsection
+\added_space_top medskip 
+Listes rouges
+\layout Standard
+
+Le fax est aujourd'hui fréquemment utilisé pour distribuer des messages
+ publicitaires.
+ Certains peuvent être apparentés à des spams.
+ Pour éviter que les utilisateurs soient submergés par ces messages, l'administr
+ateur peut instaurer une liste rouge reprenant les numéros de fax indésirables
+ qu'ils soient entrant ou sortant.
+\layout Standard
+
+En cliquant sur le bouton 
+\emph on 
+Edit
+\emph default 
+ vous faites apparaître une page comprenant deux listes, du côté gauche
+ on trouve les numéros refusés pour cet utilisateur, du côte droit on retrouve
+ les listes rouges prédefinies par l'administrateur.
+\layout Standard
+
+Selectionnez la ou les listes que vous désirez utiliser dans la liste de
+ droite et cliquer sur 
+\emph on 
+Ajouter à la liste rouge
+\emph default 
+ pour l'activer.
+\layout Subsection
+\added_space_top bigskip 
+Téléphone
+\layout Standard
+
+Pour activer le compte téléphone pour un utilisateur cliquez sur le bouton
+ 
+\shape italic 
+Créer un compte téléphone
+\shape default 
+.
+\layout Subsubsection
+
+Numéros de téléphone
+\layout Standard
+
+Insérez le ou les numéro(s) de téléphone de l'utilisateur en utilisant le
+ bouton 
+\emph on 
+Ajouter
+\emph default 
+.
+ 
+\layout Subsubsection
+\added_space_top medskip 
+Matériel téléphonique
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Téléphone
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Faites votre sélection dans la liste déroulante
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+VoicemailPIN
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\color black
+Introduisez le code PIN utilisé par l'utilisateur pour atteindre sa boîte
+ vocale.
+
+\color red
+ 
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Phone PIN
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\color black
+Introduisez le code PIN utilisé par l'utilisateur pour déverouiller son
+ téléphone.
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsubsection
+\added_space_top medskip 
+Phone macro
+\layout Standard
+
+Permet de séléctionner une macro à mettre dans le téléphone de l'utilisateur.
+\layout Subsection
+\added_space_top bigskip 
+Références
+\layout Standard
+
+Les références présentent les propriétés de l'utilisateur.
+ Cela permet à l'administrateur d'avoir une information rapide sur la situation
+ de l'utilisateur dans la société.
+\the_end

@@ -1,0 +1,187 @@
+#LyX 1.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 221
+\textclass article
+\language ngerman
+\inputencoding auto
+\fontscheme default
+\graphics default
+\paperfontsize default
+\spacing single 
+\papersize a4paper
+\paperpackage a4
+\use_geometry 0
+\use_amsmath 1
+\use_natbib 0
+\use_numerical_citations 0
+\paperorientation portrait
+\leftmargin 10mm
+\topmargin 10mm
+\rightmargin 10mm
+\bottommargin 20mm
+\headheight 10mm
+\headsep 10mm
+\footskip 10mm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\quotes_times 2
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+
+\layout Title
+
+
+\series bold 
+Zusätzliches
+\layout Section
+
+Telefon-Berichte
+\layout Standard
+
+Dieses Modul dient der Anzeige von Telefonberichten.
+ Dabei kann die Anzeige mithilfe von Filtern beeinflusst werden.
+\layout Subsection
+
+Filter 
+\color black
+
+\begin_inset Graphics
+	filename images/rocket.png
+
+\end_inset 
+
+
+\layout Standard
+
+Suche nach 
+\emph on 
+\noun on 
+Zeichenkette
+\emph default 
+\noun default 
+ in 
+\emph on 
+\noun on 
+Abteilung
+\emph default 
+\noun default 
+ während 
+\emph on 
+\noun on 
+Monat
+\emph default 
+\noun default 
+ in 
+\emph on 
+\noun on 
+Jahr:
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none" width="5in">
+\begin_inset Text
+
+\layout Standard
+
+
+\emph on 
+\noun on 
+Zeichenkette
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Geben Sie die Zeichenkette ein, nach der sie suchen möchten.
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none" width="5in">
+\begin_inset Text
+
+\layout Standard
+
+
+\emph on 
+\noun on 
+Abteilung
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Wählen Sie die Abteilung aus der Liste, auf die Sie die Suche begrenzen
+ möchten.
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none" width="5in">
+\begin_inset Text
+
+\layout Standard
+
+
+\emph on 
+\noun on 
+Monat
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Wählen Sie den Monat aus der Liste, auf den Sie die Suche begrenzen möchten.
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none" width="5in">
+\begin_inset Text
+
+\layout Standard
+
+
+\emph on 
+\noun on 
+Jahr
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Wählen Sie das Jahr aus der Liste, auf das Sie die Suche begrenzen möchten.
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Standard
+
+Zum Durchführen der Suche mit den vorgenommenen Einstellungen drücken Sie
+ auf den Knopf 
+\emph on 
+Suchen
+\emph default 
+ ganz rechts.
+\the_end

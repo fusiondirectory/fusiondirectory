@@ -1,0 +1,416 @@
+#LyX 1.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 221
+\textclass article
+\language ngerman
+\inputencoding auto
+\fontscheme default
+\graphics default
+\paperfontsize default
+\spacing single 
+\papersize a4paper
+\paperpackage a4
+\use_geometry 0
+\use_amsmath 1
+\use_natbib 0
+\use_numerical_citations 0
+\paperorientation portrait
+\leftmargin 10mm
+\topmargin 10mm
+\rightmargin 10mm
+\bottommargin 20mm
+\headheight 10mm
+\headsep 10mm
+\footskip 10mm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\quotes_times 2
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+
+\layout Title
+
+
+\series bold 
+Konferenz-Verwaltung
+\layout Section
+
+Liste der Konferenz-Räume
+\layout Standard
+
+Die Liste der Konferenz-Räume dient als Ausgangspunkt für alle weiteren
+ Schritte.
+ Sie wird erreicht über den Menüeintrag 
+\series bold 
+\color blue
+Telefon-Konferenzen
+\series default 
+\color default
+ aus der Kategorie 
+\series bold 
+Administration
+\series default 
+ (Menü am linken Rand des Bildschirms).
+ Bei Auswahl wird die Liste der Konferenz-Räume geladen (Überschrift: 
+\emph on 
+Konferenz-Verwaltung)
+\emph default 
+.
+ Auf dieser Seite können Telefon-Konferenzen hinzugefügt, bearbeitet oder
+ entfernt werden.
+\layout Standard
+
+Die Liste ist in vier Spalten geteilt:
+\layout Itemize
+
+Die erste Spalte enthält den Namen der Telefon-Konferenz
+\layout Itemize
+
+Die zweite Spalte enthält den Besitzer der Telefon-Konferenz
+\layout Itemize
+
+Die dritte Spalte zeigt an, ob für die Telefon-Konferenz ein PIN voreingestellt
+ wurde
+\layout Itemize
+
+Die vierte Spalte enthält Knöpfe für die möglichen Aktionen, um Verwaltungsaufga
+ben durchzuführen (Bearbeiten, Entfernen).
+\layout Standard
+\added_space_bottom medskip 
+Die vier Knöpfe 
+\begin_inset Graphics
+	filename images/list_root.png
+
+\end_inset 
+
+, 
+\begin_inset Graphics
+	filename images/list_back.png
+
+\end_inset 
+
+ , 
+\begin_inset Graphics
+	filename images/list_home.png
+
+\end_inset 
+
+ und 
+\begin_inset Graphics
+	filename images/list_reload.png
+
+\end_inset 
+
+ oberhalb der Liste dienen zur Navigation innerhalb der Abteilungshierarchie:
+\layout Itemize
+
+
+\begin_inset Graphics
+	filename images/list_root.png
+
+\end_inset 
+
+: Zur Wurzel
+\layout Itemize
+
+
+\begin_inset Graphics
+	filename images/list_back.png
+
+\end_inset 
+
+: Eine Abteilung nach oben
+\layout Itemize
+
+
+\begin_inset Graphics
+	filename images/list_home.png
+
+\end_inset 
+
+: Zur Basis des angemeldeten Benutzers
+\layout Itemize
+
+
+\begin_inset Graphics
+	filename images/list_reload.png
+
+\end_inset 
+
+: Aktuelle Abteilung neu laden 
+\layout Standard
+
+Es ist weiterhin möglich, die Anzeige der Konferenzen mithilfe von Filtern
+ zu beeinflussen (Kasten 
+\series bold 
+Filter
+\series default 
+ 
+\begin_inset Graphics
+	filename images/rocket.png
+
+\end_inset 
+
+ am rechten Rand):
+\layout Itemize
+
+
+\color black
+Nach Namen suchen :
+\begin_deeper 
+\layout Standard
+
+- Klick auf 
+\series bold 
+*
+\series default 
+ zeigt alle Konferenzen an
+\layout Standard
+
+
+\color black
+- Klick auf einen Buchstaben zeigt alle
+\color default
+ Konferenzen
+\color black
+ an, deren Name mit dem gewählten Buchstaben beginnt
+\layout Standard
+
+
+\color black
+- Klick auf eine Zahl zeigt alle 
+\color default
+Konferenzen
+\color black
+ an, deren Name mit der gewählten Ziffer beginnt
+\end_deeper 
+\layout Itemize
+
+Schnellsuche 
+\begin_inset Graphics
+	filename images/search.png
+
+\end_inset 
+
+: Suchkriterium (z.B.
+ Name der Konferenz) eingeben, Klick auf Knopf 
+\emph on 
+Filter anwenden
+\emph default 
+.
+\begin_deeper 
+\layout Standard
+\added_space_top medskip 
+Um einen neuen Konferenz-Raum zu erstellen, drücken Sie auf den Knopf 
+\begin_inset Graphics
+	filename images/select_new_component.png
+
+\end_inset 
+
+ oberhalb der Liste.
+\layout Standard
+
+Um einen bestehenden Konferenz-Raum zu bearbeiten, drücken Sie auf seinen
+ Namen.
+\end_deeper 
+\layout Subsection
+\pagebreak_top 
+Allgemein
+\layout Subsubsection
+
+Eigenschaften
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Konferenz-Name
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Der eindeutige Name des Konferenz-Raums
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Typ
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Wählen Sie den Typ des Konferenz-Raums aus der Liste
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Basis
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Wählen Sie die aus der Liste die Abteilung, der der Konferenz-Raum zugeordnet
+ werden soll.
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Beschreibung
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Kurze Beschreibung des Konferenz-Raums
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Lebenszeit (in Tagen)
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Geben Sie die Zeit ein, die der Konferenz-Raum existieren soll
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Telefonnummer
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Telefonnummer, unter der die Konferenz zu erreichen ist
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsubsection
+\added_space_top medskip 
+Optionen
+\layout Itemize
+
+PIN voreinstellen
+\newline 
+Wählen Sie diese Option, wenn Sie die Konferenz mit einem allgemeinen PIN
+ schützen möchten.
+ Geben Sie dazu die PIN in das Feld PIN ein.
+\layout Itemize
+
+Konferenz aufnehmen
+\begin_deeper 
+\layout Standard
+
+Wählen Sie diese Option, wenn Sie die Konferenz aufzeichnen möchten.
+ Wählen Sie dazu aus der Liste das gewünschte Format für die Aufnahme.
+\end_deeper 
+\layout Itemize
+
+Wartemusik bei Halten
+\newline 
+Wählen Sie diese Option, wenn der oder die gehaltenen Anrufer eine Wartemusik
+ hören sollen.
+\layout Itemize
+
+Sitzungsmenü aktivieren
+\begin_deeper 
+\layout Standard
+
+Wählen Sie diese Option, wenn Sie das Sitzungsmenü aktivieren möchten.
+\end_deeper 
+\layout Itemize
+
+Benachrichtige über Zugang/Abgang von Teilnehmern
+\begin_deeper 
+\layout Standard
+
+Wählen Sie diese Option, um jedesmal, wenn ein Teilnehmer die Konferenz
+ betritt oder verlässt eine Benachrichtigung abzuspielen.
+\end_deeper 
+\layout Itemize
+
+Zähle Benutzer
+\begin_deeper 
+\layout Standard
+
+Wählen Sie diese Option, um die Anzahl der Teilnehmer zu zählen.
+\end_deeper 
+\layout Subsection
+\added_space_top bigskip 
+Referenzen
+\layout Standard
+
+Unter 
+\emph on 
+Referenzen
+\emph default 
+ werden alle Verbindungen dieser Telefon-Konferenz zu anderen Objekten im
+ LDAP-Verzeichnis aufgelistet.
+\the_end

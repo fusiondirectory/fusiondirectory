@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Alternative addresses</TITLE>
+<META NAME="description" CONTENT="Alternative addresses">
+<META NAME="keywords" CONTENT="users">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-15">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="users.css">
+
+</HEAD>
+
+<BODY >
+
+<H3><A NAME="SECTION00014200000000000000">
+Alternative addresses</A>
+</H3>
+
+<P>
+The user can own one or many aliases. Those aliases must be inserted
+in the alternatives addresses area. 
+
+<P>
+Use the button <SPAN  CLASS="textit">Add</SPAN> to insert the aliases. The alias must be
+inserted in the empty area followed by the button <SPAN  CLASS="textit">Add</SPAN>. Use
+the button <SPAN  CLASS="textit">Delete</SPAN> to remove aliases.
+
+<P>
+
+<P>
+<BR>
+
+
+<P>
+<BR><HR>
+<ADDRESS>
+Jan Wenzel
+2008-03-13
+</ADDRESS>
+</BODY>
+</HTML>

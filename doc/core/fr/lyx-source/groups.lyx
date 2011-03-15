@@ -1,0 +1,617 @@
+#LyX 1.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 221
+\textclass article
+\language frenchb
+\inputencoding auto
+\fontscheme default
+\graphics default
+\paperfontsize default
+\spacing single 
+\papersize a4paper
+\paperpackage a4
+\use_geometry 1
+\use_amsmath 0
+\use_natbib 0
+\use_numerical_citations 0
+\paperorientation portrait
+\leftmargin 10mm
+\topmargin 10mm
+\rightmargin 10mm
+\bottommargin 20mm
+\headheight 10mm
+\headsep 10mm
+\footskip 10mm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\quotes_times 2
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\bullet 0
+	1
+	20
+	-1
+\end_bullet
+\bullet 1
+	1
+	20
+	-1
+\end_bullet
+\bullet 2
+	1
+	20
+	-1
+\end_bullet
+\bullet 3
+	1
+	20
+	4
+\end_bullet
+
+\layout Title
+
+
+\series bold 
+ADMINISTRATION DES GROUPES
+\layout Section
+
+Groupes
+\layout Standard
+
+L'administrateur peut créer ou modifier un groupe ou accéder aux informations
+ sur un groupe à partir du bouton 
+\color blue
+Groupe
+\color default
+ dans le menu de gauche dans 
+\series bold 
+Administration
+\series default 
+.
+ La page 
+\family sans 
+\color black
+Administration des groupes
+\family default 
+ s'affiche.
+ 
+\layout Standard
+
+
+\color black
+La page est divisée en trois colonnes : 
+\layout Standard
+
+
+\color black
+-La première colonne est destinée à afficher la liste des groupes ou des
+ départements, 
+\layout Standard
+
+
+\color black
+-les deux dernières colonnes contiennent des icônes.
+ Elles représentent les raccourcis vers les propriétés du groupe et les
+ actions à exécuter sur le groupe.
+\layout Standard
+
+
+\color black
+-Les flèches en entête ( 
+\begin_inset Graphics
+	filename images/list_back.png
+
+\end_inset 
+
+, 
+\begin_inset Graphics
+	filename images/list_root.png
+
+\end_inset 
+
+, 
+\begin_inset Graphics
+	filename images/list_home.png
+
+\end_inset 
+
+ ) servent à modifier l'affichage selon le département, elles prédominent
+ sur toutes autres formes de sélection d'affichage.
+\layout Standard
+\added_space_top medskip 
+C'est à partir de la page 
+\family sans 
+\color black
+Administration du groupe
+\family default 
+\color default
+ que l'administrateur gère la liste des groupes de la société.
+\layout Standard
+
+Comme pour les utilisateurs, il est possible de modifier l'affichage des
+ groupes en utilisant le tableau intitulé Filtres 
+\begin_inset Graphics
+	filename images/rocket.png
+
+\end_inset 
+
+.
+ L'administrateur peut faire une recherche nominative et/ou sur les propriétés
+ du groupe :
+\layout Itemize
+
+Pour la recherche sur les noms : 
+\begin_deeper 
+\layout Standard
+
+- cliquer sur l'astérisque (ou étoile : *) pour voir apparaître tous les
+ groupes; 
+\layout Standard
+
+- cliquez sur une lettre et tous les groupes commençant par cette lettre
+ seront affichés; 
+\layout Standard
+
+- cliquez sur un numéro, les groupes ayant un nom débutant par le numéro
+ choisi s'afficheront.
+\end_deeper 
+\layout Itemize
+
+Pour la recherche à partir des propriétés du groupe il suffit :
+\begin_deeper 
+\layout Standard
+
+- de cocher une ou plusieurs propositions; 
+\end_deeper 
+\layout Itemize
+
+Pour la recherche d'un nom à partir d'une lettre :
+\begin_deeper 
+\layout Standard
+
+- remplir le premier champ avec une lettre suivi de l'astérisque, cliquer
+ sur le bouton Appliquer, tous les noms débutant par cettre lettre seront
+ affichés,
+\layout Standard
+
+- remplir le deuxième champ avec une lettre suivi de l'astérisque, cliquer
+ sur le bouton Appliquer, tous les noms contenant cette lettre seront affichés.
+\end_deeper 
+\layout Standard
+
+Pour créer un groupe l'administrateur doit cliquer sur le bouton 
+\begin_inset Graphics
+	filename images/list_new_group.png
+
+\end_inset 
+
+.
+\layout Standard
+
+Apparaît alors l'espace de configuration.
+ L'administrateur configure les extensions pour chaque groupe.
+ 
+\layout Standard
+
+A chaque extension configurée, pour enregistrer les modifications, cliquer
+ sur le bouton Terminé et pour revenir à la page précédente cliquer sur
+ le bouton Annuler.
+\layout Standard
+
+Tous les champs précédés d'une astérisque doivent être remplis obligatoirement.
+\layout Standard
+
+En haut à droite une série d'information vous est donnée : le nom du groupe
+ sur lequel vous êtes occupé, et sa place dans l'arbre LDAP.
+\layout Subsection
+\pagebreak_top 
+Informations générales
+\layout Itemize
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Nom du groupe
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Introduisez le nom du groupe
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Description
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Introduisez une description, un commentaire sur le groupe
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Base
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Faites votre sélection dans la liste déroulante
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Itemize
+
+Forcer le GID : Forcer le groupe à utiliser le numéro inscrit dans le champ.
+\layout Itemize
+
+Groupe / Domaine Samba : Met les membres dans un groupe et un domaine samba
+\layout Itemize
+
+Groupe téléphonique : Met les membres dans un groupe téléphonique
+\layout Itemize
+
+Groupe Nagios : Met les membres dans un groupe nagios 
+\layout Standard
+
+L'administrateur insère les membres du personnel devant faire partie de
+ ce groupe.
+ Il suffit d'utiliser le bouton 
+\emph on 
+Ajouter
+\emph default 
+ qui renvoie à la liste des utilisateurs.
+ L'administrateur doit sélectionner les futurs membres du groupe.
+ Pour enlever un membre, utiliser le bouton 
+\emph on 
+Supprimer
+\emph default 
+.
+\layout Subsection
+\added_space_top bigskip 
+Environnement
+\layout Standard
+
+Pour activer l'extension Environnement cliquer sur 
+\shape italic 
+Ajouter l'extension environnement
+\shape default 
+.
+\layout Subsubsection
+
+Profiles
+\layout Subsubsection
+\added_space_top medskip 
+Kiosk profile
+\layout Subsubsection
+\added_space_top medskip 
+Logon scripts
+\layout Subsubsection
+\added_space_top medskip 
+Attach share
+\layout Subsubsection
+\added_space_top medskip 
+Hotplug devices
+\layout Subsubsection
+\added_space_top medskip 
+Imprimante
+\layout Subsection
+\added_space_top bigskip 
+Applications
+\layout Standard
+
+Pour activer l'extension Applications cliquez sur 
+\shape italic 
+Créer des applications
+\shape default 
+.
+\layout Standard
+
+L'administrateur dispose de la liste des applications dans la colonne Applicatio
+ns disponibles.
+ Il peut attribuer une ou plusieurs applications à un groupe.
+ Il suffit de cliquer sur le nom d'une application celle ci apparaît dans
+ la colonne Applications utilisées.
+\layout Standard
+
+A l'aide du bouton Séparateur l'administrateur peut séparer de manière visuelle
+ une application par rapport aux autres.
+ 
+\layout Standard
+
+Pour terminer cliquer sur le bouton 
+\emph on 
+Terminer
+\emph default 
+.
+\layout Subsection
+\added_space_top bigskip 
+Mail
+\layout Standard
+
+Pour activer un compte mail cliquez sur 
+\shape italic 
+Créer un compte
+\emph on 
+ 
+\shape default 
+de messagerie
+\emph default 
+.
+\layout Subsubsection
+
+Informations générales
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Adresse principale
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\color black
+Introduisez l'adresse principale du groupe
+\color red
+ 
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Serveur
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\color black
+Sélectionnez le nom du serveur associé à cette adresse
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Utilisation des Quota
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\color black
+Précisez si vous désirez établir une limite au niveau de la quantité de
+ mail
+\color red
+ 
+\color black
+entrant.
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Taille des Quota
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\color black
+Précisez en kb la taille du quota
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsubsection
+\added_space_top medskip 
+Adresses alternatives
+\layout Standard
+
+Le mail peut être redirigé vers une ou plusieurs autres adresses.
+ Ces adresses sont des alias à insérer dans Adresses alternatives.
+ 
+\layout Standard
+
+Utilisez les boutons 
+\emph on 
+Ajouter
+\emph default 
+ ou 
+\emph on 
+Supprimer 
+\emph default 
+pour gérer les alias.
+\layout Subsubsection
+\added_space_top medskip 
+Répertoire partagé IMAP
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Permission par défaut
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Faites votre sélection dans la liste déroulante du type d'accès par défaut
+ au dossier IMAP
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Permission des membres
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Faites votre sélection dans la liste déroulante du type d'accès accordé
+ aux membres au dossier IMAP
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+L'administrateur peut ajouter à partir de ce champ d'autres adresses de
+ messagerie avec un droit d'accès au dossier IMAP
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsubsection
+\added_space_top medskip 
+Transférer les messages vers un membre n'appartenant pas au groupe
+\layout Standard
+
+Des utilisateurs peuvent recevoir les messages d'un groupe sans pour autant
+ en être membre.
+ Il suffit d'insérer les adresses de ces utilisateurs dans le champ qui
+ précède les boutons 
+\emph on 
+Ajouter
+\emph default 
+, 
+\emph on 
+Ajouter en local
+\emph default 
+ et 
+\emph on 
+Supprimer
+\emph default 
+.
+ Le bouton 
+\emph on 
+Ajouter en local
+\emph default 
+ renvoie aux adresses déjà enregistrées dans GOsa.
+\layout Subsection
+\added_space_top bigskip 
+ACL
+\layout Standard
+
+Cette partie permet à l'administrateur de configurer les droits d'accès
+ de l'utilisateur ou du groupe aux différentes parties de GOsa.
+ 
+\layout Subsection
+\added_space_top bigskip 
+Références
+\layout Standard
+
+Les références résument les relations existantes entre objets.
+\the_end

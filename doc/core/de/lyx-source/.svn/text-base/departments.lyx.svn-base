@@ -1,0 +1,423 @@
+#LyX 1.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 221
+\textclass article
+\language ngerman
+\inputencoding auto
+\fontscheme default
+\graphics default
+\paperfontsize default
+\spacing single 
+\papersize a4paper
+\paperpackage a4
+\use_geometry 1
+\use_amsmath 1
+\use_natbib 0
+\use_numerical_citations 0
+\paperorientation portrait
+\leftmargin 10mm
+\topmargin 10mm
+\rightmargin 10mm
+\bottommargin 20mm
+\headheight 10mm
+\headsep 10mm
+\footskip 10mm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\quotes_times 2
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+
+\layout Title
+
+
+\series bold 
+Abteilungsverwaltung
+\layout Section
+
+Liste der Abteilungen
+\layout Standard
+
+Die Liste der Abteilungen dient als Ausgangspunkt für alle weiteren Schritte.
+ Sie wird erreicht über den Menüeintrag 
+\series bold 
+Abteilungen
+\series default 
+ aus der Kategorie 
+\series bold 
+\color blue
+Administration
+\series default 
+\color default
+ (Menü am linken Rand des Bildschirms).
+ Bei Auswahl wird die Liste der Abteilungen geladen (Überschrift: Abteilungsverw
+altung).
+ Auf dieser Seite können Abteilungen hinzugefügt, bearbeitet oder entfernt
+ werden.
+\layout Standard
+
+Die Liste ist in zwei Spalten geteilt:
+\layout Itemize
+
+Die erste Spalte enthält die Namen der Abteilungen 
+\layout Itemize
+
+Die zweite Spalte enthält Knöpfe für die möglichen Aktionen, um Verwaltungsaufga
+ben durchzuführen (Bearbeiten, Entfernen)
+\layout Standard
+
+Die vier Knöpfe 
+\begin_inset Graphics
+	filename images/list_root.png
+
+\end_inset 
+
+, 
+\begin_inset Graphics
+	filename images/list_back.png
+
+\end_inset 
+
+, 
+\begin_inset Graphics
+	filename images/list_home.png
+
+\end_inset 
+
+, und 
+\begin_inset Graphics
+	filename images/list_reload.png
+
+\end_inset 
+
+ oberhalb der Liste dienen zur Navigation innerhalb der Abteilungshierarchie:
+\layout Itemize
+
+
+\begin_inset Graphics
+	filename images/list_root.png
+
+\end_inset 
+
+: Zur Wurzel
+\layout Itemize
+
+
+\begin_inset Graphics
+	filename images/list_back.png
+
+\end_inset 
+
+: Eine Abteilung nach oben
+\layout Itemize
+
+
+\begin_inset Graphics
+	filename images/list_home.png
+
+\end_inset 
+
+: Zur Basis des angemeldeten Benutzers
+\layout Itemize
+
+
+\begin_inset Graphics
+	filename images/list_reload.png
+
+\end_inset 
+
+: Aktuelle Abteilung neu laden
+\layout Standard
+
+Es ist weiterhin möglich, die Anzeige der Abteilungen mithilfe von Filtern
+ zu beeinflussen (Kasten 
+\series bold 
+Filter
+\series default 
+ 
+\begin_inset Graphics
+	filename images/rocket.png
+
+\end_inset 
+
+ am rechten Rand):
+\layout Itemize
+
+Nach Namen suchen:
+\begin_deeper 
+\layout Itemize
+
+Klick auf * zeigt alle Abteilungen an
+\layout Itemize
+
+Klick auf einen Buchstaben zeigt alle Abteilungen an, deren Name mit dem
+ gewählten Buchstaben beginnt
+\layout Itemize
+
+Klick auf eine Ziffer zeigt alle Abteilungen an, deren Name mit der gewählten
+ Ziffer beginnt
+\end_deeper 
+\layout Itemize
+\added_space_bottom medskip 
+Schnellsuche (Textfeld 
+\begin_inset Graphics
+	filename images/search.png
+
+\end_inset 
+
+): Geben Sie einen Teil des Names (oder den ganzen Namen) der Abteilung
+ ein, die Sie suchen und klicken Sie auf den Knopf 
+\emph on 
+Filter anwenden
+\emph default 
+.
+\layout Subsection*
+
+Abteilung erstellen
+\layout Standard
+
+Um eine neue Abteilung zu erstellen, drücken Sie auf den Knopf 
+\begin_inset Graphics
+	filename images/list_new_department.png
+
+\end_inset 
+
+.
+ Befolgen Sie dann die nachfolgende Beschreibung für die Bearbeitung bestehender
+ Abteilungen.
+\layout Subsection*
+
+Eine bestehende Abteilung bearbeiten
+\layout Standard
+
+Klicken Sie in der Liste der Abteilungen auf das Symbol 
+\begin_inset Graphics
+	filename images/edit.png
+
+\end_inset 
+
+ in der Zeile der Abteilung, die Sie bearbeiten möchten.
+\layout Subsection
+\pagebreak_top 
+Allgemein
+\layout Subsubsection
+
+Eigenschaften
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="11cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Name der Abteilung
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Der Name der Abteilung
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Beschreibung
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Beschreibung (oder ein Kommentar) der Abteilung
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Kategorie
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Kategorie der Abteilung
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Basis
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Basis (die übergeordnete Abteilung) der Abteilung
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsubsection
+\added_space_top medskip 
+Ort
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Land
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Das Land, in dem sich die Abteilung befindet
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Ort
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Der Ort, in dem sich die Abteilung befindet
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Adresse
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Anschrift der Abteilung
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Telefon
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Telefonnummer der Zentrale der Abteilung
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Fax
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Die Faxnummer der Abteilung
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsubsection
+
+Administrative Einstellungen
+\layout Itemize
+
+
+\emph on 
+Abteilung als eigenständige administrative Einheit kennzeichnen
+\emph default 
+:
+\layout Subsection
+\added_space_top bigskip 
+Referenzen
+\layout Standard
+
+Unter Referenzen werden alle Verbindungen dieser Abteilung zu anderen LDAP-Eintr
+ägen angezeigt.
+\the_end

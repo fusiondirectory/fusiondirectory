@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Generic</TITLE>
+<META NAME="description" CONTENT="Generic">
+<META NAME="keywords" CONTENT="groups">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-15">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="groups.css">
+
+</HEAD>
+
+<BODY >
+
+<H2><A NAME="SECTION00011000000000000000">
+Generic</A>
+</H2>
+
+<P>
+
+<UL>
+<LI><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Groupe <SPAN ID="hue62">name</SPAN><SPAN ID="hue142">*</SPAN></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Insert the group name</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Description</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Insert a description, a commentary on the group</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Base<SPAN ID="hue143">*</SPAN></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Make your choice on the scroll list</TD>
+</TR>
+</TABLE>
+</LI>
+<LI>Force GID : Force the group to use the number mentionned in the field
+</LI>
+<LI>Group / Domain Samba : Put members on a Samba group and a Samba domain 
+</LI>
+<LI>Members are in a phone pickup group : Check to put members in a phone
+pickup group
+</LI>
+<LI>Members are in a nagios group : Check to put members in nagios group
+</LI>
+</UL>
+The administrator insert in the area different members of a group.
+He must use the <SPAN  CLASS="textit">Add</SPAN> button to choose in the list of users.
+To modify a group he must use the <SPAN  CLASS="textit">Delete</SPAN> button.
+
+<P>
+
+<P><P>
+<BR>
+
+
+<P>
+<BR><HR>
+<ADDRESS>
+Jan Wenzel
+2008-03-13
+</ADDRESS>
+</BODY>
+</HTML>

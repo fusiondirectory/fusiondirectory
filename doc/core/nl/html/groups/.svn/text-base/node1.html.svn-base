@@ -1,0 +1,256 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Groepenlijst</TITLE>
+<META NAME="description" CONTENT="Groepenlijst">
+<META NAME="keywords" CONTENT="groups">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-15">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="groups.css">
+
+</HEAD>
+
+<BODY >
+
+<H1><A NAME="SECTION00010000000000000000">
+Groepenlijst</A>
+</H1>
+
+<P>
+De beheerder kan groep informatie aanmaken, veranderen of bekijken
+door op de <SPAN  CLASS="textbf"><SPAN ID="hue25">Groepen</SPAN></SPAN> knop in het <SPAN  CLASS="textbf">Beheer</SPAN>
+menu aan de linkerkant te klikken. De <SPAN  CLASS="textsf"><SPAN ID="hue28">Groepen
+Beheer</SPAN></SPAN> pagina die getoond wordt, is het uitgangspunt voor alle groep
+beheertaken en is verdeeld in drie kolommen.
+
+<P>
+
+<UL>
+<LI>De eerste kolom bevat de namen van de groepen en de afdelingen waarbinnen
+zij ingedeeld zijn (alfabetisch gesorteerd).
+</LI>
+<LI>De tweede kolom bevat knoppen voor snelle toegang tot verschillende
+groep eigenschappen van de groep (alleen beschikbaar indien de betreffende
+eigenschap geactiveerd is). Daarnaast dient deze kolom voor een snel
+overzicht van geactiveerde eigenschappen van de groep.
+
+<P>
+
+<UL>
+<LI>De mogelijke iconen en hun betekenis:
+<BR><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER">Icoon</TD>
+<TD ALIGN="LEFT">Betekenis</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./select_groups.png"
+ ALT="Image select_groups"></TD>
+<TD ALIGN="LEFT">Groep beschikt over UNIX eigenschappen</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./smallenv.png"
+ ALT="Image smallenv"></TD>
+<TD ALIGN="LEFT">Groep beschikt over Omgevings instellingen</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./mailto.png"
+ ALT="Image mailto"></TD>
+<TD ALIGN="LEFT">Groep beschikt over een E-mail account</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./select_winstation.png"
+ ALT="Image select_winstation"></TD>
+<TD ALIGN="LEFT">Groep beschikt over een Samba/Windows account</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./select_application.png"
+ ALT="Image select_application"></TD>
+<TD ALIGN="LEFT">Groep beschikt over programma eigenschapppen</TD>
+</TR>
+</TABLE>
+</LI>
+</UL>
+</LI>
+<LI>De derde kolom bevat knoppen voor de beschikbare acties (knippen,
+kopieren, bewerken, verwijderen)
+</LI>
+</UL>
+De knoppen (<IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_root.png"
+ ALT="Image list_root">, <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_back.png"
+ ALT="Image list_back">,
+<IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_home.png"
+ ALT="Image list_home">, <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_reload.png"
+ ALT="Image list_reload">)
+dienen voor navigatie binnen de afdelingshierarchie:
+
+<P>
+
+<UL>
+<LI><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_root.png"
+ ALT="Image list_root"> Helemaal naar boven (hoofd afdeling)
+</LI>
+<LI><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_back.png"
+ ALT="Image list_back"> Een afdeling naar boven
+</LI>
+<LI><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_home.png"
+ ALT="Image list_home"> Naar de basis van de groep
+</LI>
+<LI><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_reload.png"
+ ALT="Image list_reload"> Huidige afdeling verversen
+</LI>
+</UL>
+Daarnaast is het mogelijk de weergave van groepen met behulp van filters
+te beinvloeden (<SPAN ID="hue52">met</SPAN> <SPAN  CLASS="textbf"><SPAN ID="hue54">Filters</SPAN></SPAN>
+<SPAN ID="hue185"><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./rocket.png"
+ ALT="Image rocket"> aan de rechter
+zijde):</SPAN>
+<P>
+
+<UL>
+<LI>Op namen zoeken:
+
+<P>
+
+<UL>
+<LI>Door op * (asterisk) te klikken worden alle groepen getoond
+</LI>
+<LI>Het klikken van een letter, laat alle groepen zien waarvan de naam
+met de betreffende letter begint
+</LI>
+<LI>Het klikken van een cijfer, laat alle groepen zien waarvan de naam
+met het betreffende cijfer begint
+</LI>
+</UL>
+</LI>
+<LI>Verder zoekopties:
+<BR>(De volgende filters werken zodanig dat alleen groepen getoond worden,
+die over tenminste een van de geselecteerde opties beschikken; Standaard
+worden alle groepen getoond).
+
+<P>
+
+<UL>
+<LI><SPAN  CLASS="textit">Toon primaire groepen:</SPAN> Groepen waarvoor geldt dat tenminste
+één gebruiker de groep als primaire groep ingesteld heeft
+</LI>
+<LI><SPAN  CLASS="textit">Toon Samba groepen:</SPAN> Groepen die over Samba/Windows mogelijkheden
+beschikken
+</LI>
+<LI><SPAN  CLASS="textit">Toon programma groepen:</SPAN> Groepen die over programma mogelijkheden
+beschikken
+</LI>
+<LI><SPAN  CLASS="textit">Toon E-mail gropen:</SPAN> Groepen die over E-mail mogelijkheden beschikken
+</LI>
+<LI><SPAN  CLASS="textit">Toon functionele groepen:</SPAN> Groepen die alleen over functionele
+eigenschappen beschikken
+</LI>
+</UL>
+</LI>
+<LI><SPAN ID="hue69">Daarnaast kan de lijst met behulp van delen van
+namen en complexere reguliere expressies verder beperkt worden met
+behulpt van</SPAN> het invoerveld achter het icoon <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./search.png"
+ ALT="Image search">.
+In dit veld kunt u cijfer en letter combinaties invoeren om de lijst
+verder te beperken. Om uw selectie door te voeren dient u op de knop
+<SPAN  CLASS="textit">Filter toepassen</SPAN> te drukken.
+</LI>
+</UL>
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html34"
+  HREF="node2.html">Groep aanmaken</A>
+<UL>
+<LI><A NAME="tex2html35"
+  HREF="node3.html">Een bestaande groep bewerken</A>
+<LI><A NAME="tex2html36"
+  HREF="node4.html">Algemene informatie</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html37"
+  HREF="node5.html">Algemeen</A>
+<LI><A NAME="tex2html38"
+  HREF="node6.html">Omgeving</A>
+<UL>
+<LI><A NAME="tex2html39"
+  HREF="node7.html">Profielen</A>
+<LI><A NAME="tex2html40"
+  HREF="node8.html">Kiosk profiel</A>
+<LI><A NAME="tex2html41"
+  HREF="node9.html">Login scripts</A>
+<LI><A NAME="tex2html42"
+  HREF="node10.html">Shares</A>
+<LI><A NAME="tex2html43"
+  HREF="node11.html">Hotplug apparaten</A>
+<LI><A NAME="tex2html44"
+  HREF="node12.html">Printers</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html45"
+  HREF="node13.html">Programma's</A>
+<LI><A NAME="tex2html46"
+  HREF="node14.html">E-mail</A>
+<UL>
+<LI><A NAME="tex2html47"
+  HREF="node15.html">Algemeen</A>
+<LI><A NAME="tex2html48"
+  HREF="node16.html">Alternatieve adressen</A>
+<LI><A NAME="tex2html49"
+  HREF="node17.html">IMAP gedeelde mappen</A>
+<LI><A NAME="tex2html50"
+  HREF="node18.html">Stuur berichten door naar niet groepsleden</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html51"
+  HREF="node19.html">Rechten</A>
+<LI><A NAME="tex2html52"
+  HREF="node20.html">Referenties</A>
+</UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+Jan Wenzel
+2008-03-13
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,275 @@
+#LyX 1.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 221
+\textclass article
+\language ngerman
+\inputencoding auto
+\fontscheme default
+\graphics default
+\paperfontsize default
+\spacing single 
+\papersize a4paper
+\paperpackage a4
+\use_geometry 0
+\use_amsmath 1
+\use_natbib 0
+\use_numerical_citations 0
+\paperorientation portrait
+\leftmargin 10mm
+\topmargin 10mm
+\rightmargin 10mm
+\bottommargin 20mm
+\headheight 10mm
+\headsep 10mm
+\footskip 10mm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\quotes_times 2
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+
+\layout Title
+
+
+\series bold 
+Zusätzliches
+\layout Section
+
+LDAP-Manager
+\layout Subsection
+
+Export
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="2" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Exportiere einzelnen Eintrag
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Exportieren Sie den im Feld angebenen Eintrag (DN des Eintrags), indem Sie
+ auf den Knopf 
+\emph on 
+Export
+\emph default 
+ drücken.
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Exportiere vollständige LDIF-Datei für
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Wählen Sie aus die Abteilung aus der Liste, die Sie exportieren möchten
+ ('/' exportiert alles) und drücken Sie den Knopf 
+\emph on 
+Export
+\emph default 
+.
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsection
+\added_space_top medskip 
+Excel-Export
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="2" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Exportiere einzelnen Eintrag
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Exportieren Sie eine Organisationseinheit (Organization Unit) in eine Excel-Date
+i.
+ Wählen Sie dazu die OU aus der Liste und drücken Sie auf den Knopf 
+\emph on 
+Export
+\emph default 
+.
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Exportiere vollständige XLS-Datei für
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Exportieren Sie eine gesamte Abteilung in eine Excel-Datei.
+ Wählen Sie dazu die Abteilung aus der Liste ('/' für alles) und drücken
+ Sie auf den Knopf 
+\emph on 
+Export
+\emph default 
+.
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsection
+\added_space_top medskip 
+Importieren
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="1" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Importiere LDIF Datei
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Drücken Sie auf den Knopf neben dem Textfeld, um die Dateiauswahl zu starten.
+ Wählen Sie die LDIF-Datei, die Sie importieren möchten.
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Itemize
+\added_space_top smallskip 
+Überschreibe vorhandene Attribute: Attribute, die bereits vorhanden sind,
+ werden mit dem Wert aus der LDIF-Datei überschrieben
+\layout Itemize
+
+Existierenden Eintrag überschreiben: Einträge, die bereits vorhanden sind,
+ werden mit dem Eintrag aus der LDIF-Datei überschrieben
+\newline 
+
+\newline 
+Drücken Sie auf den Knopf 
+\emph on 
+Importieren
+\emph default 
+, um den Importvorgang durchzuführen.
+\layout Subsection
+\added_space_top medskip 
+CSV Import
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="2" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Auswahl der zu importierenden CVS Datei
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Drücken Sie auf den Knopf neben dem Textfeld, um die Dateiauswahl zu starten.
+ Wählen Sie die CSV-Datei, die Sie importieren möchten.
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Auswahl der Vorlage
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Wählen Sie die Vorlage, die verwendet werden soll, um nicht existente Werte
+ (in der CVS-Datei) mit Werten zu füllen.
+ Diese Option ist hilfreich, wenn Sie automatisiert sehr viele Benutzerkonten
+ anlegen möchten.
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\the_end

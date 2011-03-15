@@ -1,0 +1,243 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>List of users</TITLE>
+<META NAME="description" CONTENT="List of users">
+<META NAME="keywords" CONTENT="users">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-15">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="users.css">
+
+</HEAD>
+
+<BODY >
+
+<H1><A NAME="SECTION00010000000000000000">
+List of users</A>
+</H1>
+
+<P>
+The administrator can create, modify or access the account informations
+when clicking on the <SPAN  CLASS="textbf"><SPAN ID="hue25">users</SPAN></SPAN> button in the
+<SPAN  CLASS="textbf">Administration</SPAN> menu on the left. The <SPAN  CLASS="textsf"><SPAN ID="hue28">Users
+Administration</SPAN></SPAN> page is displayed, she is divided on three columns.
+Each time an user is created it will appear in the first column sorted
+by department. 
+
+<P>
+The two first columns contains icons which are shortcuts to the settings
+of each user and the actions you can execute on them. 
+
+<P>
+Those icons ( <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_back.png"
+ ALT="Image list_back">, <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_root.png"
+ ALT="Image list_root">,
+<IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_home.png"
+ ALT="Image list_home"> ) are used to modify the display
+according to the department, the icons predominate other selections
+of display.
+
+<P>
+It's from the Users Administration page that the system administrator
+will get a global view of all the users in his system. 
+
+<P>
+<SPAN ID="hue318">In the right part of the page you will find a table
+called Filters <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./rocket.png"
+ ALT="Image rocket">. </SPAN>
+<P>
+
+<UL>
+<LI><SPAN ID="hue36">This table purpose is to change the display of the
+users :</SPAN>
+<P>
+<SPAN ID="hue38">- Click on a letter to show all the users starting
+with this letter;</SPAN>
+<P>
+<SPAN ID="hue40">- Click on the asterisk and the list of users will
+be ordoned alphabetically</SPAN>
+<P>
+</LI>
+<LI>You can also :
+
+<P>
+- Check one or more options to get a restricted selection;
+
+<P>
+- Insert a letter or a number followed by an asterisk or a user name
+in the filed preceded by a this icon <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./search.png"
+ ALT="Image search">.
+Click on the <SPAN  CLASS="textit">submit</SPAN> button to get the result of your selection.
+
+<P>
+</LI>
+</UL>
+To create an account click on <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_new_user.png"
+ ALT="Image list_new_user">.
+If the account is already created click on the account himself.
+
+<P>
+You will see tabs, each of them is a part of the user account configuration.
+Each of those tabs is an extension that GOsa can manage.
+
+<P>
+To finish the creation of the user, click on the finish button on
+the right bottom of the page. To cancel your change click on the cancel
+button.
+<BR>
+<P>
+<BR>
+
+
+<P>
+All the fields followed by an red asterisk must be filled.
+
+<P>
+In the upper right corner you have the full dn of the user currently
+edited.
+
+<P>
+
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html50"
+  HREF="node2.html">Generic</A>
+<UL>
+<LI><A NAME="tex2html51"
+  HREF="node3.html">Personal information</A>
+<LI><A NAME="tex2html52"
+  HREF="node4.html">Organizational information</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html53"
+  HREF="node5.html">Unix</A>
+<UL>
+<LI><A NAME="tex2html54"
+  HREF="node6.html">Generic</A>
+<LI><A NAME="tex2html55"
+  HREF="node7.html">Group membership</A>
+<LI><A NAME="tex2html56"
+  HREF="node8.html">Account</A>
+<LI><A NAME="tex2html57"
+  HREF="node9.html">System trust</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html58"
+  HREF="node10.html">Environment</A>
+<UL>
+<LI><A NAME="tex2html59"
+  HREF="node11.html">Profiles</A>
+<LI><A NAME="tex2html60"
+  HREF="node12.html">Kiosk profile</A>
+<LI><A NAME="tex2html61"
+  HREF="node13.html">Logon scripts</A>
+<LI><A NAME="tex2html62"
+  HREF="node14.html">Attach share</A>
+<LI><A NAME="tex2html63"
+  HREF="node15.html">Hotplug devices</A>
+<LI><A NAME="tex2html64"
+  HREF="node16.html">Printer</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html65"
+  HREF="node17.html">Mail</A>
+<UL>
+<LI><A NAME="tex2html66"
+  HREF="node18.html">Generic</A>
+<LI><A NAME="tex2html67"
+  HREF="node19.html">Alternative addresses</A>
+<LI><A NAME="tex2html68"
+  HREF="node20.html">Mail options</A>
+<LI><A NAME="tex2html69"
+  HREF="node21.html">Advanced mail options</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html70"
+  HREF="node22.html">Samba</A>
+<UL>
+<LI><A NAME="tex2html71"
+  HREF="node23.html">Generic</A>
+<LI><A NAME="tex2html72"
+  HREF="node24.html">Terminal Server</A>
+<LI><A NAME="tex2html73"
+  HREF="node25.html">Access options</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html74"
+  HREF="node26.html">Connectivity</A>
+<UL>
+<LI><A NAME="tex2html75"
+  HREF="node27.html">Proxy account</A>
+<LI><A NAME="tex2html76"
+  HREF="node28.html">FTP account</A>
+<LI><A NAME="tex2html77"
+  HREF="node29.html">WebDAV account</A>
+<LI><A NAME="tex2html78"
+  HREF="node30.html">PHPGroupware account</A>
+<LI><A NAME="tex2html79"
+  HREF="node31.html">Intranet account</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html80"
+  HREF="node32.html">Fax</A>
+<UL>
+<LI><A NAME="tex2html81"
+  HREF="node33.html">Generic</A>
+<LI><A NAME="tex2html82"
+  HREF="node34.html">Delivery methods</A>
+<LI><A NAME="tex2html83"
+  HREF="node35.html">Alternate fax numbers</A>
+<LI><A NAME="tex2html84"
+  HREF="node36.html">Blocklists</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html85"
+  HREF="node37.html">Phone</A>
+<UL>
+<LI><A NAME="tex2html86"
+  HREF="node38.html">Phone numbers</A>
+<LI><A NAME="tex2html87"
+  HREF="node39.html">Telephone hardware</A>
+<LI><A NAME="tex2html88"
+  HREF="node40.html">Phone macro</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html89"
+  HREF="node41.html">References</A>
+</UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+Jan Wenzel
+2008-03-13
+</ADDRESS>
+</BODY>
+</HTML>

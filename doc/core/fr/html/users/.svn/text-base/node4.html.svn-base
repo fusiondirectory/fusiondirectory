@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Informations sur l'entreprise</TITLE>
+<META NAME="description" CONTENT="Informations sur l'entreprise">
+<META NAME="keywords" CONTENT="users">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-15">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="users.css">
+
+</HEAD>
+
+<BODY >
+
+<H3><A NAME="SECTION00011200000000000000">
+Informations sur l'entreprise</A>
+</H3>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142> 
+Entreprise </TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283> Introduisez le nom de la société</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142> 
+ 
+Département </TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283> Introduisez le nom du département auquel appartient l'utilisateur </TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142> 
+ 
+N&#176; du département </TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283> Introduisez le numéro du département</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142> 
+ 
+N&#176; de l'employé </TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283> Introduisez le numéro attribué à l'utilisateur</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142> 
+ 
+Type de l'employé </TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283> Précisez son statut dans la société</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142> 
+ 
+N&#176; du bureau </TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283> Introduisez le numéro du bureau dans lequel travaille l'utilisateur</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142> 
+ 
+Téléphone </TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283> Introduisez le numéro de téléphone de l'utilisateur</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142> 
+ 
+Portable </TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283> Introduisez le numéro du mobile ou GSM de l'utilisateur</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142> 
+ 
+Bip </TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283> Introduisez le numéro du bipeur de l'utilisateur</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142> 
+ 
+Fax </TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283> Introduisez le numéro de Fax de l'utilisateur</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142> 
+ 
+Lieu  </TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283> Introduisez la localisation du bureau de l'utilisateur si la société
+possède des succursales</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142> 
+ 
+Département  </TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283> Introduisez le nom de la région où la société est localisée <SPAN ID="hue90">?</SPAN></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142> 
+ 
+Adresse </TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283> Introduisez l'adresse de l'entreprise</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<P><P>
+<BR>
+
+
+<P>
+<BR><HR>
+<ADDRESS>
+Jan Wenzel
+2008-03-13
+</ADDRESS>
+</BODY>
+</HTML>

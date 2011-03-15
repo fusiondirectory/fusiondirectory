@@ -1,0 +1,361 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Liste der Benutzer</TITLE>
+<META NAME="description" CONTENT="Liste der Benutzer">
+<META NAME="keywords" CONTENT="users">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-15">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="users.css">
+
+</HEAD>
+
+<BODY >
+
+<H1><A NAME="SECTION00010000000000000000">
+Liste der Benutzer</A>
+</H1>
+
+<P>
+Die Liste der Benutzer dient als Ausgangspunkt für alle weiteren Schritte.
+Sie wird erreicht über den Menüeintrag <SPAN  CLASS="textbf"><SPAN ID="hue14">Benutzer</SPAN></SPAN>
+aus der Kategorie <SPAN  CLASS="textbf">Administration</SPAN> (Menü am linken Rand des
+Bildschirms). Bei Auswahl wird die Liste der Benutzer geladen (Überschrift:
+<SPAN  CLASS="textit">Benutzerverwaltung)</SPAN>. Auf dieser Seite können Benutzer hinzugefügt,
+bearbeitet oder entfernt werden.
+
+<P>
+Die Liste ist in drei Spalten geteilt:
+
+<P>
+
+<UL>
+<LI>Die erste Spalte enthält zunächst die verfügbaren Abteilungen, dann
+die Namen der Benutzer (alphabetisch sortiert).
+</LI>
+<LI>Die zweite Spalte enthält Knöpfe für den Schnellzugriff auf die verschiedenen
+Reiter des Benutzers (nur verfügbar, wenn die entsprechende Eigenschaft
+aktiviert ist). Sie dient ausserdem für einen schnellen Überblick
+über die aktivierten Eigenschaften eines Benutzers.
+
+<P>
+
+<UL>
+<LI>Die möglichen Symbole und ihre Bedeutung:
+<BR><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER">Symbol</TD>
+<TD ALIGN="LEFT">Bedeutung</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+  WIDTH="10" HEIGHT="10" ALIGN="BOTTOM" BORDER="0"
+ SRC="./penguin.png"
+ ALT="Image penguin"></TD>
+<TD ALIGN="LEFT">Benutzer verfügt über allgemeine Eigenschaften</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+  WIDTH="10" HEIGHT="10" ALIGN="BOTTOM" BORDER="0"
+ SRC="./select_user.png"
+ ALT="Image select_user"></TD>
+<TD ALIGN="LEFT">Benutzer verfügt über ein UNIX-Konto</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./smallenv.png"
+ ALT="Image smallenv"></TD>
+<TD ALIGN="LEFT">Benutzer verfügt über Umgebungs-Einstellungen</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./mailto.png"
+ ALT="Image mailto"></TD>
+<TD ALIGN="LEFT">Benutzer verfügt über ein Mail-Konto</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./select_phone.png"
+ ALT="Image select_phone"></TD>
+<TD ALIGN="LEFT">Benutzer verfügt über ein Telefon-Konto</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./fax_small.png"
+ ALT="Image fax_small"></TD>
+<TD ALIGN="LEFT">Benutzer verfügt über ein Fax-Konto</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./select_winstation.png"
+ ALT="Image select_winstation"></TD>
+<TD ALIGN="LEFT">Benutzer verfügt über ein SAMBA-Konto</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./select_netatalk.png"
+ ALT="Image select_netatalk"></TD>
+<TD ALIGN="LEFT">Benutzer verfügt über ein Netatalk-Konto</TD>
+</TR>
+</TABLE>
+</LI>
+</UL>
+</LI>
+<LI>Die dritte Spalte enthält Knöpfe für die möglichen Aktionen, um Verwaltungsaufgaben
+durchzuführen (Ausschneiden, Kopieren, Bearbeiten, Entfernen)
+</LI>
+</UL>
+Die vier Knöpfe <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_root.png"
+ ALT="Image list_root">, <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_back.png"
+ ALT="Image list_back">
+, <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_home.png"
+ ALT="Image list_home"> und <IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_reload.png"
+ ALT="Image list_reload">
+oberhalb der Liste dienen zur Navigation innerhalb der Abteilungshierarchie:
+
+<P>
+
+<UL>
+<LI><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_root.png"
+ ALT="Image list_root">: Zur Wurzel
+</LI>
+<LI><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_back.png"
+ ALT="Image list_back">: Eine Abteilung nach oben
+</LI>
+<LI><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_home.png"
+ ALT="Image list_home">: Zur Basis des angemeldeten Benutzers
+</LI>
+<LI><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./list_reload.png"
+ ALT="Image list_reload">: Aktuelle Abteilung neu laden
+</LI>
+</UL>
+<SPAN ID="hue43">Es ist weiterhin möglich, die Anzeige der Benutzer
+mithilfe von Filtern zu beeinflussen (Kasten</SPAN> <SPAN  CLASS="textbf"><SPAN ID="hue45">Filter</SPAN></SPAN>
+<SPAN ID="hue435"><IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./rocket.png"
+ ALT="Image rocket"> am rechten Rand): </SPAN>
+<P>
+
+<UL>
+<LI><SPAN ID="hue50">Nach Namen suchen:</SPAN>
+<P>
+
+<UL>
+<LI><SPAN ID="hue436">Klick auf * zeigt alle Benutzer an</SPAN>
+</LI>
+<LI><SPAN ID="hue55">Klick auf einen Buchstaben zeigt alle Benutzer an,
+deren Name mit dem gewählten Buchstaben beginnt</SPAN>
+</LI>
+<LI>Klick auf eine Ziffer zeigt alle Benutzer an, deren Name mit der gewählten
+Ziffer beginnt
+</LI>
+</UL>
+</LI>
+<LI>Weitere Suchoptionen:
+<BR>(Die folgenden Filter arbeiten so, dass nur Benutzer angezeigt werden,
+die über mindestens eine der ausgewählten Optionen verfügen; Standardmässig
+werden alle echten Benutzer angezeigt, also keine Vorlagen)
+
+<P>
+
+<UL>
+<LI><SPAN  CLASS="textit">Zeige Vorlagen</SPAN>: Zeigt Benutzervorlagen (standardmässig deaktiviert)
+</LI>
+<LI><SPAN  CLASS="textit">Zeige zweckbezogene Benutzer</SPAN>: Benutzer, die ausschliesslich
+über die allgemeinen Angaben verfügen
+</LI>
+<LI><SPAN  CLASS="textit">Zeige UNIX-Benutzer</SPAN>: Benutzer, für die die UNIX-Erweiterung
+aktiviert ist
+</LI>
+<LI><SPAN  CLASS="textit">Zeige Mail-Benutzer</SPAN>: Benutzer, für die die Mail-Erweiterung
+aktiviert ist
+</LI>
+<LI><SPAN  CLASS="textit">Zeige SAMBA-Benutzer</SPAN>: Benutzer, für die die SAMBA-Erweiterung
+aktiviert ist
+</LI>
+<LI><SPAN  CLASS="textit">Zeige Proxy-Benutzer</SPAN>: Benutzer, für die das Proxy-Konto aktiviert
+ist
+</LI>
+</UL>
+</LI>
+<LI>Zusätzlich zu der o.g. funktionalen Filterung kann die Liste durch
+lexikalische Filterung weiter eingeschränkt werden. Dazu dienen zum
+Einen die vordefinierten Buchstaben/Zahlen, die die Liste für Benutzer
+einschränken, die mit dem gewählten Buchstaben/der Ziffer beginnen.
+Komplexere Einschränkungen über reguläre Ausdrücke bietet das Textfeld
+im unteren Bereich des Kastens <SPAN  CLASS="textbf">Filter</SPAN> (beginnt mit dem Symbol
+<IMG
+  WIDTH="16" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="./search.png"
+ ALT="Image search">). In dieses Feld können Sie beliebige
+Buchstaben/Ziffern-Kombinationen eingeben, um die Suche einzuschränken.
+Um die Suchergebnisse in der Liste anzeigen zu lassen, Klicken Sie
+auf <SPAN  CLASS="textit">Filter anwenden</SPAN>.
+</LI>
+</UL>
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html63"
+  HREF="node2.html">Benutzerkonto anlegen</A>
+<UL>
+<LI><A NAME="tex2html64"
+  HREF="node3.html">Ein bestehendes Benutzerkonto bearbeiten</A>
+<LI><A NAME="tex2html65"
+  HREF="node4.html">Generelle Informationen</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html66"
+  HREF="node5.html">Allgemein</A>
+<UL>
+<LI><A NAME="tex2html67"
+  HREF="node6.html">Persönliche Informationen</A>
+<LI><A NAME="tex2html68"
+  HREF="node7.html">Angabe zur Organisationseinheit</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html69"
+  HREF="node8.html">Unix</A>
+<UL>
+<LI><A NAME="tex2html70"
+  HREF="node9.html">Generic</A>
+<LI><A NAME="tex2html71"
+  HREF="node10.html">Gruppenmitgliedschaft</A>
+<LI><A NAME="tex2html72"
+  HREF="node11.html">Konto</A>
+<LI><A NAME="tex2html73"
+  HREF="node12.html">System-Vertrauen</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html74"
+  HREF="node13.html">Umgebung</A>
+<UL>
+<LI><A NAME="tex2html75"
+  HREF="node14.html">Profile</A>
+<LI><A NAME="tex2html76"
+  HREF="node15.html">Kiosk-Profil</A>
+<LI><A NAME="tex2html77"
+  HREF="node16.html">Anmelde-Skripte</A>
+<LI><A NAME="tex2html78"
+  HREF="node17.html">Freigaben</A>
+<LI><A NAME="tex2html79"
+  HREF="node18.html">Hotplug-Geräte</A>
+<LI><A NAME="tex2html80"
+  HREF="node19.html">Drucker</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html81"
+  HREF="node20.html">Mail</A>
+<UL>
+<LI><A NAME="tex2html82"
+  HREF="node21.html">Allgemein</A>
+<LI><A NAME="tex2html83"
+  HREF="node22.html">Alternative Adressen</A>
+<LI><A NAME="tex2html84"
+  HREF="node23.html">Mail-Einstellungen</A>
+<LI><A NAME="tex2html85"
+  HREF="node24.html">Erweiterte Mail-Einstellungen</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html86"
+  HREF="node25.html">Samba</A>
+<UL>
+<LI><A NAME="tex2html87"
+  HREF="node26.html">Allgemein</A>
+<LI><A NAME="tex2html88"
+  HREF="node27.html">Terminal-Server</A>
+<LI><A NAME="tex2html89"
+  HREF="node28.html">Zugriffsoptionen</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html90"
+  HREF="node29.html">Konnektivität</A>
+<UL>
+<LI><A NAME="tex2html91"
+  HREF="node30.html">Proxy Konto</A>
+<LI><A NAME="tex2html92"
+  HREF="node31.html">FTP Konto</A>
+<LI><A NAME="tex2html93"
+  HREF="node32.html">WebDAV-Konto</A>
+<LI><A NAME="tex2html94"
+  HREF="node33.html">phpGroupware-Konto</A>
+<LI><A NAME="tex2html95"
+  HREF="node34.html">Intranet-Konto</A>
+<LI><A NAME="tex2html96"
+  HREF="node35.html">Opengroupware</A>
+<LI><A NAME="tex2html97"
+  HREF="node36.html">PPTP-Konto</A>
+<LI><A NAME="tex2html98"
+  HREF="node37.html">PHPScheduleit-Konto</A>
+<LI><A NAME="tex2html99"
+  HREF="node38.html">GLPI-Konto</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html100"
+  HREF="node39.html">Fax</A>
+<UL>
+<LI><A NAME="tex2html101"
+  HREF="node40.html">Allgemein</A>
+<LI><A NAME="tex2html102"
+  HREF="node41.html">Auslieferungsmethode</A>
+<LI><A NAME="tex2html103"
+  HREF="node42.html">Alternative Fax-Nummern</A>
+<LI><A NAME="tex2html104"
+  HREF="node43.html">Sperrlisten</A>
+<UL>
+<LI><A NAME="tex2html105"
+  HREF="node44.html">Bearbeiten:</A>
+</UL>
+</UL>
+<BR>
+<LI><A NAME="tex2html106"
+  HREF="node45.html">Telefon</A>
+<UL>
+<LI><A NAME="tex2html107"
+  HREF="node46.html">Telefonnummern</A>
+<LI><A NAME="tex2html108"
+  HREF="node47.html">Telefon-Hardware</A>
+<LI><A NAME="tex2html109"
+  HREF="node48.html">Telefon-Makro</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html110"
+  HREF="node49.html">Referenzen</A>
+</UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+Jan Wenzel
+2008-03-13
+</ADDRESS>
+</BODY>
+</HTML>

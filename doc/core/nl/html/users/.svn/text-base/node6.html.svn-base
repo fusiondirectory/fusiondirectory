@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Persoonlijke informatie</TITLE>
+<META NAME="description" CONTENT="Persoonlijke informatie">
+<META NAME="keywords" CONTENT="users">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-15">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="users.css">
+
+</HEAD>
+
+<BODY >
+
+<H3><A NAME="SECTION00012100000000000000">
+Persoonlijke informatie</A>
+</H3>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142><SPAN ID="hue91">Achternaam</SPAN><SPAN ID="hue471">*</SPAN></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>De achternaam van de gebruiker</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142><SPAN ID="hue95">Voornaam</SPAN><SPAN ID="hue472">*</SPAN></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>De voornaam van de gebruiker</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142><SPAN ID="hue99">Inlognaam</SPAN><SPAN ID="hue473">*</SPAN></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>De naam waarmee de gebruiker inlogt</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Aanhef</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>De aanhef van de gebruiker (Bijv. Meneer, Dhr, Mevrouw)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Academische titel</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>De academische titel van de gebruiker (Bijv. Dr., Ing, Mr)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Geboortedatum</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Klik op de knop <SPAN  CLASS="textit">Stel in</SPAN> om een keuzelijst te laten verschijnen</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Geslacht</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Maak uw keuze uit de lijst voor het geslacht van de gebruiker</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Voorkeurstaal</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Maak uw keuze uit de lijst voor de voorkeurstaal van de gebruiker
+(nl_NL=Nederlands, en_EN=Engels, etc)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Basis</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>De afdeling van de gebruiker (het aanmaken van de afdeling kan door
+middel van de <SPAN  CLASS="textbf"><SPAN ID="hue104">afdelingen</SPAN></SPAN> knop in het linkermenu
+van het beheer onderdeel).</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Plaatje</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Om een foto of plaatje van de gebruiker op te slaan, drukt op de knop
+<SPAN  CLASS="textit">Verander plaatje...</SPAN> Selecteer de gewenste afbeelding. De afbeelding
+wordt nu getoond. Om de keuze vast te leggen, drukt u op de knop <SPAN  CLASS="textit">Opslaan</SPAN>.
+Indien u de afbeelding niet wenst op te slaan, drukt u op de knop
+<SPAN  CLASS="textit">Annuleren</SPAN>.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Adres</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Het privé adres van de gebruiker</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Telefoon privé</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Het privé telefoonnummer van de gebruiker. U dient dit volgens het
+internationale formaat in te voeren. Bijvoorbeeld +31 40 2390740</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Homepage</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>De URL van de homepage van de gebruiker (bijv. http://www.careworks.nl)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Wachtwoord encryptie</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>De manier waarop het wachtwoord intern versleuteld opgeslagen wordt.
+Maak uw keuze door uit de lijst te selecteren</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Certificaten</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283><SPAN ID="hue109">Klik op de knop</SPAN> <SPAN ID="hue475"><SPAN  CLASS="textit">Bewerk
+certificaten...</SPAN></SPAN> <SPAN ID="hue113">om de certificaten van de gebruiker
+te beheren. Met GOsa kunt u drie types certificaten importeren. Klik
+op</SPAN> <SPAN ID="hue476"><SPAN  CLASS="textit">Opslaan</SPAN></SPAN> <SPAN ID="hue117">om te beeindigen.</SPAN></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Kerberos</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283><SPAN ID="hue119">Klik op de knop</SPAN> <SPAN ID="hue477"><SPAN  CLASS="textit">Bewerk
+eigenschappen</SPAN></SPAN> <SPAN ID="hue123">om Kerberos eigenschappen te bewerken.</SPAN></TD>
+</TR>
+</TABLE>
+<P>
+<BR>
+
+
+<P>
+
+<P>
+<BR>
+
+
+<P>
+<BR><HR>
+<ADDRESS>
+Jan Wenzel
+2008-03-13
+</ADDRESS>
+</BODY>
+</HTML>

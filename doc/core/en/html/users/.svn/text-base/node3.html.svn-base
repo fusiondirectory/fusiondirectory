@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Personal information</TITLE>
+<META NAME="description" CONTENT="Personal information">
+<META NAME="keywords" CONTENT="users">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-15">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="users.css">
+
+</HEAD>
+
+<BODY >
+
+<H3><A NAME="SECTION00011100000000000000">
+Personal information</A>
+</H3>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Last <SPAN ID="hue53">name</SPAN><SPAN ID="hue320">*</SPAN></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Insert the last name</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142><SPAN ID="hue57">First name</SPAN><SPAN ID="hue321">*</SPAN></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Insert the first name</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142><SPAN ID="hue61">Login</SPAN><SPAN ID="hue322">*</SPAN></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Insert the login name</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Personnal title</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Insert the personnal (Mister, Miss, Madam)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Academic title</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Insert the academic title</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Date of birth</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Click on the <SPAN  CLASS="textit">set</SPAN> button to make a scroll list appear</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Sex</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Make your choice on the scroll list</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Preferred Language</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Make your choice on the scroll list</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Base</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Choice of the deparment. (the creation of the department is made with
+the <SPAN  CLASS="textbf"><SPAN ID="hue66">department</SPAN></SPAN> button on the left menu
+in the administration part.).</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Address</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Insert the personnal address of the user</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Private phone</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Insert the private number in the national or international way. (keep
+in mind to make the same for all users)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Homepage</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Insert the url of the user homepage</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Password storage</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Make your choice on the scroll list</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Certificates</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283><SPAN ID="hue68">Click on the button</SPAN> <SPAN ID="hue324"><SPAN  CLASS="textit">Edits
+certificates</SPAN></SPAN><SPAN ID="hue72">. GOsa will let you import three type
+of certificates. To save click on</SPAN> <SPAN ID="hue325"><SPAN  CLASS="textit">finish</SPAN></SPAN></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Kerberos</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283><SPAN ID="hue76">Click on the button</SPAN> <SPAN ID="hue326"><SPAN  CLASS="textit">Edit
+properties</SPAN></SPAN><SPAN ID="hue80">.</SPAN></TD>
+</TR>
+</TABLE>
+<P>
+<BR>
+
+
+<P>
+You can if you wisch add a picture of the user by clicking on the
+button <SPAN  CLASS="textit">changer la photo</SPAN>. 
+
+<P>
+
+<P>
+<BR>
+
+
+<P>
+<BR><HR>
+<ADDRESS>
+Jan Wenzel
+2008-03-13
+</ADDRESS>
+</BODY>
+</HTML>

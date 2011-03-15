@@ -1,0 +1,464 @@
+#LyX 1.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 221
+\textclass article
+\language frenchb
+\inputencoding auto
+\fontscheme default
+\graphics default
+\paperfontsize default
+\spacing single 
+\papersize a4paper
+\paperpackage a4
+\use_geometry 1
+\use_amsmath 0
+\use_natbib 0
+\use_numerical_citations 0
+\paperorientation portrait
+\leftmargin 10mm
+\topmargin 10mm
+\rightmargin 10mm
+\bottommargin 20mm
+\headheight 10mm
+\headsep 10mm
+\footskip 10mm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\quotes_times 2
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\bullet 0
+	1
+	20
+	-1
+\end_bullet
+\bullet 1
+	1
+	20
+	-1
+\end_bullet
+\bullet 2
+	1
+	20
+	-1
+\end_bullet
+\bullet 3
+	1
+	20
+	4
+\end_bullet
+
+\layout Title
+
+
+\series bold 
+APPLICATIONS ADMINISTRATION
+\layout Section
+
+List of applications
+\layout Standard
+
+The administrator can configure an application when clicking on the 
+\series bold 
+\color blue
+Applications
+\series default 
+\color default
+ button in the 
+\series bold 
+Administration
+\series default 
+ menu on the left.
+ The
+\family sans 
+\color black
+ Application 
+\shape smallcaps 
+\emph on 
+Management
+\family default 
+\shape default 
+\emph default 
+\color default
+ page is displayed.
+\layout Standard
+
+She is divided on two columns :
+\layout Standard
+
+- The first column is used to display the list of applications, 
+\layout Standard
+
+- The second column contains icons which are the actions you can execute
+ on applications.
+ 
+\layout Standard
+\added_space_bottom medskip 
+- Those icons ( 
+\begin_inset Graphics
+	filename images/list_back.png
+
+\end_inset 
+
+, 
+\begin_inset Graphics
+	filename images/list_root.png
+
+\end_inset 
+
+, 
+\begin_inset Graphics
+	filename images/list_home.png
+
+\end_inset 
+
+ ) are used to modify the display according to the department, the icons
+ predominate other selections of display.
+\layout Standard
+
+It's from the 
+\family sans 
+Application Management
+\family default 
+\emph on 
+\noun on 
+ 
+\emph default 
+\noun default 
+page that the system administrator manage the list of applications of the
+ organization.
+\layout Standard
+
+It's possible to modify the display of applications by using the table called
+ Filters 
+\begin_inset Graphics
+	filename images/rocket.png
+
+\end_inset 
+
+ :
+\layout Itemize
+
+
+\color black
+To search on names :
+\begin_deeper 
+\layout Standard
+
+- Click on the asterisk to show all applications;
+\layout Standard
+
+
+\color black
+- Click on a letter to show all the applications starting with this letter;
+\layout Standard
+
+
+\color black
+- Click on a number to show all applications starting with this number.
+\end_deeper 
+\layout Itemize
+
+For a fast search 
+\begin_inset Graphics
+	filename images/search.png
+
+\end_inset 
+
+ : fill the field by the name of the application searched and click on the
+ 
+\emph on 
+Apply filter
+\emph default 
+ button.
+\layout Standard
+\added_space_top medskip 
+To configure an application, the administrator click on 
+\begin_inset Graphics
+	filename images/list_new_app.png
+
+\end_inset 
+
+.
+\layout Standard
+
+You will see tabs.
+ The administrator uses tabs to configure the application.
+\layout Standard
+
+To save changes use the 
+\emph on 
+Save
+\emph default 
+ button, to come back without saving use the 
+\emph on 
+Cancel
+\emph default 
+ button.
+\layout Standard
+
+All the fields followed by an asterisk must be filled.
+\layout Subsection
+\pagebreak_top 
+Generic
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Application
+\color red
+ 
+\color black
+name
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the name of the application
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Display name 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Display the name of the application
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Execute
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the name of the aplication to execute with his parameter
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Description
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert a description, a commentary on the application
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Base
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Make your choice on the scroll list to select the department where the applicati
+on exist
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Icon
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Select your picture in the arborescence of your system and then click on
+ the 
+\emph on 
+Update
+\emph default 
+ button.
+ The icon is linked at the application.
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsubsection
+
+Options
+\layout Itemize
+
+Only executable for members 
+\begin_deeper 
+\layout Standard
+
+Check if you want the application to be executed only by members of a same
+ group 
+\end_deeper 
+\layout Itemize
+
+Replace user configuration on startup
+\begin_deeper 
+\layout Standard
+
+Reinstall the default configuration at each startup
+\end_deeper 
+\layout Itemize
+
+Place an icon on members desktop
+\begin_deeper 
+\layout Standard
+
+Check if you want to make the icon appear on members desk
+\end_deeper 
+\layout Itemize
+
+Place entry in members startmenu
+\begin_deeper 
+\layout Standard
+
+Create an entry for the application in the startmenu
+\end_deeper 
+\layout Itemize
+
+Place entry in members launch bar
+\begin_deeper 
+\layout Standard
+
+Create an entry for the application in the launch bar
+\end_deeper 
+\layout Subsubsection
+\added_space_top medskip 
+Script
+\layout Standard
+
+?
+\layout Subsection
+\added_space_top bigskip 
+Options
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="2" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Variable
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Variable name
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Default value
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Default value associated to the variable
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Standard
+\added_space_top medskip 
+Use the 
+\shape italic 
+Add option
+\shape default 
+ button to add a new variable and the 
+\shape italic 
+Remove
+\shape default 
+ button to delete a variable.
+\layout Subsection
+
+References
+\layout Standard
+
+The references show the existing relations between applications.
+\the_end

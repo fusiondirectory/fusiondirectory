@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Applications</TITLE>
+<META NAME="description" CONTENT="Applications">
+<META NAME="keywords" CONTENT="groups">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-15">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="groups.css">
+
+</HEAD>
+
+<BODY >
+
+<H2><A NAME="SECTION00013000000000000000">
+Applications</A>
+</H2>
+
+<P>
+Pour activer l'extension Applications cliquez sur <SPAN  CLASS="textit">Créer des
+applications</SPAN>.
+
+<P>
+L'administrateur dispose de la liste des applications dans la colonne
+Applications disponibles. Il peut attribuer une ou plusieurs applications
+à un groupe. Il suffit de cliquer sur le nom d'une application celle
+ci apparaît dans la colonne Applications utilisées.
+
+<P>
+A l'aide du bouton Séparateur l'administrateur peut séparer de manière
+visuelle une application par rapport aux autres. 
+
+<P>
+Pour terminer cliquer sur le bouton <SPAN  CLASS="textit">Terminer</SPAN>.
+
+<P>
+
+<P><P>
+<BR>
+
+
+<P>
+<BR><HR>
+<ADDRESS>
+Jan Wenzel
+2008-03-13
+</ADDRESS>
+</BODY>
+</HTML>

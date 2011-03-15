@@ -1,0 +1,1982 @@
+#LyX 1.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 221
+\textclass article
+\language frenchb
+\inputencoding auto
+\fontscheme default
+\graphics default
+\paperfontsize default
+\spacing single 
+\papersize a4paper
+\paperpackage a4
+\use_geometry 1
+\use_amsmath 0
+\use_natbib 0
+\use_numerical_citations 0
+\paperorientation portrait
+\leftmargin 10mm
+\topmargin 10mm
+\rightmargin 10mm
+\bottommargin 20mm
+\headheight 10mm
+\headsep 10mm
+\footskip 10mm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\quotes_times 2
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\bullet 0
+	1
+	20
+	-1
+\end_bullet
+\bullet 1
+	1
+	20
+	-1
+\end_bullet
+\bullet 2
+	1
+	20
+	-1
+\end_bullet
+\bullet 3
+	1
+	20
+	4
+\end_bullet
+
+\layout Title
+
+
+\series bold 
+USERS ADMINISTRATION
+\layout Section
+
+List of users
+\layout Standard
+
+The administrator can create, modify or access the account informations
+ when clicking on the 
+\series bold 
+\color blue
+users
+\series default 
+\color default
+ button in the 
+\series bold 
+Administration
+\series default 
+ menu on the left.
+ The
+\family sans 
+\color black
+ Users Administration
+\family default 
+\color default
+ page is displayed, she is divided on three columns.
+ Each time an user is created it will appear in the first column sorted
+ by department.
+ 
+\layout Standard
+
+The two first columns contains icons which are shortcuts to the settings
+ of each user and the actions you can execute on them.
+ 
+\layout Standard
+
+Those icons ( 
+\begin_inset Graphics
+	filename images/list_back.png
+
+\end_inset 
+
+, 
+\begin_inset Graphics
+	filename images/list_root.png
+
+\end_inset 
+
+, 
+\begin_inset Graphics
+	filename images/list_home.png
+
+\end_inset 
+
+ ) are used to modify the display according to the department, the icons
+ predominate other selections of display.
+\layout Standard
+
+It's from the Users Administration page that the system administrator will
+ get a global view of all the users in his system.
+ 
+\layout Standard
+
+
+\color black
+In the right part of the page you will find a table called Filters 
+\begin_inset Graphics
+	filename images/rocket.png
+
+\end_inset 
+
+.
+ 
+\layout Itemize
+
+
+\color black
+This table purpose is to change the display of the users :
+\begin_deeper 
+\layout Standard
+
+
+\color black
+- Click on a letter to show all the users starting with this letter;
+\layout Standard
+
+
+\color black
+- Click on the asterisk and the list of users will be ordoned alphabetically
+\end_deeper 
+\layout Itemize
+
+You can also :
+\begin_deeper 
+\layout Standard
+
+- Check one or more options to get a restricted selection;
+\layout Standard
+
+- Insert a letter or a number followed by an asterisk or a user name in
+ the filed preceded by a this icon 
+\begin_inset Graphics
+	filename images/search.png
+
+\end_inset 
+
+.
+ Click on the 
+\emph on 
+submit
+\emph default 
+ button to get the result of your selection.
+\end_deeper 
+\layout Standard
+
+To create an account click on 
+\begin_inset Graphics
+	filename images/list_new_user.png
+
+\end_inset 
+
+.
+ If the account is already created click on the account himself.
+\layout Standard
+
+You will see tabs, each of them is a part of the user account configuration.
+ Each of those tabs is an extension that GOsa can manage.
+\layout Standard
+\added_space_bottom medskip 
+To finish the creation of the user, click on the finish button on the right
+ bottom of the page.
+ To cancel your change click on the cancel button.
+\newline 
+
+\layout Standard
+
+All the fields followed by an red asterisk must be filled.
+\layout Standard
+
+In the upper right corner you have the full dn of the user currently edited.
+\layout Subsection
+\pagebreak_top 
+Generic
+\layout Subsubsection
+
+Personal information
+\layout Standard
+\added_space_bottom medskip 
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="15" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Last 
+\color black
+name
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the last name
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\color black
+First name
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the first name
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\color black
+Login
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the login name
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Personnal title
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the personnal (Mister, Miss, Madam)
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Academic title
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the academic title
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Date of birth
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Click on the 
+\emph on 
+set
+\emph default 
+ button to make a scroll list appear
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Sex
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Make your choice on the scroll list
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Preferred Language
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Make your choice on the scroll list
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Base
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Choice of the deparment.
+ (the creation of the department is made with the 
+\series bold 
+\color blue
+department
+\series default 
+\color default
+ button on the left menu in the administration part.).
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Address
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the personnal address of the user
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Private phone
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the private number in the national or international way.
+ (keep in mind to make the same for all users)
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Homepage
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the url of the user homepage
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Password storage
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Make your choice on the scroll list
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Certificates
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\color black
+Click on the button 
+\emph on 
+Edits certificates
+\emph default 
+.
+ GOsa will let you import three type of certificates.
+ To save click on 
+\emph on 
+finish
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Kerberos
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\color black
+Click on the button 
+\emph on 
+Edit properties
+\emph default 
+.
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Standard
+
+You can if you wisch add a picture of the user by clicking on the button
+ 
+\shape italic 
+changer la photo
+\shape default 
+.
+ 
+\layout Subsubsection
+\added_space_top medskip 
+Organizational information
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="13" columns="2">
+<features>
+<column alignment="left" valignment="top" leftline="true" width="5cm">
+<column alignment="left" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Organization
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the organization's name 
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Departement
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the departement's name that the user is attached 
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Departement's number
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the departement's number
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Employee's number
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the employee's number
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Employee's type
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert his range in the organization
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Room's number
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the room's number of the employee
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the phone number of the user
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Mobile
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the mobile's number of the employee
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Pager
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the page number of the employee
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Fax
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the fax number of the employee
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Location
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the localisation of employee's office
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+State
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the name of the state where the organization is located
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Address
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the address of the organization
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsection
+\added_space_top bigskip 
+Unix
+\layout Standard
+
+To activate an Unix account for one user, you have to click on the button
+ 
+\shape italic 
+add a posix account.
+\layout Subsubsection
+
+Generic
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Home directory
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the path to the home directory of the user
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Shell
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Make the choice on the scroll list of the kind of shell used
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Primary group
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Mention the primary group wich one the user is attached.
+ (For the creation of a group, go to the 
+\series bold 
+Administration
+\series default 
+ part 
+\color black
+and click on the button
+\series bold 
+\color blue
+ Groups
+\series default 
+\color default
+)
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Status
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Mention if the account is activated or not
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Force UID/GID
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Check if you want to force UID/GID of the user to a certain value
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsubsection
+\added_space_top medskip 
+Group membership
+\layout Standard
+
+Use the buttons 
+\emph on 
+Add
+\emph default 
+ and 
+\emph on 
+Delete
+\emph default 
+ to insert or to remove groups in the empty area.
+ The button 
+\emph on 
+Add
+\emph default 
+ give the group list created by the administrator.
+ The user could be attached at one or many groups.
+\layout Subsubsection
+\added_space_top medskip 
+Account
+\layout Standard
+
+It's about the management of the user's password.
+ Many proposals could be checked but the administrator should avoid conflicting
+ options.
+\layout Subsubsection
+\added_space_top medskip 
+System trust
+\layout Standard
+
+The trust system is used to control access by the user at differents systems,
+ devices, ...
+ 
+\layout Standard
+
+The trust system can :
+\layout Itemize
+
+be deactivated, 
+\layout Itemize
+
+allow full access,
+\layout Itemize
+
+allow the access to hosts : 
+\begin_deeper 
+\layout Standard
+
+- Use the button 
+\emph on 
+Add
+\emph default 
+ to select the hosts, 
+\layout Standard
+
+- Use the button 
+\emph on 
+Delete
+\emph default 
+ to remove hosts.
+\end_deeper 
+\layout Subsection
+\added_space_top bigskip 
+Environment
+\layout Standard
+
+Click on the button 
+\shape italic 
+add an environment extension 
+\emph on 
+to
+\shape default 
+\emph default 
+ activate the configuration space.
+\layout Subsubsection
+
+Profiles
+\layout Subsubsection
+\added_space_top medskip 
+Kiosk profile
+\layout Subsubsection
+\added_space_top medskip 
+Logon scripts
+\layout Subsubsection
+\added_space_top medskip 
+Attach share
+\layout Subsubsection
+\added_space_top medskip 
+Hotplug devices
+\layout Subsubsection
+\added_space_top medskip 
+Printer
+\layout Subsection
+\added_space_top bigskip 
+Mail
+\layout Standard
+
+The mail account is linked to the mail server.
+ To activate the mail account click on the button 
+\shape italic 
+Create mail account
+\shape default 
+.
+\layout Subsubsection
+
+Generic
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\color black
+Primary address
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the mail address of the user 
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Server
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Choose the server where the mail account of the user is stored
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Quota usage
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Mention if you apply a quota to the mail account of the user
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Quota size
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Mention in KB the quota size
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsubsection
+\added_space_top medskip 
+Alternative addresses
+\layout Standard
+
+The user can own one or many aliases.
+ Those aliases must be inserted in the alternatives addresses area.
+ 
+\layout Standard
+
+Use the button 
+\emph on 
+Add
+\emph default 
+ to insert the aliases.
+ The alias must be inserted in the empty area followed by the button 
+\emph on 
+Add
+\emph default 
+.
+ Use the button 
+\emph on 
+Delete
+\emph default 
+ to remove aliases.
+\layout Subsubsection
+\added_space_top medskip 
+Mail options
+\layout Standard
+
+Management of the mail options of the user :
+\layout Itemize
+
+No delivery to own mailbox : send all mail for this address to a mail address
+ mentionned in the area 
+\emph on 
+Forward messages to.
+\layout Itemize
+
+Activate vacation message : send the message wroten in the area 
+\shape italic 
+\color black
+Vacation message
+\shape default 
+\color default
+ to the sender.
+\layout Itemize
+
+Move mails tagged with spam level greater than (a) to folder (b) : send
+ mails that spam level is higher than (a) in the folder (b).
+\layout Itemize
+
+Reject mails bigger than (c) MB : reject mails higher than (c) MB.
+\layout Itemize
+
+Use the 
+\emph on 
+Add
+\emph default 
+ ou 
+\emph on 
+Add local
+\emph default 
+\color black
+ buttons to manage addresses : 
+\begin_deeper 
+\layout Standard
+
+
+\color black
+- The 
+\emph on 
+Add local
+\emph default 
+ button is used to choose among the local list addresses.
+ 
+\layout Standard
+
+
+\color black
+- The 
+\emph on 
+Add
+\emph default 
+ button allow external addresses.
+\layout Standard
+
+
+\color black
+- Use the 
+\emph on 
+Delete
+\emph default 
+ button to remove the mails addresses.
+\end_deeper 
+\layout Subsubsection
+\added_space_top medskip 
+Advanced mail options
+\layout Itemize
+
+User is only allowed to send and receive local mails : the administrator
+ can force sending and receiving local mails only.
+\layout Itemize
+
+Use custom sieve script : The administrator can write sieve script to establish
+ rules for managing mail box.
+ 
+\emph on 
+Attention ! 
+\shape italic 
+\emph default 
+This will disable all mail options
+\shape default 
+.
+\layout Subsection
+\added_space_top bigskip 
+Samba
+\layout Standard
+
+To create a samba account for an user click on the button 
+\shape italic 
+Create a samba
+\shape default 
+ 
+\shape italic 
+account
+\shape default 
+.
+\layout Subsubsection
+
+Generic
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Home directory
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Mention the path of the user's home directory in UNC notation ex: 
+\backslash 
+
+\backslash 
+SERVER
+\backslash 
+homes
+\backslash 
+user.
+ Choose on the scroll list the letter associated to the user's home directory.
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Domain
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Select the domain where the user's desktop exists
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Script path
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Mention the user's logon script 
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Profile path
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Mention the path to the user profile
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsubsection
+\added_space_top medskip 
+Terminal Server
+\layout Itemize
+
+Allow login on the terminal server
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="2" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Home directory
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Mention the path of the user's home directory in notation UNC ex: 
+\backslash 
+
+\backslash 
+SERVER
+\backslash 
+homes
+\backslash 
+user.
+ Choose on the scroll list the letter associated to the user's home directory.
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Profile path
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Mention the path to the user profile
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Itemize
+
+Inherit client config
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="2" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Initial program
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Mention the path to the default application
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Working directory
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Mention the working directory of the initial program
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+ 
+\layout Itemize
+
+Timeout settings (in minutes) :
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Connection
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Put the maximum time waiting for a login
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Disconnection
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Put the maximum time waiting to disconnect
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+IDLE
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Put the maximum time waiting for a query
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Itemize
+
+Client devices :
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Connect client drives at logon 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Check to connect client drives at logon
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Connect client printers at logon
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Check to connect client printers at logon
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Default to main client printer
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Check to define the client default printer at logon
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Itemize
+
+Miscellaneous :
+\begin_deeper 
+\layout Standard
+
+- Shadowing : 
+\color red
+?
+\layout Standard
+
+- On broken or timed out : choose if you want disconect or reset the client.
+\layout Standard
+
+- Reconnect if disconnected : choose if the reconnection must be done from
+ the same client, or if it can be done from an other client.
+\end_deeper 
+\layout Subsubsection
+\added_space_top medskip 
+Access options
+\layout Itemize
+
+It's about the management of the user's password.
+ Once or many proposal can be checked in but the administrator must take
+ care to avoid conflicts.
+\layout Itemize
+
+The area on the right must be filled by the names of clients on which the
+ user can logon.
+ The administrator must use the button 
+\emph on 
+Add
+\emph default 
+ to insert the clients names.
+ The button 
+\emph on 
+Add
+\emph default 
+ give the clients list.
+ Use the button 
+\emph on 
+Delete
+\emph default 
+ to remove clients.
+\layout Subsection
+\added_space_top bigskip 
+Connectivity
+\layout Standard
+
+The administrator can choose more services where the user could be connected.
+\layout Subparagraph*
+
+Proxy account
+\layout Standard
+
+If you activated the Proxy option for a user you can filter the content,
+ limit access hours and restrict download/upload.
+\layout Subparagraph
+\added_space_top smallskip 
+FTP account
+\layout Standard
+
+If you activated the FTP option, you can fix the upload and downlaod bandwidth,
+ the data ratio and the quota allowed.
+ You can also deactivate the FTP account.
+\layout Subparagraph
+\added_space_top smallskip 
+WebDAV account
+\layout Standard
+
+If you activated the WebDAV option, the user will be granted access to the
+ WebDAV server.
+ 
+\layout Subparagraph
+\added_space_top smallskip 
+PHPGroupware account
+\layout Standard
+
+If you activated the PHPGroupware option, the user will be granted access
+ to the PHPGroupware software.
+\layout Subparagraph
+\added_space_top smallskip 
+Intranet account
+\layout Standard
+\added_space_bottom smallskip 
+If you activated the Intranet option, the user will access Intranet server.
+\layout Standard
+
+
+\series bold 
+PPTP account
+\layout Standard
+\added_space_bottom smallskip 
+If you activated the PPTP option, the user will access server PPTP.
+\layout Standard
+
+
+\series bold 
+PHPScheduleit account
+\layout Standard
+\added_space_bottom smallskip 
+If you activated the PHPScheduleit option, the user will access PHPScheduleIt
+ software.
+\layout Standard
+
+
+\series bold 
+GLPI account
+\layout Standard
+
+If you activated the GLPI option, the user will access GLPI software.
+\layout Subsection
+\added_space_top bigskip 
+Fax
+\layout Standard
+
+To create a fax account for an user click on the button
+\shape italic 
+ Create a Fax account.
+\layout Subsubsection
+
+Generic
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Fax
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Insert the fax number of the user
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Language
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Make your choice on the scroll list
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Delivery format 
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Make your choice on the scroll list
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsubsection
+\added_space_top medskip 
+Delivery methods
+\layout Itemize
+
+Temporary disable fax usage : forbid the use of the fax for an user.
+\layout Itemize
+
+Deliver fax as mail to : send fax on mail distribution format to the user's
+ mailbox.
+\layout Itemize
+
+Deliver fax to printer : send fax to a printer.
+\layout Subsubsection
+\added_space_top medskip 
+Alternate fax numbers
+\layout Standard
+
+The administrator can complete the fax configuration with more than one
+ fax number.
+ Use the buttons 
+\shape italic 
+Add
+\shape default 
+, 
+\shape italic 
+Add local
+\shape default 
+ to fill the area.
+\layout Itemize
+
+The 
+\emph on 
+Add local
+\emph default 
+ button is used to choose among the local fax.
+ 
+\layout Itemize
+
+The 
+\emph on 
+Add
+\emph default 
+ button allow external fax numbers.
+ 
+\layout Standard
+
+Use the button 
+\emph on 
+Delete
+\emph default 
+ to remove fax numbers.
+\layout Subsubsection
+\added_space_top medskip 
+Blocklists
+\layout Standard
+
+The fax is today frequently use to deliver advertising messages.
+ Many of them are spams.
+ To avoid those messages, the administrator can create a blocklist for incoming
+ and outgoing fax.
+\layout Standard
+
+When clicking on the button 
+\emph on 
+Edit
+\emph default 
+ at the left side appear the blocked numbers/lists linked to the user and
+ at the right side the predefined blocklist.
+\layout Standard
+
+Select one or many lists at the right side and click on 
+\shape italic 
+Add the list to the blocklists
+\shape default 
+ use at vous désirez utiliser dans la liste de droite et cliquer sur 
+\emph on 
+Ajouter à la liste rouge
+\emph default 
+ pour l'activer.
+ 
+\color red
+???
+\layout Subsection
+\added_space_top bigskip 
+Phone
+\layout Standard
+
+To activate the phone account for an user click on the button 
+\shape italic 
+Create a phone account
+\shape default 
+.
+\layout Subsubsection
+
+Phone numbers
+\layout Standard
+
+Insert one or many phone numbers for the user by clicking on the button
+\emph on 
+ A
+\shape italic 
+\emph default 
+dd
+\shape default 
+.
+ 
+\layout Subsubsection
+\added_space_top medskip 
+Telephone hardware
+\layout Standard
+
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features>
+<column alignment="block" valignment="top" leftline="true" width="5cm">
+<column alignment="block" valignment="top" leftline="true" rightline="true" width="10cm">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Telephone
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Make your choice on the scroll list
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+VoicemailPIN
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\color black
+Insert the PIN code of the user to reach his voicemail
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Phone PIN
+\color red
+*
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\color black
+Insert the PIN code of the user to unlock his phone
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Subsubsection
+\added_space_top medskip 
+Phone macro
+\layout Standard
+
+Selection of phone macro for the user's telephone.
+\layout Subsection
+\added_space_top bigskip 
+References
+\layout Standard
+
+The references present the user's properties.
+ It gives the administrator a short summary of the user's properties.
+\the_end
