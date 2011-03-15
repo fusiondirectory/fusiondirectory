@@ -2,4 +2,4 @@
 02_fix_template_location.patch
 03_fix_class_mapping.patch
 #04_fix_locale_location.patch
-05_fix_online_help_location.patch
+#05_fix_online_help_location.patch
