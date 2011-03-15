@@ -1,7 +1,7 @@
 Author: <cajus@debian.org>
 Description: Adapt location for debian packaged smarty
---- a/include/php_setup.inc
-+++ b/gosa-core/include/php_setup.inc
+--- a/core/include/php_setup.inc
++++ b/core/include/php_setup.inc
 @@ -285,7 +285,11 @@
  ini_set("include_path",".:$BASE_DIR/include:$BASE_DIR/include/utils/excel:/usr/share/php");
  
