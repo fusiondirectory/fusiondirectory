@@ -2,8 +2,8 @@ Author: <cajus@debian.org>
 Description: Fix location of auto-generated class mapping file
 Index: core/include/class_config.inc
 ===================================================================
---- /core.orig/include/class_config.inc	2010-02-05 13:51:35.000000000 +0000
-+++ /core/include/class_config.inc	2010-10-01 06:51:28.478555098 +0000
+--- a/core/include/class_config.inc	2010-02-05 13:51:35.000000000 +0000
++++ b/core/include/class_config.inc	2010-10-01 06:51:28.478555098 +0000
 @@ -100,12 +100,12 @@
          if we have installed or removed plugins. 
       */
@@ -21,8 +21,8 @@ Index: core/include/class_config.inc
      if($this->filename != "" && filemtime($this->filename) != $this->last_modified){
 Index: core/include/functions.inc
 ===================================================================
---- /core.orig/include/functions.inc	2010-10-01 06:51:28.000000000 +0000
-+++ /core/include/functions.inc	2010-10-01 06:51:55.250554318 +0000
+--- a/core/include/functions.inc	2010-10-01 06:51:28.000000000 +0000
++++ b/core/include/functions.inc	2010-10-01 06:51:55.250554318 +0000
 @@ -75,7 +75,7 @@
  define('DES3_CBC_SHA1',16);
 

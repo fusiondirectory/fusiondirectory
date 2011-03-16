@@ -1,18 +1,9 @@
 Author: <cajus@debian.org>
 Description: Fixed location of auto-generated locales
---- a/include/php_setup.inc
-+++ b/fusiondirectory-core/include/php_setup.inc
-@@ -20,7 +20,7 @@
-  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-  */
- 
--define ("LOCALE_DIR", dirname(dirname(__FILE__))."/locale/compiled");
-+define ("LOCALE_DIR", "/var/cache/fusiondirectory/locale");
- 
- function gosaRaiseError($errno, $errstr, $errfile, $errline)
- {
---- a/update-fusiondirectory
-+++ b/fusiondirectory-core/update-fusiondirectory
+Index: pkg/core/update-fusiondirectory
+===================================================================
+--- pkg.orig/core/update-fusiondirectory	2011-03-16 00:46:14.000000000 +0100
++++ pkg/core/update-fusiondirectory	2011-03-16 00:55:38.000000000 +0100
 @@ -169,20 +169,20 @@
  
  	/* For each language, merge the target .mo to the compiled directory. */
@@ -39,3 +30,17 @@ Description: Fixed location of auto-generated locales
  		if ($val != 0){
  			echo "Compiling of message files failed - aborted";
  			exit (5);
+Index: pkg/core/include/php_setup.inc
+===================================================================
+--- pkg.orig/core/include/php_setup.inc	2011-03-16 00:56:18.000000000 +0100
++++ pkg/core/include/php_setup.inc	2011-03-16 00:56:46.000000000 +0100
+@@ -20,7 +20,8 @@
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+ 
+-define ("LOCALE_DIR", dirname(dirname(__FILE__))."/locale/compiled");
++
++define ("LOCALE_DIR", "/var/cache/fusiondirectory/locale");
+ 
+ function gosaRaiseError($errno, $errstr, $errfile, $errline)
+ {
