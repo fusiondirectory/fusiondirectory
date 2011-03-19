@@ -1,34 +1,0 @@
-9
-
-dir
-20612
-https://oss.gonicus.de/repositories/gosa/tags/2.6.12/gosa-core/doc/core/nl
-https://oss.gonicus.de/repositories/gosa
-
-
-
-2008-03-13T16:55:24.668761Z
-9755
-janw
-
-
-svn:special svn:externals svn:needs-lock
-
-
-
-
-
-
-
-
-
-
-
-594d385d-05f5-0310-b6e9-bd551577e9d8
-
-html
-dir
-
-lyx-source
-dir
-
