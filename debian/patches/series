@@ -5,4 +5,4 @@
 05_fix_online_help_location.patch
 06_hook_password_class_plugin.patch
 07_hook_password_function.patch
-
+08_new_gosa-si_goto-si.patch
