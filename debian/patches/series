@@ -3,3 +3,6 @@
 03_fix_class_mapping.patch
 04_fix_locale_location.patch
 05_fix_online_help_location.patch
+06_hook_password_class_plugin.patch
+07_hook_password_function.patch
+
