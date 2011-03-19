@@ -1,7 +1,7 @@
 Source: fusiondirectory
 Section: web
 Priority: optional
-Maintainer: GOsa packages maintainers group <gosa-pkg@oss.gonicus.de>
+Maintainer: FusionDirectory packages maintainers group <contact@fusiondirectory.org>
 Uploaders: Benoit Mortier <benoit.mortier@opensides.be>
 Build-Depends: debhelper (>= 7.0.50~)
 Build-Depends-Indep: po-debconf
@@ -46,7 +46,7 @@ Package: fusiondirectory-schema
 Architecture: all
 Depends: ${misc:Depends}
 Recommends: slapd
-Description: LDAP schema for GOsa
+Description: LDAP schema for FusionDirectory
  This package includes the basics LDAP schemas needed by FusionDirectory.
  .
  FusionDirectory is a combination of system-administrator and end-user web
@@ -55,7 +55,7 @@ Description: LDAP schema for GOsa
 Package: fusiondirectory-help-en
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory
-Description: English online help for GOsa
+Description: English online help for FusionDirectory
  This package includes the English online documentation for FusionDirectory
  .
  FusionDirectory is a combination of system-administrator and end-user web
@@ -82,7 +82,7 @@ Description: French online help for FusionDirectory
 Package: fusiondirectory-help-nl
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory
-Description: Dutch online help for GOsa
+Description: Dutch online help for FusionDirectory
  This package includes the Dutch online documentation for FusionDirectory
  .
  FusionDirectory is a combination of system-administrator and end-user web
@@ -468,7 +468,7 @@ Architecture: all
 Depends: ${misc:Depends}, fusiondirectory, fusiondirectory-plugin-systems
 Breaks: gosa (<<2.6)
 Description: rsyslog plugin for FusionDirectory
- Syslog and GOsa logging plugin.
+ Syslog and FusionDirectory logging plugin.
  .
  FusionDirectory is a combination of system-administrator and end-user web
  interface, designed to handle LDAP based setups.
@@ -539,7 +539,7 @@ Architecture: all
 Depends: ${misc:Depends}
 Recommends: slapd
 Description: LDAP schema for FusionDirectory sudo plugin
- This package includes the LDAP schema needed by the GOsa
+ This package includes the LDAP schema needed by the FusionDirectory
  sudo plugin.
  .
  FusionDirectory is a combination of system-administrator and end-user web
