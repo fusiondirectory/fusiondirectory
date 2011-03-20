@@ -37,7 +37,7 @@ class Step_Welcome  extends setup_step
   {
     $this->s_title      = _("Welcome");
     $this->s_info       = _("The welcome message");
-    $this->s_title_long = _("Welcome to GOsa setup wizard");
+    $this->s_title_long = _("Welcome to FusionDirectory setup wizard");
   }
   
   function execute()
