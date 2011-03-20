@@ -20,6 +20,7 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+/*
 Data structure : 
 ================ 
   |->o_tab                      <-- dummy object, collects HTML posts, displays ui 
