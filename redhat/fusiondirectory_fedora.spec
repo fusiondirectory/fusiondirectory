@@ -212,7 +212,6 @@ mkdir -p %{buildroot}/usr/bin
 mv update-locale %{buildroot}/usr/bin
 mv update-online-help %{buildroot}/usr/bin
 mv update-pdf-help %{buildroot}/usr/bin
-mv dh-make-fusiondirectory %{buildroot}/usr/bin
 
 # Copy files for desktop
 mkdir -p %{buildroot}%{_sysconfdir}/fusiondirectory
@@ -230,7 +229,7 @@ mv debian/fusiondirectory-16.xpm 		%{buildroot}/usr/share/pixmaps
 desktop-file-install --dir=%{buildroot}/usr/share/applications	desktop/fusiondirectory-desktop.desktop 
 
 # Gzip manpages from source
-for x in update-fusiondirectory.1 dh-make-fusiondirectory.1 update-locale.1 update-online-help.1 update-pdf-help.1 fusiondirectory-encrypt-passwords.1
+for x in update-fusiondirectory.1 update-locale.1 update-online-help.1 update-pdf-help.1 fusiondirectory-encrypt-passwords.1
 do
 	gzip $x
 done
@@ -301,7 +300,6 @@ rm -rf %{buildroot}
 %files dev
 %defattr(-,root,root)
 /usr/bin
-%attr(755,root,root) /usr/share/man/man1/dh-make-fusiondirectory.1.gz
 %attr(755,root,root) /usr/share/man/man1/update-locale.1.gz
 %attr(755,root,root) /usr/share/man/man1/update-online-help.1.gz
 %attr(755,root,root) /usr/share/man/man1/update-pdf-help.1.gz
