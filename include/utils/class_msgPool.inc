@@ -591,7 +591,7 @@ class msgPool
 
   public static function class_not_found($plugin)
   {
-    return (sprintf(_("Cannot initialize class '%s'! Maybe there is a plugin missing in your gosa setup?"), $plugin));
+    return (sprintf(_("Cannot initialize class '%s'! Maybe there is a plugin missing in your FusionDirectory setup?"), $plugin));
   }
 
 

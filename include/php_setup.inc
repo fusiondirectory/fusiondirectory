@@ -49,7 +49,7 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
     }
   }
 
-  /* Error messages are hidden in GOsa, so we only send them to the logging class and abort here */
+  /* Error messages are hidden in FusionDirectory, so we only send them to the logging class and abort here */
   if(isset($config->data) && $config->get_cfg_value("displayerrors") != "true"){
 
     /* Write to syslog */
@@ -76,14 +76,14 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
 	      $version= get_gosa_version();
       }
       $error_collector_mailto .=prepare4mailbody(
-                                "Oups. Seems like you've catched some kind of bug inside GOsa/PHP. You may want to help ".
+                                "Oups. Seems like you've catched some kind of bug inside FusionDirectory/PHP. You may want to help ".
                                 "us to improve the software stability. If so, please provide some more information below.".
                                 "\n\n".
-                                "*** GOsa bug report ***".
-                                "\nGOsa Version: $version".
+                                "*** FusionDirectory bug report ***".
+                                "\nFusionDirectory Version: $version".
                                 "\n\n".
                                 "Please describe what you did to produce this error as detailed as possible. Can you ".
-                                "reproduce this bug using the demo on http://www.gosa-project.org ?".
+                                "reproduce this bug using the demo on http://www.FusionDirectory-project.org ?".
                                 "\n\n".
                                 "*** PHP error information ***\n\n");
       }
@@ -101,8 +101,8 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
               </font>
             </td>
             <td align=right>
-              <a href=\"mailto:gosa-bugs@oss.gonicus.de?subject=GOsa%20bugreport&amp;body=%BUGBODY%\">
-                <img border='0' src='images/mailto.png' title='"._("Send bug report to the GOsa Team")."' class='center' alt=''>&nbsp;"._("Send bugreport")."
+              <a href=\"mailto:bugs@fusiondirectory.org?subject=FusionDirectory%20bugreport&amp;body=%BUGBODY%\">
+                <img border='0' src='images/mailto.png' title='"._("Send bug report to the FusionDirectory Team")."' class='center' alt=''>&nbsp;"._("Send bugreport")."
               </a>
             </td>
             <td align=right>
@@ -259,7 +259,7 @@ function dummy_error_handler()
 
 /* Bail out for incompatible/old PHP versions */
 if (!version_compare(phpversion(),"5.2.0",">=")){
-  echo "PHP version needs to be 5.2.0 or above to run GOsa. Aborted.";
+  echo "PHP version needs to be 5.2.0 or above to run FusionDirectory. Aborted.";
   exit();
 }
 
