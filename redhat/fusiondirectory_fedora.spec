@@ -1,17 +1,17 @@
 # Define Packagename, e.g.:
-# rpmbuild --rebuild --define 'sourcename gosa' gosa.srpm
+# rpmbuild --rebuild --define 'sourcename fusiondirectory' fusiondirectory.srpm
 %{!?sourcename:%define sourcename %{name}-%{version}}
 
 #
 # Distribution
 #
 Summary: 		Web Based LDAP Administration Program 
-Name:			gosa
-Version: 		2.6.10
+Name:			FusionDirectory
+Version: 		1.0
 Release:		1
 License: 		GPLv2
-Source0: 		ftp://oss.GONICUS.de/pub/gosa/%{sourcename}.tar.bz2
-URL: 			https://oss.GONICUS.de/labs/gosa/
+Source0: 		http://download.fusiondirectory.org/sources/%{sourcename}.tar.gz
+URL: 			http://www.fusiondirectory.org
 Group: 			System/Administration
 Buildarch: 		noarch
 Patch0:			01_fix_template_location.patch
@@ -32,17 +32,17 @@ BuildArch:		noarch
 %define docdir /usr/share/doc/fusiondirectory-%{version}
 
 %description
-GOsa is a combination of system-administrator and end-user web
+FusionDirectory is a combination of system-administrator and end-user web
 interface, designed to handle LDAP based setups.
 Provided is access to posix, shadow, samba, proxy, fax, and kerberos
 accounts. It is able to manage the postfix/cyrus server combination
 and can write user adapted sieve scripts.
 
 %description -l fr
-GOsa est un ensemble d'outils WEB pour administrateurs systeme et
+FusionDirectory est un ensemble d'outils WEB pour administrateurs systeme et
 utilisateurs finaux permettant de gerer des configurations basees sur
 un annuaire LDAP.
-GOsa permet de gerer des comptes de type Posix, Shadow, Samba, Proxy,
+FusionDirectory permet de gerer des comptes de type Posix, Shadow, Samba, Proxy,
 Fax et Kerberos.
 Il est egalement possible de gerer des serveurs Postfix/Cyrus et 
 de produire des scripts bases sur Sieve.
@@ -51,7 +51,7 @@ de produire des scripts bases sur Sieve.
 
 %package dev
 Group:                  System/Administration
-Summary:                GOsa development utiles
+Summary:                FusionDirectory development utilities
 Requires:               php-cli,latex2html,lyx
 Obsoletes:              gosa-ldap
 
@@ -63,7 +63,7 @@ online help, extract localisations and aid developing.
 
 %package desktop
 Group:                  System/Administration
-Summary:                Desktop integration for GOsa
+Summary:                Desktop integration for FusionDirectory
 Requires:               webclient
 Obsoletes:              gosa-ldap
 
@@ -75,62 +75,62 @@ desktop environment.
 
 %package schema
 Group: 			System/Administration
-Summary: 		Schema Definitions for the GOSA package
+Summary: 		Schema Definitions for the FusionDirectory package
 Requires:		openldap-servers	
 Obsoletes:		gosa-ldap
 
 %description schema
-Contains the Schema definition files for the GOSA admin package.
+Contains the Schema definition files for the FusionDirectory admin package.
 
 ########################
 
 %package help-en
 Group: 			System/Administration
-Summary: 		English online manual for GOSA package
-Requires:		gosa >= %{version}
+Summary: 		English online manual for FusionDirectory package
+Requires:		fusiondirectory >= %{version}
 
 %description help-en
-English online manual page for GOSA package
+English online manual page for FusionDirectory package
 
 ########################
 
 %package help-de
 Group: 			System/Administration
-Summary: 		German localized online manual for GOSA package
-Requires:		gosa >= %{version}
+Summary: 		German localized online manual for FusionDirectory package
+Requires:		fusiondirectory >= %{version}
 
 %description help-de
-German localized online manual page for GOSA package
+German localized online manual page for FusionDirectory package
 
 ########################
 
 %package help-fr
 Group: 			System/Administration
-Summary: 		French localized online manual for GOSA package
-Requires:		gosa >= %{version}
+Summary: 		French localized online manual for FusionDirectory package
+Requires:		fusiondirectory >= %{version}
 
 %description help-fr
-French localized online manual page for GOSA package
+French localized online manual page for FusionDirectory package
 
 ########################
 
 %package help-nl
 Group: 			System/Administration
-Summary: 		Dutch localized online manual for GOSA package
-Requires:		gosa >= %{version}
+Summary: 		Dutch localized online manual for FusionDirectory package
+Requires:		fusiondirectory >= %{version}
 
 %description help-nl
-Dutch localized online manual page for GOSA package
+Dutch localized online manual page for FusionDirectory package
 
 ########################
 
 %package help-es
 Group: 			System/Administration
-Summary: 		Spain localized online manual for GOSA package
-Requires:		gosa >= %{version}
+Summary: 		Spain localized online manual for FusionDirectory package
+Requires:		fusiondirectory >= %{version}
 
 %description help-es
-Spain localized online manual page for GOSA package
+Spain localized online manual page for FusionDirectory package
 
 ########################
 
@@ -151,71 +151,71 @@ find . -depth -name CVS -type d | xargs rm -rf
 
 %install
 # Create buildroot
-mkdir -p %{buildroot}/usr/share/gosa
+mkdir -p %{buildroot}/usr/share/fusiondirectory
 
 # Create files for temporary stuff
 for i in compile config cache; do \
   mkdir -p %{buildroot}/var/spool/fusiondirectory/$i ; \
 done
-mkdir -p %{buildroot}/var/cache/gosa
+mkdir -p %{buildroot}/var/cache/fusiondirectory
 
 # Copy
 DIRS="doc ihtml plugins html include locale setup"
 echo `pwd`
 for i in $DIRS; do \
-  cp -ua $i %{buildroot}/usr/share/gosa/$i ; \
+  cp -ua $i %{buildroot}/usr/share/fusiondirectory/$i ; \
 done
 
-# Copy files for gosa
+# Copy files for fusiondirectory
 mkdir -p %{buildroot}%{_sbindir}
-mkdir -p %{buildroot}%{_sysconfdir}/gosa
+mkdir -p %{buildroot}%{_sysconfdir}/fusiondirectory
 mkdir -p %{buildroot}/usr/share/doc/fusiondirectory
 mkdir -p %{buildroot}%{webconf}
 
-touch %{buildroot}%{_sysconfdir}/gosa/gosa.secrets
+touch %{buildroot}%{_sysconfdir}/fusiondirectory/fusiondirectory.secrets
 mv contrib/fusiondirectory.conf		%{buildroot}/usr/share/doc/fusiondirectory
-mv update-gosa 			%{buildroot}%{_sbindir}
-mv bin/gosa-encrypt-passwords 	%{buildroot}%{_sbindir}
-mv debian/gosa-apache.conf 	%{buildroot}%{webconf}
-mv contrib/shells 		%{buildroot}%{_sysconfdir}/gosa
-mv contrib/encodings 		%{buildroot}%{_sysconfdir}/gosa
+mv update-fusiondirectory 			%{buildroot}%{_sbindir}
+mv bin/fusiondirectory-encrypt-passwords 	%{buildroot}%{_sbindir}
+mv debian/fusiondirectory-apache.conf 	%{buildroot}%{webconf}
+mv contrib/shells 		%{buildroot}%{_sysconfdir}/fusiondirectory
+mv contrib/encodings 		%{buildroot}%{_sysconfdir}/fusiondirectory
 mv contrib/openldap/slapd.conf 	%{buildroot}/usr/share/doc/fusiondirectory/slapd.conf-example
 mv -f doc manual
 
 # Cleanup manual dirs
 for i in admin ; do \
-  rm -rf %{buildroot}/usr/share/gosa/doc/$i ; \
+  rm -rf %{buildroot}/usr/share/fusiondirectory/doc/$i ; \
 done
 
 # Remove (some) unneeded files
 for i in gen_locale.sh gen_online_help.sh gen_function_list.php update.sh; do \
- rm -rf %{buildroot}/usr/share/gosa/$i ; \
+ rm -rf %{buildroot}/usr/share/fusiondirectory/$i ; \
 done
 
 # Cleanup lyx warnings
-find %{buildroot}/usr/share/gosa -name WARNINGS |xargs rm
+find %{buildroot}/usr/share/fusiondirectory -name WARNINGS |xargs rm
 
 # Cleanup guide
-rm -rf %{buildroot}/usr/share/gosa/doc/guide/user/*/lyx-source
+rm -rf %{buildroot}/usr/share/fusiondirectory/doc/guide/user/*/lyx-source
 
 # Copy default config
 mkdir -p %{buildroot}%{confdir}
 mkdir -p %{buildroot}%{webconf}
 
-# Copy file for gosa-schema
-mkdir -p %{buildroot}%{_sysconfdir}/openldap/schema/gosa
+# Copy file for fusiondirectory-schema
+mkdir -p %{buildroot}%{_sysconfdir}/openldap/schema/fusiondirectory
 
-mv contrib/openldap/*.schema %{buildroot}%{_sysconfdir}/openldap/schema/gosa
+mv contrib/openldap/*.schema %{buildroot}%{_sysconfdir}/openldap/schema/fusiondirectory
 
-# Copy files for gosa-dev
+# Copy files for fusiondirectory-dev
 mkdir -p %{buildroot}/usr/bin
 mv update-locale %{buildroot}/usr/bin
 mv update-online-help %{buildroot}/usr/bin
 mv update-pdf-help %{buildroot}/usr/bin
-mv dh-make-gosa %{buildroot}/usr/bin
+mv dh-make-fusiondirectory %{buildroot}/usr/bin
 
 # Copy files for desktop
-mkdir -p %{buildroot}%{_sysconfdir}/gosa
+mkdir -p %{buildroot}%{_sysconfdir}/fusiondirectory
 mkdir -p %{buildroot}/usr/bin
 mkdir -p %{buildroot}%{_sbindir}
 mkdir -p %{buildroot}/usr/share/pixmaps
@@ -223,27 +223,27 @@ mkdir -p %{buildroot}/usr/share/applications
 mkdir -p %{buildroot}/usr/share/man/man1/
 mkdir -p %{buildroot}/usr/share/man/man5/
 
-mv contrib/desktoprc 		%{buildroot}%{_sysconfdir}/gosa
-mv contrib/gosa 		%{buildroot}/usr/bin
-mv debian/gosa.xpm 		%{buildroot}/usr/share/pixmaps
-mv debian/gosa-16.xpm 		%{buildroot}/usr/share/pixmaps
-desktop-file-install --dir=%{buildroot}/usr/share/applications	desktop/gosa-desktop.desktop 
+mv contrib/desktoprc 		%{buildroot}%{_sysconfdir}/fusiondirectory
+mv contrib/fusiondirectory 		%{buildroot}/usr/bin
+mv debian/fusiondirectory.xpm 		%{buildroot}/usr/share/pixmaps
+mv debian/fusiondirectory-16.xpm 		%{buildroot}/usr/share/pixmaps
+desktop-file-install --dir=%{buildroot}/usr/share/applications	desktop/fusiondirectory-desktop.desktop 
 
 # Gzip manpages from source
-for x in update-gosa.1 dh-make-gosa.1 update-locale.1 update-online-help.1 update-pdf-help.1 gosa-encrypt-passwords.1
+for x in update-fusiondirectory.1 dh-make-fusiondirectory.1 update-locale.1 update-online-help.1 update-pdf-help.1 fusiondirectory-encrypt-passwords.1
 do
 	gzip $x
 done
 
 # Copy manpages
 mv ./*.1.gz 			%{buildroot}/usr/share/man/man1/
-gzip -c contrib/gosa.1 > contrib/gosa.1.gz
-mv contrib/gosa.1.gz 		%{buildroot}/usr/share/man/man1/
+gzip -c contrib/fusiondirectory.1 > contrib/fusiondirectory.1.gz
+mv contrib/fusiondirectory.1.gz 		%{buildroot}/usr/share/man/man1/
 gzip -c contrib/fusiondirectory.conf.5 > contrib/fusiondirectory.conf.5.gz
 mv contrib/fusiondirectory.conf.5.gz 		%{buildroot}/usr/share/man/man5/
 
 mkdir -p %{buildroot}/usr/share/doc/fusiondirectory-%{version}
-rm -rf %{buildroot}/usr/share/gosa/contrib
+rm -rf %{buildroot}/usr/share/fusiondirectory/contrib
 
 ########################
 
@@ -253,7 +253,7 @@ rm -rf %{buildroot}
 ########################
 
 %post
-%{_sbindir}/update-gosa
+%{_sbindir}/update-fusiondirectory
 
 ########################
 
@@ -266,7 +266,7 @@ rm -rf %{buildroot}
 %postun
 # Remove temporary files, just to be sure
 [ -d /var/spool/fusiondirectory ] && rm -rf /var/spool/fusiondirectory ; exit 0
-[ -d /usr/share/gosa ] && rm -rf /usr/share/gosa ; exit 0
+[ -d /usr/share/fusiondirectory ] && rm -rf /usr/share/fusiondirectory ; exit 0
 
 ########################
 
@@ -276,32 +276,32 @@ rm -rf %{buildroot}
 %config %attr(-,root,root) /usr/share/doc/fusiondirectory/fusiondirectory.conf
 #%attr(-,root,root) /contrib/openldap
 %config %attr(-,root,root) /usr/share/doc/fusiondirectory/slapd.conf-example
-%attr(755,root,root) %{_sbindir}/update-gosa
-%attr(755,root,root) /usr/share/man/man1/gosa-encrypt-passwords.1.gz
-%attr(755,root,root) /usr/share/man/man1/update-gosa.1.gz
+%attr(755,root,root) %{_sbindir}/update-fusiondirectory
+%attr(755,root,root) /usr/share/man/man1/fusiondirectory-encrypt-passwords.1.gz
+%attr(755,root,root) /usr/share/man/man1/update-fusiondirectory.1.gz
 %attr(755,root,root) /usr/share/man/man5/fusiondirectory.conf.5.gz
-%attr(644,root,root) %{_sysconfdir}/gosa/shells
-%attr(644,root,root) %{_sysconfdir}/gosa/encodings
-%attr(755,root,root) %{_sbindir}/gosa-encrypt-passwords
-%config(noreplace) %attr(0644,root,root) %{webconf}/gosa-apache.conf
+%attr(644,root,root) %{_sysconfdir}/fusiondirectory/shells
+%attr(644,root,root) %{_sysconfdir}/fusiondirectory/encodings
+%attr(755,root,root) %{_sbindir}/fusiondirectory-encrypt-passwords
+%config(noreplace) %attr(0644,root,root) %{webconf}/fusiondirectory-apache.conf
 %attr(0700, %{apacheuser}, %{apachegroup}) /var/spool/fusiondirectory
-%attr(0755, root,root) /usr/share/gosa
-#%attr(0755, root,root) /usr/share/gosa/html
-#%attr(0755, root,root) /usr/share/gosa/ihtml
-#%attr(0755, root,root) /usr/share/gosa/include
-#%attr(0755, root,root) /usr/share/gosa/locale
-#%attr(0755, root,root) /usr/share/gosa/plugins
-#%attr(0755, root,root) /usr/share/gosa/setup
-%attr(0755, root,root) /usr/share/gosa/doc/core/guide.xml
-%attr(0755, root,root) /var/cache/gosa
-%attr(0700, root,root) %{_sysconfdir}/gosa/gosa.secrets
+%attr(0755, root,root) /usr/share/fusiondirectory
+#%attr(0755, root,root) /usr/share/fusiondirectory/html
+#%attr(0755, root,root) /usr/share/fusiondirectory/ihtml
+#%attr(0755, root,root) /usr/share/fusiondirectory/include
+#%attr(0755, root,root) /usr/share/fusiondirectory/locale
+#%attr(0755, root,root) /usr/share/fusiondirectory/plugins
+#%attr(0755, root,root) /usr/share/fusiondirectory/setup
+%attr(0755, root,root) /usr/share/fusiondirectory/doc/core/guide.xml
+%attr(0755, root,root) /var/cache/fusiondirectory
+%attr(0700, root,root) %{_sysconfdir}/fusiondirectory/fusiondirectory.secrets
 
 ########################
 
 %files dev
 %defattr(-,root,root)
 /usr/bin
-%attr(755,root,root) /usr/share/man/man1/dh-make-gosa.1.gz
+%attr(755,root,root) /usr/share/man/man1/dh-make-fusiondirectory.1.gz
 %attr(755,root,root) /usr/share/man/man1/update-locale.1.gz
 %attr(755,root,root) /usr/share/man/man1/update-online-help.1.gz
 %attr(755,root,root) /usr/share/man/man1/update-pdf-help.1.gz
@@ -310,51 +310,51 @@ rm -rf %{buildroot}
 
 %files desktop
 %defattr(-,root,root)
-%{_sysconfdir}/gosa
+%{_sysconfdir}/fusiondirectory
 /usr/bin
 /usr/share/pixmaps
 /usr/share/applications
-%attr(755,root,root) /usr/share/man/man1/gosa.1.gz
+%attr(755,root,root) /usr/share/man/man1/fusiondirectory.1.gz
 
 ########################
 
 %files schema
 %defattr(-,root,root)
 %doc COPYING AUTHORS README contrib/openldap
-%{_sysconfdir}/openldap/schema/gosa
+%{_sysconfdir}/openldap/schema/fusiondirectory
 
 ########################
 
 %files help-en
 %defattr(-,root,root)
-/usr/share/gosa/doc/core/en
+/usr/share/fusiondirectory/doc/core/en
 
 ########################
 
 %files help-de
 %defattr(-,root,root)
-/usr/share/gosa/doc/core/de
+/usr/share/fusiondirectory/doc/core/de
 
 ########################
 
 %files help-fr
 %defattr(-,root,root)
-/usr/share/gosa/doc/core/fr
+/usr/share/fusiondirectory/doc/core/fr
 
 ########################
 
 %files help-nl
 %defattr(-,root,root)
-/usr/share/gosa/doc/core/nl
+/usr/share/fusiondirectory/doc/core/nl
 
 ########################
 
 %files help-es
 %defattr(-,root,root)
-/usr/share/gosa/doc/core/es
+/usr/share/fusiondirectory/doc/core/es
 
 ########################
 
 %changelog
 * Fri Nov 17 2008 Stefan Japes <japes@GONICUS.de>
-- First build of GOsa 2.6 as an RPM, should work on SuSE and RedHat
+- First build of FusionDirectory 2.6 as an RPM, should work on SuSE and RedHat

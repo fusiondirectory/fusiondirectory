@@ -1,0 +1,15 @@
+Author: <cajus@debian.org>
+Description: Fix location of configuration template.
+Index: pkg/core/include/functions.inc
+===================================================================
+--- pkg.orig/core/include/functions.inc	2011-03-19 12:48:27.000000000 +0100
++++ pkg/core/include/functions.inc	2011-03-19 12:52:25.000000000 +0100
+@@ -44,7 +44,7 @@
+ }
+ 
+ /* Define common locations */
+-define ("CONFIG_TEMPLATE_DIR", "../contrib");
++define ("CONFIG_TEMPLATE_DIR", "/usr/share/doc/fusiondirectory");
+ define ("TEMP_DIR","/var/cache/fusiondirectory/tmp");
+ 
+ /* Define get_list flags */
