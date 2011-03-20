@@ -1,7 +1,7 @@
 Source: fusiondirectory
 Section: web
 Priority: optional
-Maintainer: FusionDirectory packages maintainers group <contact@fusiondirectory.org>
+Maintainer: FusionDirectory packages maintainers group <fusiondirectory-packages@lists.fusiondirectory.org>
 Uploaders: Benoit Mortier <benoit.mortier@opensides.be>
 Build-Depends: debhelper (>= 7.0.50~)
 Build-Depends-Indep: po-debconf
