@@ -28,8 +28,8 @@ update_strings              - Used to update the displayed step informations.
 initialize_checks           - Initialize migration steps.
 check_ldap_permissions      - Check if the used admin account has full access to the ldap database.
 check_gosaAccounts          - Check if there are users without the required objectClasses.
-migrate_gosaAccounts        - Migrate selected users to GOsa user accounts.
-check_organizationalUnits   - Check if there are departments, that are not visible for GOsa
+migrate_gosaAccounts        - Migrate selected users to FusionDirectory user accounts.
+check_organizationalUnits   - Check if there are departments, that are not visible for FusionDirectory
 migrate_organizationalUnits - Migrate selected departments 
 check_administrativeAccount - Check if there is at least one acl entry available                  
 checkBase                   - Check if there is a root object available 
@@ -125,7 +125,7 @@ class Step_Migrate extends setup_step
   {
     $this->s_title      = _("LDAP inspection");
     $this->s_title_long = _("LDAP inspection");
-    $this->s_info       = _("Analyze your current LDAP for GOsa compatibility");
+    $this->s_info       = _("Analyze your current LDAP for FusionDirectory compatibility");
   }
 
   function initialize_checks()
@@ -557,7 +557,7 @@ class Step_Migrate extends setup_step
     $testEntry['objectClass'][]= "top";
     $testEntry['objectClass'][]= "organizationalUnit";
     $testEntry['objectClass'][]= "gosaDepartment";
-    $testEntry['description']= "Created by GOsa setup, this object can be removed.";
+    $testEntry['description']= "Created by FusionDirectory setup, this object can be removed.";
     $testEntry['ou']  = $name;
 
     /* check if simple ldap cat will be successful 
@@ -607,7 +607,7 @@ class Step_Migrate extends setup_step
 
 
   /* Check if there are users which will 
-   *  be invisible for GOsa 
+   *  be invisible for FusionDirectory 
    */
   function check_gosaAccounts()
   {
@@ -658,7 +658,7 @@ class Step_Migrate extends setup_step
     }else{
       $this->checks['users_visible']['STATUS']    = FALSE;
       $this->checks['users_visible']['STATUS_MSG']= "<font style='color:#F0A500'>"._("Warning")."</font>";
-      $this->checks['users_visible']['ERROR_MSG'] = sprintf(_("Found %s user(s) that will not be visible in GOsa."), 
+      $this->checks['users_visible']['ERROR_MSG'] = sprintf(_("Found %s user(s) that will not be visible in FusionDirectory."), 
           count($this->users_to_migrate));
       $this->checks['users_visible']['ERROR_MSG'] .= "<input type='submit' name='users_visible_migrate' value='"._("Migrate")."...'>";
     }
@@ -736,7 +736,7 @@ class Step_Migrate extends setup_step
 
     $ldap = new ldapMultiplexer($ldap_l);
 
-    /* Skip GOsa internal departments */
+    /* Skip FusionDirectory internal departments */
     $skip_dns = array("/".$cv['peopleou']."/","/".$cv['groupou']."/","/^ou=people,/","/^ou=groups,/","/^ou=sudoers,/",
         "/(,|)ou=configs,/","/(,|)ou=systems,/",
         "/(,|)ou=apps,/","/(,|)ou=mime,/","/(,|)ou=devices/","/^ou=aclroles,/","/^ou=incoming,/",
@@ -761,7 +761,7 @@ class Step_Migrate extends setup_step
     }
 
     /* Filter returned list of departments and ensure that 
-     *  GOsa internal departments will not be listed 
+     *  FusionDirectory internal departments will not be listed 
      */
     foreach($this->deps_to_migrate as $key => $attrs){
       $dn = $attrs['dn'];
@@ -801,7 +801,7 @@ class Step_Migrate extends setup_step
     }else{
       $this->checks['deps_visible']['STATUS']    = TRUE;
       $this->checks['deps_visible']['STATUS_MSG']= '<font style="color:#FFA500">'._("Warning").'</font>';
-      $this->checks['deps_visible']['ERROR_MSG'] = sprintf(_("Found %s department(s) that will not be visible in GOsa."),count($this->deps_to_migrate));
+      $this->checks['deps_visible']['ERROR_MSG'] = sprintf(_("Found %s department(s) that will not be visible in FusionDirectory."),count($this->deps_to_migrate));
       $this->checks['deps_visible']['ERROR_MSG'] .= "&nbsp;<input type='submit' name='deps_visible_migrate' value='"._("Migrate")."...'>";
     }
   }
@@ -897,7 +897,7 @@ class Step_Migrate extends setup_step
       $username = "";
       $attrs = $ldap->fetch();
 
-      /* Collect a list of available GOsa users and groups 
+      /* Collect a list of available FusionDirectory users and groups 
        */
       $users = array();
       $ldap->search("(&(objectClass=gosaAccount)(objectClass=person)".
@@ -912,7 +912,7 @@ class Step_Migrate extends setup_step
         $groups[$group_attrs['dn']] = $group_attrs['cn'][0];
       }
       
-      /* Check if a valid GOsa 2.6 admin exists 
+      /* Check if a valid FusionDirectory 1.0 admin exists 
           -> gosaAclEntry for an existing and accessible user.
        */
       $valid_users = "";
@@ -954,7 +954,7 @@ class Step_Migrate extends setup_step
             }
           }elseif($tmp[1] == "role"){
 
-            /* Check if acl owner is a valid GOsa user account */
+            /* Check if acl owner is a valid FusionDirectory user account */
             $ldap->cat(base64_decode($tmp[2]),array("gosaAclTemplate"));
             $ret = $ldap->fetch();
 
@@ -997,7 +997,7 @@ class Step_Migrate extends setup_step
         }
       }
 
-      /* Try to find an old GOsa 2.5 administrative account that may be migrated 
+      /* Try to find an old FusionDirectory 2.5 administrative account that may be migrated 
        */
       if(!$GOsa_26_found){
         $valid_users = "";
@@ -1025,12 +1025,12 @@ class Step_Migrate extends setup_step
       if($GOsa_25_found){
         $str = "";
         if(!empty($valid_groups)){
-          $str.= "<i>".sprintf(_("GOsa 2.5 administrative accounts found: %s"),trim($valid_groups,", "))."</i><br>";
+          $str.= "<i>".sprintf(_("FusionDirectory 2.5 administrative accounts found: %s"),trim($valid_groups,", "))."</i><br>";
         }
         $this->checks['acls']['STATUS']    = FALSE;
         $this->checks['acls']['STATUS_MSG']= _("Failed");
         $this->checks['acls']['ERROR_MSG'] = $str;
-        $this->checks['acls']['ERROR_MSG'].= _("There is no valid GOsa 2.6 administrator account inside your LDAP.")."&nbsp;";
+        $this->checks['acls']['ERROR_MSG'].= _("There is no valid FusionDirectory 1.0 administrator account inside your LDAP.")."&nbsp;";
         $this->checks['acls']['ERROR_MSG'].= "<input type='submit' name='migrate_acls' value='"._("Migrate")."'>";
         $this->checks['acls']['ERROR_MSG'].= "<input type='submit' name='create_acls' value='"._("Create")."'>";
       }elseif($GOsa_26_found){
@@ -1047,7 +1047,7 @@ class Step_Migrate extends setup_step
       }else{
         $this->checks['acls']['STATUS']    = FALSE;
         $this->checks['acls']['STATUS_MSG']= _("Failed");
-        $this->checks['acls']['ERROR_MSG']= _("There is no GOsa administrator account inside your LDAP.")."&nbsp;";
+        $this->checks['acls']['ERROR_MSG']= _("There is no FusionDirectory administrator account inside your LDAP.")."&nbsp;";
         $this->checks['acls']['ERROR_MSG'].= "<input type='submit' name='create_acls' value='"._("Create")."'>";
       }
     }
@@ -2082,7 +2082,7 @@ class Step_Migrate extends setup_step
         }
 
         /* Create 'current' and 'target' object properties, to be able to display 
-         *  a set of modifications required to create a valid GOsa department.
+         *  a set of modifications required to create a valid FusionDirectory department.
          */	
         $str = "dn: ".$cv['base']."\n";
         for($i = 0 ; $i<$attrs['objectClass']['count'];$i++){

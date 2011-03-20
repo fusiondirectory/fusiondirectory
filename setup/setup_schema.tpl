@@ -32,7 +32,7 @@
 			<br>
 			{if !$database_initialised}
 			<br>
-				{t}It seems that your ldap database wasn't initialized yet. This maybe the reason, why GOsa can't read your schema configuration!{/t}
+				{t}It seems that your ldap database wasn't initialized yet. This maybe the reason, why FusionDirectory can't read your schema configuration!{/t}
 			{/if}
 		{else}
 			{foreach from=$checks item=val key=key}

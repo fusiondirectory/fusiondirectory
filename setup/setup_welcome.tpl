@@ -1,7 +1,7 @@
 <div>
     <div class='default'>
 	<p>
-	{t}This seems to be the first time you start GOsa - we didn't find any configuration right now. This simple wizard intends to help you while setting it up.{/t}
+	{t}This seems to be the first time you start FusionDirectory - we didn't find any configuration right now. This simple wizard intends to help you while setting it up.{/t}
 	</p>
 	
 	<p style='border-top:1px solid #AAAAAA; padding-top:10px;'>

@@ -70,7 +70,7 @@ class Step_Checks extends setup_step
 
     /* Checking imap extension */
     $N = msgPool::checkingFor("LDAP");
-    $D = _("GOsa requires this module to talk with your LDAP server.");
+    $D = _("FusionDirectory requires this module to talk with your LDAP server.");
     $S = msgPool::installPhpModule("LDAP");
     $R = is_callable("ldap_bind");
     $M = TRUE;
@@ -78,7 +78,7 @@ class Step_Checks extends setup_step
 
     /* Check for gettext support */
     $N = msgPool::checkingFor("gettext");
-    $D = _("GOsa requires this module for an internationalized interface.");
+    $D = _("FusionDirectory requires this module for an internationalized interface.");
     $S = msgPool::installPhpModule("gettext");
     $R = is_callable("bindtextdomain");
     $M = TRUE;
@@ -86,7 +86,7 @@ class Step_Checks extends setup_step
 
     /* Checing for iconv */
     $N = msgPool::checkingFor("inconv");
-    $D = _("GOsa requires this module for the samba integration.");
+    $D = _("FusionDirectory requires this module for the samba integration.");
     $S = msgPool::installPhpModule("iconv");
     $R = is_callable("iconv");
     $M = TRUE;
@@ -94,7 +94,7 @@ class Step_Checks extends setup_step
 
     /* Check for installed mhash module */
     $N = msgPool::checkingFor("hash method");
-    $D = _("GOsa requires either 'mhash' or the 'sha1' module to make use of SSHA encryption.");
+    $D = _("FusionDirectory requires either 'mhash' or the 'sha1' module to make use of SSHA encryption.");
     $S = msgPool::installPhpModule("mhash/sha1");
     $R = is_callable('mhash') || is_callable('sha1');
     $M = FALSE;
@@ -102,7 +102,7 @@ class Step_Checks extends setup_step
 
     /* Is imap module available */
     $N = msgPool::checkingFor("IMAP");
-    $D = _("GOsa requires this module to talk to an IMAP server.");
+    $D = _("FusionDirectory requires this module to talk to an IMAP server.");
     $S = msgPool::installPhpModule("IMAP");
     $R = is_callable("imap_open");
     $M = TRUE;
@@ -110,7 +110,7 @@ class Step_Checks extends setup_step
 
     /* Is imap module available */
     $N = msgPool::checkingFor(_("mbstring"));
-    $D = _("GOsa requires this module to handle unicode strings.");
+    $D = _("FusionDirectory requires this module to handle unicode strings.");
     $S = msgPool::installPhpModule("mbstring");
     $R = is_callable("mb_strlen");
     $M = TRUE;
@@ -118,7 +118,7 @@ class Step_Checks extends setup_step
 
     /* Mysql module loaded ? */
     $N = msgPool::checkingFor(_("MySQL"));
-    $D = _("GOsa requires this module to communicate with several supported databases.");
+    $D = _("FusionDirectory requires this module to communicate with several supported databases.");
     $S = msgPool::installPhpModule("MySQL");
     $R = is_callable("mysql_query");
     $M = TRUE;
@@ -136,7 +136,7 @@ class Step_Checks extends setup_step
     }
 
     $N = msgPool::checkingFor(_("samba hash generator"));
-    $D = _("GOsa requires this command to synchronize POSIX and samba passwords.");
+    $D = _("FusionDirectory requires this command to synchronize POSIX and samba passwords.");
     $S = _("Deploy a goto-si installation or install the perl Crypt::SmbHash modules.");
     $R = $have_mkntpwd;
     $M = TRUE;
@@ -151,7 +151,7 @@ class Step_Checks extends setup_step
     pclose($sh);
 
     $N = msgPool::checkingFor(_("imagick"));
-    $D = _("GOsa requires this extension to handle images.");
+    $D = _("FusionDirectory requires this extension to handle images.");
     $S = msgPool::installPhpModule("php5-imagick");
 
     $IMGVER = phpversion('imagick');
@@ -167,7 +167,7 @@ class Step_Checks extends setup_step
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     $N = msgPool::checkingFor(_("compression module"));
-    $D = _("GOsa requires this extension to handle snapshots.");
+    $D = _("FusionDirectory requires this extension to handle snapshots.");
     $S = msgPool::installPhpModule("compile with --with-zlib");
     $R = is_callable("gzcompress");
     $M = FALSE;
@@ -197,7 +197,7 @@ class Step_Checks extends setup_step
     /* Session auto start must be turned off */
     $session_auto_start = ini_get('session.auto_start');
     $N = "session.auto_start = <b>"._("Off")."</b>";
-    $D = _("In Order to use GOsa without any trouble, the session.auto_register option in your php.ini should be set to 'Off'.");
+    $D = _("In Order to use FusionDirectory without any trouble, the session.auto_register option in your php.ini should be set to 'Off'.");
     $S = _("Search for 'session.auto_start' in your php.ini and set it to 'Off'.");
     $R = !$session_auto_start['local_value'];
     $M = TRUE;
@@ -205,7 +205,7 @@ class Step_Checks extends setup_step
 
     /* Check if memory limit is set to 32 or > */
     $N = "memory_limit &gt;= <b>32</b>";
-    $D = _("GOsa needs at least 32MB of memory. Setting it below this limit may cause errors that are not reproducable! Increase it for larger setups.");
+    $D = _("FusionDirectory needs at least 32MB of memory. Setting it below this limit may cause errors that are not reproducable! Increase it for larger setups.");
     $S = _("Search for 'memory_limit' in your php.ini and set it to '32M' or higher.");
     $R = ini_get('memory_limit') >= 32 ;
     $M = TRUE;
@@ -258,7 +258,7 @@ class Step_Checks extends setup_step
     /* Check if we can create a config file.*/
     $N = _("Configuration writeable");
     $D = _("The configuration file can't be written");
-    $S = sprintf(_("GOsa reads its configuration from a file located in (%s/%s). The setup can write the configuration directly if it is writeable."),CONFIG_DIR,CONFIG_FILE); 
+    $S = sprintf(_("FusionDirectory reads its configuration from a file located in (%s/%s). The setup can write the configuration directly if it is writeable."),CONFIG_DIR,CONFIG_FILE); 
     $R =    ( file_exists(CONFIG_DIR."/".CONFIG_FILE) && is_writeable(CONFIG_DIR."/".CONFIG_FILE)) // is there a config file ? 
         ||  (!file_exists(CONFIG_DIR."/".CONFIG_FILE) && is_writeable(CONFIG_DIR));  // There is non, but can we create a file there ?
     $M = FALSE;
@@ -287,7 +287,7 @@ class Step_Checks extends setup_step
  
 
   /* Check if current PHP version is compatible 
-      with the current version of GOsa */
+      with the current version of FusionDirectory */
   function check_php_version()
   {
     return(version_compare(phpversion(),"5.2.0",">=")); 

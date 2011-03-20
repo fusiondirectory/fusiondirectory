@@ -31,7 +31,7 @@ class Step_Config2 extends setup_step
   var $mail           = "none";
   var $mail_attrib    = "";
   var $mail_methods   = array();
-  var $mail_settings = array("vacationdir"        => "/etc/gosa/vacation",
+  var $mail_settings = array("vacationdir"        => "/etc/fusiondirectory/vacation",
                              "vacationdir_active" => FALSE);
 
   var $generic_settings  = array( "enableCopyPaste" => false,
@@ -78,8 +78,8 @@ class Step_Config2 extends setup_step
  
   function update_strings()
   {
-    $this->s_title      = _("GOsa settings 2/3");
-    $this->s_title_long = _("GOsa settings 2/3");
+    $this->s_title      = _("FusionDirectory settings 2/3");
+    $this->s_title_long = _("FusionDirectory settings 2/3");
     $this->s_info       = _("Customize special parameters");
   }
 

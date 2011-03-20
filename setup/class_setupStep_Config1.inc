@@ -71,9 +71,9 @@ class Step_Config1 extends setup_step
 
   function update_strings()
   {
-    $this->s_title      = _("GOsa settings 1/3");
-    $this->s_title_long = _("GOsa settings 1/3");
-    $this->s_info       = _("GOsa generic settings");
+    $this->s_title      = _("FusionDirectory settings 1/3");
+    $this->s_title_long = _("FusionDirectory settings 1/3");
+    $this->s_info       = _("FusionDirectory generic settings");
   }
 
   

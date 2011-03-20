@@ -1,5 +1,5 @@
 <div class='default' style='margin:12px; '>
-     <p><b>{t}GOsa core settings{/t}</b></p>
+     <p><b>{t}FusionDirectory core settings{/t}</b></p>
 
     <div class='step4_container'>
         <div class='step4_name'>
@@ -171,34 +171,34 @@
 
     <div class='step4_container'>
         <div class='step4_name'>
-            {t}Gosa support daemon{/t}
+            {t}GOto-SI daemon{/t}
         </div>
         <div class='step4_value'>
-            {if $optional.gosaSupportURI_active == FALSE}
-                <input type='checkbox' value='1' name='gosaSupportURI_active'
-                  onClick='changeState("gosaSupportURI");changeState("gosaSupportTimeout");'>
-                <input size=40 id='gosaSupportURI' name='gosaSupportURI' 
-				        	type='text' value='{$optional.gosaSupportURI}' disabled>
+            {if $optional.goto-si-URI_active == FALSE}
+                <input type='checkbox' value='1' name='goto-si-URI_active'
+                  onClick='changeState("goto-si-URI");changeState("goto-si-Timeout");'>
+                <input size=40 id='goto-si-URI' name='goto-si-URI' 
+				        	type='text' value='{$optional.goto-si-URI}' disabled>
             {else}
-                <input type='checkbox' value='1' name='gosaSupportURI_active' checked 
-					        onClick='changeState("gosaSupportURI");changeState("gosaSupportTimeout");'>
-                <input size=40 id='gosaSupportURI' name='gosaSupportURI' 
-        					type='text' value='{$optional.gosaSupportURI}'  >
+                <input type='checkbox' value='1' name='goto-si-URI_active' checked 
+					        onClick='changeState("goto-si-URI");changeState("goto-si-Timeout");'>
+                <input size=40 id='goto-si-URI' name='goto-si-URI' 
+        					type='text' value='{$optional.goto-si-URI}'  >
             {/if}
         </div>
     </div>
 
     <div class='step4_container'>
         <div class='step4_name'>
-            {t}Daemon timeout{/t}
+            {t}GOto-si daemon timeout{/t}
         </div>
         <div class='step4_value'>
-            {if $optional.gosaSupportURI_active == FALSE}
-                <input size=40 id='gosaSupportTimeout' name='gosaSupportTimeout' 
-				        	type='text' value='{$optional.gosaSupportTimeout}' disabled>
+            {if $optional.goto-si-URI_active == FALSE}
+                <input size=40 id='goto-si-Timeout' name='goto-si-Timeout' 
+				        	type='text' value='{$optional.goto-si-Timeout}' disabled>
             {else}
-                <input size=40 id='gosaSupportTimeout' name='gosaSupportTimeout' 
-        					type='text' value='{$optional.gosaSupportTimeout}'  >
+                <input size=40 id='goto-si-Timeout' name='goto-si-Timeout' 
+        					type='text' value='{$optional.goto-si-Timeout}'  >
             {/if}
         </div>
     </div>

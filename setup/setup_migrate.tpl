@@ -2,7 +2,7 @@
     <div class='default'>
 
 	{if $method == "default"}
-			<p>{t}During the LDAP inspection, we're going to check for several common pitfalls that may occur when migration to GOsa base LDAP administration. You may want to fix the problems below, in order to provide smooth services.{/t}
+			<p>{t}During the LDAP inspection, we're going to check for several common pitfalls that may occur when migration to FusionDirectory base LDAP administration. You may want to fix the problems below, in order to provide smooth services.{/t}
 			</p>
 
 			{foreach from=$checks item=val key=key}
@@ -92,7 +92,7 @@
 			<input type='checkbox' id='toggle_calue' onClick="toggle_all_('^select_winstation_','toggle_calue')">
 			{t}Select all{/t}
 			<p>
-			<b>{t}Move selected windows workstations into the following GOsa department{/t} : </b>
+			<b>{t}Move selected windows workstations into the following FusionDirectory department{/t} : </b>
 			<select name='move_winstation_to'>
 				{html_options options=$ous}
 			</select>
@@ -116,7 +116,7 @@
                         {t}This dialog allows moving a couple of groups to the configured group tree. Doing this may straighten your LDAP service.{/t}
                         </p>
                         <p style='color:red'>
-                        {t}Be careful with this option! There may be references pointing to these groups. The GOsa setup can't migrate references, so you may want to cancel the migration in this case.{/t}
+                        {t}Be careful with this option! There may be references pointing to these groups. The FusionDirectory setup can't migrate references, so you may want to cancel the migration in this case.{/t}
                         </p>
 			<p>
 			{t}Move selected groups into this group tree{/t}: 
@@ -170,7 +170,7 @@
 			{t}This dialog allows moving a couple of users to the configured user tree. Doing this may straighten your LDAP service.{/t}
 			</p>
 			<p style='color:red'>
-			{t}Be careful with this option! There may be references pointing to these users. The GOsa setup can't migrate references, so you may want to cancel the migration in this case.{/t}
+			{t}Be careful with this option! There may be references pointing to these users. The FusionDirectory setup can't migrate references, so you may want to cancel the migration in this case.{/t}
 			</p>	
 			<p>
 			{t}Move selected users into this people tree{/t}: 
@@ -218,7 +218,7 @@
 		{elseif $method == "migrate_acls"}
 			<h2>{t}Migrate GOsa 2.5 administrative accounts{/t}</h2>
             <p>
-            {t}This dialog allows the migration of GOsa 2.5 admin accounts into GOsa 2.6 useable accounts.{/t}
+            {t}This dialog allows the migration of GOsa 2.5 admin accounts into FusionDirectory 1.0 useable accounts.{/t}
             </p>
 			<table>	
 				<tr>	
@@ -272,7 +272,7 @@
 			<input type='submit' name='create_acls_create_confirmed' value='{t}Next{/t}'>
 			<input type='submit' name='create_acls_create_abort' value='{t}Abort{/t}'>
 		{else}
-			<h2>{t}Create a new GOsa administrator account{/t}</h2>
+			<h2>{t}Create a new FusionDirectory administrator account{/t}</h2>
 	
 			<p>
 			{t}This dialog will automatically add a new super administrator to your LDAP tree.{/t}
@@ -330,7 +330,7 @@
 	
 			<h2>Department migration</h2>
 
-			<p>{t}The listed departments are currently invisible in the GOsa user interface. If you want to change this for a couple of entries, select them and use the migrate button below.{/t}</p>
+			<p>{t}The listed departments are currently invisible in the FusionDirectory user interface. If you want to change this for a couple of entries, select them and use the migrate button below.{/t}</p>
 			<p>{t}If you want to know what will be done when migrating the selected entries, use the 'Show changes' button to see the LDIF.{/t}</p>
 					
 			{foreach from=$deps_to_migrate item=val key=key}
@@ -385,7 +385,7 @@ dn: {$deps_to_migrate.$key.dn}
 	
 			<h2>User migration</h2>
 
-			<p>{t}The listed users are currently invisible in the GOsa user interface. If you want to change this for a couple of users, just select them and use the 'Migrate' button below.{/t}</p>
+			<p>{t}The listed users are currently invisible in the FusionDirectory user interface. If you want to change this for a couple of users, just select them and use the 'Migrate' button below.{/t}</p>
 			<p>{t}If you want to know what will be done when migrating the selected entries, use the 'Show changes' button to see the LDIF.{/t}</p>
 			{foreach from=$users_to_migrate item=val key=key}
 
@@ -441,7 +441,7 @@ dn: {$users_to_migrate.$key.dn}
 
 			<h2>Devices</h2>
 
-			<p>{t}The listed devices are currently invisible in the GOsa interface. If you want to change this for a couple of devices, just select them and use the 'Migrate' button below.{/t}</p>
+			<p>{t}The listed devices are currently invisible in the FusionDirectory interface. If you want to change this for a couple of devices, just select them and use the 'Migrate' button below.{/t}</p>
 			<p>{t}If you want to know what will be done when migrating the selected entries, use the 'Show changes' button to see the LDIF.{/t}</p>
 		{foreach from=$devices item=item key=key}
            	<input type='checkbox' name='migrate_{$key}' id='migrate_{$key}' {if $item.DETAILS} checked {/if}>
@@ -485,7 +485,7 @@ dn: {$users_to_migrate.$key.dn}
 
 			<h2>Services</h2>
 
-			<p>{t}The listed services are currently invalid for the GOsa version you are going to install. If you want to update a couple of service, just select them and use the 'Migrate' button below.{/t}</p>
+			<p>{t}The listed services are currently invalid for the FusionDirectory version you are going to install. If you want to update a couple of service, just select them and use the 'Migrate' button below.{/t}</p>
 			<p>{t}If you want to know what will be done when migrating the selected entries, use the 'Show changes' button to see the LDIF.{/t}</p>
 		{foreach from=$services item=item key=key}
            	<input type='checkbox' name='migrate_{$key}' id='migrate_{$key}' {if $item.DETAILS} checked {/if}>
@@ -529,7 +529,7 @@ dn: {$users_to_migrate.$key.dn}
 
 			<h2>Application menus</h2>
 
-			<p>{t}The listed menus are currently invisible in the GOsa interface. If you want to change this for a couple of devices, just select them and use the 'Migrate' button below.{/t}</p>
+			<p>{t}The listed menus are currently invisible in the FusionDirectory interface. If you want to change this for a couple of devices, just select them and use the 'Migrate' button below.{/t}</p>
 			<p>{t}If you want to know what will be done when migrating the selected entries, use the 'Show changes' button to see the LDIF.{/t}</p>
 		{foreach from=$menus item=item key=key}
            	<input type='checkbox' name='migrate_{$key}' id='migrate_{$key}' {if $item.DETAILS} checked {/if}>

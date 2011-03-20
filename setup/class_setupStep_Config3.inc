@@ -54,9 +54,9 @@ class Step_Config3 extends setup_step
               "notifydir" => "",
               "notifydir_active" => FALSE,
 
-              "gosaSupportURI" => "gosa-si-secret@server:20081",
-              "gosaSupportTimeout" => 15,
-              "gosaSupportURI_active" => FALSE,
+              "goto-si-URI" => "goto-si-secret@server:20081",
+              "goto-si-Timeout" => 15,
+              "goto-si-URI_active" => FALSE,
 
               "uniq_identifier" => "entryCSN",
               "uniq_identifier_active" => TRUE,
@@ -176,14 +176,14 @@ class Step_Config3 extends setup_step
         $this->optional['notifydir_active'] = FALSE;
       }
 
-      if(isset($_POST['gosaSupportURI_active'])){
-        $this->optional['gosaSupportURI_active'] = TRUE;
-        if(isset($_POST['gosaSupportURI'])){
-          $this->optional['gosaSupportURI'] = get_post('gosaSupportURI');
-          $this->optional['gosaSupportTimeout'] = get_post('gosaSupportTimeout');
+      if(isset($_POST['goto-si-URI_active'])){
+        $this->optional['goto-si-URI_active'] = TRUE;
+        if(isset($_POST['goto-si-URI'])){
+          $this->optional['goto-si-URI'] = get_post('goto-si-URI');
+          $this->optional['goto-si-Timeout'] = get_post('goto-si-Timeout');
         }
       }else{
-        $this->optional['gosaSupportURI_active'] = FALSE;
+        $this->optional['goto-si-URI_active'] = FALSE;
       }
 
       if(isset($_POST['uniq_identifier_active'])){

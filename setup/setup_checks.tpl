@@ -38,11 +38,11 @@
 					{if $basic[$key].MUST}
 						<div class='step2_failed_text' style="background-image: url('images/small_error.png')">
 						{$basic[$key].SOLUTION}
-						<b>{t}GOsa will NOT run without fixing this.{/t}</b>
+						<b>{t}FusionDirectory will NOT run without fixing this.{/t}</b>
 					{else}
 						<div class="step2_warning_text" style="background-image: url('images/small_warning.png')">
 						{$basic[$key].SOLUTION}
-						<b>{t}GOsa will run without fixing this.{/t}</b>
+						<b>{t}FusionDirectory will run without fixing this.{/t}</b>
 					{/if}
 					</div>
 				</div>
@@ -100,11 +100,11 @@
 					{if $config[$key].MUST}
 						<div class='step2_failed_text' style="background-image: url('images/small_error.png')">
 						{$config[$key].SOLUTION}
-						<b>{t}GOsa will NOT run without fixing this.{/t}</b>
+						<b>{t}FusionDirectory will NOT run without fixing this.{/t}</b>
 					{else}
 						<div class='step2_warning_text' style="background-image: url('images/small_warning.png')">
 						{$config[$key].SOLUTION}
-						<b>{t}GOsa will run without fixing this.{/t}</b>
+						<b>{t}FusionDirectory will run without fixing this.{/t}</b>
 					{/if}
 					</div>
 				</div>

@@ -52,7 +52,7 @@ class Step_Ldap extends setup_step
   {
     $this->s_title      = _("LDAP setup");
     $this->s_title_long = _("LDAP connection setup");
-    $this->s_info       = _("This dialog performs the basic configuration of the LDAP connectivity for GOsa.");
+    $this->s_info       = _("This dialog performs the basic configuration of the LDAP connectivity for FusionDirectory.");
   }
   
   

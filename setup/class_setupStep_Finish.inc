@@ -64,7 +64,7 @@ class Step_Finish extends setup_step
      */
     $exists = file_exists(CONFIG_DIR."/".CONFIG_FILE); 
 
-    /* Redirect to GOsa login, if : 
+    /* Redirect to FusionDirectory login, if : 
      *   - fusiondirectory.conf exists
      *   - Permisssion are set correctly 
      */ 

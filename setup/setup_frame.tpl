@@ -5,11 +5,11 @@
 <input id='focus' name='focus' type='image' src='images/empty.png' style='width:0px; height:0px;' >
 <div class='setup_dialog'>
 	<div class='setup_header'>
-		<div style="float:left;"><img src='themes/default/images/go_logo.png' class='center' alt='GOsa'></div>
+		<div style="float:left;"><img src='themes/default/images/go_logo.png' class='center' alt='FusionDirectory'></div>
 		<div style="padding-top:8px;text-align:right;height:28px">{$version}</div>
 	</div>
 	<div class='setup_menu'>
-		<b>{t}GOsa setup wizard{/t}</b>
+		<b>{t}FusionDirectory setup wizard{/t}</b>
 	</div>
 
 	<div style="padding:10px;background-color:white;">

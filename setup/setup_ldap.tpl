@@ -4,7 +4,7 @@
 
 	<div style='float:left; width:99%; margin-bottom:20px;'>
 		<p>
-		<b>{t}Please choose the LDAP user to be used by GOsa{/t}</b>
+		<b>{t}Please choose the LDAP user to be used by FusionDirectory{/t}</b>
 		</p>
 		<select name='admin_to_use' size=20 style="width:100%; margin-bottom:10px;">				
 			{html_options options=$resolved_users selected=$admin}

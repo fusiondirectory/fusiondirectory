@@ -12,11 +12,8 @@
 	<h2>{$additional_info}</h2>
 
 	<h2>
-		<input {if $subscribe} checked {/if} type='checkbox' name='subscribe' value='1' class='center'>&nbsp;{t}Subscribe to the gosa-announce mailinglist{/t}
+		<input {if $subscribe} checked {/if} type='checkbox' name='subscribe' value='1' class='center'>&nbsp;{t}Subscribe to the fusiondirectory-users mailinglist{/t}
 	</h2>
-	<p>
-	{t}When checking this option, GOsa will try to connect http://oss.gonicus.de in order to subscribe you to the gosa-announce mailing list. You've to confirm this by mail.{/t}
-	</p>
 	<table>	
 		<tr>
 			<td>
@@ -47,10 +44,10 @@
 
 	<p>&nbsp;</p>
 	<h2>
-  		<input {if $use_gosa_announce} checked {/if} type='checkbox' name='use_gosa_announce' value='1' class='center'>&nbsp;{t}Send feedback to the GOsa project team{/t}
+  		<input {if $use_gosa_announce} checked {/if} type='checkbox' name='use_gosa_announce' value='1' class='center'>&nbsp;{t}Send feedback to the FusionDirectory project team{/t}
 	</h2>
 	<p>
-	{t}When checking this option, GOsa will try to connect http://oss.gonicus.de in order to submit your form anonymously.{/t}
+	{t}When checking this option, FusionDirectory will try to connect http://oss.gonicus.de in order to submit your form anonymously.{/t}
 	</p>
 	<b>{t}Generic{/t}</b>
 	<table>	
@@ -74,14 +71,14 @@
 		</tr>
 		<tr>
 			<td style='vertical-align:top'>
-				{t}Is this the first time you use GOsa?{/t}
+				{t}Is this the first time you use FusionDirectory?{/t}
 			</td>
 			<td>
 				<input {if $first_use} checked {/if} type='radio' name='first_use' value='1'>{t}Yes{/t}
 				<br>
 				<input {if !$first_use} checked {/if} type='radio' name='first_use' value='0'>{t}No{/t},
 				{t}I use it since{/t}
-				<select name='use_since' title='{t}Select the year since when you are using GOsa{/t}'> 
+				<select name='use_since' title='{t}Select the year since when you are using FusionDirectory{/t}'> 
 					{html_options options=$years}
 				</select>
 			</td>	
@@ -112,7 +109,7 @@
 		</tr>
 		<tr>
 			<td style='vertical-align:top'>
-				{t}GOsa version{/t}</td>
+				{t}FusionDirectory version{/t}</td>
 			</td>
 			<td>
 				{$gosa_version}
@@ -140,7 +137,7 @@
 	<br><b>{t}Features{/t}</b>
 	<table>
 		<tr>
-			<td style='vertical-align:top'>{t}What features of GOsa do you use?{/t}
+			<td style='vertical-align:top'>{t}What features of FusionDirectory do you use?{/t}
 			</td>
 			<td>
 				{foreach from=$features_used item=data key=key}
@@ -150,7 +147,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td style="vertical-align:top">{t}What features do you want to see in future versions of GOsa?{/t}
+			<td style="vertical-align:top">{t}What features do you want to see in future versions of FusionDirectory?{/t}
 			</td>
 			<td><textarea name='want_to_see_next' cols=50 rows=3>{$want_to_see_next}</textarea>
 			</td>

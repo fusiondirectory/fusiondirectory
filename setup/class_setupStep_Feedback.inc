@@ -249,7 +249,7 @@ class Step_Feedback  extends setup_step
       }else{
         $str .= "\nFirst use: FALSE";
       }
-      $str .= "\nUsing GOsa since: ".$this->use_since;
+      $str .= "\nUsing FusionDirectory since: ".$this->use_since;
 
       $str .="\nDistribution: ".$this->distribution;
       $str .="\nWeb Server: ".$this->web_server;

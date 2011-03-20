@@ -218,8 +218,8 @@
 
 <input type='hidden' value='1' name='step5_posted'>
 <!--
-         {t}GOsa supports several encryption types for your passwords. Normally this is adjustable via user templates, but you can specify a default method to be used here, too.{/t}
-         {t}GOsa always acts as admin and manages access rights internally. This is a workaround till OpenLDAP's in directory ACI's are    fully implemented. For this to work, we need the admin DN and the corresponding password.{/t}
-         {t}Some basic LDAP parameters are tunable and affect the locations where GOsa saves people and groups, including the way accounts get created. Check the values below if the fit your needs.{/t}
-         {t}GOsa has modular support for several mail methods. These methods provide interfaces to users mailboxes and general handling    for quotas. You can choose the dummy plugin to leave all your mail settings untouched.{/t}-->
+         {t}FusionDirectory supports several encryption types for your passwords. Normally this is adjustable via user templates, but you can specify a default method to be used here, too.{/t}
+         {t}FusionDirectory always acts as admin and manages access rights internally. This is a workaround till OpenLDAP's in directory ACI's are    fully implemented. For this to work, we need the admin DN and the corresponding password.{/t}
+         {t}Some basic LDAP parameters are tunable and affect the locations where FusionDirectory saves people and groups, including the way accounts get created. Check the values below if the fit your needs.{/t}
+         {t}FusionDirectory has modular support for several mail methods. These methods provide interfaces to users mailboxes and general handling    for quotas. You can choose the dummy plugin to leave all your mail settings untouched.{/t}-->
 

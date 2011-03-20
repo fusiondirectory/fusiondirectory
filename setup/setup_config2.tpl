@@ -93,7 +93,7 @@
     </div>
 
 
-    <p><b>{t}Additional GOsa settings{/t}</b></p>
+    <p><b>{t}Additional FusionDirectory settings{/t}</b></p>
 
 	<div class='step4_container'>
         <div class='step4_name'>
@@ -120,7 +120,7 @@
 
     <div class='step4_container'>
         <div class='step4_name'>
-            {t}GOsa logging{/t}
+            {t}FusionDirectory logging{/t}
         </div>
         <div class='step4_value'>
           {if $logging} 
