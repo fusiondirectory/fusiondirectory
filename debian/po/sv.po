@@ -1,15 +1,15 @@
-# translation of gosa_2.5.16.1-3_sv.po to Swedish
-# GOsa desktop file installer.
+# translation of FusionDirectory to Swedish
+# FusionDirectory desktop file installer.
 # Copyright (C) 2007 Cajus Pollmeier <cajus@debian.org>
-# This file is distributed under the same license as the gosa-desktop package.
+# This file is distributed under the same license as the FusionDirectory-desktop package.
 #
 # Cajus Pollmeier <cajus@debian.org>, 2007.
 # Martin Ågren <martin.agren@gmail.com>, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: gosa_2.5.16.1-3_sv\n"
-"Report-Msgid-Bugs-To: cajus@debian.org\n"
-"POT-Creation-Date: 2007-06-27 10:59+0200\n"
+"Project-Id-Version: FusionDirectory 1.0\n"
+"Report-Msgid-Bugs-To: fusiondirectory-packages@lists.fusiondirectory.org\n"
+"POT-Creation-Date: 2011-03-21 00:20+0100\n"
 "PO-Revision-Date: 2008-07-23 20:47+0200\n"
 "Last-Translator: Martin Ågren <martin.agren@gmail.com>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
@@ -21,23 +21,24 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../gosa-desktop.templates:1001
-msgid "URL to your GOsa installation:"
-msgstr "URL till din GOsa-installation:"
+#: ../fusiondirectory-desktop.templates:1001
+#, fuzzy
+msgid "URL to your FusionDirectory installation:"
+msgstr "URL till din FusionDirectory-installation:"
 
 #. Type: string
 #. Description
-#: ../gosa-desktop.templates:1001
+#: ../fusiondirectory-desktop.templates:1001
+#, fuzzy
 msgid ""
-"The gosa start script can automatically point your browser to a system wide "
-"default location of your GOsa instance."
+"The FusionDirectory start script can automatically point your browser to a "
+"system wide default location of your FusionDirectory instance."
 msgstr ""
-"gosa-startskriptet kan automatiskt peka din webbläsare till en systemtäckande "
-"standardplats för din GOsa-instans."
+"FusionDirectory-startskriptet kan automatiskt peka din webbläsare till en "
+"systemtäckande standardplats för din FusionDirectory-instans."
 
 #. Type: string
 #. Description
-#: ../gosa-desktop.templates:1001
+#: ../fusiondirectory-desktop.templates:1001
 msgid "Enter the URL in order to set this default."
 msgstr "Ange URL:en för att sätta detta standardvärde."
-

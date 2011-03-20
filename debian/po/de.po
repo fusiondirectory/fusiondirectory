@@ -1,14 +1,15 @@
-# GOsa desktop file installer.
+# FusionDirectory desktop file installer.
 # Copyright (C) 2007 Cajus Pollmeier <cajus@debian.org>
-# This file is distributed under the same license as the gosa-desktop package.
+# This file is distributed under the same license as the FusionDirectory-desktop package.
 # Cajus Pollmeier <cajus@debian.org>, 2007.
+# Benoit Mortier <benoit.mortier@opensides.be>, 2011.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: 2.5.12\n"
-"Report-Msgid-Bugs-To: cajus@debian.org\n"
-"POT-Creation-Date: 2007-06-27 10:59+0200\n"
+"Project-Id-Version: FusionDirectory 1.0\n"
+"Report-Msgid-Bugs-To: fusiondirectory-packages@lists.fusiondirectory.org\n"
+"POT-Creation-Date: 2011-03-21 00:20+0100\n"
 "PO-Revision-Date: 2007-06-27 11:07+0200\n"
 "Last-Translator: Cajus Pollmeier <cajus@debian.org>\n"
 "Language-Team: GERMAN <de@li.org>\n"
@@ -18,22 +19,24 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../gosa-desktop.templates:1001
-msgid "URL to your GOsa installation:"
-msgstr "URL zu Ihrer GOsa-Installation:"
+#: ../fusiondirectory-desktop.templates:1001
+#, fuzzy
+msgid "URL to your FusionDirectory installation:"
+msgstr "URL zu Ihrer FusionDirectory-Installation:"
 
 #. Type: string
 #. Description
-#: ../gosa-desktop.templates:1001
+#: ../fusiondirectory-desktop.templates:1001
+#, fuzzy
 msgid ""
-"The gosa start script can automatically point your browser to a system wide "
-"default location of your GOsa instance."
+"The FusionDirectory start script can automatically point your browser to a "
+"system wide default location of your FusionDirectory instance."
 msgstr ""
-"Das GOsa Start-Skript kann den Browser automatisch auf ihre systemweite "
-"Standard GOsa-Installation einstellen."
+"Das FusionDirectory Start-Skript kann den Browser automatisch auf ihre systemweite "
+"Standard FusionDirectory-Installation einstellen."
 
 #. Type: string
 #. Description
-#: ../gosa-desktop.templates:1001
+#: ../fusiondirectory-desktop.templates:1001
 msgid "Enter the URL in order to set this default."
 msgstr "Geben Sie die URL der Standard-Installation an."

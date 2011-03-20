@@ -1,8 +1,17 @@
+# translation of FusionDirectory to finnish
+# FusionDirectory desktop file installer.
+# Copyright (C) 2007 Cajus Pollmeier <cajus@debian.org>
+# This file is distributed under the same license as the FusionDirectory-desktop package.
+#
+# Cajus Pollmeier <cajus@debian.org>, 2007.
+# Esko Arajärvi <edu@iki.fi>, 2010.
+# Benoit Mortier <benoit.mortier@opensides.be>, 2011.
+
 msgid ""
 msgstr ""
-"Project-Id-Version: gosa\n"
-"Report-Msgid-Bugs-To: cajus@debian.org\n"
-"POT-Creation-Date: 2007-06-27 10:59+0200\n"
+"Project-Id-Version: FusionDirectory\n"
+"Report-Msgid-Bugs-To: fusiondirectory-packages@lists.fusiondirectory.org\n"
+"POT-Creation-Date: 2011-03-21 00:20+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Esko Arajärvi <edu@iki.fi>\n"
 "Language-Team: Finnish <debian-l10n-finnish@lists.debian.org>\n"
@@ -14,19 +23,24 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../gosa-desktop.templates:1001
-msgid "URL to your GOsa installation:"
-msgstr "GOsa-asennuksen URL:"
+#: ../fusiondirectory-desktop.templates:1001
+#, fuzzy
+msgid "URL to your FusionDirectory installation:"
+msgstr "FusionDirectory-asennuksen URL:"
 
 #. Type: string
 #. Description
-#: ../gosa-desktop.templates:1001
-msgid "The gosa start script can automatically point your browser to a system wide default location of your GOsa instance."
-msgstr "gosan käynnistyskomentosarja voi automaattisesti avata selaimeen GOsa-instanssin järjestelmän laajuisen oletussijainnin."
+#: ../fusiondirectory-desktop.templates:1001
+#, fuzzy
+msgid ""
+"The FusionDirectory start script can automatically point your browser to a "
+"system wide default location of your FusionDirectory instance."
+msgstr ""
+"FusionDirectoryn käynnistyskomentosarja voi automaattisesti avata selaimeen FusionDirectory-"
+"instanssin järjestelmän laajuisen oletussijainnin."
 
 #. Type: string
 #. Description
-#: ../gosa-desktop.templates:1001
+#: ../fusiondirectory-desktop.templates:1001
 msgid "Enter the URL in order to set this default."
 msgstr "Voit asettaa tämän oletusarvon syöttämällä URLin."
-

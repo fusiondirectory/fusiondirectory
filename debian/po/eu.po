@@ -1,15 +1,16 @@
-# translation of gosa-eu.po to Euskara
-# GOsa desktop file installer.
+# translation of FusionDirectory-eu.po to Euskara
+# FusionDirectory desktop file installer.
 # Copyright (C) 2007 Cajus Pollmeier <cajus@debian.org>
-# This file is distributed under the same license as the gosa-desktop package.
+# This file is distributed under the same license as the FusionDirectory-desktop package.
 #
 # Cajus Pollmeier <cajus@debian.org>, 2007.
 # Piarres Beobide <pi@beobide.net>, 2008.
+# Benoit Mortier <benoit.mortier@opensides.be>, 2011.
 msgid ""
 msgstr ""
-"Project-Id-Version: gosa-eu\n"
-"Report-Msgid-Bugs-To: cajus@debian.org\n"
-"POT-Creation-Date: 2007-06-27 10:59+0200\n"
+"Project-Id-Version: FusionDirectory 1.0\n"
+"Report-Msgid-Bugs-To: fusiondirectory-packages@lists.fusiondirectory.org\n"
+"POT-Creation-Date: 2011-03-21 00:20+0100\n"
 "PO-Revision-Date: 2008-10-15 12:21+0200\n"
 "Last-Translator: Piarres Beobide <pi@beobide.net>\n"
 "Language-Team: Euskara <debian-l10n-basque@lists.debian.org>\n"
@@ -20,23 +21,24 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../gosa-desktop.templates:1001
-msgid "URL to your GOsa installation:"
-msgstr "Zure GOsa instalazioaren URLa:"
+#: ../fusiondirectory-desktop.templates:1001
+#, fuzzy
+msgid "URL to your FusionDirectory installation:"
+msgstr "Zure FusionDirectory instalazioaren URLa:"
 
 #. Type: string
 #. Description
-#: ../gosa-desktop.templates:1001
+#: ../fusiondirectory-desktop.templates:1001
+#, fuzzy
 msgid ""
-"The gosa start script can automatically point your browser to a system wide "
-"default location of your GOsa instance."
+"The FusionDirectory start script can automatically point your browser to a "
+"system wide default location of your FusionDirectory instance."
 msgstr ""
-"Gosa abiarazte script-ak zure nabigatzailea automatikoki zure GOsa instantziaren "
-"lehenetsiriko kokagunera bidali dezake."
+"FusionDirectory abiarazte script-ak zure nabigatzailea automatikoki zure FusionDirectory "
+"instantziaren lehenetsiriko kokagunera bidali dezake."
 
 #. Type: string
 #. Description
-#: ../gosa-desktop.templates:1001
+#: ../fusiondirectory-desktop.templates:1001
 msgid "Enter the URL in order to set this default."
 msgstr "Idatzi lehenespena hau ezartzeko dagokion URLa."
-

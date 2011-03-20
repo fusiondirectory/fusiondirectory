@@ -1,14 +1,14 @@
-# translation of gosa debconf to Portuguese
-# GOsa desktop file installer.
+# translation of FusionDirectory debconf to Portuguese
+# FusionDirectory desktop file installer.
 # Copyright (C) 2007 Américo Monteiro
-# This file is distributed under the same license as the gosa-desktop package.
+# This file is distributed under the same license as the FusionDirectory-desktop package.
 #
 # Américo Monteiro <a_monteiro@netcabo.pt>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: gosa 2.5.12-1\n"
-"Report-Msgid-Bugs-To: cajus@debian.org\n"
-"POT-Creation-Date: 2007-06-27 10:59+0200\n"
+"Project-Id-Version: FusionDirectory 1.0\n"
+"Report-Msgid-Bugs-To: fusiondirectory-packages@lists.fusiondirectory.org\n"
+"POT-Creation-Date: 2011-03-21 00:20+0100\n"
 "PO-Revision-Date: 2007-08-01 23:35+0100\n"
 "Last-Translator: Américo Monteiro <a_monteiro@netcabo.pt>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
@@ -19,23 +19,25 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../gosa-desktop.templates:1001
-msgid "URL to your GOsa installation:"
-msgstr "URL da sua instalação GOsa:"
+#: ../fusiondirectory-desktop.templates:1001
+#, fuzzy
+msgid "URL to your FusionDirectory installation:"
+msgstr "URL da sua instalação FusionDirectory:"
 
 #. Type: string
 #. Description
-#: ../gosa-desktop.templates:1001
+#: ../fusiondirectory-desktop.templates:1001
+#, fuzzy
 msgid ""
-"The gosa start script can automatically point your browser to a system wide "
-"default location of your GOsa instance."
+"The FusionDirectory start script can automatically point your browser to a "
+"system wide default location of your FusionDirectory instance."
 msgstr ""
-"O script de arranque do gosa pode automaticamente apontar o seu navegador Web "
-"para uma localização de omissão da sua instância GOsa para todo o sistema."
+"O script de arranque do FusionDirectory pode automaticamente apontar o seu navegador "
+"Web para uma localização de omissão da sua instância FusionDirectory para todo o "
+"sistema."
 
 #. Type: string
 #. Description
-#: ../gosa-desktop.templates:1001
+#: ../fusiondirectory-desktop.templates:1001
 msgid "Enter the URL in order to set this default."
 msgstr "Indique o URL para regular isto como omissão."
-

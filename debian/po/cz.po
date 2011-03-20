@@ -1,14 +1,15 @@
-# Czech translation for GOsa desktop file installer debconf messages.
+# Czech translation for FusionDirectory desktop file installer debconf messages.
 # Copyright (C) 2007 Cajus Pollmeier <cajus@debian.org>
-# This file is distributed under the same license as the gosa-desktop package.
+# This file is distributed under the same license as the FusionDirectory-desktop package.
 # Cajus Pollmeier <cajus@debian.org>, 2007.
-# Daniel Kavan <kuan@maradan.org>, 2008
+# Daniel Kavan <kuan@maradan.org>, 2008.
+# Benoit Mortier <benoit.mortier@opensides.be>, 2011.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gosa 2.5.16.1-1\n"
-"Report-Msgid-Bugs-To: cajus@debian.org\n"
-"POT-Creation-Date: 2007-06-27 10:59+0200\n"
+"Project-Id-Version: FusionDirectory 1.0\n"
+"Report-Msgid-Bugs-To: fusiondirectory-packages@lists.fusiondirectory.org\n"
+"POT-Creation-Date: 2011-03-21 00:20+0100\n"
 "PO-Revision-Date: 2008-05-27 17:49+0200\n"
 "Last-Translator: Daniel Kavan <kuan@maradan.org>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
@@ -18,22 +19,24 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../gosa-desktop.templates:1001
-msgid "URL to your GOsa installation:"
-msgstr "URL k vaší instalaci GOsa:"
+#: ../fusiondirectory-desktop.templates:1001
+#, fuzzy
+msgid "URL to your FusionDirectory installation:"
+msgstr "URL k vaší instalaci FusionDirectory:"
 
 #. Type: string
 #. Description
-#: ../gosa-desktop.templates:1001
+#: ../fusiondirectory-desktop.templates:1001
+#, fuzzy
 msgid ""
-"The gosa start script can automatically point your browser to a system wide "
-"default location of your GOsa instance."
+"The FusionDirectory start script can automatically point your browser to a "
+"system wide default location of your FusionDirectory instance."
 msgstr ""
-"Startovací skript gosa může automaticky nasměrovat váš prohlížeč na celosystémovou "
-"adresu vaší GOsa instance."
+"Startovací skript fusiondirectory může automaticky nasměrovat váš prohlížeč na "
+"celosystémovou adresu vaší FusionDirectory instance."
 
 #. Type: string
 #. Description
-#: ../gosa-desktop.templates:1001
+#: ../fusiondirectory-desktop.templates:1001
 msgid "Enter the URL in order to set this default."
 msgstr "Chcete-li dané URL nastavit jako výchozí, zadejte je zde."
