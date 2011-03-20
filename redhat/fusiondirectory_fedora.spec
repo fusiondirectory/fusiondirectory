@@ -14,10 +14,13 @@ Source0: 		http://download.fusiondirectory.org/sources/%{sourcename}.tar.gz
 URL: 			http://www.fusiondirectory.org
 Group: 			System/Administration
 Buildarch: 		noarch
-Patch0:			01_fix_template_location.patch
-Patch1:			02_fix_class_mapping.patch
-Patch2:			03_fix_locale_location.patch
-Patch3:			04_fix_online_help_location.patch
+Patch0:                 01_fix_smarty_location.patch
+Patch1:                 02_fix_template_location.patch
+Patch2:                 03_fix_class_mapping.patch
+Patch3:                 04_fix_locale_location.patch
+Patch4:                 05_fix_online_help_location.patch
+Patch5:                 06_hook_password_class_plugin.patch
+Patch6:                 07_hook_password_function.patch
 Requires: 		httpd,php,php-ldap,php-imap,php-snmp,php-mysql,php-mbstring,ImageMagick,perl-Crypt-SmbHash
 BuildRoot: 		%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildRequires: 		desktop-file-utils
