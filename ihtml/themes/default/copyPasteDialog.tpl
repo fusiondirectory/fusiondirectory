@@ -4,10 +4,10 @@
 <br>
 <br>
 {if $Complete == false}
-	{t}Some values need to be unique in the complete directory while some combinations make no sense. GOsa shows the relevant attributes. Please maintain the values below to fullfill the policies.{/t}
+	{t}Some values need to be unique in the complete directory while some combinations make no sense. FusionDirectory shows the relevant attributes. Please maintain the values below to fullfill the policies.{/t}
 	<br>
 {t}Remember that some properties like taken snapshots will not be copied!{/t}&nbsp;
-{t}Or if you copy or cut an entry within GOsa and delete the source object, you may get errors while pasting this object again!{/t}
+{t}Or if you copy or cut an entry within FusionDirectory and delete the source object, you may get errors while pasting this object again!{/t}
 
 	<p class='seperator'>&nbsp;</p>
 	<br>

@@ -1,5 +1,5 @@
 <body style="background-color: #8B858B;background-image:none;">
-{* GOsa login - smarty template *}
+{* FusionDirectory login - smarty template *}
 {$php_errors}
 {$errors}
 

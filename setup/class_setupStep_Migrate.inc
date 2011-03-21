@@ -2055,7 +2055,7 @@ class Step_Migrate extends setup_step
         if(!class_available("departmentManagement")){
           $this->checks['rootOC']['STATUS']    = FALSE;
           $this->checks['rootOC']['STATUS_MSG']= _("Failed");
-          $this->checks['rootOC']['ERROR_MSG'] = sprintf(_("Missing GOsa object class '%s'!"),"departmentManagement").
+          $this->checks['rootOC']['ERROR_MSG'] = sprintf(_("Missing FusionDirectory object class '%s'!"),"departmentManagement").
             "&nbsp;"._("Please check your installation.");
           return;
         }

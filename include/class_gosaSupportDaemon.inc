@@ -62,7 +62,7 @@ class gosaSupportDaemon
 
     // Detect timeout 
     if($timeout == null){
-      $timeout = $config->get_cfg_value("gosaSupportTimeout",15);
+      $timeout = $config->get_cfg_value("goto-si-Timeout",15);
     }
 
     /* This should only be the case if we call this from setup.
@@ -71,12 +71,12 @@ class gosaSupportDaemon
     if(!is_object($config)) { return; }
 
     # load from config, store statically
-    if ($config->get_cfg_value("gosaSupportURI") != ""){
+    if ($config->get_cfg_value("goto-si-URI") != ""){
 
       if ($this->s_host == ""){
-        $this->s_host= preg_replace("/^.*@([^:]+):.*$/", "$1", $config->get_cfg_value("gosaSupportURI"));
-        $this->i_port= preg_replace("/^.*@[^:]+:(.*)$/", "$1", $config->get_cfg_value("gosaSupportURI"));
-        $this->s_encryption_key = preg_replace("/^(.*)@[^:]+:.*$/", "$1", $config->get_cfg_value("gosaSupportURI"));
+        $this->s_host= preg_replace("/^.*@([^:]+):.*$/", "$1", $config->get_cfg_value("goto-si-URI"));
+        $this->i_port= preg_replace("/^.*@[^:]+:(.*)$/", "$1", $config->get_cfg_value("goto-si-URI"));
+        $this->s_encryption_key = preg_replace("/^(.*)@[^:]+:.*$/", "$1", $config->get_cfg_value("goto-si-URI"));
       }
       $this->is_configured = TRUE;
       $this->f_timeout = $timeout;
@@ -109,7 +109,7 @@ class gosaSupportDaemon
         new log("debug","gosaSupportDaemon::connect()", "Cannot connect to si-server", array(),$this->get_error());
       }
     }else{
-      $this->set_error(msgPool::cmdnotfound("gosaSupportURI",_("GOsa support daemon")));
+      $this->set_error(msgPool::cmdnotfound("goto-si-URI",_("FusionDirectory support daemon")));
     }
     return($this->is_connected);
   }

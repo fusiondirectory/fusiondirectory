@@ -525,7 +525,7 @@ class plugin
       $current_csn = getEntryCSN($this->dn);
       if($current_csn != $this->entryCSN && !empty($this->entryCSN) && !empty($current_csn)){
         $this->entryCSN = $current_csn;
-        $message[] = _("The object has changed since opened in GOsa. All changes that may be done by others get lost if you save this entry!");
+        $message[] = _("The object has changed since opened in FusionDirectory. All changes that may be done by others get lost if you save this entry!");
       }
     }
     return ($message);

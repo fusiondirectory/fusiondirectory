@@ -3,10 +3,10 @@
 <html>
 
 <head>
-  <title>GOsa - {t}Change your password{/t}</title>
+  <title>FusionDirectory - {t}Change your password{/t}</title>
 
   <meta name="generator" content="my hands">
-  <meta name="description" content="GOsa - Password changer">
+  <meta name="description" content="FusionDirectory - Password changer">
   <meta name="author" lang="de" content="Cajus Pollmeier">
 
   <meta http-equiv="Expires" content="Mon, 26 Jul 1997 05:00:00 GMT">
@@ -27,7 +27,7 @@
 </head>
 
 <body style='height:100%; width:100%;'>
-{* GOsa login - smarty template *}
+{* FusionDirectory login - smarty template *}
 {$php_errors}
 
 {if $changed}

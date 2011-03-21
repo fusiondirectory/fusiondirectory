@@ -3,7 +3,7 @@
 </div>
 <p>
  {$intro}
- {t}This may be used by several groups. Please double check if your really want to do this since there is no way for GOsa to get your data back.{/t}
+ {t}This may be used by several groups. Please double check if your really want to do this since there is no way for FusionDirectory to get your data back.{/t}
 </p>
 <p>
  {t}So - if you're sure - press 'Delete' to continue or 'Cancel' to abort.{/t}

@@ -3,7 +3,7 @@
 </div>
 <p>
  {$info}
- {t}This includes 'all' accounts, systems, etc. in this subtree. Please double check if your really want to do this since there is no way for GOsa to get your data back.{/t}
+ {t}This includes 'all' accounts, systems, etc. in this subtree. Please double check if your really want to do this since there is no way for FusionDirectory to get your data back.{/t}
 </p>
 
 <p>

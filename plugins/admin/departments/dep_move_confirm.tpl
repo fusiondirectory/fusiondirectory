@@ -5,7 +5,7 @@
 {t}Modifying a departments naming attribute 'ou' or base may corrupt acls and snapshot entries for all entire objects.{/t}
 </p>
 <p>
-{t}GOsa can NOT fix this for you, yet.{/t}
+{t}FusionDirectory can NOT fix this for you, yet.{/t}
 </p>
 <p>
 {t}Before you confirm this action, ensure that everything will be as expected, possibly the best solution is a backup.{/t} 

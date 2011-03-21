@@ -3,7 +3,7 @@
 {$php_errors}
 <form action='main.php{$plug}' name='mainform' method='post' enctype='multipart/form-data'>
 <div class='setup_header'>
-  <div style="float:left;"><img src='themes/default/images/go_logo.png' class='center' alt='GOsa' style="padding-left:2px; padding-right:25px;">
+  <div style="float:left;"><img src='themes/default/images/go_logo.png' class='center' alt='FusionDirectory' style="padding-left:2px; padding-right:25px;">
    {if !$javascript}
     <a class="maintitlebar" href='main.php?reset=1' onClick='return question("{t}You are currently editing a database entry. Do you want to dismiss the changes?{/t}", "main.php?reset=1");' ><img src='{$go_home}' class='center' border="0" alt="Main">&nbsp;{t}Main{/t}
     </a>
@@ -29,7 +29,7 @@
   <div style="padding-top:8px;text-align:right;height:28px"><a>{t}Signed in:{/t} <b>{$username}</b></a></div>
 </div>
 <!--<div class='setup_menu'>
-  <b>{t}GOsa main menu{/t}</b>
+  <b>{t}FusionDirectory main menu{/t}</b>
 </div>-->
 
 {if !$hideMenus}

@@ -6,7 +6,7 @@
   <table summary="" style="width:99%;">
    <tr>
     <td style="width:33%;">
-     <b>{t}GOsa help viewer{/t}</b>
+     <b>{t}FusionDirectory help viewer{/t}</b>
 	</td>
     <td style="width:33%;text-align:center">
 		{$backward}

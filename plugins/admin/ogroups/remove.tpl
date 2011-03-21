@@ -3,7 +3,7 @@
 </div>
 <p>
   {$info}
-  {t}Please double check if you really want to do this since there is no way for GOsa to get your data back.{/t}
+  {t}Please double check if you really want to do this since there is no way for FusionDirectory to get your data back.{/t}
 </p>
 
 <p>

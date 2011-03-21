@@ -600,7 +600,7 @@ class config  {
     }
 
 
-    /* GOsa logging databases */
+    /* FusionDirectory logging databases */
     $ldap->cd ($this->current['BASE']);
     $ldap->search ("(objectClass=gosaLogServer)");
     if ($ldap->count()){
@@ -1080,11 +1080,11 @@ class config  {
   }
 
 
-  /*! \brief Check if current configuration version matches the GOsa version
+  /*! \brief Check if current configuration version matches the FusionDirectory version
    *
    *  This function checks if the configuration file version matches the
-   *  version of the gosa version, by comparing it with the configuration
-   *  file version of the example fusiondirectory.conf that comes with GOsa.
+   *  version of the FusionDirectory version, by comparing it with the configuration
+   *  file version of the example fusiondirectory.conf that comes with FusionDirectory.
    *  If a version mismatch occurs an error is triggered.
    * */
   function check_config_version()
@@ -1102,7 +1102,7 @@ class config  {
     /* Check contributed config version and current config version.
      */
     if(($this->config_version == "NOT SET") || ($this->config_version != $current && !empty($this->config_version))){
-      msg_dialog::display(_("Configuration"),_("The configuration file you are using seems to be outdated. Please move the GOsa configuration file away to run the GOsa setup again."));
+      msg_dialog::display(_("Configuration"),_("The configuration file you are using seems to be outdated. Please move the FusionDirectory configuration file away to run the FusionDirectory setup again."));
     }
   }
 
@@ -1116,7 +1116,7 @@ class config  {
    *  defined by session.gc_maxlifetime.
    *
    *  \return boolean TRUE or FALSE depending on weither the settings match
-   *  or not. If SESSIONLIFETIME is not configured in GOsa it always returns
+   *  or not. If SESSIONLIFETIME is not configured in FusionDirectory it always returns
    *  TRUE.
    */
   function check_session_lifetime()

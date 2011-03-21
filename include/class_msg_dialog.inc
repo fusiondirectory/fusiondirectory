@@ -113,7 +113,7 @@ class msg_dialog
 				"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"
 				\"http://www.w3.org/TR/html4/transitional.dtd\">
 				<html><head>
-				<title>GOsa startup failed</title>
+				<title>FusionDirectory startup failed</title>
 				</head><body>
 				<table style='width:100%; border:2px solid red;' summary=''>
 				<tr><td style='vertical-align:top;padding:10px'>

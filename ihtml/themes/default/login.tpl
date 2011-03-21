@@ -3,15 +3,15 @@
 {$php_errors}
 <div>
         <div class='setup_header'>
-                <div style="float:left;"><img src='themes/default/images/go_logo.png' class='center' alt='GOsa' /></div>
+                <div style="float:left;"><img src='themes/default/images/go_logo.png' class='center' alt='FusionDirectory' /></div>
                 <div style="padding-top:8px;text-align:right;height:28px">{$version}</div>
         </div>
         <div class='setup_menu'>
-                <b>{t}GOsa login screen{/t}</b>
+                <b>{t}FusionDirectory login screen{/t}</b>
         </div>
 </div>
 
-{* GOsa login - smarty template *}
+{* FusionDirectory login - smarty template *}
 
 <!-- Spacer for some browsers -->
 <div class='gosaLoginSpacer'></div>

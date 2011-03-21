@@ -2,10 +2,10 @@
 <html>
 
 <head>
-  <title>{if isset($title)}{$title}{else}GOsa{/if}</title>
+  <title>{if isset($title)}{$title}{else}FusionDirectory{/if}</title>
 
   <meta name="generator" content="my hands">
-  <meta name="description" content="GOsa - Login">
+  <meta name="description" content="FusionDirectory - Login">
   <meta name="author" lang="de" content="Cajus Pollmeier">
 
   <meta http-equiv="Expires" content="Mon, 26 Jul 1997 05:00:00 GMT">
