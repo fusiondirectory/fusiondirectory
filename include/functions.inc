@@ -40,7 +40,7 @@ if(!isset($_SERVER['CONFIG_FILE'])){
 }
 
 /* Define common locations */
-define ("CONFIG_TEMPLATE_DIR", "/usr/share/doc/fusiondirectory");
+define ("CONFIG_TEMPLATE_DIR", "../contrib");
 define ("TEMP_DIR","/var/cache/fusiondirectory/tmp");
 
 /* Define get_list flags */
