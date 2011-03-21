@@ -1257,7 +1257,7 @@ class plugin
               }
           }
 
-          if (check_command($command)){
+          if (check_command($command)) || TRUE){
 
               @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__,$command,"Execute");
               exec($command, $arr, $returnCode);
