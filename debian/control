@@ -231,7 +231,7 @@ Description: LDAP schema for FusionDirectory kolab plugin
  This package includes the LDAP schema needed by the FusionDirectory
  kolab plugin.
  .
- fusiondirectory² is a combination of system-administrator and end-user web
+ fusiondirectory is a combination of system-administrator and end-user web
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-ldapmanager
