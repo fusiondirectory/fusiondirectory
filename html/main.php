@@ -165,7 +165,7 @@ $plist= session::global_get('plist');
 if (isset($global_check) && $config->get_cfg_value("forceglobals") == "true"){
   msg_dialog::display(
             _("PHP configuration"),
-            _("Fatal error: Register globals is on. FusionDirectoryµ will refuse to login unless this is fixed by an administrator."),
+            _("Fatal error: Register globals is on. FusionDirectory will refuse to login unless this is fixed by an administrator."),
             FATAL_ERROR_DIALOG);
 
   new log("security","login","",array(),"Register globals is on. For security reasons, this should be turned off.") ;
