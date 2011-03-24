@@ -12,8 +12,8 @@ DM-Upload-Allowed: yes
 
 Package: fusiondirectory
 Architecture: all
-Depends: php5, php5-cli, apache2 | lighttpd | httpd , exim4 | mail-transport-agent, php5-gd, php5-imap, php5-ldap, php5-mcrypt, php5-mysql, php5-imagick | imagemagick (>= 5.4.4.5-1) | graphicsmagick-im-compat, libcrypt-smbhash-perl, smarty, php5-recode, smarty-gettext, smarty-acl-render, gettext, ${misc:Depends}, libapache2-mod-php5 | php5-cgi
-Suggests: goto-si-server, cyrus21-imapd (>= 2.1.11), postfix-ldap, slapd, fusiondirectory-schema, php5-suhosin, php-apc, php-fpdf
+Depends: php5, php5-cli, apache2 | lighttpd | httpd , exim4 | mail-transport-agent, php5-gd, php5-imap, php5-ldap, php5-mcrypt, php5-mysql, php5-imagick | imagemagick (>= 5.4.4.5-1) | graphicsmagick-im-compat, libcrypt-smbhash-perl, smarty, php5-recode, smarty-gettext, smarty-acl-render, gettext, ${misc:Depends}, libapache2-mod-php5 | php5-cgi, php-fpdf
+Suggests: goto-si-server, cyrus21-imapd (>= 2.1.11), postfix-ldap, slapd, fusiondirectory-schema, php5-suhosin, php-apc
 Description: Web Based LDAP Administration Program
  Provided is access to posix, shadow, samba, proxy, fax, pureftp and
  kerberos accounts. It is able to manage the postfix/cyrus server
