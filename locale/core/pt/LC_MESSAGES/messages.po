@@ -1,13 +1,15 @@
 # translation of messages.po to Brazilian Portuguese
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) 2009 Clever de Oliveira Jr. 
+# Copyright (C) 2011 FusionDirectory
+# This file is distributed under the same license as the FusionDirectory package.
 #
 # Clever de Oliveira Jr. <clever@dri.cefetmg.br>, 2009.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: messages-2.6.4-pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-24 12:46+0100\n"
+"POT-Creation-Date: 2011-03-24 19:03+0100\n"
 "PO-Revision-Date: 2009-03-02 15:03-0300\n"
 "Last-Translator: Clever de Oliveira Jr. <clever@dri.cefetmg.br>\n"
 "Language-Team: Brazilian Portuguese <pt@li.org>\n"
@@ -26,7 +28,7 @@ msgstr ""
 #: html/password.php:58 html/index.php:144
 #, fuzzy, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
-msgstr "A configuração GOsa %s/%s não pôde ser lida. Abortado."
+msgstr "A configuração FusionDirectory %s/%s não pôde ser lida. Abortado."
 
 #: html/password.php:74 html/main.php:268 html/index.php:144
 #: html/index.php:216 include/class_SnapshotHandler.inc:44
@@ -531,7 +533,7 @@ msgstr "Continuar"
 #: ihtml/themes/default/logout-close.tpl:5
 #, fuzzy
 msgid "Your FusionDirectory session has been closed!"
-msgstr "Sua sessão do GOsa expirou!"
+msgstr "Sua sessão do FusionDirectory expirou!"
 
 #: ihtml/themes/default/logout-close.tpl:7
 msgid ""
@@ -645,7 +647,7 @@ msgid ""
 "to do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
 "Ele pode ser o grupo primário de um usuário. Por favor, tenha certeza se "
-"realmente quer fazer isso, pois o GOsa não possui uma forma para restaurar "
+"realmente quer fazer isso, pois o FusionDirectory não possui uma forma para restaurar "
 "seus dados anteriores."
 
 #: ihtml/themes/default/remove.tpl:9 plugins/admin/acl/remove.tpl:10
@@ -812,7 +814,7 @@ msgstr ""
 msgid ""
 "Some values need to be unique in the complete directory while some "
 "combinations make no sense. FusionDirectory shows the relevant attributes. "
-"Please maintain the values below to fullfill the policies."
+"Please maintain the values below to fulfill the policies."
 msgstr ""
 
 #: ihtml/themes/default/copyPasteDialog.tpl:9
@@ -847,7 +849,7 @@ msgstr "Finalizar"
 #: ihtml/themes/default/logout.tpl:5
 #, fuzzy
 msgid "Your FusionDirectory session has expired!"
-msgstr "Sua sessão do GOsa expirou!"
+msgstr "Sua sessão do FusionDirectory expirou!"
 
 #: ihtml/themes/default/logout.tpl:7
 msgid ""
@@ -863,7 +865,7 @@ msgstr "Entrar novamente"
 #: ihtml/themes/default/help.tpl:9
 #, fuzzy
 msgid "FusionDirectory help viewer"
-msgstr "Visualizador de ajuda do GOsa"
+msgstr "Visualizador de ajuda do FusionDirectory"
 
 #: ihtml/themes/default/help.tpl:15
 msgid "Index"
@@ -3852,7 +3854,7 @@ msgid ""
 "FusionDirectory configuration file away to run the FusionDirectory setup "
 "again."
 msgstr ""
-"O arquivo de configuração do GOsa parece estar desatualizador. Por favor, "
+"O arquivo de configuração do FusionDirectory parece estar desatualizador. Por favor, "
 "remova-o e execute o configurador novamente."
 
 #: include/class_CopyPasteHandler.inc:118
@@ -4209,59 +4211,59 @@ msgid "Error while importing dn: '%s', please check your LDIF from line %s on!"
 msgstr ""
 "Erro enquanto importava dn: '%s', por favor, verifique seu LDIF na linha %s!"
 
-#: include/php_setup.inc:101
+#: include/php_setup.inc:100
 msgid "Generating this page caused the PHP interpreter to raise some errors!"
 msgstr ""
 
-#: include/php_setup.inc:106
+#: include/php_setup.inc:105
 msgid "Send bug report to the FusionDirectory Team"
 msgstr ""
 
-#: include/php_setup.inc:106
+#: include/php_setup.inc:105
 msgid "Send bugreport"
 msgstr ""
 
-#: include/php_setup.inc:111
+#: include/php_setup.inc:110
 msgid "Toggle information"
 msgstr ""
 
-#: include/php_setup.inc:121
+#: include/php_setup.inc:120
 msgid "PHP error"
 msgstr ""
 
-#: include/php_setup.inc:140
+#: include/php_setup.inc:139
 msgid "class"
 msgstr ""
 
-#: include/php_setup.inc:146
+#: include/php_setup.inc:145
 msgid "function"
 msgstr ""
 
-#: include/php_setup.inc:151
+#: include/php_setup.inc:150
 msgid "static"
 msgstr ""
 
-#: include/php_setup.inc:155
+#: include/php_setup.inc:154
 msgid "method"
 msgstr ""
 
-#: include/php_setup.inc:188
+#: include/php_setup.inc:187
 msgid "Trace"
 msgstr ""
 
-#: include/php_setup.inc:189
+#: include/php_setup.inc:188
 msgid "File"
 msgstr ""
 
-#: include/php_setup.inc:189
+#: include/php_setup.inc:188
 msgid "Line"
 msgstr ""
 
-#: include/php_setup.inc:189
+#: include/php_setup.inc:188
 msgid "Type"
 msgstr "Tipo"
 
-#: include/php_setup.inc:190
+#: include/php_setup.inc:189
 msgid "Arguments"
 msgstr ""
 
@@ -4322,7 +4324,7 @@ msgid ""
 msgstr ""
 "Isso inclui, para este usuário, todos os dados da conta, regras de acesso, "
 "configurações imap e etc. Por favor, tenha certeza se quer realmente fazer "
-"isso, pois o GOsa não tem como recuperar seus dados anteriores."
+"isso, pois o FusionDirectory não tem como recuperar seus dados anteriores."
 
 #: plugins/admin/acl/class_aclManagement.inc:154
 msgid "ACL Assignment"
@@ -4751,7 +4753,7 @@ msgid ""
 "do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
 "Ele pode ser o grupo primário de um usuário. Por favor, tenha certeza se "
-"realmente quer fazer isso, pois o GOsa não possui uma forma para restaurar "
+"realmente quer fazer isso, pois o FusionDirectory não possui uma forma para restaurar "
 "seus dados anteriores."
 
 #: plugins/admin/groups/trust_machines.tpl:6
@@ -5197,7 +5199,7 @@ msgid ""
 msgstr ""
 "Isso inclui, para este usuário, todos os dados da conta, regras de acesso, "
 "configurações imap e etc. Por favor, tenha certeza se quer realmente fazer "
-"isso, pois o GOsa não tem como recuperar seus dados anteriores."
+"isso, pois o FusionDirectory não tem como recuperar seus dados anteriores."
 
 #: plugins/admin/departments/remove.tpl:10
 msgid ""
@@ -5533,7 +5535,7 @@ msgid ""
 "FusionDirectory to get your data back."
 msgstr ""
 "Ele pode ser o grupo primário de um usuário. Por favor, tenha certeza se "
-"realmente quer fazer isso, pois o GOsa não possui uma forma para restaurar "
+"realmente quer fazer isso, pois o FusionDirectory não possui uma forma para restaurar "
 "seus dados anteriores."
 
 #: plugins/admin/ogroups/paste_generic.tpl:7
@@ -5726,7 +5728,7 @@ msgid ""
 "menu on the left, or by choosing one of the pictograms below. All changes "
 "apply directly to your companies LDAP server."
 msgstr ""
-"Este é o menu principal do GOsa. Você pode selecionar tarefas a partir do "
+"Este é o menu principal do FusionDirectory. Você pode selecionar tarefas a partir do "
 "menu esquerdo ou através dos ícones abaixo. Todas as alterações serão "
 "aplicadas diretamente ao seu servidor LDAP."
 

@@ -1,13 +1,15 @@
 # translation of VIcore2.po to Vietnamese
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) 2008 Stefan Koehler
+# Copyright (C) 2011 FusionDirectory
+# This file is distributed under the same license as the FusionDirectory package.
 #
 # Stefan Koehler <stefan@gonicus.de>, 2008.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: VIcore2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-24 12:46+0100\n"
+"POT-Creation-Date: 2011-03-24 19:03+0100\n"
 "PO-Revision-Date: 2008-07-04 09:59+0200\n"
 "Last-Translator: Stefan Koehler <stefan@gonicus.de>\n"
 "Language-Team: Vietnamese\n"
@@ -28,7 +30,7 @@ msgstr "Lỗi nặng"
 #: html/password.php:58 html/index.php:144
 #, fuzzy, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
-msgstr "Cấu hình GOsa %s/%s không đọc được. Bãi bỏ."
+msgstr "Cấu hình FusionDirectory %s/%s không đọc được. Bãi bỏ."
 
 #: html/password.php:74 html/main.php:268 html/index.php:144
 #: html/index.php:216 include/class_SnapshotHandler.inc:44
@@ -177,7 +179,7 @@ msgid ""
 "Fatal error: Register globals is on. FusionDirectory will refuse to login "
 "unless this is fixed by an administrator."
 msgstr ""
-"LỖI NGHIÊM TRỌNG: Đăng ký toàn cầu đang bật. GOsa sẽ từ chối đăng nhập vào "
+"LỖI NGHIÊM TRỌNG: Đăng ký toàn cầu đang bật. FusionDirectory sẽ từ chối đăng nhập vào "
 "trừ khi lỗi này được một admin sửa."
 
 #: html/main.php:198 ihtml/themes/default/password.tpl:41
@@ -571,7 +573,7 @@ msgstr "Tiếp tục"
 #: ihtml/themes/default/logout-close.tpl:5
 #, fuzzy
 msgid "Your FusionDirectory session has been closed!"
-msgstr "Phiên GOsa của bạn vừa bị đóng!"
+msgstr "Phiên FusionDirectory của bạn vừa bị đóng!"
 
 #: ihtml/themes/default/logout-close.tpl:7
 msgid ""
@@ -664,7 +666,7 @@ msgstr "Thay đổi mật mã "
 #: ihtml/themes/default/login.tpl:10
 #, fuzzy
 msgid "FusionDirectory login screen"
-msgstr "Màn hình đăng nhập GOsa"
+msgstr "Màn hình đăng nhập FusionDirectory"
 
 #: ihtml/themes/default/login.tpl:27
 msgid "Login screen"
@@ -693,7 +695,7 @@ msgid ""
 "to do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
 "Thứ này có thể được sử dụng bởi một vài nhóm. Xin hãy kiểm tra hai lần nếu "
-"bạn thực sự muốn làm điều này bởi vì sẽ không có cách nào để GOsa phục hồi "
+"bạn thực sự muốn làm điều này bởi vì sẽ không có cách nào để FusionDirectory phục hồi "
 "dữ liệu cho bạn."
 
 #: ihtml/themes/default/remove.tpl:9 plugins/admin/acl/remove.tpl:10
@@ -868,10 +870,10 @@ msgstr "Copy & Paste wizard"
 msgid ""
 "Some values need to be unique in the complete directory while some "
 "combinations make no sense. FusionDirectory shows the relevant attributes. "
-"Please maintain the values below to fullfill the policies."
+"Please maintain the values below to fulfill the policies."
 msgstr ""
 "Một số giá trị phải là duy nhất trong thư mục hoàn chỉnh trong khi một số "
-"kết hợp không có ý nghĩa nào. GOsa hiển thị những thuộc tính liên quan. Xin "
+"kết hợp không có ý nghĩa nào. FusionDirectory hiển thị những thuộc tính liên quan. Xin "
 "hãy giữ các giá trị bên dưới để thực hiện các chính sách đó."
 
 #: ihtml/themes/default/copyPasteDialog.tpl:9
@@ -885,7 +887,7 @@ msgid ""
 "Or if you copy or cut an entry within FusionDirectory and delete the source "
 "object, you may get errors while pasting this object again!"
 msgstr ""
-"Hoặc nếu bạn copy hoặc cắt một entry trong GOsa và xóa đối tượng nguồn, bạn "
+"Hoặc nếu bạn copy hoặc cắt một entry trong FusionDirectory và xóa đối tượng nguồn, bạn "
 "có thể lại gặp lỗi khi paste đối tượng này!"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:19
@@ -910,7 +912,7 @@ msgstr "Kết thúc"
 #: ihtml/themes/default/logout.tpl:5
 #, fuzzy
 msgid "Your FusionDirectory session has expired!"
-msgstr "Phiên GOsa của bạn đã bị hết hạn!"
+msgstr "Phiên FusionDirectory của bạn đã bị hết hạn!"
 
 #: ihtml/themes/default/logout.tpl:7
 #, fuzzy
@@ -919,7 +921,7 @@ msgid ""
 "time ago in the past. For security reasons, the session has been closed. To "
 "continue with administrative tasks, please sign in again."
 msgstr ""
-"Tương tác cuối cùng với giao diện web của GOsa đã diễn ra được một thời gian "
+"Tương tác cuối cùng với giao diện web của FusionDirectory đã diễn ra được một thời gian "
 "trong quá khứ, Vì các lý do an ninh, phiên này vừa bị đóng. Để tiếp tục các "
 "tác vụ của admin, xin hãy đăng ký lại lần nữa."
 
@@ -930,7 +932,7 @@ msgstr "Đăng ký lại"
 #: ihtml/themes/default/help.tpl:9
 #, fuzzy
 msgid "FusionDirectory help viewer"
-msgstr "GOsa help viewer"
+msgstr "FusionDirectory help viewer"
 
 #: ihtml/themes/default/help.tpl:15
 msgid "Index"
@@ -982,30 +984,30 @@ msgstr "Xin hãy cập nhật cho một phiên bản hỗ trợ."
 #: setup/class_setupStep_Checks.inc:73
 #, fuzzy
 msgid "FusionDirectory requires this module to talk with your LDAP server."
-msgstr "GOsa yêu cầu môdun này giao tiếp với server LDAP của bạn."
+msgstr "FusionDirectory yêu cầu môdun này giao tiếp với server LDAP của bạn."
 
 #: setup/class_setupStep_Checks.inc:81
 #, fuzzy
 msgid ""
 "FusionDirectory requires this module for an internationalized interface."
-msgstr "GOsa yêu cầu môdun này cho một giao diện được quốc tế hóa."
+msgstr "FusionDirectory yêu cầu môdun này cho một giao diện được quốc tế hóa."
 
 #: setup/class_setupStep_Checks.inc:89
 #, fuzzy
 msgid "FusionDirectory requires this module for the samba integration."
-msgstr "GOsa yêu cầu mô-đun này cho việc tích hợp samba."
+msgstr "FusionDirectory yêu cầu mô-đun này cho việc tích hợp samba."
 
 #: setup/class_setupStep_Checks.inc:97
 #, fuzzy
 msgid ""
 "FusionDirectory requires either 'mhash' or the 'sha1' module to make use of "
 "SSHA encryption."
-msgstr "GOsa yêu cầu môdun này để tận dụng được việc mã hóa SSHA."
+msgstr "FusionDirectory yêu cầu môdun này để tận dụng được việc mã hóa SSHA."
 
 #: setup/class_setupStep_Checks.inc:105
 #, fuzzy
 msgid "FusionDirectory requires this module to talk to an IMAP server."
-msgstr "GOsa yêu cầu mô-đun này để giao tiếp với server IMAP."
+msgstr "FusionDirectory yêu cầu mô-đun này để giao tiếp với server IMAP."
 
 #: setup/class_setupStep_Checks.inc:112
 msgid "mbstring"
@@ -1014,7 +1016,7 @@ msgstr "mbstring"
 #: setup/class_setupStep_Checks.inc:113
 #, fuzzy
 msgid "FusionDirectory requires this module to handle unicode strings."
-msgstr "GOsa cần môđun này để sử lý những đoạn mã unicode."
+msgstr "FusionDirectory cần môđun này để sử lý những đoạn mã unicode."
 
 #: setup/class_setupStep_Checks.inc:120
 msgid "MySQL"
@@ -1026,7 +1028,7 @@ msgid ""
 "FusionDirectory requires this module to communicate with several supported "
 "databases."
 msgstr ""
-"GOsa cần mô đun này để giao tiếp với một vài cơ sở dữ liệu được hỗ trợ."
+"FusionDirectory cần mô đun này để giao tiếp với một vài cơ sở dữ liệu được hỗ trợ."
 
 #: setup/class_setupStep_Checks.inc:138
 msgid "samba hash generator"
@@ -1037,14 +1039,14 @@ msgstr "Bộ sinh ra hàm băm Samba"
 msgid ""
 "FusionDirectory requires this command to synchronize POSIX and samba "
 "passwords."
-msgstr "GOsa cần lệnh này để đồng bộ hóa mật khẩu của POSIX và Samba."
+msgstr "FusionDirectory cần lệnh này để đồng bộ hóa mật khẩu của POSIX và Samba."
 
 #: setup/class_setupStep_Checks.inc:140
 #, fuzzy
 msgid ""
 "Deploy a goto-si installation or install the perl Crypt::SmbHash modules."
 msgstr ""
-"Triển khai việc cài đặt gosa-si hoặc cài đặt các môđun ngôn ngữ perl Crypt::"
+"Triển khai việc cài đặt goto-si hoặc cài đặt các môđun ngôn ngữ perl Crypt::"
 "SmbHash."
 
 #: setup/class_setupStep_Checks.inc:153
@@ -1054,7 +1056,7 @@ msgstr ""
 #: setup/class_setupStep_Checks.inc:154
 #, fuzzy
 msgid "FusionDirectory requires this extension to handle images."
-msgstr "GOsa cần môđun này để sử lý những đoạn mã unicode."
+msgstr "FusionDirectory cần môđun này để sử lý những đoạn mã unicode."
 
 #: setup/class_setupStep_Checks.inc:169
 #, fuzzy
@@ -1064,7 +1066,7 @@ msgstr "Kiểm soát truy cập"
 #: setup/class_setupStep_Checks.inc:170
 #, fuzzy
 msgid "FusionDirectory requires this extension to handle snapshots."
-msgstr "GOsa cần môđun này để sử lý những đoạn mã unicode."
+msgstr "FusionDirectory cần môđun này để sử lý những đoạn mã unicode."
 
 #: setup/class_setupStep_Checks.inc:181
 msgid ""
@@ -1114,7 +1116,7 @@ msgid ""
 "In Order to use FusionDirectory without any trouble, the session."
 "auto_register option in your php.ini should be set to 'Off'."
 msgstr ""
-"Để có thể sử dụng được GOsa mà không gặp vấn đề nào, lựa chọn session."
+"Để có thể sử dụng được FusionDirectory mà không gặp vấn đề nào, lựa chọn session."
 "auto_register trong php.ini nên được thiết lập là 'Off' (tắt)."
 
 #: setup/class_setupStep_Checks.inc:201
@@ -1129,7 +1131,7 @@ msgid ""
 "FusionDirectory needs at least 32MB of memory. Setting it below this limit "
 "may cause errors that are not reproducable! Increase it for larger setups."
 msgstr ""
-"GOsa cần một dung lượng bộ nhớ ít nhất là 32MB. Thiết lập nó dưới giới hạn "
+"FusionDirectory cần một dung lượng bộ nhớ ít nhất là 32MB. Thiết lập nó dưới giới hạn "
 "này có thể sẽ gây ra lỗi mà không thể tự sản sinh ra kết quả nữa! Hãy tăng "
 "dung lượng lên cho cài đặt lớn hơn."
 
@@ -1226,7 +1228,7 @@ msgid ""
 "FusionDirectory reads its configuration from a file located in (%s/%s). The "
 "setup can write the configuration directly if it is writeable."
 msgstr ""
-"GOsa đọc cấu hình của nó từ một file trong (%s/%s). Việc cài đặt có thể trực "
+"FusionDirectory đọc cấu hình của nó từ một file trong (%s/%s). Việc cài đặt có thể trực "
 "tiếp viết cấu hình nếu nó là writeable."
 
 #: setup/setup_schema.tpl:3
@@ -1424,7 +1426,7 @@ msgstr "Tự động"
 #: setup/setup_frame.tpl:12
 #, fuzzy
 msgid "FusionDirectory setup wizard"
-msgstr "Hướng dẫn cài đặt GOsa chi tiết "
+msgstr "Hướng dẫn cài đặt FusionDirectory chi tiết "
 
 #: setup/setup_frame.tpl:19
 msgid "Installation"
@@ -1546,7 +1548,7 @@ msgid ""
 "Normally this is adjustable via user templates, but you can specify a "
 "default method to be used here, too."
 msgstr ""
-"GOsa hỗ trợ một vài kiểu mã hóa cho các mật khẩu của bạn. Thông thường thì "
+"FusionDirectory hỗ trợ một vài kiểu mã hóa cho các mật khẩu của bạn. Thông thường thì "
 "việc này có thể được điều chỉnh thông qua các khuôn mẫu của người dùng, "
 "nhưng bạn có thể xác định một phương pháp mặc định để nó cũng được sử dụng ở "
 "đây."
@@ -1559,7 +1561,7 @@ msgid ""
 "implemented. For this to work, we need the admin DN and the corresponding "
 "password."
 msgstr ""
-"GOsa sẽ luôn luôn đóng vai trò admin và quản lý các quyền truy cập nội bộ. "
+"FusionDirectory sẽ luôn luôn đóng vai trò admin và quản lý các quyền truy cập nội bộ. "
 "Đây là một cách khác cho tới khi các file OpenLDAP' trong thư mục và ACI's "
 "được thực hiện đầy đủ. Để làm được điều này, chúng ta cần DN của admin và "
 "mật khẩu tương ứng."
@@ -1583,7 +1585,7 @@ msgid ""
 "provide interfaces to users mailboxes and general handling    for quotas. "
 "You can choose the dummy plugin to leave all your mail settings untouched."
 msgstr ""
-"GOsa có  mô-đun hỗ trợ cho một vài phương pháp gửi thư. Các phương pháp này "
+"FusionDirectory có  mô-đun hỗ trợ cho một vài phương pháp gửi thư. Các phương pháp này "
 "cung cấp các giao diện đến hộp thư của người dùng và cách giải quyết thông "
 "thường với các hạn ngạnh. Bạn có thể lựa chọn chế độ dummy plugin để không "
 "ai đụng tới được tất cả các thiết lập mail của bạn."
@@ -1623,7 +1625,7 @@ msgstr "Xin hãy lựa chọn múi giờ bạn muốn ở đây"
 #: setup/setup_config2.tpl:96
 #, fuzzy
 msgid "Additional FusionDirectory settings"
-msgstr "Thiết lập thêm của GOsa"
+msgstr "Thiết lập thêm của FusionDirectory"
 
 #: setup/setup_config2.tpl:100
 msgid "Enable Copy & Paste"
@@ -1696,7 +1698,7 @@ msgstr "Người dùng"
 #: setup/setup_config3.tpl:2
 #, fuzzy
 msgid "FusionDirectory core settings"
-msgstr "thiết lập lõi của GOsa"
+msgstr "thiết lập lõi của FusionDirectory"
 
 #: setup/setup_config3.tpl:6
 #, fuzzy
@@ -1746,7 +1748,7 @@ msgstr "Bật chức năng khóa việc hiệu chỉnh lên"
 #: setup/setup_config3.tpl:174
 #, fuzzy
 msgid "GOto-SI daemon"
-msgstr "GOsa hỗ trợ chương trình daemon"
+msgstr "GOto-si hỗ trợ chương trình daemon"
 
 #: setup/setup_config3.tpl:193
 msgid "GOto-si daemon timeout"
@@ -1811,12 +1813,12 @@ msgstr "Bật chức năng"
 #: setup/class_setupStep_Config1.inc:74 setup/class_setupStep_Config1.inc:75
 #, fuzzy
 msgid "FusionDirectory settings 1/3"
-msgstr "Thiết lập GOsa 1/3"
+msgstr "Thiết lập FusionDirectory 1/3"
 
 #: setup/class_setupStep_Config1.inc:76
 #, fuzzy
 msgid "FusionDirectory generic settings"
-msgstr "Thiết lập GOsa chung "
+msgstr "Thiết lập FusionDirectory chung "
 
 #: setup/class_setupStep_Config1.inc:118
 #, php-format
@@ -1851,7 +1853,7 @@ msgstr "Gía trị khác của mật khẩu cho trước không phải là số.
 #: setup/class_setupStep_Config2.inc:81 setup/class_setupStep_Config2.inc:82
 #, fuzzy
 msgid "FusionDirectory settings 2/3"
-msgstr "Các thiết lập GOsa 2/3"
+msgstr "Các thiết lập FusionDirectory 2/3"
 
 #: setup/class_setupStep_Config2.inc:83
 msgid "Customize special parameters"
@@ -1860,12 +1862,12 @@ msgstr "Tùy biến các thông số đặc biệt"
 #: setup/class_setupStep_Config3.inc:82 setup/class_setupStep_Config3.inc:83
 #, fuzzy
 msgid "FusionDirectory settings 3/3"
-msgstr "Thiết lập GOsa 3/3"
+msgstr "Thiết lập FusionDirectory 3/3"
 
 #: setup/class_setupStep_Config3.inc:84
 #, fuzzy
 msgid "Tweak some FusionDirectory core behaviour"
-msgstr "Chỉnh sửa một số đặc tính lõi của GOsa"
+msgstr "Chỉnh sửa một số đặc tính lõi của FusionDirectory"
 
 #: setup/class_setupStep_Config3.inc:213
 msgid "Session lifetime must be a numeric value!"
@@ -2072,7 +2074,7 @@ msgstr "Địa chỉ thư"
 #: setup/setup_feedback.tpl:47
 #, fuzzy
 msgid "Send feedback to the FusionDirectory project team"
-msgstr "Gửi phản hồi lại cho nhóm phát triển dự án GOsa"
+msgstr "Gửi phản hồi lại cho nhóm phát triển dự án FusionDirectory"
 
 #: setup/setup_feedback.tpl:50
 #, fuzzy
@@ -2080,7 +2082,7 @@ msgid ""
 "When checking this option, FusionDirectory will try to connect http://oss."
 "gonicus.de in order to submit your form anonymously."
 msgstr ""
-"Khi kiểm tra lựa chọn này, GOsa sẽ cố gắng kết nối bạn với http://oss."
+"Khi kiểm tra lựa chọn này, FusionDirectory sẽ cố gắng kết nối bạn với http://oss."
 "gonicus.de để nộp đăng ký của bạn nặc danh."
 
 #: setup/setup_feedback.tpl:52
@@ -2106,7 +2108,7 @@ msgstr "Nếu không, vấn đề mà bạn gặp phải là gì?"
 #: setup/setup_feedback.tpl:74
 #, fuzzy
 msgid "Is this the first time you use FusionDirectory?"
-msgstr "Đây có phải là lần đầu tiên bạn sử dụng GOsa không?"
+msgstr "Đây có phải là lần đầu tiên bạn sử dụng FusionDirectory không?"
 
 #: setup/setup_feedback.tpl:80
 msgid "I use it since"
@@ -2115,7 +2117,7 @@ msgstr "Tôi sử dụng nó từ khi"
 #: setup/setup_feedback.tpl:81
 #, fuzzy
 msgid "Select the year since when you are using FusionDirectory"
-msgstr "Lựa chọn năm mà bạn đang sử dụng GOsa"
+msgstr "Lựa chọn năm mà bạn đang sử dụng FusionDirectory"
 
 #: setup/setup_feedback.tpl:88
 msgid "What operating system / distribution do you use?"
@@ -2152,13 +2154,13 @@ msgstr "Các tính năng"
 #: setup/setup_feedback.tpl:140
 #, fuzzy
 msgid "What features of FusionDirectory do you use?"
-msgstr "Bạn sử dụng tính năng nào của GOsa?"
+msgstr "Bạn sử dụng tính năng nào của FusionDirectory?"
 
 #: setup/setup_feedback.tpl:150
 #, fuzzy
 msgid "What features do you want to see in future versions of FusionDirectory?"
 msgstr ""
-"Bạn muốn được thấy tính năng nào trong các phiên bản tương lai của GOsa?"
+"Bạn muốn được thấy tính năng nào trong các phiên bản tương lai của FusionDirectory?"
 
 #: setup/setup_feedback.tpl:157
 msgid "Send feedback"
@@ -2172,7 +2174,7 @@ msgid ""
 "You may want to fix the problems below, in order to provide smooth services."
 msgstr ""
 "Trong quá trình thanh tra LDAP, chúng tôi sẽ kiểm tra một vài lỗi thông "
-"thường mà có thể xảy ra khi di trú đến quản trị LDAP gốc GOsa. Bạn có thể "
+"thường mà có thể xảy ra khi di trú đến quản trị LDAP gốc FusionDirectory. Bạn có thể "
 "muốn sửa những vấn đề dưới đây để cung cấp các dịch vụ êm xuôi hơn."
 
 #: setup/setup_migrate.tpl:33
@@ -2247,7 +2249,7 @@ msgid ""
 "Move selected windows workstations into the following FusionDirectory "
 "department"
 msgstr ""
-"Chuyển những máy trạm window đã chọn vào trong những bộ phận GOsa tiếp theo"
+"Chuyển những máy trạm window đã chọn vào trong những bộ phận FusionDirectory tiếp theo"
 
 #: setup/setup_migrate.tpl:100
 msgid "Move selected workstations"
@@ -2347,7 +2349,7 @@ msgstr "Ngừng lại"
 #: setup/setup_migrate.tpl:275
 #, fuzzy
 msgid "Create a new FusionDirectory administrator account"
-msgstr "Tạo ra một tài khoản admin GOsa mới"
+msgstr "Tạo ra một tài khoản admin FusionDirectory mới"
 
 #: setup/setup_migrate.tpl:278
 msgid ""
@@ -2372,7 +2374,7 @@ msgid ""
 "and use the migrate button below."
 msgstr ""
 "Các bộ  phận  được liệt kê hiện đang bị ẩn trên giao diện người dùng của "
-"GOsa. Nếu bạn muốn thay đổi việc này cho một số entry, lựa chọn chúng và sử "
+"FusionDirectory. Nếu bạn muốn thay đổi việc này cho một số entry, lựa chọn chúng và sử "
 "dụng phím 'di trú' ở dưới."
 
 #: setup/setup_migrate.tpl:334 setup/setup_migrate.tpl:389
@@ -2452,7 +2454,7 @@ msgstr "Tin nhắn chào mừng"
 #: setup/class_setupStep_Welcome.inc:40
 #, fuzzy
 msgid "Welcome to FusionDirectory setup wizard"
-msgstr "Chào mừng bạn đến với bộ cài đặt wizard GOsa"
+msgstr "Chào mừng bạn đến với bộ cài đặt wizard FusionDirectory"
 
 #: setup/setup_checks.tpl:9
 msgid "PHP module and extension checks"
@@ -2461,12 +2463,12 @@ msgstr "Kiểm tra các module và mở rộng của PHP"
 #: setup/setup_checks.tpl:41 setup/setup_checks.tpl:103
 #, fuzzy
 msgid "FusionDirectory will NOT run without fixing this."
-msgstr "GOsa sẽ không chạy được nếu không sửa chỗ này."
+msgstr "FusionDirectory sẽ không chạy được nếu không sửa chỗ này."
 
 #: setup/setup_checks.tpl:45 setup/setup_checks.tpl:107
 #, fuzzy
 msgid "FusionDirectory will run without fixing this."
-msgstr "GOsa sẽ chạy mà không cần sửa chỗ này."
+msgstr "FusionDirectory sẽ chạy mà không cần sửa chỗ này."
 
 #: setup/setup_checks.tpl:67
 msgid "PHP setup configuration"
@@ -2479,7 +2481,7 @@ msgstr "hiển thị thông tin"
 #: setup/setup_ldap.tpl:7
 #, fuzzy
 msgid "Please choose the LDAP user to be used by FusionDirectory"
-msgstr "Xin hãy chọn người dùng LDAP để được sử dụng bởi GOsa"
+msgstr "Xin hãy chọn người dùng LDAP để được sử dụng bởi FusionDirectory"
 
 #: setup/setup_ldap.tpl:25
 msgid "LDAP connection"
@@ -2571,7 +2573,7 @@ msgstr "Thanh tra LDAP"
 #: setup/class_setupStep_Migrate.inc:128
 #, fuzzy
 msgid "Analyze your current LDAP for FusionDirectory compatibility"
-msgstr "Phân tích LDAP hiện tại của bạn để xem khả năng tương thích với GOsa"
+msgstr "Phân tích LDAP hiện tại của bạn để xem khả năng tương thích với FusionDirectory"
 
 #: setup/class_setupStep_Migrate.inc:134
 msgid "Checking for root object"
@@ -2714,7 +2716,7 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:661
 #, fuzzy, php-format
 msgid "Found %s user(s) that will not be visible in FusionDirectory."
-msgstr "Đã tìm thấy %s người dùng mà không hiên thị trên GOsa."
+msgstr "Đã tìm thấy %s người dùng mà không hiên thị trên FusionDirectory."
 
 #: setup/class_setupStep_Migrate.inc:711 setup/class_setupStep_Migrate.inc:856
 #: setup/class_setupStep_Migrate.inc:1119
@@ -2733,7 +2735,7 @@ msgstr "Tìm thấy %s bộ phận mà không hiển thị trên Gosa."
 
 #: setup/class_setupStep_Migrate.inc:1028
 #, fuzzy, php-format
-msgid "FusionDirectory 2.5 administrative accounts found: %s"
+msgid "GOsa 2.5 administrative accounts found: %s"
 msgstr "Tạo ra một tài khoản admin GOsa mới"
 
 #: setup/class_setupStep_Migrate.inc:1033
@@ -3653,7 +3655,7 @@ msgstr ""
 #: include/class_gosaSupportDaemon.inc:112
 #, fuzzy
 msgid "FusionDirectory support daemon"
-msgstr "GOsa hỗ trợ chương trình daemon"
+msgstr "GOto-si hỗ trợ chương trình daemon"
 
 #: include/class_gosaSupportDaemon.inc:787
 msgid "Cannot not parse XML!"
@@ -3794,12 +3796,12 @@ msgstr "Thư mục"
 #: include/functions.inc:2326
 #, fuzzy, php-format
 msgid "FusionDirectory %s snapshot (Rev %s)"
-msgstr "snapshot phát triển GOsa (Rev %s)"
+msgstr "snapshot phát triển FusionDirectory (Rev %s)"
 
 #: include/functions.inc:2331
 #, fuzzy, php-format
 msgid "FusionDirectory development snapshot (Rev %s)"
-msgstr "snapshot phát triển GOsa (Rev %s)"
+msgstr "snapshot phát triển FusionDirectory (Rev %s)"
 
 #: include/functions.inc:2427
 #, php-format
@@ -4154,7 +4156,7 @@ msgid ""
 "again."
 msgstr ""
 "File cấu hình bạn đang sử dụng hình như đã lỗi thời. Hãy chuyển file cấu "
-"hình của GOsa ra chỗ khác để chạy việc cài đặt GOsa lần nữa."
+"hình của FusionDirectory ra chỗ khác để chạy việc cài đặt FusionDirectory lần nữa."
 
 #: include/class_CopyPasteHandler.inc:118
 #: include/class_CopyPasteHandler.inc:127
@@ -4208,7 +4210,7 @@ msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may "
 "be done by others get lost if you save this entry!"
 msgstr ""
-"Đối tượng đã bị thay đổi từ khi được mở trong GOsa. Nếu bạn lưu entry này "
+"Đối tượng đã bị thay đổi từ khi được mở trong FusionDirectory. Nếu bạn lưu entry này "
 "lại, khi các đối tượng khác lạc hướng có thể gây ra thêm tất cả các thay đổi!"
 
 #: include/class_plugin.inc:1969
@@ -4521,60 +4523,60 @@ msgstr ""
 "Lỗi trong khi đang nạp thêm dn:'%s', xin hãy kiểm tra lại LDIF của bạn từ "
 "dòng %s trở đi!"
 
-#: include/php_setup.inc:101
+#: include/php_setup.inc:100
 msgid "Generating this page caused the PHP interpreter to raise some errors!"
 msgstr "Tạo ra trang này khiến cho bộ dịch PHP sinh ra một số lỗi!"
 
-#: include/php_setup.inc:106
+#: include/php_setup.inc:105
 #, fuzzy
 msgid "Send bug report to the FusionDirectory Team"
-msgstr "Gửi báo cáo lỗi cho nhóm phát triển GOsa"
+msgstr "Gửi báo cáo lỗi cho nhóm phát triển FusionDirectory"
 
-#: include/php_setup.inc:106
+#: include/php_setup.inc:105
 msgid "Send bugreport"
 msgstr "Gửi thông báo lỗi"
 
-#: include/php_setup.inc:111
+#: include/php_setup.inc:110
 msgid "Toggle information"
 msgstr "Thông tin Toggle"
 
-#: include/php_setup.inc:121
+#: include/php_setup.inc:120
 msgid "PHP error"
 msgstr "Lỗi PHP"
 
-#: include/php_setup.inc:140
+#: include/php_setup.inc:139
 msgid "class"
 msgstr "lớp"
 
-#: include/php_setup.inc:146
+#: include/php_setup.inc:145
 msgid "function"
 msgstr "chức năng"
 
-#: include/php_setup.inc:151
+#: include/php_setup.inc:150
 msgid "static"
 msgstr "tĩnh"
 
-#: include/php_setup.inc:155
+#: include/php_setup.inc:154
 msgid "method"
 msgstr "phương pháp"
 
-#: include/php_setup.inc:188
+#: include/php_setup.inc:187
 msgid "Trace"
 msgstr "Dò theo"
 
-#: include/php_setup.inc:189
+#: include/php_setup.inc:188
 msgid "File"
 msgstr "File"
 
-#: include/php_setup.inc:189
+#: include/php_setup.inc:188
 msgid "Line"
 msgstr "Dòng"
 
-#: include/php_setup.inc:189
+#: include/php_setup.inc:188
 msgid "Type"
 msgstr "Loại"
 
-#: include/php_setup.inc:190
+#: include/php_setup.inc:189
 msgid "Arguments"
 msgstr "Tranh luận"
 
@@ -4635,7 +4637,7 @@ msgid ""
 msgstr ""
 "Ở đây bao gồm tất cả các dữ liệu tài khoản, quy định về truy cập hệ thống, "
 "cài đặt imap, vân vân cho người dùng này. Xin hãy kiểm tra hai lần nếu bạn "
-"thực sự muốn làm điều này bởi sẽ không có cách nào để GOsa phục hồi dữ liệu "
+"thực sự muốn làm điều này bởi sẽ không có cách nào để FusionDirectory phục hồi dữ liệu "
 "cho bạn."
 
 #: plugins/admin/acl/class_aclManagement.inc:154
@@ -5076,7 +5078,7 @@ msgid ""
 "do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
 "Đây có thể là một nhóm người dùng sơ cấp. Xin hãy kiểm tra lại hai lần nếu "
-"bạn thực sự muốn làm việc này bởi sẽ không có cách nào để GOsa lấy lại dữ "
+"bạn thực sự muốn làm việc này bởi sẽ không có cách nào để FusionDirectory lấy lại dữ "
 "liệu cho bạn."
 
 #: plugins/admin/groups/trust_machines.tpl:6
@@ -5884,7 +5886,7 @@ msgid ""
 "FusionDirectory to get your data back."
 msgstr ""
 "Xin hãy kiểm tra hai lần nếu bạn thực sự muốn làm việc này bởi sẽ không có "
-"cách nào để GOsa lấy lại dữ liệu cho bạn."
+"cách nào để FusionDirectory lấy lại dữ liệu cho bạn."
 
 #: plugins/admin/ogroups/paste_generic.tpl:7
 msgid "Please enter the new object group name"

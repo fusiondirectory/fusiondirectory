@@ -1,8 +1,13 @@
+# translation of messages.po to polish
+# Copyright (C) 2009 Piort Rybicki
+# Copyright (C) 2011 FusionDirectory
+# This file is distributed under the same license as the FusionDirectory package.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: polski\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-24 12:46+0100\n"
+"POT-Creation-Date: 2011-03-24 19:03+0100\n"
 "PO-Revision-Date: 2009-09-05 15:13+0100\n"
 "Last-Translator: Piort Rybicki <meritus@innervision.pl>\n"
 "Language-Team: Piotr Rybicki <meritus@innervision.pl>\n"
@@ -171,7 +176,7 @@ msgid ""
 "Fatal error: Register globals is on. FusionDirectory will refuse to login "
 "unless this is fixed by an administrator."
 msgstr ""
-"BŁĄD: Register globals jest włączone. GOsa odmówi logowania do momentu "
+"BŁĄD: Register globals jest włączone. FusionDirectory odmówi logowania do momentu "
 "poprawienia tego parametru przez administratora."
 
 #: html/main.php:198 ihtml/themes/default/password.tpl:41
@@ -548,7 +553,7 @@ msgstr "Kontynuuj"
 #: ihtml/themes/default/logout-close.tpl:5
 #, fuzzy
 msgid "Your FusionDirectory session has been closed!"
-msgstr "Twoja sesja w GOsa wygasła!"
+msgstr "Twoja sesja w FusionDirectory wygasła!"
 
 #: ihtml/themes/default/logout-close.tpl:7
 msgid ""
@@ -639,7 +644,7 @@ msgstr "Zmień hasło"
 #: ihtml/themes/default/login.tpl:10
 #, fuzzy
 msgid "FusionDirectory login screen"
-msgstr "Ekran logowania GOsa"
+msgstr "Ekran logowania FusionDirectory"
 
 #: ihtml/themes/default/login.tpl:27
 msgid "Login screen"
@@ -843,10 +848,10 @@ msgstr "Kreator Copy &amp; paste"
 msgid ""
 "Some values need to be unique in the complete directory while some "
 "combinations make no sense. FusionDirectory shows the relevant attributes. "
-"Please maintain the values below to fullfill the policies."
+"Please maintain the values below to fulfill the policies."
 msgstr ""
 "Niektóre wartości muszą być unikalne w całym katalogu, podczas gdy niektóre "
-"kombinacje nie mają sensu. GOsa pokazuje dotyczące atrybuty. Proszę poprawić "
+"kombinacje nie mają sensu. FusionDirectory pokazuje dotyczące atrybuty. Proszę poprawić "
 "wartości poniżej aby utrzymać zgodność z regułami."
 
 #: ihtml/themes/default/copyPasteDialog.tpl:9
@@ -882,7 +887,7 @@ msgstr "Zakończ"
 #: ihtml/themes/default/logout.tpl:5
 #, fuzzy
 msgid "Your FusionDirectory session has expired!"
-msgstr "Twoja sesja w GOsa wygasła!"
+msgstr "Twoja sesja w FusionDirectory wygasła!"
 
 #: ihtml/themes/default/logout.tpl:7
 #, fuzzy
@@ -891,7 +896,7 @@ msgid ""
 "time ago in the past. For security reasons, the session has been closed. To "
 "continue with administrative tasks, please sign in again."
 msgstr ""
-"Ostatnia interakcja z interfejsem GOsa była już jakiś czas temu. Z powodów "
+"Ostatnia interakcja z interfejsem FusionDirectory była już jakiś czas temu. Z powodów "
 "bezpieczeństwa sesja została zamknięta. Aby kontynuować proszę zalogować się "
 "ponownie."
 
@@ -902,7 +907,7 @@ msgstr "Zaloguj się ponownie"
 #: ihtml/themes/default/help.tpl:9
 #, fuzzy
 msgid "FusionDirectory help viewer"
-msgstr "Podgląd pomocy GOsa"
+msgstr "Podgląd pomocy FusionDirectory"
 
 #: ihtml/themes/default/help.tpl:15
 msgid "Index"
@@ -1062,7 +1067,7 @@ msgid ""
 "Search for 'session.gc_maxlifetime' in your php.ini and set it to 86400 or "
 "higher."
 msgstr ""
-"Aby używać GOsa bez problemow, opcja session.auto_register w pliku php.ini "
+"Aby używać FusionDirectory bez problemow, opcja session.auto_register w pliku php.ini "
 "musi być ustawiona na 'off'."
 
 #: setup/class_setupStep_Checks.inc:199 setup/class_setupStep_Checks.inc:215
@@ -1076,14 +1081,14 @@ msgid ""
 "In Order to use FusionDirectory without any trouble, the session."
 "auto_register option in your php.ini should be set to 'Off'."
 msgstr ""
-"Aby używać GOsa bez problemow, opcja session.auto_register w pliku php.ini "
+"Aby używać FusionDirectory bez problemow, opcja session.auto_register w pliku php.ini "
 "musi być ustawiona na 'off'."
 
 #: setup/class_setupStep_Checks.inc:201
 #, fuzzy
 msgid "Search for 'session.auto_start' in your php.ini and set it to 'Off'."
 msgstr ""
-"Aby używać GOsa bez problemow, opcja session.auto_register w pliku php.ini "
+"Aby używać FusionDirectory bez problemow, opcja session.auto_register w pliku php.ini "
 "musi być ustawiona na 'off'."
 
 #: setup/class_setupStep_Checks.inc:208
@@ -1092,7 +1097,7 @@ msgid ""
 "FusionDirectory needs at least 32MB of memory. Setting it below this limit "
 "may cause errors that are not reproducable! Increase it for larger setups."
 msgstr ""
-"GOsa potrzebuje conajmniej 16MB pamięci. Mniej może prowadzić do "
+"FusionDirectory potrzebuje conajmniej 16MB pamięci. Mniej może prowadzić do "
 "nieprzewidywalnych błędów. Dla większych instalacji, należy zwiększyć ten "
 "parametr."
 
@@ -1168,7 +1173,7 @@ msgstr ""
 msgid ""
 "Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'."
 msgstr ""
-"Aby używać GOsa bez problemow, opcja session.auto_register w pliku php.ini "
+"Aby używać FusionDirectory bez problemow, opcja session.auto_register w pliku php.ini "
 "musi być ustawiona na 'off'."
 
 #: setup/class_setupStep_Checks.inc:259
@@ -1350,7 +1355,7 @@ msgid ""
 "This dialog performs the basic configuration of the LDAP connectivity for "
 "FusionDirectory."
 msgstr ""
-"Poniższe pola pozwalają na podstawową konfigurację zachowania GOsa i "
+"Poniższe pola pozwalają na podstawową konfigurację zachowania FusionDirectory i "
 "wpływają na różne właściwości w głównej konfiguracji."
 
 #: setup/class_setupStep_Ldap.inc:112
@@ -1393,7 +1398,7 @@ msgstr "Automatycznie"
 #: setup/setup_frame.tpl:12
 #, fuzzy
 msgid "FusionDirectory setup wizard"
-msgstr "Podgląd pomocy GOsa"
+msgstr "Podgląd pomocy FusionDirectory"
 
 #: setup/setup_frame.tpl:19
 #, fuzzy
@@ -1528,7 +1533,7 @@ msgid ""
 "Normally this is adjustable via user templates, but you can specify a "
 "default method to be used here, too."
 msgstr ""
-"GOsa wspiera kilka typów szyfrowania hasła. Typy można ustawić przez "
+"FusionDirectory wspiera kilka typów szyfrowania hasła. Typy można ustawić przez "
 "szablony użytkownika, oraz można też ustawić typ domyślny tutaj."
 
 #: setup/setup_config1.tpl:222
@@ -1539,7 +1544,7 @@ msgid ""
 "implemented. For this to work, we need the admin DN and the corresponding "
 "password."
 msgstr ""
-"GOsa zawsze zachowuje się jak admin i zarządza uprawnieniami wewnętrznie. "
+"FusionDirectory zawsze zachowuje się jak admin i zarządza uprawnieniami wewnętrznie. "
 "Jest to obejście dopóki ACL w katalogu OpenLDAP zostaną w pełni "
 "zaimplementowane. Trzeba podać administracyjne DN i odpowiednie hasło."
 
@@ -1551,7 +1556,7 @@ msgid ""
 "created. Check the values below if the fit your needs."
 msgstr ""
 "Pewne podstawowe parametry LDAP są zmienialne i wpływają na lokalizacje "
-"gdzie GOsa zapisuje użytkowników i grupy razem ze sposobem w jaki konta są "
+"gdzie FusionDirectory zapisuje użytkowników i grupy razem ze sposobem w jaki konta są "
 "tworzone. Sprawdź wartości poniżej i dostosuj do wymagań."
 
 #: setup/setup_config1.tpl:224
@@ -1561,7 +1566,7 @@ msgid ""
 "provide interfaces to users mailboxes and general handling    for quotas. "
 "You can choose the dummy plugin to leave all your mail settings untouched."
 msgstr ""
-"GOsa posiada modularne wsparcie dla kilku metod pocztowych. Te metody "
+"FusionDirectory posiada modularne wsparcie dla kilku metod pocztowych. Te metody "
 "zapewniają interfejsy dla kont użytkowników oraz quota. Można wybrać "
 "sztuczny dodatek, aby pozostawić ustawienia poczty nietknięte."
 
@@ -1812,7 +1817,7 @@ msgstr "Włączone"
 #: setup/class_setupStep_Config1.inc:74 setup/class_setupStep_Config1.inc:75
 #, fuzzy
 msgid "FusionDirectory settings 1/3"
-msgstr "Ustawienia GOsa 1/3"
+msgstr "Ustawienia FusionDirectory 1/3"
 
 #: setup/class_setupStep_Config1.inc:76
 #, fuzzy
@@ -1855,7 +1860,7 @@ msgstr "Port sieve musi być liczbą."
 #: setup/class_setupStep_Config2.inc:81 setup/class_setupStep_Config2.inc:82
 #, fuzzy
 msgid "FusionDirectory settings 2/3"
-msgstr "Ustawienia GOsa 2/3"
+msgstr "Ustawienia FusionDirectory 2/3"
 
 #: setup/class_setupStep_Config2.inc:83
 msgid "Customize special parameters"
@@ -2302,7 +2307,7 @@ msgstr "Utwórz użytkownika z tego szablonu"
 #: setup/setup_migrate.tpl:219
 #, fuzzy
 msgid "Migrate GOsa 2.5 administrative accounts"
-msgstr "Utwórz konto Netatalk"
+msgstr ""
 
 #: setup/setup_migrate.tpl:221
 msgid ""
@@ -2405,7 +2410,7 @@ msgstr "Wiadomość powitalna"
 #: setup/class_setupStep_Welcome.inc:40
 #, fuzzy
 msgid "Welcome to FusionDirectory setup wizard"
-msgstr "Witaj w instalacji GOsa!"
+msgstr "Witaj w instalacji FusionDirectory!"
 
 #: setup/setup_checks.tpl:9
 msgid "PHP module and extension checks"
@@ -2696,7 +2701,7 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:1028
 #, fuzzy, php-format
 msgid "FusionDirectory 2.5 administrative accounts found: %s"
-msgstr "Utwórz konto Netatalk"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1033
 #, fuzzy
@@ -3298,7 +3303,7 @@ msgstr "Wróć"
 #: include/utils/class_msgPool.inc:402
 #, fuzzy, php-format
 msgid "This account has no valid %s extensions!"
-msgstr "To konto nie posiada poprawnych rozszerzeń GOsa."
+msgstr "To konto nie posiada poprawnych rozszerzeń FusionDirectory."
 
 #: include/utils/class_msgPool.inc:408
 #, fuzzy, php-format
@@ -3777,12 +3782,12 @@ msgstr "Katalog"
 #: include/functions.inc:2326
 #, fuzzy, php-format
 msgid "FusionDirectory %s snapshot (Rev %s)"
-msgstr "Wersja deweloperska GOsa (Rev %s)"
+msgstr "Wersja deweloperska FusionDirectory (Rev %s)"
 
 #: include/functions.inc:2331
 #, fuzzy, php-format
 msgid "FusionDirectory development snapshot (Rev %s)"
-msgstr "Wersja deweloperska GOsa (Rev %s)"
+msgstr "Wersja deweloperska FusionDirectory (Rev %s)"
 
 #: include/functions.inc:2427
 #, php-format
@@ -4495,60 +4500,60 @@ msgstr ""
 msgid "Error while importing dn: '%s', please check your LDIF from line %s on!"
 msgstr "Błąd podczas importu dn: '%s', proszę sprawdzić LDIF od linii %s !"
 
-#: include/php_setup.inc:101
+#: include/php_setup.inc:100
 msgid "Generating this page caused the PHP interpreter to raise some errors!"
 msgstr "Tworzenie tej strony spowodowało, że interpreter PHP zwrócił błędy!"
 
-#: include/php_setup.inc:106
+#: include/php_setup.inc:105
 msgid "Send bug report to the FusionDirectory Team"
 msgstr ""
 
-#: include/php_setup.inc:106
+#: include/php_setup.inc:105
 #, fuzzy
 msgid "Send bugreport"
 msgstr "Nadawca"
 
-#: include/php_setup.inc:111
+#: include/php_setup.inc:110
 msgid "Toggle information"
 msgstr "Przełącz informacje"
 
-#: include/php_setup.inc:121
+#: include/php_setup.inc:120
 msgid "PHP error"
 msgstr "błąd PHP:"
 
-#: include/php_setup.inc:140
+#: include/php_setup.inc:139
 msgid "class"
 msgstr "klasa"
 
-#: include/php_setup.inc:146
+#: include/php_setup.inc:145
 msgid "function"
 msgstr "funkcja"
 
-#: include/php_setup.inc:151
+#: include/php_setup.inc:150
 msgid "static"
 msgstr "statyczna"
 
-#: include/php_setup.inc:155
+#: include/php_setup.inc:154
 msgid "method"
 msgstr "metoda"
 
-#: include/php_setup.inc:188
+#: include/php_setup.inc:187
 msgid "Trace"
 msgstr "Śledzenie"
 
-#: include/php_setup.inc:189
+#: include/php_setup.inc:188
 msgid "File"
 msgstr "Plik"
 
-#: include/php_setup.inc:189
+#: include/php_setup.inc:188
 msgid "Line"
 msgstr "Linia"
 
-#: include/php_setup.inc:189
+#: include/php_setup.inc:188
 msgid "Type"
 msgstr "Typ"
 
-#: include/php_setup.inc:190
+#: include/php_setup.inc:189
 msgid "Arguments"
 msgstr "Argumenty"
 
@@ -5477,7 +5482,7 @@ msgstr ""
 #: plugins/admin/departments/dep_move_confirm.tpl:8
 #, fuzzy
 msgid "FusionDirectory can NOT fix this for you, yet."
-msgstr "GOsa NIE może naprawić tego dla Ciebie, jeszcze."
+msgstr "FusionDirectory NIE może naprawić tego dla Ciebie, jeszcze."
 
 #: plugins/admin/departments/dep_move_confirm.tpl:11
 msgid ""
@@ -6049,7 +6054,7 @@ msgid ""
 "menu on the left, or by choosing one of the pictograms below. All changes "
 "apply directly to your companies LDAP server."
 msgstr ""
-"To jest główny ekran GOsa. Można wybrać zadania z menu po lewej stronie, lub "
+"To jest główny ekran FusionDirectory. Można wybrać zadania z menu po lewej stronie, lub "
 "wybierając jeden z piktogramów poniżej. Wszelkie zmiany wchodzą bezpośrednio "
 "do serwera LDAP."
 

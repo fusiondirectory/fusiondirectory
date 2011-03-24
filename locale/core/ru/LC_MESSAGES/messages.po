@@ -1,11 +1,15 @@
 # Translation of messages.po to Russian
+# Copyright (C) 2005 Igor Muratov
+# Copyright (C) 2011 FusionDirectory
+# This file is distributed under the same license as the FusionDirectory package.
+#
 # Valia V. Vaneeva <fattie@altlinux.ru>, 2004.
-# $Id: messages.po,v 1.61 2005/04/18 10:37:13 migor-guest Exp $
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-24 12:46+0100\n"
+"POT-Creation-Date: 2011-03-24 19:03+0100\n"
 "PO-Revision-Date: 2005-04-18 14:35+0300\n"
 "Last-Translator: Igor Muratov <migor@altlinux.org>\n"
 "Language-Team: ALT Linux Team\n"
@@ -26,7 +30,7 @@ msgstr "Терминал-сервер"
 #, fuzzy, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
 msgstr ""
-"Не удается прочитать файл настройки GOsa %s/fusiondirectory.conf. Операция "
+"Не удается прочитать файл настройки FusionDirectory %s/fusiondirectory.conf. Операция "
 "прервана."
 
 #: html/password.php:74 html/main.php:268 html/index.php:144
@@ -176,7 +180,7 @@ msgid ""
 "Fatal error: Register globals is on. FusionDirectory will refuse to login "
 "unless this is fixed by an administrator."
 msgstr ""
-"Используется механизм register_globals. GOsa не допустит пользователей в "
+"Используется механизм register_globals. FusionDirectory не допустит пользователей в "
 "систему, пока он не будет отключен администратором."
 
 #: html/main.php:198 ihtml/themes/default/password.tpl:41
@@ -686,7 +690,7 @@ msgid ""
 "to do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
 "Это приложение может использоваться несколькими группами. Подумайте еще раз, "
-"действительно ли вы хотите удалить его, так как GOsa не сможет отменить "
+"действительно ли вы хотите удалить его, так как FusionDirectory не сможет отменить "
 "результаты этой операции."
 
 #: ihtml/themes/default/remove.tpl:9 plugins/admin/acl/remove.tpl:10
@@ -870,7 +874,7 @@ msgstr ""
 msgid ""
 "Some values need to be unique in the complete directory while some "
 "combinations make no sense. FusionDirectory shows the relevant attributes. "
-"Please maintain the values below to fullfill the policies."
+"Please maintain the values below to fulfill the policies."
 msgstr ""
 
 #: ihtml/themes/default/copyPasteDialog.tpl:9
@@ -1060,7 +1064,7 @@ msgid ""
 msgstr ""
 "register_globals - механизм PHP, позволяющий делать все глобальные "
 "переменные доступными из сценария без смены области действия. Это может быть "
-"нарушением безопасности. Тем не менее, GOsa будет работать в любом случае."
+"нарушением безопасности. Тем не менее, FusionDirectory будет работать в любом случае."
 
 #: setup/class_setupStep_Checks.inc:182
 #, fuzzy
@@ -1542,7 +1546,7 @@ msgid ""
 "implemented. For this to work, we need the admin DN and the corresponding "
 "password."
 msgstr ""
-"Сейчас вам нужно указать параметры доступа к LDAP-серверу. GOsa всегда "
+"Сейчас вам нужно указать параметры доступа к LDAP-серверу. FusionDirectory всегда "
 "выступает в роли администратора и управляет правами доступа самостоятельно. "
 "Это временное решение, пока в OpenLDAP не будут реализованы полностью "
 "средства контроля доступа (ACI) внутри каталогов. Чтобы это решение "
@@ -1901,14 +1905,14 @@ msgid ""
 "Your configuration file is currently world readable. Please update the file "
 "permissions!"
 msgstr ""
-"Не удается прочитать файл настройки GOsa %s/fusiondirectory.conf. Операция "
+"Не удается прочитать файл настройки FusionDirectory %s/fusiondirectory.conf. Операция "
 "прервана."
 
 #: setup/class_setupStep_Finish.inc:106
 #, fuzzy
 msgid "The configuration is currently not readable or it does not exists."
 msgstr ""
-"Не удается прочитать файл настройки GOsa %s/fusiondirectory.conf. Операция "
+"Не удается прочитать файл настройки FusionDirectory %s/fusiondirectory.conf. Операция "
 "прервана."
 
 #: setup/class_setupStep_Finish.inc:115
@@ -2424,7 +2428,7 @@ msgstr "Удалить"
 #: setup/class_setupStep_Welcome.inc:40
 #, fuzzy
 msgid "Welcome to FusionDirectory setup wizard"
-msgstr "Добро пожаловать в раздел настройки GOsa!"
+msgstr "Добро пожаловать в раздел настройки FusionDirectory!"
 
 #: setup/setup_checks.tpl:9
 msgid "PHP module and extension checks"
@@ -3327,7 +3331,7 @@ msgstr "Назад"
 #: include/utils/class_msgPool.inc:402
 #, fuzzy, php-format
 msgid "This account has no valid %s extensions!"
-msgstr "Для этой учетной записи нет корректных расширений GOsa."
+msgstr "Для этой учетной записи нет корректных расширений FusionDirectory."
 
 #: include/utils/class_msgPool.inc:408
 #, fuzzy, php-format
@@ -4568,67 +4572,67 @@ msgstr ""
 msgid "Error while importing dn: '%s', please check your LDIF from line %s on!"
 msgstr ""
 
-#: include/php_setup.inc:101
+#: include/php_setup.inc:100
 msgid "Generating this page caused the PHP interpreter to raise some errors!"
 msgstr ""
 
-#: include/php_setup.inc:106
+#: include/php_setup.inc:105
 msgid "Send bug report to the FusionDirectory Team"
 msgstr ""
 
-#: include/php_setup.inc:106
+#: include/php_setup.inc:105
 #, fuzzy
 msgid "Send bugreport"
 msgstr "Отправитель"
 
-#: include/php_setup.inc:111
+#: include/php_setup.inc:110
 #, fuzzy
 msgid "Toggle information"
 msgstr "Личная информация"
 
-#: include/php_setup.inc:121
+#: include/php_setup.inc:120
 #, fuzzy
 msgid "PHP error"
 msgstr "Ошибка LDAP:"
 
-#: include/php_setup.inc:140
+#: include/php_setup.inc:139
 msgid "class"
 msgstr ""
 
-#: include/php_setup.inc:146
+#: include/php_setup.inc:145
 #, fuzzy
 msgid "function"
 msgstr "Действие"
 
-#: include/php_setup.inc:151
+#: include/php_setup.inc:150
 #, fuzzy
 msgid "static"
 msgstr "Состояние"
 
-#: include/php_setup.inc:155
+#: include/php_setup.inc:154
 #, fuzzy
 msgid "method"
 msgstr "Почтовые настройки"
 
-#: include/php_setup.inc:188
+#: include/php_setup.inc:187
 msgid "Trace"
 msgstr ""
 
-#: include/php_setup.inc:189
+#: include/php_setup.inc:188
 #, fuzzy
 msgid "File"
 msgstr "Файлы"
 
-#: include/php_setup.inc:189
+#: include/php_setup.inc:188
 #, fuzzy
 msgid "Line"
 msgstr "в"
 
-#: include/php_setup.inc:189
+#: include/php_setup.inc:188
 msgid "Type"
 msgstr "Тип"
 
-#: include/php_setup.inc:190
+#: include/php_setup.inc:189
 #, fuzzy
 msgid "Arguments"
 msgstr "подразделения"
@@ -4693,7 +4697,7 @@ msgid ""
 msgstr ""
 "Сюда входит вся информация об учетной записи этого пользователя, его права "
 "доступа в системе, настройки IMAP и т. д. Подумайте еще раз, действительно "
-"ли вам нужно удаление, так как GOsa не сможет отменить результаты этой "
+"ли вам нужно удаление, так как FusionDirectory не сможет отменить результаты этой "
 "операции."
 
 #: plugins/admin/acl/class_aclManagement.inc:154
@@ -5152,7 +5156,7 @@ msgid ""
 "do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
 "Возможно, это основная группа пользователей. Еще раз проверте что Вы "
-"действительно хотите удалить ее, так как GOsa не сможет отменить результаты "
+"действительно хотите удалить ее, так как FusionDirectory не сможет отменить результаты "
 "этой операции."
 
 #: plugins/admin/groups/trust_machines.tpl:6
@@ -5622,7 +5626,7 @@ msgid ""
 msgstr ""
 "Это включает <b>все</b> учетные записи, системы и т.п. для данного "
 "подразделения. Подумайте еще раз, действительно ли вы хотите его удалить, "
-"так как GOsa не сможет отменить результаты этой операции."
+"так как FusionDirectory не сможет отменить результаты этой операции."
 
 #: plugins/admin/departments/remove.tpl:10
 #, fuzzy
@@ -5981,7 +5985,7 @@ msgid ""
 "Please double check if you really want to do this since there is no way for "
 "FusionDirectory to get your data back."
 msgstr ""
-"Подумайте еще раз, действительно ли вам нужно удаление, так как GOsa не "
+"Подумайте еще раз, действительно ли вам нужно удаление, так как FusionDirectory не "
 "сможет восстановить эти данные."
 
 #: plugins/admin/ogroups/paste_generic.tpl:7
@@ -6185,7 +6189,7 @@ msgid ""
 "menu on the left, or by choosing one of the pictograms below. All changes "
 "apply directly to your companies LDAP server."
 msgstr ""
-"Это начальная страница GOsa. Из меню слева или среди пиктограмм ниже вы "
+"Это начальная страница FusionDirectory. Из меню слева или среди пиктограмм ниже вы "
 "можете выбрать нужный вам раздел. Все изменения будут сразу же переноситься "
 "на LDAP-сервер вашей компании."
 

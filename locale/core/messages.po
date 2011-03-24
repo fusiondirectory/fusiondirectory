@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-24 12:46+0100\n"
+"POT-Creation-Date: 2011-03-24 19:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -795,7 +795,7 @@ msgstr ""
 msgid ""
 "Some values need to be unique in the complete directory while some "
 "combinations make no sense. FusionDirectory shows the relevant attributes. "
-"Please maintain the values below to fullfill the policies."
+"Please maintain the values below to fulfill the policies."
 msgstr ""
 
 #: ihtml/themes/default/copyPasteDialog.tpl:9
@@ -4166,59 +4166,59 @@ msgstr ""
 msgid "Error while importing dn: '%s', please check your LDIF from line %s on!"
 msgstr ""
 
-#: include/php_setup.inc:101
+#: include/php_setup.inc:100
 msgid "Generating this page caused the PHP interpreter to raise some errors!"
 msgstr ""
 
-#: include/php_setup.inc:106
+#: include/php_setup.inc:105
 msgid "Send bug report to the FusionDirectory Team"
 msgstr ""
 
-#: include/php_setup.inc:106
+#: include/php_setup.inc:105
 msgid "Send bugreport"
 msgstr ""
 
-#: include/php_setup.inc:111
+#: include/php_setup.inc:110
 msgid "Toggle information"
 msgstr ""
 
-#: include/php_setup.inc:121
+#: include/php_setup.inc:120
 msgid "PHP error"
 msgstr ""
 
-#: include/php_setup.inc:140
+#: include/php_setup.inc:139
 msgid "class"
 msgstr ""
 
-#: include/php_setup.inc:146
+#: include/php_setup.inc:145
 msgid "function"
 msgstr ""
 
-#: include/php_setup.inc:151
+#: include/php_setup.inc:150
 msgid "static"
 msgstr ""
 
-#: include/php_setup.inc:155
+#: include/php_setup.inc:154
 msgid "method"
 msgstr ""
 
-#: include/php_setup.inc:188
+#: include/php_setup.inc:187
 msgid "Trace"
 msgstr ""
 
-#: include/php_setup.inc:189
+#: include/php_setup.inc:188
 msgid "File"
 msgstr ""
 
-#: include/php_setup.inc:189
+#: include/php_setup.inc:188
 msgid "Line"
 msgstr ""
 
-#: include/php_setup.inc:189
+#: include/php_setup.inc:188
 msgid "Type"
 msgstr ""
 
-#: include/php_setup.inc:190
+#: include/php_setup.inc:189
 msgid "Arguments"
 msgstr ""
 

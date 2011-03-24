@@ -1,13 +1,14 @@
 # translation of messages.po to Chinese Simplified
 # Copyright (C) 2003 GONICUS GmbH, Germany
-# This file is distributed under the same license as the GOsa2 package.
+# Copyright (C) 2011 FusionDirectory
+# This file is distributed under the same license as the FusionDirectory package.
 #
 # Jiang Xin <worldhello.net@gmail.com>, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-24 12:46+0100\n"
+"POT-Creation-Date: 2011-03-24 19:03+0100\n"
 "PO-Revision-Date: 2007-06-03 12:27+0800\n"
 "Last-Translator: Jiang Xin <worldhello.net@gmail.com>\n"
 "Language-Team: Chinese Simplified <zh@li.org>\n"
@@ -27,7 +28,7 @@ msgstr "终端服务器"
 #: html/password.php:58 html/index.php:144
 #, fuzzy, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
-msgstr "GOsa 配置 %s/fusiondirectory.conf 不可读取。退出。"
+msgstr "FusionDirectory 配置 %s/fusiondirectory.conf 不可读取。退出。"
 
 #: html/password.php:74 html/main.php:268 html/index.php:144
 #: html/index.php:216 include/class_SnapshotHandler.inc:44
@@ -175,7 +176,7 @@ msgstr "PHP 安装检查"
 msgid ""
 "Fatal error: Register globals is on. FusionDirectory will refuse to login "
 "unless this is fixed by an administrator."
-msgstr "致命错误：全局注册已打开。GOsa 将拒绝登录直到被管理修正。"
+msgstr "致命错误：全局注册已打开。FusionDirectory 将拒绝登录直到被管理修正。"
 
 #: html/main.php:198 ihtml/themes/default/password.tpl:41
 #: plugins/admin/users/class_userManagement.inc:401
@@ -551,7 +552,7 @@ msgstr "继续"
 #: ihtml/themes/default/logout-close.tpl:5
 #, fuzzy
 msgid "Your FusionDirectory session has been closed!"
-msgstr "您的 GOsa 会话已经过期！"
+msgstr "您的 FusionDirectory 会话已经过期！"
 
 #: ihtml/themes/default/logout-close.tpl:7
 msgid ""
@@ -675,7 +676,7 @@ msgid ""
 "This may be used by several groups. Please double check if your really want "
 "to do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
-"这可能被好几个组使用。请再次检查您是否要这么做，因为 GOsa 没有办法将您的数据"
+"这可能被好几个组使用。请再次检查您是否要这么做，因为 FusionDirectory 没有办法将您的数据"
 "找回。"
 
 #: ihtml/themes/default/remove.tpl:9 plugins/admin/acl/remove.tpl:10
@@ -849,9 +850,9 @@ msgstr "拷贝和粘贴精灵"
 msgid ""
 "Some values need to be unique in the complete directory while some "
 "combinations make no sense. FusionDirectory shows the relevant attributes. "
-"Please maintain the values below to fullfill the policies."
+"Please maintain the values below to fulfill the policies."
 msgstr ""
-"有的变量需要在整个目录中保持唯一，而有的组合没有意义。GOsa 显示有关属性。请按"
+"有的变量需要在整个目录中保持唯一，而有的组合没有意义。FusionDirectory 显示有关属性。请按"
 "照这个原则维护其取值。"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:9
@@ -887,7 +888,7 @@ msgstr "完成"
 #: ihtml/themes/default/logout.tpl:5
 #, fuzzy
 msgid "Your FusionDirectory session has expired!"
-msgstr "您的 GOsa 会话已经过期！"
+msgstr "您的 FusionDirectory 会话已经过期！"
 
 #: ihtml/themes/default/logout.tpl:7
 #, fuzzy
@@ -896,7 +897,7 @@ msgid ""
 "time ago in the past. For security reasons, the session has been closed. To "
 "continue with administrative tasks, please sign in again."
 msgstr ""
-"上一次操作 GOsa 界面是在很长时间之前。出于安全上的考虑，已经关闭了连接。要继"
+"上一次操作 FusionDirectory 界面是在很长时间之前。出于安全上的考虑，已经关闭了连接。要继"
 "续执行管理任务，请重新登录。"
 
 #: ihtml/themes/default/logout.tpl:10
@@ -906,7 +907,7 @@ msgstr "重新登录"
 #: ihtml/themes/default/help.tpl:9
 #, fuzzy
 msgid "FusionDirectory help viewer"
-msgstr "GOsa 帮助浏览器"
+msgstr "FusionDirectory 帮助浏览器"
 
 #: ihtml/themes/default/help.tpl:15
 msgid "Index"
@@ -1039,7 +1040,7 @@ msgid ""
 "risk."
 msgstr ""
 "register_globals 是 PHP 的一个不必修改范围就可以从脚本中访问所有全局变量的机"
-"制。这可能存在安全风险。GOsa 在两种情况下都可以运行。"
+"制。这可能存在安全风险。FusionDirectory 在两种情况下都可以运行。"
 
 #: setup/class_setupStep_Checks.inc:182
 #, fuzzy
@@ -1076,14 +1077,14 @@ msgid ""
 "In Order to use FusionDirectory without any trouble, the session."
 "auto_register option in your php.ini should be set to 'Off'."
 msgstr ""
-"为了在是使用 GOsa 中不遇到麻烦，您的 php.ini 中 session.auto_register 选项必"
+"为了在是使用 FusionDirectory 中不遇到麻烦，您的 php.ini 中 session.auto_register 选项必"
 "须设置为 'Off'。"
 
 #: setup/class_setupStep_Checks.inc:201
 #, fuzzy
 msgid "Search for 'session.auto_start' in your php.ini and set it to 'Off'."
 msgstr ""
-"为了在是使用 GOsa 中不遇到麻烦，您的 php.ini 中 session.auto_register 选项必"
+"为了在是使用 FusionDirectory 中不遇到麻烦，您的 php.ini 中 session.auto_register 选项必"
 "须设置为 'Off'。"
 
 #: setup/class_setupStep_Checks.inc:208
@@ -1091,7 +1092,7 @@ msgstr ""
 msgid ""
 "FusionDirectory needs at least 32MB of memory. Setting it below this limit "
 "may cause errors that are not reproducable! Increase it for larger setups."
-msgstr "GOsa 需要至少 16MB 内存，太少会导致无法预料的错误！将其设置为更大。"
+msgstr "FusionDirectory 需要至少 16MB 内存，太少会导致无法预料的错误！将其设置为更大。"
 
 #: setup/class_setupStep_Checks.inc:209
 msgid ""
@@ -1383,7 +1384,7 @@ msgstr "自动"
 #: setup/setup_frame.tpl:12
 #, fuzzy
 msgid "FusionDirectory setup wizard"
-msgstr "GOsa 帮助浏览器"
+msgstr "FusionDirectory 帮助浏览器"
 
 #: setup/setup_frame.tpl:19
 #, fuzzy
@@ -1520,7 +1521,7 @@ msgid ""
 "Normally this is adjustable via user templates, but you can specify a "
 "default method to be used here, too."
 msgstr ""
-"GOsa 支持好几种口令加密算法。通常可以通过用户模板调整算法，但是在这里您可以定"
+"FusionDirectory 支持好几种口令加密算法。通常可以通过用户模板调整算法，但是在这里您可以定"
 "义一个缺省方法。"
 
 #: setup/setup_config1.tpl:222
@@ -1531,7 +1532,7 @@ msgid ""
 "implemented. For this to work, we need the admin DN and the corresponding "
 "password."
 msgstr ""
-"GOsa 总是作为 LDAP 管理员，并且管理内部权限。这是一个临时方案直到 OpenLDAP 目"
+"FusionDirectory 总是作为 LDAP 管理员，并且管理内部权限。这是一个临时方案直到 OpenLDAP 目"
 "录 ACI 被完全实现。为了让其实现，我们需要管理员 DN 和正确的口令。"
 
 #: setup/setup_config1.tpl:223
@@ -1551,7 +1552,7 @@ msgid ""
 "provide interfaces to users mailboxes and general handling    for quotas. "
 "You can choose the dummy plugin to leave all your mail settings untouched."
 msgstr ""
-"GOsa 通过模组支持几种邮件方法。这些方法提供用户邮箱的界面以及管理用户空间。您"
+"FusionDirectory 通过模组支持几种邮件方法。这些方法提供用户邮箱的界面以及管理用户空间。您"
 "可以选择选择 dummy 插件以保持您的邮件设置不被更改。"
 
 #: setup/setup_config2.tpl:2
@@ -1887,12 +1888,12 @@ msgstr "需要 XML 功能来解析配置文件。"
 msgid ""
 "Your configuration file is currently world readable. Please update the file "
 "permissions!"
-msgstr "GOsa 配置 %s/fusiondirectory.conf 不可读取。退出。"
+msgstr "FusionDirectory 配置 %s/fusiondirectory.conf 不可读取。退出。"
 
 #: setup/class_setupStep_Finish.inc:106
 #, fuzzy
 msgid "The configuration is currently not readable or it does not exists."
-msgstr "GOsa 配置 %s/fusiondirectory.conf 不可读取。退出。"
+msgstr "FusionDirectory 配置 %s/fusiondirectory.conf 不可读取。退出。"
 
 #: setup/class_setupStep_Finish.inc:115
 #, fuzzy, php-format
@@ -1902,7 +1903,7 @@ msgid ""
 "shouldn't. You may want to execute these commands to achieve this "
 "requirement:"
 msgstr ""
-"将文件保存在 GOsa 配置文件目录中，确认 Web 服务器运行的账号能够读取 gosa."
+"将文件保存在 FusionDirectory 配置文件目录中，确认 Web 服务器运行的账号能够读取 gosa."
 "conf，其他用户则无权访问。您可以执行如下命令来实现："
 
 #: setup/setup_welcome.tpl:4
@@ -2293,7 +2294,7 @@ msgstr "创建使用该模板的用户"
 #: setup/setup_migrate.tpl:219
 #, fuzzy
 msgid "Migrate GOsa 2.5 administrative accounts"
-msgstr "创建 netatalk 账号"
+msgstr ""
 
 #: setup/setup_migrate.tpl:221
 msgid ""
@@ -2695,7 +2696,7 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:1028
 #, fuzzy, php-format
 msgid "FusionDirectory 2.5 administrative accounts found: %s"
-msgstr "创建 netatalk 账号"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1033
 #, fuzzy
@@ -3767,12 +3768,12 @@ msgstr "目录"
 #: include/functions.inc:2326
 #, fuzzy, php-format
 msgid "FusionDirectory %s snapshot (Rev %s)"
-msgstr "GOsa 开发版（版本 %s）"
+msgstr "FusionDirectory 开发版（版本 %s）"
 
 #: include/functions.inc:2331
 #, fuzzy, php-format
 msgid "FusionDirectory development snapshot (Rev %s)"
-msgstr "GOsa 开发版（版本 %s）"
+msgstr "FusionDirectory 开发版（版本 %s）"
 
 #: include/functions.inc:2427
 #, php-format
@@ -4502,67 +4503,67 @@ msgstr "这不是一条有效的 DN: '%s'。导入数据应该以 'dn:...' 开�
 msgid "Error while importing dn: '%s', please check your LDIF from line %s on!"
 msgstr "导入 dn: '%s' 时错误，请从行 %s 开始检查您的 LDIF！"
 
-#: include/php_setup.inc:101
+#: include/php_setup.inc:100
 msgid "Generating this page caused the PHP interpreter to raise some errors!"
 msgstr "生成这个页面导致 PHP 解析器发生一些错误！"
 
-#: include/php_setup.inc:106
+#: include/php_setup.inc:105
 msgid "Send bug report to the FusionDirectory Team"
 msgstr ""
 
-#: include/php_setup.inc:106
+#: include/php_setup.inc:105
 #, fuzzy
 msgid "Send bugreport"
 msgstr "发送者"
 
-#: include/php_setup.inc:111
+#: include/php_setup.inc:110
 msgid "Toggle information"
 msgstr "切换信息"
 
-#: include/php_setup.inc:121
+#: include/php_setup.inc:120
 msgid "PHP error"
 msgstr "PHP 错误"
 
-#: include/php_setup.inc:140
+#: include/php_setup.inc:139
 msgid "class"
 msgstr "类"
 
-#: include/php_setup.inc:146
+#: include/php_setup.inc:145
 msgid "function"
 msgstr "功能"
 
-#: include/php_setup.inc:151
+#: include/php_setup.inc:150
 msgid "static"
 msgstr "静态"
 
-#: include/php_setup.inc:155
+#: include/php_setup.inc:154
 msgid "method"
 msgstr "方法"
 
-#: include/php_setup.inc:188
+#: include/php_setup.inc:187
 msgid "Trace"
 msgstr "跟踪"
 
-#: include/php_setup.inc:189
+#: include/php_setup.inc:188
 msgid "File"
 msgstr "文件"
 
-#: include/php_setup.inc:189
+#: include/php_setup.inc:188
 msgid "Line"
 msgstr "行"
 
-#: include/php_setup.inc:189
+#: include/php_setup.inc:188
 msgid "Type"
 msgstr "类型"
 
-#: include/php_setup.inc:190
+#: include/php_setup.inc:189
 msgid "Arguments"
 msgstr "参数"
 
 #: include/class_msg_dialog.inc:124
 #, fuzzy
 msgid "Please fix the above error and reload the page."
-msgstr "请看一下 GOsa 日志文件。"
+msgstr ""
 
 #: plugins/admin/acl/acl-list.xml:11
 #, fuzzy
@@ -4619,7 +4620,7 @@ msgid ""
 "no way for FusionDirectory to get your data back."
 msgstr ""
 "这包含该用户所有账号数据，系统访问规则，imap 设置等等。请再次检查您是否要这么"
-"做，因为 GOsa 没有办法将您的数据找回。"
+"做，因为 FusionDirectory 没有办法将您的数据找回。"
 
 #: plugins/admin/acl/class_aclManagement.inc:154
 #, fuzzy
@@ -5057,7 +5058,7 @@ msgid ""
 "This may be a primary user group. Please double check if you really want to "
 "do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
-"这可能是一个主要的用户组。请再次检查您是否要这么做，因为 GOsa 没有办法将您的"
+"这可能是一个主要的用户组。请再次检查您是否要这么做，因为 FusionDirectory 没有办法将您的"
 "数据找回。"
 
 #: plugins/admin/groups/trust_machines.tpl:6
@@ -5518,7 +5519,7 @@ msgid ""
 "check if your really want to do this since there is no way for "
 "FusionDirectory to get your data back."
 msgstr ""
-"在这个子树中包含了所有账号，系统等等。请再次检查您是否要这么做，因为 GOsa 没"
+"在这个子树中包含了所有账号，系统等等。请再次检查您是否要这么做，因为 FusionDirectory 没"
 "有办法将您的数据找回。"
 
 #: plugins/admin/departments/remove.tpl:10
@@ -5872,7 +5873,7 @@ msgstr "显示组"
 msgid ""
 "Please double check if you really want to do this since there is no way for "
 "FusionDirectory to get your data back."
-msgstr "请再次检查您是否要这么做，因为 GOsa 没有办法将您的数据找回。"
+msgstr "请再次检查您是否要这么做，因为 FusionDirectory 没有办法将您的数据找回。"
 
 #: plugins/admin/ogroups/paste_generic.tpl:7
 msgid "Please enter the new object group name"

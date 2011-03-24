@@ -1,9 +1,7 @@
 # translation of messages.po to deutsch
-# translation of messages.po to
-# GOsa2 Translations
 # Copyright (C) 2003 GONICUS GmbH, Germany
-# This file is distributed under the same license as the GOsa2 package.
-#
+# Copyright (C) 2011 FusionDirectory
+# This file is distributed under the same license as the FusionDirectory package.
 #
 # Alfred Schroeder <schroeder@GONICUS.de>, 2004.
 # Cajus Pollmeier <pollmeier@gonicus.de>, 2004, 2005, 2006, 2008, 2009.
@@ -13,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-24 12:46+0100\n"
+"POT-Creation-Date: 2011-03-24 19:03+0100\n"
 "PO-Revision-Date: 2009-10-05 15:19+0200\n"
 "Last-Translator: Cajus Pollmeier <pollmeier@gonicus.de>\n"
 "Language-Team: de <kde-i18n-de@kde.org>\n"
@@ -33,7 +31,7 @@ msgstr "Schwerer Fehler"
 #: html/password.php:58 html/index.php:144
 #, fuzzy, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
-msgstr "Die GOsa-Konfigurationsdatei %s/%s ist nicht lesbar. Abgebrochen."
+msgstr "Die FusionDirectory-Konfigurationsdatei %s/%s ist nicht lesbar. Abgebrochen."
 
 #: html/password.php:74 html/main.php:268 html/index.php:144
 #: html/index.php:216 include/class_SnapshotHandler.inc:44
@@ -186,7 +184,7 @@ msgid ""
 "Fatal error: Register globals is on. FusionDirectory will refuse to login "
 "unless this is fixed by an administrator."
 msgstr ""
-"FATAL: 'Register globals' ist im PHP aktiviert. GOsa läßt keine Anmeldung "
+"FATAL: 'Register globals' ist im PHP aktiviert. FusionDirectory läßt keine Anmeldung "
 "zu, bis dies von einem Administrator behoben wurde."
 
 #: html/main.php:198 ihtml/themes/default/password.tpl:41
@@ -583,7 +581,7 @@ msgstr "Fortsetzen"
 #: ihtml/themes/default/logout-close.tpl:5
 #, fuzzy
 msgid "Your FusionDirectory session has been closed!"
-msgstr "Ihre GOsa-Sitzung wurde geschlossen!"
+msgstr "Ihre FusionDirectory-Sitzung wurde geschlossen!"
 
 #: ihtml/themes/default/logout-close.tpl:7
 msgid ""
@@ -677,7 +675,7 @@ msgstr "Passwort ändern"
 #: ihtml/themes/default/login.tpl:10
 #, fuzzy
 msgid "FusionDirectory login screen"
-msgstr "GOsa Anmeldefenster"
+msgstr "FusionDirectory Anmeldefenster"
 
 #: ihtml/themes/default/login.tpl:27
 msgid "Login screen"
@@ -706,7 +704,7 @@ msgid ""
 "to do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
 "Dieser Eintrag wird unter Umständen von verschiedenen Gruppen genutzt. Bitte "
-"überprüfen Sie genau was Sie tun, da GOsa keine Möglichkeit hat, die Daten "
+"überprüfen Sie genau was Sie tun, da FusionDirectory keine Möglichkeit hat, die Daten "
 "wiederherzustellen."
 
 #: ihtml/themes/default/remove.tpl:9 plugins/admin/acl/remove.tpl:10
@@ -882,10 +880,10 @@ msgstr "Kopieren & Einfügen - Assistent"
 msgid ""
 "Some values need to be unique in the complete directory while some "
 "combinations make no sense. FusionDirectory shows the relevant attributes. "
-"Please maintain the values below to fullfill the policies."
+"Please maintain the values below to fulfill the policies."
 msgstr ""
 "Bestimmte Werte müssen im gesamten Verzeichnis eindeutig sein, während "
-"andere Kombinationen keinen Sinn ergeben. GOsa zeigt die relevanten "
+"andere Kombinationen keinen Sinn ergeben. FusionDirectory zeigt die relevanten "
 "Attribute. Bitte verwalten Sie die Werte, die unten angezeigt werden, um die "
 "Auflagen zu erfüllen."
 
@@ -901,7 +899,7 @@ msgid ""
 "Or if you copy or cut an entry within FusionDirectory and delete the source "
 "object, you may get errors while pasting this object again!"
 msgstr ""
-"Oder wenn sie einen Eintrag in GOsa kopieren oder ausschneiden und das "
+"Oder wenn sie einen Eintrag in FusionDirectory kopieren oder ausschneiden und das "
 "Quellobjekt entfernen, werden Sie wahrscheinlich wieder eine Fehlermeldung "
 "erhalten, wenn Sie das Objekt einfügen!"
 
@@ -927,7 +925,7 @@ msgstr "Speichern"
 #: ihtml/themes/default/logout.tpl:5
 #, fuzzy
 msgid "Your FusionDirectory session has expired!"
-msgstr "Die Gültigkeit ihrer GOsa-Sitzung ist abgelaufen!"
+msgstr "Die Gültigkeit ihrer FusionDirectory-Sitzung ist abgelaufen!"
 
 #: ihtml/themes/default/logout.tpl:7
 #, fuzzy
@@ -947,7 +945,7 @@ msgstr "Erneut anmelden"
 #: ihtml/themes/default/help.tpl:9
 #, fuzzy
 msgid "FusionDirectory help viewer"
-msgstr "GOsa Hilfe-Browser"
+msgstr "FusionDirectory Hilfe-Browser"
 
 #: ihtml/themes/default/help.tpl:15
 msgid "Index"
@@ -1000,18 +998,18 @@ msgstr "Bitte aktualisieren Sie auf eine unterstützte Version."
 #: setup/class_setupStep_Checks.inc:73
 #, fuzzy
 msgid "FusionDirectory requires this module to talk with your LDAP server."
-msgstr "GOsa benötigt dieses Modul für die Kommunikation mit dem LDAP-Server."
+msgstr "FusionDirectory benötigt dieses Modul für die Kommunikation mit dem LDAP-Server."
 
 #: setup/class_setupStep_Checks.inc:81
 #, fuzzy
 msgid ""
 "FusionDirectory requires this module for an internationalized interface."
-msgstr "GOsa benötigt dieses Modul für eine lokalisierte Oberfläche."
+msgstr "FusionDirectory benötigt dieses Modul für eine lokalisierte Oberfläche."
 
 #: setup/class_setupStep_Checks.inc:89
 #, fuzzy
 msgid "FusionDirectory requires this module for the samba integration."
-msgstr "GOsa benötigt dieses Modul für die Samba-Einbindung."
+msgstr "FusionDirectory benötigt dieses Modul für die Samba-Einbindung."
 
 #: setup/class_setupStep_Checks.inc:97
 #, fuzzy
@@ -1019,14 +1017,14 @@ msgid ""
 "FusionDirectory requires either 'mhash' or the 'sha1' module to make use of "
 "SSHA encryption."
 msgstr ""
-"GOsa benötigt entweder das 'mhash' oder das 'sha1' Modul um die SSHA-"
+"FusionDirectory benötigt entweder das 'mhash' oder das 'sha1' Modul um die SSHA-"
 "Verschlüsselung verwenden zu können."
 
 #: setup/class_setupStep_Checks.inc:105
 #, fuzzy
 msgid "FusionDirectory requires this module to talk to an IMAP server."
 msgstr ""
-"GOsa benötigt dieses Modul für die Kommunikation mit einem IMAP-Server."
+"FusionDirectory benötigt dieses Modul für die Kommunikation mit einem IMAP-Server."
 
 #: setup/class_setupStep_Checks.inc:112
 msgid "mbstring"
@@ -1035,7 +1033,7 @@ msgstr "mbstring"
 #: setup/class_setupStep_Checks.inc:113
 #, fuzzy
 msgid "FusionDirectory requires this module to handle unicode strings."
-msgstr "GOsa benötigt dieses Modul um Unicode-Zeichenketten zu verarbeiten."
+msgstr "FusionDirectory benötigt dieses Modul um Unicode-Zeichenketten zu verarbeiten."
 
 #: setup/class_setupStep_Checks.inc:120
 msgid "MySQL"
@@ -1047,7 +1045,7 @@ msgid ""
 "FusionDirectory requires this module to communicate with several supported "
 "databases."
 msgstr ""
-"GOsa benötigt dieses Modul, um mit verschiedenen unterstützten Datenbanken "
+"FusionDirectory benötigt dieses Modul, um mit verschiedenen unterstützten Datenbanken "
 "zu kommunizieren."
 
 #: setup/class_setupStep_Checks.inc:138
@@ -1060,15 +1058,15 @@ msgid ""
 "FusionDirectory requires this command to synchronize POSIX and samba "
 "passwords."
 msgstr ""
-"GOsa benötigt dieses Kommando für den Abgleich der POSIX und Samba-"
+"FusionDirectory benötigt dieses Kommando für den Abgleich der POSIX und Samba-"
 "Passwörter."
 
 #: setup/class_setupStep_Checks.inc:140
 #, fuzzy
 msgid ""
-"Deploy a goto-si installation or install the perl Crypt::SmbHash modules."
+"Deploy a GOto-si installation or install the perl Crypt::SmbHash modules."
 msgstr ""
-"Nutzen Sie eine GOsa-SI-Installation oder installieren Sie das Perl-Modul "
+"Nutzen Sie eine GOto-si Installation oder installieren Sie das Perl-Modul "
 "Crypt::SmbHash."
 
 #: setup/class_setupStep_Checks.inc:153
@@ -1078,7 +1076,7 @@ msgstr "Imagick"
 #: setup/class_setupStep_Checks.inc:154
 #, fuzzy
 msgid "FusionDirectory requires this extension to handle images."
-msgstr "GOsa benötigt diese Erweiterung um Bilder konvertieren zu können."
+msgstr "FusionDirectory benötigt diese Erweiterung um Bilder konvertieren zu können."
 
 #: setup/class_setupStep_Checks.inc:169
 msgid "compression module"
@@ -1087,7 +1085,7 @@ msgstr "Komprimierungs-Modul"
 #: setup/class_setupStep_Checks.inc:170
 #, fuzzy
 msgid "FusionDirectory requires this extension to handle snapshots."
-msgstr "GOsa benötigt dieses Modul um Snapshots zu komprimieren."
+msgstr "FusionDirectory benötigt dieses Modul um Snapshots zu komprimieren."
 
 #: setup/class_setupStep_Checks.inc:181
 msgid ""
@@ -1138,7 +1136,7 @@ msgid ""
 "In Order to use FusionDirectory without any trouble, the session."
 "auto_register option in your php.ini should be set to 'Off'."
 msgstr ""
-"Um GOsa fehlerfrei benutzen zu können, muß die Option session.auto_register "
+"Um FusionDirectory fehlerfrei benutzen zu können, muß die Option session.auto_register "
 "in Ihrer php.ini auf 'Off' stehen."
 
 #: setup/class_setupStep_Checks.inc:201
@@ -1153,7 +1151,7 @@ msgid ""
 "FusionDirectory needs at least 32MB of memory. Setting it below this limit "
 "may cause errors that are not reproducable! Increase it for larger setups."
 msgstr ""
-"GOsa benötigt mindestens 32MB Speicher, weniger Speicher würde "
+"FusionDirectory benötigt mindestens 32MB Speicher, weniger Speicher würde "
 "unvorhersehbare Probleme verursachen! Bei größeren Installationen sollte "
 "dieser Wert noch vergrössert werden."
 
@@ -1248,7 +1246,7 @@ msgid ""
 "FusionDirectory reads its configuration from a file located in (%s/%s). The "
 "setup can write the configuration directly if it is writeable."
 msgstr ""
-"GOsa liest sein Konfiguration von einer Datei in (%s/%s). Die Einrichtung "
+"FusionDirectory liest sein Konfiguration von einer Datei in (%s/%s). Die Einrichtung "
 "kann die Konfiguration direkt schreiben, wenn diese schreibbar ist."
 
 #: setup/setup_schema.tpl:3
@@ -1286,7 +1284,7 @@ msgid ""
 "reason, why FusionDirectory can't read your schema configuration!"
 msgstr ""
 "Es scheint so, dass Ihre LDAP-Datenbank noch nicht initialisiert wurde. Dies "
-"könnte der Grund sein, weshalb GOsa die Schema-Konfiguration nicht lesen "
+"könnte der Grund sein, weshalb FusionDirectory die Schema-Konfiguration nicht lesen "
 "konnte!"
 
 #: setup/class_setup.inc:77 setup/class_setupStep_Feedback.inc:132
@@ -1408,7 +1406,7 @@ msgid ""
 "FusionDirectory."
 msgstr ""
 "Dieser Dialog richtet die grundlegende Konfiguration der LDAP-Verbindung für "
-"GOsa ein."
+"FusionDirectory ein."
 
 #: setup/class_setupStep_Ldap.inc:112
 #, php-format
@@ -1449,7 +1447,7 @@ msgstr "Automatisch"
 #: setup/setup_frame.tpl:12
 #, fuzzy
 msgid "FusionDirectory setup wizard"
-msgstr "GOsa Einrichtungsassistent"
+msgstr "FusionDirectory Einrichtungsassistent"
 
 #: setup/setup_frame.tpl:19
 msgid "Installation"
@@ -1570,7 +1568,7 @@ msgid ""
 "Normally this is adjustable via user templates, but you can specify a "
 "default method to be used here, too."
 msgstr ""
-"GOsa unterstützt zahlreiche Verschlüsselungsarten für Ihre Passwörter. "
+"FusionDirectory unterstützt zahlreiche Verschlüsselungsarten für Ihre Passwörter. "
 "Üblicherweise wird die Auswahl über Vorlagen verwaltet, Sie können aber auch "
 "eine Standardmethode festlegen, die benutzt werden soll."
 
@@ -1582,7 +1580,7 @@ msgid ""
 "implemented. For this to work, we need the admin DN and the corresponding "
 "password."
 msgstr ""
-"GOsa arbeitet immer als Administrator und verwaltet die Rechte intern "
+"FusionDirectory arbeitet immer als Administrator und verwaltet die Rechte intern "
 "(solange die in OpenLDAP implementierten ACIs nicht vollständig unterstützt "
 "werden, wird dieser Workaround bestehen bleiben). Damit dies möglich ist, "
 "wird an dieser Stelle der DN des LDAP-Administrators und das dazugehörige "
@@ -1595,7 +1593,7 @@ msgid ""
 "FusionDirectory saves people and groups, including the way accounts get "
 "created. Check the values below if the fit your needs."
 msgstr ""
-"Einige LDAP-Parameter beeinflussen die Art und Weise wie (und wo) GOsa Daten "
+"Einige LDAP-Parameter beeinflussen die Art und Weise wie (und wo) FusionDirectory Daten "
 "in der Baumstruktur ablegt. Prüfen Sie die vorgegebenen Werte, ob sie Ihren "
 "Vorgaben entsprechen."
 
@@ -1606,7 +1604,7 @@ msgid ""
 "provide interfaces to users mailboxes and general handling    for quotas. "
 "You can choose the dummy plugin to leave all your mail settings untouched."
 msgstr ""
-"GOsa unterstützt verschiedene Zustellungs-Methoden. Diese Methoden stellen "
+"FusionDirectory unterstützt verschiedene Zustellungs-Methoden. Diese Methoden stellen "
 "Schnittstellen für Benutzer-Postfächer und die allgemeine Verwaltung von "
 "Kontingenten bereit. Wählen sie 'dummy', um all Ihre Mail-Einstellungen "
 "unberührt zu lassen."
@@ -1646,7 +1644,7 @@ msgstr "Bitte wählen Sie hier Ihre bevorzugte Zeitzone"
 #: setup/setup_config2.tpl:96
 #, fuzzy
 msgid "Additional FusionDirectory settings"
-msgstr "Zusätzliche GOsa-Einstellungen"
+msgstr "Zusätzliche FusionDirectory-Einstellungen"
 
 #: setup/setup_config2.tpl:100
 msgid "Enable Copy & Paste"
@@ -1719,7 +1717,7 @@ msgstr "Benutzer"
 #: setup/setup_config3.tpl:2
 #, fuzzy
 msgid "FusionDirectory core settings"
-msgstr "GOsa-Grundeinstellungen"
+msgstr "FusionDirectory-Grundeinstellungen"
 
 #: setup/setup_config3.tpl:6
 msgid "Enable primary group filter"
@@ -1768,12 +1766,12 @@ msgstr "Aktiviere Bearbeitungssperre"
 #: setup/setup_config3.tpl:174
 #, fuzzy
 msgid "GOto-SI daemon"
-msgstr "GOsa support daemon"
+msgstr "GOto-si support daemon"
 
 #: setup/setup_config3.tpl:193
 #, fuzzy
 msgid "GOto-si daemon timeout"
-msgstr "Daemon-Zeitüberschreitung"
+msgstr "GOto-si Daemon-Zeitüberschreitung"
 
 #: setup/setup_config3.tpl:207
 msgid "Login and session"
@@ -1834,12 +1832,12 @@ msgstr "Aktiviert"
 #: setup/class_setupStep_Config1.inc:74 setup/class_setupStep_Config1.inc:75
 #, fuzzy
 msgid "FusionDirectory settings 1/3"
-msgstr "GOsa-Einstellungen 1/3"
+msgstr "FusionDirectory-Einstellungen 1/3"
 
 #: setup/class_setupStep_Config1.inc:76
 #, fuzzy
 msgid "FusionDirectory generic settings"
-msgstr "Allgemeine GOsa-Einstellungen"
+msgstr "Allgemeine FusionDirectory-Einstellungen"
 
 #: setup/class_setupStep_Config1.inc:118
 #, php-format
@@ -1874,7 +1872,7 @@ msgstr "Die angegebene Passwort-Differenz ist nicht numerisch."
 #: setup/class_setupStep_Config2.inc:81 setup/class_setupStep_Config2.inc:82
 #, fuzzy
 msgid "FusionDirectory settings 2/3"
-msgstr "GOsa-Einstellungen 2/3"
+msgstr "FusionDirectory-Einstellungen 2/3"
 
 #: setup/class_setupStep_Config2.inc:83
 msgid "Customize special parameters"
@@ -1883,12 +1881,12 @@ msgstr "Anpassen von Spezialparametern"
 #: setup/class_setupStep_Config3.inc:82 setup/class_setupStep_Config3.inc:83
 #, fuzzy
 msgid "FusionDirectory settings 3/3"
-msgstr "GOsa-Einstellungen 3/3"
+msgstr "FusionDirectory-Einstellungen 3/3"
 
 #: setup/class_setupStep_Config3.inc:84
 #, fuzzy
 msgid "Tweak some FusionDirectory core behaviour"
-msgstr "Einstellen von grundlegendem GOsa Verhalten"
+msgstr "Einstellen von grundlegendem FusionDirectory Verhalten"
 
 #: setup/class_setupStep_Config3.inc:213
 msgid "Session lifetime must be a numeric value!"
@@ -1938,7 +1936,7 @@ msgid ""
 "any configuration right now. This simple wizard intends to help you while "
 "setting it up."
 msgstr ""
-"Dies scheint das erste Mal zu sein, dass GOsa gestartet wurde - es wurde "
+"Dies scheint das erste Mal zu sein, dass FusionDirectory gestartet wurde - es wurde "
 "keine Konfiguration gefunden. Dieser einfache Assistent hilft Ihnen bei der "
 "Einrichtung."
 
@@ -2004,7 +2002,7 @@ msgstr "Feedback erfolgreich gesendet"
 #: setup/setup_feedback.tpl:15
 #, fuzzy
 msgid "Subscribe to the fusiondirectory-users mailinglist"
-msgstr "Abonnieren der GOsa-Announce Mailingliste"
+msgstr "Abonnieren der FusionDirectory-Announce Mailingliste"
 
 #: setup/setup_feedback.tpl:20
 #: plugins/admin/departments/class_departmentManagement.inc:237
@@ -2098,7 +2096,7 @@ msgstr "Mail-Adresse"
 #: setup/setup_feedback.tpl:47
 #, fuzzy
 msgid "Send feedback to the FusionDirectory project team"
-msgstr "Sende Feedback an das GOsa Projektteam."
+msgstr "Sende Feedback an das FusionDirectory Projektteam."
 
 #: setup/setup_feedback.tpl:50
 #, fuzzy
@@ -2106,7 +2104,7 @@ msgid ""
 "When checking this option, FusionDirectory will try to connect http://oss."
 "gonicus.de in order to submit your form anonymously."
 msgstr ""
-"Bei Auswahl dieser Option wird GOsa versuchen, sich zu http://oss.gonicus.de "
+"Bei Auswahl dieser Option wird FusionDirectory versuchen, sich zu http://oss.gonicus.de "
 "zu verbinden, um Ihr Formular anonym abzusenden."
 
 #: setup/setup_feedback.tpl:52
@@ -2132,7 +2130,7 @@ msgstr "Falls nicht, welche Probleme sind Ihnen aufgefallen"
 #: setup/setup_feedback.tpl:74
 #, fuzzy
 msgid "Is this the first time you use FusionDirectory?"
-msgstr "Ist dies die erstmalige Verwendung von GOsa?"
+msgstr "Ist dies die erstmalige Verwendung von FusionDirectory?"
 
 #: setup/setup_feedback.tpl:80
 msgid "I use it since"
@@ -2141,7 +2139,7 @@ msgstr "Ich verwende es seit"
 #: setup/setup_feedback.tpl:81
 #, fuzzy
 msgid "Select the year since when you are using FusionDirectory"
-msgstr "Wählen Sie das Jahr aus, seit dem Sie GOsa verwenden"
+msgstr "Wählen Sie das Jahr aus, seit dem Sie FusionDirectory verwenden"
 
 #: setup/setup_feedback.tpl:88
 msgid "What operating system / distribution do you use?"
@@ -2178,13 +2176,13 @@ msgstr "Fähigkeiten"
 #: setup/setup_feedback.tpl:140
 #, fuzzy
 msgid "What features of FusionDirectory do you use?"
-msgstr "Welche Funktionen von GOsa verwenden Sie?"
+msgstr "Welche Funktionen von FusionDirectory verwenden Sie?"
 
 #: setup/setup_feedback.tpl:150
 #, fuzzy
 msgid "What features do you want to see in future versions of FusionDirectory?"
 msgstr ""
-"Welche Funktionen würden Sie gerne in zukünftigen Versionen von GOsa sehen?"
+"Welche Funktionen würden Sie gerne in zukünftigen Versionen von FusionDirectory sehen?"
 
 #: setup/setup_feedback.tpl:157
 msgid "Send feedback"
@@ -2198,7 +2196,7 @@ msgid ""
 "You may want to fix the problems below, in order to provide smooth services."
 msgstr ""
 "Während der LDAP-Inspektion wird auf verschiedene, gängige Stolpersteine "
-"geprüft, die auftreten können, wenn auf eine GOsa-basierte LDAP-"
+"geprüft, die auftreten können, wenn auf eine FusionDirectory-basierte LDAP-"
 "Administration migriert wird. Sie sollten die unten genannten Probleme "
 "beseitigen (wenn vorhanden), um einen problemlosen Betrieb der Dienste zu "
 "ermöglichen."
@@ -2275,7 +2273,7 @@ msgid ""
 "Move selected windows workstations into the following FusionDirectory "
 "department"
 msgstr ""
-"Verschiebe die ausgewählten Windows-Arbeitsstationen in die folgende GOsa-"
+"Verschiebe die ausgewählten Windows-Arbeitsstationen in die folgende FusionDirectory-"
 "Abteilung"
 
 #: setup/setup_migrate.tpl:100
@@ -2306,7 +2304,7 @@ msgid ""
 "to cancel the migration in this case."
 msgstr ""
 "Seien Sie vorsichtig mt dieser Option! Es könnte Referenzen geben, die auf "
-"diese Gruppen verweisen. Die GOsa-Einrichtung kann Referenzen nicht "
+"diese Gruppen verweisen. Die FusionDirectory-Einrichtung kann Referenzen nicht "
 "migrieren, Sie sollten die Migration an dieser Stelle abbrechen."
 
 #: setup/setup_migrate.tpl:122
@@ -2347,7 +2345,7 @@ msgid ""
 "to cancel the migration in this case."
 msgstr ""
 "Seien Sie vorsichtig mt dieser Option! Es könnte Referenzen geben, die auf "
-"diese Benutzer verweisen. Die GOsa-Einrichtung kann Referenzen nicht "
+"diese Benutzer verweisen. Die FusionDirectory-Einrichtung kann Referenzen nicht "
 "migrieren, Sie sollten die Migration an dieser Stelle abbrechen."
 
 #: setup/setup_migrate.tpl:176
@@ -2365,7 +2363,7 @@ msgid ""
 "FusionDirectory 1.0 useable accounts."
 msgstr ""
 "Dieser Dialog erlaubt die Migration von Administrativen Konten von GOsa 2.5 "
-"nach GOsa 2.6."
+"nach FusionDirectory 1.0."
 
 #: setup/setup_migrate.tpl:257 setup/setup_ldap.tpl:65
 msgid "Reload"
@@ -2378,7 +2376,7 @@ msgstr "Abbrechen"
 #: setup/setup_migrate.tpl:275
 #, fuzzy
 msgid "Create a new FusionDirectory administrator account"
-msgstr "Erzeuge ein neues GOsa Administratorkonto"
+msgstr "Erzeuge ein neues FusionDirectory Administratorkonto"
 
 #: setup/setup_migrate.tpl:278
 msgid ""
@@ -2404,7 +2402,7 @@ msgid ""
 "interface. If you want to change this for a couple of entries, select them "
 "and use the migrate button below."
 msgstr ""
-"Die angezeigten Abteilungen sind momentan in GOsa unsichtbar. Wenn Sie dies "
+"Die angezeigten Abteilungen sind momentan in FusionDirectory unsichtbar. Wenn Sie dies "
 "für eine Zahl von Einträgen ändern möchten, wählen Sie sie einfach aus und "
 "verwenden den 'Migrieren'-Knopf unterhalb."
 
@@ -2426,7 +2424,7 @@ msgid ""
 "interface. If you want to change this for a couple of users, just select "
 "them and use the 'Migrate' button below."
 msgstr ""
-"Die folgenden Benutzer sind momentan in GOsa unsichtbar. Wenn Sie dies für "
+"Die folgenden Benutzer sind momentan in FusionDirectory unsichtbar. Wenn Sie dies für "
 "einen oder mehrere Benutzer ändern möchten, wählen Sie sie einfach aus und "
 "drücken Sie den 'Migrieren'-Knopf unterhalb."
 
@@ -2437,7 +2435,7 @@ msgid ""
 "If you want to change this for a couple of devices, just select them and use "
 "the 'Migrate' button below."
 msgstr ""
-"Die folgenden Geräte sind momentan in GOsa unsichtbar. Wenn Sie dies für "
+"Die folgenden Geräte sind momentan in FusionDirectory unsichtbar. Wenn Sie dies für "
 "eines oder mehrere Geräte ändern möchten, wählen Sie sie einfach aus und "
 "drücken Sie den 'Migrieren'-Knopf unten."
 
@@ -2455,7 +2453,7 @@ msgid ""
 "you are going to install. If you want to update a couple of service, just "
 "select them and use the 'Migrate' button below."
 msgstr ""
-"Die folgenden Dienste sind momentan für die GOsa-Version ungültig, die Sie "
+"Die folgenden Dienste sind momentan für die FusionDirectory-Version ungültig, die Sie "
 "gerade installieren. Wenn Sie einen oder mehrere Dienste aktualisieren "
 "möchten, wählen Sie sie einfach aus und drücken Sie den 'Migrieren'-Knopf "
 "unterhalb."
@@ -2467,7 +2465,7 @@ msgid ""
 "If you want to change this for a couple of devices, just select them and use "
 "the 'Migrate' button below."
 msgstr ""
-"Die folgenden Menüs sind momentan in GOsa unsichtbar. Wenn Sie dies für "
+"Die folgenden Menüs sind momentan in FusionDirectory unsichtbar. Wenn Sie dies für "
 "eines oder mehrere Menüs ändern möchten, wählen Sie sie einfach aus und "
 "drücken Sie den 'Migrieren'-Knopf unterhalb."
 
@@ -2486,7 +2484,7 @@ msgstr "Die Willkommensnachricht"
 #: setup/class_setupStep_Welcome.inc:40
 #, fuzzy
 msgid "Welcome to FusionDirectory setup wizard"
-msgstr "Willkommen beim GOsa Einrichtungsassistent"
+msgstr "Willkommen beim FusionDirectory Einrichtungsassistent"
 
 #: setup/setup_checks.tpl:9
 msgid "PHP module and extension checks"
@@ -2496,12 +2494,12 @@ msgstr "PHP Modul- und Erweiterungsprüfung"
 #, fuzzy
 msgid "FusionDirectory will NOT run without fixing this."
 msgstr ""
-"GOsa kann nicht ausgeführt werden, wenn das Problem nicht behoben wird."
+"FusionDirectory kann nicht ausgeführt werden, wenn das Problem nicht behoben wird."
 
 #: setup/setup_checks.tpl:45 setup/setup_checks.tpl:107
 #, fuzzy
 msgid "FusionDirectory will run without fixing this."
-msgstr "GOsa wird verwendbar sein, ohne dies zu beheben."
+msgstr "FusionDirectory wird verwendbar sein, ohne dies zu beheben."
 
 #: setup/setup_checks.tpl:67
 msgid "PHP setup configuration"
@@ -2514,7 +2512,7 @@ msgstr "zeige Information"
 #: setup/setup_ldap.tpl:7
 #, fuzzy
 msgid "Please choose the LDAP user to be used by FusionDirectory"
-msgstr "Bitte wählen Sie den LDAP-Benutzer, der von GOsa verwendet werden soll"
+msgstr "Bitte wählen Sie den LDAP-Benutzer, der von FusionDirectory verwendet werden soll"
 
 #: setup/setup_ldap.tpl:25
 msgid "LDAP connection"
@@ -2605,7 +2603,7 @@ msgstr "LDAP-Inspektion"
 #: setup/class_setupStep_Migrate.inc:128
 #, fuzzy
 msgid "Analyze your current LDAP for FusionDirectory compatibility"
-msgstr "Untersuche Ihr LDAP-Verzeichnis auf GOsa-Kompatibilität"
+msgstr "Untersuche Ihr LDAP-Verzeichnis auf FusionDirectory-Kompatibilität"
 
 #: setup/class_setupStep_Migrate.inc:134
 msgid "Checking for root object"
@@ -2746,7 +2744,7 @@ msgstr ""
 #, fuzzy, php-format
 msgid "Found %s user(s) that will not be visible in FusionDirectory."
 msgstr ""
-"Es wurde(n) %s Benutzer gefunden, die in GOsa nicht sichtbar sein werden."
+"Es wurde(n) %s Benutzer gefunden, die in FusionDirectory nicht sichtbar sein werden."
 
 #: setup/class_setupStep_Migrate.inc:711 setup/class_setupStep_Migrate.inc:856
 #: setup/class_setupStep_Migrate.inc:1119
@@ -2762,19 +2760,19 @@ msgstr "Die Abteilung '%s' kann nicht migriert werden:"
 #, fuzzy, php-format
 msgid "Found %s department(s) that will not be visible in FusionDirectory."
 msgstr ""
-"Es wurde(n) %s Abteilung(en) gefunden, die nicht in GOsa sichtbar sein "
+"Es wurde(n) %s Abteilung(en) gefunden, die nicht in FusionDirectory sichtbar sein "
 "werden."
 
 #: setup/class_setupStep_Migrate.inc:1028
 #, fuzzy, php-format
-msgid "FusionDirectory 2.5 administrative accounts found: %s"
+msgid "GOsa 2.5 administrative accounts found: %s"
 msgstr "GOsa 2.5 Verwaltungs-Konten gefunden: %s"
 
 #: setup/class_setupStep_Migrate.inc:1033
 #, fuzzy
 msgid ""
 "There is no valid FusionDirectory 1.0 administrator account inside your LDAP."
-msgstr "Es gibt keinen GOsa 2.6 Administrator in Ihrem LDAP."
+msgstr "Es gibt keinen FusionDirectory 1.0 Administrator in Ihrem LDAP."
 
 #: setup/class_setupStep_Migrate.inc:1035
 #: setup/class_setupStep_Migrate.inc:1051 plugins/admin/acl/acl-list.xml:76
@@ -2799,7 +2797,7 @@ msgstr "Gruppen"
 #: setup/class_setupStep_Migrate.inc:1050
 #, fuzzy
 msgid "There is no FusionDirectory administrator account inside your LDAP."
-msgstr "Es gibt keinen GOsa Administrator in Ihrem LDAP."
+msgstr "Es gibt keinen FusionDirectory Administrator in Ihrem LDAP."
 
 #: setup/class_setupStep_Migrate.inc:1119
 #, php-format
@@ -3610,7 +3608,7 @@ msgid ""
 "FusionDirectory setup?"
 msgstr ""
 "Die Klasse '%s' kann nicht initialisiert werden! Vielleicht fehlt ein Modul "
-"in Ihren GOsa-Einstellungen?"
+"in Ihren FusionDirectory-Einstellungen?"
 
 #: include/utils/class_msgPool.inc:600
 msgid ""
@@ -3699,7 +3697,7 @@ msgstr ""
 #: include/class_gosaSupportDaemon.inc:112
 #, fuzzy
 msgid "FusionDirectory support daemon"
-msgstr "GOsa support daemon"
+msgstr "GOto-si daemon"
 
 #: include/class_gosaSupportDaemon.inc:787
 msgid "Cannot not parse XML!"
@@ -3841,12 +3839,12 @@ msgstr "Verzeichnis"
 #: include/functions.inc:2326
 #, fuzzy, php-format
 msgid "FusionDirectory %s snapshot (Rev %s)"
-msgstr "GOsa %s Schnappschuss (Rev %s)"
+msgstr "FusionDirectory %s Schnappschuss (Rev %s)"
 
 #: include/functions.inc:2331
 #, fuzzy, php-format
 msgid "FusionDirectory development snapshot (Rev %s)"
-msgstr "GOsa Entwicklerversion (Rev %s)"
+msgstr "FusionDirectory Entwicklerversion (Rev %s)"
 
 #: include/functions.inc:2427
 #, php-format
@@ -4199,7 +4197,7 @@ msgid ""
 "again."
 msgstr ""
 "Die von Ihnen verwendete Konfigurationsdatei scheint veraltet zu sein. Bitte "
-"entfernen Sie diese Datei und starten Sie das GOsa-Setup."
+"entfernen Sie diese Datei und starten Sie das FusionDirectory-Setup."
 
 #: include/class_CopyPasteHandler.inc:118
 #: include/class_CopyPasteHandler.inc:127
@@ -4254,7 +4252,7 @@ msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may "
 "be done by others get lost if you save this entry!"
 msgstr ""
-"Das Objekt wurde verändert nachdem es in GOsa geöffnet wurde. Bitte stellen "
+"Das Objekt wurde verändert nachdem es in FusionDirectory geöffnet wurde. Bitte stellen "
 "Sie sicher, dass niemand wichtige Änderungen vorgenommen hat, die verloren "
 "gehen, wenn Sie diesen Eintrag speichern!"
 
@@ -4565,62 +4563,62 @@ msgstr ""
 "Fehler beim Importieren von dn: '%s', bitte überprüfen Sie die LDIF-Datei ab "
 "Zeile %s!"
 
-#: include/php_setup.inc:101
+#: include/php_setup.inc:100
 msgid "Generating this page caused the PHP interpreter to raise some errors!"
 msgstr ""
 "Der PHP-Interpreter meldete einen oder mehrere Fehler beim Erzeugen dieser "
 "Seite!"
 
-#: include/php_setup.inc:106
+#: include/php_setup.inc:105
 #, fuzzy
 msgid "Send bug report to the FusionDirectory Team"
-msgstr "Sende Fehlerbericht an das GOsa Team"
+msgstr "Sende Fehlerbericht an das FusionDirectory Team"
 
-#: include/php_setup.inc:106
+#: include/php_setup.inc:105
 msgid "Send bugreport"
 msgstr "Fehlerbericht senden"
 
-#: include/php_setup.inc:111
+#: include/php_setup.inc:110
 msgid "Toggle information"
 msgstr "Zeige/Verstecke Informationen"
 
-#: include/php_setup.inc:121
+#: include/php_setup.inc:120
 msgid "PHP error"
 msgstr "PHP Fehler"
 
-#: include/php_setup.inc:140
+#: include/php_setup.inc:139
 msgid "class"
 msgstr "Klasse"
 
-#: include/php_setup.inc:146
+#: include/php_setup.inc:145
 msgid "function"
 msgstr "Funktion"
 
-#: include/php_setup.inc:151
+#: include/php_setup.inc:150
 msgid "static"
 msgstr "statisch"
 
-#: include/php_setup.inc:155
+#: include/php_setup.inc:154
 msgid "method"
 msgstr "Methode"
 
-#: include/php_setup.inc:188
+#: include/php_setup.inc:187
 msgid "Trace"
 msgstr "Ablaufverfolgung"
 
-#: include/php_setup.inc:189
+#: include/php_setup.inc:188
 msgid "File"
 msgstr "Datei"
 
-#: include/php_setup.inc:189
+#: include/php_setup.inc:188
 msgid "Line"
 msgstr "Zeile"
 
-#: include/php_setup.inc:189
+#: include/php_setup.inc:188
 msgid "Type"
 msgstr "Typ"
 
-#: include/php_setup.inc:190
+#: include/php_setup.inc:189
 msgid "Arguments"
 msgstr "Argumente"
 
@@ -4678,7 +4676,7 @@ msgid ""
 msgstr ""
 "Dies umfasst alle Konto-Informationen, Zugriffsregeln, IMAP-Einstellungen, "
 "etc. dieses Benutzers. Bitte prüfen Sie genau, da es keine Möglichkeit für "
-"GOsa gibt, die Daten wiederherzustellen. "
+"FusionDirectory gibt, die Daten wiederherzustellen. "
 
 #: plugins/admin/acl/class_aclManagement.inc:154
 msgid "ACL Assignment"
@@ -5094,7 +5092,7 @@ msgid ""
 "This may be a primary user group. Please double check if you really want to "
 "do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
-"Bitte prüfen Sie, ob Sie die Aktion wirklich durchführen möchten, da GOsa "
+"Bitte prüfen Sie, ob Sie die Aktion wirklich durchführen möchten, da FusionDirectory "
 "die Daten nicht wiederherstellen kann."
 
 #: plugins/admin/groups/trust_machines.tpl:6
@@ -5518,7 +5516,7 @@ msgstr ""
 #: plugins/admin/departments/dep_move_confirm.tpl:8
 #, fuzzy
 msgid "FusionDirectory can NOT fix this for you, yet."
-msgstr "GOsa kann dies (noch) NICHT für Sie reparieren."
+msgstr "FusionDirectory kann dies (noch) NICHT für Sie reparieren."
 
 #: plugins/admin/departments/dep_move_confirm.tpl:11
 msgid ""
@@ -5545,7 +5543,7 @@ msgid ""
 "FusionDirectory to get your data back."
 msgstr ""
 "Dies umfasst 'alle' Konten, System- und Setup-Informationen dieses "
-"Teilbaums. Bitte prüfen Sie genau, da es keine Möglichkeit für GOsa gibt, "
+"Teilbaums. Bitte prüfen Sie genau, da es keine Möglichkeit für FusionDirectory gibt, "
 "die Daten wiederherzustellen. "
 
 #: plugins/admin/departments/remove.tpl:10
@@ -5875,7 +5873,7 @@ msgid ""
 "Please double check if you really want to do this since there is no way for "
 "FusionDirectory to get your data back."
 msgstr ""
-"Bitte überprüfen Sie genau was Sie tun, weil GOsa keine Möglichkeit hat, die "
+"Bitte überprüfen Sie genau was Sie tun, weil FusionDirectory keine Möglichkeit hat, die "
 "Daten wiederherzustellen."
 
 #: plugins/admin/ogroups/paste_generic.tpl:7
@@ -6070,7 +6068,7 @@ msgid ""
 "menu on the left, or by choosing one of the pictograms below. All changes "
 "apply directly to your companies LDAP server."
 msgstr ""
-"Dies ist das GOsa Hauptmenü. Wählen Sie die gewünschte Option aus dem Menü "
+"Dies ist das FusionDirectory Hauptmenü. Wählen Sie die gewünschte Option aus dem Menü "
 "links oder durch die Auswahl eines Piktogrammes unten. Alle Änderungen "
 "werden direkt in den LDAP-Server Ihres Unternehmens eingepflegt."
 
@@ -6079,7 +6077,7 @@ msgid ""
 "Use 'Sign out' on the upper left to close the connection and 'Main' to get "
 "back to the pictogram view."
 msgstr ""
-"Benutzen Sie 'Abmelden' oben links, um die Arbeit mit GOsa zu beenden und "
+"Benutzen Sie 'Abmelden' oben links, um die Arbeit mit FusionDirectory zu beenden und "
 "'Hauptmenü', um wieder in diese Ansicht zurückzugelangen."
 
 #: plugins/generic/welcome/welcome.tpl:15
@@ -6511,7 +6509,7 @@ msgid ""
 "Cannot save user picture, FusionDirectoryrequires the package 'imagemagick' "
 "or 'php5-imagick' to be installed!"
 msgstr ""
-"Kann Benutzerbild nicht speichern. GOsa benötigt das Paket 'imagemagick' "
+"Kann Benutzerbild nicht speichern. FusionDirectory benötigt das Paket 'imagemagick' "
 "oder 'imagick' dazu!"
 
 #: plugins/personal/generic/class_user.inc:1176
