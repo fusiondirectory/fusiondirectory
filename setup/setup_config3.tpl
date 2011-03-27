@@ -174,16 +174,16 @@
             {t}GOto-SI daemon{/t}
         </div>
         <div class='step4_value'>
-            {if $optional.goto-si-URI_active == FALSE}
-                <input type='checkbox' value='1' name='goto-si-URI_active'
-                  onClick='changeState("goto-si-URI");changeState("goto-si-Timeout");'>
-                <input size=40 id='goto-si-URI' name='goto-si-URI' 
-				        	type='text' value='{$optional.goto-si-URI}' disabled>
+            {if $optional.gotoSiURI_active == FALSE}
+                <input type='checkbox' value='1' name='gotoSiURI_active'
+                  onClick='changeState("gotoSiURI");changeState("gotoSiTimeout");'>
+                <input size=40 id='gotoSiURI' name='gotoSiURI' 
+				        	type='text' value='{$optional.gotoSiURI}' disabled>
             {else}
-                <input type='checkbox' value='1' name='goto-si-URI_active' checked 
-					        onClick='changeState("goto-si-URI");changeState("goto-si-Timeout");'>
-                <input size=40 id='goto-si-URI' name='goto-si-URI' 
-        					type='text' value='{$optional.goto-si-URI}'  >
+                <input type='checkbox' value='1' name='gotoSiURI_active' checked 
+					        onClick='changeState("gotoSiURI");changeState("gotoSiTimeout");'>
+                <input size=40 id='gotoSiURI' name='gotoSiURI' 
+        					type='text' value='{$optional.gotoSiURI}'  >
             {/if}
         </div>
     </div>
@@ -193,12 +193,12 @@
             {t}GOto-si daemon timeout{/t}
         </div>
         <div class='step4_value'>
-            {if $optional.goto-si-URI_active == FALSE}
-                <input size=40 id='goto-si-Timeout' name='goto-si-Timeout' 
-				        	type='text' value='{$optional.goto-si-Timeout}' disabled>
+            {if $optional.gotoSiURI_active == FALSE}
+                <input size=40 id='gotoSiTimeout' name='gotoSiTimeout' 
+				        	type='text' value='{$optional.gotoSiTimeout}' disabled>
             {else}
-                <input size=40 id='goto-si-Timeout' name='goto-si-Timeout' 
-        					type='text' value='{$optional.goto-si-Timeout}'  >
+                <input size=40 id='gotoSiTimeout' name='gotoSiTimeout' 
+        					type='text' value='{$optional.gotoSiTimeout}'  >
             {/if}
         </div>
     </div>
