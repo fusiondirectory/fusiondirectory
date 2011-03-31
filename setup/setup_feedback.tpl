@@ -2,7 +2,7 @@
 {if $feedback_send}
 
 	<div class='default' style='margin:12px; '>  
-		<font color='green'>{t}Feedback sucessfully send{/t}</font>
+		<font color='green'>{t}Feedback successfully send{/t}</font>
 	</div>	
 
 {else}
