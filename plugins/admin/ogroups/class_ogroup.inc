@@ -975,7 +975,7 @@ class ogroup extends plugin
             "cn"                => _("Name"),
             "base"              => _("Base"),
             "description"       => _("Description"),
-            "trustModel"        => _("Sytem trust"),
+            "trustModel"        => _("System trust"),
             "member"            => _("Member"))
           ));
   }
