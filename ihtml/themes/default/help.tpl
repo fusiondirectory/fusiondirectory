@@ -2,7 +2,7 @@
 {$php_errors}
 
 <form action='helpviewer.php' name='mainform' method='post' enctype='multipart/form-data'>
-<div style='background-color:#CDF6BD;width:100%;border-bottom:1px solid #909090;'>
+<div style='background-color:#30A5FF;width:100%;border-bottom:1px solid #909090;'>
   <table summary="" style="width:99%;">
    <tr>
     <td style="width:33%;">

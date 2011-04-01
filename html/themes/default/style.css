@@ -194,7 +194,7 @@ text-align:right;
 a.maintitlebar,div.maintitlebar {
 font-family:arial,helvetica,sans-serif;
 text-decoration:none;
-color:#00348B;
+color:#FFFFFF;
 font-size:12px;
 text-align:center;
 vertical-align:middle;
@@ -203,7 +203,7 @@ cursor:pointer;
 
 a.maintitlebar:hover {
 text-decoration:none;
-background-color:#B0D3A0;
+background-color:#30A5FF;
 cursor:pointer;
 }
 
@@ -294,7 +294,7 @@ font-size:10px;
 
 a:link {
 text-decoration:none;
-color:#00008f;
+color:#00008F;
 }
 
 a:visited {
@@ -633,7 +633,7 @@ border:0;
 border-spacing:0;
 padding:0;
 margin:0;
-background-color:#A9FBA6;
+background-color:#507AAA;
 vertical-align:top;
 }
 
@@ -770,7 +770,7 @@ text-align:left;
 
 /* Header col */
 div.setup_header {
-background-color:#A9FBA6;
+background-color:#507AAA;
 height:30px;
 padding:4px 5px 2px;
 border-bottom:1px solid #999;
