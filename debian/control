@@ -13,8 +13,7 @@ DM-Upload-Allowed: yes
 Package: fusiondirectory
 Architecture: all
 Depends: php5, php5-cli, apache2 | lighttpd | httpd , exim4 | mail-transport-agent, php5-gd, php5-imap, php5-ldap, php5-mcrypt, php5-mysql, php5-imagick | imagemagick (>= 5.4.4.5-1) | graphicsmagick-im-compat, libcrypt-smbhash-perl, smarty, php5-recode, smarty-gettext, smarty-acl-render, gettext, ${misc:Depends}, libapache2-mod-php5 | php5-cgi, php-fpdf
-Suggests: goto-si-server, cyrus21-imapd (>= 2.1.11), postfix-ldap, slapd, fusiondirectory-schema, php5-suhosin, php-apc
-Conflicts: gosa (>>=2.6)
+Conflicts: gosa
 Description: Web Based LDAP Administration Program
  Provided is access to posix, shadow, samba, proxy, fax, pureftp and
  kerberos accounts. It is able to manage the postfix/cyrus server
@@ -26,7 +25,7 @@ Description: Web Based LDAP Administration Program
 Package: fusiondirectory-dev
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory, php5-cli, latex2html, lyx
-Conflicts: gosa (>>=2.6)
+Conflicts: gosa-dev
 Description: FusionDirectory development utilities
  This package contains a couple of tools to generate online
  help, extract localizations and howto's for developing FusionDirectory plugins.
@@ -37,7 +36,6 @@ Description: FusionDirectory development utilities
 Package: fusiondirectory-desktop
 Architecture: all
 Depends: ${misc:Depends}, konqueror | iceweasel | mozilla | firefox, debconf
-Conflicts: gosa (>>=2.6)
 Description: Desktop integration for FusionDirectory
  This package includes a FusionDirectory menu definition for your desktop
  environment.
@@ -48,7 +46,7 @@ Description: Desktop integration for FusionDirectory
 Package: fusiondirectory-schema
 Architecture: all
 Depends: ${misc:Depends}
-Conflicts: gosa (>>=2.6)
+Conflicts: gosa-schema
 Recommends: slapd
 Description: LDAP schema for FusionDirectory
  This package includes the basics LDAP schemas needed by FusionDirectory.
@@ -59,7 +57,6 @@ Description: LDAP schema for FusionDirectory
 Package: fusiondirectory-help-en
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory
-Conflicts: gosa (>>=2.6)
 Description: English online help for FusionDirectory
  This package includes the English online documentation for FusionDirectory
  .
@@ -69,7 +66,6 @@ Description: English online help for FusionDirectory
 Package: fusiondirectory-help-de
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory
-Conflicts: gosa (>>=2.6)
 Description: German online help for FusionDirectory
  This package includes the German online documentation for FusionDirectory
  .
@@ -79,7 +75,6 @@ Description: German online help for FusionDirectory
 Package: fusiondirectory-help-fr
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory
-Conflicts: gosa (>>=2.6)
 Description: French online help for FusionDirectory
  This package includes the French online documentation for FusionDirectory
  .
@@ -89,7 +84,6 @@ Description: French online help for FusionDirectory
 Package: fusiondirectory-help-nl
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory
-Conflicts: gosa (>>=2.6)
 Description: Dutch online help for FusionDirectory
  This package includes the Dutch online documentation for FusionDirectory
  .
@@ -109,9 +103,10 @@ Description: Provide ACL based rendering for Smarty
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-addressbook
+Conflicts: gosa-plugin-addressbook
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory
-Conflicts: gosa-plugin-addressbook (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: addressbook plugin for FusionDirectory
  Simple addressbook plugin for FusionDirectory.
  .
@@ -119,9 +114,10 @@ Description: addressbook plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-connectivity
+Conflicts: gosa-plugin-connectivity
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory
-Conflicts: gosa-plugin-connectivity (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: connectivity plugin for FusionDirectory
  Connectivity base plugin - base for really small plugins.
  .
@@ -129,9 +125,10 @@ Description: connectivity plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-dhcp
+Conflicts: gosa-plugin-dhcp
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory, fusiondirectory-plugin-systems
-Conflicts: gosa-plugin-dhcp (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: dhcp plugin for FusionDirectory
  DHCP service management plugin.
  .
@@ -139,9 +136,9 @@ Description: dhcp plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-dhcp-schema
+Conflicts: gosa-plugin-dhcp-schema
 Architecture: all
 Depends: ${misc:Depends}
-Conflicts: gosa-plugin-dhcp-schema (>>=2.6)
 Recommends: slapd
 Description: LDAP schema for FusionDirectory dhcp plugin
  This package includes the LDAP schema needed by the FusionDirectory
@@ -151,9 +148,10 @@ Description: LDAP schema for FusionDirectory dhcp plugin
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-dns
+Conflicts: gosa-plugin-dns
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory, fusiondirectory-plugin-systems
-Conflicts: gosa-plugin-dns (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: dns plugin for FusionDirectory
  DNS service management plugin.
  .
@@ -161,6 +159,7 @@ Description: dns plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-dns-schema
+Conflicts: gosa-plugin-dns-schema
 Architecture: all
 Depends: ${misc:Depends}
 Recommends: slapd
@@ -172,9 +171,10 @@ Description: LDAP schema for FusionDirectory dns plugin
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-fai
+Conflicts: gosa-plugin-fai
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory, fusiondirectory-plugin-goto
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: fai plugin for FusionDirectory
  FAI plugin for managing Linux system deployment.
  .
@@ -182,6 +182,7 @@ Description: fai plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-fai-schema
+Conflicts: gosa-plugin-fai-schema
 Architecture: all
 Depends: ${misc:Depends}
 Recommends: slapd
@@ -193,9 +194,10 @@ Description: LDAP schema for FusionDirectory fai plugin
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-gofax
+Conflicts: gosa-plugin-gofax
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory, fusiondirectory-plugin-systems
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: gofax plugin for FusionDirectory
  GOfax management with report functionality
  .
@@ -203,9 +205,10 @@ Description: gofax plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-gofon
+Conflicts: gosa-plugin-gofon
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory, fusiondirectory-plugin-systems
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: gofon plugin for FusionDirectory
  GOfon management with report functionality
  .
@@ -213,9 +216,10 @@ Description: gofon plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-goto
+Conflicts: gosa-plugin-goto
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory, fusiondirectory-plugin-systems
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: goto plugin for FusionDirectory
  GOto desktop management plugin
  .
@@ -223,9 +227,10 @@ Description: goto plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-kolab
+Conflicts: gosa-plugin-kolab
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory, fusiondirectory-plugin-connectivity, fusiondirectory-plugin-mail
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: kolab plugin for FusionDirectory
  Kolab2 account management plugin
  .
@@ -233,6 +238,7 @@ Description: kolab plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-kolab-schema
+Conflicts: gosa-plugin-kolab-schema
 Architecture: all
 Depends: ${misc:Depends}
 Recommends: slapd
@@ -244,9 +250,10 @@ Description: LDAP schema for FusionDirectory kolab plugin
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-ldapmanager
+Conflicts: gosa-plugin-ldapmanager
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: ldapmanager plugin for FusionDirectory
  LDAP import and export management plugin
  .
@@ -254,9 +261,10 @@ Description: ldapmanager plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-log
+Conflicts: gosa-plugin-log
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory, fusiondirectory-plugin-systems
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: log plugin for FusionDirectory
  Syslog and FusionDirectory logging management plugin
  .
@@ -264,6 +272,7 @@ Description: log plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-log-schema
+Conflicts: gosa-plugin-log-schema
 Architecture: all
 Depends: ${misc:Depends}
 Recommends: slapd
@@ -275,9 +284,10 @@ Description: LDAP schema for fusiondirectory² log plugin
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-mail
+Conflicts: gosa-plugin-mail
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory, fusiondirectory-plugin-systems
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: base mail plugin for FusionDirectory
  Mail management base plugin
  .
@@ -285,9 +295,9 @@ Description: base mail plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-mit-krb5
+Conflicts: gosa-plugin-mit-krb5
 Architecture: all
-Conflicts: fusiondirectory-plugin-heimdal 
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Depends: ${misc:Depends}, fusiondirectory, fusiondirectory-plugin-systems
 Description: mit-krb5 plugin for FusionDirectory
  MIT kerberos management plugin
@@ -307,9 +317,10 @@ Description: LDAP schema for FusionDirectory mit-krb5 plugin
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-nagios
+Conflicts: gosa-plugin-nagios
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: nagios plugin for FusionDirectory
  Nagios account settings management
  .
@@ -317,6 +328,7 @@ Description: nagios plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-nagios-schema
+Conflicts: gosa-plugin-nagios-schema
 Architecture: all
 Depends: ${misc:Depends}
 Recommends: slapd
@@ -328,9 +340,10 @@ Description: LDAP schema for FusionDirectory nagios plugin
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-netatalk
+Conflicts: gosa-plugin-netatalk
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory, fusiondirectory-plugin-systems
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: netatalk plugin for FusionDirectory
  Netatalk account management plugin
  .
@@ -338,9 +351,10 @@ Description: netatalk plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-opengroupware
+Conflicts: gosa-plugin-opengroupware
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory, fusiondirectory-plugin-mail, fusiondirectory-plugin-connectivity
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: opengroupware plugin for FusionDirectory
  Opengroupware account management plugin
  .
@@ -348,9 +362,10 @@ Description: opengroupware plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-openxchange
+Conflicts: gosa-plugin-openxchange
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory, fusiondirectory-plugin-mail, fusiondirectory-plugin-connectivity
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: openxchange plugin for FusionDirectory
  Open-Xchange account management plugin
  .
@@ -358,6 +373,7 @@ Description: openxchange plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-openxchange-schema
+Conflicts: gosa-plugin-openxchange-schema
 Architecture: all
 Depends: ${misc:Depends}
 Recommends: slapd
@@ -369,9 +385,10 @@ Description: LDAP schema for FusionDirectory openxchange plugin
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-opsi
+Conflicts: gosa-plugin-opsi
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory, fusiondirectory-plugin-fai, fusiondirectory-plugin-goto
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: opsi plugin for FusionDirectory
  opsi plugin for managing windows system and software deployment
  .
@@ -379,9 +396,10 @@ Description: opsi plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-phpgw
+Conflicts: gosa-plugin-phpgw
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory, fusiondirectory-plugin-mail, fusiondirectory-plugin-connectivity
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: phpgw plugin for FusionDirectory
  PHP Groupware connectivity plugin
  .
@@ -389,6 +407,7 @@ Description: phpgw plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-phpgw-schema
+Conflicts: gosa-plugin-phpgw-schema
 Architecture: all
 Depends: ${misc:Depends}
 Recommends: slapd
@@ -400,9 +419,10 @@ Description: LDAP schema for FusionDirectory phpgw plugin
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-phpscheduleit
+Conflicts: gosa-plugin-phpscheduleit
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory, fusiondirectory-plugin-connectivity
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: phpscheduleit plugin for FusionDirectory
  PHP scheduleit connectivity plugin
  .
@@ -410,6 +430,7 @@ Description: phpscheduleit plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-phpscheduleit-schema
+Conflicts: gosa-plugin-phpscheduleit-schema
 Architecture: all
 Depends: ${misc:Depends}
 Recommends: slapd
@@ -421,9 +442,10 @@ Description: LDAP schema for FusionDirectory phpscheduleit plugin
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-pptp
+Conflicts: gosa-plugin-pptp
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory, fusiondirectory-plugin-connectivity
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: pptp plugin for FusionDirectory
  PPTP connectivity plugin
  .
@@ -431,6 +453,7 @@ Description: pptp plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-pptp-schema
+Conflicts: gosa-plugin-pptp-schema
 Architecture: all
 Depends: ${misc:Depends}
 Recommends: slapd
@@ -442,9 +465,10 @@ Description: LDAP schema for FusionDirectory pptp plugin
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-pureftpd
+Conflicts: gosa-plugin-pureftpd
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory, fusiondirectory-plugin-connectivity
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: pureftpd plugin for FusionDirectory
  PureFTPD connectivity plugin.
  .
@@ -452,6 +476,7 @@ Description: pureftpd plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-pureftpd-schema
+Conflicts: gosa-plugin-pureftpd-schema
 Architecture: all
 Depends: ${misc:Depends}
 Recommends: slapd
@@ -463,9 +488,10 @@ Description: LDAP schema for FusionDirectory pureftpd plugin
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-rolemanagement
+Conflicts: gosa-plugin-rolemanagement
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: rolemanagement plugin for FusionDirectory
  Role Management plugin.
  .
@@ -473,9 +499,10 @@ Description: rolemanagement plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-rsyslog
+Conflicts: gosa-plugin-rsyslog
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory, fusiondirectory-plugin-systems
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: rsyslog plugin for FusionDirectory
  Syslog and FusionDirectory logging plugin.
  .
@@ -483,9 +510,10 @@ Description: rsyslog plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-samba
+Conflicts: gosa-plugin-samba
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: samba3 plugin for FusionDirectory
  Plugin for Samba 3 management.
  .
@@ -493,9 +521,10 @@ Description: samba3 plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-scalix
+Conflicts: gosa-plugin-scalix
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: scalix plugin for FusionDirectory
  Scalix account management plugin.
  .
@@ -503,9 +532,10 @@ Description: scalix plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-squid
+Conflicts: gosa-plugin-squid
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory, fusiondirectory-plugin-connectivity
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: squid plugin for FusionDirectory
  Squid connectivity plugin.
  .
@@ -513,9 +543,10 @@ Description: squid plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-ssh
+Conflicts: gosa-plugin-ssh
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: ssh plugin for FusionDirectory
  SSH key management plugin.
  .
@@ -523,6 +554,7 @@ Description: ssh plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-ssh-schema
+Conflicts: gosa-plugin-ssh-schema
 Architecture: all
 Depends: ${misc:Depends}
 Recommends: slapd
@@ -534,9 +566,10 @@ Description: LDAP schema for FusionDirectory ssh plugin
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-sudo
+Conflicts: gosa-plugin-sudo
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: sudo plugin for FusionDirectory
  Sudo management plugin.
  .
@@ -544,6 +577,7 @@ Description: sudo plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-sudo-schema
+Conflicts: gosa-plugin-sudo-schema
 Architecture: all
 Depends: ${misc:Depends}
 Recommends: slapd
@@ -555,9 +589,10 @@ Description: LDAP schema for FusionDirectory sudo plugin
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-systems
+Conflicts: gosa-plugin-systems
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: systems plugin for FusionDirectory
  Systems management base plugin.
  .
@@ -565,9 +600,10 @@ Description: systems plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-uw-imap
+Conflicts: gosa-plugin-uw-imap
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory, fusiondirectory-plugin-mail
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: uw-imap plugin for FusionDirectory
  UW imap mail method.
  .
@@ -575,9 +611,10 @@ Description: uw-imap plugin for FusionDirectory
  interface, designed to handle LDAP based setups.
 
 Package: fusiondirectory-plugin-webdav
+Conflicts: gosa-plugin-webdav
 Architecture: all
 Depends: ${misc:Depends}, fusiondirectory, fusiondirectory-plugin-connectivity
-Conflicts: gosa (>>=2.6)
+Breaks: gosa (<<2.6)
 Description: webdav plugin for FusionDirectory
  WebDAV connectivity plugin.
  .
