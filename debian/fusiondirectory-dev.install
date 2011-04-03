@@ -1,4 +1,3 @@
 core/update-locale		/usr/bin
 core/update-pdf-help		/usr/bin
 core/update-online-help		/usr/bin
-core/contrib/extract-locale	/usr/bin

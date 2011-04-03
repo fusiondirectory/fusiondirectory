@@ -1,20 +1,19 @@
-The FusionDirectory schema have been moved to a new place, they are now
+The FusionDirectory schema's have been moved to a new place, they are now
 in /etc/ldap/schema/fusiondirectory.
 
 You have to adapt you slapd.conf accordingly
 
 # These should be present for FusionDirectory.
-include         /etc/ldap/schema/fusiondirectory/samba3.schema
 include         /etc/ldap/schema/fusiondirectory/gosystem.schema
 include         /etc/ldap/schema/fusiondirectory/gofon.schema
 include         /etc/ldap/schema/fusiondirectory/gofax.schema
 include         /etc/ldap/schema/fusiondirectory/goto.schema
 include         /etc/ldap/schema/fusiondirectory/goserver.schema
-include         /etc/ldap/schema/fusiondirectory/fusiondirectory-samba3.schema
+include         /etc/ldap/schema/fusiondirectory/gosa-samba3.schema
 include         /etc/ldap/schema/fusiondirectory/trust.schema
 
-After adapting you can remove the fusiondirectory schema in /etc/ldap/schema
+After adapting you can remove the fusiondirectory schema's from /etc/ldap/schema
 
-Benoit Mortier 01/05/2010
+ -- Benoit Mortier <benoit.mortier@opensides.be>  Sun, 03 Apr 2011 14:03:00 +0100
 
 

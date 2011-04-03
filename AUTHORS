@@ -1,5 +1,5 @@
 FusionDirectory AUTHORS
-============
+=======================
 
 This is the alphabetical list of all people that have
 contributed to the FusionDirectory project, beeing code, translations,
@@ -85,3 +85,6 @@ documentation and additional help.
 
 * Olivier BONHOMME <obonhomme@nerim.net>
   Corrected RPM building
+
+* Benjamin Carpentier <carpentierbenjamin@gmail.com>
+  Tested FusionDirectory, corrected copyright issues and locales
