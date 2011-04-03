@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-24 19:03+0100\n"
+"POT-Creation-Date: 2011-04-03 12:34+0200\n"
 "PO-Revision-Date: 2006-06-02 16:58+0100\n"
 "Last-Translator: Niels Klomp (CareWorks ICT Services) <nk@careworks.nl>\n"
 "Language-Team: CareWorks ICT Services <info@careworks.nl>\n"
@@ -33,7 +33,8 @@ msgstr "Terminal server"
 #, fuzzy, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
 msgstr ""
-"FusionDirectory configuratie %s/fusiondirectory.conf is niet leesbaar. Geannuleerd."
+"FusionDirectory configuratie %s/fusiondirectory.conf is niet leesbaar. "
+"Geannuleerd."
 
 #: html/password.php:74 html/main.php:268 html/index.php:144
 #: html/index.php:216 include/class_SnapshotHandler.inc:44
@@ -186,8 +187,8 @@ msgid ""
 "Fatal error: Register globals is on. FusionDirectory will refuse to login "
 "unless this is fixed by an administrator."
 msgstr ""
-"FATAAL: 'Register globals' is geactiveerd in PHP. FusionDirectory zal niemand laten "
-"inloggen totdat dit opgelost is door een systeembeheerder."
+"FATAAL: 'Register globals' is geactiveerd in PHP. FusionDirectory zal "
+"niemand laten inloggen totdat dit opgelost is door een systeembeheerder."
 
 #: html/main.php:198 ihtml/themes/default/password.tpl:41
 #: plugins/admin/users/class_userManagement.inc:401
@@ -703,8 +704,8 @@ msgid ""
 "to do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
 "Dit kan gebruikt worden door meerdere groepen. Verzeker uzelf ervan dat dit "
-"is wat u wil, aangezien er geen mogelijkheid voor FusionDirectory is om uw date terug "
-"te halen."
+"is wat u wil, aangezien er geen mogelijkheid voor FusionDirectory is om uw "
+"date terug te halen."
 
 #: ihtml/themes/default/remove.tpl:9 plugins/admin/acl/remove.tpl:10
 #: plugins/admin/users/remove.tpl:10 plugins/admin/groups/remove.tpl:10
@@ -888,8 +889,8 @@ msgid ""
 "Please maintain the values below to fulfill the policies."
 msgstr ""
 "Somige waardes moeten uniek zijn binnen de gehele directory, terwijl sommige "
-"combinaties geen zin hebben. FusionDirectory toont de relevante attributen. Bewaar de "
-"waardes hieronder a.u.b. om aan deze vereisten te voldoen."
+"combinaties geen zin hebben. FusionDirectory toont de relevante attributen. "
+"Bewaar de waardes hieronder a.u.b. om aan deze vereisten te voldoen."
 
 #: ihtml/themes/default/copyPasteDialog.tpl:9
 msgid "Remember that some properties like taken snapshots will not be copied!"
@@ -933,9 +934,9 @@ msgid ""
 "time ago in the past. For security reasons, the session has been closed. To "
 "continue with administrative tasks, please sign in again."
 msgstr ""
-"Uw laatste interactie met de FusionDirectory webinterface is enige tijd geleden. Uit "
-"veiligheidsoverwegingen is de sessie gesloten. Om door te gaan met "
-"administratieve taken, dient u opnieuw in te loggen."
+"Uw laatste interactie met de FusionDirectory webinterface is enige tijd "
+"geleden. Uit veiligheidsoverwegingen is de sessie gesloten. Om door te gaan "
+"met administratieve taken, dient u opnieuw in te loggen."
 
 #: ihtml/themes/default/logout.tpl:10
 msgid "Sign in again"
@@ -988,9 +989,9 @@ msgstr "Controle op PHP versie (>=4.1.0)"
 #, fuzzy, php-format
 msgid "PHP must be of version %s or above."
 msgstr ""
-"PHP moet minimaal versienummer 4.1.0 hebben. FusionDirectory gebruikt bepaalde "
-"functionaliteit die in voorgaande versies niet goed of helemaal niet "
-"voorhanden is."
+"PHP moet minimaal versienummer 4.1.0 hebben. FusionDirectory gebruikt "
+"bepaalde functionaliteit die in voorgaande versies niet goed of helemaal "
+"niet voorhanden is."
 
 #: setup/class_setupStep_Checks.inc:66
 msgid "Please upgrade to a supported version."
@@ -1083,8 +1084,8 @@ msgid ""
 msgstr ""
 "'register_globals' is een PHP mechanisme om alle globale variabelen te "
 "registreren zodat deze toegankelijk zijn voor scripts zonder dat de scope "
-"veranderd hoeft te worden. Dit is een veiligheidsrisico. FusionDirectory zal in beide "
-"modi draaien."
+"veranderd hoeft te worden. Dit is een veiligheidsrisico. FusionDirectory zal "
+"in beide modi draaien."
 
 #: setup/class_setupStep_Checks.inc:182
 #, fuzzy
@@ -1111,8 +1112,8 @@ msgid ""
 "Search for 'session.gc_maxlifetime' in your php.ini and set it to 86400 or "
 "higher."
 msgstr ""
-"Om FusionDirectory zonder problemen te gebruiken, moet de session.auto_register optie "
-"in uw php.ini ingesteld zijn op 'Off'."
+"Om FusionDirectory zonder problemen te gebruiken, moet de session."
+"auto_register optie in uw php.ini ingesteld zijn op 'Off'."
 
 #: setup/class_setupStep_Checks.inc:199 setup/class_setupStep_Checks.inc:215
 #: setup/class_setupStep_Checks.inc:231 setup/class_setupStep_Checks.inc:247
@@ -1126,15 +1127,15 @@ msgid ""
 "In Order to use FusionDirectory without any trouble, the session."
 "auto_register option in your php.ini should be set to 'Off'."
 msgstr ""
-"Om FusionDirectory zonder problemen te gebruiken, moet de session.auto_register optie "
-"in uw php.ini ingesteld zijn op 'Off'."
+"Om FusionDirectory zonder problemen te gebruiken, moet de session."
+"auto_register optie in uw php.ini ingesteld zijn op 'Off'."
 
 #: setup/class_setupStep_Checks.inc:201
 #, fuzzy
 msgid "Search for 'session.auto_start' in your php.ini and set it to 'Off'."
 msgstr ""
-"Om FusionDirectory zonder problemen te gebruiken, moet de session.auto_register optie "
-"in uw php.ini ingesteld zijn op 'Off'."
+"Om FusionDirectory zonder problemen te gebruiken, moet de session."
+"auto_register optie in uw php.ini ingesteld zijn op 'Off'."
 
 #: setup/class_setupStep_Checks.inc:208
 #, fuzzy
@@ -1142,9 +1143,9 @@ msgid ""
 "FusionDirectory needs at least 32MB of memory. Setting it below this limit "
 "may cause errors that are not reproducable! Increase it for larger setups."
 msgstr ""
-"FusionDirectory heeft tenminste 16MB geheugen nodig. Minder geheugen kan diverse "
-"onvoorspelbare fouten opleveren!.Verhoog deze waarde nog verder voor zeer "
-"grote omgevingen."
+"FusionDirectory heeft tenminste 16MB geheugen nodig. Minder geheugen kan "
+"diverse onvoorspelbare fouten opleveren!.Verhoog deze waarde nog verder voor "
+"zeer grote omgevingen."
 
 #: setup/class_setupStep_Checks.inc:209
 msgid ""
@@ -1219,8 +1220,8 @@ msgstr ""
 msgid ""
 "Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'."
 msgstr ""
-"Om FusionDirectory zonder problemen te gebruiken, moet de session.auto_register optie "
-"in uw php.ini ingesteld zijn op 'Off'."
+"Om FusionDirectory zonder problemen te gebruiken, moet de session."
+"auto_register optie in uw php.ini ingesteld zijn op 'Off'."
 
 #: setup/class_setupStep_Checks.inc:259
 #, fuzzy
@@ -1274,17 +1275,17 @@ msgid ""
 "reason, why FusionDirectory can't read your schema configuration!"
 msgstr ""
 
-#: setup/class_setup.inc:77 setup/class_setupStep_Feedback.inc:132
+#: setup/class_setup.inc:79 setup/class_setupStep_Feedback.inc:132
 #, fuzzy
 msgid "Setup error"
 msgstr "Systeem status"
 
-#: setup/class_setup.inc:197
+#: setup/class_setup.inc:199
 #, fuzzy
 msgid "Completed"
 msgstr "onvolledig"
 
-#: setup/class_setup.inc:267 setup/setup_migrate.tpl:272
+#: setup/class_setup.inc:269 setup/setup_migrate.tpl:272
 #, fuzzy
 msgid "Next"
 msgstr "tekst"
@@ -1405,8 +1406,8 @@ msgid ""
 "This dialog performs the basic configuration of the LDAP connectivity for "
 "FusionDirectory."
 msgstr ""
-"De volgende velden definiëren de basis configuratie van FusionDirectory's gedrag en "
-"beïnvloeden diverse eigenschappen in uw hoofd configuratie."
+"De volgende velden definiëren de basis configuratie van FusionDirectory's "
+"gedrag en beïnvloeden diverse eigenschappen in uw hoofd configuratie."
 
 #: setup/class_setupStep_Ldap.inc:112
 #, fuzzy, php-format
@@ -1591,9 +1592,9 @@ msgid ""
 "Normally this is adjustable via user templates, but you can specify a "
 "default method to be used here, too."
 msgstr ""
-"FusionDirectory ondersteunt diverse encryptie types voor uw wachtwoorden. Normaliter is "
-"dit aanpasbaar via gebruikerssjablonen. Hier kunt u echter een standaard te "
-"gebruiken methode opgeven."
+"FusionDirectory ondersteunt diverse encryptie types voor uw wachtwoorden. "
+"Normaliter is dit aanpasbaar via gebruikerssjablonen. Hier kunt u echter een "
+"standaard te gebruiken methode opgeven."
 
 #: setup/setup_config1.tpl:222
 #, fuzzy
@@ -1603,10 +1604,10 @@ msgid ""
 "implemented. For this to work, we need the admin DN and the corresponding "
 "password."
 msgstr ""
-"FusionDirectory werkt altijd als een beheerder en verzorgt het toegangsbeheer intern. "
-"Dit is een tijdelijke oplossing totdat directory ACIs volledig "
-"geïmplementeerd zijn in OpenLDAP. Om dit te kunnen laten werken is een "
-"beheerders DN en het bijbehorende wachtwoord nodig."
+"FusionDirectory werkt altijd als een beheerder en verzorgt het "
+"toegangsbeheer intern. Dit is een tijdelijke oplossing totdat directory ACIs "
+"volledig geïmplementeerd zijn in OpenLDAP. Om dit te kunnen laten werken is "
+"een beheerders DN en het bijbehorende wachtwoord nodig."
 
 #: setup/setup_config1.tpl:223
 #, fuzzy
@@ -1615,10 +1616,10 @@ msgid ""
 "FusionDirectory saves people and groups, including the way accounts get "
 "created. Check the values below if the fit your needs."
 msgstr ""
-"Sommige LDAP parameters zijn aan te passen en bepalen de locaties waar FusionDirectory "
-"gebruikers en groepen opslaat, evenals de manier waarop gebruikers "
-"aangemaakt worden. Controleer of de waardes hieronder in uw behoeften "
-"voorzien."
+"Sommige LDAP parameters zijn aan te passen en bepalen de locaties waar "
+"FusionDirectory gebruikers en groepen opslaat, evenals de manier waarop "
+"gebruikers aangemaakt worden. Controleer of de waardes hieronder in uw "
+"behoeften voorzien."
 
 #: setup/setup_config1.tpl:224
 #, fuzzy
@@ -1627,10 +1628,10 @@ msgid ""
 "provide interfaces to users mailboxes and general handling    for quotas. "
 "You can choose the dummy plugin to leave all your mail settings untouched."
 msgstr ""
-"FusionDirectory heeft modulaire ondersteuning voor diverse E-mail methodes. Deze "
-"methodes leveren toegang tot gebruikers mailboxen en algemene afhandeling "
-"voor quota's. U kunt de dummy module kiezen om alle E-mail instellingen "
-"ongewijzigd te laten."
+"FusionDirectory heeft modulaire ondersteuning voor diverse E-mail methodes. "
+"Deze methodes leveren toegang tot gebruikers mailboxen en algemene "
+"afhandeling voor quota's. U kunt de dummy module kiezen om alle E-mail "
+"instellingen ongewijzigd te laten."
 
 #: setup/setup_config2.tpl:2
 msgid "Samba settings"
@@ -1967,13 +1968,15 @@ msgid ""
 "Your configuration file is currently world readable. Please update the file "
 "permissions!"
 msgstr ""
-"FusionDirectory configuratie %s/fusiondirectory.conf is niet leesbaar. Geannuleerd."
+"FusionDirectory configuratie %s/fusiondirectory.conf is niet leesbaar. "
+"Geannuleerd."
 
 #: setup/class_setupStep_Finish.inc:106
 #, fuzzy
 msgid "The configuration is currently not readable or it does not exists."
 msgstr ""
-"FusionDirectory configuratie %s/fusiondirectory.conf is niet leesbaar. Geannuleerd."
+"FusionDirectory configuratie %s/fusiondirectory.conf is niet leesbaar. "
+"Geannuleerd."
 
 #: setup/class_setupStep_Finish.inc:115
 #, fuzzy, php-format
@@ -2047,7 +2050,7 @@ msgid "Click the 'Continue' button when you've finished."
 msgstr ""
 
 #: setup/setup_feedback.tpl:5
-msgid "Feedback sucessfully send"
+msgid "Feedback successfully send"
 msgstr ""
 
 #: setup/setup_feedback.tpl:15
@@ -2378,7 +2381,6 @@ msgid "Move selected users into this people tree"
 msgstr "Maak gebruiker aan met dit sjabloon"
 
 #: setup/setup_migrate.tpl:219
-#, fuzzy
 msgid "Migrate GOsa 2.5 administrative accounts"
 msgstr ""
 
@@ -3003,7 +3005,7 @@ msgstr ""
 msgid "PDF"
 msgstr ""
 
-#: include/exporter/class_PDF.inc:46
+#: include/exporter/class_PDF.inc:44
 #, fuzzy
 msgid "Page"
 msgstr "Pieper"
@@ -3303,9 +3305,9 @@ msgstr "De opgegeven 'UID' waarde is te klein."
 #, fuzzy, php-format
 msgid "'%s' must be %d or above!"
 msgstr ""
-"PHP moet minimaal versienummer 4.1.0 hebben. FusionDirectory gebruikt bepaalde "
-"functionaliteit die in voorgaande versies niet goed of helemaal niet "
-"voorhanden is."
+"PHP moet minimaal versienummer 4.1.0 hebben. FusionDirectory gebruikt "
+"bepaalde functionaliteit die in voorgaande versies niet goed of helemaal "
+"niet voorhanden is."
 
 #: include/utils/class_msgPool.inc:277
 #, php-format
@@ -5192,7 +5194,8 @@ msgid ""
 "do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
 "Dit kan een primaire groep zijn. Verzeker uzelf ervan dat dit is wat u wilt, "
-"aangezien er geen mogelijkheid voor FusionDirectory is om deze gegevens terug te halen."
+"aangezien er geen mogelijkheid voor FusionDirectory is om deze gegevens "
+"terug te halen."
 
 #: plugins/admin/groups/trust_machines.tpl:6
 #: plugins/admin/ogroups/trust_machines.tpl:6
@@ -5377,6 +5380,7 @@ msgid "Samba domain name"
 msgstr "Samba home"
 
 #: plugins/admin/groups/class_group.inc:1191
+#: plugins/admin/ogroups/class_ogroup.inc:978
 #: plugins/admin/ogroups/generic.tpl:36 plugins/personal/posix/generic.tpl:139
 msgid "System trust"
 msgstr "Systeem vertrouwen"
@@ -5659,8 +5663,8 @@ msgid ""
 "FusionDirectory to get your data back."
 msgstr ""
 "Dit omvat 'alle' accounts, systemen etc. in deze subtree. Verzeker uzelf er "
-"van dat dit is wat u wilt, aangezien er geen mogelijkheid voor FusionDirectory is om "
-"deze gegevens terug te halen."
+"van dat dit is wat u wilt, aangezien er geen mogelijkheid voor "
+"FusionDirectory is om deze gegevens terug te halen."
 
 #: plugins/admin/departments/remove.tpl:10
 msgid ""
@@ -6122,11 +6126,6 @@ msgstr "U kunt maximaal twee verschillende object types tegelijk combineren!"
 msgid "Object group generic"
 msgstr "Objectgroep"
 
-#: plugins/admin/ogroups/class_ogroup.inc:978
-#, fuzzy
-msgid "Sytem trust"
-msgstr "Systeem vertrouwen"
-
 #: plugins/admin/ogroups/class_ogroup.inc:979
 #, fuzzy
 msgid "Member"
@@ -6216,8 +6215,8 @@ msgid ""
 "menu on the left, or by choosing one of the pictograms below. All changes "
 "apply directly to your companies LDAP server."
 msgstr ""
-"Dit is het FusionDirectory hoofdmenu. U kunt taken selecteren door het menu aan de "
-"linkerzijde te gebruiken of door een van de pictogrammen hieronder te "
+"Dit is het FusionDirectory hoofdmenu. U kunt taken selecteren door het menu "
+"aan de linkerzijde te gebruiken of door een van de pictogrammen hieronder te "
 "selecteren. Alle veranderingen worden direct op de LDAP server van uw "
 "bedrijf doorgevoerd."
 
@@ -6962,3 +6961,7 @@ msgstr "Gebruik a.u.b. de telefoon tab"
 #, fuzzy
 msgid "Your password hash method will not be changed!"
 msgstr "Uw wachtwoord is verlopen! Kies a.u.b. een nieuw wachtwoord. "
+
+#, fuzzy
+#~ msgid "Sytem trust"
+#~ msgstr "Systeem vertrouwen"

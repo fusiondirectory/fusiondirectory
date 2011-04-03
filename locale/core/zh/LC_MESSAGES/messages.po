@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-24 19:03+0100\n"
+"POT-Creation-Date: 2011-04-03 12:34+0200\n"
 "PO-Revision-Date: 2007-06-03 12:27+0800\n"
 "Last-Translator: Jiang Xin <worldhello.net@gmail.com>\n"
 "Language-Team: Chinese Simplified <zh@li.org>\n"
@@ -676,8 +676,8 @@ msgid ""
 "This may be used by several groups. Please double check if your really want "
 "to do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
-"这可能被好几个组使用。请再次检查您是否要这么做，因为 FusionDirectory 没有办法将您的数据"
-"找回。"
+"这可能被好几个组使用。请再次检查您是否要这么做，因为 FusionDirectory 没有办法"
+"将您的数据找回。"
 
 #: ihtml/themes/default/remove.tpl:9 plugins/admin/acl/remove.tpl:10
 #: plugins/admin/users/remove.tpl:10 plugins/admin/groups/remove.tpl:10
@@ -852,8 +852,8 @@ msgid ""
 "combinations make no sense. FusionDirectory shows the relevant attributes. "
 "Please maintain the values below to fulfill the policies."
 msgstr ""
-"有的变量需要在整个目录中保持唯一，而有的组合没有意义。FusionDirectory 显示有关属性。请按"
-"照这个原则维护其取值。"
+"有的变量需要在整个目录中保持唯一，而有的组合没有意义。FusionDirectory 显示有"
+"关属性。请按照这个原则维护其取值。"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:9
 msgid "Remember that some properties like taken snapshots will not be copied!"
@@ -897,8 +897,8 @@ msgid ""
 "time ago in the past. For security reasons, the session has been closed. To "
 "continue with administrative tasks, please sign in again."
 msgstr ""
-"上一次操作 FusionDirectory 界面是在很长时间之前。出于安全上的考虑，已经关闭了连接。要继"
-"续执行管理任务，请重新登录。"
+"上一次操作 FusionDirectory 界面是在很长时间之前。出于安全上的考虑，已经关闭了"
+"连接。要继续执行管理任务，请重新登录。"
 
 #: ihtml/themes/default/logout.tpl:10
 msgid "Sign in again"
@@ -1077,22 +1077,24 @@ msgid ""
 "In Order to use FusionDirectory without any trouble, the session."
 "auto_register option in your php.ini should be set to 'Off'."
 msgstr ""
-"为了在是使用 FusionDirectory 中不遇到麻烦，您的 php.ini 中 session.auto_register 选项必"
-"须设置为 'Off'。"
+"为了在是使用 FusionDirectory 中不遇到麻烦，您的 php.ini 中 session."
+"auto_register 选项必须设置为 'Off'。"
 
 #: setup/class_setupStep_Checks.inc:201
 #, fuzzy
 msgid "Search for 'session.auto_start' in your php.ini and set it to 'Off'."
 msgstr ""
-"为了在是使用 FusionDirectory 中不遇到麻烦，您的 php.ini 中 session.auto_register 选项必"
-"须设置为 'Off'。"
+"为了在是使用 FusionDirectory 中不遇到麻烦，您的 php.ini 中 session."
+"auto_register 选项必须设置为 'Off'。"
 
 #: setup/class_setupStep_Checks.inc:208
 #, fuzzy
 msgid ""
 "FusionDirectory needs at least 32MB of memory. Setting it below this limit "
 "may cause errors that are not reproducable! Increase it for larger setups."
-msgstr "FusionDirectory 需要至少 16MB 内存，太少会导致无法预料的错误！将其设置为更大。"
+msgstr ""
+"FusionDirectory 需要至少 16MB 内存，太少会导致无法预料的错误！将其设置为更"
+"大。"
 
 #: setup/class_setupStep_Checks.inc:209
 msgid ""
@@ -1214,17 +1216,17 @@ msgid ""
 "reason, why FusionDirectory can't read your schema configuration!"
 msgstr ""
 
-#: setup/class_setup.inc:77 setup/class_setupStep_Feedback.inc:132
+#: setup/class_setup.inc:79 setup/class_setupStep_Feedback.inc:132
 #, fuzzy
 msgid "Setup error"
 msgstr "PHP 错误"
 
-#: setup/class_setup.inc:197
+#: setup/class_setup.inc:199
 #, fuzzy
 msgid "Completed"
 msgstr "不完整"
 
-#: setup/class_setup.inc:267 setup/setup_migrate.tpl:272
+#: setup/class_setup.inc:269 setup/setup_migrate.tpl:272
 #, fuzzy
 msgid "Next"
 msgstr "下一个"
@@ -1521,8 +1523,8 @@ msgid ""
 "Normally this is adjustable via user templates, but you can specify a "
 "default method to be used here, too."
 msgstr ""
-"FusionDirectory 支持好几种口令加密算法。通常可以通过用户模板调整算法，但是在这里您可以定"
-"义一个缺省方法。"
+"FusionDirectory 支持好几种口令加密算法。通常可以通过用户模板调整算法，但是在"
+"这里您可以定义一个缺省方法。"
 
 #: setup/setup_config1.tpl:222
 #, fuzzy
@@ -1532,8 +1534,8 @@ msgid ""
 "implemented. For this to work, we need the admin DN and the corresponding "
 "password."
 msgstr ""
-"FusionDirectory 总是作为 LDAP 管理员，并且管理内部权限。这是一个临时方案直到 OpenLDAP 目"
-"录 ACI 被完全实现。为了让其实现，我们需要管理员 DN 和正确的口令。"
+"FusionDirectory 总是作为 LDAP 管理员，并且管理内部权限。这是一个临时方案直到 "
+"OpenLDAP 目录 ACI 被完全实现。为了让其实现，我们需要管理员 DN 和正确的口令。"
 
 #: setup/setup_config1.tpl:223
 #, fuzzy
@@ -1552,8 +1554,8 @@ msgid ""
 "provide interfaces to users mailboxes and general handling    for quotas. "
 "You can choose the dummy plugin to leave all your mail settings untouched."
 msgstr ""
-"FusionDirectory 通过模组支持几种邮件方法。这些方法提供用户邮箱的界面以及管理用户空间。您"
-"可以选择选择 dummy 插件以保持您的邮件设置不被更改。"
+"FusionDirectory 通过模组支持几种邮件方法。这些方法提供用户邮箱的界面以及管理"
+"用户空间。您可以选择选择 dummy 插件以保持您的邮件设置不被更改。"
 
 #: setup/setup_config2.tpl:2
 msgid "Samba settings"
@@ -1903,8 +1905,8 @@ msgid ""
 "shouldn't. You may want to execute these commands to achieve this "
 "requirement:"
 msgstr ""
-"将文件保存在 FusionDirectory 配置文件目录中，确认 Web 服务器运行的账号能够读取 gosa."
-"conf，其他用户则无权访问。您可以执行如下命令来实现："
+"将文件保存在 FusionDirectory 配置文件目录中，确认 Web 服务器运行的账号能够读"
+"取 gosa.conf，其他用户则无权访问。您可以执行如下命令来实现："
 
 #: setup/setup_welcome.tpl:4
 msgid ""
@@ -1963,7 +1965,7 @@ msgid "Click the 'Continue' button when you've finished."
 msgstr ""
 
 #: setup/setup_feedback.tpl:5
-msgid "Feedback sucessfully send"
+msgid "Feedback successfully send"
 msgstr ""
 
 #: setup/setup_feedback.tpl:15
@@ -2292,7 +2294,6 @@ msgid "Move selected users into this people tree"
 msgstr "创建使用该模板的用户"
 
 #: setup/setup_migrate.tpl:219
-#, fuzzy
 msgid "Migrate GOsa 2.5 administrative accounts"
 msgstr ""
 
@@ -2694,7 +2695,7 @@ msgid "Found %s department(s) that will not be visible in FusionDirectory."
 msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1028
-#, fuzzy, php-format
+#, php-format
 msgid "FusionDirectory 2.5 administrative accounts found: %s"
 msgstr ""
 
@@ -2914,7 +2915,7 @@ msgstr ""
 msgid "PDF"
 msgstr ""
 
-#: include/exporter/class_PDF.inc:46
+#: include/exporter/class_PDF.inc:44
 #, fuzzy
 msgid "Page"
 msgstr "呼机"
@@ -4561,7 +4562,6 @@ msgid "Arguments"
 msgstr "参数"
 
 #: include/class_msg_dialog.inc:124
-#, fuzzy
 msgid "Please fix the above error and reload the page."
 msgstr ""
 
@@ -5058,8 +5058,8 @@ msgid ""
 "This may be a primary user group. Please double check if you really want to "
 "do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
-"这可能是一个主要的用户组。请再次检查您是否要这么做，因为 FusionDirectory 没有办法将您的"
-"数据找回。"
+"这可能是一个主要的用户组。请再次检查您是否要这么做，因为 FusionDirectory 没有"
+"办法将您的数据找回。"
 
 #: plugins/admin/groups/trust_machines.tpl:6
 #: plugins/admin/ogroups/trust_machines.tpl:6
@@ -5240,6 +5240,7 @@ msgid "Samba domain name"
 msgstr "Samba 主目录"
 
 #: plugins/admin/groups/class_group.inc:1191
+#: plugins/admin/ogroups/class_ogroup.inc:978
 #: plugins/admin/ogroups/generic.tpl:36 plugins/personal/posix/generic.tpl:139
 msgid "System trust"
 msgstr "信赖的系统"
@@ -5519,8 +5520,8 @@ msgid ""
 "check if your really want to do this since there is no way for "
 "FusionDirectory to get your data back."
 msgstr ""
-"在这个子树中包含了所有账号，系统等等。请再次检查您是否要这么做，因为 FusionDirectory 没"
-"有办法将您的数据找回。"
+"在这个子树中包含了所有账号，系统等等。请再次检查您是否要这么做，因为 "
+"FusionDirectory 没有办法将您的数据找回。"
 
 #: plugins/admin/departments/remove.tpl:10
 msgid ""
@@ -5873,7 +5874,8 @@ msgstr "显示组"
 msgid ""
 "Please double check if you really want to do this since there is no way for "
 "FusionDirectory to get your data back."
-msgstr "请再次检查您是否要这么做，因为 FusionDirectory 没有办法将您的数据找回。"
+msgstr ""
+"请再次检查您是否要这么做，因为 FusionDirectory 没有办法将您的数据找回。"
 
 #: plugins/admin/ogroups/paste_generic.tpl:7
 msgid "Please enter the new object group name"
@@ -5975,11 +5977,6 @@ msgstr "您最多只能组合两个不同的对象类！"
 #, fuzzy
 msgid "Object group generic"
 msgstr "对象组"
-
-#: plugins/admin/ogroups/class_ogroup.inc:978
-#, fuzzy
-msgid "Sytem trust"
-msgstr "信赖的系统"
 
 #: plugins/admin/ogroups/class_ogroup.inc:979
 #, fuzzy
@@ -6802,3 +6799,7 @@ msgstr "请使用电话页面"
 #, fuzzy
 msgid "Your password hash method will not be changed!"
 msgstr "您的口令已经过期 !! 选择一个新口令"
+
+#, fuzzy
+#~ msgid "Sytem trust"
+#~ msgstr "信赖的系统"

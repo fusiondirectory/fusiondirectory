@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-24 19:03+0100\n"
+"POT-Creation-Date: 2011-04-03 12:34+0200\n"
 "PO-Revision-Date: 2005-11-18 15:26+0100\n"
 "Last-Translator: Alessandro Amici <a.amici@bopen.it>\n"
 "Language-Team: Italian\n"
@@ -31,7 +31,8 @@ msgstr "Terminal Server"
 #, fuzzy, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
 msgstr ""
-"Il file di configurazione di FusionDirectory %s/fusiondirectory.conf non è legibile."
+"Il file di configurazione di FusionDirectory %s/fusiondirectory.conf non è "
+"legibile."
 
 #: html/password.php:74 html/main.php:268 html/index.php:144
 #: html/index.php:216 include/class_SnapshotHandler.inc:44
@@ -985,8 +986,8 @@ msgid ""
 "FusionDirectory requires this module to communicate with several supported "
 "databases."
 msgstr ""
-"Queso modulo serve a leggere i report di GOfax dal database.FusionDirectory funziona "
-"correttamente anche senza."
+"Queso modulo serve a leggere i report di GOfax dal database.FusionDirectory "
+"funziona correttamente anche senza."
 
 #: setup/class_setupStep_Checks.inc:138
 msgid "samba hash generator"
@@ -1051,8 +1052,8 @@ msgid ""
 "Search for 'session.gc_maxlifetime' in your php.ini and set it to 86400 or "
 "higher."
 msgstr ""
-"Per non avere problemi con FusionDirectory è necessario impostare l'opzione session."
-"auto_register su 'off' nel file php.ini"
+"Per non avere problemi con FusionDirectory è necessario impostare l'opzione "
+"session.auto_register su 'off' nel file php.ini"
 
 #: setup/class_setupStep_Checks.inc:199 setup/class_setupStep_Checks.inc:215
 #: setup/class_setupStep_Checks.inc:231 setup/class_setupStep_Checks.inc:247
@@ -1065,15 +1066,15 @@ msgid ""
 "In Order to use FusionDirectory without any trouble, the session."
 "auto_register option in your php.ini should be set to 'Off'."
 msgstr ""
-"Per non avere problemi con FusionDirectory è necessario impostare l'opzione session."
-"auto_register su 'off' nel file php.ini"
+"Per non avere problemi con FusionDirectory è necessario impostare l'opzione "
+"session.auto_register su 'off' nel file php.ini"
 
 #: setup/class_setupStep_Checks.inc:201
 #, fuzzy
 msgid "Search for 'session.auto_start' in your php.ini and set it to 'Off'."
 msgstr ""
-"Per non avere problemi con FusionDirectory è necessario impostare l'opzione session."
-"auto_register su 'off' nel file php.ini"
+"Per non avere problemi con FusionDirectory è necessario impostare l'opzione "
+"session.auto_register su 'off' nel file php.ini"
 
 #: setup/class_setupStep_Checks.inc:208
 #, fuzzy
@@ -1157,8 +1158,8 @@ msgstr ""
 msgid ""
 "Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'."
 msgstr ""
-"Per non avere problemi con FusionDirectory è necessario impostare l'opzione session."
-"auto_register su 'off' nel file php.ini"
+"Per non avere problemi con FusionDirectory è necessario impostare l'opzione "
+"session.auto_register su 'off' nel file php.ini"
 
 #: setup/class_setupStep_Checks.inc:259
 #, fuzzy
@@ -1212,17 +1213,17 @@ msgid ""
 "reason, why FusionDirectory can't read your schema configuration!"
 msgstr ""
 
-#: setup/class_setup.inc:77 setup/class_setupStep_Feedback.inc:132
+#: setup/class_setup.inc:79 setup/class_setupStep_Feedback.inc:132
 #, fuzzy
 msgid "Setup error"
 msgstr "Stato"
 
-#: setup/class_setup.inc:197
+#: setup/class_setup.inc:199
 #, fuzzy
 msgid "Completed"
 msgstr "incompleto"
 
-#: setup/class_setup.inc:267 setup/setup_migrate.tpl:272
+#: setup/class_setup.inc:269 setup/setup_migrate.tpl:272
 msgid "Next"
 msgstr ""
 
@@ -1343,7 +1344,8 @@ msgstr "Disconnessione "
 msgid ""
 "This dialog performs the basic configuration of the LDAP connectivity for "
 "FusionDirectory."
-msgstr "I campi seguenti permettono una configurazione base di FusionDirectory."
+msgstr ""
+"I campi seguenti permettono una configurazione base di FusionDirectory."
 
 #: setup/class_setupStep_Ldap.inc:112
 #, php-format
@@ -1526,8 +1528,8 @@ msgid ""
 "Normally this is adjustable via user templates, but you can specify a "
 "default method to be used here, too."
 msgstr ""
-"FusionDirectory supporta numerosi algoritmi di criptaggio per le password. Imposta "
-"quello di default."
+"FusionDirectory supporta numerosi algoritmi di criptaggio per le password. "
+"Imposta quello di default."
 
 #: setup/setup_config1.tpl:222
 #, fuzzy
@@ -1537,9 +1539,9 @@ msgid ""
 "implemented. For this to work, we need the admin DN and the corresponding "
 "password."
 msgstr ""
-"FusionDirectory agisce sul DIT tramite l'utente di amministrazione e possiede uno "
-"schema di permessi interno. Questo è un workaround finché non sarà "
-"completato il supportp per le ACL all'interno del DIT in OpenLDAP."
+"FusionDirectory agisce sul DIT tramite l'utente di amministrazione e "
+"possiede uno schema di permessi interno. Questo è un workaround finché non "
+"sarà completato il supportp per le ACL all'interno del DIT in OpenLDAP."
 
 #: setup/setup_config1.tpl:223
 #, fuzzy
@@ -1549,8 +1551,8 @@ msgid ""
 "created. Check the values below if the fit your needs."
 msgstr ""
 "Alcuni parametri di LDAP sono selezionabili e influenzano il posto in cui "
-"FusionDirectory salva le identità e i gruppi. Controlla che i valori riportati "
-"corrispondano alle impostaioni del tuo DIT."
+"FusionDirectory salva le identità e i gruppi. Controlla che i valori "
+"riportati corrispondano alle impostaioni del tuo DIT."
 
 #: setup/setup_config1.tpl:224
 #, fuzzy
@@ -1559,9 +1561,9 @@ msgid ""
 "provide interfaces to users mailboxes and general handling    for quotas. "
 "You can choose the dummy plugin to leave all your mail settings untouched."
 msgstr ""
-"FusionDirectory supporta numerosi metodi per amministrare la posta. Questi metodi "
-"possiedono interfacce per impostare opzioni come ad esempio la quota. Puoi "
-"impostare il metodo 'dummy' per mantenere tutte le impostazioni."
+"FusionDirectory supporta numerosi metodi per amministrare la posta. Questi "
+"metodi possiedono interfacce per impostare opzioni come ad esempio la quota. "
+"Puoi impostare il metodo 'dummy' per mantenere tutte le impostazioni."
 
 #: setup/setup_config2.tpl:2
 msgid "Samba settings"
@@ -1894,13 +1896,15 @@ msgid ""
 "Your configuration file is currently world readable. Please update the file "
 "permissions!"
 msgstr ""
-"Il file di configurazione di FusionDirectory %s/fusiondirectory.conf non è legibile."
+"Il file di configurazione di FusionDirectory %s/fusiondirectory.conf non è "
+"legibile."
 
 #: setup/class_setupStep_Finish.inc:106
 #, fuzzy
 msgid "The configuration is currently not readable or it does not exists."
 msgstr ""
-"Il file di configurazione di FusionDirectory %s/fusiondirectory.conf non è legibile."
+"Il file di configurazione di FusionDirectory %s/fusiondirectory.conf non è "
+"legibile."
 
 #: setup/class_setupStep_Finish.inc:115
 #, fuzzy, php-format
@@ -1973,7 +1977,7 @@ msgid "Click the 'Continue' button when you've finished."
 msgstr ""
 
 #: setup/setup_feedback.tpl:5
-msgid "Feedback sucessfully send"
+msgid "Feedback successfully send"
 msgstr ""
 
 #: setup/setup_feedback.tpl:15
@@ -2925,7 +2929,7 @@ msgstr ""
 msgid "PDF"
 msgstr ""
 
-#: include/exporter/class_PDF.inc:46
+#: include/exporter/class_PDF.inc:44
 #, fuzzy
 msgid "Page"
 msgstr "Pager"
@@ -5267,6 +5271,7 @@ msgid "Samba domain name"
 msgstr "Home di Samba"
 
 #: plugins/admin/groups/class_group.inc:1191
+#: plugins/admin/ogroups/class_ogroup.inc:978
 #: plugins/admin/ogroups/generic.tpl:36 plugins/personal/posix/generic.tpl:139
 msgid "System trust"
 msgstr "Accesso ai sistemi"
@@ -5996,11 +6001,6 @@ msgstr ""
 msgid "Object group generic"
 msgstr "Gruppo di oggetti"
 
-#: plugins/admin/ogroups/class_ogroup.inc:978
-#, fuzzy
-msgid "Sytem trust"
-msgstr "Accesso ai sistemi"
-
 #: plugins/admin/ogroups/class_ogroup.inc:979
 #, fuzzy
 msgid "Member"
@@ -6091,9 +6091,9 @@ msgid ""
 "menu on the left, or by choosing one of the pictograms below. All changes "
 "apply directly to your companies LDAP server."
 msgstr ""
-"Questa è la schermata principale di FusionDirectory. Puoi selezionare le attività "
-"tramite il menù sulla sinitra o cliccando slle icone qui sotto. Tutti i "
-"cambiamenti sono applicati immediatamente al server LDAP."
+"Questa è la schermata principale di FusionDirectory. Puoi selezionare le "
+"attività tramite il menù sulla sinitra o cliccando slle icone qui sotto. "
+"Tutti i cambiamenti sono applicati immediatamente al server LDAP."
 
 #: plugins/generic/welcome/welcome.tpl:8
 msgid ""
@@ -6839,3 +6839,6 @@ msgstr "Usa il tab del telefono"
 msgid "Your password hash method will not be changed!"
 msgstr "Non hai il permesso di cambiare la tua password."
 
+#, fuzzy
+#~ msgid "Sytem trust"
+#~ msgstr "Accesso ai sistemi"

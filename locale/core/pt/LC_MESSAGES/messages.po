@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages-2.6.4-pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-24 19:03+0100\n"
+"POT-Creation-Date: 2011-04-03 12:34+0200\n"
 "PO-Revision-Date: 2009-03-02 15:03-0300\n"
 "Last-Translator: Clever de Oliveira Jr. <clever@dri.cefetmg.br>\n"
 "Language-Team: Brazilian Portuguese <pt@li.org>\n"
@@ -647,8 +647,8 @@ msgid ""
 "to do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
 "Ele pode ser o grupo primário de um usuário. Por favor, tenha certeza se "
-"realmente quer fazer isso, pois o FusionDirectory não possui uma forma para restaurar "
-"seus dados anteriores."
+"realmente quer fazer isso, pois o FusionDirectory não possui uma forma para "
+"restaurar seus dados anteriores."
 
 #: ihtml/themes/default/remove.tpl:9 plugins/admin/acl/remove.tpl:10
 #: plugins/admin/users/remove.tpl:10 plugins/admin/groups/remove.tpl:10
@@ -1135,15 +1135,15 @@ msgid ""
 "reason, why FusionDirectory can't read your schema configuration!"
 msgstr ""
 
-#: setup/class_setup.inc:77 setup/class_setupStep_Feedback.inc:132
+#: setup/class_setup.inc:79 setup/class_setupStep_Feedback.inc:132
 msgid "Setup error"
 msgstr ""
 
-#: setup/class_setup.inc:197
+#: setup/class_setup.inc:199
 msgid "Completed"
 msgstr ""
 
-#: setup/class_setup.inc:267 setup/setup_migrate.tpl:272
+#: setup/class_setup.inc:269 setup/setup_migrate.tpl:272
 msgid "Next"
 msgstr ""
 
@@ -1792,7 +1792,7 @@ msgid "Click the 'Continue' button when you've finished."
 msgstr ""
 
 #: setup/setup_feedback.tpl:5
-msgid "Feedback sucessfully send"
+msgid "Feedback successfully send"
 msgstr ""
 
 #: setup/setup_feedback.tpl:15
@@ -2690,7 +2690,7 @@ msgstr ""
 msgid "PDF"
 msgstr ""
 
-#: include/exporter/class_PDF.inc:46
+#: include/exporter/class_PDF.inc:44
 #, fuzzy
 msgid "Page"
 msgstr "Pager"
@@ -3854,8 +3854,8 @@ msgid ""
 "FusionDirectory configuration file away to run the FusionDirectory setup "
 "again."
 msgstr ""
-"O arquivo de configuração do FusionDirectory parece estar desatualizador. Por favor, "
-"remova-o e execute o configurador novamente."
+"O arquivo de configuração do FusionDirectory parece estar desatualizador. "
+"Por favor, remova-o e execute o configurador novamente."
 
 #: include/class_CopyPasteHandler.inc:118
 #: include/class_CopyPasteHandler.inc:127
@@ -4753,8 +4753,8 @@ msgid ""
 "do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
 "Ele pode ser o grupo primário de um usuário. Por favor, tenha certeza se "
-"realmente quer fazer isso, pois o FusionDirectory não possui uma forma para restaurar "
-"seus dados anteriores."
+"realmente quer fazer isso, pois o FusionDirectory não possui uma forma para "
+"restaurar seus dados anteriores."
 
 #: plugins/admin/groups/trust_machines.tpl:6
 #: plugins/admin/ogroups/trust_machines.tpl:6
@@ -4930,6 +4930,7 @@ msgid "Samba domain name"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:1191
+#: plugins/admin/ogroups/class_ogroup.inc:978
 #: plugins/admin/ogroups/generic.tpl:36 plugins/personal/posix/generic.tpl:139
 msgid "System trust"
 msgstr "Sistema de confiança"
@@ -5535,8 +5536,8 @@ msgid ""
 "FusionDirectory to get your data back."
 msgstr ""
 "Ele pode ser o grupo primário de um usuário. Por favor, tenha certeza se "
-"realmente quer fazer isso, pois o FusionDirectory não possui uma forma para restaurar "
-"seus dados anteriores."
+"realmente quer fazer isso, pois o FusionDirectory não possui uma forma para "
+"restaurar seus dados anteriores."
 
 #: plugins/admin/ogroups/paste_generic.tpl:7
 msgid "Please enter the new object group name"
@@ -5635,10 +5636,6 @@ msgstr ""
 msgid "Object group generic"
 msgstr ""
 
-#: plugins/admin/ogroups/class_ogroup.inc:978
-msgid "Sytem trust"
-msgstr ""
-
 #: plugins/admin/ogroups/class_ogroup.inc:979
 msgid "Member"
 msgstr ""
@@ -5728,9 +5725,9 @@ msgid ""
 "menu on the left, or by choosing one of the pictograms below. All changes "
 "apply directly to your companies LDAP server."
 msgstr ""
-"Este é o menu principal do FusionDirectory. Você pode selecionar tarefas a partir do "
-"menu esquerdo ou através dos ícones abaixo. Todas as alterações serão "
-"aplicadas diretamente ao seu servidor LDAP."
+"Este é o menu principal do FusionDirectory. Você pode selecionar tarefas a "
+"partir do menu esquerdo ou através dos ícones abaixo. Todas as alterações "
+"serão aplicadas diretamente ao seu servidor LDAP."
 
 #: plugins/generic/welcome/welcome.tpl:8
 msgid ""

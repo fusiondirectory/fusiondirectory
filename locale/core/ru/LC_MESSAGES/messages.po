@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-24 19:03+0100\n"
+"POT-Creation-Date: 2011-04-03 12:34+0200\n"
 "PO-Revision-Date: 2005-04-18 14:35+0300\n"
 "Last-Translator: Igor Muratov <migor@altlinux.org>\n"
 "Language-Team: ALT Linux Team\n"
@@ -30,8 +30,8 @@ msgstr "Терминал-сервер"
 #, fuzzy, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
 msgstr ""
-"Не удается прочитать файл настройки FusionDirectory %s/fusiondirectory.conf. Операция "
-"прервана."
+"Не удается прочитать файл настройки FusionDirectory %s/fusiondirectory.conf. "
+"Операция прервана."
 
 #: html/password.php:74 html/main.php:268 html/index.php:144
 #: html/index.php:216 include/class_SnapshotHandler.inc:44
@@ -180,8 +180,8 @@ msgid ""
 "Fatal error: Register globals is on. FusionDirectory will refuse to login "
 "unless this is fixed by an administrator."
 msgstr ""
-"Используется механизм register_globals. FusionDirectory не допустит пользователей в "
-"систему, пока он не будет отключен администратором."
+"Используется механизм register_globals. FusionDirectory не допустит "
+"пользователей в систему, пока он не будет отключен администратором."
 
 #: html/main.php:198 ihtml/themes/default/password.tpl:41
 #: plugins/admin/users/class_userManagement.inc:401
@@ -690,8 +690,8 @@ msgid ""
 "to do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
 "Это приложение может использоваться несколькими группами. Подумайте еще раз, "
-"действительно ли вы хотите удалить его, так как FusionDirectory не сможет отменить "
-"результаты этой операции."
+"действительно ли вы хотите удалить его, так как FusionDirectory не сможет "
+"отменить результаты этой операции."
 
 #: ihtml/themes/default/remove.tpl:9 plugins/admin/acl/remove.tpl:10
 #: plugins/admin/users/remove.tpl:10 plugins/admin/groups/remove.tpl:10
@@ -1064,7 +1064,8 @@ msgid ""
 msgstr ""
 "register_globals - механизм PHP, позволяющий делать все глобальные "
 "переменные доступными из сценария без смены области действия. Это может быть "
-"нарушением безопасности. Тем не менее, FusionDirectory будет работать в любом случае."
+"нарушением безопасности. Тем не менее, FusionDirectory будет работать в "
+"любом случае."
 
 #: setup/class_setupStep_Checks.inc:182
 #, fuzzy
@@ -1224,17 +1225,17 @@ msgid ""
 "reason, why FusionDirectory can't read your schema configuration!"
 msgstr ""
 
-#: setup/class_setup.inc:77 setup/class_setupStep_Feedback.inc:132
+#: setup/class_setup.inc:79 setup/class_setupStep_Feedback.inc:132
 #, fuzzy
 msgid "Setup error"
 msgstr "Состояние системы"
 
-#: setup/class_setup.inc:197
+#: setup/class_setup.inc:199
 #, fuzzy
 msgid "Completed"
 msgstr "не полный"
 
-#: setup/class_setup.inc:267 setup/setup_migrate.tpl:272
+#: setup/class_setup.inc:269 setup/setup_migrate.tpl:272
 #, fuzzy
 msgid "Next"
 msgstr "текст"
@@ -1546,12 +1547,12 @@ msgid ""
 "implemented. For this to work, we need the admin DN and the corresponding "
 "password."
 msgstr ""
-"Сейчас вам нужно указать параметры доступа к LDAP-серверу. FusionDirectory всегда "
-"выступает в роли администратора и управляет правами доступа самостоятельно. "
-"Это временное решение, пока в OpenLDAP не будут реализованы полностью "
-"средства контроля доступа (ACI) внутри каталогов. Чтобы это решение "
-"работало, укажите DN (уникальное имя) администратора и соответствующий "
-"пароль."
+"Сейчас вам нужно указать параметры доступа к LDAP-серверу. FusionDirectory "
+"всегда выступает в роли администратора и управляет правами доступа "
+"самостоятельно. Это временное решение, пока в OpenLDAP не будут реализованы "
+"полностью средства контроля доступа (ACI) внутри каталогов. Чтобы это "
+"решение работало, укажите DN (уникальное имя) администратора и "
+"соответствующий пароль."
 
 #: setup/setup_config1.tpl:223
 #, fuzzy
@@ -1905,15 +1906,15 @@ msgid ""
 "Your configuration file is currently world readable. Please update the file "
 "permissions!"
 msgstr ""
-"Не удается прочитать файл настройки FusionDirectory %s/fusiondirectory.conf. Операция "
-"прервана."
+"Не удается прочитать файл настройки FusionDirectory %s/fusiondirectory.conf. "
+"Операция прервана."
 
 #: setup/class_setupStep_Finish.inc:106
 #, fuzzy
 msgid "The configuration is currently not readable or it does not exists."
 msgstr ""
-"Не удается прочитать файл настройки FusionDirectory %s/fusiondirectory.conf. Операция "
-"прервана."
+"Не удается прочитать файл настройки FusionDirectory %s/fusiondirectory.conf. "
+"Операция прервана."
 
 #: setup/class_setupStep_Finish.inc:115
 #, fuzzy, php-format
@@ -1987,7 +1988,7 @@ msgstr ""
 
 #: setup/setup_feedback.tpl:5
 #, fuzzy
-msgid "Feedback sucessfully send"
+msgid "Feedback successfully send"
 msgstr "Настройка завершена"
 
 #: setup/setup_feedback.tpl:15
@@ -2942,7 +2943,7 @@ msgstr ""
 msgid "PDF"
 msgstr ""
 
-#: include/exporter/class_PDF.inc:46
+#: include/exporter/class_PDF.inc:44
 #, fuzzy
 msgid "Page"
 msgstr "Пейджер"
@@ -4697,8 +4698,8 @@ msgid ""
 msgstr ""
 "Сюда входит вся информация об учетной записи этого пользователя, его права "
 "доступа в системе, настройки IMAP и т. д. Подумайте еще раз, действительно "
-"ли вам нужно удаление, так как FusionDirectory не сможет отменить результаты этой "
-"операции."
+"ли вам нужно удаление, так как FusionDirectory не сможет отменить результаты "
+"этой операции."
 
 #: plugins/admin/acl/class_aclManagement.inc:154
 #, fuzzy
@@ -5156,8 +5157,8 @@ msgid ""
 "do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
 "Возможно, это основная группа пользователей. Еще раз проверте что Вы "
-"действительно хотите удалить ее, так как FusionDirectory не сможет отменить результаты "
-"этой операции."
+"действительно хотите удалить ее, так как FusionDirectory не сможет отменить "
+"результаты этой операции."
 
 #: plugins/admin/groups/trust_machines.tpl:6
 #: plugins/admin/ogroups/trust_machines.tpl:6
@@ -5341,6 +5342,7 @@ msgid "Samba domain name"
 msgstr "Домашний каталог Samba"
 
 #: plugins/admin/groups/class_group.inc:1191
+#: plugins/admin/ogroups/class_ogroup.inc:978
 #: plugins/admin/ogroups/generic.tpl:36 plugins/personal/posix/generic.tpl:139
 msgid "System trust"
 msgstr "Системные доверия"
@@ -5985,8 +5987,8 @@ msgid ""
 "Please double check if you really want to do this since there is no way for "
 "FusionDirectory to get your data back."
 msgstr ""
-"Подумайте еще раз, действительно ли вам нужно удаление, так как FusionDirectory не "
-"сможет восстановить эти данные."
+"Подумайте еще раз, действительно ли вам нужно удаление, так как "
+"FusionDirectory не сможет восстановить эти данные."
 
 #: plugins/admin/ogroups/paste_generic.tpl:7
 #, fuzzy
@@ -6093,11 +6095,6 @@ msgstr ""
 msgid "Object group generic"
 msgstr "Объект группы"
 
-#: plugins/admin/ogroups/class_ogroup.inc:978
-#, fuzzy
-msgid "Sytem trust"
-msgstr "Системные доверия"
-
 #: plugins/admin/ogroups/class_ogroup.inc:979
 #, fuzzy
 msgid "Member"
@@ -6189,9 +6186,9 @@ msgid ""
 "menu on the left, or by choosing one of the pictograms below. All changes "
 "apply directly to your companies LDAP server."
 msgstr ""
-"Это начальная страница FusionDirectory. Из меню слева или среди пиктограмм ниже вы "
-"можете выбрать нужный вам раздел. Все изменения будут сразу же переноситься "
-"на LDAP-сервер вашей компании."
+"Это начальная страница FusionDirectory. Из меню слева или среди пиктограмм "
+"ниже вы можете выбрать нужный вам раздел. Все изменения будут сразу же "
+"переноситься на LDAP-сервер вашей компании."
 
 #: plugins/generic/welcome/welcome.tpl:8
 #, fuzzy
@@ -6946,3 +6943,7 @@ msgstr "Воспользуйтесь закладкой \"Телефон\""
 #, fuzzy
 msgid "Your password hash method will not be changed!"
 msgstr "У вас недостаточно прав для смены своего пароля."
+
+#, fuzzy
+#~ msgid "Sytem trust"
+#~ msgstr "Системные доверия"
