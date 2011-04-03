@@ -1,0 +1,86 @@
+Converting schema to cn=config entries
+======================================
+
+cn=config configuration needs schemas to be added into the directory, not included in slapd.conf like the old config style.
+
+Conversion
+==========
+
+The first step is to convert <name>.schema to: <name>.ldif, indeed a large part of slapd's configuration is made with .ldif files.
+
+To do so you have to create a file wich include all the <name>.schema you wish to add to directory.
+
+Here's an example called "schema_to_convert.conf"
+
+# These should be present for FusionDirectory.
+include         /etc/ldap/schema/samba.schema
+include         /etc/ldap/schema/fusiondirectory/gosystem.schema
+include         /etc/ldap/schema/fusiondirectory/gofon.schema
+include         /etc/ldap/schema/fusiondirectory/gofax.schema
+include         /etc/ldap/schema/fusiondirectory/goto.schema
+include         /etc/ldap/schema/fusiondirectory/goserver.schema
+include         /etc/ldap/schema/fusiondirectory/gosa-samba3.schema
+include         /etc/ldap/schema/fusiondirectory/trust.schema
+
+Then create a temporary directory to contain your futurs <schema>.ldif
+
+#mkdir /tmp/converted_schemas
+
+And use slaptest to do the conversion
+
+#slaptest -f schema_to_convert.conf -F /tmp/converted_schemas
+
+Now the <schema's name>.ldif are created, but you need to edit this to modify some lines.
+
+Change to /tmp/converted_schemas
+
+#cd /tmp/converted_schemas/cn=config/cn=schema/
+
+And then edit the <schema's name>.ldif
+
+#nano cn\=\{XX}<schema's name>.ldif
+
+note: {XX} should be replaced by a numeric id, and <schema's name> by... the different schema's name located in /tmp/converted_schemas/cn=config/cn=schema/
+
+Now you need to replace in the first lines:
+
+
+dn: {XX}<schema's name>
+
+by:
+
+dn: cn=<schema's name>, cn=schema, cn=config
+
+and 
+
+cn: {XX}<schema's name>
+
+by
+
+cn: <schemas's name>
+
+And at the end of the file remove the following lines:
+
+structuralObjectClass: olcSchemaConfig
+entryUUID: 506bb32c-c232-102e-81c9-e11e06f59dd0
+creatorsName: cn=config
+createTimestamp: 20100312145015Z
+entryCSN: 20100312145015.702589Z#000000#000#000000
+modifiersName: cn=config
+modifyTimestamp: 20100312145015Z@
+
+Adding schemas to directory
+===============================
+
+Finally run the ldapadd command when being root to add your <schemas>.ldif to the directory:
+
+ldapadd -Y EXTERNAL -H ldapi:/// -f convert/cn\=config/cn\=schema/cn\=\{10\}goto.ldif
+
+You should have a return like this :
+
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+adding new entry "cn=openldap,cn=schema,cn=config"
+
+
