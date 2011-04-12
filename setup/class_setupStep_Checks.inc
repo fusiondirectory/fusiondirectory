@@ -84,6 +84,14 @@ class Step_Checks extends setup_step
     $M = TRUE;
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
+    /* Check for php5-curl support */
+    $N = msgPool::checkingFor("curl");
+    $D = _("GOsa requires this module to communicate with different types of servers and protocols.");
+    $S = msgPool::installPhpModule("php5-curl");
+    $R = is_callable("curl_init");
+    $M = TRUE;
+    $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+
     /* Checing for iconv */
     $N = msgPool::checkingFor("inconv");
     $D = _("FusionDirectory requires this module for the samba integration.");
