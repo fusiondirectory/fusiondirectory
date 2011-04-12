@@ -172,7 +172,7 @@ class userinfo
             }
 
             /* User inside the members? */
-            if (preg_replace('/^U:/', '', $grp) == $this->dn){
+            if (mb_strtoupper(preg_replace('/^U:/', '', $grp)) == mb_strtoupper($this->dn)){
               $interresting= TRUE;
             }
 
