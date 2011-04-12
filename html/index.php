@@ -321,7 +321,8 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
       $message= _("Please check the username/password combination.");
       $smarty->assign ('nextfield', 'password');
       session::global_set('config',$config);
-      new log("security","login","",array(),"Authentication failed for user \"$username\"");
+      $ip= $_SERVERREMOTE_ADDR;
+      new log("security","login","",array(),"Authentication failed for user \"$username\" [from $ip]");
     } else {
       /* Remove all locks of this user */
       del_user_locks($ui->dn);
