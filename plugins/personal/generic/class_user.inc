@@ -116,7 +116,7 @@ class user extends plugin
   var $attributes= array("sn", "givenName", "uid", "personalTitle", "academicTitle",
       "homePostalAddress", "homePhone", "labeledURI", "ou", "o", "dateOfBirth", "gender","preferredLanguage",
       "departmentNumber", "employeeNumber", "employeeType", "l", "st","jpegPhoto",
-      "roomNumber", "telephoneNumber", "mobile", "pager", "cn", "userPKCS12",
+      "roomNumber", "telephoneNumber", "mobile", "pager", "cn", "userPKCS12", "street", "postalCode", 
       "postalAddress", "facsimileTelephoneNumber", "userSMIMECertificate", "gosaLoginRestriction", "manager");
 
   var $objectclasses= array("top", "person", "organizationalPerson", "inetOrgPerson",
