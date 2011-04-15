@@ -83,7 +83,7 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
                                 "\nFusionDirectory Version: $version".
                                 "\n\n".
                                 "Please describe what you did to produce this error as detailed as possible. Can you ".
-                                "reproduce this bug using the demo on http://www.FusionDirectory-project.org ?".
+                                "reproduce this bug using the demo on http://demo.FusionDirectory.org ?".
                                 "\n\n".
                                 "*** PHP error information ***\n\n");
       }
