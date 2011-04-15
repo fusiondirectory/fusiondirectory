@@ -14,17 +14,17 @@ Name:			fusiondirectory
 Version: 		1.0
 Release:		1
 License: 		GPL
-Source0:                http://download.fusiondirectory.org/sources/%{sourcename}.tar.gz
-URL:                    http://www.fusiondirectory.org
+Source0:		http://download.fusiondirectory.org/sources/%{sourcename}.tar.gz
+URL:				http://www.fusiondirectory.org
 Group: 			System/Administration
 Vendor:			FusionDirectory project
 Packager:		FusionDirectory packages maintainers group <fusiondirectory-packages@lists.fusiondirectory.org>
-Buildarch: 		noarch
-Patch0:                 01_fix_smarty_location.patch
-Patch1:                 02_fix_template_location.patch
-Patch2:                 03_fix_class_mapping.patch
-Patch3:                 04_fix_locale_location.patch
-Patch4:                 05_fix_online_help_location.patch
+Buildarch: 	noarch
+Patch0:			01_fix_smarty_location.patch
+Patch1:			02_fix_template_location.patch
+Patch2:			03_fix_class_mapping.patch
+Patch3:			04_fix_locale_location.patch
+Patch4:			05_fix_online_help_location.patch
 %if %{suse}
 Requires:		apache2,apache2-mod_php5,php5,php5-gd,php5-ldap,php5-mcrypt,php5-mysql,php5-imap,php5-iconv,php5-hash,php5-posix,php5-mbstring,php5-gettext,ImageMagick,gettext-tools
 %else
@@ -57,6 +57,15 @@ interface, designed to handle LDAP based setups.
 Provided is access to posix, shadow, samba, proxy, fax, and kerberos
 accounts. It is able to manage the postfix/cyrus server combination
 and can write user adapted sieve scripts.
+
+%description -l fr
+FusionDirectory est un ensemble d'outils WEB pour administrateurs systeme et
+utilisateurs finaux permettant de gerer des configurations basees sur
+un annuaire LDAP.
+Fusiondirectory permet de gerer des comptes de type Posix, Shadow, Samba, Proxy,
+Fax et Kerberos.
+Il est egalement possible de gerer des serveurs Postfix/Cyrus et 
+de produire des scripts bases sur Sieve.
 
 ########################
 
@@ -195,13 +204,13 @@ mkdir -p %{buildroot}/usr/share/doc/fusiondirectory
 mkdir -p %{buildroot}%{webconf}
 
 touch %{buildroot}/etc/fusiondirectory/fusiondirectory.secrets
-mv contrib/fusiondirectory.conf			%{buildroot}/usr/share/doc/fusiondirectory
-mv update-fusiondirectory 			%{buildroot}/usr/sbin
+mv contrib/fusiondirectory.conf						%{buildroot}/usr/share/doc/fusiondirectory
+mv update-fusiondirectory 								%{buildroot}/usr/sbin
 mv bin/fusiondirectory-encrypt-passwords 	%{buildroot}/usr/sbin
 mv debian/fusiondirectory-apache.conf 		%{buildroot}%{webconf}
-mv contrib/shells 				%{buildroot}/etc/fusiondirectory
-mv contrib/encodings 				%{buildroot}/etc/fusiondirectory
-mv contrib/openldap/slapd.conf 			%{buildroot}/usr/share/doc/fusiondirectory/slapd.conf-example
+mv contrib/shells 												%{buildroot}/etc/fusiondirectory
+mv contrib/encodings 											%{buildroot}/etc/fusiondirectory
+mv contrib/openldap/slapd.conf 						%{buildroot}/usr/share/doc/fusiondirectory/slapd.conf-example
 mv -f doc manual
 
 # Cleanup manual dirs
