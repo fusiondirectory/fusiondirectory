@@ -1,8 +1,8 @@
-Author: <cajus@debian.org>
+Author: <benoit.mortier@opensides.be>
 Description: Fixed location of auto-generated locales
 Index: pkg/core/update-fusiondirectory
 ===================================================================
---- pkg.orig/core/update-fusiondirectory	2011-03-16 00:46:14.000000000 +0100
+--- core/update-fusiondirectory	2011-03-16 00:46:14.000000000 +0100
 +++ pkg/core/update-fusiondirectory	2011-03-16 00:55:38.000000000 +0100
 @@ -169,20 +169,20 @@
  
@@ -32,7 +32,7 @@ Index: pkg/core/update-fusiondirectory
  			exit (5);
 Index: pkg/core/include/php_setup.inc
 ===================================================================
---- pkg.orig/core/include/php_setup.inc	2011-03-16 00:56:18.000000000 +0100
+--- core/include/php_setup.inc	2011-03-16 00:56:18.000000000 +0100
 +++ pkg/core/include/php_setup.inc	2011-03-16 00:56:46.000000000 +0100
 @@ -20,7 +20,8 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA

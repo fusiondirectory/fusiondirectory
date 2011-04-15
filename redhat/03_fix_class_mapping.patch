@@ -1,8 +1,8 @@
-Author: <cajus@debian.org>
+Author: <benoit.mortier@opensides.be>
 Description: Fix location of auto-generated class mapping file
 Index: pkg/core/include/class_config.inc
 ===================================================================
---- pkg.orig/core/include/class_config.inc	2011-03-17 22:00:10.000000000 +0100
+--- core/include/class_config.inc	2011-03-17 22:00:10.000000000 +0100
 +++ pkg/core/include/class_config.inc	2011-03-17 22:01:37.000000000 +0100
 @@ -100,12 +100,12 @@
          if we have installed or removed plugins. 
@@ -21,7 +21,7 @@ Index: pkg/core/include/class_config.inc
      if($this->filename != "" && filemtime($this->filename) != $this->last_modified){
 Index: pkg/core/include/functions.inc
 ===================================================================
---- pkg.orig/core/include/functions.inc	2011-03-17 22:01:37.000000000 +0100
+--- core/include/functions.inc	2011-03-17 22:01:37.000000000 +0100
 +++ pkg/core/include/functions.inc	2011-03-17 22:01:37.000000000 +0100
 @@ -73,7 +73,7 @@
  define('DES3_CBC_SHA1',16);
@@ -34,7 +34,7 @@ Index: pkg/core/include/functions.inc
  
 Index: pkg/core/update-fusiondirectory
 ===================================================================
---- pkg.orig/core/update-fusiondirectory	2011-03-19 12:16:13.000000000 +0100
+--- core/update-fusiondirectory	2011-03-19 12:16:13.000000000 +0100
 +++ pkg/core/update-fusiondirectory	2011-03-19 12:17:57.000000000 +0100
 @@ -21,7 +21,7 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA

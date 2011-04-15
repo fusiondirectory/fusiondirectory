@@ -1,6 +1,6 @@
-Author: <cajus@debian.org>
+Author: <benoit.mortier@opensides.be>
 Description: Fix location of auto-generated online help.
---- a/core/html/helpviewer.php
+--- core/html/helpviewer.php
 +++ b/core/html/helpviewer.php
 @@ -104,7 +104,7 @@
  if(session::global_is_set('current_class_for_help')){
@@ -11,7 +11,7 @@ Description: Fix location of auto-generated online help.
    
    /* Generate help array */
    $str = $xml->parse();
---- a/core/update-fusiondirectory
+--- core/update-fusiondirectory
 +++ b/core/update-fusiondirectory
 @@ -195,7 +195,7 @@
  
