@@ -27,7 +27,7 @@ Patch3:			05_fix_online_help_location.patch
 %if %{suse}
 Requires:		apache2,apache2-mod_php5,php5,php5-gd,php5-ldap,php5-mcrypt,php5-mysql,php5-imap,php5-iconv,php5-hash,php5-posix,php5-mbstring,php5-gettext,ImageMagick,gettext-tools
 %else
-Requires: 		httpd,php,php-ldap,php-imap,php-snmp,php-mysql,php-mbstring,ImageMagick,perl-Crypt-SmbHash
+Requires: 		httpd,php53,php-ldap,php-imap,php-snmp,php-mysql,php-mbstring,ImageMagick,perl-Crypt-SmbHash
 %endif
 BuildRoot: 		%{_tmppath}/%{name}-%{version}-root
 BuildArch:		noarch
