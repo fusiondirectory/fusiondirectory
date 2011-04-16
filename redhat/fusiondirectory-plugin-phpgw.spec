@@ -4,38 +4,38 @@
 %{!?suse_version:%define suse 0}
 
 # Define Packagename, e.g.:
-# rpmbuild --rebuild --define 'sourcename gosa' gosa.srpm
+# rpmbuild --rebuild --define 'sourcename fusiondirectory' fusiondirectory.srpm
 %{!?sourcename:%define sourcename %{name}-%{version}}
 
 #
 # Distribution
 #
 Summary:                PHP Groupware connectivity plugin
-Name:                   gosa-plugin-phpgw
-Version:                2.6.11
-Release:                0
+Name:                   fusiondirectory-plugin-phpgw
+Version:                1.0
+Release:                1
 License:                GPL
-Source:                 ftp://oss.GONICUS.de/pub/gosa/%{sourcename}.tar.bz2
-URL:                    https://oss.gonicus.de/labs/gosa/
+Source:                 ftp://oss.GONICUS.de/pub/fusiondirectory/%{sourcename}.tar.bz2
+URL:                    https://oss.gonicus.de/labs/fusiondirectory/
 Group:                  System/Administration
 Vendor:                 GONICUS GmbH
 Packager:               Cajus Pollmeier <pollmeier@gonicus.de>
 Buildarch:              noarch
 %if %{suse}
-Requires:               gosa >= 2.6.0, gosa-plugin-connectivity,gosa-plugin-mail
+Requires:               fusiondirectory >= 1.0, fusiondirectory-plugin-connectivity,fusiondirectory-plugin-mail
 %else
-Requires:               gosa >= 2.6.0, gosa-plugin-connectivity,gosa-plugin-mail
+Requires:               fusiondirectory >= 1.0, fusiondirectory-plugin-connectivity,fusiondirectory-plugin-mail
 %endif
 BuildRoot:              %{_tmppath}/%{name}-%{version}-root
 BuildArch:              noarch
 
 %if %{suse}
         %{echo:Building SuSE rpm}
-        %define docdir /usr/share/doc/packages/gosa
+        %define docdir /usr/share/doc/packages/fusiondirectory
 %else
         %{echo:Building other rpm}
         %define webconf /etc/httpd/conf.d/
-        %define docdir /usr/share/doc/gosa-%{version}
+        %define docdir /usr/share/doc/fusiondirectory-%{version}
 %endif
 
 %description
@@ -49,12 +49,12 @@ PHP Groupware connectivity plugin
 %install
 
 # Move extra HTML and images
-mkdir -p %{buildroot}/usr/share/gosa/html/plugins/phpgw
+mkdir -p %{buildroot}/usr/share/fusiondirectory/html/plugins/phpgw
 
 echo "%{buildroot} <<---------" 
 
 if ls ./html/* &> /dev/null ;then
-	mv ./html/* %{buildroot}/usr/share/gosa/html/plugins/phpgw
+	mv ./html/* %{buildroot}/usr/share/fusiondirectory/html/plugins/phpgw
 fi
 
 # Move contrib if available
@@ -64,41 +64,41 @@ if ls ./contrib/* &> /dev/null ;then
 fi
 
 # Move help
-mkdir -p %{buildroot}/usr/share/gosa/doc/plugins/phpgw
+mkdir -p %{buildroot}/usr/share/fusiondirectory/doc/plugins/phpgw
 if ls ./help/* &> /dev/null ;then
-	mv ./help/* %{buildroot}/usr/share/gosa/doc/plugins/phpgw
+	mv ./help/* %{buildroot}/usr/share/fusiondirectory/doc/plugins/phpgw
 fi
 
 # Copy etc
-mkdir -p %{buildroot}/etc/gosa
+mkdir -p %{buildroot}/etc/fusiondirectory
 if ls ./etc/* &> /dev/null ;then
-	mv ./etc/* %{buildroot}/etc/gosa
+	mv ./etc/* %{buildroot}/etc/fusiondirectory
 fi
 
 # Move localization
-mkdir -p %{buildroot}/usr/share/gosa/locale/plugins/phpgw
+mkdir -p %{buildroot}/usr/share/fusiondirectory/locale/plugins/phpgw
 if ls ./locale/* &> /dev/null ;then
-	mv ./locale/* %{buildroot}/usr/share/gosa/locale/plugins/phpgw
+	mv ./locale/* %{buildroot}/usr/share/fusiondirectory/locale/plugins/phpgw
 fi
 
 # Move plugin itself
-mkdir -p %{buildroot}/usr/share/gosa/plugins/
-mv ./* %{buildroot}/usr/share/gosa/plugins/
+mkdir -p %{buildroot}/usr/share/fusiondirectory/plugins/
+mv ./* %{buildroot}/usr/share/fusiondirectory/plugins/
 
 %post
-/usr/sbin/update-gosa
+/usr/sbin/update-fusiondirectory
 
 %postun
-/usr/sbin/update-gosa
+/usr/sbin/update-fusiondirectory
 
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%attr (-,root,root) /usr/share/gosa/plugins/
-%attr (-,root,root) /usr/share/gosa/doc/plugins/phpgw
-%attr (-,root,root) /usr/share/gosa/locale/plugins/phpgw
-%attr (-,root,root) /usr/share/gosa/html/plugins/phpgw
+%attr (-,root,root) /usr/share/fusiondirectory/plugins/
+%attr (-,root,root) /usr/share/fusiondirectory/doc/plugins/phpgw
+%attr (-,root,root) /usr/share/fusiondirectory/locale/plugins/phpgw
+%attr (-,root,root) /usr/share/fusiondirectory/html/plugins/phpgw
 %attr (-,root,root) /usr/share/doc/%{name}
-%attr (-,root,root) /etc/gosa/
+%attr (-,root,root) /etc/fusiondirectory/

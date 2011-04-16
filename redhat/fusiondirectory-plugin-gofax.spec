@@ -4,38 +4,38 @@
 %{!?suse_version:%define suse 0}
 
 # Define Packagename, e.g.:
-# rpmbuild --rebuild --define 'sourcename gosa' gosa.srpm
+# rpmbuild --rebuild --define 'sourcename fusiondirectory' fusiondirectory.srpm
 %{!?sourcename:%define sourcename %{name}-%{version}}
 
 #
 # Distribution
 #
 Summary:                GOfax management backend with report functionality
-Name:                   gosa-plugin-gofax
-Version:                2.6.11
-Release:                0
+Name:                   fusiondirectory-plugin-gofax
+Version:                1.0
+Release:                1
 License:                GPL
-Source:                 ftp://oss.GONICUS.de/pub/gosa/%{sourcename}.tar.bz2
-URL:                    https://oss.gonicus.de/labs/gosa/
+Source:                 ftp://oss.GONICUS.de/pub/fusiondirectory/%{sourcename}.tar.bz2
+URL:                    https://oss.gonicus.de/labs/fusiondirectory/
 Group:                  System/Administration
 Vendor:                 GONICUS GmbH
 Packager:               Cajus Pollmeier <pollmeier@gonicus.de>
 Buildarch:              noarch
 %if %{suse}
-Requires:               gosa >= 2.6.0, gosa-plugin-systems
+Requires:               fusiondirectory >= 1.0, fusiondirectory-plugin-systems
 %else
-Requires:               gosa >= 2.6.0, gosa-plugin-systems
+Requires:               fusiondirectory >= 1.0, fusiondirectory-plugin-systems
 %endif
 BuildRoot:              %{_tmppath}/%{name}-%{version}-root
 BuildArch:              noarch
 
 %if %{suse}
         %{echo:Building SuSE rpm}
-        %define docdir /usr/share/doc/packages/gosa
+        %define docdir /usr/share/doc/packages/fusiondirectory
 %else
         %{echo:Building other rpm}
         %define webconf /etc/httpd/conf.d/
-        %define docdir /usr/share/doc/gosa-%{version}
+        %define docdir /usr/share/doc/fusiondirectory-%{version}
 %endif
 
 %description
@@ -49,12 +49,12 @@ GOfax management backend with report functionality
 %install
 
 # Move extra HTML and images
-mkdir -p %{buildroot}/usr/share/gosa/html/plugins/gofax
+mkdir -p %{buildroot}/usr/share/fusiondirectory/html/plugins/gofax
 
 echo "%{buildroot} <<---------" 
 
 if ls ./html/* &> /dev/null ;then
-	mv ./html/* %{buildroot}/usr/share/gosa/html/plugins/gofax
+	mv ./html/* %{buildroot}/usr/share/fusiondirectory/html/plugins/gofax
 fi
 
 # Move contrib if available
@@ -64,41 +64,41 @@ if ls ./contrib/* &> /dev/null ;then
 fi
 
 # Move help
-mkdir -p %{buildroot}/usr/share/gosa/doc/plugins/gofax
+mkdir -p %{buildroot}/usr/share/fusiondirectory/doc/plugins/gofax
 if ls ./help/* &> /dev/null ;then
-	mv ./help/* %{buildroot}/usr/share/gosa/doc/plugins/gofax
+	mv ./help/* %{buildroot}/usr/share/fusiondirectory/doc/plugins/gofax
 fi
 
 # Copy etc
-mkdir -p %{buildroot}/etc/gosa
+mkdir -p %{buildroot}/etc/fusiondirectory
 if ls ./etc/* &> /dev/null ;then
-	mv ./etc/* %{buildroot}/etc/gosa
+	mv ./etc/* %{buildroot}/etc/fusiondirectory
 fi
 
 # Move localization
-mkdir -p %{buildroot}/usr/share/gosa/locale/plugins/gofax
+mkdir -p %{buildroot}/usr/share/fusiondirectory/locale/plugins/gofax
 if ls ./locale/* &> /dev/null ;then
-	mv ./locale/* %{buildroot}/usr/share/gosa/locale/plugins/gofax
+	mv ./locale/* %{buildroot}/usr/share/fusiondirectory/locale/plugins/gofax
 fi
 
 # Move plugin itself
-mkdir -p %{buildroot}/usr/share/gosa/plugins/
-mv ./* %{buildroot}/usr/share/gosa/plugins/
+mkdir -p %{buildroot}/usr/share/fusiondirectory/plugins/
+mv ./* %{buildroot}/usr/share/fusiondirectory/plugins/
 
 %post
-/usr/sbin/update-gosa
+/usr/sbin/update-fusiondirectory
 
 %postun
-/usr/sbin/update-gosa
+/usr/sbin/update-fusiondirectory
 
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%attr (-,root,root) /usr/share/gosa/plugins/
-%attr (-,root,root) /usr/share/gosa/doc/plugins/gofax
-%attr (-,root,root) /usr/share/gosa/locale/plugins/gofax
-%attr (-,root,root) /usr/share/gosa/html/plugins/gofax
+%attr (-,root,root) /usr/share/fusiondirectory/plugins/
+%attr (-,root,root) /usr/share/fusiondirectory/doc/plugins/gofax
+%attr (-,root,root) /usr/share/fusiondirectory/locale/plugins/gofax
+%attr (-,root,root) /usr/share/fusiondirectory/html/plugins/gofax
 %attr (-,root,root) /usr/share/doc/%{name}
-%attr (-,root,root) /etc/gosa/
+%attr (-,root,root) /etc/fusiondirectory/
