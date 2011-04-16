@@ -20,11 +20,10 @@ Group: 			System/Administration
 Vendor:			FusionDirectory project
 Packager:		FusionDirectory packages maintainers group <fusiondirectory-packages@lists.fusiondirectory.org>
 Buildarch: 	noarch
-Patch0:			01_fix_smarty_location.patch
-Patch1:			02_fix_template_location.patch
-Patch2:			03_fix_class_mapping.patch
-Patch3:			04_fix_locale_location.patch
-Patch4:			05_fix_online_help_location.patch
+Patch0:			02_fix_template_location.patch
+Patch1:			03_fix_class_mapping.patch
+Patch2:			04_fix_locale_location.patch
+Patch3:			05_fix_online_help_location.patch
 %if %{suse}
 Requires:		apache2,apache2-mod_php5,php5,php5-gd,php5-ldap,php5-mcrypt,php5-mysql,php5-imap,php5-iconv,php5-hash,php5-posix,php5-mbstring,php5-gettext,ImageMagick,gettext-tools
 %else
@@ -172,7 +171,6 @@ Spain localized online manual page for fusiondirectory package
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 
 ########################
 
