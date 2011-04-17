@@ -73,7 +73,7 @@ if(session::global_get('_LAST_PAGE_REQUEST') == ""){
   session::global_set('_LAST_PAGE_REQUEST',time());
 }else{
 
-  /* check FusionDirectoryµ.conf for defined session lifetime */
+  /* check FusionDirectory.conf for defined session lifetime */
   $max_life= $config->get_cfg_value("sessionLifetime", 60*60*2);
 
   /* get time difference between last page reload */
@@ -202,7 +202,7 @@ if ($config->get_cfg_value("handleExpiredAccounts") == "true"){
 
         // The password is expired, we are now going to enforce a new one from the user.
 
-        // Hide the FusionDirectoryµ menus to avoid leaving the enforced password change dialog.
+        // Hide the FusionDirectory menus to avoid leaving the enforced password change dialog.
         $smarty->assign("hideMenus", TRUE);
         $plug = (isset($_GET['plug'])) ? $_GET['plug'] : null;
 
@@ -318,7 +318,7 @@ if (session::global_get('js')==FALSE){
   $smarty->assign("help_method", "href='helpviewer.php$plug' target='_blank'");
 } else {
   $smarty->assign("javascript", "true");
-  $smarty->assign("help_method"," onclick=\"return popup('helpviewer.php$plug','FusionDirectoryµ help');\"");
+  $smarty->assign("help_method"," onclick=\"return popup('helpviewer.php$plug','FusionDirectory help');\"");
 }
 
 if($ui->ignore_acl_for_current_user()){
@@ -431,7 +431,7 @@ if (isset($_POST['_channel_'])){
 } else {
 	$smarty->assign("channel", "");
 }
-$smarty->assign ("title","FusionDirectoryµ");
+$smarty->assign ("title","FusionDirectory");
 $display= "<!-- headers.tpl-->".$smarty->fetch(get_template_path('headers.tpl')).
           $smarty->fetch(get_template_path('framework.tpl'));
 
@@ -440,10 +440,10 @@ $display= "<!-- headers.tpl-->".$smarty->fetch(get_template_path('headers.tpl'))
 */
 $cookie = array();
 
-if(isset($_COOKIE['FusionDirectoryµ_Filter_Settings'])){
-  $cookie = unserialize(base64_decode($_COOKIE['FusionDirectoryµ_Filter_Settings']));
-}elseif(isset($HTTP_COOKIE_VARS['FusionDirectoryµ_Filter_Settings'])){
-  $cookie = unserialize(base64_decode($HTTP_COOKIE_VARS['FusionDirectoryµ_Filter_Settings']));
+if(isset($_COOKIE['FusionDirectory_Filter_Settings'])){
+  $cookie = unserialize(base64_decode($_COOKIE['FusionDirectory_Filter_Settings']));
+}elseif(isset($HTTP_COOKIE_VARS['FusionDirectory_Filter_Settings'])){
+  $cookie = unserialize(base64_decode($HTTP_COOKIE_VARS['FusionDirectory_Filter_Settings']));
 }
 
 /* Save filters? */
@@ -457,7 +457,7 @@ if($config->get_cfg_value("storeFilterSettings") == "true"){
   if(isset($_GET['plug'])){
     $cookie[$ui->dn]['plug'] = $_GET['plug'];
   }
-  @setcookie("FusionDirectoryµ_Filter_Settings",base64_encode(serialize($cookie)),time() + (60*60*24));
+  @setcookie("FusionDirectory_Filter_Settings",base64_encode(serialize($cookie)),time() + (60*60*24));
 }
 
 /* Show page... */
