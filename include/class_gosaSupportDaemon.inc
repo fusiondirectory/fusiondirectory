@@ -109,7 +109,7 @@ class gosaSupportDaemon
         new log("debug","gosaSupportDaemon::connect()", "Cannot connect to si-server", array(),$this->get_error());
       }
     }else{
-      $this->set_error(msgPool::cmdnotfound("goto-si-URI",_("FusionDirectory support daemon")));
+      $this->set_error(msgPool::cmdnotfound("goto-si-URI",_("Service GOto-si")));
     }
     return($this->is_connected);
   }
