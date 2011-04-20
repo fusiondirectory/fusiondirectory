@@ -1,5 +1,0 @@
-sudo/admin			/usr/share/fusiondirectory/plugins
-sudo/help/guide.xml		/usr/share/fusiondirectory/doc/plugins/sudo
-sudo/locale			/usr/share/fusiondirectory/locale/plugins/sudo
-sudo/contrib			/usr/share/doc/fusiondirectory-plugin-sudo
-sudo/html/images		/usr/share/fusiondirectory/html/plugins/sudo

@@ -1,4 +1,0 @@
-ssh/personal		/usr/share/fusiondirectory/plugins
-ssh/help/guide.xml	/usr/share/fusiondirectory/doc/plugins/ssh
-ssh/locale		/usr/share/fusiondirectory/locale/plugins/ssh
-ssh/contrib		/usr/share/doc/fusiondirectory-plugin-ssh

@@ -1,6 +1,0 @@
-etc/fusiondirectory
-usr/sbin
-usr/share/fusiondirectory
-usr/share/fusiondirectory/bin
-var/spool/fusiondirectory
-var/cache/fusiondirectory

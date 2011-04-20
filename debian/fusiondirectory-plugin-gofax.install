@@ -1,7 +1,0 @@
-gofax/admin			/usr/share/fusiondirectory/plugins
-gofax/gofax			/usr/share/fusiondirectory/plugins
-gofax/help/guide.xml		/usr/share/fusiondirectory/doc/plugins/gofax
-gofax/locale			/usr/share/fusiondirectory/locale/plugins/gofax
-gofax/contrib			/usr/share/doc/fusiondirectory-plugin-gofax
-gofax/html/getfax.php		/usr/share/fusiondirectory/html/plugins/gofax
-gofax/html/images		/usr/share/fusiondirectory/html/plugins/gofax

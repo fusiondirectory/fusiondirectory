@@ -1,5 +1,0 @@
-squid/personal		/usr/share/fusiondirectory/plugins
-squid/help/guide.xml	/usr/share/fusiondirectory/doc/plugins/squid
-squid/locale		/usr/share/fusiondirectory/locale/plugins/squid
-squid/contrib		/usr/share/doc/fusiondirectory-plugin-squid
-squid/README.squid	/usr/share/doc/fusiondirectory-plugin-squid/contrib

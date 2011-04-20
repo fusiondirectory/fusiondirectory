@@ -1,4 +1,0 @@
-rsyslog/admin		/usr/share/fusiondirectory/plugins
-rsyslog/addons		/usr/share/fusiondirectory/plugins
-rsyslog/locale		/usr/share/fusiondirectory/locale/plugins/rsyslog
-rsyslog/html/images	/usr/share/fusiondirectory/html/plugins/rsyslog

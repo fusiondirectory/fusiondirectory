@@ -1,7 +1,0 @@
-goto/admin			/usr/share/fusiondirectory/plugins
-goto/personal			/usr/share/fusiondirectory/plugins
-goto/addons			/usr/share/fusiondirectory/plugins
-goto/help/guide.xml		/usr/share/fusiondirectory/doc/plugins/goto
-goto/locale			/usr/share/fusiondirectory/locale/plugins/goto
-goto/contrib			/usr/share/doc/fusiondirectory-plugin-goto
-goto/html/images		/usr/share/fusiondirectory/html/plugins/goto

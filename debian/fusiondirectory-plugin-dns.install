@@ -1,4 +1,0 @@
-dns/admin			/usr/share/fusiondirectory/plugins
-dns/help/guide.xml		/usr/share/fusiondirectory/doc/plugins/dns
-dns/locale			/usr/share/fusiondirectory/locale/plugins/dns
-dns/contrib			/usr/share/doc/fusiondirectory-plugin-dns

@@ -1,4 +1,0 @@
-pureftpd/personal		/usr/share/fusiondirectory/plugins
-pureftpd/help/guide.xml		/usr/share/fusiondirectory/doc/plugins/pureftpd
-pureftpd/locale			/usr/share/fusiondirectory/locale/plugins/pureftpd
-pureftpd/contrib		/usr/share/doc/fusiondirectory-plugin-pureftpd

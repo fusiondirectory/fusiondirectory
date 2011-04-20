@@ -1,5 +1,0 @@
-netatalk/personal		/usr/share/fusiondirectory/plugins
-netatalk/help/guide.xml		/usr/share/fusiondirectory/doc/plugins/netatalk
-netatalk/locale			/usr/share/fusiondirectory/locale/plugins/netatalk
-netatalk/contrib		/usr/share/doc/fusiondirectory-plugin-netatalk
-netatalk/html/images		/usr/share/fusiondirectory/html/plugins/netatalk

@@ -1,5 +1,0 @@
-core/contrib/desktoprc				/etc/fusiondirectory
-core/contrib/fusiondirectory			/usr/bin
-debian/fusiondirectory.xpm			/usr/share/pixmaps
-debian/fusiondirectory-16.xpm			/usr/share/pixmaps
-debian/fusiondirectory-desktop.desktop 		/usr/share/applications

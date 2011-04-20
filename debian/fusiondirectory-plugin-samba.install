@@ -1,6 +1,0 @@
-samba/admin			/usr/share/fusiondirectory/plugins
-samba/personal			/usr/share/fusiondirectory/plugins
-samba/help/guide.xml		/usr/share/fusiondirectory/doc/plugins/samba
-samba/locale			/usr/share/fusiondirectory/locale/plugins/samba
-samba/contrib			/usr/share/doc/fusiondirectory-plugin-samba
-samba/html/images 		/usr/share/fusiondirectory/html/plugins/samba
