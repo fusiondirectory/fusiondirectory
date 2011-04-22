@@ -28,36 +28,17 @@ define ("PLUGSTATE_DIR", FD_HOME."/state");
 function print_usage()
 {
 	?>
-update-fusiondirectory - class cache updated and plugin manager for FusionDirectory
-Usage: update-fusiondirectory install dsc     Install the plugin using the dsc information
-                                   placed in the plugin source directory.
-
-       update-fusiondirectory remove plugin   Remove the plugin named "plugin" from
-                                   the current configuration.
-
-       update-fusiondirectory list           Lists installed plugins
-
+update-fusiondirectory - class cache, locale and documentation update for FusionDirectory
+Usage: 
        update-fusiondirectory rescan-i18n     Rebuilds the translations
 
        update-fusiondirectory rescan-classes  Rebuilds the class list
+
+       update-fusiondirectory rescan-guides   Rebuilds the online help 
        
        update-fusiondirectory                 Shortcut for rescan-classes and rescan-i18n
 <?php
 	exit (1);
-}
-
-
-function rmdirRecursive($path, $followLinks=false) {
-  $dir= opendir($path);
-  while($entry= readdir($dir)) {
-    if(is_file($path."/".$entry) || ((!$followLinks) && is_link($path."/".$entry))) {
-      unlink($path."/".$entry);
-    } elseif (is_dir($path."/".$entry) && $entry!='.' && $entry!='..') {
-      rmdirRecursive($path."/".$entry);
-    }
-  }
-  closedir($dir);
-  return rmdir($path);
 }
 
 
@@ -244,284 +225,6 @@ function rescan_guide()
 
 }
 
-
-function parse_ini($file)
-{
-	global $description, $provides, $depends, $versions, $conflicts;
-
-	$res= "";
-	if (file_exists($file)){
-		$tmp= parse_ini_file($file, TRUE);
-
-		if (isset($tmp['fusiondirectory-plugin'])){
-			$plugin= &$tmp['fusiondirectory-plugin'];
-			if (isset($plugin['name'])&& isset($plugin['description'])){
-				$res= $plugin['name'];
-				$description[$res]= $plugin['description'];
-				$versions[$res]= $plugin['version'];
-				$provides[$res]= $res;
-				if (isset($plugin['depends'])){
-					$depends[$res]= explode(',', preg_replace('/\s+/', '', $plugin['depends']));
-				}
-				if (isset($plugin['conflicts'])){
-					$conflicts[$res]= explode(',', preg_replace('/\s+/', '', $plugin['conflicts']));
-				}
-			}
-		}
-	}
-
-	return $res;
-}
-
-
-function dependency_check()
-{
-	global $description, $provides, $depends;
-
-	foreach ($depends as $name => $pl_depends){
-		foreach ($pl_depends as $pl){
-			if (!in_array($pl, $provides)){
-				echo "! Error: plugin '$name' depends on '$pl' which is not provided by any plugin\n\n";
-				exit (1);
-			}
-		}
-	}
-}
-
-
-function load_plugins()
-{
-	if (!is_dir(PLUGSTATE_DIR)){
-		if (!mkdir (PLUGSTATE_DIR, 0755, TRUE)){
-			echo "Cannot create plugstate dir '".PLUGSTATE_DIR."' - aborted\n";
-			exit (2);
-		}
-	}
-	$dir= new DirectoryIterator(PLUGSTATE_DIR);
-	foreach ($dir as $entry){
-		if ($dir->isDir() && !preg_match('/^\./', $dir->__toString())){
-			$file= $dir->getPathName()."/plugin.dsc";
-			if (parse_ini($file) == ""){
-				echo "! Warning: plugin ".$dir->getPathName()." is missing declarations\n";
-			}
-		}
-	}
-}
-
-
-function list_plugins()
-{
-	global $description, $versions;
-	$count= 0;
-
-	/* Load plugin list */
-	load_plugins();
-
-	/* Show plugins */
-	foreach ($description as $name => $dsc){
-		if ($count == 0){
-			echo "Plugin\t\t|Version |Description\n";
-			echo "----------------------------------------------------------------------------\n";
-		}
-		$ver= $versions[$name];
-		echo "$name\t\t|$ver\t |$dsc\n";
-		$count++;
-	}
-
-	/* Yell about non existing plugins... */
-	if ($count == 0){
-		echo "No plugins found...\n\n";
-	} else {
-		# Check for dependencies
-		dependency_check();
-		echo "\n";
-	}
-}
-
-
-function install_plugin($file)
-{
-	global $description, $provides, $depends, $conflicts;
-
-	/* Load plugin list */
-	load_plugins();
-
-	/* Load .dsc file */
-	if (file_exists($file)){
-		$tmp= parse_ini_file($file, TRUE);
-
-		if (isset($tmp['fusiondirectory-plugin'])){
-			$plugin= &$tmp['fusiondirectory-plugin'];
-			if (isset($plugin['name'])&& isset($plugin['description'])){
-				$name= $plugin['name'];
-				$description= $plugin['description'];
-				$depends= array();
-				if (isset($plugin['depends'])){
-					$depends= explode(',', preg_replace('/\s+/', '', $plugin['depends']));
-				}
-
-				/* Already installed? */
-				if (isset($provides[$name])){
-					echo "! Error: plugin already installed\n\n";
-					exit (3);
-				}
-
-				/* Check if dependencies are fullfilled */
-				foreach ($depends as $dep){
-					$found= false;
-					foreach ($provides as $provide => $dummy){
-						if ($dep == $provide){
-							$found= true;
-							break;
-						}
-					}
-					if (!$found){
-						echo "! Error: plugin depends on '$dep', but this is not installed\n\n";
-						exit (3);
-					}
-				}
-
-				/* Check for conflicts */
-				foreach ($conflicts as $conf){
-					if (!in_array($conf, $provides)){
-						echo "! Warning: plugin conflicts with '$conf'\n\n";
-					}
-				}
-
-				/* Create plugstate directory and touch plugin.lst */
-				if (!mkdir (PLUGSTATE_DIR."/$name", 0755, TRUE)){
-					echo "Failed to create '".PLUGSTATE_DIR."/$name - aborted";
-					exit (3);
-				}
-				if (!$handle= fopen(PLUGSTATE_DIR."/$name/plugin.lst", 'w')) {
-					echo "Cannot open file '$filename' - aborted\n";
-					exit (1);
-				}
-
-				echo "Installing plugin '$name'...\n";
-
-				/* Copy and fill plugin.lst */
-				$path= dirname($file);
-				$dir= new RecursiveDirectoryIterator($path);
-				$all= new RecursiveIteratorIterator($dir);
-				foreach ( $all as $entry ){
-					$source= $path."/".substr($entry->getPathName(), strlen($path) + 1);
-
-					/* Skip description - it belongs to the state dir */
-					if (preg_match('/\/plugin.dsc$/', $source)){
-						copy ($source, PLUGSTATE_DIR."/$name/plugin.dsc");
-						continue;
-					}
-
-					/* Skip well known directories */
-					if (preg_match('/^\.+$/', $source) || preg_match('/\/\.svn\//', $source)) {
-						continue;
-					}
-
-					/* Calculate destination */
-					if (preg_match("%^.*locale/%", $source)){
-						$dest= FD_HOME."/locale/plugins/$name/".preg_replace("%^.*locale/%", "", $source);
-					} elseif (preg_match("%^.*help/%", $source)) {
-						$dest= FD_HOME."/doc/plugins/$name/".preg_replace("%^.*help/%", "", $source);
-					} elseif (preg_match("%^.*html/%", $source)) {
-						$dest= FD_HOME."/html/plugins/$name/".preg_replace("%^.*html/%", "", $source);
-					} else {
-						$dest= FD_HOME."/plugins/".substr($entry->getPathName(), strlen($path) + 1);
-					}
-
-					/* Destination exists in case of directories? */
-					if ($entry->isDir()){
-						if (!is_dir($dest)){
-							mkdir($dest, 0755, TRUE);
-							fwrite ($handle, "$dest\n");
-						}
-					} else {
-						if (!is_dir(dirname($dest))){
-							mkdir(dirname($dest), 0755, TRUE);
-							fwrite ($handle, dirname($dest)."\n");
-						}
-					}
-
-					/* Copy files */
-					if ($entry->isFile()){
-						copy ($source, $dest);
-					}
-
-					/* Note what we did... */
-					fwrite ($handle, "$dest\n");
-				}
-
-				fclose($handle);
-			}
-		}
-	}
-	
-	/* Update caches */
-	rescan_classes();
-	rescan_i18n();
-	rescan_guide();
-}
-
-
-function remove_plugin($name)
-{
-	global $description, $depends;
-
-	/* Load plugin list */
-	load_plugins();
-
-	/* Present? */
-	if (!isset($description[$name])){
-		echo "! Error: cannot find a plugin named '$name'\n\n";
-		exit (1);
-	}
-
-	/* Depends? */
-	foreach ($depends as $sname => $pl_depends){
-		if (in_array($name, $pl_depends)){
-			echo "! Error: plugin '$sname' depends on '$name' - cannot remove it\n\n";
-			exit (1);
-		}
-	}
-
-	/* Load information */
-	if (!file_exists(PLUGSTATE_DIR."/$name/plugin.lst")){
-		echo "! Error: cannot remove plugin '$name' - no install history found\n\n";
-		exit (1);
-	}
-
-	echo "Removing plugin '$name'...\n";
-	$contents= file(PLUGSTATE_DIR."/$name/plugin.lst");
-	$cnv= array();
-	foreach($contents as $line){
-		$entry= chop($line);
-		$cnv[strlen($entry).":$entry"]= $entry;
-	}
-	krsort($cnv);
-
-	/* Remove files first */
-	clearstatcache();
-	foreach ($cnv as $entry){
-		if (is_dir($entry)){
-			rmdir($entry);
-			continue;
-		}
-		if (file_exists($entry)){
-			unlink($entry);
-		}
-	}
-
-	/* Remove state directory for plugin */
-	rmdirRecursive(PLUGSTATE_DIR."/$name");
-
-	/* Update caches */
-	rescan_classes();
-	rescan_i18n();
-	rescan_guide();
-}
-
-
-
 /* Fill global values */
 $description= $provides= $depends= $versions= $conflicts= array();
 
@@ -534,31 +237,15 @@ if ($argc < 2){
 }
 
 switch ($argv[1]){
-        case 'install':
-                if (isset($argv[2])){
-			install_plugin($argv[2]);
-		} else {
-			echo "Usage: update-fusiondirectory install dsc-file\n\n";
-			exit (1);
-		}
-                break;
-        case 'list':
-                list_plugins();
-                break;
-        case 'remove':
-                if (isset($argv[2])){
-			remove_plugin($argv[2]);
-		} else {
-			echo "Usage: update-fusiondirectory remove plugin-name\n\n";
-			exit (1);
-		}
-                break;
         case 'rescan-i18n':
                 rescan_i18n();
                 break;
         case 'rescan-classes':
                 rescan_classes();
                 break;
+	case 'rescan-guide':
+		rescan_guide();
+		break;
         default:
                 echo "Error: Supplied command not known\n\n";
                 print_usage();
