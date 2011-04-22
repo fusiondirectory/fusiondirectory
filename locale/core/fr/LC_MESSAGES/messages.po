@@ -2867,7 +2867,7 @@ msgstr "Il y a %s menu d'applications qui doivent être migrés."
 
 #: setup/class_setupStep_License.inc:56 setup/class_setupStep_License.inc:57
 msgid "License"
-msgstr "licence"
+msgstr "Licence"
 
 #: setup/class_setupStep_License.inc:58
 msgid "Terms and conditions for usage"
