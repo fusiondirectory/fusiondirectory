@@ -124,31 +124,26 @@
 .\" ========================================================================
 .\"
 .IX Title "UPDATE-FUSIONDIRECTORY 1"
-.TH UPDATE-FUSIONDIRECTORY 1 "2011-03-07" "1.0" "FusionDirectory Documentation"
+.TH UPDATE-FUSIONDIRECTORY 1 "2011-04-22" "FusionDirectory 1.0" "FusionDirectory Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
 .nh
 .SH "NAME"
-update\-fusiondirectory \- class cache updater and plugin manager for FusionDirectory
+update\-fusiondirectory \- class cache,locale, and documentation update for FusionDirectory
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
 update-fusiondirectory [\s-1OPTION\s0]
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
 update-fusiondirectory is a script that help you to manage your fusiondirectory instance
-.IP "\fBinstall dsc\fR       Install the plugin using the dsc information placed in the plugin source directory." 5
-.IX Item "install dsc       Install the plugin using the dsc information placed in the plugin source directory."
-.PD 0
-.ie n .IP "\fBremove plugin\fR     Remove the plugin named ""plugin"" from the current configuration." 5
-.el .IP "\fBremove plugin\fR     Remove the plugin named ``plugin'' from the current configuration." 5
-.IX Item "remove plugin     Remove the plugin named plugin from the current configuration."
-.IP "\fBlist\fR              Lists installed plugins" 5
-.IX Item "list              Lists installed plugins"
-.IP "\fBrescan\-i18n\fR       Rebuilds the translations" 5
+.IP "\fBrescan\-i18n\fR       Rebuilds the translations" 3
 .IX Item "rescan-i18n       Rebuilds the translations"
-.IP "\fBrescan-classes\fR    Rebuilds the class list" 5
+.PD 0
+.IP "\fBrescan-classes\fR    Rebuilds the class list" 3
 .IX Item "rescan-classes    Rebuilds the class list"
+.IP "\fBrescan-doc\fR        Rebuild the online doc" 3
+.IX Item "rescan-doc        Rebuild the online doc"
 .PD
 .SH "BUGS"
 .IX Header "BUGS"
@@ -157,9 +152,12 @@ Please report any bugs, or post any suggestions, to the fusiondirectory mailing 
 .SH "LICENCE AND COPYRIGHT"
 .IX Header "LICENCE AND COPYRIGHT"
 This code is part of FusionDirectory <http://www.fusiondirectory.org>
-.PP
-Copyright (C) 2003\-2010 \s-1GONICUS\s0 GmbH
-Copyright (C) 2011 FusionDirectory Project
+.IP "Copyright (C) 2003\-2010 \s-1GONICUS\s0 GmbH" 2
+.IX Item "Copyright (C) 2003-2010 GONICUS GmbH"
+.PD 0
+.IP "Copyright (C) 2011 FusionDirectory Project" 2
+.IX Item "Copyright (C) 2011 FusionDirectory Project"
+.PD
 .PP
 This program is distributed in the hope that it will be useful,
 but \s-1WITHOUT\s0 \s-1ANY\s0 \s-1WARRANTY\s0; without even the implied warranty of

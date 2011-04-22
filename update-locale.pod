@@ -30,8 +30,13 @@ Please report any bugs, or post any suggestions, to the fusiondirectory mailing 
 
 This code is part of FusionDirectory <http://www.fusiondirectory.org>
 
-Copyright (C) 2003-2010 GONICUS GmbH
-Copyright (C) 2011 FusionDirectory Project
+=over 2
+
+=item Copyright (C) 2003-2010 GONICUS GmbH
+
+=item Copyright (C) 2011 FusionDirectory Project
+
+=back
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of

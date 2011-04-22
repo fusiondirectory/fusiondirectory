@@ -57,10 +57,10 @@ documentation and additional help.
 * Henning Schmiedehausen <hps@intermeta.de>
   Various fixes, support for user defined people/group base
 
-* Alfred Schröder <schroeder@gonicus.de>
+* Alfred SchrÃ¶der <schroeder@gonicus.de>
   German translation
 
-* Thomas Schüßler <tulpe@atomar.de>
+* Thomas SchÃ¼ÃŸler <tulpe@atomar.de>
   debuglib.inc is taken from him
 
 * Jan Wenzel <jan.wenzel@gonicus.de>
@@ -88,3 +88,10 @@ documentation and additional help.
 
 * Benjamin Carpentier <carpentierbenjamin@gmail.com>
   Tested FusionDirectory, corrected copyright issues and locales
+
+* Giuliano Di Vito <guiliano@opensides.be>
+  Italian Translator and bug finder
+
+* Roman Widmann <archme.mail@gmail.com>
+  Arch linux packager
+
