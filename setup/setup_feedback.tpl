@@ -47,7 +47,7 @@
   		<input {if $use_gosa_announce} checked {/if} type='checkbox' name='use_gosa_announce' value='1' class='center'>&nbsp;{t}Send feedback to the FusionDirectory project team{/t}
 	</h2>
 	<p>
-	{t}When checking this option, FusionDirectory will try to connect http://oss.gonicus.de in order to submit your form anonymously.{/t}
+	{t}When checking this option, FusionDirectory will try to connect http://www.fusiondirectory.org in order to submit your form anonymously.{/t}
 	</p>
 	<b>{t}Generic{/t}</b>
 	<table>	
