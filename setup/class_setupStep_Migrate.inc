@@ -997,7 +997,7 @@ class Step_Migrate extends setup_step
         }
       }
 
-      /* Try to find an old FusionDirectory 2.5 administrative account that may be migrated 
+      /* Try to find an old GOsa 2.5 administrative account that may be migrated 
        */
       if(!$GOsa_26_found){
         $valid_users = "";
@@ -1025,7 +1025,7 @@ class Step_Migrate extends setup_step
       if($GOsa_25_found){
         $str = "";
         if(!empty($valid_groups)){
-          $str.= "<i>".sprintf(_("FusionDirectory 2.5 administrative accounts found: %s"),trim($valid_groups,", "))."</i><br>";
+          $str.= "<i>".sprintf(_("GOsa 2.5 administrative accounts found: %s"),trim($valid_groups,", "))."</i><br>";
         }
         $this->checks['acls']['STATUS']    = FALSE;
         $this->checks['acls']['STATUS_MSG']= _("Failed");
