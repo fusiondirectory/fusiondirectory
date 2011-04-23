@@ -1035,7 +1035,7 @@ class user extends plugin
             $this->attrs["jpegPhoto"] = $output;
         }else{
             msg_dialog::display(_("Error"), 
-                    _("Cannot save user picture, FusionDirectoryrequires the package 'imagemagick' or 'php5-imagick' to be installed!"), 
+                    _("Cannot save user picture, FusionDirectory requires the package 'imagemagick' or 'php5-imagick' to be installed!"), 
                     ERROR_DIALOG);
         }
     }
