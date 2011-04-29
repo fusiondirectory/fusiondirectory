@@ -3281,14 +3281,14 @@ msgid ""
 "This account has %s settings enabled. To disable them, you'll need to remove "
 "the %s settings first!"
 msgstr ""
-"Ce compte possède %s paramètres activés. Pour le désactiver vous devez au "
-"préalable supprimer les %s paramètres !"
+"Ce compte possède les paramètres %s activés. Pour les désactiver vous devez au "
+"préalable supprimer les paramètres %s !"
 
 #: include/utils/class_msgPool.inc:427
 #, php-format
 msgid "This account has %s settings disabled. You can enable them by clicking below."
 msgstr ""
-"Ce compte possède %s paramètres desactivés. Vous pouvez les activer en "
+"Ce compte possède les paramètres %s desactivés. Vous pouvez les activer en "
 "cliquant ci dessous."
 
 #: include/utils/class_msgPool.inc:430 include/utils/class_msgPool.inc:437
@@ -3297,18 +3297,18 @@ msgid ""
 "This account has %s settings disabled. To enable them, you'll need to add "
 "the %s settings first!"
 msgstr ""
-"Ce compte possède %s paramètres désactivés. Pour les activer, vous devez au "
-"préalable ajouter les %s paramètres !"
+"Ce compte possède les paramètres %s désactivés. Pour les activer, vous devez au "
+"préalable ajouter les paramètres %s !"
 
 #: include/utils/class_msgPool.inc:445
 #, php-format
 msgid "Add %s settings"
-msgstr "Ajouter %s paramètres"
+msgstr "Ajouter les paramètres %s"
 
 #: include/utils/class_msgPool.inc:451
 #, php-format
 msgid "Remove %s settings"
-msgstr "Effacer %s paramètres"
+msgstr "Effacer les paramètres %s"
 
 #: include/utils/class_msgPool.inc:457
 msgid "Click the 'Edit' button below to change informations in this dialog"
