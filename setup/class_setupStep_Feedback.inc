@@ -168,7 +168,13 @@ class Step_Feedback  extends setup_step
     $smarty->assign("feedback_send",$this->feedback_send);
     $smarty->assign("years",$years);
     $smarty->assign("features_used",$this->features_used);
-    $smarty->assign("gosa_version",get_gosa_version());
+
+    if(function_exists("get_gosa_version")){
+      $smarty->assign("version",get_gosa_version());
+    }else{
+      $smarty->assign("version","");
+    }
+
     $smarty->assign("additional_info", reverse_html_entities($additional_info));
     $smarty->assign ("must", "<font class=\"must\">*</font>");
     return($smarty->fetch(get_template_path("setup_feedback.tpl",TRUE,dirname(__FILE__))));
@@ -254,7 +260,9 @@ class Step_Feedback  extends setup_step
       $str .="\nDistribution: ".$this->distribution;
       $str .="\nWeb Server: ".$this->web_server;
       $str .="\nPHP_Version: ".$this->php_version;
-      $str .="\nFusionDirectory_Version: ".strip_tags(get_gosa_version());
+      if(function_exists("get_gosa_version")){
+	$str .="\nFusionDirectory_Version: ".strip_tags(get_gosa_version());
+      }
       $str .="\nLDAP Server: ".$this->ldap_server;
       $str .="\nObject count: ".$this->object_count;
       $str .="\nMissing features: ".($this->want_to_see_next);

@@ -93,7 +93,13 @@ function displayLogin()
   $smarty->assign("iePngWorkaround", $config->get_cfg_value("iePngWorkaround","false" ) == "true");
   $smarty->assign("usePrototype", "false");
   $smarty->display (get_template_path('headers.tpl'));
-  $smarty->assign("version",get_gosa_version());
+
+  if(function_exists("get_gosa_version")){ 
+    $smarty->assign("version",get_gosa_version());
+  }else{
+    $smarty->assign("version","");
+  }
+
   $smarty->display(get_template_path('login.tpl'));
   exit();
 }
