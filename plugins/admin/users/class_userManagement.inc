@@ -326,7 +326,7 @@ class userManagement extends management
                   return($smarty->fetch(get_template_path('password.tpl', TRUE)));
               }
 
-              // Change cassword
+              // Change password
               if(isset($this->force_hash_type[$this->dn])){
                   if(!change_password ($this->dn, $new_password,0,$this->force_hash_type[$this->dn])){
                       return($smarty->fetch(get_template_path('password.tpl', TRUE)));
