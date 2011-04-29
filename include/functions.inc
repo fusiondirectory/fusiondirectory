@@ -2706,20 +2706,20 @@ function check_schema($cfg,$rfc2307bis = FALSE)
   /* The FusionDirectory base schema */
   $checks['gosaObject'] = $def_check;
   $checks['gosaObject']['REQUIRED_VERSION'] = "2.6.1";
-  $checks['gosaObject']['SCHEMA_FILES']     = array("gosa-samba3.schema","gosa-samba2.schema");
+  $checks['gosaObject']['SCHEMA_FILES']     = array("gosa-samba3.schema");
   $checks['gosaObject']['CLASSES_REQUIRED'] = array("gosaObject");
   $checks['gosaObject']['IS_MUST_HAVE']     = TRUE;
 
   /* FusionDirectory Account class */
   $checks["gosaAccount"]["REQUIRED_VERSION"]= "2.6.6";
-  $checks["gosaAccount"]["SCHEMA_FILES"]    = array("gosa-samba3.schema","gosa-samba2.schema");
+  $checks["gosaAccount"]["SCHEMA_FILES"]    = array("gosa-samba3.schema");
   $checks["gosaAccount"]["CLASSES_REQUIRED"]= array("gosaAccount");
   $checks["gosaAccount"]["IS_MUST_HAVE"]    = TRUE;
   $checks["gosaAccount"]["INFO"]            = _("Used to store account specific informations.");
 
   /* FusionDirectory lock entry, used to mark currently edited objects as 'in use' */
   $checks["gosaLockEntry"]["REQUIRED_VERSION"] = "2.6.1";
-  $checks["gosaLockEntry"]["SCHEMA_FILES"]     = array("gosa-samba3.schema","gosa-samba2.schema");
+  $checks["gosaLockEntry"]["SCHEMA_FILES"]     = array("gosa-samba3.schema");
   $checks["gosaLockEntry"]["CLASSES_REQUIRED"] = array("gosaLockEntry");
   $checks["gosaLockEntry"]["IS_MUST_HAVE"]     = TRUE;
   $checks["gosaLockEntry"]["INFO"]             = _("Used to lock currently edited entries to avoid multiple changes at the same time.");
@@ -2788,7 +2788,7 @@ function check_schema($cfg,$rfc2307bis = FALSE)
   /* The FusionDirectory base schema */
   $checks['posixGroup'] = $def_check;
   $checks['posixGroup']['REQUIRED_VERSION'] = "2.6.1";
-  $checks['posixGroup']['SCHEMA_FILES']     = array("gosa-samba3.schema","gosa-samba2.schema");
+  $checks['posixGroup']['SCHEMA_FILES']     = array("gosa-samba3.schema");
   $checks['posixGroup']['CLASSES_REQUIRED'] = array("posixGroup");
   $checks['posixGroup']['STATUS']           = TRUE;
   $checks['posixGroup']['IS_MUST_HAVE']     = TRUE;
