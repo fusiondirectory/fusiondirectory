@@ -115,6 +115,8 @@ $REWRITE= array( "ä" => "ae",
     "ñ" => "ny",
     "Ñ" => "Ny" );
 
+/* put a static revision version */
+$svn_revision = "1.0.1"
 
 /*! \brief Does autoloading for classes used in FusionDirectory.
  *
@@ -2437,7 +2439,7 @@ function compare_revision($revision_file, $revision)
         $result= true;
       }
     } else {
-      msg_dialog::display(_("Internal error"), _("Cannot write to revision file!"), ERROR_DIALOG);
+      msg_dialog::display(_("Internal error"), _("Cannot read to revision file!"), ERROR_DIALOG);
     }
     // Close file
     fclose($fh);
