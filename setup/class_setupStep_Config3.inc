@@ -41,14 +41,19 @@ class Step_Config3 extends setup_step
               "user_filter_cookie" => true,
               "debuglevel" => 0,
               "session_lifetime" => 7200,
+              "compile" =>  "/var/spool/fusiondirectory",
               "max_ldap_query_time" => "5.0",
               "max_ldap_query_time_active" => FALSE,
-
+              
+              "mailQueueScriptPath_active" => FALSE,
+              "notifydir_active" => FALSE,
+              "ppd_path_active" => FALSE,
+              "kioskpath_active" => FALSE,
+              "gosaSupportURI_active" => FALSE,
+              "kioskpath_active" => FALSE,
+              
               "uniq_identifier" => "entryCSN",
               "uniq_identifier_active" => TRUE,
-
-              "kioskpath" => "/var/spool/kiosk",
-              "kioskpath_active" => FALSE,
 
               "sudoou"   => "ou=sudoers",
               "sudoou_active" => FALSE,
@@ -102,11 +107,20 @@ class Step_Config3 extends setup_step
         }
       }
       
-      foreach(array("login_attribute","list_summary","strict_units","noprimarygroup","forceglobals","forcessl","ldapstats","user_filter_cookie","warnssl","debuglevel","session_lifetime") as $name){
+      foreach(array("login_attribute","list_summary","strict_units","noprimarygroup","forceglobals","forcessl","ldapstats","user_filter_cookie","warnssl","compile","debuglevel","session_lifetime") as $name){
         if(isset($_POST[$name])){
           $this->optional[$name] = get_post($name);
         }
       } 
+
+/*      if(isset($_POST['ppd_path_active'])){
+        $this->optional['ppd_path_active'] = TRUE;
+        if(isset($_POST['ppd_path'])){
+          $this->optional['ppd_path'] = get_post('ppd_path');
+        }
+      }else{*/
+        $this->optional['ppd_path_active'] = FALSE;
+/*      }*/
 
       if(isset($_POST['max_ldap_query_time_active'])){
         $this->optional['max_ldap_query_time_active'] = TRUE;
@@ -117,6 +131,24 @@ class Step_Config3 extends setup_step
         $this->optional['max_ldap_query_time_active'] = FALSE;
       }
 
+/*      if(isset($_POST['mailQueueScriptPath_active'])){
+        $this->optional['mailQueueScriptPath_active'] = TRUE;
+        if(isset($_POST['mailQueueScriptPath'])){
+          $this->optional['mailQueueScriptPath'] = get_post('mailQueueScriptPath');
+        }
+      }else{*/
+        $this->optional['mailQueueScriptPath_active'] = FALSE;
+/*      }*/
+
+/*      if(isset($_POST['kioskpath_active'])){
+        $this->optional['kioskpath_active'] = TRUE;
+        if(isset($_POST['kioskpath'])){
+          $this->optional['kioskpath'] = get_post('kioskpath');
+        }
+      }else{ */
+        $this->optional['kioskpath_active'] = FALSE;
+/*      } */
+
       if(isset($_POST['sudoou_active'])){
         $this->optional['sudoou_active'] = TRUE;
         if(isset($_POST['sudoou'])){
@@ -125,6 +157,25 @@ class Step_Config3 extends setup_step
       }else{
         $this->optional['sudoou_active'] = FALSE;
       }
+
+/*      if(isset($_POST['notifydir_active'])){
+        $this->optional['notifydir_active'] = TRUE;
+        if(isset($_POST['notifydir'])){
+          $this->optional['notifydir'] = get_post('notifydir');
+        }
+      }else{*/
+        $this->optional['notifydir_active'] = FALSE;
+/*      }*/
+
+/*      if(isset($_POST['gosaSupportURI_active'])){
+        $this->optional['gosaSupportURI_active'] = TRUE;
+        if(isset($_POST['gosaSupportURI'])){
+          $this->optional['gosaSupportURI'] = get_post('gosaSupportURI');
+          $this->optional['gosaSupportTimeout'] = get_post('gosaSupportTimeout');
+        }
+      }else{*/
+        $this->optional['gosaSupportURI_active'] = FALSE;
+/*      }*/
 
       if(isset($_POST['uniq_identifier_active'])){
         $this->optional['uniq_identifier_active'] = TRUE;
