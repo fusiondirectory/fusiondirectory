@@ -184,9 +184,11 @@ session::global_set('helpobject',$helpobject);
  */
 
 $files = array();
-$f = opendir($helpdir);
-while($file = readdir($f)){
-  $files[$file]=$file;
+if (is_dir($helpdir)) {
+	$f = opendir($helpdir);
+		while($file = readdir($f)){
+  	$files[$file]=$file;
+	}
 }
 
 /* Some replacements */
