@@ -115,7 +115,7 @@ if(session::global_is_set('current_class_for_help')){
   /* If there is no entry in the xml file for this class, display an error message */
   if($helpdir == ""){
     
-    $smarty->assign("help_contents","<br><h2>"._("There is no helpfile specified for this class"))."</h2>";
+    $smarty->assign("help_contents","<br><h2>"._("There is no helpfile specified for this extension"))."</h2>";
     $smarty->assign("iePngWorkaround", $config->get_cfg_value("iePngWorkaround","false" ) == "true");
     $header= "<!-- headers.tpl-->".$smarty->fetch(get_template_path('headers.tpl'));
     $display= (  $header.$smarty->fetch(get_template_path('help.tpl')));
@@ -229,7 +229,7 @@ if(isset($_POST['search'])){
   $smarty->assign("help_contents",((searchlist($index,search($index,$_POST['search_string']),10))));
   $header= "<!-- headers.tpl-->".$smarty->fetch(get_template_path('headers.tpl'));
 
-  /* I don't know why, but we must use utf8_encode to avoid dispplay errors */
+  /* I don't know why, but we must use utf8_encode to avoid display errors */
   $display= (  $header.$smarty->fetch(get_template_path('help.tpl')));
   echo $display;
 }elseif(((empty($helpdir)))||($helpdir=="/")){
@@ -237,7 +237,7 @@ if(isset($_POST['search'])){
   $smarty->assign("help_contents",genIndex());
   $header= "<!-- headers.tpl-->".$smarty->fetch(get_template_path('headers.tpl'));
 
-  /* I don't know why, but we must use utf8_encode to avoid dispplay errors */
+  /* I don't know why, but we must use utf8_encode to avoid display errors */
   $display= utf8_encode(  $header.$smarty->fetch(get_template_path('help.tpl')));
   echo $display;
 
@@ -259,7 +259,7 @@ if(isset($_POST['search'])){
   $smarty->assign("help_contents",$index[$helpobject['file']]['content']);
   $header= "<!-- headers.tpl-->".$smarty->fetch(get_template_path('headers.tpl'));
   
-  /* I don't know why, but we must use utf8_encode to avoid dispplay errors */
+  /* I don't know why, but we must use utf8_encode to avoid display errors */
   $smarty->assign("backward",$back);
   $smarty->assign("forward" ,$for);
   $display= utf8_encode(  $header.$smarty->fetch(get_template_path('help.tpl')));
@@ -268,7 +268,8 @@ if(isset($_POST['search'])){
 }else{
   
   /* There was a file requested which actually doesn't exists */
-  $smarty->assign("help_contents","<h2>".sprintf(_("Helpdir '%s' is not accessible, can't read any helpfiles."),$helpdir))."</h2><br>";
+  $plugin_help = explode("/", $helpobject['currentplug']);
+  $smarty->assign("help_contents","<h2>".sprintf(_("No help available for the extension '%s'."),$plugin_help[3]))."</h2><br>";
   $header= "<!-- headers.tpl-->".$smarty->fetch(get_template_path('headers.tpl'));
   $display= (  $header.$smarty->fetch(get_template_path('help.tpl')));
   echo $display;
