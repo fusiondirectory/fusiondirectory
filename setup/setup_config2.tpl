@@ -100,17 +100,6 @@
 
     <div class='step4_container'>
         <div class='step4_name'>
-            {t}Government mode{/t}
-        </div>
-        <div class='step4_value'>
-            <select name="governmentmode" size="1" title="">
-			{html_options options=$bool selected=$governmentmode}
-			</select>
-        </div>
-    </div>
-
-    <div class='step4_container'>
-        <div class='step4_name'>
             {t}FusionDirectory logging{/t}
         </div>
         <div class='step4_value'>

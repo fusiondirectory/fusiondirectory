@@ -54,7 +54,7 @@ class Step_Config2 extends setup_step
   var $timezone       = "Europe/Paris";
   var $timezones      = array();
 
-  var $attributes = array("mail_attrib","governmentmode","sambaidmapping","cyrusunixstyle","mail","timezone");
+  var $attributes = array("mail_attrib","sambaidmapping","cyrusunixstyle","mail","timezone");
   var $called = FALSE;
 
   function Step_Config2()
