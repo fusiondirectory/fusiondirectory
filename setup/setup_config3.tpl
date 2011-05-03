@@ -39,60 +39,6 @@
 
     <div class='step4_container'>
         <div class='step4_name'>
-            {t}Smarty compile directory{/t}
-        </div>
-        <div class='step4_value'>
-			<input size=40 id='compile' name='compile' 
-				type='text' value='{$optional.compile}'>
-        </div>
-    </div>
-    <div class='step4_container'>
-        <div class='step4_name'>
-            {t}SNMP community{/t}
-        </div>
-        <div class='step4_value'>
-			<input size=40 id='compile' name='snmpcommunity' 
-				type='text' value='{$optional.snmpcommunity}'>
-        </div>
-    </div>
-    <div class='step4_container'>
-        <div class='step4_name'>
-            {t}Path for PPD storage{/t}
-        </div>
-        <div class='step4_value'>
-            {if $optional.ppd_path_active == FALSE}
-                <input type='checkbox' value='1' name='ppd_path_active'
-                    onClick='changeState("ppd_path");'>
-                <input size=40 id='ppd_path' name='ppd_path' type='text' value='{$optional.ppd_path}' disabled>
-            {else}
-                <input type='checkbox' value='1' name='ppd_path_active' checked
-					onClick='changeState("ppd_path");'>
-                <input size=40 id='ppd_path' name='ppd_path' type='text' value='{$optional.ppd_path}'  >
-            {/if}
-        </div>
-    </div>
-
-    <div class='step4_container'>
-        <div class='step4_name'>
-            {t}Path for kiosk profile storage{/t}
-        </div>
-        <div class='step4_value'>
-            {if $optional.kioskpath_active == FALSE}
-                <input type='checkbox' value='1' name='kioskpath_active'
-                    onClick='changeState("kioskpath");'>
-                <input size=40 id='kioskpath' name='kioskpath' 
-					type='text' value='{$optional.kioskpath}' disabled>
-            {else}
-                <input type='checkbox' value='1' name='kioskpath_active' checked
-					onClick='changeState("kioskpath");'>
-                <input size=40 id='kioskpath' name='kioskpath' 
-					type='text' value='{$optional.kioskpath}'  >
-            {/if}
-        </div>
-    </div>
-
-    <div class='step4_container'>
-        <div class='step4_name'>
             {t}SUDO role base{/t}
         </div>
         <div class='step4_value'>
@@ -106,44 +52,6 @@
 					onClick='changeState("sudoou");'>
                 <input size=40 id='sudoou' name='sudoou' 
 					type='text' value='{$optional.sudoou}'  >
-            {/if}
-        </div>
-    </div>
-
-    <div class='step4_container'>
-        <div class='step4_name'>
-            {t}Mail queue script{/t}
-        </div>
-        <div class='step4_value'>
-            {if $optional.mailQueueScriptPath_active == FALSE}
-                <input type='checkbox' value='1' name='mailQueueScriptPath_active'
-                    onClick='changeState("mailQueueScriptPath");'>
-                <input size=40 id='mailQueueScriptPath' name='mailQueueScriptPath' 
-					type='text' value='{$optional.mailQueueScriptPath}' disabled>
-            {else}
-                <input type='checkbox' value='1' name='mailQueueScriptPath_active' checked 
-					onClick='changeState("mailQueueScriptPath");'>
-                <input size=40 id='mailQueueScriptPath' name='mailQueueScriptPath' type='text' 
-					value='{$optional.mailQueueScriptPath}'  >
-            {/if}
-        </div>
-    </div>
-
-    <div class='step4_container'>
-        <div class='step4_name'>
-            {t}Notification script{/t}
-        </div>
-        <div class='step4_value'>
-            {if $optional.notifydir_active == FALSE}
-                <input type='checkbox' value='1' name='notifydir_active'
-                    onClick='changeState("notifydir");'>
-                <input size=40 id='notifydir' name='notifydir' 
-					type='text' value='{$optional.notifydir}' disabled>
-            {else}
-                <input type='checkbox' value='1' name='notifydir_active' checked 
-					onClick='changeState("notifydir");'>
-                <input size=40 id='notifydir' name='notifydir' 
-					type='text' value='{$optional.notifydir}'  >
             {/if}
         </div>
     </div>
@@ -168,41 +76,6 @@
             {/if}
         </div>
     </div>
-
-    <div class='step4_container'>
-        <div class='step4_name'>
-            {t}GOto-SI daemon{/t}
-        </div>
-        <div class='step4_value'>
-            {if $optional.gotoSiURI_active == FALSE}
-                <input type='checkbox' value='1' name='gotoSiURI_active'
-                  onClick='changeState("gotoSiURI");changeState("gotoSiTimeout");'>
-                <input size=40 id='gotoSiURI' name='gotoSiURI' 
-				        	type='text' value='{$optional.gotoSiURI}' disabled>
-            {else}
-                <input type='checkbox' value='1' name='gotoSiURI_active' checked 
-					        onClick='changeState("gotoSiURI");changeState("gotoSiTimeout");'>
-                <input size=40 id='gotoSiURI' name='gotoSiURI' 
-        					type='text' value='{$optional.gotoSiURI}'  >
-            {/if}
-        </div>
-    </div>
-
-    <div class='step4_container'>
-        <div class='step4_name'>
-            {t}GOto-si daemon timeout{/t}
-        </div>
-        <div class='step4_value'>
-            {if $optional.gotoSiURI_active == FALSE}
-                <input size=40 id='gotoSiTimeout' name='gotoSiTimeout' 
-				        	type='text' value='{$optional.gotoSiTimeout}' disabled>
-            {else}
-                <input size=40 id='gotoSiTimeout' name='gotoSiTimeout' 
-        					type='text' value='{$optional.gotoSiTimeout}'  >
-            {/if}
-        </div>
-    </div>
-
 
     <p><b>{t}Login and session{/t}</b></p>
     <div class='step4_container'>
