@@ -55,7 +55,6 @@ class Step_Config3 extends setup_step
               "uniq_identifier" => "entryCSN",
               "uniq_identifier_active" => TRUE,
 
-              "sudoou"   => "ou=sudoers",
               "sudoou_active" => FALSE,
 
               "noprimarygroup"  => FALSE);
@@ -149,14 +148,14 @@ class Step_Config3 extends setup_step
         $this->optional['kioskpath_active'] = FALSE;
 /*      } */
 
-      if(isset($_POST['sudoou_active'])){
+/*      if(isset($_POST['sudoou_active'])){
         $this->optional['sudoou_active'] = TRUE;
         if(isset($_POST['sudoou'])){
           $this->optional['sudoou'] = get_post('sudoou');
         }
-      }else{
+      }else{*/
         $this->optional['sudoou_active'] = FALSE;
-      }
+/*      }*/
 
 /*      if(isset($_POST['notifydir_active'])){
         $this->optional['notifydir_active'] = TRUE;

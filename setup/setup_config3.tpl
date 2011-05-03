@@ -39,25 +39,6 @@
 
     <div class='step4_container'>
         <div class='step4_name'>
-            {t}SUDO role base{/t}
-        </div>
-        <div class='step4_value'>
-            {if $optional.sudoou_active == FALSE}
-                <input type='checkbox' value='1' name='sudoou_active'
-                    onClick='changeState("sudoou");'>
-                <input size=40 id='sudoou' name='sudoou' 
-					type='text' value='{$optional.sudoou}' disabled>
-            {else}
-                <input type='checkbox' value='1' name='sudoou_active' checked
-					onClick='changeState("sudoou");'>
-                <input size=40 id='sudoou' name='sudoou' 
-					type='text' value='{$optional.sudoou}'  >
-            {/if}
-        </div>
-    </div>
-
-    <div class='step4_container'>
-        <div class='step4_name'>
             {t}Enable edit locking{/t}
         </div>
         <div class='step4_value'>
