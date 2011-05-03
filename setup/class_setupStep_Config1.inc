@@ -26,7 +26,7 @@ class Step_Config1 extends setup_step
   var $peopleou   = "ou=people";
   var $groupou    =  "ou=groups";
   var $peopledn   = "cn";
-  var $uidbase    = 1000;
+  var $uidbase    = 1100;
   var $krbsasl    = FALSE;
   var $strict     = TRUE;
   var $compressed = TRUE;
@@ -227,7 +227,7 @@ class Step_Config1 extends setup_step
     }else{
       $this->is_completed = FALSE;
     }
-  }// if tempalte posted 
+  }// if template posted
 
 
   /* Attributes that are interesting for configuration generation */
