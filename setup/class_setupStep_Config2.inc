@@ -51,7 +51,7 @@ class Step_Config2 extends setup_step
                                   "samba_rid_active" => FALSE); 
 
   var $sambaDomain_found    = FALSE;
-  var $timezone       = "Europe/Berlin";
+  var $timezone       = "Europe/Paris";
   var $timezones      = array();
 
   var $attributes = array("mail_attrib","governmentmode","sambaidmapping","cyrusunixstyle","mail","timezone");
