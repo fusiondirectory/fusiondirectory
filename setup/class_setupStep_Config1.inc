@@ -211,14 +211,14 @@ class Step_Config1 extends setup_step
       }
 
       /* base hook settings */
-      if(isset($_POST['base_hook_active'])){
+/*      if(isset($_POST['base_hook_active'])){
         $this->pwd_rules['base_hook_active'] = TRUE;
         if(isset($_POST['base_hook'])){
           $this->pwd_rules['base_hook'] = get_post('base_hook');
         }
-      }else{
+      }else{*/
         $this->pwd_rules['base_hook_active'] = FALSE;
-      }
+/*      }*/
     }
 
     $tmp = $this->check(); 

@@ -116,22 +116,6 @@
             <input type='text' name='uidbase' maxlength='20' size='10' value='{$uidbase}'>
         </div>
      </div>
-    <div class='step4_container' style="margin-bottom:5px;">
-        <div class='step4_name'>
-                {t}Hook for number base{/t}
-	</div>
-        <div class='step4_value'>
-            {if $base_hook_active == FALSE}
-                <input type='checkbox' value='1' name='base_hook_active'
-                    onClick='changeState("base_hook");'>
-                <input id='base_hook' name='base_hook' size=40 type='text' value='{$base_hook}'      disabled>
-            {else}
-                <input type='checkbox' value='1' name='base_hook_active' checked>
-                <input id='base_hook' name='base_hook' size=40 type='text' value='{$base_hook}'  >
-            {/if}
-     </div>
-        </div>
-    </div>
 
     <p><b>{t}Password settings{/t}</b></p>
 
