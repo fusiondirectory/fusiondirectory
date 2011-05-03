@@ -127,7 +127,8 @@ $GLOBALS['t_language']= $lang;
 $GLOBALS['t_gettext_message_dir'] = $BASE_DIR.'/locale/';
 
 /* Check if the config is up to date */
-$config->check_config_version();
+/* removed boring and not usefull inside the same version */
+/* $config->check_config_version(); */
 
 /* Set the text domain as 'messages' */
 $domain = 'messages';
