@@ -244,12 +244,13 @@ class Step_Checks extends setup_step
     $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* Automatic quoting must be turned on */
-    $N = "magic_quotes_gpc = <b>"._("On")."</b>";
+		/* deprecated as of php5.3 will be off like it should */
+    /*$N = "magic_quotes_gpc = <b>"._("On")."</b>";
     $D = _("Increase your server security by setting magic_quotes_gpc to 'on'. PHP will escape all quotes in strings in this case."); 
     $S = _("Search for 'magic_quotes_gpc' in your php.ini and set it to 'On'."); 
     $R = ini_get('magic_quotes_gpc'); 
     $M = TRUE;
-    $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ); */
 
     /* Emulating old stuff? */
     $N = "zend.ze1_compatibility_mode = <b>"._("Off")."</b>";
