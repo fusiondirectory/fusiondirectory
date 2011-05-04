@@ -247,7 +247,7 @@ switch ($argv[1]){
 		rescan_guide();
 		break;
         default:
-                echo "Error: Supplied command not known\n\n";
+                echo "Error: Unknow option\n\n";
                 print_usage();
                 break;
 }
