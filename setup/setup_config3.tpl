@@ -58,6 +58,30 @@
         </div>
     </div>
 
+		<div class='step4_container'>
+        <div class='step4_name'>
+						{t}Enable Copy & Paste{/t}
+        </div>
+        <div class='step4_value'>
+            <select name="enableCopyPaste" size="1" title="">
+							{html_options options=$bool selected=$optional.enableCopyPaste}
+            </select>
+        </div>
+    </div>
+
+    <div class='step4_container'>
+        <div class='step4_name'>
+						{t}FusionDirectory logging{/t}
+        </div>
+        <div class='step4_value'>
+					{if $logging}
+            	<input checked type='checkbox' name='logging' value='1' class='center'>
+					{else}
+            <input type='checkbox' name='logging' value='1' class='center'>
+					{/if}
+        </div>
+    </div>
+
     <p><b>{t}Login and session{/t}</b></p>
     <div class='step4_container'>
         <div class='step4_name'>

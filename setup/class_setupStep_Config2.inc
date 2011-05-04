@@ -34,14 +34,12 @@ class Step_Config2 extends setup_step
   var $mail_settings = array("vacationdir"        => "/etc/fusiondirectory/vacation",
                              "vacationdir_active" => FALSE);
 
-  var $generic_settings  = array( "enableCopyPaste" => false,
-                                  "wws_ou"        => "ou=winstations",
+  var $generic_settings  = array( "wws_ou"        => "ou=winstations",
                                   "wws_ou_active" => FALSE,
                                   "snapshot_active"     => FALSE,
                                   "snapshot_base"       => "ou=snapshots,%base%",
                                   "snapshot_user"       => "%admin%",
                                   "snapshot_password"   => "",
-                                  "logging"             => TRUE,
                                   "snapshot_server"     => "%connection%");
 
   var $samba_settings    = array( "samba_sid"        => "0-815-4711",
@@ -131,8 +129,6 @@ class Step_Config2 extends setup_step
     $smarty->assign("mail_settings",     reverse_html_entities($this->mail_settings));
     $smarty->assign("mail_methods",      reverse_html_entities($this->mail_methods));
     $smarty->assign("samba_settings",    reverse_html_entities($this->samba_settings));
-
-    $smarty->assign("logging",$this->generic_settings['logging']);
    
     $smarty->assign("bool",array(FALSE => _("No"), TRUE => _("Yes")));
     foreach($this->attributes as $attr){
@@ -160,9 +156,6 @@ class Step_Config2 extends setup_step
         }
       }
 
-      /* Get logging */
-      $this->generic_settings['logging'] =  isset($_POST['logging']);
-
       /* Mail settings */
       if(isset($_POST['vacationdir_active'])){
         $this->mail_settings['vacationdir_active'] = TRUE;
@@ -171,10 +164,6 @@ class Step_Config2 extends setup_step
         }
       }else{
         $this->mail_settings['vacationdir_active'] = FALSE;
-      }
-
-      if(isset($_POST['enableCopyPaste'])){
-        $this->generic_settings['enableCopyPaste'] = get_post('enableCopyPaste');
       }
 
       if(isset($_POST['wws_ou_active'])){

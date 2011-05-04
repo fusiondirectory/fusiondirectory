@@ -51,7 +51,9 @@ class Step_Config3 extends setup_step
               "kioskpath_active" => FALSE,
               "gosaSupportURI_active" => FALSE,
               "kioskpath_active" => FALSE,
-              
+
+              "enableCopyPaste" => FALSE,
+              "logging"         => TRUE,
               "uniq_identifier" => "entryCSN",
               "uniq_identifier_active" => TRUE,
 
@@ -79,13 +81,14 @@ class Step_Config3 extends setup_step
   {
 
     $cv = $this->parent->captured_values;
-    $this->optional['sudoou'] = preg_replace("/%BASE%/",$cv['base'],$this->optional['sudoou']);
+    /*$this->optional['sudoou'] = preg_replace("/%BASE%/",$cv['base'],$this->optional['sudoou']);*/
     $smarty = get_smarty();
     $smarty->assign("bool",array(FALSE => _("No"), TRUE => _("Yes")));
     $smarty->assign("uniq_identifiers",array( "entryCSN" => "entryCSN",
                                               "contextCSN"=>"contextCSN" ));
 
-    
+    $smarty->assign("logging",$this->optional['logging']);
+
     $smarty->assign("optional", reverse_html_entities($this->optional));
     foreach($this->attributes as $attr){
       $smarty->assign($attr,reverse_html_entities($this->$attr));
@@ -106,7 +109,7 @@ class Step_Config3 extends setup_step
         }
       }
       
-      foreach(array("login_attribute","list_summary","strict_units","noprimarygroup","forceglobals","forcessl","ldapstats","user_filter_cookie","warnssl","compile","debuglevel","session_lifetime") as $name){
+      foreach(array("login_attribute","list_summary","strict_units","noprimarygroup","forceglobals","forcessl","ldapstats","user_filter_cookie","warnssl","compile","debuglevel","session_lifetime","enableCopyPaste","logging") as $name){
         if(isset($_POST[$name])){
           $this->optional[$name] = get_post($name);
         }
@@ -176,6 +179,13 @@ class Step_Config3 extends setup_step
         $this->optional['gosaSupportURI_active'] = FALSE;
 /*      }*/
 
+      if(isset($_POST['enableCopyPaste'])){
+        $this->optional['enableCopyPaste'] = get_post('enableCopyPaste');
+			}
+
+			/* Get logging */
+      $this->optional['logging'] =  isset($_POST['logging']);
+      
       if(isset($_POST['uniq_identifier_active'])){
         $this->optional['uniq_identifier_active'] = TRUE;
         if(isset($_POST['uniq_identifier'])){
