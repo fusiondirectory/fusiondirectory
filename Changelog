@@ -1,4 +1,16 @@
 FusionDirectory changelog
 =========================
+
+* FusionDirectory 1.0.1
+  - New Release
+  - Removed advanced options from setup
+  - Corrected online help
+  - Corrected wording on plugins
+  - Removed the need for magic_quotes_gpc
+  - Removed the fusiondirectory-desktop package
+  - Removed program version checking from svn
+  - Added the apache plugin
+  - Put final logo
+  
 * FusionDirectory 1.0
   - First stable release
