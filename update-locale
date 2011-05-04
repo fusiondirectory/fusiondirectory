@@ -46,13 +46,7 @@ generate_po() {
     echo -n "* merging $f/messages.po: "
     [ ! -f $f/messages.po ] && touch $f/messages.po
 
-    # If we're in a plugin of a trunk checkout, we can use the gosa-all messages.po as a dictionary
-    #DICT_FILE_ALL="$ORIG/../../gosa-all/gosa/${f/locale/locale/core}/messages.po"
-    #DICT_FILE_CORE="$ORIG/../../gosa-core/${f/locale/locale/core}/messages.po"
-    #DICT=""
-    #[ -r $DICT_FILE_ALL ] && DICT="-C $DICT_FILE_ALL"
-    #[ ${#DICT} -eq 0 ] && [ -r $DICT_FILE_CORE ] && DICT="-C $DICT_FILE_CORE"
-    msgmerge $DICT $f/messages.po locale/${l_path}messages.po --output-file=$f/messages.po.tmp &> /dev/null
+    msgmerge $f/messages.po locale/${l_path}messages.po --output-file=$f/messages.po.tmp &> /dev/null
 
     # Filter out duplicates
     msguniq $f/messages.po.tmp --output-file=$f/messages.po.new &> /dev/null
