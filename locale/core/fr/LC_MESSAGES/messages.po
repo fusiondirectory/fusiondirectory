@@ -2415,7 +2415,7 @@ msgstr "Bienvenue à l'assistant de configuration FusionDirectory"
 
 #: setup/setup_checks.tpl:9
 msgid "PHP module and extension checks"
-msgstr "Extension PHP et vérification de ceux ci"
+msgstr "Extension PHP et vérification de celles-ci"
 
 #: setup/setup_checks.tpl:41 setup/setup_checks.tpl:103
 msgid "FusionDirectory will NOT run without fixing this."
