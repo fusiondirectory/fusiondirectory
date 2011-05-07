@@ -1128,7 +1128,7 @@ msgstr ""
 #: setup/class_setupStep_Checks.inc:209
 msgid "Search for 'memory_limit' in your php.ini and set it to '32M' or higher."
 msgstr ""
-"Recherchez pour 'memory_limit' dans votre php.ini et mettez le à '32M' or "
+"Recherchez 'memory_limit' dans votre php.ini et mettez le à '32M' or "
 "plus haut."
 
 #: setup/class_setupStep_Checks.inc:216
@@ -2419,7 +2419,7 @@ msgstr "Extension PHP et vérification de ceux ci"
 
 #: setup/setup_checks.tpl:41 setup/setup_checks.tpl:103
 msgid "FusionDirectory will NOT run without fixing this."
-msgstr "FusionDirectory ne fonctionnera pas si vous ne corriger pas cela."
+msgstr "FusionDirectory ne fonctionnera pas si vous ne corrigez pas cela."
 
 #: setup/setup_checks.tpl:45 setup/setup_checks.tpl:107
 msgid "FusionDirectory will run without fixing this."
