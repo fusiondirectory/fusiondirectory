@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-03 12:34+0200\n"
+"POT-Creation-Date: 2011-05-08 18:35+0200\n"
 "PO-Revision-Date: 2007-06-03 12:27+0800\n"
 "Last-Translator: Jiang Xin <worldhello.net@gmail.com>\n"
 "Language-Team: Chinese Simplified <zh@li.org>\n"
@@ -18,24 +18,24 @@ msgstr ""
 "Language: \n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: html/password.php:58 html/main.php:147 include/utils/class_xml.inc:44
-#: include/functions.inc:450
+#: html/password.php:58 html/main.php:148 include/utils/class_xml.inc:44
+#: include/functions.inc:452
 #: plugins/admin/departments/class_department.inc:433
 #, fuzzy
 msgid "Fatal error"
 msgstr "终端服务器"
 
-#: html/password.php:58 html/index.php:144
+#: html/password.php:58 html/index.php:150
 #, fuzzy, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
 msgstr "FusionDirectory 配置 %s/fusiondirectory.conf 不可读取。退出。"
 
-#: html/password.php:74 html/main.php:268 html/index.php:144
-#: html/index.php:216 include/class_SnapshotHandler.inc:44
+#: html/password.php:74 html/main.php:269 html/index.php:150
+#: html/index.php:222 include/class_SnapshotHandler.inc:44
 #: include/class_SnapshotHandler.inc:57 include/class_SnapshotHandler.inc:75
 #: include/class_pluglist.inc:182 include/utils/class_timezone.inc:49
-#: include/functions.inc:831 include/functions.inc:3079
-#: include/functions.inc:3111 include/functions.inc:3124
+#: include/functions.inc:833 include/functions.inc:3051
+#: include/functions.inc:3083 include/functions.inc:3096
 #: include/class_config.inc:155 include/class_config.inc:695
 #: include/class_config.inc:1146 include/class_config.inc:1159
 #: include/class_config.inc:1177 include/class_CopyPasteHandler.inc:119
@@ -52,7 +52,7 @@ msgstr "FusionDirectory 配置 %s/fusiondirectory.conf 不可读取。退出。"
 msgid "Configuration error"
 msgstr "配置文件"
 
-#: html/password.php:74 html/setup.php:66 html/index.php:165
+#: html/password.php:74 html/setup.php:66 html/index.php:171
 #, php-format
 msgid "Directory '%s' specified as compile directory is not accessible!"
 msgstr "目录 '%s' 作为编译目录无法访问！"
@@ -117,7 +117,7 @@ msgstr "登录名"
 msgid "Current password"
 msgstr "当前口令"
 
-#: html/password.php:224 html/index.php:321
+#: html/password.php:224 html/index.php:327
 msgid "Please check the username/password combination."
 msgstr "请检查用户名/口令。"
 
@@ -130,7 +130,7 @@ msgid "External password changer reported a problem: "
 msgstr "外部口令更改程序报告错误："
 
 #: html/password.php:280 html/index.php:57 html/index.php:63
-#: html/index.php:406 html/index.php:412 ihtml/themes/default/conflict.tpl:6
+#: html/index.php:413 html/index.php:419 ihtml/themes/default/conflict.tpl:6
 #: ihtml/themes/default/islocked.tpl:6 ihtml/themes/default/remove.tpl:2
 #: ihtml/themes/default/msg_dialog.tpl:59
 #: ihtml/themes/default/msg_dialog.tpl:106 setup/setup_checks.tpl:32
@@ -141,9 +141,9 @@ msgstr "外部口令更改程序报告错误："
 #: setup/class_setupStep_Migrate.inc:2572
 #: setup/class_setupStep_Migrate.inc:2725
 #: setup/class_setupStep_Migrate.inc:3057 include/utils/class_xml.inc:38
-#: include/class_tabs.inc:268 include/functions.inc:960
-#: include/functions.inc:2695 include/functions.inc:2699
-#: include/functions.inc:2705 plugins/admin/acl/remove.tpl:2
+#: include/class_tabs.inc:268 include/functions.inc:962
+#: include/functions.inc:2667 include/functions.inc:2671
+#: include/functions.inc:2677 plugins/admin/acl/remove.tpl:2
 #: plugins/admin/users/remove.tpl:2 plugins/admin/groups/remove.tpl:2
 #: plugins/admin/groups/class_group.inc:994
 #: plugins/admin/departments/dep_move_confirm.tpl:2
@@ -153,32 +153,32 @@ msgstr "外部口令更改程序报告错误："
 msgid "Warning"
 msgstr "警告"
 
-#: html/password.php:280 html/index.php:406
+#: html/password.php:280 html/index.php:413
 msgid "Session will not be encrypted."
 msgstr "会话不会被加密。"
 
-#: html/password.php:280 html/index.php:406
+#: html/password.php:280 html/index.php:413
 msgid "Enter SSL session"
 msgstr "进入 SSL 会话"
 
-#: html/main.php:148
+#: html/main.php:149
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr ""
 
-#: html/main.php:167
+#: html/main.php:168
 #, fuzzy
 msgid "PHP configuration"
 msgstr "PHP 安装检查"
 
-#: html/main.php:168
+#: html/main.php:169
 #, fuzzy
 msgid ""
 "Fatal error: Register globals is on. FusionDirectory will refuse to login "
 "unless this is fixed by an administrator."
 msgstr "致命错误：全局注册已打开。FusionDirectory 将拒绝登录直到被管理修正。"
 
-#: html/main.php:198 ihtml/themes/default/password.tpl:41
+#: html/main.php:199 ihtml/themes/default/password.tpl:41
 #: plugins/admin/users/class_userManagement.inc:401
 #: plugins/personal/password/class_password.inc:160
 #: plugins/personal/password/class_password.inc:166
@@ -186,35 +186,35 @@ msgstr "致命错误：全局注册已打开。FusionDirectory 将拒绝登录�
 msgid "Password change"
 msgstr "不允许修改口令"
 
-#: html/main.php:198
+#: html/main.php:199
 #, fuzzy
 msgid "Your password is about to expire, please change your password!"
 msgstr "您的口令就要过期，请修改您的口令"
 
-#: html/main.php:268
+#: html/main.php:269
 msgid "Running out of memory!"
 msgstr ""
 
-#: html/main.php:325
+#: html/main.php:326
 msgid "User ACL checks disabled"
 msgstr ""
 
-#: html/main.php:373
+#: html/main.php:374
 #, fuzzy
 msgid "Plugin"
 msgstr "于"
 
-#: html/main.php:374
+#: html/main.php:375
 #, fuzzy, php-format
 msgid "Fatal error: Cannot find any plugin definitions for plugin '%s'!"
 msgstr "警告： 没有发现针对插件 '%s' 的任何插件定义！"
 
-#: html/main.php:388
+#: html/main.php:389
 #, fuzzy
 msgid "Configuration Error"
 msgstr "配置文件"
 
-#: html/main.php:389
+#: html/main.php:390
 #, php-format
 msgid ""
 "Fatal error: not all POST variables have been transfered by PHP - please "
@@ -237,16 +237,16 @@ msgid ""
 "overridden by php.ini settings."
 msgstr ""
 
-#: html/index.php:165
+#: html/index.php:171
 #, fuzzy
 msgid "Smarty error"
 msgstr "PHP 错误"
 
-#: html/index.php:216
+#: html/index.php:222
 msgid "There is a problem with the authentication setup!"
 msgstr ""
 
-#: html/index.php:224 html/index.php:228
+#: html/index.php:230 html/index.php:234
 #: ihtml/themes/default/msg_dialog.tpl:57
 #: ihtml/themes/default/msg_dialog.tpl:104 setup/setup_checks.tpl:30
 #: setup/setup_checks.tpl:91 setup/class_setupStep_Migrate.inc:1200
@@ -256,11 +256,11 @@ msgstr ""
 #: include/utils/class_msgPool.inc:519 include/class_tabs.inc:56
 #: include/class_management.inc:448 include/class_management.inc:584
 #: include/class_gosaSupportDaemon.inc:1184
-#: include/class_gosaSupportDaemon.inc:1204 include/functions.inc:3405
-#: include/functions.inc:3419 include/functions.inc:3449
-#: include/functions.inc:3457 include/functions.inc:3469
-#: include/functions.inc:3473 include/functions.inc:3488
-#: include/functions.inc:3497 include/functions.inc:3557
+#: include/class_gosaSupportDaemon.inc:1204 include/functions.inc:3377
+#: include/functions.inc:3391 include/functions.inc:3421
+#: include/functions.inc:3429 include/functions.inc:3441
+#: include/functions.inc:3445 include/functions.inc:3460
+#: include/functions.inc:3469 include/functions.inc:3529
 #: include/class_listing.inc:480 include/class_CopyPasteHandler.inc:118
 #: include/class_CopyPasteHandler.inc:127
 #: include/class_CopyPasteHandler.inc:159
@@ -298,15 +298,15 @@ msgstr ""
 msgid "Error"
 msgstr "错误"
 
-#: html/index.php:224
+#: html/index.php:230
 msgid "Cannot find a valid user for the current authentication setup!"
 msgstr ""
 
-#: html/index.php:228
+#: html/index.php:234
 msgid "User information is not unique accross the configured LDAP trees!"
 msgstr ""
 
-#: html/index.php:254 html/index.php:265 html/index.php:278
+#: html/index.php:260 html/index.php:271 html/index.php:284
 #: setup/class_setupStep_Migrate.inc:1211
 #: setup/class_setupStep_Migrate.inc:1239
 #: setup/class_setupStep_Migrate.inc:1288
@@ -323,12 +323,12 @@ msgstr ""
 #: include/class_SnapshotHandler.inc:329 include/class_SnapshotHandler.inc:333
 #: include/class_SnapshotHandler.inc:348 include/class_SnapshotHandler.inc:383
 #: include/class_SnapshotHandler.inc:438 include/class_SnapshotHandler.inc:503
-#: include/class_SnapshotHandler.inc:518 include/functions.inc:479
-#: include/functions.inc:514 include/functions.inc:522
-#: include/functions.inc:567 include/functions.inc:846
-#: include/functions.inc:895 include/functions.inc:952
-#: include/functions.inc:1005 include/functions.inc:3058
-#: include/functions.inc:3331 include/class_config.inc:318
+#: include/class_SnapshotHandler.inc:518 include/functions.inc:481
+#: include/functions.inc:516 include/functions.inc:524
+#: include/functions.inc:569 include/functions.inc:848
+#: include/functions.inc:897 include/functions.inc:954
+#: include/functions.inc:1007 include/functions.inc:3030
+#: include/functions.inc:3303 include/class_config.inc:318
 #: include/class_plugin.inc:1443 include/class_plugin.inc:1493
 #: include/class_plugin.inc:1497 include/class_plugin.inc:1513
 #: include/class_plugin.inc:1553 include/class_plugin.inc:1611
@@ -354,38 +354,38 @@ msgstr ""
 msgid "LDAP error"
 msgstr "LDAP 错误:"
 
-#: html/index.php:265
+#: html/index.php:271
 msgid "Cannot detect information about the installed LDAP schema!"
 msgstr ""
 
-#: html/index.php:278
+#: html/index.php:284
 #, fuzzy
 msgid "Your LDAP setup contains old schema definitions:"
 msgstr "您 LDAP 的设置包含老的 schema 定义。请重新执行安装。"
 
-#: html/index.php:299
+#: html/index.php:305
 msgid "Please specify a valid username!"
 msgstr "请输入一个有效的用户名！"
 
-#: html/index.php:302
+#: html/index.php:308
 msgid "Please specify your password!"
 msgstr "请输入您的口令！"
 
-#: html/index.php:314
+#: html/index.php:320
 #, fuzzy
 msgid "Authentication error"
 msgstr "Nagios 鉴权"
 
-#: html/index.php:314
+#: html/index.php:320
 msgid "Cannot retrieve user information for htaccess authentication!"
 msgstr ""
 
-#: html/index.php:369
+#: html/index.php:376
 #, fuzzy
 msgid "Account locked. Please contact your system administrator!"
 msgstr "账户锁定。请联系管理员。"
 
-#: html/index.php:412
+#: html/index.php:419
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
@@ -396,21 +396,22 @@ msgid "Help browser"
 msgstr "帮助浏览器"
 
 #: html/helpviewer.php:118
-msgid "There is no helpfile specified for this class"
+#, fuzzy
+msgid "There is no helpfile specified for this extension"
 msgstr "此类没有帮助文件"
 
-#: html/helpviewer.php:194 include/functions_helpviewer.inc:97
+#: html/helpviewer.php:196 include/functions_helpviewer.inc:97
 msgid "previous"
 msgstr "上一个"
 
-#: html/helpviewer.php:198 include/functions_helpviewer.inc:101
+#: html/helpviewer.php:200 include/functions_helpviewer.inc:101
 msgid "next"
 msgstr "下一个"
 
-#: html/helpviewer.php:269
-#, php-format
-msgid "Helpdir '%s' is not accessible, can't read any helpfiles."
-msgstr "帮助目录 '%s' 不能访问，无法读取任何帮助文件。"
+#: html/helpviewer.php:272
+#, fuzzy, php-format
+msgid "No help available for the extension '%s'."
+msgstr "此插件没有可用帮助信息。"
 
 #: ihtml/themes/default/conflict.tpl:2
 msgid "Session conflict detected"
@@ -575,8 +576,8 @@ msgid "Your password has been changed successfully."
 msgstr ""
 
 #: ihtml/themes/default/password.tpl:40 ihtml/themes/default/login.tpl:47
-#: ihtml/themes/default/login.tpl:49 setup/setup_config2.tpl:237
-#: setup/setup_config2.tpl:282 setup/setup_migrate.tpl:299
+#: ihtml/themes/default/login.tpl:49 setup/setup_config2.tpl:188
+#: setup/setup_config2.tpl:233 setup/setup_migrate.tpl:299
 #: plugins/personal/password/class_password.inc:26
 #: plugins/personal/generic/paste_generic.tpl:20
 msgid "Password"
@@ -966,73 +967,80 @@ msgid ""
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:89
+#, fuzzy
+msgid ""
+"GOsa requires this module to communicate with different types of servers and "
+"protocols."
+msgstr "需要 MySQL 支持来从数据库中读取 GOfax 报告。"
+
+#: setup/class_setupStep_Checks.inc:97
 msgid "FusionDirectory requires this module for the samba integration."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:97
+#: setup/class_setupStep_Checks.inc:105
 msgid ""
 "FusionDirectory requires either 'mhash' or the 'sha1' module to make use of "
 "SSHA encryption."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:105
-msgid "FusionDirectory requires this module to talk to an IMAP server."
-msgstr ""
-
-#: setup/class_setupStep_Checks.inc:112
-#, fuzzy
-msgid "mbstring"
-msgstr "Samba 设置"
-
 #: setup/class_setupStep_Checks.inc:113
-msgid "FusionDirectory requires this module to handle unicode strings."
+msgid "FusionDirectory requires this module to talk to an IMAP server."
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:120
 #, fuzzy
+msgid "mbstring"
+msgstr "Samba 设置"
+
+#: setup/class_setupStep_Checks.inc:121
+msgid "FusionDirectory requires this module to handle unicode strings."
+msgstr ""
+
+#: setup/class_setupStep_Checks.inc:128
+#, fuzzy
 msgid "MySQL"
 msgstr "LDAP 错误:"
 
-#: setup/class_setupStep_Checks.inc:121
+#: setup/class_setupStep_Checks.inc:129
 #, fuzzy
 msgid ""
 "FusionDirectory requires this module to communicate with several supported "
 "databases."
 msgstr "需要 MySQL 支持来从数据库中读取 GOfax 报告。"
 
-#: setup/class_setupStep_Checks.inc:138
+#: setup/class_setupStep_Checks.inc:146
 msgid "samba hash generator"
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:139
+#: setup/class_setupStep_Checks.inc:147
 msgid ""
 "FusionDirectory requires this command to synchronize POSIX and samba "
 "passwords."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:140
+#: setup/class_setupStep_Checks.inc:148
 msgid ""
 "Deploy a goto-si installation or install the perl Crypt::SmbHash modules."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:153
+#: setup/class_setupStep_Checks.inc:161
 msgid "imagick"
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:154
+#: setup/class_setupStep_Checks.inc:162
 msgid "FusionDirectory requires this extension to handle images."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:169
+#: setup/class_setupStep_Checks.inc:177
 #, fuzzy
 msgid "compression module"
 msgstr "访问选项"
 
-#: setup/class_setupStep_Checks.inc:170
+#: setup/class_setupStep_Checks.inc:178
 msgid "FusionDirectory requires this extension to handle snapshots."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:181
+#: setup/class_setupStep_Checks.inc:189
 #, fuzzy
 msgid ""
 "register_globals is a PHP mechanism to register all global variables to be "
@@ -1042,16 +1050,16 @@ msgstr ""
 "register_globals 是 PHP 的一个不必修改范围就可以从脚本中访问所有全局变量的机"
 "制。这可能存在安全风险。FusionDirectory 在两种情况下都可以运行。"
 
-#: setup/class_setupStep_Checks.inc:182
+#: setup/class_setupStep_Checks.inc:190
 #, fuzzy
 msgid "Search for 'register_globals' in your php.ini and switch it to 'Off'."
 msgstr "检查 register_globals 是否设置为 'off'"
 
-#: setup/class_setupStep_Checks.inc:190
+#: setup/class_setupStep_Checks.inc:198
 msgid "PHP uses this value for the garbage collector to delete old sessions."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:191
+#: setup/class_setupStep_Checks.inc:199
 #, fuzzy
 msgid ""
 "Setting this value to one day will prevent loosing session and cookies "
@@ -1060,18 +1068,18 @@ msgstr ""
 "PHP 用这个值来进行垃圾回收，删除旧的会话。设置这个值为一天，将会防止在真正超"
 "时之前的会话和 cookie 丢失。"
 
-#: setup/class_setupStep_Checks.inc:192
+#: setup/class_setupStep_Checks.inc:200
 msgid ""
 "Search for 'session.gc_maxlifetime' in your php.ini and set it to 86400 or "
 "higher."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:199 setup/class_setupStep_Checks.inc:215
-#: setup/class_setupStep_Checks.inc:231 setup/class_setupStep_Checks.inc:247
+#: setup/class_setupStep_Checks.inc:207 setup/class_setupStep_Checks.inc:223
+#: setup/class_setupStep_Checks.inc:239 setup/class_setupStep_Checks.inc:256
 msgid "Off"
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:200
+#: setup/class_setupStep_Checks.inc:208
 #, fuzzy
 msgid ""
 "In Order to use FusionDirectory without any trouble, the session."
@@ -1080,14 +1088,14 @@ msgstr ""
 "为了在是使用 FusionDirectory 中不遇到麻烦，您的 php.ini 中 session."
 "auto_register 选项必须设置为 'Off'。"
 
-#: setup/class_setupStep_Checks.inc:201
+#: setup/class_setupStep_Checks.inc:209
 #, fuzzy
 msgid "Search for 'session.auto_start' in your php.ini and set it to 'Off'."
 msgstr ""
 "为了在是使用 FusionDirectory 中不遇到麻烦，您的 php.ini 中 session."
 "auto_register 选项必须设置为 'Off'。"
 
-#: setup/class_setupStep_Checks.inc:208
+#: setup/class_setupStep_Checks.inc:216
 #, fuzzy
 msgid ""
 "FusionDirectory needs at least 32MB of memory. Setting it below this limit "
@@ -1096,33 +1104,33 @@ msgstr ""
 "FusionDirectory 需要至少 16MB 内存，太少会导致无法预料的错误！将其设置为更"
 "大。"
 
-#: setup/class_setupStep_Checks.inc:209
+#: setup/class_setupStep_Checks.inc:217
 msgid ""
 "Search for 'memory_limit' in your php.ini and set it to '32M' or higher."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:216
+#: setup/class_setupStep_Checks.inc:224
 #, fuzzy
 msgid ""
 "This option influences the PHP output handling. Turn this Option off, to "
 "increase performance."
 msgstr "这个选项影响输出处理。关闭这个选项，可以提高性能。"
 
-#: setup/class_setupStep_Checks.inc:217
+#: setup/class_setupStep_Checks.inc:225
 msgid "Search for 'implicit_flush' in your php.ini and set it to 'Off'."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:224
+#: setup/class_setupStep_Checks.inc:232
 #, fuzzy
 msgid "The Execution time should be at least 30 seconds."
 msgstr "执行时间应该至少 30 秒，因为一些动作可能会花很多时间。"
 
-#: setup/class_setupStep_Checks.inc:225
+#: setup/class_setupStep_Checks.inc:233
 msgid ""
 "Search for 'max_execution_time' in your php.ini and set it to '30' or higher."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:232
+#: setup/class_setupStep_Checks.inc:240
 #, fuzzy
 msgid ""
 "Increase the server security by setting expose_php to 'off'. PHP won't send "
@@ -1131,50 +1139,33 @@ msgstr ""
 "将 expose_php 设置为“off”可以增强服务器安全性。PHP 将不会发送任何有关正运行着"
 "的服务器的信息。"
 
-#: setup/class_setupStep_Checks.inc:233
+#: setup/class_setupStep_Checks.inc:241
 msgid "Search for 'expose_php' in your php.ini and set if to 'Off'."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:239
-#, fuzzy
-msgid "On"
-msgstr "打开"
-
-#: setup/class_setupStep_Checks.inc:240
-msgid ""
-"Increase your server security by setting magic_quotes_gpc to 'on'. PHP will "
-"escape all quotes in strings in this case."
-msgstr ""
-"将 magic_quotes_gpc 设置为 'on' 会增加服务器安全性。这种情况下 PHP 会将字符串"
-"中所有引号编码。"
-
-#: setup/class_setupStep_Checks.inc:241
-msgid "Search for 'magic_quotes_gpc' in your php.ini and set it to 'On'."
-msgstr ""
-
-#: setup/class_setupStep_Checks.inc:248
+#: setup/class_setupStep_Checks.inc:257
 #, fuzzy
 msgid "Increase your server performance by setting magic_quotes_gpc to 'off'."
 msgstr ""
 "将 magic_quotes_gpc 设置为 'on' 会增加服务器安全性。这种情况下 PHP 会将字符串"
 "中所有引号编码。"
 
-#: setup/class_setupStep_Checks.inc:249
+#: setup/class_setupStep_Checks.inc:258
 msgid ""
 "Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:259
+#: setup/class_setupStep_Checks.inc:268
 #, fuzzy
 msgid "Configuration writeable"
 msgstr "配置文件"
 
-#: setup/class_setupStep_Checks.inc:260
+#: setup/class_setupStep_Checks.inc:269
 #, fuzzy
 msgid "The configuration file can't be written"
 msgstr "查看配置信息"
 
-#: setup/class_setupStep_Checks.inc:261
+#: setup/class_setupStep_Checks.inc:270
 #, php-format
 msgid ""
 "FusionDirectory reads its configuration from a file located in (%s/%s). The "
@@ -1296,12 +1287,12 @@ msgstr ""
 msgid "Cannot send feedback: service temporarily unavailable"
 msgstr ""
 
-#: setup/class_setupStep_Feedback.inc:182
+#: setup/class_setupStep_Feedback.inc:188
 #, fuzzy
 msgid "Please specify a valid email address."
 msgstr "请输入一个有效的 iSerial。"
 
-#: setup/class_setupStep_Feedback.inc:186
+#: setup/class_setupStep_Feedback.inc:192
 msgid ""
 "You have to select at least one of both options, subscribe or send feedback."
 msgstr ""
@@ -1315,15 +1306,15 @@ msgid "Perform test on your current LDAP schema"
 msgstr ""
 
 #: setup/class_setupStep_Schema.inc:86 setup/class_setupStep_Ldap.inc:74
-#: setup/class_setupStep_Config1.inc:88 setup/class_setupStep_Config2.inc:137
-#: setup/class_setupStep_Config3.inc:94 setup/setup_feedback.tpl:61
+#: setup/class_setupStep_Config1.inc:88 setup/class_setupStep_Config2.inc:133
+#: setup/class_setupStep_Config3.inc:86 setup/setup_feedback.tpl:61
 #: setup/setup_feedback.tpl:79
 msgid "No"
 msgstr "否"
 
 #: setup/class_setupStep_Schema.inc:86 setup/class_setupStep_Ldap.inc:74
-#: setup/class_setupStep_Config1.inc:88 setup/class_setupStep_Config2.inc:137
-#: setup/class_setupStep_Config3.inc:94 setup/setup_feedback.tpl:59
+#: setup/class_setupStep_Config1.inc:88 setup/class_setupStep_Config2.inc:133
+#: setup/class_setupStep_Config3.inc:86 setup/setup_feedback.tpl:59
 #: setup/setup_feedback.tpl:77
 msgid "Yes"
 msgstr "是"
@@ -1475,48 +1466,44 @@ msgstr ""
 msgid "Number base for people/groups"
 msgstr "用户/组起始 ID"
 
-#: setup/setup_config1.tpl:121
-msgid "Hook for number base"
-msgstr ""
-
-#: setup/setup_config1.tpl:136 plugins/personal/password/main.inc:54
+#: setup/setup_config1.tpl:120 plugins/personal/password/main.inc:54
 #, fuzzy
 msgid "Password settings"
 msgstr "用户设置"
 
-#: setup/setup_config1.tpl:140
+#: setup/setup_config1.tpl:124
 #, fuzzy
 msgid "Password encryption algorithm"
 msgstr "加密算法"
 
-#: setup/setup_config1.tpl:151
+#: setup/setup_config1.tpl:135
 #, fuzzy
 msgid "Password restrictions"
 msgstr "口令过期截止日"
 
-#: setup/setup_config1.tpl:158 setup/setup_config1.tpl:162
+#: setup/setup_config1.tpl:142 setup/setup_config1.tpl:146
 msgid "Password minimum length"
 msgstr ""
 
-#: setup/setup_config1.tpl:169 setup/setup_config1.tpl:173
+#: setup/setup_config1.tpl:153 setup/setup_config1.tpl:157
 msgid "Different characters from old password"
 msgstr ""
 
-#: setup/setup_config1.tpl:182
+#: setup/setup_config1.tpl:166
 #, fuzzy
 msgid "Password change hook"
 msgstr "不允许修改口令"
 
-#: setup/setup_config1.tpl:198
+#: setup/setup_config1.tpl:182
 msgid "Use SASL for kerberos"
 msgstr ""
 
-#: setup/setup_config1.tpl:209
+#: setup/setup_config1.tpl:193
 #, fuzzy
 msgid "Use account expiration"
 msgstr "账号过期于"
 
-#: setup/setup_config1.tpl:221
+#: setup/setup_config1.tpl:205
 #, fuzzy
 msgid ""
 "FusionDirectory supports several encryption types for your passwords. "
@@ -1526,7 +1513,7 @@ msgstr ""
 "FusionDirectory 支持好几种口令加密算法。通常可以通过用户模板调整算法，但是在"
 "这里您可以定义一个缺省方法。"
 
-#: setup/setup_config1.tpl:222
+#: setup/setup_config1.tpl:206
 #, fuzzy
 msgid ""
 "FusionDirectory always acts as admin and manages access rights internally. "
@@ -1537,7 +1524,7 @@ msgstr ""
 "FusionDirectory 总是作为 LDAP 管理员，并且管理内部权限。这是一个临时方案直到 "
 "OpenLDAP 目录 ACI 被完全实现。为了让其实现，我们需要管理员 DN 和正确的口令。"
 
-#: setup/setup_config1.tpl:223
+#: setup/setup_config1.tpl:207
 #, fuzzy
 msgid ""
 "Some basic LDAP parameters are tunable and affect the locations where "
@@ -1547,7 +1534,7 @@ msgstr ""
 "有的基本的 LDAP 参数是可调的，并影响位置Gosa 保存用户和组的地方。包括账号创建"
 "的方式。点击下面的值如果它们不符合您的需要。"
 
-#: setup/setup_config1.tpl:224
+#: setup/setup_config1.tpl:208
 #, fuzzy
 msgid ""
 "FusionDirectory has modular support for several mail methods. These methods "
@@ -1562,96 +1549,74 @@ msgid "Samba settings"
 msgstr "Samba 设置"
 
 #: setup/setup_config2.tpl:6
-msgid "Samba hash generator"
-msgstr ""
-
-#: setup/setup_config2.tpl:15
 #, fuzzy
 msgid "Samba SID"
 msgstr "Samba"
 
-#: setup/setup_config2.tpl:31
+#: setup/setup_config2.tpl:22
 #, fuzzy
 msgid "RID base"
 msgstr "数据库"
 
-#: setup/setup_config2.tpl:46
+#: setup/setup_config2.tpl:37
 #, fuzzy
 msgid "Workstation container"
 msgstr "工作站名称"
 
-#: setup/setup_config2.tpl:61
+#: setup/setup_config2.tpl:52
 msgid "Samba SID mapping"
 msgstr ""
 
-#: setup/setup_config2.tpl:71
+#: setup/setup_config2.tpl:62
 #, fuzzy
 msgid "Timezone"
 msgstr "用户时区"
 
-#: setup/setup_config2.tpl:74
+#: setup/setup_config2.tpl:65
 #, fuzzy
 msgid "Please choose your preferred timezone here"
 msgstr "首选语种"
 
-#: setup/setup_config2.tpl:96
-#, fuzzy
-msgid "Additional FusionDirectory settings"
-msgstr "应用程序设置"
-
-#: setup/setup_config2.tpl:100
-msgid "Enable Copy & Paste"
-msgstr ""
-
-#: setup/setup_config2.tpl:112
-#, fuzzy
-msgid "Government mode"
-msgstr "部门名称"
-
-#: setup/setup_config2.tpl:123
-msgid "FusionDirectory logging"
-msgstr ""
-
-#: setup/setup_config2.tpl:135
+#: setup/setup_config2.tpl:86
 msgid "Mail settings"
 msgstr "邮件选项"
 
-#: setup/setup_config2.tpl:139
+#: setup/setup_config2.tpl:90
 msgid "Mail method"
 msgstr "邮件方法"
 
-#: setup/setup_config2.tpl:143 plugins/admin/groups/class_group.inc:433
+#: setup/setup_config2.tpl:94 plugins/admin/groups/class_group.inc:433
 #: plugins/admin/ogroups/class_ogroup.inc:412
 #: plugins/personal/posix/class_posixAccount.inc:573
 msgid "disabled"
 msgstr "禁用"
 
-#: setup/setup_config2.tpl:155
+#: setup/setup_config2.tpl:106
 msgid "Account identification attribute"
 msgstr ""
 
-#: setup/setup_config2.tpl:169
+#: setup/setup_config2.tpl:120
 #, fuzzy
 msgid "Vacation templates"
 msgstr "工作站模板"
 
-#: setup/setup_config2.tpl:185
+#: setup/setup_config2.tpl:136
 msgid "Use Cyrus UNIX style"
 msgstr ""
 
-#: setup/setup_config2.tpl:195
+#: setup/setup_config2.tpl:146
 msgid "Snapshots / Undo"
 msgstr ""
 
-#: setup/setup_config2.tpl:204 setup/setup_config2.tpl:249
+#: setup/setup_config2.tpl:155 setup/setup_config2.tpl:200
 msgid "Enable snapshots"
 msgstr ""
 
-#: setup/setup_config2.tpl:210 setup/setup_config2.tpl:255
+#: setup/setup_config2.tpl:161 setup/setup_config2.tpl:206
 msgid "Snapshot base"
 msgstr ""
 
-#: setup/setup_config2.tpl:219 setup/setup_config2.tpl:264
+#: setup/setup_config2.tpl:170 setup/setup_config2.tpl:215
 #: plugins/admin/ogroups/class_ogroupManagement.inc:187
 #: plugins/admin/ogroups/objectSelect/selectObject-list.xml:23
 #: plugins/generic/references/class_reference.inc:65
@@ -1659,7 +1624,7 @@ msgstr ""
 msgid "Server"
 msgstr "服务器"
 
-#: setup/setup_config2.tpl:228 setup/setup_config2.tpl:273
+#: setup/setup_config2.tpl:179 setup/setup_config2.tpl:224
 #: plugins/admin/users/user-list.xml:23 plugins/admin/users/user-list.xml:95
 #: plugins/admin/groups/userSelect/user-list.xml:14
 #: plugins/admin/groups/userGroupSelect/selectUserGroup-list.xml:15
@@ -1691,114 +1656,80 @@ msgstr "组管理"
 
 #: setup/setup_config3.tpl:42
 #, fuzzy
-msgid "Smarty compile directory"
-msgstr "用户主目录"
-
-#: setup/setup_config3.tpl:51
-msgid "SNMP community"
-msgstr ""
-
-#: setup/setup_config3.tpl:60
-#, fuzzy
-msgid "Path for PPD storage"
-msgstr "口令存储"
-
-#: setup/setup_config3.tpl:77
-#, fuzzy
-msgid "Path for kiosk profile storage"
-msgstr "Kiosk profile 设置"
-
-#: setup/setup_config3.tpl:96
-msgid "SUDO role base"
-msgstr ""
-
-#: setup/setup_config3.tpl:115
-#, fuzzy
-msgid "Mail queue script"
-msgstr "邮件队列"
-
-#: setup/setup_config3.tpl:134
-#, fuzzy
-msgid "Notification script"
-msgstr "主机通知周期"
-
-#: setup/setup_config3.tpl:153
-#, fuzzy
 msgid "Enable edit locking"
 msgstr "启用邮件扫描"
 
-#: setup/setup_config3.tpl:174
-msgid "GOto-SI daemon"
+#: setup/setup_config3.tpl:63
+msgid "Enable Copy & Paste"
 msgstr ""
 
-#: setup/setup_config3.tpl:193
-#, fuzzy
-msgid "GOto-si daemon timeout"
-msgstr "关闭"
+#: setup/setup_config3.tpl:74
+msgid "FusionDirectory logging"
+msgstr ""
 
-#: setup/setup_config3.tpl:207
+#: setup/setup_config3.tpl:85
 msgid "Login and session"
 msgstr ""
 
-#: setup/setup_config3.tpl:210
+#: setup/setup_config3.tpl:88
 #, fuzzy
 msgid "Login attribute"
 msgstr "电话属性"
 
-#: setup/setup_config3.tpl:221
+#: setup/setup_config3.tpl:99
 msgid "Enforce register_globals to be deactivated"
 msgstr ""
 
-#: setup/setup_config3.tpl:233
+#: setup/setup_config3.tpl:111
 #, fuzzy
 msgid "Enforce encrypted connections"
 msgstr "封锁加密归档"
 
-#: setup/setup_config3.tpl:245
+#: setup/setup_config3.tpl:123
 #, fuzzy
 msgid "Warn if session is not encrypted"
 msgstr "会话不会被加密。"
 
-#: setup/setup_config3.tpl:257
+#: setup/setup_config3.tpl:135
 #, fuzzy
 msgid "Remember dialog filter settings"
 msgstr "通用队列设置"
 
-#: setup/setup_config3.tpl:269
+#: setup/setup_config3.tpl:147
 #, fuzzy
 msgid "Session lifetime"
 msgstr "检测道会话冲突"
 
-#: setup/setup_config3.tpl:278
+#: setup/setup_config3.tpl:156
 #, fuzzy
 msgid "Debugging"
 msgstr "启用 debug"
 
-#: setup/setup_config3.tpl:282
+#: setup/setup_config3.tpl:160
 #, fuzzy
 msgid "Show PHP errors"
 msgstr "PHP 错误"
 
-#: setup/setup_config3.tpl:294
+#: setup/setup_config3.tpl:172
 #, fuzzy
 msgid "Maximum LDAP query time"
 msgstr "最大文件大小"
 
-#: setup/setup_config3.tpl:312
+#: setup/setup_config3.tpl:190
 msgid "Log LDAP statistics"
 msgstr ""
 
-#: setup/setup_config3.tpl:324
+#: setup/setup_config3.tpl:202
 #, fuzzy
 msgid "Debug level"
 msgstr "日志级别"
 
-#: setup/setup_config3.tpl:329 setup/setup_config3.tpl:332
+#: setup/setup_config3.tpl:207 setup/setup_config3.tpl:210
 #, fuzzy
 msgid "Disabled"
 msgstr "禁用"
 
-#: setup/setup_config3.tpl:330 setup/setup_config3.tpl:333
+#: setup/setup_config3.tpl:208 setup/setup_config3.tpl:211
 #, fuzzy
 msgid "Enabled"
 msgstr "禁用"
@@ -1846,22 +1777,22 @@ msgstr "Sieve 端口应为数字。"
 msgid "The given password differ value is not numeric."
 msgstr "Sieve 端口应为数字。"
 
-#: setup/class_setupStep_Config2.inc:81 setup/class_setupStep_Config2.inc:82
+#: setup/class_setupStep_Config2.inc:79 setup/class_setupStep_Config2.inc:80
 #, fuzzy
 msgid "FusionDirectory settings 2/3"
 msgstr "用户设置"
 
-#: setup/class_setupStep_Config2.inc:83
+#: setup/class_setupStep_Config2.inc:81
 #, fuzzy
 msgid "Customize special parameters"
 msgstr "检查参数"
 
-#: setup/class_setupStep_Config3.inc:82 setup/class_setupStep_Config3.inc:83
+#: setup/class_setupStep_Config3.inc:74 setup/class_setupStep_Config3.inc:75
 #, fuzzy
 msgid "FusionDirectory settings 3/3"
 msgstr "用户设置"
 
-#: setup/class_setupStep_Config3.inc:84
+#: setup/class_setupStep_Config3.inc:76
 msgid "Tweak some FusionDirectory core behaviour"
 msgstr ""
 
@@ -2067,8 +1998,8 @@ msgstr ""
 
 #: setup/setup_feedback.tpl:50
 msgid ""
-"When checking this option, FusionDirectory will try to connect http://oss."
-"gonicus.de in order to submit your form anonymously."
+"When checking this option, FusionDirectory will try to connect http://www."
+"fusiondirectory.org in order to submit your form anonymously."
 msgstr ""
 
 #: setup/setup_feedback.tpl:52
@@ -2696,7 +2627,7 @@ msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1028
 #, php-format
-msgid "FusionDirectory 2.5 administrative accounts found: %s"
+msgid "GOsa 2.5 administrative accounts found: %s"
 msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1033
@@ -3634,7 +3565,7 @@ msgid ""
 msgstr ""
 
 #: include/class_gosaSupportDaemon.inc:112
-msgid "FusionDirectory support daemon"
+msgid "Service GOto-si"
 msgstr ""
 
 #: include/class_gosaSupportDaemon.inc:787
@@ -3652,31 +3583,31 @@ msgstr "无法创建文件 '%s'。"
 msgid "Cannot remove entry %s!"
 msgstr "未知 FAIstate %s"
 
-#: include/functions.inc:130
+#: include/functions.inc:132
 #, php-format
 msgid "Fatal error: no class locations defined - please run '%s' to fix this"
 msgstr ""
 
-#: include/functions.inc:137
+#: include/functions.inc:139
 #, php-format
 msgid ""
 "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
 msgstr ""
 
-#: include/functions.inc:451
+#: include/functions.inc:453
 #, php-format
 msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
 msgstr "致命错误：连接 LDAP 错误。服务器返回 '%s'。"
 
-#: include/functions.inc:522
+#: include/functions.inc:524
 #, fuzzy
 msgid "Username / UID is not unique inside the LDAP tree!"
 msgstr "用户名 / UID 不唯一。请检查您的 LDAP 数据库。"
 
-#: include/functions.inc:607 include/functions.inc:821
-#: include/functions.inc:939 include/functions.inc:1337
-#: include/functions.inc:2427 include/functions.inc:2457
-#: include/functions.inc:2477 include/class_CopyPasteHandler.inc:160
+#: include/functions.inc:609 include/functions.inc:823
+#: include/functions.inc:941 include/functions.inc:1339
+#: include/functions.inc:2399 include/functions.inc:2429
+#: include/functions.inc:2449 include/class_CopyPasteHandler.inc:160
 #: include/class_CopyPasteHandler.inc:274 include/class_log.inc:87
 #: include/class_acl.inc:960 include/class_session.inc:76
 #: include/class_session.inc:101 include/class_session.inc:127
@@ -3685,18 +3616,18 @@ msgstr "用户名 / UID 不唯一。请检查您的 LDAP 数据库。"
 msgid "Internal error"
 msgstr "终端服务器"
 
-#: include/functions.inc:607
+#: include/functions.inc:609
 #, fuzzy
 msgid ""
 "Username / UID is not unique inside the LDAP tree. Please contact your "
 "Administrator."
 msgstr "用户名 / UID 不唯一。请检查您的 LDAP 数据库。"
 
-#: include/functions.inc:821 include/functions.inc:939
+#: include/functions.inc:823 include/functions.inc:941
 msgid "Error while adding a lock. Contact the developers!"
 msgstr ""
 
-#: include/functions.inc:831
+#: include/functions.inc:833
 #, fuzzy, php-format
 msgid ""
 "Cannot create locking information in LDAP tree. Please contact your "
@@ -3704,249 +3635,239 @@ msgid ""
 msgstr ""
 "无法获得 LDAP 数据库的锁信息。检查 fusiondirectory.conf 中的 'config' 条目！"
 
-#: include/functions.inc:831
+#: include/functions.inc:833
 #, fuzzy, php-format
 msgid "LDAP server returned: %s"
 msgstr "LDAP 服务器"
 
-#: include/functions.inc:960
+#: include/functions.inc:962
 #, fuzzy
 msgid ""
 "Found multiple locks for object to be locked. This should not happen - "
 "cleaning up multiple references."
 msgstr "发现要锁定的对象由多个锁。这虽然不可能──清除多个引用。"
 
-#: include/functions.inc:1264
+#: include/functions.inc:1266
 #, php-format
 msgid "The size limit of %d entries is exceed!"
 msgstr "超过了 %d 个条目的大小限制！"
 
-#: include/functions.inc:1266
+#: include/functions.inc:1268
 #, php-format
 msgid ""
 "Set the new size limit to %s and show me this message if the limit still "
 "exceeds"
 msgstr "设置新的大小限制为 %s 并且如果限制依然超出还显示这条信息。"
 
-#: include/functions.inc:1278 plugins/personal/generic/generic.tpl:223
+#: include/functions.inc:1280 plugins/personal/generic/generic.tpl:223
 msgid "Configure"
 msgstr "配置"
 
-#: include/functions.inc:1283
+#: include/functions.inc:1285
 msgid "incomplete"
 msgstr "不完整"
 
-#: include/functions.inc:1673
+#: include/functions.inc:1675
 msgid "Continue anyway"
 msgstr "仍然继续"
 
-#: include/functions.inc:1675
+#: include/functions.inc:1677
 msgid "Edit anyway"
 msgstr "仍然编辑"
 
-#: include/functions.inc:1677
+#: include/functions.inc:1679
 #, fuzzy, php-format
 msgid "You're going to edit the LDAP entry/entries %s"
 msgstr "您将要拷贝条目 '%s'。"
 
-#: include/functions.inc:1917
+#: include/functions.inc:1919
 msgid "Entries per page"
 msgstr "每页条目数"
 
-#: include/functions.inc:1946 include/class_filter.inc:315
+#: include/functions.inc:1948 include/class_filter.inc:315
 msgid "Apply filter"
 msgstr "应用过滤器"
 
-#: include/functions.inc:2265 include/class_filter.inc:281
+#: include/functions.inc:2267 include/class_filter.inc:281
 msgid "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 msgstr "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-#: include/functions.inc:2319
-#, fuzzy, php-format
-msgid "FusionDirectory %s"
-msgstr "目录"
-
-#: include/functions.inc:2326
-#, fuzzy, php-format
-msgid "FusionDirectory %s snapshot (Rev %s)"
-msgstr "FusionDirectory 开发版（版本 %s）"
-
-#: include/functions.inc:2331
-#, fuzzy, php-format
-msgid "FusionDirectory development snapshot (Rev %s)"
-msgstr "FusionDirectory 开发版（版本 %s）"
-
-#: include/functions.inc:2427
+#: include/functions.inc:2399
 #, php-format
 msgid "File '%s' could not be deleted."
 msgstr ""
 
-#: include/functions.inc:2457 include/functions.inc:2477
+#: include/functions.inc:2429
 #, fuzzy
 msgid "Cannot write to revision file!"
 msgstr "无法创建文件 '%s'。"
 
-#: include/functions.inc:2695 include/functions.inc:2699
-#: include/functions.inc:2705
+#: include/functions.inc:2449
+#, fuzzy
+msgid "Cannot read to revision file!"
+msgstr "无法创建文件 '%s'。"
+
+#: include/functions.inc:2667 include/functions.inc:2671
+#: include/functions.inc:2677
 #, fuzzy
 msgid "'baseIdHook' is not available. Using default base!"
 msgstr "警告： nextIdHook不可用。使用缺省 base。"
 
-#: include/functions.inc:2729
+#: include/functions.inc:2701
 #, fuzzy
 msgid "LDAP warning"
 msgstr "LDAP 管理"
 
-#: include/functions.inc:2729
+#: include/functions.inc:2701
 #, fuzzy
 msgid "Cannot get schema information from server. No schema check possible!"
 msgstr "不能从服务器得到 schema 信息。无法对 schema 检查！"
 
-#: include/functions.inc:2755
+#: include/functions.inc:2727
 msgid "Used to store account specific informations."
 msgstr ""
 
-#: include/functions.inc:2762
+#: include/functions.inc:2734
 msgid ""
 "Used to lock currently edited entries to avoid multiple changes at the same "
 "time."
 msgstr ""
 
-#: include/functions.inc:2807
+#: include/functions.inc:2779
 #, php-format
 msgid "Missing required object class '%s'!"
 msgstr ""
 
-#: include/functions.inc:2810
+#: include/functions.inc:2782
 #, php-format
 msgid "Missing optional object class '%s'!"
 msgstr ""
 
-#: include/functions.inc:2815
+#: include/functions.inc:2787
 #, php-format
 msgid "Version mismatch for required object class '%s' (!=%s)!"
 msgstr ""
 
-#: include/functions.inc:2818
+#: include/functions.inc:2790
 #, fuzzy, php-format
 msgid "Class(es) available"
 msgstr "文件可用。"
 
-#: include/functions.inc:2840
+#: include/functions.inc:2812
 msgid ""
 "You have enabled the rfc2307bis option on the 'ldap setup' step, but your "
 "schema    configuration do not support this option."
 msgstr ""
 
-#: include/functions.inc:2841
+#: include/functions.inc:2813
 msgid ""
 "In order to use rfc2307bis conform groups the objectClass 'posixGroup' must "
 "be      AUXILIARY"
 msgstr ""
 
-#: include/functions.inc:2845
+#: include/functions.inc:2817
 msgid ""
 "Your schema is configured to support the rfc2307bis group, but you have "
 "disabled this option on the 'ldap setup' step."
 msgstr ""
 
-#: include/functions.inc:2846
+#: include/functions.inc:2818
 msgid "The objectClass 'posixGroup' must be STRUCTURAL"
 msgstr ""
 
-#: include/functions.inc:2870
+#: include/functions.inc:2842
 msgid "German"
 msgstr "德语"
 
-#: include/functions.inc:2871
+#: include/functions.inc:2843
 msgid "French"
 msgstr "法语"
 
-#: include/functions.inc:2872
+#: include/functions.inc:2844
 msgid "Italian"
 msgstr "意大利语"
 
-#: include/functions.inc:2873
+#: include/functions.inc:2845
 msgid "Spanish"
 msgstr "西班牙语"
 
-#: include/functions.inc:2874
+#: include/functions.inc:2846
 msgid "English"
 msgstr "英语"
 
-#: include/functions.inc:2875
+#: include/functions.inc:2847
 msgid "Dutch"
 msgstr "荷兰语"
 
-#: include/functions.inc:2876
+#: include/functions.inc:2848
 msgid "Polish"
 msgstr "波兰语"
 
-#: include/functions.inc:2878
+#: include/functions.inc:2850
 msgid "Chinese"
 msgstr "芯片组"
 
-#: include/functions.inc:2879
+#: include/functions.inc:2851
 #, fuzzy
 msgid "Vietnamese"
 msgstr "名"
 
-#: include/functions.inc:2880
+#: include/functions.inc:2852
 msgid "Russian"
 msgstr "俄语"
 
-#: include/functions.inc:3078
+#: include/functions.inc:3050
 #, php-format
 msgid ""
 "Command '%s', specified as POSTMODIFY for plugin '%s' doesn't seem to exist."
 msgstr "命令 '%s'，作为插件 '%s' 的 POSTMODIFY 好像并不存在。"
 
-#: include/functions.inc:3111
+#: include/functions.inc:3083
 msgid "Cannot generate samba hash!"
 msgstr ""
 
-#: include/functions.inc:3124
+#: include/functions.inc:3096
 #, php-format
 msgid ""
 "Cannot generate samba hash: running '%s' failed, check the 'sambaHashHook'!"
 msgstr ""
 
-#: include/functions.inc:3405 include/functions.inc:3419
-#: include/functions.inc:3457 include/functions.inc:3469
-#: include/functions.inc:3473 include/functions.inc:3488
-#: include/functions.inc:3497
+#: include/functions.inc:3377 include/functions.inc:3391
+#: include/functions.inc:3429 include/functions.inc:3441
+#: include/functions.inc:3445 include/functions.inc:3460
+#: include/functions.inc:3469
 #, fuzzy
 msgid "Cannot allocate a free ID:"
 msgstr "太多用户，无法分配一个可用的 ID！"
 
-#: include/functions.inc:3405
+#: include/functions.inc:3377
 msgid "unknown idAllocation method!"
 msgstr ""
 
-#: include/functions.inc:3419
+#: include/functions.inc:3391
 #, php-format
 msgid "%sPoolMin >= %sPoolMax!"
 msgstr ""
 
-#: include/functions.inc:3449
+#: include/functions.inc:3421
 #, fuzzy
 msgid "Cannot create sambaUnixIdPool entry!"
 msgstr "转到根部门"
 
-#: include/functions.inc:3457
+#: include/functions.inc:3429
 msgid "sambaUnixIdPool is not unique!"
 msgstr ""
 
-#: include/functions.inc:3469 include/functions.inc:3473
+#: include/functions.inc:3441 include/functions.inc:3445
 #, fuzzy
 msgid "no ID available!"
 msgstr "文件可用。"
 
-#: include/functions.inc:3497
+#: include/functions.inc:3469
 msgid "maximum tries exceeded!"
 msgstr ""
 
-#: include/functions.inc:3557
+#: include/functions.inc:3529
 #, fuzzy
 msgid "Cannot allocate a free ID!"
 msgstr "太多用户，无法分配一个可用的 ID！"
@@ -6514,7 +6435,7 @@ msgstr "此应用程序不再可用。"
 
 #: plugins/personal/generic/class_user.inc:1038
 msgid ""
-"Cannot save user picture, FusionDirectoryrequires the package 'imagemagick' "
+"Cannot save user picture, FusionDirectory requires the package 'imagemagick' "
 "or 'php5-imagick' to be installed!"
 msgstr ""
 
@@ -6799,6 +6720,64 @@ msgstr "请使用电话页面"
 #, fuzzy
 msgid "Your password hash method will not be changed!"
 msgstr "您的口令已经过期 !! 选择一个新口令"
+
+#~ msgid "Helpdir '%s' is not accessible, can't read any helpfiles."
+#~ msgstr "帮助目录 '%s' 不能访问，无法读取任何帮助文件。"
+
+#, fuzzy
+#~ msgid "On"
+#~ msgstr "打开"
+
+#~ msgid ""
+#~ "Increase your server security by setting magic_quotes_gpc to 'on'. PHP "
+#~ "will escape all quotes in strings in this case."
+#~ msgstr ""
+#~ "将 magic_quotes_gpc 设置为 'on' 会增加服务器安全性。这种情况下 PHP 会将字"
+#~ "符串中所有引号编码。"
+
+#, fuzzy
+#~ msgid "Additional FusionDirectory settings"
+#~ msgstr "应用程序设置"
+
+#, fuzzy
+#~ msgid "Government mode"
+#~ msgstr "部门名称"
+
+#, fuzzy
+#~ msgid "Smarty compile directory"
+#~ msgstr "用户主目录"
+
+#, fuzzy
+#~ msgid "Path for PPD storage"
+#~ msgstr "口令存储"
+
+#, fuzzy
+#~ msgid "Path for kiosk profile storage"
+#~ msgstr "Kiosk profile 设置"
+
+#, fuzzy
+#~ msgid "Mail queue script"
+#~ msgstr "邮件队列"
+
+#, fuzzy
+#~ msgid "Notification script"
+#~ msgstr "主机通知周期"
+
+#, fuzzy
+#~ msgid "GOto-si daemon timeout"
+#~ msgstr "关闭"
+
+#, fuzzy
+#~ msgid "FusionDirectory %s"
+#~ msgstr "目录"
+
+#, fuzzy
+#~ msgid "FusionDirectory %s snapshot (Rev %s)"
+#~ msgstr "FusionDirectory 开发版（版本 %s）"
+
+#, fuzzy
+#~ msgid "FusionDirectory development snapshot (Rev %s)"
+#~ msgstr "FusionDirectory 开发版（版本 %s）"
 
 #, fuzzy
 #~ msgid "Sytem trust"

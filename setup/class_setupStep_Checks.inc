@@ -86,7 +86,7 @@ class Step_Checks extends setup_step
 
     /* Check for php5-curl support */
     $N = msgPool::checkingFor("curl");
-    $D = _("GOsa requires this module to communicate with different types of servers and protocols.");
+    $D = _("FusionDirectory requires this module to communicate with different types of servers and protocols.");
     $S = msgPool::installPhpModule("php5-curl");
     $R = is_callable("curl_init");
     $M = TRUE;

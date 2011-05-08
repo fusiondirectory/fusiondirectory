@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VIcore2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-03 12:34+0200\n"
+"POT-Creation-Date: 2011-05-08 18:35+0200\n"
 "PO-Revision-Date: 2008-07-04 09:59+0200\n"
 "Last-Translator: Stefan Koehler <stefan@gonicus.de>\n"
 "Language-Team: Vietnamese\n"
@@ -21,23 +21,23 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=1; plural=0;\n"
 
-#: html/password.php:58 html/main.php:147 include/utils/class_xml.inc:44
-#: include/functions.inc:450
+#: html/password.php:58 html/main.php:148 include/utils/class_xml.inc:44
+#: include/functions.inc:452
 #: plugins/admin/departments/class_department.inc:433
 msgid "Fatal error"
 msgstr "Lỗi nặng"
 
-#: html/password.php:58 html/index.php:144
+#: html/password.php:58 html/index.php:150
 #, fuzzy, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
 msgstr "Cấu hình FusionDirectory %s/%s không đọc được. Bãi bỏ."
 
-#: html/password.php:74 html/main.php:268 html/index.php:144
-#: html/index.php:216 include/class_SnapshotHandler.inc:44
+#: html/password.php:74 html/main.php:269 html/index.php:150
+#: html/index.php:222 include/class_SnapshotHandler.inc:44
 #: include/class_SnapshotHandler.inc:57 include/class_SnapshotHandler.inc:75
 #: include/class_pluglist.inc:182 include/utils/class_timezone.inc:49
-#: include/functions.inc:831 include/functions.inc:3079
-#: include/functions.inc:3111 include/functions.inc:3124
+#: include/functions.inc:833 include/functions.inc:3051
+#: include/functions.inc:3083 include/functions.inc:3096
 #: include/class_config.inc:155 include/class_config.inc:695
 #: include/class_config.inc:1146 include/class_config.inc:1159
 #: include/class_config.inc:1177 include/class_CopyPasteHandler.inc:119
@@ -53,7 +53,7 @@ msgstr "Cấu hình FusionDirectory %s/%s không đọc được. Bãi bỏ."
 msgid "Configuration error"
 msgstr "Lỗi cấu hình"
 
-#: html/password.php:74 html/setup.php:66 html/index.php:165
+#: html/password.php:74 html/setup.php:66 html/index.php:171
 #, php-format
 msgid "Directory '%s' specified as compile directory is not accessible!"
 msgstr ""
@@ -120,7 +120,7 @@ msgstr "Đăng nhập"
 msgid "Current password"
 msgstr "Mật khẩu hiện tại"
 
-#: html/password.php:224 html/index.php:321
+#: html/password.php:224 html/index.php:327
 msgid "Please check the username/password combination."
 msgstr "Xin hãy kiểm tra kết hợp tên người dùng/mật khẩu."
 
@@ -133,7 +133,7 @@ msgid "External password changer reported a problem: "
 msgstr "Bộ thay đổi mật khẩu bên ngoài báo cáo một vấn đề: "
 
 #: html/password.php:280 html/index.php:57 html/index.php:63
-#: html/index.php:406 html/index.php:412 ihtml/themes/default/conflict.tpl:6
+#: html/index.php:413 html/index.php:419 ihtml/themes/default/conflict.tpl:6
 #: ihtml/themes/default/islocked.tpl:6 ihtml/themes/default/remove.tpl:2
 #: ihtml/themes/default/msg_dialog.tpl:59
 #: ihtml/themes/default/msg_dialog.tpl:106 setup/setup_checks.tpl:32
@@ -144,9 +144,9 @@ msgstr "Bộ thay đổi mật khẩu bên ngoài báo cáo một vấn đề: "
 #: setup/class_setupStep_Migrate.inc:2572
 #: setup/class_setupStep_Migrate.inc:2725
 #: setup/class_setupStep_Migrate.inc:3057 include/utils/class_xml.inc:38
-#: include/class_tabs.inc:268 include/functions.inc:960
-#: include/functions.inc:2695 include/functions.inc:2699
-#: include/functions.inc:2705 plugins/admin/acl/remove.tpl:2
+#: include/class_tabs.inc:268 include/functions.inc:962
+#: include/functions.inc:2667 include/functions.inc:2671
+#: include/functions.inc:2677 plugins/admin/acl/remove.tpl:2
 #: plugins/admin/users/remove.tpl:2 plugins/admin/groups/remove.tpl:2
 #: plugins/admin/groups/class_group.inc:994
 #: plugins/admin/departments/dep_move_confirm.tpl:2
@@ -156,24 +156,24 @@ msgstr "Bộ thay đổi mật khẩu bên ngoài báo cáo một vấn đề: "
 msgid "Warning"
 msgstr "Cảnh báo"
 
-#: html/password.php:280 html/index.php:406
+#: html/password.php:280 html/index.php:413
 msgid "Session will not be encrypted."
 msgstr "Phiên sẽ không được mã hóa."
 
-#: html/password.php:280 html/index.php:406
+#: html/password.php:280 html/index.php:413
 msgid "Enter SSL session"
 msgstr "Vào phiên SSL"
 
-#: html/main.php:148
+#: html/main.php:149
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr "Không thể xác định vị trí file '%s'- xin hãy chạy '%s' để sửa lỗi này!"
 
-#: html/main.php:167
+#: html/main.php:168
 msgid "PHP configuration"
 msgstr "Cấu hình PHP"
 
-#: html/main.php:168
+#: html/main.php:169
 #, fuzzy
 msgid ""
 "Fatal error: Register globals is on. FusionDirectory will refuse to login "
@@ -182,42 +182,42 @@ msgstr ""
 "LỖI NGHIÊM TRỌNG: Đăng ký toàn cầu đang bật. FusionDirectory sẽ từ chối đăng "
 "nhập vào trừ khi lỗi này được một admin sửa."
 
-#: html/main.php:198 ihtml/themes/default/password.tpl:41
+#: html/main.php:199 ihtml/themes/default/password.tpl:41
 #: plugins/admin/users/class_userManagement.inc:401
 #: plugins/personal/password/class_password.inc:160
 #: plugins/personal/password/class_password.inc:166
 msgid "Password change"
 msgstr "Thay đổi mật khẩu"
 
-#: html/main.php:198
+#: html/main.php:199
 msgid "Your password is about to expire, please change your password!"
 msgstr "Mật khẩu của bạn chuẩn bị hết hạn, xin hãy thay đối mật khẩu của bạn!"
 
-#: html/main.php:268
+#: html/main.php:269
 msgid "Running out of memory!"
 msgstr "Hết dung lượng bộ nhớ!"
 
-#: html/main.php:325
+#: html/main.php:326
 msgid "User ACL checks disabled"
 msgstr "Vô hiệu việc kiểm tra ACL của người dùng"
 
-#: html/main.php:373
+#: html/main.php:374
 msgid "Plugin"
 msgstr "Plugin"
 
-#: html/main.php:374
+#: html/main.php:375
 #, fuzzy, php-format
 msgid "Fatal error: Cannot find any plugin definitions for plugin '%s'!"
 msgstr ""
 "LỖI NGHIÊM TRỌNG: không thể tìm thấy bất cứ  plugin definition nào cho "
 "plugin '%s'!"
 
-#: html/main.php:388
+#: html/main.php:389
 #, fuzzy
 msgid "Configuration Error"
 msgstr "Lỗi cấu hình"
 
-#: html/main.php:389
+#: html/main.php:390
 #, php-format
 msgid ""
 "Fatal error: not all POST variables have been transfered by PHP - please "
@@ -240,15 +240,15 @@ msgstr ""
 "Thời gian hạn định của phiên được cấu hình trong file fusiondirectory.conf "
 "của bạn sẽ được ghi đè lên bởi các thiết lập php.ini."
 
-#: html/index.php:165
+#: html/index.php:171
 msgid "Smarty error"
 msgstr "Lỗi Smarty"
 
-#: html/index.php:216
+#: html/index.php:222
 msgid "There is a problem with the authentication setup!"
 msgstr "Có vấn đề với  việc cài đặt chức năng xác định thẩm quyền!"
 
-#: html/index.php:224 html/index.php:228
+#: html/index.php:230 html/index.php:234
 #: ihtml/themes/default/msg_dialog.tpl:57
 #: ihtml/themes/default/msg_dialog.tpl:104 setup/setup_checks.tpl:30
 #: setup/setup_checks.tpl:91 setup/class_setupStep_Migrate.inc:1200
@@ -258,11 +258,11 @@ msgstr "Có vấn đề với  việc cài đặt chức năng xác định th�
 #: include/utils/class_msgPool.inc:519 include/class_tabs.inc:56
 #: include/class_management.inc:448 include/class_management.inc:584
 #: include/class_gosaSupportDaemon.inc:1184
-#: include/class_gosaSupportDaemon.inc:1204 include/functions.inc:3405
-#: include/functions.inc:3419 include/functions.inc:3449
-#: include/functions.inc:3457 include/functions.inc:3469
-#: include/functions.inc:3473 include/functions.inc:3488
-#: include/functions.inc:3497 include/functions.inc:3557
+#: include/class_gosaSupportDaemon.inc:1204 include/functions.inc:3377
+#: include/functions.inc:3391 include/functions.inc:3421
+#: include/functions.inc:3429 include/functions.inc:3441
+#: include/functions.inc:3445 include/functions.inc:3460
+#: include/functions.inc:3469 include/functions.inc:3529
 #: include/class_listing.inc:480 include/class_CopyPasteHandler.inc:118
 #: include/class_CopyPasteHandler.inc:127
 #: include/class_CopyPasteHandler.inc:159
@@ -300,19 +300,19 @@ msgstr "Có vấn đề với  việc cài đặt chức năng xác định th�
 msgid "Error"
 msgstr "Lỗi"
 
-#: html/index.php:224
+#: html/index.php:230
 msgid "Cannot find a valid user for the current authentication setup!"
 msgstr ""
 "Không thể tìm thấy một người dùng hợp lệ cho việc cài đặt xác định thẩm "
 "quyền hiện tại!"
 
-#: html/index.php:228
+#: html/index.php:234
 msgid "User information is not unique accross the configured LDAP trees!"
 msgstr ""
 "Thông tin người dùng không phải là duy nhất trong tất cả các cây LDAP đã "
 "được cấu hình!"
 
-#: html/index.php:254 html/index.php:265 html/index.php:278
+#: html/index.php:260 html/index.php:271 html/index.php:284
 #: setup/class_setupStep_Migrate.inc:1211
 #: setup/class_setupStep_Migrate.inc:1239
 #: setup/class_setupStep_Migrate.inc:1288
@@ -329,12 +329,12 @@ msgstr ""
 #: include/class_SnapshotHandler.inc:329 include/class_SnapshotHandler.inc:333
 #: include/class_SnapshotHandler.inc:348 include/class_SnapshotHandler.inc:383
 #: include/class_SnapshotHandler.inc:438 include/class_SnapshotHandler.inc:503
-#: include/class_SnapshotHandler.inc:518 include/functions.inc:479
-#: include/functions.inc:514 include/functions.inc:522
-#: include/functions.inc:567 include/functions.inc:846
-#: include/functions.inc:895 include/functions.inc:952
-#: include/functions.inc:1005 include/functions.inc:3058
-#: include/functions.inc:3331 include/class_config.inc:318
+#: include/class_SnapshotHandler.inc:518 include/functions.inc:481
+#: include/functions.inc:516 include/functions.inc:524
+#: include/functions.inc:569 include/functions.inc:848
+#: include/functions.inc:897 include/functions.inc:954
+#: include/functions.inc:1007 include/functions.inc:3030
+#: include/functions.inc:3303 include/class_config.inc:318
 #: include/class_plugin.inc:1443 include/class_plugin.inc:1493
 #: include/class_plugin.inc:1497 include/class_plugin.inc:1513
 #: include/class_plugin.inc:1553 include/class_plugin.inc:1611
@@ -359,38 +359,38 @@ msgstr ""
 msgid "LDAP error"
 msgstr "Lỗi LDAP"
 
-#: html/index.php:265
+#: html/index.php:271
 msgid "Cannot detect information about the installed LDAP schema!"
 msgstr "Không thể tìm ra thông tin về lược đồ  LDAP đã được cài đặt!"
 
-#: html/index.php:278
+#: html/index.php:284
 msgid "Your LDAP setup contains old schema definitions:"
 msgstr "Cài đặt LDAP của bạn có chứa các định nghĩa lược đồ cũ:"
 
-#: html/index.php:299
+#: html/index.php:305
 msgid "Please specify a valid username!"
 msgstr "Xin hãy xác định một tên người dùng hợp lệ!"
 
-#: html/index.php:302
+#: html/index.php:308
 msgid "Please specify your password!"
 msgstr "Xin hãy xác định mật mã của bạn!"
 
-#: html/index.php:314
+#: html/index.php:320
 msgid "Authentication error"
 msgstr "Lỗi xác định thẩm quyền"
 
-#: html/index.php:314
+#: html/index.php:320
 msgid "Cannot retrieve user information for htaccess authentication!"
 msgstr ""
 "Không thể phục hồi thông tin của người dùng cho việc thẩm  định quyền "
 "htaccess (truy cập ht)!"
 
-#: html/index.php:369
+#: html/index.php:376
 msgid "Account locked. Please contact your system administrator!"
 msgstr ""
 "Tài khoản bị khóa. Xin hãy liên lạc với admin quản trị hệ thống của bạn!"
 
-#: html/index.php:412
+#: html/index.php:419
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
@@ -403,22 +403,22 @@ msgid "Help browser"
 msgstr "Hỗ trợ trình duyệt"
 
 #: html/helpviewer.php:118
-msgid "There is no helpfile specified for this class"
+#, fuzzy
+msgid "There is no helpfile specified for this extension"
 msgstr "Không có file trợ giúp nào được chỉ định cho lớp này"
 
-#: html/helpviewer.php:194 include/functions_helpviewer.inc:97
+#: html/helpviewer.php:196 include/functions_helpviewer.inc:97
 msgid "previous"
 msgstr "Trước"
 
-#: html/helpviewer.php:198 include/functions_helpviewer.inc:101
+#: html/helpviewer.php:200 include/functions_helpviewer.inc:101
 msgid "next"
 msgstr "Tiếp theo"
 
-#: html/helpviewer.php:269
-#, php-format
-msgid "Helpdir '%s' is not accessible, can't read any helpfiles."
-msgstr ""
-"Không thể truy cập Helpdir '%s', không thể đọc được bất cứ file trợ giúp nào."
+#: html/helpviewer.php:272
+#, fuzzy, php-format
+msgid "No help available for the extension '%s'."
+msgstr "Không có sự trợ giúp nào cho plugin này."
 
 #: ihtml/themes/default/conflict.tpl:2
 msgid "Session conflict detected"
@@ -596,8 +596,8 @@ msgid "Your password has been changed successfully."
 msgstr "Mật khẩu của bạn đã được thay đổi thành công."
 
 #: ihtml/themes/default/password.tpl:40 ihtml/themes/default/login.tpl:47
-#: ihtml/themes/default/login.tpl:49 setup/setup_config2.tpl:237
-#: setup/setup_config2.tpl:282 setup/setup_migrate.tpl:299
+#: ihtml/themes/default/login.tpl:49 setup/setup_config2.tpl:188
+#: setup/setup_config2.tpl:233 setup/setup_migrate.tpl:299
 #: plugins/personal/password/class_password.inc:26
 #: plugins/personal/generic/paste_generic.tpl:20
 msgid "Password"
@@ -994,35 +994,44 @@ msgstr "FusionDirectory yêu cầu môdun này cho một giao diện được qu
 
 #: setup/class_setupStep_Checks.inc:89
 #, fuzzy
+msgid ""
+"GOsa requires this module to communicate with different types of servers and "
+"protocols."
+msgstr ""
+"FusionDirectory cần mô đun này để giao tiếp với một vài cơ sở dữ liệu được "
+"hỗ trợ."
+
+#: setup/class_setupStep_Checks.inc:97
+#, fuzzy
 msgid "FusionDirectory requires this module for the samba integration."
 msgstr "FusionDirectory yêu cầu mô-đun này cho việc tích hợp samba."
 
-#: setup/class_setupStep_Checks.inc:97
+#: setup/class_setupStep_Checks.inc:105
 #, fuzzy
 msgid ""
 "FusionDirectory requires either 'mhash' or the 'sha1' module to make use of "
 "SSHA encryption."
 msgstr "FusionDirectory yêu cầu môdun này để tận dụng được việc mã hóa SSHA."
 
-#: setup/class_setupStep_Checks.inc:105
+#: setup/class_setupStep_Checks.inc:113
 #, fuzzy
 msgid "FusionDirectory requires this module to talk to an IMAP server."
 msgstr "FusionDirectory yêu cầu mô-đun này để giao tiếp với server IMAP."
 
-#: setup/class_setupStep_Checks.inc:112
+#: setup/class_setupStep_Checks.inc:120
 msgid "mbstring"
 msgstr "mbstring"
 
-#: setup/class_setupStep_Checks.inc:113
+#: setup/class_setupStep_Checks.inc:121
 #, fuzzy
 msgid "FusionDirectory requires this module to handle unicode strings."
 msgstr "FusionDirectory cần môđun này để sử lý những đoạn mã unicode."
 
-#: setup/class_setupStep_Checks.inc:120
+#: setup/class_setupStep_Checks.inc:128
 msgid "MySQL"
 msgstr "MySOL"
 
-#: setup/class_setupStep_Checks.inc:121
+#: setup/class_setupStep_Checks.inc:129
 #, fuzzy
 msgid ""
 "FusionDirectory requires this module to communicate with several supported "
@@ -1031,11 +1040,11 @@ msgstr ""
 "FusionDirectory cần mô đun này để giao tiếp với một vài cơ sở dữ liệu được "
 "hỗ trợ."
 
-#: setup/class_setupStep_Checks.inc:138
+#: setup/class_setupStep_Checks.inc:146
 msgid "samba hash generator"
 msgstr "Bộ sinh ra hàm băm Samba"
 
-#: setup/class_setupStep_Checks.inc:139
+#: setup/class_setupStep_Checks.inc:147
 #, fuzzy
 msgid ""
 "FusionDirectory requires this command to synchronize POSIX and samba "
@@ -1043,7 +1052,7 @@ msgid ""
 msgstr ""
 "FusionDirectory cần lệnh này để đồng bộ hóa mật khẩu của POSIX và Samba."
 
-#: setup/class_setupStep_Checks.inc:140
+#: setup/class_setupStep_Checks.inc:148
 #, fuzzy
 msgid ""
 "Deploy a goto-si installation or install the perl Crypt::SmbHash modules."
@@ -1051,26 +1060,26 @@ msgstr ""
 "Triển khai việc cài đặt goto-si hoặc cài đặt các môđun ngôn ngữ perl Crypt::"
 "SmbHash."
 
-#: setup/class_setupStep_Checks.inc:153
+#: setup/class_setupStep_Checks.inc:161
 msgid "imagick"
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:154
+#: setup/class_setupStep_Checks.inc:162
 #, fuzzy
 msgid "FusionDirectory requires this extension to handle images."
 msgstr "FusionDirectory cần môđun này để sử lý những đoạn mã unicode."
 
-#: setup/class_setupStep_Checks.inc:169
+#: setup/class_setupStep_Checks.inc:177
 #, fuzzy
 msgid "compression module"
 msgstr "Kiểm soát truy cập"
 
-#: setup/class_setupStep_Checks.inc:170
+#: setup/class_setupStep_Checks.inc:178
 #, fuzzy
 msgid "FusionDirectory requires this extension to handle snapshots."
 msgstr "FusionDirectory cần môđun này để sử lý những đoạn mã unicode."
 
-#: setup/class_setupStep_Checks.inc:181
+#: setup/class_setupStep_Checks.inc:189
 msgid ""
 "register_globals is a PHP mechanism to register all global variables to be "
 "accessible from scripts without changing the scope. This may be a security "
@@ -1080,18 +1089,18 @@ msgstr ""
 "các biến số toàn cầu mà có thể truy cập từ các tập lệnh mà không phải thay "
 "đổi phạm vi. Đây có thể là một rủi ro về bảo mật."
 
-#: setup/class_setupStep_Checks.inc:182
+#: setup/class_setupStep_Checks.inc:190
 msgid "Search for 'register_globals' in your php.ini and switch it to 'Off'."
 msgstr ""
 "Tìm kiếm 'register_globals' trong thư mục php.ini của bạn và chuyển nó thành "
 "'Off'."
 
-#: setup/class_setupStep_Checks.inc:190
+#: setup/class_setupStep_Checks.inc:198
 msgid "PHP uses this value for the garbage collector to delete old sessions."
 msgstr ""
 "PHP sử dụng giá trị này để phần mềm thu dọn rác có thể sóa các phiên cũ đi."
 
-#: setup/class_setupStep_Checks.inc:191
+#: setup/class_setupStep_Checks.inc:199
 msgid ""
 "Setting this value to one day will prevent loosing session and cookies "
 "before they really timeout."
@@ -1099,7 +1108,7 @@ msgstr ""
 "Thiết lập giá trị này đến một ngày sẽ ngăn cản việc mất đi các phiên và "
 "cookies trước khi chúng thực sự hết hạn."
 
-#: setup/class_setupStep_Checks.inc:192
+#: setup/class_setupStep_Checks.inc:200
 msgid ""
 "Search for 'session.gc_maxlifetime' in your php.ini and set it to 86400 or "
 "higher."
@@ -1107,12 +1116,12 @@ msgstr ""
 "Tìm kiếm  'session.gc_maxlifetime' trong thư mục php.ini của bạn và thiết "
 "lập nó đển 86400 hoặc cao hơn."
 
-#: setup/class_setupStep_Checks.inc:199 setup/class_setupStep_Checks.inc:215
-#: setup/class_setupStep_Checks.inc:231 setup/class_setupStep_Checks.inc:247
+#: setup/class_setupStep_Checks.inc:207 setup/class_setupStep_Checks.inc:223
+#: setup/class_setupStep_Checks.inc:239 setup/class_setupStep_Checks.inc:256
 msgid "Off"
 msgstr "Tắt"
 
-#: setup/class_setupStep_Checks.inc:200
+#: setup/class_setupStep_Checks.inc:208
 #, fuzzy
 msgid ""
 "In Order to use FusionDirectory without any trouble, the session."
@@ -1121,13 +1130,13 @@ msgstr ""
 "Để có thể sử dụng được FusionDirectory mà không gặp vấn đề nào, lựa chọn "
 "session.auto_register trong php.ini nên được thiết lập là 'Off' (tắt)."
 
-#: setup/class_setupStep_Checks.inc:201
+#: setup/class_setupStep_Checks.inc:209
 msgid "Search for 'session.auto_start' in your php.ini and set it to 'Off'."
 msgstr ""
 "Tìm kiếm  'session.auto_start' trong thư mục php.ini của bạn và đặt nó thành "
 "'Off'."
 
-#: setup/class_setupStep_Checks.inc:208
+#: setup/class_setupStep_Checks.inc:216
 #, fuzzy
 msgid ""
 "FusionDirectory needs at least 32MB of memory. Setting it below this limit "
@@ -1137,14 +1146,14 @@ msgstr ""
 "giới hạn này có thể sẽ gây ra lỗi mà không thể tự sản sinh ra kết quả nữa! "
 "Hãy tăng dung lượng lên cho cài đặt lớn hơn."
 
-#: setup/class_setupStep_Checks.inc:209
+#: setup/class_setupStep_Checks.inc:217
 msgid ""
 "Search for 'memory_limit' in your php.ini and set it to '32M' or higher."
 msgstr ""
 "Tìm kiếm  'memory_limit' trong thư mục php.ini của bạn và thiết lập nó lên "
 "'32M' hoặc cao hơn."
 
-#: setup/class_setupStep_Checks.inc:216
+#: setup/class_setupStep_Checks.inc:224
 msgid ""
 "This option influences the PHP output handling. Turn this Option off, to "
 "increase performance."
@@ -1152,24 +1161,24 @@ msgstr ""
 "Lựa chọn này sẽ ảnh hưởng tới việc sử lý đầu vào PHP. Tắt chức năng này đi, "
 "để tăng khả năng hoạt động."
 
-#: setup/class_setupStep_Checks.inc:217
+#: setup/class_setupStep_Checks.inc:225
 msgid "Search for 'implicit_flush' in your php.ini and set it to 'Off'."
 msgstr ""
 "Tìm kiếm 'implicit_flush' trong thư mục php.ini của bạn và chuyển nó sang "
 "'Off'."
 
-#: setup/class_setupStep_Checks.inc:224
+#: setup/class_setupStep_Checks.inc:232
 msgid "The Execution time should be at least 30 seconds."
 msgstr "Thời gian chạy ít nhất là 30 giây."
 
-#: setup/class_setupStep_Checks.inc:225
+#: setup/class_setupStep_Checks.inc:233
 msgid ""
 "Search for 'max_execution_time' in your php.ini and set it to '30' or higher."
 msgstr ""
 "Tìm kiếm 'max_execution_time' trong thư mục php.ini của bạn và thiết lập nó "
 "đến '30' hoặc cao hơn."
 
-#: setup/class_setupStep_Checks.inc:232
+#: setup/class_setupStep_Checks.inc:240
 msgid ""
 "Increase the server security by setting expose_php to 'off'. PHP won't send "
 "any information about the server you are running in this case."
@@ -1178,53 +1187,34 @@ msgstr ""
 "sẽ không gửi bất cứ thông tin nào về server bạn đang chạy trong trường hợp "
 "này."
 
-#: setup/class_setupStep_Checks.inc:233
+#: setup/class_setupStep_Checks.inc:241
 msgid "Search for 'expose_php' in your php.ini and set if to 'Off'."
 msgstr ""
 "Tìm kiếm 'expose_php' trong thư much php.ini của bạn và chuyển nó thành "
 "'Off'."
 
-#: setup/class_setupStep_Checks.inc:239
-msgid "On"
-msgstr "Bật"
-
-#: setup/class_setupStep_Checks.inc:240
-msgid ""
-"Increase your server security by setting magic_quotes_gpc to 'on'. PHP will "
-"escape all quotes in strings in this case."
-msgstr ""
-"Tăng cường an ninh cho server của bạn bằng cách thiết lập magic_quotes_gpc "
-"thành 'on'. PHP sẽ giải thoát tất cả các trích dẫn trong các đoạn mã trong "
-"trường hợp này."
-
-#: setup/class_setupStep_Checks.inc:241
-msgid "Search for 'magic_quotes_gpc' in your php.ini and set it to 'On'."
-msgstr ""
-"Tìm kiếm ''magic_quotes_gpc' trong thư mục php.ini của bạn và chuyển nó "
-"thành 'On'"
-
-#: setup/class_setupStep_Checks.inc:248
+#: setup/class_setupStep_Checks.inc:257
 msgid "Increase your server performance by setting magic_quotes_gpc to 'off'."
 msgstr ""
 "Tăng cường khả năng hoạt động cho server của bạn bằng việc thiết lập "
 "magic_quotes_gpc thành 'off'."
 
-#: setup/class_setupStep_Checks.inc:249
+#: setup/class_setupStep_Checks.inc:258
 msgid ""
 "Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'."
 msgstr ""
 "Tìm kiếm 'zend.ze1_compatibility_mode' trong thư mục  php.ini và chuyển nó "
 "thành 'Off'."
 
-#: setup/class_setupStep_Checks.inc:259
+#: setup/class_setupStep_Checks.inc:268
 msgid "Configuration writeable"
 msgstr "Cấu hình có thể lưu trữ dữ liệu (writable)"
 
-#: setup/class_setupStep_Checks.inc:260
+#: setup/class_setupStep_Checks.inc:269
 msgid "The configuration file can't be written"
 msgstr "Không thể viết lên File cấu hình "
 
-#: setup/class_setupStep_Checks.inc:261
+#: setup/class_setupStep_Checks.inc:270
 #, fuzzy, php-format
 msgid ""
 "FusionDirectory reads its configuration from a file located in (%s/%s). The "
@@ -1341,11 +1331,11 @@ msgstr "Không thể gửi phản hồi đển '%s': %s"
 msgid "Cannot send feedback: service temporarily unavailable"
 msgstr "Không thể gửi phản hồi: dịch vụ hiện tại không có "
 
-#: setup/class_setupStep_Feedback.inc:182
+#: setup/class_setupStep_Feedback.inc:188
 msgid "Please specify a valid email address."
 msgstr "Xin hãy  xác định một địa chỉ email hợp lệ."
 
-#: setup/class_setupStep_Feedback.inc:186
+#: setup/class_setupStep_Feedback.inc:192
 msgid ""
 "You have to select at least one of both options, subscribe or send feedback."
 msgstr ""
@@ -1360,15 +1350,15 @@ msgid "Perform test on your current LDAP schema"
 msgstr "Thực hiện việc kiểm tra trên lược đồ LDAP hiện tại của bạn"
 
 #: setup/class_setupStep_Schema.inc:86 setup/class_setupStep_Ldap.inc:74
-#: setup/class_setupStep_Config1.inc:88 setup/class_setupStep_Config2.inc:137
-#: setup/class_setupStep_Config3.inc:94 setup/setup_feedback.tpl:61
+#: setup/class_setupStep_Config1.inc:88 setup/class_setupStep_Config2.inc:133
+#: setup/class_setupStep_Config3.inc:86 setup/setup_feedback.tpl:61
 #: setup/setup_feedback.tpl:79
 msgid "No"
 msgstr "Không"
 
 #: setup/class_setupStep_Schema.inc:86 setup/class_setupStep_Ldap.inc:74
-#: setup/class_setupStep_Config1.inc:88 setup/class_setupStep_Config2.inc:137
-#: setup/class_setupStep_Config3.inc:94 setup/setup_feedback.tpl:59
+#: setup/class_setupStep_Config1.inc:88 setup/class_setupStep_Config2.inc:133
+#: setup/class_setupStep_Config3.inc:86 setup/setup_feedback.tpl:59
 #: setup/setup_feedback.tpl:77
 msgid "Yes"
 msgstr "Có"
@@ -1507,43 +1497,39 @@ msgstr "ID min GID/UID"
 msgid "Number base for people/groups"
 msgstr "Cơ sơ số cho người/nhóm"
 
-#: setup/setup_config1.tpl:121
-msgid "Hook for number base"
-msgstr "Móc nối với cơ sở số"
-
-#: setup/setup_config1.tpl:136 plugins/personal/password/main.inc:54
+#: setup/setup_config1.tpl:120 plugins/personal/password/main.inc:54
 msgid "Password settings"
 msgstr "Thiết lập mật khẩu"
 
-#: setup/setup_config1.tpl:140
+#: setup/setup_config1.tpl:124
 msgid "Password encryption algorithm"
 msgstr "Thuật toán mã hóa mật khẩu"
 
-#: setup/setup_config1.tpl:151
+#: setup/setup_config1.tpl:135
 msgid "Password restrictions"
 msgstr "Các hạn chế mật khẩu"
 
-#: setup/setup_config1.tpl:158 setup/setup_config1.tpl:162
+#: setup/setup_config1.tpl:142 setup/setup_config1.tpl:146
 msgid "Password minimum length"
 msgstr "Độ dài tối thiểu của mật khẩu"
 
-#: setup/setup_config1.tpl:169 setup/setup_config1.tpl:173
+#: setup/setup_config1.tpl:153 setup/setup_config1.tpl:157
 msgid "Different characters from old password"
 msgstr "Các ký tự khác với mật khẩu cũ"
 
-#: setup/setup_config1.tpl:182
+#: setup/setup_config1.tpl:166
 msgid "Password change hook"
 msgstr "Móc nối việc thay đổi mật khẩu"
 
-#: setup/setup_config1.tpl:198
+#: setup/setup_config1.tpl:182
 msgid "Use SASL for kerberos"
 msgstr "Sử dụng ngôn ngữ SASL cho hệ thống Kerberos"
 
-#: setup/setup_config1.tpl:209
+#: setup/setup_config1.tpl:193
 msgid "Use account expiration"
 msgstr "Sử dụng việc hết hạn tài khoản"
 
-#: setup/setup_config1.tpl:221
+#: setup/setup_config1.tpl:205
 #, fuzzy
 msgid ""
 "FusionDirectory supports several encryption types for your passwords. "
@@ -1555,7 +1541,7 @@ msgstr ""
 "dùng, nhưng bạn có thể xác định một phương pháp mặc định để nó cũng được sử "
 "dụng ở đây."
 
-#: setup/setup_config1.tpl:222
+#: setup/setup_config1.tpl:206
 #, fuzzy
 msgid ""
 "FusionDirectory always acts as admin and manages access rights internally. "
@@ -1568,7 +1554,7 @@ msgstr ""
 "mục và ACI's được thực hiện đầy đủ. Để làm được điều này, chúng ta cần DN "
 "của admin và mật khẩu tương ứng."
 
-#: setup/setup_config1.tpl:223
+#: setup/setup_config1.tpl:207
 #, fuzzy
 msgid ""
 "Some basic LDAP parameters are tunable and affect the locations where "
@@ -1580,7 +1566,7 @@ msgstr ""
 "được lập ra. Kiểm tra các giá trị dưới đây nếu chúng phù hợp với nhu cầu của "
 "bạn."
 
-#: setup/setup_config1.tpl:224
+#: setup/setup_config1.tpl:208
 #, fuzzy
 msgid ""
 "FusionDirectory has modular support for several mail methods. These methods "
@@ -1597,89 +1583,68 @@ msgid "Samba settings"
 msgstr "Thiết lập Samba"
 
 #: setup/setup_config2.tpl:6
-msgid "Samba hash generator"
-msgstr "Bộ tạo ra các hàm băm Samba"
-
-#: setup/setup_config2.tpl:15
 msgid "Samba SID"
 msgstr "SID của Samba"
 
-#: setup/setup_config2.tpl:31
+#: setup/setup_config2.tpl:22
 msgid "RID base"
 msgstr "Gốc RID"
 
-#: setup/setup_config2.tpl:46
+#: setup/setup_config2.tpl:37
 msgid "Workstation container"
 msgstr "Công ten nơ chứa máy trạm"
 
-#: setup/setup_config2.tpl:61
+#: setup/setup_config2.tpl:52
 msgid "Samba SID mapping"
 msgstr "Ánh xạ SID samba"
 
-#: setup/setup_config2.tpl:71
+#: setup/setup_config2.tpl:62
 msgid "Timezone"
 msgstr "Múi giờ"
 
-#: setup/setup_config2.tpl:74
+#: setup/setup_config2.tpl:65
 msgid "Please choose your preferred timezone here"
 msgstr "Xin hãy lựa chọn múi giờ bạn muốn ở đây"
 
-#: setup/setup_config2.tpl:96
-#, fuzzy
-msgid "Additional FusionDirectory settings"
-msgstr "Thiết lập thêm của FusionDirectory"
-
-#: setup/setup_config2.tpl:100
-msgid "Enable Copy & Paste"
-msgstr "Bật chức năng Copy & Paste"
-
-#: setup/setup_config2.tpl:112
-msgid "Government mode"
-msgstr "Chế độ nhà nước"
-
-#: setup/setup_config2.tpl:123
-msgid "FusionDirectory logging"
-msgstr ""
-
-#: setup/setup_config2.tpl:135
+#: setup/setup_config2.tpl:86
 msgid "Mail settings"
 msgstr "Thiết lập mail"
 
-#: setup/setup_config2.tpl:139
+#: setup/setup_config2.tpl:90
 msgid "Mail method"
 msgstr "Phương pháp Mail"
 
-#: setup/setup_config2.tpl:143 plugins/admin/groups/class_group.inc:433
+#: setup/setup_config2.tpl:94 plugins/admin/groups/class_group.inc:433
 #: plugins/admin/ogroups/class_ogroup.inc:412
 #: plugins/personal/posix/class_posixAccount.inc:573
 msgid "disabled"
 msgstr "Đã vô hiệu"
 
-#: setup/setup_config2.tpl:155
+#: setup/setup_config2.tpl:106
 msgid "Account identification attribute"
 msgstr "Thuộc tính xác minh tài khoản"
 
-#: setup/setup_config2.tpl:169
+#: setup/setup_config2.tpl:120
 msgid "Vacation templates"
 msgstr "Mẫu kỳ nghỉ"
 
-#: setup/setup_config2.tpl:185
+#: setup/setup_config2.tpl:136
 msgid "Use Cyrus UNIX style"
 msgstr "Sử dụng phong cách Cyrus Unix"
 
-#: setup/setup_config2.tpl:195
+#: setup/setup_config2.tpl:146
 msgid "Snapshots / Undo"
 msgstr "Snapshots/Undo"
 
-#: setup/setup_config2.tpl:204 setup/setup_config2.tpl:249
+#: setup/setup_config2.tpl:155 setup/setup_config2.tpl:200
 msgid "Enable snapshots"
 msgstr "Bật chức năng snapshots"
 
-#: setup/setup_config2.tpl:210 setup/setup_config2.tpl:255
+#: setup/setup_config2.tpl:161 setup/setup_config2.tpl:206
 msgid "Snapshot base"
 msgstr "Gốc snapshot"
 
-#: setup/setup_config2.tpl:219 setup/setup_config2.tpl:264
+#: setup/setup_config2.tpl:170 setup/setup_config2.tpl:215
 #: plugins/admin/ogroups/class_ogroupManagement.inc:187
 #: plugins/admin/ogroups/objectSelect/selectObject-list.xml:23
 #: plugins/generic/references/class_reference.inc:65
@@ -1687,7 +1652,7 @@ msgstr "Gốc snapshot"
 msgid "Server"
 msgstr "Máy chủ (server)"
 
-#: setup/setup_config2.tpl:228 setup/setup_config2.tpl:273
+#: setup/setup_config2.tpl:179 setup/setup_config2.tpl:224
 #: plugins/admin/users/user-list.xml:23 plugins/admin/users/user-list.xml:95
 #: plugins/admin/groups/userSelect/user-list.xml:14
 #: plugins/admin/groups/userGroupSelect/selectUserGroup-list.xml:15
@@ -1716,99 +1681,70 @@ msgid "Honour administrative units"
 msgstr "Các đơn vị quản trị chức danh"
 
 #: setup/setup_config3.tpl:42
-msgid "Smarty compile directory"
-msgstr "Thư mục soạn thảo Smarty"
-
-#: setup/setup_config3.tpl:51
-msgid "SNMP community"
-msgstr "Cộng đồng SNMP"
-
-#: setup/setup_config3.tpl:60
-msgid "Path for PPD storage"
-msgstr "Đường dẫn đến kho lưu trữ PPD"
-
-#: setup/setup_config3.tpl:77
-msgid "Path for kiosk profile storage"
-msgstr "Đường dẫn đến kho lưu trữ profile của ki-ốt"
-
-#: setup/setup_config3.tpl:96
-msgid "SUDO role base"
-msgstr ""
-
-#: setup/setup_config3.tpl:115
-msgid "Mail queue script"
-msgstr "Tập lệnh sắp hàng mail"
-
-#: setup/setup_config3.tpl:134
-msgid "Notification script"
-msgstr "Tập lệnh thông báo"
-
-#: setup/setup_config3.tpl:153
 msgid "Enable edit locking"
 msgstr "Bật chức năng khóa việc hiệu chỉnh lên"
 
-#: setup/setup_config3.tpl:174
-#, fuzzy
-msgid "GOto-SI daemon"
-msgstr "GOto-si hỗ trợ chương trình daemon"
+#: setup/setup_config3.tpl:63
+msgid "Enable Copy & Paste"
+msgstr "Bật chức năng Copy & Paste"
 
-#: setup/setup_config3.tpl:193
-msgid "GOto-si daemon timeout"
+#: setup/setup_config3.tpl:74
+msgid "FusionDirectory logging"
 msgstr ""
 
-#: setup/setup_config3.tpl:207
+#: setup/setup_config3.tpl:85
 msgid "Login and session"
 msgstr "Đăng nhập và phiên"
 
-#: setup/setup_config3.tpl:210
+#: setup/setup_config3.tpl:88
 msgid "Login attribute"
 msgstr "Thuộc tính đăng nhập"
 
-#: setup/setup_config3.tpl:221
+#: setup/setup_config3.tpl:99
 msgid "Enforce register_globals to be deactivated"
 msgstr "Tắt chức năng đăng ký _toàn cầu "
 
-#: setup/setup_config3.tpl:233
+#: setup/setup_config3.tpl:111
 msgid "Enforce encrypted connections"
 msgstr "Thực thi việc mã hóa các kết nối"
 
-#: setup/setup_config3.tpl:245
+#: setup/setup_config3.tpl:123
 msgid "Warn if session is not encrypted"
 msgstr "Cảnh báo nếu một phiên chưa được mã hóa"
 
-#: setup/setup_config3.tpl:257
+#: setup/setup_config3.tpl:135
 msgid "Remember dialog filter settings"
 msgstr "Nhớ thiết lập bộ lọc đối thoại "
 
-#: setup/setup_config3.tpl:269
+#: setup/setup_config3.tpl:147
 msgid "Session lifetime"
 msgstr "Thời gian cho một phiên (một Session)"
 
-#: setup/setup_config3.tpl:278
+#: setup/setup_config3.tpl:156
 msgid "Debugging"
 msgstr "Sửa lỗi"
 
-#: setup/setup_config3.tpl:282
+#: setup/setup_config3.tpl:160
 msgid "Show PHP errors"
 msgstr "Hiển thị lỗi PHP"
 
-#: setup/setup_config3.tpl:294
+#: setup/setup_config3.tpl:172
 msgid "Maximum LDAP query time"
 msgstr "Thời gian truy vấn LDAP tối đa"
 
-#: setup/setup_config3.tpl:312
+#: setup/setup_config3.tpl:190
 msgid "Log LDAP statistics"
 msgstr "Đăng nhập thống kê LDAP"
 
-#: setup/setup_config3.tpl:324
+#: setup/setup_config3.tpl:202
 msgid "Debug level"
 msgstr "Cấp độ sửa lỗi"
 
-#: setup/setup_config3.tpl:329 setup/setup_config3.tpl:332
+#: setup/setup_config3.tpl:207 setup/setup_config3.tpl:210
 msgid "Disabled"
 msgstr "Vô hiệu hóa/ Tắt chức năng"
 
-#: setup/setup_config3.tpl:330 setup/setup_config3.tpl:333
+#: setup/setup_config3.tpl:208 setup/setup_config3.tpl:211
 msgid "Enabled"
 msgstr "Bật chức năng"
 
@@ -1852,21 +1788,21 @@ msgstr "Độ dài tối thiểu của mật khẩu đã cho không phải là s
 msgid "The given password differ value is not numeric."
 msgstr "Gía trị khác của mật khẩu cho trước không phải là số."
 
-#: setup/class_setupStep_Config2.inc:81 setup/class_setupStep_Config2.inc:82
+#: setup/class_setupStep_Config2.inc:79 setup/class_setupStep_Config2.inc:80
 #, fuzzy
 msgid "FusionDirectory settings 2/3"
 msgstr "Các thiết lập FusionDirectory 2/3"
 
-#: setup/class_setupStep_Config2.inc:83
+#: setup/class_setupStep_Config2.inc:81
 msgid "Customize special parameters"
 msgstr "Tùy biến các thông số đặc biệt"
 
-#: setup/class_setupStep_Config3.inc:82 setup/class_setupStep_Config3.inc:83
+#: setup/class_setupStep_Config3.inc:74 setup/class_setupStep_Config3.inc:75
 #, fuzzy
 msgid "FusionDirectory settings 3/3"
 msgstr "Thiết lập FusionDirectory 3/3"
 
-#: setup/class_setupStep_Config3.inc:84
+#: setup/class_setupStep_Config3.inc:76
 #, fuzzy
 msgid "Tweak some FusionDirectory core behaviour"
 msgstr "Chỉnh sửa một số đặc tính lõi của FusionDirectory"
@@ -2082,8 +2018,8 @@ msgstr "Gửi phản hồi lại cho nhóm phát triển dự án FusionDirector
 #: setup/setup_feedback.tpl:50
 #, fuzzy
 msgid ""
-"When checking this option, FusionDirectory will try to connect http://oss."
-"gonicus.de in order to submit your form anonymously."
+"When checking this option, FusionDirectory will try to connect http://www."
+"fusiondirectory.org in order to submit your form anonymously."
 msgstr ""
 "Khi kiểm tra lựa chọn này, FusionDirectory sẽ cố gắng kết nối bạn với http://"
 "oss.gonicus.de để nộp đăng ký của bạn nặc danh."
@@ -2743,7 +2679,7 @@ msgstr "Tìm thấy %s bộ phận mà không hiển thị trên Gosa."
 
 #: setup/class_setupStep_Migrate.inc:1028
 #, fuzzy, php-format
-msgid "FusionDirectory 2.5 administrative accounts found: %s"
+msgid "GOsa 2.5 administrative accounts found: %s"
 msgstr "Tạo ra một tài khoản admin GOsa mới"
 
 #: setup/class_setupStep_Migrate.inc:1033
@@ -3661,9 +3597,8 @@ msgid ""
 msgstr ""
 
 #: include/class_gosaSupportDaemon.inc:112
-#, fuzzy
-msgid "FusionDirectory support daemon"
-msgstr "GOto-si hỗ trợ chương trình daemon"
+msgid "Service GOto-si"
+msgstr ""
 
 #: include/class_gosaSupportDaemon.inc:787
 msgid "Cannot not parse XML!"
@@ -3679,14 +3614,14 @@ msgstr "Không thể  gửi thông báo trì hoãn đến entry %s!"
 msgid "Cannot remove entry %s!"
 msgstr "Không thể xóa entry %s!"
 
-#: include/functions.inc:130
+#: include/functions.inc:132
 #, php-format
 msgid "Fatal error: no class locations defined - please run '%s' to fix this"
 msgstr ""
 "Lỗi nghiêm trọng: không có vị trí lớp nào được xác định - xin hãy chạy '%s' "
 "để sửa lỗi này"
 
-#: include/functions.inc:137
+#: include/functions.inc:139
 #, php-format
 msgid ""
 "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
@@ -3694,20 +3629,20 @@ msgstr ""
 "Lỗi nghiêm trọng: không thể tạo ra lớp '%s' - hãy thử chạy '%s' để sửa lỗi "
 "này"
 
-#: include/functions.inc:451
+#: include/functions.inc:453
 #, php-format
 msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
 msgstr ""
 "LỖI NGHIÊM TRỌNG: Lỗi khi đang kết nối với LDAP. Server thông báo '%s'."
 
-#: include/functions.inc:522
+#: include/functions.inc:524
 msgid "Username / UID is not unique inside the LDAP tree!"
 msgstr "Tên người dùng/ UID không phải là duy nhất trong cây LDAP!"
 
-#: include/functions.inc:607 include/functions.inc:821
-#: include/functions.inc:939 include/functions.inc:1337
-#: include/functions.inc:2427 include/functions.inc:2457
-#: include/functions.inc:2477 include/class_CopyPasteHandler.inc:160
+#: include/functions.inc:609 include/functions.inc:823
+#: include/functions.inc:941 include/functions.inc:1339
+#: include/functions.inc:2399 include/functions.inc:2429
+#: include/functions.inc:2449 include/class_CopyPasteHandler.inc:160
 #: include/class_CopyPasteHandler.inc:274 include/class_log.inc:87
 #: include/class_acl.inc:960 include/class_session.inc:76
 #: include/class_session.inc:101 include/class_session.inc:127
@@ -3715,7 +3650,7 @@ msgstr "Tên người dùng/ UID không phải là duy nhất trong cây LDAP!"
 msgid "Internal error"
 msgstr "Lỗi nội bộ"
 
-#: include/functions.inc:607
+#: include/functions.inc:609
 msgid ""
 "Username / UID is not unique inside the LDAP tree. Please contact your "
 "Administrator."
@@ -3723,11 +3658,11 @@ msgstr ""
 "Tên người dùng/UID không phải là duy nhất trong cây LDAP. Xin hãy liên Lạc "
 "với Admin của bạn."
 
-#: include/functions.inc:821 include/functions.inc:939
+#: include/functions.inc:823 include/functions.inc:941
 msgid "Error while adding a lock. Contact the developers!"
 msgstr "Lỗi khi đang thêm một khóa vào. Hãy liên lạc với các nhà phát triển!"
 
-#: include/functions.inc:831
+#: include/functions.inc:833
 #, php-format
 msgid ""
 "Cannot create locking information in LDAP tree. Please contact your "
@@ -3736,12 +3671,12 @@ msgstr ""
 "Không thể tạo ra việc khóa thông tin trong cây LDAP.Xin hãy liên lạc với "
 "admin của bạn!"
 
-#: include/functions.inc:831
+#: include/functions.inc:833
 #, php-format
 msgid "LDAP server returned: %s"
 msgstr "LDAP server trả về: %s"
 
-#: include/functions.inc:960
+#: include/functions.inc:962
 msgid ""
 "Found multiple locks for object to be locked. This should not happen - "
 "cleaning up multiple references."
@@ -3749,12 +3684,12 @@ msgstr ""
 "Tìm thấy nhiều khóa khác nhau để khóa đối tượng. Điều này không nên xảy ra - "
 "hãy dọn sạch các tham chiếu."
 
-#: include/functions.inc:1264
+#: include/functions.inc:1266
 #, php-format
 msgid "The size limit of %d entries is exceed!"
 msgstr "Đã vượt quá giới hạn kích cỡ của các entry %d!"
 
-#: include/functions.inc:1266
+#: include/functions.inc:1268
 #, php-format
 msgid ""
 "Set the new size limit to %s and show me this message if the limit still "
@@ -3763,83 +3698,73 @@ msgstr ""
 "Thiết lập kích cỡ mới cho %s và cho tôi thấy tin nhắn nếu giới hạn này vẫn "
 "vượt quá tiêu chuẩn"
 
-#: include/functions.inc:1278 plugins/personal/generic/generic.tpl:223
+#: include/functions.inc:1280 plugins/personal/generic/generic.tpl:223
 msgid "Configure"
 msgstr "Cấu hình"
 
-#: include/functions.inc:1283
+#: include/functions.inc:1285
 msgid "incomplete"
 msgstr "chưa hoàn thành"
 
-#: include/functions.inc:1673
+#: include/functions.inc:1675
 msgid "Continue anyway"
 msgstr "Cứ tiếp tục"
 
-#: include/functions.inc:1675
+#: include/functions.inc:1677
 msgid "Edit anyway"
 msgstr "Cứ hiệu chỉnh"
 
-#: include/functions.inc:1677
+#: include/functions.inc:1679
 #, php-format
 msgid "You're going to edit the LDAP entry/entries %s"
 msgstr "Bạn sẽ hiệu chỉnh entry/các entry %s của LDAP"
 
-#: include/functions.inc:1917
+#: include/functions.inc:1919
 msgid "Entries per page"
 msgstr "các entry cho mỗi trang"
 
-#: include/functions.inc:1946 include/class_filter.inc:315
+#: include/functions.inc:1948 include/class_filter.inc:315
 msgid "Apply filter"
 msgstr "Áp dụng bộ lọc"
 
-#: include/functions.inc:2265 include/class_filter.inc:281
+#: include/functions.inc:2267 include/class_filter.inc:281
 msgid "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 msgstr "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-#: include/functions.inc:2319
-#, fuzzy, php-format
-msgid "FusionDirectory %s"
-msgstr "Thư mục"
-
-#: include/functions.inc:2326
-#, fuzzy, php-format
-msgid "FusionDirectory %s snapshot (Rev %s)"
-msgstr "snapshot phát triển FusionDirectory (Rev %s)"
-
-#: include/functions.inc:2331
-#, fuzzy, php-format
-msgid "FusionDirectory development snapshot (Rev %s)"
-msgstr "snapshot phát triển FusionDirectory (Rev %s)"
-
-#: include/functions.inc:2427
+#: include/functions.inc:2399
 #, php-format
 msgid "File '%s' could not be deleted."
 msgstr "File '%s' không thể bị xóa."
 
-#: include/functions.inc:2457 include/functions.inc:2477
+#: include/functions.inc:2429
 msgid "Cannot write to revision file!"
 msgstr "Không thể viết lên revision file!"
 
-#: include/functions.inc:2695 include/functions.inc:2699
-#: include/functions.inc:2705
+#: include/functions.inc:2449
+#, fuzzy
+msgid "Cannot read to revision file!"
+msgstr "Không thể viết lên revision file!"
+
+#: include/functions.inc:2667 include/functions.inc:2671
+#: include/functions.inc:2677
 #, fuzzy
 msgid "'baseIdHook' is not available. Using default base!"
 msgstr "'base_hook' không có. Hãy sử dụng cơ sở mặc định!"
 
-#: include/functions.inc:2729
+#: include/functions.inc:2701
 msgid "LDAP warning"
 msgstr "Cảnh báo LDAP"
 
-#: include/functions.inc:2729
+#: include/functions.inc:2701
 msgid "Cannot get schema information from server. No schema check possible!"
 msgstr ""
 "Không thể dùng thông tin lược đồ từ server. Không thể kiểm tra giản đồ!"
 
-#: include/functions.inc:2755
+#: include/functions.inc:2727
 msgid "Used to store account specific informations."
 msgstr "Đã từng lưu trữ thông tin cụ thể về tài khoản."
 
-#: include/functions.inc:2762
+#: include/functions.inc:2734
 msgid ""
 "Used to lock currently edited entries to avoid multiple changes at the same "
 "time."
@@ -3847,27 +3772,27 @@ msgstr ""
 "Đã từng khóa các entry hiện đang được hiệu chỉnh nhằm tránh các thay đổi "
 "khác nhau tại cùng một thời điểm."
 
-#: include/functions.inc:2807
+#: include/functions.inc:2779
 #, php-format
 msgid "Missing required object class '%s'!"
 msgstr "Lớp đối tượng '%s' được yêu cầu mất tích!"
 
-#: include/functions.inc:2810
+#: include/functions.inc:2782
 #, php-format
 msgid "Missing optional object class '%s'!"
 msgstr "Lớp đối tượng lựa chọn '%s' mất tích!"
 
-#: include/functions.inc:2815
+#: include/functions.inc:2787
 #, php-format
 msgid "Version mismatch for required object class '%s' (!=%s)!"
 msgstr "Phiên bản không phù hợp với lớp đối tượng '%s' được yêu cầu (!=%s)!"
 
-#: include/functions.inc:2818
+#: include/functions.inc:2790
 #, php-format
 msgid "Class(es) available"
 msgstr "Đã có lớp"
 
-#: include/functions.inc:2840
+#: include/functions.inc:2812
 msgid ""
 "You have enabled the rfc2307bis option on the 'ldap setup' step, but your "
 "schema    configuration do not support this option."
@@ -3875,7 +3800,7 @@ msgstr ""
 "Bạn vừa bật lựa chọn rfc2307bis lên trên bước ' cài đặt ldap', nhưng cấu "
 "hình giản đồ của bạn không hỗ trợ lựa chọn này."
 
-#: include/functions.inc:2841
+#: include/functions.inc:2813
 msgid ""
 "In order to use rfc2307bis conform groups the objectClass 'posixGroup' must "
 "be      AUXILIARY"
@@ -3883,7 +3808,7 @@ msgstr ""
 "Để có thể sử dụng được nhóm conform rfc2307bis, objectClass "
 "'posixGroup' (nhóm posix) phải được hỗ trợ     "
 
-#: include/functions.inc:2845
+#: include/functions.inc:2817
 msgid ""
 "Your schema is configured to support the rfc2307bis group, but you have "
 "disabled this option on the 'ldap setup' step."
@@ -3891,51 +3816,51 @@ msgstr ""
 "Lược đồ của bạn được cấu hình để hỗ trợ nhóm rfc2307bis, nhưng bạn đã vừa "
 "tắt chức năng này đi trong bước 'cài đặt ldap'."
 
-#: include/functions.inc:2846
+#: include/functions.inc:2818
 msgid "The objectClass 'posixGroup' must be STRUCTURAL"
 msgstr "ObjectClass (Lớp đối tượng) 'posixGroup' phải CÓ CẤU TRÚC"
 
-#: include/functions.inc:2870
+#: include/functions.inc:2842
 msgid "German"
 msgstr "Tiếng Đức"
 
-#: include/functions.inc:2871
+#: include/functions.inc:2843
 msgid "French"
 msgstr "Tiếng Pháp"
 
-#: include/functions.inc:2872
+#: include/functions.inc:2844
 msgid "Italian"
 msgstr "Tiếng Ý"
 
-#: include/functions.inc:2873
+#: include/functions.inc:2845
 msgid "Spanish"
 msgstr "Tiếng Tây Ban Nha"
 
-#: include/functions.inc:2874
+#: include/functions.inc:2846
 msgid "English"
 msgstr "Tiếng Anh"
 
-#: include/functions.inc:2875
+#: include/functions.inc:2847
 msgid "Dutch"
 msgstr "Tiếng Hà Lan"
 
-#: include/functions.inc:2876
+#: include/functions.inc:2848
 msgid "Polish"
 msgstr "Tiếng Phần Lan"
 
-#: include/functions.inc:2878
+#: include/functions.inc:2850
 msgid "Chinese"
 msgstr "Tiếng Trung Quốc"
 
-#: include/functions.inc:2879
+#: include/functions.inc:2851
 msgid "Vietnamese"
 msgstr "Tiếng Việt"
 
-#: include/functions.inc:2880
+#: include/functions.inc:2852
 msgid "Russian"
 msgstr "Tiếng Nga"
 
-#: include/functions.inc:3078
+#: include/functions.inc:3050
 #, php-format
 msgid ""
 "Command '%s', specified as POSTMODIFY for plugin '%s' doesn't seem to exist."
@@ -3943,52 +3868,52 @@ msgstr ""
 "Lệnh '%s', được xác định là POSTMODIFY (thay đổi sau) cho chế độ plugin '%s' "
 "hình như không tồn tại."
 
-#: include/functions.inc:3111
+#: include/functions.inc:3083
 msgid "Cannot generate samba hash!"
 msgstr "Không thể sinh ra hàm băm samba!"
 
-#: include/functions.inc:3124
+#: include/functions.inc:3096
 #, php-format
 msgid ""
 "Cannot generate samba hash: running '%s' failed, check the 'sambaHashHook'!"
 msgstr ""
 
-#: include/functions.inc:3405 include/functions.inc:3419
-#: include/functions.inc:3457 include/functions.inc:3469
-#: include/functions.inc:3473 include/functions.inc:3488
-#: include/functions.inc:3497
+#: include/functions.inc:3377 include/functions.inc:3391
+#: include/functions.inc:3429 include/functions.inc:3441
+#: include/functions.inc:3445 include/functions.inc:3460
+#: include/functions.inc:3469
 #, fuzzy
 msgid "Cannot allocate a free ID:"
 msgstr "Không thể phân phối một ID miễn phí!"
 
-#: include/functions.inc:3405
+#: include/functions.inc:3377
 msgid "unknown idAllocation method!"
 msgstr ""
 
-#: include/functions.inc:3419
+#: include/functions.inc:3391
 #, php-format
 msgid "%sPoolMin >= %sPoolMax!"
 msgstr ""
 
-#: include/functions.inc:3449
+#: include/functions.inc:3421
 #, fuzzy
 msgid "Cannot create sambaUnixIdPool entry!"
 msgstr "Không thể tạo ra folder '%s'!"
 
-#: include/functions.inc:3457
+#: include/functions.inc:3429
 msgid "sambaUnixIdPool is not unique!"
 msgstr ""
 
-#: include/functions.inc:3469 include/functions.inc:3473
+#: include/functions.inc:3441 include/functions.inc:3445
 #, fuzzy
 msgid "no ID available!"
 msgstr "Không có mẫu nào!"
 
-#: include/functions.inc:3497
+#: include/functions.inc:3469
 msgid "maximum tries exceeded!"
 msgstr ""
 
-#: include/functions.inc:3557
+#: include/functions.inc:3529
 msgid "Cannot allocate a free ID!"
 msgstr "Không thể phân phối một ID miễn phí!"
 
@@ -6529,7 +6454,7 @@ msgstr "Phương pháp lập mật khẩu được chọn này không còn ở �
 
 #: plugins/personal/generic/class_user.inc:1038
 msgid ""
-"Cannot save user picture, FusionDirectoryrequires the package 'imagemagick' "
+"Cannot save user picture, FusionDirectory requires the package 'imagemagick' "
 "or 'php5-imagick' to be installed!"
 msgstr ""
 
@@ -6800,6 +6725,78 @@ msgstr "Xin hãy sử dụng Phone Tab"
 #, fuzzy
 msgid "Your password hash method will not be changed!"
 msgstr "Mật khẩu của bạn đã được thay đổi thành công."
+
+#~ msgid "Helpdir '%s' is not accessible, can't read any helpfiles."
+#~ msgstr ""
+#~ "Không thể truy cập Helpdir '%s', không thể đọc được bất cứ file trợ giúp "
+#~ "nào."
+
+#~ msgid "On"
+#~ msgstr "Bật"
+
+#~ msgid ""
+#~ "Increase your server security by setting magic_quotes_gpc to 'on'. PHP "
+#~ "will escape all quotes in strings in this case."
+#~ msgstr ""
+#~ "Tăng cường an ninh cho server của bạn bằng cách thiết lập "
+#~ "magic_quotes_gpc thành 'on'. PHP sẽ giải thoát tất cả các trích dẫn trong "
+#~ "các đoạn mã trong trường hợp này."
+
+#~ msgid "Search for 'magic_quotes_gpc' in your php.ini and set it to 'On'."
+#~ msgstr ""
+#~ "Tìm kiếm ''magic_quotes_gpc' trong thư mục php.ini của bạn và chuyển nó "
+#~ "thành 'On'"
+
+#~ msgid "Hook for number base"
+#~ msgstr "Móc nối với cơ sở số"
+
+#~ msgid "Samba hash generator"
+#~ msgstr "Bộ tạo ra các hàm băm Samba"
+
+#, fuzzy
+#~ msgid "Additional FusionDirectory settings"
+#~ msgstr "Thiết lập thêm của FusionDirectory"
+
+#~ msgid "Government mode"
+#~ msgstr "Chế độ nhà nước"
+
+#~ msgid "Smarty compile directory"
+#~ msgstr "Thư mục soạn thảo Smarty"
+
+#~ msgid "SNMP community"
+#~ msgstr "Cộng đồng SNMP"
+
+#~ msgid "Path for PPD storage"
+#~ msgstr "Đường dẫn đến kho lưu trữ PPD"
+
+#~ msgid "Path for kiosk profile storage"
+#~ msgstr "Đường dẫn đến kho lưu trữ profile của ki-ốt"
+
+#~ msgid "Mail queue script"
+#~ msgstr "Tập lệnh sắp hàng mail"
+
+#~ msgid "Notification script"
+#~ msgstr "Tập lệnh thông báo"
+
+#, fuzzy
+#~ msgid "GOto-SI daemon"
+#~ msgstr "GOto-si hỗ trợ chương trình daemon"
+
+#, fuzzy
+#~ msgid "FusionDirectory support daemon"
+#~ msgstr "GOto-si hỗ trợ chương trình daemon"
+
+#, fuzzy
+#~ msgid "FusionDirectory %s"
+#~ msgstr "Thư mục"
+
+#, fuzzy
+#~ msgid "FusionDirectory %s snapshot (Rev %s)"
+#~ msgstr "snapshot phát triển FusionDirectory (Rev %s)"
+
+#, fuzzy
+#~ msgid "FusionDirectory development snapshot (Rev %s)"
+#~ msgstr "snapshot phát triển FusionDirectory (Rev %s)"
 
 #, fuzzy
 #~ msgid "Sytem trust"

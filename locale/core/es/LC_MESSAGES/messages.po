@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: admin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-03 12:34+0200\n"
+"POT-Creation-Date: 2011-05-08 18:35+0200\n"
 "PO-Revision-Date: 2010-01-28 23:21+0100\n"
 "Last-Translator: \n"
 "Language-Team: Spanish <>\n"
@@ -18,24 +18,24 @@ msgstr ""
 "X-Generator: Lokalize 1.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: html/password.php:58 html/main.php:147 include/utils/class_xml.inc:44
-#: include/functions.inc:450
+#: html/password.php:58 html/main.php:148 include/utils/class_xml.inc:44
+#: include/functions.inc:452
 #: plugins/admin/departments/class_department.inc:433
 msgid "Fatal error"
 msgstr "Error fatal"
 
-#: html/password.php:58 html/index.php:144
+#: html/password.php:58 html/index.php:150
 #, fuzzy, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
 msgstr ""
 "No se puede acceder a la configuración de FusionDirectory %s/%s. Cancelado"
 
-#: html/password.php:74 html/main.php:268 html/index.php:144
-#: html/index.php:216 include/class_SnapshotHandler.inc:44
+#: html/password.php:74 html/main.php:269 html/index.php:150
+#: html/index.php:222 include/class_SnapshotHandler.inc:44
 #: include/class_SnapshotHandler.inc:57 include/class_SnapshotHandler.inc:75
 #: include/class_pluglist.inc:182 include/utils/class_timezone.inc:49
-#: include/functions.inc:831 include/functions.inc:3079
-#: include/functions.inc:3111 include/functions.inc:3124
+#: include/functions.inc:833 include/functions.inc:3051
+#: include/functions.inc:3083 include/functions.inc:3096
 #: include/class_config.inc:155 include/class_config.inc:695
 #: include/class_config.inc:1146 include/class_config.inc:1159
 #: include/class_config.inc:1177 include/class_CopyPasteHandler.inc:119
@@ -51,7 +51,7 @@ msgstr ""
 msgid "Configuration error"
 msgstr "Error de configuración"
 
-#: html/password.php:74 html/setup.php:66 html/index.php:165
+#: html/password.php:74 html/setup.php:66 html/index.php:171
 #, php-format
 msgid "Directory '%s' specified as compile directory is not accessible!"
 msgstr "¡No se puede acceder a el directorio de compilación '%s'!"
@@ -118,7 +118,7 @@ msgstr "Inicio"
 msgid "Current password"
 msgstr "Contraseña actual"
 
-#: html/password.php:224 html/index.php:321
+#: html/password.php:224 html/index.php:327
 msgid "Please check the username/password combination."
 msgstr "Por favor compruebe la combinación nombre de usuario/contraseña"
 
@@ -131,7 +131,7 @@ msgid "External password changer reported a problem: "
 msgstr "El programa externo de cambio de contraseña informo de un problema: "
 
 #: html/password.php:280 html/index.php:57 html/index.php:63
-#: html/index.php:406 html/index.php:412 ihtml/themes/default/conflict.tpl:6
+#: html/index.php:413 html/index.php:419 ihtml/themes/default/conflict.tpl:6
 #: ihtml/themes/default/islocked.tpl:6 ihtml/themes/default/remove.tpl:2
 #: ihtml/themes/default/msg_dialog.tpl:59
 #: ihtml/themes/default/msg_dialog.tpl:106 setup/setup_checks.tpl:32
@@ -142,9 +142,9 @@ msgstr "El programa externo de cambio de contraseña informo de un problema: "
 #: setup/class_setupStep_Migrate.inc:2572
 #: setup/class_setupStep_Migrate.inc:2725
 #: setup/class_setupStep_Migrate.inc:3057 include/utils/class_xml.inc:38
-#: include/class_tabs.inc:268 include/functions.inc:960
-#: include/functions.inc:2695 include/functions.inc:2699
-#: include/functions.inc:2705 plugins/admin/acl/remove.tpl:2
+#: include/class_tabs.inc:268 include/functions.inc:962
+#: include/functions.inc:2667 include/functions.inc:2671
+#: include/functions.inc:2677 plugins/admin/acl/remove.tpl:2
 #: plugins/admin/users/remove.tpl:2 plugins/admin/groups/remove.tpl:2
 #: plugins/admin/groups/class_group.inc:994
 #: plugins/admin/departments/dep_move_confirm.tpl:2
@@ -154,26 +154,26 @@ msgstr "El programa externo de cambio de contraseña informo de un problema: "
 msgid "Warning"
 msgstr "Aviso"
 
-#: html/password.php:280 html/index.php:406
+#: html/password.php:280 html/index.php:413
 msgid "Session will not be encrypted."
 msgstr "La sesión no será codificada."
 
-#: html/password.php:280 html/index.php:406
+#: html/password.php:280 html/index.php:413
 msgid "Enter SSL session"
 msgstr "Entrar en sesión SSL"
 
-#: html/main.php:148
+#: html/main.php:149
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr ""
 "No se puede encontrar el archivo '%s' - por favor ejecute '%s' para "
 "solucionarlo"
 
-#: html/main.php:167
+#: html/main.php:168
 msgid "PHP configuration"
 msgstr "Configuración PHP"
 
-#: html/main.php:168
+#: html/main.php:169
 #, fuzzy
 msgid ""
 "Fatal error: Register globals is on. FusionDirectory will refuse to login "
@@ -182,42 +182,42 @@ msgstr ""
 "FATAL: 'Register globals' está activado. No se permitirá ninguna acceso "
 "hasta que esto sea solucionado por un administrador."
 
-#: html/main.php:198 ihtml/themes/default/password.tpl:41
+#: html/main.php:199 ihtml/themes/default/password.tpl:41
 #: plugins/admin/users/class_userManagement.inc:401
 #: plugins/personal/password/class_password.inc:160
 #: plugins/personal/password/class_password.inc:166
 msgid "Password change"
 msgstr "Cambio de contraseña"
 
-#: html/main.php:198
+#: html/main.php:199
 msgid "Your password is about to expire, please change your password!"
 msgstr ""
 "Su contraseña va a caducar próximamente, ¡Por favor cambie su contraseña!"
 
-#: html/main.php:268
+#: html/main.php:269
 msgid "Running out of memory!"
 msgstr "¡Funcionando sin memoria!"
 
-#: html/main.php:325
+#: html/main.php:326
 msgid "User ACL checks disabled"
 msgstr "Desactivados chequeos de ACL de usuario"
 
-#: html/main.php:373
+#: html/main.php:374
 msgid "Plugin"
 msgstr "Extensión"
 
-#: html/main.php:374
+#: html/main.php:375
 #, fuzzy, php-format
 msgid "Fatal error: Cannot find any plugin definitions for plugin '%s'!"
 msgstr ""
 "FATAL: ¡No se puede encontrar ninguna definición de extensión para la "
 "extensión '%s'!"
 
-#: html/main.php:388
+#: html/main.php:389
 msgid "Configuration Error"
 msgstr "Error de configuración"
 
-#: html/main.php:389
+#: html/main.php:390
 #, fuzzy, php-format
 msgid ""
 "Fatal error: not all POST variables have been transfered by PHP - please "
@@ -242,15 +242,15 @@ msgstr ""
 "El tiempo de vida de sesión es su fusiondirectory.conf sera sustituido por "
 "el valor de ini de php."
 
-#: html/index.php:165
+#: html/index.php:171
 msgid "Smarty error"
 msgstr "Error Smarty"
 
-#: html/index.php:216
+#: html/index.php:222
 msgid "There is a problem with the authentication setup!"
 msgstr "¡Hay un problema con la configuración de autenticación!"
 
-#: html/index.php:224 html/index.php:228
+#: html/index.php:230 html/index.php:234
 #: ihtml/themes/default/msg_dialog.tpl:57
 #: ihtml/themes/default/msg_dialog.tpl:104 setup/setup_checks.tpl:30
 #: setup/setup_checks.tpl:91 setup/class_setupStep_Migrate.inc:1200
@@ -260,11 +260,11 @@ msgstr "¡Hay un problema con la configuración de autenticación!"
 #: include/utils/class_msgPool.inc:519 include/class_tabs.inc:56
 #: include/class_management.inc:448 include/class_management.inc:584
 #: include/class_gosaSupportDaemon.inc:1184
-#: include/class_gosaSupportDaemon.inc:1204 include/functions.inc:3405
-#: include/functions.inc:3419 include/functions.inc:3449
-#: include/functions.inc:3457 include/functions.inc:3469
-#: include/functions.inc:3473 include/functions.inc:3488
-#: include/functions.inc:3497 include/functions.inc:3557
+#: include/class_gosaSupportDaemon.inc:1204 include/functions.inc:3377
+#: include/functions.inc:3391 include/functions.inc:3421
+#: include/functions.inc:3429 include/functions.inc:3441
+#: include/functions.inc:3445 include/functions.inc:3460
+#: include/functions.inc:3469 include/functions.inc:3529
 #: include/class_listing.inc:480 include/class_CopyPasteHandler.inc:118
 #: include/class_CopyPasteHandler.inc:127
 #: include/class_CopyPasteHandler.inc:159
@@ -302,18 +302,18 @@ msgstr "¡Hay un problema con la configuración de autenticación!"
 msgid "Error"
 msgstr "Error"
 
-#: html/index.php:224
+#: html/index.php:230
 msgid "Cannot find a valid user for the current authentication setup!"
 msgstr ""
 "¡No se puede encontrar un usuario válido para la configuración de "
 "autenticación seleccionada!"
 
-#: html/index.php:228
+#: html/index.php:234
 msgid "User information is not unique accross the configured LDAP trees!"
 msgstr ""
 "¡La información del usuario no es única dentro del árbol LDAP selecionado!"
 
-#: html/index.php:254 html/index.php:265 html/index.php:278
+#: html/index.php:260 html/index.php:271 html/index.php:284
 #: setup/class_setupStep_Migrate.inc:1211
 #: setup/class_setupStep_Migrate.inc:1239
 #: setup/class_setupStep_Migrate.inc:1288
@@ -330,12 +330,12 @@ msgstr ""
 #: include/class_SnapshotHandler.inc:329 include/class_SnapshotHandler.inc:333
 #: include/class_SnapshotHandler.inc:348 include/class_SnapshotHandler.inc:383
 #: include/class_SnapshotHandler.inc:438 include/class_SnapshotHandler.inc:503
-#: include/class_SnapshotHandler.inc:518 include/functions.inc:479
-#: include/functions.inc:514 include/functions.inc:522
-#: include/functions.inc:567 include/functions.inc:846
-#: include/functions.inc:895 include/functions.inc:952
-#: include/functions.inc:1005 include/functions.inc:3058
-#: include/functions.inc:3331 include/class_config.inc:318
+#: include/class_SnapshotHandler.inc:518 include/functions.inc:481
+#: include/functions.inc:516 include/functions.inc:524
+#: include/functions.inc:569 include/functions.inc:848
+#: include/functions.inc:897 include/functions.inc:954
+#: include/functions.inc:1007 include/functions.inc:3030
+#: include/functions.inc:3303 include/class_config.inc:318
 #: include/class_plugin.inc:1443 include/class_plugin.inc:1493
 #: include/class_plugin.inc:1497 include/class_plugin.inc:1513
 #: include/class_plugin.inc:1553 include/class_plugin.inc:1611
@@ -360,38 +360,38 @@ msgstr ""
 msgid "LDAP error"
 msgstr "Error LDAP"
 
-#: html/index.php:265
+#: html/index.php:271
 msgid "Cannot detect information about the installed LDAP schema!"
 msgstr ""
 "¡No se puede acceder a la información sobre los esuqemas LDAP instalados!"
 
-#: html/index.php:278
+#: html/index.php:284
 msgid "Your LDAP setup contains old schema definitions:"
 msgstr "Su configuración LDAP tiene definiciones de esquemas antiguos:"
 
-#: html/index.php:299
+#: html/index.php:305
 msgid "Please specify a valid username!"
 msgstr "¡Por favor introduzca un nombre de usuario válido!"
 
-#: html/index.php:302
+#: html/index.php:308
 msgid "Please specify your password!"
 msgstr "¡Por favor introduzca una contraseña!"
 
-#: html/index.php:314
+#: html/index.php:320
 msgid "Authentication error"
 msgstr "Error de Autenticación"
 
-#: html/index.php:314
+#: html/index.php:320
 msgid "Cannot retrieve user information for htaccess authentication!"
 msgstr ""
 "¡No se puede recuperar la información de usuario para autenticación htaccess!"
 
-#: html/index.php:369
+#: html/index.php:376
 msgid "Account locked. Please contact your system administrator!"
 msgstr ""
 "Cuenta bloqueada. ¡Por favor contacte con su administrador de sistemas!"
 
-#: html/index.php:412
+#: html/index.php:419
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
@@ -404,23 +404,22 @@ msgid "Help browser"
 msgstr "Navegador de ayuda"
 
 #: html/helpviewer.php:118
-msgid "There is no helpfile specified for this class"
+#, fuzzy
+msgid "There is no helpfile specified for this extension"
 msgstr "No hay archivo de ayuda disponible para esta clase"
 
-#: html/helpviewer.php:194 include/functions_helpviewer.inc:97
+#: html/helpviewer.php:196 include/functions_helpviewer.inc:97
 msgid "previous"
 msgstr "anterior"
 
-#: html/helpviewer.php:198 include/functions_helpviewer.inc:101
+#: html/helpviewer.php:200 include/functions_helpviewer.inc:101
 msgid "next"
 msgstr "siguiente"
 
-#: html/helpviewer.php:269
-#, php-format
-msgid "Helpdir '%s' is not accessible, can't read any helpfiles."
-msgstr ""
-"El directorio de ayuda '%s' no está disponible, no podrá leer ningún archivo "
-"de ayuda."
+#: html/helpviewer.php:272
+#, fuzzy, php-format
+msgid "No help available for the extension '%s'."
+msgstr "No hay ayuda disponible para esta extensión."
 
 #: ihtml/themes/default/conflict.tpl:2
 msgid "Session conflict detected"
@@ -599,8 +598,8 @@ msgid "Your password has been changed successfully."
 msgstr "Su contraseña se ha cambiado correctamente."
 
 #: ihtml/themes/default/password.tpl:40 ihtml/themes/default/login.tpl:47
-#: ihtml/themes/default/login.tpl:49 setup/setup_config2.tpl:237
-#: setup/setup_config2.tpl:282 setup/setup_migrate.tpl:299
+#: ihtml/themes/default/login.tpl:49 setup/setup_config2.tpl:188
+#: setup/setup_config2.tpl:233 setup/setup_migrate.tpl:299
 #: plugins/personal/password/class_password.inc:26
 #: plugins/personal/generic/paste_generic.tpl:20
 msgid "Password"
@@ -1001,10 +1000,18 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:89
 #, fuzzy
+msgid ""
+"GOsa requires this module to communicate with different types of servers and "
+"protocols."
+msgstr ""
+"Gosa necesita este módulo para comunicarse con las bases de datos soportadas."
+
+#: setup/class_setupStep_Checks.inc:97
+#, fuzzy
 msgid "FusionDirectory requires this module for the samba integration."
 msgstr "FusionDirectory necesita este módulo para integración con samba."
 
-#: setup/class_setupStep_Checks.inc:97
+#: setup/class_setupStep_Checks.inc:105
 #, fuzzy
 msgid ""
 "FusionDirectory requires either 'mhash' or the 'sha1' module to make use of "
@@ -1013,26 +1020,26 @@ msgstr ""
 "FusionDirectory necesita para poder hacer uso del método de codificación "
 "SSHA este módulo."
 
-#: setup/class_setupStep_Checks.inc:105
+#: setup/class_setupStep_Checks.inc:113
 #, fuzzy
 msgid "FusionDirectory requires this module to talk to an IMAP server."
 msgstr ""
 "FusionDirectory necesita este módulo para comunicarse con servidores IMAP."
 
-#: setup/class_setupStep_Checks.inc:112
+#: setup/class_setupStep_Checks.inc:120
 msgid "mbstring"
 msgstr "mbstring"
 
-#: setup/class_setupStep_Checks.inc:113
+#: setup/class_setupStep_Checks.inc:121
 #, fuzzy
 msgid "FusionDirectory requires this module to handle unicode strings."
 msgstr "FusionDirectory necesita este módulo para manejar cadenas unicode."
 
-#: setup/class_setupStep_Checks.inc:120
+#: setup/class_setupStep_Checks.inc:128
 msgid "MySQL"
 msgstr "MySQL"
 
-#: setup/class_setupStep_Checks.inc:121
+#: setup/class_setupStep_Checks.inc:129
 #, fuzzy
 msgid ""
 "FusionDirectory requires this module to communicate with several supported "
@@ -1040,11 +1047,11 @@ msgid ""
 msgstr ""
 "Gosa necesita este módulo para comunicarse con las bases de datos soportadas."
 
-#: setup/class_setupStep_Checks.inc:138
+#: setup/class_setupStep_Checks.inc:146
 msgid "samba hash generator"
 msgstr "generador de hash de la contraseña SAMBA"
 
-#: setup/class_setupStep_Checks.inc:139
+#: setup/class_setupStep_Checks.inc:147
 #, fuzzy
 msgid ""
 "FusionDirectory requires this command to synchronize POSIX and samba "
@@ -1053,32 +1060,32 @@ msgstr ""
 "FusionDirectory necesita este comando para sincronizar contraseñas POSIX y "
 "samba."
 
-#: setup/class_setupStep_Checks.inc:140
+#: setup/class_setupStep_Checks.inc:148
 #, fuzzy
 msgid ""
 "Deploy a goto-si installation or install the perl Crypt::SmbHash modules."
 msgstr ""
 "Desplegar una instalación gosa-si o instale el módulo PERL Crypt::SmbHash."
 
-#: setup/class_setupStep_Checks.inc:153
+#: setup/class_setupStep_Checks.inc:161
 msgid "imagick"
 msgstr "imagick"
 
-#: setup/class_setupStep_Checks.inc:154
+#: setup/class_setupStep_Checks.inc:162
 #, fuzzy
 msgid "FusionDirectory requires this extension to handle images."
 msgstr "FusionDirectory necesita este módulo para manejar imágenes."
 
-#: setup/class_setupStep_Checks.inc:169
+#: setup/class_setupStep_Checks.inc:177
 msgid "compression module"
 msgstr "modulo de compresión"
 
-#: setup/class_setupStep_Checks.inc:170
+#: setup/class_setupStep_Checks.inc:178
 #, fuzzy
 msgid "FusionDirectory requires this extension to handle snapshots."
 msgstr "FusionDirectory necesita este módulo para manejar instantaneas."
 
-#: setup/class_setupStep_Checks.inc:181
+#: setup/class_setupStep_Checks.inc:189
 msgid ""
 "register_globals is a PHP mechanism to register all global variables to be "
 "accessible from scripts without changing the scope. This may be a security "
@@ -1088,17 +1095,17 @@ msgstr ""
 "globales de tal manera que sean accesible desde scripts sin que cambien su "
 "ámbito. Esto puede ser un problema de seguridad."
 
-#: setup/class_setupStep_Checks.inc:182
+#: setup/class_setupStep_Checks.inc:190
 msgid "Search for 'register_globals' in your php.ini and switch it to 'Off'."
 msgstr "Busque 'register_globals' en su php.ini y modifíquelo por 'Off'."
 
-#: setup/class_setupStep_Checks.inc:190
+#: setup/class_setupStep_Checks.inc:198
 msgid "PHP uses this value for the garbage collector to delete old sessions."
 msgstr ""
 "PHP usa este valor en el recolector de basura para eliminar las sesiones "
 "antiguas."
 
-#: setup/class_setupStep_Checks.inc:191
+#: setup/class_setupStep_Checks.inc:199
 msgid ""
 "Setting this value to one day will prevent loosing session and cookies "
 "before they really timeout."
@@ -1106,19 +1113,19 @@ msgstr ""
 "Ajustando este valor a un día impedirá la perdida de sesiones y cookies "
 "antes de que realmente se desconecte por tiempo."
 
-#: setup/class_setupStep_Checks.inc:192
+#: setup/class_setupStep_Checks.inc:200
 msgid ""
 "Search for 'session.gc_maxlifetime' in your php.ini and set it to 86400 or "
 "higher."
 msgstr ""
 "Busque 'sessio.gc_maxlifetime' en su php.ini y modifíquelo a 86400 o mayor."
 
-#: setup/class_setupStep_Checks.inc:199 setup/class_setupStep_Checks.inc:215
-#: setup/class_setupStep_Checks.inc:231 setup/class_setupStep_Checks.inc:247
+#: setup/class_setupStep_Checks.inc:207 setup/class_setupStep_Checks.inc:223
+#: setup/class_setupStep_Checks.inc:239 setup/class_setupStep_Checks.inc:256
 msgid "Off"
 msgstr "Off"
 
-#: setup/class_setupStep_Checks.inc:200
+#: setup/class_setupStep_Checks.inc:208
 #, fuzzy
 msgid ""
 "In Order to use FusionDirectory without any trouble, the session."
@@ -1127,11 +1134,11 @@ msgstr ""
 "Si quiere usar FusionDirectory sin problemas, debe modificar a 'Off' la "
 "opción 'session.auto_register' en su php.ini."
 
-#: setup/class_setupStep_Checks.inc:201
+#: setup/class_setupStep_Checks.inc:209
 msgid "Search for 'session.auto_start' in your php.ini and set it to 'Off'."
 msgstr "Busque 'session.auto_start' en su php.ini y modifíquelo a 'Off'."
 
-#: setup/class_setupStep_Checks.inc:208
+#: setup/class_setupStep_Checks.inc:216
 #, fuzzy
 msgid ""
 "FusionDirectory needs at least 32MB of memory. Setting it below this limit "
@@ -1141,12 +1148,12 @@ msgstr ""
 "ese limite provocara errores inesperados. Aumentar para configuraciones "
 "mayores."
 
-#: setup/class_setupStep_Checks.inc:209
+#: setup/class_setupStep_Checks.inc:217
 msgid ""
 "Search for 'memory_limit' in your php.ini and set it to '32M' or higher."
 msgstr "Busque 'memory_limit' en su php.ini y modifíquelo a '32M' o mayor."
 
-#: setup/class_setupStep_Checks.inc:216
+#: setup/class_setupStep_Checks.inc:224
 msgid ""
 "This option influences the PHP output handling. Turn this Option off, to "
 "increase performance."
@@ -1154,21 +1161,21 @@ msgstr ""
 "Esta opción está relacionada con el manejo de salida de PHP. Desactive esta "
 "opción poniéndola en off para mejorar el rendimiento."
 
-#: setup/class_setupStep_Checks.inc:217
+#: setup/class_setupStep_Checks.inc:225
 msgid "Search for 'implicit_flush' in your php.ini and set it to 'Off'."
 msgstr "Busque 'implicit_flush' en su php.ini y modifíquelo a 'Off'."
 
-#: setup/class_setupStep_Checks.inc:224
+#: setup/class_setupStep_Checks.inc:232
 msgid "The Execution time should be at least 30 seconds."
 msgstr "El tiempo de ejecución debe ser de al menos 30 segundos."
 
-#: setup/class_setupStep_Checks.inc:225
+#: setup/class_setupStep_Checks.inc:233
 msgid ""
 "Search for 'max_execution_time' in your php.ini and set it to '30' or higher."
 msgstr ""
 "Busque 'max_execution_time' en su php.ini y modifíquelo a '30' o mayor."
 
-#: setup/class_setupStep_Checks.inc:232
+#: setup/class_setupStep_Checks.inc:240
 msgid ""
 "Increase the server security by setting expose_php to 'off'. PHP won't send "
 "any information about the server you are running in this case."
@@ -1177,46 +1184,30 @@ msgstr ""
 "'off'. PHP no debería enviar ningún tipo de información sobre el servidor "
 "que esta ejecutando la aplicación."
 
-#: setup/class_setupStep_Checks.inc:233
+#: setup/class_setupStep_Checks.inc:241
 msgid "Search for 'expose_php' in your php.ini and set if to 'Off'."
 msgstr "Busque 'expose_php' en su php.ini y modifíquelo a 'Off'."
 
-#: setup/class_setupStep_Checks.inc:239
-msgid "On"
-msgstr "On"
-
-#: setup/class_setupStep_Checks.inc:240
-msgid ""
-"Increase your server security by setting magic_quotes_gpc to 'on'. PHP will "
-"escape all quotes in strings in this case."
-msgstr ""
-"Aumente la seguridad del servidor modificando el parámetro 'magic_quotes_gpc "
-"' a 'on'. PHP debería escapar todas las comillas de las cadenas en este caso."
-
-#: setup/class_setupStep_Checks.inc:241
-msgid "Search for 'magic_quotes_gpc' in your php.ini and set it to 'On'."
-msgstr "Busque 'magic_quotes_gpc' en su php.ini y modifíquelo a 'On'."
-
-#: setup/class_setupStep_Checks.inc:248
+#: setup/class_setupStep_Checks.inc:257
 msgid "Increase your server performance by setting magic_quotes_gpc to 'off'."
 msgstr ""
 "Aumente el rendimiento de su servidor modificando 'magic_quotes_gpc' a 'off'"
 
-#: setup/class_setupStep_Checks.inc:249
+#: setup/class_setupStep_Checks.inc:258
 msgid ""
 "Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'."
 msgstr ""
 "Busque 'zend.ze1_compatibility_mode' en su php.ini y modifíquelo a 'Off'."
 
-#: setup/class_setupStep_Checks.inc:259
+#: setup/class_setupStep_Checks.inc:268
 msgid "Configuration writeable"
 msgstr "Se puede escribir en la configuración"
 
-#: setup/class_setupStep_Checks.inc:260
+#: setup/class_setupStep_Checks.inc:269
 msgid "The configuration file can't be written"
 msgstr "No se puede escribir en la configuración"
 
-#: setup/class_setupStep_Checks.inc:261
+#: setup/class_setupStep_Checks.inc:270
 #, fuzzy, php-format
 msgid ""
 "FusionDirectory reads its configuration from a file located in (%s/%s). The "
@@ -1335,11 +1326,11 @@ msgid "Cannot send feedback: service temporarily unavailable"
 msgstr ""
 "No se puede envíar su sugerencia. El servicio no se encuentre disponible"
 
-#: setup/class_setupStep_Feedback.inc:182
+#: setup/class_setupStep_Feedback.inc:188
 msgid "Please specify a valid email address."
 msgstr "Por favor indique una dirección de correo válida."
 
-#: setup/class_setupStep_Feedback.inc:186
+#: setup/class_setupStep_Feedback.inc:192
 msgid ""
 "You have to select at least one of both options, subscribe or send feedback."
 msgstr ""
@@ -1355,15 +1346,15 @@ msgid "Perform test on your current LDAP schema"
 msgstr "Efectuando comprobaciones en los esquemas actuales de LDAP"
 
 #: setup/class_setupStep_Schema.inc:86 setup/class_setupStep_Ldap.inc:74
-#: setup/class_setupStep_Config1.inc:88 setup/class_setupStep_Config2.inc:137
-#: setup/class_setupStep_Config3.inc:94 setup/setup_feedback.tpl:61
+#: setup/class_setupStep_Config1.inc:88 setup/class_setupStep_Config2.inc:133
+#: setup/class_setupStep_Config3.inc:86 setup/setup_feedback.tpl:61
 #: setup/setup_feedback.tpl:79
 msgid "No"
 msgstr "No"
 
 #: setup/class_setupStep_Schema.inc:86 setup/class_setupStep_Ldap.inc:74
-#: setup/class_setupStep_Config1.inc:88 setup/class_setupStep_Config2.inc:137
-#: setup/class_setupStep_Config3.inc:94 setup/setup_feedback.tpl:59
+#: setup/class_setupStep_Config1.inc:88 setup/class_setupStep_Config2.inc:133
+#: setup/class_setupStep_Config3.inc:86 setup/setup_feedback.tpl:59
 #: setup/setup_feedback.tpl:77
 msgid "Yes"
 msgstr "Si"
@@ -1504,43 +1495,39 @@ msgstr "GID / UID min id"
 msgid "Number base for people/groups"
 msgstr "Número base para usuarios y grupos"
 
-#: setup/setup_config1.tpl:121
-msgid "Hook for number base"
-msgstr "Método para el número base"
-
-#: setup/setup_config1.tpl:136 plugins/personal/password/main.inc:54
+#: setup/setup_config1.tpl:120 plugins/personal/password/main.inc:54
 msgid "Password settings"
 msgstr "Parámetros de Contraseña"
 
-#: setup/setup_config1.tpl:140
+#: setup/setup_config1.tpl:124
 msgid "Password encryption algorithm"
 msgstr "Algoritmo de codificación de contraseña"
 
-#: setup/setup_config1.tpl:151
+#: setup/setup_config1.tpl:135
 msgid "Password restrictions"
 msgstr "Restricciones de contraseña"
 
-#: setup/setup_config1.tpl:158 setup/setup_config1.tpl:162
+#: setup/setup_config1.tpl:142 setup/setup_config1.tpl:146
 msgid "Password minimum length"
 msgstr "Longitud mínima de la contraseña"
 
-#: setup/setup_config1.tpl:169 setup/setup_config1.tpl:173
+#: setup/setup_config1.tpl:153 setup/setup_config1.tpl:157
 msgid "Different characters from old password"
 msgstr "Caracteres diferentes de la contraseña anterior"
 
-#: setup/setup_config1.tpl:182
+#: setup/setup_config1.tpl:166
 msgid "Password change hook"
 msgstr "Método de cambio de contraseña"
 
-#: setup/setup_config1.tpl:198
+#: setup/setup_config1.tpl:182
 msgid "Use SASL for kerberos"
 msgstr "Usar SASL para kerberos"
 
-#: setup/setup_config1.tpl:209
+#: setup/setup_config1.tpl:193
 msgid "Use account expiration"
 msgstr "Usar caducidad de cuenta"
 
-#: setup/setup_config1.tpl:221
+#: setup/setup_config1.tpl:205
 #, fuzzy
 msgid ""
 "FusionDirectory supports several encryption types for your passwords. "
@@ -1551,7 +1538,7 @@ msgstr ""
 "Normalmente esto es seleccionable a través de las plantillas de usuario, "
 "pero también se puede introducir un método que sera usado por defecto."
 
-#: setup/setup_config1.tpl:222
+#: setup/setup_config1.tpl:206
 #, fuzzy
 msgid ""
 "FusionDirectory always acts as admin and manages access rights internally. "
@@ -1565,7 +1552,7 @@ msgstr ""
 "Para que esto funcione, necesitamos el DN del administrador y la contraseña "
 "correspondiente."
 
-#: setup/setup_config1.tpl:223
+#: setup/setup_config1.tpl:207
 #, fuzzy
 msgid ""
 "Some basic LDAP parameters are tunable and affect the locations where "
@@ -1577,7 +1564,7 @@ msgstr ""
 "manera en que las cuentas son creadas. Compruebe los valores a continuación "
 "se ajustan a sus necesidades."
 
-#: setup/setup_config1.tpl:224
+#: setup/setup_config1.tpl:208
 #, fuzzy
 msgid ""
 "FusionDirectory has modular support for several mail methods. These methods "
@@ -1594,89 +1581,68 @@ msgid "Samba settings"
 msgstr "Parametros de samba"
 
 #: setup/setup_config2.tpl:6
-msgid "Samba hash generator"
-msgstr "Generador clave hash de Samba"
-
-#: setup/setup_config2.tpl:15
 msgid "Samba SID"
 msgstr "Samba SID"
 
-#: setup/setup_config2.tpl:31
+#: setup/setup_config2.tpl:22
 msgid "RID base"
 msgstr "Base RID"
 
-#: setup/setup_config2.tpl:46
+#: setup/setup_config2.tpl:37
 msgid "Workstation container"
 msgstr "Contenedor de la estación de trabajo"
 
-#: setup/setup_config2.tpl:61
+#: setup/setup_config2.tpl:52
 msgid "Samba SID mapping"
 msgstr "Mapeando SID de Samba"
 
-#: setup/setup_config2.tpl:71
+#: setup/setup_config2.tpl:62
 msgid "Timezone"
 msgstr "Zona de uso horario"
 
-#: setup/setup_config2.tpl:74
+#: setup/setup_config2.tpl:65
 msgid "Please choose your preferred timezone here"
 msgstr "Por favor introduzca su zona horaria preferida aquí"
 
-#: setup/setup_config2.tpl:96
-#, fuzzy
-msgid "Additional FusionDirectory settings"
-msgstr "Configuración avanzada de FusionDirectory"
-
-#: setup/setup_config2.tpl:100
-msgid "Enable Copy & Paste"
-msgstr "Activar Copiar y Pegar"
-
-#: setup/setup_config2.tpl:112
-msgid "Government mode"
-msgstr "Modo gubernamental"
-
-#: setup/setup_config2.tpl:123
-msgid "FusionDirectory logging"
-msgstr ""
-
-#: setup/setup_config2.tpl:135
+#: setup/setup_config2.tpl:86
 msgid "Mail settings"
 msgstr "Parámetros de correo"
 
-#: setup/setup_config2.tpl:139
+#: setup/setup_config2.tpl:90
 msgid "Mail method"
 msgstr "Método de correo"
 
-#: setup/setup_config2.tpl:143 plugins/admin/groups/class_group.inc:433
+#: setup/setup_config2.tpl:94 plugins/admin/groups/class_group.inc:433
 #: plugins/admin/ogroups/class_ogroup.inc:412
 #: plugins/personal/posix/class_posixAccount.inc:573
 msgid "disabled"
 msgstr "desactivado"
 
-#: setup/setup_config2.tpl:155
+#: setup/setup_config2.tpl:106
 msgid "Account identification attribute"
 msgstr "Modificar atributos existentes"
 
-#: setup/setup_config2.tpl:169
+#: setup/setup_config2.tpl:120
 msgid "Vacation templates"
 msgstr "Plantillas de ausencia"
 
-#: setup/setup_config2.tpl:185
+#: setup/setup_config2.tpl:136
 msgid "Use Cyrus UNIX style"
 msgstr "Usa estilo Cyrus UNIX"
 
-#: setup/setup_config2.tpl:195
+#: setup/setup_config2.tpl:146
 msgid "Snapshots / Undo"
 msgstr "Instantaneas / Deshacer"
 
-#: setup/setup_config2.tpl:204 setup/setup_config2.tpl:249
+#: setup/setup_config2.tpl:155 setup/setup_config2.tpl:200
 msgid "Enable snapshots"
 msgstr "Activar instantaneas"
 
-#: setup/setup_config2.tpl:210 setup/setup_config2.tpl:255
+#: setup/setup_config2.tpl:161 setup/setup_config2.tpl:206
 msgid "Snapshot base"
 msgstr "Base de instantaneas"
 
-#: setup/setup_config2.tpl:219 setup/setup_config2.tpl:264
+#: setup/setup_config2.tpl:170 setup/setup_config2.tpl:215
 #: plugins/admin/ogroups/class_ogroupManagement.inc:187
 #: plugins/admin/ogroups/objectSelect/selectObject-list.xml:23
 #: plugins/generic/references/class_reference.inc:65
@@ -1684,7 +1650,7 @@ msgstr "Base de instantaneas"
 msgid "Server"
 msgstr "Servidor"
 
-#: setup/setup_config2.tpl:228 setup/setup_config2.tpl:273
+#: setup/setup_config2.tpl:179 setup/setup_config2.tpl:224
 #: plugins/admin/users/user-list.xml:23 plugins/admin/users/user-list.xml:95
 #: plugins/admin/groups/userSelect/user-list.xml:14
 #: plugins/admin/groups/userGroupSelect/selectUserGroup-list.xml:15
@@ -1712,100 +1678,70 @@ msgid "Honour administrative units"
 msgstr "Delegar en unidades administrativas"
 
 #: setup/setup_config3.tpl:42
-msgid "Smarty compile directory"
-msgstr "Directorio de compilación Smarty"
-
-#: setup/setup_config3.tpl:51
-msgid "SNMP community"
-msgstr "Comunidad SNMP"
-
-#: setup/setup_config3.tpl:60
-msgid "Path for PPD storage"
-msgstr "Ruta del almacén PPD"
-
-#: setup/setup_config3.tpl:77
-msgid "Path for kiosk profile storage"
-msgstr "Ruta del almacén de perfiles kiosk"
-
-#: setup/setup_config3.tpl:96
-msgid "SUDO role base"
-msgstr "Rol Base SUDO"
-
-#: setup/setup_config3.tpl:115
-msgid "Mail queue script"
-msgstr "Script de cola de correo"
-
-#: setup/setup_config3.tpl:134
-msgid "Notification script"
-msgstr "Script de notificación"
-
-#: setup/setup_config3.tpl:153
 msgid "Enable edit locking"
 msgstr "Activar edición de bloqueo"
 
-#: setup/setup_config3.tpl:174
-#, fuzzy
-msgid "GOto-SI daemon"
-msgstr "Demonio de soporte GOto-si"
+#: setup/setup_config3.tpl:63
+msgid "Enable Copy & Paste"
+msgstr "Activar Copiar y Pegar"
 
-#: setup/setup_config3.tpl:193
-#, fuzzy
-msgid "GOto-si daemon timeout"
-msgstr "Tiempo máximo de respuesta de acceso al demonio GOto-si"
+#: setup/setup_config3.tpl:74
+msgid "FusionDirectory logging"
+msgstr ""
 
-#: setup/setup_config3.tpl:207
+#: setup/setup_config3.tpl:85
 msgid "Login and session"
 msgstr "Inicio y sesión"
 
-#: setup/setup_config3.tpl:210
+#: setup/setup_config3.tpl:88
 msgid "Login attribute"
 msgstr "Atributo de inicio de sesión"
 
-#: setup/setup_config3.tpl:221
+#: setup/setup_config3.tpl:99
 msgid "Enforce register_globals to be deactivated"
 msgstr "Forzar register_globals para que sea desactivado"
 
-#: setup/setup_config3.tpl:233
+#: setup/setup_config3.tpl:111
 msgid "Enforce encrypted connections"
 msgstr "Forzar conexiones seguras"
 
-#: setup/setup_config3.tpl:245
+#: setup/setup_config3.tpl:123
 msgid "Warn if session is not encrypted"
 msgstr "Avisar si la sesión no esta codificada"
 
-#: setup/setup_config3.tpl:257
+#: setup/setup_config3.tpl:135
 msgid "Remember dialog filter settings"
 msgstr "Recordad los parámetros de filtro de los diálogos"
 
-#: setup/setup_config3.tpl:269
+#: setup/setup_config3.tpl:147
 msgid "Session lifetime"
 msgstr "Duración de sesiones."
 
-#: setup/setup_config3.tpl:278
+#: setup/setup_config3.tpl:156
 msgid "Debugging"
 msgstr "Depurando"
 
-#: setup/setup_config3.tpl:282
+#: setup/setup_config3.tpl:160
 msgid "Show PHP errors"
 msgstr "Mostrar errores PHP:"
 
-#: setup/setup_config3.tpl:294
+#: setup/setup_config3.tpl:172
 msgid "Maximum LDAP query time"
 msgstr "Tiempo de consulta máxima de LDAP"
 
-#: setup/setup_config3.tpl:312
+#: setup/setup_config3.tpl:190
 msgid "Log LDAP statistics"
 msgstr "Registrar estadísticas LDAP"
 
-#: setup/setup_config3.tpl:324
+#: setup/setup_config3.tpl:202
 msgid "Debug level"
 msgstr "Nivel de depuración"
 
-#: setup/setup_config3.tpl:329 setup/setup_config3.tpl:332
+#: setup/setup_config3.tpl:207 setup/setup_config3.tpl:210
 msgid "Disabled"
 msgstr "Desactivado"
 
-#: setup/setup_config3.tpl:330 setup/setup_config3.tpl:333
+#: setup/setup_config3.tpl:208 setup/setup_config3.tpl:211
 msgid "Enabled"
 msgstr "Activado"
 
@@ -1853,21 +1789,21 @@ msgstr ""
 "El valor indicado como diferencias mínimas de la contraseña no es un valor "
 "numérico."
 
-#: setup/class_setupStep_Config2.inc:81 setup/class_setupStep_Config2.inc:82
+#: setup/class_setupStep_Config2.inc:79 setup/class_setupStep_Config2.inc:80
 #, fuzzy
 msgid "FusionDirectory settings 2/3"
 msgstr "Configuración FusionDirectory 2/3"
 
-#: setup/class_setupStep_Config2.inc:83
+#: setup/class_setupStep_Config2.inc:81
 msgid "Customize special parameters"
 msgstr "Personalizar parametros especiales"
 
-#: setup/class_setupStep_Config3.inc:82 setup/class_setupStep_Config3.inc:83
+#: setup/class_setupStep_Config3.inc:74 setup/class_setupStep_Config3.inc:75
 #, fuzzy
 msgid "FusionDirectory settings 3/3"
 msgstr "Configuración FusionDirectory 3/3"
 
-#: setup/class_setupStep_Config3.inc:84
+#: setup/class_setupStep_Config3.inc:76
 #, fuzzy
 msgid "Tweak some FusionDirectory core behaviour"
 msgstr "Ajustar el comportamiento del núcleo común de FusionDirectory"
@@ -2085,8 +2021,8 @@ msgstr "Enviar comentarios al equipo del proyecto FusionDirectory"
 #: setup/setup_feedback.tpl:50
 #, fuzzy
 msgid ""
-"When checking this option, FusionDirectory will try to connect http://oss."
-"gonicus.de in order to submit your form anonymously."
+"When checking this option, FusionDirectory will try to connect http://www."
+"fusiondirectory.org in order to submit your form anonymously."
 msgstr ""
 "Cuando seleccione esta opción, Gosa intentara conectar a http://oss.gonicus."
 "de para enviar el formulario de comentarios de forma anónima."
@@ -2744,7 +2680,7 @@ msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1028
 #, fuzzy, php-format
-msgid "FusionDirectory 2.5 administrative accounts found: %s"
+msgid "GOsa 2.5 administrative accounts found: %s"
 msgstr "Encontrada cuenta administrativa GOsa 2.5: %s"
 
 #: setup/class_setupStep_Migrate.inc:1033
@@ -3671,9 +3607,8 @@ msgstr ""
 "se puede crear la instancia del plugin!"
 
 #: include/class_gosaSupportDaemon.inc:112
-#, fuzzy
-msgid "FusionDirectory support daemon"
-msgstr "Demonio de soporte GOto-si"
+msgid "Service GOto-si"
+msgstr ""
 
 #: include/class_gosaSupportDaemon.inc:787
 msgid "Cannot not parse XML!"
@@ -3689,14 +3624,14 @@ msgstr "¡No se puede enviar el evento abortar para la entrada %s!"
 msgid "Cannot remove entry %s!"
 msgstr "¡No se puede eliminar la entrada %s!"
 
-#: include/functions.inc:130
+#: include/functions.inc:132
 #, php-format
 msgid "Fatal error: no class locations defined - please run '%s' to fix this"
 msgstr ""
 "Error fatal: no se han definido un emplazamiento para las clases - por favor "
 "ejecute '%s' para solucionar esto"
 
-#: include/functions.inc:137
+#: include/functions.inc:139
 #, php-format
 msgid ""
 "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
@@ -3704,20 +3639,20 @@ msgstr ""
 "Error fatal: no se puede instanciar la clase '%s' - intente solucionarlo "
 "ejecutando '%s'"
 
-#: include/functions.inc:451
+#: include/functions.inc:453
 #, php-format
 msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
 msgstr ""
 "FATAL: Ha habido un error conectando a LDAP. El servidor comunicó '%s'."
 
-#: include/functions.inc:522
+#: include/functions.inc:524
 msgid "Username / UID is not unique inside the LDAP tree!"
 msgstr "¡El nombre de usuario / UID no es único dentro del árbol LDAP!"
 
-#: include/functions.inc:607 include/functions.inc:821
-#: include/functions.inc:939 include/functions.inc:1337
-#: include/functions.inc:2427 include/functions.inc:2457
-#: include/functions.inc:2477 include/class_CopyPasteHandler.inc:160
+#: include/functions.inc:609 include/functions.inc:823
+#: include/functions.inc:941 include/functions.inc:1339
+#: include/functions.inc:2399 include/functions.inc:2429
+#: include/functions.inc:2449 include/class_CopyPasteHandler.inc:160
 #: include/class_CopyPasteHandler.inc:274 include/class_log.inc:87
 #: include/class_acl.inc:960 include/class_session.inc:76
 #: include/class_session.inc:101 include/class_session.inc:127
@@ -3725,7 +3660,7 @@ msgstr "¡El nombre de usuario / UID no es único dentro del árbol LDAP!"
 msgid "Internal error"
 msgstr "error interno"
 
-#: include/functions.inc:607
+#: include/functions.inc:609
 msgid ""
 "Username / UID is not unique inside the LDAP tree. Please contact your "
 "Administrator."
@@ -3733,13 +3668,13 @@ msgstr ""
 "El nombre de usuario / UID no es único dentro del árbol LDAP. Por favor "
 "contacte con su Administrador."
 
-#: include/functions.inc:821 include/functions.inc:939
+#: include/functions.inc:823 include/functions.inc:941
 msgid "Error while adding a lock. Contact the developers!"
 msgstr ""
 "Ha ocurrido un problema al añadir un bloqueo. ¡Contacte con los "
 "desarrolladores!"
 
-#: include/functions.inc:831
+#: include/functions.inc:833
 #, php-format
 msgid ""
 "Cannot create locking information in LDAP tree. Please contact your "
@@ -3748,12 +3683,12 @@ msgstr ""
 "No puedo crear información de bloqueos en el árbol LDAP. ¡Por favor contacte "
 "con su Administrador!"
 
-#: include/functions.inc:831
+#: include/functions.inc:833
 #, php-format
 msgid "LDAP server returned: %s"
 msgstr "El servidor LDAP devolvio: %s"
 
-#: include/functions.inc:960
+#: include/functions.inc:962
 msgid ""
 "Found multiple locks for object to be locked. This should not happen - "
 "cleaning up multiple references."
@@ -3761,12 +3696,12 @@ msgstr ""
 "Se han encontrado varios bloqueos para un objeto que iba a ser bloqueado. "
 "Esto no debería ocurrir - limpiando referencias multiples."
 
-#: include/functions.inc:1264
+#: include/functions.inc:1266
 #, php-format
 msgid "The size limit of %d entries is exceed!"
 msgstr "¡El límite máximo de %d entradas se ha sobrepasado!"
 
-#: include/functions.inc:1266
+#: include/functions.inc:1268
 #, php-format
 msgid ""
 "Set the new size limit to %s and show me this message if the limit still "
@@ -3775,83 +3710,73 @@ msgstr ""
 "Introduzca un nuevo límite máximo a %s y se volvera a mostrar este mensaje "
 "si se supera el límite máximo"
 
-#: include/functions.inc:1278 plugins/personal/generic/generic.tpl:223
+#: include/functions.inc:1280 plugins/personal/generic/generic.tpl:223
 msgid "Configure"
 msgstr "Configurar"
 
-#: include/functions.inc:1283
+#: include/functions.inc:1285
 msgid "incomplete"
 msgstr "incompleto"
 
-#: include/functions.inc:1673
+#: include/functions.inc:1675
 msgid "Continue anyway"
 msgstr "Continuar de cualquier manera"
 
-#: include/functions.inc:1675
+#: include/functions.inc:1677
 msgid "Edit anyway"
 msgstr "Editar de cualquier manera"
 
-#: include/functions.inc:1677
+#: include/functions.inc:1679
 #, php-format
 msgid "You're going to edit the LDAP entry/entries %s"
 msgstr "Has decidido editar las siguientes entradas LDAP %s"
 
-#: include/functions.inc:1917
+#: include/functions.inc:1919
 msgid "Entries per page"
 msgstr "Entradas por página"
 
-#: include/functions.inc:1946 include/class_filter.inc:315
+#: include/functions.inc:1948 include/class_filter.inc:315
 msgid "Apply filter"
 msgstr "Aplicar filtro"
 
-#: include/functions.inc:2265 include/class_filter.inc:281
+#: include/functions.inc:2267 include/class_filter.inc:281
 msgid "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 msgstr "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-#: include/functions.inc:2319
-#, fuzzy, php-format
-msgid "FusionDirectory %s"
-msgstr "Directorio"
-
-#: include/functions.inc:2326
-#, fuzzy, php-format
-msgid "FusionDirectory %s snapshot (Rev %s)"
-msgstr "Instantánea de desarrollo FusionDirectory (Rev %s)"
-
-#: include/functions.inc:2331
-#, fuzzy, php-format
-msgid "FusionDirectory development snapshot (Rev %s)"
-msgstr "Instantánea de desarrollo FusionDirectory (Rev %s)"
-
-#: include/functions.inc:2427
+#: include/functions.inc:2399
 #, php-format
 msgid "File '%s' could not be deleted."
 msgstr "El archivo '%s' no puede ser eliminado."
 
-#: include/functions.inc:2457 include/functions.inc:2477
+#: include/functions.inc:2429
 msgid "Cannot write to revision file!"
 msgstr "¡No se puede escribir en el archivo de revisión!"
 
-#: include/functions.inc:2695 include/functions.inc:2699
-#: include/functions.inc:2705
+#: include/functions.inc:2449
+#, fuzzy
+msgid "Cannot read to revision file!"
+msgstr "¡No se puede escribir en el archivo de revisión!"
+
+#: include/functions.inc:2667 include/functions.inc:2671
+#: include/functions.inc:2677
 msgid "'baseIdHook' is not available. Using default base!"
 msgstr "No esta disponible 'baseIdHook'.¡Se usara la base predeterminada!"
 
-#: include/functions.inc:2729
+#: include/functions.inc:2701
 msgid "LDAP warning"
 msgstr "Aviso LDAP"
 
-#: include/functions.inc:2729
+#: include/functions.inc:2701
 msgid "Cannot get schema information from server. No schema check possible!"
 msgstr ""
 "No puedo obtener información de esquemas del servidor. ¡No es posible "
 "comprobar los esquemas!"
 
-#: include/functions.inc:2755
+#: include/functions.inc:2727
 msgid "Used to store account specific informations."
 msgstr "Usado para guardar información específica de la cuenta."
 
-#: include/functions.inc:2762
+#: include/functions.inc:2734
 msgid ""
 "Used to lock currently edited entries to avoid multiple changes at the same "
 "time."
@@ -3859,28 +3784,28 @@ msgstr ""
 "Usado para bloquear entradas editadas actualmente y así evitar múltiples "
 "cambios simultáneos."
 
-#: include/functions.inc:2807
+#: include/functions.inc:2779
 #, php-format
 msgid "Missing required object class '%s'!"
 msgstr "¡No se ha encontrado la clase de objeto necesaria '%s'!"
 
-#: include/functions.inc:2810
+#: include/functions.inc:2782
 #, php-format
 msgid "Missing optional object class '%s'!"
 msgstr "¡No se ha encontrado la clase de objeto opcional '%s'!"
 
-#: include/functions.inc:2815
+#: include/functions.inc:2787
 #, php-format
 msgid "Version mismatch for required object class '%s' (!=%s)!"
 msgstr ""
 "¡Las versiones de la clase de objeto necesaria no coinciden '%s' (!=%s)!"
 
-#: include/functions.inc:2818
+#: include/functions.inc:2790
 #, php-format
 msgid "Class(es) available"
 msgstr "Clase(s) disponibles"
 
-#: include/functions.inc:2840
+#: include/functions.inc:2812
 msgid ""
 "You have enabled the rfc2307bis option on the 'ldap setup' step, but your "
 "schema    configuration do not support this option."
@@ -3888,7 +3813,7 @@ msgstr ""
 "Ha activado la opción rfc2307bis en el paso 'configuración ldap', pero su "
 "configuración de esquemas no soporta esta opción."
 
-#: include/functions.inc:2841
+#: include/functions.inc:2813
 msgid ""
 "In order to use rfc2307bis conform groups the objectClass 'posixGroup' must "
 "be      AUXILIARY"
@@ -3896,7 +3821,7 @@ msgstr ""
 "Para poder usar grupos conforme a rfc2307bis, el objectClass 'posixGroup' "
 "debe ser AUXILIARY"
 
-#: include/functions.inc:2845
+#: include/functions.inc:2817
 msgid ""
 "Your schema is configured to support the rfc2307bis group, but you have "
 "disabled this option on the 'ldap setup' step."
@@ -3904,51 +3829,51 @@ msgstr ""
 "Su esquema está configurado para soportar grupos rfc2307bis, pero ha "
 "desactivado esta opción en el paso 'configuración ldap'."
 
-#: include/functions.inc:2846
+#: include/functions.inc:2818
 msgid "The objectClass 'posixGroup' must be STRUCTURAL"
 msgstr "El objectClass 'posixGroup' debe ser STRUCTURAL"
 
-#: include/functions.inc:2870
+#: include/functions.inc:2842
 msgid "German"
 msgstr "Alemán"
 
-#: include/functions.inc:2871
+#: include/functions.inc:2843
 msgid "French"
 msgstr "Francés"
 
-#: include/functions.inc:2872
+#: include/functions.inc:2844
 msgid "Italian"
 msgstr "Italiano"
 
-#: include/functions.inc:2873
+#: include/functions.inc:2845
 msgid "Spanish"
 msgstr "Español"
 
-#: include/functions.inc:2874
+#: include/functions.inc:2846
 msgid "English"
 msgstr "Inglés"
 
-#: include/functions.inc:2875
+#: include/functions.inc:2847
 msgid "Dutch"
 msgstr "Holandes"
 
-#: include/functions.inc:2876
+#: include/functions.inc:2848
 msgid "Polish"
 msgstr "Polaco"
 
-#: include/functions.inc:2878
+#: include/functions.inc:2850
 msgid "Chinese"
 msgstr "Chino"
 
-#: include/functions.inc:2879
+#: include/functions.inc:2851
 msgid "Vietnamese"
 msgstr "Vietnamita"
 
-#: include/functions.inc:2880
+#: include/functions.inc:2852
 msgid "Russian"
 msgstr "Ruso"
 
-#: include/functions.inc:3078
+#: include/functions.inc:3050
 #, php-format
 msgid ""
 "Command '%s', specified as POSTMODIFY for plugin '%s' doesn't seem to exist."
@@ -3956,11 +3881,11 @@ msgstr ""
 "El comando '%s', utilizado como POSTMODIFY para la extensión '%s', no parece "
 "existir."
 
-#: include/functions.inc:3111
+#: include/functions.inc:3083
 msgid "Cannot generate samba hash!"
 msgstr "¡No se puede generar la clave samba!"
 
-#: include/functions.inc:3124
+#: include/functions.inc:3096
 #, php-format
 msgid ""
 "Cannot generate samba hash: running '%s' failed, check the 'sambaHashHook'!"
@@ -3968,39 +3893,39 @@ msgstr ""
 "¡No se puede generar la clave samba: la ejecución de '%s' ha fallado, "
 "compruebe el 'sambaHashHook'!"
 
-#: include/functions.inc:3405 include/functions.inc:3419
-#: include/functions.inc:3457 include/functions.inc:3469
-#: include/functions.inc:3473 include/functions.inc:3488
-#: include/functions.inc:3497
+#: include/functions.inc:3377 include/functions.inc:3391
+#: include/functions.inc:3429 include/functions.inc:3441
+#: include/functions.inc:3445 include/functions.inc:3460
+#: include/functions.inc:3469
 msgid "Cannot allocate a free ID:"
 msgstr "No se puede asignar un identificador (ID) libre:"
 
-#: include/functions.inc:3405
+#: include/functions.inc:3377
 msgid "unknown idAllocation method!"
 msgstr "¡método de asignación de id desconocido!"
 
-#: include/functions.inc:3419
+#: include/functions.inc:3391
 #, php-format
 msgid "%sPoolMin >= %sPoolMax!"
 msgstr "¡%sPoolMin >= %sPoolMax!"
 
-#: include/functions.inc:3449
+#: include/functions.inc:3421
 msgid "Cannot create sambaUnixIdPool entry!"
 msgstr "¡No se puede crear la entrada sambaUnixIdPool!"
 
-#: include/functions.inc:3457
+#: include/functions.inc:3429
 msgid "sambaUnixIdPool is not unique!"
 msgstr "¡sambaUnixIdPool no es único!"
 
-#: include/functions.inc:3469 include/functions.inc:3473
+#: include/functions.inc:3441 include/functions.inc:3445
 msgid "no ID available!"
 msgstr "¡No hay ID disponibles!"
 
-#: include/functions.inc:3497
+#: include/functions.inc:3469
 msgid "maximum tries exceeded!"
 msgstr "¡Excedido el número de intentos máximo!"
 
-#: include/functions.inc:3557
+#: include/functions.inc:3529
 msgid "Cannot allocate a free ID!"
 msgstr "¡No se puede asignar un identificador (ID) libre!"
 
@@ -6483,7 +6408,7 @@ msgstr "El método de contraseña seleccionado no está disponible."
 
 #: plugins/personal/generic/class_user.inc:1038
 msgid ""
-"Cannot save user picture, FusionDirectoryrequires the package 'imagemagick' "
+"Cannot save user picture, FusionDirectory requires the package 'imagemagick' "
 "or 'php5-imagick' to be installed!"
 msgstr ""
 
@@ -6754,6 +6679,83 @@ msgstr "Por favor use la sección telefóno"
 #, fuzzy
 msgid "Your password hash method will not be changed!"
 msgstr "Su contraseña se ha cambiado correctamente."
+
+#~ msgid "Helpdir '%s' is not accessible, can't read any helpfiles."
+#~ msgstr ""
+#~ "El directorio de ayuda '%s' no está disponible, no podrá leer ningún "
+#~ "archivo de ayuda."
+
+#~ msgid "On"
+#~ msgstr "On"
+
+#~ msgid ""
+#~ "Increase your server security by setting magic_quotes_gpc to 'on'. PHP "
+#~ "will escape all quotes in strings in this case."
+#~ msgstr ""
+#~ "Aumente la seguridad del servidor modificando el parámetro "
+#~ "'magic_quotes_gpc ' a 'on'. PHP debería escapar todas las comillas de las "
+#~ "cadenas en este caso."
+
+#~ msgid "Search for 'magic_quotes_gpc' in your php.ini and set it to 'On'."
+#~ msgstr "Busque 'magic_quotes_gpc' en su php.ini y modifíquelo a 'On'."
+
+#~ msgid "Hook for number base"
+#~ msgstr "Método para el número base"
+
+#~ msgid "Samba hash generator"
+#~ msgstr "Generador clave hash de Samba"
+
+#, fuzzy
+#~ msgid "Additional FusionDirectory settings"
+#~ msgstr "Configuración avanzada de FusionDirectory"
+
+#~ msgid "Government mode"
+#~ msgstr "Modo gubernamental"
+
+#~ msgid "Smarty compile directory"
+#~ msgstr "Directorio de compilación Smarty"
+
+#~ msgid "SNMP community"
+#~ msgstr "Comunidad SNMP"
+
+#~ msgid "Path for PPD storage"
+#~ msgstr "Ruta del almacén PPD"
+
+#~ msgid "Path for kiosk profile storage"
+#~ msgstr "Ruta del almacén de perfiles kiosk"
+
+#~ msgid "SUDO role base"
+#~ msgstr "Rol Base SUDO"
+
+#~ msgid "Mail queue script"
+#~ msgstr "Script de cola de correo"
+
+#~ msgid "Notification script"
+#~ msgstr "Script de notificación"
+
+#, fuzzy
+#~ msgid "GOto-SI daemon"
+#~ msgstr "Demonio de soporte GOto-si"
+
+#, fuzzy
+#~ msgid "GOto-si daemon timeout"
+#~ msgstr "Tiempo máximo de respuesta de acceso al demonio GOto-si"
+
+#, fuzzy
+#~ msgid "FusionDirectory support daemon"
+#~ msgstr "Demonio de soporte GOto-si"
+
+#, fuzzy
+#~ msgid "FusionDirectory %s"
+#~ msgstr "Directorio"
+
+#, fuzzy
+#~ msgid "FusionDirectory %s snapshot (Rev %s)"
+#~ msgstr "Instantánea de desarrollo FusionDirectory (Rev %s)"
+
+#, fuzzy
+#~ msgid "FusionDirectory development snapshot (Rev %s)"
+#~ msgstr "Instantánea de desarrollo FusionDirectory (Rev %s)"
 
 #~ msgid "Sytem trust"
 #~ msgstr "Sistema de confianza"
