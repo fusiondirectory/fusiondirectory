@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-08 18:35+0200\n"
+"POT-Creation-Date: 2011-05-08 19:02+0200\n"
 "PO-Revision-Date: 2007-06-03 12:27+0800\n"
 "Last-Translator: Jiang Xin <worldhello.net@gmail.com>\n"
 "Language-Team: Chinese Simplified <zh@li.org>\n"
@@ -969,8 +969,8 @@ msgstr ""
 #: setup/class_setupStep_Checks.inc:89
 #, fuzzy
 msgid ""
-"GOsa requires this module to communicate with different types of servers and "
-"protocols."
+"FusionDirectory requires this module to communicate with different types of "
+"servers and protocols."
 msgstr "需要 MySQL 支持来从数据库中读取 GOfax 报告。"
 
 #: setup/class_setupStep_Checks.inc:97

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages-2.6.4-pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-08 18:35+0200\n"
+"POT-Creation-Date: 2011-05-08 19:02+0200\n"
 "PO-Revision-Date: 2009-03-02 15:03-0300\n"
 "Last-Translator: Clever de Oliveira Jr. <clever@dri.cefetmg.br>\n"
 "Language-Team: Brazilian Portuguese <pt@li.org>\n"
@@ -922,8 +922,8 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:89
 msgid ""
-"GOsa requires this module to communicate with different types of servers and "
-"protocols."
+"FusionDirectory requires this module to communicate with different types of "
+"servers and protocols."
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:97
