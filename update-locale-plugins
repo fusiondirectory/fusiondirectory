@@ -1,7 +1,7 @@
 #!/bin/bash
 
 BUILD_DIR="/home/benoit/develop/build-package/"
-SRC_DIR="fusiondirectory-build/src/"
+SRC_DIR="fusiondirectory-debian-build/src/"
 PLUGIN_DIR="fusiondirectory-plugins"
 CORE_DIR="fusiondirectory"
 
