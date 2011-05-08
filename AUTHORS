@@ -84,7 +84,7 @@ documentation and additional help.
   patch for the manager fonctionnality in the General user tab
 
 * Olivier BONHOMME <obonhomme@nerim.net>
-  Corrected RPM building
+  Fedora and Centos Packager, selinux policy creator
 
 * Benjamin Carpentier <carpentierbenjamin@gmail.com>
   Tested FusionDirectory, corrected copyright issues and locales
