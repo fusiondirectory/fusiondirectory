@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-05-08 19:02+0200\n"
-"PO-Revision-Date: 2011-03-30 12:04+0200\n"
+"PO-Revision-Date: 2011-05-18 14:39+0200\n"
 "Last-Translator: Giuliano Di Vito <giuliano@opensides.be>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -25,9 +25,9 @@ msgid "Fatal error"
 msgstr "Errore fatale"
 
 #: html/password.php:58 html/index.php:150
-#, fuzzy, php-format
+#, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
-msgstr "Il file di configurazione %s/%s non è leggibile. Annullato."
+msgstr "Il file di configurazione %s/%s non è leggibile. Operazione Annullata."
 
 #: html/password.php:74 html/main.php:269 html/index.php:150
 #: html/index.php:222 include/class_SnapshotHandler.inc:44
@@ -174,13 +174,12 @@ msgid "PHP configuration"
 msgstr "Configurazione PHP"
 
 #: html/main.php:169
-#, fuzzy
 msgid ""
 "Fatal error: Register globals is on. FusionDirectory will refuse to login "
 "unless this is fixed by an administrator."
 msgstr ""
 "Errore fatale: Register globals è attivato. FusionDirectory rifiuterà ogni "
-"accesso utente finchè questo non è corretto da un amministratore."
+"accesso utente finchè questo errore non sarà corretto da un amministratore."
 
 #: html/main.php:199 ihtml/themes/default/password.tpl:41
 #: plugins/admin/users/class_userManagement.inc:401
@@ -233,13 +232,12 @@ msgid "Session is not encrypted!"
 msgstr "La sessione non è criptata."
 
 #: html/index.php:64
-#, fuzzy
 msgid ""
 "The session lifetime configured in your fusiondirectory.conf will be "
 "overridden by php.ini settings."
 msgstr ""
-"Il tempo di validità delle sessioni configurato nel tuo file fusiondirectory."
-"conf sarà rimpiazzato da quello definito in php.ini."
+"La durata di vita delle sessioni configurata nel tuo file fusiondirectory."
+"conf sarà rimpiazzata da quella definita nel tuo php.ini."
 
 #: html/index.php:171
 msgid "Smarty error"
@@ -402,7 +400,6 @@ msgid "Help browser"
 msgstr "Aiuto"
 
 #: html/helpviewer.php:118
-#, fuzzy
 msgid "There is no helpfile specified for this extension"
 msgstr "Non c'è alcun file di aiuto specificato per questa classe"
 
@@ -415,9 +412,9 @@ msgid "next"
 msgstr "successivo"
 
 #: html/helpviewer.php:272
-#, fuzzy, php-format
+#, php-format
 msgid "No help available for the extension '%s'."
-msgstr "L'aiuto non è disponibile per questa estensione."
+msgstr "L'aiuto non è disponibile per l'estensione '%s'."
 
 #: ihtml/themes/default/conflict.tpl:2
 msgid "Session conflict detected"
@@ -574,7 +571,6 @@ msgid "Continue"
 msgstr "Continua"
 
 #: ihtml/themes/default/logout-close.tpl:5
-#, fuzzy
 msgid "Your FusionDirectory session has been closed!"
 msgstr "La tua sessione di FusionDirectory è stata chiusa!"
 
@@ -668,7 +664,6 @@ msgid "Change password"
 msgstr "Cambia la password"
 
 #: ihtml/themes/default/login.tpl:10
-#, fuzzy
 msgid "FusionDirectory login screen"
 msgstr "Schermata di connessione di FusionDirectory "
 
@@ -681,7 +676,7 @@ msgid ""
 "Please use your username and your password to log into the site "
 "administration system."
 msgstr ""
-"Usa il tuo <i>nome utente</i> e la tua <i>password</i> per accedere "
+"Usa il tuo nome utente e la tua password per accedere "
 "all'amministrazione del sistema."
 
 #: ihtml/themes/default/login.tpl:77 ihtml/themes/default/login.tpl:80
@@ -693,13 +688,13 @@ msgid "Click here to log in"
 msgstr "Clicca qui per connetterti"
 
 #: ihtml/themes/default/remove.tpl:6
-#, fuzzy
 msgid ""
 "This may be used by several groups. Please double check if your really want "
 "to do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
-"Questo può essere utilizzato da diversi gruppi. Verifica che vuoi davvero "
-"farlo in quanto è impossibile per FusionDirectory recuperare i dati."
+"Questo può essere utilizzato da diversi gruppi. Assicurati che vuoi davvero "
+"eseguire l'azione visto che poi sarà impossibile per FusionDirectory "
+"recuperare i tuoi dati."
 
 #: ihtml/themes/default/remove.tpl:9 plugins/admin/acl/remove.tpl:10
 #: plugins/admin/users/remove.tpl:10 plugins/admin/groups/remove.tpl:10
@@ -804,7 +799,7 @@ msgstr "Connesso:"
 
 #: ihtml/themes/default/framework.tpl:32
 msgid "FusionDirectory main menu"
-msgstr ""
+msgstr "Menu principale di FusionDirectory"
 
 #: ihtml/themes/default/msg_dialog.tpl:61
 #: ihtml/themes/default/msg_dialog.tpl:108 setup/setup_ldap.tpl:121
@@ -871,17 +866,15 @@ msgstr "Attiva"
 msgid "Copy & paste wizard"
 msgstr "Guida per il copia & incolla"
 
-# fullfill   --> fulfill
 #: ihtml/themes/default/copyPasteDialog.tpl:7
-#, fuzzy
 msgid ""
 "Some values need to be unique in the complete directory while some "
 "combinations make no sense. FusionDirectory shows the relevant attributes. "
 "Please maintain the values below to fulfill the policies."
 msgstr ""
 "Alcuni valori devono essere univoci nella directory completa, mentre "
-"alcunecombinazioni non hanno senso. FusionDirectory mostra i valori "
-"corrispondenti. Mantieni i valori al di sotto per soddisfare i criteri di "
+"alcune combinazioni non hanno senso. FusionDirectory mostra i valori "
+"corrispondenti. Mantieni i valori qui sotto per soddisfare i criteri di "
 "sicurezza."
 
 #: ihtml/themes/default/copyPasteDialog.tpl:9
@@ -891,7 +884,6 @@ msgstr ""
 "copiate!"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:10
-#, fuzzy
 msgid ""
 "Or if you copy or cut an entry within FusionDirectory and delete the source "
 "object, you may get errors while pasting this object again!"
@@ -919,12 +911,10 @@ msgid "Finish"
 msgstr "Finito"
 
 #: ihtml/themes/default/logout.tpl:5
-#, fuzzy
 msgid "Your FusionDirectory session has expired!"
 msgstr "La tua sessione in FusionDirectory è scaduta!"
 
 #: ihtml/themes/default/logout.tpl:7
-#, fuzzy
 msgid ""
 "The last interaction with the FusionDirectory web interface has been some "
 "time ago in the past. For security reasons, the session has been closed. To "
@@ -939,7 +929,6 @@ msgid "Sign in again"
 msgstr "Riconnetti"
 
 #: ihtml/themes/default/help.tpl:9
-#, fuzzy
 msgid "FusionDirectory help viewer"
 msgstr "Guida online di FusionDirectory "
 
@@ -992,36 +981,31 @@ msgid "Please upgrade to a supported version."
 msgstr "Aggiorna ad una versione supportata."
 
 #: setup/class_setupStep_Checks.inc:73
-#, fuzzy
 msgid "FusionDirectory requires this module to talk with your LDAP server."
 msgstr ""
 "FusionDirectory ha bisogno di questo modulo per poter comunicare con il "
 "server LDAP."
 
 #: setup/class_setupStep_Checks.inc:81
-#, fuzzy
 msgid ""
 "FusionDirectory requires this module for an internationalized interface."
 msgstr ""
 "FusionDirectory ha bisogno di questo modulo per l'interfaccia multilingue."
 
 #: setup/class_setupStep_Checks.inc:89
-#, fuzzy
 msgid ""
 "FusionDirectory requires this module to communicate with different types of "
 "servers and protocols."
 msgstr ""
-"FusionDirectory ha bisogno di questo modulo per comunicare con i database "
-"supportati."
+"FusionDirectory ha bisogno di questo modulo per comunicare con differenti "
+"tipi di server e protocolli."
 
 #: setup/class_setupStep_Checks.inc:97
-#, fuzzy
 msgid "FusionDirectory requires this module for the samba integration."
 msgstr ""
 "FusionDirectory ha bisogno di questo modulo per l'integrazione di Samba"
 
 #: setup/class_setupStep_Checks.inc:105
-#, fuzzy
 msgid ""
 "FusionDirectory requires either 'mhash' or the 'sha1' module to make use of "
 "SSHA encryption."
@@ -1030,7 +1014,6 @@ msgstr ""
 "utilizzare l'algoritmo di criptaggio SSHA."
 
 #: setup/class_setupStep_Checks.inc:113
-#, fuzzy
 msgid "FusionDirectory requires this module to talk to an IMAP server."
 msgstr ""
 "FusionDirectory ha bisogno di questo modulo per comunicare con il server "
@@ -1041,7 +1024,6 @@ msgid "mbstring"
 msgstr "mbstring"
 
 #: setup/class_setupStep_Checks.inc:121
-#, fuzzy
 msgid "FusionDirectory requires this module to handle unicode strings."
 msgstr ""
 "FusionDirectory ha bisogno di questo modulo per gestire i caratteri Unicode."
@@ -1051,7 +1033,6 @@ msgid "MySQL"
 msgstr "MySQL"
 
 #: setup/class_setupStep_Checks.inc:129
-#, fuzzy
 msgid ""
 "FusionDirectory requires this module to communicate with several supported "
 "databases."
@@ -1064,20 +1045,18 @@ msgid "samba hash generator"
 msgstr "generatore di hash per Samba"
 
 #: setup/class_setupStep_Checks.inc:147
-#, fuzzy
 msgid ""
 "FusionDirectory requires this command to synchronize POSIX and samba "
 "passwords."
 msgstr ""
-"FusionDirectory ha bisogno di questo comando per sincronizzare les passwords "
-"POSIX con Samba."
+"FusionDirectory ha bisogno di questo comando per sincronizzare gli account "
+"POSIX con le password Samba."
 
 #: setup/class_setupStep_Checks.inc:148
-#, fuzzy
 msgid ""
 "Deploy a goto-si installation or install the perl Crypt::SmbHash modules."
 msgstr ""
-"Implementare un'installazione GOto-si oppure installare i moduli perl Crypt::"
+"Implementa un'installazione GOto-si oppure installa i moduli perl Crypt::"
 "SmbHash."
 
 #: setup/class_setupStep_Checks.inc:161
@@ -1085,21 +1064,20 @@ msgid "imagick"
 msgstr "imagick"
 
 #: setup/class_setupStep_Checks.inc:162
-#, fuzzy
 msgid "FusionDirectory requires this extension to handle images."
 msgstr ""
-"FusionDirectory ha bisogno di questa estensione per maneggiare le immagini."
+"FusionDirectory ha bisogno di questa estensione per gestire le immagini."
 
 #: setup/class_setupStep_Checks.inc:177
 msgid "compression module"
 msgstr "modulo di compressione"
 
 #: setup/class_setupStep_Checks.inc:178
-#, fuzzy
 msgid "FusionDirectory requires this extension to handle snapshots."
 msgstr ""
-"FusionDirectory ha bisogno di questa estensione per maneggiare le copie "
-"istantanee."
+"FusionDirectory ha bisogno di questa estensione per gestire gli snapshot (le "
+"copie "
+"istantanee)."
 
 #: setup/class_setupStep_Checks.inc:189
 msgid ""
@@ -1142,7 +1120,6 @@ msgid "Off"
 msgstr "Off"
 
 #: setup/class_setupStep_Checks.inc:208
-#, fuzzy
 msgid ""
 "In Order to use FusionDirectory without any trouble, the session."
 "auto_register option in your php.ini should be set to 'Off'."
@@ -1157,14 +1134,13 @@ msgstr ""
 "'Off'."
 
 #: setup/class_setupStep_Checks.inc:216
-#, fuzzy
 msgid ""
 "FusionDirectory needs at least 32MB of memory. Setting it below this limit "
 "may cause errors that are not reproducable! Increase it for larger setups."
 msgstr ""
-"FusionDirectory ha bisogno di minimo 32MB di memoria. Meno di 32MB di "
+"FusionDirectory ha un bisogno minimo di 32MB di memoria. Meno di 32MB di "
 "memoria causeranno degli errori imprevisti che non saranno riproducibili ! "
-"Aumenta la memoria per delle istallazioni più complesse."
+"Aumenta la memoria per delle installazioni più complesse."
 
 #: setup/class_setupStep_Checks.inc:217
 msgid ""
@@ -1232,14 +1208,14 @@ msgid "The configuration file can't be written"
 msgstr "Il file di configurazione non puó essere scritto"
 
 #: setup/class_setupStep_Checks.inc:270
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "FusionDirectory reads its configuration from a file located in (%s/%s). The "
 "setup can write the configuration directly if it is writeable."
 msgstr ""
 "FusionDirectory legge la configurazione da un file situato in (%s/%s). Il "
-"programma d'istallazione scriverà direttamente nel file se questo ha i "
-"permessi per essere scritto."
+"programma d'installazione scriverà direttamente nel file se questo ha le "
+"autorizzazioni per essere scritto."
 
 #: setup/setup_schema.tpl:3
 msgid "Schema specific settings"
@@ -1250,7 +1226,6 @@ msgid "Enable schema validation when logging in"
 msgstr "Attivare la validazione degli schemi alla connessione"
 
 #: setup/setup_schema.tpl:16
-#, fuzzy
 msgid "Check status"
 msgstr "Verifica dello stato"
 
@@ -1271,7 +1246,6 @@ msgstr ""
 "annullate. Correggi le ACLs dell'annuario LDAP."
 
 #: setup/setup_schema.tpl:35
-#, fuzzy
 msgid ""
 "It seems that your ldap database wasn't initialized yet. This maybe the "
 "reason, why FusionDirectory can't read your schema configuration!"
@@ -1317,23 +1291,20 @@ msgid "System inventory"
 msgstr "Gestione dell'inventario"
 
 #: setup/class_setupStep_Feedback.inc:105
-#, fuzzy
 msgid "System-/Configmanagement"
-msgstr "System-/Configmanagement"
+msgstr "Gestione Sistema / Configurazione"
 
 #: setup/class_setupStep_Feedback.inc:107
 msgid "Addressbook"
 msgstr "Rubrica dei contatti"
 
 #: setup/class_setupStep_Feedback.inc:113
-#, fuzzy
 msgid "Feedback"
-msgstr "Invia la tua risposta"
+msgstr "Feedback"
 
 #: setup/class_setupStep_Feedback.inc:114
-#, fuzzy
 msgid "Get notifications or send feedback"
-msgstr "Ricevi delle notifiche o invia la tua risposta"
+msgstr "Ricevi delle notifiche o invia il tuo feedback"
 
 #: setup/class_setupStep_Feedback.inc:115
 msgid "Notification and feedback"
@@ -1396,7 +1367,6 @@ msgid "LDAP connection setup"
 msgstr "Configurazione della connessione di LDAP"
 
 #: setup/class_setupStep_Ldap.inc:55
-#, fuzzy
 msgid ""
 "This dialog performs the basic configuration of the LDAP connectivity for "
 "FusionDirectory."
@@ -1441,9 +1411,8 @@ msgid "Automatic"
 msgstr "Automatico"
 
 #: setup/setup_frame.tpl:12
-#, fuzzy
 msgid "FusionDirectory setup wizard"
-msgstr "Istallazione guidata di FusionDirectory"
+msgstr "Installazione guidata di FusionDirectory"
 
 #: setup/setup_frame.tpl:19
 msgid "Installation"
@@ -1466,17 +1435,14 @@ msgid "Download configuration"
 msgstr "Scarica il file di  configurazione"
 
 #: setup/setup_finish.tpl:33
-#, fuzzy
 msgid "Status: "
 msgstr "Stato :"
 
 #: setup/setup_config1.tpl:2
-#, fuzzy
 msgid "Look and feel"
 msgstr "Temi e apparenze"
 
 #: setup/setup_config1.tpl:6
-#, fuzzy
 msgid "Theme"
 msgstr "Tema"
 
@@ -1549,7 +1515,6 @@ msgid "Different characters from old password"
 msgstr "Numero di caratteri diversi dalla vecchia password"
 
 #: setup/setup_config1.tpl:166
-#, fuzzy
 msgid "Password change hook"
 msgstr "Connessioni per la modifica della password"
 
@@ -1562,7 +1527,6 @@ msgid "Use account expiration"
 msgstr "Utilizza una scadenza per l'account"
 
 #: setup/setup_config1.tpl:205
-#, fuzzy
 msgid ""
 "FusionDirectory supports several encryption types for your passwords. "
 "Normally this is adjustable via user templates, but you can specify a "
@@ -1573,7 +1537,6 @@ msgstr ""
 "account, ma puoi anche impostarne uno di default qui."
 
 #: setup/setup_config1.tpl:206
-#, fuzzy
 msgid ""
 "FusionDirectory always acts as admin and manages access rights internally. "
 "This is a workaround till OpenLDAP's in directory ACI's are    fully "
@@ -1586,7 +1549,6 @@ msgstr ""
 "devi indicare il DN dell'amministratore e la password corrispondente."
 
 #: setup/setup_config1.tpl:207
-#, fuzzy
 msgid ""
 "Some basic LDAP parameters are tunable and affect the locations where "
 "FusionDirectory saves people and groups, including the way accounts get "
@@ -1598,7 +1560,6 @@ msgstr ""
 "corrispondano alle tue necessità."
 
 #: setup/setup_config1.tpl:208
-#, fuzzy
 msgid ""
 "FusionDirectory has modular support for several mail methods. These methods "
 "provide interfaces to users mailboxes and general handling    for quotas. "
@@ -1619,14 +1580,12 @@ msgid "Samba SID"
 msgstr "SID Samba"
 
 #: setup/setup_config2.tpl:22
-#, fuzzy
 msgid "RID base"
-msgstr "base RID"
+msgstr "base del RID"
 
 #: setup/setup_config2.tpl:37
-#, fuzzy
 msgid "Workstation container"
-msgstr "Contenitore delle workstations"
+msgstr "Ramo dell'annuario contenente le workstations"
 
 #: setup/setup_config2.tpl:52
 msgid "Samba SID mapping"
@@ -1637,16 +1596,14 @@ msgid "Timezone"
 msgstr "Fuso orario"
 
 #: setup/setup_config2.tpl:65
-#, fuzzy
 msgid "Please choose your preferred timezone here"
-msgstr "Scegli il tuo fuso orario"
+msgstr "Scegli il tuo fuso orario preferito"
 
 #: setup/setup_config2.tpl:86
 msgid "Mail settings"
 msgstr "Parametri per la posta elettronica"
 
 #: setup/setup_config2.tpl:90
-#, fuzzy
 msgid "Mail method"
 msgstr "Algoritmo per la posta elettronica"
 
@@ -1665,14 +1622,12 @@ msgid "Vacation templates"
 msgstr "Modelli per il messaggio d'assenza"
 
 #: setup/setup_config2.tpl:136
-#, fuzzy
 msgid "Use Cyrus UNIX style"
 msgstr "Usa Cyrux in modalità UNIX"
 
 #: setup/setup_config2.tpl:146
-#, fuzzy
 msgid "Snapshots / Undo"
-msgstr "Copia istantanea / Undo"
+msgstr "Snapshots / Annullo"
 
 #: setup/setup_config2.tpl:155 setup/setup_config2.tpl:200
 msgid "Enable snapshots"
@@ -1701,7 +1656,6 @@ msgid "User"
 msgstr "Utente"
 
 #: setup/setup_config3.tpl:2
-#, fuzzy
 msgid "FusionDirectory core settings"
 msgstr "Impostazioni essenziali di FusionDirectory "
 
@@ -1727,7 +1681,7 @@ msgstr "Attiva il copia & incolla"
 
 #: setup/setup_config3.tpl:74
 msgid "FusionDirectory logging"
-msgstr ""
+msgstr "Registrazione di FusionDirectory"
 
 #: setup/setup_config3.tpl:85
 msgid "Login and session"
@@ -1758,7 +1712,6 @@ msgid "Session lifetime"
 msgstr "Durata di vita della sessione"
 
 #: setup/setup_config3.tpl:156
-#, fuzzy
 msgid "Debugging"
 msgstr "Debugging"
 
@@ -1787,14 +1740,12 @@ msgid "Enabled"
 msgstr "Abilitato"
 
 #: setup/class_setupStep_Config1.inc:74 setup/class_setupStep_Config1.inc:75
-#, fuzzy
 msgid "FusionDirectory settings 1/3"
 msgstr "Parametri di FusionDirectory 1/3"
 
 #: setup/class_setupStep_Config1.inc:76
-#, fuzzy
 msgid "FusionDirectory generic settings"
-msgstr "Impostazioni generali di FusionDirectory"
+msgstr "Impostazioni di base di FusionDirectory"
 
 #: setup/class_setupStep_Config1.inc:118
 #, php-format
@@ -1830,7 +1781,6 @@ msgstr ""
 "L'opzione differ per la password, che hai indicato, non è un valore numerico."
 
 #: setup/class_setupStep_Config2.inc:79 setup/class_setupStep_Config2.inc:80
-#, fuzzy
 msgid "FusionDirectory settings 2/3"
 msgstr "Parametri di FusionDirectory 2/3"
 
@@ -1839,14 +1789,12 @@ msgid "Customize special parameters"
 msgstr "Personalizza i parametri speciali"
 
 #: setup/class_setupStep_Config3.inc:74 setup/class_setupStep_Config3.inc:75
-#, fuzzy
 msgid "FusionDirectory settings 3/3"
 msgstr "Parametri di FusionDirectory 3/3"
 
 #: setup/class_setupStep_Config3.inc:76
-#, fuzzy
 msgid "Tweak some FusionDirectory core behaviour"
-msgstr "Tweak alcuni parametri essenziali di Fusiondirectory"
+msgstr "Personalizza alcuni parametri essenziali di Fusiondirectory"
 
 #: setup/class_setupStep_Config3.inc:213
 msgid "Session lifetime must be a numeric value!"
@@ -1891,7 +1839,6 @@ msgstr ""
 "effettuare questa operazione :"
 
 #: setup/setup_welcome.tpl:4
-#, fuzzy
 msgid ""
 "This seems to be the first time you start FusionDirectory - we didn't find "
 "any configuration right now. This simple wizard intends to help you while "
@@ -1939,7 +1886,6 @@ msgid "To continue..."
 msgstr "Seguito della configurazione ..."
 
 #: setup/setup_welcome.tpl:28
-#, fuzzy
 msgid ""
 "For security reasons you need to authenticate for the installation by "
 "creating the file '/tmp/fusiondirectory.auth', containing the current "
@@ -1955,14 +1901,12 @@ msgid "Click the 'Continue' button when you've finished."
 msgstr "Premi il bottone 'Continua' quando avrai finito."
 
 #: setup/setup_feedback.tpl:5
-#, fuzzy
 msgid "Feedback successfully send"
 msgstr "Feedback inviato correttamente"
 
 #: setup/setup_feedback.tpl:15
-#, fuzzy
 msgid "Subscribe to the fusiondirectory-users mailinglist"
-msgstr "Inscriviti alla mailing list di FusionDirectory-announce"
+msgstr "Inscriviti alla mailing list di FusionDirectory-users"
 
 #: setup/setup_feedback.tpl:20
 #: plugins/admin/departments/class_departmentManagement.inc:237
@@ -2054,18 +1998,17 @@ msgid "Mail address"
 msgstr "Indirizzo di posta elettronica"
 
 #: setup/setup_feedback.tpl:47
-#, fuzzy
 msgid "Send feedback to the FusionDirectory project team"
-msgstr "Invia un feedback al team FusionDirectory"
+msgstr "Invia un feedback ai membri del progetto FusionDirectory"
 
 #: setup/setup_feedback.tpl:50
-#, fuzzy
 msgid ""
 "When checking this option, FusionDirectory will try to connect http://www."
 "fusiondirectory.org in order to submit your form anonymously."
 msgstr ""
 "Quando abiliti questa opzione, FusionDirectory cercherà di connettersi a "
-"http://oss.gonicus.de per poter sottomettere la tua domanda d'iscrizione "
+"http://www.fusiondirectory.org per poter sottomettere la tua domanda "
+"d'iscrizione "
 "anonimamente."
 
 #: setup/setup_feedback.tpl:52
@@ -2078,7 +2021,7 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:37
 #: plugins/personal/generic/class_user.inc:1660
 msgid "Generic"
-msgstr "Generico"
+msgstr "Informazioni"
 
 #: setup/setup_feedback.tpl:56
 msgid "Did the setup procedure help you to get started?"
@@ -2089,7 +2032,6 @@ msgid "If not, what problems did you encounter"
 msgstr "Se la risposta è no, quali sono stati i problemi che hai riscontrato ?"
 
 #: setup/setup_feedback.tpl:74
-#, fuzzy
 msgid "Is this the first time you use FusionDirectory?"
 msgstr "É la prima volta che usi FusionDirectory ?"
 
@@ -2098,7 +2040,6 @@ msgid "I use it since"
 msgstr "Lo uso da"
 
 #: setup/setup_feedback.tpl:81
-#, fuzzy
 msgid "Select the year since when you are using FusionDirectory"
 msgstr "Seleziona l'anno da quando usi FusionDirectory"
 
@@ -2116,7 +2057,7 @@ msgstr "Quale versione di PHP usi ?"
 
 #: setup/setup_feedback.tpl:112
 msgid "FusionDirectory version"
-msgstr ""
+msgstr "Versione di FusionDirectory"
 
 #: setup/setup_feedback.tpl:120
 msgid "LDAP"
@@ -2135,12 +2076,10 @@ msgid "Features"
 msgstr "Funzionalità"
 
 #: setup/setup_feedback.tpl:140
-#, fuzzy
 msgid "What features of FusionDirectory do you use?"
 msgstr "Quali funzionalità di FusionDirectory usi ?"
 
 #: setup/setup_feedback.tpl:150
-#, fuzzy
 msgid "What features do you want to see in future versions of FusionDirectory?"
 msgstr ""
 "Quali funzionalità vorresti avere nella futura versione di FusionDirectory ?"
@@ -2150,7 +2089,6 @@ msgid "Send feedback"
 msgstr "Invia il feedback"
 
 #: setup/setup_migrate.tpl:5
-#, fuzzy
 msgid ""
 "During the LDAP inspection, we're going to check for several common pitfalls "
 "that may occur when migration to FusionDirectory base LDAP administration. "
@@ -2228,7 +2166,6 @@ msgid "Select all"
 msgstr "Seleziona tutto"
 
 #: setup/setup_migrate.tpl:95
-#, fuzzy
 msgid ""
 "Move selected windows workstations into the following FusionDirectory "
 "department"
@@ -2257,14 +2194,13 @@ msgstr ""
 "gruppi configurato. La sua esecuzione puó migliorare le prestazioni LDAP."
 
 #: setup/setup_migrate.tpl:119
-#, fuzzy
 msgid ""
 "Be careful with this option! There may be references pointing to these "
 "groups. The FusionDirectory setup can't migrate references, so you may want "
 "to cancel the migration in this case."
 msgstr ""
 "Prudenza con questa operazione ! Possono esserci delle referenze che puntano "
-"verso questi gruppi. Il programma d'istallazione di FusionDirectory non puó "
+"verso questi gruppi. Il programma d'installazione di FusionDirectory non puó "
 "migrare queste referenze, magari, in questo caso, potresti voler annulare la "
 "migrazione."
 
@@ -2299,14 +2235,13 @@ msgstr ""
 "utenti configurato. La sua esecuzione puó migliorare le prestazioni LDAP."
 
 #: setup/setup_migrate.tpl:173
-#, fuzzy
 msgid ""
 "Be careful with this option! There may be references pointing to these "
 "users. The FusionDirectory setup can't migrate references, so you may want "
 "to cancel the migration in this case."
 msgstr ""
 "Prudenza con questa operazione ! Possono esserci delle referenze che puntano "
-"verso questi utenti. Il programma d'istallazione di FusionDirectory non puó "
+"verso questi utenti. Il programma d'installazione di FusionDirectory non puó "
 "migrare queste referenze, magari, in questo caso, potresti voler annulare la "
 "migrazione."
 
@@ -2319,7 +2254,6 @@ msgid "Migrate GOsa 2.5 administrative accounts"
 msgstr "Migra gli accounts amministrativi di Gosa 2.5"
 
 #: setup/setup_migrate.tpl:221
-#, fuzzy
 msgid ""
 "This dialog allows the migration of GOsa 2.5 admin accounts into "
 "FusionDirectory 1.0 useable accounts."
@@ -2336,9 +2270,8 @@ msgid "Abort"
 msgstr "Annulla"
 
 #: setup/setup_migrate.tpl:275
-#, fuzzy
 msgid "Create a new FusionDirectory administrator account"
-msgstr "Crea un nuovo account per l'amministrazione di FusionDirectory"
+msgstr "Crea un nuovo account amministratore di FusionDirectory"
 
 #: setup/setup_migrate.tpl:278
 msgid ""
@@ -2358,14 +2291,13 @@ msgid "Password (again)"
 msgstr "Password (ripeti)"
 
 #: setup/setup_migrate.tpl:333
-#, fuzzy
 msgid ""
 "The listed departments are currently invisible in the FusionDirectory user "
 "interface. If you want to change this for a couple of entries, select them "
 "and use the migrate button below."
 msgstr ""
 "I dipartimenti elencati sono attualmenti invisibili nell'interfaccia utente "
-"di FusionDirectory. Se vuoi cambiare questo per un insieme di \"entries\", "
+"di FusionDirectory. Se vuoi cambiare questo per un insieme di entries, "
 "selezionale e premi il bottone \"Migra\" qui sotto."
 
 #: setup/setup_migrate.tpl:334 setup/setup_migrate.tpl:389
@@ -2379,7 +2311,6 @@ msgstr ""
 "usa il bottone \"Mostra i cambiamenti\" qui sotto, per vedere il file LDIF."
 
 #: setup/setup_migrate.tpl:388
-#, fuzzy
 msgid ""
 "The listed users are currently invisible in the FusionDirectory user "
 "interface. If you want to change this for a couple of users, just select "
@@ -2390,7 +2321,6 @@ msgstr ""
 "selezionali e premi il bottone \"Migra\" qui sotto."
 
 #: setup/setup_migrate.tpl:444
-#, fuzzy
 msgid ""
 "The listed devices are currently invisible in the FusionDirectory interface. "
 "If you want to change this for a couple of devices, just select them and use "
@@ -2408,18 +2338,16 @@ msgid "Refresh"
 msgstr "Rigenera"
 
 #: setup/setup_migrate.tpl:488
-#, fuzzy
 msgid ""
 "The listed services are currently invalid for the FusionDirectory version "
 "you are going to install. If you want to update a couple of service, just "
 "select them and use the 'Migrate' button below."
 msgstr ""
 "I servizi elencati non sono validi attualmente per la versione di "
-"FusionDirectory che stai istallando. Se vuoi aggiornare un insieme di "
+"FusionDirectory che stai installando. Se vuoi aggiornare un insieme di "
 "servizi, selezionali e premi il bottone \"Migra\" qui sotto."
 
 #: setup/setup_migrate.tpl:532
-#, fuzzy
 msgid ""
 "The listed menus are currently invisible in the FusionDirectory interface. "
 "If you want to change this for a couple of devices, just select them and use "
@@ -2442,7 +2370,6 @@ msgid "The welcome message"
 msgstr "Messaggio di benvenuto"
 
 #: setup/class_setupStep_Welcome.inc:40
-#, fuzzy
 msgid "Welcome to FusionDirectory setup wizard"
 msgstr ""
 "Benvenuto nell'interfaccia di aiuto alla configurazione di FusionDirectory"
@@ -2452,14 +2379,12 @@ msgid "PHP module and extension checks"
 msgstr "Verifica del modulo PHP e delle sue estensioni"
 
 #: setup/setup_checks.tpl:41 setup/setup_checks.tpl:103
-#, fuzzy
 msgid "FusionDirectory will NOT run without fixing this."
-msgstr "Fusiondirectory non funzionerà prima di aver corretto questo."
+msgstr "Fusiondirectory NON funzionerà prima di aver corretto questo."
 
 #: setup/setup_checks.tpl:45 setup/setup_checks.tpl:107
-#, fuzzy
 msgid "FusionDirectory will run without fixing this."
-msgstr "Fusiondirectory funzionerà senza aver corretto questo."
+msgstr "Fusiondirectory funzionerà anche senza aver corretto questo."
 
 #: setup/setup_checks.tpl:67
 msgid "PHP setup configuration"
@@ -2470,7 +2395,6 @@ msgid "show information"
 msgstr "Mostra le informazioni"
 
 #: setup/setup_ldap.tpl:7
-#, fuzzy
 msgid "Please choose the LDAP user to be used by FusionDirectory"
 msgstr "Scegli quale dovrà essere l'utente LDAP utilizzato da FusionDirectory"
 
@@ -2479,7 +2403,6 @@ msgid "LDAP connection"
 msgstr "Connessione LDAP"
 
 #: setup/setup_ldap.tpl:29
-#, fuzzy
 msgid "Location name"
 msgstr "Nome del luogo"
 
@@ -2555,7 +2478,6 @@ msgid "Use rfc2307bis compliant groups"
 msgstr "Utilizza dei gruppi rfc2307bis"
 
 #: setup/setup_ldap.tpl:117
-#, fuzzy
 msgid "Current status"
 msgstr "Stato attuale"
 
@@ -2564,7 +2486,6 @@ msgid "LDAP inspection"
 msgstr "Ispezione dell'annuario LDAP"
 
 #: setup/class_setupStep_Migrate.inc:128
-#, fuzzy
 msgid "Analyze your current LDAP for FusionDirectory compatibility"
 msgstr "Analisi dell'annuario LDAP per la compatibilità con FusionDirectory"
 
@@ -2701,9 +2622,9 @@ msgid ""
 msgstr "L'utente '%s' specificato non ha un pieno accesso al database LDAP."
 
 #: setup/class_setupStep_Migrate.inc:661
-#, fuzzy, php-format
+#, php-format
 msgid "Found %s user(s) that will not be visible in FusionDirectory."
-msgstr "Ho trovato %s utente(i) nascosto(i) in FusionDirectory."
+msgstr "Ho trovato %s utenti(e) che non saranno visibili in FusionDirectory."
 
 #: setup/class_setupStep_Migrate.inc:711 setup/class_setupStep_Migrate.inc:856
 #: setup/class_setupStep_Migrate.inc:1119
@@ -2716,17 +2637,17 @@ msgid "Cannot migrate department '%s':"
 msgstr "Non posso migrare il dipartimento '%s':"
 
 #: setup/class_setupStep_Migrate.inc:804
-#, fuzzy, php-format
+#, php-format
 msgid "Found %s department(s) that will not be visible in FusionDirectory."
-msgstr "Ho trovato %s departimenti(o) nascosti(o) in FusionDirectory."
+msgstr ""
+"Ho trovato %s departimenti(o) che non saranno visibili in FusionDirectory."
 
 #: setup/class_setupStep_Migrate.inc:1028
-#, fuzzy, php-format
+#, php-format
 msgid "GOsa 2.5 administrative accounts found: %s"
 msgstr "Account amministrativi trovati per GOsa 2.5 :"
 
 #: setup/class_setupStep_Migrate.inc:1033
-#, fuzzy
 msgid ""
 "There is no valid FusionDirectory 1.0 administrator account inside your LDAP."
 msgstr ""
@@ -2754,10 +2675,9 @@ msgid "Groups"
 msgstr "Gruppi di utenti"
 
 #: setup/class_setupStep_Migrate.inc:1050
-#, fuzzy
 msgid "There is no FusionDirectory administrator account inside your LDAP."
 msgstr ""
-"Non ho trovato alcun amministratore di FusionDirectory nell'annuario LDAP."
+"Non ho trovato alcun amministratore di FusionDirectory nel tuo annuario LDAP."
 
 #: setup/class_setupStep_Migrate.inc:1119
 #, php-format
@@ -2841,9 +2761,9 @@ msgid "Root object couldn't be created, you should try it on your own."
 msgstr "Non ho potuto creare l'oggetto radice. Dovrai provare a farlo da te."
 
 #: setup/class_setupStep_Migrate.inc:2058
-#, fuzzy, php-format
+#, php-format
 msgid "Missing FusionDirectory object class '%s'!"
-msgstr "L'oggetto di classe '%s' richiesto è mancante !"
+msgstr "L'oggetto di classe '%s' richiesto per FusionDirectory è mancante !"
 
 #: setup/class_setupStep_Migrate.inc:2059
 msgid "Please check your installation."
@@ -2997,13 +2917,13 @@ msgid "XML error"
 msgstr "Errore XML"
 
 #: include/utils/class_timezone.inc:49
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "The timezone setting '%s' in your fusiondirectory.conf is not valid. Cannot "
 "calculate correct timezone offset."
 msgstr ""
 "Il fuso orario '%s' impostato in fusiondirectory.conf non è valido. Non è "
-"infatti possibile calcolare la differenza di fuso orario"
+"infatti possibile calcolare la differenza di fuso orario correttamente."
 
 #: include/utils/class_msgPool.inc:38
 #, php-format
@@ -3559,13 +3479,13 @@ msgid "Install and activate the %s PHP module."
 msgstr "Istalla e attiva il modulo PHP %s."
 
 #: include/utils/class_msgPool.inc:594
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "Cannot initialize class '%s'! Maybe there is a plugin missing in your "
 "FusionDirectory setup?"
 msgstr ""
 "Impossibile inizializzare la classe '%s' ! Forse manca un'estensione "
-"nell'istallazione di FusionDirectory ?"
+"nell'installazione di FusionDirectory ?"
 
 #: include/utils/class_msgPool.inc:600
 msgid ""
@@ -3653,9 +3573,8 @@ msgstr ""
 "inizializzare il plugin !"
 
 #: include/class_gosaSupportDaemon.inc:112
-#, fuzzy
 msgid "Service GOto-si"
-msgstr "Servizi"
+msgstr "Servizio GOto-si"
 
 #: include/class_gosaSupportDaemon.inc:787
 msgid "Cannot not parse XML!"
@@ -3798,9 +3717,8 @@ msgid "Cannot write to revision file!"
 msgstr "Impossibile scrivere il file di revisione !"
 
 #: include/functions.inc:2449
-#, fuzzy
 msgid "Cannot read to revision file!"
-msgstr "Impossibile scrivere il file di revisione !"
+msgstr "Impossibile leggere il file di revisione !"
 
 #: include/functions.inc:2667 include/functions.inc:2671
 #: include/functions.inc:2677
@@ -4081,7 +3999,6 @@ msgid "Remove snapshot"
 msgstr "Cancella la 'copia istantanea'"
 
 #: include/class_SnapShotDialog.inc:140 include/class_SnapShotDialog.inc:160
-#, fuzzy
 msgid "Y-m-d, H:i:s"
 msgstr "Anno-mese-giorno, Ore:minuti:secondi"
 
@@ -4120,7 +4037,7 @@ msgid "Description"
 msgstr "Descrizione"
 
 #: include/class_config.inc:152
-#, fuzzy, php-format
+#, php-format
 msgid "XML error in fusiondirectory.conf: %s at line %d"
 msgstr "Errore XML nel file fusiondirectory.conf: %s alla linea %d"
 
@@ -4138,7 +4055,6 @@ msgid "Configuration"
 msgstr "Configurazione"
 
 #: include/class_config.inc:1105
-#, fuzzy
 msgid ""
 "The configuration file you are using seems to be outdated. Please move the "
 "FusionDirectory configuration file away to run the FusionDirectory setup "
@@ -4194,7 +4110,6 @@ msgstr ""
 "Impossibile trovare un algoritmo di criptaggio che corrisponda alla password!"
 
 #: include/class_plugin.inc:528
-#, fuzzy
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may "
 "be done by others get lost if you save this entry!"
@@ -4516,7 +4431,6 @@ msgstr ""
 "errori ! "
 
 #: include/php_setup.inc:105
-#, fuzzy
 msgid "Send bug report to the FusionDirectory Team"
 msgstr "Invia i tuoi commenti a proposito di un bug al Team di FusionDirectory"
 
@@ -4614,7 +4528,6 @@ msgid "ACL Templates"
 msgstr "Modelli delle ACL"
 
 #: plugins/admin/acl/remove.tpl:6 plugins/admin/users/remove.tpl:6
-#, fuzzy
 msgid ""
 "This includes all account data, system access rules, imap settings, etc. for "
 "this user. Please double check if your really want to do this since there is "
@@ -4626,9 +4539,8 @@ msgstr ""
 "recuperare i tuoi dati."
 
 #: plugins/admin/acl/class_aclManagement.inc:154
-#, fuzzy
 msgid "ACL Assignment"
-msgstr "Assegnazione ACL"
+msgstr "Gestione delle ACL"
 
 #: plugins/admin/acl/class_aclRole.inc:26
 #: plugins/admin/acl/class_aclRole.inc:726
@@ -4657,14 +4569,13 @@ msgid "Edit category ACL"
 msgstr "Modifica la categoria di ACL"
 
 #: plugins/admin/acl/class_aclRole.inc:430
-#, fuzzy
 msgid "Reset category ACL"
 msgstr "Resetta la categoria di ACL"
 
 #: plugins/admin/acl/class_aclRole.inc:450
-#, fuzzy, php-format
+#, php-format
 msgid "Edit ACL for '%s', scope is '%s'"
-msgstr "Modifica l'ACL per '%s', lo scopo è '%s'"
+msgstr "Modifica l'ACL per '%s', il campo di portata è '%s'"
 
 #: plugins/admin/acl/class_aclRole.inc:646
 msgid "Object in use"
@@ -4811,7 +4722,6 @@ msgid "Given name"
 msgstr "Nome"
 
 #: plugins/admin/users/class_userManagement.inc:793
-#, fuzzy
 msgid "Account locking"
 msgstr "Blocco dell'account"
 
@@ -4896,7 +4806,6 @@ msgstr "Ambiente"
 #: plugins/admin/users/class_userManagement.inc:902
 #: plugins/admin/groups/class_groupManagement.inc:197
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:103
-#, fuzzy
 msgid "Edit environment properties"
 msgstr "Modifica le proprietà ambientali"
 
@@ -4952,7 +4861,6 @@ msgid "Show templates"
 msgstr "Mostra i modelli"
 
 #: plugins/admin/users/user-filter.tpl:12
-#, fuzzy
 msgid "Show functional users"
 msgstr "Mostra gli utenti funzionali"
 
@@ -5040,7 +4948,6 @@ msgid "Show mail groups"
 msgstr "Mostra i gruppi di posta elettronica"
 
 #: plugins/admin/groups/remove.tpl:6
-#, fuzzy
 msgid ""
 "This may be a primary user group. Please double check if you really want to "
 "do this since there is no way for FusionDirectory to get your data back."
@@ -5168,7 +5075,7 @@ msgid "allow access to these hosts"
 msgstr "permettere l'accesso  ai seguenti hosts"
 
 #: plugins/admin/groups/class_group.inc:540
-#, fuzzy, php-format
+#, php-format
 msgid "Adding UID '%s' to group '%s' failed: cannot find user object!"
 msgstr ""
 "L'aggiunta dell'UID '%s' al gruppo '%s' non è riuscita: impossibile trovare "
@@ -5236,9 +5143,8 @@ msgid "System trust"
 msgstr "Sistema di fiducia"
 
 #: plugins/admin/groups/class_group.inc:1192
-#, fuzzy
 msgid "Phone pickup group"
-msgstr "Gruppo di risposta telefonica"
+msgstr "Gruppo di risposta telefonica a cascata"
 
 #: plugins/admin/groups/class_group.inc:1193
 msgid "Nagios group"
@@ -5322,9 +5228,8 @@ msgid "in domain"
 msgstr "nel dominio"
 
 #: plugins/admin/groups/generic.tpl:131
-#, fuzzy
 msgid "Members are in a phone pickup group"
-msgstr "I membri fanno parte di un gruppo di risposta telefonica"
+msgstr "I membri fanno parte di un gruppo di risposta telefonica a cascata"
 
 #: plugins/admin/groups/generic.tpl:146
 msgid "Members are in a nagios group"
@@ -5363,9 +5268,8 @@ msgstr "Mostra i gruppi"
 #: plugins/admin/departments/class_departmentManagement.inc:225
 #: plugins/admin/departments/dep-list.xml:39
 #: plugins/admin/departments/dep-list.xml:124
-#, fuzzy
 msgid "Locality"
-msgstr "Località"
+msgstr "Nome della località"
 
 #: plugins/admin/departments/class_localityGeneric.inc:91
 #: plugins/admin/departments/organization.tpl:78
@@ -5443,9 +5347,8 @@ msgstr "Descrizione del dipartimento"
 #: plugins/admin/departments/dcObject.tpl:69
 #: plugins/admin/departments/locality.tpl:69
 #: plugins/admin/departments/generic.tpl:134
-#, fuzzy
 msgid "Tag department as an independent administrative unit"
-msgstr "Tagga il dipartimento come un'entità amministrativa indipendente"
+msgstr "Etichetta il dipartimento come un'entità amministrativa indipendente"
 
 #: plugins/admin/departments/dep_iframe.tpl:1
 msgid "Processing the requested operation"
@@ -5464,18 +5367,17 @@ msgid "You are currently moving/renaming this department."
 msgstr "Stai attualmente spostando/rinominando questo dipartimento."
 
 #: plugins/admin/departments/dep_move_confirm.tpl:5
-#, fuzzy
 msgid ""
 "Modifying a departments naming attribute 'ou' or base may corrupt acls and "
 "snapshot entries for all entire objects."
 msgstr ""
 "La modifica dell'attributo 'ou' oppure della base di un dipartimento puó "
-"causare la "
+"corrompere le entries relative alle ACL e agli snapshots di tutti gli "
+"oggetti."
 
 #: plugins/admin/departments/dep_move_confirm.tpl:8
-#, fuzzy
 msgid "FusionDirectory can NOT fix this for you, yet."
-msgstr "FusionDirectory NON PUÓ ancora correggere questo per te."
+msgstr "FusionDirectory NON puó ancora correggere questo per te."
 
 #: plugins/admin/departments/dep_move_confirm.tpl:11
 msgid ""
@@ -5494,7 +5396,6 @@ msgid "Name of domain to create"
 msgstr "Nome del dominio da creare"
 
 #: plugins/admin/departments/remove.tpl:6
-#, fuzzy
 msgid ""
 "This includes 'all' accounts, systems, etc. in this subtree. Please double "
 "check if your really want to do this since there is no way for "
@@ -5650,9 +5551,9 @@ msgstr ""
 "Non trovo nessun tag che non sia già in uso per questa unità amministrativa !"
 
 #: plugins/admin/departments/class_department.inc:502
-#, fuzzy, php-format
+#, php-format
 msgid "Tagging '%s'."
-msgstr "Taggando '%s'"
+msgstr "Etichettando '%s'"
 
 #: plugins/admin/departments/class_department.inc:583
 #, php-format
@@ -5673,19 +5574,19 @@ msgid "Telephone"
 msgstr "Telefono"
 
 #: plugins/admin/departments/class_department.inc:726
-#, fuzzy, php-format
+#, php-format
 msgid "Object '%s' is already tagged"
-msgstr "Loggetto '%s' è già taggato"
+msgstr "L'oggetto '%s' è già etichettato"
 
 #: plugins/admin/departments/class_department.inc:733
-#, fuzzy, php-format
+#, php-format
 msgid "Adding tag (%s) to object '%s'"
-msgstr "Aggiungi il tag (%s) all'oggetto '%s'"
+msgstr "Aggiungi l'etichetta (%s) all'oggetto '%s'"
 
 #: plugins/admin/departments/class_department.inc:765
-#, fuzzy, php-format
+#, php-format
 msgid "Removing tag from object '%s'"
-msgstr "Rimuovi il tag dall'oggetto '%s'"
+msgstr "Rimuovi l'etichetta dall'oggetto '%s'"
 
 #: plugins/admin/departments/generic.tpl:11
 msgid "Name of department"
@@ -5705,9 +5606,8 @@ msgstr "Elenco dei dipartimenti"
 
 #: plugins/admin/departments/dep-list.xml:23
 #: plugins/admin/departments/dep-list.xml:110
-#, fuzzy
 msgid "Domain component"
-msgstr "Oggetto del Dominio"
+msgstr "Oggetto di Dominio"
 
 #: plugins/admin/departments/class_organizationGeneric.inc:122
 msgid "Organization name"
@@ -5828,7 +5728,6 @@ msgid "phone groups"
 msgstr "Gruppi di telefoni"
 
 #: plugins/admin/ogroups/remove.tpl:6
-#, fuzzy
 msgid ""
 "Please double check if you really want to do this since there is no way for "
 "FusionDirectory to get your data back."
@@ -6017,7 +5916,6 @@ msgid "Welcome %s!"
 msgstr "Benvenuto %s!"
 
 #: plugins/generic/welcome/welcome.tpl:4
-#, fuzzy
 msgid ""
 "This is the FusionDirectory main menu. You can select your tasks from the "
 "menu on the left, or by choosing one of the pictograms below. All changes "
@@ -6038,7 +5936,7 @@ msgstr ""
 
 #: plugins/generic/welcome/welcome.tpl:15
 msgid "The FusionDirectory team"
-msgstr ""
+msgstr "Il team di FusionDirectory"
 
 #: plugins/personal/posix/posix_groups.tpl:6
 msgid "Select groups to add"
@@ -6085,7 +5983,6 @@ msgid "expired"
 msgstr "Scaduto"
 
 #: plugins/personal/posix/class_posixAccount.inc:170
-#, fuzzy
 msgid "grace time active"
 msgstr "Il tempo di grazia è attivo"
 
@@ -6237,7 +6134,6 @@ msgid "Public SSH key"
 msgstr "Chiave SSH pubblica"
 
 #: plugins/personal/posix/class_posixAccount.inc:1470
-#, fuzzy
 msgid "System trust model"
 msgstr "Modello affidabile del sistema"
 
@@ -6278,14 +6174,12 @@ msgid "(Warning: more than 16 groups are not supported by NFS!)"
 msgstr "(Attenzione: L'NFS non supporta più di 16 gruppi!)"
 
 #: plugins/personal/posix/generic.tpl:36
-#, fuzzy
 msgid "Status"
 msgstr "Stato"
 
 #: plugins/personal/posix/generic.tpl:41
-#, fuzzy
 msgid "Last logon"
-msgstr "Ultima deconnessione"
+msgstr "Ultima connessione"
 
 #: plugins/personal/posix/generic.tpl:100
 msgid "Common group"
@@ -6360,7 +6254,6 @@ msgstr "Password utente"
 
 #: plugins/personal/password/changed.tpl:3
 #: plugins/personal/generic/changed.tpl:3
-#, fuzzy
 msgid ""
 "You've successfully changed your password. Remember to change all programms "
 "configured to use it as well."
@@ -6469,7 +6362,6 @@ msgstr ""
 "disponibile. "
 
 #: plugins/personal/generic/class_user.inc:1038
-#, fuzzy
 msgid ""
 "Cannot save user picture, FusionDirectory requires the package 'imagemagick' "
 "or 'php5-imagick' to be installed!"
@@ -6538,9 +6430,8 @@ msgstr "Identificativo della casa"
 
 #: plugins/personal/generic/class_user.inc:1647
 #: plugins/personal/generic/generic.tpl:475
-#, fuzzy
 msgid "Vocation"
-msgstr "Lavoro"
+msgstr "Professione"
 
 #: plugins/personal/generic/class_user.inc:1648
 #: plugins/personal/generic/generic.tpl:602
@@ -6559,9 +6450,8 @@ msgstr "Descrizione dell'unità"
 
 #: plugins/personal/generic/class_user.inc:1651
 #: plugins/personal/generic/generic.tpl:492
-#, fuzzy
 msgid "Subject area"
-msgstr "Zona del soggetto"
+msgstr "Area disciplinare"
 
 #: plugins/personal/generic/class_user.inc:1652
 #: plugins/personal/generic/generic.tpl:501
@@ -6633,9 +6523,8 @@ msgid "Employee type"
 msgstr "Qualifica"
 
 #: plugins/personal/generic/class_user.inc:1693
-#, fuzzy
 msgid "Room number"
-msgstr "Numero della stanza"
+msgstr "Numero dell'ufficio"
 
 #: plugins/personal/generic/class_user.inc:1694
 msgid "Telefon number"
@@ -6741,9 +6630,8 @@ msgid "Room No."
 msgstr "Stanza No."
 
 #: plugins/personal/generic/generic.tpl:587
-#, fuzzy
 msgid "Please use the phone tab"
-msgstr "Usa il tab del telefono"
+msgstr "Usa la linguetta del telefono"
 
 #: plugins/personal/generic/nochange.tpl:5
 msgid "Your password hash method will not be changed!"
