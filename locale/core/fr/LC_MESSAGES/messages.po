@@ -4910,7 +4910,7 @@ msgstr "Suppression de l'utilisateur"
 #: plugins/admin/groups/group-filter.tpl:11
 #: plugins/personal/posix/groupSelect/group-filter.tpl:11
 msgid "Show primary groups"
-msgstr "groupes principaux"
+msgstr "Groupes principaux"
 
 #: plugins/admin/groups/group-filter.tpl:12
 #: plugins/personal/posix/groupSelect/group-filter.tpl:12
@@ -5220,11 +5220,11 @@ msgstr "Membre du groupe"
 
 #: plugins/admin/groups/generic.tpl:243
 msgid "In all groups"
-msgstr "dans tout les groupes"
+msgstr "Dans tous les groupes"
 
 #: plugins/admin/groups/generic.tpl:246
 msgid "Not in all groups"
-msgstr "pas dans tout les groupes"
+msgstr "Pas dans tous les groupes"
 
 #: plugins/admin/groups/userGroupSelect/selectUserGroup-filter.tpl:11
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:12
