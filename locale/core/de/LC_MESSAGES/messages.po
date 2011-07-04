@@ -1931,7 +1931,7 @@ msgid ""
 "the following command:"
 msgstr ""
 "Aus Sicherheitsgründen müssen Sie die Installation authorisieren, indem Sie "
-"die Datei '/tmp/gosa.auth' mit der aktuellen Sitzungs-ID im Dateisystem des "
+"die Datei '/tmp/fusiondirectory.auth' mit der aktuellen Sitzungs-ID im Dateisystem des "
 "Servers erzeugen. Dies wird durch das Ausführen des folgenden Kommandos "
 "erreicht:"
 

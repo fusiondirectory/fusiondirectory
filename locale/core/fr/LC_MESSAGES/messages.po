@@ -1870,7 +1870,7 @@ msgid ""
 "the following command:"
 msgstr ""
 "Pour des raisons de sécurité vous devez vous authentifier en créant le "
-"fichier '/tmp/gosa.auth', contenant l'ID de la session sur le(s) serveur(s). "
+"fichier '/tmp/fusiondirectory.auth', contenant l'ID de la session sur le(s) serveur(s). "
 "Ceci peut être réalisé en exécutant la commande suivante:"
 
 #: setup/setup_welcome.tpl:34

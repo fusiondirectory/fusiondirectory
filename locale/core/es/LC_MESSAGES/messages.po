@@ -1906,7 +1906,7 @@ msgid ""
 "the following command:"
 msgstr ""
 "Por razones de seguridad necesita autenticarse para la instalación, creando "
-"el archivo '/tmp/gosa.auth', que tendrá el ID de la sesión actual en el "
+"el archivo '/tmp/fusiondirectory.auth', que tendrá el ID de la sesión actual en el "
 "sistema de archivos del servidor. Esto puede ser hecho ejecutando el "
 "siguiente comando:"
 
