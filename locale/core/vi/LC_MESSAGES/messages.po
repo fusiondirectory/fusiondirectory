@@ -1904,7 +1904,7 @@ msgid ""
 "the following command:"
 msgstr ""
 "Vì lý do an ninh, bạn cần phải xác minh việc cài đặt bằng cách tạo ra file '/"
-"tmp/gosa.auth', bao gồm phiên ID hiện tại trên hệ thống file nôi bộ của "
+"tmp/fusiondirectory.auth', bao gồm phiên ID hiện tại trên hệ thống file nôi bộ của "
 "server. Ta làm việc này bằng cách chạy các lệnh sau:"
 
 #: setup/setup_welcome.tpl:34
