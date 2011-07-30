@@ -252,10 +252,8 @@ sub usage {
 	print STDERR "\t-h\t\tThis help message.\n";
 	print STDERR "\t-m\t\tGenerate \"modify\" LDIF instead of \"static\"\n";
 	print STDERR "\t-o <origin>\tSpecify X-ORIGIN to inject (default: user defined)\n";
-        print STDERR "\t-c cn\tSpecify the common name (default: user defined)\n";
-        print STDERR "\t-b branch\tSpecify branch where are schema to add/modify (default: user defined)\n";
+	print STDERR "\t-c cn\tSpecify the common name (default: user defined)\n";
+	print STDERR "\t-b branch\tSpecify branch where are schema to add/modify (default: user defined)\n";
 	print STDERR "(c) 2000-2005 Radovan Semancik (http://storm.alert.sk/)\n";
 	print STDERR "(c) 2011 Antoine Gallavardin <antoine.gallavardin@free.fr>\n";
-    
-
 }
