@@ -611,7 +611,7 @@ class Step_Migrate extends setup_step
    */
   function check_gosaAccounts()
   {
-    /* Remember old list of ivisible users, to be able to set 
+    /* Remember old list of invisible users, to be able to set 
      *  the 'html checked' status for the checkboxes again 
      */
     $cnt_ok = 0;

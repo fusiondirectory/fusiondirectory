@@ -74,7 +74,7 @@ class Step_Finish extends setup_step
       exit();
     }
 
-    /* Downlaod config */
+    /* Download config */
     if(isset($_POST['getconf'])){
 
       header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
