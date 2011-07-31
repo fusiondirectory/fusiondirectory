@@ -69,7 +69,7 @@ define('DES3_CBC_MD5',5);
 define('DES3_CBC_SHA1',16);
 
 /* Include required files */
-require_once("class_location.inc");
+include_once("class_location.inc");
 require_once ("functions_debug.inc");
 require_once ("accept-to-gettext.inc");
 
