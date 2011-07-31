@@ -88,14 +88,17 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
                                 "*** PHP error information ***\n\n");
       }
     
-    if (session::is_set('js') && session::get('js')==FALSE){
+    if (class_exists('session') && session::is_set('js') && session::get('js')==FALSE){
       $error_collector= "<div>";
     } else {
+
+      $warning_path = (is_callable('get_template_path')) ? get_template_path('images/warning.png') : 'images/warning.png' ;
+
       $error_collector= "
         <table summary=\"\" width=\"100%\" style='background-color:#E0E0E0;border-bottom:1px solid black;z-index:150;'>
           <tr>
             <td>
-              <img alt=\"\" align=\"middle\" src='".get_template_path('images/warning.png')."'>&nbsp;
+              <img alt=\"\" align=\"middle\" src='{$warning_path}'>&nbsp;
               <font style='font-size:14px;font-weight:bold'>".
                 _("Generating this page caused the PHP interpreter to raise some errors!")."
               </font>
