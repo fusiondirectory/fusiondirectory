@@ -158,7 +158,7 @@ else
 sub help()
 {
     print_banner;
-    print "Usage: $0 [-?] command\n";
+    print "Usage: $0 [-?] option\n";
     print "\t-?	show this help message\n";
     print "\tfusiondirectory -> add FusionDirectory attributes to the people branch !\n";
     print "\tadd <attribute> -> add an attribute to the people branch !\n"; 
