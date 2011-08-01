@@ -16,8 +16,6 @@ update-fusiondirectory is a script that help you to manage your fusiondirectory 
 
 =item B<rescan-classes>    Rebuilds the class list
 
-=item B<rescan-doc>        Rebuild the online doc
-
 =back
 
 =head1 BUGS
