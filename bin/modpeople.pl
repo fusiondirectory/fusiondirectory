@@ -25,12 +25,12 @@ use Net::LDAP::Schema;
 use Net::LDAP::LDIF;
 
 # Variable to be configured
-$admin="cn=ldapadmin,dc=example,dc=com";
+$admin="cn=admin,dc=example,dc=com";
 $password="";
 $peopleou="ou=people,dc=example,dc=com";
 $base="dc=example,dc=com";
 $scope="one"; # par defaut
-$dump_file="samba-before-fusiondirectory.ldif";
+$dump_file="before-fusiondirectory.ldif";
 $server="localhost";
 
 
