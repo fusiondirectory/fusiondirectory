@@ -421,22 +421,6 @@ variable tells FusionDirectory to use either htaccess authentication or LDAP aut
 can be used if you want to use i.e. kerberos to authenticate the users.
 .PP
 
-.B fusiondirectorySupportURI
-.I URI
-.PP
-The
-.I fusiondirectorySupportURI
-defines the major goto-si server host and the password for FusionDirectory to connect to it.
-can be used if you want to use i.e. kerberos to authenticate the users.
-
-The format is:
-
-.nf
-credentials@host:port
-.fi
-.PP
-
-
 .B Browser and display options
 
 .B listSummary
@@ -1067,9 +1051,8 @@ inside of the LDAP.
 The
 .I sambaHashHook
 statement contains an executable to generate samba hash values. This is required
-for password synchronization, but not required if you apply goto-si services.
-If you don't have mkntpasswd from the samba distribution installed, you can use
-perl to generate the hash:
+for password synchronization. If you don't have mkntpasswd from the samba
+distribution installed, you can use perl to generate the hash:
 
 .nf
 perl \-MCrypt::SmbHash \-e "print join(q[:], ntlmgen \\$ARGV[0]), $/;"
