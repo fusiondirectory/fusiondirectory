@@ -62,8 +62,7 @@ function get_classes($folder= ".")
   $dh = opendir(".");
   while(false !== ($file = readdir($dh))){
 
-    if (preg_match("/.*\.svn.*/", $file) ||
-        preg_match("/.*smarty.*/i",$file) ||
+    if (preg_match("/.*smarty.*/i",$file) ||
         preg_match("/.*\.tpl.*/",$file) ||
         ($file==".") ||($file =="..")){
       continue;
