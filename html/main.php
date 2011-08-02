@@ -316,10 +316,8 @@ if (isset($plug)){
 }
 if (session::global_get('js')==FALSE){
   $smarty->assign("javascript", "false");
-  $smarty->assign("help_method", "href='helpviewer.php$plug' target='_blank'");
 } else {
   $smarty->assign("javascript", "true");
-  $smarty->assign("help_method"," onclick=\"return popup('helpviewer.php$plug','FusionDirectory help');\"");
 }
 
 if($ui->ignore_acl_for_current_user()){
@@ -334,7 +332,6 @@ $smarty->assign ("go_out", get_template_path('images/logout.png'));
 $smarty->assign ("go_top", get_template_path('images/go_top.png'));
 $smarty->assign ("go_corner", get_template_path('images/go_corner.png'));
 $smarty->assign ("go_left", get_template_path('images/go_left.png'));
-$smarty->assign ("go_help", get_template_path('images/help.png'));
 
 $smarty->assign ("menu", $plist->menu);
 $smarty->assign ("plug", "$plug");
