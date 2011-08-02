@@ -1,10 +1,10 @@
 Color guide
 ===========
 
-Background:        #FFFFFF
+Background:        #D8D8D8
 Header-background: #A9FBA6
 Font colors:       #000000
-                   #00008F
+		   #00008F
 Menu:              #F8F8F8
 Highlight:         #F0F0F0
 Borders:           #AAAAAA
