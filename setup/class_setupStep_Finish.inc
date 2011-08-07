@@ -22,7 +22,7 @@
 
 class Step_Finish extends setup_step
 {
-  var $gosa_conf_contrib   = "/fusiondirectory.conf";
+  /* var $gosa_conf_contrib   = "/fusiondirectory.conf"; */
   var $cfg_file_written = FALSE;
   var $header_image = "images/setup/server.png";
 
