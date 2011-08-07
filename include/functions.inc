@@ -42,6 +42,8 @@ if(!isset($_SERVER['CONFIG_FILE'])){
 /* Define common locations */
 define ("CONFIG_TEMPLATE_DIR", "../contrib");
 define ("TEMP_DIR","/var/cache/fusiondirectory/tmp");
+define ("SPOOL_DIR","/var/spool/fusiondirectory");
+define ("CACHE_DIR","/var/cache/fusiondirectory");
 
 /* Define get_list flags */
 define("GL_NONE",         0);
