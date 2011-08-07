@@ -22,7 +22,9 @@
 
 class Step_Finish extends setup_step
 {
-  var $gosa_conf_contrib   = "/fusiondirectory.conf";
+  /* not needed anymore
+	 * var $gosa_conf_contrib   = "/fusiondirectory.conf";
+	*/
   var $cfg_file_written = FALSE;
   var $header_image = "images/setup/server.png";
 
@@ -44,8 +46,8 @@ class Step_Finish extends setup_step
   {
     $smarty = get_smarty();
     $smarty->assign("cv",xmlentities($this->parent->captured_values));
-    $smarty->assign("config_checksum", md5(file_get_contents(CONFIG_TEMPLATE_DIR.$this->gosa_conf_contrib)));
-    $str =  $smarty->fetch(CONFIG_TEMPLATE_DIR.$this->gosa_conf_contrib);
+    $smarty->assign("config_checksum", md5(file_get_contents(CONFIG_TEMPLATE_DIR.CONFIG_FILE)));
+    $str =  $smarty->fetch(CONFIG_TEMPLATE_DIR.CONFIG_FILE);
     return($str);
   }  
 
