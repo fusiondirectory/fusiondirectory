@@ -1079,35 +1079,7 @@ class config  {
     return ($default);
   }
 
-
-  /*! \brief Check if current configuration version matches the FusionDirectory version
-   *
-   *  This function checks if the configuration file version matches the
-   *  version of the FusionDirectory version, by comparing it with the configuration
-   *  file version of the example fusiondirectory.conf that comes with FusionDirectory.
-   *  If a version mismatch occurs an error is triggered.
-   * */
-  function check_config_version()
-  {
-    /* Skip check, if we've already mentioned the mismatch 
-     */
-    if(session::global_is_set("LastChecked") && session::global_get("LastChecked") == $this->config_version) return;
-  
-    /* Remember last checked version 
-     */
-    session::global_set("LastChecked",$this->config_version);
-
-    $current = md5(file_get_contents(CONFIG_TEMPLATE_DIR."/fusiondirectory.conf"));
-
-    /* Check contributed config version and current config version.
-     */
-    if(($this->config_version == "NOT SET") || ($this->config_version != $current && !empty($this->config_version))){
-      msg_dialog::display(_("Configuration"),_("The configuration file you are using seems to be outdated. Please move the FusionDirectory configuration file away to run the FusionDirectory setup again."));
-    }
-  }
-
-
-  /*! \brief Check if session lifetime matches session.gc_maxlifetime 
+  /*! \brief Check if session lifetime matches session.gc_maxlifetime
    *
    *  On debian systems the session files are deleted with
    *  a cronjob, which detects all files older than specified 
