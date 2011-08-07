@@ -27,7 +27,7 @@ use strict;
 
 my $mode = "static";
 my $origin = 'user defined';
-my $cn = "schema" ;
+my $cn = "" ;
 my $branch ="cn=schema,cn=config";
 
 # Turns on debug mode (for development purposes only)
@@ -45,17 +45,24 @@ while ($ARGV[0] =~ /^-/) {
 	} elsif ($arg eq "-o") {
 		$origin = shift;
 	} elsif ($arg eq "-c") {
-                $cn = shift;
+		$cn = shift;
 	}elsif ($arg eq "-b") {
-                $branch = shift;
-        }
-else {
+		$branch = shift;
+  }
+	else {
 		print STDERR "Unknown option $arg\n";
 		usage();
 		exit(-1);
 	}
 }
 
+$cn = $ARGV[0];
+
+#print $cn;
+
+$cn =~ s/(.+)\.[^.]+$/$1/;
+
+#print $cn;
 
 my %attrNameMap = (
 	'attributetype'	=> 'olcAttributeTypes',
@@ -167,19 +174,21 @@ while (<>) {
 				$ldifLine .= " $oid";
 				$_ = $';
 			}
+
+			if ($origin != 'user defined') {
+				# find X-ORIGIN clause in the input
 			
-			# find X-ORIGIN clause in the input
+				if (/X\-ORIGIN\s+\'([^\'*])\'/) {
+					$foundOrigin = $1;
+				}
 			
-			if (/X\-ORIGIN\s+\'([^\'*])\'/) {
-				$foundOrigin = $1;
-			}
+				# if we are at the end (level 0) and there was no
+				# X-ORIGIN clause, insert the default one
+				# just before the last parenthesis
 			
-			# if we are at the end (level 0) and there was no
-			# X-ORIGIN clause, insert the default one
-			# just before the last parenthesis
-			
-			if ($level == 0 && !defined($foundOrigin)) {
+				if ($level == 0 && !defined($foundOrigin)) {
 				s/\)\s*$/ X-ORIGIN \'$origin\' \)/;
+				}
 			}
 			
 			$ldifLine .= $_;
@@ -252,8 +261,8 @@ sub usage {
 	print STDERR "\t-h\t\tThis help message.\n";
 	print STDERR "\t-m\t\tGenerate \"modify\" LDIF instead of \"static\"\n";
 	print STDERR "\t-o <origin>\tSpecify X-ORIGIN to inject (default: user defined)\n";
-	print STDERR "\t-c cn\tSpecify the common name (default: user defined)\n";
-	print STDERR "\t-b branch\tSpecify branch where are schema to add/modify (default: user defined)\n";
+	print STDERR "\t-c cn\t\tSpecify the common name (default: none)\n";
+	print STDERR "\t-b branch\tSpecify branch where schema are to be modified (default: cn=schema,cn=config)\n";
 	print STDERR "(c) 2000-2005 Radovan Semancik (http://storm.alert.sk/)\n";
-	print STDERR "(c) 2011 Antoine Gallavardin <antoine.gallavardin@free.fr>\n";
+	print STDERR "(c) 2011 Antoine Gallavardin <antoine.gallavardin\@free.fr>\n";
 }
