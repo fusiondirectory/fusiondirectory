@@ -20,7 +20,7 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-define("LDAP_DUMP_PATH","/var/cache/fusiondirectory/tmp");
+#define("TEMP_DIR","/var/cache/fusiondirectory/tmp");
 
 class CopyPasteHandler {
 
@@ -110,12 +110,12 @@ class CopyPasteHandler {
     }
 
     /* Create patch if it doesn't exists */
-    if(!is_dir(LDAP_DUMP_PATH)){
-      @mkdir(LDAP_DUMP_PATH);
+    if(!is_dir(TEMP_DIR)){
+      @mkdir(TEMP_DIR);
 
       /* Update folder permissions */
-      if(!@chmod(LDAP_DUMP_PATH,0700)){
-        $msg= sprintf(_("Copy and paste failed!")."<br><br>"._("Error").": <i>"._("Cannot set permission for '%s'")."</i>" ,LDAP_DUMP_PATH);
+      if(!@chmod(TEMP_DIR,0700)){
+        $msg= sprintf(_("Copy and paste failed!")."<br><br>"._("Error").": <i>"._("Cannot set permission for '%s'")."</i>" ,TEMP_DIR);
         msg_dialog::display(_("Configuration error"), $msg, ERROR_DIALOG);
         new log("copy","all/all","copy & paste, event queue.",array(), $msg);
         return(FALSE);
@@ -123,20 +123,20 @@ class CopyPasteHandler {
     }    
     
     /* check if we are able to create a new file the given directory */
-    if(!is_writeable(LDAP_DUMP_PATH)){
-      $msg= _("Copy and paste failed!")."<br><br>"._("Error").": <i>".msgPool::cannotWriteFile(LDAP_DUMP_PATH)."</i>";
+    if(!is_writeable(TEMP_DIR)){
+      $msg= _("Copy and paste failed!")."<br><br>"._("Error").": <i>".msgPool::cannotWriteFile(TEMP_DIR)."</i>";
       msg_dialog::display(_("Configuration error"), $msg, ERROR_DIALOG);
       new log("copy","all/all","copy & paste, event queue.",array(), $msg);
       return(FALSE);
     }
 
     /* Remove entries from hdd that are older than24 hours */
-    $fp = opendir(LDAP_DUMP_PATH);
+    $fp = opendir(TEMP_DIR);
     while($file = readdir($fp)){
-      if(is_file(LDAP_DUMP_PATH."/".$file) && !preg_match("/^\./",$file)){
-        $file_time = fileatime(LDAP_DUMP_PATH."/".$file);
+      if(is_file(TEMP_DIR."/".$file) && !preg_match("/^\./",$file)){
+        $file_time = fileatime(TEMP_DIR."/".$file);
         if($file_time < (time() - (24* 60 *60))){
-          @unlink(LDAP_DUMP_PATH."/".$file);
+          @unlink(TEMP_DIR."/".$file);
         }
       }
     }
@@ -164,7 +164,7 @@ class CopyPasteHandler {
 
     /* Create data to save given ldap dump on the hdd */
     $filename = "gosa_copy-paste_dump_".preg_replace("/[^0-9]/","",microtime());
-    $path     = LDAP_DUMP_PATH;
+    $path     = TEMP_DIR;
 
     /* Create patch if it doesn't exists */
     if(!is_dir($path)){
@@ -173,7 +173,7 @@ class CopyPasteHandler {
 
     /* check if we are able to create a new file the given directory */
     if(!is_writeable($path)){
-      $msg= sprintf(_("Copy and paste failed!")."<br><br>"._("Error").": <i>"._("No write permission in '%s'"),LDAP_DUMP_PATH);
+      $msg= sprintf(_("Copy and paste failed!")."<br><br>"._("Error").": <i>"._("No write permission in '%s'"),TEMP_DIR);
       msg_dialog::display(_("Configuration error"), $msg, ERROR_DIALOG);
       new log("copy","all/all",$dn,array(), $msg);
       return(FALSE);
@@ -190,7 +190,7 @@ class CopyPasteHandler {
 
     /* Update folder permissions */
     if(!@chmod($path."/".$filename,0700)){
-      $msg= sprintf(_("Copy and paste failed!")."<br><br>"._("Error").": <i>"._("Cannot set permission for '%s'"),LDAP_DUMP_PATH);
+      $msg= sprintf(_("Copy and paste failed!")."<br><br>"._("Error").": <i>"._("Cannot set permission for '%s'"),TEMP_DIR);
       msg_dialog::display(_("Configuration error"), $msg, ERROR_DIALOG);
       new log("copy","all/all","copy & paste, event queue.",array(), $msg);
       return(FALSE);
