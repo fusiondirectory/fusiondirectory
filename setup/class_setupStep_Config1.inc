@@ -25,7 +25,7 @@ class Step_Config1 extends setup_step
 
   var $peopleou   = "ou=people";
   var $groupou    =  "ou=groups";
-  var $peopledn   = "cn";
+  var $peopledn   = "uid";
   var $uidbase    = 1100;
   var $krbsasl    = FALSE;
   var $strict     = TRUE;
