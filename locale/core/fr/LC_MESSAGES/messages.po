@@ -4,19 +4,20 @@
 #
 #
 # Benoit Mortier <benoit.mortier@opensides.be>, 2005, 2006, 2007, 2008, 2009, 2010, 2011.
+# Giuliano Di Vito <giuliano@opensides.be>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-05-08 19:02+0200\n"
-"PO-Revision-Date: 2011-05-08 19:14+0200\n"
-"Last-Translator: Benoit Mortier <benoit.mortier@opensides.be>\n"
-"Language-Team:  <fr@li.org>\n"
+"PO-Revision-Date: 2011-08-09 17:04+0200\n"
+"Last-Translator: Giuliano Di Vito <giuliano@opensides.be>\n"
+"Language-Team: Italian <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 1.0\n"
 "Plural-Forms:  nplurals=2; plural=(n > 1);\n"
 
 #: html/password.php:58 html/main.php:148 include/utils/class_xml.inc:44
@@ -4658,7 +4659,7 @@ msgstr "Prénom"
 
 #: plugins/admin/users/class_userManagement.inc:26
 msgid "Manage users"
-msgstr "Gèrer les utilisateurs"
+msgstr "Gérer les utilisateurs"
 
 #: plugins/admin/users/class_userManagement.inc:204
 #: plugins/admin/groups/class_groupManagement.inc:98
@@ -6609,4 +6610,5 @@ msgstr "Veuillez utiliser l'onglet téléphone"
 #: plugins/personal/generic/nochange.tpl:5
 msgid "Your password hash method will not be changed!"
 msgstr "Votre méthode de cryptage des mots de passe ne sera pas changé !"
+
 
