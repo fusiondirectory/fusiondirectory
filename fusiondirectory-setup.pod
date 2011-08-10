@@ -1,14 +1,14 @@
 =head1 NAME
 
-update-fusiondirectory - class cache,locale, and documentation update for FusionDirectory
+fusiondirectory-setup - class cache and locale setup for FusionDirectory
 
 =head1 SYNOPSIS
 
-update-fusiondirectory [OPTION]
+fusiondirectory-setup [OPTION]
 
 =head1 DESCRIPTION
 
-update-fusiondirectory is a script that help you to manage your fusiondirectory instance
+fusiondirectory-setup is a command that help you to manage your fusiondirectory instance
 
 =over 3
 
