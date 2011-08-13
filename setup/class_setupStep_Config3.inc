@@ -41,7 +41,7 @@ class Step_Config3 extends setup_step
               "user_filter_cookie" => true,
               "debuglevel" => 0,
               "session_lifetime" => 7200,
-              "compile" =>  "/var/spool/fusiondirectory",
+              "compile" =>  SPOOL_DIR,
               "max_ldap_query_time" => "5.0",
               "max_ldap_query_time_active" => FALSE,
               

@@ -100,12 +100,12 @@ class config  {
         if we have installed or removed plugins. 
      */
     if(session::global_is_set("class_location.inc:timestamp")){
-      $tmp = stat("../include/class_location.inc");
+      $tmp = stat(CACHE_DIR."/".CLASS_CACHE);
       if($tmp['mtime'] != session::global_get("class_location.inc:timestamp")){
         session::global_un_set("plist");
       }
     }
-    $tmp = stat("../include/class_location.inc");
+    $tmp = stat(CACHE_DIR."/".CLASS_CACHE);
     session::global_set("class_location.inc:timestamp",$tmp['mtime']);
 
     if($this->filename != "" && filemtime($this->filename) != $this->last_modified){

@@ -95,7 +95,7 @@ if(session::global_get('_LAST_PAGE_REQUEST') == ""){
 @DEBUG (DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, "config");
 
 /* Set template compile directory */
-$smarty->compile_dir= $config->get_cfg_value("templateCompileDirectory", '/var/spool/fusiondirectory');
+$smarty->compile_dir= $config->get_cfg_value("templateCompileDirectory", SPOOL_DIR);
 
 /* Set default */
 $reload_navigation = false;

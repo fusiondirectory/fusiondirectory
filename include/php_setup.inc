@@ -20,7 +20,7 @@
   Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-define ("LOCALE_DIR", dirname(dirname(__FILE__))."/locale/compiled");
+require_once ("functions.inc");
 
 function gosaRaiseError($errno, $errstr, $errfile, $errline)
 {
@@ -288,15 +288,11 @@ ini_set("report_memleaks",1);
 ini_set("include_path",".:$BASE_DIR/include:$BASE_DIR/include/utils/excel:/usr/share/php");
 
 /* Do smarty setup */
-require("smarty/Smarty.class.php");
+require(SMARTY);
 $smarty = new Smarty;
 $smarty->template_dir = $BASE_DIR.'/ihtml/';
 $smarty->caching= false;
 $smarty->php_handling= SMARTY_PHP_REMOVE;
-
-/* Global FPDF define */
-define('FPDF_FONTPATH', '/usr/share/php/fpdf/font/');
-
 
 // vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

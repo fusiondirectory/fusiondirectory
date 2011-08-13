@@ -39,11 +39,34 @@ if(!isset($_SERVER['CONFIG_FILE'])){
   define ("CONFIG_FILE",$_SERVER['CONFIG_FILE']);
 }
 
-/* Define common locations */
-define ("CONFIG_TEMPLATE_DIR", "../contrib");
-define ("TEMP_DIR","/var/cache/fusiondirectory/tmp");
+/* Define common locations and variables */
+
+/* Smarty compile dir */
 define ("SPOOL_DIR","/var/spool/fusiondirectory");
+
+/* Global cache dir */
 define ("CACHE_DIR","/var/cache/fusiondirectory");
+
+/* Global locale cache dir */
+define ("LOCALE_DIR", "/var/cache/fusiondirectory/locale");
+
+/* Global tmp dir */
+define ("TEMP_DIR","/var/cache/fusiondirectory/tmp");
+
+/* Directory containing the configuration template */
+define ("CONFIG_TEMPLATE_DIR", "/var/cache/fusiondirectory/template/");
+
+/* fpdf library path */ 
+define("FPDF","/usr/share/php/fpdf/fpdf.php");
+
+/* Global FPDF FONT define */
+define("FPDF_FONTPATH", "/usr/share/php/fpdf/font/");
+
+/* path for smarty libraries */
+define("SMARTY", "/usr/share/php/smarty/libs/Smarty.class.php");
+
+/* name of the class.cache file */
+define("CLASS_CACHE", "class.cache");
 
 /* Define get_list flags */
 define("GL_NONE",         0);
@@ -71,7 +94,7 @@ define('DES3_CBC_MD5',5);
 define('DES3_CBC_SHA1',16);
 
 /* Include required files */
-include_once("class_location.inc");
+require_once (CACHE_DIR."/".CLASS_CACHE);
 require_once ("functions_debug.inc");
 require_once ("accept-to-gettext.inc");
 
