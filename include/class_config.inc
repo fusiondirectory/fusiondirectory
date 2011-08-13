@@ -569,22 +569,6 @@ class config  {
     }
 
 
-    /* Get glpi server */
-    $ldap->cd ($this->current['BASE']);
-    $ldap->search ("(&(objectClass=goGlpiServer)(cn=*)(goGlpiAdmin=*)(goGlpiDatabase=*))",array("cn","goGlpiPassword","goGlpiAdmin","goGlpiDatabase"));
-    if ($ldap->count()){
-      $attrs= $ldap->fetch();
-      if(!isset($attrs['goGlpiPassword'])){
-        $attrs['goGlpiPassword'][0] ="";
-      }
-      $this->data['SERVERS']['GLPI']= array( 
-          'SERVER' 	=> $attrs['cn'][0],
-          'LOGIN' 	=> $attrs['goGlpiAdmin'][0],
-          'PASSWORD' 	=> $attrs['goGlpiPassword'][0],
-          'DB'		=> $attrs['goGlpiDatabase'][0]);
-    }
-
-
     /* Get logdb server */
     $ldap->cd ($this->current['BASE']);
     $ldap->search ("(objectClass=goLogDBServer)");
