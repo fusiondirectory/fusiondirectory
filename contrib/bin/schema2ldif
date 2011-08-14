@@ -6,12 +6,12 @@
 # Usage
 # -----
 #
-# schema2ldif < foo.schema > foo.ldif
+# schema2ldif foo.schema > foo.ldif
 #
 # Based on work of Radovan Semancik
 # schema2ldif, Version 1.2, (c) 2005-2009 Radovan Semancik
 # schema2ldif, Version 1.3, (c) 2011 Antoine Gallavardin
-#
+# schema2ldif, Version 1.4, (c) 2011 FusionDirectory Project
 # Changes:
 #
 # v1.0.1: Added X-ORIGIN injection
@@ -19,10 +19,12 @@
 # v1.1.1: Fixed "last line" bug
 # v1.2: Added support for objectIdentifier macro
 # v1.3: Added 2 parameters (antoine Gallavardin)
-# -c : cn of schema
-# -b : branch where schema are stored !
-# correct attributes and classe name on output
-
+#       -c : cn of schema
+#       -b : branch where schema are stored !
+# v1.4: - corrected attributes and classe name on output
+#       - Removed -c option not nedeed anymore
+#       - Added doc in pod format
+#
 use strict;
 
 my $mode = "static";
@@ -44,9 +46,7 @@ while ($ARGV[0] =~ /^-/) {
 		$mode = "modify";
 	} elsif ($arg eq "-o") {
 		$origin = shift;
-	} elsif ($arg eq "-c") {
-		$cn = shift;
-	}elsif ($arg eq "-b") {
+	} elsif ($arg eq "-b") {
 		$branch = shift;
   }
 	else {
@@ -58,11 +58,7 @@ while ($ARGV[0] =~ /^-/) {
 
 $cn = $ARGV[0];
 
-#print $cn;
-
 $cn =~ s/(.+)\.[^.]+$/$1/;
-
-#print $cn;
 
 my %attrNameMap = (
 	'attributetype'	=> 'olcAttributeTypes',
@@ -257,12 +253,62 @@ sub expandOidMacro {
 }
 
 sub usage {
-	print STDERR "Usage: $0 [-h ] [-m] [-o <origin> ] in.schema > out.ldif\n";
+	print STDERR "Usage: $0 [-h ] [-m] [-o <origin> ] [ -b ] out.schema > out.ldif\n";
 	print STDERR "\t-h\t\tThis help message.\n";
 	print STDERR "\t-m\t\tGenerate \"modify\" LDIF instead of \"static\"\n";
 	print STDERR "\t-o <origin>\tSpecify X-ORIGIN to inject (default: user defined)\n";
-	print STDERR "\t-c cn\t\tSpecify the common name (default: none)\n";
-	print STDERR "\t-b branch\tSpecify branch where schema are to be modified (default: cn=schema,cn=config)\n";
+	print STDERR "\t-b branch\tSpecify branch where schema are to be added (default: cn=schema,cn=config)\n";
 	print STDERR "(c) 2000-2005 Radovan Semancik (http://storm.alert.sk/)\n";
 	print STDERR "(c) 2011 Antoine Gallavardin <antoine.gallavardin\@free.fr>\n";
+	print STDERR "(c) 2011 FusionDirectory Project <contact\@fusiondirectory.org>\n";
 }
+
+=head1 NAME
+
+schema2ldif - convert schema to ldif for inclusion in cn=config backend
+
+=head1 SYNOPSIS
+
+schema2ldif [-h ] [-m] [-o <origin> ] [ -b ] out.schema > out.ldif
+
+=head1 DESCRIPTION
+
+schema2ldif is a script to convert schema to ldif for inclusion in cn=config backend
+
+=over 4
+
+=item B<-h>        help
+
+=item B<-m>        Generate modify LDIF to put in a running cn=config backend
+
+=item B<-o>        Specify X-ORIGIN to inject (default: user defined)
+
+=item B<-b>        Specify branch where schema are to be added (default: cn=schema,cn=config)
+
+=back
+
+=head1 BUGS
+
+Please report any bugs, or post any suggestions, to the fusiondirectory mailing list fusiondirectory-users or to
+<https://forge.fusiondirectory.org/projects/fdirectory/issues/new>
+
+=head1 LICENCE AND COPYRIGHT
+
+This code is part of FusionDirectory <http://www.fusiondirectory.org>
+
+=over 3
+
+=item Copyright (c) 2005-2009 Radovan Semancik
+
+=item Copyright (c) 2011 Antoine Gallavardin
+
+=item Copyright (C) 2011 FusionDirectory Project
+
+=back
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+=cut
