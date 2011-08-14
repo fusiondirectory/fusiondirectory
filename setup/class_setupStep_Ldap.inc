@@ -73,7 +73,7 @@ class Step_Ldap extends setup_step
     $smarty->assign("namingContextsCount",count($attr));
     $smarty->assign("bool",array(FALSE => _("No"), TRUE => _("Yes")));
 
-    /* Addign resolved users */
+    /* Assign resolved users */
     $smarty->assign("resolve_user",$this->resolve_user);
     if($this->resolve_user){
       $tmp = $this->resolve_user();
