@@ -68,7 +68,7 @@ class Step_Checks extends setup_step
     $M = TRUE;
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
-    /* Checking imap extension */
+    /* Check for imap extension */
     $N = msgPool::checkingFor("LDAP");
     $D = _("FusionDirectory requires this module to talk with your LDAP server.");
     $S = msgPool::installPhpModule("LDAP");
@@ -92,7 +92,7 @@ class Step_Checks extends setup_step
     $M = TRUE;
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
-    /* Checing for iconv */
+    /* Check for iconv */
     $N = msgPool::checkingFor("inconv");
     $D = _("FusionDirectory requires this module for the samba integration.");
     $S = msgPool::installPhpModule("iconv");
@@ -108,7 +108,7 @@ class Step_Checks extends setup_step
     $M = FALSE;
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
-    /* Is imap module available */
+    /* Check if imap module is available */
     $N = msgPool::checkingFor("IMAP");
     $D = _("FusionDirectory requires this module to talk to an IMAP server.");
     $S = msgPool::installPhpModule("IMAP");
@@ -116,7 +116,7 @@ class Step_Checks extends setup_step
     $M = TRUE;
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
-    /* Is imap module available */
+    /* Check if mbstring module is available */
     $N = msgPool::checkingFor(_("mbstring"));
     $D = _("FusionDirectory requires this module to handle unicode strings.");
     $S = msgPool::installPhpModule("mbstring");
@@ -124,7 +124,7 @@ class Step_Checks extends setup_step
     $M = TRUE;
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
-    /* Mysql module loaded ? */
+    /* Check if mysql module is available */
     $N = msgPool::checkingFor(_("MySQL"));
     $D = _("FusionDirectory requires this module to communicate with several supported databases.");
     $S = msgPool::installPhpModule("MySQL");
@@ -132,8 +132,8 @@ class Step_Checks extends setup_step
     $M = TRUE;
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
-    /* Checking generate LM/NT password hashes */
-    #TODO: either this, or goto-si will do the hash generation
+    /* Check generation of LM/NT password hashes */
+    /* need the perl Mcrypt library or mkntpwd executable */
     $query= "mkntpwd 2>&1";
     $output= shell_exec ($query);
     $have_mkntpwd= preg_match("/^Usage: mkntpwd /", $output);
@@ -145,7 +145,7 @@ class Step_Checks extends setup_step
 
     $N = msgPool::checkingFor(_("samba hash generator"));
     $D = _("FusionDirectory requires this command to synchronize POSIX and samba passwords.");
-    $S = _("Deploy a goto-si installation or install the perl Crypt::SmbHash modules.");
+    $S = _("Install the perl Crypt::SmbHash modules or the mkntpwd executable");
     $R = $have_mkntpwd;
     $M = TRUE;
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
@@ -243,15 +243,6 @@ class Step_Checks extends setup_step
     $M = FALSE;
     $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
-    /* Automatic quoting must be turned on */
-		/* deprecated as of php5.3 will be off like it should */
-    /*$N = "magic_quotes_gpc = <b>"._("On")."</b>";
-    $D = _("Increase your server security by setting magic_quotes_gpc to 'on'. PHP will escape all quotes in strings in this case."); 
-    $S = _("Search for 'magic_quotes_gpc' in your php.ini and set it to 'On'."); 
-    $R = ini_get('magic_quotes_gpc'); 
-    $M = TRUE;
-    $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ); */
-
     /* Emulating old stuff? */
     $N = "zend.ze1_compatibility_mode = <b>"._("Off")."</b>";
     $D = _("Increase your server performance by setting magic_quotes_gpc to 'off'."); 
@@ -267,9 +258,10 @@ class Step_Checks extends setup_step
     /* Check if we can create a config file.*/
     $N = _("Configuration writeable");
     $D = _("The configuration file can't be written");
-    $S = sprintf(_("FusionDirectory reads its configuration from a file located in (%s/%s). The setup can write the configuration directly if it is writeable."),CONFIG_DIR,CONFIG_FILE); 
-    $R =    ( file_exists(CONFIG_DIR."/".CONFIG_FILE) && is_writeable(CONFIG_DIR."/".CONFIG_FILE)) // is there a config file ? 
-        ||  (!file_exists(CONFIG_DIR."/".CONFIG_FILE) && is_writeable(CONFIG_DIR));  // There is non, but can we create a file there ?
+    $S = sprintf(_("FusionDirectory reads its configuration from a file located in (%s/%s). The setup can write the configuration directly if it is writeable."),CONFIG_DIR,CONFIG_FILE);
+    /* is there a config file ? or There is none, but can we create a file there ?*/
+    $R =    ( file_exists(CONFIG_DIR."/".CONFIG_FILE) && is_writeable(CONFIG_DIR."/".CONFIG_FILE))
+        ||  (!file_exists(CONFIG_DIR."/".CONFIG_FILE) && is_writeable(CONFIG_DIR));
     $M = FALSE;
     $this->is_writeable[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 

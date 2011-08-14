@@ -107,7 +107,7 @@ class Step_Migrate extends setup_step
 
   var $group_list              = array();
 
-  /* Migrateable users */
+  /* Migrable users */
   var $migrate_users = array();
   var $acl_migrate_dialog      = FALSE;
   var $migrate_acl_base_entry  = "";
@@ -494,7 +494,7 @@ class Step_Migrate extends setup_step
     }
 
     /***********
-     * Check if returned users are within a valid GOsa deparmtment. (peopleou,gosaDepartment,base)
+     * Check if returned users are within a valid GOsa department. (peopleou,gosaDepartment,base)
      ***********/
     $this->outside_users = array();
     $people_ou = trim($cv['peopleou']);
@@ -3220,7 +3220,7 @@ class Step_Migrate extends setup_step
 
   function migrate_users()
   {
-    /* Collect a list of available GOsa users and groups 
+    /* Collect a list of available FusionDirectory users and groups
      */
 
     /* Establish ldap connection */

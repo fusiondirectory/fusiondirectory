@@ -24,7 +24,7 @@ class Step_Config1 extends setup_step
 {
 
   var $peopleou   = "ou=people";
-  var $groupou    =  "ou=groups";
+  var $groupou    = "ou=groups";
   var $peopledn   = "uid";
   var $uidbase    = 1100;
   var $krbsasl    = FALSE;
@@ -227,7 +227,7 @@ class Step_Config1 extends setup_step
     }else{
       $this->is_completed = FALSE;
     }
-  }// if template posted
+  } // if template posted
 
 
   /* Attributes that are interesting for configuration generation */

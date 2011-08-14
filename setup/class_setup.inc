@@ -44,13 +44,10 @@ class setup
     $this->o_steps[$i++] = new Step_Config2();
     $this->o_steps[$i++] = new Step_Config3();
     $this->o_steps[$i++] = new Step_Migrate();
-/* removed to see if working without it and no problem
-    $this->o_steps[$i++] = new Step_Feedback();
-*/
     $this->o_steps[$i++] = new Step_Finish();
     $this->i_steps = $i-1;
 
-    /* Ensure that setup is not reachable if fusiondirectory.conf (CONFIG_FILE) */
+    /* Ensure that setup is not reachable if fusiondirectory.conf exist (CONFIG_FILE) */
     if(file_exists(CONFIG_DIR."/".CONFIG_FILE)){
       session::destroy();
       header("Location: index.php")    ;
@@ -248,7 +245,6 @@ class setup
     return($str);
   }
 
-  
 
   function get_bottom_html()
   {
@@ -272,7 +268,7 @@ class setup
     return($str);
   }
 
-  
+
   /* Create header entry */
   function get_header_html()
   {
@@ -301,9 +297,6 @@ class setup
   }
   
 }
-
-
-
 
 // vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
