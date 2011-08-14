@@ -36,13 +36,13 @@ define ("LOCALE_CACHE_DIR", "/var/cache/fusiondirectory/locale");
 function print_usage()
 {
 	?>
-update-fusiondirectory - class cache, locale and documentation update for FusionDirectory
+fusiondirectory-setup - class cache, locale and documentation update for FusionDirectory
 Usage: 
-       update-fusiondirectory rescan-i18n     Rebuilds the translations
+       fusiondirectory-setup rescan-i18n     Rebuilds the translations
 
-       update-fusiondirectory rescan-classes  Rebuilds the class list
+       fusiondirectory-setup rescan-classes  Rebuilds the class list
 
-       update-fusiondirectory                 Shortcut for rescan-classes and rescan-i18n
+       fusiondirectory-setup                 Shortcut for rescan-classes and rescan-i18n
 <?php
 	exit (1);
 }

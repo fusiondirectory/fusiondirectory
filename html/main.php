@@ -143,7 +143,7 @@ if (!session::global_is_set('plist')){
       } else {
         msg_dialog::display(_("Fatal error"),
             sprintf(_("Cannot locate file '%s' - please run '%s' to fix this"),
-              "$BASE_DIR/$path", "<b>update-fusiondirectory</b>"), FATAL_ERROR_DIALOG);
+              "$BASE_DIR/$path", "<b>fusiondirectory-setup</b>"), FATAL_ERROR_DIALOG);
         exit;
       }
     }

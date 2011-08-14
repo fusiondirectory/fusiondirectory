@@ -43,7 +43,7 @@ In case of spain this will be
 and put the freshly translated messages.po in this directory.
 
 To test this, you've deploy the messages.po file in your running copy
-of FusionDirectory and run the "update-fusiondirectory" command, to let
+of FusionDirectory and run the "fusiondirectory-setup" command, to let
 FusionDirectory merge the translations. Then, Make sure your apache has
 locale support or, in case of debian, that the specific locale will be
 generated (via dpkg-reconfigure locales).
@@ -54,7 +54,7 @@ then just send the .po file to us.
 For fusiondirectory-plugins, every plugin has a locales directory. Translation works
 like described for fusiondirectory.
 
-Always run update-fusiondirectory after you've added translations in order to let
+Always run fusiondirectory-setup after you've added translations in order to let
 FusionDirectory compile and re-sync the translations.
 
 

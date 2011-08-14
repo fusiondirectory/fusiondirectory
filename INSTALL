@@ -30,7 +30,7 @@ As a summmary, you now have these directories for FusionDirectory:
 
 Update the class cache:
 
-Run "update-fusiondirectory" from the FusionDirectory main directory.
+Run "fusiondirectory-setup" from the FusionDirectory main directory.
 
 After this has been done, include settings for FusionDirectory in your apache
 config:
