@@ -1,14 +1,27 @@
 In order to run FusionDirectory in PHP's safe mode, these changes in your php.ini
 have been tested:
 
-magic_quotes_qpc = On
+For the tar.gz package install
+
 allow_url_fopen = No
 register_globals = Off
-safe_mode = On
-safe_mode_include_dir = "/usr/share/fusiondirectory:/var/spool/fusiondirectory"
+safe_mode = Off /* !! deprecated in php 5.3.0 */
+safe_mode_include_dir = "/var/www/fusiondirectory:/var/spool/fusiondirectory:/var/cache/fusiondirectory"
 safe_mode_exec_dir = "/usr/lib/fusiondirectory"
 safe_mode_allowed_env_vars = PHP_,LANG
-open_basedir = "/etc/fusiondirectory:/var/spool/fusiondirectory:/var/cache/fusiondirectory:/usr/share/fusiondirectory:/tmp"
-include_path = ".:/usr/share/php:/usr/share/fusiondirectory:/var/spool/fusiondirectory:/usr/share/fusiondirectory/safe_bin"
+open_basedir = "/etc/fusiondirectory:/var/www/fusiondirectory:/var/spool/fusiondirectory:/var/cache/fusiondirectory:/usr/share/php/smarty:/tmp"
+include_path = ".:/usr/share/php:/var/www/fusiondirectory:/var/spool/fusiondirectory:/usr/local/bin"
+disable_functions = system, shell_exec, passthru, phpinfo, show_source
+
+For packages install 
+
+allow_url_fopen = No
+register_globals = Off
+safe_mode = Off /* !! deprecated in php 5.3.0 */
+safe_mode_include_dir = "/usr/share/fusiondirectory:/var/spool/fusiondirectory:/var/cache/fusiondirectory"
+safe_mode_exec_dir = "/usr/lib/fusiondirectory"
+safe_mode_allowed_env_vars = PHP_,LANG
+open_basedir = "/etc/fusiondirectory:/usr/share/fusiondirectory:/var/spool/fusiondirectory:/var/cache/fusiondirectory:/usr/share/php/smarty:/tmp"
+include_path = ".:/usr/share/php:/usr/share/fusiondirectory:/var/spool/fusiondirectory:/usr/local/bin"
 disable_functions = system, shell_exec, passthru, phpinfo, show_source
 
