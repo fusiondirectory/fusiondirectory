@@ -5689,11 +5689,11 @@ msgstr "Mostra il telefono"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:11
 msgid "user groups"
-msgstr "gruppi di utenti"
+msgstr "Gruppi di utenti"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:12
 msgid "nested groups"
-msgstr "gruppi nidificati"
+msgstr "Gruppi nidificati"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:13
 msgid "application groups"

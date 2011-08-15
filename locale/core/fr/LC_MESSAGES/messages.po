@@ -5663,43 +5663,43 @@ msgstr "Téléphones"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:11
 msgid "user groups"
-msgstr "groupes d'utilisateurs"
+msgstr "Groupes d'utilisateurs"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:12
 msgid "nested groups"
-msgstr "groupes imbriqués"
+msgstr "Groupes imbriqués"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:13
 msgid "application groups"
-msgstr "groupes d'applications"
+msgstr "Groupes d'applications"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:14
 msgid "department groups"
-msgstr "groupes de départements"
+msgstr "Groupes de départements"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:15
 msgid "server groups"
-msgstr "groupes de serveurs"
+msgstr "Groupes de serveurs"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:16
 msgid "workstation groups"
-msgstr "groupes de stations de travail"
+msgstr "Groupes de stations de travail"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:17
 msgid "windows workstation groups"
-msgstr "groupes de stations windows"
+msgstr "Groupes de stations windows"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:18
 msgid "terminal groups"
-msgstr "groupes de terminaux"
+msgstr "Groupes de terminaux"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:19
 msgid "printer groups"
-msgstr "groupes d'imprimantes"
+msgstr "Groupes d'imprimantes"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:20
 msgid "phone groups"
-msgstr "groupes de téléphones"
+msgstr "Groupes de téléphones"
 
 #: plugins/admin/ogroups/remove.tpl:6
 msgid ""

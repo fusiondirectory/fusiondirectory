@@ -5728,7 +5728,7 @@ msgstr "Pokaż pakiety"
 #: plugins/admin/ogroups/ogroup-filter.tpl:11
 #, fuzzy
 msgid "user groups"
-msgstr "grupy"
+msgstr "Grupy"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:12
 #, fuzzy
@@ -5743,17 +5743,17 @@ msgstr "Pokaż grupy aplikacji"
 #: plugins/admin/ogroups/ogroup-filter.tpl:14
 #, fuzzy
 msgid "department groups"
-msgstr "departamenty"
+msgstr "Departamenty"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:15
 #, fuzzy
 msgid "server groups"
-msgstr "serwery"
+msgstr "Serwery"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:16
 #, fuzzy
 msgid "workstation groups"
-msgstr "stacje robocze"
+msgstr "Stacje robocze"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:17
 #, fuzzy

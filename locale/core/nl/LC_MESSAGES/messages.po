@@ -5888,7 +5888,7 @@ msgstr "Toon pakketten"
 #: plugins/admin/ogroups/ogroup-filter.tpl:11
 #, fuzzy
 msgid "user groups"
-msgstr "groepen"
+msgstr "Groepen"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:12
 #, fuzzy
@@ -5903,17 +5903,17 @@ msgstr "Toon programma groepen"
 #: plugins/admin/ogroups/ogroup-filter.tpl:14
 #, fuzzy
 msgid "department groups"
-msgstr "afdelingen"
+msgstr "Afdelingen"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:15
 #, fuzzy
 msgid "server groups"
-msgstr "servers"
+msgstr "Servers"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:16
 #, fuzzy
 msgid "workstation groups"
-msgstr "werkstations"
+msgstr "Werkstations"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:17
 #, fuzzy

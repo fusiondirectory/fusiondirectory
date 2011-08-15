@@ -5738,43 +5738,43 @@ msgstr "Mostrar teléfono"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:11
 msgid "user groups"
-msgstr "grupos de usuarios"
+msgstr "Grupos de usuarios"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:12
 msgid "nested groups"
-msgstr "grupos anidados"
+msgstr "Grupos anidados"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:13
 msgid "application groups"
-msgstr "grupos de aplicacion"
+msgstr "Grupos de aplicacion"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:14
 msgid "department groups"
-msgstr "grupos de departamento"
+msgstr "Grupos de departamento"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:15
 msgid "server groups"
-msgstr "grupos de servidor"
+msgstr "Grupos de servidor"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:16
 msgid "workstation groups"
-msgstr "grupos de estación de trabajo"
+msgstr "Grupos de estación de trabajo"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:17
 msgid "windows workstation groups"
-msgstr "grupos de estaciones de trabajo windows"
+msgstr "Grupos de estaciones de trabajo windows"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:18
 msgid "terminal groups"
-msgstr "grupos de terminales"
+msgstr "Grupos de terminales"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:19
 msgid "printer groups"
-msgstr "grupos de impresoras"
+msgstr "Grupos de impresoras"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:20
 msgid "phone groups"
-msgstr "grupos de teléfonos"
+msgstr "Grupos de teléfonos"
 
 #: plugins/admin/ogroups/remove.tpl:6
 #, fuzzy
