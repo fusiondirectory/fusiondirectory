@@ -1624,7 +1624,7 @@ class Step_Migrate extends setup_step
 
     if($this->acl_create_dialog){
       $smarty = get_smarty();
-      $uid = "admin";
+      $uid = "fd-admin";
       if(isset($_POST['new_user_uid'])){
         $uid = $_POST['new_user_uid'];
       }
