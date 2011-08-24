@@ -96,8 +96,10 @@ class supportDaemon
             /* Put timestamp back to UTC time
              */
             timezone::get_default_timezone();
-            $data_json['timestamp'] = $event->get_timestamp(FALSE) - date("Z");
-            $data_json['periodic'] = $data['periodic'];
+            if($event->get_timestamp(FALSE) != 0) {
+                $data_json['timestamp'] = $event->get_timestamp(FALSE);
+                $data_json['periodic'] = $data['periodic'];
+            }
             $data_json['args'] = $data;
             unset($data_json['args']['timestamp']);
             unset($data_json['args']['periodic']);
