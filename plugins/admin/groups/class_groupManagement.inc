@@ -92,7 +92,7 @@ class groupManagement extends management
     if(count($msgs)){
       msg_dialog::displayChecks($msgs);
     }else{
-      $o_queue = new gosaSupportDaemon();
+      $o_queue = new supportDaemon();
       $o_queue->append($this->dialogObject);
       if($o_queue->is_error()){
         msg_dialog::display(_("Infrastructure error"), msgPool::siError($o_queue->get_error()),ERROR_DIALOG);
