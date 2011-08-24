@@ -3097,7 +3097,7 @@ function generate_smb_nt_hash($password)
 
   # Try to use goto-si?
   if ($config->get_cfg_value("goto-si-URI") != ""){
-  	$res= gosaSupportDaemon::send("gosa_gen_smb_hash", "GOSA", array("password" => $password), TRUE);
+  	$res= supportDaemon::send("gosa_gen_smb_hash", "GOSA", array("password" => $password), TRUE);
     if (isset($res['XML']['HASH'])){
     	$hash= $res['XML']['HASH'];
     } else {

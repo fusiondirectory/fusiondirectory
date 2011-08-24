@@ -17,8 +17,365 @@
 
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
-  Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
+require_once('jsonRPCClient.php');
+
+class supportDaemon
+{
+    private $s_host       = "";
+    private $config;
+    
+    private $s_error      = "";
+    private $b_error      = FALSE;
+
+
+    public function __construct()
+    {
+        $this->config = session::global_get('config');
+        /* This should only be the case if we call this from setup.
+        __autoload() 
+        */
+        if(!is_object($this->config)) { return; }
+        # load from config, store statically
+        $this->s_host = $this->config->get_cfg_value("goto-si-URI");
+/*
+      $this->is_configured = TRUE;
+*/
+        echo "supportDaemon constructed<br/>\n";
+    }
+  
+    public function is_available() {
+        try {
+            $client = new jsonRPCClient($this->s_host);
+            $ok = "OK";
+            $test = $client->echo($ok);
+        } catch (Exception $e) {
+            $this->set_error(nl2br($e->getMessage()));
+            return(FALSE);
+        }
+        if ($test == $ok) {
+            $this->reset_error();
+            return(TRUE);
+        } else {
+            $this->set_error("Received $test, expected $ok");
+            return(FALSE);
+        }
+    }
+  
+	/* Allows simply appending a new DaemonEvent 
+	*/
+	public function append($event)
+	{
+		if(!($event instanceof DaemonEvent)) {
+            return(FALSE);
+		}
+
+		/* Add to queue if new 
+		 */
+		if($event->is_new()) {
+
+            $request_answer = FALSE;
+            if($event->get_type() == SCHEDULED_EVENT) {
+                $action = $event->get_schedule_action();
+            } elseif($event->get_type() == TRIGGERED_EVENT) {
+                $action = $event->get_trigger_action();
+            } else {
+                trigger_error("Unknown type of queue event given.");
+                return(FALSE);
+            }
+		  
+			echo "COUCOU!!<br/>\n";
+
+			/* Get event informations, like targets..
+			*/
+			$targets    = $event->get_targets();
+			$data       = $event->save();
+            
+            /* Put timestamp back to UTC time
+             */
+            timezone::get_default_timezone();
+            $data_json['timestamp'] = $event->get_timestamp(FALSE) - date("Z");
+            $data_json['periodic'] = $data['periodic'];
+            $data_json['args'] = $data;
+            unset($data_json['args']['timestamp']);
+            unset($data_json['args']['periodic']);
+
+			/* Append an entry
+			*/
+			try {
+				$client = new jsonRPCClient($this->s_host);
+				$client->action($action,$targets,$data_json);
+			} catch (Exception $e) {
+				$this->set_error(nl2br($e->getMessage()));
+				return(FALSE);
+			}
+            $this->reset_error();
+            return(TRUE);
+		} else {
+            echo "was??!!<br/>";
+
+            /* Updated edited entry. */
+            $id                 = $event->get_id();
+            $data               = $event->save();
+            return($this->update_entries(array($id),$data));
+		}
+
+		return(FALSE);
+	}
+    
+  /*! \brief  Sets an error message, which can be returned with get_error().
+    @param  string  The Error message,
+   */
+  private function set_error($str)
+  {
+    $this->b_error = TRUE;
+    $this->s_error = $str;
+  }
+
+
+  /*! \brief  Sets an error message, which can be returned with get_error().
+    @param  string  The Error message,
+   */
+  private function reset_error()
+  {
+    $this->b_error = FALSE;
+    $this->s_error = "";
+  }
+
+
+  /*! \brief  Checks if an error occured.
+    @return boolean returns TRUE or FALSE, whether there is an error or not.
+   */
+  public function is_error()
+  {
+    return($this->b_error);
+  }
+
+
+  /*! \brief  Returns the last error. 
+    @return Returns the last error.
+   */
+  public function get_error()
+  {
+    $str = $this->s_error;
+    $ret = "";
+    if(is_string($str)){
+      $ret = $str;
+    }else{
+      foreach($str as $msg){
+        $ret .= $msg." ";
+      }
+    }
+    $ret = str_replace(" ","&nbsp;",$ret);
+    return($ret);
+  }
+  
+    private function format_entries($entries) {
+        timezone::get_default_timezone();
+        foreach($entries as &$entry) {
+            $entry_r['TIMESTAMP'] = DaemonEvent::_timestamp_to_event($entry['data']['timestamp']);
+            $entry_r['MACADDRESS'] = $entry['target'];
+            
+            // TODO : do an ldap search only if we haven't done it for the same mac before
+            $ldap = $this->config->get_ldap_link();
+            $ldap->cd($this->config->current['BASE']);
+            $ldap->search("(macAddress=".$entry_r['MACADDRESS'].")",array('cn'));
+            $ldap_infos = $ldap->fetch();
+            $ldap_infos['cn'][0];
+            $entry_r['PLAINNAME'] = $ldap_infos['cn'][0];
+            
+            $entry_r['ERROR'] = $entry['error'];
+            $entry_r['PROGRESS'] = 0;
+            
+            $entry_r['PERIODIC'] = $entry['data']['periodic'];
+            $entry_r['STATUS'] = $entry['status'];
+            $entry_r['ID'] = $entry['id'];
+            $entry_r['HEADERTAG'] = $entry['action'];
+            $entries_r[]=$entry_r;
+        }
+        return $entries_r;
+    }
+  
+  
+    /*! \brief  Returns an array containing all queued entries.
+    @return Array All queued entries as an array.
+   */
+    public function get_queued_entries($event_types = array("*"),$from=-1,$to=-1,$sort="timestamp DESC")
+    {
+        timezone::get_default_timezone();
+        try {
+            $client = new jsonRPCClient($this->s_host);
+            $entries = $client->get_entries();
+        } catch (Exception $e) {
+            $this->set_error(nl2br($e->getMessage()));
+            return(FALSE);
+        }
+        $this->get_entries();
+        $entries = $this->format_entries($entries);
+        $this->reset_error();
+        return($entries);
+    }
+    
+    /*! \brief  Returns an entry containing all requested ids.
+    @param  Array   The IDs of the entries we want to return.
+    @return Array   Of the requested entries. 
+    */
+    public function get_entries_by_id($ids)
+    {
+        return $this->get_entries("get_entries_by_id",$ids);
+    }
+    
+    /*! \brief  Removes a set of entries from the GOsa support queue. 
+    @param  Array The IDs to remove.
+    @return Boolean True on success.
+    */
+    public function remove_entries($ids)
+    {
+        if(!is_array($ids)){
+          trigger_error("Requires an array as parameter.");
+          return;
+        }
+        
+        try {
+            $client = new jsonRPCClient($this->s_host);
+            $entries = $client->remove_entries($ids);
+        } catch (Exception $e) {
+            $this->set_error(nl2br($e->getMessage()));
+            return(FALSE);
+        }
+        $this->reset_error();
+        return(TRUE);
+    }
+
+    /*! \brief  Removes an entry from the GOsa support queue. 
+    @param  Integer The ID of the entry we want to remove.
+    @return Boolean True on success.
+    */
+    public function remove_entry($id)
+    {
+        return($this->remove_entries(array($id)));
+    }
+    
+    /*! \brief  Returns an entry from the gosaSupportQueue
+    @param  Integer The ID of the entry we want to return.
+    @return Array   Of the requested entry. 
+    */
+    public function get_entry_by_id($id)
+    {
+        return $this->get_entries_by_id(array($id));
+    }
+    
+    /*! \brief  Updates an entry with a set of new values, 
+    @param  Integer The ID of the entry, we want to update.
+    @param  Array   The variables to update.   
+    @return Boolean Returns TRUE on success. 
+    */
+    public function update_entries($ids,$data)
+    {
+        if(!is_array($ids)){
+          trigger_error("Requires an array as first parameter.");
+          return;
+        }
+
+        if(!is_array($data)){
+          trigger_error("Requires an array as second parameter.");
+          return;
+        }
+        
+        echo "ids ";
+        print_r($ids);
+        echo "<br/>data ";
+        print_r($data);
+        echo "<br/>";
+        
+        // won't be implemented
+    }
+    
+    public function process_entries_now($ids)
+    {
+        if(!is_array($ids)){
+          trigger_error("Requires an array as first parameter.");
+          return;
+        }
+        
+        try {
+            $client = new jsonRPCClient($this->s_host);
+            $entries = $client->process_entries_now($ids);
+        } catch (Exception $e) {
+            $this->set_error(nl2br($e->getMessage()));
+            return(FALSE);
+        }
+        $this->reset_error();
+        return(TRUE);
+    }
+
+    public function is_currently_installing($mac) {
+        $e_types = DaemonEvent::get_event_types(USER_EVENT | SYSTEM_EVENT | HIDDEN_EVENT);
+        
+        $evts = $this->get_entries_by_mac(array($mac));
+        foreach($evts as $evt) {
+            if(isset($e_types['QUEUED'][$evt['HEADERTAG']]) && $evt['STATUS'] == "processing" && 
+                in_array($e_types['QUEUED'][$evt['HEADERTAG']],array("DaemonEvent_reinstall","DaemonEvent_update"))) {
+                // Why do we check HEADERTAG? processing status should be sufficient.
+                return(TRUE);
+            }
+        }
+        return(FALSE);
+    }
+    
+    public function get_entries_by_mac($macs) {
+        return $this->get_entries("get_entries_by_mac",$macs);
+    }
+    
+    private function get_entries($func,$address) {
+        if(!is_array($address)){
+          trigger_error("Requires an array as parameter.");
+          return;
+        }
+        
+        echo $func."<br/>\n";
+        
+        try {
+            $client = new jsonRPCClient($this->s_host);
+            $entries = $client->$func($address);
+        } catch (Exception $e) {
+            $this->set_error(nl2br($e->getMessage()));
+            return(FALSE);
+        }
+        $entries = $this->format_entries($entries);
+        $this->reset_error();
+        return($entries);
+    }
+    
+    /*! \brief  Returns log file informations for a given mac address 
+      @param  $mac The mac address to fetch logs for.
+      @retrun Array A Multidimensional array containing log infos.
+        MAC_00_01_6C_9D_B9_FA['install_20080311_090900'][0]=debconf.log
+        MAC_00_01_6C_9D_B9_FA['install_20080311_090900'][1]=syslog.log
+                               install_20080313_144450   ...
+    */
+    public function get_log_info_for_mac($mac)
+    {
+        // FIXME : this function needs to look into logs on the local disk
+        return array();
+    }
+    
+    /*! \brief  Returns true if an argonaut daemon is running on the pc
+      @param  $mac The mac address to ping
+    */
+    public function ping($mac) {
+        try {
+            $client = new jsonRPCClient($this->s_host);
+            $this->reset_error();
+            return($client->ping($mac));
+        } catch (Exception $e) {
+            $this->set_error(nl2br($e->getMessage()));
+            return(FALSE);
+        }
+    }
+};
 
 class gosaSupportDaemon
 {
@@ -44,7 +401,7 @@ class gosaSupportDaemon
   {
     return($this->i_port);
   }
-
+ 
   /*! \brief  Creates a new gosaSupportDaemon object.
     @param string   Host    The Host where the daemon is running on.  
     @param integer  Port    The port which the daemon use.
@@ -54,11 +411,15 @@ class gosaSupportDaemon
    */
   public function __construct($connect=TRUE,$timeout=null)
   {
+/*
+      debug_print_backtrace();
+*/
     #FIXME: bad idea about referencing global variables from within classes
     global $config;
     if(!isset($config) || !$config){
       $config = session::global_get('config');
     }
+    echo "gosaSupportDaemon constructor<br/>\n".$config->get_cfg_value("goto-si-URI")."\n";
 
     // Detect timeout 
     if($timeout == null){
@@ -412,8 +773,34 @@ class gosaSupportDaemon
    */
   public function get_queued_entries($event_types = array("*"),$from=-1,$to=-1,$sort="timestamp DESC")
   {
+/*
     $ret = array();
+*/
 
+    echo "coucou4<br/>\n";
+/*
+    debug_print_backtrace();
+    * filter goto events
+*/
+    timezone::get_default_timezone();
+    
+    try {
+        $client = new jsonRPCClient($this->s_host);
+        $entries = $client->get_entries();
+    } catch (Exception $e) {
+        $this->set_error(nl2br($e->getMessage()));
+        return(FALSE);
+    }
+    foreach($entries as &$entry) {
+        $entry['TIMESTAMP'] = DaemonEvent::_timestamp_to_event($entry['data']['timestamp']);
+        $entry['MACADDRESS'] = $entry['targets'][0];
+        $entry['PERIODIC'] = $entry['data']['periodic'];
+        $entry['STATUS'] = $entry['status'];
+    }
+    $this->reset_error();
+    return($entries);
+    
+    /*
     $tags = "";
     foreach($event_types as $type){
       $tags .= "<phrase><headertag>".$type."</headertag></phrase>";
@@ -442,18 +829,23 @@ class gosaSupportDaemon
     }
     $xml_msg.= "
       </xml>";
+      */
 
+/*
     if($this->connect()){
       $entries = $this->_send($xml_msg,TRUE);
       if(isset($entries['XML']) && is_array($entries['XML'])){
 
-        /* Unset header tags */
+        // Unset header tags
         foreach(array("HEADER","SOURCE","TARGET","SESSION_ID") as $type){
           unset($entries['XML'][$type]);
         }
         $ret = $entries['XML']; 
       }
     }
+*/
+
+    
     return($ret);
   }
 
@@ -512,6 +904,7 @@ class gosaSupportDaemon
       trigger_error("Requires an array as parameter.");
       return;
     }
+    echo "coucou2<br/>\n";
 
     $ret = array();
 
@@ -556,6 +949,7 @@ class gosaSupportDaemon
       trigger_error("Requires an array as parameter.");
       return;
     }
+    echo "coucou1<br/>\n";
 
     $ret = array();
 
@@ -638,6 +1032,7 @@ class gosaSupportDaemon
       trigger_error("Requires an integer as parameter.");
       return;
     }
+    echo "coucou3<br/>\n";
   
     $ret = array();
     $xml_msg = "<xml>
@@ -985,24 +1380,38 @@ class gosaSupportDaemon
         trigger_error("Unknown type of queue event given.");
         return(FALSE);
       }
+      
+		echo "coucou!<br/>";
 
-      /* Get event informations, like targets..
-       */
-      $targets    = $event->get_targets();
-      $data       = $event->save();
+		/* Get event informations, like targets..
+		*/
+		$targets    = $event->get_targets();
+		$data       = $event->save();
 
-      /* Append an entry for each target 
-       */
-      foreach($targets as $target){
+		/* Append an entry
+		*/
+        try {
+			$client = new jsonRPCClient('http://10.10.11.100:8080');//$s_host.":".$i_port
+			$client->action($action,$targets,$data);
+		} catch (Exception $e) {
+			$this->set_error(nl2br($e->getMessage()));
+			return(FALSE);
+		}
+
+/*      
+ * 	foreach($targets as $target){
         if(!$skip_add_mac){
           $data['macaddress'] = $target;
         }
         $this->send_data($action,$target,$data,$request_answer);
+*/
 
+/*
         if($this->is_error()){
           return(FALSE);
         }
       }
+*/
       return(TRUE);
     }else{
 
