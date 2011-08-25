@@ -95,3 +95,5 @@ documentation and additional help.
 * Roman Widmann <archme.mail@gmail.com>
   Arch linux packager
 
+* Bernigaud Côme <come.bernigaud@laposte.net> 
+  New daemon code class_supportDaemon.inc, and all the new deployment stuff :)
