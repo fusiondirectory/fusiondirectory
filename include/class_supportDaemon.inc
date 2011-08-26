@@ -43,7 +43,6 @@ class supportDaemon
 /*
       $this->is_configured = TRUE;
 */
-        echo "supportDaemon constructed<br/>\n";
     }
   
     public function is_available() {
@@ -86,8 +85,6 @@ class supportDaemon
                 return(FALSE);
             }
 		  
-			echo "COUCOU!!<br/>\n";
-
 			/* Get event informations, like targets..
 			*/
 			$targets    = $event->get_targets();
@@ -116,7 +113,6 @@ class supportDaemon
             $this->reset_error();
             return(TRUE);
 		} else {
-            echo "was??!!<br/>";
 
             /* Updated edited entry. */
             $id                 = $event->get_id();
@@ -287,12 +283,6 @@ class supportDaemon
           return;
         }
         
-        echo "ids ";
-        print_r($ids);
-        echo "<br/>data ";
-        print_r($data);
-        echo "<br/>";
-        
         // won't be implemented
     }
     
@@ -337,8 +327,6 @@ class supportDaemon
           trigger_error("Requires an array as parameter.");
           return;
         }
-        
-        echo $func."<br/>\n";
         
         try {
             $client = new jsonRPCClient($this->s_host);
@@ -422,7 +410,6 @@ class gosaSupportDaemon
     if(!isset($config) || !$config){
       $config = session::global_get('config');
     }
-    echo "gosaSupportDaemon constructor<br/>\n".$config->get_cfg_value("goto-si-URI")."\n";
 
     // Detect timeout 
     if($timeout == null){
@@ -780,7 +767,6 @@ class gosaSupportDaemon
     $ret = array();
 */
 
-    echo "coucou4<br/>\n";
 /*
     debug_print_backtrace();
     * filter goto events
@@ -907,7 +893,6 @@ class gosaSupportDaemon
       trigger_error("Requires an array as parameter.");
       return;
     }
-    echo "coucou2<br/>\n";
 
     $ret = array();
 
@@ -952,7 +937,6 @@ class gosaSupportDaemon
       trigger_error("Requires an array as parameter.");
       return;
     }
-    echo "coucou1<br/>\n";
 
     $ret = array();
 
@@ -1035,7 +1019,6 @@ class gosaSupportDaemon
       trigger_error("Requires an integer as parameter.");
       return;
     }
-    echo "coucou3<br/>\n";
   
     $ret = array();
     $xml_msg = "<xml>
@@ -1384,7 +1367,6 @@ class gosaSupportDaemon
         return(FALSE);
       }
       
-		echo "coucou!<br/>";
 
 		/* Get event informations, like targets..
 		*/
