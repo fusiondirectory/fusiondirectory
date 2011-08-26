@@ -39,7 +39,7 @@ class supportDaemon
         */
         if(!is_object($this->config)) { return; }
         # load from config, store statically
-        $this->s_host = $this->config->get_cfg_value("goto-si-URI");
+        $this->s_host = $this->config->get_cfg_value("argonautServer");
 /*
       $this->is_configured = TRUE;
 */
