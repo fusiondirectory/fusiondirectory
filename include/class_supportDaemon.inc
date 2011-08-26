@@ -189,10 +189,11 @@ class supportDaemon
             $entry_r['PLAINNAME'] = $ldap_infos['cn'][0];
             
             $entry_r['ERROR'] = $entry['error'];
-            $entry_r['PROGRESS'] = 0;
+            $entry_r['PROGRESS'] = $entry['progress'];
             
             $entry_r['PERIODIC'] = $entry['data']['periodic'];
             $entry_r['STATUS'] = $entry['status'];
+            $entry_r['SUBSTATUS'] = $entry['substatus'];
             $entry_r['ID'] = $entry['id'];
             $entry_r['HEADERTAG'] = $entry['action'];
             $entries_r[]=$entry_r;
