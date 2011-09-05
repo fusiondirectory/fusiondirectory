@@ -408,13 +408,15 @@ class supportDaemon
         $ldap->cd($this->config->current['BASE']);
         $ldap->search("(&(FAIrepository=*)(objectClass=FAIrepositoryServer))",array("FAIrepository", "gosaUnitTag"));
         
+        $repos = array();
         while($entry = $ldap->fetch()) {
             if(isset($entry['FAIrepository'])) {
                 # Add an entry for each Repository configured for server
+                unset($entry['FAIrepository']['count']); // FIXME
                 foreach ($entry['FAIrepository'] as $repo) {
                     $tmp = preg_split("/\|/", $repo);
                     $infos['URL'] = $tmp[0];
-                    $infos['SERVER'] = $tmp[1];
+                    $infos['PARENT_SERVER'] = $tmp[1];
                     $infos['FAI_RELEASE'] = $tmp[2];
                     $infos['SECTIONS'] = $tmp[3];
                     $infos['TAG'] = $entry['gosaUnitTag'];
@@ -427,11 +429,12 @@ class supportDaemon
     
     public function FAI_get_kernels($release)
     {
-        return $this->FAI_get_packages($release,array("package"),"linux-image");
+        return $this->FAI_get_packages($release,array("package"),array("linux-image"));
     }
     
     
     
+/*
     public function FAI_get_classes($release)
     {
         $classes = array("FAIscript", "FAIhook", "FAIpartitionTable", "FAItemplate", "FAIvariable", "FAIprofile", "FAIpackageList");
@@ -451,6 +454,28 @@ class supportDaemon
             $res[]=$info;
         }
         
+        print_r($res);
+        return $res;
+    }
+*/
+
+    public function FAI_get_profiles($release)
+    {
+/*
+        $classes = array("FAIscript", "FAIhook", "FAIpartitionTable", "FAItemplate", "FAIvariable", "FAIprofile", "FAIpackageList");
+*/
+        $ldap = $this->config->get_ldap_link();
+        $ldap->cd("ou=$release,ou=fai,ou=configs,ou=systems,".$this->config->current['BASE']); // FIXME : check if could be in a cleaner way (look for faiBaseRDN
+        $ldap->search("(&(objectClass=FAIprofile)(objectClass=FAIclass))",array("*"));
+        
+        $res = array();
+        while($entry = $ldap->fetch()) {
+            $res[]=$entry['cn'][0];
+        }
+        
+        echo "PROFILES : ";
+        print_r($res);
+        echo "<hr/>";
         return $res;
     }
 };
