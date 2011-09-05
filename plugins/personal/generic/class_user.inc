@@ -997,7 +997,7 @@ class user extends plugin
 
             $im = new Imagick();
             $im->readImageBlob($this->photoData);
-            $im->setImageOpacity(1.0);
+/*            $im->setImageOpacity(1.0); removed because not support on imagick on centos / redhat 5 */
             $im->resizeImage(147,200,Imagick::FILTER_UNDEFINED,0.5,TRUE);
             $im->setCompressionQuality(90);
             $im->setImageFormat('jpeg');
