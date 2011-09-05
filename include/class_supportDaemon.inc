@@ -366,6 +366,93 @@ class supportDaemon
             return(FALSE);
         }
     }
+    
+    public function FAI_get_packages($release,$attrs,$filters,$from=-1,$to=-1) {
+        echo "Get_packages : ";
+        print_r($attrs);
+        print_r($filters);
+        echo "<hr/>\n";
+        try {
+            $client = new jsonRPCClient($this->s_host);
+            $this->reset_error();
+            $res = $client->get_packages($release,$attrs,$filters,$from,$to);
+            $to_return = array();
+            $attrs = array_map('strtoupper', $attrs);
+            foreach ($res as $distribution => $packages) {
+                $words = preg_split("/\//",$distribution);
+                $distribution = $words[0];
+                $section = $words[1];
+                
+                if(in_array("DISTRIBUTION",$attrs)) {
+                    foreach ($packages as &$package) {
+                        $package['DISTRIBUTION'] = $distribution;
+                    }
+                }
+                if(in_array("SECTION",$attrs)) {
+                    foreach ($packages as &$package) {
+                        $package['SECTION'] = $section;
+                    }
+                }
+                $to_return = array_merge($to_return,$packages);
+            }
+            return $to_return;
+        } catch (Exception $e) {
+            $this->set_error(nl2br($e->getMessage()));
+            return array();
+        }
+    }
+
+
+    public function FAI_get_server($name = "") {
+        $ldap = $this->config->get_ldap_link();
+        $ldap->cd($this->config->current['BASE']);
+        $ldap->search("(&(FAIrepository=*)(objectClass=FAIrepositoryServer))",array("FAIrepository", "gosaUnitTag"));
+        
+        while($entry = $ldap->fetch()) {
+            if(isset($entry['FAIrepository'])) {
+                # Add an entry for each Repository configured for server
+                foreach ($entry['FAIrepository'] as $repo) {
+                    $tmp = preg_split("/\|/", $repo);
+                    $infos['URL'] = $tmp[0];
+                    $infos['SERVER'] = $tmp[1];
+                    $infos['FAI_RELEASE'] = $tmp[2];
+                    $infos['SECTIONS'] = $tmp[3];
+                    $infos['TAG'] = $entry['gosaUnitTag'];
+                    $repos[] = $infos;
+                }
+            }
+        }
+        return $repos;
+    }
+    
+    public function FAI_get_kernels($release)
+    {
+        return $this->FAI_get_packages($release,array("package"),"linux-image");
+    }
+    
+    
+    
+    public function FAI_get_classes($release)
+    {
+        $classes = array("FAIscript", "FAIhook", "FAIpartitionTable", "FAItemplate", "FAIvariable", "FAIprofile", "FAIpackageList");
+        $ldap = $this->config->get_ldap_link();
+        $ldap->cd($this->config->current['BASE']);
+        $ldap->search("(&(FAIdebianRelease=$release)(objectClass=FAIclass))",array("*"));
+        
+        $res = array();
+        while($entry = $ldap->fetch()) {
+            $info['CLASS'] = $entry['cn'][0];
+            foreach ($entry['objectClass'] as $class) {
+                if(in_array($class,$classes)) {
+                    $info['TYPE'] = $class;
+                    break;
+                }
+            }
+            $res[]=$info;
+        }
+        
+        return $res;
+    }
 };
 
 class gosaSupportDaemon
