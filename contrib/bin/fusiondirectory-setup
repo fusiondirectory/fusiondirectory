@@ -1,9 +1,904 @@
-#!/usr/bin/php
-<?php
+#!/usr/bin/perl
 
-/*
+use strict;
+use warnings;
+use 5.010;
+
+# used to manage files
+use Path::Class;
+
+# used for checking config dirs rights (make the translation for lstat output)
+use Fcntl ':mode';
+
+# used to handle ldap connections
+use Net::LDAP;
+
+# used to base64 encode
+use MIME::Base64;
+
+# used to generate {CRYPT} password (for LDAP)
+use Crypt::PasswdMD5;
+
+
+# fd's directory and class.cache file's path declaration
+my $fd_home = "/usr/share/fusiondirectory/";
+my $fd_cache = "/var/cache/fusiondirectory/";
+
+my @root_config_dirs = qw( /usr/share/fusiondirectory /etc/fusiondirectory );
+my @apache_config_dirs = qw( /var/spool/fusiondirectory /var/cache/fusiondirectory );
+my @config_dirs = ( @root_config_dirs, @apache_config_dirs );
+
+my $locale_dir = $fd_home."locale";
+my $state_dir = $fd_home."state";
+my $class_cache = $fd_cache."class.cache";
+my $locale_cache_dir = $fd_cache."locale";
+
+
+##################################################################################################################################################
+
+# check if the user who run the script is root
+# may look useless, but help for script understanding
+sub user_is_root {
+
+	# return true if the script run as root
+	if ( $ENV{USER} eq "root" ) {
+
+		return 1;
+
+	} else {
+
+		return 0;
+	}
+}
+
+####################################################### class.cache update #########################################################################
+
+
+# hash that will contain the result of the "get_classes" function
+my %get_classes_result = ();
+
+# reference on the "get_classes_result" hash
+my $ref_get_classes_result = \%get_classes_result;
+
+# function that scan recursivly a directory to find .inc and . php
+# then return a hash with class => path to the class file
+sub get_classes {
+
+	my ( $path, $ref_result ) = @_;
+
+	# if this function has been called with a parameter
+	if ( defined ( $path ) ) {
+
+		# create a "dir" object
+		my $dir = dir ( $path );
+
+		# create an array with the content of $dir
+		my @dir_files = $dir->children;
+
+		foreach my $file ( @dir_files ) {
+
+			# recursive call if $file is a directory
+			if ( -d $file ) {
+
+				get_classes ( $file, $ref_result );
+				next;
+			}
+
+			# only process if $file is a .inc or a .php file
+			if ( ( $file =~ /.*\.(inc|php)$/ ) && ( $file !~ /.*smarty.*/ ) ) {
+
+				# put the entire content of the file pointed by $file in $data
+				my @lines = $file->slurp;
+
+				foreach my $line ( @lines ) {
+
+					# remove \n from the end of each line
+					chomp $line;
+
+					# only process for lines beginning with "class", and extracting the 2nd word (the class name)
+					if ( $line =~ /^class\s*(\w+).*/ ) {
+
+						my $class = $1;
+
+						# modifing $file, to contains relative path, not complete one
+						$file =~ s/^$fd_home(\S+)/$1/;
+
+						# adding the values (class name and file path) to the hash
+						$ref_result->{$class} = $file;
+
+					# else, go to the next line
+					} else {
+						next;
+					}
+				}
+			
+			# else process with the next file
+			} else {
+
+				next;
+			}
+		}
+
+	# if this function has been called without parameter
+	} else {
+
+		die ( "! function get_classes called without parameter" );
+	}
+
+}
+
+
+
+
+# call get_classes and create /var/cache/fusiondirectory/class.cache
+sub rescan_classes {
+
+	# call get classes with the FusionDirectory's home folder and the reference on the hash that will contain the results
+	get_classes ( $fd_home, $ref_get_classes_result );
+
+	# create a "file" object with the $class_cache path
+	my $file_class = file ($class_cache);
+
+	# create the handler (write mode) for the file previoulsy created
+	my $fhw = $file_class->openw() or die ( "\n! Unable to open $class_cache in read mode" );	
+
+	# first lines of class.cache
+	$fhw->print ( "<?php\n\t\$class_mapping= array(\n");
+
+	# for each $key/$value, writting a new line to $class_cache
+	while ( my ( $key,$value ) = each %get_classes_result ) {
+
+		$fhw->print ( "\t\t\"$key\" => \"$value\",\n" );
+
+	}
+
+	# last line of classe.cache
+	$fhw->print ( "\t);\n?>" );
+
+	$fhw->close or die ( "! Can't close $class_cache" );
+	
+}
+
+
+###################################################### Internalisation's update ####################################################################################
+
+# hash that will contain the result of the "get_classes" function
+my %get_i18n_result = ();
+
+# reference on the "get_classes_result" hash
+my $ref_get_i18n_result = \%get_i18n_result;
+
+
+# function that create .mo files with .po for each language
+sub get_i18n {
+
+	my ( $path, $ref_result ) = @_;
+
+	# if this function has been called with a parameter
+	if ( defined ( $path ) ) {
+
+		# create a "dir" object
+		my $dir = dir ( $path ) or die ( "Can't open $path" );
+
+		# create an array with the content of $dir
+		my @dir_files = $dir->children;
+
+		foreach my $file ( @dir_files ) {
+
+			# recursive call if $file is a directory
+			if ( -d $file ) {
+
+				get_i18n ( $file, $ref_result );
+				next;
+			}
+
+			# if the file's directory is ???/LC_MESSAGES/messages.po
+			if ( $file =~ /^.*LC_MESSAGES\/messages.po$/ ) {
+
+				# language recuperation (fr/en/es/it...)
+				$file =~ /^.*\/(\w+)\/LC_MESSAGES\/messages.po$/;
+				my $lang = $1;
+
+				# push the file's path in the $lang array (wich is inside the hash pointed by $ref_result
+				push @{$ref_result->{$lang}}, $file;
+
+			} else {
+
+				next;
+			}
+
+		}
+
+	# if this function has been called without parameter
+	} else {
+
+		die ( "! function get_i18n called without parameter" );
+	}
+
+	
+}
+
+
+
+
+# call get_i18n with the FusionDirectory's locales's directory and the hash that will contain the result in parameter
+sub rescan_i18n {
+
+	get_i18n ( $locale_dir, $ref_get_i18n_result );
+
+	while ( my ( $lang, $files ) = each %get_i18n_result ) {
+
+		# directory wich will contain the .mo file for each language
+		my $lang_cache_dir = dir ( "$locale_cache_dir/$lang/LC_MESSAGES" );
+ 
+		# if $lang_cache_dir doesn't already exists, creating it
+		if ( !-d $lang_cache_dir ) {
+			
+			$lang_cache_dir->mkpath or die ( "! Can't create $locale_cache_dir/$lang/LC_MESSAGES" );
+		}
+
+		# glue .po files's names
+		my $po_files = join(" ", @{$files});
+		chomp $po_files;
+
+		# merging .po files
+		system ( "msgcat --use-first ".$po_files.">".$lang_cache_dir."/messages.po" ) and die ( "Unable to merge .po files for $lang with msgcat, is it already installed?\n" );
+
+		# compiling .po files in .mo files
+		system ( "msgfmt -o $lang_cache_dir/messages.mo $lang_cache_dir/messages.po && rm $lang_cache_dir/messages.po" ) and die ( "Unable to compile .mo files with msgfmt, is it already installed?\n" );
+
+
+	}
+
+	say ( "! Warning: you may need to reload your webservice!\n" );
+
+}
+
+############################################################# Directories checking ###################################################################################
+
+sub check_directories {
+
+	my $apache_user = "";
+
+	# try to identify the running distribution, if it's not debian or rehat like, script die
+	if ( -e "/etc/debian_version" ) {
+
+		$apache_user = "www-data";
+
+	} elsif ( -e "/etc/redhat-release" ) {
+
+		$apache_user = "apache";
+
+	} else {
+
+		die ( "! Looks like you don't have /etc/debian_version or /etc/redhat-release, I don't know your distribution !" );
+	}
+
+
+	# for each config directory 
+	foreach my $dir ( @config_dirs ) {
+
+		# if the current dir exists
+		if ( -e $dir ) {
+
+			# retrieve dir's informations
+			my @lstat = lstat ( $dir );
+
+			# extract the owner and the group of the directory 
+			my $user = getpwuid ( $lstat[4] );
+			my $group = getgrgid ( $lstat[5] );
+
+			# extract the dir's rights
+			my $mode = $lstat[2];
+			my $rights = sprintf "%04o", S_IMODE($mode);
+
+
+			# if $dir is one of the dirs that remains to root
+			if ( grep ( /.*$dir.*/, @root_config_dirs ) ) {
+
+				# if the dir owner is not root, changing the owner...
+				if ( $user ne "root" ) {
+				
+					say ( "$dir should belong to root" );
+				}
+
+				# setting directory's rights
+				if ( $rights ne "0755" ) {
+
+					say ( "$dir don't have correct rights" );
+				}
+
+				next;
+
+			# else if $dir is one of the dirs that remains to apache's user, and the dir's owner is not root or the group is not the apache's user, modifying owner
+			} elsif ( grep ( /.*$dir.*/, @apache_config_dirs) ) {
+
+				if ( $user ne "root" || $group ne $apache_user ) {
+
+					say ( "$dir should belong to root, and $apache_user group" );
+				}
+
+				# setting directory's rights
+				if ( $rights ne "0770" ) {
+
+					say ( "$dir don't have correct rightsn needs 0770" );
+				}
+
+				next;
+
+			}
+
+
+		} else {
+
+			print ( "File $dir doesn't exists, " );
+
+
+			# if $dir is one of the dirs that remains to root
+			if ( grep ( /.*$dir.*/, @root_config_dirs ) ) {
+
+					say ( "it should belong to root and have 0755 rights" );
+
+			# else if $dir is one of the dirs that remains to apache's user
+			} elsif ( grep ( /.*$dir.*/, @apache_config_dirs ) ) {
+
+					say ( "it should belong to root and apache's user, and have 0770 rights" );
+
+			}
+
+			next;
+		}
+
+	}
+
+}
+
+# function that make FusionDirectory's directories and setup rights properly
+sub make_directories {
+
+	my $apache_user = "";
+
+	# try to identify the running distribution, if it's not debian or rehat like, script die
+	if ( -e "/etc/debian_version" ) {
+
+		$apache_user = "www-data";
+
+	} elsif ( -e "/etc/redhat-release" ) {
+
+		$apache_user = "apache";
+
+	} else {
+
+		die ( "! Looks like you don't have /etc/debian_version or /etc/redhat-release, I don't know your distribution !\n" );
+	}
+
+
+	# for each config directory 
+	foreach my $dir ( @config_dirs ) {
+
+		# if the current dir exists
+		if ( -e $dir ) {
+
+			# retrieve dir's informations
+			my @lstat = lstat ( $dir );
+
+			# extract the owner and the group of the directory 
+			my $user = getpwuid ( $lstat[4] );
+			my $group = getgrgid ( $lstat[5] );
+
+			# extract the dir's rights
+			my $mode = $lstat[2];
+			my $rights = sprintf "%04o", S_IMODE($mode);
+
+
+			# if $dir is one of the dirs that remains to root
+			if ( grep ( /.*$dir.*/, @root_config_dirs ) ) {
+
+				# if the dir owner is not root, changing the owner...
+				if ( $user ne "root" ) {
+				
+					say ( "$dir should belong to root, modifying rights..." );
+					chown (0,0,$dir) or die ( "Unable to change $dir rights" );
+				}
+
+				# setting directory's rights
+				if ( $rights ne "0755" ) {
+
+					say ( "$dir don't have correct rights, modifying it" );
+					chmod ( 0755, $dir );
+				}
+
+				next;
+
+			# else if $dir is one of the dirs that remains to apache's user, and the dir's owner is not root or the group is not the apache's user, modifying owner
+			} elsif ( grep ( /.*$dir.*/, @apache_config_dirs) ) {
+
+				if ( $user ne "root" || $group ne $apache_user ) {
+
+					say ( "$dir should belong to root, and $apache_user group modifying rights..." );
+
+					# retrieve apache's user's GID
+					my $apache_gid = getgrnam ( $apache_user );
+
+					# change the rights
+					chown (0,$apache_gid,$dir) or die ( "Unable to change $dir rights" );
+				}
+
+				# setting directory's rights
+				if ( $rights ne "0770" ) {
+
+					say ( "$dir don't have correct rights, modifying it" );
+					chmod ( 0770, $dir );
+				}
+
+				next;
+
+			}
+
+
+		} else {
+
+			say ( "File $dir doesn't exists\nCreating it..." );
+
+			my $conf_dir = dir ( $dir );
+
+
+			# if $dir is one of the dirs that remains to root
+			if ( grep ( /.*$dir.*/, @root_config_dirs ) ) {
+
+				# create the directory, and change the rights
+				$conf_dir->mkpath (0,0755);
+				chown (0,0,$dir) or die ( "Unable to change $dir rights" );
+				
+
+			# else if $dir is one of the dirs that remains to apache's user
+			} elsif ( grep ( /.*$dir.*/, @apache_config_dirs ) ) {
+
+				# retieve apache's user's GID
+				my $apache_gid = getgrnam ( $apache_user );
+
+				# create the directory, and change the rights
+				$conf_dir->mkpath (0,0770);
+				chown (0,$apache_gid,$dir) or die ( "Unable to change $dir rights" );
+
+			}
+
+			next;
+		}
+
+	}
+
+}
+
+
+
+############################################################# LDAP conformity check #################################################################################
+
+# function that check LDAP configuration
+sub check_ldap {
+
+	# LDAP's connection's parameters
+	my $base = "";
+	my $uri = "";
+	my $bind_dn = "";
+	my $bind_pwd ="";
+	
+	# read ldap's server's info from /etc/ldap/ldap.conf (debian like) or /etc/openldap/ldap.conf (redhat like)
+	if ( -e "/etc/fusiondirectory/fusiondirectory.conf" ) {
+
+		# open fusiondirectory.conf in read mode
+		my $ldap_conf_file = file ( "/etc/fusiondirectory/fusiondirectory.conf" );	
+		my $fhr = $ldap_conf_file->openr;
+
+		while ( my $line = $fhr->getline ) {
+		
+			if ( $line =~ /^.*referral\ URI="(.*):389\/(.*)"$/ ) {
+				
+				$uri = $1;
+				$base = $2;
+				next;
+			
+			} elsif ( $line =~ /^.*adminDn="(.*)"$/ ) {
+				
+				$bind_dn = $1;
+
+				next;
+
+			} elsif ( $line =~ /^.*adminPassword="(.*)".*$/ ) {
+				
+				$bind_pwd = $1;
+
+				next;
+				
+			} else {
+
+				next;
+			}
+
+		}
+
+		$fhr->close;
+		
+	# if can't find fusiondirectory.conf	
+	} else {
+		
+		say ( "Can't find fusiondirectory.conf, do you want to specify LDAP's informations yourself? [Yes/No]" );
+
+		while ( <STDIN> ) {
+			
+			chomp;
+			
+			if ( lc($_) eq "yes" || lc($_) eq "y" ) {
+
+				say ( "LDAP server's URI" );
+				$uri = <STDIN>;
+				chomp $uri;
+				
+				say ( "Search base" );
+				$base = <STDIN>;
+				chomp $base;
+				
+				say ( "Bind DN" );
+				$bind_dn = <STDIN>;
+				chomp $bind_dn;
+				
+				say ( "Bind password" );
+				$bind_pwd = <STDIN>;
+				chomp $bind_pwd;
+				
+				last;
+				
+			} elsif (lc($_) eq "no" || lc($_) eq "n") {
+
+				exit 0;
+			}
+		}
+	}
+
+	
+	# ldap connection
+	my $ldap = Net::LDAP->new ( $uri ) or die ( "! Can't contact LDAP server $uri" );
+
+	# bind to the LDAP server
+	my $bind = $ldap->bind ( $bind_dn, password => $bind_pwd );
+
+	# send a warning if the bind didn't gone well
+	$bind->code && die "! Failed to bind to LDAP server: ", $bind->error;
+
+	# search for branch people
+	my $people = $ldap->search ( base => $base, filter => "ou=people" );
+
+	# foreach search's result
+	my @people_entries = $people->entries;
+
+	# if the search returned a result
+	if ( defined ( $people_entries[0] ) ) {
+
+		# search for FusionDirectory's admin account
+		my $admin = $ldap->search ( base => "ou=people,".$base, filter => "(&(cn=System AdministratorXXX)(uid=admin)(objectClass=inetOrgPerson))" );
+
+		# store search's results
+		my @admin_entries = $admin->entries;
+
+		# if the search didn't returned a result
+		if ( !defined ( $admin_entries[0] ) ) { 
+
+				say ( "! FusionDirectory's admin not found in your LDAP directory" );
+				say ( "Do you want to create it? [Yes/No]" );
+	
+				# ask for user's input
+				while ( my $input = <STDIN> ) {
+
+					# remove the "\n" at the end of the input
+					chomp $input;
+
+					# if user's answer is "yes", creating admin account 
+					if ( lc($input) eq "yes" || lc($input) eq "y") { 
+
+						say ( "Please enter FusionDirectory's admin password" );
+						
+						my $fd_admin_pwd = "";
+						my $pw1 = "";
+						
+						while ( my $input2 = <STDIN> ) {
+						
+							chomp $input2;
+							
+							if ( $pw1 eq "" ) {
+										
+								$pw1 = $input2;
+								say ( "Please enter it again" );
+								next;
+
+							} elsif ( $input2 eq $pw1 ) {
+								
+								$fd_admin_pwd = $input2;
+								last;
+
+							} elsif ( $input2 eq "quit" ) {
+
+								exit 0;
+
+							} else {
+
+								say ( "! Input don't match with the first one, type it again, or type 'quit' to end this script" );
+							}
+						}
+									
+
+						my $admin_add = $ldap->add( "cn=System Administrator,ou=people,$base",
+
+							attr => [
+								'cn'	=>	'System Administrator',
+								'sn'	=>	'Administrator',
+								'uid'	=>	'admin',
+								'givenname'	=>	'System',
+								'objectclass'	=>	[ 'top', 'person', 'gosaAccount', 'organizationalPerson', 'inetOrgPerson' ],
+								'userPassword' => "{CRYPT}".unix_md5_crypt($fd_admin_pwd)
+							]
+							
+						);
+
+
+						
+						# send a warning if the ldap's admin's add didn't gone well
+						$admin_add->code && warn "! failed to add LDAP's cn=System Admin,ou=people,$base entry";
+
+						last;
+						
+					} elsif ( lc($input) eq "no" || lc($input) eq "n") {
+						
+						last;
+					}
+
+				}
+
+		}
+
+
+	} else {
+			
+		say ( "! ou=people,$base not found in your LDAP directory" );
+		say ( "Do you want to create it? [Yes/No]" );
+		
+		# ask for user's input
+		while ( my $input = <STDIN> ) {
+
+			# remove the "\n" at the end of the input
+			chomp $input;
+
+			# if user's answer is "yes", creating ou=people branch 
+			if ( lc($input) eq "yes" || lc($input) eq "y" ) { 
+
+
+				my $people_add = $ldap->add( "ou=people,$base",
+
+					attr => [
+		
+						'ou'	=> 'people', 
+						'objectClass'	=>	'organizationalUnit'
+					]
+				);
+
+				$people_add->code and warn "! failed to add LDAP's ou=people,$base branch";
+
+
+
+				say ( "Please enter FusionDirectory's admin password" );
+						
+				my $fd_admin_pwd = "";
+				my $pw1 = "";
+
+				while ( my $input2 = <STDIN> ) {
+						
+								
+					if ( $pw1 eq "" ) {
+										
+						$pw1 = $input2;
+						say ( "Please enter it again" );
+						next;
+
+					} elsif ( $input2 eq $pw1 ) {
+								
+						$fd_admin_pwd = $input2;
+						last;
+
+					} elsif ( $input2 eq "quit" ) {
+										
+							exit 0;
+									
+					} else {
+
+						say ( "! Input don't match with the first one, type it again, or type 'quit' to end this script" );
+					}
+
+				}
+						
+										
+				my $admin_add = $ldap->add( "cn=System Administrator,ou=people,$base",
+
+					attr => [
+								'cn'	=>	'System Administrator',
+								'sn'	=>	'Administrator',
+								'uid'	=>	'admin',
+								'givenname'	=>	'System',
+								'objectclass'	=>	[ 'top', 'person', 'gosaAccount', 'organizationalPerson', 'inetOrgPerson' ],
+								'userPassword' => "{CRYPT}".unix_md5_crypt($fd_admin_pwd)
+							]
+				);
+
+				# send a warning if the ldap's admin's add didn't gone well
+				$admin_add->code and warn "! failed to add LDAP's cn=System Admin,ou=people,$base entry";
+
+				last;
+				
+				
+			} elsif ( lc($input) eq "no" || lc($input) eq "n" ) {
+
+				last;
+
+			}
+
+		}
+
+	}
+
+	
+
+	my $ldap_groups = $ldap->search ( base => $base, filter => "ou=groups" );
+
+	my @groups_entries = $ldap_groups->entries;
+	
+	# if branch people exists
+	if ( !defined $groups_entries[0] ) {
+
+		say ( "! ou=groups,$base not found in your LDAP directory" );			
+		say ( "Do you want to create it? [Yes/No]" );
+
+		# ask for user's input
+		while ( my $input = <STDIN> ) {
+
+			# remove the "\n" at the end of the input
+			chomp $input;
+
+			# if user's answer is "yes", creating ou=groups branch 
+			if ( lc($input) eq "yes" || lc($input) eq "y" ) {
+
+				my $group_add = $ldap->add( "ou=groups,dc=philantropia,dc=com",
+
+					attr => [
+		
+						'ou'	=> 'groups',
+						'objectClass'	=>	'organizationalUnit'
+					]
+				);
+
+				$group_add->code and warn "! failed to add LDAP's ou=groups,$base branch";
+								
+				last;
+				
+			} elsif ( lc($input) eq "no" || lc($input) eq "n" ) {
+				
+				last;
+			}
+		}
+	}
+
+	
+	# bind to the LDAP server
+	my $unbind = $ldap->unbind;
+	$unbind->code && warn " ! Unable to unbind from LDAP server $uri: ", $unbind->error ;
+	
+}
+
+
+
+############################################################# fusiondirectory.conf conformity check #################################################################
+
+# function that check /etc/fusiondirectory/fusiondirectory.conf
+sub check_config {
+
+# TO DO
+	my $conf_file = "/home/baramine/Desktop/fusiondirectory.conf";
+
+
+}
+
+#####################################################################################################################################################################
+
+if ( user_is_root() ) {
+
+	my ($option) = @ARGV;
+
+	if (defined ($option) ) {
+
+		# emulate a switch/case statement
+		if ( $option eq "--update-cache" ) {
+
+			say ( "\nUpdating class.cache" );
+			rescan_classes();
+
+		} elsif ( $option eq "--update-lang" ) {
+
+			say ( "\nUpdating internalization" );
+			rescan_i18n();
+		
+		} elsif ( $option eq "--check-dir" ) {
+
+			say ( "\nChecking FusionDirectory's directories" );
+			check_directories();
+		
+		} elsif ( $option eq "--create-dir" ) {
+
+			say ( "\nCreating FusionDirectory's directory (if don't already exists)" );
+			make_directories();
+
+		} elsif ( $option eq "--check-ldap" ) {
+
+			say  ( "\nChecking your LDAP tree" );
+			check_ldap();
+
+		} else {
+			
+			say ( "\nInvalid argument" );
+		}
+		
+	} else {
+		
+		say ( "Missing argument" );
+	}
+	
+} else {
+
+	say ( "\nYou have to run this script as root" );
+	exit -1;
+}
+
+__END__
+
+
+
+=head1 NAME
+
+fusiondirectory-setup
+
+
+=head1 DESCRIPTION
+
+This script is designed to perform multiple checks on your FusionDirectory/LDAP architecture, and fix usual misconfiguration.
+For now, it update internalization, FusionDirectory's cache, it check FusionDirectory's files/directories, and it check your LDAP tree.
+
+=head2 Options
+
+=over 4
+
+=item --update-cache
+
+This option update the /var/cache/fusiondirectory/class.cache file. Wich contain PHP classes used in FusionDirectory, and their location.
+
+=item --update-lang
+
+This option update internalization, by generating a new .mo locales file for each language, with every .po files it found.
+Needs I<msgcat> and I<msgfmt> to be installed.
+
+=item --check-dir
+
+This option perform a check on all FusionDirectory's files or directories.
+
+=item --create-dir
+
+This option fix rights misconfiguration on FusionDirectory's files or directories. It create directories that should exist but don't seem to.
+
+=item --check-ldap
+
+This option check your LDAP tree. Looking for admin account, and groups or people branch. If one of those don't exists, the script will ask you what to do.
+
+=back
+
+=head1 COPYRIGHTS
+
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2003-2010  Cajus Pollmeier
+  Copyright (C) 2007  Fabian Hickert
   Copyright (C) 2011  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
@@ -18,187 +913,6 @@
 
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+  Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
-define ("FD_HOME", dirname(__FILE__));
-define ("LOCALE_DIR", FD_HOME."/locale");
-
-/* Global cache dir */
-define ("CACHE_DIR","/var/cache/fusiondirectory");
-
-/* name of the class.cache file */
-define("CLASS_CACHE", "class.cache");
-
-/* Global locale cache dir */
-define ("LOCALE_CACHE_DIR", "/var/cache/fusiondirectory/locale");
-
-function print_usage()
-{
-	?>
-fusiondirectory-setup - class cache, locale and documentation update for FusionDirectory
-Usage: 
-       fusiondirectory-setup rescan-i18n     Rebuilds the translations
-
-       fusiondirectory-setup rescan-classes  Rebuilds the class list
-
-       fusiondirectory-setup                 Shortcut for rescan-classes and rescan-i18n
-<?php
-	exit (1);
-}
-
-
-/* Function to include all class_ files starting at a given directory base */
-function get_classes($folder= ".")
-{
-  static $base_dir= "";
-  static $result= array();
-
-  if ($base_dir == ""){
-    if ($folder == "."){
-      $base_dir= getcwd();
-    } else {
-      $base_dir= $folder;
-    }
-  }
-
-  $currdir=getcwd();
-  if ($folder){
-    chdir("$folder");
-  }
-
-  $dh = opendir(".");
-  while(false !== ($file = readdir($dh))){
-
-    if (preg_match("/.*smarty.*/i",$file) ||
-        preg_match("/.*\.tpl.*/",$file) ||
-        ($file==".") ||($file =="..")){
-      continue;
-    }
-
-    /* Recurse through all "common" directories */
-    if (is_dir($file)){
-      get_classes($file);
-      continue;
-    }
-
-    /* Only take care about .inc and .php files... */
-    if (!(preg_match('/\.php$/', $file) || preg_match('/\.inc$/', $file))){
-      continue;
-    }
-
-    /* Include existing class_ files */
-    $contents= file($file);
-    foreach($contents as $line){
-      $line= chop($line);
-      if (preg_match('/^\s*class\s*\w.*$/', $line)){
-        $class= preg_replace('/^\s*class\s*(\w+).*$/', '\1', $line);
-        $result[$class]= preg_replace("%$base_dir/%", "", "$currdir/$folder/$file");
-      }
-    }
-  }
-
-  closedir($dh);
-  chdir($currdir);
-
-  return ($result);
-}
-
-
-function rescan_classes()
-{
-	echo "Updating class cache...\n";
-	$class_mapping= get_classes();
-	$filename= CACHE_DIR."/".CLASS_CACHE;
-
-	/* Sanity checks */
-	if (!file_exists($filename) || is_writable($filename)) {
-
-	    if (!$handle= fopen($filename, 'w')) {
-		 echo "Cannot open file \"$filename\" - aborted\n";
-		 exit (1);
-	    }
-
-	} else {
-	    echo "File \"$filename\" is not writable - aborted\n";
-	    exit (2);
-	}
-
-	fwrite ($handle, "<?php\n\$class_mapping= array(\n");
-	foreach ($class_mapping as $key => $value){
-	  fwrite ($handle, "                \"$key\" => \"$value\",\n");
-	}
-	fwrite ($handle, " );\n");
-
-	fclose($handle);
-}
-
-
-function rescan_i18n()
-{
-	echo "Updating internationalization...\n";
-	$languages= array();
-	$size= strlen(LOCALE_DIR);
-
-	/* Get all available messages.po files, sort them for languages */
-	$dir= new RecursiveDirectoryIterator(LOCALE_DIR);
-	$all= new RecursiveIteratorIterator($dir);
-	foreach ( $all as $element ){
-		if ($element->isFile() && preg_match('/\/LC_MESSAGES\/messages.po$/', $element->getPathname())){
-			$lang= preg_replace('/^.*\/([^\/]+)\/LC_MESSAGES\/.*$/', '\1', $element);
-			if (!isset($languages[$lang])){
-				$languages[$lang]= array();
-			}
-			$languages[$lang][]= substr($element->getPathName(), $size+1);
-		}
-	}
-
-	/* For each language, merge the target .mo to the compiled directory. */
-	foreach ($languages as $language => $po_files){
-		if (!is_dir(LOCALE_CACHE_DIR."/${language}/LC_MESSAGES")){
-			if (!mkdir (LOCALE_CACHE_DIR."/${language}/LC_MESSAGES", 0755, TRUE)){
-				echo "Failed to create '".LOCALE_DIR."/${language}/LC_MESSAGES'- aborted";
-				exit (3);
-			}
-		}
-
-		/* Cat all these po files into one single file */
-		system ("(cd ".LOCALE_DIR." && msgcat --use-first ".implode(" ", $po_files)." > ".LOCALE_CACHE_DIR."/${language}/LC_MESSAGES/messages.po)", $val);
-		if ($val != 0){
-			echo "Merging of message files failed - aborted";
-			exit (4);
-		}
-		system ("(cd ".LOCALE_CACHE_DIR."/${language}/LC_MESSAGES && msgfmt -o messages.mo messages.po && rm messages.po)", $val);
-		if ($val != 0){
-			echo "Compiling of message files failed - aborted";
-			exit (5);
-		}
-	}
-
-	echo "! Warning: you may need to reload your webservice!\n";
-}
-
-/* Fill global values */
-$description= $provides= $depends= $versions= $conflicts= array();
-
-/* Action specified? */
-if ($argc < 2){
-	rescan_classes();
-	rescan_i18n();
-        exit (0);
-}
-
-switch ($argv[1]){
-        case 'rescan-i18n':
-                rescan_i18n();
-                break;
-        case 'rescan-classes':
-                rescan_classes();
-                break;
-        default:
-                echo "Error: Unknow option\n\n";
-                print_usage();
-                break;
-}
-
-?>
+=cut
