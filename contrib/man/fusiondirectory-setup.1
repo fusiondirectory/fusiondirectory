@@ -124,40 +124,61 @@
 .\" ========================================================================
 .\"
 .IX Title "FUSIONDIRECTORY-SETUP 1"
-.TH FUSIONDIRECTORY-SETUP 1 "2011-08-10" "FusionDirectory 1.0" "FusionDirectory Documentation"
+.TH FUSIONDIRECTORY-SETUP 1 "2011-09-07" "FusionDirectory 1.0" "FusionDirectory Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
 .nh
 .SH "NAME"
-fusiondirectory\-setup \- class cache and locale setup for FusionDirectory
-.SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
-fusiondirectory-setup [\s-1OPTION\s0]
+fusiondirectory\-setup \- Setup command to do various checks and update on FusionDirectory
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-fusiondirectory-setup is a command that help you to manage your fusiondirectory instance
-.IP "\fBrescan\-i18n\fR       Rebuilds the translations" 3
-.IX Item "rescan-i18n       Rebuilds the translations"
-.PD 0
-.IP "\fBrescan-classes\fR    Rebuilds the class list" 3
-.IX Item "rescan-classes    Rebuilds the class list"
-.PD
+This script is designed to perform multiple checks on your FusionDirectory/LDAP architecture, and fix usual misconfiguration.
+For now, it update internalization, FusionDirectory's cache, it check FusionDirectory's files/directories, and it check your \s-1LDAP\s0 tree.
+.SS "Options"
+.IX Subsection "Options"
+.IP "\-\-update\-cache" 4
+.IX Item "--update-cache"
+This option update the /var/cache/fusiondirectory/class.cache file. Wich contain \s-1PHP\s0 classes used in FusionDirectory, and their location.
+.IP "\-\-update\-lang" 4
+.IX Item "--update-lang"
+This option update internalization, by generating a new .mo locales file for each language, with every .po files it found.
+Needs \fImsgcat\fR and \fImsgfmt\fR to be installed.
+.IP "\-\-check\-dir" 4
+.IX Item "--check-dir"
+This option perform a check on all FusionDirectory's files or directories.
+.IP "\-\-create\-dir" 4
+.IX Item "--create-dir"
+This option fix rights misconfiguration on FusionDirectory's files or directories. It create directories that should exist but don't seem to.
+.IP "\-\-check\-ldap" 4
+.IX Item "--check-ldap"
+This option check your \s-1LDAP\s0 tree. Looking for admin account, and groups or people branch. If one of those don't exists, the script will ask you what to do.
 .SH "BUGS"
 .IX Header "BUGS"
-Please report any bugs, or post any suggestions, to the fusiondirectory mailing list fusiondirectory-users or to 
+Please report any bugs, or post any suggestions, to the fusiondirectory mailing list fusiondirectory-users or to
 <https://forge.fusiondirectory.org/projects/fdirectory/issues/new>
 .SH "LICENCE AND COPYRIGHT"
 .IX Header "LICENCE AND COPYRIGHT"
-This code is part of FusionDirectory <http://www.fusiondirectory.org>
-.IP "Copyright (C) 2003\-2010 \s-1GONICUS\s0 GmbH" 2
-.IX Item "Copyright (C) 2003-2010 GONICUS GmbH"
+This code is part of FusionDirectory (http://www.fusiondirectory.org/)
+.IP "Copyright (C) 2007  Fabian Hickert" 2
+.IX Item "Copyright (C) 2007  Fabian Hickert"
 .PD 0
-.IP "Copyright (C) 2011 FusionDirectory Project" 2
-.IX Item "Copyright (C) 2011 FusionDirectory Project"
+.IP "Copyright (C) 2011  FusionDirectory" 2
+.IX Item "Copyright (C) 2011  FusionDirectory"
 .PD
 .PP
-This program is distributed in the hope that it will be useful,
-but \s-1WITHOUT\s0 \s-1ANY\s0 \s-1WARRANTY\s0; without even the implied warranty of
-\&\s-1MERCHANTABILITY\s0 or \s-1FITNESS\s0 \s-1FOR\s0 A \s-1PARTICULAR\s0 \s-1PURPOSE\s0.  See the
-\&\s-1GNU\s0 General Public License for more details.
+.Vb 4
+\&  This program is free software; you can redistribute it and/or modify
+\&  it under the terms of the GNU General Public License as published by
+\&  the Free Software Foundation; either version 2 of the License, or
+\&  (at your option) any later version.
+\&
+\&  This program is distributed in the hope that it will be useful,
+\&  but WITHOUT ANY WARRANTY; without even the implied warranty of
+\&  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+\&  GNU General Public License for more details.
+\&
+\&  You should have received a copy of the GNU General Public License
+\&  along with this program; if not, write to the Free Software
+\&  Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110\-1301, USA.
+.Ve
