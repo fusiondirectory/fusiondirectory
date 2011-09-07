@@ -11,6 +11,11 @@
     <a class="maintitlebar" onClick='return question("{t}You are currently editing a database entry. Do you want to dismiss the changes?{/t}", "main.php?reset=1");' ><img src='{$go_home}' class='center' border="0" alt="Main">&nbsp;{t}Main{/t}
     </a>
    {/if}
+    &nbsp;
+    <a class="maintitlebar" style="margin-left:35px" {$help_method}>
+       <img src='{$go_help}' class='center' border="0" alt="Help">&nbsp;{t}Help{/t}
+    </a>
+    &nbsp;
    {if !$javascript}
     <a class="maintitlebar" href='logout.php?request' onClick='return question("{t}You are currently editing a database entry. Do you want to dismiss the changes?{/t}", "logout.php?request");' style="margin-left:35px;">
       <img src='{$go_out}' class='center' border="0" alt="Sign out">&nbsp;{t}Sign out{/t}
@@ -20,6 +25,10 @@
       <img src='{$go_out}' class='center' border="0" alt="Sign out">&nbsp;{t}Sign out{/t}
     </a>
     {/if}
+    <a class="plugtop" style="margin-left:35px;">
+      <img src="{$headline_image}" class="center" align="middle" alt="{t}{$headline}{/t}">&nbsp;
+      {t}{$headline}{/t}
+    </a>
   </div>
   <div style="padding-top:8px;text-align:right;height:28px"><a>{t}Signed in:{/t} <b>{$username}</b></a></div>
 </div>

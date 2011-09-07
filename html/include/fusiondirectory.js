@@ -45,7 +45,20 @@ function chk_set_all(regex,value)
 	for (var i = 0; i < document.mainform.elements.length; i++) {
 		var _id=document.mainform.elements[i].id;
 		if(_id.match(regex)) {
-			document.getElementById(_id).checked= value;
+            document.mainform.elements[i].checked= value;
+		}
+	}
+}
+
+/* Toggle checkbox that matches regex */
+function chk_set_all_by_class(regex,value)
+{
+	for (var i = 0; i < document.mainform.elements.length; i++) {
+		var _class=document.mainform.elements[i].getAttribute("class");
+        if(_class) {
+            if(_class.match(regex)) {
+                document.mainform.elements[i].checked= value;
+            }
 		}
 	}
 }
@@ -68,12 +81,7 @@ function scrollDown2()
 /* Toggle checkbox that matches regex */
 function acl_set_all(regex,value)
 {
-	for (var i = 0; i < document.mainform.elements.length; i++) {
-		var _id=document.mainform.elements[i].id;
-		if(_id.match(regex)) {
-			document.getElementById(_id).checked= value;
-		}
-	}
+	chk_set_all(regex,value);
 }
 
 /* Toggle checkbox that matches regex */
@@ -307,6 +315,7 @@ function resizeHandler (e) {
 		}
 
 		/* Reduce height if a list footer is set */
+        /*
 		if(document.getElementById("t_scrollfoot")){
 			suggested = suggested -20;
 		}
@@ -324,6 +333,7 @@ function resizeHandler (e) {
 		if (document.getElementById("t_nscrollbody")) {
 			document.getElementById("t_nscrollbody").style.height=(suggested-22)+"px";
 		}
+        */
 	}
 	return true;
 }

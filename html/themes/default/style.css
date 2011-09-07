@@ -346,18 +346,23 @@ font-family:arial,helvetica,sans-serif;
 font-size:24px;
 }
 
-div.plugtop {
-width:100%;
-border-bottom:1px solid #B0B0B0;
-padding-top:0;
-padding-bottom:6px;
-margin-bottom:0;
-text-align:left;
+a.plugtop {
+margin-left:35px;
+border:1px solid #B0B0B0;
+padding:5px;
+margin:0;
+text-align:center;
 vertical-align:middle;
 background-color:#F0F0F0;
 font-family:arial,helvetica,sans-serif;
+/*
 font-weight:bold;
-font-size:24px;
+*/
+font-size:18px;
+}
+
+a.plugtop img {
+height:32px;
 }
 
 div.pluginfo {
@@ -771,7 +776,6 @@ text-align:left;
 /* Header col */
 div.setup_header {
 background-color:#507AAA;
-height:30px;
 padding:4px 5px 2px;
 border-bottom:1px solid #999;
 }

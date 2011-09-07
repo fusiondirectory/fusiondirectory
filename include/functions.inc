@@ -1827,22 +1827,19 @@ function check_command($cmdline)
 /*! \brief Print plugin HTML header
  *
  * \param string 'image' the path of the image to be used next to the headline
- * \param string 'image' the headline
+ * \param string 'headline' the headline
  * \param string 'info' additional information to print
  */
 function print_header($image, $headline, $info= "")
 {
-  $display= "<div class=\"plugtop\">\n";
-  $display.= "  <p class=\"center\" style=\"margin:0px 0px 0px 5px;padding:0px;font-size:24px;\"><img class=\"center\" src=\"$image\" align=\"middle\" alt=\"*\">&nbsp;$headline</p>\n";
-  $display.= "</div>\n";
+    $smarty = get_smarty();
+    $smarty->assign("headline",$headline);
+    $smarty->assign("headline_image",$image);
+    $display="";
 
   if ($info != ""){
     $display.= "<div class=\"pluginfo\">\n";
     $display.= "$info";
-    $display.= "</div>\n";
-  } else {
-    $display.= "<div style=\"height:5px;\">\n";
-    $display.= "&nbsp;";
     $display.= "</div>\n";
   }
   return ($display);

@@ -287,9 +287,7 @@ class listing {
       $height= $this->height;
     }
     
-    ### try to fix firefox 5 css bug 
-    #$result.= "<div class='listContainer' id='d_scrollbody' style='border-top:1px solid #B0B0B0;border-right:1px solid #B0B0B0;width:100%;min-height:".($height+25)."px;'>\n";
-    $result.= "<div class='listContainer' id='d_scrollbody' style='border-top:1px solid #B0B0B0;border-right:1px solid #B0B0B0;width:100%;height:{$height}px; overflow: auto;min-height:".($height+25)."px;'>\n";
+    $result.= "<div class='listContainer' id='d_scrollbody' style='border-top:1px solid #B0B0B0;border-right:1px solid #B0B0B0;width:100%;'>\n";
     $result.= "<table summary='$this->headline' style='width:100%; table-layout:fixed' cellspacing='0' cellpadding='0' id='t_scrolltable'>\n";
     $this->numColumns= count($this->colprops) + ($this->multiSelect?1:0);
 
@@ -308,7 +306,7 @@ class listing {
     $result.= "</tr></thead>\n";
 
     // Build list body
-    $result.= "<tbody class='listScrollContent listBodyFormat' id='t_nscrollbody' style='height:".$height."px;'>\n";
+    $result.= "<tbody class='listScrollContent listBodyFormat' id='t_nscrollbody'>\n";
 
     // No results? Just take an empty colspanned row
     if (count($this->entries) + count($this->departments) == 0) {
@@ -813,6 +811,19 @@ class listing {
   }
 
 
+  /* \brief If you want to have the summary without displaying informations
+   it returns nothing to do an empty column, but calls filterObjectType to do statistics.
+   @return string an empty string
+   */
+  function filterObjectTypes($dn, $classes)
+  {
+      $result = "";
+      foreach($classes as $class) {
+          $result.= $this->filterObjectType($dn, array($class))."&nbsp;";
+      }
+      return "";
+  }
+  
   function filterObjectType($dn, $classes)
   {
     // Walk thru classes and return on first match

@@ -30,7 +30,8 @@ class supportDaemon
     private $s_error      = "";
     private $b_error      = FALSE;
 
-
+	/*! \brief constructor
+	*/
     public function __construct()
     {
         $this->config = session::global_get('config');
@@ -40,30 +41,32 @@ class supportDaemon
         if(!is_object($this->config)) { return; }
         # load from config, store statically
         $this->s_host = $this->config->get_cfg_value("argonautServer");
-/*
-      $this->is_configured = TRUE;
-*/
+        echo "supportDaemon constructed<br/>\n";
     }
   
+    /*! \brief Test if the argonaut server is available
+    @return boolean true if the server pings, false otherwise    
+     */
     public function is_available() {
         try {
             $client = new jsonRPCClient($this->s_host);
             $ok = "OK";
             $test = $client->echo($ok);
+            if ($test == $ok) {
+                $this->reset_error();
+                return(TRUE);
+            } else {
+                $this->set_error("Received $test, expected $ok");
+                return(FALSE);
+            }
         } catch (Exception $e) {
             $this->set_error(nl2br($e->getMessage()));
             return(FALSE);
         }
-        if ($test == $ok) {
-            $this->reset_error();
-            return(TRUE);
-        } else {
-            $this->set_error("Received $test, expected $ok");
-            return(FALSE);
-        }
     }
   
-	/* Allows simply appending a new DaemonEvent 
+	/*! \brief Allows simply appending a new DaemonEvent 
+    @param DaemonEvent The event to append.
 	*/
 	public function append($event)
 	{
@@ -123,18 +126,17 @@ class supportDaemon
 		return(FALSE);
 	}
     
-  /*! \brief  Sets an error message, which can be returned with get_error().
+    /*! \brief  Sets an error message, which can be returned with get_error().
     @param  string  The Error message,
-   */
-  private function set_error($str)
-  {
-    $this->b_error = TRUE;
-    $this->s_error = $str;
-  }
+    */
+    private function set_error($str)
+    {
+        $this->b_error = TRUE;
+        $this->s_error = $str;
+    }
 
 
-  /*! \brief  Sets an error message, which can be returned with get_error().
-    @param  string  The Error message,
+    /*! \brief  Resets the error message.
    */
   private function reset_error()
   {
@@ -153,7 +155,7 @@ class supportDaemon
 
 
   /*! \brief  Returns the last error. 
-    @return Returns the last error.
+    @return string Returns the last error.
    */
   public function get_error()
   {
@@ -170,6 +172,10 @@ class supportDaemon
     return($ret);
   }
   
+    /*! \brief format queue entries
+    @param Array The entries to format
+    @return Array The entries formatted
+     */
     private function format_entries($entries) {
         timezone::get_default_timezone();
         foreach($entries as &$entry) {
@@ -201,7 +207,7 @@ class supportDaemon
     /*! \brief  Returns an array containing all queued entries.
     @return Array All queued entries as an array.
    */
-    public function get_queued_entries($event_types = array("*"),$from=-1,$to=-1,$sort="timestamp DESC")
+    public function get_queued_entries() //$event_types = array("*"),$from=-1,$to=-1,$sort="timestamp DESC"
     {
         timezone::get_default_timezone();
         try {
@@ -226,7 +232,7 @@ class supportDaemon
         return $this->get_entries("get_entries_by_id",$ids);
     }
     
-    /*! \brief  Removes a set of entries from the GOsa support queue. 
+    /*! \brief  Removes a set of entries from the argonaut queue. 
     @param  Array The IDs to remove.
     @return Boolean True on success.
     */
@@ -248,7 +254,7 @@ class supportDaemon
         return(TRUE);
     }
 
-    /*! \brief  Removes an entry from the GOsa support queue. 
+    /*! \brief  Removes an entry from the argonaut queue. 
     @param  Integer The ID of the entry we want to remove.
     @return Boolean True on success.
     */
@@ -257,7 +263,7 @@ class supportDaemon
         return($this->remove_entries(array($id)));
     }
     
-    /*! \brief  Returns an entry from the gosaSupportQueue
+    /*! \brief  Returns an entry from the argonaut queue
     @param  Integer The ID of the entry we want to return.
     @return Array   Of the requested entry. 
     */
@@ -286,6 +292,10 @@ class supportDaemon
         // won't be implemented
     }
     
+    /*! \brief  Ask argonaut to process a set of entries now
+    @param  Array   The ids of the entries to process immediatly
+    @return Boolean Returns TRUE on success. 
+    */
     public function process_entries_now($ids)
     {
         if(!is_array($ids)){
@@ -296,14 +306,18 @@ class supportDaemon
         try {
             $client = new jsonRPCClient($this->s_host);
             $entries = $client->process_entries_now($ids);
+            $this->reset_error();
+            return(TRUE);
         } catch (Exception $e) {
             $this->set_error(nl2br($e->getMessage()));
             return(FALSE);
         }
-        $this->reset_error();
-        return(TRUE);
     }
 
+    /*! \brief Check if a workstation is currently installing
+    @param  string The mac address of the workstation
+    @return Boolean Returns TRUE if currently installing
+    */
     public function is_currently_installing($mac) {
         $e_types = DaemonEvent::get_event_types(USER_EVENT | SYSTEM_EVENT | HIDDEN_EVENT);
         
@@ -318,10 +332,19 @@ class supportDaemon
         return(FALSE);
     }
     
+    /*! \brief  Returns an array containing all entries concerning the macs passed.
+    @param  Array   The mac addresses of the workstations for which we want entries.
+    @return Array   Of entries for the requested mac addresses. 
+    */
     public function get_entries_by_mac($macs) {
         return $this->get_entries("get_entries_by_mac",$macs);
     }
     
+    /*! \brief  Get entries from argonaut server with given function and format entries before to return them
+    @param  Function   The JSONRPC method to use for retrieving addresses
+    @param  Array   The mac addresses or ids of the entries we want.
+    @return Array   Of entries for the requested addresses.
+    */
     private function get_entries($func,$address) {
         if(!is_array($address)){
           trigger_error("Requires an array as parameter.");
@@ -331,13 +354,13 @@ class supportDaemon
         try {
             $client = new jsonRPCClient($this->s_host);
             $entries = $client->$func($address);
+            $entries = $this->format_entries($entries);
+            $this->reset_error();
+            return($entries);
         } catch (Exception $e) {
             $this->set_error(nl2br($e->getMessage()));
             return(FALSE);
         }
-        $entries = $this->format_entries($entries);
-        $this->reset_error();
-        return($entries);
     }
     
     /*! \brief  Returns log file informations for a given mac address 
@@ -353,8 +376,16 @@ class supportDaemon
         return array();
     }
     
+    public function get_log_file($mac,$date,$file)
+    {
+        echo "get_log_file($mac,$date,$file)<br/>";
+        // FIXME : this function needs to do something
+        return("");
+    }
+  
     /*! \brief  Returns true if an argonaut daemon is running on the pc
-      @param  $mac The mac address to ping
+    @param string The mac address to ping
+    @return boolean TRUE if the workstation is running an argonaut daemon
     */
     public function ping($mac) {
         try {
@@ -367,6 +398,14 @@ class supportDaemon
         }
     }
     
+    /*! \brief  Get packages list for the given release
+    @param  string  The release we want the packages of. If empty all releases are used.
+    @param  Array   The attributes we want for each packages. (all attributes from Packages file can put, plus version, distribution, has_template and templace)
+    @param  Array   The filters we want to use. An or is performed between array cases.
+    @param  integer The indice of the package we want to start from.
+    @param  integer The indice of the package we want to stop to.
+    @return Array   Of packages that fit the given parameters.
+    */
     public function FAI_get_packages($release,$attrs,$filters,$from=-1,$to=-1) {
         echo "Get_packages : ";
         print_r($attrs);
@@ -402,8 +441,10 @@ class supportDaemon
         }
     }
 
-
-    public function FAI_get_server($name = "") {
+    /*! \brief  Get servers
+    @return Array   All configured repository servers
+    */
+    public function FAI_get_server() {
         $ldap = $this->config->get_ldap_link();
         $ldap->cd($this->config->current['BASE']);
         $ldap->search("(&(FAIrepository=*)(objectClass=FAIrepositoryServer))",array("FAIrepository", "gosaUnitTag"));
@@ -414,11 +455,12 @@ class supportDaemon
                 # Add an entry for each Repository configured for server
                 unset($entry['FAIrepository']['count']); // FIXME
                 foreach ($entry['FAIrepository'] as $repo) {
-                    $tmp = preg_split("/\|/", $repo);
+                    $tmp = explode("|", $repo);
                     $infos['URL'] = $tmp[0];
                     $infos['PARENT_SERVER'] = $tmp[1];
                     $infos['FAI_RELEASE'] = $tmp[2];
-                    $infos['SECTIONS'] = $tmp[3];
+                    $infos['SECTIONS'] = explode(",",$tmp[3]);
+                    $infos['INSTALL'] = $tmp[4];
                     $infos['TAG'] = $entry['gosaUnitTag'];
                     $repos[] = $infos;
                 }
@@ -427,6 +469,10 @@ class supportDaemon
         return $repos;
     }
     
+    /*! \brief  Get available kernels packages
+    @param  string  The release we want kernels of
+    @return Array   All kernel packages for the given release
+    */
     public function FAI_get_kernels($release)
     {
         return $this->FAI_get_packages($release,array("package"),array("linux-image"));
@@ -459,13 +505,14 @@ class supportDaemon
     }
 */
 
+    /*! \brief  Get available profiles
+    @param  string  The release we want profiles for
+    @return Array   All FAI profiles for the given release
+    */
     public function FAI_get_profiles($release)
     {
-/*
-        $classes = array("FAIscript", "FAIhook", "FAIpartitionTable", "FAItemplate", "FAIvariable", "FAIprofile", "FAIpackageList");
-*/
         $ldap = $this->config->get_ldap_link();
-        $ldap->cd("ou=$release,ou=fai,ou=configs,ou=systems,".$this->config->current['BASE']); // FIXME : check if could be in a cleaner way (look for faiBaseRDN
+        $ldap->cd("ou=$release,ou=fai,ou=configs,ou=systems,".$this->config->current['BASE']); // FIXME : check if could be in a cleaner way (look for faiBaseRDN)
         $ldap->search("(&(objectClass=FAIprofile)(objectClass=FAIclass))",array("*"));
         
         $res = array();
@@ -550,12 +597,6 @@ class gosaSupportDaemon
   }
 
 
-  public function is_configured()
-  {
-    return($this->is_configured);
-  }
-
-
   /*! \brief  Establish daemon connection. 
     @return boolean Returns true if the connection was succesfully established. 
    */
@@ -626,107 +667,6 @@ class gosaSupportDaemon
   }
 
 
-  /*! \brief  Sets an error message, which can be returned with get_error().
-    @param  string  The Error message,
-   */
-  private function set_error($str)
-  {
-    /******
-      Debug handling
-     ******/
-    $debug = debug_backtrace();
-    $file = __FILE__;
-    $function = __FUNCTION__;
-    $line = __LINE__;
-    $class = __CLASS__;
-    foreach($debug as $info){
-      if(!in_array($info['function'],array("send_data","_send","set_error","connect"))){
-        $file = $info['file'];
-        $line = $info['line'];
-        $class = get_class($this);
-        $function = $info['function'];
-        break;
-      }
-    }
-    @DEBUG(DEBUG_SI, $line, "<b>".$class."::".$function."</b>" , $file, "<font color='red'><i>".htmlentities($str)."</i></font>", $info="");
-
-    /******
-      Set error string.
-     ******/
-  
-    $this->b_error = TRUE;
-    $this->s_error = $str;
-  }
-
-
-  /*! \brief  Sets an error message, which can be returned with get_error().
-    @param  string  The Error message,
-   */
-  private function reset_error()
-  {
-    $this->b_error = FALSE;
-    $this->s_error = "";
-  }
-
-
-  /*! \brief  Checks if an error occured.
-    @return boolean returns TRUE or FALSE, whether there is an error or not.
-   */
-  public function is_error()
-  {
-    return($this->b_error);
-  }
-
-
-  /*! \brief  Returns the last error. 
-    @return Returns the last error.
-   */
-  public function get_error()
-  {
-    $str = $this->s_error;
-    $ret = "";
-    if(is_string($str)){
-      $ret = $str;
-    }else{
-      foreach($str as $msg){
-        $ret .= $msg." ";
-      }
-    }
-    $ret = str_replace(" ","&nbsp;",$ret);
-    return($ret);
-  }
-
-
-  public function FAI_get_kernels($release)
-  {
-    $xml_msg = 
-      "<xml>".
-      "<header>gosa_get_available_kernel</header>".
-      "<source>GOSA</source>".
-      "<target>GOSA</target>".
-      "<fai_release>".$release."</fai_release>".
-      "</xml>";
-
-    $ret = array();
-    if($this->connect()){
-      $entries = $this->_send($xml_msg,TRUE);
-
-      /* Check if returned values represent a valid answer */
-      if(isset($entries['XML']) && is_array($entries['XML'])){
-        if(isset($entries['XML'])){
-          $ret = $entries['XML'];
-          foreach($ret as $key => $entry){
-            if(!preg_match("/^answer/i",$key)){
-              unset($ret[$key]);
-            }
-          }
-        }
-      }
-    }
-    return($ret);
-  }
-
-
   public function FAI_get_package_sections($release)
   {
     $xml_msg = "<xml><header>gosa_query_packages_list</header><target>GOSA</target><source>GOSA</source>".
@@ -747,206 +687,6 @@ class gosaSupportDaemon
         $ret = $entries['XML'];
       }
     }
-    return($ret);
-  }
-
-
-  public function FAI_get_packages($release,$attrs,$package,$from=-1,$to=-1)
-  {
-    $ret = array();
-
-    /* Check Parameter */
-    if(!is_array($attrs) || !count($attrs)){
-      trigger_error("Second parameter must be an array. With at least one attribute name.");
-      return($ret);
-    }
-
-    /* Check Parameter */
-    if(!is_array($package)){
-      trigger_error("Third parameter must be an array. With at least one attribute name.");
-      return($ret);
-    }
-
-    /* Create list of attributes to fetch */
-    $attr = ""; 
-    foreach($attrs as $at){
-      $attr.= "<select>".$at."</select>";
-    }
-
-    /* If no package is given, search for all */
-    if(!count($package)) $package = array("%");
-
-    /* Create limit tag */
-    if($from == -1){
-      $limit =""; 
-    }else{
-      $limit = "<limit><from>".$from."</from><to>".$to."</to></limit>";
-    }
-
-    /* Create list of attributes to fetch */
-    $pkgs = ""; 
-    foreach($package as $pkg){
-      $pkgs .="<phrase><operator>like</operator><package>".$pkg."</package></phrase>";
-    }
-
-    $xml_msg = "<xml><header>gosa_query_packages_list</header><target>GOSA</target><source>GOSA</source>".
-      $attr.
-      "<where>
-      <clause><phrase><distribution>".$release."</distribution></phrase></clause>
-      <clause><connector>OR</connector>
-      ".$pkgs."
-      </clause>
-      </where>".
-      $limit.
-      "</xml>";
-
-    if($this->connect()){
-      $entries = $this->_send($xml_msg,TRUE);
-      if(isset($entries['XML']) && is_array($entries['XML'])){
-
-        /* Check if returned values represent a valid answer */
-        if(isset($entries['XML'])){
-
-          /* Unset header tags */
-          foreach(array("HEADER","SOURCE","TARGET","SESSION_ID") as $type){
-            if(isset($entries['XML'][$type])){
-              unset($entries['XML'][$type]);
-            }
-          }
-          $ret = $entries['XML'];
-        }
-      }
-    }
-    return($ret);
-
-    
-  }
-
-
-  public function FAI_get_server($name = "")
-  {
-
-    $xml_msg = "<xml><header>gosa_query_fai_server</header><target>GOSA</target><source>GOSA</source></xml>";
-    $ret = array();
-    if($this->connect()){
-
-      /* Check if returned values represent a valid answer */
-      $entries = $this->_send($xml_msg,TRUE);
-      if(isset($entries['XML']) && is_array($entries['XML'])){
-
-        /* Unset header tags */
-        foreach(array("HEADER","SOURCE","TARGET","SESSION_ID") as $type){
-          if(isset($entries['XML'][$type])){
-            unset($entries['XML'][$type]);
-          }
-        }
-        $ret = $entries['XML']; 
-      }
-    }
-    return($ret);
-  }
-
-
-  public function FAI_get_classes($name)
-  {
-    $xml_msg = "<xml><header>gosa_query_fai_release</header><target>GOSA</target><source>GOSA</source>".
-                  "<where><clause><phrase><fai_release>".$name."</fai_release></phrase></clause></where></xml>";;
-    $ret = array();
-    if($this->connect()){
-
-      $entries = $this->_send($xml_msg,TRUE);
-      if(isset($entries['XML']) && is_array($entries['XML'])){
-
-        /* Unset header tags */
-        foreach(array("HEADER","SOURCE","TARGET","SESSION_ID") as $type){
-          if(isset($entries['XML'][$type])){
-            unset($entries['XML'][$type]);
-          }
-        }
-        $ret = $entries['XML']; 
-      }
-    }
-    return($ret);
-  }
-
-
-  /*! \brief  Returns an array containing all queued entries.
-    @return Array All queued entries as an array.
-   */
-  public function get_queued_entries($event_types = array("*"),$from=-1,$to=-1,$sort="timestamp DESC")
-  {
-/*
-    $ret = array();
-*/
-
-/*
-    debug_print_backtrace();
-    * filter goto events
-*/
-    timezone::get_default_timezone();
-    
-    try {
-        $client = new jsonRPCClient($this->s_host);
-        $entries = $client->get_entries();
-    } catch (Exception $e) {
-        $this->set_error(nl2br($e->getMessage()));
-        return(FALSE);
-    }
-    foreach($entries as &$entry) {
-        $entry['TIMESTAMP'] = DaemonEvent::_timestamp_to_event($entry['data']['timestamp']);
-        $entry['MACADDRESS'] = $entry['targets'][0];
-        $entry['PERIODIC'] = $entry['data']['periodic'];
-        $entry['STATUS'] = $entry['status'];
-    }
-    $this->reset_error();
-    return($entries);
-    
-    /*
-    $tags = "";
-    foreach($event_types as $type){
-      $tags .= "<phrase><headertag>".$type."</headertag></phrase>";
-    }
-    if(count($event_types) > 1){
-      $tags = "<connector>or</connector>".$tags;
-    }
-    if(count($event_types)){
-      $tags = "<where><clause>".$tags."</clause></where>";
-    }
-
-    $xml_msg = 
-      "<xml>
-      <header>gosa_query_jobdb</header>
-      <target>GOSA</target>
-      <source>GOSA</source>
-      ".$tags."
-
-      <orderby>".$sort."</orderby>";
-    if($from != -1 && $to != -1){
-      $xml_msg.= "
-        <limit>
-        <from>".$from."</from>
-        <to>".$to."</to>
-        </limit>";
-    }
-    $xml_msg.= "
-      </xml>";
-      */
-
-/*
-    if($this->connect()){
-      $entries = $this->_send($xml_msg,TRUE);
-      if(isset($entries['XML']) && is_array($entries['XML'])){
-
-        // Unset header tags
-        foreach(array("HEADER","SOURCE","TARGET","SESSION_ID") as $type){
-          unset($entries['XML'][$type]);
-        }
-        $ret = $entries['XML']; 
-      }
-    }
-*/
-
-    
     return($ret);
   }
 
@@ -994,95 +734,6 @@ class gosaSupportDaemon
     return($ret);
   }
 
-
-  /*! \brief  Returns an entry containing all requested ids.
-    @param  Array   The IDs of the entries we want to return.
-    @return Array   Of the requested entries. 
-   */
-  public function get_entries_by_mac($macs)
-  {
-    if(!is_array($macs)){
-      trigger_error("Requires an array as parameter.");
-      return;
-    }
-
-    $ret = array();
-
-    $xml_msg = "<xml>
-      <header>gosa_query_jobdb</header>
-      <target>GOSA</target>
-      <source>GOSA</source>
-      <where>
-      <clause>
-      <connector>or</connector>";
-    foreach($macs as $mac){
-      $xml_msg .= "<phrase>
-        <operator>eq</operator>
-        <macaddress>".$mac."</macaddress>
-        </phrase>";
-    }
-    $xml_msg .= "</clause>
-      </where>
-      </xml>";
-
-    if($this->connect()){
-      $entries = $this->_send($xml_msg,TRUE);
-      if(isset($entries['XML'])){
-        foreach($entries['XML'] as $name => $entry){
-          if(preg_match("/^ANSWER[0-9]*$/",$name)){
-            $ret[$name] = $entry;
-          }
-        }
-      }
-    }
-    return($ret);
-  }
-
-
-  /*! \brief  Returns an entry containing all requested ids.
-    @param  Array   The IDs of the entries we want to return.
-    @return Array   Of the requested entries. 
-   */
-  public function get_entries_by_id($ids)
-  {
-    if(!is_array($ids)){
-      trigger_error("Requires an array as parameter.");
-      return;
-    }
-
-    $ret = array();
-
-    $xml_msg = "<xml>
-      <header>gosa_query_jobdb</header>
-      <target>GOSA</target>
-      <source>GOSA</source>
-      <where>
-      <clause>
-      <connector>or</connector>";
-    foreach($ids as $id){
-      $xml_msg .= "<phrase>
-        <operator>eq</operator>
-        <id>".$id."</id>
-        </phrase>";
-    }
-    $xml_msg .= "</clause>
-      </where>
-      </xml>";
-
-    if($this->connect()){
-      $entries = $this->_send($xml_msg,TRUE);
-      if(isset($entries['XML'])){
-        foreach($entries['XML'] as $name => $entry){
-          if(preg_match("/^ANSWER[0-9]*$/",$name)){
-            $ret[$name] = $entry;
-          }
-        }
-      }
-    }
-    return($ret);
-  }
-
-
   /*! \brief  Checks if the given id is in use.
     @param  Integer The ID of the entry.
     @return Boolean TRUE if entry exists. 
@@ -1118,98 +769,6 @@ class gosaSupportDaemon
       }
     }
     return(FALSE);
-  }
-
-
-  /*! \brief  Returns an entry from the gosaSupportQueue
-    @param  Integer The ID of the entry we want to return.
-    @return Array   Of the requested entry. 
-   */
-  public function get_entry_by_id($id)
-  {
-    if(!is_numeric($id)){
-      trigger_error("Requires an integer as parameter.");
-      return;
-    }
-  
-    $ret = array();
-    $xml_msg = "<xml>
-      <header>gosa_query_jobdb</header>
-      <target>GOSA</target>
-      <source>GOSA</source>
-      <where>
-      <clause>
-      <phrase>
-      <operator>eq</operator>
-      <id>".$id."</id>
-      </phrase>
-      </clause>
-      </where>
-      </xml>";
-    if($this->connect()){
-      $entries = $this->_send($xml_msg,TRUE);
-      if( isset($entries['XML']['HEADER']) &&
-          $entries['XML']['HEADER']=="answer" &&
-          isset($entries['XML']['ANSWER1'])){
-        $ret = $entries['XML']['ANSWER1'];
-      }
-    }
-    return($ret);
-  }
-
-
-  /*! \brief  Removes a set of entries from the GOsa support queue. 
-    @param  Array The IDs to remove.
-    @return Boolean True on success.
-   */
-  public function remove_entries($ids)
-  {
-    if(!is_array($ids)){
-      trigger_error("Requires an array as parameter.");
-      return;
-    }
-
-
-    $ret = array();
-
-    $xml_msg = "<xml>
-      <header>gosa_delete_jobdb_entry</header>
-      <target>GOSA</target>
-      <source>GOSA</source>
-      <where>
-      <clause>
-      <connector>or</connector>";
-    foreach($ids as $id){
-      $xml_msg .= "<phrase>
-        <operator>eq</operator>
-        <id>".$id."</id>
-        </phrase>";
-    }
-    $xml_msg .= "</clause>
-      </where>
-      </xml>";
-
-    if($this->connect()){
-      $entries = $this->_send($xml_msg,TRUE);
-      if(isset($entries['XML']) || isset($entries['COUNT'])){
-        new log("debug","DaemonEvent (IDS) ", "gosaSupportDaemon::remove_entries()", $ids,"SUCCESS");
-        return(TRUE);
-      }else{
-        new log("debug","DaemonEvent (IDS) ", "gosaSupportDaemon::remove_entries()", $ids,"FAILED ".$this->get_error());
-      }
-    }
-    return(FALSE);
-  }
-
-
-
-  /*! \brief  Removes an entry from the GOsa support queue. 
-    @param  Integer The ID of the entry we want to remove.
-    @return Boolean True on success.
-   */
-  public function remove_entry($id)
-  {
-    return($this->remove_entries(array($id)));
   }
 
 
@@ -1312,76 +871,6 @@ class gosaSupportDaemon
     return($array);
   }
 
-
-
-
-
-
-  /*! \brief  Updates an entry with a set of new values, 
-    @param  Integer The ID of the entry, we want to update.
-    @param  Array   The variables to update.   
-    @return Boolean Returns TRUE on success. 
-   */
-  public function update_entries($ids,$data)
-  {
-    if(!is_array($ids)){
-      trigger_error("Requires an array as first parameter.");
-      return;
-    }
-
-    if(!is_array($data)){
-      trigger_error("Requires an array as second parameter.");
-      return;
-    }
-
-    $attr = "";
-    foreach($data as $key => $value){
-      $key = strtolower($key);
-      if(is_array($value)){
-        foreach($value as $sub_value){
-          $attr.= "<$key>".strtolower($sub_value)."</$key>\n";
-        }
-      }else{
-        $attr.= "<$key>".strtolower($value)."</$key>\n";
-      }
-    }
-
-    $xml_msg = "<xml>
-      <header>gosa_update_status_jobdb_entry</header>
-      <target>GOSA</target>
-      <source>GOSA</source>
-      <where>
-      <clause>
-      <connector>or</connector>";
-    foreach($ids as $id){
-      $xml_msg .= "<phrase>
-        <operator>eq</operator>
-        <id>".$id."</id>
-        </phrase>";
-    }
-    $xml_msg .= "</clause>
-      </where>
-      <update>
-      ".$attr." 
-      </update>
-      </xml>";
-
-    if($this->connect()){
-      $entries = $this->_send($xml_msg,TRUE);
-      if(isset($entries['XML'])){
-        if(isset($entries['XML']['ERROR_STRING'])) {
-          $this->set_error($entries['XML']['ERROR_STRING']);
-          new log("debug","DaemonEvent (IDS) ", "gosaSupportDaemon::update_entries()", $ids,"FAILED setting (".$attr.") error was ".$this->get_error());
-          return(FALSE);
-        }
-        new log("debug","DaemonEvent (IDS) ", "gosaSupportDaemon::update_entries()", $ids,"SUCCESS");
-        return(TRUE);
-      }
-    }
-    return(FALSE);
-  }
-
-
   /*! \brief  Returns the number of currently queued objects.
       @return Integer  
    */
@@ -1455,201 +944,6 @@ class gosaSupportDaemon
     return $this->_send("<xml><header>$header</header><source>GOSA</source>$target".$xml_message."</xml>",$answer_expected);
   }
 
-
-  /* Allows simply appending a new DaemonEvent 
-   */
-  public function append($event, $skip_add_mac = FALSE)
-  {
-    if(!($event instanceof DaemonEvent)){
-      return(FALSE);
-    }
-  
-
-    /* Add to queue if new 
-     */
-    if($event->is_new()){
-
-      $request_answer = FALSE;
-      if($event->get_type() == SCHEDULED_EVENT){
-        $action = $event->get_schedule_action();
-      }elseif($event->get_type() == TRIGGERED_EVENT){
-        $action = $event->get_trigger_action();
-      }else{
-        trigger_error("Unknown type of queue event given.");
-        return(FALSE);
-      }
-      
-
-		/* Get event informations, like targets..
-		*/
-		$targets    = $event->get_targets();
-		$data       = $event->save();
-
-		/* Append an entry
-		*/
-        try {
-			$client = new jsonRPCClient('http://10.10.11.100:8080');//$s_host.":".$i_port
-			$client->action($action,$targets,$data);
-		} catch (Exception $e) {
-			$this->set_error(nl2br($e->getMessage()));
-			return(FALSE);
-		}
-
-/*      
- * 	foreach($targets as $target){
-        if(!$skip_add_mac){
-          $data['macaddress'] = $target;
-        }
-        $this->send_data($action,$target,$data,$request_answer);
-*/
-
-/*
-        if($this->is_error()){
-          return(FALSE);
-        }
-      }
-*/
-      return(TRUE);
-    }else{
-
-      /* Updated edited entry.
-       */
-      $id                 = $event->get_id();
-      $data               = $event->save();
-      return($this->update_entries(array($id),$data));
-    }
-
-    return(FALSE);
-  }
-
-
-  /*! \brief  Returns an array containing all queued entries.
-    @return Array All queued entries as an array.
-   */
-  public function _send($data, $answer_expected= FALSE)
-  {
-
-    $ret = array();
-    if(!$this->connect()){
-      return($ret);
-    }
-  
-    $this->reset_error();
-
-    /******
-      Debug handling
-     ******/
-    $debug = debug_backtrace();
-    $file = __FILE__;
-    $function = __FUNCTION__;
-    $line = __LINE__;
-    $class = __CLASS__;
-    foreach($debug as $info){
-      if(!in_array($info['function'],array("send_data","_send"))){
-        $file = $info['file'];
-        $line = $info['line'];
-        $class = get_class($this);
-        $function = $info['function'];
-        break;
-      }
-    }
-    @DEBUG(DEBUG_SI, $line, "<b>".$class."::".$function."</b>" , $file, "<i>".htmlentities($data)."</i>", $info="");
-
-    $start = microtime(1);
-
-    /*******
-      Start sending data 
-     *******/
-    if($this->connect()){
-      $this->o_sock->write($data);
-      if ($answer_expected){
-        $str = trim($this->o_sock->read());
-
-        /* Check if something went wrong while reading */
-        if($this->o_sock->is_error()){
-          $this->set_error($this->o_sock->get_error());
-          @DEBUG(DEBUG_SI, $line, "<b>".$class."::".$function."</b>" , $file, sprintf('%.7f', microtime(1) - $start) , "<b>FAILED Duration:</b>");
-          return($ret);
-        }
-
-        $entries = $this->xml_to_array($str);
-        if(isset($entries['XML']) && is_array($entries['XML'])){
-          $ret = $entries;
-          if($this->use_alternative_xml_parse_method) {
-
-            // --------- Seems broken, check for 'ERROR' but using 'ERROR_STRING'
-            if(isset($entries['XML'][0]['ERROR'][0]['VALUE']) && $entries['XML'][0]['ERROR'][0]['VALUE'] == "1"){
-              $this->set_error($entries['XML'][0]['ERROR_STRING'][0]['VALUE']);
-              new log("debug","DaemonEvent (IDS) ", "gosaSupportDaemon::_send()", 
-                  array($data=>$data),"FAILED ".$this->get_error());
-            // ---------
-      
-          
-            }elseif(isset($entries['XML'][0]['ERROR'][0]['VALUE'])){
-              $this->set_error($entries['XML'][0]['ERROR'][0]['VALUE']);
-              new log("debug","DaemonEvent (IDS) ", "gosaSupportDaemon::_send()", 
-                  array($data=>$data),"FAILED ".$this->get_error());
-            }
-          }else{
-            if(isset($entries['XML']['ERROR_STRING'])) {
-              $this->set_error($entries['XML']['ERROR_STRING']);
-              new log("debug","DaemonEvent (IDS) ", "gosaSupportDaemon::_send()", 
-                  array($data=>$data),"FAILED ".$this->get_error());
-            }elseif(isset($entries['XML']['ERROR'])){
-              $this->set_error($entries['XML']['ERROR']);
-              new log("debug","DaemonEvent (IDS) ", "gosaSupportDaemon::_send()", 
-                  array($data=>$data),"FAILED ".$this->get_error());
-            }
-          }
-          new log("debug","DaemonEvent (IDS) ", "gosaSupportDaemon::_send()", 
-              array($data=>$data),"SUCCESS");
-        }
-      }else{
-        new log("debug","DaemonEvent (IDS) ", "gosaSupportDaemon::_send()", 
-            array($data=>$data),"Fire & forget, not result.! ".$this->get_error());
-      }
-    }
-
-    @DEBUG(DEBUG_SI, $line, "<b>".$class."::".$function."</b>" , $file, sprintf('%.7f', microtime(1) - $start) , "<b>Duration:</b>");
-    return($ret);
-  }
-
-
-  static function send($header, $to, $data= array(), $answer_expected = FALSE)
-  {
-    $xml_message= "";
-
-    /* Get communication object */
-    $d= new gosaSupportDaemon(TRUE,10);
-
-    /* Prepare data */
-    foreach ($data as $key => $value){
-      if(is_array($value)){
-        foreach($value as $sub_val){
-          $xml_message.= "<$key>$sub_val</$key>";
-        }
-      }else{
-        $xml_message.= "<$key>$value</$key>";
-      }
-    }
-
-    /* Multiple targets? */
-    if (!is_array($to)){
-      $to_targets= array($to);
-    } else {
-      $to_targets= $to;
-    }
-
-    /* Build target strings */
-    $target ="";
-    foreach($to_targets as $to){
-      $target.= "<target>$to</target>";
-    }
-
-    return $d->_send("<xml><header>$header</header><source>GOSA</source>$target".$xml_message."</xml>",$answer_expected);
-  }
-
-
   /*! \brief  Removes all jobs from the queue that are tiggered with a specific macAddress.
       @param  String  $mac  The mac address for which we want to remove all jobs.      
    */
@@ -1716,20 +1010,6 @@ class gosaSupportDaemon
       }
     }
   }
-
-
-  static function ping($target)
-  {
-    if (tests::is_mac($target)){
-      /* Get communication object */
-      $d= new gosaSupportDaemon(TRUE,2);
-      $answer= $d->_send("<xml><header>gosa_ping</header><source>GOSA</source><target>$target</target></xml>", TRUE);
-      return (count($answer) ? TRUE:FALSE);
-    }
-    return (FALSE);
-  }
-
-
 
   /*! \brief  Returns a list of all configured principals. 
               (Uses the GOsa support daemon instead of the ldap database.)
