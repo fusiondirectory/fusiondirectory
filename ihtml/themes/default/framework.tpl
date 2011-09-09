@@ -12,10 +12,6 @@
     </a>
    {/if}
     &nbsp;
-    <a class="maintitlebar" style="margin-left:35px" {$help_method}>
-       <img src='{$go_help}' class='center' border="0" alt="Help">&nbsp;{t}Help{/t}
-    </a>
-    &nbsp;
    {if !$javascript}
     <a class="maintitlebar" href='logout.php?request' onClick='return question("{t}You are currently editing a database entry. Do you want to dismiss the changes?{/t}", "logout.php?request");' style="margin-left:35px;">
       <img src='{$go_out}' class='center' border="0" alt="Sign out">&nbsp;{t}Sign out{/t}
