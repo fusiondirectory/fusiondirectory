@@ -1,6 +1,6 @@
-dn: cn={5}gosystem
+dn: cn=gosystem,cn=schema,cn=config
 objectClass: olcSchemaConfig
-cn: {5}gosystem
+cn: gosystem
 olcAttributeTypes: {0}( 1.3.6.1.4.1.10098.1.1.1.1 NAME 'gotoSyslogServer' DESC
   'GOto - Gonicus Terminal Concept, value syslogServer.' EQUALITY caseIgnoreIA
  5Match SUBSTR caseIgnoreIA5SubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.
@@ -190,10 +190,3 @@ olcObjectClasses: {0}( 1.3.6.1.4.1.10098.1.2.1.3 NAME 'GOhard' DESC 'Gonicus H
  acAddress $ gotoAutoFs $ gotoModules $ gotoAdaptPath $ gotoKernelParameters $
   gotoBootKernel $ gotoTerminalPath $ gotoLdapServer $ gotoScannerModel $ ipHo
  stNumber $ l $ gotoSysStatus $ description $ gotoHardwareChecksum ) )
-structuralObjectClass: olcSchemaConfig
-entryUUID: fbaf46b6-f065-102e-9605-79233977c302
-creatorsName: cn=config
-createTimestamp: 20100510095600Z
-entryCSN: 20100510095600.855485Z#000000#000#000000
-modifiersName: cn=config
-modifyTimestamp: 20100510095600Z

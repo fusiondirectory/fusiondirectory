@@ -1,6 +1,6 @@
-dn: cn={11}goserver
+dn: cn=goserver,cn=schema,cn=config
 objectClass: olcSchemaConfig
-cn: {11}goserver
+cn: goserver
 olcAttributeTypes: {0}( 1.3.6.1.4.1.10098.1.1.9.1 NAME 'goXdmcpIsEnabled' DESC
   'Indicates if the server is enabled for XDMCP queries' EQUALITY caseExactIA5
  Match SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE )
@@ -300,10 +300,3 @@ olcObjectClasses: {17}( 1.3.6.1.4.1.10098.1.2.1.40 NAME 'gosaLogServer' DESC '
 olcObjectClasses: {18}( 1.3.6.1.4.1.10098.1.2.1.41 NAME 'goEnvironmentServer' 
  DESC 'Environment server definition (v2.6)' SUP top AUXILIARY MUST cn MAY got
  oKioskProfile )
-structuralObjectClass: olcSchemaConfig
-entryUUID: fbafbaec-f065-102e-960b-79233977c302
-creatorsName: cn=config
-createTimestamp: 20100510095600Z
-entryCSN: 20100510095600.855485Z#000000#000#000000
-modifiersName: cn=config
-modifyTimestamp: 20100510095600Z

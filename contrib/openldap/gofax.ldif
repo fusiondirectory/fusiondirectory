@@ -1,6 +1,6 @@
-dn: cn={9}gofax
+dn: cn=gofax,cn=schema,cn=config
 objectClass: olcSchemaConfig
-cn: {9}gofax
+cn: gofax
 olcAttributeTypes: {0}( 1.3.6.1.4.1.10098.1.1.7.1 NAME 'goFaxDeliveryMode' DES
  C 'goFax delivery mode is defined here' EQUALITY caseExactIA5Match SUBSTR cas
  eExactIA5SubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE )
@@ -50,10 +50,3 @@ olcObjectClasses: {1}( 1.3.6.1.4.1.10098.1.2.1.12 NAME 'goFaxSBlock' DESC 'goF
 olcObjectClasses: {2}( 1.3.6.1.4.1.10098.1.2.1.13 NAME 'goFaxRBlock' DESC 'goF
  ax receive blocklist groups (v1.0.4)' STRUCTURAL MUST cn MAY ( goFaxRBlocklis
  t $ description ) )
-structuralObjectClass: olcSchemaConfig
-entryUUID: fbaf77bc-f065-102e-9609-79233977c302
-creatorsName: cn=config
-createTimestamp: 20100510095600Z
-entryCSN: 20100510095600.855485Z#000000#000#000000
-modifiersName: cn=config
-modifyTimestamp: 20100510095600Z

@@ -1,6 +1,6 @@
-dn: cn={8}gofon
+dn: cn=gofon,cn=schema,cn=config
 objectClass: olcSchemaConfig
-cn: {8}gofon
+cn: gofon
 olcAttributeTypes: {0}( 1.3.6.1.4.1.10098.1.1.13.1 NAME 'goFonDeliveryMode' DE
  SC 'GOFon delivery mode is defined here' EQUALITY caseExactIA5Match SUBSTR ca
  seExactIA5SubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE )
@@ -189,10 +189,3 @@ olcObjectClasses: {5}( 1.3.6.1.4.1.10098.1.2.3.16 NAME 'goFonConference' DESC
  'Conference definitions for asterisk machines (v1.0)' SUP top STRUCTURAL MUST
   cn MAY ( description $ goFonConferenceOption $ goFonConferenceTimeout $ goFo
  nPIN $ goFonConferenceOwner $ telephoneNumber $ goFonHomeServer ) )
-structuralObjectClass: olcSchemaConfig
-entryUUID: fbaf6ede-f065-102e-9608-79233977c302
-creatorsName: cn=config
-createTimestamp: 20100510095600Z
-entryCSN: 20100510095600.855485Z#000000#000#000000
-modifiersName: cn=config
-modifyTimestamp: 20100510095600Z
