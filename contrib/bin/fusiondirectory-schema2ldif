@@ -11,7 +11,7 @@
 # Based on work of Radovan Semancik
 # schema2ldif, Version 1.2, (c) 2005-2009 Radovan Semancik
 # schema2ldif, Version 1.3, (c) 2011 Antoine Gallavardin
-# schema2ldif, Version 1.4, (c) 2011 FusionDirectory Project
+# schema2ldif, Version 1.4 & 1.5 (c) 2011 FusionDirectory Project
 # Changes:
 #
 # v1.0.1: Added X-ORIGIN injection
@@ -24,8 +24,10 @@
 # v1.4: - corrected attributes and classe name on output
 #       - Removed -c option not nedeed anymore
 #       - Added doc in pod format
+# v1.5  - Corrected regex for name of schema on command line
 #
 use strict;
+use 5.010;
 
 my $mode = "static";
 my $origin = 'user defined';
@@ -48,17 +50,23 @@ while ($ARGV[0] =~ /^-/) {
 		$origin = shift;
 	} elsif ($arg eq "-b") {
 		$branch = shift;
-  }
-	else {
+    } else {
 		print STDERR "Unknown option $arg\n";
 		usage();
 		exit(-1);
 	}
 }
 
+if(@ARGV<=0) {
+    print STDERR "No file given\n";
+    usage();
+    exit(-1);
+}
+
 $cn = $ARGV[0];
 
-$cn =~ s/(.+)\.[^.]+$/$1/;
+
+$cn =~ s/^\/?(\w+\/)*(\w+)\.[^.]+$/$2/;
 
 my %attrNameMap = (
 	'attributetype'	=> 'olcAttributeTypes',
@@ -76,14 +84,14 @@ my %definitions = ();
 if ($mode eq "static") {
 	# Header for static schema 
 	# used to drop into a file that server picks up on start
-	print "dn: cn=$cn,$branch\n";
-	print "objectClass: olcSchemaConfig\n";
-	print "cn: cn=$cn\n";
+	say "dn: cn=$cn,$branch";
+	say "objectClass: olcSchemaConfig";
+	say "cn: cn=$cn";
 	
 } elsif ($mode eq "modify") {
 	# Header for schema that is being uploaded to running server
-	print "dn: cn=$cn,$branch\n";
-	print "changetype: modify\n";
+	say "dn: cn=$cn,$branch";
+	say "changetype: modify";
 	
 } else {
 	die ("Unknown mode $mode\n");
