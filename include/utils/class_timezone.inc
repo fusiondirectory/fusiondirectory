@@ -60,18 +60,7 @@ class timezone {
   /* Return zone informations */
   static public function _get_tz_zones()
   {
-    $timezone_identifiers = DateTimeZone::listIdentifiers();
-    $timezones = array();
-    $zones = DateTimeZone::listAbbreviations();
-    foreach($zones as $group){
-      foreach($group as $zone)  {
-        $timezones[$zone['timezone_id']] = $zone['offset'];
-        if($zone['dst']){
-          $dst_timezones[$zone['timezone_id']] = 1;
-        }
-      }
-    }
-    return(array("TIMEZONES" => @$timezones, "DST_ZONES" => @$dst_timezones));
+    return DateTimeZone::listIdentifiers();
   }
 }
 
