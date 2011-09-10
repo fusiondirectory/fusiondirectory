@@ -631,7 +631,11 @@ class Step_Migrate extends setup_step
     /* Get all invisible users 
      */
     $ldap->cd($cv['base']); 
-    $res =$ldap->search("(&(|(objectClass=posixAccount)(&(objectClass=inetOrgPerson)(objectClass=organizationalPerson)))(!(objectClass=gosaAccount))(uid=*))",array("sn","givenName","cn","uid"));
+    $search_invisible = "(& (|(objectClass=posixAccount)(&(objectClass=inetOrgPerson)(objectClass=organizationalPerson)))
+                            (!(objectClass=gosaAccount))";
+    $search_incomplete = "(& (!(|(objectClass=posixAccount)(&(objectClass=inetOrgPerson)(objectClass=organizationalPerson))))
+                             (objectClass=gosaAccount))";
+    $res =$ldap->search("($(uid=*)(|$search_invisible$search_incomplete))",array("sn","givenName","cn","uid"));
     while($attrs = $ldap->fetch()){
       if(!preg_match("/,dc=addressbook,/",$attrs['dn'])){
         $attrs['checked'] = FALSE;
@@ -658,7 +662,7 @@ class Step_Migrate extends setup_step
     }else{
       $this->checks['users_visible']['STATUS']    = FALSE;
       $this->checks['users_visible']['STATUS_MSG']= "<font style='color:#F0A500'>"._("Warning")."</font>";
-      $this->checks['users_visible']['ERROR_MSG'] = sprintf(_("Found %s user(s) that will not be visible in FusionDirectory."), 
+      $this->checks['users_visible']['ERROR_MSG'] = sprintf(_("Found %s user(s) that will not be visible in FusionDirectory or which are incomplete."), 
           count($this->users_to_migrate));
       $this->checks['users_visible']['ERROR_MSG'] .= "<input type='submit' name='users_visible_migrate' value='"._("Migrate")."...'>";
     }
