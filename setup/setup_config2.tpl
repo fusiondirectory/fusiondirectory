@@ -63,20 +63,8 @@
         </div>
         <div class='step4_value'>
             <select name='timezone' title='{t}Please choose your preferred timezone here{/t}' style="width:100%">
- 		{foreach from=$timezones.TIMEZONES item=val key=key}
-            {if $key == $timezone}
-                {if isset($timezones.DST_ZONES.$key)}
-                    <option selected value="{$key}">{$key} (DST)</option>
-                {else}
-                    <option selected value="{$key}">{$key} (GMT)</option>
-                {/if}
-            {else}
-                {if isset($timezones.DST_ZONES.$key)}
-                    <option value="{$key}">{$key} (DST)</option>
-                {else}
-                    <option value="{$key}">{$key} (GMT)</option>
-                {/if}
-            {/if}
+ 		{foreach from=$timezones item=val}
+                <option {if $val == $timezone}selected{/if} value="{$val}">{$val}</option>
         {/foreach}
 
             </select>
