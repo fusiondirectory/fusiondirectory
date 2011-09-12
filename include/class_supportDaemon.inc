@@ -41,6 +41,9 @@ class supportDaemon
         if(!is_object($this->config)) { return; }
         # load from config, store statically
         $this->s_host = $this->config->get_cfg_value("argonautServer");
+        if($this->s_host == "") {
+            $this->set_error("argonautServer not defined in config");
+        }
         echo "supportDaemon constructed<br/>\n";
     }
   
@@ -48,6 +51,10 @@ class supportDaemon
     @return boolean true if the server pings, false otherwise    
      */
     public function is_available() {
+        if($this->s_host == "") {
+            $this->set_error("argonautServer not defined in config");
+            return(FALSE);
+        }
         try {
             $client = new jsonRPCClient($this->s_host);
             $ok = "OK";
