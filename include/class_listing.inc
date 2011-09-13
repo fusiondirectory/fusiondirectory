@@ -389,24 +389,6 @@ class listing {
       $alt++;
     }
 
-    // Need to fill the list if it's not full (nobody knows why this is 22 ;-))
-    $emptyListStyle= (count($this->entries) + (($this->useSpan && count($this->entries))?$deps:0) == 0)?"border:0;":"";
-    if ((count($this->entries) + $deps) < 22) {
-      $result.= "<tr>";
-      for ($i= 0; $i<$this->numColumns; $i++) {
-        if ($i == 0) {
-          $result.= "<td class='list1nohighlight' style='$emptyListStyle height:100%;'>&nbsp;</td>";
-          continue;
-        }
-        if ($i != $this->numColumns-1) {
-          $result.= "<td class='list1nohighlight' style='$emptyListStyle'>&nbsp;</td>";
-        } else {
-          $result.= "<td class='list1nohighlight' style='border-right:0;$emptyListStyle'>&nbsp;</td>";
-        }
-      }
-      $result.= "</tr>";
-    }
-
     // Close list body
     $result.= "</tbody></table></div>";
 

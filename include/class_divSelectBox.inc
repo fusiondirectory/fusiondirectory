@@ -126,16 +126,6 @@ class divSelectBox {
       }
       $s_return.="\n</tr>";
     }
-    $s_return.="\n<tr>";
-    for($i = 0 ; $i < ($this->cols) ; $i ++){
-      if($i >= ($this->cols-1)){
-        $s_return .= "<td class='list1nohighlight' style='height:100%;border:0px;'><div style='font-size:1px;'>&nbsp;</div></td>";
-      }else{
-        $s_return .= "<td class='list1nohighlight' style='height:100%;'><div style='font-size:1px;'>&nbsp;</div></td>";
-      }
-      
-    }
-    $s_return.="</tr>";
     return $s_return;
   }
 }

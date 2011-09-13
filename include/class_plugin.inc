@@ -590,48 +590,28 @@ class plugin
   /*! \brief Show header message for tab dialogs */
   function show_enable_header($button_text, $text, $disabled= FALSE)
   {
-    if (($disabled == TRUE) || (!$this->acl_is_createable())){
-      $state= "disabled";
-    } else {
-      $state= "";
-    }
-    $display= "<table summary=\"\" width=\"100%\"><tr>\n<td colspan=2><p><b>$text</b></p>\n";
-    $display.= "<input type=submit value=\"$button_text\" name=\"modify_state\" ".$state.
-      "><p class=\"seperator\">&nbsp;</p></td></tr></table>";
-
-    return($display);
+    return $this->show_header($button_text, $text, FALSE, $disabled);
   }
 
 
   /*! \brief Show header message for tab dialogs */
   function show_disable_header($button_text, $text, $disabled= FALSE)
   {
-    if (($disabled == TRUE) || !$this->acl_is_removeable()){
-      $state= "disabled";
-    } else {
-      $state= "";
-    }
-    $display= "<table summary=\"\" width=\"100%\"><tr>\n<td colspan=2><p><b>$text</b></p>\n";
-    $display.= "<input type=submit value=\"$button_text\" name=\"modify_state\" ".$state.
-      "><p class=\"seperator\">&nbsp;</p></td></tr></table>";
-
-    return($display);
+    return $this->show_header($button_text, $text, TRUE, $disabled);
   }
 
 
   /*! \brief Show header message for tab dialogs */
-  function show_header($button_text, $text, $disabled= FALSE)
+  function show_header($button_text, $text, $plugin_enabled, $button_disabled= FALSE)
   {
-    echo "FIXME: show_header should be replaced by show_disable_header and show_enable_header<br>";
-    if ($disabled == TRUE){
-      $state= "disabled";
+    if (($button_disabled) || ((!$this->acl_is_createable() && !$plugin_enabled) || (!$this->acl_is_removeable() && $plugin_enabled))){
+        $state= "disabled";
     } else {
-      $state= "";
+        $state= "";
     }
-    $display= "<table summary=\"\" width=\"100%\"><tr>\n<td colspan=2><p><b>$text</b></p>\n";
-    $display.= "<input type=submit value=\"$button_text\" name=\"modify_state\" ".
-      ($this->acl_is_createable()?'':'disabled')." ".$state.
-      "><p class=\"seperator\">&nbsp;</p></td></tr></table>";
+    $display= "<div width=\"100%\"><p><b>$text</b><br/>\n";
+    $display.= "<input type=submit value=\"$button_text\" name=\"modify_state\" ".$state.
+      "></p><hr class=\"seperator\"/></div>";
 
     return($display);
   }
