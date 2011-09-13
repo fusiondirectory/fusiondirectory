@@ -519,7 +519,7 @@ class supportDaemon
     public function FAI_get_profiles($release)
     {
         $ldap = $this->config->get_ldap_link();
-        $ldap->cd("ou=$release,ou=fai,ou=configs,ou=systems,".$this->config->current['BASE']); // FIXME : check if could be in a cleaner way (look for faiBaseRDN)
+        $ldap->cd("ou=$release,".get_ou("faiBaseRDN").$this->config->current['BASE']);
         $ldap->search("(&(objectClass=FAIprofile)(objectClass=FAIclass))",array("*"));
         
         $res = array();
@@ -531,6 +531,25 @@ class supportDaemon
         print_r($res);
         echo "<hr/>";
         return $res;
+    }
+
+    public function manage_service($mac,$service,$action) 
+    {
+        echo "get_service_status($mac,$service)<br/>\n";
+        try {
+            $client = new jsonRPCClient($this->s_host);
+            $this->reset_error();
+            $status = $client->action("manage_service",array($mac),array("args"=>array($service,$action)));
+            return $status[0];
+        } catch (Exception $e) {
+            $this->set_error(nl2br($e->getMessage()));
+            return(FALSE);
+        }
+    }
+
+    public function clean_queue_from_mac($mac)
+    {
+        echo "Clean queue from mac($mac) - needs to be implemented";
     }
 };
 
@@ -548,61 +567,6 @@ class gosaSupportDaemon
   private $is_connected   = FALSE;
   private $is_configured  = FALSE;
   protected $use_alternative_xml_parse_method = FALSE;
-
-  public function get_host()
-  {
-    return($this->s_host);
-  }
-
-  public function get_port()
-  {
-    return($this->i_port);
-  }
- 
-  /*! \brief  Creates a new gosaSupportDaemon object.
-    @param string   Host    The Host where the daemon is running on.  
-    @param integer  Port    The port which the daemon use.
-    @param string   Key     The encryption string.
-    @param boolean  Connect Directly connect to daemon socket.
-    @param float    Timeout The timelimit for all socket actions.
-   */
-  public function __construct($connect=TRUE,$timeout=null)
-  {
-/*
-      debug_print_backtrace();
-*/
-    #FIXME: bad idea about referencing global variables from within classes
-    global $config;
-    if(!isset($config) || !$config){
-      $config = session::global_get('config');
-    }
-
-    // Detect timeout 
-    if($timeout == null){
-      $timeout = $config->get_cfg_value("goto-si-Timeout",15);
-    }
-
-    /* This should only be the case if we call this from setup.
-        __autoload() 
-     */
-    if(!is_object($config)) { return; }
-
-    # load from config, store statically
-    if ($config->get_cfg_value("goto-si-URI") != ""){
-
-      if ($this->s_host == ""){
-        $this->s_host= preg_replace("/^.*@([^:]+):.*$/", "$1", $config->get_cfg_value("goto-si-URI"));
-        $this->i_port= preg_replace("/^.*@[^:]+:(.*)$/", "$1", $config->get_cfg_value("goto-si-URI"));
-        $this->s_encryption_key = preg_replace("/^(.*)@[^:]+:.*$/", "$1", $config->get_cfg_value("goto-si-URI"));
-      }
-      $this->is_configured = TRUE;
-      $this->f_timeout = $timeout;
-      if($connect){
-        $this->connect();
-      }
-    }
-  }
-
 
   /*! \brief  Establish daemon connection. 
     @return boolean Returns true if the connection was succesfully established. 
