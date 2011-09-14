@@ -20,7 +20,7 @@ use MIME::Base64;
 use Crypt::PasswdMD5;
 
 ###	USE FOR TEST ONLY	###
-use Data::Dumper;
+#use Data::Dumper;
 
 # fd's directory and class.cache file's path declaration
 my $fd_home = "/usr/share/fusiondirectory";
