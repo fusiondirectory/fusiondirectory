@@ -30,6 +30,8 @@ class supportDaemon
     private $s_error      = "";
     private $b_error      = FALSE;
 
+    private $logdir       = "";
+
 	/*! \brief constructor
 	*/
     public function __construct()
@@ -44,6 +46,11 @@ class supportDaemon
         if($this->s_host == "") {
             $this->set_error("argonautServer not defined in config");
         }
+        $this->logdir = $this->config->get_cfg_value("faiLogsDir");
+        if($this->logdir == "") {
+            $this->logdir = "/var/cache/fusiondirectory/fai";
+        }
+        
         echo "supportDaemon constructed<br/>\n";
     }
   
@@ -372,22 +379,43 @@ class supportDaemon
     
     /*! \brief  Returns log file informations for a given mac address 
       @param  $mac The mac address to fetch logs for.
-      @retrun Array A Multidimensional array containing log infos.
-        MAC_00_01_6C_9D_B9_FA['install_20080311_090900'][0]=debconf.log
-        MAC_00_01_6C_9D_B9_FA['install_20080311_090900'][1]=syslog.log
+      @return Array A Multidimensional array containing log infos.
+        MAC_00_01_6C_9D_B9_FA['install_20080311_090900']['FILES'][0]=debconf.log
+        MAC_00_01_6C_9D_B9_FA['install_20080311_090900']['FILES'][1]=syslog.log
                                install_20080313_144450   ...
     */
     public function get_log_info_for_mac($mac)
     {
-        // FIXME : this function needs to look into logs on the local disk
-        return array();
+        echo "get_log_info_for_mac($mac)<br/>";
+
+        # read mac directory
+        $logfiledir = $this->logdir."/$mac/";
+        $dates = scandir($logfiledir);
+        if(!$dates) {
+            $this->set_error("client fai log directory ".$this->logdir." do not exist");
+            return(FALSE);
+        }
+        foreach ($dates as $date) {
+            if($date == "." || $date =="..") {
+                continue;
+            }
+            $ret[$date]['DATE_STR']  = $date; 
+            $ret[$date]['REAL_DATE'] = strtotime(preg_replace("/[^0-9]*/","",$date));
+            foreach(scandir("$logfiledir/$date") as $file) {
+                if($file == "." || $file =="..") {
+                    continue;
+                }
+                $ret[$date]['FILES'][] = $file;
+            }
+        }
+        return array($mac=>$ret);
     }
     
     public function get_log_file($mac,$date,$file)
     {
         echo "get_log_file($mac,$date,$file)<br/>";
-        // FIXME : this function needs to do something
-        return("");
+        
+        return implode("",file($this->logdir."/$mac/$date/$file"));
     }
   
     /*! \brief  Returns true if an argonaut daemon is running on the pc
@@ -549,7 +577,17 @@ class supportDaemon
 
     public function clean_queue_from_mac($mac)
     {
-        echo "Clean queue from mac($mac) - needs to be implemented";
+        echo "Clean queue from mac($mac)";
+        try {
+            $client = new jsonRPCClient($this->s_host);
+            $this->reset_error();
+            $taskids = $client->get_entries_by_mac(array($mac));
+            $client->remove_entries($taskids);
+            return(TRUE);
+        } catch (Exception $e) {
+            $this->set_error(nl2br($e->getMessage()));
+            return(FALSE);
+        }
     }
 };
 

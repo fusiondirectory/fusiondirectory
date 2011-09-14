@@ -632,7 +632,7 @@ class Step_Migrate extends setup_step
      */
     $ldap->cd($cv['base']); 
     $search_invisible = "(& (|(objectClass=posixAccount)(&(objectClass=inetOrgPerson)(objectClass=organizationalPerson)))
-                            (!(objectClass=gosaAccount))";
+                            (!(objectClass=gosaAccount)))";
     $search_incomplete = "(& (!(|(objectClass=posixAccount)(&(objectClass=inetOrgPerson)(objectClass=organizationalPerson))))
                              (objectClass=gosaAccount))";
     $res =$ldap->search("($(uid=*)(|$search_invisible$search_incomplete))",array("sn","givenName","cn","uid"));

@@ -354,6 +354,16 @@ class divlist {
   			  $s_return .= "\n</tr>";
   		  }
       }
+      //print row to fill empty space
+        $s_return.="\n<tr>";
+        for ($i= 1; $i <= $this->cols; $i++){
+          if ($i == $this->cols){
+           $s_return.= "<td class='list1nohighlight' style='height:100%;border-right:0px;'>&nbsp;</td>";
+          } else {
+           $s_return.= "<td class='list1nohighlight' style='height:100%;'>&nbsp;</td>";
+          }
+        }
+        $s_return.="\n</tr>";
   
       if($this->i_entriesPerPage == 0) {
         $s_return .= "\n</table></div></td>";
