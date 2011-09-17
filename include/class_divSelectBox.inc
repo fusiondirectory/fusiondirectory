@@ -81,50 +81,51 @@ class divSelectBox {
 		$s_key 		= "";
 		$s_return 	= "";
 		$i_alternate=0;
-    $str = "";
-	
-    /* If divlist is empty, append a single white entry */
-    if(count($this->a_entries)==0){
-      $str.="<tr class='rowxp1'
-                ><td class='list1nohighlight' style='height:100%; border-right:0px;'>&nbsp;</td></tr>";
-      return($str);
-    }
-
-    $i = $this->_numEntries();
-    foreach($this->a_entries as $s_key => $s_value){
-      $i--;
-
-      if($i_alternate!=0){ 
-        $i_alternate=0; 
-      } else {
-        $i_alternate=1;
-      }
-
-      $s_return .= "\n<tr class='rowxp".($i_alternate)."'>";
-
-      $cnt = 0; 					
-    
-      foreach($s_value as $s_key2 => $s_value2 ){				
-        $this->cols = count($s_value) ;						
-        $cnt++;					
-
-        if(!isset($s_value2['class'])){
-          $class = "list".$i_alternate; 
-        } else {
-          $class = $s_value2['class'];
+        $str = "";
+        
+        /* If divlist is empty, append a single white entry */
+        if(count($this->a_entries)==0){
+          $str.="<tr class='rowxp1'
+                    ><td class='list1nohighlight' style='height:100%; border-right:0px;'>&nbsp;</td></tr>";
+          return($str);
         }
 
-        if(!isset($s_value2['attach'])){
-          $style = "";
-        } else {
-          $style = " ".$s_value2['attach']." "	;
-        }
+        $i = $this->_numEntries();
+        foreach($this->a_entries as $s_key => $s_value){
+          $i--;
 
-        $s_return .= "\n<td ".$style." class='".$class."'>";
-        $s_return .= $s_value2['string'];
-        $s_return .= "</td>";
-      }
-      $s_return.="\n</tr>";
+          if($i_alternate!=0){ 
+            $i_alternate=0; 
+          } else {
+            $i_alternate=1;
+          }
+
+          $s_return .= "\n<tr class='rowxp".($i_alternate)."'>";
+
+          $cnt = 0; 					
+        
+          foreach($s_value as $s_key2 => $s_value2 ){				
+            $this->cols = count($s_value) ;						
+            $cnt++;					
+
+            if(!isset($s_value2['class'])){
+              $class = "list".$i_alternate; 
+            } else {
+              $class = $s_value2['class'];
+            }
+
+            if(!isset($s_value2['attach'])){
+              $style = "";
+            } else {
+              $style = " ".$s_value2['attach']." "	;
+            }
+
+            $s_return .= "\n<td ".$style." class='".$class."'>";
+            $s_return .= $s_value2['string'];
+            $s_return .= "</td>";
+          }
+          $s_return.="\n</tr>";
+        }
         $s_return.="\n<tr>";
         for($i = 0 ; $i < ($this->cols) ; $i++) {
             if($i >= ($this->cols-1)){
@@ -135,8 +136,7 @@ class divSelectBox {
 
         }
         $s_return.="</tr>";
-    }
-    return $s_return;
+        return $s_return;
   }
 }
 // vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:

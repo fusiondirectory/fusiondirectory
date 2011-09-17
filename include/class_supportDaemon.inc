@@ -442,9 +442,7 @@ class supportDaemon
     @return Array   Of packages that fit the given parameters.
     */
     public function FAI_get_packages($release,$attrs,$filters,$from=-1,$to=-1) {
-        echo "Get_packages : ";
-        print_r($attrs);
-        print_r($filters);
+        echo "FAI_get_packages($release,(".implode(",",$attrs)."),(".implode(",",$filters)."),$from,$to)";
         echo "<hr/>\n";
         try {
             $client = new jsonRPCClient($this->s_host);
@@ -510,7 +508,11 @@ class supportDaemon
     */
     public function FAI_get_kernels($release)
     {
-        return $this->FAI_get_packages($release,array("package"),array("linux-image"));
+        $kernels = $this->FAI_get_packages($release,array("package"),array("linux-image"));
+        foreach ($kernels as &$kernel) {
+            $kernel = $kernel['PACKAGE'];
+        }
+        return $kernels;
     }
     
     
