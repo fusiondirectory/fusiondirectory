@@ -2,13 +2,6 @@
 use strict;
 use 5.010;
 
-=pod
-Execute ldapmodify on several ldif files.
-If a parameter is given, it's used as path for ldif files.
-Default is /etc/ldap/schema/fusiondirectory
-
-=cut
-
 my $cmd = "ldapadd -Y EXTERNAL -H ldapi:/// -f ";
 my $path = "/etc/ldap/schema/fusiondirectory";
 
@@ -23,3 +16,51 @@ foreach my $schema (@schemas) {
     say "executing '$full_cmd'";
     system($full_cmd);
 }
+
+exit 0;
+
+=head1 NAME
+
+fusiondirectory-insert-schema - insert schema needed by FusionDirectory into the ldap server
+
+=head1 SYNOPSIS
+
+fusiondirectory-insert-schema <path of your schema files>
+
+=head1 DESCRIPTION
+
+This program will insert the schema needed by FusionDirectory into the ldap server
+
+=head1 EXAMPLES
+
+ fusion@catbert$ fusiondirectory-insert-schema
+   Insert the schemas in your directory
+
+ fusion@catbert$ fusiondirectory-insert-schema /etc/ldap/otherschema
+   Insert the schemas in your directory from the /etc/ldap/otherschema directory
+   
+=head1 BUGS
+
+Please report any bugs, or post any suggestions, to the fusiondirectory mailing list fusiondirectory-users or to
+<https://forge.fusiondirectory.org/projects/fdirectory/issues/new>
+
+=head1 AUTHOR
+
+Come Bernigaud
+
+=head1 LICENCE AND COPYRIGHT
+
+This code is part of FusionDirectory <http://www.fusiondirectory.org>
+
+=over 1
+
+=item Copyright (C) 2011 FusionDirectory Project
+
+=back
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+=cut

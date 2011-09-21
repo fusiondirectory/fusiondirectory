@@ -295,6 +295,10 @@ schema2ldif is a script to convert schema to ldif for inclusion in cn=config bac
 
 =back
 
+=head1 EXAMPLE
+
+ schema2ldif quota.schema > quota.ldif
+
 =head1 BUGS
 
 Please report any bugs, or post any suggestions, to the fusiondirectory mailing list fusiondirectory-users or to
