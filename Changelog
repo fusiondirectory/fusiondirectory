@@ -1,6 +1,25 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.2 
+  - New Release
+  - Removed old GOsa-si code
+  - Added jsonrpc client library
+  - Added new daemon class with json rpc methods
+  - All deployment are now done trough the Argonaut json rpc server
+  - New system to get the packages and debconf without a local mirror
+  - Cvs import fixes to make it more flexible and useable
+  - Corrected css for Firefox 5 and beyond
+  - New setup command fusiondirectory-setup that help fixes common setup issues
+  - All the console tools are in perl, most are in fusiondirectory-setup
+  - Added tools to easily convert and upload schema in an ldap-tree
+  - Completely test and rewrote the help to use php safe mode
+  - Put all the application data into /var/cache/fusiondirectory
+  - Fixed timezone issues
+  - Corrected FSF address
+  - Added the netgroups plugin into official sources
+  - Removed the opsi (pending rewrite)
+
 * FusionDirectory 1.0.1
   - New Release
   - Removed advanced options from setup
