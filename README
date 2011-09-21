@@ -31,7 +31,7 @@ FusionDirectory core can be translated by taking a look at the locales/core
 directory. Just take the messages.po file and copy it to some other
 location and put your translations into the msgstr fields of this
 file. For more comfort, use programs like i.e. kbabel or poedit to
-achieve this. You may look at the de/LC_MESSAGES for the way how it
+achieve this. You may look at the en/LC_MESSAGES for the way how it
 works.
 
 If you're ready with that, create a directory for your language using

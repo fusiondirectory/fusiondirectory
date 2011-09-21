@@ -18,17 +18,14 @@ Most schemas are provided in the .schema format. This kind of file can not be in
 
 You can download the script here : the schema2ldif is included in the basic FusionDirectory packages or in contrib/bin in the tar.gz packages. 
 
-  * example : schema2ldif quota.schema > quota.ldif
+  * example : fusiondirectory-schema2ldif quota.schema > quota.ldif
 
 a ldif file is created !
 
 step 2 : how to insert
 ----------------------
 
-This is for Debian and need to be adapted for other distributions
-
-  * ldapadd -Y EXTERNAL -H ldapi:/// -f quota.ldif
-
+  * fusiondirectory-insert-schema <your schema directory>
 
 The latest version of this explanation is always avaible at http://www.fusiondirectory.org/en/documentation/convert_schema
 
