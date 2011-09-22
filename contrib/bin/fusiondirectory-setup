@@ -209,7 +209,7 @@ sub check_directories {
 	# try to identify the running distribution, if it's not debian or rehat like, script ask for user input
 	if (-e "/etc/debian_version") {
 		$apache_user = "www-data";
-	} elsif (-e "/etc/redhat-release") || (-e "/etc/mageia-release"){
+	} elsif ((-e "/etc/redhat-release") || (-e "/etc/mageia-release")) {
 		$apache_user = "apache";
 	} else {
 		say ("\n! Looks like you are not a Debian, Redhat or Mageia, I don't know your distribution !\n");
