@@ -29,7 +29,7 @@ class departmentManagement extends management
   // Tab definition 
   protected $tabClass = "deptabs";
   protected $tabType = "DEPTABS";
-  protected $aclCategory = "departement";
+  protected $aclCategory = "department";
   protected $aclPlugin   = "generic";
   protected $objectName   = "department";
 
