@@ -20,7 +20,7 @@
   Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-require_once ("functions.inc");
+define("SMARTY_PATH", "smarty/Smarty.class.php");
 
 function gosaRaiseError($errno, $errstr, $errfile, $errline)
 {
@@ -288,16 +288,17 @@ ini_set("report_memleaks",1);
 ini_set("include_path",".:$BASE_DIR/include:$BASE_DIR/include/utils/excel:/usr/share/php");
 
 /* Do smarty setup */
-if (file_exists(SMARTY)) {
-  require(SMARTY);
-} else {
-  require(SMARTY3);
-}
-
+require(SMARTY_PATH);
 $smarty = new Smarty;
 $smarty->template_dir = $BASE_DIR.'/ihtml/';
 $smarty->caching= false;
-$smarty->php_handling= SMARTY_PHP_REMOVE;
+
+// To be able to switch between smarty version 2/3
+if(defined('SMARTY_PHP_REMOVE')){
+    $smarty->php_handling= SMARTY_PHP_REMOVE;
+}else{
+    $smarty->php_handling= Smarty::PHP_REMOVE;
+}
 
 // vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
