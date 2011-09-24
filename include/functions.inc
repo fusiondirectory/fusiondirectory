@@ -64,6 +64,7 @@ define("FPDF_FONTPATH", "/usr/share/php/fpdf/font/");
 
 /* path for smarty libraries */
 define("SMARTY", "/usr/share/php/smarty/libs/Smarty.class.php");
+define("SMARTY3", "/usr/share/php/smarty3/Smarty.class.php");
 
 /* name of the class.cache file */
 define("CLASS_CACHE", "class.cache");

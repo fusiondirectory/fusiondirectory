@@ -288,7 +288,12 @@ ini_set("report_memleaks",1);
 ini_set("include_path",".:$BASE_DIR/include:$BASE_DIR/include/utils/excel:/usr/share/php");
 
 /* Do smarty setup */
-require(SMARTY);
+if (file_exists(SMARTY)) {
+  require(SMARTY);
+} else {
+  require(SMARTY3);
+}
+
 $smarty = new Smarty;
 $smarty->template_dir = $BASE_DIR.'/ihtml/';
 $smarty->caching= false;
