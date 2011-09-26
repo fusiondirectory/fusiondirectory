@@ -19,7 +19,7 @@ use MIME::Base64;
 # used to generate {CRYPT} password (for LDAP)
 use Crypt::PasswdMD5;
 
-# used to uncompress tar.gz (for plugins installation)
+# used to uncompress tar.gz
 use Archive::Extract;
 
 use File::NCopy;
@@ -38,6 +38,7 @@ my $locale_dir = $fd_home."/locale";
 my $class_cache = $fd_cache."/class.cache";
 my $locale_cache_dir = $fd_cache."/locale";
 
+my $yes_flag = 0;
 
 ##################################################################################################################################################
 
@@ -50,6 +51,7 @@ sub user_is_root {
 # ask a question send as parameter, and return true if the answer is "yes"
 sub ask_yn_question {
 
+	return 1 if ($yes_flag);
 	my ($question) = @_;
 	say ( "$question [Yes/No]?" );
 
@@ -65,6 +67,7 @@ sub ask_yn_question {
 			return 0;
 		}
 	}
+
 }
 
 ####################################################### class.cache update #########################################################################
@@ -529,7 +532,7 @@ sub migrate_repo {
 # function that install all the FD's plugins from a directory
 sub install_plugins {
 	# move to the directory containing the FD's plugins
-	say ("\nWhere is the directory that contain the compressed plugins?");
+	say ("\nWhere is the directory that contains the compressed plugins?");
 	my $dir = <STDIN>;
 	chomp $dir;
 	chdir ($dir) or die ("Unable to move to $dir");
@@ -537,7 +540,6 @@ sub install_plugins {
 	my $plugin_dir = dir ($dir);
 	my @plugin_dirs = $plugin_dir->children;
 
-	# foreach <plugin>.tar.gz
 	foreach my $plugin_archive (@plugin_dirs) {
 		$plugin_archive =~ /^.*\/(.*)\.tar\.gz$/;
 		my $plugin = $1;
@@ -622,6 +624,9 @@ if ( user_is_root() ) {
 				say ( "$key\t\t".$value->[0] );
 			}
 			say ( "--help\t\tShows this help\n" );
+
+		} elsif (( lc($arg) eq "--yes" ) || ( lc($arg) eq "-y" )){
+			$yes_flag = 1;
  		} else {
 			say ( "\nInvalid argument\n" );
 			$usage = 1;
