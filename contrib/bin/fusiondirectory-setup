@@ -19,20 +19,22 @@ use MIME::Base64;
 # used to generate {CRYPT} password (for LDAP)
 use Crypt::PasswdMD5;
 
-###	USE FOR TEST ONLY	###
-#use Data::Dumper;
+# used to uncompress tar.gz (for plugins installation)
+use Archive::Extract;
+
+use File::NCopy;
+ 
+my @root_config_dirs = qw( /usr/share/fusiondirectory /etc/fusiondirectory );
+my @apache_config_dirs = qw( /var/spool/fusiondirectory /var/cache/fusiondirectory /var/cache/fusiondirectory/tmp );
+my @config_dirs = ( @root_config_dirs, @apache_config_dirs );
 
 # fd's directory and class.cache file's path declaration
 my $fd_home = "/usr/share/fusiondirectory";
 my $fd_cache = "/var/cache/fusiondirectory";
-my $fd_config = "/etc/fusiondirectory/fusiondirectory.conf";
+my $fd_config_dir = "/etc/fusiondirectory";
 
-my @root_config_dirs = qw( /usr/share/fusiondirectory /etc/fusiondirectory );
-my @apache_config_dirs = qw( /var/spool/fusiondirectory /var/cache/fusiondirectory /var/cache/fusiondirectory/tmp /etc/fusiondirectory/fusiondirectory.conf );
-my @config_dirs = ( @root_config_dirs, @apache_config_dirs );
-
+my $fd_config = $fd_config_dir."/fusiondirectory.conf";
 my $locale_dir = $fd_home."/locale";
-my $state_dir = $fd_home."/state";
 my $class_cache = $fd_cache."/class.cache";
 my $locale_cache_dir = $fd_cache."/locale";
 
@@ -41,8 +43,8 @@ my $locale_cache_dir = $fd_cache."/locale";
 
 # check if the user who run the script is root
 sub user_is_root {
-	# return true if the script run as root
-	return ( $ENV{USER} eq "root" );
+	# return true if the script run as root (UID= 0)
+	return ($<==0);
 }
 
 # ask a question send as parameter, and return true if the answer is "yes"
@@ -209,7 +211,7 @@ sub check_directories {
 	# try to identify the running distribution, if it's not debian or rehat like, script ask for user input
 	if (-e "/etc/debian_version") {
 		$apache_user = "www-data";
-	} elsif ((-e "/etc/redhat-release") || (-e "/etc/mageia-release")) {
+	} elsif ((-e "/etc/redhat-release") || (-e "/etc/mageia-release")){
 		$apache_user = "apache";
 	} else {
 		say ("\n! Looks like you are not a Debian, Redhat or Mageia, I don't know your distribution !\n");
@@ -237,21 +239,12 @@ sub check_directories {
 			# if $dir is one of the dirs that remains to root
 			if ( grep (/.*$dir.*/, @root_config_dirs) ) {
 				# if the dir owner is not root, changing the owner...
-				if ( ($user ne "root") || ($group ne "root") ) {
-					if ( ask_yn_question ("$dir should belong to root, do you want to fix that") ){
-						chown (0,0,$dir) or die ("\n! Unable to change $dir rights");
+				if ( ($user ne "root") || ($group ne "root") || ($rights ne "0755") ) {
+					if ( ask_yn_question ("$dir is not set properly, do you want to fix it") ){
+						chown (0,0,$dir) or die ("\n! Unable to change $dir owner") if ( ($user ne "root") || ($group ne "root") );
+						chmod ( 0755, $dir ) or die ("\n! Unable to change $dir rights") if ($rights ne "0755");
 					} else {
 						say ("Skiping...");
-						next;
-					}
-				}
-
-				# setting directory's rights
-				if ( $rights ne "0755" ) {
-					if ( ask_yn_question("$dir don't have correct rights, do you want to fix that") ){
-						chmod ( 0755, $dir );
-					} else {
-						say ( "Skiping..." );
 						next;
 					}
 				}
@@ -259,26 +252,18 @@ sub check_directories {
 
 			# else if $dir is one of the dirs that remains to apache's user, and the dir's owner is not root or the group is not the apache's user, modifying owner
 			} elsif ( grep ( /.*$dir.*/, @apache_config_dirs) ) {
-				if ( $user ne "root" || $group ne $apache_user ) {
-					if ( ask_yn_question("$dir should belong to root, and $apache_user group, do you want to fix it") ){
+				if ( ($user ne "root") || ($group ne $apache_user) || ($rights ne "0770") ) {
+					if ( ask_yn_question("$dir is not set properly, do you want to fix it?") ){
 						# retrieve apache's user's GID
 						my $apache_gid = getgrnam ( $apache_user );
+						
 						# change the rights
-						chown ( 0,$apache_gid,$dir ) or die ( "Unable to change $dir rights" );
+						chown ( 0,$apache_gid,$dir ) or die ( "Unable to change $dir rights" ) if ($user ne "root") || ($group ne $apache_user);
+						chmod ( 0770, $dir ) if ($rights ne "0770");
 					} else {
 						say ( "Skiping..." );
 						next;
 					}
-				}
-
-				# setting directory's rights
-		    if ( $rights ne "0770" ) {
-			  	if ( ask_yn_question("$dir don't have correct rights, do you want to fix it") ){
-						chmod ( 0770, $dir );
-					} else {
-			    	say ( "Skiping..." );
-			    	next;
-			  	}
 				}
 			}
 		} else {
@@ -304,7 +289,7 @@ sub check_directories {
 			} else {
 				say ( "Skiping..." );
 				next;
-      }
+			}
 		}
 	}
 }
@@ -431,7 +416,7 @@ sub check_ldap {
 	# search for branch people
 	my $people = $ldap->search (base => $base, filter => "ou=people");
 
-	# foreach search's result
+	# stock search results
 	my @people_entries = $people->entries;
 
 	# if ou=people exists
@@ -503,21 +488,10 @@ sub check_ldap {
 	$unbind->code && warn "\n! Unable to unbind from LDAP server: ", $unbind->error ;	
 }
 
-############################################################# fusiondirectory.conf conformity check #################################################################
 
-# function that check /etc/fusiondirectory/fusiondirectory.conf
-sub check_config {
+# function that migrate old FAI repos
+sub migrate_repo {
 
-# TO DO
-
-}
-
-############################################################# imported from modpeople.pl ##############################################################
-
-sub add_objectclass {
-	
-	my ( $option, $objectclass ) = @ARGV;
-	
 	# initiate the LDAP connexion
 	my %hash_ldap_param = get_ldap_connexion();
 
@@ -525,48 +499,114 @@ sub add_objectclass {
 	my $base = $hash_ldap_param{base};
 	my $ldap = $hash_ldap_param{ldap};
 
-	# search for every ou=people account without the objectclass "gosaAccount"
-	my $search = $ldap->search(filter=>"&(!(objectClass~=gosaAccount))", base=>"ou=people,".$base,scope=>"one");
-	my @search_result = $search->entries;
-	
-	if ( ($option eq "--add-objectclass") && ( defined ($objectclass) ) ) {
-		foreach my $entry (@search_result) {
-			my $modify = $ldap->modify ( $entry->dn, add => { "ObjectClass" => "$objectclass" } );
-			$modify->code && warn "! Failed to modify LDAP object $entry->dn: ", $modify->error;
-			say $entry->dn;
-		}
-	} elsif ( ($option eq "--add-objectclass-fd") && ( !defined ($objectclass) ) ) {
-		
-		foreach my $entry (@search_result) {
-			my $modify = $ldap->modify($entry->dn, add => { "uid" => "test" } );
-			$modify->code && warn "! Failed to add ObjectClass gosaAccount to LDAP object ".$entry->dn;
+	# search for FAI repository server
+	my $fai_repo = $ldap->search (base => $base, filter => "(&(FAIrepository=*)(objectClass=FAIobject)(objectClass=FAIrepositoryServer))");
 
-			$modify = $ldap->modify($entry->dn, add => { "ObjectClass" => "gosaAccount" } );
-			$modify->code && warn "! Failed to add ObjectClass gosaAccount to LDAP object ".$entry->dn;
-			
-			say $entry->dn;
-		}
+	# stock search's results
+	my @fai_entries = $fai_repo->entries;
+
+	foreach my $repoServer (@fai_entries) {
+		# retrieve the FAIrepository from the LDAP object
+		my $ref_FAIrepo = $repoServer->get_value('fairepository', asref=>1);
+		my @repos;
 		
-	} else {
-		say ( "Invalid options\n" );
-		return;
+		# foreach FAIrepository of the LDAP object
+		foreach my $repo (@{$ref_FAIrepo}) {
+			# Unless the FAIrepository has already been migrated
+			unless ($repo =~ /^.*\|install\|local$/) {
+				say "modifying $repo";
+				push @repos, $repo."|install|local";
+			}
+		}		
+		my $modify = $ldap->modify ($repoServer->dn, replace =>	[ FAIrepository => \@repos]);
+		$modify->code && warn "\n! Unable to delete FAI repositories for ".$repoServer->dn." : ".$modify->error;
 	}
-
-	# unbind from the LDAP server
+	# unbind to the LDAP server
 	my $unbind = $ldap->unbind;
-	$unbind->code && warn " ! Unable to unbind from LDAP server: ", $unbind->error;
+	$unbind->code && warn "\n! Unable to unbind from LDAP server: ", $unbind->er
+}
+
+# function that install all the FD's plugins from a directory
+sub install_plugins {
+	# move to the directory containing the FD's plugins
+	say ("\nWhere is the directory that contain the compressed plugins?");
+	my $dir = <STDIN>;
+	chomp $dir;
+	chdir ($dir) or die ("Unable to move to $dir");
+
+	my $plugin_dir = dir ($dir);
+	my @plugin_dirs = $plugin_dir->children;
+
+	# foreach <plugin>.tar.gz
+	foreach my $plugin_archive (@plugin_dirs) {
+		$plugin_archive =~ /^.*\/(.*)\.tar\.gz$/;
+		my $plugin = $1;
+		my $plugin_path = $plugin_archive;
+		$plugin_path =~ s/\.tar\.gz$//;
+		
+
+		# skip if the current file is not a .tar.gz 
+		next if ( $plugin_archive !~ /^.*\.tar\.gz$/ );
+		
+		# extract the <plugin>.tar.gz
+		my $archive = Archive::Extract->new (archive => $plugin_archive); 
+		my $extract = $archive->extract( to => $dir ) or die ("Unable to extract $plugin_archive");
+		
+		my $cp = File::NCopy->new(recursive => 1);
+
+		# copy extra HTML and images
+		if ( (-e $plugin_path."/html/") ){
+			mkdir $fd_home."/html/plugins/".$plugin or warn ("! Unable to make ".$fd_home."/html/plugins/".$plugin) if ( !-e $fd_home."/html/plugins/".$plugin);
+			$cp->copy ($plugin_path."/html/*", $fd_home."/html/plugins/".$plugin) or warn ("! Unable to copy ".$plugin_path."/html/");
+		}
+		
+		# copy contrib
+		if ( -e $plugin_path."/contrib/" ){
+			$dir = dir ($fd_home."/doc/contrib/".$plugin);
+			$dir->mkpath() or warn ("! Unable to make ".$fd_home."/doc/contrib/".$plugin) if ( !-e $fd_home."/doc/contrib/".$plugin);
+			$cp->copy ($plugin_path."/contrib/*", $fd_home."/doc/contrib/".$plugin) or warn ("! Unable to copy ".$plugin_path."/contrib/");
+		}
+			
+		# copy etc
+		$cp->copy ($plugin_path."/etc/*", $fd_config_dir) or warn ("! Unable to copy ".$plugin_path."/etc/") if ( -e $plugin_path."/etc/");
+		
+		# copy help
+		if ( -e $plugin_path."/help/" ){
+			mkdir $fd_home."/doc/plugins/".$plugin or warn ("! Unable to make ".$fd_home."/doc/plugins/".$plugin) if ( !-e $fd_home."/doc/plugins/".$plugin);
+			$cp->copy ($plugin_path."/help/*", $fd_home."/help/plugins/".$plugin) or warn ("! Unable to copy ".$plugin_path."/help/");
+		}
+		
+		# copy the locales
+		mkdir $fd_home."/locale/plugins/".$plugin or warn ("! Unable to make ".$fd_home."/locale/plugins/".$plugin) if ( !-e $fd_home."/locale/plugins/".$plugin);
+		$cp->copy ($plugin_path."/locale/*", $fd_home."/locale/plugins/".$plugin) or warn ("! Unable to copy ".$plugin_path."/locale/") if ( -e $plugin_path."/locale/" );
+		
+		# install the plugin
+		my @types = qw(addons admin personal);
+
+		foreach my $type (@types) {
+			if ( -e $plugin_path."/".$type ){
+				mkdir $fd_home."/plugins/".$type."/".$plugin or warn ("! Unable to make ".$fd_home."/plugins/".$type."/".$plugin) if ( !-e $fd_home."/plugins/".$type."/".$plugin );
+				$cp->copy ($plugin_path."/".$type."/*", $fd_home."/plugins/".$type."/".$plugin) or warn ("! Unable to copy ".$plugin_path."/".$type) if ( -e $fd_home."/plugins/".$type."/".$plugin );
+			}
+		}
+		
+		if ( -e $plugin_path."/plugin.dsc") {
+			mkdir $fd_home."/plugins/".$plugin or warn ("! Unable to make ".$fd_home."/plugins/".$plugin) if ( !-e $fd_home."/plugins/".$plugin );
+			$cp->copy ($plugin_path."/plugin.dsc", $fd_home."/plugins/".$plugin."/plugin.dsc") or warn ("! Unable to copy ".$plugin_path."/plugin/dsc");
+		}
+	}
 }
 
 #################### main function #####################
 if ( user_is_root() ) {
 
 	my %commands = ();
-	$commands{"--update-cache"} 		= ["\nUpdating class.cache",					\&rescan_classes];
-	$commands{"--update-lang"}  		= ["\nUpdating internalization",				\&rescan_i18n];
-	$commands{"--check-dir"}    		= ["\nChecking FusionDirectory's directories",			\&check_directories];
-	$commands{"--check-ldap"}   		= ["\nChecking your LDAP tree",					\&check_ldap];
-	$commands{"--add-objectclass"}		= ["\nAdding an objectClass",					\&add_objectclass];
-	$commands{"--add-objectclass-fd"}	= ["\nAdding all FusionDirectory's objectClass",		\&add_objectclass];
+	$commands{"--update-cache"} 		= ["\nUpdating class.cache",				\&rescan_classes];
+	$commands{"--update-locale"}  		= ["\nUpdating internalization",			\&rescan_i18n];
+	$commands{"--check-dirs"}    		= ["\nChecking FusionDirectory's directories",		\&check_directories];
+	$commands{"--check-ldap"}   		= ["\nChecking your LDAP tree",				\&check_ldap];
+	$commands{"--migrate-repositories"}   		= ["\nMigrating your FAI repositories",			\&migrate_repo];
+	$commands{"--install-plugins"}   	= ["\nInstalling FusionDirectory's plugins",		\&install_plugins];
 
 	my $usage = 0;
 	 
@@ -619,12 +659,12 @@ For now, it update internalization, FusionDirectory's cache, it check FusionDire
 
 This option update the /var/cache/fusiondirectory/class.cache file. Wich contain PHP classes used in FusionDirectory, and their location.
 
-=item --update-lang
+=item --update-locale
 
 This option update internalization, by generating a new .mo locales file for each language, with every .po files it found.
 Needs I<msgcat> and I<msgfmt> to be installed.
 
-=item --check-dir
+=item --check-dirs
 
 This option perform a check on all FusionDirectory's files or directories.
 
@@ -632,11 +672,19 @@ This option perform a check on all FusionDirectory's files or directories.
 
 This option check your LDAP tree. Looking for admin account, and groups or people branch. If one of those don't exists, the script will ask you what to do.
 
+=item --migrate-repositories
+
+This option check the fairepository object in your ldap tree and add the new option for FusionDirectory 1.0.2.
+
+=item --install-plugins
+
+This option will install the plugin from a tar.gz of the plugin. This option is intended for people wanting to install from the sources.
+
 =back
 
 =head1 EXAMPLE
 
- benoit@catbert$ fusiondirectory-setup --update-cache --update-lang
+ benoit@catbert$ fusiondirectory-setup --update-cache --update-locale
  Update FusionDirectory class cache and update localization 
 
 =head1 AUTHOR
@@ -659,3 +707,4 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 =cut
+

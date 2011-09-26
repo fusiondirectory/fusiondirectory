@@ -124,7 +124,7 @@
 .\" ========================================================================
 .\"
 .IX Title "FUSIONDIRECTORY-SETUP 1"
-.TH FUSIONDIRECTORY-SETUP 1 "2011-09-21" "FusionDirectory 1.0" "FusionDirectory Documentation"
+.TH FUSIONDIRECTORY-SETUP 1 "2011-09-26" "FusionDirectory 1.0" "FusionDirectory Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -140,20 +140,26 @@ For now, it update internalization, FusionDirectory's cache, it check FusionDire
 .IP "\-\-update\-cache" 4
 .IX Item "--update-cache"
 This option update the /var/cache/fusiondirectory/class.cache file. Wich contain \s-1PHP\s0 classes used in FusionDirectory, and their location.
-.IP "\-\-update\-lang" 4
-.IX Item "--update-lang"
+.IP "\-\-update\-locale" 4
+.IX Item "--update-locale"
 This option update internalization, by generating a new .mo locales file for each language, with every .po files it found.
 Needs \fImsgcat\fR and \fImsgfmt\fR to be installed.
-.IP "\-\-check\-dir" 4
-.IX Item "--check-dir"
+.IP "\-\-check\-dirs" 4
+.IX Item "--check-dirs"
 This option perform a check on all FusionDirectory's files or directories.
 .IP "\-\-check\-ldap" 4
 .IX Item "--check-ldap"
 This option check your \s-1LDAP\s0 tree. Looking for admin account, and groups or people branch. If one of those don't exists, the script will ask you what to do.
+.IP "\-\-migrate\-repositories" 4
+.IX Item "--migrate-repositories"
+This option check the fairepository object in your ldap tree and add the new option for FusionDirectory 1.0.2.
+.IP "\-\-install\-plugins" 4
+.IX Item "--install-plugins"
+This option will install the plugin from a tar.gz of the plugin. This option is intended for people wanting to install from the sources.
 .SH "EXAMPLE"
 .IX Header "EXAMPLE"
 .Vb 2
-\& benoit@catbert$ fusiondirectory\-setup \-\-update\-cache \-\-update\-lang
+\& benoit@catbert$ fusiondirectory\-setup \-\-update\-cache \-\-update\-locale
 \& Update FusionDirectory class cache and update localization
 .Ve
 .SH "AUTHOR"
