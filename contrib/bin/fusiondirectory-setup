@@ -25,7 +25,7 @@ use Archive::Extract;
 use File::NCopy;
  
 my @root_config_dirs = qw( /usr/share/fusiondirectory /etc/fusiondirectory );
-my @apache_config_dirs = qw( /var/spool/fusiondirectory /var/cache/fusiondirectory /var/cache/fusiondirectory/tmp );
+my @apache_config_dirs = qw( /var/spool/fusiondirectory /var/cache/fusiondirectory /var/cache/fusiondirectory/tmp /var/cache/fusiondirectory/fai );
 my @config_dirs = ( @root_config_dirs, @apache_config_dirs );
 
 # fd's directory and class.cache file's path declaration
