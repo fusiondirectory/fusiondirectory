@@ -111,7 +111,8 @@ class user extends plugin
   var $manager = "";
   var $manager_name = "";
 
-
+  var $passwordClass = NULL;
+  
   /* attribute list for save action */
   var $attributes= array("sn", "givenName", "uid", "personalTitle", "academicTitle",
       "homePostalAddress", "homePhone", "labeledURI", "ou", "o", "dateOfBirth", "gender","preferredLanguage",

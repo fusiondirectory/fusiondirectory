@@ -96,7 +96,9 @@ if ( $cleanup ){
               session::set('user',$user);
               $display.=$user->passwordClass->execute();
           } else {
-              session::un_set ('user');
+            $display.= $user->execute ();
+            session::un_set ('user');
+            session::un_set ('edit');
           }
 
       } else {
@@ -108,58 +110,59 @@ if ( $cleanup ){
     $display.=$user->passwordClass->execute();
 
   }else{
-
+      $passwordClass = NULL;
       /* Execute formular */
       if($lock_msg){
           $display.= $lock_msg;
       }else{
           $display.= $user->execute ();
       }
-
-      /* Store changes  in session */
-      if (session::is_set('edit')){
-          session::set('user',$user);
-      }
-
-      /* Show page footer depending on the mode */
-      if (!$user->cert_dialog && !$user->picture_dialog && !$user->dialog && $user->is_account && empty($lock_msg)){
-          $display.= "<p class=\"plugbottom\">";
-
-          /* Are we in edit mode? */
-          if (session::is_set('edit')){
-              $display.= "<input type=submit name=\"edit_finish\" style=\"width:80px\" value=\"".msgPool::okButton()."\">\n";
-              $display.= "&nbsp;";
-              $display.= "<input type=submit name=\"edit_cancel\" value=\"".msgPool::cancelButton()."\">\n";
-
-              $info= "<img class=\"center\" alt=\"\" align=\"middle\" src=\"".get_template_path('images/lists/locked.png').
-                  "\"> ".$ui->dn."&nbsp;";
-          } else {
-              /* 'viewid' may be set by i.e. the phonelist plugin. This
-                 means that we want to go back... */
-              if (isset ($viewid)){
-                  $str= msgPool::backButton();
-                  $fn = "back";
-              } else {
-                  $str= msgPool::editButton();
-                  $fn = "edit";
-                  $info= "<img class=\"center\" alt=\"\" align=\"middle\" src=\"".get_template_path('images/lists/unlocked.png').
-                      "\"> ".$ui->dn."&nbsp;";
-              }
-
-              /* Only display edit button if there is at least one attribute editable */
-              if(preg_match("/r/",$ui->get_permissions($ui->dn,"users/user"))){
-                  if ($fn == "edit"){
-                      $info.= "<img class=\"center\" alt=\"\" align=\"middle\" src=\"".get_template_path('images/lists/on.png')."\"> ".
-                          msgPool::clickEditToChange();
-                      $display.= "<input type=submit name=\"$fn\" value=\"$str\">\n";
-                  }
-              }
-
-              $display.= "<input type=\"hidden\" name=\"ignore\">\n";
-          }
-          $display.= "</p>\n";
-      }
   }
+
+  /* Store changes  in session */
+  if (session::is_set('edit')){
+      session::set('user',$user);
+  }
+
+  /* Show page footer depending on the mode */
+  if (!$user->passwordClass && !$user->cert_dialog && !$user->picture_dialog && !$user->dialog && $user->is_account && empty($lock_msg)){
+      $display.= "<p class=\"plugbottom\">";
+
+      /* Are we in edit mode? */
+      if (session::is_set('edit')){
+          $display.= "<input type=submit name=\"edit_finish\" style=\"width:80px\" value=\"".msgPool::okButton()."\">\n";
+          $display.= "&nbsp;";
+          $display.= "<input type=submit name=\"edit_cancel\" value=\"".msgPool::cancelButton()."\">\n";
+
+          $info= "<img class=\"center\" alt=\"\" align=\"middle\" src=\"".get_template_path('images/lists/locked.png').
+              "\"> ".$ui->dn."&nbsp;";
+      } else {
+          /* 'viewid' may be set by i.e. the phonelist plugin. This
+             means that we want to go back... */
+          if (isset ($viewid)){
+              $str= msgPool::backButton();
+              $fn = "back";
+          } else {
+              $str= msgPool::editButton();
+              $fn = "edit";
+              $info= "<img class=\"center\" alt=\"\" align=\"middle\" src=\"".get_template_path('images/lists/unlocked.png').
+                  "\"> ".$ui->dn."&nbsp;";
+          }
+
+          /* Only display edit button if there is at least one attribute editable */
+          if(preg_match("/r/",$ui->get_permissions($ui->dn,"users/user"))){
+              if ($fn == "edit"){
+                  $info.= "<img class=\"center\" alt=\"\" align=\"middle\" src=\"".get_template_path('images/lists/on.png')."\"> ".
+                      msgPool::clickEditToChange();
+                  $display.= "<input type=submit name=\"$fn\" value=\"$str\">\n";
+              }
+          }
+
+          $display.= "<input type=\"hidden\" name=\"ignore\">\n";
+      }
+      $display.= "</p>\n";
+  }
+
 
   /* Page header*/
   $display= print_header(get_template_path('plugins/generic/images/plugin.png'),
