@@ -745,12 +745,10 @@ class Step_Migrate extends setup_step
         "/(,|)ou=configs,/","/(,|)ou=systems,/",
         "/(,|)ou=apps,/","/(,|)ou=mime,/","/(,|)ou=devices/","/^ou=aclroles,/","/^ou=incoming,/",
         "/ou=snapshots,/","/(,|)dc=addressbook,/","/^(,|)ou=machineaccounts,/",
-        "/(,|)ou=winstations,/","/(,|)ou=roles,/");
-
-    
+        "/(,|)ou=winstations,/","/^ou=hosts,/","/^ou=Idmap,/","/(,|)ou=roles,/");
 
     /* Get all invisible departments */
-    $ldap->cd($cv['base']); 
+    $ldap->cd($cv['base']);
     $res = $ldap->search("(&(objectClass=organizationalUnit)(!(objectClass=gosaDepartment)))",array("ou","description","dn"));
     while($attrs = $ldap->fetch()){
       $attrs['checked'] = FALSE;
