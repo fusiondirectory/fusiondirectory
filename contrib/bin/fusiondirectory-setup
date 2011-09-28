@@ -261,8 +261,8 @@ sub check_directories {
 						my $apache_gid = getgrnam ( $apache_user );
 						
 						# change the rights
-						chown ( 0,$apache_gid,$dir ) or die ( "Unable to change $dir rights" ) if ($user ne "root") || ($group ne $apache_user);
-						chmod ( 0770, $dir ) if ($rights ne "0770");
+						chown ( 0,$apache_gid,$dir ) or die ( "Unable to change $dir rights" ) if ( ($user ne "root") || ($group ne $apache_user) );
+						chmod ( 0770, $dir ) or die ("\n! Unable to change $dir rights") if ($rights ne "0770");
 					} else {
 						say ( "Skiping..." );
 						next;
@@ -558,7 +558,8 @@ sub install_plugins {
 
 		# copy extra HTML and images
 		if ( (-e $plugin_path."/html/") ){
-			mkdir $fd_home."/html/plugins/".$plugin or warn ("! Unable to make ".$fd_home."/html/plugins/".$plugin) if ( !-e $fd_home."/html/plugins/".$plugin);
+			$dir = dir ($fd_home."/html/plugins/".$plugin);
+			$dir->mkpath() or warn ("! Unable to make ".$fd_home."/html/plugins/".$plugin) if ( !-e $fd_home."/html/plugins/".$plugin);
 			$cp->copy ($plugin_path."/html/*", $fd_home."/html/plugins/".$plugin) or warn ("! Unable to copy ".$plugin_path."/html/");
 		}
 		
@@ -574,26 +575,32 @@ sub install_plugins {
 		
 		# copy help
 		if ( -e $plugin_path."/help/" ){
-			mkdir $fd_home."/doc/plugins/".$plugin or warn ("! Unable to make ".$fd_home."/doc/plugins/".$plugin) if ( !-e $fd_home."/doc/plugins/".$plugin);
+			$dir = dir ($fd_home."/doc/plugins/".$plugin);
+			$dir->mkpath() or warn ("! Unable to make ".$fd_home."/doc/plugins/".$plugin) if ( !-e $fd_home."/doc/plugins/".$plugin);
 			$cp->copy ($plugin_path."/help/*", $fd_home."/help/plugins/".$plugin) or warn ("! Unable to copy ".$plugin_path."/help/");
 		}
 		
 		# copy the locales
-		mkdir $fd_home."/locale/plugins/".$plugin or warn ("! Unable to make ".$fd_home."/locale/plugins/".$plugin) if ( !-e $fd_home."/locale/plugins/".$plugin);
-		$cp->copy ($plugin_path."/locale/*", $fd_home."/locale/plugins/".$plugin) or warn ("! Unable to copy ".$plugin_path."/locale/") if ( -e $plugin_path."/locale/" );
+		if ( -e $plugin_path."/locale/" ) {
+			$dir = dir ($fd_home."/locale/plugins/".$plugin);
+			$dir->mkpath() or warn ("! Unable to make ".$fd_home."/locale/plugins/".$plugin) if ( !-e $fd_home."/locale/plugins/".$plugin);
+			$cp->copy ($plugin_path."/locale/*", $fd_home."/locale/plugins/".$plugin) or warn ("! Unable to copy ".$plugin_path."/locale/") if ( -e $plugin_path."/locale/" );
+		}
 		
 		# install the plugin
 		my @types = qw(addons admin personal);
 
 		foreach my $type (@types) {
 			if ( -e $plugin_path."/".$type ){
-				mkdir $fd_home."/plugins/".$type."/".$plugin or warn ("! Unable to make ".$fd_home."/plugins/".$type."/".$plugin) if ( !-e $fd_home."/plugins/".$type."/".$plugin );
+				$dir = dir ($fd_home."/plugins/".$type."/".$plugin);
+				$dir->mkpath() or warn ("! Unable to make ".$fd_home."/plugins/".$type."/".$plugin) if ( !-e $fd_home."/plugins/".$type."/".$plugin );
 				$cp->copy ($plugin_path."/".$type."/*", $fd_home."/plugins/".$type."/".$plugin) or warn ("! Unable to copy ".$plugin_path."/".$type) if ( -e $fd_home."/plugins/".$type."/".$plugin );
 			}
 		}
 		
 		if ( -e $plugin_path."/plugin.dsc") {
-			mkdir $fd_home."/plugins/".$plugin or warn ("! Unable to make ".$fd_home."/plugins/".$plugin) if ( !-e $fd_home."/plugins/".$plugin );
+			$dir = dir ($fd_home."/plugins/".$plugin);
+			$dir->mkpath() or warn ("! Unable to make ".$fd_home."/plugins/".$plugin) if ( !-e $fd_home."/plugins/".$plugin );
 			$cp->copy ($plugin_path."/plugin.dsc", $fd_home."/plugins/".$plugin."/plugin.dsc") or warn ("! Unable to copy ".$plugin_path."/plugin/dsc");
 		}
 	}
@@ -654,7 +661,7 @@ fusiondirectory-setup - FusionDirectory setup script
 =head1 DESCRIPTION
 
 This script is designed to perform multiple checks on your FusionDirectory/LDAP architecture, and fix usual misconfiguration.
-For now, it update internalization, FusionDirectory's cache, it check FusionDirectory's files/directories, and it check your LDAP tree.
+Some extra features allow you to install FusionDirectory's plugins, and migrate your old FAIrepositories.
 
 =head2 Options
 
