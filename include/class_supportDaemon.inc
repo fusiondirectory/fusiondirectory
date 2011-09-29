@@ -388,7 +388,8 @@ class supportDaemon
         $logfiledir = $this->logdir."/$mac/";
         $dates = scandir($logfiledir);
         if(!$dates) {
-            $this->set_error("client fai log directory ".$this->logdir." do not exist");
+        	/* removed because in this case we don't need to say that there is nothing */
+          /*  $this->set_error("client fai log directory ".$this->logdir." do not exist"); */
             return(FALSE);
         }
         foreach ($dates as $date) {
