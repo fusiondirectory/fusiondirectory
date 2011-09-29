@@ -50,8 +50,6 @@ class supportDaemon
         if($this->logdir == "") {
             $this->logdir = "/var/cache/fusiondirectory/fai";
         }
-        
-        echo "supportDaemon constructed<br/>\n";
     }
   
     /*! \brief Test if the argonaut server is available
@@ -386,8 +384,6 @@ class supportDaemon
     */
     public function get_log_info_for_mac($mac)
     {
-        echo "get_log_info_for_mac($mac)<br/>";
-
         # read mac directory
         $logfiledir = $this->logdir."/$mac/";
         $dates = scandir($logfiledir);
@@ -413,8 +409,6 @@ class supportDaemon
     
     public function get_log_file($mac,$date,$file)
     {
-        echo "get_log_file($mac,$date,$file)<br/>";
-        
         return implode("",file($this->logdir."/$mac/$date/$file"));
     }
   
@@ -442,8 +436,6 @@ class supportDaemon
     @return Array   Of packages that fit the given parameters.
     */
     public function FAI_get_packages($release,$attrs,$filters,$from=-1,$to=-1) {
-        echo "FAI_get_packages($release,(".implode(",",$attrs)."),(".implode(",",$filters)."),$from,$to)";
-        echo "<hr/>\n";
         try {
             $client = new jsonRPCClient($this->s_host);
             $this->reset_error();
@@ -557,15 +549,11 @@ class supportDaemon
             $res[]=$entry['cn'][0];
         }
         
-        echo "PROFILES : ";
-        print_r($res);
-        echo "<hr/>";
         return $res;
     }
 
     public function manage_service($mac,$service,$action) 
     {
-        echo "get_service_status($mac,$service)<br/>\n";
         try {
             $client = new jsonRPCClient($this->s_host);
             $this->reset_error();
@@ -579,7 +567,6 @@ class supportDaemon
 
     public function clean_queue_from_mac($mac)
     {
-        echo "Clean queue from mac($mac)";
         try {
             $client = new jsonRPCClient($this->s_host);
             $this->reset_error();
