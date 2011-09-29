@@ -48,7 +48,7 @@ class supportDaemon
         }
         $this->logdir = $this->config->get_cfg_value("faiLogsDir");
         if($this->logdir == "") {
-            $this->logdir = "/var/cache/fusiondirectory/fai";
+            $this->logdir = FAI_LOG_DIR;
         }
     }
   
