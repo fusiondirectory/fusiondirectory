@@ -56,7 +56,7 @@ define ("TEMP_DIR","/var/cache/fusiondirectory/tmp");
 /* Directory containing the configuration template */
 define ("CONFIG_TEMPLATE_DIR", "/var/cache/fusiondirectory/template/");
 
-+* Directory containing the fai logs */
+/* Directory containing the fai logs */
 define ("FAI_LOG_DIR", "/var/cache/fusiondirectory/fai/");
 
 /* fpdf library path */ 
