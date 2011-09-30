@@ -18,6 +18,7 @@ FusionDirectory changelog
   - Corrected FSF address
   - Added the netgroups plugin into official sources
   - Removed the opsi (pending rewrite)
+  - Removed log plugin, everything is done with the rsyslog plugin
 
 * FusionDirectory 1.0.1
   - New Release
