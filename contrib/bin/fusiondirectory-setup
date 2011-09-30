@@ -80,10 +80,10 @@ sub get_classes {
     my %hash_result = ();
 	
     # if this function has been called without a parameter
-    die ("\n! function get_classes called without parameter\n") if ( !defined($path) );
+    die ("! function get_classes called without parameter\n") if ( !defined($path) );
 
     # create a "dir" object with the path
-    my $dir = dir ($path) or die ("\n! Can't open $path\n");
+    my $dir = dir ($path) or die ("! Can't open $path\n");
 
     # create an array with the content of $dir
     my @dir_files = $dir->children;
@@ -128,7 +128,7 @@ sub rescan_classes {
 	my $file_class = file ($class_cache);
 
 	# create the handler (write mode) for the file previoulsy created
-	my $fhw = $file_class->openw() or die ("\n! Unable to open $class_cache in read mode\n");	
+	my $fhw = $file_class->openw() or die ("! Unable to open $class_cache in read mode\n");	
 
 	# first lines of class.cache
 	$fhw->print ("<?php\n\t\$class_mapping= array(\n");
@@ -141,7 +141,7 @@ sub rescan_classes {
 	# last line of classe.cache
 	$fhw->print ("\t);\n?>");
 
-	$fhw->close or die ("\n! Can't close $class_cache\n");
+	$fhw->close or die ("! Can't close $class_cache\n");
 }
 
 ###################################################### Internalisation's update ####################################################################################
@@ -153,10 +153,10 @@ sub get_i18n {
     my %hash_result = ();
 	
     # if this function has been called without a parameter
-    die ("\n! function get_i18n called without parameter" ) if ( ! defined ( $path ) );
+    die ("! function get_i18n called without parameter" ) if ( !defined($path) );
 
     # create a "dir" object
-    my $dir = dir ($path) or die ("\n! Can't open $path\n");
+    my $dir = dir ($path) or die ("! Can't open $path\n");
 
     # create an array with the content of $dir
     my @dir_files = $dir->children;
@@ -186,11 +186,11 @@ sub rescan_i18n {
 	while ( my ($lang, $files) = each %get_i18n_result ) {
 
 		# directory wich will contain the .mo file for each language
-		my $lang_cache_dir = dir ( "$locale_cache_dir/$lang/LC_MESSAGES" );
+		my $lang_cache_dir = dir ("$locale_cache_dir/$lang/LC_MESSAGES");
  
 		# if $lang_cache_dir doesn't already exists, creating it
 		if ( !-d $lang_cache_dir ) {			
-			$lang_cache_dir->mkpath or die ("\n! Can't create $locale_cache_dir/$lang/LC_MESSAGES");
+			$lang_cache_dir->mkpath or die ("! Can't create $locale_cache_dir/$lang/LC_MESSAGES");
 		}
 
 		# glue .po files's names
@@ -198,10 +198,10 @@ sub rescan_i18n {
 		chomp $po_files;
 
 		# merging .po files
-		system ( "msgcat --use-first ".$po_files.">".$lang_cache_dir."/messages.po" ) and die ("\n! Unable to merge .po files for $lang with msgcat, is it already installed?\n" );
+		system ( "msgcat --use-first ".$po_files.">".$lang_cache_dir."/messages.po" ) and die ("! Unable to merge .po files for $lang with msgcat, is it already installed?\n");
 
 		# compiling .po files in .mo files
-		system ( "msgfmt -o $lang_cache_dir/messages.mo $lang_cache_dir/messages.po && rm $lang_cache_dir/messages.po" ) and die ("\n! Unable to compile .mo files with msgfmt, is it already installed?\n");
+		system ( "msgfmt -o $lang_cache_dir/messages.mo $lang_cache_dir/messages.po && rm $lang_cache_dir/messages.po" ) and die ("! Unable to compile .mo files with msgfmt, is it already installed?\n");
 	}
 }
 
@@ -217,7 +217,7 @@ sub check_directories {
 	} elsif ((-e "/etc/redhat-release") || (-e "/etc/mageia-release")){
 		$apache_user = "apache";
 	} else {
-		say ("\n! Looks like you are not a Debian, Redhat or Mageia, I don't know your distribution !\n");
+		say ("! Looks like you are not a Debian, Redhat or Mageia, I don't know your distribution !");
 		say ("Who is your apache user?");
 		
 		my $apache_user = <STDIN>;
@@ -244,8 +244,8 @@ sub check_directories {
 				# if the dir owner is not root, changing the owner...
 				if ( ($user ne "root") || ($group ne "root") || ($rights ne "0755") ) {
 					if ( ask_yn_question ("$dir is not set properly, do you want to fix it") ){
-						chown (0,0,$dir) or die ("\n! Unable to change $dir owner") if ( ($user ne "root") || ($group ne "root") );
-						chmod ( 0755, $dir ) or die ("\n! Unable to change $dir rights") if ($rights ne "0755");
+						chown (0,0,$dir) or die ("! Unable to change $dir owner\n") if ( ($user ne "root") || ($group ne "root") );
+						chmod ( 0755, $dir ) or die ("! Unable to change $dir rights\n") if ($rights ne "0755");
 					} else {
 						say ("Skiping...");
 						next;
@@ -261,8 +261,8 @@ sub check_directories {
 						my $apache_gid = getgrnam ( $apache_user );
 						
 						# change the rights
-						chown ( 0,$apache_gid,$dir ) or die ( "Unable to change $dir rights" ) if ( ($user ne "root") || ($group ne $apache_user) );
-						chmod ( 0770, $dir ) or die ("\n! Unable to change $dir rights") if ($rights ne "0770");
+						chown ( 0,$apache_gid,$dir ) or die ("Unable to change $dir rights") if ( ($user ne "root") || ($group ne $apache_user) );
+						chmod ( 0770, $dir ) or die ("! Unable to change $dir rights\n") if ($rights ne "0770");
 					} else {
 						say ( "Skiping..." );
 						next;
@@ -278,7 +278,7 @@ sub check_directories {
         if (grep (/.*$dir.*/, @root_config_dirs) ) {
 		      # create the directory, and change the rights
 					$conf_dir->mkpath (0,0755);
-					chown (0,0,$dir) or die ( "\n! Unable to change $dir rights" );
+					chown (0,0,$dir) or die ("! Unable to change $dir rights\n");
 
 				# else if $dir is one of the dirs that remains to apache's user
         } elsif ( grep (/.*$dir.*/, @apache_config_dirs) ) {
@@ -287,7 +287,7 @@ sub check_directories {
 
 					# create the directory, and change the rights
 					$conf_dir->mkpath (0,0770);
-					chown (0,$apache_gid,$dir) or die ( "Unable to change $dir rights" );
+					chown (0,$apache_gid,$dir) or die ("Unable to change $dir rights\n");
 				}
 			} else {
 				say ( "Skiping..." );
@@ -305,7 +305,7 @@ sub add_ldap_admin {
 
 	my ($base, $ldap) = @_;
 
-	say ( "Please enter FusionDirectory's admin password" );
+	say ("Please enter FusionDirectory's admin password");
 	my $fd_admin_pwd = "";
 	my $pw1 = "";
 						
@@ -321,13 +321,13 @@ sub add_ldap_admin {
 		} elsif ( $input2 eq "quit" ) {
 			return;
 		} else {
-			say ( "\n! Input don't match with the first one, type it again, or type 'quit' to end this script" );
+			say ("! Input don't match with the first one, type it again, or type 'quit' to end this script");
 		}
 	}
 
-	my $admin_add = $ldap->add( "cn=System Administrator,ou=people,$base",
+	my $admin_add = $ldap->add( "uid=fd-admin,ou=people,$base",
 		attr => [
-			'cn'	=>	'System Administrator',
+			'cn'	=>	'System Administrator-fd-admin',
 			'sn'	=>	'Administrator',
 			'uid'	=>	'fd-admin',
 			'givenname'	=>	'System',
@@ -348,9 +348,8 @@ sub get_ldap_connexion {
 	my $uri = "";
 	my $base = "";
 
-	# read ldap's server's info from /etc/ldap/ldap.conf (debian like) or /etc/openldap/ldap.conf (redhat like)
+	# read ldap's server's info from /etc/fusiondirectory/fusiondirectory.conf
 	if (-e $fd_config) {
-
 		# open fusiondirectory.conf in read mode
 		my $fd_conf_file = file ($fd_config);	
 		my $fhr = $fd_conf_file->openr;
@@ -370,21 +369,21 @@ sub get_ldap_connexion {
 	# if can't find fusiondirectory.conf	
 	} else {		
 
-		if ( ask_yn_question("Can't find fusiondirectory.conf, do you want to specify LDAP's informations yourself") ) {
-			say ( "LDAP server's URI" );
+		if ( ask_yn_question ("Can't find fusiondirectory.conf, do you want to specify LDAP's informations yourself") ) {
+			say ("LDAP server's URI");
 			$uri = <STDIN>;
 			chomp $uri;
 	
-			say ( "Search base" );
+			say ("Search base");
 			$base = <STDIN>;
 			chomp $base;
 			$hash_result{base} = $base;
 
-			say ( "Bind DN" );
+			say ("Bind DN");
 			$bind_dn = <STDIN>;
 			chomp $bind_dn;
 				
-			say ( "Bind password" );
+			say ("Bind password");
 			$bind_pwd = <STDIN>;
 			chomp $bind_pwd;
 		} else {
@@ -393,7 +392,7 @@ sub get_ldap_connexion {
 	}
 	
 	# ldap connection
-	my $ldap = Net::LDAP->new ($uri) or die ("\n! Can't contact LDAP server $uri");
+	my $ldap = Net::LDAP->new ($uri) or die ("! Can't contact LDAP server $uri\n");
 
 	$hash_result{ldap} = $ldap;
 
@@ -401,7 +400,7 @@ sub get_ldap_connexion {
 	my $bind = $ldap->bind ($bind_dn, password => $bind_pwd);
 
 	# send a warning if the bind didn't gone well
-	$bind->code && die "\n! Failed to bind to LDAP server: ", $bind->error;
+	$bind->code && die ("! Failed to bind to LDAP server: ", $bind->error."\n");
 
 	return %hash_result;
 }
@@ -426,14 +425,14 @@ sub check_ldap {
 	if ( defined ($people_entries[0]) ) {
 
 		# search for FusionDirectory's admin account
-		my $admin = $ldap->search ( base => "ou=people,".$base, filter => "(&(cn=System Administrator)(uid=fd-admin)(objectClass=inetOrgPerson))" );
+		my $admin = $ldap->search ( base => "ou=people,".$base, filter => "(&(cn=System Administrator-fd-admin)(uid=fd-admin)(objectClass=inetOrgPerson))" );
 
 		# store search's results
 		my @admin_entries = $admin->entries;
 
 		# if the search didn't returned a result
 		if ( !defined ( $admin_entries[0] ) ) { 
-			say ( "! FusionDirectory's admin not found in your LDAP directory" );
+			say ("! FusionDirectory's admin not found in your LDAP directory");
 
 			# if user's answer is "yes", creating admin account
 			if ( ask_yn_question("Do you want to create it") ) {
@@ -456,7 +455,7 @@ sub check_ldap {
 					]
 			);
 
-			$people_add->code and warn "\n! failed to add LDAP's ou=people,$base branch";
+			$people_add->code and warn "! failed to add LDAP's ou=people,$base branch\n";
 			add_ldap_admin($base, $ldap);
 		} else {
 			say ("Skiping...");
@@ -469,7 +468,7 @@ sub check_ldap {
 	
 	# if ou=groups don't exists
 	if ( !defined $groups_entries[0] ) {
-		say ("\n! ou=groups,$base not found in your LDAP directory");
+		say ("! ou=groups,$base not found in your LDAP directory");
 
 		# if user's answer is "yes", creating ou=groups branch 
 		if ( ask_yn_question("Do you want to create it") ) {
@@ -480,7 +479,7 @@ sub check_ldap {
 					]
 			);
 
-			$group_add->code and warn "\n! failed to add LDAP's ou=groups,$base branch";
+			$group_add->code and warn "! failed to add LDAP's ou=groups,$base branch\n";
 		} else {
 			say ("skiping...");
 		}
@@ -488,7 +487,7 @@ sub check_ldap {
 	
 	# unbind to the LDAP server
 	my $unbind = $ldap->unbind;
-	$unbind->code && warn "\n! Unable to unbind from LDAP server: ", $unbind->error ;	
+	$unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";	
 }
 
 
@@ -503,7 +502,7 @@ sub migrate_repo {
 	my $ldap = $hash_ldap_param{ldap};
 
 	# search for FAI repository server
-	my $fai_repo = $ldap->search (base => $base, filter => "(&(FAIrepository=*)(objectClass=FAIobject)(objectClass=FAIrepositoryServer))");
+	my $fai_repo = $ldap->search (base => $base, filter => "(&(FAIrepository=*)(objectClass=FAIrepositoryServer))");
 
 	# stock search's results
 	my @fai_entries = $fai_repo->entries;
@@ -522,11 +521,11 @@ sub migrate_repo {
 			}
 		}		
 		my $modify = $ldap->modify ($repoServer->dn, replace =>	[ FAIrepository => \@repos]);
-		$modify->code && warn "\n! Unable to delete FAI repositories for ".$repoServer->dn." : ".$modify->error;
+		$modify->code && warn "! Unable to delete FAI repositories for ".$repoServer->dn." : ".$modify->error."\n";
 	}
 	# unbind to the LDAP server
 	my $unbind = $ldap->unbind;
-	$unbind->code && warn "\n! Unable to unbind from LDAP server: ", $unbind->er
+	$unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
 }
 
 # function that install all the FD's plugins from a directory
@@ -535,7 +534,7 @@ sub install_plugins {
 	say ("\nWhere is the directory that contains the compressed plugins?");
 	my $dir = <STDIN>;
 	chomp $dir;
-	chdir ($dir) or die ("Unable to move to $dir");
+	chdir ($dir) or die ("! Unable to move to $dir\n");
 
 	my $plugin_dir = dir ($dir);
 	my @plugin_dirs = $plugin_dir->children;
@@ -552,32 +551,32 @@ sub install_plugins {
 		
 		# extract the <plugin>.tar.gz
 		my $archive = Archive::Extract->new (archive => $plugin_archive); 
-		my $extract = $archive->extract( to => $dir ) or die ("Unable to extract $plugin_archive");
+		my $extract = $archive->extract( to => $dir ) or warn ("! Unable to extract $plugin_archive\n");
 		
 		my $cp = File::NCopy->new(recursive => 1);
 
 		# copy extra HTML and images
 		if ( (-e $plugin_path."/html/") ){
 			$dir = dir ($fd_home."/html/plugins/".$plugin);
-			$dir->mkpath() or warn ("! Unable to make ".$fd_home."/html/plugins/".$plugin) if ( !-e $fd_home."/html/plugins/".$plugin);
+			$dir->mkpath() or warn ("! Unable to make ".$fd_home."/html/plugins/".$plugin."\n") if ( !-e $fd_home."/html/plugins/".$plugin);
 			$cp->copy ($plugin_path."/html/*", $fd_home."/html/plugins/".$plugin) or warn ("! Unable to copy ".$plugin_path."/html/");
 		}
 		
 		# copy contrib
 		if ( -e $plugin_path."/contrib/" ){
 			$dir = dir ($fd_home."/doc/contrib/".$plugin);
-			$dir->mkpath() or warn ("! Unable to make ".$fd_home."/doc/contrib/".$plugin) if ( !-e $fd_home."/doc/contrib/".$plugin);
-			$cp->copy ($plugin_path."/contrib/*", $fd_home."/doc/contrib/".$plugin) or warn ("! Unable to copy ".$plugin_path."/contrib/");
+			$dir->mkpath() or warn ("! Unable to make ".$fd_home."/doc/contrib/".$plugin."\n") if ( !-e $fd_home."/doc/contrib/".$plugin);
+			$cp->copy ($plugin_path."/contrib/*", $fd_home."/doc/contrib/".$plugin) or warn ("! Unable to copy ".$plugin_path."/contrib/\n");
 		}
 			
 		# copy etc
-		$cp->copy ($plugin_path."/etc/*", $fd_config_dir) or warn ("! Unable to copy ".$plugin_path."/etc/") if ( -e $plugin_path."/etc/");
+		$cp->copy ($plugin_path."/etc/*", $fd_config_dir) or warn ("! Unable to copy ".$plugin_path."/etc/\n") if ( -e $plugin_path."/etc/");
 		
 		# copy help
 		if ( -e $plugin_path."/help/" ){
 			$dir = dir ($fd_home."/doc/plugins/".$plugin);
-			$dir->mkpath() or warn ("! Unable to make ".$fd_home."/doc/plugins/".$plugin) if ( !-e $fd_home."/doc/plugins/".$plugin);
-			$cp->copy ($plugin_path."/help/*", $fd_home."/help/plugins/".$plugin) or warn ("! Unable to copy ".$plugin_path."/help/");
+			$dir->mkpath() or warn ("! Unable to make ".$fd_home."/doc/plugins/".$plugin."\n") if ( !-e $fd_home."/doc/plugins/".$plugin);
+			$cp->copy ($plugin_path."/help/*", $fd_home."/help/plugins/".$plugin) or warn ("! Unable to copy ".$plugin_path."/help/\n");
 		}
 		
 		# copy the locales
@@ -593,33 +592,32 @@ sub install_plugins {
 		foreach my $type (@types) {
 			if ( -e $plugin_path."/".$type ){
 				$dir = dir ($fd_home."/plugins/".$type."/".$plugin);
-				$dir->mkpath() or warn ("! Unable to make ".$fd_home."/plugins/".$type."/".$plugin) if ( !-e $fd_home."/plugins/".$type."/".$plugin );
-				$cp->copy ($plugin_path."/".$type."/*", $fd_home."/plugins/".$type."/".$plugin) or warn ("! Unable to copy ".$plugin_path."/".$type) if ( -e $fd_home."/plugins/".$type."/".$plugin );
+				$dir->mkpath() or warn ("! Unable to make ".$fd_home."/plugins/".$type."/".$plugin."\n") if ( !-e $fd_home."/plugins/".$type."/".$plugin );
+				$cp->copy ($plugin_path."/".$type."/*", $fd_home."/plugins/".$type."/".$plugin) or warn ("! Unable to copy ".$plugin_path."/".$type."\n") if ( -e $fd_home."/plugins/".$type."/".$plugin );
 			}
 		}
 		
 		if ( -e $plugin_path."/plugin.dsc") {
 			$dir = dir ($fd_home."/plugins/".$plugin);
-			$dir->mkpath() or warn ("! Unable to make ".$fd_home."/plugins/".$plugin) if ( !-e $fd_home."/plugins/".$plugin );
-			$cp->copy ($plugin_path."/plugin.dsc", $fd_home."/plugins/".$plugin."/plugin.dsc") or warn ("! Unable to copy ".$plugin_path."/plugin/dsc");
+			$dir->mkpath() or warn ("! Unable to make ".$fd_home."/plugins/".$plugin."\n") if ( !-e $fd_home."/plugins/".$plugin );
+			$cp->copy ($plugin_path."/plugin.dsc", $fd_home."/plugins/".$plugin."/plugin.dsc") or warn ("! Unable to copy ".$plugin_path."/plugin/dsc\n");
 		}
 	}
 }
 
 #################### main function #####################
 if ( user_is_root() ) {
-
 	my %commands = ();
-	$commands{"--update-cache"} 		= ["\nUpdating class.cache",				\&rescan_classes];
-	$commands{"--update-locale"}  		= ["\nUpdating internalization",			\&rescan_i18n];
-	$commands{"--check-dirs"}    		= ["\nChecking FusionDirectory's directories",		\&check_directories];
-	$commands{"--check-ldap"}   		= ["\nChecking your LDAP tree",				\&check_ldap];
-	$commands{"--migrate-repositories"}   		= ["\nMigrating your FAI repositories",			\&migrate_repo];
-	$commands{"--install-plugins"}   	= ["\nInstalling FusionDirectory's plugins",		\&install_plugins];
+	$commands{"--update-cache"} 		= ["Updating class.cache",					\&rescan_classes];
+	$commands{"--update-locales"}  		= ["Updating internalization",					\&rescan_i18n];
+	$commands{"--check-dirs"}    		= ["Checking FusionDirectory's directories",			\&check_directories];
+	$commands{"--check-ldap"}   		= ["Checking your LDAP tree",					\&check_ldap];
+	$commands{"--migrate-repositories"}	= ["Migrating your FAI repositories",				\&migrate_repo];
+	$commands{"--install-plugins"}   	= ["Installing FusionDirectory's plugins",			\&install_plugins];
 
 	my $usage = 0;
 	 
-	foreach my $arg ( $ARGV[0] ) {
+	foreach my $arg ( @ARGV ) {
 		if ( defined $commands { lc ( $arg ) } ) {
 			my @command = @{ $commands{ $arg } };
 			say( $command[0] );
@@ -648,7 +646,7 @@ if ( user_is_root() ) {
 		print "\n\n";
 	}
 } else {
-	say ( "\nYou have to run this script as root" );
+	say ("\nYou have to run this script as root");
 	exit -1;
 }
 
@@ -671,7 +669,7 @@ Some extra features allow you to install FusionDirectory's plugins, and migrate 
 
 This option update the /var/cache/fusiondirectory/class.cache file. Wich contain PHP classes used in FusionDirectory, and their location.
 
-=item --update-locale
+=item --update-locales
 
 This option update internalization, by generating a new .mo locales file for each language, with every .po files it found.
 Needs I<msgcat> and I<msgfmt> to be installed.
@@ -696,7 +694,7 @@ This option will install the plugin from a tar.gz of the plugin. This option is 
 
 =head1 EXAMPLE
 
- benoit@catbert$ fusiondirectory-setup --update-cache --update-locale
+ benoit@catbert$ fusiondirectory-setup --update-cache --update-locales
  Update FusionDirectory class cache and update localization 
 
 =head1 AUTHOR
@@ -719,4 +717,3 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 =cut
-
