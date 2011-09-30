@@ -628,18 +628,19 @@ if ( user_is_root() ) {
 			while ( my ( $key,$value ) = each %commands ) {
 				say ( "$key\t\t".$value->[0] );
 			}
-			say ( "--help\t\tShows this help\n" );
+			say ("--yes\t\t\tAlways answer yes to yes/no questions");
+			say ("--help\t\t\tShows this help\n");
 
 		} elsif (( lc($arg) eq "--yes" ) || ( lc($arg) eq "-y" )){
 			$yes_flag = 1;
  		} else {
-			say ( "\nInvalid argument\n" );
+			say ("\nInvalid argument\n");
 			$usage = 1;
  		}	
 	}
 
 	if( $usage || ( @ARGV <= 0 ) ) {
-		print ( "Usage : $0" );
+		print ( "Usage : $0 [--yes]" );
 		foreach my $command ( keys ( %commands )) {
 			print ( " [$command]" );
 		}
@@ -689,6 +690,10 @@ This option check the fairepository object in your ldap tree and add the new opt
 =item --install-plugins
 
 This option will install the plugin from a tar.gz of the plugin. This option is intended for people wanting to install from the sources.
+
+=item --yes
+
+This flag will answer "yes" to every yes/no question asked by the script
 
 =back
 
