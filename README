@@ -3,11 +3,11 @@ FusionDirectory 1.0 README
 
 * Information
 
-FusionDirectory is a LDAP administration frontend for user administration.
-It is not a generic frontend to ldap servers. Informations are stored
-in the way the underlying concepts suppose them to be stored (i.e.
-people accounts are stored in "ou=people" subtrees, etc.) This can
-be configured marginally.
+FusionDirectory is a LDAP administration frontend managing your network
+including users, groups, systems, mail servers, voip etc...
+
+Informations are stored the way the underlying concepts suppose them to be
+stored but most of it can be configured that way you want most of the time.
 
 Complete setups applying Kerberos, AFS, LDAP, Mail, Proxy and Fax setups
 are not trivial at all. You should be familiar with these components and
@@ -43,19 +43,19 @@ In case of spain this will be
 and put the freshly translated messages.po in this directory.
 
 To test this, you've deploy the messages.po file in your running copy
-of FusionDirectory and run the "fusiondirectory-setup" command, to let
-FusionDirectory merge the translations. Then, Make sure your apache has
-locale support or, in case of debian, that the specific locale will be
-generated (via dpkg-reconfigure locales).
+of FusionDirectory and run the "fusiondirectory-setup --update-locales"
+command, to let FusionDirectory merge the translations. Then, Make sure
+your apache has locale support or, in case of debian, that the specific
+locale will be generated (via dpkg-reconfigure locales).
 
-You may want your translations to be included in the main FusionDirectory repository,
-then just send the .po file to us.
+To have your translations included in the next FusionDirectory release,
+just send the .po file to us at <contact@fusiondirectory.org>.
 
 For fusiondirectory-plugins, every plugin has a locales directory. Translation works
 like described for fusiondirectory.
 
-Always run fusiondirectory-setup after you've added translations in order to let
-FusionDirectory compile and re-sync the translations.
+Always run fusiondirectory-setup --update-locales after you've added translations in
+order to let FusionDirectory compile and re-sync the translations.
 
 
 * NOTES
