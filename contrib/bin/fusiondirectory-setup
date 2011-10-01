@@ -610,11 +610,11 @@ sub install_plugins {
 if ( user_is_root() ) {
 	my %commands = ();
 	$commands{"--update-cache"} 		= ["Updating class.cache",					\&rescan_classes];
-	$commands{"--update-locales"}  		= ["Updating internalization",					\&rescan_i18n];
+	$commands{"--update-locales"}  	= ["Updating internalization",					\&rescan_i18n];
 	$commands{"--check-dirs"}    		= ["Checking FusionDirectory's directories",			\&check_directories];
 	$commands{"--check-ldap"}   		= ["Checking your LDAP tree",					\&check_ldap];
 	$commands{"--migrate-repositories"}	= ["Migrating your FAI repositories",				\&migrate_repo];
-	$commands{"--install-plugins"}   	= ["Installing FusionDirectory's plugins",			\&install_plugins];
+	$commands{"--install-plugins"}  = ["Installing FusionDirectory's plugins",			\&install_plugins];
 
 	my $usage = 0;
 	 
@@ -627,7 +627,7 @@ if ( user_is_root() ) {
 		} elsif ( ( lc($arg) eq "--help" ) || ( lc($arg) eq "-h" ) ) {
 			say ( "\nCommands:" );
 			while ( my ( $key,$value ) = each %commands ) {
-				say ( "$key\t\t".$value->[0] );
+				say ( "$key\t".$value->[0] );
 			}
 			say ("--yes\t\t\tAlways answer yes to yes/no questions");
 			say ("--help\t\t\tShows this help\n");
