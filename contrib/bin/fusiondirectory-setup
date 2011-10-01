@@ -572,13 +572,6 @@ sub install_plugins {
 		# copy etc
 		$cp->copy ($plugin_path."/etc/*", $fd_config_dir) or warn ("! Unable to copy ".$plugin_path."/etc/\n") if ( -e $plugin_path."/etc/");
 		
-		# copy help
-		if ( -e $plugin_path."/help/" ){
-			$dir = dir ($fd_home."/doc/plugins/".$plugin);
-			$dir->mkpath() or warn ("! Unable to make ".$fd_home."/doc/plugins/".$plugin."\n") if ( !-e $fd_home."/doc/plugins/".$plugin);
-			$cp->copy ($plugin_path."/help/*", $fd_home."/help/plugins/".$plugin) or warn ("! Unable to copy ".$plugin_path."/help/\n");
-		}
-		
 		# copy the locales
 		if ( -e $plugin_path."/locale/" ) {
 			$dir = dir ($fd_home."/locale/plugins/".$plugin);
