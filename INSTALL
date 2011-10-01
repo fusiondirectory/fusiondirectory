@@ -3,43 +3,77 @@ FusionDirectory 1.0 QUICK INSTALL
 
 Prequisite:
 
-You have a system up and running. It has apache and PHP installed
-and there is a blank (or prefilled) but working LDAP available.
+You have a system up and running. It has apache and PHP 5.2.0 minimum installed
+with smarty 2 or 3 and there is a blank (or prefilled) LDAP server available.
 
 ---
 
 Installing FusionDirectory from source:
 
-Unpack the FusionDirectory tarball and move the main fusiondirectory
-directory to a place your webserver is configured to find it. The default
-location will be /usr/share/fusiondirectory. For later reference, I assume
-that you've choosen this path, too.
+- Get the fusiondirectory tarballs from http://download.fusiondirectory.org/sources/1.0/.
+Here you will find the core fusiondirectory and fusiondirectory-plugins tarballs
 
-Create the directory /var/spool/fusiondirectory for the smarty compile directory.
-Make it read/write for the webserver (additional chmod 770). You may
-want to move it elsewhere, configure it in fusiondirectory.conf.
+- Unpack the FusionDirectory tarball and move the main fusiondirectory
+directory to a place your webserver is configured to find it. On most
+of the case this will be /var/www/fusiondirectory.
 
-Create the configuration directory /etc/fusiondirectory and make sure
-that your webserver can read it.
+- Put the correct rights on the /var/www/fusiondirectory
+  * chown -R root:root /var/www/fusiondirectory
 
-As a summmary, you now have these directories for FusionDirectory:
+- Move the contrib/bin directory in /usr/local/bin
+  * mv -r /var/www/fusiondirectory/contrib/bin /usr/local/
 
-/etc/fusiondirectory
-/var/spool/fusiondirectory
-/usr/share/fusiondirectory
+- Create if needed the man5 et man1 directories in /usr/local/man
+  * mkdir /usr/local/man/man1
+  * mkdir /usr/local/man/man5
 
-Update the class cache:
+- Compress the manpages
+  * gzip contrib/man/fusiondirectory.conf.5
+  * gzip contrib/man/fusiondirectory-encrypt-passwords.1
+  * gzip contrib/man/fusiondirectory-setup.1
+  * gzip contrib/man/fusiondirectory-mkntpassword.1
+  * gzip contrib/man/fusiondirectory-schema2ldif.1
+  * gzip contrib/man/fusiondirectory-insert-schema.1
 
-Run "fusiondirectory-setup" from the FusionDirectory main directory.
+- Move the man pages to the right place
+  * mv contrib/man/fusiondirectory-encrypt-passwords.1.gz /usr/local/man1
+  * mv contrib/man/fusiondirectory-setup.1.gz /usr/local/man1
+  * mv contrib/man/fusiondirectory-mkntpassword.1.gz /usr/local/man/man1/
+  * mv contrib/man/fusiondirectory-schema2ldif.1.gz /usr/local/man/man1/
+  * mv contrib/man/fusiondirectory-insert-schema.1.gz /usr/local/man/man1/
+  * mv contrib/man/fusiondirectory.conf.5 /usr/local/man5
 
-After this has been done, include settings for FusionDirectory in your apache
-config:
+- Create the symbolic links for the fusiondirectory smarty functions
 
-# Set alias to FusionDirectory
-Alias /fusiondirectory /usr/share/fusiondirectory/html
+  Check that your smarty dir is in /usr/share/php/smarty or adapt the path accordingly
+  
+  * ln -s /var/www/fusiondirectory/include/smarty/plugins/block.render.php /usr/share/php/smarty/libs/plugins/block.render.php
+  * ln -s /var/www/fusiondirectory/include/smarty/plugins/block.t.php /usr/share/php/smarty/libs/plugins/block.t.php
+  * ln -s /var/www/fusiondirectory/include/smarty/plugins/function.msgPool.php /usr/share/php/smarty/libs/plugins/function.msgPool.php
+  
+- Create the configuration directory /etc/fusiondirectory and make sure that your webserver can read it.
 
-Assumed you've installed PHP >= 5.2.0, reload your apache webserver
-and do your first FusionDirectory dry run without configuration:
+- Move the needed file from contrib to the /etc/fusiondirectory directory
+
+  * mv /var/www/fusiondirectory/contrib/etc/* /etc/fusiondirectory
+
+- Move the needed schema and ldif from contrib to the you ldap server schema directory
+
+  * mv /var/www/fusiondirectory/contrib/openldap/*.ldif /etc/ldap/schema/fusiondirectory
+  * mv /var/www/fusiondirectory/contrib/openldap/*.schema /etc/ldap/schema/fusiondirectory
+
+- Run the fusiondirectory-setup
+
+  * fusiondirectory-setup --create-dirs --update-cache --update-locales
+
+- Install the FusionDirectory plugins
+
+  * fusiondirectory-setup --install-plugins
+
+- Copy the file from contrib/apache to the apache site configuration dir
+  * mv /var/www/fusiondirectory/contrib/apache/fusiondirectory-apache.conf /etc/apache/conf.d
+
+- Reload your apache web server
 
 http[s]://your-server/fusiondirectory
 
@@ -49,59 +83,13 @@ fusiondirectory.conf to save in /etc/fusiondirectory. Follow the instructions
 until you're able to log in.
 
 You're done. Lets play with the GUI.
-
----
-
-* Installing from Packages
-
-If you install FusionDirectory from packages, all the steps from above will
-be done automatically. Go to the setup:
-
-http[s]://your-server/fusiondirectory
-
-FusionDirectory setup will perform some basic system checks about general
-prerequisites. The setup asks some questions and provides a basic
-fusiondirectory.conf to save in /etc/fusiondirectory. Follow the instructions
-until you're able to log in.
-
-You're done. Lets play with the GUI.
-
----
-
-* Migrating an existing tree
-
-To migrate an existing LDAP tree, you've to do all steps from above,
-plus some modifications:
-
-- FusionDirectory only shows users that have the objectClass gosaAccount
-  This one has been introduced for several reasons. First, there are
-  cases you want to hide special accounts from regular admins (i.e.
-  a samba admin account which is used to log windows machines into
-  their domain, where changing a password by accident has bad consequences).
-  Secondly the gosaAccount keeps the lm/nt password hashes and the
-  attributes for the last password change - with the consequence that
-  adding a samba account "later" will not require the user to reset
-  the password.
-
-- FusionDirectory only recognizes subtrees (or departments in FusionDirectory's
-  view of things) that have the objectClass gosaDepartment. You can hide subtrees
-  from FusionDirectory by not putting this objectClass inside.
-
-The FusionDirectory setup may be used to do these migrations, but it is not meant
-to work in every possible circumstance. For the first time:
-
-DO NOT WORK ON PRODUCTIVE DATA IF YOU DON'T KNOW WHAT YOU'RE DOING!
-
-That should be all. Entries should be visible in FusionDirectory now. Be aware that if
-your naming policy of user cn's differs from the way FusionDirectory handles it, the
-entries get rewritten to a FusionDirectory style dn.
 
 ---
 
 * Further information
 
-To improve this piece of software, please report all kind of errors, either
-using the bug tracker on https://forge.fusiondirectory.org
+To improve this piece of software, please report all kind of errors using the bug tracker
+on https://forge.fusiondirectory.org
 
 Documentation: http://www.fusiondirectory.org/
 Mailinglist:   http://lists.fusiondirectory.org/
