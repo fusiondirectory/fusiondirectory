@@ -531,10 +531,18 @@ sub migrate_repo {
 # function that install all the FD's plugins from a directory
 sub install_plugins {
 	# move to the directory containing the FD's plugins
-	say ("\nWhere is the directory that contains the compressed plugins?");
+	say ("Where is the directory that contains the compressed plugins?");
 	my $dir = <STDIN>;
 	chomp $dir;
 	chdir ($dir) or die ("! Unable to move to $dir\n");
+
+	if ( !ask_yn_question("Do you want to keep default FusionDirectory home directory (/usr/share/fusiondirectory)") ){
+		say ("What's the new value for FusionDirectory home directory?");
+		$fd_home = <STDIN>;
+		chomp $fd_home;
+	}
+
+	say ("Installing plugins, please wait...");
 
 	my $plugin_dir = dir ($dir);
 	my @plugin_dirs = $plugin_dir->children;
