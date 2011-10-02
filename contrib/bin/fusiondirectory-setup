@@ -220,7 +220,7 @@ sub check_directories {
 		say ("! Looks like you are not a Debian, Redhat or Mageia, I don't know your distribution !");
 		say ("Who is your apache user?");
 		
-		my $apache_user = <STDIN>;
+		$apache_user = <STDIN>;
 		chomp ($apache_user);
 	}
 
