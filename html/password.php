@@ -31,6 +31,8 @@ function displayPWchanger()
 /* Load required includes */
 require_once ("../include/php_setup.inc");
 require_once ("functions.inc");
+require_once ("variables.inc");
+
 
 if(!class_exists("log")){
   require_once("class_log.inc");

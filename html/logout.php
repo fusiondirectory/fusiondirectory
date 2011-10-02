@@ -23,6 +23,8 @@
 /* Basic setup, remove eventually registered sessions */
 require_once ("../include/php_setup.inc");
 require_once ("functions.inc");
+require_once ("variables.inc");
+
 header("Content-type: text/html; charset=UTF-8");
 
 /* try to start session, so we can remove userlocks, 

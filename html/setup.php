@@ -23,6 +23,7 @@
 /* Get standard functions */
 require_once ("../include/php_setup.inc");
 require_once ("functions.inc");
+require_once ("variables.inc");
 
 require_once("../setup/class_setup.inc");
 require_once("../setup/class_setupStep.inc");

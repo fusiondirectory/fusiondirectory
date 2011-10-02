@@ -23,6 +23,7 @@
 /* Load required includes */
 require_once ("../include/php_setup.inc");
 require_once ("functions.inc");
+require_once ("variables.inc");
 require_once ("class_log.inc");
 header("Content-type: text/html; charset=UTF-8");
 

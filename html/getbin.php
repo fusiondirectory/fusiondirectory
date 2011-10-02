@@ -23,6 +23,8 @@
 /* Basic setup, remove eventually registered sessions */
 @require_once ("../include/php_setup.inc");
 @require_once ("functions.inc");
+@require_once ("variables.inc");
+
 error_reporting (0);
 session_cache_limiter("private");
 session::start();

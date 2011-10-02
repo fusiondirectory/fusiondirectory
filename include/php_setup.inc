@@ -20,7 +20,7 @@
   Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-define("SMARTY_PATH", "smarty/Smarty.class.php");
+require_once ("variables.inc");
 
 function gosaRaiseError($errno, $errstr, $errfile, $errline)
 {
@@ -288,7 +288,14 @@ ini_set("report_memleaks",1);
 ini_set("include_path",".:$BASE_DIR/include:$BASE_DIR/include/utils/excel:/usr/share/php");
 
 /* Do smarty setup */
-require(SMARTY_PATH);
+
+if (file_exists(SMARTY)) {
+ require(SMARTY);
+} else {
+ require(SMARTY3);
+}
+
+/*require(SMARTY_PATH);*/
 $smarty = new Smarty;
 $smarty->template_dir = $BASE_DIR.'/ihtml/';
 $smarty->caching= false;
