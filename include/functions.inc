@@ -141,7 +141,7 @@ $REWRITE= array( "ä" => "ae",
     "Ñ" => "Ny" );
 
 /* put a static revision version */
-$svn_revision = "1.0.1";
+$svn_revision = "1.0.2";
 
 /*! \brief Does autoloading for classes used in FusionDirectory.
  *
