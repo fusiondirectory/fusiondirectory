@@ -6,6 +6,10 @@ Prequisite:
 You have a system up and running. It has apache and PHP 5.2.0 minimum installed
 with smarty 2 or 3 and there is a blank (or prefilled) LDAP server available.
 
+You have installed the following perl libraries
+
+Class::Path, Net::LDAP, Crypt::PasswdMD5, File::NCopy
+
 ---
 
 Installing FusionDirectory from source:
@@ -17,11 +21,14 @@ Here you will find the core fusiondirectory and fusiondirectory-plugins tarballs
 directory to a place your webserver is configured to find it. On most
 of the case this will be /var/www/fusiondirectory.
 
+If you need to change a path for various reasons all the paths used by the software is in
+/var/www/fusiondirectory/include/variables.inc
+
 - Put the correct rights on the /var/www/fusiondirectory
   * chown -R root:root /var/www/fusiondirectory
 
 - Move the contrib/bin directory in /usr/local/bin
-  * mv -r /var/www/fusiondirectory/contrib/bin /usr/local/
+  * mv /var/www/fusiondirectory/contrib/bin /usr/local/
 
 - Create if needed the man5 et man1 directories in /usr/local/man
   * mkdir /usr/local/man/man1
@@ -53,25 +60,25 @@ of the case this will be /var/www/fusiondirectory.
   
 - Create the configuration directory /etc/fusiondirectory and make sure that your webserver can read it.
 
-- Move the needed file from contrib to the /etc/fusiondirectory directory
+- Move the needed file from contrib to your etc directory
 
-  * mv /var/www/fusiondirectory/contrib/etc/* /etc/fusiondirectory
+  * mv /var/www/fusiondirectory/contrib/etc/* <your-etc-directory>/fusiondirectory
 
-- Move the needed schema and ldif from contrib to the you ldap server schema directory
+- Move the needed schema and ldif from contrib to your ldap server schema directory
 
-  * mv /var/www/fusiondirectory/contrib/openldap/*.ldif /etc/ldap/schema/fusiondirectory
-  * mv /var/www/fusiondirectory/contrib/openldap/*.schema /etc/ldap/schema/fusiondirectory
+  * mv /var/www/fusiondirectory/contrib/openldap/*.ldif <your-ldap-schema-directory>/fusiondirectory
+  * mv /var/www/fusiondirectory/contrib/openldap/*.schema <your-ldap-schema-directory>/fusiondirectory
 
 - Run the fusiondirectory-setup
 
-  * fusiondirectory-setup --create-dirs --update-cache --update-locales
+  * fusiondirectory-setup --check-dirs --update-cache --update-locales
 
 - Install the FusionDirectory plugins
 
   * fusiondirectory-setup --install-plugins
 
 - Copy the file from contrib/apache to the apache site configuration dir
-  * mv /var/www/fusiondirectory/contrib/apache/fusiondirectory-apache.conf /etc/apache/conf.d
+  * mv /var/www/fusiondirectory/contrib/apache/fusiondirectory-apache.conf <your-apache-configuration-directory>
 
 - Reload your apache web server
 
