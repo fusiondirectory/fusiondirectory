@@ -22,31 +22,32 @@ use Crypt::PasswdMD5;
 # used to uncompress tar.gz
 use Archive::Extract;
 
+# used to copy files
 use File::NCopy;
 
 # fd's directory and class.cache file's path declaration
 my $fd_home = "/usr/share/fusiondirectory";
 my $fd_cache = "/var/cache/fusiondirectory";
 my $fd_config_dir = "/etc/fusiondirectory";
+my $spool_dir = "/var/spool/fusiondirectory";
 
 my $fd_config = $fd_config_dir."/fusiondirectory.conf";
 my $locale_dir = $fd_home."/locale";
 my $class_cache = $fd_cache."/class.cache";
 my $locale_cache_dir = $fd_cache."/locale";
+my $tmp_dir = $fd_cache."/tmp";
+my $fai_log_dir = $fd_cache."/fai";
+
+my @root_config_dirs = ( $fd_home, $fd_config_dir );
+my @apache_config_dirs = ( $spool_dir, $fd_cache, $tmp_dir, $fai_log_dir );
+my @config_dirs = ( @root_config_dirs, @apache_config_dirs );
 
 my $yes_flag = 0;
- 
-my @root_config_dirs = qw( /usr/share/fusiondirectory /etc/fusiondirectory );
-my @apache_config_dirs = qw( /var/spool/fusiondirectory /var/cache/fusiondirectory /var/cache/fusiondirectory/tmp /var/cache/fusiondirectory/fai );
-my @config_dirs = ( @root_config_dirs, @apache_config_dirs );
 
 ##################################################################################################################################################
 
-# check if the user who run the script is root
-sub user_is_root {
-	# return true if the script run as root (UID= 0)
-	return ($<==0);
-}
+#die if the user is not root
+die ("! You have to run this script as root\n") if ($<!=0);
 
 # ask a question send as parameter, and return true if the answer is "yes"
 sub ask_yn_question {
@@ -207,7 +208,7 @@ sub rescan_i18n {
 
 ############################################################# Directories checking ###################################################################################
 
-# function that make FusionDirectory's directories and setup rights properly
+# function that check FusionDirectory's directories
 sub check_directories {
 	my $apache_user = "";
 
@@ -561,7 +562,10 @@ sub install_plugins {
 		my $archive = Archive::Extract->new (archive => $plugin_archive); 
 		my $extract = $archive->extract( to => $dir ) or warn ("! Unable to extract $plugin_archive\n");
 		
+		# create a Ncopy object with recursion option
 		my $cp = File::NCopy->new(recursive => 1);
+		# install the plugin
+		my @types = qw(addons admin personal);
 
 		# copy extra HTML and images
 		if ( (-e $plugin_path."/html/") ){
@@ -586,9 +590,6 @@ sub install_plugins {
 			$dir->mkpath() or warn ("! Unable to make ".$fd_home."/locale/plugins/".$plugin) if ( !-e $fd_home."/locale/plugins/".$plugin);
 			$cp->copy ($plugin_path."/locale/*", $fd_home."/locale/plugins/".$plugin) or warn ("! Unable to copy ".$plugin_path."/locale/") if ( -e $plugin_path."/locale/" );
 		}
-		
-		# install the plugin
-		my @types = qw(addons admin personal);
 
 		foreach my $type (@types) {
 			if ( -e $plugin_path."/".$type ){
@@ -607,7 +608,7 @@ sub install_plugins {
 }
 
 #################### main function #####################
-if ( user_is_root() ) {
+
 	my %commands = ();
 	$commands{"--update-cache"} 		= ["Updating class.cache",					\&rescan_classes];
 	$commands{"--update-locales"}  	= ["Updating translations",					\&rescan_i18n];
@@ -647,10 +648,7 @@ if ( user_is_root() ) {
 		}
 		print "\n\n";
 	}
-} else {
-	say ("\nYou have to run this script as root");
-	exit -1;
-}
+exit 0;
 
 __END__
 
