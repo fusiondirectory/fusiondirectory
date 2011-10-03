@@ -2,19 +2,49 @@
 use strict;
 use 5.010;
 
-my $cmd = "ldapadd -Y EXTERNAL -H ldapi:/// -f ";
+my $add_cmd = "ldapadd -Y EXTERNAL -H ldapi:/// -f ";
+my $search_cmd = "ldapsearch -Y EXTERNAL -H ldapi:// -b \"cn=schema,cn=config\" cn={*}";
 my $path = "/etc/ldap/schema/fusiondirectory";
+my $full_cmd = "";
+my $ldap_utils_path = "/usr/bin/ldapadd";
 
 if(@ARGV>0) {
     $path = shift @ARGV;
 }
 
+# die if user is not "root"
+die ("! You have to run this script as root\n") if ($<!=0);
+
+# die if the path doesn't exists
+die ("! $path doesn't seems to exists\n") if (!-e $path);
+
+# die if ldap-utils are not installed
+die ("! ldap-utils doesn't seem to be installed") if (!-e $ldap_utils_path);
+
+# test if the samba schema is already in the LDAP tree
+$full_cmd = $search_cmd."samba";
+my $search = `$full_cmd`;
+
+# add the samba3 schema if it does not already exists in LDAP tree
+if ($search !~ /# numEntries: 1/m){
+	$full_cmd = $add_cmd.$path."/samba.ldif";
+	say "executing '$full_cmd'";
+	system ($full_cmd);
+}
+
 my @schemas = ("gosystem","gofon","gofax","goto","goserver","gosa-samba3","trust");
 
 foreach my $schema (@schemas) {
-    my $full_cmd = $cmd." ".$path."/".$schema.".ldif";
-    say "executing '$full_cmd'";
-    system($full_cmd);
+    $full_cmd = $search_cmd.$schema;
+    print ("\n");
+    $search = `$full_cmd`;
+
+    # if the schema doesn't already exists in the LDAP server, adding it
+    if ($search !~ /# numEntries: 1/m){
+			$full_cmd = $add_cmd.$path."/".$schema.".ldif";
+    	say "executing '$full_cmd'";
+    	system($full_cmd);
+		}
 }
 
 exit 0;
