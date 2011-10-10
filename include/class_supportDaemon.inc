@@ -507,33 +507,6 @@ class supportDaemon
         }
         return $kernels;
     }
-    
-    
-    
-/*
-    public function FAI_get_classes($release)
-    {
-        $classes = array("FAIscript", "FAIhook", "FAIpartitionTable", "FAItemplate", "FAIvariable", "FAIprofile", "FAIpackageList");
-        $ldap = $this->config->get_ldap_link();
-        $ldap->cd($this->config->current['BASE']);
-        $ldap->search("(&(FAIdebianRelease=$release)(objectClass=FAIclass))",array("*"));
-        
-        $res = array();
-        while($entry = $ldap->fetch()) {
-            $info['CLASS'] = $entry['cn'][0];
-            foreach ($entry['objectClass'] as $class) {
-                if(in_array($class,$classes)) {
-                    $info['TYPE'] = $class;
-                    break;
-                }
-            }
-            $res[]=$info;
-        }
-        
-        print_r($res);
-        return $res;
-    }
-*/
 
     /*! \brief  Get available profiles
     @param  string  The release we want profiles for
