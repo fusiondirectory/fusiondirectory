@@ -530,36 +530,40 @@ sub migrate_repo {
 
 # function that install all the FD's plugins from a directory
 sub install_plugins {
-	# move to the directory containing the FD's plugins
-	say ("Where is the directory that contains the compressed plugins?");
-	my $dir = <STDIN>;
-	chomp $dir;
-	chdir ($dir) or die ("! Unable to move to $dir\n");
+	# ask for the plugins archive
+	say ("Where is your plugins archive?");
+	my $plugins_archive = <STDIN>;
+	chomp $plugins_archive;
+
+	# check the archive format
+	$plugins_archive =~ /^.*\/(.*).tar.gz$/;
+	my $name = $1 or die ("! Unkwnow archive $plugins_archive");
+	
+	# where the extract files will go
+	my $tmp_plugins_dir = "/tmp";
 
 	if ( !ask_yn_question("Do you want to keep default FusionDirectory home directory (/usr/share/fusiondirectory)") ){
 		say ("What's the new value for FusionDirectory home directory?");
 		$fd_home = <STDIN>;
 		chomp $fd_home;
+		die ("Uncorrect FusionDirectory's home") if ($fd_home eq "");
 	}
 
 	say ("Installing plugins, please wait...");
 
-	my $plugin_dir = dir ($dir);
-	my @plugin_dirs = $plugin_dir->children;
+	my $dir = dir ($tmp_plugins_dir."/".$name);
 
-	foreach my $plugin_archive (@plugin_dirs) {
-		$plugin_archive =~ /^.*\/(.*)\.tar\.gz$/;
+	# extract the plugins archive
+	my $archive = Archive::Extract->new (archive => $plugins_archive); 
+	my $extract = $archive->extract( to => "$tmp_plugins_dir" ) or die ("! Unable to extract $plugins_archive\n");
+
+	my @plugins = $dir->children;
+
+	chdir ($dir) or die ("! Unable to move to $dir\n");
+
+	foreach my $plugin_path (@plugins){
+		$plugin_path =~ /^$tmp_plugins_dir\/(.*)$/;
 		my $plugin = $1;
-		my $plugin_path = $plugin_archive;
-		$plugin_path =~ s/\.tar\.gz$//;
-		
-
-		# skip if the current file is not a .tar.gz 
-		next if ( $plugin_archive !~ /^.*\.tar\.gz$/ );
-		
-		# extract the <plugin>.tar.gz
-		my $archive = Archive::Extract->new (archive => $plugin_archive); 
-		my $extract = $archive->extract( to => $dir ) or warn ("! Unable to extract $plugin_archive\n");
 		
 		# create a Ncopy object with recursion option
 		my $cp = File::NCopy->new(recursive => 1);
