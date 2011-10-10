@@ -23,22 +23,6 @@
 /*! \file
  * Common functions and named definitions. */
 
-/* Configuration file location */
-if(!isset($_SERVER['CONFIG_DIR'])){
-  define ("CONFIG_DIR", "/etc/fusiondirectory");
-}else{
-  define ("CONFIG_DIR",$_SERVER['CONFIG_DIR']);
-}
-
-/* Allow setting the config file in the apache configuration
-    e.g.  SetEnv CONFIG_FILE fusiondirectory.conf 1.0
- */
-if(!isset($_SERVER['CONFIG_FILE'])){
-  define ("CONFIG_FILE", "fusiondirectory.conf");
-}else{
-  define ("CONFIG_FILE",$_SERVER['CONFIG_FILE']);
-}
-
 /* Define common locations and variables */
 require_once ("variables.inc");
 

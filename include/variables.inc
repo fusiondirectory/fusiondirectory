@@ -22,6 +22,24 @@
 
 /* Define common locations and variables */
 
+/* Allow setting the config file in the apache configuration
+    e.g. SetEnv CONFIG_DIR /etc/fusiondirectory
+*/
+if(!isset($_SERVER['CONFIG_DIR'])){
+  define ("CONFIG_DIR", "/etc/fusiondirectory");
+}else{
+  define ("CONFIG_DIR",$_SERVER['CONFIG_DIR']);
+}
+
+/* Allow setting the config file in the apache configuration
+    e.g.  SetEnv CONFIG_FILE fusiondirectory.conf 1.0
+ */
+if(!isset($_SERVER['CONFIG_FILE'])){
+  define ("CONFIG_FILE", "fusiondirectory.conf");
+}else{
+  define ("CONFIG_FILE",$_SERVER['CONFIG_FILE']);
+}
+
 /* Smarty compile dir */
 define ("SPOOL_DIR","/var/spool/fusiondirectory");
 
