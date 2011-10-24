@@ -37,7 +37,6 @@ class setup
     $this->o_steps[$i++] = new Step_Welcome();
     $this->o_steps[$i++] = new Step_Language();
     $this->o_steps[$i++] = new Step_Checks();
-    $this->o_steps[$i++] = new Step_License();
     $this->o_steps[$i++] = new Step_Ldap();
     $this->o_steps[$i++] = new Step_Schema();
     $this->o_steps[$i++] = new Step_Config1();
