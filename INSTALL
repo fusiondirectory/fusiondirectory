@@ -48,7 +48,7 @@ If you need to change a path for various reasons all the paths used by the softw
   * mv contrib/man/fusiondirectory-mkntpassword.1.gz /usr/local/man/man1/
   * mv contrib/man/fusiondirectory-schema2ldif.1.gz /usr/local/man/man1/
   * mv contrib/man/fusiondirectory-insert-schema.1.gz /usr/local/man/man1/
-  * mv contrib/man/fusiondirectory.conf.5 /usr/local/man5
+  * mv contrib/man/fusiondirectory.conf.5.gz /usr/local/man5
 
 - Create the symbolic links for the fusiondirectory smarty functions
 
@@ -79,6 +79,8 @@ If you need to change a path for various reasons all the paths used by the softw
 
 - Copy the file from contrib/apache to the apache site configuration dir
   * mv /var/www/fusiondirectory/contrib/apache/fusiondirectory-apache.conf <your-apache-configuration-directory>
+
+- Copy the file from contrib/fusiondirectory.conf to /var/cache/fusiondirectory/template
 
 - Reload your apache web server
 
