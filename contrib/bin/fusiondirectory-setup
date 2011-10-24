@@ -45,7 +45,10 @@ my @config_dirs = ( @root_config_dirs, @apache_config_dirs );
 my @plugin_types = qw(addons admin personal);
 my $yes_flag = 0;
 
-##################################################################################################################################################
+my %classes_hash_result = ();
+my %i18n_hash_result = ();
+
+#################################################################################################################################################
 
 # ask a question send as parameter, and return true if the answer is "yes"
 sub ask_yn_question {
@@ -76,7 +79,6 @@ sub ask_yn_question {
 sub get_classes {
 
     my ($path) = @_;
-    my %hash_result = ();
 	
     # if this function has been called without a parameter
     die ("! function get_classes called without parameter\n") if ( !defined($path) );
@@ -90,7 +92,7 @@ sub get_classes {
     foreach my $file (@dir_files) {
         # recursive call if $file is a directory
         if ( -d $file ) {
-            %hash_result = (%hash_result, get_classes($file));
+            %classes_hash_result = get_classes($file);
             next;
         }
 
@@ -109,12 +111,12 @@ sub get_classes {
 						# only process for lines beginning with "class", and extracting the 2nd word (the class name)
 						if ( $line =~ /^class\s*(\w+).*/ ) {
 							# adding the values (class name and file path) to the hash
-							$hash_result{$1} = $file;
+							$classes_hash_result{$1} = $file;
 						}
           }
         }
     }
-	return %hash_result;
+	return %classes_hash_result;
 }
 
 # call get_classes and create /var/cache/fusiondirectory/class.cache
@@ -149,7 +151,6 @@ sub rescan_classes {
 sub get_i18n {
 
     my ($path) = @_;
-    my %hash_result = ();
 	
     # if this function has been called without a parameter
     die ("! function get_i18n called without parameter" ) if ( !defined($path) );
@@ -163,17 +164,17 @@ sub get_i18n {
     foreach my $file (@dir_files) {
 			# recursive call if $file is a directory
 			if (-d $file) {
-				%hash_result = ( %hash_result, get_i18n ($file) );
+				%i18n_hash_result = get_i18n ($file);
 				next;
 			}
 
 			# if the file's directory is ???/language/LC_MESSAGES/messages.po
 			if ($file =~ qr{^.*/(\w+)/LC_MESSAGES/messages.po$}) {
 				# push the file's path in the language (fr/en/es/it...) array (wich is inside the hash pointed by $ref_result
-				push @{$hash_result{$1}}, $file;
+				push @{$i18n_hash_result{$1}}, $file;
 			}
     }
-	return %hash_result;
+	return %i18n_hash_result;
 }
 
 # call get_i18n with the FusionDirectory's locales's directory and the hash that will contain the result in parameter
