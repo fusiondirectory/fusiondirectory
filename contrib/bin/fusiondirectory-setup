@@ -23,7 +23,7 @@ use Crypt::PasswdMD5;
 use Archive::Extract;
 
 # used to copy files
-use File::NCopy;
+use File::Copy::Recursive qw(rcopy);
 
 # fd's directory and class.cache file's path declaration
 my $fd_home = "/usr/share/fusiondirectory";
@@ -564,48 +564,45 @@ sub install_plugins {
 	chdir ($dir) or die ("! Unable to move to $dir\n");
 
 	foreach my $plugin_path (@plugins){
-		$plugin_path =~ /^$tmp_plugins_dir\/(.*)$/;
+		$plugin_path =~ /^$tmp_plugins_dir\/$name\/(.*)$/;
 		my $plugin = $1;
 		
-		# create a Ncopy object with recursion option
-		my $cp = File::NCopy->new(recursive => 1);
-
 		# copy extra HTML and images
 		if ( (-e $plugin_path."/html/") ){
 			$dir = dir ($fd_home."/html/plugins/".$plugin);
 			$dir->mkpath() or warn ("! Unable to make ".$fd_home."/html/plugins/".$plugin."\n") if ( !-e $fd_home."/html/plugins/".$plugin);
-			$cp->copy ($plugin_path."/html/*", $fd_home."/html/plugins/".$plugin) or warn ("! Unable to copy ".$plugin_path."/html/");
+			my $files_dirs_copied = rcopy($plugin_path."/html/*", $fd_home."/html/plugins/".$plugin);
 		}
 		
 		# copy contrib
 		if ( -e $plugin_path."/contrib/" ){
 			$dir = dir ($fd_home."/doc/contrib/".$plugin);
 			$dir->mkpath() or warn ("! Unable to make ".$fd_home."/doc/contrib/".$plugin."\n") if ( !-e $fd_home."/doc/contrib/".$plugin);
-			$cp->copy ($plugin_path."/contrib/*", $fd_home."/doc/contrib/".$plugin) or warn ("! Unable to copy ".$plugin_path."/contrib/\n");
+			my $files_dirs_copied = rcopy($plugin_path."/contrib/*", $fd_home."/doc/contrib/".$plugin);
 		}
 			
 		# copy etc
-		$cp->copy ($plugin_path."/etc/*", $fd_config_dir) or warn ("! Unable to copy ".$plugin_path."/etc/\n") if ( -e $plugin_path."/etc/");
-		
+		my $files_dirs_copied = rcopy($plugin_path."/etc/*", $fd_config_dir);
+
 		# copy the locales
 		if ( -e $plugin_path."/locale/" ) {
 			$dir = dir ($fd_home."/locale/plugins/".$plugin);
 			$dir->mkpath() or warn ("! Unable to make ".$fd_home."/locale/plugins/".$plugin) if ( !-e $fd_home."/locale/plugins/".$plugin);
-			$cp->copy ($plugin_path."/locale/*", $fd_home."/locale/plugins/".$plugin) or warn ("! Unable to copy ".$plugin_path."/locale/") if ( -e $plugin_path."/locale/" );
+			my $files_dirs_copied = rcopy($plugin_path."/locale/*", $fd_home."/locale/plugins/".$plugin);
 		}
 
 		foreach my $type (@plugin_types) {
 			if ( -e $plugin_path."/".$type ){
 				$dir = dir ($fd_home."/plugins/".$type."/".$plugin);
 				$dir->mkpath() or warn ("! Unable to make ".$fd_home."/plugins/".$type."/".$plugin."\n") if ( !-e $fd_home."/plugins/".$type."/".$plugin );
-				$cp->copy ($plugin_path."/".$type."/*", $fd_home."/plugins/".$type."/".$plugin) or warn ("! Unable to copy ".$plugin_path."/".$type."\n") if ( -e $fd_home."/plugins/".$type."/".$plugin );
+				my $files_dirs_copied = rcopy($plugin_path."/".$type."/*", $fd_home."/plugins/".$type."/".$plugin);
 			}
 		}
 		
 		if ( -e $plugin_path."/plugin.dsc") {
 			$dir = dir ($fd_home."/plugins/".$plugin);
 			$dir->mkpath() or warn ("! Unable to make ".$fd_home."/plugins/".$plugin."\n") if ( !-e $fd_home."/plugins/".$plugin );
-			$cp->copy ($plugin_path."/plugin.dsc", $fd_home."/plugins/".$plugin."/plugin.dsc") or warn ("! Unable to copy ".$plugin_path."/plugin/dsc\n");
+			my $files_dirs_copied = rcopy($plugin_path."/plugin.dsc", $fd_home."/plugins/".$plugin."/plugin.dsc");
 		}
 	}
 
