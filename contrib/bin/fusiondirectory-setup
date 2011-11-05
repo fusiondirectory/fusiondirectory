@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use 5.010;
+use 5.008;
 
 # used to manage files
 use Path::Class;
@@ -56,7 +56,7 @@ sub ask_yn_question {
 
 	return 1 if ($yes_flag);
 	my ($question) = @_;
-	say ( "$question [Yes/No]?" );
+	print ( "$question [Yes/No]?\n" );
 
 	while ( my $input = <STDIN> ) {
 		# remove the \n at the end of $input
@@ -218,8 +218,8 @@ sub check_directories {
 	} elsif ((-e "/etc/redhat-release") || (-e "/etc/mageia-release")){
 		$apache_user = "apache";
 	} else {
-		say ("! Looks like you are not a Debian, Redhat or Mageia, I don't know your distribution !");
-		say ("Who is your apache user?");
+		print ("! Looks like you are not a Debian, Redhat or Mageia, I don't know your distribution !\n");
+		print ("Who is your apache user?\n");
 		
 		$apache_user = <STDIN>;
 		chomp ($apache_user);
@@ -248,7 +248,7 @@ sub check_directories {
 						chown (0,0,$dir) or die ("! Unable to change $dir owner\n") if ( ($user ne "root") || ($group ne "root") );
 						chmod ( 0755, $dir ) or die ("! Unable to change $dir rights\n") if ($rights ne "0755");
 					} else {
-						say ("Skiping...");
+						print ("Skiping...\n");
 						next;
 					}
 				}
@@ -265,7 +265,7 @@ sub check_directories {
 						chown ( 0,$apache_gid,$dir ) or die ("Unable to change $dir rights") if ( ($user ne "root") || ($group ne $apache_user) );
 						chmod ( 0770, $dir ) or die ("! Unable to change $dir rights\n") if ($rights ne "0770");
 					} else {
-						say ( "Skiping..." );
+						print ( "Skiping...\n" );
 						next;
 					}
 				}
@@ -292,7 +292,7 @@ sub check_directories {
 				}
 
 			} else {
-				say ( "Skiping..." );
+				print ( "Skiping...\n" );
 				next;
 			}
 		}
@@ -307,7 +307,7 @@ sub add_ldap_admin {
 
 	my ($base, $ldap) = @_;
 
-	say ("Please enter FusionDirectory's admin password");
+	print ("Please enter FusionDirectory's admin password\n");
 	my $fd_admin_pwd = "";
 	my $pw1 = "";
 						
@@ -316,14 +316,14 @@ sub add_ldap_admin {
 
 		if ( $pw1 eq "" ) {
 			$pw1 = $input2;
-			say ( "Please enter it again" );
+			print ( "Please enter it again\n" );
 		} elsif ( $input2 eq $pw1 ) {
 			$fd_admin_pwd = $input2;
 			last;
 		} elsif ( $input2 eq "quit" ) {
 			return;
 		} else {
-			say ("! Input don't match with the first one, type it again, or type 'quit' to end this script");
+			print ("! Input don't match with the first one, type it again, or type 'quit' to end this script\n");
 		}
 	}
 
@@ -372,20 +372,20 @@ sub get_ldap_connexion {
 	} else {		
 
 		if ( ask_yn_question ("Can't find fusiondirectory.conf, do you want to specify LDAP's informations yourself") ) {
-			say ("LDAP server's URI");
+			print ("LDAP server's URI\n");
 			$uri = <STDIN>;
 			chomp $uri;
 	
-			say ("Search base");
+			print ("Search base\n");
 			$base = <STDIN>;
 			chomp $base;
 			$hash_result{base} = $base;
 
-			say ("Bind DN");
+			print ("Bind DN\n");
 			$bind_dn = <STDIN>;
 			chomp $bind_dn;
 				
-			say ("Bind password");
+			print ("Bind password\n");
 			$bind_pwd = <STDIN>;
 			chomp $bind_pwd;
 		} else {
@@ -434,19 +434,19 @@ sub check_ldap {
 
 		# if the search didn't returned a result
 		if ( !defined ( $admin_entries[0] ) ) { 
-			say ("! FusionDirectory's admin not found in your LDAP directory");
+			print ("! FusionDirectory's admin not found in your LDAP directory\n");
 
 			# if user's answer is "yes", creating admin account
 			if ( ask_yn_question("Do you want to create it") ) {
 				add_ldap_admin($base, $ldap);
 			} else {
-				say ("Skiping...");
+				print ("Skiping...\n");
 			}
 		}
 
 	# if ou=people doesn't exists
 	} else {
-		say ( "! ou=people,$base not found in your LDAP directory" );
+		print ( "! ou=people,$base not found in your LDAP directory\n" );
 		
 		# if user's answer is "yes", creating ou=people branch 
 		if ( ask_yn_question("Do you want to create it") ) { 
@@ -460,7 +460,7 @@ sub check_ldap {
 			$people_add->code and warn "! failed to add LDAP's ou=people,$base branch\n";
 			add_ldap_admin($base, $ldap);
 		} else {
-			say ("Skiping...");
+			print ("Skiping...\n");
 		}
 	}
 
@@ -470,7 +470,7 @@ sub check_ldap {
 	
 	# if ou=groups don't exists
 	if ( !defined $groups_entries[0] ) {
-		say ("! ou=groups,$base not found in your LDAP directory");
+		print ("! ou=groups,$base not found in your LDAP directory\n");
 
 		# if user's answer is "yes", creating ou=groups branch 
 		if ( ask_yn_question("Do you want to create it") ) {
@@ -483,7 +483,7 @@ sub check_ldap {
 
 			$group_add->code and warn "! failed to add LDAP's ou=groups,$base branch\n";
 		} else {
-			say ("skiping...");
+			print ("skiping...\n");
 		}
 	}
 	
@@ -518,7 +518,7 @@ sub migrate_repo {
 		foreach my $repo (@{$ref_FAIrepo}) {
 			# Unless the FAIrepository has already been migrated
 			unless ($repo =~ /^.*\|install\|local$/) {
-				say "modifying $repo";
+				print "modifying $repo\n";
 				push @repos, $repo."|install|local";
 			}
 		}		
@@ -533,7 +533,7 @@ sub migrate_repo {
 # function that install all the FD's plugins from a directory
 sub install_plugins {
 	# ask for the plugins archive
-	say ("Where is your plugins archive?");
+	print ("Where is your plugins archive?\n");
 	my $plugins_archive = <STDIN>;
 	chomp $plugins_archive;
 
@@ -545,13 +545,13 @@ sub install_plugins {
 	my $tmp_plugins_dir = "/tmp";
 
 	if ( !ask_yn_question("Do you want to keep default FusionDirectory home directory (/usr/share/fusiondirectory)") ){
-		say ("What's the new value for FusionDirectory home directory?");
+		print ("What's the new value for FusionDirectory home directory?\n");
 		$fd_home = <STDIN>;
 		chomp $fd_home;
 		die ("Uncorrect FusionDirectory's home") if ($fd_home eq "");
 	}
 
-	say ("Installing plugins, please wait...");
+	print ("Installing plugins, please wait...\n");
 
 	my $dir = dir ($tmp_plugins_dir."/".$name);
 
@@ -631,21 +631,21 @@ die ("! You have to run this script as root\n") if ($<!=0);
 	foreach my $arg ( @ARGV ) {
 		if ( defined $commands { lc ( $arg ) } ) {
 			my @command = @{ $commands{ $arg } };
-			say( $command[0] );
+			print( $command[0]."\n" );
 			$command[1]();
 			
 		} elsif ( ( lc($arg) eq "--help" ) || ( lc($arg) eq "-h" ) ) {
-			say ( "\nCommands:" );
+			print ( "\nCommands:\n" );
 			while ( my ( $key,$value ) = each %commands ) {
-				say ( "$key\t".$value->[0] );
+				print ( "$key\t".$value->[0]."\n" );
 			}
-			say ("--yes\t\t\tAlways answer yes to yes/no questions");
-			say ("--help\t\t\tShows this help\n");
+			print ("--yes\t\t\tAlways answer yes to yes/no questions\n");
+			print ("--help\t\t\tShows this help\n\n");
 
 		} elsif (( lc($arg) eq "--yes" ) || ( lc($arg) eq "-y" )){
 			$yes_flag = 1;
  		} else {
-			say ("\nInvalid argument\n");
+			print ("\nInvalid argument\n\n");
 			$usage = 1;
  		}	
 	}
