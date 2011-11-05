@@ -54,23 +54,40 @@ my %i18n_hash_result = ();
 # ask a question send as parameter, and return true if the answer is "yes"
 sub ask_yn_question {
 
-	return 1 if ($yes_flag);
-	my ($question) = @_;
-	print ( "$question [Yes/No]?\n" );
+  return 1 if ($yes_flag);
+  my ($question) = @_;
+  print ( "$question [Yes/No]?\n" );
 
-	while ( my $input = <STDIN> ) {
-		# remove the \n at the end of $input
-		chomp $input;
+  while ( my $input = <STDIN> ) {
+    # remove the \n at the end of $input
+    chomp $input;
 
-		# if user's answer is "yes"
-		if ( lc($input) eq "yes" || lc($input) eq "y") {
-			return 1;
-		# else if he answer "no"
-		} elsif ( lc($input) eq "no" || lc($input) eq "n") {
-			return 0;
-		}
-	}
+    # if user's answer is "yes"
+    if ( lc($input) eq "yes" || lc($input) eq "y") {
+      return 1;
+    # else if he answer "no"
+    } elsif ( lc($input) eq "no" || lc($input) eq "n") {
+      return 0;
+    }
+  }
 
+}
+
+# function that ask for an user input and do some checks
+sub ask_user_input {
+
+ my ($think_to_ask) = @_;
+ my $answer = "";
+
+ print $think_to_ask."\n";
+
+ while ($answer eq "")
+ {
+   $answer = <STDIN>;
+   chomp $answer;
+ }
+
+ return $answer;
 }
 
 ####################################################### class.cache update #########################################################################
@@ -80,7 +97,7 @@ sub ask_yn_question {
 sub get_classes {
 
     my ($path) = @_;
-	
+  
     # if this function has been called without a parameter
     die ("! function get_classes called without parameter\n") if ( !defined($path) );
 
@@ -99,51 +116,51 @@ sub get_classes {
 
         # only process if $file is a .inc or a .php file
         if ( ( $file =~ /.*\.(inc|php)$/ ) && ( $file !~ /.*smarty.*/ ) ) {
-					# put the entire content of the file pointed by $file in $data
-					my @lines = $file->slurp;
+          # put the entire content of the file pointed by $file in $data
+          my @lines = $file->slurp;
             
-					# modifing $file, to contains relative path, not complete one
-					$file =~ s/^$fd_home//;
+          # modifing $file, to contains relative path, not complete one
+          $file =~ s/^$fd_home//;
 
-					foreach my $line ( @lines ) {
-					# remove \n from the end of each line
-					chomp $line;
+          foreach my $line ( @lines ) {
+          # remove \n from the end of each line
+          chomp $line;
 
-						# only process for lines beginning with "class", and extracting the 2nd word (the class name)
-						if ( $line =~ /^class\s*(\w+).*/ ) {
-							# adding the values (class name and file path) to the hash
-							$classes_hash_result{$1} = $file;
-						}
+            # only process for lines beginning with "class", and extracting the 2nd word (the class name)
+            if ( $line =~ /^class\s*(\w+).*/ ) {
+              # adding the values (class name and file path) to the hash
+              $classes_hash_result{$1} = $file;
+            }
           }
         }
     }
-	return %classes_hash_result;
+  return %classes_hash_result;
 }
 
 # call get_classes and create /var/cache/fusiondirectory/class.cache
 sub rescan_classes {
 
-	# hash that will contain the result of the "get_classes" function
-	my %get_classes_result = get_classes ($fd_home);
+  # hash that will contain the result of the "get_classes" function
+  my %get_classes_result = get_classes ($fd_home);
 
-	# create a "file" object with the $class_cache path
-	my $file_class = file ($class_cache);
+  # create a "file" object with the $class_cache path
+  my $file_class = file ($class_cache);
 
-	# create the handler (write mode) for the file previoulsy created
-	my $fhw = $file_class->openw() or die ("! Unable to open $class_cache in read mode\n");	
+  # create the handler (write mode) for the file previoulsy created
+  my $fhw = $file_class->openw() or die ("! Unable to open $class_cache in read mode\n"); 
 
-	# first lines of class.cache
-	$fhw->print ("<?php\n\t\$class_mapping= array(\n");
+  # first lines of class.cache
+  $fhw->print ("<?php\n\t\$class_mapping= array(\n");
 
-	# for each $key/$value, writting a new line to $class_cache
-	while ( my($key,$value) = each %get_classes_result ) {
-		$fhw->print ("\t\t\"$key\" => \"$value\",\n");
-	}
+  # for each $key/$value, writting a new line to $class_cache
+  while ( my($key,$value) = each %get_classes_result ) {
+    $fhw->print ("\t\t\"$key\" => \"$value\",\n");
+  }
 
-	# last line of classe.cache
-	$fhw->print ("\t);\n?>");
+  # last line of classe.cache
+  $fhw->print ("\t);\n?>");
 
-	$fhw->close or die ("! Can't close $class_cache\n");
+  $fhw->close or die ("! Can't close $class_cache\n");
 }
 
 ###################################################### Internalisation's update ####################################################################################
@@ -152,7 +169,7 @@ sub rescan_classes {
 sub get_i18n {
 
     my ($path) = @_;
-	
+  
     # if this function has been called without a parameter
     die ("! function get_i18n called without parameter" ) if ( !defined($path) );
 
@@ -163,140 +180,137 @@ sub get_i18n {
     my @dir_files = $dir->children;
 
     foreach my $file (@dir_files) {
-			# recursive call if $file is a directory
-			if (-d $file) {
-				%i18n_hash_result = get_i18n ($file);
-				next;
-			}
+      # recursive call if $file is a directory
+      if (-d $file) {
+        %i18n_hash_result = get_i18n ($file);
+        next;
+      }
 
-			# if the file's directory is ???/language/LC_MESSAGES/messages.po
-			if ($file =~ qr{^.*/(\w+)/LC_MESSAGES/messages.po$}) {
-				# push the file's path in the language (fr/en/es/it...) array (wich is inside the hash pointed by $ref_result
-				push @{$i18n_hash_result{$1}}, $file;
-			}
+      # if the file's directory is ???/language/LC_MESSAGES/messages.po
+      if ($file =~ qr{^.*/(\w+)/LC_MESSAGES/messages.po$}) {
+        # push the file's path in the language (fr/en/es/it...) array (wich is inside the hash pointed by $ref_result
+        push @{$i18n_hash_result{$1}}, $file;
+      }
     }
-	return %i18n_hash_result;
+  return %i18n_hash_result;
 }
 
 # call get_i18n with the FusionDirectory's locales's directory and the hash that will contain the result in parameter
 sub rescan_i18n {
 
-	# hash that will contain the result of the "get_i18n" function
-	my %get_i18n_result = get_i18n ($locale_dir);
+  # hash that will contain the result of the "get_i18n" function
+  my %get_i18n_result = get_i18n ($locale_dir);
 
-	while ( my ($lang, $files) = each %get_i18n_result ) {
+  while ( my ($lang, $files) = each %get_i18n_result ) {
 
-		# directory wich will contain the .mo file for each language
-		my $lang_cache_dir = dir ("$locale_cache_dir/$lang/LC_MESSAGES");
+    # directory wich will contain the .mo file for each language
+    my $lang_cache_dir = dir ("$locale_cache_dir/$lang/LC_MESSAGES");
  
-		# if $lang_cache_dir doesn't already exists, creating it
-		if ( !-d $lang_cache_dir ) {			
-			$lang_cache_dir->mkpath or die ("! Can't create $locale_cache_dir/$lang/LC_MESSAGES");
-		}
+    # if $lang_cache_dir doesn't already exists, creating it
+    if ( !-d $lang_cache_dir ) {      
+      $lang_cache_dir->mkpath or die ("! Can't create $locale_cache_dir/$lang/LC_MESSAGES");
+    }
 
-		# glue .po files's names
-		my $po_files = join(" ", @{$files});
-		chomp $po_files;
+    # glue .po files's names
+    my $po_files = join(" ", @{$files});
+    chomp $po_files;
 
-		# merging .po files
-		system ( "msgcat --use-first ".$po_files.">".$lang_cache_dir."/messages.po" ) and die ("! Unable to merge .po files for $lang with msgcat, is it already installed?\n");
+    # merging .po files
+    system ( "msgcat --use-first ".$po_files.">".$lang_cache_dir."/messages.po" ) and die ("! Unable to merge .po files for $lang with msgcat, is it already installed?\n");
 
-		# compiling .po files in .mo files
-		system ( "msgfmt -o $lang_cache_dir/messages.mo $lang_cache_dir/messages.po && rm $lang_cache_dir/messages.po" ) and die ("! Unable to compile .mo files with msgfmt, is it already installed?\n");
-	}
+    # compiling .po files in .mo files
+    system ( "msgfmt -o $lang_cache_dir/messages.mo $lang_cache_dir/messages.po && rm $lang_cache_dir/messages.po" ) and die ("! Unable to compile .mo files with msgfmt, is it already installed?\n");
+  }
 }
 
 ############################################################# Directories checking ###################################################################################
 
 # function that check FusionDirectory's directories
 sub check_directories {
-	my $apache_user = "";
+  my $apache_user = "";
 
-	# try to identify the running distribution, if it's not debian or rehat like, script ask for user input
-	if (-e "/etc/debian_version") {
-		$apache_user = "www-data";
-	} elsif ((-e "/etc/redhat-release") || (-e "/etc/mageia-release")){
-		$apache_user = "apache";
-	} else {
-		print ("! Looks like you are not a Debian, Redhat or Mageia, I don't know your distribution !\n");
-		print ("Who is your apache user?\n");
-		
-		$apache_user = <STDIN>;
-		chomp ($apache_user);
-	}
+  # try to identify the running distribution, if it's not debian or rehat like, script ask for user input
+  if (-e "/etc/debian_version") {
+    $apache_user = "www-data";
+  } elsif ((-e "/etc/redhat-release") || (-e "/etc/mageia-release")){
+    $apache_user = "apache";
+  } else {
+    print ("! Looks like you are not a Debian, Redhat or Mageia, I don't know your distribution !\n");
+    $apache_user = ask_user_input ("Who is your apache user ?: ");
+  }
 
-	# for each config directory 
-	foreach my $dir (@config_dirs) {
-		# if the current dir exists
-		if (-e $dir) {
-			# retrieve dir's informations
-			my @lstat = lstat ($dir);
+  # for each config directory 
+  foreach my $dir (@config_dirs) {
+    # if the current dir exists
+    if (-e $dir) {
+      # retrieve dir's informations
+      my @lstat = lstat ($dir);
 
-			# extract the owner and the group of the directory 
-			my $user = getpwuid ( $lstat[4] );
-			my $group = getgrgid ( $lstat[5] );
+      # extract the owner and the group of the directory 
+      my $user = getpwuid ( $lstat[4] );
+      my $group = getgrgid ( $lstat[5] );
 
-			# extract the dir's rights
-			my $mode = $lstat[2];
-			my $rights = sprintf "%04o", S_IMODE($mode);
+      # extract the dir's rights
+      my $mode = $lstat[2];
+      my $rights = sprintf "%04o", S_IMODE($mode);
 
-			# if $dir is one of the dirs that remains to root
-			if ( grep (/.*$dir.*/, @root_config_dirs) ) {
-				# if the dir owner is not root, changing the owner...
-				if ( ($user ne "root") || ($group ne "root") || ($rights ne "0755") ) {
-					if ( ask_yn_question ("$dir is not set properly, do you want to fix it") ){
-						chown (0,0,$dir) or die ("! Unable to change $dir owner\n") if ( ($user ne "root") || ($group ne "root") );
-						chmod ( 0755, $dir ) or die ("! Unable to change $dir rights\n") if ($rights ne "0755");
-					} else {
-						print ("Skiping...\n");
-						next;
-					}
-				}
-				next;
+      # if $dir is one of the dirs that remains to root
+      if ( grep (/.*$dir.*/, @root_config_dirs) ) {
+        # if the dir owner is not root, changing the owner...
+        if ( ($user ne "root") || ($group ne "root") || ($rights ne "0755") ) {
+          if ( ask_yn_question ("$dir is not set properly, do you want to fix it ?: ") ){
+            chown (0,0,$dir) or die ("! Unable to change $dir owner\n") if ( ($user ne "root") || ($group ne "root") );
+            chmod ( 0755, $dir ) or die ("! Unable to change $dir rights\n") if ($rights ne "0755");
+          } else {
+            print ("Skiping...\n");
+            next;
+          }
+        }
+        next;
 
-			# else if $dir is one of the dirs that remains to apache's user, and the dir's owner is not root or the group is not the apache's user, modifying owner
-			} elsif ( grep ( /.*$dir.*/, @apache_config_dirs) ) {
-				if ( ($user ne "root") || ($group ne $apache_user) || ($rights ne "0770") ) {
-					if ( ask_yn_question("$dir is not set properly, do you want to fix it?") ){
-						# retrieve apache's user's GID
-						my $apache_gid = getgrnam ( $apache_user );
-						
-						# change the rights
-						chown ( 0,$apache_gid,$dir ) or die ("Unable to change $dir rights") if ( ($user ne "root") || ($group ne $apache_user) );
-						chmod ( 0770, $dir ) or die ("! Unable to change $dir rights\n") if ($rights ne "0770");
-					} else {
-						print ( "Skiping...\n" );
-						next;
-					}
-				}
-			}
-		} else {
-		
-			if ( ask_yn_question("File $dir doesn't exists, do you want to create it") ){
-				my $conf_dir = dir ($dir);
+      # else if $dir is one of the dirs that remains to apache's user, and the dir's owner is not root or the group is not the apache's user, modifying owner
+      } elsif ( grep ( /.*$dir.*/, @apache_config_dirs) ) {
+        if ( ($user ne "root") || ($group ne $apache_user) || ($rights ne "0770") ) {
+          if ( ask_yn_question("$dir is not set properly, do you want to fix it ?: ") ){
+            # retrieve apache's user's GID
+            my $apache_gid = getgrnam ( $apache_user );
+            
+            # change the rights
+            chown ( 0,$apache_gid,$dir ) or die ("Unable to change $dir rights") if ( ($user ne "root") || ($group ne $apache_user) );
+            chmod ( 0770, $dir ) or die ("! Unable to change $dir rights\n") if ($rights ne "0770");
+          } else {
+            print ( "Skiping...\n" );
+            next;
+          }
+        }
+      }
+    } else {
+    
+      if ( ask_yn_question("File $dir doesn't exists, do you want to create it ?: ") ){
+        my $conf_dir = dir ($dir);
 
-				# if $dir is one of the dirs that remains to root
-				if (grep (/.*$dir.*/, @root_config_dirs) ) {
-					# create the directory, and change the rights
-					$conf_dir->mkpath (0,0755);
-					chown (0,0,$dir) or die ("! Unable to change $dir rights\n");
+        # if $dir is one of the dirs that remains to root
+        if (grep (/.*$dir.*/, @root_config_dirs) ) {
+          # create the directory, and change the rights
+          $conf_dir->mkpath (0,0755);
+          chown (0,0,$dir) or die ("! Unable to change $dir rights\n");
 
-				# else if $dir is one of the dirs that remains to apache's user
-				} elsif ( grep (/.*$dir.*/, @apache_config_dirs) ) {
-					# retieve apache's user's GID
-					my $apache_gid = getgrnam ( $apache_user );
+        # else if $dir is one of the dirs that remains to apache's user
+        } elsif ( grep (/.*$dir.*/, @apache_config_dirs) ) {
+          # retieve apache's user's GID
+          my $apache_gid = getgrnam ( $apache_user );
 
-					# create the directory, and change the rights
-					$conf_dir->mkpath (0,0770);
-					chown (0,$apache_gid,$dir) or die ("Unable to change $dir rights\n");
-				}
+          # create the directory, and change the rights
+          $conf_dir->mkpath (0,0770);
+          chown (0,$apache_gid,$dir) or die ("Unable to change $dir rights\n");
+        }
 
-			} else {
-				print ( "Skiping...\n" );
-				next;
-			}
-		}
-	}
+      } else {
+        print ( "Skiping...\n" );
+        next;
+      }
+    }
+  }
 }
 
 ############################################################# LDAP conformity check #################################################################################
@@ -305,355 +319,334 @@ sub check_directories {
 # return nothing is it a problem?
 sub add_ldap_admin {
 
-	my ($base, $ldap) = @_;
+  my ($base, $ldap) = @_;
 
-	print ("Please enter FusionDirectory's admin password\n");
-	my $fd_admin_pwd = "";
-	my $pw1 = "";
-						
-	while ( my $input2 = <STDIN> ) {
-		chomp $input2;
+  my $fd_admin_pwd = ask_user_input ("Please enter FusionDirectory's admin password: ");
+  my $fd_admin_pwd_confirm = ask_user_input ("Please enter it again: ");
+  
+  # while the confirmation password is not the same than the first one
+  while ( ($fd_admin_pwd_confirm ne $fd_admin_pwd) && ($fd_admin_pwd_confirm ne "quit" ) ){
+    $fd_admin_pwd_confirm = ask_user_input ("! Inputs don't match, try again or type 'quit' to end this function");
+  }
+  return -1 if ($fd_admin_pwd_confirm eq "quit");
 
-		if ( $pw1 eq "" ) {
-			$pw1 = $input2;
-			print ( "Please enter it again\n" );
-		} elsif ( $input2 eq $pw1 ) {
-			$fd_admin_pwd = $input2;
-			last;
-		} elsif ( $input2 eq "quit" ) {
-			return;
-		} else {
-			print ("! Input don't match with the first one, type it again, or type 'quit' to end this script\n");
-		}
-	}
-
-	my $admin_add = $ldap->add( "uid=fd-admin,ou=people,$base",
-		attr => [
-			'cn'	=>	'System Administrator-fd-admin',
-			'sn'	=>	'Administrator',
-			'uid'	=>	'fd-admin',
-			'givenname'	=>	'System',
-			'objectclass'	=>	[ 'top', 'person', 'gosaAccount', 'organizationalPerson', 'inetOrgPerson' ],
-			'userPassword' => "{CRYPT}".unix_md5_crypt($fd_admin_pwd)
-			]
-	);
-	# send a warning if the ldap's admin's add didn't gone well
-	$admin_add->code && warn "\n! failed to add LDAP's cn=System Administrator,ou=people,$base entry";
+  my $admin_add = $ldap->add( "uid=fd-admin,ou=people,$base",
+    attr => [
+      'cn'  =>  'System Administrator-fd-admin',
+      'sn'  =>  'Administrator',
+      'uid' =>  'fd-admin',
+      'givenname' =>  'System',
+      'objectclass' =>  [ 'top', 'person', 'gosaAccount', 'organizationalPerson', 'inetOrgPerson' ],
+      'userPassword' => "{CRYPT}".unix_md5_crypt($fd_admin_pwd)
+      ]
+  );
+  # send a warning if the ldap's admin's add didn't gone well
+  $admin_add->code && warn "\n! failed to add LDAP's cn=System Administrator,ou=people,$base entry";
 }
 
 # function that initiate the ldap connexion, and bind as the ldap's admin
 sub get_ldap_connexion {
-	
-	my %hash_result = ();
-	my $bind_dn = "";
-	my $bind_pwd = "";
-	my $uri = "";
-	my $base = "";
+  
+  my %hash_result = ();
+  my $bind_dn = "";
+  my $bind_pwd = "";
+  my $uri = "";
+  my $base = "";
 
-	# read ldap's server's info from /etc/fusiondirectory/fusiondirectory.conf
-	if (-e $fd_config) {
-		# open fusiondirectory.conf in read mode
-		my $fd_conf_file = file ($fd_config);	
-		my $fhr = $fd_conf_file->openr;
+  # read ldap's server's info from /etc/fusiondirectory/fusiondirectory.conf
+  if (-e $fd_config) {
+    # open fusiondirectory.conf in read mode
+    my $fd_conf_file = file ($fd_config); 
+    my $fhr = $fd_conf_file->openr;
 
-		while (my $line = $fhr->getline) {
-			if ($line =~ /^.*referral\ URI="(.*):389\/(.*)"$/) {
-				$uri = $1;
-				$hash_result{base} = $2;
-			} elsif ($line =~ /^.*adminDn="(.*)"$/) {
-				$bind_dn = $1;
-			} elsif ($line =~ /^.*adminPassword="(.*)".*$/) {
-				$bind_pwd = $1;
-			}
-		}
+    while (my $line = $fhr->getline) {
+      if ($line =~ /^.*referral\ URI="(.*):389\/(.*)"$/) {
+        $uri = $1;
+        $hash_result{base} = $2;
+      } elsif ($line =~ /^.*adminDn="(.*)"$/) {
+        $bind_dn = $1;
+      } elsif ($line =~ /^.*adminPassword="(.*)".*$/) {
+        $bind_pwd = $1;
+      }
+    }
 
-		$fhr->close;
-	# if can't find fusiondirectory.conf	
-	} else {		
+    $fhr->close;
+  # if can't find fusiondirectory.conf  
+  } else {    
 
-		if ( ask_yn_question ("Can't find fusiondirectory.conf, do you want to specify LDAP's informations yourself") ) {
-			print ("LDAP server's URI\n");
-			$uri = <STDIN>;
-			chomp $uri;
-	
-			print ("Search base\n");
-			$base = <STDIN>;
-			chomp $base;
-			$hash_result{base} = $base;
+    if ( ask_yn_question ("Can't find fusiondirectory.conf, do you want to specify LDAP's informations yourself ?: ") ) {
+      $uri = ask_user_input ("LDAP server's URI: ");
+      $base = ask_user_input ("Search base: ");
+      $hash_result{base} = $base;
 
-			print ("Bind DN\n");
-			$bind_dn = <STDIN>;
-			chomp $bind_dn;
-				
-			print ("Bind password\n");
-			$bind_pwd = <STDIN>;
-			chomp $bind_pwd;
-		} else {
-			return;
-		}
-	}
-	
-	# ldap connection
-	my $ldap = Net::LDAP->new ($uri) or die ("! Can't contact LDAP server $uri\n");
+      $bind_dn = ask_user_input ("Bind DN: ");        
+      $bind_pwd = ask_user_input("Bind password: ");
+    } else {
+      return;
+    }
+  }
+  
+  # ldap connection
+  my $ldap = Net::LDAP->new ($uri) or die ("! Can't contact LDAP server $uri\n");
 
-	$hash_result{ldap} = $ldap;
+  $hash_result{ldap} = $ldap;
 
-	# bind to the LDAP server
-	my $bind = $ldap->bind ($bind_dn, password => $bind_pwd);
+  # bind to the LDAP server
+  my $bind = $ldap->bind ($bind_dn, password => $bind_pwd);
 
-	# send a warning if the bind didn't gone well
-	$bind->code && die ("! Failed to bind to LDAP server: ", $bind->error."\n");
+  # send a warning if the bind didn't gone well
+  $bind->code && die ("! Failed to bind to LDAP server: ", $bind->error."\n");
 
-	return %hash_result;
+  return %hash_result;
 }
 
 # function that check LDAP configuration
 sub check_ldap {
 
-	# initiate the LDAP connexion
-	my %hash_ldap_param = get_ldap_connexion();
+  # initiate the LDAP connexion
+  my %hash_ldap_param = get_ldap_connexion();
 
-	# LDAP's connection's parameters
-	my $base = $hash_ldap_param{base};
-	my $ldap = $hash_ldap_param{ldap};
+  # LDAP's connection's parameters
+  my $base = $hash_ldap_param{base};
+  my $ldap = $hash_ldap_param{ldap};
 
-	# search for branch people
-	my $people = $ldap->search (base => $base, filter => "ou=people");
+  # search for branch people
+  my $people = $ldap->search (base => $base, filter => "ou=people");
 
-	# stock search results
-	my @people_entries = $people->entries;
+  # stock search results
+  my @people_entries = $people->entries;
+  my $admin_add = "";
 
-	# if ou=people exists
-	if ( defined ($people_entries[0]) ) {
+  # if ou=people exists
+  if ( defined ($people_entries[0]) ) {
 
-		# search for FusionDirectory's admin account
-		my $admin = $ldap->search ( base => "ou=people,".$base, filter => "(&(cn=System Administrator-fd-admin)(uid=fd-admin)(objectClass=inetOrgPerson))" );
+    # search for FusionDirectory's admin account
+    my $admin = $ldap->search ( base => "ou=people,".$base, filter => "(&(cn=System Administrator-fd-admin)(uid=fd-admin)(objectClass=inetOrgPerson))" );
 
-		# store search's results
-		my @admin_entries = $admin->entries;
+    # store search's results
+    my @admin_entries = $admin->entries;
 
-		# if the search didn't returned a result
-		if ( !defined ( $admin_entries[0] ) ) { 
-			print ("! FusionDirectory's admin not found in your LDAP directory\n");
+    # if the search didn't returned a result
+    if ( !defined ( $admin_entries[0] ) ) { 
+      print ("! FusionDirectory's admin not found in your LDAP directory\n");
 
-			# if user's answer is "yes", creating admin account
-			if ( ask_yn_question("Do you want to create it") ) {
-				add_ldap_admin($base, $ldap);
-			} else {
-				print ("Skiping...\n");
-			}
-		}
+      # if user's answer is "yes", creating admin account
+      if ( ask_yn_question("Do you want to create it ?: ") ) {
+        $admin_add = add_ldap_admin($base, $ldap);
+        return -1 if ($admin_add eq "-1");
+      } else {
+        print ("Skiping...\n");
+      }
+    }
 
-	# if ou=people doesn't exists
-	} else {
-		print ( "! ou=people,$base not found in your LDAP directory\n" );
-		
-		# if user's answer is "yes", creating ou=people branch 
-		if ( ask_yn_question("Do you want to create it") ) { 
-			my $people_add = $ldap->add( "ou=people,$base",
-				attr => [
-					'ou'	=> 'people', 
-					'objectClass'	=>	'organizationalUnit'
-					]
-			);
+  # if ou=people doesn't exists
+  } else {
+    print ( "! ou=people,$base not found in your LDAP directory\n" );
+    
+    # if user's answer is "yes", creating ou=people branch 
+    if ( ask_yn_question("Do you want to create it ?: ") ) { 
+      my $people_add = $ldap->add( "ou=people,$base",
+        attr => [
+          'ou'  => 'people', 
+          'objectClass' =>  'organizationalUnit'
+          ]
+      );
 
-			$people_add->code and warn "! failed to add LDAP's ou=people,$base branch\n";
-			add_ldap_admin($base, $ldap);
-		} else {
-			print ("Skiping...\n");
-		}
-	}
+      $people_add->code and warn "! failed to add LDAP's ou=people,$base branch\n";
+      $admin_add = add_ldap_admin($base, $ldap);
+      return -1 if ($admin_add eq "-1");
+    } else {
+      print ("Skiping...\n");
+    }
+  }
 
-	# search for ou=groups
-	my $ldap_groups = $ldap->search ( base => $base, filter => "ou=groups" );
-	my @groups_entries = $ldap_groups->entries;
-	
-	# if ou=groups don't exists
-	if ( !defined $groups_entries[0] ) {
-		print ("! ou=groups,$base not found in your LDAP directory\n");
+  # search for ou=groups
+  my $ldap_groups = $ldap->search ( base => $base, filter => "ou=groups" );
+  my @groups_entries = $ldap_groups->entries;
+  
+  # if ou=groups don't exists
+  if ( !defined $groups_entries[0] ) {
+    print ("! ou=groups,$base not found in your LDAP directory\n");
 
-		# if user's answer is "yes", creating ou=groups branch 
-		if ( ask_yn_question("Do you want to create it") ) {
-			my $group_add = $ldap->add( "ou=groups,$base",
-				attr => [
-					'ou'	=> 'groups',
-					'objectClass'	=>	'organizationalUnit'
-					]
-			);
+    # if user's answer is "yes", creating ou=groups branch 
+    if ( ask_yn_question("Do you want to create it ?: ") ) {
+      my $group_add = $ldap->add( "ou=groups,$base",
+        attr => [
+          'ou'  => 'groups',
+          'objectClass' =>  'organizationalUnit'
+          ]
+      );
 
-			$group_add->code and warn "! failed to add LDAP's ou=groups,$base branch\n";
-		} else {
-			print ("skiping...\n");
-		}
-	}
-	
-	# unbind to the LDAP server
-	my $unbind = $ldap->unbind;
-	$unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";	
+      $group_add->code and warn "! failed to add LDAP's ou=groups,$base branch\n";
+    } else {
+      print ("skiping...\n");
+    }
+  }
+  
+  # unbind to the LDAP server
+  my $unbind = $ldap->unbind;
+  $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n"; 
 }
 
 
 # function that migrate old FAI repos
 sub migrate_repo {
 
-	# initiate the LDAP connexion
-	my %hash_ldap_param = get_ldap_connexion();
+  # initiate the LDAP connexion
+  my %hash_ldap_param = get_ldap_connexion();
 
-	# LDAP's connection's parameters
-	my $base = $hash_ldap_param{base};
-	my $ldap = $hash_ldap_param{ldap};
+  # LDAP's connection's parameters
+  my $base = $hash_ldap_param{base};
+  my $ldap = $hash_ldap_param{ldap};
 
-	# search for FAI repository server
-	my $fai_repo = $ldap->search (base => $base, filter => "(&(FAIrepository=*)(objectClass=FAIrepositoryServer))");
+  # search for FAI repository server
+  my $fai_repo = $ldap->search (base => $base, filter => "(&(FAIrepository=*)(objectClass=FAIrepositoryServer))");
 
-	# stock search's results
-	my @fai_entries = $fai_repo->entries;
+  # stock search's results
+  my @fai_entries = $fai_repo->entries;
 
-	foreach my $repoServer (@fai_entries) {
-		# retrieve the FAIrepository from the LDAP object
-		my $ref_FAIrepo = $repoServer->get_value('fairepository', asref=>1);
-		my @repos;
-		
-		# foreach FAIrepository of the LDAP object
-		foreach my $repo (@{$ref_FAIrepo}) {
-			# Unless the FAIrepository has already been migrated
-			unless ($repo =~ /^.*\|install\|local$/) {
-				print "modifying $repo\n";
-				push @repos, $repo."|install|local";
-			}
-		}		
-		my $modify = $ldap->modify ($repoServer->dn, replace =>	[ FAIrepository => \@repos]);
-		$modify->code && warn "! Unable to delete FAI repositories for ".$repoServer->dn." : ".$modify->error."\n";
-	}
-	# unbind to the LDAP server
-	my $unbind = $ldap->unbind;
-	$unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
+  foreach my $repoServer (@fai_entries) {
+    # retrieve the FAIrepository from the LDAP object
+    my $ref_FAIrepo = $repoServer->get_value('fairepository', asref=>1);
+    my @repos;
+    
+    # foreach FAIrepository of the LDAP object
+    foreach my $repo (@{$ref_FAIrepo}) {
+      # Unless the FAIrepository has already been migrated
+      unless ($repo =~ /^.*\|install\|local$/) {
+        print "modifying $repo\n";
+        push @repos, $repo."|install|local";
+      }
+    }   
+    my $modify = $ldap->modify ($repoServer->dn, replace => [ FAIrepository => \@repos]);
+    $modify->code && warn "! Unable to delete FAI repositories for ".$repoServer->dn." : ".$modify->error."\n";
+  }
+  # unbind to the LDAP server
+  my $unbind = $ldap->unbind;
+  $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
 }
 
 # function that install all the FD's plugins from a directory
 sub install_plugins {
-	# ask for the plugins archive
-	print ("Where is your plugins archive?\n");
-	my $plugins_archive = <STDIN>;
-	chomp $plugins_archive;
+  # ask for the plugins archive
+  my $plugins_archive = ask_user_input ("Where is your plugins archive ?: ");
+  die ("! ".$plugins_archive." doesn't exists") if (!-e $plugins_archive);
 
-	# check the archive format
-	$plugins_archive =~ /^.*\/(.*).tar.gz$/;
-	my $name = $1 or die ("! Unkwnow archive $plugins_archive");
-	
-	# where the extract files will go
-	my $tmp_plugins_dir = "/tmp";
+  # check the archive format
+  $plugins_archive =~ /^.*\/(.*).tar.gz$/;
+  my $name = $1 or die ("! Unkwnow archive $plugins_archive");
+  
+  # where the extract files will go
+  my $tmp_plugins_dir = "/tmp";
 
-	if ( !ask_yn_question("Do you want to keep default FusionDirectory home directory (/usr/share/fusiondirectory)") ){
-		print ("What's the new value for FusionDirectory home directory?\n");
-		$fd_home = <STDIN>;
-		chomp $fd_home;
-		die ("Uncorrect FusionDirectory's home") if ($fd_home eq "");
-	}
+  if ( !ask_yn_question("Do you want to keep default FusionDirectory home directory (/usr/share/fusiondirectory) ?: ") ){
+    $fd_home = ask_user_input ("What's the new value for FusionDirectory home directory ?: ");
+    die ("! ".$fd_home." is not a valid directory") if (!-d $fd_home);
+  }
 
-	print ("Installing plugins, please wait...\n");
+  print ("Installing plugins, please wait...\n");
 
-	my $dir = dir ($tmp_plugins_dir."/".$name);
+  my $dir = dir ($tmp_plugins_dir."/".$name);
 
-	# extract the plugins archive
-	my $archive = Archive::Extract->new (archive => $plugins_archive); 
-	my $extract = $archive->extract( to => "$tmp_plugins_dir" ) or die ("! Unable to extract $plugins_archive\n");
+  # extract the plugins archive
+  my $archive = Archive::Extract->new (archive => $plugins_archive); 
+  my $extract = $archive->extract( to => "$tmp_plugins_dir" ) or die ("! Unable to extract $plugins_archive\n");
 
-	my @plugins = $dir->children;
+  my @plugins = $dir->children;
 
-	chdir ($dir) or die ("! Unable to move to $dir\n");
+  chdir ($dir) or die ("! Unable to move to $dir\n");
 
-	foreach my $plugin_path (@plugins){
-		$plugin_path =~ /^$tmp_plugins_dir\/$name\/(.*)$/;
-		my $plugin = $1;
-		
-		# copy extra HTML and images
-		if ( (-e $plugin_path."/html/") ){
-			$dir = dir ($fd_home."/html/plugins/".$plugin);
-			$dir->mkpath() or warn ("! Unable to make ".$fd_home."/html/plugins/".$plugin."\n") if ( !-e $fd_home."/html/plugins/".$plugin);
-			my $files_dirs_copied = rcopy($plugin_path."/html/*", $fd_home."/html/plugins/".$plugin);
-		}
-		
-		# copy contrib
-		if ( -e $plugin_path."/contrib/" ){
-			$dir = dir ($fd_home."/doc/contrib/".$plugin);
-			$dir->mkpath() or warn ("! Unable to make ".$fd_home."/doc/contrib/".$plugin."\n") if ( !-e $fd_home."/doc/contrib/".$plugin);
-			my $files_dirs_copied = rcopy($plugin_path."/contrib/*", $fd_home."/doc/contrib/".$plugin);
-		}
-			
-		# copy etc
-		my $files_dirs_copied = rcopy($plugin_path."/etc/*", $fd_config_dir);
+  foreach my $plugin_path (@plugins){
+    $plugin_path =~ /^$tmp_plugins_dir\/$name\/(.*)$/;
+    my $plugin = $1;
+    
+    # copy extra HTML and images
+    if ( (-e $plugin_path."/html/") ){
+      $dir = dir ($fd_home."/html/plugins/".$plugin);
+      $dir->mkpath() or warn ("! Unable to make ".$fd_home."/html/plugins/".$plugin."\n") if ( !-e $fd_home."/html/plugins/".$plugin);
+      my $files_dirs_copied = rcopy($plugin_path."/html/*", $fd_home."/html/plugins/".$plugin);
+    }
+    
+    # copy contrib
+    if ( -e $plugin_path."/contrib/" ){
+      $dir = dir ($fd_home."/doc/contrib/".$plugin);
+      $dir->mkpath() or warn ("! Unable to make ".$fd_home."/doc/contrib/".$plugin."\n") if ( !-e $fd_home."/doc/contrib/".$plugin);
+      my $files_dirs_copied = rcopy($plugin_path."/contrib/*", $fd_home."/doc/contrib/".$plugin);
+    }
+      
+    # copy etc
+    my $files_dirs_copied = rcopy($plugin_path."/etc/*", $fd_config_dir);
 
-		# copy the locales
-		if ( -e $plugin_path."/locale/" ) {
-			$dir = dir ($fd_home."/locale/plugins/".$plugin);
-			$dir->mkpath() or warn ("! Unable to make ".$fd_home."/locale/plugins/".$plugin) if ( !-e $fd_home."/locale/plugins/".$plugin);
-			my $files_dirs_copied = rcopy($plugin_path."/locale/*", $fd_home."/locale/plugins/".$plugin);
-		}
+    # copy the locales
+    if ( -e $plugin_path."/locale/" ) {
+      $dir = dir ($fd_home."/locale/plugins/".$plugin);
+      $dir->mkpath() or warn ("! Unable to make ".$fd_home."/locale/plugins/".$plugin) if ( !-e $fd_home."/locale/plugins/".$plugin);
+      my $files_dirs_copied = rcopy($plugin_path."/locale/*", $fd_home."/locale/plugins/".$plugin);
+    }
 
-		foreach my $type (@plugin_types) {
-			if ( -e $plugin_path."/".$type ){
-				$dir = dir ($fd_home."/plugins/".$type."/".$plugin);
-				$dir->mkpath() or warn ("! Unable to make ".$fd_home."/plugins/".$type."/".$plugin."\n") if ( !-e $fd_home."/plugins/".$type."/".$plugin );
-				my $files_dirs_copied = rcopy($plugin_path."/".$type."/*", $fd_home."/plugins/".$type."/".$plugin);
-			}
-		}
-		
-		if ( -e $plugin_path."/plugin.dsc") {
-			$dir = dir ($fd_home."/plugins/".$plugin);
-			$dir->mkpath() or warn ("! Unable to make ".$fd_home."/plugins/".$plugin."\n") if ( !-e $fd_home."/plugins/".$plugin );
-			my $files_dirs_copied = rcopy($plugin_path."/plugin.dsc", $fd_home."/plugins/".$plugin."/plugin.dsc");
-		}
-	}
+    foreach my $type (@plugin_types) {
+      if ( -e $plugin_path."/".$type ){
+        $dir = dir ($fd_home."/plugins/".$type."/".$plugin);
+        $dir->mkpath() or warn ("! Unable to make ".$fd_home."/plugins/".$type."/".$plugin."\n") if ( !-e $fd_home."/plugins/".$type."/".$plugin );
+        my $files_dirs_copied = rcopy($plugin_path."/".$type."/*", $fd_home."/plugins/".$type."/".$plugin);
+      }
+    }
+    
+    if ( -e $plugin_path."/plugin.dsc") {
+      $dir = dir ($fd_home."/plugins/".$plugin);
+      $dir->mkpath() or warn ("! Unable to make ".$fd_home."/plugins/".$plugin."\n") if ( !-e $fd_home."/plugins/".$plugin );
+      my $files_dirs_copied = rcopy($plugin_path."/plugin.dsc", $fd_home."/plugins/".$plugin."/plugin.dsc");
+    }
+  }
 
-	#finally update FusionDirectory's class.cache and locales
-	rescan_classes();
-	rescan_i18n();
+  #finally update FusionDirectory's class.cache and locales
+  rescan_classes();
+  rescan_i18n();
 }
 
 #################### main function #####################
 #die if the user is not root
 die ("! You have to run this script as root\n") if ($<!=0);
 
-	my %commands = ();
-	$commands{"--update-cache"} 		= ["Updating class.cache",					\&rescan_classes];
-	$commands{"--update-locales"}  	= ["Updating translations",					\&rescan_i18n];
-	$commands{"--check-dirs"}    		= ["Checking FusionDirectory's directories",			\&check_directories];
-	$commands{"--check-ldap"}   		= ["Checking your LDAP tree",					\&check_ldap];
-	$commands{"--migrate-repositories"}	= ["Migrating your FAI repositories",				\&migrate_repo];
-	$commands{"--install-plugins"}  = ["Installing FusionDirectory's plugins",			\&install_plugins];
+  my %commands = ();
+  $commands{"--update-cache"}     = ["Updating class.cache",          \&rescan_classes];
+  $commands{"--update-locales"}   = ["Updating translations",         \&rescan_i18n];
+  $commands{"--check-dirs"}       = ["Checking FusionDirectory's directories",      \&check_directories];
+  $commands{"--check-ldap"}       = ["Checking your LDAP tree",         \&check_ldap];
+  $commands{"--migrate-repositories"} = ["Migrating your FAI repositories",       \&migrate_repo];
+  $commands{"--install-plugins"}  = ["Installing FusionDirectory's plugins",      \&install_plugins];
 
-	my $usage = 0;
-	 
-	foreach my $arg ( @ARGV ) {
-		if ( defined $commands { lc ( $arg ) } ) {
-			my @command = @{ $commands{ $arg } };
-			print( $command[0]."\n" );
-			$command[1]();
-			
-		} elsif ( ( lc($arg) eq "--help" ) || ( lc($arg) eq "-h" ) ) {
-			print ( "\nCommands:\n" );
-			while ( my ( $key,$value ) = each %commands ) {
-				print ( "$key\t".$value->[0]."\n" );
-			}
-			print ("--yes\t\t\tAlways answer yes to yes/no questions\n");
-			print ("--help\t\t\tShows this help\n\n");
+  my $usage = 0;
+   
+  foreach my $arg ( @ARGV ) {
+    if ( defined $commands { lc ( $arg ) } ) {
+      my @command = @{ $commands{ $arg } };
+      print( $command[0]."\n" );
+      $command[1]();
+      
+    } elsif ( ( lc($arg) eq "--help" ) || ( lc($arg) eq "-h" ) ) {
+      print ( "\nCommands:\n" );
+      while ( my ( $key,$value ) = each %commands ) {
+        print ( "$key\t".$value->[0]."\n" );
+      }
+      print ("--yes\t\t\tAlways answer yes to yes/no questions\n");
+      print ("--help\t\t\tShows this help\n\n");
 
-		} elsif (( lc($arg) eq "--yes" ) || ( lc($arg) eq "-y" )){
-			$yes_flag = 1;
- 		} else {
-			print ("\nInvalid argument\n\n");
-			$usage = 1;
- 		}	
-	}
+    } elsif (( lc($arg) eq "--yes" ) || ( lc($arg) eq "-y" )){
+      $yes_flag = 1;
+    } else {
+      print ("\nInvalid argument\n\n");
+      $usage = 1;
+    } 
+  }
 
-	if( $usage || ( @ARGV <= 0 ) ) {
-		print ( "Usage : $0 [--yes]" );
-		foreach my $command ( keys ( %commands )) {
-			print ( " [$command]" );
-		}
-		print "\n\n";
-	}
+  if( $usage || ( @ARGV <= 0 ) ) {
+    print ( "Usage : $0 [--yes]" );
+    foreach my $command ( keys ( %commands )) {
+      print ( " [$command]" );
+    }
+    print "\n\n";
+  }
 exit 0;
 
 __END__
