@@ -1,6 +1,30 @@
 #!/usr/bin/perl
+
+#######################################################################
+#
+# fusiondirectory-insert-schema -- insert schema needed into the ldap server
+#
+# Copyright (C) 2011 FusionDirectory project
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+#
+#######################################################################
+
 use strict;
-use 5.010;
+use warnings;
+
+use 5.008;
 
 my $add_cmd = "ldapadd -Y EXTERNAL -H ldapi:/// -f ";
 my $search_cmd = "ldapsearch -Y EXTERNAL -H ldapi:// -b \"cn=schema,cn=config\" cn={*}";
@@ -27,9 +51,9 @@ my $search = `$full_cmd`;
 
 # add the samba3 schema if it does not already exists in LDAP tree
 if ($search !~ /# numEntries: 1/m){
-	$full_cmd = $add_cmd.$path."/samba.ldif";
-	say "executing '$full_cmd'";
-	system ($full_cmd);
+  $full_cmd = $add_cmd.$path."/samba.ldif";
+  say "executing '$full_cmd'";
+  system ($full_cmd);
 }
 
 my @schemas = ("gosystem","gofon","gofax","goto","goserver","gosa-samba3","trust");
@@ -41,10 +65,10 @@ foreach my $schema (@schemas) {
 
     # if the schema doesn't already exists in the LDAP server, adding it
     if ($search !~ /# numEntries: 1/m){
-			$full_cmd = $add_cmd.$path."/".$schema.".ldif";
-    	say "executing '$full_cmd'";
-    	system($full_cmd);
-		}
+      $full_cmd = $add_cmd.$path."/".$schema.".ldif";
+      say "executing '$full_cmd'";
+      system($full_cmd);
+    }
 }
 
 exit 0;

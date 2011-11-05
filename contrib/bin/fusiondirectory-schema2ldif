@@ -27,7 +27,9 @@
 # v1.5  - Corrected regex for name of schema on command line
 #
 use strict;
-use 5.010;
+use warnings;
+
+use 5.008;
 
 my $mode = "static";
 my $origin = 'user defined';
@@ -40,21 +42,21 @@ my $debug = 0;
 # Process command-line
 
 while ($ARGV[0] =~ /^-/) {
-	my $arg = shift;
-	if ($arg eq "-h") {
-		usage();
-		exit();
-	} elsif ($arg eq "-m") {
-		$mode = "modify";
-	} elsif ($arg eq "-o") {
-		$origin = shift;
-	} elsif ($arg eq "-b") {
-		$branch = shift;
+  my $arg = shift;
+  if ($arg eq "-h") {
+    usage();
+    exit();
+  } elsif ($arg eq "-m") {
+    $mode = "modify";
+  } elsif ($arg eq "-o") {
+    $origin = shift;
+  } elsif ($arg eq "-b") {
+    $branch = shift;
     } else {
-		print STDERR "Unknown option $arg\n";
-		usage();
-		exit(-1);
-	}
+    print STDERR "Unknown option $arg\n";
+    usage();
+    exit(-1);
+  }
 }
 
 if(@ARGV<=0) {
@@ -65,12 +67,11 @@ if(@ARGV<=0) {
 
 $cn = $ARGV[0];
 
-
 $cn =~ s/^\/?(\w+\/)*(\w+)\.[^.]+$/$2/;
 
 my %attrNameMap = (
-	'attributetype'	=> 'olcAttributeTypes',
-	'objectclass'	=> 'olcObjectClasses',
+  'attributetype' => 'olcAttributeTypes',
+  'objectclass' => 'olcObjectClasses',
 );
 
 my @definitionOrder = qw(attributetype objectclass);
@@ -78,23 +79,22 @@ my @definitionOrder = qw(attributetype objectclass);
 my %oidMapping = ();
 my %definitions = ();
 
-
 # Print proper LDIF header 
 
 if ($mode eq "static") {
-	# Header for static schema 
-	# used to drop into a file that server picks up on start
-	say "dn: cn=$cn,$branch";
-	say "objectClass: olcSchemaConfig";
-	say "cn: cn=$cn";
-	
+  # Header for static schema 
+  # used to drop into a file that server picks up on start
+  say "dn: cn=$cn,$branch";
+  say "objectClass: olcSchemaConfig";
+  say "cn: cn=$cn";
+  
 } elsif ($mode eq "modify") {
-	# Header for schema that is being uploaded to running server
-	say "dn: cn=$cn,$branch";
-	say "changetype: modify";
-	
+  # Header for schema that is being uploaded to running server
+  say "dn: cn=$cn,$branch";
+  say "changetype: modify";
+  
 } else {
-	die ("Unknown mode $mode\n");
+  die ("Unknown mode $mode\n");
 }
 
 # Reading the input schema file in loop
@@ -103,172 +103,172 @@ if ($mode eq "static") {
 READLOOP:
 while (<>) {
 
-	# Comments
-	if (/^\s*#/) {
-		# In static mode pass the comments to output file
-		print if ($mode eq "static");
-		# the comments are ignored in other modes as they make
-		# problems when used with some LDAP clients
-		next;
-	}
-	
-	chomp;
-	
-	if ( /^\s*objectIdentifier\s+(\S+)\s+(\S+)\s*$/) {
-		# We have got objectIdentifier macro here.
-		# Parse it and process to the %oidMapping map
-		
-		my ($name,$oidExpression) = ($1,$2);
-		print STDERR "[P] objectIdentifier: $name -> $oidExpression\n" if $debug;
-		
-		if (isOid($oidExpression)) {
-			$oidMapping{$name} = $oidExpression;
-			print STDERR "  adding mapping $name -> $oidExpression\n" if $debug;
-		} else {
-			my $oid = expandOidMacro($oidExpression);
-			if (defined $oid) {
-				$oidMapping{$name} = $oid;
-				print STDERR "  adding mapping $name -> $oid\n" if $debug;
-			} else {
-				print STDERR "Error processing objectIdentifier macro: $_\n";
-			}
-		}
-	}
-	
-	if ( /^\s*(attributetype)\s*\(/i ||
-	     /^\s*(objectclass)\s*\(/i ) {
+  # Comments
+  if (/^\s*#/) {
+    # In static mode pass the comments to output file
+    print if ($mode eq "static");
+    # the comments are ignored in other modes as they make
+    # problems when used with some LDAP clients
+    next;
+  }
+  
+  chomp;
+  
+  if ( /^\s*objectIdentifier\s+(\S+)\s+(\S+)\s*$/) {
+    # We have got objectIdentifier macro here.
+    # Parse it and process to the %oidMapping map
+    
+    my ($name,$oidExpression) = ($1,$2);
+    print STDERR "[P] objectIdentifier: $name -> $oidExpression\n" if $debug;
+    
+    if (isOid($oidExpression)) {
+      $oidMapping{$name} = $oidExpression;
+      print STDERR "  adding mapping $name -> $oidExpression\n" if $debug;
+    } else {
+      my $oid = expandOidMacro($oidExpression);
+      if (defined $oid) {
+        $oidMapping{$name} = $oid;
+        print STDERR "  adding mapping $name -> $oid\n" if $debug;
+      } else {
+        print STDERR "Error processing objectIdentifier macro: $_\n";
+      }
+    }
+  }
+  
+  if ( /^\s*(attributetype)\s*\(/i ||
+       /^\s*(objectclass)\s*\(/i ) {
 
-	     	my $type = lc($1);
-		my $ldifLine = $attrNameMap{$type}.": (";
-		
-		$_ = $';
-		my $level = 1;
-		my $foundOrigin = undef;
-		my $oid = undef;
-		
-		while ($level) {
-		
-			# raise or lower parenthesis level as necessary
-			
-			while ( /\(/g ) { $level++ }
-			while ( /\)/g ) { $level-- }
-			
-			
-			# OID expression should be the very first token
-			# therefore process if it was not processed yet
-			
-			if (! defined $oid && /^\s*(\S+)\s*/) {
-				my $oidExpression = $1;
-				
-				if (isOid($oidExpression)) {
-					# OID expression is OID, no transformation needed
-					$oid = $oidExpression;
-					
-				} else {
-					# Try if OID expression is macro
-					$oid = expandOidMacro($oidExpression);
-					
-					if (! defined $oid) {
-						# OID expression is not macro, copy it verbatim to output
-						# This is used if symbolic names are used instead of OIDs
-						$oid = $oidExpression;
-					}
-				}
-				
-				$ldifLine .= " $oid";
-				$_ = $';
-			}
+        my $type = lc($1);
+    my $ldifLine = $attrNameMap{$type}.": (";
+    
+    $_ = $';
+    my $level = 1;
+    my $foundOrigin = undef;
+    my $oid = undef;
+    
+    while ($level) {
+    
+      # raise or lower parenthesis level as necessary
+      
+      while ( /\(/g ) { $level++ }
+      while ( /\)/g ) { $level-- }
+      
+      
+      # OID expression should be the very first token
+      # therefore process if it was not processed yet
+      
+      if (! defined $oid && /^\s*(\S+)\s*/) {
+        my $oidExpression = $1;
+        
+        if (isOid($oidExpression)) {
+          # OID expression is OID, no transformation needed
+          $oid = $oidExpression;
+          
+        } else {
+          # Try if OID expression is macro
+          $oid = expandOidMacro($oidExpression);
+          
+          if (! defined $oid) {
+            # OID expression is not macro, copy it verbatim to output
+            # This is used if symbolic names are used instead of OIDs
+            $oid = $oidExpression;
+          }
+        }
+        
+        $ldifLine .= " $oid";
+        $_ = $';
+      }
 
-			if ($origin != 'user defined') {
-				# find X-ORIGIN clause in the input
-			
-				if (/X\-ORIGIN\s+\'([^\'*])\'/) {
-					$foundOrigin = $1;
-				}
-			
-				# if we are at the end (level 0) and there was no
-				# X-ORIGIN clause, insert the default one
-				# just before the last parenthesis
-			
-				if ($level == 0 && !defined($foundOrigin)) {
-				s/\)\s*$/ X-ORIGIN \'$origin\' \)/;
-				}
-			}
-			
-			$ldifLine .= $_;
-			
-			$_ = <>;
-			last unless defined $_;
-			
-			chomp;
-			s/^\s+/ /;
-			s/\s+$//;
-			
-		}
-		
-		print STDERR "[P] $type: $oid\n" if $debug;
+      if ($origin != 'user defined') {
+        # find X-ORIGIN clause in the input
+      
+        if (/X\-ORIGIN\s+\'([^\'*])\'/) {
+          $foundOrigin = $1;
+        }
+      
+        # if we are at the end (level 0) and there was no
+        # X-ORIGIN clause, insert the default one
+        # just before the last parenthesis
+      
+        if ($level == 0 && !defined($foundOrigin)) {
+        s/\)\s*$/ X-ORIGIN \'$origin\' \)/;
+        }
+      }
+      
+      $ldifLine .= $_;
+      
+      $_ = <>;
+      last unless defined $_;
+      
+      chomp;
+      s/^\s+/ /;
+      s/\s+$//;
+      
+    }
+    
+    print STDERR "[P] $type: $oid\n" if $debug;
 
-		
-		if ($mode eq "static") {
-			print $ldifLine . "\n";
-		} else {
-			if (!$definitions{$type}) {
-				$definitions{$type} = [];
-			}
-			
-			push @{$definitions{$type}},$ldifLine;
-		}
-		
-		last unless defined $_;
-	}
+    
+    if ($mode eq "static") {
+      print $ldifLine . "\n";
+    } else {
+      if (!$definitions{$type}) {
+        $definitions{$type} = [];
+      }
+      
+      push @{$definitions{$type}},$ldifLine;
+    }
+    
+    last unless defined $_;
+  }
 }
 
 if ($mode eq "modify") {
-	my $first = 1;
-	foreach my $type (@definitionOrder) {
-		next unless ($definitions{$type});
-		if ($first) {
-			$first = 0;
-		} else {
-			print "-\n";
-		}
-		print "add: ".$attrNameMap{$type}."\n";
-		foreach my $line (@{$definitions{$type}}) {
-			print $line."\n";
-		}
-	}
+  my $first = 1;
+  foreach my $type (@definitionOrder) {
+    next unless ($definitions{$type});
+    if ($first) {
+      $first = 0;
+    } else {
+      print "-\n";
+    }
+    print "add: ".$attrNameMap{$type}."\n";
+    foreach my $line (@{$definitions{$type}}) {
+      print $line."\n";
+    }
+  }
 }
 
 sub isOid {
-	my ($s) = @_;
-	
-	return ($s =~ /^[\.\d]+$/);
+  my ($s) = @_;
+  
+  return ($s =~ /^[\.\d]+$/);
 }
 
 sub expandOidMacro {
-	my ($macro) = @_;
-	
-	if ($macro =~ /:/) {
-		my $key = $`;
-		my $suffix = $';
-		if (exists $oidMapping{$key}) {
-			return $oidMapping{$key}.".".$suffix;
-		} else {
-			return undef;
-		}
-	}
-	return $oidMapping{$macro};
+  my ($macro) = @_;
+  
+  if ($macro =~ /:/) {
+    my $key = $`;
+    my $suffix = $';
+    if (exists $oidMapping{$key}) {
+      return $oidMapping{$key}.".".$suffix;
+    } else {
+      return undef;
+    }
+  }
+  return $oidMapping{$macro};
 }
 
 sub usage {
-	print STDERR "Usage: $0 [-h ] [-m] [-o <origin> ] [ -b ] out.schema > out.ldif\n";
-	print STDERR "\t-h\t\tThis help message.\n";
-	print STDERR "\t-m\t\tGenerate \"modify\" LDIF instead of \"static\"\n";
-	print STDERR "\t-o <origin>\tSpecify X-ORIGIN to inject (default: user defined)\n";
-	print STDERR "\t-b branch\tSpecify branch where schema are to be added (default: cn=schema,cn=config)\n";
-	print STDERR "(c) 2000-2005 Radovan Semancik (http://storm.alert.sk/)\n";
-	print STDERR "(c) 2011 Antoine Gallavardin <antoine.gallavardin\@free.fr>\n";
-	print STDERR "(c) 2011 FusionDirectory Project <contact\@fusiondirectory.org>\n";
+  print STDERR "Usage: $0 [-h ] [-m] [-o <origin> ] [ -b ] out.schema > out.ldif\n";
+  print STDERR "\t-h\t\tThis help message.\n";
+  print STDERR "\t-m\t\tGenerate \"modify\" LDIF instead of \"static\"\n";
+  print STDERR "\t-o <origin>\tSpecify X-ORIGIN to inject (default: user defined)\n";
+  print STDERR "\t-b branch\tSpecify branch where schema are to be added (default: cn=schema,cn=config)\n";
+  print STDERR "(c) 2000-2005 Radovan Semancik (http://storm.alert.sk/)\n";
+  print STDERR "(c) 2011 Antoine Gallavardin <antoine.gallavardin\@free.fr>\n";
+  print STDERR "(c) 2011 FusionDirectory Project <contact\@fusiondirectory.org>\n";
 }
 
 =head1 NAME
