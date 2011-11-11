@@ -17,9 +17,9 @@ For VI users, this can be achieved by the following settings:
 
 8<----------------------------------------------------------------------------
 set expandtab
-set shiftwidth=4
-set softtabstop=4
-set tabstop=4
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
 8<----------------------------------------------------------------------------
 
 The line length should not exceed 80 characters. There is one exception for
@@ -68,7 +68,7 @@ foo ($parameter);
 $b = $value [0];
 
 # Readability
-if ($b + 5 > foo (bar () + 4)){
+if ($b + 5 > foo (bar () + 4)) {
 }
 8<----------------------------------------------------------------------------
 
@@ -88,7 +88,7 @@ function foo ($param1, $param2)
 Always use single spaces to split logical and mathematical operations:
 
 8<----------------------------------------------------------------------------
-if ( $a > 6 && $b == 17 && (foo ($b) < 1) ){
+if ( $a > 6 && $b == 17 && (foo ($b) < 1) ) {
 }
 8<----------------------------------------------------------------------------
 
@@ -172,7 +172,7 @@ Find short function names that describe what the function does - in order to
 make the code read like a written sentence.
 
 8<----------------------------------------------------------------------------
-if ( configReadable ("/etc/foo.conf") ){
+if ( configReadable ("/etc/foo.conf") ) {
 }
 8<----------------------------------------------------------------------------
 
