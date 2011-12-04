@@ -7,7 +7,7 @@
 
   <meta name="generator" content="my hands">
   <meta name="description" content="FusionDirectory - Password changer">
-  <meta name="author" lang="de" content="Cajus Pollmeier">
+  <meta name="author" lang="de" content="FusionDirectory Project">
 
   <meta http-equiv="Expires" content="Mon, 26 Jul 1997 05:00:00 GMT">
   <meta http-equiv="Last-Modified" content="{$date} GMT">
