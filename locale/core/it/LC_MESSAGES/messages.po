@@ -1,22 +1,23 @@
-# translation of messages.po to Italian
-# Copyright (c) 2005 B-Open Solutions srl - http://www.bopen.it/
-# Copyright (c) 2005 Alessandro Amici <a.amici@bopen.it>
+# translation of messages.po to
 # Alessandro Amici <a.amici@bopen.it>, 2005.
 # Giuliano Di Vito <giuliano@opensides.be>, 2011.
+# Benoit Mortier <benoit.mortier@opensides.be>, 2012.
+# Copyright (c) 2005 B-Open Solutions srl - http://www.bopen.it/
+# Copyright (c) 2005 Alessandro Amici <a.amici@bopen.it>
 msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-05-08 19:02+0200\n"
-"PO-Revision-Date: 2011-05-18 14:39+0200\n"
-"Last-Translator: Giuliano Di Vito <giuliano@opensides.be>\n"
-"Language-Team: American English <kde-i18n-doc@kde.org>\n"
+"PO-Revision-Date: 2012-01-06 12:27+0100\n"
+"Last-Translator: Benoit Mortier <benoit.mortier@opensides.be>\n"
+"Language-Team:  <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
-"X-Generator: Lokalize 1.0\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms:  nplurals=2; plural=(n > 1);\n"
 
 #: html/password.php:58 html/main.php:148 include/utils/class_xml.inc:44
 #: include/functions.inc:452
@@ -53,8 +54,7 @@ msgstr "Errore  di configurazione"
 #: html/password.php:74 html/setup.php:66 html/index.php:171
 #, php-format
 msgid "Directory '%s' specified as compile directory is not accessible!"
-msgstr ""
-"La cartella '%s' dichiarata come cartella di compilazione è inaccessibile !"
+msgstr "La cartella '%s' dichiarata come cartella di compilazione è inaccessibile !"
 
 #: html/password.php:159 plugins/personal/generic/class_user.inc:593
 msgid "Password method"
@@ -166,8 +166,7 @@ msgstr "Inizia una sessione SSL"
 #: html/main.php:149
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
-msgstr ""
-"Impossibile trovare il file '%s' - esegui '%s' per porre rimedio al problema"
+msgstr "Impossibile trovare il file '%s' - esegui '%s' per porre rimedio al problema"
 
 #: html/main.php:168
 msgid "PHP configuration"
@@ -207,8 +206,7 @@ msgstr "Estensione"
 #: html/main.php:375
 #, php-format
 msgid "Fatal error: Cannot find any plugin definitions for plugin '%s'!"
-msgstr ""
-"Errore fatale: Impossibile trovare alcuna definizione per l'estensione '%s'!"
+msgstr "Errore fatale: Impossibile trovare alcuna definizione per l'estensione '%s'!"
 
 #: html/main.php:389
 msgid "Configuration Error"
@@ -778,8 +776,7 @@ msgstr "Ruoli disponibili"
 msgid ""
 "You are currently editing a database entry. Do you want to dismiss the "
 "changes?"
-msgstr ""
-"Stai modificando un campo del database. Vuoi abbandonare i cambiamenti?"
+msgstr "Stai modificando un campo del database. Vuoi abbandonare i cambiamenti?"
 
 #: ihtml/themes/default/framework.tpl:8 ihtml/themes/default/framework.tpl:11
 msgid "Main"
@@ -964,8 +961,7 @@ msgstr "Verifica dell'istallazione"
 
 #: setup/class_setupStep_Checks.inc:40
 msgid "Basic checks for PHP compatibility and extensions"
-msgstr ""
-"Verifiche di base della compatibilità PHP e delle estensioni necessarie"
+msgstr "Verifiche di base della compatibilità PHP e delle estensioni necessarie"
 
 #: setup/class_setupStep_Checks.inc:64
 msgid "Checking PHP version"
@@ -987,10 +983,8 @@ msgstr ""
 "server LDAP."
 
 #: setup/class_setupStep_Checks.inc:81
-msgid ""
-"FusionDirectory requires this module for an internationalized interface."
-msgstr ""
-"FusionDirectory ha bisogno di questo modulo per l'interfaccia multilingue."
+msgid "FusionDirectory requires this module for an internationalized interface."
+msgstr "FusionDirectory ha bisogno di questo modulo per l'interfaccia multilingue."
 
 #: setup/class_setupStep_Checks.inc:89
 msgid ""
@@ -1002,8 +996,7 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:97
 msgid "FusionDirectory requires this module for the samba integration."
-msgstr ""
-"FusionDirectory ha bisogno di questo modulo per l'integrazione di Samba"
+msgstr "FusionDirectory ha bisogno di questo modulo per l'integrazione di Samba"
 
 #: setup/class_setupStep_Checks.inc:105
 msgid ""
@@ -1025,8 +1018,7 @@ msgstr "mbstring"
 
 #: setup/class_setupStep_Checks.inc:121
 msgid "FusionDirectory requires this module to handle unicode strings."
-msgstr ""
-"FusionDirectory ha bisogno di questo modulo per gestire i caratteri Unicode."
+msgstr "FusionDirectory ha bisogno di questo modulo per gestire i caratteri Unicode."
 
 #: setup/class_setupStep_Checks.inc:128
 msgid "MySQL"
@@ -1053,8 +1045,7 @@ msgstr ""
 "POSIX con le password Samba."
 
 #: setup/class_setupStep_Checks.inc:148
-msgid ""
-"Deploy a goto-si installation or install the perl Crypt::SmbHash modules."
+msgid "Deploy a goto-si installation or install the perl Crypt::SmbHash modules."
 msgstr ""
 "Implementa un'installazione GOto-si oppure installa i moduli perl Crypt::"
 "SmbHash."
@@ -1065,8 +1056,7 @@ msgstr "imagick"
 
 #: setup/class_setupStep_Checks.inc:162
 msgid "FusionDirectory requires this extension to handle images."
-msgstr ""
-"FusionDirectory ha bisogno di questa estensione per gestire le immagini."
+msgstr "FusionDirectory ha bisogno di questa estensione per gestire le immagini."
 
 #: setup/class_setupStep_Checks.inc:177
 msgid "compression module"
@@ -1091,8 +1081,7 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:190
 msgid "Search for 'register_globals' in your php.ini and switch it to 'Off'."
-msgstr ""
-"Cerca l'opzione register_globals nel tuo file php.ini e impostalo su 'Off'."
+msgstr "Cerca l'opzione register_globals nel tuo file php.ini e impostalo su 'Off'."
 
 #: setup/class_setupStep_Checks.inc:198
 msgid "PHP uses this value for the garbage collector to delete old sessions."
@@ -1143,8 +1132,7 @@ msgstr ""
 "Aumenta la memoria per delle installazioni più complesse."
 
 #: setup/class_setupStep_Checks.inc:217
-msgid ""
-"Search for 'memory_limit' in your php.ini and set it to '32M' or higher."
+msgid "Search for 'memory_limit' in your php.ini and set it to '32M' or higher."
 msgstr ""
 "Cerca la variabile 'memory_limit' nel file php.ini e impostala su '32MB' o "
 "un valore più grande."
@@ -1159,16 +1147,14 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:225
 msgid "Search for 'implicit_flush' in your php.ini and set it to 'Off'."
-msgstr ""
-"Cerca la variabile 'implicit_flush' nel file php.ini e impostala su 'Off'."
+msgstr "Cerca la variabile 'implicit_flush' nel file php.ini e impostala su 'Off'."
 
 #: setup/class_setupStep_Checks.inc:232
 msgid "The Execution time should be at least 30 seconds."
 msgstr "Il tempo di esecuzione deve essere di almeno 30 secondi."
 
 #: setup/class_setupStep_Checks.inc:233
-msgid ""
-"Search for 'max_execution_time' in your php.ini and set it to '30' or higher."
+msgid "Search for 'max_execution_time' in your php.ini and set it to '30' or higher."
 msgstr ""
 "Cerca la variabile 'max_execution_time' nel file php.ini e impostala su '30' "
 "o un valore più grande."
@@ -1193,8 +1179,7 @@ msgstr ""
 "'magic_quotes_gpc' su 'Off'."
 
 #: setup/class_setupStep_Checks.inc:258
-msgid ""
-"Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'."
+msgid "Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'."
 msgstr ""
 "Cerca la variabile 'zend.ze1_compatibility_mode' nel file php.ini e "
 "impostala su 'Off'."
@@ -1322,16 +1307,14 @@ msgstr "Impossibile trasmettere il feedback a '%s': %s"
 
 #: setup/class_setupStep_Feedback.inc:148
 msgid "Cannot send feedback: service temporarily unavailable"
-msgstr ""
-"Impossibile trasmettere il feedback: servizio temporaneamente indisponibile"
+msgstr "Impossibile trasmettere il feedback: servizio temporaneamente indisponibile"
 
 #: setup/class_setupStep_Feedback.inc:188
 msgid "Please specify a valid email address."
 msgstr "Specifica un indirizzo e-mail valido."
 
 #: setup/class_setupStep_Feedback.inc:192
-msgid ""
-"You have to select at least one of both options, subscribe or send feedback."
+msgid "You have to select at least one of both options, subscribe or send feedback."
 msgstr ""
 "Devi selezionare almeno una delle due opzioni, iscriversi o inviare commenti "
 "e suggerimenti (feedback)."
@@ -1466,13 +1449,11 @@ msgstr "Tipo di attributo DN degli utenti"
 
 #: setup/setup_config1.tpl:41
 msgid "People storage subtree"
-msgstr ""
-"Ramo dell'annuario LDAP dove sono immagazzinate le informazioni sugli utenti"
+msgstr "Ramo dell'annuario LDAP dove sono immagazzinate le informazioni sugli utenti"
 
 #: setup/setup_config1.tpl:50
 msgid "Group storage subtree"
-msgstr ""
-"Ramo dell'annuario LDAP dove sono immagazzinate le informazioni sui gruppi"
+msgstr "Ramo dell'annuario LDAP dove sono immagazzinate le informazioni sui gruppi"
 
 #: setup/setup_config1.tpl:59
 msgid "Include personal title in user DN"
@@ -1777,8 +1758,7 @@ msgstr ""
 
 #: setup/class_setupStep_Config1.inc:137
 msgid "The given password differ value is not numeric."
-msgstr ""
-"L'opzione differ per la password, che hai indicato, non è un valore numerico."
+msgstr "L'opzione differ per la password, che hai indicato, non è un valore numerico."
 
 #: setup/class_setupStep_Config2.inc:79 setup/class_setupStep_Config2.inc:80
 msgid "FusionDirectory settings 2/3"
@@ -1802,8 +1782,7 @@ msgstr "La durata della sessione deve contenere un valore numerico !"
 
 #: setup/class_setupStep_Config3.inc:217
 msgid "Maximum LDAP query time must be a numeric value!"
-msgstr ""
-"Il tempo massimo di una richiesta LDAP deve contenere un valore numerico !"
+msgstr "Il tempo massimo di una richiesta LDAP deve contenere un valore numerico !"
 
 #: setup/class_setupStep_Finish.inc:38
 msgid "Write configuration file"
@@ -1823,8 +1802,7 @@ msgstr ""
 
 #: setup/class_setupStep_Finish.inc:106
 msgid "The configuration is currently not readable or it does not exists."
-msgstr ""
-"Il file di configurazione attualmente non è leggibile oppure non esiste."
+msgstr "Il file di configurazione attualmente non è leggibile oppure non esiste."
 
 #: setup/class_setupStep_Finish.inc:115
 #, php-format
@@ -1858,8 +1836,7 @@ msgstr "Crea una semplice configurazione mono sito"
 
 #: setup/setup_welcome.tpl:12
 msgid "Tries to find problems within your PHP and LDAP setup"
-msgstr ""
-"Prova a vedere se ci sono dei problemi nella configurazione di PHP o di LDAP"
+msgstr "Prova a vedere se ci sono dei problemi nella configurazione di PHP o di LDAP"
 
 #: setup/setup_welcome.tpl:13
 msgid "Let you choose from a set of basic and advanced configuration switches"
@@ -2081,8 +2058,7 @@ msgstr "Quali funzionalità di FusionDirectory usi ?"
 
 #: setup/setup_feedback.tpl:150
 msgid "What features do you want to see in future versions of FusionDirectory?"
-msgstr ""
-"Quali funzionalità vorresti avere nella futura versione di FusionDirectory ?"
+msgstr "Quali funzionalità vorresti avere nella futura versione di FusionDirectory ?"
 
 #: setup/setup_feedback.tpl:157
 msgid "Send feedback"
@@ -2371,8 +2347,7 @@ msgstr "Messaggio di benvenuto"
 
 #: setup/class_setupStep_Welcome.inc:40
 msgid "Welcome to FusionDirectory setup wizard"
-msgstr ""
-"Benvenuto nell'interfaccia di aiuto alla configurazione di FusionDirectory"
+msgstr "Benvenuto nell'interfaccia di aiuto alla configurazione di FusionDirectory"
 
 #: setup/setup_checks.tpl:9
 msgid "PHP module and extension checks"
@@ -2462,8 +2437,7 @@ msgstr "Seleziona un utente"
 
 #: setup/setup_ldap.tpl:86
 msgid "Automatically append LDAP base to admin DN"
-msgstr ""
-"Aggiunta automatica della base dell'annuario LDAP al DN dell'amministratore"
+msgstr "Aggiunta automatica della base dell'annuario LDAP al DN dell'amministratore"
 
 #: setup/setup_ldap.tpl:93
 msgid "Admin password"
@@ -2595,8 +2569,7 @@ msgstr "Fallito"
 
 #: setup/class_setupStep_Migrate.inc:374
 #, php-format
-msgid ""
-"Found %s winstations outside the predefined winstation department ou '%s'."
+msgid "Found %s winstations outside the predefined winstation department ou '%s'."
 msgstr ""
 "Ho trovato %s workstations windows al di fuori del dipartimento winstation "
 "predefinito '%s'"
@@ -2617,8 +2590,7 @@ msgstr "Ho trovato %s utente(i) al di fuori del ramo '%s' configurato."
 
 #: setup/class_setupStep_Migrate.inc:584 setup/class_setupStep_Migrate.inc:597
 #, php-format
-msgid ""
-"The specified user '%s' does not have full access to your ldap database."
+msgid "The specified user '%s' does not have full access to your ldap database."
 msgstr "L'utente '%s' specificato non ha un pieno accesso al database LDAP."
 
 #: setup/class_setupStep_Migrate.inc:661
@@ -2639,17 +2611,15 @@ msgstr "Non posso migrare il dipartimento '%s':"
 #: setup/class_setupStep_Migrate.inc:804
 #, php-format
 msgid "Found %s department(s) that will not be visible in FusionDirectory."
-msgstr ""
-"Ho trovato %s departimenti(o) che non saranno visibili in FusionDirectory."
+msgstr "Ho trovato %s departimenti(o) che non saranno visibili in FusionDirectory."
 
 #: setup/class_setupStep_Migrate.inc:1028
 #, php-format
 msgid "GOsa 2.5 administrative accounts found: %s"
-msgstr "Account amministrativi trovati per GOsa 2.5 :"
+msgstr "Account amministrativi trovati per GOsa 2.5 : %s"
 
 #: setup/class_setupStep_Migrate.inc:1033
-msgid ""
-"There is no valid FusionDirectory 1.0 administrator account inside your LDAP."
+msgid "There is no valid FusionDirectory 1.0 administrator account inside your LDAP."
 msgstr ""
 "Non vi è alcun account di amministratore valido per FusionDirectory 1.0  nel "
 "tuo LDAP."
@@ -2676,8 +2646,7 @@ msgstr "Gruppi di utenti"
 
 #: setup/class_setupStep_Migrate.inc:1050
 msgid "There is no FusionDirectory administrator account inside your LDAP."
-msgstr ""
-"Non ho trovato alcun amministratore di FusionDirectory nel tuo annuario LDAP."
+msgstr "Non ho trovato alcun amministratore di FusionDirectory nel tuo annuario LDAP."
 
 #: setup/class_setupStep_Migrate.inc:1119
 #, php-format
@@ -2708,8 +2677,7 @@ msgstr "Specifica un ID utente valido !"
 #: setup/class_setupStep_Migrate.inc:1200
 #, php-format
 msgid "Adding an administrative user failed: object '%s' already exists!"
-msgstr ""
-"L'ggiunta di un utenyte amministratore è fallita: l'oggetto '%s' esiste già !"
+msgstr "L'ggiunta di un utenyte amministratore è fallita: l'oggetto '%s' esiste già !"
 
 #: setup/class_setupStep_Migrate.inc:1239
 #: setup/class_setupStep_Migrate.inc:1288
@@ -2745,8 +2713,7 @@ msgid "The following references will be updated"
 msgstr "Le seguenti reference saranno aggiornate"
 
 #: setup/class_setupStep_Migrate.inc:1990
-msgid ""
-"The LDAP root object is missing. It is required to use your LDAP service."
+msgid "The LDAP root object is missing. It is required to use your LDAP service."
 msgstr ""
 "Non trovo l'oggetto radice di LDAP. É indispensabile per poter usare "
 "l'annuario LDAP."
@@ -2859,8 +2826,7 @@ msgstr ""
 
 #: include/exporter/class_pdfExporter.inc:40
 msgid "No PDF export possible: there is no FPDF library installed."
-msgstr ""
-"L'esportazione PDF non è possibile: non ci sono librerie PDF installate."
+msgstr "L'esportazione PDF non è possibile: non ci sono librerie PDF installate."
 
 #: include/exporter/class_pdfExporter.inc:167
 msgid "PDF"
@@ -3114,8 +3080,7 @@ msgstr "Impossibile eseguire il comando '%s' !"
 #: include/utils/class_msgPool.inc:246
 #, php-format
 msgid "Cannot execute '%s' command (%s) for plugin %s!"
-msgstr ""
-"Impossibile eseguire l'opzione '%s' del comando (%s) per l'estensione %s !"
+msgstr "Impossibile eseguire l'opzione '%s' del comando (%s) per l'estensione %s !"
 
 #: include/utils/class_msgPool.inc:248
 #, php-format
@@ -3135,7 +3100,7 @@ msgstr "Il valore specificato per '%s' è troppo grande !"
 #: include/utils/class_msgPool.inc:260
 #, php-format
 msgid "'%s' must be smaller than %s!"
-msgstr "'%s' deve essere più piccolo di %d !"
+msgstr "'%s' deve essere più piccolo di %s !"
 
 #: include/utils/class_msgPool.inc:268
 #, php-format
@@ -3235,8 +3200,7 @@ msgstr "Questa identità non possiede valide estensioni %s !"
 
 #: include/utils/class_msgPool.inc:408
 #, php-format
-msgid ""
-"This account has %s settings enabled. You can disable them by clicking below."
+msgid "This account has %s settings enabled. You can disable them by clicking below."
 msgstr ""
 "Questa identità ha i parametri %s attivati. Puoi disattivarli cliccando sul "
 "bottone qui sotto."
@@ -3252,8 +3216,7 @@ msgstr ""
 
 #: include/utils/class_msgPool.inc:427
 #, php-format
-msgid ""
-"This account has %s settings disabled. You can enable them by clicking below."
+msgid "This account has %s settings disabled. You can enable them by clicking below."
 msgstr ""
 "Questa identità ha i parametri %s disattivati. Puoi attivarli cliccando sul "
 "bottone qui sotto."
@@ -3488,8 +3451,7 @@ msgstr ""
 "nell'installazione di FusionDirectory ?"
 
 #: include/utils/class_msgPool.inc:600
-msgid ""
-"The supplied base is not valid and has been reset to the previous value!"
+msgid "The supplied base is not valid and has been reset to the previous value!"
 msgstr ""
 "La base qui fornita non è valida ed è stata reimpostata al suo valore "
 "originario !"
@@ -3599,8 +3561,7 @@ msgstr ""
 
 #: include/functions.inc:139
 #, php-format
-msgid ""
-"Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
+msgid "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
 msgstr ""
 "Errore fatale: impossibile inizializzare la classe '%s' - esegui '%s' per "
 "porre rimedio al problema"
@@ -3608,8 +3569,7 @@ msgstr ""
 #: include/functions.inc:453
 #, php-format
 msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
-msgstr ""
-"Fatale: Errore durante la connessione al server LDAP. Il server dice: '%s'"
+msgstr "Fatale: Errore durante la connessione al server LDAP. Il server dice: '%s'"
 
 #: include/functions.inc:524
 msgid "Username / UID is not unique inside the LDAP tree!"
@@ -3760,8 +3720,7 @@ msgstr "L'oggetto di classe '%s' opzionale è mancante !"
 #: include/functions.inc:2787
 #, php-format
 msgid "Version mismatch for required object class '%s' (!=%s)!"
-msgstr ""
-"La versione degli oggetti di classe opzionali '%s' non corrisponde (!=%s)!"
+msgstr "La versione degli oggetti di classe opzionali '%s' non corrisponde (!=%s)!"
 
 #: include/functions.inc:2790
 #, php-format
@@ -3839,10 +3798,8 @@ msgstr "Russo"
 
 #: include/functions.inc:3050
 #, php-format
-msgid ""
-"Command '%s', specified as POSTMODIFY for plugin '%s' doesn't seem to exist."
-msgstr ""
-"Il comando '%s', usato nel POSTMODIFY dell'estensione '%s', non esiste !"
+msgid "Command '%s', specified as POSTMODIFY for plugin '%s' doesn't seem to exist."
+msgstr "Il comando '%s', usato nel POSTMODIFY dell'estensione '%s', non esiste !"
 
 #: include/functions.inc:3083
 msgid "Cannot generate samba hash!"
@@ -3850,8 +3807,7 @@ msgstr "Impossibile generare un hash samba !"
 
 #: include/functions.inc:3096
 #, php-format
-msgid ""
-"Cannot generate samba hash: running '%s' failed, check the 'sambaHashHook'!"
+msgid "Cannot generate samba hash: running '%s' failed, check the 'sambaHashHook'!"
 msgstr ""
 "Impossibile generare un hash samba: l'esecuzione di '%s' è fallita, "
 "controlla il 'sambaHashHook'!"
@@ -4043,8 +3999,7 @@ msgstr "Errore XML nel file fusiondirectory.conf: %s alla linea %d"
 
 #: include/class_config.inc:318
 msgid "Cannot bind to LDAP. Please contact the system administrator."
-msgstr ""
-"Errore di connessione al server LDAP. Contatta l'amministratore del sistema."
+msgstr "Errore di connessione al server LDAP. Contatta l'amministratore del sistema."
 
 #: include/class_config.inc:695
 msgid "sambaSID and/or sambaRidBase missing in the configuration!"
@@ -4106,8 +4061,7 @@ msgstr "Impossibile incollare"
 
 #: include/password-methods/class_password-methods.inc:269
 msgid "Cannot find a suitable password method for the current hash!"
-msgstr ""
-"Impossibile trovare un algoritmo di criptaggio che corrisponda alla password!"
+msgstr "Impossibile trovare un algoritmo di criptaggio che corrisponda alla password!"
 
 #: include/class_plugin.inc:528
 msgid ""
@@ -4181,8 +4135,7 @@ msgstr "Il certificato è vuoto !"
 
 #: include/class_certificate.inc:100
 msgid "Cannot load certificate - only PEM/DER is supported!"
-msgstr ""
-"Non posso caricare nessun certificato - solo i PEM/DER sono accettati !"
+msgstr "Non posso caricare nessun certificato - solo i PEM/DER sono accettati !"
 
 #: include/class_certificate.inc:115
 msgid "Cannot extract information for non PEM certificates!"
@@ -4374,14 +4327,11 @@ msgstr "Avvertimento sul rendimento"
 #: include/class_ldap.inc:233 include/class_ldap.inc:266
 #, php-format
 msgid "LDAP performance is poor: last query took about %.2fs!"
-msgstr ""
-"Il rendimento del tuo annuario LDAP è scarso: l'ultima richiesta è durata %"
-"s.2fs !"
+msgstr "Il rendimento del tuo annuario LDAP è scarso: l'ultima richiesta è durata %.2fs !"
 
 #: include/class_ldap.inc:693
 #, php-format
-msgid ""
-"Cannot automatically create subtrees with RDN '%s': no object class found!"
+msgid "Cannot automatically create subtrees with RDN '%s': no object class found!"
 msgstr ""
 "Impossibile creare automaticamente delle sottostrutture con RDN '%s': classe "
 "di oggetto non trovata !"
@@ -4420,9 +4370,7 @@ msgstr ""
 #: include/class_ldap.inc:1081
 #, php-format
 msgid "Error while importing dn: '%s', please check your LDIF from line %s on!"
-msgstr ""
-"Errore durante l'importazione del dn: '%s', verifica il tuo file LDIF a "
-"partire dalla linea %s !"
+msgstr "Errore durante l'importazione del dn: '%s', verifica il tuo file LDIF a partire dalla linea %s !"
 
 #: include/php_setup.inc:100
 msgid "Generating this page caused the PHP interpreter to raise some errors!"
@@ -4584,8 +4532,7 @@ msgstr "Oggetto utilizzato"
 #: plugins/admin/acl/class_aclRole.inc:646
 #, php-format
 msgid "This role cannot be removed while it is in use by these objects:"
-msgstr ""
-"Questo ruolo non puó essere rimosso fin quando è usato da questi oggetti :"
+msgstr "Questo ruolo non puó essere rimosso fin quando è usato da questi oggetti :"
 
 #: plugins/admin/acl/class_aclRole.inc:736
 msgid "Permissions"
@@ -5547,8 +5494,7 @@ msgstr "Dipartimento"
 
 #: plugins/admin/departments/class_department.inc:433
 msgid "Cannot find an unused tag for this administrative unit!"
-msgstr ""
-"Non trovo nessun tag che non sia già in uso per questa unità amministrativa !"
+msgstr "Non trovo nessun tag che non sia già in uso per questa unità amministrativa !"
 
 #: plugins/admin/departments/class_department.inc:502
 #, php-format
@@ -5767,8 +5713,7 @@ msgstr "Applicazioni"
 
 #: plugins/admin/ogroups/class_ogroup.inc:238
 msgid "You cannot combine terminals and workstations in one object group!"
-msgstr ""
-"Non puoi combinare terminali e workstations in un solo gruppo di oggetti !"
+msgstr "Non puoi combinare terminali e workstations in un solo gruppo di oggetti !"
 
 #: plugins/admin/ogroups/class_ogroup.inc:356
 msgid "too many different objects!"
@@ -5878,8 +5823,7 @@ msgstr "Mostra gli oggetti corrispondenti"
 
 #: plugins/admin/ogroups/ogroup_objects.tpl:41
 msgid "Regular expression for matching object names"
-msgstr ""
-"Espressione regolare per selezionare i nomi degli oggetti corrispondenti"
+msgstr "Espressione regolare per selezionare i nomi degli oggetti corrispondenti"
 
 #: plugins/generic/references/class_reference.inc:43
 #: plugins/personal/posix/class_posixAccount.inc:37
@@ -6007,8 +5951,7 @@ msgstr "automatico"
 #: plugins/personal/posix/class_posixAccount.inc:444
 #, php-format
 msgid "Password can't be changed up to %s days after last change"
-msgstr ""
-"La password non può essere cambiata per %s giorni dall'ultimo cambiamento"
+msgstr "La password non può essere cambiata per %s giorni dall'ultimo cambiamento"
 
 #: plugins/personal/posix/class_posixAccount.inc:448
 #, php-format
@@ -6311,8 +6254,7 @@ msgstr "Modifica i parametri organizzativi degli utenti"
 
 #: plugins/personal/generic/class_user.inc:297
 msgid "Please add a single IP address or a network/netmask combination!"
-msgstr ""
-"Inserisci un singolo indirizzo IP oppure una combinazione network/netmask !"
+msgstr "Inserisci un singolo indirizzo IP oppure una combinazione network/netmask !"
 
 #: plugins/personal/generic/class_user.inc:340
 msgid "female"
@@ -6636,3 +6578,4 @@ msgstr "Usa la linguetta del telefono"
 #: plugins/personal/generic/nochange.tpl:5
 msgid "Your password hash method will not be changed!"
 msgstr "L'algoritmo della tua password non puó essere cambiato !"
+

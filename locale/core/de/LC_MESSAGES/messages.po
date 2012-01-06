@@ -1,4 +1,4 @@
-# translation of messages.po to deutsch
+# translation of messages.po to
 # Copyright (C) 2003 GONICUS GmbH, Germany
 # Copyright (C) 2011 FusionDirectory
 # This file is distributed under the same license as the FusionDirectory package.
@@ -7,20 +7,21 @@
 # Cajus Pollmeier <pollmeier@gonicus.de>, 2004, 2005, 2006, 2008, 2009.
 # Jan Wenzel <jan.wenzel@gonicus.de>, 2004,2005, 2008.
 # Stefan Koehler <stefan.koehler@GONICUS.de>, 2005.
+# Benoit Mortier <benoit.mortier@opensides.be>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-05-08 19:02+0200\n"
-"PO-Revision-Date: 2009-10-05 15:19+0200\n"
-"Last-Translator: Cajus Pollmeier <pollmeier@gonicus.de>\n"
-"Language-Team: de <kde-i18n-de@kde.org>\n"
+"PO-Revision-Date: 2012-01-06 12:23+0100\n"
+"Last-Translator: Benoit Mortier <benoit.mortier@opensides.be>\n"
+"Language-Team:  <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
-"X-Generator: Lokalize 1.0\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms:  nplurals=2; plural=(n > 1);\n"
 
 #: html/password.php:58 html/main.php:148 include/utils/class_xml.inc:44
 #: include/functions.inc:452
@@ -31,8 +32,7 @@ msgstr "Schwerer Fehler"
 #: html/password.php:58 html/index.php:150
 #, fuzzy, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
-msgstr ""
-"Die FusionDirectory-Konfigurationsdatei %s/%s ist nicht lesbar. Abgebrochen."
+msgstr "Die FusionDirectory-Konfigurationsdatei %s/%s ist nicht lesbar. Abgebrochen."
 
 #: html/password.php:74 html/main.php:269 html/index.php:150
 #: html/index.php:222 include/class_SnapshotHandler.inc:44
@@ -98,8 +98,7 @@ msgstr "Das alte und neue Passwort sind sich zu ähnlich."
 
 #: html/password.php:209 plugins/personal/password/class_password.inc:123
 msgid "The password used as new is to short."
-msgstr ""
-"Das Passwort, welches Sie als 'Neues Passwort' eingegeben haben, ist zu kurz."
+msgstr "Das Passwort, welches Sie als 'Neues Passwort' eingegeben haben, ist zu kurz."
 
 #: html/password.php:215 plugins/admin/users/template.tpl:32
 #: plugins/admin/users/user-list.xml:65
@@ -386,8 +385,7 @@ msgstr "Authentifizierungsfehler"
 
 #: html/index.php:320
 msgid "Cannot retrieve user information for htaccess authentication!"
-msgstr ""
-"Konnte Benutzerinformation für htaccess-Authentisierung nicht beziehen!"
+msgstr "Konnte Benutzerinformation für htaccess-Authentisierung nicht beziehen!"
 
 #: html/index.php:376
 msgid "Account locked. Please contact your system administrator!"
@@ -855,8 +853,7 @@ msgstr "Bitte entscheiden Sie, wie für diese Sitzung verfahren werden soll"
 
 #: ihtml/themes/default/sizelimit.tpl:9
 msgid "ignore this error and show all entries the LDAP server returns"
-msgstr ""
-"Ignoriere diesen Fehler und zeige alle vom LDAP-Server gelieferten Einträge"
+msgstr "Ignoriere diesen Fehler und zeige alle vom LDAP-Server gelieferten Einträge"
 
 #: ihtml/themes/default/sizelimit.tpl:10
 msgid ""
@@ -1004,10 +1001,8 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:81
 #, fuzzy
-msgid ""
-"FusionDirectory requires this module for an internationalized interface."
-msgstr ""
-"FusionDirectory benötigt dieses Modul für eine lokalisierte Oberfläche."
+msgid "FusionDirectory requires this module for an internationalized interface."
+msgstr "FusionDirectory benötigt dieses Modul für eine lokalisierte Oberfläche."
 
 #: setup/class_setupStep_Checks.inc:89
 #, fuzzy
@@ -1078,8 +1073,7 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:148
 #, fuzzy
-msgid ""
-"Deploy a goto-si installation or install the perl Crypt::SmbHash modules."
+msgid "Deploy a goto-si installation or install the perl Crypt::SmbHash modules."
 msgstr ""
 "Nutzen Sie eine GOto-si Installation oder installieren Sie das Perl-Modul "
 "Crypt::SmbHash."
@@ -1091,8 +1085,7 @@ msgstr "Imagick"
 #: setup/class_setupStep_Checks.inc:162
 #, fuzzy
 msgid "FusionDirectory requires this extension to handle images."
-msgstr ""
-"FusionDirectory benötigt diese Erweiterung um Bilder konvertieren zu können."
+msgstr "FusionDirectory benötigt diese Erweiterung um Bilder konvertieren zu können."
 
 #: setup/class_setupStep_Checks.inc:177
 msgid "compression module"
@@ -1172,8 +1165,7 @@ msgstr ""
 "dieser Wert noch vergrössert werden."
 
 #: setup/class_setupStep_Checks.inc:217
-msgid ""
-"Search for 'memory_limit' in your php.ini and set it to '32M' or higher."
+msgid "Search for 'memory_limit' in your php.ini and set it to '32M' or higher."
 msgstr ""
 "Suchen Sie in Ihrer php.ini nach 'memory_limit' und setzen Sie es auf '32M' "
 "oder höher."
@@ -1197,8 +1189,7 @@ msgid "The Execution time should be at least 30 seconds."
 msgstr "Die Ausführungszeit sollte mindestens 30 Sekunden betragen."
 
 #: setup/class_setupStep_Checks.inc:233
-msgid ""
-"Search for 'max_execution_time' in your php.ini and set it to '30' or higher."
+msgid "Search for 'max_execution_time' in your php.ini and set it to '30' or higher."
 msgstr ""
 "Suchen Sie in Ihrer php.ini nach 'max_execution_time' und setzen Sie es auf "
 "'30' oder höher."
@@ -1214,8 +1205,7 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:241
 msgid "Search for 'expose_php' in your php.ini and set if to 'Off'."
-msgstr ""
-"Suchen Sie in Ihrer php.ini nach 'expose_php' und setzen Sie es auf 'Off'."
+msgstr "Suchen Sie in Ihrer php.ini nach 'expose_php' und setzen Sie es auf 'Off'."
 
 #: setup/class_setupStep_Checks.inc:257
 msgid "Increase your server performance by setting magic_quotes_gpc to 'off'."
@@ -1224,8 +1214,7 @@ msgstr ""
 "stellen."
 
 #: setup/class_setupStep_Checks.inc:258
-msgid ""
-"Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'."
+msgid "Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'."
 msgstr ""
 "Suchen Sie in Ihrer php.ini nach 'zend.ze1_compatibility_mode' und setzen "
 "Sie es auf 'Off'."
@@ -1354,16 +1343,14 @@ msgstr "Kann Rückmeldung nicht an '%s' senden: %s"
 
 #: setup/class_setupStep_Feedback.inc:148
 msgid "Cannot send feedback: service temporarily unavailable"
-msgstr ""
-"Kann Rückmeldung nicht senden: Der Dienst ist vorübergehend nicht verfügbar"
+msgstr "Kann Rückmeldung nicht senden: Der Dienst ist vorübergehend nicht verfügbar"
 
 #: setup/class_setupStep_Feedback.inc:188
 msgid "Please specify a valid email address."
 msgstr "Bitte geben Sie eine gültige E-Mail-Adresse ein."
 
 #: setup/class_setupStep_Feedback.inc:192
-msgid ""
-"You have to select at least one of both options, subscribe or send feedback."
+msgid "You have to select at least one of both options, subscribe or send feedback."
 msgstr ""
 "Sie müssen mindestens eine der beiden Optionen auswählen, Abonnement der "
 "Mailingliste oder Senden einer Rückmeldung."
@@ -2660,8 +2647,7 @@ msgstr "Fehlgeschlagen"
 
 #: setup/class_setupStep_Migrate.inc:374
 #, php-format
-msgid ""
-"Found %s winstations outside the predefined winstation department ou '%s'."
+msgid "Found %s winstations outside the predefined winstation department ou '%s'."
 msgstr ""
 "Es wurden %s Windows-Arbeitsstationen ausserhalb der für diese Abteilung "
 "vordefinierten Winstation Organisationseinheit '%s' gefunden."
@@ -2669,8 +2655,7 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:447
 #, php-format
 msgid "Found %s groups outside the configured tree '%s'."
-msgstr ""
-"Es wurden %s Gruppen ausserhalb des konfigurierten Baums '%s' gefunden."
+msgstr "Es wurden %s Gruppen ausserhalb des konfigurierten Baums '%s' gefunden."
 
 #: setup/class_setupStep_Migrate.inc:448 setup/class_setupStep_Migrate.inc:525
 msgid "Move"
@@ -2679,15 +2664,12 @@ msgstr "Verschieben"
 #: setup/class_setupStep_Migrate.inc:524
 #, php-format
 msgid "Found %s user(s) outside the configured tree '%s'."
-msgstr ""
-"Es wurde(n) %s Benutzer ausserhalb des konfigurierten Baums '%s' gefunden."
+msgstr "Es wurde(n) %s Benutzer ausserhalb des konfigurierten Baums '%s' gefunden."
 
 #: setup/class_setupStep_Migrate.inc:584 setup/class_setupStep_Migrate.inc:597
 #, php-format
-msgid ""
-"The specified user '%s' does not have full access to your ldap database."
-msgstr ""
-"Der angegebene Benutzer '%s' hat keinen Vollzugriff auf Ihre LDAP-Datenbank."
+msgid "The specified user '%s' does not have full access to your ldap database."
+msgstr "Der angegebene Benutzer '%s' hat keinen Vollzugriff auf Ihre LDAP-Datenbank."
 
 #: setup/class_setupStep_Migrate.inc:661
 #, fuzzy, php-format
@@ -2720,8 +2702,7 @@ msgstr "GOsa 2.5 Verwaltungs-Konten gefunden: %s"
 
 #: setup/class_setupStep_Migrate.inc:1033
 #, fuzzy
-msgid ""
-"There is no valid FusionDirectory 1.0 administrator account inside your LDAP."
+msgid "There is no valid FusionDirectory 1.0 administrator account inside your LDAP."
 msgstr "Es gibt keinen FusionDirectory 1.0 Administrator in Ihrem LDAP."
 
 #: setup/class_setupStep_Migrate.inc:1035
@@ -2816,8 +2797,7 @@ msgid "The following references will be updated"
 msgstr "Die folgenden Referenzen werden aktualisiert"
 
 #: setup/class_setupStep_Migrate.inc:1990
-msgid ""
-"The LDAP root object is missing. It is required to use your LDAP service."
+msgid "The LDAP root object is missing. It is required to use your LDAP service."
 msgstr ""
 "Das LDAP Wurzelobjekt fehlt. Es wird für den Betrieb des LDAP-Dienstes "
 "benötigt."
@@ -2926,9 +2906,7 @@ msgstr ""
 msgid ""
 "The snapshot functionality is enabled, but the required compression module "
 "is missing. Please install '%s'."
-msgstr ""
-"Die Snapshot-Funktionalität ist aktiviert, aber das erforderliche Modul '%s' "
-"ist nicht verfügbar. Bitte installieren Sie '%s'."
+msgstr "Die Snapshot-Funktionalität ist aktiviert, aber das erforderliche Modul ist nicht verfügbar. Bitte installieren Sie '%s'."
 
 #: include/exporter/class_pdfExporter.inc:40
 msgid "No PDF export possible: there is no FPDF library installed."
@@ -2948,8 +2926,7 @@ msgstr "CSV"
 
 #: include/class_socketClient.inc:60
 msgid "The mcrypt module was not found. Please install php5-mcrypt."
-msgstr ""
-"Das mcrypt-Modul wurde nicht gefunden. Bitte installieren Sie php5-mcrypt."
+msgstr "Das mcrypt-Modul wurde nicht gefunden. Bitte installieren Sie php5-mcrypt."
 
 #: include/class_socketClient.inc:108
 #, php-format
@@ -3157,8 +3134,7 @@ msgstr "Das Feld '%s' enthält ein reserviertes Schlüsselwort!"
 #: include/utils/class_msgPool.inc:223
 #, php-format
 msgid "Command specified as %s hook for plugin '%s' does not exist!"
-msgstr ""
-"Das als '%s'-Erweiterung angegebene Kommando für Modul '%s' existiert nicht!"
+msgstr "Das als '%s'-Erweiterung angegebene Kommando für Modul '%s' existiert nicht!"
 
 #: include/utils/class_msgPool.inc:230
 #, php-format
@@ -3308,8 +3284,7 @@ msgstr "Dieses Konto besitzt keine gültigen %s-Einstellungen."
 
 #: include/utils/class_msgPool.inc:408
 #, php-format
-msgid ""
-"This account has %s settings enabled. You can disable them by clicking below."
+msgid "This account has %s settings enabled. You can disable them by clicking below."
 msgstr ""
 "Dieses Konto besitzt aktivierte %s-Einstellungen. Sie können diese durch "
 "einen Klick auf die untere Schaltfläche deaktivieren."
@@ -3325,8 +3300,7 @@ msgstr ""
 
 #: include/utils/class_msgPool.inc:427
 #, php-format
-msgid ""
-"This account has %s settings disabled. You can enable them by clicking below."
+msgid "This account has %s settings disabled. You can enable them by clicking below."
 msgstr ""
 "Dieses Konto hat keine %s-Einstellungen aktiviert. Sie können Sie durch "
 "einen Klick auf die Schaltfläche aktivieren."
@@ -3561,10 +3535,8 @@ msgstr ""
 "in Ihren FusionDirectory-Einstellungen?"
 
 #: include/utils/class_msgPool.inc:600
-msgid ""
-"The supplied base is not valid and has been reset to the previous value!"
-msgstr ""
-"Die angegebene Basis ist ungültig. Der alte Wert wurde wieder hergestellt!"
+msgid "The supplied base is not valid and has been reset to the previous value!"
+msgstr "Die angegebene Basis ist ungültig. Der alte Wert wurde wieder hergestellt!"
 
 #: include/class_tabs.inc:57
 #, php-format
@@ -3671,8 +3643,7 @@ msgstr ""
 
 #: include/functions.inc:139
 #, php-format
-msgid ""
-"Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
+msgid "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
 msgstr ""
 "Schwerer Fehler: Kann Klasse '%s' nicht instanziieren - bitte führen Sie '%"
 "s' aus um das Problem zu beheben"
@@ -3680,8 +3651,7 @@ msgstr ""
 #: include/functions.inc:453
 #, php-format
 msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
-msgstr ""
-"FATAL: Fehler beim Verbinden mit dem LDAP-Server. Die Meldung lautet '%s'."
+msgstr "FATAL: Fehler beim Verbinden mit dem LDAP-Server. Die Meldung lautet '%s'."
 
 #: include/functions.inc:524
 msgid "Username / UID is not unique inside the LDAP tree!"
@@ -3708,8 +3678,7 @@ msgstr ""
 
 #: include/functions.inc:823 include/functions.inc:941
 msgid "Error while adding a lock. Contact the developers!"
-msgstr ""
-"Fehler beim Setzen einer Sperre. Bitte kontaktieren Sie die Entwickler!"
+msgstr "Fehler beim Setzen einer Sperre. Bitte kontaktieren Sie die Entwickler!"
 
 #: include/functions.inc:833
 #, php-format
@@ -3911,8 +3880,7 @@ msgstr "Russisch"
 
 #: include/functions.inc:3050
 #, php-format
-msgid ""
-"Command '%s', specified as POSTMODIFY for plugin '%s' doesn't seem to exist."
+msgid "Command '%s', specified as POSTMODIFY for plugin '%s' doesn't seem to exist."
 msgstr ""
 "Das in POSTMODIFY angegebene Kommando '%s' (Modul '%s') scheint nicht zu "
 "existieren."
@@ -3923,8 +3891,7 @@ msgstr "Kann Samba-Hash nicht erzeugen!"
 
 #: include/functions.inc:3096
 #, php-format
-msgid ""
-"Cannot generate samba hash: running '%s' failed, check the 'sambaHashHook'!"
+msgid "Cannot generate samba hash: running '%s' failed, check the 'sambaHashHook'!"
 msgstr ""
 "Kann keinen SAMBA-Hash generieren: die Ausführung von '%s' ist "
 "fehlgeschlagen, prüfen Sie den 'sambaHashHook'!"
@@ -4262,8 +4229,7 @@ msgstr "Zertifikat kann nicht geladen werden - nur PEM/DER sind unterstützt!"
 
 #: include/class_certificate.inc:115
 msgid "Cannot extract information for non PEM certificates!"
-msgstr ""
-"Zertifikatinformationen können nur für PEM Zertifikate ermittelt werden!"
+msgstr "Zertifikatinformationen können nur für PEM Zertifikate ermittelt werden!"
 
 #: include/class_certificate.inc:219
 msgid "No valid certificate loaded!"
@@ -4459,8 +4425,7 @@ msgstr ""
 
 #: include/class_ldap.inc:693
 #, php-format
-msgid ""
-"Cannot automatically create subtrees with RDN '%s': no object class found!"
+msgid "Cannot automatically create subtrees with RDN '%s': no object class found!"
 msgstr ""
 "Kann Teilbäume mit RDN '%s' nicht automatisch erzeugen: keine Objektklasse "
 "gefunden!"
@@ -4468,8 +4433,7 @@ msgstr ""
 #: include/class_ldap.inc:744
 #, php-format
 msgid "Cannot automatically create subtrees with RDN '%s': not supported"
-msgstr ""
-"Kann Teilbäume mit RDN '%s' nicht automatisch erzeugen: nicht unterstützt"
+msgstr "Kann Teilbäume mit RDN '%s' nicht automatisch erzeugen: nicht unterstützt"
 
 #: include/class_ldap.inc:831
 #, php-format
@@ -5100,8 +5064,7 @@ msgstr "UNIX-Name der Gruppe"
 #: plugins/admin/groups/paste_generic.tpl:13
 #: plugins/admin/groups/generic.tpl:59
 msgid "Normally IDs are autogenerated, select to specify manually"
-msgstr ""
-"Normalerweise werden IDs automatisch generiert. Auswählen um dies zu umgehen"
+msgstr "Normalerweise werden IDs automatisch generiert. Auswählen um dies zu umgehen"
 
 #: plugins/admin/groups/paste_generic.tpl:15
 #: plugins/admin/groups/generic.tpl:62
@@ -5441,8 +5404,7 @@ msgstr ""
 
 #: plugins/admin/departments/dep_move_confirm.tpl:2
 msgid "You are currently moving/renaming this department."
-msgstr ""
-"Momentan sind Sie dabei, diese Abteilung zu verschieben bzw. neu zu benennen."
+msgstr "Momentan sind Sie dabei, diese Abteilung zu verschieben bzw. neu zu benennen."
 
 #: plugins/admin/departments/dep_move_confirm.tpl:5
 msgid ""
@@ -5911,8 +5873,7 @@ msgstr ""
 
 #: plugins/admin/ogroups/class_ogroup.inc:792
 msgid "You can combine two different object types at maximum, only!"
-msgstr ""
-"Sie können maximal zwei verschiedene Objekttypen miteinander kombinieren!"
+msgstr "Sie können maximal zwei verschiedene Objekttypen miteinander kombinieren!"
 
 #: plugins/admin/ogroups/class_ogroup.inc:967
 msgid "Object group generic"
@@ -6089,8 +6050,7 @@ msgstr "automatisch"
 #: plugins/personal/posix/class_posixAccount.inc:444
 #, php-format
 msgid "Password can't be changed up to %s days after last change"
-msgstr ""
-"Passwort kann bis zu %s Tage nach der letzten Änderung nicht geändert werden"
+msgstr "Passwort kann bis zu %s Tage nach der letzten Änderung nicht geändert werden"
 
 #: plugins/personal/posix/class_posixAccount.inc:448
 #, php-format
@@ -6312,8 +6272,7 @@ msgstr "Sie müssen das aktuelle Passwort eingeben, um fortfahren zu können."
 
 #: plugins/personal/password/class_password.inc:119
 msgid "The password you've entered as 'New password' is empty."
-msgstr ""
-"Das Passwort, welches Sie als 'Neues Passwort' eingegeben haben ist leer."
+msgstr "Das Passwort, welches Sie als 'Neues Passwort' eingegeben haben ist leer."
 
 #: plugins/personal/password/class_password.inc:161
 msgid ""
@@ -6712,84 +6671,3 @@ msgstr "Verwenden sie den Telefon-Reiter"
 msgid "Your password hash method will not be changed!"
 msgstr "Ihr Passwort-Hash wird nicht geändert!"
 
-#~ msgid "Helpdir '%s' is not accessible, can't read any helpfiles."
-#~ msgstr ""
-#~ "Auf das Hilfeverzeichnis '%s' kann nicht zugegriffen werden - kann daher "
-#~ "keine Hilfedateien lesen."
-
-#~ msgid "On"
-#~ msgstr "An"
-
-#~ msgid ""
-#~ "Increase your server security by setting magic_quotes_gpc to 'on'. PHP "
-#~ "will escape all quotes in strings in this case."
-#~ msgstr ""
-#~ "Erhöhen Sie die Sicherheit des Server, indem sie magic_quotes_gpc auf "
-#~ "'on' stellen. PHP wird in dieser Einstellung alle 'quotes' in 'strings' "
-#~ "umwandeln."
-
-#~ msgid "Search for 'magic_quotes_gpc' in your php.ini and set it to 'On'."
-#~ msgstr ""
-#~ "Suchen Sie in Ihrer php.ini nach 'magic_quotes_gpc' und setzen Sie es auf "
-#~ "'On'."
-
-#~ msgid "Hook for number base"
-#~ msgstr "Hook für Zählbasis"
-
-#~ msgid "Samba hash generator"
-#~ msgstr "Samba Hash-Generator"
-
-#, fuzzy
-#~ msgid "Additional FusionDirectory settings"
-#~ msgstr "Zusätzliche FusionDirectory-Einstellungen"
-
-#~ msgid "Government mode"
-#~ msgstr "Behörden-Modus"
-
-#~ msgid "Smarty compile directory"
-#~ msgstr "Smarty Arbeitsverzeichnis"
-
-#~ msgid "SNMP community"
-#~ msgstr "SNMP Gemeinschaft"
-
-#~ msgid "Path for PPD storage"
-#~ msgstr "Pfad für PPD-Ablage"
-
-#~ msgid "Path for kiosk profile storage"
-#~ msgstr "Pfad für Kioskprofil-Ablage"
-
-#~ msgid "SUDO role base"
-#~ msgstr "Basis für SUDO-Rollen"
-
-#~ msgid "Mail queue script"
-#~ msgstr "Mail-Queue Skript"
-
-#~ msgid "Notification script"
-#~ msgstr "Benachrichtigungsskript"
-
-#, fuzzy
-#~ msgid "GOto-SI daemon"
-#~ msgstr "GOto-si support daemon"
-
-#, fuzzy
-#~ msgid "GOto-si daemon timeout"
-#~ msgstr "GOto-si Daemon-Zeitüberschreitung"
-
-#, fuzzy
-#~ msgid "FusionDirectory support daemon"
-#~ msgstr "GOto-si daemon"
-
-#, fuzzy
-#~ msgid "FusionDirectory %s"
-#~ msgstr "Verzeichnis"
-
-#, fuzzy
-#~ msgid "FusionDirectory %s snapshot (Rev %s)"
-#~ msgstr "FusionDirectory %s Schnappschuss (Rev %s)"
-
-#, fuzzy
-#~ msgid "FusionDirectory development snapshot (Rev %s)"
-#~ msgstr "FusionDirectory Entwicklerversion (Rev %s)"
-
-#~ msgid "Sytem trust"
-#~ msgstr "System-Vertrauen"
