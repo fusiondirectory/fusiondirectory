@@ -1,4 +1,5 @@
 <?php
+<?php
 
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
@@ -112,8 +113,8 @@ function __gosa_autoload($class_name) {
     global $class_mapping, $BASE_DIR;
 
     if ($class_mapping === NULL){
-	    echo sprintf(_("Fatal error: no class locations defined - please run '%s' to fix this"), "<b>fusiondirectory-setup</b>");
-	    exit;
+      echo sprintf(_("Fatal error: no class locations defined - please run '%s' to fix this"), "<b>fusiondirectory-setup</b>");
+      exit;
     }
 
     if (isset($class_mapping["$class_name"])){
@@ -146,13 +147,13 @@ function class_available($name)
  */
 function plugin_available($plugin)
 {
-	global $class_mapping, $BASE_DIR;
+  global $class_mapping, $BASE_DIR;
 
-	if (!isset($class_mapping[$plugin])){
-		return false;
-	} else {
-		return is_readable($BASE_DIR."/".$class_mapping[$plugin]);
-	}
+  if (!isset($class_mapping[$plugin])){
+    return false;
+  } else {
+    return is_readable($BASE_DIR."/".$class_mapping[$plugin]);
+  }
 }
 
 
@@ -296,9 +297,9 @@ function get_template_path($filename= '', $plugin= FALSE, $path= "")
 
   /* Set theme */
   if (isset ($config)){
-	$theme= $config->get_cfg_value("theme", "default");
+  $theme= $config->get_cfg_value("theme", "default");
   } else {
-  	$theme= "default";
+    $theme= "default";
   }
 
   /* Return path for empty filename */
@@ -581,7 +582,7 @@ function ldap_login_user ($username, $password)
   switch ($ldap->count()){
 
     /* user not found */
-    case 0:	return (NULL);
+    case 0: return (NULL);
 
             /* valid uniq user */
     case 1: 
@@ -2237,7 +2238,7 @@ function to_byte($value) {
  */ 
 function in_array_ics($value, $items)
 {
-	return preg_grep('/^'.preg_quote($value, '/').'$/i', $items);
+  return preg_grep('/^'.preg_quote($value, '/').'$/i', $items);
 }
 
 
@@ -2810,6 +2811,7 @@ function get_languages($languages_in_own_language = FALSE,$strip_region_tag = FA
         "fr_FR" => "French",
         "it_IT" => "Italian",
         "es_ES" => "Spanish",
+        "ca_ES" => "Catalan",
         "en_US" => "English",
         "nl_NL" => "Dutch",
         "pl_PL" => "Polish",
@@ -2822,6 +2824,7 @@ function get_languages($languages_in_own_language = FALSE,$strip_region_tag = FA
         "fr_FR" => _("French"),
         "it_IT" => _("Italian"),
         "es_ES" => _("Spanish"),
+        "ca_ES" => _("Catalan"),
         "en_US" => _("English"),
         "nl_NL" => _("Dutch"),
         "pl_PL" => _("Polish"),
@@ -3050,9 +3053,9 @@ function generate_smb_nt_hash($password)
 
   # Try to use goto-si?
   if ($config->get_cfg_value("goto-si-URI") != ""){
-  	$res= supportDaemon::send("gosa_gen_smb_hash", "GOSA", array("password" => $password), TRUE);
+    $res= supportDaemon::send("gosa_gen_smb_hash", "GOSA", array("password" => $password), TRUE);
     if (isset($res['XML']['HASH'])){
-    	$hash= $res['XML']['HASH'];
+      $hash= $res['XML']['HASH'];
     } else {
       $hash= "";
     }
@@ -3062,13 +3065,13 @@ function generate_smb_nt_hash($password)
       return ("");
     }
   } else {
-	  $tmp= $config->get_cfg_value('sambaHashHook')." ".escapeshellarg($password);
-	  @DEBUG (DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $tmp, "Execute");
+    $tmp= $config->get_cfg_value('sambaHashHook')." ".escapeshellarg($password);
+    @DEBUG (DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $tmp, "Execute");
 
-	  exec($tmp, $ar);
-	  flush();
-	  reset($ar);
-	  $hash= current($ar);
+    exec($tmp, $ar);
+    flush();
+    reset($ar);
+    $hash= current($ar);
 
     if ($hash == "") {
       msg_dialog::display(_("Configuration error"), sprintf(_("Cannot generate samba hash: running '%s' failed, check the 'sambaHashHook'!"),$config->get_cfg_value('sambaHashHook')), ERROR_DIALOG);
@@ -3188,7 +3191,7 @@ function send_binary_content($data,$name,$type = "application/octet-stream")
 
   /* Strip name if it is a complete path */
   if (preg_match ("/\//", $name)) {
-	$name= basename($name);
+  $name= basename($name);
   }
   
   /* force download dialog */
