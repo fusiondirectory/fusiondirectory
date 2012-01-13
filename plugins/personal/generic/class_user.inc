@@ -191,8 +191,8 @@ class user extends plugin
 
       /* get password storage type */
       if (isset ($this->attrs['userPassword'][0])){
-      	/* Initialize local array */
-      	$matches= array();
+        /* Initialize local array */
+        $matches= array();
         if (preg_match ("/^{[^}]+}/", $this->attrs['userPassword'][0])){
           $tmp= passwordMethod::get_method($this->attrs['userPassword'][0]);
           if(is_object($tmp)){
@@ -475,7 +475,7 @@ class user extends plugin
       }
     }
 
-    /* Upload new cert and close dialog? */	
+    /* Upload new cert and close dialog? */ 
     if($this->acl_is_writeable("Certificate",(!is_object($this->parent) && !session::is_set('edit')))){ 
 
       $fail =false;
@@ -988,55 +988,24 @@ class user extends plugin
     /* Special handling for attribute jpegPhote needed, scale image via
        image magick to 147x200 pixels and inject resulting data. */
     if ($this->jpegPhoto == "*removed*"){
-
-        /* Reset attribute to avoid writing *removed* as value */    
-        $this->attrs["jpegPhoto"] = array();
-
+      /* Reset attribute to avoid writing *removed* as value */    
+      $this->attrs["jpegPhoto"] = array();
     } else {
-
-       if(class_exists('Imagick')){
-
-            $im = new Imagick();
-            $im->readImageBlob($this->photoData);
-/*            $im->setImageOpacity(1.0); removed because not support on imagick on centos / redhat 5 */
-            $im->resizeImage(147,200,Imagick::FILTER_UNDEFINED,0.5,TRUE);
-            $im->setCompressionQuality(90);
+        if (class_exists('Imagick')) {
+          $im = new Imagick();
+          $im->readImageBlob($this->photoData);
+            
+          $size = $im->getSize();
+            
+          if (($size['columns'] != 0 and $size['rows'] != 0) and ($size['columns'] != 147 and $size['rows'] != 200)) {
+            $im->resizeImage(147, 200, Imagick::FILTER_GAUSSIAN, 1, FALSE);
             $im->setImageFormat('jpeg');
-            $this->attrs["jpegPhoto"] = $im->getImageBlob();
-
-        }elseif(exec('convert')){
-
-            /* Get temporary file name for conversation */
-            $fname = tempnam (TEMP_DIR, "GOsa");
-
-            /* Open file and write out photoData */
-            $fp = fopen ($fname, "w");
-            fwrite ($fp, $this->photoData);
-            fclose ($fp);
-
-            /* Build conversation query. Filename is generated automatically, so
-               we do not need any special security checks. Exec command and save
-               output. For PHP safe mode, you'll need a configuration which respects
-               image magick as executable... */
-            $query= "convert -size 147x200 $fname -resize 147x200 +profile \"*\" -";
-            @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__,
-                    $query, "Execute");
-
-            /* Read data written by convert */
-            $output= "";
-            $sh= popen($query, 'r');
-            while (!feof($sh)){
-                $output.= fread($sh, 4096);
-            }
-            pclose($sh);
-
-            unlink($fname);
-
+          }
             /* Save attribute */
-            $this->attrs["jpegPhoto"] = $output;
-        }else{
+            $this->attrs["jpegPhoto"] = $im->getImageBlob();
+        } else {
             msg_dialog::display(_("Error"), 
-                    _("Cannot save user picture, FusionDirectory requires the package 'imagemagick' or 'php5-imagick' to be installed!"), 
+                    _("Cannot save user picture, FusionDirectory requires the package 'php5-imagick' to be installed!"), 
                     ERROR_DIALOG);
         }
     }
