@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: admin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-05-08 19:02+0200\n"
-"PO-Revision-Date: 2010-01-28 23:21+0100\n"
+"PO-Revision-Date: 2011-11-22 13:56+0100\n"
 "Last-Translator: \n"
 "Language-Team: Spanish <>\n"
 "MIME-Version: 1.0\n"
@@ -25,10 +25,9 @@ msgid "Fatal error"
 msgstr "Error fatal"
 
 #: html/password.php:58 html/index.php:150
-#, fuzzy, php-format
+#, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
-msgstr ""
-"No se puede acceder a la configuración de FusionDirectory %s/%s. Cancelado"
+msgstr "La configuración de FusionDirectory %s/%s no se puede leer. Cancelado."
 
 #: html/password.php:74 html/main.php:269 html/index.php:150
 #: html/index.php:222 include/class_SnapshotHandler.inc:44
@@ -417,9 +416,9 @@ msgid "next"
 msgstr "siguiente"
 
 #: html/helpviewer.php:272
-#, fuzzy, php-format
+#, php-format
 msgid "No help available for the extension '%s'."
-msgstr "No hay ayuda disponible para esta extensión."
+msgstr "No hay ayuda disponible para la extensión «%s»."
 
 #: ihtml/themes/default/conflict.tpl:2
 msgid "Session conflict detected"
@@ -573,9 +572,8 @@ msgid "Continue"
 msgstr "Continuar"
 
 #: ihtml/themes/default/logout-close.tpl:5
-#, fuzzy
 msgid "Your FusionDirectory session has been closed!"
-msgstr "¡Su sesión de FusionDirectory se ha terminado!"
+msgstr "¡Su sesión de FusionDirectory se ha cerrado!"
 
 #: ihtml/themes/default/logout-close.tpl:7
 msgid ""
@@ -801,7 +799,7 @@ msgstr "Entrando"
 
 #: ihtml/themes/default/framework.tpl:32
 msgid "FusionDirectory main menu"
-msgstr ""
+msgstr "Menú principal de FusionDirectory"
 
 #: ihtml/themes/default/msg_dialog.tpl:61
 #: ihtml/themes/default/msg_dialog.tpl:108 setup/setup_ldap.tpl:121
@@ -1687,7 +1685,7 @@ msgstr "Activar Copiar y Pegar"
 
 #: setup/setup_config3.tpl:74
 msgid "FusionDirectory logging"
-msgstr ""
+msgstr "Registros de FusionDirectory"
 
 #: setup/setup_config3.tpl:85
 msgid "Login and session"
@@ -2075,7 +2073,7 @@ msgstr "¿Que versión de PHP usa?"
 
 #: setup/setup_feedback.tpl:112
 msgid "FusionDirectory version"
-msgstr ""
+msgstr "FusionDirectory versión"
 
 #: setup/setup_feedback.tpl:120
 msgid "LDAP"
@@ -3608,7 +3606,7 @@ msgstr ""
 
 #: include/class_gosaSupportDaemon.inc:112
 msgid "Service GOto-si"
-msgstr ""
+msgstr "Servicio GOto-si"
 
 #: include/class_gosaSupportDaemon.inc:787
 msgid "Cannot not parse XML!"
@@ -4180,9 +4178,8 @@ msgid "copy"
 msgstr "copiar"
 
 #: include/class_sortableListing.inc:221
-#, fuzzy
 msgid "Sortable list"
-msgstr "Exportar lista"
+msgstr "Lista ordenada"
 
 #: include/class_sortableListing.inc:224 include/class_sortableListing.inc:226
 #: include/class_acl.inc:503 include/class_acl.inc:551
@@ -4263,9 +4260,9 @@ msgstr "Gestión de las Listas de control de acceso"
 
 #: include/class_acl.inc:120 include/class_acl.inc:581
 #: include/class_acl.inc:1009
-#, fuzzy, php-format
+#, php-format
 msgid "All users"
-msgstr "usuarios"
+msgstr "Todos los usuarios"
 
 #: include/class_acl.inc:214 plugins/admin/acl/class_aclRole.inc:127
 msgid "All categories"
@@ -4447,7 +4444,7 @@ msgstr "mientras operaba en el servidor LDAP '%s'"
 #: include/class_ldap.inc:890
 #, php-format
 msgid "Missing command line programm '%s'!"
-msgstr ""
+msgstr "Falta el programa de la línea de comandos «%s»!"
 
 #: include/class_ldap.inc:1052
 #, php-format
@@ -4471,9 +4468,8 @@ msgstr ""
 "¡La generación de esta página ha provocado errores en el interprete PHP!"
 
 #: include/php_setup.inc:105
-#, fuzzy
 msgid "Send bug report to the FusionDirectory Team"
-msgstr "Enviar informe de errores al equipo de desarrollo de FusionDirectory"
+msgstr "Enviar informe de errores al equipo de FusionDirectory"
 
 #: include/php_setup.inc:105
 msgid "Send bugreport"
@@ -4673,21 +4669,18 @@ msgstr "Longitud mínima de la contraseña"
 #: plugins/admin/users/password.tpl:39
 #: plugins/personal/password/password.tpl:56
 #: plugins/personal/generic/password.tpl:51
-#, fuzzy
 msgid "Use proposal"
-msgstr "grupos de usuarios"
+msgstr "Usar propuesta"
 
 #: plugins/admin/users/password.tpl:56
 #: plugins/personal/password/password.tpl:74
 #: plugins/personal/generic/password.tpl:68
-#, fuzzy
 msgid "Manually specify a password"
-msgstr "¡Por favor introduzca una contraseña!"
+msgstr "Especificar una contraseña manualmente"
 
 #: plugins/admin/users/password.tpl:84
-#, fuzzy
 msgid "Enforce password change on next login."
-msgstr "Forzar el cambio de contraseña al iniciar"
+msgstr "Forzar el cambio de contraseña en el próximo inicio."
 
 #: plugins/admin/users/password.tpl:91
 #: plugins/personal/password/password.tpl:101
@@ -4742,7 +4735,7 @@ msgstr "error de infraestructura"
 #: plugins/personal/password/class_password.inc:140
 #, php-format
 msgid "Check-hook reported a problem: %s. Password change canceled!"
-msgstr ""
+msgstr "Check-hook ha reportado un problema: %s. Cambio de contraseña cancelado!"
 
 #: plugins/admin/users/class_userManagement.inc:402
 msgid "You have no permission to change this users password!"
@@ -5344,9 +5337,8 @@ msgstr "Localización"
 #: plugins/personal/generic/class_user.inc:1689
 #: plugins/personal/generic/generic.tpl:342
 #: plugins/personal/generic/generic.tpl:363
-#, fuzzy
 msgid "Manager"
-msgstr "Gestión de usuarios"
+msgstr "Gestor"
 
 #: plugins/admin/departments/class_localityGeneric.inc:95
 #: plugins/admin/departments/class_dcObject.inc:94
@@ -5987,7 +5979,7 @@ msgstr ""
 
 #: plugins/generic/welcome/welcome.tpl:15
 msgid "The FusionDirectory team"
-msgstr ""
+msgstr "El equipo de FusionDirectory"
 
 #: plugins/personal/posix/posix_groups.tpl:6
 msgid "Select groups to add"
@@ -6259,15 +6251,13 @@ msgstr ""
 "podrá entrar sin ella."
 
 #: plugins/personal/password/password.tpl:14
-#, fuzzy
 msgid "Your Password has expired. Please choose a new password!"
 msgstr "Su contraseña ha caducado. ¡Por favor seleccione una nueva!"
 
 #: plugins/personal/password/password.tpl:47
 #: plugins/personal/generic/password.tpl:42
-#, fuzzy
 msgid "Password change dialog"
-msgstr "Cambio de contraseña"
+msgstr "Diálogo de cambio de contraseña"
 
 #: plugins/personal/password/password.tpl:103
 #: plugins/personal/generic/password.tpl:97
@@ -6410,7 +6400,7 @@ msgstr "El método de contraseña seleccionado no está disponible."
 msgid ""
 "Cannot save user picture, FusionDirectory requires the package 'imagemagick' "
 "or 'php5-imagick' to be installed!"
-msgstr ""
+msgstr "No se puede guardar la imagen, FusionDirectory requiere que los paquetes «imagemagick» o «php5-imagick» estén instalados!"
 
 #: plugins/personal/generic/class_user.inc:1176
 msgid "Cannot build RDN: no + allowed to build sub RDN!"
@@ -6529,7 +6519,7 @@ msgstr "Título Personal"
 #: plugins/personal/generic/class_user.inc:1675
 #: plugins/personal/generic/generic.tpl:110
 msgid "Academic title"
-msgstr "Títulos académicos"
+msgstr "Titulación académica"
 
 #: plugins/personal/generic/class_user.inc:1678
 #: plugins/personal/generic/generic.tpl:140
@@ -6546,9 +6536,8 @@ msgid "User picture"
 msgstr "Foto del usuario"
 
 #: plugins/personal/generic/class_user.inc:1684
-#, fuzzy
 msgid "Login restrictions"
-msgstr "Restricciones de contraseña"
+msgstr "Restricciones de entrada"
 
 #: plugins/personal/generic/class_user.inc:1688
 msgid "Department number"
@@ -6561,7 +6550,7 @@ msgstr "Número de empleado"
 #: plugins/personal/generic/class_user.inc:1691
 #: plugins/personal/generic/generic.tpl:333
 msgid "Employee type"
-msgstr "Funciones laborales"
+msgstr "Categoría profesional"
 
 #: plugins/personal/generic/class_user.inc:1693
 msgid "Room number"
@@ -6600,9 +6589,8 @@ msgid "User certificates"
 msgstr "Certificados de usuario"
 
 #: plugins/personal/generic/class_user.inc:1915
-#, fuzzy
 msgid "Entries differ"
-msgstr "Entradas por página"
+msgstr "Las entradas difieren"
 
 #: plugins/personal/generic/paste_generic.tpl:1
 msgid "User settings"
@@ -6676,9 +6664,8 @@ msgid "Please use the phone tab"
 msgstr "Por favor use la sección telefóno"
 
 #: plugins/personal/generic/nochange.tpl:5
-#, fuzzy
 msgid "Your password hash method will not be changed!"
-msgstr "Su contraseña se ha cambiado correctamente."
+msgstr "No se cambiará su método de hash de la contraseña!"
 
 #~ msgid "Helpdir '%s' is not accessible, can't read any helpfiles."
 #~ msgstr ""
@@ -6705,10 +6692,6 @@ msgstr "Su contraseña se ha cambiado correctamente."
 #~ msgid "Samba hash generator"
 #~ msgstr "Generador clave hash de Samba"
 
-#, fuzzy
-#~ msgid "Additional FusionDirectory settings"
-#~ msgstr "Configuración avanzada de FusionDirectory"
-
 #~ msgid "Government mode"
 #~ msgstr "Modo gubernamental"
 
@@ -6732,30 +6715,6 @@ msgstr "Su contraseña se ha cambiado correctamente."
 
 #~ msgid "Notification script"
 #~ msgstr "Script de notificación"
-
-#, fuzzy
-#~ msgid "GOto-SI daemon"
-#~ msgstr "Demonio de soporte GOto-si"
-
-#, fuzzy
-#~ msgid "GOto-si daemon timeout"
-#~ msgstr "Tiempo máximo de respuesta de acceso al demonio GOto-si"
-
-#, fuzzy
-#~ msgid "FusionDirectory support daemon"
-#~ msgstr "Demonio de soporte GOto-si"
-
-#, fuzzy
-#~ msgid "FusionDirectory %s"
-#~ msgstr "Directorio"
-
-#, fuzzy
-#~ msgid "FusionDirectory %s snapshot (Rev %s)"
-#~ msgstr "Instantánea de desarrollo FusionDirectory (Rev %s)"
-
-#, fuzzy
-#~ msgid "FusionDirectory development snapshot (Rev %s)"
-#~ msgstr "Instantánea de desarrollo FusionDirectory (Rev %s)"
 
 #~ msgid "Sytem trust"
 #~ msgstr "Sistema de confianza"
