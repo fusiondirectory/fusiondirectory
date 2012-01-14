@@ -58,6 +58,9 @@ define ("CONFIG_TEMPLATE_DIR", "/var/cache/fusiondirectory/template/");
 /* Directory containing the fai logs */
 define ("FAI_LOG_DIR", "/var/cache/fusiondirectory/fai/");
 
+/* Directory containing the vacation files */
+define ("VACATION_DIR", "/var/cache/fusiondirectory/vacation/");
+
 /* fpdf library path */ 
 define("FPDF","/usr/share/php/fpdf/fpdf.php");
 

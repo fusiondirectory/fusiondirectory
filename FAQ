@@ -122,13 +122,13 @@ A: There's the possibility to add a password hook in fusiondirectory.conf's main
 Q: What about templates for vacation messages?
 
 A: Create a directory to keep a set of vacation messages which are readable by the
-   user that runs your apache. In this example I'll use /etc/fusiondirectory/vacation for that.
+   user that runs your apache. In this example I'll use /var/cache/fusiondirectory/vacation for that.
 
    Put your vacation files in there containing a "DESC:some descriptive text" as the
    first line followed by the normal vacation text. You can use all attributes from
    the generic tab. I.e.:
 
-    /etc/fusiondirectory/vacation/business.txt 
+    /var/cache/fusiondirectory/vacation/business.txt 
 
    |--> 
     DESC:Away from desk
@@ -139,7 +139,7 @@ A: Create a directory to keep a set of vacation messages which are readable by t
     %givenName %sn
    |<--
  
-   Place the config option vacationTemplateDirectory="/etc/fusiondirectory/vacation" in the location found in
+   Place the config option vacationTemplateDirectory="/var/cache/fusiondirectory/vacation" in the location found in
    fusiondirectory.conf and a template box is show in the vacation mail tab.
 
 

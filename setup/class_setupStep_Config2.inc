@@ -31,7 +31,7 @@ class Step_Config2 extends setup_step
   var $mail           = "none";
   var $mail_attrib    = "";
   var $mail_methods   = array();
-  var $mail_settings = array("vacationdir"        => "/etc/fusiondirectory/vacation",
+  var $mail_settings = array("vacationdir"        => VACATION_DIR,
                              "vacationdir_active" => FALSE);
 
   var $generic_settings  = array( "wws_ou"        => "ou=winstations",
