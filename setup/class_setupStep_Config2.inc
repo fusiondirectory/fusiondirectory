@@ -34,7 +34,7 @@ class Step_Config2 extends setup_step
   var $mail_settings = array("vacationdir"        => VACATION_DIR,
                              "vacationdir_active" => FALSE);
 
-  var $generic_settings  = array( "wws_ou"        => "ou=winstations",
+  var $generic_settings  = array( "wws_ou"        => "ou=computers",
                                   "wws_ou_active" => FALSE,
                                   "snapshot_active"     => FALSE,
                                   "snapshot_base"       => "ou=snapshots,%base%",
