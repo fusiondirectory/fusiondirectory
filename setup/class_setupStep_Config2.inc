@@ -61,12 +61,12 @@ class Step_Config2 extends setup_step
     $this->mail_methods = $this->get_available_mail_classes();
 
     /* Look for samba password generation method */
-    if(file_exists("/usr/bin/fusiondirectory-mkntpassword")){
-      $pwdhash  = "/usr/bin/fusiondirectory-mkntpassword";
-    } elseif (preg_match("/^Usage: fusiondirectory-mkntpassword /", shell_exec ("mkntpwd 2>&1"))){
-      $pwdhash= "mkntpwd";
+    if(file_exists(MKNTPWD)){
+      $pwdhash = MKNTPWD;
+    } elseif (preg_match("/^Usage: fusiondirectory-mkntpassword <password>/", shell_exec (MKNTPWD))){
+      $pwdhash = MKNTPWD;
     } else {
-      $pwdhash= 'perl -MCrypt::SmbHash -e "print join(q[:], ntlmgen \$ARGV[0]), $/;"';
+      $pwdhash = 'perl -MCrypt::SmbHash -e "print join(q[:], ntlmgen \$ARGV[0]), $/;"';
     }
 
     $this->timezones = timezone::_get_tz_zones();
