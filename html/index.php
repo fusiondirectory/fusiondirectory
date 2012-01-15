@@ -330,7 +330,7 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
       session::global_set('config',$config);
 
       if(isset($_SERVER['REMOTE_ADDR'])) {
-        $ip= $_SERVERREMOTE_ADDR;
+        $ip= $_SERVER['REMOTE_ADDR'];
         new log("security","login","",array(),"Authentication failed for user \"$username\" [from $ip]");
       } else {
         new log("security","login","",array(),"Authentication failed for user \"$username\"");
