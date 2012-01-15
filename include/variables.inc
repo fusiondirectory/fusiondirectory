@@ -61,6 +61,12 @@ define ("FAI_LOG_DIR", "/var/cache/fusiondirectory/fai/");
 /* Directory containing the vacation files */
 define ("VACATION_DIR", "/var/cache/fusiondirectory/vacation/");
 
+/* php library path */
+define ("PHP_DIR", "/usr/share/php");
+
+/* excel library path */
+define ("EXCEL", "/include/utils/excel");
+
 /* fpdf library path */ 
 define("FPDF","/usr/share/php/fpdf/fpdf.php");
 

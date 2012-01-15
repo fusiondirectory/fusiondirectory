@@ -73,7 +73,7 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
     if(function_exists("prepare4mailbody")){
       $version= "unknown";
       if(function_exists("get_gosa_version")){
-	      $version= get_gosa_version();
+        $version= get_gosa_version();
       }
       $error_collector_mailto .=prepare4mailbody(
                                 "Oups. Seems like you've catched some kind of bug inside FusionDirectory/PHP. You may want to help ".
@@ -285,7 +285,7 @@ ini_set("register_globals",0);
 ini_set("track_vars",1);
 ini_set("display_errors",1);
 ini_set("report_memleaks",1);
-ini_set("include_path",".:$BASE_DIR/include:$BASE_DIR/include/utils/excel:/usr/share/php");
+ini_set("include_path",".:$BASE_DIR/include:$BASE_DIR/EXCEL:PHP_DIR");
 
 /* Do smarty setup */
 
