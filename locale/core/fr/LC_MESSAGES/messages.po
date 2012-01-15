@@ -953,7 +953,7 @@ msgid ""
 "'automatic' will use the language requested by the browser. This setting can "
 "be overriden per user."
 msgstr ""
-"Maintenant vous pouvez choisir la langue par défaut pour GOSa. Automatique "
+"Maintenant vous pouvez choisir la langue par défaut. Automatique "
 "utilisera la langue demandée par le navigateur. Ce paramètre peut être "
 "configuré par utilisateur."
 
