@@ -37,7 +37,8 @@ class config  {
   var $gpc= 0;
   var $section= "";
   var $currentLocation= "";
-
+  var $debian = "/etc/debian_version";
+  
   /*! \brief Store configuration for current location */
   var $current= array(); 
 
@@ -195,7 +196,7 @@ class config  {
 
 
       /* Handle tab section */
-      case 'TAB':	$name= $this->tags[$this->level-2];
+      case 'TAB': $name= $this->tags[$this->level-2];
 
                   /* Create new array? */
                   if (!isset($this->data['TABS'][$name])){
@@ -517,7 +518,7 @@ class config  {
     $ldap->search ("(objectClass=goCupsServer)");
     if ($ldap->count()){
       $attrs= $ldap->fetch();
-      $this->data['SERVERS']['CUPS']= $attrs['cn'][0];	
+      $this->data['SERVERS']['CUPS']= $attrs['cn'][0];  
     }
 
     /* Get fax server. FIXME: only one is supported currently */
@@ -609,11 +610,11 @@ class config  {
         if(preg_match('/^[^|]+\|[^|]+\|NFS\|.*$/', $attrs["goExportEntry"][$i])){
           $path= preg_replace ("/^[^|]+\|[^|]+\|[^|]+\|[^|]+\|([^|]+).*$/", '\1', $attrs["goExportEntry"][$i]);
           $tmp[]= $attrs["cn"][0].":$path";
-	}
+  }
         if(preg_match('/^[^|]+\|[^|]+\|NBD\|.*$/', $attrs["goExportEntry"][$i])){
           $path= preg_replace ("/^[^|]+\|[^|]+\|[^|]+\|[^|]+\|([^|]+).*$/", '\1', $attrs["goExportEntry"][$i]);
           $tmp2[]= $attrs["cn"][0].":$path";
-	}
+  }
       }
     }
     $this->data['SERVERS']['NFS']= $tmp;
@@ -769,7 +770,7 @@ class config  {
   {
     global $config;
     $base = $config->current['BASE'];
-		$qbase = preg_quote($base, '/');
+    $qbase = preg_quote($base, '/');
     $utags= isset($config->current['HONOURUNITTAGS']) && preg_match('/true/i', $config->current['HONOURUNITTAGS']);
 
     $arr = array();
@@ -785,13 +786,13 @@ class config  {
         if ($ui->gosaUnitTag != '' && isset($this->tdepartments[$val]) &&
             $this->tdepartments[$val] != $ui->gosaUnitTag){
 
-						#TODO: link with strict*
-						#continue;
+            #TODO: link with strict*
+            #continue;
         }
       }
 
       /* Split dn into single department pieces */
-      $elements = array_reverse(explode(',',preg_replace("/$qbase$/",'',$val))); 		
+      $elements = array_reverse(explode(',',preg_replace("/$qbase$/",'',$val)));    
 
       /* Add last ou element of current dn to our array */
       $last = &$arr;
@@ -800,7 +801,7 @@ class config  {
         /* skip empty */
         if(empty($ele)) continue;
 
-        /* Extract department name */		
+        /* Extract department name */   
         $elestr = trim(preg_replace('/^[^=]*+=/','', $ele),',');
         $nameA  = trim(preg_replace('/=.*$/','', $ele),',');
         if($nameA != 'ou'){
@@ -809,7 +810,7 @@ class config  {
           $nameA = '';
         }
     
-        /* Add to array */	
+        /* Add to array */  
         if($key == (count($elements)-1)){
           $last[$elestr.$nameA]['ENTRY'] = $val;
         }
@@ -821,8 +822,8 @@ class config  {
 
 
     /* Add base entry */
-    $ret['/']['ENTRY'] 	= $base;
-    $ret['/']['SUB']	= $arr;
+    $ret['/']['ENTRY']  = $base;
+    $ret['/']['SUB']  = $arr;
     $this->idepartments= $this->generateDepartmentArray($ret,-1,$max_size);
   }
 
@@ -833,7 +834,7 @@ class config  {
     $ret = array();
     $depth ++;
 
-    /* Walk through array */	
+    /* Walk through array */  
     ksort($arr);
     foreach($arr as $name => $entries){
 
@@ -851,14 +852,14 @@ class config  {
         $name = mb_substr($name,0,($max_size-3), 'UTF-8')." ...";
       }
 
-      /* Append the name to the list */	
+      /* Append the name to the list */ 
       if(isset($entries['ENTRY'])){
         $a = "";
         for($i = 0 ; $i < $depth ; $i ++){
           $a.=".";
         }
         $ret[$entries['ENTRY']]=$a."&nbsp;".$name;
-      }	
+      } 
 
       /* recursive add of subdepartments */
       if(isset($entries['SUB'])){
@@ -1080,7 +1081,7 @@ class config  {
     if(isset($this->data['MAIN']['SESSIONLIFETIME'])){
       $cfg_lifetime = $this->data['MAIN']['SESSIONLIFETIME'];
       $ini_lifetime = ini_get('session.gc_maxlifetime');
-      $deb_system   = file_exists('/etc/debian_version');
+      $deb_system   = file_exists($debian);
       return(!($deb_system && ($ini_lifetime < $cfg_lifetime)));  
     }else{
       return(TRUE);
