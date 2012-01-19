@@ -32,8 +32,8 @@ class supportDaemon
 
     private $logdir       = "";
 
-	/*! \brief constructor
-	*/
+  /*! \brief constructor
+  */
     public function __construct()
     {
         $this->config = session::global_get('config');
@@ -41,14 +41,17 @@ class supportDaemon
         __autoload() 
         */
         if(!is_object($this->config)) { return; }
-        # load from config, store statically
-        $this->s_host = $this->config->get_cfg_value("argonautServer");
-        if($this->s_host == "") {
+        
+        if ($this->config->get_cfg_value("argonautServer") != "") {
+          # load from config, store statically
+          $this->s_host = $this->config->get_cfg_value("argonautServer");
+          if($this->s_host == "") {
             $this->set_error("argonautServer not defined in config");
-        }
-        $this->logdir = $this->config->get_cfg_value("faiLogsDir");
-        if($this->logdir == "") {
+          }
+          $this->logdir = $this->config->get_cfg_value("faiLogsDir");
+          if($this->logdir == "") {
             $this->logdir = FAI_LOG_DIR;
+          }
         }
     }
   
@@ -77,18 +80,18 @@ class supportDaemon
         }
     }
   
-	/*! \brief Allows simply appending a new DaemonEvent 
+  /*! \brief Allows simply appending a new DaemonEvent 
     @param DaemonEvent The event to append.
-	*/
-	public function append($event)
-	{
-		if(!($event instanceof DaemonEvent)) {
+  */
+  public function append($event)
+  {
+    if(!($event instanceof DaemonEvent)) {
             return(FALSE);
-		}
+    }
 
-		/* Add to queue if new 
-		 */
-		if($event->is_new()) {
+    /* Add to queue if new 
+     */
+    if($event->is_new()) {
 
             $request_answer = FALSE;
             if($event->get_type() == SCHEDULED_EVENT) {
@@ -99,11 +102,11 @@ class supportDaemon
                 trigger_error("Unknown type of queue event given.");
                 return(FALSE);
             }
-		  
-			/* Get event informations, like targets..
-			*/
-			$targets    = $event->get_targets();
-			$data       = $event->save();
+      
+      /* Get event informations, like targets..
+      */
+      $targets    = $event->get_targets();
+      $data       = $event->save();
             
             /* Put timestamp back to UTC time
              */
@@ -116,27 +119,27 @@ class supportDaemon
             unset($data_json['args']['timestamp']);
             unset($data_json['args']['periodic']);
 
-			/* Append an entry
-			*/
-			try {
-				$client = new jsonRPCClient($this->s_host);
-				$client->action($action,$targets,$data_json);
-			} catch (Exception $e) {
-				$this->set_error(nl2br($e->getMessage()));
-				return(FALSE);
-			}
+      /* Append an entry
+      */
+      try {
+        $client = new jsonRPCClient($this->s_host);
+        $client->action($action,$targets,$data_json);
+      } catch (Exception $e) {
+        $this->set_error(nl2br($e->getMessage()));
+        return(FALSE);
+      }
             $this->reset_error();
             return(TRUE);
-		} else {
+    } else {
 
             /* Updated edited entry. */
             $id                 = $event->get_id();
             $data               = $event->save();
             return($this->update_entries(array($id),$data));
-		}
+    }
 
-		return(FALSE);
-	}
+    return(FALSE);
+  }
     
     /*! \brief  Sets an error message, which can be returned with get_error().
     @param  string  The Error message,
@@ -388,7 +391,7 @@ class supportDaemon
         $logfiledir = $this->logdir."/$mac/";
         $dates = scandir($logfiledir);
         if(!$dates) {
-        	/* removed because in this case we don't need to say that there is nothing */
+          /* removed because in this case we don't need to say that there is nothing */
           /*  $this->set_error("client fai log directory ".$this->logdir." do not exist"); */
             return(FALSE);
         }
