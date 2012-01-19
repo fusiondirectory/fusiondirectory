@@ -115,7 +115,7 @@ class Step_Migrate extends setup_step
   /* Root object classes */
   var $rootOC_migrate_dialog = FALSE;
   var $rootOC_details = array();
-	
+  
   function Step_Migrate()
   {
     $this->update_strings(); 
@@ -631,11 +631,8 @@ class Step_Migrate extends setup_step
     /* Get all invisible users 
      */
     $ldap->cd($cv['base']); 
-    $search_invisible = "(& (|(objectClass=posixAccount)(&(objectClass=inetOrgPerson)(objectClass=organizationalPerson)))
-                            (!(objectClass=gosaAccount)))";
-    $search_incomplete = "(& (!(|(objectClass=posixAccount)(&(objectClass=inetOrgPerson)(objectClass=organizationalPerson))))
-                             (objectClass=gosaAccount))";
-    $res =$ldap->search("($(uid=*)(|$search_invisible$search_incomplete))",array("sn","givenName","cn","uid"));
+    $res =$ldap->search("(&(|(objectClass=posixAccount)(&(objectClass=inetOrgPerson)(objectClass=organizationalPerson)))(!(objectClass=gosaAccount))(uid=*))",array("sn","givenName","cn","uid"));
+
     while($attrs = $ldap->fetch()){
       if(!preg_match("/,dc=addressbook,/",$attrs['dn'])){
         $attrs['checked'] = FALSE;
@@ -2048,7 +2045,7 @@ class Step_Migrate extends setup_step
     if(!in_array("gosaDepartment",$attrs['objectClass'])){
       if($just_check){
 
-        $this->rootOC_details = array();	
+        $this->rootOC_details = array();  
         $mods = array();
 
         /* Get list of possible container objects, to be able to detect naming 
@@ -2074,7 +2071,7 @@ class Step_Migrate extends setup_step
         }
 
         /* If no known base class was detect, abort with message
-         */	
+         */ 
         if(empty($dep_type)){
           $this->checks['rootOC']['STATUS']    = FALSE;
           $this->checks['rootOC']['STATUS_MSG']= _("Failed");
@@ -2085,7 +2082,7 @@ class Step_Migrate extends setup_step
 
         /* Create 'current' and 'target' object properties, to be able to display 
          *  a set of modifications required to create a valid FusionDirectory department.
-         */	
+         */ 
         $str = "dn: ".$cv['base']."\n";
         for($i = 0 ; $i<$attrs['objectClass']['count'];$i++){
           $str .= "objectClass: ".$attrs['objectClass'][$i]."\n";
@@ -2139,7 +2136,7 @@ class Step_Migrate extends setup_step
         /* Add root object */ 
         $ldap->cd($cv['base']);
         if(isset($this->rootOC_details['mods'])){
-          $res  = $ldap->modify($this->rootOC_details['mods']);	
+          $res  = $ldap->modify($this->rootOC_details['mods']); 
           if(!$res){
             msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $cv['base'], LDAP_MOD, get_class()));
           }
