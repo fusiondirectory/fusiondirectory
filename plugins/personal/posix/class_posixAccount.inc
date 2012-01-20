@@ -848,7 +848,7 @@ class posixAccount extends plugin
         $g->cn= $groupcn;
         $g->force_gid= 1;
         $g->gidNumber= $this->gidNumber;
-        $g->description= _("Group of user")." ".$this->givenName." ".$this->sn;
+        $g->description= _("Group of user")." ".$this->givenName;
         $g->save ();
 
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
@@ -1237,7 +1237,7 @@ class posixAccount extends plugin
     while($attr = $ldap->fetch()){
       $tmp = $attr['accessTo'];
       unset ($tmp['count']);
-      $this->accessTo = $tmp;	
+      $this->accessTo = $tmp; 
     }
 
     /* Adjust shadow checkboxes */
