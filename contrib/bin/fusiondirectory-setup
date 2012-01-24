@@ -302,6 +302,7 @@ sub check_directories {
 
           # create the directory, and change the rights
           $conf_dir->mkpath (0,0770);
+          chmod (0770, $dir);
           chown (0,$apache_gid,$dir) or die ("Unable to change $dir rights\n");
         }
 
