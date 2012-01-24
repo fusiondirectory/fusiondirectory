@@ -365,7 +365,7 @@ class config  {
     $this->current['USERRDN'] = preg_replace("/,*$/","",$this->current['USERRDN']);
 
     if (!isset($this->current['SAMBAMACHINEACCOUNTRDN'])){
-      $this->current['SAMBAMACHINEACCOUNTRDN']= "ou=winstations,ou=systems";
+      $this->current['SAMBAMACHINEACCOUNTRDN']= "ou=computers,ou=systems";
     }
     if (!isset($this->current['ACCOUNTPRIMARYATTRIBUTE'])){
       $this->current['ACCOUNTPRIMARYATTRIBUTE']= "cn";
