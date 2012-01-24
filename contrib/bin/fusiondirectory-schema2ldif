@@ -84,14 +84,14 @@ my %definitions = ();
 if ($mode eq "static") {
   # Header for static schema 
   # used to drop into a file that server picks up on start
-  say "dn: cn=$cn,$branch";
-  say "objectClass: olcSchemaConfig";
-  say "cn: cn=$cn";
+  print "dn: cn=$cn,$branch";
+  print "objectClass: olcSchemaConfig";
+  print "cn: cn=$cn";
   
 } elsif ($mode eq "modify") {
   # Header for schema that is being uploaded to running server
-  say "dn: cn=$cn,$branch";
-  say "changetype: modify";
+  print "dn: cn=$cn,$branch";
+  print "changetype: modify";
   
 } else {
   die ("Unknown mode $mode\n");
