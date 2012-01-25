@@ -583,22 +583,6 @@ class config  {
           'PASSWORD' => $attrs['goLogPassword'][0]);
     }
 
-
-    /* FusionDirectory logging databases */
-    $ldap->cd ($this->current['BASE']);
-    $ldap->search ("(objectClass=gosaLogServer)");
-    if ($ldap->count()){
-      while($attrs= $ldap->fetch()){
-      $this->data['SERVERS']['LOGGING'][$attrs['cn'][0]]= 
-          array(
-          'DN'    => $attrs['dn'],
-          'USER'  => $attrs['goLogDBUser'][0],
-          'DB'    => $attrs['goLogDB'][0],
-          'PWD'   => $attrs['goLogDBPassword'][0]);
-      }
-    }
-
-
     /* Get NFS server lists */
     $tmp= array("default");
     $tmp2= array("default");
