@@ -903,7 +903,7 @@ cursor:default;
 }
 
 /*
-	Setup step 2 styles
+  Setup step 2 styles
 */
 /* used to hide display info div */
 div.solution_visible {
@@ -980,7 +980,7 @@ padding-left:25px;
 }
 
 /*
-	Setup step 4 styles
+  Setup step 4 styles
 */
 li.step4_name,div.step4_name {
 float:left;
@@ -1971,12 +1971,6 @@ padding:0 12px;
 line-height:20px;
 background:url(../../images/lists/node.png) no-repeat;
 }
-
-/* IE workaround - results in even more strange display problems in IE8
-ul.treeList li {
-background: expression((this.parentNode.lastChild == this)? '#fff url(images/lists/lastnode.png) no-repeat' : '#fff url(images/lists/node.png) no-repeat');
-}
-*/
 
 li.treeListSelected a {
 font-weight:bold;

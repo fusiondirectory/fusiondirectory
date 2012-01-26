@@ -67,9 +67,9 @@ textdomain($domain);
 /* Create smarty & Set template compile directory */
 $smarty= new smarty();
 if (isset($config)){
-	$smarty->compile_dir= $config->get_cfg_value("templateCompileDirectory", SPOOL_DIR);
+  $smarty->compile_dir= $config->get_cfg_value("templateCompileDirectory", SPOOL_DIR);
 } else {
-	$smarty->compile_dir= SPOOL_DIR;
+  $smarty->compile_dir= SPOOL_DIR;
 }
     
 /* If GET request is posted, the logout was forced by pressing the link */
@@ -82,7 +82,6 @@ if (isset($_GET['request'])){
   if (isset($config) && $config->get_cfg_value("htaccessAuthentication") == "true"){
 
     /* Else notice that the user has to close the browser... */
-    $smarty->assign("iePngWorkaround", FALSE);
     $smarty->assign("usePrototype", "false");
     $smarty->display (get_template_path('headers.tpl'));
     $smarty->display (get_template_path('logout-close.tpl'));

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-	"http://www.w3.org/TR/html4/transitional.dtd">
+  "http://www.w3.org/TR/html4/transitional.dtd">
 <html>
 
 <head>
@@ -20,7 +20,6 @@
   <style type="text/css">@import url('themes/default/password-style.css');</style>
   <link rel="shortcut icon" href="favicon.ico">
 
-  {if isset($ieworkaround)}<script language="javascript"src="include/png.js" type="text/javascript"></script>{/if}
   <script language="javascript" src="include/prototype.js" type="text/javascript"></script>
   <script language="javascript" src="include/fusiondirectory.js" type="text/javascript"></script>
   <script language="javascript" src="include/pwdStrength.js" type="text/javascript"></script>
@@ -43,14 +42,14 @@
 
     <!-- Display SSL warning message on demand -->
     <p class='warning'> {$ssl} </p>
-    <input type='hidden' name='javascript' value='false'/>		
+    <input type='hidden' name='javascript' value='false'/>    
 
     <!-- Display error message on demand -->
     <p class='warning'> {$message} </p>
 
 
     <p class="infotext">
-	{t}This dialog provides a simple way to change your password. Enter the current password and the new password (twice) in the fields below and press the 'Change' button.{/t}
+  {t}This dialog provides a simple way to change your password. Enter the current password and the new password (twice) in the fields below and press the 'Change' button.{/t}
     </p>
 
     <div class="ruler"></div>
@@ -62,7 +61,7 @@
           <select name='server'  title='{t}Directory{/t}'>
             {html_options options=$server_options selected=$server_id}
           </select>
-	</td>
+  </td>
       </tr>
       {/if}
       <tr>

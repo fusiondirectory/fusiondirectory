@@ -18,7 +18,6 @@
   <style type="text/css">@import url('themes/default/style.css');</style>
   <link rel="shortcut icon" href="favicon.ico">
 
-  <script language="javascript" src="include/png.js" type="text/javascript"></script>
   <script language="javascript" src="include/prototype.js" type="text/javascript"></script>
   <script language="javascript" src="include/fusiondirectory.js" type="text/javascript"></script>
 </head>

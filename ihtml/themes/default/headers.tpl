@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-	"http://www.w3.org/TR/html4/transitional.dtd">
+  "http://www.w3.org/TR/html4/transitional.dtd">
 <html>
 
 <head>
@@ -27,9 +27,6 @@
 
   <link rel="shortcut icon" href="favicon.ico">
 
-{if $iePngWorkaround}
-  <script language="javascript" src="include/png.js" type="text/javascript"></script>
-{/if}
   <script language="javascript" src="include/prototype.js" type="text/javascript"></script>
   <script language="javascript" src="include/fusiondirectory.js" type="text/javascript"></script>
 {if $usePrototype == 'true'}

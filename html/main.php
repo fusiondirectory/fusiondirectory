@@ -333,7 +333,6 @@ $smarty->assign ("go_left", get_template_path('images/go_left.png'));
 $smarty->assign ("menu", $plist->menu);
 $smarty->assign ("plug", "$plug");
 
-$smarty->assign("iePngWorkaround", $config->get_cfg_value("iePngWorkaround","false" ) == "true");
 $smarty->assign("usePrototype", "false");
 
 /* React on clicks */
@@ -421,10 +420,10 @@ $smarty->assign("focus", $focus);
 #      * check that filters are still global
 #      * maxC global?
 if (isset($_POST['_channel_'])){
-	echo "DEBUG - current channel: ".$_POST['_channel_'];
-	$smarty->assign("channel", $_POST['_channel_']);
+  echo "DEBUG - current channel: ".$_POST['_channel_'];
+  $smarty->assign("channel", $_POST['_channel_']);
 } else {
-	$smarty->assign("channel", "");
+  $smarty->assign("channel", "");
 }
 $smarty->assign ("title","FusionDirectory");
 $display= "<!-- headers.tpl-->".$smarty->fetch(get_template_path('headers.tpl')).

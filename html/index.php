@@ -91,7 +91,6 @@ function displayLogin()
     $smarty->assign("php_errors", "");
   }
   $smarty->assign("msg_dialogs", msg_dialog::get_dialogs());
-  $smarty->assign("iePngWorkaround", $config->get_cfg_value("iePngWorkaround","false" ) == "true");
   $smarty->assign("usePrototype", "false");
   $smarty->display (get_template_path('headers.tpl'));
 
