@@ -3,6 +3,37 @@
 
     <div class='step4_container'>
         <div class='step4_name'>
+            {t}Samba SID{/t}
+        </div>
+        <div class='step4_value'>
+            {if $samba_settings.samba_sid_active == FALSE}
+                <input type='checkbox' value='1' name='samba_sid_active'
+                    onClick='changeState("samba_sid");'>
+                <input size=20 id='samba_sid' name='samba_sid' type='text' value='{$samba_settings.samba_sid}' disabled>
+            {else}
+                <input type='checkbox' value='1' name='samba_sid_active' checked {if !$sambaDomain_found} disabled {/if}>
+                <input size=20 id='samba_sid' name='samba_sid' type='text' value='{$samba_settings.samba_sid}'  >
+            {/if}
+        </div>
+    </div>
+
+    <div class='step4_container'>
+        <div class='step4_name'>
+            {t}RID base{/t}
+        </div>
+        <div class='step4_value'>
+            {if $samba_settings.samba_rid_active == FALSE}
+                <input type='checkbox' value='1' name='samba_rid_active'
+                    onClick='changeState("samba_rid");'>
+                <input size=20 id='samba_rid' name='samba_rid' type='text' value='{$samba_settings.samba_rid}' disabled>
+            {else}
+                <input type='checkbox' value='1' name='samba_rid_active' checked {if !$sambaDomain_found} disabled {/if}>
+                <input size=20 id='samba_rid' name='samba_rid' type='text' value='{$samba_settings.samba_rid}'  >
+            {/if}
+        </div>
+    </div>
+    <div class='step4_container'>
+        <div class='step4_name'>
             {t}Workstation container{/t}
         </div>
         <div class='step4_value'>
@@ -22,17 +53,17 @@
         </div>
         <div class='step4_value'>
             <select name="sambaidmapping" size="1" title="">
-      {html_options options=$bool selected=$sambaidmapping}
+			{html_options options=$bool selected=$sambaidmapping}
             </select>
         </div>
     </div>
-  <div class='step4_container'>
+	<div class='step4_container'>
         <div class='step4_name'>
             {t}Timezone{/t}
         </div>
         <div class='step4_value'>
             <select name='timezone' title='{t}Please choose your preferred timezone here{/t}' style="width:100%">
-    {foreach from=$timezones item=val}
+ 		{foreach from=$timezones item=val}
                 <option {if $val == $timezone}selected{/if} value="{$val}">{$val}</option>
         {/foreach}
 
@@ -46,7 +77,7 @@
         <div class='step4_name'>
             {t}Mail method{/t}
         </div>
-      <div class='step4_value'>
+  		<div class='step4_value'>
             <select name="mail" size="1" title="" onChange="document.mainform.submit();">
                 <option  value="disabled">{t}disabled{/t}</option>
                 {foreach from=$mail_methods item=item}

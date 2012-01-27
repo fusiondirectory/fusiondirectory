@@ -42,9 +42,11 @@ class Step_Config2 extends setup_step
                                   "snapshot_password"   => "",
                                   "snapshot_server"     => "%connection%");
 
-  var $samba_settings    = array( "samba_sid_active" => FALSE,
-                                  "samba_rid_active" => FALSE
-                                  "smbhash"          => 'SMBHASH'); 
+  var $samba_settings    = array( "samba_sid"        => "0-815-4711",
+                                  "samba_sid_active" => FALSE,
+                                  "samba_rid"        => 1000,
+                                  "smbhash"          => 'SMBHASH',
+                                  "samba_rid_active" => FALSE); 
 
   var $sambaDomain_found    = FALSE;
   var $timezone       = "Europe/Paris";
@@ -101,6 +103,15 @@ class Step_Config2 extends setup_step
       $this->sambaDomain_found =FALSE;
     }
 
+    if(!$this->called){
+      if(!$this->sambaDomain_found){
+        $this->samba_settings['samba_sid_active'] = TRUE;
+        $this->samba_settings['samba_rid_active'] = TRUE;
+      }
+  
+      $this->called = TRUE;
+    }
+
     /* Update snapshot values, with already collected values */
     foreach($this->generic_settings as $key => $value){
       foreach(array("snapshot_base","snapshot_user","snapshot_server") as $attr){
@@ -117,6 +128,7 @@ class Step_Config2 extends setup_step
     $smarty->assign("generic_settings",  reverse_html_entities($this->generic_settings));
     $smarty->assign("mail_settings",     reverse_html_entities($this->mail_settings));
     $smarty->assign("mail_methods",      reverse_html_entities($this->mail_methods));
+    $smarty->assign("samba_settings",    reverse_html_entities($this->samba_settings));
    
     $smarty->assign("bool",array(FALSE => _("No"), TRUE => _("Yes")));
     foreach($this->attributes as $attr){
@@ -154,6 +166,15 @@ class Step_Config2 extends setup_step
         $this->mail_settings['vacationdir_active'] = FALSE;
       }
 
+      if(isset($_POST['wws_ou_active'])){
+        $this->generic_settings['wws_ou_active'] = TRUE;
+        if(isset($_POST['wws_ou'])){
+          $this->generic_settings['wws_ou'] = get_post('wws_ou');
+        }
+      }else{
+        $this->generic_settings['wws_ou_active'] = FALSE;
+      }
+
       if(isset($_POST['snapshot_active'])){
         $this->generic_settings['snapshot_active'] = TRUE;
         if(isset($_POST['snapshot_base'])){
@@ -173,19 +194,32 @@ class Step_Config2 extends setup_step
       }
 
       /* Samba settings */
+      if(isset($_POST['samba_sid_active'])){
+        $this->samba_settings['samba_sid_active'] = TRUE;
+        if(isset($_POST['samba_sid'])){
+          $this->samba_settings['samba_sid'] = get_post('samba_sid');
+        }
+      }else{
+        $this->samba_settings['samba_sid_active'] = FALSE;
+      }
+      if(isset($_POST['samba_rid_active'])){
+        $this->samba_settings['samba_rid_active'] = TRUE;
+        if(isset($_POST['samba_rid'])){
+          $this->samba_settings['samba_rid'] = get_post('samba_rid');
+        }
+      }else{
+        $this->samba_settings['samba_rid_active'] = FALSE;
+      }
       if(isset($_POST['smbhash'])){
         $this->samba_settings['smbhash'] = get_post('smbhash');
       }
 
-      if(isset($_POST['wws_ou_active'])){
-        $this->generic_settings['wws_ou_active'] = TRUE;
-        if(isset($_POST['wws_ou'])){
-          $this->generic_settings['wws_ou'] = get_post('wws_ou');
-        }
-      }else{
-        $this->generic_settings['wws_ou_active'] = FALSE;
+      if(!$this->sambaDomain_found){
+        $this->samba_settings['samba_sid_active'] = TRUE;
+        $this->samba_settings['samba_rid_active'] = TRUE;
       }
-      
+    }
+
     $tmp = $this->check();
     if(count($tmp) == 0){
       $this->is_completed = TRUE;
