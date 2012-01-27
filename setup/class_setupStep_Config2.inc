@@ -43,7 +43,7 @@ class Step_Config2 extends setup_step
                                   "snapshot_server"     => "%connection%");
 
   var $samba_settings    = array( "samba_sid_active" => FALSE,
-                                  "samba_rid_active" => FALSE,
+                                  "samba_rid_active" => FALSE
                                   "smbhash"          => 'SMBHASH'); 
 
   var $sambaDomain_found    = FALSE;
@@ -186,14 +186,14 @@ class Step_Config2 extends setup_step
         $this->generic_settings['wws_ou_active'] = FALSE;
       }
       
-      $tmp = $this->check();
-      if(count($tmp) == 0){
-        $this->is_completed = TRUE;
-      }else{
-        $this->is_completed = FALSE;
-      }
+    $tmp = $this->check();
+    if(count($tmp) == 0){
+      $this->is_completed = TRUE;
+    }else{
+      $this->is_completed = FALSE;
     }
   }
+
 
   function check()
   {
