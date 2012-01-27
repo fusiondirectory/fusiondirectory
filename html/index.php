@@ -39,7 +39,7 @@ function displayLogin()
   /* Fill template with required values */
   $username = "";
   if(isset($_POST["username"])){
-    $username= get_post("username");
+    $username= trim(get_post("username"));
   }
   $smarty->assign ('date', gmdate("D, d M Y H:i:s"));
   $smarty->assign ('username', $username);
@@ -300,7 +300,7 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
   /* Check for valid input */
   $ok= true;
   if (!$htaccess_authenticated){
-    $username= get_post("username");
+    $username= trim(get_post("username"));
     if (!preg_match("/^[@A-Za-z0-9_.-]+$/", $username)){
       $message= _("Please specify a valid username!");
       $ok= false;
