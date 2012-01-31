@@ -18,6 +18,10 @@ A: Yes. Edit /etc/fusiondirectory/fusiondirectory.conf's menu section. Each plug
    attributes as command line options.
    i.E. postcreate="/usr/bin/sudo /usr/local/sbin/ftp.setperms %uid '%givenName'"
 
+Q: My sudo postcreate command doesnt work as expected, whats happening
+
+A: in the recent Linux distribution the sudo configuration is hardened. you must 
+   removed the "Defaults requiretty" options for sudo command to work
 
 Q: I'd like to  modify the look of FusionDirectory to fit our CI. How can I create an
    own theme?
@@ -33,7 +37,7 @@ A: Themes are splitted into two parts. ihtml/ contains templates which
    contain theme="yourtheme" in section main. Here are some files to edit:
 
    * login.tpl          -> login screen
-   * framework.tpl	-> page contents
+   * framework.tpl  -> page contents
    * style.css          -> stylesheets used by FusionDirectory
  
 
@@ -306,7 +310,7 @@ A: Yes, add
 
    |--> 
    <location
-	...
+  ...
     cyrusUseSlashes="true"
    |<--
 
@@ -320,7 +324,7 @@ A: Simply set the following attributes in the location tag of your fusiondirecto
 
    |--> 
    <location 
-	...
+  ...
     mailUserCreation="myprefix/%mail%"
     mailFolderCreation="myfolder\\.%cn%@%domain%"
    |<--
