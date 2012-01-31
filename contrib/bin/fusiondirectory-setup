@@ -669,7 +669,7 @@ fusiondirectory-setup - FusionDirectory setup script
 =head1 DESCRIPTION
 
 This script is designed to perform multiple checks on your FusionDirectory/LDAP architecture, and fix usual misconfiguration.
-Some extra features allow you to install FusionDirectory's plugins, and migrate your old FAIrepositories.
+Some extra features allow you to install FusionDirectory's plugins, changes destinations directories, and migrate your old FAIrepositories.
 
 =head2 Options
 
@@ -684,7 +684,7 @@ This option update the /var/cache/fusiondirectory/class.cache file. Wich contain
 This option update internalization, by generating a new .mo locales file for each language, with every .po files it found.
 Needs I<msgcat> and I<msgfmt> to be installed.
 
-=item --check-dirs
+=item --check-directories
 
 This option perform a check on all FusionDirectory's files or directories.
 
@@ -699,6 +699,10 @@ This option check the fairepository object in your ldap tree and add the new opt
 =item --install-plugins
 
 This option will install the plugin from a tar.gz of the plugin. This option is intended for people wanting to install from the sources.
+
+=item --install-directories
+
+This option will change the path for fusiondirectory installation. it is only usefull with other commands and for people installing from sources.
 
 =item --yes
 
