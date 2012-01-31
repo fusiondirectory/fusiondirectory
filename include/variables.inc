@@ -81,6 +81,6 @@ define("SMARTY3", "/usr/share/php/smarty3/Smarty.class.php");
 define("CLASS_CACHE", "class.cache");
 
 /* name of the utility used to create windows passwords */
-define ("MKNTPWD", "/usr/bin/fusiondirectory-mkntpassword");
+define ("MKNTPWD", "/usr/sbin/fusiondirectory-mkntpassword");
 
 ?>
