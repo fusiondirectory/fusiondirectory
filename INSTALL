@@ -8,14 +8,38 @@ with smarty 2 or 3 and there is a blank (or prefilled) LDAP server available.
 
 You have installed the following perl libraries
 
-Class::Path, Net::LDAP, Crypt::PasswdMD5, File::NCopy
+Class::Path, Net::LDAP, Crypt::PasswdMD5, File::Copy::Recursive
 
 ---
 
-Installing FusionDirectory from source:
+INSTALLING FUSIONDIRECTORY FROM SOURCE
+---------------------------------------
+
+1) DOWNLOADING FUSIONDIRECTORY
 
 - Get the fusiondirectory tarballs from http://download.fusiondirectory.org/sources/1.0/.
-Here you will find the core fusiondirectory and fusiondirectory-plugins tarballs
+
+wget http://download.fusiondirectory.org/sources/1.0/fusiondirectory-1.0.x.tar.gz
+
+wget http://download.fusiondirectory.org/sources/1.0/fusiondirectory-1.0.x.tar.gz
+
+X here being the latest version available
+
+- Get the checksums file to be sure that the file where not corrupted
+
+wget http://download.fusiondirectory.org/sources/1.0/CHECKSUM.MD5
+
+- Compare the md5sum from fusiondirectory-1.0.x.tar.gz and
+  fusiondirectory-1.0.x.tar.gz to the md5sum in CHECKSUM.MD5
+
+cat CHECKSUM.MD5
+
+md5sum fusiondirectory-1.0.x.tar.gz
+
+md5sum fusiondirectory-plugins-1.0.x.tar.gz
+
+
+2 ) INSTALLING FUSIONDIRECTORY CORE
 
 - Unpack the FusionDirectory tarball and move the main fusiondirectory
 directory to a place your webserver is configured to find it. On most
@@ -23,9 +47,6 @@ of the case this will be /var/www/fusiondirectory.
 
 If you need to change a path for various reasons all the paths used by the software is in
 /var/www/fusiondirectory/include/variables.inc
-
-- Put the correct rights on the /var/www/fusiondirectory
-  * chown -R root:root /var/www/fusiondirectory
 
 - Move the contrib/bin directory in /usr/local/bin
   * mv /var/www/fusiondirectory/contrib/bin /usr/local/
@@ -54,16 +75,10 @@ If you need to change a path for various reasons all the paths used by the softw
 
   Check that your smarty dir is in /usr/share/php/smarty or adapt the path accordingly
   
-  * ln -s /var/www/fusiondirectory/include/smarty/plugins/block.render.php /usr/share/php/smarty/libs/plugins/block.render.php
-  * ln -s /var/www/fusiondirectory/include/smarty/plugins/block.t.php /usr/share/php/smarty/libs/plugins/block.t.php
-  * ln -s /var/www/fusiondirectory/include/smarty/plugins/function.msgPool.php /usr/share/php/smarty/libs/plugins/function.msgPool.php
+  * ln -s /var/www/fusiondirectory/contrib/smarty/plugins/block.render.php /usr/share/php/smarty/libs/plugins/block.render.php
+  * ln -s /var/www/fusiondirectory/contrib/smarty/plugins/block.t.php /usr/share/php/smarty/libs/plugins/block.t.php
+  * ln -s /var/www/fusiondirectory/contrib/smarty/plugins/function.msgPool.php /usr/share/php/smarty/libs/plugins/function.msgPool.php
   
-- Create the configuration directory /etc/fusiondirectory and make sure that your webserver can read it.
-
-- Move the needed file from contrib to your etc directory
-
-  * mv /var/www/fusiondirectory/contrib/etc/* <your-etc-directory>/fusiondirectory
-
 - Move the needed schema and ldif from contrib to your ldap server schema directory
 
   * mv /var/www/fusiondirectory/contrib/openldap/*.ldif <your-ldap-schema-directory>/fusiondirectory
@@ -71,16 +86,23 @@ If you need to change a path for various reasons all the paths used by the softw
 
 - Run the fusiondirectory-setup
 
-  * fusiondirectory-setup --check-dirs --update-cache --update-locales
+  * fusiondirectory-setup --check-directories --update-cache --update-locales --install-directories
 
-- Install the FusionDirectory plugins
+- Move the needed file from contrib to your etc directory
 
-  * fusiondirectory-setup --install-plugins
-
-- Copy the file from contrib/apache to the apache site configuration dir
-  * mv /var/www/fusiondirectory/contrib/apache/fusiondirectory-apache.conf <your-apache-configuration-directory>
+  * mv /var/www/fusiondirectory/contrib/etc/* <your-etc-directory>/fusiondirectory
 
 - Copy the file from contrib/fusiondirectory.conf to /var/cache/fusiondirectory/template
+
+- INSTALLING FUSIONDIRECTORY PLUGINS
+
+- Run the fusiondirectory-setup
+
+  * fusiondirectory-setup --install-plugins --install-directories
+
+- Copy the file from contrib/apache to the apache site configuration dir
+
+  * mv /var/www/fusiondirectory/contrib/apache/fusiondirectory-apache.conf <your-apache-configuration-directory>
 
 - Reload your apache web server
 
@@ -102,6 +124,7 @@ on https://forge.fusiondirectory.org
 
 Documentation: http://www.fusiondirectory.org/
 Mailinglist:   http://lists.fusiondirectory.org/
+Irc channel: #fusiondirectory on freenode
 
 Have fun!
 
