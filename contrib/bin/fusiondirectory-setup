@@ -29,7 +29,7 @@ use File::Copy::Recursive qw(rcopy);
 my $fd_home = "/usr/share/fusiondirectory";
 my $fd_cache = "/var/cache/fusiondirectory";
 my $fd_config_dir = "/etc/fusiondirectory";
-my $spool_dir = "/var/spool/fusiondirectory";
+my $fd_spool_dir = "/var/spool/fusiondirectory";
 
 my $fd_config = $fd_config_dir."/fusiondirectory.conf";
 my $locale_dir = $fd_home."/locale";
@@ -40,7 +40,7 @@ my $fai_log_dir = $fd_cache."/fai";
 my $template_dir = $fd_cache."/template";
 
 my @root_config_dirs = ( $fd_home, $fd_config_dir );
-my @apache_config_dirs = ( $spool_dir, $fd_cache, $tmp_dir, $fai_log_dir, $template_dir );
+my @apache_config_dirs = ( $fd_spool_dir, $fd_cache, $tmp_dir, $fai_log_dir, $template_dir );
 my @config_dirs = ( @root_config_dirs, @apache_config_dirs );
 
 my @plugin_types = qw(addons admin personal);
