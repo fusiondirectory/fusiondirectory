@@ -554,12 +554,7 @@ sub install_plugins {
   # where the extract files will go
   my $tmp_plugins_dir = "/tmp";
 
-  if ( !ask_yn_question("Do you want to keep default FusionDirectory home directory (/usr/share/fusiondirectory) ?: ") ){
-    $fd_home = ask_user_input ("What's the new value for FusionDirectory home directory ?: ");
-    die ("! ".$fd_home." is not a valid directory") if (!-d $fd_home);
-  }
-
-  print ("Installing plugins, please wait...\n");
+  print ("Installing plugins into $fd_home, please wait...\n");
 
   my $dir = dir ($tmp_plugins_dir."/".$name);
 
