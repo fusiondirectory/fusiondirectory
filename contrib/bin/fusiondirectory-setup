@@ -314,6 +314,20 @@ sub check_directories {
   }
 }
 
+############################################################# Change install directories #################################################################################
+
+sub install_directories {
+
+  $fd_home = ask_user_input ("Where do you want to install fusiondirectory ?: [Default: $fd_home]",$fd_home);
+
+  $fd_cache = ask_user_input ("Where do you want to put fusiondirectory cache directory ?: [Default: $fd_cache]",$fd_cache);
+
+  $fd_config_dir = ask_user_input ("Where do you want to put fusiondirectory config directory ?: [Default: $fd_config_dir]",$fd_config_dir);
+
+  $spool_dir = ask_user_input ("Where do you want to put fusiondirectory spool directory ?: [Default: $spool_dir]",$spool_dir);
+
+}
+
 ############################################################# LDAP conformity check #################################################################################
 
 # function that add the FusionDirectory's admin account
@@ -616,6 +630,7 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--check-ldap"}       = ["Checking your LDAP tree",         \&check_ldap];
   $commands{"--migrate-repositories"} = ["Migrating your FAI repositories",       \&migrate_repo];
   $commands{"--install-plugins"}  = ["Installing FusionDirectory's plugins",      \&install_plugins];
+  $commands{"--install-directories"}  = ["Choose FusionDirectory Directories",      \&install_directories];
 
   my $usage = 0;
    
