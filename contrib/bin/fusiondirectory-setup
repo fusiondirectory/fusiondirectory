@@ -324,7 +324,7 @@ sub install_directories {
 
   $fd_config_dir = ask_user_input ("Where do you want to put fusiondirectory config directory ?: [Default: $fd_config_dir]",$fd_config_dir);
 
-  $fd_spool_dir = ask_user_input ("Where do you want to put fusiondirectory spool directory ?: [Default: $spool_dir]",$fd_spool_dir);
+  $fd_spool_dir = ask_user_input ("Where do you want to put fusiondirectory spool directory ?: [Default: $fd_spool_dir]",$fd_spool_dir);
 
 }
 
