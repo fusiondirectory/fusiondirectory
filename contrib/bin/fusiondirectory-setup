@@ -326,6 +326,33 @@ sub install_directories {
 
   $fd_spool_dir = ask_user_input ("Where do you want to put fusiondirectory spool directory ?: [Default: $fd_spool_dir]",$fd_spool_dir);
 
+  my $fd_var = "$fd_home/include/variables.inc";
+  my $fd_var_new = "$fd_home/include/variables.new";
+
+  my $file_var = file ($fd_var);
+
+  my $file_var_lines = $file_var->slurp;
+
+  $file_var_lines =~ s/\/var\/cache\/fusiondirectory/$fd_cache/g;
+
+  $file_var_lines =~ s/\/var\/spool\/fusiondirectory/$fd_spool_dir/g;
+
+  $file_var_lines =~ s/\/etc\/fusiondirectory/$fd_config_dir/g;
+
+  my $file_var_new = file ($fd_var_new);
+
+  my $fvnh = $file_var_new->openw() or die ("! Unable to open $fd_var_new in write mode\n");
+
+  $fvnh->print($file_var_lines);
+
+  $fvnh->close or die ("! Can't close $fd_var_new\n");
+
+  $file_var->remove();
+
+  copy( $fd_var_new, $fd_var ) or die "Copy of $fd_var_new to $fd_var failed: $!";
+
+  $file_var_new->remove();
+
 }
 
 ############################################################# LDAP conformity check #################################################################################
