@@ -65,7 +65,7 @@ define ("DEBUG_POST",   16); /*! Debug level for POST content */
 define ("DEBUG_SESSION",32); /*! Debug level for SESSION content */
 define ("DEBUG_CONFIG", 64); /*! Debug level for CONFIG information */
 define ("DEBUG_ACL",    128); /*! Debug level for ACL infos */
-define ("DEBUG_SI",     256); /*! Debug level for communication with goto-si */
+define ("DEBUG_SI",     256); /*! Debug level for communication with Argonaut */
 define ("DEBUG_MAIL",   512); /*! Debug level for all about mail (mailAccounts, imap, sieve etc.) */
 define ("DEBUG_FAI",   1024); // FAI (incomplete)
 
@@ -3050,7 +3050,7 @@ function generate_smb_nt_hash($password)
 {
   global $config;
 
-  # Try to use goto-si?
+  # Try to use Argonaut?
   if ($config->get_cfg_value("goto-si-URI") != ""){
     $res= supportDaemon::send("gosa_gen_smb_hash", "GOSA", array("password" => $password), TRUE);
     if (isset($res['XML']['HASH'])){

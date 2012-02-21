@@ -100,7 +100,7 @@ class ogroupManagement extends management
   }
 
 
-  /*! \brief  Sends a message to a set of users using goto-si events.
+  /*! \brief  Sends a message to a set of users using Argonauts events.
    */
   function saveEventDialog()
   {
@@ -119,7 +119,7 @@ class ogroupManagement extends management
   }
 
 
-  /*! \brief  Sends a message to a set of users using goto-si events.
+  /*! \brief  Sends a message to a set of users using Argonauts events.
    */
   function sendMessage($action="",$target=array(),$all=array())
   {
