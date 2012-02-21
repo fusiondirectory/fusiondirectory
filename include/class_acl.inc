@@ -1310,7 +1310,7 @@ class acl extends plugin
           if (base64_decode($member) != $dn) {         
             $new_members[]= $member;                   
           } else {                                     
-            gosa_log("modify","users/acl",$attrs['dn'],array(),sprintf("Removed acl for %s on object %s.",$dn,$attrs['dn']));
+            fusiondirectory_log("modify","users/acl",$attrs['dn'],array(),sprintf("Removed acl for %s on object %s.",$dn,$attrs['dn']));
           }                                                                                                                  
         }                                                                                                                    
 
@@ -1345,13 +1345,13 @@ class acl extends plugin
             unset($acl->gosaAclEntry[$id]['members'][$m_id]);
             $new = "U:".$dst;
             $acl->gosaAclEntry[$id]['members'][$new] = $new;
-            gosa_log("modify","users/acl",$attrs['dn'],array(),sprintf("Updated acl for user %s on object %s.",$src,$attrs['dn']));
+            fusiondirectory_log("modify","users/acl",$attrs['dn'],array(),sprintf("Updated acl for user %s on object %s.",$src,$attrs['dn']));
           }
           if($m_id == "G:".$src){
             unset($acl->gosaAclEntry[$id]['members'][$m_id]);
             $new = "G:".$dst;
             $acl->gosaAclEntry[$id]['members'][$new] = $new;
-            gosa_log("modify","groups/acl",$attrs['dn'],array(),sprintf("Updated acl for group %s on object %s.",$src,$attrs['dn']));
+            fusiondirectory_log("modify","groups/acl",$attrs['dn'],array(),sprintf("Updated acl for group %s on object %s.",$src,$attrs['dn']));
           }
         }
       }

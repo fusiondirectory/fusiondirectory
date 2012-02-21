@@ -167,7 +167,7 @@ class password extends plugin
                                 _("You have no permission to change your password."),WARNING_DIALOG);
           }else{
             $this->change_password($ui->dn, $new_password,$this->forcedHash);
-            gosa_log ("User/password has been changed");
+            fusiondirectory_log("User/password has been changed");
             $ui->password= $new_password;
             session::set('ui',$ui);
 #$this->handle_post_events("modify",array("userPassword" => $new_password));

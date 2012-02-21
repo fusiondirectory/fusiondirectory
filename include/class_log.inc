@@ -119,7 +119,7 @@ class log {
     } else {
       $str = "(".$entry['action'].") ".$entry['object']." of type ".$entry['objecttype']." ".$entry['changes'].": ".$entry['result'];
     }
-    gosa_log($str);
+    fusiondirectory_log($str);
   }
 
 }

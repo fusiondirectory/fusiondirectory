@@ -401,7 +401,7 @@ class group extends plugin
         514 => _("Domain guests"));
 
     /* Don't loose special groups! If not key'ed above, add it to
-       the combo box... */	
+       the combo box... */  
     if ($this->groupType >= 500 && $this->groupType <= 553 && !isset($groupTypes[$this->groupType])){
       $groupTypes[$this->groupType]= sprintf(_("Special group (%d)"), $this->groupType);
     }
@@ -719,7 +719,7 @@ class group extends plugin
         foreach($entry['members'] as $m_id => $member){
           if($m_id == "G:".$this->dn || $m_id == "U:".$this->dn){
             unset($acl->gosaAclEntry[$id]['members'][$m_id]);
-            gosa_log("modify","groups/acl",$attrs['dn'],array(),sprintf("Removed acl for %s on object %s.",$this->dn,$attrs['dn']));
+            fusiondirectory_log("modify","groups/acl",$attrs['dn'],array(),sprintf("Removed acl for %s on object %s.",$this->dn,$attrs['dn']));
           }
         }
       }
@@ -875,7 +875,7 @@ class group extends plugin
       if ($this->attrs['objectClass'][$i] != 'sambaGroupMapping' &&
           $this->attrs['objectClass'][$i] != 'sambaIdmapEntry' &&
           $this->attrs['objectClass'][$i] != 'goFonPickupGroup' &&
-	 $this->attrs['objectClass'][$i] != 'nagiosContactGroup'){
+   $this->attrs['objectClass'][$i] != 'nagiosContactGroup'){
         $tmp[]= $this->attrs['objectClass'][$i];
       }
     }

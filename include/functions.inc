@@ -391,7 +391,7 @@ function gosa_array_merge($ar1,$ar2)
  *
  * \param string 'message' the message to log
  * */
-function gosa_log ($message)
+function fusiondirectory_log ($message)
 {
   global $ui;
 

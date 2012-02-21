@@ -256,7 +256,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['apply'])){
       } else {
         change_password ($ui->dn, $_POST['new_password']);
       }
-      gosa_log ("User/password has been changed");
+      fusiondirectory_log("User/password has been changed");
       $smarty->assign("changed", true);
     }
   }
