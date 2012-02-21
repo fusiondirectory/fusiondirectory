@@ -115,14 +115,7 @@ class Step_Config3 extends setup_step
         }
       } 
 
-/*      if(isset($_POST['ppd_path_active'])){
-        $this->optional['ppd_path_active'] = TRUE;
-        if(isset($_POST['ppd_path'])){
-          $this->optional['ppd_path'] = get_post('ppd_path');
-        }
-      }else{*/
-        $this->optional['ppd_path_active'] = FALSE;
-/*      }*/
+      $this->optional['ppd_path_active'] = FALSE;
 
       if(isset($_POST['max_ldap_query_time_active'])){
         $this->optional['max_ldap_query_time_active'] = TRUE;
@@ -133,51 +126,15 @@ class Step_Config3 extends setup_step
         $this->optional['max_ldap_query_time_active'] = FALSE;
       }
 
-/*      if(isset($_POST['mailQueueScriptPath_active'])){
-        $this->optional['mailQueueScriptPath_active'] = TRUE;
-        if(isset($_POST['mailQueueScriptPath'])){
-          $this->optional['mailQueueScriptPath'] = get_post('mailQueueScriptPath');
-        }
-      }else{*/
-        $this->optional['mailQueueScriptPath_active'] = FALSE;
-/*      }*/
+      $this->optional['mailQueueScriptPath_active'] = FALSE;
 
-/*      if(isset($_POST['kioskpath_active'])){
-        $this->optional['kioskpath_active'] = TRUE;
-        if(isset($_POST['kioskpath'])){
-          $this->optional['kioskpath'] = get_post('kioskpath');
-        }
-      }else{ */
-        $this->optional['kioskpath_active'] = FALSE;
-/*      } */
+      $this->optional['kioskpath_active'] = FALSE;
 
-/*      if(isset($_POST['sudoou_active'])){
-        $this->optional['sudoou_active'] = TRUE;
-        if(isset($_POST['sudoou'])){
-          $this->optional['sudoou'] = get_post('sudoou');
-        }
-      }else{*/
-        $this->optional['sudoou_active'] = FALSE;
-/*      }*/
+      $this->optional['sudoou_active'] = FALSE;
 
-/*      if(isset($_POST['notifydir_active'])){
-        $this->optional['notifydir_active'] = TRUE;
-        if(isset($_POST['notifydir'])){
-          $this->optional['notifydir'] = get_post('notifydir');
-        }
-      }else{*/
-        $this->optional['notifydir_active'] = FALSE;
-/*      }*/
+      $this->optional['notifydir_active'] = FALSE;
 
-/*      if(isset($_POST['gosaSupportURI_active'])){
-        $this->optional['gosaSupportURI_active'] = TRUE;
-        if(isset($_POST['gosaSupportURI'])){
-          $this->optional['gosaSupportURI'] = get_post('gosaSupportURI');
-          $this->optional['gosaSupportTimeout'] = get_post('gosaSupportTimeout');
-        }
-      }else{*/
-        $this->optional['gosaSupportURI_active'] = FALSE;
-/*      }*/
+      $this->optional['gosaSupportURI_active'] = FALSE;
 
       if(isset($_POST['enableCopyPaste'])){
         $this->optional['enableCopyPaste'] = get_post('enableCopyPaste');
