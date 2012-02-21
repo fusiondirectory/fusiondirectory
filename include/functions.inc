@@ -108,7 +108,7 @@ $svn_revision = "1.0.2";
  *
  *  \param  string 'class_name' The currently requested class
  */
-function __gosa_autoload($class_name) {
+function __fusiondirectory_autoload($class_name) {
     global $class_mapping, $BASE_DIR;
 
     if ($class_mapping === NULL){
@@ -123,7 +123,7 @@ function __gosa_autoload($class_name) {
       exit;
     }
 }
-spl_autoload_register('__gosa_autoload');
+spl_autoload_register('__fusiondirectory_autoload');
 
 
 /*! \brief Checks if a class is available. 
