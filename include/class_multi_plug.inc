@@ -123,7 +123,7 @@ Using this class:
 class multi_plug
 {
   /* Tab handler for each given dn entry */
-	public $a_handles = array();
+  public $a_handles = array();
 
   /* Dummy handler which collects the data */
   private $o_tab     = NULL;  
@@ -136,7 +136,7 @@ class multi_plug
   public $by_name = array();
 
   /*! \brief    Creates a multi_plug object
-     @param   object  $config GOsa Configuration object
+     @param   object  $config FusionDirectory Configuration object
      @param   string  $class  The class name of the tab we want to edit. e.g. usertabs
      @param   string  $tab    The config tab name e.g. USERTABS 
      @param   array   $dns    The object dns we want to edit.

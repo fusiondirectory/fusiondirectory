@@ -109,7 +109,7 @@ class password extends plugin
       $check_length = $this->config->get_cfg_value("passwordMinLength") != "";
       $length       = $this->config->get_cfg_value("passwordMinLength", 0);
 
-      // Perform GOsa password policy checks
+      // Perform FusionDirectory password policy checks
       $message = array();
       if(empty($current_password)){
           $message[] = _("You need to specify your current password in order to proceed.");
@@ -161,7 +161,7 @@ class password extends plugin
                               _("The password you've entered as your current password doesn't match the real one."),WARNING_DIALOG);
         }else{
 
-          /* Check GOsa permissions */
+          /* Check FusionDirectory permissions */
           if (!preg_match("/w/i",$password_ACLS)){
             msg_dialog::display(_("Password change"),
                                 _("You have no permission to change your password."),WARNING_DIALOG);

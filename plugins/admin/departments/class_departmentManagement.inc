@@ -171,8 +171,8 @@ class departmentManagement extends management
     $this->refreshDeps();
   }
 
-  /*! \brief  Returns information about all container types that GOsa con handle.
-    @return Array   Informations about departments supported by GOsa.
+  /*! \brief  Returns information about all container types that FusionDirectory can handle.
+    @return Array   Informations about departments supported by FusionDirectory.
    */
   public static function get_support_departments()
   {
