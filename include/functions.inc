@@ -375,7 +375,7 @@ function array_remove_entries_ics($needles, $haystack)
  * \param array 'ar2' second array-
  * \return array
  */
-function gosa_array_merge($ar1,$ar2)
+function fusiondirectory_array_merge($ar1,$ar2)
 {
   if(!is_array($ar1) || !is_array($ar2)){
     trigger_error("Specified parameter(s) are not valid arrays.");

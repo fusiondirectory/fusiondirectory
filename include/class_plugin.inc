@@ -143,7 +143,7 @@ class plugin
   function plugin (&$config, $dn= NULL, $object= NULL)
   {
     /* Configuration is fine, allways */
-    $this->config= &$config;	
+    $this->config= &$config;  
     $this->dn= $dn;
 
     // Ensure that we've a valid acl_category set.
@@ -382,7 +382,7 @@ class plugin
     }
 
     /* Load (minimum) attributes, add missing ones */
-    $this->attrs['objectClass']= gosa_array_merge($oc,$this->objectclasses);
+    $this->attrs['objectClass']= fusiondirectory_array_merge($oc,$this->objectclasses);
 
     /* Copy standard attributes */
     foreach ($this->attributes as $val){
@@ -1685,7 +1685,7 @@ class plugin
       /* Create a new snapshot, display a dialog */
       if(preg_match("/^CreateSnapShotDialog_[^_]*_[xy]$/",$name) && $once){
 
-			  $entry = base64_decode(preg_replace("/^CreateSnapShotDialog_([^_]*)_[xy]$/","\\1",$name));
+        $entry = base64_decode(preg_replace("/^CreateSnapShotDialog_([^_]*)_[xy]$/","\\1",$name));
         $once = false;
         $entry = preg_replace("/^CreateSnapShotDialog_/","",$entry);
 
