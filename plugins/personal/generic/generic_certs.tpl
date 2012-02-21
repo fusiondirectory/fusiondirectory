@@ -9,17 +9,17 @@
    </td>
   
    <td style="vertical-align:top">
-	 <LABEL for="userCertificate_file">{if $Certificate_readable}{$userCertificateinfo}{/if}</LABEL>
-	 </td>
-	 <td style="vertical-align:top;text-align:right">
-	 {if $userCertificate_state ne "true"}
-	{render acl=$CertificateACL}
+   <LABEL for="userCertificate_file">{if $Certificate_readable}{$userCertificateinfo}{/if}</LABEL>
+   </td>
+   <td style="vertical-align:top;text-align:right">
+   {if $userCertificate_state ne "true"}
+  {render acl=$CertificateACL}
      <input id="userCertificate_file" name="userCertificate_file" type="file" size="20" maxlength="255" accept="text/*.*">
-	{/render}
+  {/render}
      {else}
-	{render acl=$CertificateACL}
+  {render acl=$CertificateACL}
      <input type=submit name="remove_userCertificate" value="{t}Remove{/t}">
-	{/render}
+  {/render}
      {/if}
    </td>
  </tr>
@@ -36,15 +36,15 @@
      <LABEL for="userSMIMECertificate_file">{if $Certificate_readable}{$userSMIMECertificateinfo}{/if}</LABEL>
    </td>
    <td style="vertical-align:top;text-align:right">
-	 {if $userSMIMECertificate_state ne "true"}
-	{render acl=$CertificateACL}
+   {if $userSMIMECertificate_state ne "true"}
+  {render acl=$CertificateACL}
      <input id="userSMIMECertificate_file" name="userSMIMECertificate_file" type="file" size="20" maxlength="255" accept="text/*.*">
-	{/render}
+  {/render}
      {else}
-	{render acl=$CertificateACL}
+  {render acl=$CertificateACL}
      <input type=submit name="remove_userSMIMECertificate" value="{t}Remove{/t}">
-	{/render}
-	 {/if}
+  {/render}
+   {/if}
    </td>
  </tr>
  </table>
@@ -60,15 +60,15 @@
      <LABEL for="userPKCS12_file">{if $Certificate_readable}{$userPKCS12info}{/if}</LABEL>
    </td>
    <td style="vertical-align:top;text-align:right">
-	 {if $userPKCS12_state ne "true"}
-	{render acl=$CertificateACL}
+   {if $userPKCS12_state ne "true"}
+  {render acl=$CertificateACL}
      <input id="userPKCS12_file" name="userPKCS12_file" type="file" size="20" maxlength="255" accept="text/*.*">
-	{/render}
-	 {else}
-	{render acl=$CertificateACL}
+  {/render}
+   {else}
+  {render acl=$CertificateACL}
      <input type=submit name="remove_userPKCS12" value="{t}Remove{/t}">
-	{/render}
-	 {/if}
+  {/render}
+   {/if}
    </td>
  </tr>
  
@@ -78,18 +78,18 @@
      <LABEL for="certificateSerialNumber">{t}Certificate serial number{/t}</LABEL>
    </td>
    <td>
-	{render acl=$CertificateACL}
+  {render acl=$CertificateACL}
      <input type='text' id="certificateSerialNumber" name="certificateSerialNumber" size=10 maxlength=20 value="{$certificateSerialNumber}">
-	{/render}
+  {/render}
    </td>
  </tr>
  {/if}
 </table>
 
 <p class="plugbottom">
-	{render acl=$CertificateACL}
+  {render acl=$CertificateACL}
   <input type=submit name="cert_edit_finish" value="{msgPool type=saveButton}">
-	{/render}
+  {/render}
   &nbsp;
   <input type=submit name="cert_edit_cancel" value="{msgPool type=cancelButton}">
 </p>

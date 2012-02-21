@@ -102,24 +102,24 @@ textdomain($domain);
 /* Generate server list */
 $servers= array();
 foreach ($config->data['LOCATIONS'] as $key => $ignored){
-	$servers[$key]= $key;
+  $servers[$key]= $key;
 }
 if (isset($_POST['server'])){
-	$directory= validate($_POST['server']);
+  $directory= validate($_POST['server']);
 } else {
-	$directory= $config->data['MAIN']['DEFAULT'];
+  $directory= $config->data['MAIN']['DEFAULT'];
 
   if(!isset($servers[$directory])){
     $directory = key($servers);
   }
 }
 if (isset($_GET['directory']) && isset($servers[$_GET['directory']])){
-	$smarty->assign ("show_directory_chooser", false);
-	$directory= validate($_GET['directory']);
+  $smarty->assign ("show_directory_chooser", false);
+  $directory= validate($_GET['directory']);
 } else {
-	$smarty->assign ("server_options", $servers);
-	$smarty->assign ("server_id", $directory);
-	$smarty->assign ("show_directory_chooser", true);
+  $smarty->assign ("server_options", $servers);
+  $smarty->assign ("server_id", $directory);
+  $smarty->assign ("show_directory_chooser", true);
 }
 
 /* Set config to selected one */
@@ -154,26 +154,26 @@ if ($config->get_cfg_value("forcessl") == 'true' && $ssl != ''){
 /* Check for selected password method */
 $method= $config->get_cfg_value("passwordDefaultHash", "crypt/md5");
 if (isset($_GET['method'])){
-	$method= validate($_GET['method']);
-	$tmp = new passwordMethod($config);
-	$available = $tmp->get_available_methods();
-	if (!isset($available[$method])){
+  $method= validate($_GET['method']);
+  $tmp = new passwordMethod($config);
+  $available = $tmp->get_available_methods();
+  if (!isset($available[$method])){
     msg_dialog::display(_("Password method"),_("Error: Password method not available!"),FATAL_ERROR_DIALOG);
-		exit;
-	}
+    exit;
+  }
 }
 
 
 /* Check for selected user... */
 if (isset($_GET['uid']) && $_GET['uid'] != ""){
-	$uid= validate($_GET['uid']);
-	$smarty->assign('display_username', false);
+  $uid= validate($_GET['uid']);
+  $smarty->assign('display_username', false);
 } elseif (isset($_POST['uid'])){
-	$uid= validate($_POST['uid']);
-	$smarty->assign('display_username', true);
+  $uid= validate($_POST['uid']);
+  $smarty->assign('display_username', true);
 } else {
-	$uid= "";
-	$smarty->assign('display_username', true);
+  $uid= "";
+  $smarty->assign('display_username', true);
 }
 $current_password= "";
 $smarty->assign("changed", false);
@@ -192,29 +192,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['apply'])){
   /* Do new and repeated password fields match? */
   $new_password= $_POST['new_password'];
   if ($_POST['new_password'] != $_POST['new_password_repeated']){
-	  $message[]= _("The passwords you've entered as 'New password' and 'Repeated new password' do not match.");
+    $message[]= _("The passwords you've entered as 'New password' and 'Repeated new password' do not match.");
   } else {
-	  if ($_POST['new_password'] == ""){
+    if ($_POST['new_password'] == ""){
       $message[]= msgPool::required(_("New password"));
-	  }
+    }
   }
 
   /* Password policy fulfilled? */
   if ($config->get_cfg_value("passwordMinDiffer") != ""){
-	  $l= $config->get_cfg_value("passwordMinDiffer");
-	  if (substr($_POST['current_password'], 0, $l) == substr($_POST['new_password'], 0, $l)){
-		  $message[]= _("The password used as new and current are too similar.");
-	  }
+    $l= $config->get_cfg_value("passwordMinDiffer");
+    if (substr($_POST['current_password'], 0, $l) == substr($_POST['new_password'], 0, $l)){
+      $message[]= _("The password used as new and current are too similar.");
+    }
   }
   if ($config->get_cfg_value("passwordMinLength") != ""){
-	  if (strlen($_POST['new_password']) < $config->get_cfg_value("passwordMinLength")){
-		  $message[]= _("The password used as new is to short.");
-	  }
+    if (strlen($_POST['new_password']) < $config->get_cfg_value("passwordMinLength")){
+      $message[]= _("The password used as new is to short.");
+    }
   }
 
   /* Validate */
   if (!tests::is_uid($uid)){
-	  $message[]= msgPool::invalid(_("Login"));
+    $message[]= msgPool::invalid(_("Login"));
   } elseif (mb_strlen($_POST["current_password"], 'UTF-8') == 0){
     $message[]= msgPool::required(_("Current password"));
   } else {
@@ -234,31 +234,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['apply'])){
 
   /* Do we need to show error messages? */
   if (count ($message) != 0){
-	  /* Show error message and continue editing */
-	  msg_dialog::displayChecks($message);
+    /* Show error message and continue editing */
+    msg_dialog::displayChecks($message);
   } else {
 
-	  /* Passed quality check, just try to change the password now */
-	  $output= "";
-	  if ($config->get_cfg_value("passwordHook") != ""){
-		  exec($config->get_cfg_value("passwordHook")." ".escapeshellarg($ui->username)." ".
-				  escapeshellarg($_POST['current_password'])." ".escapeshellarg($_POST['new_password']), $resarr);
-		  if(count($resarr) > 0) {
-			  $output= join('\n', $resarr);
-		  }
-	  }
-	  if ($output != ""){
-		  $message[]= _("External password changer reported a problem: ".$output);
-		  msg_dialog::displayChecks($message);
-	  } else {
-		  if ($method != ""){
-			  change_password ($ui->dn, $_POST['new_password'], 0, $method);
-		  } else {
-			  change_password ($ui->dn, $_POST['new_password']);
-		  }
-		  gosa_log ("User/password has been changed");
-		  $smarty->assign("changed", true);
-	  }
+    /* Passed quality check, just try to change the password now */
+    $output= "";
+    if ($config->get_cfg_value("passwordHook") != ""){
+      exec($config->get_cfg_value("passwordHook")." ".escapeshellarg($ui->username)." ".
+          escapeshellarg($_POST['current_password'])." ".escapeshellarg($_POST['new_password']), $resarr);
+      if(count($resarr) > 0) {
+        $output= join('\n', $resarr);
+      }
+    }
+    if ($output != ""){
+      $message[]= _("External password changer reported a problem: ".$output);
+      msg_dialog::displayChecks($message);
+    } else {
+      if ($method != ""){
+        change_password ($ui->dn, $_POST['new_password'], 0, $method);
+      } else {
+        change_password ($ui->dn, $_POST['new_password']);
+      }
+      gosa_log ("User/password has been changed");
+      $smarty->assign("changed", true);
+    }
   }
 
 
@@ -267,7 +267,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['apply'])){
 /* Parameter fill up */
 $params= "";
 foreach (array('uid', 'method', 'directory') as $index){
-	$params.= "&amp;$index=".urlencode($$index);
+  $params.= "&amp;$index=".urlencode($$index);
 }
 $params= preg_replace('/^&amp;/', '?', $params);
 $smarty->assign('params', $params);

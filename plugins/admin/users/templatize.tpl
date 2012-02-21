@@ -41,6 +41,6 @@
 <!-- Place cursor -->
 <script language="JavaScript" type="text/javascript">
   <!-- // First input field on page
-	focus_field('template');
+  focus_field('template');
   -->
 </script>

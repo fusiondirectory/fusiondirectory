@@ -1,5 +1,5 @@
 <!--////////////////////
-	//	COUNTRY (c)
+  //  COUNTRY (c)
     //////////////////// -->
 
 <table summary="" style="width:100%; vertical-align:top; text-align:left;" cellpadding=4>
@@ -11,7 +11,7 @@
        <td><LABEL for="c">{t}Country name{/t}</LABEL>{$must}</td>
        <td>
 {render acl=$cACL}
-    	<input type='text' id="c" name="c" size=25 maxlength=60 value="{$c}" title="{t}Name of country to create{/t}">
+      <input type='text' id="c" name="c" size=25 maxlength=60 value="{$c}" title="{t}Name of country to create{/t}">
 {/render}
        </td>
       </tr>
@@ -23,16 +23,16 @@
 {/render}
        </td>
       </tr>
-	{if !$is_root_dse}
+  {if !$is_root_dse}
       <tr>
         <td><LABEL for="base">{t}Base{/t}</LABEL>{$must}</td>
         <td>
 {render acl=$baseACL}
           {$base}
 {/render}
-	  </td>
-	 </tr>
-	{/if}
+    </td>
+   </tr>
+  {/if}
 
   {if $manager_enabled}
     <tr>
@@ -56,7 +56,7 @@
      </td>
     </tr>
   {/if}
-	</table>
+  </table>
   </td>
  </tr>
 </table>

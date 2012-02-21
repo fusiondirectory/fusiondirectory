@@ -46,7 +46,7 @@ class department extends plugin
 
   /* attribute list for save action */
   var $attributes= array("ou", "description", "businessCategory", "st", "l", "postalAddress",
-			"telephoneNumber", "facsimileTelephoneNumber", "gosaUnitTag", "manager");
+      "telephoneNumber", "facsimileTelephoneNumber", "gosaUnitTag", "manager");
 
   /* Do not append the structural object classes here, they are added dynamically in the constructor */
   var $objectclasses= array("top", "gosaDepartment");
@@ -101,22 +101,22 @@ class department extends plugin
 
     /* Set base */
     if ($this->dn == "new"){
-	    $ui= get_userinfo();
-	    if(session::is_set('CurrentMainBase')){
-		    $this->base = session::get('CurrentMainBase');
-	    }else{
-		    $this->base= dn2base($ui->dn);
-	    }
+      $ui= get_userinfo();
+      if(session::is_set('CurrentMainBase')){
+        $this->base = session::get('CurrentMainBase');
+      }else{
+        $this->base= dn2base($ui->dn);
+      }
     } else {
-	    $this->base= preg_replace ("/^[^,]+,/", "", $this->dn);
+      $this->base= preg_replace ("/^[^,]+,/", "", $this->dn);
     }
 
     $this->orig_base = $this->base;
 
     /* Is administrational Unit? */
     if ($dn != "new" && in_array_ics('gosaAdministrativeUnit', $this->attrs['objectClass'])){
-	    $this->is_administrational_unit= true;
-	    $this->initially_was_tagged = true;
+      $this->is_administrational_unit= true;
+      $this->initially_was_tagged = true;
     }
 
     /* Instanciate base selector */
@@ -148,10 +148,10 @@ class department extends plugin
     }
   }
 
-	function execute()
-	{
-		/* Call parent execute */
-		plugin::execute();
+  function execute()
+  {
+    /* Call parent execute */
+    plugin::execute();
 
     /* Log view */
     if($this->is_account && !$this->view_logged){
@@ -159,10 +159,10 @@ class department extends plugin
       new log("view","department/".get_class($this),$this->dn);
     }
 
-		/* Reload departments */
-		$this->config->get_departments($this->dn);
-		$this->config->make_idepartments();
-		$smarty= get_smarty();
+    /* Reload departments */
+    $this->config->get_departments($this->dn);
+    $this->config->make_idepartments();
+    $smarty= get_smarty();
     $smarty->assign("usePrototype", "true");
 
     // Clear manager attribute if requested
@@ -217,15 +217,15 @@ class department extends plugin
     /* Hide all departments, that are subtrees of this department */
     $bases = $this->get_allowed_bases();
     if(($this->dn == "new")||($this->dn == "")){
-	    $tmp = $bases;
+      $tmp = $bases;
     }else{
-	    $tmp	= array();	
-	    foreach($bases as $dn=>$base){
-		    /* Only attach departments which are not a subtree of this one */
-		    if(!preg_match("/".preg_quote($this->dn)."/",$dn)){
-			    $tmp[$dn]=$base;
-		    }
-	    }
+      $tmp  = array();  
+      foreach($bases as $dn=>$base){
+        /* Only attach departments which are not a subtree of this one */
+        if(!preg_match("/".preg_quote($this->dn)."/",$dn)){
+          $tmp[$dn]=$base;
+        }
+      }
     }
     $this->baseSelector->setBases($tmp);
 
@@ -253,50 +253,48 @@ class department extends plugin
       }
     }
     if($tpl == "") {
-      trigger_error("No template specified for container type '".$this->type."', please update epartmentManagement::get_support_departments().");
+      trigger_error("No template specified for container type '".$this->type."', please update departmentManagement::get_support_departments().");
       $tpl = "generic.tpl";
     }
-		return($smarty->fetch (get_template_path($tpl, TRUE)));
-	}
+    return($smarty->fetch (get_template_path($tpl, TRUE)));
+  }
 
-	function clear_fields()
-	{
-		$this->dn   = "";
-		$this->base = "";
+  function clear_fields()
+  {
+    $this->dn   = "";
+    $this->base = "";
 
-		foreach ($this->attributes as $val){
-			$this->$val= "";
-		}
-	}
+    foreach ($this->attributes as $val){
+      $this->$val= "";
+    }
+  }
 
-	function remove_from_parent()
-	{
-		$ldap= $this->config->get_ldap_link();
-		$ldap->cd ($this->dn);
-		$ldap->rmdir_recursive($this->dn);
+  function remove_from_parent()
+  {
+    $ldap= $this->config->get_ldap_link();
+    $ldap->cd ($this->dn);
+    $ldap->rmdir_recursive($this->dn);
     new log("remove","department/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
     if (!$ldap->success()){
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_DEL, get_class()));
     }
 
-		/* Optionally execute a command after we're done */
-		$this->handle_post_events('remove');
-	}
+    /* Optionally execute a command after we're done */
+    $this->handle_post_events('remove');
+  }
 
-	function must_be_tagged()
-	{
-		return $this->must_be_tagged;
-	}
+  function must_be_tagged()
+  {
+    return $this->must_be_tagged;
+  }
 
-	/* Save data to object */
-	function save_object()
-	{	
-		if (isset($_POST['dep_generic_posted'])){
+  /* Save data to object */
+  function save_object()
+  { 
+    if (isset($_POST['dep_generic_posted'])){
 
-			$nA = $this->namingAttr;
-			$old_nA = $this->$nA;
-
-
+      $nA = $this->namingAttr;
+      $old_nA = $this->$nA;
 
       /* Create a base backup and reset the
          base directly after calling plugin::save_object();
@@ -305,16 +303,16 @@ class department extends plugin
       plugin::save_object();
       $this->base = $base_tmp;
 
-		/* Refresh base */
-		if ($this->acl_is_moveable($this->base)){
-			if (!$this->baseSelector->update()) {
-				msg_dialog::display(_("Error"), msgPool::permMove(), ERROR_DIALOG);
-			}
-			if ($this->base != $this->baseSelector->getBase()) {
-				$this->base= $this->baseSelector->getBase();
-				$this->is_modified= TRUE;
-			}
-		}
+    /* Refresh base */
+    if ($this->acl_is_moveable($this->base)){
+      if (!$this->baseSelector->update()) {
+        msg_dialog::display(_("Error"), msgPool::permMove(), ERROR_DIALOG);
+      }
+      if ($this->base != $this->baseSelector->getBase()) {
+        $this->base= $this->baseSelector->getBase();
+        $this->is_modified= TRUE;
+      }
+    }
 
 
       /* Save tagging flag */
@@ -333,45 +331,45 @@ class department extends plugin
         $this->$nA = $old_nA;
       }
     }
-	}
+  }
 
 
-	/* Check values */
-	function check()
-	{
-		/* Call common method to give check the hook */
-		$message= plugin::check();
+  /* Check values */
+  function check()
+  {
+    /* Call common method to give check the hook */
+    $message= plugin::check();
 
-		/* Check for presence of this department */
-		$ldap= $this->config->get_ldap_link();
+    /* Check for presence of this department */
+    $ldap= $this->config->get_ldap_link();
     $ldap->ls ("(&(ou=".$this->ou.")(objectClass=organizationalUnit))", $this->base, array('dn'));
     if ($this->orig_dn == "new" && $ldap->count()){
-			$message[]= msgPool::duplicated(_("Name"));
-		} elseif ($this->orig_dn != $this->dn && $ldap->count()){
-			$message[]= msgPool::duplicated(_("Name"));
-		}
+      $message[]= msgPool::duplicated(_("Name"));
+    } elseif ($this->orig_dn != $this->dn && $ldap->count()){
+      $message[]= msgPool::duplicated(_("Name"));
+    }
 
-		/* All required fields are set? */
-		if ($this->ou == ""){
-			$message[]= msgPool::required(_("Name"));
-		}
-		if ($this->description == ""){
-			$message[]= msgPool::required(_("Description"));
-		}
+    /* All required fields are set? */
+    if ($this->ou == ""){
+      $message[]= msgPool::required(_("Name"));
+    }
+    if ($this->description == ""){
+      $message[]= msgPool::required(_("Description"));
+    }
 
     if(tests::is_department_name_reserved($this->ou,$this->base)){
       $message[]= msgPool::reserved(_("Name"));
     }
 
-		if (preg_match ('/[#+:=>\\\\\/]/', $this->ou)){
-			$message[]= msgPool::invalid(_("Name"), $this->ou, "/[^#+:=>\\\\\/]/");
-		}
-		if (!tests::is_phone_nr($this->telephoneNumber)){
-			$message[]= msgPool::invalid(_("Phone"), $this->telephoneNumber, "/[\/0-9 ()+*-]/");
-		}
-		if (!tests::is_phone_nr($this->facsimileTelephoneNumber)){
-			$message[]= msgPool::invalid(_("Fax"), $this->facsimileTelephoneNumber, "/[\/0-9 ()+*-]/");
-		}
+    if (preg_match ('/[#+:=>\\\\\/]/', $this->ou)){
+      $message[]= msgPool::invalid(_("Name"), $this->ou, "/[^#+:=>\\\\\/]/");
+    }
+    if (!tests::is_phone_nr($this->telephoneNumber)){
+      $message[]= msgPool::invalid(_("Phone"), $this->telephoneNumber, "/[\/0-9 ()+*-]/");
+    }
+    if (!tests::is_phone_nr($this->facsimileTelephoneNumber)){
+      $message[]= msgPool::invalid(_("Fax"), $this->facsimileTelephoneNumber, "/[\/0-9 ()+*-]/");
+    }
 
     // Check if a wrong base was supplied
     if(!$this->baseSelector->checkLastBaseUpdate()){
@@ -387,7 +385,7 @@ class department extends plugin
     }
 
     return $message;
-	}
+  }
 
 
     /* Save to LDAP */
@@ -484,9 +482,9 @@ class department extends plugin
     }
 
 
-	/* Tag objects to have the gosaAdministrativeUnitTag */
-	function tag_objects($OnlySetTagFlag = false)
-	{
+  /* Tag objects to have the gosaAdministrativeUnitTag */
+  function tag_objects($OnlySetTagFlag = false)
+  {
     if(!$OnlySetTagFlag){
       $smarty= get_smarty();
       /* Print out html introduction */
@@ -507,10 +505,10 @@ class department extends plugin
     $ldap= $this->config->get_ldap_link();
     $ldap->cd($this->dn);
     if ($add){
-	    $ldap->search('(!(&(objectClass=gosaAdministrativeUnitTag)(gosaUnitTag='.
-						    $this->gosaUnitTag.')))', array('dn'));
+      $ldap->search('(!(&(objectClass=gosaAdministrativeUnitTag)(gosaUnitTag='.
+                $this->gosaUnitTag.')))', array('dn'));
     } else {
-	    $ldap->search('objectClass=gosaAdministrativeUnitTag', array('dn'));
+      $ldap->search('objectClass=gosaAdministrativeUnitTag', array('dn'));
     }
 
     $objects = array();
@@ -519,40 +517,40 @@ class department extends plugin
     }
     foreach($objects as $attrs){
 
-	    /* Skip self */
-	    if ($attrs['dn'] == $this->dn){
-		    continue;
-	    }
+      /* Skip self */
+      if ($attrs['dn'] == $this->dn){
+        continue;
+      }
 
-	    /* Check for confilicting administrative units */
-	    $fix= true;
-	    foreach ($this->config->adepartments as $key => $tag){
-		    /* This one is shorter than our dn, its not relevant... */
-		    if ($len >= strlen($key)){
-			    continue;
-		    }
+      /* Check for confilicting administrative units */
+      $fix= true;
+      foreach ($this->config->adepartments as $key => $tag){
+        /* This one is shorter than our dn, its not relevant... */
+        if ($len >= strlen($key)){
+          continue;
+        }
 
-		    /* This one matches with the latter part. Break and don't fix this entry */
-		    if (preg_match('/(^|,)'.preg_quote($key, '/').'$/', $attrs['dn'])){
-			    $fix= false;
-			    break;
-		    }
-	    }
+        /* This one matches with the latter part. Break and don't fix this entry */
+        if (preg_match('/(^|,)'.preg_quote($key, '/').'$/', $attrs['dn'])){
+          $fix= false;
+          break;
+        }
+      }
 
-	    /* Fix entry if needed */
-	    if ($fix){
-		    if($OnlySetTagFlag){
-			    $this->must_be_tagged =true;
-			    return;
-		    }
-		    $this->handle_object_tagging($attrs['dn'], $this->gosaUnitTag, TRUE );
+      /* Fix entry if needed */
+      if ($fix){
+        if($OnlySetTagFlag){
+          $this->must_be_tagged =true;
+          return;
+        }
+        $this->handle_object_tagging($attrs['dn'], $this->gosaUnitTag, TRUE );
         echo "<script language=\"javascript\" type=\"text/javascript\">scrollDown2();</script>" ;
-	    }
+      }
     }
     
     if(!$OnlySetTagFlag){
       $this->must_be_tagged = FALSE;
-	    echo '<p class="seperator">&nbsp;</p>';
+      echo '<p class="seperator">&nbsp;</p>';
       echo "<div style='width:100%;text-align:right;'>".
         "<form name='form' method='post' action='?plug=".$_GET['plug']."' target='_parent'>".
         "<br>".
@@ -562,12 +560,12 @@ class department extends plugin
         "</div>";
       echo "<script language=\"javascript\" type=\"text/javascript\">scrollDown2();</script>" ;
     }
-	}
+  }
 
 
-	/* Move/Rename complete trees */
-	function recursive_move($src_dn, $dst_dn,$force = false)
-	{
+  /* Move/Rename complete trees */
+  function recursive_move($src_dn, $dst_dn,$force = false)
+  {
     /* Print header to have styles included */
     $smarty= get_smarty();
 

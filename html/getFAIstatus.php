@@ -39,13 +39,13 @@ if (!session::global_is_set('ui')){
 
 /* There must be a mac address given */
 if(!isset($_GET['mac'])){
-	return;
+  return;
 }
 
 $config = session::global_get("config");
 $o =  new supportDaemon();
 $res = $o->get_entries_by_mac(explode(",", $_GET['mac']));
 foreach($res as $entry){
-	echo $entry['MACADDRESS']."|".$entry['PROGRESS']."\n";
+  echo $entry['MACADDRESS']."|".$entry['PROGRESS']."\n";
 }
 ?>

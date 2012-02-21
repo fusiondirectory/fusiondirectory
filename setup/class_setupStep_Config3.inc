@@ -181,9 +181,9 @@ class Step_Config3 extends setup_step
 
       if(isset($_POST['enableCopyPaste'])){
         $this->optional['enableCopyPaste'] = get_post('enableCopyPaste');
-			}
+      }
 
-			/* Get logging */
+      /* Get logging */
       $this->optional['logging'] =  isset($_POST['logging']);
       
       if(isset($_POST['uniq_identifier_active'])){

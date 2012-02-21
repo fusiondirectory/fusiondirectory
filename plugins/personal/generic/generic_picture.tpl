@@ -17,8 +17,8 @@
     </tr>
    </table>
   </td>
-	</tr>
-	<tr>
+  </tr>
+  <tr>
    <!-- Name, ... -->
    <td style="vertical-align:bottom; width:100%;">
      <input type="hidden" name="MAX_FILE_SIZE" value="2000000">

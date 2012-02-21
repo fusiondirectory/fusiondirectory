@@ -21,16 +21,16 @@
 */
 
 if (!$cleanup){
-	session::set('plugin_dir',dirname(__FILE__));
-	$smarty->assign("iconmenu", $plist->show_iconmenu());
-	$smarty->assign("header", print_header(get_template_path('images/welcome.png'), sprintf(_("Welcome %s!"), $ui->cn)));
-	$smarty->assign("year", date("Y"));
+  session::set('plugin_dir',dirname(__FILE__));
+  $smarty->assign("iconmenu", $plist->show_iconmenu());
+  $smarty->assign("header", print_header(get_template_path('images/welcome.png'), sprintf(_("Welcome %s!"), $ui->cn)));
+  $smarty->assign("year", date("Y"));
 
-	if(function_exists("get_gosa_version")){
-		$smarty->assign("revision", get_gosa_version());
-	}
+  if(function_exists("get_gosa_version")){
+    $smarty->assign("revision", get_gosa_version());
+  }
 
-	$display= $smarty->fetch(get_template_path('welcome.tpl', TRUE));
+  $display= $smarty->fetch(get_template_path('welcome.tpl', TRUE));
 }
 
 ?>

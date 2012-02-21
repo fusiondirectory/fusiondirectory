@@ -22,25 +22,25 @@
 
 class passwordMethodMd5 extends passwordMethod
 {
-	function passwordMethodMd5($config)  
-	{
-	}
+  function passwordMethodMd5($config)  
+  {
+  }
 
 
-	function is_available()
-	{
-		if (function_exists('md5')){
-			return(true);
-		}else{
-			return false;
-		}
-	}
+  function is_available()
+  {
+    if (function_exists('md5')){
+      return(true);
+    }else{
+      return false;
+    }
+  }
 
 
-	function generate_hash($pwd)
-	{
-		return  "{MD5}".base64_encode( pack('H*', md5($pwd)));
-	}
+  function generate_hash($pwd)
+  {
+    return  "{MD5}".base64_encode( pack('H*', md5($pwd)));
+  }
 
 
   function get_hash_name()

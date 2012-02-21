@@ -119,15 +119,15 @@ class writeexcel_format {
      */
     function copy($other) {
         $xf = $this->_xf_index;   // Backup XF index
-		
-		/* A better way to copy member vars, ... won't cause fatal errors in PHP5.
+    
+    /* A better way to copy member vars, ... won't cause fatal errors in PHP5.
            The only thing i can understand is : For what is this function used,
-			it is never used by any object, as I can see in the source code.
-		   ...
+      it is never used by any object, as I can see in the source code.
+       ...
          */
-		foreach(get_object_vars($other) as $var => $val){
-			$this->$var = $val;
-		}
+    foreach(get_object_vars($other) as $var => $val){
+      $this->$var = $val;
+    }
 //        $this = $other;           // Copy properties
         $this->_xf_index = $xf;   // Restore XF index
     }

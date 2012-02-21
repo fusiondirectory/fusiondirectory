@@ -1,129 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<xsd:element name="filterdef">
-		<xsd:complexType>
-			<xsd:sequence>
-				<xsd:element ref="definition" minOccurs="1" maxOccurs="1"/>
-				<xsd:element ref="search" minOccurs="1" maxOccurs="1"/>
-				<xsd:element ref="element" minOccurs="0" maxOccurs="unbounded"/>
-			</xsd:sequence>
-		</xsd:complexType>
-	</xsd:element>
-	<xsd:simpleType name="regexA">
-		<xsd:restriction base="xsd:string">
-			<xsd:pattern value="true|false"/>
-		</xsd:restriction>
-	</xsd:simpleType>
-	<xsd:simpleType name="regexB">
-		<xsd:restriction base="xsd:string">
-			<xsd:pattern value="([a-zA-Z0-9/.-])+"/>
-		</xsd:restriction>
-	</xsd:simpleType>
-	<xsd:simpleType name="regexC">
-		<xsd:restriction base="xsd:string">
-			<xsd:pattern value="([a-zA-Z0-9])+"/>
-		</xsd:restriction>
-	</xsd:simpleType>
-	<xsd:simpleType name="regexD">
-		<xsd:restriction base="xsd:string">
-			<xsd:pattern value="([A-Z])+"/>
-		</xsd:restriction>
-	</xsd:simpleType>
-	<xsd:element name="definition">
-		<xsd:complexType mixed="true">
-			<xsd:all>
-				<xsd:element ref="category" minOccurs="1"/>
-				<xsd:element ref="template" minOccurs="1"/>
-				<xsd:element ref="initial" minOccurs="0"/>
-			</xsd:all>
-		</xsd:complexType>
-	</xsd:element>
-	<xsd:element name="category" type="regexB"/>
-	<xsd:element name="template" type="regexB"/>
-	<xsd:element name="initial" type="regexA"/>
-	<xsd:element name="search">
-		<xsd:complexType mixed="true">
-			<xsd:sequence>
-				<xsd:element ref="query" maxOccurs="unbounded"/>
-				<xsd:element ref="scope"/>
-			</xsd:sequence>
-		</xsd:complexType>
-	</xsd:element>
-	<xsd:element name="query">
-		<xsd:complexType mixed="true">
-			<xsd:sequence>
-				<xsd:element ref="backend"/>
-				<xsd:element ref="filter"/>
-				<xsd:element ref="attribute" maxOccurs="unbounded"/>
-			</xsd:sequence>
-		</xsd:complexType>
-	</xsd:element>
-	<xsd:element name="backend" type="regexD"/>
-	<xsd:element name="filter" type="xsd:string"/>
-	<xsd:element name="attribute" type="regexC"/>
-	<xsd:element name="scope">
-		<xsd:simpleType>
-			<xsd:restriction base="xsd:string">
-				<xsd:pattern value="auto|sub|one"/>
-			</xsd:restriction>
-		</xsd:simpleType>
-	</xsd:element>
-	<xsd:element name="element">
-		<xsd:complexType mixed="true">
-			<xsd:sequence>
-				<xsd:element ref="type"/>
-				<xsd:element ref="tag"/>
-				<xsd:element ref="alphabet" minOccurs="0"/>
-				<xsd:element ref="default" minOccurs="0"/>
-				<xsd:element ref="unset"/>
-				<xsd:element ref="set"/>
-				<xsd:element ref="value" minOccurs="0" maxOccurs="unbounded"/>
-				<xsd:element ref="autocomplete" minOccurs="0"/>
-			</xsd:sequence>
-		</xsd:complexType>
-	</xsd:element>
-	<xsd:element name="type">
-		<xsd:simpleType>
-			<xsd:restriction base="xsd:string">
-				<xsd:enumeration value="textfield"/>
-				<xsd:enumeration value="combobox"/>
-				<xsd:enumeration value="checkbox"/>
-			</xsd:restriction>
-		</xsd:simpleType>
-	</xsd:element>
-	<xsd:element name="tag" type="regexD"/>
-	<xsd:element name="alphabet" type="regexA"/>
-	<xsd:element name="default" type="xsd:string"/>
-	<xsd:element name="unset" type="xsd:string"/>
-	<xsd:element name="set" type="xsd:string"/>
-	<xsd:element name="autocomplete">
-		<xsd:complexType mixed="true">
-			<xsd:sequence>
-				<xsd:element ref="backend"/>
-				<xsd:element ref="filter"/>
-				<xsd:element ref="attribute"/>
-				<xsd:element ref="frequency" minOccurs="0" maxOccurs="unbounded"/>
-				<xsd:element ref="characters" minOccurs="0" maxOccurs="unbounded"/>
-				<xsd:element ref="base" minOccurs="0"/>
-				<xsd:element ref="scope" minOccurs="0"/>
-				<xsd:element ref="category" minOccurs="0" maxOccurs="unbounded"/>
-				<xsd:element ref="objectbase" minOccurs="0" maxOccurs="unbounded"/>
-				<xsd:element ref="key" minOccurs="0"/>
-			</xsd:sequence>
-		</xsd:complexType>
-	</xsd:element>
-	<xsd:element name="frequency" type="xsd:float"/>
-	<xsd:element name="characters" type="xsd:int"/>
-	<xsd:element name="base" type="xsd:string"/>
-	<xsd:element name="objectbase" type="xsd:string"/>
-	<xsd:element name="value">
-		<xsd:complexType mixed="true">
-			<xsd:all>
-				<xsd:element ref="key" minOccurs="1"/>
-				<xsd:element ref="label" minOccurs="1"/>
-			</xsd:all>
-		</xsd:complexType>
-	</xsd:element>
-	<xsd:element name="key" type="xsd:string"/>
-	<xsd:element name="label" type="xsd:string"/>
+  <xsd:element name="filterdef">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="definition" minOccurs="1" maxOccurs="1"/>
+        <xsd:element ref="search" minOccurs="1" maxOccurs="1"/>
+        <xsd:element ref="element" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:simpleType name="regexA">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="true|false"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="regexB">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="([a-zA-Z0-9/.-])+"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="regexC">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="([a-zA-Z0-9])+"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="regexD">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="([A-Z])+"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:element name="definition">
+    <xsd:complexType mixed="true">
+      <xsd:all>
+        <xsd:element ref="category" minOccurs="1"/>
+        <xsd:element ref="template" minOccurs="1"/>
+        <xsd:element ref="initial" minOccurs="0"/>
+      </xsd:all>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="category" type="regexB"/>
+  <xsd:element name="template" type="regexB"/>
+  <xsd:element name="initial" type="regexA"/>
+  <xsd:element name="search">
+    <xsd:complexType mixed="true">
+      <xsd:sequence>
+        <xsd:element ref="query" maxOccurs="unbounded"/>
+        <xsd:element ref="scope"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="query">
+    <xsd:complexType mixed="true">
+      <xsd:sequence>
+        <xsd:element ref="backend"/>
+        <xsd:element ref="filter"/>
+        <xsd:element ref="attribute" maxOccurs="unbounded"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="backend" type="regexD"/>
+  <xsd:element name="filter" type="xsd:string"/>
+  <xsd:element name="attribute" type="regexC"/>
+  <xsd:element name="scope">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:string">
+        <xsd:pattern value="auto|sub|one"/>
+      </xsd:restriction>
+    </xsd:simpleType>
+  </xsd:element>
+  <xsd:element name="element">
+    <xsd:complexType mixed="true">
+      <xsd:sequence>
+        <xsd:element ref="type"/>
+        <xsd:element ref="tag"/>
+        <xsd:element ref="alphabet" minOccurs="0"/>
+        <xsd:element ref="default" minOccurs="0"/>
+        <xsd:element ref="unset"/>
+        <xsd:element ref="set"/>
+        <xsd:element ref="value" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="autocomplete" minOccurs="0"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="type">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:string">
+        <xsd:enumeration value="textfield"/>
+        <xsd:enumeration value="combobox"/>
+        <xsd:enumeration value="checkbox"/>
+      </xsd:restriction>
+    </xsd:simpleType>
+  </xsd:element>
+  <xsd:element name="tag" type="regexD"/>
+  <xsd:element name="alphabet" type="regexA"/>
+  <xsd:element name="default" type="xsd:string"/>
+  <xsd:element name="unset" type="xsd:string"/>
+  <xsd:element name="set" type="xsd:string"/>
+  <xsd:element name="autocomplete">
+    <xsd:complexType mixed="true">
+      <xsd:sequence>
+        <xsd:element ref="backend"/>
+        <xsd:element ref="filter"/>
+        <xsd:element ref="attribute"/>
+        <xsd:element ref="frequency" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="characters" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="base" minOccurs="0"/>
+        <xsd:element ref="scope" minOccurs="0"/>
+        <xsd:element ref="category" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="objectbase" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="key" minOccurs="0"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="frequency" type="xsd:float"/>
+  <xsd:element name="characters" type="xsd:int"/>
+  <xsd:element name="base" type="xsd:string"/>
+  <xsd:element name="objectbase" type="xsd:string"/>
+  <xsd:element name="value">
+    <xsd:complexType mixed="true">
+      <xsd:all>
+        <xsd:element ref="key" minOccurs="1"/>
+        <xsd:element ref="label" minOccurs="1"/>
+      </xsd:all>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="key" type="xsd:string"/>
+  <xsd:element name="label" type="xsd:string"/>
 </xsd:schema>

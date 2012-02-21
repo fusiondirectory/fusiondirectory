@@ -28,7 +28,7 @@
    There should be no license rights in question because the Parser.php from PEAR class is 
    published under GNU License the same way like this class.
    
-   Changes:	03/08/27 Added SPREADSHEET_EXCEL_WRITER_SCOLON for arg seperation in excel functions
+   Changes: 03/08/27 Added SPREADSHEET_EXCEL_WRITER_SCOLON for arg seperation in excel functions
  */
 
 /*
@@ -88,9 +88,9 @@ function writeexcel_formula($byte_order) {
     $this->_workbook       = "";
     $this->_ext_sheets     = array();
     $this->_current_token  = '';
-    $this->_lookahead	   = '';
+    $this->_lookahead    = '';
     $this->_current_char   = 0;    
-    $this->_formula	   = '';
+    $this->_formula    = '';
 }
 
 ###############################################################################
@@ -137,7 +137,7 @@ function parse_formula() {
 
     # Build the parse tree for the formula
     
-    $this->_formula	 = $formula;
+    $this->_formula  = $formula;
     $this->_current_char = 0;
     $this->_lookahead    = $this->_formula{1};
     $this->_advance($formula);
@@ -186,7 +186,7 @@ function _initializeHashes() {
         'ptgInt'       => 0x1E,        'ptgNum'       => 0x1F,        'ptgArray'     => 0x20,        'ptgFunc'      => 0x21,
         'ptgFuncVar'   => 0x22,        'ptgName'      => 0x23,        'ptgRef'       => 0x24,        'ptgArea'      => 0x25,
         'ptgMemArea'   => 0x26,        'ptgMemErr'    => 0x27,        'ptgMemNoMem'  => 0x28,        'ptgMemFunc'   => 0x29,
-	'ptgRefErr'    => 0x2A,        'ptgAreaErr'   => 0x2B,        'ptgRefN'      => 0x2C,        'ptgAreaN'     => 0x2D,
+  'ptgRefErr'    => 0x2A,        'ptgAreaErr'   => 0x2B,        'ptgRefN'      => 0x2C,        'ptgAreaN'     => 0x2D,
         'ptgMemAreaN'  => 0x2E,        'ptgMemNoMemN' => 0x2F,        'ptgNameX'     => 0x39,        'ptgRef3d'     => 0x3A,
         'ptgArea3d'    => 0x3B,        'ptgRefErr3d'  => 0x3C,        'ptgAreaErr3d' => 0x3D,        'ptgArrayV'    => 0x40,
         'ptgFuncV'     => 0x41,        'ptgFuncVarV'  => 0x42,        'ptgNameV'     => 0x43,        'ptgRefV'      => 0x44,
@@ -195,7 +195,7 @@ function _initializeHashes() {
         'ptgAreaNV'    => 0x4D,        'ptgMemAreaNV' => 0x4E,        'ptgMemNoMemN' => 0x4F,        'ptgFuncCEV'   => 0x58,
         'ptgNameXV'    => 0x59,        'ptgRef3dV'    => 0x5A,        'ptgArea3dV'   => 0x5B,        'ptgRefErr3dV' => 0x5C,
         'ptgAreaErr3d' => 0x5D,        'ptgArrayA'    => 0x60,        'ptgFuncA'     => 0x61,        'ptgFuncVarA'  => 0x62,
-        'ptgNameA'     => 0x63,        'ptgRefA'      => 0x64,	      'ptgAreaA'     => 0x65,        'ptgMemAreaA'  => 0x66,
+        'ptgNameA'     => 0x63,        'ptgRefA'      => 0x64,        'ptgAreaA'     => 0x65,        'ptgMemAreaA'  => 0x66,
         'ptgMemErrA'   => 0x67,        'ptgMemNoMemA' => 0x68,        'ptgMemFuncA'  => 0x69,        'ptgRefErrA'   => 0x6A,
         'ptgAreaErrA'  => 0x6B,        'ptgRefNA'     => 0x6C,        'ptgAreaNA'    => 0x6D,        'ptgMemAreaNA' => 0x6E,
         'ptgMemNoMemN' => 0x6F,        'ptgFuncCEA'   => 0x78,        'ptgNameXA'    => 0x79,        'ptgRef3dA'    => 0x7A,
@@ -216,8 +216,8 @@ function _initializeHashes() {
     // vol:   The function is volatile.
     //
     $this->_functions = array(
-	// function                  ptg  args  class  vol
-	'COUNT'           => array(   0,   -1,    0,    0 ),
+  // function                  ptg  args  class  vol
+  'COUNT'           => array(   0,   -1,    0,    0 ),
         'IF'              => array(   1,   -1,    1,    0 ),
         'ISNA'            => array(   2,    1,    1,    0 ),
         'ISERROR'         => array(   3,    1,    1,    0 ),
@@ -627,18 +627,18 @@ function _convertRange3d($token) {
         if ($this->isError($cell_array1)) {
             return $cell_array1;
         }
-	list($row1, $col1) = $cell_array1;
+  list($row1, $col1) = $cell_array1;
         $cell_array2 = $this->_cellToPackedRowcol($cell2);
         if ($this->isError($cell_array2)) {
-	    return $cell_array2;
+      return $cell_array2;
         }
         list($row2, $col2) = $cell_array2;
     } else { // It's a columns range (like 26:27)
-	$cells_array = $this->_rangeToPackedRange($cell1.':'.$cell2);
-	if ($this->isError($cells_array)) {
-    	    return $cells_array;
+  $cells_array = $this->_rangeToPackedRange($cell1.':'.$cell2);
+  if ($this->isError($cells_array)) {
+          return $cells_array;
         }
-	list($row1, $col1, $row2, $col2) = $cells_array;
+  list($row1, $col1, $row2, $col2) = $cells_array;
     }
  
     // The ptg value depends on the class of the ptg.
@@ -1022,7 +1022,7 @@ function _match($token) {
                    !preg_match("/[0-9]/",$this->_lookahead)) {
                 return $token;
             }
-	    // If it's an external range like 'Sheet1:Sheet2'!A1:B2
+      // If it's an external range like 'Sheet1:Sheet2'!A1:B2
             elseif (preg_match("/^'[A-Za-z0-9_ ]+(\:[A-Za-z0-9_ ]+)?'\!([A-Ia-i]?[A-Za-z])?[0-9]+:([A-Ia-i]?[A-Za-z])?[0-9]+$/",$token) and
                    !preg_match("/[0-9]/",$this->_lookahead)) {
                 return $token;
@@ -1278,7 +1278,7 @@ function _func() {
     while ($this->_current_token != ')') {
         if ($num_args > 0) {
             if ($this->_current_token == SPREADSHEET_EXCEL_WRITER_COMA ||
-		$this->_current_token == SPREADSHEET_EXCEL_WRITER_SCOLON) {
+    $this->_current_token == SPREADSHEET_EXCEL_WRITER_SCOLON) {
                 $this->_advance();  // eat the ","
             } else {
                 trigger_error("Sintactic error: coma expected in ".

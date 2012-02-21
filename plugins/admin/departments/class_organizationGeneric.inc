@@ -22,7 +22,7 @@
 
 class organization extends department
 {
-	/* attribute list for save action */
+  /* attribute list for save action */
   var $attributes     = array( "o", "ou", "description","userPassword","searchGuide",
       "seeAlso","businessCategory","x121Address","registeredAddress","manager",
       "destinationIndicator","preferredDeliveryMethod","telexNumber",
@@ -72,28 +72,28 @@ class organization extends department
   {
     $message = plugin::check();
 
-		/* Check for presence of this department */
-		$ldap= $this->config->get_ldap_link();
+    /* Check for presence of this department */
+    $ldap= $this->config->get_ldap_link();
     $ldap->ls ("(&(o=".$this->o.")(objectClass=organization))", $this->base, array('dn'));
     if ($this->orig_o == "new" && $ldap->count()){
-			$message[]= msgPool::duplicated(_("Name"));
-		} elseif ($this->orig_dn != $this->dn && $ldap->count()){
-			$message[]= msgPool::duplicated(_("Name"));
-		}
+      $message[]= msgPool::duplicated(_("Name"));
+    } elseif ($this->orig_dn != $this->dn && $ldap->count()){
+      $message[]= msgPool::duplicated(_("Name"));
+    }
 
-		/* All required fields are set? */
-		if ($this->o == ""){
-			$message[]= msgPool::required(_("Name"));
-		}elseif(tests::is_department_name_reserved($this->o,$this->base)){
+    /* All required fields are set? */
+    if ($this->o == ""){
+      $message[]= msgPool::required(_("Name"));
+    }elseif(tests::is_department_name_reserved($this->o,$this->base)){
       $message[]= msgPool::reserved(_("Name"));
     }elseif(preg_match ('/[#+:=>\\\\\/]/', $this->o)){
-			$message[]= msgPool::invalid(_("Name"), $this->o, "/[^#+:=>\\\\\/]/");
-		}
+      $message[]= msgPool::invalid(_("Name"), $this->o, "/[^#+:=>\\\\\/]/");
+    }
 
     /* Check description */
-		if ($this->description == ""){
-			$message[]= msgPool::required(_("Description"));
-		}
+    if ($this->description == ""){
+      $message[]= msgPool::required(_("Description"));
+    }
 
     /* Check if we are allowed to create or move this object
      */

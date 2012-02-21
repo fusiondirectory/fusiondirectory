@@ -22,27 +22,27 @@
 
 class divSelectBox {
 
-	var $a_entries;
-	var $summary;
-	var $cols;
+  var $a_entries;
+  var $summary;
+  var $cols;
 
-	// Members for page managment
+  // Members for page managment
   var $height=200;
 
-	// Added php 4 constructor
-	function divSelectBox(){
-		$this->s_summary                = "";
-		$this->a_entries                = array();
-		$this->cols                     = 0;
-	}
+  // Added php 4 constructor
+  function divSelectBox(){
+    $this->s_summary                = "";
+    $this->a_entries                = array();
+    $this->cols                     = 0;
+  }
 
   function setHeight($h){
     $this->height=$h;
   }
 
-	function AddEntry($a_entriedata) {
-		$this->a_entries[] = $a_entriedata;
-	}
+  function AddEntry($a_entriedata) {
+    $this->a_entries[] = $a_entriedata;
+  }
 
   function DrawList(){
     $s_return  = "";
@@ -65,22 +65,22 @@ class divSelectBox {
     $s_return.= "</table></div></div>";
     return ($s_return);
   }
-	
-	function _numentries(){
-		$cnt = count($this->a_entries);
-		return $cnt;
-	}
-	
-	function SetSummary($msg){
-		$this->s_summary = $msg;
-	}
+  
+  function _numentries(){
+    $cnt = count($this->a_entries);
+    return $cnt;
+  }
+  
+  function SetSummary($msg){
+    $this->s_summary = $msg;
+  }
 
-	function _generatePage(){
-		
-		$s_value 	= "";
-		$s_key 		= "";
-		$s_return 	= "";
-		$i_alternate=0;
+  function _generatePage(){
+    
+    $s_value  = "";
+    $s_key    = "";
+    $s_return   = "";
+    $i_alternate=0;
         $str = "";
         
         /* If divlist is empty, append a single white entry */
@@ -102,11 +102,11 @@ class divSelectBox {
 
           $s_return .= "\n<tr class='rowxp".($i_alternate)."'>";
 
-          $cnt = 0; 					
+          $cnt = 0;           
         
-          foreach($s_value as $s_key2 => $s_value2 ){				
-            $this->cols = count($s_value) ;						
-            $cnt++;					
+          foreach($s_value as $s_key2 => $s_value2 ){       
+            $this->cols = count($s_value) ;           
+            $cnt++;         
 
             if(!isset($s_value2['class'])){
               $class = "list".$i_alternate; 
@@ -117,7 +117,7 @@ class divSelectBox {
             if(!isset($s_value2['attach'])){
               $style = "";
             } else {
-              $style = " ".$s_value2['attach']." "	;
+              $style = " ".$s_value2['attach']." "  ;
             }
 
             $s_return .= "\n<td ".$style." class='".$class."'>";

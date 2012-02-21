@@ -153,7 +153,7 @@ class acl extends plugin
       foreach ($this->parent->by_object as $key => $obj){
         $oc= array_merge($oc, $obj->objectclasses);
         if(isset($obj->acl_category)){
-					$tmp= str_replace("/","",$obj->acl_category);
+          $tmp= str_replace("/","",$obj->acl_category);
           $cats[$tmp] = $tmp;
         }
       }
@@ -760,7 +760,7 @@ class acl extends plugin
       $expand = count($currentAcl) > 1 || $currentAcl[0] != "";
 
       /* Object header */
-			$tname= preg_replace("/[^a-z0-9]/i","_",$name);
+      $tname= preg_replace("/[^a-z0-9]/i","_",$name);
 
       if($expand){
         $back_color = "#C8C8FF";
@@ -896,7 +896,7 @@ class acl extends plugin
   {
     $state= $state?"checked":"";
     if($this->acl_is_writeable("")){
-			$tname= preg_replace("/[^a-z0-9]/i","_",$name);
+      $tname= preg_replace("/[^a-z0-9]/i","_",$name);
       return "\n      <input id='acl_$tname' type=checkbox name='acl_$name' $state>".
         "\n      <label for='acl_$tname'>$text</label>";
     }else{
@@ -909,7 +909,7 @@ class acl extends plugin
   {
     $rstate= preg_match('/r/', $state)?'checked':'';
     $wstate= preg_match('/w/', $state)?'checked':'';
-		$tname= preg_replace("/[^a-z0-9]/i","_",$name);
+    $tname= preg_replace("/[^a-z0-9]/i","_",$name);
       
     if($this->acl_is_writeable("")){
       return ("\n      <input id='acl_".$tname."_r' type=checkbox name='acl_${name}_r' $rstate>".

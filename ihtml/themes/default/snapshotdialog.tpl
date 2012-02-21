@@ -14,29 +14,29 @@
 <p class="seperator">&nbsp;</p>
 <br>
 <table summary="" style="width:100%">
-	{if !$restore_deleted}
-	<tr>
-		<td>
-		<b>{t}Object{/t}</b>&nbsp;
-		{$CurrentDN}
-		</td>
-	</tr>
-	{/if}
-	<tr>
-		<td>
-			<br>
-			{if $CountSnapShots==0}
-				{t}There is no snapshot available that could be restored{/t}
-			{else}
-				{t}Choose a snapshot and click the folder image, to restore the snapshot{/t}
-			{/if}
-		</td>
-	</tr>
-	<tr>
-		<td>
-			{$SnapShotDivlist}
-		</td>
-	</tr>
+  {if !$restore_deleted}
+  <tr>
+    <td>
+    <b>{t}Object{/t}</b>&nbsp;
+    {$CurrentDN}
+    </td>
+  </tr>
+  {/if}
+  <tr>
+    <td>
+      <br>
+      {if $CountSnapShots==0}
+        {t}There is no snapshot available that could be restored{/t}
+      {else}
+        {t}Choose a snapshot and click the folder image, to restore the snapshot{/t}
+      {/if}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {$SnapShotDivlist}
+    </td>
+  </tr>
 </table>
 
 <p class="seperator">&nbsp;</p>
@@ -57,29 +57,29 @@
 <p class="seperator">&nbsp;</p>
 <br>
 <table summary="" style="width:100%">
-	<tr>
-		<td>
-			<b>{t}Object{/t}</b>
-		</td>
-		<td style="width:95%"> 
-		   {$CurrentDN}
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<b>{t}Timestamp{/t}</b> 
-		</td>
-		<td> 
-		   {$CurrentDate}
-		</td>
-	</tr>
-	<tr>
-		<td style="vertical-align:top;" colspan="2">
-			<br>
-			{t}Reason for generating this snapshot{/t}<br> 
-			<textarea name="CurrentDescription" style="width:100%;height:160px;" rows=10 cols=100>{$CurrentDescription}</textarea>
-		</td>
-	</tr>
+  <tr>
+    <td>
+      <b>{t}Object{/t}</b>
+    </td>
+    <td style="width:95%"> 
+       {$CurrentDN}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>{t}Timestamp{/t}</b> 
+    </td>
+    <td> 
+       {$CurrentDate}
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align:top;" colspan="2">
+      <br>
+      {t}Reason for generating this snapshot{/t}<br> 
+      <textarea name="CurrentDescription" style="width:100%;height:160px;" rows=10 cols=100>{$CurrentDescription}</textarea>
+    </td>
+  </tr>
 </table>
 
 <p class="seperator">&nbsp;</p>

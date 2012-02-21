@@ -22,9 +22,9 @@
 
 class country extends department
 {
-	/* attribute list for save action */
-	var $attributes     = array( "c", "ou", "description","gosaUnitTag", "manager");
-	var $objectclasses  = array("top", "gosaDepartment");
+  /* attribute list for save action */
+  var $attributes     = array( "c", "ou", "description","gosaUnitTag", "manager");
+  var $objectclasses  = array("top", "gosaDepartment");
   var $structuralOC   = array("country");
   var $type   ="country";
   var $c      ="";
@@ -40,28 +40,28 @@ class country extends department
   {
     $message = plugin::check();
     
-		/* Check for presence of this department */
-		$ldap= $this->config->get_ldap_link();
+    /* Check for presence of this department */
+    $ldap= $this->config->get_ldap_link();
     $ldap->ls ("(&(c=".$this->c.")(objectClass=country))", $this->base, array('dn'));
     if ($this->orig_c == "new" && $ldap->count()){
-			$message[]= msgPool::duplicated(_("Name"));
-		} elseif ($this->orig_dn != $this->dn && $ldap->count()){
-			$message[]= msgPool::duplicated(_("Name"));
-		}
+      $message[]= msgPool::duplicated(_("Name"));
+    } elseif ($this->orig_dn != $this->dn && $ldap->count()){
+      $message[]= msgPool::duplicated(_("Name"));
+    }
 
-		/* All required fields are set? */
-		if ($this->c == ""){
-			$message[]= msgPool::required(_("Name"));
-		}elseif(tests::is_department_name_reserved($this->c,$this->base)){
+    /* All required fields are set? */
+    if ($this->c == ""){
+      $message[]= msgPool::required(_("Name"));
+    }elseif(tests::is_department_name_reserved($this->c,$this->base)){
       $message[]= msgPool::reserved(_("Name"));
     }elseif(preg_match ('/[#+:=>\\\\\/]/', $this->c)){
-			$message[]= msgPool::invalid(_("Name"), $this->c, "/[^#+:=>\\\\\/]/");
-		}
+      $message[]= msgPool::invalid(_("Name"), $this->c, "/[^#+:=>\\\\\/]/");
+    }
 
     /* Check description */
-		if ($this->description == ""){
-			$message[]= msgPool::required(_("Description"));
-		}
+    if ($this->description == ""){
+      $message[]= msgPool::required(_("Description"));
+    }
 
     /* Check if we are allowed to create or move this object
      */

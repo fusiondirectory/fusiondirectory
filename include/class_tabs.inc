@@ -63,7 +63,7 @@ class tabs
     foreach ($data as &$tab){
 
       if (!plugin_available($tab['CLASS'])){
-      	continue;
+        continue;
       }
 
       $this->by_name[$tab['CLASS']]= $tab['NAME'];
@@ -239,10 +239,10 @@ class tabs
                   font-size:13px; 
                   color: gray;'
           title=\"$title\">".$title."</div>";
-      }elseif (session::global_get('js')==FALSE){	
+      }elseif (session::global_get('js')==FALSE){ 
         $display.= "<div ".$notify." class=\"$style[$index]\"><input type=\"submit\" name=\"$class\"".
           " class=\"$style[$index]\" value=\"$title\"></div></td>";
-      } else {			 
+      } else {       
         $display.= "<div ".$notify." class=\"$style[$index]\"><a class=\"$style[$index]\" onclick=\"return true;\" href=\"javascript:document.mainform.arg.value='$class';document.mainform.submit();\">$title</a></div></td>";
       }
     }
@@ -255,8 +255,8 @@ class tabs
 
   function set_acl($acl)
   {
-  	/* Look for attribute in ACL */
-	  trigger_error("Don't use tabs::set_acl() its obsolete.");
+    /* Look for attribute in ACL */
+    trigger_error("Don't use tabs::set_acl() its obsolete.");
   }
 
   function delete()
@@ -358,16 +358,16 @@ class tabs
     }
   }
 
-	
+  
   /* Save attributes posted by copy & paste dialog
    */
   function saveCopyDialog()
   {
-	  foreach ($this->by_object as &$obj){
-		  if($obj->is_account || $obj->ignore_account){
-			  $obj->saveCopyDialog();
-		  }
-	  }
+    foreach ($this->by_object as &$obj){
+      if($obj->is_account || $obj->ignore_account){
+        $obj->saveCopyDialog();
+      }
+    }
   }
 
 

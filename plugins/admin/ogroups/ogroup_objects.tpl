@@ -23,12 +23,12 @@
      <table summary="" style="width:100%;border-top:1px solid #B0B0B0; background-color:#F8F8F8">
       {$alphabet}
      </table>
-	 <p class="contentboxb" style="border-top:1px solid #B0B0B0; background-color:#F8F8F8">
-		{foreach from=$checkboxes item=item key=key}
-			<input type='checkbox' {if $item.C} checked {/if} class="center" onClick="document.mainform.submit();" 
-					name="{$key}" value="1" title="{$item.T}">{$item.L}<br>
-		{/foreach}
- 	 </p>
+   <p class="contentboxb" style="border-top:1px solid #B0B0B0; background-color:#F8F8F8">
+    {foreach from=$checkboxes item=item key=key}
+      <input type='checkbox' {if $item.C} checked {/if} class="center" onClick="document.mainform.submit();" 
+          name="{$key}" value="1" title="{$item.T}">{$item.L}<br>
+    {/foreach}
+   </p>
  <p class="contentboxb" style="border-top:1px solid #B0B0B0; background-color:#F8F8F8">
     <input type=checkbox name="subtrees" value="1" {$subtrees} onClick="mainform.submit()" title="{t}Select to search within subtrees{/t}">{t}Search in subtrees{/t}<br>
  </p>

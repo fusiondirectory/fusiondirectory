@@ -15,7 +15,7 @@
      <td><LABEL for="description">{t}Description{/t}</LABEL></td>
      <td>
 {render acl=$descriptionACL}
-	<input type='text' id="description" name="description" size=40 maxlength=80 value="{$description}" title="{t}Descriptive text for this group{/t}">
+  <input type='text' id="description" name="description" size=40 maxlength=80 value="{$description}" title="{t}Descriptive text for this group{/t}">
 {/render}
      </td>
     </tr>
@@ -32,8 +32,8 @@
     </tr>
    </table>
 
-	<p class="seperator">&nbsp;</p>
-	<h2><img alt="" class="center" align="middle" src="images/lists/locked.png" /> {t}System trust{/t}</h2>
+  <p class="seperator">&nbsp;</p>
+  <h2><img alt="" class="center" align="middle" src="images/lists/locked.png" /> {t}System trust{/t}</h2>
     {t}Trust mode{/t}&nbsp;
     {render acl=$trustmodeACL}
         <select name="trustmode" id="trustmode" size=1
@@ -83,6 +83,6 @@
 <!-- Place cursor -->
 <script language="JavaScript" type="text/javascript">
   <!-- // First input field on page
-	focus_field('cn');
+  focus_field('cn');
   -->
 </script>

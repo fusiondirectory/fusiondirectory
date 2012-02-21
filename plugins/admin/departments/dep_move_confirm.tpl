@@ -12,8 +12,8 @@
 </p>
 
 <p class="plugbottom">
-	<input type='submit' name='dep_move_confirm' value='{msgPool type=saveButton}'>
-  	&nbsp;
-	<input type='submit' name='cancel_save' value='{msgPool type=cancelButton}'>
+  <input type='submit' name='dep_move_confirm' value='{msgPool type=saveButton}'>
+    &nbsp;
+  <input type='submit' name='cancel_save' value='{msgPool type=cancelButton}'>
 </p>
 

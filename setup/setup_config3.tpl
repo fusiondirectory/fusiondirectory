@@ -6,9 +6,9 @@
             {t}Enable primary group filter{/t}
         </div>
         <div class='step4_value'>
-	
+  
             <select name="noprimarygroup" size="1" title="">
-            	{html_options options=$bool selected=$optional.noprimarygroup}
+              {html_options options=$bool selected=$optional.noprimarygroup}
             </select>
         </div>
     </div>
@@ -18,9 +18,9 @@
             {t}Display summary in listings{/t}
         </div>
         <div class='step4_value'>
-	
+  
             <select name="list_summary" size="1" title="">
-            	{html_options options=$bool selected=$optional.list_summary}
+              {html_options options=$bool selected=$optional.list_summary}
             </select>
         </div>
     </div>
@@ -30,9 +30,9 @@
             {t}Honour administrative units{/t}
         </div>
         <div class='step4_value'>
-	
+  
             <select name="strict_units" size="1" title="">
-            	{html_options options=$bool selected=$optional.strict_units}
+              {html_options options=$bool selected=$optional.strict_units}
             </select>
         </div>
     </div>
@@ -45,40 +45,40 @@
             {if $optional.uniq_identifier_active == FALSE}
                 <input type='checkbox' value='1' name='uniq_identifier_active'
                     onClick='changeState("uniq_identifier");'>
-				<select name="uniq_identifier" id="uniq_identifier" disabled>
-					{html_options options=$uniq_identifiers selected=$optional.uniq_identifier}
-				</select>
+        <select name="uniq_identifier" id="uniq_identifier" disabled>
+          {html_options options=$uniq_identifiers selected=$optional.uniq_identifier}
+        </select>
             {else}
                 <input type='checkbox' value='1' name='uniq_identifier_active' checked
-					onClick='changeState("uniq_identifier");'>
-				<select name="uniq_identifier" id="uniq_identifier" >
-					{html_options options=$uniq_identifiers selected=$optional.uniq_identifier}
-				</select>
+          onClick='changeState("uniq_identifier");'>
+        <select name="uniq_identifier" id="uniq_identifier" >
+          {html_options options=$uniq_identifiers selected=$optional.uniq_identifier}
+        </select>
             {/if}
         </div>
     </div>
 
-		<div class='step4_container'>
+    <div class='step4_container'>
         <div class='step4_name'>
-						{t}Enable Copy & Paste{/t}
+            {t}Enable Copy & Paste{/t}
         </div>
         <div class='step4_value'>
             <select name="enableCopyPaste" size="1" title="">
-							{html_options options=$bool selected=$optional.enableCopyPaste}
+              {html_options options=$bool selected=$optional.enableCopyPaste}
             </select>
         </div>
     </div>
 
     <div class='step4_container'>
         <div class='step4_name'>
-						{t}FusionDirectory logging{/t}
+            {t}FusionDirectory logging{/t}
         </div>
         <div class='step4_value'>
-					{if $logging}
-            	<input checked type='checkbox' name='logging' value='1' class='center'>
-					{else}
+          {if $logging}
+              <input checked type='checkbox' name='logging' value='1' class='center'>
+          {else}
             <input type='checkbox' name='logging' value='1' class='center'>
-					{/if}
+          {/if}
         </div>
     </div>
 
@@ -89,7 +89,7 @@
         </div>
         <div class='step4_value'>
             <select name="login_attribute" size="1" title="">
-            	{html_options options=$login_attributes selected=$optional.login_attribute}
+              {html_options options=$login_attributes selected=$optional.login_attribute}
             </select>
         </div>
     </div>
@@ -99,9 +99,9 @@
             {t}Enforce register_globals to be deactivated{/t}
         </div>
         <div class='step4_value'>
-	
+  
             <select name="forceglobals" size="1" title="">
-            	{html_options options=$bool selected=$optional.forceglobals}
+              {html_options options=$bool selected=$optional.forceglobals}
             </select>
         </div>
     </div>
@@ -111,9 +111,9 @@
             {t}Enforce encrypted connections{/t}
         </div>
         <div class='step4_value'>
-	
+  
             <select name="forcessl" size="1" title="">
-            	{html_options options=$bool selected=$optional.forcessl}
+              {html_options options=$bool selected=$optional.forcessl}
             </select>
         </div>
     </div>
@@ -123,9 +123,9 @@
             {t}Warn if session is not encrypted{/t}
         </div>
         <div class='step4_value'>
-	
+  
             <select name="warnssl" size="1" title="">
-            	{html_options options=$bool selected=$optional.warnssl}
+              {html_options options=$bool selected=$optional.warnssl}
             </select>
         </div>
     </div>
@@ -135,9 +135,9 @@
             {t}Remember dialog filter settings{/t}
         </div>
         <div class='step4_value'>
-	
+  
             <select name="user_filter_cookie" size="1" title="">
-            	{html_options options=$bool selected=$optional.user_filter_cookie}
+              {html_options options=$bool selected=$optional.user_filter_cookie}
             </select>
         </div>
     </div>
@@ -147,14 +147,14 @@
             {t}Session lifetime{/t}
         </div>
         <div class='step4_value'>
-			<input size=10 id='session_lifetime' name='session_lifetime' 
-				type='text' value='{$optional.session_lifetime}'>
+      <input size=10 id='session_lifetime' name='session_lifetime' 
+        type='text' value='{$optional.session_lifetime}'>
         </div>
     </div>
 
 
     <p><b>{t}Debugging{/t}</b></p>
-	
+  
     <div class='step4_container'>
         <div class='step4_name'>
             {t}Show PHP errors{/t}
@@ -176,11 +176,11 @@
                 <input type='checkbox' value='1' name='max_ldap_query_time_active'
                     onClick='changeState("max_ldap_query_time");'>
                 <input size=10 id='max_ldap_query_time' name='max_ldap_query_time' 
-					type='text' value='{$optional.max_ldap_query_time}' disabled>
+          type='text' value='{$optional.max_ldap_query_time}' disabled>
             {else}
                 <input type='checkbox' value='1' name='max_ldap_query_time_active' checked>
                 <input size=10 id='max_ldap_query_time' name='max_ldap_query_time' 
-					type='text' value='{$optional.max_ldap_query_time}'  >
+          type='text' value='{$optional.max_ldap_query_time}'  >
             {/if}
         </div>
     </div>
@@ -190,9 +190,9 @@
             {t}Log LDAP statistics{/t}
         </div>
         <div class='step4_value'>
-	
+  
             <select name="ldapstats" size="1" title="">
-            	{html_options options=$bool selected=$optional.ldapstats}
+              {html_options options=$bool selected=$optional.ldapstats}
             </select>
         </div>
     </div>
@@ -202,15 +202,15 @@
             {t}Debug level{/t}
         </div>
         <div class='step4_value'>
-			<select name='debuglevel'>
-				{if $optional.debuglevel == 0}
-					<option value='0' selected>0 {t}Disabled{/t}</option>
-					<option value='1'>1 {t}Enabled{/t}</option>
-				{else}
-					<option value='0'>0 {t}Disabled{/t}</option>
-					<option value='1' selected>1 {t}Enabled{/t}</option>
-				{/if}
-			</select>		
+      <select name='debuglevel'>
+        {if $optional.debuglevel == 0}
+          <option value='0' selected>0 {t}Disabled{/t}</option>
+          <option value='1'>1 {t}Enabled{/t}</option>
+        {else}
+          <option value='0'>0 {t}Disabled{/t}</option>
+          <option value='1' selected>1 {t}Enabled{/t}</option>
+        {/if}
+      </select>   
         </div>
     </div>
 </div>

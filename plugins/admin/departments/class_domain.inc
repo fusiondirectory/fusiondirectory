@@ -22,9 +22,9 @@
 
 class domain extends department
 {
-	/* attribute list for save action */
-	var $attributes     = array( "dc", "ou", "description","gosaUnitTag", "manager");
-	var $objectclasses  = array("top", "domain", "gosaDepartment");
+  /* attribute list for save action */
+  var $attributes     = array( "dc", "ou", "description","gosaUnitTag", "manager");
+  var $objectclasses  = array("top", "domain", "gosaDepartment");
         var $structuralOC   = array("domain");
         var $type       = "domain";
         var $dc         = "";
@@ -40,28 +40,28 @@ class domain extends department
   {
     $message = plugin::check();
 
-		/* Check for presence of this department */
-		$ldap= $this->config->get_ldap_link();
+    /* Check for presence of this department */
+    $ldap= $this->config->get_ldap_link();
     $ldap->ls ("(&(dc=".$this->dc.")(objectClass=domain))", $this->base, array('dn'));
     if ($this->orig_dc == "new" && $ldap->count()){
-			$message[]= msgPool::duplicated(_("Name"));
-		} elseif ($this->orig_dn != $this->dn && $ldap->count()){
-			$message[]= msgPool::duplicated(_("Name"));
-		}
+      $message[]= msgPool::duplicated(_("Name"));
+    } elseif ($this->orig_dn != $this->dn && $ldap->count()){
+      $message[]= msgPool::duplicated(_("Name"));
+    }
 
-		/* All required fields are set? */
-		if ($this->dc == ""){
-			$message[]= msgPool::required(_("Name"));
-		}elseif(tests::is_department_name_reserved($this->dc,$this->base)){
+    /* All required fields are set? */
+    if ($this->dc == ""){
+      $message[]= msgPool::required(_("Name"));
+    }elseif(tests::is_department_name_reserved($this->dc,$this->base)){
       $message[]= msgPool::reserved(_("Name"));
     }elseif(!preg_match ('/[a-z0-9 \.,\-_]/i', $this->dc)){
-			$message[]= msgPool::invalid(_("Name"), $this->dc, "/[a-z0-9 \.,\-_]/");
-		}
+      $message[]= msgPool::invalid(_("Name"), $this->dc, "/[a-z0-9 \.,\-_]/");
+    }
 
     /* Check description */
-		if ($this->description == ""){
-			$message[]= msgPool::required(_("Description"));
-		}
+    if ($this->description == ""){
+      $message[]= msgPool::required(_("Description"));
+    }
 
     /* Check if we are allowed to create or move this object
      */

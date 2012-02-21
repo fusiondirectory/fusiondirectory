@@ -1,5 +1,5 @@
 <!--////////////////////
-	//	LOCALITY (l)
+  //  LOCALITY (l)
     //////////////////// -->
 
 <table summary="" style="width:100%; vertical-align:top; text-align:left;" cellpadding=4>
@@ -11,7 +11,7 @@
        <td><LABEL for="dc">{t}Domain name{/t}</LABEL>{$must}</td>
        <td>
 {render acl=$dcACL}
-    	<input type='text' id="dc" name="dc" size=25 maxlength=60 value="{$dc}" title="{t}Name of domain to create{/t}">
+      <input type='text' id="dc" name="dc" size=25 maxlength=60 value="{$dc}" title="{t}Name of domain to create{/t}">
 {/render}
        </td>
       </tr>
@@ -23,16 +23,16 @@
 {/render}
        </td>
       </tr>
-	{if !$is_root_dse}
+  {if !$is_root_dse}
       <tr>
         <td><LABEL for="base">{t}Base{/t}</LABEL>{$must}</td>
         <td>
 {render acl=$baseACL}
           {$base}
 {/render}
-	  </td>
-	 </tr>
-	{/if}
+    </td>
+   </tr>
+  {/if}
 
   {if $manager_enabled}
     <tr>
@@ -56,7 +56,7 @@
      </td>
     </tr>
   {/if}
-	</table>
+  </table>
   </td>
  </tr>
 </table>

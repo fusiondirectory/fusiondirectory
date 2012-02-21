@@ -170,8 +170,8 @@ class ogrouptabs extends tabs
         if(!isset($this->by_object['termstartup'])){
           $this->by_name['termstartup']= _("Startup");
           $this->by_object['termstartup']= new termstartup($this->config, $this->dn,$this->by_object['ogroup']);
-	  $this->by_object['termstartup']->parent= &$this;
-	  $this->by_object['termstartup']->acl = "#all#";
+    $this->by_object['termstartup']->parent= &$this;
+    $this->by_object['termstartup']->acl = "#all#";
         }
       }
     }
@@ -181,8 +181,8 @@ class ogrouptabs extends tabs
         if(!isset($this->by_object['termservice'])){
           $this->by_name['termservice']= _("Devices");
           $this->by_object['termservice']= new termservice($this->config, $this->dn,$this->by_object['ogroup']);
-	  $this->by_object['termservice']->parent= &$this;
-	  $this->by_object['termservice']->acl = "#all#";
+    $this->by_object['termservice']->parent= &$this;
+    $this->by_object['termservice']->acl = "#all#";
         }
       }
     }

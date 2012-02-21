@@ -52,33 +52,33 @@
      <td>
 {render acl=$force_idsACL}
       <input id="force_ids" type=checkbox name="force_ids" value="1" {$force_ids} 
-			onclick="{$onClickIDS}">
+      onclick="{$onClickIDS}">
 {/render}
-					</td>
-					<td>
+          </td>
+          <td>
       <label for="force_ids">{t}Force UID/GID{/t}</label>
      </td>
-					<td style="width:20px;"></td>
-					<td>
-						<label for="uidNumber">{t}UID{/t}</label>
-					</td>
-					<td>
+          <td style="width:20px;"></td>
+          <td>
+            <label for="uidNumber">{t}UID{/t}</label>
+          </td>
+          <td>
 {render acl=$uidNumberACL}
-						<input type='text' id="uidNumber" name="uidNumber" size=9 maxlength=9 {$forceMode} value="{$uidNumber}">
+            <input type='text' id="uidNumber" name="uidNumber" size=9 maxlength=9 {$forceMode} value="{$uidNumber}">
 {/render}
-					</td>
-				</tr>
-				<tr>
-					<td colspan="3"></td>
-					<td>
-						<label for="gidNumber">{t}GID{/t}</label>
-					</td>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3"></td>
+          <td>
+            <label for="gidNumber">{t}GID{/t}</label>
+          </td>
      <td>
 {render acl=$gidNumberACL}
-						<input type='text' id="gidNumber" name="gidNumber" size=9 maxlength=9 {$forceMode} value="{$gidNumber}">
+            <input type='text' id="gidNumber" name="gidNumber" size=9 maxlength=9 {$forceMode} value="{$gidNumber}">
 {/render}
-					</td>
-				</tr>
+          </td>
+        </tr>
    </table>
 {/if}
   </td>
@@ -96,13 +96,13 @@
 {if !$multiple_support}
     {html_options options=$groupMembership}
 {else}
-	{foreach from=$groupMembership item=group key=key}
-		<option value="{$key}">{$group}&nbsp;({t}Common group{/t})</option>
-	{/foreach}
-	{foreach from=$groupMembership_some item=group key=key}
-		<option value="{$key}" 
-			style='color: #888888; background: #DDDDDD;background-color: #DDDDDD;'>{$group}&nbsp;({t}Groups differ{/t})</option>
-	{/foreach}
+  {foreach from=$groupMembership item=group key=key}
+    <option value="{$key}">{$group}&nbsp;({t}Common group{/t})</option>
+  {/foreach}
+  {foreach from=$groupMembership_some item=group key=key}
+    <option value="{$key}" 
+      style='color: #888888; background: #DDDDDD;background-color: #DDDDDD;'>{$group}&nbsp;({t}Groups differ{/t})</option>
+  {/foreach}
 {/if}
    </select>
 {/render}
@@ -138,66 +138,66 @@
   <td style="vertical-align:top;">
    <h2><img alt="" class="center" align="middle" src="images/lists/locked.png" /> {t}System trust{/t}</h2>
 {if !$multiple_support}
-	{t}Trust mode{/t}&nbsp;
-	{render acl=$trustmodeACL}
-		<select name="trustmode" id="trustmode" size=1 
-			onChange="changeSelectState('trustmode', 'wslist'); 
-					  changeSelectState('trustmode', 'add_ws'); 
-				      changeSelectState('trustmode', 'del_ws');">
-		  {html_options options=$trustmodes selected=$trustmode}
-		</select>
-	{/render}
-	{render acl=$trustmodeACL}
-	   <select style="width:100%" id="wslist" name="workstation_list[]" size=8 multiple {$trusthide}>
-		{html_options values=$workstations output=$workstations}
-		{if $emptyArrAccess}
-			<option disabled>&nbsp;</option>
-		{/if}
-	   </select>
-	{/render}
-	   <br>
-	{render acl=$trustmodeACL}
-	   <input type="submit" id="add_ws" value="{msgPool type=addButton}" name="add_ws" {$trusthide}>&nbsp;
-	{/render}
-	{render acl=$trustmodeACL}
-	   <input type="submit" id="del_ws" value="{msgPool type=delButton}" name="delete_ws" {$trusthide}>
-	{/render}
+  {t}Trust mode{/t}&nbsp;
+  {render acl=$trustmodeACL}
+    <select name="trustmode" id="trustmode" size=1 
+      onChange="changeSelectState('trustmode', 'wslist'); 
+            changeSelectState('trustmode', 'add_ws'); 
+              changeSelectState('trustmode', 'del_ws');">
+      {html_options options=$trustmodes selected=$trustmode}
+    </select>
+  {/render}
+  {render acl=$trustmodeACL}
+     <select style="width:100%" id="wslist" name="workstation_list[]" size=8 multiple {$trusthide}>
+    {html_options values=$workstations output=$workstations}
+    {if $emptyArrAccess}
+      <option disabled>&nbsp;</option>
+    {/if}
+     </select>
+  {/render}
+     <br>
+  {render acl=$trustmodeACL}
+     <input type="submit" id="add_ws" value="{msgPool type=addButton}" name="add_ws" {$trusthide}>&nbsp;
+  {/render}
+  {render acl=$trustmodeACL}
+     <input type="submit" id="del_ws" value="{msgPool type=delButton}" name="delete_ws" {$trusthide}>
+  {/render}
 
 {else}
     <input type="checkbox" name="use_trustmode" {if $use_trustmode} checked {/if}
-    	class="center" onClick="$('div_trustmode').toggle();">
-   	{t}Trust mode{/t}&nbsp;
+      class="center" onClick="$('div_trustmode').toggle();">
+    {t}Trust mode{/t}&nbsp;
     <div {if !$use_trustmode} style="display: none;" {/if} id="div_trustmode">
-	{render acl=$trustmodeACL}
-		<select name="trustmode" id="trustmode" size=1 
-			onChange="changeSelectState('trustmode', 'wslist'); 
-					  changeSelectState('trustmode', 'add_ws'); 
-				      changeSelectState('trustmode', 'del_ws');">
-		  {html_options options=$trustmodes selected=$trustmode}
-		</select>
-	{/render}
-	{render acl=$trustmodeACL}
-	   <select style="width:100%" id="wslist" name="workstation_list[]" size=8 multiple {$trusthide}>
-		{html_options values=$workstations output=$workstations}
-		{if $emptyArrAccess}
-			<option disabled>&nbsp;</option>
-		{/if}
-	   </select>
-	{/render}
-	   <br>
-	{render acl=$trustmodeACL}
-	   <input type="submit" id="add_ws" value="{msgPool type=addButton}" name="add_ws" {$trusthide}>&nbsp;
-	{/render}
-	{render acl=$trustmodeACL}
-	   <input type="submit" id="del_ws" value="{msgPool type=delButton}" name="delete_ws" {$trusthide}>
-	{/render}
-	</div>
+  {render acl=$trustmodeACL}
+    <select name="trustmode" id="trustmode" size=1 
+      onChange="changeSelectState('trustmode', 'wslist'); 
+            changeSelectState('trustmode', 'add_ws'); 
+              changeSelectState('trustmode', 'del_ws');">
+      {html_options options=$trustmodes selected=$trustmode}
+    </select>
+  {/render}
+  {render acl=$trustmodeACL}
+     <select style="width:100%" id="wslist" name="workstation_list[]" size=8 multiple {$trusthide}>
+    {html_options values=$workstations output=$workstations}
+    {if $emptyArrAccess}
+      <option disabled>&nbsp;</option>
+    {/if}
+     </select>
+  {/render}
+     <br>
+  {render acl=$trustmodeACL}
+     <input type="submit" id="add_ws" value="{msgPool type=addButton}" name="add_ws" {$trusthide}>&nbsp;
+  {/render}
+  {render acl=$trustmodeACL}
+     <input type="submit" id="del_ws" value="{msgPool type=delButton}" name="delete_ws" {$trusthide}>
+  {/render}
+  </div>
 {/if}
   </td>
  </tr>
 </table>
 {if $multiple_support}
-	<input type="hidden" name="posix_mulitple_edit" value="1">
+  <input type="hidden" name="posix_mulitple_edit" value="1">
 {/if}
 
 <input type="hidden" name="posixTab" value="posixTab">
@@ -205,6 +205,6 @@
 <!-- Place cursor -->
 <script language="JavaScript" type="text/javascript">
   <!-- // First input field on page
-	focus_field('homeDirectory');
+  focus_field('homeDirectory');
   -->
 </script>

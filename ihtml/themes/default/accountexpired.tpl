@@ -41,19 +41,19 @@
           <p> {t}Verify password{/t}</p>
         </td>
         <td>
-	  <input type='password' name='verifypassword' maxlength='25' value=''
-		 title='{t}Verify password{/t}' onFocus="nextfield= 'changepassword';">
-	     </td>
+    <input type='password' name='verifypassword' maxlength='25' value=''
+     title='{t}Verify password{/t}' onFocus="nextfield= 'changepassword';">
+       </td>
       </tr>
       <tr>
        <td colspan='2' style='text-align:center;'>
-	     <br />
-	  <input type='submit' name='changepassword' value='{t}Change password{/t}'
-	  	 title='{t}Click here to change your password{/t}'>
-	     </td>
+       <br />
+    <input type='submit' name='changepassword' value='{t}Change password{/t}'
+       title='{t}Click here to change your password{/t}'>
+       </td>
       </tr>
      </table>
-		<input type='hidden' name='javascript' value='false'/>		
+    <input type='hidden' name='javascript' value='false'/>    
     </form>
 
    </div>

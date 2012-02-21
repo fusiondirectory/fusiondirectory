@@ -72,7 +72,7 @@
                 {$msg_dialogs}
                 {$contents}
                 {if $channel != ""}
-            	    <input type="hidden" name="_channel_" value="{$channel}">
+                  <input type="hidden" name="_channel_" value="{$channel}">
                 {/if}
             </td>
         </tr>

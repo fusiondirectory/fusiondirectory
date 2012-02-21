@@ -104,7 +104,7 @@
 <script language="JavaScript" type="text/javascript">
   <!-- // First input field on page
   nextfield= 'current_password';
-	focus_field('current_password');
+  focus_field('current_password');
   -->
 </script>
 

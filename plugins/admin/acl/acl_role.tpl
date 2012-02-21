@@ -3,34 +3,34 @@
 <h1>{t}Assigned ACL for current entry{/t}</h1>
 <table>
 <tr>
-	<td>
-		{t}Name{/t}
-	</td>
-	<td>	
+  <td>
+    {t}Name{/t}
+  </td>
+  <td>  
 {render acl=$cnACL}
-		<input type="text" name='cn' value="{$cn}" style='width:200px;'>
+    <input type="text" name='cn' value="{$cn}" style='width:200px;'>
 {/render}
-	</td>
+  </td>
 </tr>
 <tr>
-	<td>
-		{t}Description{/t}
-	</td>
-	<td>
+  <td>
+    {t}Description{/t}
+  </td>
+  <td>
 {render acl=$descriptionACL}
-		<input type="text" name='description' value="{$description}" style='width:200px;'>
+    <input type="text" name='description' value="{$description}" style='width:200px;'>
 {/render}
-	</td>
+  </td>
 </tr>
 <tr>
-	<td>
-		{t}Base{/t}{$MUST}
-	</td>
-	<td>
+  <td>
+    {t}Base{/t}{$MUST}
+  </td>
+  <td>
 {render acl=$baseACL}
   {$base}
 {/render}
-	</td>
+  </td>
 </tr>
 </table>
 {$aclList}
@@ -52,10 +52,10 @@
 <p class="seperator">&nbsp;</p>
 <div style='text-align:right;margin-top:5px'>
 {render acl=$gosaAclEntryACL}
-	<input type="submit" name="submit_new_acl" value="{msgPool type=applyButton}">
-	&nbsp;
+  <input type="submit" name="submit_new_acl" value="{msgPool type=applyButton}">
+  &nbsp;
 {/render}
-	<input type="submit" name="cancel_new_acl" value="{msgPool type=cancelButton}">
+  <input type="submit" name="cancel_new_acl" value="{msgPool type=cancelButton}">
 </div>
 {/if}
 
@@ -70,10 +70,10 @@
 <p class="seperator">&nbsp;</p>
 <div style='text-align:right;margin-top:5px'>
 {render acl=$gosaAclEntryACL}
-	<input type="submit" name="submit_edit_acl" value="{msgPool type=applyButton}">
+  <input type="submit" name="submit_edit_acl" value="{msgPool type=applyButton}">
 {/render}
-	&nbsp;
-	<input type="submit" name="cancel_edit_acl" value="{msgPool type=cancelButton}">
+  &nbsp;
+  <input type="submit" name="cancel_edit_acl" value="{msgPool type=cancelButton}">
 </div>
 {/if}
 <input type='hidden' name='acl_role_posted' value='1'>

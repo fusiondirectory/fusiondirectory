@@ -9,7 +9,7 @@
    <div class="contentboxb">
     <p class="contentboxb" style="border-top:1px solid #B0B0B0;background-color:#F8F8F8">
      <select style="width:100%; margin-top:4px; height:450px;" name="wslist[]" size="15" multiple>
-	{html_options values=$wslist output=$wslist}
+  {html_options values=$wslist output=$wslist}
      </select>
     </p>
    </div>

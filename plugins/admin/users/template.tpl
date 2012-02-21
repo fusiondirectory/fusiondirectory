@@ -55,6 +55,6 @@
 <!-- Place cursor -->
 <script language="JavaScript" type="text/javascript">
   <!-- // First input field on page
-	focus_field('sn');
+  focus_field('sn');
   -->
 </script>

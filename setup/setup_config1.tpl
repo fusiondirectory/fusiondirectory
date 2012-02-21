@@ -36,7 +36,7 @@
         </div>
     </div>
 
-	<div class='step4_container'>
+  <div class='step4_container'>
         <div class='step4_name'>
             {t}People storage subtree{/t}
         </div>
@@ -45,7 +45,7 @@
         </div>
     </div>
 
-	<div class='step4_container'>
+  <div class='step4_container'>
         <div class='step4_name'>
             {t}Group storage subtree{/t}
         </div>
@@ -54,7 +54,7 @@
         </div>
     </div>
 
- 	<div class='step4_container'>
+  <div class='step4_container'>
         <div class='step4_name'>
             {t}Include personal title in user DN{/t}
         </div>
@@ -65,7 +65,7 @@
         </div>
     </div>
 
- 	<div class='step4_container'>
+  <div class='step4_container'>
         <div class='step4_name'>
             {t}Relaxed naming policies{/t}
         </div>
@@ -76,7 +76,7 @@
         </div>
     </div>
 
-  	<div class='step4_container'>
+    <div class='step4_container'>
         <div class='step4_name'>
             {t}Automatic UIDs{/t}
         </div>
@@ -92,7 +92,7 @@
         </div>
     </div>
 
- 	<div class='step4_container'>
+  <div class='step4_container'>
         <div class='step4_name'>
             {t}GID / UID min id{/t}
         </div>
@@ -136,28 +136,28 @@
         </div>
         <div class='step4_value' style='height:4em;'>
 
-			{if $pwd_rules.pwminlen_active == FALSE}
-				<input type='checkbox' value='1' name='pwminlen_active'
-					onClick='changeState("pwminlen");'>
-					{t}Password minimum length{/t}
-				<input id='pwminlen' name='pwminlen' type='text' value='{$pwd_rules.pwminlen}' size=3 disabled>
-			{else}
-				<input type='checkbox' value='1' name='pwminlen_active' checked>
-				{t}Password minimum length{/t}
-				<input id='pwminlen' name='pwminlen' type='text' value='{$pwd_rules.pwminlen}' size=3 >
-			{/if}
-			<br>
-			{if $pwd_rules.pwdiffer_active == FALSE}
-				<input type='checkbox' value='1' name='pwdiffer_active' 
-					onClick='changeState("pwdiffer");'>
-				{t}Different characters from old password{/t}
-				<input id='pwdiffer' name='pwdiffer' type='text' value='{$pwd_rules.pwdiffer}' size=3 disabled>
-			{else}
-				<input type='checkbox' value='1' name='pwdiffer_active' checked>
-				{t}Different characters from old password{/t}
-				<input id='pwdiffer' name='pwdiffer' type='text' value='{$pwd_rules.pwdiffer}' size=3 >
-			{/if}
-	
+      {if $pwd_rules.pwminlen_active == FALSE}
+        <input type='checkbox' value='1' name='pwminlen_active'
+          onClick='changeState("pwminlen");'>
+          {t}Password minimum length{/t}
+        <input id='pwminlen' name='pwminlen' type='text' value='{$pwd_rules.pwminlen}' size=3 disabled>
+      {else}
+        <input type='checkbox' value='1' name='pwminlen_active' checked>
+        {t}Password minimum length{/t}
+        <input id='pwminlen' name='pwminlen' type='text' value='{$pwd_rules.pwminlen}' size=3 >
+      {/if}
+      <br>
+      {if $pwd_rules.pwdiffer_active == FALSE}
+        <input type='checkbox' value='1' name='pwdiffer_active' 
+          onClick='changeState("pwdiffer");'>
+        {t}Different characters from old password{/t}
+        <input id='pwdiffer' name='pwdiffer' type='text' value='{$pwd_rules.pwdiffer}' size=3 disabled>
+      {else}
+        <input type='checkbox' value='1' name='pwdiffer_active' checked>
+        {t}Different characters from old password{/t}
+        <input id='pwdiffer' name='pwdiffer' type='text' value='{$pwd_rules.pwdiffer}' size=3 >
+      {/if}
+  
         </div>
     </div>
 

@@ -405,7 +405,7 @@ class userinfo
     foreach ($path as $element){
 
       /* Clean potential ACLs for each level */
-			if(isset($this->config->idepartments[$cpath])){
+      if(isset($this->config->idepartments[$cpath])){
         $acl= $this->cleanACL($acl);
       }
 
@@ -616,14 +616,14 @@ class userinfo
 
   function mergeACL($acl, $type, $newACL)
   {
-		$at= array("psub" => "p", "sub" => "s", "one" => "1");
+    $at= array("psub" => "p", "sub" => "s", "one" => "1");
 
     if (strpos($newACL, 'w') !== FALSE && strpos($newACL, 'r') === FALSE){
       $newACL .= "r";
     }
 
-		/* Ignore invalid characters */
-		$newACL= preg_replace('/[^rwcdm]/', '', $newACL);
+    /* Ignore invalid characters */
+    $newACL= preg_replace('/[^rwcdm]/', '', $newACL);
 
     foreach(str_split($newACL) as $char){
 
@@ -637,11 +637,11 @@ class userinfo
         continue;
       }
 
-			if ($type == "base" && $acl[$char] != 1) {
-				$acl[$char]= 0;
-			} else {
+      if ($type == "base" && $acl[$char] != 1) {
+        $acl[$char]= 0;
+      } else {
         $acl[$char]= $at[$type];
-			}
+      }
     }
 
     return ($acl);
@@ -654,7 +654,7 @@ class userinfo
 
       /* Continue, if value is empty or permanent */
       if ($value == "" || $value == "p") {
-	    continue;
+      continue;
       }
 
       /* Reset removes everything but 'p' */
