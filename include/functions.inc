@@ -2279,13 +2279,6 @@ function validate($string)
   return (strip_tags(str_replace('\0', '', $string)));
 }
 
-/*! \brief Evaluate the current FusionDirectory version from the build in revision string */
-function get_gosa_version()
-{
-    global $svn_revision;
-
-    return (sprintf(_("FusionDirectory $svn_revision")));
-}
 
 /*! \brief Recursively delete a path in the file system
  *

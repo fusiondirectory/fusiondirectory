@@ -83,4 +83,6 @@ define("CLASS_CACHE", "class.cache");
 /* name of the utility used to create windows passwords */
 define ("MKNTPWD", "/usr/sbin/fusiondirectory-mkntpassword");
 
+/* FusionDirectory Version */
+define ("FD_VERSION", "1.0.3");
 ?>

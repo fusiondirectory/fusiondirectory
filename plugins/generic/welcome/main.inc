@@ -26,9 +26,7 @@ if (!$cleanup){
   $smarty->assign("header", print_header(get_template_path('images/welcome.png'), sprintf(_("Welcome %s!"), $ui->cn)));
   $smarty->assign("year", date("Y"));
 
-  if(function_exists("get_gosa_version")){
-    $smarty->assign("revision", get_gosa_version());
-  }
+  $smarty->assign("version",FD_VERSION);
 
   $display= $smarty->fetch(get_template_path('welcome.tpl', TRUE));
 }

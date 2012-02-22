@@ -94,11 +94,7 @@ function displayLogin()
   $smarty->assign("usePrototype", "false");
   $smarty->display (get_template_path('headers.tpl'));
 
-  if(function_exists("get_gosa_version")){ 
-    $smarty->assign("version",get_gosa_version());
-  }else{
-    $smarty->assign("version","");
-  }
+  $smarty->assign("version",FD_VERSION);
 
   $smarty->display(get_template_path('login.tpl'));
   exit();

@@ -143,11 +143,9 @@ if ($error_collector != ""){
 } else {
   $smarty->assign("php_errors", "");
 }
-if(function_exists("get_gosa_version")){
-  $smarty->assign("version",get_gosa_version());
-}else{
-  $smarty->assign("version","");
-}
+
+$smarty->assign("version",FD_VERSION);
+
 
 echo $header.$smarty->fetch("../setup/setup_frame.tpl");
 // vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:

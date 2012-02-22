@@ -71,10 +71,8 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
 
     /* Mailto body header */
     if(function_exists("prepare4mailbody")){
-      $version= "unknown";
-      if(function_exists("get_gosa_version")){
-        $version= get_gosa_version();
-      }
+      $version = FD_VERSION;
+
       $error_collector_mailto .=prepare4mailbody(
                                 "Oups. Seems like you've catched some kind of bug inside FusionDirectory/PHP. You may want to help ".
                                 "us to improve the software stability. If so, please provide some more information below.".
