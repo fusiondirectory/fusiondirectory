@@ -125,7 +125,9 @@ spl_autoload_register('__fusiondirectory_autoload');
 
 
 /*! \brief Checks if a class is available. 
+ * 
  *  \param  string 'name' The subject of the test
+ * 
  *  \return boolean True if class is available, else false.
  */
 function class_available($name)
@@ -140,6 +142,7 @@ function class_available($name)
  * Checks if a given plugin is available and readable.
  *
  * \param string 'plugin' the subject of the check
+ * 
  * \return boolean True if plugin is available, else FALSE.
  */
 function plugin_available($plugin)
@@ -177,13 +180,18 @@ function make_seed() {
  *
  * \param int 'level' The log level of the message (should use the constants,
  * defined in functions.in (DEBUG_TRACE, DEBUG_LDAP, etc.)
+ * 
  * \param int 'line' Define the line of the logged action (using __LINE__ is common)
+ * 
  * \param string 'function' Define the function where the logged action happened in
  * (using __FUNCTION__ is common)
+ * 
  * \param string 'file' Define the file where the logged action happend in
  * (using __FILE__ is common)
+ * 
  * \param mixed 'data' The data to log. Can be a message or an array, which is printed
  * with print_a
+ * 
  * \param string 'info' Optional: Additional information
  *
  * */
@@ -261,7 +269,8 @@ function get_browser_language()
  *
  * \param string 'dn' the old DN
  * \param string 'newdn' the new DN
- * */
+ * 
+ */
 function change_ui_dn($dn, $newdn)
 {
   $ui= session::global_get('ui');
@@ -286,6 +295,7 @@ function change_ui_dn($dn, $newdn)
  *  \param  string 'filename' The base file name
  *  \param  boolean 'plugin' Flag to take the plugin directory as search base
  *  \param  string 'path' User specified path to take as search base
+ * 
  *  \return string Full path to the template file
  */
 function get_template_path($filename= '', $plugin= FALSE, $path= "")
@@ -356,7 +366,12 @@ function array_remove_entries($needles, $haystack)
 
 /*! \brief Remove multiple entries from an array (case-insensitive)
  *
- * Same as array_remove_entries(), but case-insensitive. */
+ * Removes every element that is in $needles from the
+ * array given as $haystack but case insensitive
+ *
+ * \param array 'needles' array of the entries to remove
+ * \param array 'haystack' original array to remove the entries from
+ */
 function array_remove_entries_ics($needles, $haystack)
 {
   // strcasecmp will work, because we only compare ASCII values here
@@ -370,7 +385,8 @@ function array_remove_entries_ics($needles, $haystack)
  * an error if first or second parametre is not an array.
  *
  * \param array 'ar1' first array
- * \param array 'ar2' second array-
+ * \param array 'ar2' second array
+ * 
  * \return array
  */
 function fusiondirectory_array_merge($ar1,$ar2)
@@ -388,7 +404,7 @@ function fusiondirectory_array_merge($ar1,$ar2)
  * Creates a syslog message, containing user information.
  *
  * \param string 'message' the message to log
- * */
+ */
 function fusiondirectory_log ($message)
 {
   global $ui;
@@ -441,7 +457,15 @@ function ldap_init ($server, $base, $binddn='', $pass='')
   return $ldap;
 }
 
-
+/*! \brief Process htaccess authentication
+ *
+ * Process htaccess authentication 
+ *
+ * \param string 'username'
+ * \param bool kerberos 
+ *
+ * \return array containing username and server
+ */
 /* \brief Process htaccess authentication */
 function process_htaccess ($username, $kerberos= FALSE)
 {
@@ -478,12 +502,13 @@ function process_htaccess ($username, $kerberos= FALSE)
 }
 
 
-/*! \brief Verify user login against htaccess
+/*! \brief Verify user login against htaccess and then ldap
  *
  * Checks if the specified username is available in apache, maps the user
  * to an LDAP user. The password has been checked by apache already.
  *
  * \param string 'username'
+ * 
  * \return
  *  - TRUE on SUCCESS, NULL or FALSE on error
  */
@@ -537,6 +562,7 @@ function ldap_login_user_htaccess ($username)
  *
  * \param string 'username'
  * \param string 'password'
+ * 
  * \return
  *  - TRUE on SUCCESS, NULL or FALSE on error
  */
@@ -631,12 +657,12 @@ function ldap_login_user ($username, $password)
 }
 
 
-/*! \brief      Checks the posixAccount status by comparing the shadow attributes.
+/*! \brief Checks the posixAccount status by comparing the shadow attributes.
  *
- * @param Object    The FusionDirectory configuration object.
- * @param String    The 'dn' of the user to test the account status for.
- * @param String    The 'uid' of the user we're going to test.
- * @return Const 
+ * \param object 'config'   The FusionDirectory configuration object.
+ * \param string 'userdn'   The 'dn' of the user to test the account status for.
+ * \param string 'uid'      The 'uid' of the user we're going to test.
+ * \return const 
  *                  POSIX_ACCOUNT_EXPIRED           - If the account is expired.
  *                  POSIX_WARN_ABOUT_EXPIRATION     - If the account is going to expire.
  *                  POSIX_FORCE_PASSWORD_CHANGE     - The password has to be changed.
@@ -771,7 +797,7 @@ function ldap_expired_account($config, $userdn, $uid)
  *
  * \param mixed 'object' object or array of objects to lock
  * \param string 'user' the user who shall own the lock
- * */
+ */
 function add_lock($object, $user)
 {
   global $config;
@@ -835,10 +861,10 @@ function add_lock($object, $user)
 
 /*! \brief Remove a lock for object(s)
  *
- * Does the opposite of add_lock().
+ * Remove a lock for object(s)
  *
  * \param mixed 'object' object or array of objects for which a lock shall be removed
- * */
+ */
 function del_lock ($object)
 {
   global $config;
@@ -910,6 +936,7 @@ function del_user_locks($userdn)
  * Searches for a lock on a given object.
  *
  * \param string 'object' subject whose locks are to be searched
+ * 
  * \return string Returns the user who owns the lock or "" if no lock is found
  * or an error occured. 
  */
@@ -961,7 +988,8 @@ function get_lock ($object)
  *
  * Similar as get_lock(), but for multiple objects.
  *
- * \param array 'objects' Array of Objects for which a lock shall be searched
+ * \param array 'objects' Array of Objects for which a lock will be searched
+ * 
  * \return A numbered array containing all found locks as an array with key 'dn'
  * and key 'user' or "" if an error occured.
  */
@@ -1003,6 +1031,7 @@ function get_multiple_locks($objects)
  *
  * This function searches the ldap database. It searches in $sub_bases,*,$base
  * for all objects matching the $filter.
+ * 
  *  \param string 'filter'    The ldap search filter
  *  \param string 'category'  The ACL category the result objects belongs 
  *  \param string 'sub_bases' The sub base we want to search for e.g. "ou=apps"
@@ -1162,9 +1191,16 @@ function get_sub_list($filter, $category,$sub_deps, $base= "", $attributes= arra
 
 
 /*! \brief Search base for all objects matching the filter
- *
- * Just like get_sub_list(), but without sub base search.
- * */
+ * 
+ * This function searches the ldap database. It search the $base
+ * for all objects matching the $filter.
+ * 
+ *  \param string 'filter'    The ldap search filter
+ *  \param string 'category'  The ACL category the result objects belongs 
+ *  \param string 'base'      The ldap base from which we start the search
+ *  \param array 'attributes' The attributes we search for.
+ *  \param long 'flags'     A set of Flags
+ */
 function get_list($filter, $category, $base= "", $attributes= array(), $flags= GL_SUBSEARCH)
 {
   global $config, $ui;
@@ -1233,7 +1269,11 @@ function get_list($filter, $category, $base= "", $attributes= array(), $flags= G
 }
 
 
-/*! \brief Show sizelimit configuration dialog if exceeded */
+/*! \brief Show sizelimit configuration dialog
+ * 
+ * Show sizelimit configuration dialog when number
+ * of entries exceeded the sizelimit
+ */
 function check_sizelimit()
 {
   /* Ignore dialog? */
@@ -1253,7 +1293,11 @@ function check_sizelimit()
   return ("");
 }
 
-/*! \brief Print a sizelimit warning */
+/*! \brief Print a sizelimit warning
+ *  
+ * Print a sizelimit warning when number
+ * of entries exceeded the sizelimit
+ */
 function print_sizelimit_warning()
 {
   if (session::global_is_set('size_limit') && session::global_get('size_limit') >= 10000000 ||
@@ -1324,7 +1368,10 @@ function getMenuCache()
 }
 
 
-/*! \brief Return the current userinfo object */
+/*! \brief Return the current userinfo object
+ * 
+ * \return return the current userinfo object
+ */
 function &get_userinfo()
 {
   global $ui;
@@ -1333,7 +1380,10 @@ function &get_userinfo()
 }
 
 
-/*! \brief Get global smarty object */
+/*! \brief Get global smarty object
+ *
+ * \return return the global smarty object
+ */
 function &get_smarty()
 {
   global $smarty;
@@ -1355,6 +1405,7 @@ function &get_smarty()
  *
  * \param string 'dn' the subject for the conversion
  * \param string 'base' the base dn, default: $this->config->current['BASE']
+ * 
  * \return a string in the form as described above
  */
 function convert_department_dn($dn, $base = NULL)
@@ -1414,7 +1465,12 @@ function get_sub_department($value)
  * $base = get_ou('systemRDN') . $this->config->current['BASE'];
  * $ldap->cd($base);
  * \endcode
- * */
+ * 
+ * \param 'name' the rdn of the ou you are trying to find
+ * 
+ * \return the ou associated the the RDN or nothing
+ * 
+ */
 function get_ou($name)
 {
   global $config;
@@ -1484,8 +1540,10 @@ function get_ou($name)
 
 /*! \brief Get the OU for users 
  *
- * Frontend for get_ou() with userRDN
- * */
+ * Function for getting the userRDN
+ * 
+ * \return the ou of the userRDN
+ */
 function get_people_ou()
 {
   return (get_ou("userRDN"));
@@ -1494,7 +1552,9 @@ function get_people_ou()
 
 /*! \brief Get the OU for groups
  *
- * Frontend for get_ou() with groupRDN
+ * Function for getting the groupRDN
+ * 
+ * \return the ou of the groupRDN
  */
 function get_groups_ou()
 {
@@ -1502,10 +1562,13 @@ function get_groups_ou()
 }
 
 
-/*! \brief Get the OU for winstations
+/*! \brief Get the OU for windows workstations
  *
- * Frontend for get_ou() with sambaMachineAccountRDN
+ * Function for getting the sambaMachineAccountRDN
+ * 
+ * \return the ou of the sambaMachineAccountRDN
  */
+
 function get_winstations_ou()
 {
   return (get_ou("sambaMachineAccountRDN"));
@@ -1520,7 +1583,9 @@ function get_winstations_ou()
  * \endcode
  *
  * \param string 'dn' a DN
- * */
+ * 
+ * \return the base from the dn 
+ */
 function get_base_from_people($dn)
 {
   global $config;
@@ -1558,6 +1623,7 @@ function strict_uid_mode()
 
 /*! \brief Get regular expression for checking uids based on the naming
  *         rules.
+ * 
  *  \return string Returns the desired regular expression
  */
 function get_uid_regexp()
@@ -1672,7 +1738,8 @@ function gen_locked_message($user, $dn, $allow_readonly = FALSE)
  * returned unchanged.
  *
  * \param mixed 'value' Whatever needs to be printed.
- * \return string
+ * 
+ * \return string 'value' in html form. 
  */
 function to_string ($value)
 {
@@ -1701,7 +1768,7 @@ function to_string ($value)
  * \endcode
  *
  * \return array an array with the CNs of the printers as key and value. 
- * */
+ */
 function get_printer_list()
 {
   global $config;
@@ -1720,8 +1787,9 @@ function get_printer_list()
  * with less problematic characters, as defined in $REWRITE.
  *
  * \param string 's' the string to rewrite
+ * 
  * \return string 's' the result of the rewrite
- * */
+ */
 function rewrite($s)
 {
   global $REWRITE;
@@ -1737,7 +1805,9 @@ function rewrite($s)
 /*! \brief Return the base of a given DN
  *
  * \param string 'dn' a DN
- * */
+ * 
+ * \return base of the given DN
+ */
 function dn2base($dn)
 {
   global $config;
@@ -1760,8 +1830,9 @@ function dn2base($dn)
  * arguments from the given cmdline.
  *
  * \param string 'cmdline' the cmdline to check
+ * 
  * \return TRUE if command exists and is executable, otherwise FALSE.
- * */
+ */
 function check_command($cmdline)
 {
   $cmd= preg_replace("/ .*$/", "", $cmdline);
@@ -1785,6 +1856,8 @@ function check_command($cmdline)
  * \param string 'image' the path of the image to be used next to the headline
  * \param string 'headline' the headline
  * \param string 'info' additional information to print
+ * 
+ * \return the $display variable
  */
 function print_header($image, $headline, $info= "")
 {
@@ -1916,7 +1989,10 @@ function range_selector($dcnt,$start,$range=25,$post_var=false)
 }
 
 
-/*! \brief Generate HTML for the 'Apply filter' button */
+/*! \brief Generate HTML for the 'Apply filter' button
+ * 
+ * \return the back button html code
+ */
 function apply_filter()
 {
   $apply= "";
@@ -1929,7 +2005,10 @@ function apply_filter()
 }
 
 
-/*! \brief Generate HTML for the 'Back' button */
+/*! \brief Generate HTML for the 'Back' button
+ * 
+ * \return the back button html code
+ */
 function back_to_main()
 {
   $string= '<br><p class="plugbottom"><input type=submit name="password_back" value="'.
@@ -1940,7 +2019,9 @@ function back_to_main()
 
 
 /*! \brief Put netmask in n.n.n.n format
+ * 
  *  \param string 'netmask' The netmask
+ * 
  *  \return string Converted netmask
  */
 function normalize_netmask($netmask)
@@ -1987,6 +2068,10 @@ function normalize_netmask($netmask)
  * $bits = netmask_to_bits('255.0.0.255') # Returns 16
  * $bits = netmask_to_bits('255.255.0.255') # Returns 24
  * \endcode
+ * 
+ * \param 'netmask' given netmask
+ * 
+ * \return the number of bits in the netmask
  */
 function netmask_to_bits($netmask)
 {
@@ -2039,6 +2124,7 @@ function recurse($rule, $variables)
  *
  * \param string 'rule' The rule string from fusiondirectory.conf.
  * \param array 'attributes' A dictionary of attribute/value mappings
+ * 
  * \return string Expanded string, still containing the id keyword.
  */
 function expand_id($rule, $attributes)
@@ -2083,6 +2169,7 @@ function expand_id($rule, $attributes)
  *
  * \param string 'rule' The rule string from fusiondirectory.conf.
  * \param array 'attributes' A dictionary of attribute/value mappings
+ * 
  * \return array List of valid not used uids
  */
 function gen_uids($rule, $attributes)
@@ -2197,9 +2284,9 @@ function gen_uids($rule, $attributes)
  * this function returns the byte value.
  *
  * \param string 'value' a value in the above specified format
+ * 
  * \return a byte value or the original value if specified string is simply
  * a numeric value
- *
  */
 function to_byte($value) {
   $value= strtolower(trim($value));
@@ -2232,6 +2319,8 @@ function to_byte($value) {
  *
  * \param string 'value' needle
  * \param array 'items' haystack
+ * 
+ * \return Return TRUE is value is found, FALSE if not. 
  */ 
 function in_array_ics($value, $items)
 {
@@ -2271,7 +2360,12 @@ function generate_alphabet($count= 10)
 }
 
 
-/*! \brief Removes malicious characters from a (POST) string. */
+/*! \brief Removes malicious characters from a (POST) string.
+ * 
+ * \param string 'string' the string to check for malicious caracters
+ * 
+ * \return string with caracters removed
+ */
 function validate($string)
 {
   return (strip_tags(str_replace('\0', '', $string)));
@@ -2304,10 +2398,12 @@ function rmdirRecursive($path, $followLinks=false) {
 /*! \brief Get directory content information
  *
  * Returns the content of a directory as an array in an
- * ascended sorted manner.
+ * ascending sorted manner.
  *
  * \param string 'path'
  * \param boolean weither to sort the content descending.
+ * 
+ *  \return array content of directory in ascending sorted manner.
  */
 function scan_directory($path,$sort_desc=false)
 {
@@ -2343,7 +2439,11 @@ function scan_directory($path,$sort_desc=false)
 }
 
 
-/*! \brief Clean the smarty compile dir */
+/*! \brief Clean the smarty compile dir
+ * 
+ * \param string 'directory' smarty compile dir
+ * 
+ */
 function clean_smarty_compile_dir($directory)
 {
   if(is_dir($directory) && is_readable($directory)) {
@@ -2382,7 +2482,15 @@ function clean_smarty_compile_dir($directory)
   }
 }
 
-
+/*! \brief Create the revision file
+ * 
+ * Create the revision file in FusionDirectory spool dir
+ * 
+ * \param string 'revision file' the name of the revision file
+ * \param string 'revision' the version of FusionDirectory
+ * 
+ * \return TRUE if successfully created FALSE otherwise
+ */
 function create_revision($revision_file, $revision)
 {
   $result= false;
@@ -2401,7 +2509,15 @@ function create_revision($revision_file, $revision)
   return $result;
 }
 
-
+/*! \brief Compare the revision file
+ * 
+ * Create the revision file in FusionDirectory spool dir
+ * 
+ * \param string 'revision file' the name of the revision file
+ * \param string 'revision' the version of FusionDirectory
+ * 
+ * \return TRUE if revision match FALSE otherwise
+ */
 function compare_revision($revision_file, $revision)
 {
   // false means revision differs
@@ -2455,6 +2571,8 @@ function progressbar($percentage,$width=100,$height=15,$showvalue=false)
  *
  * \param string 'key' needle
  * \param array 'items' haystack
+ * 
+ * \return return key or empty result
  */
 function array_key_ics($ikey, $items)
 {
@@ -2472,8 +2590,9 @@ function array_key_ics($ikey, $items)
  *
  * \param array 'src'
  * \param array 'dst'
+ * 
  * \return boolean TRUE or FALSE
- * */
+ */
 function array_differs($src, $dst)
 {
   /* If the count is differing, the arrays differ */
