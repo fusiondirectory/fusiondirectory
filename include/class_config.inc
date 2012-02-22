@@ -64,6 +64,7 @@ class config  {
   var $filename = "";
   var $last_modified = 0;
 
+
   /*! \brief Class constructor of the config class
    *  
    *  \param string 'filename' path to the configuration file
@@ -162,6 +163,15 @@ class config  {
     }
   }
 
+
+  /*! \brief Open xml tag when parsing the xml config
+   *
+   * \param string parser
+   * 
+   * \param string tag
+   * 
+   * \param string attrs
+   */
   function tag_open($parser, $tag, $attrs)
   {
     /* Save last and current tag for reference */
@@ -261,6 +271,14 @@ class config  {
     }
   }
 
+
+  /*! \brief Close xml tag when parsing the xml config
+   *
+   * 
+   * \param string parser
+   * 
+   * \param string tag
+   */
   function tag_close($parser, $tag)
   {
     /* Close config section */
@@ -271,6 +289,15 @@ class config  {
   }
 
 
+  /*! \brief Get the password when needed from the config file
+   *
+   * This function can be used to get the password associated to 
+   * a keyword in the config file
+   * 
+   * \param string creds the keyword associated to the password needed
+   *
+   * \return string the password corresponding to the keyword
+   */
   function get_credentials($creds)
   {
     if (isset($_SERVER['HTTP_FD_KEY'])){
@@ -340,6 +367,7 @@ class config  {
     }
     return($obj);
   }
+
 
   /*! \brief Set the current location
    *  
@@ -443,7 +471,7 @@ class config  {
     $ldap= $this->get_ldap_link();
     $ldap->cd ($this->current['BASE']);
 
-    /* Search mailMethod konfiguration in main section too 
+    /* Search mailMethod configuration in main section too 
      */
     $this->current['MAILMETHOD'] = $this->get_cfg_value("mailMethod","");
     if (!isset($this->current['MAILMETHOD'])){
@@ -643,7 +671,7 @@ class config  {
       $this->data['SERVERS']['SYSLOG'][]= $attrs["cn"][0];
     }
 
-    /* Get samba servers from LDAP, in case of samba3 */
+    /* Get samba servers from LDAP */
     $this->data['SERVERS']['SAMBA']= array();
     $ldap->cd ($this->current['BASE']);
     $ldap->search ("(objectClass=sambaDomain)");
@@ -671,6 +699,14 @@ class config  {
   }
 
 
+  /*! \brief Get the departments from ldap
+   *
+   * This function can be used to get the password associated to 
+   * a keyword in the config file
+   * 
+   * \param string ignore_dn dn of the department
+   *
+   */
   function get_departments($ignore_dn= "")
   {
     global $config;
@@ -747,6 +783,7 @@ class config  {
     $this->adepartments= $administrative;
     $this->departments= $result;
   }
+
 
 
   function make_idepartments($max_size= 28)
@@ -853,13 +890,15 @@ class config  {
     return($ret);
   }
 
+
   /*! \brief Get all available shares defined in the current LDAP
    *
    *  This function returns all available Shares defined in this ldap
    *  
    *  \param boolean listboxEntry If set to TRUE, only name and path are
    *  attached to the array. If FALSE, the whole entry will be parsed an atached to the result.
-   *  \return array
+   * 
+   *  \return array list of share defined in the current LDAP
    */
   function getShareList($listboxEntry = false)
   {
@@ -892,12 +931,12 @@ class config  {
   }
 
 
-  /*! \brief Return al available share servers
+  /*! \brief Return all available share servers in LDAP
    *
    * This function returns all available ShareServers.
    *
-   * \return array
-   * */
+   * \return array list of share defined in the current LDAP
+   */
   function getShareServerList()
   {
     global $config;
@@ -943,10 +982,11 @@ class config  {
    *  \endcode
    *
    *  \param string 'section' Section in the configuration file.
+   * 
    *  \param string 'value' Key in the given section, which is subject to check
    *
-   *
-   * */
+   *  \return bool true if option set in the config file
+   */
   function boolValueIsTrue($section, $value)
   {
     $section= strtoupper($section);
@@ -994,7 +1034,14 @@ class config  {
    *  $postcmd = $this->config->search(get_class($this), "POSTCOMMAND", array("menu", "tabs"));
    *  \endcode
    *
-   * */
+   *  \param string class
+   * 
+   *  \param string value key to search in the configuration data
+   * 
+   *  \param array categories array where the search should run 
+   * 
+   *  \return string the value you asked for or empty
+   */
   function search($class, $value, $categories= "")
   {
     if (is_array($categories)){
@@ -1027,9 +1074,10 @@ class config  {
    *  then the default is returned.
    *
    *  \param string 'name' the configuration key (case-insensitive)
+   * 
    *  \param string 'default' a default that is returned, if no value is found
    *
-   *
+   *  \return string the configuration value if found or the default value
    */
   function get_cfg_value($name, $default= "") {
     $name= strtoupper($name);
@@ -1046,6 +1094,7 @@ class config  {
 
     return ($default);
   }
+
 
   /*! \brief Check if session lifetime matches session.gc_maxlifetime
    *
@@ -1071,8 +1120,11 @@ class config  {
     }
   }
 
-  /* Returns true if snapshots are enabled, and false if it is disalbed
-     There will also be some errors psoted, if the configuration failed */
+
+  /*! \brief Check if snapshot are enabled
+   *
+   *  \return boolean TRUE if snapshot are enabled, FALSE otherwise
+   */
   function snapshotEnabled()
   {
     if($this->get_cfg_value("enableSnapshots") == "true"){
