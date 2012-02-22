@@ -3036,39 +3036,23 @@ function change_password ($dn, $password, $mode=0, $hash= "")
  * array['sambaLMPassword'] etc.
  *
  * \param string 'password'
- * \return array contains several keys for lmPassword, ntPassword, pwdLastSet, etc. depending
- * on the samba version
+ * \return array contains several keys for lmPassword, ntPassword, pwdLastSet, etc. 
  */
 function generate_smb_nt_hash($password)
 {
   global $config;
 
-  # Try to use Argonaut?
-  if ($config->get_cfg_value("goto-si-URI") != ""){
-    $res= supportDaemon::send("gosa_gen_smb_hash", "GOSA", array("password" => $password), TRUE);
-    if (isset($res['XML']['HASH'])){
-      $hash= $res['XML']['HASH'];
-    } else {
-      $hash= "";
-    }
+  $tmp= $config->get_cfg_value('sambaHashHook')." ".escapeshellarg($password);
+  @DEBUG (DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $tmp, "Execute");
 
-    if ($hash == "") {
-      msg_dialog::display(_("Configuration error"), _("Cannot generate samba hash!"), ERROR_DIALOG);
-      return ("");
-    }
-  } else {
-    $tmp= $config->get_cfg_value('sambaHashHook')." ".escapeshellarg($password);
-    @DEBUG (DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $tmp, "Execute");
+  exec($tmp, $ar);
+  flush();
+  reset($ar);
+  $hash= current($ar);
 
-    exec($tmp, $ar);
-    flush();
-    reset($ar);
-    $hash= current($ar);
-
-    if ($hash == "") {
-      msg_dialog::display(_("Configuration error"), sprintf(_("Cannot generate samba hash: running '%s' failed, check the 'sambaHashHook'!"),$config->get_cfg_value('sambaHashHook')), ERROR_DIALOG);
-      return ("");
-    }
+  if ($hash == "") {
+    msg_dialog::display(_("Configuration error"), sprintf(_("Cannot generate samba hash: running '%s' failed, check the 'sambaHashHook'!"),$config->get_cfg_value('sambaHashHook')), ERROR_DIALOG);
+    return ("");
   }
 
   list($lm,$nt)= explode(":", trim($hash));
