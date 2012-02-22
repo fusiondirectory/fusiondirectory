@@ -44,7 +44,7 @@ A: Themes are splitted into two parts. ihtml/ contains templates which
 Q: How can I let a person do administrative tasks under a specific department?
 
    FusionDirectory 1.0 implements a more flexible but complex ACL management, please have a look at 
-   the following wiki page: https://oss.gonicus.de/labs/gosa/wiki/DocumentationWritingACLs2.6
+   the following wiki page: http://www.fusiondirectory.org/en/documentation/fd_acls
    If you have still questions, please use the mailing list or the forum.
    
 
