@@ -98,8 +98,6 @@ $REWRITE= array( "ä" => "ae",
     "ñ" => "ny",
     "Ñ" => "Ny" );
 
-/* put a static revision version */
-$svn_revision = "1.0.2";
 
 /*! \brief Does autoloading for classes used in FusionDirectory.
  *
@@ -2348,8 +2346,6 @@ function scan_directory($path,$sort_desc=false)
 /*! \brief Clean the smarty compile dir */
 function clean_smarty_compile_dir($directory)
 {
-  global $svn_revision;
-
   if(is_dir($directory) && is_readable($directory)) {
     // Set revision filename to REVISION
     $revision_file= $directory."/REVISION";
@@ -2357,11 +2353,11 @@ function clean_smarty_compile_dir($directory)
     /* Is there a stamp containing the current revision? */
     if(!file_exists($revision_file)) {
       // create revision file
-      create_revision($revision_file, $svn_revision);
+      create_revision($revision_file, FD_VERSION);
     } else {
       # check for "$config->...['CONFIG']/revision" and the
       # contents should match the revision number
-      if(!compare_revision($revision_file, $svn_revision)){
+      if(!compare_revision($revision_file, FD_VERSION)){
         // If revision differs, clean compile directory
         foreach(scan_directory($directory) as $file) {
           if(($file==".")||($file=="..")) continue;
