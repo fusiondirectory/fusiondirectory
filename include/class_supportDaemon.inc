@@ -22,6 +22,11 @@
 
 require_once('jsonRPCClient.php');
 
+/*! \brief This is the argonaut support class
+ *
+ * This class contains all the function needed by the argonaut deplyoment system
+ * Inside FusionDirectory
+ */
 class supportDaemon
 {
     private $s_host       = "";
@@ -33,7 +38,8 @@ class supportDaemon
     private $logdir       = "";
 
   /*! \brief constructor
-  */
+   * 
+   */
     public function __construct()
     {
         $this->config = session::global_get('config');
@@ -56,7 +62,8 @@ class supportDaemon
     }
   
     /*! \brief Test if the argonaut server is available
-    @return boolean true if the server pings, false otherwise    
+     * 
+     * \return boolean TRUE if the server pings, FALSE otherwise    
      */
     public function is_available() {
         if($this->s_host == "") {
@@ -80,9 +87,12 @@ class supportDaemon
         }
     }
   
-  /*! \brief Allows simply appending a new DaemonEvent 
-    @param DaemonEvent The event to append.
-  */
+  /*! \brief Allows simply appending a new DaemonEvent
+   *  
+   * \param string 'event' The event to append.
+   * 
+   * \return TRUE if correctly appended FALSE otherwise
+   */
   public function append($event)
   {
     if(!($event instanceof DaemonEvent)) {
@@ -142,8 +152,9 @@ class supportDaemon
   }
     
     /*! \brief  Sets an error message, which can be returned with get_error().
-    @param  string  The Error message,
-    */
+     * 
+     * \param  string 'str' The Error message,
+     */
     private function set_error($str)
     {
         $this->b_error = TRUE;
@@ -152,7 +163,8 @@ class supportDaemon
 
 
     /*! \brief  Resets the error message.
-   */
+     * 
+     */
   private function reset_error()
   {
     $this->b_error = FALSE;
@@ -161,7 +173,8 @@ class supportDaemon
 
 
   /*! \brief  Checks if an error occured.
-    @return boolean returns TRUE or FALSE, whether there is an error or not.
+   * 
+   * \return boolean returns TRUE or FALSE, whether there is an error or not.
    */
   public function is_error()
   {
@@ -169,8 +182,9 @@ class supportDaemon
   }
 
 
-  /*! \brief  Returns the last error. 
-    @return string Returns the last error.
+  /*! \brief  Returns the last error.
+   * 
+   *  \return string Returns the last error.
    */
   public function get_error()
   {
@@ -188,8 +202,10 @@ class supportDaemon
   }
   
     /*! \brief format queue entries
-    @param Array The entries to format
-    @return Array The entries formatted
+     * 
+     * \param array 'entries' The entries to format
+     * 
+     * \return array The entries formatted
      */
     private function format_entries($entries) {
         timezone::get_default_timezone();
@@ -219,9 +235,10 @@ class supportDaemon
     }
   
   
-    /*! \brief  Returns an array containing all queued entries.
-    @return Array All queued entries as an array.
-   */
+    /*! \brief Returns an array containing all queued entries.
+     * 
+     * \return array All queued entries as an array or FALSE if there is an error.
+     */
     public function get_queued_entries() //$event_types = array("*"),$from=-1,$to=-1,$sort="timestamp DESC"
     {
         timezone::get_default_timezone();
@@ -239,18 +256,22 @@ class supportDaemon
     }
     
     /*! \brief  Returns an entry containing all requested ids.
-    @param  Array   The IDs of the entries we want to return.
-    @return Array   Of the requested entries. 
+     *
+     *  \param array 'ids' The IDs of the entries we want to return.
+     *
+     *  \return array  Array of the requested entries. 
     */
     public function get_entries_by_id($ids)
     {
         return $this->get_entries("get_entries_by_id",$ids);
     }
     
-    /*! \brief  Removes a set of entries from the argonaut queue. 
-    @param  Array The IDs to remove.
-    @return Boolean True on success.
-    */
+    /*! \brief  Removes a set of entries from the argonaut queue.
+     * 
+     * \param array 'ids' The IDs to remove.
+     * 
+     * \return boolean TRUE on success FALSE otherwise.
+     */
     public function remove_entries($ids)
     {
         if(!is_array($ids)){
@@ -269,18 +290,22 @@ class supportDaemon
         return(TRUE);
     }
 
-    /*! \brief  Removes an entry from the argonaut queue. 
-    @param  Integer The ID of the entry we want to remove.
-    @return Boolean True on success.
+    /*! \brief Removes an entry from the argonaut queue.
+     * 
+     * \param integer 'id' The ID of the entry we want to remove.
+     * 
+     * \return Boolean TRUE on success.
     */
     public function remove_entry($id)
     {
         return($this->remove_entries(array($id)));
     }
     
-    /*! \brief  Returns an entry from the argonaut queue
-    @param  Integer The ID of the entry we want to return.
-    @return Array   Of the requested entry. 
+    /*! \brief Returns an entry from the argonaut queue
+     * 
+     * \param integer 'id' The ID of the entry we want to return.
+     * 
+     * \return array  array of the requested entry. 
     */
     public function get_entry_by_id($id)
     {
@@ -288,9 +313,11 @@ class supportDaemon
     }
     
     /*! \brief  Updates an entry with a set of new values, 
-    @param  Integer The ID of the entry, we want to update.
-    @param  Array   The variables to update.   
-    @return Boolean Returns TRUE on success. 
+     * 
+     * \param  integer 'ids' The ID of the entry, we want to update.
+     * \param  array 'data'  The variables to update.   
+     * 
+     * \return boolean Returns TRUE on success. 
     */
     public function update_entries($ids,$data)
     {
@@ -308,8 +335,10 @@ class supportDaemon
     }
     
     /*! \brief  Ask argonaut to process a set of entries now
-    @param  Array   The ids of the entries to process immediatly
-    @return Boolean Returns TRUE on success. 
+     * 
+     * \param  array 'ids'  The ids of the entries to process immediatly
+     * 
+     * \return boolean Returns TRUE on success FALSE otherwise.
     */
     public function process_entries_now($ids)
     {
@@ -330,9 +359,11 @@ class supportDaemon
     }
 
     /*! \brief Check if a workstation is currently installing
-    @param  string The mac address of the workstation
-    @return Boolean Returns TRUE if currently installing
-    */
+     * 
+     * \param  string 'mac' The mac address of the workstation
+     * 
+     * \return boolean Returns TRUE if currently installing FALSE otherwise.
+     */
     public function is_currently_installing($mac) {
         $e_types = DaemonEvent::get_event_types(USER_EVENT | SYSTEM_EVENT | HIDDEN_EVENT);
         
@@ -348,18 +379,22 @@ class supportDaemon
     }
     
     /*! \brief  Returns an array containing all entries concerning the macs passed.
-    @param  Array   The mac addresses of the workstations for which we want entries.
-    @return Array   Of entries for the requested mac addresses. 
-    */
+     * 
+     * \param array 'macs'  The mac addresses of the workstations for which we want entries.
+     * 
+     * \return array  The entries for the requested mac addresses. 
+     */
     public function get_entries_by_mac($macs) {
         return $this->get_entries("get_entries_by_mac",$macs);
     }
     
     /*! \brief  Get entries from argonaut server with given function and format entries before to return them
-    @param  Function   The JSONRPC method to use for retrieving addresses
-    @param  Array   The mac addresses or ids of the entries we want.
-    @return Array   Of entries for the requested addresses.
-    */
+     * 
+     * \param function 'func'  The JSONRPC method to use for retrieving addresses
+     * \param array 'address'  The mac addresses or ids of the entries we want.
+     * 
+     * \return Array   The entries for the requested addresses.
+     */
     private function get_entries($func,$address) {
         if(!is_array($address)){
           trigger_error("Requires an array as parameter.");
@@ -378,13 +413,16 @@ class supportDaemon
         }
     }
     
-    /*! \brief  Returns log file informations for a given mac address 
-      @param  $mac The mac address to fetch logs for.
-      @return Array A Multidimensional array containing log infos.
-        MAC_00_01_6C_9D_B9_FA['install_20080311_090900']['FILES'][0]=debconf.log
-        MAC_00_01_6C_9D_B9_FA['install_20080311_090900']['FILES'][1]=syslog.log
-                               install_20080313_144450   ...
-    */
+    /*! \brief  Returns log file informations for a given mac address
+     * 
+     * \param  string 'mac' The mac address to fetch logs for.
+     * \return Array A Multidimensional array containing log infos.
+     * 
+     * \code
+     *  MAC_00_01_6C_9D_B9_FA['install_20080311_090900']['FILES'][0]=debconf.log
+     *  MAC_00_01_6C_9D_B9_FA['install_20080311_090900']['FILES'][1]=syslog.log
+     * \endcode
+     */
     public function get_log_info_for_mac($mac)
     {
         # read mac directory
@@ -411,14 +449,23 @@ class supportDaemon
         return array($mac=>$ret);
     }
     
+    /*! \brief  Get a precise log file on a certain date for a mac address
+     * 
+     * \param string 'mac' The mac address to fetch logs for.
+     * \param string 'date' The date for the log to fetch.
+     * \param string 'file' The log filename.
+     *      * 
+     */
     public function get_log_file($mac,$date,$file)
     {
         return implode("",file($this->logdir."/$mac/$date/$file"));
     }
   
     /*! \brief  Returns true if an argonaut daemon is running on the pc
-    @param string The mac address to ping
-    @return boolean TRUE if the workstation is running an argonaut daemon
+     * 
+     * \param string 'mac' The mac address to ping
+     * 
+     * \return boolean TRUE if the workstation is running an argonaut daemon
     */
     public function ping($mac) {
         try {
@@ -432,12 +479,15 @@ class supportDaemon
     }
     
     /*! \brief  Get packages list for the given release
-    @param  string  The release we want the packages of. If empty all releases are used.
-    @param  Array   The attributes we want for each packages. (all attributes from Packages file can put, plus version, distribution, has_template and templace)
-    @param  Array   The filters we want to use. An or is performed between array cases.
-    @param  integer The indice of the package we want to start from.
-    @param  integer The indice of the package we want to stop to.
-    @return Array   Of packages that fit the given parameters.
+     * 
+     * \param string  'release' The release we want the packages of. If empty all releases are used.
+     * \param array   'attrs'   The attributes we want for each packages. 
+     * (all attributes from Packages file can put, plus version, distribution, has_template and templace)
+     * \param array   'filters' The filters we want to use. An or is performed between array cases.
+     * \param integer 'from'    The indice of the package we want to start from
+     * \param integer 'stop'    The indice of the package we want to stop to.
+     * 
+     * \return Array   List of packages that fit the given parameters.
     */
     public function FAI_get_packages($release,$attrs,$filters,$from=-1,$to=-1) {
         try {
@@ -470,8 +520,9 @@ class supportDaemon
         }
     }
 
-    /*! \brief  Get servers
-    @return Array   All configured repository servers
+    /*! \brief Get all configured repository servers
+     * 
+     * \return array All configured repository servers
     */
     public function FAI_get_server() {
         $ldap = $this->config->get_ldap_link();
@@ -499,8 +550,10 @@ class supportDaemon
     }
     
     /*! \brief  Get available kernels packages
-    @param  string  The release we want kernels of
-    @return Array   All kernel packages for the given release
+     * 
+     * \param string 'release' The release we want kernels of
+     * 
+     * \return array  All kernel packages for the given release
     */
     public function FAI_get_kernels($release)
     {
@@ -512,8 +565,10 @@ class supportDaemon
     }
 
     /*! \brief  Get available profiles
-    @param  string  The release we want profiles for
-    @return Array   All FAI profiles for the given release
+     * 
+     * \param string 'release' The release we want profiles for
+     * 
+     * \return array All FAI profiles for the given release
     */
     public function FAI_get_profiles($release)
     {
@@ -528,7 +583,14 @@ class supportDaemon
         
         return $res;
     }
-
+    /*! \brief Manage services
+     * 
+     * \param string 'mac' The mac correspind to the host action
+     * \param string 'service' The service to be managed
+     * \param string 'action' The action to be done on the service
+     * 
+     * \return status or FALSE if there is an error
+    */
     public function manage_service($mac,$service,$action) 
     {
         try {
@@ -541,7 +603,13 @@ class supportDaemon
             return(FALSE);
         }
     }
-
+    
+    /*! \brief Clean queue
+     * 
+     * \param array 'mac' The macs that have to be removed from the queue 
+     * 
+     * \return TRUE if success or FALSE otherwise
+    */
     public function clean_queue_from_mac($mac)
     {
         try {
