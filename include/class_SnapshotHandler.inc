@@ -20,6 +20,11 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*! \brief This is the Snapshot Handler class
+ *
+ * This class contains all the function needed to handle
+ * the snapshot functionality
+ */
 class SnapshotHandler {
 
   var $config;
@@ -30,7 +35,7 @@ class SnapshotHandler {
   /* Create handler  */
   function SnapshotHandler(&$config)
   {
-    $this->config = &$config;	
+    $this->config = &$config; 
     $config = $this->config;
 
     if($config->get_cfg_value("enableSnapshots") == "true"){

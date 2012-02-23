@@ -20,6 +20,10 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*! \brief This is the session class
+ *
+ * This class contains all the function needed to manage sessions
+ */
 class session {
 
   public static function get_session_size()

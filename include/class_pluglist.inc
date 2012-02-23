@@ -20,6 +20,11 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*! \brief This is the plugin list class
+ *
+ * This class contains all the function needed to make list 
+ * of plugin and manage them
+ */
 class pluglist {
   var $index= 0;
   var $menu= "";
@@ -81,12 +86,14 @@ class pluglist {
   }
 
 
-  /*! \brief  Check whether we are allowed to modify the given acl or not..
-        This function is used to check which plugins are visible.
-        
-    @param  The acl tag to test, eg.  "users/user:self", "systems", ...
-    @return Boolean TRUE on success else FALSE
-     */
+  /*! \brief  Check whether we are allowed to modify the given acl or not
+   * 
+   * This function is used to check which plugins are visible.
+   *
+   * \param string 'aclname' The acl tag to test, eg.  "users/user:self", "systems",...
+   * 
+   * \return Boolean TRUE on success FALSE otherwise
+   */
   function check_access($aclname)
   {
     if (isset($this->silly_cache[$aclname])) {
@@ -403,9 +410,11 @@ class pluglist {
 
   }
 
-  /*! \brief  This function checks if we are allowed to view the plugin with the given id 
-      @param  $plug_id  Integer  The ID of the plugin.
-      @return Boolean   TRUE if we are allowed to view the plugin else FASLE
+  /*! \brief  This function checks if we are allowed to view the plugin with the given id
+   *  
+   * \param integer 'plug_id'  The ID of the plugin.
+   * 
+   * \return Boolean   TRUE if we are allowed to view the plugin else FALSE
    */
   function plugin_access_allowed($plug_id)
   {
@@ -414,6 +423,7 @@ class pluglist {
 
 
   /*! \brief  Force the menu to be recreated 
+   * 
    */
   function reset_menus()
   {
