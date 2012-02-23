@@ -20,13 +20,14 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/* Define common locations and variables */
+/*! \file
+ * Define common locations and variables */
 
 /* Allow setting the config file in the apache configuration
     e.g. SetEnv CONFIG_DIR /etc/fusiondirectory
 */
 if(!isset($_SERVER['CONFIG_DIR'])){
-  define ("CONFIG_DIR", "/etc/fusiondirectory");
+  define ("CONFIG_DIR", "/etc/fusiondirectory"); /*! Define FusionDirectory etc path */
 }else{
   define ("CONFIG_DIR",$_SERVER['CONFIG_DIR']);
 }
@@ -35,54 +36,54 @@ if(!isset($_SERVER['CONFIG_DIR'])){
     e.g.  SetEnv CONFIG_FILE fusiondirectory.conf 1.0
  */
 if(!isset($_SERVER['CONFIG_FILE'])){
-  define ("CONFIG_FILE", "fusiondirectory.conf");
+  define ("CONFIG_FILE", "fusiondirectory.conf"); /*! Define FusionDirectory filename */
 }else{
   define ("CONFIG_FILE",$_SERVER['CONFIG_FILE']);
 }
 
 /* Smarty compile dir */
-define ("SPOOL_DIR","/var/spool/fusiondirectory");
+define ("SPOOL_DIR","/var/spool/fusiondirectory"); /*! Define FusionDirectory spool directory */
 
 /* Global cache dir */
-define ("CACHE_DIR","/var/cache/fusiondirectory");
+define ("CACHE_DIR","/var/cache/fusiondirectory"); /*! Define FusionDirectory var directory */
 
 /* Global locale cache dir */
-define ("LOCALE_DIR", "/var/cache/fusiondirectory/locale");
+define ("LOCALE_DIR", "/var/cache/fusiondirectory/locale"); /*! Define FusionDirectory locale directory */
 
 /* Global tmp dir */
-define ("TEMP_DIR","/var/cache/fusiondirectory/tmp");
+define ("TEMP_DIR","/var/cache/fusiondirectory/tmp"); /*! Define FusionDirectory tmp directory */
 
 /* Directory containing the configuration template */
-define ("CONFIG_TEMPLATE_DIR", "/var/cache/fusiondirectory/template/");
+define ("CONFIG_TEMPLATE_DIR", "/var/cache/fusiondirectory/template/"); /*! Define FusionDirectory template directory */
 
 /* Directory containing the fai logs */
-define ("FAI_LOG_DIR", "/var/cache/fusiondirectory/fai/");
+define ("FAI_LOG_DIR", "/var/cache/fusiondirectory/fai/"); /*! Define FusionDirectory fai directory */
 
 /* Directory containing the vacation files */
-define ("VACATION_DIR", "/var/cache/fusiondirectory/vacation/");
+define ("VACATION_DIR", "/var/cache/fusiondirectory/vacation/"); /*! Define FusionDirectory vacation directory */
 
 /* php library path */
-define ("PHP_DIR", "/usr/share/php");
+define ("PHP_DIR", "/usr/share/php"); /*! Define php directory */
 
 /* excel library path */
-define ("EXCEL", "/include/utils/excel");
+define ("EXCEL", "/include/utils/excel"); /*! Define excel library path */
 
 /* fpdf library path */ 
-define("FPDF","/usr/share/php/fpdf/fpdf.php");
+define("FPDF","/usr/share/php/fpdf/fpdf.php"); /*! Define fpdf library path */
 
 /* Global FPDF FONT define */
-define("FPDF_FONTPATH", "/usr/share/php/fpdf/font/");
+define("FPDF_FONTPATH", "/usr/share/php/fpdf/font/"); /*! Define fpdf font path  */
 
 /* path for smarty libraries */
-define("SMARTY", "/usr/share/php/smarty/libs/Smarty.class.php");
-define("SMARTY3", "/usr/share/php/smarty3/Smarty.class.php");
+define("SMARTY", "/usr/share/php/smarty/libs/Smarty.class.php"); /*! Define smarty2 library path */
+define("SMARTY3", "/usr/share/php/smarty3/Smarty.class.php"); /*! Define smarty3 library path */
 
 /* name of the class.cache file */
-define("CLASS_CACHE", "class.cache");
+define("CLASS_CACHE", "class.cache"); /*! Define the name of the class cache */
 
 /* name of the utility used to create windows passwords */
-define ("MKNTPWD", "/usr/sbin/fusiondirectory-mkntpassword");
+define ("MKNTPWD", "/usr/sbin/fusiondirectory-mkntpassword"); /*! Define the name of the binary used to create smb password */
 
 /* FusionDirectory Version */
-define ("FD_VERSION", "1.0.3");
+define ("FD_VERSION", "1.0.3"); /*! Define FusionDirectory version */
 ?>
