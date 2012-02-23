@@ -128,7 +128,7 @@ spl_autoload_register('__fusiondirectory_autoload');
  * 
  *  \param  string 'name' The subject of the test
  * 
- *  \return boolean True if class is available, else false.
+ *  \return boolean Return TRUE if successfull FALSE otherwise
  */
 function class_available($name)
 {
@@ -143,7 +143,7 @@ function class_available($name)
  *
  * \param string 'plugin' the subject of the check
  * 
- * \return boolean True if plugin is available, else FALSE.
+ * \return boolean Return TRUE if successfull FALSE otherwise
  */
 function plugin_available($plugin)
 {
@@ -429,8 +429,8 @@ function fusiondirectory_log ($message)
  *
  * Initializes a LDAP connection. 
  *
- * \param string 'server'
- * \param string 'base'
+ * \param string 'server' The server we are connecting to
+ * \param string 'base' The base of our ldap tree
  * \param string 'binddn' Default: empty
  * \param string 'pass' Default: empty
  *
@@ -461,8 +461,8 @@ function ldap_init ($server, $base, $binddn='', $pass='')
  *
  * Process htaccess authentication 
  *
- * \param string 'username'
- * \param bool kerberos 
+ * \param string 'username' The username we ant to check
+ * \param bool 'kerberos' TRUE to use kerberos FALSE otherwise
  *
  * \return array containing username and server
  */
@@ -507,7 +507,7 @@ function process_htaccess ($username, $kerberos= FALSE)
  * Checks if the specified username is available in apache, maps the user
  * to an LDAP user. The password has been checked by apache already.
  *
- * \param string 'username'
+ * \param string 'username' The username to check.
  * 
  * \return
  *  - TRUE on SUCCESS, NULL or FALSE on error
@@ -560,8 +560,8 @@ function ldap_login_user_htaccess ($username)
  * Checks if the specified username is in the LDAP and verifies if the
  * password is correct by binding to the LDAP with the given credentials.
  *
- * \param string 'username'
- * \param string 'password'
+ * \param string 'username' The username to check
+ * \param string 'password' The password to check
  * 
  * \return
  *  - TRUE on SUCCESS, NULL or FALSE on error
@@ -1199,7 +1199,7 @@ function get_sub_list($filter, $category,$sub_deps, $base= "", $attributes= arra
  *  \param string 'category'  The ACL category the result objects belongs 
  *  \param string 'base'      The ldap base from which we start the search
  *  \param array 'attributes' The attributes we search for.
- *  \param long 'flags'     A set of Flags
+ *  \param long 'flags'       A set of Flags
  */
 function get_list($filter, $category, $base= "", $attributes= array(), $flags= GL_SUBSEARCH)
 {
@@ -1568,7 +1568,6 @@ function get_groups_ou()
  * 
  * \return the ou of the sambaMachineAccountRDN
  */
-
 function get_winstations_ou()
 {
   return (get_ou("sambaMachineAccountRDN"));
@@ -2631,14 +2630,22 @@ function saveFilter($a_filter, $values)
 }
 
 
-/*! \brief Escape all LDAP filter relevant characters */
+/*! \brief Escape all LDAP filter relevant characters
+ * 
+ * \param string input string wehre we should add \ before special caracters
+ * 
+ */
 function normalizeLdap($input)
 {
   return (addcslashes($input, '()|'));
 }
 
 
-/*! \brief Return the FusionDirectory base directory */
+/*! \brief Return the FusionDirectory base directory
+ * 
+ * \return Return the base of the directory
+ * 
+ */
 function get_base_dir()
 {
   global $BASE_DIR;
@@ -2656,7 +2663,13 @@ function obj_is_readable($dn, $object, $attribute)
 }
 
 
-/*! \brief Test weither we are allowed to change the object */
+/*! \brief Test weither we are allowed to change the object
+ * 
+ * \param string 'dn' the DN of the object to check
+ * \param string 'object'
+ * \param string 'attribute' the attribute to check
+ * 
+ */
 function obj_is_writable($dn, $object, $attribute)
 {
   global $ui;
@@ -2734,7 +2747,9 @@ function gosa_ldap_explode_dn($dn,$config = NULL,$verify_in_ldap=false)
   return($ret);
 }
 
-
+/*! \brief Get base from external hook
+ * 
+ */
 function get_base_from_hook($dn, $attrib)
 {
   global $config;
@@ -2770,14 +2785,25 @@ function get_base_from_hook($dn, $attrib)
 }
 
 
-/*! \brief Check if schema version matches the requirements */
+/*! \brief Check if schema version matches the requirements
+ * 
+ * \param string 'class' objectClass to check
+ * \param string 'version' version to check for
+ * 
+ * \return TRUE if successfull FALSE otherwise
+ */
 function check_schema_version($class, $version)
 {
   return preg_match("/\(v$version\)/", $class['DESC']);
 }
 
 
-/*! \brief Check if LDAP schema matches the requirements */
+/*! \brief Check if LDAP schema matches the requirements
+ * 
+ * \param string '$cfg' A config object
+ * \param bool 'rfc2307bis' TRUE for checking for rfc2307bis FALSE otherwise
+ *
+ */
 function check_schema($cfg,$rfc2307bis = FALSE)
 {
   $messages= array();
@@ -2910,7 +2936,9 @@ function check_schema($cfg,$rfc2307bis = FALSE)
   return($checks);
 }
 
-
+/*! \brief Get the language for the user connecting
+ *
+ */
 function get_languages($languages_in_own_language = FALSE,$strip_region_tag = FALSE)
 {
   $tmp = array(
@@ -2982,6 +3010,7 @@ function get_languages($languages_in_own_language = FALSE,$strip_region_tag = FA
  * a certain POST variable.
  *
  * \param string 'name' the POST var to return ($_POST[$name])
+ * 
  * \return string
  * */
 function get_post($name)
@@ -2999,7 +3028,9 @@ function get_post($name)
 }
 
 
-/*! \brief Return class name in correct case */
+/*! \brief Return class name in correct case
+ * 
+ */
 function get_correct_class_name($cls)
 {
   global $class_mapping;
@@ -3020,9 +3051,10 @@ function get_correct_class_name($cls)
  *
  * \param string 'dn' the DN whose password shall be changed
  * \param string 'password' the password
- * \param int mode
+ * \param int mode if not 0 doesn't create the samba password hash
  * \param string 'hash' which hash to use to encrypt it, default is empty
  * for cleartext storage.
+ * 
  * \return boolean TRUE on success FALSE on error
  */
 function change_password ($dn, $password, $mode=0, $hash= "")
@@ -3151,6 +3183,7 @@ function change_password ($dn, $password, $mode=0, $hash= "")
  * array['sambaLMPassword'] etc.
  *
  * \param string 'password'
+ * 
  * \return array contains several keys for lmPassword, ntPassword, pwdLastSet, etc. 
  */
 function generate_smb_nt_hash($password)
@@ -3188,7 +3221,7 @@ function generate_smb_nt_hash($password)
  * from the LDAP directory. It uses the attribute as configured
  * in modificationDetectionAttribute
  *
- * \param string 'dn'
+ * \param string 'dn' The dn you want to check
  * \return either the result or "" in any other case
  */
 function getEntryCSN($dn)
@@ -3221,7 +3254,7 @@ function getEntryCSN($dn)
  * as an array
  * \param array 'attrs' The attrs array to be modified.
  *
- * */
+ */
 function add_objectClass($classes, &$attrs)
 {
   if (is_array($classes)){
@@ -3237,10 +3270,15 @@ function add_objectClass($classes, &$attrs)
 
 
 /*! \brief Removes a given objectClass from the attrs entry
- *
- * Similar to add_objectClass, except that it removes the given
- * objectClasses. See it for the params.
- * */
+ * 
+ * The function remove the specified objectClass(es) to the given
+ * attrs entry.
+ * 
+ * \param mixed 'classes' Either a single objectClass or several objectClasses
+ * as an array
+ * \param array 'attrs' The attrs array to be removed.
+ * 
+ */
 function remove_objectClass($classes, &$attrs)
 {
   if (isset($attrs['objectClass'])){
@@ -3264,7 +3302,8 @@ function remove_objectClass($classes, &$attrs)
 }
 
 
-/*! \brief  Initialize a file download with given content, name and data type. 
+/*! \brief  Initialize a file download with given content, name and data type.
+ * 
  *  \param  string data The content to send.
  *  \param  string name The name of the file.
  *  \param  string type The content identifier, default value is "application/octet-stream";
@@ -3310,10 +3349,14 @@ function reverse_html_entities($str,$type = ENT_QUOTES , $charset = "UTF-8")
 }
 
 
-/*! \brief Encode special string characters so we can use the string in \
-           HTML output, without breaking quotes.
-    \param string The String we want to encode.
-    \return string The encoded String
+/*! \brief Encode special string characters
+ * 
+ * Encode the special caracters so we can use the string in
+ * HTML output, without breaking quotes.
+ * 
+ * \param string 'str' The String we want to encode.
+ * 
+ * \return string The encoded String
  */
 function xmlentities($str)
 { 
@@ -3344,10 +3387,11 @@ function xmlentities($str)
 
 
 /*! \brief  Updates all accessTo attributes from a given value to a new one.
-            For example if a host is renamed.
-    \param  String  $from The source accessTo name.
-    \param  String  $to   The destination accessTo name.
-*/
+ * 
+ * \param  String  $from The source accessTo name.
+ * \param  String  $to   The destination accessTo name.
+ * 
+ */
 function update_accessTo($from,$to)
 {
   global $config;
@@ -3379,7 +3423,9 @@ function update_accessTo($from,$to)
 }
 
 
-/*! \brief Returns a random char */
+/*! \brief Returns a random char
+ * 
+ */
 function get_random_char () {
      $randno = rand (0, 63);
      if ($randno < 12) {
@@ -3391,7 +3437,12 @@ function get_random_char () {
      }
 }
 
-
+/*! \brief  Encrypt a string with RIJNDAEL_128
+ * 
+ * \param string 'input' The string to encrypt.
+ * \param String 'password' The password used
+ * 
+ */
 function cred_encrypt($input, $password) {
 
   $size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
@@ -3401,7 +3452,12 @@ function cred_encrypt($input, $password) {
 
 }
 
-
+/*! \brief  Decrypt a string with RIJNDAEL_128
+ * 
+ * \param string 'input' The string to decrypt.
+ * \param String 'password' The password used
+ * 
+ */
 function cred_decrypt($input,$password) {
   $size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
   $iv = mcrypt_create_iv($size, MCRYPT_DEV_RANDOM);
@@ -3421,7 +3477,13 @@ function set_object_info($str = "")
   session::set('objectinfo',$str);
 }
 
-
+/*! \brief Test if an ip is the network range
+ * 
+ * \param string 'ip' The ip address to test.
+ * \param string 'net' The network to test
+ * \param string 'netmask' The netmask of the network
+ * 
+ */
 function isIpInNet($ip, $net, $mask) {
    // Move to long ints
    $ip= ip2long($ip);
@@ -3434,7 +3496,14 @@ function isIpInNet($ip, $net, $mask) {
    return ($res == $net);
 }
 
-
+/*! \brief Get next id
+ * 
+ * \param string 'attrib' attribute to use to find the next id.
+ * \param String 'dn' Dn e want an id for.
+ * 
+ * \return Return the next id or NULL if failed
+ * 
+ */
 function get_next_id($attrib, $dn)
 {
   global $config;
@@ -3450,7 +3519,13 @@ function get_next_id($attrib, $dn)
   return null;
 }
 
-
+/*! \brief Get next id from the sambaUnixIdPool
+ * 
+ * \param string 'attrib' attribute to use to find the next id.
+ * 
+ * \return Return the next id or NULL if failed
+ * 
+ */
 function get_next_id_pool($attrib) {
   global $config;
 
@@ -3544,7 +3619,14 @@ function get_next_id_pool($attrib) {
   return $id;
 }
 
-
+/*! \brief Get next id in a traditional unix way
+ * 
+ * \param string 'attrib' attribute to use to find the next id.
+ * \param String 'dn' Dn e want an id for.
+ * 
+ * \return Return the next id
+ * 
+ */
 function get_next_id_traditional($attrib, $dn)
 {
   global $config;
