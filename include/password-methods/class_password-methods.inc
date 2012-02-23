@@ -20,6 +20,9 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*! \brief This class contains all the basic function for password methods
+ *
+ */
 class passwordMethod
 {
   var $config = false;
@@ -28,7 +31,7 @@ class passwordMethod
   var $hash= "";
   var $lockable = TRUE;
 
-  // Konstructor
+  // constructor
   function passwordMethod($config, $dn="")
   {
   }

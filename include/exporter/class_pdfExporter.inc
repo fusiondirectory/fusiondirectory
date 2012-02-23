@@ -30,6 +30,9 @@ if(in_array('FPDF', $classes)) {
   include('class_PDF.inc');
 }
 
+/*! \brief This class contains all the functions needed for pdf export
+ *
+ */
 class pdfExporter
 {
   var $result;

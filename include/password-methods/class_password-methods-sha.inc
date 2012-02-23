@@ -20,6 +20,9 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*! \brief This class contains all the functions for sha password methods
+ *
+ */
 class passwordMethodsha extends passwordMethod
 {
   function passwordMethodsha($config)

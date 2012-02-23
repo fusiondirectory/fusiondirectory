@@ -20,6 +20,9 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*! \brief This class contains all the functions for clear password methods
+ *
+ */
 class passwordMethodClear extends passwordMethod
 {
   var $lockable = FALSE;

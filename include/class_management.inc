@@ -20,6 +20,12 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*! \brief This is plugin management class
+ *
+ * This class contains all the function needed to manage various function
+ * like new,save, edit, apply, cut/copy/paste , snapshot etc...
+ * 
+ */
 class management
 {
   // Public 

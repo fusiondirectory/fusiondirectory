@@ -20,6 +20,9 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*! \brief This class contains all the functions for sdm5 password methods
+ *
+ */
 class passwordMethodsmd5 extends passwordMethod
 {
   function passwordMethodsmd5($config)
@@ -29,7 +32,7 @@ class passwordMethodsmd5 extends passwordMethod
   function is_available()
   {
     if ((!function_exists('md5'))){
-      return false;	
+      return false; 
     }else{
       return true;
     }

@@ -28,6 +28,12 @@ define("NO_FILE_UPLOADED",10003);
 define("INSERT_OK",10000);
 define("SPECIALS_OVERRIDE", TRUE);
 
+/*! \brief This is the ldap class
+ *
+ * This class contains all ldap function needed to make 
+ * ldap operations easy
+ */
+
 class LDAP{
 
   var $hascon   =false;
@@ -77,18 +83,22 @@ class LDAP{
     return $this->srp++;
   }
 
-
-  /* Function to replace all problematic characters inside a DN by \001XX, where
-     \001 is decoded to chr(1) [ctrl+a]. It is not impossible, but very unlikely
-     that this character is inside a DN.
-
-     Currently used codes:
-     ,   => CO
-     \2C => CO
-     (   => OB
-     )   => CB
-     /   => SL                                                                  
-     \22 => DQ                                                                  */
+  /*! \brief Function to replace all problematic characters inside a DN by \001XX
+   * 
+   * Function to replace all problematic characters inside a DN by \001XX, where
+   * \001 is decoded to chr(1) [ctrl+a]. It is not impossible, but very unlikely
+   * that this character is inside a DN.
+   * 
+   * Currently used codes:
+   * \code
+   * ,   => CO
+   * \2C => CO
+   * (   => OB
+   * )   => CB
+   * /   => SL                                                                  
+   * \22 => DQ
+   * \endcode
+   */                                                                  */
   static function convert($dn)
   {
     if (SPECIALS_OVERRIDE == TRUE){
@@ -101,11 +111,14 @@ class LDAP{
     }
   }
 
-
-  /* Function to fix all problematic characters inside a DN by replacing \001XX
-     codes to their original values. See "convert" for mor information. 
-     ',' characters are always expanded to \, (not \2C), since all tested LDAP
-     servers seem to take it the correct way.                                  */
+/*! \brief Function to fix all problematic characters inside a DN DN by replacing \001XX codes
+ * to their original values
+ *
+ * Function to fix all problematic characters inside a DN by replacing \001XX codes
+ * to their original values. See "convert" for more information. 
+ * ',' characters are always expanded to \, (not \2C), since all tested LDAP servers
+ * seem to take it the correct way.
+ */                                  */
   static function fix($dn)
   {
     if (SPECIALS_OVERRIDE == TRUE){
@@ -117,15 +130,16 @@ class LDAP{
     }
   }
 
-  /* Function to fix problematic characters in DN's that are used for search
-     requests. I.e. member=....                                               */
+  /*! \brief Function to fix problematic characters in DN's that are used for search requests. I.e. member=....
+   * 
+   */
   static function prepare4filter($dn)
   {
     $fixed= normalizeLdap(str_replace('\\\\', '\\\\\\', LDAP::fix($dn)));
     return str_replace('\\,', '\\\\,', $fixed);
   }
 
-
+  /*! \brief connect */
   function connect()
   {
     $this->hascon=false;
@@ -158,6 +172,7 @@ class LDAP{
     }
   }
 
+  /*! \brief rebind */
   function rebind($ldap, $referral)
   {
     $credentials= $this->get_credentials($referral);
@@ -172,6 +187,7 @@ class LDAP{
     }
   }
 
+  /*! \brief reconnect */
   function reconnect()
   {
     if ($this->reconnect){
@@ -180,12 +196,14 @@ class LDAP{
     }
   }
 
+  /*! \brief unbind */
   function unbind()
   {
     @ldap_unbind($this->cid);
     $this->cid = NULL;
   }
 
+  /*! \brief disconnect */
   function disconnect()
   {
     if($this->hascon){
@@ -474,9 +492,11 @@ class LDAP{
 
 
   /*! \brief Move the given Ldap entry from $source to $dest
-      @param  String  $source The source dn.
-      @param  String  $dest   The destination dn.
-      @return Boolean TRUE on success else FALSE.
+   * 
+   * \param  String  $source The source dn.
+   * \param  String  $dest   The destination dn.
+   * 
+   * \return Boolean TRUE on success else FALSE.
    */
   function rename_dn($source,$dest)
   {
@@ -518,14 +538,14 @@ class LDAP{
   }
 
 
-  /**
-  *  Function rmdir_recursive
-  *
-  *  Description: Based in recursive_remove, adding two thing: full subtree remove, and delete own node.
-  *  Parameters:  The dn to delete
-  *  GiveBack:    True on sucessfull , 0 in error, and "" when we don't get a ldap conection
-  *
-  */
+  /*! \brief Function rmdir_recursive
+   *
+   * Based in recursive_remove, adding two thing: full subtree remove, and delete own node.
+   * 
+   * \param string 'deletedn' The dn to delete
+   * 
+   * \return TRUE on sucessfull , 0 in error, and "" when we don't get a ldap conection
+   */
   function rmdir_recursive($srp, $deletedn)
   {
     if($this->hascon){
@@ -858,10 +878,11 @@ class LDAP{
 
 
   /*! \brief  Generates an ldif for all entries matching the filter settings, scope and limit.
-   *  @param  $dn           The entry to export.
-   *  @param  $filter       Limit the exported object to those maching this filter.
-   *  @param  $scope        'base', 'sub' .. see manpage for 'ldapmodify' for details.
-   *  @param  $limit        Limits the result.
+   * 
+   *  \param  $dn           The entry to export.
+   *  \param  $filter       Limit the exported object to those maching this filter.
+   *  \param  $scope        'base', 'sub' .. see manpage for 'ldapmodify' for details.
+   *  \param  $limit        Limits the result.
    */
   function generateLdif ($dn, $filter= "(objectClass=*)", $attributes= array(),$scope = 'sub', $limit=0)
   {
@@ -959,12 +980,12 @@ class LDAP{
   
 
 
-  /*  This funktion imports ldifs 
-        
-      If DeleteOldEntries is true, the destination entry will be deleted first. 
-      If JustModify is true the destination entry will only be touched by the attributes specified in the ldif.
-      if JustMofify id false the destination dn will be overwritten by the new ldif. 
-    */
+  /*! \brief Function to imports ldifs
+   * 
+   * If DeleteOldEntries is true, the destination entry will be deleted first. 
+   * If JustModify is true the destination entry will only be touched by the attributes specified in the ldif.
+   * if JustMofify id false the destination dn will be overwritten by the new ldif. 
+   */
 
   function import_complete_ldif($srp, $str_attr,$error,$JustModify,$DeleteOldEntries)
   {
@@ -1086,12 +1107,12 @@ class LDAP{
     return (INSERT_OK);
   }
 
-
-  /* Imports a single entry 
-      If $delete is true;  The old entry will be deleted if it exists.
-      if $modify is true;  All variables that are not touched by the new ldif will be kept.
-      if $modify is false; The new ldif overwrites the old entry, and all untouched attributes get lost.
-  */
+  /*! \brief Function to Imports a single entry
+   * 
+   * If $delete is true;  The old entry will be deleted if it exists.
+   * if $modify is true;  All variables that are not touched by the new ldif will be kept.
+   * if $modify is false; The new ldif overwrites the old entry, and all untouched attributes get lost.
+   */
   function import_single_entry($srp, $str_attr,$modify,$delete)
   {
     global $config;
@@ -1262,23 +1283,23 @@ class LDAP{
       $objectclasses = session::global_get("LDAP_CACHE::get_objectclasses");
       return($objectclasses);
     }
-	
-	  # Get base to look for schema 
-	  $sr = @ldap_read ($this->cid, "", "objectClass=*", array("subschemaSubentry"));
-	  $attr = @ldap_get_entries($this->cid,$sr);
-	  if (!isset($attr[0]['subschemasubentry'][0])){
-	    return array();
-	  }
-	
-	  /* Get list of objectclasses and fill array */
-	  $nb= $attr[0]['subschemasubentry'][0];
-	  $objectclasses= array();
-	  $sr= ldap_read ($this->cid, $nb, "objectClass=*", array("objectclasses"));
-	  $attrs= ldap_get_entries($this->cid,$sr);
-	  if (!isset($attrs[0])){
-	    return array();
-	  }
-	  foreach ($attrs[0]['objectclasses'] as $val){
+  
+    # Get base to look for schema 
+    $sr = @ldap_read ($this->cid, "", "objectClass=*", array("subschemaSubentry"));
+    $attr = @ldap_get_entries($this->cid,$sr);
+    if (!isset($attr[0]['subschemasubentry'][0])){
+      return array();
+    }
+  
+    /* Get list of objectclasses and fill array */
+    $nb= $attr[0]['subschemasubentry'][0];
+    $objectclasses= array();
+    $sr= ldap_read ($this->cid, $nb, "objectClass=*", array("objectclasses"));
+    $attrs= ldap_get_entries($this->cid,$sr);
+    if (!isset($attrs[0])){
+      return array();
+    }
+    foreach ($attrs[0]['objectclasses'] as $val){
       if (preg_match('/^[0-9]+$/', $val)){
         continue;
       }
@@ -1328,12 +1349,12 @@ class LDAP{
         }
       }
 
-	  }
+    }
     if(class_available("session")){
       session::global_set("LDAP_CACHE::get_objectclasses",$objectclasses);
     }
 
-	  return $objectclasses;
+    return $objectclasses;
   }
 
 
@@ -1370,6 +1391,9 @@ class LDAP{
   }
 
   /* added by Guido Serra aka Zeph <zeph@purotesto.it> */
+  /*! \brief Function to get cn
+   * 
+   */ 
   function getCn($dn){
     $simple= explode(",", $dn);
 

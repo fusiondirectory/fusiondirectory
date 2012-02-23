@@ -20,11 +20,9 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief Configuration class
- *  \ingroup coreclasses
- *
- * The configuration class, responsible for parsing and querying the
+/*! \brief This class is responsible for parsing and querying the
  * fusiondirectory configuration file.
+ *
  */
 
 class config  {
@@ -48,14 +46,14 @@ class config  {
   /* \brief Configuration data
    *
    * - $data['SERVERS'] contains server informations.
-   * */
+   */
   var $data= array( 'TABS' => array(), 'LOCATIONS' => array(), 'SERVERS' => array(),
       'MAIN' => array(),
       'MENU' => array(), 'SERVICE' => array());
   var $basedir= "";
   var $config_version ="NOT SET";
 
-  /* Keep a copy of the current deparment list */
+  /* Keep a copy of the current department list */
   var $departments= array();
   var $idepartments= array();
   var $adepartments= array();
@@ -70,7 +68,7 @@ class config  {
    *  \param string 'filename' path to the configuration file
    *  \param string 'basedir' base directory
    *
-   * */
+   */
   function config($filename, $basedir= "")
   {
     $this->parser = xml_parser_create();
@@ -92,7 +90,7 @@ class config  {
    * read the last time and reloads it. It uses the file mtime to check
    * weither the file changed or not.
    *
-   * */ 
+   */ 
   function check_and_reload()
   {
     global $ui;
@@ -133,7 +131,7 @@ class config  {
    *  is something wrong with it.
    *
    *  \param string 'filename' The filename of the configuration file.
-   * */
+   */
 
   function parse($filename)
   {
@@ -166,11 +164,9 @@ class config  {
 
   /*! \brief Open xml tag when parsing the xml config
    *
-   * \param string parser
-   * 
-   * \param string tag
-   * 
-   * \param string attrs
+   * \param string 'parser'
+   * \param string 'tag'
+   * \param string 'attrs'
    */
   function tag_open($parser, $tag, $attrs)
   {
@@ -275,9 +271,8 @@ class config  {
   /*! \brief Close xml tag when parsing the xml config
    *
    * 
-   * \param string parser
-   * 
-   * \param string tag
+   * \param string 'parser'
+   * \param string 'tag'
    */
   function tag_close($parser, $tag)
   {
@@ -294,7 +289,7 @@ class config  {
    * This function can be used to get the password associated to 
    * a keyword in the config file
    * 
-   * \param string creds the keyword associated to the password needed
+   * \param string 'creds' the keyword associated to the password needed
    *
    * \return string the password corresponding to the keyword
    */
@@ -329,6 +324,7 @@ class config  {
    * \param boolean sizelimit Weither to impose a sizelimit on the LDAP object or not.
    * Defaults to false. If set to true, the size limit in the configuration
    * file will be used to set the option LDAP_OPT_SIZELIMIT.
+   * 
    * \return ldapMultiplexer object
    */
   function get_ldap_link($sizelimit= FALSE)
@@ -704,7 +700,7 @@ class config  {
    * This function can be used to get the password associated to 
    * a keyword in the config file
    * 
-   * \param string ignore_dn dn of the department
+   * \param string 'ignore_dn' dn of the department
    *
    */
   function get_departments($ignore_dn= "")
@@ -895,7 +891,7 @@ class config  {
    *
    *  This function returns all available Shares defined in this ldap
    *  
-   *  \param boolean listboxEntry If set to TRUE, only name and path are
+   *  \param boolean 'listboxEntry' If set to TRUE, only name and path are
    *  attached to the array. If FALSE, the whole entry will be parsed an atached to the result.
    * 
    *  \return array list of share defined in the current LDAP
@@ -985,7 +981,7 @@ class config  {
    * 
    *  \param string 'value' Key in the given section, which is subject to check
    *
-   *  \return bool true if option set in the config file
+   *  \return bool TRUE if option set in the config file
    */
   function boolValueIsTrue($section, $value)
   {
@@ -1034,11 +1030,9 @@ class config  {
    *  $postcmd = $this->config->search(get_class($this), "POSTCOMMAND", array("menu", "tabs"));
    *  \endcode
    *
-   *  \param string class
-   * 
-   *  \param string value key to search in the configuration data
-   * 
-   *  \param array categories array where the search should run 
+   *  \param string 'class'
+   *  \param string 'value' key to search in the configuration data
+   *  \param array 'categories' array where the search should run 
    * 
    *  \return string the value you asked for or empty
    */
@@ -1074,7 +1068,6 @@ class config  {
    *  then the default is returned.
    *
    *  \param string 'name' the configuration key (case-insensitive)
-   * 
    *  \param string 'default' a default that is returned, if no value is found
    *
    *  \return string the configuration value if found or the default value

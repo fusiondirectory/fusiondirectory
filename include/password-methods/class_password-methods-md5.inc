@@ -20,6 +20,9 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*! \brief This class contains all the functions for md5 password methods
+ *
+ */
 class passwordMethodMd5 extends passwordMethod
 {
   function passwordMethodMd5($config)  

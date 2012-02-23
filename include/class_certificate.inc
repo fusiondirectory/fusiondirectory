@@ -20,11 +20,14 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/* definitions */
-
 /* certificates */
 define("PEM","pem");
 define("DER","der");
+
+/*! \brief This class contains all the function needed to import certificates
+ *
+ */
+
 
 class certificate 
 {
@@ -80,7 +83,7 @@ class certificate
     }else{
       /* Detect certtype, cause there is none specified */      
 
-      /* PEM allways starts with ----BEGIN CERTIFICATE-----*/
+      /* PEM always starts with ----BEGIN CERTIFICATE-----*/
       if(strstr($this->data,"CERTIFICATE"))  {
         $this->type=PEM;
       } else {
