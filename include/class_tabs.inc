@@ -89,7 +89,8 @@ class tabs
 
  
   /*! \brief Reinitializes the tab classes with fresh ldap values.
-             This maybe usefull if for example the apply button was pressed.
+   * 
+   * This maybe usefull if for example the apply button was pressed.
    */ 
   function re_init()
   {
@@ -109,7 +110,9 @@ class tabs
     }
   }
 
-
+  /*! \brief Save the tab(s) contents
+   * 
+   */ 
   function execute()
   {
     /* Ensure that the currently selected tab is valid. */
@@ -138,7 +141,7 @@ class tabs
     $display.= "<tr><td>\n";
 
     /* If multiple edit is enabled for this tab, 
-       we have tho display different templates */
+       we have to display different templates */
     if(!$this->multiple_support_active){
       $display.= $this->by_object[$this->current]->execute();
     }else{
@@ -155,6 +158,7 @@ class tabs
 
     return ($display);
   }
+
 
   function save_object($save_current= FALSE)
   {
@@ -358,9 +362,9 @@ class tabs
     }
   }
 
-  
-  /* Save attributes posted by copy & paste dialog
-   */
+  /*! \brief Save attributes posted by copy & paste dialog
+   * 
+   */   
   function saveCopyDialog()
   {
     foreach ($this->by_object as &$obj){
@@ -370,8 +374,8 @@ class tabs
     }
   }
 
-
-  /* return copy & paste dialog
+  /*! \brief Return copy & paste dialog
+   * 
    */
   function getCopyDialog()
   {
@@ -425,9 +429,10 @@ class tabs
   }
 
  
-  /*!   \brief    Checks if one of the used tab plugins supports multiple edit.
-        @param    boolean Returns TRUE if at least one plugins supports multiple edit. 
-  */
+  /*! \brief Checks if one of the used tab plugins supports multiple edit.
+   * 
+   * \return boolean Returns TRUE if at least one plugins supports multiple edit.
+   */
   function multiple_support_available()
   {
     foreach($this->by_object as $name => $obj){
@@ -439,10 +444,12 @@ class tabs
   }  
 
 
-  /*!   \brief    Enables multiple edit support for the given tab.
-                  All unsupported plugins will be disabled.
-        @param    boolean Returns TRUE if at least one plugin supports multiple edit 
-  */
+  /*! \brief Enables multiple edit support for the given tab.
+   * 
+   * All unsupported plugins will be disabled.
+   * 
+   * \return boolean Returns TRUE if at least one plugin supports multiple edit 
+   */
   function enable_multiple_support()
   {
     if(!$this->multiple_support_available()){
