@@ -20,8 +20,6 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-#define("TEMP_DIR","/var/cache/fusiondirectory/tmp");
-
 class CopyPasteHandler {
 
   var $config;
@@ -46,7 +44,7 @@ class CopyPasteHandler {
   /* Create CP handler  */
   function CopyPasteHandler(&$config)
   {
-    $this->config = &$config;	
+    $this->config = &$config; 
     $this->current= NULL;
     $this->queue  = array();
     $this->setvar_array = array();
