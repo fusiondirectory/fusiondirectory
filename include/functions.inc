@@ -2608,33 +2608,6 @@ function array_differs($src, $dst)
 }
 
 
-function saveFilter($a_filter, $values)
-{
-  if (isset($_POST['regexit'])){
-    $a_filter["regex"]= $_POST['regexit'];
-
-    foreach($values as $type){
-      if (isset($_POST[$type])) {
-        $a_filter[$type]= "checked";
-      } else {
-        $a_filter[$type]= "";
-      }
-    }
-  }
-
-  /* React on alphabet links if needed */
-  if (isset($_GET['search'])){
-    $s= mb_substr(validate($_GET['search']), 0, 1, "UTF8")."*";
-    if ($s == "**"){
-      $s= "*";
-    }
-    $a_filter['regex']= $s;
-  }
-
-  return ($a_filter);
-}
-
-
 /*! \brief Escape all LDAP filter relevant characters
  * 
  * \param string input string wehre we should add \ before special caracters
