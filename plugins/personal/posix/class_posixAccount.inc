@@ -1441,37 +1441,6 @@ class posixAccount extends plugin
     return($this->execute());
   }
 
-
-  static function plInfo()
-  {
-    return (array(
-          "plDescription"     => _("POSIX account"),
-          "plSelfModify"      => TRUE,
-          "plDepends"         => array("user"),
-          "plPriority"        => 2,
-          "plSection"         => array("personal" => _("My account")),
-          "plCategory"        => array("users"),
-          "plOptions"         => array(),
-
-          "plProvidedAcls"  => array(
-
-            "homeDirectory"       =>  _("Home directory"), 
-            "loginShell"          =>  _("Shell"),
-            "uidNumber"           =>  _("User ID"),
-            "gidNumber"           =>  _("Group ID"),
-
-            "mustchangepassword"=>  _("Force password change on login"),
-            "shadowMin"           =>  _("Shadow min"),
-            "shadowMax"           =>  _("Shadow max"),
-            "shadowWarning"       =>  _("Shadow warning"),
-            "shadowInactive"      =>  _("Shadow inactive"),
-            "shadowExpire"        =>  _("Shadow expire"),
-            "sshPublickey"        =>  _("Public SSH key"),
-            "trustModel"          =>  _("System trust model")))
-            );
-  }
-
-
   /* Return selected values for multiple edit */
   function get_multi_edit_values()
   {
@@ -1684,6 +1653,36 @@ class posixAccount extends plugin
     plugin::set_multi_edit_values($attrs);
     $this->groupMembership = $groups;
   }
+  
+  static function plInfo()
+  {
+    return (array(
+          "plDescription"     => _("POSIX account"),
+          "plSelfModify"      => TRUE,
+          "plDepends"         => array("user"),
+          "plPriority"        => 2,
+          "plSection"         => array("personal" => _("My account")),
+          "plCategory"        => array("users"),
+          "plOptions"         => array(),
+
+          "plProvidedAcls"  => array(
+
+            "homeDirectory"       =>  _("Home directory"), 
+            "loginShell"          =>  _("Shell"),
+            "uidNumber"           =>  _("User ID"),
+            "gidNumber"           =>  _("Group ID"),
+
+            "mustchangepassword"=>  _("Force password change on login"),
+            "shadowMin"           =>  _("Shadow min"),
+            "shadowMax"           =>  _("Shadow max"),
+            "shadowWarning"       =>  _("Shadow warning"),
+            "shadowInactive"      =>  _("Shadow inactive"),
+            "shadowExpire"        =>  _("Shadow expire"),
+            "sshPublickey"        =>  _("Public SSH key"),
+            "trustModel"          =>  _("System trust model")))
+            );
+  }
+
 }
 
 // vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
