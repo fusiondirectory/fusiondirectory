@@ -2645,15 +2645,6 @@ function normalizeLdap($input)
   return (addcslashes($input, '()|'));
 }
 
-/*! \brief Test weither we are allowed to read the object */
-function obj_is_readable($dn, $object, $attribute)
-{
-  global $ui;
-
-  return preg_match('/r/', $ui->get_permissions($dn, $object, $attribute));
-}
-
-
 /*! \brief Test weither we are allowed to change the object
  * 
  * \param string 'dn' the DN of the object to check
