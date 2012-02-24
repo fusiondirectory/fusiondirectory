@@ -1491,7 +1491,7 @@ function get_ou($name)
                 "printerRDN"     => "ou=printers,ou=systems,",
                 "phoneRDN"       => "ou=phones,ou=systems,",
                 "componentRDN"   => "ou=netdevices,ou=systems,",
-                "sambaMachineAccountRDN"   => "ou=winstation,",
+                "sambaMachineAccountRDN"   => "ou=computers,",
 
                 "faxBlocklistRDN"   => "ou=gofax,ou=systems,",
                 "systemIncomingRDN"    => "ou=incoming,",
