@@ -2645,20 +2645,6 @@ function normalizeLdap($input)
   return (addcslashes($input, '()|'));
 }
 
-
-/*! \brief Return the FusionDirectory base directory
- * 
- * \return Return the base of the directory
- * 
- */
-function get_base_dir()
-{
-  global $BASE_DIR;
-
-  return $BASE_DIR;
-}
-
-
 /*! \brief Test weither we are allowed to read the object */
 function obj_is_readable($dn, $object, $attribute)
 {
