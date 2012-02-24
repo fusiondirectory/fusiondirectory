@@ -20,7 +20,9 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief ACL management plugin */ 
+/*! \brief This class contains all the function needed to manage acl
+ * 
+ */ 
 class acl extends plugin
 {
   /* Definitions */

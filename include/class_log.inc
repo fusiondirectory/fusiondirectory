@@ -20,13 +20,12 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief   The logging base class
-  \author  Fabian Hickert <hickert@gonicus.de>
-  \version 2.6
-  \date    11.04.2007
-
-  This is the base class for the FusionDirectory logging functionality.
-  All logging should lead to this class. 
+/*! \brief This is the base class for the FusionDirectory logging functionality.
+ * All logging should lead to this class. 
+ * 
+ * \author  Fabian Hickert <hickert@gonicus.de>
+ * \version 2.6
+ * \date    11.04.2007
  */
 class log {
 

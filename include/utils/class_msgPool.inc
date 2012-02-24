@@ -28,7 +28,9 @@ define ("LDAP_DEL",    4);
 define ("LDAP_SEARCH", 5);
 define ("LDAP_AUTH",   6);
 
-/*! \brief Some common needed messages */ 
+/*! \brief This class contains all the messages for the various actions 
+ * 
+ */ 
 class msgPool
 {
 

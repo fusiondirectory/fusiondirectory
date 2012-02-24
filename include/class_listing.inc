@@ -20,9 +20,7 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This is the list class
- *
- * This class contains all the function needed to make the list 
+/*! \brief This class contains all the function needed to make the list 
  * that show the objects inside FusionDirectory 
  */
 class listing {

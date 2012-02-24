@@ -28,9 +28,7 @@ define("NO_FILE_UPLOADED",10003);
 define("INSERT_OK",10000);
 define("SPECIALS_OVERRIDE", TRUE);
 
-/*! \brief This is the ldap class
- *
- * This class contains all ldap function needed to make 
+/*! \brief This class contains all ldap function needed to make 
  * ldap operations easy
  */
 

@@ -20,9 +20,7 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This is the Snapshot Handler class
- *
- * This class contains all the function needed to handle
+/*! \brief This class contains all the function needed to handle
  * the snapshot functionality
  */
 class SnapshotHandler {

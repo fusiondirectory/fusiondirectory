@@ -20,7 +20,7 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief Test functions
+/*! \brief This class provides various test functions
  *
  * This class provides various test functions. It enables to check
  * if a given value is:

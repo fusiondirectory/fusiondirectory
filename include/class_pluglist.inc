@@ -20,9 +20,7 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This is the plugin list class
- *
- * This class contains all the function needed to make list 
+/*! \brief This class contains all the function needed to make list 
  * of plugin and manage them
  */
 class pluglist {

@@ -27,10 +27,8 @@ define("CONFIRM_DIALOG"   , 10004);
 define("OK_CANCEL_DIALOG" , 10005);
 define("FATAL_ERROR_DIALOG" , 10006);
 
-/*! \brief This is the message dialog class
- *
- * This class contains all the function needed to make 
- * messages dialogs
+/*! \brief This class contains all the function needed to make messages
+ *  dialogs
  */
 
 class msg_dialog

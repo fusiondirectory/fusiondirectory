@@ -24,9 +24,7 @@ define ('LIST_NORMAL', 0);
 define ('LIST_MARKED', 1);
 define ('LIST_DISABLED', 2);
 
-/*! \brief This is the Listing class
- *
- * This class contains all the function needed to make list 
+/*! \brief This class contains all the function needed to make list 
  * and management them
  */
 class sortableListing {

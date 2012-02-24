@@ -22,10 +22,8 @@
 
 require_once('jsonRPCClient.php');
 
-/*! \brief This is the argonaut support class
- *
- * This class contains all the function needed by the argonaut deplyoment system
- * Inside FusionDirectory
+/*! \brief This class contains all the function needed by the argonaut
+ * deployment system
  */
 class supportDaemon
 {

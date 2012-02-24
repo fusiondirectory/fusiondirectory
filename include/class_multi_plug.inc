@@ -109,16 +109,16 @@ Using this class:
   
 */
 
-
-/*! \brief   Handles multiple edits for a given set of dns.
-    \author  Fabian Hickert
-    \version 1.01
-    \date    2007/12/07
-
-    This class edits multiple tab objects at once. 
-    1. There is a dummy tab object initialized that collects the user input.
-    2. All given objects specified by '$dn' will be initialized and the collected
-     data from the dummy object will be populated to them.
+/*! \brief   This class edits multiple tab objects at once
+ *
+ * \author  Fabian Hickert
+ * \version 1.01
+ * \date    2007/12/07
+ * 
+ * This class edits multiple tab objects at once. 
+ * 1. There is a dummy tab object initialized that collects the user input.
+ * 2. All given objects specified by '$dn' will be initialized and the collected
+ * data from the dummy object will be populated to them.
  */
 class multi_plug
 {

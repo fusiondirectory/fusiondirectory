@@ -20,10 +20,8 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This is the iterator of the listing class
- *
- * This class contains all the function needed to make list 
- * go up, go donw , back , next. etc...
+/*! \brief This class contains all the function needed to sort list 
+ * go up, go down , back , next. etc...
  */
 class listingSortIterator implements Iterator {
   private $data;

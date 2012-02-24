@@ -21,8 +21,7 @@ along with JSON-RPC PHP; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-/**
- * The object of this class are generic jsonRPC 1.0 clients
+/*! \brief The object of this class are generic jsonRPC 1.0 clients
  * http://json-rpc.org/wiki/specification
  *
  * @author sergio <jsonrpcphp@inservibile.org>

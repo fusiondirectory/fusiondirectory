@@ -20,9 +20,7 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This is the Snapshot dialog class
- *
- * This class contains all the function needed to make dialogs 
+/*! \brief This class contains all the function needed to make dialogs 
  * for the snapshot functionality
  */
 class SnapShotDialog extends plugin 
