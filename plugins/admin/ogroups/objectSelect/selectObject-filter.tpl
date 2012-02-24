@@ -14,6 +14,7 @@
 
 {$SERVER}&nbsp;<LABEL for='SERVER'>{t}Show server{/t}</LABEL><br>
 {$WORKSTATION}&nbsp;<LABEL for='WORKSTATION'>{t}Show workstation{/t}</LABEL><br>
+{$WINSTATION}&nbsp;<LABEL for='WINSTATION'>{t}Show Windows PC{/t}</LABEL><br>
 {$TERMINAL}&nbsp;<LABEL for='TERMINAL'>{t}Show terminal{/t}</LABEL><br>
 
 {$PRINTER}&nbsp;<LABEL for='PRINTER'>{t}Show printer{/t}</LABEL><br>

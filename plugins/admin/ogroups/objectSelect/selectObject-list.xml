@@ -36,6 +36,14 @@
     </objectType>
 
     <objectType>
+      <label>Winstation</label>
+      <objectClass>sambaSamAccount</objectClass>
+      <category>winstation</category>
+      <class>wingeneric</class>
+      <image>plugins/systems/images/select_winstation.png</image>
+    </objectType>
+
+    <objectType>
       <label>Terminal</label>
       <objectClass>gotoTerminal</objectClass>
       <category>terminal</category>

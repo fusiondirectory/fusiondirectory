@@ -35,6 +35,7 @@ class objectSelect extends management
         get_ou("groupRDN"),
         get_ou("terminalRDN"),
         get_ou("workstationRDN"),
+        get_ou("sambaMachineAccountRDN"),
         get_ou("serverRDN"),
         get_ou("printerRDN"),
         get_ou("phoneRDN"));
