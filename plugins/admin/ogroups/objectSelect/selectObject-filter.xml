@@ -102,7 +102,7 @@
     <tag>WINSTATION</tag>
     <default></default>
     <unset></unset>
-    <set>(objectClass=sambaSamAccount)</set>
+    <set>(&amp;(objectClass=sambaSamAccount)(objectClass=Account))</set>
   </element>
 
   <element>
