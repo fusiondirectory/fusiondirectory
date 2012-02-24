@@ -256,13 +256,6 @@ class tabs
     return($display);
   }
 
-
-  function set_acl($acl)
-  {
-    /* Look for attribute in ACL */
-    trigger_error("Don't use tabs::set_acl() its obsolete.");
-  }
-
   function delete()
   {
     /* Check if all plugins will ACK for deletion */
