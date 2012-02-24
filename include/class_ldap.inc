@@ -948,29 +948,6 @@ class LDAP{
   }
 
 
-  function gen_xls ($srp, $dn, $filter= "(objectClass=*)", $attributes= array('*'), $recursive= TRUE,$r_array=0)
-  {
-    $display= array();
-
-      $this->cd($dn);
-      $this->search($srp, "$filter");
-
-      $i=0;
-      while ($attrs= $this->fetch($srp)){
-        $j=0;
-
-        foreach ($attributes as $at){
-          $display[$i][$j]= $this->get_attribute($attrs['dn'], $at,$r_array);
-          $j++;
-        }
-
-        $i++;
-      }
-
-    return ($display);
-  }
-    
-
   function dn_exists($dn)
   {
     return @ldap_list($this->cid, LDAP::fix($dn), "(objectClass=*)", array("objectClass"));

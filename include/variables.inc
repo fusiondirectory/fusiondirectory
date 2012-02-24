@@ -65,9 +65,6 @@ define ("VACATION_DIR", "/var/cache/fusiondirectory/vacation/"); /*! Define Fusi
 /* php library path */
 define ("PHP_DIR", "/usr/share/php"); /*! Define php directory */
 
-/* excel library path */
-define ("EXCEL", "/include/utils/excel"); /*! Define excel library path */
-
 /* fpdf library path */ 
 define("FPDF","/usr/share/php/fpdf/fpdf.php"); /*! Define fpdf library path */
 

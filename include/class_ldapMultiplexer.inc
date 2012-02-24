@@ -38,7 +38,7 @@ class ldapMultiplexer {
  
   public function __call($methodName, $parameters) {
     /* Add resource pointer if the mentioned methods are used */
-    if (preg_match('/^(search|ls|cat|fetch|clearResult|resetResult|count|getDN|recursive_remove|rmdir_recursive|gen_xls|create_missing_trees|import_single_entry|import_complete_ldif)$/', $methodName)){
+    if (preg_match('/^(search|ls|cat|fetch|clearResult|resetResult|count|getDN|recursive_remove|rmdir_recursive|create_missing_trees|import_single_entry|import_complete_ldif)$/', $methodName)){
       array_unshift($parameters, $this->sr);
     }
 
