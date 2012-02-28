@@ -52,7 +52,8 @@ class posixAccount extends plugin
   var $gosaDefaultPrinter= "";
   var $accessTo= array();
   var $trustModel= "";
-
+  var $host= array();
+  
   var $glist=array();
   var $status= "";
   var $loginShellList= array();
@@ -93,7 +94,7 @@ class posixAccount extends plugin
 
   var $attributes     = array("homeDirectory", "loginShell", "uidNumber", "gidNumber", "gecos",
       "shadowMin", "shadowMax", "shadowWarning", "shadowInactive", "shadowLastChange",
-      "shadowExpire", "gosaDefaultPrinter", "uid","accessTo","trustModel", "gotoLastSystemLogin");
+      "shadowExpire", "gosaDefaultPrinter", "uid", "host", "gotoLastSystemLogin");
 
   var $objectclasses= array("posixAccount", "shadowAccount");
 
@@ -139,21 +140,33 @@ class posixAccount extends plugin
       }
 
       /* Is this account a trustAccount? */
-      if ($this->is_account && isset($this->attrs['trustModel'])){
-        $this->trustModel= $this->attrs['trustModel'][0];
+      if ($this->is_account && isset($this->attrs['host'])){
+        
+        if ($this->attrs['host'][0] == "*") {
+          $this->trustModel= "fullaccess";
+        } else {
+          $this->trustModel= "byhost";
+          $this->accessTo = array(); 
+            if ($this->is_account && isset($this->attrs['host'])){
+              for ($i= 0; $i<$this->attrs['host']['count']; $i++){
+                $tmp= $this->attrs['host'][$i];
+                $this->accessTo[$tmp]= $tmp;
+              }
+            }
+        }
         $this->was_trust_account= TRUE;
       } else {
         $this->was_trust_account= FALSE;
         $this->trustModel= "";
       }
 
-      $this->accessTo = array(); 
-      if ($this->is_account && isset($this->attrs['accessTo'])){
-        for ($i= 0; $i<$this->attrs['accessTo']['count']; $i++){
-          $tmp= $this->attrs['accessTo'][$i];
+/*      $this->accessTo = array(); 
+      if ($this->is_account && isset($this->attrs['host'])){
+        for ($i= 0; $i<$this->attrs['host']['count']; $i++){
+          $tmp= $this->attrs['host'][$i];
           $this->accessTo[$tmp]= $tmp;
         }
-      }
+      }*/
       $this->initially_was_account= $this->is_account;
 
       /* Fill group */
@@ -615,7 +628,7 @@ class posixAccount extends plugin
 
     /* Keep uid, because we need it for authentification! */
     unset($this->attrs['uid']);
-    unset($this->attrs['trustModel']);
+    unset($this->attrs['trustModel']); /* FIXME should be host ?? */
 
     @DEBUG (DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__,
     /* include global link_info */
@@ -906,25 +919,29 @@ class posixAccount extends plugin
     /* Trust accounts */
     $objectclasses= array();
     foreach ($this->attrs['objectClass'] as $key => $class){
-      if (preg_match('/trustAccount/i', $class)){
+      /*if (preg_match('/trustAccount/i', $class)){*/
+      if (preg_match('/hostObject/i', $class)){
         continue;
       }
       $objectclasses[]= $this->attrs['objectClass'][$key];
     }
     $this->attrs['objectClass']= $objectclasses;
     if ($this->trustModel != ""){
-      $this->attrs['objectClass'][]= "trustAccount";
-      $this->attrs['trustModel']= $this->trustModel;
-      $this->attrs['accessTo']= array();
-      if ($this->trustModel == "byhost"){
-        foreach ($this->accessTo as $host){
-          $this->attrs['accessTo'][]= $host;
+      $this->attrs['objectClass'][]= "hostObject";
+      $this->attrs['host']= array();
+      
+      if ($this->trustModel == "fullaccess"){
+        $this->attrs['host'][0]= "*";
+      } else {
+        if ($this->trustModel == "byhost"){
+          foreach ($this->accessTo as $hosts){
+            $this->attrs['host'][]= $hosts;
+          }
         }
       }
     } else {
       if ($this->was_trust_account){
-        $this->attrs['accessTo']= array();
-        $this->attrs['trustModel']= array();
+        $this->attrs['host']= array();
       }
     }
 
