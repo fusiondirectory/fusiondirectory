@@ -56,7 +56,7 @@ if ($search !~ /# numEntries: 1/m){
   system ($full_cmd);
 }
 
-my @schemas = ("gosystem","gofon","gofax","goto","goserver","gosa-samba3","ldapns");
+my @schemas = ("gosystem","gofon","gofax","goto","goserver","goto-mime","gosa-samba3","ldapns");
 
 foreach my $schema (@schemas) {
     $full_cmd = $search_cmd.$schema;
