@@ -41,6 +41,11 @@ my $debug = 0;
 
 # Process command-line
 
+if(@ARGV<=0) {
+  usage();
+  exit(-1);
+}
+
 while ($ARGV[0] =~ /^-/) {
   my $arg = shift;
   if ($arg eq "-h") {
@@ -57,12 +62,6 @@ while ($ARGV[0] =~ /^-/) {
     usage();
     exit(-1);
   }
-}
-
-if(@ARGV<=0) {
-    print STDERR "No file given\n";
-    usage();
-    exit(-1);
 }
 
 $cn = $ARGV[0];
