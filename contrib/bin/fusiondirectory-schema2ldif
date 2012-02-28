@@ -178,7 +178,7 @@ while (<>) {
         $_ = $';
       }
 
-      if ($origin != 'user defined') {
+      if ($origin ne 'user defined') {
         # find X-ORIGIN clause in the input
       
         if (/X\-ORIGIN\s+\'([^\'*])\'/) {
