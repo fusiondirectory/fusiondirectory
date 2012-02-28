@@ -55,7 +55,8 @@ class ogroup extends plugin
   var $accessTo= array();
   var $trustModel= "";
   var $trustSelect = FALSE;
-
+  var $host= array();
+  
   var $was_trust_account= FALSE;
   var $baseSelector;
 
@@ -64,7 +65,7 @@ class ogroup extends plugin
   var $used_workstations = array();
 
   /* attribute list for save action */
-  var $attributes= array("cn", "description", "gosaGroupObjects","member","accessTo","trustModel");
+  var $attributes= array("cn", "description", "gosaGroupObjects","member","host");
   var $objectclasses= array("top", "gosaGroupOfNames");
 
   function ogroup (&$config, $dn= NULL)
@@ -123,21 +124,25 @@ class ogroup extends plugin
     } else {
       $this->base= preg_replace("/^[^,]+,".preg_quote(get_ou("ogroupRDN"), '/')."/i","",$this->dn);
 
-      /* Is this account a trustAccount? */
-      if ($this->is_account && isset($this->attrs['trustModel'])){
-        $this->trustModel= $this->attrs['trustModel'][0];
+     /* Is this account a trustAccount? */
+      if ($this->is_account && isset($this->attrs['host'])){
+        
+        if ($this->attrs['host'][0] == "*") {
+          $this->trustModel= "fullaccess";
+        } else {
+          $this->trustModel= "byhost";
+          $this->accessTo = array(); 
+            if ($this->is_account && isset($this->attrs['host'])){
+              for ($i= 0; $i<$this->attrs['host']['count']; $i++){
+                $tmp= $this->attrs['host'][$i];
+                $this->accessTo[$tmp]= $tmp;
+              }
+            }
+        }
         $this->was_trust_account= TRUE;
       } else {
         $this->was_trust_account= FALSE;
         $this->trustModel= "";
-      }
-
-      $this->accessTo = array();
-      if ($this->is_account && isset($this->attrs['accessTo'])){
-        for ($i= 0; $i<$this->attrs['accessTo']['count']; $i++){
-          $tmp= $this->attrs['accessTo'][$i];
-          $this->accessTo[$tmp]= $tmp;
-        }
       }
     }
 
@@ -841,29 +846,35 @@ class ogroup extends plugin
     /******
       Trust accounts 
      ******/
+    /* Trust accounts */
     $objectclasses= array();
     foreach ($this->attrs['objectClass'] as $key => $class){
-      if (preg_match('/trustAccount/i', $class)){
+      /*if (preg_match('/trustAccount/i', $class)){*/
+      if (preg_match('/hostObject/i', $class)){
         continue;
       }
       $objectclasses[]= $this->attrs['objectClass'][$key];
     }
     $this->attrs['objectClass']= $objectclasses;
     if ($this->trustModel != ""){
-      $this->attrs['objectClass'][]= "trustAccount";
-      $this->attrs['trustModel']= $this->trustModel;
-      $this->attrs['accessTo']= array();
-      if ($this->trustModel == "byhost"){
-        foreach ($this->accessTo as $host){
-          $this->attrs['accessTo'][]= $host;
+      $this->attrs['objectClass'][]= "hostObject";
+      $this->attrs['host']= array();
+      
+      if ($this->trustModel == "fullaccess"){
+        $this->attrs['host'][0]= "*";
+      } else {
+        if ($this->trustModel == "byhost"){
+          foreach ($this->accessTo as $hosts){
+            $this->attrs['host'][]= $hosts;
+          }
         }
       }
     } else {
       if ($this->was_trust_account){
-        $this->attrs['accessTo']= array();
-        $this->attrs['trustModel']= array();
+        $this->attrs['host']= array();
       }
     }
+
 
     /******
       Ende - Trust accounts 
