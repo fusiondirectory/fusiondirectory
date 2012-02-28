@@ -698,7 +698,7 @@ class ogroup extends plugin
           "D" => "gosaDepartment",
           "S" => "goServer",
           "W" => "gotoWorkstation",
-          "O" => "wingeneric",
+          "O" => "sambaSamAccount",
           "T" => "gotoTerminal",
           "F" => "goFonHardware",
           "P" => "gotoPrinter") as $index => $class){
