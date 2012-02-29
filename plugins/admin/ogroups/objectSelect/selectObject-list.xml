@@ -83,6 +83,13 @@
       <image>plugins/groups/images/groups.png</image>
     </objectType>
 
+    <objectType>
+      <label>Application</label>
+      <objectClass>gosaApplication</objectClass>
+      <category>applications</category>
+      <class>application</class>
+      <image>plugins/ogroups/images/application.png</image>
+    </objectType>
   </definition>
 
   <table>

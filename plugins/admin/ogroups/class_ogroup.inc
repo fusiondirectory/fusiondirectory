@@ -509,7 +509,9 @@ class ogroup extends plugin
     $p_f= array("accounts"=> array("OBJ"=>"user", "CLASS"=>"gosaAccount"    ,
           "DN"=> get_people_ou()           ,"ACL" => "users"), 
         "groups"          => array("OBJ"=>"group", "CLASS"=>"posixGroup"     ,
-          "DN"=> get_groups_ou('ogroupRDN') ,"ACL" => "groups"), 
+          "DN"=> get_groups_ou('ogroupRDN') ,"ACL" => "groups"),
+        "applications"    => array("OBJ"=>"application", "CLASS"=>"gosaApplication",
+          "DN"=> get_ou('applicationRDN')   ,"ACL" => "application"),
         "departments"     => array("OBJ"=>"department", "CLASS"=>"gosaDepartment" ,
           "DN"=> ""                        ,"ACL" => "department"), 
         "servers"         => array("OBJ"=>"servgeneric", "CLASS"=>"goServer"       ,
@@ -528,10 +530,10 @@ class ogroup extends plugin
 
     /* Allow searching for applications, if we are not using release managed applications 
       */
-    if(!$this->IsReleaseManagementActivated()){
+    /*if(!$this->IsReleaseManagementActivated()){
       $p_f[      "applications"]    = array("OBJ"=>"application", "CLASS"=>"gosaApplication",
           "DN"=> get_ou('applicationRDN')   ,"ACL" => "application"); 
-    }
+    }*/
            
     /*###########
       Perform search for selected objectClasses & regex to fill list with objects   

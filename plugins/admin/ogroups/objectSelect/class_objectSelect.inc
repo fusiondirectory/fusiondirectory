@@ -33,6 +33,7 @@ class objectSelect extends management
     $this->storagePoints = array(
         get_ou("userRDN"), 
         get_ou("groupRDN"),
+        get_ou("applicationRDN"),
         get_ou("terminalRDN"),
         get_ou("workstationRDN"),
         get_ou("sambaMachineAccountRDN"),

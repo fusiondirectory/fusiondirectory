@@ -10,7 +10,7 @@
   <search>
     <query>
       <backend>LDAPBlacklist</backend>
-      <filter>(&amp;(| $USER $GROUP $SERVER $WORKSTATION $WINSTATION $TERMINAL $PRINTER $PHONE) $NAME)</filter>
+      <filter>(&amp;(| $USER $GROUP $APPLICATION $SERVER $WORKSTATION $WINSTATION $TERMINAL $PRINTER $PHONE) $NAME)</filter>
       <attribute>dn</attribute>
       <attribute>objectClass</attribute>
       <attribute>cn</attribute>
@@ -81,6 +81,14 @@
     <set>(objectClass=gosaDepartment)</set>
   </element>
 
+  <element>
+    <type>checkbox</type>
+    <tag>APPLICATION</tag>
+    <default></default>
+    <unset></unset>
+    <set>(objectClass=gosaApplication)</set>
+  </element>
+  
   <element>
     <type>checkbox</type>
     <tag>SERVER</tag>
