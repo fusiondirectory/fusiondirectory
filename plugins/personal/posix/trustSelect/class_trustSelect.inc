@@ -31,7 +31,7 @@ class trustSelect extends management
     $this->config = $config;
     $this->ui = $ui;
    
-    $this->storagePoints = array(get_ou("workstationRDN"),get_ou("terminalRDN"),get_ou("serverRDN"),);
+    $this->storagePoints = array(get_ou("workstationRDN"),get_ou("terminalRDN"),get_ou("serverRDN"),get_ou("sambaMachineAccountRDN"),);
  
 #    // Build filter
 #    if (session::global_is_set(get_class($this)."_filter")){
