@@ -121,8 +121,8 @@ class password extends plugin
           $message[] = _("The password used as new and current are too similar.");
       }elseif($check_length && (strlen($new_password) < $length)){
           $message[] = _("The password used as new is to short.");
-      #}elseif(!passwordMethod::is_harmless($new_password)){
-       #   $message[] = _("The password contains possibly problematic Unicode characters!");
+      }elseif(!passwordMethod::is_harmless($new_password)){
+          $message[] = _("The password contains possibly problematic Unicode characters!");
       }
 
       /* Call external password quality hook ?*/

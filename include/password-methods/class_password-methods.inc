@@ -320,6 +320,23 @@ class passwordMethod
     return($this);
   }
 
+  /*! \brief Test for problematic unicode caracters in password
+   *  This can be activated with the keyword strictPasswordRules in the 
+   *  fusiondirectory.conf             
+   */   
+  static function is_harmless($password)
+  {
+    global $config;
+
+    if ($config->get_cfg_value("strictPasswordRules") == "true") {
+      // Do we have UTF8 characters in the password?
+      return ($password == utf8_decode($password));
+    }
+
+    return(true);
+  }
+
+
   static function getPasswordProposal($config)
   {
       if($config->get_cfg_value('passwordProposalHook','') != ''){
