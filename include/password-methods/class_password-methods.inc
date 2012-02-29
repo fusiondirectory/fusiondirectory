@@ -70,7 +70,12 @@ class passwordMethod
     return(preg_match("/^[^\}]*+\}!/",$pwd));
   }
 
-
+  /*! \brief       Locks an account (gosaAccount) by added a '!' as prefix to the password hashes.
+   *               This makes logins impossible, due to the fact that the hash becomes invalid.
+   *                 userPassword: {SHA}!q02NKl9IChNwZEAJxzRdmB6E
+   *                 sambaLMPassword: !EBD223B61F8C259AD3B435B51404EE
+   *                 sambaNTPassword: !98BB35737013AAF181D0FE9FDA09E
+   */
   function lock_account($config,$dn = "")
   {
     if(!$this->lockable) return FALSE;
@@ -117,7 +122,9 @@ class passwordMethod
     return(FALSE);
   }
 
-
+  /*! \brief       Unlocks an account (gosaAccount) which was locked by 'lock_account()'.
+   *               For details about the locking mechanism see 'lock_account()'.
+   */      
   function unlock_account($config,$dn = "")
   {
     if(!$this->lockable) return FALSE;
