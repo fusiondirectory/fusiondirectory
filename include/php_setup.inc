@@ -283,7 +283,7 @@ ini_set("register_globals",0);
 ini_set("track_vars",1);
 ini_set("display_errors",1);
 ini_set("report_memleaks",1);
-ini_set("include_path",".:$BASE_DIR/include:$BASE_DIR/EXCEL:PHP_DIR");
+ini_set("include_path",".:$BASE_DIR/include:PHP_DIR");
 
 /* Do smarty setup */
 
