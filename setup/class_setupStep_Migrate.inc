@@ -180,7 +180,7 @@ class Step_Migrate extends setup_step
     $this->search_outside_groups();
     $this->check_organizationalUnits();
 
-    $this->checks['outside_winstations']['TITLE']     = _("Checking for windows workstations outside the winstation tree");
+    $this->checks['outside_winstations']['TITLE']     = _("Checking for windows workstations outside the computers tree");
     $this->checks['outside_winstations']['STATUS']    = FALSE;
     $this->checks['outside_winstations']['STATUS_MSG']= "";
     $this->checks['outside_winstations']['ERROR_MSG'] = "";
@@ -322,7 +322,7 @@ class Step_Migrate extends setup_step
   }
 
 
-  /* Search for winstations outside the winstation ou 
+  /* Search for winstations outside the computers ou 
    */
   function search_outside_winstations()
   {
@@ -340,7 +340,7 @@ class Step_Migrate extends setup_step
     if($cv['generic_settings']['wws_ou_active']) {
       $winstation_ou = $cv['generic_settings']['wws_ou'];
     }else{
-      $winstation_ou = "ou=winstations";
+      $winstation_ou = "ou=computers";
     }
 
     if($cv['samba_version'] == 3){
@@ -371,7 +371,7 @@ class Step_Migrate extends setup_step
       $this->checks['outside_winstations']['STATUS']    = FALSE;
       $this->checks['outside_winstations']['STATUS_MSG']= _("Failed");
       $this->checks['outside_winstations']['ERROR_MSG'] = 
-        sprintf(_("Found %s winstations outside the predefined winstation department ou '%s'."),count($this->outside_winstations),$winstation_ou);
+        sprintf(_("Found %s winstations outside the predefined computers department ou '%s'."),count($this->outside_winstations),$winstation_ou);
       $this->checks['outside_winstations']['ERROR_MSG'].= "<input type='submit' name='outside_winstations_dialog' value='"._("Migrate")."...'>";
       return(false);
     }else{
@@ -1373,7 +1373,7 @@ class Step_Migrate extends setup_step
     }
 
     /*************
-     * Winstations outside the group ou 
+     * Winstations outside the computers ou 
      *************/
     
     if(isset($_POST['outside_winstations_dialog_cancel'])){
