@@ -2283,7 +2283,7 @@ class Step_Migrate extends setup_step
     if($cv['generic_settings']['wws_ou_active']) {
       $winstation_ou = $cv['generic_settings']['wws_ou'];
     }else{
-      $winstation_ou = "ou=winstations";
+      $winstation_ou = "ou=computers";
     }
 
     $ldap->cd($cv['base']);
