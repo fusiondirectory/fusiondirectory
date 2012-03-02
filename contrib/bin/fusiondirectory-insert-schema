@@ -52,7 +52,7 @@ my $search = `$full_cmd`;
 # add the samba3 schema if it does not already exists in LDAP tree
 if ($search !~ /# numEntries: 1/m){
   $full_cmd = $add_cmd.$path."/samba.ldif";
-  say "executing '$full_cmd'";
+  print "executing '$full_cmd'";
   system ($full_cmd);
 }
 
@@ -66,7 +66,7 @@ foreach my $schema (@schemas) {
     # if the schema doesn't already exists in the LDAP server, adding it
     if ($search !~ /# numEntries: 1/m){
       $full_cmd = $add_cmd.$path."/".$schema.".ldif";
-      say "executing '$full_cmd'";
+      print "executing '$full_cmd'";
       system($full_cmd);
     }
 }
