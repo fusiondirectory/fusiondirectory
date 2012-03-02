@@ -96,7 +96,7 @@ class LDAP{
    * /   => SL                                                                  
    * \22 => DQ
    * \endcode
-   */                                                                  */
+   */
   static function convert($dn)
   {
     if (SPECIALS_OVERRIDE == TRUE){
@@ -116,7 +116,7 @@ class LDAP{
  * to their original values. See "convert" for more information. 
  * ',' characters are always expanded to \, (not \2C), since all tested LDAP servers
  * seem to take it the correct way.
- */                                  */
+ */
   static function fix($dn)
   {
     if (SPECIALS_OVERRIDE == TRUE){
