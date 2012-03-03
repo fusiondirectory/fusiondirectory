@@ -3658,6 +3658,27 @@ function get_next_id_traditional($attrib, $dn)
     return($val);
   }
 
+/*! \brief Sort multidimensional arrays for key 'text'
+ * 
+ * \param string 'val1'
+ * \param string 'val2'
+ * 
+ * \return Return -1 if val2 > val1, 0 if equal, 1 if val1 > val2 
+ * 
+ */
+function sort_list($val1, $val2)
+{
+  $v1= strtolower($val1['text']);
+  $v2= strtolower($val2['text']);
+  if ($v1 > $v2){
+    return 1;
+  }
+  if ($v1 < $v2){
+    return -1;
+  }
+  return 0;
+}
+
 /* Mark the occurance of a string with a span */
 function mark($needle, $haystack, $ignorecase= true)
 {

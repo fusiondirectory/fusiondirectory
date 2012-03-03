@@ -20,20 +20,6 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/* Sort multidimensional arrays for key 'text' */
-function sort_list($val1, $val2)
-{
-  $v1= strtolower($val1['text']);
-  $v2= strtolower($val2['text']);
-  if ($v1 > $v2){
-    return 1;
-  }
-  if ($v1 < $v2){
-    return -1;
-  }
-  return 0;
-}
-
 
 class ogroup extends plugin
 {
