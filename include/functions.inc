@@ -3640,6 +3640,23 @@ function get_next_id_traditional($attrib, $dn)
   }
 }
 
+/*! \brief Convert from date to seconds
+ * 
+ * \param string 'val' a date
+ * 
+ * \return Return the date converted into seconds
+ * 
+ */
+ function convertToSeconds($val)
+  {
+    if ($val != 0){
+      $val*= 60 * 60 * 24;
+    } else {
+      $date= getdate();
+      $val= floor($date[0] / (60*60*24)) * 60 * 60 * 24;
+    }
+    return($val);
+  }
 
 /* Mark the occurance of a string with a span */
 function mark($needle, $haystack, $ignorecase= true)
