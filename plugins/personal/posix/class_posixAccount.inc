@@ -1279,17 +1279,6 @@ class posixAccount extends plugin
 
   }
 
-  function convertToSeconds($val)
-  {
-    if ($val != 0){
-      $val*= 60 * 60 * 24;
-    } else {
-      $date= getdate();
-      $val= floor($date[0] / (60*60*24)) * 60 * 60 * 24;
-    }
-    return($val);
-  }
-
 
   function get_used_uid_numbers()
   {
