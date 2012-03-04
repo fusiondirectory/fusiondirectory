@@ -2089,11 +2089,8 @@ class plugin
       if ($this->acl_is_writeable($val) && isset ($_POST["$val"])){
 
         /* Check for modifications */
-        if (get_magic_quotes_gpc()) {
-          $data= stripcslashes($_POST["$val"]);
-        } else {
-          $data= $this->$val = $_POST["$val"];
-        }
+        $data= $this->$val = $_POST["$val"];
+
         if ($this->$val != $data){
           $this->is_modified= TRUE;
         }
