@@ -2975,11 +2975,7 @@ function get_post($name)
     return(FALSE);
   }
 
-  if(get_magic_quotes_gpc()){
-    return(stripcslashes(validate($_POST[$name])));
-  }else{
-    return(validate($_POST[$name]));
-  }
+  return(validate($_POST[$name]));
 }
 
 
