@@ -279,7 +279,6 @@ $error_collector_mailto= "";
 set_error_handler('gosaRaiseError', E_WARNING |  E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT) ;
 
 $variables_order= "ES";
-ini_set("register_globals",0);
 ini_set("track_vars",1);
 ini_set("display_errors",1);
 ini_set("report_memleaks",1);
