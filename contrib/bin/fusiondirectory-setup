@@ -374,7 +374,7 @@ sub add_ldap_admin {
 
   my $admin_add = $ldap->add( "uid=fd-admin,ou=people,$base",
     attr => [
-      'cn'  =>  'System Administrator-fd-admin',
+      'cn'  =>  'System Administrator',
       'sn'  =>  'Administrator',
       'uid' =>  'fd-admin',
       'givenname' =>  'System',
@@ -463,7 +463,7 @@ sub check_ldap {
   if ( defined ($people_entries[0]) ) {
 
     # search for FusionDirectory's admin account
-    my $admin = $ldap->search ( base => "ou=people,".$base, filter => "(&(cn=System Administrator-fd-admin)(uid=fd-admin)(objectClass=inetOrgPerson))" );
+    my $admin = $ldap->search ( base => "ou=people,".$base, filter => "(&(cn=System Administrator)(uid=fd-admin)(objectClass=inetOrgPerson))" );
 
     # store search's results
     my @admin_entries = $admin->entries;
