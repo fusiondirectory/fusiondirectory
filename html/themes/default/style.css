@@ -74,6 +74,14 @@ tr.rowxp0:hover {
 background-color:#D8D8D8;
 }
 
+tr.rowxp_locked {
+background:#ED0000;
+}
+
+tr.rowxp_locked:hover {
+background-color:#FEBFD2;
+}
+
 td.list0 {
 background:transparent;
 border-right:1px solid #B0B0B0;
