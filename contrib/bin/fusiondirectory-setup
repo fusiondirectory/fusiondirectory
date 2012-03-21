@@ -49,6 +49,9 @@ my $yes_flag = 0;
 my %classes_hash_result = ();
 my %i18n_hash_result = ();
 
+my $oupeople = "people";
+my $peopleou = "ou=$oupeople";
+
 #################################################################################################################################################
 
 # ask a question send as parameter, and return true if the answer is "yes"
@@ -372,7 +375,7 @@ sub add_ldap_admin {
   }
   return -1 if ($fd_admin_pwd_confirm eq "quit");
 
-  my $admin_add = $ldap->add( "uid=fd-admin,ou=people,$base",
+  my $admin_add = $ldap->add( "uid=fd-admin,$peopleou,$base",
     attr => [
       'cn'  =>  'System Administrator',
       'sn'  =>  'Administrator',
@@ -383,7 +386,7 @@ sub add_ldap_admin {
       ]
   );
   # send a warning if the ldap's admin's add didn't gone well
-  $admin_add->code && warn "\n! failed to add LDAP's cn=System Administrator,ou=people,$base entry";
+  $admin_add->code && warn "\n! failed to add LDAP's cn=System Administrator,$peopleou,$base entry";
 }
 
 # function that initiate the ldap connexion, and bind as the ldap's admin
@@ -453,7 +456,7 @@ sub check_ldap {
   my $ldap = $hash_ldap_param{ldap};
 
   # search for branch people
-  my $people = $ldap->search (base => $base, filter => "ou=people");
+  my $people = $ldap->search (base => $base, filter => $peopleou);
 
   # stock search results
   my @people_entries = $people->entries;
@@ -463,7 +466,7 @@ sub check_ldap {
   if ( defined ($people_entries[0]) ) {
 
     # search for FusionDirectory's admin account
-    my $admin = $ldap->search ( base => "ou=people,".$base, filter => "(&(cn=System Administrator)(uid=fd-admin)(objectClass=inetOrgPerson))" );
+    my $admin = $ldap->search ( base => "$peopleou,$base", filter => "(&(cn=System Administrator)(uid=fd-admin)(objectClass=inetOrgPerson))" );
 
     # store search's results
     my @admin_entries = $admin->entries;
@@ -483,18 +486,18 @@ sub check_ldap {
 
   # if ou=people doesn't exists
   } else {
-    print ( "! ou=people,$base not found in your LDAP directory\n" );
+    print ( "! $peopleou,$base not found in your LDAP directory\n" );
     
     # if user's answer is "yes", creating ou=people branch 
     if ( ask_yn_question("Do you want to create it ?: ") ) { 
-      my $people_add = $ldap->add( "ou=people,$base",
+      my $people_add = $ldap->add( "$peopleou,$base",
         attr => [
-          'ou'  => 'people', 
+          'ou'  => $oupeople, 
           'objectClass' =>  'organizationalUnit'
           ]
       );
 
-      $people_add->code and warn "! failed to add LDAP's ou=people,$base branch\n";
+      $people_add->code and warn "! failed to add LDAP's $peopleou,$base branch\n";
       $admin_add = add_ldap_admin($base, $ldap);
       return -1 if ($admin_add eq "-1");
     } else {
@@ -641,18 +644,49 @@ sub install_plugins {
   rescan_i18n();
 }
 
+# function that add object classes to people branch users
+sub migrate_users {
+  my $scope="one";
+
+  # initiate the LDAP connexion
+  my %hash_ldap_param = get_ldap_connexion();
+
+  # LDAP's connection's parameters
+  my $base = $hash_ldap_param{base};
+  my $ldap = $hash_ldap_param{ldap};
+  
+  print ("Add FusionDirectory attributes for the following users from $peopleou,$base\n");
+  print ("---------------------------------------------\n");
+  
+  my $mesg = $ldap->search( filter=>"(|(!(objectClass~=gosaAccount))(!(objectClass~=organizationalPerson))(!(objectClass~=Person)))", 
+                            base=>"$peopleou,$base",
+                            scope=>$scope);
+  my @entries = $mesg->entries;
+
+  foreach my $entry (@entries) {
+    $mesg = $ldap->modify($entry->dn(), add => { "ObjectClass" => "gosaAccount"});
+    $mesg = $ldap->modify($entry->dn(), add => { "ObjectClass" => "organizationalPerson"});
+    $mesg = $ldap->modify($entry->dn(), add => { "ObjectClass" => "Person"});
+    print $entry->dn();
+    print "\n";
+  }
+  # unbind to the LDAP server
+  my $unbind = $ldap->unbind;
+  $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n"; 
+}
 #################### main function #####################
 #die if the user is not root
 die ("! You have to run this script as root\n") if ($<!=0);
 
   my %commands = ();
-  $commands{"--update-cache"}         = ["Updating class.cache",          \&rescan_classes];
-  $commands{"--update-locales"}       = ["Updating translations",         \&rescan_i18n];
+  $commands{"--update-cache"}         = ["Updating class.cache",                        \&rescan_classes];
+  $commands{"--update-locales"}       = ["Updating translations",                       \&rescan_i18n];
   $commands{"--check-directories"}    = ["Checking FusionDirectory's directories",      \&check_directories];
-  $commands{"--check-ldap"}           = ["Checking your LDAP tree",         \&check_ldap];
-  $commands{"--migrate-repositories"} = ["Migrating your FAI repositories",       \&migrate_repo];
-  $commands{"--install-plugins"}      = ["Installing FusionDirectory's plugins",      \&install_plugins];
-  $commands{"--install-directories"}  = ["Choose FusionDirectory Directories",      \&install_directories];
+  $commands{"--check-ldap"}           = ["Checking your LDAP tree",                     \&check_ldap];
+  $commands{"--migrate-repositories"} = ["Migrating your FAI repositories",             \&migrate_repo];
+  $commands{"--migrate-users"}        = ["Migrating your users",                        \&migrate_users];
+  $commands{"--install-plugins"}      = ["Installing FusionDirectory's plugins",        \&install_plugins];
+  $commands{"--install-directories"}  = ["Choose FusionDirectory Directories",          \&install_directories];
 
   my $usage = 0;
    
@@ -670,7 +704,7 @@ die ("! You have to run this script as root\n") if ($<!=0);
       print ("--yes\t\t\tAlways answer yes to yes/no questions\n");
       print ("--help\t\t\tShows this help\n\n");
 
-    } elsif (( lc($arg) eq "--yes" ) || ( lc($arg) eq "-y" )){
+    } elsif (( lc($arg) eq "--yes" ) || ( lc($arg) eq "-y" )) {
       $yes_flag = 1;
     } else {
       print ("\nInvalid argument\n\n");
@@ -722,6 +756,10 @@ This option check your LDAP tree. Looking for admin account, and groups or peopl
 =item --migrate-repositories
 
 This option check the fairepository object in your ldap tree and add the new option for FusionDirectory 1.0.2.
+
+=item --migrate-users
+
+This option add FusionDirectory attributes to the people branch.
 
 =item --install-plugins
 
