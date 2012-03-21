@@ -70,21 +70,19 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
   if ($error_collector == ""){
 
     /* Mailto body header */
-    if(function_exists("prepare4mailbody")){
-      $version = FD_VERSION;
+    $version = FD_VERSION;
 
-      $error_collector_mailto .=prepare4mailbody(
-                                "Oups. Seems like you've catched some kind of bug inside FusionDirectory/PHP. You may want to help ".
-                                "us to improve the software stability. If so, please provide some more information below.".
-                                "\n\n".
-                                "*** FusionDirectory bug report ***".
-                                "\nFusionDirectory Version: $version".
-                                "\n\n".
-                                "Please describe what you did to produce this error as detailed as possible. Can you ".
-                                "reproduce this bug using the demo on http://demo.FusionDirectory.org ?".
-                                "\n\n".
-                                "*** PHP error information ***\n\n");
-      }
+    $error_collector_mailto .=rawurlencode(
+                              "Oups. Seems like you've catched some kind of bug inside FusionDirectory/PHP. You may want to help ".
+                              "us to improve the software stability. If so, please provide some more information below.".
+                              "\n\n".
+                              "*** FusionDirectory bug report ***".
+                              "\nFusionDirectory Version: $version".
+                              "\n\n".
+                              "Please describe what you did to produce this error as detailed as possible. Can you ".
+                              "reproduce this bug using the demo on http://demo.FusionDirectory.org ?".
+                              "\n\n".
+                              "*** PHP error information ***\n\n");
     
     if (class_exists('session') && session::is_set('js') && session::get('js')==FALSE){
       $error_collector= "<div>";
@@ -120,15 +118,15 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
   /* Create error header */
   $error_collector.= "<table summary=\"\" width=\"100%\" cellspacing=0 style='background-color:#402005;color:white;border:2px solid red'><tr><td colspan=3><h1 style='color:white'>"._("PHP error")." \"$errstr\"</h1></td></tr>";
 
-  $error_collector_mailto .= prepare4mailbody("=== Error === \n");
-  $error_collector_mailto .= prepare4mailbody("PHP error: $errstr ($errfile, line $errline)\n");
-  $error_collector_mailto .= prepare4mailbody("=== /Error === \n\n");
+  $error_collector_mailto .= rawurlencode("=== Error === \n");
+  $error_collector_mailto .= rawurlencode("PHP error: $errstr ($errfile, line $errline)\n");
+  $error_collector_mailto .= rawurlencode("=== /Error === \n\n");
   
   /* Extract traceback data - if available */
   if (function_exists('debug_backtrace')){
     $trace= debug_backtrace();
 
-    $error_collector_mailto .= prepare4mailbody("=== Trace ===");
+    $error_collector_mailto .= rawurlencode("=== Trace ===");
 
     /* Generate trace history */
     for ($index= 0, $c= count($trace); $index<$c; $index++){
@@ -167,7 +165,7 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
             $arg = "CLASS:&nbsp;".get_class($arg);
           }
   
-          $args.= htmlentities("\"$arg\", ");
+          $args.= "\"$arg\", ";
         }
       }
       $args= preg_replace("/, $/", "", $args);
@@ -190,7 +188,7 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
       $error_collector.= "<tr style='background-color:$color'><td colspan=3 style='padding-left:20px;'>"._("Arguments").": $args</td></tr>";
 
       /* Add trace part to mailto body */
-      $error_collector_mailto .= prepare4mailbody(
+      $error_collector_mailto .= rawurlencode(
                                    "\nTrace[".$index."]:".$loc.
                                    "\nFile : ".$file.
                                    "\nLine : ".$line.
@@ -199,9 +197,9 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
                                    "\n");
 
     }
-  }
 
-  $error_collector_mailto .= prepare4mailbody("=== /Trace === \n");
+    $error_collector_mailto .= rawurlencode("=== /Trace === \n");
+  }
 
   /* Close error table */
   $error_collector.= "</table>";
@@ -214,45 +212,6 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
     exit;
   }
 }
-
-
-function prepare4mailbody($string)
-{
-  $string = html_entity_decode($string);
-
-  $from = array(
-                "/%/",
-                "/ /",
-                "/\n/",
-                "/\r/",
-                "/!/",
-                "/#/",
-                "/\*/",
-                "/\//",
-                "/</",
-                "/>/",
-                "/\?/",
-                "/\"/");
-
-  $to = array(
-                "%25",
-                "%20",
-                "%0A",
-                "%0D",
-                "%21",
-                "%23",
-                "%2A",
-                "%2F",
-                "%3C",
-                "%3E",
-                "%3F",
-                "%22");
-
-  $string = preg_replace($from,$to,$string);
-
-  return($string);
-}
-
 
 function dummy_error_handler()
 {
