@@ -228,93 +228,94 @@ sub rescan_i18n {
 
 ############################################################# Directories checking ###################################################################################
 
-# function that check FusionDirectory's directories
-sub check_directories {
+#get the apache user group name
+sub get_apache_user {
   my $apache_user = "";
 
   # try to identify the running distribution, if it's not debian or rehat like, script ask for user input
   if (-e "/etc/debian_version") {
     $apache_user = "www-data";
-  } elsif ((-e "/etc/redhat-release") || (-e "/etc/mageia-release")){
+  } elsif ((-e "/etc/redhat-release") || (-e "/etc/mageia-release")) {
     $apache_user = "apache";
   } else {
     print ("! Looks like you are not a Debian, Redhat or Mageia, I don't know your distribution !\n");
     $apache_user = ask_user_input ("Who is your apache user ?: ");
   }
+  return $apache_user;
+}
+
+#check the rights of a directory or file, creates missing directory if needed
+sub check_rights {
+  my ($dir,$user,$group,$rights,$create) = @_;
+  my $user_uid = getpwnam ( $user );
+  my $group_gid = getgrnam ( $group );
+  
+  # if the current dir exists
+  if (-e $dir) {
+    print("$dir exists…\n");
+    # retrieve dir's informations
+    my @lstat = lstat ($dir);
+
+    # extract the owner and the group of the directory 
+    my $dir_owner = getpwuid ( $lstat[4] );
+    my $dir_group = getgrgid ( $lstat[5] );
+
+    # extract the dir's rights
+    my $dir_rights = S_IMODE( $lstat[2] );
+        
+    if ( ($dir_owner ne $user) || ($dir_group ne $group) || ($dir_rights ne $rights) ) {
+      if ( ask_yn_question ("$dir is not set properly, do you want to fix it ?: ") ) {
+        chown ($user_uid,$group_gid,$dir) or die ("! Unable to change $dir owner\n") if ( ($dir_owner ne $user) || ($dir_group ne $group) );
+        chmod ( $rights, $dir ) or die ("! Unable to change $dir rights\n") if ($dir_rights ne $rights);
+      } else {
+        print ("Skiping...\n");
+      }
+    } else {
+      print("Rights on $dir are correct\n");
+    }
+  } elsif ($create) {
+    
+    if ( ask_yn_question("File $dir doesn't exists, do you want to create it ?: ") ) {
+      my $conf_dir = dir ($dir);
+
+      # create the directory, and change the rights
+      $conf_dir->mkpath (0,$rights);
+      chmod ($rights, $dir);
+      chown ($user_uid,$group_gid,$dir) or die ("Unable to change $dir rights\n");
+
+    } else {
+      print ( "Skiping...\n" );
+    }
+  } else {
+    return 0;
+  }
+  return 1;
+}
+
+# function that check FusionDirectory's directories
+sub check_directories {
+  my $apache_user = get_apache_user();
 
   # for each config directory 
   foreach my $dir (@config_dirs) {
-    # if the current dir exists
-    if (-e $dir) {
-      # retrieve dir's informations
-      my @lstat = lstat ($dir);
-
-      # extract the owner and the group of the directory 
-      my $user = getpwuid ( $lstat[4] );
-      my $group = getgrgid ( $lstat[5] );
-
-      # extract the dir's rights
-      my $mode = $lstat[2];
-      my $rights = sprintf "%04o", S_IMODE($mode);
 
       # if $dir is one of the dirs that remains to root
       if ( grep (/.*$dir.*/, @root_config_dirs) ) {
-        # if the dir owner is not root, changing the owner...
-        if ( ($user ne "root") || ($group ne "root") || ($rights ne "0755") ) {
-          if ( ask_yn_question ("$dir is not set properly, do you want to fix it ?: ") ){
-            chown (0,0,$dir) or die ("! Unable to change $dir owner\n") if ( ($user ne "root") || ($group ne "root") );
-            chmod ( 0755, $dir ) or die ("! Unable to change $dir rights\n") if ($rights ne "0755");
-          } else {
-            print ("Skiping...\n");
-            next;
-          }
-        }
-        next;
+        check_rights($dir,"root","root",0755,1);
 
       # else if $dir is one of the dirs that remains to apache's user, and the dir's owner is not root or the group is not the apache's user, modifying owner
       } elsif ( grep ( /.*$dir.*/, @apache_config_dirs) ) {
-        if ( ($user ne "root") || ($group ne $apache_user) || ($rights ne "0770") ) {
-          if ( ask_yn_question("$dir is not set properly, do you want to fix it ?: ") ){
-            # retrieve apache's user's GID
-            my $apache_gid = getgrnam ( $apache_user );
-            
-            # change the rights
-            chown ( 0,$apache_gid,$dir ) or die ("Unable to change $dir rights") if ( ($user ne "root") || ($group ne $apache_user) );
-            chmod ( 0770, $dir ) or die ("! Unable to change $dir rights\n") if ($rights ne "0770");
-          } else {
-            print ( "Skiping...\n" );
-            next;
-          }
-        }
+        check_rights($dir,"root",$apache_user,0770,1);
       }
-    } else {
-    
-      if ( ask_yn_question("File $dir doesn't exists, do you want to create it ?: ") ){
-        my $conf_dir = dir ($dir);
-
-        # if $dir is one of the dirs that remains to root
-        if (grep (/.*$dir.*/, @root_config_dirs) ) {
-          # create the directory, and change the rights
-          $conf_dir->mkpath (0,0755);
-          chown (0,0,$dir) or die ("! Unable to change $dir rights\n");
-
-        # else if $dir is one of the dirs that remains to apache's user
-        } elsif ( grep (/.*$dir.*/, @apache_config_dirs) ) {
-          # retieve apache's user's GID
-          my $apache_gid = getgrnam ( $apache_user );
-
-          # create the directory, and change the rights
-          $conf_dir->mkpath (0,0770);
-          chmod (0770, $dir);
-          chown (0,$apache_gid,$dir) or die ("Unable to change $dir rights\n");
-        }
-
-      } else {
-        print ( "Skiping...\n" );
-        next;
-      }
-    }
   }
+}
+
+# function that check FusionDirectory's config file
+sub check_config {
+  my $apache_user = get_apache_user();
+  
+  # check config file
+  check_rights($fd_config,"root",$apache_user,0640,0) or die 'The config file does not exists!';
 }
 
 ############################################################# Change install directories #################################################################################
@@ -533,7 +534,6 @@ sub check_ldap {
   $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n"; 
 }
 
-
 # function that migrate old FAI repos
 sub migrate_repo {
 
@@ -682,6 +682,7 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--update-cache"}         = ["Updating class.cache",                        \&rescan_classes];
   $commands{"--update-locales"}       = ["Updating translations",                       \&rescan_i18n];
   $commands{"--check-directories"}    = ["Checking FusionDirectory's directories",      \&check_directories];
+  $commands{"--check-config"}         = ["Checking FusionDirectory's config file",      \&check_config];
   $commands{"--check-ldap"}           = ["Checking your LDAP tree",                     \&check_ldap];
   $commands{"--migrate-repositories"} = ["Migrating your FAI repositories",             \&migrate_repo];
   $commands{"--migrate-users"}        = ["Migrating your users",                        \&migrate_users];
@@ -748,6 +749,10 @@ Needs I<msgcat> and I<msgfmt> to be installed.
 =item --check-directories
 
 This option perform a check on all FusionDirectory's files or directories.
+
+=item --check-config
+
+This option perform a check on FusionDirectory's config file.
 
 =item --check-ldap
 
