@@ -571,14 +571,18 @@ sub migrate_repo {
     
     # foreach FAIrepository of the LDAP object
     foreach my $repo (@{$ref_FAIrepo}) {
+      my (@items) = split('\|',$repo);
       # Unless the FAIrepository has already been migrated
-      unless ($repo =~ /^.*\|install\|local$/) {
+      unless (scalar @items >= 6) {
         print "modifying $repo\n";
         push @repos, $repo."|install|local";
+      } else {
+        print "keeping $repo\n";
+        push @repos, $repo;
       }
-    }   
+    }
     my $modify = $ldap->modify ($repoServer->dn, replace => [ FAIrepository => \@repos]);
-    $modify->code && warn "! Unable to delete FAI repositories for ".$repoServer->dn." : ".$modify->error."\n";
+    $modify->code && warn "! Unable to modify FAI repositories for ".$repoServer->dn." : ".$modify->error."\n";
   }
   # unbind to the LDAP server
   my $unbind = $ldap->unbind;
