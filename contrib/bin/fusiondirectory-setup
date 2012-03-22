@@ -26,22 +26,23 @@ use Archive::Extract;
 use File::Copy::Recursive qw(rcopy);
 
 # fd's directory and class.cache file's path declaration
-my $fd_home = "/usr/share/fusiondirectory";
-my $fd_cache = "/var/cache/fusiondirectory";
-my $fd_config_dir = "/etc/fusiondirectory";
-my $fd_spool_dir = "/var/spool/fusiondirectory";
+my %vars = (
+ fd_home =>       "/usr/share/fusiondirectory",
+ fd_cache =>      "/var/cache/fusiondirectory",
+ fd_config_dir => "/etc/fusiondirectory",
+ fd_spool_dir =>  "/var/spool/fusiondirectory",
+ config_file =>   "fusiondirectory.conf",
+ locale_dir =>    "locale",
+ class_cache =>   "class.cache",
+ locale_cache_dir => "locale",
+ tmp_dir =>       "tmp",
+ fai_log_dir =>   "fai",
+ template_dir =>  "template"
+);
 
-my $fd_config = $fd_config_dir."/fusiondirectory.conf";
-my $locale_dir = $fd_home."/locale";
-my $class_cache = $fd_cache."/class.cache";
-my $locale_cache_dir = $fd_cache."/locale";
-my $tmp_dir = $fd_cache."/tmp";
-my $fai_log_dir = $fd_cache."/fai";
-my $template_dir = $fd_cache."/template";
+my ($fd_config,$locale_dir,$class_cache,$locale_cache_dir,$tmp_dir,$fai_log_dir,$template_dir);
 
-my @root_config_dirs = ( $fd_home, $fd_config_dir );
-my @apache_config_dirs = ( $fd_spool_dir, $fd_cache, $tmp_dir, $fai_log_dir, $template_dir );
-my @config_dirs = ( @root_config_dirs, @apache_config_dirs );
+my (@root_config_dirs,@apache_config_dirs,@config_dirs);
 
 my @plugin_types = qw(addons admin personal);
 my $yes_flag = 0;
@@ -123,7 +124,7 @@ sub get_classes {
           my @lines = $file->slurp;
             
           # modifing $file, to contains relative path, not complete one
-          $file =~ s/^$fd_home//;
+          $file =~ s/^$vars{fd_home}//;
 
           foreach my $line ( @lines ) {
           # remove \n from the end of each line
@@ -144,7 +145,7 @@ sub get_classes {
 sub rescan_classes {
 
   # hash that will contain the result of the "get_classes" function
-  my %get_classes_result = get_classes ($fd_home);
+  my %get_classes_result = get_classes ($vars{fd_home});
 
   # create a "file" object with the $class_cache path
   my $file_class = file ($class_cache);
@@ -275,7 +276,7 @@ sub check_rights {
     }
   } elsif ($create) {
     
-    if ( ask_yn_question("File $dir doesn't exists, do you want to create it ?: ") ) {
+    if ( ask_yn_question("Directory $dir doesn't exists, do you want to create it ?: ") ) {
       my $conf_dir = dir ($dir);
 
       # create the directory, and change the rights
@@ -322,40 +323,7 @@ sub check_config {
 
 sub install_directories {
 
-  $fd_home = ask_user_input ("Where do you want to install fusiondirectory ?: [Default: $fd_home]",$fd_home);
-
-  $fd_cache = ask_user_input ("Where do you want to put fusiondirectory cache directory ?: [Default: $fd_cache]",$fd_cache);
-
-  $fd_config_dir = ask_user_input ("Where do you want to put fusiondirectory config directory ?: [Default: $fd_config_dir]",$fd_config_dir);
-
-  $fd_spool_dir = ask_user_input ("Where do you want to put fusiondirectory spool directory ?: [Default: $fd_spool_dir]",$fd_spool_dir);
-
-  my $fd_var = "$fd_home/include/variables.inc";
-  my $fd_var_new = "$fd_home/include/variables.new";
-
-  my $file_var = file ($fd_var);
-
-  my $file_var_lines = $file_var->slurp;
-
-  $file_var_lines =~ s/\/var\/cache\/fusiondirectory/$fd_cache/g;
-
-  $file_var_lines =~ s/\/var\/spool\/fusiondirectory/$fd_spool_dir/g;
-
-  $file_var_lines =~ s/\/etc\/fusiondirectory/$fd_config_dir/g;
-
-  my $file_var_new = file ($fd_var_new);
-
-  my $fvnh = $file_var_new->openw() or die ("! Unable to open $fd_var_new in write mode\n");
-
-  $fvnh->print($file_var_lines);
-
-  $fvnh->close or die ("! Can't close $fd_var_new\n");
-
-  $file_var->remove();
-
-  copy( $fd_var_new, $fd_var ) or die "Copy of $fd_var_new to $fd_var failed: $!";
-
-  $file_var_new->remove();
+  print "This function is not implemented yet";
 
 }
 
@@ -537,9 +505,9 @@ sub check_ldap {
     my $faiclass = $entry->get_value('FAIclass');
     my (@profiles) = split(' ',$faiclass);
     if (scalar @profiles > 2) {
-      say "! System or group ".$entry->get_value('cn')." have more than one FAI profile : ".$faiclass;
+      print "! System or group ".$entry->get_value('cn')." have more than one FAI profile : ".$faiclass."\n";
     } elsif (scalar @profiles < 2) {
-      say "! System or group ".$entry->get_value('cn')." have no release set in its FAIclass : ".$faiclass;
+      print "! System or group ".$entry->get_value('cn')." have no release set in its FAIclass : ".$faiclass."\n";
     }
   }
   
@@ -589,6 +557,16 @@ sub migrate_repo {
   $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
 }
 
+# function that create a directory and copy plugin files in it
+sub create_and_copy_plugin_dir {
+  my ($plugin_dir,$dest_dir) = @_;
+  if ( -e $plugin_dir ){
+    my $dir = dir ($dest_dir);
+    $dir->mkpath() or warn ("! Unable to make ".$dest_dir."\n") if ( !-e $dest_dir);
+    my $files_dirs_copied = rcopy($plugin_dir."/*", $dest_dir);
+  }
+}
+
 # function that install all the FD's plugins from a directory
 sub install_plugins {
   # ask for the plugins archive
@@ -602,7 +580,7 @@ sub install_plugins {
   # where the extract files will go
   my $tmp_plugins_dir = "/tmp";
 
-  print ("Installing plugins into $fd_home, please wait...\n");
+  print ("Installing plugins into $vars{fd_home}, please wait...\n");
 
   my $dir = dir ($tmp_plugins_dir."/".$name);
 
@@ -619,41 +597,26 @@ sub install_plugins {
     my $plugin = $1;
     
     # copy extra HTML and images
-    if ( (-e $plugin_path."/html/") ){
-      $dir = dir ($fd_home."/html/plugins/".$plugin);
-      $dir->mkpath() or warn ("! Unable to make ".$fd_home."/html/plugins/".$plugin."\n") if ( !-e $fd_home."/html/plugins/".$plugin);
-      my $files_dirs_copied = rcopy($plugin_path."/html/*", $fd_home."/html/plugins/".$plugin);
-    }
+    create_and_copy_plugin_dir($plugin_path."/html/",$vars{fd_home}."/html/plugins/".$plugin);
     
     # copy contrib
-    if ( -e $plugin_path."/contrib/" ){
-      $dir = dir ($fd_home."/doc/contrib/".$plugin);
-      $dir->mkpath() or warn ("! Unable to make ".$fd_home."/doc/contrib/".$plugin."\n") if ( !-e $fd_home."/doc/contrib/".$plugin);
-      my $files_dirs_copied = rcopy($plugin_path."/contrib/*", $fd_home."/doc/contrib/".$plugin);
-    }
+    create_and_copy_plugin_dir($plugin_path."/contrib/",$vars{fd_home}."/doc/contrib/".$plugin);
       
     # copy etc
-    my $files_dirs_copied = rcopy($plugin_path."/etc/*", $fd_config_dir);
+    my $files_dirs_copied = rcopy($plugin_path."/etc/*", $vars{fd_config_dir});
 
     # copy the locales
-    if ( -e $plugin_path."/locale/" ) {
-      $dir = dir ($fd_home."/locale/plugins/".$plugin);
-      $dir->mkpath() or warn ("! Unable to make ".$fd_home."/locale/plugins/".$plugin) if ( !-e $fd_home."/locale/plugins/".$plugin);
-      my $files_dirs_copied = rcopy($plugin_path."/locale/*", $fd_home."/locale/plugins/".$plugin);
-    }
+    create_and_copy_plugin_dir($plugin_path."/locale/",$vars{fd_home}."/locale/plugins/".$plugin);
 
     foreach my $type (@plugin_types) {
-      if ( -e $plugin_path."/".$type ){
-        $dir = dir ($fd_home."/plugins/".$type."/".$plugin);
-        $dir->mkpath() or warn ("! Unable to make ".$fd_home."/plugins/".$type."/".$plugin."\n") if ( !-e $fd_home."/plugins/".$type."/".$plugin );
-        my $files_dirs_copied = rcopy($plugin_path."/".$type."/*", $fd_home."/plugins/".$type."/".$plugin);
-      }
+      create_and_copy_plugin_dir($plugin_path."/".$type,$vars{fd_home}."/plugins/".$type."/".$plugin);
     }
     
     if ( -e $plugin_path."/plugin.dsc") {
-      $dir = dir ($fd_home."/plugins/".$plugin);
-      $dir->mkpath() or warn ("! Unable to make ".$fd_home."/plugins/".$plugin."\n") if ( !-e $fd_home."/plugins/".$plugin );
-      my $files_dirs_copied = rcopy($plugin_path."/plugin.dsc", $fd_home."/plugins/".$plugin."/plugin.dsc");
+      my $plugin_dsc_dir = $vars{fd_home}."/plugins/".$plugin;
+      $dir = dir ($plugin_dsc_dir);
+      $dir->mkpath() or warn ("! Unable to make ".$plugin_dsc_dir."\n") if ( !-e $plugin_dsc_dir );
+      my $files_dirs_copied = rcopy($plugin_path."/plugin.dsc", $plugin_dsc_dir."/plugin.dsc");
     }
   }
 
@@ -692,25 +655,58 @@ sub migrate_users {
   my $unbind = $ldap->unbind;
   $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n"; 
 }
+
+# function that set useful vars based on user specified folders and files
+sub set_vars {
+  $fd_config = $vars{fd_config_dir}."/".$vars{config_file};
+  $locale_dir = $vars{fd_home}."/".$vars{locale_dir};
+  $class_cache = $vars{fd_cache}."/".$vars{class_cache};
+  $locale_cache_dir = $vars{fd_cache}."/".$vars{locale_cache_dir};
+  $tmp_dir = $vars{fd_cache}."/".$vars{tmp_dir};
+  $fai_log_dir = $vars{fd_cache}."/".$vars{fai_log_dir};
+  $template_dir = $vars{fd_cache}."/".$vars{template_dir};
+  
+  @root_config_dirs = ( $vars{fd_home}, $vars{fd_config_dir} );
+  @apache_config_dirs = ( $vars{fd_spool_dir}, $vars{fd_cache}, $tmp_dir, $fai_log_dir, $template_dir );
+  @config_dirs = ( @root_config_dirs, @apache_config_dirs );
+}
+
+# function that list variables that can be modified by the user
+sub list_vars {
+  while ( my ($key, $value) = each(%vars) ) {
+    print "$key\t[$value]"."\n";
+  }
+}
+
 #################### main function #####################
 #die if the user is not root
 die ("! You have to run this script as root\n") if ($<!=0);
 
+  my @vars_keys = keys %vars;
+
   my %commands = ();
-  $commands{"--update-cache"}         = ["Updating class.cache",                        \&rescan_classes];
-  $commands{"--update-locales"}       = ["Updating translations",                       \&rescan_i18n];
-  $commands{"--check-directories"}    = ["Checking FusionDirectory's directories",      \&check_directories];
-  $commands{"--check-config"}         = ["Checking FusionDirectory's config file",      \&check_config];
-  $commands{"--check-ldap"}           = ["Checking your LDAP tree",                     \&check_ldap];
-  $commands{"--migrate-repositories"} = ["Migrating your FAI repositories",             \&migrate_repo];
-  $commands{"--migrate-users"}        = ["Migrating your users",                        \&migrate_users];
-  $commands{"--install-plugins"}      = ["Installing FusionDirectory's plugins",        \&install_plugins];
-  $commands{"--install-directories"}  = ["Choose FusionDirectory Directories",          \&install_directories];
+  $commands{"--update-cache"}         = ["Updating class.cache",                          \&rescan_classes];
+  $commands{"--update-locales"}       = ["Updating translations",                         \&rescan_i18n];
+  $commands{"--check-directories"}    = ["Checking FusionDirectory's directories",        \&check_directories];
+  $commands{"--check-config"}         = ["Checking FusionDirectory's config file",        \&check_config];
+  $commands{"--check-ldap"}           = ["Checking your LDAP tree",                       \&check_ldap];
+  $commands{"--migrate-repositories"} = ["Migrating your FAI repositories",               \&migrate_repo];
+  $commands{"--migrate-users"}        = ["Migrating your users",                          \&migrate_users];
+  $commands{"--install-plugins"}      = ["Installing FusionDirectory's plugins",          \&install_plugins];
+  $commands{"--install-directories"}  = ["Choose FusionDirectory Directories",            \&install_directories];
+  $commands{"--list-vars"}            = ["List possible vars to give --set",              \&list_vars];
+  $commands{"--set-VAR=value"}        = ["Set the variable VAR to value see --list-vars", \&die]; # Won't be called because it contains uppercase
 
   my $usage = 0;
    
+  set_vars();
+   
   foreach my $arg ( @ARGV ) {
-    if ( defined $commands { lc ( $arg ) } ) {
+    if (( lc($arg) =~ m/^--set-(.*)=(.*)/ ) && (grep {$_ eq lc($1)} @vars_keys)) {
+      $vars{lc($1)} = $2;
+      print "Setting $1 to $2\n";
+      set_vars();
+    } elsif ( defined $commands { lc ( $arg ) } ) {
       my @command = @{ $commands{ $arg } };
       print( $command[0]."\n" );
       $command[1]();
