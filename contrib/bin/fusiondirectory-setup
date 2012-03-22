@@ -529,6 +529,20 @@ sub check_ldap {
     }
   }
   
+  # search for workstations and object groups
+  my $faiclasses = $ldap->search (base => "$base", 
+                                  filter => "(&(FAIclass=*)(!(objectClass~=FAIprofile)))" );
+  my @faiclass_entries = $faiclasses->entries;
+  foreach my $entry (@faiclass_entries) {
+    my $faiclass = $entry->get_value('FAIclass');
+    my (@profiles) = split(' ',$faiclass);
+    if (scalar @profiles > 2) {
+      say "! System or group ".$entry->get_value('cn')." have more than one FAI profile : ".$faiclass;
+    } elsif (scalar @profiles < 2) {
+      say "! System or group ".$entry->get_value('cn')." have no release set in its FAIclass : ".$faiclass;
+    }
+  }
+  
   # unbind to the LDAP server
   my $unbind = $ldap->unbind;
   $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n"; 
