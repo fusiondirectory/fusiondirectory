@@ -115,6 +115,8 @@ class departmentManagement extends management
     if(!empty($str)) return($str);
 
     $this->refreshDeps(); 
+/*
+    // FIXME : what was this code for? Is it useful? What is department tagging?
     $plugname = $this->last_tabObject->base_name;
     if($this->last_tabObject->by_object[$plugname]->must_be_tagged()){
       $smarty = get_smarty();
@@ -122,6 +124,7 @@ class departmentManagement extends management
       $smarty->assign("message",_("As soon as the tag operation has finished, you can scroll down to end of the page and    press the 'Continue' button to continue with the department management dialog."));
       return($smarty->fetch(get_template_path("dep_iframe.tpl",TRUE)));
     }
+*/
   }
 
   
