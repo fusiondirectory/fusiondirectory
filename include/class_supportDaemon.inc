@@ -34,7 +34,7 @@ class supportDaemon
   private $b_error      = FALSE;
 
   private $logdir       = "";
-
+  
   /*! \brief constructor
    * 
    */
@@ -45,18 +45,34 @@ class supportDaemon
     __autoload() 
     */
     if(!is_object($this->config)) { return; }
-    
-    if ($this->config->get_cfg_value("argonautServer") != "") {
+    $argonautHost = $this->get_argonaut_host();
+
+    if ($argonautHost != "") {
       # load from config, store statically
-      $this->s_host = $this->config->get_cfg_value("argonautServer");
-      if($this->s_host == "") {
-        $this->set_error("argonautServer not defined in config");
-      }
+      $this->s_host = $argonautHost;
       $this->logdir = $this->config->get_cfg_value("faiLogsDir");
       if($this->logdir == "") {
         $this->logdir = FAI_LOG_DIR;
       }
     }
+  }
+
+  /*! \brief Load argonaut server config from argonaut service in ldap
+   * 
+   *     
+   */
+  public function get_argonaut_host() {
+    $ldap = $this->config->get_ldap_link();
+    $ldap->cd($this->config->current['BASE']);
+    $ldap->search("(objectClass=argonautServer)",array('cn','ipHostNumber','argonautPort'));
+    if ($ldap->count() == 1) {
+      $ldap_infos = $ldap->fetch();
+      return "http://".$ldap_infos['ipHostNumber'][0].":".$ldap_infos['argonautPort'][0];
+    }
+    if ($this->config->get_cfg_value("argonautServer") != "") {
+      return $this->config->get_cfg_value("argonautServer");
+    }
+    return "";
   }
 
   /*! \brief Test if the argonaut server is available
