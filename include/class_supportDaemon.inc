@@ -473,7 +473,11 @@ class supportDaemon
    */
   public function get_log_file($mac,$date,$file)
   {
-    return implode("",file($this->logdir."/$mac/$date/$file"));
+    if(is_file("/$mac/$date/$file") {
+      return implode("",file($this->logdir."/$mac/$date/$file"));
+    } else {
+      return "";
+    }
   }
 
   /*! \brief  Returns true if an argonaut daemon is running on the pc
