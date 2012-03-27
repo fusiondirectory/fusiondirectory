@@ -5,7 +5,9 @@
   <p> 
     {$msg2}
   </p>
-      {t}Run <tt>fusiondirectory-setup --check-config</tt> to put the correct rights on the fusiondirectory.conf file.{/t}
+      {t}Run {/t}
+       <a style='color:black ; font-weight:bold '>   fusiondirectory-setup --check-config</a>
+      {t}to put the correct right on fusiondirectory.conf{/t}
   <p> 
     <input type='submit' name='getconf' value='{t}Download configuration{/t}'>
   </p>
