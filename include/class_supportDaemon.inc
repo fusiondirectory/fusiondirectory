@@ -473,7 +473,7 @@ class supportDaemon
    */
   public function get_log_file($mac,$date,$file)
   {
-    if(is_file("/$mac/$date/$file") {
+    if(is_file("/$mac/$date/$file")) {
       return implode("",file($this->logdir."/$mac/$date/$file"));
     } else {
       return "";
