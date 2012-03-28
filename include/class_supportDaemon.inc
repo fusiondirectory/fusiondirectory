@@ -380,11 +380,13 @@ class supportDaemon
     $e_types = DaemonEvent::get_event_types(USER_EVENT | SYSTEM_EVENT | HIDDEN_EVENT);
     
     $evts = $this->get_entries_by_mac(array($mac));
-    foreach($evts as $evt) {
-      if(isset($e_types['QUEUED'][$evt['HEADERTAG']]) && $evt['STATUS'] == "processing" && 
-        in_array($e_types['QUEUED'][$evt['HEADERTAG']],array("DaemonEvent_reinstall","DaemonEvent_update"))) {
-        // Why do we check HEADERTAG? processing status should be sufficient.
-        return(TRUE);
+    if($evts) {
+      foreach($evts as $evt) {
+        if(isset($e_types['QUEUED'][$evt['HEADERTAG']]) && $evt['STATUS'] == "processing" && 
+          in_array($e_types['QUEUED'][$evt['HEADERTAG']],array("DaemonEvent_reinstall","DaemonEvent_update"))) {
+          // Why do we check HEADERTAG? processing status should be sufficient.
+          return(TRUE);
+        }
       }
     }
     return(FALSE);
