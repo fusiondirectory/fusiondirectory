@@ -69,9 +69,6 @@ class supportDaemon
       $ldap_infos = $ldap->fetch();
       return "http://".$ldap_infos['ipHostNumber'][0].":".$ldap_infos['argonautPort'][0];
     }
-    if ($this->config->get_cfg_value("argonautServer") != "") {
-      return $this->config->get_cfg_value("argonautServer");
-    }
     return "";
   }
 
