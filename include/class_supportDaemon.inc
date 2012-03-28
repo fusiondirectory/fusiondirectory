@@ -221,6 +221,7 @@ class supportDaemon
    */
   private function format_entries($entries) {
     timezone::get_default_timezone();
+    $entries_r = array();
     foreach($entries as &$entry) {
       $entry_r['TIMESTAMP'] = DaemonEvent::_timestamp_to_event($entry['data']['timestamp']);
       $entry_r['MACADDRESS'] = $entry['target'];
@@ -450,6 +451,7 @@ class supportDaemon
       /*  $this->set_error("client fai log directory ".$this->logdir." do not exist"); */
       return(FALSE);
     }
+    $ret = array();
     foreach ($dates as $date) {
       if($date == "." || $date =="..") {
           continue;
