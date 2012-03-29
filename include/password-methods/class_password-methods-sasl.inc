@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
@@ -22,31 +21,43 @@
 
 class passwordMethodsasl extends passwordMethod
 {
-  var $lockable = FALSE;
-
-  function passwordMethodsasl($config)
+  var $dn  = "";
+  var $uid = "";
+  var $realm = "";
+  
+  function __construct($config, $dn)
   {
-    $this->saslField=$config->get_cfg_value("passwordSaslField");
+    if($dn == "" || $dn == "new") return;
 
+    $this->realm = trim($config->get_cfg_value('SASLRealm'));
+    if($this->realm == ""){
+        trigger_error(msgPool::cmdnotfound("SASLRealm", _("SASL")));
+    }
+
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
+    $ldap->cat($dn,array('uid'));
+    if($ldap->count() == 1){
+        $attrs = $ldap->fetch();
+        $this->uid = $attrs['uid'][0];
+    }else{
+        trigger_error("Cannot change password, unknown users '".$dn."'");
+    }
   }
 
   function is_available()
   {
-    return true;
+      return(true);
   }
-
 
   function generate_hash($pwd)
   {
-    $saslFieldValue=$this->attrs['uid'][0];
-    echo $saslFieldValue."<br>";
-    return "{SASL}".$saslFieldValue;       
+    return("{SASL}".$this->uid."@".$this->realm);
   }
 
-  
   function get_hash_name()
   {
-    return ("sasl");
+    return "sasl";
   }
 }
 
