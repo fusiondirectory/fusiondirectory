@@ -117,6 +117,11 @@ class ogrouptabs extends tabs
           unset($this->by_object['faiSummary']);
           unset($this->by_name['faiSummary']);
         }
+        if (isset($this->by_object['argonautClient'])){
+          $this->by_object['argonautClient']->remove_from_parent();
+          unset($this->by_object['argonautClient']);
+          unset($this->by_name['argonautClient']);
+        }
       }
     }
   
@@ -213,6 +218,14 @@ class ogrouptabs extends tabs
         $this->by_name['faiSummary']= _("FAI summary");
         $this->by_object['faiSummary']= new faiSummaryTab($this->config, $this->dn);
         $this->by_object['faiSummary']->parent= &$this;
+      }
+    }
+    if(class_available("argonautClient")){
+      if(!$mixed_type &&
+          (preg_match("/S/",$objects) || preg_match("/W/",$objects))&&(!isset($this->by_object['argonautClient']))){
+        $this->by_name['argonautClient']= _("Argonaut client");
+        $this->by_object['argonautClient']= new argonautClient($this->config, $this->dn, $this->by_object['ogroup']);
+        $this->by_object['argonautClient']->parent= &$this;
       }
     }
 
