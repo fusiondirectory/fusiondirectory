@@ -561,7 +561,7 @@ class supportDaemon
           $infos['FAI_RELEASE'] = $tmp[2];
           $infos['SECTIONS'] = explode(",",$tmp[3]);
           $infos['INSTALL'] = $tmp[4];
-          $infos['TAG'] = $entry['gosaUnitTag'];
+          $infos['TAG'] = (isset($entry['gosaUnitTag'])?$entry['gosaUnitTag']:'');
           $repos[] = $infos;
         }
       }
