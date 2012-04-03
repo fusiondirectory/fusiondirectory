@@ -26,7 +26,7 @@
       {t}{$headline}{/t}
     </a>
   </div>
-  <div style="padding-top:8px;text-align:right;height:28px;color:white;"><a>{t}Signed in:{/t} <b>{$username}</b></a></div>
+  <div style="padding-top:8px;text-align:right;height:38px;color:white;"><a>{t}Signed in:{/t} <b>{$username}</b></a></div>
 </div>
 <!--<div class='setup_menu'>
   <b>{t}FusionDirectory main menu{/t}</b>
