@@ -133,7 +133,9 @@ class supportDaemon
       timezone::get_default_timezone();
       if($event->get_timestamp(FALSE) != 0) {
         $data_json['timestamp'] = $event->get_timestamp(FALSE);
-        $data_json['periodic'] = $data['periodic'];
+        if(isset($data['periodic'])) {
+          $data_json['periodic'] = $data['periodic'];
+        }
       }
       $data_json['args'] = $data;
       unset($data_json['args']['timestamp']);
@@ -259,7 +261,6 @@ class supportDaemon
       $this->set_error(nl2br($e->getMessage()));
       return(FALSE);
     }
-    $this->get_entries();
     $entries = $this->format_entries($entries);
     $this->reset_error();
     return($entries);
