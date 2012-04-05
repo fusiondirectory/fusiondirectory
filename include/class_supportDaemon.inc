@@ -507,10 +507,16 @@ class supportDaemon
    * \param array   'filters' The filters we want to use. An or is performed between array cases.
    * \param integer 'from'    The indice of the package we want to start from
    * \param integer 'stop'    The indice of the package we want to stop to.
+   * \param boolean 'package_list'    True if filters is an array of package names that needs exact matching, false if it is an array of perl regexp
    * 
    * \return Array   List of packages that fit the given parameters.
   */
-  public function FAI_get_packages($release,$attrs,$filters,$from=-1,$to=-1) {
+  public function FAI_get_packages($release,$attrs,$filters,$from=-1,$to=-1,$package_list=false) {
+    if($package_list) { // filters is a package name list
+      foreach ($filters as &$filter) {
+        $filter = "^".$this->escape_perl_chars($filter)."$";
+      }
+    }
     try {
       $client = new jsonRPCClient($this->s_host);
       $this->reset_error();
@@ -539,6 +545,18 @@ class supportDaemon
       $this->set_error(nl2br($e->getMessage()));
       return array();
     }
+  }
+  
+  /*! \brief Escape perl regexp special chars
+   * 
+   * \param string The string that needs escaping
+   * 
+   * \return string Escaped string
+  */
+  public function escape_perl_chars($str) {
+    $patterns = array("/\+/", "/\*/", "/\./");
+    $escaped  = array("\+",   "\*",   "\."  );
+    return preg_replace($patterns,$escaped,$str);
   }
 
   /*! \brief Get all configured repository servers
