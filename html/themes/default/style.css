@@ -23,13 +23,6 @@ td,p,b {
 font-size:12px;
 }
 
-tr.rowxp {
-}
-
-tr.rowxp:hover {
-background-color:#D8D8D8;
-}
-
 td.listheader {
 background:#F0F0F0;
 font-weight:bold;
@@ -64,22 +57,6 @@ div.scrollbody {
 background-color:#FFF;
 overflow:auto;
 text-align:left;
-}
-
-tr.rowxp0 {
-background:#FFF;
-}
-
-tr.rowxp0:hover {
-background-color:#D8D8D8;
-}
-
-tr.rowxp_locked {
-background:#ED0000;
-}
-
-tr.rowxp_locked:hover {
-background-color:#FEBFD2;
 }
 
 td.list0 {
@@ -1841,8 +1818,32 @@ height:auto;
 white-space:nowrap;
 }
 
+.listScrollContent tr:nth-child(odd) {
+  background-color:#FFF;
+}
+
+.listScrollContent tr:nth-child(even) {
+  background-color:#F5F5F5;
+}
+
+.listScrollContent tr.entry-locked:nth-child(odd) {
+  background-color:#FFC;
+}
+
+.listScrollContent tr.entry-locked:nth-child(even) {
+  background-color:#F5F5CC;
+}
+
 .listScrollContent tr td:last-child {
 padding-right:20px;
+}
+
+.listScrollContent tr:hover {
+  background-color:#DDD;
+}
+
+.listScrollContent tr.entry-locked:hover {
+  background-color:#DDA;
 }
 
 .listBodyFormat tr td {
