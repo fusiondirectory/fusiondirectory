@@ -589,7 +589,6 @@ function initProgressPie(){
 
     // Check the element is in the DOM and the browser supports canvas
     if(canvas && canvas.getContext) {
-      alert('ok');
         var percent = 0.01;
         var context = canvas.getContext('2d');
         setProgressPie(context, percent);
@@ -620,8 +619,6 @@ function initProgressPie(){
 
                 if (percent>99) percent= 99;
                 }, (interval * 1000));
-    } else {
-      alert('raté');
     }
 }
 
