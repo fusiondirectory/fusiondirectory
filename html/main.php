@@ -374,7 +374,7 @@ if (is_file("$plugin_dir/main.inc")){
 /* Print_out last ErrorMessage repeated string. */
 $smarty->assign("msg_dialogs", msg_dialog::get_dialogs());
 $smarty->assign("contents", $display);
-$smarty->assign("sessionLifetime", $config->get_cfg_value("sessionLifetime", 60*60*2);;
+$smarty->assign("sessionLifetime", $config->get_cfg_value("sessionLifetime", 60*60*2));
 
 /* If there's some post, take a look if everything is there... */
 if (isset($_POST) && count($_POST)){
