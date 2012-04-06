@@ -26,7 +26,12 @@
       {t}{$headline}{/t}
     </a>
   </div>
-  <div style="padding-top:8px;text-align:right;height:38px;color:white;"><a>{t}Signed in:{/t} <b>{$username}</b></a></div>
+  <div style="padding-top:8px;text-align:right;height:38px;color:white;">
+    <a>{t}Signed in:{/t} <b>{$username}</b></a>
+    <div class='logout-label'>
+      <canvas id="sTimeout" width="22" height="22" title="{$sessionLifetime}|{t}Session expires in %d!{/t}"></canvas>
+    </div>
+  </div>
 </div>
 <!--<div class='setup_menu'>
   <b>{t}FusionDirectory main menu{/t}</b>
@@ -80,4 +85,24 @@
 
 {/if}
 
-{$errors}{$focus}<input type="hidden" name="php_c_check" value="1"></form></body></html>
+{$errors}
+{$focus}
+<input type="hidden" name="php_c_check" value="1">
+</form>
+
+
+  <!-- Automatic logout when session is expired -->
+  <script type='text/javascript'>
+  {literal}
+   function logout()
+   {
+    document.location = 'logout.php';
+   }
+  {/literal}
+   
+   logout.delay({$sessionLifetime});
+
+  </script>  
+
+</body>
+</html>

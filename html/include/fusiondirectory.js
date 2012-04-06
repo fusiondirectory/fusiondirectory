@@ -21,6 +21,7 @@
 /* Install event handlers */
 Event.observe(window, 'resize', resizeHandler);
 Event.observe(window, 'load', resizeHandler);
+Event.observe(window, 'load', initProgressPie); 
 Event.observe(window, 'keypress', keyHandler);
 
 
@@ -545,6 +546,83 @@ function move_div_by_cursor(e)
       }
     }
   }
+}
+
+function setProgressPie(context, percent)
+{
+    context.clearRect(0, 0, 22, 22);
+
+    var r = "FF";
+    var g = "FF";
+    var b = "FF";
+
+    // Fade yellow
+    if (percent > 50) {
+        d = 255 - parseInt((percent-50) * 255 / 50)
+            b = d.toString(16);
+    }
+
+    // Fade red
+    if (percent > 75) {
+        d = 255 - parseInt((percent-75) * 255 / 25)
+            g = d.toString(16);
+    }
+
+    context.strokeStyle = "#" + r  + g + b
+        context.fillStyle = context.strokeStyle;
+
+    context.beginPath();
+    context.moveTo(11,11)
+        context.arc(11,11,8,-Math.PI/2,-Math.PI/2 + Math.PI*percent/50,true);
+    context.closePath();
+    context.fill();
+
+    context.moveTo(11,11)
+        context.beginPath();
+    context.arc(11,11,8,0,Math.PI*2,false);
+    context.closePath();
+    context.stroke();
+}
+
+function initProgressPie(){
+    var canvas = $('sTimeout');
+
+    // Check the element is in the DOM and the browser supports canvas
+    if(canvas && canvas.getContext) {
+      alert('ok');
+        var percent = 0.01;
+        var context = canvas.getContext('2d');
+        setProgressPie(context, percent);
+
+        // Extract timeout and title string out out canvas.title
+        var data = canvas.title;
+        var timeout = data.replace(/\|.*$/,'');
+        var title = data.replace(/^.*\|/,'');
+        var interval = 1;
+        var time = 0;
+        setInterval(function() {
+
+                // Calculate percentage 
+                percent+= (interval / timeout) * 100;
+
+                // Increase current time by interval
+                time += interval;
+
+                // Generate title
+                var minutes = parseInt((timeout-time) / 60 );
+                var seconds = '' + parseInt((timeout-time) % 60);
+                if(seconds.length == 1) seconds = '0' + seconds ;
+                minutes = minutes + ':' + seconds;
+
+                // Set new  canval title
+                canvas.title=  title.replace(/%d/ ,minutes);
+                setProgressPie(context, percent);
+
+                if (percent>99) percent= 99;
+                }, (interval * 1000));
+    } else {
+      alert('raté');
+    }
 }
 
 
