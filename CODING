@@ -10,7 +10,7 @@ of a style and look call.
 
 * Indentation and line length
 
-As a basic style rule, please use spaces instead of tabulators. This will
+As a basic style rule, please use 2 spaces instead of tabulators. This will
 remove problems when using "diff".
 
 For VI users, this can be achieved by the following settings:
@@ -26,10 +26,10 @@ The line length should not exceed 80 characters. There is one exception for
 i18n strings that must not be split for gettext.
 
 
-*  Performance and Readability 
+*  Performance and Readability
 
-It is more important to be correct than to be fast. 
-It is more important to be maintainable than to be fast. 
+It is more important to be correct than to be fast.
+It is more important to be maintainable than to be fast.
 Fast code that is difficult to maintain is likely going to be looked down upon.
 
 
@@ -58,24 +58,26 @@ UTF-8, LF - not CR LF
 
 * White spaces
 
-Use a space before an opening parenthesis when calling functions, or indexing, like this:
+Use a space before affectations, around operators, before parenthesis or braces.
 
 8<----------------------------------------------------------------------------
 # Methods
-foo ($parameter);
+foo($parameter);
 
 # Arrays
-$b = $value [0];
+$b = $value[0];
 
 # Readability
 if ($b + 5 > foo (bar () + 4)) {
 }
 8<----------------------------------------------------------------------------
 
-Don't layout your code like this, always minimize spaces:
+For vars declaration, place values on the same column
 
 8<----------------------------------------------------------------------------
 var $most           = "something";
+var $iHaveALongName = "value";
+var $otherName      = "otherValue";
 8<----------------------------------------------------------------------------
 
 
@@ -88,7 +90,7 @@ function foo ($param1, $param2)
 Always use single spaces to split logical and mathematical operations:
 
 8<----------------------------------------------------------------------------
-if ( $a > 6 && $b == 17 && (foo ($b) < 1) ) {
+if ($a > 6 && $b == 17 && (foo ($b) < 1)) {
 }
 8<----------------------------------------------------------------------------
 
@@ -99,14 +101,14 @@ If statements with or without else clauses are formatted like this:
 
 8<----------------------------------------------------------------------------
 if ($value) {
-    foo ();
-    bar ();
+  foo ();
+  bar ();
 }
 
 if ($value) {
-    foo ();
+  foo ();
 } else {
-    bar ();
+  bar ();
 }
 8<----------------------------------------------------------------------------
 
@@ -114,13 +116,13 @@ Switches are formatted like this:
 
 8<----------------------------------------------------------------------------
 switch ($reason) {
-    case 'fine':
-        foo ();
-        break;
+  case 'fine':
+    foo();
+    break;
 
-    case 'well':
-        bar ();
-        break;
+  case 'well':
+    bar();
+    break;
 }
 8<----------------------------------------------------------------------------
 
@@ -129,7 +131,7 @@ Always use use braces for single line blocks:
 
 8<----------------------------------------------------------------------------
 if ($value) {
-    foo ();
+  foo();
 }
 8<----------------------------------------------------------------------------
 
@@ -139,7 +141,7 @@ line:
 8<----------------------------------------------------------------------------
 function bar ()
 {
-    ...
+  ...
 }
 8<----------------------------------------------------------------------------
 
@@ -150,7 +152,8 @@ Always use camel casing with lowercase characters in the beginning for multi-
 word identifiers:
 
 8<----------------------------------------------------------------------------
-function checkForValidity (){
+function checkForValidity ()
+{
   $testSucceeded = false;
   ...
 }
@@ -179,7 +182,7 @@ if ( configReadable ("/etc/foo.conf") ) {
 Use uppercase for constants/defines and _ if possible:
 
 8<----------------------------------------------------------------------------
-if ( $speedUp == TRUE ) {
+if ($speedUp == TRUE) {
   $wait = SHORT_WAIT;
 } else {
   $wait = LONG_WAIT;
@@ -189,11 +192,18 @@ if ( $speedUp == TRUE ) {
 
 * PHP specific
 
+Use return without parenthesis
+8<----------------------------------------------------------------------------
+return TRUE; // good
+
+return(TRUE); // bad
+8<----------------------------------------------------------------------------
+
 Open and close tags:
 
-  <?php 
-  // Something here 
-  ?> 
+<?php
+  // Something here
+?>
 
 
 HTML
@@ -205,6 +215,12 @@ possible.
 Code inclusion
 
 Use require_once instead of include.
+
+* GNU Indent command
+
+Using the following
+indent -bap -bad -blf -br -cdw -ce -nut -npcs -saf -sai -saw -ts2
+Might be a good start, but be careful as it breaks (at least) "<?php" tag and elseif keyword.
 
 ---
 The FusionDirectory project <contact@fusiondirectory.org>
