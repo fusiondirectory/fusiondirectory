@@ -28,9 +28,9 @@ define ("LDAP_DEL",    4);
 define ("LDAP_SEARCH", 5);
 define ("LDAP_AUTH",   6);
 
-/*! \brief This class contains all the messages for the various actions 
- * 
- */ 
+/*! \brief This class contains all the messages for the various actions
+ *
+ */
 class msgPool
 {
 
@@ -53,7 +53,7 @@ class msgPool
 
   public static function deleteInfo($name= "",$type = "")
   {
-    if ($name == "") { 
+    if ($name == "") {
       if($type == ""){
         return (_("This object will be deleted!"));
       }else{
@@ -84,7 +84,7 @@ class msgPool
 
   public static function permDelete($name= "")
   {
-    if ($name == "") { 
+    if ($name == "") {
       return (_("You have no permission to delete this object!"));
     }
 
@@ -102,7 +102,7 @@ class msgPool
 
   public static function permCreate($name= "")
   {
-    if ($name == "") { 
+    if ($name == "") {
       return (_("You have no permission to create this object!"));
     }
 
@@ -120,7 +120,7 @@ class msgPool
 
   public static function permModify($name= "")
   {
-    if ($name == "") { 
+    if ($name == "") {
       return (_("You have no permission to modify this object!"));
     }
 
@@ -138,7 +138,7 @@ class msgPool
 
   public static function permView($name= "")
   {
-    if ($name == "") { 
+    if ($name == "") {
       return (_("You have no permission to view this object!"));
     }
 
@@ -156,7 +156,7 @@ class msgPool
 
   public static function permMove($name= "")
   {
-    if ($name == "") { 
+    if ($name == "") {
       return (_("You have no permission to move this object!"));
     }
 
@@ -474,10 +474,10 @@ class msgPool
   }
 
 
-  public static function mysqlerror($error,  $plugin= "")
+  public static function dbError($error,  $plugin= "")
   {
     /* Assign headline depending on type */
-    $headline= _("MySQL operation failed!");
+    $headline= _("Database operation failed!");
     return $headline."<br><br><i>"._("Error").":</i> ".$error;
   }
 

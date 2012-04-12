@@ -59,7 +59,7 @@ define('DES3_CBC_SHA1',16);
 /* Define constants for debugging */
 define ("DEBUG_TRACE",   1); /*! Debug level for tracing of common actions (save, check, etc.) */
 define ("DEBUG_LDAP",    2); /*! Debug level for LDAP queries */
-define ("DEBUG_MYSQL",   4); /*! Debug level for mysql operations */
+define ("DEBUG_DB",   4); /*! Debug level for database operations */
 define ("DEBUG_SHELL",   8); /*! Debug level for shell commands */
 define ("DEBUG_POST",   16); /*! Debug level for POST content */
 define ("DEBUG_SESSION",32); /*! Debug level for SESSION content */
@@ -71,10 +71,10 @@ define ("DEBUG_FAI",   1024); // FAI (incomplete)
 
 
 // Define shadow states
-define ("POSIX_ACCOUNT_EXPIRED", 1); 
-define ("POSIX_WARN_ABOUT_EXPIRATION", 2); 
-define ("POSIX_FORCE_PASSWORD_CHANGE", 4); 
-define ("POSIX_DISALLOW_PASSWORD_CHANGE", 8); 
+define ("POSIX_ACCOUNT_EXPIRED", 1);
+define ("POSIX_WARN_ABOUT_EXPIRATION", 2);
+define ("POSIX_FORCE_PASSWORD_CHANGE", 4);
+define ("POSIX_DISALLOW_PASSWORD_CHANGE", 8);
 
 /* Rewrite german 'umlauts' and spanish 'accents'
    to get better results */
@@ -125,10 +125,10 @@ function __fusiondirectory_autoload($class_name) {
 spl_autoload_register('__fusiondirectory_autoload');
 
 
-/*! \brief Checks if a class is available. 
- * 
+/*! \brief Checks if a class is available.
+ *
  *  \param string 'name' The subject of the test
- * 
+ *
  *  \return boolean Return TRUE if successfull FALSE otherwise
  */
 function class_available($name)
@@ -143,7 +143,7 @@ function class_available($name)
  * Checks if a given plugin is available and readable.
  *
  * \param string 'plugin' the subject of the check
- * 
+ *
  * \return boolean Return TRUE if successfull FALSE otherwise
  */
 function plugin_available($plugin)
@@ -158,7 +158,7 @@ function plugin_available($plugin)
 }
 
 
-/*! \brief Create seed with microseconds 
+/*! \brief Create seed with microseconds
  *
  * Example:
  * \code
@@ -174,25 +174,25 @@ function make_seed() {
 }
 
 
-/*! \brief Debug level action 
+/*! \brief Debug level action
  *
- * Print a DEBUG level if specified debug level of the level matches the 
+ * Print a DEBUG level if specified debug level of the level matches the
  * the configured debug level.
  *
  * \param int 'level' The log level of the message (should use the constants,
  * defined in functions.in (DEBUG_TRACE, DEBUG_LDAP, etc.)
- * 
+ *
  * \param int 'line' Define the line of the logged action (using __LINE__ is common)
- * 
+ *
  * \param string 'function' Define the function where the logged action happened in
  * (using __FUNCTION__ is common)
- * 
+ *
  * \param string 'file' Define the file where the logged action happend in
  * (using __FILE__ is common)
- * 
+ *
  * \param mixed 'data' The data to log. Can be a message or an array, which is printed
  * with print_a
- * 
+ *
  * \param string 'info' Optional: Additional information
  *
  * */
@@ -247,7 +247,7 @@ function get_browser_language()
     }
     return($lang);
   }
- 
+
   /* Load supported languages */
   $gosa_languages= get_languages();
 
@@ -262,7 +262,7 @@ function get_browser_language()
 }
 
 
-/*! \brief Rewrite ui object to another dn 
+/*! \brief Rewrite ui object to another dn
  *
  * Usually used when a user is renamed. In this case the dn
  * in the user object must be updated in order to point
@@ -270,7 +270,7 @@ function get_browser_language()
  *
  * \param string 'dn' the old DN
  * \param string 'newdn' the new DN
- * 
+ *
  */
 function change_ui_dn($dn, $newdn)
 {
@@ -296,7 +296,7 @@ function change_ui_dn($dn, $newdn)
  *  \param  string 'filename' The base file name
  *  \param  boolean 'plugin' Flag to take the plugin directory as search base
  *  \param  string 'path' User specified path to take as search base
- * 
+ *
  *  \return string Full path to the template file
  */
 function get_template_path($filename= '', $plugin= FALSE, $path= "")
@@ -387,7 +387,7 @@ function array_remove_entries_ics($needles, $haystack)
  *
  * \param array 'ar1' first array
  * \param array 'ar2' second array
- * 
+ *
  * \return array
  */
 function fusiondirectory_array_merge($ar1,$ar2)
@@ -428,7 +428,7 @@ function fusiondirectory_log ($message)
 
 /*! \brief Initialize a LDAP connection
  *
- * Initializes a LDAP connection. 
+ * Initializes a LDAP connection.
  *
  * \param string 'server' The server we are connecting to
  * \param string 'base' The base of our ldap tree
@@ -460,7 +460,7 @@ function ldap_init ($server, $base, $binddn='', $pass='')
 
 /*! \brief Process htaccess authentication
  *
- * Process htaccess authentication 
+ * Process htaccess authentication
  *
  * \param string 'username' The username we ant to check
  * \param bool 'kerberos' TRUE to use kerberos FALSE otherwise
@@ -474,7 +474,7 @@ function process_htaccess ($username, $kerberos= FALSE)
 
   /* Search for $username and optional @REALM in all configured LDAP trees */
   foreach($config->data["LOCATIONS"] as $name => $data){
-  
+
     $config->set_current($name);
     $mode= "kerberos";
     if ($config->get_cfg_value("useSaslForKerberos") == "true"){
@@ -484,8 +484,8 @@ function process_htaccess ($username, $kerberos= FALSE)
     /* Look for entry or realm */
     $ldap= $config->get_ldap_link();
     if (!$ldap->success()){
-      msg_dialog::display(_("LDAP error"), 
-          msgPool::ldaperror($ldap->get_error(), "", LDAP_AUTH)."<br><br>".session::get('errors'), 
+      msg_dialog::display(_("LDAP error"),
+          msgPool::ldaperror($ldap->get_error(), "", LDAP_AUTH)."<br><br>".session::get('errors'),
           FATAL_ERROR_DIALOG);
       exit();
     }
@@ -509,7 +509,7 @@ function process_htaccess ($username, $kerberos= FALSE)
  * to an LDAP user. The password has been checked by apache already.
  *
  * \param string 'username' The username to check.
- * 
+ *
  * \return
  *  - TRUE on SUCCESS, NULL or FALSE on error
  */
@@ -520,8 +520,8 @@ function ldap_login_user_htaccess ($username)
   /* Look for entry or realm */
   $ldap= $config->get_ldap_link();
   if (!$ldap->success()){
-    msg_dialog::display(_("LDAP error"), 
-        msgPool::ldaperror($ldap->get_error(), "", LDAP_AUTH)."<br><br>".session::get('errors'), 
+    msg_dialog::display(_("LDAP error"),
+        msgPool::ldaperror($ldap->get_error(), "", LDAP_AUTH)."<br><br>".session::get('errors'),
         FATAL_ERROR_DIALOG);
     exit();
   }
@@ -563,7 +563,7 @@ function ldap_login_user_htaccess ($username)
  *
  * \param string 'username' The username to check
  * \param string 'password' The password to check
- * 
+ *
  * \return
  *  - TRUE on SUCCESS, NULL or FALSE on error
  */
@@ -574,8 +574,8 @@ function ldap_login_user ($username, $password)
   /* look through the entire ldap */
   $ldap = $config->get_ldap_link();
   if (!$ldap->success()){
-    msg_dialog::display(_("LDAP error"), 
-        msgPool::ldaperror($ldap->get_error(), "", LDAP_AUTH)."<br><br>".session::get('errors'), 
+    msg_dialog::display(_("LDAP error"),
+        msgPool::ldaperror($ldap->get_error(), "", LDAP_AUTH)."<br><br>".session::get('errors'),
         FATAL_ERROR_DIALOG);
     exit();
   }
@@ -583,7 +583,7 @@ function ldap_login_user ($username, $password)
   $allowed_attributes = array("uid","mail");
   $verify_attr = array();
   if($config->get_cfg_value("loginAttribute") != ""){
-    $tmp = explode(",", $config->get_cfg_value("loginAttribute")); 
+    $tmp = explode(",", $config->get_cfg_value("loginAttribute"));
     foreach($tmp as $attr){
       if(in_array($attr,$allowed_attributes)){
         $verify_attr[] = $attr;
@@ -609,7 +609,7 @@ function ldap_login_user ($username, $password)
     case 0: return (NULL);
 
             /* valid uniq user */
-    case 1: 
+    case 1:
             break;
 
             /* found more than one matching id */
@@ -663,23 +663,23 @@ function ldap_login_user ($username, $password)
  * \param object 'config'   The FusionDirectory configuration object.
  * \param string 'userdn'   The 'dn' of the user to test the account status for.
  * \param string 'uid'      The 'uid' of the user we're going to test.
- * \return const 
+ * \return const
  *                  POSIX_ACCOUNT_EXPIRED           - If the account is expired.
  *                  POSIX_WARN_ABOUT_EXPIRATION     - If the account is going to expire.
  *                  POSIX_FORCE_PASSWORD_CHANGE     - The password has to be changed.
  *                  POSIX_DISALLOW_PASSWORD_CHANGE  - The password cannot be changed right now.
- * 
- * 
- * 
- *      shadowLastChange       
+ *
+ *
+ *
+ *      shadowLastChange
  *      |
  *      |---- shadowMin --->    |       <-- shadowMax --
  *      |                       |       |
- *      |------- shadowWarning ->       | 
+ *      |------- shadowWarning ->       |
  *                                      |-- shadowInactive --> DEACTIVATED
  *                                      |
  *                                      EXPIRED
- *                           
+ *
  */
 function ldap_expired_account($config, $userdn, $uid)
 {
@@ -693,7 +693,7 @@ function ldap_expired_account($config, $userdn, $uid)
     $attrs= $ldap->fetch();
     $current= floor(date("U") /60 /60 /24);
 
-    // Fetch required attributes 
+    // Fetch required attributes
     foreach(array('shadowExpire','shadowLastChange','shadowMax','shadowMin',
                 'shadowInactive','shadowWarning','sambaKickoffTime') as $attr){
         $$attr = (isset($attrs[$attr][0]))? $attrs[$attr][0] : null;
@@ -713,7 +713,7 @@ function ldap_expired_account($config, $userdn, $uid)
     // Check if the account has expired.
     // ---------------------------------
     // An account is locked/expired once its expiration date has reached (shadowExpire).
-    // If the optional attribute (shadowInactive) is set, we've to postpone 
+    // If the optional attribute (shadowInactive) is set, we've to postpone
     //  the account expiration by the amount of days specified in (shadowInactive).
     if($shadowExpire != null && $shadowExpire <= $current){
 
@@ -722,7 +722,7 @@ function ldap_expired_account($config, $userdn, $uid)
         // It some kind of x days' grace.
         if($shadowInactive == null || $current > $shadowExpire + $shadowInactive){
 
-            // Finally we've detect that the account is deactivated. 
+            // Finally we've detect that the account is deactivated.
             return(POSIX_ACCOUNT_EXPIRED);
         }
     }
@@ -731,16 +731,16 @@ function ldap_expired_account($config, $userdn, $uid)
     // --------------------------------------
     // We've to warn the user in the case of an expiring account.
     // An account is going to expire when it reaches its expiration date (shadowExpire).
-    // The user has to be warned, if the days left till expiration, match the 
+    // The user has to be warned, if the days left till expiration, match the
     //  configured warning period (shadowWarning)
     // --> shadowWarning: Warn x days before account expiration.
     if($shadowExpire != null && $shadowWarning != null){
 
-        // Check if the account is still active and not already expired. 
+        // Check if the account is still active and not already expired.
         if($shadowExpire >= $current){
 
-            // Check if we've to warn the user by comparing the remaining 
-            //  number of days till expiration with the configured amount 
+            // Check if we've to warn the user by comparing the remaining
+            //  number of days till expiration with the configured amount
             //  of days in shadowWarning.
             if(($shadowExpire - $current) <= $shadowWarning){
                 return(POSIX_WARN_ABOUT_EXPIRATION);
@@ -760,10 +760,10 @@ function ldap_expired_account($config, $userdn, $uid)
 
     // Check if we've to force the user to change his password.
     // --------------------------------------------------------
-    // A password change is enforced when the password is older than 
+    // A password change is enforced when the password is older than
     //  the configured amount of days (shadowMax).
-    // The age of the current password (shadowLastChange) plus the maximum 
-    //  amount amount of days (shadowMax) has to be smaller than the 
+    // The age of the current password (shadowLastChange) plus the maximum
+    //  amount amount of days (shadowMax) has to be smaller than the
     //  current timestamp.
     if($shadowLastChange != null && $shadowMax != null){
 
@@ -774,9 +774,9 @@ function ldap_expired_account($config, $userdn, $uid)
     }
 
 
-    // Check if we've to freeze the users password. 
+    // Check if we've to freeze the users password.
     // --------------------------------------------
-    // Once a user has changed his password, he cannot change it again 
+    // Once a user has changed his password, he cannot change it again
     //  for a given amount of days (shadowMin).
     // We should not allow to change the password within FusionDirectory too.
     if($shadowLastChange != null && $shadowMin != null){
@@ -785,7 +785,7 @@ function ldap_expired_account($config, $userdn, $uid)
         if(($shadowLastChange + $shadowMin) >= $current){
             return(POSIX_DISALLOW_PASSWORD_CHANGE);
         }
-    }    
+    }
 
     return(0);
 }
@@ -794,7 +794,7 @@ function ldap_expired_account($config, $userdn, $uid)
 
 
 
-/*! 
+/*!
  *  \brief Add a lock for object(s)
  *
  * Adds a lock by the specified user for one ore multiple objects.
@@ -807,7 +807,7 @@ function add_lock($object, $user)
 {
   global $config;
 
-  /* Remember which entries were opened as read only, because we 
+  /* Remember which entries were opened as read only, because we
       don't need to remove any locks for them later.
    */
   if(!session::global_is_set("LOCK_CACHE")){
@@ -886,7 +886,7 @@ function del_lock ($object)
     return;
   }
 
-  /* If this object was opened in read only mode then 
+  /* If this object was opened in read only mode then
       skip removing the lock entry, there wasn't any lock created.
     */
   if(session::global_is_set("LOCK_CACHE")){
@@ -924,7 +924,7 @@ function del_user_locks($userdn)
 {
   global $config;
 
-  /* Get LDAP ressources */ 
+  /* Get LDAP ressources */
   $ldap= $config->get_ldap_link();
   $ldap->cd ($config->get_cfg_value("config"));
 
@@ -941,9 +941,9 @@ function del_user_locks($userdn)
  * Searches for a lock on a given object.
  *
  * \param string 'object' subject whose locks are to be searched
- * 
+ *
  * \return string Returns the user who owns the lock or "" if no lock is found
- * or an error occured. 
+ * or an error occured.
  */
 function get_lock ($object)
 {
@@ -994,7 +994,7 @@ function get_lock ($object)
  * Similar as get_lock(), but for multiple objects.
  *
  * \param array 'objects' Array of Objects for which a lock will be searched
- * 
+ *
  * \return A numbered array containing all found locks as an array with key 'dn'
  * and key 'user' or "" if an error occured.
  */
@@ -1036,9 +1036,9 @@ function get_multiple_locks($objects)
  *
  * This function searches the ldap database. It searches in $sub_bases,*,$base
  * for all objects matching the $filter.
- * 
+ *
  *  \param string 'filter'    The ldap search filter
- *  \param string 'category'  The ACL category the result objects belongs 
+ *  \param string 'category'  The ACL category the result objects belongs
  *  \param string 'sub_bases' The sub base we want to search for e.g. "ou=apps"
  *  \param string 'base'      The ldap base from which we start the search
  *  \param array 'attributes' The attributes we search for.
@@ -1072,15 +1072,15 @@ function get_sub_list($filter, $category,$sub_deps, $base= "", $attributes= arra
 
       /* Subsearch is activated and we got an empty sub_base.
        *  (This may be the case if you have empty people/group ous).
-       * Fall back to old get_list(). 
+       * Fall back to old get_list().
        * A log entry will be written.
        */
       if($flags & GL_SUBSEARCH){
         $sub_bases = array();
         break;
       }else{
-        
-        /* Do NOT search within subtrees is requeste and the sub base is empty. 
+
+        /* Do NOT search within subtrees is requeste and the sub base is empty.
          * Append all known departments that matches the base.
          */
         $departments[$base] = $base;
@@ -1089,15 +1089,15 @@ function get_sub_list($filter, $category,$sub_deps, $base= "", $attributes= arra
       $sub_bases[$key] = preg_replace("/,.*$/","",$sub_base);
     }
   }
-  
+
    /* If there is no sub_department specified, fall back to old method, get_list().
    */
   if(!count($sub_bases) && !count($departments)){
-    
+
     /* Log this fall back, it may be an unpredicted behaviour.
      */
     if(!count($sub_bases) && !count($departments)){
-      // log($action,$objecttype,$object,$changes_array = array(),$result = "") 
+      // log($action,$objecttype,$object,$changes_array = array(),$result = "")
       new log("debug","all",__FILE__,$attributes,
           sprintf("get_sub_list(): Falling back to get_list(), due to empty sub_bases parameter.".
             " This may slow down FusionDirectory. Search was: '%s'",$filter));
@@ -1119,8 +1119,8 @@ function get_sub_list($filter, $category,$sub_deps, $base= "", $attributes= arra
       /* Only add those departments that match the reuested list of departments.
        *
        * e.g.   sub_deps = array("ou=servers,ou=systems,");
-       *  
-       * In this case we have search for "ou=servers" and we may have also fetched 
+       *
+       * In this case we have search for "ou=servers" and we may have also fetched
        *  departments like this "ou=servers,ou=blafasel,..."
        * Here we filter out those blafasel departments.
        */
@@ -1196,12 +1196,12 @@ function get_sub_list($filter, $category,$sub_deps, $base= "", $attributes= arra
 
 
 /*! \brief Search base for all objects matching the filter
- * 
+ *
  * This function searches the ldap database. It search the $base
  * for all objects matching the $filter.
- * 
+ *
  *  \param string 'filter'    The ldap search filter
- *  \param string 'category'  The ACL category the result objects belongs 
+ *  \param string 'category'  The ACL category the result objects belongs
  *  \param string 'base'      The ldap base from which we start the search
  *  \param array 'attributes' The attributes we search for.
  *  \param long 'flags'       A set of Flags
@@ -1258,7 +1258,7 @@ function get_list($filter, $category, $base= "", $attributes= array(), $flags= G
         $category = array($category);
       }
       foreach ($category as $o){
-        if((preg_match("/\//",$o) && preg_match("/r/",$ui->get_permissions($dn,$o))) || 
+        if((preg_match("/\//",$o) && preg_match("/r/",$ui->get_permissions($dn,$o))) ||
             (!preg_match("/\//",$o) && preg_match("/r/",$ui->get_category_permissions($dn, $o)))){
           $result[]= $attrs;
           break;
@@ -1266,7 +1266,7 @@ function get_list($filter, $category, $base= "", $attributes= array(), $flags= G
       }
     }
   }
- 
+
 #  if(microtime(TRUE) - $start > 0.1){
 #    echo sprintf("<pre>GET_LIST %s .| %f  --- $base -----$filter ---- $flags</pre>",__LINE__,microtime(TRUE) - $start);
 #  }
@@ -1275,7 +1275,7 @@ function get_list($filter, $category, $base= "", $attributes= array(), $flags= G
 
 
 /*! \brief Show sizelimit configuration dialog
- * 
+ *
  * Show sizelimit configuration dialog when number
  * of entries exceeded the sizelimit
  */
@@ -1299,7 +1299,7 @@ function check_sizelimit()
 }
 
 /*! \brief Print a sizelimit warning
- *  
+ *
  * Print a sizelimit warning when number
  * of entries exceeded the sizelimit
  */
@@ -1374,7 +1374,7 @@ function getMenuCache()
 
 
 /*! \brief Return the current userinfo object
- * 
+ *
  * \return return the current userinfo object
  */
 function &get_userinfo()
@@ -1410,7 +1410,7 @@ function &get_smarty()
  *
  * \param string 'dn' the subject for the conversion
  * \param string 'base' the base dn, default: $this->config->current['BASE']
- * 
+ *
  * \return a string in the form as described above
  */
 function convert_department_dn($dn, $base = NULL)
@@ -1470,17 +1470,17 @@ function get_sub_department($value)
  * $base = get_ou('systemRDN') . $this->config->current['BASE'];
  * $ldap->cd($base);
  * \endcode
- * 
+ *
  * \param 'name' the rdn of the ou you are trying to find
- * 
+ *
  * \return the ou associated the the RDN or nothing
- * 
+ *
  */
 function get_ou($name)
 {
   global $config;
 
-  $map = array( 
+  $map = array(
                 "roleRDN"      => "ou=roles,",
                 "ogroupRDN"      => "ou=groups,",
                 "applicationRDN" => "ou=apps,",
@@ -1523,7 +1523,7 @@ function get_ou($name)
     trigger_error("No department mapping found for type ".$name);
     return "";
   }
- 
+
   if ($ou != ""){
     if (!preg_match('/^[^=]+=[^=]+/', $ou)){
       $ou = @LDAP::convert("ou=$ou");
@@ -1536,17 +1536,17 @@ function get_ou($name)
     }else{
       return("$ou,");
     }
-  
+
   } else {
     return "";
   }
 }
 
 
-/*! \brief Get the OU for users 
+/*! \brief Get the OU for users
  *
  * Function for getting the userRDN
- * 
+ *
  * \return the ou of the userRDN
  */
 function get_people_ou()
@@ -1558,7 +1558,7 @@ function get_people_ou()
 /*! \brief Get the OU for groups
  *
  * Function for getting the groupRDN
- * 
+ *
  * \return the ou of the groupRDN
  */
 function get_groups_ou()
@@ -1570,7 +1570,7 @@ function get_groups_ou()
 /*! \brief Get the OU for windows workstations
  *
  * Function for getting the sambaMachineAccountRDN
- * 
+ *
  * \return the ou of the sambaMachineAccountRDN
  */
 function get_winstations_ou()
@@ -1587,8 +1587,8 @@ function get_winstations_ou()
  * \endcode
  *
  * \param dn a string
- * 
- * \return the base from the dn 
+ *
+ * \return the base from the dn
  */
 function get_base_from_people($dn)
 {
@@ -1627,7 +1627,7 @@ function strict_uid_mode()
 
 /*! \brief Get regular expression for checking uids based on the naming
  *         rules.
- * 
+ *
  *  \return string Returns the desired regular expression
  */
 function get_uid_regexp()
@@ -1742,8 +1742,8 @@ function gen_locked_message($user, $dn, $allow_readonly = FALSE)
  * returned unchanged.
  *
  * \param mixed 'value' Whatever needs to be printed.
- * 
- * \return string 'value' in html form. 
+ *
+ * \return string 'value' in html form.
  */
 function to_string ($value)
 {
@@ -1771,7 +1771,7 @@ function to_string ($value)
  * $this->printerList = get_printer_list();
  * \endcode
  *
- * \return array an array with the CNs of the printers as key and value. 
+ * \return array an array with the CNs of the printers as key and value.
  */
 function get_printer_list()
 {
@@ -1791,7 +1791,7 @@ function get_printer_list()
  * with less problematic characters, as defined in $REWRITE.
  *
  * \param string 's' the string to rewrite
- * 
+ *
  * \return string 's' the result of the rewrite
  */
 function rewrite($s)
@@ -1809,7 +1809,7 @@ function rewrite($s)
 /*! \brief Return the base of a given DN
  *
  * \param string 'dn' a DN
- * 
+ *
  * \return base of the given DN
  */
 function dn2base($dn)
@@ -1834,7 +1834,7 @@ function dn2base($dn)
  * arguments from the given cmdline.
  *
  * \param string 'cmdline' the cmdline to check
- * 
+ *
  * \return TRUE if command exists and is executable, otherwise FALSE.
  */
 function check_command($cmdline)
@@ -1860,7 +1860,7 @@ function check_command($cmdline)
  * \param string 'image' the path of the image to be used next to the headline
  * \param string 'headline' the headline
  * \param string 'info' additional information to print
- * 
+ *
  * \return the $display variable
  */
 function print_header($image, $headline, $info= "")
@@ -1980,7 +1980,7 @@ function range_selector($dcnt,$start,$range=25,$post_var=false)
       }
       if($var == $range){
         $output.="\n<option selected='selected' value='".$var."'>".$num."</option>";
-      }else{  
+      }else{
         $output.="\n<option value='".$var."'>".$num."</option>";
       }
     }
@@ -1994,7 +1994,7 @@ function range_selector($dcnt,$start,$range=25,$post_var=false)
 
 
 /*! \brief Generate HTML for the 'Apply filter' button
- * 
+ *
  * \return the back button html code
  */
 function apply_filter()
@@ -2010,7 +2010,7 @@ function apply_filter()
 
 
 /*! \brief Generate HTML for the 'Back' button
- * 
+ *
  * \return the back button html code
  */
 function back_to_main()
@@ -2023,9 +2023,9 @@ function back_to_main()
 
 
 /*! \brief Put netmask in n.n.n.n format
- * 
+ *
  *  \param string 'netmask' The netmask
- * 
+ *
  *  \return string Converted netmask
  */
 function normalize_netmask($netmask)
@@ -2072,9 +2072,9 @@ function normalize_netmask($netmask)
  * $bits = netmask_to_bits('255.0.0.255') # Returns 16
  * $bits = netmask_to_bits('255.255.0.255') # Returns 24
  * \endcode
- * 
+ *
  * \param 'netmask' given netmask
- * 
+ *
  * \return the number of bits in the netmask
  */
 function netmask_to_bits($netmask)
@@ -2128,7 +2128,7 @@ function recurse($rule, $variables)
  *
  * \param string 'rule' The rule string from fusiondirectory.conf.
  * \param array 'attributes' A dictionary of attribute/value mappings
- * 
+ *
  * \return string Expanded string, still containing the id keyword.
  */
 function expand_id($rule, $attributes)
@@ -2173,21 +2173,21 @@ function expand_id($rule, $attributes)
  *
  * \param string 'rule' The rule string from fusiondirectory.conf.
  * \param array 'attributes' A dictionary of attribute/value mappings
- * 
+ *
  * \return array List of valid not used uids
  */
 function gen_uids($rule, $attributes)
 {
   global $config;
 
-  // Strip out non ascii chars                                    
-  foreach($attributes as $name => $value){                        
-      $value = iconv('UTF-8', 'US-ASCII//TRANSLIT', $value);      
-      $value = preg_replace('/[^(\x20-\x7F)]*/','',$value);       
-      $attributes[$name] = $value;                                
-  }                                                               
+  // Strip out non ascii chars
+  foreach($attributes as $name => $value){
+      $value = iconv('UTF-8', 'US-ASCII//TRANSLIT', $value);
+      $value = preg_replace('/[^(\x20-\x7F)]*/','',$value);
+      $attributes[$name] = $value;
+  }
 
-  /* Search for keys and fill the variables array with all 
+  /* Search for keys and fill the variables array with all
      possible values for that key. */
   $part= "";
   $trigger= false;
@@ -2288,7 +2288,7 @@ function gen_uids($rule, $attributes)
  * this function returns the byte value.
  *
  * \param string 'value' a value in the above specified format
- * 
+ *
  * \return a byte value or the original value if specified string is simply
  * a numeric value
  */
@@ -2317,15 +2317,15 @@ function to_byte($value) {
 
 
 /*! \brief Check if a value exists in an array (case-insensitive)
- * 
+ *
  * This is just as http://php.net/in_array except that the comparison
  * is case-insensitive.
  *
  * \param string 'value' needle
  * \param array 'items' haystack
- * 
- * \return Return TRUE is value is found, FALSE if not. 
- */ 
+ *
+ * \return Return TRUE is value is found, FALSE if not.
+ */
 function in_array_ics($value, $items)
 {
   return preg_grep('/^'.preg_quote($value, '/').'$/i', $items);
@@ -2365,9 +2365,9 @@ function generate_alphabet($count= 10)
 
 
 /*! \brief Removes malicious characters from a (POST) string.
- * 
+ *
  * \param string 'string' the string to check for malicious caracters
- * 
+ *
  * \return string with caracters removed
  */
 function validate($string)
@@ -2406,7 +2406,7 @@ function rmdirRecursive($path, $followLinks=false) {
  *
  * \param string 'path'
  * \param boolean weither to sort the content descending.
- * 
+ *
  *  \return array content of directory in ascending sorted manner.
  */
 function scan_directory($path,$sort_desc=false)
@@ -2419,8 +2419,8 @@ function scan_directory($path,$sort_desc=false)
     /* is this path a readable one */
     if(is_readable($path)){
 
-      /* Get contents and write it into an array */   
-      $ret = array();    
+      /* Get contents and write it into an array */
+      $ret = array();
 
       $dir = opendir($path);
 
@@ -2444,9 +2444,9 @@ function scan_directory($path,$sort_desc=false)
 
 
 /*! \brief Clean the smarty compile dir
- * 
+ *
  * \param string 'directory' smarty compile dir
- * 
+ *
  */
 function clean_smarty_compile_dir($directory)
 {
@@ -2487,12 +2487,12 @@ function clean_smarty_compile_dir($directory)
 }
 
 /*! \brief Create the revision file
- * 
+ *
  * Create the revision file in FusionDirectory spool dir
- * 
+ *
  * \param string 'revision file' the name of the revision file
  * \param string 'revision' the version of FusionDirectory
- * 
+ *
  * \return TRUE if successfully created FALSE otherwise
  */
 function create_revision($revision_file, $revision)
@@ -2514,12 +2514,12 @@ function create_revision($revision_file, $revision)
 }
 
 /*! \brief Compare the revision file
- * 
+ *
  * Create the revision file in FusionDirectory spool dir
- * 
+ *
  * \param string 'revision file' the name of the revision file
  * \param string 'revision' the version of FusionDirectory
- * 
+ *
  * \return TRUE if revision match FALSE otherwise
  */
 function compare_revision($revision_file, $revision)
@@ -2548,7 +2548,7 @@ function compare_revision($revision_file, $revision)
 /*! \brief Return HTML for a progressbar
  *
  * \code
- * $smarty->assign("installprogress", progressbar($current_progress_in_percent),100,15,true); 
+ * $smarty->assign("installprogress", progressbar($current_progress_in_percent),100,15,true);
  * \endcode
  *
  * \param int 'percentage' Value to display
@@ -2575,7 +2575,7 @@ function progressbar($percentage,$width=100,$height=15,$showvalue=false)
  *
  * \param string 'key' needle
  * \param array 'items' haystack
- * 
+ *
  * \return return key or empty result
  */
 function array_key_ics($ikey, $items)
@@ -2594,7 +2594,7 @@ function array_key_ics($ikey, $items)
  *
  * \param array 'src'
  * \param array 'dst'
- * 
+ *
  * \return boolean TRUE or FALSE
  */
 function array_differs($src, $dst)
@@ -2609,9 +2609,9 @@ function array_differs($src, $dst)
 
 
 /*! \brief Escape all LDAP filter relevant characters
- * 
+ *
  * \param string input string wehre we should add \ before special caracters
- * 
+ *
  */
 function normalizeLdap($input)
 {
@@ -2619,11 +2619,11 @@ function normalizeLdap($input)
 }
 
 /*! \brief Test weither we are allowed to change the object
- * 
+ *
  * \param string 'dn' the DN of the object to check
  * \param string 'object'
  * \param string 'attribute' the attribute to check
- * 
+ *
  */
 function obj_is_writable($dn, $object, $attribute)
 {
@@ -2703,14 +2703,14 @@ function gosa_ldap_explode_dn($dn,$config = NULL,$verify_in_ldap=false)
 }
 
 /*! \brief Get base from external hook
- * 
+ *
  */
 function get_base_from_hook($dn, $attrib)
 {
   global $config;
 
   if ($config->get_cfg_value("baseIdHook") != ""){
-    
+
     /* Call hook script - if present */
     $command= $config->get_cfg_value("baseIdHook");
 
@@ -2741,10 +2741,10 @@ function get_base_from_hook($dn, $attrib)
 
 
 /*! \brief Check if schema version matches the requirements
- * 
+ *
  * \param string 'class' objectClass to check
  * \param string 'version' version to check for
- * 
+ *
  * \return TRUE if successfull FALSE otherwise
  */
 function check_schema_version($class, $version)
@@ -2754,7 +2754,7 @@ function check_schema_version($class, $version)
 
 
 /*! \brief Check if LDAP schema matches the requirements
- * 
+ *
  * \param string '$cfg' A config object
  * \param bool 'rfc2307bis' TRUE for checking for rfc2307bis FALSE otherwise
  *
@@ -2908,7 +2908,7 @@ function get_languages($languages_in_own_language = FALSE,$strip_region_tag = FA
         "zh_CN" => "Chinese",
         "vi_VN" => "Vietnamese",
         "ru_RU" => "Russian");
-  
+
   $tmp2= array(
         "de_DE" => _("German"),
         "fr_FR" => _("French"),
@@ -2928,14 +2928,14 @@ function get_languages($languages_in_own_language = FALSE,$strip_region_tag = FA
     $old_lang = setlocale(LC_ALL, 0);
 
     /* If the locale wasn't correclty set before, there may be an incorrect
-        locale returned. Something like this: 
+        locale returned. Something like this:
           C_CTYPE=de_DE.UTF-8;LC_NUMERIC=C;LC_TIME=de_DE.UTF-8;LC ...
         Extract the locale name from this string and use it to restore old locale.
      */
     if(preg_match("/LC_CTYPE/",$old_lang)){
       $old_lang = preg_replace("/^.*LC_CTYPE=([^;]*).*$/","\\1",$old_lang);
     }
-    
+
     foreach($tmp as $key => $name){
       $lang = $key.".UTF-8";
       setlocale(LC_ALL, $lang);
@@ -2965,7 +2965,7 @@ function get_languages($languages_in_own_language = FALSE,$strip_region_tag = FA
  * a certain POST variable.
  *
  * \param string 'name' the POST var to return ($_POST[$name])
- * 
+ *
  * \return string
  * */
 function get_post($name)
@@ -2980,7 +2980,7 @@ function get_post($name)
 
 
 /*! \brief Return class name in correct case
- * 
+ *
  */
 function get_correct_class_name($cls)
 {
@@ -2997,7 +2997,7 @@ function get_correct_class_name($cls)
 
 
 /*! \brief Change the password of a given DN
- * 
+ *
  * Change the password of a given DN with the specified hash.
  *
  * \param string 'dn' the DN whose password shall be changed
@@ -3005,7 +3005,7 @@ function get_correct_class_name($cls)
  * \param int mode if not 0 doesn't create the samba password hash
  * \param string 'hash' which hash to use to encrypt it, default is empty
  * for cleartext storage.
- * 
+ *
  * \return boolean TRUE on success FALSE on error
  */
 function change_password ($dn, $password, $mode=0, $hash= "")
@@ -3076,7 +3076,7 @@ function change_password ($dn, $password, $mode=0, $hash= "")
     if ($mode == 0){
 
         // Create SMB Password
-        if ($config->get_cfg_value('sambaHashHook', NULL)) { 
+        if ($config->get_cfg_value('sambaHashHook', NULL)) {
             $attrs= generate_smb_nt_hash($password);
 
             if ($shadow != 0){
@@ -3134,8 +3134,8 @@ function change_password ($dn, $password, $mode=0, $hash= "")
  * array['sambaLMPassword'] etc.
  *
  * \param string 'password'
- * 
- * \return array contains several keys for lmPassword, ntPassword, pwdLastSet, etc. 
+ *
+ * \return array contains several keys for lmPassword, ntPassword, pwdLastSet, etc.
  */
 function generate_smb_nt_hash($password)
 {
@@ -3197,7 +3197,7 @@ function getEntryCSN($dn)
 
 
 /*! \brief Add (a) given objectClass(es) to an attrs entry
- * 
+ *
  * The function adds the specified objectClass(es) to the given
  * attrs entry.
  *
@@ -3221,14 +3221,14 @@ function add_objectClass($classes, &$attrs)
 
 
 /*! \brief Removes a given objectClass from the attrs entry
- * 
+ *
  * The function remove the specified objectClass(es) to the given
  * attrs entry.
- * 
+ *
  * \param mixed 'classes' Either a single objectClass or several objectClasses
  * as an array
  * \param array 'attrs' The attrs array to be removed.
- * 
+ *
  */
 function remove_objectClass($classes, &$attrs)
 {
@@ -3254,7 +3254,7 @@ function remove_objectClass($classes, &$attrs)
 
 
 /*! \brief  Initialize a file download with given content, name and data type.
- * 
+ *
  *  \param  string data The content to send.
  *  \param  string name The name of the file.
  *  \param  string type The content identifier, default value is "application/octet-stream";
@@ -3274,7 +3274,7 @@ function send_binary_content($data,$name,$type = "application/octet-stream")
   if (preg_match ("/\//", $name)) {
   $name= basename($name);
   }
-  
+
   /* force download dialog */
   if (preg_match('/MSIE 5.5/', $HTTP_USER_AGENT) || preg_match('/MSIE 6.0/', $HTTP_USER_AGENT)) {
     header('Content-Disposition: filename="'.$name.'"');
@@ -3301,16 +3301,16 @@ function reverse_html_entities($str,$type = ENT_QUOTES , $charset = "UTF-8")
 
 
 /*! \brief Encode special string characters
- * 
+ *
  * Encode the special caracters so we can use the string in
  * HTML output, without breaking quotes.
- * 
+ *
  * \param string 'str' The String we want to encode.
- * 
+ *
  * \return string The encoded String
  */
 function xmlentities($str)
-{ 
+{
   if(is_string($str)){
 
     static $asc2uni= array();
@@ -3338,10 +3338,10 @@ function xmlentities($str)
 
 
 /*! \brief  Updates all accessTo attributes from a given value to a new one.
- * 
+ *
  * \param  String  $from The source accessTo name.
  * \param  String  $to   The destination accessTo name.
- * 
+ *
  */
 function update_accessTo($from,$to)
 {
@@ -3361,7 +3361,7 @@ function update_accessTo($from,$to)
           $new_attrs['accessTo'][] =  $to;
         }
       }else{
-        $new_attrs['accessTo'][] =  $attrs['accessTo'][$i]; 
+        $new_attrs['accessTo'][] =  $attrs['accessTo'][$i];
       }
     }
     $ldap->cd($dn);
@@ -3375,7 +3375,7 @@ function update_accessTo($from,$to)
 
 
 /*! \brief Returns a random char
- * 
+ *
  */
 function get_random_char () {
      $randno = rand (0, 63);
@@ -3389,10 +3389,10 @@ function get_random_char () {
 }
 
 /*! \brief  Encrypt a string with RIJNDAEL_128
- * 
+ *
  * \param string 'input' The string to encrypt.
  * \param String 'password' The password used
- * 
+ *
  */
 function cred_encrypt($input, $password) {
 
@@ -3404,10 +3404,10 @@ function cred_encrypt($input, $password) {
 }
 
 /*! \brief  Decrypt a string with RIJNDAEL_128
- * 
+ *
  * \param string 'input' The string to decrypt.
  * \param String 'password' The password used
- * 
+ *
  */
 function cred_decrypt($input,$password) {
   $size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
@@ -3429,11 +3429,11 @@ function set_object_info($str = "")
 }
 
 /*! \brief Test if an ip is the network range
- * 
+ *
  * \param string 'ip' The ip address to test.
  * \param string 'net' The network to test
  * \param string 'netmask' The netmask of the network
- * 
+ *
  */
 function isIpInNet($ip, $net, $mask) {
    // Move to long ints
@@ -3448,12 +3448,12 @@ function isIpInNet($ip, $net, $mask) {
 }
 
 /*! \brief Get next id
- * 
+ *
  * \param string 'attrib' attribute to use to find the next id.
  * \param String 'dn' Dn e want an id for.
- * 
+ *
  * \return Return the next id or NULL if failed
- * 
+ *
  */
 function get_next_id($attrib, $dn)
 {
@@ -3471,11 +3471,11 @@ function get_next_id($attrib, $dn)
 }
 
 /*! \brief Get next id from the sambaUnixIdPool
- * 
+ *
  * \param string 'attrib' attribute to use to find the next id.
- * 
+ *
  * \return Return the next id or NULL if failed
- * 
+ *
  */
 function get_next_id_pool($attrib) {
   global $config;
@@ -3571,12 +3571,12 @@ function get_next_id_pool($attrib) {
 }
 
 /*! \brief Get next id in a traditional unix way
- * 
+ *
  * \param string 'attrib' attribute to use to find the next id.
  * \param String 'dn' Dn e want an id for.
- * 
+ *
  * \return Return the next id
- * 
+ *
  */
 function get_next_id_traditional($attrib, $dn)
 {
@@ -3637,11 +3637,11 @@ function get_next_id_traditional($attrib, $dn)
 }
 
 /*! \brief Convert from date to seconds
- * 
+ *
  * \param string 'val' a date
- * 
+ *
  * \return Return the date converted into seconds
- * 
+ *
  */
  function convertToSeconds($val)
   {
@@ -3655,12 +3655,12 @@ function get_next_id_traditional($attrib, $dn)
   }
 
 /*! \brief Sort multidimensional arrays for key 'text'
- * 
+ *
  * \param string 'val1'
  * \param string 'val2'
- * 
- * \return Return -1 if val2 > val1, 0 if equal, 1 if val1 > val2 
- * 
+ *
+ * \return Return -1 if val2 > val1, 0 if equal, 1 if val1 > val2
+ *
  */
 function sort_list($val1, $val2)
 {
