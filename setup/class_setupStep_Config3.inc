@@ -27,7 +27,7 @@ class Step_Config3 extends setup_step
 
   var $errorlvl   = false;
 
-  var $login_attributes = array("uid"       => "uid", 
+  var $login_attributes = array("uid"       => "uid",
                                 "mail"      => "mail",
                                 "uid,mail"  => "both");
   var $optional = array(
@@ -40,11 +40,11 @@ class Step_Config3 extends setup_step
               "warnssl" => true,
               "user_filter_cookie" => true,
               "debuglevel" => 0,
-              "session_lifetime" => 7200,
+              "session_lifetime" => 1800,
               "compile" =>  SPOOL_DIR,
               "max_ldap_query_time" => "5.0",
               "max_ldap_query_time_active" => FALSE,
-              
+
               "mailQueueScriptPath_active" => FALSE,
               "notifydir_active" => FALSE,
               "ppd_path_active" => FALSE,
@@ -75,7 +75,7 @@ class Step_Config3 extends setup_step
     $this->s_title_long = _("FusionDirectory settings 3/3");
     $this->s_info       = _("Tweak some FusionDirectory core behaviour");
   }
-  
+
 
   function execute()
   {
@@ -108,12 +108,12 @@ class Step_Config3 extends setup_step
           $this->$attr = validate(get_post($attr));
         }
       }
-      
+
       foreach(array("login_attribute","list_summary","strict_units","noprimarygroup","forceglobals","forcessl","ldapstats","user_filter_cookie","warnssl","compile","debuglevel","session_lifetime","enableCopyPaste","logging") as $name){
         if(isset($_POST[$name])){
           $this->optional[$name] = get_post($name);
         }
-      } 
+      }
 
       $this->optional['ppd_path_active'] = FALSE;
 
@@ -142,7 +142,7 @@ class Step_Config3 extends setup_step
 
       /* Get logging */
       $this->optional['logging'] =  isset($_POST['logging']);
-      
+
       if(isset($_POST['uniq_identifier_active'])){
         $this->optional['uniq_identifier_active'] = TRUE;
         if(isset($_POST['uniq_identifier'])){
@@ -173,10 +173,10 @@ class Step_Config3 extends setup_step
     if(!is_numeric( $this->optional['max_ldap_query_time'])){
       $message[] = _("Maximum LDAP query time must be a numeric value!");
     }
-  
+
     return($message);
   }
-  
+
 
   /* Attributes that are interesting for configuration generation */
   function get_attributes()
