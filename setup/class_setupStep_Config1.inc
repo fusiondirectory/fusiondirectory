@@ -31,17 +31,20 @@ class Step_Config1 extends setup_step
   var $strict     = TRUE;
   var $compressed = TRUE;
 
+  var $cngen_active = FALSE;
+  var $cngen        = "%sn %givenName";
+
   var $header_image = "images/setup/server.png";
   var $account_expiration  =FALSE;
-  var $base_hook         = ""; 
-  var $base_hook_active  = FALSE; 
+  var $base_hook         = "";
+  var $base_hook_active  = FALSE;
 
   var $encryption = "crypt/md5";
-  var $theme      = "default"; 
+  var $theme      = "default";
 
   var $include_personal_title = FALSE;
 
-  var $pwd_rules  = array("pwminlen" => 6, 
+  var $pwd_rules  = array("pwminlen" => 6,
                           "pwminlen_active" => FALSE,
                           "pwdiffer" => 5,
                           "pwdiffer_active" => FALSE,
@@ -56,7 +59,8 @@ class Step_Config1 extends setup_step
   var $crypt_methods  = array();
 
   var $attributes = array("compressed","peopleou","groupou","peopledn","uidbase","encryption","theme","krbsasl",
-                          "base_hook","base_hook_active","account_expiration","strict","include_personal_title");
+                          "base_hook","base_hook_active","account_expiration","strict","include_personal_title",
+                          "cngen_active","cngen");
 
   function Step_Config1()
   {
@@ -76,7 +80,7 @@ class Step_Config1 extends setup_step
     $this->s_info       = _("FusionDirectory generic settings");
   }
 
-  
+
   function execute()
   {
     $smarty = get_smarty();
@@ -90,8 +94,8 @@ class Step_Config1 extends setup_step
       $smarty->assign($attr,htmlentities($this->$attr,ENT_QUOTES,"UTF-8"));
     }
 
-    /* !!! Attention strict is inverse. If you change this, 
-     *  don't forget to change save_object too 
+    /* !!! Attention strict is inverse. If you change this,
+     *  don't forget to change save_object too
      */
     $smarty->assign("strict",!$this->strict);
     return($smarty -> fetch (get_template_path("../setup/setup_config1.tpl")));
@@ -105,7 +109,7 @@ class Step_Config1 extends setup_step
     while (($file = readdir($dir)) !== false){
       if(is_dir("../ihtml/themes/".$file) && !preg_match("/^\./",$file)){
         $themes[$file] = $file;
-      }      
+      }
     }
     return($themes);
   }
@@ -150,8 +154,8 @@ class Step_Config1 extends setup_step
         }
       }
 
-      /* !!! Attention strict is inverse. If you change this, 
-       *  don't forget to change the smarty assignment too 
+      /* !!! Attention strict is inverse. If you change this,
+       *  don't forget to change the smarty assignment too
        */
       if(isset($_POST['strict'])){
         if($_POST['strict']){
@@ -180,7 +184,7 @@ class Step_Config1 extends setup_step
         $this->id_settings['idgen_active'] = FALSE;
       }
 
-      /* Get password settings */ 
+      /* Get password settings */
       if(isset($_POST['pwdiffer_active'])){
         $this->pwd_rules['pwdiffer_active'] = TRUE;
         if(isset($_POST['pwdiffer'])){
@@ -219,9 +223,18 @@ class Step_Config1 extends setup_step
       }else{*/
         $this->pwd_rules['base_hook_active'] = FALSE;
 /*      }*/
+
+      if (isset($_POST['cngen_active'])) {
+        $this->cngen_active = TRUE;
+        if (isset($_POST['cngen'])) {
+          $this->cngen = get_post('cngen');
+        }
+      } else {
+        $this->cngen_active = FALSE;
+      }
     }
 
-    $tmp = $this->check(); 
+    $tmp = $this->check();
     if(count($tmp) == 0){
       $this->is_completed = TRUE;
     }else{
