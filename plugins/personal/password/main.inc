@@ -50,7 +50,7 @@ if ( $cleanup ){
   $display.= $password->execute ();
 
   /* Page header*/
-  $display= print_header(get_template_path('plugins/password/images/plugin.png'),
+  $display = print_header(get_template_path('plugins/password/images/plugin.png'),
                          _("Password settings"), "").$display;
 
 }
