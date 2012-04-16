@@ -31,7 +31,7 @@ class Step_Checks extends setup_step
   {
     $this->update_strings();
   }
- 
+
 
   function update_strings()
   {
@@ -39,9 +39,9 @@ class Step_Checks extends setup_step
     $this->s_title_long = _("Installation check");
     $this->s_info       = _("Basic checks for PHP compatibility and extensions");
   }
-  
-  
-  /* Execute and display template */ 
+
+
+  /* Execute and display template */
   function execute()
   {
     $this->run_checks();
@@ -53,7 +53,7 @@ class Step_Checks extends setup_step
   }
 
 
-  /* Execute all checks */ 
+  /* Execute all checks */
   function run_checks()
   {
     $this->basic_checks = array();
@@ -61,7 +61,7 @@ class Step_Checks extends setup_step
     $this->is_writeable = array();
 
     /* PHP version check */
-    $N = _("Checking PHP version"); 
+    $N = _("Checking PHP version");
     $D = sprintf(_("PHP must be of version %s or above."), "5.2.0");
     $S = _("Please upgrade to a supported version.");
     $R = $this->check_php_version();
@@ -124,11 +124,11 @@ class Step_Checks extends setup_step
     $M = TRUE;
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
-    /* Check if mysql module is available */
-    $N = msgPool::checkingFor(_("MySQL"));
+    /* Check if MDB2 module is available */
+    $N = msgPool::checkingFor(_("MDB2"));
     $D = _("FusionDirectory requires this module to communicate with several supported databases.");
-    $S = msgPool::installPhpModule("MySQL");
-    $R = is_callable("mysql_query");
+    $S = msgPool::installPhpModule("MDB2");
+    $R = ((@include_once("PEAR.php")) && (@include_once("MDB2.php")));
     $M = TRUE;
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
@@ -222,7 +222,7 @@ class Step_Checks extends setup_step
     /* Implicit Flush disabled can increase performance */
     $N = "implicit_flush = <b>"._("Off")."</b>";
     $D = _("This option influences the PHP output handling. Turn this Option off, to increase performance.");
-    $S = _("Search for 'implicit_flush' in your php.ini and set it to 'Off'."); 
+    $S = _("Search for 'implicit_flush' in your php.ini and set it to 'Off'.");
     $R = !ini_get('implicit_flush');
     $M = FALSE;
     $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
@@ -245,14 +245,14 @@ class Step_Checks extends setup_step
 
     /* Emulating old stuff? */
     $N = "zend.ze1_compatibility_mode = <b>"._("Off")."</b>";
-    $D = _("Increase your server performance by setting magic_quotes_gpc to 'off'."); 
-    $S = _("Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'."); 
-    $R = !ini_get('zend.ze1_compatibility_mode'); 
+    $D = _("Increase your server performance by setting magic_quotes_gpc to 'off'.");
+    $S = _("Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'.");
+    $R = !ini_get('zend.ze1_compatibility_mode');
     $M = FALSE;
     $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
 
-    /* Configuration file  
+    /* Configuration file
      */
 
     /* Check if we can create a config file.*/
@@ -266,7 +266,7 @@ class Step_Checks extends setup_step
     $this->is_writeable[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
   }
- 
+
 
   function save_object()
   {
@@ -285,13 +285,13 @@ class Step_Checks extends setup_step
     }
     $this->is_completed = !$failed;
   }
- 
 
-  /* Check if current PHP version is compatible 
+
+  /* Check if current PHP version is compatible
       with the current version of FusionDirectory */
   function check_php_version()
   {
-    return(version_compare(phpversion(),"5.2.0",">=")); 
+    return(version_compare(phpversion(),"5.2.0",">="));
   }
 }
 
