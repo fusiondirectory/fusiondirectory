@@ -1481,41 +1481,43 @@ function get_ou($name)
   global $config;
 
   $map = array(
-                "roleRDN"      => "ou=roles,",
-                "ogroupRDN"      => "ou=groups,",
-                "applicationRDN" => "ou=apps,",
-                "systemRDN"     => "ou=systems,",
-                "serverRDN"      => "ou=servers,ou=systems,",
-                "terminalRDN"    => "ou=terminals,ou=systems,",
-                "workstationRDN" => "ou=workstations,ou=systems,",
-                "printerRDN"     => "ou=printers,ou=systems,",
-                "phoneRDN"       => "ou=phones,ou=systems,",
-                "componentRDN"   => "ou=netdevices,ou=systems,",
-                "sambaMachineAccountRDN"   => "ou=computers,",
+                "roleRDN"                 => "ou=roles,",
+                "ogroupRDN"               => "ou=groups,",
+                "applicationRDN"          => "ou=apps,",
+                "systemRDN"               => "ou=systems,",
+                "serverRDN"               => "ou=servers,ou=systems,",
+                "terminalRDN"             => "ou=terminals,ou=systems,",
+                "workstationRDN"          => "ou=workstations,ou=systems,",
+                "printerRDN"              => "ou=printers,ou=systems,",
+                "phoneRDN"                => "ou=phones,ou=systems,",
+                "componentRDN"            => "ou=netdevices,ou=systems,",
+                "sambaMachineAccountRDN"  => "ou=computers,",
 
-                "faxBlocklistRDN"   => "ou=gofax,ou=systems,",
-                "systemIncomingRDN"    => "ou=incoming,",
-                "aclRoleRDN"     => "ou=aclroles,",
+                "faxBlocklistRDN"     => "ou=gofax,ou=systems,",
+                "systemIncomingRDN"   => "ou=incoming,",
+                "aclRoleRDN"          => "ou=aclroles,",
                 "phoneMacroRDN"       => "ou=macros,ou=asterisk,ou=configs,ou=systems,",
                 "phoneConferenceRDN"  => "ou=conferences,ou=asterisk,ou=configs,ou=systems,",
 
-                "faiBaseRDN"         => "ou=fai,ou=configs,ou=systems,",
-                "faiScriptRDN"   => "ou=scripts,",
-                "faiHookRDN"     => "ou=hooks,",
-                "faiTemplateRDN" => "ou=templates,",
-                "faiVariableRDN" => "ou=variables,",
-                "faiProfileRDN"  => "ou=profiles,",
-                "faiPackageRDN"  => "ou=packages,",
-                "faiPartitionRDN"=> "ou=disk,",
+                "faiBaseRDN"      => "ou=fai,ou=configs,ou=systems,",
+                "faiScriptRDN"    => "ou=scripts,",
+                "faiHookRDN"      => "ou=hooks,",
+                "faiTemplateRDN"  => "ou=templates,",
+                "faiVariableRDN"  => "ou=variables,",
+                "faiProfileRDN"   => "ou=profiles,",
+                "faiPackageRDN"   => "ou=packages,",
+                "faiPartitionRDN" => "ou=disk,",
 
-                "sudoRDN"       => "ou=sudoers,",
+                "tokenRDN"    => "ou=tokens,",
 
-                "deviceRDN"      => "ou=devices,",
-                "mimetypeRDN"    => "ou=mime,");
+                "sudoRDN"     => "ou=sudoers,",
+
+                "deviceRDN"   => "ou=devices,",
+                "mimetypeRDN" => "ou=mime,");
 
   /* Preset ou... */
-  if ($config->get_cfg_value($name, "_not_set_") != "_not_set_"){
-    $ou= $config->get_cfg_value($name);
+  if ($config->get_cfg_value($name, "_not_set_") != "_not_set_") {
+    $ou = $config->get_cfg_value($name);
   } elseif (isset($map[$name])) {
     $ou = $map[$name];
     return($ou);
@@ -1524,17 +1526,17 @@ function get_ou($name)
     return "";
   }
 
-  if ($ou != ""){
-    if (!preg_match('/^[^=]+=[^=]+/', $ou)){
+  if ($ou != "") {
+    if (!preg_match('/^[^=]+=[^=]+/', $ou)) {
       $ou = @LDAP::convert("ou=$ou");
     } else {
       $ou = @LDAP::convert("$ou");
     }
 
-    if(preg_match("/".preg_quote($config->current['BASE'], '/')."$/",$ou)){
-      return($ou);
-    }else{
-      return("$ou,");
+    if (preg_match("/".preg_quote($config->current['BASE'], '/')."$/",$ou)) {
+      return $ou;
+    } else {
+      return "$ou,";
     }
 
   } else {
@@ -3686,6 +3688,13 @@ function mark($needle, $haystack, $ignorecase= true)
   }
 
   return $result.$haystack;
+}
+
+function reset_errors()
+{
+  session::set('errors',"");
+  session::set('errorsAlreadyPosted',array());
+  session::set('LastError',"");
 }
 
 // vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:

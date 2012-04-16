@@ -53,9 +53,7 @@ session::global_set('DEBUGLEVEL',1);
 session::set('errorsAlreadyPosted',array());
 
 /* Attribute initialization, reset errors */
-session::set('errors',"");
-session::set('errorsAlreadyPosted',array());
-session::set('LastError',"");
+reset_errors();
 
 /* Set template compile directory */
 $smarty->compile_dir= SPOOL_DIR;
