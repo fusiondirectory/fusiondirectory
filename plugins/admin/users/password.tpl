@@ -93,22 +93,23 @@
   <input type=submit name="password_cancel" value="{msgPool type=cancelButton}">
   <input type='hidden' id='formSubmit'>
 </p>
+
+{literal}
 <script language="JavaScript" type="text/javascript">
     nextfield= 'current_password';
     focus_field('current_password');
 
-
     function updateFields()
     {
-        if($('proposalSelected').checked){
-            $('new_password').disable();
-            $('repeated_password').disable();
-            $('proposalText').setStyle(
-                 'background-color:#FFF;' +
-                 'color:#000;' +
-                 'width:180px;' +
-                 'border:1px solid #CCC;' +
-                 'padding:3px;' );
+      if($('proposalSelected').checked){
+          $('new_password').disable();
+          $('repeated_password').disable();
+          $('proposalText').setStyle(
+                'background-color:#FFF;' +
+                'color:#000;' +
+                'width:180px;' +
+                'border:1px solid #CCC;' +
+                'padding:3px;' );
         }else{
             $('new_password').enable();
             $('repeated_password').enable();
@@ -122,6 +123,6 @@
     }
     updateFields();
 </script>
-
+{/literal}
 
 
