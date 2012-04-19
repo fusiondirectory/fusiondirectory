@@ -37,6 +37,9 @@
   /* Directory containing the vacation files */
   define ("VACATION_DIR", "/var/cache/fusiondirectory/vacation/"); /* FusionDirectory vacation directory */
 
+  /* Directory containing the vacation files */
+  define ("SUPANN_DIR", "/var/cache/fusiondirectory/supann/"); /* FusionDirectory supann template directory */
+  
   /* name of the class.cache file */
   define("CLASS_CACHE", "class.cache"); /* name of the class cache */
 ?>
