@@ -370,6 +370,10 @@ sub install_directories {
 
   /* asterisk cache directory */
   define ("ASTERISK_DIR", "$vars{fd_cache}/asterisk/"); /* FusionDirectory asterisk template directory */
+
+  /* systems cache directory */
+  define ("SYSTEMS_DIR", "$vars{fd_cache}/systems/"); /* FusionDirectory systems template directory */
+  
 ?>
 eof
 
