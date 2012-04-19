@@ -43,6 +43,9 @@
   /* Directory containing the asterisk files */
   define ("ASTERISK_DIR", "/var/cache/fusiondirectory/asterisk/"); /* FusionDirectory asterisk template directory */
 
+  /* Directory containing the systems files */
+  define ("SYSTEMS_DIR", "/var/cache/fusiondirectory/systems/"); /* FusionDirectory systems template directory */
+
   /* name of the class.cache file */
   define("CLASS_CACHE", "class.cache"); /* name of the class cache */
 ?>
