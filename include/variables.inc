@@ -39,7 +39,10 @@
 
   /* Directory containing the vacation files */
   define ("SUPANN_DIR", "/var/cache/fusiondirectory/supann/"); /* FusionDirectory supann template directory */
-  
+
+  /* Directory containing the asterisk files */
+  define ("ASTERISK_DIR", "/var/cache/fusiondirectory/asterisk/"); /* FusionDirectory asterisk template directory */
+
   /* name of the class.cache file */
   define("CLASS_CACHE", "class.cache"); /* name of the class cache */
 ?>
