@@ -46,6 +46,9 @@
   /* Directory containing the systems files */
   define ("SYSTEMS_DIR", "/var/cache/fusiondirectory/systems/"); /* FusionDirectory systems template directory */
 
+  /* Directory containing the mail files */
+  define ("MAIL_DIR", "/var/cache/fusiondirectory/mail/"); /* FusionDirectory mail template directory */
+
   /* name of the class.cache file */
   define("CLASS_CACHE", "class.cache"); /* name of the class cache */
 ?>
