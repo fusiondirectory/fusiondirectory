@@ -373,6 +373,9 @@ sub install_directories {
 
   /* systems cache directory */
   define ("SYSTEMS_DIR", "$vars{fd_cache}/systems/"); /* FusionDirectory systems template directory */
+
+  /* mail cache directory */
+  define ("MAIL_DIR", "$vars{fd_cache}/mail/"); /* FusionDirectory mail template directory */
   
 ?>
 eof
