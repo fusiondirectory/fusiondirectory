@@ -367,6 +367,9 @@ sub install_directories {
 
   /* Supann cache directory */
   define("SUPANN_DIR", "$vars{fd_cache}/supann/"); /* FusionDirectory supann template directory */
+
+  /* asterisk cache directory */
+  define ("ASTERISK_DIR", "$vars{fd_cache}/asterisk/"); /* FusionDirectory asterisk template directory */
 ?>
 eof
 
