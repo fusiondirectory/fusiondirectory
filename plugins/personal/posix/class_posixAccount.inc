@@ -237,9 +237,9 @@ class posixAccount extends plugin
     }
 
 
-    /* Generate shell list from CONFIG_DIR./shells */
-    if (file_exists(CONFIG_DIR.'/shells')){
-      $shells = file (CONFIG_DIR.'/shells');
+    /* Generate shell list from SYSTEMS_DIR./shells */
+    if (file_exists(SYSTEMS_DIR.'/shells')){
+      $shells = file (SYSTEMS_DIR.'/shells');
       foreach ($shells as $line){
         if (!preg_match ("/^#/", $line)){
           $this->loginShellList[]= trim($line);
