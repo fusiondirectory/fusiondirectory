@@ -1512,6 +1512,8 @@ function get_ou($name)
 
                 "sudoRDN"     => "ou=sudoers,",
 
+                "netgroupRDN" => "ou=netgroup,",
+                
                 "deviceRDN"   => "ou=devices,",
                 "mimetypeRDN" => "ou=mime,");
 
