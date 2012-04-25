@@ -29,20 +29,20 @@ class supportDaemon
 {
   private $s_host       = "";
   private $config;
-  
+
   private $s_error      = "";
   private $b_error      = FALSE;
 
   private $logdir       = "";
-  
+
   /*! \brief constructor
-   * 
+   *
    */
   public function __construct()
   {
     $this->config = session::global_get('config');
     /* This should only be the case if we call this from setup.
-    __autoload() 
+    __autoload()
     */
     if(!is_object($this->config)) { return; }
     $argonautHost = $this->get_argonaut_host();
@@ -58,8 +58,8 @@ class supportDaemon
   }
 
   /*! \brief Load argonaut server config from argonaut service in ldap
-   * 
-   *     
+   *
+   *
    */
   public function get_argonaut_host() {
     $ldap = $this->config->get_ldap_link();
@@ -73,8 +73,8 @@ class supportDaemon
   }
 
   /*! \brief Test if the argonaut server is available
-   * 
-   * \return boolean TRUE if the server pings, FALSE otherwise    
+   *
+   * \return boolean TRUE if the server pings, FALSE otherwise
    */
   public function is_available() {
     if($this->s_host == "") {
@@ -97,11 +97,11 @@ class supportDaemon
       return(FALSE);
     }
   }
-  
+
   /*! \brief Allows simply appending a new DaemonEvent
-   *  
+   *
    * \param string 'event' The event to append.
-   * 
+   *
    * \return TRUE if correctly appended FALSE otherwise
    */
   public function append($event)
@@ -110,7 +110,7 @@ class supportDaemon
       return(FALSE);
     }
 
-    /* Add to queue if new 
+    /* Add to queue if new
      */
     if($event->is_new()) {
       $request_answer = FALSE;
@@ -122,12 +122,12 @@ class supportDaemon
         trigger_error("Unknown type of queue event given.");
         return(FALSE);
       }
-      
+
       /* Get event informations, like targets..
       */
       $targets    = $event->get_targets();
       $data       = $event->save();
-            
+
       /* Put timestamp back to UTC time
        */
       timezone::get_default_timezone();
@@ -161,9 +161,9 @@ class supportDaemon
 
     return(FALSE);
   }
-    
+
   /*! \brief  Sets an error message, which can be returned with get_error().
-   * 
+   *
    * \param  string 'str' The Error message,
    */
   private function set_error($str)
@@ -174,7 +174,7 @@ class supportDaemon
 
 
   /*! \brief  Resets the error message.
-   * 
+   *
    */
   private function reset_error()
   {
@@ -184,7 +184,7 @@ class supportDaemon
 
 
   /*! \brief  Checks if an error occured.
-   * 
+   *
    * \return boolean returns TRUE or FALSE, whether there is an error or not.
    */
   public function is_error()
@@ -194,7 +194,7 @@ class supportDaemon
 
 
   /*! \brief  Returns the last error.
-   * 
+   *
    *  \return string Returns the last error.
    */
   public function get_error()
@@ -211,11 +211,11 @@ class supportDaemon
     $ret = str_replace(" ","&nbsp;",$ret);
     return($ret);
   }
-  
+
   /*! \brief format queue entries
-   * 
+   *
    * \param array 'entries' The entries to format
-   * 
+   *
    * \return array The entries formatted
    */
   private function format_entries($entries) {
@@ -224,7 +224,7 @@ class supportDaemon
     foreach($entries as &$entry) {
       $entry_r['TIMESTAMP'] = DaemonEvent::_timestamp_to_event($entry['data']['timestamp']);
       $entry_r['MACADDRESS'] = $entry['target'];
-      
+
       // TODO : do an ldap search only if we haven't done it for the same mac before
       $ldap = $this->config->get_ldap_link();
       $ldap->cd($this->config->current['BASE']);
@@ -232,10 +232,10 @@ class supportDaemon
       $ldap_infos = $ldap->fetch();
       $ldap_infos['cn'][0];
       $entry_r['PLAINNAME'] = $ldap_infos['cn'][0];
-      
+
       $entry_r['ERROR'] = $entry['error'];
       $entry_r['PROGRESS'] = $entry['progress'];
-      
+
       $entry_r['PERIODIC'] = $entry['data']['periodic'];
       $entry_r['STATUS'] = $entry['status'];
       $entry_r['SUBSTATUS'] = $entry['substatus'];
@@ -245,10 +245,10 @@ class supportDaemon
     }
     return $entries_r;
   }
-  
-  
+
+
   /*! \brief Returns an array containing all queued entries.
-   * 
+   *
    * \return array All queued entries as an array or FALSE if there is an error.
    */
   public function get_queued_entries() //$event_types = array("*"),$from=-1,$to=-1,$sort="timestamp DESC"
@@ -265,22 +265,22 @@ class supportDaemon
     $this->reset_error();
     return($entries);
   }
-    
+
   /*! \brief  Returns an entry containing all requested ids.
    *
    *  \param array 'ids' The IDs of the entries we want to return.
    *
-   *  \return array  Array of the requested entries. 
+   *  \return array  Array of the requested entries.
   */
   public function get_entries_by_id($ids)
   {
     return $this->get_entries("get_entries_by_id",$ids);
   }
-  
+
   /*! \brief  Removes a set of entries from the argonaut queue.
-   * 
+   *
    * \param array 'ids' The IDs to remove.
-   * 
+   *
    * \return boolean TRUE on success FALSE otherwise.
    */
   public function remove_entries($ids)
@@ -289,7 +289,7 @@ class supportDaemon
       trigger_error("Requires an array as parameter.");
       return;
     }
-    
+
     try {
       $client = new jsonRPCClient($this->s_host);
       $entries = $client->remove_entries($ids);
@@ -302,33 +302,33 @@ class supportDaemon
   }
 
   /*! \brief Removes an entry from the argonaut queue.
-   * 
+   *
    * \param integer 'id' The ID of the entry we want to remove.
-   * 
+   *
    * \return Boolean TRUE on success.
   */
   public function remove_entry($id)
   {
     return($this->remove_entries(array($id)));
   }
-  
+
   /*! \brief Returns an entry from the argonaut queue
-   * 
+   *
    * \param integer 'id' The ID of the entry we want to return.
-   * 
-   * \return array  array of the requested entry. 
+   *
+   * \return array  array of the requested entry.
   */
   public function get_entry_by_id($id)
   {
     return $this->get_entries_by_id(array($id));
   }
-  
-  /*! \brief  Updates an entry with a set of new values, 
-   * 
+
+  /*! \brief  Updates an entry with a set of new values,
+   *
    * \param  integer 'ids' The ID of the entry, we want to update.
-   * \param  array 'data'  The variables to update.   
-   * 
-   * \return boolean Returns TRUE on success. 
+   * \param  array 'data'  The variables to update.
+   *
+   * \return boolean Returns TRUE on success.
   */
   public function update_entries($ids,$data)
   {
@@ -341,14 +341,14 @@ class supportDaemon
       trigger_error("Requires an array as second parameter.");
       return;
     }
-    
+
     // won't be implemented
   }
-  
+
   /*! \brief  Ask argonaut to process a set of entries now
-   * 
+   *
    * \param  array 'ids'  The ids of the entries to process immediatly
-   * 
+   *
    * \return boolean Returns TRUE on success FALSE otherwise.
   */
   public function process_entries_now($ids)
@@ -357,7 +357,7 @@ class supportDaemon
       trigger_error("Requires an array as first parameter.");
       return;
     }
-    
+
     try {
       $client = new jsonRPCClient($this->s_host);
       $entries = $client->process_entries_now($ids);
@@ -370,18 +370,18 @@ class supportDaemon
   }
 
   /*! \brief Check if a workstation is currently installing
-   * 
+   *
    * \param  string 'mac' The mac address of the workstation
-   * 
+   *
    * \return boolean Returns TRUE if currently installing FALSE otherwise.
    */
   public function is_currently_installing($mac) {
     $e_types = DaemonEvent::get_event_types(USER_EVENT | SYSTEM_EVENT | HIDDEN_EVENT);
-    
+
     $evts = $this->get_entries_by_mac(array($mac));
     if($evts) {
       foreach($evts as $evt) {
-        if(isset($e_types['QUEUED'][$evt['HEADERTAG']]) && $evt['STATUS'] == "processing" && 
+        if(isset($e_types['QUEUED'][$evt['HEADERTAG']]) && $evt['STATUS'] == "processing" &&
           in_array($e_types['QUEUED'][$evt['HEADERTAG']],array("DaemonEvent_reinstall","DaemonEvent_update"))) {
           // Why do we check HEADERTAG? processing status should be sufficient.
           return(TRUE);
@@ -390,22 +390,22 @@ class supportDaemon
     }
     return(FALSE);
   }
-  
+
   /*! \brief  Returns an array containing all entries concerning the macs passed.
-   * 
+   *
    * \param array 'macs'  The mac addresses of the workstations for which we want entries.
-   * 
-   * \return array  The entries for the requested mac addresses. 
+   *
+   * \return array  The entries for the requested mac addresses.
    */
   public function get_entries_by_mac($macs) {
     return $this->get_entries("get_entries_by_mac",$macs);
   }
-  
+
   /*! \brief  Get entries from argonaut server with given function and format entries before to return them
-   * 
+   *
    * \param function 'func'  The JSONRPC method to use for retrieving addresses
    * \param array 'address'  The mac addresses or ids of the entries we want.
-   * 
+   *
    * \return Array   The entries for the requested addresses.
    */
   private function get_entries($func,$address) {
@@ -413,7 +413,7 @@ class supportDaemon
       trigger_error("Requires an array as parameter.");
       return;
     }
-    
+
     try {
       $client = new jsonRPCClient($this->s_host);
       $entries = $client->$func($address);
@@ -425,12 +425,12 @@ class supportDaemon
       return(FALSE);
     }
   }
-  
+
   /*! \brief  Returns log file informations for a given mac address
-   * 
+   *
    * \param  string 'mac' The mac address to fetch logs for.
    * \return Array A Multidimensional array containing log infos.
-   * 
+   *
    * \code
    *  MAC_00_01_6C_9D_B9_FA['install_20080311_090900']['FILES'][0]=debconf.log
    *  MAC_00_01_6C_9D_B9_FA['install_20080311_090900']['FILES'][1]=syslog.log
@@ -438,26 +438,29 @@ class supportDaemon
    */
   public function get_log_info_for_mac($mac)
   {
-    # read mac directory
+    if (empty($mac)) {
+      return FALSE;
+    }
+    /* read mac directory */
     $logfiledir = $this->logdir."/$mac/";
-    if(!is_dir($logfiledir)) {
-      return(FALSE);
+    if (!is_dir($logfiledir)) {
+      return FALSE;
     }
     $dates = scandir($logfiledir);
-    if(!$dates) {
+    if (!$dates) {
       /* removed because in this case we don't need to say that there is nothing */
       /*  $this->set_error("client fai log directory ".$this->logdir." do not exist"); */
-      return(FALSE);
+      return FALSE;
     }
     $ret = array();
     foreach ($dates as $date) {
-      if($date == "." || $date =="..") {
+      if ($date == "." || $date =="..") {
           continue;
       }
-      $ret[$date]['DATE_STR']  = $date; 
+      $ret[$date]['DATE_STR']  = $date;
       $ret[$date]['REAL_DATE'] = strtotime(preg_replace("/[^0-9]*/","",$date));
       foreach(scandir("$logfiledir/$date") as $file) {
-        if($file == "." || $file =="..") {
+        if ($file == "." || $file =="..") {
           continue;
         }
         $ret[$date]['FILES'][] = $file;
@@ -465,13 +468,13 @@ class supportDaemon
     }
     return array($mac=>$ret);
   }
-  
+
   /*! \brief  Get a precise log file on a certain date for a mac address
-   * 
+   *
    * \param string 'mac' The mac address to fetch logs for.
    * \param string 'date' The date for the log to fetch.
    * \param string 'file' The log filename.
-   *      * 
+   *      *
    */
   public function get_log_file($mac,$date,$file)
   {
@@ -483,9 +486,9 @@ class supportDaemon
   }
 
   /*! \brief  Returns true if an argonaut daemon is running on the pc
-   * 
+   *
    * \param string 'mac' The mac address to ping
-   * 
+   *
    * \return boolean TRUE if the workstation is running an argonaut daemon
   */
   public function ping($mac) {
@@ -498,17 +501,17 @@ class supportDaemon
       return(FALSE);
     }
   }
-  
+
   /*! \brief  Get packages list for the given release
-   * 
+   *
    * \param string  'release' The release we want the packages of. If empty all releases are used.
-   * \param array   'attrs'   The attributes we want for each packages. 
+   * \param array   'attrs'   The attributes we want for each packages.
    * (all attributes from Packages file can put, plus version, distribution, has_template and templace)
    * \param array   'filters' The filters we want to use. An or is performed between array cases.
    * \param integer 'from'    The indice of the package we want to start from
    * \param integer 'stop'    The indice of the package we want to stop to.
    * \param boolean 'package_list'    True if filters is an array of package names that needs exact matching, false if it is an array of perl regexp
-   * 
+   *
    * \return Array   List of packages that fit the given parameters.
   */
   public function FAI_get_packages($release,$attrs,$filters,$from=-1,$to=-1,$package_list=false) {
@@ -527,7 +530,7 @@ class supportDaemon
         $words = preg_split("/\//",$distribution);
         $distribution = $words[0];
         $section = $words[1];
-        
+
         if(in_array("DISTRIBUTION",$attrs)) {
           foreach ($packages as &$package) {
             $package['DISTRIBUTION'] = $distribution;
@@ -546,11 +549,11 @@ class supportDaemon
       return array();
     }
   }
-  
+
   /*! \brief Escape perl regexp special chars
-   * 
+   *
    * \param string The string that needs escaping
-   * 
+   *
    * \return string Escaped string
   */
   public function escape_perl_chars($str) {
@@ -560,14 +563,14 @@ class supportDaemon
   }
 
   /*! \brief Get all configured repository servers
-   * 
+   *
    * \return array All configured repository servers
   */
   public function FAI_get_server() {
     $ldap = $this->config->get_ldap_link();
     $ldap->cd($this->config->current['BASE']);
     $ldap->search("(&(FAIrepository=*)(objectClass=FAIrepositoryServer))",array("FAIrepository", "gosaUnitTag"));
-    
+
     $repos = array();
     while($entry = $ldap->fetch()) {
       if(isset($entry['FAIrepository'])) {
@@ -587,11 +590,11 @@ class supportDaemon
     }
     return $repos;
   }
-  
+
   /*! \brief  Get available kernels packages
-   * 
+   *
    * \param string 'release' The release we want kernels of
-   * 
+   *
    * \return array  All kernel packages for the given release
   */
   public function FAI_get_kernels($release)
@@ -604,9 +607,9 @@ class supportDaemon
   }
 
   /*! \brief  Get available profiles
-   * 
+   *
    * \param string 'release' The release we want profiles for
-   * 
+   *
    * \return array All FAI profiles for the given release
   */
   public function FAI_get_profiles($release)
@@ -614,24 +617,24 @@ class supportDaemon
     $ldap = $this->config->get_ldap_link();
     $ldap->cd("ou=$release,".get_ou("faiBaseRDN").$this->config->current['BASE']);
     $ldap->search("(&(objectClass=FAIprofile)(objectClass=FAIclass))",array('cn'));
-    
+
     $res = array();
     while($entry = $ldap->fetch()) {
       $res[]=$entry['cn'][0];
     }
-    
+
     return $res;
   }
-  
+
   /*! \brief Manage services
-   * 
+   *
    * \param string 'mac' The mac correspind to the host action
    * \param string 'service' The service to be managed
    * \param string 'action' The action to be done on the service
-   * 
+   *
    * \return status or FALSE if there is an error
   */
-  public function manage_service($mac,$service,$action) 
+  public function manage_service($mac,$service,$action)
   {
     try {
       $client = new jsonRPCClient($this->s_host);
@@ -643,11 +646,11 @@ class supportDaemon
       return(FALSE);
     }
   }
-  
+
   /*! \brief Clean queue
-   * 
-   * \param array 'mac' The macs that have to be removed from the queue 
-   * 
+   *
+   * \param array 'mac' The macs that have to be removed from the queue
+   *
    * \return TRUE if success or FALSE otherwise
   */
   public function clean_queue_from_mac($mac)
