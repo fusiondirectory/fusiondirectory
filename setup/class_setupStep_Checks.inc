@@ -133,10 +133,10 @@ class Step_Checks extends setup_step
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* Check generation of LM/NT password hashes */
-    /* need the perl Mcrypt library or mkntpwd executable */
+    /* need the perl Mcrypt library or fusiondirectory-mkntpassword executable */
     $query= "mkntpwd 2>&1";
     $output= shell_exec ($query);
-    $have_mkntpwd= preg_match("/^Usage: mkntpwd /", $output);
+    $have_mkntpwd= preg_match("/^Usage: fusiondirectory-mkntpassword /", $output);
     if (!$have_mkntpwd){
       $query= 'LC_ALL=C LANG=C perl -MCrypt::SmbHash -e "print join(q[:], ntlmgen $ARGV[0]), $/;" >/dev/null';
       system ($query, $ret);
@@ -145,7 +145,7 @@ class Step_Checks extends setup_step
 
     $N = msgPool::checkingFor(_("samba hash generator"));
     $D = _("FusionDirectory requires this command to synchronize POSIX and samba passwords.");
-    $S = _("Install the perl Crypt::SmbHash modules or the mkntpwd executable");
+    $S = _("Install the perl Crypt::SmbHash modules or the fusiondirectory-mkntpassword executable");
     $R = $have_mkntpwd;
     $M = TRUE;
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
