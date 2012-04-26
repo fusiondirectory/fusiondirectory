@@ -19,45 +19,50 @@
   Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class passwordMethodsasl extends passwordMethod
-{
-  var $dn  = "";
-  var $uid = "";
-  var $realm = "";
-  
-  function __construct($config, $dn)
+class passwordMethodsasl extends passwordMethod {
+  var $uid    = "";
+  var $realm  = "";
+
+  function __construct($config, $dn="")
   {
-    if($dn == "" || $dn == "new") return;
+    if ($dn == "" || $dn == "new") {
+      return;
+    }
 
     $this->realm = trim($config->get_cfg_value('SASLRealm'));
-    if($this->realm == ""){
-        trigger_error(msgPool::cmdnotfound("SASLRealm", _("SASL")));
+    if ($this->realm == "") {
+      trigger_error(msgPool::cmdnotfound("SASLRealm", _("SASL")));
     }
 
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
-    $ldap->cat($dn,array('uid'));
-    if($ldap->count() == 1){
-        $attrs = $ldap->fetch();
-        $this->uid = $attrs['uid'][0];
-    }else{
-        trigger_error("Cannot change password, unknown users '".$dn."'");
+    $ldap->cat($dn, array('uid'));
+    if ($ldap->count() == 1) {
+      $attrs = $ldap->fetch();
+      $this->uid = $attrs['uid'][0];
+    } else {
+      trigger_error("Cannot change password, unknown user '".$dn."'");
     }
   }
 
   function is_available()
   {
-      return(true);
+    return TRUE;
   }
 
   function generate_hash($pwd)
   {
-    return("{SASL}".$this->uid."@".$this->realm);
+    return "{SASL}".$this->uid."@".$this->realm;
   }
 
   function get_hash_name()
   {
     return "sasl";
+  }
+
+  function need_password()
+  {
+    return FALSE;
   }
 }
 

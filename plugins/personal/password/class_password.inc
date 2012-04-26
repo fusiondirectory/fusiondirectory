@@ -149,7 +149,7 @@ class password extends plugin
 
         /* Try to connect via current password */
         $tldap = new LDAP(
-            $ui->dn, 
+            $ui->dn,
             $current_password,
             $this->config->current['SERVER'],
             $this->config->get_cfg_value("ldapFollowReferrals") == "true",
@@ -170,14 +170,13 @@ class password extends plugin
             fusiondirectory_log("User/password has been changed");
             $ui->password= $new_password;
             session::set('ui',$ui);
-#$this->handle_post_events("modify",array("userPassword" => $new_password));
             return($smarty->fetch(get_template_path("changed.tpl", TRUE)));
           }
         }
       }
     }
     return($smarty->fetch(get_template_path("password.tpl", TRUE)));
-  } 
+  }
 
   function change_password($dn, $pwd, $hash)
   {

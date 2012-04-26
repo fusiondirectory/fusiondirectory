@@ -35,7 +35,7 @@ class userManagement extends management
   var $pwd_change_queue = array();
   var $force_hash_type = array();
 
-  // Tab definition 
+  // Tab definition
   protected $tabClass = "usertabs";
   protected $tabType = "USERTABS";
   protected $aclCategory = "users";
@@ -54,9 +54,9 @@ class userManagement extends management
   {
     $this->config = $config;
     $this->ui = $ui;
-   
+
     $this->storagePoints = array(get_ou("userRDN"));
- 
+
     // Build filter
     if (session::global_is_set(get_class($this)."_filter")){
       $filter= session::global_get(get_class($this)."_filter");
@@ -83,7 +83,7 @@ class userManagement extends management
 
     parent::__construct($config, $ui, "users", $headpage);
 
-    // Register special user actions 
+    // Register special user actions
     $this->registerAction("lock",   "lockEntry");
     $this->registerAction("lockUsers",   "lockUsers");
     $this->registerAction("unlockUsers", "lockUsers");
@@ -101,7 +101,7 @@ class userManagement extends management
     $this->registerAction("saveEventDialog", "saveEventDialog");
     $this->registerAction("abortEventDialog", "closeDialogs");
 
-    // Register shortcut icon actions 
+    // Register shortcut icon actions
     $this->registerAction("edit_user","editEntry");
     $this->registerAction("edit_posixAccount","editEntry");
     $this->registerAction("edit_mailAccount","editEntry");
@@ -120,7 +120,7 @@ class userManagement extends management
   }
 
 
-  // Inject user actions 
+  // Inject user actions
   function detectPostActions()
   {
     $action = management::detectPostActions();
@@ -143,7 +143,7 @@ class userManagement extends management
     if($str) return($str);
 
     if(preg_match("/^edit_/",$action)){
-      $tab = preg_replace("/^edit_/","",$action); 
+      $tab = preg_replace("/^edit_/","",$action);
       if(isset($this->tabObject->by_object[$tab])){
         $this->tabObject->current = $tab;
       }else{
@@ -152,16 +152,16 @@ class userManagement extends management
     }
   }
 
-  
+
   function closeDialogs()
   {
     management::closeDialogs();
     $this->pwd_change_queue = array();
   }
-    
+
 
   /*! \brief  Sends a message to a set of users using Argonauts events.
-   */ 
+   */
   function sendMessage($action="",$target=array(),$all=array())
   {
     if(class_available("DaemonEvent")){
@@ -190,7 +190,7 @@ class userManagement extends management
 
 
   /*! \brief  Sends a message to a set of users using Argonauts events.
-   */ 
+   */
   function saveEventDialog()
   {
     $this->dialogObject->save_object();
@@ -208,8 +208,8 @@ class userManagement extends management
   }
 
 
-  /*! \brief  Intiates template creation. 
-   */ 
+  /*! \brief  Intiates template creation.
+   */
   function newTemplate($action,$entry)
   {
     $this->newEntry();
@@ -218,7 +218,7 @@ class userManagement extends management
 
 
   /*! \brief  Queues a set of users for password changes
-   */ 
+   */
   function changePassword($action="",$target=array(),$all=array())
   {
     $this->dn ="";
@@ -229,7 +229,7 @@ class userManagement extends management
     foreach($this->pwd_change_queue as $key => $dn){
       if(!preg_match("/w/",$this->ui->get_permissions($dn,$this->aclCategory."/password"))){
         unset($this->pwd_change_queue[$key]);
-        $disallowed[] = $dn; 
+        $disallowed[] = $dn;
       }
     }
     if(count($disallowed)){
@@ -237,12 +237,26 @@ class userManagement extends management
     }
 
     // Now display change dialog.
-    return($this->handlePasswordQueue()); 
+    return($this->handlePasswordQueue());
   }
 
 
   function handlePasswordQueue()
   {
+      foreach ($this->pwd_change_queue as $key => $dn) {
+        $ldap = $this->config->get_ldap_link();
+        $ldap->cat ($dn, array("shadowLastChange", "userPassword", "uid"));
+        $attrs = $ldap->fetch();
+        $methods = passwordMethod::get_available_methods();
+        if (isset($methods[$this->force_hash_type[$dn]])) {
+          $test = new $methods[$this->force_hash_type[$dn]]($this->config,$dn);
+          if (!$test->need_password()) {
+            change_password($dn, "",0,$this->force_hash_type[$dn]);
+            unset($this->pwd_change_queue[$key]);
+          }
+        }
+      }
+
       // skip if nothing is to do
       if(empty($this->dn) && !count($this->pwd_change_queue)) return;
 
@@ -415,13 +429,13 @@ class userManagement extends management
 
 
 
-  /*! \brief  Save user modifications. 
+  /*! \brief  Save user modifications.
    *          Whenever we save a 'new' user, request a password change for him.
-   */ 
+   */
   function saveChanges()
   {
     $str = management::saveChanges();
-  
+
     if(!empty($str)) return($str);
 
     if($this->last_tabObject instanceOf multi_plug){
@@ -446,8 +460,8 @@ class userManagement extends management
     $str = management::cancelEdit();
     if(!empty($str)) return($str);
 
-    if(isset($this->last_tabObject->by_object['user']) && 
-        $this->last_tabObject->by_object['user']->dn != "new" &&  
+    if(isset($this->last_tabObject->by_object['user']) &&
+        $this->last_tabObject->by_object['user']->dn != "new" &&
         $this->last_tabObject->by_object['user']->password_change_needed()){
       $this->force_hash_type[$this->last_tabObject->dn] = $this->last_tabObject->by_object['user']->pw_storage;
       $this->pwd_change_queue[] = $this->last_tabObject->dn;
@@ -456,10 +470,10 @@ class userManagement extends management
   }
 
 
-  /*! \brief  Intiates user creation. 
-   *          If we've user templates, then the user will be asked to use to use one. 
+  /*! \brief  Intiates user creation.
+   *          If we've user templates, then the user will be asked to use to use one.
    *          -> See 'templateContinue' for further handling.
-   */ 
+   */
   function newUserFromTemplate($action="",$target=array(),$all=array())
   {
     // Call parent method, it knows whats to do, locking and so on ...
@@ -469,7 +483,7 @@ class userManagement extends management
     // Reset uid selection.
     $this->got_uid= "";
 
-    // Use template if there are any of them 
+    // Use template if there are any of them
     $templates = array();
     $templates['none']= _("none");
     $templates = array_merge($templates,$this->get_templates());
@@ -491,18 +505,18 @@ class userManagement extends management
 
 
 
-  /*! \brief  Intiates user creation. 
-   *          If we've user templates, then the user will be asked 
-   *           if he wants to use one. 
+  /*! \brief  Intiates user creation.
+   *          If we've user templates, then the user will be asked
+   *           if he wants to use one.
    *          -> See 'templateContinue' for further handling.
-   */ 
+   */
   function newEntry($action="",$target=array(),$all=array(), $altTabClass ="", $altTabType = "", $altAclCategory="")
   {
-  
+
     // Call parent method, it manages everything, locking, object creation...
     $str = management::newEntry($action,$target,$all);
     if(!empty($str)) return($str);
-    
+
     // If we've at least one template, then ask the user if he wants to use one?
     $templates = array();
     $templates['none']= _("none");
@@ -511,7 +525,7 @@ class userManagement extends management
     // Display template selection
     if (count($templates) > 1){
       $smarty = get_smarty();
-  
+
       // Set default variables, normally empty.
       foreach(array("sn", "givenName", "uid", "got_uid") as $attr){
         $smarty->assign($attr, "");
@@ -527,11 +541,11 @@ class userManagement extends management
 
 
   /* !\brief  This method is called whenever a template selection was displayed.
-   *          Here we act on the use selection. 
+   *          Here we act on the use selection.
    *          - Does the user want to create a user from template?
    *          - Create user without template?
-   *          - Input correct, every value given and valid? 
-   */ 
+   *          - Input correct, every value given and valid?
+   */
   function templateContinue()
   {
     // Get the list of available templates.
@@ -553,13 +567,13 @@ class userManagement extends management
     }
 
     /********************
-     * 1   We've had input errors - Display errors and show input dialog again. 
+     * 1   We've had input errors - Display errors and show input dialog again.
      ********************/
 
     if (count($message) > 0){
       msg_dialog::displayChecks($message);
 
-      // Preset input fields with user input. 
+      // Preset input fields with user input.
       $smarty = get_smarty();
       foreach(array("sn", "givenName", "uid", "template") as $attr){
         if(isset($_POST[$attr])){
@@ -596,7 +610,7 @@ class userManagement extends management
         msg_dialog::displayChecks(array(msgPool::duplicated(_("Name"))));
       }else{
 
-        // Preset uid field by using the idGenerator 
+        // Preset uid field by using the idGenerator
         $attributes= array('sn' => $this->sn, 'givenName' => $this->givenName);
         if ($this->config->get_cfg_value("idGenerator") != ""){
           $uids= gen_uids ($this->config->get_cfg_value("idGenerator"), $attributes);
@@ -612,20 +626,20 @@ class userManagement extends management
         $this->got_uid= true;
       }
 
-      // Assign user input 
+      // Assign user input
       foreach(array("sn", "givenName", "uid", "got_uid") as $attr){
         $smarty->assign("$attr", $this->$attr);
       }
       if (isset($_POST['template'])){
         $smarty->assign("template", $_POST['template']);
       }
-      $smarty->assign("templates",$templates); 
+      $smarty->assign("templates",$templates);
       return($smarty->fetch(get_template_path('template.tpl', TRUE)));
     }
 
 
     /********************
-     * 3   No template - Ok. Lets fill the data into the user object and skip templating here. 
+     * 3   No template - Ok. Lets fill the data into the user object and skip templating here.
      ********************/
     if ($_POST['template'] == 'none'){
       foreach(array("sn", "givenName", "uid") as $attr){
@@ -633,19 +647,19 @@ class userManagement extends management
           $this->tabObject->by_object['user']->$attr= $_POST[$attr];
         }
       }
-      
-      // The user Tab object is already instantiated, so just go back and let the 
+
+      // The user Tab object is already instantiated, so just go back and let the
       //  management class do the rest.
       return("");
     }
 
 
     /********************
-     * 4   Template selected and uid given - Ok, then lets adapt tempalte values. 
+     * 4   Template selected and uid given - Ok, then lets adapt tempalte values.
      ********************/
     if(isset($_POST['uid'])){
 
-      // Move user supplied data to sub plugins 
+      // Move user supplied data to sub plugins
       foreach(array("uid","sn","givenName") as $attr){
         $this->$attr = $_POST[$attr];
         $this->tabObject->$attr       = $this->$attr;
@@ -658,7 +672,7 @@ class userManagement extends management
       $template_base            = preg_replace("/^[^,]+,".preg_quote(get_people_ou(), '/i')."/", '', $template_dn);
       $this->tabObject->by_object['user']->base= $template_base;
 
-      // The user Tab object is already instantiated, so just go back and let the 
+      // The user Tab object is already instantiated, so just go back and let the
       //  management class do the rest.
       return("");
     }
@@ -666,7 +680,7 @@ class userManagement extends management
 
 
   /* !\brief  This method applies a template to a set of users.
-   */ 
+   */
   function templatizeUsers($action="",$target=array(),$all=array())
   {
     $this->dns = array();
@@ -683,7 +697,7 @@ class userManagement extends management
         }
         $this->dns[] = $dn;
       }
-          
+
       // Display template
       $smarty = get_smarty();
       $smarty->assign("templates", $templates);
@@ -693,10 +707,10 @@ class userManagement extends management
 
 
   /* !\brief  This method is called whenever the templatize dialog was used.
-   */ 
+   */
   function templatizeContinue()
   {
-    // Template readable? 
+    // Template readable?
     $template= get_post('template');
     $acl = $this->ui->get_permissions($template, $this->aclCategory."/".$this->aclPlugin);
     if (preg_match('/r/', $acl)){
@@ -718,13 +732,13 @@ class userManagement extends management
     }
 
     // Cleanup!
-    $this->remove_lock(); 
+    $this->remove_lock();
     $this->closeDialogs();
   }
 
 
   /* !\brief  Lock/unlock multiple users.
-   */ 
+   */
   function lockUsers($action,$target,$all)
   {
     if(!count($target)) return;
@@ -735,12 +749,12 @@ class userManagement extends management
     }
   }
 
-  
+
   /* !\brief  Locks/unlocks the given user(s).
-   */ 
+   */
   function lockEntry($action,$entry, $all, $type = "toggle")
   {
-    
+
     // Filter out entries we are not allowed to modify
     $disallowed = array();
     $dns = array();
@@ -791,7 +805,7 @@ class userManagement extends management
               $hn= $hn[0];
             }
             msg_dialog::display(_("Account locking"),
-                sprintf(_("Password method '%s' does not support locking. Account (%s) has not been locked!"), 
+                sprintf(_("Password method '%s' does not support locking. Account (%s) has not been locked!"),
                   $hn,$dn),WARNING_DIALOG);
           }
         }else{
@@ -803,7 +817,7 @@ class userManagement extends management
 
 
   /* !\brief  This method returns a list of all available templates.
-   */ 
+   */
   function get_templates()
   {
     $templates= array();
@@ -922,6 +936,6 @@ class userManagement extends management
     return $result;
   }
 
-} 
+}
 // vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
