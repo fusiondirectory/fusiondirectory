@@ -126,6 +126,7 @@
       <type>entry</type>
       <image>plugins/users/images/list_password.png</image>
       <label>Change password</label>
+      <acl>users/password[w]</acl>
     </action>
 
     <action>
@@ -136,7 +137,7 @@
       <name>lockUsers</name>
       <type>entry</type>
       <image>images/lists/locked.png</image>
-      <acl>uniBonnAccount/password[w]</acl>
+      <acl>users/password[w]</acl>
       <label>Lock users</label>
     </action>
 
@@ -144,7 +145,7 @@
       <name>unlockUsers</name>
       <type>entry</type>
       <image>images/lists/unlocked.png</image>
-      <acl>uniBonnAccount/password[w]</acl>
+      <acl>users/password[w]</acl>
       <label>Unlock users</label>
     </action>
 
@@ -218,7 +219,7 @@
       <type>entry</type>
       <objectclass>!gosaUserTemplate</objectclass>
       <image>%{filter:lockImage(userPassword)}</image>
-      <acl>uniBonnAccount/password[w]</acl>
+      <acl>users/password[w]</acl>
       <label>%{filter:lockLabel(userPassword)}</label>
     </action>
 
@@ -226,6 +227,7 @@
       <name>password</name>
       <type>entry</type>
       <objectclass>!gosaUserTemplate</objectclass>
+      <acl>users/password[w]</acl>
       <image>plugins/users/images/list_password.png</image>
       <label>Change password</label>
     </action>
