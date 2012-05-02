@@ -60,7 +60,7 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
     set_error_handler('gosaRaiseError', E_WARNING |  E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT) ;
     return;
   }
- 
+
   /* Send all errors to logging class, except "Ldap : No such object" messages*/
   if(class_exists("log") && !preg_match("/No such object/",$errstr)){
     new log("debug","all",$errfile,array(),"Type:".$errno.", Message:".$errstr.", File:".$errfile.", Line: ".$errline);
@@ -83,7 +83,7 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
                               "reproduce this bug using the demo on http://demo.FusionDirectory.org ?".
                               "\n\n".
                               "*** PHP error information ***\n\n");
-    
+
     if (class_exists('session') && session::is_set('js') && session::get('js')==FALSE){
       $error_collector= "<div>";
     } else {
@@ -114,14 +114,14 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
         <div id='errorbox' style='position:absolute; z-index:150; display: none;'>";
     }
   }
- 
+
   /* Create error header */
   $error_collector.= "<table summary=\"\" width=\"100%\" cellspacing=0 style='background-color:#402005;color:white;border:2px solid red'><tr><td colspan=3><h1 style='color:white'>"._("PHP error")." \"$errstr\"</h1></td></tr>";
 
   $error_collector_mailto .= rawurlencode("=== Error === \n");
   $error_collector_mailto .= rawurlencode("PHP error: $errstr ($errfile, line $errline)\n");
   $error_collector_mailto .= rawurlencode("=== /Error === \n\n");
-  
+
   /* Extract traceback data - if available */
   if (function_exists('debug_backtrace')){
     $trace= debug_backtrace();
@@ -159,12 +159,12 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
       $args= "";
       if (isset($ct['args'])){
         foreach ($ct['args'] as $arg){
-       
-          /* Avoid convertig object to string errors */ 
+
+          /* Avoid convertig object to string errors */
           if(is_object($arg)){
             $arg = "CLASS:&nbsp;".get_class($arg);
           }
-  
+
           $args.= "\"$arg\", ";
         }
       }
@@ -241,7 +241,7 @@ $variables_order= "ES";
 ini_set("track_vars",1);
 ini_set("display_errors",1);
 ini_set("report_memleaks",1);
-ini_set("include_path",".:$BASE_DIR/include:".PHP_DIR);
+ini_set("include_path",".:$BASE_DIR/include:".PHP_DIR.":".PEAR_DIR);
 
 /* Do smarty setup */
 

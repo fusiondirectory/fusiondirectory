@@ -40,7 +40,10 @@ if(isset($_SERVER['CONFIG_FILE'])){
 /* php library path */
 define ("PHP_DIR", "/usr/share/php"); /*! Define php directory */
 
-/* fpdf library path */ 
+/* php library path */
+define ("PEAR_DIR", "/usr/share/php"); /*! Define PEAR directory */
+
+/* fpdf library path */
 define("FPDF","/usr/share/php/fpdf/fpdf.php"); /*! Define fpdf library path */
 
 /* Global FPDF FONT define */
