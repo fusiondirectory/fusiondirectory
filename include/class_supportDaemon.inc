@@ -64,10 +64,10 @@ class supportDaemon
   public function get_argonaut_host() {
     $ldap = $this->config->get_ldap_link();
     $ldap->cd($this->config->current['BASE']);
-    $ldap->search("(objectClass=argonautServer)",array('cn','ipHostNumber','argonautPort'));
+    $ldap->search("(objectClass=argonautServer)",array('cn','ipHostNumber','argonautProtocol','argonautPort'));
     if ($ldap->count() == 1) {
       $ldap_infos = $ldap->fetch();
-      return "http://".$ldap_infos['ipHostNumber'][0].":".$ldap_infos['argonautPort'][0];
+      return $ldap_infos['argonautProtocol'][0]."://".$ldap_infos['ipHostNumber'][0].":".$ldap_infos['argonautPort'][0];
     }
     return "";
   }
