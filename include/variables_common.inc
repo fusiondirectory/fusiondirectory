@@ -40,7 +40,7 @@ if(isset($_SERVER['CONFIG_FILE'])){
 /* php library path */
 define ("PHP_DIR", "/usr/share/php"); /*! Define php directory */
 
-/* php library path */
+/* php pear path */
 define ("PEAR_DIR", "/usr/share/php"); /*! Define PEAR directory */
 
 /* fpdf library path */
