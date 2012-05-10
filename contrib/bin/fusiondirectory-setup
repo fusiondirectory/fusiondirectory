@@ -604,7 +604,7 @@ sub migrate_repo {
       if (scalar @items < 5) {
         print "modifying $repo\n";
         push @repos, $repo."|install|local|i386";
-      if (scalar @items < 6) {
+      } elsif (scalar @items < 6) {
         print "repository $repo seems malformed\n";
         push @repos, $repo;
       } elsif (scalar @items < 7) {
