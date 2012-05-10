@@ -143,15 +143,7 @@ class supportDaemon
 
       /* Append an entry
       */
-      try {
-        $client = new jsonRPCClient($this->s_host);
-        $client->action($action,$targets,$data_json);
-      } catch (Exception $e) {
-        $this->set_error(nl2br($e->getMessage()));
-        return(FALSE);
-      }
-      $this->reset_error();
-      return(TRUE);
+      return $this->append_call($action,$targets,$data_json);
     } else {
       /* Updated edited entry. */
       $id                 = $event->get_id();
@@ -160,6 +152,29 @@ class supportDaemon
     }
 
     return(FALSE);
+  }
+
+  /*! \brief Allows simply append a call to a function
+   *  
+   * \param string 'action'   The action to call
+   * \param Array  'targets'  The concerned mac addresses
+   * \param Array  'data'     The data to send (timestamp, periodic and args, see Argonaut protocol)
+   * 
+   * \return TRUE if correctly appended FALSE otherwise
+   */
+  public function append_call($action,$targets,$data)
+  {
+    /* Append an entry
+    */
+    try {
+      $client = new jsonRPCClient($this->s_host);
+      $client->action($action,$targets,$data);
+    } catch (Exception $e) {
+      $this->set_error(nl2br($e->getMessage()));
+      return(FALSE);
+    }
+    $this->reset_error();
+    return(TRUE);
   }
 
   /*! \brief  Sets an error message, which can be returned with get_error().
