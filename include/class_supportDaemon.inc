@@ -590,15 +590,17 @@ class supportDaemon
     while($entry = $ldap->fetch()) {
       if(isset($entry['FAIrepository'])) {
         # Add an entry for each Repository configured for server
-        unset($entry['FAIrepository']['count']); // FIXME
+        unset($entry['FAIrepository']['count']);
         foreach ($entry['FAIrepository'] as $repo) {
           $tmp = explode("|", $repo);
-          $infos['URL'] = $tmp[0];
+          $infos['URL']           = $tmp[0];
           $infos['PARENT_SERVER'] = $tmp[1];
-          $infos['FAI_RELEASE'] = $tmp[2];
-          $infos['SECTIONS'] = explode(",",$tmp[3]);
-          $infos['INSTALL'] = $tmp[4];
-          $infos['TAG'] = (isset($entry['gosaUnitTag'])?$entry['gosaUnitTag']:'');
+          $infos['FAI_RELEASE']   = $tmp[2];
+          $infos['SECTIONS']      = explode(",",$tmp[3]);
+          $infos['INSTALL']       = $tmp[4];
+          $infos['LOCAL']         = $tmp[5];
+          $infos['ARCHS']         = explode(",",$tmp[6]);
+          $infos['TAG']           = (isset($entry['gosaUnitTag'])?$entry['gosaUnitTag']:'');
           $repos[] = $infos;
         }
       }
