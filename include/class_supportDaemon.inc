@@ -155,11 +155,11 @@ class supportDaemon
   }
 
   /*! \brief Allows simply append a call to a function
-   *  
+   *
    * \param string 'action'   The action to call
    * \param Array  'targets'  The concerned mac addresses
    * \param Array  'data'     The data to send (timestamp, periodic and args, see Argonaut protocol)
-   * 
+   *
    * \return TRUE if correctly appended FALSE otherwise
    */
   public function append_call($action,$targets,$data)
@@ -539,6 +539,7 @@ class supportDaemon
       $client = new jsonRPCClient($this->s_host);
       $this->reset_error();
       $res = $client->get_packages($release,$attrs,$filters,$from,$to);
+      print_r($res);
       $to_return = array();
       $attrs = array_map('strtoupper', $attrs);
       foreach ($res as $distribution => $packages) {
@@ -553,7 +554,7 @@ class supportDaemon
         }
         if(in_array("SECTION",$attrs)) {
           foreach ($packages as &$package) {
-            $package['SECTION'] = $section;
+            $package['SECTION'] = $section; // FIXME : do we want to do this? It will replace "contrib/misc by contrib, for instance
           }
         }
         $to_return = array_merge($to_return,$packages);
@@ -606,6 +607,26 @@ class supportDaemon
       }
     }
     return $repos;
+  }
+
+  /*! \brief Get all configured customs repository servers for a given release
+   *
+   * \param string The release concerned
+   *
+   * \return array All configured customs repository servers for the given release
+  */
+  public function FAI_get_customs ($release)
+  {
+    $list     = array();
+    $servers  = $this->FAI_get_server();
+
+    foreach($servers as $server) {
+      if (strtolower($server['INSTALL']) == strtolower("custom:$release")) {
+        $list[$server['FAI_RELEASE']] = $server['FAI_RELEASE'];
+      }
+    }
+
+    return array_values($list);
   }
 
   /*! \brief  Get available kernels packages
