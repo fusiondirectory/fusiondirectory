@@ -179,7 +179,7 @@ text-align:right;
 a.maintitlebar,div.maintitlebar {
 font-family:arial,helvetica,sans-serif;
 text-decoration:none;
-color:#FFFFFF;
+/*color:#FFFFFF;*/
 font-size:12px;
 text-align:center;
 vertical-align:middle;
@@ -188,7 +188,7 @@ cursor:pointer;
 
 a.maintitlebar:hover {
 text-decoration:none;
-background-color:#30A5FF;
+background-color:#d7e6b4;
 cursor:pointer;
 }
 
@@ -198,7 +198,7 @@ color:#00008F;
 text-decoration:none;
 border-bottom:1px solid #AAA;
 font-weight:bold;
-background-color:#F0F0F0;
+background-color:#dbe6c6;
 font-size:12px;
 text-align:center;
 vertical-align:middle;
@@ -338,7 +338,7 @@ padding:5px;
 margin:0;
 text-align:center;
 vertical-align:middle;
-background-color:#F0F0F0;
+background-color:#dbe6c6;
 font-family:arial,helvetica,sans-serif;
 /*
 font-weight:bold;
@@ -760,7 +760,7 @@ text-align:left;
 
 /* Header col */
 div.setup_header {
-background-color:#507AAA;
+background-color:#bbcc99;
 padding:4px 5px 2px;
 border-bottom:1px solid #999;
 }
