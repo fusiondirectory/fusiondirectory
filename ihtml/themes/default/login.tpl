@@ -6,9 +6,6 @@
       <div style="float:left;"><img src='themes/default/images/go_logo.png' class='center' alt='FusionDirectory' /></div>
       <div style="padding-top:8px;text-align:right;height:38px;color:#FFFFFF">{$version}</div>
     </div>
-      <div class='setup_menu'>
-        <b>{t}FusionDirectory login screen{/t}</b>
-      </div>
 </div>
 
 {* FusionDirectory login - smarty template *}
