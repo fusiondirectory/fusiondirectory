@@ -1508,12 +1508,14 @@ function get_ou($name)
                 "faiPackageRDN"   => "ou=packages,",
                 "faiPartitionRDN" => "ou=disk,",
 
+                "supannStructuresRDN" => "ou=structures,",
+
                 "tokenRDN"    => "ou=tokens,",
 
                 "sudoRDN"     => "ou=sudoers,",
 
                 "netgroupRDN" => "ou=netgroup,",
-                
+
                 "deviceRDN"   => "ou=devices,",
                 "mimetypeRDN" => "ou=mime,");
 
