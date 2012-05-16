@@ -26,7 +26,7 @@
       {t}{$headline}{/t}
     </a>
   </div>
-  <div style="padding-top:8px;text-align:right;height:38px;color:white;">
+  <div style="padding-top:8px;text-align:right;height:38px;color:black;">
     <a>{t}Signed in:{/t} <b>{$username}</b></a>
     <div class='logout-label'>
       <canvas id="sTimeout" width="22" height="22" title="{$sessionLifetime}|{t}Session expires in %d!{/t}"></canvas>
