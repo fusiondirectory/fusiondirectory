@@ -111,14 +111,14 @@ function __fusiondirectory_autoload($class_name) {
     global $class_mapping, $BASE_DIR;
 
     if ($class_mapping === NULL){
-      echo sprintf(_("Fatal error: no class locations defined - please run '%s' to fix this"), "<b>fusiondirectory-setup</b>");
+      echo sprintf(_("Fatal error: no class locations defined - please run '%s' to fix this"), "<b>fusiondirectory-setup --update-cache</b>");
       exit;
     }
 
     if (isset($class_mapping["$class_name"])){
       require_once($BASE_DIR."/".$class_mapping["$class_name"]);
     } else {
-      echo sprintf(_("Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"), $class_name, "<b>fusiondirectory-setup</b>");
+      echo sprintf(_("Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"), $class_name, "<b>fusiondirectory-setup --update-cache</b>");
       exit;
     }
 }
