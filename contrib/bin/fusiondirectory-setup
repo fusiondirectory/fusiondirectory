@@ -859,14 +859,6 @@ This option will install the plugin from a tar.gz of the plugin. This option is 
 
 This option will change the path for fusiondirectory installation. it is only usefull with other commands and for people installing from sources.
 
-=item --list_vars
-
-This option will list the variables you can change to install FusionDirectory on another set of directories. This option is intended for people wanting to install from the sources.
-
-=item --set-VAR=variable
-
-This option will change the variable for the FusionDirectory installation. it is only usefull with --install-directories and for people installing from sources.
-
 =item --yes
 
 This flag will answer "yes" to every yes/no question asked by the script
@@ -878,26 +870,9 @@ This flag will answer "yes" to every yes/no question asked by the script
  benoit@catbert$ fusiondirectory-setup --update-cache --update-locales
  Update FusionDirectory class cache and update localization
 
- benoit@catbert$ fusiondirectory-setup --list-vars
- List possible vars to give --set
- locale_cache_dir        [locale]
- config_file     [fusiondirectory.conf]
- fd_cache        [/var/cache/fusiondirectory]
- fd_spool_dir    [/var/spool/fusiondirectory]
- fai_log_dir     [fai]
- tmp_dir [tmp]
- template_dir    [template]
- locale_dir      [locale]
- fd_config_dir   [/etc/fusiondirectory]
- class_cache     [class.cache]
- fd_home [/usr/share/fusiondirectory]
-
- benoit@catbert$ fusiondirectory-setup --install-directories --set-class_cache=class.cache
- 
-=head1 AUTHORS
+=head1 AUTHOR
 
 Benjamin Carpentier
-Côme Bernigaud
 
 =head1 LICENCE AND COPYRIGHT
 
