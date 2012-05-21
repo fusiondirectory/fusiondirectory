@@ -27,7 +27,7 @@ use File::Copy::Recursive qw(rcopy);
 
 # fd's directory and class.cache file's path declaration
 my %vars = (
- fd_home =>       "/usr/share/fusiondirectory",
+ fd_home =>       "/var/www/fusiondirectory",
  fd_cache =>      "/var/cache/fusiondirectory",
  fd_config_dir => "/etc/fusiondirectory",
  fd_spool_dir =>  "/var/spool/fusiondirectory",
