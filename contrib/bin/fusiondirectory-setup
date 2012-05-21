@@ -321,7 +321,7 @@ sub check_config {
 
 ############################################################# Change install directories #################################################################################
 
-sub install_directories {
+sub write_vars {
   my $filecontent = <<eof;
 <?php
   require_once('variables_common.inc');
@@ -764,7 +764,7 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--migrate-repositories"} = ["Migrating your FAI repositories",               \&migrate_repo];
   $commands{"--migrate-users"}        = ["Migrating your users",                          \&migrate_users];
   $commands{"--install-plugins"}      = ["Installing FusionDirectory's plugins",          \&install_plugins];
-  $commands{"--install-directories"}  = ["Choose FusionDirectory Directories",            \&install_directories];
+  $commands{"--write-vars"}           = ["Choose FusionDirectory Directories",            \&write_vars];
   $commands{"--list-vars"}            = ["List possible vars to give --set",              \&list_vars];
   $commands{"--set-VAR=value"}        = ["Set the variable VAR to value see --list-vars", \&die]; # Won't be called because it contains uppercase
 
@@ -855,9 +855,17 @@ This option add FusionDirectory attributes to the people branch.
 
 This option will install the plugin from a tar.gz of the plugin. This option is intended for people wanting to install from the sources.
 
-=item --install-directories
+=item --list_vars
 
-This option will change the path for fusiondirectory installation. it is only usefull with other commands and for people installing from sources.
+This option will list the variables you can change to install FusionDirectory on another set of directories. This option is intended for people wanting to install from the sources.
+
+=item --set-VAR=variable
+
+This option will change the variable for the FusionDirectory installation. it is only usefull with --install-directories and for people installing from sources.
+
+=item --write-vars
+
+This option will write back the variables.inc file with the updated variables and is only usefull with --set-VAR=variable and for people installing from sources.
 
 =item --yes
 
@@ -868,11 +876,37 @@ This flag will answer "yes" to every yes/no question asked by the script
 =head1 EXAMPLE
 
  benoit@catbert$ fusiondirectory-setup --update-cache --update-locales
+
  Update FusionDirectory class cache and update localization
 
-=head1 AUTHOR
+ benoit@catbert$ fusiondirectory-setup --list-vars
+ List possible vars to give --set
+ locale_cache_dir [locale]
+ config_file [fusiondirectory.conf]
+ fd_cache [/var/cache/fusiondirectory]
+ fd_spool_dir [/var/spool/fusiondirectory]
+ fai_log_dir [fai]
+ tmp_dir [tmp]
+ template_dir [template]
+ locale_dir [locale]
+ fd_config_dir [/etc/fusiondirectory]
+ class_cache [class.cache]
+ fd_home [/var/www/fusiondirectory]
+
+ benoit@catbert$ fusiondirectory-setup --set-class_cache=class.cache --write-vars
+  
+ update the class.cache name and write back the variables.inc file
+
+=head1 BUGS
+
+Please report any bugs, or post any suggestions, to the fusiondirectory mailing list fusiondirectory-users or to
+<https://forge.fusiondirectory.org/projects/fdirectory/issues/new>
+
+=head1 AUTHORS
 
 Benjamin Carpentier
+
+Come Bernigaud
 
 =head1 LICENCE AND COPYRIGHT
 
@@ -880,7 +914,7 @@ This code is part of FusionDirectory (http://www.fusiondirectory.org/)
 
 =over 2
 
-=item Copyright (C) 2011  FusionDirectory
+=item Copyright (C) 2011-2012  FusionDirectory
 
 =back
 
