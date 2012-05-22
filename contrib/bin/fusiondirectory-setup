@@ -668,15 +668,11 @@ sub install_plugins {
     # copy contrib
     create_and_copy_plugin_dir($plugin_path."/contrib/",$vars{fd_home}."/doc/contrib/".$plugin);
 
-    # copy etc
+    # copy etc FIXME !!! not right all files goes now to /var/cache/fusiondirectory/plugin
     my $files_dirs_copied = rcopy($plugin_path."/etc/*", $vars{fd_config_dir});
 
     # copy the locales
     create_and_copy_plugin_dir($plugin_path."/locale/",$vars{fd_home}."/locale/plugins/".$plugin);
-
-    foreach my $type (@plugin_types) {
-      create_and_copy_plugin_dir($plugin_path."/".$type,$vars{fd_home}."/plugins/".$type."/".$plugin);
-    }
 
   }
 
