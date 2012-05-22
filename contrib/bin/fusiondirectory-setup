@@ -678,12 +678,6 @@ sub install_plugins {
       create_and_copy_plugin_dir($plugin_path."/".$type,$vars{fd_home}."/plugins/".$type."/".$plugin);
     }
 
-    if ( -e $plugin_path."/plugin.dsc") {
-      my $plugin_dsc_dir = $vars{fd_home}."/plugins/".$plugin;
-      $dir = dir ($plugin_dsc_dir);
-      $dir->mkpath() or warn ("! Unable to make ".$plugin_dsc_dir."\n") if ( !-e $plugin_dsc_dir );
-      my $files_dirs_copied = rcopy($plugin_path."/plugin.dsc", $plugin_dsc_dir."/plugin.dsc");
-    }
   }
 
   #finally update FusionDirectory's class.cache and locales
