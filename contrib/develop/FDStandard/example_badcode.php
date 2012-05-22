@@ -157,6 +157,10 @@ class bad_code {
     $b  = "a";
     $bb = 0;
 
+    $a = 1;
+    $axb[0] = 2; // should complain
+    $b = 2;
+
     $a = 1; // should not complain
     for ($i = 0;$i < 10;$i++) { // should not complain
       $a = 1; // should not complain

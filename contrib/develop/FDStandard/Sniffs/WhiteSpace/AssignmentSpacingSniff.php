@@ -38,7 +38,9 @@ class FDStandard_Sniffs_WhiteSpace_AssignmentSpacingSniff implements PHP_CodeSni
     {
         $tokens = $phpcsFile->getTokens();
 
-        if ($prevAssignment = $phpcsFile->findPrevious(PHP_CodeSniffer_Tokens::$bracketTokens,$stackPtr-1)) {
+        //~ $blockClosers = array(T_CLOSE_CURLY_BRACKET, T_CLOSE_SQUARE_BRACKET, T_CLOSE_PARENTHESIS);
+
+        if ($prevAssignment = $phpcsFile->findPrevious(array(T_OPEN_PARENTHESIS),$stackPtr-1)) {
           if ($tokens[$prevAssignment]['line'] == $tokens[$stackPtr]['line']) {
             return; // It's not an assignment block
           }
@@ -56,7 +58,9 @@ class FDStandard_Sniffs_WhiteSpace_AssignmentSpacingSniff implements PHP_CodeSni
         $nextAssignment = $stackPtr;
         $lastLine       = $tokens[$stackPtr]['line'];
 
-        if ($nextBracket = $phpcsFile->findNext(PHP_CodeSniffer_Tokens::$bracketTokens,$stackPtr+1)) {
+        $bracketTokens = array(T_OPEN_CURLY_BRACKET, T_CLOSE_CURLY_BRACKET,
+                                T_OPEN_PARENTHESIS, T_CLOSE_PARENTHESIS);
+        if ($nextBracket = $phpcsFile->findNext($bracketTokens,$stackPtr+1)) {
           $nextBracketLine = $tokens[$nextBracket]['line'];
         }
 

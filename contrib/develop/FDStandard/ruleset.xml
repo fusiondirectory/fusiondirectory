@@ -8,6 +8,13 @@
             <property name="absoluteLineLimit" value="120"/>
         </properties>
     </rule>
+    <rule ref="Generic.Files.LineLength.MaxExceeded">
+        <severity>4</severity>
+    </rule>
+    <rule ref="Generic.Files.LineLength.TooLong">
+        <severity>3</severity>
+    </rule>
+
     <rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman" />
     <rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing" />
     <rule ref="Squiz.WhiteSpace.ObjectOperatorSpacing" />
@@ -24,7 +31,7 @@
     <rule ref="Generic.WhiteSpace.DisallowTabIndent" />
     <rule ref="Generic.WhiteSpace.ScopeIndent" >
         <properties>
-            <property name="exact" value="true"/>
+            <property name="exact" value="false"/> <!-- exact mode is "buggy" : does not detect array identation and so on -->
             <property name="indent" value="2"/>
         </properties>
     </rule>
