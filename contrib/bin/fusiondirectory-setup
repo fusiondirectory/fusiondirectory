@@ -662,6 +662,15 @@ sub install_plugins {
     $plugin_path =~ /^$tmp_plugins_dir\/$name\/(.*)$/;
     my $plugin = $1;
 
+    # copy addons into plugins
+    create_and_copy_plugin_dir($plugin_path."/addons/",$vars{fd_home}."/plugins/");
+
+    # copy admin into plugins
+    create_and_copy_plugin_dir($plugin_path."/admin/",$vars{fd_home}."/plugins/");
+
+    # copy personal into plugins
+    create_and_copy_plugin_dir($plugin_path."/personal/",$vars{fd_home}."/personal/");
+
     # copy extra HTML and images
     create_and_copy_plugin_dir($plugin_path."/html/",$vars{fd_home}."/html/plugins/".$plugin);
 
