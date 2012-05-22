@@ -1,5 +1,5 @@
-FusionDirectory 1.0 QUICK INSTALL
-=================================
+FusionDirectory 1.0 INSTALL FROM SOURCES
+==========================================
 
 Prequisite:
 
@@ -8,20 +8,18 @@ with smarty 2 or 3 and there is a blank (or prefilled) LDAP server available.
 
 You have installed the following perl libraries
 
-Class::Path, Net::LDAP, Crypt::PasswdMD5, File::Copy::Recursive
+Path::Class, Net::LDAP, Crypt::PasswdMD5, File::Copy::Recursive
 
 ---
 
-INSTALLING FUSIONDIRECTORY FROM SOURCE
----------------------------------------
-
 1) DOWNLOADING FUSIONDIRECTORY
+==============================
 
 - Get the fusiondirectory tarballs from http://download.fusiondirectory.org/sources/1.0/.
 
 wget http://download.fusiondirectory.org/sources/1.0/fusiondirectory-1.0.x.tar.gz
 
-wget http://download.fusiondirectory.org/sources/1.0/fusiondirectory-1.0.x.tar.gz
+wget http://download.fusiondirectory.org/sources/1.0/fusiondirectory-plugins-1.0.x.tar.gz
 
 X here being the latest version available
 
@@ -40,16 +38,22 @@ md5sum fusiondirectory-plugins-1.0.x.tar.gz
 
 
 2 ) INSTALLING FUSIONDIRECTORY CORE
+===================================
 
 - Unpack the FusionDirectory tarball and move the main fusiondirectory
 directory to a place your webserver is configured to find it. On most
-of the case this will be /var/www/fusiondirectory.
+of the case this will be /var/www/fusiondirectory. Our fusiondirectory-setup script use
+/var/www/fusiondirectory as default path.
+ 
+For exemple, if you need to change the global path of FusionDirectory installation you can modify the variable 'fd_home':
+  * fusiondirectory-setup --set-fd_home="/usr/share/fusiondirectory" --write-vars will change the path of your FusionDirectory installation.
 
-If you need to change a path for various reasons all the paths used by the software is in
-/var/www/fusiondirectory/include/variables.inc
+Please note that --write-vars combined with --set-<variable_name>=<your data> will write your changes to the variables.inc file,
+so its mandatory to use them together.
 
 - Move the contrib/bin directory in /usr/local/bin
-  * mv /var/www/fusiondirectory/contrib/bin /usr/local/
+  * chmod 774 /var/www/fusiondirectory/contrib/bin/*
+  * mv /var/www/fusiondirectory/contrib/bin/* /usr/local/bin/
 
 - Create if needed the man5 et man1 directories in /usr/local/man
   * mkdir /usr/local/man/man1
@@ -64,12 +68,12 @@ If you need to change a path for various reasons all the paths used by the softw
   * gzip contrib/man/fusiondirectory-insert-schema.1
 
 - Move the man pages to the right place
-  * mv contrib/man/fusiondirectory-encrypt-passwords.1.gz /usr/local/man1
-  * mv contrib/man/fusiondirectory-setup.1.gz /usr/local/man1
+  * mv contrib/man/fusiondirectory-encrypt-passwords.1.gz /usr/local/man/man1
+  * mv contrib/man/fusiondirectory-setup.1.gz /usr/local/man/man1
   * mv contrib/man/fusiondirectory-mkntpassword.1.gz /usr/local/man/man1/
   * mv contrib/man/fusiondirectory-schema2ldif.1.gz /usr/local/man/man1/
   * mv contrib/man/fusiondirectory-insert-schema.1.gz /usr/local/man/man1/
-  * mv contrib/man/fusiondirectory.conf.5.gz /usr/local/man5
+  * mv contrib/man/fusiondirectory.conf.5.gz /usr/local/man/man5
 
 - Create the symbolic links for the fusiondirectory smarty functions
 
@@ -84,9 +88,21 @@ If you need to change a path for various reasons all the paths used by the softw
   * mv /var/www/fusiondirectory/contrib/openldap/*.ldif <your-ldap-schema-directory>/fusiondirectory
   * mv /var/www/fusiondirectory/contrib/openldap/*.schema <your-ldap-schema-directory>/fusiondirectory
 
+- Add the required schema
+
+  * fusiondirectory-insert-schema
+
+- check what schema are installed
+    
+  * ldapsearch -Y EXTERNAL -H ldapi:/// -LLL -b cn=schema,cn=config | grep "dn: cn={"
+
 - Run the fusiondirectory-setup
 
-  * fusiondirectory-setup --check-directories --update-cache --update-locales --install-directories
+  * fusiondirectory-setup --check-directories --update-cache --update-locales
+
+Please note that if you changed the path of your FusionDirectory installation you will need to type the following commands
+
+  * fusiondirectory-setup --set-fd_home=<your path> --check-directories --update-cache --update-locales
 
 - Move the needed file from contrib to your etc directory
 
@@ -98,8 +114,12 @@ If you need to change a path for various reasons all the paths used by the softw
 
 - Run the fusiondirectory-setup
 
-  * fusiondirectory-setup --install-plugins --install-directories
+  * fusiondirectory-setup --install-plugins
 
+Please note that if you changed the path of your FusionDirectory installation you will need to type the following commands
+
+  * fusiondirectory-setup --set-fd_home=<your path> --install-plugins
+  
 - Copy the file from contrib/apache to the apache site configuration dir
 
   * mv /var/www/fusiondirectory/contrib/apache/fusiondirectory-apache.conf <your-apache-configuration-directory>
@@ -123,7 +143,7 @@ To improve this piece of software, please report all kind of errors using the bu
 on https://forge.fusiondirectory.org
 
 Documentation: http://www.fusiondirectory.org/
-Mailinglist:   http://lists.fusiondirectory.org/
+Mailinglist: http://lists.fusiondirectory.org/
 Irc channel: #fusiondirectory on freenode
 
 Have fun!
