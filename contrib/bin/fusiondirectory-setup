@@ -108,13 +108,18 @@ sub get_classes {
     # create a "dir" object with the path
     my $dir = dir ($path) or die ("! Can't open $path\n");
 
+    my $contrib_dir = dir($vars{fd_home},"contrib");
+    if ("$dir" eq "$contrib_dir") {
+        return;
+    }
+
     # create an array with the content of $dir
     my @dir_files = $dir->children;
 
     foreach my $file (@dir_files) {
         # recursive call if $file is a directory
         if ( -d $file ) {
-            %classes_hash_result = get_classes($file);
+            get_classes($file);
             next;
         }
 
@@ -138,7 +143,7 @@ sub get_classes {
           }
         }
     }
-  return %classes_hash_result;
+    return %classes_hash_result;
 }
 
 # call get_classes and create /var/cache/fusiondirectory/class.cache
@@ -151,7 +156,7 @@ sub rescan_classes {
   my $file_class = file ($class_cache);
 
   # create the handler (write mode) for the file previoulsy created
-  my $fhw = $file_class->openw() or die ("! Unable to open $class_cache in read mode\n");
+  my $fhw = $file_class->openw() or die ("! Unable to open $class_cache in write mode\n");
 
   # first lines of class.cache
   $fhw->print ("<?php\n\t\$class_mapping= array(\n");
@@ -893,7 +898,7 @@ This flag will answer "yes" to every yes/no question asked by the script
  fd_home [/var/www/fusiondirectory]
 
  benoit@catbert$ fusiondirectory-setup --set-class_cache=class.cache --write-vars
-  
+
  update the class.cache name and write back the variables.inc file
 
 =head1 BUGS
