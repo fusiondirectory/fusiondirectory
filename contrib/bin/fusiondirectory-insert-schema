@@ -47,10 +47,41 @@ foreach my $arg ( @ARGV ) {
       push @schemas, $arg;
     }
   } elsif ($pathunset) {
-    $path = $arg;
+    $path = $arg."/";
     $pathunset = 0;
   } else {
     usage();
+  }
+}
+
+# die if user is not "root"
+die ("! You have to run this script as root\n") if ($<!=0);
+
+# die if the path doesn't exists
+die ("! $path doesn't seems to exists\n") if (!-e $path);
+
+# die if ldap-utils are not installed
+die ("! ldap-utils doesn't seem to be installed") if (!-e $ldap_utils_path);
+
+if (scalar(@schemas) == 0) {
+  # insert the default schemas
+  @schemas = ("samba","gosystem","gofon","gofax","goto","goserver","goto-mime","gosa-samba3","ldapns","recovery");
+} elsif ($pathunset) {
+  $path = "";
+}
+
+foreach my $schema (@schemas) {
+  my $schema_name = $schema;
+  $schema_name =~ s|^.*/||;
+  $full_cmd = $search_cmd.$schema_name;
+  print ("\n");
+  my $search = `$full_cmd`;
+
+  # if the schema doesn't already exists in the LDAP server, adding it
+  if ($search !~ /# numEntries: 1/m) {
+    $full_cmd = $add_cmd.$path.$schema.".ldif";
+    print "executing '$full_cmd'";
+    system ($full_cmd);
   }
 }
 
@@ -67,33 +98,6 @@ sub usage
 
 EOF
   exit -1;
-}
-
-# die if user is not "root"
-die ("! You have to run this script as root\n") if ($<!=0);
-
-# die if the path doesn't exists
-die ("! $path doesn't seems to exists\n") if (!-e $path);
-
-# die if ldap-utils are not installed
-die ("! ldap-utils doesn't seem to be installed") if (!-e $ldap_utils_path);
-
-if (scalar(@schemas) == 0) {
-  # insert the default schemas
-  @schemas = ("samba","gosystem","gofon","gofax","goto","goserver","goto-mime","gosa-samba3","ldapns","recovery");
-}
-
-foreach my $schema (@schemas) {
-  $full_cmd = $search_cmd.$schema;
-  print ("\n");
-  my $search = `$full_cmd`;
-
-  # if the schema doesn't already exists in the LDAP server, adding it
-  if ($search !~ /# numEntries: 1/m) {
-    $full_cmd = $add_cmd.$path."/".$schema.".ldif";
-    print "executing '$full_cmd'";
-    system ($full_cmd);
-  }
 }
 
 exit 0;
@@ -118,6 +122,12 @@ If -i is specified, insert the given list of schemas instead of the default list
 
  fusion@catbert$ fusiondirectory-insert-schema /etc/ldap/otherschema -i myschema
    Insert the schema /etc/ldap/otherschema/myschema.ldif
+
+ fusion@catbert$ fusiondirectory-insert-schema -i /etc/ldap/otherschema/myschema.ldif
+   Insert the schema /etc/ldap/otherschema/myschema.ldif
+
+ fusion@catbert$ fusiondirectory-insert-schema -i myschema
+   Insert the schema myschema.ldif from working directory
 
 =head1 BUGS
 
