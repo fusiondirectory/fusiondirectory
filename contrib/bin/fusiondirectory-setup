@@ -668,13 +668,13 @@ sub install_plugins {
     my $plugin = $1;
 
     # copy addons into plugins
-    create_and_copy_plugin_dir($plugin_path."/addons/",$vars{fd_home}."/plugins/");
+    create_and_copy_plugin_dir($plugin_path."/addons/",$vars{fd_home}."/plugins/addons/");
 
     # copy admin into plugins
-    create_and_copy_plugin_dir($plugin_path."/admin/",$vars{fd_home}."/plugins/");
+    create_and_copy_plugin_dir($plugin_path."/admin/",$vars{fd_home}."/plugins/admin/");
 
     # copy personal into plugins
-    create_and_copy_plugin_dir($plugin_path."/personal/",$vars{fd_home}."/personal/");
+    create_and_copy_plugin_dir($plugin_path."/personal/",$vars{fd_home}."/plugins/personal/");
 
     # copy extra HTML and images
     create_and_copy_plugin_dir($plugin_path."/html/",$vars{fd_home}."/html/plugins/".$plugin);
@@ -683,7 +683,7 @@ sub install_plugins {
     create_and_copy_plugin_dir($plugin_path."/contrib/",$vars{fd_home}."/doc/contrib/".$plugin);
 
     # copy etc FIXME !!! not right all files goes now to /var/cache/fusiondirectory/plugin
-    my $files_dirs_copied = rcopy($plugin_path."/etc/*", $vars{fd_config_dir});
+    #my $files_dirs_copied = rcopy($plugin_path."/etc/*", $vars{fd_config_dir});
 
     # copy the locales
     create_and_copy_plugin_dir($plugin_path."/locale/",$vars{fd_home}."/locale/plugins/".$plugin);
