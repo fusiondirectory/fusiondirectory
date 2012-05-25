@@ -539,7 +539,6 @@ class supportDaemon
       $client = new jsonRPCClient($this->s_host);
       $this->reset_error();
       $res = $client->get_packages($release,$attrs,$filters,$from,$to);
-      print_r($res);
       $to_return = array();
       $attrs = array_map('strtoupper', $attrs);
       foreach ($res as $distribution => $packages) {
