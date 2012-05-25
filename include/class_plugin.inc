@@ -1409,18 +1409,18 @@ class plugin
     /* Get configuration from fusiondirectory.conf */
     $config = $this->config;
 
-    /* Create lokal ldap connection */
+    /* Create local ldap connection */
     $ldap= $this->config->get_ldap_link();
     $ldap->cd($this->config->current['BASE']);
 
     /* check if there are special server configurations for snapshots */
-    if($config->get_cfg_value("snapshotURI") == ""){
+    if ($config->get_cfg_value("snapshotURI") == "") {
 
       /* Source and destination server are both the same, just copy source to dest obj */
       $ldap_to      = $ldap;
       $snapldapbase = $this->config->current['BASE'];
 
-    }else{
+    } else {
       $server         = $config->get_cfg_value("snapshotURI");
       $user           = $config->get_cfg_value("snapshotAdminDn");
       $password       = $this->config->get_credentials($config->get_cfg_value("snapshotAdminPassword"));
@@ -1429,14 +1429,14 @@ class plugin
       $ldap_to        = new ldapMultiplexer(new LDAP($user,$password, $server));
       $ldap_to -> cd($snapldapbase);
 
-      if (!$ldap_to->success()){
+      if (!$ldap_to->success()) {
         msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap_to->get_error(), $snapldapbase, "", get_class()));
       }
 
     }
 
     /* check if the dn exists */
-    if ($ldap->dn_exists($this->dn)){
+    if ($ldap->dn_exists($this->dn)) {
 
       /* Extract seconds & mysecs, they are used as entry index */
       list($usec, $sec)= explode(" ", microtime());
@@ -1691,58 +1691,43 @@ class plugin
     $ui = get_userinfo();
     $this->parent = $parent;
 
-    foreach($_POST as $name => $value){
+    foreach ($_POST as $name => $value) {
 
       /* Create a new snapshot, display a dialog */
-      if(preg_match("/^CreateSnapShotDialog_[^_]*_[xy]$/",$name) && $once){
+      if (preg_match("/^CreateSnapShotDialog_[^_]*_[xy]$/",$name) && $once) {
 
         $entry = base64_decode(preg_replace("/^CreateSnapShotDialog_([^_]*)_[xy]$/","\\1",$name));
         $once = false;
         $entry = preg_replace("/^CreateSnapShotDialog_/","",$entry);
 
-        if(!empty($entry) && $ui->allow_snapshot_create($entry,$this->parent->acl_module)){
+        if (!empty($entry) && $ui->allow_snapshot_create($entry,$this->parent->acl_module)) {
           $this->snapDialog = new SnapShotDialog($this->config,$entry,$this);
-        }else{
+        } else {
           msg_dialog::display(_("Permission"),sprintf(_("You are not allowed to create a snapshot for %s."),$entry),ERROR_DIALOG);
         }
       }
 
       /* Restore a snapshot, display a dialog with all snapshots of the current object */
-      if(preg_match("/^RestoreSnapShotDialog_/",$name) && $once){
+      if (preg_match("/^RestoreSnapShotDialog_/",$name) && $once) {
         $once = false;
         $entry = base64_decode(preg_replace("/^RestoreSnapShotDialog_([^_]*)_[xy]$/i","\\1",$name));
-        if(!empty($entry) && $ui->allow_snapshot_restore($this->dn,$this->parent->acl_module)){
+        if(!empty($entry) && $ui->allow_snapshot_restore($this->dn,$this->parent->acl_module)) {
           $this->snapDialog = new SnapShotDialog($this->config,$entry,$this);
           $this->snapDialog->display_restore_dialog = true;
-        }else{
+        } else {
           msg_dialog::display(_("Permission"),sprintf(_("You are not allowed to restore a snapshot for %s."),$entry),ERROR_DIALOG);
         }
       }
 
-      /* Restore one of the already deleted objects */
-      if(((isset($_POST['menu_action']) && $_POST['menu_action'] == "RestoreDeletedSnapShot")
-          || preg_match("/^RestoreDeletedSnapShot_/",$name)) && $once){
-        $once = false;
-
-        if($ui->allow_snapshot_restore($this->dn,$this->parent->acl_module)){
-          $this->snapDialog = new SnapShotDialog($this->config,"",$this);
-          $this->snapDialog->set_snapshot_bases($baseSuffixe);
-          $this->snapDialog->display_restore_dialog      = true;
-          $this->snapDialog->display_all_removed_objects  = true;
-        }else{
-          msg_dialog::display(_("Permission"),sprintf(_("You are not allowed to restore a snapshot for %s."),$base),ERROR_DIALOG);
-        }
-      }
-
       /* Restore selected snapshot */
-      if(preg_match("/^RestoreSnapShot_/",$name) && $once){
+      if (preg_match("/^RestoreSnapShot_/",$name) && $once) {
         $once = false;
         $entry = base64_decode(preg_replace("/^RestoreSnapShot_([^_]*)_[xy]$/i","\\1",$name));
 
-        if(!empty($entry) && $ui->allow_snapshot_restore($this->dn,$this->parent->acl_module)){
+        if (!empty($entry) && $ui->allow_snapshot_restore($this->dn,$this->parent->acl_module)) {
           $this->restore_snapshot($entry);
           $this->snapDialog = NULL;
-        }else{
+        } else {
           msg_dialog::display(_("Permission"),sprintf(_("You are not allowed to restore a snapshot for %s."),$entry),ERROR_DIALOG);
         }
       }
@@ -1750,14 +1735,14 @@ class plugin
 
     /* Create a new snapshot requested, check
        the given attributes and create the snapshot*/
-    if(isset($_POST['CreateSnapshot']) && is_object($this->snapDialog)){
+    if (isset($_POST['CreateSnapshot']) && is_object($this->snapDialog)) {
       $this->snapDialog->save_object();
       $msgs = $this->snapDialog->check();
-      if(count($msgs)){
-        foreach($msgs as $msg){
+      if (count($msgs)) {
+        foreach ($msgs as $msg) {
           msg_dialog::display(_("Error"), $msg, ERROR_DIALOG);
         }
-      }else{
+      } else {
         $this->dn =  $this->snapDialog->dn;
         $this->create_snapshot("snapshot",$this->snapDialog->CurrentDescription);
         $this->snapDialog = NULL;
@@ -1765,16 +1750,16 @@ class plugin
     }
 
     /* Restore is requested, restore the object with the posted dn .*/
-    if((isset($_POST['RestoreSnapshot'])) && (isset($_POST['SnapShot']))){
+    if ((isset($_POST['RestoreSnapshot'])) && (isset($_POST['SnapShot']))) {
     }
 
-    if(isset($_POST['CancelSnapshot'])){
+    if (isset($_POST['CancelSnapshot'])) {
       $this->snapDialog = NULL;
     }
 
-    if(is_object($this->snapDialog )){
+    if (is_object($this->snapDialog)) {
       $this->snapDialog->save_object();
-      return($this->snapDialog->execute());
+      return $this->snapDialog->execute();
     }
   }
 
@@ -2156,8 +2141,9 @@ class plugin
   }
 
 
-  function get_snapshot_action($base,$category)
+  function get_snapshot_action($base, $category)
   {
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$base,"GET_SNAPSHOT_ACTION");
     $str= "";
     $ui = get_userinfo();
     if($this->snapshotEnabled()){
