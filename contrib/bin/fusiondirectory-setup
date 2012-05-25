@@ -89,6 +89,7 @@ sub ask_user_input {
  {
    $answer = <STDIN>;
    chomp $answer;
+   $answer =~ s/^\s+|\s+$//g;
  }
 
  return $answer;
