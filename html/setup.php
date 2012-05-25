@@ -17,7 +17,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
 /* Get standard functions */
@@ -53,9 +53,7 @@ session::global_set('DEBUGLEVEL',1);
 session::set('errorsAlreadyPosted',array());
 
 /* Attribute initialization, reset errors */
-session::set('errors',"");
-session::set('errorsAlreadyPosted',array());
-session::set('LastError',"");
+reset_errors();
 
 /* Set template compile directory */
 $smarty->compile_dir= SPOOL_DIR;

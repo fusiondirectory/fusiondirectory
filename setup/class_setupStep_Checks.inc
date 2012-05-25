@@ -31,7 +31,7 @@ class Step_Checks extends setup_step
   {
     $this->update_strings();
   }
- 
+
 
   function update_strings()
   {
@@ -39,9 +39,9 @@ class Step_Checks extends setup_step
     $this->s_title_long = _("Installation check");
     $this->s_info       = _("Basic checks for PHP compatibility and extensions");
   }
-  
-  
-  /* Execute and display template */ 
+
+
+  /* Execute and display template */
   function execute()
   {
     $this->run_checks();
@@ -53,7 +53,7 @@ class Step_Checks extends setup_step
   }
 
 
-  /* Execute all checks */ 
+  /* Execute all checks */
   function run_checks()
   {
     $this->basic_checks = array();
@@ -61,7 +61,7 @@ class Step_Checks extends setup_step
     $this->is_writeable = array();
 
     /* PHP version check */
-    $N = _("Checking PHP version"); 
+    $N = _("Checking PHP version");
     $D = sprintf(_("PHP must be of version %s or above."), "5.2.0");
     $S = _("Please upgrade to a supported version.");
     $R = $this->check_php_version();
@@ -124,19 +124,19 @@ class Step_Checks extends setup_step
     $M = TRUE;
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
-    /* Check if mysql module is available */
-    $N = msgPool::checkingFor(_("MySQL"));
+    /* Check if MDB2 module is available */
+    $N = msgPool::checkingFor(_("MDB2"));
     $D = _("FusionDirectory requires this module to communicate with several supported databases.");
-    $S = msgPool::installPhpModule("MySQL");
-    $R = is_callable("mysql_query");
+    $S = msgPool::installPhpModule("MDB2");
+    $R = ((@include_once("PEAR.php")) && (@include_once("MDB2.php")));
     $M = TRUE;
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* Check generation of LM/NT password hashes */
-    /* need the perl Mcrypt library or mkntpwd executable */
+    /* need the perl Mcrypt library or fusiondirectory-mkntpassword executable */
     $query= "mkntpwd 2>&1";
     $output= shell_exec ($query);
-    $have_mkntpwd= preg_match("/^Usage: mkntpwd /", $output);
+    $have_mkntpwd= preg_match("/^Usage: fusiondirectory-mkntpassword /", $output);
     if (!$have_mkntpwd){
       $query= 'LC_ALL=C LANG=C perl -MCrypt::SmbHash -e "print join(q[:], ntlmgen $ARGV[0]), $/;" >/dev/null';
       system ($query, $ret);
@@ -145,7 +145,7 @@ class Step_Checks extends setup_step
 
     $N = msgPool::checkingFor(_("samba hash generator"));
     $D = _("FusionDirectory requires this command to synchronize POSIX and samba passwords.");
-    $S = _("Install the perl Crypt::SmbHash modules or the mkntpwd executable");
+    $S = _("Install the perl Crypt::SmbHash modules or the fusiondirectory-mkntpassword executable");
     $R = $have_mkntpwd;
     $M = TRUE;
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
@@ -211,18 +211,18 @@ class Step_Checks extends setup_step
     $M = TRUE;
     $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
-    /* Check if memory limit is set to 32 or > */
-    $N = "memory_limit &gt;= <b>32</b>";
-    $D = _("FusionDirectory needs at least 32MB of memory. Setting it below this limit may cause errors that are not reproducable! Increase it for larger setups.");
-    $S = _("Search for 'memory_limit' in your php.ini and set it to '32M' or higher.");
-    $R = ini_get('memory_limit') >= 32 ;
+    /* Check if memory limit is set to 64 or > */
+    $N = "memory_limit &gt;= <b>64</b>";
+    $D = _("FusionDirectory needs at least 64MB of memory. Setting it below this limit may cause errors that are not reproducable! Increase it for larger setups.");
+    $S = _("Search for 'memory_limit' in your php.ini and set it to '64M' or higher.");
+    $R = ini_get('memory_limit') >= 64;
     $M = TRUE;
     $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* Implicit Flush disabled can increase performance */
     $N = "implicit_flush = <b>"._("Off")."</b>";
     $D = _("This option influences the PHP output handling. Turn this Option off, to increase performance.");
-    $S = _("Search for 'implicit_flush' in your php.ini and set it to 'Off'."); 
+    $S = _("Search for 'implicit_flush' in your php.ini and set it to 'Off'.");
     $R = !ini_get('implicit_flush');
     $M = FALSE;
     $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
@@ -245,14 +245,14 @@ class Step_Checks extends setup_step
 
     /* Emulating old stuff? */
     $N = "zend.ze1_compatibility_mode = <b>"._("Off")."</b>";
-    $D = _("Increase your server performance by setting magic_quotes_gpc to 'off'."); 
-    $S = _("Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'."); 
-    $R = !ini_get('zend.ze1_compatibility_mode'); 
+    $D = _("Increase your server performance by setting magic_quotes_gpc to 'off'.");
+    $S = _("Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'.");
+    $R = !ini_get('zend.ze1_compatibility_mode');
     $M = FALSE;
     $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
 
-    /* Configuration file  
+    /* Configuration file
      */
 
     /* Check if we can create a config file.*/
@@ -266,7 +266,7 @@ class Step_Checks extends setup_step
     $this->is_writeable[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
   }
- 
+
 
   function save_object()
   {
@@ -285,13 +285,13 @@ class Step_Checks extends setup_step
     }
     $this->is_completed = !$failed;
   }
- 
 
-  /* Check if current PHP version is compatible 
+
+  /* Check if current PHP version is compatible
       with the current version of FusionDirectory */
   function check_php_version()
   {
-    return(version_compare(phpversion(),"5.2.0",">=")); 
+    return(version_compare(phpversion(),"5.2.0",">="));
   }
 }
 

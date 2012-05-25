@@ -30,9 +30,25 @@
             {t}People DN attribute{/t}
         </div>
         <div class='step4_value'>
-            <select size="1" name="peopledn">
+            <select size="1" name="peopledn" id="peopledn">
                 {html_options values=$peopledns output=$peopledns selected=$peopledn}
             </select>
+        </div>
+    </div>
+
+    <div class='step4_container'>
+        <div class='step4_name'>
+            {t}Customized CN{/t}
+        </div>
+        <div class='step4_value'>
+            {if $cngen_active == FALSE}
+                <input type='checkbox' value='1' name='cngen_active'
+                    onClick='changeState("cngen");changeState("peopledn");changeState("include_personal_title");'>
+                <input size='20' id='cngen' name='cngen' type='text' value='{$cngen}' disabled>
+            {else}
+                <input type='checkbox' value='1' name='cngen_active' checked>
+                <input size='20' id='cngen' name='cngen' type='text' value='{$cngen}'  >
+            {/if}
         </div>
     </div>
 
@@ -59,7 +75,7 @@
             {t}Include personal title in user DN{/t}
         </div>
         <div class='step4_value'>
-            <select name="include_personal_title" size="1" title="">
+            <select name="include_personal_title" id="include_personal_title" size="1" title="">
             {html_options options=$bool selected=$include_personal_title}
             </select>
         </div>
@@ -148,7 +164,7 @@
       {/if}
       <br>
       {if $pwd_rules.pwdiffer_active == FALSE}
-        <input type='checkbox' value='1' name='pwdiffer_active' 
+        <input type='checkbox' value='1' name='pwdiffer_active'
           onClick='changeState("pwdiffer");'>
         {t}Different characters from old password{/t}
         <input id='pwdiffer' name='pwdiffer' type='text' value='{$pwd_rules.pwdiffer}' size=3 disabled>
@@ -157,7 +173,7 @@
         {t}Different characters from old password{/t}
         <input id='pwdiffer' name='pwdiffer' type='text' value='{$pwd_rules.pwdiffer}' size=3 >
       {/if}
-  
+
         </div>
     </div>
 

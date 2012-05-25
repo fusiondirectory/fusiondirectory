@@ -5,25 +5,9 @@
   <p> 
     {$msg2}
   </p>
-
-      {if $webgroup == ""}
-{t}Depending on the user name your webserver is running on:{/t}
-<tt>
-<pre> chown root:www-data {$CONFIG_DIR}/{$CONFIG_FILE}
- chmod 640 {$CONFIG_DIR}/{$CONFIG_FILE}
-
-or
-
- chown root:apache {$CONFIG_DIR}/{$CONFIG_FILE}
- chmod 640 {$CONFIG_DIR}/{$CONFIG_FILE}
-</pre>
-{else}
-<pre>
- chown root:{$webgroup} {$CONFIG_DIR}/{$CONFIG_FILE}
- chmod 640 {$CONFIG_DIR}/{$CONFIG_FILE}
-</pre>
-{/if} 
-  </tt>
+      {t}Run {/t}
+       <a style='color:black ; font-weight:bold '>   fusiondirectory-setup --check-config</a>
+      {t}to put the correct right on fusiondirectory.conf{/t}
   <p> 
     <input type='submit' name='getconf' value='{t}Download configuration{/t}'>
   </p>

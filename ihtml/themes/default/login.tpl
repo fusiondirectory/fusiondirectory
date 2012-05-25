@@ -2,13 +2,10 @@
 
 {$php_errors}
 <div>
-        <div class='setup_header'>
-                <div style="float:left;"><img src='themes/default/images/go_logo.png' class='center' alt='FusionDirectory' /></div>
-                <div style="padding-top:8px;text-align:right;height:28px;color:#FFFFFF">{$version}</div>
-        </div>
-        <div class='setup_menu'>
-                <b>{t}FusionDirectory login screen{/t}</b>
-        </div>
+    <div class='setup_header'>
+      <div style="float:left;"><img src='themes/default/images/go_logo.png' class='center' alt='FusionDirectory' /></div>
+      <div style="padding-top:8px;text-align:right;height:38px;color:#000000;font-size:20px">{$version}</div>
+    </div>
 </div>
 
 {* FusionDirectory login - smarty template *}
@@ -22,7 +19,7 @@
 
 {$msg_dialogs}
   <div style='border-bottom:1px solid #AAAAAA'>
-    <div style='padding:3px; background-color:#F8F8F8'>
+    <div style='padding:3px; background-color:#DBE6C6'>
     <p class="center" style="margin:0px 0px 0px 5px;padding:5px;font-size:24px;font-weight:bold;">
       {t}Login screen{/t}
     </p>

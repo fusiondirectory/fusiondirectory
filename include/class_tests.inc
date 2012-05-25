@@ -32,7 +32,7 @@
  *
  * The functions need to be handled with care, because they are not as strict
  * as one might expect.
- */ 
+ */
 class tests {
 
   /*! \brief Test if the given string is a phone number */
@@ -46,8 +46,15 @@ class tests {
   }
 
 
-  /*! \brief Test if the given string contains characters allowed in a DNS name */
+  /*! \brief Test if the given string contains characters allowed in a DNS record name */
   public static function is_dns_name($str)
+  {
+    return(preg_match("/^[a-z0-9\.\-_]*$/i",$str));
+  }
+
+
+  /*! \brief Test if the given string contains characters allowed in a hostname */
+  public static function is_valid_hostname($str)
   {
     return(preg_match("/^[a-z0-9\.\-]*$/i",$str));
   }
@@ -123,7 +130,7 @@ class tests {
   }
 
 
-  /*! \brief Checks if the given ip address dosen't match 
+  /*! \brief Checks if the given ip address dosen't match
       "is_ip" because there is also a sub net mask given */
   public static function is_ip_with_subnetmask($ip)
   {
@@ -239,7 +246,7 @@ class tests {
 
 
   /* \brief Check if $ip1 and $ip2 represents a valid IP range
-   *  \return TRUE in case of a valid range, FALSE in case of an error. 
+   *  \return TRUE in case of a valid range, FALSE in case of an error.
    */
   public static function is_ip_range($ip1,$ip2)
   {

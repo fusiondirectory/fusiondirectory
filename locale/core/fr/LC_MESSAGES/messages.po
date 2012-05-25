@@ -2189,7 +2189,7 @@ msgstr "Bouger les groupes sélectionnés dans le groupe de base cet annuaire"
 #: setup/setup_migrate.tpl:425 setup/setup_migrate.tpl:469
 #: setup/setup_migrate.tpl:512 setup/setup_migrate.tpl:556
 msgid "Hide changes"
-msgstr "Camoufler les changements"
+msgstr "Cacher les changements"
 
 #: setup/setup_migrate.tpl:155 setup/setup_migrate.tpl:207
 #: setup/setup_migrate.tpl:237 setup/setup_migrate.tpl:374

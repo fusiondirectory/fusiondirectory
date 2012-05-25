@@ -26,26 +26,26 @@ information about several locations.
 
 .nf
   <?xml version="1.0"?>
-  
+
   <conf configVersion="...." >
     <!-- Menu definition -->
     <menu>
     ...
     </menu>
-  
+
     <!-- Tabbed dialog definitions -->
     ...
-  
+
     <!-- Global setup -->
     <main>
-  
+
        <!-- Location specific setups -->
        <location name="">
          ...
        </location>
-  
+
     </main>
-  
+
   </conf>
 .fi
 
@@ -59,37 +59,37 @@ There are two types of entries inside of the menu: section and plugin
 
 .B Defining a section
 
-Open a 
+Open a
 .I <section>
-tag including a 
+tag including a
 .I name
 attribute. This will show up in the menu as a new section later on.
-Own entries are not handled via I18N by default. Close the 
+Own entries are not handled via I18N by default. Close the
 .I </section>
 tag after your plugin definitions.
 
 .B Defining a plugin
 
-Open a 
+Open a
 .I <plugin>
-tag including a 
+tag including a
 .I "class"
-attribute. The 
-.I "class" 
+attribute. The
+.I "class"
 should be present inside your FusionDirectory setup - the entry will be ignored if it is not.
 
-Plugins should have an 
+Plugins should have an
 .I "acl"
 entry, that allows FusionDirectory to decide wether a user is allowed to see a plugin or not.
-The 
+The
 .I "acl"
 string matches with an ACL definition done inside of FusionDirectory.
 
-You can override an icon by specifying the 
+You can override an icon by specifying the
 .I "icon"
 attribute.
 
-For every plugin, you can provide at least four additional hooks: 
+For every plugin, you can provide at least four additional hooks:
 .I postcreate,
 .I postremove,
 .I postmodify
@@ -144,7 +144,7 @@ need a primary plugin.
 
 .I "*tab"
 should be looked for by a defined plugin. This one will take
-every 
+every
 .I "tab"
 defined
 .I "class"
@@ -240,7 +240,7 @@ for Sun DS based systems.
 .PP
 The
 .I logging
-statement enables event logging on FusionDirectory side. Setting it to 
+statement enables event logging on FusionDirectory side. Setting it to
 .I true,
 FusionDirectory will log every action a user performs via syslog. If you use
 rsyslog and configure it to mysql logging, you can browse all events
@@ -289,7 +289,7 @@ the LDAP.
 .PP
 
 .B snapshotURI
-.I uri 
+.I uri
 .PP
 The
 .I snapshotURI
@@ -815,7 +815,7 @@ Default is
 .I ou=fai,ou=configs,ou=systems.
 .PP
 
-.B faiScriptRDN, faiHookRDN, faiTemplateRDN, faiVariableRDN, faiProfileRDN, faiPackageRDN, faiPartitionRDN 
+.B faiScriptRDN, faiHookRDN, faiTemplateRDN, faiVariableRDN, faiProfileRDN, faiPackageRDN, faiPartitionRDN
 .I string
 .PP
 These statement define the location where FusionDirectory stores FAI classes. The complete base for the
@@ -920,7 +920,7 @@ FusionDirectory will do create a lock and perform a search for the next free ID.
 removed after the procedure completes.
 .I pool
 will use the sambaUnixIdPool objectclass settings inside your LDAP. This one is unsafe,
-because it does not check for concurrent LDAP access and already used IDs in this range. 
+because it does not check for concurrent LDAP access and already used IDs in this range.
 On the other hand it is much faster.
 .PP
 
@@ -1160,18 +1160,18 @@ and
 .I uid.
 
 .B imapTimeout
-.I Integer (default 10) 
+.I Integer (default 10)
 .PP
 The
 .I imapTimeout
 statement sets the connection timeout for imap actions.
 
 .B mailFolderCreation
-Every mail method has its own way to create mail accounts like 
+Every mail method has its own way to create mail accounts like
 .I share/development
-or 
+or
 .I shared.development@example.com
-which is used to identify the accounts, set quotas or add acls. 
+which is used to identify the accounts, set quotas or add acls.
 
 To override the methods default account creation syntax, you can set the
 .I mailFolderCreation
@@ -1201,7 +1201,7 @@ option.
 This attribute allows to override the user account creation syntax, see
 the
 .I mailFolderCreation
-description for more details. 
+description for more details.
 
 .I Examples
 
@@ -1274,7 +1274,7 @@ DEBUG_TRACE   = 1
 
 DEBUG_LDAP    = 2
 
-DEBUG_MYSQL   = 4
+DEBUG_DB      = 4
 
 DEBUG_SHELL   = 8
 
@@ -1355,7 +1355,7 @@ repository.
 .B Example:
 
 .nf
-  <tab class="servrepository" 
+  <tab class="servrepository"
           repositoryBranchHook="/opt/dak/bin/get_extra_repos"
           postcreate="/opt/dak/bin/handle_repository '%lock_dn' '%lock_name' '%lock_type' />
 .fi
@@ -1375,7 +1375,7 @@ FusionDirectory/FAI methods.
 If you have only one release, or want to define a default release to be shown
 by FusionDirectory, define the
 .I defaultFaiRelease="ou=sarge,ou=fai,ou=configs,ou=syst..."
-within the 
+within the
 .I faiManagement
 class definition
 

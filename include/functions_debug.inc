@@ -1,38 +1,31 @@
 <?php
-/************************************************ 
+/************************************************
 ** Title.........: Debug Lib
 ** Version.......: 0.5.4
-** Author........: Thomas Schüßler <tulpe@atomar.de> 
+** Author........: Thomas Schüßler <tulpe@atomar.de>
 ** Filename......: debuglib.php(s)
 ** Last changed..: 16. July 2003
 ** License.......: Free to use. Postcardware ;)
 **
 *************************************************
-** 
+**
 ** Functions in this library:
-** 
+**
 ** print_a( array array [,int mode] )
 **   prints arrays in a readable, understandable form.
 **   if mode is defined the function returns the output instead of
 **   printing it to the browser
-**   
-**   
+**
+**
 ** show_vars([int mode])
 **   use this function on the bottom of your script to see all
 **   superglobals and global variables in your script in a nice
 **   formated way
-**   
+**
 **   show_vars() without parameter shows $_GET, $_POST, $_SESSION,
 **   $_FILES and all global variables you've defined in your script
 **
 **   show_vars(1) shows $_SERVER and $_ENV in addition
-**
-**   
-**   
-** print_result( result_handle )
-**   prints a mysql_result set returned by mysql_query() as a table
-**   this function is work in progress! use at your own risk
-**
 **
 **
 **
@@ -55,8 +48,8 @@
   $MICROTIME_START = microtime();
   @$GLOBALS_initial_count = count($GLOBALS);
 }
-  
-/************************************************ 
+
+/************************************************
 ** print_a class and helper function
 ** prints out an array in a more readable way
 ** than print_r()
@@ -66,7 +59,7 @@
 ************************************************/
 
 class Print_a_class {
-  
+
   # this can be changed to FALSE if you don't like the fancy string formatting
   var $look_for_leading_tabs = TRUE;
 
@@ -82,25 +75,25 @@ class Print_a_class {
   var $export_dumper_path = 'http://tools.www.mdc.xmc.de/print_a_dumper/print_a_dumper.php';
   # i'm still working on the dumper! don't use it now
   # put the next line into the print_a_dumper.php file (optional)
-  # print htmlspecialchars( stripslashes ( $_POST['array'] ) );  
+  # print htmlspecialchars( stripslashes ( $_POST['array'] ) );
   var $export_hash;
-    
+
   function Print_a_class() {
     $this->export_hash = uniqid('');
   }
-  
+
   # recursive function!
   function print_a($array, $iteration = FALSE, $key_bg_color = FALSE) {
     $key_bg_color or $key_bg_color = $this->key_bg_color;
-    
+
       # if print_a() was called with a fourth parameter (1 or 2)
       # and you click on the table a window opens with only the output of print_a() in it
       # 1 = serialized array
       # 2 = normal print_a() display
-      
+
       /* put the following code on the page defined with $export_dumper_path;
       --->%---- snip --->%----
-      
+
         if($_GET['mode'] == 1) {
           print htmlspecialchars( stripslashes ( $_POST['array'] ) );
         } elseif($_GET['mode'] == 2) {
@@ -109,11 +102,11 @@ class Print_a_class {
 
       ---%<---- snip ---%<----
       */
-      
+
     if( !$iteration && isset($this->export_flag) ) {
       $this->output .= '<form id="pa_form_'.$this->export_hash.'" action="'.$this->export_dumper_path.'?mode='.$this->export_flag.'" method="post" target="_blank"><input name="array" type="hidden" value="'.htmlspecialchars( serialize( $array ) ).'"></form>';
     }
-    
+
     # lighten up the background color for the key td's =)
     if( $iteration ) {
       for($i=0; $i<6; $i+=2) {
@@ -125,42 +118,42 @@ class Print_a_class {
       }
       $key_bg_color = $tmp_key_bg_color;
     }
-    
+
     # build a single table ... may be nested
     $this->output .= '<table summary="" style="border:none;" cellspacing="1" '.( !$iteration && $this->export_flag ? 'onClick="document.getElementById(\'pa_form_'.$this->export_hash.'\').submit();" )' : '' ).'>';
     foreach( $array as $key => $value ) {
-      
+
       $value_style = 'color:black;';
       $key_style = 'color:white;';
-      
+
       $type = gettype( $value );
       # print $type.'<br />';
-      
+
       # change the color and format of the value
       switch( $type ) {
         case 'array':
           break;
-        
+
         case 'object':
           $key_style = 'color:#FF9B2F;';
           break;
-        
+
         case 'integer':
           $value_style = 'color:green;';
           break;
-        
+
         case 'double':
           $value_style = 'color:red;';
           break;
-        
+
         case 'bool':
           $value_style = 'color:blue;';
           break;
-          
+
         case 'resource':
           $value_style = 'color:darkblue;';
           break;
-        
+
         case 'string':
           if( $this->look_for_leading_tabs && preg_match('/^\t/m', $value) ) {
             $search = array('/\t/', "/\n/");
@@ -180,7 +173,7 @@ class Print_a_class {
       $this->output .= '</td>';
       $this->output .= '<td nowrap="nowrap" style="background-color:#'.$this->value_bg_color.';font: '.$this->fontsize.' '.$this->fontfamily.'; color:black;">';
 
-      
+
       # value output
       if($type == 'array') {
         if(count($value)){
@@ -197,7 +190,7 @@ class Print_a_class {
       } else {
         $this->output .= '<div style="'.$value_style.'" title="'.$type.'">'.$value.'</div>';
       }
-      
+
       $this->output .= '</td>';
       $this->output .= '</tr>';
     }
@@ -207,113 +200,27 @@ class Print_a_class {
 
 # helper function.. calls print_a() inside the print_a_class
 function print_a( $array, $return_mode = FALSE, $show_object_vars = FALSE, $export_flag = FALSE ) {
-  $e= error_reporting (0);  
+  $e= error_reporting (0);
   if( is_array( $array ) or is_object( $array ) ) {
     $pa = new Print_a_class;
     $show_object_vars and $pa->show_object_vars = TRUE;
     $export_flag and $pa->export_flag = $export_flag;
-    
+
     $pa->print_a( $array );
-    
+
     # $output = $pa->output; unset($pa);
     $output = &$pa->output;
   } else {
     $output = '<span style="color:red;font-size:small;">print_a( '.gettype( $array ).' )</span>';
   }
-  
-  error_reporting ($e); 
+
+  error_reporting ($e);
   if($return_mode) {
     return $output;
   } else {
     print $output;
     return TRUE;
   }
-}
-
-
-// shows mysql-result as a table.. # not ready yet :(
-function print_result($RESULT) {
-  
-  if(!$RESULT) return;
-  
-  $fieldcount = mysql_num_fields($RESULT);
-  
-  for($i=0; $i<$fieldcount; $i++) {
-    $tables[mysql_field_table($RESULT, $i)]++;
-  }
-  
-  print '
-    <style type="text/css">
-      .rs_tb_th {
-        font-family: Verdana;
-        font-size:9pt;
-        font-weight:bold;
-        color:white;
-      }
-      .rs_f_th {
-        font-family:Verdana;
-        font-size:7pt;
-        font-weight:bold;
-        color:white;
-      }
-      .rs_td {
-        font-family:Verdana;
-        font-size:7pt;
-      }
-    </style>
-    <script type="text/javascript" language="JavaScript">
-      var lastID;
-      function highlight(id) {
-        if(lastID) {
-          lastID.style.color = "#000000";
-          lastID.style.textDecoration = "none";
-        }
-        tdToHighlight = document.getElementById(id);
-        tdToHighlight.style.color ="#FF0000";
-        tdToHighlight.style.textDecoration = "underline";
-        lastID = tdToHighlight;
-      }
-    </script>
-  ';
-
-  print '<table summary="" border="0" bgcolor="#000000" cellspacing="1" cellpadding="1">';
-  
-  print '<tr>';
-  foreach($tables as $tableName => $tableCount) {
-    $col == '0054A6' ? $col = '003471' : $col = '0054A6';
-    print '<th colspan="'.$tableCount.'" class="rs_tb_th" style="background-color:#'.$col.';">'.$tableName.'</th>';
-  }
-  print '</tr>';
-  
-  print '<tr>';
-  for($i=0;$i < mysql_num_fields($RESULT);$i++) {
-    $FIELD = mysql_field_name($RESULT, $i);
-    $col == '0054A6' ? $col = '003471' : $col = '0054A6';
-    print '<td align="center" bgcolor="#'.$col.'" class="rs_f_th">'.$FIELD.'</td>';
-  }
-  print '</tr>';
-
-  mysql_data_seek($RESULT, 0);
-
-  while($DB_ROW = mysql_fetch_array($RESULT, MYSQL_NUM)) {
-    $pointer++;
-    if($toggle) {
-      $col1 = "E6E6E6";
-      $col2 = "DADADA";
-    } else {
-      $col1 = "E1F0FF";
-      $col2 = "DAE8F7";
-    }
-    $toggle = !$toggle;
-    print '<tr id="ROW'.$pointer.'" onMouseDown="highlight(\'ROW'.$pointer.'\');">';
-    foreach($DB_ROW as $value) {
-      $col == $col1 ? $col = $col2 : $col = $col1;
-      print '<td valign="top" bgcolor="#'.$col.'" class="rs_td" nowrap>'.nl2br($value).'</td>';
-    }
-    print '</tr>';
-  }
-  print '</table>';
-  mysql_data_seek($RESULT, 0);
 }
 
 function _script_globals() {
@@ -329,7 +236,7 @@ function _script_globals() {
       }
     }
   }
-  
+
   unset($script_GLOBALS['GLOBALS_initial_count']);
   return $script_GLOBALS;
 }
@@ -341,7 +248,7 @@ function show_runtime() {
   $GENERATIONSEC    = $MICROTIME_END[1] - $MICROTIME_START[1];
   $GENERATIONMSEC = $MICROTIME_END[0] - $MICROTIME_START[0];
   $GENERATIONTIME = substr($GENERATIONSEC + $GENERATIONMSEC, 0, 8);
-  
+
   return '<span style="color:red;font-weight:normal;font-size:9px;">(runtime: '.$GENERATIONTIME.' sec)</span>';
 }
 
@@ -354,7 +261,7 @@ function show_runtime() {
 #
 function show_vars($show_all_vars = FALSE, $show_object_vars = FALSE) {
   if(isset($GLOBALS['no_vars'])) return;
-  
+
   $script_globals = _script_globals();
   print '
     <style type="text/css">
@@ -402,21 +309,21 @@ function show_vars($show_all_vars = FALSE, $show_object_vars = FALSE) {
 # function prints sql strings
 #
 function pre($sql_string, $simple_mode = FALSE) {
-  
+
   if(!$simple_mode) {
     # erste leere Zeile im SQL löschen
     $sql_string = preg_replace('/\^s+/m','', $sql_string);
     # letze leere Zeile im SQL löschen
     $sql_string = preg_replace('/\s+$/m','', $sql_string);
-    
+
     # kleinste Anzahl von führenden TABS zählen
     preg_match_all('/^\t+/m', $sql_string, $matches);
     $minTabCount = strlen(min($matches[0]));
-    
+
     # und entfernen
     $sql_string = preg_replace('/^\t{'.$minTabCount.'}/m', '', $sql_string);
   }
-      
+
   print '<pre>'.$sql_string.'</pre>';
 }
 ?>

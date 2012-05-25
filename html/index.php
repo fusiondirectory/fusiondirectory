@@ -17,7 +17,7 @@
 
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
 /* Load required includes */
@@ -34,7 +34,7 @@ header("Content-type: text/html; charset=UTF-8");
  */
 function displayLogin()
 {
-  global $smarty,$message,$config,$ssl,$error_collector;
+  global $smarty,$message,$config,$ssl,$error_collector,$error_collector_mailto;
   error_reporting(E_ALL | E_STRICT);
   /* Fill template with required values */
   $username = "";
@@ -54,7 +54,7 @@ function displayLogin()
   $smarty->assign ("message", $message);
 
   /* Displasy SSL mode warning? */
-  if ($ssl != "" && $config->get_cfg_value('warnssl') == 'true'){
+  if ($ssl != "" && $config->get_cfg_value('warnSSL') == 'true'){
     $smarty->assign ("ssl", _("Warning").": <a style=\"color:red;\" href=\"$ssl\">"._("Session is not encrypted!")."</a>");
   } else {
     $smarty->assign ("ssl", "");
@@ -86,7 +86,7 @@ function displayLogin()
     $smarty->assign("errors", session::get('errors'));
   }
   if ($error_collector != ""){
-    $smarty->assign("php_errors", $error_collector."</div>");
+    $smarty->assign("php_errors", preg_replace("/%BUGBODY%/",$error_collector_mailto,$error_collector)."</div>");
   } else {
     $smarty->assign("php_errors", "");
   }
@@ -395,53 +395,8 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
   }
 }
 
-/* Fill template with required values */
-$smarty->assign ('date', gmdate("D, d M Y H:i:s"));
-$smarty->assign ('username', $username);
-$smarty->assign ('personal_img', get_template_path('images/login-head.png'));
-$smarty->assign ('password_img', get_template_path('images/password.png'));
-$smarty->assign ('directory_img', get_template_path('images/ldapserver.png'));
-
-/* Some error to display? */
-if (!isset($message)){
-  $message= "";
-}
-
-$smarty->assign ("message", $message);
-
-/* Displasy SSL mode warning? */
-if ($ssl != "" && $config->get_cfg_value('WARNSSL') == 'true'){
-  $smarty->assign ("ssl", "<b>"._("Warning").":<\/b> "._("Session will not be encrypted.")." <a style=\"color:red;\" href=\"$ssl\"><b>"._("Enter SSL session")."<\/b></a>!");
-} else {
-  $smarty->assign ("ssl", "");
-}
-
 /* Translation of cookie-warning. Whether to display it, is determined by JavaScript */
 $smarty->assign ("cookies", "<b>"._("Warning").":<\/b> "._("Your browser has cookies disabled. Please enable cookies and reload this page before logging in!"));
-
-/* Generate server list */
-$servers= array();
-if (isset($_POST['server'])){
-  $selected= get_post('server');
-} else {
-  $selected= $config->data['MAIN']['DEFAULT'];
-}
-foreach ($config->data['LOCATIONS'] as $key => $ignored){
-  $servers[$key]= $key;
-}
-$smarty->assign ("server_options", $servers);
-$smarty->assign ("server_id", $selected);
-
-/* show login screen */
-$smarty->assign ("PHPSESSID", session_id());
-if (session::is_set('errors')){
-  $smarty->assign("errors", session::get('errors'));
-}
-if ($error_collector != ""){
-  $smarty->assign("php_errors", preg_replace("/%BUGBODY%/",$error_collector_mailto,$error_collector)."</div>");
-} else {
-  $smarty->assign("php_errors", "");
-}
 
 /* Set focus to the error button if we've an error message */
 $focus= "";

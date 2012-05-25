@@ -22,11 +22,11 @@
 
 /*! \brief This class contains all the function needed to manage various
  * functions like new,save, edit, apply, cut/copy/paste , snapshot etc...
- * 
+ *
  */
 class management
 {
-  // Public 
+  // Public
   public $config = null;
   public $ui     = null;
 
@@ -88,7 +88,7 @@ class management
   protected $actions = array();
 
   // Attributes managed by this plugin, can be used in post events;
-  public $attributes = array(); 
+  public $attributes = array();
 
   function  __construct(&$config,$ui,$plugname, $headpage)
   {
@@ -156,12 +156,12 @@ class management
 
     // Open single dialog objects
     if(is_object($this->dialogObject)){
-      if(method_exists($this->dialogObject,'save_object')) $this->dialogObject->save_object(); 
+      if(method_exists($this->dialogObject,'save_object')) $this->dialogObject->save_object();
       if(method_exists($this->dialogObject,'execute')){
-        $display = $this->dialogObject->execute(); 
+        $display = $this->dialogObject->execute();
         $display.= $this->_getTabFooter();
         return($this->getHeader().$display);
-      } 
+      }
     }
 
     // Display tab object.
@@ -179,16 +179,16 @@ class management
         $bases[] = $sp.$this->headpage->getBase();
       }
 
-      // No bases specified? Try base  
+      // No bases specified? Try base
       if(!count($bases)) $bases[] = $this->headpage->getBase();
 
       $this->snapHandler->setSnapshotBases($bases);
     }
-    
+
     // Display list
     return($this->renderList());
   }
-  
+
   function renderList()
   {
     $this->headpage->update();
@@ -206,7 +206,7 @@ class management
     return($this->filter);
   }
 
-  /*! \brief  Generates the plugin header which is displayed whenever a tab object is 
+  /*! \brief  Generates the plugin header which is displayed whenever a tab object is
    *           opened.
    */
   protected function getHeader()
@@ -224,19 +224,19 @@ class management
   }
 
 
-  /*! \brief  Generates the footer which is used whenever a tab object is 
+  /*! \brief  Generates the footer which is used whenever a tab object is
    *           displayed.
    */
   protected function _getTabFooter()
   {
-    // Do not display tab footer for non tab objects 
+    // Do not display tab footer for non tab objects
     if(!($this->tabObject instanceOf tabs || $this->tabObject instanceOf multi_plug)){
       return("");
     }
 
-    // Check if there is a dialog opened - We don't need any buttons in this case. 
+    // Check if there is a dialog opened - We don't need any buttons in this case.
     if($this->tabObject->by_object[$this->tabObject->current]){
-      $current = $this->tabObject->by_object[$this->tabObject->current];  
+      $current = $this->tabObject->by_object[$this->tabObject->current];
       if(isset($current->dialog) && (is_object($current->dialog) || $current->dialog)){
         return("");
       }
@@ -271,7 +271,7 @@ class management
 
   /*! \brief  Initiates the removal for the given entries
    *           and displays a confirmation dialog.
-   *      
+   *
    *  @param  String  'action'  The name of the action which was the used as trigger.
    *  @param  Array   'target'  A list of object dns, which should be affected by this method.
    *  @param  Array   'all'     A combination of both 'action' and 'target'.
@@ -283,7 +283,7 @@ class management
 
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$target,"Entry removel requested!");
 
-    // Check permissons for each target 
+    // Check permissons for each target
     foreach($target as $dn){
       $acl = $this->ui->get_permissions($dn, $this->aclCategory."/".$this->aclPlugin);
       if(preg_match("/d/",$acl)){
@@ -317,11 +317,11 @@ class management
       $smarty->assign("multiple", true);
       return($smarty->fetch(get_template_path('remove.tpl', TRUE)));
     }
-  }  
+  }
 
 
-  /*! \brief  Object removal was confirmed, now remove the requested entries. 
-   *      
+  /*! \brief  Object removal was confirmed, now remove the requested entries.
+   *
    *  @param  String  'action'  The name of the action which was the used as trigger.
    *  @param  Array   'target'  A list of object dns, which should be affected by this method.
    *  @param  Array   'all'     A combination of both 'action' and 'target'.
@@ -340,7 +340,7 @@ class management
 
     foreach($this->dns as $key => $dn){
 
-      // Check permissions, are we allowed to remove this object? 
+      // Check permissions, are we allowed to remove this object?
       $acl = $this->ui->get_permissions($dn, $this->aclCategory."/".$this->aclPlugin);
       if(preg_match("/d/",$acl)){
 
@@ -352,7 +352,7 @@ class management
         $this->tabObject->delete ();
 
         // Remove the lock for the current object.
-        del_lock($this->dn);        
+        del_lock($this->dn);
       } else {
         msg_dialog::display(_("Permission error"), msgPool::permDelete(), ERROR_DIALOG);
         new log("security","groups/".get_class($this),$dn,array(),"Tried to trick deletion.");
@@ -375,26 +375,27 @@ class management
       return(array());
     }
     $action= $this->headpage->getAction();
-    if(isset($_POST['edit_apply']))  $action['action'] = "apply";    
-    if(isset($_POST['edit_finish'])) $action['action'] = "save";    
-    if(isset($_POST['edit_cancel'])) $action['action'] = "cancel";    
-    if(isset($_POST['delete_confirmed'])) $action['action'] = "removeConfirmed";   
-    if(isset($_POST['delete_cancel'])) $action['action'] = "cancelDelete";   
+    if(isset($_POST['edit_apply']))  $action['action'] = "apply";
+    if(isset($_POST['edit_finish'])) $action['action'] = "save";
+    if(isset($_POST['edit_cancel'])) $action['action'] = "cancel";
+    if(isset($_POST['delete_confirmed'])) $action['action'] = "removeConfirmed";
+    if(isset($_POST['delete_cancel'])) $action['action'] = "cancelDelete";
 
     // Detect Snapshot actions
-    if(isset($_POST['CreateSnapshot'])) $action['action'] = "saveSnapshot";   
-    if(isset($_POST['CancelSnapshot'])) $action['action'] = "cancelSnapshot";   
-    foreach($_POST as $name => $value){
-      $once =TRUE;
-      if(preg_match("/^RestoreSnapShot_/",$name) && $once){
-        $once = FALSE;
-        $entry = base64_decode(preg_replace("/^RestoreSnapShot_([^_]*)_[xy]$/i","\\1",$name));
-        $action['action'] = "restoreSnapshot";
-        $action['targets'] = array($entry);
+    if(isset($_POST['CreateSnapshot'])) $action['action'] = "saveSnapshot";
+    if(isset($_POST['CancelSnapshot'])) $action['action'] = "cancelSnapshot";
+    $matches = array();
+    foreach($_POST as $name => $value) {
+      if (preg_match("/^RestoreSnapshot_(.*)_[xy]/",$name,$matches)) {
+        $entry = intval($matches[1]);
+        if (isset($this->dialogObject->last_list[$entry])) {
+          $action['action'] = "restoreSnapshot";
+          $action['targets'] = array($this->dialogObject->last_list[$entry]['dn']);
+        }
       }
     }
 
-    return($action);
+    return $action;
   }
 
 
@@ -402,17 +403,17 @@ class management
    */
   function handleActions($action)
   {
-    // Start action  
+    // Start action
     if(isset($this->actions[$action['action']])){
       $func = $this->actions[$action['action']];
-      if(!isset($action['targets']))$action['targets']= array(); 
+      if(!isset($action['targets']))$action['targets']= array();
       return($this->$func($action['action'],$action['targets'],$action));
     }
-  } 
+  }
 
 
   /*! \brief  Opens the snapshot creation dialog for the given target.
-   *      
+   *
    *  @param  String  'action'  The name of the action which was the used as trigger.
    *  @param  Array   'target'  A list of object dns, which should be affected by this method.
    *  @param  Array   'all'     A combination of both 'action' and 'target'.
@@ -437,13 +438,13 @@ class management
 
   /*! \brief  Creates a snapshot new entry - This method is called when the somebody
    *           clicks 'save' in the "Create snapshot dialog" (see ::createSnapshotDialog).
-   *      
+   *
    *  @param  String  'action'  The name of the action which was the used as trigger.
    *  @param  Array   'target'  A list of object dns, which should be affected by this method.
    *  @param  Array   'all'     A combination of both 'action' and 'target'.
    */
   function saveSnapshot($action="",$target=array(),$all=array())
-  { 
+  {
     if(!is_object($this->dialogObject)) return;
     $this->dialogObject->save_object();
     $msgs = $this->dialogObject->check();
@@ -461,8 +462,8 @@ class management
 
 
   /*! \brief  Restores a snapshot object.
-   *          The dn of the snapshot entry has to be given as ['target'] parameter.  
-   *      
+   *          The dn of the snapshot entry has to be given as ['target'] parameter.
+   *
    *  @param  String  'action'  The name of the action which was the used as trigger.
    *  @param  Array   'target'  A list of object dns, which should be affected by this method.
    *  @param  Array   'all'     A combination of both 'action' and 'target'.
@@ -481,8 +482,8 @@ class management
   }
 
 
-  /*! \brief  Displays the "Restore snapshot dialog" for a given target. 
-   *          If no target is specified, open the restore removed object 
+  /*! \brief  Displays the "Restore snapshot dialog" for a given target.
+   *          If no target is specified, open the restore removed object
    *           dialog.
    *  @param  String  'action'  The name of the action which was the used as trigger.
    *  @param  Array   'target'  A list of object dns, which should be affected by this method.
@@ -498,11 +499,11 @@ class management
       }
     }
 
-    // No bases specified? Try base  
+    // No bases specified? Try base
     if(!count($bases)) $bases[] = $this->headpage->getBase();
 
     // No target, open the restore removed object dialog.
-    if(!count($target)){ 
+    if(!count($target)){
       $entry = $this->headpage->getBase();
       if(!empty($entry) && $this->ui->allow_snapshot_restore($entry,$this->aclCategory)){
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$entry,"Snaptshot restoring initiated!");
@@ -514,7 +515,7 @@ class management
       }else{
         msg_dialog::display(_("Permission"),sprintf(_("You are not allowed to restore a snapshot for %s."),$entry),
             ERROR_DIALOG);
-      } 
+      }
     }else{
 
       // Display the restore points for a given object.
@@ -528,13 +529,13 @@ class management
       }else{
         msg_dialog::display(_("Permission"),sprintf(_("You are not allowed to restore a snapshot for %s."),$entry),
             ERROR_DIALOG);
-      } 
+      }
     }
   }
 
 
   /*! \brief  This method intiates the object creation.
-   *          
+   *
    *  @param  String  'action'  The name of the action which was the used as trigger.
    *  @param  Array   'target'  A list of object dns, which should be affected by this method.
    *  @param  Array   'all'     A combination of both 'action' and 'target'.
@@ -545,8 +546,8 @@ class management
      * ...
      *   registerAction('newUser', 'newEntry');
      *   registerAction('newGroup','newEntry');
-     * ... 
-     * 
+     * ...
+     *
      * function newEntry($action="",$target=array(),$all=array(), $altTabClass ="", $altTabType = "", $altAclCategory)
      * {
      *   switch($action){
@@ -558,7 +559,7 @@ class management
      *     }
      *   }
      * }
-     **/ 
+     **/
     $tabType = $this->tabType;
     $tabClass = $this->tabClass;
     $aclCategory = $this->aclCategory;
@@ -566,7 +567,7 @@ class management
     if(!empty($altTabType)) $tabType = $altTabType;
     if(!empty($altAclCategory)) $aclCategory = $altAclCategory;
 
-    // Check locking & lock entry if required 
+    // Check locking & lock entry if required
     $this->displayApplyBtn = FALSE;
     $this->dn = "new";
     $this->is_new = TRUE;
@@ -591,9 +592,9 @@ class management
   }
 
 
-  /*! \brief  This method opens an existing object or a list of existing objects to be edited. 
-   *                  
-   * 
+  /*! \brief  This method opens an existing object or a list of existing objects to be edited.
+   *
+   *
    *  @param  String  'action'  The name of the action which was the used as trigger.
    *  @param  Array   'target'  A list of object dns, which should be affected by this method.
    *  @param  Array   'all'     A combination of both 'action' and 'target'.
@@ -604,8 +605,8 @@ class management
      * ...
      *   registerAction('editUser', 'editEntry');
      *   registerAction('editGroup','editEntry');
-     * ... 
-     * 
+     * ...
+     *
      * function editEntry($action="",$target=array(),$all=array(), $altTabClass ="", $altTabType = "", $altAclCategory)
      * {
      *   switch($action){
@@ -624,7 +625,7 @@ class management
     if(is_object($this->tabObject)){
       return;
     }
- 
+
     $tabType = $this->tabType;
     $tabClass = $this->tabClass;
     $aclCategory = $this->aclCategory;
@@ -704,7 +705,7 @@ class management
       $this->tabObject->save_object();
       $msgs = $this->tabObject->check();
       if(count($msgs)){
-        msg_dialog::displayChecks($msgs); 
+        msg_dialog::displayChecks($msgs);
         return("");
       }else{
         $this->tabObject->save();
@@ -716,7 +717,7 @@ class management
       $this->dialogObject->save_object();
       $msgs = $this->dialogObject->check();
       if(count($msgs)){
-        msg_dialog::displayChecks($msgs); 
+        msg_dialog::displayChecks($msgs);
         return("");
       }else{
         $this->dialogObject->save();
@@ -728,7 +729,7 @@ class management
   }
 
 
-  /*! \brief  Save object modifications and keep dialogs opened. 
+  /*! \brief  Save object modifications and keep dialogs opened.
    *          - Calls '::check' to validate the given input.
    *          - Calls '::save' to save back object modifications (e.g. to ldap).
    */
@@ -738,7 +739,7 @@ class management
       $this->tabObject->save_object();
       $msgs = $this->tabObject->check();
       if(count($msgs)){
-        msg_dialog::displayChecks($msgs); 
+        msg_dialog::displayChecks($msgs);
         return("");
       }else{
         $this->tabObject->save();
@@ -767,7 +768,7 @@ class management
   }
 
 
-  /*! \brief  Editing an object was caneled. 
+  /*! \brief  Editing an object was caneled.
    *          Close dialogs/tabs and remove locks.
    */
   protected function cancelEdit()
@@ -778,9 +779,9 @@ class management
 
 
   /*! \brief  Every click in the list user interface sends an event
-   *           here can we connect those events to a method. 
+   *           here can we connect those events to a method.
    *          eg.  ::registerEvent('new','createUser')
-   *          When the action/event new is send, the method 'createUser' 
+   *          When the action/event new is send, the method 'createUser'
    *           will be called.
    */
   function registerAction($action,$target)
@@ -790,7 +791,7 @@ class management
 
 
   /*! \brief  Removes ldap object locks created by this class.
-   *          Whenever an object is edited, we create locks to avoid 
+   *          Whenever an object is edited, we create locks to avoid
    *           concurrent modifications.
    *          This locks will automatically removed here.
    */
@@ -805,13 +806,13 @@ class management
   }
 
 
-  /*! \brief  This method is used to queue and process copy&paste actions. 
+  /*! \brief  This method is used to queue and process copy&paste actions.
    *          Allows to copy, cut and paste mutliple entries at once.
    *  @param  String  'action'  The name of the action which was the used as trigger.
    *  @param  Array   'target'  A list of object dns, which should be affected by this method.
    *  @param  Array   'all'     A combination of both 'action' and 'target'.
    */
-  function copyPasteHandler($action="",$target=array(),$all=array(), 
+  function copyPasteHandler($action="",$target=array(),$all=array(),
       $altTabClass ="", $altTabType = "", $altAclCategory="",$altAclPlugin="")
   {
     // Return without any actions while copy&paste handler is disabled.
@@ -829,7 +830,7 @@ class management
     // Save user input
     $this->cpHandler->save_object();
 
-    // Add entries to queue 
+    // Add entries to queue
     if($action == "copy" || $action == "cut"){
       $this->cpHandler->cleanup_queue();
       foreach($target as $dn){

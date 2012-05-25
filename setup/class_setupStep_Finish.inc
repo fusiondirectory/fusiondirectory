@@ -107,11 +107,8 @@ class Step_Finish extends setup_step
 
     $smarty = get_smarty();
     $smarty->assign("err_msg",$err_msg);
-    $smarty->assign("webgroup", $webgroup);
-    $smarty->assign("CONFIG_DIR",CONFIG_DIR);
-    $smarty->assign("CONFIG_FILE" , CONFIG_FILE);
 
-    $smarty->assign("msg2", sprintf(_("After downloading and placing the file under %s, please make sure that the user the webserver is running with is able to read %s, while other users shouldn't. You may want to execute these commands to achieve this requirement:"),CONFIG_DIR,CONFIG_FILE));
+    $smarty->assign("msg2", sprintf(_("After downloading and placing the file under %s, please make sure that the user the webserver is running with is able to read %s, while other users shouldn't."),CONFIG_DIR,CONFIG_FILE));
 
     $smarty->assign("cv",$this->parent->captured_values);
     return($smarty -> fetch (get_template_path("../setup/setup_finish.tpl")));

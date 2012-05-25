@@ -49,6 +49,10 @@ class passwordMethod
   {
   }
 
+  function need_password()
+  {
+    return TRUE;
+  }
 
   function is_locked($config,$dn = "")
   {
@@ -101,8 +105,8 @@ class passwordMethod
       /* Check if this entry is already locked. */
       if(preg_match("/^[^\}]*+\}!/",$pwd)){
         return(TRUE);
-      }     
-     
+      }
+
       // Lock the account by modifying the password hash.
       $pwdClass = new password($config, $dn);
       $pwdClass->callHook($pwdClass, 'PRELOCK',array(), $ret);
@@ -124,7 +128,7 @@ class passwordMethod
 
   /*! \brief       Unlocks an account (gosaAccount) which was locked by 'lock_account()'.
    *               For details about the locking mechanism see 'lock_account()'.
-   */      
+   */
   function unlock_account($config,$dn = "")
   {
     if(!$this->lockable) return FALSE;
@@ -150,8 +154,8 @@ class passwordMethod
       /* Check if this entry is already locked. */
       if(!preg_match("/^[^\}]*+\}!/",$pwd)){
         return (TRUE);
-      }     
-      
+      }
+
       // Unlock the account by modifying the password hash.
       $pwdClass = new password($config, $dn);
       $pwdClass->callHook($pwdClass, 'PREUNLOCK',array(), $ret);
@@ -204,7 +208,7 @@ class passwordMethod
               $ret[$i]['object']= $test;
               $ret[$i]['is_configurable']= $cfg;
               $ret[$i]['desc'] = $test->get_description();
-              $ret[$plugname]=$class;                    
+              $ret[$plugname]=$class;
               $i++;
             }
           }
@@ -214,7 +218,7 @@ class passwordMethod
     }
     return(session::get("passwordMethod::get_available_methods"));
   }
-  
+
 
   function get_description()
   {
@@ -250,7 +254,7 @@ class passwordMethod
     return "";
   }
 
-  
+
   // Save information to LDAP
   function save($dn)
   {
@@ -267,7 +271,7 @@ class passwordMethod
     foreach ($methods['class'] as $class){
 
         $test = new $class($config,$dn);
-#        All listed methods are available. 
+#        All listed methods are available.
 #        if(!$test->is_available())continue;
         $method= $test->_extract_method($password_hash);
         if ($method != ""){
@@ -321,9 +325,9 @@ class passwordMethod
   }
 
   /*! \brief Test for problematic unicode caracters in password
-   *  This can be activated with the keyword strictPasswordRules in the 
-   *  fusiondirectory.conf             
-   */   
+   *  This can be activated with the keyword strictPasswordRules in the
+   *  fusiondirectory.conf
+   */
   static function is_harmless($password)
   {
     global $config;

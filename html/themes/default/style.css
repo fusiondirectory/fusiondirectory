@@ -23,13 +23,6 @@ td,p,b {
 font-size:12px;
 }
 
-tr.rowxp {
-}
-
-tr.rowxp:hover {
-background-color:#D8D8D8;
-}
-
 td.listheader {
 background:#F0F0F0;
 font-weight:bold;
@@ -64,22 +57,6 @@ div.scrollbody {
 background-color:#FFF;
 overflow:auto;
 text-align:left;
-}
-
-tr.rowxp0 {
-background:#FFF;
-}
-
-tr.rowxp0:hover {
-background-color:#D8D8D8;
-}
-
-tr.rowxp_locked {
-background:#ED0000;
-}
-
-tr.rowxp_locked:hover {
-background-color:#FEBFD2;
 }
 
 td.list0 {
@@ -202,7 +179,7 @@ text-align:right;
 a.maintitlebar,div.maintitlebar {
 font-family:arial,helvetica,sans-serif;
 text-decoration:none;
-color:#FFFFFF;
+/*color:#FFFFFF;*/
 font-size:12px;
 text-align:center;
 vertical-align:middle;
@@ -211,7 +188,7 @@ cursor:pointer;
 
 a.maintitlebar:hover {
 text-decoration:none;
-background-color:#30A5FF;
+background-color:#d7e6b4;
 cursor:pointer;
 }
 
@@ -221,7 +198,7 @@ color:#00008F;
 text-decoration:none;
 border-bottom:1px solid #AAA;
 font-weight:bold;
-background-color:#F0F0F0;
+background-color:#dbe6c6;
 font-size:12px;
 text-align:center;
 vertical-align:middle;
@@ -361,7 +338,7 @@ padding:5px;
 margin:0;
 text-align:center;
 vertical-align:middle;
-background-color:#F0F0F0;
+background-color:#dbe6c6;
 font-family:arial,helvetica,sans-serif;
 /*
 font-weight:bold;
@@ -783,9 +760,10 @@ text-align:left;
 
 /* Header col */
 div.setup_header {
-background-color:#507AAA;
+background-color:#bbcc99;
 padding:4px 5px 2px;
 border-bottom:1px solid #999;
+color:#000;
 }
 
 div.setup_menu {
@@ -1841,8 +1819,32 @@ height:auto;
 white-space:nowrap;
 }
 
+.listScrollContent tr:nth-child(odd) {
+  background-color:#FFF;
+}
+
+.listScrollContent tr:nth-child(even) {
+  background-color:#F5F5F5;
+}
+
+.listScrollContent tr.entry-locked:nth-child(odd) {
+  background-color:#FFC;
+}
+
+.listScrollContent tr.entry-locked:nth-child(even) {
+  background-color:#F5F5CC;
+}
+
 .listScrollContent tr td:last-child {
 padding-right:20px;
+}
+
+.listScrollContent tr:hover {
+  background-color:#DDD;
+}
+
+.listScrollContent tr.entry-locked:hover {
+  background-color:#DDA;
 }
 
 .listBodyFormat tr td {
