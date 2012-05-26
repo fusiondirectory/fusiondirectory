@@ -145,10 +145,10 @@ done
 shift $(($OPTIND - 1))
 
 # If there's a plugin.dsc in ., then assume "plugin"
-if [ -f plugin.dsc ]; then
-        l_path=""
-else
+if [ -f AUTHORS ]; then
         l_path="core/"
+else
+        l_path=""
 fi
 
 # Default to generate
