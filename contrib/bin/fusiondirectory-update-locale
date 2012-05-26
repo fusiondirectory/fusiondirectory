@@ -144,6 +144,13 @@ do
 done
 shift $(($OPTIND - 1))
 
+# If there's a plugin.dsc in ., then assume "plugin"
+if [ -f plugin.dsc ]; then
+        l_path=""
+else
+        l_path="core/"
+fi
+
 # Default to generate
 if [ $GENERATE -eq 0 ]; then
   GENERATE=1
