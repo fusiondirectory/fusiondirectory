@@ -1,0 +1,22 @@
+[main]
+host = https://www.transifex.net
+
+[FusionDirectory.fusiondirectory-core]
+source_file = locale/core/messages.po
+source_lang = en
+trans.ca = locale/core/ca/LC_MESSAGES/messages.po
+trans.cs_CZ = locale/core/cs/LC_MESSAGES/messages.po
+trans.de = locale/core/de/LC_MESSAGES/messages.po
+trans.es = locale/core/es/LC_MESSAGES/messages.po
+trans.fr = locale/core/fr/LC_MESSAGES/messages.po
+trans.id_ID = locale/core/id/LC_MESSAGES/messages.po
+trans.it = locale/core/it/LC_MESSAGES/messages.po
+trans.nl = locale/core/nl/LC_MESSAGES/messages.po
+trans.pl = locale/core/pl/LC_MESSAGES/messages.po
+trans.pt = locale/core/pt/LC_MESSAGES/messages.po
+trans.ru = locale/core/ru/LC_MESSAGES/messages.po
+trans.ug = locale/core/ug/LC_MESSAGES/messages.po
+trans.vi = locale/core/vi/LC_MESSAGES/messages.po
+trans.zh = locale/core/zh/LC_MESSAGES/messages.po
+type = PO
+
