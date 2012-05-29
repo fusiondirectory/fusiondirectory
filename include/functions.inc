@@ -232,33 +232,32 @@ function get_browser_language()
 {
   /* Try to use users primary language */
   global $config;
-  $ui= get_userinfo();
-  if (isset($ui) && $ui !== NULL){
-    if ($ui->language != ""){
-      return ($ui->language.".UTF-8");
+  $ui = get_userinfo();
+  if (isset($ui) && $ui !== NULL) {
+    if ($ui->language != "") {
+      return $ui->language.".UTF-8";
     }
   }
 
   /* Check for global language settings in fusiondirectory.conf */
-  if (isset ($config) && $config->get_cfg_value('language') != ""){
+  if (isset ($config) && $config->get_cfg_value('language') != "") {
     $lang = $config->get_cfg_value('language');
-    if(!preg_match("/utf/i",$lang)){
+    if (!preg_match("/utf/i",$lang)) {
       $lang .= ".UTF-8";
     }
-    return($lang);
+    return $lang;
   }
 
   /* Load supported languages */
-  $gosa_languages= get_languages();
+  $gosa_languages = get_languages();
 
   /* Move supported languages to flat list */
-  $langs= array();
-  foreach($gosa_languages as $lang => $dummy){
-    $langs[]= $lang.'.UTF-8';
+  $langs = array();
+  foreach($gosa_languages as $lang => $dummy) {
+    $langs[] = $lang.'.UTF-8';
   }
-
   /* Return gettext based string */
-  return (al2gt($langs, 'text/html'));
+  return al2gt($langs, 'text/html');
 }
 
 
@@ -2900,70 +2899,58 @@ function check_schema($cfg,$rfc2307bis = FALSE)
 /*! \brief Get the language for the user connecting
  *
  */
-function get_languages($languages_in_own_language = FALSE,$strip_region_tag = FALSE)
+function get_languages($languages_in_own_language = FALSE, $strip_region_tag = FALSE)
 {
-  $tmp = array(
-        "de_DE" => "German",
-        "fr_FR" => "French",
-        "it_IT" => "Italian",
-        "es_ES" => "Spanish",
-        "ca_ES" => "Catalan",
-        "en_US" => "English",
-        "cs_CZ" => "Czech",
-        "nl_NL" => "Dutch",
-        "pl_PL" => "Polish",
-        "zh_CN" => "Chinese",
-        "vi_VN" => "Vietnamese",
-        "ru_RU" => "Russian");
-
-  $tmp2= array(
-        "de_DE" => _("German"),
-        "fr_FR" => _("French"),
-        "it_IT" => _("Italian"),
-        "es_ES" => _("Spanish"),
-        "ca_ES" => _("Catalan"),
-        "en_US" => _("English"),
-        "cs_CZ" => _("Czech"),
-        "nl_NL" => _("Dutch"),
-        "pl_PL" => _("Polish"),
-        "zh_CN" => _("Chinese"),
-        "vi_VN" => _("Vietnamese"),
-        "ru_RU" => _("Russian"));
+  $tmp_english = array( // locales in english
+    "ca_ES" => "Catalan",
+    "cs_CZ" => "Czech",
+    "de_DE" => "German",
+    "en_US" => "English",
+    "es_ES" => "Spanish",
+    "fr_FR" => "French",
+    "it_IT" => "Italian",
+    "nl_NL" => "Dutch",
+    "pl_PL" => "Polish",
+    "ru_RU" => "Russian",
+    "vi_VN" => "Vietnamese",
+    "zh_CN" => "Chinese",
+  );
 
   $ret = array();
-  if($languages_in_own_language){
+  if ($languages_in_own_language) {
+    $tmp_ownlang = array( // locales in their own language
+      "ca_ES" => "Català",
+      "cs_CZ" => "Česky; čeština",
+      "de_DE" => "Deutsch",
+      "en_US" => "English",
+      "es_ES" => "Español; castellano",
+      "fr_FR" => "Français",
+      "it_IT" => "Italiano",
+      "nl_NL" => "Nederlands",
+      "pl_PL" => "Polski",
+      "ru_RU" => "русский язык",
+      "vi_VN" => "Tiếng Việt",
+      "zh_CN" => "中文, 汉语, 漢語",
+    );
 
-    $old_lang = setlocale(LC_ALL, 0);
-
-    /* If the locale wasn't correclty set before, there may be an incorrect
-        locale returned. Something like this:
-          C_CTYPE=de_DE.UTF-8;LC_NUMERIC=C;LC_TIME=de_DE.UTF-8;LC ...
-        Extract the locale name from this string and use it to restore old locale.
-     */
-    if(preg_match("/LC_CTYPE/",$old_lang)){
-      $old_lang = preg_replace("/^.*LC_CTYPE=([^;]*).*$/","\\1",$old_lang);
-    }
-
-    foreach($tmp as $key => $name){
-      $lang = $key.".UTF-8";
-      setlocale(LC_ALL, $lang);
-      if($strip_region_tag){
-        $ret[preg_replace("/^([^_]*).*$/","\\1",$key)] = _($name)." (".$tmp2[$key].")";
-      }else{
-        $ret[$key] = _($name)." &nbsp;(".$tmp2[$key].")";
+    foreach($tmp_english as $key => $name) {
+      $label = _($name)." (".$tmp_ownlang[$key].")";
+      if($strip_region_tag) {
+        $ret[preg_replace("/^([^_]*).*$/","\\1",$key)] = $label;
+      } else {
+        $ret[$key] = $label;
       }
     }
-    setlocale(LC_ALL, $old_lang);
-  }else{
-    foreach($tmp as $key => $name){
-      if($strip_region_tag){
+  } else {
+    foreach($tmp_english as $key => $name) {
+      if ($strip_region_tag) {
         $ret[preg_replace("/^([^_]*).*/","\\1",$key)] = _($name);
-      }else{
+      } else {
         $ret[$key] = _($name);
       }
     }
   }
-  return($ret);
+  return $ret;
 }
 
 

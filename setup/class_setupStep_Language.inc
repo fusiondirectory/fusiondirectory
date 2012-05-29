@@ -33,7 +33,7 @@ class Step_Language extends setup_step
   {
     $this->lang           = get_browser_language();
     $this->lang_selected  = "";
-    $this->update_strings(); 
+    $this->update_strings();
   }
 
   function update_strings()
@@ -42,7 +42,7 @@ class Step_Language extends setup_step
     $this->s_title_long = _("Language setup");
     $this->s_info       = _("This step allows you to select your preferred language.");
   }
-  
+
   function execute()
   {
     $this->languages = array_merge(array(""      => _("Automatic")),get_languages(TRUE));
