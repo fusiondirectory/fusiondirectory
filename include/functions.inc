@@ -3016,13 +3016,13 @@ function get_correct_class_name($cls)
  *
  * \return boolean TRUE on success FALSE on error
  */
-function change_password ($dn, $password, $mode=0, $hash= "")
+function change_password ($dn, $password, $mode = 0, $hash = "")
 {
   global $config;
-  $newpass= "";
+  $newpass = "";
 
   /* Convert to lower. Methods are lowercase */
-  $hash= strtolower($hash);
+  $hash = strtolower($hash);
 
   // Get all available encryption Methods
 

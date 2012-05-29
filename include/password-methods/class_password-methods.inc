@@ -266,15 +266,15 @@ class passwordMethod
   {
     global $config;
 
-    $methods= passwordMethod::get_available_methods();
+    $methods = passwordMethod::get_available_methods();
 
-    foreach ($methods['class'] as $class){
+    foreach ($methods['class'] as $class) {
 
         $test = new $class($config,$dn);
 #        All listed methods are available.
 #        if(!$test->is_available())continue;
-        $method= $test->_extract_method($password_hash);
-        if ($method != ""){
+        $method = $test->_extract_method($password_hash);
+        if ($method != "") {
           $test->set_hash($method);
           return $test;
         }
