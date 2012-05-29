@@ -29,9 +29,9 @@ class passwordMethodsasl extends passwordMethod {
       return;
     }
 
-    $this->realm = trim($config->get_cfg_value('SASLRealm'));
+    $this->realm = trim($config->get_cfg_value('saslRealm'));
     if ($this->realm == "") {
-      trigger_error(msgPool::cmdnotfound("SASLRealm", _("SASL")));
+      trigger_error(msgPool::cmdnotfound("saslRealm", _("SASL")));
     }
 
     $ldap = $config->get_ldap_link();
