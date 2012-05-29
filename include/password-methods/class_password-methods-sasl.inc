@@ -20,8 +20,9 @@
 */
 
 class passwordMethodsasl extends passwordMethod {
-  var $uid    = "";
+  var $uid    = ""; // uid, or exop specified field value
   var $realm  = "";
+  var $exop   = "";
 
   function __construct($config, $dn="")
   {
@@ -29,17 +30,21 @@ class passwordMethodsasl extends passwordMethod {
       return;
     }
 
-    $this->realm = trim($config->get_cfg_value('saslRealm'));
-    if ($this->realm == "") {
+    $this->realm  = trim($config->get_cfg_value('saslRealm',""));
+    $this->exop   = trim($config->get_cfg_value('saslExop',""));
+    if (empty($this->realm) && empty($this->exop)) {
       trigger_error(msgPool::cmdnotfound("saslRealm", _("SASL")));
+      trigger_error(msgPool::cmdnotfound("saslExop", _("SASL")));
     }
+
+    $attr = (empty($this->exop)?'uid':$this->exop);
 
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
-    $ldap->cat($dn, array('uid'));
+    $ldap->cat($dn, $attr);
     if ($ldap->count() == 1) {
       $attrs = $ldap->fetch();
-      $this->uid = $attrs['uid'][0];
+      $this->uid = $attrs[$attr][0];
     } else {
       trigger_error("Cannot change password, unknown user '".$dn."'");
     }
@@ -52,7 +57,11 @@ class passwordMethodsasl extends passwordMethod {
 
   function generate_hash($pwd)
   {
-    return "{SASL}".$this->uid."@".$this->realm;
+    if (empty($this->exop)) {
+      return "{SASL}".$this->uid."@".$this->realm;
+    } else {
+      return "{SASL}".$this->uid; // may not be the uid, see saslExop option
+    }
   }
 
   function get_hash_name()
