@@ -577,6 +577,29 @@ needed from time to time.
 .PP
 .PP
 
+.B saslRealm
+.I string
+.PP
+The
+.I saslRealm
+statement defines the way the kerberos realm is stored in the
+.I userPassword
+attribute. Set it to REALM.NET
+in order to get {sasl}user@REALM.NET
+.PP
+.PP
+
+.B saslExop
+.I string
+.PP
+The
+.I saslExop
+statement defines the attribute to be stored in the
+.I userPasword
+attribute. Set it to uid
+in order to get the {sasl}uid of the user
+.PP
+.PP
 
 .B LDAP options
 .PP
