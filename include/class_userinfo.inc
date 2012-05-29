@@ -20,6 +20,17 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \file class_userinfo.inc
+ * Source code for the class userinfo
+ */
+
+/*! 
+ * \brief Class userinfo
+ * This class contains all informations and functions
+ * about user
+ */
+
 class userinfo
 {
   var $dn;
@@ -83,15 +94,18 @@ class userinfo
     $this->reset_acl_cache();
   }
 
-/*! \brief Reset acl cache
- * 
+/*! 
+ * \brief Reset acl cache
  */
   public function reset_acl_cache()
   {
     /* Initialize ACL_CACHE */
     session::global_set('ACL_CACHE',array());
   }
-
+  
+  /*! 
+   * \brief Load an acl
+   */
   function loadACL()
   {
     $this->ACL= array();    
@@ -249,36 +263,41 @@ class userinfo
     }
   }
 
-/*! \brief Returns an array containing all target objects we've permissions on
- * 
- * \return Return the next id or NULL if failed
- * 
- */
+  /*!
+   * \brief Returns an array containing all target objects we've permissions on
+   * 
+   * \return Return the next id or NULL if failed
+   */
   function get_acl_target_objects()
   {
     return(array_keys($this->ACLperPath));
   }
   
-/*! \brief Get permissions by category
- * 
- * \param string 'dn' Dn from which we want to know permissions.
- * \param string 'category' Category for which we want the acl eg: server
- * \param bool 'any_acl' 
- * 
- * \return all the permissions for the dn and category
- * 
- */
+  /*! 
+   * \brief Get permissions by category
+   * 
+   * \param string $dn Dn from which we want to know permissions.
+   * 
+   * \param string $category Category for which we want the acl eg: server
+   *
+   * \param bool $any_acl FALSE
+   * 
+   * \return all the permissions for the dn and category
+   */
   function get_category_permissions($dn, $category, $any_acl = FALSE)
   {
     return(@$this->get_permissions($dn,$category.'/0',""));
   }
 
   
-  /*! \brief Check if the given object (dn) is copyable
+  /*! 
+   * \brief Check if the given object (dn) is copyable
    * 
-   * \param string 'dn'     The object dn 
-   * \param string 'object' The acl  category (e.g. users)
-   * \param string 'class'  The acl  class (e.g. user) 
+   * \param string $dn     The object dn 
+   * 
+   * \param string $object The acl  category (e.g. users)
+   * 
+   * \param string $class  The acl  class (e.g. user) 
    * 
    * \return boolean TRUE if the given object is copyable else FALSE 
   */
@@ -288,14 +307,17 @@ class userinfo
   }
 
 
-/*! \brief Check if the given object (dn) is cutable
- * 
- * \param string 'dn'     The object dn 
- * \param string 'object' The acl  category (e.g. users) 
- * \param string 'class'  The acl  class (e.g. user)
- * 
- * \return boolean TRUE if the given object is cutable else FALSE 
- */
+  /*! 
+   * \brief Check if the given object (dn) is cutable
+   * 
+   * \param string $dn     The object dn 
+   * 
+   * \param string $object The acl  category (e.g. users) 
+   * 
+   * \param string $class  The acl  class (e.g. user)
+   * 
+   * \return boolean TRUE if the given object is cutable else FALSE 
+   */
   function is_cutable($dn, $object, $class)
   {
     $remove = preg_match("/d/",$this->get_permissions($dn,$object."/".$class));
@@ -304,10 +326,12 @@ class userinfo
   }
 
 
-  /*! \brief Checks if we are allowed to paste an object to the given destination ($dn)
+  /*!
+   * \brief Checks if we are allowed to paste an object to the given destination ($dn)
    *
-   * \param string 'dn' The destination dn 
-   * \param string 'object' The acl  category (e.g. users) 
+   * \param string $dn The destination dn 
+   * 
+   * \param string $object The acl  category (e.g. users) 
    * 
    * \return Boolean TRUE if we are allowed to paste an object.
    */
@@ -317,10 +341,12 @@ class userinfo
   }
 
 
-  /*! \brief Checks if we are allowed to restore a snapshot for the given dn.
+  /*! 
+   * \brief Checks if we are allowed to restore a snapshot for the given dn.
    * 
-   * \param string 'dn'     The destination dn 
-   * \param string 'object' The acl  category (e.g. users)
+   * \param string $dn     The destination dn 
+   * 
+   * \param string $object The acl  category (e.g. users)
    * 
    * \return boolean TRUE if we are allowed to restore a snapshot.
    */
@@ -338,10 +364,12 @@ class userinfo
   }  
 
 
-  /*! \brief Checks if we are allowed to create a snapshot of the given dn.
+  /*! 
+   * \brief Checks if we are allowed to create a snapshot of the given dn.
    * 
-   * \param string 'dn'     The source dn 
-   * \param string 'object' The acl category (e.g. users) 
+   * \param string $dn     The source dn 
+   * 
+   * \param string $object The acl category (e.g. users) 
    * 
    * \return boolean TRUE if we are allowed to restore a snapshot.
    */
@@ -357,15 +385,18 @@ class userinfo
     return($r) ; 
   }  
 
-/*! \brief Get the permissions for a specified dn
- * 
- * \param string 'dn'         The object dn 
- * \param string 'object'     The acl category (e.g. users) 
- * \param string 'attribute'  The acl class (e.g. user)
- * \param bool 'skip_write'   Remove the write acl for this dn
- * 
- * \return 
- */
+  /*! 
+   * \brief Get the permissions for a specified dn
+   * 
+   * \param string $dn         The object dn 
+   * 
+   * \param string $object     The acl category (e.g. users) 
+   * 
+   * \param string $attribute  The acl class (e.g. user)
+   * 
+   * \param bool $skip_write   Remove the write acl for this dn
+   * 
+   */
   function get_permissions($dn, $object, $attribute= "", $skip_write= FALSE)
   {
     /* If we are forced to skip ACLs checks for the current user 
@@ -567,16 +598,18 @@ class userinfo
     return ($ret);
   }
 
-/*! \brief Extract all departments that are accessible
- * 
- * Extract all departments that are accessible (direct or 'on the way' to an
- * accessible department)
- * 
- * \param string 'module' 
- * \param bool 'skip_self_acls' 
- * 
- * \return array Return all accessible departments
- */
+  /*! 
+   * \brief Extract all departments that are accessible
+   * 
+   * Extract all departments that are accessible (direct or 'on the way' to an
+   * accessible department)
+   * 
+   * \param string $module The module
+   * 
+   * \param bool $skip_self_acls FALSE 
+   * 
+   * \return array Return all accessible departments
+   */
   function get_module_departments($module, $skip_self_acls = FALSE )
   {
     /* If we are forced to skip ACLs checks for the current user 
@@ -649,9 +682,15 @@ class userinfo
     return (array_values($res));
   }
 
-/*! \brief Merge acls
- * 
- */
+  /*! 
+   * \brief Merge acls
+   * 
+   * \param $acl The ACL
+   * 
+   * \param $type The type
+   * 
+   * \param $newACL The new ACL
+   */
   function mergeACL($acl, $type, $newACL)
   {
     $at= array("psub" => "p", "sub" => "s", "one" => "1");
@@ -685,8 +724,12 @@ class userinfo
     return ($acl);
   }
 
-/*! \brief Clean acls
+/*!
+ * \brief Clean acls
+ *
+ * \param $acl ACL to be cleaned
  * 
+ * \param boolean $reset FALSE
  */
   function cleanACL($acl, $reset= FALSE)
   {
@@ -716,21 +759,23 @@ class userinfo
     return ($acl);
   }
 
-/*! \brief Return combined acls for a given category
- * 
- * #FIXME This could be logical wrong or could be optimized in the future
- * Return combined acls for a given category. 
- * All acls will be combined like boolean AND 
- * As example ('rwcdm' + 'rcd' + 'wrm'= 'r')
- * 
- * Results will be cached in $this->result_cache.
- * $this->result_cache will be resetted if load_acls is called.
- * 
- * \param string 'dn' 
- * \param string 'category' 
- * 
- * \return string return acl combined with boolean AND
- */
+  /*! 
+   * \brief Return combined acls for a given category
+   * 
+   * #FIXME This could be logical wrong or could be optimized in the future
+   * Return combined acls for a given category. 
+   * All acls will be combined like boolean AND 
+   * As example ('rwcdm' + 'rcd' + 'wrm'= 'r')
+   * 
+   * Results will be cached in $this->result_cache.
+   * $this->result_cache will be resetted if load_acls is called.
+   * 
+   * \param string $dn The DN
+   * 
+   * \param string $category The category
+   * 
+   * \return string return acl combined with boolean AND
+   */
   function has_complete_category_acls($dn,$category)
   {
     $acl    = "rwcdm";
@@ -765,7 +810,8 @@ class userinfo
   }
 
  
-  /*! \brief Ignore acl for the current user
+  /*! 
+   * \brief Ignore acl for the current user
    * 
    * \return Returns TRUE if the current user is configured in IGNORE_ACL=".."
    *  in your fusiondirectory.conf FALSE otherwise
@@ -775,8 +821,8 @@ class userinfo
     return($this->ignoreACL);
   }
 
-  /*! \brief Test if the login is allowed
-   *
+  /*!
+   *  \brief Test if the login is allowed
    */
   function loginAllowed()
   {
