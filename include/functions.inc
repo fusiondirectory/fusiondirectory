@@ -3060,46 +3060,52 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
     $test = new  $available['md5']($config, $dn);
   }
 
-  if($test instanceOf passwordMethod){
+  if ($test instanceOf passwordMethod) {
 
     $deactivated = $test->is_locked($config,$dn);
 
     /* Feed password backends with information */
-    $test->dn= $dn;
-    $test->attrs= $attrs;
-    $newpass= $test->generate_hash($password);
+    $test->dn = $dn;
+    $test->attrs = $attrs;
+    $newpass = $test->generate_hash($password);
 
     // Update shadow timestamp?
-    if (isset($attrs["shadowLastChange"][0])){
-      $shadow= (int)(date("U") / 86400);
+    if (isset($attrs["shadowLastChange"][0])) {
+      $shadow = (int)(date("U") / 86400);
     } else {
-      $shadow= 0;
+      $shadow = 0;
     }
 
     // Write back modified entry
     $ldap->cd($dn);
-    $attrs= array();
+    $attrs = array();
 
     // Not for groups
-    if ($mode == 0){
-
+    if ($mode == 0) {
+      if ($test->need_password()) {
         // Create SMB Password
         if ($config->get_cfg_value('sambaHashHook', NULL)) {
-            $attrs= generate_smb_nt_hash($password);
-
-            if ($shadow != 0){
-                $attrs['shadowLastChange']= $shadow;
-            }
+          $attrs = generate_smb_nt_hash($password);
         }
+      } else {
+        $attrs['sambaLMPassword']       = array();
+        $attrs['sambaNTPassword']       = array();
+        $attrs['sambaPwdLastSet']       = array();
+        $attrs['sambaBadPasswordCount'] = array();
+        $attrs['sambaBadPasswordTime']  = array();
+      }
+      if ($shadow != 0) {
+        $attrs['shadowLastChange'] = $shadow;
+      }
     }
 
-    $attrs['userPassword']= array();
-    $attrs['userPassword']= $newpass;
+    $attrs['userPassword'] = array();
+    $attrs['userPassword'] = $newpass;
 
     $ldap->modify($attrs);
 
     /* Read ! if user was deactivated */
-    if($deactivated){
+    if ($deactivated) {
       $test->lock_account($config,$dn);
     }
 
@@ -3110,19 +3116,19 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
     } else {
 
       /* Run backend method for change/create */
-      if(!$test->set_password($password)){
-        return(FALSE);
+      if (!$test->set_password($password)) {
+        return FALSE;
       }
 
       /* Find postmodify entries for this class */
-      $command= $config->search("password", "POSTMODIFY",array('menu'));
+      $command = $config->search("password", "POSTMODIFY",array('menu'));
 
-      if ($command != ""){
+      if ($command != "") {
         /* Walk through attribute list */
         $command= preg_replace("/%userPassword/", escapeshellarg($password), $command);
         $command= preg_replace("/%dn/", escapeshellarg($dn), $command);
 
-        if (check_command($command) || TRUE){
+        if (check_command($command) || TRUE) {
           @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
           exec($command);
         } else {
@@ -3131,7 +3137,7 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
         }
       }
     }
-    return(TRUE);
+    return TRUE;
   }
 }
 
@@ -3149,27 +3155,27 @@ function generate_smb_nt_hash($password)
 {
   global $config;
 
-  $tmp= $config->get_cfg_value('sambaHashHook')." ".escapeshellarg($password);
+  $tmp = $config->get_cfg_value('sambaHashHook')." ".escapeshellarg($password);
   @DEBUG (DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $tmp, "Execute");
 
   exec($tmp, $ar);
   flush();
   reset($ar);
-  $hash= current($ar);
+  $hash = current($ar);
 
   if ($hash == "") {
     msg_dialog::display(_("Configuration error"), sprintf(_("Cannot generate samba hash: running '%s' failed, check the 'sambaHashHook'!"),$config->get_cfg_value('sambaHashHook')), ERROR_DIALOG);
-    return ("");
+    return "";
   }
 
-  list($lm,$nt)= explode(":", trim($hash));
+  list($lm,$nt) = explode(":", trim($hash));
 
-  $attrs['sambaLMPassword']= $lm;
-  $attrs['sambaNTPassword']= $nt;
-  $attrs['sambaPwdLastSet']= date('U');
-  $attrs['sambaBadPasswordCount']= "0";
-  $attrs['sambaBadPasswordTime']= "0";
-  return($attrs);
+  $attrs['sambaLMPassword'] = $lm;
+  $attrs['sambaNTPassword'] = $nt;
+  $attrs['sambaPwdLastSet'] = date('U');
+  $attrs['sambaBadPasswordCount'] = "0";
+  $attrs['sambaBadPasswordTime']  = "0";
+  return $attrs;
 }
 
 
