@@ -20,6 +20,11 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \file class_multi_plug.inc
+ * Source code for the class multi_plug
+ */ 
+
 /*
 Data structure : 
 ================ 
@@ -135,12 +140,22 @@ class multi_plug
   public $by_object = array();
   public $by_name = array();
 
-  /*! \brief    Creates a multi_plug object
-     @param   object  $config FusionDirectory Configuration object
-     @param   string  $class  The class name of the tab we want to edit. e.g. usertabs
-     @param   string  $tab    The config tab name e.g. USERTABS 
-     @param   array   $dns    The object dns we want to edit.
-     @return  object  multi_plug
+  /*! 
+   * \brief    Creates a multi_plug object
+   * 
+   * \param   object  $config FusionDirectory Configuration object
+   * 
+   * \param   string  $class  The class name of the tab we want to edit. e.g. usertabs
+   * 
+   * \param   string  $tab    The config tab name e.g. USERTABS 
+   * 
+   * \param   array   $dns    The object dns we want to edit.
+   * 
+   * \param   $acl_base ACL base
+   * 
+   * \param  $acl_category ACL category
+   * 
+   * \return  object  multi_plug
    */
   public function __construct($config,$class,$tab,$dns,$acl_base,$acl_category)
   {
@@ -185,10 +200,14 @@ class multi_plug
   }
 
 
-  /*! \brief    Combine two ldap result arrays. 
-   * @param     array   $base   Base array 
-   * @param     array   $add    Array to add
-   * @returns   array   Combination of $base and $add
+  /*! 
+   * \brief    Combine two ldap result arrays. 
+   * 
+   * \param     array   $base   Base array 
+   * 
+   * \param     array   $add    Array to add
+   * 
+   * \return   array   Combination of $base and $add
    */  
   private function array_combine($base,$add)
   {
@@ -224,10 +243,14 @@ class multi_plug
   }
 
 
-  /*! \brief    Intersect two ldap result arrays/Inner join of two ldap result arrays
-   * @param     array   $base   Base array 
-   * @param     array   $minus  Array number two
-   * @returns   array   Result intersection
+  /*! 
+   * \brief    Intersect two ldap result arrays/Inner join of two ldap result arrays
+   * 
+   * \param     array   $base   Base array 
+   * 
+   * \param     array   $minus  Array number two
+   * 
+   * \return   array   Result intersection
    */  
   private function array_intersect($base,$minus)
   {
@@ -260,7 +283,8 @@ class multi_plug
   }
 
   
-  /*! \brief    Detect values that are used in all edited objects.
+  /*! 
+   * \brief    Detect values that are used in all edited objects.
    */  
   private function detect_multiple_used_attributes()
   {
@@ -284,8 +308,10 @@ class multi_plug
   }
 
 
-  /*! \brief    Returns the edit ui for multiple edit.
-     @return    string  HTML User interface for given tab object.
+  /*!
+   * \brief    Returns the edit ui for multiple edit.
+   * 
+   * \return    string  HTML User interface for given tab object.
    */
   public function execute()
   {
@@ -294,8 +320,10 @@ class multi_plug
   }
 
 
-  /*! \brief    Checks if one of the objects we want to edit is locked. 
-     @return    boolean   Returns TRUE if at least one entry is locked, else false.
+  /*!
+   * \brief    Checks if one of the objects we want to edit is locked. 
+   * 
+   * \return    boolean   Returns TRUE if at least one entry is locked, else false.
    */
   public function entries_locked()
   {
@@ -309,8 +337,10 @@ class multi_plug
   }
 
 
-  /*! \brief    Generates a lock message that can be displayed if an entry is locked.
-     @return    string  Returns a list of locked entries 
+  /*! 
+   * \brief    Generates a lock message that can be displayed if an entry is locked.
+   * 
+   * \return    string  Returns a list of locked entries 
    */
   public function display_lock_message()
   {
@@ -321,8 +351,10 @@ class multi_plug
   }
 
 
-  /*! \brief    Locks all currently managed objects (array $this->dn) 
-     @return    boolean   Returns TRUE
+  /*!
+   *  \brief    Locks all currently managed objects (array $this->dn) 
+   *  
+   * \return    boolean TRUE
    */
   public function lock_entries($uid)
   {
@@ -332,8 +364,10 @@ class multi_plug
   }
 
 
-  /*! \brief    Checks if the given tab object supports multiple edit.
-     @return    boolean   Returns TRUE if the given tab objects supports multiple edit else FALSE.
+  /*!
+   * \brief    Checks if the given tab object supports multiple edit.
+   * 
+   * \return    boolean   Returns TRUE if the given tab objects supports multiple edit else FALSE.
    */
   public function multiple_available()
   { 
@@ -345,7 +379,8 @@ class multi_plug
   }
 
 
-  /*! \brief    Sets the currently active tab. The tab that will be displayed by $this->execute(). 
+  /*!
+   *  \brief    Sets the currently active tab. The tab that will be displayed by $this->execute(). 
    */
   public function set_active_tab($str)
   {
@@ -353,8 +388,10 @@ class multi_plug
   }
 
 
-  /*! \brief    Returns the object info string, that can be displayed in the tab header.
-      @return   string  Returns an information string, containing the list of currently edited dns.
+  /*!
+   * \brief    Returns the object info string, that can be displayed in the tab header.
+   * 
+   * \return   string  Returns an information string, containing the list of currently edited dns.
    */
   public function get_object_info()
   {
@@ -362,7 +399,8 @@ class multi_plug
   }
 
 
-  /*! \brief    Handles all HTML posts from the dummy tab object. 
+  /*!
+   * \brief    Handles all HTML posts from the dummy tab object. 
    */
   public function save_object()
   {
@@ -370,8 +408,10 @@ class multi_plug
   }
 
 
-  /*! \brief    Checks if the values fetched by $this->save_object() are valid.
-      @param    array Returns an array containig all error messages.
+  /*! 
+   * \brief    Checks if the values fetched by $this->save_object() are valid.
+   * 
+   * \return   array Returns an array containig all error messages.
    */
   public function check()
   {
@@ -380,8 +420,10 @@ class multi_plug
   }
 
 
-  /*! \brief    Currently not implemented, later be used to trigger password changes. 
-      @param    boolean Returns TRUE if a password change is needed.
+  /*! 
+   * \brief    Currently not implemented, later be used to trigger password changes. 
+   * 
+   * \return    boolean Returns TRUE if a password change is needed.
    */
   public function password_change_needed()
   {
@@ -395,7 +437,8 @@ class multi_plug
   }
 
 
-  /*! \brief    Populate all collected values to the target tab objects ($this->o_handles)
+  /*!
+   *  \brief    Populate all collected values to the target tab objects ($this->o_handles)
    */
   public function populate_values()
   {
@@ -411,7 +454,8 @@ class multi_plug
   }
 
 
-  /*! \brief    Save all edited tab objects ($this->o_handles). 
+  /*! 
+   * \brief    Save all edited tab objects ($this->o_handles). 
    */
   public function save()
   {
