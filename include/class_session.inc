@@ -20,8 +20,13 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This class contains all the function needed to manage sessions
- * 
+/*!
+ * \file class_session.inc
+ * Source code for class session
+ */ 
+
+/*!
+ * \brief This class contains all the function needed to manage sessions
  */
 class session {
 
@@ -35,6 +40,11 @@ class session {
   
   }
 
+  /*!
+   * \brief Add channel in the session
+   *
+   * \param string $name Name of the new channel
+   */ 
   public static function add_channel($name)
   {
     /* If there's already such kind of channel, skip... */
@@ -48,6 +58,12 @@ class session {
     return (TRUE);
   }
 
+
+  /*
+   * \brief Remove a channel from a session
+   *
+   * \param string $name Name of the channel to remove
+   */
   public static function remove_channel($name)
   {
     /* If there's already such kind of channel, skip... */
@@ -62,6 +78,11 @@ class session {
     return (FALSE);
   }
 
+  /*!
+   * \brief Check if the name of the session is set
+   *
+   * \param string $name The name of the session
+   */ 
   public static function is_set($name)
   {
     $channel= "";
@@ -83,11 +104,23 @@ class session {
     return(isset($_SESSION[$channel][$name]));
   }
 
+  /*!
+   * \brief Check if a session is defined
+   *
+   * \param string $name Name of the session
+   */ 
   public static function global_is_set($name)
   {
     return(isset($_SESSION[$name]));
   }
 
+  /*!
+   * \brief Set a value in a session
+   *
+   * \param string $name Name of the session
+   *
+   * \param $value The new value
+   */
   public static function set($name,$value)
   {
     $channel= "";
@@ -107,11 +140,23 @@ class session {
     }
   }
 
+  /*!
+   * \brief Set a value in a session
+   *
+   * \param string $name Name of the session
+   *
+   * \param $value The new value
+   */
   public static function global_set($name,$value)
   {
     $_SESSION[$name] = $value;
   }
 
+  /*!
+   * \brief Accessor of a session
+   *
+   * \param string $name Name of the session
+   */
   public static function &get($name)
   {
     $channel= "";
@@ -134,13 +179,23 @@ class session {
     $ret = &$_SESSION[$channel][$name];
     return($ret);
   }
-
+  
+  /*!
+   * \brief Accessor of a session
+   *
+   * \param string $name Name of the session
+   */
   public static function &global_get($name)
   {
     $ret = &$_SESSION[$name];
     return($ret);
   }
 
+  /*!
+   * \brief Delete a session
+   *
+   * \param string $name Name of the session to delete
+   */
   public static function delete($name)
   {
     $channel= "";
@@ -160,23 +215,41 @@ class session {
     }
   }
 
+  /*!
+   * \brief Delete a session
+   *
+   * \param string $name Name of the session to delete
+   */
   public static function global_delete($name)
   {
     if($_SESSION[$name]){
       unset($_SESSION[$name]);
     }
   }
-
+  
+  /*!
+   * \brief Unset a session
+   *
+   * \param string $name Name of the session to delete
+   */
   public static function un_set($name)
   {
     return(session::delete($name));
   }
 
+  /*!
+   * \brief Unset a session
+   *
+   * \param string $name Name of the session to delete
+   */
   public static function global_un_set($name)
   {
     return(session::global_delete($name));
   }
 
+  /*!
+   * \brief Start a session
+   */ 
   public static function start()
   {
     /* Set cookie lifetime to one day (The parameter is in seconds ) */
@@ -211,6 +284,9 @@ class session {
     }
   }
 
+  /*!
+   * \brief Destroy a session
+   */ 
   public static function destroy()
   {
     @session_destroy();
@@ -221,6 +297,10 @@ class session {
     echo "Not implemented yet";
   }
 
+
+  /*!
+   * \brief Get all sessions
+   */ 
   public static function &get_all()
   {
     $ret = &$_SESSION;
