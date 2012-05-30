@@ -3034,10 +3034,10 @@ function get_languages($languages_in_own_language = FALSE, $strip_region_tag = F
   if ($languages_in_own_language) {
     $tmp_ownlang = array( // locales in their own language
       "ca_ES" => "Català",
-      "cs_CZ" => "Česky; čeština",
+      "cs_CZ" => "Česky",
       "de_DE" => "Deutsch",
       "en_US" => "English",
-      "es_ES" => "Español; castellano",
+      "es_ES" => "Español",
       "fr_FR" => "Français",
       "it_IT" => "Italiano",
       "nl_NL" => "Nederlands",
