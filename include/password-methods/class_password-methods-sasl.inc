@@ -41,7 +41,7 @@ class passwordMethodsasl extends passwordMethod {
 
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
-    $ldap->cat($dn, $attr);
+    $ldap->cat($dn, array($attr));
     if ($ldap->count() == 1) {
       $attrs = $ldap->fetch();
       $this->uid = $attrs[$attr][0];
