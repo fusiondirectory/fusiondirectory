@@ -20,8 +20,14 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This class contains all the function needed to manage acl
- * 
+/*!
+ * \file class_acl.inc
+ * Source code for Class ACL
+ */
+
+/*!
+ * \brief This class contains all the function needed to manage acl
+ * \see class_plugin
  */ 
 class acl extends plugin
 {
@@ -56,6 +62,15 @@ class acl extends plugin
   var $myAclObjects = array();
   var $acl_category = "acl/";
 
+  /*!
+   * \brief Acl contructor
+   * 
+   * \param String $config Configuration file for ACL
+   * 
+   * \param String $parent  
+   * 
+   * \param String $dn The DN
+   */
   function acl (&$config, $parent, $dn= NULL)
   {
     /* Include config object */
@@ -238,8 +253,10 @@ class acl extends plugin
     /* Finally - we want to get saved... */
     $this->is_account= TRUE;
   }
-
-
+  
+  /*!
+   * \brief Generates the html output for this node
+   */
   function execute()
   {
     /* Call parent execute */
@@ -640,7 +657,11 @@ class acl extends plugin
     return ($smarty->fetch (get_template_path('acl.tpl')));
   }
 
-
+  /*!
+   *  \brief Function sort an array by elements priority
+   * 
+   *  \param Array $list Array to be sorted
+   */
   function sort_by_priority($list)
   {
     $tmp= session::global_get('plist');
@@ -667,7 +688,11 @@ class acl extends plugin
     return($ret);
   }
 
-
+  /*!
+   * \brief Build a role selector from a list
+   * 
+   * \param Array $list
+   */ 
   function buildRoleSelector($list)
   {
     $D_List =new divSelectBox("Acl_Roles");
@@ -695,7 +720,13 @@ class acl extends plugin
     return($D_List->DrawList());
   } 
 
-
+  /*!
+   * \brief Build an acl selector form
+   * 
+   * \param Array $list
+   * 
+   * \return the acl selector form
+   */ 
   function buildAclSelector($list)
   {
     $display= "<input type='hidden' name='acl_dummy_0_0_0' value='1'>";
@@ -893,7 +924,17 @@ class acl extends plugin
     return ($display);
   }
 
-
+  /*!
+   * \brief Create a checkbox
+   * 
+   * \param String $name Name of the acl checkbox
+   * 
+   * \param String $text Label for the checkbox
+   * 
+   * \param boolean $state false
+   * 
+   * \return String containing checkbox
+   */ 
   function mkchkbx($name, $text, $state= FALSE)
   {
     $state= $state?"checked":"";
@@ -906,7 +947,15 @@ class acl extends plugin
     }
   }
 
-
+  /*!
+   * \brief Make a read and write box
+   * 
+   * \param String $name Name of the box
+   * 
+   * \param boolean $state false
+   * 
+   * \return String containing checkbox
+   */ 
   function mkrwbx($name, $state= "")
   {
     $rstate= preg_match('/r/', $state)?'checked':'';
@@ -924,7 +973,11 @@ class acl extends plugin
     }
   }
 
-
+  /*!
+   * \brief Explode an acl
+   * 
+   * \param string $acl ACL to be exploded
+   */ 
   static function explodeACL($acl)
   {
 
@@ -965,7 +1018,15 @@ class acl extends plugin
     return ($a);
   }
 
-
+  /*!
+   * \brief Extract members of an acl
+   * 
+   * \param $acl The acl to be extracted
+   *  
+   * \param $role Boolean false
+   * 
+   * \return an array with members
+   */ 
   static function extractMembers($acl,$role = FALSE)
   {
     global $config;
@@ -1015,7 +1076,11 @@ class acl extends plugin
     return ($a);
   }
 
-
+  /*!
+   * \brief Extract an acl
+   * 
+   * \param string $acl The acl to be extracted 
+   */
   static function extractACL($acl)
   {
     /* Rip acl off the string, seperate by ',' and place it in an array */
@@ -1056,7 +1121,11 @@ class acl extends plugin
     return ($a);
   }
 
-  
+  /*!
+   * \brief Summarize ACL and members
+   * 
+   * \param Array $entry 
+   */  
   function assembleAclSummary($entry)
   {
     $summary= "";
@@ -1101,7 +1170,11 @@ class acl extends plugin
     return (preg_replace('/, $/', '', $summary));
   }
 
-
+  /*!
+   * \brief Load an ACL
+   * 
+   * \param boolean $new false
+   */ 
   function loadAclEntry($new= FALSE)
   {
     /* New entry gets presets... */
@@ -1121,7 +1194,11 @@ class acl extends plugin
     $this->wasNewEntry= $new;
   }
 
-
+  /*!
+   * \brief Save an ACL after it's handle
+   * 
+   * \return boolean true if the acl is saved, else return false
+   */ 
   function aclPostHandler()
   {
     if (isset($_POST['save_acl'])){
@@ -1132,7 +1209,13 @@ class acl extends plugin
     return FALSE;
   }
 
-  
+  /*!
+   * \brief Prepare for Copy & Paste
+   * 
+   * \see plugin::PrepareForCopyPaste($source)
+   * 
+   * \param string $source Source to prepare for copy and paste
+   */
   function PrepareForCopyPaste($source)
   {
     plugin::PrepareForCopyPaste($source);
@@ -1142,7 +1225,9 @@ class acl extends plugin
     $this->gosaAclEntry = $acl_c->gosaAclEntry;
   }
 
-
+  /*!
+   *  \brief Save data to LDAP, depending on is_account we save or delete
+   */
   function save()
   {
     /* Assemble ACL's */
@@ -1241,7 +1326,9 @@ class acl extends plugin
     session::global_set('ui',$ui);
   }
 
-
+  /*! 
+   * \brief Removes object from parent
+   */
   function remove_from_parent()
   {
     plugin::remove_from_parent();
@@ -1260,7 +1347,9 @@ class acl extends plugin
   }
 
   
-  /* Return plugin informations for acl handling */
+  /*
+   * \brief Return plugin informations for acl handling 
+   */
   static function plInfo()
   {
     return (array(
@@ -1281,14 +1370,20 @@ class acl extends plugin
   }
 
 
-  /* Remove acls defined for $src */
+  /*! 
+   * \brief Remove acls defined for $src
+   */
   function remove_acl()
   {
     acl::remove_acl_for($this->dn);
   }
 
 
-  /* Remove acls defined for $src */
+  /*! 
+   * \brief Remove acls defined for $src 
+   * 
+   * \param String $dn The DN
+   */
   static function remove_acl_for($dn)
   {                                  
     global $config;                  
@@ -1333,7 +1428,13 @@ class acl extends plugin
     }
   }
 
-
+  /*!
+   * \brief Update the acl membership
+   * 
+   * \param String $src The source
+   * 
+   * \param String $dst The destination
+   */ 
   function update_acl_membership($src,$dst)
   {
     $ldap = $this->config->get_ldap_link();
