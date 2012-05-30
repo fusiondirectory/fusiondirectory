@@ -19,13 +19,22 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \file class_databaseManagement.inc
+ * Source code for class databasManagement
+ */ 
+
 require_once("MDB2.php");
 
-/*! \brief This class contains all database functions needed
+/*! 
+ * \brief This class contains all database functions needed
  */
 class databaseManagement {
 
-  /*! \brief This function connect to the database server and return the handle
+  /*! 
+   * \brief This function connect to the database server and return the handle
+   * 
+   * \param array $config Array with connection informations
    */
   static function connectDatabase($config)
   {
@@ -38,8 +47,13 @@ class databaseManagement {
     return $link;
   }
 
-  /*! \brief This function execute a bunch of queries inside
+  /*! 
+   * \brief This function execute a bunch of queries inside
    * a transaction and roll back if anything goes wrong
+   * 
+   * \param $link Connection to MySQL Server
+   * 
+   * \param String $queries Queries to execute
    */
   static function executeQueriesInTransaction($link,$queries)
   {
