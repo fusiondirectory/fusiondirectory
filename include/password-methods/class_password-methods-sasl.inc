@@ -33,8 +33,7 @@ class passwordMethodsasl extends passwordMethod {
     $this->realm  = trim($config->get_cfg_value('saslRealm',""));
     $this->exop   = trim($config->get_cfg_value('saslExop',""));
     if (empty($this->realm) && empty($this->exop)) {
-      trigger_error(msgPool::cmdnotfound("saslRealm", _("SASL")));
-      trigger_error(msgPool::cmdnotfound("saslExop", _("SASL")));
+      msg_dialog::display(_("Error"), msgPool::cmdnotfound("saslRealm or saslExop", _("SASL")), ERROR_DIALOG);
     }
 
     $attr = (empty($this->exop)?'uid':$this->exop);
@@ -46,7 +45,7 @@ class passwordMethodsasl extends passwordMethod {
       $attrs = $ldap->fetch();
       $this->uid = $attrs[$attr][0];
     } else {
-      trigger_error("Cannot change password, unknown user '".$dn."'");
+      msg_dialog::display(_("Error"), sprintf(_("Cannot change password, unknown user '%s'"),$dn), ERROR_DIALOG);
     }
   }
 
