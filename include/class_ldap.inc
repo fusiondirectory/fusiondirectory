@@ -22,37 +22,56 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \file class_ldap.inc
+ * Source code for Class LDAP
+ */
+ 
 define("ALREADY_EXISTING_ENTRY",-10001);
 define("UNKNOWN_TOKEN_IN_LDIF_FILE",-10002);
 define("NO_FILE_UPLOADED",10003);
 define("INSERT_OK",10000);
 define("SPECIALS_OVERRIDE", TRUE);
 
-/*! \brief This class contains all ldap function needed to make 
+/*! 
+ * \brief This class contains all ldap function needed to make 
  * ldap operations easy
  */
 
 class LDAP{
 
-  var $hascon   =false;
-  var $reconnect=false;
-  var $tls      = false;
-  var $cid;
-  var $hasres   = array();
-  var $sr       = array();
-  var $re       = array();
-  var $basedn   ="";
-  var $start    = array(); // 0 if we are fetching the first entry, otherwise 1
-  var $error    = ""; // Any error messages to be returned can be put here
-  var $srp      = 0;
-  var $objectClasses = array(); // Information read from slapd.oc.conf
-  var $binddn   = "";
-  var $bindpw   = "";
-  var $hostname = "";
-  var $follow_referral = FALSE;
-  var $referrals= array();
-  var $max_ldap_query_time = 0;   // 0, empty or negative values will disable this check 
+  var $hascon  				= false;
+  var $reconnect			= false;
+  var $tls      			= false;
+  var $cid;								//connection identifier
+  var $hasres  				= array();
+  var $sr       			= array();
+  var $re       			= array();
+  var $basedn   			= "";
+  var $start    			= array(); // 0 if we are fetching the first entry, otherwise 1
+  var $error    			= ""; // Any error messages to be returned can be put here
+  var $srp     				= 0;
+  var $objectClasses		= array(); // Information read from slapd.oc.conf
+  var $binddn   			= "";	// the dn for the bind
+  var $bindpw   			= "";	//the dn's password for the bind
+  var $hostname 			= "";
+  var $follow_referral 		= FALSE;
+  var $referrals			= array();
+  var $max_ldap_query_time  = 0;   // 0, empty or negative values will disable this check 
 
+  /*!
+   * \brief Create a LDAP connection
+   * 
+   * \param string $binddn Bind of the DN
+   * 
+   * \param string $bindpw Bind
+   * 
+   * \param string $hostname The hostname
+   * 
+   * \param boolean $follow_referral false
+   * 
+   * \param boolean $tls false
+   */
   function LDAP($binddn,$bindpw, $hostname, $follow_referral= FALSE, $tls= FALSE)
   {
     global $config;
@@ -72,7 +91,11 @@ class LDAP{
     $this->connect();
   }
 
-
+  /*!
+   * \brief Get the search ressource
+   * 
+   * \return increase srp
+   */
   function getSearchResource()
   {
     $this->sr[$this->srp]= NULL;
@@ -96,6 +119,10 @@ class LDAP{
    * /   => SL                                                                  
    * \22 => DQ
    * \endcode
+   * 
+   * \param string $dn The DN
+   * 
+   * \return String, the corrected DN
    */
   static function convert($dn)
   {
@@ -109,14 +136,19 @@ class LDAP{
     }
   }
 
-/*! \brief Function to fix all problematic characters inside a DN DN by replacing \001XX codes
- * to their original values
- *
- * Function to fix all problematic characters inside a DN by replacing \001XX codes
- * to their original values. See "convert" for more information. 
- * ',' characters are always expanded to \, (not \2C), since all tested LDAP servers
- * seem to take it the correct way.
- */
+  /*! 
+   * \brief Function to fix all problematic characters inside a DN DN by replacing \001XX codes
+   * to their original values
+   *
+   * Function to fix all problematic characters inside a DN by replacing \001XX codes
+   * to their original values. See "convert" for more information. 
+   * ',' characters are always expanded to \, (not \2C), since all tested LDAP servers
+   * seem to take it the correct way.
+   * 
+   * \param string $dn The DN
+   * 
+   * \return String, the fixed DN
+   */
   static function fix($dn)
   {
     if (SPECIALS_OVERRIDE == TRUE){
@@ -128,8 +160,10 @@ class LDAP{
     }
   }
 
-  /*! \brief Function to fix problematic characters in DN's that are used for search requests. I.e. member=....
+  /*!
+   * \brief Function to fix problematic characters in DN's that are used for search requests. I.e. member=....
    * 
+   * \param string $dn The DN
    */
   static function prepare4filter($dn)
   {
@@ -137,7 +171,11 @@ class LDAP{
     return str_replace('\\,', '\\\\,', $fixed);
   }
 
-  /*! \brief connect */
+  /*!
+   *  \brief Create a connection to LDAP server
+   * 
+   *  The string $error containts result of the connection
+   */
   function connect()
   {
     $this->hascon=false;
@@ -170,7 +208,9 @@ class LDAP{
     }
   }
 
-  /*! \brief rebind */
+  /*!
+   *  \brief Rebind
+   */
   function rebind($ldap, $referral)
   {
     $credentials= $this->get_credentials($referral);
@@ -185,7 +225,9 @@ class LDAP{
     }
   }
 
-  /*! \brief reconnect */
+  /*!
+   *  \brief Reconnect to LDAP server
+   */
   function reconnect()
   {
     if ($this->reconnect){
@@ -194,14 +236,18 @@ class LDAP{
     }
   }
 
-  /*! \brief unbind */
+  /*!
+   *  \brief Unbind to LDAP server 
+   */
   function unbind()
   {
     @ldap_unbind($this->cid);
     $this->cid = NULL;
   }
 
-  /*! \brief disconnect */
+  /*!
+   *  \brief Disconnect to LDAP server
+   */
   function disconnect()
   {
     if($this->hascon){
@@ -210,6 +256,11 @@ class LDAP{
     }
   }
 
+  /*!
+   * \brief Change directory
+   *  
+   * \param string $dir The new directory
+   */
   function cd($dir)
   {
     if ($dir == ".."){
@@ -219,6 +270,13 @@ class LDAP{
     }
   }
 
+  /*!
+   * \brief Accessor of the parent directory of the basedn
+   * 
+   * \param string $basedn The basedn which we want the parent directory
+   * 
+   * \return String, the parent directory
+   */
   function getParentDir($basedn = "")
   {
     if ($basedn==""){
@@ -229,7 +287,15 @@ class LDAP{
     return(preg_replace("/[^,]*[,]*[ ]*(.*)/", "$1", $basedn));
   }
 
-  
+  /*!
+   * \brief Search about filter
+   * 
+   * \param integer $srp srp
+   *
+   * \param string $filter The filter
+   * 
+   * \param array $attrs
+   */
   function search($srp, $filter, $attrs= array())
   {
     if($this->hascon){
@@ -258,6 +324,17 @@ class LDAP{
     }
   }
 
+  /*
+   * \brief List
+   * 
+   * \param integer $srp
+   * 
+   * \param string $filter Initialized at "(objectclass=*)"
+   * 
+   * \param string $basedn Empty string
+   * 
+   * \param array $attrs
+   */ 
   function ls($srp, $filter = "(objectclass=*)", $basedn = "",$attrs = array("*"))
   {
     if($this->hascon){
@@ -291,7 +368,18 @@ class LDAP{
       return("");
     }
   }
-
+ 
+  /*
+   * \brief Concatenate
+   * 
+   * \param integer $srp
+   * 
+   * \param string $dn The DN
+   * 
+   * \param array $attrs
+   * 
+   * \param string $filter Initialized at "(objectclass=*)"
+   */ 
   function cat($srp, $dn,$attrs= array("*"), $filter = "(objectclass=*)")
   {
     if($this->hascon){
@@ -309,6 +397,13 @@ class LDAP{
     }
   }
 
+  /*!
+   * \brief Search object from a filter
+   * 
+   * \param string $dn The DN
+   * 
+   * \param string $filter The filter of the research
+   */ 
   function object_match_filter($dn,$filter)
   {
     if($this->hascon){
@@ -322,6 +417,11 @@ class LDAP{
     }
   }
 
+  /*!
+   * \brief Set a size limit
+   * 
+   * \param $size The limit
+   */ 
   function set_size_limit($size)
   {
     /* Ignore zero settings */
@@ -335,6 +435,11 @@ class LDAP{
     }
   }
 
+  /*!
+   * \brief Fetch
+   * 
+   * \param integer $srp
+   */ 
   function fetch($srp)
   {
     $att= array();
@@ -371,11 +476,21 @@ class LDAP{
     }
   }
 
+  /*!
+   * \brief Reset the result
+   * 
+   * \param integer $srp Value to be reset
+   */ 
   function resetResult($srp)
   {
     $this->start[$srp] = 0;
   }
 
+  /*!
+   * \brief Clear a result
+   * 
+   * \param integer $srp The result to clear
+   */ 
   function clearResult($srp)
   {
     if($this->hasres[$srp]){
@@ -384,6 +499,11 @@ class LDAP{
     }
   }
 
+  /*!
+   * \brief Accessor of the DN
+   * 
+   * \param $srp srp
+   */ 
   function getDN($srp)
   {
     if($this->hascon){
@@ -410,6 +530,11 @@ class LDAP{
     }
   }
 
+  /*!
+   * \brief Return the numbers of entries
+   * 
+   * \param $srp srp
+   */ 
   function count($srp)
   {
     if($this->hascon){
@@ -427,6 +552,14 @@ class LDAP{
     }
   }
 
+
+  /*!
+   * \brief Remove
+   * 
+   * \param string $attrs Empty string
+   * 
+   * \param string $dn Empty string
+   */ 
   function rm($attrs = "", $dn = "")
   {
     if($this->hascon){
@@ -459,6 +592,13 @@ class LDAP{
     }
   }
 
+  /*!
+   * \brief Rename the dn
+   * 
+   * \param string $attrs 
+   * 
+   * \param string $dn The DN
+   */ 
   function rename($attrs, $dn = "")
   {
     if($this->hascon){
@@ -475,6 +615,11 @@ class LDAP{
     }
   }
 
+  /*!
+   * \brief Remove directory
+   * 
+   * \param string $deletedn The DN to be deleted
+  */ 
   function rmdir($deletedn)
   {
     if($this->hascon){
@@ -489,9 +634,11 @@ class LDAP{
   }
 
 
-  /*! \brief Move the given Ldap entry from $source to $dest
+  /*!
+   * \brief Move the given Ldap entry from $source to $dest
    * 
    * \param  String  $source The source dn.
+   *
    * \param  String  $dest   The destination dn.
    * 
    * \return Boolean TRUE on success else FALSE.
@@ -536,11 +683,14 @@ class LDAP{
   }
 
 
-  /*! \brief Function rmdir_recursive
+  /*! 
+   * \brief Function rmdir_recursive
    *
    * Based in recursive_remove, adding two thing: full subtree remove, and delete own node.
    * 
-   * \param string 'deletedn' The dn to delete
+   * \param $srp srp
+   * 
+   * \param string $deletedn The dn to delete
    * 
    * \return TRUE on sucessfull , 0 in error, and "" when we don't get a ldap conection
    */
@@ -596,6 +746,11 @@ class LDAP{
     return($str);
   }
 
+  /*!
+   * \brief Modify a entry of the directory LDAP 
+   * 
+   * \param string $attrs The new entry
+   */ 	
   function modify($attrs)
   {
     if(count($attrs) == 0){
@@ -615,6 +770,11 @@ class LDAP{
     }
   }
 
+  /*!
+   * \brief Add entry in the LDAP directory
+   * 
+   * \param string $attrs The entry to add
+   */ 
   function add($attrs)
   {
     if($this->hascon){
@@ -780,7 +940,11 @@ class LDAP{
     return TRUE;
   }
 
-
+  /*! 
+   * \brief Recursive remove
+   * 
+   * \param integer $srp
+   */ 	
   function recursive_remove($srp)
   {
     $delarray= array();
@@ -800,7 +964,15 @@ class LDAP{
     }
   }
 
-
+  /*!
+   * \brief Read a entry from a directory
+   * 
+   * \param string $dn The DN
+   * 
+   * \param string $name The name of the entry
+   * 
+   * \param integer $r_array Initialized at 0
+   */ 
   function get_attribute($dn, $name,$r_array=0)
   {
     $data= "";
@@ -824,7 +996,11 @@ class LDAP{
   }
  
 
-
+  /*!
+   * \brief Get the LDAP additional error
+   * 
+   * \return string $error containts LDAP_OPT_ERROR_STRING
+   */ 
   function get_additional_error()
   {
     $error= "";
@@ -832,13 +1008,19 @@ class LDAP{
     return ($error);
   }
 
-
+  /*!
+   * \brief Success
+   * 
+   * \return boolean TRUE if Success is found in $error, else return FALSE  
+   */ 
   function success()
   {
     return (preg_match('/Success/i', $this->error));
   }
 
-
+  /*!
+   * \brief Get the error
+   */ 
   function get_error()
   {
     if ($this->error == 'Success'){
@@ -875,12 +1057,18 @@ class LDAP{
   }
 
 
-  /*! \brief  Generates an ldif for all entries matching the filter settings, scope and limit.
+  /*! 
+   * \brief  Generates an ldif for all entries matching the filter settings, scope and limit.
    * 
-   *  \param  $dn           The entry to export.
-   *  \param  $filter       Limit the exported object to those maching this filter.
-   *  \param  $scope        'base', 'sub' .. see manpage for 'ldapmodify' for details.
-   *  \param  $limit        Limits the result.
+   * \param  $dn           The entry to export.
+   * 
+   * \param  $filter       Limit the exported object to those maching this filter.
+   * 
+   * \param  array $attributes Attributes
+   * 
+   * \param  $scope        'base', 'sub' .. see manpage for 'ldapmodify' for details.
+   * 
+   * \param  $limit        Limits the result.
    */
   function generateLdif ($dn, $filter= "(objectClass=*)", $attributes= array(),$scope = 'sub', $limit=0)
   {
@@ -955,13 +1143,23 @@ class LDAP{
   
 
 
-  /*! \brief Function to imports ldifs
+  /*! 
+   * \brief Function to imports ldifs
    * 
    * If DeleteOldEntries is true, the destination entry will be deleted first. 
    * If JustModify is true the destination entry will only be touched by the attributes specified in the ldif.
-   * if JustMofify id false the destination dn will be overwritten by the new ldif. 
+   * if JustMofify is false the destination dn will be overwritten by the new ldif. 
+   * 
+   * \param integer $srp
+   * 
+   * \param string $str_attr
+   * 
+   * \param string $error 
+   * 
+   * \param boolean $JustModify
+   * 
+   * \param boolean $DeleteOldEntries
    */
-
   function import_complete_ldif($srp, $str_attr,$error,$JustModify,$DeleteOldEntries)
   {
     if($this->reconnect) $this->connect();
@@ -1087,6 +1285,14 @@ class LDAP{
    * If $delete is true;  The old entry will be deleted if it exists.
    * if $modify is true;  All variables that are not touched by the new ldif will be kept.
    * if $modify is false; The new ldif overwrites the old entry, and all untouched attributes get lost.
+   * 
+   * \param integer $srp
+   * 
+   * \param string $str_attr
+   * 
+   * \param boolean $modify
+   * 
+   * \param boolean $delete
    */
   function import_single_entry($srp, $str_attr,$modify,$delete)
   {
@@ -1218,7 +1424,11 @@ class LDAP{
     return($ret);
   }
 
-  
+  /*!
+   * \brief Split a string
+   * 
+   * \param string $str
+   */ 
   function importcsv($str)
   {
     $lines = preg_split("/\n/",$str);
@@ -1241,6 +1451,11 @@ class LDAP{
 
   }
   
+  /*!
+   * \brief Get the object classes
+   * 
+   * \param boolean $force_reload FALSE
+   */ 
   function get_objectclasses( $force_reload = FALSE)
   {
     $objectclasses = array();
@@ -1354,7 +1569,11 @@ class LDAP{
     return ($container);
   }
 
-
+  /*!
+   * \brief Add a string in log file
+   * 
+   * \param string $string 
+   */ 
   function log($string)
   {
     if (session::global_is_set('config')){
@@ -1366,8 +1585,11 @@ class LDAP{
   }
 
   /* added by Guido Serra aka Zeph <zeph@purotesto.it> */
-  /*! \brief Function to get cn
+  
+  /*! 
+   * \brief Function to get cn
    * 
+   * \param $dn The DN 
    */ 
   function getCn($dn){
     $simple= explode(",", $dn);
