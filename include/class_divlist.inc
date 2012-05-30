@@ -20,6 +20,14 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \file class_divlist.inc
+ * Source code for class divlist
+ */ 
+ 
+/*!
+ * \brief This class contains all function to manage page
+ */ 
 class divlist {
 
   var $a_entries;
@@ -41,6 +49,12 @@ class divlist {
   var $fix_list_for_plugins = FALSE;
   
   // Added php 4 constructor
+  /*!
+   * \brief Divlist constructor.
+   * 		Initialized all the vars
+   * 
+   * \param string $pageid Identifier for the page
+   */ 
   function divlist($pageid){
 
     $this->i_currentPage    = 0;
@@ -55,37 +69,73 @@ class divlist {
     $this->pageid           = $pageid;
   }
 
+  /*!
+   * \brief Divlist destructor
+   */ 
   function __destruct(){
   
   }
 
+  /*!
+   * \brief Set the plugin mode
+   * 
+   * \param boolean $val true
+   */ 
   function SetPluginMode($val = TRUE)
   {
     $this->fix_list_for_plugins = $val;
   }
 
+  /*!
+   * \brief Set a footer
+   * 
+   * \param string $str The new footer
+   */ 
   function SetFooter($str)
   {
     $this->list_footer = $str;
   }
 
+  /*!
+   * \brief Add an entry
+   * 
+   * \param $a_entriedata The entry to add
+   */ 
   function AddEntry($a_entriedata) {
     $this->a_entries[] = $a_entriedata;
   }
 
+  /*!
+   * \brief Disable the page numbers
+   */ 
   function DisablePageNums() {
     $this->b_displayPageNums =false;
   }
 
+  /*!
+   * \brief Set a header at the page
+   * 
+   * \param string $a_headerdata The header of the page
+   */ 
   function SetHeader($a_headerdata) {
     $this->a_header[] = $a_headerdata ;
   }
   
+  /*!
+   * \brief Set the height of the page
+   * 
+   * \param integer $s_height The height
+   */ 
   function SetHeight($s_height) {
     $this->s_height= $s_height;
     $this->force_height = true;
   }
-  
+ 
+  /*!
+   * \brief Set the width of the page
+   * 
+   * \param integer $s_width The width
+   */
   function SetWidth($s_width) {
     $this->s_width= $s_width;
     if(preg_match("/^[0-9]*$/",$this->s_width)){
@@ -93,10 +143,18 @@ class divlist {
     }
   }
 
+  /*!
+   * \brief Set the number of entries per page
+   * 
+   * \param int $i_num The number
+   */ 
   function SetEntriesPerPage($i_num){
     $this->i_entriesPerPage=$i_num;
   }
   
+  /*!
+   * \brief This fonction draw the list of the page
+   */ 
   function DrawList(){
     $s_return = "";
     if(!$this->force_height){
@@ -117,6 +175,9 @@ class divlist {
     return ($s_return);
   }
   
+  /*!
+   * \brief Calculate the number of the current page
+   */ 
   function _numpages(){
     $cnt = count($this->a_entries);
     
@@ -128,10 +189,18 @@ class divlist {
     return $pages;
   }
   
+  /*!
+   * \brief Calculate the number of entries
+   * 
+   * \return the number of entries
+   */ 
   function _numentries(){
     return count($this->a_entries);
   }
 
+  /*!
+   * \brief Generate the footer of the page
+   */ 
   function _generateFooter()
   {
     $s_return = "";
@@ -159,6 +228,9 @@ class divlist {
     return($s_return);
   }
   
+  /*!
+   * \brief Generate the page's header
+   */ 
   function _generateHeader(){
     $s_return = "";
     $s_value  = "";
@@ -198,10 +270,18 @@ class divlist {
     return $s_return;
   }
   
+  /*!
+   * \brief Set the structure of table
+   * 
+   * \param string $msg The summary
+   */ 
   function SetSummary($msg){
     $this->s_summary = $msg;
   }
 
+  /*!
+   * \brief Generate de page
+   */ 
   function _generatePage(){
     
     $s_value  = "";
