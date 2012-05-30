@@ -19,6 +19,10 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
+/*!
+ * \file class_msg_dialog.inc
+ * Source code for class message dialog
+ */ 
 
 define("INFO_DIALOG"    , 10001);
 define("WARNING_DIALOG"   , 10002);
@@ -27,10 +31,10 @@ define("CONFIRM_DIALOG"   , 10004);
 define("OK_CANCEL_DIALOG" , 10005);
 define("FATAL_ERROR_DIALOG" , 10006);
 
-/*! \brief This class contains all the function needed to make messages
+/*! 
+ * \brief This class contains all the function needed to make messages
  *  dialogs
  */
-
 class msg_dialog
 {
   private $s_Title  = "Undefined";
@@ -39,6 +43,16 @@ class msg_dialog
   private $i_ID   = 0;
   private $a_Trace  = array();
 
+
+  /*!
+   * \brief Message dialog constructor
+   * 
+   * \param string $s_title The title of the message dialog
+   * 
+   * \param string $s_message The message of the message dialog
+   * 
+   * \param string $i_type The type of the message dialog, by default = INFO_DIALOG
+   */ 
   public function __construct($s_title,$s_message,$i_type)
   {
     global $config;
@@ -89,13 +103,25 @@ class msg_dialog
     session::set('errorsAlreadyPosted',$errorsAlreadyPosted);
   }
 
-
+  /*!
+   * \brief Display a message dialog
+   * 
+   * \param string $s_title The title of the message dialog
+   * 
+   * \param string $s_message The message of the message dialog
+   * 
+   * \param string $i_type The type of the message dialog, by default = INFO_DIALOG
+   */
   public static function display($s_title,$s_message,$i_type = INFO_DIALOG)
   {
     new msg_dialog($s_title,$s_message,$i_type);  
   }
 
-
+  /*
+   * \brief Display checks
+   * 
+   * \param array $messages Contains messages
+   */ 
   public static function displayChecks($messages)
   {
     /* Assemble the message array to a plain string */
@@ -104,12 +130,19 @@ class msg_dialog
     }
   }
 
-
+  /*
+   * \brief Accessor of message dialog's identifier
+   * 
+   * \return The identifier of the message dialog
+   */ 
   public function get_ID()
   {
     return($this->i_ID);
   }
 
+  /*!
+   * \brief Run the message dialog
+   */  
   public function execute()
   {
     if($this->i_Type == FATAL_ERROR_DIALOG) {
@@ -145,7 +178,11 @@ class msg_dialog
     }
   }
 
-  
+  /*!
+   * \brief Check if the message is confirmed by user
+   * 
+   * \return True if is confirmed, else return false
+   */ 
   public function is_confirmed()
   {
     if(isset($_POST['MSG_OK'.$this->i_ID])){
@@ -155,7 +192,9 @@ class msg_dialog
     }
   }
   
-
+  /*! 
+   * \brief Accessor of the message dialog
+   */ 
   public static function get_dialogs()
   {
     $return  ="";
@@ -163,7 +202,7 @@ class msg_dialog
 
     $seen = "";
     if(isset($_POST['closed_msg_dialogs'])){
-#     $seen = $_POST['closed_msg_dialogs'];
+     //$seen = $_POST['closed_msg_dialogs'];
     }
 
     if(session::is_set('msg_dialogs') && is_array(session::get('msg_dialogs')) && count(session::get('msg_dialogs'))){
