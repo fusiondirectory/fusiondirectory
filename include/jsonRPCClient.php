@@ -21,44 +21,53 @@ along with JSON-RPC PHP; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-/*! \brief The object of this class are generic jsonRPC 1.0 clients
+/*!
+ * \file jsonRPCClient.php
+ * Source code for class jsonRPCClient
+ */ 
+
+/*!
+ * \brief The object of this class are generic jsonRPC 1.0 clients
  * http://json-rpc.org/wiki/specification
  *
- * @author sergio <jsonrpcphp@inservibile.org>
+ * \author sergio <jsonrpcphp@inservibile.org>
  */
 class jsonRPCClient {
   
-  /**
-   * Debug state
+  /*!
+   * \brief Debug state
    *
-   * @var boolean
+   * \var boolean $debug
    */
   private $debug;
   
-  /**
-   * The server URL
+  /*!
+   * \brief The server URL
    *
-   * @var string
+   * !var string $url
    */
   private $url;
-  /**
-   * The request id
+  
+  /*!
+   * \brief The request id
    *
-   * @var integer
+   * \var integer $id
    */
   private $id;
-  /**
-   * If true, notifications are performed instead of requests
+  
+  /*!
+   * \brief If true, notifications are performed instead of requests
    *
-   * @var boolean
+   * \var boolean $notification
    */
   private $notification = false;
   
-  /**
-   * Takes the connection parameters
+  /*!
+   * \brief Takes the connection parameters
    *
-   * @param string $url
-   * @param boolean $debug
+   * \param string $url
+   * 
+   * \param boolean $debug false
    */
   public function __construct($url,$debug = false) {
     // server URL
@@ -71,10 +80,11 @@ class jsonRPCClient {
     $this->id = 1;
   }
   
-  /**
-   * Sets the notification state of the object. In this state, notifications are performed, instead of requests.
+  /*!
+   * \brief Sets the notification state of the object.
+   *        In this state, notifications are performed, instead of requests.
    *
-   * @param boolean $notification
+   * \param boolean $notification
    */
   public function setRPCNotification($notification) {
     empty($notification) ?
@@ -83,12 +93,14 @@ class jsonRPCClient {
               $this->notification = true;
   }
   
-  /**
-   * Performs a jsonRCP request and gets the results as an array
+  /*!
+   * \brief Performs a jsonRCP request and gets the results as an array
    *
-   * @param string $method
-   * @param array $params
-   * @return array
+   * \param string $method
+   *
+   * \param array $params
+   *
+   * \return array
    */
   public function __call($method,$params) {
     
