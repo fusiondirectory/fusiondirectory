@@ -20,14 +20,21 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This class contains all the function needed to manage the
+/*!
+ * \file class_timezone.inc
+ * Source code for class timezone
+ */ 
+
+/*!
+ * \brief This class contains all the function needed to manage the
  * timezones
- * 
  */ 
 class timezone {
 
-  /* This function returns the offset for the default timezone. 
-   * $stamp is used to detect summer or winter time.
+  /*
+   * \brief This function returns the offset for the default timezone. 
+   *
+   * \param $stamp is used to detect summer or winter time.
    * In case of PHP5, the integrated timezone functions are used.
    */
   static public function get_default_timezone($stamp = NULL)
@@ -61,7 +68,11 @@ class timezone {
   }
 
 
-  /* Return zone informations */
+  /*
+   * \brief Get the time zone informations
+   *
+   * \return Time zone informations
+   */
   static public function _get_tz_zones()
   {
     return DateTimeZone::listIdentifiers();
