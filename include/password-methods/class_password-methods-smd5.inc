@@ -20,15 +20,31 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This class contains all the functions for sdm5 password methods
- *
+/*!
+ * \file class_password-methods-smd5.inc
+ * Source code for class passwordMethodsmd5
+ */
+
+/*!
+ * \brief This class contains all the functions for sdm5 password methods
+ * \see passwordMethod
  */
 class passwordMethodsmd5 extends passwordMethod
 {
+  /*!
+   * \brief passwordMethodsmd5 Constructor
+   *
+   * \param string $config
+   */
   function passwordMethodsmd5($config)
   {
   }
-
+  
+  /*!
+   * \brief Is available
+   *
+   * \return TRUE if is avaibable, otherwise return false
+   */
   function is_available()
   {
     if ((!function_exists('md5'))){
@@ -38,6 +54,11 @@ class passwordMethodsmd5 extends passwordMethod
     }
   }
 
+  /*!
+   * \brief Generate template hash
+   *
+   * \param string $pwd Password
+   */ 
   function generate_hash($pwd)
   {
     mt_srand(microtime()* 10000000);
@@ -46,7 +67,10 @@ class passwordMethodsmd5 extends passwordMethod
     $hash = "{SMD5}".base64_encode(pack("H*",md5($pwd . $salt)) . $salt);
     return $hash;       
   }
-
+  
+  /*!
+   * \brief Get the hash name
+   */ 
   function get_hash_name()
   {
     return "smd5";
