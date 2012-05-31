@@ -20,6 +20,10 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \file class_pdfExporter.inc
+ * Source code for class pdfExporter
+ */ 
 
 // Try to load PDF library
 @include_once(FPDF);
@@ -30,13 +34,24 @@ if(in_array('FPDF', $classes)) {
   include('class_PDF.inc');
 }
 
-/*! \brief This class contains all the functions needed for pdf export
- *
+/*!
+ * \brief This class contains all the functions needed for pdf export
  */
 class pdfExporter
 {
   var $result;
 
+  /*!
+   * \brief Export PDF
+   *
+   * \param array $headline
+   *
+   * \param array $header
+   *
+   * \param array $entries
+   *
+   * \param array $columns
+   */ 
   function pdfExporter($headline, $header, $entries, $columns= array()) {
     // Bail out if no FPDF available
     if(!class_exists('FPDF')) {
@@ -117,7 +132,15 @@ class pdfExporter
     $this->result->Cell(array_sum($width), 0, '', 'T');
   }
 
-
+  /*!
+   * \brief Calculate the width page
+   *
+   * \param array $header
+   *
+   * \param array $entries
+   *
+   * \param array $columns
+   */ 
   function calcWidth($header, $entries, $columns)
   {
     $width= array();
@@ -155,13 +178,17 @@ class pdfExporter
     return $width;
   }
 
-
+  /*!
+   * \brief Get the result
+   */ 
   function query()
   {
      return $this->result->Output("", "S");
   }
 
-
+  /*!
+   * \brief Get informations
+   */ 
   static function getInfo()
   {
     // Check if class defined
