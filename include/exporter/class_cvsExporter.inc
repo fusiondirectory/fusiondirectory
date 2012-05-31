@@ -20,13 +20,29 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This class contains all the functions needed for cvs export
- *
+/*!
+ * \file class_cvsExporter.inc
+ * Source code for class cvsExporter
+ */ 
+
+/*!
+ * \brief This class contains all the functions needed for cvs export
  */
 class csvExporter
 {
   var $result;
 
+  /*!
+   * \brief Create a cvsExporter
+   *
+   * \param array $headline
+   *
+   * \param array $header
+   *
+   * \param array $entries
+   *
+   * \param array $columns
+   */ 	
   function csvExporter($headline, $header, $entries, $columns= array()) {
     // If no preset, render all columns
     if (!count($columns)) {
@@ -59,13 +75,18 @@ class csvExporter
     }
   }
 
-
+  /*!
+   * \brief Get the result
+   */ 
   function query()
   {
      return $this->result;
   }
 
 
+  /*!
+   * \brief Get Informations
+   */ 
   static function getInfo()
   {
     return array("exportCVS" => array( "label" => _("CSV"), "image" => "images/lists/csv.png", "class"=> "csvExporter", "mime" => "text/x-csv", "filename" => "export.csv" ));
