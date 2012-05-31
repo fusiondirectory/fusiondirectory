@@ -19,11 +19,27 @@
   Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \file class_password-methods-sasl.inc
+ * Source code for class passwordMethodsasl
+ */
+
+/*!
+ * \brief This class contains all the functions for sasl password methods
+ * \see passwordMethod
+ */
 class passwordMethodsasl extends passwordMethod {
   var $uid    = ""; // uid, or exop specified field value
   var $realm  = "";
   var $exop   = "";
 
+  /*!
+   * \brief passwordMethodsasl Constructor
+   *
+   * \param string $config
+   *
+   * \param string $dn The DN
+   */ 
   function __construct($config, $dn="")
   {
     if ($dn == "" || $dn == "new") {
@@ -49,11 +65,21 @@ class passwordMethodsasl extends passwordMethod {
     }
   }
 
+  /*!
+   * \brief Is available
+   *
+   * \return TRUE if is avaibable
+   */ 
   function is_available()
   {
     return TRUE;
   }
 
+  /*!
+   * \brief Generate template hash
+   *
+   * \param string $pwd Password
+   */
   function generate_hash($pwd)
   {
     if (empty($this->exop)) {
@@ -62,12 +88,20 @@ class passwordMethodsasl extends passwordMethod {
       return "{SASL}".$this->uid; // may not be the uid, see saslExop option
     }
   }
-
+  
+  /*!
+   * \brief Get the hash name
+   */ 
   function get_hash_name()
   {
     return "sasl";
   }
 
+  /*!
+   * \brief Password needed
+   * 
+   * \return boolean FALSE
+   */ 
   function need_password()
   {
     return FALSE;
