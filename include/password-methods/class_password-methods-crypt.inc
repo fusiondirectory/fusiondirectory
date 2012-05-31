@@ -20,16 +20,32 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This class contains all the functions for crypt password methods
- *
+/*!
+ * \file class_password-methods-crypt.inc
+ * Source code for class passwordMethodCrypt
+ */
+
+/*!
+ * \brief This class contains all the functions for crypt password methods
+ * \see passwordMethod
  */
 class passwordMethodCrypt extends passwordMethod
 {
+  
+  /*!
+   * \brief passwordMethodCrypt Constructor
+   *
+   * \param string $config
+   */ 
   function passwordMethodCrypt($config)
   {
   }
 
-
+  /*!
+   * \brief Is available
+   *
+   * \return TRUE if is avaibable, otherwise return false
+   */
   function is_available()
   {
     if(function_exists("crypt")){
@@ -39,12 +55,21 @@ class passwordMethodCrypt extends passwordMethod
     }
   }
 
+  /*!
+   * \brief Create template hash
+   *
+   * \param string $attrs
+   */ 
   function create_template_hash($attrs)
   {
     return($this->generate_hash('N0T$3T4N0W').'N0T$3T4N0W');
   }
 
-
+  /*!
+   * \brief Generate template hash
+   *
+   * \param string $pwd Password
+   */ 
   function generate_hash($pwd)
   {
     if ($this->hash == "crypt/standard-des"){
@@ -80,7 +105,9 @@ class passwordMethodCrypt extends passwordMethod
     return "{CRYPT}".crypt($pwd, $salt);
   }
 
-
+  /*!
+   * \brief Get the hash name
+   */ 
   function get_hash_name()
   {
     $hashes= array();
@@ -103,7 +130,11 @@ class passwordMethodCrypt extends passwordMethod
     return $hashes;
   }
 
-
+  /*!
+   * \brief Extract a method
+   *
+   * \param string $password_hash
+   */ 
   function _extract_method($password_hash)
   {
     if (!preg_match('/^{crypt}/i', $password_hash)){
