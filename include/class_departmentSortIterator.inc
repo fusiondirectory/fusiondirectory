@@ -20,9 +20,24 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \file class_departmentSortIterator.inc
+ * Source code for class departmentSortIterator
+ */
+
+/*!
+ * \brief This class contains all the function needed to sort department
+ */
 class departmentSortIterator implements Iterator {
   private $data;
 
+  /*!
+   * \brief departmentSortIterator constructor
+   *
+   * \param array $data departmentSortIterator data
+   *
+   * \param $direction Direction
+   */ 
   public function __construct($data, $direction) {
 
     function depSort($ao, $bo) {
@@ -60,22 +75,47 @@ class departmentSortIterator implements Iterator {
     }
   }
 
+  /*!
+   * \brief Put the array pointer to the first element
+   *
+   * \return the first element of the array
+   */ 
   function rewind() {
     return reset($this->data);
   }
-
+  
+  /*!
+   * \brief Get the current data element
+   * 
+   * \return The current element pointed by array pointer
+   */
   function current() {
     return current($this->data);
   }
-
+  
+  /*!
+   * \brief Get the key element
+   *
+   * \return the key element of the array
+   */
   function key() {
     return key($this->data);
   }
-
+  
+  /*!
+   * \brief Get the next data element
+   *
+   * \return The next element pointed by array pointer
+   */
   function next() {
     return next($this->data);
   }
 
+  /*!
+   * \brief Check if the data array is valid
+   *
+   * \return TRUE if the array is valid, return FALSE otherwise
+   */
   function valid() {
     return key($this->data) !== null;
   }
