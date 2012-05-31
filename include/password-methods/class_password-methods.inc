@@ -20,8 +20,13 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This class contains all the basic function for password methods
- *
+/*
+ * \file class_pasword-methods.inc
+ * Source code for class password-methods
+ */ 
+
+/*!
+ * \brief This class contains all the basic function for password methods
  */
 class passwordMethod
 {
@@ -31,11 +36,22 @@ class passwordMethod
   var $hash= "";
   var $lockable = TRUE;
 
-  // constructor
+  /*!
+   * \brief Password method contructor
+   *
+   * \param string $config
+   *
+   * \param string $dn The DN
+   */ 
   function passwordMethod($config, $dn="")
   {
   }
 
+  /*!
+   * \brief Create a template hash
+   *
+   * \param $attrs Attr
+   */ 
   function create_template_hash($attrs)
   {
     if($this->get_hash_name() == ""){
@@ -45,15 +61,31 @@ class passwordMethod
     }
   }
 
+  /*!
+   * \brief Get the Hash name
+   */ 
   function get_hash_name()
   {
+	return $this->$hash;
   }
 
+  /*!
+   * \brief If we need password
+   *
+   * \return boolean TRUE
+   */ 
   function need_password()
   {
     return TRUE;
   }
 
+  /*!
+   * \brief Is locked
+   *
+   * \param string $config
+   *
+   * \param string $dn The DN
+   */ 
   function is_locked($config,$dn = "")
   {
     if(!$this->lockable) return FALSE;
@@ -76,9 +108,13 @@ class passwordMethod
 
   /*! \brief       Locks an account (gosaAccount) by added a '!' as prefix to the password hashes.
    *               This makes logins impossible, due to the fact that the hash becomes invalid.
-   *                 userPassword: {SHA}!q02NKl9IChNwZEAJxzRdmB6E
-   *                 sambaLMPassword: !EBD223B61F8C259AD3B435B51404EE
-   *                 sambaNTPassword: !98BB35737013AAF181D0FE9FDA09E
+   *               userPassword: {SHA}!q02NKl9IChNwZEAJxzRdmB6E
+   *               sambaLMPassword: !EBD223B61F8C259AD3B435B51404EE
+   *               sambaNTPassword: !98BB35737013AAF181D0FE9FDA09E
+   *
+   * \param string $config
+   *
+   * \param string $dn
    */
   function lock_account($config,$dn = "")
   {
@@ -126,8 +162,9 @@ class passwordMethod
     return(FALSE);
   }
 
-  /*! \brief       Unlocks an account (gosaAccount) which was locked by 'lock_account()'.
-   *               For details about the locking mechanism see 'lock_account()'.
+  /*!
+   * \brief Unlocks an account (gosaAccount) which was locked by 'lock_account()'.
+   *        For details about the locking mechanism see 'lock_account()'.
    */
   function unlock_account($config,$dn = "")
   {
@@ -175,7 +212,9 @@ class passwordMethod
   }
 
 
-  // this function returns all loaded classes for password encryption
+  /*!
+   * \brief This function returns all loaded classes for password encryption
+   */ 
   static function get_available_methods()
   {
     global $class_mapping, $config;
@@ -219,49 +258,68 @@ class passwordMethod
     return(session::get("passwordMethod::get_available_methods"));
   }
 
-
+  /*!
+   * \brief Get desciption
+   */ 
   function get_description()
   {
     return("");
   }
 
 
-  // Method to let password backends remove additional information besides
-  // the userPassword attribute
+  /*!
+   * \brief Method to let password backends remove additional information besides
+   * the userPassword attribute
+   */ 
   function remove_from_parent()
   {
   }
 
 
-  // Method to let passwords backends manage additional information
-  // besides the userAttribute entry
+  /*!
+   * \brief Method to let passwords backends manage additional information
+   *  besides the userAttribute entry
+   */ 
   function set_password($password)
   {
     return(TRUE);
   }
 
 
-  // Return true if this password method provides a configuration dialog
+  /*!
+   * \brief Return true if this password method provides a configuration dialog
+   */
   function is_configurable()
   {
     return FALSE;
   }
 
-
-  // Provide a subdialog to configure a password method
+  /*!
+   * \brief Provide a subdialog to configure a password method
+   */
   function configure()
   {
     return "";
   }
 
 
-  // Save information to LDAP
+  /*!
+   * \brief Save information to LDAP
+   *
+   * \param string $dn The DN 
+   */ 
   function save($dn)
   {
   }
 
 
-  // Try to find out if it's our hash...
+  /*!
+   * \brief Try to find out if it's our hash...
+   *
+   * \param string $password_hash
+   *
+   * \param string $dn The DN
+   */ 
   static function get_method($password_hash,$dn = "")
   {
     global $config;
@@ -285,7 +343,11 @@ class passwordMethod
     return NULL;
   }
 
-
+  /*!
+   * \brief Extract a method
+   *
+   * \param string $password_hash
+   */ 
   function _extract_method($password_hash)
   {
     $hash= $this->get_hash_name();
@@ -296,7 +358,13 @@ class passwordMethod
     return "";
   }
 
-
+  /*!
+   * \brief Make a hash
+   *
+   * \param string $password The password
+   *
+   * \param string $hash 
+   */ 
   static function make_hash($password, $hash)
   {
     global $config;
@@ -307,26 +375,41 @@ class passwordMethod
     return $tmp->generate_hash($password);
   }
 
-
+  /*!
+   * \brief Set a hash
+   *
+   * \param string $hash
+   */ 
   function set_hash($hash)
   {
     $this->hash= $hash;
   }
 
 
+  /*!
+   * \brief Get a hash
+   */ 
   function get_hash()
   {
     return $this->hash;
   }
 
+  /*!
+   * Get the current object
+   *
+   * \param string $dn The DN
+   */ 
   function adapt_from_template($dn)
   {
     return($this);
   }
 
-  /*! \brief Test for problematic unicode caracters in password
+  /*!
+   * \brief Test for problematic unicode caracters in password
    *  This can be activated with the keyword strictPasswordRules in the
    *  fusiondirectory.conf
+   *
+   * \param string $password The password
    */
   static function is_harmless($password)
   {
@@ -340,7 +423,11 @@ class passwordMethod
     return(true);
   }
 
-
+  /*!
+   * \brief Get the password proposal
+   *
+   * \param string $config
+   */ 
   static function getPasswordProposal($config)
   {
       if($config->get_cfg_value('passwordProposalHook','') != ''){
