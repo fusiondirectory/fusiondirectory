@@ -25,11 +25,10 @@
  * Source code for class PDF
  */ 
 
-/* Avoid autoloading this class */
 /*!
  * \brief This class contains all the functions to manage pdf
  */ 
-class PDF extends FPDF
+/* Avoid autoloading this class */ class PDF extends FPDF
 {
   var $headline= "";
 
