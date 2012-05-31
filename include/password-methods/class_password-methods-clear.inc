@@ -20,29 +20,51 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This class contains all the functions for clear password methods
- *
+/*!
+ * \file class_password-methods-clear.inc
+ * Source code for class passwordMethodClear
+ */
+ 
+/*!
+ * \brief This class contains all the functions for clear password methods
+ * \see passwordMethod
  */
 class passwordMethodClear extends passwordMethod
 {
   var $lockable = FALSE;
 
+  /*!
+   * \brief passwordMethodClear Constructor
+   *
+   * \param string $config
+   */ 
   function passwordMethodClear($config)
   {
   }
 
+  /*!
+   * \brief Is available
+   *
+   * \return TRUE
+   */
   function is_available()
   {
     return true;
   }
 
-
+  /*!
+   * \brief Generate template hash
+   *
+   * \param string $pwd Password
+   */ 
   function generate_hash($pwd)
   {
     return $pwd;       
   }
 
-  
+  /*!
+   * \brief Get the hash name
+   */ 
   function get_hash_name()
   {
     return ("clear");
