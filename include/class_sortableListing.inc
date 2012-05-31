@@ -20,6 +20,11 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \file class_sortableListing.inc
+ * Source code for class sortableListing
+ */
+ 
 define ('LIST_NORMAL', 0);
 define ('LIST_MARKED', 1);
 define ('LIST_DISABLED', 2);
@@ -56,6 +61,15 @@ class sortableListing {
   private $acl= "";
   private $modified= false;
 
+  /*!
+   * \brief Create a sortaleListing
+   *
+   * \param array $data
+   *
+   * \param $displayData null
+   *
+   * \param boolean $reorderable false
+   */ 
   public function sortableListing($data= array(), $displayData= null, $reorderable= false)
   {
     global $config;
@@ -92,16 +106,33 @@ class sortableListing {
     }
   }
 
+  /*!
+   * \brief Set new reorderable value
+   *
+   * \param boolean $bool
+   */ 
   public function setReorderable($bool)
   {
     $this->reorderable= $bool;
   }
-   
+
+  /*!
+   * \brief Set a default sort column
+   *
+   * \param integer $id
+   */  
   public function setDefaultSortColumn($id)
   {
     $this->sortColumn = $id;
   }
 
+  /*!
+   * \brief Set a list data
+   *
+   * \param array $data
+   *
+   * \param array $displayData
+   */ 
   public function setListData($data, $displayData= null)
   {
     // Save data to display
@@ -116,12 +147,21 @@ class sortableListing {
   }
 
 
+  /*!
+   * \brief Set a data
+   *
+   * \param array $data
+   */ 
   private function setData($data)
   {
     $this->data= $data;
   }
 
-
+  /*!
+   * \brief Set a display data
+   *
+   * \param array $data
+   */ 
   private function setDisplayData($data)
   {
     if (!is_array($data)) {
@@ -162,62 +202,101 @@ class sortableListing {
         }
     }
   }
-
-
+  
+ /*!
+   * \brief Set width
+   *
+   * \param string $width px
+   */ 
   public function setWidth($width)
   {
     $this->width= $width;
   }
 
-
+  /*!
+   * \brief Set instant delete value
+   *
+   * \param boolean $flag
+   */ 
   public function setInstantDelete($flag)
   {
     $this->instantDelete= $flag;
   }
 
-
+  /*!
+   * \brief Set color alternate value
+   *
+   * \param boolean $flag
+   */ 
   public function setColorAlternate($flag)
   {
     $this->colorAlternate= $flag;
   }
 
-
+  /*!
+   * \brief Set editable value
+   *
+   * \param boolean $flag
+   */ 
   public function setEditable($flag)
   {
     $this->editable= $flag;
   }
 
-
+  /*!
+   * \brief Set editable value
+   *
+   * \param boolean $flag
+   */
   public function setDeleteable($flag)
   {
     $this->deleteable= $flag;
   }
 
-
+  /*!
+   * \brief Set height
+   *
+   * \param string $height px
+   */ 
   public function setHeight($height)
   {
     $this->height= $height;
   }
 
 
+  /*!
+   * \brief Set CSS class
+   *
+   * \param string $css
+   */ 
   public function setCssClass($css)
   {
     $this->cssclass= $css;
   }
 
-
+  /*!
+   * \brief Set header
+   *
+   * \param array $header
+   */ 
   public function setHeader($header)
   {
     $this->header= $header;
   }
 
-
+  /*!
+   * \brief Set a colspecs
+   *
+   * \param array $specs
+   */ 
   public function setColspecs($specs)
   {
     $this->colspecs= $specs;
   }
 
-
+  /*!
+   * \brief Render
+   */ 
   public function render()
   {
       $result= "<div class='sortableListContainer' id='scroll_".$this->id."' style='min-width:".$this->width.";height: ".$this->height."'>\n";
@@ -353,7 +432,9 @@ class sortableListing {
     return $result;
   }
 
-
+  /*!
+   * \brief Update sortableListing
+   */ 
   public function update()
   {
 
@@ -380,7 +461,9 @@ class sortableListing {
     }
   }
 
-
+  /*!
+   * \brief Save an object
+   */ 
   public function save_object()
   {
     // Do not do anything if this is not our PID, or there's even no PID available...
@@ -453,7 +536,9 @@ class sortableListing {
     }
   }
 
-
+  /*!
+   * \brief Get action
+   */ 
   public function getAction()
   {
     // Do not do anything if we're not posted
@@ -472,7 +557,11 @@ class sortableListing {
     return $result;
   }
 
-
+  /*!
+   * \brief Delete an entry
+   *
+   * \param $id Entry identifier 
+   */ 
   private function deleteEntry($id)
   {
     // Remove mapping
@@ -484,7 +573,9 @@ class sortableListing {
     }
   }
 
-
+  /*!
+   * \brief GEt maintained data
+   */ 
   public function getMaintainedData()
   {
     $tmp= array();
@@ -495,19 +586,29 @@ class sortableListing {
     return $tmp;
   }
 
-
+  /*!
+   * \brief Chech if is modified
+   *
+   * \return TRUE if is modified, return FALSE otherwise
+   */ 
   public function isModified()
   {
     return $this->modified;
   }
 
-
+  /*!
+   * \brief Set a acl value
+   *
+   * \param string $acl
+   */ 
   public function setAcl($acl)
   {
     $this->acl= $acl;
   }
 
-
+  /*!
+   * \brief Sort the data
+   */ 
   public function sortData()
   {
     if(!count($this->data)) return;
@@ -536,7 +637,15 @@ class sortableListing {
     }
   }
 
-
+  /*!
+   * \brief Add entry
+   *
+   * \param $entry The new entry
+   *
+   * \param $displayEntry null
+   *
+   * \param $key null
+   */ 
   public function addEntry($entry, $displayEntry= null, $key= null)
   {
     // Only add if not already there
@@ -588,11 +697,20 @@ class sortableListing {
     $this->sortData();
   }
 
-
+  /*!
+   * \brief Get the key
+   *
+   * \param string $index
+   */ 
   public function getKey($index) {
     return isset($this->keys[$index])?$this->keys[$index]:null;
   }
 
+  /*!
+   * \brief Get data
+   *
+   * \param string $index
+   */ 
   public function getData($index) {
     $realkey = $this->keys[$index];
     return($this->data[$realkey]);
