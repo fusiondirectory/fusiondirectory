@@ -21,13 +21,15 @@
 */
 
 /*!
- * \file class_SnapShotDialog
+ * \file class_SnapShotDialog.inc
  * Source code for SnapShotDialog
  */ 
 
 /*!
  * \brief This class contains all the function needed to make dialogs
  * for the snapshot functionality
+ *
+ * \see plugin
  */
 class SnapShotDialog extends plugin
 {
