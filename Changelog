@@ -1,6 +1,138 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.3 
+
+[Feature] Improve the FusionDirectory API
+[Feature] Improve the FusionDirectory API
+[Fix] Change explication in Restoring object snapshots
+[Feature] added jeremy williame to authors
+[Feature] Adding a sasl password method
+[Fix] Spaces into response to prompt break the fusiondirectory setup command
+[Fix] Restoring snapshot isn't working anymore
+[Fix] Fusiondirectory-setup doesnt install the plugin-correctly from tar.gz
+[Feature] Use fusiondirectory-insert-schema to install others schema
+[Fix] Fusiondirectory-setup should not go into the contrib dir
+[Feature] Change color banner and go_logo
+[Feature] We should have a PHP CodeSniffer standard to check Guidelines respect
+[Fix] Rewrote the INSTALL document on how to install fusiondirectory from tar.gz
+[Fix] Remove the fusiondirectory-migrate-users program its has been merge into fusiondirectory-setup
+[Fix] Remove the debian centrics path into fusiondirectory-setup
+[Fix] Remove the debian centric dir in contrib/fusiondirectory-apache.conf
+[Fix] The fusiondirectory.conf contains all the service definition and other needed entries for all the plugins
+[Fix] The message explaining to use fusiondirectory-setup to fix classes loading is wrong
+[Fix] Removing non usefull menu text
+[Feature] Added the password recovery plugin into core
+[Fix] Create a new favicon for fusiondirectory
+[Fix] Lost password feature in Gosa - removing obsloleted code
+[Fix] The protocol of json rpc (http or https) should not be encoded in the code and be saved into the ldap
+[Fix] Incorrect include path in php_setup.inc file
+[Fix] Not enough memory for the PHP module
+[Fix] ACL to allow enabling / disabling of user accounts
+[Fix] Put all the docs togheter inside contrib/docs
+[Fix] Added cn generation parameter on install screen
+[Fix] Adding a default ou for netgroupRDN
+[Fix] PHP errors when asking logs on a new server
+[Fix] PHP error in password.tpl
+[Feature] Backported timeout seesion handler from GOsa 2.7
+[Fix] Inconsistency in coding guidelines
+[Feature] Backported locking user in color from GOsa 2.7
+[Fix] PHP errors in support Daemon
+[Fix] Error when gosaunittag not defined in ldap in class_supportDaemon.inc
+[Feature] fusiondirectory-setup parameters must be settable in command-line
+[Feature] Added migrate-repositories to fusiondirectory-setup will migrate network repos
+[Feature] Added --check-config to fusiondirectory-setup
+[Fix] Rewrote the mail collector
+[Fix] Removing the obsoleted and non maintened plugin for phpgw
+[Fix] Windows workstations are now in ou=computers by default
+[Fix] Removed the click trough gpl for fusiondirectory setup
+[Fix] In the objectgroup the filter for applications is missing in the select box
+[Fix] Added the missing passwordMethod::is_harmless in class_password.inc
+[Feature] Use the pam_check_host_attr feature when using the trust model
+[Fix] The selection filter for the samba plugins workstations in the user tab don't show windows pc
+[Fix] In object group we cannot select windows pc
+[Fix] Moved class from include/utils to include to be more consistant
+[Fix] Moved all xsd files into contrib
+[Fix] Removed obsolete function function set_acl() from class_tabs.inc
+[Fix] Removed leftover var from copypastehandler.inc
+[Fix] Removed non used function function saveFilter(, ) in functions.inc
+[Fix] Removed non used function function obj_is_readable(, , ) in functions.inc
+[Fix] Removed svn_version can be removed in functions.inc
+[Fix] Removed the goto-si code in function.inc
+[Fix] Removed get_gosa_version() and replaced by a static var in variables.inc
+[Fix] Changed the HTTP_GOSA_KEY to HTTP_FD_KEY
+[Fix] Removed obsoleted socket class for the old goto-si code
+[Fix] Renamed gosa_array_merge to fusiondirectory_array_merge
+[Fix] Renamed gosa_log to fusiondirectory_log
+[Fix] Changed session name from GOsa to FusionDirectory
+[Fix] Changed the name of extensions in error message from GOsa to FusionDirectory
+[Fix] Removed feedback step in setup
+[Fix] Removed the internet explorer 6 suppor for png
+[Fix] Removed fixed path from setup
+[Fix] Removed samba rid and sid from setup
+[Fix] Removed space in login user / password
+[Fix] Removed leftover of old mysql logging system
+[Fix] Incorrect description of posixGroup created
+[Fix] LDAP query failed : 'root object' is missing
+[Fix] Undefined variable: _SERVERREMOTE_ADDR
+[Fix] Bug when generating config with the wizard when snapshot not selected
+[Fix] Adding catalan support in fusiondirectory
+[Fix] jpegPhoto automatically changed/altered when updating user information
+[Fix] Removed the smarty plugins file from the include directory
+[Fix] Problem in fd setup when migrating from gosa2.6
+[Fix] The dns and logging services don't have the start/stop/restart button
+[Fix] The dhcp service misses the stop/start/restart button in the service view
+[Fix] Problem on Copy & paste wizard for a server or workstation
+[Fix] Remove show opsi based client from the code
+[Feature] Adding (Czech Republic) to the supported language
+[Fix] Gofon plugin is not structured correclty relating to directories
+[Fix] Gofax plugins dir are wrong
+[Feature] Putting supann into official plugins
+[Feature] Putting quota into official plugins
+[Feature] Putting openstack-compute into official plugins
+[Fix] The netgroup plugin doesnt have an icon in the list wiew
+[Feature] Putting an icon in the system list showing that there is an argonaut service presnt on this system
+[Fix] Renaming the netatalk plugin to netatalkAccount to be more in sync with other plugins
+[Feature] Making a client argonaut service
+[Feature] Adding support for custom release in fai Repository
+[Feature] Architectures should be in FAIrepository value
+[Fix] Moving all plugins systems files to /var/cache/fusiondirectory/<name of the plugin>/ 
+[Fix] Removed kerberos-heimdal leftover
+[Fix] When creating a terminal it yell at me that wake event doesnt exist
+[Fix] Remove all non needed readme in the plugins
+[Feature] An abstraction Layer is now used to connect to all database : MDB2
+[Feature] Button to launch ladp2bind from the DNS configuration page
+[Fix] Fai branch not created when adding a repository
+[Fix] Dhcp/Parent node on Winstation object not changeable
+[Fix] Package descriptions don't work if + in name
+[Fix] PHP errors in goto plugin
+[Fix] There is a problem when there is not an ntp server added to the workstations, the saving fails
+[Fix] Showing the log interface without log on a unsaved workstation
+[Fix] PHP errors in class_workstationService.inc
+[Fix] Error message when I click on the tab Deployment summary of a workstation
+[Fix] Wrong icon for Systems option on main FD interface
+[Fix] Removing the obsoleted and non maintened plugin for phpgw
+[Fix] Cleaning code for php 5.4
+[Fix] Removing obsoleted code from apache plugin
+[Fix] In applications remove the restriction for c:"
+[Fix] Removing the export xls from ldapmanager plugin
+[Fix] Remove goto-si code from class_termDns.inc
+[Fix] The plinfo fonction should always be the latest function in the .inc files
+[Fix] Update the datbase schema in gophon
+[Fix] Removing mail addons
+[Fix] Removing non maintened files for nagios 2.0
+[Fix] Removing contrib code we don't want to maintain and usefull only for a little amount of people
+[Fix] removing gosa.conf leftover, putting @fusiondirectory.org email address in examples
+[Fix] switched from tab to space in the code
+[Fix] Renamed gosa_array_merge to fusiondirectory_array_merge
+[Fix] Renamed gosa_log to fusiondirectory_log
+[Fix] Cleaning goto / systems plugins
+[Fix] Provided fusiondirectory dhcp schema modified without changing openldap OID
+[Fix] Invalid structural object class chain (account/person) in the samba plugin
+[Fix] dhcpHost not removed if system is removed
+[Fix] FSF address incorrect in source code and documentation files
+
+
 * FusionDirectory 1.0.2 
   - Removed old GOsa-si code
   - Added jsonrpc client library
