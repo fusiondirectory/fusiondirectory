@@ -1,23 +1,22 @@
-# translation of messages.po to Brazilian Portuguese
-# Copyright (C) 2009 Clever de Oliveira Jr. 
-# Copyright (C) 2011 FusionDirectory
-# This file is distributed under the same license as the FusionDirectory package.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
 # Clever de Oliveira Jr. <clever@dri.cefetmg.br>, 2009.
-#
 msgid ""
 msgstr ""
-"Project-Id-Version: messages-2.6.4-pt_BR\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-26 15:45+0200\n"
-"PO-Revision-Date: 2009-03-02 15:03-0300\n"
-"Last-Translator: Clever de Oliveira Jr. <clever@dri.cefetmg.br>\n"
-"Language-Team: Brazilian Portuguese <pt@li.org>\n"
-"Language: pt_BR\n"
+"Project-Id-Version: FusionDirectory\n"
+"Report-Msgid-Bugs-To: https://forge.fusiondirectory.org/projects/fd\n"
+"POT-Creation-Date: 2012-05-26 15:30+0200\n"
+"PO-Revision-Date: 2012-05-26 14:44+0000\n"
+"Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"Language: pt\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: html/main.php:145 html/class_passwordRecovery.php:217
 #: include/class_xml.inc:47 include/functions.inc:450
@@ -100,14 +99,12 @@ msgid ""
 msgstr ""
 
 #: html/class_passwordRecovery.php:107
-#, fuzzy
 msgid "Password recovery disabled"
-msgstr "Senha alterada"
+msgstr ""
 
 #: html/class_passwordRecovery.php:108
-#, fuzzy
 msgid "Error: Password recovery has been disabled!"
-msgstr "Erro: Método de senha não disponível!"
+msgstr ""
 
 #: html/class_passwordRecovery.php:124
 #: plugins/personal/generic/class_user.inc:594
@@ -119,9 +116,9 @@ msgid "Error: Password method not available!"
 msgstr "Erro: Método de senha não disponível!"
 
 #: html/class_passwordRecovery.php:218 html/index.php:146
-#, fuzzy, php-format
+#, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
-msgstr "A configuração FusionDirectory %s/%s não pôde ser lida. Abortado."
+msgstr ""
 
 #: html/class_passwordRecovery.php:291 html/setup.php:63 html/index.php:167
 #, php-format
@@ -134,8 +131,7 @@ msgstr ""
 msgid ""
 "The passwords you've entered as 'New password' and 'Repeated new password' "
 "do not match."
-msgstr ""
-"A senha digitada nos campos 'Nova senha' e 'Repita nova senha' não conferem."
+msgstr "A senha digitada nos campos 'Nova senha' e 'Repita nova senha' não conferem."
 
 #: html/class_passwordRecovery.php:397 ihtml/themes/default/password.tpl:81
 #: ihtml/themes/default/password.tpl:82
@@ -199,9 +195,8 @@ msgid "Found multiple accounts %s"
 msgstr ""
 
 #: html/class_passwordRecovery.php:487 ihtml/themes/default/recovery.tpl:140
-#, fuzzy
 msgid "Adresse mail"
-msgstr "Endereço"
+msgstr ""
 
 #: html/class_passwordRecovery.php:499
 #, php-format
@@ -266,9 +261,8 @@ msgid "Contact your administrator, there was a problem with mail server"
 msgstr ""
 
 #: html/class_passwordRecovery.php:559
-#, fuzzy
 msgid "This token is invalid"
-msgstr "O comando '%s' é inválido!"
+msgstr ""
 
 #: html/class_passwordRecovery.php:597
 msgid "External password changer reported a problem: "
@@ -392,9 +386,7 @@ msgstr ""
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
-msgstr ""
-"Seu navegador está com suporte a cookies desabilitado. Por favor, habilite-o "
-"e recarregue essa página antes de entrar!"
+msgstr "Seu navegador está com suporte a cookies desabilitado. Por favor, habilite-o e recarregue essa página antes de entrar!"
 
 #: ihtml/themes/default/conflict.tpl:2
 msgid "Session conflict detected"
@@ -404,14 +396,14 @@ msgstr "Conflito de sessão detectado"
 msgid ""
 "Probably there's another active instance of your session. Multiple window "
 "operation is technical not possible and heavily depends on the browser "
-"you're using. Usage of different browsers at a time (i.e. IE and Mozilla) is "
-"possible. Pressing the Logout button will close this session."
+"you're using. Usage of different browsers at a time (i.e. IE and Mozilla) is"
+" possible. Pressing the Logout button will close this session."
 msgstr ""
 
 #: ihtml/themes/default/conflict.tpl:10
 msgid ""
-"Ignoring this message will change/destroy the data you're currently editing, "
-"so please close multiple windows and log in again."
+"Ignoring this message will change/destroy the data you're currently editing,"
+" so please close multiple windows and log in again."
 msgstr ""
 
 #: ihtml/themes/default/conflict.tpl:14
@@ -427,10 +419,7 @@ msgid ""
 "If this lock detection is false, the other person has obviously closed the "
 "webbrowser during the edit operation. You may want to take over the lock by "
 "pressing the 'Edit anyway' button."
-msgstr ""
-"Se esta detecção for falsa, um usuário pode ter fechado o navegador durante "
-"a operação de edição. Você pode destravar pressionando o botão 'Editar mesmo "
-"assim'."
+msgstr "Se esta detecção for falsa, um usuário pode ter fechado o navegador durante a operação de edição. Você pode destravar pressionando o botão 'Editar mesmo assim'."
 
 #: ihtml/themes/default/islocked.tpl:16
 msgid "Read only"
@@ -525,9 +514,8 @@ msgid "Continue"
 msgstr "Continuar"
 
 #: ihtml/themes/default/logout-close.tpl:5
-#, fuzzy
 msgid "Your FusionDirectory session has been closed!"
-msgstr "Sua sessão do FusionDirectory expirou!"
+msgstr ""
 
 #: ihtml/themes/default/logout-close.tpl:7
 msgid ""
@@ -557,8 +545,8 @@ msgstr "Senha"
 
 #: ihtml/themes/default/password.tpl:52
 msgid ""
-"This dialog provides a simple way to change your password. Enter the current "
-"password and the new password (twice) in the fields below and press the "
+"This dialog provides a simple way to change your password. Enter the current"
+" password and the new password (twice) in the fields below and press the "
 "'Change' button."
 msgstr ""
 
@@ -645,22 +633,16 @@ msgid "Click here to log in"
 msgstr "Clique aqui para logar"
 
 #: ihtml/themes/default/remove.tpl:6
-#, fuzzy
 msgid ""
 "This may be used by several groups. Please double check if your really want "
 "to do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
-"Ele pode ser o grupo primário de um usuário. Por favor, tenha certeza se "
-"realmente quer fazer isso, pois o FusionDirectory não possui uma forma para "
-"restaurar seus dados anteriores."
 
 #: ihtml/themes/default/remove.tpl:9 plugins/admin/acl/remove.tpl:10
 #: plugins/admin/users/remove.tpl:10 plugins/admin/groups/remove.tpl:10
 #: plugins/admin/ogroups/remove.tpl:10
 msgid "So - if you're sure - press 'Delete' to continue or 'Cancel' to abort."
-msgstr ""
-"Então, se você tem certeza, pressione 'Deletar' para continuar ou 'Cancelar' "
-"para abortar."
+msgstr "Então, se você tem certeza, pressione 'Deletar' para continuar ou 'Cancelar' para abortar."
 
 #: ihtml/themes/default/acl.tpl:7 plugins/admin/acl/acl_role.tpl:3
 msgid "Assigned ACL for current entry"
@@ -733,9 +715,7 @@ msgstr ""
 msgid ""
 "You are currently editing a database entry. Do you want to dismiss the "
 "changes?"
-msgstr ""
-"Você esta atualmente editando uma entrada na base de dados. Você quer perder "
-"as alterações realizadas?"
+msgstr "Você esta atualmente editando uma entrada na base de dados. Você quer perder as alterações realizadas?"
 
 #: ihtml/themes/default/framework.tpl:8 ihtml/themes/default/framework.tpl:11
 msgid "Main"
@@ -750,9 +730,9 @@ msgid "Signed in:"
 msgstr "Logado:"
 
 #: ihtml/themes/default/framework.tpl:32
-#, fuzzy, php-format
+#, php-format
 msgid "Session expires in %d!"
-msgstr "Senha expira em"
+msgstr ""
 
 #: ihtml/themes/default/framework.tpl:37
 msgid "FusionDirectory main menu"
@@ -786,9 +766,9 @@ msgstr "Ok"
 
 #: ihtml/themes/default/sizelimit.tpl:3
 msgid ""
-"The size limit option makes LDAP operations faster and saves the LDAP server "
-"from getting too much load. The easiest way to handle big databases without "
-"long timeouts would be to limit your search to smaller values and use "
+"The size limit option makes LDAP operations faster and saves the LDAP server"
+" from getting too much load. The easiest way to handle big databases without"
+" long timeouts would be to limit your search to smaller values and use "
 "filters to get the entries you are looking for."
 msgstr ""
 
@@ -851,9 +831,8 @@ msgid "Finish"
 msgstr "Finalizar"
 
 #: ihtml/themes/default/logout.tpl:5
-#, fuzzy
 msgid "Your FusionDirectory session has expired!"
-msgstr "Sua sessão do FusionDirectory expirou!"
+msgstr ""
 
 #: ihtml/themes/default/logout.tpl:7
 msgid ""
@@ -867,19 +846,16 @@ msgid "Sign in again"
 msgstr "Entrar novamente"
 
 #: ihtml/themes/default/recovery.tpl:10
-#, fuzzy
 msgid "FusionDirectory password recovery"
-msgstr "Visualizador de ajuda do FusionDirectory"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:26
-#, fuzzy
 msgid "Lost password"
-msgstr "Definir a senha"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:44
-#, fuzzy
 msgid "Available methods"
-msgstr "Método de correio"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:47
 msgid "Receive by email a link that allows you to reset your password"
@@ -890,14 +866,13 @@ msgid "Send"
 msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:49
-#, fuzzy
 msgid "Click here to send a reset link"
-msgstr "Clique aqui para logar"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:58
 msgid ""
-"If none of the above methods suits you, contact your administrator to change "
-"your password"
+"If none of the above methods suits you, contact your administrator to change"
+" your password"
 msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:70
@@ -933,8 +908,8 @@ msgstr ""
 #: setup/setup_language.tpl:5
 msgid ""
 "At this point, you can select the site wide default language. Choosing "
-"'automatic' will use the language requested by the browser. This setting can "
-"be overriden per user."
+"'automatic' will use the language requested by the browser. This setting can"
+" be overriden per user."
 msgstr ""
 
 #: setup/setup_language.tpl:9
@@ -1075,8 +1050,8 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:208
 msgid ""
-"In Order to use FusionDirectory without any trouble, the session."
-"auto_register option in your php.ini should be set to 'Off'."
+"In Order to use FusionDirectory without any trouble, the "
+"session.auto_register option in your php.ini should be set to 'Off'."
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:209
@@ -1110,7 +1085,8 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:233
 msgid ""
-"Search for 'max_execution_time' in your php.ini and set it to '30' or higher."
+"Search for 'max_execution_time' in your php.ini and set it to '30' or "
+"higher."
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:240
@@ -1129,7 +1105,8 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:249
 msgid ""
-"Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'."
+"Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to "
+"'Off'."
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:259
@@ -1169,8 +1146,8 @@ msgstr ""
 
 #: setup/setup_schema.tpl:31
 msgid ""
-"Could not read any schema informations, all checks skipped. Adjust your ldap "
-"acls."
+"Could not read any schema informations, all checks skipped. Adjust your ldap"
+" acls."
 msgstr ""
 
 #: setup/setup_schema.tpl:35
@@ -1818,8 +1795,8 @@ msgstr ""
 
 #: setup/setup_feedback.tpl:50
 msgid ""
-"When checking this option, FusionDirectory will try to connect http://www."
-"fusiondirectory.org in order to submit your form anonymously."
+"When checking this option, FusionDirectory will try to connect "
+"http://www.fusiondirectory.org in order to submit your form anonymously."
 msgstr ""
 
 #: setup/setup_feedback.tpl:52
@@ -1891,7 +1868,8 @@ msgid "What features of FusionDirectory do you use?"
 msgstr ""
 
 #: setup/setup_feedback.tpl:150
-msgid "What features do you want to see in future versions of FusionDirectory?"
+msgid ""
+"What features do you want to see in future versions of FusionDirectory?"
 msgstr ""
 
 #: setup/setup_feedback.tpl:157
@@ -1900,8 +1878,8 @@ msgstr ""
 
 #: setup/setup_migrate.tpl:5
 msgid ""
-"During the LDAP inspection, we're going to check for several common pitfalls "
-"that may occur when migration to FusionDirectory base LDAP administration. "
+"During the LDAP inspection, we're going to check for several common pitfalls"
+" that may occur when migration to FusionDirectory base LDAP administration. "
 "You may want to fix the problems below, in order to provide smooth services."
 msgstr ""
 
@@ -2096,9 +2074,9 @@ msgstr ""
 
 #: setup/setup_migrate.tpl:444
 msgid ""
-"The listed devices are currently invisible in the FusionDirectory interface. "
-"If you want to change this for a couple of devices, just select them and use "
-"the 'Migrate' button below."
+"The listed devices are currently invisible in the FusionDirectory interface."
+" If you want to change this for a couple of devices, just select them and "
+"use the 'Migrate' button below."
 msgstr ""
 
 #: setup/setup_migrate.tpl:470 setup/setup_migrate.tpl:513
@@ -2118,8 +2096,8 @@ msgstr ""
 #: setup/setup_migrate.tpl:532
 msgid ""
 "The listed menus are currently invisible in the FusionDirectory interface. "
-"If you want to change this for a couple of devices, just select them and use "
-"the 'Migrate' button below."
+"If you want to change this for a couple of devices, just select them and use"
+" the 'Migrate' button below."
 msgstr ""
 
 #: setup/class_setupStep_Welcome.inc:38
@@ -2411,7 +2389,8 @@ msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1032
 msgid ""
-"There is no valid FusionDirectory 1.0 administrator account inside your LDAP."
+"There is no valid FusionDirectory 1.0 administrator account inside your "
+"LDAP."
 msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1034
@@ -2522,9 +2501,8 @@ msgid "Missing FusionDirectory object class '%s'!"
 msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:2058
-#, fuzzy
 msgid "Please check your installation."
-msgstr "Por favor, verifique a combinação usuário / senha"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:2079
 #, php-format
@@ -2589,8 +2567,8 @@ msgstr ""
 #: include/class_config.inc:1132 include/class_config.inc:1163
 #, php-format
 msgid ""
-"The snapshot functionality is enabled, but the required variable '%s' is not "
-"set."
+"The snapshot functionality is enabled, but the required variable '%s' is not"
+" set."
 msgstr ""
 
 #: include/class_SnapshotHandler.inc:61 include/class_config.inc:1145
@@ -2609,9 +2587,8 @@ msgid "PDF"
 msgstr ""
 
 #: include/exporter/class_PDF.inc:44
-#, fuzzy
 msgid "Page"
-msgstr "Pager"
+msgstr ""
 
 #: include/exporter/class_cvsExporter.inc:71
 msgid "CSV"
@@ -2623,9 +2600,7 @@ msgstr "Todos os objetos nessa categoria"
 
 #: include/class_pluglist.inc:188
 msgid "The configuration format has changed. Please re-run setup!"
-msgstr ""
-"O formato da configuração foi alterado. Por favor, execute novamente o "
-"configurador!"
+msgstr "O formato da configuração foi alterado. Por favor, execute novamente o configurador!"
 
 #: include/class_pluglist.inc:207 include/class_pluglist.inc:208
 #: include/class_pluglist.inc:321
@@ -2636,19 +2611,16 @@ msgid "Unknown"
 msgstr "Desconhecido"
 
 #: include/class_xml.inc:52
-#, fuzzy
 msgid "in"
-msgstr "Principal"
+msgstr ""
 
 #: include/class_xml.inc:54
-#, fuzzy
 msgid "on line"
-msgstr "Continuar"
+msgstr ""
 
 #: include/class_xml.inc:55
-#, fuzzy
 msgid "XML error"
-msgstr "Erro de LDAP"
+msgstr ""
 
 #: include/class_tabs.inc:57
 #, php-format
@@ -2681,9 +2653,8 @@ msgid "unconfigured"
 msgstr "desconfigurado"
 
 #: include/class_management.inc:149
-#, fuzzy
 msgid "Filter error"
-msgstr "Erro interno"
+msgstr ""
 
 #: include/class_management.inc:149
 msgid "The filter is incomplete!"
@@ -2839,9 +2810,8 @@ msgid "Cannot write to revision file!"
 msgstr ""
 
 #: include/functions.inc:2544
-#, fuzzy
 msgid "Cannot read to revision file!"
-msgstr "Não foi possível atribuir permissão para '%s'"
+msgstr ""
 
 #: include/functions.inc:2731 include/functions.inc:2735
 #: include/functions.inc:2741
@@ -3016,9 +2986,8 @@ msgid "Down"
 msgstr "Para baixo"
 
 #: include/class_listing.inc:514
-#, fuzzy
 msgid "created by"
-msgstr "Criar"
+msgstr ""
 
 #: include/class_listing.inc:996
 msgid "Go to root department"
@@ -3156,9 +3125,7 @@ msgstr "Erro de XML no fusiondirectory.conf: %s na linha %d"
 
 #: include/class_config.inc:341
 msgid "Cannot bind to LDAP. Please contact the system administrator."
-msgstr ""
-"Não foi possível realizar bind para o LDAP. Por favor, contacte o "
-"administrador do sistema."
+msgstr "Não foi possível realizar bind para o LDAP. Por favor, contacte o administrador do sistema."
 
 #: include/class_config.inc:687
 msgid "sambaSID and/or sambaRidBase missing in the configuration!"
@@ -3215,8 +3182,8 @@ msgstr ""
 
 #: include/class_plugin.inc:531
 msgid ""
-"The object has changed since opened in FusionDirectory. All changes that may "
-"be done by others get lost if you save this entry!"
+"The object has changed since opened in FusionDirectory. All changes that may"
+" be done by others get lost if you save this entry!"
 msgstr ""
 
 #: include/class_plugin.inc:1961
@@ -3289,9 +3256,7 @@ msgstr ""
 msgid ""
 "The timezone setting '%s' in your fusiondirectory.conf is not valid. Cannot "
 "calculate correct timezone offset."
-msgstr ""
-"A configuração do fuso horário '%s' no fusiondirectory.conf não é válida. "
-"Não foi possível calcular o intervalo do fuso horário corretamente."
+msgstr "A configuração do fuso horário '%s' no fusiondirectory.conf não é válida. Não foi possível calcular o intervalo do fuso horário corretamente."
 
 #: include/class_certificate.inc:76
 msgid "Certificate is empty!"
@@ -3325,9 +3290,9 @@ msgstr "Gerenciar listas de controle de acesso"
 
 #: include/class_acl.inc:122 include/class_acl.inc:583
 #: include/class_acl.inc:1011
-#, fuzzy, php-format
+#, php-format
 msgid "All users"
-msgstr "Usuários"
+msgstr ""
 
 #: include/class_acl.inc:216 plugins/admin/acl/class_aclRole.inc:127
 msgid "All categories"
@@ -3443,9 +3408,8 @@ msgid "inactive"
 msgstr ""
 
 #: include/class_acl.inc:1098
-#, fuzzy
 msgid "No members"
-msgstr "Membros do grupo"
+msgstr ""
 
 #: include/class_acl.inc:1268
 msgid "Access control list"
@@ -3479,22 +3443,18 @@ msgstr "Alerta de performance"
 #: include/class_ldap.inc:249 include/class_ldap.inc:282
 #, php-format
 msgid "LDAP performance is poor: last query took about %.2fs!"
-msgstr ""
-"A performance do LDAP está ruim: a última pesquisa levou cerca de %.2fs!"
+msgstr "A performance do LDAP está ruim: a última pesquisa levou cerca de %.2fs!"
 
 #: include/class_ldap.inc:711
 #, php-format
 msgid ""
 "Cannot automatically create subtrees with RDN '%s': no object class found!"
-msgstr ""
-"Não foi possível criar subárvores automaticamente com RDN '%s': classe de "
-"objeto não encontrada!"
+msgstr "Não foi possível criar subárvores automaticamente com RDN '%s': classe de objeto não encontrada!"
 
 #: include/class_ldap.inc:762
 #, php-format
 msgid "Cannot automatically create subtrees with RDN '%s': not supported"
-msgstr ""
-"Não foi possível criar subárvores automaticamente com '%s': não suportado"
+msgstr "Não foi possível criar subárvores automaticamente com '%s': não suportado"
 
 #: include/class_ldap.inc:849
 #, php-format
@@ -3514,17 +3474,15 @@ msgstr ""
 #: include/class_ldap.inc:1048
 #, php-format
 msgid ""
-"This is not a valid DN: '%s'. A block for import should begin with 'dn: ...' "
-"in line %s"
-msgstr ""
-"Esse não é um DN válido: '%s'. O bloco para importação deve iniciar com "
-"'dn: ...' na linha %s"
+"This is not a valid DN: '%s'. A block for import should begin with 'dn: ...'"
+" in line %s"
+msgstr "Esse não é um DN válido: '%s'. O bloco para importação deve iniciar com 'dn: ...' na linha %s"
 
 #: include/class_ldap.inc:1077
 #, php-format
-msgid "Error while importing dn: '%s', please check your LDIF from line %s on!"
-msgstr ""
-"Erro enquanto importava dn: '%s', por favor, verifique seu LDIF na linha %s!"
+msgid ""
+"Error while importing dn: '%s', please check your LDIF from line %s on!"
+msgstr "Erro enquanto importava dn: '%s', por favor, verifique seu LDIF na linha %s!"
 
 #: include/php_setup.inc:99
 msgid "Generating this page caused the PHP interpreter to raise some errors!"
@@ -3879,20 +3837,22 @@ msgstr ""
 #: include/class_msgPool.inc:410
 #, php-format
 msgid ""
-"This account has %s settings enabled. You can disable them by clicking below."
+"This account has %s settings enabled. You can disable them by clicking "
+"below."
 msgstr ""
 
 #: include/class_msgPool.inc:413 include/class_msgPool.inc:420
 #, php-format
 msgid ""
-"This account has %s settings enabled. To disable them, you'll need to remove "
-"the %s settings first!"
+"This account has %s settings enabled. To disable them, you'll need to remove"
+" the %s settings first!"
 msgstr ""
 
 #: include/class_msgPool.inc:429
 #, php-format
 msgid ""
-"This account has %s settings disabled. You can enable them by clicking below."
+"This account has %s settings disabled. You can enable them by clicking "
+"below."
 msgstr ""
 
 #: include/class_msgPool.inc:432 include/class_msgPool.inc:439
@@ -4151,34 +4111,27 @@ msgstr "Papel"
 #: plugins/admin/ogroups/ogroup-filter.tpl:3
 #: plugins/personal/posix/trustSelect/trust-filter.tpl:3
 #: plugins/personal/posix/groupSelect/group-filter.tpl:3
-#, fuzzy
 msgid "Filter"
-msgstr "Filtros"
+msgstr ""
 
 #: plugins/admin/acl/acl-filter.tpl:11
-#, fuzzy
 msgid "Show access control lists"
-msgstr "Lista de controle de acesso"
+msgstr ""
 
 #: plugins/admin/acl/acl-filter.tpl:12
-#, fuzzy
 msgid "Show roles"
-msgstr "Modelos"
+msgstr ""
 
 #: plugins/admin/acl/tabs_acl_role.inc:28
 msgid "ACL Templates"
 msgstr ""
 
 #: plugins/admin/acl/remove.tpl:6 plugins/admin/users/remove.tpl:6
-#, fuzzy
 msgid ""
-"This includes all account data, system access rules, imap settings, etc. for "
-"this user. Please double check if your really want to do this since there is "
-"no way for FusionDirectory to get your data back."
+"This includes all account data, system access rules, imap settings, etc. for"
+" this user. Please double check if your really want to do this since there "
+"is no way for FusionDirectory to get your data back."
 msgstr ""
-"Isso inclui, para este usuário, todos os dados da conta, regras de acesso, "
-"configurações imap e etc. Por favor, tenha certeza se quer realmente fazer "
-"isso, pois o FusionDirectory não tem como recuperar seus dados anteriores."
 
 #: plugins/admin/acl/class_aclManagement.inc:154
 msgid "ACL Assignment"
@@ -4237,19 +4190,14 @@ msgid ""
 "To change the user password use the fields below. The changes take effect "
 "immediately. Please memorize the new password, because the user wouldn't be "
 "able to login without it."
-msgstr ""
-"Para alterar a senha do usuário utilize os campos abaixo. As alterações "
-"surtem efeito imediatamente. Por favor, memorize a nova senha porque o "
-"usuário não será capaz de acessar o sistema sem ela."
+msgstr "Para alterar a senha do usuário utilize os campos abaixo. As alterações surtem efeito imediatamente. Por favor, memorize a nova senha porque o usuário não será capaz de acessar o sistema sem ela."
 
 #: plugins/admin/users/password.tpl:8 plugins/personal/password/password.tpl:8
 #: plugins/personal/generic/password.tpl:8
 msgid ""
 "Changing the password affects your authentification on mail, proxy, samba "
 "and unix services."
-msgstr ""
-"Alteração de senha afeta a autenticação dos serviços de correio, proxy, "
-"samba e unix."
+msgstr "Alteração de senha afeta a autenticação dos serviços de correio, proxy, samba e unix."
 
 #: plugins/admin/users/password.tpl:21 plugins/admin/users/password.tpl:64
 #: plugins/personal/password/password.tpl:32
@@ -4264,9 +4212,8 @@ msgid "Strength"
 msgstr ""
 
 #: plugins/admin/users/password.tpl:35
-#, fuzzy
 msgid "Password input dialog"
-msgstr "Armazenamento da senha"
+msgstr ""
 
 #: plugins/admin/users/password.tpl:39
 #: plugins/personal/password/password.tpl:56
@@ -4277,14 +4224,12 @@ msgstr ""
 #: plugins/admin/users/password.tpl:56
 #: plugins/personal/password/password.tpl:74
 #: plugins/personal/generic/password.tpl:68
-#, fuzzy
 msgid "Manually specify a password"
-msgstr "Por favor, especifique sua senha!"
+msgstr ""
 
 #: plugins/admin/users/password.tpl:84
-#, fuzzy
 msgid "Enforce password change on next login."
-msgstr "Alteração de senha não permitida"
+msgstr ""
 
 #: plugins/admin/users/password.tpl:91
 #: plugins/personal/password/password.tpl:101
@@ -4301,10 +4246,7 @@ msgid ""
 "Creating a new user can be assisted by using templates. Many database "
 "records will be filled automatically. Choose 'none' to skip the usage of "
 "templates."
-msgstr ""
-"A criação de usuários pode ser assistida pelo uso de modelos. Muitos campos "
-"podem ser preenchidos automaticamente. Escolha 'nenhum' para não utilizar "
-"modelos."
+msgstr "A criação de usuários pode ser assistida pelo uso de modelos. Muitos campos podem ser preenchidos automaticamente. Escolha 'nenhum' para não utilizar modelos."
 
 #: plugins/admin/users/template.tpl:15
 #: plugins/admin/users/class_userManagement.inc:560
@@ -4388,14 +4330,12 @@ msgid ""
 msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:881
-#, fuzzy
 msgid "Unlock account"
-msgstr "Minha conta"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:883
-#, fuzzy
 msgid "Lock account"
-msgstr "Minha conta"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:896
 msgid "Edit generic properties"
@@ -4410,9 +4350,8 @@ msgid "POSIX"
 msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:900
-#, fuzzy
 msgid "Edit POSIX properties"
-msgstr "Editar propriedades UNIX"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:904
 #: plugins/admin/groups/class_groupManagement.inc:165
@@ -4463,9 +4402,8 @@ msgid "FAX"
 msgstr "FAX"
 
 #: plugins/admin/users/class_userManagement.inc:920
-#, fuzzy
 msgid "Edit FAX properties"
-msgstr "Editar propriedades UNIX"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:923
 #: plugins/admin/groups/class_groupManagement.inc:180
@@ -4504,9 +4442,8 @@ msgid "No templates available!"
 msgstr ""
 
 #: plugins/admin/users/user-filter.tpl:11
-#, fuzzy
 msgid "Show templates"
-msgstr "Modelos"
+msgstr ""
 
 #: plugins/admin/users/user-filter.tpl:12
 msgid "Show functional users"
@@ -4517,14 +4454,12 @@ msgid "Show POSIX users"
 msgstr ""
 
 #: plugins/admin/users/user-filter.tpl:14
-#, fuzzy
 msgid "Show Mail users"
-msgstr "Usuários do domínio"
+msgstr ""
 
 #: plugins/admin/users/user-filter.tpl:15
-#, fuzzy
 msgid "Show Samba users"
-msgstr "Usuários do domínio"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:11
 msgid "List of users"
@@ -4549,14 +4484,12 @@ msgid "Properties"
 msgstr "Propriedades"
 
 #: plugins/admin/users/user-list.xml:141
-#, fuzzy
 msgid "Lock users"
-msgstr "Lista de usuários"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:149
-#, fuzzy
 msgid "Unlock users"
-msgstr "Minha conta"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:157
 #: plugins/admin/groups/group-list.xml:123
@@ -4569,39 +4502,33 @@ msgid "Apply template"
 msgstr ""
 
 #: plugins/admin/users/user-list.xml:200
-#, fuzzy
 msgid "New user from template"
-msgstr "Criar usuário do modelo"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:214
-#, fuzzy
 msgid "Edit user"
-msgstr "Editar esta entrada"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:223
 msgid "%{filter:lockLabel(userPassword)}"
 msgstr ""
 
 #: plugins/admin/users/user-list.xml:247
-#, fuzzy
 msgid "Remove user"
-msgstr "Remover foto"
+msgstr ""
 
 #: plugins/admin/password/main.inc:61
 #: plugins/admin/password/class_recoveryConfig.inc:66
-#, fuzzy
 msgid "Password recovery settings"
-msgstr "Configurações de senha"
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:25
-#, fuzzy
 msgid "Password recovery"
-msgstr "Senha alterada"
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:26
-#, fuzzy
 msgid "Manage password recovery settings"
-msgstr "Configurações de senha"
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:60
 msgid "[FusionDirectory] Password recovery link"
@@ -4624,47 +4551,39 @@ msgid "[FusionDirectory] Password recovery successful"
 msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:63
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "Hello,\n"
 "\n"
 "Your password has been changed.\n"
 "Your login is still %s."
-msgstr "Sua senha foi alterada com sucesso."
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:132
 #: plugins/admin/password/class_recoveryConfig.inc:133
-#, fuzzy
 msgid "Password recovery config"
-msgstr "Senha expira em"
+msgstr ""
 
 #: plugins/admin/groups/group-filter.tpl:11
 #: plugins/personal/posix/groupSelect/group-filter.tpl:11
-#, fuzzy
 msgid "Show primary groups"
-msgstr "Grupo primário"
+msgstr ""
 
 #: plugins/admin/groups/group-filter.tpl:12
 #: plugins/personal/posix/groupSelect/group-filter.tpl:12
-#, fuzzy
 msgid "Show samba groups"
-msgstr "Usuários do domínio"
+msgstr ""
 
 #: plugins/admin/groups/group-filter.tpl:13
 #: plugins/personal/posix/groupSelect/group-filter.tpl:13
-#, fuzzy
 msgid "Show mail groups"
-msgstr "Usuários do domínio"
+msgstr ""
 
 #: plugins/admin/groups/remove.tpl:6
-#, fuzzy
 msgid ""
 "This may be a primary user group. Please double check if you really want to "
 "do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
-"Ele pode ser o grupo primário de um usuário. Por favor, tenha certeza se "
-"realmente quer fazer isso, pois o FusionDirectory não possui uma forma para "
-"restaurar seus dados anteriores."
 
 #: plugins/admin/groups/trust_machines.tpl:6
 #: plugins/admin/ogroups/trust_machines.tpl:6
@@ -4793,9 +4712,8 @@ msgid "Add UID '%s' to group '%s' failed: UID is used more than once!"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:628
-#, fuzzy
 msgid "! unknown UID"
-msgstr "! id desconhecido"
+msgstr ""
 
 #: plugins/admin/groups/class_group.inc:671
 #, php-format
@@ -4873,24 +4791,20 @@ msgid "Group"
 msgstr ""
 
 #: plugins/admin/groups/group-list.xml:23
-#, fuzzy
 msgid "Group submenu entry"
-msgstr "Membros do grupo"
+msgstr ""
 
 #: plugins/admin/groups/group-list.xml:31
-#, fuzzy
 msgid "Group menu entry"
-msgstr "Membros do grupo"
+msgstr ""
 
 #: plugins/admin/groups/group-list.xml:155
-#, fuzzy
 msgid "Edit group"
-msgstr "Lista dos grupos"
+msgstr ""
 
 #: plugins/admin/groups/group-list.xml:168
-#, fuzzy
 msgid "Remove group"
-msgstr "Remover foto"
+msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:26
 msgid "Group administration"
@@ -4903,9 +4817,8 @@ msgstr "Posix"
 
 #: plugins/admin/groups/class_groupManagement.inc:157
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:63
-#, fuzzy
 msgid "Edit posix properties"
-msgstr "Editar propriedades de telefone"
+msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:188
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:94
@@ -4914,9 +4827,8 @@ msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:189
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:95
-#, fuzzy
 msgid "Edit start menu properties"
-msgstr "Editar propriedades do samba"
+msgstr ""
 
 #: plugins/admin/groups/generic.tpl:14 plugins/personal/generic/generic.tpl:54
 #: plugins/personal/generic/generic.tpl:75
@@ -4964,15 +4876,13 @@ msgstr ""
 
 #: plugins/admin/groups/userGroupSelect/selectUserGroup-filter.tpl:11
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:12
-#, fuzzy
 msgid "Show users"
-msgstr "Servidores"
+msgstr ""
 
 #: plugins/admin/groups/userGroupSelect/selectUserGroup-filter.tpl:12
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:13
-#, fuzzy
 msgid "Show groups"
-msgstr "Usuários do domínio"
+msgstr ""
 
 #: plugins/admin/departments/class_localityGeneric.inc:82
 #: plugins/admin/departments/class_localityGeneric.inc:83
@@ -5009,9 +4919,8 @@ msgstr "Localização"
 #: plugins/personal/generic/class_user.inc:1659
 #: plugins/personal/generic/generic.tpl:342
 #: plugins/personal/generic/generic.tpl:363
-#, fuzzy
 msgid "Manager"
-msgstr "Pager"
+msgstr ""
 
 #: plugins/admin/departments/class_localityGeneric.inc:95
 #: plugins/admin/departments/class_dcObject.inc:94
@@ -5093,34 +5002,26 @@ msgid ""
 msgstr ""
 
 #: plugins/admin/departments/domain.tpl:11
-#, fuzzy
 msgid "Domain name"
-msgstr "Administradores do domínio"
+msgstr ""
 
 #: plugins/admin/departments/domain.tpl:14
 msgid "Name of domain to create"
 msgstr ""
 
 #: plugins/admin/departments/remove.tpl:6
-#, fuzzy
 msgid ""
 "This includes 'all' accounts, systems, etc. in this subtree. Please double "
 "check if your really want to do this since there is no way for "
 "FusionDirectory to get your data back."
 msgstr ""
-"Isso inclui, para este usuário, todos os dados da conta, regras de acesso, "
-"configurações imap e etc. Por favor, tenha certeza se quer realmente fazer "
-"isso, pois o FusionDirectory não tem como recuperar seus dados anteriores."
 
 #: plugins/admin/departments/remove.tpl:10
 msgid ""
 "Best thing to do before performing this action would be to save the current "
 "contents of your LDAP tree in a file. So - if you've done so - press "
 "'Delete' to continue or 'Cancel' to abort."
-msgstr ""
-"O melhor que se tem a fazer antes de realizar esta ação é salvar os dados da "
-"sua árvore LDAP em um arquivo. Então, se pronto, pressione 'Deletar' para "
-"continuar ou 'Cancelar' para abortar."
+msgstr "O melhor que se tem a fazer antes de realizar esta ação é salvar os dados da sua árvore LDAP em um arquivo. Então, se pronto, pressione 'Deletar' para continuar ou 'Cancelar' para abortar."
 
 #: plugins/admin/departments/organization.tpl:11
 msgid "Name of organization"
@@ -5219,9 +5120,8 @@ msgstr ""
 #: plugins/admin/departments/class_departmentManagement.inc:192
 #: plugins/admin/departments/dep-list.xml:15
 #: plugins/admin/departments/dep-list.xml:103
-#, fuzzy
 msgid "Domain"
-msgstr "no domínio"
+msgstr ""
 
 #: plugins/admin/departments/class_departmentManagement.inc:216
 #: plugins/admin/departments/class_countryGeneric.inc:82
@@ -5294,9 +5194,8 @@ msgid "Name of subtree to create"
 msgstr ""
 
 #: plugins/admin/departments/generic.tpl:22
-#, fuzzy
 msgid "Descriptive text for   department"
-msgstr "Exibir sistemas do departamento"
+msgstr ""
 
 #: plugins/admin/departments/dep-list.xml:11
 msgid "List of departments"
@@ -5304,9 +5203,8 @@ msgstr "Lista dos departamentos"
 
 #: plugins/admin/departments/dep-list.xml:23
 #: plugins/admin/departments/dep-list.xml:110
-#, fuzzy
 msgid "Domain component"
-msgstr "Administradores do domínio"
+msgstr ""
 
 #: plugins/admin/departments/class_organizationGeneric.inc:122
 msgid "Organization name"
@@ -5365,29 +5263,24 @@ msgstr "Impressora"
 
 #: plugins/admin/ogroups/objectSelect/selectObject-list.xml:39
 #: plugins/personal/posix/trustSelect/trust-list.xml:30
-#, fuzzy
 msgid "Winstation"
-msgstr "Estação de trabalho"
+msgstr ""
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:11
-#, fuzzy
 msgid "Show department"
-msgstr "Departamentos"
+msgstr ""
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:14
-#, fuzzy
 msgid "Show Applications"
-msgstr "Aplicações"
+msgstr ""
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:15
-#, fuzzy
 msgid "Show server"
-msgstr "Servidores"
+msgstr ""
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:16
-#, fuzzy
 msgid "Show workstation"
-msgstr "Estações de Trabalho"
+msgstr ""
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:17
 #: plugins/personal/posix/trustSelect/trust-filter.tpl:13
@@ -5395,19 +5288,16 @@ msgid "Show Windows PC"
 msgstr ""
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:18
-#, fuzzy
 msgid "Show terminal"
-msgstr "Terminais"
+msgstr ""
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:20
-#, fuzzy
 msgid "Show printer"
-msgstr "Impressoras"
+msgstr ""
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:21
-#, fuzzy
 msgid "Show phone"
-msgstr "Modelos"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:11
 msgid "user groups"
@@ -5450,14 +5340,10 @@ msgid "phone groups"
 msgstr ""
 
 #: plugins/admin/ogroups/remove.tpl:6
-#, fuzzy
 msgid ""
 "Please double check if you really want to do this since there is no way for "
 "FusionDirectory to get your data back."
 msgstr ""
-"Ele pode ser o grupo primário de um usuário. Por favor, tenha certeza se "
-"realmente quer fazer isso, pois o FusionDirectory não possui uma forma para "
-"restaurar seus dados anteriores."
 
 #: plugins/admin/ogroups/paste_generic.tpl:7
 msgid "Please enter the new object group name"
@@ -5573,9 +5459,8 @@ msgid "Member objects"
 msgstr ""
 
 #: plugins/admin/ogroups/ogroup-list.xml:11
-#, fuzzy
 msgid "List of object groups"
-msgstr "Lista dos grupos"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-list.xml:15
 #: plugins/generic/references/class_reference.inc:71
@@ -5583,14 +5468,12 @@ msgid "Object group"
 msgstr ""
 
 #: plugins/admin/ogroups/ogroup-list.xml:142
-#, fuzzy
 msgid "Edit object group"
-msgstr "Lista dos grupos"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-list.xml:155
-#, fuzzy
 msgid "Remove object group"
-msgstr "Remover foto"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup_objects.tpl:6
 msgid "Select objects to add"
@@ -5643,23 +5526,17 @@ msgid "Welcome %s!"
 msgstr "Bem vindo %s!"
 
 #: plugins/generic/welcome/welcome.tpl:4
-#, fuzzy
 msgid ""
 "This is the FusionDirectory main menu. You can select your tasks from the "
 "menu on the left, or by choosing one of the pictograms below. All changes "
 "apply directly to your companies LDAP server."
 msgstr ""
-"Este é o menu principal do FusionDirectory. Você pode selecionar tarefas a "
-"partir do menu esquerdo ou através dos ícones abaixo. Todas as alterações "
-"serão aplicadas diretamente ao seu servidor LDAP."
 
 #: plugins/generic/welcome/welcome.tpl:8
 msgid ""
 "Use 'Sign out' on the upper left to close the connection and 'Main' to get "
 "back to the pictogram view."
-msgstr ""
-"Utilize 'Sair' no canto superior esquerdo para fechar a conexão e "
-"'Principal' para voltar a visão de ícones."
+msgstr "Utilize 'Sair' no canto superior esquerdo para fechar a conexão e 'Principal' para voltar a visão de ícones."
 
 #: plugins/generic/welcome/welcome.tpl:15
 msgid "The FusionDirectory team"
@@ -5690,19 +5567,16 @@ msgid "User name of which groups are shown"
 msgstr "Nome do usuário dos grupos exibidos"
 
 #: plugins/personal/posix/trustSelect/trust-filter.tpl:11
-#, fuzzy
 msgid "Show servers"
-msgstr "Servidores"
+msgstr ""
 
 #: plugins/personal/posix/trustSelect/trust-filter.tpl:12
-#, fuzzy
 msgid "Show workstations"
-msgstr "Estações de Trabalho"
+msgstr ""
 
 #: plugins/personal/posix/trustSelect/trust-filter.tpl:14
-#, fuzzy
 msgid "Show terminals"
-msgstr "Terminais"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:38
 msgid "Edit users POSIX settings"
@@ -5906,9 +5780,8 @@ msgid "Common group"
 msgstr ""
 
 #: plugins/personal/posix/generic.tpl:104
-#, fuzzy
 msgid "Groups differ"
-msgstr "Grupo do usuário"
+msgstr ""
 
 #: plugins/personal/posix/generic.tpl:127
 msgid "SSH keys"
@@ -5928,10 +5801,7 @@ msgid ""
 "To change your personal password use the fields below. The changes take "
 "effect immediately. Please memorize the new password, because you wouldn't "
 "be able to login without it."
-msgstr ""
-"Para alterar sua senha pessoal, use os campos abaixo. As alterações terão "
-"efeito imediato. Por favor, memorize a nova senha porque você não será capaz "
-"de acessar o sistema sem ela."
+msgstr "Para alterar sua senha pessoal, use os campos abaixo. As alterações terão efeito imediato. Por favor, memorize a nova senha porque você não será capaz de acessar o sistema sem ela."
 
 #: plugins/personal/password/password.tpl:14
 msgid "Your Password has expired. Please choose a new password!"
@@ -5939,9 +5809,8 @@ msgstr ""
 
 #: plugins/personal/password/password.tpl:47
 #: plugins/personal/generic/password.tpl:42
-#, fuzzy
 msgid "Password change dialog"
-msgstr "Senha alterada"
+msgstr ""
 
 #: plugins/personal/password/password.tpl:103
 #: plugins/personal/generic/password.tpl:97
@@ -5987,9 +5856,7 @@ msgstr ""
 msgid ""
 "You've successfully changed your password. Remember to change all programms "
 "configured to use it as well."
-msgstr ""
-"Sua senha foi alterada com sucesso. Lembre-se de alterar todos os programas "
-"que a usem."
+msgstr "Sua senha foi alterada com sucesso. Lembre-se de alterar todos os programas que a usem."
 
 #: plugins/personal/password/nochange.tpl:2
 #: plugins/personal/generic/nochange.tpl:2
@@ -6061,11 +5928,9 @@ msgstr "Número serial"
 
 #: plugins/personal/generic/class_user.inc:549
 msgid ""
-"(Some types of certificates are currently not supported and may be displayed "
-"as 'invalid'.)"
-msgstr ""
-"(Alguns tipos de certificados não são suportados atualmente e podem ser "
-"exibidos como 'inválidos'.)"
+"(Some types of certificates are currently not supported and may be displayed"
+" as 'invalid'.)"
+msgstr "(Alguns tipos de certificados não são suportados atualmente e podem ser exibidos como 'inválidos'.)"
 
 #: plugins/personal/generic/class_user.inc:559
 #, php-format
@@ -6090,8 +5955,8 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1008
 msgid ""
-"Cannot save user picture, FusionDirectory requires the package 'php5-"
-"imagick' to be installed!"
+"Cannot save user picture, FusionDirectory requires the package "
+"'php5-imagick' to be installed!"
 msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1146
@@ -6227,9 +6092,8 @@ msgid "User picture"
 msgstr "Foto do usuário"
 
 #: plugins/personal/generic/class_user.inc:1654
-#, fuzzy
 msgid "Login restrictions"
-msgstr "Estações de Trabalho"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1658
 msgid "Department number"
@@ -6281,9 +6145,8 @@ msgid "User certificates"
 msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1885
-#, fuzzy
 msgid "Entries differ"
-msgstr "Grupo do usuário"
+msgstr ""
 
 #: plugins/personal/generic/paste_generic.tpl:1
 msgid "User settings"
@@ -6357,55 +6220,5 @@ msgid "Please use the phone tab"
 msgstr "Por favor, utilize a orelha telefone"
 
 #: plugins/personal/generic/nochange.tpl:5
-#, fuzzy
 msgid "Your password hash method will not be changed!"
-msgstr "Sua senha foi alterada com sucesso."
-
-#~ msgid "You have no permissions to change your password."
-#~ msgstr "Você não tem permissão para alterar sua senha."
-
-#~ msgid "Help browser"
-#~ msgstr "Navegador de ajuda"
-
-#, fuzzy
-#~ msgid "There is no helpfile specified for this extension"
-#~ msgstr "Não existe helpfile especificado para essa classe"
-
-#~ msgid "Help"
-#~ msgstr "Ajuda"
-
-#~ msgid "Index"
-#~ msgstr "Índice"
-
-#~ msgid "Addressbook"
-#~ msgstr "Catálogo de Endereços"
-
-#~ msgid "The mcrypt module was not found. Please install php5-mcrypt."
-#~ msgstr ""
-#~ "O módulo mcrypt não foi encontrado. Por favor, instale o php5-mcrypt."
-
-#~ msgid "Socket connection to host '%s:%s' failed: %s"
-#~ msgstr "A conexão com o host '%s:%s' falhou: %s"
-
-#~ msgid "Socket timeout of %s seconds reached."
-#~ msgstr "Alcançado o limite de tempo de %s segundos para a conexão."
-
-#~ msgid "Configuration"
-#~ msgstr "Configuração"
-
-#, fuzzy
-#~ msgid ""
-#~ "The configuration file you are using seems to be outdated. Please move "
-#~ "the FusionDirectory configuration file away to run the FusionDirectory "
-#~ "setup again."
-#~ msgstr ""
-#~ "O arquivo de configuração do FusionDirectory parece estar desatualizador. "
-#~ "Por favor, remova-o e execute o configurador novamente."
-
-#~ msgid "Helpdir '%s' is not accessible, can't read any helpfiles."
-#~ msgstr ""
-#~ "Helpdir '%s' não está acessível, não foi possível ler nenhum helpfiles."
-
-#, fuzzy
-#~ msgid "FusionDirectory %s"
-#~ msgstr "Diretório"
+msgstr ""

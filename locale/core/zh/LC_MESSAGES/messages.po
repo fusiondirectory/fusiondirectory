@@ -1,29 +1,28 @@
-# translation of messages.po to Chinese Simplified
-# Copyright (C) 2003 GONICUS GmbH, Germany
-# Copyright (C) 2011 FusionDirectory
-# This file is distributed under the same license as the FusionDirectory package.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
 # Jiang Xin <worldhello.net@gmail.com>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: messages\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-26 15:45+0200\n"
-"PO-Revision-Date: 2007-06-03 12:27+0800\n"
-"Last-Translator: Jiang Xin <worldhello.net@gmail.com>\n"
-"Language-Team: Chinese Simplified <zh@li.org>\n"
-"Language: \n"
+"Project-Id-Version: FusionDirectory\n"
+"Report-Msgid-Bugs-To: https://forge.fusiondirectory.org/projects/fd\n"
+"POT-Creation-Date: 2012-05-26 15:30+0200\n"
+"PO-Revision-Date: 2012-05-26 14:44+0000\n"
+"Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
+"Language-Team: Chinese (http://www.transifex.net/projects/p/FusionDirectory/language/zh/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"Language: zh\n"
+"Plural-Forms: nplurals=1; plural=0\n"
 
 #: html/main.php:145 html/class_passwordRecovery.php:217
 #: include/class_xml.inc:47 include/functions.inc:450
 #: plugins/admin/departments/class_department.inc:431
-#, fuzzy
 msgid "Fatal error"
-msgstr "终端服务器"
+msgstr ""
 
 #: html/main.php:146
 #, php-format
@@ -31,29 +30,25 @@ msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr ""
 
 #: html/main.php:165
-#, fuzzy
 msgid "PHP configuration"
-msgstr "PHP 安装检查"
+msgstr ""
 
 #: html/main.php:166
-#, fuzzy
 msgid ""
 "Fatal error: Register globals is on. FusionDirectory will refuse to login "
 "unless this is fixed by an administrator."
-msgstr "致命错误：全局注册已打开。FusionDirectory 将拒绝登录直到被管理修正。"
+msgstr ""
 
 #: html/main.php:196 ihtml/themes/default/password.tpl:40
 #: plugins/admin/users/class_userManagement.inc:415
 #: plugins/personal/password/class_password.inc:160
 #: plugins/personal/password/class_password.inc:166
-#, fuzzy
 msgid "Password change"
-msgstr "不允许修改口令"
+msgstr ""
 
 #: html/main.php:196
-#, fuzzy
 msgid "Your password is about to expire, please change your password!"
-msgstr "您的口令就要过期，请修改您的口令"
+msgstr ""
 
 #: html/main.php:266 html/class_passwordRecovery.php:290 html/index.php:146
 #: html/index.php:218 include/class_SnapshotHandler.inc:47
@@ -72,9 +67,8 @@ msgstr "您的口令就要过期，请修改您的口令"
 #: include/class_timezone.inc:53 plugins/admin/groups/class_group.inc:163
 #: plugins/admin/groups/class_group.inc:671
 #: plugins/admin/groups/class_group.inc:1362
-#, fuzzy
 msgid "Configuration error"
-msgstr "配置文件"
+msgstr ""
 
 #: html/main.php:266
 msgid "Running out of memory!"
@@ -85,19 +79,17 @@ msgid "User ACL checks disabled"
 msgstr ""
 
 #: html/main.php:367
-#, fuzzy
 msgid "Plugin"
-msgstr "于"
+msgstr ""
 
 #: html/main.php:368
-#, fuzzy, php-format
+#, php-format
 msgid "Fatal error: Cannot find any plugin definitions for plugin '%s'!"
-msgstr "警告： 没有发现针对插件 '%s' 的任何插件定义！"
+msgstr ""
 
 #: html/main.php:383
-#, fuzzy
 msgid "Configuration Error"
-msgstr "配置文件"
+msgstr ""
 
 #: html/main.php:384
 #, php-format
@@ -107,9 +99,8 @@ msgid ""
 msgstr ""
 
 #: html/class_passwordRecovery.php:107
-#, fuzzy
 msgid "Password recovery disabled"
-msgstr "不允许修改口令"
+msgstr ""
 
 #: html/class_passwordRecovery.php:108
 msgid "Error: Password recovery has been disabled!"
@@ -117,18 +108,17 @@ msgstr ""
 
 #: html/class_passwordRecovery.php:124
 #: plugins/personal/generic/class_user.inc:594
-#, fuzzy
 msgid "Password method"
-msgstr "口令存储"
+msgstr ""
 
 #: html/class_passwordRecovery.php:125
 msgid "Error: Password method not available!"
 msgstr ""
 
 #: html/class_passwordRecovery.php:218 html/index.php:146
-#, fuzzy, php-format
+#, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
-msgstr "FusionDirectory 配置 %s/fusiondirectory.conf 不可读取。退出。"
+msgstr ""
 
 #: html/class_passwordRecovery.php:291 html/setup.php:63 html/index.php:167
 #, php-format
@@ -205,9 +195,8 @@ msgid "Found multiple accounts %s"
 msgstr ""
 
 #: html/class_passwordRecovery.php:487 ihtml/themes/default/recovery.tpl:140
-#, fuzzy
 msgid "Adresse mail"
-msgstr "住址"
+msgstr ""
 
 #: html/class_passwordRecovery.php:499
 #, php-format
@@ -264,32 +253,28 @@ msgstr ""
 #: plugins/personal/posix/class_posixAccount.inc:979
 #: plugins/personal/generic/class_user.inc:717
 #: plugins/personal/generic/class_user.inc:1068
-#, fuzzy
 msgid "LDAP error"
-msgstr "LDAP 错误:"
+msgstr "LDAP 错误"
 
 #: html/class_passwordRecovery.php:548
 msgid "Contact your administrator, there was a problem with mail server"
 msgstr ""
 
 #: html/class_passwordRecovery.php:559
-#, fuzzy
 msgid "This token is invalid"
-msgstr "指定的 branch 名称无效。"
+msgstr ""
 
 #: html/class_passwordRecovery.php:597
 msgid "External password changer reported a problem: "
 msgstr "外部口令更改程序报告错误："
 
 #: html/setup.php:63
-#, fuzzy
 msgid "Smarty"
-msgstr "总结"
+msgstr ""
 
 #: html/index.php:58
-#, fuzzy
 msgid "Session is not encrypted!"
-msgstr "会话不会被加密。"
+msgstr ""
 
 #: html/index.php:65
 msgid ""
@@ -298,9 +283,8 @@ msgid ""
 msgstr ""
 
 #: html/index.php:167
-#, fuzzy
 msgid "Smarty error"
-msgstr "PHP 错误"
+msgstr ""
 
 #: html/index.php:218
 msgid "There is a problem with the authentication setup!"
@@ -363,18 +347,16 @@ msgid "Cannot find a valid user for the current authentication setup!"
 msgstr ""
 
 #: html/index.php:230
-#, fuzzy
 msgid "User information is not unique across the configured LDAP trees!"
-msgstr "用户名 / UID 不唯一。请检查您的 LDAP 数据库。"
+msgstr ""
 
 #: html/index.php:267
 msgid "Cannot detect information about the installed LDAP schema!"
 msgstr ""
 
 #: html/index.php:280
-#, fuzzy
 msgid "Your LDAP setup contains old schema definitions:"
-msgstr "您 LDAP 的设置包含老的 schema 定义。请重新执行安装。"
+msgstr ""
 
 #: html/index.php:301
 msgid "Please specify a valid username!"
@@ -385,9 +367,8 @@ msgid "Please specify your password!"
 msgstr "请输入您的口令！"
 
 #: html/index.php:316
-#, fuzzy
 msgid "Authentication error"
-msgstr "Nagios 鉴权"
+msgstr ""
 
 #: html/index.php:316
 msgid "Cannot retrieve user information for htaccess authentication!"
@@ -398,9 +379,8 @@ msgid "Please check the username/password combination."
 msgstr "请检查用户名/口令。"
 
 #: html/index.php:377
-#, fuzzy
 msgid "Account locked. Please contact your system administrator!"
-msgstr "账户锁定。请联系管理员。"
+msgstr ""
 
 #: html/index.php:399
 msgid ""
@@ -413,23 +393,18 @@ msgid "Session conflict detected"
 msgstr "检测道会话冲突"
 
 #: ihtml/themes/default/conflict.tpl:6
-#, fuzzy
 msgid ""
 "Probably there's another active instance of your session. Multiple window "
 "operation is technical not possible and heavily depends on the browser "
-"you're using. Usage of different browsers at a time (i.e. IE and Mozilla) is "
-"possible. Pressing the Logout button will close this session."
+"you're using. Usage of different browsers at a time (i.e. IE and Mozilla) is"
+" possible. Pressing the Logout button will close this session."
 msgstr ""
-"可能已经存在另外一个您的活动的会话。多窗口操作在技术上不可能并且和严重依赖您"
-"使用浏览器。使用不同的浏览器（如 IE 和 Mozilla）是可能的。按“退出”按钮关闭此"
-"会话。"
 
 #: ihtml/themes/default/conflict.tpl:10
 msgid ""
-"Ignoring this message will change/destroy the data you're currently editing, "
-"so please close multiple windows and log in again."
-msgstr ""
-"忽略这条信息将会修改/破坏您当前编辑的数据，所以请关闭多个窗口并重新登录。"
+"Ignoring this message will change/destroy the data you're currently editing,"
+" so please close multiple windows and log in again."
+msgstr "忽略这条信息将会修改/破坏您当前编辑的数据，所以请关闭多个窗口并重新登录。"
 
 #: ihtml/themes/default/conflict.tpl:14
 msgid "Logout"
@@ -444,14 +419,11 @@ msgid ""
 "If this lock detection is false, the other person has obviously closed the "
 "webbrowser during the edit operation. You may want to take over the lock by "
 "pressing the 'Edit anyway' button."
-msgstr ""
-"如果锁检查失败，明显的是另外的人在进行编辑操作时关闭了浏览器。您可以通过按“仍"
-"然编辑”按钮来接管这个锁文件。"
+msgstr "如果锁检查失败，明显的是另外的人在进行编辑操作时关闭了浏览器。您可以通过按“仍然编辑”按钮来接管这个锁文件。"
 
 #: ihtml/themes/default/islocked.tpl:16
-#, fuzzy
 msgid "Read only"
-msgstr "重新加载列表"
+msgstr ""
 
 #: ihtml/themes/default/islocked.tpl:19
 #: ihtml/themes/default/snapshotdialog.tpl:44
@@ -502,18 +474,16 @@ msgid "Object"
 msgstr "对象"
 
 #: ihtml/themes/default/snapshotdialog.tpl:29
-#, fuzzy
 msgid "There is no snapshot available that could be restored"
-msgstr "没有可用的 mysql 扩展，请检查您的 php 设置。"
+msgstr ""
 
 #: ihtml/themes/default/snapshotdialog.tpl:31
 msgid "Choose a snapshot and click the folder image, to restore the snapshot"
 msgstr ""
 
 #: ihtml/themes/default/snapshotdialog.tpl:49
-#, fuzzy
 msgid "Creating object snapshots"
-msgstr "创建新对象组"
+msgstr ""
 
 #: ihtml/themes/default/snapshotdialog.tpl:52
 msgid ""
@@ -529,9 +499,8 @@ msgid ""
 msgstr ""
 
 #: ihtml/themes/default/snapshotdialog.tpl:70
-#, fuzzy
 msgid "Timestamp"
-msgstr "过期"
+msgstr ""
 
 #: ihtml/themes/default/snapshotdialog.tpl:79
 msgid "Reason for generating this snapshot"
@@ -545,9 +514,8 @@ msgid "Continue"
 msgstr "继续"
 
 #: ihtml/themes/default/logout-close.tpl:5
-#, fuzzy
 msgid "Your FusionDirectory session has been closed!"
-msgstr "您的 FusionDirectory 会话已经过期！"
+msgstr ""
 
 #: ihtml/themes/default/logout-close.tpl:7
 msgid ""
@@ -556,14 +524,12 @@ msgid ""
 msgstr ""
 
 #: ihtml/themes/default/password.tpl:6
-#, fuzzy
 msgid "Change your password"
-msgstr "修改口令"
+msgstr ""
 
 #: ihtml/themes/default/password.tpl:34 ihtml/themes/default/recovery.tpl:119
-#, fuzzy
 msgid "Success"
-msgstr "访问"
+msgstr ""
 
 #: ihtml/themes/default/password.tpl:34 ihtml/themes/default/recovery.tpl:119
 msgid "Your password has been changed successfully."
@@ -579,8 +545,8 @@ msgstr "口令"
 
 #: ihtml/themes/default/password.tpl:52
 msgid ""
-"This dialog provides a simple way to change your password. Enter the current "
-"password and the new password (twice) in the fields below and press the "
+"This dialog provides a simple way to change your password. Enter the current"
+" password and the new password (twice) in the fields below and press the "
 "'Change' button."
 msgstr ""
 
@@ -607,48 +573,41 @@ msgstr "当前口令"
 
 #: ihtml/themes/default/password.tpl:85 ihtml/themes/default/password.tpl:86
 #: ihtml/themes/default/recovery.tpl:96 ihtml/themes/default/recovery.tpl:97
-#, fuzzy
 msgid "New password repeated"
-msgstr "新口令"
+msgstr ""
 
 #: ihtml/themes/default/password.tpl:89 ihtml/themes/default/recovery.tpl:100
 #: plugins/personal/password/password.tpl:37
 #: plugins/personal/password/password.tpl:88
 #: plugins/personal/generic/password.tpl:32
 #: plugins/personal/generic/password.tpl:82
-#, fuzzy
 msgid "Password strength"
-msgstr "口令存储"
+msgstr ""
 
 #: ihtml/themes/default/password.tpl:100 ihtml/themes/default/recovery.tpl:111
 #: ihtml/themes/default/recovery.tpl:147
-#, fuzzy
 msgid "Change"
-msgstr "频道"
+msgstr ""
 
 #: ihtml/themes/default/password.tpl:101
 #: ihtml/themes/default/accountexpired.tpl:52
 #: ihtml/themes/default/recovery.tpl:111 ihtml/themes/default/recovery.tpl:148
-#, fuzzy
 msgid "Click here to change your password"
-msgstr "点击这里来修改您的口令"
+msgstr ""
 
 #: ihtml/themes/default/accountexpired.tpl:15
-#, fuzzy
 msgid "Your password has expired. Please choose a new one!"
-msgstr "您的口令已经过期 !! 选择一个新口令"
+msgstr ""
 
 #: ihtml/themes/default/accountexpired.tpl:23
 #: ihtml/themes/default/accountexpired.tpl:27
-#, fuzzy
 msgid "Old password"
-msgstr "旧口令"
+msgstr ""
 
 #: ihtml/themes/default/accountexpired.tpl:41
 #: ihtml/themes/default/accountexpired.tpl:45
-#, fuzzy
 msgid "Verify password"
-msgstr "口令确认"
+msgstr ""
 
 #: ihtml/themes/default/accountexpired.tpl:51
 #: plugins/admin/users/user-list.xml:128 plugins/admin/users/user-list.xml:232
@@ -656,16 +615,14 @@ msgid "Change password"
 msgstr "修改口令"
 
 #: ihtml/themes/default/login.tpl:24
-#, fuzzy
 msgid "Login screen"
-msgstr "登录脚本"
+msgstr ""
 
 #: ihtml/themes/default/login.tpl:31
-#, fuzzy
 msgid ""
 "Please use your username and your password to log into the site "
 "administration system."
-msgstr "请用您的用户名和口令登录"
+msgstr ""
 
 #: ihtml/themes/default/login.tpl:74 ihtml/themes/default/login.tpl:77
 msgid "Sign in"
@@ -676,13 +633,10 @@ msgid "Click here to log in"
 msgstr "点击这里登录"
 
 #: ihtml/themes/default/remove.tpl:6
-#, fuzzy
 msgid ""
 "This may be used by several groups. Please double check if your really want "
 "to do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
-"这可能被好几个组使用。请再次检查您是否要这么做，因为 FusionDirectory 没有办法"
-"将您的数据找回。"
 
 #: ihtml/themes/default/remove.tpl:9 plugins/admin/acl/remove.tpl:10
 #: plugins/admin/users/remove.tpl:10 plugins/admin/groups/remove.tpl:10
@@ -695,20 +649,17 @@ msgid "Assigned ACL for current entry"
 msgstr ""
 
 #: ihtml/themes/default/acl.tpl:12 plugins/admin/acl/acl_role.tpl:38
-#, fuzzy
 msgid "New ACL"
-msgstr "新"
+msgstr ""
 
 #: ihtml/themes/default/acl.tpl:17 plugins/admin/acl/acl_role.tpl:44
-#, fuzzy
 msgid "ACL type"
-msgstr "分类类型"
+msgstr ""
 
 #: ihtml/themes/default/acl.tpl:19 ihtml/themes/default/acl.tpl:24
 #: plugins/admin/acl/acl_role.tpl:44
-#, fuzzy
 msgid "Select an acl type"
-msgstr "选择一个位置"
+msgstr ""
 
 #: ihtml/themes/default/acl.tpl:29 ihtml/themes/default/acl.tpl:52
 #: ihtml/themes/default/acl.tpl:125 ihtml/themes/default/acl.tpl:140
@@ -723,9 +674,8 @@ msgid "Apply"
 msgstr "应用"
 
 #: ihtml/themes/default/acl.tpl:36
-#, fuzzy
 msgid "Additional filter options"
-msgstr "应用程序设置"
+msgstr ""
 
 #: ihtml/themes/default/acl.tpl:47
 msgid "Use members from"
@@ -748,19 +698,16 @@ msgid "List message recipients"
 msgstr ""
 
 #: ihtml/themes/default/acl.tpl:104 plugins/admin/acl/acl_role.tpl:49
-#, fuzzy
 msgid "List of available ACL categories"
-msgstr "可用软件包列表"
+msgstr ""
 
 #: ihtml/themes/default/acl.tpl:112
-#, fuzzy
 msgid "ACL for this object"
-msgstr "检查 iconv 支持"
+msgstr ""
 
 #: ihtml/themes/default/acl.tpl:118
-#, fuzzy
 msgid "Available roles"
-msgstr "可用的应用程序"
+msgstr ""
 
 #: ihtml/themes/default/framework.tpl:8 ihtml/themes/default/framework.tpl:11
 #: ihtml/themes/default/framework.tpl:16 ihtml/themes/default/framework.tpl:20
@@ -783,9 +730,9 @@ msgid "Signed in:"
 msgstr "登录:"
 
 #: ihtml/themes/default/framework.tpl:32
-#, fuzzy, php-format
+#, php-format
 msgid "Session expires in %d!"
-msgstr "会话不会被加密。"
+msgstr ""
 
 #: ihtml/themes/default/framework.tpl:37
 msgid "FusionDirectory main menu"
@@ -819,13 +766,11 @@ msgstr "好"
 
 #: ihtml/themes/default/sizelimit.tpl:3
 msgid ""
-"The size limit option makes LDAP operations faster and saves the LDAP server "
-"from getting too much load. The easiest way to handle big databases without "
-"long timeouts would be to limit your search to smaller values and use "
+"The size limit option makes LDAP operations faster and saves the LDAP server"
+" from getting too much load. The easiest way to handle big databases without"
+" long timeouts would be to limit your search to smaller values and use "
 "filters to get the entries you are looking for."
-msgstr ""
-"大小限制选项会让 LDAP 操作更快，以免使 LDAP 服务器过载。最简单让大数据库处理"
-"不发成长时间超时的办法是，将查询缩小到更少并且使用过滤器。"
+msgstr "大小限制选项会让 LDAP 操作更快，以免使 LDAP 服务器过载。最简单让大数据库处理不发成长时间超时的办法是，将查询缩小到更少并且使用过滤器。"
 
 #: ihtml/themes/default/sizelimit.tpl:6
 msgid "Please choose the way to react for this session"
@@ -847,19 +792,15 @@ msgid "Set"
 msgstr "设置"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:1
-#, fuzzy
 msgid "Copy & paste wizard"
-msgstr "拷贝和粘贴精灵"
+msgstr ""
 
 #: ihtml/themes/default/copyPasteDialog.tpl:7
-#, fuzzy
 msgid ""
 "Some values need to be unique in the complete directory while some "
 "combinations make no sense. FusionDirectory shows the relevant attributes. "
 "Please maintain the values below to fulfill the policies."
 msgstr ""
-"有的变量需要在整个目录中保持唯一，而有的组合没有意义。FusionDirectory 显示有"
-"关属性。请按照这个原则维护其取值。"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:9
 msgid "Remember that some properties like taken snapshots will not be copied!"
@@ -877,9 +818,8 @@ msgid "Save"
 msgstr "保存"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:24
-#, fuzzy
 msgid "Cancel all"
-msgstr "取消"
+msgstr ""
 
 #: ihtml/themes/default/copyPasteDialog.tpl:30
 msgid "Operation complete"
@@ -891,38 +831,31 @@ msgid "Finish"
 msgstr "完成"
 
 #: ihtml/themes/default/logout.tpl:5
-#, fuzzy
 msgid "Your FusionDirectory session has expired!"
-msgstr "您的 FusionDirectory 会话已经过期！"
+msgstr ""
 
 #: ihtml/themes/default/logout.tpl:7
-#, fuzzy
 msgid ""
 "The last interaction with the FusionDirectory web interface has been some "
 "time ago in the past. For security reasons, the session has been closed. To "
 "continue with administrative tasks, please sign in again."
 msgstr ""
-"上一次操作 FusionDirectory 界面是在很长时间之前。出于安全上的考虑，已经关闭了"
-"连接。要继续执行管理任务，请重新登录。"
 
 #: ihtml/themes/default/logout.tpl:10
 msgid "Sign in again"
 msgstr "重新登录"
 
 #: ihtml/themes/default/recovery.tpl:10
-#, fuzzy
 msgid "FusionDirectory password recovery"
-msgstr "FusionDirectory 帮助浏览器"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:26
-#, fuzzy
 msgid "Lost password"
-msgstr "设置口令"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:44
-#, fuzzy
 msgid "Available methods"
-msgstr "可用的应用程序"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:47
 msgid "Receive by email a link that allows you to reset your password"
@@ -933,14 +866,13 @@ msgid "Send"
 msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:49
-#, fuzzy
 msgid "Click here to send a reset link"
-msgstr "点击这里登录"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:58
 msgid ""
-"If none of the above methods suits you, contact your administrator to change "
-"your password"
+"If none of the above methods suits you, contact your administrator to change"
+" your password"
 msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:70
@@ -970,21 +902,19 @@ msgid "Mail"
 msgstr "邮件"
 
 #: setup/setup_language.tpl:3
-#, fuzzy
 msgid "Please select the preferred language"
-msgstr "请选择一个打印机或者取消。"
+msgstr ""
 
 #: setup/setup_language.tpl:5
 msgid ""
 "At this point, you can select the site wide default language. Choosing "
-"'automatic' will use the language requested by the browser. This setting can "
-"be overriden per user."
+"'automatic' will use the language requested by the browser. This setting can"
+" be overriden per user."
 msgstr ""
 
 #: setup/setup_language.tpl:9
-#, fuzzy
 msgid "Please select your preferred language here"
-msgstr "首选语种"
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:38 setup/class_setupStep_Checks.inc:39
 msgid "Installation check"
@@ -995,9 +925,8 @@ msgid "Basic checks for PHP compatibility and extensions"
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:64
-#, fuzzy
 msgid "Checking PHP version"
-msgstr "检查 PHP 版本 (>=4.1.0)"
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:65
 #, php-format
@@ -1018,11 +947,10 @@ msgid ""
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:89
-#, fuzzy
 msgid ""
 "FusionDirectory requires this module to communicate with different types of "
 "servers and protocols."
-msgstr "需要 MySQL 支持来从数据库中读取 GOfax 报告。"
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:97
 msgid "FusionDirectory requires this module for the samba integration."
@@ -1039,9 +967,8 @@ msgid "FusionDirectory requires this module to talk to an IMAP server."
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:120
-#, fuzzy
 msgid "mbstring"
-msgstr "Samba 设置"
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:121
 msgid "FusionDirectory requires this module to handle unicode strings."
@@ -1052,11 +979,10 @@ msgid "MDB2"
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:129
-#, fuzzy
 msgid ""
 "FusionDirectory requires this module to communicate with several supported "
 "databases."
-msgstr "需要 MySQL 支持来从数据库中读取 GOfax 报告。"
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:146
 msgid "samba hash generator"
@@ -1083,41 +1009,33 @@ msgid "FusionDirectory requires this extension to handle images."
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:177
-#, fuzzy
 msgid "compression module"
-msgstr "访问选项"
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:178
 msgid "FusionDirectory requires this extension to handle snapshots."
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:189
-#, fuzzy
 msgid ""
 "register_globals is a PHP mechanism to register all global variables to be "
 "accessible from scripts without changing the scope. This may be a security "
 "risk."
 msgstr ""
-"register_globals 是 PHP 的一个不必修改范围就可以从脚本中访问所有全局变量的机"
-"制。这可能存在安全风险。FusionDirectory 在两种情况下都可以运行。"
 
 #: setup/class_setupStep_Checks.inc:190
-#, fuzzy
 msgid "Search for 'register_globals' in your php.ini and switch it to 'Off'."
-msgstr "检查 register_globals 是否设置为 'off'"
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:198
 msgid "PHP uses this value for the garbage collector to delete old sessions."
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:199
-#, fuzzy
 msgid ""
 "Setting this value to one day will prevent loosing session and cookies "
 "before they really timeout."
 msgstr ""
-"PHP 用这个值来进行垃圾回收，删除旧的会话。设置这个值为一天，将会防止在真正超"
-"时之前的会话和 cookie 丢失。"
 
 #: setup/class_setupStep_Checks.inc:200
 msgid ""
@@ -1131,93 +1049,73 @@ msgid "Off"
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:208
-#, fuzzy
 msgid ""
-"In Order to use FusionDirectory without any trouble, the session."
-"auto_register option in your php.ini should be set to 'Off'."
+"In Order to use FusionDirectory without any trouble, the "
+"session.auto_register option in your php.ini should be set to 'Off'."
 msgstr ""
-"为了在是使用 FusionDirectory 中不遇到麻烦，您的 php.ini 中 session."
-"auto_register 选项必须设置为 'Off'。"
 
 #: setup/class_setupStep_Checks.inc:209
-#, fuzzy
 msgid "Search for 'session.auto_start' in your php.ini and set it to 'Off'."
 msgstr ""
-"为了在是使用 FusionDirectory 中不遇到麻烦，您的 php.ini 中 session."
-"auto_register 选项必须设置为 'Off'。"
 
 #: setup/class_setupStep_Checks.inc:216
-#, fuzzy
 msgid ""
 "FusionDirectory needs at least 64MB of memory. Setting it below this limit "
 "may cause errors that are not reproducable! Increase it for larger setups."
 msgstr ""
-"FusionDirectory 需要至少 16MB 内存，太少会导致无法预料的错误！将其设置为更"
-"大。"
 
 #: setup/class_setupStep_Checks.inc:217
-#, fuzzy
 msgid ""
 "Search for 'memory_limit' in your php.ini and set it to '64M' or higher."
 msgstr ""
-"为了在是使用 FusionDirectory 中不遇到麻烦，您的 php.ini 中 session."
-"auto_register 选项必须设置为 'Off'。"
 
 #: setup/class_setupStep_Checks.inc:224
-#, fuzzy
 msgid ""
 "This option influences the PHP output handling. Turn this Option off, to "
 "increase performance."
-msgstr "这个选项影响输出处理。关闭这个选项，可以提高性能。"
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:225
 msgid "Search for 'implicit_flush' in your php.ini and set it to 'Off'."
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:232
-#, fuzzy
 msgid "The Execution time should be at least 30 seconds."
-msgstr "执行时间应该至少 30 秒，因为一些动作可能会花很多时间。"
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:233
 msgid ""
-"Search for 'max_execution_time' in your php.ini and set it to '30' or higher."
+"Search for 'max_execution_time' in your php.ini and set it to '30' or "
+"higher."
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:240
-#, fuzzy
 msgid ""
 "Increase the server security by setting expose_php to 'off'. PHP won't send "
 "any information about the server you are running in this case."
 msgstr ""
-"将 expose_php 设置为“off”可以增强服务器安全性。PHP 将不会发送任何有关正运行着"
-"的服务器的信息。"
 
 #: setup/class_setupStep_Checks.inc:241
 msgid "Search for 'expose_php' in your php.ini and set if to 'Off'."
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:248
-#, fuzzy
 msgid "Increase your server performance by setting magic_quotes_gpc to 'off'."
 msgstr ""
-"将 magic_quotes_gpc 设置为 'on' 会增加服务器安全性。这种情况下 PHP 会将字符串"
-"中所有引号编码。"
 
 #: setup/class_setupStep_Checks.inc:249
 msgid ""
-"Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'."
+"Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to "
+"'Off'."
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:259
-#, fuzzy
 msgid "Configuration writeable"
-msgstr "配置文件"
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:260
-#, fuzzy
 msgid "The configuration file can't be written"
-msgstr "查看配置信息"
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:261
 #, php-format
@@ -1227,32 +1125,29 @@ msgid ""
 msgstr ""
 
 #: setup/setup_schema.tpl:3
-#, fuzzy
 msgid "Schema specific settings"
-msgstr "Samba 设置"
+msgstr ""
 
 #: setup/setup_schema.tpl:7
 msgid "Enable schema validation when logging in"
 msgstr ""
 
 #: setup/setup_schema.tpl:16
-#, fuzzy
 msgid "Check status"
-msgstr "具有状态"
+msgstr ""
 
 #: setup/setup_schema.tpl:20
 msgid "Schema check succeeded"
 msgstr ""
 
 #: setup/setup_schema.tpl:23
-#, fuzzy
 msgid "Schema check failed"
-msgstr "保存电话失败"
+msgstr ""
 
 #: setup/setup_schema.tpl:31
 msgid ""
-"Could not read any schema informations, all checks skipped. Adjust your ldap "
-"acls."
+"Could not read any schema informations, all checks skipped. Adjust your ldap"
+" acls."
 msgstr ""
 
 #: setup/setup_schema.tpl:35
@@ -1262,19 +1157,16 @@ msgid ""
 msgstr ""
 
 #: setup/class_setup.inc:75
-#, fuzzy
 msgid "Setup error"
-msgstr "PHP 错误"
+msgstr ""
 
 #: setup/class_setup.inc:195
-#, fuzzy
 msgid "Completed"
-msgstr "不完整"
+msgstr ""
 
 #: setup/class_setup.inc:264 setup/setup_migrate.tpl:272
-#, fuzzy
 msgid "Next"
-msgstr "下一个"
+msgstr ""
 
 #: setup/class_setupStep_Schema.inc:42 setup/class_setupStep_Schema.inc:43
 msgid "LDAP schema check"
@@ -1299,14 +1191,12 @@ msgid "Yes"
 msgstr "是"
 
 #: setup/class_setupStep_Ldap.inc:53
-#, fuzzy
 msgid "LDAP setup"
-msgstr "LDAP 服务器"
+msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:54
-#, fuzzy
 msgid "LDAP connection setup"
-msgstr "断开"
+msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:55
 msgid ""
@@ -1315,63 +1205,56 @@ msgid ""
 msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:112
-#, fuzzy, php-format
+#, php-format
 msgid "Anonymous bind to server '%s' failed!"
-msgstr "为服务器 '%s' 插入新宏失败。"
+msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:114
-#, fuzzy, php-format
+#, php-format
 msgid "Bind as user '%s' failed!"
-msgstr "为服务器 '%s' 插入新宏失败。"
+msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:119
-#, fuzzy, php-format
+#, php-format
 msgid "Anonymous bind to server '%s' succeeded."
-msgstr "为服务器 '%s' 插入新宏失败。"
+msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:120
-#, fuzzy
 msgid "Please specify user and password!"
-msgstr "请输入您的口令！"
+msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:122
-#, fuzzy, php-format
+#, php-format
 msgid "Bind as user '%s' to server '%s' succeeded!"
-msgstr "无法在主服务器 '%s' 上选择数据库 '%s'。"
+msgstr ""
 
 #: setup/class_setupStep_Language.inc:41 setup/class_setupStep_Language.inc:42
-#, fuzzy
 msgid "Language setup"
-msgstr "语言"
+msgstr ""
 
 #: setup/class_setupStep_Language.inc:43
 msgid "This step allows you to select your preferred language."
 msgstr ""
 
 #: setup/class_setupStep_Language.inc:48
-#, fuzzy
 msgid "Automatic"
-msgstr "自动"
+msgstr ""
 
 #: setup/setup_frame.tpl:12
-#, fuzzy
 msgid "FusionDirectory setup wizard"
-msgstr "FusionDirectory 帮助浏览器"
+msgstr ""
 
 #: setup/setup_frame.tpl:19
-#, fuzzy
 msgid "Installation"
-msgstr "Windows 工作站"
+msgstr ""
 
 #: setup/setup_frame.tpl:19
-#, fuzzy
 msgid "Setup"
-msgstr "设置"
+msgstr ""
 
 #: setup/setup_finish.tpl:3
-#, fuzzy
 msgid "Create your configuration file"
-msgstr "配置文件"
+msgstr ""
 
 #: setup/setup_finish.tpl:8
 msgid "Run "
@@ -1386,37 +1269,32 @@ msgid "Download configuration"
 msgstr "下载配置"
 
 #: setup/setup_finish.tpl:17
-#, fuzzy
 msgid "Status: "
-msgstr "状态"
+msgstr ""
 
 #: setup/setup_config1.tpl:2
 msgid "Look and feel"
 msgstr ""
 
 #: setup/setup_config1.tpl:6
-#, fuzzy
 msgid "Theme"
-msgstr "模板"
+msgstr ""
 
 #: setup/setup_config1.tpl:15
-#, fuzzy
 msgid "Apache"
-msgstr "缓存"
+msgstr ""
 
 #: setup/setup_config1.tpl:19
 msgid "Compress output send to browser"
 msgstr ""
 
 #: setup/setup_config1.tpl:27
-#, fuzzy
 msgid "People and group storage"
-msgstr "People dn attribute"
+msgstr ""
 
 #: setup/setup_config1.tpl:30
-#, fuzzy
 msgid "People DN attribute"
-msgstr "People dn attribute"
+msgstr ""
 
 #: setup/setup_config1.tpl:41
 msgid "Customized CN"
@@ -1427,9 +1305,8 @@ msgid "People storage subtree"
 msgstr ""
 
 #: setup/setup_config1.tpl:66
-#, fuzzy
 msgid "Group storage subtree"
-msgstr "忽略子树"
+msgstr ""
 
 #: setup/setup_config1.tpl:75
 msgid "Include personal title in user DN"
@@ -1440,33 +1317,28 @@ msgid "Relaxed naming policies"
 msgstr ""
 
 #: setup/setup_config1.tpl:97
-#, fuzzy
 msgid "Automatic UIDs"
-msgstr "自动"
+msgstr ""
 
 #: setup/setup_config1.tpl:113 setup/class_setupStep_Config1.inc:122
 msgid "GID / UID min id"
 msgstr ""
 
 #: setup/setup_config1.tpl:129
-#, fuzzy
 msgid "Number base for people/groups"
-msgstr "用户/组起始 ID"
+msgstr ""
 
 #: setup/setup_config1.tpl:136 plugins/personal/password/main.inc:54
-#, fuzzy
 msgid "Password settings"
-msgstr "用户设置"
+msgstr ""
 
 #: setup/setup_config1.tpl:140
-#, fuzzy
 msgid "Password encryption algorithm"
-msgstr "加密算法"
+msgstr ""
 
 #: setup/setup_config1.tpl:151
-#, fuzzy
 msgid "Password restrictions"
-msgstr "口令过期截止日"
+msgstr ""
 
 #: setup/setup_config1.tpl:158 setup/setup_config1.tpl:162
 msgid "Password minimum length"
@@ -1477,82 +1349,65 @@ msgid "Different characters from old password"
 msgstr ""
 
 #: setup/setup_config1.tpl:182
-#, fuzzy
 msgid "Password change hook"
-msgstr "不允许修改口令"
+msgstr ""
 
 #: setup/setup_config1.tpl:198
 msgid "Use SASL for kerberos"
 msgstr ""
 
 #: setup/setup_config1.tpl:209
-#, fuzzy
 msgid "Use account expiration"
-msgstr "账号过期于"
+msgstr ""
 
 #: setup/setup_config1.tpl:221
-#, fuzzy
 msgid ""
 "FusionDirectory supports several encryption types for your passwords. "
 "Normally this is adjustable via user templates, but you can specify a "
 "default method to be used here, too."
 msgstr ""
-"FusionDirectory 支持好几种口令加密算法。通常可以通过用户模板调整算法，但是在"
-"这里您可以定义一个缺省方法。"
 
 #: setup/setup_config1.tpl:222
-#, fuzzy
 msgid ""
 "FusionDirectory always acts as admin and manages access rights internally. "
 "This is a workaround till OpenLDAP's in directory ACI's are    fully "
 "implemented. For this to work, we need the admin DN and the corresponding "
 "password."
 msgstr ""
-"FusionDirectory 总是作为 LDAP 管理员，并且管理内部权限。这是一个临时方案直到 "
-"OpenLDAP 目录 ACI 被完全实现。为了让其实现，我们需要管理员 DN 和正确的口令。"
 
 #: setup/setup_config1.tpl:223
-#, fuzzy
 msgid ""
 "Some basic LDAP parameters are tunable and affect the locations where "
 "FusionDirectory saves people and groups, including the way accounts get "
 "created. Check the values below if the fit your needs."
 msgstr ""
-"有的基本的 LDAP 参数是可调的，并影响位置Gosa 保存用户和组的地方。包括账号创建"
-"的方式。点击下面的值如果它们不符合您的需要。"
 
 #: setup/setup_config1.tpl:224
-#, fuzzy
 msgid ""
 "FusionDirectory has modular support for several mail methods. These methods "
 "provide interfaces to users mailboxes and general handling    for quotas. "
 "You can choose the dummy plugin to leave all your mail settings untouched."
 msgstr ""
-"FusionDirectory 通过模组支持几种邮件方法。这些方法提供用户邮箱的界面以及管理"
-"用户空间。您可以选择选择 dummy 插件以保持您的邮件设置不被更改。"
 
 #: setup/setup_config2.tpl:2
 msgid "Samba settings"
 msgstr "Samba 设置"
 
 #: setup/setup_config2.tpl:6
-#, fuzzy
 msgid "Workstation container"
-msgstr "工作站名称"
+msgstr ""
 
 #: setup/setup_config2.tpl:21
 msgid "Samba SID mapping"
 msgstr ""
 
 #: setup/setup_config2.tpl:31
-#, fuzzy
 msgid "Timezone"
-msgstr "用户时区"
+msgstr ""
 
 #: setup/setup_config2.tpl:34
-#, fuzzy
 msgid "Please choose your preferred timezone here"
-msgstr "首选语种"
+msgstr ""
 
 #: setup/setup_config2.tpl:43
 msgid "Mail settings"
@@ -1573,9 +1428,8 @@ msgid "Account identification attribute"
 msgstr ""
 
 #: setup/setup_config2.tpl:77
-#, fuzzy
 msgid "Vacation templates"
-msgstr "工作站模板"
+msgstr ""
 
 #: setup/setup_config2.tpl:93
 msgid "Use Cyrus UNIX style"
@@ -1612,29 +1466,24 @@ msgid "User"
 msgstr "用户"
 
 #: setup/setup_config3.tpl:2
-#, fuzzy
 msgid "FusionDirectory core settings"
-msgstr "用户设置"
+msgstr ""
 
 #: setup/setup_config3.tpl:6
-#, fuzzy
 msgid "Enable primary group filter"
-msgstr "显示用户组"
+msgstr ""
 
 #: setup/setup_config3.tpl:18
-#, fuzzy
 msgid "Display summary in listings"
-msgstr "显示匹配的宏"
+msgstr ""
 
 #: setup/setup_config3.tpl:30
-#, fuzzy
 msgid "Honour administrative units"
-msgstr "组管理"
+msgstr ""
 
 #: setup/setup_config3.tpl:42
-#, fuzzy
 msgid "Enable edit locking"
-msgstr "启用邮件扫描"
+msgstr ""
 
 #: setup/setup_config3.tpl:63
 msgid "Enable Copy & Paste"
@@ -1649,82 +1498,69 @@ msgid "Login and session"
 msgstr ""
 
 #: setup/setup_config3.tpl:88
-#, fuzzy
 msgid "Login attribute"
-msgstr "电话属性"
+msgstr ""
 
 #: setup/setup_config3.tpl:99
 msgid "Enforce register_globals to be deactivated"
 msgstr ""
 
 #: setup/setup_config3.tpl:111
-#, fuzzy
 msgid "Enforce encrypted connections"
-msgstr "封锁加密归档"
+msgstr ""
 
 #: setup/setup_config3.tpl:123
-#, fuzzy
 msgid "Warn if session is not encrypted"
-msgstr "会话不会被加密。"
+msgstr ""
 
 #: setup/setup_config3.tpl:135
-#, fuzzy
 msgid "Remember dialog filter settings"
-msgstr "通用队列设置"
+msgstr ""
 
 #: setup/setup_config3.tpl:147
-#, fuzzy
 msgid "Session lifetime"
-msgstr "检测道会话冲突"
+msgstr ""
 
 #: setup/setup_config3.tpl:156
-#, fuzzy
 msgid "Debugging"
-msgstr "启用 debug"
+msgstr ""
 
 #: setup/setup_config3.tpl:160
-#, fuzzy
 msgid "Show PHP errors"
-msgstr "PHP 错误"
+msgstr ""
 
 #: setup/setup_config3.tpl:172
-#, fuzzy
 msgid "Maximum LDAP query time"
-msgstr "最大文件大小"
+msgstr ""
 
 #: setup/setup_config3.tpl:190
 msgid "Log LDAP statistics"
 msgstr ""
 
 #: setup/setup_config3.tpl:202
-#, fuzzy
 msgid "Debug level"
-msgstr "日志级别"
+msgstr ""
 
 #: setup/setup_config3.tpl:207 setup/setup_config3.tpl:210
-#, fuzzy
 msgid "Disabled"
-msgstr "禁用"
+msgstr ""
 
 #: setup/setup_config3.tpl:208 setup/setup_config3.tpl:211
-#, fuzzy
 msgid "Enabled"
-msgstr "禁用"
+msgstr ""
 
 #: setup/class_setupStep_Config1.inc:78 setup/class_setupStep_Config1.inc:79
-#, fuzzy
 msgid "FusionDirectory settings 1/3"
-msgstr "用户设置"
+msgstr ""
 
 #: setup/class_setupStep_Config1.inc:80
-#, fuzzy
 msgid "FusionDirectory generic settings"
-msgstr "用户设置"
+msgstr ""
 
 #: setup/class_setupStep_Config1.inc:122
-#, fuzzy, php-format
+#, php-format
 msgid "The specified value for '%s' must be a numeric value"
-msgstr "指定 '%s' 的值必须是数字类型。"
+msgstr ""
 
 #: setup/class_setupStep_Config1.inc:126 setup/class_setupStep_Config1.inc:130
 #, php-format
@@ -1740,80 +1576,66 @@ msgid "Group storage ou"
 msgstr ""
 
 #: setup/class_setupStep_Config1.inc:134
-#, fuzzy
 msgid "Uid base must be numeric"
-msgstr "超时必须填数字"
+msgstr ""
 
 #: setup/class_setupStep_Config1.inc:138
-#, fuzzy
 msgid "The given password minimum length is not numeric."
-msgstr "Sieve 端口应为数字。"
+msgstr ""
 
 #: setup/class_setupStep_Config1.inc:141
-#, fuzzy
 msgid "The given password differ value is not numeric."
-msgstr "Sieve 端口应为数字。"
+msgstr ""
 
 #: setup/class_setupStep_Config2.inc:79 setup/class_setupStep_Config2.inc:80
-#, fuzzy
 msgid "FusionDirectory settings 2/3"
-msgstr "用户设置"
+msgstr ""
 
 #: setup/class_setupStep_Config2.inc:81
-#, fuzzy
 msgid "Customize special parameters"
-msgstr "检查参数"
+msgstr ""
 
 #: setup/class_setupStep_Config3.inc:74 setup/class_setupStep_Config3.inc:75
-#, fuzzy
 msgid "FusionDirectory settings 3/3"
-msgstr "用户设置"
+msgstr ""
 
 #: setup/class_setupStep_Config3.inc:76
 msgid "Tweak some FusionDirectory core behaviour"
 msgstr ""
 
 #: setup/class_setupStep_Config3.inc:170
-#, fuzzy
 msgid "Session lifetime must be a numeric value!"
-msgstr "需要的分值必须是数字。"
+msgstr ""
 
 #: setup/class_setupStep_Config3.inc:174
-#, fuzzy
 msgid "Maximum LDAP query time must be a numeric value!"
-msgstr "需要的分值必须是数字。"
+msgstr ""
 
 #: setup/class_setupStep_Finish.inc:37
-#, fuzzy
 msgid "Write configuration file"
-msgstr "配置文件"
+msgstr ""
 
 #: setup/class_setupStep_Finish.inc:38
-#, fuzzy
 msgid "Finish - write the configuration file"
-msgstr "需要 XML 功能来解析配置文件。"
+msgstr ""
 
 #: setup/class_setupStep_Finish.inc:103
-#, fuzzy
 msgid ""
 "Your configuration file is currently world readable. Please update the file "
 "permissions!"
-msgstr "FusionDirectory 配置 %s/fusiondirectory.conf 不可读取。退出。"
+msgstr ""
 
 #: setup/class_setupStep_Finish.inc:105
-#, fuzzy
 msgid "The configuration is currently not readable or it does not exists."
-msgstr "FusionDirectory 配置 %s/fusiondirectory.conf 不可读取。退出。"
+msgstr ""
 
 #: setup/class_setupStep_Finish.inc:111
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "After downloading and placing the file under %s, please make sure that the "
 "user the webserver is running with is able to read %s, while other users "
 "shouldn't."
 msgstr ""
-"将文件保存在 FusionDirectory 配置文件目录中，确认 Web 服务器运行的账号能够读"
-"取 gosa.conf，其他用户则无权访问。您可以执行如下命令来实现："
 
 #: setup/setup_welcome.tpl:4
 msgid ""
@@ -1855,9 +1677,8 @@ msgid "Migrate every possible LDAP setup - create backup dumps!"
 msgstr ""
 
 #: setup/setup_welcome.tpl:25
-#, fuzzy
 msgid "To continue..."
-msgstr "安装继续..."
+msgstr ""
 
 #: setup/setup_welcome.tpl:28
 msgid ""
@@ -1974,8 +1795,8 @@ msgstr ""
 
 #: setup/setup_feedback.tpl:50
 msgid ""
-"When checking this option, FusionDirectory will try to connect http://www."
-"fusiondirectory.org in order to submit your form anonymously."
+"When checking this option, FusionDirectory will try to connect "
+"http://www.fusiondirectory.org in order to submit your form anonymously."
 msgstr ""
 
 #: setup/setup_feedback.tpl:52
@@ -2039,16 +1860,16 @@ msgid "How many objects are in your LDAP?"
 msgstr ""
 
 #: setup/setup_feedback.tpl:137
-#, fuzzy
 msgid "Features"
-msgstr "功能"
+msgstr ""
 
 #: setup/setup_feedback.tpl:140
 msgid "What features of FusionDirectory do you use?"
 msgstr ""
 
 #: setup/setup_feedback.tpl:150
-msgid "What features do you want to see in future versions of FusionDirectory?"
+msgid ""
+"What features do you want to see in future versions of FusionDirectory?"
 msgstr ""
 
 #: setup/setup_feedback.tpl:157
@@ -2057,15 +1878,14 @@ msgstr ""
 
 #: setup/setup_migrate.tpl:5
 msgid ""
-"During the LDAP inspection, we're going to check for several common pitfalls "
-"that may occur when migration to FusionDirectory base LDAP administration. "
+"During the LDAP inspection, we're going to check for several common pitfalls"
+" that may occur when migration to FusionDirectory base LDAP administration. "
 "You may want to fix the problems below, in order to provide smooth services."
 msgstr ""
 
 #: setup/setup_migrate.tpl:33
-#, fuzzy
 msgid "Check again"
-msgstr "检查"
+msgstr ""
 
 #: setup/setup_migrate.tpl:37
 msgid "Add required object classes to the LDAP base"
@@ -2075,17 +1895,15 @@ msgstr ""
 #: setup/setup_migrate.tpl:344 setup/setup_migrate.tpl:398
 #: setup/setup_migrate.tpl:453 setup/setup_migrate.tpl:496
 #: setup/setup_migrate.tpl:540
-#, fuzzy
 msgid "Current"
-msgstr "当前版本"
+msgstr ""
 
 #: setup/setup_migrate.tpl:46 setup/setup_migrate.tpl:248
 #: setup/setup_migrate.tpl:351 setup/setup_migrate.tpl:405
 #: setup/setup_migrate.tpl:457 setup/setup_migrate.tpl:500
 #: setup/setup_migrate.tpl:544
-#, fuzzy
 msgid "After migration"
-msgstr "用户管理"
+msgstr ""
 
 #: setup/setup_migrate.tpl:54 setup/class_setupStep_Migrate.inc:375
 #: setup/class_setupStep_Migrate.inc:664 setup/class_setupStep_Migrate.inc:804
@@ -2094,9 +1912,8 @@ msgstr "用户管理"
 #: setup/class_setupStep_Migrate.inc:2574
 #: setup/class_setupStep_Migrate.inc:2728
 #: setup/class_setupStep_Migrate.inc:3058
-#, fuzzy
 msgid "Migrate"
-msgstr "创建"
+msgstr ""
 
 #: setup/setup_migrate.tpl:60 setup/setup_migrate.tpl:107
 msgid "Close"
@@ -2123,9 +1940,8 @@ msgstr ""
 #: setup/setup_migrate.tpl:421 setup/setup_migrate.tpl:464
 #: setup/setup_migrate.tpl:507 setup/setup_migrate.tpl:551
 #: include/class_listing.inc:304
-#, fuzzy
 msgid "Select all"
-msgstr "选择"
+msgstr ""
 
 #: setup/setup_migrate.tpl:95
 msgid ""
@@ -2134,9 +1950,8 @@ msgid ""
 msgstr ""
 
 #: setup/setup_migrate.tpl:100
-#, fuzzy
 msgid "Move selected workstations"
-msgstr "选择查看工作站"
+msgstr ""
 
 #: setup/setup_migrate.tpl:101
 msgid "What will be done here"
@@ -2174,9 +1989,8 @@ msgstr ""
 #: setup/setup_migrate.tpl:237 setup/setup_migrate.tpl:374
 #: setup/setup_migrate.tpl:427 setup/setup_migrate.tpl:472
 #: setup/setup_migrate.tpl:515 setup/setup_migrate.tpl:559
-#, fuzzy
 msgid "Show changes"
-msgstr "显示软件包"
+msgstr ""
 
 #: setup/setup_migrate.tpl:168
 msgid "Move users into configured user tree"
@@ -2196,9 +2010,8 @@ msgid ""
 msgstr ""
 
 #: setup/setup_migrate.tpl:176
-#, fuzzy
 msgid "Move selected users into this people tree"
-msgstr "创建使用该模板的用户"
+msgstr ""
 
 #: setup/setup_migrate.tpl:219
 msgid "Migrate GOsa 2.5 administrative accounts"
@@ -2211,19 +2024,16 @@ msgid ""
 msgstr ""
 
 #: setup/setup_migrate.tpl:257 setup/setup_ldap.tpl:65
-#, fuzzy
 msgid "Reload"
-msgstr "读"
+msgstr ""
 
 #: setup/setup_migrate.tpl:273
-#, fuzzy
 msgid "Abort"
-msgstr "端口"
+msgstr ""
 
 #: setup/setup_migrate.tpl:275
-#, fuzzy
 msgid "Create a new FusionDirectory administrator account"
-msgstr "创建 netatalk 账号"
+msgstr ""
 
 #: setup/setup_migrate.tpl:278
 msgid ""
@@ -2237,9 +2047,8 @@ msgid "User ID"
 msgstr "用户 ID"
 
 #: setup/setup_migrate.tpl:307
-#, fuzzy
 msgid "Password (again)"
-msgstr "口令存储"
+msgstr ""
 
 #: setup/setup_migrate.tpl:333
 msgid ""
@@ -2265,18 +2074,17 @@ msgstr ""
 
 #: setup/setup_migrate.tpl:444
 msgid ""
-"The listed devices are currently invisible in the FusionDirectory interface. "
-"If you want to change this for a couple of devices, just select them and use "
-"the 'Migrate' button below."
+"The listed devices are currently invisible in the FusionDirectory interface."
+" If you want to change this for a couple of devices, just select them and "
+"use the 'Migrate' button below."
 msgstr ""
 
 #: setup/setup_migrate.tpl:470 setup/setup_migrate.tpl:513
 #: setup/setup_migrate.tpl:557 plugins/admin/users/password.tpl:50
 #: plugins/personal/password/password.tpl:68
 #: plugins/personal/generic/password.tpl:62
-#, fuzzy
 msgid "Refresh"
-msgstr "参考"
+msgstr "刷新"
 
 #: setup/setup_migrate.tpl:488
 msgid ""
@@ -2288,24 +2096,21 @@ msgstr ""
 #: setup/setup_migrate.tpl:532
 msgid ""
 "The listed menus are currently invisible in the FusionDirectory interface. "
-"If you want to change this for a couple of devices, just select them and use "
-"the 'Migrate' button below."
+"If you want to change this for a couple of devices, just select them and use"
+" the 'Migrate' button below."
 msgstr ""
 
 #: setup/class_setupStep_Welcome.inc:38
-#, fuzzy
 msgid "Welcome"
-msgstr "欢迎 %s!"
+msgstr ""
 
 #: setup/class_setupStep_Welcome.inc:39
-#, fuzzy
 msgid "The welcome message"
-msgstr "解除挂起的邮件"
+msgstr ""
 
 #: setup/class_setupStep_Welcome.inc:40
-#, fuzzy
 msgid "Welcome to FusionDirectory setup wizard"
-msgstr "欢迎进入 Gosa 安装程序！"
+msgstr ""
 
 #: setup/setup_checks.tpl:9
 msgid "PHP module and extension checks"
@@ -2320,14 +2125,12 @@ msgid "FusionDirectory will run without fixing this."
 msgstr ""
 
 #: setup/setup_checks.tpl:67
-#, fuzzy
 msgid "PHP setup configuration"
-msgstr "PHP 安装检查"
+msgstr ""
 
 #: setup/setup_checks.tpl:67
-#, fuzzy
 msgid "show information"
-msgstr "个人信息"
+msgstr ""
 
 #: setup/setup_ldap.tpl:7
 msgid "Please choose the LDAP user to be used by FusionDirectory"
@@ -2338,23 +2141,20 @@ msgid "Search"
 msgstr "查找"
 
 #: setup/setup_ldap.tpl:25
-#, fuzzy
 msgid "LDAP connection"
-msgstr "断开"
+msgstr ""
 
 #: setup/setup_ldap.tpl:29
 msgid "Location name"
 msgstr "位置名称"
 
 #: setup/setup_ldap.tpl:37
-#, fuzzy
 msgid "Connection URI"
-msgstr "连接 URL"
+msgstr ""
 
 #: setup/setup_ldap.tpl:45
-#, fuzzy
 msgid "TLS connection"
-msgstr "连接"
+msgstr ""
 
 #: setup/setup_ldap.tpl:55 plugins/admin/acl/acl-list.tpl:13
 #: plugins/admin/acl/acl_role.tpl:27 plugins/admin/acl/class_aclRole.inc:734
@@ -2389,9 +2189,8 @@ msgid "Base"
 msgstr "位置"
 
 #: setup/setup_ldap.tpl:69
-#, fuzzy
 msgid "Authentication"
-msgstr "Nagios 鉴权"
+msgstr ""
 
 #: setup/setup_ldap.tpl:73
 msgid "Admin DN"
@@ -2400,9 +2199,8 @@ msgstr "管理员 DN"
 #: setup/setup_ldap.tpl:78
 #: plugins/admin/groups/singleUserSelect/singleUser-list.xml:79
 #: plugins/admin/groups/singleUserSelect/singleUser-list.xml:85
-#, fuzzy
 msgid "Select user"
-msgstr "删除用户"
+msgstr ""
 
 #: setup/setup_ldap.tpl:86
 msgid "Automatically append LDAP base to admin DN"
@@ -2413,98 +2211,81 @@ msgid "Admin password"
 msgstr "管理员口令"
 
 #: setup/setup_ldap.tpl:101
-#, fuzzy
 msgid "Schema based settings"
-msgstr "Samba 设置"
+msgstr ""
 
 #: setup/setup_ldap.tpl:105
 msgid "Use rfc2307bis compliant groups"
 msgstr ""
 
 #: setup/setup_ldap.tpl:117
-#, fuzzy
 msgid "Current status"
-msgstr "当前版本"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:126 setup/class_setupStep_Migrate.inc:127
-#, fuzzy
 msgid "LDAP inspection"
-msgstr "PHP 安装检查"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:128
 msgid "Analyze your current LDAP for FusionDirectory compatibility"
 msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:134
-#, fuzzy
 msgid "Checking for root object"
-msgstr "检查 iconv 支持"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:140
-#, fuzzy
 msgid "Inspecting object classes in root object"
-msgstr "检查 iconv 支持"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:146
-#, fuzzy
 msgid "Checking permission for LDAP database"
-msgstr "您无权删除这个部门。"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:152
-#, fuzzy
 msgid "Checking for invisible departments"
-msgstr "检查 iconv 支持"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:157
-#, fuzzy
 msgid "Checking for invisible users"
-msgstr "检查 iconv 支持"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:164
 #: setup/class_setupStep_Migrate.inc:3209
-#, fuzzy
 msgid "Checking for super administrator"
-msgstr "检查一些附加程序"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:170
-#, fuzzy
 msgid "Checking for users outside the people tree"
-msgstr "检查 cups 模块"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:176
-#, fuzzy
 msgid "Checking for groups outside the groups tree"
-msgstr "检查 cups 模块"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:183
-#, fuzzy
 msgid "Checking for windows workstations outside the computers tree"
-msgstr "检查 cups 模块"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:189
-#, fuzzy
 msgid "Checking for duplicated UID numbers"
-msgstr "检查函数 %s"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:195
-#, fuzzy
 msgid "Checking for duplicate GID numbers"
-msgstr "检查函数 %s"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:201
-#, fuzzy
 msgid "Checking for old style USB devices"
-msgstr "检查 iconv 支持"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:207
-#, fuzzy
 msgid "Checking for old services that have to be migrated"
-msgstr "检查 cups 模块"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:213
-#, fuzzy
 msgid "Checking for old style application menus"
-msgstr "检查函数 %s"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:239 setup/class_setupStep_Migrate.inc:291
 #: setup/class_setupStep_Migrate.inc:356 setup/class_setupStep_Migrate.inc:420
@@ -2515,9 +2296,8 @@ msgstr "检查函数 %s"
 #: setup/class_setupStep_Migrate.inc:2504
 #: setup/class_setupStep_Migrate.inc:2695
 #: setup/class_setupStep_Migrate.inc:2832
-#, fuzzy
 msgid "LDAP query failed"
-msgstr "Mysql 查询失败。"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:240 setup/class_setupStep_Migrate.inc:292
 #: setup/class_setupStep_Migrate.inc:357 setup/class_setupStep_Migrate.inc:421
@@ -2532,14 +2312,14 @@ msgid "Possibly the 'root object' is missing."
 msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:262
-#, fuzzy, php-format
+#, php-format
 msgid "Found %s duplicate values for attribute 'uidNumber'."
-msgstr "发现记录类型 '%s' 有重复。"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:314
-#, fuzzy, php-format
+#, php-format
 msgid "Found %s duplicate values for attribute 'gidNumber'."
-msgstr "发现记录类型 '%s' 有重复。"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:372 setup/class_setupStep_Migrate.inc:582
 #: setup/class_setupStep_Migrate.inc:595
@@ -2566,9 +2346,8 @@ msgid "Found %s groups outside the configured tree '%s'."
 msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:448 setup/class_setupStep_Migrate.inc:525
-#, fuzzy
 msgid "Move"
-msgstr "模式"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:524
 #, php-format
@@ -2590,14 +2369,13 @@ msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:712 setup/class_setupStep_Migrate.inc:855
 #: setup/class_setupStep_Migrate.inc:1118
-#, fuzzy
 msgid "Migration error"
-msgstr "创建"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:712 setup/class_setupStep_Migrate.inc:855
-#, fuzzy, php-format
+#, php-format
 msgid "Cannot migrate department '%s':"
-msgstr "转到根部门"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:803
 #, php-format
@@ -2610,10 +2388,10 @@ msgid "GOsa 2.5 administrative accounts found: %s"
 msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1032
-#, fuzzy
 msgid ""
-"There is no valid FusionDirectory 1.0 administrator account inside your LDAP."
-msgstr "创建 netatalk 账号"
+"There is no valid FusionDirectory 1.0 administrator account inside your "
+"LDAP."
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1034
 #: setup/class_setupStep_Migrate.inc:1050 plugins/admin/acl/acl-list.xml:76
@@ -2636,9 +2414,8 @@ msgid "Groups"
 msgstr "用户组"
 
 #: setup/class_setupStep_Migrate.inc:1049
-#, fuzzy
 msgid "There is no FusionDirectory administrator account inside your LDAP."
-msgstr "创建 netatalk 账号"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1118
 #, php-format
@@ -2647,40 +2424,35 @@ msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1156
 #: setup/class_setupStep_Migrate.inc:1166
-#, fuzzy
 msgid "Input error"
-msgstr "PHP 错误"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1156
 msgid "Uid"
 msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1161
-#, fuzzy
 msgid "Password error"
-msgstr "口令过期截止日"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1161
-#, fuzzy
 msgid "Provided passwords do not match!"
-msgstr "输入的新口令和重复口令不匹配！"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1166
-#, fuzzy
 msgid "Specify a valid user ID!"
-msgstr "请输入一个有效的用户名！"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1199
-#, fuzzy, php-format
+#, php-format
 msgid "Adding an administrative user failed: object '%s' already exists!"
-msgstr "为对象 '%s' 设置动作状态(FAIstate) 失败，值为 '%s'。"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1238
 #: setup/class_setupStep_Migrate.inc:1287
 #: setup/class_setupStep_Migrate.inc:1336
-#, fuzzy
 msgid "Cannot move users to the requested department!"
-msgstr "选择放置部门的子树"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1248
 msgid "Winstation will be moved from"
@@ -2689,9 +2461,8 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:1248
 #: setup/class_setupStep_Migrate.inc:1298
 #: setup/class_setupStep_Migrate.inc:1346 include/class_plugin.inc:1962
-#, fuzzy
 msgid "to"
-msgstr "停止"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1259
 #: setup/class_setupStep_Migrate.inc:1308
@@ -2730,9 +2501,8 @@ msgid "Missing FusionDirectory object class '%s'!"
 msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:2058
-#, fuzzy
 msgid "Please check your installation."
-msgstr "请检查用户名/口令。"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:2079
 #, php-format
@@ -2742,9 +2512,9 @@ msgid ""
 msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:2438
-#, fuzzy, php-format
+#, php-format
 msgid "Copy '%s' to '%s' failed:"
-msgstr "移动 '%s' 到 '%s'"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:2573
 #, php-format
@@ -2758,9 +2528,9 @@ msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:2653
 #: setup/class_setupStep_Migrate.inc:2770
-#, fuzzy, php-format
+#, php-format
 msgid "Updating '%s' failed: %s"
-msgstr "Logging DB 用户"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:2726
 #, php-format
@@ -2797,8 +2567,8 @@ msgstr ""
 #: include/class_config.inc:1132 include/class_config.inc:1163
 #, php-format
 msgid ""
-"The snapshot functionality is enabled, but the required variable '%s' is not "
-"set."
+"The snapshot functionality is enabled, but the required variable '%s' is not"
+" set."
 msgstr ""
 
 #: include/class_SnapshotHandler.inc:61 include/class_config.inc:1145
@@ -2817,9 +2587,8 @@ msgid "PDF"
 msgstr ""
 
 #: include/exporter/class_PDF.inc:44
-#, fuzzy
 msgid "Page"
-msgstr "呼机"
+msgstr ""
 
 #: include/exporter/class_cvsExporter.inc:71
 msgid "CSV"
@@ -2842,26 +2611,23 @@ msgid "Unknown"
 msgstr "未知"
 
 #: include/class_xml.inc:52
-#, fuzzy
 msgid "in"
-msgstr "首页"
+msgstr ""
 
 #: include/class_xml.inc:54
-#, fuzzy
 msgid "on line"
-msgstr "继续"
+msgstr ""
 
 #: include/class_xml.inc:55
-#, fuzzy
 msgid "XML error"
-msgstr "LDAP 错误:"
+msgstr ""
 
 #: include/class_tabs.inc:57
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "No plugin definitions found to initialize '%s', please check your "
 "configuration file."
-msgstr "无法连接到指定数据库，请检查您 glpi 设置。"
+msgstr ""
 
 #: include/class_tabs.inc:265
 #, php-format
@@ -2887,9 +2653,8 @@ msgid "unconfigured"
 msgstr "未配置"
 
 #: include/class_management.inc:149
-#, fuzzy
 msgid "Filter error"
-msgstr "终端服务器"
+msgstr ""
 
 #: include/class_management.inc:149
 msgid "The filter is incomplete!"
@@ -2902,29 +2667,27 @@ msgstr ""
 #: include/class_plugin.inc:1746
 #: plugins/admin/users/class_userManagement.inc:236
 #: plugins/admin/users/class_userManagement.inc:769
-#, fuzzy
 msgid "Permission"
-msgstr "允许"
+msgstr ""
 
 #: include/class_management.inc:357
 #: plugins/admin/acl/class_aclManagement.inc:98
 #: plugins/admin/users/class_userManagement.inc:727
 #: plugins/admin/users/class_userManagement.inc:731
-#, fuzzy
 msgid "Permission error"
-msgstr "允许"
+msgstr ""
 
 #: include/class_management.inc:432 include/class_plugin.inc:1706
-#, fuzzy, php-format
+#, php-format
 msgid "You are not allowed to create a snapshot for %s."
-msgstr "您无权删除这个用户！"
+msgstr ""
 
 #: include/class_management.inc:479 include/class_management.inc:516
 #: include/class_management.inc:530 include/class_plugin.inc:1718
 #: include/class_plugin.inc:1733 include/class_plugin.inc:1746
-#, fuzzy, php-format
+#, php-format
 msgid "You are not allowed to restore a snapshot for %s."
-msgstr "您无权删除这个用户！"
+msgstr ""
 
 #: include/class_management.inc:589
 #, php-format
@@ -2950,9 +2713,8 @@ msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
 msgstr "致命错误：连接 LDAP 错误。服务器返回 '%s'。"
 
 #: include/functions.inc:531
-#, fuzzy
 msgid "Username / UID is not unique inside the LDAP tree!"
-msgstr "用户名 / UID 不唯一。请检查您的 LDAP 数据库。"
+msgstr ""
 
 #: include/functions.inc:617 include/functions.inc:835
 #: include/functions.inc:954 include/functions.inc:1369
@@ -2962,40 +2724,36 @@ msgstr "用户名 / UID 不唯一。请检查您的 LDAP 数据库。"
 #: include/class_acl.inc:962 include/class_session.inc:79
 #: include/class_session.inc:104 include/class_session.inc:130
 #: include/class_ldap.inc:711 include/class_ldap.inc:762
-#, fuzzy
 msgid "Internal error"
-msgstr "终端服务器"
+msgstr ""
 
 #: include/functions.inc:617
-#, fuzzy
 msgid ""
 "Username / UID is not unique inside the LDAP tree. Please contact your "
 "Administrator."
-msgstr "用户名 / UID 不唯一。请检查您的 LDAP 数据库。"
+msgstr ""
 
 #: include/functions.inc:835 include/functions.inc:954
 msgid "Error while adding a lock. Contact the developers!"
 msgstr ""
 
 #: include/functions.inc:845
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "Cannot create locking information in LDAP tree. Please contact your "
 "administrator!"
 msgstr ""
-"无法获得 LDAP 数据库的锁信息。检查 fusiondirectory.conf 中的 'config' 条目！"
 
 #: include/functions.inc:845
-#, fuzzy, php-format
+#, php-format
 msgid "LDAP server returned: %s"
-msgstr "LDAP 服务器"
+msgstr ""
 
 #: include/functions.inc:975
-#, fuzzy
 msgid ""
 "Found multiple locks for object to be locked. This should not happen - "
 "cleaning up multiple references."
-msgstr "发现要锁定的对象由多个锁。这虽然不可能──清除多个引用。"
+msgstr ""
 
 #: include/functions.inc:1292
 #, php-format
@@ -3026,9 +2784,9 @@ msgid "Edit anyway"
 msgstr "仍然编辑"
 
 #: include/functions.inc:1736
-#, fuzzy, php-format
+#, php-format
 msgid "You're going to edit the LDAP entry/entries %s"
-msgstr "您将要拷贝条目 '%s'。"
+msgstr ""
 
 #: include/functions.inc:1980
 msgid "Entries per page"
@@ -3048,30 +2806,25 @@ msgid "File '%s' could not be deleted."
 msgstr ""
 
 #: include/functions.inc:2516
-#, fuzzy
 msgid "Cannot write to revision file!"
-msgstr "无法创建文件 '%s'。"
+msgstr ""
 
 #: include/functions.inc:2544
-#, fuzzy
 msgid "Cannot read to revision file!"
-msgstr "无法创建文件 '%s'。"
+msgstr ""
 
 #: include/functions.inc:2731 include/functions.inc:2735
 #: include/functions.inc:2741
-#, fuzzy
 msgid "'baseIdHook' is not available. Using default base!"
-msgstr "警告： nextIdHook不可用。使用缺省 base。"
+msgstr ""
 
 #: include/functions.inc:2776
-#, fuzzy
 msgid "LDAP warning"
-msgstr "LDAP 管理"
+msgstr ""
 
 #: include/functions.inc:2776
-#, fuzzy
 msgid "Cannot get schema information from server. No schema check possible!"
-msgstr "不能从服务器得到 schema 信息。无法对 schema 检查！"
+msgstr ""
 
 #: include/functions.inc:2802
 msgid "Used to store account specific informations."
@@ -3099,9 +2852,9 @@ msgid "Version mismatch for required object class '%s' (!=%s)!"
 msgstr ""
 
 #: include/functions.inc:2865
-#, fuzzy, php-format
+#, php-format
 msgid "Class(es) available"
-msgstr "文件可用。"
+msgstr ""
 
 #: include/functions.inc:2887
 msgid ""
@@ -3166,9 +2919,8 @@ msgid "Chinese"
 msgstr "芯片组"
 
 #: include/functions.inc:2930
-#, fuzzy
 msgid "Vietnamese"
-msgstr "名"
+msgstr ""
 
 #: include/functions.inc:2931
 msgid "Russian"
@@ -3190,9 +2942,8 @@ msgstr ""
 #: include/functions.inc:3535 include/functions.inc:3547
 #: include/functions.inc:3551 include/functions.inc:3566
 #: include/functions.inc:3575
-#, fuzzy
 msgid "Cannot allocate a free ID:"
-msgstr "太多用户，无法分配一个可用的 ID！"
+msgstr ""
 
 #: include/functions.inc:3477
 msgid "unknown idAllocation method!"
@@ -3204,27 +2955,24 @@ msgid "%sPoolMin >= %sPoolMax!"
 msgstr ""
 
 #: include/functions.inc:3527
-#, fuzzy
 msgid "Cannot create sambaUnixIdPool entry!"
-msgstr "转到根部门"
+msgstr ""
 
 #: include/functions.inc:3535
 msgid "sambaUnixIdPool is not unique!"
 msgstr ""
 
 #: include/functions.inc:3547 include/functions.inc:3551
-#, fuzzy
 msgid "no ID available!"
-msgstr "文件可用。"
+msgstr ""
 
 #: include/functions.inc:3575
 msgid "maximum tries exceeded!"
 msgstr ""
 
 #: include/functions.inc:3642
-#, fuzzy
 msgid "Cannot allocate a free ID!"
-msgstr "太多用户，无法分配一个可用的 ID！"
+msgstr ""
 
 #: include/class_listing.inc:245 include/class_listing.inc:1004
 #: include/class_listing.inc:1006 include/class_sortableListing.inc:264
@@ -3238,9 +2986,8 @@ msgid "Down"
 msgstr "关闭"
 
 #: include/class_listing.inc:514
-#, fuzzy
 msgid "created by"
-msgstr "创建"
+msgstr ""
 
 #: include/class_listing.inc:996
 msgid "Go to root department"
@@ -3281,15 +3028,13 @@ msgstr "动作"
 
 #: include/class_listing.inc:1385 include/class_listing.inc:1435
 #: include/class_plugin.inc:2236
-#, fuzzy
 msgid "Copy"
-msgstr "复制"
+msgstr ""
 
 #: include/class_listing.inc:1391 include/class_listing.inc:1425
 #: include/class_plugin.inc:2240
-#, fuzzy
 msgid "Cut"
-msgstr "剪切"
+msgstr ""
 
 #: include/class_listing.inc:1399 include/class_listing.inc:1401
 #: include/class_CopyPasteHandler.inc:568 include/class_plugin.inc:2247
@@ -3306,14 +3051,12 @@ msgid "Copy this entry"
 msgstr "拷贝条目"
 
 #: include/class_listing.inc:1467 include/class_listing.inc:1469
-#, fuzzy
 msgid "Restore snapshots"
-msgstr "删除记录"
+msgstr ""
 
 #: include/class_listing.inc:1483
-#, fuzzy
 msgid "Export list"
-msgstr "导出"
+msgstr ""
 
 #: include/class_listing.inc:1518 include/class_listing.inc:1519
 #: include/class_SnapShotDialog.inc:129 include/class_plugin.inc:2168
@@ -3321,24 +3064,21 @@ msgid "Restore snapshot"
 msgstr ""
 
 #: include/class_listing.inc:1528 include/class_plugin.inc:2175
-#, fuzzy
 msgid "Create snapshot"
-msgstr "创建 nagios 账户"
+msgstr ""
 
 #: include/class_listing.inc:1529 include/class_plugin.inc:2176
-#, fuzzy
 msgid "Create a new snapshot from this object"
-msgstr "创建新 FAI 对象"
+msgstr ""
 
 #: include/class_SnapShotDialog.inc:75
-#, fuzzy, php-format
+#, php-format
 msgid "You're about to delete the snapshot '%s'."
-msgstr "您将要删除宏 '%s'。"
+msgstr ""
 
 #: include/class_SnapShotDialog.inc:131
-#, fuzzy
 msgid "Remove snapshot"
-msgstr "删除记录"
+msgstr ""
 
 #: include/class_SnapShotDialog.inc:133 include/class_SnapShotDialog.inc:153
 msgid "Y-m-d, H:i:s"
@@ -3384,14 +3124,12 @@ msgid "XML error in fusiondirectory.conf: %s at line %d"
 msgstr "XML 出错于 fusiondirectory.conf: %s ，行 %d"
 
 #: include/class_config.inc:341
-#, fuzzy
 msgid "Cannot bind to LDAP. Please contact the system administrator."
-msgstr "无法绑定 LDAP。请联系系统管理员。"
+msgstr ""
 
 #: include/class_config.inc:687
-#, fuzzy
 msgid "sambaSID and/or sambaRidBase missing in the configuration!"
-msgstr "您的配置文件缺少 SID 和/或 RIDBASE！"
+msgstr ""
 
 #: include/class_CopyPasteHandler.inc:116
 #: include/class_CopyPasteHandler.inc:125
@@ -3400,15 +3138,15 @@ msgstr "您的配置文件缺少 SID 和/或 RIDBASE！"
 #: include/class_CopyPasteHandler.inc:183
 #: include/class_CopyPasteHandler.inc:191
 #: include/class_CopyPasteHandler.inc:271
-#, fuzzy, php-format
+#, php-format
 msgid "Copy and paste failed!"
-msgstr "拷贝和粘贴精灵"
+msgstr ""
 
 #: include/class_CopyPasteHandler.inc:116
 #: include/class_CopyPasteHandler.inc:191
-#, fuzzy, php-format
+#, php-format
 msgid "Cannot set permission for '%s'"
-msgstr "无法创建文件 '%s'。"
+msgstr ""
 
 #: include/class_CopyPasteHandler.inc:157
 #, php-format
@@ -3416,9 +3154,9 @@ msgid "'%s' is no vaild LDAP object"
 msgstr ""
 
 #: include/class_CopyPasteHandler.inc:174
-#, fuzzy, php-format
+#, php-format
 msgid "No write permission in '%s'"
-msgstr "无法创建文件 '%s'。"
+msgstr ""
 
 #: include/class_CopyPasteHandler.inc:394
 #, php-format
@@ -3431,9 +3169,8 @@ msgid "This object will be pasted: %s"
 msgstr ""
 
 #: include/class_CopyPasteHandler.inc:570
-#, fuzzy
 msgid "Cannot paste"
-msgstr "无法粘贴"
+msgstr ""
 
 #: include/password-methods/class_password-methods-sasl.inc:34
 msgid "SASL"
@@ -3445,8 +3182,8 @@ msgstr ""
 
 #: include/class_plugin.inc:531
 msgid ""
-"The object has changed since opened in FusionDirectory. All changes that may "
-"be done by others get lost if you save this entry!"
+"The object has changed since opened in FusionDirectory. All changes that may"
+" be done by others get lost if you save this entry!"
 msgstr ""
 
 #: include/class_plugin.inc:1961
@@ -3458,9 +3195,8 @@ msgid "from"
 msgstr "从"
 
 #: include/class_plugin.inc:2150 include/class_plugin.inc:2152
-#, fuzzy
 msgid "Restore"
-msgstr "仓库"
+msgstr ""
 
 #: include/class_plugin.inc:2194
 msgid "cut"
@@ -3471,9 +3207,8 @@ msgid "copy"
 msgstr "复制"
 
 #: include/class_sortableListing.inc:224
-#, fuzzy
 msgid "Sortable list"
-msgstr "导出"
+msgstr ""
 
 #: include/class_sortableListing.inc:227 include/class_sortableListing.inc:229
 #: include/class_acl.inc:505 include/class_acl.inc:553
@@ -3503,9 +3238,9 @@ msgid "Delete this entry"
 msgstr "删除这个条目"
 
 #: include/class_log.inc:86
-#, fuzzy, php-format
+#, php-format
 msgid "Logging failed: %s"
-msgstr "Logging DB 用户"
+msgstr ""
 
 #: include/class_log.inc:101
 #, php-format
@@ -3513,9 +3248,8 @@ msgid "Invalid option '%s' specified!"
 msgstr ""
 
 #: include/class_log.inc:105
-#, fuzzy
 msgid "Specified objectType is empty or invalid!"
-msgstr "指定的 branch 名称无效。"
+msgstr ""
 
 #: include/class_timezone.inc:53
 #, php-format
@@ -3525,9 +3259,8 @@ msgid ""
 msgstr ""
 
 #: include/class_certificate.inc:76
-#, fuzzy
 msgid "Certificate is empty!"
-msgstr "证书"
+msgstr ""
 
 #: include/class_certificate.inc:103
 msgid "Cannot load certificate - only PEM/DER is supported!"
@@ -3538,57 +3271,49 @@ msgid "Cannot extract information for non PEM certificates!"
 msgstr ""
 
 #: include/class_certificate.inc:222
-#, fuzzy
 msgid "No valid certificate loaded!"
-msgstr "无有效证书加载"
+msgstr ""
 
 #: include/class_filter.inc:322 include/class_msgPool.inc:48
 #: plugins/admin/ogroups/ogroup_objects.tpl:33
 #: plugins/personal/posix/posix_groups.tpl:68
-#, fuzzy
 msgid "Search in subtrees"
-msgstr "在子树中查找"
+msgstr ""
 
 #: include/class_acl.inc:29
-#, fuzzy
 msgid "Access control"
-msgstr "访问选项"
+msgstr ""
 
 #: include/class_acl.inc:30 plugins/admin/acl/class_aclManagement.inc:26
-#, fuzzy
 msgid "Manage access control lists"
-msgstr "访问选项"
+msgstr ""
 
 #: include/class_acl.inc:122 include/class_acl.inc:583
 #: include/class_acl.inc:1011
-#, fuzzy, php-format
+#, php-format
 msgid "All users"
-msgstr "用户"
+msgstr ""
 
 #: include/class_acl.inc:216 plugins/admin/acl/class_aclRole.inc:127
-#, fuzzy
 msgid "All categories"
-msgstr "添加分类"
+msgstr ""
 
 #: include/class_acl.inc:224
 msgid "Reset ACLs"
 msgstr ""
 
 #: include/class_acl.inc:225 plugins/admin/acl/class_aclRole.inc:135
-#, fuzzy
 msgid "One level"
-msgstr "日志级别"
+msgstr ""
 
 #: include/class_acl.inc:226 include/class_acl.inc:231
 #: plugins/admin/acl/class_aclRole.inc:136
-#, fuzzy
 msgid "Current object"
-msgstr "创建新 FAI 对象"
+msgstr ""
 
 #: include/class_acl.inc:227 plugins/admin/acl/class_aclRole.inc:137
-#, fuzzy
 msgid "Complete subtree"
-msgstr "忽略子树"
+msgstr ""
 
 #: include/class_acl.inc:228 plugins/admin/acl/class_aclRole.inc:138
 msgid "Complete subtree (permanent)"
@@ -3608,9 +3333,8 @@ msgid "Contains ACLs for these objects: %s"
 msgstr ""
 
 #: include/class_acl.inc:553 include/class_acl.inc:557
-#, fuzzy
 msgid "category ACL"
-msgstr "分类"
+msgstr ""
 
 #: include/class_acl.inc:610
 #, php-format
@@ -3622,29 +3346,24 @@ msgid "All objects in current subtree"
 msgstr ""
 
 #: include/class_acl.inc:781 include/class_acl.inc:788
-#, fuzzy
 msgid "Show/hide advanced settings"
-msgstr "高级电话设置"
+msgstr ""
 
 #: include/class_acl.inc:805
-#, fuzzy
 msgid "Create objects"
-msgstr "创建新 FAI 对象"
+msgstr ""
 
 #: include/class_acl.inc:806
-#, fuzzy
 msgid "Move objects"
-msgstr "成员对象"
+msgstr ""
 
 #: include/class_acl.inc:807
-#, fuzzy
 msgid "Remove objects"
-msgstr "成员对象"
+msgstr ""
 
 #: include/class_acl.inc:809
-#, fuzzy
 msgid "Grant permission to owner"
-msgstr "无法创建文件 '%s'。"
+msgstr ""
 
 #: include/class_acl.inc:813 include/class_acl.inc:918
 #: include/class_acl.inc:922
@@ -3657,29 +3376,27 @@ msgid "write"
 msgstr "写"
 
 #: include/class_acl.inc:818
-#, fuzzy
 msgid "Complete object"
-msgstr "成员对象"
+msgstr ""
 
 #: include/class_acl.inc:962
-#, fuzzy, php-format
+#, php-format
 msgid "Unkown ACL type '%s'!"
-msgstr "未知 FAIstate %s"
+msgstr ""
 
 #: include/class_acl.inc:1007
-#, fuzzy, php-format
+#, php-format
 msgid "Unknown entry '%s'!"
-msgstr "未知 FAIstate %s"
+msgstr ""
 
 #: include/class_acl.inc:1071 include/class_acl.inc:1073
-#, fuzzy, php-format
+#, php-format
 msgid "Role: %s"
-msgstr "角色"
+msgstr ""
 
 #: include/class_acl.inc:1073
-#, fuzzy
 msgid "unknown role"
-msgstr "! 未知 id"
+msgstr ""
 
 #: include/class_acl.inc:1081
 #, php-format
@@ -3687,45 +3404,37 @@ msgid "Contains settings for these objects: %s"
 msgstr ""
 
 #: include/class_acl.inc:1098
-#, fuzzy
 msgid "inactive"
-msgstr "活动"
+msgstr ""
 
 #: include/class_acl.inc:1098
-#, fuzzy
 msgid "No members"
-msgstr "组成员"
+msgstr ""
 
 #: include/class_acl.inc:1268
-#, fuzzy
 msgid "Access control list"
-msgstr "访问选项"
+msgstr ""
 
 #: include/class_acl.inc:1273
-#, fuzzy
 msgid "ACL roles"
-msgstr "MAC 地址"
+msgstr ""
 
 #: include/class_session.inc:79 include/class_session.inc:104
 #: include/class_session.inc:130
-#, fuzzy
 msgid "Requested channel does not exist! Please contact your Administrator."
-msgstr "用户名 / UID 不唯一。请检查您的 LDAP 数据库。"
+msgstr ""
 
 #: include/class_multi_plug.inc:361
-#, fuzzy
 msgid "You are currently editing mutliple entries."
-msgstr "您无权删除这个部门。"
+msgstr ""
 
 #: include/class_multi_plug.inc:390
-#, fuzzy
 msgid "Password reset"
-msgstr "口令过期截止日"
+msgstr ""
 
 #: include/class_multi_plug.inc:390
-#, fuzzy
 msgid "The user password was resetted, please set a new password value!"
-msgstr "您的口令已经过期 !! 选择一个新口令"
+msgstr ""
 
 #: include/class_ldap.inc:249 include/class_ldap.inc:282
 msgid "Performance warning"
@@ -3765,13 +3474,14 @@ msgstr ""
 #: include/class_ldap.inc:1048
 #, php-format
 msgid ""
-"This is not a valid DN: '%s'. A block for import should begin with 'dn: ...' "
-"in line %s"
+"This is not a valid DN: '%s'. A block for import should begin with 'dn: ...'"
+" in line %s"
 msgstr "这不是一条有效的 DN: '%s'。导入数据应该以 'dn:...' 开始于行 %s"
 
 #: include/class_ldap.inc:1077
 #, php-format
-msgid "Error while importing dn: '%s', please check your LDIF from line %s on!"
+msgid ""
+"Error while importing dn: '%s', please check your LDIF from line %s on!"
 msgstr "导入 dn: '%s' 时错误，请从行 %s 开始检查您的 LDIF！"
 
 #: include/php_setup.inc:99
@@ -3783,9 +3493,8 @@ msgid "Send bug report to the FusionDirectory Team"
 msgstr ""
 
 #: include/php_setup.inc:104
-#, fuzzy
 msgid "Send bugreport"
-msgstr "发送者"
+msgstr ""
 
 #: include/php_setup.inc:109
 msgid "Toggle information"
@@ -3836,19 +3545,19 @@ msgid "Please fix the above error and reload the page."
 msgstr ""
 
 #: include/class_msgPool.inc:40
-#, fuzzy, php-format
+#, php-format
 msgid "Select to list objects of type '%s'."
-msgstr "选择要添加的对象"
+msgstr ""
 
 #: include/class_msgPool.inc:42
-#, fuzzy, php-format
+#, php-format
 msgid "Select to list objects containig '%s'."
-msgstr "选择查看包含用户的组"
+msgstr ""
 
 #: include/class_msgPool.inc:44
-#, fuzzy, php-format
+#, php-format
 msgid "Select to list objects that have '%s' enabled"
-msgstr "选择要添加的对象"
+msgstr ""
 
 #: include/class_msgPool.inc:46 plugins/admin/ogroups/ogroup_objects.tpl:33
 msgid "Select to search within subtrees"
@@ -3893,95 +3602,79 @@ msgid "These '%s' objects will be deleted: %s"
 msgstr ""
 
 #: include/class_msgPool.inc:88
-#, fuzzy
 msgid "You have no permission to delete this object!"
-msgstr "您无权删除这个部门。"
+msgstr ""
 
 #: include/class_msgPool.inc:92 include/class_msgPool.inc:96
-#, fuzzy
 msgid "You have no permission to delete the object:"
-msgstr "您无权删除这个部门。"
+msgstr ""
 
 #: include/class_msgPool.inc:99
-#, fuzzy
 msgid "You have no permission to delete these objects:"
-msgstr "您无权删除这个部门。"
+msgstr ""
 
 #: include/class_msgPool.inc:106
-#, fuzzy
 msgid "You have no permission to create this object!"
-msgstr "您无权删除这个部门。"
+msgstr ""
 
 #: include/class_msgPool.inc:110 include/class_msgPool.inc:114
-#, fuzzy
 msgid "You have no permission to create the object:"
-msgstr "您无权删除这个部门。"
+msgstr ""
 
 #: include/class_msgPool.inc:117
-#, fuzzy
 msgid "You have no permission to create these objects:"
-msgstr "您无权删除这个部门。"
+msgstr ""
 
 #: include/class_msgPool.inc:124
-#, fuzzy
 msgid "You have no permission to modify this object!"
-msgstr "您无权删除这个黑名单。"
+msgstr ""
 
 #: include/class_msgPool.inc:128 include/class_msgPool.inc:132
-#, fuzzy
 msgid "You have no permission to modify the object:"
-msgstr "您无权删除这个黑名单。"
+msgstr ""
 
 #: include/class_msgPool.inc:135
-#, fuzzy
 msgid "You have no permission to modify these objects:"
-msgstr "您无权删除这个黑名单。"
+msgstr ""
 
 #: include/class_msgPool.inc:142
-#, fuzzy
 msgid "You have no permission to view this object!"
-msgstr "您无权删除这个黑名单。"
+msgstr ""
 
 #: include/class_msgPool.inc:146 include/class_msgPool.inc:150
-#, fuzzy
 msgid "You have no permission to view the object:"
-msgstr "您无权在此 'Base' 下创建一个电话"
+msgstr ""
 
 #: include/class_msgPool.inc:153
-#, fuzzy
 msgid "You have no permission to view these objects:"
-msgstr "您无权删除这个黑名单。"
+msgstr ""
 
 #: include/class_msgPool.inc:160
-#, fuzzy
 msgid "You have no permission to move this object!"
-msgstr "您无权删除这个黑名单。"
+msgstr ""
 
 #: include/class_msgPool.inc:164 include/class_msgPool.inc:168
-#, fuzzy
 msgid "You have no permission to move the object:"
-msgstr "您无权删除这个黑名单。"
+msgstr ""
 
 #: include/class_msgPool.inc:171
-#, fuzzy
 msgid "You have no permission to move these objects:"
-msgstr "您无权删除这个黑名单。"
+msgstr ""
 
 #: include/class_msgPool.inc:181 include/class_msgPool.inc:193
 #: include/class_msgPool.inc:211
-#, fuzzy
 msgid "Connection information"
-msgstr "个人信息"
+msgstr ""
 
 #: include/class_msgPool.inc:183
-#, fuzzy, php-format
+#, php-format
 msgid "Cannot connect to %s database!"
-msgstr "无法连接到数据库!"
+msgstr ""
 
 #: include/class_msgPool.inc:195
-#, fuzzy, php-format
+#, php-format
 msgid "Cannot select %s database!"
-msgstr "无法选择数据库！"
+msgstr ""
 
 #: include/class_msgPool.inc:201
 #, php-format
@@ -3989,24 +3682,24 @@ msgid "No %s server defined!"
 msgstr ""
 
 #: include/class_msgPool.inc:213
-#, fuzzy, php-format
+#, php-format
 msgid "Cannot query %s database!"
-msgstr "无法选择数据库！"
+msgstr ""
 
 #: include/class_msgPool.inc:219
-#, fuzzy, php-format
+#, php-format
 msgid "The field '%s' contains a reserved keyword!"
-msgstr "“传真”字段包含一个无效电话号码"
+msgstr ""
 
 #: include/class_msgPool.inc:225
-#, fuzzy, php-format
+#, php-format
 msgid "Command specified as %s hook for plugin '%s' does not exist!"
-msgstr "命令 '%s'，作为插件 '%s' 的 CHECK hook 好像并不存在。"
+msgstr ""
 
 #: include/class_msgPool.inc:232
-#, fuzzy, php-format
+#, php-format
 msgid "'%s' command is invalid!"
-msgstr "指定的 branch 名称无效。"
+msgstr ""
 
 #: include/class_msgPool.inc:234
 #, php-format
@@ -4019,14 +3712,14 @@ msgid "'%s' command for plugin %s is invalid!"
 msgstr ""
 
 #: include/class_msgPool.inc:238
-#, fuzzy, php-format
+#, php-format
 msgid "'%s' command (%s) is invalid!"
-msgstr "指定的 branch 名称无效。"
+msgstr ""
 
 #: include/class_msgPool.inc:246
-#, fuzzy, php-format
+#, php-format
 msgid "Cannot execute '%s' command!"
-msgstr "无法选择数据库！"
+msgstr ""
 
 #: include/class_msgPool.inc:248
 #, php-format
@@ -4039,24 +3732,24 @@ msgid "Cannot execute '%s' command for plugin %s!"
 msgstr ""
 
 #: include/class_msgPool.inc:252
-#, fuzzy, php-format
+#, php-format
 msgid "Cannot execute '%s' command (%s)!"
-msgstr "无法选择数据库！"
+msgstr ""
 
 #: include/class_msgPool.inc:260
-#, fuzzy, php-format
+#, php-format
 msgid "Value for '%s' is too large!"
-msgstr "'UID' 赋值太小。"
+msgstr ""
 
 #: include/class_msgPool.inc:262
-#, fuzzy, php-format
+#, php-format
 msgid "'%s' must be smaller than %s!"
-msgstr "提供的 'shadowMin' 应该小于'shadowMax'。"
+msgstr ""
 
 #: include/class_msgPool.inc:270
-#, fuzzy, php-format
+#, php-format
 msgid "Value for '%s' is too small!"
-msgstr "'UID' 赋值太小。"
+msgstr ""
 
 #: include/class_msgPool.inc:272
 #, php-format
@@ -4069,23 +3762,23 @@ msgid "'%s' depends on '%s' - please provide both values!"
 msgstr ""
 
 #: include/class_msgPool.inc:285
-#, fuzzy, php-format
+#, php-format
 msgid "There is already an entry with this '%s' attribute in the system!"
-msgstr "数据库中已经有同样登录名的用户。"
+msgstr ""
 
 #: include/class_msgPool.inc:291
-#, fuzzy, php-format
+#, php-format
 msgid "The required field '%s' is empty!"
-msgstr "需要的“姓名”字段没有设置"
+msgstr ""
 
 #: include/class_msgPool.inc:299
 msgid "Example"
 msgstr ""
 
 #: include/class_msgPool.inc:319
-#, fuzzy, php-format
+#, php-format
 msgid "The Field '%s' contains invalid characters"
-msgstr "“姓名”字段包含无效字符。"
+msgstr ""
 
 #: include/class_msgPool.inc:320
 #, php-format
@@ -4093,91 +3786,91 @@ msgid "'%s' is not allowed:"
 msgstr ""
 
 #: include/class_msgPool.inc:320
-#, fuzzy, php-format
+#, php-format
 msgid "'%s' are not allowed!"
-msgstr "不允许修改口令"
+msgstr ""
 
 #: include/class_msgPool.inc:323
-#, fuzzy, php-format
+#, php-format
 msgid "The Field '%s' contains invalid characters!"
-msgstr "“姓名”字段包含无效字符。"
+msgstr ""
 
 #: include/class_msgPool.inc:330
-#, fuzzy, php-format
+#, php-format
 msgid "Missing %s PHP extension!"
-msgstr "删除打印机扩展"
+msgstr ""
 
 #: include/class_msgPool.inc:360
-#, fuzzy, php-format
+#, php-format
 msgid "Add %s"
-msgstr "添加"
+msgstr ""
 
 #: include/class_msgPool.inc:366
-#, fuzzy, php-format
+#, php-format
 msgid "Delete %s"
-msgstr "删除"
+msgstr ""
 
 #: include/class_msgPool.inc:372
-#, fuzzy, php-format
+#, php-format
 msgid "Set %s"
-msgstr "设置"
+msgstr ""
 
 #: include/class_msgPool.inc:378
-#, fuzzy, php-format
+#, php-format
 msgid "Edit..."
-msgstr "编辑"
+msgstr ""
 
 #: include/class_msgPool.inc:378
-#, fuzzy, php-format
+#, php-format
 msgid "Edit %s..."
-msgstr "编辑用户"
+msgstr ""
 
 #: include/class_msgPool.inc:384
 msgid "Back"
 msgstr "返回"
 
 #: include/class_msgPool.inc:404
-#, fuzzy, php-format
+#, php-format
 msgid "This account has no valid %s extensions!"
-msgstr "该账户没有有效的 Gosa 扩展。"
+msgstr ""
 
 #: include/class_msgPool.inc:410
-#, fuzzy, php-format
+#, php-format
 msgid ""
-"This account has %s settings enabled. You can disable them by clicking below."
-msgstr "这个账户已经启用 posix 功能。要禁用请点击下面按钮。"
+"This account has %s settings enabled. You can disable them by clicking "
+"below."
+msgstr ""
 
 #: include/class_msgPool.inc:413 include/class_msgPool.inc:420
-#, fuzzy, php-format
+#, php-format
 msgid ""
-"This account has %s settings enabled. To disable them, you'll need to remove "
-"the %s settings first!"
+"This account has %s settings enabled. To disable them, you'll need to remove"
+" the %s settings first!"
 msgstr ""
-"这个账户已经启用 unix 功能。要禁用，您需要先删除 samba / 环境变量账户。"
 
 #: include/class_msgPool.inc:429
-#, fuzzy, php-format
+#, php-format
 msgid ""
-"This account has %s settings disabled. You can enable them by clicking below."
-msgstr "这个账户已经启用 posix 功能。要启用请点击下面按钮。"
+"This account has %s settings disabled. You can enable them by clicking "
+"below."
+msgstr ""
 
 #: include/class_msgPool.inc:432 include/class_msgPool.inc:439
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "This account has %s settings disabled. To enable them, you'll need to add "
 "the %s settings first!"
 msgstr ""
-"这个账户已经启用 unix 功能。要禁用，您需要先删除 samba / 环境变量账户。"
 
 #: include/class_msgPool.inc:447
-#, fuzzy, php-format
+#, php-format
 msgid "Add %s settings"
-msgstr "应用程序设置"
+msgstr ""
 
 #: include/class_msgPool.inc:453
-#, fuzzy, php-format
+#, php-format
 msgid "Remove %s settings"
-msgstr "Posix 设置"
+msgstr ""
 
 #: include/class_msgPool.inc:459
 msgid "Click the 'Edit' button below to change informations in this dialog"
@@ -4232,23 +3925,20 @@ msgid "December"
 msgstr "十二月"
 
 #: include/class_msgPool.inc:473
-#, fuzzy
 msgid "Sunday"
-msgstr "姓"
+msgstr ""
 
 #: include/class_msgPool.inc:473
-#, fuzzy
 msgid "Monday"
-msgstr "月"
+msgstr ""
 
 #: include/class_msgPool.inc:473
 msgid "Tuesday"
 msgstr ""
 
 #: include/class_msgPool.inc:473
-#, fuzzy
 msgid "Wednesday"
-msgstr "星期三"
+msgstr ""
 
 #: include/class_msgPool.inc:473
 msgid "Thursday"
@@ -4263,58 +3953,50 @@ msgid "Saturday"
 msgstr ""
 
 #: include/class_msgPool.inc:480
-#, fuzzy
 msgid "Database operation failed!"
-msgstr "Mysql 查询失败。"
+msgstr ""
 
 #: include/class_msgPool.inc:488
-#, fuzzy
 msgid "read operation"
-msgstr "邮件选项"
+msgstr ""
 
 #: include/class_msgPool.inc:488
 msgid "add operation"
 msgstr ""
 
 #: include/class_msgPool.inc:488
-#, fuzzy
 msgid "modify operation"
-msgstr "个人信息"
+msgstr ""
 
 #: include/class_msgPool.inc:489
-#, fuzzy
 msgid "delete operation"
-msgstr "选择查看工作站"
+msgstr ""
 
 #: include/class_msgPool.inc:489
-#, fuzzy
 msgid "search operation"
-msgstr "账号过期于"
+msgstr ""
 
 #: include/class_msgPool.inc:489
-#, fuzzy
 msgid "authentication"
-msgstr "Nagios 鉴权"
+msgstr ""
 
 #: include/class_msgPool.inc:492
-#, fuzzy, php-format
+#, php-format
 msgid "LDAP %s failed!"
-msgstr "Mysql 查询失败。"
+msgstr ""
 
 #: include/class_msgPool.inc:494
-#, fuzzy
 msgid "LDAP operation failed!"
-msgstr "Mysql 查询失败。"
+msgstr ""
 
 #: include/class_msgPool.inc:509
-#, fuzzy
 msgid "Upload failed!"
-msgstr "用户登录失败。LDAP 服务器返回 '%s'。"
+msgstr ""
 
 #: include/class_msgPool.inc:512
-#, fuzzy, php-format
+#, php-format
 msgid "Upload failed: %s"
-msgstr "Logging DB 用户"
+msgstr ""
 
 #: include/class_msgPool.inc:519
 msgid "Communication failure with the infrastructure service!"
@@ -4331,14 +4013,14 @@ msgid "This '%s' is still in use by this object: %s"
 msgstr ""
 
 #: include/class_msgPool.inc:534
-#, fuzzy, php-format
+#, php-format
 msgid "This '%s' is still in use."
-msgstr "这个共享不能被删除，因为仍然被 %d 个用户使用："
+msgstr ""
 
 #: include/class_msgPool.inc:536
-#, fuzzy, php-format
+#, php-format
 msgid "This '%s' is still in use by these objects: %s"
-msgstr "这个共享不能被删除，因为仍然被 %d 个用户使用："
+msgstr ""
 
 #: include/class_msgPool.inc:542
 #, php-format
@@ -4346,14 +4028,14 @@ msgid "File '%s' does not exist!"
 msgstr ""
 
 #: include/class_msgPool.inc:548
-#, fuzzy, php-format
+#, php-format
 msgid "Cannot open file '%s' for reading!"
-msgstr "无法打开文件 '%s'。"
+msgstr ""
 
 #: include/class_msgPool.inc:554
-#, fuzzy, php-format
+#, php-format
 msgid "Cannot open file '%s' for writing!"
-msgstr "无法打开文件 '%s'。"
+msgstr ""
 
 #: include/class_msgPool.inc:560
 #, php-format
@@ -4363,24 +4045,24 @@ msgid ""
 msgstr ""
 
 #: include/class_msgPool.inc:566
-#, fuzzy, php-format
+#, php-format
 msgid "Cannot delete file '%s'!"
-msgstr "无法打开文件 '%s'。"
+msgstr ""
 
 #: include/class_msgPool.inc:572
-#, fuzzy, php-format
+#, php-format
 msgid "Cannot create folder '%s'!"
-msgstr "转到根部门"
+msgstr ""
 
 #: include/class_msgPool.inc:578
-#, fuzzy, php-format
+#, php-format
 msgid "Cannot delete folder '%s'!"
-msgstr "无法打开文件 '%s'。"
+msgstr ""
 
 #: include/class_msgPool.inc:584
-#, fuzzy, php-format
+#, php-format
 msgid "Checking for %s support"
-msgstr "检查 iconv 支持"
+msgstr ""
 
 #: include/class_msgPool.inc:590
 #, php-format
@@ -4404,15 +4086,13 @@ msgid "Please activate debugging for details!"
 msgstr ""
 
 #: plugins/admin/acl/acl-list.xml:11
-#, fuzzy
 msgid "List of acls"
-msgstr "宏列表"
+msgstr ""
 
 #: plugins/admin/acl/acl-list.xml:15
 #: plugins/admin/acl/class_aclManagement.inc:25
-#, fuzzy
 msgid "Acl"
-msgstr "全部"
+msgstr ""
 
 #: plugins/admin/acl/acl-list.xml:23 plugins/admin/acl/acl-list.xml:82
 #: plugins/admin/acl/class_aclRole.inc:725
@@ -4431,74 +4111,61 @@ msgstr "角色"
 #: plugins/admin/ogroups/ogroup-filter.tpl:3
 #: plugins/personal/posix/trustSelect/trust-filter.tpl:3
 #: plugins/personal/posix/groupSelect/group-filter.tpl:3
-#, fuzzy
 msgid "Filter"
 msgstr "过滤器"
 
 #: plugins/admin/acl/acl-filter.tpl:11
-#, fuzzy
 msgid "Show access control lists"
-msgstr "访问选项"
+msgstr ""
 
 #: plugins/admin/acl/acl-filter.tpl:12
-#, fuzzy
 msgid "Show roles"
-msgstr "显示电话"
+msgstr ""
 
 #: plugins/admin/acl/tabs_acl_role.inc:28
-#, fuzzy
 msgid "ACL Templates"
-msgstr "模板"
+msgstr ""
 
 #: plugins/admin/acl/remove.tpl:6 plugins/admin/users/remove.tpl:6
-#, fuzzy
 msgid ""
-"This includes all account data, system access rules, imap settings, etc. for "
-"this user. Please double check if your really want to do this since there is "
-"no way for FusionDirectory to get your data back."
+"This includes all account data, system access rules, imap settings, etc. for"
+" this user. Please double check if your really want to do this since there "
+"is no way for FusionDirectory to get your data back."
 msgstr ""
-"这包含该用户所有账号数据，系统访问规则，imap 设置等等。请再次检查您是否要这么"
-"做，因为 FusionDirectory 没有办法将您的数据找回。"
 
 #: plugins/admin/acl/class_aclManagement.inc:154
-#, fuzzy
 msgid "ACL Assignment"
-msgstr "管理"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:26
 #: plugins/admin/acl/class_aclRole.inc:726
-#, fuzzy
 msgid "Access control roles"
-msgstr "访问选项"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:27
-#, fuzzy
 msgid "Edit AC roles"
-msgstr "MAC 地址"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:134
-#, fuzzy
 msgid "Reset ACL"
-msgstr "删除"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:418
 msgid "No ACL settings for this category"
 msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:420
-#, fuzzy, php-format
+#, php-format
 msgid "ACL for these objects: %s"
-msgstr "创建新 FAI 对象"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:426
-#, fuzzy
 msgid "Edit category ACL"
-msgstr "编辑分类"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:430
-#, fuzzy
 msgid "Reset category ACL"
-msgstr "分类"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:450
 #, php-format
@@ -4506,17 +4173,15 @@ msgid "Edit ACL for '%s', scope is '%s'"
 msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:646
-#, fuzzy
 msgid "Object in use"
-msgstr "对象名称"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:646
-#, fuzzy, php-format
+#, php-format
 msgid "This role cannot be removed while it is in use by these objects:"
-msgstr "这个共享不能被删除，因为仍然被 %d 个用户使用："
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:736
-#, fuzzy
 msgid "Permissions"
 msgstr "允许"
 
@@ -4543,33 +4208,28 @@ msgid "Repeat new password"
 msgstr "重复新口令"
 
 #: plugins/admin/users/password.tpl:25 plugins/admin/users/password.tpl:68
-#, fuzzy
 msgid "Strength"
-msgstr "街道"
+msgstr ""
 
 #: plugins/admin/users/password.tpl:35
-#, fuzzy
 msgid "Password input dialog"
-msgstr "口令"
+msgstr ""
 
 #: plugins/admin/users/password.tpl:39
 #: plugins/personal/password/password.tpl:56
 #: plugins/personal/generic/password.tpl:51
-#, fuzzy
 msgid "Use proposal"
-msgstr "组"
+msgstr ""
 
 #: plugins/admin/users/password.tpl:56
 #: plugins/personal/password/password.tpl:74
 #: plugins/personal/generic/password.tpl:68
-#, fuzzy
 msgid "Manually specify a password"
-msgstr "请输入您的口令！"
+msgstr ""
 
 #: plugins/admin/users/password.tpl:84
-#, fuzzy
 msgid "Enforce password change on next login."
-msgstr "不允许修改口令"
+msgstr ""
 
 #: plugins/admin/users/password.tpl:91
 #: plugins/personal/password/password.tpl:101
@@ -4586,9 +4246,7 @@ msgid ""
 "Creating a new user can be assisted by using templates. Many database "
 "records will be filled automatically. Choose 'none' to skip the usage of "
 "templates."
-msgstr ""
-"可以使用模板来辅助新用户的创建。很多数据记录可以被自动填充。选择“无”来跳过模"
-"板选择。"
+msgstr "可以使用模板来辅助新用户的创建。很多数据记录可以被自动填充。选择“无”来跳过模板选择。"
 
 #: plugins/admin/users/template.tpl:15
 #: plugins/admin/users/class_userManagement.inc:560
@@ -4623,16 +4281,14 @@ msgid "Login"
 msgstr "登录名"
 
 #: plugins/admin/users/class_userManagement.inc:26
-#, fuzzy
 msgid "Manage users"
-msgstr "域用户"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:204
 #: plugins/admin/groups/class_groupManagement.inc:98
 #: plugins/admin/ogroups/class_ogroupManagement.inc:115
-#, fuzzy
 msgid "Infrastructure error"
-msgstr "PHP 错误"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:365
 #: plugins/personal/password/class_password.inc:140
@@ -4641,9 +4297,8 @@ msgid "Check-hook reported a problem: %s. Password change canceled!"
 msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:416
-#, fuzzy
 msgid "You have no permission to change this users password!"
-msgstr "您无权修改您的口令。"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:488
 #: plugins/admin/users/class_userManagement.inc:522
@@ -4664,9 +4319,8 @@ msgid "Given name"
 msgstr "名"
 
 #: plugins/admin/users/class_userManagement.inc:807
-#, fuzzy
 msgid "Account locking"
-msgstr "账户"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:808
 #, php-format
@@ -4676,14 +4330,12 @@ msgid ""
 msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:881
-#, fuzzy
 msgid "Unlock account"
-msgstr "我的账号"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:883
-#, fuzzy
 msgid "Lock account"
-msgstr "我的账号"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:896
 msgid "Edit generic properties"
@@ -4698,9 +4350,8 @@ msgid "POSIX"
 msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:900
-#, fuzzy
 msgid "Edit POSIX properties"
-msgstr "编辑 UNIX 属性"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:904
 #: plugins/admin/groups/class_groupManagement.inc:165
@@ -4751,9 +4402,8 @@ msgid "FAX"
 msgstr "传真"
 
 #: plugins/admin/users/class_userManagement.inc:920
-#, fuzzy
 msgid "Edit FAX properties"
-msgstr "编辑 UNIX 属性"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:923
 #: plugins/admin/groups/class_groupManagement.inc:180
@@ -4778,9 +4428,8 @@ msgid "Edit phone properties"
 msgstr "编辑电话属性"
 
 #: plugins/admin/users/templatize.tpl:2
-#, fuzzy
 msgid "Applying a template"
-msgstr "模板"
+msgstr ""
 
 #: plugins/admin/users/templatize.tpl:6
 msgid ""
@@ -4789,33 +4438,28 @@ msgid ""
 msgstr ""
 
 #: plugins/admin/users/templatize.tpl:33
-#, fuzzy
 msgid "No templates available!"
-msgstr "文件可用。"
+msgstr ""
 
 #: plugins/admin/users/user-filter.tpl:11
 msgid "Show templates"
 msgstr "显示模板"
 
 #: plugins/admin/users/user-filter.tpl:12
-#, fuzzy
 msgid "Show functional users"
-msgstr "显示用户"
+msgstr ""
 
 #: plugins/admin/users/user-filter.tpl:13
-#, fuzzy
 msgid "Show POSIX users"
-msgstr "Posix 设置"
+msgstr ""
 
 #: plugins/admin/users/user-filter.tpl:14
-#, fuzzy
 msgid "Show Mail users"
-msgstr "显示邮件用户"
+msgstr ""
 
 #: plugins/admin/users/user-filter.tpl:15
-#, fuzzy
 msgid "Show Samba users"
-msgstr "显示邮件用户"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:11
 msgid "List of users"
@@ -4840,31 +4484,26 @@ msgid "Properties"
 msgstr "属性"
 
 #: plugins/admin/users/user-list.xml:141
-#, fuzzy
 msgid "Lock users"
-msgstr "用户列表"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:149
-#, fuzzy
 msgid "Unlock users"
-msgstr "域用户"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:157
 #: plugins/admin/groups/group-list.xml:123
 #: plugins/admin/ogroups/ogroup-list.xml:106
-#, fuzzy
 msgid "Send message"
-msgstr "挂起邮件"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:168
-#, fuzzy
 msgid "Apply template"
-msgstr "模板"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:200
-#, fuzzy
 msgid "New user from template"
-msgstr "从模板创建用户"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:214
 msgid "Edit user"
@@ -4875,30 +4514,25 @@ msgid "%{filter:lockLabel(userPassword)}"
 msgstr ""
 
 #: plugins/admin/users/user-list.xml:247
-#, fuzzy
 msgid "Remove user"
-msgstr "删除图片"
+msgstr ""
 
 #: plugins/admin/password/main.inc:61
 #: plugins/admin/password/class_recoveryConfig.inc:66
-#, fuzzy
 msgid "Password recovery settings"
-msgstr "用户设置"
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:25
-#, fuzzy
 msgid "Password recovery"
-msgstr "口令过期截止日"
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:26
-#, fuzzy
 msgid "Manage password recovery settings"
-msgstr "用户设置"
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:60
-#, fuzzy
 msgid "[FusionDirectory] Password recovery link"
-msgstr "用户设置"
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:61
 #, php-format
@@ -4913,9 +4547,8 @@ msgid ""
 msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:62
-#, fuzzy
 msgid "[FusionDirectory] Password recovery successful"
-msgstr "用户设置"
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:63
 #, php-format
@@ -4928,9 +4561,8 @@ msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:132
 #: plugins/admin/password/class_recoveryConfig.inc:133
-#, fuzzy
 msgid "Password recovery config"
-msgstr "口令过期截止日"
+msgstr ""
 
 #: plugins/admin/groups/group-filter.tpl:11
 #: plugins/personal/posix/groupSelect/group-filter.tpl:11
@@ -4944,18 +4576,14 @@ msgstr "显示 samba 用户组"
 
 #: plugins/admin/groups/group-filter.tpl:13
 #: plugins/personal/posix/groupSelect/group-filter.tpl:13
-#, fuzzy
 msgid "Show mail groups"
-msgstr "显示 samba 用户组"
+msgstr ""
 
 #: plugins/admin/groups/remove.tpl:6
-#, fuzzy
 msgid ""
 "This may be a primary user group. Please double check if you really want to "
 "do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
-"这可能是一个主要的用户组。请再次检查您是否要这么做，因为 FusionDirectory 没有"
-"办法将您的数据找回。"
 
 #: plugins/admin/groups/trust_machines.tpl:6
 #: plugins/admin/ogroups/trust_machines.tpl:6
@@ -5001,9 +4629,8 @@ msgstr "匹配地址的正则表达式"
 #: plugins/admin/ogroups/objectSelect/selectObject-list.xml:11
 #: plugins/personal/posix/trustSelect/trust-list.xml:10
 #: plugins/personal/posix/groupSelect/group-list.xml:11
-#, fuzzy
 msgid "Please select the desired entries"
-msgstr "请选择一个打印机或者取消。"
+msgstr ""
 
 #: plugins/admin/groups/paste_generic.tpl:1
 msgid "Group settings"
@@ -5038,9 +4665,8 @@ msgstr "强制 ID 编号"
 
 #: plugins/admin/groups/class_group.inc:163
 #: plugins/admin/groups/class_group.inc:1362
-#, fuzzy
 msgid "Cannot find group SID in your configuration!"
-msgstr "无法在 LDAP 或您的配置文件中查找这个组 SID。"
+msgstr ""
 
 #: plugins/admin/groups/class_group.inc:404
 msgid "Samba group"
@@ -5086,9 +4712,8 @@ msgid "Add UID '%s' to group '%s' failed: UID is used more than once!"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:628
-#, fuzzy
 msgid "! unknown UID"
-msgstr "! 未知 id"
+msgstr ""
 
 #: plugins/admin/groups/class_group.inc:671
 #, php-format
@@ -5096,14 +4721,14 @@ msgid "Search returned too many results. Not displaying more than %s entries!"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:898
-#, fuzzy, php-format
+#, php-format
 msgid "Cannot find any SID for '%s'!"
-msgstr "无法创建文件 '%s'。"
+msgstr ""
 
 #: plugins/admin/groups/class_group.inc:903
-#, fuzzy, php-format
+#, php-format
 msgid "Cannot find any RIDBASE for '%s'!"
-msgstr "无法创建文件 '%s'。"
+msgstr ""
 
 #: plugins/admin/groups/class_group.inc:998
 #, php-format
@@ -5121,19 +4746,16 @@ msgid "GID"
 msgstr "GID"
 
 #: plugins/admin/groups/class_group.inc:1179
-#, fuzzy
 msgid "Generic group settings"
-msgstr "组设置"
+msgstr ""
 
 #: plugins/admin/groups/class_group.inc:1193
-#, fuzzy
 msgid "Samba group type"
-msgstr "Samba 组"
+msgstr ""
 
 #: plugins/admin/groups/class_group.inc:1194
-#, fuzzy
 msgid "Samba domain name"
-msgstr "Samba 主目录"
+msgstr ""
 
 #: plugins/admin/groups/class_group.inc:1195
 #: plugins/admin/ogroups/class_ogroup.inc:977
@@ -5142,19 +4764,16 @@ msgid "System trust"
 msgstr "信赖的系统"
 
 #: plugins/admin/groups/class_group.inc:1196
-#, fuzzy
 msgid "Phone pickup group"
-msgstr "成员属于电话应答组"
+msgstr ""
 
 #: plugins/admin/groups/class_group.inc:1197
-#, fuzzy
 msgid "Nagios group"
-msgstr "Nagios 账号"
+msgstr ""
 
 #: plugins/admin/groups/class_group.inc:1199
-#, fuzzy
 msgid "Group member"
-msgstr "组成员"
+msgstr ""
 
 #: plugins/admin/groups/group-list.xml:11
 msgid "List of groups"
@@ -5172,24 +4791,20 @@ msgid "Group"
 msgstr "组"
 
 #: plugins/admin/groups/group-list.xml:23
-#, fuzzy
 msgid "Group submenu entry"
-msgstr "组成员"
+msgstr ""
 
 #: plugins/admin/groups/group-list.xml:31
-#, fuzzy
 msgid "Group menu entry"
-msgstr "组成员"
+msgstr ""
 
 #: plugins/admin/groups/group-list.xml:155
-#, fuzzy
 msgid "Edit group"
-msgstr "主要用户组"
+msgstr ""
 
 #: plugins/admin/groups/group-list.xml:168
-#, fuzzy
 msgid "Remove group"
-msgstr "服务器"
+msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:26
 msgid "Group administration"
@@ -5202,21 +4817,18 @@ msgstr "Posix"
 
 #: plugins/admin/groups/class_groupManagement.inc:157
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:63
-#, fuzzy
 msgid "Edit posix properties"
-msgstr "编辑电话属性"
+msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:188
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:94
-#, fuzzy
 msgid "Menu"
-msgstr "打印机"
+msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:189
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:95
-#, fuzzy
 msgid "Edit start menu properties"
-msgstr "编辑 samba 属性"
+msgstr ""
 
 #: plugins/admin/groups/generic.tpl:14 plugins/personal/generic/generic.tpl:54
 #: plugins/personal/generic/generic.tpl:75
@@ -5255,35 +4867,30 @@ msgid "Group members"
 msgstr "组成员"
 
 #: plugins/admin/groups/generic.tpl:243
-#, fuzzy
 msgid "In all groups"
-msgstr "显示邮件组"
+msgstr ""
 
 #: plugins/admin/groups/generic.tpl:246
-#, fuzzy
 msgid "Not in all groups"
-msgstr "显示邮件组"
+msgstr ""
 
 #: plugins/admin/groups/userGroupSelect/selectUserGroup-filter.tpl:11
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:12
-#, fuzzy
 msgid "Show users"
-msgstr "显示服务器"
+msgstr ""
 
 #: plugins/admin/groups/userGroupSelect/selectUserGroup-filter.tpl:12
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:13
-#, fuzzy
 msgid "Show groups"
-msgstr "显示 samba 用户组"
+msgstr ""
 
 #: plugins/admin/departments/class_localityGeneric.inc:82
 #: plugins/admin/departments/class_localityGeneric.inc:83
 #: plugins/admin/departments/class_departmentManagement.inc:228
 #: plugins/admin/departments/dep-list.xml:39
 #: plugins/admin/departments/dep-list.xml:124
-#, fuzzy
 msgid "Locality"
-msgstr "位置"
+msgstr ""
 
 #: plugins/admin/departments/class_localityGeneric.inc:91
 #: plugins/admin/departments/organization.tpl:78
@@ -5312,9 +4919,8 @@ msgstr "位置"
 #: plugins/personal/generic/class_user.inc:1659
 #: plugins/personal/generic/generic.tpl:342
 #: plugins/personal/generic/generic.tpl:363
-#, fuzzy
 msgid "Manager"
-msgstr "域用户"
+msgstr ""
 
 #: plugins/admin/departments/class_localityGeneric.inc:95
 #: plugins/admin/departments/class_dcObject.inc:94
@@ -5336,20 +4942,17 @@ msgstr "管理设置"
 #: plugins/admin/departments/class_domain.inc:81
 #: plugins/admin/departments/class_domain.inc:82
 #: plugins/admin/departments/class_departmentManagement.inc:204
-#, fuzzy
 msgid "Domain Component"
-msgstr "域管理员"
+msgstr ""
 
 #: plugins/admin/departments/country.tpl:11
 #: plugins/admin/departments/class_countryGeneric.inc:91
-#, fuzzy
 msgid "Country name"
-msgstr "国家"
+msgstr ""
 
 #: plugins/admin/departments/country.tpl:14
-#, fuzzy
 msgid "Name of country to create"
-msgstr "要创建子树的名称"
+msgstr ""
 
 #: plugins/admin/departments/country.tpl:22
 #: plugins/admin/departments/domain.tpl:22
@@ -5379,9 +4982,8 @@ msgid ""
 msgstr "您的浏览器不支持 iframe，请使用这个链接来执行请求的操作。"
 
 #: plugins/admin/departments/dep_move_confirm.tpl:2
-#, fuzzy
 msgid "You are currently moving/renaming this department."
-msgstr "您无权删除这个部门。"
+msgstr ""
 
 #: plugins/admin/departments/dep_move_confirm.tpl:5
 msgid ""
@@ -5400,43 +5002,34 @@ msgid ""
 msgstr ""
 
 #: plugins/admin/departments/domain.tpl:11
-#, fuzzy
 msgid "Domain name"
-msgstr "域管理员"
+msgstr ""
 
 #: plugins/admin/departments/domain.tpl:14
-#, fuzzy
 msgid "Name of domain to create"
-msgstr "要创建子树的名称"
+msgstr ""
 
 #: plugins/admin/departments/remove.tpl:6
-#, fuzzy
 msgid ""
 "This includes 'all' accounts, systems, etc. in this subtree. Please double "
 "check if your really want to do this since there is no way for "
 "FusionDirectory to get your data back."
 msgstr ""
-"在这个子树中包含了所有账号，系统等等。请再次检查您是否要这么做，因为 "
-"FusionDirectory 没有办法将您的数据找回。"
 
 #: plugins/admin/departments/remove.tpl:10
 msgid ""
 "Best thing to do before performing this action would be to save the current "
 "contents of your LDAP tree in a file. So - if you've done so - press "
 "'Delete' to continue or 'Cancel' to abort."
-msgstr ""
-"最好在执行这个操作之前，保存当前 LDAP 树中的内容到一个文件。所以，如果您已经"
-"这么做了，按“删除”继续或者按“取消”退出。"
+msgstr "最好在执行这个操作之前，保存当前 LDAP 树中的内容到一个文件。所以，如果您已经这么做了，按“删除”继续或者按“取消”退出。"
 
 #: plugins/admin/departments/organization.tpl:11
-#, fuzzy
 msgid "Name of organization"
-msgstr "组织/公司"
+msgstr ""
 
 #: plugins/admin/departments/organization.tpl:14
-#, fuzzy
 msgid "Name of organization to create"
-msgstr "要创建子树的名称"
+msgstr ""
 
 #: plugins/admin/departments/organization.tpl:27
 #: plugins/admin/departments/class_department.inc:663
@@ -5506,15 +5099,13 @@ msgstr "这个子树的传真号码"
 
 #: plugins/admin/departments/dcObject.tpl:11
 #: plugins/admin/departments/locality.tpl:11
-#, fuzzy
 msgid "Locality name"
-msgstr "位置名称"
+msgstr ""
 
 #: plugins/admin/departments/dcObject.tpl:14
 #: plugins/admin/departments/locality.tpl:14
-#, fuzzy
 msgid "Name of locality to create"
-msgstr "要创建子树的名称"
+msgstr ""
 
 #: plugins/admin/departments/class_departmentManagement.inc:25
 #: plugins/admin/departments/class_department.inc:653
@@ -5523,16 +5114,14 @@ msgid "Departments"
 msgstr "部门"
 
 #: plugins/admin/departments/class_departmentManagement.inc:26
-#, fuzzy
 msgid "Manage Departments"
-msgstr "部门"
+msgstr ""
 
 #: plugins/admin/departments/class_departmentManagement.inc:192
 #: plugins/admin/departments/dep-list.xml:15
 #: plugins/admin/departments/dep-list.xml:103
-#, fuzzy
 msgid "Domain"
-msgstr "于域"
+msgstr "域"
 
 #: plugins/admin/departments/class_departmentManagement.inc:216
 #: plugins/admin/departments/class_countryGeneric.inc:82
@@ -5555,9 +5144,8 @@ msgid "Department"
 msgstr "部门"
 
 #: plugins/admin/departments/class_department.inc:431
-#, fuzzy
 msgid "Cannot find an unused tag for this administrative unit!"
-msgstr "致命错误：无法找到一个未使用的标志来标记管理单元！"
+msgstr ""
 
 #: plugins/admin/departments/class_department.inc:500
 #, php-format
@@ -5606,9 +5194,8 @@ msgid "Name of subtree to create"
 msgstr "要创建子树的名称"
 
 #: plugins/admin/departments/generic.tpl:22
-#, fuzzy
 msgid "Descriptive text for   department"
-msgstr "部门描述文件"
+msgstr ""
 
 #: plugins/admin/departments/dep-list.xml:11
 msgid "List of departments"
@@ -5616,14 +5203,12 @@ msgstr "部门列表"
 
 #: plugins/admin/departments/dep-list.xml:23
 #: plugins/admin/departments/dep-list.xml:110
-#, fuzzy
 msgid "Domain component"
-msgstr "域管理员"
+msgstr ""
 
 #: plugins/admin/departments/class_organizationGeneric.inc:122
-#, fuzzy
 msgid "Organization name"
-msgstr "组织/公司"
+msgstr ""
 
 #: plugins/admin/departments/class_organizationGeneric.inc:131
 #: plugins/personal/generic/class_user.inc:1671
@@ -5640,12 +5225,10 @@ msgid "Object groups"
 msgstr "对象组"
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:26
-#, fuzzy
 msgid "Manage object groups"
-msgstr "对象组名称"
+msgstr ""
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:182
-#, fuzzy
 msgid "Templates"
 msgstr "模板"
 
@@ -5663,9 +5246,8 @@ msgid "Workstation"
 msgstr "工作站"
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:190
-#, fuzzy
 msgid "Windows Install"
-msgstr "Windows 工作站"
+msgstr ""
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:191
 #: plugins/admin/ogroups/objectSelect/selectObject-list.xml:47
@@ -5681,29 +5263,24 @@ msgstr "打印机"
 
 #: plugins/admin/ogroups/objectSelect/selectObject-list.xml:39
 #: plugins/personal/posix/trustSelect/trust-list.xml:30
-#, fuzzy
 msgid "Winstation"
 msgstr "Windows 工作站"
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:11
-#, fuzzy
 msgid "Show department"
-msgstr "显示部门"
+msgstr ""
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:14
-#, fuzzy
 msgid "Show Applications"
-msgstr "应用程序"
+msgstr ""
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:15
-#, fuzzy
 msgid "Show server"
-msgstr "显示服务器"
+msgstr ""
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:16
-#, fuzzy
 msgid "Show workstation"
-msgstr "显示工作站"
+msgstr ""
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:17
 #: plugins/personal/posix/trustSelect/trust-filter.tpl:13
@@ -5711,77 +5288,62 @@ msgid "Show Windows PC"
 msgstr ""
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:18
-#, fuzzy
 msgid "Show terminal"
-msgstr "显示终端"
+msgstr ""
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:20
-#, fuzzy
 msgid "Show printer"
-msgstr "显示打印机"
+msgstr ""
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:21
-#, fuzzy
 msgid "Show phone"
-msgstr "显示软件包"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:11
-#, fuzzy
 msgid "user groups"
-msgstr "组"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:12
-#, fuzzy
 msgid "nested groups"
-msgstr "对象组"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:13
-#, fuzzy
 msgid "application groups"
-msgstr "显示应用程序组"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:14
-#, fuzzy
 msgid "department groups"
-msgstr "部门"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:15
-#, fuzzy
 msgid "server groups"
-msgstr "服务器"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:16
-#, fuzzy
 msgid "workstation groups"
-msgstr "工作站"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:17
-#, fuzzy
 msgid "windows workstation groups"
-msgstr "显示工作站"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:18
-#, fuzzy
 msgid "terminal groups"
-msgstr "显示邮件组"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:19
-#, fuzzy
 msgid "printer groups"
-msgstr "主要用户组"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:20
-#, fuzzy
 msgid "phone groups"
-msgstr "显示组"
+msgstr ""
 
 #: plugins/admin/ogroups/remove.tpl:6
-#, fuzzy
 msgid ""
 "Please double check if you really want to do this since there is no way for "
 "FusionDirectory to get your data back."
 msgstr ""
-"请再次检查您是否要这么做，因为 FusionDirectory 没有办法将您的数据找回。"
 
 #: plugins/admin/ogroups/paste_generic.tpl:7
 msgid "Please enter the new object group name"
@@ -5792,9 +5354,8 @@ msgid "Phone queue"
 msgstr "电话队列"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:165
-#, fuzzy
 msgid "Systems"
-msgstr "系统"
+msgstr "系统设置"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:176
 #: plugins/admin/ogroups/tabs_ogroups.inc:199
@@ -5851,9 +5412,8 @@ msgid "workstations"
 msgstr "工作站"
 
 #: plugins/admin/ogroups/class_ogroup.inc:355
-#, fuzzy
 msgid "winstations"
-msgstr "Windows 工作站"
+msgstr ""
 
 #: plugins/admin/ogroups/class_ogroup.inc:356
 msgid "terminals"
@@ -5879,19 +5439,16 @@ msgid ""
 msgstr ""
 
 #: plugins/admin/ogroups/class_ogroup.inc:785
-#, fuzzy
 msgid "You can combine two different object types at maximum, only!"
-msgstr "您最多只能组合两个不同的对象类！"
+msgstr ""
 
 #: plugins/admin/ogroups/class_ogroup.inc:966
-#, fuzzy
 msgid "Object group generic"
-msgstr "对象组"
+msgstr ""
 
 #: plugins/admin/ogroups/class_ogroup.inc:978
-#, fuzzy
 msgid "Member"
-msgstr "成员"
+msgstr ""
 
 #: plugins/admin/ogroups/generic.tpl:10
 msgid "Name of the group"
@@ -5911,14 +5468,12 @@ msgid "Object group"
 msgstr "对象组"
 
 #: plugins/admin/ogroups/ogroup-list.xml:142
-#, fuzzy
 msgid "Edit object group"
-msgstr "对象组"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-list.xml:155
-#, fuzzy
 msgid "Remove object group"
-msgstr "服务器"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup_objects.tpl:6
 msgid "Select objects to add"
@@ -5971,14 +5526,11 @@ msgid "Welcome %s!"
 msgstr "欢迎 %s!"
 
 #: plugins/generic/welcome/welcome.tpl:4
-#, fuzzy
 msgid ""
 "This is the FusionDirectory main menu. You can select your tasks from the "
 "menu on the left, or by choosing one of the pictograms below. All changes "
 "apply directly to your companies LDAP server."
 msgstr ""
-"这是 Gosa 主菜单。您可以从左侧的菜单中选择，或者点击下面的图标。所有改变都将"
-"直接修改您公司的 LDAP 服务器。"
 
 #: plugins/generic/welcome/welcome.tpl:8
 msgid ""
@@ -6027,9 +5579,8 @@ msgid "Show terminals"
 msgstr "显示终端"
 
 #: plugins/personal/posix/class_posixAccount.inc:38
-#, fuzzy
 msgid "Edit users POSIX settings"
-msgstr "Posix 设置"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:181
 msgid "expired"
@@ -6046,14 +5597,12 @@ msgid "active"
 msgstr "活动"
 
 #: plugins/personal/posix/class_posixAccount.inc:186
-#, fuzzy
 msgid "password not changeable"
-msgstr "活动，口令不可更改"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:188
-#, fuzzy
 msgid "password expired"
-msgstr "活动，口令过期"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:261
 msgid "automatic"
@@ -6070,14 +5619,14 @@ msgid "Password must be changed after %s days"
 msgstr "口令必须在 %s 天之后更改"
 
 #: plugins/personal/posix/class_posixAccount.inc:465
-#, fuzzy, php-format
+#, php-format
 msgid "Disable account after %s days of inactivity after password expiry"
-msgstr "口令过期 %s 天后，禁用账号"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:469
-#, fuzzy, php-format
+#, php-format
 msgid "Warn user %s days before password expiry"
-msgstr "在口令过期 %s 天之前警告用户"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:806
 msgid "Timeout while waiting for lock. Ignoring lock!"
@@ -6113,9 +5662,8 @@ msgstr "UID"
 
 #: plugins/personal/posix/class_posixAccount.inc:1077
 #: plugins/personal/posix/class_posixAccount.inc:1130
-#, fuzzy
 msgid "shadowMin"
-msgstr "显示终端"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:1082
 #: plugins/personal/posix/class_posixAccount.inc:1135
@@ -6124,20 +5672,17 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:1087
 #: plugins/personal/posix/class_posixAccount.inc:1140
-#, fuzzy
 msgid "shadowWarning"
-msgstr "显示分区"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:1101
 #: plugins/personal/posix/class_posixAccount.inc:1154
-#, fuzzy
 msgid "shadowInactive"
-msgstr "显示打印机"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:1665
-#, fuzzy
 msgid "POSIX account"
-msgstr "GLPI 账号"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:1669
 #: plugins/personal/password/class_password.inc:207
@@ -6151,52 +5696,44 @@ msgid "Shell"
 msgstr "Shell"
 
 #: plugins/personal/posix/class_posixAccount.inc:1678
-#, fuzzy
 msgid "Group ID"
-msgstr "组"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:1680
-#, fuzzy
 msgid "Force password change on login"
-msgstr "不允许修改口令"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:1681
-#, fuzzy
 msgid "Shadow min"
-msgstr "显示终端"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:1682
 msgid "Shadow max"
 msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:1683
-#, fuzzy
 msgid "Shadow warning"
-msgstr "显示分区"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:1684
-#, fuzzy
 msgid "Shadow inactive"
-msgstr "显示打印机"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:1685
-#, fuzzy
 msgid "Shadow expire"
-msgstr "显示人员"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:1686
 msgid "Public SSH key"
 msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:1687
-#, fuzzy
 msgid "System trust model"
-msgstr "信赖的系统"
+msgstr ""
 
 #: plugins/personal/posix/main.inc:139
-#, fuzzy
 msgid "POSIX settings"
-msgstr "Posix 设置"
+msgstr ""
 
 #: plugins/personal/posix/posix_shadow.tpl:9
 msgid "User must change password on first login"
@@ -6235,19 +5772,16 @@ msgid "Status"
 msgstr "状态"
 
 #: plugins/personal/posix/generic.tpl:41
-#, fuzzy
 msgid "Last logon"
-msgstr "姓"
+msgstr ""
 
 #: plugins/personal/posix/generic.tpl:100
-#, fuzzy
 msgid "Common group"
-msgstr "显示组"
+msgstr ""
 
 #: plugins/personal/posix/generic.tpl:104
-#, fuzzy
 msgid "Groups differ"
-msgstr "用户组"
+msgstr ""
 
 #: plugins/personal/posix/generic.tpl:127
 msgid "SSH keys"
@@ -6267,20 +5801,16 @@ msgid ""
 "To change your personal password use the fields below. The changes take "
 "effect immediately. Please memorize the new password, because you wouldn't "
 "be able to login without it."
-msgstr ""
-"用下面的表格更改个人口令。口令更改即时生效。请记住新口令，忘记口令将无法登"
-"录。"
+msgstr "用下面的表格更改个人口令。口令更改即时生效。请记住新口令，忘记口令将无法登录。"
 
 #: plugins/personal/password/password.tpl:14
-#, fuzzy
 msgid "Your Password has expired. Please choose a new password!"
-msgstr "您的口令已经过期 !! 选择一个新口令"
+msgstr ""
 
 #: plugins/personal/password/password.tpl:47
 #: plugins/personal/generic/password.tpl:42
-#, fuzzy
 msgid "Password change dialog"
-msgstr "不允许修改口令"
+msgstr ""
 
 #: plugins/personal/password/password.tpl:103
 #: plugins/personal/generic/password.tpl:97
@@ -6288,9 +5818,8 @@ msgid "Clear fields"
 msgstr "清除字段"
 
 #: plugins/personal/password/class_password.inc:27
-#, fuzzy
 msgid "Change user password"
-msgstr "修改口令"
+msgstr ""
 
 #: plugins/personal/password/class_password.inc:115
 msgid "You need to specify your current password in order to proceed."
@@ -6315,14 +5844,12 @@ msgid ""
 msgstr "您输入的当前口令不正确。"
 
 #: plugins/personal/password/class_password.inc:167
-#, fuzzy
 msgid "You have no permission to change your password."
-msgstr "您无权修改您的口令。"
+msgstr ""
 
 #: plugins/personal/password/class_password.inc:203
-#, fuzzy
 msgid "User password"
-msgstr "清除口令"
+msgstr ""
 
 #: plugins/personal/password/changed.tpl:3
 #: plugins/personal/generic/changed.tpl:3
@@ -6333,9 +5860,8 @@ msgstr "您已经成功更改口令。还要记住更改相关程序设定。"
 
 #: plugins/personal/password/nochange.tpl:2
 #: plugins/personal/generic/nochange.tpl:2
-#, fuzzy
 msgid "You have no permission to change your password at this time"
-msgstr "您无权修改您的口令。"
+msgstr ""
 
 #: plugins/personal/generic/generic_picture.tpl:5
 #: plugins/personal/generic/paste_generic.tpl:37
@@ -6377,9 +5903,8 @@ msgid "Certificate serial number"
 msgstr "证书系列号"
 
 #: plugins/personal/generic/class_user.inc:38
-#, fuzzy
 msgid "Edit organizational user settings"
-msgstr "应用程序设置"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:298
 msgid "Please add a single IP address or a network/netmask combination!"
@@ -6398,14 +5923,13 @@ msgid "Cannot upload file!"
 msgstr ""
 
 #: plugins/personal/generic/class_user.inc:504
-#, fuzzy
 msgid "Serial number"
-msgstr "电话号码"
+msgstr "系列号"
 
 #: plugins/personal/generic/class_user.inc:549
 msgid ""
-"(Some types of certificates are currently not supported and may be displayed "
-"as 'invalid'.)"
+"(Some types of certificates are currently not supported and may be displayed"
+" as 'invalid'.)"
 msgstr "（目前有的种类的证书不支持，可能显示为“无效”）"
 
 #: plugins/personal/generic/class_user.inc:559
@@ -6426,14 +5950,13 @@ msgid "No certificate installed"
 msgstr "未安装证书"
 
 #: plugins/personal/generic/class_user.inc:594
-#, fuzzy
 msgid "The selected password method is no longer available."
-msgstr "此应用程序不再可用。"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1008
 msgid ""
-"Cannot save user picture, FusionDirectory requires the package 'php5-"
-"imagick' to be installed!"
+"Cannot save user picture, FusionDirectory requires the package "
+"'php5-imagick' to be installed!"
 msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1146
@@ -6449,9 +5972,8 @@ msgid "Cannot build RDN: invalid attribute parameters!"
 msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1242
-#, fuzzy
 msgid "The selected password method requires initial configuration!"
-msgstr "此应用程序不再可用。"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1307
 #: plugins/personal/generic/class_user.inc:1675
@@ -6479,9 +6001,8 @@ msgid "Date of birth"
 msgstr "生日"
 
 #: plugins/personal/generic/class_user.inc:1441
-#, fuzzy
 msgid "Cannot open certificate!"
-msgstr "无法打开指定证书！"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1615
 #: plugins/personal/generic/generic.tpl:533
@@ -6539,14 +6060,12 @@ msgid "Postal code"
 msgstr "邮编"
 
 #: plugins/personal/generic/class_user.inc:1631
-#, fuzzy
 msgid "Generic user settings"
-msgstr "通用队列设置"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1643
-#, fuzzy
 msgid "User identification"
-msgstr "用户信息"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1644
 #: plugins/personal/generic/generic.tpl:100
@@ -6564,9 +6083,8 @@ msgid "Sex"
 msgstr "性别"
 
 #: plugins/personal/generic/class_user.inc:1649
-#, fuzzy
 msgid "Preferred language"
-msgstr "首选语种"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1652
 #: plugins/personal/generic/paste_generic.tpl:47
@@ -6574,19 +6092,16 @@ msgid "User picture"
 msgstr "用户图片"
 
 #: plugins/personal/generic/class_user.inc:1654
-#, fuzzy
 msgid "Login restrictions"
-msgstr "口令过期截止日"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1658
-#, fuzzy
 msgid "Department number"
-msgstr "部门名称"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1660
-#, fuzzy
 msgid "Employee number"
-msgstr "员工类别"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1661
 #: plugins/personal/generic/generic.tpl:333
@@ -6594,53 +6109,44 @@ msgid "Employee type"
 msgstr "员工类别"
 
 #: plugins/personal/generic/class_user.inc:1663
-#, fuzzy
 msgid "Room number"
-msgstr "电话号码"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1664
-#, fuzzy
 msgid "Telefon number"
-msgstr "电话号码"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1665
-#, fuzzy
 msgid "Pager number"
-msgstr "电话号码"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1666
-#, fuzzy
 msgid "Mobile number"
-msgstr "电话号码"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1667
-#, fuzzy
 msgid "Fax number"
-msgstr "系列号"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1673
 msgid "Home postal address"
 msgstr "住宅地址"
 
 #: plugins/personal/generic/class_user.inc:1674
-#, fuzzy
 msgid "Home phone number"
-msgstr "电话号码"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1676
-#, fuzzy
 msgid "User password method"
-msgstr "口令存储"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1677
-#, fuzzy
 msgid "User certificates"
-msgstr "编辑证书"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1885
-#, fuzzy
 msgid "Entries differ"
-msgstr "每页条目数"
+msgstr ""
 
 #: plugins/personal/generic/paste_generic.tpl:1
 msgid "User settings"
@@ -6714,177 +6220,5 @@ msgid "Please use the phone tab"
 msgstr "请使用电话页面"
 
 #: plugins/personal/generic/nochange.tpl:5
-#, fuzzy
 msgid "Your password hash method will not be changed!"
-msgstr "您的口令已经过期 !! 选择一个新口令"
-
-#~ msgid "You have no permissions to change your password."
-#~ msgstr "您无权修改您的口令。"
-
-#~ msgid "Help browser"
-#~ msgstr "帮助浏览器"
-
-#, fuzzy
-#~ msgid "There is no helpfile specified for this extension"
-#~ msgstr "此类没有帮助文件"
-
-#~ msgid "previous"
-#~ msgstr "上一个"
-
-#~ msgid "next"
-#~ msgstr "下一个"
-
-#, fuzzy
-#~ msgid "No help available for the extension '%s'."
-#~ msgstr "此插件没有可用帮助信息。"
-
-#~ msgid "Help"
-#~ msgstr "帮助"
-
-#~ msgid "Index"
-#~ msgstr "索引"
-
-#, fuzzy
-#~ msgid "MySQL"
-#~ msgstr "LDAP 错误:"
-
-#, fuzzy
-#~ msgid "Samba management"
-#~ msgstr "系统管理"
-
-#, fuzzy
-#~ msgid "Mailsystem management"
-#~ msgstr "系统管理"
-
-#, fuzzy
-#~ msgid "FAX system administration"
-#~ msgstr "用户管理"
-
-#, fuzzy
-#~ msgid "Asterisk administration"
-#~ msgstr "用户管理"
-
-#, fuzzy
-#~ msgid "System inventory"
-#~ msgstr "删除 inventory"
-
-#, fuzzy
-#~ msgid "System-/Configmanagement"
-#~ msgstr "系统管理"
-
-#~ msgid "Addressbook"
-#~ msgstr "地址簿"
-
-#, fuzzy
-#~ msgid "Get notifications or send feedback"
-#~ msgstr "主机通知命令"
-
-#, fuzzy
-#~ msgid "Please specify a valid email address."
-#~ msgstr "请输入一个有效的 iSerial。"
-
-#, fuzzy
-#~ msgid "Samba SID"
-#~ msgstr "Samba"
-
-#, fuzzy
-#~ msgid "RID base"
-#~ msgstr "数据库"
-
-#, fuzzy
-#~ msgid "License"
-#~ msgstr "行"
-
-#, fuzzy
-#~ msgid "MySQL operation failed!"
-#~ msgstr "Mysql 查询失败。"
-
-#, fuzzy
-#~ msgid "Cannot not parse XML!"
-#~ msgstr "太多用户，无法分配一个可用的 ID！"
-
-#, fuzzy
-#~ msgid "Cannot send abort event for entry %s!"
-#~ msgstr "无法创建文件 '%s'。"
-
-#, fuzzy
-#~ msgid "Cannot remove entry %s!"
-#~ msgstr "未知 FAIstate %s"
-
-#, fuzzy
-#~ msgid "Configuration"
-#~ msgstr "配置文件"
-
-#~ msgid "XML error in guide.xml: %s at line %d"
-#~ msgstr "XML 出错于 guide.xml: %s ，行 %d"
-
-#~ msgid "No help available for this plugin."
-#~ msgstr "此插件没有可用帮助信息。"
-
-#~ msgid "%s results for your search with the keyword %s"
-#~ msgstr "%s 结果当您查找关键字 %s"
-
-#~ msgid "%s%% hit rate in file %s"
-#~ msgstr "%s%% 点击率于文件 %s"
-
-#~ msgid "Helpdir '%s' is not accessible, can't read any helpfiles."
-#~ msgstr "帮助目录 '%s' 不能访问，无法读取任何帮助文件。"
-
-#, fuzzy
-#~ msgid "On"
-#~ msgstr "打开"
-
-#~ msgid ""
-#~ "Increase your server security by setting magic_quotes_gpc to 'on'. PHP "
-#~ "will escape all quotes in strings in this case."
-#~ msgstr ""
-#~ "将 magic_quotes_gpc 设置为 'on' 会增加服务器安全性。这种情况下 PHP 会将字"
-#~ "符串中所有引号编码。"
-
-#, fuzzy
-#~ msgid "Additional FusionDirectory settings"
-#~ msgstr "应用程序设置"
-
-#, fuzzy
-#~ msgid "Government mode"
-#~ msgstr "部门名称"
-
-#, fuzzy
-#~ msgid "Smarty compile directory"
-#~ msgstr "用户主目录"
-
-#, fuzzy
-#~ msgid "Path for PPD storage"
-#~ msgstr "口令存储"
-
-#, fuzzy
-#~ msgid "Path for kiosk profile storage"
-#~ msgstr "Kiosk profile 设置"
-
-#, fuzzy
-#~ msgid "Mail queue script"
-#~ msgstr "邮件队列"
-
-#, fuzzy
-#~ msgid "Notification script"
-#~ msgstr "主机通知周期"
-
-#, fuzzy
-#~ msgid "GOto-si daemon timeout"
-#~ msgstr "关闭"
-
-#, fuzzy
-#~ msgid "FusionDirectory %s"
-#~ msgstr "目录"
-
-#, fuzzy
-#~ msgid "FusionDirectory %s snapshot (Rev %s)"
-#~ msgstr "FusionDirectory 开发版（版本 %s）"
-
-#, fuzzy
-#~ msgid "FusionDirectory development snapshot (Rev %s)"
-#~ msgstr "FusionDirectory 开发版（版本 %s）"
-
-#, fuzzy
-#~ msgid "Sytem trust"
-#~ msgstr "信赖的系统"
+msgstr ""

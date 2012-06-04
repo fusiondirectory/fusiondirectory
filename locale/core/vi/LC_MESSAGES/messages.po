@@ -1,25 +1,22 @@
-# translation of VIcore2.po to Vietnamese
-# Copyright (C) 2008 Stefan Koehler
-# Copyright (C) 2011 FusionDirectory
-# This file is distributed under the same license as the FusionDirectory package.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
 # Stefan Koehler <stefan@gonicus.de>, 2008.
-#
 msgid ""
 msgstr ""
-"Project-Id-Version: VIcore2\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-26 15:45+0200\n"
-"PO-Revision-Date: 2008-07-04 09:59+0200\n"
-"Last-Translator: Stefan Koehler <stefan@gonicus.de>\n"
-"Language-Team: Vietnamese\n"
-"Language: \n"
+"Project-Id-Version: FusionDirectory\n"
+"Report-Msgid-Bugs-To: https://forge.fusiondirectory.org/projects/fd\n"
+"POT-Creation-Date: 2012-05-26 15:30+0200\n"
+"PO-Revision-Date: 2012-05-26 14:44+0000\n"
+"Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Bookmarks: -1,848,-1,-1,-1,-1,-1,57,-1,-1\n"
-"X-Generator: KBabel 1.11.4\n"
-"Plural-Forms:  nplurals=1; plural=0;\n"
+"Language: vi\n"
+"Plural-Forms: nplurals=1; plural=0\n"
 
 #: html/main.php:145 html/class_passwordRecovery.php:217
 #: include/class_xml.inc:47 include/functions.inc:450
@@ -37,13 +34,10 @@ msgid "PHP configuration"
 msgstr "Cấu hình PHP"
 
 #: html/main.php:166
-#, fuzzy
 msgid ""
 "Fatal error: Register globals is on. FusionDirectory will refuse to login "
 "unless this is fixed by an administrator."
 msgstr ""
-"LỖI NGHIÊM TRỌNG: Đăng ký toàn cầu đang bật. FusionDirectory sẽ từ chối đăng "
-"nhập vào trừ khi lỗi này được một admin sửa."
 
 #: html/main.php:196 ihtml/themes/default/password.tpl:40
 #: plugins/admin/users/class_userManagement.inc:415
@@ -89,16 +83,13 @@ msgid "Plugin"
 msgstr "Plugin"
 
 #: html/main.php:368
-#, fuzzy, php-format
+#, php-format
 msgid "Fatal error: Cannot find any plugin definitions for plugin '%s'!"
 msgstr ""
-"LỖI NGHIÊM TRỌNG: không thể tìm thấy bất cứ  plugin definition nào cho "
-"plugin '%s'!"
 
 #: html/main.php:383
-#, fuzzy
 msgid "Configuration Error"
-msgstr "Lỗi cấu hình"
+msgstr ""
 
 #: html/main.php:384
 #, php-format
@@ -108,14 +99,12 @@ msgid ""
 msgstr ""
 
 #: html/class_passwordRecovery.php:107
-#, fuzzy
 msgid "Password recovery disabled"
-msgstr "Thay đổi mật khẩu"
+msgstr ""
 
 #: html/class_passwordRecovery.php:108
-#, fuzzy
 msgid "Error: Password recovery has been disabled!"
-msgstr "Lỗi: Phương pháp mật khẩu không có!"
+msgstr ""
 
 #: html/class_passwordRecovery.php:124
 #: plugins/personal/generic/class_user.inc:594
@@ -127,15 +116,14 @@ msgid "Error: Password method not available!"
 msgstr "Lỗi: Phương pháp mật khẩu không có!"
 
 #: html/class_passwordRecovery.php:218 html/index.php:146
-#, fuzzy, php-format
+#, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
-msgstr "Cấu hình FusionDirectory %s/%s không đọc được. Bãi bỏ."
+msgstr ""
 
 #: html/class_passwordRecovery.php:291 html/setup.php:63 html/index.php:167
 #, php-format
 msgid "Directory '%s' specified as compile directory is not accessible!"
-msgstr ""
-"Không thể truy cập vào thư mục '%s' được xác định là thư mục soạn thảo!"
+msgstr "Không thể truy cập vào thư mục '%s' được xác định là thư mục soạn thảo!"
 
 #: html/class_passwordRecovery.php:395
 #: plugins/admin/users/class_userManagement.inc:330
@@ -143,9 +131,7 @@ msgstr ""
 msgid ""
 "The passwords you've entered as 'New password' and 'Repeated new password' "
 "do not match."
-msgstr ""
-"Các mật khẩu bạn vừa nhập vào: \"Mật khẩu mới\" và \"Mật khẩu lặp lại\" "
-"không giống nhau."
+msgstr "Các mật khẩu bạn vừa nhập vào: \"Mật khẩu mới\" và \"Mật khẩu lặp lại\" không giống nhau."
 
 #: html/class_passwordRecovery.php:397 ihtml/themes/default/password.tpl:81
 #: ihtml/themes/default/password.tpl:82
@@ -209,9 +195,8 @@ msgid "Found multiple accounts %s"
 msgstr ""
 
 #: html/class_passwordRecovery.php:487 ihtml/themes/default/recovery.tpl:140
-#, fuzzy
 msgid "Adresse mail"
-msgstr "Địa chỉ"
+msgstr ""
 
 #: html/class_passwordRecovery.php:499
 #, php-format
@@ -276,9 +261,8 @@ msgid "Contact your administrator, there was a problem with mail server"
 msgstr ""
 
 #: html/class_passwordRecovery.php:559
-#, fuzzy
 msgid "This token is invalid"
-msgstr "Lệnh '%s' không hợp lệ!"
+msgstr ""
 
 #: html/class_passwordRecovery.php:597
 msgid "External password changer reported a problem: "
@@ -296,9 +280,7 @@ msgstr "Phiên không được mã hóa!"
 msgid ""
 "The session lifetime configured in your fusiondirectory.conf will be "
 "overridden by php.ini settings."
-msgstr ""
-"Thời gian hạn định của phiên được cấu hình trong file fusiondirectory.conf "
-"của bạn sẽ được ghi đè lên bởi các thiết lập php.ini."
+msgstr "Thời gian hạn định của phiên được cấu hình trong file fusiondirectory.conf của bạn sẽ được ghi đè lên bởi các thiết lập php.ini."
 
 #: html/index.php:167
 msgid "Smarty error"
@@ -362,16 +344,11 @@ msgstr "Lỗi"
 
 #: html/index.php:226
 msgid "Cannot find a valid user for the current authentication setup!"
-msgstr ""
-"Không thể tìm thấy một người dùng hợp lệ cho việc cài đặt xác định thẩm "
-"quyền hiện tại!"
+msgstr "Không thể tìm thấy một người dùng hợp lệ cho việc cài đặt xác định thẩm quyền hiện tại!"
 
 #: html/index.php:230
-#, fuzzy
 msgid "User information is not unique across the configured LDAP trees!"
 msgstr ""
-"Thông tin người dùng không phải là duy nhất trong tất cả các cây LDAP đã "
-"được cấu hình!"
 
 #: html/index.php:267
 msgid "Cannot detect information about the installed LDAP schema!"
@@ -395,9 +372,7 @@ msgstr "Lỗi xác định thẩm quyền"
 
 #: html/index.php:316
 msgid "Cannot retrieve user information for htaccess authentication!"
-msgstr ""
-"Không thể phục hồi thông tin của người dùng cho việc thẩm  định quyền "
-"htaccess (truy cập ht)!"
+msgstr "Không thể phục hồi thông tin của người dùng cho việc thẩm  định quyền htaccess (truy cập ht)!"
 
 #: html/index.php:323
 msgid "Please check the username/password combination."
@@ -405,16 +380,13 @@ msgstr "Xin hãy kiểm tra kết hợp tên người dùng/mật khẩu."
 
 #: html/index.php:377
 msgid "Account locked. Please contact your system administrator!"
-msgstr ""
-"Tài khoản bị khóa. Xin hãy liên lạc với admin quản trị hệ thống của bạn!"
+msgstr "Tài khoản bị khóa. Xin hãy liên lạc với admin quản trị hệ thống của bạn!"
 
 #: html/index.php:399
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
-msgstr ""
-"Trình duyệt của bạn đã vô hiệu cookies. Xin hãy cho phép cookies vào và tải "
-"lại trang này trước khi đăng nhập!"
+msgstr "Trình duyệt của bạn đã vô hiệu cookies. Xin hãy cho phép cookies vào và tải lại trang này trước khi đăng nhập!"
 
 #: ihtml/themes/default/conflict.tpl:2
 msgid "Session conflict detected"
@@ -424,22 +396,15 @@ msgstr "Phát hiện xung đột giữa các phiên"
 msgid ""
 "Probably there's another active instance of your session. Multiple window "
 "operation is technical not possible and heavily depends on the browser "
-"you're using. Usage of different browsers at a time (i.e. IE and Mozilla) is "
-"possible. Pressing the Logout button will close this session."
-msgstr ""
-"Có lẽ có một chức năng khác nữa trong phiên của bạn đang hoạt động. Việc "
-"chạy nhều cửa sổ cùng lúc về kỹ thuật là không thể và việc này phụ thuộc rất "
-"nhiều vào trình duyệt mà bạn đang dùng.Việc sử dụng các trình duyệt khác "
-"nhau cùng một lúc (ví dụ như IE và Mozilla) là có thể. Nhấn vào nút đăng "
-"xuất để đóng phiên này."
+"you're using. Usage of different browsers at a time (i.e. IE and Mozilla) is"
+" possible. Pressing the Logout button will close this session."
+msgstr "Có lẽ có một chức năng khác nữa trong phiên của bạn đang hoạt động. Việc chạy nhều cửa sổ cùng lúc về kỹ thuật là không thể và việc này phụ thuộc rất nhiều vào trình duyệt mà bạn đang dùng.Việc sử dụng các trình duyệt khác nhau cùng một lúc (ví dụ như IE và Mozilla) là có thể. Nhấn vào nút đăng xuất để đóng phiên này."
 
 #: ihtml/themes/default/conflict.tpl:10
 msgid ""
-"Ignoring this message will change/destroy the data you're currently editing, "
-"so please close multiple windows and log in again."
-msgstr ""
-"Bỏ qua tin nhắn này sẽ thay đổi/hủy dữ liệu mà hiện nay bạn đang hiệu chỉnh, "
-"vì thể xin hãy đóng các cửa sổ lại và đăng nhập lại."
+"Ignoring this message will change/destroy the data you're currently editing,"
+" so please close multiple windows and log in again."
+msgstr "Bỏ qua tin nhắn này sẽ thay đổi/hủy dữ liệu mà hiện nay bạn đang hiệu chỉnh, vì thể xin hãy đóng các cửa sổ lại và đăng nhập lại."
 
 #: ihtml/themes/default/conflict.tpl:14
 msgid "Logout"
@@ -454,15 +419,11 @@ msgid ""
 "If this lock detection is false, the other person has obviously closed the "
 "webbrowser during the edit operation. You may want to take over the lock by "
 "pressing the 'Edit anyway' button."
-msgstr ""
-"Nếu việc phát hiện khóa này sai, một người nào đó chắc hẳn đã đóng trình "
-"duyệt web trong quá trình thao tác hiệu chỉnh. Bạn có thể muốn tiếp quản "
-"việc khóa bằng các nhấn vào nút 'tiếp tục hiệu chỉnh'."
+msgstr "Nếu việc phát hiện khóa này sai, một người nào đó chắc hẳn đã đóng trình duyệt web trong quá trình thao tác hiệu chỉnh. Bạn có thể muốn tiếp quản việc khóa bằng các nhấn vào nút 'tiếp tục hiệu chỉnh'."
 
 #: ihtml/themes/default/islocked.tpl:16
-#, fuzzy
 msgid "Read only"
-msgstr "Danh sách reload"
+msgstr ""
 
 #: ihtml/themes/default/islocked.tpl:19
 #: ihtml/themes/default/snapshotdialog.tpl:44
@@ -489,27 +450,20 @@ msgstr "Phục hồi chế độ snapshot của đối tượng"
 msgid ""
 "This procedure will restore a snapshot of the selected object. It will "
 "replace the existing object after pressing the restore button."
-msgstr ""
-"Thủ tục này sẽ phục hồi một snapshot của các đối tượng được chọn. Nó sẽ thay "
-"thế cho đối tượng hiện có sau khi bấm vào nút phục hồi."
+msgstr "Thủ tục này sẽ phục hồi một snapshot của các đối tượng được chọn. Nó sẽ thay thế cho đối tượng hiện có sau khi bấm vào nút phục hồi."
 
 #: ihtml/themes/default/snapshotdialog.tpl:9
 msgid ""
 "Remember that DNS configuration and database entries could not be restored. "
 "For some objects it is only nescessary to open and save them again (goFon), "
 "but some entries must be recreated manually (glpi)."
-msgstr ""
-"Hãy nhớ rằng các entry vào cấu  hình và cơ sở dữ liệu DNS không thể được "
-"phục hồi. Đối với một số đối tượng, thì chỉ cần mở và lưu chúng lại là được "
-"(goFon), nhưng với một số entry thì bạn cần phải tạo lại bằng tay (glpi)."
+msgstr "Hãy nhớ rằng các entry vào cấu  hình và cơ sở dữ liệu DNS không thể được phục hồi. Đối với một số đối tượng, thì chỉ cần mở và lưu chúng lại là được (goFon), nhưng với một số entry thì bạn cần phải tạo lại bằng tay (glpi)."
 
 #: ihtml/themes/default/snapshotdialog.tpl:12
 msgid ""
 "Don't forget to check references to other objects, for example does the "
 "selected printer still exists ?"
-msgstr ""
-"Đừng quên kiểm tra các tham chiếu với các đối tượng khác, ví dụ như liệu máy "
-"in được chọn có còn tồn tại không?"
+msgstr "Đừng quên kiểm tra các tham chiếu với các đối tượng khác, ví dụ như liệu máy in được chọn có còn tồn tại không?"
 
 #: ihtml/themes/default/snapshotdialog.tpl:20
 #: ihtml/themes/default/snapshotdialog.tpl:62 include/class_acl.inc:779
@@ -536,19 +490,13 @@ msgid ""
 "This procedure will create a snapshot of the selected object. It will be "
 "stored inside a special branch of your directory system and can be restored "
 "later on."
-msgstr ""
-"Thủ tục này sẽ tạo ra một snapshot của đối tượng được chọn. Nó sẽ được lưu "
-"trữ trong một nhánh đặc biệt thuộc hệ thống thư mục của bạn và có thể được "
-"phục hồi sau này."
+msgstr "Thủ tục này sẽ tạo ra một snapshot của đối tượng được chọn. Nó sẽ được lưu trữ trong một nhánh đặc biệt thuộc hệ thống thư mục của bạn và có thể được phục hồi sau này."
 
 #: ihtml/themes/default/snapshotdialog.tpl:55
 msgid ""
 "Remember that database entries, DNS configurations and possibly created "
 "zones in server extensions will not be stored in the snapshot."
-msgstr ""
-"Hãy nhớ rằng các entry vào cơ sở dữ liệu, các cấu hình DNS và các vùng có "
-"thể được tạo ra trong việc mở rộng server sẽ không được lưu lại trong "
-"snapshot."
+msgstr "Hãy nhớ rằng các entry vào cơ sở dữ liệu, các cấu hình DNS và các vùng có thể được tạo ra trong việc mở rộng server sẽ không được lưu lại trong snapshot."
 
 #: ihtml/themes/default/snapshotdialog.tpl:70
 msgid "Timestamp"
@@ -566,17 +514,14 @@ msgid "Continue"
 msgstr "Tiếp tục"
 
 #: ihtml/themes/default/logout-close.tpl:5
-#, fuzzy
 msgid "Your FusionDirectory session has been closed!"
-msgstr "Phiên FusionDirectory của bạn vừa bị đóng!"
+msgstr ""
 
 #: ihtml/themes/default/logout-close.tpl:7
 msgid ""
 "Please close this browser window and clean the authentication caches to "
 "avoid an automatic re-authentication by your browser."
-msgstr ""
-"Xin hãy đóng cửa sổ trình duyệt này lại và dọn sạch bộ nhớ đệm thẩm định "
-"quyền để tránh việc tự động thẩm định lại quyền bằng trình duyệt của bạn."
+msgstr "Xin hãy đóng cửa sổ trình duyệt này lại và dọn sạch bộ nhớ đệm thẩm định quyền để tránh việc tự động thẩm định lại quyền bằng trình duyệt của bạn."
 
 #: ihtml/themes/default/password.tpl:6
 msgid "Change your password"
@@ -600,13 +545,10 @@ msgstr "Mật khẩu"
 
 #: ihtml/themes/default/password.tpl:52
 msgid ""
-"This dialog provides a simple way to change your password. Enter the current "
-"password and the new password (twice) in the fields below and press the "
+"This dialog provides a simple way to change your password. Enter the current"
+" password and the new password (twice) in the fields below and press the "
 "'Change' button."
-msgstr ""
-"Hộp thoại này cung cấp một cách đơn giản để thay đổi mật khẩu của bạn. Hãy "
-"nhập mật khẩu hiện tại và mật khẩu mới vào (hai lần) trong các trường bên "
-"dưới và nhấn vào nút 'Thay đổi'."
+msgstr "Hộp thoại này cung cấp một cách đơn giản để thay đổi mật khẩu của bạn. Hãy nhập mật khẩu hiện tại và mật khẩu mới vào (hai lần) trong các trường bên dưới và nhấn vào nút 'Thay đổi'."
 
 #: ihtml/themes/default/password.tpl:59 ihtml/themes/default/password.tpl:61
 #: ihtml/themes/default/login.tpl:49 ihtml/themes/default/login.tpl:50
@@ -680,9 +622,7 @@ msgstr "Màn hình đăng nhập"
 msgid ""
 "Please use your username and your password to log into the site "
 "administration system."
-msgstr ""
-"Xin hãy sử dụng tên và mật khẩu của bạn để đăng nhập vào trang hệ thống quản "
-"trị."
+msgstr "Xin hãy sử dụng tên và mật khẩu của bạn để đăng nhập vào trang hệ thống quản trị."
 
 #: ihtml/themes/default/login.tpl:74 ihtml/themes/default/login.tpl:77
 msgid "Sign in"
@@ -693,22 +633,16 @@ msgid "Click here to log in"
 msgstr "Kích vào đây để đăng nhập"
 
 #: ihtml/themes/default/remove.tpl:6
-#, fuzzy
 msgid ""
 "This may be used by several groups. Please double check if your really want "
 "to do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
-"Thứ này có thể được sử dụng bởi một vài nhóm. Xin hãy kiểm tra hai lần nếu "
-"bạn thực sự muốn làm điều này bởi vì sẽ không có cách nào để FusionDirectory "
-"phục hồi dữ liệu cho bạn."
 
 #: ihtml/themes/default/remove.tpl:9 plugins/admin/acl/remove.tpl:10
 #: plugins/admin/users/remove.tpl:10 plugins/admin/groups/remove.tpl:10
 #: plugins/admin/ogroups/remove.tpl:10
 msgid "So - if you're sure - press 'Delete' to continue or 'Cancel' to abort."
-msgstr ""
-"Vì thế nếu bạn chắc chắn hãy nhấn \"Xóa bỏ\" để tiếp tục hoặc'Hủy bỏ' để "
-"dừng lại."
+msgstr "Vì thế nếu bạn chắc chắn hãy nhấn \"Xóa bỏ\" để tiếp tục hoặc'Hủy bỏ' để dừng lại."
 
 #: ihtml/themes/default/acl.tpl:7 plugins/admin/acl/acl_role.tpl:3
 msgid "Assigned ACL for current entry"
@@ -781,9 +715,7 @@ msgstr "Các vai trò hiện có"
 msgid ""
 "You are currently editing a database entry. Do you want to dismiss the "
 "changes?"
-msgstr ""
-"Bạn hiện đang hiệu chỉnh một entry vào cơ sở dữ liệu. Bạn có muốn hủy bỏ các "
-"thay đổi?"
+msgstr "Bạn hiện đang hiệu chỉnh một entry vào cơ sở dữ liệu. Bạn có muốn hủy bỏ các thay đổi?"
 
 #: ihtml/themes/default/framework.tpl:8 ihtml/themes/default/framework.tpl:11
 msgid "Main"
@@ -798,9 +730,9 @@ msgid "Signed in:"
 msgstr "Đăng nhập:"
 
 #: ihtml/themes/default/framework.tpl:32
-#, fuzzy, php-format
+#, php-format
 msgid "Session expires in %d!"
-msgstr "Phiên không được mã hóa!"
+msgstr ""
 
 #: ihtml/themes/default/framework.tpl:37
 msgid "FusionDirectory main menu"
@@ -834,16 +766,11 @@ msgstr "Ok"
 
 #: ihtml/themes/default/sizelimit.tpl:3
 msgid ""
-"The size limit option makes LDAP operations faster and saves the LDAP server "
-"from getting too much load. The easiest way to handle big databases without "
-"long timeouts would be to limit your search to smaller values and use "
+"The size limit option makes LDAP operations faster and saves the LDAP server"
+" from getting too much load. The easiest way to handle big databases without"
+" long timeouts would be to limit your search to smaller values and use "
 "filters to get the entries you are looking for."
-msgstr ""
-"Lựa chọn giới hạn kích cỡ khiến cho hoạt động của LDAP nhanh hơn và giúp cho "
-"LDAP server không chịu quá nhiều tải. Cách đơn giản nhất để quản lý được các "
-"cơ sở dữ liệu lớn mà không có thời gian hạn định dài là hạn chế việc tìm "
-"kiếm của bạn vào các giá trị nhỏ hơn và sử dụng bộ lọc để có được các entry "
-"mà bạn đang tìm kiếm."
+msgstr "Lựa chọn giới hạn kích cỡ khiến cho hoạt động của LDAP nhanh hơn và giúp cho LDAP server không chịu quá nhiều tải. Cách đơn giản nhất để quản lý được các cơ sở dữ liệu lớn mà không có thời gian hạn định dài là hạn chế việc tìm kiếm của bạn vào các giá trị nhỏ hơn và sử dụng bộ lọc để có được các entry mà bạn đang tìm kiếm."
 
 #: ihtml/themes/default/sizelimit.tpl:6
 msgid "Please choose the way to react for this session"
@@ -857,9 +784,7 @@ msgstr "Lờ đi lỗi này và hiển thị tất cả các entry mà LDAP serv
 msgid ""
 "ignore this error and show all entries that fit into the defined sizelimit "
 "and let me use filters instead"
-msgstr ""
-"Lờ lỗi này đi và hiển thị tất cả các entry mà phù hợp với giới hạn kích cỡ "
-"đã xác định và thay vào đó cho tôi sử dụng các bộ lọc "
+msgstr "Lờ lỗi này đi và hiển thị tất cả các entry mà phù hợp với giới hạn kích cỡ đã xác định và thay vào đó cho tôi sử dụng các bộ lọc "
 
 #: ihtml/themes/default/sizelimit.tpl:14 include/class_msgPool.inc:372
 #, php-format
@@ -871,29 +796,21 @@ msgid "Copy & paste wizard"
 msgstr "Copy & Paste wizard"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:7
-#, fuzzy
 msgid ""
 "Some values need to be unique in the complete directory while some "
 "combinations make no sense. FusionDirectory shows the relevant attributes. "
 "Please maintain the values below to fulfill the policies."
 msgstr ""
-"Một số giá trị phải là duy nhất trong thư mục hoàn chỉnh trong khi một số "
-"kết hợp không có ý nghĩa nào. FusionDirectory hiển thị những thuộc tính liên "
-"quan. Xin hãy giữ các giá trị bên dưới để thực hiện các chính sách đó."
 
 #: ihtml/themes/default/copyPasteDialog.tpl:9
 msgid "Remember that some properties like taken snapshots will not be copied!"
-msgstr ""
-"Hãy nhớ rằng một số đặc tính ví dụ như snapshot sẽ không được copy lại!"
+msgstr "Hãy nhớ rằng một số đặc tính ví dụ như snapshot sẽ không được copy lại!"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:10
-#, fuzzy
 msgid ""
 "Or if you copy or cut an entry within FusionDirectory and delete the source "
 "object, you may get errors while pasting this object again!"
 msgstr ""
-"Hoặc nếu bạn copy hoặc cắt một entry trong FusionDirectory và xóa đối tượng "
-"nguồn, bạn có thể lại gặp lỗi khi paste đối tượng này!"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:19 include/class_msgPool.inc:354
 #, php-format
@@ -914,39 +831,31 @@ msgid "Finish"
 msgstr "Kết thúc"
 
 #: ihtml/themes/default/logout.tpl:5
-#, fuzzy
 msgid "Your FusionDirectory session has expired!"
-msgstr "Phiên FusionDirectory của bạn đã bị hết hạn!"
+msgstr ""
 
 #: ihtml/themes/default/logout.tpl:7
-#, fuzzy
 msgid ""
 "The last interaction with the FusionDirectory web interface has been some "
 "time ago in the past. For security reasons, the session has been closed. To "
 "continue with administrative tasks, please sign in again."
 msgstr ""
-"Tương tác cuối cùng với giao diện web của FusionDirectory đã diễn ra được "
-"một thời gian trong quá khứ, Vì các lý do an ninh, phiên này vừa bị đóng. Để "
-"tiếp tục các tác vụ của admin, xin hãy đăng ký lại lần nữa."
 
 #: ihtml/themes/default/logout.tpl:10
 msgid "Sign in again"
 msgstr "Đăng ký lại"
 
 #: ihtml/themes/default/recovery.tpl:10
-#, fuzzy
 msgid "FusionDirectory password recovery"
-msgstr "FusionDirectory help viewer"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:26
-#, fuzzy
 msgid "Lost password"
-msgstr "Đặt mật khẩu"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:44
-#, fuzzy
 msgid "Available methods"
-msgstr "Những thành viên đang có mặt"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:47
 msgid "Receive by email a link that allows you to reset your password"
@@ -957,25 +866,20 @@ msgid "Send"
 msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:49
-#, fuzzy
 msgid "Click here to send a reset link"
-msgstr "Kích vào đây để đăng nhập"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:58
 msgid ""
-"If none of the above methods suits you, contact your administrator to change "
-"your password"
+"If none of the above methods suits you, contact your administrator to change"
+" your password"
 msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:70
-#, fuzzy
 msgid ""
 "This dialog provides a simple way to change your password. Enter the new "
 "password (twice) in the fields below and press the 'Change' button."
 msgstr ""
-"Hộp thoại này cung cấp một cách đơn giản để thay đổi mật khẩu của bạn. Hãy "
-"nhập mật khẩu hiện tại và mật khẩu mới vào (hai lần) trong các trường bên "
-"dưới và nhấn vào nút 'Thay đổi'."
 
 #: ihtml/themes/default/recovery.tpl:123
 msgid ""
@@ -1004,12 +908,9 @@ msgstr "Xin hãy lựa chọn ngôn ngữ ưu thích"
 #: setup/setup_language.tpl:5
 msgid ""
 "At this point, you can select the site wide default language. Choosing "
-"'automatic' will use the language requested by the browser. This setting can "
-"be overriden per user."
-msgstr ""
-"Tại thời điểm này, bạn có thể lựa chọn trang này với ngôn ngữ mặc định. Nếu "
-"chọn 'tự động', bạn sẽ sử dụng ngôn ngữ được yêu cẩu bởi trình duyệt này. "
-"Việc thiết lập này có  bị ghi đè với mỗi một người dùng."
+"'automatic' will use the language requested by the browser. This setting can"
+" be overriden per user."
+msgstr "Tại thời điểm này, bạn có thể lựa chọn trang này với ngôn ngữ mặc định. Nếu chọn 'tự động', bạn sẽ sử dụng ngôn ngữ được yêu cẩu bởi trình duyệt này. Việc thiết lập này có  bị ghi đè với mỗi một người dùng."
 
 #: setup/setup_language.tpl:9
 msgid "Please select your preferred language here"
@@ -1037,75 +938,61 @@ msgid "Please upgrade to a supported version."
 msgstr "Xin hãy cập nhật cho một phiên bản hỗ trợ."
 
 #: setup/class_setupStep_Checks.inc:73
-#, fuzzy
 msgid "FusionDirectory requires this module to talk with your LDAP server."
-msgstr "FusionDirectory yêu cầu môdun này giao tiếp với server LDAP của bạn."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:81
-#, fuzzy
 msgid ""
 "FusionDirectory requires this module for an internationalized interface."
-msgstr "FusionDirectory yêu cầu môdun này cho một giao diện được quốc tế hóa."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:89
-#, fuzzy
 msgid ""
 "FusionDirectory requires this module to communicate with different types of "
 "servers and protocols."
 msgstr ""
-"FusionDirectory cần mô đun này để giao tiếp với một vài cơ sở dữ liệu được "
-"hỗ trợ."
 
 #: setup/class_setupStep_Checks.inc:97
-#, fuzzy
 msgid "FusionDirectory requires this module for the samba integration."
-msgstr "FusionDirectory yêu cầu mô-đun này cho việc tích hợp samba."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:105
-#, fuzzy
 msgid ""
 "FusionDirectory requires either 'mhash' or the 'sha1' module to make use of "
 "SSHA encryption."
-msgstr "FusionDirectory yêu cầu môdun này để tận dụng được việc mã hóa SSHA."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:113
-#, fuzzy
 msgid "FusionDirectory requires this module to talk to an IMAP server."
-msgstr "FusionDirectory yêu cầu mô-đun này để giao tiếp với server IMAP."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:120
 msgid "mbstring"
 msgstr "mbstring"
 
 #: setup/class_setupStep_Checks.inc:121
-#, fuzzy
 msgid "FusionDirectory requires this module to handle unicode strings."
-msgstr "FusionDirectory cần môđun này để sử lý những đoạn mã unicode."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:128
 msgid "MDB2"
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:129
-#, fuzzy
 msgid ""
 "FusionDirectory requires this module to communicate with several supported "
 "databases."
 msgstr ""
-"FusionDirectory cần mô đun này để giao tiếp với một vài cơ sở dữ liệu được "
-"hỗ trợ."
 
 #: setup/class_setupStep_Checks.inc:146
 msgid "samba hash generator"
 msgstr "Bộ sinh ra hàm băm Samba"
 
 #: setup/class_setupStep_Checks.inc:147
-#, fuzzy
 msgid ""
 "FusionDirectory requires this command to synchronize POSIX and samba "
 "passwords."
 msgstr ""
-"FusionDirectory cần lệnh này để đồng bộ hóa mật khẩu của POSIX và Samba."
 
 #: setup/class_setupStep_Checks.inc:148
 msgid ""
@@ -1118,56 +1005,43 @@ msgid "imagick"
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:162
-#, fuzzy
 msgid "FusionDirectory requires this extension to handle images."
-msgstr "FusionDirectory cần môđun này để sử lý những đoạn mã unicode."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:177
-#, fuzzy
 msgid "compression module"
-msgstr "Kiểm soát truy cập"
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:178
-#, fuzzy
 msgid "FusionDirectory requires this extension to handle snapshots."
-msgstr "FusionDirectory cần môđun này để sử lý những đoạn mã unicode."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:189
 msgid ""
 "register_globals is a PHP mechanism to register all global variables to be "
 "accessible from scripts without changing the scope. This may be a security "
 "risk."
-msgstr ""
-"đăng ký_toàn cầu (register_globals) là một cơ chế PHP dùng để đăng ký tất cả "
-"các biến số toàn cầu mà có thể truy cập từ các tập lệnh mà không phải thay "
-"đổi phạm vi. Đây có thể là một rủi ro về bảo mật."
+msgstr "đăng ký_toàn cầu (register_globals) là một cơ chế PHP dùng để đăng ký tất cả các biến số toàn cầu mà có thể truy cập từ các tập lệnh mà không phải thay đổi phạm vi. Đây có thể là một rủi ro về bảo mật."
 
 #: setup/class_setupStep_Checks.inc:190
 msgid "Search for 'register_globals' in your php.ini and switch it to 'Off'."
-msgstr ""
-"Tìm kiếm 'register_globals' trong thư mục php.ini của bạn và chuyển nó thành "
-"'Off'."
+msgstr "Tìm kiếm 'register_globals' trong thư mục php.ini của bạn và chuyển nó thành 'Off'."
 
 #: setup/class_setupStep_Checks.inc:198
 msgid "PHP uses this value for the garbage collector to delete old sessions."
-msgstr ""
-"PHP sử dụng giá trị này để phần mềm thu dọn rác có thể sóa các phiên cũ đi."
+msgstr "PHP sử dụng giá trị này để phần mềm thu dọn rác có thể sóa các phiên cũ đi."
 
 #: setup/class_setupStep_Checks.inc:199
 msgid ""
 "Setting this value to one day will prevent loosing session and cookies "
 "before they really timeout."
-msgstr ""
-"Thiết lập giá trị này đến một ngày sẽ ngăn cản việc mất đi các phiên và "
-"cookies trước khi chúng thực sự hết hạn."
+msgstr "Thiết lập giá trị này đến một ngày sẽ ngăn cản việc mất đi các phiên và cookies trước khi chúng thực sự hết hạn."
 
 #: setup/class_setupStep_Checks.inc:200
 msgid ""
 "Search for 'session.gc_maxlifetime' in your php.ini and set it to 86400 or "
 "higher."
-msgstr ""
-"Tìm kiếm  'session.gc_maxlifetime' trong thư mục php.ini của bạn và thiết "
-"lập nó đển 86400 hoặc cao hơn."
+msgstr "Tìm kiếm  'session.gc_maxlifetime' trong thư mục php.ini của bạn và thiết lập nó đển 86400 hoặc cao hơn."
 
 #: setup/class_setupStep_Checks.inc:207 setup/class_setupStep_Checks.inc:223
 #: setup/class_setupStep_Checks.inc:239 setup/class_setupStep_Checks.inc:247
@@ -1175,51 +1049,35 @@ msgid "Off"
 msgstr "Tắt"
 
 #: setup/class_setupStep_Checks.inc:208
-#, fuzzy
 msgid ""
-"In Order to use FusionDirectory without any trouble, the session."
-"auto_register option in your php.ini should be set to 'Off'."
+"In Order to use FusionDirectory without any trouble, the "
+"session.auto_register option in your php.ini should be set to 'Off'."
 msgstr ""
-"Để có thể sử dụng được FusionDirectory mà không gặp vấn đề nào, lựa chọn "
-"session.auto_register trong php.ini nên được thiết lập là 'Off' (tắt)."
 
 #: setup/class_setupStep_Checks.inc:209
 msgid "Search for 'session.auto_start' in your php.ini and set it to 'Off'."
-msgstr ""
-"Tìm kiếm  'session.auto_start' trong thư mục php.ini của bạn và đặt nó thành "
-"'Off'."
+msgstr "Tìm kiếm  'session.auto_start' trong thư mục php.ini của bạn và đặt nó thành 'Off'."
 
 #: setup/class_setupStep_Checks.inc:216
-#, fuzzy
 msgid ""
 "FusionDirectory needs at least 64MB of memory. Setting it below this limit "
 "may cause errors that are not reproducable! Increase it for larger setups."
 msgstr ""
-"FusionDirectory cần một dung lượng bộ nhớ ít nhất là 32MB. Thiết lập nó dưới "
-"giới hạn này có thể sẽ gây ra lỗi mà không thể tự sản sinh ra kết quả nữa! "
-"Hãy tăng dung lượng lên cho cài đặt lớn hơn."
 
 #: setup/class_setupStep_Checks.inc:217
-#, fuzzy
 msgid ""
 "Search for 'memory_limit' in your php.ini and set it to '64M' or higher."
 msgstr ""
-"Tìm kiếm  'memory_limit' trong thư mục php.ini của bạn và thiết lập nó lên "
-"'32M' hoặc cao hơn."
 
 #: setup/class_setupStep_Checks.inc:224
 msgid ""
 "This option influences the PHP output handling. Turn this Option off, to "
 "increase performance."
-msgstr ""
-"Lựa chọn này sẽ ảnh hưởng tới việc sử lý đầu vào PHP. Tắt chức năng này đi, "
-"để tăng khả năng hoạt động."
+msgstr "Lựa chọn này sẽ ảnh hưởng tới việc sử lý đầu vào PHP. Tắt chức năng này đi, để tăng khả năng hoạt động."
 
 #: setup/class_setupStep_Checks.inc:225
 msgid "Search for 'implicit_flush' in your php.ini and set it to 'Off'."
-msgstr ""
-"Tìm kiếm 'implicit_flush' trong thư mục php.ini của bạn và chuyển nó sang "
-"'Off'."
+msgstr "Tìm kiếm 'implicit_flush' trong thư mục php.ini của bạn và chuyển nó sang 'Off'."
 
 #: setup/class_setupStep_Checks.inc:232
 msgid "The Execution time should be at least 30 seconds."
@@ -1227,38 +1085,29 @@ msgstr "Thời gian chạy ít nhất là 30 giây."
 
 #: setup/class_setupStep_Checks.inc:233
 msgid ""
-"Search for 'max_execution_time' in your php.ini and set it to '30' or higher."
-msgstr ""
-"Tìm kiếm 'max_execution_time' trong thư mục php.ini của bạn và thiết lập nó "
-"đến '30' hoặc cao hơn."
+"Search for 'max_execution_time' in your php.ini and set it to '30' or "
+"higher."
+msgstr "Tìm kiếm 'max_execution_time' trong thư mục php.ini của bạn và thiết lập nó đến '30' hoặc cao hơn."
 
 #: setup/class_setupStep_Checks.inc:240
 msgid ""
 "Increase the server security by setting expose_php to 'off'. PHP won't send "
 "any information about the server you are running in this case."
-msgstr ""
-"Tăng tính bảo mật của server bằng việc thiết lập expose_php thành 'off'. PHP "
-"sẽ không gửi bất cứ thông tin nào về server bạn đang chạy trong trường hợp "
-"này."
+msgstr "Tăng tính bảo mật của server bằng việc thiết lập expose_php thành 'off'. PHP sẽ không gửi bất cứ thông tin nào về server bạn đang chạy trong trường hợp này."
 
 #: setup/class_setupStep_Checks.inc:241
 msgid "Search for 'expose_php' in your php.ini and set if to 'Off'."
-msgstr ""
-"Tìm kiếm 'expose_php' trong thư much php.ini của bạn và chuyển nó thành "
-"'Off'."
+msgstr "Tìm kiếm 'expose_php' trong thư much php.ini của bạn và chuyển nó thành 'Off'."
 
 #: setup/class_setupStep_Checks.inc:248
 msgid "Increase your server performance by setting magic_quotes_gpc to 'off'."
-msgstr ""
-"Tăng cường khả năng hoạt động cho server của bạn bằng việc thiết lập "
-"magic_quotes_gpc thành 'off'."
+msgstr "Tăng cường khả năng hoạt động cho server của bạn bằng việc thiết lập magic_quotes_gpc thành 'off'."
 
 #: setup/class_setupStep_Checks.inc:249
 msgid ""
-"Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'."
-msgstr ""
-"Tìm kiếm 'zend.ze1_compatibility_mode' trong thư mục  php.ini và chuyển nó "
-"thành 'Off'."
+"Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to "
+"'Off'."
+msgstr "Tìm kiếm 'zend.ze1_compatibility_mode' trong thư mục  php.ini và chuyển nó thành 'Off'."
 
 #: setup/class_setupStep_Checks.inc:259
 msgid "Configuration writeable"
@@ -1269,13 +1118,11 @@ msgid "The configuration file can't be written"
 msgstr "Không thể viết lên File cấu hình "
 
 #: setup/class_setupStep_Checks.inc:261
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "FusionDirectory reads its configuration from a file located in (%s/%s). The "
 "setup can write the configuration directly if it is writeable."
 msgstr ""
-"FusionDirectory đọc cấu hình của nó từ một file trong (%s/%s). Việc cài đặt "
-"có thể trực tiếp viết cấu hình nếu nó là writeable."
 
 #: setup/setup_schema.tpl:3
 msgid "Schema specific settings"
@@ -1299,20 +1146,15 @@ msgstr "Kiểm tra lược đồ thất bại"
 
 #: setup/setup_schema.tpl:31
 msgid ""
-"Could not read any schema informations, all checks skipped. Adjust your ldap "
-"acls."
-msgstr ""
-"Không thể đọc một thông tin lược đồ nào, bỏ qua toàn bộ việc kiểm tra. Điều "
-"chỉnh các acls ldap của bạn."
+"Could not read any schema informations, all checks skipped. Adjust your ldap"
+" acls."
+msgstr "Không thể đọc một thông tin lược đồ nào, bỏ qua toàn bộ việc kiểm tra. Điều chỉnh các acls ldap của bạn."
 
 #: setup/setup_schema.tpl:35
-#, fuzzy
 msgid ""
 "It seems that your ldap database wasn't initialized yet. This maybe the "
 "reason, why FusionDirectory can't read your schema configuration!"
 msgstr ""
-"Dường như cơ sở dữ liệu Ldap của bạn vẫn chưa được khởi chạy trước. Đây có "
-"thể là lý do tại sao Gosa không thể đọc cấu hình lược đồ của bạn!"
 
 #: setup/class_setup.inc:75
 msgid "Setup error"
@@ -1357,12 +1199,10 @@ msgid "LDAP connection setup"
 msgstr "Thiết lập kết nối LDAP"
 
 #: setup/class_setupStep_Ldap.inc:55
-#, fuzzy
 msgid ""
 "This dialog performs the basic configuration of the LDAP connectivity for "
 "FusionDirectory."
 msgstr ""
-"Đối thoại này chạy cấu hình đơn giản của khả năng kết nối LDAP với Gosa."
 
 #: setup/class_setupStep_Ldap.inc:112
 #, php-format
@@ -1401,18 +1241,16 @@ msgid "Automatic"
 msgstr "Tự động"
 
 #: setup/setup_frame.tpl:12
-#, fuzzy
 msgid "FusionDirectory setup wizard"
-msgstr "Hướng dẫn cài đặt FusionDirectory chi tiết "
+msgstr ""
 
 #: setup/setup_frame.tpl:19
 msgid "Installation"
 msgstr "Cài đặt"
 
 #: setup/setup_frame.tpl:19
-#, fuzzy
 msgid "Setup"
-msgstr "Đặt"
+msgstr ""
 
 #: setup/setup_finish.tpl:3
 msgid "Create your configuration file"
@@ -1523,53 +1361,33 @@ msgid "Use account expiration"
 msgstr "Sử dụng việc hết hạn tài khoản"
 
 #: setup/setup_config1.tpl:221
-#, fuzzy
 msgid ""
 "FusionDirectory supports several encryption types for your passwords. "
 "Normally this is adjustable via user templates, but you can specify a "
 "default method to be used here, too."
 msgstr ""
-"FusionDirectory hỗ trợ một vài kiểu mã hóa cho các mật khẩu của bạn. Thông "
-"thường thì việc này có thể được điều chỉnh thông qua các khuôn mẫu của người "
-"dùng, nhưng bạn có thể xác định một phương pháp mặc định để nó cũng được sử "
-"dụng ở đây."
 
 #: setup/setup_config1.tpl:222
-#, fuzzy
 msgid ""
 "FusionDirectory always acts as admin and manages access rights internally. "
 "This is a workaround till OpenLDAP's in directory ACI's are    fully "
 "implemented. For this to work, we need the admin DN and the corresponding "
 "password."
 msgstr ""
-"FusionDirectory sẽ luôn luôn đóng vai trò admin và quản lý các quyền truy "
-"cập nội bộ. Đây là một cách khác cho tới khi các file OpenLDAP' trong thư "
-"mục và ACI's được thực hiện đầy đủ. Để làm được điều này, chúng ta cần DN "
-"của admin và mật khẩu tương ứng."
 
 #: setup/setup_config1.tpl:223
-#, fuzzy
 msgid ""
 "Some basic LDAP parameters are tunable and affect the locations where "
 "FusionDirectory saves people and groups, including the way accounts get "
 "created. Check the values below if the fit your needs."
 msgstr ""
-"Một số thông số cơ bản của LDAP có thể được điều chỉnh và ảnh hưởng tới nơi "
-"mà Gosa lưu trữ thông tin về người và nhóm, bao gồm cả cách mà các tài khoản "
-"được lập ra. Kiểm tra các giá trị dưới đây nếu chúng phù hợp với nhu cầu của "
-"bạn."
 
 #: setup/setup_config1.tpl:224
-#, fuzzy
 msgid ""
 "FusionDirectory has modular support for several mail methods. These methods "
 "provide interfaces to users mailboxes and general handling    for quotas. "
 "You can choose the dummy plugin to leave all your mail settings untouched."
 msgstr ""
-"FusionDirectory có  mô-đun hỗ trợ cho một vài phương pháp gửi thư. Các "
-"phương pháp này cung cấp các giao diện đến hộp thư của người dùng và cách "
-"giải quyết thông thường với các hạn ngạnh. Bạn có thể lựa chọn chế độ dummy "
-"plugin để không ai đụng tới được tất cả các thiết lập mail của bạn."
 
 #: setup/setup_config2.tpl:2
 msgid "Samba settings"
@@ -1648,14 +1466,12 @@ msgid "User"
 msgstr "Người dùng"
 
 #: setup/setup_config3.tpl:2
-#, fuzzy
 msgid "FusionDirectory core settings"
-msgstr "thiết lập lõi của FusionDirectory"
+msgstr ""
 
 #: setup/setup_config3.tpl:6
-#, fuzzy
 msgid "Enable primary group filter"
-msgstr "Vô hiệu bộ lọc nhóm sơ cấp"
+msgstr ""
 
 #: setup/setup_config3.tpl:18
 msgid "Display summary in listings"
@@ -1734,14 +1550,12 @@ msgid "Enabled"
 msgstr "Bật chức năng"
 
 #: setup/class_setupStep_Config1.inc:78 setup/class_setupStep_Config1.inc:79
-#, fuzzy
 msgid "FusionDirectory settings 1/3"
-msgstr "Thiết lập FusionDirectory 1/3"
+msgstr ""
 
 #: setup/class_setupStep_Config1.inc:80
-#, fuzzy
 msgid "FusionDirectory generic settings"
-msgstr "Thiết lập FusionDirectory chung "
+msgstr ""
 
 #: setup/class_setupStep_Config1.inc:122
 #, php-format
@@ -1774,23 +1588,20 @@ msgid "The given password differ value is not numeric."
 msgstr "Gía trị khác của mật khẩu cho trước không phải là số."
 
 #: setup/class_setupStep_Config2.inc:79 setup/class_setupStep_Config2.inc:80
-#, fuzzy
 msgid "FusionDirectory settings 2/3"
-msgstr "Các thiết lập FusionDirectory 2/3"
+msgstr ""
 
 #: setup/class_setupStep_Config2.inc:81
 msgid "Customize special parameters"
 msgstr "Tùy biến các thông số đặc biệt"
 
 #: setup/class_setupStep_Config3.inc:74 setup/class_setupStep_Config3.inc:75
-#, fuzzy
 msgid "FusionDirectory settings 3/3"
-msgstr "Thiết lập FusionDirectory 3/3"
+msgstr ""
 
 #: setup/class_setupStep_Config3.inc:76
-#, fuzzy
 msgid "Tweak some FusionDirectory core behaviour"
-msgstr "Chỉnh sửa một số đặc tính lõi của FusionDirectory"
+msgstr ""
 
 #: setup/class_setupStep_Config3.inc:170
 msgid "Session lifetime must be a numeric value!"
@@ -1812,35 +1623,26 @@ msgstr "Kết thúc - viết file cấu hình"
 msgid ""
 "Your configuration file is currently world readable. Please update the file "
 "permissions!"
-msgstr ""
-"File cấu hình của bạn hiện cả thế giới đều đọc được. Xin hãy cập nhật quyền "
-"truy cập file!"
+msgstr "File cấu hình của bạn hiện cả thế giới đều đọc được. Xin hãy cập nhật quyền truy cập file!"
 
 #: setup/class_setupStep_Finish.inc:105
 msgid "The configuration is currently not readable or it does not exists."
 msgstr "Cấu hình hiện tại không thể đọc được hoặc nó không tồn tại."
 
 #: setup/class_setupStep_Finish.inc:111
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "After downloading and placing the file under %s, please make sure that the "
 "user the webserver is running with is able to read %s, while other users "
 "shouldn't."
 msgstr ""
-"Sau khi tải về và đặt file này dưới %s, xin hãy đảm bảo rằng người dùng mà "
-"webserver này đang chạy với có thể đọc được %s, trong khi những người dùng "
-"khác không thể. Bạn có thể muốn chạy những lệnh này để đạt được yêu cầu:"
 
 #: setup/setup_welcome.tpl:4
-#, fuzzy
 msgid ""
 "This seems to be the first time you start FusionDirectory - we didn't find "
 "any configuration right now. This simple wizard intends to help you while "
 "setting it up."
 msgstr ""
-"Có vẻ đây là lần đầu tiên bạn khởi động Gosa - chúng tôi không tìm thấy cấu "
-"hình nào ngay lúc này. Wizard đơn giản dự định giúp bạn trong khi đang cài "
-"đặt nó."
 
 #: setup/setup_welcome.tpl:8
 msgid "What will the wizard do for you?"
@@ -1856,8 +1658,7 @@ msgstr "Cố gắng tìm ra vấn đề trong cài đặt PHP và LDAP của b�
 
 #: setup/setup_welcome.tpl:13
 msgid "Let you choose from a set of basic and advanced configuration switches"
-msgstr ""
-"Cho phép bạn lựa chọn từ một loạt các phím chuyển cấu hình cơ bản và cao cấp"
+msgstr "Cho phép bạn lựa chọn từ một loạt các phím chuyển cấu hình cơ bản và cao cấp"
 
 #: setup/setup_welcome.tpl:14
 msgid "Guided migration of existing LDAP trees"
@@ -1880,30 +1681,24 @@ msgid "To continue..."
 msgstr "Còn nữa..."
 
 #: setup/setup_welcome.tpl:28
-#, fuzzy
 msgid ""
 "For security reasons you need to authenticate for the installation by "
 "creating the file '/tmp/fusiondirectory.auth', containing the current "
 "session ID on the servers local filesystem. This can be done by executing "
 "the following command:"
 msgstr ""
-"Vì lý do an ninh, bạn cần phải xác minh việc cài đặt bằng cách tạo ra file '/"
-"tmp/fusiondirectory.auth', bao gồm phiên ID hiện tại trên hệ thống file nôi "
-"bộ của server. Ta làm việc này bằng cách chạy các lệnh sau:"
 
 #: setup/setup_welcome.tpl:34
 msgid "Click the 'Continue' button when you've finished."
 msgstr "Kích vào phím 'Continue' khi bạn làm xong."
 
 #: setup/setup_feedback.tpl:5
-#, fuzzy
 msgid "Feedback successfully send"
-msgstr "Phản hồi đã được gửi thành công"
+msgstr ""
 
 #: setup/setup_feedback.tpl:15
-#, fuzzy
 msgid "Subscribe to the fusiondirectory-users mailinglist"
-msgstr "Thuê bao đến maillinglist do gosa công bố"
+msgstr ""
 
 #: setup/setup_feedback.tpl:20
 #: plugins/admin/departments/class_departmentManagement.inc:240
@@ -1995,18 +1790,14 @@ msgid "Mail address"
 msgstr "Địa chỉ thư"
 
 #: setup/setup_feedback.tpl:47
-#, fuzzy
 msgid "Send feedback to the FusionDirectory project team"
-msgstr "Gửi phản hồi lại cho nhóm phát triển dự án FusionDirectory"
+msgstr ""
 
 #: setup/setup_feedback.tpl:50
-#, fuzzy
 msgid ""
-"When checking this option, FusionDirectory will try to connect http://www."
-"fusiondirectory.org in order to submit your form anonymously."
+"When checking this option, FusionDirectory will try to connect "
+"http://www.fusiondirectory.org in order to submit your form anonymously."
 msgstr ""
-"Khi kiểm tra lựa chọn này, FusionDirectory sẽ cố gắng kết nối bạn với http://"
-"oss.gonicus.de để nộp đăng ký của bạn nặc danh."
 
 #: setup/setup_feedback.tpl:52
 #: plugins/admin/users/class_userManagement.inc:895
@@ -2029,18 +1820,16 @@ msgid "If not, what problems did you encounter"
 msgstr "Nếu không, vấn đề mà bạn gặp phải là gì?"
 
 #: setup/setup_feedback.tpl:74
-#, fuzzy
 msgid "Is this the first time you use FusionDirectory?"
-msgstr "Đây có phải là lần đầu tiên bạn sử dụng FusionDirectory không?"
+msgstr ""
 
 #: setup/setup_feedback.tpl:80
 msgid "I use it since"
 msgstr "Tôi sử dụng nó từ khi"
 
 #: setup/setup_feedback.tpl:81
-#, fuzzy
 msgid "Select the year since when you are using FusionDirectory"
-msgstr "Lựa chọn năm mà bạn đang sử dụng FusionDirectory"
+msgstr ""
 
 #: setup/setup_feedback.tpl:88
 msgid "What operating system / distribution do you use?"
@@ -2075,41 +1864,32 @@ msgid "Features"
 msgstr "Các tính năng"
 
 #: setup/setup_feedback.tpl:140
-#, fuzzy
 msgid "What features of FusionDirectory do you use?"
-msgstr "Bạn sử dụng tính năng nào của FusionDirectory?"
+msgstr ""
 
 #: setup/setup_feedback.tpl:150
-#, fuzzy
-msgid "What features do you want to see in future versions of FusionDirectory?"
+msgid ""
+"What features do you want to see in future versions of FusionDirectory?"
 msgstr ""
-"Bạn muốn được thấy tính năng nào trong các phiên bản tương lai của "
-"FusionDirectory?"
 
 #: setup/setup_feedback.tpl:157
 msgid "Send feedback"
 msgstr "Gửi phản hồi"
 
 #: setup/setup_migrate.tpl:5
-#, fuzzy
 msgid ""
-"During the LDAP inspection, we're going to check for several common pitfalls "
-"that may occur when migration to FusionDirectory base LDAP administration. "
+"During the LDAP inspection, we're going to check for several common pitfalls"
+" that may occur when migration to FusionDirectory base LDAP administration. "
 "You may want to fix the problems below, in order to provide smooth services."
 msgstr ""
-"Trong quá trình thanh tra LDAP, chúng tôi sẽ kiểm tra một vài lỗi thông "
-"thường mà có thể xảy ra khi di trú đến quản trị LDAP gốc FusionDirectory. "
-"Bạn có thể muốn sửa những vấn đề dưới đây để cung cấp các dịch vụ êm xuôi "
-"hơn."
 
 #: setup/setup_migrate.tpl:33
 msgid "Check again"
 msgstr "Kiểm tra lại"
 
 #: setup/setup_migrate.tpl:37
-#, fuzzy
 msgid "Add required object classes to the LDAP base"
-msgstr "Lớp đối tượng '%s' được yêu cầu mất tích!"
+msgstr ""
 
 #: setup/setup_migrate.tpl:39 setup/setup_migrate.tpl:244
 #: setup/setup_migrate.tpl:344 setup/setup_migrate.tpl:398
@@ -2141,24 +1921,19 @@ msgstr "Đóng"
 
 #: setup/setup_migrate.tpl:65
 msgid "Move windows workstations into a valid windows workstation department"
-msgstr ""
-"Chuyển một máy trạm window thành một bộ phận máy trạm windown có hiệu lực"
+msgstr "Chuyển một máy trạm window thành một bộ phận máy trạm windown có hiệu lực"
 
 #: setup/setup_migrate.tpl:67
 msgid ""
 "This dialog allows you to move the displayed windows workstations into a "
 "valid department"
-msgstr ""
-"Hộp thoại này cho phép bạn chuyển từ một máy trạm window được hiển thị sang "
-"một bộ phận có hiệu lực"
+msgstr "Hộp thoại này cho phép bạn chuyển từ một máy trạm window được hiển thị sang một bộ phận có hiệu lực"
 
 #: setup/setup_migrate.tpl:69
 msgid ""
 "Be careful with this tool, there may be references pointing to this "
 "workstations that can't be migrated."
-msgstr ""
-"Hãy cẩn thận với công cụ này, có thể có các tham chiếu hướng đến máy trạm "
-"này mà không thể được du nhập vào."
+msgstr "Hãy cẩn thận với công cụ này, có thể có các tham chiếu hướng đến máy trạm này mà không thể được du nhập vào."
 
 #: setup/setup_migrate.tpl:93 setup/setup_migrate.tpl:149
 #: setup/setup_migrate.tpl:201 setup/setup_migrate.tpl:368
@@ -2169,13 +1944,10 @@ msgid "Select all"
 msgstr "Chọn tất"
 
 #: setup/setup_migrate.tpl:95
-#, fuzzy
 msgid ""
 "Move selected windows workstations into the following FusionDirectory "
 "department"
 msgstr ""
-"Chuyển những máy trạm window đã chọn vào trong những bộ phận FusionDirectory "
-"tiếp theo"
 
 #: setup/setup_migrate.tpl:100
 msgid "Move selected workstations"
@@ -2193,20 +1965,14 @@ msgstr "Chuyển nhóm thành cây nhóm đã được cấu hình"
 msgid ""
 "This dialog allows moving a couple of groups to the configured group tree. "
 "Doing this may straighten your LDAP service."
-msgstr ""
-"Hộp thoại này cho phép việc chuyển một vài nhóm đến cây nhóm đã được cấu "
-"hình. Thực hiện việc này có thể sẽ làm gọn gàng dịch vụ LDAP của bạn."
+msgstr "Hộp thoại này cho phép việc chuyển một vài nhóm đến cây nhóm đã được cấu hình. Thực hiện việc này có thể sẽ làm gọn gàng dịch vụ LDAP của bạn."
 
 #: setup/setup_migrate.tpl:119
-#, fuzzy
 msgid ""
 "Be careful with this option! There may be references pointing to these "
 "groups. The FusionDirectory setup can't migrate references, so you may want "
 "to cancel the migration in this case."
 msgstr ""
-"Hãy cẩn thận với lựa chọn này! Có thể có các thông tin tham chiếu hướng đến "
-"nhóm này. Cài đặt Gosa không thể di trú các tham chiếu này, vì thế bạn có "
-"thể muốn hủy bỏ việc di trú trong trường hợp này."
 
 #: setup/setup_migrate.tpl:122
 msgid "Move selected groups into this group tree"
@@ -2234,29 +2000,22 @@ msgstr "Chuyển người dùng sang cây người dùng được cấu hình"
 msgid ""
 "This dialog allows moving a couple of users to the configured user tree. "
 "Doing this may straighten your LDAP service."
-msgstr ""
-"Hộp thoại này cho phép việc chuyển một vài nhóm đến cây nhóm đã được cấu "
-"hình. Thực hiện việc này có thể sẽ làm gọn gàng dịch vụ LDAP của bạn."
+msgstr "Hộp thoại này cho phép việc chuyển một vài nhóm đến cây nhóm đã được cấu hình. Thực hiện việc này có thể sẽ làm gọn gàng dịch vụ LDAP của bạn."
 
 #: setup/setup_migrate.tpl:173
-#, fuzzy
 msgid ""
 "Be careful with this option! There may be references pointing to these "
 "users. The FusionDirectory setup can't migrate references, so you may want "
 "to cancel the migration in this case."
 msgstr ""
-"Hãy cẩn thận với lựa chọn này! Có thể có các thông tin tham chiếu hướng đến "
-"nhóm này. Cài đặt Gosa không thể di trú các tham chiếu này, vì thế bạn có "
-"thể muốn hủy bỏ việc di trú trong trường hợp này."
 
 #: setup/setup_migrate.tpl:176
 msgid "Move selected users into this people tree"
 msgstr "Chuyển người dùng sang cây người dùng được cấu hình"
 
 #: setup/setup_migrate.tpl:219
-#, fuzzy
 msgid "Migrate GOsa 2.5 administrative accounts"
-msgstr "Tạo ra một tài khoản admin GOsa mới"
+msgstr ""
 
 #: setup/setup_migrate.tpl:221
 msgid ""
@@ -2273,9 +2032,8 @@ msgid "Abort"
 msgstr "Ngừng lại"
 
 #: setup/setup_migrate.tpl:275
-#, fuzzy
 msgid "Create a new FusionDirectory administrator account"
-msgstr "Tạo ra một tài khoản admin FusionDirectory mới"
+msgstr ""
 
 #: setup/setup_migrate.tpl:278
 msgid ""
@@ -2293,15 +2051,11 @@ msgid "Password (again)"
 msgstr "Mật khẩu (nhập lại)"
 
 #: setup/setup_migrate.tpl:333
-#, fuzzy
 msgid ""
 "The listed departments are currently invisible in the FusionDirectory user "
 "interface. If you want to change this for a couple of entries, select them "
 "and use the migrate button below."
 msgstr ""
-"Các bộ  phận  được liệt kê hiện đang bị ẩn trên giao diện người dùng của "
-"FusionDirectory. Nếu bạn muốn thay đổi việc này cho một số entry, lựa chọn "
-"chúng và sử dụng phím 'di trú' ở dưới."
 
 #: setup/setup_migrate.tpl:334 setup/setup_migrate.tpl:389
 #: setup/setup_migrate.tpl:445 setup/setup_migrate.tpl:489
@@ -2309,61 +2063,42 @@ msgstr ""
 msgid ""
 "If you want to know what will be done when migrating the selected entries, "
 "use the 'Show changes' button to see the LDIF."
-msgstr ""
-"Nếu bạn muốn biết việc gì sẽ được tiến hành khi di trú các entry được chọn "
-"này, hãy sử dụng phím 'hiển thị thay đổi 'để xem định dạng LDIF."
+msgstr "Nếu bạn muốn biết việc gì sẽ được tiến hành khi di trú các entry được chọn này, hãy sử dụng phím 'hiển thị thay đổi 'để xem định dạng LDIF."
 
 #: setup/setup_migrate.tpl:388
-#, fuzzy
 msgid ""
 "The listed users are currently invisible in the FusionDirectory user "
 "interface. If you want to change this for a couple of users, just select "
 "them and use the 'Migrate' button below."
 msgstr ""
-"Các bộ  phận  được liệt kê hiện đang bị ẩn trên giao diện người dùng của "
-"Gosa. Nếu bạn muốn thay đổi việc này cho một số entry, lựa chọn chúng và sử "
-"dụng phím \"Di trú\" ở dưới."
 
 #: setup/setup_migrate.tpl:444
-#, fuzzy
 msgid ""
-"The listed devices are currently invisible in the FusionDirectory interface. "
-"If you want to change this for a couple of devices, just select them and use "
-"the 'Migrate' button below."
+"The listed devices are currently invisible in the FusionDirectory interface."
+" If you want to change this for a couple of devices, just select them and "
+"use the 'Migrate' button below."
 msgstr ""
-"Các bộ  phận  được liệt kê hiện đang bị ẩn trên giao diện người dùng của "
-"Gosa. Nếu bạn muốn thay đổi việc này cho một số entry, lựa chọn chúng và sử "
-"dụng phím \"Di trú\" ở dưới."
 
 #: setup/setup_migrate.tpl:470 setup/setup_migrate.tpl:513
 #: setup/setup_migrate.tpl:557 plugins/admin/users/password.tpl:50
 #: plugins/personal/password/password.tpl:68
 #: plugins/personal/generic/password.tpl:62
-#, fuzzy
 msgid "Refresh"
-msgstr "Các tham chiếu"
+msgstr ""
 
 #: setup/setup_migrate.tpl:488
-#, fuzzy
 msgid ""
 "The listed services are currently invalid for the FusionDirectory version "
 "you are going to install. If you want to update a couple of service, just "
 "select them and use the 'Migrate' button below."
 msgstr ""
-"Các bộ  phận  được liệt kê hiện đang bị ẩn trên giao diện người dùng của "
-"Gosa. Nếu bạn muốn thay đổi việc này cho một số entry, lựa chọn chúng và sử "
-"dụng phím \"Di trú\" ở dưới."
 
 #: setup/setup_migrate.tpl:532
-#, fuzzy
 msgid ""
 "The listed menus are currently invisible in the FusionDirectory interface. "
-"If you want to change this for a couple of devices, just select them and use "
-"the 'Migrate' button below."
+"If you want to change this for a couple of devices, just select them and use"
+" the 'Migrate' button below."
 msgstr ""
-"Các bộ  phận  được liệt kê hiện đang bị ẩn trên giao diện người dùng của "
-"Gosa. Nếu bạn muốn thay đổi việc này cho một số entry, lựa chọn chúng và sử "
-"dụng phím \"Di trú\" ở dưới."
 
 #: setup/class_setupStep_Welcome.inc:38
 msgid "Welcome"
@@ -2374,23 +2109,20 @@ msgid "The welcome message"
 msgstr "Tin nhắn chào mừng"
 
 #: setup/class_setupStep_Welcome.inc:40
-#, fuzzy
 msgid "Welcome to FusionDirectory setup wizard"
-msgstr "Chào mừng bạn đến với bộ cài đặt wizard FusionDirectory"
+msgstr ""
 
 #: setup/setup_checks.tpl:9
 msgid "PHP module and extension checks"
 msgstr "Kiểm tra các module và mở rộng của PHP"
 
 #: setup/setup_checks.tpl:41 setup/setup_checks.tpl:103
-#, fuzzy
 msgid "FusionDirectory will NOT run without fixing this."
-msgstr "FusionDirectory sẽ không chạy được nếu không sửa chỗ này."
+msgstr ""
 
 #: setup/setup_checks.tpl:45 setup/setup_checks.tpl:107
-#, fuzzy
 msgid "FusionDirectory will run without fixing this."
-msgstr "FusionDirectory sẽ chạy mà không cần sửa chỗ này."
+msgstr ""
 
 #: setup/setup_checks.tpl:67
 msgid "PHP setup configuration"
@@ -2401,9 +2133,8 @@ msgid "show information"
 msgstr "hiển thị thông tin"
 
 #: setup/setup_ldap.tpl:7
-#, fuzzy
 msgid "Please choose the LDAP user to be used by FusionDirectory"
-msgstr "Xin hãy chọn người dùng LDAP để được sử dụng bởi FusionDirectory"
+msgstr ""
 
 #: setup/setup_ldap.tpl:13
 msgid "Search"
@@ -2418,9 +2149,8 @@ msgid "Location name"
 msgstr "Tên vị trí"
 
 #: setup/setup_ldap.tpl:37
-#, fuzzy
 msgid "Connection URI"
-msgstr "Kết nối URL"
+msgstr ""
 
 #: setup/setup_ldap.tpl:45
 msgid "TLS connection"
@@ -2497,25 +2227,20 @@ msgid "LDAP inspection"
 msgstr "Thanh tra LDAP"
 
 #: setup/class_setupStep_Migrate.inc:128
-#, fuzzy
 msgid "Analyze your current LDAP for FusionDirectory compatibility"
 msgstr ""
-"Phân tích LDAP hiện tại của bạn để xem khả năng tương thích với "
-"FusionDirectory"
 
 #: setup/class_setupStep_Migrate.inc:134
 msgid "Checking for root object"
 msgstr "Kiểm tra đối tượng gốc"
 
 #: setup/class_setupStep_Migrate.inc:140
-#, fuzzy
 msgid "Inspecting object classes in root object"
-msgstr "Kiểm tra đối tượng gốc"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:146
-#, fuzzy
 msgid "Checking permission for LDAP database"
-msgstr "Kiểm tra các cho phép trên cơ sở dữ liệu LDAP "
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:152
 msgid "Checking for invisible departments"
@@ -2539,9 +2264,8 @@ msgid "Checking for groups outside the groups tree"
 msgstr "Kiểm tra nhóm bên ngoài cây nhóm"
 
 #: setup/class_setupStep_Migrate.inc:183
-#, fuzzy
 msgid "Checking for windows workstations outside the computers tree"
-msgstr "Kiểm tra máy trạm window bên ngoài cây máy trạm window"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:189
 msgid "Checking for duplicated UID numbers"
@@ -2552,19 +2276,16 @@ msgid "Checking for duplicate GID numbers"
 msgstr "Kiểm tra các số ID của nhóm (GID) được nhân bản"
 
 #: setup/class_setupStep_Migrate.inc:201
-#, fuzzy
 msgid "Checking for old style USB devices"
-msgstr "Kiểm tra đối tượng gốc"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:207
-#, fuzzy
 msgid "Checking for old services that have to be migrated"
-msgstr "Kiểm tra người dùng bên ngoài cây con người"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:213
-#, fuzzy
 msgid "Checking for old style application menus"
-msgstr "Kiểm tra các bộ phận ẩn"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:239 setup/class_setupStep_Migrate.inc:291
 #: setup/class_setupStep_Migrate.inc:356 setup/class_setupStep_Migrate.inc:420
@@ -2614,12 +2335,10 @@ msgid "Failed"
 msgstr "Thất bại"
 
 #: setup/class_setupStep_Migrate.inc:374
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "Found %s winstations outside the predefined computers department ou '%s'."
 msgstr ""
-"Đã tìm thấy %s máy trạm win bên ngoài bộ phận winstation đã được xác định "
-"trước '%s'."
 
 #: setup/class_setupStep_Migrate.inc:447
 #, php-format
@@ -2639,15 +2358,14 @@ msgstr "Đã tìm thấy %s người dùng  bên ngoài cây được cấu hìn
 #, php-format
 msgid ""
 "The specified user '%s' does not have full access to your ldap database."
-msgstr ""
-"Người dùng '%s' không có toàn quyền truy cập vào cơ sở dữ liệu LDAP của bạn."
+msgstr "Người dùng '%s' không có toàn quyền truy cập vào cơ sở dữ liệu LDAP của bạn."
 
 #: setup/class_setupStep_Migrate.inc:662
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "Found %s user(s) that will not be visible in FusionDirectory or which are "
 "incomplete."
-msgstr "Đã tìm thấy %s người dùng mà không hiên thị trên FusionDirectory."
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:712 setup/class_setupStep_Migrate.inc:855
 #: setup/class_setupStep_Migrate.inc:1118
@@ -2660,20 +2378,20 @@ msgid "Cannot migrate department '%s':"
 msgstr "Không thể di trú bộ phận '%s':"
 
 #: setup/class_setupStep_Migrate.inc:803
-#, fuzzy, php-format
+#, php-format
 msgid "Found %s department(s) that will not be visible in FusionDirectory."
-msgstr "Tìm thấy %s bộ phận mà không hiển thị trên Gosa."
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1027
-#, fuzzy, php-format
+#, php-format
 msgid "GOsa 2.5 administrative accounts found: %s"
-msgstr "Tạo ra một tài khoản admin GOsa mới"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1032
-#, fuzzy
 msgid ""
-"There is no valid FusionDirectory 1.0 administrator account inside your LDAP."
-msgstr "Không có một tài khoản Admin cùa Gosa nào trong LDAP của bạn."
+"There is no valid FusionDirectory 1.0 administrator account inside your "
+"LDAP."
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1034
 #: setup/class_setupStep_Migrate.inc:1050 plugins/admin/acl/acl-list.xml:76
@@ -2696,9 +2414,8 @@ msgid "Groups"
 msgstr "Các nhóm"
 
 #: setup/class_setupStep_Migrate.inc:1049
-#, fuzzy
 msgid "There is no FusionDirectory administrator account inside your LDAP."
-msgstr "Không có một tài khoản Admin cùa Gosa nào trong LDAP của bạn."
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1118
 #, php-format
@@ -2729,8 +2446,7 @@ msgstr "Xác định một ID người dùng hợp lệ!"
 #: setup/class_setupStep_Migrate.inc:1199
 #, php-format
 msgid "Adding an administrative user failed: object '%s' already exists!"
-msgstr ""
-"Việc thêm một người dùng quản trị đã thất bại: đối tượng '%s' đã có rồi!"
+msgstr "Việc thêm một người dùng quản trị đã thất bại: đối tượng '%s' đã có rồi!"
 
 #: setup/class_setupStep_Migrate.inc:1238
 #: setup/class_setupStep_Migrate.inc:1287
@@ -2768,9 +2484,7 @@ msgstr "Tham chiếu sau sẽ được cập nhật"
 #: setup/class_setupStep_Migrate.inc:1989
 msgid ""
 "The LDAP root object is missing. It is required to use your LDAP service."
-msgstr ""
-"Đối tượng gốc LDAP đang mất tích. Để sử dụng dịch vụ LDAP của bạn, bạn cần "
-"có nó."
+msgstr "Đối tượng gốc LDAP đang mất tích. Để sử dụng dịch vụ LDAP của bạn, bạn cần có nó."
 
 #: setup/class_setupStep_Migrate.inc:1990
 #: setup/class_setupStep_Migrate.inc:2003
@@ -2782,14 +2496,13 @@ msgid "Root object couldn't be created, you should try it on your own."
 msgstr "Đối tượng gốc không thể được tạo ra, bạn phải cố tự mình tạo ra nó."
 
 #: setup/class_setupStep_Migrate.inc:2057
-#, fuzzy, php-format
+#, php-format
 msgid "Missing FusionDirectory object class '%s'!"
-msgstr "Lớp đối tượng '%s' được yêu cầu mất tích!"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:2058
-#, fuzzy
 msgid "Please check your installation."
-msgstr "Xin hãy kiểm tra kết hợp tên người dùng/mật khẩu."
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:2079
 #, php-format
@@ -2815,9 +2528,9 @@ msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:2653
 #: setup/class_setupStep_Migrate.inc:2770
-#, fuzzy, php-format
+#, php-format
 msgid "Updating '%s' failed: %s"
-msgstr "Tải lên thất bại: %s"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:2726
 #, php-format
@@ -2854,20 +2567,16 @@ msgstr ""
 #: include/class_config.inc:1132 include/class_config.inc:1163
 #, php-format
 msgid ""
-"The snapshot functionality is enabled, but the required variable '%s' is not "
-"set."
-msgstr ""
-"Chức năng Snapshot đã được bật, nhưng biến số được yêu cầu: '%s' vẫn chưa "
-"được thiết lập."
+"The snapshot functionality is enabled, but the required variable '%s' is not"
+" set."
+msgstr "Chức năng Snapshot đã được bật, nhưng biến số được yêu cầu: '%s' vẫn chưa được thiết lập."
 
 #: include/class_SnapshotHandler.inc:61 include/class_config.inc:1145
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required compression module "
 "is missing. Please install '%s'."
 msgstr ""
-"Chức năng Snapshot đã được bật, nhưng biến số được yêu cầu: '%s' vẫn chưa "
-"được thiết lập."
 
 #: include/exporter/class_pdfExporter.inc:43
 msgid "No PDF export possible: there is no FPDF library installed."
@@ -2878,9 +2587,8 @@ msgid "PDF"
 msgstr ""
 
 #: include/exporter/class_PDF.inc:44
-#, fuzzy
 msgid "Page"
-msgstr "Máy nhắn tin"
+msgstr ""
 
 #: include/exporter/class_cvsExporter.inc:71
 msgid "CSV"
@@ -2903,19 +2611,16 @@ msgid "Unknown"
 msgstr "Không rõ"
 
 #: include/class_xml.inc:52
-#, fuzzy
 msgid "in"
-msgstr "Trang chính"
+msgstr ""
 
 #: include/class_xml.inc:54
-#, fuzzy
 msgid "on line"
-msgstr "Tiếp tục"
+msgstr ""
 
 #: include/class_xml.inc:55
-#, fuzzy
 msgid "XML error"
-msgstr "Lỗi MySQL"
+msgstr ""
 
 #: include/class_tabs.inc:57
 #, php-format
@@ -2948,9 +2653,8 @@ msgid "unconfigured"
 msgstr "không được cấu hình"
 
 #: include/class_management.inc:149
-#, fuzzy
 msgid "Filter error"
-msgstr "Lỗi nặng"
+msgstr ""
 
 #: include/class_management.inc:149
 msgid "The filter is incomplete!"
@@ -2995,23 +2699,18 @@ msgstr ""
 #: include/functions.inc:114
 #, php-format
 msgid "Fatal error: no class locations defined - please run '%s' to fix this"
-msgstr ""
-"Lỗi nghiêm trọng: không có vị trí lớp nào được xác định - xin hãy chạy '%s' "
-"để sửa lỗi này"
+msgstr "Lỗi nghiêm trọng: không có vị trí lớp nào được xác định - xin hãy chạy '%s' để sửa lỗi này"
 
 #: include/functions.inc:121
 #, php-format
 msgid ""
 "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
-msgstr ""
-"Lỗi nghiêm trọng: không thể tạo ra lớp '%s' - hãy thử chạy '%s' để sửa lỗi "
-"này"
+msgstr "Lỗi nghiêm trọng: không thể tạo ra lớp '%s' - hãy thử chạy '%s' để sửa lỗi này"
 
 #: include/functions.inc:451
 #, php-format
 msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
-msgstr ""
-"LỖI NGHIÊM TRỌNG: Lỗi khi đang kết nối với LDAP. Server thông báo '%s'."
+msgstr "LỖI NGHIÊM TRỌNG: Lỗi khi đang kết nối với LDAP. Server thông báo '%s'."
 
 #: include/functions.inc:531
 msgid "Username / UID is not unique inside the LDAP tree!"
@@ -3032,9 +2731,7 @@ msgstr "Lỗi nội bộ"
 msgid ""
 "Username / UID is not unique inside the LDAP tree. Please contact your "
 "Administrator."
-msgstr ""
-"Tên người dùng/UID không phải là duy nhất trong cây LDAP. Xin hãy liên Lạc "
-"với Admin của bạn."
+msgstr "Tên người dùng/UID không phải là duy nhất trong cây LDAP. Xin hãy liên Lạc với Admin của bạn."
 
 #: include/functions.inc:835 include/functions.inc:954
 msgid "Error while adding a lock. Contact the developers!"
@@ -3045,9 +2742,7 @@ msgstr "Lỗi khi đang thêm một khóa vào. Hãy liên lạc với các nhà
 msgid ""
 "Cannot create locking information in LDAP tree. Please contact your "
 "administrator!"
-msgstr ""
-"Không thể tạo ra việc khóa thông tin trong cây LDAP.Xin hãy liên lạc với "
-"admin của bạn!"
+msgstr "Không thể tạo ra việc khóa thông tin trong cây LDAP.Xin hãy liên lạc với admin của bạn!"
 
 #: include/functions.inc:845
 #, php-format
@@ -3058,9 +2753,7 @@ msgstr "LDAP server trả về: %s"
 msgid ""
 "Found multiple locks for object to be locked. This should not happen - "
 "cleaning up multiple references."
-msgstr ""
-"Tìm thấy nhiều khóa khác nhau để khóa đối tượng. Điều này không nên xảy ra - "
-"hãy dọn sạch các tham chiếu."
+msgstr "Tìm thấy nhiều khóa khác nhau để khóa đối tượng. Điều này không nên xảy ra - hãy dọn sạch các tham chiếu."
 
 #: include/functions.inc:1292
 #, php-format
@@ -3072,9 +2765,7 @@ msgstr "Đã vượt quá giới hạn kích cỡ của các entry %d!"
 msgid ""
 "Set the new size limit to %s and show me this message if the limit still "
 "exceeds"
-msgstr ""
-"Thiết lập kích cỡ mới cho %s và cho tôi thấy tin nhắn nếu giới hạn này vẫn "
-"vượt quá tiêu chuẩn"
+msgstr "Thiết lập kích cỡ mới cho %s và cho tôi thấy tin nhắn nếu giới hạn này vẫn vượt quá tiêu chuẩn"
 
 #: include/functions.inc:1310 plugins/personal/generic/generic.tpl:223
 msgid "Configure"
@@ -3119,15 +2810,13 @@ msgid "Cannot write to revision file!"
 msgstr "Không thể viết lên revision file!"
 
 #: include/functions.inc:2544
-#, fuzzy
 msgid "Cannot read to revision file!"
-msgstr "Không thể viết lên revision file!"
+msgstr ""
 
 #: include/functions.inc:2731 include/functions.inc:2735
 #: include/functions.inc:2741
-#, fuzzy
 msgid "'baseIdHook' is not available. Using default base!"
-msgstr "'base_hook' không có. Hãy sử dụng cơ sở mặc định!"
+msgstr ""
 
 #: include/functions.inc:2776
 msgid "LDAP warning"
@@ -3135,8 +2824,7 @@ msgstr "Cảnh báo LDAP"
 
 #: include/functions.inc:2776
 msgid "Cannot get schema information from server. No schema check possible!"
-msgstr ""
-"Không thể dùng thông tin lược đồ từ server. Không thể kiểm tra giản đồ!"
+msgstr "Không thể dùng thông tin lược đồ từ server. Không thể kiểm tra giản đồ!"
 
 #: include/functions.inc:2802
 msgid "Used to store account specific informations."
@@ -3146,9 +2834,7 @@ msgstr "Đã từng lưu trữ thông tin cụ thể về tài khoản."
 msgid ""
 "Used to lock currently edited entries to avoid multiple changes at the same "
 "time."
-msgstr ""
-"Đã từng khóa các entry hiện đang được hiệu chỉnh nhằm tránh các thay đổi "
-"khác nhau tại cùng một thời điểm."
+msgstr "Đã từng khóa các entry hiện đang được hiệu chỉnh nhằm tránh các thay đổi khác nhau tại cùng một thời điểm."
 
 #: include/functions.inc:2854
 #, php-format
@@ -3174,25 +2860,19 @@ msgstr "Đã có lớp"
 msgid ""
 "You have enabled the rfc2307bis option on the 'ldap setup' step, but your "
 "schema    configuration do not support this option."
-msgstr ""
-"Bạn vừa bật lựa chọn rfc2307bis lên trên bước ' cài đặt ldap', nhưng cấu "
-"hình giản đồ của bạn không hỗ trợ lựa chọn này."
+msgstr "Bạn vừa bật lựa chọn rfc2307bis lên trên bước ' cài đặt ldap', nhưng cấu hình giản đồ của bạn không hỗ trợ lựa chọn này."
 
 #: include/functions.inc:2888
 msgid ""
 "In order to use rfc2307bis conform groups the objectClass 'posixGroup' must "
 "be      AUXILIARY"
-msgstr ""
-"Để có thể sử dụng được nhóm conform rfc2307bis, objectClass "
-"'posixGroup' (nhóm posix) phải được hỗ trợ     "
+msgstr "Để có thể sử dụng được nhóm conform rfc2307bis, objectClass 'posixGroup' (nhóm posix) phải được hỗ trợ     "
 
 #: include/functions.inc:2892
 msgid ""
 "Your schema is configured to support the rfc2307bis group, but you have "
 "disabled this option on the 'ldap setup' step."
-msgstr ""
-"Lược đồ của bạn được cấu hình để hỗ trợ nhóm rfc2307bis, nhưng bạn đã vừa "
-"tắt chức năng này đi trong bước 'cài đặt ldap'."
+msgstr "Lược đồ của bạn được cấu hình để hỗ trợ nhóm rfc2307bis, nhưng bạn đã vừa tắt chức năng này đi trong bước 'cài đặt ldap'."
 
 #: include/functions.inc:2893
 msgid "The objectClass 'posixGroup' must be STRUCTURAL"
@@ -3250,9 +2930,7 @@ msgstr "Tiếng Nga"
 #, php-format
 msgid ""
 "Command '%s', specified as POSTMODIFY for plugin '%s' doesn't seem to exist."
-msgstr ""
-"Lệnh '%s', được xác định là POSTMODIFY (thay đổi sau) cho chế độ plugin '%s' "
-"hình như không tồn tại."
+msgstr "Lệnh '%s', được xác định là POSTMODIFY (thay đổi sau) cho chế độ plugin '%s' hình như không tồn tại."
 
 #: include/functions.inc:3161
 #, php-format
@@ -3264,9 +2942,8 @@ msgstr ""
 #: include/functions.inc:3535 include/functions.inc:3547
 #: include/functions.inc:3551 include/functions.inc:3566
 #: include/functions.inc:3575
-#, fuzzy
 msgid "Cannot allocate a free ID:"
-msgstr "Không thể phân phối một ID miễn phí!"
+msgstr ""
 
 #: include/functions.inc:3477
 msgid "unknown idAllocation method!"
@@ -3278,18 +2955,16 @@ msgid "%sPoolMin >= %sPoolMax!"
 msgstr ""
 
 #: include/functions.inc:3527
-#, fuzzy
 msgid "Cannot create sambaUnixIdPool entry!"
-msgstr "Không thể tạo ra folder '%s'!"
+msgstr ""
 
 #: include/functions.inc:3535
 msgid "sambaUnixIdPool is not unique!"
 msgstr ""
 
 #: include/functions.inc:3547 include/functions.inc:3551
-#, fuzzy
 msgid "no ID available!"
-msgstr "Không có mẫu nào!"
+msgstr ""
 
 #: include/functions.inc:3575
 msgid "maximum tries exceeded!"
@@ -3311,9 +2986,8 @@ msgid "Down"
 msgstr "Xuống"
 
 #: include/class_listing.inc:514
-#, fuzzy
 msgid "created by"
-msgstr "Tạo "
+msgstr ""
 
 #: include/class_listing.inc:996
 msgid "Go to root department"
@@ -3377,9 +3051,8 @@ msgid "Copy this entry"
 msgstr "Copy entry này"
 
 #: include/class_listing.inc:1467 include/class_listing.inc:1469
-#, fuzzy
 msgid "Restore snapshots"
-msgstr "Phục hồi lại snapshot"
+msgstr ""
 
 #: include/class_listing.inc:1483
 msgid "Export list"
@@ -3455,9 +3128,8 @@ msgid "Cannot bind to LDAP. Please contact the system administrator."
 msgstr "Không thể nối kết với LDAP. Xin hãy liên lạc với với admin hệ thống."
 
 #: include/class_config.inc:687
-#, fuzzy
 msgid "sambaSID and/or sambaRidBase missing in the configuration!"
-msgstr "SID và/hoặc RIDBASE đang bị mất trong cấu hình này!"
+msgstr ""
 
 #: include/class_CopyPasteHandler.inc:116
 #: include/class_CopyPasteHandler.inc:125
@@ -3506,18 +3178,13 @@ msgstr ""
 
 #: include/password-methods/class_password-methods.inc:283
 msgid "Cannot find a suitable password method for the current hash!"
-msgstr ""
-"Không thể tìm thấy một phương pháp mật khẩu phù hợp cho hàm băm hiện tại!"
+msgstr "Không thể tìm thấy một phương pháp mật khẩu phù hợp cho hàm băm hiện tại!"
 
 #: include/class_plugin.inc:531
-#, fuzzy
 msgid ""
-"The object has changed since opened in FusionDirectory. All changes that may "
-"be done by others get lost if you save this entry!"
+"The object has changed since opened in FusionDirectory. All changes that may"
+" be done by others get lost if you save this entry!"
 msgstr ""
-"Đối tượng đã bị thay đổi từ khi được mở trong FusionDirectory. Nếu bạn lưu "
-"entry này lại, khi các đối tượng khác lạc hướng có thể gây ra thêm tất cả "
-"các thay đổi!"
 
 #: include/class_plugin.inc:1961
 msgid "Changing ACL dn"
@@ -3589,9 +3256,7 @@ msgstr "ObjecType được chỉ định đang rỗng hặc không hợp lệ!"
 msgid ""
 "The timezone setting '%s' in your fusiondirectory.conf is not valid. Cannot "
 "calculate correct timezone offset."
-msgstr ""
-"Múi giờ thiết lập '%s' trong fusiondirectory.config không hợp lệ. Không thể "
-"tính toán chính xác thời gian bù thêm vào múi giờ."
+msgstr "Múi giờ thiết lập '%s' trong fusiondirectory.config không hợp lệ. Không thể tính toán chính xác thời gian bù thêm vào múi giờ."
 
 #: include/class_certificate.inc:76
 msgid "Certificate is empty!"
@@ -3603,8 +3268,7 @@ msgstr "Không thể tải giấy chứng nhận - chỉ có PEM/DER là đượ
 
 #: include/class_certificate.inc:118
 msgid "Cannot extract information for non PEM certificates!"
-msgstr ""
-"Không thể triết xuất thông tin cho những giấy chứng nhận không phải là PEM!"
+msgstr "Không thể triết xuất thông tin cho những giấy chứng nhận không phải là PEM!"
 
 #: include/class_certificate.inc:222
 msgid "No valid certificate loaded!"
@@ -3626,9 +3290,9 @@ msgstr "Quản lý các danh sách kiểm soát truy cập"
 
 #: include/class_acl.inc:122 include/class_acl.inc:583
 #: include/class_acl.inc:1011
-#, fuzzy, php-format
+#, php-format
 msgid "All users"
-msgstr "người dùng"
+msgstr ""
 
 #: include/class_acl.inc:216 plugins/admin/acl/class_aclRole.inc:127
 msgid "All categories"
@@ -3698,9 +3362,8 @@ msgid "Remove objects"
 msgstr "Xóa đối tượng"
 
 #: include/class_acl.inc:809
-#, fuzzy
 msgid "Grant permission to owner"
-msgstr "Không thể thiết lập phép cho '%s'"
+msgstr ""
 
 #: include/class_acl.inc:813 include/class_acl.inc:918
 #: include/class_acl.inc:922
@@ -3745,9 +3408,8 @@ msgid "inactive"
 msgstr "không hoạt động"
 
 #: include/class_acl.inc:1098
-#, fuzzy
 msgid "No members"
-msgstr "Các thành viên nhóm"
+msgstr ""
 
 #: include/class_acl.inc:1268
 msgid "Access control list"
@@ -3759,11 +3421,8 @@ msgstr "Các vai trò ACL"
 
 #: include/class_session.inc:79 include/class_session.inc:104
 #: include/class_session.inc:130
-#, fuzzy
 msgid "Requested channel does not exist! Please contact your Administrator."
 msgstr ""
-"Tên người dùng/UID không phải là duy nhất trong cây LDAP. Xin hãy liên Lạc "
-"với Admin của bạn."
 
 #: include/class_multi_plug.inc:361
 msgid "You are currently editing mutliple entries."
@@ -3775,9 +3434,7 @@ msgstr "Xác lập lại mật khẩu"
 
 #: include/class_multi_plug.inc:390
 msgid "The user password was resetted, please set a new password value!"
-msgstr ""
-"Mật khẩu người dùng đã được xác lập lại, hãy thiết lập một giá trị mật khẩu "
-"mới!"
+msgstr "Mật khẩu người dùng đã được xác lập lại, hãy thiết lập một giá trị mật khẩu mới!"
 
 #: include/class_ldap.inc:249 include/class_ldap.inc:282
 msgid "Performance warning"
@@ -3786,16 +3443,13 @@ msgstr "Cảnh báo khả năng hoạt động"
 #: include/class_ldap.inc:249 include/class_ldap.inc:282
 #, php-format
 msgid "LDAP performance is poor: last query took about %.2fs!"
-msgstr ""
-"Khả năng hoạt động của LDAP rất thấp: truy vấn lần cuối mất khoảng %.2fs!"
+msgstr "Khả năng hoạt động của LDAP rất thấp: truy vấn lần cuối mất khoảng %.2fs!"
 
 #: include/class_ldap.inc:711
 #, php-format
 msgid ""
 "Cannot automatically create subtrees with RDN '%s': no object class found!"
-msgstr ""
-"Không thể tự động tạo ra cây con với RDN '%s': không có lớp đối tượng nào "
-"được tìm thấy!"
+msgstr "Không thể tự động tạo ra cây con với RDN '%s': không có lớp đối tượng nào được tìm thấy!"
 
 #: include/class_ldap.inc:762
 #, php-format
@@ -3820,27 +3474,23 @@ msgstr ""
 #: include/class_ldap.inc:1048
 #, php-format
 msgid ""
-"This is not a valid DN: '%s'. A block for import should begin with 'dn: ...' "
-"in line %s"
-msgstr ""
-"Đây không phải là một DN hợp lệ: '%s'. Khóa để chặn việc nạp thêm phải được "
-"bắt đầu với 'dn:...' trong dòng %s "
+"This is not a valid DN: '%s'. A block for import should begin with 'dn: ...'"
+" in line %s"
+msgstr "Đây không phải là một DN hợp lệ: '%s'. Khóa để chặn việc nạp thêm phải được bắt đầu với 'dn:...' trong dòng %s "
 
 #: include/class_ldap.inc:1077
 #, php-format
-msgid "Error while importing dn: '%s', please check your LDIF from line %s on!"
-msgstr ""
-"Lỗi trong khi đang nạp thêm dn:'%s', xin hãy kiểm tra lại LDIF của bạn từ "
-"dòng %s trở đi!"
+msgid ""
+"Error while importing dn: '%s', please check your LDIF from line %s on!"
+msgstr "Lỗi trong khi đang nạp thêm dn:'%s', xin hãy kiểm tra lại LDIF của bạn từ dòng %s trở đi!"
 
 #: include/php_setup.inc:99
 msgid "Generating this page caused the PHP interpreter to raise some errors!"
 msgstr "Tạo ra trang này khiến cho bộ dịch PHP sinh ra một số lỗi!"
 
 #: include/php_setup.inc:104
-#, fuzzy
 msgid "Send bug report to the FusionDirectory Team"
-msgstr "Gửi báo cáo lỗi cho nhóm phát triển FusionDirectory"
+msgstr ""
 
 #: include/php_setup.inc:104
 msgid "Send bugreport"
@@ -4092,9 +3742,9 @@ msgid "Value for '%s' is too large!"
 msgstr "Gía trị '%s' quá lớn!"
 
 #: include/class_msgPool.inc:262
-#, fuzzy, php-format
+#, php-format
 msgid "'%s' must be smaller than %s!"
-msgstr "'%s' phải thấp hơn %d!"
+msgstr ""
 
 #: include/class_msgPool.inc:270
 #, php-format
@@ -4187,36 +3837,30 @@ msgstr "Tài khoản này không có chức năng mở rộng %s hợp lệ!"
 #: include/class_msgPool.inc:410
 #, php-format
 msgid ""
-"This account has %s settings enabled. You can disable them by clicking below."
-msgstr ""
-"Tài khoản này đã bật các thiết lập %s lên. Bạn có thể tắt chúng đi bằng việc "
-"kích vào bên dưới."
+"This account has %s settings enabled. You can disable them by clicking "
+"below."
+msgstr "Tài khoản này đã bật các thiết lập %s lên. Bạn có thể tắt chúng đi bằng việc kích vào bên dưới."
 
 #: include/class_msgPool.inc:413 include/class_msgPool.inc:420
 #, php-format
 msgid ""
-"This account has %s settings enabled. To disable them, you'll need to remove "
-"the %s settings first!"
-msgstr ""
-"Tài khoản này đã bật các thiết lập %s lên. Để tắt chúng đi, bạn cần phải xóa "
-"thiết lập %s trước!"
+"This account has %s settings enabled. To disable them, you'll need to remove"
+" the %s settings first!"
+msgstr "Tài khoản này đã bật các thiết lập %s lên. Để tắt chúng đi, bạn cần phải xóa thiết lập %s trước!"
 
 #: include/class_msgPool.inc:429
 #, php-format
 msgid ""
-"This account has %s settings disabled. You can enable them by clicking below."
-msgstr ""
-"Tài khoản này đã tắt các thiết lập %s đi. Bạn có thể bật chúng lên bằng việc "
-"kích vào bên dưới."
+"This account has %s settings disabled. You can enable them by clicking "
+"below."
+msgstr "Tài khoản này đã tắt các thiết lập %s đi. Bạn có thể bật chúng lên bằng việc kích vào bên dưới."
 
 #: include/class_msgPool.inc:432 include/class_msgPool.inc:439
 #, php-format
 msgid ""
 "This account has %s settings disabled. To enable them, you'll need to add "
 "the %s settings first!"
-msgstr ""
-"Tài khoản này đã tắt các thiết lập %s đi. Để bật chúng lên, bạn cần phải "
-"thêm thiết lập %s trước!"
+msgstr "Tài khoản này đã tắt các thiết lập %s đi. Để bật chúng lên, bạn cần phải thêm thiết lập %s trước!"
 
 #: include/class_msgPool.inc:447
 #, php-format
@@ -4230,8 +3874,7 @@ msgstr "Xóa thiết lập %s"
 
 #: include/class_msgPool.inc:459
 msgid "Click the 'Edit' button below to change informations in this dialog"
-msgstr ""
-"Kích phím 'Hiệu chỉnh' bên dưới để thay đổi thông tin trong hộp thoại này "
+msgstr "Kích phím 'Hiệu chỉnh' bên dưới để thay đổi thông tin trong hộp thoại này "
 
 #: include/class_msgPool.inc:465
 msgid "January"
@@ -4310,9 +3953,8 @@ msgid "Saturday"
 msgstr "Thứ Bảy"
 
 #: include/class_msgPool.inc:480
-#, fuzzy
 msgid "Database operation failed!"
-msgstr "Hoạt động LDAP thất bại!"
+msgstr ""
 
 #: include/class_msgPool.inc:488
 msgid "read operation"
@@ -4469,40 +4111,31 @@ msgstr "Vai trò"
 #: plugins/admin/ogroups/ogroup-filter.tpl:3
 #: plugins/personal/posix/trustSelect/trust-filter.tpl:3
 #: plugins/personal/posix/groupSelect/group-filter.tpl:3
-#, fuzzy
 msgid "Filter"
-msgstr "Các bộ lọc"
+msgstr ""
 
 #: plugins/admin/acl/acl-filter.tpl:11
-#, fuzzy
 msgid "Show access control lists"
-msgstr "Danh sách kiểm soát truy cập"
+msgstr ""
 
 #: plugins/admin/acl/acl-filter.tpl:12
-#, fuzzy
 msgid "Show roles"
-msgstr "Hiển thị %s"
+msgstr ""
 
 #: plugins/admin/acl/tabs_acl_role.inc:28
 msgid "ACL Templates"
 msgstr "Các mẫu ACL"
 
 #: plugins/admin/acl/remove.tpl:6 plugins/admin/users/remove.tpl:6
-#, fuzzy
 msgid ""
-"This includes all account data, system access rules, imap settings, etc. for "
-"this user. Please double check if your really want to do this since there is "
-"no way for FusionDirectory to get your data back."
+"This includes all account data, system access rules, imap settings, etc. for"
+" this user. Please double check if your really want to do this since there "
+"is no way for FusionDirectory to get your data back."
 msgstr ""
-"Ở đây bao gồm tất cả các dữ liệu tài khoản, quy định về truy cập hệ thống, "
-"cài đặt imap, vân vân cho người dùng này. Xin hãy kiểm tra hai lần nếu bạn "
-"thực sự muốn làm điều này bởi sẽ không có cách nào để FusionDirectory phục "
-"hồi dữ liệu cho bạn."
 
 #: plugins/admin/acl/class_aclManagement.inc:154
-#, fuzzy
 msgid "ACL Assignment"
-msgstr "Quản lý ACL"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:26
 #: plugins/admin/acl/class_aclRole.inc:726
@@ -4546,33 +4179,25 @@ msgstr "Đối tượng đang được sử dụng"
 #: plugins/admin/acl/class_aclRole.inc:646
 #, php-format
 msgid "This role cannot be removed while it is in use by these objects:"
-msgstr ""
-"Vai trò này không thể bị xóa bỏ trong khi nó vẫn đang được sử dụng bởi các "
-"đối tượng:"
+msgstr "Vai trò này không thể bị xóa bỏ trong khi nó vẫn đang được sử dụng bởi các đối tượng:"
 
 #: plugins/admin/acl/class_aclRole.inc:736
-#, fuzzy
 msgid "Permissions"
-msgstr "Cho phép"
+msgstr ""
 
 #: plugins/admin/users/password.tpl:4
 msgid ""
 "To change the user password use the fields below. The changes take effect "
 "immediately. Please memorize the new password, because the user wouldn't be "
 "able to login without it."
-msgstr ""
-"Để thay đổi mật khẩu người dùng sử dụng các trường dưới đây. Việc thay đổi "
-"sẽ có hiệu lực ngay lập tức. Hãy nhớ mật mã mới bởi người dùng sẽ không thể "
-"đăng nhập nếu thiếu nó."
+msgstr "Để thay đổi mật khẩu người dùng sử dụng các trường dưới đây. Việc thay đổi sẽ có hiệu lực ngay lập tức. Hãy nhớ mật mã mới bởi người dùng sẽ không thể đăng nhập nếu thiếu nó."
 
 #: plugins/admin/users/password.tpl:8 plugins/personal/password/password.tpl:8
 #: plugins/personal/generic/password.tpl:8
 msgid ""
 "Changing the password affects your authentification on mail, proxy, samba "
 "and unix services."
-msgstr ""
-"Thay đổi mật khẩu có thể ảnh hưởng đến sự xác nhận của bạn lên các dịch vụ "
-"mail, ủy quyền (proxy), samba và unix."
+msgstr "Thay đổi mật khẩu có thể ảnh hưởng đến sự xác nhận của bạn lên các dịch vụ mail, ủy quyền (proxy), samba và unix."
 
 #: plugins/admin/users/password.tpl:21 plugins/admin/users/password.tpl:64
 #: plugins/personal/password/password.tpl:32
@@ -4587,28 +4212,24 @@ msgid "Strength"
 msgstr "Cường độ"
 
 #: plugins/admin/users/password.tpl:35
-#, fuzzy
 msgid "Password input dialog"
-msgstr "Độ dài tối thiểu của mật khẩu"
+msgstr ""
 
 #: plugins/admin/users/password.tpl:39
 #: plugins/personal/password/password.tpl:56
 #: plugins/personal/generic/password.tpl:51
-#, fuzzy
 msgid "Use proposal"
-msgstr "các nhóm người dùng"
+msgstr ""
 
 #: plugins/admin/users/password.tpl:56
 #: plugins/personal/password/password.tpl:74
 #: plugins/personal/generic/password.tpl:68
-#, fuzzy
 msgid "Manually specify a password"
-msgstr "Xin hãy xác định mật mã của bạn!"
+msgstr ""
 
 #: plugins/admin/users/password.tpl:84
-#, fuzzy
 msgid "Enforce password change on next login."
-msgstr "Ép buộc thay đổi mật khẩu trong khi đăng nhập"
+msgstr ""
 
 #: plugins/admin/users/password.tpl:91
 #: plugins/personal/password/password.tpl:101
@@ -4625,10 +4246,7 @@ msgid ""
 "Creating a new user can be assisted by using templates. Many database "
 "records will be filled automatically. Choose 'none' to skip the usage of "
 "templates."
-msgstr ""
-"Dùng các mẫu có thể hỗ trợ việc tạo ra một người sử dụng mới. Nhiều ghi chép "
-"cơ sở dữ liệu có thể tự động tiến hành. Chọn 'none' để bỏ qua việc sử dụng "
-"các mẫu."
+msgstr "Dùng các mẫu có thể hỗ trợ việc tạo ra một người sử dụng mới. Nhiều ghi chép cơ sở dữ liệu có thể tự động tiến hành. Chọn 'none' để bỏ qua việc sử dụng các mẫu."
 
 #: plugins/admin/users/template.tpl:15
 #: plugins/admin/users/class_userManagement.inc:560
@@ -4701,9 +4319,8 @@ msgid "Given name"
 msgstr "Tên thật"
 
 #: plugins/admin/users/class_userManagement.inc:807
-#, fuzzy
 msgid "Account locking"
-msgstr "Tài khoản"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:808
 #, php-format
@@ -4713,14 +4330,12 @@ msgid ""
 msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:881
-#, fuzzy
 msgid "Unlock account"
-msgstr "Tài khoản của tôi"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:883
-#, fuzzy
 msgid "Lock account"
-msgstr "Tài khoản của tôi"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:896
 msgid "Edit generic properties"
@@ -4735,9 +4350,8 @@ msgid "POSIX"
 msgstr "POSIX (giao diện hệ điều hành lưu động)"
 
 #: plugins/admin/users/class_userManagement.inc:900
-#, fuzzy
 msgid "Edit POSIX properties"
-msgstr "Hiệu chỉnh các tính năng UNIX"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:904
 #: plugins/admin/groups/class_groupManagement.inc:165
@@ -4788,9 +4402,8 @@ msgid "FAX"
 msgstr "Fax"
 
 #: plugins/admin/users/class_userManagement.inc:920
-#, fuzzy
 msgid "Edit FAX properties"
-msgstr "Hiệu chỉnh các tính năng UNIX"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:923
 #: plugins/admin/groups/class_groupManagement.inc:180
@@ -4822,38 +4435,31 @@ msgstr "Áp dụng một mẫu"
 msgid ""
 "Applying a template to several users will replace all user attributes "
 "defined in the template."
-msgstr ""
-"Việc áp dụng một mẫu cho vài người dùng sẽ thay thế tất cả các thuộc tính "
-"của người dùng được xác định trên mẫu."
+msgstr "Việc áp dụng một mẫu cho vài người dùng sẽ thay thế tất cả các thuộc tính của người dùng được xác định trên mẫu."
 
 #: plugins/admin/users/templatize.tpl:33
 msgid "No templates available!"
 msgstr "Không có mẫu nào!"
 
 #: plugins/admin/users/user-filter.tpl:11
-#, fuzzy
 msgid "Show templates"
-msgstr "các mẫu"
+msgstr ""
 
 #: plugins/admin/users/user-filter.tpl:12
-#, fuzzy
 msgid "Show functional users"
-msgstr "Người dùng chức năng"
+msgstr ""
 
 #: plugins/admin/users/user-filter.tpl:13
-#, fuzzy
 msgid "Show POSIX users"
-msgstr "Người sử dụng POSIX"
+msgstr ""
 
 #: plugins/admin/users/user-filter.tpl:14
-#, fuzzy
 msgid "Show Mail users"
-msgstr "Người dùng mail"
+msgstr ""
 
 #: plugins/admin/users/user-filter.tpl:15
-#, fuzzy
 msgid "Show Samba users"
-msgstr "Người dùng samba"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:11
 msgid "List of users"
@@ -4863,9 +4469,8 @@ msgstr "Danh sách người dùng"
 #: plugins/admin/groups/userSelect/user-list.xml:48
 #: plugins/admin/groups/singleUserSelect/singleUser-list.xml:48
 #: plugins/personal/generic/class_user.inc:1641
-#, fuzzy
 msgid "Surname"
-msgstr "Họ "
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:73 plugins/admin/groups/group-list.xml:74
 #: plugins/admin/departments/country.tpl:8
@@ -4879,14 +4484,12 @@ msgid "Properties"
 msgstr "Properties"
 
 #: plugins/admin/users/user-list.xml:141
-#, fuzzy
 msgid "Lock users"
-msgstr "Danh sách người dùng"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:149
-#, fuzzy
 msgid "Unlock users"
-msgstr "Người dùng mail"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:157
 #: plugins/admin/groups/group-list.xml:123
@@ -4899,44 +4502,37 @@ msgid "Apply template"
 msgstr "Áp dụng mẫu"
 
 #: plugins/admin/users/user-list.xml:200
-#, fuzzy
 msgid "New user from template"
-msgstr "Tạo ra người dùng từ một mẫu"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:214
-#, fuzzy
 msgid "Edit user"
-msgstr "Hiệu chỉnh entry này"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:223
 msgid "%{filter:lockLabel(userPassword)}"
 msgstr ""
 
 #: plugins/admin/users/user-list.xml:247
-#, fuzzy
 msgid "Remove user"
-msgstr "Xóa ảnh "
+msgstr ""
 
 #: plugins/admin/password/main.inc:61
 #: plugins/admin/password/class_recoveryConfig.inc:66
-#, fuzzy
 msgid "Password recovery settings"
-msgstr "Thiết lập mật khẩu"
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:25
-#, fuzzy
 msgid "Password recovery"
-msgstr "Xác lập lại mật khẩu"
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:26
-#, fuzzy
 msgid "Manage password recovery settings"
-msgstr "Thiết lập mật khẩu"
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:60
-#, fuzzy
 msgid "[FusionDirectory] Password recovery link"
-msgstr "GOto-si hỗ trợ chương trình daemon"
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:61
 #, php-format
@@ -4951,52 +4547,43 @@ msgid ""
 msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:62
-#, fuzzy
 msgid "[FusionDirectory] Password recovery successful"
-msgstr "thiết lập lõi của FusionDirectory"
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:63
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "Hello,\n"
 "\n"
 "Your password has been changed.\n"
 "Your login is still %s."
-msgstr "Mật khẩu của bạn đã được thay đổi thành công."
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:132
 #: plugins/admin/password/class_recoveryConfig.inc:133
-#, fuzzy
 msgid "Password recovery config"
-msgstr "Các hạn chế mật khẩu"
+msgstr ""
 
 #: plugins/admin/groups/group-filter.tpl:11
 #: plugins/personal/posix/groupSelect/group-filter.tpl:11
-#, fuzzy
 msgid "Show primary groups"
-msgstr "các nhóm sơ cấp"
+msgstr ""
 
 #: plugins/admin/groups/group-filter.tpl:12
 #: plugins/personal/posix/groupSelect/group-filter.tpl:12
-#, fuzzy
 msgid "Show samba groups"
-msgstr "các nhóm samba"
+msgstr ""
 
 #: plugins/admin/groups/group-filter.tpl:13
 #: plugins/personal/posix/groupSelect/group-filter.tpl:13
-#, fuzzy
 msgid "Show mail groups"
-msgstr "các nhóm mail"
+msgstr ""
 
 #: plugins/admin/groups/remove.tpl:6
-#, fuzzy
 msgid ""
 "This may be a primary user group. Please double check if you really want to "
 "do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
-"Đây có thể là một nhóm người dùng sơ cấp. Xin hãy kiểm tra lại hai lần nếu "
-"bạn thực sự muốn làm việc này bởi sẽ không có cách nào để FusionDirectory "
-"lấy lại dữ liệu cho bạn."
 
 #: plugins/admin/groups/trust_machines.tpl:6
 #: plugins/admin/ogroups/trust_machines.tpl:6
@@ -5042,9 +4629,8 @@ msgstr "Biểu thức thông thường cho việc khớp các địa chỉ"
 #: plugins/admin/ogroups/objectSelect/selectObject-list.xml:11
 #: plugins/personal/posix/trustSelect/trust-list.xml:10
 #: plugins/personal/posix/groupSelect/group-list.xml:11
-#, fuzzy
 msgid "Please select the desired entries"
-msgstr "Xin hãy lựa chọn ngôn ngữ ưu thích"
+msgstr ""
 
 #: plugins/admin/groups/paste_generic.tpl:1
 msgid "Group settings"
@@ -5065,9 +4651,7 @@ msgstr "Tên Posix của nhóm"
 #: plugins/admin/groups/paste_generic.tpl:13
 #: plugins/admin/groups/generic.tpl:59
 msgid "Normally IDs are autogenerated, select to specify manually"
-msgstr ""
-"Thường thì các ID sẽ được tự động sinh ra, hãy lựa chọn để xác định thủ "
-"công  "
+msgstr "Thường thì các ID sẽ được tự động sinh ra, hãy lựa chọn để xác định thủ công  "
 
 #: plugins/admin/groups/paste_generic.tpl:15
 #: plugins/admin/groups/generic.tpl:62
@@ -5128,15 +4712,13 @@ msgid "Add UID '%s' to group '%s' failed: UID is used more than once!"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:628
-#, fuzzy
 msgid "! unknown UID"
-msgstr "! không nhận ra id này"
+msgstr ""
 
 #: plugins/admin/groups/class_group.inc:671
 #, php-format
 msgid "Search returned too many results. Not displaying more than %s entries!"
-msgstr ""
-"Việc tìm kiếm có quá nhiều kết quả. Không hiển thị nhiều hơn %s mục vào!"
+msgstr "Việc tìm kiếm có quá nhiều kết quả. Không hiển thị nhiều hơn %s mục vào!"
 
 #: plugins/admin/groups/class_group.inc:898
 #, php-format
@@ -5209,24 +4791,20 @@ msgid "Group"
 msgstr "Nhóm "
 
 #: plugins/admin/groups/group-list.xml:23
-#, fuzzy
 msgid "Group submenu entry"
-msgstr "Thành viên nhóm"
+msgstr ""
 
 #: plugins/admin/groups/group-list.xml:31
-#, fuzzy
 msgid "Group menu entry"
-msgstr "Thành viên nhóm"
+msgstr ""
 
 #: plugins/admin/groups/group-list.xml:155
-#, fuzzy
 msgid "Edit group"
-msgstr "các nhóm máy in"
+msgstr ""
 
 #: plugins/admin/groups/group-list.xml:168
-#, fuzzy
 msgid "Remove group"
-msgstr "các nhóm server"
+msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:26
 msgid "Group administration"
@@ -5239,9 +4817,8 @@ msgstr "Posix"
 
 #: plugins/admin/groups/class_groupManagement.inc:157
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:63
-#, fuzzy
 msgid "Edit posix properties"
-msgstr "Hiệu chỉnh các tính năng điện thoại"
+msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:188
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:94
@@ -5250,9 +4827,8 @@ msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:189
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:95
-#, fuzzy
 msgid "Edit start menu properties"
-msgstr "Hiệu chỉnh các tính năng samba"
+msgstr ""
 
 #: plugins/admin/groups/generic.tpl:14 plugins/personal/generic/generic.tpl:54
 #: plugins/personal/generic/generic.tpl:75
@@ -5300,24 +4876,21 @@ msgstr "Không ở trong tất cả các nhóm"
 
 #: plugins/admin/groups/userGroupSelect/selectUserGroup-filter.tpl:11
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:12
-#, fuzzy
 msgid "Show users"
-msgstr "các server"
+msgstr ""
 
 #: plugins/admin/groups/userGroupSelect/selectUserGroup-filter.tpl:12
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:13
-#, fuzzy
 msgid "Show groups"
-msgstr "các nhóm mail"
+msgstr ""
 
 #: plugins/admin/departments/class_localityGeneric.inc:82
 #: plugins/admin/departments/class_localityGeneric.inc:83
 #: plugins/admin/departments/class_departmentManagement.inc:228
 #: plugins/admin/departments/dep-list.xml:39
 #: plugins/admin/departments/dep-list.xml:124
-#, fuzzy
 msgid "Locality"
-msgstr "Vị trí"
+msgstr ""
 
 #: plugins/admin/departments/class_localityGeneric.inc:91
 #: plugins/admin/departments/organization.tpl:78
@@ -5346,9 +4919,8 @@ msgstr "Vị trí"
 #: plugins/personal/generic/class_user.inc:1659
 #: plugins/personal/generic/generic.tpl:342
 #: plugins/personal/generic/generic.tpl:363
-#, fuzzy
 msgid "Manager"
-msgstr "Quản lý người dùng"
+msgstr ""
 
 #: plugins/admin/departments/class_localityGeneric.inc:95
 #: plugins/admin/departments/class_dcObject.inc:94
@@ -5370,20 +4942,17 @@ msgstr "Thiết lập quản trị"
 #: plugins/admin/departments/class_domain.inc:81
 #: plugins/admin/departments/class_domain.inc:82
 #: plugins/admin/departments/class_departmentManagement.inc:204
-#, fuzzy
 msgid "Domain Component"
-msgstr "Admin miền"
+msgstr ""
 
 #: plugins/admin/departments/country.tpl:11
 #: plugins/admin/departments/class_countryGeneric.inc:91
-#, fuzzy
 msgid "Country name"
-msgstr "Quốc Gia"
+msgstr ""
 
 #: plugins/admin/departments/country.tpl:14
-#, fuzzy
 msgid "Name of country to create"
-msgstr "Tên của cây con được tạo"
+msgstr ""
 
 #: plugins/admin/departments/country.tpl:22
 #: plugins/admin/departments/domain.tpl:22
@@ -5410,9 +4979,7 @@ msgstr "Xử lý thao tác được yêu cầu"
 msgid ""
 "Your browser doesn't support iframes, please use this link to perform the "
 "requested operation."
-msgstr ""
-"Trình duyệt của bạn không hỗ trợ iframe, xin hãy sử dụng đường link này để "
-"thực hiện những thao tác được yêu cầu."
+msgstr "Trình duyệt của bạn không hỗ trợ iframe, xin hãy sử dụng đường link này để thực hiện những thao tác được yêu cầu."
 
 #: plugins/admin/departments/dep_move_confirm.tpl:2
 msgid "You are currently moving/renaming this department."
@@ -5422,63 +4989,47 @@ msgstr "Bạn hiện đang bỏ/đổi tên bộ phận này."
 msgid ""
 "Modifying a departments naming attribute 'ou' or base may corrupt acls and "
 "snapshot entries for all entire objects."
-msgstr ""
-"Thay đổi thuộc tính đặt tên 'ou' của các bộ phận hoặc cơ sở có thể ảnh hưởng "
-"đển các file acl và các entry snapshot cho toàn bộ các đối tượng."
+msgstr "Thay đổi thuộc tính đặt tên 'ou' của các bộ phận hoặc cơ sở có thể ảnh hưởng đển các file acl và các entry snapshot cho toàn bộ các đối tượng."
 
 #: plugins/admin/departments/dep_move_confirm.tpl:8
-#, fuzzy
 msgid "FusionDirectory can NOT fix this for you, yet."
-msgstr "Gosa chưa thể sửa được lỗi này cho bạn."
+msgstr ""
 
 #: plugins/admin/departments/dep_move_confirm.tpl:11
 msgid ""
 "Before you confirm this action, ensure that everything will be as expected, "
 "possibly the best solution is a backup."
-msgstr ""
-"Trước khi bạn xác nhận hành động này, hãy đảm bảo rằng mọi thứ sẽ như mong "
-"đợi, có lẽ cách giải quyết tốt nhất là có một bản backup."
+msgstr "Trước khi bạn xác nhận hành động này, hãy đảm bảo rằng mọi thứ sẽ như mong đợi, có lẽ cách giải quyết tốt nhất là có một bản backup."
 
 #: plugins/admin/departments/domain.tpl:11
-#, fuzzy
 msgid "Domain name"
-msgstr "Admin miền"
+msgstr ""
 
 #: plugins/admin/departments/domain.tpl:14
-#, fuzzy
 msgid "Name of domain to create"
-msgstr "Tên của cây con được tạo"
+msgstr ""
 
 #: plugins/admin/departments/remove.tpl:6
-#, fuzzy
 msgid ""
 "This includes 'all' accounts, systems, etc. in this subtree. Please double "
 "check if your really want to do this since there is no way for "
 "FusionDirectory to get your data back."
 msgstr ""
-"Trong cây con này có 'tất cả' các tài khoản, hệ thống, vân vân. Xin hãy kiểm "
-"tra lại hai lần nếu bạn thực sự muốn thực hiện điều này tuy nhiên sẽ không "
-"có cách nào để Gosa phục hồi lại dữ liệu cho bạn."
 
 #: plugins/admin/departments/remove.tpl:10
 msgid ""
 "Best thing to do before performing this action would be to save the current "
 "contents of your LDAP tree in a file. So - if you've done so - press "
 "'Delete' to continue or 'Cancel' to abort."
-msgstr ""
-"Tốt nhất là trước khi thực hiện thao tác này bạn nên  lưu lại nội dung hiện "
-"tại của cây thư mục LDAP trong một file. Nếu bạn đã làm thế, hãy kích "
-"'Delete' để tiếp tục hoặc kích 'Cancel' để hủy bỏ."
+msgstr "Tốt nhất là trước khi thực hiện thao tác này bạn nên  lưu lại nội dung hiện tại của cây thư mục LDAP trong một file. Nếu bạn đã làm thế, hãy kích 'Delete' để tiếp tục hoặc kích 'Cancel' để hủy bỏ."
 
 #: plugins/admin/departments/organization.tpl:11
-#, fuzzy
 msgid "Name of organization"
-msgstr "Tổ chức"
+msgstr ""
 
 #: plugins/admin/departments/organization.tpl:14
-#, fuzzy
 msgid "Name of organization to create"
-msgstr "Tên của cây con được tạo"
+msgstr ""
 
 #: plugins/admin/departments/organization.tpl:27
 #: plugins/admin/departments/class_department.inc:663
@@ -5548,15 +5099,13 @@ msgstr "Đặt số fax của cây con này"
 
 #: plugins/admin/departments/dcObject.tpl:11
 #: plugins/admin/departments/locality.tpl:11
-#, fuzzy
 msgid "Locality name"
-msgstr "Tên vị trí"
+msgstr ""
 
 #: plugins/admin/departments/dcObject.tpl:14
 #: plugins/admin/departments/locality.tpl:14
-#, fuzzy
 msgid "Name of locality to create"
-msgstr "Tên của cây con được tạo"
+msgstr ""
 
 #: plugins/admin/departments/class_departmentManagement.inc:25
 #: plugins/admin/departments/class_department.inc:653
@@ -5571,9 +5120,8 @@ msgstr "Quản lý  các bộ phận"
 #: plugins/admin/departments/class_departmentManagement.inc:192
 #: plugins/admin/departments/dep-list.xml:15
 #: plugins/admin/departments/dep-list.xml:103
-#, fuzzy
 msgid "Domain"
-msgstr "trong miền"
+msgstr ""
 
 #: plugins/admin/departments/class_departmentManagement.inc:216
 #: plugins/admin/departments/class_countryGeneric.inc:82
@@ -5646,9 +5194,8 @@ msgid "Name of subtree to create"
 msgstr "Tên của cây con được tạo"
 
 #: plugins/admin/departments/generic.tpl:22
-#, fuzzy
 msgid "Descriptive text for   department"
-msgstr "Văn bản mô tả cho bộ phận"
+msgstr ""
 
 #: plugins/admin/departments/dep-list.xml:11
 msgid "List of departments"
@@ -5656,14 +5203,12 @@ msgstr "Danh sách các bộ phận"
 
 #: plugins/admin/departments/dep-list.xml:23
 #: plugins/admin/departments/dep-list.xml:110
-#, fuzzy
 msgid "Domain component"
-msgstr "Admin miền"
+msgstr ""
 
 #: plugins/admin/departments/class_organizationGeneric.inc:122
-#, fuzzy
 msgid "Organization name"
-msgstr "Tổ chức"
+msgstr ""
 
 #: plugins/admin/departments/class_organizationGeneric.inc:131
 #: plugins/personal/generic/class_user.inc:1671
@@ -5671,9 +5216,8 @@ msgid "Postal address"
 msgstr "Địa chỉ theo bưu điện"
 
 #: plugins/admin/departments/class_organizationGeneric.inc:132
-#, fuzzy
 msgid "Phone number"
-msgstr "Số điện thoại nhà"
+msgstr ""
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:25
 #: plugins/admin/ogroups/class_ogroup.inc:971
@@ -5685,9 +5229,8 @@ msgid "Manage object groups"
 msgstr "Quản lý các nhóm đối tượng "
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:182
-#, fuzzy
 msgid "Templates"
-msgstr "Mẫu"
+msgstr ""
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:185
 #: plugins/admin/ogroups/objectSelect/selectObject-list.xml:87
@@ -5720,29 +5263,24 @@ msgstr "Máy in"
 
 #: plugins/admin/ogroups/objectSelect/selectObject-list.xml:39
 #: plugins/personal/posix/trustSelect/trust-list.xml:30
-#, fuzzy
 msgid "Winstation"
-msgstr "máy trạm dùng win "
+msgstr ""
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:11
-#, fuzzy
 msgid "Show department"
-msgstr "Bộ phận"
+msgstr ""
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:14
-#, fuzzy
 msgid "Show Applications"
-msgstr "Các ứng dụng"
+msgstr ""
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:15
-#, fuzzy
 msgid "Show server"
-msgstr "các server"
+msgstr ""
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:16
-#, fuzzy
 msgid "Show workstation"
-msgstr "máy trạm"
+msgstr ""
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:17
 #: plugins/personal/posix/trustSelect/trust-filter.tpl:13
@@ -5750,19 +5288,16 @@ msgid "Show Windows PC"
 msgstr ""
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:18
-#, fuzzy
 msgid "Show terminal"
-msgstr "các thiết bị cuối"
+msgstr ""
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:20
-#, fuzzy
 msgid "Show printer"
-msgstr "máy in"
+msgstr ""
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:21
-#, fuzzy
 msgid "Show phone"
-msgstr "Hiển thị các thay đổi"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:11
 msgid "user groups"
@@ -5805,13 +5340,10 @@ msgid "phone groups"
 msgstr "các nhóm điện thoại"
 
 #: plugins/admin/ogroups/remove.tpl:6
-#, fuzzy
 msgid ""
 "Please double check if you really want to do this since there is no way for "
 "FusionDirectory to get your data back."
 msgstr ""
-"Xin hãy kiểm tra hai lần nếu bạn thực sự muốn làm việc này bởi sẽ không có "
-"cách nào để FusionDirectory lấy lại dữ liệu cho bạn."
 
 #: plugins/admin/ogroups/paste_generic.tpl:7
 msgid "Please enter the new object group name"
@@ -5849,9 +5381,7 @@ msgstr "Các ứng dụng"
 
 #: plugins/admin/ogroups/class_ogroup.inc:229
 msgid "You cannot combine terminals and workstations in one object group!"
-msgstr ""
-"Bạn không thể kết hợp các thiết bị cuối và máy trạm vào trong một nhóm đối "
-"tượng!"
+msgstr "Bạn không thể kết hợp các thiết bị cuối và máy trạm vào trong một nhóm đối tượng!"
 
 #: plugins/admin/ogroups/class_ogroup.inc:347
 msgid "too many different objects!"
@@ -5938,14 +5468,12 @@ msgid "Object group"
 msgstr "Nhóm đối tượng"
 
 #: plugins/admin/ogroups/ogroup-list.xml:142
-#, fuzzy
 msgid "Edit object group"
-msgstr "Nhóm đối tượng"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-list.xml:155
-#, fuzzy
 msgid "Remove object group"
-msgstr "các nhóm server"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup_objects.tpl:6
 msgid "Select objects to add"
@@ -5998,24 +5526,17 @@ msgid "Welcome %s!"
 msgstr "Chào mừng %s!"
 
 #: plugins/generic/welcome/welcome.tpl:4
-#, fuzzy
 msgid ""
 "This is the FusionDirectory main menu. You can select your tasks from the "
 "menu on the left, or by choosing one of the pictograms below. All changes "
 "apply directly to your companies LDAP server."
 msgstr ""
-"Đây là danh mục chính của Gosa. Bạn có thể lựa chọn tác vụ của bạn từ danh "
-"mục ở bên trái hoặc bằng cách chọn một trong những biểu tượng dưới đây. Tất "
-"cả những thay đổi này được áp dụng trực tiếp cho Máy chủ LDAP trong công ty "
-"bạn."
 
 #: plugins/generic/welcome/welcome.tpl:8
 msgid ""
 "Use 'Sign out' on the upper left to close the connection and 'Main' to get "
 "back to the pictogram view."
-msgstr ""
-"Sử dụng \"Đăng xuất\" ở phía trên bên trái để đóng kết nối và \"Trang chính"
-"\" để quay lại xem biểu tượng."
+msgstr "Sử dụng \"Đăng xuất\" ở phía trên bên trái để đóng kết nối và \"Trang chính\" để quay lại xem biểu tượng."
 
 #: plugins/generic/welcome/welcome.tpl:15
 msgid "The FusionDirectory team"
@@ -6046,19 +5567,16 @@ msgid "User name of which groups are shown"
 msgstr "Username của các nhóm được hiển thị"
 
 #: plugins/personal/posix/trustSelect/trust-filter.tpl:11
-#, fuzzy
 msgid "Show servers"
-msgstr "các server"
+msgstr ""
 
 #: plugins/personal/posix/trustSelect/trust-filter.tpl:12
-#, fuzzy
 msgid "Show workstations"
-msgstr "máy trạm"
+msgstr ""
 
 #: plugins/personal/posix/trustSelect/trust-filter.tpl:14
-#, fuzzy
 msgid "Show terminals"
-msgstr "các thiết bị cuối"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:38
 msgid "Edit users POSIX settings"
@@ -6079,9 +5597,8 @@ msgid "active"
 msgstr "hoạt động"
 
 #: plugins/personal/posix/class_posixAccount.inc:186
-#, fuzzy
 msgid "password not changeable"
-msgstr "Mật khẩu không thay đổi được"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:188
 msgid "password expired"
@@ -6094,8 +5611,7 @@ msgstr "tự động"
 #: plugins/personal/posix/class_posixAccount.inc:457
 #, php-format
 msgid "Password can't be changed up to %s days after last change"
-msgstr ""
-"Mật khẩu không thể được thay đổi it nhất là %s ngày sau lần thay đổi trước"
+msgstr "Mật khẩu không thể được thay đổi it nhất là %s ngày sau lần thay đổi trước"
 
 #: plugins/personal/posix/class_posixAccount.inc:461
 #, php-format
@@ -6103,15 +5619,14 @@ msgid "Password must be changed after %s days"
 msgstr "Mật khẩu phải được thay đổi sau %s ngày"
 
 #: plugins/personal/posix/class_posixAccount.inc:465
-#, fuzzy, php-format
+#, php-format
 msgid "Disable account after %s days of inactivity after password expiry"
 msgstr ""
-"Vô hiệu hóa tài khoản sau %s ngày không hoạt động sau khi mật khẩu hết hạn"
 
 #: plugins/personal/posix/class_posixAccount.inc:469
-#, fuzzy, php-format
+#, php-format
 msgid "Warn user %s days before password expiry"
-msgstr "Cảnh báo người sử dụng còn %s ngày nữa là hết hạn password"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:806
 msgid "Timeout while waiting for lock. Ignoring lock!"
@@ -6126,9 +5641,7 @@ msgstr "Nhóm người dùng"
 msgid ""
 "A duplicated UID number was written for this user. If this was not intended "
 "please verify all used uidNumbers!"
-msgstr ""
-"Số UID nhân bản đã được viết cho người sử dụng này. Nếu vệc này là không cố "
-"ý, xin hãy xác minh lại tất cả các số UID!"
+msgstr "Số UID nhân bản đã được viết cho người sử dụng này. Nếu vệc này là không cố ý, xin hãy xác minh lại tất cả các số UID!"
 
 #: plugins/personal/posix/class_posixAccount.inc:1043
 #: plugins/personal/posix/class_posixAccount.inc:1046
@@ -6259,19 +5772,16 @@ msgid "Status"
 msgstr "Trạng thái"
 
 #: plugins/personal/posix/generic.tpl:41
-#, fuzzy
 msgid "Last logon"
-msgstr "Họ"
+msgstr ""
 
 #: plugins/personal/posix/generic.tpl:100
-#, fuzzy
 msgid "Common group"
-msgstr "các nhóm điện thoại"
+msgstr ""
 
 #: plugins/personal/posix/generic.tpl:104
-#, fuzzy
 msgid "Groups differ"
-msgstr "Nhóm người dùng"
+msgstr ""
 
 #: plugins/personal/posix/generic.tpl:127
 msgid "SSH keys"
@@ -6291,21 +5801,16 @@ msgid ""
 "To change your personal password use the fields below. The changes take "
 "effect immediately. Please memorize the new password, because you wouldn't "
 "be able to login without it."
-msgstr ""
-"Để thay đổi được mật khẩu cá nhân, sử dụng các trường dưới đây. Các thay đổi "
-"sẽ diễn ra ngay lập tức. Xin hãy nhớ mật khẩu mới, bởi vì bạn sẽ không thể "
-"đăng nhập vào nếu không có nó."
+msgstr "Để thay đổi được mật khẩu cá nhân, sử dụng các trường dưới đây. Các thay đổi sẽ diễn ra ngay lập tức. Xin hãy nhớ mật khẩu mới, bởi vì bạn sẽ không thể đăng nhập vào nếu không có nó."
 
 #: plugins/personal/password/password.tpl:14
-#, fuzzy
 msgid "Your Password has expired. Please choose a new password!"
-msgstr "Mật khẩu của bạn đã hết hạn. Xin hãy chọn một mật khẩu mới!"
+msgstr ""
 
 #: plugins/personal/password/password.tpl:47
 #: plugins/personal/generic/password.tpl:42
-#, fuzzy
 msgid "Password change dialog"
-msgstr "Thay đổi mật khẩu"
+msgstr ""
 
 #: plugins/personal/password/password.tpl:103
 #: plugins/personal/generic/password.tpl:97
@@ -6336,8 +5841,7 @@ msgstr ""
 msgid ""
 "The password you've entered as your current password doesn't match the real "
 "one."
-msgstr ""
-"Mật khẩu bạn vừa đưa vào làm mật khẩu hiện tại không giống mật khẩu thật."
+msgstr "Mật khẩu bạn vừa đưa vào làm mật khẩu hiện tại không giống mật khẩu thật."
 
 #: plugins/personal/password/class_password.inc:167
 msgid "You have no permission to change your password."
@@ -6352,9 +5856,7 @@ msgstr "Mật khẩu người dùng"
 msgid ""
 "You've successfully changed your password. Remember to change all programms "
 "configured to use it as well."
-msgstr ""
-"Bạn đã thay đổi mật khẩu thành công. Hãy nhớ thay đổi cả các chương trình "
-"cấu hình để sử dụng được nó."
+msgstr "Bạn đã thay đổi mật khẩu thành công. Hãy nhớ thay đổi cả các chương trình cấu hình để sử dụng được nó."
 
 #: plugins/personal/password/nochange.tpl:2
 #: plugins/personal/generic/nochange.tpl:2
@@ -6426,11 +5928,9 @@ msgstr "Số seri"
 
 #: plugins/personal/generic/class_user.inc:549
 msgid ""
-"(Some types of certificates are currently not supported and may be displayed "
-"as 'invalid'.)"
-msgstr ""
-"(Một số loại chứng nhận hiện không được hỗ trợ và có thể hiển thị 'không hợp "
-"lệ'.)"
+"(Some types of certificates are currently not supported and may be displayed"
+" as 'invalid'.)"
+msgstr "(Một số loại chứng nhận hiện không được hỗ trợ và có thể hiển thị 'không hợp lệ'.)"
 
 #: plugins/personal/generic/class_user.inc:559
 #, php-format
@@ -6455,8 +5955,8 @@ msgstr "Phương pháp lập mật khẩu được chọn này không còn ở �
 
 #: plugins/personal/generic/class_user.inc:1008
 msgid ""
-"Cannot save user picture, FusionDirectory requires the package 'php5-"
-"imagick' to be installed!"
+"Cannot save user picture, FusionDirectory requires the package "
+"'php5-imagick' to be installed!"
 msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1146
@@ -6592,9 +6092,8 @@ msgid "User picture"
 msgstr "Ảnh của người sử dụng"
 
 #: plugins/personal/generic/class_user.inc:1654
-#, fuzzy
 msgid "Login restrictions"
-msgstr "Các hạn chế mật khẩu"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1658
 msgid "Department number"
@@ -6638,18 +6137,16 @@ msgid "Home phone number"
 msgstr "Số điện thoại nhà"
 
 #: plugins/personal/generic/class_user.inc:1676
-#, fuzzy
 msgid "User password method"
-msgstr "Phương pháp lập mật khẩu"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1677
 msgid "User certificates"
 msgstr "Giấy phép của người dùng"
 
 #: plugins/personal/generic/class_user.inc:1885
-#, fuzzy
 msgid "Entries differ"
-msgstr "các entry cho mỗi trang"
+msgstr ""
 
 #: plugins/personal/generic/paste_generic.tpl:1
 msgid "User settings"
@@ -6723,245 +6220,5 @@ msgid "Please use the phone tab"
 msgstr "Xin hãy sử dụng Phone Tab"
 
 #: plugins/personal/generic/nochange.tpl:5
-#, fuzzy
 msgid "Your password hash method will not be changed!"
-msgstr "Mật khẩu của bạn đã được thay đổi thành công."
-
-#~ msgid "You have no permissions to change your password."
-#~ msgstr "Bạn không được phép thay đổi mật mã của bạn."
-
-#~ msgid "Help browser"
-#~ msgstr "Hỗ trợ trình duyệt"
-
-#, fuzzy
-#~ msgid "There is no helpfile specified for this extension"
-#~ msgstr "Không có file trợ giúp nào được chỉ định cho lớp này"
-
-#~ msgid "previous"
-#~ msgstr "Trước"
-
-#~ msgid "next"
-#~ msgstr "Tiếp theo"
-
-#, fuzzy
-#~ msgid "No help available for the extension '%s'."
-#~ msgstr "Không có sự trợ giúp nào cho plugin này."
-
-#, fuzzy
-#~ msgid "FusionDirectory login screen"
-#~ msgstr "Màn hình đăng nhập FusionDirectory"
-
-#~ msgid "Help"
-#~ msgstr "Trợ giúp"
-
-#~ msgid "Index"
-#~ msgstr "Chỉ mục"
-
-#~ msgid "MySQL"
-#~ msgstr "MySOL"
-
-#, fuzzy
-#~ msgid ""
-#~ "Deploy a goto-si installation or install the perl Crypt::SmbHash modules."
-#~ msgstr ""
-#~ "Triển khai việc cài đặt goto-si hoặc cài đặt các môđun ngôn ngữ perl "
-#~ "Crypt::SmbHash."
-
-#~ msgid "UNIX accounts/groups"
-#~ msgstr "Tài khoản/nhóm UNIX"
-
-#~ msgid "Samba management"
-#~ msgstr "Quản trị Samba"
-
-#~ msgid "Mailsystem management"
-#~ msgstr "Quản trị hệ thống thư"
-
-#~ msgid "FAX system administration"
-#~ msgstr "Quản trị hệ thống FAX"
-
-#~ msgid "Asterisk administration"
-#~ msgstr "Quản trị Asterisk"
-
-#~ msgid "System inventory"
-#~ msgstr "Bảng kiểm kê hệ thống"
-
-#~ msgid "System-/Configmanagement"
-#~ msgstr "Quản trị cấu hình/hệ thống-"
-
-#~ msgid "Addressbook"
-#~ msgstr "Sổ địa chỉ"
-
-#, fuzzy
-#~ msgid "Feedback"
-#~ msgstr "Lỗi phản hồi"
-
-#~ msgid "Get notifications or send feedback"
-#~ msgstr "Lấy thông báo và gửi phản hồi"
-
-#~ msgid "Notification and feedback"
-#~ msgstr "Thông báo và phản hồi "
-
-#~ msgid "Feedback error"
-#~ msgstr "Lỗi phản hồi"
-
-#~ msgid "Cannot send feedback to '%s': %s"
-#~ msgstr "Không thể gửi phản hồi đển '%s': %s"
-
-#~ msgid "Cannot send feedback: service temporarily unavailable"
-#~ msgstr "Không thể gửi phản hồi: dịch vụ hiện tại không có "
-
-#~ msgid "Please specify a valid email address."
-#~ msgstr "Xin hãy  xác định một địa chỉ email hợp lệ."
-
-#~ msgid ""
-#~ "You have to select at least one of both options, subscribe or send "
-#~ "feedback."
-#~ msgstr ""
-#~ "Bạn phải lựa chọn ít nhất mọt trong hai chọn lựa, thuê bao hoặc gửi phản "
-#~ "hồi."
-
-#~ msgid "Samba SID"
-#~ msgstr "SID của Samba"
-
-#~ msgid "RID base"
-#~ msgstr "Gốc RID"
-
-#~ msgid "I have read the license and accept it"
-#~ msgstr "Tôi đã đọc giấy phép và chấp nhận nó"
-
-#~ msgid "License"
-#~ msgstr "Giấy Phép"
-
-#~ msgid "Terms and conditions for usage"
-#~ msgstr "Điều khoản và điều kiện cho việc sử dụng"
-
-#~ msgid "The mcrypt module was not found. Please install php5-mcrypt."
-#~ msgstr "Không tìm thấy Mô-đun mcrypt. Xin hãy cài đặt php5-mcrypt."
-
-#~ msgid "Socket connection to host '%s:%s' failed: %s"
-#~ msgstr "Kết nối socket đến  '%s:%s' thất bại:  '%s'"
-
-#~ msgid "Socket timeout of %s seconds reached."
-#~ msgstr "Thời hạn cho socket là  %s giây đã đến."
-
-#, fuzzy
-#~ msgid "MySQL operation failed!"
-#~ msgstr "Hoạt động LDAP thất bại!"
-
-#~ msgid "Cannot not parse XML!"
-#~ msgstr "Không thể phân tách XML!"
-
-#~ msgid "Cannot send abort event for entry %s!"
-#~ msgstr "Không thể  gửi thông báo trì hoãn đến entry %s!"
-
-#~ msgid "Cannot remove entry %s!"
-#~ msgstr "Không thể xóa entry %s!"
-
-#~ msgid "Cannot generate samba hash!"
-#~ msgstr "Không thể sinh ra hàm băm samba!"
-
-#~ msgid "Configuration"
-#~ msgstr "Cấu hình"
-
-#, fuzzy
-#~ msgid ""
-#~ "The configuration file you are using seems to be outdated. Please move "
-#~ "the FusionDirectory configuration file away to run the FusionDirectory "
-#~ "setup again."
-#~ msgstr ""
-#~ "File cấu hình bạn đang sử dụng hình như đã lỗi thời. Hãy chuyển file cấu "
-#~ "hình của FusionDirectory ra chỗ khác để chạy việc cài đặt FusionDirectory "
-#~ "lần nữa."
-
-#~ msgid "XML error in guide.xml: %s at line %d"
-#~ msgstr "Lỗi XML trong thư mục guide.xml : %s ở dòng %d"
-
-#~ msgid "No help available for this plugin."
-#~ msgstr "Không có sự trợ giúp nào cho plugin này."
-
-#~ msgid "%s results for your search with the keyword %s"
-#~ msgstr "%s kết quả cho việc tìm kiếm của bạn với từ khóa %s"
-
-#~ msgid "%s%% hit rate in file %s"
-#~ msgstr "%s%% tỷ lệ hit trong file %s"
-
-#, fuzzy
-#~ msgid ""
-#~ "As soon as the tag operation has finished, you can scroll down to end of "
-#~ "the page and    press the 'Continue' button to continue with the "
-#~ "department management dialog."
-#~ msgstr ""
-#~ "Ngay sau khi thao tác tag kết thúc, bạn có thể kéo xuống cuối trang và "
-#~ "kích vào phím \"Tiếp tục\" để tiếp tục với hộp thoại quản lý bộ phận."
-
-#~ msgid "Helpdir '%s' is not accessible, can't read any helpfiles."
-#~ msgstr ""
-#~ "Không thể truy cập Helpdir '%s', không thể đọc được bất cứ file trợ giúp "
-#~ "nào."
-
-#~ msgid "On"
-#~ msgstr "Bật"
-
-#~ msgid ""
-#~ "Increase your server security by setting magic_quotes_gpc to 'on'. PHP "
-#~ "will escape all quotes in strings in this case."
-#~ msgstr ""
-#~ "Tăng cường an ninh cho server của bạn bằng cách thiết lập "
-#~ "magic_quotes_gpc thành 'on'. PHP sẽ giải thoát tất cả các trích dẫn trong "
-#~ "các đoạn mã trong trường hợp này."
-
-#~ msgid "Search for 'magic_quotes_gpc' in your php.ini and set it to 'On'."
-#~ msgstr ""
-#~ "Tìm kiếm ''magic_quotes_gpc' trong thư mục php.ini của bạn và chuyển nó "
-#~ "thành 'On'"
-
-#~ msgid "Hook for number base"
-#~ msgstr "Móc nối với cơ sở số"
-
-#~ msgid "Samba hash generator"
-#~ msgstr "Bộ tạo ra các hàm băm Samba"
-
-#, fuzzy
-#~ msgid "Additional FusionDirectory settings"
-#~ msgstr "Thiết lập thêm của FusionDirectory"
-
-#~ msgid "Government mode"
-#~ msgstr "Chế độ nhà nước"
-
-#~ msgid "Smarty compile directory"
-#~ msgstr "Thư mục soạn thảo Smarty"
-
-#~ msgid "SNMP community"
-#~ msgstr "Cộng đồng SNMP"
-
-#~ msgid "Path for PPD storage"
-#~ msgstr "Đường dẫn đến kho lưu trữ PPD"
-
-#~ msgid "Path for kiosk profile storage"
-#~ msgstr "Đường dẫn đến kho lưu trữ profile của ki-ốt"
-
-#~ msgid "Mail queue script"
-#~ msgstr "Tập lệnh sắp hàng mail"
-
-#~ msgid "Notification script"
-#~ msgstr "Tập lệnh thông báo"
-
-#, fuzzy
-#~ msgid "GOto-SI daemon"
-#~ msgstr "GOto-si hỗ trợ chương trình daemon"
-
-#, fuzzy
-#~ msgid "FusionDirectory %s"
-#~ msgstr "Thư mục"
-
-#, fuzzy
-#~ msgid "FusionDirectory %s snapshot (Rev %s)"
-#~ msgstr "snapshot phát triển FusionDirectory (Rev %s)"
-
-#, fuzzy
-#~ msgid "FusionDirectory development snapshot (Rev %s)"
-#~ msgstr "snapshot phát triển FusionDirectory (Rev %s)"
-
-#, fuzzy
-#~ msgid "Sytem trust"
-#~ msgstr "Ủy thác hệ thống"
+msgstr ""
