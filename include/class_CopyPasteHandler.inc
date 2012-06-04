@@ -20,18 +20,32 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \file class_CopyPasteHandler.inc
+ * Source code for class CopyPasteHandle
+ */ 
+
+/*!
+ * \brief This class contains all function to copy and paste 
+ */ 
 class CopyPasteHandler {
 
   var $config;
   var $current;
 
-  /* This array contains all dns of the currently copyied objects */
+  /*!
+   * \brief This array contains all dns of the currently copyied objects
+   */
   var $queue       = array(); 
 
-  /* Attributes that should be overwritten */
+  /*! 
+   * \brief Attributes that should be overwritten 
+   */
   var $setvar_array= array();
 
-  /* The dn of the last edited object */
+  /*!
+   *  \brief The dn of the last edited object
+   */
   var $lastdn      = "";
   
   var $disallowed_objects = array();
@@ -41,7 +55,11 @@ class CopyPasteHandler {
 
 
 
-  /* Create CP handler  */
+  /*! 
+   * \brief Create CP handler  
+   * 
+   * \param string $config
+   */
   function CopyPasteHandler(&$config)
   {
     $this->config = &$config; 
@@ -51,13 +69,26 @@ class CopyPasteHandler {
   }
 
 
-  /* Entry entry to Copy & Paste queue.
+  /*! 
+   * \brief Entry entry to Copy & Paste queue.
    * A Queue entry is represented as follows.
    *  array['file_name']  - Position on hdd 
    *  array['method']     - copy/cut
    *  array['dn']         - the dn of the object added to the queue 
    *  array['tab_class']  - Tab object that should be used to initialize the new object
    *  array['tab_object'] - Tab object name used to initialize correct object Type like USERTABS
+   * 
+   * \param String $dn The dn of the object added to the queue 
+   * 
+   * \param String $action Copy or Cut
+   * 
+   * \param String $tab_class Tab object that should be used to initialize the new object
+   * 
+   * \param String $tab_object Tab object name used to initialize correct object Type like USERTABS
+   * 
+   * \param String $tab_acl_category Tab with acl category
+   * 
+   * \param String $parent
    */
   function add_to_queue($dn,$action,$tab_class,$tab_object,$tab_acl_category,&$parent = NULL)
   {
@@ -91,9 +122,10 @@ class CopyPasteHandler {
   }
 
 
-  /* This removes all objects from queue.
-   * Remove hdd dumps of current entries too.
-   * Remove entries older than 24 hours.
+  /*! 
+   * \brief This removes all objects from queue.
+   * 		Remove hdd dumps of current entries too.
+   * 		Remove entries older than 24 hours.
    */
   function cleanup_queue()
   {
@@ -141,9 +173,12 @@ class CopyPasteHandler {
   }
 
 
-  /* To increase performance we save the ldap dump on hdd 
-   * This function automatically creates the dumps and returns 
-   *  the name of the dumpfile we created 
+  /*! 
+   * \brief To increase performance we save the ldap dump on hdd 
+   * 		This function automatically creates the dumps and returns 
+   * 		the name of the dumpfile we created 
+   * 
+   * \param string $dn the DN
    */
   function save_dn_attributes_to_hdd($dn)
   {
@@ -204,14 +239,18 @@ class CopyPasteHandler {
   }
 
 
-  /* Check if there are still entries the object queue */
+  /*! 
+   * \brief Check if there are still entries the object queue 
+   */
   function entries_queued()
   {
     return( count($this->queue) >=1 || $this->current != FALSE);
   }
 
 
-  /* Paste one entry from queue */
+  /*! 
+   * \brief Paste one entry from queue
+   */
   function load_entry_from_queue($entry)
   {
     if(!isset($entry['tab_class'])){
@@ -255,8 +294,11 @@ class CopyPasteHandler {
   }
 
 
-  /* Load dumped ldap entry specified by $filename and 
+  /*! 
+   * \brief Load dumped ldap entry specified by $filename and 
    *  return data an unserailized data array
+   * 
+   * \param string $filename File on the hdd
    */
   function load_attributes_from_hdd($filename)
   {
@@ -276,8 +318,10 @@ class CopyPasteHandler {
   }
 
 
-  /* Displays a dialog which allows the user to fix all dependencies of this object.
-     Create unique names, ids, or what ever */
+  /*! 
+   * \brief Displays a dialog which allows the user to fix all dependencies of this object.
+   * 	    Create unique names, ids, or what ever 
+   */
   function execute()
   {
     $ui = get_userinfo();
@@ -329,7 +373,7 @@ class CopyPasteHandler {
         foreach($this->disallowed_objects as $entry){
           $dns[] = $entry['dn'];
         }
-#        msg_dialog::display(_("Permission"),msgPool::permCreate($dns),INFO_DIALOG);
+      //  msg_dialog::display(_("Permission"),msgPool::permCreate($dns),INFO_DIALOG);
       }
       $this->require_update = FALSE;
     }
@@ -423,14 +467,20 @@ class CopyPasteHandler {
   }
 
 
-  /* Return the dn of the last edited entry */
+  /*! 
+   * \brief Get the last endited entry
+   * 
+   * \return the dn of the last edited entry 
+   */
   function last_entry()
   {
     return($this->lastdn);
   }
 
 
-  /* Save new values posted by copy & paste dialog */
+  /*! 
+   * \brief Save new values posted by copy & paste dialog 
+   */
   function save_object()
   {
     if(isset($_POST['abort_current_cut-copy_operation'])){
@@ -444,9 +494,11 @@ class CopyPasteHandler {
   }
 
 
-  /* Create dialog which asks unique attributes/values ... 
-   *  call tabs -> getCopyDialog() 
-   *    which calls tab -> getCopyDialog()  */
+  /*! 
+   * \brief Create dialog which asks unique attributes/values ... 
+   *  		call tabs -> getCopyDialog() 
+   *    	which calls tab -> getCopyDialog()  
+   */
   function generateAttributesToFix()
   {
     if($this->current){
@@ -455,15 +507,26 @@ class CopyPasteHandler {
   }
 
 
-  /* Set a single attribute to specified value
-   *  example :   ("base", $newBase );    */
+  /*! 
+   * \brief Set a single attribute to specified value
+   * 
+   * example : ("base", $newBase );   
+   * 
+   * \param string $name
+   * 
+   * \param integer $value
+   */
   function SetVar($name,$value)
   {
     $this->setvar_array[$name]=$value; 
   }
 
 
-  /* Update current object attributes, collected via SetVar */
+  /*! 
+   * \brief Update current object attributes, collected via SetVar
+   * 
+   * \param array $entry 
+   */
   function _update_vars($entry)
   {
     /* Update all attributes specified with SetVar */
@@ -491,7 +554,11 @@ class CopyPasteHandler {
   }
 
 
-  /* Returns errors from including tabs. */
+  /*! 
+   * \brief Check
+   * 
+   * \return errors from including tabs
+   */
   function check()
   {
     $ret = array();
@@ -558,7 +625,11 @@ class CopyPasteHandler {
     }
   }
 
-  /* returns the paste icon for headpages */ 
+  /*!
+   * \brief Generate the paste icon for headpages
+   *  
+   * \return the paste icon for headpages
+   */ 
   function generatePasteIcon()
   {
     $Copy_Paste= "&nbsp;<img class='center' src='images/lists/seperator.png' align='middle' alt='' height='16' width='1'>&nbsp;";

@@ -20,6 +20,14 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \file class_filter.inc
+ * Source code for class filter
+ */ 
+
+/*!
+ * \brief This class contains all the function needed to manage filter
+ */ 
 class filter {
 
   var $xmlData;
@@ -39,7 +47,11 @@ class filter {
   var $pid;
   var $headpage;
 
-
+  /*!
+   * \brief Create a filter
+   *
+   * \param string $filename
+   */ 
   function filter($filename)
   {
     global $config;
@@ -52,7 +64,11 @@ class filter {
     $this->pid= preg_replace("/[^0-9]/", "", microtime(TRUE)); 
   }
 
-
+  /*
+   * \brief Load a filter
+   *
+   * \param string $filename
+   */ 
   function load($filename)
   {
     $contents = file_get_contents($filename);
@@ -136,7 +152,11 @@ class filter {
     return true;  
   }
 
-
+  /*!
+   * \brief Get the text in the field
+   *
+   * \param array $element 
+   */ 
   function getTextfield($element)
   {
     $tag= $element['tag'];
@@ -169,6 +189,11 @@ class filter {
   }
 
 
+  /*!
+   * \brief Get the checkbox
+   *
+   * \param array $element
+   */ 
   function getCheckbox($element)
   {
     $tag= $element['tag'];
@@ -181,7 +206,11 @@ class filter {
     return $result;
   }
 
-
+  /*!
+   * \brief Get a combobox
+   *
+   * \param array $element
+   */ 
   function getCombobox($element)
   {
     $result= "<select name='".$element['tag']."' size='1' onChange='document.mainform.submit();'>";
@@ -214,7 +243,13 @@ class filter {
     return $result;
   }
 
-
+  /*!
+   * \brief Set the combobox options
+   *
+   * \param string $tag
+   *
+   * \param array $options
+   */ 
   function setComboBoxOptions($tag, $options)
   {
     if (isset($this->elements[$tag]) && $this->elements[$tag]['type'] == "combobox") {
@@ -226,7 +261,11 @@ class filter {
     }
   }
 
-
+  /*!
+   * \brief Get the current base
+   *
+   * \return String, the current base 
+   */ 
   function getCurrentBase()
   {
     if (isset($this->search->base) && (string)$this->search->scope != "auto") {
@@ -236,7 +275,11 @@ class filter {
     return $this->base;
   }
 
-
+  /*!
+   * \brief Get the current scope
+   *
+   * \return String, the current scope 
+   */ 
   function getCurrentScope()
   {
     if (isset($this->search->scope) && (string)$this->search->scope != "auto") {
@@ -246,31 +289,54 @@ class filter {
     return $this->scope;
   }
 
-
+   /*!
+   * \brief Set a converter
+   *
+   * \param string $field
+   *
+   * \param string $hook
+   */ 
   function setConverter($field, $hook)
   {
     $this->converter[$field]= $hook;
   }
-
-
+  
+  /*!
+   * \brief Set a object storage
+   *
+   * \param string $storage
+   */ 
   function setObjectStorage($storage)
   {
     $this->objectStorage= $storage;    
   }
 
 
+  /*!
+   * \brief Set a base
+   *
+   * \param string $base
+   */ 
   function setBase($base)
   {
     $this->base= $base;
   }
 
-
+  /*!
+   * \brief Set the current scope
+   *
+   * \param string $scope 
+   */ 
   function setCurrentScope($scope)
   {
     $this->scope= $scope;
   }
 
-
+  /*!
+   * \brief Render alphabet
+   *
+   * \param integer $columns
+   */ 
   function renderAlphabet($columns= 10)
   {
     // Return pre-rendered alphabet if available
@@ -309,20 +375,30 @@ class filter {
     return ($this->alphabet);
   }
 
-
+  /*!
+   * \brief Render apply filter
+   *
+   * \return string
+   */ 
   function renderApply()
   {
     return ("<input type='submit' name='apply' value='"._("Apply filter")."'>");
   }
 
-
+  /*!
+   * \brief Render scope
+   *
+   * \return string
+   */ 
   function renderScope()
   {
     $checked= $this->scope == "sub"?" checked":"";
     return "<input type='checkbox' id='SCOPE' name='SCOPE' value='1' onClick='document.mainform.submit();'$checked>&nbsp;<LABEL for='SCOPE'>"._("Search in subtrees")."</LABEL>";
   }
 
-
+  /*!
+   * \brief Render
+   */ 
   function render()
   {
     $smarty= get_smarty();
@@ -364,7 +440,9 @@ class filter {
     return ("<input type='hidden' name='FILTER_PID' value='".$this->pid."'>".$smarty->fetch($file));
   }
 
-
+  /*!
+   * \brief Query
+   */ 
   function query()
   {
     global $class_mapping;
@@ -431,7 +509,11 @@ class filter {
     return ($result);
   }
 
-
+  /*!
+   * \brief Check if a filter is valid
+   *
+   * \return TRUE if is valid, FALSE otherwise
+   */ 
   function isValid()
   {
     foreach ($this->elements as $tag => $element) {
@@ -444,7 +526,9 @@ class filter {
     return true;
   }
 
-
+  /*!
+   * \brief Update
+   */ 
   function update()
   {
     /* React on alphabet links if needed */
@@ -474,7 +558,15 @@ class filter {
 
   }
 
-
+  /*!
+   * \brief Get competition list
+   *
+   * \param string $config
+   *
+   * \param string $tag
+   *
+   * \param string $value
+   */ 
   function getCompletitionList($config, $tag, $value="*")
   {
     global $class_mapping;
@@ -523,7 +615,9 @@ class filter {
     return $res;
   }
 
-
+  /*!
+   * \brief Auto complete
+   */ 
   function processAutocomplete()
   {
     global $class_mapping;
@@ -551,7 +645,11 @@ class filter {
     }
   }
 
-
+  /*!
+   * \brief Get the object base
+   *
+   * \param string $dn The DN
+   */ 
   function getObjectBase($dn)
   {
     global $config;
@@ -578,7 +676,13 @@ class filter {
 
 }
 
-// Sort elements for element length to allow proper replacing later on
+/*!
+ * \brief Sort elements for element length to allow proper replacing later on
+ *
+ * \param array $a
+ *
+ * \param array $b
+ */ 
 function strlenSort($a, $b) {
   if (strlen($a['tag']) == strlen($b['tag'])) {
     return 0;

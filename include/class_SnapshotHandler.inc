@@ -20,7 +20,13 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This class contains all the function needed to handle
+/*
+ * \file class_SnapshotHandler
+ * Source code for class SnapshotHandler
+ */ 
+
+/*!
+ * \brief This class contains all the function needed to handle
  * the snapshot functionality
  */
 class SnapshotHandler {
@@ -30,7 +36,11 @@ class SnapshotHandler {
   var $snapshotBases= array();
 
 
-  /* Create handler  */
+  /*!
+   * \brief Create handler
+   *
+   * \param ŝtring $config
+   */
   function SnapshotHandler(&$config)
   {
     $this->config = &$config; 
@@ -88,25 +98,39 @@ class SnapshotHandler {
     }
   }
 
-
+  /*!
+   * \brief Check if the snapshot is enable
+   *
+   * \return boolean TRUE if is enable, return FALSE otherwise
+   */ 
   function enabled()
   {
     return $this->isEnabled;
   }   
 
-
+  /*!
+   * \brief Set a new snapshot bases
+   *
+   * \param array $bases
+   */  
   function setSnapshotBases($bases)
   {
     $this->snapshotBases= $bases;
   }
 
-
+  /*!
+   * \brief Get the current snapshot bases
+   *
+   * \return array $bases
+   */ 
   function getSnapshotBases()
   {
     return $this->snapshotBases;
   }
 
-
+  /*!
+   * \brief Get a snapshot LDAP Multiplexer
+   */ 
   function get_snapshot_link()
   {
     $snapshotLdap= null;
@@ -129,7 +153,13 @@ class SnapshotHandler {
     return $snapshotLdap;
   }
 
-
+  /*!
+   * \brief Get the deleted snapshots
+   *
+   * \param string $objectBase
+   *
+   * \param boolean $raw false
+   */ 
   function getDeletedSnapshots($objectBase, $raw= false)
   {
     // Skip if not enabled
@@ -189,13 +219,23 @@ class SnapshotHandler {
     return($tmp);
   }
 
-
+  /*!
+   * \brief Check if the DN has snapshots
+   *
+   * \return the numbers of snapshots
+   */ 
   function hasSnapshots($dn)
   {
     return (count($this->getSnapshots($dn)) > 0);
   }
 
-
+  /*!
+   * \brief Get snapshots
+   *
+   * \param string $dn The DN
+   *
+   * \param string $raw false
+   */ 
   function getSnapshots($dn, $raw= false)
   {
     // Empty if disabled
@@ -247,7 +287,13 @@ class SnapshotHandler {
   }
 
 
-   /* Create a snapshot of the current object */
+  /*!
+   * \brief Create a snapshot of the current object
+   *
+   * \param string $dn The DN
+   *
+   * \param array $description Snapshot description
+   */
   function create_snapshot($dn, $description= array())
   {
 
@@ -339,6 +385,11 @@ class SnapshotHandler {
     }
   }
 
+  /*!
+   * \brief Remove a snapshot
+   *
+   * \param string $dn The DN
+   */ 
   function remove_snapshot($dn)
   {
     $ui       = get_userinfo();
@@ -352,15 +403,23 @@ class SnapshotHandler {
     }
     $this->dn = $old_dn;
   }
- /* returns true if snapshots are enabled, and false if it is disalbed
-     There will also be some errors psoted, if the configuration failed */
+  
+ /*!
+  * \brief Check if the snapshot is enabled
+  *
+  * \return true if snapshots are enabled, and false if it is disalbed
+  *   There will also be some errors psoted, if the configuration failed
+  */
   function snapshotEnabled()
   {
     return $this->config->snapshotEnabled();
   }
 
 
-  /* Return available snapshots for the given base
+  /*!
+   * \brief Get the available snapshots
+   * 
+   * \return available snapshots for the given base
    */
   function Available_SnapsShots($dn,$raw = false)
   {
@@ -417,7 +476,15 @@ class SnapshotHandler {
     }
     return($tmp2);
   }
- function getAllDeletedSnapshots($base_of_object,$raw = false)
+
+  /*!
+   * \brief Get all deleted snapshots
+   *
+   * \param string $base_of_object
+   *
+   * \param boolean $raw false
+   */ 
+  function getAllDeletedSnapshots($base_of_object,$raw = false)
   {
     if(!$this->snapshotEnabled()) return(array());
 
@@ -483,7 +550,11 @@ class SnapshotHandler {
   }
 
 
- /* Restore selected snapshot */
+  /*!
+   * \brief Restore selected snapshot
+   *
+   * \param string $dn The DN
+   */
   function restore_snapshot($dn)
   {
     if(!$this->snapshotEnabled()) return(array());

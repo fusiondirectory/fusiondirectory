@@ -20,15 +20,18 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \file class_certificate.inc
+ * Source code for class certificate
+ */
+
 /* certificates */
 define("PEM","pem");
 define("DER","der");
 
-/*! \brief This class contains all the function needed to import certificates
- *
+/*! 
+ * \brief This class contains all the function needed to import certificates
  */
-
-
 class certificate 
 {
   /* vars */
@@ -36,7 +39,9 @@ class certificate
   var $type;
   var $error;
 
-  /* Initialize all vars*/ 
+  /* 
+   * \brief Certificate constructor (initialize all vars)
+   */ 
   function certificate()
   {
     $this->data= "";
@@ -45,7 +50,13 @@ class certificate
     $this->info = array();
   } 
 
-  /* Reads specified Certfile/string and convert it to PEM*/
+  /* 
+   * \brief Reads specified Certfile/string and convert it to PEM
+   * 
+   * \param string $data
+   * 
+   * \param boolean $type false
+   */
   function import($data,$type=false)
   {
     /* if is file read from file, else use string as it is*/
@@ -111,7 +122,13 @@ class certificate
     return(true);
   }
 
-  /* Returns Array with all containing data */
+  /* 
+   * \brief Get all data of a certificate
+   * 
+   * \param boolean $ret true
+   * 
+   * \return Array with all containing data 
+   */
   function info($ret = true)
   {
     if($this->type != PEM){
@@ -145,7 +162,12 @@ class certificate
     }
 
   }
-
+  
+  /*!
+   * \brief Get the name of the certificate
+   * 
+   * \return String with the name, but return false if not found 
+   */	
   function getname()
   {
     if(isset($this->info['name'])){
@@ -154,7 +176,12 @@ class certificate
       return(false);
     }
   }
-
+  
+  /*!
+   * \brief Get the CN of the certificate
+   * 
+   * \return String with the CN, but return false if not found 
+   */	
   function getCN()
   {
     if(isset($this->info['subject']['CN'])){
@@ -181,7 +208,11 @@ class certificate
       return(false);
     }
   }
-
+  /*!
+   * \brief Get the serial number of the certificate
+   * 
+   * \return Integer number, but return false if not found
+   */ 
   function getSerialNumber()
   {
     if(isset($this->info['serialNumber'])){
@@ -191,13 +222,24 @@ class certificate
     }
   }
 
+  /*
+   * \brief Check if the certificate is valid
+   * 		Is valide if the length of array > 1
+   * 		and type is true
+   */ 
   function isvalid()
   {
     return (($this->type != false)&&(count($this->info)>1));
   }
   
 
-  /* Export Certificate to specified file, with specified method*/
+  /* 
+   * \brief Export Certificate to specified file, with specified method
+   * 
+   * \param boolean $type
+   * 
+   * \param string $filename Initialized at 'temp'
+   */
   function export($type,$filename="temp")
   {
     /* Check if valid cert is loaded*/
@@ -226,7 +268,9 @@ class certificate
   } 
 
 
-  /* Convert der to pem Certificate */
+  /* 
+   * \brief Convert der to pem Certificate
+   */
   function derTOpem()
   {
     /* if type is DER start convert */
@@ -254,7 +298,9 @@ class certificate
     return(false);
   }
 
-  /*Convert pem to der Certificate */
+  /*
+   * Convert pem to der Certificate 
+   */
   function pemTOder()
   {
     if($this->type == PEM)    {

@@ -20,11 +20,24 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This class contains all the function needed to manage xml
+/*!
+ * \file class_xml.inc
+ * Source code for class xml
+ */ 
+
+/*!
+ * \brief This class contains all the function needed to manage xml
  * files
  */ 
 class xml {
 
+  /*!
+   * \brief Validate a xml file from a schema
+   *
+   * \param string $file XML Filename
+   *
+   * \param string $schema Schema of the XML file
+   */ 
   static function validate($file, $schema) {
     // Enable user error handling
     libxml_use_internal_errors(true);
@@ -58,7 +71,15 @@ class xml {
     }
   }
 
-
+  /*!
+   * \brief Transform a xml document to an array
+   *
+   * \param $contents Contents
+   *
+   * \param integer $get_attributes Initialized at 1
+   *
+   * \param string $priority Initialized at 'tag'
+   */ 
   static function xml2array($contents, $get_attributes=1, $priority = 'tag') {
     if(!$contents) return array();
 

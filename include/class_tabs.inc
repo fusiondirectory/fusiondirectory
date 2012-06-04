@@ -20,6 +20,14 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \file class_tabs.inc
+ * Source code for class tabs
+ */
+
+/*!
+ * \brief This class contains all function to manage tabs classes
+ */ 
 class tabs
 {
   var $dn;
@@ -42,7 +50,22 @@ class tabs
   var $read_only = FALSE; // Used when the entry is opened as "readonly" due to locks.
   var $hide_refs = FALSE;
   var $hide_acls = FALSE;
-  
+
+  /*!
+   * \brief Tabs classes constructor
+   *
+   * \param string $config
+   *
+   * \param string $data
+   *
+   * \param string $dn The DN
+   * 
+   * \param string $acl_category
+   *
+   * \param boolean $hide_refs false
+   *
+   * \param boolean $hide_acls false
+   */ 
   function tabs(&$config, $data, $dn, $acl_category= "", $hide_refs = FALSE, $hide_acls = FALSE)
   {
     /* Save dn */
@@ -88,7 +111,8 @@ class tabs
   }
 
  
-  /*! \brief Reinitializes the tab classes with fresh ldap values.
+  /*!
+   * \brief Reinitializes the tab classes with fresh ldap values.
    * 
    * This maybe usefull if for example the apply button was pressed.
    */ 
@@ -110,8 +134,8 @@ class tabs
     }
   }
 
-  /*! \brief Save the tab(s) contents
-   * 
+  /*!
+   * \brief Save the tab(s) contents
    */ 
   function execute()
   {
@@ -159,7 +183,11 @@ class tabs
     return ($display);
   }
 
-
+  /*!
+   * \brief Save a tabs object
+   *
+   * \param boolean $save_current false
+   */ 
   function save_object($save_current= FALSE)
   {
     /* Save last tab */
@@ -194,6 +222,11 @@ class tabs
     }
   }
 
+  /*!
+   * \brief Generate the tab classes
+   *
+   * \param boolean $disabled false
+   */ 
   function gen_tabs($disabled = FALSE)
   {
     $display ="";
@@ -256,6 +289,9 @@ class tabs
     return($display);
   }
 
+  /*!
+   * \brief Remove object from parent
+   */  
   function delete()
   {
     /* Check if all plugins will ACK for deletion */
@@ -273,6 +309,9 @@ class tabs
     }
   }
 
+  /*
+   * \brief Ask all plugins for needed password changes
+   */ 
   function password_change_needed()
   {
     /* Ask all plugins for needed password changes */
@@ -285,6 +324,11 @@ class tabs
     return FALSE;
   }
 
+  /*!
+   * \brief Check
+   *
+   * \param boolean $ignore_account false
+   */ 
   function check($ignore_account= FALSE)
   {
     $this->save_object(TRUE);
@@ -320,6 +364,11 @@ class tabs
     return ($messages);
   }
 
+  /*
+   * \brief Save object in the tab
+   *
+   * \param boolean $ignore_account false
+   */ 
   function save($ignore_account= FALSE)
   {
     /* Save all plugins */
@@ -345,6 +394,13 @@ class tabs
     return (0);
   }
 
+  /*!
+   * \brief Adapt from template
+   *
+   * \param string $dn The DN
+   *
+   * \param array $skip
+   */ 
   function adapt_from_template($dn, $skip= array())
   {
     foreach ($this->by_object as $key => &$obj){
@@ -355,8 +411,8 @@ class tabs
     }
   }
 
-  /*! \brief Save attributes posted by copy & paste dialog
-   * 
+  /*!
+   * \brief Save attributes posted by copy & paste dialog
    */   
   function saveCopyDialog()
   {
@@ -367,8 +423,8 @@ class tabs
     }
   }
 
-  /*! \brief Return copy & paste dialog
-   * 
+  /*!
+   * \brief Return copy & paste dialog
    */
   function getCopyDialog()
   {
@@ -391,7 +447,9 @@ class tabs
     return($ret);
   }
 
-
+  /*!
+   * \brief Add special Tabs
+   */ 
   function addSpecialTabs()
   {
     if(!$this->hide_acls){
@@ -406,7 +464,11 @@ class tabs
     }
   }
 
-
+  /*!
+   * \brief Set acl base
+   *
+   * \param string $base The new acl base
+   */ 
   function set_acl_base($base= "")
   {
     /* Update reference, transfer variables */
@@ -422,9 +484,10 @@ class tabs
   }
 
  
-  /*! \brief Checks if one of the used tab plugins supports multiple edit.
+  /*!
+   * \brief Checks if one of the used tab plugins supports multiple edit.
    * 
-   * \return boolean Returns TRUE if at least one plugins supports multiple edit.
+   * \return boolean TRUE if at least one plugins supports multiple edit.
    */
   function multiple_support_available()
   {
@@ -437,11 +500,12 @@ class tabs
   }  
 
 
-  /*! \brief Enables multiple edit support for the given tab.
+  /*!
+   * \brief Enables multiple edit support for the given tab.
    * 
    * All unsupported plugins will be disabled.
    * 
-   * \return boolean Returns TRUE if at least one plugin supports multiple edit 
+   * \return boolean TRUE if at least one plugin supports multiple edit 
    */
   function enable_multiple_support()
   {

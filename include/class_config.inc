@@ -20,9 +20,14 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This class is responsible for parsing and querying the
+/*!
+ * \file class_config.inc
+ *  Source code for the class config
+ */ 
+
+/*! 
+ * \brief This class is responsible for parsing and querying the
  * fusiondirectory configuration file.
- *
  */
 
 class config  {
@@ -36,14 +41,17 @@ class config  {
   var $section= "";
   var $currentLocation= "";
   
-  /*! \brief Store configuration for current location */
+  /*! 
+   * \brief Store configuration for current location 
+   */
   var $current= array(); 
 
   /* Link to LDAP-server */
   var $ldap= NULL;
   var $referrals= array();
 
-  /* \brief Configuration data
+  /* 
+   * \brief Configuration data
    *
    * - $data['SERVERS'] contains server informations.
    */
@@ -63,11 +71,12 @@ class config  {
   var $last_modified = 0;
 
 
-  /*! \brief Class constructor of the config class
+  /*!
+   * \brief Class constructor of the config class
    *  
-   *  \param string 'filename' path to the configuration file
-   *  \param string 'basedir' base directory
-   *
+   * \param string $filename path to the configuration file
+   * 
+   * \param string $basedir base directory
    */
   function config($filename, $basedir= "")
   {
@@ -84,12 +93,12 @@ class config  {
   }
 
 
-  /*! \brief Check and reload the configuration
+  /*!
+   * \brief Check and reload the configuration
    * 
    * This function checks if the configuration has changed, since it was
    * read the last time and reloads it. It uses the file mtime to check
    * weither the file changed or not.
-   *
    */ 
   function check_and_reload()
   {
@@ -125,14 +134,14 @@ class config  {
   }  
 
 
-  /*! \brief Parse the given configuration file 
+  /*! 
+   * \brief Parse the given configuration file 
    *
-   *  Parses the configuration file and displays errors if there
-   *  is something wrong with it.
+   * Parses the configuration file and displays errors if there
+   * is something wrong with it.
    *
-   *  \param string 'filename' The filename of the configuration file.
+   * \param string $filename The filename of the configuration file.
    */
-
   function parse($filename)
   {
     $this->data = array(
@@ -162,11 +171,14 @@ class config  {
   }
 
 
-  /*! \brief Open xml tag when parsing the xml config
+  /*! 
+   * \brief Open xml tag when parsing the xml config
    *
-   * \param string 'parser'
-   * \param string 'tag'
-   * \param string 'attrs'
+   * \param string $parser
+   * 
+   * \param string $tag
+   * 
+   * \param string $attrs
    */
   function tag_open($parser, $tag, $attrs)
   {
@@ -268,11 +280,12 @@ class config  {
   }
 
 
-  /*! \brief Close xml tag when parsing the xml config
+  /*! 
+   * \brief Close xml tag when parsing the xml config
    *
+   * \param string $parser
    * 
-   * \param string 'parser'
-   * \param string 'tag'
+   * \param string $tag
    */
   function tag_close($parser, $tag)
   {
@@ -284,12 +297,13 @@ class config  {
   }
 
 
-  /*! \brief Get the password when needed from the config file
+  /*! 
+   * \brief Get the password when needed from the config file
    *
    * This function can be used to get the password associated to 
    * a keyword in the config file
    * 
-   * \param string 'creds' the keyword associated to the password needed
+   * \param string $creds the keyword associated to the password needed
    *
    * \return string the password corresponding to the keyword
    */
@@ -310,7 +324,8 @@ class config  {
   }
 
 
-  /*! \brief Get a LDAP link object
+  /*! 
+   * \brief Get a LDAP link object
    *
    * This function can be used to get an ldap object, which in turn can
    * be used to query the LDAP. See the LDAP class for more information
@@ -321,7 +336,7 @@ class config  {
    * $ldap = $this->config->get_ldap_link();
    * \endcode
    *
-   * \param boolean sizelimit Weither to impose a sizelimit on the LDAP object or not.
+   * \param boolean $sizelimit Weither to impose a sizelimit on the LDAP object or not.
    * Defaults to false. If set to true, the size limit in the configuration
    * file will be used to set the option LDAP_OPT_SIZELIMIT.
    * 
@@ -365,9 +380,10 @@ class config  {
   }
 
 
-  /*! \brief Set the current location
+  /*! 
+   * \brief Set the current location
    *  
-   *  \param string name the name of the location
+   * \param string $name the name of the location
    */
   function set_current($name)
   {
@@ -450,11 +466,12 @@ class config  {
   }
 
 
-  /*! \brief Load server information from config/LDAP
+  /*!
+   * \brief Load server information from config/LDAP
    *
-   *  This function searches the LDAP for servers (e.g. goImapServer, goMailServer etc.)
-   *  and stores information about them $this->data['SERVERS']. In the case of mailservers
-   *  the main section of the configuration file is searched, too.
+   * This function searches the LDAP for servers (e.g. goImapServer, goMailServer etc.)
+   * and stores information about them $this->data['SERVERS']. In the case of mailservers
+   * the main section of the configuration file is searched, too.
    */
   function load_servers ()
   {
@@ -695,13 +712,13 @@ class config  {
   }
 
 
-  /*! \brief Get the departments from ldap
+  /*! 
+   * \brief Get the departments from ldap
    *
    * This function can be used to get the password associated to 
    * a keyword in the config file
    * 
-   * \param string 'ignore_dn' dn of the department
-   *
+   * \param string $ignore_dn dn of the department
    */
   function get_departments($ignore_dn= "")
   {
@@ -844,7 +861,15 @@ class config  {
   }
 
 
-  /* Creates display friendly output from make_idepartments */
+  /* 
+   * \brief Creates display friendly output from make_idepartments 
+   * 
+   * \param $arr arr
+   * 
+   * \param int $depth initialized at -1
+   * 
+   * \param int $max_size initialized at 256
+   */
   function generateDepartmentArray($arr,$depth = -1,$max_size = 256)
   {
     $ret = array();
@@ -887,14 +912,15 @@ class config  {
   }
 
 
-  /*! \brief Get all available shares defined in the current LDAP
+  /*! 
+   * \brief Get all available shares defined in the current LDAP
    *
-   *  This function returns all available Shares defined in this ldap
+   * This function returns all available Shares defined in this ldap
    *  
-   *  \param boolean 'listboxEntry' If set to TRUE, only name and path are
+   * \param boolean $listboxEntry If set to TRUE, only name and path are
    *  attached to the array. If FALSE, the whole entry will be parsed an atached to the result.
    * 
-   *  \return array list of share defined in the current LDAP
+   * \return array list of share defined in the current LDAP
    */
   function getShareList($listboxEntry = false)
   {
@@ -927,7 +953,8 @@ class config  {
   }
 
 
-  /*! \brief Return all available share servers in LDAP
+  /*! 
+   * \brief Return all available share servers in LDAP
    *
    * This function returns all available ShareServers.
    *
@@ -964,7 +991,8 @@ class config  {
   }
 
 
-  /*! \brief Check if there's the specified bool value set in the configuration
+  /*! 
+   * \brief Check if there's the specified bool value set in the configuration
    *
    *  The function checks, weither the specified bool value is set to a true
    *  value in the configuration file. Considered true are either true or yes,
@@ -977,9 +1005,9 @@ class config  {
    *  }
    *  \endcode
    *
-   *  \param string 'section' Section in the configuration file.
+   *  \param string $section Section in the configuration file.
    * 
-   *  \param string 'value' Key in the given section, which is subject to check
+   *  \param string $value Key in the given section, which is subject to check
    *
    *  \return bool TRUE if option set in the config file
    */
@@ -1019,7 +1047,8 @@ class config  {
   }
 
 
-  /*! Search for a configuration setting in different categories
+  /*! 
+   * \brief Search for a configuration setting in different categories
    *
    *  Searches for the value of a given key in the configuration data.
    *  Optionally the list of categories to search (tabs, main, locations) can
@@ -1030,9 +1059,11 @@ class config  {
    *  $postcmd = $this->config->search(get_class($this), "POSTCOMMAND", array("menu", "tabs"));
    *  \endcode
    *
-   *  \param string 'class'
-   *  \param string 'value' key to search in the configuration data
-   *  \param array 'categories' array where the search should run 
+   *  \param string $class The class name
+   * 
+   *  \param string $value Key to search in the configuration data
+   * 
+   *  \param array $categories Array where the search should run 
    * 
    *  \return string the value you asked for or empty
    */
@@ -1057,7 +1088,8 @@ class config  {
   }
 
 
-  /*! \brief Get a configuration value from the config
+  /*! 
+   * \brief Get a configuration value from the config
    *
    *  This returns a configuration value from the config. It either
    *  uses the data of the current location ($this->current),
@@ -1067,10 +1099,11 @@ class config  {
    *  If no value is found and an optional default has been specified,
    *  then the default is returned.
    *
-   *  \param string 'name' the configuration key (case-insensitive)
-   *  \param string 'default' a default that is returned, if no value is found
+   * \param string $name The configuration key (case-insensitive)
+   * 
+   * \param string $default A default that is returned, if no value is found
    *
-   *  \return string the configuration value if found or the default value
+   * \return string the configuration value if found or the default value
    */
   function get_cfg_value($name, $default= "") {
     $name= strtoupper($name);
@@ -1089,7 +1122,8 @@ class config  {
   }
 
 
-  /*! \brief Check if session lifetime matches session.gc_maxlifetime
+  /*! 
+   * \brief Check if session lifetime matches session.gc_maxlifetime
    *
    *  On debian systems the session files are deleted with
    *  a cronjob, which detects all files older than specified 
@@ -1097,7 +1131,7 @@ class config  {
    *  This function checks if the fusiondirectory.conf value matches the range
    *  defined by session.gc_maxlifetime.
    *
-   *  \return boolean TRUE or FALSE depending on weither the settings match
+   * \return boolean TRUE or FALSE depending on weither the settings match
    *  or not. If SESSIONLIFETIME is not configured in FusionDirectory it always returns
    *  TRUE.
    */
@@ -1114,9 +1148,10 @@ class config  {
   }
 
 
-  /*! \brief Check if snapshot are enabled
+  /*! 
+   * \brief Check if snapshot are enabled
    *
-   *  \return boolean TRUE if snapshot are enabled, FALSE otherwise
+   * \return boolean TRUE if snapshot are enabled, FALSE otherwise
    */
   function snapshotEnabled()
   {

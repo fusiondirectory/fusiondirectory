@@ -20,8 +20,16 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This class contains all the function needed to make list 
+/*!
+ * \file class_pluglist.inc
+ * Source code for the class pluglist
+ */ 
+
+/*! 
+ * \brief This class contains all the function needed to make list 
  * of plugin and manage them
+ * 
+ * \see class_plugin
  */
 class pluglist {
   var $index= 0;
@@ -34,9 +42,16 @@ class pluglist {
   var $current= "";
   var $info= array();
   var $headlines = array();
-        var $allowed_plugins = array();
-        var $silly_cache= array();
+  var $allowed_plugins = array();
+  var $silly_cache= array();
 
+  /*!
+   * \brief List the plugins
+   * 
+   * \param string $config Plugin configuration
+   * 
+   * \param $ui UI
+   */ 
   function pluglist(&$config, &$ui)
   {
     $this->ui= &$ui;
@@ -61,7 +76,15 @@ class pluglist {
     $this->info['all']['plDescription']= _("All objects in this category");
     $this->info['all']['plSelfModify']= FALSE;
   }
-
+  
+  
+  /*!
+   * \brief Get the plugins of a list
+   * 
+   * \param array $list
+   * 
+   * \param string $config Plugin configuration
+   */ 
   function get_plugins($list, &$config)
   {
     global $class_mapping;
@@ -84,11 +107,12 @@ class pluglist {
   }
 
 
-  /*! \brief  Check whether we are allowed to modify the given acl or not
+  /*!
+   * \brief  Check whether we are allowed to modify the given acl or not
    * 
    * This function is used to check which plugins are visible.
    *
-   * \param string 'aclname' The acl tag to test, eg.  "users/user:self", "systems",...
+   * \param string $aclname The acl tag to test, eg.  "users/user:self", "systems",...
    * 
    * \return Boolean TRUE on success FALSE otherwise
    */
@@ -141,7 +165,9 @@ class pluglist {
     return (FALSE);
   }
 
-
+  /*!
+   * \brief Generate headlines
+   */ 
   function gen_headlines()
   {
     $ret = array();
@@ -160,6 +186,9 @@ class pluglist {
     return($this->headlines);
   }
 
+  /*!
+   * \brief Generate menu
+   */ 
   function gen_menu()
   {
     if ($this->menu == ""){
@@ -273,7 +302,9 @@ class pluglist {
     return $result;
   }
 
-
+  /*!
+   * \brief Show the menu icon
+   */ 
   function show_iconmenu()
   {
     global $class_mapping;
@@ -383,6 +414,11 @@ class pluglist {
     return ($this->iconmenu);
   }
 
+  /*
+   * \brief Get the path of the index
+   * 
+   * \param string $index The index which we want the path
+   */  
   function get_path($index)
   {
     if(!isset($this->dirlist[$index])){
@@ -391,6 +427,11 @@ class pluglist {
     return ("../".$this->dirlist[$index]);
   }
 
+  /*
+   * \brief Search for plugin index (id), identify entry by path and class
+   * 
+   * \param string $class The name of the class
+   */  
   function get_index($class)
   {
     /* Search for plugin index (id), identify entry by path && class */
@@ -408,11 +449,12 @@ class pluglist {
 
   }
 
-  /*! \brief  This function checks if we are allowed to view the plugin with the given id
+  /*! 
+   * \brief This function checks if we are allowed to view the plugin with the given id
    *  
-   * \param integer 'plug_id'  The ID of the plugin.
+   * \param integer $plug_id  The ID of the plugin.
    * 
-   * \return Boolean   TRUE if we are allowed to view the plugin else FALSE
+   * \return Boolean TRUE if we are allowed to view the plugin else FALSE
    */
   function plugin_access_allowed($plug_id)
   {
@@ -420,8 +462,8 @@ class pluglist {
   }
 
 
-  /*! \brief  Force the menu to be recreated 
-   * 
+  /*!
+   * \brief Force the menu to be recreated 
    */
   function reset_menus()
   {

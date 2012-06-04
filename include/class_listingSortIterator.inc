@@ -20,12 +20,29 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This class contains all the function needed to sort list 
+/*!
+ * \file class_listingSortIterator.inc
+ * Source code for class listingSortIterator
+ */
+
+/*!
+ * \brief This class contains all the function needed to sort list 
  * go up, go down , back , next. etc...
  */
 class listingSortIterator implements Iterator {
   private $data;
-
+  
+  /*!
+   * \brief listingSortIterator constructor
+   *
+   * \param array $data listingSortIterator data
+   *
+   * \param $direction Direction
+   *
+   * \param $attribute Attribute
+   *
+   * \param string $type
+   */ 
   public function __construct($data, $direction, $attribute, $type= "string") {
     global $_sortAttribute;
     global $_sortType;
@@ -91,23 +108,48 @@ class listingSortIterator implements Iterator {
       $this->data= $data;
     }
   }
-
+  
+  /*!
+   * \brief Put the array pointer to the first element
+   *
+   * \return the first element of the array
+   */ 
   function rewind() {
     return reset($this->data);
   }
 
+  /*!
+   * \brief Get the current data element
+   * 
+   * \return The current element pointed by array pointer
+   */
   function current() {
     return current($this->data);
   }
 
+  /*!
+   * \brief Get the key element
+   *
+   * \return the key element of the array
+   */
   function key() {
     return key($this->data);
   }
 
+  /*!
+   * \brief Get the next data element
+   *
+   * \return The next element pointed by array pointer
+   */
   function next() {
     return next($this->data);
   }
 
+  /*!
+   * \brief Check if the data array is valid
+   *
+   * \return TRUE if the array is valid, return FALSE otherwise
+   */
   function valid() {
     return key($this->data) !== null;
   }

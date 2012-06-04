@@ -20,7 +20,13 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This class provides various test functions
+/*!
+ * \file class_tests.inc
+ * Source code for class tests
+ */
+
+/*!
+ * \brief This class provides various test functions
  *
  * This class provides various test functions. It enables to check
  * if a given value is:
@@ -35,7 +41,11 @@
  */
 class tests {
 
-  /*! \brief Test if the given string is a phone number */
+  /*!
+   * \brief Test if the given string is a phone number
+   *
+   * \param string $nr The phone number to check
+   */
   public static function is_phone_nr($nr)
   {
     if ($nr == ""){
@@ -46,21 +56,33 @@ class tests {
   }
 
 
-  /*! \brief Test if the given string contains characters allowed in a DNS record name */
+  /*!
+   * \brief Test if the given string contains characters allowed in a DNS record name
+   *
+   * \param string $str The DNS to check
+   */
   public static function is_dns_name($str)
   {
     return(preg_match("/^[a-z0-9\.\-_]*$/i",$str));
   }
 
 
-  /*! \brief Test if the given string contains characters allowed in a hostname */
+  /*!
+   * \brief Test if the given string contains characters allowed in a hostname
+   *
+   * \param string $str The hostname to check 
+   */
   public static function is_valid_hostname($str)
   {
     return(preg_match("/^[a-z0-9\.\-]*$/i",$str));
   }
 
 
-  /*! \brief Test if the given string is an URL */
+  /*!
+   * \brief Test if the given string is an URL
+   *
+   * \param string $url The URL to check
+   */
   public static function is_url($url)
   {
     if ($url == ""){
@@ -71,7 +93,11 @@ class tests {
   }
 
 
-  /*! \brief Test if the given string is a DN */
+  /*!
+   * \brief Test if the given string is a DN
+   *
+   * \param string $dn The DN to check
+   */
   public static function is_dn($dn)
   {
     if ($dn == ""){
@@ -82,7 +108,11 @@ class tests {
   }
 
 
-  /*! \brief Test if the given string is an uid */
+  /*!
+   * \brief Test if the given string is an uid
+   *
+   * \param string $uid The UID to check
+   */
   public static function is_uid($uid)
   {
     if ($uid == ""){
@@ -99,7 +129,11 @@ class tests {
   }
 
 
-  /*! \brief Test if the given string is an IP */
+  /*!
+   * \brief Test if the given string is an IPv4
+   *
+   * \param string $ip The IPv4 to check
+   */
   public static function is_ip($ip)
   {
     if(function_exists('filter_var')) {
@@ -109,7 +143,11 @@ class tests {
     }
   }
 
-
+  /*!
+   * \brief Test if the given string is an IPv6
+   *
+   * \param string $ip The IPv6 to check
+   */
   public static function is_ipv6($ip)
   {
     if(function_exists('filter_var')) {
@@ -123,15 +161,23 @@ class tests {
   }
 
 
-  /*! \brief Test if the given string is a mac address */
+  /*!
+   * \brief Test if the given string is a mac address
+   *
+   * \param string $mac The MAC address to check
+   */
   public static function is_mac($mac)
   {
     return preg_match("/^[a-f0-9][a-f0-9]:[a-f0-9][a-f0-9]:[a-f0-9][a-f0-9]:[a-f0-9][a-f0-9]:[a-f0-9][a-f0-9]:[a-f0-9][a-f0-9]$/i", $mac);
   }
 
 
-  /*! \brief Checks if the given ip address dosen't match
-      "is_ip" because there is also a sub net mask given */
+  /*!
+   * \brief Checks if the given ip address doesn't match
+   *  "is_ip" because there is also a sub net mask given
+   *
+   * \param string $ip The IP to check
+   */
   public static function is_ip_with_subnetmask($ip)
   {
           /* Generate list of valid submasks */
@@ -171,9 +217,12 @@ class tests {
   }
 
 
-  /*! \brief Simple is domain check
+  /*!
+   * \brief Simple is domain check
    *
    * This checks if the given string looks like "string(...).string"
+   *
+   * \param string $str The domain to check
    */
   public static function is_domain($str)
   {
@@ -181,7 +230,11 @@ class tests {
   }
 
 
-  /*! \brief Check if the given argument is an id */
+  /*!
+   * \brief Check if the given argument is an id
+   *
+   * \param string $id The id to check
+   */
   public static function is_id($id)
   {
     if ($id == ""){
@@ -192,7 +245,11 @@ class tests {
   }
 
 
-  /*! \brief Check if the given argument is a path */
+  /*!
+   * \brief Check if the given argument is a path
+   *
+   * \param string $path The path to check
+   */
   public static function is_path($path)
   {
     if ($path == ""){
@@ -206,7 +263,13 @@ class tests {
   }
 
 
-  /*! \brief Check if the given argument is an email */
+  /*!
+   * \brief Check if the given argument is an email
+   *
+   * \param string $address The email address
+   *
+   * \param boolean $template FALSE
+   */
   public static function is_email($address, $template= FALSE)
   {
     if ($address == ""){
@@ -222,7 +285,13 @@ class tests {
   }
 
 
-  /* \brief Check if the given department name is valid */
+  /*
+   * \brief Check if the given department name is valid
+   *
+   * \param string $name The deparment name
+   *
+   * \param string $base
+   */
   public static function is_department_name_reserved($name,$base)
   {
     $reservedName = array("systems","apps","incomming","internal","accounts","fax","addressbook",
@@ -245,8 +314,14 @@ class tests {
   }
 
 
-  /* \brief Check if $ip1 and $ip2 represents a valid IP range
-   *  \return TRUE in case of a valid range, FALSE in case of an error.
+  /*
+   * \brief Check if $ip1 and $ip2 represents a valid IP range
+   *
+   * \param string $ip1 The first IP
+   *
+   * \param string $ip2 The second IP
+   *
+   * \return TRUE in case of a valid range, FALSE in case of an error.
    */
   public static function is_ip_range($ip1,$ip2)
   {
@@ -263,7 +338,15 @@ class tests {
   }
 
 
-  /* \brief Check if the specified IP address $address is inside the given network */
+  /*
+   * \brief Check if the specified IP address is inside the given network
+   *
+   * \param string $network Name of the network
+   *
+   * \param string $netmask The netmask of the IP address
+   *
+   * \param string $address The IP address
+   */
   public static function is_in_network($network, $netmask, $address)
   {
     $nw= explode('.', $network);
@@ -284,7 +367,11 @@ class tests {
     return ($first < $curr&& $last > $curr);
   }
 
-  /* Check if entry value is a valid date */
+  /*
+   * Check if entry value is a valid date
+   *
+   * \param string $date The date to check
+   */
   public static function is_date($date)
   {
     global $lang;

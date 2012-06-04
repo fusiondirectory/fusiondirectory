@@ -20,7 +20,13 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This is the base class for the FusionDirectory logging functionality.
+/*!
+ * \file class_log.inc
+ * Source code for the class log
+ */ 
+
+/*! 
+ * \brief This is the base class for the FusionDirectory logging functionality.
  * All logging should lead to this class. 
  * 
  * \author  Fabian Hickert <hickert@gonicus.de>
@@ -31,15 +37,20 @@ class log {
 
   var $config;
 
- /*! \brief logging constructor
-
-    \param action         One of these values (modify|create|remove|snapshot|copy)
-    \param objecttype     represents the current edited objecttype, like users/user
-    \param object         represents the current edited object dn
-    \param changes_array  An array containing names of all touched attributes
-    \param result         A status message, containing errors or success messages 
-
-    \sa log()
+  /*! 
+   * \brief logging constructor
+   * 
+   * \param $action         One of these values (modify|create|remove|snapshot|copy)
+   * 
+   * \param $objecttype     represents the current edited objecttype, like users/user
+   * 
+   * \param $object         represents the current edited object dn
+   * 
+   * \param $changes_array  An array containing names of all touched attributes
+   * 
+   * \param $result         A status message, containing errors or success messages 
+   * 
+   * \sa log()
    */
   function log($action,$objecttype,$object,$changes_array = array(),$result = "")
   {
@@ -92,7 +103,11 @@ class log {
     }
   }
 
-
+  /*!
+   * \brief Check the options
+   * 
+   * \param Array $entry to be checked
+   */ 
   function check($entry = array())
   {
     $msgs = array();
@@ -109,7 +124,11 @@ class log {
   }
 
    
-  /* This function is used to into the systems syslog */
+  /* 
+   * \brief This function is used to into the systems syslog
+   * 
+   * \param Array $entry Entry to be loged 
+   */
   function log_into_syslog($entry)
   {
     $str= "";

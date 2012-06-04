@@ -20,6 +20,14 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \file class_ldapMultiplexer.inc
+ * Source code for class ldapMultiplexer
+ */
+
+ /*!
+  * \brief This class contains all function to manage ldap multiplexer
+  */   
 class ldapMultiplexer {
 
   /* Internal stuff */
@@ -27,7 +35,12 @@ class ldapMultiplexer {
 
   /* Result resource */
   protected $sr;
- 
+
+  /*!
+   * \brief LADP multiplexer constructor
+   *
+   * \param $object Object LDAP
+   */  
   public function __construct(&$object) {
     /* Store object */
     $this->object= $object;
@@ -35,7 +48,14 @@ class ldapMultiplexer {
     /* Set result resource */
     $this->sr= $this->object->getSearchResource();
   }
- 
+
+  /*!
+   * \brief Call a ldap method with his parameters
+   *
+   * \param string $methodName The name of the method
+   *
+   * \param $parameters Parameters for the method
+   */ 
   public function __call($methodName, $parameters) {
     /* Add resource pointer if the mentioned methods are used */
     if (preg_match('/^(search|ls|cat|fetch|clearResult|resetResult|count|getDN|recursive_remove|rmdir_recursive|create_missing_trees|import_single_entry|import_complete_ldif)$/', $methodName)){
@@ -48,7 +68,11 @@ class ldapMultiplexer {
     return $method->invokeArgs($this->object, $parameters);
   }
 
-
+  /*
+   * \brief Get a member name from a ldap object
+   *
+   * \param string $memberName
+   */ 
   public function __get($memberName) {
     return $this->object->$memberName;
   }

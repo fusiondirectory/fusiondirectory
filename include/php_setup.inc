@@ -20,8 +20,23 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \file php_setup.inc
+ * Source code for php_setup
+ */ 
 require_once ("variables.inc");
 
+/*!
+ * \brief Raise an error
+ *
+ * \param string $errno
+ *
+ * \param string $errstr The error string
+ *
+ * \param string $errfile The error filename
+ *
+ * \param string $errline The error line
+ */  
 function gosaRaiseError($errno, $errstr, $errfile, $errline)
 {
   global $error_collector,$config, $error_collector_mailto;
@@ -213,6 +228,9 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
   }
 }
 
+/*!
+ * \brief Dummy error handler
+ */ 
 function dummy_error_handler()
 {
 }

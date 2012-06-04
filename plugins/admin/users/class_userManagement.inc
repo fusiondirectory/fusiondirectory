@@ -244,15 +244,26 @@ class userManagement extends management
   function handlePasswordQueue()
   {
       foreach ($this->pwd_change_queue as $key => $dn) {
-        $ldap = $this->config->get_ldap_link();
-        $ldap->cat ($dn, array("shadowLastChange", "userPassword", "uid"));
-        $attrs = $ldap->fetch();
-        $methods = passwordMethod::get_available_methods();
-        if (isset($methods[$this->force_hash_type[$dn]])) {
-          $test = new $methods[$this->force_hash_type[$dn]]($this->config,$dn);
-          if (!$test->need_password()) {
-            change_password($dn, "",0,$this->force_hash_type[$dn]);
-            unset($this->pwd_change_queue[$key]);
+        if (isset($this->force_hash_type[$dn])) {
+          $methods = passwordMethod::get_available_methods();
+          if (isset($methods[$this->force_hash_type[$dn]])) {
+            $test = new $methods[$this->force_hash_type[$dn]]($this->config,$dn);
+            if (!$test->need_password()) {
+              change_password($dn, "",0,$this->force_hash_type[$dn]);
+              unset($this->pwd_change_queue[$key]);
+            }
+          }
+        } else {
+          // read current password entry for $dn, to detect the encryption Method
+          $ldap = $this->config->get_ldap_link();
+          $ldap->cat ($dn, array("shadowLastChange", "userPassword", "uid"));
+          $attrs = $ldap->fetch();
+          if (isset($attrs['userPassword'][0])) {
+            $test = passwordMethod::get_method($attrs['userPassword'][0],$dn);
+            if ($test !== NULL && !$test->need_password()) {
+              change_password($dn, "",0,$test->get_hash());
+              unset($this->pwd_change_queue[$key]);
+            }
           }
         }
       }
@@ -326,31 +337,31 @@ class userManagement extends management
 
               // Check posted passwords now.
               $message= array();
-              if ($new_password != $repeated_password){
+              if ($new_password != $repeated_password) {
                   $message[]= _("The passwords you've entered as 'New password' and 'Repeated new password' do not match.");
               } else {
-                  if ($new_password == ""){
+                  if ($new_password == "") {
                       $message[] = msgPool::required(_("New password"));
                   }
               }
 
               // Display errors
-              if (count($message) != 0){
+              if (count($message) != 0) {
                   msg_dialog::displayChecks($message);
                   return($smarty->fetch(get_template_path('password.tpl', TRUE)));
               }
 
               // Change password
-              if(isset($this->force_hash_type[$this->dn])){
-                  if(!change_password ($this->dn, $new_password,0,$this->force_hash_type[$this->dn])){
-                      return($smarty->fetch(get_template_path('password.tpl', TRUE)));
+              if (isset($this->force_hash_type[$this->dn])) {
+                  if (!change_password ($this->dn, $new_password,0,$this->force_hash_type[$this->dn])) {
+                      return $smarty->fetch(get_template_path('password.tpl', TRUE));
                   }
-              }else{
-                  if(!change_password ($this->dn, $new_password)){
-                      return($smarty->fetch(get_template_path('password.tpl', TRUE)));
+              } else {
+                  if (!change_password ($this->dn, $new_password)) {
+                      return $smarty->fetch(get_template_path('password.tpl', TRUE));
                   }
               }
-              if ($this->config->get_cfg_value("passwordHook") != ""){
+              if ($this->config->get_cfg_value("passwordHook") != "") {
                   $ldap = $this->config->get_ldap_link();
                   $ldap->cd($this->config->current['BASE']);
                   $ldap->cat($this->dn,array('uid'));
@@ -358,10 +369,10 @@ class userManagement extends management
                   exec($this->config->get_cfg_value("passwordHook")." ".
                           escapeshellarg($attrs['uid'][0])." ".escapeshellarg($new_password), $resarr);
                   $check_hook_output = "";
-                  if(count($resarr) > 0) {
-                      $check_hook_output= join('\n', $resarr);
+                  if (count($resarr) > 0) {
+                      $check_hook_output = join('\n', $resarr);
                   }
-                  if(!empty($check_hook_output)){
+                  if (!empty($check_hook_output)) {
                       $message[] = sprintf(_("Check-hook reported a problem: %s. Password change canceled!"),$check_hook_output);
                       msg_dialog::displayChecks($message);
                       return($smarty->fetch(get_template_path('password.tpl', TRUE)));
@@ -436,22 +447,22 @@ class userManagement extends management
   {
     $str = management::saveChanges();
 
-    if(!empty($str)) return($str);
+    if (!empty($str)) return($str);
 
-    if($this->last_tabObject instanceOf multi_plug){
-      foreach($this->last_tabObject->a_handles as $user){
-        if($user->password_change_needed()){
+    if ($this->last_tabObject instanceOf multi_plug) {
+      foreach($this->last_tabObject->a_handles as $user) {
+        if ($user->password_change_needed()) {
           $this->force_hash_type[$user->dn] = $user->by_object['user']->pw_storage;
           $this->pwd_change_queue[] = $user->dn;
         }
       }
-      return($this->handlePasswordQueue());
+      return $this->handlePasswordQueue();
     }
 
-    if(isset($this->last_tabObject->by_object['user']) && $this->last_tabObject->by_object['user']->password_change_needed()){
+    if (isset($this->last_tabObject->by_object['user']) && $this->last_tabObject->by_object['user']->password_change_needed()) {
       $this->force_hash_type[$this->last_tabObject->dn] = $this->last_tabObject->by_object['user']->pw_storage;
       $this->pwd_change_queue[] = $this->last_tabObject->dn;
-      return($this->handlePasswordQueue());
+      return $this->handlePasswordQueue();
     }
   }
 

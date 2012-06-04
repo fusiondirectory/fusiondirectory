@@ -20,14 +20,21 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \file class_supportDaemon.inc
+ * Source code for class supportDaemon
+ */
+
 require_once('jsonRPCClient.php');
 
-/*! \brief This class contains all the function needed by the argonaut
+/*!
+ * \brief This class contains all the function needed by the argonaut
  * deployment system
  */
 class supportDaemon
 {
   private $s_host       = "";
+  private $host_error   = "";
   private $config;
 
   private $s_error      = "";
@@ -35,8 +42,8 @@ class supportDaemon
 
   private $logdir       = "";
 
-  /*! \brief constructor
-   *
+  /*!
+   * \brief constructor
    */
   public function __construct()
   {
@@ -57,9 +64,8 @@ class supportDaemon
     }
   }
 
-  /*! \brief Load argonaut server config from argonaut service in ldap
-   *
-   *
+  /*!
+   * \brief Load argonaut server config from argonaut service in ldap
    */
   public function get_argonaut_host() {
     $ldap = $this->config->get_ldap_link();
@@ -68,17 +74,22 @@ class supportDaemon
     if ($ldap->count() == 1) {
       $ldap_infos = $ldap->fetch();
       return $ldap_infos['argonautProtocol'][0]."://".$ldap_infos['ipHostNumber'][0].":".$ldap_infos['argonautPort'][0];
+    } elseif ($ldap->count() > 1) {
+      $this->host_error = _("Multiple argonaut server found. Only one is supported");
+    } else {
+      $this->host_error = _("There is no argonaut server configured");
     }
     return "";
   }
 
-  /*! \brief Test if the argonaut server is available
+  /*!
+   * \brief Test if the argonaut server is available
    *
    * \return boolean TRUE if the server pings, FALSE otherwise
    */
   public function is_available() {
     if($this->s_host == "") {
-      $this->set_error("argonautServer not defined in config");
+      $this->set_error($this->host_error);
       return(FALSE);
     }
     try {
@@ -98,9 +109,10 @@ class supportDaemon
     }
   }
 
-  /*! \brief Allows simply appending a new DaemonEvent
+  /*!
+   * \brief Allows simply appending a new DaemonEvent
    *
-   * \param string 'event' The event to append.
+   * \param String $event The event to append.
    *
    * \return TRUE if correctly appended FALSE otherwise
    */
@@ -154,16 +166,23 @@ class supportDaemon
     return(FALSE);
   }
 
-  /*! \brief Allows simply append a call to a function
+  /*!
+   * \brief Allows simply append a call to a function
    *
-   * \param string 'action'   The action to call
-   * \param Array  'targets'  The concerned mac addresses
-   * \param Array  'data'     The data to send (timestamp, periodic and args, see Argonaut protocol)
+   * \param string $action    The action to call
+   *
+   * \param Array  $targets   The concerned mac addresses
+   *
+   * \param Array  $data      The data to send (timestamp, periodic and args, see Argonaut protocol)
    *
    * \return TRUE if correctly appended FALSE otherwise
    */
   public function append_call($action,$targets,$data)
   {
+    if ($this->s_host == "") {
+      $this->set_error($this->host_error);
+      return FALSE;
+    }
     /* Append an entry
     */
     try {
@@ -177,9 +196,10 @@ class supportDaemon
     return(TRUE);
   }
 
-  /*! \brief  Sets an error message, which can be returned with get_error().
+  /*!
+   * \brief  Sets an error message, which can be returned with get_error().
    *
-   * \param  string 'str' The Error message,
+   * \param  String $str The Error message,
    */
   private function set_error($str)
   {
@@ -188,8 +208,8 @@ class supportDaemon
   }
 
 
-  /*! \brief  Resets the error message.
-   *
+  /*!
+   * \brief  Resets the error message.
    */
   private function reset_error()
   {
@@ -198,7 +218,8 @@ class supportDaemon
   }
 
 
-  /*! \brief  Checks if an error occured.
+  /*!
+   * \brief  Checks if an error occured.
    *
    * \return boolean returns TRUE or FALSE, whether there is an error or not.
    */
@@ -208,9 +229,10 @@ class supportDaemon
   }
 
 
-  /*! \brief  Returns the last error.
+  /*!
+   * \brief  Returns the last error.
    *
-   *  \return string Returns the last error.
+   * \return string Returns the last error.
    */
   public function get_error()
   {
@@ -227,9 +249,10 @@ class supportDaemon
     return($ret);
   }
 
-  /*! \brief format queue entries
+  /*!
+   * \brief format queue entries
    *
-   * \param array 'entries' The entries to format
+   * \param array $entries The entries to format
    *
    * \return array The entries formatted
    */
@@ -262,12 +285,17 @@ class supportDaemon
   }
 
 
-  /*! \brief Returns an array containing all queued entries.
+  /*!
+   * \brief Returns an array containing all queued entries.
    *
    * \return array All queued entries as an array or FALSE if there is an error.
    */
   public function get_queued_entries() //$event_types = array("*"),$from=-1,$to=-1,$sort="timestamp DESC"
   {
+    if ($this->s_host == "") {
+      $this->set_error($this->host_error);
+      return FALSE;
+    }
     timezone::get_default_timezone();
     try {
       $client = new jsonRPCClient($this->s_host);
@@ -281,20 +309,22 @@ class supportDaemon
     return($entries);
   }
 
-  /*! \brief  Returns an entry containing all requested ids.
+  /*!
+   * \brief  Returns an entry containing all requested ids.
    *
-   *  \param array 'ids' The IDs of the entries we want to return.
+   * \param array $ids The IDs of the entries we want to return.
    *
-   *  \return array  Array of the requested entries.
+   * \return array  Array of the requested entries.
   */
   public function get_entries_by_id($ids)
   {
     return $this->get_entries("get_entries_by_id",$ids);
   }
 
-  /*! \brief  Removes a set of entries from the argonaut queue.
+  /*!
+   * \brief  Removes a set of entries from the argonaut queue.
    *
-   * \param array 'ids' The IDs to remove.
+   * \param array $ids The IDs to remove.
    *
    * \return boolean TRUE on success FALSE otherwise.
    */
@@ -303,6 +333,10 @@ class supportDaemon
     if(!is_array($ids)){
       trigger_error("Requires an array as parameter.");
       return;
+    }
+    if ($this->s_host == "") {
+      $this->set_error($this->host_error);
+      return FALSE;
     }
 
     try {
@@ -316,9 +350,10 @@ class supportDaemon
     return(TRUE);
   }
 
-  /*! \brief Removes an entry from the argonaut queue.
+  /*!
+   * \brief Removes an entry from the argonaut queue.
    *
-   * \param integer 'id' The ID of the entry we want to remove.
+   * \param integer $id The ID of the entry we want to remove.
    *
    * \return Boolean TRUE on success.
   */
@@ -327,9 +362,10 @@ class supportDaemon
     return($this->remove_entries(array($id)));
   }
 
-  /*! \brief Returns an entry from the argonaut queue
+  /*!
+   * \brief Returns an entry from the argonaut queue
    *
-   * \param integer 'id' The ID of the entry we want to return.
+   * \param integer $id The ID of the entry we want to return.
    *
    * \return array  array of the requested entry.
   */
@@ -338,10 +374,12 @@ class supportDaemon
     return $this->get_entries_by_id(array($id));
   }
 
-  /*! \brief  Updates an entry with a set of new values,
+  /*!
+   * \brief  Updates an entry with a set of new values,
    *
-   * \param  integer 'ids' The ID of the entry, we want to update.
-   * \param  array 'data'  The variables to update.
+   * \param  integer $ids The ID of the entry, we want to update.
+   *
+   * \param  array $data  The variables to update.
    *
    * \return boolean Returns TRUE on success.
   */
@@ -360,9 +398,10 @@ class supportDaemon
     // won't be implemented
   }
 
-  /*! \brief  Ask argonaut to process a set of entries now
+  /*!
+   * \brief  Ask argonaut to process a set of entries now
    *
-   * \param  array 'ids'  The ids of the entries to process immediatly
+   * \param  array $ids  The ids of the entries to process immediatly
    *
    * \return boolean Returns TRUE on success FALSE otherwise.
   */
@@ -371,6 +410,10 @@ class supportDaemon
     if(!is_array($ids)){
       trigger_error("Requires an array as first parameter.");
       return;
+    }
+    if ($this->s_host == "") {
+      $this->set_error($this->host_error);
+      return FALSE;
     }
 
     try {
@@ -384,9 +427,10 @@ class supportDaemon
     }
   }
 
-  /*! \brief Check if a workstation is currently installing
+  /*!
+   * \brief Check if a workstation is currently installing
    *
-   * \param  string 'mac' The mac address of the workstation
+   * \param  string $mac The mac address of the workstation
    *
    * \return boolean Returns TRUE if currently installing FALSE otherwise.
    */
@@ -406,9 +450,10 @@ class supportDaemon
     return(FALSE);
   }
 
-  /*! \brief  Returns an array containing all entries concerning the macs passed.
+  /*!
+   * \brief  Returns an array containing all entries concerning the macs passed.
    *
-   * \param array 'macs'  The mac addresses of the workstations for which we want entries.
+   * \param array $macs  The mac addresses of the workstations for which we want entries.
    *
    * \return array  The entries for the requested mac addresses.
    */
@@ -416,10 +461,12 @@ class supportDaemon
     return $this->get_entries("get_entries_by_mac",$macs);
   }
 
-  /*! \brief  Get entries from argonaut server with given function and format entries before to return them
+  /*!
+   * \brief  Get entries from argonaut server with given function and format entries before to return them
    *
-   * \param function 'func'  The JSONRPC method to use for retrieving addresses
-   * \param array 'address'  The mac addresses or ids of the entries we want.
+   * \param function $func  The JSONRPC method to use for retrieving addresses
+   *
+   * \param array $address  The mac addresses or ids of the entries we want.
    *
    * \return Array   The entries for the requested addresses.
    */
@@ -427,6 +474,10 @@ class supportDaemon
     if(!is_array($address)){
       trigger_error("Requires an array as parameter.");
       return;
+    }
+    if ($this->s_host == "") {
+      $this->set_error($this->host_error);
+      return FALSE;
     }
 
     try {
@@ -441,9 +492,11 @@ class supportDaemon
     }
   }
 
-  /*! \brief  Returns log file informations for a given mac address
+  /*!
+   * \brief  Returns log file informations for a given mac address
    *
-   * \param  string 'mac' The mac address to fetch logs for.
+   * \param  string $mac The mac address to fetch logs for.
+   *
    * \return Array A Multidimensional array containing log infos.
    *
    * \code
@@ -484,12 +537,15 @@ class supportDaemon
     return array($mac=>$ret);
   }
 
-  /*! \brief  Get a precise log file on a certain date for a mac address
+  /*!
+   * \brief  Get a precise log file on a certain date for a mac address
    *
-   * \param string 'mac' The mac address to fetch logs for.
-   * \param string 'date' The date for the log to fetch.
-   * \param string 'file' The log filename.
-   *      *
+   * \param string $mac The mac address to fetch logs for.
+   *
+   * \param string $date The date for the log to fetch.
+   *
+   * \param string $file The log filename.
+   *
    */
   public function get_log_file($mac,$date,$file)
   {
@@ -500,13 +556,18 @@ class supportDaemon
     }
   }
 
-  /*! \brief  Returns true if an argonaut daemon is running on the pc
+  /*!
+   * \brief  Returns true if an argonaut daemon is running on the pc
    *
-   * \param string 'mac' The mac address to ping
+   * \param string $mac The mac address to ping
    *
    * \return boolean TRUE if the workstation is running an argonaut daemon
   */
   public function ping($mac) {
+    if ($this->s_host == "") {
+      $this->set_error($this->host_error);
+      return FALSE;
+    }
     try {
       $client = new jsonRPCClient($this->s_host);
       $this->reset_error();
@@ -517,19 +578,29 @@ class supportDaemon
     }
   }
 
-  /*! \brief  Get packages list for the given release
+  /*!
+   * \brief  Get packages list for the given release
    *
-   * \param string  'release' The release we want the packages of. If empty all releases are used.
-   * \param array   'attrs'   The attributes we want for each packages.
+   * \param string  $release The release we want the packages of. If empty all releases are used.
+   *
+   * \param array   $attrs   The attributes we want for each packages.
    * (all attributes from Packages file can put, plus version, distribution, has_template and templace)
-   * \param array   'filters' The filters we want to use. An or is performed between array cases.
-   * \param integer 'from'    The indice of the package we want to start from
-   * \param integer 'stop'    The indice of the package we want to stop to.
-   * \param boolean 'package_list'    True if filters is an array of package names that needs exact matching, false if it is an array of perl regexp
+   *
+   * \param array   $filters The filters we want to use. An or is performed between array cases.
+   *
+   * \param integer $from    The indice of the package we want to start from
+   *
+   * \param integer $to    The indice of the package we want to stop to.
+   *
+   * \param boolean $package_list    True if filters is an array of package names that needs exact matching, false if it is an array of perl regexp
    *
    * \return Array   List of packages that fit the given parameters.
   */
   public function FAI_get_packages($release,$attrs,$filters,$from=-1,$to=-1,$package_list=false) {
+    if ($this->s_host == "") {
+      $this->set_error($this->host_error);
+      return array();
+    }
     if($package_list) { // filters is a package name list
       foreach ($filters as &$filter) {
         $filter = "^".$this->escape_perl_chars($filter)."$";
@@ -565,9 +636,10 @@ class supportDaemon
     }
   }
 
-  /*! \brief Escape perl regexp special chars
+  /*!
+   * \brief Escape perl regexp special chars
    *
-   * \param string The string that needs escaping
+   * \param string $str The string that needs escaping
    *
    * \return string Escaped string
   */
@@ -577,7 +649,8 @@ class supportDaemon
     return preg_replace($patterns,$escaped,$str);
   }
 
-  /*! \brief Get all configured repository servers
+  /*!
+   * \brief Get all configured repository servers
    *
    * \return array All configured repository servers
   */
@@ -608,9 +681,10 @@ class supportDaemon
     return $repos;
   }
 
-  /*! \brief Get all configured customs repository servers for a given release
+  /*!
+   * \brief Get all configured customs repository servers for a given release
    *
-   * \param string The release concerned
+   * \param string $release The release concerned
    *
    * \return array All configured customs repository servers for the given release
   */
@@ -630,7 +704,7 @@ class supportDaemon
 
   /*! \brief  Get available kernels packages
    *
-   * \param string 'release' The release we want kernels of
+   * \param string $release The release we want kernels of
    *
    * \return array  All kernel packages for the given release
   */
@@ -643,9 +717,10 @@ class supportDaemon
     return $kernels;
   }
 
-  /*! \brief  Get available profiles
+  /*!
+   * \brief  Get available profiles
    *
-   * \param string 'release' The release we want profiles for
+   * \param string $release The release we want profiles for
    *
    * \return array All FAI profiles for the given release
   */
@@ -663,16 +738,23 @@ class supportDaemon
     return $res;
   }
 
-  /*! \brief Manage services
+  /*!
+   * \brief Manage services
    *
-   * \param string 'mac' The mac correspind to the host action
-   * \param string 'service' The service to be managed
-   * \param string 'action' The action to be done on the service
+   * \param string $mac The mac correspind to the host action
+   *
+   * \param string $service The service to be managed
+   *
+   * \param string $action The action to be done on the service
    *
    * \return status or FALSE if there is an error
   */
   public function manage_service($mac,$service,$action)
   {
+    if ($this->s_host == "") {
+      $this->set_error($this->host_error);
+      return FALSE;
+    }
     try {
       $client = new jsonRPCClient($this->s_host);
       $this->reset_error();
@@ -684,14 +766,19 @@ class supportDaemon
     }
   }
 
-  /*! \brief Clean queue
+  /*!
+   * \brief Clean queue
    *
-   * \param array 'mac' The macs that have to be removed from the queue
+   * \param array $mac The macs that have to be removed from the queue
    *
    * \return TRUE if success or FALSE otherwise
   */
   public function clean_queue_from_mac($mac)
   {
+    if ($this->s_host == "") {
+      $this->set_error($this->host_error);
+      return FALSE;
+    }
     try {
       $client = new jsonRPCClient($this->s_host);
       $this->reset_error();

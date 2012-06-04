@@ -20,8 +20,35 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \file class_filterLDAP.inc
+ * Source code for class filterLDAP
+ */
+
+ /*!
+  * \brief This class contains all the function to manage LDAP filter
+  *
+  * \see filter
+  */ 
 class filterLDAP {
 
+  /*!
+   * \brief Query
+   *
+   * \param string $parent
+   *
+   * \param string $base
+   *
+   * \param string $scope
+   *
+   * \param string $filter
+   *
+   * \param array $attributes
+   *
+   * \param string $category
+   *
+   * \param array $objectStorage
+   */ 
   static function query($parent,$base, $scope, $filter, $attributes, $category, $objectStorage= array(""))
   {
     $config= session::global_get('config');
@@ -31,7 +58,23 @@ class filterLDAP {
     return $result;
   }
 
-
+  /*!
+   * \brief Get list
+   *
+   * \param string $parent
+   *
+   * \param string $base
+   *
+   * \param string $filter
+   *
+   * \param array $attributes
+   *
+   * \param string $category
+   *
+   * \param array $objectStorage
+   *
+   * \param flag $flags GL_SUBSEARCH
+   */ 
   static function get_list($parent,$base, $filter, $attributes, $category, $objectStorage, $flags= GL_SUBSEARCH)
   {
     $ui= session::global_get('ui');

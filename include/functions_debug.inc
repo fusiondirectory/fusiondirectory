@@ -1,44 +1,40 @@
 <?php
-/************************************************
-** Title.........: Debug Lib
-** Version.......: 0.5.4
-** Author........: Thomas Schüßler <tulpe@atomar.de>
-** Filename......: debuglib.php(s)
-** Last changed..: 16. July 2003
-** License.......: Free to use. Postcardware ;)
-**
-*************************************************
-**
-** Functions in this library:
-**
-** print_a( array array [,int mode] )
-**   prints arrays in a readable, understandable form.
-**   if mode is defined the function returns the output instead of
-**   printing it to the browser
-**
-**
-** show_vars([int mode])
-**   use this function on the bottom of your script to see all
-**   superglobals and global variables in your script in a nice
-**   formated way
-**
-**   show_vars() without parameter shows $_GET, $_POST, $_SESSION,
-**   $_FILES and all global variables you've defined in your script
-**
-**   show_vars(1) shows $_SERVER and $_ENV in addition
-**
-**
-**
-** Happy debugging and feel free to email me your comments.
-**
-**
-**
-** History: (starting with version 0.5.3 at 2003-02-24)
-**
-**   - added tooltips to the td's showing the type of keys and values (thanks Itomic)
-** 2003-07-16
-**   - pre() function now trims trailing tabs
-************************************************/
+
+/*----------------------------------------------------------------------
+* Title.........: Debug Lib
+* Version.......: 0.5.4
+* Author........: Thomas Schüßler <tulpe@atomar.de>
+* Filename......: debuglib.php(s)
+* Last changed..: 16. July 2003
+* License.......: Free to use. Postcardware ;)
+*
+*-----------------------------------------------------------------------
+* 
+* Functions in this library:
+*
+* print_a( array array [,int mode] )
+*   prints arrays in a readable, understandable form.
+*   if mode is defined the function returns the output instead of
+*   printing it to the browser
+*
+* show_vars([int mode])
+*   use this function on the bottom of your script to see all
+*   superglobals and global variables in your script in a nice
+*   formated way
+*
+*   show_vars() without parameter shows $_GET, $_POST, $_SESSION,
+*   $_FILES and all global variables you've defined in your script
+*
+*   show_vars(1) shows $_SERVER and $_ENV in addition
+*
+* Happy debugging and feel free to email me your comments.
+*
+* History: (starting with version 0.5.3 at 2003-02-24)
+*
+*   - added tooltips to the td's showing the type of keys and values (thanks Itomic)
+* 2003-07-16
+*   - pre() function now trims trailing tabs
+----------------------------------------------------------------------*/
 
 
 # This file must be the first include on your page.
@@ -49,15 +45,20 @@
   @$GLOBALS_initial_count = count($GLOBALS);
 }
 
-/************************************************
-** print_a class and helper function
-** prints out an array in a more readable way
-** than print_r()
-**
-** based on the print_a() function from
-** Stephan Pirson (Saibot)
-************************************************/
+/*!
+ * \file functions_debug.inc
+ * Source code for print_a class
+ * and helper function
+ */ 
 
+/*!
+ * \brief print_a class and helper function
+ * prints out an array in a more readable way
+ * than print_r()
+ *
+ * based on the print_a() function from
+ * Stephan Pirson (Saibot)
+ */
 class Print_a_class {
 
   # this can be changed to FALSE if you don't like the fancy string formatting
@@ -78,30 +79,39 @@ class Print_a_class {
   # print htmlspecialchars( stripslashes ( $_POST['array'] ) );
   var $export_hash;
 
+  /*!
+   * \brief Print_a_class constructor
+   */ 
   function Print_a_class() {
     $this->export_hash = uniqid('');
   }
 
-  # recursive function!
+
+  /*!
+   *  recursive function!
+   * if print_a() was called with a fourth parameter (1 or 2)
+   * and you click on the table a window opens with only the output of print_a() in it
+   * 1 = serialized array
+   * 2 = normal print_a() display
+   *
+   * put the following code on the page defined with $export_dumper_path;
+   * --->%---- snip --->%----
+   * if($_GET['mode'] == 1) {
+   *  print htmlspecialchars( stripslashes ( $_POST['array'] ) );
+   * } elseif($_GET['mode'] == 2) {
+   *  print_a(unserialize( stripslashes($_POST['array'])) );
+   * }
+   * ---%<---- snip ---%<----
+   *
+   *
+   * \param array $array
+   *
+   * \param boolean $iteration false
+   *
+   * \param boolean $key_bg_colo false
+   */
   function print_a($array, $iteration = FALSE, $key_bg_color = FALSE) {
     $key_bg_color or $key_bg_color = $this->key_bg_color;
-
-      # if print_a() was called with a fourth parameter (1 or 2)
-      # and you click on the table a window opens with only the output of print_a() in it
-      # 1 = serialized array
-      # 2 = normal print_a() display
-
-      /* put the following code on the page defined with $export_dumper_path;
-      --->%---- snip --->%----
-
-        if($_GET['mode'] == 1) {
-          print htmlspecialchars( stripslashes ( $_POST['array'] ) );
-        } elseif($_GET['mode'] == 2) {
-          print_a(unserialize( stripslashes($_POST['array'])) );
-        }
-
-      ---%<---- snip ---%<----
-      */
 
     if( !$iteration && isset($this->export_flag) ) {
       $this->output .= '<form id="pa_form_'.$this->export_hash.'" action="'.$this->export_dumper_path.'?mode='.$this->export_flag.'" method="post" target="_blank"><input name="array" type="hidden" value="'.htmlspecialchars( serialize( $array ) ).'"></form>';
@@ -198,7 +208,17 @@ class Print_a_class {
   }
 }
 
-# helper function.. calls print_a() inside the print_a_class
+/*
+ * \brief helper function.. calls print_a() inside the print_a_class
+ *
+ * \param array $array
+ *
+ * \param boolean $return_mode false
+ *
+ * \param boolean $show_object_vars false
+ *
+ * \param boolean $export_flag false
+ */
 function print_a( $array, $return_mode = FALSE, $show_object_vars = FALSE, $export_flag = FALSE ) {
   $e= error_reporting (0);
   if( is_array( $array ) or is_object( $array ) ) {
@@ -241,6 +261,9 @@ function _script_globals() {
   return $script_GLOBALS;
 }
 
+/*!
+ * \brief Show the runtime
+ */ 
 function show_runtime() {
   $MICROTIME_END    = microtime();
   $MICROTIME_START  = explode(' ', $GLOBALS['MICROTIME_START']);
@@ -253,12 +276,12 @@ function show_runtime() {
 }
 
 
-######################
-# function shows all superglobals and script defined global variables
-# show_vars() without the first parameter shows all superglobals except $_ENV and $_SERVER
-# show_vars(1) shows all
-# show_vars(,1) shows object properties in addition
-#
+/*!
+ * \brief function shows all superglobals and script defined global variables
+ * show_vars() without the first parameter shows all superglobals except $_ENV and $_SERVER
+ * show_vars(1) shows all
+ * show_vars(,1) shows object properties in addition
+ */
 function show_vars($show_all_vars = FALSE, $show_object_vars = FALSE) {
   if(isset($GLOBALS['no_vars'])) return;
 
@@ -305,9 +328,13 @@ function show_vars($show_all_vars = FALSE, $show_object_vars = FALSE) {
 }
 
 
-######################
-# function prints sql strings
-#
+/*!
+ * \brief Prints sql strings
+ *
+ * \param string $sql_string
+ *
+ * \param boolean $simple_mode FALSE
+ */ 
 function pre($sql_string, $simple_mode = FALSE) {
 
   if(!$simple_mode) {

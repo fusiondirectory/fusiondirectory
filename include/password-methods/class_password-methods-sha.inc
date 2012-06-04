@@ -20,15 +20,31 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This class contains all the functions for sha password methods
- *
+/*
+ * \file class_pasword-methods-sha.inc
+ * Source code for class passwordMethodsha
+ */ 
+
+/*!
+ * \brief This class contains all the functions for sha password methods
+ * \see passwordMethod
  */
 class passwordMethodsha extends passwordMethod
 {
+  /*!
+   * \brief passwordMethodsha Constructor
+   *
+   * \param string $config
+   */ 
   function passwordMethodsha($config)
   {
   }
-
+  
+  /*!
+   * \brief Is available
+   *
+   * \return TRUE if is avaibable, otherwise return false
+   */
   function is_available()
   {
     if (function_exists('sha1')){
@@ -40,7 +56,11 @@ class passwordMethodsha extends passwordMethod
     }
   }
 
-
+  /*!
+   * \brief Generate template hash
+   *
+   * \param string $password Password
+   */ 
   function generate_hash($password)
   {
     if (function_exists('sha1')) {
@@ -55,7 +75,9 @@ class passwordMethodsha extends passwordMethod
     return $hash; 
   }
 
-
+  /*!
+   * \brief Get the hash name
+   */ 
   function get_hash_name()
   {
     return "sha";

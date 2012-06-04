@@ -20,9 +20,14 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This class contains all the function needed to manage various
+/*!
+ * \file class_management.inc
+ * Source code for the class management
+ */
+
+/*! 
+ * \brief This class contains all the function needed to manage various
  * functions like new,save, edit, apply, cut/copy/paste , snapshot etc...
- *
  */
 class management
 {
@@ -125,7 +130,8 @@ class management
     $this->registerAction("cancelSnapshot","closeDialogs");
   }
 
-  /*! \brief  Execute this plugin
+  /*! 
+   * \brief  Execute this plugin
    *          Handle actions/events, locking, snapshots, dialogs, tabs,...
    */
   function execute()
@@ -206,7 +212,8 @@ class management
     return($this->filter);
   }
 
-  /*! \brief  Generates the plugin header which is displayed whenever a tab object is
+  /*! 
+   * \brief  Generates the plugin header which is displayed whenever a tab object is
    *           opened.
    */
   protected function getHeader()
@@ -224,7 +231,8 @@ class management
   }
 
 
-  /*! \brief  Generates the footer which is used whenever a tab object is
+  /*! 
+   * \brief  Generates the footer which is used whenever a tab object is
    *           displayed.
    */
   protected function _getTabFooter()
@@ -269,12 +277,15 @@ class management
   }
 
 
-  /*! \brief  Initiates the removal for the given entries
+  /*! 
+   * \brief  Initiates the removal for the given entries
    *           and displays a confirmation dialog.
    *
-   *  @param  String  'action'  The name of the action which was the used as trigger.
-   *  @param  Array   'target'  A list of object dns, which should be affected by this method.
-   *  @param  Array   'all'     A combination of both 'action' and 'target'.
+   * \param  String  $action  The name of the action which was the used as trigger.
+   *  
+   * \param  Array   $target  A list of object dns, which should be affected by this method.
+   * 
+   * \param  Array   $all     A combination of both 'action' and 'target'.
    */
   protected function removeEntryRequested($action="",$target=array(),$all=array())
   {
@@ -320,11 +331,20 @@ class management
   }
 
 
-  /*! \brief  Object removal was confirmed, now remove the requested entries.
+  /*! 
+   * \brief  Object removal was confirmed, now remove the requested entries.
    *
-   *  @param  String  'action'  The name of the action which was the used as trigger.
-   *  @param  Array   'target'  A list of object dns, which should be affected by this method.
-   *  @param  Array   'all'     A combination of both 'action' and 'target'.
+   * \param  String  $action  The name of the action which was the used as trigger.
+   *  
+   * \param  Array   $target  A list of object dns, which should be affected by this method.
+   * 
+   * \param  Array   $all     A combination of both 'action' and 'target'.
+   * 
+   * \param String $altTabClass Empty string.
+   * 
+   * \param String $altTabType Empty string.
+   * 
+   * \param String $altAclCategory Empty string.
    */
   function removeEntryConfirmed($action="",$target=array(),$all=array(),
       $altTabClass="",$altTabType="",$altAclCategory="")
@@ -365,7 +385,8 @@ class management
   }
 
 
-  /*! \brief  Detects actions/events send by the ui
+  /*! 
+   * \brief  Detects actions/events send by the ui
    *           and the corresponding targets.
    */
   function detectPostActions()
@@ -399,7 +420,8 @@ class management
   }
 
 
-  /*! \brief  Calls the registered method for a given action/event.
+  /*!
+   *  \brief  Calls the registered method for a given action/event.
    */
   function handleActions($action)
   {
@@ -412,11 +434,14 @@ class management
   }
 
 
-  /*! \brief  Opens the snapshot creation dialog for the given target.
+  /*! 
+   * \brief  Opens the snapshot creation dialog for the given target.
    *
-   *  @param  String  'action'  The name of the action which was the used as trigger.
-   *  @param  Array   'target'  A list of object dns, which should be affected by this method.
-   *  @param  Array   'all'     A combination of both 'action' and 'target'.
+   * \param  String  $action  The name of the action which was the used as trigger.
+   * 
+   * \param  Array   $target  A list of object dns, which should be affected by this method.
+   * 
+   * \param  Array   $all     A combination of both 'action' and 'target'.
    */
   function createSnapshotDialog($action="",$target=array(),$all=array())
   {
@@ -436,12 +461,15 @@ class management
   }
 
 
-  /*! \brief  Creates a snapshot new entry - This method is called when the somebody
-   *           clicks 'save' in the "Create snapshot dialog" (see ::createSnapshotDialog).
+  /*! 
+   * \brief  Creates a snapshot new entry - This method is called when the somebody
+   *           clicks 'save' in the "Create snapshot dialog" (see management::createSnapshotDialog).
    *
-   *  @param  String  'action'  The name of the action which was the used as trigger.
-   *  @param  Array   'target'  A list of object dns, which should be affected by this method.
-   *  @param  Array   'all'     A combination of both 'action' and 'target'.
+   *  \param  String  $action  The name of the action which was the used as trigger.
+   * 
+   *  \param  Array   $target  A list of object dns, which should be affected by this method.
+   * 
+   *  \param  Array   $all     A combination of both 'action' and 'target'.
    */
   function saveSnapshot($action="",$target=array(),$all=array())
   {
@@ -461,12 +489,15 @@ class management
   }
 
 
-  /*! \brief  Restores a snapshot object.
-   *          The dn of the snapshot entry has to be given as ['target'] parameter.
+  /*!
+   * \brief  Restores a snapshot object.
+   *         The dn of the snapshot entry has to be given as ['target'] parameter.
    *
-   *  @param  String  'action'  The name of the action which was the used as trigger.
-   *  @param  Array   'target'  A list of object dns, which should be affected by this method.
-   *  @param  Array   'all'     A combination of both 'action' and 'target'.
+   * \param  String  $action  The name of the action which was the used as trigger.
+   * 
+   * \param  Array   $target  A list of object dns, which should be affected by this method.
+   * 
+   * \param  Array   $all     A combination of both 'action' and 'target'.
    */
   function restoreSnapshot($action="",$target=array(),$all=array())
   {
@@ -482,12 +513,15 @@ class management
   }
 
 
-  /*! \brief  Displays the "Restore snapshot dialog" for a given target.
+  /*! 
+   * \brief  Displays the "Restore snapshot dialog" for a given target.
    *          If no target is specified, open the restore removed object
    *           dialog.
-   *  @param  String  'action'  The name of the action which was the used as trigger.
-   *  @param  Array   'target'  A list of object dns, which should be affected by this method.
-   *  @param  Array   'all'     A combination of both 'action' and 'target'.
+   * \param  String  $action  The name of the action which was the used as trigger.
+   * 
+   * \param  Array   $target  A list of object dns, which should be affected by this method.
+   * 
+   * \param  Array   $all'     A combination of both 'action' and 'target'.
    */
   function restoreSnapshotDialog($action="",$target=array(),$all=array())
   {
@@ -534,11 +568,20 @@ class management
   }
 
 
-  /*! \brief  This method intiates the object creation.
+  /*!
+   * \brief  This method intiates the object creation.
    *
-   *  @param  String  'action'  The name of the action which was the used as trigger.
-   *  @param  Array   'target'  A list of object dns, which should be affected by this method.
-   *  @param  Array   'all'     A combination of both 'action' and 'target'.
+   * \param  String  $action  The name of the action which was the used as trigger.
+   *
+   * \param  Array   $target  A list of object dns, which should be affected by this method.
+   *
+   * \param  Array   $all     A combination of both 'action' and 'target'.
+   * 
+   * \param String $altTabClass Empty string.
+   * 
+   * \param String $altTabType Empty string.
+   * 
+   * \param String $altAclCategory Empty string.
    */
   function newEntry($action="",$target=array(),$all=array(), $altTabClass ="", $altTabType = "", $altAclCategory="")
   {
@@ -592,12 +635,20 @@ class management
   }
 
 
-  /*! \brief  This method opens an existing object or a list of existing objects to be edited.
+  /*! 
+   * \brief  This method opens an existing object or a list of existing objects to be edited.
    *
-   *
-   *  @param  String  'action'  The name of the action which was the used as trigger.
-   *  @param  Array   'target'  A list of object dns, which should be affected by this method.
-   *  @param  Array   'all'     A combination of both 'action' and 'target'.
+   * \param  String  $action  The name of the action which was the used as trigger.
+   * 
+   * \param  Array   $target  A list of object dns, which should be affected by this method.
+   * 
+   * \param  Array   $all     A combination of both 'action' and 'target'.
+   * 
+   * \param String $altTabClass Empty string.
+   * 
+   * \param String $altTabType Empty string.
+   * 
+   * \param String $altAclCategory Empty string.
    */
   function editEntry($action="",$target=array(),$all=array(), $altTabClass ="", $altTabType = "", $altAclCategory="")
   {
@@ -693,11 +744,12 @@ class management
   }
 
 
-  /*! \brief  Save object modifications and closes dialogs (returns to object listing).
-   *          - Calls '::check' to validate the given input.
-   *          - Calls '::save' to save back object modifications (e.g. to ldap).
-   *          - Calls '::remove_locks' to remove eventually created locks.
-   *          - Calls '::closeDialogs' to return to the object listing.
+  /*! 
+   * \brief  Save object modifications and closes dialogs (returns to object listing).
+   *          - Calls 'ldap::check' to validate the given input.
+   *          - Calls 'ldap::save' to save back object modifications (e.g. to ldap).
+   *          - Calls 'management::remove_locks' to remove eventually created locks.
+   *          - Calls 'management::closeDialogs' to return to the object listing.
    */
   protected function saveChanges()
   {
@@ -729,9 +781,10 @@ class management
   }
 
 
-  /*! \brief  Save object modifications and keep dialogs opened.
-   *          - Calls '::check' to validate the given input.
-   *          - Calls '::save' to save back object modifications (e.g. to ldap).
+  /*!
+   *  \brief  Save object modifications and keep dialogs opened.
+   *          - Calls 'ldap::check' to validate the given input.
+   *          - Calls 'ldap::save' to save back object modifications (e.g. to ldap).
    */
   protected function applyChanges()
   {
@@ -750,8 +803,9 @@ class management
   }
 
 
-  /*! \brief  This method closes dialogs
-   *           and cleans up the cached object info and the ui.
+  /*!
+   * \brief  This method closes dialogs
+   *          and cleans up the cached object info and the ui.
    */
   protected function closeDialogs()
   {
@@ -768,7 +822,8 @@ class management
   }
 
 
-  /*! \brief  Editing an object was caneled.
+  /*!
+   * \brief  Editing an object was caneled.
    *          Close dialogs/tabs and remove locks.
    */
   protected function cancelEdit()
@@ -778,11 +833,12 @@ class management
   }
 
 
-  /*! \brief  Every click in the list user interface sends an event
-   *           here can we connect those events to a method.
-   *          eg.  ::registerEvent('new','createUser')
+  /*!
+   *  \brief  Every click in the list user interface sends an event
+   *          here can we connect those events to a method.
+   *          eg. see management::registerEvent('new','createUser')
    *          When the action/event new is send, the method 'createUser'
-   *           will be called.
+   *          will be called.
    */
   function registerAction($action,$target)
   {
@@ -790,10 +846,11 @@ class management
   }
 
 
-  /*! \brief  Removes ldap object locks created by this class.
-   *          Whenever an object is edited, we create locks to avoid
-   *           concurrent modifications.
-   *          This locks will automatically removed here.
+  /*! 
+   * \brief  Removes ldap object locks created by this class.
+   *         Whenever an object is edited, we create locks to avoid
+   *         concurrent modifications.
+   *         This locks will automatically removed here.
    */
   function remove_lock()
   {
@@ -806,11 +863,23 @@ class management
   }
 
 
-  /*! \brief  This method is used to queue and process copy&paste actions.
-   *          Allows to copy, cut and paste mutliple entries at once.
-   *  @param  String  'action'  The name of the action which was the used as trigger.
-   *  @param  Array   'target'  A list of object dns, which should be affected by this method.
-   *  @param  Array   'all'     A combination of both 'action' and 'target'.
+  /*! 
+   * \brief  This method is used to queue and process copy&paste actions.
+   *         Allows to copy, cut and paste mutliple entries at once.
+   * 
+   * \param String $action The name of the action which was the used as trigger.
+   * 
+   * \param Array $target A list of object dns, which should be affected by this method.
+   * 
+   * \param Array $all A combination of both 'action' and 'target'.
+   * 
+   * \param String $altTabClass Empty string.
+   * 
+   * \param $altTabType Empty string.
+   * 
+   * \param $altAclCategory Empty string.
+   * 
+   * \param $altAclPlugin Empty string.
    */
   function copyPasteHandler($action="",$target=array(),$all=array(),
       $altTabClass ="", $altTabType = "", $altAclCategory="",$altAclPlugin="")
@@ -866,7 +935,11 @@ class management
     return("");
   }
 
-
+  /*!
+   * \brief Set a new filter
+   * 
+   * \param string $str The new filter
+   */ 
   function setFilter($str) {
     $this->filter = $str;
   }
@@ -886,7 +959,8 @@ class management
       return(is_object($this->tabObject) || is_object($this->dialogObject));
   }
 
-  /*! \brief    Forward command execution request
+  /*!
+   * \brief    Forward command execution request
    *             to the correct method.
    */
   function handle_post_events($mode, $addAttrs= array())
@@ -911,5 +985,5 @@ class management
   }
 }
 
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
+// vism:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

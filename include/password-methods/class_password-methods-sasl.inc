@@ -19,47 +19,89 @@
   Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class passwordMethodsasl extends passwordMethod {
-  var $uid    = "";
-  var $realm  = "";
+/*!
+ * \file class_password-methods-sasl.inc
+ * Source code for class passwordMethodsasl
+ */
 
+/*!
+ * \brief This class contains all the functions for sasl password methods
+ * \see passwordMethod
+ */
+class passwordMethodsasl extends passwordMethod {
+  var $uid    = ""; // uid, or exop specified field value
+  var $realm  = "";
+  var $exop   = "";
+
+  /*!
+   * \brief passwordMethodsasl Constructor
+   *
+   * \param string $config
+   *
+   * \param string $dn The DN
+   */ 
   function __construct($config, $dn="")
   {
     if ($dn == "" || $dn == "new") {
       return;
     }
 
-    $this->realm = trim($config->get_cfg_value('SASLRealm'));
-    if ($this->realm == "") {
-      trigger_error(msgPool::cmdnotfound("SASLRealm", _("SASL")));
+    $this->realm  = trim($config->get_cfg_value('saslRealm',""));
+    $this->exop   = trim($config->get_cfg_value('saslExop',""));
+    if (empty($this->realm) && empty($this->exop)) {
+      msg_dialog::display(_("Error"), msgPool::cmdnotfound("saslRealm or saslExop", _("SASL")), ERROR_DIALOG);
     }
+
+    $attr = (empty($this->exop)?'uid':$this->exop);
 
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
-    $ldap->cat($dn, array('uid'));
+    $ldap->cat($dn, array($attr));
     if ($ldap->count() == 1) {
       $attrs = $ldap->fetch();
-      $this->uid = $attrs['uid'][0];
+      $this->uid = $attrs[$attr][0];
     } else {
-      trigger_error("Cannot change password, unknown user '".$dn."'");
+      msg_dialog::display(_("Error"), sprintf(_("Cannot change password, unknown user '%s'"),$dn), ERROR_DIALOG);
     }
   }
 
+  /*!
+   * \brief Is available
+   *
+   * \return TRUE if is avaibable
+   */ 
   function is_available()
   {
     return TRUE;
   }
 
+  /*!
+   * \brief Generate template hash
+   *
+   * \param string $pwd Password
+   */
   function generate_hash($pwd)
   {
-    return "{SASL}".$this->uid."@".$this->realm;
+    if (empty($this->exop)) {
+      return "{SASL}".$this->uid."@".$this->realm;
+    } else {
+      return "{SASL}".$this->uid; // may not be the uid, see saslExop option
+    }
   }
-
+  
+  /*!
+   * \brief Get the hash name
+   */ 
   function get_hash_name()
   {
     return "sasl";
   }
 
+  /*!
+   * \brief Password needed
+   * 
+   * \return boolean FALSE
+   */ 
   function need_password()
   {
     return FALSE;

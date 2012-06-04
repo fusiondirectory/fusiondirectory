@@ -3,10 +3,10 @@
 <h2>{t}Restoring object snapshots{/t}</h2>
 <p class="seperator">&nbsp;</p>
 <br>
-{t}This procedure will restore a snapshot of the selected object. It will replace the existing object after pressing the restore button.{/t}
+{t}This procedure will restore a snapshot of the selected object. It will replace the existing object after pressing the folder icon.{/t}
 <br>
 <br>
-{t}Remember that DNS configuration and database entries could not be restored. For some objects it is only nescessary to open and save them again (goFon), but some entries must be recreated manually (glpi).{/t}
+{t}Remember that DNS configuration and database entries could not be restored. For some objects it is only necessary to open and save them again (goFon), but some entries must be recreated manually.{/t}
 <br>
 <br>
 {t}Don't forget to check references to other objects, for example does the selected printer still exists ?{/t}

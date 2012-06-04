@@ -20,8 +20,16 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This class contains all the function needed to make dialogs
+/*!
+ * \file class_SnapShotDialog.inc
+ * Source code for SnapShotDialog
+ */ 
+
+/*!
+ * \brief This class contains all the function needed to make dialogs
  * for the snapshot functionality
+ *
+ * \see plugin
  */
 class SnapShotDialog extends plugin
 {
@@ -41,7 +49,15 @@ class SnapShotDialog extends plugin
   var $snap_shot_bases = array();
   var $last_list = array();
 
-
+  /*!
+   * \brief Create a SnapShotDialog
+   *
+   * \param string $config
+   *
+   * \param string $dn The DN
+   *
+   * \param string $parent 
+   */ 
   function SnapShotDialog(&$config, $dn, &$parent)
   {
     plugin::plugin($config,$dn);
@@ -50,14 +66,22 @@ class SnapShotDialog extends plugin
   }
 
 
-  /* Show deleted snapshots from these bases */
+  /*!
+   * \brief Set a snapshot base
+   *
+   * Show deleted snapshots from these bases
+   *
+   * \param string $bases
+   */
   function set_snapshot_bases($bases)
   {
     $this->snap_shot_bases = $bases;
   }
 
 
-  /* Display snapshot dialog */
+  /*!
+   * \brief Display snapshot dialog
+   */
   function execute()
   {
     plugin::execute();
@@ -156,7 +180,9 @@ class SnapShotDialog extends plugin
     return($smarty->fetch(get_template_path("snapshotdialog.tpl")));
   }
 
-
+  /*!
+   * \brief Check the snapshot dialog
+   */ 
   function check()
   {
     $message = plugin::check();
@@ -168,7 +194,9 @@ class SnapShotDialog extends plugin
     return($message);
   }
 
-
+  /*!
+   * \brief Save an object
+   */ 
   function save_object()
   {
     plugin::save_object();

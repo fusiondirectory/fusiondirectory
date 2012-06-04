@@ -20,7 +20,13 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This is the base class for all plugins.
+/*!
+ * \file class_plugin.inc
+ * Source code for the class plugin
+ */
+
+/*! 
+ * \brief This is the base class for all plugins.
  *
  * \author  Cajus Pollmeier <pollmeier@gonicus.de>
  * \version 2.00
@@ -33,14 +39,14 @@
 class plugin
 {
   /*!
-    \brief Reference to parent object
-
-    This variable is used when the plugin is included in tabs
-    and keeps reference to the tab class. Communication to other
-    tabs is possible by 'name'. So the 'fax' plugin can ask the
-    'userinfo' plugin for the fax number.
-
-    \sa tab
+   * \brief Reference to parent object
+   *	
+   * This variable is used when the plugin is included in tabs
+   * and keeps reference to the tab class. Communication to other
+   * tabs is possible by 'name'. So the 'fax' plugin can ask the
+   * 'userinfo' plugin for the fax number.
+   *
+   * \sa tab
    */
   var $parent= NULL;
 
@@ -132,12 +138,18 @@ class plugin
   var $selected_edit_values = array();
   var $multi_boxes = array();
 
-  /*! \brief plugin constructor
-
-    If 'dn' is set, the node loads the given 'dn' from LDAP
-
-    \param dn Distinguished name to initialize plugin from
-    \sa plugin()
+  /*! 
+   * \brief plugin constructor
+   *
+   * If 'dn' is set, the node loads the given 'dn' from LDAP
+   *
+   * \param $config configuration
+   * 
+   * \param $dn Distinguished name to initialize plugin from
+   * 
+   * \param $object NULL
+   * 
+   * \sa plugin()
    */
   function plugin (&$config, $dn= NULL, $object= NULL)
   {
@@ -264,8 +276,8 @@ class plugin
   }
 
 
-  /*! \brief Generates the html output for this node
-   *
+  /*! 
+   * \brief Generates the html output for this node
    */
   function execute()
   {
@@ -279,8 +291,8 @@ class plugin
     session::set('LOCK_VARS_USED_REQUEST',array());
   }
 
-  /*! \brief Removes object from parent
-   *
+  /*! 
+   * \brief Removes object from parent
    */
   function remove_from_parent()
   {
@@ -318,8 +330,8 @@ class plugin
   }
 
 
-  /*! \brief Save HTML posted data to object
-   *
+  /*! 
+   * \brief Save HTML posted data to object
    */
   function save_object()
   {
@@ -354,8 +366,8 @@ class plugin
   }
 
 
-  /*! \brief Save data to LDAP, depending on is_account we save or delete
-   *
+  /*! 
+   * \brief Save data to LDAP, depending on is_account we save or delete
    */
   function save()
   {
@@ -404,7 +416,10 @@ class plugin
     }
   }
 
-
+  /*!
+   * \brief Remove attributes, empty arrays, arrays
+   * single attributes that do not differ
+   */
   function cleanup()
   {
     foreach ($this->attrs as $index => $value){
@@ -457,8 +472,8 @@ class plugin
     }
   }
 
-  /*! \brief Check formular input
-   *
+  /*! 
+   * \brief Check formular input
    */
   function check()
   {
@@ -534,7 +549,13 @@ class plugin
     return ($message);
   }
 
-  /* Adapt from template, using 'dn' */
+  /* 
+   * \brief Adapt from template, using 'dn' 
+   * 
+   * \param string $dn The DN
+   * 
+   * \param array $skip A new array 
+   */
   function adapt_from_template($dn, $skip= array())
   {
     /* Include global link_info */
@@ -583,8 +604,8 @@ class plugin
     }
   }
 
-  /* \brief Indicate whether a password change is needed or not
-   *
+  /* 
+   * \brief Indicate whether a password change is needed or not
    */
   function password_change_needed()
   {
@@ -592,8 +613,14 @@ class plugin
   }
 
 
-  /*! \brief Show header message for tab dialogs
-   *
+  /*!
+   * \brief Show header message for tab dialogs
+   * 
+   * \param string $button_text The button text
+   * 
+   * \param string $text The text
+   * 
+   * \param boolean $disabled FALSE
    */
   function show_enable_header($button_text, $text, $disabled= FALSE)
   {
@@ -601,8 +628,14 @@ class plugin
   }
 
 
-  /*! \brief Show header message for tab dialogs
-   *
+  /*! 
+   * \brief Show header message for tab dialogs
+   * 
+   * \param string $button_text The button text
+   * 
+   * \param string $text The text
+   * 
+   * \param boolean $disabled FALSE
    */
   function show_disable_header($button_text, $text, $disabled= FALSE)
   {
@@ -610,8 +643,16 @@ class plugin
   }
 
 
-  /*! \brief Show header message for tab dialogs
+  /*! 
+   * \brief Show header message for tab dialogs
    *
+   * \param string $button_text The button text
+   * 
+   * \param string $text The text
+   * 
+   * \param boolean $plugin_enabled
+   * 
+   * \param boolean $button_disabled FALSE
    */
   function show_header($button_text, $text, $plugin_enabled, $button_disabled= FALSE)
   {
@@ -627,7 +668,11 @@ class plugin
     return($display);
   }
 
-  /*! \brief Executes commands after an object has been created */
+  /*!
+   * \brief Executes commands after an object has been created
+   * 
+   * \param array $add_attrs 
+   */
   function postcreate($add_attrs= array())
   {
     /* Find postcreate entries for this class */
@@ -673,7 +718,11 @@ class plugin
     }
   }
 
-  /*! \brief Execute commands after an object has been modified */
+  /*! 
+   * \brief Execute commands after an object has been modified 
+   * 
+   * \param array $add_attrs
+   */
   function postmodify($add_attrs= array())
   {
     /* Find postcreate entries for this class */
@@ -718,7 +767,11 @@ class plugin
     }
   }
 
-  /*! \brief Executes a command after an object has been removed */
+  /*! 
+   * \brief Executes a command after an object has been removed 
+   * 
+   * \param array $add_attrs
+   */
   function postremove($add_attrs= array())
   {
     /* Find postremove entries for this class */
@@ -764,7 +817,13 @@ class plugin
     }
   }
 
-  /*! \brief Create unique DN */
+  /*! 
+   * \brief Create unique DN
+   *
+   * \param string $data
+   * 
+   * \param string $base
+   */
   function create_unique_dn2($data, $base)
   {
     $ldap= $this->config->get_ldap_link();
@@ -796,7 +855,13 @@ class plugin
   }
 
 
-  /*! \brief Create unique DN */
+  /*! 
+   * \brief Create unique DN
+   *
+   * \param string $attribute
+   * 
+   * \param string $base
+   */
   function create_unique_dn($attribute, $base)
   {
     $ldap= $this->config->get_ldap_link();
@@ -826,7 +891,13 @@ class plugin
     return ("none");
   }
 
-  /*! \brief ldap rebind */
+  /*! 
+   * \brief ldap rebind 
+   * 
+   * \param string $ldap
+   * 
+   * \param string $referral
+   */
   function rebind($ldap, $referral)
   {
     $credentials= LDAP::get_credentials($referral, $this->config->current['REFERRAL']);
@@ -841,7 +912,13 @@ class plugin
     }
   }
 
-  /* Recursively copy ldap object */
+  /* 
+   * \brief Recursively copy ldap object
+   * 
+   * \param string $src_dn The DN source
+   * 
+   * \param string $dst_dn The DN destination
+   */
   function _copy($src_dn,$dst_dn)
   {
     $ldap=$this->config->get_ldap_link();
@@ -920,7 +997,14 @@ class plugin
     return(TRUE);
   }
 
-  /* This is a workaround function. */
+  /* 
+   * \brief Copy ldap object.
+   * This is a workaround function
+   * 
+   * \param string $src_dn The DN source
+   * 
+   * \param string $dst_dn The DN destination
+   */
   function copy($src_dn, $dst_dn)
   {
     /* Rename dn in possible object groups */
@@ -961,7 +1045,8 @@ class plugin
   }
 
 
-  /*! \brief  Rename/Move a given src_dn to the given dest_dn
+  /*! 
+   * \brief  Rename/Move a given src_dn to the given dest_dn
    *
    * Move a given ldap object indentified by $src_dn to the
    * given destination $dst_dn
@@ -970,8 +1055,9 @@ class plugin
    * - Update ACLs
    * - Update accessTo
    *
-   * \param  string  'src_dn' the source DN.
-   * \param  string  'dst_dn' the destination DN.
+   * \param  string  $src_dn the source DN.
+   * 
+   * \param  string  $dst_dn the destination DN.
    *
    * \return boolean TRUE on success else FALSE.
    */
@@ -1078,7 +1164,13 @@ class plugin
   }
 
 
-   /*! \brief move ldap entries from one place to another */
+   /*!
+    * \brief Move ldap entries from one place to another
+    * 
+    * \param  string  $src_dn the source DN.
+    * 
+    * \param  string  $dst_dn the destination DN.
+    */
   function move($src_dn, $dst_dn)
   {
     /* Do not copy if only upper- lowercase has changed */
@@ -1119,7 +1211,12 @@ class plugin
   }
 
 
-  /* \brief Move/Rename complete trees */
+  /* \brief Move/Rename complete trees 
+   * 
+   * \param  string  $src_dn the source DN.
+   * 
+   * \param  string  $dst_dn the destination DN.
+   */
   function recursive_move($src_dn, $dst_dn)
   {
     /* Check if the destination entry exists */
@@ -1167,7 +1264,8 @@ class plugin
   }
 
 
-  /*! \brief Forward command execution requests
+  /*!
+   *  \brief Forward command execution requests
    *         to the pre hook execution method.
    */
   function handle_pre_events($mode, $addAttrs= array())
@@ -1192,10 +1290,10 @@ class plugin
   }
 
 
-  /*! \brief    Calls external hooks which are defined for this plugin (fusiondirectory.conf)
-   *            Replaces placeholder by class values of this plugin instance.
-   *
-   *  \param    Allows to a add special replacements.
+  /*! 
+   * \brief    Calls external hooks which are defined for this plugin (fusiondirectory.conf)
+   *           Replaces placeholder by class values of this plugin instance.
+   *		   Allows to a add special replacements.
    */
   static function callHook($plugin, $cmd, $addAttrs= array(), &$returnOutput = array(), &$returnCode = NULL)
   {
@@ -1272,13 +1370,21 @@ class plugin
   function saveCopyDialog(){
   }
 
-
+  /*!
+   * \brief Accessor of the copy dialog
+   * 
+   * \return the copy dialog
+   */
   function getCopyDialog(){
     return(array("string"=>"","status"=>""));
   }
 
 
-  /*! \brief Prepare for Copy & Paste */
+  /*! 
+   * \brief Prepare for Copy & Paste 
+   * 
+   * \param string $source Source to prepare for copy and paste
+   */
   function PrepareForCopyPaste($source)
   {
     $todo = $this->attributes;
@@ -1397,7 +1503,13 @@ class plugin
   }
 
 
-  /*! \brief Create a snapshot of the current object */
+  /*!
+   * \brief Create a snapshot of the current object
+   * 
+   * \param string $type Initialized at "snapshot"
+   * 
+   * \param array $description 
+   */
   function create_snapshot($type= "snapshot", $description= array())
   {
 
@@ -1490,7 +1602,11 @@ class plugin
     }
   }
 
-  /*! \brief Remove a snapshot */
+  /*! 
+   * \brief Remove a snapshot
+   * 
+   * \param string $dn The DN
+   */
   function remove_snapshot($dn)
   {
     $ui       = get_userinfo();
@@ -1519,7 +1635,13 @@ class plugin
   }
 
 
-  /* \brief Return available snapshots for the given base */
+  /* 
+   * \brief Return available snapshots for the given base
+   * 
+   * \param string $dn The DN
+   * 
+   * \param string boolean $raw FALSE  
+   */
   function Available_SnapsShots($dn,$raw = false)
   {
     if(!$this->snapshotEnabled()) return(array());
@@ -1577,7 +1699,9 @@ class plugin
     return($tmp2);
   }
 
-
+  /*!
+   * \brief Get all deleted snapshots
+   */ 	
   function getAllDeletedSnapshots($base_of_object,$raw = false)
   {
     if(!$this->snapshotEnabled()) return(array());
@@ -1645,7 +1769,11 @@ class plugin
   }
 
 
-  /* \brief Restore selected snapshot */
+  /* 
+   * \brief Restore selected snapshot 
+   * 
+   * \param strind $dn The DN
+   */
   function restore_snapshot($dn)
   {
     if(!$this->snapshotEnabled()) return(array());
@@ -1684,7 +1812,9 @@ class plugin
     }
   }
 
-  /*! \brief show snapshot dialog */
+  /*! 
+   * \brief Show snapshot dialog 
+   */
   function showSnapshotDialog($base,$baseSuffixe,&$parent)
   {
     $once = true;
@@ -1779,19 +1909,31 @@ class plugin
   }
 
 
-  /*! \brief Return plugin informations for acl handling */
+  /*! 
+   * \brief Return plugin informations for acl handling
+   * 
+   * \return an array
+   */
   static function plInfo()
   {
     return array();
   }
 
-  /*! \brief Set acl base */
+  /*! 
+   * \brief Set acl base 
+   * 
+   * \param string $base
+   */
   function set_acl_base($base)
   {
     $this->acl_base= $base;
   }
 
-  /*! \brief Set acl category */
+  /*! 
+   * \brief Set acl category 
+   * 
+   * \param string $category
+   */
   function set_acl_category($category)
   {
     $this->acl_category= "$category/";
@@ -1805,14 +1947,22 @@ class plugin
     return preg_match('/w/', $ui->get_permissions($this->acl_base, $this->acl_category.get_class($this), $attribute, $skip_write));
   }
 
-  /*! \brief Can we read the acl */
+  /*!
+   * \brief Can we read the acl 
+   * 
+   * \param string $attribute
+   */
   function acl_is_readable($attribute)
   {
     $ui= get_userinfo();
     return preg_match('/r/', $ui->get_permissions($this->acl_base, $this->acl_category.get_class($this), $attribute));
   }
 
-  /*! \brief Can we create the acl */
+  /*! 
+   * \brief Can we create the acl 
+   *
+   * \param string $base Empty string 
+   */
   function acl_is_createable($base ="")
   {
     if($this->read_only) return(FALSE);
@@ -1821,7 +1971,11 @@ class plugin
     return preg_match('/c/', $ui->get_permissions($base, $this->acl_category.get_class($this), '0'));
   }
 
-  /*! \brief Can we remove the acl */
+  /*! 
+   * \brief Can we remove the acl 
+   * 
+   * \param string $base Empty string 
+   */
   function acl_is_removeable($base ="")
   {
     if($this->read_only) return(FALSE);
@@ -1830,7 +1984,11 @@ class plugin
     return preg_match('/d/', $ui->get_permissions($base, $this->acl_category.get_class($this), '0'));
   }
 
-  /*! \brief Can we mode the acl */
+  /*!
+   * \brief Can we move the acl
+   *
+   * \param string $base Empty string
+   */
   function acl_is_moveable($base = "")
   {
     if($this->read_only) return(FALSE);
@@ -1839,7 +1997,9 @@ class plugin
     return preg_match('/m/', $ui->get_permissions($base, $this->acl_category.get_class($this), '0'));
   }
 
-  /*! \brief does the acl have permissions */
+  /*!
+   *  \brief does the acl have permissions 
+   */
   function acl_have_any_permissions()
   {
   }
@@ -1853,7 +2013,8 @@ class plugin
   }
 
 
-  /*! \brief Returns a list of all available departments for this object.
+  /*!
+   * \brief Returns a list of all available departments for this object.
    *
    * If this object is new, all departments we are allowed to create a new user in
    * are returned. If this is an existing object, return all deps.
@@ -1893,9 +2054,14 @@ class plugin
   }
 
 
-  /* This function updates ACL settings if $old_dn was used.
-   *  \param string 'old_dn' specifies the actually used dn
-   *  \param string 'new_dn' specifies the destiantion dn
+  /* 
+   * \brief This function updates ACL settings if $old_dn was used.
+   * 
+   * \param string $old_dn specifies the actually used dn
+   * 
+   * \param string $new_dn specifies the destiantion dn
+   * 
+   * \param boolean $output_changes FALSE
    */
   function update_acls($old_dn,$new_dn,$output_changes = FALSE)
   {
@@ -1979,7 +2145,8 @@ class plugin
 
 
 
-  /*! \brief Enable the Serial ID check
+  /*! 
+   * \brief Enable the Serial ID check
    *
    * This function enables the entry Serial ID check.  If an entry was edited while
    * we have edited the entry too, an error message will be shown.
@@ -1992,9 +2159,12 @@ class plugin
   }
 
 
-  /*! \brief  Prepares the plugin to be used for multiple edit
+  /*! 
+   * \brief  Prepares the plugin to be used for multiple edit
    *          Update plugin attributes with given array of attribtues.
-   *  \param  array   Array with attributes that must be updated.
+   * \param  $attrs   Array with attributes that must be updated.
+   * 
+   * \param  $all All
    */
   function init_multiple_support($attrs,$all)
   {
@@ -2015,8 +2185,8 @@ class plugin
   }
 
 
-  /*! \brief  Enables multiple support for this plugin
-   *
+  /*!
+   *  \brief  Enables multiple support for this plugin
    */
   function enable_multiple_support()
   {
@@ -2025,7 +2195,8 @@ class plugin
   }
 
 
-  /*! \brief  Returns all values that have been modfied in multiple edit mode.
+  /*! 
+   * \brief  Returns all values that have been modfied in multiple edit mode.
    *
    * \return array Containing all modified values.
    */
@@ -2041,8 +2212,10 @@ class plugin
   }
 
 
-  /*! \brief  Update class variables with values collected by multiple edit.
-   *
+  /*! 
+   * \brief  Update class variables with values collected by multiple edit.
+   * 
+   * \param array $attrs Array containts attributes
    */
   function set_multi_edit_values($attrs)
   {
@@ -2052,7 +2225,9 @@ class plugin
   }
 
 
-  /*! \brief Generates the html output for this node for multi edit*/
+  /*! 
+   * \brief Generates the html output for this node for multi edit 
+   */
   function multiple_execute()
   {
     /* This one is empty currently. Fabian - please fill in the docu code */
@@ -2068,8 +2243,8 @@ class plugin
   }
 
 
-  /*! \brief Save HTML posted data to object for multiple edit
-   *
+  /*!
+   *  \brief Save HTML posted data to object for multiple edit
    */
   function multiple_save_object()
   {
@@ -2105,7 +2280,8 @@ class plugin
   }
 
 
-  /*! \brief Returns all attributes of this plugin.
+  /*! 
+   * \brief Returns all attributes of this plugin.
    *
    * To be able to detect multiple used attributes
    * in multi_plugg::detect_multiple_used_attributes().
@@ -2119,7 +2295,8 @@ class plugin
   }
 
 
-  /*! \brief  Check given values in multiple edit
+  /*! 
+   * \brief  Check given values in multiple edit
    *
    * \return array Error messages
    */
@@ -2130,9 +2307,12 @@ class plugin
   }
 
 
-  /*! \brief  Returns the snapshot header part for "Actions" menu in management dialogs
+  /*! 
+   * \brief  Returns the snapshot header part for "Actions" menu in management dialogs
    *
-   * \param  $layer_menu
+   * \param string $base
+   * 
+   * \param string $category
    */
   function get_snapshot_header($base,$category)
   {
@@ -2155,7 +2335,13 @@ class plugin
     return($str);
   }
 
-
+  /*!
+   * \brief Get the snapshot action
+   * 
+   * \param string $base
+   * 
+   * \param string $category
+   */ 
   function get_snapshot_action($base,$category)
   {
     $str= "";

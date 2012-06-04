@@ -20,6 +20,16 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+
+/*!
+ * \file class_baseSelector.inc
+ * Source code for Class Base Selector
+ */ 
+
+
+/*!
+ * \brief Class Base Selector
+ */
 class baseSelector {
 
   private $base;
@@ -31,7 +41,13 @@ class baseSelector {
   protected $pathMapping;
   protected $lastState;
 
-
+  /*!
+   * \brief baseSelector contructor
+   * 
+   * \param Array $bases The Bases
+   * 
+   * \param String $base Empty string
+   */ 
   function __construct($bases, $base= "")
   {
     // Initialize pid
@@ -42,19 +58,31 @@ class baseSelector {
     $this->setBase($base);
   }
 
-
+  /*!
+   * \brief Set a new flag to the submit button
+   * 
+   * \param Boolean $flag Flag for the submit button
+   */ 
   function setSubmitButton($flag)
   {
     $this->submitButton= $flag;
   }
 
-
+  /*!
+   * \brief Set a new value of the member height
+   * 
+   * \param Integer $value The new value of the height
+   */ 
   function setHeight($value)
   {
     $this->height= $value;
   }
 
-
+  /*!
+   * \brief Set a new value of the member base
+   * 
+   * \param String $base The new value of the base
+   */ 
   function setBase($base)
   {
     if (isset($this->pathMapping[$base])) {
@@ -63,19 +91,33 @@ class baseSelector {
     }
   }
 
-
+  /*!
+   * \brief Check the base value
+   * 
+   * \param String $base The base value which will be checked
+   * 
+   * \return boolean
+   */ 
   function checkBase($base)
   {
     return isset($this->pathMapping[$base]);
   }
 
-
+  /*!
+   * \brief Check the last base value updated
+   * 
+   * \return Boolean the last state of the object
+   */ 
   function checkLastBaseUpdate()
   {
     return $this->lastState;
   }
 
-
+  /*!
+   * \brief Set new bases
+   * 
+   * \param Array $bases The new value of the bases
+   */ 
   function setBases($bases)
   {
     global $config;
@@ -98,7 +140,11 @@ class baseSelector {
     session::global_set('pathMapping', $this->pathMapping);
   }
 
-
+  /*!
+   * \brief Update the base
+   * 
+   * \param Boolean $force false
+   */ 
   function update($force= false)
   {
     global $config;
@@ -214,24 +260,41 @@ class baseSelector {
   }
 
 
+  /*!
+   * \brief Replace all space of the string by non-breaking space
+   * 
+   * \param String $string The string which his space will be replaced
+   */ 
   function gennonbreaks($string)
   {
     return str_replace('-', '&#8209;', str_replace(' ', '&nbsp;', $string));
   }
 
-
+  /*!
+   * \brief Accessor of the member tree
+   * 
+   * \return members tree of the ACL class
+   */ 
   function render()
   {
     return $this->tree;
   }
 
-
+  /*!
+   * \brief Accessor of the base
+   * 
+   * \return String containts the base of the object
+   */ 
   function getBase()
   {
     return $this->base;
   }
 
-
+  /*!
+   * \brief Accessor of the action
+   * 
+   * \return action of the object if exists
+   */ 
   function getAction()
   {
     // Do not do anything if this is not our BPID, or there's even no BPID available...

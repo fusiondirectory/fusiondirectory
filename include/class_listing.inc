@@ -20,7 +20,13 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This class contains all the function needed to make the list 
+/*!
+ * \file class_listing.inc
+ * Source code for class listing
+ */ 
+
+/*!
+ * \brief This class contains all the function needed to make the list 
  * that show the objects inside FusionDirectory 
  */
 class listing {
@@ -58,7 +64,11 @@ class listing {
   var $scrollPosition= 0;
   var $baseSelector;
 
-
+  /*!
+   * \brief Create a listing
+   *
+   * \param string $filename
+   */ 
   function listing($filename)
   {
     global $config;
@@ -105,25 +115,47 @@ class listing {
     $this->baseSelector= new baseSelector($this->bases, $this->base);
   }
 
-
+  /*!
+   * \brief Set a CopyPasteHandler
+   *
+   * \param $handler The handler
+   *
+   * \see CopyPasteHandler
+   */  
   function setCopyPasteHandler($handler)
   {
     $this->copyPasteHandler= &$handler;
   }
 
-
+  /*!
+   * \brief Set the height
+   *
+   * \param integer $height
+   */ 
   function setHeight($height)
   {
     $this->height= $height;
   }
 
-
+  /*!
+   * \brief Set a SnapshotHandler
+   *
+   * \param $handler The handler
+   *
+   * \see  SnapshotHandler
+   */  
   function setSnapshotHandler($handler)
   {
     $this->snapshotHandler= &$handler;
   }
 
-
+  /*!
+   * \brief Set a filter
+   *
+   * \param string $filter
+   *
+   * \see filter
+   */  
   function setFilter($filter)
   {
     $this->filter= &$filter;
@@ -134,7 +166,13 @@ class listing {
     $this->filter->setBase($this->base);
   }
 
-
+  /*!
+   * \brief Save element from a filter
+   *
+   * \param string $name
+   *
+   * \param string $call
+   */  
   function registerElementFilter($name, $call)
   {
     if (!isset($this->filters[$name])) {
@@ -145,7 +183,11 @@ class listing {
     return false;
   }
 
-
+  /*!
+   * \brief Load a file
+   *
+   * \param string $filename
+   */ 
   function load($filename)
   {
     $contents = file_get_contents($filename);
@@ -266,7 +308,9 @@ class listing {
     }
   }
 
-
+  /*!
+   * \brief Render
+   */ 
   function render()
   {
     // Check for exeeded sizelimit
@@ -458,7 +502,9 @@ class listing {
     return ($smarty->fetch($file));
   }
 
-
+  /*!
+   * \brief Update a listing
+   */ 
   function update()
   {
     global $config;
@@ -589,7 +635,11 @@ class listing {
     }
   }
 
-
+  /*!
+   * \brief Set a new base valor
+   *
+   * \param string $base
+   */  
   function setBase($base)
   {
     $this->base= $base;
@@ -598,13 +648,21 @@ class listing {
     }
   }
 
-
+  /*!
+   * \brief Accessor of the base
+   *
+   * \return the base
+   */ 
   function getBase()
   {
     return $this->base;
   }
 
-
+  /*!
+   * \brief Parse a layout
+   *
+   * \param string $layout 
+   */ 
   function parseLayout($layout)
   {
     $result= array();
@@ -770,7 +828,13 @@ class listing {
     return $data;
   }
 
-
+  /*!
+   * \brief Get the object type
+   *
+   * \param string $types
+   *
+   * \param string $classes
+   */ 
   function getObjectType($types, $classes)
   {
     // Walk thru types and see if there's something matching
@@ -803,9 +867,15 @@ class listing {
   }
 
 
-  /* \brief If you want to have the summary without displaying informations
-   it returns nothing to do an empty column, but calls filterObjectType to do statistics.
-   @return string an empty string
+  /*
+   * \brief If you want to have the summary without displaying informations
+   * it returns nothing to do an empty column, but calls filterObjectType to do statistics.
+   *
+   * \param string $dn The DN
+   *
+   * \param string $classes
+   * 
+   * \return string an empty string
    */
   function filterObjectTypes($dn, $classes)
   {
@@ -815,7 +885,14 @@ class listing {
       }
       return "";
   }
-  
+
+  /*!
+   * \brief Statistics of the object type
+   *
+   * \param string $dn The DN
+   *
+   * \param string $classes
+   */    
   function filterObjectType($dn, $classes)
   {
     // Walk thru classes and return on first match
@@ -834,7 +911,15 @@ class listing {
     return $result;
   }
 
-
+  /*!
+   * \brief Filter actions
+   *
+   * \param string $dn The DN
+   *
+   * \param string $row
+   *
+   * \param string $classes
+   */ 
   function filterActions($dn, $row, $classes)
   {
     // Do nothing if there's no menu defined
@@ -924,7 +1009,15 @@ class listing {
     return $result;
   }
 
-
+  /*!
+   * \brief Filter the department link
+   *
+   * \param string $row
+   *
+   * \param string $dn The DN
+   *
+   * \param array $description
+   */ 
   function filterDepartmentLink($row, $dn, $description)
   {
     $attr= $this->departments[$row]['sort-attribute'];
@@ -936,7 +1029,9 @@ class listing {
     return("<a href='?plug=".$_GET['plug']."&amp;PID=$this->pid&amp;act=department_$row' title='$dn'>$result</a>");
   }
 
-
+  /*!
+   * \brief Filter link
+   */ 
   function filterLink()
   {
     $result= "&nbsp;";
@@ -1021,7 +1116,9 @@ class listing {
     return ($result);
   }
 
-
+  /*!
+   * \brief Get action
+   */ 
   function getAction()
   {
     // Do not do anything if this is not our PID, or there's even no PID available...
@@ -1207,7 +1304,16 @@ class listing {
     return $result;
   }
 
-
+  /*!
+   * \brief Check if user have action permission
+   *
+   * \param string $action
+   *
+   * \param string $dn The DN
+   *
+   * \param string $classes
+   *
+   */ 
   function hasActionPermission($action, $dn, $classes= null)
   {
     $ui= get_userinfo();
@@ -1285,7 +1391,9 @@ class listing {
     return true;
   }
 
-
+  /*!
+   * \brief Refresh the bases list
+   */ 
   function refreshBasesList()
   {
     global $config;
@@ -1310,7 +1418,9 @@ class listing {
     }
   }
 
-
+  /*!
+   * Get the depatments
+   */ 
   function getDepartments()
   {
     $departments= array();
@@ -1565,13 +1675,19 @@ class listing {
     return null;
   }
 
-
+  /*!
+   * \brief Get listing entries
+   */ 
   function getEntries()
   {
     return $this->entries;
   }
 
-
+  /*!
+   * \brief Get type
+   *
+   * \param string $dn The DN
+   */ 
   function getType($dn)
   {
     if (isset($this->objectDnMapping[$dn])) {

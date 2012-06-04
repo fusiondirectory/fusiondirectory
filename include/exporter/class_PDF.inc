@@ -20,23 +20,41 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \file class_PDF.inc
+ * Source code for class PDF
+ */ 
+
+/*!
+ * \brief This class contains all the functions to manage pdf
+ */ 
 /* Avoid autoloading this class */ class PDF extends FPDF
 {
   var $headline= "";
 
+  /*!
+   * \brief Set the headline
+   *
+   * \param string $headline
+   */ 
   function setHeadline($headline)
   {
     $this->headline= $headline;
   }
 
-
+  /*!
+   * \brief Set font and cell for the header page
+   */ 
   function Header()
   {
       $this->SetFont('Helvetica','B',10);
       $this->Cell(0, 0, $this->headline, 0, 0, 'L');
       $this->Ln(5);
   }
-  
+
+  /*!
+   * \brief Set position from the bottom and the number of the page
+   */ 
   function Footer()
   {
       $this->SetY(-15);

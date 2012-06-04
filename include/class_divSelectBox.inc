@@ -20,6 +20,15 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \file class_divSelectBox.inc
+ * Source code for class divSelectBox
+ */
+
+/*!
+ * \brief This class contains all the functions to
+ * manage select box
+ */  
 class divSelectBox {
 
   var $a_entries;
@@ -30,20 +39,36 @@ class divSelectBox {
   var $height=200;
 
   // Added php 4 constructor
+  /*!
+   * \brief Default divSelectBox constructor
+   */ 
   function divSelectBox(){
     $this->s_summary                = "";
     $this->a_entries                = array();
     $this->cols                     = 0;
   }
 
+  /*!
+   * \brief Set new height value
+   *
+   * \param integer $h Height
+   */ 
   function setHeight($h){
     $this->height=$h;
   }
 
+  /*!
+   * \brief Add an entry
+   *
+   * \param array $a_entriedata
+   */  
   function AddEntry($a_entriedata) {
     $this->a_entries[] = $a_entriedata;
   }
 
+  /*!
+   * \brief Draw the list
+   */ 
   function DrawList(){
     $s_return  = "";
     $s_return .= "<div style=\"height:2px; overflow:hidden;background:#888888;width:100%;margin-right:0px;\"></div>\n";
@@ -65,16 +90,27 @@ class divSelectBox {
     $s_return.= "</table></div></div>";
     return ($s_return);
   }
-  
+
+  /*!
+   * \brief Get the number of entries
+   */ 
   function _numentries(){
     $cnt = count($this->a_entries);
     return $cnt;
   }
-  
+
+  /*!
+   * \brief Set summary
+   *
+   * \param string $msg
+   */ 
   function SetSummary($msg){
     $this->s_summary = $msg;
   }
 
+  /*!
+   * \brief Generate the page
+   */ 
   function _generatePage(){
     
     $s_value  = "";

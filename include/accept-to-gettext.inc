@@ -3,7 +3,7 @@
  * accept-to-gettext.inc -- convert information in 'Accept-*' headers to
  * gettext language identifiers.
  * Copyright (c) 2003, Wouter Verhelst <wouter@debian.org>
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -33,7 +33,7 @@
  * Note that this will send out header information (to be
  * RFC2616-compliant), so it must be called before anything is sent to
  * the user.
- * 
+ *
  * Assumptions made:
  * * Charset encodings are written the same way as the Accept-Charset
  *   HTTP header specifies them (RFC2616), except that they're parsed
@@ -46,13 +46,13 @@
  *   used. "en.ISO-8859-15" is OK, though.
  * * The language is more important than the charset; i.e., if the
  *   following is given:
- * 
+ *
  *   Accept-Language: nl-be, nl;q=0.8, en-us;q=0.5, en;q=0.3
  *   Accept-Charset: ISO-8859-15, utf-8;q=0.5
  *
  *   And the supplied parameter contains (amongst others) nl_BE.UTF-8
  *   and nl.ISO-8859-15, then nl_BE.UTF-8 will be picked.
- * 
+ *
  * $Log: accept-to-gettext.inc,v $
  * Revision 1.1.1.1  2003/11/19 19:31:15  wouter
  * * moved to new CVS repo after death of the old
@@ -84,7 +84,7 @@ function find_match($curlscore,$curcscore,$curgtlang,$langval,$charval,
 }
 
 
-function al2gt($gettextlangs, $mime) 
+function al2gt($gettextlangs, $mime)
 {
   /* Check if ACCEPT_LANGUAGE isset */
   if(!isset($_SERVER["HTTP_ACCEPT_LANGUAGE"])){
@@ -101,7 +101,7 @@ function al2gt($gettextlangs, $mime)
     $_SERVER["HTTP_ACCEPT_CHARSET"]);
   $alparts=@preg_split("/,/",$acceptLang);
   $acparts=@preg_split("/,/",$acceptChar);
-  
+
   /* Parse the contents of the Accept-Language header.*/
   foreach($alparts as $part) {
     $part=trim($part);
@@ -120,7 +120,7 @@ function al2gt($gettextlangs, $mime)
    * all character sets not explicitly mentioned get a quality value of
    * 0, except for ISO-8859-1, which gets a quality value of 1 if not
    * explicitly mentioned.''
-   * 
+   *
    * Making it 2 for the time being, so that we
    * can distinguish between "not specified" and "specified as 1" later
    * on. */
@@ -140,7 +140,7 @@ function al2gt($gettextlangs, $mime)
     $acscores["ISO-8859-1"]=(isset($acscores["*"])?$acscores["*"]:1);
   }
 
-  /* 
+  /*
    * Loop through the available languages/encodings, and pick the one
    * with the highest score, excluding the ones with a charset the user
    * did not include.
@@ -163,14 +163,15 @@ function al2gt($gettextlangs, $mime)
     if(!isset($alscores[$allang])){
       $alscores[$allang] = "";
     }
-    
+
     if(!isset($alscores[$noct[0]])){
       $alscores[$noct[0]] = "";
     }
-  
+
     if(!isset($acscores[$gtcs])){
       $acscores[$gtcs] = "";
     }
+
     $testvals=array(
         array($alscores[$allang], $acscores[$gtcs]),
         array($alscores[$noct[0]], $acscores[$gtcs]),
@@ -179,22 +180,21 @@ function al2gt($gettextlangs, $mime)
         array($alscores["*"], $acscores[$gtcs]),
         array($alscores["*"], $acscores["*"]));
 
-    $found=FALSE;
     foreach($testvals as $tval) {
-      if(!$found && isset($tval[0]) && isset($tval[1])) {
+      if(!empty($tval[0]) && !empty($tval[1])) {
         $arr=find_match($curlscore, $curcscore, $curgtlang, $tval[0],
             $tval[1], $gtlang);
         $curlscore=$arr[0];
         $curcscore=$arr[1];
         $curgtlang=$arr[2];
-        $found=TRUE;
+        break;
       }
     }
   }
 
   /* We must re-parse the gettext-string now, since we may have found it
    * through a "*" qualifier.*/
-  
+
   $gtparts=@preg_split("/\./",$curgtlang);
   $tmp=strtolower($gtparts[0]);
   $lang=preg_replace("/\_/", "-", $tmp);
