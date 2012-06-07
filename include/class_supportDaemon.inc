@@ -183,6 +183,9 @@ class supportDaemon
       $this->set_error($this->host_error);
       return FALSE;
     }
+    if (preg_match('/^[^.]+\.[^.]+$/',$action)) {
+      $action = 'Argonaut.ClientDaemon.Modules.'.$action;
+    }
     /* Append an entry
     */
     try {
