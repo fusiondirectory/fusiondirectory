@@ -761,7 +761,7 @@ class supportDaemon
     try {
       $client = new jsonRPCClient($this->s_host);
       $this->reset_error();
-      $status = $client->action("manage_service",array($mac),array("args"=>array($service,$action)));
+      $status = $client->action("Service.manage",array($mac),array("args"=>array($service,$action)));
       return $status[0];
     } catch (Exception $e) {
       $this->set_error(nl2br($e->getMessage()));
