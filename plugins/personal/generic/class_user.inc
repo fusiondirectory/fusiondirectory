@@ -112,12 +112,12 @@ class user extends plugin
   var $manager_name = "";
 
   var $passwordClass = NULL;
-  
+
   /* attribute list for save action */
   var $attributes= array("sn", "givenName", "uid", "personalTitle", "academicTitle",
       "homePostalAddress", "homePhone", "labeledURI", "ou", "o", "dateOfBirth", "gender","preferredLanguage",
       "departmentNumber", "employeeNumber", "employeeType", "l", "st","jpegPhoto",
-      "roomNumber", "telephoneNumber", "mobile", "pager", "cn", "userPKCS12", "street", "postalCode", 
+      "roomNumber", "telephoneNumber", "mobile", "pager", "cn", "userPKCS12", "street", "postalCode",
       "postalAddress", "facsimileTelephoneNumber", "userSMIMECertificate", "gosaLoginRestriction", "manager");
 
   var $objectclasses= array("top", "person", "organizationalPerson", "inetOrgPerson",
@@ -196,7 +196,7 @@ class user extends plugin
         if (preg_match ("/^{[^}]+}/", $this->attrs['userPassword'][0])){
           $tmp= passwordMethod::get_method($this->attrs['userPassword'][0]);
           if(is_object($tmp)){
-            $this->pw_storage= $tmp->get_hash(); 
+            $this->pw_storage= $tmp->get_hash();
           }
 
         } else {
@@ -230,7 +230,7 @@ class user extends plugin
     if (isset ($this->attrs['dateOfBirth'])){
       /* This entry is ISO 8601 conform */
       list($year, $month, $day)= explode("-", $this->attrs['dateOfBirth'][0], 3);
-    
+
       #TODO: use $lang to convert date
       $this->dateOfBirth= "$day.$month.$year";
     } else {
@@ -254,7 +254,7 @@ class user extends plugin
     $this->gosaLoginRestrictionWidget->setColspecs(array('*'));
     $this->gosaLoginRestrictionWidget->setWidth("100%");
     $this->gosaLoginRestrictionWidget->setHeight("70px");
- 
+
     $this->orig_base = $this->base;
     $this->baseSelector= new baseSelector($this->allowedBasesToMoveTo(), $this->base);
     $this->baseSelector->setSubmitButton(false);
@@ -311,7 +311,7 @@ class user extends plugin
       $this->manager_name = "";
     }
 
-    // Allow to select a new inetOrgPersion:manager 
+    // Allow to select a new inetOrgPersion:manager
     if(preg_match("/ editManager/i", " ".implode(array_keys($_POST),' ')." ")){
       $this->dialog = new singleUserSelect($this->config, get_userinfo());
     }
@@ -330,7 +330,7 @@ class user extends plugin
     if(isset($_POST['add_users_cancel'])){
       $this->dialog = NULL;
     }
-    if($this->dialog instanceOf singleUserSelect) return($this->dialog->execute()); 
+    if($this->dialog instanceOf singleUserSelect) return($this->dialog->execute());
 
 
     $smarty= get_smarty();
@@ -344,7 +344,7 @@ class user extends plugin
     $smarty->assign("preferredLanguage_list", $language);
 
     /* Get random number for pictures */
-    srand((double)microtime()*1000000); 
+    srand((double)microtime()*1000000);
     $smarty->assign("rand", rand(0, 10000));
 
 
@@ -464,7 +464,7 @@ class user extends plugin
 
 
     /* Remove certificate? */
-    if($this->acl_is_writeable("Certificate",(!is_object($this->parent) && !session::is_set('edit')))){ 
+    if($this->acl_is_writeable("Certificate",(!is_object($this->parent) && !session::is_set('edit')))){
       foreach (array ("userCertificate", "userSMIMECertificate", "userPKCS12") as $val){
         if (isset($_POST["remove_$val"])){
 
@@ -475,8 +475,8 @@ class user extends plugin
       }
     }
 
-    /* Upload new cert and close dialog? */ 
-    if($this->acl_is_writeable("Certificate",(!is_object($this->parent) && !session::is_set('edit')))){ 
+    /* Upload new cert and close dialog? */
+    if($this->acl_is_writeable("Certificate",(!is_object($this->parent) && !session::is_set('edit')))){
 
       $fail =false;
 
@@ -537,12 +537,12 @@ class user extends plugin
           /* import certificate */
           $certificate = new certificate;
           $certificate->import($this->$cert);
-      
+
           /* Read out data*/
           $timeto   = $certificate->getvalidto_date();
           $timefrom = $certificate->getvalidfrom_date();
-         
-          
+
+
           /* Additional info if start end time is '0' */
           $add_str_info = "";
           if($timeto == 0 && $timefrom == 0){
@@ -569,7 +569,7 @@ class user extends plugin
           $smarty->assign($cert."_state","");
         }
       }
-  
+
       if($this->governmentmode){
         $smarty->assign("honourIvbbAttributes", "true");
       }else{
@@ -604,7 +604,7 @@ class user extends plugin
         $pwd_methods[$name] = $name;
       }
     }
- 
+
     /* Load attributes and acl's */
     $ui =get_userinfo();
     foreach($this->attributes as $val){
@@ -629,9 +629,9 @@ class user extends plugin
       $smarty->assign("$val"."ACL", $this->getacl($val,(!is_object($this->parent) && !session::is_set('edit'))));
     }
 
-    // Special ACL for gosaLoginRestrictions - 
-    // In case of multiple edit, we need a readonly ACL for the list. 
-    $smarty->assign('gosaLoginRestriction_ONLY_R_ACL', 
+    // Special ACL for gosaLoginRestrictions -
+    // In case of multiple edit, we need a readonly ACL for the list.
+    $smarty->assign('gosaLoginRestriction_ONLY_R_ACL',
       preg_replace("/[^r]/i","", $this->getacl($val,(!is_object($this->parent) && !session::is_set('edit')))));
 
     $smarty->assign("pwmode", $pwd_methods);
@@ -644,7 +644,7 @@ class user extends plugin
     }else{
       $smarty->assign("CertificatesACL",  $this->getacl("Certificate"));
     }
-    
+
     $smarty->assign("userPictureACL",   $this->getacl("userPicture",(!is_object($this->parent) && !session::is_set('edit'))));
     $smarty->assign("userPicture_is_readable",   $this->acl_is_readable("userPicture",(!is_object($this->parent) && !session::is_set('edit'))));
 
@@ -674,7 +674,7 @@ class user extends plugin
     }  else {
       $uidACL= preg_replace("/w/","",$uidACL);
     }
-    
+
     $smarty->assign("uidACL", $uidACL);
     $smarty->assign("is_template", $this->is_template);
     $smarty->assign("use_dob", $this->use_dob);
@@ -716,9 +716,9 @@ class user extends plugin
     if (!$ldap->success()){
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_DEL, get_class()));
     }
-  
+
     new log("remove","users/".get_class($this),$this->dn,$this->attributes,$ldap->get_error());
-  
+
     /* Delete references to groups */
     $ldap->cd ($this->config->current['BASE']);
     $ldap->search ("(&(objectClass=posixGroup)(memberUid=".$this->uid."))", array("uid"));
@@ -797,7 +797,7 @@ class user extends plugin
       plugin::save_object ();
 
       /* Refresh base */
-      if ($this->acl_is_moveable($this->base) || 
+      if ($this->acl_is_moveable($this->base) ||
             ($this->dn == "new" && $this->acl_is_createable($this->base))){
         if (!$this->baseSelector->update()) {
           msg_dialog::display(_("Error"), msgPool::permMove(), ERROR_DIALOG);
@@ -807,7 +807,7 @@ class user extends plugin
           $this->is_modified= TRUE;
         }
       }
-      
+
       /* Sync lists */
       $this->gosaLoginRestrictionWidget->save_object();
       if ($this->gosaLoginRestrictionWidget->isModified()) {
@@ -880,16 +880,16 @@ class user extends plugin
     }
   }
 
-  
+
   /* Save data to LDAP, depending on is_account we save or delete */
   function save()
   {
     global $lang;
 
-    /* Only force save of changes .... 
+    /* Only force save of changes ....
        If this attributes aren't changed, avoid saving.
      */
-  
+
     if($this->gender=="0") $this->gender ="";
     if($this->preferredLanguage=="0") $this->preferredLanguage ="";
 
@@ -988,15 +988,15 @@ class user extends plugin
     /* Special handling for attribute jpegPhote needed, scale image via
        image magick to 147x200 pixels and inject resulting data. */
     if ($this->jpegPhoto == "*removed*"){
-      /* Reset attribute to avoid writing *removed* as value */    
+      /* Reset attribute to avoid writing *removed* as value */
       $this->attrs["jpegPhoto"] = array();
     } else {
         if (class_exists('Imagick')) {
           $im = new Imagick();
           $im->readImageBlob($this->photoData);
-            
+
           $size = $im->getSize();
-            
+
           if (($size['columns'] != 0 and $size['rows'] != 0) and ($size['columns'] != 147 and $size['rows'] != 200)) {
             $im->resizeImage(147, 200, Imagick::FILTER_GAUSSIAN, 1, FALSE);
             $im->setImageFormat('jpeg');
@@ -1004,8 +1004,8 @@ class user extends plugin
             /* Save attribute */
             $this->attrs["jpegPhoto"] = $im->getImageBlob();
         } else {
-            msg_dialog::display(_("Error"), 
-                    _("Cannot save user picture, FusionDirectory requires the package 'php5-imagick' to be installed!"), 
+            msg_dialog::display(_("Error"),
+                    _("Cannot save user picture, FusionDirectory requires the package 'php5-imagick' to be installed!"),
                     ERROR_DIALOG);
         }
     }
@@ -1081,7 +1081,7 @@ class user extends plugin
       new log("create","users/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
     }
 
-    /* Remove cert? 
+    /* Remove cert?
        For some reason, the 'ldap' class doesn't want to remove binary entries, so I need
        to work around myself. */
     if ($remove_userCertificate == true && !$this->is_new && $this->had_userCertificate){
@@ -1160,7 +1160,7 @@ class user extends plugin
       $attrl[$attr]= strlen($attr);
     }
     arsort($attrl);
-    
+
     // Walk thru sorted attributes and replace them in pattern
     foreach ($attrl as $attr => $dummy) {
       if (!is_array($this->$attr)){
@@ -1180,7 +1180,7 @@ class user extends plugin
     return $pattern;
   }
 
-  
+
   function update_new_dn()
   {
     // Alternative way to handle DN
@@ -1224,7 +1224,7 @@ class user extends plugin
       }
     }
   }
-  
+
 
   /* Check formular input */
   function check()
@@ -1232,8 +1232,8 @@ class user extends plugin
     /* Call common method to give check the hook */
     $message= plugin::check();
 
-    /* Configurable password methods should be configured initially. 
-     */ 
+    /* Configurable password methods should be configured initially.
+     */
     if($this->last_pw_storage != $this->pw_storage){
       $temp= passwordMethod::get_available_methods();
       foreach($temp['name'] as $id => $name){
@@ -1360,7 +1360,7 @@ class user extends plugin
     $ldap->cd ($this->dn);
     $data = $ldap->get_attribute($this->dn,"jpegPhoto");
 
-    if((!$data) || ($data == "*removed*")){ 
+    if((!$data) || ($data == "*removed*")){
 
       /* In case we don't get an entry, load a default picture */
       $this->set_picture ();
@@ -1394,7 +1394,7 @@ class user extends plugin
 
     if ($sr) {
       $ei= @ldap_first_entry($ds, $sr);
-      
+
       if ($ei) {
         if (!$info = @ldap_get_values_len($ds, $ei, "userCertificate;binary")){
           $this->userCertificate= "";
@@ -1418,6 +1418,7 @@ class user extends plugin
       $this->jpegPhoto= "*removed*";
     }
 
+    clearstatcache();
     $fd = fopen ($filename, "rb");
     $this->photoData= fread ($fd, filesize ($filename));
     session::set('binary',$this->photoData);
@@ -1431,6 +1432,7 @@ class user extends plugin
   /* Load certificate from file to object */
   function set_cert($cert, $filename)
   {
+    clearstatcache();
     if(!$this->acl_is_writeable("Certificate",(!is_object($this->parent) && !session::is_set('edit')))) return;
     $fd = fopen ($filename, "rb");
     if (filesize($filename)>0) {
@@ -1447,7 +1449,7 @@ class user extends plugin
   {
     plugin::adapt_from_template($dn, $skip);
 
-    /* Get password method from template 
+    /* Get password method from template
      */
     $tmp= passwordMethod::get_method($this->attrs['userPassword'][0]);
     if(is_object($tmp)){
@@ -1473,7 +1475,7 @@ class user extends plugin
 
         if (isset($this->attrs["$val"][0])){
 
-          /* If attribute is set, replace dynamic parts: 
+          /* If attribute is set, replace dynamic parts:
              %sn, %givenName and %uid. Fill these in our local variables. */
           $value= $this->attrs["$val"][0];
 
@@ -1509,26 +1511,26 @@ class user extends plugin
 
   }
 
- 
-  /* This avoids that users move themselves out of their rights. 
+
+  /* This avoids that users move themselves out of their rights.
    */
   function allowedBasesToMoveTo()
   {
     /* Get bases */
     $bases  = $this->get_allowed_bases();
     return($bases);
-  } 
+  }
 
 
   function getCopyDialog()
   {
     $str = "";
 
-    session::set('binary',$this->photoData); 
+    session::set('binary',$this->photoData);
     session::set('binarytype',"image/jpeg");
 
     /* Get random number for pictures */
-    srand((double)microtime()*1000000); 
+    srand((double)microtime()*1000000);
     $rand = rand(0, 10000);
 
     $smarty = get_smarty();
@@ -1548,7 +1550,7 @@ class user extends plugin
 
     $ret = array();
     $ret['string'] = $str;
-    $ret['status'] = "";  
+    $ret['status'] = "";
     return($ret);
   }
 
@@ -1573,7 +1575,7 @@ class user extends plugin
       if(isset($_POST[$attr])){
         $this->$attr = $_POST[$attr];
       }
-    } 
+    }
   }
 
 
@@ -1610,12 +1612,12 @@ class user extends plugin
 
   static function plInfo()
   {
-  
+
     $govattrs= array(
-        "gouvernmentOrganizationalUnit"             =>  _("Unit"), 
-        "houseIdentifier"                           =>  _("House identifier"), 
+        "gouvernmentOrganizationalUnit"             =>  _("Unit"),
+        "houseIdentifier"                           =>  _("House identifier"),
         "vocation"                                  =>  _("Vocation"),
-        "ivbbLastDeliveryCollective"                =>  _("Last delivery"), 
+        "ivbbLastDeliveryCollective"                =>  _("Last delivery"),
         "gouvernmentOrganizationalPersonLocality"   =>  _("Person locality"),
         "gouvernmentOrganizationalUnitDescription"  =>  _("Unit description"),
         "gouvernmentOrganizationalUnitSubjectArea"  =>  _("Subject area"),
@@ -1647,11 +1649,11 @@ class user extends plugin
           "dateOfBirth"       => _("Date of birth"),
           "gender"            => _("Sex"),
           "preferredLanguage" => _("Preferred language"),
-          "base"              => _("Base"), 
+          "base"              => _("Base"),
 
           "userPicture"       => _("User picture"),
 
-          "gosaLoginRestriction" => _("Login restrictions"),         
+          "gosaLoginRestriction" => _("Login restrictions"),
 
           "o"                 => _("Organization"),
           "ou"                => _("Department"),
@@ -1673,7 +1675,7 @@ class user extends plugin
           "homePostalAddress" => _("Home postal address"),
           "homePhone"         => _("Home phone number"),
           "labeledURI"        => _("Homepage"),
-          "userPassword"      => _("User password method"), 
+          "userPassword"      => _("User password method"),
           "Certificate"       => _("User certificates"))
 
         );
@@ -1715,7 +1717,7 @@ class user extends plugin
     $ret['gosaLoginRestriction'] = $this->gosaLoginRestriction;
     $ret['gosaLoginRestriction_some'] = $this->gosaLoginRestriction_some;
 
-    return($ret); 
+    return($ret);
   }
 
 
@@ -1738,7 +1740,7 @@ class user extends plugin
         }
       }
     }
-  
+
     /* Refresh base */
     if ($this->acl_is_moveable($this->base)){
       if (!$this->baseSelector->update()) {
@@ -1764,7 +1766,7 @@ class user extends plugin
     }
   }
 
-  
+
   function multiple_check()
   {
     /* Call check() to set new_dn correctly ... */
@@ -1863,7 +1865,7 @@ class user extends plugin
       }
     }
 
-    // Add enforced loginRestrictions 
+    // Add enforced loginRestrictions
     foreach($attrs['gosaLoginRestriction'] as $ip){
       $lR[] = $ip;
     }
@@ -1886,7 +1888,7 @@ class user extends plugin
       }else{
         $data['displayData'][] = array('mode' => 0 , 'data' => array($ip));
       }
-    }   
+    }
     return($data);
   }
 }
