@@ -28,7 +28,7 @@ use 5.008;
 
 my $add_cmd     = "ldapadd -Y EXTERNAL -H ldapi:/// -f ";
 my $search_cmd  = "ldapsearch -Y EXTERNAL -H ldapi:// -b \"cn=schema,cn=config\" cn={*}";
-my $path        = "/etc/ldap/schema/fusiondirectory";
+my $path        = "/etc/ldap/schema/fusiondirectory/";
 my $full_cmd    = "";
 my $ldap_utils_path = "/usr/bin/ldapadd";
 
