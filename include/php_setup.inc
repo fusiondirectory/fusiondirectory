@@ -23,7 +23,7 @@
 /*!
  * \file php_setup.inc
  * Source code for php_setup
- */ 
+ */
 require_once ("variables.inc");
 
 /*!
@@ -36,7 +36,7 @@ require_once ("variables.inc");
  * \param string $errfile The error filename
  *
  * \param string $errline The error line
- */  
+ */
 function gosaRaiseError($errno, $errstr, $errfile, $errline)
 {
   global $error_collector,$config, $error_collector_mailto;
@@ -172,19 +172,21 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
         $type= "-";
       }
       $args= "";
-      if (isset($ct['args'])){
-        foreach ($ct['args'] as $arg){
+      if (isset($ct['args'])) {
+        foreach ($ct['args'] as $arg) {
 
           /* Avoid convertig object to string errors */
-          if(is_object($arg)){
+          if (is_object($arg)) {
             $arg = "CLASS:&nbsp;".get_class($arg);
+          } elseif (is_array($arg)) { /* Avoid convertig array to string errors */
+            $arg = "array(".implode(','$arg).")";
           }
 
           $args.= "\"$arg\", ";
         }
       }
-      $args= preg_replace("/, $/", "", $args);
-      if ($args == ""){
+      $args = preg_replace("/, $/", "", $args);
+      if ($args == "") {
         $args= "-";
       }
       if(isset($ct['file'])) {
@@ -230,7 +232,7 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
 
 /*!
  * \brief Dummy error handler
- */ 
+ */
 function dummy_error_handler()
 {
 }

@@ -205,9 +205,9 @@ class Step_Checks extends setup_step
     /* Session auto start must be turned off */
     $session_auto_start = ini_get('session.auto_start');
     $N = "session.auto_start = <b>"._("Off")."</b>";
-    $D = _("In Order to use FusionDirectory without any trouble, the session.auto_register option in your php.ini should be set to 'Off'.");
+    $D = _("In Order to use FusionDirectory without any trouble, the session.auto_start option in your php.ini should be set to 'Off'.");
     $S = _("Search for 'session.auto_start' in your php.ini and set it to 'Off'.");
-    $R = !$session_auto_start['local_value'];
+    $R = !$session_auto_start;
     $M = TRUE;
     $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
