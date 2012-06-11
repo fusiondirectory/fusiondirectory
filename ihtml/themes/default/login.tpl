@@ -32,19 +32,19 @@
     {if $ssl}<b>{$ssl}</b>{/if}
     {if $lifetime}<b><font style="color:red";>{$lifetime}</font></b>{/if}
       </div>
-  
+
 
         <input id='focus' name='focus' type='image' src='images/empty.png' style='width:0px; height:0px;' />
-    <div style='text-align:center; padding:10px;'>  
+    <div style='text-align:center; padding:10px;'>
     <label for='username'><img class='center' align='middle' src='{$personal_img}' alt='{t}Username{/t}' title='{t}Username{/t}' />&nbsp;</label>
-    <input type='text' name='username' id='username' maxlength='40' value='{$username}'
+    <input type='text' name='username' id='username' value='{$username}'
        title='{t}Username{/t}' onFocus="nextfield= 'password';" />
     <br />
     <br />
     <label for='password'><img class='center' align='middle' src='{$password_img}' alt='{t}Password{/t}' title='{t}Password{/t}' />&nbsp;</label>
-    <input type='password' name='password' id='password' maxlength='40' value=''
+    <input type='password' name='password' id='password' value=''
        title='{t}Password{/t}' onFocus="nextfield= 'login';" />
-    </div>  
+    </div>
     <div style='text-align:center; padding:15px;'>
             <img class='center' align='middle' src='{$directory_img}' alt='{t}Directory{/t}' title='{t}Directory{/t}' />&nbsp;
       <select name='server'  title='{t}Directory{/t}'>
@@ -73,8 +73,8 @@
       <!-- Display error message on demand -->
         <input type='submit' name='login' value='{t}Sign in{/t}'
          title='{t}Click here to log in{/t}' onFocus="nextfield='login';" />
-      <input type='hidden' name='javascript' value='false' />   
-      <input type='hidden' name='login' value='{t}Sign in{/t}' />   
+      <input type='hidden' name='javascript' value='false' />
+      <input type='hidden' name='login' value='{t}Sign in{/t}' />
     </div>
     <div style="clear:both"></div>
   </div>
@@ -87,7 +87,7 @@
 {$errors}
 
 <script language="JavaScript" type="text/javascript">
-<!-- 
+<!--
   enable_keyPress = false;
   nextfield= "{$nextfield}";
   focus_field("{$nextfield}");
