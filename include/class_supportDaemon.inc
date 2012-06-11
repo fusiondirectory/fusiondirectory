@@ -158,9 +158,7 @@ class supportDaemon
       return $this->append_call($action,$targets,$data_json);
     } else {
       /* Updated edited entry. */
-      $id                 = $event->get_id();
-      $data               = $event->save();
-      return($this->update_entries(array($id),$data));
+      trigger_error("Event is not new. This should not happen.");
     }
 
     return(FALSE);
@@ -375,30 +373,6 @@ class supportDaemon
   public function get_entry_by_id($id)
   {
     return $this->get_entries_by_id(array($id));
-  }
-
-  /*!
-   * \brief  Updates an entry with a set of new values,
-   *
-   * \param  integer $ids The ID of the entry, we want to update.
-   *
-   * \param  array $data  The variables to update.
-   *
-   * \return boolean Returns TRUE on success.
-  */
-  public function update_entries($ids,$data)
-  {
-    if(!is_array($ids)){
-      trigger_error("Requires an array as first parameter.");
-      return;
-    }
-
-    if(!is_array($data)){
-      trigger_error("Requires an array as second parameter.");
-      return;
-    }
-
-    // won't be implemented
   }
 
   /*!
