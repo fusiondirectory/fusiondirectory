@@ -23,7 +23,7 @@
 /*!
  * \file class_pdfExporter.inc
  * Source code for class pdfExporter
- */ 
+ */
 
 // Try to load PDF library
 @include_once(FPDF);
@@ -31,7 +31,7 @@
 // Load supporter class only if FPDF is loaded
 $classes= get_declared_classes();
 if(in_array('FPDF', $classes)) {
-  include('class_PDF.inc');
+  include('class_PDF.php');
 }
 
 /*!
@@ -51,7 +51,7 @@ class pdfExporter
    * \param array $entries
    *
    * \param array $columns
-   */ 
+   */
   function pdfExporter($headline, $header, $entries, $columns= array()) {
     // Bail out if no FPDF available
     if(!class_exists('FPDF')) {
@@ -74,7 +74,7 @@ class pdfExporter
 
     // Analyze for width
     $width= $this->calcWidth($header, $entries, $columns);
-    
+
     // Render head
     $this->result->SetFont('','B');
     $this->result->SetTextColor(0);
@@ -140,7 +140,7 @@ class pdfExporter
    * \param array $entries
    *
    * \param array $columns
-   */ 
+   */
   function calcWidth($header, $entries, $columns)
   {
     $width= array();
@@ -180,7 +180,7 @@ class pdfExporter
 
   /*!
    * \brief Get the result
-   */ 
+   */
   function query()
   {
      return $this->result->Output("", "S");
@@ -188,7 +188,7 @@ class pdfExporter
 
   /*!
    * \brief Get informations
-   */ 
+   */
   static function getInfo()
   {
     // Check if class defined

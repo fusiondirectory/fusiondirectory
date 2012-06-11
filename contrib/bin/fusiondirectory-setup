@@ -125,7 +125,7 @@ sub get_classes {
         }
 
         # only process if $file is a .inc or a .php file
-        if ( ( $file =~ /.*\.(inc|php)$/ ) && ( $file !~ /.*smarty.*/ ) ) {
+        if ( ( $file =~ /.*\.inc$/ ) && ( $file !~ /.*smarty.*/ ) ) {
           # put the entire content of the file pointed by $file in $data
           my @lines = $file->slurp;
 
