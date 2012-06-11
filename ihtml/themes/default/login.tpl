@@ -37,13 +37,13 @@
         <input id='focus' name='focus' type='image' src='images/empty.png' style='width:0px; height:0px;' />
     <div style='text-align:center; padding:10px;'>
     <label for='username'><img class='center' align='middle' src='{$personal_img}' alt='{t}Username{/t}' title='{t}Username{/t}' />&nbsp;</label>
-    <input type='text' name='username' id='username' value='{$username}'
+    <input type='text' name='username' id='username' maxlength='40' value='{$username}'
        title='{t}Username{/t}' onFocus="nextfield= 'password';" />
     <br />
     <br />
     <label for='password'><img class='center' align='middle' src='{$password_img}' alt='{t}Password{/t}' title='{t}Password{/t}' />&nbsp;</label>
-    <input type='password' name='password' id='password' value=''
-       title='{t}Password{/t}' onFocus="nextfield= 'login';" /><br/>
+    <input type='password' name='password' id='password' maxlength='40' value=''
+       title='{t}Password{/t}' onFocus="nextfield= 'login';" />
     <a href="recovery.php">{t}I forgot my password{/t}</a>
     </div>
     <div style='text-align:center; padding:15px;'>
