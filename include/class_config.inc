@@ -23,9 +23,9 @@
 /*!
  * \file class_config.inc
  *  Source code for the class config
- */ 
+ */
 
-/*! 
+/*!
  * \brief This class is responsible for parsing and querying the
  * fusiondirectory configuration file.
  */
@@ -40,17 +40,17 @@ class config  {
   var $gpc= 0;
   var $section= "";
   var $currentLocation= "";
-  
-  /*! 
-   * \brief Store configuration for current location 
+
+  /*!
+   * \brief Store configuration for current location
    */
-  var $current= array(); 
+  var $current= array();
 
   /* Link to LDAP-server */
   var $ldap= NULL;
   var $referrals= array();
 
-  /* 
+  /*
    * \brief Configuration data
    *
    * - $data['SERVERS'] contains server informations.
@@ -73,9 +73,9 @@ class config  {
 
   /*!
    * \brief Class constructor of the config class
-   *  
+   *
    * \param string $filename path to the configuration file
-   * 
+   *
    * \param string $basedir base directory
    */
   function config($filename, $basedir= "")
@@ -95,17 +95,17 @@ class config  {
 
   /*!
    * \brief Check and reload the configuration
-   * 
+   *
    * This function checks if the configuration has changed, since it was
    * read the last time and reloads it. It uses the file mtime to check
    * weither the file changed or not.
-   */ 
+   */
   function check_and_reload()
   {
     global $ui;
 
-    /* Check if class_location.inc has changed, this is the case 
-        if we have installed or removed plugins. 
+    /* Check if class_location.inc has changed, this is the case
+        if we have installed or removed plugins.
      */
     if(session::global_is_set("class_location.inc:timestamp")){
       $tmp = stat(CACHE_DIR."/".CLASS_CACHE);
@@ -131,11 +131,11 @@ class config  {
       $this->parse($this->filename);
       $this->set_current($this->current['NAME']);
     }
-  }  
+  }
 
 
-  /*! 
-   * \brief Parse the given configuration file 
+  /*!
+   * \brief Parse the given configuration file
    *
    * Parses the configuration file and displays errors if there
    * is something wrong with it.
@@ -145,15 +145,15 @@ class config  {
   function parse($filename)
   {
     $this->data = array(
-        "TABS"      => array(), 
-        "LOCATIONS" => array(), 
-        "MAIN"      => array(), 
-        "MENU"      => array(), 
+        "TABS"      => array(),
+        "LOCATIONS" => array(),
+        "MAIN"      => array(),
+        "MENU"      => array(),
         "SERVICE"   => array());
 
     $this->last_modified = filemtime($filename);
     $this->filename = $filename;
-    $fh= fopen($filename, "r"); 
+    $fh= fopen($filename, "r");
     $xmldata= fread($fh, 100000);
     fclose($fh);
     if(!xml_parse($this->parser, chop($xmldata))){
@@ -171,13 +171,13 @@ class config  {
   }
 
 
-  /*! 
+  /*!
    * \brief Open xml tag when parsing the xml config
    *
    * \param string $parser
-   * 
+   *
    * \param string $tag
-   * 
+   *
    * \param string $attrs
    */
   function tag_open($parser, $tag, $attrs)
@@ -205,7 +205,7 @@ class config  {
         $attrs[$name] = "true";
       }elseif(preg_match("/^(false|no)$/i",$value)){
         $attrs[$name] = "false";
-      } 
+      }
     }
 
     /* Look through attributes */
@@ -280,11 +280,11 @@ class config  {
   }
 
 
-  /*! 
+  /*!
    * \brief Close xml tag when parsing the xml config
    *
    * \param string $parser
-   * 
+   *
    * \param string $tag
    */
   function tag_close($parser, $tag)
@@ -297,12 +297,12 @@ class config  {
   }
 
 
-  /*! 
+  /*!
    * \brief Get the password when needed from the config file
    *
-   * This function can be used to get the password associated to 
+   * This function can be used to get the password associated to
    * a keyword in the config file
-   * 
+   *
    * \param string $creds the keyword associated to the password needed
    *
    * \return string the password corresponding to the keyword
@@ -324,7 +324,7 @@ class config  {
   }
 
 
-  /*! 
+  /*!
    * \brief Get a LDAP link object
    *
    * This function can be used to get an ldap object, which in turn can
@@ -339,7 +339,7 @@ class config  {
    * \param boolean $sizelimit Weither to impose a sizelimit on the LDAP object or not.
    * Defaults to false. If set to true, the size limit in the configuration
    * file will be used to set the option LDAP_OPT_SIZELIMIT.
-   * 
+   *
    * \return ldapMultiplexer object
    */
   function get_ldap_link($sizelimit= FALSE)
@@ -380,9 +380,9 @@ class config  {
   }
 
 
-  /*! 
+  /*!
    * \brief Set the current location
-   *  
+   *
    * \param string $name the name of the location
    */
   function set_current($name)
@@ -399,7 +399,7 @@ class config  {
     if (isset($this->current['INITIAL_BASE'])){
       session::global_set('CurrentMainBase',$this->current['INITIAL_BASE']);
     }
-  
+
     /* Remove possibly added ',' from end of group and people ou */
     $this->current['GROUPS'] = preg_replace("/,*$/","",$this->current['GROUPRDN']);
     $this->current['USERRDN'] = preg_replace("/,*$/","",$this->current['USERRDN']);
@@ -484,7 +484,7 @@ class config  {
     $ldap= $this->get_ldap_link();
     $ldap->cd ($this->current['BASE']);
 
-    /* Search mailMethod configuration in main section too 
+    /* Search mailMethod configuration in main section too
      */
     $this->current['MAILMETHOD'] = $this->get_cfg_value("mailMethod","");
     if (!isset($this->current['MAILMETHOD'])){
@@ -495,8 +495,8 @@ class config  {
       $this->data['SERVERS']['IMAP']= array();
       while ($attrs= $ldap->fetch()){
         $name= $attrs['cn'][0];
-        $this->data['SERVERS']['IMAP'][$name]= 
-          array( 
+        $this->data['SERVERS']['IMAP'][$name]=
+          array(
               "server_dn"   => $attrs['dn'],
               "connect"     => "",
               "admin"       => "",
@@ -506,7 +506,7 @@ class config  {
               "sieve_port"  => "");
       }
     } else {
-      $ldap->search ("(&(objectClass=goImapServer)(goImapSieveServer=*))", 
+      $ldap->search ("(&(objectClass=goImapServer)(goImapSieveServer=*))",
                     array('goImapName', 'goImapConnect', 'goImapAdmin', 'goImapPassword',
             'goImapSieveServer', 'goImapSievePort'));
 
@@ -530,9 +530,9 @@ class config  {
         $imap_connect   = $attrs['goImapConnect'][0];
         $imap_server    = $attrs['goImapName'][0];
         $sieve_port     = $attrs['goImapSievePort'][0];
-        
-        $this->data['SERVERS']['IMAP'][$imap_server]= 
-            array( 
+
+        $this->data['SERVERS']['IMAP'][$imap_server]=
+            array(
             "server_dn"   => $attrs['dn'],
             "connect"     => $imap_connect,
             "admin"       => $imap_admin,
@@ -545,7 +545,7 @@ class config  {
 
     /* Get kerberos server. FIXME: only one is supported currently */
     $ldap->cd ($this->current['BASE']);
-    $ldap->search ("(&(goKrbRealm=*)(goKrbAdmin=*)(objectClass=goKrbServer))");
+    $ldap->search ("(objectClass=goKrbServer)(goKrbRealm=*)(goKrbAdmin=*))");
     if ($ldap->count()){
       $attrs= $ldap->fetch();
       $this->data['SERVERS']['KERBEROS']= array( 'SERVER' => $attrs['cn'][0],
@@ -558,7 +558,7 @@ class config  {
     $ldap->search ("(objectClass=goCupsServer)");
     if ($ldap->count()){
       $attrs= $ldap->fetch();
-      $this->data['SERVERS']['CUPS']= $attrs['cn'][0];  
+      $this->data['SERVERS']['CUPS']= $attrs['cn'][0];
     }
 
     /* Get fax server. FIXME: only one is supported currently */
@@ -656,12 +656,12 @@ class config  {
       $this->data['SERVERS']['TERMINAL'][]= $attrs["cn"][0];
       if(isset( $attrs["gotoSessionType"]['count'])){
         for($i =0 ; $i < $attrs["gotoSessionType"]['count'] ; $i++){
-          $this->data['SERVERS']['TERMINAL_SESSION_TYPES'][$attrs["cn"][0]][] = $attrs["gotoSessionType"][$i]; 
+          $this->data['SERVERS']['TERMINAL_SESSION_TYPES'][$attrs["cn"][0]][] = $attrs["gotoSessionType"][$i];
         }
       }
     }
 
-    /* Ldap Server 
+    /* Ldap Server
      */
     $this->data['SERVERS']['LDAP']= array();
     $ldap->cd ($this->current['BASE']);
@@ -708,16 +708,16 @@ class config  {
             "RIDBASE" => $this->current["SAMBARIDBASE"]);
       }
     }
-    
+
   }
 
 
-  /*! 
+  /*!
    * \brief Get the departments from ldap
    *
-   * This function can be used to get the password associated to 
+   * This function can be used to get the password associated to
    * a keyword in the config file
-   * 
+   *
    * \param string $ignore_dn dn of the department
    */
   function get_departments($ignore_dn= "")
@@ -731,12 +731,12 @@ class config  {
     $this->tdepartments= array();
 
     /* Get all department types from department Management, to be able detect the department type.
-        -It is possible that differnty department types have the same name, 
+        -It is possible that differnty department types have the same name,
          in this case we have to mark the department name to be able to differentiate.
           (e.g l=Name  or   o=Name)
-     */    
+     */
     $types = departmentManagement::get_support_departments();
-    
+
     /* Create a list of attributes to fetch */
     $ldap_values = array("objectClass","gosaUnitTag", "description");
     $filter = "";
@@ -776,12 +776,12 @@ class config  {
         $administrative[$dn]= $attrs['gosaUnitTag'][0];
         $this->tdepartments[$dn]= $attrs['gosaUnitTag'][0];
       }
-    
+
       if (in_array_ics("gosaAdministrativeUnitTag", $attrs['objectClass']) &&
           isset($attrs['gosaUnitTag'][0])){
         $this->tdepartments[$dn]= $attrs['gosaUnitTag'][0];
       }
-    
+
       if ($dn == $ignore_dn){
         continue;
       }
@@ -825,7 +825,7 @@ class config  {
       }
 
       /* Split dn into single department pieces */
-      $elements = array_reverse(explode(',',preg_replace("/$qbase$/",'',$val)));    
+      $elements = array_reverse(explode(',',preg_replace("/$qbase$/",'',$val)));
 
       /* Add last ou element of current dn to our array */
       $last = &$arr;
@@ -834,7 +834,7 @@ class config  {
         /* skip empty */
         if(empty($ele)) continue;
 
-        /* Extract department name */   
+        /* Extract department name */
         $elestr = trim(preg_replace('/^[^=]*+=/','', $ele),',');
         $nameA  = trim(preg_replace('/=.*$/','', $ele),',');
         if($nameA != 'ou'){
@@ -842,8 +842,8 @@ class config  {
         }else{
           $nameA = '';
         }
-    
-        /* Add to array */  
+
+        /* Add to array */
         if($key == (count($elements)-1)){
           $last[$elestr.$nameA]['ENTRY'] = $val;
         }
@@ -861,13 +861,13 @@ class config  {
   }
 
 
-  /* 
-   * \brief Creates display friendly output from make_idepartments 
-   * 
+  /*
+   * \brief Creates display friendly output from make_idepartments
+   *
    * \param $arr arr
-   * 
+   *
    * \param int $depth initialized at -1
-   * 
+   *
    * \param int $max_size initialized at 256
    */
   function generateDepartmentArray($arr,$depth = -1,$max_size = 256)
@@ -875,11 +875,11 @@ class config  {
     $ret = array();
     $depth ++;
 
-    /* Walk through array */  
+    /* Walk through array */
     ksort($arr);
     foreach($arr as $name => $entries){
 
-      /* If this department is the last in the current tree position 
+      /* If this department is the last in the current tree position
        * remove it, to avoid generating output for it */
       if(count($entries['SUB'])==0){
         unset($entries['SUB']);
@@ -893,14 +893,14 @@ class config  {
         $name = mb_substr($name,0,($max_size-3), 'UTF-8')." ...";
       }
 
-      /* Append the name to the list */ 
+      /* Append the name to the list */
       if(isset($entries['ENTRY'])){
         $a = "";
         for($i = 0 ; $i < $depth ; $i ++){
           $a.=".";
         }
         $ret[$entries['ENTRY']]=$a."&nbsp;".$name;
-      } 
+      }
 
       /* recursive add of subdepartments */
       if(isset($entries['SUB'])){
@@ -912,14 +912,14 @@ class config  {
   }
 
 
-  /*! 
+  /*!
    * \brief Get all available shares defined in the current LDAP
    *
    * This function returns all available Shares defined in this ldap
-   *  
+   *
    * \param boolean $listboxEntry If set to TRUE, only name and path are
    *  attached to the array. If FALSE, the whole entry will be parsed an atached to the result.
-   * 
+   *
    * \return array list of share defined in the current LDAP
    */
   function getShareList($listboxEntry = false)
@@ -953,7 +953,7 @@ class config  {
   }
 
 
-  /*! 
+  /*!
    * \brief Return all available share servers in LDAP
    *
    * This function returns all available ShareServers.
@@ -970,7 +970,7 @@ class config  {
           get_ou("serverRDN"), $base,array("goExportEntry","cn"),GL_NONE | GL_NO_ACL_CHECK);
 
     foreach($res as $entry){
-        
+
         $acl = $ui->get_permissions($entry['dn'],"server","");
         if(isset($entry['goExportEntry']['count'])){
           unset($entry['goExportEntry']['count']);
@@ -991,7 +991,7 @@ class config  {
   }
 
 
-  /*! 
+  /*!
    * \brief Check if there's the specified bool value set in the configuration
    *
    *  The function checks, weither the specified bool value is set to a true
@@ -1006,7 +1006,7 @@ class config  {
    *  \endcode
    *
    *  \param string $section Section in the configuration file.
-   * 
+   *
    *  \param string $value Key in the given section, which is subject to check
    *
    *  \return bool TRUE if option set in the config file
@@ -1016,7 +1016,7 @@ class config  {
     $section= strtoupper($section);
     $value= strtoupper($value);
     if (isset($this->data[$section][$value])){
-    
+
       $data= $this->data[$section][$value];
       if (preg_match("/^true$/i", $data) || preg_match("/yes/i", $data)){
         return TRUE;
@@ -1047,7 +1047,7 @@ class config  {
   }
 
 
-  /*! 
+  /*!
    * \brief Search for a configuration setting in different categories
    *
    *  Searches for the value of a given key in the configuration data.
@@ -1060,11 +1060,11 @@ class config  {
    *  \endcode
    *
    *  \param string $class The class name
-   * 
+   *
    *  \param string $value Key to search in the configuration data
-   * 
-   *  \param array $categories Array where the search should run 
-   * 
+   *
+   *  \param array $categories Array where the search should run
+   *
    *  \return string the value you asked for or empty
    */
   function search($class, $value, $categories= "")
@@ -1082,13 +1082,13 @@ class config  {
       } else {
         return $this->__search($this->data[strtoupper($categories)], $class, $value);
       }
-    } 
+    }
 
     return ("");
   }
 
 
-  /*! 
+  /*!
    * \brief Get a configuration value from the config
    *
    *  This returns a configuration value from the config. It either
@@ -1100,7 +1100,7 @@ class config  {
    *  then the default is returned.
    *
    * \param string $name The configuration key (case-insensitive)
-   * 
+   *
    * \param string $default A default that is returned, if no value is found
    *
    * \return string the configuration value if found or the default value
@@ -1122,11 +1122,11 @@ class config  {
   }
 
 
-  /*! 
+  /*!
    * \brief Check if session lifetime matches session.gc_maxlifetime
    *
    *  On debian systems the session files are deleted with
-   *  a cronjob, which detects all files older than specified 
+   *  a cronjob, which detects all files older than specified
    *  in php.ini:'session.gc_maxlifetime' and removes them.
    *  This function checks if the fusiondirectory.conf value matches the range
    *  defined by session.gc_maxlifetime.
@@ -1141,14 +1141,14 @@ class config  {
       $cfg_lifetime = $this->data['MAIN']['SESSIONLIFETIME'];
       $ini_lifetime = ini_get('session.gc_maxlifetime');
       $deb_system   = file_exists('/etc/debian_version');
-      return(!($deb_system && ($ini_lifetime < $cfg_lifetime)));  
+      return(!($deb_system && ($ini_lifetime < $cfg_lifetime)));
     }else{
       return(TRUE);
     }
   }
 
 
-  /*! 
+  /*!
    * \brief Check if snapshot are enabled
    *
    * \return boolean TRUE if snapshot are enabled, FALSE otherwise
