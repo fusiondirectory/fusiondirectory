@@ -173,29 +173,31 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
       }
       $args= "";
       if (isset($ct['args'])) {
-        $f = function ($arg) {
+        foreach ($ct['args'] as $arg) {
+
+          /* Avoid convertig object to string errors */
           if (is_object($arg)) {
-            return "CLASS:&nbsp;".get_class($arg);
+            $arg = "CLASS:&nbsp;".get_class($arg);
           } elseif (is_array($arg)) { /* Avoid convertig array to string errors */
-            return "array(".implode(',',array_map($this,$arg)).")";
-          } else {
-            return '"'."$arg".'"';
+            $arg = "array(".implode(','$arg).")";
           }
-        };
-        $args = implode(',',array_map($f,$ct['args']));
+
+          $args.= "\"$arg\", ";
+        }
       }
-      if (empty($args)) {
-        $args = "-";
+      $args = preg_replace("/, $/", "", $args);
+      if ($args == "") {
+        $args= "-";
       }
-      if (isset($ct['file'])) {
-        $file = $ct['file'];
-      } else {
-        $file = "";
+      if(isset($ct['file'])) {
+        $file= $ct['file'];
+      }else{
+        $file="";
       }
-      if (isset($ct['line'])) {
-        $line = $ct['line'];
-      } else {
-        $line = "";
+      if(isset($ct['line'])) {
+        $line= $ct['line'];
+      }else{
+        $line="";
       }
       $color= ($index&1)?'#404040':'606060';
       $error_collector.= "<tr style='background-color:$color'><td style='padding-left:20px' width=\"30%\">"._("Trace")."[$index]: $loc</td>";
