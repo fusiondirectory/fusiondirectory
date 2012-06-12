@@ -60,13 +60,13 @@ class group extends plugin
   var $allowGroupsWithSameNameInOtherSubtrees = true;
   var $baseSelector;
 
-  /* Trustmodel/AccessTo 
+  /* Trustmodel/AccessTo
    */
   var $accessTo= array();
   var $trustModel= "";
   var $trustSelect= FALSE;
   var $host= array();
-  
+
   /* attribute list for save action */
   var $attributes= array("cn", "description", "gidNumber","memberUid","sambaGroupType","sambaSID","host");
   var $objectclasses= array("top", "posixGroup");
@@ -140,11 +140,11 @@ class group extends plugin
       $ldap->search ("(&(objectClass=sambaDomain)(sambaSID=$this->SID))",array("sambaAlgorithmicRidBase"));
       if ($ldap->count() != 0){
         $attrs= $ldap->fetch();
-        if(isset($attrs['sambaAlgorithmicRidBase'])){  
-          $this->ridBase= $attrs['sambaAlgorithmicRidBase'][0];  
-        } else {  
+        if(isset($attrs['sambaAlgorithmicRidBase'])){
+          $this->ridBase= $attrs['sambaAlgorithmicRidBase'][0];
+        } else {
           $this->ridBase= $this->config->get_cfg_value("sambaRidBase");
-        } 
+        }
 
         /* Get domain name for SID */
         $this->sambaDomainName= "DEFAULT";
@@ -183,7 +183,7 @@ class group extends plugin
     $gufilter= session::get('gufilter');
     $gufilter['SubSearchGroup'] = false;
     session::set('gufilter',$gufilter);
-  
+
     if ($this->dn == "new"){
       if(session::is_set('CurrentMainBase')){
         $this->base = session::get('CurrentMainBase');
@@ -204,7 +204,7 @@ class group extends plugin
         $this->trustModel= "fullaccess";
       } else {
         $this->trustModel= "byhost";
-        $this->accessTo = array(); 
+        $this->accessTo = array();
           if ($this->is_account && isset($this->attrs['host'])){
             for ($i= 0; $i<$this->attrs['host']['count']; $i++){
               $tmp= $this->attrs['host'][$i];
@@ -279,7 +279,7 @@ class group extends plugin
 
     /* Add user to group */
     if (isset($_POST['add_users_finish']) && $this->userSelect){
-  
+
       $users = $this->userSelect->detectPostActions();
       if(isset($users['targets'])){
         $headpage = $this->userSelect->getHeadpage();
@@ -366,7 +366,7 @@ class group extends plugin
 
     /* Show ws dialog */
     if ($this->trustSelect){
-    
+
       // Build up blocklist
       session::set('filterBlacklist', array('cn' => array_values($this->accessTo)));
       return($this->trustSelect->execute());
@@ -380,7 +380,7 @@ class group extends plugin
     }else{
       $smarty->assign("nagios",false);
     }
-    
+
     if($this->config->search("phoneAccount", "CLASS",array('menu'))){
       $smarty->assign("pickupGroup",true);
     }else{
@@ -405,14 +405,14 @@ class group extends plugin
         514 => _("Domain guests"));
 
     /* Don't loose special groups! If not key'ed above, add it to
-       the combo box... */  
+       the combo box... */
     if ($this->groupType >= 500 && $this->groupType <= 553 && !isset($groupTypes[$this->groupType])){
       $groupTypes[$this->groupType]= sprintf(_("Special group (%d)"), $this->groupType);
     }
 
     $smarty->assign("groupTypes", $groupTypes);
     $smarty->assign("groupType", $this->groupType);
-    
+
 
     /* Members and users */
     $smarty->assign("members", $this->members);
@@ -482,7 +482,7 @@ class group extends plugin
     foreach($tmp['plProvidedAcls'] as $name => $translation){
       $smarty->assign($name."ACL",$this->getacl($name));
     }
-    
+
     if($this->acl_is_writeable("base")){
       $smarty->assign("baseSelect",true);
     }else{
@@ -531,24 +531,24 @@ class group extends plugin
       if(isset($this->memberUid_used_by_some[$uid])){
         unset($this->memberUid_used_by_some[$uid]);
       }
-    }  
+    }
 
-    /* Ensure that the requested object is known to the group class 
+    /* Ensure that the requested object is known to the group class
      */
     if(!isset($this->dnMapping[$uid])){
       $ldap = $this->config->get_ldap_link();
       $ldap->cd($this->config->current['BASE']);
       $ldap->search("(&(objectClass=gosaAccount)(uid=".$uid."))",array("dn", "uid","sn","givenName"));
       if($ldap->count() == 0 ){
-        msg_dialog::display(_("Error"), 
-            sprintf(_("Adding UID '%s' to group '%s' failed: cannot find user object!"), 
-              $uid,$this->cn), 
+        msg_dialog::display(_("Error"),
+            sprintf(_("Adding UID '%s' to group '%s' failed: cannot find user object!"),
+              $uid,$this->cn),
             ERROR_DIALOG);
         return;
       }elseif($ldap->count() >= 2){
-        msg_dialog::display(_("Error"), 
+        msg_dialog::display(_("Error"),
             sprintf(_("Add UID '%s' to group '%s' failed: UID is used more than once!"),
-              $uid,$this->cn), 
+              $uid,$this->cn),
             ERROR_DIALOG);
         return;
       }else{
@@ -572,8 +572,8 @@ class group extends plugin
     }
 
     /* We have two array contianing group members in multiple edit.
-     *  this->memberUid             : Groups used by all currently edited groups 
-     *  this->memberUid_used_by_some: Used by some 
+     *  this->memberUid             : Groups used by all currently edited groups
+     *  this->memberUid_used_by_some: Used by some
      * So we have to remove the specified uid from both arrays.
      */
     if($this->multiple_support_active){
@@ -596,10 +596,10 @@ class group extends plugin
     $ldap->cd($gufilter['dselect']);
 
 
-    /* Resolve still unresolved memberuids to fill the list with sn/giveName attributes 
-        (Store gathered sn/givenName informations in $this->allusers too, 
+    /* Resolve still unresolved memberuids to fill the list with sn/giveName attributes
+        (Store gathered sn/givenName informations in $this->allusers too,
          to be prepared when adding/deleting users)
-     */    
+     */
     $filter = "";
     if ($this->config->get_cfg_value("ldapFilterNestingLimit") == "" ||
         count($this->memberUid) < $this->config->get_cfg_value("ldapFilterNestingLimit")){
@@ -610,31 +610,31 @@ class group extends plugin
       }
     }
 
-    if(!empty($filter)){    
+    if(!empty($filter)){
       $ldap->cd($this->config->current['BASE']);
       $ldap->search("(&(objectClass=gosaAccount)(|".$filter."))",array("dn", "uid","sn","givenName"));
       while($attrs = $ldap->fetch()){
         $this->dnMapping[$attrs['uid'][0]] = $attrs['dn'];
         $this->members[$attrs['uid'][0]] = $this->createResultName($attrs);
         $this->allusers[$attrs['uid'][0]]= $this->createResultName($attrs);
-      } 
+      }
     }
-  
+
     /* check if all uids are resolved */
     if ($this->config->get_cfg_value("ldapFilterNestingLimit") == "" ||
         count($this->memberUid) < $this->config->get_cfg_value("ldapFilterNestingLimit")){
       foreach ($this->memberUid as $value){
         if(!isset($this->members[$value])){
-          $this->members[$value] =  _("! unknown UID")." [".$value."]"; 
+          $this->members[$value] =  _("! unknown UID")." [".$value."]";
         }
-      }  
+      }
     }else{
       foreach ($this->memberUid as $value){
-        $this->members[$value] = $value; 
-      }  
+        $this->members[$value] = $value;
+      }
     }
 
-    /* Create display list of users matching regex & filter 
+    /* Create display list of users matching regex & filter
      */
     $this->displayUsers = array();
     $filter = "(&(objectClass=gosaAccount)(!(objectClass=gosaUserTemplate))(!(uid=*$))(|(uid=".$regex.")(sn=".$regex.")(givenName=".$regex.")))";
@@ -648,7 +648,7 @@ class group extends plugin
       $base = get_people_ou().$gufilter['dselect'];
     }
     $i = 0;
-  
+
 
     $res = get_list($filter,"users",$base,array("dn", "uid", "sn", "givenName"),$flag);
 
@@ -665,12 +665,12 @@ class group extends plugin
       $this->allusers[$attrs['uid'][0]]     = $this->createResultName($attrs);
       $this->displayUsers[$attrs['uid'][0]] = $this->createResultName($attrs);
     }
-  
+
     /* If more than max users are found, display a message to warn the user */
     if($i == $MaxUser && !$silent){
       msg_dialog::display(_("Configuration error"), sprintf(_("Search returned too many results. Not displaying more than %s entries!"), $MaxUser), ERROR_DIALOG);
     }
-    
+
     /* Sort lists */
     natcasesort($this->members);
     reset($this->members);
@@ -744,8 +744,8 @@ class group extends plugin
     /* Save additional values for possible next step */
     if (isset($_POST['groupedit'])){
 
-      /* Create a base backup and reset the 
-          base directly after calling plugin::save_object();  
+      /* Create a base backup and reset the
+          base directly after calling plugin::save_object();
          Base will be set seperatly a few lines below */
       $base_tmp = $this->base;
       plugin::save_object();
@@ -770,7 +770,7 @@ class group extends plugin
       }
 
       foreach (array(
-            "force_gid"  => "gidNumber", 
+            "force_gid"  => "gidNumber",
             "smbgroup"   => "sambaGroupType") as $val => $aclname) {
         if ($this->acl_is_writeable($aclname)  && isset($_POST["$val"])){
           $this->$val= $_POST["$val"];
@@ -843,8 +843,8 @@ class group extends plugin
         $this->gidNumber= get_next_id("gidNumber", $this->dn);
       }
     }
-  
-    plugin::save(); 
+
+    plugin::save();
 
  /* Trust accounts */
     $objectclasses= array();
@@ -888,9 +888,9 @@ class group extends plugin
 
     /* Add samba group functionality */
     if ($this->smbgroup){
-  
-      /* Fixed undefined index ... 
-       */ 
+
+      /* Fixed undefined index ...
+       */
       $this->SID = $this->ridBase = "";
       if(isset($this->config->data['SERVERS']['SAMBA'][$this->sambaDomainName]['SID'])){
         $this->SID    = $this->config->data['SERVERS']['SAMBA'][$this->sambaDomainName]['SID'];
@@ -898,7 +898,7 @@ class group extends plugin
         msg_dialog::display(_("Error"), sprintf(_("Cannot find any SID for '%s'!"), $this->sambaDomainName), ERROR_DIALOG);
       }
       if(isset($this->config->data['SERVERS']['SAMBA'][$this->sambaDomainName]['RIDBASE'])){
-        $this->ridBase= $this->config->data['SERVERS']['SAMBA'][$this->sambaDomainName]['RIDBASE']; 
+        $this->ridBase= $this->config->data['SERVERS']['SAMBA'][$this->sambaDomainName]['RIDBASE'];
       }else{
         msg_dialog::display(_("Error"), sprintf(_("Cannot find any RIDBASE for '%s'!"), $this->sambaDomainName), ERROR_DIALOG);
       }
@@ -975,7 +975,7 @@ class group extends plugin
         $this->attrs['sambaGroupType']= array();
         $this->attrs['sambaSID']= array();
       }
-      
+
       $mode= "modify";
     } else {
       $mode= "add";
@@ -984,7 +984,7 @@ class group extends plugin
     }
 
 
-    /* Check generated gidNumber, it may be used by another group. 
+    /* Check generated gidNumber, it may be used by another group.
      */
     if($this->gidNumber != ""){
       $ldap->cd($this->config->current['BASE']);
@@ -1072,7 +1072,7 @@ class group extends plugin
 
       /* Check for used 'cn' */
       $ldap= $this->config->get_ldap_link();
-      if(($this->cn  != $this->orig_cn) || ($this->orig_dn == "new")){
+      if(($this->cn  != $this->orig_cn) || ($this->orig_dn == "new") || ($new_dn != $this->orig_dn)){
         $ldap->cd(get_groups_ou().$this->base);
         $ldap->ls("(&(|(objectClass=gosaGroupOfNames)(objectClass=posixGroup))(cn=$this->cn))",get_groups_ou().$this->base,array("cn"));
         if ($ldap->count() != 0){
@@ -1102,7 +1102,7 @@ class group extends plugin
         }
       }
     }
-     
+
     /* Check ID */
     if ($this->force_gid == "1"){
       if (!tests::is_id($this->gidNumber)){
@@ -1114,11 +1114,11 @@ class group extends plugin
 
       }
     }
-    
-    /* Check if we are allowed to create or move this object 
+
+    /* Check if we are allowed to create or move this object
      */
-    if(!$this->orig_dn == "new" || 
-        $this->orig_base != $this->base || 
+    if(!$this->orig_dn == "new" ||
+        $this->orig_base != $this->base ||
         $this->cn != $this->orig_cn){
 
       if($this->orig_dn == "new" && !$this->acl_is_createable($this->base)){
@@ -1135,7 +1135,7 @@ class group extends plugin
   function getCopyDialog()
   {
     $vars = array("cn");
-  
+
     if($this ->force_gid){
       $used = " checked ";
       $dis  = "";
@@ -1170,11 +1170,11 @@ class group extends plugin
     }
   }
 
-  
-  /* Return plugin informations for acl handling  */ 
+
+  /* Return plugin informations for acl handling  */
   static function plInfo()
   {
-    return (array(  
+    return (array(
           "plShortName" => _("Generic"),
           "plDescription" => _("Generic group settings"),
           "plSelfModify"  => FALSE,
@@ -1279,7 +1279,7 @@ class group extends plugin
   {
     $ret = plugin::get_multi_edit_values();
 
-    foreach(array("base","smbgroup","groupType","sambaDomainName","fon_group","nagios_group") as $attr){    
+    foreach(array("base","smbgroup","groupType","sambaDomainName","fon_group","nagios_group") as $attr){
       if(in_array($attr,$this->multi_boxes)){
         $ret[$attr] = $this->$attr;
       }
@@ -1374,9 +1374,9 @@ class group extends plugin
 
     // Detect samba groups and adapt its values.
     $this->smbgroup = in_array('sambaGroupMapping', $source['objectClass']);
-    if ($this->smbgroup) { 
-      $this->sambaSID = $this->getSambaSID(); 
-    } 
+    if ($this->smbgroup) {
+      $this->sambaSID = $this->getSambaSID();
+    }
 
     $this->memberUid = array();
     if(isset($source['memberUid'])){
@@ -1414,23 +1414,23 @@ class group extends plugin
   }
 
 
-  /*! \brief Get a new SambaSID for a group */ 
-  function getSambaSID() 
-  { 
-    $ldap = $this->config->get_ldap_link(); 
-    $gidNumber= $this->gidNumber; 
-    while(TRUE){ 
-      $sid= $this->SID."-".($gidNumber*2 + $this->ridBase+1); 
-      $ldap->cd($this->config->current['BASE']); 
-      $ldap->search("(sambaSID=$sid)",array("sambaSID")); 
-      if ($ldap->count() == 0){ 
-        break; 
-      } 
-      $gidNumber++; 
-    } 
-  
-    return $sid; 
-  } 
+  /*! \brief Get a new SambaSID for a group */
+  function getSambaSID()
+  {
+    $ldap = $this->config->get_ldap_link();
+    $gidNumber= $this->gidNumber;
+    while(TRUE){
+      $sid= $this->SID."-".($gidNumber*2 + $this->ridBase+1);
+      $ldap->cd($this->config->current['BASE']);
+      $ldap->search("(sambaSID=$sid)",array("sambaSID"));
+      if ($ldap->count() == 0){
+        break;
+      }
+      $gidNumber++;
+    }
+
+    return $sid;
+  }
 
 }
 // vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
