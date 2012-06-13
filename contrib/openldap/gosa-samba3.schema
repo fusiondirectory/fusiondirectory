@@ -3,154 +3,154 @@
 ##
 ## Version 030303
 ##
-## Maintainer:	Cajus Pollmeier (pollmeier@GONICUS.de)
+## Maintainer:  Cajus Pollmeier (pollmeier@GONICUS.de)
 ##
 
 
 # Attributes
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.1 NAME 'gosaSubtreeACL'
         DESC 'GOsa acl entry'
-	EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.2 NAME 'gosaUser'
         DESC 'GOsa user'
         EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
+  SUBSTR caseIgnoreSubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.3 NAME 'gosaObject'
         DESC 'GOsa object'
         EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
+  SUBSTR caseIgnoreSubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.4 NAME 'gosaMailServer'
         DESC 'Specify users main mail server'
         EQUALITY caseIgnoreIA5Match
-	SUBSTR caseIgnoreIA5SubstringsMatch
+  SUBSTR caseIgnoreIA5SubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.5 NAME 'gosaMailQuota'
         DESC 'GOsa quota definitions'
         EQUALITY caseIgnoreIA5Match
-	SUBSTR caseIgnoreIA5SubstringsMatch
+  SUBSTR caseIgnoreIA5SubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.6 NAME 'gosaMailAlternateAddress'
         DESC 'Additional mail addresses where the user is reachable'
         EQUALITY caseIgnoreIA5Match
-	SUBSTR caseIgnoreIA5SubstringsMatch
+  SUBSTR caseIgnoreIA5SubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.7 NAME 'gosaMailForwardingAddress'
         DESC 'Addresses where to forward mail to'
         EQUALITY caseIgnoreIA5Match
-	SUBSTR caseIgnoreIA5SubstringsMatch
+  SUBSTR caseIgnoreIA5SubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.8 NAME 'gosaMailMaxSize'
         DESC 'Block mails bigger than this value'
         EQUALITY caseIgnoreIA5Match
-	SUBSTR caseIgnoreIA5SubstringsMatch
+  SUBSTR caseIgnoreIA5SubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.9 NAME 'gosaSpamSortLevel'
         DESC 'Spamassassins hits'
         EQUALITY caseIgnoreIA5Match
-	SUBSTR caseIgnoreIA5SubstringsMatch
+  SUBSTR caseIgnoreIA5SubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.10 NAME 'gosaSpamMailbox'
         DESC 'Where to put spam'
         EQUALITY caseIgnoreIA5Match
-	SUBSTR caseIgnoreIA5SubstringsMatch
+  SUBSTR caseIgnoreIA5SubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.11 NAME 'gosaVacationMessage'
         DESC 'Text to display in case of vacation'
         EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
+  SUBSTR caseIgnoreSubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.12 NAME 'gosaMailDeliveryMode'
         DESC 'What to do with mails'
         EQUALITY caseIgnoreIA5Match
-	SUBSTR caseIgnoreIA5SubstringsMatch
+  SUBSTR caseIgnoreIA5SubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.13 NAME 'gosaDefaultPrinter'
         DESC 'Defines a default printer a user owns'
         EQUALITY caseIgnoreIA5Match
-	SUBSTR caseIgnoreIA5SubstringsMatch
+  SUBSTR caseIgnoreIA5SubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.14 NAME 'gosaDefaultLanguage'
         DESC 'Defines the default language for a user'
         EQUALITY caseIgnoreIA5Match
-	SUBSTR caseIgnoreIA5SubstringsMatch
+  SUBSTR caseIgnoreIA5SubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.15 NAME 'gosaHostACL'
         DESC 'Defines the places where users can login'
         EQUALITY caseIgnoreIA5Match
-	SUBSTR caseIgnoreIA5SubstringsMatch
+  SUBSTR caseIgnoreIA5SubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.16 NAME 'gosaService'
         DESC 'Defines services a certain host can provide'
         EQUALITY caseIgnoreIA5Match
-	SUBSTR caseIgnoreIA5SubstringsMatch
+  SUBSTR caseIgnoreIA5SubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.17 NAME 'gosaProxyID'
         DESC 'Defines the proxy user id used, needed for some filters'
         EQUALITY caseIgnoreIA5Match
-	SUBSTR caseIgnoreIA5SubstringsMatch
+  SUBSTR caseIgnoreIA5SubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.18 NAME 'gosaProxyAcctFlags'
         DESC 'Proxy Account Flags'
         EQUALITY caseIgnoreIA5Match
-	SUBSTR caseIgnoreIA5SubstringsMatch
+  SUBSTR caseIgnoreIA5SubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{16} SINGLE-VALUE)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.19 NAME 'gosaProxyWorkingStart'
         DESC 'Specifies the beginning of work in minutes, relative to 00:00'
         EQUALITY caseIgnoreIA5Match
-	SUBSTR caseIgnoreIA5SubstringsMatch
+  SUBSTR caseIgnoreIA5SubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.20 NAME 'gosaProxyWorkingStop'
         DESC 'Specifies the end of work in minutes, relative to 00:00'
         EQUALITY caseIgnoreIA5Match
-	SUBSTR caseIgnoreIA5SubstringsMatch
+  SUBSTR caseIgnoreIA5SubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.21 NAME 'gosaApplicationName'
         DESC 'Specifies the name of an application to be shown up on users desktop'
         EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
+  SUBSTR caseIgnoreSubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.22 NAME 'gosaApplicationExecute'
         DESC 'Specifies the executable path of an application'
         EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
+  SUBSTR caseIgnoreSubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.23 NAME 'gosaApplicationFlags'
         DESC 'Specifies the application flags G(roup only), D(esktop), M(enu)'
         EQUALITY caseIgnoreIA5Match
-	SUBSTR caseIgnoreIA5SubstringsMatch
+  SUBSTR caseIgnoreIA5SubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.31 NAME 'gosaApplicationCategory'
-	DESC 'Store application parameters'
-	EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
+  DESC 'Store application parameters'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.24 NAME 'gosaApplicationIcon'
         DESC 'Keeps the application icon in png format'
@@ -159,20 +159,20 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.12.24 NAME 'gosaApplicationIcon'
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.25 NAME 'gosaSharedFolderTarget'
         DESC 'Keeps the target of cyrus shared folders'
         EQUALITY caseIgnoreIA5Match
-	SUBSTR caseIgnoreIA5SubstringsMatch
+  SUBSTR caseIgnoreIA5SubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.26 NAME 'gosaMemberApplication'
         DESC 'Like memberUid, just for applications'
         EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
+  SUBSTR caseIgnoreSubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.27 NAME 'gosaApplicationParameter'
         DESC 'Store application parameters'
-	EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.28 NAME 'gosaProxyQuota'
         DESC 'Specifies the amount of data a user may surf in a defined period of time'
@@ -193,10 +193,10 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.12.30 NAME 'gosaGroupObjects'
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.32 NAME 'gosaApplicationMimeType'
-	DESC 'Takes a list of relevant mime-type|priority settings'
-	EQUALITY caseIgnoreIA5Match
-	SUBSTR caseIgnoreIA5SubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
+  DESC 'Takes a list of relevant mime-type|priority settings'
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.33 NAME 'gosaUnitTag'
         DESC 'Takes a list of relevant mime-type|priority settings'
@@ -230,7 +230,7 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.12.37 NAME 'gosaSnapshotTimestamp'
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.38 NAME 'gosaSnapshotDN'
         DESC 'Original DN of saved object'
         EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
+  SUBSTR caseIgnoreSubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.39 NAME 'gosaSnapshotData'
@@ -287,10 +287,10 @@ attributetype ( 1.3.6.1.4.1.15305.2.2 NAME ( 'dateOfBirth' 'dob' )
 # cyrus imapd access control list
 # acls work with users and groups
 attributetype ( 1.3.6.1.4.1.19414.2.1.651
-		NAME 'acl'
-  		EQUALITY caseIgnoreIA5Match
-		SUBSTR caseIgnoreIA5SubstringsMatch
-	    SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} )
+    NAME 'acl'
+      EQUALITY caseIgnoreIA5Match
+    SUBSTR caseIgnoreIA5SubstringsMatch
+      SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} )
 
 # Classes
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.1 NAME 'gosaObject' SUP top AUXILIARY
@@ -303,27 +303,27 @@ objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.2 NAME 'gosaLockEntry' SUP top STRUCTUR
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.3 NAME 'gosaCacheEntry' SUP top STRUCTURAL
         DESC 'Class for GOsa caching (v2.6.1)'
-	MAY  ( gosaUser )
-	MUST ( cn ))
+  MAY  ( gosaUser )
+  MUST ( cn ))
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.4 NAME 'gosaDepartment' SUP top AUXILIARY
         DESC 'Class to mark Departments for GOsa (v2.6.1)'
-	MUST  ( ou $ description )
-	MAY   ( manager ))
+  MUST  ( ou $ description )
+  MAY   ( manager ))
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.5 NAME 'gosaMailAccount' SUP top AUXILIARY
         DESC 'Class to mark MailAccounts for GOsa (v2.6.1)'
-	MUST ( mail $ gosaMailServer $ gosaMailDeliveryMode)
-	MAY  ( gosaMailQuota $ gosaMailAlternateAddress $ gosaMailForwardingAddress $
-	       gosaMailMaxSize $ gosaSpamSortLevel $ gosaSpamMailbox $
-	       gosaVacationMessage $ gosaVacationStart $ gosaVacationStop $ gosaSharedFolderTarget $ acl))
+  MUST ( mail $ gosaMailServer $ gosaMailDeliveryMode)
+  MAY  ( gosaMailQuota $ gosaMailAlternateAddress $ gosaMailForwardingAddress $
+         gosaMailMaxSize $ gosaSpamSortLevel $ gosaSpamMailbox $
+         gosaVacationMessage $ gosaVacationStart $ gosaVacationStop $ gosaSharedFolderTarget $ acl))
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.6 NAME 'gosaAccount' SUP top AUXILIARY
         DESC 'Class for GOsa Accounts (v2.6.6)'
-	MUST ( uid )
+  MUST ( uid )
         MAY ( sambaLMPassword $ sambaNTPassword $ sambaPwdLastSet $ gosaDefaultPrinter $
-	      gosaDefaultLanguage $ academicTitle $ personalTitle $ gosaHostACL $ dateOfBirth $
-		    sambaBadPasswordCount $ sambaBadPasswordTime $ gender $ 
+        gosaDefaultLanguage $ academicTitle $ personalTitle $ gosaHostACL $ dateOfBirth $
+        sambaBadPasswordCount $ sambaBadPasswordTime $ gender $
         gotoLastSystemLogin $ gotoLastSystem $ gosaLoginRestriction ))
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.7 NAME 'gosaHost' SUP top AUXILIARY
@@ -341,7 +341,8 @@ objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.9 NAME 'gosaApplication' SUP top STRUCT
         DESC 'Class for GOsa applications (v2.6.1)'
         MUST ( cn $ gosaApplicationExecute )
         MAY ( gosaApplicationName $ gosaApplicationIcon $ gosaApplicationFlags $ gosaApplicationMimeType $
-              gosaApplicationParameter $ gotoLogonScript $ description $ gosaApplicationCategory ))
+              gosaApplicationParameter $ gotoLogonScript $ description $ gosaApplicationCategory $
+              gotoLogoffScript ))
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.10 NAME 'gosaApplicationGroup' SUP top AUXILIARY
         DESC 'Class for GOsa application groups (v2.6.1)'
@@ -354,8 +355,8 @@ objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.11 NAME 'gosaUserTemplate' SUP top AUXI
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.12 NAME 'gosaGroupOfNames'
         DESC 'GOsa object grouping (v2.6.1)'
-		SUP top STRUCTURAL
-		MUST ( cn $ gosaGroupObjects ) MAY ( member $ description ) )
+    SUP top STRUCTURAL
+    MUST ( cn $ gosaGroupObjects ) MAY ( member $ description ) )
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.13 NAME 'gosaWebdavAccount'
         DESC 'GOsa webdav enabling account (v2.6.1)'
@@ -363,10 +364,10 @@ objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.13 NAME 'gosaWebdavAccount'
         MUST ( cn $ uid ))
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.14 NAME 'gosaIntranetAccount'
-		DESC 'GOsa Inatrent enabling account (v2.6.1)'
-		SUP top AUXILIARY
-		MUST ( cn $ uid )
-		MAY ( gosaDefaultLanguage ))
+    DESC 'GOsa Inatrent enabling account (v2.6.1)'
+    SUP top AUXILIARY
+    MUST ( cn $ uid )
+    MAY ( gosaDefaultLanguage ))
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.15 NAME 'gosaAdministrativeUnit'
        DESC 'Marker for administrational units (v2.6.1)'
