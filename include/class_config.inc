@@ -476,7 +476,7 @@ class config  {
   function load_servers ()
   {
     /* Only perform actions if current is set */
-    if ($this->current === NULL){
+    if ($this->current === NULL) {
       return;
     }
 
@@ -487,13 +487,13 @@ class config  {
     /* Search mailMethod configuration in main section too
      */
     $this->current['MAILMETHOD'] = $this->get_cfg_value("mailMethod","");
-    if (!isset($this->current['MAILMETHOD'])){
+    if (!isset($this->current['MAILMETHOD'])) {
       $this->current['MAILMETHOD']= "";
     }
-    if ($this->current['MAILMETHOD'] == ""){
+    if ($this->current['MAILMETHOD'] == "") {
       $ldap->search ("(objectClass=goMailServer)", array('cn'));
       $this->data['SERVERS']['IMAP']= array();
-      while ($attrs= $ldap->fetch()){
+      while ($attrs= $ldap->fetch()) {
         $name= $attrs['cn'][0];
         $this->data['SERVERS']['IMAP'][$name]=
           array(
@@ -512,7 +512,7 @@ class config  {
 
       $this->data['SERVERS']['IMAP']= array();
 
-      while ($attrs= $ldap->fetch()){
+      while ($attrs= $ldap->fetch()) {
 
         /* Check if the given goImapSieveServer is in the new style "{cn:port/option}"
            or the old style just "cn".
@@ -543,85 +543,91 @@ class config  {
       }
     }
 
-    /* Get kerberos server. FIXME: only one is supported currently */
-    $ldap->cd ($this->current['BASE']);
-    $ldap->search ("(objectClass=goKrbServer)(goKrbRealm=*)(goKrbAdmin=*))");
-    if ($ldap->count()){
-      $attrs= $ldap->fetch();
-      $this->data['SERVERS']['KERBEROS']= array( 'SERVER' => $attrs['cn'][0],
-          'REALM' => $attrs['goKrbRealm'][0],
-          'ADMIN' => $attrs['goKrbAdmin'][0]);
+    /* Get kerberos servers */
+    $ldap->cd($this->current['BASE']);
+    $ldap->search("(objectClass=goKrbServer)(goKrbRealm=*)(goKrbAdmin=*))");
+    $this->data['SERVERS']['KERBEROS'] = array();
+    while ($attrs = $ldap->fetch()) {
+      $this->data['SERVERS']['KERBEROS'][] = array(
+        'SERVER'  => $attrs['cn'][0],
+        'REALM'   => $attrs['goKrbRealm'][0],
+        'ADMIN'   => $attrs['goKrbAdmin'][0]
+      );
     }
 
-    /* Get cups server. FIXME: only one is supported currently */
-    $ldap->cd ($this->current['BASE']);
-    $ldap->search ("(objectClass=goCupsServer)");
-    if ($ldap->count()){
-      $attrs= $ldap->fetch();
-      $this->data['SERVERS']['CUPS']= $attrs['cn'][0];
+    /* Get cups servers */
+    $ldap->cd($this->current['BASE']);
+    $ldap->search("(objectClass=goCupsServer)");
+    $this->data['SERVERS']['CUPS'] = array();
+    while ($attrs= $ldap->fetch()) {
+      $this->data['SERVERS']['CUPS'][] = $attrs['cn'][0];
     }
 
-    /* Get fax server. FIXME: only one is supported currently */
-    $ldap->cd ($this->current['BASE']);
-    $ldap->search ("(objectClass=goFaxServer)");
-    if ($ldap->count()){
-      $attrs= $ldap->fetch();
-      $this->data['SERVERS']['FAX']= array( 'SERVER' => $attrs['cn'][0],
-          'LOGIN' => $attrs['goFaxAdmin'][0],
-          'PASSWORD' => $attrs['goFaxPassword'][0]);
+    /* Get fax servers */
+    $ldap->cd($this->current['BASE']);
+    $ldap->search("(objectClass=goFaxServer)");
+    $this->data['SERVERS']['FAX'] = array();
+    while ($attrs = $ldap->fetch()) {
+      $this->data['SERVERS']['FAX'][] = array(
+        'SERVER'    => $attrs['cn'][0],
+        'LOGIN'     => $attrs['goFaxAdmin'][0],
+        'PASSWORD'  => $attrs['goFaxPassword'][0]
+      );
     }
 
 
     /* Get asterisk servers */
-    $ldap->cd ($this->current['BASE']);
-    $ldap->search ("(objectClass=goFonServer)");
-    $this->data['SERVERS']['FON']= array();
-    if ($ldap->count()){
-      while ($attrs= $ldap->fetch()){
+    $ldap->cd($this->current['BASE']);
+    $ldap->search("(objectClass=goFonServer)");
+    $this->data['SERVERS']['FON'] = array();
+    while ($attrs= $ldap->fetch()) {
 
-        /* Add 0 entry for development */
-        if(count($this->data['SERVERS']['FON']) == 0){
-          $this->data['SERVERS']['FON'][0]= array(
-              'DN'      => $attrs['dn'],
-              'SERVER'  => $attrs['cn'][0],
-              'LOGIN'   => $attrs['goFonAdmin'][0],
-              'PASSWORD'  => $attrs['goFonPassword'][0],
-              'DB'    => "gophone",
-              'SIP_TABLE'   => "sip_users",
-              'EXT_TABLE'   => "extensions",
-              'VOICE_TABLE' => "voicemail_users",
-              'QUEUE_TABLE' => "queues",
-              'QUEUE_MEMBER_TABLE'  => "queue_members");
-        }
-
-        /* Add entry with 'dn' as index */
-        $this->data['SERVERS']['FON'][$attrs['dn']]= array(
-            'DN'      => $attrs['dn'],
-            'SERVER'  => $attrs['cn'][0],
-            'LOGIN'   => $attrs['goFonAdmin'][0],
-            'PASSWORD'  => $attrs['goFonPassword'][0],
-            'DB'    => "gophone",
-            'SIP_TABLE'   => "sip_users",
-            'EXT_TABLE'   => "extensions",
-            'VOICE_TABLE' => "voicemail_users",
-            'QUEUE_TABLE' => "queues",
-            'QUEUE_MEMBER_TABLE'  => "queue_members");
+      /* Add 0 entry for development */
+      if(count($this->data['SERVERS']['FON']) == 0) {
+        $this->data['SERVERS']['FON'][0] = array(
+          'DN'      => $attrs['dn'],
+          'SERVER'  => $attrs['cn'][0],
+          'LOGIN'   => $attrs['goFonAdmin'][0],
+          'PASSWORD'  => $attrs['goFonPassword'][0],
+          'DB'    => "gophone",
+          'SIP_TABLE'   => "sip_users",
+          'EXT_TABLE'   => "extensions",
+          'VOICE_TABLE' => "voicemail_users",
+          'QUEUE_TABLE' => "queues",
+          'QUEUE_MEMBER_TABLE'  => "queue_members"
+        );
       }
+
+      /* Add entry with 'dn' as index */
+      $this->data['SERVERS']['FON'][$attrs['dn']] = array(
+        'DN'      => $attrs['dn'],
+        'SERVER'  => $attrs['cn'][0],
+        'LOGIN'   => $attrs['goFonAdmin'][0],
+        'PASSWORD'  => $attrs['goFonPassword'][0],
+        'DB'    => "gophone",
+        'SIP_TABLE'   => "sip_users",
+        'EXT_TABLE'   => "extensions",
+        'VOICE_TABLE' => "voicemail_users",
+        'QUEUE_TABLE' => "queues",
+        'QUEUE_MEMBER_TABLE'  => "queue_members"
+      );
     }
 
 
     /* Get logdb server */
-    $ldap->cd ($this->current['BASE']);
-    $ldap->search ("(objectClass=goLogDBServer)");
-    if ($ldap->count()){
-      $attrs= $ldap->fetch();
-      if(!isset($attrs['gosaLogDB'][0])){
+    $ldap->cd($this->current['BASE']);
+    $ldap->search("(objectClass=goLogDBServer)");
+    if ($ldap->count()) {
+      $attrs = $ldap->fetch();
+      if (!isset($attrs['gosaLogDB'][0])) {
         $attrs['gosaLogDB'][0] = "gomon";
       }
-      $this->data['SERVERS']['LOG']= array( 'SERVER' => $attrs['cn'][0],
-          'LOGIN' => $attrs['goLogAdmin'][0],
-          'DB' => $attrs['gosaLogDB'][0],
-          'PASSWORD' => $attrs['goLogPassword'][0]);
+      $this->data['SERVERS']['LOG'] = array(
+        'SERVER'    => $attrs['cn'][0],
+        'LOGIN'     => $attrs['goLogAdmin'][0],
+        'DB'        => $attrs['gosaLogDB'][0],
+        'PASSWORD'  => $attrs['goLogPassword'][0]
+      );
     }
 
     /* Get NFS server lists */
@@ -663,10 +669,10 @@ class config  {
 
     /* Ldap Server
      */
-    $this->data['SERVERS']['LDAP']= array();
-    $ldap->cd ($this->current['BASE']);
-    $ldap->search ("(&(objectClass=goLdapServer)(goLdapBase=*))");
-    while ($attrs= $ldap->fetch()){
+    $this->data['SERVERS']['LDAP'] = array();
+    $ldap->cd($this->current['BASE']);
+    $ldap->search("(&(objectClass=goLdapServer)(goLdapBase=*))");
+    while ($attrs = $ldap->fetch()) {
       $this->data['SERVERS']['LDAP'][$attrs['dn']] = $attrs;
     }
 
