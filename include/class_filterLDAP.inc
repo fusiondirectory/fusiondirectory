@@ -29,7 +29,7 @@
   * \brief This class contains all the function to manage LDAP filter
   *
   * \see filter
-  */ 
+  */
 class filterLDAP {
 
   /*!
@@ -48,7 +48,7 @@ class filterLDAP {
    * \param string $category
    *
    * \param array $objectStorage
-   */ 
+   */
   static function query($parent,$base, $scope, $filter, $attributes, $category, $objectStorage= array(""))
   {
     $config= session::global_get('config');
@@ -74,7 +74,7 @@ class filterLDAP {
    * \param array $objectStorage
    *
    * \param flag $flags GL_SUBSEARCH
-   */ 
+   */
   static function get_list($parent,$base, $filter, $attributes, $category, $objectStorage, $flags= GL_SUBSEARCH)
   {
     $ui= session::global_get('ui');
@@ -88,11 +88,11 @@ class filterLDAP {
     // Store in base - i.e. is a rdn value empty?
     $storeOnBase= count($objectStorage) == 1 && empty($objectStorage[0]);
 
-    $method= ($storeOnBase && !($flags & GL_SUBSEARCH))?"ls":"search";
+    $default_method= ($storeOnBase && !($flags & GL_SUBSEARCH))?"ls":"search";
 
     // Initialize search bases
     $bases= array();
-    
+
     // Get list of sub bases to search on
     if ($storeOnBase) {
       $bases[$base]= "";
@@ -126,7 +126,12 @@ class filterLDAP {
     // Do search for every base
     $result= array();
     $limit_exceeded = FALSE;
+
+    // Save initial selected base for comparison purposes
+    $initial_base = $base;
+
     foreach($bases as $base => $dnFilters) {
+      $method = $default_method
 
       // Break if the size limit is exceeded
       if($limit_exceeded){
@@ -144,6 +149,13 @@ class filterLDAP {
         $dnFilter= "";
       }
       $ldap->cd($base);
+
+      // In no-subsearch mode overwrite default method if
+      // current base equals the initial base
+      if ($base == $initial_base && !($flags & GL_SUBSEARCH)) {
+          $method = "ls";
+      }
+
       if ($method == "ls") {
         $ldap->ls("(&$filter$dnFilter)", $base, $attributes);
       } else {
@@ -154,7 +166,7 @@ class filterLDAP {
       if (preg_match("/size limit/i", $ldap->get_error())){
         session::set('limit_exceeded', TRUE);
         $limit_exceeded = TRUE;
-      } 
+      }
 
       /* Crawl through result entries and perform the migration to the
          result array */
