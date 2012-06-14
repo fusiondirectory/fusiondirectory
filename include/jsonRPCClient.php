@@ -68,8 +68,13 @@ class jsonRPCClient {
    * \var boolean $use_ssl
    */
   private $use_ssl = false;
-  private $keyfile = "";
-  private $certfile = "";
+
+  /*!
+   * \brief Path to the .crt file of the trusted CA
+   *
+   * \var string $cacertfile
+   */
+  private $cacertfile = "";
 
   /*!
    * \brief Takes the connection parameters
@@ -78,7 +83,7 @@ class jsonRPCClient {
    *
    * \param boolean $debug false
    */
-  public function __construct($url, $keyfile = "", $certfile = "", $debug = false) {
+  public function __construct($url, $cacertfile = "", $debug = false) {
     // server URL
     $this->url = $url;
     // proxy
@@ -88,8 +93,7 @@ class jsonRPCClient {
     // message id
     $this->id = 1;
     $this->use_https  = (preg_match("@^https://@i",$this->url)?TRUE:FALSE);
-    $this->keyfile    = $keyfile;
-    $this->certfile   = $certfile;
+    $this->cacertfile   = $cacertfile;
   }
 
   /*!
@@ -169,7 +173,7 @@ class jsonRPCClient {
       }
     } else {
       // performs the HTTPS POST
-      $res = $this->send_post_ssl_curl($this->url,$request,$this->certfile,$this->keyfile);
+      $res = $this->send_post_ssl_curl($this->url,$request,$this->cacertfile);
       $response = json_decode($res['DATA'],true);
     }
 
@@ -195,21 +199,17 @@ class jsonRPCClient {
     }
   }
 
-  public function send_post_ssl_curl ($url,$request,$certfile,$keyfile)
+  public function send_post_ssl_curl ($url,$request,$cacertfile)
   {
     // create a new curl resource
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
 
-    //~ curl_setopt($ch, CURLOPT_SSLCERT, $certfile);
-    //~ curl_setopt($ch, CURLOPT_SSLCERTTYPE, "PEM");
-    //~ curl_setopt($ch, CURLOPT_SSLKEY, $keyfile);
-    //~ curl_setopt($ch, CURLOPT_SSLKEYTYPE, "PEM");
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, true);
-    //VERIFYPEER is false because otherwise we get this:
-    //cURL error: SSL certificate problem, verify that the CA cert is OK. Details:
-    //error:14090086:SSLroutines:SSL3_GET_SERVER_CERTIFICATE:certificate verify failed
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+    curl_setopt($ch, CURLOPT_CAINFO, $cacertfile);
 
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
