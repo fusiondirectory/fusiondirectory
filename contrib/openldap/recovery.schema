@@ -4,50 +4,50 @@
 
 # Attributes
 
-attributetype ( 1.3.6.1.4.1.38414.2.4.1 NAME 'passwordRecoveryActivated'
+attributetype ( 1.3.6.1.4.1.38414.1.1.1 NAME 'passwordRecoveryActivated'
   DESC 'Fusion Directory - Password recovery enabled/disabled'
   EQUALITY booleanMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
   SINGLE-VALUE )
 
-attributetype ( 1.3.6.1.4.1.38414.2.4.2 NAME 'passwordRecoveryEmail'
+attributetype ( 1.3.6.1.4.1.38414.1.1.2 NAME 'passwordRecoveryEmail'
   DESC 'Fusion Directory - Password recovery sender email'
   EQUALITY caseExactIA5Match
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
   SINGLE-VALUE )
 
-attributetype ( 1.3.6.1.4.1.38414.2.4.3 NAME 'passwordRecoveryMailSubject'
+attributetype ( 1.3.6.1.4.1.38414.1.1.3 NAME 'passwordRecoveryMailSubject'
   DESC 'Fusion Directory - Password recovery first email subject'
   EQUALITY caseExactIA5Match
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
   SINGLE-VALUE )
 
-attributetype ( 1.3.6.1.4.1.38414.2.4.4 NAME 'passwordRecoveryMailBody'
+attributetype ( 1.3.6.1.4.1.38414.1.1.4 NAME 'passwordRecoveryMailBody'
   DESC 'Fusion Directory - Password recovery first email body'
   EQUALITY caseExactIA5Match
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
   SINGLE-VALUE )
 
-attributetype ( 1.3.6.1.4.1.38414.2.4.5 NAME 'passwordRecoveryMail2Subject'
+attributetype ( 1.3.6.1.4.1.38414.1.1.5 NAME 'passwordRecoveryMail2Subject'
   DESC 'Fusion Directory - Password recovery second email subject'
   EQUALITY caseExactIA5Match
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
   SINGLE-VALUE )
 
-attributetype ( 1.3.6.1.4.1.38414.2.4.6 NAME 'passwordRecoveryMail2Body'
+attributetype ( 1.3.6.1.4.1.38414.1.1.6 NAME 'passwordRecoveryMail2Body'
   DESC 'Fusion Directory - Password recovery second email body'
   EQUALITY caseExactIA5Match
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
   SINGLE-VALUE )
 
-attributetype ( 1.3.6.1.4.1.38414.2.4.7 NAME 'passwordRecoveryValidity'
+attributetype ( 1.3.6.1.4.1.38414.1.1.7 NAME 'passwordRecoveryValidity'
   DESC 'Fusion Directory - Password recovery link validity in minutes'
   EQUALITY integerMatch
   ORDERING integerOrderingMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
   SINGLE-VALUE )
 
-attributetype ( 1.3.6.1.4.1.38414.2.4.8 NAME 'passwordRecoverySalt'
+attributetype ( 1.3.6.1.4.1.38414.1.1.8 NAME 'passwordRecoverySalt'
   DESC 'Fusion Directory - Password recovery token salt'
   EQUALITY caseExactIA5Match
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
@@ -55,7 +55,7 @@ attributetype ( 1.3.6.1.4.1.38414.2.4.8 NAME 'passwordRecoverySalt'
 
 # Object Class
 
-objectclass ( 1.3.6.1.4.1.38414.2.4.60 NAME 'recoveryConfig'
+objectclass ( 1.3.6.1.4.1.38414.1.2.1 NAME 'recoveryConfig'
   DESC 'Password recovery settings'
   MUST (  cn $ passwordRecoveryActivated $ passwordRecoveryEmail $
           passwordRecoveryMailSubject $ passwordRecoveryMailBody $
