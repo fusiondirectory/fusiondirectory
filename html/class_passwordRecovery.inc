@@ -50,6 +50,8 @@ class passwordRecovery {
   var $mail2_body;
   var $mail2_subject;
 
+  var $activated;
+
   /* Constructor */
   function passwordRecovery()
   {
@@ -103,11 +105,9 @@ class passwordRecovery {
     session::global_set('config', $this->config);
     $config = $this->config;
 
-    if (!$this->readLdapConfig()) { /* Password recovery has been disabled */
-      msg_dialog::display(_("Password recovery disabled"),
-                          _("Error: Password recovery has been disabled!"),
-                          FATAL_ERROR_DIALOG);
-      exit();
+    $this->activated = $this->readLdapConfig();
+    if (!$this->activated) { /* Password recovery has been disabled */
+      return;
     }
 
     $this->setupLanguage();
@@ -150,6 +150,10 @@ class passwordRecovery {
 
   function execute()
   {
+    if(!$this->activated) {
+      return;
+    }
+
     /* Got a formular answer, validate and try to log in */
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
       /* Destroy old sessions, they cause a successfull login to relog again ... */
@@ -203,6 +207,8 @@ class passwordRecovery {
     $smarty->assign("version",FD_VERSION);
     $smarty->assign("step",$this->step);
     $smarty->assign("delay_allowed",$this->delay_allowed);
+
+    $smarty->assign("activated",$this->activated);
 
     $smarty->display(get_template_path('recovery.tpl'));
     exit();
