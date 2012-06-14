@@ -43,7 +43,8 @@
     <br />
     <label for='password'><img class='center' align='middle' src='{$password_img}' alt='{t}Password{/t}' title='{t}Password{/t}' />&nbsp;</label>
     <input type='password' name='password' id='password' value=''
-       title='{t}Password{/t}' onFocus="nextfield= 'login';" />
+       title='{t}Password{/t}' onFocus="nextfield= 'login';" /><br/>
+    <a href="recovery.php">{t}I forgot my password{/t}</a>
     </div>
     <div style='text-align:center; padding:15px;'>
             <img class='center' align='middle' src='{$directory_img}' alt='{t}Directory{/t}' title='{t}Directory{/t}' />&nbsp;

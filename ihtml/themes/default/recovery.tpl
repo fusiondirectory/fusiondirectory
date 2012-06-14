@@ -26,6 +26,7 @@
     {t}Lost password{/t}
   </p>
   </div>
+{if $activated}
   <div style="padding-left:10px;padding-right:10px;">
     <!-- Display SSL warning message on demand -->
     <p class='warning'> {$ssl} </p>
@@ -149,6 +150,12 @@
       <input type='hidden' id='formSubmit'>
     </div>
     <div style="clear:both"></div>
+{/if}
+{else}
+  <div style="padding-left:10px;padding-right:10px;">
+    <!-- Display error message on demand -->
+    <p class='warning'> {$message} </p>
+    <p>{t}Password recovery is not activated. If you have lost your password, please contact your administrator{/t}</p>
 {/if}
   </div>
   </form>
