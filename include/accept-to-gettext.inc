@@ -161,7 +161,7 @@ function al2gt($gettextlangs, $mime)
     }
 
     if   (($lang_score > $max_l_score)
-      || (($lang_score == $max_l_score) && ($char_score > $max_c_score))) // if lang scores are equals we compare char scores
+      || (($lang_score == $max_l_score) && ($char_score > $max_c_score))) { // if lang scores are equals we compare char scores
       $max_l_score  = $lang_score;
       $max_c_score  = $char_score;
       $max_lang     = $gtlang;
