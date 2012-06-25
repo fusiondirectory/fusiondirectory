@@ -131,7 +131,7 @@ class filterLDAP {
     $initial_base = $base;
 
     foreach($bases as $base => $dnFilters) {
-      $method = $default_method
+      $method = $default_method;
 
       // Break if the size limit is exceeded
       if($limit_exceeded){
