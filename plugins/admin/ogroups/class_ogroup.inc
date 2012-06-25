@@ -778,6 +778,7 @@ class ogroup extends plugin
 
     if (preg_match('/[\\\\=\",+<>#;]/', $this->cn)) {
       $message[] = msgPool::invalid(_("Name"), $this->cn, "/[^\\\\=\"+,<>#;]/");
+    }
 
     /* To many different object types? */
     if (strlen($this->gosaGroupObjects) > 4){
@@ -956,7 +957,6 @@ class ogroup extends plugin
     }
     return(false);
   }
-
 
   static function plInfo()
   {
