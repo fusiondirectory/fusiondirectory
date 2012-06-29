@@ -41,7 +41,6 @@ class pluglist {
   var $ui               = NULL;
   var $current          = "";
   var $info             = array();
-  var $headlines        = array();
   var $allowed_plugins  = array();
   var $silly_cache      = array();
 
@@ -164,27 +163,6 @@ class pluglist {
 
     $this->silly_cache[$aclname] = FALSE;
     return FALSE;
-  }
-
-  /*!
-   * \brief Generate headlines
-   */
-  function gen_headlines()
-  {
-    $ret = array();
-    if (count($this->headlines) == 0) {
-      foreach ($this->config->data['MENU'] as $headline => $plugins) {
-        foreach ( $plugins as $id => $plug) {
-          if (plugin_available($plug['CLASS'])) {
-            $attrs = (get_class_vars($plug['CLASS']));
-            $ret[$id]['HEADLINE'] = $headline;
-            $ret[$id]['NAME']   = $attrs['plHeadline'];
-          }
-        }
-      }
-      $this->headlines = $ret;
-    }
-    return $this->headlines;
   }
 
   /*!
