@@ -179,10 +179,9 @@ if (session::global_is_set('plugin_dir')) {
 }
 
 /* reload navigation if language changed*/
-if($reload_navigation){
-  $plist->menu="";
+if ($reload_navigation) {
+  $plist->menu = "";
 }
-$plist->gen_headlines();
 $plist->gen_menu();
 
 /* check if we are using account expiration */
