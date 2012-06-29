@@ -622,9 +622,9 @@ class plugin
    *
    * \param boolean $disabled FALSE
    */
-  function show_enable_header($button_text, $text, $disabled= FALSE)
+  function show_enable_header($button_text, $text, $disabled = FALSE, $name = "modify_state")
   {
-    return $this->show_header($button_text, $text, FALSE, $disabled);
+    return $this->show_header($button_text, $text, FALSE, $disabled, $name);
   }
 
 
@@ -637,9 +637,9 @@ class plugin
    *
    * \param boolean $disabled FALSE
    */
-  function show_disable_header($button_text, $text, $disabled= FALSE)
+  function show_disable_header($button_text, $text, $disabled = FALSE, $name = "modify_state")
   {
-    return $this->show_header($button_text, $text, TRUE, $disabled);
+    return $this->show_header($button_text, $text, TRUE, $disabled, $name);
   }
 
 
@@ -654,18 +654,18 @@ class plugin
    *
    * \param boolean $button_disabled FALSE
    */
-  function show_header($button_text, $text, $plugin_enabled, $button_disabled= FALSE)
+  function show_header($button_text, $text, $plugin_enabled, $button_disabled = FALSE, $name = "modify_state")
   {
     if (($button_disabled) || ((!$this->acl_is_createable() && !$plugin_enabled) || (!$this->acl_is_removeable() && $plugin_enabled))){
-        $state= "disabled";
+        $state = "disabled=\"disabled\"";
     } else {
-        $state= "";
+        $state = "";
     }
-    $display= "<div width=\"100%\"><p><b>$text</b><br/>\n";
-    $display.= "<input type=submit value=\"$button_text\" name=\"modify_state\" ".$state.
-      "></p><hr class=\"seperator\"/></div>";
+    $display = "<div width=\"100%\"><p><b>$text</b><br/>\n";
+    $display .= "<input type=\"submit\" value=\"$button_text\" name=\"$name\" ".$state.
+      "></p><hr class=\"separator\"/></div>";
 
-    return($display);
+    return $display;
   }
 
   /*!
