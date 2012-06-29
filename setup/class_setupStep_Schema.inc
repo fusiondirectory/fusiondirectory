@@ -29,14 +29,14 @@ class Step_Schema extends setup_step
   var $enable_schema_check = TRUE;
   var $samba_version       = 3;
 
-  var $found_ocs = 0; 
- 
+  var $found_ocs = 0;
+
   function Step_Schema()
   {
     $this->update_strings();
   }
 
-  
+
   function update_strings()
   {
     $this->s_title      = _("LDAP schema check");
@@ -44,11 +44,12 @@ class Step_Schema extends setup_step
     $this->s_info       = _("Perform test on your current LDAP schema");
   }
 
-  
+
   function execute()
   {
+    global $BASEDIR;
     $this->check_schema();
-    $failed_checks = 0 ; 
+    $failed_checks = 0 ;
     foreach($this->checked as $val) {
       if(!$val['STATUS']){
         $failed_checks ++;
@@ -60,7 +61,7 @@ class Step_Schema extends setup_step
     }else{
       $this->is_completed = TRUE;
     }
-    
+
     /* Check if the database is already initialised.
      * If the root object is missing we can't read any schema informations.
      * In this case we should display a message.
@@ -91,7 +92,7 @@ class Step_Schema extends setup_step
     $smarty->assign("checks",$this->checked);
     $smarty->assign("not_checked",$this->not_checked);
     $smarty->assign("failed_checks",$failed_checks);
-    return($smarty -> fetch (get_template_path("../setup/setup_schema.tpl")));
+    return $smarty->fetch("$BASEDIR/setup/setup_schema.tpl");
   }
 
   function save_object()

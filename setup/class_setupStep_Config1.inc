@@ -83,6 +83,7 @@ class Step_Config1 extends setup_step
 
   function execute()
   {
+    global $BASEDIR;
     $smarty = get_smarty();
     $smarty->assign("peopledns",array("uid","cn"));
     $smarty->assign("id_settings",   reverse_html_entities($this->id_settings));
@@ -98,7 +99,7 @@ class Step_Config1 extends setup_step
      *  don't forget to change save_object too
      */
     $smarty->assign("strict",!$this->strict);
-    return($smarty -> fetch (get_template_path("../setup/setup_config1.tpl")));
+    return $smarty->fetch("$BASEDIR/setup/setup_config1.tpl");
   }
 
 
