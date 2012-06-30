@@ -592,7 +592,7 @@ class passwordRecovery {
     /* Passed quality check, just try to change the password now */
     if ($this->config->get_cfg_value("passwordHook") != "") {
       exec($this->config->get_cfg_value("passwordHook")." ".
-           escapeshellarg($_POST['new_password']), $resarr);
+           escapeshellarg($this->uid)." ".escapeshellarg($_POST['new_password']), $resarr);
       if (count($resarr) > 0) {
         $this->message[] = _("External password changer reported a problem: ".join('\n', $resarr));
         msg_dialog::displayChecks($this->message);

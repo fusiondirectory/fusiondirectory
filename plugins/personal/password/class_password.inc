@@ -129,7 +129,7 @@ class password extends plugin
       if(!count($message)){
           $check_hook   = $this->config->get_cfg_value("passwordHook") != "";
           $hook         = $this->config->get_cfg_value("passwordHook")." ".
-              escapeshellarg($ui->username)." ".escapeshellarg($current_password)." ".escapeshellarg($new_password);
+              escapeshellarg($ui->username)." ".escapeshellarg($new_password)." ".escapeshellarg($current_password);
           if($check_hook){
               exec($hook,$resarr);
               $check_hook_output = "";
