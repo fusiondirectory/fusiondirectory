@@ -55,18 +55,18 @@ class csvExporter
     $this->result= "#";
     foreach ($columns as $index) {
       if (isset($header[$index])){
-        $this->result.= trim($header[$index]).";";
+        $this->result.= trim(html_entity_decode($header[$index], ENT_QUOTES, 'UTF-8').";");
       } else {
         $this->result.= ";";
       }
-    }
+    } 
     $this->result= preg_replace('/;$/', '', $this->result)."\n";
 
     // Append entries
     foreach ($entries as $row) {
       foreach ($columns as $index) {
         if (isset($row["_sort$index"])){
-          $this->result.= trim($row["_sort$index"]).";";
+          $this->result.= trim(html_entity_decode($row["_sort$index"], ENT_QUOTES, 'UTF-8')).";";
         } else {
           $this->result.= ";";
         }
