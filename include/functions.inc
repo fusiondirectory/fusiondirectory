@@ -3848,5 +3848,18 @@ function reset_errors()
   session::set('LastError',"");
 }
 
+/*!
+ * \brief Convert dos linebreak to unix ones
+ *
+ * \param string $str
+ *
+ * \return Return the string with linebreak converted into unix mode
+ */
+function fix_dos_linebreaks($str)
+{
+    return preg_replace('/\\r\\n/', "\n", $str);
+}
+
+
 // vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
