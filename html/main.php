@@ -426,8 +426,8 @@ if (isset($_POST['_channel_'])) {
   $smarty->assign("channel", "");
 }
 $smarty->assign ("title","FusionDirectory");
-$display= "<!-- headers.tpl-->".$smarty->fetch(get_template_path('headers.tpl')).
-          $smarty->fetch(get_template_path('framework.tpl'));
+$display =  $smarty->fetch(get_template_path('headers.tpl')).
+            $smarty->fetch(get_template_path('framework.tpl'));
 
 /* Save dialog filters and selected base in a cookie.
    So we may be able to restore the filter an base settings on reload.
