@@ -25,6 +25,7 @@
   <script language="javascript" src="include/fusiondirectory.js" type="text/javascript"></script>
 {if $usePrototype == 'true'}
   <script language="javascript" src="include/scriptaculous.js" type="text/javascript"></script>
+  <script language="javascript" src="include/builder.js" type="text/javascript"></script>
   <script language="javascript" src="include/effects.js" type="text/javascript"></script>
   <script language="javascript" src="include/dragdrop.js" type="text/javascript"></script>
   <script language="javascript" src="include/controls.js" type="text/javascript"></script>
