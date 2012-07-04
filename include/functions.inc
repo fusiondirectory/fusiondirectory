@@ -1892,24 +1892,25 @@ function rewrite($s)
  * \brief Return the base of a given DN
  *
  * \param string $dn a DN
+ * \param string $ou an ou to remove from the base
  *
  * \return base of the given DN
  */
-function dn2base($dn)
+function dn2base($dn, $ou = NULL)
 {
-  global $config;
-
-  if (get_people_ou() != ""){
-    $dn= preg_replace('/,'.get_people_ou().'/i' , ',', $dn);
+  if ($ou === NULL) {
+    if (get_people_ou() != "") {
+      $dn = preg_replace('/,'.get_people_ou().'/i' , ',', $dn);
+    }
+    if (get_groups_ou() != "") {
+      $dn = preg_replace('/,'.get_groups_ou().'/i' , ',', $dn);
+    }
+  } else {
+    $dn = preg_replace("/,$ou/i" , ',', $dn);
   }
-  if (get_groups_ou() != ""){
-    $dn= preg_replace('/,'.get_groups_ou().'/i' , ',', $dn);
-  }
-  $base= preg_replace ('/^[^,]+,/i', '', $dn);
 
-  return ($base);
+  return preg_replace ('/^[^,]+,/i', '', $dn);
 }
-
 
 /*!
  * \brief Check if a given command exists and is executable
