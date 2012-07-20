@@ -149,7 +149,7 @@ class ogroup extends plugin
     foreach($res as $og){
       if($og['dn'] == $this->dn) continue;
       $test = array_intersect($ws_dns,$og['member']);
-      if(($og['gosaGroupObjects'] == "[W]" || $og['gosaGroupObjects'] == "[T]") && count($test)){
+      if(($og['gosaGroupObjects'][0] == "[W]" || $og['gosaGroupObjects'][0] == "[T]") && count($test)){
         $this->used_workstations = array_merge($this->used_workstations,$test);
       }
     }
@@ -192,7 +192,23 @@ class ogroup extends plugin
       /* Add objects to group */
       if (isset($_POST['objectSelect_save']) && $this->objectSelect instanceOf objectSelect){
           $objects = $this->objectSelect->save();
+          $objects_dns = array();
+
+          foreach($objects as $object) {
+            $objects_dns[] = $object['dn'];
+          }
+
           $skipped = FALSE;
+
+          $test = array_unique(array_intersect($this->used_workstations, $objects_dns));
+          if(count($test)) {
+            $str = "";
+            foreach ($test as $dn) {
+              $str .= "<li>".$dn."</li>";
+            }
+            msg_dialog::display(_("Error"), sprintf(_("These systems are already configured by other object groups and cannot be added:")."<br><ul>%s</ul>", $str), ERROR_DIALOG);
+          }
+
           foreach($objects as $object){
 
               $tmp = "";
@@ -217,6 +233,8 @@ class ogroup extends plugin
                   $skipped =TRUE;
               }elseif(preg_match("/W/",$tmp) && $type == "T"){
                   $skipped =TRUE;
+              }elseif(in_array($dn, $this->used_workstations)) {
+                  continue;
               }else{
 
                   $this->memberList["$dn"]= $object;
@@ -737,19 +755,6 @@ class ogroup extends plugin
       $new_dn= 'cn='.$this->cn.','.get_ou('ogroupRDN').$this->base;
     } else {
       $new_dn= $this->dn;
-    }
-
-    /* Check if we have workstations assigned, that are already assigned to
-        another object group.  */
-    if ($this->gosaGroupObjects == "[W]" || $this->gosaGroupObjects == "[T]" ) {
-      $test =array_intersect($this->used_workstations,$this->member);
-      if(count($test)){
-        $str = "";
-        foreach($test as $dn){
-          $str .= "<li>".$dn."</li>";
-        }
-        $message[] = sprintf(_("These systems are already configured by other object groups and cannot be added:")."<br><ul>%s</ul>",$str);
-      }
     }
 
     $ldap = $this->config->get_ldap_link();
