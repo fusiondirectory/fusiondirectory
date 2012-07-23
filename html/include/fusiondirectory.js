@@ -21,7 +21,7 @@
 /* Install event handlers */
 Event.observe(window, 'resize', resizeHandler);
 Event.observe(window, 'load', resizeHandler);
-Event.observe(window, 'load', initProgressPie); 
+Event.observe(window, 'load', initProgressPie);
 Event.observe(window, 'keypress', keyHandler);
 
 
@@ -174,15 +174,25 @@ function keyHandler(DnEvents) {
   }
 }
 
+function inArray(p_val, array) {
+  var l = array.length;
+  for (var i = 0; i < l; i++) {
+    if (array[i] == p_val) {
+      return true;
+    }
+  }
+  return false;
+}
+
 function changeState() {
-  for (var i = 0; i < arguments.length; i++) { 
-    var element = $(arguments[i]); 
-    if (element.hasAttribute('disabled')) { 
-      element.removeAttribute('disabled'); 
-    } else { 
-      element.setAttribute('disabled', 'disabled'); 
-    } 
-  } 
+  for (var i = 0; i < arguments.length; i++) {
+    var element = $(arguments[i]);
+    if (element.hasAttribute('disabled')) {
+      element.removeAttribute('disabled');
+    } else {
+      element.setAttribute('disabled', 'disabled');
+    }
+  }
 }
 
 function changeSelectState(triggerField, myField) {
@@ -231,7 +241,7 @@ if (Prototype.Browser.Gecko){
 
 
 function popup(target, name) {
-  var mypopup= 
+  var mypopup=
     window.open(
         target,
         name,
@@ -375,14 +385,14 @@ function focus_field()
 }
 
 
-/*  This function pops up messages from message queue 
+/*  This function pops up messages from message queue
     All messages are hidden in html output (style='display:none;').
     This function makes single messages visible till there are no more dialogs queued.
 
-    hidden inputs: 
+    hidden inputs:
     current_msg_dialogs   - Currently visible dialog
-    closed_msg_dialogs    - IDs of already closed dialogs 
-    pending_msg_dialogs   - Queued dialog IDs. 
+    closed_msg_dialogs    - IDs of already closed dialogs
+    pending_msg_dialogs   - Queued dialog IDs.
  */
 function next_msg_dialog()
 {
@@ -402,7 +412,7 @@ function next_msg_dialog()
       ele.onmousemove = "";
       $('e_layer' + cur_id).hide();
       document.getElementById('closed_msg_dialogs').value += "," + cur_id;
-      document.getElementById('current_msg_dialogs').value= ""; 
+      document.getElementById('current_msg_dialogs').value= "";
     }
   }
 
@@ -435,19 +445,19 @@ function next_msg_dialog()
 
 
 /* Drag & drop for message dialogs */
-var enable_move_div_by_cursor = false;    // Indicates wheter the div movement is enabled or not 
-var mouse_x_on_div  = 0;                  // 
+var enable_move_div_by_cursor = false;    // Indicates wheter the div movement is enabled or not
+var mouse_x_on_div  = 0;                  //
 var mouse_y_on_div  = 0;
 var div_offset_x    = 0;
 var div_offset_y    = 0;
 
 /* Activates msg_dialog drag & drop
- * This function is called when clicking on a displayed msg_dialog 
+ * This function is called when clicking on a displayed msg_dialog
  */
 function start_move_div_by_cursor(e)
 {
-  var x = 0; 
-  var y = 0;  
+  var x = 0;
+  var y = 0;
   var cur_id = 0;
   var dialog = null;
   var event = null;
@@ -465,7 +475,7 @@ function start_move_div_by_cursor(e)
     if(!x) x = 1;
   }
 
-  /* Get mouse position within msg_dialog 
+  /* Get mouse position within msg_dialog
    */
   if(window.event){
     event = window.event;
@@ -485,7 +495,7 @@ function start_move_div_by_cursor(e)
 }
 
 
-/* Deactivate msg_dialog movement 
+/* Deactivate msg_dialog movement
  */
 function stop_move_div_by_cursor()
 {
@@ -513,7 +523,7 @@ function move_div_by_cursor(e)
 
     if(document.getElementById('current_msg_dialogs')){
 
-      /* Get mouse position on screen 
+      /* Get mouse position on screen
        */
       if(window.event){
         event = window.event;
@@ -601,7 +611,7 @@ function initProgressPie(){
         var time = 0;
         setInterval(function() {
 
-                // Calculate percentage 
+                // Calculate percentage
                 percent+= (interval / timeout) * 100;
 
                 // Increase current time by interval
