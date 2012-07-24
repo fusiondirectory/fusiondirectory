@@ -440,7 +440,7 @@ sub get_ldap_connexion {
     my $fhr = $fd_conf_file->openr;
 
     while (my $line = $fhr->getline) {
-      if ($line =~ /^.*referral\ URI="(.*):389\/(.*)"$/) {
+      if ($line =~ /^.*referral\ URI="(.*:[0-9]*)\/(.*)"$/) {
         $uri = $1;
         $hash_result{base} = $2;
       } elsif ($line =~ /^.*adminDn="(.*)"$/) {
