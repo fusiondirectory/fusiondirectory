@@ -23,7 +23,7 @@
 /*!
  * \file class_msgPool.inc
  * Source code for class msgPool
- */ 
+ */
 
 define ("LDAP_READ",   1);
 define ("LDAP_ADD",    2);
@@ -57,9 +57,9 @@ class msgPool {
    * \brief Display the deleted informations
    *
    * \param string $name Name of the object which will be deleted
-   * 
+   *
    * \param string $type Type of the object which will be deleted
-   */ 
+   */
   public static function deleteInfo($name= "",$type = "")
   {
     if ($name == "") {
@@ -94,7 +94,7 @@ class msgPool {
    * \brief Display that we have no permission to delete an object
    *
    * \param string $name Name of the object which will be deleted
-   */ 
+   */
   public static function permDelete($name= "")
   {
     if ($name == "") {
@@ -116,7 +116,7 @@ class msgPool {
    * \brief Display that we have no permission to create an object
    *
    * \param string $name Name of the object which will be created
-   */ 
+   */
   public static function permCreate($name= "")
   {
     if ($name == "") {
@@ -138,7 +138,7 @@ class msgPool {
    * \brief Display that we have no permission to modify an object
    *
    * \param string $name Name of the object which will be modified
-   */ 
+   */
   public static function permModify($name= "")
   {
     if ($name == "") {
@@ -160,7 +160,7 @@ class msgPool {
    * \brief Display that we have no permission to view an object
    *
    * \param string $name Name of the object which will be viewed
-   */ 
+   */
   public static function permView($name= "")
   {
     if ($name == "") {
@@ -208,7 +208,7 @@ class msgPool {
    * \param string $error Error messsage to display
    *
    * \param string $dbinfo Database information
-   */ 
+   */
   public static function dbconnect($name, $error= "", $dbinfo= "")
   {
     if ($error != ""){
@@ -228,7 +228,7 @@ class msgPool {
    * \param string $error Error messsage to display
    *
    * \param string $dbinfo Database information
-   */  
+   */
   public static function dbselect($name, $error= "", $dbinfo= "")
   {
     if ($error != ""){
@@ -244,7 +244,7 @@ class msgPool {
    * \brief Display error about no server found
    *
    * \param string $name Name of the server
-   */ 
+   */
   public static function noserver($name)
   {
     return (sprintf(_("No %s server defined!"), $name));
@@ -258,7 +258,7 @@ class msgPool {
    * \param string $error Error messsage to display
    *
    * \param string $dbinfo Database information
-   */  
+   */
   public static function dbquery($name, $error= "", $dbinfo= "")
   {
     if ($error != ""){
@@ -272,7 +272,7 @@ class msgPool {
 
   /*!
    * \brief Display field contains reserved keyword
-   * 
+   *
    * \param string $name The field which contains reserved keyword
    */
   public static function reserved($name)
@@ -286,7 +286,7 @@ class msgPool {
    * \param string $type Command type
    *
    * \param string $plugin Name of the plugin
-   */ 
+   */
   public static function cmdnotfound($type, $plugin)
   {
     return (sprintf(_("Command specified as %s hook for plugin '%s' does not exist!"), $type, $plugin));
@@ -300,14 +300,14 @@ class msgPool {
    * \param string $command Command name
    *
    * \param string $plugin Name of the plugin
-   */ 
+   */
   public static function cmdinvalid($type, $command = "",$plugin="")
   {
     if(empty($command)){
       return (sprintf(_("'%s' command is invalid!"), $type));
     }elseif($command != "" && $plugin != ""){
       return (sprintf(_("'%s' command (%s) for plugin %s is invalid!"), $type,$command,$plugin));
-    }elseif($plugin != "" && $command =""){
+    }elseif($plugin != "" && $command ==""){
       return (sprintf(_("'%s' command for plugin %s is invalid!"), $type,$plugin));
     }else{
       return (sprintf(_("'%s' command (%s) is invalid!"), $type,$command));
@@ -322,7 +322,7 @@ class msgPool {
    * \param string $command Command name
    *
    * \param string $plugin Name of the plugin
-   */ 
+   */
   public static function cmdexecfailed($type, $command = "",$plugin="")
   {
     if(empty($command)){
@@ -374,7 +374,7 @@ class msgPool {
    * \param string $name1 First object
    *
    * \param string $name2 Second object
-   */ 
+   */
   public static function depends($name1, $name2)
   {
     return (sprintf(_("'%s' depends on '%s' - please provide both values!"), $name1, $name2));
@@ -384,7 +384,7 @@ class msgPool {
    * \brief Display error about existing entry in the system
    *
    * \param string $name The entry duplicated
-   */ 
+   */
   public static function duplicated($name)
   {
     return (sprintf(_("There is already an entry with this '%s' attribute in the system!"), $name));
@@ -393,8 +393,8 @@ class msgPool {
   /*!
    * \brief Display error about required field empty
    *
-   * \param string $name Name of the field 
-   */ 
+   * \param string $name Name of the field
+   */
   public static function required($name)
   {
     return (sprintf(_("The required field '%s' is empty!"), $name));
@@ -410,7 +410,7 @@ class msgPool {
    * \param string $regex
    *
    * \param string $example Example of a right submited data
-   */ 
+   */
   public static function invalid($name, $data= "", $regex= "", $example= "")
   {
     /* Stylize example */
@@ -446,8 +446,8 @@ class msgPool {
   /*!
    * \brief Display about missing PHP extension
    *
-   * \param string $name The name of the extension 
-   */ 
+   * \param string $name The name of the extension
+   */
   public static function missingext($name)
   {
     return sprintf(_("Missing %s PHP extension!"), $name);
@@ -455,7 +455,7 @@ class msgPool {
 
   /*!
    * \brief Text for a cancel button
-   */ 
+   */
   public static function cancelButton()
   {
     return sprintf(_("Cancel"));
@@ -463,7 +463,7 @@ class msgPool {
 
   /*!
    * \brief Text for a ok button
-   */ 
+   */
   public static function okButton()
   {
     return sprintf(_("Ok"));
@@ -524,7 +524,7 @@ class msgPool {
   {
     return $what == "" ? sprintf(_("Edit...")): sprintf(_("Edit %s..."), $what);
   }
-  
+
   /*!
    * \brief Text for a back button
    */
@@ -537,7 +537,7 @@ class msgPool {
    * \brief a list from an array
    *
    * \param array $data Array with the elements of the list
-   */ 
+   */
   public static function buildList($data)
   {
     $objects= "<ul>";
@@ -556,7 +556,7 @@ class msgPool {
    * \brief Display error about invalid extension from account
    *
    * \param string $name Name of the extension
-   */ 
+   */
   public static function noValidExtension($name)
   {
     return sprintf(_("This account has no valid %s extensions!"), $name);
@@ -566,9 +566,9 @@ class msgPool {
    * \brief List the features settings enabled
    *
    * \param string $name Name of the setting
-   * 
+   *
    * \param array $depends Contains all the settings enabled
-   */ 
+   */
   public static function featuresEnabled($name, $depends= "")
   {
     if ($depends == ""){
@@ -591,7 +591,7 @@ class msgPool {
    * \brief List the features settings disabled
    *
    * \param string $name Name of the setting
-   * 
+   *
    * \param array $depends Contains all the settings disabled
    */
   public static function featuresDisabled($name, $depends= "")
@@ -621,7 +621,7 @@ class msgPool {
   {
     return sprintf(_("Add %s settings"), $name);
   }
-  
+
   /*!
    * \brief Display Remove features button
    *
@@ -643,7 +643,7 @@ class msgPool {
 
   /*!
    * \brief Build an array with the months
-   */ 
+   */
   public static function months()
   {
     return array(_("January"), _("February"), _("March"), _("April"),
@@ -653,7 +653,7 @@ class msgPool {
 
   /*!
    * \brief Build an array with the days of a week.
-   * 		Start by Sunday
+   *    Start by Sunday
    */
   public static function weekdays()
   {
@@ -665,8 +665,8 @@ class msgPool {
    *
    * \param string $error Error to display
    *
-   * \param string $plugin 
-   */ 
+   * \param string $plugin
+   */
   public static function dbError($error,  $plugin= "")
   {
     /* Assign headline depending on type */
@@ -684,7 +684,7 @@ class msgPool {
    * \param integer $type
    *
    * \param string $plugin
-   */ 
+   */
   public static function ldaperror($error, $dn= "", $type= 0, $plugin= "")
   {
     /* Assign headline depending on type */
@@ -709,7 +709,7 @@ class msgPool {
    * \brief Display error about an incorrect upload
    *
    * \param string $reason The reason of the upload failed
-   */ 
+   */
   public static function incorrectUpload($reason= "")
   {
     if ($reason == ""){
@@ -737,8 +737,8 @@ class msgPool {
    *
    * \param $type Type
    *
-   * \param array $objects 
-   */ 
+   * \param array $objects
+   */
   public static function stillInUse($type, $objects= array())
   {
     if (!is_array($objects)){
@@ -757,7 +757,7 @@ class msgPool {
    * \brief Display file doesn't exist
    *
    * \param string $file Name of the file not found
-   */ 
+   */
   public static function fileDoesNotExist($file)
   {
     return sprintf(_("File '%s' does not exist!"), $file);
@@ -827,7 +827,7 @@ class msgPool {
    * \brief Display checking for a support
    *
    * \param string $what Name of the support
-   */ 
+   */
   public static function checkingFor($what)
   {
     return sprintf(_("Checking for %s support"), $what);
@@ -837,7 +837,7 @@ class msgPool {
    * \brief Display install or activate a PHP module
    *
    * \param string $what Name of the module
-   */  
+   */
   public static function installPhpModule($what)
   {
     return sprintf(_("Install and activate the %s PHP module."), $what);
@@ -847,7 +847,7 @@ class msgPool {
    * \brief Display error when a class is not found
    *
    * \param string $plugin Name of the class which can'b be initialized
-   */ 
+   */
   public static function class_not_found($plugin)
   {
     return (sprintf(_("Cannot initialize class '%s'! Maybe there is a plugin missing in your FusionDirectory setup?"), $plugin));
@@ -855,7 +855,7 @@ class msgPool {
 
   /*!
    * \brief Display error when checking the base
-   */ 
+   */
   public static function check_base()
   {
     return _("The supplied base is not valid and has been reset to the previous value!");
