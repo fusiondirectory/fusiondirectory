@@ -75,78 +75,77 @@ class filterLDAP {
    *
    * \param flag $flags GL_SUBSEARCH
    */
-  static function get_list($parent,$base, $filter, $attributes, $category, $objectStorage, $flags= GL_SUBSEARCH)
+  static function get_list($parent, $base, $filter, $attributes, $category, $objectStorage, $flags = GL_SUBSEARCH)
   {
-    $ui= session::global_get('ui');
-    $config= session::global_get('config');
+    $ui = session::global_get('ui');
+    $config = session::global_get('config');
 
     // Move to arrays for category and objectStorage
     if (!is_array($category)) {
-      $category= array($category);
+      $category = array($category);
     }
 
     // Store in base - i.e. is a rdn value empty?
-    $storeOnBase= count($objectStorage) == 1 && empty($objectStorage[0]);
+    $storeOnBase = in_array("",$objectStorage);
 
-    $default_method= ($storeOnBase && !($flags & GL_SUBSEARCH))?"ls":"search";
+    $default_method = ($storeOnBase && !($flags & GL_SUBSEARCH))?"ls":"search";
 
     // Initialize search bases
-    $bases= array();
+    $bases = array();
 
     // Get list of sub bases to search on
     if ($storeOnBase) {
-      $bases[$base]= "";
+      $bases[$base] = "";
     } else {
       foreach ($objectStorage as $oc) {
-        $oc= preg_replace('/,$/', '', $oc);
-        $tmp= explode(',', $oc);
-        if (count($tmp) == 1) {
+        $oc = preg_replace('/,$/', '', $oc);
+        if (!strpos($oc,',')) {
           preg_match('/([^=]+)=(.*)$/', $oc, $m);
           if ($flags & GL_SUBSEARCH) {
-            $bases[$base][]= $m[1].":dn:=".$m[2];
+            $bases[$base][] = $m[1].":dn:=".$m[2];
           } else {
-            $bases["$oc,$base"][]= $m[1].":dn:=".$m[2];
+            $bases["$oc,$base"][] = $m[1].":dn:=".$m[2];
           }
         } else {
           // No, there's no \, in pre defined RDN values
           preg_match('/^([^,]+),(.*)$/', $oc, $matches);
           preg_match('/([^=]+)=(.*)$/', $matches[1], $m);
           if ($flags & GL_SUBSEARCH) {
-            $bases[$base][]= $m[1].":dn:=".$m[2];
+            $bases[$base][] = $m[1].":dn:=".$m[2];
           } else {
-            $bases[$matches[2].",$base"][]= $m[1].":dn:=".$m[2];
+            $bases[$matches[2].",$base"][] = $m[1].":dn:=".$m[2];
           }
         }
       }
     }
 
     // Get LDAP link
-    $ldap= $config->get_ldap_link($flags & GL_SIZELIMIT);
+    $ldap = $config->get_ldap_link($flags & GL_SIZELIMIT);
 
     // Do search for every base
-    $result= array();
+    $result = array();
     $limit_exceeded = FALSE;
 
     // Save initial selected base for comparison purposes
     $initial_base = $base;
 
-    foreach($bases as $base => $dnFilters) {
+    foreach ($bases as $base => $dnFilters) {
       $method = $default_method;
 
       // Break if the size limit is exceeded
-      if($limit_exceeded){
-        return($result);
+      if ($limit_exceeded) {
+        return $result;
       }
 
       // Switch to new base and search
-      if (is_array($dnFilters)){
-        $dnFilter= "(|";
+      if (is_array($dnFilters)) {
+        $dnFilter = "(|";
         foreach ($dnFilters as $df) {
-          $dnFilter.= "($df)";
+          $dnFilter .= "($df)";
         }
-        $dnFilter.= ")";
+        $dnFilter .= ")";
       } else {
-        $dnFilter= "";
+        $dnFilter = "";
       }
       $ldap->cd($base);
 
