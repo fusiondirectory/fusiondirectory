@@ -35,7 +35,7 @@ documentation and additional help.
 
 * Niels Klomp <nk@careworks.nl>
   Dutch translation
-  
+
 * Steve Moitozo <god at zilla dot us>
   Password checker
 
@@ -70,10 +70,10 @@ documentation and additional help.
 * Leila El Hitori <leila.elhitori@opensides.be>
   French online documentation
   English online documentation
-  
+
 * Vincent Seynhaeve
   Xls export plugin <vincent.seynhaeve@opensides.be>
-  
+
 * Wouter Verhelst <wouter@debian.org>
   accept-to-gettext code that helps for language conversation
 
@@ -97,7 +97,7 @@ documentation and additional help.
 * Roman Widmann <archme.mail@gmail.com>
   Arch linux packager
 
-* Bernigaud Côme <come.bernigaud@laposte.net> 
+* Bernigaud Côme <come.bernigaud@laposte.net>
   New daemon code class_supportDaemon.inc, and all the new deployment stuff :)
 
 * Alexis Michon <alexis.michon@ibcp.fr>
@@ -108,4 +108,9 @@ documentation and additional help.
 
 * Jeremy Williame <williamejeremy@hotmail.com>
   Cleanup and writer of the FusionDirectory doxygen api documentation
-  
+
+* Kenny Tordeurs
+  Dutch Translator
+
+* Christophe Augello
+  Dutch Translator
