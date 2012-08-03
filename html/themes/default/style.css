@@ -2019,3 +2019,27 @@ height: expression( this.scrollHeight > 500 ? "500px" : "auto" );
 span.mark {
 color:#B22;
 }
+
+/* Simple Plugin specific things */
+
+fieldset.plugin_section {
+display:table-cell;
+width:48%;
+vertical-align:top;
+border:1px solid lightgrey;
+padding:0;
+margin:0;
+}
+
+fieldset.plugin_section legend {
+font-weight:bold;
+}
+
+fieldset.plugin_section legend img {
+margin-right:3px;
+vertical-align:middle;
+}
+
+fieldset.plugin_section select[multiple] {
+width:100%;
+}
