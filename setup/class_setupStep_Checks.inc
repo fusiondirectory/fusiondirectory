@@ -150,14 +150,6 @@ class Step_Checks extends setup_step
     $M = TRUE;
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
-    /* Read data written by convert */
-    $output= "";
-    $sh= popen("convert", 'r');
-    while (!feof($sh)){
-      $output.= fread($sh, 4096);
-    }
-    pclose($sh);
-
     $N = msgPool::checkingFor(_("imagick"));
     $D = _("FusionDirectory requires this extension to handle images.");
     $S = msgPool::installPhpModule("php5-imagick");
