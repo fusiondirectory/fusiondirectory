@@ -496,7 +496,7 @@ class passwordRecovery {
     $this->address_mail = $_POST['address_mail'];
 
     /* Search uid corresponding to the mail */
-    $uids = get_list( "(&(objectClass=gosaMailAccount)(mail=".$this->address_mail."))",
+    $uids = get_list( "(&(objectClass=gosaMailAccount)(|(mail=".$this->address_mail.")(gosaMailAlternateAddress=".$this->address_mail.")))",
                       "", $this->config->current['BASE'], array("uid"),
                       GL_SUBSEARCH | GL_NO_ACL_CHECK);
 
