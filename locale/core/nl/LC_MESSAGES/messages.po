@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory\n"
 "Report-Msgid-Bugs-To: https://forge.fusiondirectory.org/projects/fd\n"
 "POT-Creation-Date: 2012-05-26 15:30+0200\n"
-"PO-Revision-Date: 2012-08-02 18:58+0000\n"
+"PO-Revision-Date: 2012-08-07 14:38+0000\n"
 "Last-Translator: Kenny Tordeurs <tordeurskenny@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/FusionDirectory/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -596,21 +596,21 @@ msgstr "Wijzig"
 #: ihtml/themes/default/accountexpired.tpl:52
 #: ihtml/themes/default/recovery.tpl:111 ihtml/themes/default/recovery.tpl:148
 msgid "Click here to change your password"
-msgstr ""
+msgstr "Klik hier om je paswoord te wijzigen"
 
 #: ihtml/themes/default/accountexpired.tpl:15
 msgid "Your password has expired. Please choose a new one!"
-msgstr ""
+msgstr "Je paswoord is vervallen. Gelieve een nieuwe op te geven!"
 
 #: ihtml/themes/default/accountexpired.tpl:23
 #: ihtml/themes/default/accountexpired.tpl:27
 msgid "Old password"
-msgstr ""
+msgstr "Oud paswoord"
 
 #: ihtml/themes/default/accountexpired.tpl:41
 #: ihtml/themes/default/accountexpired.tpl:45
 msgid "Verify password"
-msgstr ""
+msgstr "Verifiëer paswoord"
 
 #: ihtml/themes/default/accountexpired.tpl:51
 #: plugins/admin/users/user-list.xml:128 plugins/admin/users/user-list.xml:232
@@ -619,13 +619,13 @@ msgstr "Verander wachtwoord"
 
 #: ihtml/themes/default/login.tpl:24
 msgid "Login screen"
-msgstr ""
+msgstr "Login scherm"
 
 #: ihtml/themes/default/login.tpl:31
 msgid ""
 "Please use your username and your password to log into the site "
 "administration system."
-msgstr ""
+msgstr "Gebruik aub je gebruikersnaam en paswoord om in te loggen in het administratie systeem van de site."
 
 #: ihtml/themes/default/login.tpl:74 ihtml/themes/default/login.tpl:77
 msgid "Sign in"
@@ -639,7 +639,7 @@ msgstr "Klik hier om in te loggen"
 msgid ""
 "This may be used by several groups. Please double check if your really want "
 "to do this since there is no way for FusionDirectory to get your data back."
-msgstr ""
+msgstr "Deze kan gebruikt worden door verschillende groepen. Verifêer dubbel of je dit echt wenst de doen want er is geen manier voor FusionDirectory om je data terug te halen."
 
 #: ihtml/themes/default/remove.tpl:9 plugins/admin/acl/remove.tpl:10
 #: plugins/admin/users/remove.tpl:10 plugins/admin/groups/remove.tpl:10
@@ -649,20 +649,20 @@ msgstr "Indien u zeker bent drukt u dan 'Verwijderen' om door te gaan of 'Annule
 
 #: ihtml/themes/default/acl.tpl:7 plugins/admin/acl/acl_role.tpl:3
 msgid "Assigned ACL for current entry"
-msgstr ""
+msgstr "ACL toegekend voor huidige inzending"
 
 #: ihtml/themes/default/acl.tpl:12 plugins/admin/acl/acl_role.tpl:38
 msgid "New ACL"
-msgstr ""
+msgstr "Nieuwe ACL"
 
 #: ihtml/themes/default/acl.tpl:17 plugins/admin/acl/acl_role.tpl:44
 msgid "ACL type"
-msgstr ""
+msgstr "ACL type"
 
 #: ihtml/themes/default/acl.tpl:19 ihtml/themes/default/acl.tpl:24
 #: plugins/admin/acl/acl_role.tpl:44
 msgid "Select an acl type"
-msgstr ""
+msgstr "Selecteer een ACL type"
 
 #: ihtml/themes/default/acl.tpl:29 ihtml/themes/default/acl.tpl:52
 #: ihtml/themes/default/acl.tpl:125 ihtml/themes/default/acl.tpl:140
@@ -678,19 +678,19 @@ msgstr "Toepassen"
 
 #: ihtml/themes/default/acl.tpl:36
 msgid "Additional filter options"
-msgstr ""
+msgstr "Extra filter opties"
 
 #: ihtml/themes/default/acl.tpl:47
 msgid "Use members from"
-msgstr ""
+msgstr "Gebruik leden van"
 
 #: ihtml/themes/default/acl.tpl:61
 msgid "Available members"
-msgstr ""
+msgstr "Beschikbare leden"
 
 #: ihtml/themes/default/acl.tpl:63 ihtml/themes/default/acl.tpl:68
 msgid "List message possible targets"
-msgstr ""
+msgstr "Toon bericht mogelijke doelen"
 
 #: ihtml/themes/default/acl.tpl:82 include/class_acl.inc:1092
 msgid "Members"
@@ -698,19 +698,19 @@ msgstr "Groepsleden"
 
 #: ihtml/themes/default/acl.tpl:84 ihtml/themes/default/acl.tpl:90
 msgid "List message recipients"
-msgstr ""
+msgstr "Toon bericht ontvangers"
 
 #: ihtml/themes/default/acl.tpl:104 plugins/admin/acl/acl_role.tpl:49
 msgid "List of available ACL categories"
-msgstr ""
+msgstr "Toon beschikbare ACL categoriëen"
 
 #: ihtml/themes/default/acl.tpl:112
 msgid "ACL for this object"
-msgstr ""
+msgstr "ACL voor dit object"
 
 #: ihtml/themes/default/acl.tpl:118
 msgid "Available roles"
-msgstr ""
+msgstr "Beschikbare rollen"
 
 #: ihtml/themes/default/framework.tpl:8 ihtml/themes/default/framework.tpl:11
 #: ihtml/themes/default/framework.tpl:16 ihtml/themes/default/framework.tpl:20
@@ -739,7 +739,7 @@ msgstr ""
 
 #: ihtml/themes/default/framework.tpl:37
 msgid "FusionDirectory main menu"
-msgstr ""
+msgstr "FusionDirectory hoofdmenu"
 
 #: ihtml/themes/default/msg_dialog.tpl:61
 #: ihtml/themes/default/msg_dialog.tpl:108 setup/setup_ldap.tpl:121
@@ -765,7 +765,7 @@ msgstr "Informatie"
 #: setup/class_setupStep_Migrate.inc:3061 include/class_msgPool.inc:342
 #, php-format
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: ihtml/themes/default/sizelimit.tpl:3
 msgid ""
@@ -796,24 +796,24 @@ msgstr "Stel in"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:1
 msgid "Copy & paste wizard"
-msgstr ""
+msgstr "Kopieer en plak wizard"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:7
 msgid ""
 "Some values need to be unique in the complete directory while some "
 "combinations make no sense. FusionDirectory shows the relevant attributes. "
 "Please maintain the values below to fulfill the policies."
-msgstr ""
+msgstr "Sommige waarden moeten uniek zijn in de volledige directory terwijl sommige combinaties geen zin hebben. FusionDirectory toont de relevante attributen. Behoud aub de waarden hieronder om de policies te vervullen."
 
 #: ihtml/themes/default/copyPasteDialog.tpl:9
 msgid "Remember that some properties like taken snapshots will not be copied!"
-msgstr ""
+msgstr "Onthoud dat sommige eigenschappen zoals snaphots zijn en niet kunnen gekopieerd worden!"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:10
 msgid ""
 "Or if you copy or cut an entry within FusionDirectory and delete the source "
 "object, you may get errors while pasting this object again!"
-msgstr ""
+msgstr "Of als je een kopie of knip doet van een inzending in FusionDirectory en de bron van het object verwijderd kan je errors krijgen tijdens het plakken van het object!"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:19 include/class_msgPool.inc:354
 #, php-format
@@ -822,7 +822,7 @@ msgstr "Opslaan"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:24
 msgid "Cancel all"
-msgstr ""
+msgstr "Annuleer alles"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:30
 msgid "Operation complete"
@@ -835,14 +835,14 @@ msgstr "Opslaan"
 
 #: ihtml/themes/default/logout.tpl:5
 msgid "Your FusionDirectory session has expired!"
-msgstr ""
+msgstr "Je FusionDirectory sessie is vervallen!"
 
 #: ihtml/themes/default/logout.tpl:7
 msgid ""
 "The last interaction with the FusionDirectory web interface has been some "
 "time ago in the past. For security reasons, the session has been closed. To "
 "continue with administrative tasks, please sign in again."
-msgstr ""
+msgstr "De laatste interactie met de FusionDirectory web interface was een tijd geleden. Voor veiligheidsredenen is de sessie afgesloten. Om verder te gaan met administratieve taken, gelieve opnieuw in te loggen."
 
 #: ihtml/themes/default/logout.tpl:10
 msgid "Sign in again"
@@ -906,76 +906,76 @@ msgstr "E-mail"
 
 #: setup/setup_language.tpl:3
 msgid "Please select the preferred language"
-msgstr ""
+msgstr "Selecteer aub de gewenste taal"
 
 #: setup/setup_language.tpl:5
 msgid ""
 "At this point, you can select the site wide default language. Choosing "
 "'automatic' will use the language requested by the browser. This setting can"
 " be overriden per user."
-msgstr ""
+msgstr "Op dit punt,kan je de standaard taal kiezen voor de site, 'automatic' komt overeen met de taal van de browser. Deze optie kan worden overroepen door de gebruiker."
 
 #: setup/setup_language.tpl:9
 msgid "Please select your preferred language here"
-msgstr ""
+msgstr "Selecteer aub je gewenste taal hier"
 
 #: setup/class_setupStep_Checks.inc:38 setup/class_setupStep_Checks.inc:39
 msgid "Installation check"
-msgstr ""
+msgstr "Installatie verificatie"
 
 #: setup/class_setupStep_Checks.inc:40
 msgid "Basic checks for PHP compatibility and extensions"
-msgstr ""
+msgstr "Standaard verificatie voor PHP compatibiliteit en extensies"
 
 #: setup/class_setupStep_Checks.inc:64
 msgid "Checking PHP version"
-msgstr ""
+msgstr "PHP versie word geverifiëerd"
 
 #: setup/class_setupStep_Checks.inc:65
 #, php-format
 msgid "PHP must be of version %s or above."
-msgstr ""
+msgstr "PHP moet versie %s zijn of meer"
 
 #: setup/class_setupStep_Checks.inc:66
 msgid "Please upgrade to a supported version."
-msgstr ""
+msgstr "Upgrade aub naar de gesupporteerde versie."
 
 #: setup/class_setupStep_Checks.inc:73
 msgid "FusionDirectory requires this module to talk with your LDAP server."
-msgstr ""
+msgstr "FusionDirectory heeft deze module nodige om te kunnen communiceren met de LDAP server."
 
 #: setup/class_setupStep_Checks.inc:81
 msgid ""
 "FusionDirectory requires this module for an internationalized interface."
-msgstr ""
+msgstr "FusionDirectory heeft deze module nodig voor een internationale inferface."
 
 #: setup/class_setupStep_Checks.inc:89
 msgid ""
 "FusionDirectory requires this module to communicate with different types of "
 "servers and protocols."
-msgstr ""
+msgstr "FusionDirectory heeft deze module nodig om te kunnen communiceren met verschillende types van servers en protocollen."
 
 #: setup/class_setupStep_Checks.inc:97
 msgid "FusionDirectory requires this module for the samba integration."
-msgstr ""
+msgstr "FusionDirectory heeft deze module nodig voor samba integratie."
 
 #: setup/class_setupStep_Checks.inc:105
 msgid ""
 "FusionDirectory requires either 'mhash' or the 'sha1' module to make use of "
 "SSHA encryption."
-msgstr ""
+msgstr "FusionDirectory heeft of de 'mhash' of de 'sha1' module nodig om gebruik te maken van SSHA encryptie."
 
 #: setup/class_setupStep_Checks.inc:113
 msgid "FusionDirectory requires this module to talk to an IMAP server."
-msgstr ""
+msgstr "FusionDirectory heeft deze module nodig om met de IMAP server te kunnen communiceren."
 
 #: setup/class_setupStep_Checks.inc:120
 msgid "mbstring"
-msgstr ""
+msgstr "mbstring"
 
 #: setup/class_setupStep_Checks.inc:121
 msgid "FusionDirectory requires this module to handle unicode strings."
-msgstr ""
+msgstr "FusionDirectory heeft deze module nodig om unicode strings te kunnen behandelen."
 
 #: setup/class_setupStep_Checks.inc:128
 msgid "MDB2"
@@ -985,17 +985,17 @@ msgstr ""
 msgid ""
 "FusionDirectory requires this module to communicate with several supported "
 "databases."
-msgstr ""
+msgstr "FusionDirectory heeft deze module nodig om te kunnen communiceren met verschillende gesupporteerde databanken."
 
 #: setup/class_setupStep_Checks.inc:146
 msgid "samba hash generator"
-msgstr ""
+msgstr "samba hash generator"
 
 #: setup/class_setupStep_Checks.inc:147
 msgid ""
 "FusionDirectory requires this command to synchronize POSIX and samba "
 "passwords."
-msgstr ""
+msgstr "FusionDirectory heeft dit commando nodig om te kunnen synchronizeren met POSIX en samba paswoorden."
 
 #: setup/class_setupStep_Checks.inc:148
 msgid ""
@@ -1005,61 +1005,61 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:161
 msgid "imagick"
-msgstr ""
+msgstr "imagick"
 
 #: setup/class_setupStep_Checks.inc:162
 msgid "FusionDirectory requires this extension to handle images."
-msgstr ""
+msgstr "FusionDirectory heeft deze extensie nodig om afbeeldingen te kunnen bewerken."
 
 #: setup/class_setupStep_Checks.inc:177
 msgid "compression module"
-msgstr ""
+msgstr "compressie module"
 
 #: setup/class_setupStep_Checks.inc:178
 msgid "FusionDirectory requires this extension to handle snapshots."
-msgstr ""
+msgstr "FusionDirectory heeft deze extensie nodig om snapshots te kunnen behandelen."
 
 #: setup/class_setupStep_Checks.inc:189
 msgid ""
 "register_globals is a PHP mechanism to register all global variables to be "
 "accessible from scripts without changing the scope. This may be a security "
 "risk."
-msgstr ""
+msgstr "register_globals is een PHP mechanisme om alle globale variabelen te registreren en toegankelijk te maken vanuit scripts zonder de scope te moeten aanpassen. Dit kan een veiligheidsrisico vormen. "
 
 #: setup/class_setupStep_Checks.inc:190
 msgid "Search for 'register_globals' in your php.ini and switch it to 'Off'."
-msgstr ""
+msgstr "Zoek voor 'register_globals' in je php.ini en schakel het 'uit'."
 
 #: setup/class_setupStep_Checks.inc:198
 msgid "PHP uses this value for the garbage collector to delete old sessions."
-msgstr ""
+msgstr "PHP gebruikt deze waarde voor de vuilbak verzamelaar en om oude sessies te verwijderen."
 
 #: setup/class_setupStep_Checks.inc:199
 msgid ""
 "Setting this value to one day will prevent loosing session and cookies "
 "before they really timeout."
-msgstr ""
+msgstr "Deze waarde naar 1 dag plaatsen kan het verliezen van de sessies en cookiesdoor timeout voorkomen."
 
 #: setup/class_setupStep_Checks.inc:200
 msgid ""
 "Search for 'session.gc_maxlifetime' in your php.ini and set it to 86400 or "
 "higher."
-msgstr ""
+msgstr "Zoek voor 'session.gc_maxlifetime' in je php.ini en plaats het naar 86400 of hoger."
 
 #: setup/class_setupStep_Checks.inc:207 setup/class_setupStep_Checks.inc:223
 #: setup/class_setupStep_Checks.inc:239 setup/class_setupStep_Checks.inc:247
 msgid "Off"
-msgstr ""
+msgstr "Uit"
 
 #: setup/class_setupStep_Checks.inc:208
 msgid ""
 "In Order to use FusionDirectory without any trouble, the "
 "session.auto_register option in your php.ini should be set to 'Off'."
-msgstr ""
+msgstr "Om FusionDirectory zonder problemen te gebruiken zou de session.auto_register optie in je php.ini naar 'Off' moeten geplaatst worden."
 
 #: setup/class_setupStep_Checks.inc:209
 msgid "Search for 'session.auto_start' in your php.ini and set it to 'Off'."
-msgstr ""
+msgstr "Zoek naar 'session.auto_start' in je php.ini en zet de waarde naar 'Off'."
 
 #: setup/class_setupStep_Checks.inc:216
 msgid ""
@@ -1076,108 +1076,108 @@ msgstr ""
 msgid ""
 "This option influences the PHP output handling. Turn this Option off, to "
 "increase performance."
-msgstr ""
+msgstr "Deze optie beinvloed de PHP output handling. Zet deze optie uit, om performantie te verhogen."
 
 #: setup/class_setupStep_Checks.inc:225
 msgid "Search for 'implicit_flush' in your php.ini and set it to 'Off'."
-msgstr ""
+msgstr "Zoek naar 'implicit_flush' in je php.ini and zet de waarde 'Off'."
 
 #: setup/class_setupStep_Checks.inc:232
 msgid "The Execution time should be at least 30 seconds."
-msgstr ""
+msgstr "De uitvoertijd zou minstens 30 seconden moeten zijn."
 
 #: setup/class_setupStep_Checks.inc:233
 msgid ""
 "Search for 'max_execution_time' in your php.ini and set it to '30' or "
 "higher."
-msgstr ""
+msgstr "Zoek naar 'max_execution_time' in je php.ini en zet het naar '30' of hoger."
 
 #: setup/class_setupStep_Checks.inc:240
 msgid ""
 "Increase the server security by setting expose_php to 'off'. PHP won't send "
 "any information about the server you are running in this case."
-msgstr ""
+msgstr "Verhoog de veiligheid van de server door de optie expose_php naar 'off' te plaatsen. PHP zal geen informatie over de server die je draait verzenden als je dit doet."
 
 #: setup/class_setupStep_Checks.inc:241
 msgid "Search for 'expose_php' in your php.ini and set if to 'Off'."
-msgstr ""
+msgstr "Zoek naar 'expose_php' in je php.ini en zet het naar 'Off'."
 
 #: setup/class_setupStep_Checks.inc:248
 msgid "Increase your server performance by setting magic_quotes_gpc to 'off'."
-msgstr ""
+msgstr "Verhoog je server performantie door de optie magic_quotes_gpc naar 'off' te plaatsen."
 
 #: setup/class_setupStep_Checks.inc:249
 msgid ""
 "Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to "
 "'Off'."
-msgstr ""
+msgstr "Zoek naar 'zend.ze1_compatibility_mode' in je php.ini en plaats het naar 'Off'."
 
 #: setup/class_setupStep_Checks.inc:259
 msgid "Configuration writeable"
-msgstr ""
+msgstr "Configuratie schrijfbaar"
 
 #: setup/class_setupStep_Checks.inc:260
 msgid "The configuration file can't be written"
-msgstr ""
+msgstr "Het configuratie bestand kan niet worden beschreven. "
 
 #: setup/class_setupStep_Checks.inc:261
 #, php-format
 msgid ""
 "FusionDirectory reads its configuration from a file located in (%s/%s). The "
 "setup can write the configuration directly if it is writeable."
-msgstr ""
+msgstr "FusionDirectory leest zijn configuratie van een bestand dat in (%s/%s) staat. De setup kan de configuratie rechtstreeks hierin schrijven als het schrijfbaar is."
 
 #: setup/setup_schema.tpl:3
 msgid "Schema specific settings"
-msgstr ""
+msgstr "Schema specifieke opties"
 
 #: setup/setup_schema.tpl:7
 msgid "Enable schema validation when logging in"
-msgstr ""
+msgstr "Activeer schema validatie wanneer je inlogt"
 
 #: setup/setup_schema.tpl:16
 msgid "Check status"
-msgstr ""
+msgstr "Verifieer status."
 
 #: setup/setup_schema.tpl:20
 msgid "Schema check succeeded"
-msgstr ""
+msgstr "Schema verificatie is geslaagd."
 
 #: setup/setup_schema.tpl:23
 msgid "Schema check failed"
-msgstr ""
+msgstr "Schema verificatie faalde."
 
 #: setup/setup_schema.tpl:31
 msgid ""
 "Could not read any schema informations, all checks skipped. Adjust your ldap"
 " acls."
-msgstr ""
+msgstr "Kon geen schema informatie lezen, alle verificaties zijn overgeslagen. Pas je ldap acls aan."
 
 #: setup/setup_schema.tpl:35
 msgid ""
 "It seems that your ldap database wasn't initialized yet. This maybe the "
 "reason, why FusionDirectory can't read your schema configuration!"
-msgstr ""
+msgstr "Het lijkt erop dat je ldap databank nog niet gestart was. Dit kan een reden zijn waardoor FusionDirectory je schema configuratie niet kon lezen!"
 
 #: setup/class_setup.inc:75
 msgid "Setup error"
-msgstr ""
+msgstr "Setup error"
 
 #: setup/class_setup.inc:195
 msgid "Completed"
-msgstr ""
+msgstr "Voltooid"
 
 #: setup/class_setup.inc:264 setup/setup_migrate.tpl:272
 msgid "Next"
-msgstr ""
+msgstr "Volgende"
 
 #: setup/class_setupStep_Schema.inc:42 setup/class_setupStep_Schema.inc:43
 msgid "LDAP schema check"
-msgstr ""
+msgstr "LDAP schema verificatie"
 
 #: setup/class_setupStep_Schema.inc:44
 msgid "Perform test on your current LDAP schema"
-msgstr ""
+msgstr "Doe een test op je huidige LDAP schema"
 
 #: setup/class_setupStep_Schema.inc:86 setup/class_setupStep_Ldap.inc:74
 #: setup/class_setupStep_Config1.inc:92 setup/class_setupStep_Config2.inc:133
@@ -1195,69 +1195,69 @@ msgstr "Ja"
 
 #: setup/class_setupStep_Ldap.inc:53
 msgid "LDAP setup"
-msgstr ""
+msgstr "LDAP setup"
 
 #: setup/class_setupStep_Ldap.inc:54
 msgid "LDAP connection setup"
-msgstr ""
+msgstr "LDAP connectie setup"
 
 #: setup/class_setupStep_Ldap.inc:55
 msgid ""
 "This dialog performs the basic configuration of the LDAP connectivity for "
 "FusionDirectory."
-msgstr ""
+msgstr "Deze dialoog zorgt voor de basis configuratie van de LDAP connectiviteit voor FusionDirectory."
 
 #: setup/class_setupStep_Ldap.inc:112
 #, php-format
 msgid "Anonymous bind to server '%s' failed!"
-msgstr ""
+msgstr "Anonieme bind naar server '%s' is mislukt! "
 
 #: setup/class_setupStep_Ldap.inc:114
 #, php-format
 msgid "Bind as user '%s' failed!"
-msgstr ""
+msgstr "Bind als gebruiker '%s' is mislukt!"
 
 #: setup/class_setupStep_Ldap.inc:119
 #, php-format
 msgid "Anonymous bind to server '%s' succeeded."
-msgstr ""
+msgstr "Anonieme bind naar server '%s' is succesvol."
 
 #: setup/class_setupStep_Ldap.inc:120
 msgid "Please specify user and password!"
-msgstr ""
+msgstr "Specifieer aub een gebruikersnaam en paswoord!"
 
 #: setup/class_setupStep_Ldap.inc:122
 #, php-format
 msgid "Bind as user '%s' to server '%s' succeeded!"
-msgstr ""
+msgstr "Bind als gebruiker '%s' naar server '%s' is succesvol!"
 
 #: setup/class_setupStep_Language.inc:41 setup/class_setupStep_Language.inc:42
 msgid "Language setup"
-msgstr ""
+msgstr "Taal setup"
 
 #: setup/class_setupStep_Language.inc:43
 msgid "This step allows you to select your preferred language."
-msgstr ""
+msgstr "Deze stap laat je toe om je gewenste taal te kiezen."
 
 #: setup/class_setupStep_Language.inc:48
 msgid "Automatic"
-msgstr ""
+msgstr "Automatisch"
 
 #: setup/setup_frame.tpl:12
 msgid "FusionDirectory setup wizard"
-msgstr ""
+msgstr "FusionDirectory setup wizard"
 
 #: setup/setup_frame.tpl:19
 msgid "Installation"
-msgstr ""
+msgstr "Installatie"
 
 #: setup/setup_frame.tpl:19
 msgid "Setup"
-msgstr ""
+msgstr "Setup"
 
 #: setup/setup_finish.tpl:3
 msgid "Create your configuration file"
-msgstr ""
+msgstr "Maak je configuratie bestand"
 
 #: setup/setup_finish.tpl:8
 msgid "Run "
@@ -1273,31 +1273,31 @@ msgstr "Systeem configuratie"
 
 #: setup/setup_finish.tpl:17
 msgid "Status: "
-msgstr ""
+msgstr "Status:"
 
 #: setup/setup_config1.tpl:2
 msgid "Look and feel"
-msgstr ""
+msgstr "Kijk en voel"
 
 #: setup/setup_config1.tpl:6
 msgid "Theme"
-msgstr ""
+msgstr "Thema"
 
 #: setup/setup_config1.tpl:15
 msgid "Apache"
-msgstr ""
+msgstr "Apache"
 
 #: setup/setup_config1.tpl:19
 msgid "Compress output send to browser"
-msgstr ""
+msgstr "Compresseer output dat naar de browser word verzonden"
 
 #: setup/setup_config1.tpl:27
 msgid "People and group storage"
-msgstr ""
+msgstr "People and group opslag"
 
 #: setup/setup_config1.tpl:30
 msgid "People DN attribute"
-msgstr ""
+msgstr "People DN attribuut"
 
 #: setup/setup_config1.tpl:41
 msgid "Customized CN"
@@ -1305,70 +1305,70 @@ msgstr ""
 
 #: setup/setup_config1.tpl:57
 msgid "People storage subtree"
-msgstr ""
+msgstr "People opslag subtree"
 
 #: setup/setup_config1.tpl:66
 msgid "Group storage subtree"
-msgstr ""
+msgstr "Group opslag subtree"
 
 #: setup/setup_config1.tpl:75
 msgid "Include personal title in user DN"
-msgstr ""
+msgstr "Inclusief personlijke titel in gebruikers DN"
 
 #: setup/setup_config1.tpl:86
 msgid "Relaxed naming policies"
-msgstr ""
+msgstr "Lakse naam policies"
 
 #: setup/setup_config1.tpl:97
 msgid "Automatic UIDs"
-msgstr ""
+msgstr "Automatische UIDs"
 
 #: setup/setup_config1.tpl:113 setup/class_setupStep_Config1.inc:122
 msgid "GID / UID min id"
-msgstr ""
+msgstr "GID / UID min id"
 
 #: setup/setup_config1.tpl:129
 msgid "Number base for people/groups"
-msgstr ""
+msgstr "Nummer base voor people/groups"
 
 #: setup/setup_config1.tpl:136 plugins/personal/password/main.inc:54
 msgid "Password settings"
-msgstr ""
+msgstr "Paswoord opties"
 
 #: setup/setup_config1.tpl:140
 msgid "Password encryption algorithm"
-msgstr ""
+msgstr "Paswoord encryptie algoritme"
 
 #: setup/setup_config1.tpl:151
 msgid "Password restrictions"
-msgstr ""
+msgstr "Paswoord restricties"
 
 #: setup/setup_config1.tpl:158 setup/setup_config1.tpl:162
 msgid "Password minimum length"
-msgstr ""
+msgstr "Paswoord minimum lengte"
 
 #: setup/setup_config1.tpl:169 setup/setup_config1.tpl:173
 msgid "Different characters from old password"
-msgstr ""
+msgstr "Verschillende karakters van oud paswoord"
 
 #: setup/setup_config1.tpl:182
 msgid "Password change hook"
-msgstr ""
+msgstr "Paswoord verander hook"
 
 #: setup/setup_config1.tpl:198
 msgid "Use SASL for kerberos"
-msgstr ""
+msgstr "Gebruik SASL voor kerberos"
 
 #: setup/setup_config1.tpl:209
 msgid "Use account expiration"
-msgstr ""
+msgstr "Gebruik account expiration"
 
 #: setup/setup_config1.tpl:221
 msgid ""
 "FusionDirectory supports several encryption types for your passwords. "
 "Normally this is adjustable via user templates, but you can specify a "
 "default method to be used here, too."
-msgstr ""
+msgstr "FusionDirectory ondersteund verschillende encryptie types voor je paswoorden. Normaal is dit wijzigbaar via gebruikerstemplates, maar je hier ook een standaard methode toevoegen."
 
 #: setup/setup_config1.tpl:222
 msgid ""
@@ -1376,21 +1376,21 @@ msgid ""
 "This is a workaround till OpenLDAP's in directory ACI's are    fully "
 "implemented. For this to work, we need the admin DN and the corresponding "
 "password."
-msgstr ""
+msgstr "FusionDirectory gedraagd zich altijd als admin en beheerd toegangsrechten intern. Dit is een workaround tot OpenLDAP's in directory ACI's volledig gëimplementeerd zijn. Om dit te doen werken hebben we de admin DN en zijn wachtwoord nodig."
 
 #: setup/setup_config1.tpl:223
 msgid ""
 "Some basic LDAP parameters are tunable and affect the locations where "
 "FusionDirectory saves people and groups, including the way accounts get "
 "created. Check the values below if the fit your needs."
-msgstr ""
+msgstr "Sommige basis LDAP parameters zijn wijzigbaar en hebben effect op de locaties waar FusionDirectory people en groups bewaard, inclusief de manier waarop accounts worden aangemaakt. Verifieer de waarden hieronder of ze voldoen aan je benodigdheden."
 
 #: setup/setup_config1.tpl:224
 msgid ""
 "FusionDirectory has modular support for several mail methods. These methods "
 "provide interfaces to users mailboxes and general handling    for quotas. "
 "You can choose the dummy plugin to leave all your mail settings untouched."
-msgstr ""
+msgstr "FusionDirectory heeft modulaire ondersteuning voor verschillende mail methoden. Deze methoden bezorgen interfaces naar gebruikers mailboxen en generale handling voor quotas. Je kan deze plugin kiezen voor al je mail opties onveranderd te laten."
 
 #: setup/setup_config2.tpl:2
 msgid "Samba settings"
@@ -1398,19 +1398,19 @@ msgstr "Samba Instellingen"
 
 #: setup/setup_config2.tpl:6
 msgid "Workstation container"
-msgstr ""
+msgstr "Werkstation container"
 
 #: setup/setup_config2.tpl:21
 msgid "Samba SID mapping"
-msgstr ""
+msgstr "Samba SID mapping"
 
 #: setup/setup_config2.tpl:31
 msgid "Timezone"
-msgstr ""
+msgstr "Tijdzone"
 
 #: setup/setup_config2.tpl:34
 msgid "Please choose your preferred timezone here"
-msgstr ""
+msgstr "Kies hier aub je gewenste tijdzone"
 
 #: setup/setup_config2.tpl:43
 msgid "Mail settings"
@@ -1428,27 +1428,27 @@ msgstr "gedeactiveerd"
 
 #: setup/setup_config2.tpl:63
 msgid "Account identification attribute"
-msgstr ""
+msgstr "Account identificatie attribuut"
 
 #: setup/setup_config2.tpl:77
 msgid "Vacation templates"
-msgstr ""
+msgstr "Vakantie templates"
 
 #: setup/setup_config2.tpl:93
 msgid "Use Cyrus UNIX style"
-msgstr ""
+msgstr "Gebruik Cyrus UNIX stijl"
 
 #: setup/setup_config2.tpl:103
 msgid "Snapshots / Undo"
-msgstr ""
+msgstr "Snapshots / ongedaan maken"
 
 #: setup/setup_config2.tpl:112 setup/setup_config2.tpl:157
 msgid "Enable snapshots"
-msgstr ""
+msgstr "Activeer snapshots"
 
 #: setup/setup_config2.tpl:118 setup/setup_config2.tpl:163
 msgid "Snapshot base"
-msgstr ""
+msgstr "Snaphosts basis"
 
 #: setup/setup_config2.tpl:127 setup/setup_config2.tpl:172
 #: plugins/admin/ogroups/class_ogroupManagement.inc:187
@@ -1470,11 +1470,11 @@ msgstr "Gebruiker"
 
 #: setup/setup_config3.tpl:2
 msgid "FusionDirectory core settings"
-msgstr ""
+msgstr "FusionDirectory core opties"
 
 #: setup/setup_config3.tpl:6
 msgid "Enable primary group filter"
-msgstr ""
+msgstr "Activeer primaire groep filter"
 
 #: setup/setup_config3.tpl:18
 msgid "Display summary in listings"
