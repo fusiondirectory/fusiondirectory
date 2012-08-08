@@ -30,7 +30,7 @@ class Step_Finish extends setup_step
     $this->update_strings();
   }
 
-
+  
   function update_strings()
   {
     $this->s_title      = _("Finish");
@@ -46,12 +46,12 @@ class Step_Finish extends setup_step
     $smarty->assign("config_checksum", md5(file_get_contents(CONFIG_TEMPLATE_DIR.CONFIG_FILE)));
     $str =  $smarty->fetch(CONFIG_TEMPLATE_DIR.CONFIG_FILE);
     return($str);
-  }
+  }  
 
 
   function execute()
   {
-    global $BASEDIR;
+
     if(!function_exists("posix_getgrgid")){
       $webgroup = "";
     }else{
@@ -59,14 +59,14 @@ class Step_Finish extends setup_step
       $webgroup = $info['name'];
     }
 
-    /* Check if there is currently an active fusiondirectory.conf
+    /* Check if there is currently an active fusiondirectory.conf 
      */
-    $exists = file_exists(CONFIG_DIR."/".CONFIG_FILE);
+    $exists = file_exists(CONFIG_DIR."/".CONFIG_FILE); 
 
-    /* Redirect to FusionDirectory login, if :
+    /* Redirect to FusionDirectory login, if : 
      *   - fusiondirectory.conf exists
-     *   - Permisssion are set correctly
-     */
+     *   - Permisssion are set correctly 
+     */ 
     if(isset($_POST['next']) && $exists && !$this->is_world_readable(CONFIG_DIR."/".CONFIG_FILE)){
       session::destroy();
       header("Location: index.php");
@@ -82,7 +82,7 @@ class Step_Finish extends setup_step
       header("Pragma: no-cache");
       header("Cache-Control: post-check=0, pre-check=0");
       header("Content-type: text/plain");
-
+     
       if (preg_match('/MSIE 5.5/', $_SERVER['HTTP_USER_AGENT']) ||
           preg_match('/MSIE 6.0/', $_SERVER['HTTP_USER_AGENT'])){
         header('Content-Disposition: filename="'.CONFIG_FILE.'"');
@@ -96,9 +96,9 @@ class Step_Finish extends setup_step
       echo $this->get_conf_data();
       exit();
     }
-
+   
     $err_msg= "";
-
+    
     if($exists && $this->is_world_readable(CONFIG_DIR."/".CONFIG_FILE)){
       $err_msg = _("Your configuration file is currently world readable. Please update the file permissions!");
     }elseif(!$exists){
@@ -111,7 +111,7 @@ class Step_Finish extends setup_step
     $smarty->assign("msg2", sprintf(_("After downloading and placing the file under %s, please make sure that the user the webserver is running with is able to read %s, while other users shouldn't."),CONFIG_DIR,CONFIG_FILE));
 
     $smarty->assign("cv",$this->parent->captured_values);
-    return $smarty->fetch("$BASEDIR/setup/setup_finish.tpl");
+    return($smarty -> fetch (get_template_path("../setup/setup_finish.tpl")));
   }
 
 
