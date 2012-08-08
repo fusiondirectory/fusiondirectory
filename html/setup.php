@@ -144,6 +144,6 @@ if ($error_collector != ""){
 $smarty->assign("version",FD_VERSION);
 
 
-echo $header.$smarty->fetch("../setup/setup_frame.tpl");
+echo $header.$smarty->fetch("$BASE_DIR/setup/setup_frame.tpl");
 // vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
