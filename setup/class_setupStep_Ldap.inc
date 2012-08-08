@@ -47,18 +47,17 @@ class Step_Ldap extends setup_step
     $this->update_strings();
   }
 
-
+  
   function update_strings()
   {
     $this->s_title      = _("LDAP setup");
     $this->s_title_long = _("LDAP connection setup");
     $this->s_info       = _("This dialog performs the basic configuration of the LDAP connectivity for FusionDirectory.");
   }
-
-
+  
+  
   function execute()
   {
-    global $BASEDIR;
     $smarty = get_smarty();
     foreach($this->attributes as $attr){
       $smarty->assign($attr,htmlentities($this->$attr,ENT_QUOTES,"UTF-8"));
@@ -88,7 +87,7 @@ class Step_Ldap extends setup_step
       $base_to_append = substr($base_to_append,0,17)."...";
     }
     $smarty->assign("base_to_append",$base_to_append);
-    return $smarty->fetch("$BASEDIR/setup/setup_ldap.tpl");
+    return($smarty -> fetch (get_template_path("../setup/setup_ldap.tpl")));
   }
 
   function get_connection_status()
@@ -98,7 +97,7 @@ class Step_Ldap extends setup_step
 
     @ldap_set_option(NULL, LDAP_OPT_DEBUG_LEVEL, 7);
     $this->connect_id = ldap_connect($this->connection);
-
+      
     if($this->tls){
       if(@ldap_set_option($this->connect_id, LDAP_OPT_REFERRALS, 0))
         if(@ldap_start_tls($this->connect_id))
@@ -108,12 +107,12 @@ class Step_Ldap extends setup_step
       @ldap_set_option($this->connect_id, LDAP_OPT_PROTOCOL_VERSION, 3);
       $this->bind_id = @ldap_bind($this->connect_id, $this->admin, $this->password);
     }
-
+    
     if(!$this->bind_id){
-      $str = sprintf(_("Anonymous bind to server '%s' failed!"),$this->connection);
+      $str = sprintf(_("Anonymous bind to server '%s' failed!"),$this->connection); 
       if(!empty($this->admin)){
         $str = sprintf(_("Bind as user '%s' failed!"),$this->admin,$this->connection);
-      }
+      }      
       return("<font color='red'>".$str."</font>");
     }else{
       if(empty($this->admin)){
@@ -122,11 +121,11 @@ class Step_Ldap extends setup_step
       }else{
         $str = sprintf(_("Bind as user '%s' to server '%s' succeeded!"),$this->admin,$this->connection);
         return("<font color='green'>".$str."</font>");
-      }
+      }      
     }
   }
 
-
+  
   function resolve_user()
   {
     $filter  = $this->resolve_filter;
@@ -143,7 +142,7 @@ class Step_Ldap extends setup_step
       natcasesort($tmp);
     }
     return($tmp);
-  }
+  }   
 
 
   function save_object()
@@ -176,10 +175,10 @@ class Step_Ldap extends setup_step
     if(isset($_POST['resolve_user'])){
       $this->resolve_user = !$this->resolve_user;
     }
-
+  
     /* Hide backward forward button*/
     $this->dialog = $this->resolve_user;
-
+ 
     if(isset($_POST['resolve_filter'])){
       $this->resolve_filter = get_post('resolve_filter');
     }
@@ -197,9 +196,9 @@ class Step_Ldap extends setup_step
     }else{
       $this->append_base_to_admin_dn = FALSE;
     }
-
+ 
     if($this->append_base_to_admin_dn){
-      $base = $this->base;
+      $base = $this->base;      
       if(!preg_match("/,$/",$this->admin_given)){
         $base = ",".$base;
       }
