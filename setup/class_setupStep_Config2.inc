@@ -46,7 +46,7 @@ class Step_Config2 extends setup_step
                                   "samba_sid_active" => FALSE,
                                   "samba_rid"        => 1000,
                                   "smbhash"          => 'SMBHASH',
-                                  "samba_rid_active" => FALSE); 
+                                  "samba_rid_active" => FALSE);
 
   var $sambaDomain_found    = FALSE;
   var $timezone       = "Europe/Paris";
@@ -73,7 +73,7 @@ class Step_Config2 extends setup_step
     $this->samba_settings['smbhash'] = $pwdhash;
   }
 
- 
+
   function update_strings()
   {
     $this->s_title      = _("FusionDirectory settings 2/3");
@@ -81,9 +81,10 @@ class Step_Config2 extends setup_step
     $this->s_info       = _("Customize special parameters");
   }
 
- 
+
   function execute()
   {
+    global $BASE_DIR;
     $this->mail_methods = $this->get_available_mail_classes();
     /* On first call check for rid/sid base */
     $cv = $this->parent->captured_values;
@@ -108,7 +109,7 @@ class Step_Config2 extends setup_step
         $this->samba_settings['samba_sid_active'] = TRUE;
         $this->samba_settings['samba_rid_active'] = TRUE;
       }
-  
+
       $this->called = TRUE;
     }
 
@@ -129,14 +130,14 @@ class Step_Config2 extends setup_step
     $smarty->assign("mail_settings",     reverse_html_entities($this->mail_settings));
     $smarty->assign("mail_methods",      reverse_html_entities($this->mail_methods));
     $smarty->assign("samba_settings",    reverse_html_entities($this->samba_settings));
-   
+
     $smarty->assign("bool",array(FALSE => _("No"), TRUE => _("Yes")));
     foreach($this->attributes as $attr){
       $smarty->assign($attr,reverse_html_entities($this->$attr));
     }
     $smarty->assign("timezone"     ,$this->timezone);
     $smarty->assign("timezones"    ,$this->timezones);
-    return($smarty -> fetch (get_template_path("../setup/setup_config2.tpl")));
+    return $smarty->fetch("$BASE_DIR/setup/setup_config2.tpl");
   }
 
   function save_object()
@@ -234,7 +235,7 @@ class Step_Config2 extends setup_step
     $message = array();
     return($message);
   }
-  
+
 
   /* Attributes that are interesting for configuration generation */
   function get_attributes()

@@ -79,7 +79,7 @@ class Step_Config3 extends setup_step
 
   function execute()
   {
-
+    global $BASE_DIR;
     $cv = $this->parent->captured_values;
     /*$this->optional['sudoou'] = preg_replace("/%BASE%/",$cv['base'],$this->optional['sudoou']);*/
     $smarty = get_smarty();
@@ -94,7 +94,7 @@ class Step_Config3 extends setup_step
       $smarty->assign($attr,reverse_html_entities($this->$attr));
     }
     $smarty->assign("login_attributes",$this->login_attributes);
-    return($smarty -> fetch (get_template_path("../setup/setup_config3.tpl")));
+    return $smarty->fetch("$BASE_DIR/setup/setup_config3.tpl");
   }
 
 
