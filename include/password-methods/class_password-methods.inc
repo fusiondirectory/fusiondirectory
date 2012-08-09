@@ -23,7 +23,7 @@
 /*
  * \file class_pasword-methods.inc
  * Source code for class password-methods
- */ 
+ */
 
 /*!
  * \brief This class contains all the basic function for password methods
@@ -42,7 +42,7 @@ class passwordMethod
    * \param string $config
    *
    * \param string $dn The DN
-   */ 
+   */
   function passwordMethod($config, $dn="")
   {
   }
@@ -51,7 +51,7 @@ class passwordMethod
    * \brief Create a template hash
    *
    * \param $attrs Attr
-   */ 
+   */
   function create_template_hash($attrs)
   {
     if($this->get_hash_name() == ""){
@@ -63,17 +63,17 @@ class passwordMethod
 
   /*!
    * \brief Get the Hash name
-   */ 
-  function get_hash_name()
+   */
+  static function get_hash_name()
   {
-	return $this->$hash;
+    trigger_error("get_hash_name can't be called on main class");
   }
 
   /*!
    * \brief If we need password
    *
    * \return boolean TRUE
-   */ 
+   */
   function need_password()
   {
     return TRUE;
@@ -85,7 +85,7 @@ class passwordMethod
    * \param string $config
    *
    * \param string $dn The DN
-   */ 
+   */
   function is_locked($config,$dn = "")
   {
     if(!$this->lockable) return FALSE;
@@ -214,7 +214,7 @@ class passwordMethod
 
   /*!
    * \brief This function returns all loaded classes for password encryption
-   */ 
+   */
   static function get_available_methods()
   {
     global $class_mapping, $config;
@@ -260,7 +260,7 @@ class passwordMethod
 
   /*!
    * \brief Get desciption
-   */ 
+   */
   function get_description()
   {
     return("");
@@ -270,7 +270,7 @@ class passwordMethod
   /*!
    * \brief Method to let password backends remove additional information besides
    * the userPassword attribute
-   */ 
+   */
   function remove_from_parent()
   {
   }
@@ -279,7 +279,7 @@ class passwordMethod
   /*!
    * \brief Method to let passwords backends manage additional information
    *  besides the userAttribute entry
-   */ 
+   */
   function set_password($password)
   {
     return(TRUE);
@@ -306,8 +306,8 @@ class passwordMethod
   /*!
    * \brief Save information to LDAP
    *
-   * \param string $dn The DN 
-   */ 
+   * \param string $dn The DN
+   */
   function save($dn)
   {
   }
@@ -319,7 +319,7 @@ class passwordMethod
    * \param string $password_hash
    *
    * \param string $dn The DN
-   */ 
+   */
   static function get_method($password_hash,$dn = "")
   {
     global $config;
@@ -328,11 +328,12 @@ class passwordMethod
 
     foreach ($methods['class'] as $class) {
 
-        $test = new $class($config,$dn);
+        //~ $test = new $class($config,$dn);
 #        All listed methods are available.
 #        if(!$test->is_available())continue;
-        $method = $test->_extract_method($password_hash);
+        $method = $class::_extract_method($class, $password_hash);
         if ($method != "") {
+          $test = new $class($config, $dn);
           $test->set_hash($method);
           return $test;
         }
@@ -347,11 +348,11 @@ class passwordMethod
    * \brief Extract a method
    *
    * \param string $password_hash
-   */ 
-  function _extract_method($password_hash)
+   */
+  static function _extract_method($classname, $password_hash)
   {
-    $hash= $this->get_hash_name();
-    if (preg_match("/^\{$hash\}/i", $password_hash)){
+    $hash = $classname::get_hash_name();
+    if (preg_match("/^\{$hash\}/i", $password_hash)) {
       return $hash;
     }
 
@@ -363,8 +364,8 @@ class passwordMethod
    *
    * \param string $password The password
    *
-   * \param string $hash 
-   */ 
+   * \param string $hash
+   */
   static function make_hash($password, $hash)
   {
     global $config;
@@ -379,7 +380,7 @@ class passwordMethod
    * \brief Set a hash
    *
    * \param string $hash
-   */ 
+   */
   function set_hash($hash)
   {
     $this->hash= $hash;
@@ -388,7 +389,7 @@ class passwordMethod
 
   /*!
    * \brief Get a hash
-   */ 
+   */
   function get_hash()
   {
     return $this->hash;
@@ -398,7 +399,7 @@ class passwordMethod
    * Get the current object
    *
    * \param string $dn The DN
-   */ 
+   */
   function adapt_from_template($dn)
   {
     return($this);
@@ -427,7 +428,7 @@ class passwordMethod
    * \brief Get the password proposal
    *
    * \param string $config
-   */ 
+   */
   static function getPasswordProposal($config)
   {
       if($config->get_cfg_value('passwordProposalHook','') != ''){

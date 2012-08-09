@@ -24,7 +24,7 @@
  * \file class_password-methods-clear.inc
  * Source code for class passwordMethodClear
  */
- 
+
 /*!
  * \brief This class contains all the functions for clear password methods
  * \see passwordMethod
@@ -37,7 +37,7 @@ class passwordMethodClear extends passwordMethod
    * \brief passwordMethodClear Constructor
    *
    * \param string $config
-   */ 
+   */
   function passwordMethodClear($config)
   {
   }
@@ -56,18 +56,18 @@ class passwordMethodClear extends passwordMethod
    * \brief Generate template hash
    *
    * \param string $pwd Password
-   */ 
+   */
   function generate_hash($pwd)
   {
-    return $pwd;       
+    return $pwd;
   }
 
   /*!
    * \brief Get the hash name
-   */ 
-  function get_hash_name()
+   */
+  static function get_hash_name()
   {
-    return ("clear");
+    return "clear";
   }
 
 }

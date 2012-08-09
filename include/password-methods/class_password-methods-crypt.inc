@@ -31,12 +31,12 @@
  */
 class passwordMethodCrypt extends passwordMethod
 {
-  
+
   /*!
    * \brief passwordMethodCrypt Constructor
    *
    * \param string $config
-   */ 
+   */
   function passwordMethodCrypt($config)
   {
   }
@@ -59,7 +59,7 @@ class passwordMethodCrypt extends passwordMethod
    * \brief Create template hash
    *
    * \param string $attrs
-   */ 
+   */
   function create_template_hash($attrs)
   {
     return($this->generate_hash('N0T$3T4N0W').'N0T$3T4N0W');
@@ -69,7 +69,7 @@ class passwordMethodCrypt extends passwordMethod
    * \brief Generate template hash
    *
    * \param string $pwd Password
-   */ 
+   */
   function generate_hash($pwd)
   {
     if ($this->hash == "crypt/standard-des"){
@@ -107,8 +107,8 @@ class passwordMethodCrypt extends passwordMethod
 
   /*!
    * \brief Get the hash name
-   */ 
-  function get_hash_name()
+   */
+  static function get_hash_name()
   {
     $hashes= array();
     if (CRYPT_STD_DES == 1) {
@@ -134,28 +134,28 @@ class passwordMethodCrypt extends passwordMethod
    * \brief Extract a method
    *
    * \param string $password_hash
-   */ 
-  function _extract_method($password_hash)
+   */
+  static function _extract_method($classname, $password_hash)
   {
-    if (!preg_match('/^{crypt}/i', $password_hash)){
+    if (!preg_match('/^{crypt}/i', $password_hash)) {
       return "";
     }
 
-    $password_hash= preg_replace('/^{[^}]+}!?/', '', $password_hash);
+    $password_hash = preg_replace('/^{[^}]+}!?/', '', $password_hash);
 
-    if (preg_match("/^[a-zA-Z0-9.\/][a-zA-Z0-9.\/]/", $password_hash)){
+    if (preg_match("/^[a-zA-Z0-9.\/][a-zA-Z0-9.\/]/", $password_hash)) {
       return "crypt/standard-des";
     }
 
-    if (preg_match("/^_[a-zA-Z0-9.\/]/", $password_hash)){
+    if (preg_match("/^_[a-zA-Z0-9.\/]/", $password_hash)) {
       return "crypt/enhanced-des";
     }
-    
-    if (preg_match('/^\$1\$/', $password_hash)){
+
+    if (preg_match('/^\$1\$/', $password_hash)) {
       return "crypt/md5";
     }
 
-    if (preg_match('/^(\$2\$|\$2a\$)/', $password_hash)){
+    if (preg_match('/^(\$2\$|\$2a\$)/', $password_hash)) {
       return "crypt/blowfish";
     }
 

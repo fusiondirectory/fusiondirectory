@@ -24,7 +24,7 @@
  * \file class_password-methods-ssha.inc
  * Source code for class passwordMethodssha
  */
- 
+
 /*!
  * \brief This class contains all the functions for ssha password methods
  * \see passwordMethod
@@ -35,7 +35,7 @@ class passwordMethodssha extends passwordMethod
    * \brief passwordMethodssha Constructor
    *
    * \param string $config
-   */ 
+   */
   function passwordMethodssha($config)
   {
   }
@@ -60,14 +60,14 @@ class passwordMethodssha extends passwordMethod
    * \brief Generate template hash
    *
    * \param string $pwd Password
-   */ 
+   */
   function generate_hash($pwd)
   {
     if (function_exists("sha1")) {
       $salt= substr(pack("h*", md5(mt_rand())), 0, 8);
       $salt= substr(pack("H*", sha1($salt.$pwd)), 0, 4);
       $pwd= "{SSHA}".base64_encode(pack("H*", sha1($pwd.$salt)).$salt);
-      return $pwd;       
+      return $pwd;
     } elseif(function_exists("mhash")) {
       $salt=mhash_keygen_s2k(MHASH_SHA1,$pwd, substr(pack("h*",md5(mt_rand())),0,8),4);
       $pwd= "{SSHA}".base64_encode(mhash(MHASH_SHA1, $pwd.$salt).$salt);
@@ -80,8 +80,8 @@ class passwordMethodssha extends passwordMethod
 
   /*!
    * \brief Get the hash name
-   */ 
-  function get_hash_name()
+   */
+  static function get_hash_name()
   {
     return "ssha";
   }
