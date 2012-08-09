@@ -64,11 +64,6 @@ if ($_SERVER['REMOTE_ADDR'] != $ui->ip) {
 $config= session::global_get('config');
 $config->check_and_reload();
 
-/* Enable compressed output */
-if ($config->get_cfg_value("sendCompressedOutput") == "true") {
-  ob_start("ob_gzhandler");
-}
-
 /* Check for invalid sessions */
 if (session::global_get('_LAST_PAGE_REQUEST') == "") {
   session::global_set('_LAST_PAGE_REQUEST',time());
