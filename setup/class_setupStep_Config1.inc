@@ -29,7 +29,6 @@ class Step_Config1 extends setup_step
   var $uidbase    = 1100;
   var $krbsasl    = FALSE;
   var $strict     = TRUE;
-  var $compressed = TRUE;
 
   var $cngen_active = FALSE;
   var $cngen        = "%sn %givenName";
@@ -58,7 +57,7 @@ class Step_Config1 extends setup_step
 
   var $crypt_methods  = array();
 
-  var $attributes = array("compressed","peopleou","groupou","peopledn","uidbase","encryption","theme","krbsasl",
+  var $attributes = array("peopleou","groupou","peopledn","uidbase","encryption","theme","krbsasl",
                           "base_hook","base_hook_active","account_expiration","strict","include_personal_title",
                           "cngen_active","cngen");
 
