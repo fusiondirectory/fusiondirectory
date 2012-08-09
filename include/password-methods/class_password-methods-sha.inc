@@ -23,7 +23,7 @@
 /*
  * \file class_pasword-methods-sha.inc
  * Source code for class passwordMethodsha
- */ 
+ */
 
 /*!
  * \brief This class contains all the functions for sha password methods
@@ -35,11 +35,11 @@ class passwordMethodsha extends passwordMethod
    * \brief passwordMethodsha Constructor
    *
    * \param string $config
-   */ 
+   */
   function passwordMethodsha($config)
   {
   }
-  
+
   /*!
    * \brief Is available
    *
@@ -60,7 +60,7 @@ class passwordMethodsha extends passwordMethod
    * \brief Generate template hash
    *
    * \param string $password Password
-   */ 
+   */
   function generate_hash($password)
   {
     if (function_exists('sha1')) {
@@ -72,13 +72,13 @@ class passwordMethodsha extends passwordMethod
       return false;
     }
 
-    return $hash; 
+    return $hash;
   }
 
   /*!
    * \brief Get the hash name
-   */ 
-  function get_hash_name()
+   */
+  static function get_hash_name()
   {
     return "sha";
   }
