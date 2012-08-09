@@ -17,6 +17,10 @@
     <td><label for="passwordRecoverySalt">Salt for tokens</label></td>
     <td><input id="passwordRecoverySalt" name="passwordRecoverySalt" value="{$passwordRecoverySalt}" type="text"/></td>
   </tr>
+  <tr>
+    <td><label for="passwordRecoveryUseAlternate">Allow the use of alternate addresses for recovery</label></td>
+    <td><input id="passwordRecoveryUseAlternate" name="passwordRecoveryUseAlternate" {if $passwordRecoveryUseAlternate}checked="checked" {/if}type="checkbox"/></td>
+  </tr>
   <tr><td colspan="4"><p class="seperator">&nbsp;</p></td></tr>
   <tr>
     <td colspan="2" style="width:50%;border-right:1px solid black;">

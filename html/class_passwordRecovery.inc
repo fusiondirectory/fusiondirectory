@@ -51,6 +51,7 @@ class passwordRecovery {
   var $mail2_subject;
 
   var $activated;
+  var $usealternates;
 
   /* Constructor */
   function passwordRecovery()
@@ -253,6 +254,8 @@ class passwordRecovery {
     $this->mail2_body     = $attrs['passwordRecoveryMail2Body'][0];
 
     $this->from_mail      = $attrs['passwordRecoveryEmail'][0];
+
+    $this->usealternates  = $attrs['passwordRecoveryUseAlternate'][0];
 
     @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $attrs['passwordRecoveryActivated'][0],"passwordRecoveryActivated");
     return ($attrs['passwordRecoveryActivated'][0]=="TRUE");
@@ -496,8 +499,13 @@ class passwordRecovery {
     $this->address_mail = $_POST['address_mail'];
 
     /* Search uid corresponding to the mail */
-    $uids = get_list( "(&(objectClass=gosaMailAccount)(|(mail=".$this->address_mail.")(gosaMailAlternateAddress=".$this->address_mail.")))",
-                      "", $this->config->current['BASE'], array("uid"),
+    if ($this->usealternates) {
+      $filter = "(&(objectClass=gosaMailAccount)(|(mail=".$this->address_mail.")(gosaMailAlternateAddress=".$this->address_mail.")))";
+    } else {
+      $filter = "(&(objectClass=gosaMailAccount)(mail=".$this->address_mail."))";
+    }
+    $uids = get_list( $filter, "",
+                      $this->config->current['BASE'], array("uid"),
                       GL_SUBSEARCH | GL_NO_ACL_CHECK);
 
     /* Only one uid should be found */

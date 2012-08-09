@@ -24,7 +24,7 @@ class recoveryConfig extends plugin
 {
   var $plHeadline     = "Password recovery";
   var $plDescription  = "Manage password recovery settings";
-  var $plIcon  = "plugins/password/images/password.png";
+  var $plIcon         = "plugins/password/images/password.png";
 
   var $cli_summary      = "This plugin is used to configure the password recovery system.";
   var $cli_description  = "";
@@ -35,7 +35,8 @@ class recoveryConfig extends plugin
   var $attributes       = array("passwordRecoveryActivated","passwordRecoveryEmail",
                                 "passwordRecoveryMailSubject","passwordRecoveryMailBody",
                                 "passwordRecoveryMail2Subject","passwordRecoveryMail2Body",
-                                "passwordRecoveryValidity","passwordRecoverySalt",);
+                                "passwordRecoveryValidity","passwordRecoverySalt",
+                                "passwordRecoveryUseAlternate");
   var $StatusFlag       = "";
 
   /* This class can't be assigned twice so it conflicts with itsself */
@@ -48,54 +49,61 @@ class recoveryConfig extends plugin
 
   var $passwordRecoveryActivated    = FALSE;
   var $passwordRecoveryEmail        = "to.be@chang.ed";
+  var $passwordRecoveryValidity     = 10;
+  var $passwordRecoverySalt         = "SomethingSecretAndVeryLong";
+  var $passwordRecoveryUseAlternate = FALSE;
+
   var $passwordRecoveryMailSubject;
   var $passwordRecoveryMailBody;
   var $passwordRecoveryMail2Subject;
   var $passwordRecoveryMail2Body;
-  var $passwordRecoveryValidity     = 10;
-  var $passwordRecoverySalt         = "SomethingSecretAndVeryLong";
 
-  function recoveryConfig(&$config,$dn)
+  function recoveryConfig(&$config, $dn)
   {
     $this->passwordRecoveryMailSubject  = _("[FusionDirectory] Password recovery link");
     $this->passwordRecoveryMailBody     = _("Hello,\n\nHere are your informations : \n - Login : %s\n - Link : %s\n\nThis link is only valid for 10 minutes.");
     $this->passwordRecoveryMail2Subject = _("[FusionDirectory] Password recovery successful");
     $this->passwordRecoveryMail2Body    = _("Hello,\n\nYour password has been changed.\nYour login is still %s.");
 
-    plugin::plugin($config,$dn);
+    plugin::plugin($config, $dn);
     $this->DisplayName = _("Password recovery settings");
-    $this->passwordRecoveryActivated = ($this->passwordRecoveryActivated == "TRUE"); // conversion from LDAP format to PHP boolean
+    /* conversion from LDAP format to PHP boolean */
+    $this->passwordRecoveryActivated    = ($this->passwordRecoveryActivated == "TRUE");
+    $this->passwordRecoveryUseAlternate = ($this->passwordRecoveryUseAlternate == "TRUE");
   }
 
 
   function execute()
   {
-    if(isset($_POST['recoveryConfigPosted'])) {
+    if (isset($_POST['recoveryConfigPosted'])) {
       $this->save_object();
       $this->save();
     }
 
     $smarty = get_smarty();
 
-    $smarty->assign("recoveryConfigACL", $this->getacl("recoveryConfig")) ;
-    $attributes= array();
+    $smarty->assign("recoveryConfigACL", $this->getacl("recoveryConfig"));
+    $attributes = array();
     foreach ($this->attributes as $attribute) {
-      $smarty->assign("$attribute" , $this->$attribute);
+      $smarty->assign("$attribute", $this->$attribute);
       $attributes[$attribute] = $this->$attribute;
     }
-    $smarty->assign("attributes",$attributes);
+    $smarty->assign("attributes", $attributes);
 
-    return $smarty->fetch(get_template_path("recoveryConfig.tpl",TRUE,dirname(__FILE__)));
+    return $smarty->fetch(get_template_path("recoveryConfig.tpl", TRUE, dirname(__FILE__)));
   }
 
   function save()
   {
     plugin::save();
 
-    $this->attrs['passwordRecoveryActivated'] = ($this->passwordRecoveryActivated?"TRUE":"FALSE"); // conversion from PHP format to LDAP boolean
+    /* conversion from PHP format to LDAP boolean */
+    $this->attrs['passwordRecoveryActivated']     = ($this->passwordRecoveryActivated?"TRUE":"FALSE");
+    $this->attrs['passwordRecoveryUseAlternate']  = ($this->passwordRecoveryUseAlternate?"TRUE":"FALSE");
+
     /* Check if this is a new entry ... add/modify */
     $ldap = $this->config->get_ldap_link();
-    $ldap->cat($this->dn,array("objectClass"));
+    $ldap->cat($this->dn, array("objectClass"));
     if ($ldap->count()) {
       $ldap->cd($this->dn);
       $ldap->modify($this->attrs);
@@ -106,12 +114,12 @@ class recoveryConfig extends plugin
     if (!$ldap->success()) {
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, 0, get_class()));
     }
-    if($this->initially_was_account) {
+    if ($this->initially_was_account) {
       $this->handle_post_events("modify");
-      new log("modify","server/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
+      new log("modify", "server/".get_class($this), $this->dn, array_keys($this->attrs), $ldap->get_error());
     } else {
       $this->handle_post_events("add");
-      new log("create","server/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
+      new log("create", "server/".get_class($this), $this->dn, array_keys($this->attrs), $ldap->get_error());
     }
   }
 
@@ -122,23 +130,26 @@ class recoveryConfig extends plugin
       if ($this->acl_is_writeable('passwordRecoveryActivated')) {
         $this->passwordRecoveryActivated = isset($_POST['passwordRecoveryActivated']);
       }
+      if ($this->acl_is_writeable('passwordRecoveryUseAlternate')) {
+        $this->passwordRecoveryUseAlternate = isset($_POST['passwordRecoveryUseAlternate']);
+      }
     }
   }
 
   /* Return plugin informations for acl handling */
   static function plInfo()
   {
-    return (array(
-          "plShortName"   => _("Password recovery config"),
-          "plDescription" => _("Password recovery config"),
-          "plSelfModify"  => FALSE,
-          "plDepends"     => array(),
-          "plPriority"    => 91,
-          "plSection"     => array("administration"),
-          "plCategory"    => array("recovery"),
+    return array(
+      "plShortName"     => _("Password recovery config"),
+      "plDescription"   => _("Password recovery config"),
+      "plSelfModify"    => FALSE,
+      "plDepends"       => array(),
+      "plPriority"      => 91,
+      "plSection"       => array("administration"),
+      "plCategory"      => array("recovery"),
 
-          "plProvidedAcls"=> array()
-          ));
+      "plProvidedAcls"  => array()
+    );
   }
 }
 
