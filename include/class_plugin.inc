@@ -25,7 +25,7 @@
  * Source code for the class plugin
  */
 
-/*! 
+/*!
  * \brief This is the base class for all plugins.
  *
  * \author  Cajus Pollmeier <pollmeier@gonicus.de>
@@ -40,7 +40,7 @@ class plugin
 {
   /*!
    * \brief Reference to parent object
-   *	
+   *
    * This variable is used when the plugin is included in tabs
    * and keeps reference to the tab class. Communication to other
    * tabs is possible by 'name'. So the 'fax' plugin can ask the
@@ -138,17 +138,17 @@ class plugin
   var $selected_edit_values = array();
   var $multi_boxes = array();
 
-  /*! 
+  /*!
    * \brief plugin constructor
    *
    * If 'dn' is set, the node loads the given 'dn' from LDAP
    *
    * \param $config configuration
-   * 
+   *
    * \param $dn Distinguished name to initialize plugin from
-   * 
+   *
    * \param $object NULL
-   * 
+   *
    * \sa plugin()
    */
   function plugin (&$config, $dn= NULL, $object= NULL)
@@ -276,7 +276,7 @@ class plugin
   }
 
 
-  /*! 
+  /*!
    * \brief Generates the html output for this node
    */
   function execute()
@@ -291,7 +291,7 @@ class plugin
     session::set('LOCK_VARS_USED_REQUEST',array());
   }
 
-  /*! 
+  /*!
    * \brief Removes object from parent
    */
   function remove_from_parent()
@@ -330,7 +330,7 @@ class plugin
   }
 
 
-  /*! 
+  /*!
    * \brief Save HTML posted data to object
    */
   function save_object()
@@ -366,7 +366,7 @@ class plugin
   }
 
 
-  /*! 
+  /*!
    * \brief Save data to LDAP, depending on is_account we save or delete
    */
   function save()
@@ -472,7 +472,7 @@ class plugin
     }
   }
 
-  /*! 
+  /*!
    * \brief Check formular input
    */
   function check()
@@ -549,12 +549,12 @@ class plugin
     return ($message);
   }
 
-  /* 
-   * \brief Adapt from template, using 'dn' 
-   * 
+  /*
+   * \brief Adapt from template, using 'dn'
+   *
    * \param string $dn The DN
-   * 
-   * \param array $skip A new array 
+   *
+   * \param array $skip A new array
    */
   function adapt_from_template($dn, $skip= array())
   {
@@ -604,7 +604,7 @@ class plugin
     }
   }
 
-  /* 
+  /*
    * \brief Indicate whether a password change is needed or not
    */
   function password_change_needed()
@@ -615,11 +615,11 @@ class plugin
 
   /*!
    * \brief Show header message for tab dialogs
-   * 
+   *
    * \param string $button_text The button text
-   * 
+   *
    * \param string $text The text
-   * 
+   *
    * \param boolean $disabled FALSE
    */
   function show_enable_header($button_text, $text, $disabled= FALSE)
@@ -628,13 +628,13 @@ class plugin
   }
 
 
-  /*! 
+  /*!
    * \brief Show header message for tab dialogs
-   * 
+   *
    * \param string $button_text The button text
-   * 
+   *
    * \param string $text The text
-   * 
+   *
    * \param boolean $disabled FALSE
    */
   function show_disable_header($button_text, $text, $disabled= FALSE)
@@ -643,15 +643,15 @@ class plugin
   }
 
 
-  /*! 
+  /*!
    * \brief Show header message for tab dialogs
    *
    * \param string $button_text The button text
-   * 
+   *
    * \param string $text The text
-   * 
+   *
    * \param boolean $plugin_enabled
-   * 
+   *
    * \param boolean $button_disabled FALSE
    */
   function show_header($button_text, $text, $plugin_enabled, $button_disabled= FALSE)
@@ -670,158 +670,39 @@ class plugin
 
   /*!
    * \brief Executes commands after an object has been created
-   * 
-   * \param array $add_attrs 
-   */
-  function postcreate($add_attrs= array())
-  {
-    /* Find postcreate entries for this class */
-    $command= $this->config->search(get_class($this), "POSTCREATE",array('menu', 'tabs'));
-
-    if ($command != ""){
-
-      /* Walk through attribute list */
-      foreach ($this->attributes as $attr){
-        if (!is_array($this->$attr)){
-          $add_attrs[$attr] = $this->$attr;
-        }
-      }
-      $ui = get_userinfo();
-      $add_attrs['dn']=$this->dn;
-      $add_attrs['callerDN']=$ui->dn;
-      $add_attrs['location']=$this->config->current['NAME'];
-
-      $tmp = array();
-      foreach($add_attrs as $name => $value){
-        $tmp[$name] =  strlen($name);
-      }
-      arsort($tmp);
-
-      /* Additional attributes */
-      foreach ($tmp as $name => $len){
-        $value = $add_attrs[$name];
-        $command= str_replace("%$name", escapeshellarg($value), $command);
-      }
-
-      if (check_command($command)){
-        @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__,
-            $command, "Execute");
-        exec($command,$arr);
-        foreach($arr as $str){
-          @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__,
-            $command, "Result: ".$str);
-        }
-      } else {
-        $message= msgPool::cmdnotfound("POSTCREATE", get_class($this));
-        msg_dialog::display(_("Error"), $message, ERROR_DIALOG);
-      }
-    }
-  }
-
-  /*! 
-   * \brief Execute commands after an object has been modified 
-   * 
+   *
    * \param array $add_attrs
    */
-  function postmodify($add_attrs= array())
+  function postcreate($add_attrs = array())
   {
-    /* Find postcreate entries for this class */
-    $command= $this->config->search(get_class($this), "POSTMODIFY",array('menu','tabs'));
-
-    if ($command != ""){
-
-      /* Walk through attribute list */
-      foreach ($this->attributes as $attr){
-        if (!is_array($this->$attr)){
-          $add_attrs[$attr] = $this->$attr;
-        }
-      }
-      $ui = get_userinfo();
-      $add_attrs['dn']=$this->dn;
-      $add_attrs['callerDN']=$ui->dn;
-      $add_attrs['location']=$this->config->current['NAME'];
-
-      $tmp = array();
-      foreach($add_attrs as $name => $value){
-        $tmp[$name] =  strlen($name);
-      }
-      arsort($tmp);
-
-      /* Additional attributes */
-      foreach ($tmp as $name => $len){
-        $value = $add_attrs[$name];
-        $command= str_replace("%$name", escapeshellarg($value), $command);
-      }
-
-      if (check_command($command)){
-        @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__,$command, "Execute");
-        exec($command,$arr);
-        foreach($arr as $str){
-          @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__,
-            $command, "Result: ".$str);
-        }
-      } else {
-        $message= msgPool::cmdnotfound("POSTMODIFY", get_class($this));
-        msg_dialog::display(_("Error"), $message, ERROR_DIALOG);
-      }
-    }
+    return self::callHook ($this, "POSTCREATE", $add_attrs);
   }
 
-  /*! 
-   * \brief Executes a command after an object has been removed 
-   * 
+  /*!
+   * \brief Execute commands after an object has been modified
+   *
    * \param array $add_attrs
    */
-  function postremove($add_attrs= array())
+  function postmodify($add_attrs = array())
   {
-    /* Find postremove entries for this class */
-    $command= $this->config->search(get_class($this), "POSTREMOVE",array('menu','tabs'));
-    if ($command != ""){
-
-      /* Walk through attribute list */
-      foreach ($this->attributes as $attr){
-        if (!is_array($this->$attr)){
-          $add_attrs[$attr] = $this->$attr;
-        }
-      }
-      $ui = get_userinfo();
-      $add_attrs['dn']=$this->dn;
-      $add_attrs['callerDN']=$ui->dn;
-      $add_attrs['location']=$this->config->current['NAME'];
-
-      $tmp = array();
-      foreach($add_attrs as $name => $value){
-        $tmp[$name] =  strlen($name);
-      }
-      arsort($tmp);
-
-      /* Additional attributes */
-      foreach ($tmp as $name => $len){
-        $value = $add_attrs[$name];
-        $command= str_replace("%$name", escapeshellarg($value), $command);
-      }
-
-      if (check_command($command)){
-        @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__,
-            $command, "Execute");
-
-        exec($command,$arr);
-        foreach($arr as $str){
-          @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__,
-            $command, "Result: ".$str);
-        }
-      } else {
-        $message= msgPool::cmdnotfound("POSTREMOVE", get_class($this));
-        msg_dialog::display(_("Error"), $message, ERROR_DIALOG);
-      }
-    }
+    return self::callHook ($this, "POSTMODIFY", $add_attrs);
   }
 
-  /*! 
+  /*!
+   * \brief Executes a command after an object has been removed
+   *
+   * \param array $add_attrs
+   */
+  function postremove($add_attrs = array())
+  {
+    return self::callHook ($this, "POSTREMOVE", $add_attrs);
+  }
+
+  /*!
    * \brief Create unique DN
    *
    * \param string $data
-   * 
+   *
    * \param string $base
    */
   function create_unique_dn2($data, $base)
@@ -855,11 +736,11 @@ class plugin
   }
 
 
-  /*! 
+  /*!
    * \brief Create unique DN
    *
    * \param string $attribute
-   * 
+   *
    * \param string $base
    */
   function create_unique_dn($attribute, $base)
@@ -891,11 +772,11 @@ class plugin
     return ("none");
   }
 
-  /*! 
-   * \brief ldap rebind 
-   * 
+  /*!
+   * \brief ldap rebind
+   *
    * \param string $ldap
-   * 
+   *
    * \param string $referral
    */
   function rebind($ldap, $referral)
@@ -912,11 +793,11 @@ class plugin
     }
   }
 
-  /* 
+  /*
    * \brief Recursively copy ldap object
-   * 
+   *
    * \param string $src_dn The DN source
-   * 
+   *
    * \param string $dst_dn The DN destination
    */
   function _copy($src_dn,$dst_dn)
@@ -997,12 +878,12 @@ class plugin
     return(TRUE);
   }
 
-  /* 
+  /*
    * \brief Copy ldap object.
    * This is a workaround function
-   * 
+   *
    * \param string $src_dn The DN source
-   * 
+   *
    * \param string $dst_dn The DN destination
    */
   function copy($src_dn, $dst_dn)
@@ -1045,7 +926,7 @@ class plugin
   }
 
 
-  /*! 
+  /*!
    * \brief  Rename/Move a given src_dn to the given dest_dn
    *
    * Move a given ldap object indentified by $src_dn to the
@@ -1056,7 +937,7 @@ class plugin
    * - Update accessTo
    *
    * \param  string  $src_dn the source DN.
-   * 
+   *
    * \param  string  $dst_dn the destination DN.
    *
    * \return boolean TRUE on success else FALSE.
@@ -1166,9 +1047,9 @@ class plugin
 
    /*!
     * \brief Move ldap entries from one place to another
-    * 
+    *
     * \param  string  $src_dn the source DN.
-    * 
+    *
     * \param  string  $dst_dn the destination DN.
     */
   function move($src_dn, $dst_dn)
@@ -1211,10 +1092,10 @@ class plugin
   }
 
 
-  /* \brief Move/Rename complete trees 
-   * 
+  /* \brief Move/Rename complete trees
+   *
    * \param  string  $src_dn the source DN.
-   * 
+   *
    * \param  string  $dst_dn the destination DN.
    */
   function recursive_move($src_dn, $dst_dn)
@@ -1290,80 +1171,109 @@ class plugin
   }
 
 
-  /*! 
+  static protected function matchHookVars ($command, $addAttrs) {
+    // Sort attributes by length, ensures correct replacement
+    $tmp = array();
+    foreach ($addAttrs as $name => $value) {
+      $tmp[$name] =  strlen($name);
+    }
+    arsort($tmp);
+
+    // Now replace the placeholder
+    foreach ($tmp as $name => $len) {
+      $value    = $addAttrs[$name];
+      $command  = str_replace("%$name", "$value", $command);
+    }
+    return $command;
+  }
+
+  /*!
    * \brief    Calls external hooks which are defined for this plugin (fusiondirectory.conf)
    *           Replaces placeholder by class values of this plugin instance.
-   *		   Allows to a add special replacements.
+   *       Allows to a add special replacements.
    */
-  static function callHook($plugin, $cmd, $addAttrs= array(), &$returnOutput = array(), &$returnCode = NULL)
+  static function callHook($plugin, $cmd, $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL)
   {
-      global $config;
-      $command= $config->search(get_class($plugin), $cmd ,array('menu', 'tabs'));
-      if ($command != ""){
+    global $config;
+    $command = $config->search(get_class($plugin), $cmd, array('menu','tabs'));
 
-          // Walk trough attributes list and add the plugins attributes.
-          foreach ($plugin->attributes as $attr){
-              if (!is_array($plugin->$attr)){
-                  $addAttrs[$attr] = $plugin->$attr;
-              }
-          }
-          $ui = get_userinfo();
-          $addAttrs['callerDN']=$ui->dn;
-          $addAttrs['dn']=$plugin->dn;
-          $addAttrs['location']=$config->current['NAME'];
-
-          // Sort attributes by length, ensures correct replacement
-          $tmp = array();
-          foreach($addAttrs as $name => $value){
-              $tmp[$name] =  strlen($name);
-          }
-          arsort($tmp);
-
-          // Now replace the placeholder
-          foreach ($tmp as $name => $len){
-              $value = $addAttrs[$name];
-              $command= str_replace("%$name", "$value", $command);
-          }
-          // If there are still some %.. in our command, try to fill these with some other class vars
-          if(preg_match("/%/",$command)){
-              $attrs = get_object_vars($plugin);
-              foreach($attrs as $name => $value){
-                  if(is_array($value)){
-                      $s = "";
-                      foreach($value as $val){
-                          if(is_string($val) || is_int($val) || is_float($val) || is_bool($val)){
-                              $s .= '"'.$val.'",';
-                          }
-                      }
-                      $value = '['.trim($s,',').']';
-                  }
-                  if(!is_string($value) && !is_int($value) && !is_float($value) && !is_bool($value)){
-                      continue;
-                  }
-                  $command= preg_replace("/%$name/", escapeshellarg($value), $command);
-              }
-          }
-
-          if (check_command($command) || TRUE){
-
-              @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__,$command,"Execute");
-              exec($command, $arr, $returnCode);
-              $returnOutput = $arr;
-
-              if($returnCode != 0){
-                  $str = implode("\n",$arr);
-                  @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execution failed code: ".$returnCode);
-                  $message= msgPool::cmdexecfailed($cmd,$command, get_class($plugin));
-                  msg_dialog::display(_("Error"), $message, ERROR_DIALOG);
-              }elseif(is_array($arr)){
-                  $str = implode("\n",$arr);
-                  @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Result: ".$str);
-              }
-          } else {
-              $message= msgPool::cmdinvalid($cmd,$command, get_class($plugin));
-              msg_dialog::display(_("Error"), $message, ERROR_DIALOG);
-          }
+    if ($command != "") {
+      // Walk trough attributes list and add the plugins attributes.
+      foreach ($plugin->attributes as $attr) {
+        if (is_array($plugin->$attr)) {
+          $addAttrs[$attr] = '['.join(',',$plugin->$attr).']';
+        } else {
+          $addAttrs[$attr] = $plugin->$attr;
+        }
       }
+
+      $ui = get_userinfo();
+
+      $addAttrs['callerDN'] = $ui->dn;
+      $addAttrs['dn']       = $plugin->dn;
+      $addAttrs['location'] = $config->current['NAME'];
+
+      $command = self::matchHookVars($command, $addAttrs);
+
+      // If there are still some %.. in our command, try to fill these with some other tab vars
+      if (preg_match("/%/",$command)) {
+        $addAttrs = array();
+        if (isset($plugin->parent->by_object)) {
+          foreach ($plugin->parent->by_object as $object) {
+            foreach ($object->attributes as $attr) {
+              if (!isset($addAttrs[$attr])) {
+                if (is_array($object->$attr)) {
+                  $addAttrs[$attr] = '['.join(',',$object->$attr).']';
+                } else {
+                  $addAttrs[$attr] = $object->$attr;
+                }
+              }
+            }
+          }
+        }
+
+        $command = self::matchHookVars($command, $addAttrs);
+      }
+
+      // If there are still some %.. in our command, try to fill these with some other class vars
+      if (preg_match("/%/",$command)) {
+        $addAttrs = array();
+        $attrs = get_object_vars($plugin);
+        foreach ($attrs as $name => $value) {
+          if (is_array($value)) {
+            $s = "";
+            foreach ($value as $val) {
+              if (is_string($val) || is_int($val) || is_float($val) || is_bool($val)) {
+                $s .= '"'.$val.'",';
+              }
+            }
+            $value = '['.trim($s,',').']';
+          }
+          if (!is_string($value) && !is_int($value) && !is_float($value) && !is_bool($value)) {
+            continue;
+          }
+          $addAttrs[$name] = $value;
+        }
+        $command = matchHookVars($command, $addAttrs);
+      }
+
+      @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
+      exec($command, $arr, $returnCode);
+      $returnOutput = $arr;
+
+      if ($returnCode != 0) {
+        $str = implode("\n", $arr);
+        @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execution failed code: ".$returnCode);
+        $message = msgPool::cmdexecfailed($cmd, $command, get_class($plugin));
+        if (!empty($str)) {
+          $message .= "Result: ".$str;
+        }
+        msg_dialog::display(_("Error"), $message, ERROR_DIALOG);
+      } elseif(is_array($arr)) {
+        $str = implode("\n", $arr);
+        @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Result: ".$str);
+      }
+    }
   }
 
 
@@ -1372,7 +1282,7 @@ class plugin
 
   /*!
    * \brief Accessor of the copy dialog
-   * 
+   *
    * \return the copy dialog
    */
   function getCopyDialog(){
@@ -1380,9 +1290,9 @@ class plugin
   }
 
 
-  /*! 
-   * \brief Prepare for Copy & Paste 
-   * 
+  /*!
+   * \brief Prepare for Copy & Paste
+   *
    * \param string $source Source to prepare for copy and paste
    */
   function PrepareForCopyPaste($source)
@@ -1505,10 +1415,10 @@ class plugin
 
   /*!
    * \brief Create a snapshot of the current object
-   * 
+   *
    * \param string $type Initialized at "snapshot"
-   * 
-   * \param array $description 
+   *
+   * \param array $description
    */
   function create_snapshot($type= "snapshot", $description= array())
   {
@@ -1602,9 +1512,9 @@ class plugin
     }
   }
 
-  /*! 
+  /*!
    * \brief Remove a snapshot
-   * 
+   *
    * \param string $dn The DN
    */
   function remove_snapshot($dn)
@@ -1635,12 +1545,12 @@ class plugin
   }
 
 
-  /* 
+  /*
    * \brief Return available snapshots for the given base
-   * 
+   *
    * \param string $dn The DN
-   * 
-   * \param string boolean $raw FALSE  
+   *
+   * \param string boolean $raw FALSE
    */
   function Available_SnapsShots($dn,$raw = false)
   {
@@ -1701,7 +1611,7 @@ class plugin
 
   /*!
    * \brief Get all deleted snapshots
-   */ 	
+   */
   function getAllDeletedSnapshots($base_of_object,$raw = false)
   {
     if(!$this->snapshotEnabled()) return(array());
@@ -1769,9 +1679,9 @@ class plugin
   }
 
 
-  /* 
-   * \brief Restore selected snapshot 
-   * 
+  /*
+   * \brief Restore selected snapshot
+   *
    * \param strind $dn The DN
    */
   function restore_snapshot($dn)
@@ -1812,8 +1722,8 @@ class plugin
     }
   }
 
-  /*! 
-   * \brief Show snapshot dialog 
+  /*!
+   * \brief Show snapshot dialog
    */
   function showSnapshotDialog($base,$baseSuffixe,&$parent)
   {
@@ -1909,9 +1819,9 @@ class plugin
   }
 
 
-  /*! 
+  /*!
    * \brief Return plugin informations for acl handling
-   * 
+   *
    * \return an array
    */
   static function plInfo()
@@ -1919,9 +1829,9 @@ class plugin
     return array();
   }
 
-  /*! 
-   * \brief Set acl base 
-   * 
+  /*!
+   * \brief Set acl base
+   *
    * \param string $base
    */
   function set_acl_base($base)
@@ -1929,9 +1839,9 @@ class plugin
     $this->acl_base= $base;
   }
 
-  /*! 
-   * \brief Set acl category 
-   * 
+  /*!
+   * \brief Set acl category
+   *
    * \param string $category
    */
   function set_acl_category($category)
@@ -1948,8 +1858,8 @@ class plugin
   }
 
   /*!
-   * \brief Can we read the acl 
-   * 
+   * \brief Can we read the acl
+   *
    * \param string $attribute
    */
   function acl_is_readable($attribute)
@@ -1958,10 +1868,10 @@ class plugin
     return preg_match('/r/', $ui->get_permissions($this->acl_base, $this->acl_category.get_class($this), $attribute));
   }
 
-  /*! 
-   * \brief Can we create the acl 
+  /*!
+   * \brief Can we create the acl
    *
-   * \param string $base Empty string 
+   * \param string $base Empty string
    */
   function acl_is_createable($base ="")
   {
@@ -1971,10 +1881,10 @@ class plugin
     return preg_match('/c/', $ui->get_permissions($base, $this->acl_category.get_class($this), '0'));
   }
 
-  /*! 
-   * \brief Can we remove the acl 
-   * 
-   * \param string $base Empty string 
+  /*!
+   * \brief Can we remove the acl
+   *
+   * \param string $base Empty string
    */
   function acl_is_removeable($base ="")
   {
@@ -1998,7 +1908,7 @@ class plugin
   }
 
   /*!
-   *  \brief does the acl have permissions 
+   *  \brief does the acl have permissions
    */
   function acl_have_any_permissions()
   {
@@ -2054,13 +1964,13 @@ class plugin
   }
 
 
-  /* 
+  /*
    * \brief This function updates ACL settings if $old_dn was used.
-   * 
+   *
    * \param string $old_dn specifies the actually used dn
-   * 
+   *
    * \param string $new_dn specifies the destiantion dn
-   * 
+   *
    * \param boolean $output_changes FALSE
    */
   function update_acls($old_dn,$new_dn,$output_changes = FALSE)
@@ -2145,7 +2055,7 @@ class plugin
 
 
 
-  /*! 
+  /*!
    * \brief Enable the Serial ID check
    *
    * This function enables the entry Serial ID check.  If an entry was edited while
@@ -2159,11 +2069,11 @@ class plugin
   }
 
 
-  /*! 
+  /*!
    * \brief  Prepares the plugin to be used for multiple edit
    *          Update plugin attributes with given array of attribtues.
    * \param  $attrs   Array with attributes that must be updated.
-   * 
+   *
    * \param  $all All
    */
   function init_multiple_support($attrs,$all)
@@ -2195,7 +2105,7 @@ class plugin
   }
 
 
-  /*! 
+  /*!
    * \brief  Returns all values that have been modfied in multiple edit mode.
    *
    * \return array Containing all modified values.
@@ -2212,9 +2122,9 @@ class plugin
   }
 
 
-  /*! 
+  /*!
    * \brief  Update class variables with values collected by multiple edit.
-   * 
+   *
    * \param array $attrs Array containts attributes
    */
   function set_multi_edit_values($attrs)
@@ -2225,8 +2135,8 @@ class plugin
   }
 
 
-  /*! 
-   * \brief Generates the html output for this node for multi edit 
+  /*!
+   * \brief Generates the html output for this node for multi edit
    */
   function multiple_execute()
   {
@@ -2280,7 +2190,7 @@ class plugin
   }
 
 
-  /*! 
+  /*!
    * \brief Returns all attributes of this plugin.
    *
    * To be able to detect multiple used attributes
@@ -2295,7 +2205,7 @@ class plugin
   }
 
 
-  /*! 
+  /*!
    * \brief  Check given values in multiple edit
    *
    * \return array Error messages
@@ -2307,11 +2217,11 @@ class plugin
   }
 
 
-  /*! 
+  /*!
    * \brief  Returns the snapshot header part for "Actions" menu in management dialogs
    *
    * \param string $base
-   * 
+   *
    * \param string $category
    */
   function get_snapshot_header($base,$category)
@@ -2337,11 +2247,11 @@ class plugin
 
   /*!
    * \brief Get the snapshot action
-   * 
+   *
    * \param string $base
-   * 
+   *
    * \param string $category
-   */ 
+   */
   function get_snapshot_action($base,$category)
   {
     $str= "";
