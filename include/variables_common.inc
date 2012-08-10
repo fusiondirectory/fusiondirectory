@@ -79,5 +79,5 @@ define ("MKNTPWD", "/usr/sbin/fusiondirectory-mkntpassword"); /*! Define the nam
 /*!
  * \brief FusionDirectory Version
  */
-define ("FD_VERSION", "1.0.3"); /*! Define FusionDirectory version */
+define ("FD_VERSION", "1.0.4"); /*! Define FusionDirectory version */
 ?>
