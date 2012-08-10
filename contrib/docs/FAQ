@@ -20,7 +20,7 @@ A: Yes. Edit /etc/fusiondirectory/fusiondirectory.conf's menu section. Each plug
 
 Q: My sudo postcreate command doesnt work as expected, whats happening
 
-A: in the recent Linux distribution the sudo configuration is hardened. you must 
+A: in the recent Linux distribution the sudo configuration is hardened. you must
    removed the "Defaults requiretty" options for sudo command to work
 
 Q: I'd like to  modify the look of FusionDirectory to fit our CI. How can I create an
@@ -39,18 +39,18 @@ A: Themes are splitted into two parts. ihtml/ contains templates which
    * login.tpl          -> login screen
    * framework.tpl  -> page contents
    * style.css          -> stylesheets used by FusionDirectory
- 
+
 
 Q: How can I let a person do administrative tasks under a specific department?
 
-   FusionDirectory 1.0 implements a more flexible but complex ACL management, please have a look at 
+   FusionDirectory 1.0 implements a more flexible but complex ACL management, please have a look at
    the following wiki page: http://www.fusiondirectory.org/en/documentation/fd_acls
    If you have still questions, please use the mailing list or the forum.
-   
+
 
 Q: How can I permit users to change some of their own attributes?
 
-A: Same like described above, but additionally you have to check the option 
+A: Same like described above, but additionally you have to check the option
    'Apply this acl only for users own entries'.
    (For versions 1.0.x, see the wiki pages)
 
@@ -77,7 +77,7 @@ Q: I can't select any mailservers. What's wrong?
 
 A: It seems that a mail server is missing in your configuration.
    Create a new server, go to the services tab and add the imap service.
-   For more details, please have a look at the FAQ and wiki pages. 
+   For more details, please have a look at the FAQ and wiki pages.
    (This may differ in older FusionDirectory versions)
 
 
@@ -102,7 +102,7 @@ A: Yes. Just go to the doc/guide/user/en directory and copy the lyx-source direc
    ./update_online_help from the FusionDirectory root directory to generate the
    online docs.
 
-   
+
 Q: Can I specify some kind of password policies?
 
 A: You can place the keywords "passwordMinLength" and "passwordMinDiffer" in the main
@@ -117,8 +117,8 @@ Q: I've to update passwords on external windows PDCs. Can I add a command to let
    synchronize these for me?
 
 A: There's the possibility to add a password hook in fusiondirectory.conf's main section using
-   the keyword "passwordHook". The specified command will be executed with 
-   three parameters: /path/to/your/script username oldpassword newpassword
+   the keyword "passwordHook". The specified command will be executed with
+   three parameters: /path/to/your/script username newpassword [oldpassword]
 
    So you can call i.e. smbpasswd to handle your password change on the PDC.
 
@@ -132,17 +132,17 @@ A: Create a directory to keep a set of vacation messages which are readable by t
    first line followed by the normal vacation text. You can use all attributes from
    the generic tab. I.e.:
 
-    /var/cache/fusiondirectory/vacation/business.txt 
+    /var/cache/fusiondirectory/vacation/business.txt
 
-   |--> 
+   |-->
     DESC:Away from desk
     Hi, I'm currently away from my desk. You can contact me on
     my cell phone via %mobile.
-    
+
     Greetings,
     %givenName %sn
    |<--
- 
+
    Place the config option vacationTemplateDirectory="/var/cache/fusiondirectory/vacation" in the location found in
    fusiondirectory.conf and a template box is show in the vacation mail tab.
 
@@ -156,7 +156,7 @@ A: Add an entry describing your id policy in fusiondirectory.conf, location sect
       and add a percent sign befor it. Optionally you can strip it down to a number
       of characters, specified in []. I.e.
 
-   |--> 
+   |-->
       idGenerator="{%sn}-{%givenName[2-4]}"
    |<--
 
@@ -167,13 +167,13 @@ A: Add an entry describing your id policy in fusiondirectory.conf, location sect
    b) using automatic id's
       I.e. specifying
 
-   |--> 
+   |-->
       idGenerator="acct{id:3}"
    |<--
 
       will generate a three digits id with the next free entry appended to "acct".
 
-   |--> 
+   |-->
       idGenerator="ext{id#3}"
    |<--
 
@@ -193,7 +193,7 @@ Q: I'd like to place my users under ou=staff, not under ou=people. Can I change
 A: Yes. You can change the people and group locations by adding the following
    statements to your location sections:
 
-   |--> 
+   |-->
    userRDN="ou=staff"
    groupRDN="ou=crowds"
    |<--
@@ -224,7 +224,7 @@ A: You've configured FusionDirectory to use samba3, but your LDAP has no samba d
    inside. Either log into samba for the first time to let it create that object,
    or supply the sid and ridbase for your domain in your fusiondirectory.conf's location, i.e.:
 
-   |--> 
+   |-->
    <location name=...>
              ...
              sambaRidBase="1000"
@@ -239,7 +239,7 @@ Q: We have massive performance problems with using samba as a member server.
 
 A: This is a known issue. We're working around this by putting
 
-   |--> 
+   |-->
    <location name=...>
     ...
     sambaIdMapping="true"
@@ -255,7 +255,7 @@ Q: I get 'The value specified as GID/UID number is too small' when forcing IDs. 
 A: This is an additional security feature, so that no one can fall back to uid 0. The
    default minimum ID is 100. You can set it to every value you like by specifying
 
-   |--> 
+   |-->
    <location name=...>
     ...
     minId="40"
@@ -273,9 +273,9 @@ A: Some parameters may have changed. Please move your fusiondirectory.conf away 
 Q: I've saved my windows workstations in other locations like FusionDirectory is doing it
    for decades. Is there a way to change this?
 
-A: Yes. Use the winstation parameter in your location section: 
+A: Yes. Use the winstation parameter in your location section:
 
-   |--> 
+   |-->
    <location name=...>
    ...
    sambaMachineAccountRDN="ou=machineaccounts"
@@ -293,7 +293,7 @@ Q: I'd like to have TLS based LDAP connections from within FusionDirectory. Is t
 
 A: Yes, add
 
-   |--> 
+   |-->
    <location ...>
    ...
          ldapTLS="true"
@@ -308,7 +308,7 @@ Q: Cyrus folder get created in the style user.username. I prefer the unix hirach
 
 A: Yes, add
 
-   |--> 
+   |-->
    <location
   ...
     cyrusUseSlashes="true"
@@ -317,30 +317,30 @@ A: Yes, add
    to the location or main section of FusionDirectory and the folders are created in unix style.
 
 
-Q: I've a cyrus installation with customized user and folder prefixes. 
+Q: I've a cyrus installation with customized user and folder prefixes.
    How can I tell FusionDirectory to use the prefixes I prefer?
 
-A: Simply set the following attributes in the location tag of your fusiondirectory.conf:  
+A: Simply set the following attributes in the location tag of your fusiondirectory.conf:
 
-   |--> 
-   <location 
+   |-->
+   <location
   ...
     mailUserCreation="myprefix/%mail%"
     mailFolderCreation="myfolder\\.%cn%@%domain%"
    |<--
 
-   The dot in the above example is escaped to prevent it from replacing with '/' if 
+   The dot in the above example is escaped to prevent it from replacing with '/' if
     cyrusUseSlashes is set to true.
 
    You can use the following replacements:
-   |--> 
+   |-->
     %cn%       - The groups cn.
     %uid%      - The users uid.
     %prefix%   - The default prefix used by the mailmethod.
     %uattrib%  - The configured mailAttribute="" (fusiondirectory.conf).
     %domain%   - The domain part of the given mail address. (user@domain.com = domain.com)
     %mailpart% - The user part of the mail address. (user@domain.com = user)
-    %mail%     - The complete mail address. 
+    %mail%     - The complete mail address.
    |<--
 
 
@@ -348,8 +348,8 @@ Q: I want to use cyrus for multiple mail domains, but FusionDirectory uses the '
 
 A: Just add/modify the following line to/in your fusiondirectory.conf:
 
-   |--> 
-   <location 
+   |-->
+   <location
     ...
     mailAttribute="mail"
    |<--
@@ -361,7 +361,7 @@ Q: I'd like to do special checks for several plugin parameters. How can I modify
 A: No need to modify anything. Just add a hook the the plugin you'd like to
    check:
 
-   |--> 
+   |-->
     check="/your/command/binary"
    |<--
 
@@ -398,21 +398,21 @@ A: Probably something is wrong with the authentification which is used by timesi
    - Check if you can login with "sieveshell" on this host.
    - Also check "telnet localhost 2000" - Is there any output about "Plain Login"?
 
-   Please verify the ldap imap attributes, like goImapSieveServer and goImapSievePort. 
+   Please verify the ldap imap attributes, like goImapSieveServer and goImapSievePort.
    These value can be modified using the server->services tab in FusionDirectory 1.0
 
    Here is an older, but maybe helpful solution for Cyrus-Imapd 2.1.5 on SuSE 9.0:
    - Install the "cyrus-sasl-plain" rpm from the distro-cd (This packet contains "sasl2/libplain" library).
    - Modify your /etc/imap.conf:
 
-   |--> 
+   |-->
     sasl_pwcheck_method: saslauthd
     sasl_mech_list: plain login
    |<--
 
    - Modify your /etc/sysconfig/saslauthd:
 
-   |--> 
+   |-->
     SASLAUTHD_AUTHMECH=pam
    |<--
 
@@ -434,9 +434,9 @@ Q: Is there a way to add the personalTitle attribute the the users dn?
 
 A: Just add this line into the location section of your fusiondirectory.conf.
 
-   |--> 
+   |-->
    <location
-    ... 
+    ...
     personalTitleInDN="true"
    |<--
 
@@ -479,7 +479,7 @@ Q: Is there a way to let users change passwords without logging into FusionDirec
 
 A: Yes. Browse to "password.php". You can preset a couple of things i.e.:
 
-   |--> 
+   |-->
     http://your.admin.server/password.php?uid=cajus&method=md5&directory=GONICUS+GmbH
    |<--
 
@@ -490,13 +490,13 @@ A: There's a default sizelimit. You can set the "ldapSizelimit" option in your
    fusiondirectory.conf's  location section to a higher value to get rid of it.
 
 
-Q: I have problems with my ldap server when I open groups with 
+Q: I have problems with my ldap server when I open groups with
    a huge amount of members, what can I do?
 
-A: You can set a nesting limit which ensures that the user names will not be 
+A: You can set a nesting limit which ensures that the user names will not be
    resolved if the amount of members reaches this limit.
 
-   |--> 
+   |-->
     <location
      ...
      ldapFilterNestingLimit="100"
@@ -508,7 +508,7 @@ Q: I want to disable the "Is the configuration file up to date?" check when logg
 
 A: Just set the configVersion attribute to an empty value:
 
-   |--> 
+   |-->
     <conf configVersion="" >
    |<--
 
@@ -518,30 +518,30 @@ Q: I've shredded my access control and am not able to do anything from now on. I
 
 A: Yes. Insert the following statement in the location section of your fusiondirectory.conf:
 
-   |--> 
+   |-->
     ignoreAcl="your user's dn"
    |<--
 
 
 Q: I can't logon as Administration, what is wrong?
 
-A: It looks like you are missing an administrativ account. 
-   In newer versions of FusionDirectory you can simply re-run the setup and create 
-    an admin account on the migration page. 
+A: It looks like you are missing an administrativ account.
+   In newer versions of FusionDirectory you can simply re-run the setup and create
+    an admin account on the migration page.
 
    Additionally you can set ignoreACL in FusionDirectory 1.0, just search the FAQ.
- 
+
 
 Q: The Unix's user's shell list is empty (unconfigured)
 
 A: Just copy or link your /etc/shell in /etc/fusiondirectory.
 
 
-Q: After upgrading FusionDirectory, the setup.php doesn't work or looks broken. 
+Q: After upgrading FusionDirectory, the setup.php doesn't work or looks broken.
 
 A: You should delete all files in /var/spool/fusiondirectory
 
-   |--> 
+   |-->
     # cd /var/spool/fusiondirectory
     # rm -rf *
    |<--
@@ -550,8 +550,8 @@ A: You should delete all files in /var/spool/fusiondirectory
 Q: After installing FusionDirectory using an existing LDAP tree, my user accounts are not listed.
 
 A: You need to add the following objectClasses to your accounts:
-  
-   |--> 
+
+   |-->
     objectClass: person
     objectClass: organizationalPerson
    |<--
@@ -559,20 +559,20 @@ A: You need to add the following objectClasses to your accounts:
    The setup will automatically migrate those accounts, see migration step in FusionDirectory setup!
 
 
-Q: Is it possible to login with the users mail address too? 
+Q: Is it possible to login with the users mail address too?
 
 A: Yes, just add the following line to your fusiondirectory.conf:
 
-   |--> 
-   <location 
+   |-->
+   <location
     ...
     loginAttribute="mail"
    |<--
 
    or for both, uid and mail:
 
-   |--> 
-   <location 
+   |-->
+   <location
     ...
     loginAttribute="uid,mail"
    |<--
