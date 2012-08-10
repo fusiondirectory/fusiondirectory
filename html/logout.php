@@ -27,22 +27,22 @@ require_once ("variables.inc");
 
 header("Content-type: text/html; charset=UTF-8");
 
-/* try to start session, so we can remove userlocks, 
+/* try to start session, so we can remove userlocks,
   if the old session is still available */
 @session::start();
 session::set('errorsAlreadyPosted',array());
 if(session::global_is_set('ui')){
-  
+
   /* Get config & ui informations */
   $ui= session::global_get("ui");
-  
-  /* config used for del_user_locks & some lines below to detect the language */  
+
+  /* config used for del_user_locks & some lines below to detect the language */
   $config= session::global_get("config");
 
   /* Remove all locks of this user */
   del_user_locks($ui->dn);
-  
-  /* Write something to log */  
+
+  /* Write something to log */
   new log("security","logout","",array(),"User \"".$ui->username."\" logged out") ;
 }
 
@@ -71,13 +71,15 @@ if (isset($config)){
 } else {
   $smarty->compile_dir= SPOOL_DIR;
 }
-    
+
+$smarty->assign("date", date("l, dS F Y H:i:s O"));
+
 /* If GET request is posted, the logout was forced by pressing the link */
 if (isset($_GET['request'])){
-  
+
   /* destroy old session */
   session::destroy ();
-  
+
   /* If we're not using htaccess authentication, just redirect... */
   if (isset($config) && $config->get_cfg_value("htaccessAuthentication") == "true"){
 
@@ -91,8 +93,8 @@ if (isset($_GET['request'])){
   header ("Location: index.php");
   exit();
 
-}else{  // The logout wasn't forced, so the session is invalid 
-  
+}else{  // The logout wasn't forced, so the session is invalid
+
   $smarty->assign("usePrototype", "false");
   $smarty->display (get_template_path('headers.tpl'));
   $smarty->display (get_template_path('logout.tpl'));
