@@ -1181,8 +1181,7 @@ class plugin
 
     // Now replace the placeholder
     foreach ($tmp as $name => $len) {
-      $value    = $addAttrs[$name];
-      $command  = str_replace("%$name", "$value", $command);
+      $command  = str_replace("%$name", escapeshellarg($addAttrs[$name]), $command);
     }
     return $command;
   }
@@ -1201,7 +1200,7 @@ class plugin
       // Walk trough attributes list and add the plugins attributes.
       foreach ($plugin->attributes as $attr) {
         if (is_array($plugin->$attr)) {
-          $addAttrs[$attr] = '['.join(',',$plugin->$attr).']';
+          $addAttrs[$attr] = join('|',$plugin->$attr);
         } else {
           $addAttrs[$attr] = $plugin->$attr;
         }
@@ -1223,7 +1222,7 @@ class plugin
             foreach ($object->attributes as $attr) {
               if (!isset($addAttrs[$attr])) {
                 if (is_array($object->$attr)) {
-                  $addAttrs[$attr] = '['.join(',',$object->$attr).']';
+                  $addAttrs[$attr] = join('|',$object->$attr);
                 } else {
                   $addAttrs[$attr] = $object->$attr;
                 }
@@ -1244,10 +1243,10 @@ class plugin
             $s = "";
             foreach ($value as $val) {
               if (is_string($val) || is_int($val) || is_float($val) || is_bool($val)) {
-                $s .= '"'.$val.'",';
+                $s .= $val.'|';
               }
             }
-            $value = '['.trim($s,',').']';
+            $value = trim($s,'|');
           }
           if (!is_string($value) && !is_int($value) && !is_float($value) && !is_bool($value)) {
             continue;
