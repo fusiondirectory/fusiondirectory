@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: FusionDirectory\n"
 "Report-Msgid-Bugs-To: https://forge.fusiondirectory.org/projects/fd\n"
 "POT-Creation-Date: 2012-05-26 15:30+0200\n"
-"PO-Revision-Date: 2012-07-30 21:29+0000\n"
-"Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
+"PO-Revision-Date: 2012-08-09 21:48+0000\n"
+"Last-Translator: lars_g <lars.gold@gmail.com>\n"
 "Language-Team: Spanish (Venezuela) (http://www.transifex.com/projects/p/FusionDirectory/language/es_VE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -96,7 +96,7 @@ msgstr "Error de configuración"
 msgid ""
 "Fatal error: not all POST variables have been transfered by PHP - please "
 "inform your administrator!"
-msgstr ""
+msgstr "Error fatal: no todas las variables POST fueron transferidas por PHP - por favor informe a su administrador!"
 
 #: html/class_passwordRecovery.php:107
 msgid "Password recovery disabled"
@@ -636,7 +636,7 @@ msgstr "Pulse aquí para iniciar sesión"
 msgid ""
 "This may be used by several groups. Please double check if your really want "
 "to do this since there is no way for FusionDirectory to get your data back."
-msgstr ""
+msgstr "Esto puede ser utilizado por varios grupos. Por favor verifique si realmente quiere hacer esto ya que FusionDirectory no tiene forma de recuperar su data."
 
 #: ihtml/themes/default/remove.tpl:9 plugins/admin/acl/remove.tpl:10
 #: plugins/admin/users/remove.tpl:10 plugins/admin/groups/remove.tpl:10
@@ -800,7 +800,7 @@ msgid ""
 "Some values need to be unique in the complete directory while some "
 "combinations make no sense. FusionDirectory shows the relevant attributes. "
 "Please maintain the values below to fulfill the policies."
-msgstr ""
+msgstr "Algunos valores deben ser únicos en el directorio completo mientras que algunas combinaciones no tienen sentido. FusionDirectory muestra los atributos relevantes. Por favor mantenga los valores de abajo para cumplir con las políticas."
 
 #: ihtml/themes/default/copyPasteDialog.tpl:9
 msgid "Remember that some properties like taken snapshots will not be copied!"
@@ -810,7 +810,7 @@ msgstr "¡Recuerde que propiedades como gestionar instantáneas no serán copiad
 msgid ""
 "Or if you copy or cut an entry within FusionDirectory and delete the source "
 "object, you may get errors while pasting this object again!"
-msgstr ""
+msgstr "O, si copia o corta una entrada en FusionDirectory y borra el objeto fuente, puede resultar en errores al pegar el objeto nuevamente!"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:19 include/class_msgPool.inc:354
 #, php-format
@@ -832,14 +832,14 @@ msgstr "Terminar"
 
 #: ihtml/themes/default/logout.tpl:5
 msgid "Your FusionDirectory session has expired!"
-msgstr ""
+msgstr "Su sesión de FusionDirectory ha expirado!"
 
 #: ihtml/themes/default/logout.tpl:7
 msgid ""
 "The last interaction with the FusionDirectory web interface has been some "
 "time ago in the past. For security reasons, the session has been closed. To "
 "continue with administrative tasks, please sign in again."
-msgstr ""
+msgstr "La ultima interacción con la interfaz web de FusionDirectory ocurrió hace algún tiempo. Por razones de seguridad la sesión ha sido cerrada. Para continuar con las tareas administrativas, por favor entre nuevamente."
 
 #: ihtml/themes/default/logout.tpl:10
 msgid "Sign in again"
@@ -939,32 +939,32 @@ msgstr "Por favor actualize a la versión soportada."
 
 #: setup/class_setupStep_Checks.inc:73
 msgid "FusionDirectory requires this module to talk with your LDAP server."
-msgstr ""
+msgstr "FusionDirectory requiere este modulo para poder hablar con su servidor LDAP."
 
 #: setup/class_setupStep_Checks.inc:81
 msgid ""
 "FusionDirectory requires this module for an internationalized interface."
-msgstr ""
+msgstr "FusionDirectory requiere este modulo para una interfaz internacionalizada."
 
 #: setup/class_setupStep_Checks.inc:89
 msgid ""
 "FusionDirectory requires this module to communicate with different types of "
 "servers and protocols."
-msgstr ""
+msgstr "FusionDirectory requiere este modulo para comunicarse con distintos tipos de servidores y protocolos."
 
 #: setup/class_setupStep_Checks.inc:97
 msgid "FusionDirectory requires this module for the samba integration."
-msgstr ""
+msgstr "FusionDirectory requiere este modulo para la integración con Samba"
 
 #: setup/class_setupStep_Checks.inc:105
 msgid ""
 "FusionDirectory requires either 'mhash' or the 'sha1' module to make use of "
 "SSHA encryption."
-msgstr ""
+msgstr "FusionDirectory requiere ya sea el modulo 'mhash' o 'sha1' para usar encripción SSHA"
 
 #: setup/class_setupStep_Checks.inc:113
 msgid "FusionDirectory requires this module to talk to an IMAP server."
-msgstr ""
+msgstr "FusionDirectory requiere este modulo para poder hablar con un servidor IMAP."
 
 #: setup/class_setupStep_Checks.inc:120
 msgid "mbstring"
@@ -972,7 +972,7 @@ msgstr "mbstring"
 
 #: setup/class_setupStep_Checks.inc:121
 msgid "FusionDirectory requires this module to handle unicode strings."
-msgstr ""
+msgstr "FusionDirectory requiere este modulo para manejar cadenas unicode."
 
 #: setup/class_setupStep_Checks.inc:128
 msgid "MDB2"
@@ -982,7 +982,7 @@ msgstr ""
 msgid ""
 "FusionDirectory requires this module to communicate with several supported "
 "databases."
-msgstr ""
+msgstr "FusionDirectory requiere este modulo para comunicarse con varias bases de datos soportadas."
 
 #: setup/class_setupStep_Checks.inc:146
 msgid "samba hash generator"
@@ -992,7 +992,7 @@ msgstr "generador de hash de la contraseña SAMBA"
 msgid ""
 "FusionDirectory requires this command to synchronize POSIX and samba "
 "passwords."
-msgstr ""
+msgstr "FusionDirectory requiere este comando para sincronizar claves POSIX y Samba."
 
 #: setup/class_setupStep_Checks.inc:148
 msgid ""
@@ -1006,7 +1006,7 @@ msgstr "imagick"
 
 #: setup/class_setupStep_Checks.inc:162
 msgid "FusionDirectory requires this extension to handle images."
-msgstr ""
+msgstr "FusionDirectory requiere esta extensión para manejar imágenes."
 
 #: setup/class_setupStep_Checks.inc:177
 msgid "compression module"
@@ -1014,7 +1014,7 @@ msgstr "modulo de compresión"
 
 #: setup/class_setupStep_Checks.inc:178
 msgid "FusionDirectory requires this extension to handle snapshots."
-msgstr ""
+msgstr "FusionDirectory requiere esta extensión para manejar capturas."
 
 #: setup/class_setupStep_Checks.inc:189
 msgid ""
@@ -1052,7 +1052,7 @@ msgstr "Off"
 msgid ""
 "In Order to use FusionDirectory without any trouble, the "
 "session.auto_register option in your php.ini should be set to 'Off'."
-msgstr ""
+msgstr "Para usar FusionDirectory sin problemas la opción session.auto_register debe estar configurada como 'Off' en su php.ini."
 
 #: setup/class_setupStep_Checks.inc:209
 msgid "Search for 'session.auto_start' in your php.ini and set it to 'Off'."
@@ -1122,7 +1122,7 @@ msgstr "No se puede escribir en la configuración"
 msgid ""
 "FusionDirectory reads its configuration from a file located in (%s/%s). The "
 "setup can write the configuration directly if it is writeable."
-msgstr ""
+msgstr "FusionDirectory lee su configuración desde un archivo localizado en (%s/%s). El proceso de instalación puede escribir la configuración directamente si el mismo es enscribible."
 
 #: setup/setup_schema.tpl:3
 msgid "Schema specific settings"
@@ -1154,7 +1154,7 @@ msgstr "No se puede acceder a la información de esquemas, todos las comprobacio
 msgid ""
 "It seems that your ldap database wasn't initialized yet. This maybe the "
 "reason, why FusionDirectory can't read your schema configuration!"
-msgstr ""
+msgstr "Parece que su base de datos ldap no ha sido inicializada aún. Esta es posiblemente la razón por la cual FusionDirectory no puede leer la configuración de su esquema!"
 
 #: setup/class_setup.inc:75
 msgid "Setup error"
@@ -1202,7 +1202,7 @@ msgstr "Conectividad LDAP"
 msgid ""
 "This dialog performs the basic configuration of the LDAP connectivity for "
 "FusionDirectory."
-msgstr ""
+msgstr "Este dialogo realiza la configuración básica de la conectividad LDAP para FusionDirectory"
 
 #: setup/class_setupStep_Ldap.inc:112
 #, php-format
@@ -1242,7 +1242,7 @@ msgstr "Automatico"
 
 #: setup/setup_frame.tpl:12
 msgid "FusionDirectory setup wizard"
-msgstr ""
+msgstr "Asistente de configuración FusionDirectory"
 
 #: setup/setup_frame.tpl:19
 msgid "Installation"
@@ -1365,7 +1365,7 @@ msgid ""
 "FusionDirectory supports several encryption types for your passwords. "
 "Normally this is adjustable via user templates, but you can specify a "
 "default method to be used here, too."
-msgstr ""
+msgstr "FusionDirectory soporta varios tipos de encripción para sus claves. Normalmente esto es ajustable mediante las plantillas de usuario, pero puede también especificar un método por defecto aquí."
 
 #: setup/setup_config1.tpl:222
 msgid ""

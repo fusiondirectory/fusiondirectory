@@ -4,15 +4,16 @@
 # 
 # Translators:
 # Benoit Mortier <benoit.mortier@opensides.be>, 2005, 2006, 2007, 2008, 2009, 2010, 2011.
+#   <contact@fusiondirectory.org>, 2012.
 # Giuliano Di Vito <giuliano@opensides.be>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory\n"
 "Report-Msgid-Bugs-To: https://forge.fusiondirectory.org/projects/fd\n"
 "POT-Creation-Date: 2012-05-26 15:30+0200\n"
-"PO-Revision-Date: 2012-05-26 14:44+0000\n"
+"PO-Revision-Date: 2012-08-09 20:33+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
-"Language-Team: French (http://www.transifex.net/projects/p/FusionDirectory/language/fr/)\n"
+"Language-Team: French (http://www.transifex.com/projects/p/FusionDirectory/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -101,11 +102,11 @@ msgstr "FATAL: toutes les variables POST non pas été transférées par PHP - V
 
 #: html/class_passwordRecovery.php:107
 msgid "Password recovery disabled"
-msgstr ""
+msgstr "Méthode de récupération du mot de passe désactivé"
 
 #: html/class_passwordRecovery.php:108
 msgid "Error: Password recovery has been disabled!"
-msgstr ""
+msgstr "Erreur : Méthode de récupération du mot de passe désactivé !"
 
 #: html/class_passwordRecovery.php:124
 #: plugins/personal/generic/class_user.inc:594
@@ -188,26 +189,26 @@ msgstr "Démarrer une session SSL"
 #: html/class_passwordRecovery.php:470
 #, php-format
 msgid "Did not found account %s"
-msgstr ""
+msgstr "Je n'ai pas trouve le compte %s"
 
 #: html/class_passwordRecovery.php:473
 #, php-format
 msgid "Found multiple accounts %s"
-msgstr ""
+msgstr "J'ai trouvé plusieurs comptes %s"
 
 #: html/class_passwordRecovery.php:487 ihtml/themes/default/recovery.tpl:140
 msgid "Adresse mail"
-msgstr ""
+msgstr "Adresse de messagerie"
 
 #: html/class_passwordRecovery.php:499
 #, php-format
 msgid "There is no account using email %s"
-msgstr ""
+msgstr "Il n'y a pas de compte qui utilise l'adresse de messagerie %s"
 
 #: html/class_passwordRecovery.php:502
 #, php-format
 msgid "There are several accounts using email %s"
-msgstr ""
+msgstr "Il n'y a plusieurs comptes qui utilise l'adresse de messagerie %s"
 
 #: html/class_passwordRecovery.php:527 html/index.php:256 html/index.php:267
 #: html/index.php:280 setup/class_setupStep_Migrate.inc:1210
@@ -259,11 +260,11 @@ msgstr "Erreur LDAP"
 
 #: html/class_passwordRecovery.php:548
 msgid "Contact your administrator, there was a problem with mail server"
-msgstr ""
+msgstr "Contactez votre administrateur système, il y a eu un problème avec l'envoi du message"
 
 #: html/class_passwordRecovery.php:559
 msgid "This token is invalid"
-msgstr ""
+msgstr "Le token n'est pas valable"
 
 #: html/class_passwordRecovery.php:597
 msgid "External password changer reported a problem: "
@@ -349,7 +350,7 @@ msgstr "Impossible de trouver un utilisateur valide pour le système d'authentif
 
 #: html/index.php:230
 msgid "User information is not unique across the configured LDAP trees!"
-msgstr ""
+msgstr "L'information de l'utilisateur n'est pas unique à travers tout les annuaires !"
 
 #: html/index.php:267
 msgid "Cannot detect information about the installed LDAP schema!"
@@ -733,7 +734,7 @@ msgstr "Connecté:"
 #: ihtml/themes/default/framework.tpl:32
 #, php-format
 msgid "Session expires in %d!"
-msgstr ""
+msgstr "La session expire dans %d !"
 
 #: ihtml/themes/default/framework.tpl:37
 msgid "FusionDirectory main menu"
@@ -848,50 +849,50 @@ msgstr "Reconnexion"
 
 #: ihtml/themes/default/recovery.tpl:10
 msgid "FusionDirectory password recovery"
-msgstr ""
+msgstr "Récupération de mot de passe de FusionDirectory"
 
 #: ihtml/themes/default/recovery.tpl:26
 msgid "Lost password"
-msgstr ""
+msgstr "Mot de pass perdu"
 
 #: ihtml/themes/default/recovery.tpl:44
 msgid "Available methods"
-msgstr ""
+msgstr "Méthodes disponibles"
 
 #: ihtml/themes/default/recovery.tpl:47
 msgid "Receive by email a link that allows you to reset your password"
-msgstr ""
+msgstr "Recevoir un lien par email qui permettra de réinitialiser votre mot de passe"
 
 #: ihtml/themes/default/recovery.tpl:48
 msgid "Send"
-msgstr ""
+msgstr "Envoyé"
 
 #: ihtml/themes/default/recovery.tpl:49
 msgid "Click here to send a reset link"
-msgstr ""
+msgstr "Veuillez cliquer ici pour envoyer un lien permettant de réinitialiser votre mot de passe"
 
 #: ihtml/themes/default/recovery.tpl:58
 msgid ""
 "If none of the above methods suits you, contact your administrator to change"
 " your password"
-msgstr ""
+msgstr "Si aucune des méthodes ne vous intéresse, veuillez contacter votre administrateur système pour changer votre mot de passe"
 
 #: ihtml/themes/default/recovery.tpl:70
 msgid ""
 "This dialog provides a simple way to change your password. Enter the new "
 "password (twice) in the fields below and press the 'Change' button."
-msgstr ""
+msgstr "Cette fenêtre vous permet de changer votre mot de passe de manière simple. Entrez le mot de passe actuel et le nouveau mot de passe (deux fois) dans les champs ci-dessous et appuyez sur le bouton 'Changer'."
 
 #: ihtml/themes/default/recovery.tpl:123
 msgid ""
 "Enter your current e-mail address in the field below and press the 'Change' "
 "button."
-msgstr ""
+msgstr "Entrez votre adresse de messagerie actuel dans le champ si dessous et appuyer sur le bouton 'Changer'"
 
 #: ihtml/themes/default/recovery.tpl:124
 msgid ""
 "=> Use your e-mail in the long format, e.g : John Doe => john.doe@ibcp.fr"
-msgstr ""
+msgstr "indiquez votre email en forme longue, ex: Jules Martin => jules.martin@acme.com"
 
 #: ihtml/themes/default/recovery.tpl:142
 #: plugins/admin/users/class_userManagement.inc:902
@@ -999,7 +1000,7 @@ msgstr "FusionDirectory à besoin de cette commande pour synchroniser les compte
 msgid ""
 "Install the perl Crypt::SmbHash modules or the fusiondirectory-mkntpassword "
 "executable"
-msgstr ""
+msgstr "Installez la librairie perl Crypt::SmbHash et l'exécutable ble fusiondirectory-mkntpass"
 
 #: setup/class_setupStep_Checks.inc:161
 msgid "imagick"
@@ -1063,12 +1064,12 @@ msgstr "Recherchez la variable session.auto_register  et mettez la à 'Off' dans
 msgid ""
 "FusionDirectory needs at least 64MB of memory. Setting it below this limit "
 "may cause errors that are not reproducable! Increase it for larger setups."
-msgstr ""
+msgstr "FusionDirectory a besoin au minimum de 64MB de mémoire. Moins que 64MB causera des erreurs imprévisibles, qui ne seront pas reproductibles ! Augmentez la mémoire pour les installations plus complexes."
 
 #: setup/class_setupStep_Checks.inc:217
 msgid ""
 "Search for 'memory_limit' in your php.ini and set it to '64M' or higher."
-msgstr ""
+msgstr "Recherchez '#39;me_limit' dans votre s votre et mettez le à '64M' or plus haut."
 
 #: setup/class_setupStep_Checks.inc:224
 msgid ""
@@ -1263,7 +1264,7 @@ msgstr ""
 
 #: setup/setup_finish.tpl:10
 msgid "to put the correct right on fusiondirectory.conf"
-msgstr ""
+msgstr "pour mettre les droits correctement sur le fichier fusiondirectory.conf"
 
 #: setup/setup_finish.tpl:12
 msgid "Download configuration"
@@ -1299,7 +1300,7 @@ msgstr "Type d'attribut pour le DN des utilisateurs"
 
 #: setup/setup_config1.tpl:41
 msgid "Customized CN"
-msgstr ""
+msgstr "CN customisé"
 
 #: setup/setup_config1.tpl:57
 msgid "People storage subtree"
@@ -1636,7 +1637,7 @@ msgid ""
 "After downloading and placing the file under %s, please make sure that the "
 "user the webserver is running with is able to read %s, while other users "
 "shouldn't."
-msgstr ""
+msgstr "Après avoir placé le fichier dans le répertoire %s, assurez vous que seul le serveur web puisse lire %s. Vous pouvez exécuter les commandes suivantes pour réaliser cette opération:"
 
 #: setup/setup_welcome.tpl:4
 msgid ""
@@ -2266,7 +2267,7 @@ msgstr "Vérification des groupes en dehors de la branche groups"
 
 #: setup/class_setupStep_Migrate.inc:183
 msgid "Checking for windows workstations outside the computers tree"
-msgstr ""
+msgstr "Vérification de stations windows en dehors de la branche computers"
 
 #: setup/class_setupStep_Migrate.inc:189
 msgid "Checking for duplicated UID numbers"
@@ -2339,7 +2340,7 @@ msgstr "Echec"
 #, php-format
 msgid ""
 "Found %s winstations outside the predefined computers department ou '%s'."
-msgstr ""
+msgstr "J'ai trouvé %s systèmes en dehors de la branche prédéfinie '%s'."
 
 #: setup/class_setupStep_Migrate.inc:447
 #, php-format
@@ -2366,7 +2367,7 @@ msgstr "L'utilisateur spécifié '%s' n'a pas l'accès complet à votre annuaire
 msgid ""
 "Found %s user(s) that will not be visible in FusionDirectory or which are "
 "incomplete."
-msgstr ""
+msgstr "J'ai trouvé %s utilisateur(s) qui ne seront pas visibles dans ans FusionDirec."
 
 #: setup/class_setupStep_Migrate.inc:712 setup/class_setupStep_Migrate.inc:855
 #: setup/class_setupStep_Migrate.inc:1118
@@ -3955,7 +3956,7 @@ msgstr "Samedi"
 
 #: include/class_msgPool.inc:480
 msgid "Database operation failed!"
-msgstr ""
+msgstr "La requête sur la base de données à échoué !"
 
 #: include/class_msgPool.inc:488
 msgid "read operation"
@@ -4533,7 +4534,7 @@ msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:60
 msgid "[FusionDirectory] Password recovery link"
-msgstr ""
+msgstr "[FusionDirectory] lien de reinitialisation du mot de passe"
 
 #: plugins/admin/password/class_recoveryConfig.inc:61
 #, php-format
@@ -4545,11 +4546,11 @@ msgid ""
 " - Link : %s\n"
 "\n"
 "This link is only valid for 10 minutes."
-msgstr ""
+msgstr "Bonjour,\n\nVoici vos informations :\n\n- Login : %s\n- Lien : %s\n\nCeci est seulement valide pour 10 minutes"
 
 #: plugins/admin/password/class_recoveryConfig.inc:62
 msgid "[FusionDirectory] Password recovery successful"
-msgstr ""
+msgstr "[FusionDirectory] Réinitialisation du mot de passe réussi !"
 
 #: plugins/admin/password/class_recoveryConfig.inc:63
 #, php-format
@@ -4558,12 +4559,12 @@ msgid ""
 "\n"
 "Your password has been changed.\n"
 "Your login is still %s."
-msgstr ""
+msgstr "Hello,\n\nVotre mot de passe à été changé. \nVos identifiants de connexion sont toujours %s."
 
 #: plugins/admin/password/class_recoveryConfig.inc:132
 #: plugins/admin/password/class_recoveryConfig.inc:133
 msgid "Password recovery config"
-msgstr ""
+msgstr "Configurer la récupération du mot de passe"
 
 #: plugins/admin/groups/group-filter.tpl:11
 #: plugins/personal/posix/groupSelect/group-filter.tpl:11
@@ -5273,7 +5274,7 @@ msgstr "Départements"
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:14
 msgid "Show Applications"
-msgstr ""
+msgstr "Montrer les applications"
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:15
 msgid "Show server"
@@ -5286,7 +5287,7 @@ msgstr "Stations de travail"
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:17
 #: plugins/personal/posix/trustSelect/trust-filter.tpl:13
 msgid "Show Windows PC"
-msgstr ""
+msgstr "Montrer les systèmes Windows"
 
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:18
 msgid "Show terminal"
@@ -5374,7 +5375,7 @@ msgstr "Sommaire FAI"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:226
 msgid "Argonaut client"
-msgstr ""
+msgstr "Client Argonaut"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:254
 msgid "Applications"
@@ -5398,7 +5399,7 @@ msgstr "groupes"
 
 #: plugins/admin/ogroups/class_ogroup.inc:351
 msgid "applications"
-msgstr ""
+msgstr "Applications"
 
 #: plugins/admin/ogroups/class_ogroup.inc:352
 msgid "departments"
@@ -5836,7 +5837,7 @@ msgstr "Le nouveau et l'ancien mot de passe sont trop similaires."
 
 #: plugins/personal/password/class_password.inc:125
 msgid "The password contains possibly problematic Unicode characters!"
-msgstr ""
+msgstr "Le mot de passe contient probablement des caractères Unicode qui sont problématique"
 
 #: plugins/personal/password/class_password.inc:161
 msgid ""
@@ -5958,7 +5959,7 @@ msgstr "Le format de stockage sélectionné pour les mots de passe n'est plus di
 msgid ""
 "Cannot save user picture, FusionDirectory requires the package "
 "'php5-imagick' to be installed!"
-msgstr ""
+msgstr "Impossible de sauver la photo de l'utilisateur, ur, FusionDirec a besoin que la librairie rie5-hp5-ima soit installé pour cela."
 
 #: plugins/personal/generic/class_user.inc:1146
 msgid "Cannot build RDN: no + allowed to build sub RDN!"
