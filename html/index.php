@@ -92,6 +92,7 @@ function displayLogin()
   }
   $smarty->assign("msg_dialogs", msg_dialog::get_dialogs());
   $smarty->assign("usePrototype", "false");
+  $smarty->assign("date", date("l, dS F Y H:i:s O"));
   $smarty->display (get_template_path('headers.tpl'));
 
   $smarty->assign("version",FD_VERSION);
