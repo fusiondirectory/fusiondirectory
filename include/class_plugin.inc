@@ -1253,7 +1253,7 @@ class plugin
           }
           $addAttrs[$name] = $value;
         }
-        $command = matchHookVars($command, $addAttrs);
+        $command = self::matchHookVars($command, $addAttrs);
       }
 
       @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
