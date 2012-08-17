@@ -66,6 +66,34 @@ generate_po() {
 
   done
 
+  echo "Merging po files with existing ones"
+  error=0
+  for f in locale/${l_path}?????/LC_MESSAGES; do
+    [[ "$f" == "locale/${l_path}?????/LC_MESSAGES" ]] && break
+    echo -n "* merging $f/messages.po: "
+    [ ! -f $f/messages.po ] && touch $f/messages.po
+
+    msgmerge $DICT $f/messages.po locale/${l_path}messages.po --output-file=$f/messages.po.tmp &> /dev/null
+
+    # Filter out duplicates
+    msguniq $f/messages.po.tmp --output-file=$f/messages.po.new &> /dev/null
+    rm $f/messages.po.tmp
+
+    # Do an extra check for dummy dir 'locale/en/LC_MESSAGES'
+    if [ $? -ne 0 ]; then
+      [ "$f" == "locale/${l_path}en/LC_MESSAGES" ] && $TRUE
+    fi
+
+    if [ $? -eq 0 ]; then
+      echo "done";
+    else
+      echo "failed";
+      error=1
+    fi
+
+  done
+
+
   echo "Copying new po files, making backups..."
   find locale/${l_path} -name messages.po | while read f; do
 
@@ -107,7 +135,7 @@ cat <<-EOF
 ---------------------------------------------------------------------
 
 Now edit all files that have been replaced above (i.e. using kbabel
-or gtranslator) and mail the changes to bugs@fusiondirectory.org to be 
+or gtranslator) and mail the changes to bugs@fusiondirectory.org to be
 included in the next release.
 
 To see the changes you've made in FusionDirectory, run "msgfmt messages.po" on
