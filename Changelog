@@ -46,6 +46,8 @@ FusionDirectory changelog
 [Feature] SupportDaemon should allow to call modules method easily
 [Feature] Add spanish venezuelan into the setup
 [Feature] Adding spanish venezuelan language to FusionDirectory
+[Feature] Add Dutch into the setup
+[Feature] Adding Dutch language to FusionDirectory
 [Feature] Guide in how to make a plugin with the simple-plugin framework
 [Feature] Adresse email alternative pour Password recovery
 [Feature] Update documentation for Repository plugin
