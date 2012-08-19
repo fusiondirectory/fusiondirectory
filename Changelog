@@ -1,7 +1,57 @@
 FusionDirectory changelog
 =========================
 
-* FusionDirectory 1.0.3 
+* FusionDirectory 1.0.4
+
+[Fix] Pre/post script not working properly with mail command
+[Fix] Address incorrect in source code and documentation files
+[Fix] Cleaning code for php 5.4
+[Fix] Save_object is called twice on services
+[Fix] The disk partitionning part the size should be in GB by default not mb in the fai plugin
+[Fix] There should be a password recovery link on the login page
+[Fix] Rewrote accept-to-gettext for browser language detection
+[Fix] Problem of auto inclusion of the class_pdf.inc
+[Fix] Smarty3 Support
+[Fix] Smarty3 and gettext support
+[Fix] Recovery.schema should follow LDAP naming rules
+[Fix] fdQuota.schema and argonaut.schema should follow LDAP naming rules
+[Fix] Incorrect directory for the supann schema.
+[Fix] Wrong my $path in fusiondirectory-insert-schema
+[Fix] Check for group conflicts case-insensitively
+[Fix] Correct password hooks docs
+[Fix] password Hook is called in different manner in password and userManagement.
+[Fix] Setup.php must use an absolute path for the template
+[Fix] Actions menu does not work with lighttpd
+[Fix] In style.css, line-height line 1528 seems wrong
+[Fix] The date picker is not working anymore
+[Fix] Failed to add packages in "Package list" dialog
+[Fix] Fusiondirectory-setup is wrong in connection to ldap
+[Fix] Pop-up error when locking/unlocking user
+[Fix] Line 310 of class_msgPool.inc is wrong
+[Fix] Class_filterLDAP.inc don't check correctly the base and objectStorage
+[Fix] Wizard goes into an infinite loop if the popen function is not available
+[Fix] Check if popen is allowed before using it
+[Fix] French accents in password recovery mailbody
+[Fix] Removing the code activation ob_start as it not recommended way of compression
+[Fix] When i click on the link for password recovery on the main page, it say not activated but as you can see in debug text its not
+[Fix] Option -i not in fusiondirectory-insert-schema manual
+[Fix] The code for adding icons into applications is broken
+[Fix] The code for reading image is broken in getfax.php
+[Fix] Type:8, Message:Trying to get property of non-object $date in headers.tpl
+[Fix] Popup not working with smarty3
+[Fix] Standardazing the argonaut menu service entries
+[Fix] Standardazing the spam and antivirus menu service entries
+[Fix] Standardizing log service entries
+[Fix] Standardizing fax service entries
+[Feature] SupportDaemon should allow to call modules method easily
+[Feature] Add spanish venezuelan into the setup
+[Feature] Adding spanish venezuelan language to FusionDirectory
+[Feature] Guide in how to make a plugin with the simple-plugin framework
+[Feature] Adresse email alternative pour Password recovery
+[Feature] Update documentation for Repository plugin
+
+
+* FusionDirectory 1.0.3
 
 [Feature] Improve the FusionDirectory API
 [Feature] Improve the FusionDirectory API
@@ -96,7 +146,7 @@ FusionDirectory changelog
 [Feature] Making a client argonaut service
 [Feature] Adding support for custom release in fai Repository
 [Feature] Architectures should be in FAIrepository value
-[Fix] Moving all plugins systems files to /var/cache/fusiondirectory/<name of the plugin>/ 
+[Fix] Moving all plugins systems files to /var/cache/fusiondirectory/<name of the plugin>/
 [Fix] Removed kerberos-heimdal leftover
 [Fix] When creating a terminal it yell at me that wake event doesnt exist
 [Fix] Remove all non needed readme in the plugins
@@ -133,7 +183,7 @@ FusionDirectory changelog
 [Fix] FSF address incorrect in source code and documentation files
 
 
-* FusionDirectory 1.0.2 
+* FusionDirectory 1.0.2
   - Removed old GOsa-si code
   - Added jsonrpc client library
   - Added new daemon class with json rpc methods
@@ -163,6 +213,6 @@ FusionDirectory changelog
   - Added the apache plugin
   - Put final logo
   - Full italian language
-  
+
 * FusionDirectory 1.0
   - First stable release
