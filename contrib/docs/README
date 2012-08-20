@@ -19,20 +19,11 @@ to do, to get the things up and running.
 
 FusionDirectory is not available in your native language? Just read on...
 
-Translations (or I18N) in FusionDirectory is done by the gettext library.
-As a result, every set of translations is stored inside of one directory
-per language as a text file called "messages.po".
+We are using [[https://www.transifex.net/|transifex]] to translate FusionDirectory.
 
-For FusionDirectory you've to differenciate between fusiondirectory and
-fusiondirectory-plugins. The core as a translation and every plugin has
-a seperate translation, too.
-
-FusionDirectory core can be translated by taking a look at the locales/core
-directory. Just take the messages.po file and copy it to some other
-location and put your translations into the msgstr fields of this
-file. For more comfort, use programs like i.e. kbabel or poedit to
-achieve this. You may look at the en/LC_MESSAGES for the way how it
-works.
+  * You just need to create an account [[https://www.transifex.net/plans/signup/free/|transifex]]
+  * Join the team of the language you want to translate https://www.transifex.net/projects/p/FusionDirectory/
+  * If your team doesn't exist you can ask for his creation
 
 If you're ready with that, create a directory for your language using
 the ISO shortcuts (i.e. es for spain) with a subdirectory LC_MESSAGES.
@@ -48,21 +39,11 @@ command, to let FusionDirectory merge the translations. Then, Make sure
 your apache has locale support or, in case of debian, that the specific
 locale will be generated (via dpkg-reconfigure locales).
 
-To have your translations included in the next FusionDirectory release,
-just send the .po file to us at <contact@fusiondirectory.org>.
-
 For fusiondirectory-plugins, every plugin has a locales directory. Translation works
 like described for fusiondirectory.
 
 Always run fusiondirectory-setup --update-locales after you've added translations in
 order to let FusionDirectory compile and re-sync the translations.
-
-
-* NOTES
-
-Be sure that 'gosaUserTemplates' are not able to log into your server,
-since they may have no password set. Example configs can be found in
-the contrib directory.
 
 Have fun!
 
