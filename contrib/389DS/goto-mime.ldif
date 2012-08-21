@@ -1,0 +1,8 @@
+dn: cn=schema
+attributetypes: ( 1.3.6.1.4.1.10098.1.1.14.1 NAME 'gotoMimeGroup' DESC 'IANA defined mime group' EQUALITY caseIgnoreIA5Match SUBSTR caseIgnoreIA5SubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
+attributetypes: ( 1.3.6.1.4.1.10098.1.1.14.2 NAME 'gotoMimeFilePattern' DESC 'File extensions for mime types' EQUALITY caseIgnoreIA5Match SUBSTR caseIgnoreIA5SubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
+attributetypes: ( 1.3.6.1.4.1.10098.1.1.14.3 NAME 'gotoMimeApplication' DESC 'Assigned application and priority' EQUALITY caseIgnoreIA5Match SUBSTR caseIgnoreIA5SubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
+attributetypes: ( 1.3.6.1.4.1.10098.1.1.14.4 NAME 'gotoMimeEmbeddedApplication' DESC 'Assigned application and priority for embedded applications' EQUALITY caseIgnoreIA5Match SUBSTR caseIgnoreIA5SubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
+attributetypes: ( 1.3.6.1.4.1.10098.1.1.14.5 NAME 'gotoMimeLeftClickAction' DESC 'GOto - Gonicus Terminal Concept, PPD data' EQUALITY caseIgnoreIA5Match SUBSTR caseIgnoreIA5SubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
+attributetypes: ( 1.3.6.1.4.1.10098.1.1.14.6 NAME 'gotoMimeIcon' DESC 'Specify the mime icon' SYNTAX 1.3.6.1.4.1.1466.115.121.1.28 SINGLE-VALUE)
+objectclasses: (1.3.6.1.4.1.10098.1.2.4.1 NAME 'gotoMimeType' DESC 'Class to represent global mime types (v2.6.1)' SUP top STRUCTURAL MUST ( cn $ gotoMimeFilePattern $ gotoMimeGroup ) MAY  ( description $ gotoMimeIcon $ gotoMimeApplication $ gotoMimeEmbeddedApplication $ gotoMimeLeftClickAction ))
