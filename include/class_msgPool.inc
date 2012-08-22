@@ -844,6 +844,16 @@ class msgPool {
   }
 
   /*!
+   * \brief Display install or activate a PEAR module
+   *
+   * \param string $what Name of the module
+   */
+  public static function installPearModule($what)
+  {
+    return sprintf(_("Install and activate the %s Pear module."), $what);
+  }
+
+  /*!
    * \brief Display error when a class is not found
    *
    * \param string $plugin Name of the class which can'b be initialized

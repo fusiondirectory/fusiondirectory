@@ -127,8 +127,16 @@ class Step_Checks extends setup_step
     /* Check if MDB2 module is available */
     $N = msgPool::checkingFor(_("MDB2"));
     $D = _("FusionDirectory requires this module to communicate with several supported databases.");
-    $S = msgPool::installPhpModule("MDB2");
+    $S = msgPool::installPearModule("MDB2");
     $R = ((@include_once("PEAR.php")) && (@include_once("MDB2.php")));
+    $M = FALSE;
+    $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+
+    /* Check if MDB2 mysql driver is available */
+    $N = msgPool::checkingFor(_("MDB2 mysql"));
+    $D = _("FusionDirectory requires this module to communicate with mysql databases.");
+    $S = msgPool::installPearModule("MDB2 mysql");
+    $R = ((@include_once("PEAR.php")) && (@include_once("MDB2/Driver/mysql.php")));
     $M = FALSE;
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
