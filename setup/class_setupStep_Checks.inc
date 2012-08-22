@@ -129,7 +129,7 @@ class Step_Checks extends setup_step
     $D = _("FusionDirectory requires this module to communicate with several supported databases.");
     $S = msgPool::installPhpModule("MDB2");
     $R = ((@include_once("PEAR.php")) && (@include_once("MDB2.php")));
-    $M = TRUE;
+    $M = FALSE;
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* Check generation of LM/NT password hashes */
