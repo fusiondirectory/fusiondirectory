@@ -38,7 +38,7 @@ class databaseManagement {
    */
   static function connectDatabase($database)
   {
-    $link =& MDB2::connect(array( 'phptype'=>'mysql',
+    $link = MDB2::connect(array( 'phptype'=>'mysql',
                                   'hostspec'=>$database['SERVER'],
                                   'username'=>$database['LOGIN'],
                                   'password'=>$database['PASSWORD'],
