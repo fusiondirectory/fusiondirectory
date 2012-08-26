@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory\n"
 "Report-Msgid-Bugs-To: https://forge.fusiondirectory.org/projects/fd\n"
 "POT-Creation-Date: 2012-08-22 12:42+0200\n"
-"PO-Revision-Date: 2012-08-22 11:27+0000\n"
+"PO-Revision-Date: 2012-08-26 06:23+0000\n"
 "Last-Translator: poterealpopolo <giuliano@opensides.be>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/FusionDirectory/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -1481,7 +1481,7 @@ msgstr "Abilita il filtro per il gruppo primario"
 
 #: setup/setup_config3.tpl:18
 msgid "Display summary in listings"
-msgstr "Mosra il riepilogo negli elenchi"
+msgstr "Mostra il riepilogo negli elenchi"
 
 #: setup/setup_config3.tpl:30
 msgid "Honour administrative units"
@@ -1497,7 +1497,7 @@ msgstr "Attiva il copia & incolla"
 
 #: setup/setup_config3.tpl:74
 msgid "FusionDirectory logging"
-msgstr "Registrazione di FusionDirectory"
+msgstr "FusionDirectory nel giornale di sistema"
 
 #: setup/setup_config3.tpl:85
 msgid "Login and session"
