@@ -555,8 +555,9 @@ class passwordRecovery {
     /* From */
     $headers = "From: ".$this->from_mail."\r\n";
     $headers .= "Reply-To: ".$this->from_mail."\r\n";
+    $additional_parameters = "-f".$this->from_mail;
 
-    if (mail($this->address_mail, $this->mail_subject, $mail_body, $headers)) {
+    if (mail($this->address_mail, $this->mail_subject, $mail_body, $headers, $additional_parameters)) {
       $this->step = 3;
     } else {
       $this->message[] = msgPool::invalid(_("Contact your administrator, there was a problem with mail server"));
