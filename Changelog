@@ -43,6 +43,7 @@ FusionDirectory changelog
 [Fix] Standardazing the spam and antivirus menu service entries
 [Fix] Standardizing log service entries
 [Fix] Standardizing fax service entries
+[Fix] Removing all obsolete opsi code from various plugins
 [Feature] SupportDaemon should allow to call modules method easily
 [Feature] Add spanish venezuelan into the setup
 [Feature] Adding spanish venezuelan language to FusionDirectory
@@ -51,7 +52,8 @@ FusionDirectory changelog
 [Feature] Guide in how to make a plugin with the simple-plugin framework
 [Feature] Adresse email alternative pour Password recovery
 [Feature] Update documentation for Repository plugin
-
+[Feature] Creating Windows pc from the interface
+[Feature] Having the mac address next to the ip address in filter system list
 
 * FusionDirectory 1.0.3
 
