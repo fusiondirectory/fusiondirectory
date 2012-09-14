@@ -62,7 +62,7 @@
 
   </td>
   <td style="border-left:1px solid #A0A0A0; padding-left:10px;">
-   <b><LABEL for="members">{t}Member objects{/t}</LABEL></b>&nbsp;({$combinedObjects})
+   <b><LABEL for="members">{t}Member objects{/t}</LABEL></b>&nbsp;
    <br>
 {render acl=$memberACL}
    <select style="width:100%; height:450px;" id="members" name="members[]" size="15" multiple>
