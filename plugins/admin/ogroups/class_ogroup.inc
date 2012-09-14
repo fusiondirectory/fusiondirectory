@@ -358,33 +358,6 @@ class ogroup extends plugin
         $this->base= $_POST['base'];
       }
 
-    /* Assemble combine string */
-    if ($this->gosaGroupObjects == "[]"){
-      $smarty->assign("combinedObjects", _("none"));
-    } else {
-      $conv= array(   "U" => _("users"),
-          "G" => _("groups"),
-          "A" => _("applications"),
-          "D" => _("departments"),
-          "S" => _("servers"),
-          "W" => _("workstations"),
-          "O" => _("winstations"),
-          "T" => _("terminals"),
-          "F" => _("phones"),
-          "P" => _("printers"));
-
-      $type= preg_replace('/[\[\]]/', '', $this->gosaGroupObjects);
-      $p1= $conv[$type[0]];
-      error_reporting(0);
-      if (isset($type[1]) && preg_match('/[UGADSFOWTP]/', $type[1])){
-        $p2= $conv[$type[1]];
-        $smarty->assign("combinedObjects", sprintf("'%s' and '%s'", $p1, $p2));
-      } else {
-        $smarty->assign("combinedObjects", "$p1");
-      }
-      error_reporting(E_ALL | E_STRICT);
-    }
-
     /* Assign variables */
     $smarty->assign("base", $this->baseSelector->render());
     $smarty->assign("members", $this->convert_list($this->memberList));
