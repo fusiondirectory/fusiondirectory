@@ -361,8 +361,6 @@ class ogroup extends plugin
     /* Assemble combine string */
     if ($this->gosaGroupObjects == "[]"){
       $smarty->assign("combinedObjects", _("none"));
-    } elseif (strlen($this->gosaGroupObjects) > 4){
-      $smarty->assign("combinedObjects", "<font color=red>"._("too many different objects!")."</font>");
     } else {
       $conv= array(   "U" => _("users"),
           "G" => _("groups"),
