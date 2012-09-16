@@ -44,6 +44,9 @@ FusionDirectory changelog
 [Fix] Standardizing log service entries
 [Fix] Standardizing fax service entries
 [Fix] Removing all obsolete opsi code from various plugins
+[Fix] Removing the dependancies to the fai.schema for systems
+[Fix] The ip should be mandatory on server, terminal and printer objects
+[Fix] The filter for windows workstations come into conflict with the network device one
 [Feature] SupportDaemon should allow to call modules method easily
 [Feature] Add spanish venezuelan into the setup
 [Feature] Adding spanish venezuelan language to FusionDirectory
