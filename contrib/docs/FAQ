@@ -577,5 +577,6 @@ A: Yes, just add the following line to your fusiondirectory.conf:
     loginAttribute="uid,mail"
    |<--
 
+The latest version of this explanation is always avaible at
 
-
+http://documentation.fusiondirectory.org/en/documentation_faq
