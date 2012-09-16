@@ -918,7 +918,7 @@ class ogroup extends plugin
   {
     /* Check if we should enable the release selection */
     $tmp = $this->config->search("faiManagement", "CLASS",array('menu','tabs'));
-    if(!empty($tmp)){
+    if(!empty($tmp) && class_available("faiManagement")){
       return(true);
     }
     return(false);
