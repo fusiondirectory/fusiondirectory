@@ -1,0 +1,22 @@
+dn: cn=recovery,cn=schema,cn=config
+changetype: modify
+##
+## recovery.schema - Needed by Fusion Directory for managing password recovery
+##
+# Attributes
+replace: olcAttributeTypes
+olcAttributeTypes: ( 1.3.6.1.4.1.38414.1.1.1NAME 'passwordRecoveryActivated' DESC 'Fusion Directory - Password recovery enabled/disabled' EQUALITY booleanMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 SINGLE-VALUE )
+olcAttributeTypes: ( 1.3.6.1.4.1.38414.1.1.2NAME 'passwordRecoveryEmail' DESC 'Fusion Directory - Password recovery sender email' EQUALITY caseExactIA5Match SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE )
+olcAttributeTypes: ( 1.3.6.1.4.1.38414.1.1.3NAME 'passwordRecoveryMailSubject' DESC 'Fusion Directory - Password recovery first email subject' EQUALITY caseExactMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
+olcAttributeTypes: ( 1.3.6.1.4.1.38414.1.1.4NAME 'passwordRecoveryMailBody' DESC 'Fusion Directory - Password recovery first email body' EQUALITY caseExactMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
+olcAttributeTypes: ( 1.3.6.1.4.1.38414.1.1.5NAME 'passwordRecoveryMail2Subject' DESC 'Fusion Directory - Password recovery second email subject' EQUALITY caseExactMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
+olcAttributeTypes: ( 1.3.6.1.4.1.38414.1.1.6NAME 'passwordRecoveryMail2Body' DESC 'Fusion Directory - Password recovery second email body' EQUALITY caseExactMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
+olcAttributeTypes: ( 1.3.6.1.4.1.38414.1.1.7NAME 'passwordRecoveryValidity' DESC 'Fusion Directory - Password recovery link validity in minutes' EQUALITY integerMatch ORDERING integerOrderingMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 SINGLE-VALUE )
+olcAttributeTypes: ( 1.3.6.1.4.1.38414.1.1.8NAME 'passwordRecoverySalt' DESC 'Fusion Directory - Password recovery token salt' EQUALITY caseExactIA5Match SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE )
+olcAttributeTypes: ( 1.3.6.1.4.1.38414.1.1.9NAME 'passwordRecoveryUseAlternate' DESC 'Fusion Directory - Allow/disallow the use of alternate addresses for password recovery' EQUALITY booleanMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 SINGLE-VALUE )
+-
+replace: olcObjectClasses
+# Object Class
+olcObjectClasses: ( 1.3.6.1.4.1.38414.1.2.1NAME 'recoveryConfig' DESC 'Password recovery settings' MUST (  cn $ passwordRecoveryActivated $ passwordRecoveryEmail $ passwordRecoveryMailSubject $ passwordRecoveryMailBody $ passwordRecoveryMail2Subject $ passwordRecoveryMail2Body $ passwordRecoveryValidity $ passwordRecoverySalt $ passwordRecoveryUseAlternate) )
+
+
