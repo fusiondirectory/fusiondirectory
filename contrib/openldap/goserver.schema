@@ -1,15 +1,10 @@
 ##
-##
-## goserver.schema - Needed by the GONICUS System Administator
+## goserver.schema
 ##
 ## Version 030403
 ##
+## Maintained by the FusionDirectory Project <contact@fusiondirectory.org>
 ##
-## Maintainer:    Lars Scheiter   (scheiter@GONICUS.de)
-##      Cajus Pollmeier (pollmeier@GONICUS.de)
-##
-##
-
 
 # Attributes for the Gonicus Terminal Server Class
 attributetype ( 1.3.6.1.4.1.10098.1.1.9.1 NAME 'goXdmcpIsEnabled'

@@ -1,15 +1,13 @@
 ##
 ##
-## goto.schema - Needed by the GONICUS Terminal concept
+## goto.schema
 ##
-## Version 030403
+## Version 030404
 ##
-##
-## Maintainer:    Lars Scheiter   (scheiter@GONICUS.de)
-##      Cajus Pollmeier (pollmeier@GONICUS.de)
-##
+## Maintained by the FusionDirectory Project <contact@fusiondirectory.org>
 ##
 ## Requires: gohard.schema
+##
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.11.6 NAME 'gotoPrinterPPD'
         DESC 'GOto - Gonicus Terminal Concept, PPD data'
