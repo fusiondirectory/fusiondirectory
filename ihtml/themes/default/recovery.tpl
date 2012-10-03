@@ -117,7 +117,8 @@
     <div style="clear:both"></div>
 {elseif $changed}
     <div class='success'">
-      <img class='center' src='images/true.png' alt='{t}Success{/t}' title='{t}Success{/t}'>&nbsp;<b>{t}Your password has been changed successfully.{/t}</b>
+      <img class='center' src='images/true.png' alt='{t}Success{/t}' title='{t}Success{/t}'>&nbsp;<b>{t}Your password has been changed successfully.{/t}</b><br/>
+      <br/><a href="./">Return to login screen</a>
     </div>
 {else}
     <p class="infotext">
