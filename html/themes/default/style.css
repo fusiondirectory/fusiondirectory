@@ -2026,13 +2026,32 @@ fieldset.plugin_section {
 display:table-cell;
 width:48%;
 vertical-align:top;
-border:1px solid lightgrey;
+border:1px solid #B0B0B0;
 padding:0;
 margin:0;
+padding-top:20px;
+margin-top:3px;
+position: relative;
 }
 
 fieldset.plugin_section legend {
 font-weight:bold;
+float:left;
+padding:0;
+margin:0;
+}
+
+fieldset.plugin_section legend span {
+background-color:#DBE6C6;
+display:block;
+width:100%;
+border:1px solid #B0B0B0;
+position: absolute;
+left:0;
+padding-top:5px;
+padding-bottom:5px;
+margin-left:-1px;
+text-align:center;
 }
 
 fieldset.plugin_section legend img {
@@ -2040,6 +2059,12 @@ margin-right:3px;
 vertical-align:middle;
 }
 
-fieldset.plugin_section select[multiple] {
+
+fieldset.plugin_section select[multiple], fieldset.plugin_section textarea {
 width:100%;
+}
+
+fieldset.plugin_section > table {
+padding:5px;
+min-width:80%;
 }
