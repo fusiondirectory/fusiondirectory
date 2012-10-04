@@ -390,6 +390,7 @@ padding-top:10px;
 padding-bottom:0;
 text-align:right;
 font-family:arial,helvetica,sans-serif;
+clear:both;
 }
 
 font.must {
@@ -2022,16 +2023,20 @@ color:#B22;
 
 /* Simple Plugin specific things */
 
-fieldset.plugin_section {
-display:table-cell;
+.plugin_section {
+display:block;
+float:left;
 width:48%;
 vertical-align:top;
 border:1px solid #B0B0B0;
 padding:0;
-margin:0;
-padding-top:20px;
-margin-top:3px;
+margin:5px;
+padding-top:25px;
 position: relative;
+}
+
+.plugin_section > div {
+padding:5px;
 }
 
 fieldset.plugin_section legend {
@@ -2041,20 +2046,27 @@ padding:0;
 margin:0;
 }
 
-fieldset.plugin_section legend span {
+fieldset.plugin_section legend span, .plugin_section > span.legend {
 background-color:#DBE6C6;
-display:block;
-width:100%;
 border:1px solid #B0B0B0;
-position: absolute;
-left:0;
+width:100%;
 padding-top:5px;
 padding-bottom:5px;
 margin-left:-1px;
 text-align:center;
+display:block;
 }
 
-fieldset.plugin_section legend img {
+fieldset.plugin_section legend span {
+position: absolute;
+left:0;
+}
+
+.plugin_section > span.legend {
+margin-top:-26px;
+}
+
+fieldset.plugin_section legend img, .plugin_section span.legend img {
 margin-right:3px;
 vertical-align:middle;
 }
@@ -2064,7 +2076,6 @@ fieldset.plugin_section select[multiple], fieldset.plugin_section textarea {
 width:100%;
 }
 
-fieldset.plugin_section > table {
-padding:5px;
+.plugin_section > table {
 min-width:80%;
 }
