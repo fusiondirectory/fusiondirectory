@@ -19,32 +19,30 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
+$tokenBranch = get_ou('tokenRDN').$config->current['BASE'];
+recoveryConfig::userMainInc('recoveryConfig',"cn=config,$tokenBranch");
 
-/* Remove locks created by this plugin */
+/*
 if ($remove_lock) {
   if (session::is_set('recoveryConfig')) {
     //nothing to do here
   }
 }
 
-/* Remove this plugin from session */
 if ($cleanup) {
   session::un_set('recoveryConfig');
 } else {
 
-  /* Reset requested? */
   if (isset($_GET['reset']) && $_GET['reset'] == 1) {
     session::un_set('recoveryConfig');
   }
 
-  /* Create recoveryConfig object on demand */
   if (!session::is_set('recoveryConfig')) {
     // Check if token branch is here
     $ldap = $config->get_ldap_link();
     $tokenBranch = get_ou("tokenRDN").$config->current['BASE'];
     $ldap->cat($tokenBranch, array('dn'));
     if (!$ldap->count()) {
-      /* It's not, let's create it */
       $ldap->cd ($config->current['BASE']);
       $ldap->create_missing_trees($tokenBranch);
       if (!$ldap->success()) {
@@ -63,8 +61,6 @@ if ($cleanup) {
   $recoveryConfig = session::get('recoveryConfig');
   $display .= $recoveryConfig->execute();
 
-  /* Show and save dialog */
   session::set('recoveryConfig',$recoveryConfig);
-}
-
+}*/
 ?>
