@@ -708,8 +708,8 @@ class supportDaemon
     $ldap->search("(&(objectClass=FAIprofile)(objectClass=FAIclass))",array('cn'));
 
     $res = array();
-    while($entry = $ldap->fetch()) {
-      $res[]=$entry['cn'][0];
+    while ($entry = $ldap->fetch()) {
+      $res[] = $entry['cn'][0];
     }
 
     return $res;
