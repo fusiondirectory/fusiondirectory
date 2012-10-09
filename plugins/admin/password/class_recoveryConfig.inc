@@ -80,7 +80,13 @@ class recoveryConfig extends simplePlugin
             'passwordRecoverySalt',
             FALSE,
             "SomethingSecretAndVeryLong"
-          )
+          ),
+          new BooleanAttribute (
+            _('Allow the use of alternate addresses'),
+            _('Users will also be able to enter one of theirs alternate addresses to recover their password'),
+            'passwordRecoveryUseAlternate',
+            FALSE
+          ),
         )
       ),
       'first_email' => array (
