@@ -1358,46 +1358,6 @@ class definition inside your fusiondirectory.conf.
 
 Make sure, that this path is writeable by FusionDirectory.
 
-.SH Settings for the FAI plugin
-
-The FAI plugin can be used in a way that it generates branched or
-freezed releases inside your repository. Specifying the
-.I postcreate
-and
-.I postmodify
-keywords in the
-.I servrepository
-definition, calls the provided script as a hook when adding or
-removing branches. This script should do the rest inside of your
-repository.
-
-.B Example:
-
-.nf
-  <tab class="servrepository"
-          repositoryBranchHook="/opt/dak/bin/get_extra_repos"
-          postcreate="/opt/dak/bin/handle_repository '%lock_dn' '%lock_name' '%lock_type' />
-.fi
-
-.I %lock_dn
-keeps the base DN of the source branch,
-.I %lock_name
-the name of the new branch and
-.I %lock_type
-is either "freeze" or "branch".
-
-The
-.I repositoryBranchHook
-outputs additional releases, that are not retrieveable with the standard
-FusionDirectory/FAI methods.
-
-If you have only one release, or want to define a default release to be shown
-by FusionDirectory, define the
-.I defaultFaiRelease="ou=sarge,ou=fai,ou=configs,ou=syst..."
-within the
-.I faiManagement
-class definition
-
 .SH Settings for the addressbook plugin
 
 The addressbook plugin can be configured to store the addressbook data on
