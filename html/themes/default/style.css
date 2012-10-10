@@ -2080,7 +2080,7 @@ width:100%;
 min-width:80%;
 }
 
-.pluginsection.fullwidth {
+.plugin_section.fullwidth {
 float:none;
 clear:both;
 width:auto;
