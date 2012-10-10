@@ -457,5 +457,4 @@ session::global_set('plist',$plist);
 session::global_set('config',$config);
 session::set('errorsAlreadyPosted',array());
 
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

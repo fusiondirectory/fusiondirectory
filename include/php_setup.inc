@@ -174,12 +174,22 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
       $args= "";
       if (isset($ct['args'])) {
         $f = function ($arg) use(&$f) {
+          static $i = 0;
+          if ($i>4) {
+            return "…";
+          }
           if (is_object($arg)) {
             return "CLASS:&nbsp;".get_class($arg);
           } elseif (is_array($arg)) { /* Avoid convertig array to string errors */
-            return "array(".implode(',',array_map($f,$arg)).")";
+            $i++;
+            $ret = "array(".implode(',',array_map($f,$arg)).")";
+            $i--;
+            return $ret;
           } else {
-            return '"'."$arg".'"';
+            if (strlen("$arg") > 512) {
+              $arg = substr("$arg",0,512)."…";
+            }
+            return '"'.htmlentities("$arg", ENT_COMPAT, 'UTF-8').'"';
           }
         };
         $args = implode(',',array_map($f,$ct['args']));
