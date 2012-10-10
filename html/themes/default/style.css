@@ -2079,3 +2079,9 @@ width:100%;
 .plugin_section > table {
 min-width:80%;
 }
+
+.pluginsection.fullwidth {
+float:none;
+clear:both;
+width:auto;
+}
