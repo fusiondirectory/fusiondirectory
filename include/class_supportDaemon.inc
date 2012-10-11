@@ -155,7 +155,7 @@ class supportDaemon
 
       /* Append an entry
       */
-      return $this->append_call($action,$targets,$data_json);
+      return $this->append_call($action, $targets, $data_json);
     } else {
       /* Updated edited entry. */
       $id                 = $event->get_id();
@@ -163,7 +163,7 @@ class supportDaemon
       return($this->update_entries(array($id),$data));
     }
 
-    return(FALSE);
+    return FALSE;
   }
 
   /*!
@@ -190,13 +190,13 @@ class supportDaemon
     */
     try {
       $client = new jsonRPCClient($this->s_host);
-      $client->action($action,$targets,$data);
+      $status = $client->action($action, $targets, $data);
+      $this->reset_error();
+      return $status[0];
     } catch (Exception $e) {
       $this->set_error(nl2br($e->getMessage()));
-      return(FALSE);
+      return FALSE;
     }
-    $this->reset_error();
-    return(TRUE);
   }
 
   /*!
@@ -754,19 +754,7 @@ class supportDaemon
   */
   public function manage_service($mac,$service,$action)
   {
-    if ($this->s_host == "") {
-      $this->set_error($this->host_error);
-      return FALSE;
-    }
-    try {
-      $client = new jsonRPCClient($this->s_host);
-      $this->reset_error();
-      $status = $client->action("Service.manage",array($mac),array("args"=>array($service,$action)));
-      return $status[0];
-    } catch (Exception $e) {
-      $this->set_error(nl2br($e->getMessage()));
-      return(FALSE);
-    }
+    return $this->append_call("Service.manage",array($mac),array("args"=>array($service,$action)));
   }
 
   /*!
