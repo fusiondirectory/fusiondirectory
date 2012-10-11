@@ -462,6 +462,19 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.9.82 NAME 'gotoSessionType'
   EQUALITY caseExactIA5Match
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
+attributetype ( 1.3.6.1.4.1.10098.1.1.9.83 NAME 'goDHCPServerStatus'
+  DESC 'Server status container - on / off / fail'
+  EQUALITY caseExactIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
+attributetype ( 1.3.6.1.4.1.10098.1.1.9.84 NAME 'goDNSServerStatus'
+  DESC 'Server status container - on / off / fail'
+  EQUALITY caseExactIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
+
 
 ##
 ##    Objectclasses
