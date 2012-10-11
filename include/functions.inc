@@ -727,7 +727,9 @@ function ldap_expired_account($config, $userdn, $uid)
 {
 
     // Skip this for the admin account, we do not want to lock him out.
-    if($uid == 'admin') return(0);
+    if (is_user_admin($userdn)) {
+      return 0;
+    }
 
     $ldap= $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
@@ -832,9 +834,20 @@ function ldap_expired_account($config, $userdn, $uid)
     return(0);
 }
 
+/* \brief Check if a user is a 'user admin'
+ * \param $dn The dn of the user we want to check, FALSE if we want to check the connected one
+ */
+function is_user_admin($dn = FALSE)
+{
+  global $config;
 
-
-
+  if ($dn === FALSE) {
+    $ui = get_userinfo();
+  } else {
+    $ui = new userinfo($config, $dn);
+  }
+  return ($ui->get_category_permissions($config->current['BASE'], "users") == "rwcdm");
+}
 
 /*!
  *  \brief Add a lock for object(s)
