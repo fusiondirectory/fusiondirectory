@@ -2031,12 +2031,19 @@ vertical-align:top;
 border:1px solid #B0B0B0;
 padding:0;
 margin:5px;
-padding-top:25px;
 position: relative;
+}
+
+div.plugin_section {
+padding-top:25px;
 }
 
 .plugin_section > div {
 padding:5px;
+}
+
+fieldset.plugin_section > div {
+padding-top:30px;
 }
 
 fieldset.plugin_section legend {
@@ -2060,6 +2067,8 @@ display:block;
 fieldset.plugin_section legend span {
 position: absolute;
 left:0;
+top:0;
+margin-top:-1px;
 }
 
 .plugin_section > span.legend {
