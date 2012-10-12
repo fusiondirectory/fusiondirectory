@@ -1,9 +1,9 @@
-<div class='default' style='margin:12px; '>  
+<div class='default' style='margin:12px; '>
     <p><b>{t}Samba settings{/t}</b></p>
 
     <div class='step4_container'>
         <div class='step4_name'>
-            {t}Workstation container{/t}
+            {t}Windows workstation branch{/t}
         </div>
         <div class='step4_value'>
             {if $generic_settings.wws_ou_active == FALSE}
