@@ -2,7 +2,7 @@
 {literal}
   fieldset.plugin_section#settings
   {
-    display:block;
+    float:none;
   }
 {/literal}
 </style>
