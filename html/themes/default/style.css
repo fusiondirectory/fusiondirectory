@@ -2085,7 +2085,7 @@ fieldset.plugin_section select[multiple], fieldset.plugin_section textarea {
 width:100%;
 }
 
-.plugin_section > table {
+.plugin_section > div > table {
 min-width:80%;
 }
 
