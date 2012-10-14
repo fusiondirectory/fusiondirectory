@@ -47,6 +47,26 @@ FusionDirectory changelog
 [Fix] Removing the dependancies to the fai.schema for systems
 [Fix] The ip should be mandatory on server, terminal and printer objects
 [Fix] The filter for windows workstations come into conflict with the network device one
+[Fix] Separation of the class_databaseManagement.inc in his own package to remove dependancy on mdb2.php
+[Fix] In the setup it still show we need more than 64MB it should be 128MB
+[Fix] The wording is not just in setup for windows pc we said "workstations" but that should be Windows workstations
+[Fix] Adapat Service.manage like action to make it wokr with argonaut 1.0
+[Fix] When restarting a service trought argonaut some LDAP error appear
+[Fix] Crash when mailmethod is in FusionDirectory config file and the user entry contains a mail addresss
+[Fix] When updating a the cn of a windows workstation, the uid is not updated
+[Fix] Copy paste is not working for winstations
+[Fix] Copy paste for terminal, server, printer, workstations mac an ip are not mandatory
+[Fix] Phone we cannot change ip and mac when doing copy/paste
+[Fix] Smarty Bug with 1.0.4 and Wheezy
+[Fix] Fusiondirectory-insert-schema dont work correctly
+[Fix] Step 2 of password recovery has been removed
+[Fix] The check for existing winstations is not working
+[Fix] The ip should be mandatory on server, terminal and printer objects
+[Fix] Filter for windows workstations come into conflict with the network device one
+[Fix] Remove the code showing the type of object in object group title member objects
+[Fix] Remove the artificial limit to two different objects in objects group
+[Fix] The refresh dns function is not correct from the system generic page
+[Fix] Cannot initialise the phoneAccount class
 [Feature] SupportDaemon should allow to call modules method easily
 [Feature] Add spanish venezuelan into the setup
 [Feature] Adding spanish venezuelan language to FusionDirectory
@@ -57,6 +77,10 @@ FusionDirectory changelog
 [Feature] Update documentation for Repository plugin
 [Feature] Creating Windows pc from the interface
 [Feature] Having the mac address next to the ip address in filter system list
+[Feature] Integration of the board plugin - a Small dashbaord for FusionDirectory
+[Feature] Simple plugin framework is mandatory and used by Recovery PAssword and Board plugin
+[Feature] Adding some Windows attributes to the printer object to use opsi usage
+[Feature] Provide ldif update files for recovery.ldif and goto.ldif
 
 * FusionDirectory 1.0.3
 
