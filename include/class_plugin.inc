@@ -663,7 +663,7 @@ class plugin
     }
     $display = "<div width=\"100%\"><p><b>$text</b><br/>\n";
     $display .= "<input type=\"submit\" value=\"$button_text\" name=\"$name\" ".$state.
-      "></p><hr class=\"separator\"/></div>";
+      "></p></div><hr class=\"separator\"/>";
 
     return $display;
   }

@@ -1971,12 +1971,13 @@ function print_header($image, $headline, $info= "")
     $smarty->assign("headline_image",$image);
     $display="";
 
-  if ($info != ""){
+  if ($info != "") {
     $display.= "<div class=\"pluginfo\">\n";
     $display.= "$info";
     $display.= "</div>\n";
+    $display.= "<div></div>\n";
   }
-  return ($display);
+  return $display;
 }
 
 

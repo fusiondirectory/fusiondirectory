@@ -2026,12 +2026,15 @@ color:#B22;
 .plugin_section {
 display:block;
 float:left;
-width:48%;
+width:49%;
 vertical-align:top;
 border:1px solid #B0B0B0;
 padding:0;
 margin:5px;
 position: relative;
+}
+.plugin_section:nth-child(even) {
+float:right;
 }
 
 div.plugin_section {
