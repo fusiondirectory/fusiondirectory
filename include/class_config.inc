@@ -1213,6 +1213,35 @@ class config  {
     return(FALSE);
   }
 
+  function loadPlist ($plist)
+  {
+    $this->data['OBJECTS'] = array();
+    foreach ($plist->info as $class => $plInfo) {
+      if (isset($plInfo['plObjectType'])) {
+        foreach ($plInfo['plObjectType'] as $key => $value) {
+          $entry = array('CLASS' => $class,'NAME' => $plInfo['plShortName']);
+          if (is_numeric($key)) { // This is not the main tab
+            $tabclass = strtoupper($value)."TABS";
+            if (!isset($this->data['TABS'][$tabclass])) {
+              $this->data['TABS'][$tabclass] = array();
+            }
+            $this->data['TABS'][$tabclass][] = $entry;
+          } else {
+            if (isset($this->data['OBJECTS'][strtoupper($key)])) {
+              die('duplicated object type');
+            }
+            $this->data['OBJECTS'][strtoupper($key)] = $value;
+            $tabclass = strtoupper($key)."TABS";
+            if (!isset($this->data['TABS'][$tabclass])) {
+              $this->data['TABS'][$tabclass] = array();
+            }
+            array_unshift($this->data['TABS'][$tabclass], $entry);
+          }
+
+        }
+      }
+    }
+  }
 }
 
 // vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:

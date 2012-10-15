@@ -33,7 +33,7 @@ class usertabs extends tabs
   function usertabs($config, $data, $dn, $cat = "", $hide_refs = FALSE, $hide_acls = FALSE)
   {
     tabs::tabs($config, $data, $dn, 'users',$hide_refs, $hide_acls);
-    $this->base= $this->by_object['user']->base;
+    $this->base = $this->by_object['user']->base;
 
     $this->uid = &$this->by_object['user']->uid;
     $this->sn = &$this->by_object['user']->sn;
@@ -90,7 +90,7 @@ class usertabs extends tabs
         $this->by_object['user']->facsimileTelephoneNumber;
 
       /* Move phone number if plugin exists */
-      if (isset($this->by_object['phoneAccount']) && 
+      if (isset($this->by_object['phoneAccount']) &&
           !$this->by_object['phoneAccount']->is_account){
         $this->by_object['phoneAccount']->phoneNumbers= array();
         if ($this->by_object['user']->telephoneNumber != ""){
@@ -155,7 +155,7 @@ class usertabs extends tabs
       $this->by_object[$key]->is_template= TRUE;
     }
   }
-  
+
   function saveCopyDialog()
   {
     tabs::saveCopyDialog();

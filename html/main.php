@@ -145,7 +145,9 @@ if (!session::global_is_set('plist')) {
     }
   }
 
-  session::global_set('plist', new pluglist($config, $ui));
+  $plist = new pluglist($config, $ui);
+  session::global_set('plist', $plist);
+  $config->loadPlist($plist);
 
   /* Load ocMapping into userinfo */
   $tmp= new acl($config, NULL, $ui->dn);
