@@ -51,12 +51,12 @@
 
             <!-- Plugin window -->
             <td style="background-color:white; width:100%; vertical-align:top; height:15px;" colspan="2">
-                <table style="vertical-align:top; text-align:justify; 
-                    background-color: white; border:1px solid #AAA; 
-                    margin-top:0px; margin-left:7px; margin-right:7px; 
+                <table style="vertical-align:top; text-align:justify;
+                    background-color: white; border:1px solid #AAA;
+                    margin-top:0px; margin-left:7px; margin-right:7px;
                     width:99%" summary="">
                     <tr>
-                        <td>
+                        <td style="padding:0">
                             {$msg_dialogs}
                             {$contents}
                         </td>
@@ -99,10 +99,10 @@
     document.location = 'logout.php';
    }
   {/literal}
-   
+
    logout.delay({$sessionLifetime});
 
-  </script>  
+  </script>
 
 </body>
 </html>

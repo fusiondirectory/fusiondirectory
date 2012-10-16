@@ -2030,11 +2030,16 @@ width:49%;
 vertical-align:top;
 border:1px solid #B0B0B0;
 padding:0;
-margin:5px;
+margin-top:0.5%;
+margin-left:0.5%;
+margin-bottom:0.5%;
+margin-right:0;
 position: relative;
 }
 .plugin_section:nth-child(even) {
 float:right;
+margin-left:0;
+margin-right:0.5%;
 }
 
 div.plugin_section {
