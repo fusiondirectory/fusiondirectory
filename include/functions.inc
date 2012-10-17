@@ -1560,6 +1560,8 @@ function get_ou($name)
                 "faiPackageRDN"   => "ou=packages,",
                 "faiPartitionRDN" => "ou=disk,",
 
+                "debconfRDN"      => "ou=debconf,",
+
                 "supannStructuresRDN" => "ou=structures,",
 
                 "tokenRDN"    => "ou=tokens,",
