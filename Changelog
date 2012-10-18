@@ -67,6 +67,7 @@ FusionDirectory changelog
 [Fix] Remove the artificial limit to two different objects in objects group
 [Fix] The refresh dns function is not correct from the system generic page
 [Fix] Cannot initialise the phoneAccount class
+[Fix] Handle ldif schema changes
 [Feature] SupportDaemon should allow to call modules method easily
 [Feature] Add spanish venezuelan into the setup
 [Feature] Adding spanish venezuelan language to FusionDirectory
@@ -80,7 +81,8 @@ FusionDirectory changelog
 [Feature] Integration of the board plugin - a Small dashbaord for FusionDirectory
 [Feature] Simple plugin framework is mandatory and used by Recovery PAssword and Board plugin
 [Feature] Adding some Windows attributes to the printer object to use opsi usage
-[Feature] Provide ldif update files for recovery.ldif and goto.ldif
+[Feature] Provide ldif updates files for recovery.ldif, goto.ldif, goserver.ldif
+[Feature] Provide ldif updates files for fdQuota.ldif and argonaut.ldif
 
 * FusionDirectory 1.0.3
 
