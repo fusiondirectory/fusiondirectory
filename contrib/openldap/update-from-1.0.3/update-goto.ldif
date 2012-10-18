@@ -4,8 +4,6 @@ add: olcAttributeTypes
 olcAttributeTypes: ( 1.3.6.1.4.1.38414.6.10.1NAME 'printerWindowsInfFile' DESC 'Path to windows inf file for this printer' EQUALITY caseIgnoreIA5Match SUBSTR caseIgnoreIA5SubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 olcAttributeTypes: ( 1.3.6.1.4.1.38414.6.10.2NAME 'printerWindowsDriverDir' DESC 'Path to directory that contains windows drivers for this printer' EQUALITY caseIgnoreIA5Match SUBSTR caseIgnoreIA5SubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 olcAttributeTypes: ( 1.3.6.1.4.1.38414.6.10.3NAME 'printerWindowsDriverName' DESC 'Windows name of the printer driver' EQUALITY caseIgnoreIA5Match SUBSTR caseIgnoreIA5SubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
-olcAttributeTypes: ( 1.3.6.1.4.1.10098.1.1.9.83 NAME 'goDHCPServerStatus' DESC 'Server status container - on / off / fail' EQUALITY caseExactIA5Match SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
-olcAttributeTypes: ( 1.3.6.1.4.1.10098.1.1.9.84 NAME 'goDNSServerStatus' DESC 'Server status container - on / off / fail' EQUALITY caseExactIA5Match SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
 -
 replace: olcObjectClasses
 # Object Class
