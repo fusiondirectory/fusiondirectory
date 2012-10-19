@@ -233,6 +233,7 @@ class ogrouptabs extends tabs
       ),
       "/[SW]/" => array(
         'workstartup'     => _('Workstartup'),
+        'debconfStartup'  => _('Debconf'),
         'faiStartup'      => _('FAI'),
         'faiSummary'      => _('FAI summary'),
         'argonautClient'  => _('Argonaut client'),
