@@ -3122,6 +3122,33 @@ function get_post($name)
   return(validate($_POST[$name]));
 }
 
+/*!
+ * \brief Run htmlentities on the var, or on its members if it's an array. Ignore booleans.
+ *
+ * \param string $name the var to escape
+ *
+ * \return string
+ */
+function htmlencode($value)
+{
+  // Take care of array, recursivly convert each array entry.
+  if (is_array($value)) {
+    foreach ($value as $key => $val) {
+      $value[$key] = htmlencode($val);
+    }
+    return $value;
+  }
+
+  // Do not touch boolean values, we may break them.
+  if ($value === TRUE || $value === FALSE ) {
+    return $value;
+  }
+
+  // Return a fixed string which can then be used in HTML fields without
+  // breaking the layout or the values. This allows to use '"<> in input fields.
+  return htmlentities($value, ENT_QUOTES, 'utf-8');
+}
+
 
 /*!
  * \brief Return class name in correct case
