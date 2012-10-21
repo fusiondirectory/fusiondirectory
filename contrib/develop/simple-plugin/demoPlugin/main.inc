@@ -1,0 +1,5 @@
+<?php
+
+demoPlugin::userMainInc('demoPlugin');
+
+?>

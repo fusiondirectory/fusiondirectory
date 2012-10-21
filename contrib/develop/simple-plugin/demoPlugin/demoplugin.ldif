@@ -1,0 +1,13 @@
+dn: cn=demoplugin,cn=schema,cn=config
+objectClass: olcSchemaConfig
+cn: cn=demoplugin
+##
+## demoplugin.schema - Needed by Fusion Directory for the Demo Plugin
+##
+olcAttributeTypes: ( 1.3.6.1.4.1.38414.1337.10.1NAME 'hairColor' DESC 'Fusion Directory - Demo plugin, hair color.' EQUALITY caseExactIA5Match SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+olcAttributeTypes: ( 1.3.6.1.4.1.38414.1337.10.2NAME 'hairLength' DESC 'Fusion Directory - Demo plugin, hair length.' EQUALITY caseExactIA5Match SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE )
+olcAttributeTypes: ( 1.3.6.1.4.1.38414.1337.11.1NAME 'bicycleBrand' DESC 'Fusion Directory - Demo plugin, bicycle brand.' EQUALITY caseExactIA5Match SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE )
+olcAttributeTypes: ( 1.3.6.1.4.1.38414.1337.11.2NAME 'bicycleBell' DESC 'Fusion Directory - Demo plugin, bicyle bell.' EQUALITY booleanMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 SINGLE-VALUE )
+olcAttributeTypes: ( 1.3.6.1.4.1.38414.1337.12.1NAME 'ftpLoginInfo' DESC 'Fusion Directory - Demo plugin, FTP login informations.' EQUALITY caseExactIA5Match SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE )
+# Object Class
+olcObjectClasses: ( 1.3.6.1.4.1.38414.1337.2.1NAME 'demoPlugin' DESC 'An argonaut server' SUP top AUXILIARY MUST ( hairColor $ bicycleBrand ) MAY ( hairLength $ bicycleBell $ ftpLoginInfo) )
