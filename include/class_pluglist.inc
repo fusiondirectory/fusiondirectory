@@ -65,7 +65,18 @@ class pluglist {
     foreach ($classes as $cname) {
       $cmethods = get_class_methods($cname);
       if (in_array_ics('plInfo', $cmethods)) {
-        $this->info[$cname] = call_user_func(array($cname, 'plInfo'));
+        $infos = call_user_func(array($cname, 'plInfo'));
+        if (is_subclass_of($cname, 'simpleService')) {
+          $infos['plSelfModify']  = FALSE;
+          unset($infos['plObjectType']); // services are not part of any objectType
+          $infos['plCategory']    = array('server');
+          $infos['plSection']     = array('administration');
+        } else {
+          if (!isset($infos['plSelfModify'])) {
+            $infos['plSelfModify'] = FALSE;
+          }
+        }
+        $this->info[$cname] = $infos;
       }
     }
 

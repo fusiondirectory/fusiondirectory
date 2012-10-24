@@ -1149,7 +1149,7 @@ class config  {
       $deb_system   = file_exists('/etc/debian_version');
       return(!($deb_system && ($ini_lifetime < $cfg_lifetime)));
     }else{
-      return(TRUE);
+      return TRUE;
     }
   }
 
@@ -1173,7 +1173,7 @@ class config  {
               sprintf(_("The snapshot functionality is enabled, but the required variable '%s' is not set."),
                       "snapshotBase"), ERROR_DIALOG);
         }
-        return(FALSE);
+        return FALSE;
       }
 
       /* Check if the snapshot_base is defined */
@@ -1185,32 +1185,32 @@ class config  {
           msg_dialog::display(_("Configuration error"),
               sprintf(_("The snapshot functionality is enabled, but the required compression module is missing. Please install '%s'."),"php5-zip / php5-gzip"), ERROR_DIALOG);
         }
-        return(FALSE);
+        return FALSE;
       }
 
       /* check if there are special server configurations for snapshots */
-      if ($this->get_cfg_value("snapshotURI") != ""){
+      if ($this->get_cfg_value("snapshotURI") != "") {
 
         /* check if all required vars are available to create a new ldap connection */
         $missing = "";
-        foreach(array("snapshotURI","snapshotAdminDn","snapshotAdminPassword","snapshotBase") as $var){
-          if($this->get_cfg_value($var) == ""){
+        foreach (array("snapshotURI","snapshotAdminDn","snapshotAdminPassword","snapshotBase") as $var) {
+          if ($this->get_cfg_value($var) == "") {
             $missing .= $var." ";
 
             /* Send message if not done already */
-            if(!session::is_set("snapshotFailMessageSend")){
-              session::set("snapshotFailMessageSend",TRUE);
+            if (!session::is_set("snapshotFailMessageSend")) {
+              session::set("snapshotFailMessageSend", TRUE);
               msg_dialog::display(_("Configuration error"),
                   sprintf(_("The snapshot functionality is enabled, but the required variable '%s' is not set."),
                     $missing), ERROR_DIALOG);
             }
-            return(FALSE);
+            return FALSE;
           }
-                    }
-            }
-            return(TRUE);
+        }
+      }
+      return TRUE;
     }
-    return(FALSE);
+    return FALSE;
   }
 
   function loadPlist ($plist)
@@ -1218,10 +1218,11 @@ class config  {
     $this->data['OBJECTS'] = array();
     foreach ($plist->info as $class => $plInfo) {
       if (isset($plInfo['plObjectType'])) {
+        $entry = array('CLASS' => $class,'NAME' => $plInfo['plShortName']);
         foreach ($plInfo['plObjectType'] as $key => $value) {
-          $entry = array('CLASS' => $class,'NAME' => $plInfo['plShortName']);
           if (is_numeric($key)) { // This is not the main tab
             $tabclass = strtoupper($value)."TABS";
+            @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $tabclass, "Adding $class to tab list");
             if (!isset($this->data['TABS'][$tabclass])) {
               $this->data['TABS'][$tabclass] = array();
             }
@@ -1232,6 +1233,7 @@ class config  {
             }
             $this->data['OBJECTS'][strtoupper($key)] = $value;
             $tabclass = strtoupper($key)."TABS";
+            @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $tabclass, "Adding $class as main tab of");
             if (!isset($this->data['TABS'][$tabclass])) {
               $this->data['TABS'][$tabclass] = array();
             }
@@ -1239,10 +1241,18 @@ class config  {
           }
 
         }
+      } elseif (class_available($class) && is_subclass_of($class, 'simpleService')) {
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class, "Adding service");
+        if (!isset($this->data['TABS']['SERVERSERVICE'])) {
+          $this->data['TABS']['SERVERSERVICE'] = array();
+        }
+        $this->data['TABS']['SERVERSERVICE'][] = array(
+          'CLASS' => $class,
+          'NAME' => $plInfo['plShortName']
+        );
       }
     }
   }
 }
 
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
