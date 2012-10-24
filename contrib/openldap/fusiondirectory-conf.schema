@@ -1,0 +1,86 @@
+##
+## fusiondirectory-conf.schema - Needed by Fusion Directory for its configuration
+##
+
+#  userRDN        ="ou=people"
+#  groupRDN       ="ou=groups"
+#  debconfRDN     ="ou=debconf"
+
+#  honourUnitTags ="false"
+#  useSaslForKerberos ="false"
+#  rfc2307bis         ="false"
+#  personalTitleInDN  ="false"
+#  strictNamingRules    ="true"
+#  mailAttribute      ="mail"
+#  mailMethod         ="cyrus"
+#  gosaSharedPrefix   =""
+#  mailUserCreation   =""
+#  mailFolderCreation =""
+#  imapTimeout        ="10"
+#  honourIvbbAttributes ="false"
+#  sambaSID         ="0-815-4711"
+#  sambaRidBase     ="1"
+#  enableSnapshots  ="true"
+#  snapshotBase     ="ou=snapshots,dc=mcmic,dc=test"
+#  snapshotAdminDn  ="cn=admin,dc=mcmic,dc=test"
+#  snapshotAdminPassword  ="secret"
+#  snapshotURI  ="ldap://localhost:389"
+#  saslRealm    =""
+#  saslExop     =""
+#  config       ="ou=gosa,ou=configs,ou=systems,dc=mcmic,dc=test"
+
+# Attributes
+attributetype ( 1.3.6.1.4.1.38414.8.10.1 NAME 'fdPasswordDefaultHash'
+  DESC 'FusionDirectory - password default hash'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
+attributetype ( 1.3.6.1.4.1.38414.8.10.2 NAME 'fdAccountPrimaryAttribute'
+  DESC 'FusionDirectory - attribute that should be used in user dn'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
+attributetype ( 1.3.6.1.4.1.38414.8.10.3 NAME 'fdAccountRDN'
+  DESC 'FusionDirectory - '
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
+attributetype ( 1.3.6.1.4.1.38414.8.10.4 NAME 'fdLoginAttribute'
+  DESC 'FusionDirectory attribute that will be used for login'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
+attributetype ( 1.3.6.1.4.1.38414.8.10.5 NAME 'fdUidNumberBase'
+  DESC 'FusionDirectory - uid number base'
+  EQUALITY integerMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+  SINGLE-VALUE)
+
+attributetype ( 1.3.6.1.4.1.38414.8.10.6 NAME 'fdGidNumberBase'
+  DESC 'FusionDirectory - gid number base'
+  EQUALITY integerMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+  SINGLE-VALUE)
+
+attributetype ( 1.3.6.1.4.1.38414.8.10.7 NAME 'fdTimezone'
+  DESC 'FusionDirectory - timezone'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
+# Object Class
+objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusiondirectoryConf'
+  DESC 'FusionDirectory configuration'
+  SUP top AUXILIARY
+  MUST (  )
+  MAY ( fdPasswordDefaultHash $ fdAccountPrimaryAttribute $ fdAccountRDN $
+        fdLoginAttribute $ fdUidNumberBase $ fdGidNumberBase $ fdTimezone ) )
