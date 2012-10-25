@@ -461,6 +461,9 @@ class config  {
       $this->current['ADMINPASSWORD']= $referral['ADMINPASSWORD'];
     }
 
+    /* Load in-ldap configuration */
+    $this->load_inldap_config();
+
     /* Load server informations */
     $this->load_servers();
   }
@@ -715,6 +718,23 @@ class config  {
       }
     }
 
+  }
+
+  function load_inldap_config()
+  {
+    $ldap = $this->get_ldap_link();
+    $ldap->cat("cn=config,ou=configs,".$this->current['BASE']);
+    if ($attrs = $ldap->fetch()) {
+      for ($i = 0; $i < $attrs['count']; $i++) {
+        $key = $attrs[$i];
+        if (preg_match('/^fd/',$key)) {
+          $value = $attrs[$key][0];
+          $key = strtoupper(preg_replace('/^fd/','',$key));
+          $this->current[$key] = $value;
+          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $value, "Setting $key to");
+        }
+      }
+    }
   }
 
 
@@ -1111,16 +1131,16 @@ class config  {
    *
    * \return string the configuration value if found or the default value
    */
-  function get_cfg_value($name, $default= "") {
-    $name= strtoupper($name);
+  function get_cfg_value($name, $default = "") {
+    $name = strtoupper($name);
 
     /* Check if we have a current value for $name */
-    if (isset($this->current[$name])){
+    if (isset($this->current[$name])) {
       return ($this->current[$name]);
     }
 
     /* Check if we have a global value for $name */
-    if (isset($this->data["MAIN"][$name])){
+    if (isset($this->data["MAIN"][$name])) {
       return ($this->data["MAIN"][$name]);
     }
 
