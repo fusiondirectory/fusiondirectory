@@ -87,7 +87,7 @@ class configInLdap extends simplePlugin
           new SelectAttribute (
             _('People DN attribute'), _('Attribute to use at the beginning of users dn'),
             'fdAccountPrimaryAttribute', TRUE,
-            array('cn', 'uid')
+            array('uid', 'cn')
           ),
           new BooleanAttribute (
             _('Include personal title in user DN'),

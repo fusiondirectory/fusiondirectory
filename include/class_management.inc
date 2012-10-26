@@ -25,7 +25,7 @@
  * Source code for the class management
  */
 
-/*! 
+/*!
  * \brief This class contains all the function needed to manage various
  * functions like new,save, edit, apply, cut/copy/paste , snapshot etc...
  */
@@ -130,7 +130,7 @@ class management
     $this->registerAction("cancelSnapshot","closeDialogs");
   }
 
-  /*! 
+  /*!
    * \brief  Execute this plugin
    *          Handle actions/events, locking, snapshots, dialogs, tabs,...
    */
@@ -172,7 +172,7 @@ class management
 
     // Display tab object.
     if($this->tabObject instanceOf tabs || $this->tabObject instanceOf multi_plug){
-#      $this->tabObject->save_object();
+      $this->tabObject->save_object();
       $display = $this->tabObject->execute();
       $display.= $this->_getTabFooter();
       return($this->getHeader().$display);
@@ -212,7 +212,7 @@ class management
     return($this->filter);
   }
 
-  /*! 
+  /*!
    * \brief  Generates the plugin header which is displayed whenever a tab object is
    *           opened.
    */
@@ -231,7 +231,7 @@ class management
   }
 
 
-  /*! 
+  /*!
    * \brief  Generates the footer which is used whenever a tab object is
    *           displayed.
    */
@@ -277,14 +277,14 @@ class management
   }
 
 
-  /*! 
+  /*!
    * \brief  Initiates the removal for the given entries
    *           and displays a confirmation dialog.
    *
    * \param  String  $action  The name of the action which was the used as trigger.
-   *  
+   *
    * \param  Array   $target  A list of object dns, which should be affected by this method.
-   * 
+   *
    * \param  Array   $all     A combination of both 'action' and 'target'.
    */
   protected function removeEntryRequested($action="",$target=array(),$all=array())
@@ -331,19 +331,19 @@ class management
   }
 
 
-  /*! 
+  /*!
    * \brief  Object removal was confirmed, now remove the requested entries.
    *
    * \param  String  $action  The name of the action which was the used as trigger.
-   *  
+   *
    * \param  Array   $target  A list of object dns, which should be affected by this method.
-   * 
+   *
    * \param  Array   $all     A combination of both 'action' and 'target'.
-   * 
+   *
    * \param String $altTabClass Empty string.
-   * 
+   *
    * \param String $altTabType Empty string.
-   * 
+   *
    * \param String $altAclCategory Empty string.
    */
   function removeEntryConfirmed($action="",$target=array(),$all=array(),
@@ -385,7 +385,7 @@ class management
   }
 
 
-  /*! 
+  /*!
    * \brief  Detects actions/events send by the ui
    *           and the corresponding targets.
    */
@@ -434,13 +434,13 @@ class management
   }
 
 
-  /*! 
+  /*!
    * \brief  Opens the snapshot creation dialog for the given target.
    *
    * \param  String  $action  The name of the action which was the used as trigger.
-   * 
+   *
    * \param  Array   $target  A list of object dns, which should be affected by this method.
-   * 
+   *
    * \param  Array   $all     A combination of both 'action' and 'target'.
    */
   function createSnapshotDialog($action="",$target=array(),$all=array())
@@ -461,14 +461,14 @@ class management
   }
 
 
-  /*! 
+  /*!
    * \brief  Creates a snapshot new entry - This method is called when the somebody
    *           clicks 'save' in the "Create snapshot dialog" (see management::createSnapshotDialog).
    *
    *  \param  String  $action  The name of the action which was the used as trigger.
-   * 
+   *
    *  \param  Array   $target  A list of object dns, which should be affected by this method.
-   * 
+   *
    *  \param  Array   $all     A combination of both 'action' and 'target'.
    */
   function saveSnapshot($action="",$target=array(),$all=array())
@@ -494,9 +494,9 @@ class management
    *         The dn of the snapshot entry has to be given as ['target'] parameter.
    *
    * \param  String  $action  The name of the action which was the used as trigger.
-   * 
+   *
    * \param  Array   $target  A list of object dns, which should be affected by this method.
-   * 
+   *
    * \param  Array   $all     A combination of both 'action' and 'target'.
    */
   function restoreSnapshot($action="",$target=array(),$all=array())
@@ -513,14 +513,14 @@ class management
   }
 
 
-  /*! 
+  /*!
    * \brief  Displays the "Restore snapshot dialog" for a given target.
    *          If no target is specified, open the restore removed object
    *           dialog.
    * \param  String  $action  The name of the action which was the used as trigger.
-   * 
+   *
    * \param  Array   $target  A list of object dns, which should be affected by this method.
-   * 
+   *
    * \param  Array   $all'     A combination of both 'action' and 'target'.
    */
   function restoreSnapshotDialog($action="",$target=array(),$all=array())
@@ -576,11 +576,11 @@ class management
    * \param  Array   $target  A list of object dns, which should be affected by this method.
    *
    * \param  Array   $all     A combination of both 'action' and 'target'.
-   * 
+   *
    * \param String $altTabClass Empty string.
-   * 
+   *
    * \param String $altTabType Empty string.
-   * 
+   *
    * \param String $altAclCategory Empty string.
    */
   function newEntry($action="",$target=array(),$all=array(), $altTabClass ="", $altTabType = "", $altAclCategory="")
@@ -635,19 +635,19 @@ class management
   }
 
 
-  /*! 
+  /*!
    * \brief  This method opens an existing object or a list of existing objects to be edited.
    *
    * \param  String  $action  The name of the action which was the used as trigger.
-   * 
+   *
    * \param  Array   $target  A list of object dns, which should be affected by this method.
-   * 
+   *
    * \param  Array   $all     A combination of both 'action' and 'target'.
-   * 
+   *
    * \param String $altTabClass Empty string.
-   * 
+   *
    * \param String $altTabType Empty string.
-   * 
+   *
    * \param String $altAclCategory Empty string.
    */
   function editEntry($action="",$target=array(),$all=array(), $altTabClass ="", $altTabType = "", $altAclCategory="")
@@ -744,7 +744,7 @@ class management
   }
 
 
-  /*! 
+  /*!
    * \brief  Save object modifications and closes dialogs (returns to object listing).
    *          - Calls 'ldap::check' to validate the given input.
    *          - Calls 'ldap::save' to save back object modifications (e.g. to ldap).
@@ -846,7 +846,7 @@ class management
   }
 
 
-  /*! 
+  /*!
    * \brief  Removes ldap object locks created by this class.
    *         Whenever an object is edited, we create locks to avoid
    *         concurrent modifications.
@@ -863,22 +863,22 @@ class management
   }
 
 
-  /*! 
+  /*!
    * \brief  This method is used to queue and process copy&paste actions.
    *         Allows to copy, cut and paste mutliple entries at once.
-   * 
+   *
    * \param String $action The name of the action which was the used as trigger.
-   * 
+   *
    * \param Array $target A list of object dns, which should be affected by this method.
-   * 
+   *
    * \param Array $all A combination of both 'action' and 'target'.
-   * 
+   *
    * \param String $altTabClass Empty string.
-   * 
+   *
    * \param $altTabType Empty string.
-   * 
+   *
    * \param $altAclCategory Empty string.
-   * 
+   *
    * \param $altAclPlugin Empty string.
    */
   function copyPasteHandler($action="",$target=array(),$all=array(),
@@ -937,9 +937,9 @@ class management
 
   /*!
    * \brief Set a new filter
-   * 
+   *
    * \param string $str The new filter
-   */ 
+   */
   function setFilter($str) {
     $this->filter = $str;
   }

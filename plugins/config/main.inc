@@ -18,5 +18,5 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 $configBranch = 'ou=configs,'.$config->current['BASE'];
-configInLdap::userMainInc('configInLdap',"cn=config,$configBranch");
+configInLdap::userMainInc('configInLdap', "cn=config,$configBranch", TRUE);
 ?>

@@ -148,48 +148,26 @@ class tabs
    */
   function execute()
   {
-    /* Ensure that the currently selected tab is valid. */
-    if(!isset($this->by_name[$this->current])) $this->current = key($this->by_name);
-
-    /* Rotate current to last */
-    $this->last= $this->current;
-
-    /* Look for pressed tab button */
-    foreach ($this->by_object as $class => &$obj){
-      if (isset($_POST[$class]) || (isset($_POST['arg']) && $_POST['arg'] == "$class")){
-        $this->current= $class;
-        break;
-      }
-    }
-
-    /* Save last tab object */
-    if ($this->last == $this->current){
-      $this->save_object(TRUE);
-    } else {
-      $this->save_object(FALSE);
-    }
-
     /* Show object */
     $display = "<table summary=\"\" cellpadding=4 cellspacing=0 border=0 style=\"width:100%; background-color:#F8F8F8; border-style:solid; border-color:#AAA; border-top-width:0px; border-bottom-width:1px; border-left-width:1px; border-right-width:1px;\">\n";
     $display.= "<tr><td>\n";
 
     /* If multiple edit is enabled for this tab,
        we have to display different templates */
-    if(!$this->multiple_support_active){
-      $display.= $this->by_object[$this->current]->execute();
-    }else{
-      $display.= $this->by_object[$this->current]->multiple_execute();
+    if (!$this->multiple_support_active) {
+      $display .= $this->by_object[$this->current]->execute();
+    } else {
+      $display .= $this->by_object[$this->current]->multiple_execute();
     }
     $modal_dialog = $this->by_object[$this->current]->is_modal_dialog();
 
     /* Build tab line */
-    $modal = TRUE;
-    $tabs= $this->gen_tabs($modal_dialog);
+    $tabs   = $this->gen_tabs($modal_dialog);
 
     /* Footer for tabbed dialog */
     $display = $tabs.$display."</td></tr></table>";
 
-    return ($display);
+    return $display;
   }
 
   /*!
@@ -197,36 +175,32 @@ class tabs
    *
    * \param boolean $save_current false
    */
-  function save_object($save_current= FALSE)
+  function save_object()
   {
-    /* Save last tab */
-    if ($this->last != ""){
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
-          $this->last, "Saving");
+    /* Ensure that the currently selected tab is valid. */
+    if(!isset($this->by_name[$this->current])) {
+      $this->current = key($this->by_name);
+    }
 
-      if(!$this->multiple_support_active){
-        $this->by_object[$this->last]->save_object ();
-      }else{
-        $this->by_object[$this->last]->multiple_save_object();
+    /* Rotate current to last */
+    $this->last = $this->current;
+
+    /* Look for pressed tab button */
+    foreach ($this->by_object as $class => &$obj) {
+      if (isset($_POST[$class]) || (isset($_POST['arg']) && $_POST['arg'] == "$class")) {
+        $this->current = $class;
+        break;
       }
     }
 
-    /* Skip if curent and last are the same object */
-    if ($this->last == $this->current){
-      return;
-    }
+    /* Save last tab */
+    if ($this->last != "") {
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->last, "Saving");
 
-    $obj= @$this->by_object[$this->current];
-    $this->disabled= $obj->parent->disabled;
-
-    if ($save_current){
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
-          $this->current, "Saving (current)");
-
-      if(!$this->multiple_support_active){
-        $obj->save_object();
-      }else{
-        $obj->multiple_save_object();
+      if (!$this->multiple_support_active) {
+        $this->by_object[$this->last]->save_object();
+      } else {
+        $this->by_object[$this->last]->multiple_save_object();
       }
     }
   }
@@ -340,8 +314,7 @@ class tabs
    */
   function check($ignore_account= FALSE)
   {
-    $this->save_object(TRUE);
-    $messages= array();
+    $messages = array();
 
     $current_set = FALSE;
 
