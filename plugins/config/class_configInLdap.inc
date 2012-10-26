@@ -43,23 +43,6 @@ class configInLdap extends simplePlugin
   static function getAttributesInfo ()
   {
     return array(
-      'schema_setup' => array(
-        'name'  => _('Schema setup'),
-        'attrs' => array(
-          new BooleanAttribute (
-            _('rfc237bis'),
-            _('Enables rfc2307bis style groups. You can use member attributes instead of memberUid in this case.'),
-            'fdRfc2307bis', FALSE,
-            FALSE
-          ),
-          new BooleanAttribute (
-            _('schemaCheck'),
-            _('Enables schema checking during login.'),
-            'fdSchemaCheck', FALSE,
-            FALSE
-          ),
-        )
-      ),
       'look_n_feel' => array(
         'name'  => _('Look n feel'),
         'attrs' => array(
@@ -78,6 +61,23 @@ class configInLdap extends simplePlugin
             _('Timezone'), _('Timezone to be used'),
             'fdTimezone', TRUE,
             array('America/New_York')
+          ),
+        )
+      ),
+      'schema_setup' => array(
+        'name'  => _('Schema setup'),
+        'attrs' => array(
+          new BooleanAttribute (
+            _('rfc237bis'),
+            _('Enables rfc2307bis style groups. You can use member attributes instead of memberUid in this case.'),
+            'fdRfc2307bis', FALSE,
+            FALSE
+          ),
+          new BooleanAttribute (
+            _('schemaCheck'),
+            _('Enables schema checking during login.'),
+            'fdSchemaCheck', FALSE,
+            FALSE
           ),
         )
       ),
@@ -215,6 +215,92 @@ class configInLdap extends simplePlugin
             _('Event logging on FusionDirectory side.'),
             'fdLogging', FALSE,
             TRUE
+          ),
+        )
+      ),
+      'login' => array(
+        'name'  => _('Login and session'),
+        'attrs' => array(
+          new SelectAttribute (
+            _('Login attribute'),
+            _('Which LDAP attribute should be used as the login name during login.'),
+            'fdLoginAttribute', TRUE,
+            array('uid', 'mail', 'uid,mail'), 'uid',
+            array('uid', 'mail', 'both')
+          ),
+          new BooleanAttribute (
+            _('Enfore encrypted connections'),
+            _('Enables PHP security checks to force encrypted access (https) to the web interface.'),
+            'fdForceSSL'
+          ),
+          new BooleanAttribute (
+            _('Warn if session is not encrypted'),
+            _('will display a warning to the user when http is used instead of https.'),
+            'fdWarnSSL', FALSE,
+            TRUE
+          ),
+          new BooleanAttribute (
+            _('Remember dialog filter settings'),
+            _('Store filter and plugin settings inside of a cookie.'),
+            'fdStoreFilterSettings', FALSE,
+            TRUE
+          ),
+          new IntAttribute (
+            _('Session lifetime'), _('Defines when a session will expire in seconds.'),
+            'fdSessionLifeTime', TRUE,
+            0 /*min*/, FALSE /*no max*/, 1800
+          ),
+        )
+      ),
+      'debug' => array(
+        'name'  => _('Debugging'),
+        'attrs' => array(
+          new BooleanAttribute (
+            _('Display errors'),
+            _('Shows PHP errors in the upper part of the screen. This should be disabled in productive deployments, because there might be some passwords in it.'),
+            'fdDisplayErrors'
+          ),
+          new IntAttribute (
+            _('Maximum LDAP query time'), _('Stop LDAP actions if there is no answer within the specified number of seconds.'),
+            'fdLdapMaxQueryTime', FALSE,
+            0 /*min*/, FALSE /*no max*/
+          ),
+          new BooleanAttribute (
+            _('Log LDAP statistics'),
+            _('Track LDAP timing statistics to the syslog. This may help to find indexing problems or bad search filters.'),
+            'fdLdapStats'
+          ),
+          new SelectAttribute (
+            _('Debug level'),
+            _('Display certain information on each page load.'),
+            'fdDebugLevel', FALSE,
+            array(0, 1), 0,
+            array("0 Disabled", "1 Enabled")
+          ),
+        )
+      ),
+      'snapshots' => array(
+        'name'  => _('Snapshots / Undo'),
+        'attrs' => array(
+          new BooleanAttribute (
+            _('Enable snapshots'), _('This enables you to save certain states of entries and restore them later on.'),
+            'fdEnableSnapshots'
+          ),
+          new StringAttribute (
+            _('Snapshot base'), _('The base where snapshots should be stored inside of the LDAP.'),
+            'fdSnapshotBase'
+          ),
+          new StringAttribute (
+            _('Snapshot server'), _('LDAP URI for the server which is used to do object snapshots.'),
+            'fdSnapshotURI'
+          ),
+          new StringAttribute (
+            _('Snapshot user'), _('The user which is used to authenticate when connecting to snapshot server.'),
+            'fdSnapshotAdminDn'
+          ),
+          new PasswordAttribute (
+            _('Snapshot password'), _('The credentials which are used in combination with snapshot user in order to authenticate.'),
+            'fdSnapshotAdminPassword'
           ),
         )
       ),
