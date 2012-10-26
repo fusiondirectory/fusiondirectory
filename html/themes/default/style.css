@@ -2026,6 +2026,7 @@ color:#B22;
 .plugin_section {
 display:block;
 float:left;
+clear:left;
 width:49%;
 vertical-align:top;
 border:1px solid #B0B0B0;
@@ -2038,6 +2039,7 @@ position: relative;
 }
 .plugin_section:nth-child(even) {
 float:right;
+clear:right;
 margin-left:0;
 margin-right:0.5%;
 }
