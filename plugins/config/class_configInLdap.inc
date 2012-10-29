@@ -256,7 +256,7 @@ class configInLdap extends simplePlugin
             array('uid', 'mail', 'both')
           ),
           new BooleanAttribute (
-            _('Enfore encrypted connections'),
+            _('Enforce encrypted connections'),
             _('Enables PHP security checks to force encrypted access (https) to the web interface.'),
             'fdForceSSL'
           ),
@@ -302,7 +302,7 @@ class configInLdap extends simplePlugin
               _('Debug level'),
               _('Display certain information on each page load.'),
               'fdDebugLevel', FALSE,
-              array(DEBUG_TRACE,  DEBUG_LDAP, DEBUG_DB,   DEBUG_SHELL,  DEBUG_POST
+              array(DEBUG_TRACE,  DEBUG_LDAP, DEBUG_DB,   DEBUG_SHELL,  DEBUG_POST,
                     DEBUG_SESSION,  DEBUG_ACL,  DEBUG_SI, DEBUG_MAIL),
                     DEBUG_TRACE,
               array('Trace',      'LDAP',     'Database', 'Shell',      'POST',
@@ -350,6 +350,42 @@ class configInLdap extends simplePlugin
     $methods = passwordMethod::get_available_methods();
     $methods = $methods['name'];
     $this->attributesInfo['password']['attrs']['fdPasswordDefaultHash']->setChoices($methods);
+    $this->attributesInfo['snapshots']['attrs']['fdEnableSnapshots']->setManagedAttributes(
+      array(
+        'disable' => array (
+          FALSE => array (
+            'snapshots' => array (
+              'fdSnapshotBase',
+              'fdSnapshotURI',
+              'fdSnapshotAdminDn',
+              'fdSnapshotAdminPassword',
+            )
+          )
+        )
+      )
+    );
+    $this->attributesInfo['people_and_group']['attrs']['fdAccountPrimaryAttribute']->setManagedAttributes(
+      array(
+        'erase' => array (
+          'uid' => array (
+            'people_and_group' => array (
+              'fdPersonalTitleInDN',
+            )
+          )
+        )
+      )
+    );
+    $this->attributesInfo['login']['attrs']['fdForceSSL']->setManagedAttributes(
+      array(
+        'disable' => array (
+          TRUE => array (
+            'login' => array (
+              'fdWarnSSL',
+            )
+          )
+        )
+      )
+    );
 
   }
 
