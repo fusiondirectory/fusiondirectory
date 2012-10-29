@@ -305,15 +305,6 @@ attributetype ( 1.3.6.1.4.1.38414.8.18.1 NAME 'fdHonourIvbbAttributes'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
   SINGLE-VALUE )
 
-# Samba settings
-
-#~ sambaMachineAccountRDN="{$cv.generic_settings.wws_ou}"
-#~ sambaHashHook='{$cv.samba_settings.smbhash}'
-#~ sambaIdMapping="true"
-#~ sambaSID="{$cv.samba_settings.samba_sid}"
-#~ sambaRidBase="{$cv.samba_settings.samba_rid_active}"
-
-
 # Object Class
 objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
   DESC 'FusionDirectory configuration'

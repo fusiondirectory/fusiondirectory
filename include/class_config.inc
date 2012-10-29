@@ -737,10 +737,14 @@ class config  {
       for ($i = 0; $i < $attrs['count']; $i++) {
         $key = $attrs[$i];
         if (preg_match('/^fd/',$key)) {
-          $value = $attrs[$key][0];
+          if (isset($attrs[$key]['count']) && ($attrs[$key]['count'] > 1)) {
+            unset($attrs['count']);
+            $value = join(',', $attrs[$key]);
+          } else {
+            $value = $attrs[$key][0];
+          }
           $key = strtoupper(preg_replace('/^fd/','',$key));
           $this->current[$key] = $value;
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $value, "Setting $key to");
         }
       }
     }

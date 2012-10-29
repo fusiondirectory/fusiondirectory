@@ -3324,7 +3324,7 @@ function generate_smb_nt_hash($password)
   global $config;
 
   $tmp = $config->get_cfg_value('sambaHashHook')." ".escapeshellarg($password);
-  @DEBUG (DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $tmp, "Execute");
+  @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $tmp, "Execute");
 
   exec($tmp, $ar);
   flush();
