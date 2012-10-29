@@ -45,7 +45,7 @@ session::set('limit_exceeded',FALSE);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   @DEBUG (DEBUG_POST, __LINE__, __FUNCTION__, __FILE__, $_POST, "_POST");
 }
-@DEBUG (DEBUG_POST, __LINE__, __FUNCTION__, __FILE__, session::get_all(), "_SESSION");
+@DEBUG (DEBUG_SESSION, __LINE__, __FUNCTION__, __FILE__, session::get_all(), "_SESSION");
 
 /* Logged in? Simple security check */
 if (!session::global_is_set('config')) {
@@ -61,7 +61,7 @@ if ($_SERVER['REMOTE_ADDR'] != $ui->ip) {
   header ("Location: logout.php");
   exit;
 }
-$config= session::global_get('config');
+$config = session::global_get('config');
 $config->check_and_reload();
 
 /* Check for invalid sessions */

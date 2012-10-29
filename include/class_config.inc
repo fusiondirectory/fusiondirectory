@@ -131,6 +131,15 @@ class config  {
       $this->parse($this->filename);
       $this->set_current($this->current['NAME']);
     }
+
+    $debugLevel = $this->get_cfg_value('DEBUGLEVEL');
+    if ($debugLevel & DEBUG_CONFIG) { // value from LDAP can't activate DEBUG_CONFIG
+      $debugLevel -= DEBUG_CONFIG;
+    }
+    if (isset($this->data['MAIN']['DEBUGLEVEL'])) {
+      $debugLevel |= $this->data['MAIN']['DEBUGLEVEL'];
+    }
+    session::global_set('DEBUGLEVEL', $debugLevel);
   }
 
 

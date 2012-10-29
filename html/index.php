@@ -143,20 +143,20 @@ if(isset($_POST['javascript']) && $_POST['javascript'] == "true") {
 }
 
 /* Check if fusiondirectory.conf (.CONFIG_FILE) is accessible */
-if (!is_readable(CONFIG_DIR."/".CONFIG_FILE)){
-  msg_dialog::display(_("Configuration error"),sprintf(_("FusionDirectory configuration %s/%s is not readable. Aborted."), CONFIG_DIR,CONFIG_FILE),FATAL_ERROR_DIALOG);
+if (!is_readable(CONFIG_DIR."/".CONFIG_FILE)) {
+  msg_dialog::display(_("Configuration error"), sprintf(_("FusionDirectory configuration %s/%s is not readable. Aborted."), CONFIG_DIR,CONFIG_FILE),FATAL_ERROR_DIALOG);
   exit();
 }
 
 /* Parse configuration file */
-$config= new config(CONFIG_DIR."/".CONFIG_FILE, $BASE_DIR);
-session::global_set('DEBUGLEVEL',$config->get_cfg_value('DEBUGLEVEL'));
-if ($_SERVER["REQUEST_METHOD"] != "POST"){
+$config = new config(CONFIG_DIR."/".CONFIG_FILE, $BASE_DIR);
+session::global_set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
+if ($_SERVER["REQUEST_METHOD"] != "POST") {
   @DEBUG (DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, "config");
 }
 
 /* Set template compile directory */
-$smarty->compile_dir= $config->get_cfg_value("templateCompileDirectory", SPOOL_DIR);
+$smarty->compile_dir = $config->get_cfg_value("templateCompileDirectory", SPOOL_DIR);
 
 /* Check for compile directory */
 if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))){

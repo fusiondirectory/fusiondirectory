@@ -18,6 +18,33 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/* Debug level is an OR combination of several values */
+class DebugLevelAttribute extends SetAttribute
+{
+  protected function loadAttrValue ($attrs)
+  {
+    if (isset($attrs[$this->getLdapName()])) {
+      $value = $attrs[$this->getLdapName()][0];
+      $this->value = array();
+      foreach ($this->attribute->getChoices() as $choice) {
+        if ($value & $choice) {
+          $this->value[] = $choice;
+        }
+      }
+    } else {
+      $this->resetToDefault();
+    }
+  }
+
+  function computeLdapValue()
+  {
+    $value = 0;
+    foreach ($this->value as $v) {
+      $value |= $v;
+    }
+    return $value;
+  }
+}
 
 class configInLdap extends simplePlugin
 {
@@ -270,12 +297,17 @@ class configInLdap extends simplePlugin
             _('Track LDAP timing statistics to the syslog. This may help to find indexing problems or bad search filters.'),
             'fdLdapStats'
           ),
-          new SelectAttribute (
-            _('Debug level'),
-            _('Display certain information on each page load.'),
-            'fdDebugLevel', FALSE,
-            array(0, 1), 0,
-            array("0 Disabled", "1 Enabled")
+          new DebugLevelAttribute (
+            new SelectAttribute (
+              _('Debug level'),
+              _('Display certain information on each page load.'),
+              'fdDebugLevel', FALSE,
+              array(DEBUG_TRACE,  DEBUG_LDAP, DEBUG_DB,   DEBUG_SHELL,  DEBUG_POST
+                    DEBUG_SESSION,  DEBUG_ACL,  DEBUG_SI, DEBUG_MAIL),
+                    DEBUG_TRACE,
+              array('Trace',      'LDAP',     'Database', 'Shell',      'POST',
+                    'SESSION',      'ACL',      'SI',     'Mail')
+            )
           ),
         )
       ),
@@ -319,6 +351,12 @@ class configInLdap extends simplePlugin
     $methods = $methods['name'];
     $this->attributesInfo['password']['attrs']['fdPasswordDefaultHash']->setChoices($methods);
 
+  }
+
+  function save()
+  {
+    parent::save();
+    $this->config->check_and_reload();
   }
 
   static function get_themes()

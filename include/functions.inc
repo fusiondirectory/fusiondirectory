@@ -204,7 +204,7 @@ function make_seed() {
  */
 function DEBUG($level, $line, $function, $file, $data, $info="")
 {
-  if (session::global_get('DEBUGLEVEL') & $level){
+  if (session::global_get('DEBUGLEVEL') & $level) {
     $output= "DEBUG[$level] ";
     if ($function != ""){
       $output.= "($file:$function():$line) - $info: ";
