@@ -81,7 +81,7 @@ if (isset($_GET['request'])){
   session::destroy ();
 
   /* If we're not using htaccess authentication, just redirect... */
-  if (isset($config) && $config->get_cfg_value("htaccessAuthentication") == "true"){
+  if (isset($config) && $config->get_cfg_value("htaccessAuthentication") == "TRUE"){
 
     /* Else notice that the user has to close the browser... */
     $smarty->assign("usePrototype", "false");

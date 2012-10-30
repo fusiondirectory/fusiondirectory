@@ -23,7 +23,7 @@
 /*
  * \file class_SnapshotHandler
  * Source code for class SnapshotHandler
- */ 
+ */
 
 /*!
  * \brief This class contains all the function needed to handle
@@ -43,10 +43,10 @@ class SnapshotHandler {
    */
   function SnapshotHandler(&$config)
   {
-    $this->config = &$config; 
+    $this->config = &$config;
     $config = $this->config;
 
-    if($config->get_cfg_value("enableSnapshots") == "true"){
+    if($config->get_cfg_value("enableSnapshots") == "TRUE"){
 
       /* Check if the snapshot_base is defined */
       if ($config->get_cfg_value("snapshotBase") == ""){
@@ -102,17 +102,17 @@ class SnapshotHandler {
    * \brief Check if the snapshot is enable
    *
    * \return boolean TRUE if is enable, return FALSE otherwise
-   */ 
+   */
   function enabled()
   {
     return $this->isEnabled;
-  }   
+  }
 
   /*!
    * \brief Set a new snapshot bases
    *
    * \param array $bases
-   */  
+   */
   function setSnapshotBases($bases)
   {
     $this->snapshotBases= $bases;
@@ -122,7 +122,7 @@ class SnapshotHandler {
    * \brief Get the current snapshot bases
    *
    * \return array $bases
-   */ 
+   */
   function getSnapshotBases()
   {
     return $this->snapshotBases;
@@ -130,7 +130,7 @@ class SnapshotHandler {
 
   /*!
    * \brief Get a snapshot LDAP Multiplexer
-   */ 
+   */
   function get_snapshot_link()
   {
     $snapshotLdap= null;
@@ -159,7 +159,7 @@ class SnapshotHandler {
    * \param string $objectBase
    *
    * \param boolean $raw false
-   */ 
+   */
   function getDeletedSnapshots($objectBase, $raw= false)
   {
     // Skip if not enabled
@@ -223,7 +223,7 @@ class SnapshotHandler {
    * \brief Check if the DN has snapshots
    *
    * \return the numbers of snapshots
-   */ 
+   */
   function hasSnapshots($dn)
   {
     return (count($this->getSnapshots($dn)) > 0);
@@ -235,7 +235,7 @@ class SnapshotHandler {
    * \param string $dn The DN
    *
    * \param string $raw false
-   */ 
+   */
   function getSnapshots($dn, $raw= false)
   {
     // Empty if disabled
@@ -389,7 +389,7 @@ class SnapshotHandler {
    * \brief Remove a snapshot
    *
    * \param string $dn The DN
-   */ 
+   */
   function remove_snapshot($dn)
   {
     $ui       = get_userinfo();
@@ -403,7 +403,7 @@ class SnapshotHandler {
     }
     $this->dn = $old_dn;
   }
-  
+
  /*!
   * \brief Check if the snapshot is enabled
   *
@@ -418,7 +418,7 @@ class SnapshotHandler {
 
   /*!
    * \brief Get the available snapshots
-   * 
+   *
    * \return available snapshots for the given base
    */
   function Available_SnapsShots($dn,$raw = false)
@@ -483,7 +483,7 @@ class SnapshotHandler {
    * \param string $base_of_object
    *
    * \param boolean $raw false
-   */ 
+   */
   function getAllDeletedSnapshots($base_of_object,$raw = false)
   {
     if(!$this->snapshotEnabled()) return(array());

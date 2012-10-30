@@ -23,11 +23,11 @@
 /*!
  * \file class_listing.inc
  * Source code for class listing
- */ 
+ */
 
 /*!
- * \brief This class contains all the function needed to make the list 
- * that show the objects inside FusionDirectory 
+ * \brief This class contains all the function needed to make the list
+ * that show the objects inside FusionDirectory
  */
 class listing {
 
@@ -68,7 +68,7 @@ class listing {
    * \brief Create a listing
    *
    * \param string $filename
-   */ 
+   */
   function listing($filename)
   {
     global $config;
@@ -93,7 +93,7 @@ class listing {
     }
 
     // Move footer information
-    $this->showFooter= ($config->get_cfg_value("listSummary") == "true");
+    $this->showFooter= ($config->get_cfg_value("listSummary") == "TRUE");
 
     // Register build in filters
     $this->registerElementFilter("objectType", "listing::filterObjectType");
@@ -121,7 +121,7 @@ class listing {
    * \param $handler The handler
    *
    * \see CopyPasteHandler
-   */  
+   */
   function setCopyPasteHandler($handler)
   {
     $this->copyPasteHandler= &$handler;
@@ -131,7 +131,7 @@ class listing {
    * \brief Set the height
    *
    * \param integer $height
-   */ 
+   */
   function setHeight($height)
   {
     $this->height= $height;
@@ -143,7 +143,7 @@ class listing {
    * \param $handler The handler
    *
    * \see  SnapshotHandler
-   */  
+   */
   function setSnapshotHandler($handler)
   {
     $this->snapshotHandler= &$handler;
@@ -155,7 +155,7 @@ class listing {
    * \param string $filter
    *
    * \see filter
-   */  
+   */
   function setFilter($filter)
   {
     $this->filter= &$filter;
@@ -172,7 +172,7 @@ class listing {
    * \param string $name
    *
    * \param string $call
-   */  
+   */
   function registerElementFilter($name, $call)
   {
     if (!isset($this->filters[$name])) {
@@ -187,7 +187,7 @@ class listing {
    * \brief Load a file
    *
    * \param string $filename
-   */ 
+   */
   function load($filename)
   {
     $contents = file_get_contents($filename);
@@ -250,7 +250,7 @@ class listing {
       }
     }
 
-    return true;  
+    return true;
   }
 
 
@@ -310,7 +310,7 @@ class listing {
 
   /*!
    * \brief Render
-   */ 
+   */
   function render()
   {
     // Check for exeeded sizelimit
@@ -333,7 +333,7 @@ class listing {
       $result.= "<input type='hidden' value='$this->height' id='d_height'>\n";
       $height= $this->height;
     }
-    
+
     $result.= "<div class='listContainer' id='d_scrollbody' style='border-top:1px solid #B0B0B0;border-right:1px solid #B0B0B0;width:100%;'>\n";
     $result.= "<table summary='$this->headline' style='width:100%; table-layout:fixed' cellspacing='0' cellpadding='0' id='t_scrolltable'>\n";
     $this->numColumns= count($this->colprops) + ($this->multiSelect?1:0);
@@ -438,7 +438,7 @@ class listing {
           $result.="<tr>\n";
           $result.= $entry['_rendered'];
       }
-      
+
       $result.="</tr>\n";
       $alt++;
     }
@@ -504,7 +504,7 @@ class listing {
 
   /*!
    * \brief Update a listing
-   */ 
+   */
   function update()
   {
     global $config;
@@ -639,7 +639,7 @@ class listing {
    * \brief Set a new base valor
    *
    * \param string $base
-   */  
+   */
   function setBase($base)
   {
     $this->base= $base;
@@ -652,7 +652,7 @@ class listing {
    * \brief Accessor of the base
    *
    * \return the base
-   */ 
+   */
   function getBase()
   {
     return $this->base;
@@ -661,8 +661,8 @@ class listing {
   /*!
    * \brief Parse a layout
    *
-   * \param string $layout 
-   */ 
+   * \param string $layout
+   */
   function parseLayout($layout)
   {
     $result= array();
@@ -834,7 +834,7 @@ class listing {
    * \param string $types
    *
    * \param string $classes
-   */ 
+   */
   function getObjectType($types, $classes)
   {
     // Walk thru types and see if there's something matching
@@ -874,7 +874,7 @@ class listing {
    * \param string $dn The DN
    *
    * \param string $classes
-   * 
+   *
    * \return string an empty string
    */
   function filterObjectTypes($dn, $classes)
@@ -892,7 +892,7 @@ class listing {
    * \param string $dn The DN
    *
    * \param string $classes
-   */    
+   */
   function filterObjectType($dn, $classes)
   {
     // Walk thru classes and return on first match
@@ -919,7 +919,7 @@ class listing {
    * \param string $row
    *
    * \param string $classes
-   */ 
+   */
   function filterActions($dn, $row, $classes)
   {
     // Do nothing if there's no menu defined
@@ -1017,7 +1017,7 @@ class listing {
    * \param string $dn The DN
    *
    * \param array $description
-   */ 
+   */
   function filterDepartmentLink($row, $dn, $description)
   {
     $attr= $this->departments[$row]['sort-attribute'];
@@ -1031,7 +1031,7 @@ class listing {
 
   /*!
    * \brief Filter link
-   */ 
+   */
   function filterLink()
   {
     $result= "&nbsp;";
@@ -1118,7 +1118,7 @@ class listing {
 
   /*!
    * \brief Get action
-   */ 
+   */
   function getAction()
   {
     // Do not do anything if this is not our PID, or there's even no PID available...
@@ -1313,7 +1313,7 @@ class listing {
    *
    * \param string $classes
    *
-   */ 
+   */
   function hasActionPermission($action, $dn, $classes= null)
   {
     $ui= get_userinfo();
@@ -1393,7 +1393,7 @@ class listing {
 
   /*!
    * \brief Refresh the bases list
-   */ 
+   */
   function refreshBasesList()
   {
     global $config;
@@ -1420,7 +1420,7 @@ class listing {
 
   /*!
    * Get the depatments
-   */ 
+   */
   function getDepartments()
   {
     $departments= array();
@@ -1511,7 +1511,7 @@ class listing {
         $result.= "<li$separator><a href='#'><img src='images/lists/paste-grey.png' alt='' border='0' class='center'>&nbsp;"._("Paste")."</a></li>";
       }
     }
-    
+
     return($result);
   }
 
@@ -1677,7 +1677,7 @@ class listing {
 
   /*!
    * \brief Get listing entries
-   */ 
+   */
   function getEntries()
   {
     return $this->entries;
@@ -1687,7 +1687,7 @@ class listing {
    * \brief Get type
    *
    * \param string $dn The DN
-   */ 
+   */
   function getType($dn)
   {
     if (isset($this->objectDnMapping[$dn])) {

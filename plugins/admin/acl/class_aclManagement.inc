@@ -26,7 +26,7 @@ class aclManagement extends management
   var $plDescription  = "Manage access control lists";
   var $plIcon  = "plugins/acl/images/plugin.png";
 
-  // Tab definition 
+  // Tab definition
   protected $tabClass = "aclroletab";
   protected $tabType = "ACLROLETAB";
   protected $aclCategory = "acl";
@@ -37,7 +37,7 @@ class aclManagement extends management
   {
     $this->config = $config;
     $this->ui = $ui;
-   
+
     $this->storagePoints = array(get_ou("aclRoleRDN")); // ACLs are attached to department containers
 
     // Build filter
@@ -58,7 +58,7 @@ class aclManagement extends management
     if ($this->config->boolValueIsTrue("main", "copyPaste")){
       $this->cpHandler = new CopyPasteHandler($this->config);
     }
-    if($this->config->get_cfg_value("enableSnapshots") == "true"){
+    if($this->config->get_cfg_value("enableSnapshots") == "TRUE"){
       $this->snapHandler = new SnapshotHandler($this->config);
     }
 
@@ -118,7 +118,7 @@ class aclManagement extends management
   {
     $this->skipFooter = TRUE;
     if(count($target) == 1){
-  
+
       // Set dummy tab object...
       $this->dn = array_pop($target);
       $headpage = $this->getHeadpage();
@@ -141,7 +141,7 @@ class aclManagement extends management
     if(isset($_POST['edit_role'])) $action['action'] = "edit_role";
     return($action);
   }
-  
+
 
   // A filter which allows to open a department by clicking on the departments name.
   static function filterLabel($row,$dn,$ou= array(),$pid=0,$base="")
@@ -159,6 +159,6 @@ class aclManagement extends management
   }
 
 
-} 
+}
 // vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

@@ -389,12 +389,6 @@ class configInLdap extends simplePlugin
 
   }
 
-  function save()
-  {
-    parent::save();
-    $this->config->check_and_reload();
-  }
-
   static function get_themes()
   {
     $themesdir  = '../ihtml/themes/';

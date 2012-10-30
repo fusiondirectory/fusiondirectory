@@ -26,7 +26,7 @@ class departmentManagement extends management
   var $plDescription  = "Manage Departments";
   var $plIcon         = "plugins/departments/images/plugin.png";
 
-  // Tab definition 
+  // Tab definition
   protected $tabClass = "deptabs";
   protected $tabType = "DEPTABS";
   protected $aclCategory = "department";
@@ -37,7 +37,7 @@ class departmentManagement extends management
   {
     $this->config = $config;
     $this->ui = $ui;
-   
+
     // Build filter
     if (session::global_is_set(get_class($this)."_filter")){
       $filter= session::global_get(get_class($this)."_filter");
@@ -56,7 +56,7 @@ class departmentManagement extends management
     if ($this->config->boolValueIsTrue("main", "copyPaste")){
       $this->cpHandler = new CopyPasteHandler($this->config);
     }
-    if($this->config->get_cfg_value("enableSnapshots") == "true"){
+    if($this->config->get_cfg_value("enableSnapshots") == "TRUE"){
       $this->snapHandler = new SnapshotHandler($this->config);
     }
 
@@ -114,7 +114,7 @@ class departmentManagement extends management
     $str = management::saveChanges();
     if(!empty($str)) return($str);
 
-    $this->refreshDeps(); 
+    $this->refreshDeps();
 /*
     // FIXME : what was this code for? Is it useful? What is department tagging?
     $plugname = $this->last_tabObject->base_name;
@@ -127,17 +127,17 @@ class departmentManagement extends management
 */
   }
 
-  
+
   function refreshDeps()
   {
-    global $config; 
+    global $config;
     $config->get_departments();
     $config->make_idepartments();
     $this->config = $config;
     $headpage = $this->getHeadpage();
     $headpage->refreshBasesList();
   }
- 
+
 
   // An action handler which enables to switch into deparmtment by clicking the names.
   function openEntry($action,$entry)
@@ -151,7 +151,7 @@ class departmentManagement extends management
   protected function removeEntryRequested($action="",$target=array(),$all=array())
   {
     $target = array_remove_entries(array($this->config->current['BASE']),$target);
-    return(management::removeEntryRequested($action,$target,$all)); 
+    return(management::removeEntryRequested($action,$target,$all));
   }
 
 
@@ -166,7 +166,7 @@ class departmentManagement extends management
     return("<a href='?plug=".$_GET['plug']."&amp;PID=$pid&amp;act=listing_open_$row' title='$dn'>$ou</a>");
   }
 
-  
+
   // Finally remove departments and update departmnet browsers
   function removeEntryConfirmed($action="",$target=array(),$all=array(),$altTabClass="",$altTabType="",$altAclCategory="")
   {
@@ -179,20 +179,20 @@ class departmentManagement extends management
    */
   public static function get_support_departments()
   {
-    /* Domain 
-     */ 
+    /* Domain
+     */
     $types = array();
-    $types['domain']['ACL']     = "domain"; 
-    $types['domain']['CLASS']   = "domain"; 
-    $types['domain']['ATTR']    = "dc"; 
-    $types['domain']['TAB']     = "DOMAIN_TABS"; 
-    $types['domain']['OC']      = "domain"; 
-    $types['domain']['IMG']     = "plugins/departments/images/domain.png"; 
-    $types['domain']['IMG_FULL']= "plugins/departments/images/domain.png"; 
-    $types['domain']['TITLE']   = _("Domain"); 
-    $types['domain']['TPL']     = "domain.tpl"; 
+    $types['domain']['ACL']     = "domain";
+    $types['domain']['CLASS']   = "domain";
+    $types['domain']['ATTR']    = "dc";
+    $types['domain']['TAB']     = "DOMAIN_TABS";
+    $types['domain']['OC']      = "domain";
+    $types['domain']['IMG']     = "plugins/departments/images/domain.png";
+    $types['domain']['IMG_FULL']= "plugins/departments/images/domain.png";
+    $types['domain']['TITLE']   = _("Domain");
+    $types['domain']['TPL']     = "domain.tpl";
 
-    /* Domain component 
+    /* Domain component
      */
     $types['dcObject']['ACL']     = "dcObject";
     $types['dcObject']['CLASS']   = "dcObject";
@@ -253,6 +253,6 @@ class departmentManagement extends management
     $types['organizationalUnit']['TPL']     = "generic.tpl";
     return($types);
   }
-} 
+}
 // vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

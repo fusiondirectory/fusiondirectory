@@ -23,17 +23,17 @@
 require_once("class_setupStep.inc");
 
 
-class setup 
+class setup
 {
-  var $i_steps  = 9;  // Number of setup steps 
+  var $i_steps  = 9;  // Number of setup steps
   var $i_current= 1;  // Current step
   var $i_last   = 1;  // Last setup step;
-  var $o_steps  = array(); 
+  var $o_steps  = array();
   var $captured_values = array();
 
   function setup()
   {
-    $i = 1; 
+    $i = 1;
     $this->o_steps[$i++] = new Step_Welcome();
     $this->o_steps[$i++] = new Step_Language();
     $this->o_steps[$i++] = new Step_Checks();
@@ -52,7 +52,7 @@ class setup
       header("Location: index.php")    ;
       exit();
     }
-    
+
     foreach($this->o_steps as $key => $step){
       $this->o_steps[$key]->parent = &$this;
     }
@@ -112,27 +112,27 @@ class setup
     /* Check if step was selected */
     if(isset($_GET['step']) || isset($_POST['next']) || isset($_POST['last'])){
 
-      /* check if current setup step is completed now 
+      /* check if current setup step is completed now
           and activate the next step if possible */
       for($i = 1 ; $i <= $this->i_steps ; $i ++ ){
         if($this->o_steps[$i]->is_completed()){
           if(isset($this->o_steps[($i+1)])){
             $this->o_steps[($i+1)]->set_enabled();
           }
-        }else{
+        } else {
           $this->disable_steps_from($i+1);
         }
       }
     }
- 
+
     /* Disable all following steps, if one step isn't compelted right now .*/
     for($i = 1 ; $i <= $this->i_steps ; $i ++ ){
       if($this->o_steps[$i]->is_completed()){
-      }else{
+      } else {
         $this->disable_steps_from($i+1);
       }
     }
- 
+
     $step = -1;
 
     if(isset($_POST['setup_goto_step'])){
@@ -146,7 +146,7 @@ class setup
     }elseif(isset($_POST['last'])){
       $step = $this->i_current - 1;
     }
-  
+
     $once = true;
     foreach($_POST as $name => $value){
       if(preg_match("/^step_[0-9]*$/",$name) && $once ){
@@ -169,7 +169,7 @@ class setup
         $found = true;
       }
 
-      if($found){ 
+      if($found){
         $this->o_steps[$key]->set_enabled(false);
         $this->o_steps[$key]->set_completed(false);
       }
@@ -192,48 +192,48 @@ class setup
       $b_completed= $step -> is_completed();
 
       if($b_completed){
-        $s = "<img src='images/true.png' alt='"._("Completed")."' class='center'>&nbsp;"; 
-      }else{
+        $s = "<img src='images/true.png' alt='"._("Completed")."' class='center'>&nbsp;";
+      } else {
         $s = "<img src='images/empty.png' alt=' ' class='center'>&nbsp;";
       }
 
       if(session::get('js')){
 
         $str .="<div >";
-    
+
         if($b_enabled){
           if($b_active){
             $str .= "<div class='navigation_element_active'>";
             $str .= "<div class='navigation_title_active'>".$s.$s_title."</div>";
             $str .= "<div class='navigation_info'>".$s_info."</div>";
             $str .= "</div>";
-          }else{
+          } else {
             $str .= "<div class='navigation_element'>";
             $str .= "<div onClick='document.mainform.setup_goto_step.value=\"$key\";document.mainform.submit();'
               class='navigation_title_inactive'>".$s.$s_title."</div>";
             $str .= "</div>";
           }
-        }else{
+        } else {
           $str .= "<div class='navigation_element'>";
           $str .= "<div class='navigation_title_disabled'>".$s.$s_title."</div>";
           $str .= "</div>";
         }
         $str .= "</div>" ;
-      }else{
+      } else {
         $str .="<div >";
         if($b_enabled){
           if($b_active){
             $str .= "<div class='navigation_element_active'>";
-            $str .= "<input style='text-align: left; color: #00008F; font-weight: bold; width:100%;' 
+            $str .= "<input style='text-align: left; color: #00008F; font-weight: bold; width:100%;'
                         type='button' value='".$s_title."' name='step_".$key."'>";
             $str .= "</div>";
-          }else{
+          } else {
             $str .= "<div class='navigation_element'>";
-            $str .= "<input style='text-align: left; color: #00008F; font-weight: bold; width:100%;' 
+            $str .= "<input style='text-align: left; color: #00008F; font-weight: bold; width:100%;'
                         type='submit' value='".$s_title."' name='step_".$key."'>";
             $str .= "</div>";
           }
-        }else{
+        } else {
           $str .= "<div class='navigation_element'>";
           $str .= "<div class='navigation_title_disabled'>".$s_title."</div>";
           $str .= "</div>";
@@ -247,17 +247,17 @@ class setup
 
   function get_bottom_html()
   {
-    /* Skip adding forward/backward button,   
-     *  if the currently opened step is a sub dialog 
+    /* Skip adding forward/backward button,
+     *  if the currently opened step is a sub dialog
      */
     if($this->o_steps[$this->i_current]->dialog){
       $str ="";
-    }else{
+    } else {
       $str ="<p class='seperator' style='margin-bottom:10px;'>&nbsp;</p>";
       $str.="   <div style='text-align:right;float:top;'>";
       if(isset($this->o_steps[$this->i_current -1]) && $this->o_steps[$this->i_current -1]->is_enabled()){
         $str .= "<input type='submit' name='last' value='".msgPool::backButton()."'>";
-      }else{
+      } else {
         $str .= "<input type='button' name='last' value='".msgPool::backButton()."' disabled>";
       }
       $str.= "&nbsp;";
@@ -294,7 +294,7 @@ class setup
     }
     return(0);
   }
-  
+
 }
 
 // vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:

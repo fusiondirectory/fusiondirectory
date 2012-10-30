@@ -416,7 +416,7 @@ class passwordMethod
   {
     global $config;
 
-    if ($config->get_cfg_value("strictPasswordRules") == "true") {
+    if ($config->get_cfg_value("strictPasswordRules") == "TRUE") {
       // Do we have UTF8 characters in the password?
       return ($password == utf8_decode($password));
     }

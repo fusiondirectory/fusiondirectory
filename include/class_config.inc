@@ -100,7 +100,7 @@ class config  {
    * read the last time and reloads it. It uses the file mtime to check
    * weither the file changed or not.
    */
-  function check_and_reload()
+  function check_and_reload($force = FALSE)
   {
     global $ui;
 
@@ -116,7 +116,7 @@ class config  {
     $tmp = stat(CACHE_DIR."/".CLASS_CACHE);
     session::global_set("class_location.inc:timestamp",$tmp['mtime']);
 
-    if($this->filename != "" && filemtime($this->filename) != $this->last_modified){
+    if (($this->filename != "") && ((filemtime($this->filename) != $this->last_modified) || $force)) {
 
       $this->config_found= FALSE;
       $this->tags= array();
@@ -703,27 +703,29 @@ class config  {
     }
 
     /* Get samba servers from LDAP */
-    $this->data['SERVERS']['SAMBA']= array();
-    $ldap->cd ($this->current['BASE']);
-    $ldap->search ("(objectClass=sambaDomain)");
-    while ($attrs= $ldap->fetch()){
-      $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]]= array( "SID" =>"","RIDBASE" =>"");
-      if(isset($attrs["sambaSID"][0])){
-        $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]]["SID"]  = $attrs["sambaSID"][0];
+    if (class_available('sambaAccount')) {
+      $this->data['SERVERS']['SAMBA']= array();
+      $ldap->cd ($this->current['BASE']);
+      $ldap->search ("(objectClass=sambaDomain)");
+      while ($attrs= $ldap->fetch()){
+        $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]]= array( "SID" =>"","RIDBASE" =>"");
+        if(isset($attrs["sambaSID"][0])){
+          $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]]["SID"]  = $attrs["sambaSID"][0];
+        }
+        if(isset($attrs["sambaAlgorithmicRidBase"][0])){
+          $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]]["RIDBASE"] = $attrs["sambaAlgorithmicRidBase"][0];
+        }
       }
-      if(isset($attrs["sambaAlgorithmicRidBase"][0])){
-        $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]]["RIDBASE"] = $attrs["sambaAlgorithmicRidBase"][0];
-      }
-    }
 
-    /* If no samba servers are found, look for configured sid/ridbase */
-    if (count($this->data['SERVERS']['SAMBA']) == 0){
-      if (!isset($this->current["SAMBASID"]) || !isset($this->current["SAMBARIDBASE"])){
-        msg_dialog::display(_("Configuration error"), _("sambaSID and/or sambaRidBase missing in the configuration!"), ERROR_DIALOG);
-      } else {
-        $this->data['SERVERS']['SAMBA']['DEFAULT']= array(
-            "SID" => $this->current["SAMBASID"],
-            "RIDBASE" => $this->current["SAMBARIDBASE"]);
+      /* If no samba servers are found, look for configured sid/ridbase */
+      if (count($this->data['SERVERS']['SAMBA']) == 0) {
+        if (!isset($this->current["SAMBASID"]) || !isset($this->current["SAMBARIDBASE"])) {
+          msg_dialog::display(_("Configuration error"), _("sambaSID and/or sambaRidBase missing in the configuration!"), ERROR_DIALOG);
+        } else {
+          $this->data['SERVERS']['SAMBA']['DEFAULT']= array(
+              "SID" => $this->current["SAMBASID"],
+              "RIDBASE" => $this->current["SAMBARIDBASE"]);
+        }
       }
     }
 
@@ -732,7 +734,7 @@ class config  {
   function load_inldap_config()
   {
     $ldap = $this->get_ldap_link();
-    $ldap->cat("cn=config,ou=configs,".$this->current['BASE']);
+    $ldap->cat(CONFIGRDN.$this->current['BASE']);
     if ($attrs = $ldap->fetch()) {
       for ($i = 0; $i < $attrs['count']; $i++) {
         $key = $attrs[$i];
@@ -1194,7 +1196,7 @@ class config  {
    */
   function snapshotEnabled()
   {
-    if($this->get_cfg_value("enableSnapshots") == "true"){
+    if($this->get_cfg_value("enableSnapshots") == "TRUE"){
 
       /* Check if the snapshot_base is defined */
       if ($this->get_cfg_value("snapshotBase") == ""){

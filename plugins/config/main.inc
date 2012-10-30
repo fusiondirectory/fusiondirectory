@@ -17,6 +17,6 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-$configBranch = 'ou=configs,'.$config->current['BASE'];
-configInLdap::userMainInc('configInLdap', "cn=config,$configBranch", TRUE);
+
+configInLdap::userMainInc('configInLdap', CONFIGRDN.$config->current['BASE'], 'tabs_configInLdap');
 ?>

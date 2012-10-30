@@ -26,7 +26,7 @@ class ogroupManagement extends management
   var $plDescription  = "Manage object groups";
   var $plIcon  = "plugins/ogroups/images/plugin.png";
 
-  // Tab definition 
+  // Tab definition
   protected $tabClass = "ogrouptabs";
   protected $tabType = "OGROUPTABS";
   protected $aclCategory = "ogroups";
@@ -58,7 +58,7 @@ class ogroupManagement extends management
     if ($this->config->boolValueIsTrue("main", "copyPaste")){
       $this->cpHandler = new CopyPasteHandler($this->config);
     }
-    if($this->config->get_cfg_value("enableSnapshots") == "true"){
+    if($this->config->get_cfg_value("enableSnapshots") == "TRUE"){
       $this->snapHandler = new SnapshotHandler($this->config);
     }
     parent::__construct($config, $ui, "ogroups", $headpage);
@@ -126,7 +126,7 @@ class ogroupManagement extends management
 
     if(class_available("DaemonEvent_notify")){
 
-      // Resolv targets  
+      // Resolv targets
       $targets = array();
       $m_list  = array();
       $ldap = $this->config->get_ldap_link();
@@ -160,7 +160,7 @@ class ogroupManagement extends management
           }
         }
       }
-    
+
       // We've at least one recipient
       if(count($targets)){
         $events = DaemonEvent::get_event_types(USER_EVENT);
@@ -202,6 +202,6 @@ class ogroupManagement extends management
     }
     return($result);
   }
-} 
+}
 // vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

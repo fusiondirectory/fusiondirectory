@@ -80,4 +80,9 @@ define ("MKNTPWD", "/usr/sbin/fusiondirectory-mkntpassword"); /*! Define the nam
  * \brief FusionDirectory Version
  */
 define ("FD_VERSION", "1.0.4"); /*! Define FusionDirectory version */
+
+/*!
+ * \brief FusionDirectory config object RDN
+ */
+define ("CONFIGRDN", "cn=fusiondirectory,ou=configs,"); /*! Define FusionDirectory config object */
 ?>

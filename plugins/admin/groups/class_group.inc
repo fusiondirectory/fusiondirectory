@@ -78,7 +78,7 @@ class group extends plugin
   function group (&$config, $dn= NULL)
   {
      /* Set rfc2307bis flag */
-     if ($config->get_cfg_value("rfc2307bis") == "true"){
+     if ($config->get_cfg_value("rfc2307bis") == "TRUE"){
        $this->rfc2307bis= TRUE;
        $this->attributes[]= "member";
        $this->objectclasses[]= "groupOfNames";
@@ -922,7 +922,7 @@ class group extends plugin
       /* User wants me to fake the idMappings? This is useful for
          making winbind resolve the group names in a reasonable amount
          of time in combination with larger databases. */
-      if ($this->config->get_cfg_value("sambaidmapping") == "true"){
+      if ($this->config->get_cfg_value("sambaidmapping") == "TRUE"){
         $this->attrs['objectClass'][]= "sambaIdmapEntry";
       }
 

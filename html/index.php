@@ -202,14 +202,14 @@ if (!isset($_SERVER['HTTPS']) ||
 }
 
 /* If SSL is forced, just forward to the SSL enabled site */
-if ($config->get_cfg_value("forcessl") == 'true' && $ssl != ''){
+if ($config->get_cfg_value("forcessl") == "TRUE" && $ssl != ''){
   header ("Location: $ssl");
   exit;
 }
 
 /* Do we have htaccess authentification enabled? */
 $htaccess_authenticated= FALSE;
-if ($config->get_cfg_value("htaccessAuthentication") == "true" ){
+if ($config->get_cfg_value("htaccessAuthentication") == "TRUE" ){
   if (!isset($_SERVER['REMOTE_USER'])){
     msg_dialog::display(_("Configuration error"), _("There is a problem with the authentication setup!"), FATAL_ERROR_DIALOG);
     exit;
@@ -255,9 +255,9 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
   }
 
   /* Check for schema file presence */
-  if ($config->get_cfg_value("schemaCheck") == "true"){
-    $recursive = ($config->get_cfg_value("ldapFollowReferrals") == "true");
-    $tls =       ($config->get_cfg_value("ldapTLS") == "true");
+  if ($config->get_cfg_value("schemaCheck") == "TRUE"){
+    $recursive = ($config->get_cfg_value("ldapFollowReferrals") == "TRUE");
+    $tls =       ($config->get_cfg_value("ldapTLS") == "TRUE");
 
     if(!count($ldap->get_objectclasses())){
       msg_dialog::display(_("LDAP error"), _("Cannot detect information about the installed LDAP schema!"), ERROR_DIALOG);
@@ -269,7 +269,7 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
       $cfg['password']  = $config->current['ADMINPASSWORD'];
       $cfg['connection']= $config->current['SERVER'];
       $cfg['tls']       = $tls;
-      $str = check_schema($cfg, $config->get_cfg_value("rfc2307bis") == "true");
+      $str = check_schema($cfg, $config->get_cfg_value("rfc2307bis") == "TRUE");
       $checkarr = array();
       foreach($str as $tr){
         if(isset($tr['IS_MUST_HAVE']) && !$tr['STATUS']){
@@ -341,7 +341,7 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
       session::global_set('config',$config);
 
       /* Restore filter settings from cookie, if available */
-      if($config->get_cfg_value("storeFilterSettings") == "true"){
+      if($config->get_cfg_value("storeFilterSettings") == "TRUE"){
 
         if(isset($_COOKIE['FusionDirectory_Filter_Settings']) || isset($HTTP_COOKIE_VARS['FusionDirectory_Filter_Settings'])){
 
@@ -366,7 +366,7 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
       }
 
       /* are we using accountexpiration */
-      if ($config->get_cfg_value("handleExpiredAccounts") == "true"){
+      if ($config->get_cfg_value("handleExpiredAccounts") == "TRUE"){
         $expired= ldap_expired_account($config, $ui->dn, $ui->username);
 
         if ($expired == POSIX_ACCOUNT_EXPIRED){

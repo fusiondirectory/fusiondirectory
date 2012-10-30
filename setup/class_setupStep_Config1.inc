@@ -27,16 +27,15 @@ class Step_Config1 extends setup_step
   var $groupou    = "ou=groups";
   var $peopledn   = "uid";
   var $uidbase    = 1100;
-  var $krbsasl    = FALSE;
   var $strict     = TRUE;
 
   var $cngen_active = FALSE;
   var $cngen        = "%sn %givenName";
 
-  var $header_image = "images/setup/server.png";
-  var $account_expiration  =FALSE;
-  var $base_hook         = "";
-  var $base_hook_active  = FALSE;
+  var $header_image       = "images/setup/server.png";
+  var $account_expiration = FALSE;
+  var $base_hook          = "";
+  var $base_hook_active   = FALSE;
 
   var $encryption = "crypt/md5";
   var $theme      = "default";
@@ -57,7 +56,7 @@ class Step_Config1 extends setup_step
 
   var $crypt_methods  = array();
 
-  var $attributes = array("peopleou","groupou","peopledn","uidbase","encryption","theme","krbsasl",
+  var $attributes = array("peopleou","groupou","peopledn","uidbase","encryption","theme",
                           "base_hook","base_hook_active","account_expiration","strict","include_personal_title",
                           "cngen_active","cngen");
 
@@ -66,7 +65,7 @@ class Step_Config1 extends setup_step
     $this->update_strings();
 
     $tmp = passwordMethod::get_available_methods();
-    foreach($tmp['name'] as $name){
+    foreach ($tmp['name'] as $name) {
       $this->crypt_methods[$name] = $name;
     }
   }
@@ -84,20 +83,20 @@ class Step_Config1 extends setup_step
   {
     global $BASE_DIR;
     $smarty = get_smarty();
-    $smarty->assign("peopledns",array("uid","cn"));
-    $smarty->assign("id_settings",   reverse_html_entities($this->id_settings));
-    $smarty->assign("crypt_methods", reverse_html_entities($this->crypt_methods));
-    $smarty->assign("themes",        reverse_html_entities($this->get_themes()));
-    $smarty->assign("pwd_rules",     reverse_html_entities($this->pwd_rules));
-    $smarty->assign("bool",array(FALSE => _("No"), TRUE => _("Yes")));
-    foreach($this->attributes as $attr){
-      $smarty->assign($attr,htmlentities($this->$attr,ENT_QUOTES,"UTF-8"));
+    $smarty->assign("peopledns",      array("uid","cn"));
+    $smarty->assign("id_settings",    reverse_html_entities($this->id_settings));
+    $smarty->assign("crypt_methods",  reverse_html_entities($this->crypt_methods));
+    $smarty->assign("themes",         reverse_html_entities($this->get_themes()));
+    $smarty->assign("pwd_rules",      reverse_html_entities($this->pwd_rules));
+    $smarty->assign("bool", array(FALSE => _("No"), TRUE => _("Yes")));
+    foreach ($this->attributes as $attr) {
+      $smarty->assign($attr, htmlentities($this->$attr, ENT_QUOTES, "UTF-8"));
     }
 
     /* !!! Attention strict is inverse. If you change this,
      *  don't forget to change save_object too
      */
-    $smarty->assign("strict",!$this->strict);
+    $smarty->assign("strict", !$this->strict);
     return $smarty->fetch("$BASE_DIR/setup/setup_config1.tpl");
   }
 
@@ -106,50 +105,50 @@ class Step_Config1 extends setup_step
   {
     $dir = opendir( "../ihtml/themes/");
     $themes = array();
-    while (($file = readdir($dir)) !== false){
-      if(is_dir("../ihtml/themes/".$file) && !preg_match("/^\./",$file)){
+    while (($file = readdir($dir)) !== FALSE) {
+      if (is_dir("../ihtml/themes/".$file) && !preg_match("/^\./", $file)) {
         $themes[$file] = $file;
       }
     }
-    return($themes);
+    return $themes;
   }
 
   function check()
   {
     $message = array();
 
-    if(isset($this->id_settings['minid_active']) && !is_numeric($this->id_settings['minid'])){
-      $message[] = sprintf(_("The specified value for '%s' must be a numeric value"),_("GID / UID min id"));
+    if (isset($this->id_settings['minid_active']) && !is_numeric($this->id_settings['minid'])) {
+      $message[] = sprintf(_("The specified value for '%s' must be a numeric value"), _("GID / UID min id"));
     }
 
-    if(preg_match("/,$/",$this->peopleou)){
-      $message[] =sprintf(_("Don't add a trailing comma to '%s'."),_("People storage ou"));
+    if (preg_match("/,$/", $this->peopleou)) {
+      $message[] = sprintf(_("Don't add a trailing comma to '%s'."), _("People storage ou"));
     }
 
-    if(preg_match("/,$/",$this->groupou)){
-      $message[] =sprintf(_("Don't add a trailing comma to '%s'."),_("Group storage ou"));
+    if (preg_match("/,$/", $this->groupou)) {
+      $message[] = sprintf(_("Don't add a trailing comma to '%s'."), _("Group storage ou"));
     }
 
-    if(!is_numeric($this->uidbase)){
+    if (!is_numeric($this->uidbase)) {
       $message[] = _("Uid base must be numeric");
     }
 
-    if(($this->pwd_rules['pwminlen_active']) && !is_numeric($this->pwd_rules['pwminlen'])){
+    if (($this->pwd_rules['pwminlen_active']) && !is_numeric($this->pwd_rules['pwminlen'])) {
       $message[] = _("The given password minimum length is not numeric.");
     }
-    if(($this->pwd_rules['pwdiffer_active']) && !is_numeric($this->pwd_rules['pwdiffer'])){
+    if (($this->pwd_rules['pwdiffer_active']) && !is_numeric($this->pwd_rules['pwdiffer'])) {
       $message[] = _("The given password differ value is not numeric.");
     }
-    return($message);
+    return $message;
   }
 
   function save_object()
   {
-    if(isset($_POST['step5_posted'])){
+    if (isset($_POST['step5_posted'])) {
 
       /* Get attributes */
-      foreach($this->attributes as $attr){
-        if(isset($_POST[$attr])){
+      foreach ($this->attributes as $attr) {
+        if (isset($_POST[$attr])) {
           $this->$attr = validate(get_post($attr));
         }
       }
@@ -157,70 +156,70 @@ class Step_Config1 extends setup_step
       /* !!! Attention strict is inverse. If you change this,
        *  don't forget to change the smarty assignment too
        */
-      if(isset($_POST['strict'])){
-        if($_POST['strict']){
+      if (isset($_POST['strict'])) {
+        if ($_POST['strict']) {
           $this->strict = FALSE;
-        }else{
+        } else {
           $this->strict = TRUE;
         }
       }
 
-      if(isset($_POST['minid_active'])){
+      if (isset($_POST['minid_active'])) {
         $this->id_settings['minid_active'] = TRUE;
-        if(isset($_POST['minid'])){
+        if (isset($_POST['minid'])) {
           $this->id_settings['minid'] = get_post('minid');
         }
-      }else{
+      } else {
         $this->id_settings['minid_active'] = FALSE;
       }
 
       /* Generic settings */
-      if(isset($_POST['idgen_active'])){
+      if (isset($_POST['idgen_active'])) {
         $this->id_settings['idgen_active'] = TRUE;
-        if(isset($_POST['idgen'])){
+        if (isset($_POST['idgen'])) {
           $this->id_settings['idgen'] = get_post('idgen');
         }
-      }else{
+      } else {
         $this->id_settings['idgen_active'] = FALSE;
       }
 
       /* Get password settings */
-      if(isset($_POST['pwdiffer_active'])){
+      if (isset($_POST['pwdiffer_active'])) {
         $this->pwd_rules['pwdiffer_active'] = TRUE;
-        if(isset($_POST['pwdiffer'])){
+        if (isset($_POST['pwdiffer'])) {
           $this->pwd_rules['pwdiffer'] = get_post('pwdiffer');
         }
-      }else{
+      } else {
         $this->pwd_rules['pwdiffer_active'] = FALSE;
       }
 
       /* Get password minimum length posts */
-      if(isset($_POST['pwminlen_active'])){
+      if (isset($_POST['pwminlen_active'])) {
         $this->pwd_rules['pwminlen_active'] = TRUE;
-        if(isset($_POST['pwminlen'])){
+        if (isset($_POST['pwminlen'])) {
           $this->pwd_rules['pwminlen'] = get_post('pwminlen');
         }
-      }else{
+      } else {
         $this->pwd_rules['pwminlen_active'] = FALSE;
       }
 
       /* External pwd settings */
-      if(isset($_POST['externalpwdhook_active'])){
+      if (isset($_POST['externalpwdhook_active'])) {
         $this->pwd_rules['externalpwdhook_active'] = TRUE;
-        if(isset($_POST['externalpwdhook'])){
+        if (isset($_POST['externalpwdhook'])) {
           $this->pwd_rules['externalpwdhook'] = get_post('externalpwdhook');
         }
-      }else{
+      } else {
         $this->pwd_rules['externalpwdhook_active'] = FALSE;
       }
 
       /* base hook settings */
-/*      if(isset($_POST['base_hook_active'])){
+/*      if (isset($_POST['base_hook_active'])) {
         $this->pwd_rules['base_hook_active'] = TRUE;
-        if(isset($_POST['base_hook'])){
+        if (isset($_POST['base_hook'])) {
           $this->pwd_rules['base_hook'] = get_post('base_hook');
         }
-      }else{*/
+      } else {*/
         $this->pwd_rules['base_hook_active'] = FALSE;
 /*      }*/
 
@@ -235,9 +234,9 @@ class Step_Config1 extends setup_step
     }
 
     $tmp = $this->check();
-    if(count($tmp) == 0){
+    if (count($tmp) == 0) {
       $this->is_completed = TRUE;
-    }else{
+    } else {
       $this->is_completed = FALSE;
     }
   } // if template posted
@@ -247,12 +246,11 @@ class Step_Config1 extends setup_step
   function get_attributes()
   {
     $tmp = setup_step::get_attributes();
-    foreach(array("pwd_rules","id_settings") as $attr){
-      $tmp[$attr]= $this->$attr;
+    foreach (array("pwd_rules","id_settings") as $attr) {
+      $tmp[$attr] = $this->$attr;
     }
-    return($tmp);
+    return $tmp;
   }
-}// CLass
+}
 
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

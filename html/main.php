@@ -62,7 +62,6 @@ if ($_SERVER['REMOTE_ADDR'] != $ui->ip) {
   exit;
 }
 $config = session::global_get('config');
-$config->check_and_reload();
 timezone::get_default_timezone();
 
 /* Check for invalid sessions */
@@ -158,7 +157,7 @@ if (!session::global_is_set('plist')) {
 $plist= session::global_get('plist');
 
 /* Check for register globals */
-if (isset($global_check) && $config->get_cfg_value("forceglobals") == "true") {
+if (isset($global_check) && $config->get_cfg_value("forceglobals") == "TRUE") {
   msg_dialog::display(
             _("PHP configuration"),
             _("Fatal error: Register globals is on. FusionDirectory will refuse to login unless this is fixed by an administrator."),
@@ -184,7 +183,7 @@ $plist->gen_menu();
 
 /* check if we are using account expiration */
 $smarty->assign("hideMenus", FALSE);
-if ($config->get_cfg_value("handleExpiredAccounts") == "true") {
+if ($config->get_cfg_value("handleExpiredAccounts") == "TRUE") {
     $expired= ldap_expired_account($config, $ui->dn, $ui->username);
     if ($expired == POSIX_WARN_ABOUT_EXPIRATION && !session::is_set('POSIX_WARN_ABOUT_EXPIRATION__DONE')) {
 
@@ -439,7 +438,7 @@ if (isset($_COOKIE['FusionDirectory_Filter_Settings'])) {
 }
 
 /* Save filters? */
-if ($config->get_cfg_value("storeFilterSettings") == "true") {
+if ($config->get_cfg_value("storeFilterSettings") == "TRUE") {
   $cookie_vars = array("MultiDialogFilters","CurrentMainBase");
   foreach ($cookie_vars as $var) {
     if (session::global_is_set($var)) {

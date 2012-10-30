@@ -514,7 +514,7 @@ function process_htaccess ($username, $kerberos= FALSE)
 
     $config->set_current($name);
     $mode= "kerberos";
-    if ($config->get_cfg_value("useSaslForKerberos") == "true"){
+    if ($config->get_cfg_value("useSaslForKerberos") == "TRUE"){
       $mode= "sasl";
     }
 
@@ -1710,7 +1710,7 @@ function strict_uid_mode()
   global $config;
 
   if (isset($config)){
-    return ($config->get_cfg_value("strictNamingRules") == "true");
+    return ($config->get_cfg_value("strictNamingRules") == "TRUE");
   }
   return (TRUE);
 }

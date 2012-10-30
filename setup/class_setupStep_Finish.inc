@@ -54,7 +54,7 @@ class Step_Finish extends setup_step
     global $BASE_DIR;
     if(!function_exists("posix_getgrgid")){
       $webgroup = "";
-    }else{
+    } else {
       $info= posix_getgrgid(posix_getgid());
       $webgroup = $info['name'];
     }

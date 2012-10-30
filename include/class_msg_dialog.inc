@@ -22,7 +22,7 @@
 /*!
  * \file class_msg_dialog.inc
  * Source code for class message dialog
- */ 
+ */
 
 define("INFO_DIALOG"    , 10001);
 define("WARNING_DIALOG"   , 10002);
@@ -31,7 +31,7 @@ define("CONFIRM_DIALOG"   , 10004);
 define("OK_CANCEL_DIALOG" , 10005);
 define("FATAL_ERROR_DIALOG" , 10006);
 
-/*! 
+/*!
  * \brief This class contains all the function needed to make messages
  *  dialogs
  */
@@ -46,19 +46,19 @@ class msg_dialog
 
   /*!
    * \brief Message dialog constructor
-   * 
+   *
    * \param string $s_title The title of the message dialog
-   * 
+   *
    * \param string $s_message The message of the message dialog
-   * 
+   *
    * \param string $i_type The type of the message dialog, by default = INFO_DIALOG
-   */ 
+   */
   public function __construct($s_title,$s_message,$i_type)
   {
     global $config;
 
     if(empty($s_message)) return;
-  
+
     if(!in_array($i_type,array(INFO_DIALOG,WARNING_DIALOG,ERROR_DIALOG,CONFIRM_DIALOG,FATAL_ERROR_DIALOG,OK_CANCEL_DIALOG))){
       trigger_error("Invalid msg_dialog type.");
       $i_type = INFO_DIALOG;
@@ -76,15 +76,15 @@ class msg_dialog
 
     if($errorsAlreadyPosted[$s_title.$s_message] <=1  ){
 
-      $this->i_ID    = preg_replace("/[^0-9]*/","",microtime()); 
+      $this->i_ID    = preg_replace("/[^0-9]*/","",microtime());
       $this->s_Title   = $s_title;
       $this->s_Message = $s_message;
       $this->i_Type  = $i_type;
 
       /* Append trace information, only if error messages are enabled */
-      if( isset($config) && 
-        is_object($config) && 
-        $config->get_cfg_value("displayerrors") == "true" ){
+      if( isset($config) &&
+        is_object($config) &&
+        $config->get_cfg_value("displayerrors") == "TRUE" ){
         $this->a_Trace   = debug_backtrace();
       }
       if(!session::is_set('msg_dialogs')){
@@ -105,23 +105,23 @@ class msg_dialog
 
   /*!
    * \brief Display a message dialog
-   * 
+   *
    * \param string $s_title The title of the message dialog
-   * 
+   *
    * \param string $s_message The message of the message dialog
-   * 
+   *
    * \param string $i_type The type of the message dialog, by default = INFO_DIALOG
    */
   public static function display($s_title,$s_message,$i_type = INFO_DIALOG)
   {
-    new msg_dialog($s_title,$s_message,$i_type);  
+    new msg_dialog($s_title,$s_message,$i_type);
   }
 
   /*
    * \brief Display checks
-   * 
+   *
    * \param array $messages Contains messages
-   */ 
+   */
   public static function displayChecks($messages)
   {
     /* Assemble the message array to a plain string */
@@ -132,9 +132,9 @@ class msg_dialog
 
   /*
    * \brief Accessor of message dialog's identifier
-   * 
+   *
    * \return The identifier of the message dialog
-   */ 
+   */
   public function get_ID()
   {
     return($this->i_ID);
@@ -142,11 +142,11 @@ class msg_dialog
 
   /*!
    * \brief Run the message dialog
-   */  
+   */
   public function execute()
   {
     if($this->i_Type == FATAL_ERROR_DIALOG) {
-      $display = 
+      $display =
         "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"
         \"http://www.w3.org/TR/html4/transitional.dtd\">
         <html><head>
@@ -180,9 +180,9 @@ class msg_dialog
 
   /*!
    * \brief Check if the message is confirmed by user
-   * 
+   *
    * \return True if is confirmed, else return false
-   */ 
+   */
   public function is_confirmed()
   {
     if(isset($_POST['MSG_OK'.$this->i_ID])){
@@ -191,10 +191,10 @@ class msg_dialog
       return(FALSE);
     }
   }
-  
-  /*! 
+
+  /*!
    * \brief Accessor of the message dialog
-   */ 
+   */
   public static function get_dialogs()
   {
     $return  ="";

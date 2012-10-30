@@ -142,7 +142,7 @@ class user extends plugin
 
     $this->config= $config;
     /* Configuration is fine, allways */
-    if($this->config->get_cfg_value("honourIvbbAttributes") == "true"){
+    if($this->config->get_cfg_value("honourIvbbAttributes") == "TRUE"){
       $this->governmentmode = TRUE;
       $this->attributes=array_merge($this->attributes,$this->govattrs);
     }
@@ -1096,11 +1096,11 @@ class user extends plugin
         die ("Could not connect to LDAP server");
       }
       ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
-      if (function_exists("ldap_set_rebind_proc") && $this->config->get_cfg_value("ldapFollowReferrals") == "true") {
+      if (function_exists("ldap_set_rebind_proc") && $this->config->get_cfg_value("ldapFollowReferrals") == "TRUE") {
         ldap_set_option($this->cid, LDAP_OPT_REFERRALS, 1);
         ldap_set_rebind_proc($ds, array(&$this, "rebind"));
       }
-      if($this->config->get_cfg_value("ldapTLS") == "true"){
+      if($this->config->get_cfg_value("ldapTLS") == "TRUE"){
         ldap_start_tls($ds);
       }
       if (!($res = @ldap_bind($ds, $this->config->current['ADMIN'],
@@ -1203,7 +1203,7 @@ class user extends plugin
     } else {
 
       $pt= "";
-      if($this->config->get_cfg_value("personalTitleInDN") == "true"){
+      if($this->config->get_cfg_value("personalTitleInDN") == "TRUE"){
         if(!empty($this->personalTitle)){
           $pt = $this->personalTitle." ";
         }
@@ -1382,11 +1382,11 @@ class user extends plugin
   {
     $ds= ldap_connect($this->config->current['SERVER']);
     ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
-    if (function_exists("ldap_set_rebind_proc") && $this->config->get_cfg_value("ldapFollowReferrals") == "true"){
+    if (function_exists("ldap_set_rebind_proc") && $this->config->get_cfg_value("ldapFollowReferrals") == "TRUE"){
       ldap_set_option($this->cid, LDAP_OPT_REFERRALS, 1);
       ldap_set_rebind_proc($ds, array(&$this, "rebind"));
     }
-    if ($this->config->get_cfg_value("ldapTLS") == "true"){
+    if ($this->config->get_cfg_value("ldapTLS") == "TRUE"){
       ldap_start_tls($ds);
     }
 
@@ -1683,7 +1683,7 @@ class user extends plugin
 
     /* Append government attributes if required */
     global $config;
-    if($config->get_cfg_value("honourIvbbAttributes") == "true"){
+    if($config->get_cfg_value("honourIvbbAttributes") == "TRUE"){
       foreach($govattrs as $attr => $desc){
         $ret["plProvidedAcls"][$attr] = $desc;
       }

@@ -70,7 +70,7 @@ class password extends plugin
 
     /* Display expiration template */
     $smarty->assign("passwordExpired", FALSE);
-    if ($this->config->get_cfg_value("handleExpiredAccounts") == "true"){
+    if ($this->config->get_cfg_value("handleExpiredAccounts") == "TRUE"){
       $expired= ldap_expired_account($this->config, $ui->dn, $ui->username);
       $smarty->assign("passwordExpired", $expired & POSIX_FORCE_PASSWORD_CHANGE);
       if($expired == POSIX_DISALLOW_PASSWORD_CHANGE){
@@ -152,8 +152,8 @@ class password extends plugin
             $ui->dn,
             $current_password,
             $this->config->current['SERVER'],
-            $this->config->get_cfg_value("ldapFollowReferrals") == "true",
-            $this->config->get_cfg_value("ldapTLS") == "true");
+            $this->config->get_cfg_value("ldapFollowReferrals") == "TRUE",
+            $this->config->get_cfg_value("ldapTLS") == "TRUE");
 
         /* connection Successfull ? */
         if (!$tldap->success()){
