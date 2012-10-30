@@ -63,6 +63,7 @@ if ($_SERVER['REMOTE_ADDR'] != $ui->ip) {
 }
 $config = session::global_get('config');
 $config->check_and_reload();
+timezone::get_default_timezone();
 
 /* Check for invalid sessions */
 if (session::global_get('_LAST_PAGE_REQUEST') == "") {
