@@ -1,22 +1,21 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 # Jiang Xin <worldhello.net@gmail.com>, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: https://forge.fusiondirectory.org/projects/fd\n"
 "POT-Creation-Date: 2012-10-27 12:40+0200\n"
-"PO-Revision-Date: 2012-08-22 10:57+0000\n"
+"PO-Revision-Date: 2012-10-27 11:14+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
-"Language-Team: Chinese (http://www.transifex.com/projects/p/FusionDirectory/"
-"language/zh/)\n"
-"Language: zh\n"
+"Language-Team: Chinese (http://www.transifex.com/projects/p/FusionDirectory/language/zh/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: zh\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: html/main.php:140 html/class_passwordRecovery.inc:225
@@ -389,9 +388,8 @@ msgid ""
 msgstr "您的浏览器已经禁用 cookies。请启用 cookies 并在登录前重新加载本页面！"
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:40
-#, fuzzy
 msgid "Hair Information"
-msgstr "提示信息"
+msgstr ""
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:44
 msgid "Color"
@@ -430,9 +428,8 @@ msgid "Does the bicycle have a bell"
 msgstr ""
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:84
-#, fuzzy
 msgid "FTP informations"
-msgstr "切换信息"
+msgstr ""
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:87
 msgid "Informations for ftp login"
@@ -466,9 +463,8 @@ msgid "Password"
 msgstr "口令"
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:91
-#, fuzzy
 msgid "Password for FTP"
-msgstr "口令存储"
+msgstr ""
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:92
 msgid "Host"
@@ -480,7 +476,7 @@ msgstr ""
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:93
 msgid "Port"
-msgstr ""
+msgstr "端口"
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:93
 msgid "Port for FTP"
@@ -491,9 +487,8 @@ msgid "Demo Plugin"
 msgstr ""
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:108
-#, fuzzy
 msgid "Edit some useless personal information"
-msgstr "个人信息"
+msgstr ""
 
 #: ihtml/themes/default/conflict.tpl:2
 msgid "Session conflict detected"
@@ -503,16 +498,15 @@ msgstr "检测道会话冲突"
 msgid ""
 "Probably there's another active instance of your session. Multiple window "
 "operation is technical not possible and heavily depends on the browser "
-"you're using. Usage of different browsers at a time (i.e. IE and Mozilla) is "
-"possible. Pressing the Logout button will close this session."
+"you're using. Usage of different browsers at a time (i.e. IE and Mozilla) is"
+" possible. Pressing the Logout button will close this session."
 msgstr ""
 
 #: ihtml/themes/default/conflict.tpl:10
 msgid ""
-"Ignoring this message will change/destroy the data you're currently editing, "
-"so please close multiple windows and log in again."
-msgstr ""
-"忽略这条信息将会修改/破坏您当前编辑的数据，所以请关闭多个窗口并重新登录。"
+"Ignoring this message will change/destroy the data you're currently editing,"
+" so please close multiple windows and log in again."
+msgstr "忽略这条信息将会修改/破坏您当前编辑的数据，所以请关闭多个窗口并重新登录。"
 
 #: ihtml/themes/default/conflict.tpl:14
 msgid "Logout"
@@ -527,9 +521,7 @@ msgid ""
 "If this lock detection is false, the other person has obviously closed the "
 "webbrowser during the edit operation. You may want to take over the lock by "
 "pressing the 'Edit anyway' button."
-msgstr ""
-"如果锁检查失败，明显的是另外的人在进行编辑操作时关闭了浏览器。您可以通过按“仍"
-"然编辑”按钮来接管这个锁文件。"
+msgstr "如果锁检查失败，明显的是另外的人在进行编辑操作时关闭了浏览器。您可以通过按“仍然编辑”按钮来接管这个锁文件。"
 
 #: ihtml/themes/default/islocked.tpl:16
 msgid "Read only"
@@ -647,8 +639,8 @@ msgstr ""
 
 #: ihtml/themes/default/password.tpl:52
 msgid ""
-"This dialog provides a simple way to change your password. Enter the current "
-"password and the new password (twice) in the fields below and press the "
+"This dialog provides a simple way to change your password. Enter the current"
+" password and the new password (twice) in the fields below and press the "
 "'Change' button."
 msgstr ""
 
@@ -872,13 +864,11 @@ msgstr "好"
 
 #: ihtml/themes/default/sizelimit.tpl:3
 msgid ""
-"The size limit option makes LDAP operations faster and saves the LDAP server "
-"from getting too much load. The easiest way to handle big databases without "
-"long timeouts would be to limit your search to smaller values and use "
+"The size limit option makes LDAP operations faster and saves the LDAP server"
+" from getting too much load. The easiest way to handle big databases without"
+" long timeouts would be to limit your search to smaller values and use "
 "filters to get the entries you are looking for."
-msgstr ""
-"大小限制选项会让 LDAP 操作更快，以免使 LDAP 服务器过载。最简单让大数据库处理"
-"不发成长时间超时的办法是，将查询缩小到更少并且使用过滤器。"
+msgstr "大小限制选项会让 LDAP 操作更快，以免使 LDAP 服务器过载。最简单让大数据库处理不发成长时间超时的办法是，将查询缩小到更少并且使用过滤器。"
 
 #: ihtml/themes/default/sizelimit.tpl:6
 msgid "Please choose the way to react for this session"
@@ -979,8 +969,8 @@ msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:59
 msgid ""
-"If none of the above methods suits you, contact your administrator to change "
-"your password"
+"If none of the above methods suits you, contact your administrator to change"
+" your password"
 msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:71
@@ -1022,8 +1012,8 @@ msgstr ""
 #: setup/setup_language.tpl:5
 msgid ""
 "At this point, you can select the site wide default language. Choosing "
-"'automatic' will use the language requested by the browser. This setting can "
-"be overriden per user."
+"'automatic' will use the language requested by the browser. This setting can"
+" be overriden per user."
 msgstr ""
 
 #: setup/setup_language.tpl:9
@@ -1208,7 +1198,8 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:233
 msgid ""
-"Search for 'max_execution_time' in your php.ini and set it to '30' or higher."
+"Search for 'max_execution_time' in your php.ini and set it to '30' or "
+"higher."
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:240
@@ -1227,7 +1218,8 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:249
 msgid ""
-"Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'."
+"Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to "
+"'Off'."
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:259
@@ -1267,8 +1259,8 @@ msgstr ""
 
 #: setup/setup_schema.tpl:31
 msgid ""
-"Could not read any schema informations, all checks skipped. Adjust your ldap "
-"acls."
+"Could not read any schema informations, all checks skipped. Adjust your ldap"
+" acls."
 msgstr ""
 
 #: setup/setup_schema.tpl:35
@@ -1507,9 +1499,8 @@ msgid "Samba settings"
 msgstr "Samba 设置"
 
 #: setup/setup_config2.tpl:6
-#, fuzzy
 msgid "Windows workstation branch"
-msgstr "显示工作站"
+msgstr ""
 
 #: setup/setup_config2.tpl:21
 msgid "Samba SID mapping"
@@ -1909,8 +1900,8 @@ msgstr ""
 
 #: setup/setup_feedback.tpl:50
 msgid ""
-"When checking this option, FusionDirectory will try to connect http://www."
-"fusiondirectory.org in order to submit your form anonymously."
+"When checking this option, FusionDirectory will try to connect "
+"http://www.fusiondirectory.org in order to submit your form anonymously."
 msgstr ""
 
 #: setup/setup_feedback.tpl:52
@@ -1982,7 +1973,8 @@ msgid "What features of FusionDirectory do you use?"
 msgstr ""
 
 #: setup/setup_feedback.tpl:150
-msgid "What features do you want to see in future versions of FusionDirectory?"
+msgid ""
+"What features do you want to see in future versions of FusionDirectory?"
 msgstr ""
 
 #: setup/setup_feedback.tpl:157
@@ -1991,8 +1983,8 @@ msgstr ""
 
 #: setup/setup_migrate.tpl:5
 msgid ""
-"During the LDAP inspection, we're going to check for several common pitfalls "
-"that may occur when migration to FusionDirectory base LDAP administration. "
+"During the LDAP inspection, we're going to check for several common pitfalls"
+" that may occur when migration to FusionDirectory base LDAP administration. "
 "You may want to fix the problems below, in order to provide smooth services."
 msgstr ""
 
@@ -2187,9 +2179,9 @@ msgstr ""
 
 #: setup/setup_migrate.tpl:444
 msgid ""
-"The listed devices are currently invisible in the FusionDirectory interface. "
-"If you want to change this for a couple of devices, just select them and use "
-"the 'Migrate' button below."
+"The listed devices are currently invisible in the FusionDirectory interface."
+" If you want to change this for a couple of devices, just select them and "
+"use the 'Migrate' button below."
 msgstr ""
 
 #: setup/setup_migrate.tpl:470 setup/setup_migrate.tpl:513
@@ -2209,8 +2201,8 @@ msgstr ""
 #: setup/setup_migrate.tpl:532
 msgid ""
 "The listed menus are currently invisible in the FusionDirectory interface. "
-"If you want to change this for a couple of devices, just select them and use "
-"the 'Migrate' button below."
+"If you want to change this for a couple of devices, just select them and use"
+" the 'Migrate' button below."
 msgstr ""
 
 #: setup/class_setupStep_Welcome.inc:38
@@ -2503,7 +2495,8 @@ msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1032
 msgid ""
-"There is no valid FusionDirectory 1.0 administrator account inside your LDAP."
+"There is no valid FusionDirectory 1.0 administrator account inside your "
+"LDAP."
 msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1034
@@ -2680,8 +2673,8 @@ msgstr ""
 #: include/class_config.inc:1167 include/class_config.inc:1198
 #, php-format
 msgid ""
-"The snapshot functionality is enabled, but the required variable '%s' is not "
-"set."
+"The snapshot functionality is enabled, but the required variable '%s' is not"
+" set."
 msgstr ""
 
 #: include/class_SnapshotHandler.inc:71 include/class_config.inc:1180
@@ -2759,9 +2752,8 @@ msgid "Cannot read uploaded file: %s"
 msgstr ""
 
 #: include/simpleplugin/class_attribute.inc:1036
-#, fuzzy
 msgid "file is empty"
-msgstr "删除这个条目"
+msgstr ""
 
 #: include/simpleplugin/class_attribute.inc:1039
 msgid "file not found"
@@ -2772,9 +2764,8 @@ msgid "file not readable"
 msgstr ""
 
 #: include/simpleplugin/class_attribute.inc:1090
-#, fuzzy
 msgid "Object base"
-msgstr "对象名称"
+msgstr ""
 
 #: include/class_pluglist.inc:76
 msgid "All objects in this category"
@@ -3321,8 +3312,8 @@ msgstr ""
 
 #: include/class_plugin.inc:546
 msgid ""
-"The object has changed since opened in FusionDirectory. All changes that may "
-"be done by others get lost if you save this entry!"
+"The object has changed since opened in FusionDirectory. All changes that may"
+" be done by others get lost if you save this entry!"
 msgstr ""
 
 #: include/class_plugin.inc:2036
@@ -3613,13 +3604,14 @@ msgstr ""
 #: include/class_ldap.inc:1246
 #, php-format
 msgid ""
-"This is not a valid DN: '%s'. A block for import should begin with 'dn: ...' "
-"in line %s"
+"This is not a valid DN: '%s'. A block for import should begin with 'dn: ...'"
+" in line %s"
 msgstr "这不是一条有效的 DN: '%s'。导入数据应该以 'dn:...' 开始于行 %s"
 
 #: include/class_ldap.inc:1275
 #, php-format
-msgid "Error while importing dn: '%s', please check your LDIF from line %s on!"
+msgid ""
+"Error while importing dn: '%s', please check your LDIF from line %s on!"
 msgstr "导入 dn: '%s' 时错误，请从行 %s 开始检查您的 LDIF！"
 
 #: include/php_setup.inc:114
@@ -3975,20 +3967,22 @@ msgstr ""
 #: include/class_msgPool.inc:575
 #, php-format
 msgid ""
-"This account has %s settings enabled. You can disable them by clicking below."
+"This account has %s settings enabled. You can disable them by clicking "
+"below."
 msgstr ""
 
 #: include/class_msgPool.inc:578 include/class_msgPool.inc:585
 #, php-format
 msgid ""
-"This account has %s settings enabled. To disable them, you'll need to remove "
-"the %s settings first!"
+"This account has %s settings enabled. To disable them, you'll need to remove"
+" the %s settings first!"
 msgstr ""
 
 #: include/class_msgPool.inc:600
 #, php-format
 msgid ""
-"This account has %s settings disabled. You can enable them by clicking below."
+"This account has %s settings disabled. You can enable them by clicking "
+"below."
 msgstr ""
 
 #: include/class_msgPool.inc:603 include/class_msgPool.inc:610
@@ -4269,9 +4263,9 @@ msgstr ""
 
 #: plugins/admin/acl/remove.tpl:6 plugins/admin/users/remove.tpl:6
 msgid ""
-"This includes all account data, system access rules, imap settings, etc. for "
-"this user. Please double check if your really want to do this since there is "
-"no way for FusionDirectory to get your data back."
+"This includes all account data, system access rules, imap settings, etc. for"
+" this user. Please double check if your really want to do this since there "
+"is no way for FusionDirectory to get your data back."
 msgstr ""
 
 #: plugins/admin/acl/class_aclManagement.inc:154
@@ -4387,9 +4381,7 @@ msgid ""
 "Creating a new user can be assisted by using templates. Many database "
 "records will be filled automatically. Choose 'none' to skip the usage of "
 "templates."
-msgstr ""
-"可以使用模板来辅助新用户的创建。很多数据记录可以被自动填充。选择“无”来跳过模"
-"板选择。"
+msgstr "可以使用模板来辅助新用户的创建。很多数据记录可以被自动填充。选择“无”来跳过模板选择。"
 
 #: plugins/admin/users/template.tpl:15
 #: plugins/admin/users/class_userManagement.inc:517
@@ -4655,9 +4647,8 @@ msgid "Weither to activate or not password recovery feature"
 msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:64
-#, fuzzy
 msgid "Sender email address"
-msgstr "邮件地址"
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:65
 msgid "Email address from which mails will be sent"
@@ -4692,15 +4683,13 @@ msgid ""
 msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:93
-#, fuzzy
 msgid "First email"
-msgstr "名"
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:96
 #: plugins/admin/password/class_recoveryConfig.inc:115
-#, fuzzy
 msgid "Subject"
-msgstr "对象"
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:97
 msgid "Subject of the first email"
@@ -4754,8 +4743,8 @@ msgstr ""
 #: plugins/admin/password/class_recoveryConfig.inc:123
 #, php-format
 msgid ""
-"Body of the second email, sent to confirm the password has been changed. Use "
-"%s for the user login."
+"Body of the second email, sent to confirm the password has been changed. Use"
+" %s for the user login."
 msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:126
@@ -5224,9 +5213,7 @@ msgid ""
 "Best thing to do before performing this action would be to save the current "
 "contents of your LDAP tree in a file. So - if you've done so - press "
 "'Delete' to continue or 'Cancel' to abort."
-msgstr ""
-"最好在执行这个操作之前，保存当前 LDAP 树中的内容到一个文件。所以，如果您已经"
-"这么做了，按“删除”继续或者按“取消”退出。"
+msgstr "最好在执行这个操作之前，保存当前 LDAP 树中的内容到一个文件。所以，如果您已经这么做了，按“删除”继续或者按“取消”退出。"
 
 #: plugins/admin/departments/organization.tpl:11
 msgid "Name of organization"
@@ -5966,9 +5953,7 @@ msgid ""
 "To change your personal password use the fields below. The changes take "
 "effect immediately. Please memorize the new password, because you wouldn't "
 "be able to login without it."
-msgstr ""
-"用下面的表格更改个人口令。口令更改即时生效。请记住新口令，忘记口令将无法登"
-"录。"
+msgstr "用下面的表格更改个人口令。口令更改即时生效。请记住新口令，忘记口令将无法登录。"
 
 #: plugins/personal/password/password.tpl:14
 msgid "Your Password has expired. Please choose a new password!"
@@ -6095,8 +6080,8 @@ msgstr "系列号"
 
 #: plugins/personal/generic/class_user.inc:549
 msgid ""
-"(Some types of certificates are currently not supported and may be displayed "
-"as 'invalid'.)"
+"(Some types of certificates are currently not supported and may be displayed"
+" as 'invalid'.)"
 msgstr "（目前有的种类的证书不支持，可能显示为“无效”）"
 
 #: plugins/personal/generic/class_user.inc:559
@@ -6122,8 +6107,8 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1008
 msgid ""
-"Cannot save user picture, FusionDirectory requires the package 'php5-"
-"imagick' to be installed!"
+"Cannot save user picture, FusionDirectory requires the package "
+"'php5-imagick' to be installed!"
 msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1146
@@ -6389,33 +6374,3 @@ msgstr "请使用电话页面"
 #: plugins/personal/generic/nochange.tpl:5
 msgid "Your password hash method will not be changed!"
 msgstr ""
-
-#~ msgid "too many different objects!"
-#~ msgstr "太多不同对象！"
-
-#~ msgid "users"
-#~ msgstr "用户"
-
-#~ msgid "groups"
-#~ msgstr "组"
-
-#~ msgid "applications"
-#~ msgstr "应用程序"
-
-#~ msgid "departments"
-#~ msgstr "部门"
-
-#~ msgid "servers"
-#~ msgstr "服务器"
-
-#~ msgid "workstations"
-#~ msgstr "工作站"
-
-#~ msgid "terminals"
-#~ msgstr "终端"
-
-#~ msgid "phones"
-#~ msgstr "电话"
-
-#~ msgid "printers"
-#~ msgstr "打印机"

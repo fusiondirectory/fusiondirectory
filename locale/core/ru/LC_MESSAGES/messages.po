@@ -1,24 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 # Valia V. Vaneeva <fattie@altlinux.ru>, 2004.
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: https://forge.fusiondirectory.org/projects/fd\n"
 "POT-Creation-Date: 2012-10-27 12:40+0200\n"
-"PO-Revision-Date: 2012-08-22 10:57+0000\n"
+"PO-Revision-Date: 2012-10-27 11:14+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
-"Language-Team: Russian (http://www.transifex.com/projects/p/FusionDirectory/"
-"language/ru/)\n"
-"Language: ru\n"
+"Language-Team: Russian (http://www.transifex.com/projects/p/FusionDirectory/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: html/main.php:140 html/class_passwordRecovery.inc:225
 #: include/class_xml.inc:60 include/functions.inc:471
@@ -390,9 +388,8 @@ msgid ""
 msgstr ""
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:40
-#, fuzzy
 msgid "Hair Information"
-msgstr "Информация"
+msgstr ""
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:44
 msgid "Color"
@@ -431,9 +428,8 @@ msgid "Does the bicycle have a bell"
 msgstr ""
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:84
-#, fuzzy
 msgid "FTP informations"
-msgstr "Информация"
+msgstr ""
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:87
 msgid "Informations for ftp login"
@@ -467,9 +463,8 @@ msgid "Password"
 msgstr "Пароль"
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:91
-#, fuzzy
 msgid "Password for FTP"
-msgstr "Хэширование паролей"
+msgstr ""
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:92
 msgid "Host"
@@ -481,7 +476,7 @@ msgstr ""
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:93
 msgid "Port"
-msgstr ""
+msgstr "Порт"
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:93
 msgid "Port for FTP"
@@ -492,9 +487,8 @@ msgid "Demo Plugin"
 msgstr ""
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:108
-#, fuzzy
 msgid "Edit some useless personal information"
-msgstr "Личная информация"
+msgstr ""
 
 #: ihtml/themes/default/conflict.tpl:2
 msgid "Session conflict detected"
@@ -504,17 +498,15 @@ msgstr "Конфликт сеансов"
 msgid ""
 "Probably there's another active instance of your session. Multiple window "
 "operation is technical not possible and heavily depends on the browser "
-"you're using. Usage of different browsers at a time (i.e. IE and Mozilla) is "
-"possible. Pressing the Logout button will close this session."
+"you're using. Usage of different browsers at a time (i.e. IE and Mozilla) is"
+" possible. Pressing the Logout button will close this session."
 msgstr ""
 
 #: ihtml/themes/default/conflict.tpl:10
 msgid ""
-"Ignoring this message will change/destroy the data you're currently editing, "
-"so please close multiple windows and log in again."
-msgstr ""
-"Если вы ничего не предпримете, редактируемые вами данные не будут сохранены, "
-"поэтому закройте все окна, кроме одного, и начните сеанс заново."
+"Ignoring this message will change/destroy the data you're currently editing,"
+" so please close multiple windows and log in again."
+msgstr "Если вы ничего не предпримете, редактируемые вами данные не будут сохранены, поэтому закройте все окна, кроме одного, и начните сеанс заново."
 
 #: ihtml/themes/default/conflict.tpl:14
 msgid "Logout"
@@ -647,8 +639,8 @@ msgstr ""
 
 #: ihtml/themes/default/password.tpl:52
 msgid ""
-"This dialog provides a simple way to change your password. Enter the current "
-"password and the new password (twice) in the fields below and press the "
+"This dialog provides a simple way to change your password. Enter the current"
+" password and the new password (twice) in the fields below and press the "
 "'Change' button."
 msgstr ""
 
@@ -821,8 +813,7 @@ msgstr ""
 msgid ""
 "You are currently editing a database entry. Do you want to dismiss the "
 "changes?"
-msgstr ""
-"Вы сейчас редактируете объект базы данных. Хотите отказаться от изменений?"
+msgstr "Вы сейчас редактируете объект базы данных. Хотите отказаться от изменений?"
 
 #: ihtml/themes/default/framework.tpl:8 ihtml/themes/default/framework.tpl:11
 msgid "Main"
@@ -873,16 +864,11 @@ msgstr ""
 
 #: ihtml/themes/default/sizelimit.tpl:3
 msgid ""
-"The size limit option makes LDAP operations faster and saves the LDAP server "
-"from getting too much load. The easiest way to handle big databases without "
-"long timeouts would be to limit your search to smaller values and use "
+"The size limit option makes LDAP operations faster and saves the LDAP server"
+" from getting too much load. The easiest way to handle big databases without"
+" long timeouts would be to limit your search to smaller values and use "
 "filters to get the entries you are looking for."
-msgstr ""
-"Ограничение на количество возвращаемых объектов позволяет ускорить операции "
-"поиска и предохраняет сервер LDAP от большой нагрузки. Простейший способ "
-"снизить время обработки запроса при обслуживаии большой базы данных это "
-"установить минимальное значение. Кроме того, будет очень полезно "
-"использовать фильтры для просмотра только ограниченного количества объектов."
+msgstr "Ограничение на количество возвращаемых объектов позволяет ускорить операции поиска и предохраняет сервер LDAP от большой нагрузки. Простейший способ снизить время обработки запроса при обслуживаии большой базы данных это установить минимальное значение. Кроме того, будет очень полезно использовать фильтры для просмотра только ограниченного количества объектов."
 
 #: ihtml/themes/default/sizelimit.tpl:6
 msgid "Please choose the way to react for this session"
@@ -983,8 +969,8 @@ msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:59
 msgid ""
-"If none of the above methods suits you, contact your administrator to change "
-"your password"
+"If none of the above methods suits you, contact your administrator to change"
+" your password"
 msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:71
@@ -1026,8 +1012,8 @@ msgstr ""
 #: setup/setup_language.tpl:5
 msgid ""
 "At this point, you can select the site wide default language. Choosing "
-"'automatic' will use the language requested by the browser. This setting can "
-"be overriden per user."
+"'automatic' will use the language requested by the browser. This setting can"
+" be overriden per user."
 msgstr ""
 
 #: setup/setup_language.tpl:9
@@ -1212,7 +1198,8 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:233
 msgid ""
-"Search for 'max_execution_time' in your php.ini and set it to '30' or higher."
+"Search for 'max_execution_time' in your php.ini and set it to '30' or "
+"higher."
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:240
@@ -1231,7 +1218,8 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:249
 msgid ""
-"Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'."
+"Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to "
+"'Off'."
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:259
@@ -1271,8 +1259,8 @@ msgstr ""
 
 #: setup/setup_schema.tpl:31
 msgid ""
-"Could not read any schema informations, all checks skipped. Adjust your ldap "
-"acls."
+"Could not read any schema informations, all checks skipped. Adjust your ldap"
+" acls."
 msgstr ""
 
 #: setup/setup_schema.tpl:35
@@ -1511,9 +1499,8 @@ msgid "Samba settings"
 msgstr "Настройки Samba"
 
 #: setup/setup_config2.tpl:6
-#, fuzzy
 msgid "Windows workstation branch"
-msgstr "Показать рабочие станции"
+msgstr ""
 
 #: setup/setup_config2.tpl:21
 msgid "Samba SID mapping"
@@ -1913,8 +1900,8 @@ msgstr ""
 
 #: setup/setup_feedback.tpl:50
 msgid ""
-"When checking this option, FusionDirectory will try to connect http://www."
-"fusiondirectory.org in order to submit your form anonymously."
+"When checking this option, FusionDirectory will try to connect "
+"http://www.fusiondirectory.org in order to submit your form anonymously."
 msgstr ""
 
 #: setup/setup_feedback.tpl:52
@@ -1986,7 +1973,8 @@ msgid "What features of FusionDirectory do you use?"
 msgstr ""
 
 #: setup/setup_feedback.tpl:150
-msgid "What features do you want to see in future versions of FusionDirectory?"
+msgid ""
+"What features do you want to see in future versions of FusionDirectory?"
 msgstr ""
 
 #: setup/setup_feedback.tpl:157
@@ -1995,8 +1983,8 @@ msgstr ""
 
 #: setup/setup_migrate.tpl:5
 msgid ""
-"During the LDAP inspection, we're going to check for several common pitfalls "
-"that may occur when migration to FusionDirectory base LDAP administration. "
+"During the LDAP inspection, we're going to check for several common pitfalls"
+" that may occur when migration to FusionDirectory base LDAP administration. "
 "You may want to fix the problems below, in order to provide smooth services."
 msgstr ""
 
@@ -2191,9 +2179,9 @@ msgstr ""
 
 #: setup/setup_migrate.tpl:444
 msgid ""
-"The listed devices are currently invisible in the FusionDirectory interface. "
-"If you want to change this for a couple of devices, just select them and use "
-"the 'Migrate' button below."
+"The listed devices are currently invisible in the FusionDirectory interface."
+" If you want to change this for a couple of devices, just select them and "
+"use the 'Migrate' button below."
 msgstr ""
 
 #: setup/setup_migrate.tpl:470 setup/setup_migrate.tpl:513
@@ -2213,8 +2201,8 @@ msgstr ""
 #: setup/setup_migrate.tpl:532
 msgid ""
 "The listed menus are currently invisible in the FusionDirectory interface. "
-"If you want to change this for a couple of devices, just select them and use "
-"the 'Migrate' button below."
+"If you want to change this for a couple of devices, just select them and use"
+" the 'Migrate' button below."
 msgstr ""
 
 #: setup/class_setupStep_Welcome.inc:38
@@ -2507,7 +2495,8 @@ msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1032
 msgid ""
-"There is no valid FusionDirectory 1.0 administrator account inside your LDAP."
+"There is no valid FusionDirectory 1.0 administrator account inside your "
+"LDAP."
 msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1034
@@ -2684,8 +2673,8 @@ msgstr ""
 #: include/class_config.inc:1167 include/class_config.inc:1198
 #, php-format
 msgid ""
-"The snapshot functionality is enabled, but the required variable '%s' is not "
-"set."
+"The snapshot functionality is enabled, but the required variable '%s' is not"
+" set."
 msgstr ""
 
 #: include/class_SnapshotHandler.inc:71 include/class_config.inc:1180
@@ -2775,9 +2764,8 @@ msgid "file not readable"
 msgstr ""
 
 #: include/simpleplugin/class_attribute.inc:1090
-#, fuzzy
 msgid "Object base"
-msgstr "Имя объекта"
+msgstr ""
 
 #: include/class_pluglist.inc:76
 msgid "All objects in this category"
@@ -2950,9 +2938,7 @@ msgstr "Найдено более %d объектов."
 msgid ""
 "Set the new size limit to %s and show me this message if the limit still "
 "exceeds"
-msgstr ""
-"Установить новое значение лимита в %s и показать мне это сообщение если "
-"лимит будет исчерпан."
+msgstr "Установить новое значение лимита в %s и показать мне это сообщение если лимит будет исчерпан."
 
 #: include/functions.inc:1355 plugins/personal/generic/generic.tpl:223
 msgid "Configure"
@@ -3326,8 +3312,8 @@ msgstr ""
 
 #: include/class_plugin.inc:546
 msgid ""
-"The object has changed since opened in FusionDirectory. All changes that may "
-"be done by others get lost if you save this entry!"
+"The object has changed since opened in FusionDirectory. All changes that may"
+" be done by others get lost if you save this entry!"
 msgstr ""
 
 #: include/class_plugin.inc:2036
@@ -3618,13 +3604,14 @@ msgstr ""
 #: include/class_ldap.inc:1246
 #, php-format
 msgid ""
-"This is not a valid DN: '%s'. A block for import should begin with 'dn: ...' "
-"in line %s"
+"This is not a valid DN: '%s'. A block for import should begin with 'dn: ...'"
+" in line %s"
 msgstr ""
 
 #: include/class_ldap.inc:1275
 #, php-format
-msgid "Error while importing dn: '%s', please check your LDIF from line %s on!"
+msgid ""
+"Error while importing dn: '%s', please check your LDIF from line %s on!"
 msgstr ""
 
 #: include/php_setup.inc:114
@@ -3980,20 +3967,22 @@ msgstr ""
 #: include/class_msgPool.inc:575
 #, php-format
 msgid ""
-"This account has %s settings enabled. You can disable them by clicking below."
+"This account has %s settings enabled. You can disable them by clicking "
+"below."
 msgstr ""
 
 #: include/class_msgPool.inc:578 include/class_msgPool.inc:585
 #, php-format
 msgid ""
-"This account has %s settings enabled. To disable them, you'll need to remove "
-"the %s settings first!"
+"This account has %s settings enabled. To disable them, you'll need to remove"
+" the %s settings first!"
 msgstr ""
 
 #: include/class_msgPool.inc:600
 #, php-format
 msgid ""
-"This account has %s settings disabled. You can enable them by clicking below."
+"This account has %s settings disabled. You can enable them by clicking "
+"below."
 msgstr ""
 
 #: include/class_msgPool.inc:603 include/class_msgPool.inc:610
@@ -4274,9 +4263,9 @@ msgstr ""
 
 #: plugins/admin/acl/remove.tpl:6 plugins/admin/users/remove.tpl:6
 msgid ""
-"This includes all account data, system access rules, imap settings, etc. for "
-"this user. Please double check if your really want to do this since there is "
-"no way for FusionDirectory to get your data back."
+"This includes all account data, system access rules, imap settings, etc. for"
+" this user. Please double check if your really want to do this since there "
+"is no way for FusionDirectory to get your data back."
 msgstr ""
 
 #: plugins/admin/acl/class_aclManagement.inc:154
@@ -4699,9 +4688,8 @@ msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:96
 #: plugins/admin/password/class_recoveryConfig.inc:115
-#, fuzzy
 msgid "Subject"
-msgstr "Объект"
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:97
 msgid "Subject of the first email"
@@ -4755,8 +4743,8 @@ msgstr ""
 #: plugins/admin/password/class_recoveryConfig.inc:123
 #, php-format
 msgid ""
-"Body of the second email, sent to confirm the password has been changed. Use "
-"%s for the user login."
+"Body of the second email, sent to confirm the password has been changed. Use"
+" %s for the user login."
 msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:126
@@ -4855,9 +4843,7 @@ msgstr "Имя группы, соответствующее стандарту P
 #: plugins/admin/groups/paste_generic.tpl:13
 #: plugins/admin/groups/generic.tpl:59
 msgid "Normally IDs are autogenerated, select to specify manually"
-msgstr ""
-"Обычно идентификаторы создаются автоматически, но вы можете выбрать указание "
-"вручную"
+msgstr "Обычно идентификаторы создаются автоматически, но вы можете выбрать указание вручную"
 
 #: plugins/admin/groups/paste_generic.tpl:15
 #: plugins/admin/groups/generic.tpl:62
@@ -5931,8 +5917,7 @@ msgstr "Членство в группах"
 #: plugins/personal/posix/paste_generic.tpl:62
 #: plugins/personal/posix/generic.tpl:91
 msgid "(Warning: more than 16 groups are not supported by NFS!)"
-msgstr ""
-"(Предупреждение: NFS не поддерживает более 16 групп для одного пользователя!)"
+msgstr "(Предупреждение: NFS не поддерживает более 16 групп для одного пользователя!)"
 
 #: plugins/personal/posix/generic.tpl:36
 msgid "Status"
@@ -6023,9 +6008,7 @@ msgstr ""
 msgid ""
 "You've successfully changed your password. Remember to change all programms "
 "configured to use it as well."
-msgstr ""
-"Вы успешно сменили свой пароль. Не забудьте изменить нужные настройки "
-"использующих его программ."
+msgstr "Вы успешно сменили свой пароль. Не забудьте изменить нужные настройки использующих его программ."
 
 #: plugins/personal/password/nochange.tpl:2
 #: plugins/personal/generic/nochange.tpl:2
@@ -6097,8 +6080,8 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:549
 msgid ""
-"(Some types of certificates are currently not supported and may be displayed "
-"as 'invalid'.)"
+"(Some types of certificates are currently not supported and may be displayed"
+" as 'invalid'.)"
 msgstr ""
 
 #: plugins/personal/generic/class_user.inc:559
@@ -6124,8 +6107,8 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1008
 msgid ""
-"Cannot save user picture, FusionDirectory requires the package 'php5-"
-"imagick' to be installed!"
+"Cannot save user picture, FusionDirectory requires the package "
+"'php5-imagick' to be installed!"
 msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1146
@@ -6391,33 +6374,3 @@ msgstr "Воспользуйтесь закладкой \"Телефон\""
 #: plugins/personal/generic/nochange.tpl:5
 msgid "Your password hash method will not be changed!"
 msgstr ""
-
-#~ msgid "too many different objects!"
-#~ msgstr "слишком много различных объектов!"
-
-#~ msgid "users"
-#~ msgstr "пользователи"
-
-#~ msgid "groups"
-#~ msgstr "группы"
-
-#~ msgid "applications"
-#~ msgstr "приложения"
-
-#~ msgid "departments"
-#~ msgstr "подразделения"
-
-#~ msgid "servers"
-#~ msgstr "серверы"
-
-#~ msgid "workstations"
-#~ msgstr "рабочие станции"
-
-#~ msgid "terminals"
-#~ msgstr "терминалы"
-
-#~ msgid "phones"
-#~ msgstr "телефоны"
-
-#~ msgid "printers"
-#~ msgstr "принтеры"
