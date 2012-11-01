@@ -92,6 +92,7 @@ function displayLogin()
   }
   $smarty->assign("msg_dialogs", msg_dialog::get_dialogs());
   $smarty->assign("usePrototype", "false");
+  $smarty->assign("date", date("l, dS F Y H:i:s O"));
   $smarty->display (get_template_path('headers.tpl'));
 
   $smarty->assign("version",FD_VERSION);
@@ -111,7 +112,7 @@ function displayLogin()
 session::start();
 session::set('errorsAlreadyPosted',array());
 
-/* Destroy old session if exists. 
+/* Destroy old session if exists.
    Else you will get your old session back, if you not logged out correctly. */
 if(is_array(session::get_all()) && count(session::get_all())){
   session::destroy();
@@ -152,11 +153,6 @@ $config= new config(CONFIG_DIR."/".CONFIG_FILE, $BASE_DIR);
 session::global_set('DEBUGLEVEL',$config->get_cfg_value('DEBUGLEVEL'));
 if ($_SERVER["REQUEST_METHOD"] != "POST"){
   @DEBUG (DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, "config");
-}
-
-/* Enable compressed output */
-if ($config->get_cfg_value("sendCompressedOutput") != ""){
-  ob_start("ob_gzhandler");
 }
 
 /* Set template compile directory */

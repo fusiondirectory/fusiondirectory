@@ -39,7 +39,7 @@ class passwordMethodsmd5 extends passwordMethod
   function passwordMethodsmd5($config)
   {
   }
-  
+
   /*!
    * \brief Is available
    *
@@ -48,7 +48,7 @@ class passwordMethodsmd5 extends passwordMethod
   function is_available()
   {
     if ((!function_exists('md5'))){
-      return false; 
+      return false;
     }else{
       return true;
     }
@@ -58,20 +58,20 @@ class passwordMethodsmd5 extends passwordMethod
    * \brief Generate template hash
    *
    * \param string $pwd Password
-   */ 
+   */
   function generate_hash($pwd)
   {
     mt_srand(microtime()* 10000000);
     $salt0= substr(pack("h*", md5(mt_rand())), 0, 8);
     $salt = substr(pack("H*", md5($salt0 . $pwd)), 0, 4);
     $hash = "{SMD5}".base64_encode(pack("H*",md5($pwd . $salt)) . $salt);
-    return $hash;       
+    return $hash;
   }
-  
+
   /*!
    * \brief Get the hash name
-   */ 
-  function get_hash_name()
+   */
+  static function get_hash_name()
   {
     return "smd5";
   }

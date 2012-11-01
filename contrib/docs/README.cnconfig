@@ -14,9 +14,11 @@ But it's quite more difficult to manage it …
 step 1 : convert the schema
 ---------------------------
 
-Most schemas are provided in the .schema format. This kind of file can not be inserted directly in a LDAP server running in cn=config mode. You'll have to convert it before.
+All the schema for FusionDirectory are provided in .schema and .ldif format so you don't need to convert them.
 
-You can download the script here : the schema2ldif is included in the basic FusionDirectory packages or in contrib/bin in the tar.gz packages. 
+If you need to convert another schema we provide a tool for this fusiondirectory-schema2ldif.
+
+fusiondirectory-schema2ldif is included in the basic FusionDirectory packages or in contrib/bin in the tar.gz packages.
 
   * example : fusiondirectory-schema2ldif quota.schema > quota.ldif
 
@@ -25,7 +27,23 @@ a ldif file is created !
 step 2 : how to insert
 ----------------------
 
-  * fusiondirectory-insert-schema <your schema directory>
+  * fusiondirectory-insert-schema -i /etc/ldap/otherschema/myschema.ldif
 
-The latest version of this explanation is always avaible at http://www.fusiondirectory.org/en/documentation/convert_schema
+The latest version of this explanation is always avaible at
 
+http://documentation.fusiondirectory.org/en/documentation/convert_schema
+
+Have fun!
+
+---
+* Further information
+
+To improve this piece of software, please report all kind of errors using the bug tracker
+on https://forge.fusiondirectory.org
+
+Documentation: http://www.fusiondirectory.org/
+Mailinglist:   http://lists.fusiondirectory.org/
+Irc:           #fusiondirectory on freenode
+
+---
+The FusionDirectory project <contact@fusiondirectory.org>

@@ -3,6 +3,7 @@
  * accept-to-gettext.inc -- convert information in 'Accept-*' headers to
  * gettext language identifiers.
  * Copyright (c) 2003, Wouter Verhelst <wouter@debian.org>
+ * Copyright (c) 2012, FusionDirectory project <contact@fusiondirectory.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -63,150 +64,123 @@
  * Revision 1.2  2003/08/14 10:23:59  wouter
  * Removed little error in Content-Type header syntaxis.
  *
+ * Revision 2012/06/07 Côme BERNIGAUD
+ * Rewrote a lot of things, use functions and PHP features in order to be more efficient and more readable
  */
 
-/* not really important, this one; perhaps I could've put it inline with
- * the rest. */
-function find_match($curlscore,$curcscore,$curgtlang,$langval,$charval,
-                    $gtlang)
+/*!
+ * \brief Parse a string like nl-be, nl;q=0.8, en-us;q=0.5, en;q=0.3
+ * into an array like array('nl-be'=>1,'nl'=>0.8,'en-us'=>0.5,'en'=>0.3)
+ */
+function parse_scores ($str)
 {
-  if($curlscore < $langval) {
-    $curlscore=$langval;
-    $curcscore=$charval;
-    $curgtlang=$gtlang;
-  } else if ($curlscore == $langval) {
-    if($curcscore < $charval) {
-      $curcscore=$charval;
-      $curgtlang=$gtlang;
+  $scores = array();
+  $parts = preg_split('/,/', $str);
+  foreach ($parts as $part) {
+    $part = trim(strtolower($part));
+    if (preg_match("/(.*);q=(.*)/", $part, $matches)) {
+      $scores[$matches[1]] = $matches[2];
+    } else {
+      $scores[$part] = 1;
     }
   }
-  return array($curlscore, $curcscore, $curgtlang);
+  return $scores;
 }
 
+/*!
+ * \brief Compute the maximum value in scores array, between keys from testvals array.
+ * example: max_scores(array('a'=>1,'b'=>2,'c'=>3,'d'=>4,'e'=>5),array('a','d','f')) returns 4
+ * if no key from testvals is found, returns 0
+ */
+function max_scores ($scores, $testvals)
+{
+  $values = array_intersect_key($scores, array_flip($testvals));
+  if (empty($values)) {
+    return 0;
+  } else {
+    return max($values);
+  }
+}
+
+/*!
+ * \brief Parse a lang in gettext format and returns lang, country and charset.
+ * example: en_US.utf-8 will return ('en','us','utf-8')
+ */
+function parse_gettext_lang ($str)
+{
+  if (preg_match("/^([^_]*)(_([^_]*))?\.(.*)$/", $str, $m)) {
+    return array(strtolower($m[1]), strtolower($m[3]), strtolower($m[4]));
+  } else {
+    return FALSE;
+  }
+}
 
 function al2gt($gettextlangs, $mime)
 {
   /* Check if ACCEPT_LANGUAGE isset */
-  if(!isset($_SERVER["HTTP_ACCEPT_LANGUAGE"])){
-    $_SERVER["HTTP_ACCEPT_LANGUAGE"] = "";
+  if (empty($_SERVER["HTTP_ACCEPT_LANGUAGE"])) {
+    /* default to "everything is acceptable", as RFC2616 specifies */
+    $acceptLang = '*';
+  } else {
+    $acceptLang = $_SERVER["HTTP_ACCEPT_LANGUAGE"];
   }
-  if(!isset($_SERVER["HTTP_ACCEPT_CHARSET"])){
-    $_SERVER["HTTP_ACCEPT_CHARSET"] = "";
-  }
-
-  /* default to "everything is acceptable", as RFC2616 specifies */
-  $acceptLang=(($_SERVER["HTTP_ACCEPT_LANGUAGE"] == '') ? '*' :
-    $_SERVER["HTTP_ACCEPT_LANGUAGE"]);
-  $acceptChar=(($_SERVER["HTTP_ACCEPT_CHARSET"] == '') ? 'ISO-8859-1,utf-8;q=0.7,*;q=0.7' :
-    $_SERVER["HTTP_ACCEPT_CHARSET"]);
-  $alparts=@preg_split("/,/",$acceptLang);
-  $acparts=@preg_split("/,/",$acceptChar);
-
-  /* Parse the contents of the Accept-Language header.*/
-  foreach($alparts as $part) {
-    $part=trim($part);
-    if(preg_match("/;/", $part)) {
-      $lang=@preg_split("/;/",$part);
-      $score=@preg_split("/=/",$lang[1]);
-      $alscores[$lang[0]]=$score[1];
-    } else {
-      $alscores[$part]=1;
-    }
+  if (empty($_SERVER["HTTP_ACCEPT_CHARSET"])) {
+    /* default to "everything is acceptable", as RFC2616 specifies */
+    $acceptChar = 'ISO-8859-1,*;q=0.5';
+  } else {
+    $acceptChar = $_SERVER["HTTP_ACCEPT_CHARSET"];
   }
 
-  /* Do the same for the Accept-Charset header. */
+  $lang_scores = parse_scores($acceptLang);
+  $char_scores = parse_scores($acceptChar);
 
   /* RFC2616: ``If no "*" is present in an Accept-Charset field, then
    * all character sets not explicitly mentioned get a quality value of
    * 0, except for ISO-8859-1, which gets a quality value of 1 if not
-   * explicitly mentioned.''
-   *
-   * Making it 2 for the time being, so that we
-   * can distinguish between "not specified" and "specified as 1" later
-   * on. */
-  $acscores["ISO-8859-1"]=2;
-
-  foreach($acparts as $part) {
-    $part=trim($part);
-    if(preg_match("/;/", $part)) {
-      $cs=@preg_split("/;/",$part);
-      $score=@preg_split("/=/",$cs[1]);
-      $acscores[strtoupper($cs[0])]=$score[1];
-    } else {
-      $acscores[strtoupper($part)]=1;
-    }
-  }
-  if($acscores["ISO-8859-1"]==2) {
-    $acscores["ISO-8859-1"]=(isset($acscores["*"])?$acscores["*"]:1);
+   * explicitly mentioned.'' */
+  if (!isset($char_scores['ISO-8859-1']) && !isset($char_scores['*'])) {
+    $char_scores['ISO-8859-1'] = 1;
   }
 
-  /*
-   * Loop through the available languages/encodings, and pick the one
+  /* Loop through the available languages/encodings, and pick the one
    * with the highest score, excluding the ones with a charset the user
-   * did not include.
-   */
-  $curlscore=0;
-  $curcscore=0;
-  $curgtlang=NULL;
-  foreach($gettextlangs as $gtlang) {
+   * did not include. */
+  $max_lang     = NULL; // The lang with the maximum score found
+  $max_l_score  = 0;    // The lang score of this lang
+  $max_c_score  = 0;    // The char score of this lang
+  foreach ($gettextlangs as $gtlang) {
+    if (!($infos = parse_gettext_lang($gtlang))) {
+      continue;
+    }
+    list ($lang, $country, $char) = $infos;
 
-    $tmp1=preg_replace("/\_/","-",$gtlang);
-    $tmp2=@preg_split("/\./",$tmp1);
-    $allang=strtolower($tmp2[0]);
-    $gtcs=strtoupper($tmp2[1]);
-    $noct=@preg_split("/-/",$allang);
-
-    if(!isset($alscores["*"])){
-      $alscores["*"] = "";
+    $lang_score = max_scores($lang_scores, array($lang,$lang.'-'.$country,'*'));
+    $char_score = max_scores($char_scores, array($char,'*'));
+    if ($char_score == 0) {
+      continue; // exclude charsets the user refuses
     }
 
-    if(!isset($alscores[$allang])){
-      $alscores[$allang] = "";
+    if   (($lang_score > $max_l_score)
+      || (($lang_score == $max_l_score) && ($char_score > $max_c_score))) { // if lang scores are equals we compare char scores
+      $max_l_score  = $lang_score;
+      $max_c_score  = $char_score;
+      $max_lang     = $gtlang;
     }
+  }
 
-    if(!isset($alscores[$noct[0]])){
-      $alscores[$noct[0]] = "";
-    }
-
-    if(!isset($acscores[$gtcs])){
-      $acscores[$gtcs] = "";
-    }
-
-    $testvals=array(
-        array($alscores[$allang], $acscores[$gtcs]),
-        array($alscores[$noct[0]], $acscores[$gtcs]),
-        array($alscores[$allang], $acscores["*"]),
-        array($alscores[$noct[0]], $acscores["*"]),
-        array($alscores["*"], $acscores[$gtcs]),
-        array($alscores["*"], $acscores["*"]));
-
-    foreach($testvals as $tval) {
-      if(!empty($tval[0]) && !empty($tval[1])) {
-        $arr=find_match($curlscore, $curcscore, $curgtlang, $tval[0],
-            $tval[1], $gtlang);
-        $curlscore=$arr[0];
-        $curcscore=$arr[1];
-        $curgtlang=$arr[2];
-        break;
-      }
-    }
+  if ($max_lang === NULL) {
+    return NULL;
   }
 
   /* We must re-parse the gettext-string now, since we may have found it
    * through a "*" qualifier.*/
-
-  $gtparts=@preg_split("/\./",$curgtlang);
-  $tmp=strtolower($gtparts[0]);
-  $lang=preg_replace("/\_/", "-", $tmp);
-  if (!headers_sent()){
-    header("Content-Language: $lang");
-    if(isset($gtparts[1])){
-      $charset=$gtparts[1];
-      header("Content-Type: $mime; charset=$charset");
+  list ($lang, $country, $char) = parse_gettext_lang($max_lang);
+  if (!headers_sent()) {
+    header("Content-Language: $lang".(empty($country)?"":"-$country"));
+    if (!empty($char)) {
+      header("Content-Type: $mime; charset=$char");
     }
   }
-  return $curgtlang;
+  return $max_lang;
 }
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

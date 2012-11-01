@@ -22,37 +22,37 @@
 /*!
  * \file class_databaseManagement.inc
  * Source code for class databasManagement
- */ 
+ */
 
 require_once("MDB2.php");
 
-/*! 
+/*!
  * \brief This class contains all database functions needed
  */
 class databaseManagement {
 
-  /*! 
+  /*!
    * \brief This function connect to the database server and return the handle
-   * 
-   * \param array $config Array with connection informations
+   *
+   * \param array $database Array with connection informations
    */
-  static function connectDatabase($config)
+  static function connectDatabase($database)
   {
-    $link =& MDB2::connect(array( 'phptype'=>'mysql',
-                                  'hostspec'=>$config['SERVER'],
-                                  'username'=>$config['LOGIN'],
-                                  'password'=>$config['PASSWORD'],
-                                  'database'=>$config['DB'],
+    $link = MDB2::connect(array( 'phptype'=>'mysql',
+                                  'hostspec'=>$database['SERVER'],
+                                  'username'=>$database['LOGIN'],
+                                  'password'=>$database['PASSWORD'],
+                                  'database'=>$database['DB'],
                           ));
     return $link;
   }
 
-  /*! 
+  /*!
    * \brief This function execute a bunch of queries inside
    * a transaction and roll back if anything goes wrong
-   * 
+   *
    * \param $link Connection to MySQL Server
-   * 
+   *
    * \param String $queries Queries to execute
    */
   static function executeQueriesInTransaction($link,$queries)

@@ -1,7 +1,7 @@
 ##
-## goto-mime.schema - Needed by the GONICUS Terminal concept
+## goto-mime.schema
 ##
-## Maintainer:	Cajus Pollmeier	(pollmeier@GONICUS.de)
+## Maintained by the FusionDirectory Project <contact@fusiondirectory.org>
 ##
 
 # Basic list of mime groups:
@@ -57,5 +57,5 @@ objectclass (1.3.6.1.4.1.10098.1.2.4.1 NAME 'gotoMimeType'
         DESC 'Class to represent global mime types (v2.6.1)' SUP top STRUCTURAL
         MUST ( cn $ gotoMimeFilePattern $ gotoMimeGroup )
         MAY  ( description $ gotoMimeIcon $ gotoMimeApplication $
-	       gotoMimeEmbeddedApplication $ gotoMimeLeftClickAction ))
+         gotoMimeEmbeddedApplication $ gotoMimeLeftClickAction ))
 

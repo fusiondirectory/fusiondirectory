@@ -97,10 +97,6 @@ class userManagement extends management
     $this->registerAction("passwordQueue", "handlePasswordQueue");
     $this->registerAction("passwordCancel", "closeDialogs");
 
-    $this->registerAction("sendMessage", "sendMessage");
-    $this->registerAction("saveEventDialog", "saveEventDialog");
-    $this->registerAction("abortEventDialog", "closeDialogs");
-
     // Register shortcut icon actions
     $this->registerAction("edit_user","editEntry");
     $this->registerAction("edit_posixAccount","editEntry");
@@ -126,8 +122,6 @@ class userManagement extends management
     $action = management::detectPostActions();
     if(isset($_POST['template_continue'])) $action['action'] = "templateContinue";
     if(isset($_POST['templatize_continue'])) $action['action'] = "templatizeContinue";
-    if(isset($_POST['save_event_dialog'])) $action['action'] = "saveEventDialog";
-    if(isset($_POST['abort_event_dialog'])) $action['action'] = "abortEventDialog";
     if(isset($_POST['password_cancel'])){
       $action['action'] = "passwordCancel";
     }elseif((count($this->pwd_change_queue) || isset($_POST['password_finish']) || isset($_POST['refreshProposal']))){
@@ -157,54 +151,6 @@ class userManagement extends management
   {
     management::closeDialogs();
     $this->pwd_change_queue = array();
-  }
-
-
-  /*! \brief  Sends a message to a set of users using Argonauts events.
-   */
-  function sendMessage($action="",$target=array(),$all=array())
-  {
-    if(class_available("DaemonEvent")){
-      $uids = array();
-      $ldap = $this->config->get_ldap_link();
-      $ldap->cd($this->config->current['BASE']);
-      foreach($target as $dn){
-        $ldap->cat($dn,array('uid'));
-        $attrs = $ldap->fetch();
-        if(isset($attrs['uid'][0])){
-          $uids[] = $attrs['uid'][0];
-        }
-      }
-      if(count($uids)){
-        $events = DaemonEvent::get_event_types(USER_EVENT);
-        $event = "DaemonEvent_notify";
-        if(isset($events['BY_CLASS'][$event])){
-          $type = $events['BY_CLASS'][$event];
-          $this->dialogObject = new $type['CLASS_NAME']($this->config);
-          $this->dialogObject->add_users($uids);
-          $this->dialogObject->set_type(SCHEDULED_EVENT);
-        }
-      }
-    }
-  }
-
-
-  /*! \brief  Sends a message to a set of users using Argonauts events.
-   */
-  function saveEventDialog()
-  {
-    $this->dialogObject->save_object();
-    $msgs = $this->dialogObject->check();
-    if(count($msgs)){
-      msg_dialog::displayChecks($msgs);
-    }else{
-      $o_queue = new supportDaemon();
-      $o_queue->append($this->dialogObject);
-      if($o_queue->is_error()){
-        msg_dialog::display(_("Infrastructure error"), msgPool::siError($o_queue->get_error()),ERROR_DIALOG);
-      }
-      $this->closeDialogs();
-    }
   }
 
 

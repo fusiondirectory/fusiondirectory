@@ -10,6 +10,14 @@ You have installed the following perl libraries
 
 Path::Class, Net::LDAP, Crypt::PasswdMD5, File::Copy::Recursive
 
+If you intend to use the plugins that need an sql backend like :
+
+  rsyslog
+  gofon
+  gofax
+
+you need to install the pear mdb2 library and the pear mdb2 mysql driver library
+
 ---
 
 1) DOWNLOADING FUSIONDIRECTORY
@@ -44,7 +52,7 @@ md5sum fusiondirectory-plugins-1.0.x.tar.gz
 directory to a place your webserver is configured to find it. On most
 of the case this will be /var/www/fusiondirectory. Our fusiondirectory-setup script use
 /var/www/fusiondirectory as default path.
- 
+
 For exemple, if you need to change the global path of FusionDirectory installation you can modify the variable 'fd_home':
   * fusiondirectory-setup --set-fd_home="/usr/share/fusiondirectory" --write-vars will change the path of your FusionDirectory installation.
 
@@ -78,11 +86,15 @@ so its mandatory to use them together.
 - Create the symbolic links for the fusiondirectory smarty functions
 
   Check that your smarty dir is in /usr/share/php/smarty or adapt the path accordingly
-  
+
   * ln -s /var/www/fusiondirectory/contrib/smarty/plugins/block.render.php /usr/share/php/smarty/libs/plugins/block.render.php
   * ln -s /var/www/fusiondirectory/contrib/smarty/plugins/block.t.php /usr/share/php/smarty/libs/plugins/block.t.php
   * ln -s /var/www/fusiondirectory/contrib/smarty/plugins/function.msgPool.php /usr/share/php/smarty/libs/plugins/function.msgPool.php
-  
+
+- Remove the library for accessing mysql database if you don't need access to the plugins needing it
+
+  * rm -f /var/www/fusiondirectory/include/class_databaseManagement.inc
+
 - Move the needed schema and ldif from contrib to your ldap server schema directory
 
   * mv /var/www/fusiondirectory/contrib/openldap/*.ldif <your-ldap-schema-directory>/fusiondirectory
@@ -93,7 +105,7 @@ so its mandatory to use them together.
   * fusiondirectory-insert-schema
 
 - check what schema are installed
-    
+
   * ldapsearch -Y EXTERNAL -H ldapi:/// -LLL -b cn=schema,cn=config | grep "dn: cn={"
 
 - Run the fusiondirectory-setup
@@ -119,7 +131,7 @@ Please note that if you changed the path of your FusionDirectory installation yo
 Please note that if you changed the path of your FusionDirectory installation you will need to type the following commands
 
   * fusiondirectory-setup --set-fd_home=<your path> --install-plugins
-  
+
 - Copy the file from contrib/apache to the apache site configuration dir
 
   * mv /var/www/fusiondirectory/contrib/apache/fusiondirectory-apache.conf <your-apache-configuration-directory>
@@ -135,18 +147,17 @@ until you're able to log in.
 
 You're done. Lets play with the GUI.
 
----
+Have fun!
 
+---
 * Further information
 
 To improve this piece of software, please report all kind of errors using the bug tracker
 on https://forge.fusiondirectory.org
 
 Documentation: http://www.fusiondirectory.org/
-Mailinglist: http://lists.fusiondirectory.org/
-Irc channel: #fusiondirectory on freenode
-
-Have fun!
+Mailinglist:   http://lists.fusiondirectory.org/
+Irc:           #fusiondirectory on freenode
 
 ---
 The FusionDirectory project <contact@fusiondirectory.org>

@@ -1,8 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2012  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -39,7 +38,7 @@ class passwordMethodsasl extends passwordMethod {
    * \param string $config
    *
    * \param string $dn The DN
-   */ 
+   */
   function __construct($config, $dn="")
   {
     if ($dn == "" || $dn == "new") {
@@ -69,7 +68,7 @@ class passwordMethodsasl extends passwordMethod {
    * \brief Is available
    *
    * \return TRUE if is avaibable
-   */ 
+   */
   function is_available()
   {
     return TRUE;
@@ -88,20 +87,20 @@ class passwordMethodsasl extends passwordMethod {
       return "{SASL}".$this->uid; // may not be the uid, see saslExop option
     }
   }
-  
+
   /*!
    * \brief Get the hash name
-   */ 
-  function get_hash_name()
+   */
+  static function get_hash_name()
   {
     return "sasl";
   }
 
   /*!
    * \brief Password needed
-   * 
+   *
    * \return boolean FALSE
-   */ 
+   */
   function need_password()
   {
     return FALSE;

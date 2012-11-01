@@ -50,6 +50,9 @@ class passwordRecovery {
   var $mail2_body;
   var $mail2_subject;
 
+  var $activated;
+  var $usealternates;
+
   /* Constructor */
   function passwordRecovery()
   {
@@ -60,7 +63,7 @@ class passwordRecovery {
     session::start();
 
     /* Reset errors */
-    session::global_set('js', true);
+    session::global_set('js', TRUE);
     reset_errors();
 
     $this->config = $this->loadConfig();
@@ -75,7 +78,7 @@ class passwordRecovery {
       $servers[$key] = $key;
     }
 
-    $smarty->assign("show_directory_chooser", false);
+    $smarty->assign("show_directory_chooser", FALSE);
 
     if (isset($_POST['server'])) {
       $this->directory = validate($_POST['server']);
@@ -87,7 +90,7 @@ class passwordRecovery {
       }
 
       if (count($servers) > 1) {
-        $smarty->assign("show_directory_chooser", true);
+        $smarty->assign("show_directory_chooser", TRUE);
         $smarty->assign("server_options", $servers);
         $smarty->assign("server_id", $this->directory);
       }
@@ -95,7 +98,7 @@ class passwordRecovery {
 
     if (isset($_GET['directory']) && isset($servers[$_GET['directory']])) {
       $this->directory = validate($_GET['directory']);
-      $smarty->assign("show_directory_chooser", false);
+      $smarty->assign("show_directory_chooser", FALSE);
     }
 
     /* Set config to selected one */
@@ -103,11 +106,9 @@ class passwordRecovery {
     session::global_set('config', $this->config);
     $config = $this->config;
 
-    if (!$this->readLdapConfig()) { /* Password recovery has been disabled */
-      msg_dialog::display(_("Password recovery disabled"),
-                          _("Error: Password recovery has been disabled!"),
-                          FATAL_ERROR_DIALOG);
-      exit();
+    $this->activated = $this->readLdapConfig();
+    if (!$this->activated) { /* Password recovery has been disabled */
+      return;
     }
 
     $this->setupLanguage();
@@ -131,7 +132,7 @@ class passwordRecovery {
     if (isset($_GET['address_mail']) && $_GET['address_mail'] != "") {
       $this->address_mail = validate($_GET['address_mail']);
       $smarty->assign('address_mail', $this->address_mail);
-    } elseif(isset($_POST['address_mail'])) {
+    } elseif (isset($_POST['address_mail'])) {
       $this->address_mail = validate($_POST['address_mail']);
       $smarty->assign('address_mail', $this->address_mail);
     }
@@ -139,7 +140,7 @@ class passwordRecovery {
     /* Check for selected user... */
     if (isset($_GET['uid']) && $_GET['uid'] != "") {
       $this->uid = validate($_GET['uid']);
-    } elseif(isset($_POST['uid'])) {
+    } elseif (isset($_POST['uid'])) {
       $this->uid = validate($_POST['uid']);
     } else {
       $this->uid = "";
@@ -150,6 +151,10 @@ class passwordRecovery {
 
   function execute()
   {
+    if (!$this->activated) {
+      return;
+    }
+
     /* Got a formular answer, validate and try to log in */
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
       /* Destroy old sessions, they cause a successfull login to relog again ... */
@@ -158,12 +163,13 @@ class passwordRecovery {
       }
 
       if (isset($_POST['send'])) {
+        /* should not happen */
         $this->step3();
-        /* Send a mail, save information in session and create a very random unique id */
-      } elseif(isset($_POST['change'])) {
+      } elseif (isset($_POST['change'])) {
         $this->step4();
-      } elseif(isset($_POST['apply'])) {
+      } elseif (isset($_POST['apply'])) {
         $this->step2();
+        $this->step3();
       }
     } elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
       if (isset($_GET['uniq'])) {
@@ -181,7 +187,7 @@ class passwordRecovery {
       msg_dialog::displayChecks($this->message);
     }
 
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->step,"Step");
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->step, "Step");
 
     $smarty = get_smarty();
 
@@ -191,18 +197,20 @@ class passwordRecovery {
       $smarty->assign("errors", session::get('errors'));
     }
     if ($error_collector != "") {
-      $smarty->assign("php_errors", preg_replace("/%BUGBODY%/",$error_collector_mailto,$error_collector)."</div>");
+      $smarty->assign("php_errors", preg_replace("/%BUGBODY%/", $error_collector_mailto, $error_collector)."</div>");
     } else {
       $smarty->assign("php_errors", "");
     }
 
     $smarty->assign("msg_dialogs", msg_dialog::get_dialogs());
-    $smarty->assign("usePrototype", "false");
+    $smarty->assign("usePrototype", "FALSE");
     $smarty->display (get_template_path('headers.tpl'));
 
-    $smarty->assign("version",FD_VERSION);
-    $smarty->assign("step",$this->step);
-    $smarty->assign("delay_allowed",$this->delay_allowed);
+    $smarty->assign("version", FD_VERSION);
+    $smarty->assign("step", $this->step);
+    $smarty->assign("delay_allowed", $this->delay_allowed);
+
+    $smarty->assign("activated", $this->activated);
 
     $smarty->display(get_template_path('recovery.tpl'));
     exit();
@@ -248,8 +256,10 @@ class passwordRecovery {
 
     $this->from_mail      = $attrs['passwordRecoveryEmail'][0];
 
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $attrs['passwordRecoveryActivated'][0],"passwordRecoveryActivated");
-    return ($attrs['passwordRecoveryActivated'][0]=="TRUE");
+    $this->usealternates  = $attrs['passwordRecoveryUseAlternate'][0];
+
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $attrs['passwordRecoveryActivated'][0], "passwordRecoveryActivated");
+    return ($attrs['passwordRecoveryActivated'][0] == "TRUE");
   }
 
   function setupLanguage()
@@ -267,10 +277,10 @@ class passwordRecovery {
     putenv("LANGUAGE=");
     putenv("LANG=$lang");
     setlocale(LC_ALL, $lang);
-    $GLOBALS['t_language'] = $lang;
+    $GLOBALS['t_language']            = $lang;
     $GLOBALS['t_gettext_message_dir'] = $BASE_DIR.'/locale/';
 
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang,"Setting language to");
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang, "Setting language to");
 
     /* Set the text domain as 'messages' */
     $domain = 'messages';
@@ -301,20 +311,21 @@ class passwordRecovery {
     $smarty->assign('date', gmdate("D, d M Y H:i:s"));
     $smarty->assign('params', "");
     $smarty->assign('message', "");
-    $smarty->assign('changed', false);
-    $smarty->assign('other_method', false);
+    $smarty->assign('changed', FALSE);
+    $smarty->assign('other_method', FALSE);
   }
 
   static function generateRandomHash()
   {
     /* Generate a very long random value */
-    $len = 56;
-    $base = 'ABCDEFGHKLMNOPQRSTWXYZabcdefghjkmnpqrstwxyz123456789';
-    $max = strlen($base) - 1;
+    $len        = 56;
+    $base       = 'ABCDEFGHKLMNOPQRSTWXYZabcdefghjkmnpqrstwxyz123456789';
+    $max        = strlen($base) - 1;
     $randomhash = '';
     mt_srand((double) microtime() * 1000000);
-    while (strlen($randomhash) < $len + 1)
+    while (strlen($randomhash) < $len + 1) {
       $randomhash .= $base{mt_rand(0, $max)};
+    }
     return $randomhash;
   }
 
@@ -348,7 +359,7 @@ class passwordRecovery {
                     'objectClass' => array('organizationalUnit'),
                     'ou' => $this->uid,
                     'userPassword' => $sha1_temp_password,
-                    'description' => time() + $this->delay_allowed*60,
+                    'description' => time() + $this->delay_allowed * 60,
                   );
     $ldap->cd($dn);
     if ($add) {
@@ -373,23 +384,23 @@ class passwordRecovery {
     /* Retrieve hash from the ldap */
     $ldap = $this->config->get_ldap_link();
 
-    $token = get_ou("tokenRDN").$this->config->current['BASE'];
-    $dn = "ou=".$this->uid.",$token";
+    $token  = get_ou("tokenRDN").$this->config->current['BASE'];
+    $dn     = "ou=".$this->uid.",$token";
     $ldap->cat($dn);
     $attrs = $ldap->fetch();
 
-    $ldap_token = $attrs['userPassword'][0];
+    $ldap_token         = $attrs['userPassword'][0];
     $last_time_recovery = $attrs['description'][0];
 
-    /* Return true if the token match and is still valid */
+    /* Return TRUE if the token match and is still valid */
     return ($last_time_recovery >= time()) &&
            ($ldap_token == $sha1_token);
   }
 
-  function isValidPassword($new_password,$repeated_password)
+  function isValidPassword($new_password, $repeated_password)
   {
-    //$MinDiffer = $this->config->get_cfg_value("passwordMinDiffer",0);
-    $MinLength = $this->config->get_cfg_value("passwordMinLength",0);
+    //$MinDiffer = $this->config->get_cfg_value("passwordMinDiffer", 0);
+    $MinLength = $this->config->get_cfg_value("passwordMinLength", 0);
 
     if ($new_password != $repeated_password) {
       return _("The passwords you've entered as 'New password' and 'Repeated new password' do not match.");
@@ -415,12 +426,12 @@ class passwordRecovery {
       }
 
       /* If SSL is forced, just forward to the SSL enabled site */
-      if ($this->config->get_cfg_value("forcessl") == 'true') {
+      if ($this->config->get_cfg_value("forcessl") == 'TRUE') {
         header("Location: $ssl");
         exit;
-      } elseif ($this->config->get_cfg_value("warnssl") == 'true') {
+      } elseif ($this->config->get_cfg_value("warnssl") == 'TRUE') {
         /* Display SSL mode warning? */
-        $smarty->assign("ssl","<b>"._("Warning").":</b> ".
+        $smarty->assign("ssl", "<b>"._("Warning").":</b> ".
                         _("Session will not be encrypted.").
                         " <a style=\"color:red;\" href=\"".htmlentities($ssl).
                         "\"><b>"._("Enter SSL session")."</b></a>!");
@@ -440,9 +451,6 @@ class passwordRecovery {
     if ($_SERVER["SERVER_PORT"] != "80") {
       $pageURL .= ":".$_SERVER["SERVER_PORT"];
     }
-/*
-    $pageURL .= $_SERVER["REQUEST_URI"];
-*/
     $pageURL .= $_SERVER["PHP_SELF"];
 
     return $pageURL;
@@ -451,7 +459,7 @@ class passwordRecovery {
   function encodeParams($keys)
   {
     $params = "";
-    foreach($keys as $key) {
+    foreach ($keys as $key) {
       $params .= "&amp;$key=".urlencode($this->$key);
     }
     $params = preg_replace('/^&amp;/', '?', $params);
@@ -464,13 +472,13 @@ class passwordRecovery {
     $ldap = $this->config->get_ldap_link();
 
     $ldap->cd($this->config->current['BASE']);
-    $ldap->search("(&(objectClass=gosaMailAccount)(uid=".$this->uid."))",array("dn"));
+    $ldap->search("(&(objectClass=gosaMailAccount)(uid=".$this->uid."))", array("dn"));
 
-    if($ldap->count() < 1) {
-      $this->message[] = sprintf(_("Did not found account %s"),$this->uid);
+    if ($ldap->count() < 1) {
+      $this->message[] = sprintf(_("Did not found account %s"), $this->uid);
       return;
     } elseif ($ldap->count() > 1) {
-      $this->message[] = sprintf(_("Found multiple accounts %s"),$this->uid);
+      $this->message[] = sprintf(_("Found multiple accounts %s"), $this->uid);
       return;
     }
 
@@ -490,23 +498,28 @@ class passwordRecovery {
     $this->address_mail = $_POST['address_mail'];
 
     /* Search uid corresponding to the mail */
-    $uids = get_list( "(&(objectClass=gosaMailAccount)(mail=".$this->address_mail."))",
-                      "", $this->config->current['BASE'], array("uid"),
+    if ($this->usealternates) {
+      $filter = "(&(objectClass=gosaMailAccount)(|(mail=".$this->address_mail.")(gosaMailAlternateAddress=".$this->address_mail.")))";
+    } else {
+      $filter = "(&(objectClass=gosaMailAccount)(mail=".$this->address_mail."))";
+    }
+    $uids = get_list( $filter, "",
+                      $this->config->current['BASE'], array("uid"),
                       GL_SUBSEARCH | GL_NO_ACL_CHECK);
 
     /* Only one uid should be found */
     if (count($uids) < 1) {
-      $this->message[] = sprintf(_("There is no account using email %s"),$this->address_mail);
+      $this->message[] = sprintf(_("There is no account using email %s"), $this->address_mail);
       return;
     } elseif (count($uids) > 1) {
-      $this->message[] = sprintf(_("There are several accounts using email %s"),$this->address_mail);
+      $this->message[] = sprintf(_("There are several accounts using email %s"), $this->address_mail);
       return;
     }
 
     $smarty = get_smarty();
 
     $this->uid = $uids[0]['uid'][0];
-    $smarty->assign('uid',$this->uid);
+    $smarty->assign('uid', $this->uid);
     $smarty->assign('address_mail', $this->address_mail);
     $this->step = 2;
     $params = $this->encodeParams(array('uid', 'method', 'directory', 'address_mail'));
@@ -533,21 +546,23 @@ class passwordRecovery {
     $reinit_link .= "&uid=".$this->uid;
     $reinit_link .= "&address_mail=".$this->address_mail;
 
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $reinit_link,"Setting link to");
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $reinit_link, "Setting link to");
 
     /* Send the mail */
-    $mail_body = sprintf($this->mail_body,$this->uid,$reinit_link);
+    $mail_body = sprintf($this->mail_body, $this->uid, $reinit_link);
 
     /* From */
     $headers = "From: ".$this->from_mail."\r\n";
     $headers .= "Reply-To: ".$this->from_mail."\r\n";
 
-    if (mail($this->address_mail, $this->mail_subject, $mail_body, $headers)) {
+    $additional_parameters = "-f".$this->from_mail;
+
+    if (mail($this->address_mail, $this->mail_subject, $mail_body, $headers, $additional_parameters)) {
       $this->step = 3;
     } else {
       $this->message[] = msgPool::invalid(_("Contact your administrator, there was a problem with mail server"));
     }
-    $smarty->assign('uid',$this->uid);
+    $smarty->assign('uid', $this->uid);
   }
 
   /* check if the given token is the good one */
@@ -565,11 +580,11 @@ class passwordRecovery {
     $smarty->assign('uniq', $uniq_id_from_mail);
     $this->uniq = $uniq_id_from_mail;
     $this->step = 4;
-    $smarty->assign('uid',$this->uid);
+    $smarty->assign('uid', $this->uid);
     $params = $this->encodeParams(array('uid', 'method', 'directory', 'address_mail', 'uniq'));
     $smarty->assign('params', $params);
 
-    if(isset($_POST['change'])) {
+    if (isset($_POST['change'])) {
       $this->step5();
     }
   }
@@ -606,17 +621,17 @@ class passwordRecovery {
     }
     fusiondirectory_log("User ".$this->uid." password has been changed");
     /* Send the mail */
-    $mail_body = sprintf($this->mail2_body,$this->uid);
+    $mail_body = sprintf($this->mail2_body, $this->uid);
 
     /* From */
     $headers = "From: ".$this->from_mail."\r\n";
     $headers .= "Reply-To: ".$this->from_mail."\r\n";
 
 
-    if (mail($this->address_mail,$this->mail2_subject,$mail_body, $headers)) {
+    if (mail($this->address_mail, $this->mail2_subject, $mail_body, $headers)) {
       $smarty = get_smarty();
       $this->step = 5;
-      $smarty->assign('changed', true);
+      $smarty->assign('changed', TRUE);
     }
   }
 }

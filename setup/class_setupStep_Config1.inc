@@ -29,7 +29,6 @@ class Step_Config1 extends setup_step
   var $uidbase    = 1100;
   var $krbsasl    = FALSE;
   var $strict     = TRUE;
-  var $compressed = TRUE;
 
   var $cngen_active = FALSE;
   var $cngen        = "%sn %givenName";
@@ -58,7 +57,7 @@ class Step_Config1 extends setup_step
 
   var $crypt_methods  = array();
 
-  var $attributes = array("compressed","peopleou","groupou","peopledn","uidbase","encryption","theme","krbsasl",
+  var $attributes = array("peopleou","groupou","peopledn","uidbase","encryption","theme","krbsasl",
                           "base_hook","base_hook_active","account_expiration","strict","include_personal_title",
                           "cngen_active","cngen");
 
@@ -83,6 +82,7 @@ class Step_Config1 extends setup_step
 
   function execute()
   {
+    global $BASE_DIR;
     $smarty = get_smarty();
     $smarty->assign("peopledns",array("uid","cn"));
     $smarty->assign("id_settings",   reverse_html_entities($this->id_settings));
@@ -98,7 +98,7 @@ class Step_Config1 extends setup_step
      *  don't forget to change save_object too
      */
     $smarty->assign("strict",!$this->strict);
-    return($smarty -> fetch (get_template_path("../setup/setup_config1.tpl")));
+    return $smarty->fetch("$BASE_DIR/setup/setup_config1.tpl");
   }
 
 

@@ -26,6 +26,7 @@
     {t}Lost password{/t}
   </p>
   </div>
+{if $activated}
   <div style="padding-left:10px;padding-right:10px;">
     <!-- Display SSL warning message on demand -->
     <p class='warning'> {$ssl} </p>
@@ -116,7 +117,8 @@
     <div style="clear:both"></div>
 {elseif $changed}
     <div class='success'">
-      <img class='center' src='images/true.png' alt='{t}Success{/t}' title='{t}Success{/t}'>&nbsp;<b>{t}Your password has been changed successfully.{/t}</b>
+      <img class='center' src='images/true.png' alt='{t}Success{/t}' title='{t}Success{/t}'>&nbsp;<b>{t}Your password has been changed successfully.{/t}</b><br/>
+      <br/><a href="./">Return to login screen</a>
     </div>
 {else}
     <p class="infotext">
@@ -149,6 +151,12 @@
       <input type='hidden' id='formSubmit'>
     </div>
     <div style="clear:both"></div>
+{/if}
+{else}
+  <div style="padding-left:10px;padding-right:10px;">
+    <!-- Display error message on demand -->
+    <p class='warning'> {$message} </p>
+    <p>{t}Password recovery is not activated. If you have lost your password, please contact your administrator{/t}</p>
 {/if}
   </div>
   </form>

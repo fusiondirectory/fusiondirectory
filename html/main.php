@@ -64,11 +64,6 @@ if ($_SERVER['REMOTE_ADDR'] != $ui->ip) {
 $config= session::global_get('config');
 $config->check_and_reload();
 
-/* Enable compressed output */
-if ($config->get_cfg_value("sendCompressedOutput") == "true") {
-  ob_start("ob_gzhandler");
-}
-
 /* Check for invalid sessions */
 if (session::global_get('_LAST_PAGE_REQUEST') == "") {
   session::global_set('_LAST_PAGE_REQUEST',time());
@@ -179,10 +174,9 @@ if (session::global_is_set('plugin_dir')) {
 }
 
 /* reload navigation if language changed*/
-if($reload_navigation){
-  $plist->menu="";
+if ($reload_navigation) {
+  $plist->menu = "";
 }
-$plist->gen_headlines();
 $plist->gen_menu();
 
 /* check if we are using account expiration */
@@ -463,5 +457,4 @@ session::global_set('plist',$plist);
 session::global_set('config',$config);
 session::set('errorsAlreadyPosted',array());
 
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

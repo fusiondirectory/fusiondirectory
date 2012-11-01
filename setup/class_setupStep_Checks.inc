@@ -127,9 +127,17 @@ class Step_Checks extends setup_step
     /* Check if MDB2 module is available */
     $N = msgPool::checkingFor(_("MDB2"));
     $D = _("FusionDirectory requires this module to communicate with several supported databases.");
-    $S = msgPool::installPhpModule("MDB2");
+    $S = msgPool::installPearModule("MDB2");
     $R = ((@include_once("PEAR.php")) && (@include_once("MDB2.php")));
-    $M = TRUE;
+    $M = FALSE;
+    $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+
+    /* Check if MDB2 mysql driver is available */
+    $N = msgPool::checkingFor(_("MDB2 mysql"));
+    $D = _("FusionDirectory requires this module to communicate with mysql databases.");
+    $S = msgPool::installPearModule("MDB2 mysql");
+    $R = ((@include_once("PEAR.php")) && (@include_once("MDB2/Driver/mysql.php")));
+    $M = FALSE;
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* Check generation of LM/NT password hashes */
@@ -149,14 +157,6 @@ class Step_Checks extends setup_step
     $R = $have_mkntpwd;
     $M = TRUE;
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
-
-    /* Read data written by convert */
-    $output= "";
-    $sh= popen("convert", 'r');
-    while (!feof($sh)){
-      $output.= fread($sh, 4096);
-    }
-    pclose($sh);
 
     $N = msgPool::checkingFor(_("imagick"));
     $D = _("FusionDirectory requires this extension to handle images.");
@@ -205,17 +205,17 @@ class Step_Checks extends setup_step
     /* Session auto start must be turned off */
     $session_auto_start = ini_get('session.auto_start');
     $N = "session.auto_start = <b>"._("Off")."</b>";
-    $D = _("In Order to use FusionDirectory without any trouble, the session.auto_register option in your php.ini should be set to 'Off'.");
+    $D = _("In Order to use FusionDirectory without any trouble, the session.auto_start option in your php.ini should be set to 'Off'.");
     $S = _("Search for 'session.auto_start' in your php.ini and set it to 'Off'.");
-    $R = !$session_auto_start['local_value'];
+    $R = !$session_auto_start;
     $M = TRUE;
     $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
-    /* Check if memory limit is set to 64 or > */
-    $N = "memory_limit &gt;= <b>64</b>";
-    $D = _("FusionDirectory needs at least 64MB of memory. Setting it below this limit may cause errors that are not reproducable! Increase it for larger setups.");
-    $S = _("Search for 'memory_limit' in your php.ini and set it to '64M' or higher.");
-    $R = ini_get('memory_limit') >= 64;
+    /* Check if memory limit is set to 128 or > */
+    $N = "memory_limit &gt;= <b>128</b>";
+    $D = _("FusionDirectory needs at least 128MB of memory. Setting it below this limit may cause errors that are not reproducable! Increase it for larger setups.");
+    $S = _("Search for 'memory_limit' in your php.ini and set it to '128M' or higher.");
+    $R = ini_get('memory_limit') >= 128;
     $M = TRUE;
     $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 

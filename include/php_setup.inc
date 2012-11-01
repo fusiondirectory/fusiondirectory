@@ -23,7 +23,7 @@
 /*!
  * \file php_setup.inc
  * Source code for php_setup
- */ 
+ */
 require_once ("variables.inc");
 
 /*!
@@ -36,7 +36,7 @@ require_once ("variables.inc");
  * \param string $errfile The error filename
  *
  * \param string $errline The error line
- */  
+ */
 function gosaRaiseError($errno, $errstr, $errfile, $errline)
 {
   global $error_collector,$config, $error_collector_mailto;
@@ -172,30 +172,40 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
         $type= "-";
       }
       $args= "";
-      if (isset($ct['args'])){
-        foreach ($ct['args'] as $arg){
-
-          /* Avoid convertig object to string errors */
-          if(is_object($arg)){
-            $arg = "CLASS:&nbsp;".get_class($arg);
+      if (isset($ct['args'])) {
+        $f = function ($arg) use(&$f) {
+          static $i = 0;
+          if ($i>4) {
+            return "…";
           }
-
-          $args.= "\"$arg\", ";
-        }
+          if (is_object($arg)) {
+            return "CLASS:&nbsp;".get_class($arg);
+          } elseif (is_array($arg)) { /* Avoid convertig array to string errors */
+            $i++;
+            $ret = "array(".implode(',',array_map($f,$arg)).")";
+            $i--;
+            return $ret;
+          } else {
+            if (strlen("$arg") > 512) {
+              $arg = substr("$arg",0,512)."…";
+            }
+            return '"'.htmlentities("$arg", ENT_COMPAT, 'UTF-8').'"';
+          }
+        };
+        $args = implode(',',array_map($f,$ct['args']));
       }
-      $args= preg_replace("/, $/", "", $args);
-      if ($args == ""){
-        $args= "-";
+      if (empty($args)) {
+        $args = "-";
       }
-      if(isset($ct['file'])) {
-        $file= $ct['file'];
-      }else{
-        $file="";
+      if (isset($ct['file'])) {
+        $file = $ct['file'];
+      } else {
+        $file = "";
       }
-      if(isset($ct['line'])) {
-        $line= $ct['line'];
-      }else{
-        $line="";
+      if (isset($ct['line'])) {
+        $line = $ct['line'];
+      } else {
+        $line = "";
       }
       $color= ($index&1)?'#404040':'606060';
       $error_collector.= "<tr style='background-color:$color'><td style='padding-left:20px' width=\"30%\">"._("Trace")."[$index]: $loc</td>";
@@ -230,7 +240,7 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
 
 /*!
  * \brief Dummy error handler
- */ 
+ */
 function dummy_error_handler()
 {
 }

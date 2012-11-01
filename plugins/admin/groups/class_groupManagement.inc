@@ -26,7 +26,7 @@ class groupManagement extends management
   var $plDescription  = "Group administration";
   var $plIcon  = "plugins/groups/images/plugin.png";
 
-  // Tab definition 
+  // Tab definition
   protected $tabClass = "grouptabs";
   protected $tabType = "GROUPTABS";
   protected $aclCategory = "groups";
@@ -37,9 +37,9 @@ class groupManagement extends management
   {
     $this->config = $config;
     $this->ui = $ui;
-   
+
     $this->storagePoints = array(get_ou("groupRDN"));
- 
+
     // Build filter
     if (session::global_is_set(get_class($this)."_filter")){
       $filter= session::global_get(get_class($this)."_filter");
@@ -67,65 +67,6 @@ class groupManagement extends management
     $this->registerAction("edit_environment","editEntry");
     $this->registerAction("edit_appgroup","editEntry");
     $this->registerAction("edit_mailgroup","editEntry");
-
-    $this->registerAction("sendMessage", "sendMessage");
-    $this->registerAction("saveEventDialog", "saveEventDialog");
-    $this->registerAction("abortEventDialog", "closeDialogs");
-  }
-
-  // Inject user actions
-  function detectPostActions()
-  {
-    $action = management::detectPostActions();
-    if(isset($_POST['save_event_dialog'])) $action['action'] = "saveEventDialog";
-    if(isset($_POST['abort_event_dialog'])) $action['action'] = "abortEventDialog";
-    return($action);
-  }
-
-
-  /*! \brief  Sends a message to a set of users using Argonauts events.
-   */
-  function saveEventDialog()
-  {
-    $this->dialogObject->save_object();
-    $msgs = $this->dialogObject->check();
-    if(count($msgs)){
-      msg_dialog::displayChecks($msgs);
-    }else{
-      $o_queue = new supportDaemon();
-      $o_queue->append($this->dialogObject);
-      if($o_queue->is_error()){
-        msg_dialog::display(_("Infrastructure error"), msgPool::siError($o_queue->get_error()),ERROR_DIALOG);
-      }
-      $this->closeDialogs();
-    }
-  }
-
-
-  /*! \brief  Sends a message to a set of users using Argonauts events.
-   */
-  function sendMessage($action="",$target=array(),$all=array())
-  {
-    $uids = array();
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
-    foreach($target as $dn){
-      $ldap->cat($dn,array('cn'));
-      if($ldap->count()){
-        $attrs = $ldap->fetch();
-        $uids[] = $attrs['cn'][0];
-      }
-    }
-    if(count($uids)){
-      $events = DaemonEvent::get_event_types(USER_EVENT);
-      $event = "DaemonEvent_notify";
-      if(isset($events['BY_CLASS'][$event])){
-        $type = $events['BY_CLASS'][$event];
-        $this->dialogObject = new $type['CLASS_NAME']($this->config);
-        $this->dialogObject->add_groups($uids);
-        $this->dialogObject->set_type(SCHEDULED_EVENT);
-      }
-    }
   }
 
 
@@ -149,7 +90,7 @@ class groupManagement extends management
     $result= "";
 
     $map = array(
-        "posixGroup" => 
+        "posixGroup" =>
         array(
           "image" => "plugins/groups/images/groups.png",
           "plugin" => "group",
@@ -157,7 +98,7 @@ class groupManagement extends management
           "title" => _("Edit posix properties")
           ),
 
-        "gosaMailAccount" => 
+        "gosaMailAccount" =>
         array(
           "image" => "plugins/groups/images/mail.png",
           "plugin" => "mailgroup",
@@ -165,7 +106,7 @@ class groupManagement extends management
           "title" => _("Edit mail properties")
           ),
 
-        "sambaGroupMapping" => 
+        "sambaGroupMapping" =>
         array(
           "image" => "plugins/groups/images/samba.png",
           "plugin" => "group",
@@ -173,7 +114,7 @@ class groupManagement extends management
           "title" => _("Edit samba properties")
           ),
 
-        "goFonPickupGroup" => 
+        "goFonPickupGroup" =>
           array(
               "image" => "plugins/groups/images/asterisk.png",
               "plugin" => "group",
@@ -181,7 +122,7 @@ class groupManagement extends management
               "title" => _("Edit phone properties")
               ),
 
-        "gotoMenuGroup" => 
+        "gotoMenuGroup" =>
           array(
               "image" => "plugins/groups/images/menu.png",
               "plugin" => "appgroup",
@@ -189,7 +130,7 @@ class groupManagement extends management
               "title" => _("Edit start menu properties")
               ),
 
-        "gotoEnvironment" => 
+        "gotoEnvironment" =>
           array(
               "image" => "plugins/groups/images/environment.png",
               "plugin" => "environment",
@@ -211,6 +152,6 @@ class groupManagement extends management
     }
     return $result;
   }
-} 
+}
 // vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

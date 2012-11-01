@@ -42,11 +42,11 @@ class ogroup extends plugin
   var $trustModel= "";
   var $trustSelect = FALSE;
   var $host= array();
-  
+
   var $was_trust_account= FALSE;
   var $baseSelector;
 
-  /* Already assigned Workstations. Will be hidden in selection. 
+  /* Already assigned Workstations. Will be hidden in selection.
    */
   var $used_workstations = array();
 
@@ -102,7 +102,7 @@ class ogroup extends plugin
       }
     }
     session::set("ogfilter", $ogfilter);
-  
+
     /* Set base */
     if ($this->dn == "new"){
       $ui = get_userinfo();
@@ -112,12 +112,12 @@ class ogroup extends plugin
 
      /* Is this account a trustAccount? */
       if ($this->is_account && isset($this->attrs['host'])){
-        
+
         if ($this->attrs['host'][0] == "*") {
           $this->trustModel= "fullaccess";
         } else {
           $this->trustModel= "byhost";
-          $this->accessTo = array(); 
+          $this->accessTo = array();
             if ($this->is_account && isset($this->attrs['host'])){
               for ($i= 0; $i<$this->attrs['host']['count']; $i++){
                 $tmp= $this->attrs['host'][$i];
@@ -132,12 +132,12 @@ class ogroup extends plugin
       }
     }
 
-    /* Detect all workstations, which are already assigned to an object group  
+    /* Detect all workstations, which are already assigned to an object group
         - Those objects will be hidden in the add object dialog.
         - Check() will complain if such a system is assigned to this object group.
-     */ 
+     */
     $base = $this->config->current['BASE'];
-    $res    = get_list("(|(objectClass=gotoWorkstation)(objectClass=gotoTerminal))","none" , 
+    $res    = get_list("(|(objectClass=gotoWorkstation)(objectClass=gotoTerminal))","none" ,
         $base, array("dn"),GL_NO_ACL_CHECK|GL_SUBSEARCH);
     $ws_dns = array();
     foreach($res as $data){
@@ -263,7 +263,7 @@ class ogroup extends plugin
     }
 
     /***********
-     * Trusts 
+     * Trusts
      ***********/
 
     /* Add user workstation? */
@@ -306,14 +306,14 @@ class ogroup extends plugin
 
     /* Show ws dialog */
     if ($this->trustSelect){
-  
+
       // Build up blocklist
       session::set('filterBlacklist', array('cn' => array_values($this->accessTo)));
       return($this->trustSelect->execute());
     }
 
     /***********
-     * Ende - Trusts 
+     * Ende - Trusts
      ***********/
 
 
@@ -339,35 +339,6 @@ class ogroup extends plugin
       if ((isset($_POST['base'])) && ($this->acl_is_moveable())){
         $this->base= $_POST['base'];
       }
-
-    /* Assemble combine string */
-    if ($this->gosaGroupObjects == "[]"){
-      $smarty->assign("combinedObjects", _("none"));
-    } elseif (strlen($this->gosaGroupObjects) > 4){
-      $smarty->assign("combinedObjects", "<font color=red>"._("too many different objects!")."</font>");
-    } else {
-      $conv= array(   "U" => _("users"),
-          "G" => _("groups"),
-          "A" => _("applications"),
-          "D" => _("departments"),
-          "S" => _("servers"),
-          "W" => _("workstations"),
-          "O" => _("winstations"),
-          "T" => _("terminals"),
-          "F" => _("phones"),
-          "P" => _("printers"));
-
-      $type= preg_replace('/[\[\]]/', '', $this->gosaGroupObjects);
-      $p1= $conv[$type[0]];
-      error_reporting(0);
-      if (isset($type[1]) && preg_match('/[UGADSFOWTP]/', $type[1])){
-        $p2= $conv[$type[1]];
-        $smarty->assign("combinedObjects", sprintf("'%s' and '%s'", $p1, $p2));
-      } else {
-        $smarty->assign("combinedObjects", "$p1");
-      }
-      error_reporting(E_ALL | E_STRICT);
-    }
 
     /* Assign variables */
     $smarty->assign("base", $this->baseSelector->render());
@@ -425,7 +396,7 @@ class ogroup extends plugin
     if (isset($_POST['ogroupedit'])){
 
       /******
-        Trust account 
+        Trust account
        ******/
 
       if($this->acl_is_writeable("trustModel")){
@@ -473,14 +444,14 @@ class ogroup extends plugin
   function reload()
   {
     /*###########
-      Variable initialisation 
+      Variable initialisation
       ###########*/
 
     $this->objects                = array();
     $this->ui                     = get_userinfo();
     $filter                       = "";
     $objectClasses                = array();
-    
+
     $ogfilter               = session::get("ogfilter");
     $regex                  = $ogfilter['regex'];
 
@@ -489,22 +460,22 @@ class ogroup extends plugin
 
 
     /*###########
-      Generate Filter 
+      Generate Filter
       ###########*/
 
     $p_f= array("accounts"=> array("OBJ"=>"user", "CLASS"=>"gosaAccount"    ,
-          "DN"=> get_people_ou()           ,"ACL" => "users"), 
+          "DN"=> get_people_ou()           ,"ACL" => "users"),
         "groups"          => array("OBJ"=>"group", "CLASS"=>"posixGroup"     ,
           "DN"=> get_groups_ou('ogroupRDN') ,"ACL" => "groups"),
         "applications"    => array("OBJ"=>"application", "CLASS"=>"gosaApplication",
           "DN"=> get_ou('applicationRDN')   ,"ACL" => "application"),
         "departments"     => array("OBJ"=>"department", "CLASS"=>"gosaDepartment" ,
-          "DN"=> ""                        ,"ACL" => "department"), 
+          "DN"=> ""                        ,"ACL" => "department"),
         "servers"         => array("OBJ"=>"servgeneric", "CLASS"=>"goServer"       ,
           "DN"=> get_ou('serverRDN')        ,"ACL" => "server"),
         "workstations"    => array("OBJ"=>"workgeneric", "CLASS"=>"gotoWorkstation",
           "DN"=> get_ou('workstationRDN')   ,"ACL" => "workstation"),
-        "winstations"     => array("OBJ"=>"wingeneric", "CLASS"=>"sambaSamAccount",        
+        "winstations"     => array("OBJ"=>"wingeneric", "CLASS"=>"sambaSamAccount",
           "DN"=> get_ou('sambaMachineAccountRDN')     ,"ACL" => "winstation"),
         "terminals"       => array("OBJ"=>"termgeneric", "CLASS"=>"gotoTerminal"   ,
           "DN"=> get_ou('terminalRDN')      ,"ACL" => "terminal"),
@@ -514,21 +485,21 @@ class ogroup extends plugin
           "DN"=> get_ou('phoneRDN')         ,"ACL" => "phone"));
 
 
-    /* Allow searching for applications, if we are not using release managed applications 
+    /* Allow searching for applications, if we are not using release managed applications
       */
     /*if(!$this->IsReleaseManagementActivated()){
       $p_f[      "applications"]    = array("OBJ"=>"application", "CLASS"=>"gosaApplication",
-          "DN"=> get_ou('applicationRDN')   ,"ACL" => "application"); 
+          "DN"=> get_ou('applicationRDN')   ,"ACL" => "application");
     }*/
-           
+
     /*###########
-      Perform search for selected objectClasses & regex to fill list with objects   
+      Perform search for selected objectClasses & regex to fill list with objects
       ###########*/
 
     $Get_list_flags = 0;
     if($ogfilter['subtrees'] == "checked"){
       $Get_list_flags |= GL_SUBSEARCH;
-    }    
+    }
 
     foreach($p_f as $post_name => $data){
 
@@ -539,10 +510,10 @@ class ogroup extends plugin
         }else{
           $base =  $data['DN'].$ogfilter['dselect'];
         }
-   
-         
+
+
         $filter = "(&(objectClass=".$data['CLASS'].")(|(uid=$regex)(cn=$regex)(ou=$regex)))";
-        $res    = get_list($filter, $data['ACL']  , $base, 
+        $res    = get_list($filter, $data['ACL']  , $base,
                     array("description", "objectClass", "sn", "givenName", "uid","ou","cn"),$Get_list_flags);
 
         /* fetch results and append them to the list */
@@ -573,19 +544,19 @@ class ogroup extends plugin
     uasort ($this->objects, 'sort_list');
     reset ($this->objects);
 
-    
+
     /*###########
-      Build member list and try to detect obsolete entries 
+      Build member list and try to detect obsolete entries
       ###########*/
 
     $this->memberList = array();
-  
+
     /* Walk through all single member entry */
     foreach($this->member as $dn){
 
-      /* The dn for the current member can't be resolved 
-         it seams that this entry was removed 
-       */ 
+      /* The dn for the current member can't be resolved
+         it seams that this entry was removed
+       */
       /* Try to resolv the entry again, if it still fails, display error msg */
       $ldap->cat($dn, array("cn", "sn", "givenName", "ou", "description", "objectClass", "macAddress"));
 
@@ -656,7 +627,7 @@ class ogroup extends plugin
   function convert_list($input)
   {
     $temp= "";
-    $conv= array(  
+    $conv= array(
         "Y" => "plugins/users/images/select_template.png",
         "U" => "plugins/generic/images/head.png",
         "G" => "plugins/groups/images/groups.png",
@@ -683,7 +654,7 @@ class ogroup extends plugin
   {
     $type= "I";
 
-    foreach(array(  
+    foreach(array(
           "Y" => "gosaUserTemplate",
           "U" => "gosaAccount",
           "G" => "posixGroup",
@@ -708,7 +679,7 @@ class ogroup extends plugin
   function getObjectName($attrs)
   {
     /* Person? */
-    $name =""; 
+    $name ="";
     if (in_array('gosaAccount', $attrs['objectClass'])){
       if(isset($attrs['sn']) && isset($attrs['givenName'])){
         $name= $attrs['sn'][0].", ".$attrs['givenName'][0];
@@ -742,7 +713,7 @@ class ogroup extends plugin
     /* Check if we have workstations assigned, that are already assigned to
         another object group.  */
     if ($this->gosaGroupObjects == "[W]" || $this->gosaGroupObjects == "[T]" ) {
-      $test =array_intersect($this->used_workstations,$this->member); 
+      $test =array_intersect($this->used_workstations,$this->member);
       if(count($test)){
         $str = "";
         foreach($test as $dn){
@@ -756,15 +727,15 @@ class ogroup extends plugin
     if(LDAP::fix($this->dn) != LDAP::fix($new_dn)){
       $ldap->cat ($new_dn, array('dn'));
     }
-    
+
     if($ldap->count() !=0){
       $message[]= msgPool::duplicated(_("Name"));
-    } 
+    }
 
     // Check if a wrong base was supplied
     if(!$this->baseSelector->checkLastBaseUpdate()){
       $message[]= msgPool::check_base();;
-    } 
+    }
 
     /* Set new acl base */
     if($this->dn == "new") {
@@ -776,16 +747,11 @@ class ogroup extends plugin
       $message[]= msgPool::required(_("Name"));
     }
 
-    if (preg_match('/[=,+<>#;]/', $this->cn)) { 
-      $message[] = msgPool::invalid(_("Name"), $this->cn, "/[^=+,<>#;]/"); 
-    } 
-
-    /* To many different object types? */
-    if (strlen($this->gosaGroupObjects) > 4){
-      $message[]= _("You can combine two different object types at maximum, only!");
+    if (preg_match('/[=,+<>#;]/', $this->cn)) {
+      $message[] = msgPool::invalid(_("Name"), $this->cn, "/[^=+,<>#;]/");
     }
 
-    /* Check if we are allowed to create or move this object 
+    /* Check if we are allowed to create or move this object
      */
     if($this->orig_dn == "new" && !$this->acl_is_createable($this->base)){
       $message[] = msgPool::permCreate();
@@ -832,7 +798,7 @@ class ogroup extends plugin
     }
 
     /******
-      Trust accounts 
+      Trust accounts
      ******/
     /* Trust accounts */
     $objectclasses= array();
@@ -847,7 +813,7 @@ class ogroup extends plugin
     if ($this->trustModel != ""){
       $this->attrs['objectClass'][]= "hostObject";
       $this->attrs['host']= array();
-      
+
       if ($this->trustModel == "fullaccess"){
         $this->attrs['host'][0]= "*";
       } else {
@@ -865,7 +831,7 @@ class ogroup extends plugin
 
 
     /******
-      Ende - Trust accounts 
+      Ende - Trust accounts
      ******/
 
     /* Write back to ldap */
@@ -907,15 +873,15 @@ class ogroup extends plugin
     $this->handle_post_events("remove");
   }
 
-  
+
   function PrepareForCopyPaste($source)
   {
     plugin::PrepareForCopyPaste($source);
 
     /* Reload tabs */
     $this->parent->reload($this->gosaGroupObjects );
-   
-    /* Reload plugins */ 
+
+    /* Reload plugins */
     foreach($this->parent->by_object as $name => $class ){
       if(get_class($this) != $name) {
         $this->parent->by_object[$name]->PrepareForCopyPaste($source);
@@ -952,7 +918,7 @@ class ogroup extends plugin
   {
     /* Check if we should enable the release selection */
     $tmp = $this->config->search("faiManagement", "CLASS",array('menu','tabs'));
-    if(!empty($tmp)){
+    if(!empty($tmp) && class_available("faiManagement")){
       return(true);
     }
     return(false);

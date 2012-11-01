@@ -390,6 +390,7 @@ padding-top:10px;
 padding-bottom:0;
 text-align:right;
 font-family:arial,helvetica,sans-serif;
+clear:both;
 }
 
 font.must {
@@ -1525,7 +1526,7 @@ float:left;
 margin:0 3px 0 0;
 padding:0;
 font-size:12px;
-line-height:1 5em;
+line-height:1em;
 list-style-type:none;
 }
 
@@ -2018,4 +2019,78 @@ height: expression( this.scrollHeight > 500 ? "500px" : "auto" );
 
 span.mark {
 color:#B22;
+}
+
+/* Simple Plugin specific things */
+
+.plugin_section {
+display:block;
+float:left;
+width:48%;
+vertical-align:top;
+border:1px solid #B0B0B0;
+padding:0;
+margin:5px;
+position: relative;
+}
+
+div.plugin_section {
+padding-top:25px;
+}
+
+.plugin_section > div {
+padding:5px;
+}
+
+fieldset.plugin_section > div {
+padding-top:30px;
+}
+
+fieldset.plugin_section legend {
+float:left;
+padding:0;
+margin:0;
+}
+
+fieldset.plugin_section legend span, .plugin_section > span.legend {
+font-weight:bold;
+background-color:#DBE6C6;
+border:1px solid #B0B0B0;
+width:100%;
+padding-top:5px;
+padding-bottom:5px;
+margin-left:-1px;
+text-align:center;
+display:block;
+}
+
+fieldset.plugin_section legend span {
+position: absolute;
+left:0;
+top:0;
+margin-top:-1px;
+}
+
+.plugin_section > span.legend {
+margin-top:-26px;
+}
+
+fieldset.plugin_section legend img, .plugin_section span.legend img {
+margin-right:3px;
+vertical-align:middle;
+}
+
+
+fieldset.plugin_section select[multiple], fieldset.plugin_section textarea {
+width:100%;
+}
+
+.plugin_section > div > table {
+min-width:80%;
+}
+
+.plugin_section.fullwidth {
+float:none;
+clear:both;
+width:auto;
 }

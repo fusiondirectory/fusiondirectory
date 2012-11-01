@@ -19,14 +19,15 @@ plus some modifications:
 
 The FusionDirectory setup may be used to do these migrations, but it is not meant
 to work in every possible circumstance. Please be carefull when using it on
-productive system. 
+productive system.
 
 That should be all. Entries should be visible in FusionDirectory now. Be aware that if
 your naming policy of user cn's differs from the way FusionDirectory handles it, the
 entries get rewritten to a FusionDirectory style dn.
 
----
+Have fun!
 
+---
 * Further information
 
 To improve this piece of software, please report all kind of errors using the bug tracker
@@ -34,8 +35,7 @@ on https://forge.fusiondirectory.org
 
 Documentation: http://www.fusiondirectory.org/
 Mailinglist:   http://lists.fusiondirectory.org/
-
-Have fun!
+Irc:           #fusiondirectory on freenode
 
 ---
 The FusionDirectory project <contact@fusiondirectory.org>

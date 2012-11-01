@@ -78,20 +78,20 @@ my @definitionOrder = qw(attributetype objectclass);
 my %oidMapping = ();
 my %definitions = ();
 
-# Print proper LDIF header 
+# Print proper LDIF header
 
 if ($mode eq "static") {
-  # Header for static schema 
+  # Header for static schema
   # used to drop into a file that server picks up on start
   print "dn: cn=$cn,$branch\n";
   print "objectClass: olcSchemaConfig\n";
   print "cn: cn=$cn\n";
-  
+
 } elsif ($mode eq "modify") {
   # Header for schema that is being uploaded to running server
   print "dn: cn=$cn,$branch\n";
   print "changetype: modify\n";
-  
+
 } else {
   die ("Unknown mode $mode\n");
 }
@@ -110,16 +110,16 @@ while (<>) {
     # problems when used with some LDAP clients
     next;
   }
-  
+
   chomp;
-  
+
   if ( /^\s*objectIdentifier\s+(\S+)\s+(\S+)\s*$/) {
     # We have got objectIdentifier macro here.
     # Parse it and process to the %oidMapping map
-    
+
     my ($name,$oidExpression) = ($1,$2);
     print STDERR "[P] objectIdentifier: $name -> $oidExpression\n" if $debug;
-    
+
     if (isOid($oidExpression)) {
       $oidMapping{$name} = $oidExpression;
       print STDERR "  adding mapping $name -> $oidExpression\n" if $debug;
@@ -133,91 +133,91 @@ while (<>) {
       }
     }
   }
-  
+
   if ( /^\s*(attributetype)\s*\(/i ||
        /^\s*(objectclass)\s*\(/i ) {
 
         my $type = lc($1);
     my $ldifLine = $attrNameMap{$type}.": (";
-    
+
     $_ = $';
     my $level = 1;
     my $foundOrigin = undef;
     my $oid = undef;
-    
+
     while ($level) {
-    
+
       # raise or lower parenthesis level as necessary
-      
+
       while ( /\(/g ) { $level++ }
       while ( /\)/g ) { $level-- }
-      
-      
+
+
       # OID expression should be the very first token
       # therefore process if it was not processed yet
-      
+
       if (! defined $oid && /^\s*(\S+)\s*/) {
         my $oidExpression = $1;
-        
+
         if (isOid($oidExpression)) {
           # OID expression is OID, no transformation needed
           $oid = $oidExpression;
-          
+
         } else {
           # Try if OID expression is macro
           $oid = expandOidMacro($oidExpression);
-          
+
           if (! defined $oid) {
             # OID expression is not macro, copy it verbatim to output
             # This is used if symbolic names are used instead of OIDs
             $oid = $oidExpression;
           }
         }
-        
+
         $ldifLine .= " $oid";
         $_ = $';
       }
 
       if ($origin ne 'user defined') {
         # find X-ORIGIN clause in the input
-      
+
         if (/X\-ORIGIN\s+\'([^\'*])\'/) {
           $foundOrigin = $1;
         }
-      
+
         # if we are at the end (level 0) and there was no
         # X-ORIGIN clause, insert the default one
         # just before the last parenthesis
-      
+
         if ($level == 0 && !defined($foundOrigin)) {
         s/\)\s*$/ X-ORIGIN \'$origin\' \)/;
         }
       }
-      
+
       $ldifLine .= $_;
-      
+
       $_ = <>;
       last unless defined $_;
-      
+
       chomp;
       s/^\s+/ /;
       s/\s+$//;
-      
+
     }
-    
+
     print STDERR "[P] $type: $oid\n" if $debug;
 
-    
+
     if ($mode eq "static") {
       print $ldifLine . "\n";
     } else {
       if (!$definitions{$type}) {
         $definitions{$type} = [];
       }
-      
+
       push @{$definitions{$type}},$ldifLine;
     }
-    
+
     last unless defined $_;
   }
 }
@@ -240,13 +240,13 @@ if ($mode eq "modify") {
 
 sub isOid {
   my ($s) = @_;
-  
+
   return ($s =~ /^[\.\d]+$/);
 }
 
 sub expandOidMacro {
   my ($macro) = @_;
-  
+
   if ($macro =~ /:/) {
     my $key = $`;
     my $suffix = $';
@@ -296,7 +296,7 @@ schema2ldif is a script to convert schema to ldif for inclusion in cn=config bac
 
 =head1 EXAMPLE
 
- schema2ldif quota.schema > quota.ldif
+ fusiondirectory-schema2ldif quota.schema > quota.ldif
 
 =head1 BUGS
 
@@ -313,7 +313,7 @@ This code is part of FusionDirectory <http://www.fusiondirectory.org>
 
 =item Copyright (c) 2011 Antoine Gallavardin
 
-=item Copyright (C) 2011 FusionDirectory Project
+=item Copyright (C) 2011-2012 FusionDirectory Project
 
 =back
 

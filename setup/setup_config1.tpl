@@ -12,18 +12,6 @@
         </div>
     </div>
 
-    <p><b>{t}Apache{/t}</b></p>
-
-    <div class='step4_container'>
-        <div class='step4_name'>
-            {t}Compress output send to browser{/t}
-        </div>
-        <div class='step4_value'>
-            <select name="compressed">
-                {html_options options=$bool selected=$compressed}
-            </select>
-        </div>
-    </div>
     <p><b>{t}People and group storage{/t}</b></p>
     <div class='step4_container'>
         <div class='step4_name'>

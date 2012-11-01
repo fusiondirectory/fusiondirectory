@@ -8,6 +8,7 @@ trans.ca = locale/core/ca/LC_MESSAGES/messages.po
 trans.cs_CZ = locale/core/cs/LC_MESSAGES/messages.po
 trans.de = locale/core/de/LC_MESSAGES/messages.po
 trans.es = locale/core/es/LC_MESSAGES/messages.po
+trans.es_VE = locale/core/es_VE/LC_MESSAGES/messages.po
 trans.fr = locale/core/fr/LC_MESSAGES/messages.po
 trans.id_ID = locale/core/id/LC_MESSAGES/messages.po
 trans.it = locale/core/it/LC_MESSAGES/messages.po

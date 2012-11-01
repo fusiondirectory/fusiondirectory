@@ -2,8 +2,7 @@
 
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2012  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,126 +19,160 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class recoveryConfig extends plugin
+class recoveryConfig extends simplePlugin
 {
-  var $plHeadline     = "Password recovery";
-  var $plDescription  = "Manage password recovery settings";
-  var $plIcon  = "plugins/password/images/password.png";
-
-  var $cli_summary      = "This plugin is used to configure the password recovery system.";
-  var $cli_description  = "";
-  var $cli_parameters   = array("one" => "one is nice", "two" => "two is better");
+  var $mainTab        = TRUE;
+  var $displayHeader  = FALSE;
 
   /* This plugin only writes its objectClass */
   var $objectclasses    = array("recoveryConfig");
-  var $attributes       = array("passwordRecoveryActivated","passwordRecoveryEmail",
-                                "passwordRecoveryMailSubject","passwordRecoveryMailBody",
-                                "passwordRecoveryMail2Subject","passwordRecoveryMail2Body",
-                                "passwordRecoveryValidity","passwordRecoverySalt",);
   var $StatusFlag       = "";
-
-  /* This class can't be assigned twice so it conflicts with itsself */
-  var $conflicts        = array("recoveryConfig");
-
-  var $DisplayName      = "";
-  var $dn               = NULL;
-  var $acl;
-  var $cn               = "";
-
-  var $passwordRecoveryActivated    = FALSE;
-  var $passwordRecoveryEmail        = "to.be@chang.ed";
-  var $passwordRecoveryMailSubject;
-  var $passwordRecoveryMailBody;
-  var $passwordRecoveryMail2Subject;
-  var $passwordRecoveryMail2Body;
-  var $passwordRecoveryValidity     = 10;
-  var $passwordRecoverySalt         = "SomethingSecretAndVeryLong";
-
-  function recoveryConfig(&$config,$dn)
-  {
-    $this->passwordRecoveryMailSubject  = _("[FusionDirectory] Password recovery link");
-    $this->passwordRecoveryMailBody     = _("Hello,\n\nHere are your informations : \n - Login : %s\n - Link : %s\n\nThis link is only valid for 10 minutes.");
-    $this->passwordRecoveryMail2Subject = _("[FusionDirectory] Password recovery successful");
-    $this->passwordRecoveryMail2Body    = _("Hello,\n\nYour password has been changed.\nYour login is still %s.");
-
-    plugin::plugin($config,$dn);
-    $this->DisplayName = _("Password recovery settings");
-    $this->passwordRecoveryActivated = ($this->passwordRecoveryActivated == "TRUE"); // conversion from LDAP format to PHP boolean
-  }
-
-
-  function execute()
-  {
-    if(isset($_POST['recoveryConfigPosted'])) {
-      $this->save_object();
-      $this->save();
-    }
-
-    $smarty = get_smarty();
-
-    $smarty->assign("recoveryConfigACL", $this->getacl("recoveryConfig")) ;
-    $attributes= array();
-    foreach ($this->attributes as $attribute) {
-      $smarty->assign("$attribute" , $this->$attribute);
-      $attributes[$attribute] = $this->$attribute;
-    }
-    $smarty->assign("attributes",$attributes);
-
-    return $smarty->fetch(get_template_path("recoveryConfig.tpl",TRUE,dirname(__FILE__)));
-  }
-
-  function save()
-  {
-    plugin::save();
-
-    $this->attrs['passwordRecoveryActivated'] = ($this->passwordRecoveryActivated?"TRUE":"FALSE"); // conversion from PHP format to LDAP boolean
-    /* Check if this is a new entry ... add/modify */
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cat($this->dn,array("objectClass"));
-    if ($ldap->count()) {
-      $ldap->cd($this->dn);
-      $ldap->modify($this->attrs);
-    } else {
-      $ldap->cd($this->dn);
-      $ldap->add($this->attrs);
-    }
-    if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, 0, get_class()));
-    }
-    if($this->initially_was_account) {
-      $this->handle_post_events("modify");
-      new log("modify","server/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
-    } else {
-      $this->handle_post_events("add");
-      new log("create","server/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
-    }
-  }
-
-  function save_object()
-  {
-    if (isset($_POST['recoveryConfigPosted'])) {
-      plugin::save_object();
-      if ($this->acl_is_writeable('passwordRecoveryActivated')) {
-        $this->passwordRecoveryActivated = isset($_POST['passwordRecoveryActivated']);
-      }
-    }
-  }
 
   /* Return plugin informations for acl handling */
   static function plInfo()
   {
     return (array(
           "plShortName"   => _("Password recovery config"),
-          "plDescription" => _("Password recovery config"),
+          "plDescription" => _("Settings for the password recovery feature"),
+          "plIcon"        => "plugins/password/images/password.png",
           "plSelfModify"  => FALSE,
-          "plDepends"     => array(),
           "plPriority"    => 91,
           "plSection"     => array("administration"),
           "plCategory"    => array("recovery"),
 
-          "plProvidedAcls"=> array()
+          "plProvidedAcls"=> parent::generatePlProvidedAcls(self::getAttributesInfo())
           ));
   }
-}
 
+  /*!
+   *  \brief The main function : information about attributes
+   */
+  static function getAttributesInfo ()
+  {
+    return array (
+    'settings' => array (
+        'name'  => _('Password recovery settings'),
+        'attrs' => array (
+          new BooleanAttribute (
+            _('Activate password recovery'),
+            _('Weither to activate or not password recovery feature'),
+            'passwordRecoveryActivated',
+            FALSE
+          ),
+          new MailAttribute (
+            _('Sender email address'),
+            _('Email address from which mails will be sent'),
+            'passwordRecoveryEmail',
+            FALSE,
+            'to.be@chang.ed'
+          ),
+          new IntAttribute (
+            _('Link validity (minutes)'),
+            _('Number of minutes before a recovery link expires'),
+            'passwordRecoveryValidity',
+            FALSE,
+            0, FALSE, 10
+          ),
+          new StringAttribute (
+            _('Salt for tokens'),
+            _('Just a security measure, you can put anything in there, even random characters'),
+            'passwordRecoverySalt',
+            FALSE,
+            "SomethingSecretAndVeryLong"
+          ),
+          new BooleanAttribute (
+            _('Allow the use of alternate addresses'),
+            _('Users will also be able to enter one of theirs alternate addresses to recover their password'),
+            'passwordRecoveryUseAlternate',
+            FALSE
+          ),
+        )
+      ),
+      'first_email' => array (
+        'name' => _('First email'),
+        'attrs' => array (
+          new StringAttribute (
+            _('Subject'),
+            _('Subject of the first email'),
+            'passwordRecoveryMailSubject',
+            FALSE,
+            _("[FusionDirectory] Password recovery link")
+          ),
+          new TextAreaAttribute (
+            _('Body (first %s is login, second is link)'),
+            _('Body of the first email, sent when the user ask for a new password. Use %s for the login and the recovery link.'),
+            'passwordRecoveryMailBody',
+            FALSE,
+            _("Hello,\n\nHere are your informations : \n - Login : %s\n - Link : %s\n\nThis link is only valid for 10 minutes.")
+          )
+        )
+      ),
+      'second_email' => array (
+        'name' => _('Second email'),
+        'attrs' => array (
+          new StringAttribute (
+            _('Subject'),
+            _('Subject of the second email'),
+            'passwordRecoveryMail2Subject',
+            FALSE,
+            _("[FusionDirectory] Password recovery successful")
+          ),
+          new TextAreaAttribute (
+            _('Body (%s is login)'),
+            _('Body of the second email, sent to confirm the password has been changed. Use %s for the user login.'),
+            'passwordRecoveryMail2Body',
+            FALSE,
+           _("Hello,\n\nYour password has been changed.\nYour login is still %s.")
+          )
+        )
+      )
+    );
+  }
+
+ function __construct(&$config, $dn = NULL, $object = NULL)
+  {
+    // Check if token branch is here
+    $ldap = $config->get_ldap_link();
+    $tokenBranch = get_ou("tokenRDN").$config->current['BASE'];
+    $ldap->cat($tokenBranch, array('dn'));
+    if (!$ldap->count()) {
+      $ldap->cd($config->current['BASE']);
+      $ldap->create_missing_trees($tokenBranch);
+      if (!$ldap->success()) {
+        $display = msgPool::ldaperror($ldap->get_error(),
+                                  $tokenBranch, LDAP_MOD, get_class());
+      }
+      fusiondirectory_log("Created token branch ".$tokenBranch);
+    }
+
+    parent::__construct($config, $dn, $object);
+    $this->attributesInfo['settings']['attrs']['passwordRecoveryActivated']->setManagedAttributes(
+      array(
+        'disable' => array(
+          FALSE => array(
+            'settings' => array(
+              'passwordRecoveryEmail','passwordRecoveryValidity','passwordRecoverySalt'
+            ),
+            'first_email' => array(
+              'passwordRecoveryMailSubject','passwordRecoveryMailBody'
+            ),
+            'second_email' => array(
+              'passwordRecoveryMail2Subject','passwordRecoveryMail2Body'
+            )
+          )
+        )
+      )
+    );
+  }
+  function execute()
+  {
+    $smarty = get_smarty();
+    parent::execute();
+    if ($this->displayPlugin) {
+      return $this->header.$smarty->fetch(get_template_path('recoveryConfig.tpl', TRUE, dirname(__FILE__)));
+    } else {
+      return $this->header;
+    }
+  }
+}
 ?>

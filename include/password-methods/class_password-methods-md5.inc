@@ -24,7 +24,7 @@
  * \file class_password-methods-md5.inc
  * Source code for class passwordMethodMd5
  */
- 
+
 /*!
  * \brief This class contains all the functions for md5 password methods
  * \see passwordMethod
@@ -36,8 +36,8 @@ class passwordMethodMd5 extends passwordMethod
    * \brief passwordMethodMd5 Constructor
    *
    * \param string $config
-   */ 
-  function passwordMethodMd5($config)  
+   */
+  function passwordMethodMd5($config)
   {
   }
 
@@ -59,7 +59,7 @@ class passwordMethodMd5 extends passwordMethod
    * \brief Generate template hash
    *
    * \param string $pwd Password
-   */ 
+   */
   function generate_hash($pwd)
   {
     return  "{MD5}".base64_encode( pack('H*', md5($pwd)));
@@ -68,7 +68,7 @@ class passwordMethodMd5 extends passwordMethod
   /*!
    * \brief Get the hash name
    */
-  function get_hash_name()
+  static function get_hash_name()
   {
     return "md5";
   }
