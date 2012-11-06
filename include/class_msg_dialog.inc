@@ -82,19 +82,18 @@ class msg_dialog
       $this->i_Type  = $i_type;
 
       /* Append trace information, only if error messages are enabled */
-      if( isset($config) &&
-        is_object($config) &&
-        $config->get_cfg_value("displayerrors") == "TRUE" ){
-        $this->a_Trace   = debug_backtrace();
+      if (isset($config) && is_object($config) &&
+        $config->get_cfg_value("displayerrors") == "TRUE") {
+        $this->a_Trace = debug_backtrace();
       }
-      if(!session::is_set('msg_dialogs')){
-        session::set('msg_dialogs',array());
+      if (!session::is_set('msg_dialogs')) {
+        session::set('msg_dialogs', array());
       }
-      if($this->i_Type == FATAL_ERROR_DIALOG){
+      if ($this->i_Type == FATAL_ERROR_DIALOG) {
         restore_error_handler();
         error_reporting(E_ALL);
         echo $this->execute();
-      }else{
+      } else {
         $msg_dialogs   = session::get('msg_dialogs');
         $msg_dialogs[] = $this;
         session::set('msg_dialogs',$msg_dialogs);

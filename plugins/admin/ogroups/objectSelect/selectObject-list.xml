@@ -23,7 +23,7 @@
       <label>Server</label>
       <objectClass>goServer</objectClass>
       <category>server</category>
-      <class>servgeneric</class>
+      <class>serverGeneric</class>
       <image>plugins/systems/images/select_server.png</image>
     </objectType>
 
@@ -31,7 +31,7 @@
       <label>Workstation</label>
       <objectClass>gotoWorkstation</objectClass>
       <category>workstation</category>
-      <class>workgeneric</class>
+      <class>workstationGeneric</class>
       <image>plugins/systems/images/select_workstation.png</image>
     </objectType>
 

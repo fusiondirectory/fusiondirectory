@@ -65,10 +65,10 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
   }
 
   /* Error messages are hidden in FusionDirectory, so we only send them to the logging class and abort here */
-  if(isset($config->data) && $config->get_cfg_value("displayerrors") != "true"){
+  if (isset($config->data) && $config->get_cfg_value("displayerrors") != "TRUE") {
 
     /* Write to syslog */
-    if(class_exists("log") && !preg_match("/No such object/",$errstr)){
+    if (class_exists("log") && !preg_match("/No such object/",$errstr)) {
       new log("view","error","",array(),"PHP error: $errstr ($errfile, line $errline)");
     }
 
@@ -77,7 +77,7 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
   }
 
   /* Send all errors to logging class, except "Ldap : No such object" messages*/
-  if(class_exists("log") && !preg_match("/No such object/",$errstr)){
+  if (class_exists("log") && !preg_match("/No such object/", $errstr)) {
     new log("debug","all",$errfile,array(),"Type:".$errno.", Message:".$errstr.", File:".$errfile.", Line: ".$errline);
   }
 
