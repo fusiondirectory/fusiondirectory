@@ -627,11 +627,14 @@ class passwordRecovery {
     $headers = "From: ".$this->from_mail."\r\n";
     $headers .= "Reply-To: ".$this->from_mail."\r\n";
 
+    $additional_parameters = "-f".$this->from_mail;
 
-    if (mail($this->address_mail, $this->mail2_subject, $mail_body, $headers)) {
+    if (mail($this->address_mail, $this->mail2_subject, $mail_body, $headers, $additional_parameters)) {
       $smarty = get_smarty();
       $this->step = 5;
       $smarty->assign('changed', TRUE);
+    } else {
+      $this->message[] = msgPool::invalid(_("There was a problem with mail server, confirmation email not sent"));
     }
   }
 }
