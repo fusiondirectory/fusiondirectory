@@ -1574,7 +1574,6 @@ function get_ou($name)
                 "sambaMachineAccountRDN"  => "ou=computers,",
 
                 "faxBlocklistRDN"     => "ou=gofax,ou=systems,",
-                "systemIncomingRDN"   => "ou=incoming,",
                 "aclRoleRDN"          => "ou=aclroles,",
                 "phoneMacroRDN"       => "ou=macros,ou=asterisk,ou=configs,ou=systems,",
                 "phoneConferenceRDN"  => "ou=conferences,ou=asterisk,ou=configs,ou=systems,",
