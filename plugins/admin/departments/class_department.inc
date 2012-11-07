@@ -91,7 +91,7 @@ class department extends plugin
     $this->dn= $dn;
     $this->orig_dn= $dn;
 
-    /* Save current naming attribuet 
+    /* Save current naming attribuet
      */
     $nA      = $this->namingAttr;
     $orig_nA = "orig_".$nA;
@@ -205,7 +205,7 @@ class department extends plugin
       $smarty->assign($name."ACL",$this->getacl($name));
     }
 
-    /* Hide base selector, if this object represents the base itself 
+    /* Hide base selector, if this object represents the base itself
      */
     $smarty->assign("is_root_dse", FALSE);
     if($this->dn == $this->config->current['BASE']){
@@ -219,7 +219,7 @@ class department extends plugin
     if(($this->dn == "new")||($this->dn == "")){
       $tmp = $bases;
     }else{
-      $tmp  = array();  
+      $tmp  = array();
       foreach($bases as $dn=>$base){
         /* Only attach departments which are not a subtree of this one */
         if(!preg_match("/".preg_quote($this->dn)."/",$dn)){
@@ -242,7 +242,7 @@ class department extends plugin
     }
 
     $smarty->assign("dep_type",$this->type);
-    
+
 
     $dep_types = departmentManagement::get_support_departments();
     $tpl ="";
@@ -290,7 +290,7 @@ class department extends plugin
 
   /* Save data to object */
   function save_object()
-  { 
+  {
     if (isset($_POST['dep_generic_posted'])){
 
       $nA = $this->namingAttr;
@@ -393,7 +393,7 @@ class department extends plugin
     {
         $ldap= $this->config->get_ldap_link();
 
-        /* Ensure that ou is saved too, it is required by objectClass gosaDepartment 
+        /* Ensure that ou is saved too, it is required by objectClass gosaDepartment
          */
         $nA = $this->namingAttr;
         $this->ou = $this->$nA;
@@ -406,7 +406,7 @@ class department extends plugin
                 $this->objectclasses[]= "gosaAdministrativeUnit";
                 $this->gosaUnitTag= "";
 
-                /* It seams that this method is called twice, 
+                /* It seams that this method is called twice,
                    set this to true. to avoid adding this oc twice */
                 $this->initially_was_tagged = true;
             }
@@ -462,7 +462,7 @@ class department extends plugin
 
         if ($ldap->count()){
             $this->cleanup();
-            $ldap->modify ($this->attrs); 
+            $ldap->modify ($this->attrs);
             new log("modify","department/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
             $this->handle_post_events('modify');
         } else {
@@ -474,7 +474,7 @@ class department extends plugin
             msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, 0, get_class()));
         }
 
-        /* The parameter forces only to set must_be_tagged, and don't touch any objects 
+        /* The parameter forces only to set must_be_tagged, and don't touch any objects
            This will be done later */
         $this->tag_objects(true);
 
@@ -547,7 +547,7 @@ class department extends plugin
         echo "<script language=\"javascript\" type=\"text/javascript\">scrollDown2();</script>" ;
       }
     }
-    
+
     if(!$OnlySetTagFlag){
       $this->must_be_tagged = FALSE;
       echo '<p class="seperator">&nbsp;</p>';
@@ -589,7 +589,7 @@ class department extends plugin
     if ($ldap->fetch()){
       trigger_error("Recursive_move ".LDAP::fix($dst_dn)." already exists.",
           E_USER_WARNING);
-      echo sprintf("Recursive_move: '%s' already exists", LDAP::fix($dst_dn))."<br>"; 
+      echo sprintf("Recursive_move: '%s' already exists", LDAP::fix($dst_dn))."<br>";
       return (FALSE);
     }
 
@@ -630,7 +630,7 @@ class department extends plugin
     $ldap->cd($src_dn);
     $ldap->recursive_remove();
     $this->orig_dn  = $this->dn = $dst_dn;
-    $this->orig_base= $this->base;     
+    $this->orig_base= $this->base;
     $this->entryCSN = getEntryCSN($this->dn);
 
     echo '<p class="seperator">&nbsp;</p>';
@@ -646,32 +646,33 @@ class department extends plugin
   }
 
 
-  /* Return plugin informations for acl handling */ 
+  /* Return plugin informations for acl handling */
   static function plInfo()
   {
-    return (array("plShortName"   => _("Generic"),
-                  "plDescription" => _("Departments"),
-                  "plSelfModify"  => FALSE,
-                  "plPriority"    => 0,
-                  "plDepends"     => array(),
-                  "plSection"     => array("administration"),
-                  "plCategory"    => array("department" => array("objectClass" => "gosaDepartment", "description" => _("Departments"))),
-            
-                  "plProvidedAcls" => array(
-                    "ou"                => _("Department name"),
-                    "description"       => _("Description"),
-                    "businessCategory"  => _("Category"),
-                    "base"              => _("Base"),
+    return array(
+      "plShortName"   => _("Generic"),
+      "plDescription" => _("Departments"),
+      "plSelfModify"  => FALSE,
+      "plSection"     => array("administration"),
+      "plCategory"    => array("department" => array("objectClass" => "gosaDepartment", "description" => _("Departments"))),
+      "plObjetType"   => array("department" => array("name" => _("Department"), "filter" => "objectClass=gosaDepartment")),
 
-                    "st"                => _("State"),
-                    "l"                 => _("Location"),
-                    "postalAddress"     => _("Address"),
-                    "telephoneNumber"   => _("Telephone"),
-                    "facsimileTelephoneNumber" => _("Fax"),
-                    "manager" => _("Manager"),
+      "plProvidedAcls" => array(
+        "ou"                => _("Department name"),
+        "description"       => _("Description"),
+        "businessCategory"  => _("Category"),
+        "base"              => _("Base"),
 
-                    "gosaUnitTag"       => _("Administrative settings"))
-                  ));
+        "st"                        => _("State"),
+        "l"                         => _("Location"),
+        "postalAddress"             => _("Address"),
+        "telephoneNumber"           => _("Telephone"),
+        "facsimileTelephoneNumber"  => _("Fax"),
+        "manager"                   => _("Manager"),
+
+        "gosaUnitTag" => _("Administrative settings")
+      )
+    );
   }
 
   function handle_object_tagging($dn= "", $tag= "", $show= false)

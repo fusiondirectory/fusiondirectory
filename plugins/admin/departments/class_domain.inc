@@ -75,24 +75,27 @@ class domain extends department
   }
 
 
-  /* Return plugin informations for acl handling */ 
+  /* Return plugin informations for acl handling */
   static function plInfo()
   {
-    return (array("plShortName"   => _("Domain Component"),
-          "plDescription" => _("Domain Component"),
-          "plSelfModify"  => FALSE,
-          "plPriority"    => 4,
-          "plDepends"     => array(),
-          "plSection"     => array("administration"),
-          "plCategory"    => array("department"),
+    return array(
+      "plShortName"   => _("Domain"),
+      "plDescription" => _("Domain"),
+      "plSelfModify"  => FALSE,
+      "plPriority"    => 4,
+      "plDepends"     => array(),
+      "plSection"     => array("administration"),
+      "plCategory"    => array("department"),
+      "plObjectType"  => array("domain" => array("name" => _("Domain"), "filter" => "objectClass=domain")),
 
-          "plProvidedAcls" => array(
-            "dc"                => _("Name"),
-            "description"       => _("Description"),
-            "base"              => _("Base"),
-            "manager"                 => _("Manager"),
-            "gosaUnitTag"       => _("Administrative settings"))
-          ));
+      "plProvidedAcls" => array(
+        "dc"                => _("Name"),
+        "description"       => _("Description"),
+        "base"              => _("Base"),
+        "manager"           => _("Manager"),
+        "gosaUnitTag"       => _("Administrative settings")
+      )
+    );
   }
 }
 

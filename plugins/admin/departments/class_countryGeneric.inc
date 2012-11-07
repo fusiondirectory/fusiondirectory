@@ -39,7 +39,7 @@ class country extends department
   function check()
   {
     $message = plugin::check();
-    
+
     /* Check for presence of this department */
     $ldap= $this->config->get_ldap_link();
     $ldap->ls ("(&(c=".$this->c.")(objectClass=country))", $this->base, array('dn'));
@@ -75,25 +75,25 @@ class country extends department
   }
 
 
-  /* Return plugin informations for acl handling */ 
+  /* Return plugin informations for acl handling */
   static function plInfo()
   {
-    return (array(
-          "plShortName"   => _("Country"),
-          "plDescription" => _("Country"),
-          "plSelfModify"  => FALSE,
-          "plPriority"    => 2,
-          "plDepends"     => array(),
-          "plSection"     => array("administration"),
-          "plCategory"    => array("department"),
+    return array(
+      "plShortName"   => _("Country"),
+      "plDescription" => _("Country"),
+      "plSelfModify"  => FALSE,
+      "plSection"     => array("administration"),
+      "plCategory"    => array("department"),
+      "plObjectType"  => array("country" => array("name" => _("Country"), "filter" => "objectClass=country")),
 
-          "plProvidedAcls" => array(
-            "c"                 => _("Country name"),
-            "description"       => _("Description"),
-            "manager"                 => _("Manager"),
-            "base"              => _("Base"),
-            "gosaUnitTag"       => _("Administrative settings"))
-          ));
+      "plProvidedAcls" => array(
+        "c"                 => _("Country name"),
+        "description"       => _("Description"),
+        "manager"           => _("Manager"),
+        "base"              => _("Base"),
+        "gosaUnitTag"       => _("Administrative settings")
+      )
+    );
   }
 }
 

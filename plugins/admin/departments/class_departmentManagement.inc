@@ -27,10 +27,10 @@ class departmentManagement extends management
   var $plIcon         = "plugins/departments/images/plugin.png";
 
   // Tab definition
-  protected $tabClass = "deptabs";
-  protected $tabType = "DEPTABS";
-  protected $aclCategory = "department";
-  protected $aclPlugin   = "generic";
+  protected $tabClass     = "deptabs";
+  protected $tabType      = "DEPARTMENTTABS";
+  protected $aclCategory  = "department";
+  protected $aclPlugin    = "generic";
   protected $objectName   = "department";
 
   function __construct($config,$ui)
@@ -185,7 +185,7 @@ class departmentManagement extends management
     $types['domain']['ACL']     = "domain";
     $types['domain']['CLASS']   = "domain";
     $types['domain']['ATTR']    = "dc";
-    $types['domain']['TAB']     = "DOMAIN_TABS";
+    $types['domain']['TAB']     = "DOMAINTABS";
     $types['domain']['OC']      = "domain";
     $types['domain']['IMG']     = "plugins/departments/images/domain.png";
     $types['domain']['IMG_FULL']= "plugins/departments/images/domain.png";
@@ -197,7 +197,7 @@ class departmentManagement extends management
     $types['dcObject']['ACL']     = "dcObject";
     $types['dcObject']['CLASS']   = "dcObject";
     $types['dcObject']['ATTR']    = "dc";
-    $types['dcObject']['TAB']     = "DCOBJECT_TABS";
+    $types['dcObject']['TAB']     = "DCOBJECTTABS";
     $types['dcObject']['OC']      = "dcObject";
     $types['dcObject']['IMG']     = "plugins/departments/images/dc.png";
     $types['dcObject']['IMG_FULL']= "plugins/departments/images/dc.png";
@@ -208,7 +208,7 @@ class departmentManagement extends management
      */
     $types['country']['ACL']     = "country";
     $types['country']['CLASS']   = "country";
-    $types['country']['TAB']     = "COUNTRY_TABS";
+    $types['country']['TAB']     = "COUNTRYTABS";
     $types['country']['ATTR']    = "c";
     $types['country']['OC']      = "country";
     $types['country']['IMG']     = "plugins/departments/images/country.png";
@@ -220,7 +220,7 @@ class departmentManagement extends management
      */
     $types['locality']['ACL']     = "locality";
     $types['locality']['CLASS']   = "locality";
-    $types['locality']['TAB']     = "LOCALITY_TABS";
+    $types['locality']['TAB']     = "LOCALITYTABS";
     $types['locality']['ATTR']    = "l";
     $types['locality']['OC']      = "locality";
     $types['locality']['IMG']     = "plugins/departments/images/locality.png";
@@ -232,7 +232,7 @@ class departmentManagement extends management
      */
     $types['organization']['ACL']     = "organization";
     $types['organization']['CLASS']   = "organization";
-    $types['organization']['TAB']     = "ORGANIZATION_TABS";
+    $types['organization']['TAB']     = "ORGANIZATIONTABS";
     $types['organization']['ATTR']    = "o";
     $types['organization']['OC']      = "organization";
     $types['organization']['IMG']     = "plugins/departments/images/organization.png";
@@ -244,7 +244,7 @@ class departmentManagement extends management
      */
     $types['organizationalUnit']['ACL']     = "department";
     $types['organizationalUnit']['CLASS']   = "department";
-    $types['organizationalUnit']['TAB']     = "DEPTABS";
+    $types['organizationalUnit']['TAB']     = "DEPARTMENTTABS";
     $types['organizationalUnit']['ATTR']    = "ou";
     $types['organizationalUnit']['OC']      = "organizationalUnit";
     $types['organizationalUnit']['IMG']     = "images/lists/folder.png";//plugins/departments/images/department.png";

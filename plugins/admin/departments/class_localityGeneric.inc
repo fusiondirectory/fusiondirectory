@@ -40,7 +40,7 @@ class locality extends department
   function check()
   {
     $message = plugin::check();
-    
+
     /* Check for presence of this department */
     $ldap= $this->config->get_ldap_link();
     $ldap->ls ("(&(l=".$this->l.")(objectClass=locality))", $this->base, array('dn'));
@@ -76,24 +76,25 @@ class locality extends department
   }
 
 
-  /* Return plugin informations for acl handling */ 
+  /* Return plugin informations for acl handling */
   static function plInfo()
   {
-    return (array("plShortName"   => _("Locality"),
-          "plDescription" => _("Locality"),
-          "plSelfModify"  => FALSE,
-          "plPriority"    => 3,
-          "plDepends"     => array(),
-          "plSection"     => array("administration"),
-          "plCategory"    => array("department"),
+    return array(
+      "plShortName"   => _("Locality"),
+      "plDescription" => _("Locality"),
+      "plSelfModify"  => FALSE,
+      "plSection"     => array("administration"),
+      "plCategory"    => array("department"),
+      "plObjectType"  => array("locality" => array("name" => _("Locality"), "filter" => "objectClass=locality")),
 
-          "plProvidedAcls" => array(
-            "l"                 => _("Location"),
-            "description"       => _("Description"),
-            "manager"                 => _("Manager"),
-            "base"              => _("Base"),
-            "gosaUnitTag"       => _("Administrative settings"))
-          ));
+      "plProvidedAcls" => array(
+        "l"                 => _("Location"),
+        "description"       => _("Description"),
+        "manager"           => _("Manager"),
+        "base"              => _("Base"),
+        "gosaUnitTag"       => _("Administrative settings")
+      )
+    );
   }
 }
 
