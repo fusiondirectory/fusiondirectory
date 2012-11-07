@@ -936,22 +936,25 @@ class ogroup extends plugin
 
   static function plInfo()
   {
-    return (array(
-          "plShortName"   => _("Generic"),
-          "plDescription" => _("Object group generic"),
-          "plSelfModify"  => FALSE,
-          "plDepends"     => array(),
-          "plPriority"    => 1,
-          "plSection"     => array("administration"),
-          "plCategory"    => array("ogroups" => array("description"  => _("Object groups"),
-                                                      "objectClass"  => "gosaGroupOfNames")),
-          "plProvidedAcls"=> array(
-            "cn"                => _("Name"),
-            "base"              => _("Base"),
-            "description"       => _("Description"),
-            "trustModel"        => _("System trust"),
-            "member"            => _("Member"))
-          ));
+    return array(
+      "plShortName"   => _("Generic"),
+      "plDescription" => _("Object group generic"),
+      "plSelfModify"  => FALSE,
+      "plPriority"    => 1,
+      "plSection"     => array("administration"),
+      "plCategory"    => array("ogroups" => array("description"  => _("Object groups"),
+                                                  "objectClass"  => "gosaGroupOfNames")),
+      "plObjectType"  => array("ogroup" => array("name"  => _("Object group"),
+                                                  "filter"  => "objectClass=gosaGroupOfNames")),
+
+      "plProvidedAcls"=> array(
+        "cn"                => _("Name"),
+        "base"              => _("Base"),
+        "description"       => _("Description"),
+        "trustModel"        => _("System trust"),
+        "member"            => _("Member")
+      )
+    );
   }
 }
 

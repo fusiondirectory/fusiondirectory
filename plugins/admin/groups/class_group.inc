@@ -1174,30 +1174,30 @@ class group extends plugin
   /* Return plugin informations for acl handling  */
   static function plInfo()
   {
-    return (array(
-          "plShortName" => _("Generic"),
-          "plDescription" => _("Generic group settings"),
-          "plSelfModify"  => FALSE,
-          "plDepends"     => array(),
-          "plPriority"    => 0,
-          "plSection"     => array("administration"),
-          "plCategory"    => array("groups" => array("objectClass" => "posixGroup", "description" => _("Groups"))),
+    return array(
+      "plShortName"   => _("Generic"),
+      "plDescription" => _("Generic group settings"),
+      "plSelfModify"  => FALSE,
+      "plSection"     => array("administration"),
+      "plCategory"    => array("groups" => array("objectClass" => "posixGroup", "description" => _("Groups"))),
+      "plObjectType"  => array("group" => array("name" => _("Group"), "filter" => "objectClass=posixGroup")),
 
-          "plProvidedAcls"    => array(
-            "cn"                => _("Name"),
-            "description"       => _("Description"),
-            "base"              => _("Base"),
+      "plProvidedAcls"    => array(
+        "cn"                => _("Name"),
+        "description"       => _("Description"),
+        "base"              => _("Base"),
 
-            "gidNumber"         => _("GID"),
+        "gidNumber"         => _("GID"),
 
-            "sambaGroupType"    => _("Samba group type"),
-            "sambaDomainName"   => _("Samba domain name"),
-            "trustModel"        => _("System trust"),
-            "fonGroup"          => _("Phone pickup group"),
-            "nagiosGroup"       => _("Nagios group"),
+        "sambaGroupType"    => _("Samba group type"),
+        "sambaDomainName"   => _("Samba domain name"),
+        "trustModel"        => _("System trust"),
+        "fonGroup"          => _("Phone pickup group"),
+        "nagiosGroup"       => _("Nagios group"),
 
-            "memberUid"         => _("Group member"))
-        ));
+        "memberUid"         => _("Group member")
+      )
+    );
   }
 
 
