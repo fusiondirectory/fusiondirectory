@@ -1638,6 +1638,8 @@ class user extends plugin
         "plSection"     => array("personal" => _("My account")),
         "plCategory"    => array("users" => array("description" => _("Users"),
                                                   "objectClass" => "gosaAccount")),
+        "plObjectType"  => array("user" => array("description" => _("User"),
+                                                  "filter" => "objectClass=gosaAccount")),
 
         "plProvidedAcls" => array(
 

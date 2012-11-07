@@ -1675,31 +1675,32 @@ class posixAccount extends plugin
 
   static function plInfo()
   {
-    return (array(
-          "plDescription"     => _("POSIX account"),
-          "plSelfModify"      => TRUE,
-          "plDepends"         => array("user"),
-          "plPriority"        => 2,
-          "plSection"         => array("personal" => _("My account")),
-          "plCategory"        => array("users"),
-          "plOptions"         => array(),
+    return array(
+      "plShortName"       => _("Unix"),
+      "plDescription"     => _("POSIX account"),
+      "plSelfModify"      => TRUE,
+      "plDepends"         => array("user"),
+      "plPriority"        => 2,
+      "plSection"         => array("personal" => _("My account")),
+      "plCategory"        => array("users"),
+      "plObjectType"      => array("user"),
 
-          "plProvidedAcls"  => array(
+      "plProvidedAcls"  => array(
+        "homeDirectory"       =>  _("Home directory"),
+        "loginShell"          =>  _("Shell"),
+        "uidNumber"           =>  _("User ID"),
+        "gidNumber"           =>  _("Group ID"),
 
-            "homeDirectory"       =>  _("Home directory"),
-            "loginShell"          =>  _("Shell"),
-            "uidNumber"           =>  _("User ID"),
-            "gidNumber"           =>  _("Group ID"),
-
-            "mustchangepassword"=>  _("Force password change on login"),
-            "shadowMin"           =>  _("Shadow min"),
-            "shadowMax"           =>  _("Shadow max"),
-            "shadowWarning"       =>  _("Shadow warning"),
-            "shadowInactive"      =>  _("Shadow inactive"),
-            "shadowExpire"        =>  _("Shadow expire"),
-            "sshPublickey"        =>  _("Public SSH key"),
-            "trustModel"          =>  _("System trust model")))
-            );
+        "mustchangepassword"=>  _("Force password change on login"),
+        "shadowMin"           =>  _("Shadow min"),
+        "shadowMax"           =>  _("Shadow max"),
+        "shadowWarning"       =>  _("Shadow warning"),
+        "shadowInactive"      =>  _("Shadow inactive"),
+        "shadowExpire"        =>  _("Shadow expire"),
+        "sshPublickey"        =>  _("Public SSH key"),
+        "trustModel"          =>  _("System trust model")
+      )
+    );
   }
 
 }
