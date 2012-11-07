@@ -941,7 +941,6 @@ class ogroup extends plugin
       "plDescription" => _("Object group generic"),
       "plSelfModify"  => FALSE,
       "plPriority"    => 1,
-      "plSection"     => array("administration"),
       "plCategory"    => array("ogroups" => array("description"  => _("Object groups"),
                                                   "objectClass"  => "gosaGroupOfNames")),
       "plObjectType"  => array("ogroup" => array("name"  => _("Object group"),

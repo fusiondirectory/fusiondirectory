@@ -1635,7 +1635,6 @@ class user extends plugin
         "plSelfModify"  => TRUE,
         "plDepends"     => array(),
         "plPriority"    => 1,
-        "plSection"     => array("personal" => _("My account")),
         "plCategory"    => array("users" => array("description" => _("Users"),
                                                   "objectClass" => "gosaAccount")),
         "plObjectType"  => array("user" => array("name" => _("User"),

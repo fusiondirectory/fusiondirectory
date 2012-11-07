@@ -204,7 +204,6 @@ class password extends plugin
           "plSelfModify"      => TRUE,
           "plDepends"         => array("user"),
           "plPriority"        => 10,
-          "plSection"     => array("personal" => _("My account")),
           "plCategory"    => array("users"),
           "plOptions"         => array(),
 

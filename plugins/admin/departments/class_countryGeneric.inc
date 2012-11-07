@@ -82,7 +82,6 @@ class country extends department
       "plShortName"   => _("Country"),
       "plDescription" => _("Country"),
       "plSelfModify"  => FALSE,
-      "plSection"     => array("administration"),
       "plCategory"    => array("department"),
       "plObjectType"  => array("country" => array("name" => _("Country"), "filter" => "objectClass=country")),
 

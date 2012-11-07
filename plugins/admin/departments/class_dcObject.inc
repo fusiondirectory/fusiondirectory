@@ -82,7 +82,6 @@ class dcObject extends department
       "plShortName"   => _("Domain Component"),
       "plDescription" => _("Domain Component"),
       "plSelfModify"  => FALSE,
-      "plSection"     => array("administration"),
       "plCategory"    => array("department"),
       "plObjectType"  => array("dcObject" => array("name" => _("Domain Component"), "filter" => "objectClass=dcObject")),
 

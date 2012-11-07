@@ -1356,7 +1356,6 @@ class acl extends plugin
       "plShortName"   => _("ACL"),
       "plDescription" => _("ACL")."&nbsp;("._("Access control list").")",
       "plSelfModify"  => FALSE,
-      "plSection"     => array("administration"),
       "plCategory"    => array("acl" => array("description"  => _("ACL")."&nbsp;&amp;&nbsp;"._("ACL roles"),
                                                       "objectClass"  => array("gosaAcl","gosaRole"))),
       "plObjectType"  => array("acl" => array("name"  => _("ACL"),

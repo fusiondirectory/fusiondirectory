@@ -1251,6 +1251,7 @@ class config  {
   function loadPlist ($plist)
   {
     $this->data['OBJECTS'] = array();
+    $this->data['SECTIONS'] = array();
     foreach ($plist->info as $class => $plInfo) {
       if (isset($plInfo['plObjectType'])) {
         $entry = array('CLASS' => $class,'NAME' => $plInfo['plShortName']);
@@ -1285,6 +1286,30 @@ class config  {
           'CLASS' => $class,
           'NAME' => $plInfo['plShortName']
         );
+      }
+      if (isset($plInfo['plSection'])) {
+        $section  = $plInfo['plSection'];
+        $acl = $plInfo['plCategory'];
+        if (is_array($acl)) {
+          $key = key($acl);
+          if (is_numeric($key)) {
+            $acl = join(',', $acl);
+          } else {
+            $acl = join(',', array_keys($acl));
+          }
+        }
+        if (is_array($section)) {
+          $section  = key($section);
+          $this->data['SECTIONS'][$section] = $plInfo['plSection'][$section];
+        }
+        if (!isset($this->data['MENU'][$section])) {
+          $this->data['MENU'][$section] = array();
+        }
+        $attrs = array('CLASS' => $class);
+        if (!empty($acl)) {
+          $attrs['ACL'] = $acl;
+        }
+        $this->data['MENU'][$section][] = $attrs;
       }
     }
   }

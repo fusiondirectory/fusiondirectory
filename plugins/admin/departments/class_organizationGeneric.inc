@@ -114,7 +114,6 @@ class organization extends department
       "plShortName"   => _("Organization"),
       "plDescription" => _("Organization"),
       "plSelfModify"  => FALSE,
-      "plSection"     => array("administration"),
       "plCategory"    => array("department"),
       "plObjectType"  => array("organization" => array("name" => _("Organization"), "filter" => "objectClass=organization")),
 

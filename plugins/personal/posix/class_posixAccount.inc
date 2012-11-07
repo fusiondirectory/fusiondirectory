@@ -1681,7 +1681,6 @@ class posixAccount extends plugin
       "plSelfModify"      => TRUE,
       "plDepends"         => array("user"),
       "plPriority"        => 2,
-      "plSection"         => array("personal" => _("My account")),
       "plCategory"        => array("users"),
       "plObjectType"      => array("user"),
 

@@ -84,7 +84,6 @@ class domain extends department
       "plSelfModify"  => FALSE,
       "plPriority"    => 4,
       "plDepends"     => array(),
-      "plSection"     => array("administration"),
       "plCategory"    => array("department"),
       "plObjectType"  => array("domain" => array("name" => _("Domain"), "filter" => "objectClass=domain")),
 

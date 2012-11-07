@@ -70,7 +70,6 @@ class pluglist {
           $infos['plSelfModify']  = FALSE;
           unset($infos['plObjectType']); // services are not part of any objectType
           $infos['plCategory']    = array('server');
-          $infos['plSection']     = array('administration');
         } else {
           if (!isset($infos['plSelfModify'])) {
             $infos['plSelfModify'] = FALSE;

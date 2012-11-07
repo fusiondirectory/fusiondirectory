@@ -37,7 +37,6 @@ class recoveryConfig extends simplePlugin
           "plIcon"        => "plugins/password/images/password.png",
           "plSelfModify"  => FALSE,
           "plPriority"    => 91,
-          "plSection"     => array("administration"),
           "plCategory"    => array("recovery"),
 
           "plProvidedAcls"=> parent::generatePlProvidedAcls(self::getAttributesInfo())

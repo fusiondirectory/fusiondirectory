@@ -725,7 +725,6 @@ class aclrole extends acl
       "plShortName"   => _("Role"),
       "plDescription" => _("Access control roles"),
       "plSelfModify"  => FALSE,
-      "plSection"     => array("administration"),
       "plCategory"    => array("acl"),
       "plObjectType"  => array("aclRole" => array("name" => _("ACL role"), "filter" => "objectClass=gosaRole")),
 

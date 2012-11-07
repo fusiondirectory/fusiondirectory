@@ -1178,7 +1178,6 @@ class group extends plugin
       "plShortName"   => _("Generic"),
       "plDescription" => _("Generic group settings"),
       "plSelfModify"  => FALSE,
-      "plSection"     => array("administration"),
       "plCategory"    => array("groups" => array("objectClass" => "posixGroup", "description" => _("Groups"))),
       "plObjectType"  => array("group" => array("name" => _("Group"), "filter" => "objectClass=posixGroup")),
 
