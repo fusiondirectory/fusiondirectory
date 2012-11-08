@@ -1290,14 +1290,18 @@ class config  {
       if (isset($plInfo['plSection'])) {
         $section  = $plInfo['plSection'];
         $acl = $plInfo['plCategory'];
-        if (is_array($acl)) {
-          $key = key($acl);
-          if (is_numeric($key)) {
-            $acl = join(',', $acl);
-          } else {
-            $acl = join(',', array_keys($acl));
-          }
+        if (!is_array($acl)) {
+          $acl = array($acl);
         }
+        $key = key($acl);
+        if (!is_numeric(key($acl))) {
+          $acl = array_keys($acl);
+        }
+        if (isset($plInfo['plSelfModify']) && $plInfo['plSelfModify']) {
+          $acl[] = $acl[0].'/'.$class.':self';
+        }
+        $acl = join(',', $acl);
+
         if (is_array($section)) {
           $section  = key($section);
           $this->data['SECTIONS'][$section] = $plInfo['plSection'][$section];
@@ -1309,20 +1313,20 @@ class config  {
         if (!empty($acl)) {
           $attrs['ACL'] = $acl;
         }
-        if ($section == "personal") {
-          $attrs['ACL'] = 'users/'.$class.':self';
-        }
         $this->data['MENU'][$section][] = $attrs;
       }
     }
     $this->data['SECTIONS']["personal"] = array('name' => _('My account'), 'priority' => 20);
-    if (!isset($this->data['MENU']["personal"])) {
-      $this->data['MENU']["personal"] = array();
-    }
+    $personal = array();
     foreach ($this->data['TABS']['USERTABS'] as $tab) {
-      $this->data['MENU']["personal"][] = array('CLASS' => $tab['CLASS'], 'ACL' => 'users/'.$tab['CLASS'].':self');
+      $personal[] = array('CLASS' => $tab['CLASS'], 'ACL' => 'users/'.$tab['CLASS'].':self');
     }
-    usort($this->data['SECTIONS'],
+    if (!isset($this->data['MENU']["personal"])) {
+      $this->data['MENU']["personal"] = $personal;
+    } else {
+      $this->data['MENU']["personal"] = array_merge($personal, $this->data['MENU']["personal"]);
+    }
+    uasort($this->data['SECTIONS'],
       function ($a, $b)
       {
         if ($a['priority'] == $b['priority']) {

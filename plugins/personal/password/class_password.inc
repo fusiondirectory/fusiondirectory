@@ -22,38 +22,33 @@
 
 class password extends plugin
 {
-  /* Definitions */
-  var $plHeadline     = "Password";
-  var $plDescription  = "Change user password";
-
-  var $proposal = "";
-  var $proposalEnabled = FALSE;
+  var $proposal         = "";
+  var $proposalEnabled  = FALSE;
   var $proposalSelected = FALSE;
 
   var $forcedHash = NULL;
 
-
-  function password(&$config, $dn= NULL, $parent= NULL)
+  function password(&$config, $dn = NULL, $parent = NULL)
   {
-      plugin::plugin($config, $dn, $parent);
+    plugin::plugin($config, $dn, $parent);
 
-      // Try to generate a password proposal, if this is successfull
-      //  then preselect the proposal usage.
-      $this->refreshProposal();
-      if($this->proposal != ""){
-          $this->proposalSelected = TRUE;
-      }
+    // Try to generate a password proposal, if this is successfull
+    //  then preselect the proposal usage.
+    $this->refreshProposal();
+    if ($this->proposal != "") {
+      $this->proposalSelected = TRUE;
+    }
   }
 
   function forceHash($hash)
   {
-      $this->forcedHash = $hash;
+    $this->forcedHash = $hash;
   }
 
   function refreshProposal()
   {
-      $this->proposal = passwordMethod::getPasswordProposal($this->config);
-      $this->proposalEnabled = (!empty($this->proposal));
+    $this->proposal = passwordMethod::getPasswordProposal($this->config);
+    $this->proposalEnabled = (!empty($this->proposal));
   }
 
   function execute()
@@ -180,11 +175,11 @@ class password extends plugin
 
   function change_password($dn, $pwd, $hash)
   {
-      if(!$hash){
-          change_password ($dn, $pwd);
-      }else{
-          change_password ($dn, $pwd,0, $hash);
-      }
+    if ($hash) {
+      change_password ($dn, $pwd,0, $hash);
+    } else {
+      change_password ($dn, $pwd);
+    }
   }
 
 
@@ -200,16 +195,17 @@ class password extends plugin
   static function plInfo()
   {
     return array(
-      "plDescription"   => _("User password"),
+      "plShortName"     => _("Password"),
+      "plDescription"   => _("Change user password"),
       "plSelfModify"    => TRUE,
       "plDepends"       => array("user"),
       "plPriority"      => 10,
       "plCategory"      => array("users"),
+      "plSection"       => "personal",
 
       "plProvidedAcls"  => array()
     );
   }
 
 }
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
