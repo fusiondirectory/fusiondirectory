@@ -199,16 +199,15 @@ class password extends plugin
 
   static function plInfo()
   {
-    return (array(
-          "plDescription"     => _("User password"),
-          "plSelfModify"      => TRUE,
-          "plDepends"         => array("user"),
-          "plPriority"        => 10,
-          "plCategory"    => array("users"),
-          "plOptions"         => array(),
+    return array(
+      "plDescription"   => _("User password"),
+      "plSelfModify"    => TRUE,
+      "plDepends"       => array("user"),
+      "plPriority"      => 10,
+      "plCategory"      => array("users"),
 
-          "plProvidedAcls"  => array())
-        );
+      "plProvidedAcls"  => array()
+    );
   }
 
 }

@@ -1309,8 +1309,18 @@ class config  {
         if (!empty($acl)) {
           $attrs['ACL'] = $acl;
         }
+        if ($section == "personal") {
+          $attrs['ACL'] = 'users/'.$class.':self';
+        }
         $this->data['MENU'][$section][] = $attrs;
       }
+    }
+    $this->data['SECTIONS']["personal"] = array('name' => _('My account'), 'priority' => 20);
+    if (!isset($this->data['MENU']["personal"])) {
+      $this->data['MENU']["personal"] = array();
+    }
+    foreach ($this->data['TABS']['USERTABS'] as $tab) {
+      $this->data['MENU']["personal"][] = array('CLASS' => $tab['CLASS'], 'ACL' => 'users/'.$tab['CLASS'].':self');
     }
     usort($this->data['SECTIONS'],
       function ($a, $b)
