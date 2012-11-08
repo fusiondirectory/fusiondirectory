@@ -38,6 +38,7 @@ class departmentManagement extends management
       "plIcon"        => "plugins/departments/images/plugin.png",
       "plSection"     => array("admin" => array("name" => _("Administration"), "priority" => 0)),
       "plCategory"    => array("department"),
+      "plPriority"    => 0,
 
       "plProvidedAcls" => array()
     );

@@ -35,7 +35,6 @@ class pluglist {
   var $index            = 0;
   var $menu             = "";
   var $iconmenu         = "";
-  var $menuparts        = array();
   var $config           = NULL;
   var $dirlist          = array();
   var $ui               = NULL;
@@ -248,19 +247,18 @@ class pluglist {
       $cfg    = $this->config->data['MENU'];
 
       /* Parse headlines */
-      foreach ($cfg as $headline => $plug) {
+      foreach ($this->config->data['SECTIONS'] as $section => $section_infos) {
         if ($first) {
           $style = "";
           $first = FALSE;
         } else {
           $style = "style='border-top:1px solid #AAA; margin-top:0.8em;'";
         }
-        $menu = "<p class=\"menuheader\" $style>"._($headline)."</p>\n";
+        $menu = "<p class=\"menuheader\" $style>".$section_infos['NAME']."</p>\n";
         $entries = "";
-        $this->menuparts[_($headline)] = array();
 
         /* Parse sub-plugins */
-        foreach ($plug as $info) {
+        foreach ($this->config->data['MENU'][$section] as $info) {
 
           /* Read information from class variable */
           if (!isset($info['CLASS'])) {
@@ -322,38 +320,6 @@ class pluglist {
     return $this->menu;
   }
 
-  function gen_current()
-  {
-    /* Do we have a current value? */
-    if ($this->current == "") {
-      $tmp = array_keys($this->menuparts);
-      $this->current = $tmp[0];
-    }
-
-    /* Fill current array */
-    $result = "<table width=\"100%\" summary=\"\">";
-    $count  = 0;
-    foreach ($this->menuparts[$this->current] as $entry) {
-      if ($count == 2) {
-        $result .= "</tr>";
-        $count  = 0;
-      }
-      if ($count == 0) {
-        $result .= "<tr>";
-      }
-      $result .= "<td>$entry</td>";
-      $count++;
-    }
-
-    /* Add missing cell? */
-    if ($count == 1) {
-      $result .= "<td>&nbsp;</td>";
-    }
-
-    $result .= "</table>";
-    return $result;
-  }
-
   /*!
    * \brief Show the menu icon
    */
@@ -371,14 +337,14 @@ class pluglist {
       }
 
       /* Parse headlines */
-      foreach ($cfg as $headline => $plug) {
+      foreach ($this->config->data['SECTIONS'] as $section => $section_infos) {
         $col = 1;
         $menu = "<h1 class=\"menuheader\">".
-          _($headline)."</h1>\n<table summary=\"\" style=\"width:100%;".
+          $section_infos['NAME']."</h1>\n<table summary=\"\" style=\"width:100%;".
           "font-size: 14px;\" cellpadding=7 border=0>\n<tr>\n";
         $entries = "";
 
-        foreach ($plug as $info) {
+        foreach ($this->config->data['MENU'][$section] as $info) {
 
           if (!plugin_available($info['CLASS'])) {
             continue;

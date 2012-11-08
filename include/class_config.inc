@@ -57,7 +57,7 @@ class config  {
    */
   var $data= array( 'TABS' => array(), 'LOCATIONS' => array(), 'SERVERS' => array(),
       'MAIN' => array(),
-      'MENU' => array(), 'SERVICE' => array());
+      'MENU' => array());
   var $basedir= "";
   var $config_version ="NOT SET";
 
@@ -157,8 +157,7 @@ class config  {
         "TABS"      => array(),
         "LOCATIONS" => array(),
         "MAIN"      => array(),
-        "MENU"      => array(),
-        "SERVICE"   => array());
+        "MENU"      => array());
 
     $this->last_modified = filemtime($filename);
     $this->filename = $filename;
@@ -218,14 +217,14 @@ class config  {
     }
 
     /* Look through attributes */
-    switch ($this->tags[$this->level-1]){
+    switch ($this->tags[$this->level-1]) {
 
 
       /* Handle tab section */
       case 'TAB': $name= $this->tags[$this->level-2];
 
                   /* Create new array? */
-                  if (!isset($this->data['TABS'][$name])){
+                  if (!isset($this->data['TABS'][$name])) {
                     $this->data['TABS'][$name]= array();
                   }
 
@@ -235,7 +234,7 @@ class config  {
 
                   /* Handle location */
       case 'LOCATION':
-                  if ($this->tags[$this->level-2] == 'MAIN'){
+                  if ($this->tags[$this->level-2] == 'MAIN') {
                     $name= $attrs['NAME'];
                     $name = preg_replace("/[<>\"']/","",$name);
                     $attrs['NAME'] = $name;
@@ -248,41 +247,16 @@ class config  {
 
                   /* Handle referral tags */
       case 'REFERRAL':
-                  if ($this->tags[$this->level-2] == 'LOCATION'){
+                  if ($this->tags[$this->level-2] == 'LOCATION') {
                     $url= $attrs['URI'];
                     $server= preg_replace('!^([^:]+://[^/]+)/.*$!', '\\1', $url);
 
                     /* Add location elements */
-                    if (!isset($this->data['LOCATIONS'][$this->currentLocation]['REFERRAL'])){
+                    if (!isset($this->data['LOCATIONS'][$this->currentLocation]['REFERRAL'])) {
                       $this->data['LOCATIONS'][$this->currentLocation]['REFERRAL']= array();
                     }
 
                     $this->data['LOCATIONS'][$this->currentLocation]['REFERRAL'][$server]= $attrs;
-                  }
-                  break;
-
-                  /* Load main parameters */
-      case 'MAIN':
-                  $this->data['MAIN']= array_merge ($this->data['MAIN'], $attrs);
-                  break;
-
-                  /* Load menu */
-      case 'SECTION':
-                  if ($this->tags[$this->level-2] == 'MENU'){
-                    $this->section= $attrs['NAME'];
-                    $this->data['MENU'][$this->section]= array(); ;
-                  }
-                  break;
-
-                  /* Inser plugins */
-      case 'PLUGIN':
-                  if ($this->tags[$this->level-3] == 'MENU' &&
-                      $this->tags[$this->level-2] == 'SECTION'){
-
-                    $this->data['MENU'][$this->section][$this->gpc++]= $attrs;
-                  }
-                  if ($this->tags[$this->level-2] == 'SERVICEMENU'){
-                    $this->data['SERVICE'][$attrs['CLASS']]= $attrs;
                   }
                   break;
     }
@@ -1304,7 +1278,11 @@ class config  {
 
         if (is_array($section)) {
           $section  = key($section);
-          $this->data['SECTIONS'][$section] = $plInfo['plSection'][$section];
+          if (is_numeric($section)) {
+            trigger_error("$class have wrong setting in plInfo/plSection");
+            continue;
+          }
+          $this->data['SECTIONS'][$section] = array_change_key_case($plInfo['plSection'][$section], CASE_UPPER);
         }
         if (!isset($this->data['MENU'][$section])) {
           $this->data['MENU'][$section] = array();
@@ -1316,7 +1294,7 @@ class config  {
         $this->data['MENU'][$section][] = $attrs;
       }
     }
-    $this->data['SECTIONS']["personal"] = array('name' => _('My account'), 'priority' => 20);
+    $this->data['SECTIONS']["personal"] = array('NAME' => _('My account'), 'PRIORITY' => 20);
     $personal = array();
     foreach ($this->data['TABS']['USERTABS'] as $tab) {
       $personal[] = array('CLASS' => $tab['CLASS'], 'ACL' => 'users/'.$tab['CLASS'].':self');
@@ -1329,10 +1307,10 @@ class config  {
     uasort($this->data['SECTIONS'],
       function ($a, $b)
       {
-        if ($a['priority'] == $b['priority']) {
+        if ($a['PRIORITY'] == $b['PRIORITY']) {
           return 0;
         }
-        return (($a['priority'] < $b['priority']) ? -1 : 1);
+        return (($a['PRIORITY'] < $b['PRIORITY']) ? -1 : 1);
       }
     );
   }
