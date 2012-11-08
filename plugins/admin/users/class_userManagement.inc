@@ -22,10 +22,6 @@
 
 class userManagement extends management
 {
-  var $plHeadline     = "Users";
-  var $plDescription  = "Manage users";
-  var $plIcon  = "plugins/users/images/user.png";
-
   var $sn = "";
   var $givenName = "";
   var $uid = "";
@@ -49,6 +45,19 @@ class userManagement extends management
   protected $passwordChangeForceable = FALSE;
   protected $enforcePasswordChange = FALSE;
 
+  /* Return plugin informations for acl handling */
+  static function plInfo()
+  {
+    return array(
+      "plShortName"   => _("Users"),
+      "plDescription" => _("Manage users"),
+      "plIcon"        => "plugins/users/images/user.png",
+      "plSection"     => "admin",
+      "plCategory"    => array("users"),
+
+      "plProvidedAcls" => array()
+    );
+  }
 
   function __construct($config,$ui)
   {

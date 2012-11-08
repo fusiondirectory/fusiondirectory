@@ -218,16 +218,27 @@ class management
    */
   protected function getHeader()
   {
-    if($this->skipHeader) return("");
+    if ($this->skipHeader) {
+      return "";
+    }
 
-    if (get_object_info() != ""){
-      $display= print_header(get_template_path($this->plIcon),_($this->plDescription),
+    if (in_array_ics('plInfo', get_class_methods(get_class($this)))) {
+      $plInfos = $this->plInfo();
+      $plDescription  = $plInfos['plDescription'];
+      $plIcon         = $plInfos['plIcon'];
+    } else {
+      $plDescription  = $this->plDescription;
+      $plIcon         = $this->plIcon;
+    }
+
+    if (get_object_info() != "") {
+      $display = print_header(get_template_path($plIcon), _($plDescription),
           "<img alt=\"\" class=\"center\" src=\"".get_template_path('images/lists/locked.png')."\">".
           LDAP::fix(get_object_info()));
     } else {
-      $display= print_header(get_template_path($this->plIcon),_($this->plDescription));
+      $display = print_header(get_template_path($plIcon), _($plDescription));
     }
-    return($display);
+    return $display;
   }
 
 

@@ -22,16 +22,26 @@
 
 class departmentManagement extends management
 {
-  var $plHeadline     = "Departments";
-  var $plDescription  = "Manage Departments";
-  var $plIcon         = "plugins/departments/images/plugin.png";
-
   // Tab definition
   protected $tabClass     = "deptabs";
   protected $tabType      = "DEPARTMENTTABS";
   protected $aclCategory  = "department";
   protected $aclPlugin    = "generic";
   protected $objectName   = "department";
+
+  /* Return plugin informations for acl handling */
+  static function plInfo()
+  {
+    return array(
+      "plShortName"   => _("Departments"),
+      "plDescription" => _("Manage departments"),
+      "plIcon"        => "plugins/departments/images/plugin.png",
+      "plSection"     => array("admin" => array("name" => _("Administration"), "priority" => 0)),
+      "plCategory"    => array("department"),
+
+      "plProvidedAcls" => array()
+    );
+  }
 
   function __construct($config,$ui)
   {

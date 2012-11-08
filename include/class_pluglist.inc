@@ -85,6 +85,27 @@ class pluglist {
     $this->info['all']['plProvidedAcls']  = array();
     $this->info['all']['plDescription']   = _("All objects in this category");
     $this->info['all']['plSelfModify']    = FALSE;
+
+    uasort($this->info,
+      function ($a, $b)
+      {
+        if (isset($a['plPriority']) && isset($b['plPriority'])) {
+          if ($a['plPriority'] == $b['plPriority']) {
+            return 0;
+          } elseif ($a['plPriority'] < $b['plPriority']) {
+            return -1;
+          } else {
+            return 1;
+          }
+        } elseif (isset($a['plPriority'])) {
+          return -1;
+        } elseif (isset($b['plPriority'])) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }
+    );
   }
 
 

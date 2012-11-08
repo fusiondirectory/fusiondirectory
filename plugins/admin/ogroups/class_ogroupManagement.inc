@@ -22,16 +22,26 @@
 
 class ogroupManagement extends management
 {
-  var $plHeadline     = "Object groups";
-  var $plDescription  = "Manage object groups";
-  var $plIcon  = "plugins/ogroups/images/plugin.png";
-
   // Tab definition
   protected $tabClass = "ogrouptabs";
   protected $tabType = "OGROUPTABS";
   protected $aclCategory = "ogroups";
   protected $aclPlugin   = "ogroup";
   protected $objectName   = "object group";
+
+  /* Return plugin informations for acl handling */
+  static function plInfo()
+  {
+    return array(
+      "plShortName"   => _("Object groups"),
+      "plDescription" => _("Manage object groups"),
+      "plIcon"        => "plugins/ogroups/images/plugin.png",
+      "plSection"     => "admin",
+      "plCategory"    => array("ogroups"),
+
+      "plProvidedAcls" => array()
+    );
+  }
 
   function __construct($config,$ui)
   {

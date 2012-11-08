@@ -255,15 +255,15 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
   }
 
   /* Check for schema file presence */
-  if ($config->get_cfg_value("schemaCheck") == "TRUE"){
-    $recursive = ($config->get_cfg_value("ldapFollowReferrals") == "TRUE");
-    $tls =       ($config->get_cfg_value("ldapTLS") == "TRUE");
+  if ($config->get_cfg_value("schemaCheck") == "TRUE") {
+    $recursive  = ($config->get_cfg_value("ldapFollowReferrals") == "TRUE");
+    $tls        = ($config->get_cfg_value("ldapTLS") == "TRUE");
 
     if(!count($ldap->get_objectclasses())){
       msg_dialog::display(_("LDAP error"), _("Cannot detect information about the installed LDAP schema!"), ERROR_DIALOG);
       displayLogin();
       exit()  ;
-    }else{
+    } else {
       $cfg = array();
       $cfg['admin']     = $config->current['ADMINDN'];
       $cfg['password']  = $config->current['ADMINPASSWORD'];

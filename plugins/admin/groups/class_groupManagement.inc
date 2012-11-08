@@ -22,16 +22,26 @@
 
 class groupManagement extends management
 {
-  var $plHeadline     = "Groups";
-  var $plDescription  = "Group administration";
-  var $plIcon  = "plugins/groups/images/plugin.png";
-
   // Tab definition
   protected $tabClass = "grouptabs";
   protected $tabType = "GROUPTABS";
   protected $aclCategory = "groups";
   protected $aclPlugin   = "group";
   protected $objectName   = "group";
+
+  /* Return plugin informations for acl handling */
+  static function plInfo()
+  {
+    return array(
+      "plShortName"   => _("Groups"),
+      "plDescription" => _("Manage groups"),
+      "plIcon"        => "plugins/groups/images/plugin.png",
+      "plSection"     => "admin",
+      "plCategory"    => array("groups"),
+
+      "plProvidedAcls" => array()
+    );
+  }
 
   function __construct($config,$ui)
   {

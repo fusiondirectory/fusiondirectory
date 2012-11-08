@@ -1312,6 +1312,15 @@ class config  {
         $this->data['MENU'][$section][] = $attrs;
       }
     }
+    usort($this->data['SECTIONS'],
+      function ($a, $b)
+      {
+        if ($a['priority'] == $b['priority']) {
+          return 0;
+        }
+        return (($a['priority'] < $b['priority']) ? -1 : 1);
+      }
+    );
   }
 }
 

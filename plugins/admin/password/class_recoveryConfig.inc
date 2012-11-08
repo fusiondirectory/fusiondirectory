@@ -31,16 +31,17 @@ class recoveryConfig extends simplePlugin
   /* Return plugin informations for acl handling */
   static function plInfo()
   {
-    return (array(
-          "plShortName"   => _("Password recovery config"),
-          "plDescription" => _("Settings for the password recovery feature"),
-          "plIcon"        => "plugins/password/images/password.png",
-          "plSelfModify"  => FALSE,
-          "plPriority"    => 91,
-          "plCategory"    => array("recovery"),
+    return array(
+      "plShortName"   => _("Password recovery config"),
+      "plDescription" => _("Settings for the password recovery feature"),
+      "plIcon"        => "plugins/password/images/password.png",
+      "plSelfModify"  => FALSE,
+      "plPriority"    => 91,
+      "plCategory"    => array("recovery"),
+      "plSection"     => "admin",
 
-          "plProvidedAcls"=> parent::generatePlProvidedAcls(self::getAttributesInfo())
-          ));
+      "plProvidedAcls"=> parent::generatePlProvidedAcls(self::getAttributesInfo())
+    );
   }
 
   /*!
