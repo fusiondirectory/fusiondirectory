@@ -53,67 +53,66 @@ class usertabs extends tabs
     foreach ($this->by_object as $name => $obj){
 
       /* Adding uid to sub plugins of connectivity */
-      if($name == "connectivity"){
-        foreach ($obj->plugin_name as $plg_name){
-          if(isset($obj->plugin[$plg_name]->uid)){
+      if($name == "connectivity") {
+        foreach ($obj->plugin_name as $plg_name) {
+          if (isset($obj->plugin[$plg_name]->uid)) {
             $obj->plugin[$plg_name]->uid = $baseobject->uid;
           }
         }
       }
 
       /* Don't touch base object */
-      if ($name != 'user'){
-        $obj->parent= &$this;
-        $obj->uid= $baseobject->uid;
-        $obj->sn= $baseobject->uid;
-        $obj->givenName= $baseobject->uid;
+      if ($name != 'user') {
+        $obj->parent    = &$this;
+        $obj->uid       = $baseobject->uid;
+        $obj->sn        = $baseobject->uid;
+        $obj->givenName = $baseobject->uid;
       }
 
       /* Copy mail if needed */
-      if ($name == "gofaxAccount"){
-        if (isset($this->by_object['mailAccount']) && $this->by_object['mailAccount']->is_account){
-          $obj->mail= $this->by_object['mailAccount']->mail;
+      if ($name == "gofaxAccount") {
+        if (isset($this->by_object['mailAccount']) && $this->by_object['mailAccount']->is_account) {
+          $obj->mail = $this->by_object['mailAccount']->mail;
         }
       }
 
-      $this->by_object[$name]= $obj;
+      $this->by_object[$name] = $obj;
 
       /* Update parent in base object */
-      $this->by_object['user']->parent= &$this;
+      $this->by_object['user']->parent = &$this;
     }
 
     /* Move facsimile / phone number if nessecary */
-    if ($this->last == "user" && isset($this->by_object['gofaxAccount'])){
+    if ($this->last == "user" && isset($this->by_object['gofaxAccount'])) {
 
       /* Move number to fax plugin */
-      $this->by_object['gofaxAccount']->facsimileTelephoneNumber=
+      $this->by_object['gofaxAccount']->facsimileTelephoneNumber =
         $this->by_object['user']->facsimileTelephoneNumber;
 
       /* Move phone number if plugin exists */
       if (isset($this->by_object['phoneAccount']) &&
-          !$this->by_object['phoneAccount']->is_account){
-        $this->by_object['phoneAccount']->phoneNumbers= array();
-        if ($this->by_object['user']->telephoneNumber != ""){
+          !$this->by_object['phoneAccount']->is_account) {
+        $this->by_object['phoneAccount']->phoneNumbers = array();
+        if ($this->by_object['user']->telephoneNumber != "") {
           $this->by_object['phoneAccount']->phoneNumbers[$this->by_object['user']->telephoneNumber]= $this->by_object['user']->telephoneNumber;
         }
       }
     }
 
     /* Move number from fax plugin */
-    if ($this->last == "gofaxAccount"){
-
-      $this->by_object['user']->facsimileTelephoneNumber=
+    if ($this->last == "gofaxAccount") {
+      $this->by_object['user']->facsimileTelephoneNumber =
         $this->by_object['gofaxAccount']->facsimileTelephoneNumber;
     }
 
     /* Move number from fax plugin */
-    if ($this->last == "phoneAccount" && $this->by_object['phoneAccount']->is_account){
+    if ($this->last == "phoneAccount" && $this->by_object['phoneAccount']->is_account) {
       reset($this->by_object['phoneAccount']->phoneNumbers);
-      $number= key($this->by_object['phoneAccount']->phoneNumbers);
+      $number = key($this->by_object['phoneAccount']->phoneNumbers);
 
       /* Only the first phoneAccount number, if it is not empty */
-      if(!empty($number)){
-        $this->by_object['user']->telephoneNumber= $number;
+      if (!empty($number)) {
+        $this->by_object['user']->telephoneNumber = $number;
       }
     }
 
@@ -121,29 +120,29 @@ class usertabs extends tabs
     $this->set_acl_base();
   }
 
-  function save($ignore_account= FALSE)
+  function save($ignore_account = FALSE)
   {
     /* Check for new 'dn', in order to propagate the
        'dn' to all plugins */
-    $baseobject= $this->by_object['user'];
+    $baseobject = $this->by_object['user'];
     $baseobject->update_new_dn();
     if ($this->dn != 'new'){
 
-      $new_dn= $baseobject->new_dn;
+      $new_dn = $baseobject->new_dn;
 
-      if ($this->dn != $new_dn){
+      if ($this->dn != $new_dn) {
 
         /* Udpate acls */
-        $baseobject->update_acls($this->dn,$new_dn);
+        $baseobject->update_acls($this->dn, $new_dn);
         $baseobject->move($this->dn, $new_dn);
-        $this->by_object['user']= $baseobject;
+        $this->by_object['user'] = $baseobject;
 
         /* Did we change ourselves? Update ui object. */
         change_ui_dn($this->dn, $new_dn);
       }
     }
 
-    $this->dn= $baseobject->new_dn;
+    $this->dn = $baseobject->new_dn;
 
     return tabs::save();
   }
