@@ -361,7 +361,7 @@ if (is_file("$plugin_dir/main.inc")) {
 } else {
   msg_dialog::display(
       _("Plugin"),
-      sprintf(_("Fatal error: Cannot find any plugin definitions for plugin '%s'!"), $plug),
+      sprintf(_("Fatal error: Cannot find any plugin definitions for plugin '%s' ('%s' is not a file)!"), $plug, "$plugin_dir/main.inc"),
       FATAL_ERROR_DIALOG);
   exit();
 }

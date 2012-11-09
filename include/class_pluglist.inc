@@ -32,14 +32,27 @@
  * \see class_plugin
  */
 class pluglist {
-  var $index            = 0;
   var $menu             = "";
   var $iconmenu         = "";
   var $config           = NULL;
-  var $dirlist          = array();
   var $ui               = NULL;
   var $current          = "";
+
+
+  /*!
+   * \brief The plInfo result for all plugin, using class as key.
+   * Contains the plugin index in 'INDEX' and the path in 'PATH'
+   */
   var $info             = array();
+
+  /*!
+   * \brief Using the plugin index as a key, the class of the plugin.
+   */
+  var $dirlist          = array();
+
+  /*!
+   * \brief List plugin indexes of all plugin that the user have acl for
+   */
   var $allowed_plugins  = array();
   var $silly_cache      = array();
 
@@ -50,17 +63,17 @@ class pluglist {
    *
    * \param $ui UI
    */
-  function pluglist(&$config, &$ui)
+  function __construct(&$config, &$ui)
   {
+    global $class_mapping;
+
     $this->ui     = &$ui;
     $this->config = &$config;
-
-    /* Create dirlist for all plugins */
-    $this->dirlist = $this->get_plugins ($this->dirlist, $this->config->data['MENU']);
 
     /* Fill info part of pluglist */
     $classes = get_declared_classes();
 
+    $index = 0;
     foreach ($classes as $cname) {
       $cmethods = get_class_methods($cname);
       if (in_array_ics('plInfo', $cmethods)) {
@@ -74,7 +87,12 @@ class pluglist {
             $infos['plSelfModify'] = FALSE;
           }
         }
-        $this->info[$cname] = $infos;
+        if (isset($class_mapping[$cname])) {
+          $infos['PATH'] = dirname($class_mapping[$cname]);
+        }
+        $infos['INDEX']                 = $index;
+        $this->info[$cname]             = $infos;
+        $this->dirlist[$index++]  = $cname;
       }
     }
 
@@ -106,36 +124,6 @@ class pluglist {
       }
     );
   }
-
-
-  /*!
-   * \brief Get the plugins of a list
-   *
-   * \param array $list
-   *
-   * \param string $config Plugin configuration
-   */
-  function get_plugins($list, &$config)
-  {
-    global $class_mapping;
-
-    if (!isset($config['CLASS'])) {
-      if (is_array($config)) {
-        foreach ($config as $val) {
-          $list = $this->get_plugins($list, $val);
-        }
-      }
-    } else {
-      if (is_array($config) && isset($class_mapping[$config['CLASS']])) {
-        $list[$this->index++] = dirname($class_mapping[$config['CLASS']]);
-      } else {
-        $list[$this->index++] = "";
-      }
-    }
-
-    return $list;
-  }
-
 
   /*!
    * \brief  Check whether we are allowed to modify the given acl or not
@@ -425,7 +413,7 @@ class pluglist {
     if (!isset($this->dirlist[$index])) {
       return "";
     }
-    return "../".$this->dirlist[$index];
+    return "../".$this->info[$this->dirlist[$index]]['PATH'];
   }
 
   /*
@@ -435,14 +423,9 @@ class pluglist {
    */
   function get_index($class)
   {
-    /* Search for plugin index (id), identify entry by path && class */
-    $data = $this->config->data['MENU'];
-    foreach ($data as $section => $plugins) {
-      foreach ($plugins as $key => $plugin) {
-        if ($plugin['CLASS'] == $class) {
-          return $key;
-        }
-      }
+    /* Search for plugin index (id), identify entry by class */
+    if (isset($this->info[$class])) {
+      return $this->info[$class]['INDEX'];
     }
 
     /* Nothing */

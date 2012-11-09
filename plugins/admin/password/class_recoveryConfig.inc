@@ -36,11 +36,11 @@ class recoveryConfig extends simplePlugin
       "plDescription" => _("Settings for the password recovery feature"),
       "plIcon"        => "plugins/password/images/password.png",
       "plSelfModify"  => FALSE,
-      "plPriority"    => 91,
+      "plSection"     => "addons",
+      "plPriority"    => 9,
       "plCategory"    => array("recovery"),
-      "plSection"     => "admin",
 
-      "plProvidedAcls"=> parent::generatePlProvidedAcls(self::getAttributesInfo())
+      "plProvidedAcls"  => parent::generatePlProvidedAcls(self::getAttributesInfo())
     );
   }
 
@@ -129,7 +129,7 @@ class recoveryConfig extends simplePlugin
     );
   }
 
- function __construct(&$config, $dn = NULL, $object = NULL)
+  function __construct(&$config, $dn = NULL, $object = NULL)
   {
     // Check if token branch is here
     $ldap = $config->get_ldap_link();
