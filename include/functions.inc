@@ -2572,35 +2572,35 @@ function scan_directory($path,$sort_desc=false)
  */
 function clean_smarty_compile_dir($directory)
 {
-  if(is_dir($directory) && is_readable($directory)) {
+  if (is_dir($directory) && is_readable($directory)) {
     // Set revision filename to REVISION
-    $revision_file= $directory."/REVISION";
+    $revision_file = $directory."/REVISION";
 
     /* Is there a stamp containing the current revision? */
-    if(!file_exists($revision_file)) {
-      // create revision file
-      create_revision($revision_file, FD_VERSION);
-    } else {
-      # check for "$config->...['CONFIG']/revision" and the
-      # contents should match the revision number
-      if(!compare_revision($revision_file, FD_VERSION)){
+    if (file_exists($revision_file)) {
+      // check for "$config->...['CONFIG']/revision" and the
+      // contents should match the revision number
+      if (!compare_revision($revision_file, FD_VERSION)) {
         // If revision differs, clean compile directory
-        foreach(scan_directory($directory) as $file) {
-          if(($file==".")||($file=="..")) continue;
-          if( is_file($directory."/".$file) &&
-              is_writable($directory."/".$file)) {
+        foreach (scan_directory($directory) as $file) {
+          if (($file == ".") || ($file == "..")) {
+            continue;
+          }
+          if (is_file($directory."/".$file)) {
             // delete file
-            if(!unlink($directory."/".$file)) {
-              msg_dialog::display(_("Internal error"), sprintf(_("File '%s' could not be deleted."), $directory."/".$file), ERROR_DIALOG);
-              // This should never be reached
+            if (!unlink($directory."/".$file)) {
+              msg_dialog::display(_("Internal error"), sprintf(_("File '%s' could not be deleted. Try fusiondirectory-setup --check-directories to fix permissions."), $directory."/".$file), ERROR_DIALOG);
             }
           }
         }
-        // We should now create a fresh revision file
-        clean_smarty_compile_dir($directory);
       } else {
         // Revision matches, nothing to do
       }
+    }
+    /* If the file does not exists or has just been deleted */
+    if (!file_exists($revision_file)) {
+      // create revision file
+      create_revision($revision_file, FD_VERSION);
     }
   } else {
     // Smarty compile dir is not accessible
