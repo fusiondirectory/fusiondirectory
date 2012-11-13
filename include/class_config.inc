@@ -107,9 +107,9 @@ class config  {
     /* Check if class_location.inc has changed, this is the case
         if we have installed or removed plugins.
      */
-    if(session::global_is_set("class_location.inc:timestamp")){
+    if (session::global_is_set("class_location.inc:timestamp")) {
       $tmp = stat(CACHE_DIR."/".CLASS_CACHE);
-      if($tmp['mtime'] != session::global_get("class_location.inc:timestamp")){
+      if ($tmp['mtime'] != session::global_get("class_location.inc:timestamp")) {
         session::global_un_set("plist");
       }
     }
@@ -131,15 +131,6 @@ class config  {
       $this->parse($this->filename);
       $this->set_current($this->current['NAME']);
     }
-
-    $debugLevel = $this->get_cfg_value('DEBUGLEVEL');
-    if ($debugLevel & DEBUG_CONFIG) { // value from LDAP can't activate DEBUG_CONFIG
-      $debugLevel -= DEBUG_CONFIG;
-    }
-    if (isset($this->data['MAIN']['DEBUGLEVEL'])) {
-      $debugLevel |= $this->data['MAIN']['DEBUGLEVEL'];
-    }
-    session::global_set('DEBUGLEVEL', $debugLevel);
   }
 
 
@@ -449,6 +440,15 @@ class config  {
 
     /* Load server informations */
     $this->load_servers();
+
+    $debugLevel = $this->get_cfg_value('DEBUGLEVEL');
+    if ($debugLevel & DEBUG_CONFIG) { // value from LDAP can't activate DEBUG_CONFIG
+      $debugLevel -= DEBUG_CONFIG;
+    }
+    if (isset($this->data['MAIN']['DEBUGLEVEL'])) {
+      $debugLevel |= $this->data['MAIN']['DEBUGLEVEL'];
+    }
+    session::global_set('DEBUGLEVEL', $debugLevel);
   }
 
 
