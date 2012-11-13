@@ -407,7 +407,9 @@ class passwordRecovery {
     } elseif ($new_password == "") {
       return msgPool::required(_("New password"));
     } elseif (strlen($new_password) < $MinLength) {
-      return _("The password used as new is to short.");
+      return _("The password used as new is too short.");
+    } elseif (!passwordMethod::is_harmless($new_password)) {
+      return _("The password contains possibly problematic Unicode characters!");
     }
   }
 
