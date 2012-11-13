@@ -562,36 +562,36 @@ class plugin
     $ldap= $this->config->get_ldap_link();
 
     /* Load requested 'dn' to 'attrs' */
-    $ldap->cat ($dn);
-    $this->attrs= $ldap->fetch();
+    $ldap->cat($dn);
+    $this->attrs = $ldap->fetch();
 
     /* Walk through attributes */
-    foreach ($this->attributes as $val){
+    foreach ($this->attributes as $val) {
 
       /* Skip the ones in skip list */
-      if (in_array($val, $skip)){
+      if (in_array($val, $skip)) {
         continue;
       }
 
-      if (isset($this->attrs["$val"][0])){
+      if (isset($this->attrs["$val"][0])) {
 
         /* If attribute is set, replace dynamic parts:
            %sn, %givenName and %uid. Fill these in our local variables. */
         $value= $this->attrs["$val"][0];
 
-        foreach (array("sn", "givenName", "uid") as $repl){
+        foreach (array("sn", "givenName", "uid") as $repl) {
           if (preg_match("/%$repl/i", $value)){
             $value= preg_replace ("/%$repl/i", $this->parent->$repl, $value);
           }
         }
-        $this->$val= $value;
+        $this->$val = $value;
       }
     }
 
     /* Is Account? */
-    $found= TRUE;
-    foreach ($this->objectclasses as $obj){
-      if (preg_match('/top/i', $obj)){
+    $found = TRUE;
+    foreach ($this->objectclasses as $obj) {
+      if (preg_match('/top/i', $obj)) {
         continue;
       }
       if (!in_array_ics ($obj, $this->attrs['objectClass'])){

@@ -561,7 +561,7 @@ class userManagement extends management
      * 2   There was a template selected, now ask for the uid.
      ********************/
 
-    if ($_POST['template'] != 'none' && !isset($_POST['uid'])){
+    if ($_POST['template'] != 'none' && !isset($_POST['uid'])) {
 
       // Remember user input.
       $smarty = get_smarty();
@@ -573,61 +573,71 @@ class userManagement extends management
       $ldap= $this->config->get_ldap_link();
       $ldap->cd ($dn);
       $ldap->search ("(&(sn=".normalizeLdap($this->sn).")(givenName=".normalizeLdap($this->givenName)."))", array("givenName"));
-      if ($ldap->count () != 0){
+      if ($ldap->count () != 0) {
         msg_dialog::displayChecks(array(msgPool::duplicated(_("Name"))));
-      }else{
+      } else {
 
         // Preset uid field by using the idGenerator
-        $attributes= array('sn' => $this->sn, 'givenName' => $this->givenName);
-        if ($this->config->get_cfg_value("idGenerator") != ""){
-          $uids= gen_uids ($this->config->get_cfg_value("idGenerator"), $attributes);
-          if (count($uids)){
+        $smarty->assign("edit_uid", "");
+        $this->uid = "";
+        $attributes = array('sn' => $this->sn, 'givenName' => $this->givenName);
+        if ($this->config->get_cfg_value("idGenerator") != "") {
+          $uids = gen_uids($this->config->get_cfg_value("idGenerator"), $attributes);
+          if (count($uids)) {
             $smarty->assign("edit_uid", "false");
             $smarty->assign("uids", $uids);
-            $this->uid= current($uids);
+            $this->uid = current($uids);
           }
         } else {
-          $smarty->assign("edit_uid", "");
-          $this->uid= "";
+          $ldap->cat($_POST['template']);
+          $attrs = $ldap->fetch();
+          if (isset($attrs['uid'][0])) {
+            $uids = gen_uids($attrs['uid'][0], $attributes);
+            if (count($uids)) {
+              $smarty->assign("edit_uid", "false");
+              $smarty->assign("uids", $uids);
+              $this->uid = current($uids);
+            }
+          }
         }
-        $this->got_uid= true;
+        $this->got_uid = TRUE;
       }
 
       // Assign user input
-      foreach(array("sn", "givenName", "uid", "got_uid") as $attr){
+      foreach (array("sn", "givenName", "uid", "got_uid") as $attr) {
         $smarty->assign("$attr", $this->$attr);
       }
-      if (isset($_POST['template'])){
+      if (isset($_POST['template'])) {
         $smarty->assign("template", $_POST['template']);
       }
-      $smarty->assign("templates",$templates);
-      return($smarty->fetch(get_template_path('template.tpl', TRUE)));
+      $smarty->assign("templates", $templates);
+      return $smarty->fetch(get_template_path('template.tpl', TRUE));
     }
 
 
     /********************
      * 3   No template - Ok. Lets fill the data into the user object and skip templating here.
      ********************/
-    if ($_POST['template'] == 'none'){
-      foreach(array("sn", "givenName", "uid") as $attr){
-        if (isset($_POST[$attr])){
+    if ($_POST['template'] == 'none') {
+      foreach (array("sn", "givenName", "uid") as $attr) {
+        if (isset($_POST[$attr])) {
           $this->tabObject->by_object['user']->$attr= $_POST[$attr];
         }
       }
 
       // The user Tab object is already instantiated, so just go back and let the
       //  management class do the rest.
-      return("");
+      return "";
     }
 
 
     /********************
-     * 4   Template selected and uid given - Ok, then lets adapt tempalte values.
+     * 4   Template selected and uid given - Ok, then lets adapt template values.
      ********************/
-    if(isset($_POST['uid'])){
+    if (isset($_POST['uid'])) {
 
       // Move user supplied data to sub plugins
-      foreach(array("uid","sn","givenName") as $attr){
+      foreach (array("uid","sn","givenName") as $attr) {
         $this->$attr = $_POST[$attr];
         $this->tabObject->$attr       = $this->$attr;
         $this->tabObject->by_object['user']->$attr = $this->$attr;
@@ -637,7 +647,7 @@ class userManagement extends management
       $template_dn              = $_POST['template'];
       $this->tabObject->adapt_from_template($template_dn, array("uid","cn","givenName","sn"));
       $template_base            = preg_replace("/^[^,]+,".preg_quote(get_people_ou(), '/i')."/", '', $template_dn);
-      $this->tabObject->by_object['user']->base= $template_base;
+      $this->tabObject->by_object['user']->base = $template_base;
 
       // The user Tab object is already instantiated, so just go back and let the
       //  management class do the rest.
@@ -787,32 +797,31 @@ class userManagement extends management
    */
   function get_templates()
   {
-    $templates= array();
-    $ldap= $this->config->get_ldap_link();
-    foreach ($this->config->departments as $key => $value){
-      $acl = $this->ui->get_permissions($value,$this->aclCategory."/".$this->aclPlugin);
-      if (preg_match("/c/",$acl)){
-
+    $templates = array();
+    $ldap = $this->config->get_ldap_link();
+    foreach ($this->config->departments as $key => $value) {
+      $acl = $this->ui->get_permissions($value, $this->aclCategory."/".$this->aclPlugin);
+      if (preg_match("/c/",$acl)) {
         // Search all templates from the current dn.
-        $ldap->cd (get_people_ou().$value);
-        $ldap->search ("(objectClass=gosaUserTemplate)", array("uid"));
-        if ($ldap->count() != 0){
-          while ($attrs= $ldap->fetch()){
-            $templates[$ldap->getDN()]= $attrs['uid'][0]." - ".LDAP::fix($key);
+        $ldap->cd(get_people_ou().$value);
+        $ldap->search("(objectClass=gosaUserTemplate)", array("uid"));
+        if ($ldap->count() != 0) {
+          while ($attrs = $ldap->fetch()) {
+            $templates[$ldap->getDN()] = $attrs['cn'][0]." - ".LDAP::fix($key);
           }
         }
       }
     }
-    natcasesort ($templates);
-    reset ($templates);
-    return($templates);
+    natcasesort($templates);
+    reset($templates);
+    return $templates;
   }
 
 
-  function copyPasteHandler($action="",$target=array(),$all=array(),
-      $altTabClass ="", $altTabType = "", $altAclCategory="",$altAclPlugin="")
+  function copyPasteHandler($action = "", $target = array(), $all = array(),
+      $altTabClass = "", $altTabType = "", $altAclCategory = "", $altAclPlugin = "")
   {
-    if ($this->config->boolValueIsTrue("main", "copyPaste")){
+    if ($this->config->boolValueIsTrue("main", "copyPaste")) {
       $this->cpHandler->lastdn = "";
       $str = management::copyPasteHandler($action,$target,$all);
       if($this->cpHandler->lastdn != "" && isset($_POST['passwordTodo']) && $_POST['passwordTodo'] == "new"){

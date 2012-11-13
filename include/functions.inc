@@ -2296,103 +2296,102 @@ function gen_uids($rule, $attributes)
   global $config;
 
   // Strip out non ascii chars
-  foreach($attributes as $name => $value){
+  foreach ($attributes as $name => $value) {
       $value = iconv('UTF-8', 'US-ASCII//TRANSLIT', $value);
-      $value = preg_replace('/[^(\x20-\x7F)]*/','',$value);
+      $value = preg_replace('/[^(\x20-\x7F)]*/', '', $value);
       $attributes[$name] = $value;
   }
 
   /* Search for keys and fill the variables array with all
      possible values for that key. */
-  $part= "";
-  $trigger= false;
-  $stripped= "";
-  $variables= array();
+  $part       = "";
+  $trigger    = FALSE;
+  $stripped   = "";
+  $variables  = array();
 
-  for ($pos= 0, $l= strlen($rule); $pos < $l; $pos++){
+  for ($pos = 0, $l = strlen($rule); $pos < $l; $pos++) {
 
-    if ($rule[$pos] == "{" ){
-      $trigger= true;
-      $part= "";
+    if ($rule[$pos] == "{") {
+      $trigger  = TRUE;
+      $part     = "";
       continue;
     }
 
-    if ($rule[$pos] == "}" ){
-      $variables[$pos]= expand_id($part, $attributes);
-      $stripped.= "{".$pos."}";
-      $trigger= false;
+    if ($rule[$pos] == "}") {
+      $variables[$pos]  = expand_id($part, $attributes);
+      $stripped         .= "{".$pos."}";
+      $trigger          = FALSE;
       continue;
     }
 
-    if ($trigger){
-      $part.= $rule[$pos];
+    if ($trigger) {
+      $part .= $rule[$pos];
     } else {
-      $stripped.= $rule[$pos];
+      $stripped .= $rule[$pos];
     }
   }
 
   /* Recurse through all possible combinations */
-  $proposed= recurse($stripped, $variables);
+  $proposed = recurse($stripped, $variables);
 
   /* Get list of used ID's */
-  $ldap= $config->get_ldap_link();
+  $ldap = $config->get_ldap_link();
   $ldap->cd($config->current['BASE']);
 
   /* Remove used uids and watch out for id tags */
-  $ret= array();
-  foreach($proposed as $uid){
-
+  $ret = array();
+  foreach ($proposed as $uid) {
     /* Check for id tag and modify uid if needed */
-    if(preg_match('/\{id(:|!)\d+}/',$uid, $m)){
-      $size= preg_replace('/^.*{id(:|!)(\d+)}.*$/', '\\2', $uid);
+    if (preg_match('/\{id(:|!)(\d+)}/',$uid, $m)) {
+      $size = $m[2];
 
-      $start= $m[1]==":"?0:-1;
-      for ($i= $start, $p= pow(10,$size)-1; $i < $p; $i++){
+      $start = ($m[1] == ":"?0:-1);
+      for ($i = $start, $p = pow(10, $size)-1; $i < $p; $i++) {
         if ($i == -1) {
-          $number= "";
+          $number = "";
         } else {
-          $number= sprintf("%0".$size."d", $i+1);
+          $number = sprintf("%0".$size."d", $i+1);
         }
-        $res= preg_replace('/{id(:|!)\d+}/', $number, $uid);
+        $res = preg_replace('/{id(:|!)\d+}/', $number, $uid);
 
         $ldap->search("(uid=".preg_replace('/[{}]/', '', $res).")",array('dn'));
-        if($ldap->count() == 0){
-          $uid= $res;
+        if ($ldap->count() == 0) {
+          $uid = $res;
           break;
         }
       }
 
       /* Remove link if nothing has been found */
-      $uid= preg_replace('/{id(:|!)\d+}/', '', $uid);
+      $uid = preg_replace('/{id(:|!)\d+}/', '', $uid);
     }
 
-    if(preg_match('/\{id#\d+}/',$uid)){
-      $size= preg_replace('/^.*{id#(\d+)}.*$/', '\\1', $uid);
+    if (preg_match('/\{id#\d+}/', $uid)) {
+      $size = preg_replace('/^.*{id#(\d+)}.*$/', '\\1', $uid);
 
-      while (true){
+      while (TRUE) {
         mt_srand((double) microtime()*1000000);
-        $number= sprintf("%0".$size."d", mt_rand(0, pow(10, $size)-1));
-        $res= preg_replace('/{id#(\d+)}/', $number, $uid);
+        $number = sprintf("%0".$size."d", mt_rand(0, pow(10, $size)-1));
+        $res    = preg_replace('/{id#(\d+)}/', $number, $uid);
         $ldap->search("(uid=".preg_replace('/[{}]/', '', $res).")",array('dn'));
-        if($ldap->count() == 0){
-          $uid= $res;
+        if ($ldap->count() == 0) {
+          $uid = $res;
           break;
         }
       }
 
       /* Remove link if nothing has been found */
-      $uid= preg_replace('/{id#\d+}/', '', $uid);
+      $uid = preg_replace('/{id#\d+}/', '', $uid);
     }
 
     /* Don't assign used ones */
     $ldap->search("(uid=".preg_replace('/[{}]/', '', $uid).")",array('dn'));
-    if($ldap->count() == 0){
+    if ($ldap->count() == 0) {
       /* Add uid, but remove {} first. These are invalid anyway. */
-      $ret[]= preg_replace('/[{}]/', '', $uid);
+      $ret[] = preg_replace('/[{}]/', '', $uid);
     }
   }
 
-  return(array_unique($ret));
+  return array_unique($ret);
 }
 
 

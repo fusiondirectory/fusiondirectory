@@ -45,7 +45,7 @@
 
   <!-- Name, ... -->
   <td style="vertical-align:top;">
-   <table summary=""> 
+   <table summary="">
     {if $is_template ne "true"}
     <tr>
      <td><label for="sn">{t}Last name{/t}{$must}</label></td>
@@ -80,8 +80,9 @@
 {/if}
    </td>
     </tr>
+    {/if}
     <tr>
-     <td><label for="uid">{t}Login{/t}{$must}</label></td>
+     <td><label for="uid">{t}Login{/t}{if $is_template ne "true"}{$must}{/if}</label></td>
      <td>
     {if !$multiple_support}
 {render acl=$uidACL}
@@ -92,8 +93,7 @@
     {/if}
    </td>
     </tr>
-    {/if}
-      
+
     <tr>
      <td>
       <div style="height:10px;"></div>
@@ -180,7 +180,7 @@
   <td style="vertical-align:top;">
 
    <!-- Address, ... -->
-   <table summary="" style="width:100%"> 
+   <table summary="" style="width:100%">
     <tr>
      <td style="vertical-align:top;"><label for="homePostalAddress">{t}Address{/t}</label></td>
       <td>
@@ -245,13 +245,13 @@
     <tr>
      <td style='vertical-align:top'><label for="edit_perms">{t}Restrict login to{/t}</label></td>
      <td>
-     
+
      {if !$multiple_support}
         {render acl=$gosaLoginRestrictionACL}
           {$gosaLoginRestrictionWidget}
         {/render}
         {render acl=$gosaLoginRestrictionACL}
-          <input type="text" id="res" name="res" size=22 maxlength=33 
+          <input type="text" id="res" name="res" size=22 maxlength=33
             value="{t}IP or network{/t}" onFocus='document.getElementById("res").value=""'>
         {/render}
         {render acl=$gosaLoginRestrictionACL}
@@ -270,7 +270,7 @@
           {$gosaLoginRestrictionWidget}
         {/render}
         {render acl=$gosaLoginRestrictionACL}
-          <input type="text" id="res" name="res" size=22 maxlength=33 
+          <input type="text" id="res" name="res" size=22 maxlength=33
             value="{t}IP or network{/t}" onFocus='document.getElementById("res").value=""'>
         {/render}
         {render acl=$gosaLoginRestrictionACL}
@@ -302,10 +302,10 @@
   {if $governmentmode ne "true"}
   <!-- Company, ... -->
   <td style="vertical-align:top;">
-   <table summary=""> 
+   <table summary="">
     <tr>
      <td><label for="o">{t}Organization{/t}</label></td>
-     <td> 
+     <td>
 {render acl=$oACL checkbox=$multiple_support checked=$use_o}
     <input type="text" id="o" name="o" size=22 maxlength=60 value="{$o}">
 {/render}
@@ -381,18 +381,18 @@
         {/if}
      </td>
     </tr>
-  
+
     {/if}
    </table>
   </td>
-   
+
   <td style="border-left:1px solid #A0A0A0">
    &nbsp;
   </td>
 
   <!-- Phone, ... -->
   <td style="vertical-align:top;">
-   <table summary=""> 
+   <table summary="">
     <tr>
      <td><label for="roomNumber">{t}Room No.{/t}</label></td>
      <td>
@@ -444,7 +444,7 @@
 
   <!-- Location, ... -->
   <td style="vertical-align:top;">
-   <table summary="" style="width:100%"> 
+   <table summary="" style="width:100%">
     <tr>
      <td><label for="l">{t}Location{/t}</label></td>
      <td>
@@ -472,11 +472,11 @@
    </table>
   </td>
 
-  {else} 
+  {else}
 
   <!-- Beschreibung, ... -->
   <td style="vertical-align:top;border-right:1px solid #b0b0b0">
-   <table summary=""> 
+   <table summary="">
     <tr>
      <td><label for="vocation">{t}Vocation{/t}</label></td>
      <td>
@@ -522,10 +522,10 @@
     </tr>
    </table>
   </td>
-  
+
   <!-- Phone, ... -->
   <td style="vertical-align:top;border-right:1px solid #b0b0b0">
-   <table summary=""> 
+   <table summary="">
     <tr>
      <td><label for="gouvernmentOrganizationalPersonLocality">{t}Person locality{/t}</label></td>
      <td>
@@ -539,7 +539,7 @@
      <td><label for="gouvernmentOrganizationalUnit">{t}Unit{/t}</label></td>
      <td>
 {render acl=$gouvernmentOrganizationalUnitACL checkbox=$multiple_support checked=$use_gouvernmentOrganizationalUnit}
-    <input type="text" id="gouvernmentOrganizationalUnit" name="gouvernmentOrganizationalUnit" size=22 maxlength=60 
+    <input type="text" id="gouvernmentOrganizationalUnit" name="gouvernmentOrganizationalUnit" size=22 maxlength=60
               value="{$gouvernmentOrganizationalUnit}">
 {/render}
      </td>
@@ -554,7 +554,7 @@
     </tr>
     <tr>
      <td><label for="postalCode">{t}Postal code{/t}</label></td>
-     <td> 
+     <td>
 {render acl=$postalCodeACL checkbox=$multiple_support checked=$use_postalCode}
           <input type="text" name="postalCode" id="postalCode" size=22 maxlength=60 value="{$postalCode}">
 {/render}
@@ -574,7 +574,7 @@
 
   <!-- Location, ... -->
   <td style="vertical-align:top;">
-   <table summary=""> 
+   <table summary="">
     <tr>
      <td><label for="roomNumber">{t}Room No.{/t}</label></td>
      <td>
@@ -599,7 +599,7 @@
      <td><label for="facsimileTelephoneNumber">{t}Fax{/t}</label></td>
      <td>
 {render acl=$facsimileTelephoneNumberACL checkbox=$multiple_support checked=$use_facsimileTelephoneNumber}
-          <input type="text" id="facsimileTelephoneNumber" name="facsimileTelephoneNumber" size=22 maxlength=60 
+          <input type="text" id="facsimileTelephoneNumber" name="facsimileTelephoneNumber" size=22 maxlength=60
                 value="{$facsimileTelephoneNumber}">
 {/render}
      </td>
@@ -608,7 +608,7 @@
      <td><label for="ivbbLastDeliveryCollective">{t}Last delivery{/t}</label></td>
      <td>
 {render acl=$ivbbLastDeliveryCollectiveACL checkbox=$multiple_support checked=$use_ivbbLastDeliveryCollective}
-          <input type="text" name="ivbbLastDeliveryCollective" size=22 maxlength=60 id="ivbbLastDeliveryCollective" 
+          <input type="text" name="ivbbLastDeliveryCollective" size=22 maxlength=60 id="ivbbLastDeliveryCollective"
               value="{$ivbbLastDeliveryCollective}">
 {/render}
      </td>
@@ -625,7 +625,7 @@
     </tr>
    </table>
   </td>
- {/if} 
+ {/if}
  </tr>
 </table>
 

@@ -126,7 +126,7 @@ class usertabs extends tabs
        'dn' to all plugins */
     $baseobject = $this->by_object['user'];
     $baseobject->update_new_dn();
-    if ($this->dn != 'new'){
+    if ($this->dn != 'new') {
 
       $new_dn = $baseobject->new_dn;
 
