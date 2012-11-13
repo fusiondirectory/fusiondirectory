@@ -18,5 +18,5 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-configInLdap::userMainInc('configInLdap', CONFIGRDN.$config->current['BASE'], 'tabs_configInLdap');
+configInLdap::mainInc('configInLdap', CONFIGRDN.$config->current['BASE'], 'tabs_configInLdap');
 ?>

@@ -20,6 +20,6 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 $tokenBranch = get_ou('tokenRDN').$config->current['BASE'];
-recoveryConfig::userMainInc('recoveryConfig',"cn=config,$tokenBranch");
+recoveryConfig::mainInc('recoveryConfig', "cn=config,$tokenBranch");
 
 ?>
