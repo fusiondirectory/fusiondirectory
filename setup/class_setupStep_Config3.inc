@@ -252,6 +252,7 @@ class Step_Config3 extends setup_step
     );
 
     $ldap = new ldapMultiplexer($ldap_l);
+    $ldap->create_missing_trees(CONFIGRDN.$cv['base']);
     $ldap->cd(CONFIGRDN.$cv['base']);
     $ldap->rmdir(CONFIGRDN.$cv['base']);
     $ldap->add($attrs);
