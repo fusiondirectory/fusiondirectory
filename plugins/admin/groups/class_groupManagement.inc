@@ -65,13 +65,6 @@ class groupManagement extends management
     $headpage->registerElementFilter("filterProperties", "groupManagement::filterProperties");
     $headpage->setFilter($filter);
 
-    // Add copy&paste and snapshot handler.
-    if ($this->config->boolValueIsTrue("main", "copyPaste")){
-      $this->cpHandler = new CopyPasteHandler($this->config);
-    }
-    if($this->config->get_cfg_value("enableSnapshots") == "TRUE"){
-      $this->snapHandler = new SnapshotHandler($this->config);
-    }
     parent::__construct($config, $ui, "groups", $headpage);
 
     $this->registerAction("edit_group","editEntry");

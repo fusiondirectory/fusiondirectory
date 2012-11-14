@@ -49,8 +49,6 @@ class tabs
   var $parent = NULL; // A parent object if available, e.g. a management class.
 
   var $read_only = FALSE; // Used when the entry is opened as "readonly" due to locks.
-  var $hide_refs = FALSE;
-  var $hide_acls = FALSE;
 
   var $baseclass = "";
 
@@ -65,29 +63,24 @@ class tabs
    *
    * \param string $acl_category
    *
-   * \param boolean $hide_refs false
-   *
-   * \param boolean $hide_acls false
+   * \param Object $copied_object An object to copy values from
    */
-  function tabs(&$config, $data, $dn, $acl_category= "", $hide_refs = FALSE, $hide_acls = FALSE)
+  function tabs(&$config, $data, $dn, $acl_category = "", $copied_object = NULL)
   {
     /* Save dn */
     $this->dn         = $dn;
     $this->config     = &$config;
-    $this->hide_refs  = $hide_refs;
-    $this->hide_acls  = $hide_acls;
 
     if (!count($data)) {
       $data[] = array("CLASS" => 'plugin',"NAME" => 'Error');
       msg_dialog::display(_("Error"),
-        sprintf(_("No plugin definitions found to initialize '%s', please check your configuration file."),get_class($this)),
+        sprintf(_("No plugin definitions found to initialize '%s', please check your configuration file."), get_class($this)),
         "ERROR_DIALOG");
     }
 
-    $baseobject = NULL;
+    $baseobject         = NULL;
     $this->acl_category = $acl_category;
     foreach ($data as &$tab) {
-
       if (!plugin_available($tab['CLASS'])) {
         continue;
       }
@@ -95,10 +88,10 @@ class tabs
       $this->by_name[$tab['CLASS']] = $tab['NAME'];
 
       if ($baseobject === NULL) {
-        $baseobject = new $tab['CLASS']($this->config, $this->dn);
+        $baseobject = new $tab['CLASS']($this->config, $this->dn, $copied_object);
         $baseobject->enable_CSN_check();
         $this->by_object[$tab['CLASS']] = $baseobject;
-        $this->baseclass = $tab['CLASS'];
+        $this->baseclass                = $tab['CLASS'];
       } else {
         $this->by_object[$tab['CLASS']] = new $tab['CLASS']($this->config, $this->dn, $baseobject);
       }
@@ -120,10 +113,10 @@ class tabs
    */
   function re_init()
   {
-    $baseobject= NULL;
+    $baseobject = NULL;
     foreach ($this->by_object as $name => $object) {
       $class = get_class($object);
-      if (in_array($class,array("reference","acl"))) {
+      if (in_array($class, array("reference","acl"))) {
         continue;
       }
       if ($baseobject === NULL) {
@@ -150,7 +143,7 @@ class tabs
   {
     /* Show object */
     $display = "<table summary=\"\" cellpadding=4 cellspacing=0 border=0 style=\"width:100%; background-color:#F8F8F8; border-style:solid; border-color:#AAA; border-top-width:0px; border-bottom-width:1px; border-left-width:1px; border-right-width:1px;\">\n";
-    $display.= "<tr><td>\n";
+    $display .= "<tr><td>\n";
 
     /* If multiple edit is enabled for this tab,
        we have to display different templates */
@@ -178,7 +171,7 @@ class tabs
   function save_object()
   {
     /* Ensure that the currently selected tab is valid. */
-    if(!isset($this->by_name[$this->current])) {
+    if (!isset($this->by_name[$this->current])) {
       $this->current = key($this->by_name);
     }
 
@@ -212,47 +205,47 @@ class tabs
    */
   function gen_tabs($disabled = FALSE)
   {
-    $display ="";
-    if(!$disabled){
-      $display.= "<input type=\"hidden\" name=\"arg\" value=\"\">";
+    $display = "";
+    if (!$disabled) {
+      $display .= "<input type=\"hidden\" name=\"arg\" value=\"\">";
     }
-    $display.= "<table summary=\"\" cellpadding=0 cellspacing=0 border=0 style=\"width:100%;\"><tr>";
-    $index= 0;
-    $style= array("tab_left", "tab_active", "tab_near_active", "tab_right");
-    foreach ($this->by_name as $class => $name){
+    $display .= "<table summary=\"\" cellpadding=0 cellspacing=0 border=0 style=\"width:100%;\"><tr>";
+    $index = 0;
+    $style = array("tab_left", "tab_active", "tab_near_active", "tab_right");
+    foreach ($this->by_name as $class => $name) {
 
       /* Activate right tabs with style "tab_right"
          Activate near current with style "tab_near_active" */
-      if ($index == 2 || $index == 1){
+      if ($index == 2 || $index == 1) {
         $index++;
       }
 
       /* Activate current tab with style "tab_active " */
-      if ($class == $this->current){
+      if ($class == $this->current) {
         $index++;
       }
 
       /* Paint tab */
-      $display.= "<td style=\"vertical-align:bottom;width:1px;white-space:nowrap;\">";
+      $display .= "<td style=\"vertical-align:bottom;width:1px;white-space:nowrap;\">";
 
       /* Shorten string if its too long for the tab headers*/
-      $title= _($name);
-      if (mb_strlen($title, 'UTF-8') > 28){
-        $title= mb_substr($title,0, 25, 'UTF-8')."...";
+      $title = _($name);
+      if (mb_strlen($title, 'UTF-8') > 28) {
+        $title = mb_substr($title, 0, 25, 'UTF-8')."...";
       }
 
       /* nobr causes w3c warnings so we use &nbsp; to keep the tab name in one line */
-      $title= str_replace(" ","&nbsp;",$title);
+      $title = str_replace(" ", "&nbsp;", $title);
 
       /* Take care about notifications */
       $obj = $this->by_object[$class];
-      if ( $this->by_object[$class]->pl_notify && ($obj->is_account || $obj->ignore_account)){
-        $notify= "id=\"notify\"";
+      if ($this->by_object[$class]->pl_notify && ($obj->is_account || $obj->ignore_account)) {
+        $notify = "id=\"notify\"";
       } else {
-        $notify= "";
+        $notify = "";
       }
 
-      if($disabled){
+      if ($disabled) {
         $display.= "<div ".$notify." class=\"$style[$index]\"
           style=' font-family:arial,helvetica,sans-serif;
                   font-weight:bold;
@@ -312,38 +305,38 @@ class tabs
    *
    * \param boolean $ignore_account false
    */
-  function check($ignore_account= FALSE)
+  function check($ignore_account = FALSE)
   {
     $messages = array();
 
     $current_set = FALSE;
 
     /* Check all plugins */
-    foreach ($this->by_object as $key => &$obj){
-      if ($obj->is_account || $ignore_account || $obj->ignore_account){
+    foreach ($this->by_object as $key => &$obj) {
+      if ($obj->is_account || $ignore_account || $obj->ignore_account) {
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$key, "Checking");
 
-        if(!$this->multiple_support_active){
+        if (!$this->multiple_support_active) {
           $msg = $obj->check();
-        }else{
+        } else {
           $msg = $obj->multiple_check();
         }
 
-        if (count($msg)){
-          $obj->pl_notify= TRUE;
-          if(!$current_set){
-            $current_set = TRUE;
-            $this->current= $key;
-            $messages = $msg;
+        if (count($msg)) {
+          $obj->pl_notify = TRUE;
+          if (!$current_set) {
+            $current_set    = TRUE;
+            $this->current  = $key;
+            $messages       = $msg;
           }
-        }else{
-          $obj->pl_notify= FALSE;
+        } else {
+          $obj->pl_notify = FALSE;
         }
-      }else{
-        $obj->pl_notify= FALSE;
+      } else {
+        $obj->pl_notify = FALSE;
       }
     }
-    return ($messages);
+    return $messages;
   }
 
   /*
@@ -351,29 +344,28 @@ class tabs
    *
    * \param boolean $ignore_account false
    */
-  function save($ignore_account= FALSE)
+  function save($ignore_account = FALSE)
   {
     /* Save all plugins */
     foreach ($this->by_object as $key => &$obj){
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
           $key, "Saving");
 
-      $obj->dn= $this->dn;
+      $obj->dn = $this->dn;
 
-      if(!$obj instanceof plugin && !$obj instanceOf management){
+      if (!$obj instanceof plugin && !$obj instanceOf management) {
         trigger_error("Something went wrong while saving ".$obj->dn.". Object class '".get_class($obj)."'.");
-      }else{
-
-        if ($obj->is_account || $ignore_account || $obj->ignore_account){
-          if ($obj->save() == 1){
-            return (1);
+      } else {
+        if ($obj->is_account || $ignore_account || $obj->ignore_account) {
+          if ($obj->save() == 1) {
+            return 1;
           }
         } else {
           $obj->remove_from_parent();
         }
       }
     }
-    return (0);
+    return 0;
   }
 
   /*!
@@ -432,14 +424,14 @@ class tabs
   /*!
    * \brief Add special Tabs
    */
-  function addSpecialTabs()
+  function addSpecialTabs($hide_refs = FALSE, $hide_acls = FALSE)
   {
-    if(!$this->hide_acls){
+    if (!$hide_acls) {
       $this->by_name['acl']= _("ACL");
       $this->by_object['acl']= new acl($this->config, $this, $this->dn);
       $this->by_object['acl']->parent= &$this;
     }
-    if(!$this->hide_refs){
+    if (!$hide_refs) {
       $this->by_name['reference']= _("References");
       $this->by_object['reference']= new reference($this->config, $this->dn);
       $this->by_object['reference']->parent= &$this;
@@ -451,14 +443,14 @@ class tabs
    *
    * \param string $base The new acl base
    */
-  function set_acl_base($base= "")
+  function set_acl_base($base = "")
   {
     /* Update reference, transfer variables */
-    $first= ($base == "");
-    foreach ($this->by_object as &$obj){
-      if ($first){
-        $first= FALSE;
-        $base= $obj->acl_base;
+    $first = ($base == "");
+    foreach ($this->by_object as &$obj) {
+      if ($first) {
+        $first  = FALSE;
+        $base   = $obj->acl_base;
       } else {
         $obj->set_acl_base($base);
       }

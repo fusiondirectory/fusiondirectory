@@ -22,28 +22,28 @@
 
 class userManagement extends management
 {
-  var $sn = "";
-  var $givenName = "";
-  var $uid = "";
-  var $got_uid = "";
-  var $edit_uid = "";
+  var $sn         = "";
+  var $givenName  = "";
+  var $uid        = "";
+  var $got_uid    = "";
+  var $edit_uid   = "";
 
   var $pwd_change_queue = array();
-  var $force_hash_type = array();
+  var $force_hash_type  = array();
 
   // Tab definition
-  protected $tabClass = "usertabs";
-  protected $tabType = "USERTABS";
-  protected $aclCategory = "users";
-  protected $aclPlugin   = "user";
+  protected $tabClass     = "usertabs";
+  protected $tabType      = "USERTABS";
+  protected $aclCategory  = "users";
+  protected $aclPlugin    = "user";
   protected $objectName   = "user";
 
-  protected $proposal = "";
-  protected $proposalEnabled = FALSE;
+  protected $proposal         = "";
+  protected $proposalEnabled  = FALSE;
   protected $proposalSelected = FALSE;
 
-  protected $passwordChangeForceable = FALSE;
-  protected $enforcePasswordChange = FALSE;
+  protected $passwordChangeForceable  = FALSE;
+  protected $enforcePasswordChange    = FALSE;
 
   /* Return plugin informations for acl handling */
   static function plInfo()
@@ -60,16 +60,16 @@ class userManagement extends management
     );
   }
 
-  function __construct($config,$ui)
+  function __construct($config, $ui)
   {
     $this->config = $config;
-    $this->ui = $ui;
+    $this->ui     = $ui;
 
     $this->storagePoints = array(get_ou("userRDN"));
 
     // Build filter
-    if (session::global_is_set(get_class($this)."_filter")){
-      $filter= session::global_get(get_class($this)."_filter");
+    if (session::global_is_set(get_class($this)."_filter")) {
+      $filter = session::global_get(get_class($this)."_filter");
     } else {
       $filter = new filter(get_template_path("user-filter.xml", true));
       $filter->setObjectStorage($this->storagePoints);
@@ -83,46 +83,39 @@ class userManagement extends management
     $headpage->registerElementFilter("filterProperties", "userManagement::filterProperties");
     $headpage->setFilter($filter);
 
-    // Add copy&paste and snapshot handler.
-    if ($this->config->boolValueIsTrue("main", "copyPaste")){
-      $this->cpHandler = new CopyPasteHandler($this->config);
-    }
-    if($this->config->get_cfg_value("enableSnapshots") == "TRUE"){
-      $this->snapHandler = new SnapshotHandler($this->config);
-    }
-
     parent::__construct($config, $ui, "users", $headpage);
 
     // Register special user actions
-    $this->registerAction("lock",   "lockEntry");
-    $this->registerAction("lockUsers",   "lockUsers");
-    $this->registerAction("unlockUsers", "lockUsers");
+    $this->registerAction("lock",         "lockEntry");
+    $this->registerAction("lockUsers",    "lockUsers");
+    $this->registerAction("unlockUsers",  "lockUsers");
     $this->registerAction("new_template", "newTemplate");
-    $this->registerAction("newfromtpl", "newUserFromTemplate");
-    $this->registerAction("templateContinue", "templateContinue");
-    $this->registerAction("templatize", "templatizeUsers");
+    $this->registerAction("newfromtpl",   "newUserFromTemplate");
+
+    $this->registerAction("templateContinue",   "templateContinue");
+    $this->registerAction("templatize",         "templatizeUsers");
     $this->registerAction("templatizeContinue", "templatizeContinue");
 
-    $this->registerAction("password", "changePassword");
-    $this->registerAction("passwordQueue", "handlePasswordQueue");
+    $this->registerAction("password",       "changePassword");
+    $this->registerAction("passwordQueue",  "handlePasswordQueue");
     $this->registerAction("passwordCancel", "closeDialogs");
 
     // Register shortcut icon actions
-    $this->registerAction("edit_user","editEntry");
-    $this->registerAction("edit_posixAccount","editEntry");
-    $this->registerAction("edit_mailAccount","editEntry");
-    $this->registerAction("edit_sambaAccount","editEntry");
-    $this->registerAction("edit_netatalk","editEntry");
-    $this->registerAction("edit_environment","editEntry");
-    $this->registerAction("edit_gofaxAccount","editEntry");
-    $this->registerAction("edit_phoneAccount","editEntry");
+    $this->registerAction("edit_user",          "editEntry");
+    $this->registerAction("edit_posixAccount",  "editEntry");
+    $this->registerAction("edit_mailAccount",   "editEntry");
+    $this->registerAction("edit_sambaAccount",  "editEntry");
+    $this->registerAction("edit_netatalk",      "editEntry");
+    $this->registerAction("edit_environment",   "editEntry");
+    $this->registerAction("edit_gofaxAccount",  "editEntry");
+    $this->registerAction("edit_phoneAccount",  "editEntry");
   }
 
 
   function refreshProposal()
   {
-    $this->proposal = passwordMethod::getPasswordProposal($this->config);
-    $this->proposalEnabled = (!empty($this->proposal));
+    $this->proposal         = passwordMethod::getPasswordProposal($this->config);
+    $this->proposalEnabled  = (!empty($this->proposal));
   }
 
 
@@ -130,21 +123,27 @@ class userManagement extends management
   function detectPostActions()
   {
     $action = management::detectPostActions();
-    if(isset($_POST['template_continue'])) $action['action'] = "templateContinue";
-    if(isset($_POST['templatize_continue'])) $action['action'] = "templatizeContinue";
-    if(isset($_POST['password_cancel'])){
+    if(isset($_POST['template_continue'])) {
+      $action['action'] = "templateContinue";
+    }
+    if(isset($_POST['templatize_continue'])) {
+      $action['action'] = "templatizeContinue";
+    }
+    if (isset($_POST['password_cancel'])) {
       $action['action'] = "passwordCancel";
-    }elseif((count($this->pwd_change_queue) || isset($_POST['password_finish']) || isset($_POST['refreshProposal']))){
+    } elseif((count($this->pwd_change_queue) || isset($_POST['password_finish']) || isset($_POST['refreshProposal']))) {
       $action['action'] = "passwordQueue";
     }
-    return($action);
+    return $action;
   }
 
 
-  function editEntry($action="",$target=array(),$all=array(), $altTabClass ="", $altTabType = "", $altAclCategory="")
+  function editEntry($action = "", $target = array(), $all = array(), $altTabClass = "", $altTabType = "", $altAclCategory = "")
   {
     $str = management::editEntry($action,$target);
-    if($str) return($str);
+    if ($str) {
+      return $str;
+    }
 
     if(preg_match("/^edit_/",$action)){
       $tab = preg_replace("/^edit_/","",$action);
@@ -821,17 +820,15 @@ class userManagement extends management
   function copyPasteHandler($action = "", $target = array(), $all = array(),
       $altTabClass = "", $altTabType = "", $altAclCategory = "", $altAclPlugin = "")
   {
-    if ($this->config->boolValueIsTrue("main", "copyPaste")) {
-      $this->cpHandler->lastdn = "";
-      $str = management::copyPasteHandler($action,$target,$all);
-      if($this->cpHandler->lastdn != "" && isset($_POST['passwordTodo']) && $_POST['passwordTodo'] == "new"){
-        $this->pwd_change_queue[] = $this->cpHandler->lastdn;
-        return($this->handlePasswordQueue());
-      }
-      return($str);
+    $this->cpHandler->lastdn = "";
+    $str = management::copyPasteHandler($action, $target, $all);
+    if (($this->cpHandler->lastdn != "") &&
+        isset($_POST['passwordTodo']) &&
+        ($_POST['passwordTodo'] == "new")) {
+      $this->pwd_change_queue[] = $this->cpHandler->lastdn;
+      return $this->handlePasswordQueue();
     }
-
-    return "";
+    return $str;
   }
 
 

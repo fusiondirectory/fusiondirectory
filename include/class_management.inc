@@ -32,8 +32,8 @@
 class management
 {
   // Public
-  public $config = null;
-  public $ui     = null;
+  public $config = NULL;
+  public $ui     = NULL;
 
   // The plugin description
   public $plugname      = "unconfigured";
@@ -42,52 +42,52 @@ class management
   public $plHeadline    = "unconfigured";
 
   // The currently used object(s) (e.g. in edit, removal)
-  public $dn = "";  // this is public due to some compatibility problems with class plugin..
-  protected $dns = array();
+  public $dn      = "";  // this is public due to some compatibility problems with class plugin..
+  protected $dns  = array();
 
   // The last used object(s).
-  protected $last_dn = "";
+  protected $last_dn  = "";
   protected $last_dns = array();
 
   // The common places the displayed objects are stored in. (e.g. array("ou=groups,",".."))
   protected $storagePoints = array();
 
   // The tab definitions to use for the current object.
-  protected $tabClass = "";         // e.g. usertabs
-  protected $tabType = "";          // e.g. USERTABS
-  protected $aclPlugin = "";        // e.g. generic
-  protected $aclCategory = "";      // e.g. users
-  protected $objectName = "";       // e.g. users
+  protected $tabClass     = "";      // e.g. usertabs
+  protected $tabType      = "";      // e.g. USERTABS
+  protected $aclPlugin    = "";      // e.g. generic
+  protected $aclCategory  = "";      // e.g. users
+  protected $objectName   = "";      // e.g. users
 
   // The opened object.
-  protected $tabObject = null;
-  protected $dialogObject = null;
+  protected $tabObject    = NULL;
+  protected $dialogObject = NULL;
 
   // The last opened object.
-  protected $last_tabObject = null;
-  protected $last_dialogObject = null;
+  protected $last_tabObject     = NULL;
+  protected $last_dialogObject  = NULL;
 
   // Whether to display the apply button or not
   protected $displayApplyBtn = FALSE;
 
   // Whether to display a header or not.
-  protected $skipHeader = false;
+  protected $skipHeader = FALSE;
 
   // Whether to display a footer or not.
-  protected $skipFooter = false;
+  protected $skipFooter = FALSE;
 
   // Copy&Paste handler
-  protected $cpHandler = null;
+  protected $cpHandler = NULL;
 
   // Indicates that we want to paste objects right now.
   protected $cpPastingStarted = FALSE;
 
   // The Snapshot handler class.
-  protected $snapHandler = null;
+  protected $snapHandler = NULL;
 
   // The listing handlers
-  private $headpage = null;
-  private $filter = null;
+  private $headpage = NULL;
+  private $filter   = NULL;
 
   // A list of configured actions/events
   protected $actions = array();
@@ -95,18 +95,21 @@ class management
   // Attributes managed by this plugin, can be used in post events;
   public $attributes = array();
 
-  function  __construct(&$config,$ui,$plugname, $headpage)
+  function  __construct(&$config, $ui, $plugname, $headpage)
   {
     $this->plugname = $plugname;
     $this->headpage = $headpage;
-    $this->ui = $ui;
-    $this->config = $config;
+    $this->ui       = $ui;
+    $this->config   = $config;
 
-    if($this->cpHandler) $this->headpage->setCopyPasteHandler($this->cpHandler);
-    if($this->snapHandler) $this->headpage->setSnapshotHandler($this->snapHandler);
-
-    if(empty($this->plIcon)){
-      $this->plIcon = "plugins/".$plugname."/images/plugin.png";
+    // Add copy&paste and snapshot handler.
+    if ($this->config->get_cfg_value("copyPaste") == "TRUE") {
+      $this->cpHandler = new CopyPasteHandler($this->config);
+      $this->headpage->setCopyPasteHandler($this->cpHandler);
+    }
+    if ($this->config->get_cfg_value("enableSnapshots") == "TRUE") {
+      $this->snapHandler = new SnapshotHandler($this->config);
+      $this->headpage->setSnapshotHandler($this->snapHandler);
     }
 
     // Register default actions
@@ -114,20 +117,23 @@ class management
     $this->registerAction("edit",   "editEntry");
     $this->registerAction("apply",  "applyChanges");
     $this->registerAction("save",   "saveChanges");
-    $this->registerAction("cancel", "cancelEdit");
+
+    $this->registerAction("cancel",       "cancelEdit");
     $this->registerAction("cancelDelete", "cancelEdit");
-    $this->registerAction("remove", "removeEntryRequested");
-    $this->registerAction("removeConfirmed", "removeEntryConfirmed");
+
+    $this->registerAction("remove",           "removeEntryRequested");
+    $this->registerAction("removeConfirmed",  "removeEntryConfirmed");
 
     $this->registerAction("copy",   "copyPasteHandler");
     $this->registerAction("cut",    "copyPasteHandler");
     $this->registerAction("paste",  "copyPasteHandler");
 
-    $this->registerAction("snapshot",    "createSnapshotDialog");
-    $this->registerAction("restore",     "restoreSnapshotDialog");
-    $this->registerAction("saveSnapshot","saveSnapshot");
-    $this->registerAction("restoreSnapshot","restoreSnapshot");
-    $this->registerAction("cancelSnapshot","closeDialogs");
+    $this->registerAction("snapshot", "createSnapshotDialog");
+    $this->registerAction("restore",  "restoreSnapshotDialog");
+
+    $this->registerAction("saveSnapshot",     "saveSnapshot");
+    $this->registerAction("restoreSnapshot",  "restoreSnapshot");
+    $this->registerAction("cancelSnapshot",   "closeDialogs");
   }
 
   /*!
@@ -141,9 +147,9 @@ class management
     session::set('LOCK_VARS_TO_USE',$vars);
 
     /* Display the copy & paste dialog, if it is currently open */
-    $ret = $this->copyPasteHandler("",array());
-    if($ret){
-      return($this->getHeader().$ret);
+    $ret = $this->copyPasteHandler("", array());
+    if ($ret) {
+      return $this->getHeader().$ret;
     }
 
     // Update filter
@@ -151,7 +157,7 @@ class management
       $this->filter->update();
       session::global_set(get_class($this)."_filter", $this->filter);
       session::set('autocomplete', $this->filter);
-      if (!$this->filter->isValid()){
+      if (!$this->filter->isValid()) {
         msg_dialog::display(_("Filter error"), _("The filter is incomplete!"), ERROR_DIALOG);
       }
     }
@@ -249,42 +255,44 @@ class management
   protected function _getTabFooter()
   {
     // Do not display tab footer for non tab objects
-    if(!($this->tabObject instanceOf tabs || $this->tabObject instanceOf multi_plug)){
-      return("");
+    if (!($this->tabObject instanceOf tabs || $this->tabObject instanceOf multi_plug)) {
+      return "";
     }
 
     // Check if there is a dialog opened - We don't need any buttons in this case.
-    if($this->tabObject->by_object[$this->tabObject->current]){
+    if ($this->tabObject->by_object[$this->tabObject->current]) {
       $current = $this->tabObject->by_object[$this->tabObject->current];
-      if(isset($current->dialog) && (is_object($current->dialog) || $current->dialog)){
-        return("");
+      if (isset($current->dialog) && (is_object($current->dialog) || $current->dialog)) {
+        return "";
       }
     }
 
     // Skip footer if requested;
-    if($this->skipFooter) return("");
+    if ($this->skipFooter) {
+      return "";
+    }
 
     // In case an of locked entry, we may have opened a read-only tab.
     $str = "";
-    if(isset($this->tabObject->read_only) && $this->tabObject->read_only == TRUE){
+    if (isset($this->tabObject->read_only) && $this->tabObject->read_only == TRUE) {
       $str.= "<p style=\"text-align:right\">
         <input type=submit name=\"edit_cancel\" value=\"".msgPool::cancelButton()."\">
         </p>";
-      return($str);
-    }else{
+      return $str;
+    } else {
 
       // Display ok, (apply) and cancel buttons
-      $str.= "<p style=\"text-align:right\">\n";
-      $str.= "<input type=submit name=\"edit_finish\" style=\"width:80px\" value=\"".msgPool::okButton()."\">\n";
-      $str.= "&nbsp;\n";
-      if($this->displayApplyBtn){
-        $str.= "<input type=submit name=\"edit_apply\" value=\"".msgPool::applyButton()."\">\n";
-        $str.= "&nbsp;\n";
+      $str .= "<p style=\"text-align:right\">\n";
+      $str .= "<input type=submit name=\"edit_finish\" style=\"width:80px\" value=\"".msgPool::okButton()."\">\n";
+      $str .= "&nbsp;\n";
+      if ($this->displayApplyBtn) {
+        $str .= "<input type=submit name=\"edit_apply\" value=\"".msgPool::applyButton()."\">\n";
+        $str .= "&nbsp;\n";
       }
-      $str.= "<input type=submit name=\"edit_cancel\" value=\"".msgPool::cancelButton()."\">\n";
-      $str.= "</p>";
+      $str .= "<input type=submit name=\"edit_cancel\" value=\"".msgPool::cancelButton()."\">\n";
+      $str .= "</p>";
     }
-    return($str);
+    return $str;
   }
 
 
@@ -892,58 +900,67 @@ class management
    *
    * \param $altAclPlugin Empty string.
    */
-  function copyPasteHandler($action="",$target=array(),$all=array(),
-      $altTabClass ="", $altTabType = "", $altAclCategory="",$altAclPlugin="")
+  function copyPasteHandler($action = "", $target = array(), $all = array(),
+      $altTabClass = "", $altTabType = "", $altAclCategory = "", $altAclPlugin = "")
   {
     // Return without any actions while copy&paste handler is disabled.
-    if(!is_object($this->cpHandler))  return("");
+    if (!is_object($this->cpHandler)) {
+      return "";
+    }
 
-    $tabType = $this->tabType;
-    $tabClass = $this->tabClass;
-    $aclCategory = $this->aclCategory;
-    $aclPlugin = $this->aclPlugin;
-    if(!empty($altTabClass)) $tabClass = $altTabClass;
-    if(!empty($altTabType)) $tabType = $altTabType;
-    if(!empty($altAclCategory)) $aclCategory = $altAclCategory;
-    if(!empty($altAclPlugin)) $aclPlugin = $altAclPlugin;
+    $tabType      = $this->tabType;
+    $tabClass     = $this->tabClass;
+    $aclCategory  = $this->aclCategory;
+    $aclPlugin    = $this->aclPlugin;
+    if (!empty($altTabClass)) {
+      $tabClass = $altTabClass;
+    }
+    if (!empty($altTabType)) {
+      $tabType = $altTabType;
+    }
+    if (!empty($altAclCategory)) {
+      $aclCategory = $altAclCategory;
+    }
+    if (!empty($altAclPlugin)) {
+      $aclPlugin = $altAclPlugin;
+    }
 
     // Save user input
     $this->cpHandler->save_object();
 
     // Add entries to queue
-    if($action == "copy" || $action == "cut"){
+    if ($action == "copy" || $action == "cut") {
       $this->cpHandler->cleanup_queue();
-      foreach($target as $dn){
-        if($action == "copy" && $this->ui->is_copyable($dn,$aclCategory,$aclPlugin)){
-          $this->cpHandler->add_to_queue($dn,"copy",$tabClass,$tabType,$aclCategory,$this);
+      foreach ($target as $dn) {
+        if($action == "copy" && $this->ui->is_copyable($dn, $aclCategory, $aclPlugin)) {
+          $this->cpHandler->add_to_queue($dn, "copy", $tabClass, $tabType, $aclCategory);
           @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$dn,"Entry copied!");
         }
-        if($action == "cut" && $this->ui->is_cutable($dn,$aclCategory,$aclPlugin)){
-          $this->cpHandler->add_to_queue($dn,"cut",$tabClass,$tabType,$aclCategory,$this);
+        if($action == "cut" && $this->ui->is_cutable($dn, $aclCategory, $aclPlugin)) {
+          $this->cpHandler->add_to_queue($dn, "cut", $tabClass, $tabType, $aclCategory);
           @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$dn,"Entry cutted!");
         }
       }
     }
 
     // Initiate pasting
-    if($action == "paste"){
+    if($action == "paste") {
       $this->cpPastingStarted = TRUE;
     }
 
     // Display any c&p dialogs, eg. object modifications required before pasting.
-    if($this->cpPastingStarted && $this->cpHandler->entries_queued()){
-      $this->cpHandler->SetVar("base",$this->headpage->getBase());
-      $data = $this->cpHandler->execute();
-      if(!empty($data)){
-        return($data);
+    if ($this->cpPastingStarted && $this->cpHandler->entries_queued()) {
+      $data = $this->cpHandler->execute($this->headpage->getBase());
+      if (!empty($data)) {
+        return $data;
       }
     }
 
     // Automatically disable pasting process since there is no entry left to paste.
-    if(!$this->cpHandler->entries_queued()){
+    if (!$this->cpHandler->entries_queued()) {
       $this->cpPastingStarted = FALSE;
     }
-    return("");
+    return "";
   }
 
   /*!

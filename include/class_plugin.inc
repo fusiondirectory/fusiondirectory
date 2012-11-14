@@ -151,18 +151,18 @@ class plugin
    *
    * \sa plugin()
    */
-  function plugin (&$config, $dn= NULL, $object= NULL)
+  function plugin (&$config, $dn = NULL, $object = NULL)
   {
     /* Configuration is fine, allways */
-    $this->config= &$config;
-    $this->dn= $dn;
+    $this->config = &$config;
+    $this->dn     = $dn;
 
     // Ensure that we've a valid acl_category set.
-    if(empty($this->acl_category)){
+    if (empty($this->acl_category)) {
       $tmp = $this->plInfo();
       if (isset($tmp['plCategory'])) {
         $c = key($tmp['plCategory']);
-        if(is_numeric($c)){
+        if (is_numeric($c)) {
           $c = $tmp['plCategory'][0];
         }
         $this->acl_category = $c."/";
@@ -170,109 +170,110 @@ class plugin
     }
 
     /* Handle new accounts, don't read information from LDAP */
-    if ($dn == "new"){
-      return;
-    }
-
-    /* Check if this entry was opened in read only mode */
-    if(isset($_POST['open_readonly'])){
-      if(session::global_is_set("LOCK_CACHE")){
-        $cache = &session::get("LOCK_CACHE");
-        if(isset($cache['READ_ONLY'][$this->dn])){
-          $this->read_only = TRUE;
+    if ($this->dn != "new") {
+      /* Check if this entry was opened in read only mode */
+      if (isset($_POST['open_readonly'])) {
+        if (session::global_is_set("LOCK_CACHE")) {
+          $cache = &session::get("LOCK_CACHE");
+          if (isset($cache['READ_ONLY'][$this->dn])) {
+            $this->read_only = TRUE;
+          }
         }
+      }
+
+      /* Save current dn as acl_base */
+      $this->acl_base = $this->dn;
+
+      if ($this->dn === NULL) {
+        return;
       }
     }
 
-    /* Save current dn as acl_base */
-    $this->acl_base= $dn;
-
     /* Get LDAP descriptor */
-    if ($dn !== NULL){
+    if (($this->dn != "new") || ($object !== NULL)) {
 
       /* Load data to 'attrs' and save 'dn' */
-      if ($object !== NULL){
-        $this->attrs= $object->attrs;
+      if ($object !== NULL) {
+        $this->attrs = $object->attrs;
       } else {
-        $ldap= $this->config->get_ldap_link();
-        $ldap->cat ($dn);
-        $this->attrs= $ldap->fetch();
+        $ldap = $this->config->get_ldap_link();
+        $ldap->cat($this->dn);
+        $this->attrs = $ldap->fetch();
       }
 
       /* Copy needed attributes */
-      foreach ($this->attributes as $val){
-        $found= array_key_ics($val, $this->attrs);
-        if ($found != ""){
-          $this->$val= $found[0];
+      foreach ($this->attributes as $val) {
+        $found = array_key_ics($val, $this->attrs);
+        if ($found != "") {
+          $this->$val = $found[0];
         }
       }
 
       /* gosaUnitTag loading... */
-      if (isset($this->attrs['gosaUnitTag'][0])){
-        $this->gosaUnitTag= $this->attrs['gosaUnitTag'][0];
+      if (isset($this->attrs['gosaUnitTag'][0])) {
+        $this->gosaUnitTag = $this->attrs['gosaUnitTag'][0];
       }
 
       /* Set the template flag according to the existence of objectClass
          gosaUserTemplate */
-      if (isset($this->attrs['objectClass'])){
-        if (in_array_ics ("gosaUserTemplate", $this->attrs['objectClass'])){
-          $this->is_template= TRUE;
+      if (isset($this->attrs['objectClass'])) {
+        if (in_array_ics ("gosaUserTemplate", $this->attrs['objectClass'])) {
+          $this->is_template = TRUE;
           @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
               "found", "Template check");
         }
       }
 
       /* Is Account? */
-      $found= TRUE;
-      foreach ($this->objectclasses as $obj){
-        if (preg_match('/top/i', $obj)){
+      $found = TRUE;
+      foreach ($this->objectclasses as $obj) {
+        if (preg_match('/top/i', $obj)) {
           continue;
         }
-        if (!isset($this->attrs['objectClass']) || !in_array_ics ($obj, $this->attrs['objectClass'])){
-          $found= FALSE;
+        if (!isset($this->attrs['objectClass']) || !in_array_ics ($obj, $this->attrs['objectClass'])) {
+          $found = FALSE;
           break;
         }
       }
-      if ($found){
-        $this->is_account= TRUE;
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
-            "found", "Object check");
+      if ($found) {
+        $this->is_account = TRUE;
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, "found", "Object check");
       }
 
       /* Prepare saved attributes */
-      $this->saved_attributes= $this->attrs;
-      foreach ($this->saved_attributes as $index => $value){
-        if (is_numeric($index)){
+      $this->saved_attributes = $this->attrs;
+      foreach ($this->saved_attributes as $index => $value) {
+        if (is_numeric($index)) {
           unset($this->saved_attributes[$index]);
           continue;
         }
 
-        if (!in_array_ics($index, $this->attributes) && strcasecmp('objectClass', $index)){
+        if (!in_array_ics($index, $this->attributes) && strcasecmp('objectClass', $index)) {
           unset($this->saved_attributes[$index]);
           continue;
         }
 
-        if (isset($this->saved_attributes[$index][0])){
-          if(!isset($this->saved_attributes[$index]["count"])){
+        if (isset($this->saved_attributes[$index][0])) {
+          if (!isset($this->saved_attributes[$index]["count"])) {
             $this->saved_attributes[$index]["count"] = count($this->saved_attributes[$index]);
           }
-          if($this->saved_attributes[$index]["count"] == 1){
-            $tmp= $this->saved_attributes[$index][0];
+          if ($this->saved_attributes[$index]["count"] == 1) {
+            $tmp = $this->saved_attributes[$index][0];
             unset($this->saved_attributes[$index]);
-            $this->saved_attributes[$index]= $tmp;
+            $this->saved_attributes[$index] = $tmp;
             continue;
           }
         }
         unset($this->saved_attributes["$index"]["count"]);
       }
 
-      if(isset($this->attrs['gosaUnitTag'])){
+      if (isset($this->attrs['gosaUnitTag'])) {
         $this->saved_attributes['gosaUnitTag'] = $this->attrs['gosaUnitTag'][0];
       }
     }
 
     /* Save initial account state */
-    $this->initially_was_account= $this->is_account;
+    $this->initially_was_account = $this->is_account;
   }
 
 

@@ -33,15 +33,12 @@
 
 class user extends plugin
 {
-  /* Definitions */
-  var $plHeadline= "Generic";
-  var $plDescription= "Edit organizational user settings";
-
   /* Plugin specific values */
-  var $base= "";
-  var $orig_base= "";
-  var $cn= "";
-  var $new_dn= "";
+  var $base       = "";
+  var $orig_base  = "";
+  var $cn         = "";
+  var $new_dn     = "";
+
   var $personalTitle= "";
   var $academicTitle= "";
   var $homePostalAddress= "";
@@ -68,63 +65,65 @@ class user extends plugin
   var $preferredLanguage="0";
   var $baseSelector;
 
-  var $jpegPhoto= "*removed*";
-  var $photoData= "";
-  var $old_jpegPhoto= "";
-  var $old_photoData= "";
-  var $cert_dialog= FALSE;
-  var $picture_dialog= FALSE;
-  var $pwObject= NULL;
+  var $jpegPhoto      = "*removed*";
+  var $photoData      = "";
+  var $old_jpegPhoto  = "";
+  var $old_photoData  = "";
+  var $cert_dialog    = FALSE;
+  var $picture_dialog = FALSE;
+  var $pwObject       = NULL;
 
-  var $userPKCS12= "";
-  var $userSMIMECertificate= "";
-  var $userCertificate= "";
-  var $certificateSerialNumber= "";
-  var $old_certificateSerialNumber= "";
-  var $old_userPKCS12= "";
-  var $old_userSMIMECertificate= "";
-  var $old_userCertificate= "";
+  var $userPKCS12                   = "";
+  var $userSMIMECertificate         = "";
+  var $userCertificate              = "";
+  var $certificateSerialNumber      = "";
+  var $old_certificateSerialNumber  = "";
+  var $old_userPKCS12               = "";
+  var $old_userSMIMECertificate     = "";
+  var $old_userCertificate          = "";
 
-  var $gouvernmentOrganizationalUnit= "";
-  var $houseIdentifier= "";
-  var $street= "";
-  var $postalCode= "";
-  var $vocation= "";
-  var $ivbbLastDeliveryCollective= "";
-  var $gouvernmentOrganizationalPersonLocality= "";
-  var $gouvernmentOrganizationalUnitDescription= "";
-  var $gouvernmentOrganizationalUnitSubjectArea= "";
-  var $functionalTitle= "";
-  var $role= "";
-  var $publicVisible= "";
+  var $houseIdentifier            = "";
+  var $street                     = "";
+  var $postalCode                 = "";
+  var $vocation                   = "";
+  var $ivbbLastDeliveryCollective = "";
+
+  var $gouvernmentOrganizationalUnit            = "";
+  var $gouvernmentOrganizationalPersonLocality  = "";
+  var $gouvernmentOrganizationalUnitDescription = "";
+  var $gouvernmentOrganizationalUnitSubjectArea = "";
+
+  var $functionalTitle  = "";
+  var $role             = "";
+  var $publicVisible    = "";
 
   var $orig_dn;
   var $dialog;
 
   /* variables to trigger password changes */
-  var $pw_storage= "md5";
-  var $last_pw_storage= "unset";
-  var $had_userCertificate= FALSE;
+  var $pw_storage           = "md5";
+  var $last_pw_storage      = "unset";
+  var $had_userCertificate  = FALSE;
 
   var $view_logged = FALSE;
 
-  var $manager = "";
+  var $manager      = "";
   var $manager_name = "";
 
   var $passwordClass = NULL;
 
   /* attribute list for save action */
-  var $attributes= array("sn", "givenName", "uid", "personalTitle", "academicTitle",
+  var $attributes = array("sn", "givenName", "uid", "personalTitle", "academicTitle",
       "homePostalAddress", "homePhone", "labeledURI", "ou", "o", "dateOfBirth", "gender","preferredLanguage",
       "departmentNumber", "employeeNumber", "employeeType", "l", "st","jpegPhoto",
       "roomNumber", "telephoneNumber", "mobile", "pager", "cn", "userPKCS12", "street", "postalCode",
       "postalAddress", "facsimileTelephoneNumber", "userSMIMECertificate", "gosaLoginRestriction", "manager");
 
-  var $objectclasses= array("top", "person", "organizationalPerson", "inetOrgPerson",
+  var $objectclasses = array("top", "person", "organizationalPerson", "inetOrgPerson",
       "gosaAccount");
 
   /* attributes that are part of the government mode */
-  var $govattrs= array("gouvernmentOrganizationalUnit", "houseIdentifier", "vocation",
+  var $govattrs = array("gouvernmentOrganizationalUnit", "houseIdentifier", "vocation",
       "ivbbLastDeliveryCollective", "gouvernmentOrganizationalPersonLocality",
       "gouvernmentOrganizationalUnitDescription","gouvernmentOrganizationalUnitSubjectArea",
       "functionalTitle", "certificateSerialNumber", "publicVisible", "street", "role",
@@ -136,19 +135,19 @@ class user extends plugin
 
   /* constructor, if 'dn' is set, the node loads the given
      'dn' from LDAP */
-  function user (&$config, $dn= NULL)
+  function user (&$config, $dn = NULL, $object = NULL)
   {
     global $lang;
 
-    $this->config= $config;
+    $this->config = $config;
     /* Configuration is fine, allways */
-    if($this->config->get_cfg_value("honourIvbbAttributes") == "TRUE"){
+    if ($this->config->get_cfg_value("honourIvbbAttributes") == "TRUE") {
       $this->governmentmode = TRUE;
-      $this->attributes=array_merge($this->attributes,$this->govattrs);
+      $this->attributes     = array_merge($this->attributes, $this->govattrs);
     }
 
     /* Load base attributes */
-    plugin::plugin ($config, $dn);
+    plugin::plugin ($config, $dn, $object);
 
     $this->orig_dn  = $this->dn;
     $this->new_dn   = $dn;
@@ -1617,7 +1616,7 @@ class user extends plugin
   static function plInfo()
   {
 
-    $govattrs= array(
+    $govattrs = array(
         "gouvernmentOrganizationalUnit"             =>  _("Unit"),
         "houseIdentifier"                           =>  _("House identifier"),
         "vocation"                                  =>  _("Vocation"),
@@ -1633,18 +1632,15 @@ class user extends plugin
         "postalCode"                                =>  _("Postal code"));
 
     $ret = array(
-        "plShortName" => _("Generic"),
+        "plShortName"   => _("Generic"),
         "plDescription" => _("Generic user settings"),
         "plSelfModify"  => TRUE,
-        "plDepends"     => array(),
-        "plPriority"    => 1,
         "plCategory"    => array("users" => array("description" => _("Users"),
                                                   "objectClass" => "gosaAccount")),
         "plObjectType"  => array("user" => array("name" => _("User"),
                                                   "filter" => "objectClass=gosaAccount")),
 
         "plProvidedAcls" => array(
-
           "sn"                => _("Surname"),
           "givenName"         => _("Given name"),
           "uid"               => _("User identification"),
@@ -1682,17 +1678,16 @@ class user extends plugin
           "labeledURI"        => _("Homepage"),
           "userPassword"      => _("User password method"),
           "Certificate"       => _("User certificates"))
-
         );
 
     /* Append government attributes if required */
     global $config;
-    if($config->get_cfg_value("honourIvbbAttributes") == "TRUE"){
-      foreach($govattrs as $attr => $desc){
+    if ($config->get_cfg_value("honourIvbbAttributes") == "TRUE") {
+      foreach ($govattrs as $attr => $desc) {
         $ret["plProvidedAcls"][$attr] = $desc;
       }
     }
-    return($ret);
+    return $ret;
   }
 
   function get_multi_edit_values()

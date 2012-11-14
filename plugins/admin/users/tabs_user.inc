@@ -26,34 +26,33 @@ class usertabs extends tabs
 
   /* Template adaption variables
    */
-  var $uid  ="";
-  var $givenName = "";
-  var $sn;
+  var $uid        = "";
+  var $givenName  = "";
+  var $sn         = "";
 
-  function usertabs($config, $data, $dn, $cat = "", $hide_refs = FALSE, $hide_acls = FALSE)
+  function usertabs($config, $data, $dn, $cat = "", $copied_object)
   {
-    tabs::tabs($config, $data, $dn, 'users',$hide_refs, $hide_acls);
+    parent::tabs($config, $data, $dn, 'users', $copied_object);
     $this->base = $this->by_object['user']->base;
 
-    $this->uid = &$this->by_object['user']->uid;
-    $this->sn = &$this->by_object['user']->sn;
-    $this->givenName = &$this->by_object['user']->givenName;
+    $this->uid        = &$this->by_object['user']->uid;
+    $this->givenName  = &$this->by_object['user']->givenName;
+    $this->sn         = &$this->by_object['user']->sn;
 
     /* Add references/acls/snapshots */
     $this->addSpecialTabs();
-
   }
 
-  function save_object($save_current= FALSE)
+  function save_object($save_current = FALSE)
   {
-    tabs::save_object($save_current);
+    parent::save_object($save_current);
 
     /* Update reference, transfer variables */
-    $baseobject= $this->by_object['user'];
-    foreach ($this->by_object as $name => $obj){
+    $baseobject = $this->getBaseObject();
+    foreach ($this->by_object as $name => $obj) {
 
       /* Adding uid to sub plugins of connectivity */
-      if($name == "connectivity") {
+      if ($name == "connectivity") {
         foreach ($obj->plugin_name as $plg_name) {
           if (isset($obj->plugin[$plg_name]->uid)) {
             $obj->plugin[$plg_name]->uid = $baseobject->uid;
@@ -65,8 +64,8 @@ class usertabs extends tabs
       if ($name != 'user') {
         $obj->parent    = &$this;
         $obj->uid       = $baseobject->uid;
-        $obj->sn        = $baseobject->uid;
         $obj->givenName = $baseobject->uid;
+        $obj->sn        = $baseobject->uid;
       }
 
       /* Copy mail if needed */
@@ -94,7 +93,7 @@ class usertabs extends tabs
           !$this->by_object['phoneAccount']->is_account) {
         $this->by_object['phoneAccount']->phoneNumbers = array();
         if ($this->by_object['user']->telephoneNumber != "") {
-          $this->by_object['phoneAccount']->phoneNumbers[$this->by_object['user']->telephoneNumber]= $this->by_object['user']->telephoneNumber;
+          $this->by_object['phoneAccount']->phoneNumbers[$this->by_object['user']->telephoneNumber] = $this->by_object['user']->telephoneNumber;
         }
       }
     }
@@ -144,28 +143,24 @@ class usertabs extends tabs
 
     $this->dn = $baseobject->new_dn;
 
-    return tabs::save();
+    return parent::save();
   }
 
 
   function set_template_mode()
   {
-    foreach ($this->by_object as $key => $obj){
-      $this->by_object[$key]->is_template= TRUE;
+    foreach ($this->by_object as $key => $obj) {
+      $this->by_object[$key]->is_template = TRUE;
     }
   }
 
   function saveCopyDialog()
   {
     tabs::saveCopyDialog();
-    $baseobject= $this->by_object['user'];
-    $uid = $baseobject->uid;
-    foreach($this->by_object as  $name => $obj){
+    $uid = $this->getBaseObject()->uid;
+    foreach ($this->by_object as  $name => $obj) {
       $this->by_object[$name]->uid = $uid;
     }
   }
-
 }
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
