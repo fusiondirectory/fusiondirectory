@@ -23,27 +23,28 @@
 /*!
  * \file class_filter.inc
  * Source code for class filter
- */ 
+ */
 
 /*!
  * \brief This class contains all the function needed to manage filter
- */ 
-class filter {
+ */
+class filter
+{
 
   var $xmlData;
-  var $elements= array();
-  var $elementValues= array();
-  var $alphabetElements= array();
-  var $autocompleter= array();
-  var $category= "";
-  var $objectStorage= array();
-  var $base= "";
-  var $scope= "";
+  var $elements         = array();
+  var $elementValues    = array();
+  var $alphabetElements = array();
+  var $autocompleter    = array();
+  var $category         = "";
+  var $objectStorage    = array();
+  var $base             = "";
+  var $scope            = "";
   var $query;
-  var $initial= false;
-  var $scopeMode= "auto";
-  var $alphabet= null;
-  var $converter= array();
+  var $initial          = FALSE;
+  var $scopeMode        = "auto";
+  var $alphabet         = NULL;
+  var $converter        = array();
   var $pid;
   var $headpage;
 
@@ -51,7 +52,7 @@ class filter {
    * \brief Create a filter
    *
    * \param string $filename
-   */ 
+   */
   function filter($filename)
   {
     global $config;
@@ -61,14 +62,14 @@ class filter {
       die("Cannot parse $filename!");
     }
 
-    $this->pid= preg_replace("/[^0-9]/", "", microtime(TRUE)); 
+    $this->pid= preg_replace("/[^0-9]/", "", microtime(TRUE));
   }
 
   /*
    * \brief Load a filter
    *
    * \param string $filename
-   */ 
+   */
   function load($filename)
   {
     $contents = file_get_contents($filename);
@@ -149,14 +150,14 @@ class filter {
 
     }
 
-    return true;  
+    return true;
   }
 
   /*!
    * \brief Get the text in the field
    *
-   * \param array $element 
-   */ 
+   * \param array $element
+   */
   function getTextfield($element)
   {
     $tag= $element['tag'];
@@ -193,7 +194,7 @@ class filter {
    * \brief Get the checkbox
    *
    * \param array $element
-   */ 
+   */
   function getCheckbox($element)
   {
     $tag= $element['tag'];
@@ -210,7 +211,7 @@ class filter {
    * \brief Get a combobox
    *
    * \param array $element
-   */ 
+   */
   function getCombobox($element)
   {
     $result= "<select name='".$element['tag']."' size='1' onChange='document.mainform.submit();'>";
@@ -249,11 +250,11 @@ class filter {
    * \param string $tag
    *
    * \param array $options
-   */ 
+   */
   function setComboBoxOptions($tag, $options)
   {
     if (isset($this->elements[$tag]) && $this->elements[$tag]['type'] == "combobox") {
-      
+
       $this->elements[$tag]['value']= array();
       foreach ($options as $key => $label) {
         $this->elements[$tag]['value'][]= array('label' => $label, 'key' => $key);
@@ -264,8 +265,8 @@ class filter {
   /*!
    * \brief Get the current base
    *
-   * \return String, the current base 
-   */ 
+   * \return String, the current base
+   */
   function getCurrentBase()
   {
     if (isset($this->search->base) && (string)$this->search->scope != "auto") {
@@ -278,8 +279,8 @@ class filter {
   /*!
    * \brief Get the current scope
    *
-   * \return String, the current scope 
-   */ 
+   * \return String, the current scope
+   */
   function getCurrentScope()
   {
     if (isset($this->search->scope) && (string)$this->search->scope != "auto") {
@@ -295,20 +296,20 @@ class filter {
    * \param string $field
    *
    * \param string $hook
-   */ 
+   */
   function setConverter($field, $hook)
   {
     $this->converter[$field]= $hook;
   }
-  
+
   /*!
    * \brief Set a object storage
    *
    * \param string $storage
-   */ 
+   */
   function setObjectStorage($storage)
   {
-    $this->objectStorage= $storage;    
+    $this->objectStorage = $storage;
   }
 
 
@@ -316,7 +317,7 @@ class filter {
    * \brief Set a base
    *
    * \param string $base
-   */ 
+   */
   function setBase($base)
   {
     $this->base= $base;
@@ -325,8 +326,8 @@ class filter {
   /*!
    * \brief Set the current scope
    *
-   * \param string $scope 
-   */ 
+   * \param string $scope
+   */
   function setCurrentScope($scope)
   {
     $this->scope= $scope;
@@ -336,7 +337,7 @@ class filter {
    * \brief Render alphabet
    *
    * \param integer $columns
-   */ 
+   */
   function renderAlphabet($columns= 10)
   {
     // Return pre-rendered alphabet if available
@@ -379,7 +380,7 @@ class filter {
    * \brief Render apply filter
    *
    * \return string
-   */ 
+   */
   function renderApply()
   {
     return ("<input type='submit' name='apply' value='"._("Apply filter")."'>");
@@ -389,7 +390,7 @@ class filter {
    * \brief Render scope
    *
    * \return string
-   */ 
+   */
   function renderScope()
   {
     $checked= $this->scope == "sub"?" checked":"";
@@ -398,7 +399,7 @@ class filter {
 
   /*!
    * \brief Render
-   */ 
+   */
   function render()
   {
     $smarty= get_smarty();
@@ -442,7 +443,7 @@ class filter {
 
   /*!
    * \brief Query
-   */ 
+   */
   function query()
   {
     global $class_mapping;
@@ -501,11 +502,11 @@ class filter {
         }
       }
 
-      // Now call filter method and merge resulting entries. 
-      $result= array_merge($result, call_user_func(array($backend, 'query'),
+      // Now call filter method and merge resulting entries.
+      $result = array_merge($result, call_user_func(array($backend, 'query'),
             $this, $this->base, $this->scope, $filter, $attributes, $this->category, $this->objectStorage));
     }
-    
+
     return ($result);
   }
 
@@ -513,7 +514,7 @@ class filter {
    * \brief Check if a filter is valid
    *
    * \return TRUE if is valid, FALSE otherwise
-   */ 
+   */
   function isValid()
   {
     foreach ($this->elements as $tag => $element) {
@@ -528,7 +529,7 @@ class filter {
 
   /*!
    * \brief Update
-   */ 
+   */
   function update()
   {
     /* React on alphabet links if needed */
@@ -566,7 +567,7 @@ class filter {
    * \param string $tag
    *
    * \param string $value
-   */ 
+   */
   function getCompletitionList($config, $tag, $value="*")
   {
     global $class_mapping;
@@ -591,10 +592,10 @@ class filter {
     // Make filter
     $filter= preg_replace("/\\$$tag/", normalizeLdap($value), $filter);
     if (isset($config['base']) && isset($config['scope']) && isset($config['category'])) {
-      $result= call_user_func(array($backend, 'query'), $this,$config['base'], $config['scope'], $filter, $attributes,
+      $result = call_user_func(array($backend, 'query'), $this,$config['base'], $config['scope'], $filter, $attributes,
                            $config["category"], $config["objectStorage"]);
     } else {
-      $result= call_user_func(array($backend, 'query'), $this,$this->base, $this->scope, $filter, $attributes,
+      $result = call_user_func(array($backend, 'query'), $this, $this->base, $this->scope, $filter, $attributes,
                            $this->category, $this->objectStorage);
     }
 
@@ -617,7 +618,7 @@ class filter {
 
   /*!
    * \brief Auto complete
-   */ 
+   */
   function processAutocomplete()
   {
     global $class_mapping;
@@ -649,7 +650,7 @@ class filter {
    * \brief Get the object base
    *
    * \param string $dn The DN
-   */ 
+   */
   function getObjectBase($dn)
   {
     global $config;
@@ -682,12 +683,12 @@ class filter {
  * \param array $a
  *
  * \param array $b
- */ 
+ */
 function strlenSort($a, $b) {
   if (strlen($a['tag']) == strlen($b['tag'])) {
     return 0;
   }
   return (strlen($a['tag']) < strlen($b['tag']) ? -1 : 1);
-} 
+}
 
 ?>
