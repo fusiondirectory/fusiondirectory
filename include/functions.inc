@@ -3249,9 +3249,7 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
     if ($mode == 0) {
       if ($test->need_password()) {
         // Create SMB Password
-        if ($config->get_cfg_value('sambaHashHook', NULL)) {
-          $attrs = generate_smb_nt_hash($password);
-        }
+        $attrs = generate_smb_nt_hash($password);
       } else {
         $attrs['sambaLMPassword']       = array();
         $attrs['sambaNTPassword']       = array();
@@ -3319,26 +3317,10 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
  */
 function generate_smb_nt_hash($password)
 {
-  global $config;
-
-  $tmp = $config->get_cfg_value('sambaHashHook')." ".escapeshellarg($password);
-  @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $tmp, "Execute");
-
-  exec($tmp, $ar);
-  flush();
-  reset($ar);
-  $hash = current($ar);
-
-  if ($hash == "") {
-    msg_dialog::display(_("Configuration error"), sprintf(_("Cannot generate samba hash: running '%s' failed, check the 'sambaHashHook'!"),$config->get_cfg_value('sambaHashHook')), ERROR_DIALOG);
-    return "";
-  }
-
-  list($lm,$nt) = explode(":", trim($hash));
-
-  $attrs['sambaLMPassword'] = $lm;
-  $attrs['sambaNTPassword'] = $nt;
+  $attrs['sambaLMPassword'] = smbHash::lmhash($password);
+  $attrs['sambaNTPassword'] = smbHash::nthash($password);
   $attrs['sambaPwdLastSet'] = date('U');
+
   $attrs['sambaBadPasswordCount'] = "0";
   $attrs['sambaBadPasswordTime']  = "0";
   return $attrs;

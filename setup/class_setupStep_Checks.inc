@@ -140,19 +140,6 @@ class Step_Checks extends setup_step
     $M = FALSE;
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
-    /* Check generation of LM/NT password hashes */
-    /* need the perl Mcrypt library and fusiondirectory-mkntpassword executable */
-    $query= "fusiondirectory-mkntpassword 2>&1";
-    $output= shell_exec ($query);
-    $have_mkntpwd= preg_match("/^Usage: fusiondirectory-mkntpassword /", $output);
-
-    $N = msgPool::checkingFor(_("samba hash generator"));
-    $D = _("FusionDirectory requires this command to synchronize POSIX and samba passwords.");
-    $S = _("Install the perl Crypt::SmbHash modules or the fusiondirectory-mkntpassword executable");
-    $R = $have_mkntpwd;
-    $M = TRUE;
-    $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
-
     $N = msgPool::checkingFor(_("imagick"));
     $D = _("FusionDirectory requires this extension to handle images.");
     $S = msgPool::installPhpModule("php5-imagick");

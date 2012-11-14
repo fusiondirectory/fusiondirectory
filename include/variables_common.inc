@@ -72,11 +72,6 @@ define("SMARTY", "/usr/share/php/smarty/libs/Smarty.class.php"); /*! Define smar
 define("SMARTY3", "/usr/share/php/smarty3/Smarty.class.php"); /*! Define smarty3 library path */
 
 /*!
- * \brief name of the utility used to create windows passwords
- */
-define ("MKNTPWD", "/usr/sbin/fusiondirectory-mkntpassword"); /*! Define the name of the binary used to create smb password */
-
-/*!
  * \brief FusionDirectory Version
  */
 define ("FD_VERSION", "1.0.4"); /*! Define FusionDirectory version */
