@@ -89,10 +89,10 @@ class aclManagement extends management
 
         if ($headpage->getType($dn) == "gosaRole") {
           $tabClass = "aclroletab";
-          $tabType  = "ACLROLETAB";
+          $tabType  = "ACLROLETABS";
         } else {
           $tabClass = "acltab";
-          $tabType  = "ACLTAB";
+          $tabType  = "ACLTABS";
         }
 
         // Delete the object
@@ -134,10 +134,10 @@ class aclManagement extends management
       $headpage = $this->getHeadpage();
       if ($headpage->getType($this->dn) == "gosaRole") {
         $altTabClass = "aclroletab";
-        $altTabType  = "ACLROLETAB";
+        $altTabType  = "ACLROLETABS";
       } else {
         $altTabClass = "acltab";
-        $altTabType  = "ACLTAB";
+        $altTabType  = "ACLTABS";
       }
       return management::editEntry($action, array($this->dn), $all, $altTabClass, $altTabType, $altAclCategory);
     }

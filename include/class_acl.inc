@@ -199,7 +199,7 @@ class acl extends plugin
             }
 
             if(isset($cats[$data])){
-              $this->myAclObjects[$data.'/'.$class]= $acls['plDescription'];
+              $this->myAclObjects[$data.'/'.$class]= $acls['plShortName'];
             }
             $this->ocMapping[$data][]= $class;
           } else {
@@ -214,13 +214,13 @@ class acl extends plugin
             if (is_array($data['objectClass'])){
               foreach($data['objectClass'] as $objectClass){
                 if (in_array_ics($objectClass, $oc)){
-                  $this->myAclObjects[$idx.'/'.$class]= $acls['plDescription'];
+                  $this->myAclObjects[$idx.'/'.$class]= $acls['plShortName'];
                   break;
                 }
               }
             } else {
               if (in_array_ics($data['objectClass'], $oc)){
-                $this->myAclObjects[$idx.'/'.$class]= $acls['plDescription'];
+                $this->myAclObjects[$idx.'/'.$class]= $acls['plShortName'];
               }
             }
           }
@@ -490,20 +490,20 @@ class acl extends plugin
       return ($smarty->fetch (get_template_path('acl.tpl')));
     }
 
-    if ($this->dialogState == 'head'){
+    if ($this->dialogState == 'head') {
       /* Draw list */
       $aclList= new divSelectBox("aclList");
       $aclList->SetHeight(450);
 
       /* Fill in entries */
-      foreach ($this->gosaAclEntry as $key => $entry){
+      foreach ($this->gosaAclEntry as $key => $entry) {
         if(!$this->acl_is_readable("")) continue;
 
         $action ="";
 
-        if($this->acl_is_readable("")){
+        if ($this->acl_is_readable("")) {
           $link = "<a href=?plug=".$_GET['plug']."&amp;id=".$key."&amp;act=edit>".$this->assembleAclSummary($entry)."</a>";
-        }else{
+        } else {
           $link = $this->assembleAclSummary($entry);
         }
 
@@ -533,15 +533,15 @@ class acl extends plugin
       $smarty->assign("aclList", $aclList->DrawList());
     }
 
-    if ($this->dialogState == 'create'){
+    if ($this->dialogState == 'create') {
       /* Draw list */
       $aclList= new divSelectBox("aclList");
       $aclList->SetHeight(150);
 
       /* Add settings for all categories to the (permanent) list */
-      foreach ($this->aclObjects as $section => $dsc){
+      foreach ($this->aclObjects as $section => $dsc) {
         $summary= "";
-        foreach($this->ocMapping[$section] as $oc){
+        foreach ($this->ocMapping[$section] as $oc) {
           if (isset($this->aclContents[$oc]) && count($this->aclContents[$oc]) && isset($this->aclContents[$oc][0]) &&
               $this->aclContents[$oc][0] != ""){
 
@@ -558,18 +558,18 @@ class acl extends plugin
         }
 
         /* Set summary... */
-        if ($summary == ""){
+        if ($summary == "") {
           $summary= '<i>'._("No ACL settings for this category!").'</i>';
         } else {
           $summary= sprintf(_("Contains ACLs for these objects: %s"), preg_replace('/, $/', '', $summary));
         }
 
         $actions ="";
-        if($this->acl_is_readable("")){
+        if ($this->acl_is_readable("")) {
           $actions= "<input class='center' type='image' src='images/lists/edit.png'
             alt='"._("Edit")."' name='cat_edit_$section' title='".msgPool::editButton(_("category ACL"))."'>";
         }
-        if($this->acl_is_removeable()){
+        if ($this->acl_is_removeable()) {
           $actions.= "<input class='center' type='image' src='images/lists/trash.png'
             alt='"._("Delete")."' name='cat_del_$section' title='".msgPool::delButton(_("category ACL"))."'>";
         }
@@ -596,10 +596,10 @@ class acl extends plugin
 
       /* Generate list */
       $tmp= array();
-      if ($this->target == "group" && !isset($this->recipients["G:*"])){
+      if ($this->target == "group" && !isset($this->recipients["G:*"])) {
         $tmp["G:*"]= _("All users");
       }
-      foreach (array("user" => "users", "group" => "groups") as $field => $arr){
+      foreach (array("user" => "users", "group" => "groups") as $field => $arr) {
         if ($this->target == $field){
           foreach ($this->$arr as $key => $value){
             if (!isset($this->recipients[$key])){
@@ -612,33 +612,32 @@ class acl extends plugin
       $smarty->assign('recipients', $this->recipients);
 
       /* Acl selector if scope is base */
-      if ($this->aclType == 'base'){
+      if ($this->aclType == 'base') {
         $smarty->assign('aclSelector', $this->buildAclSelector($this->myAclObjects));
       }
 
       /* Role selector if scope is base */
-      if ($this->aclType == 'role'){
-        $smarty->assign('roleSelector', "Role selector");#, $this->buildRoleSelector($this->myAclObjects));
+      if ($this->aclType == 'role') {
         $smarty->assign('roleSelector', $this->buildRoleSelector($this->roles));
       }
     }
 
-    if ($this->dialogState == 'edit'){
+    if ($this->dialogState == 'edit') {
       $smarty->assign('headline', sprintf(_("Edit ACL for '%s' - scope is '%s'"), $this->aclObjects[$this->aclObject], $this->aclTypes[$this->aclType]));
 
       /* Collect objects for selected category */
-      foreach ($this->ocMapping[$this->aclObject] as $idx => $class){
-        if ($idx == 0){
+      foreach ($this->ocMapping[$this->aclObject] as $idx => $class) {
+        if ($idx == 0) {
           continue;
         }
-        $aclObjects[$this->aclObject.'/'.$class]= $plist[$class]['plDescription'];
+        $aclObjects[$this->aclObject.'/'.$class]= $plist[$class]['plShortName'];
       }
-      if ($this->aclObject == 'all'){
+      if ($this->aclObject == 'all') {
         $aclObjects['all']= _("All objects in current subtree");
       }
 
       /* Role selector if scope is base */
-      if ($this->aclType == 'role'){
+      if ($this->aclType == 'role') {
         $smarty->assign('roleSelector', $this->buildRoleSelector($this->roles));
       } else {
         $smarty->assign('aclSelector', $this->buildAclSelector($aclObjects));
@@ -649,12 +648,12 @@ class acl extends plugin
     $smarty->assign("dialogState", $this->dialogState);
 
     /* Assign acls */
-    $smarty->assign("acl_createable",$this->acl_is_createable());
-    $smarty->assign("acl_writeable" ,$this->acl_is_writeable(""));
-    $smarty->assign("acl_readable"  ,$this->acl_is_readable(""));
-    $smarty->assign("acl_removeable",$this->acl_is_removeable());
+    $smarty->assign("acl_createable", $this->acl_is_createable());
+    $smarty->assign("acl_writeable",  $this->acl_is_writeable(""));
+    $smarty->assign("acl_readable",   $this->acl_is_readable(""));
+    $smarty->assign("acl_removeable", $this->acl_is_removeable());
 
-    return ($smarty->fetch (get_template_path('acl.tpl')));
+    return $smarty->fetch(get_template_path('acl.tpl'));
   }
 
   /*!
