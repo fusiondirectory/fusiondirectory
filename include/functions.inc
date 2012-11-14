@@ -1598,6 +1598,9 @@ function get_ou($name)
                 "netgroupRDN" => "ou=netgroup,",
 
                 "deviceRDN"   => "ou=devices,",
+
+                "aliasRDN"    => "ou=alias,",
+
                 "mimetypeRDN" => "ou=mime,");
 
   /* Preset ou... */
