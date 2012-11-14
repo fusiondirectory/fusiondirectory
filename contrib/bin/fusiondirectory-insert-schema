@@ -65,7 +65,7 @@ die ("! ldap-utils doesn't seem to be installed") if (!-e $ldap_utils_path);
 
 if (scalar(@schemas) == 0) {
   # insert the default schemas
-  @schemas = ("samba","gosystem","gofon","gofax","goto","goserver","goto-mime","gosa-samba3","ldapns","recovery");
+  @schemas = ("samba","gosystem","gofon","gofax","goto","goserver","goto-mime","gosa-samba3","ldapns","recovery","fusiondirectory-conf");
 } elsif ($pathunset) {
   $path = "";
 }
