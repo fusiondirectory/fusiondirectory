@@ -427,14 +427,14 @@ class tabs
   function addSpecialTabs($hide_refs = FALSE, $hide_acls = FALSE)
   {
     if (!$hide_acls) {
-      $this->by_name['acl']= _("ACL");
-      $this->by_object['acl']= new acl($this->config, $this, $this->dn);
-      $this->by_object['acl']->parent= &$this;
+      $this->by_name['acl']           = _("ACL");
+      $this->by_object['acl']         = new acl($this->config, $this->dn, $this->getBaseObject());
+      $this->by_object['acl']->parent = &$this;
     }
     if (!$hide_refs) {
-      $this->by_name['reference']= _("References");
-      $this->by_object['reference']= new reference($this->config, $this->dn);
-      $this->by_object['reference']->parent= &$this;
+      $this->by_name['reference']           = _("References");
+      $this->by_object['reference']         = new reference($this->config, $this->dn, $this->getBaseObject());
+      $this->by_object['reference']->parent = &$this;
     }
   }
 

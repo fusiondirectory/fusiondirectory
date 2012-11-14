@@ -147,7 +147,6 @@ class CopyPasteHandler {
       return array();
     }
 
-
     $tab_c  = $entry['tab_class'];
     $tab_o  = $entry['tab_object'];
     $tab_a  = $entry['tab_acl_category'];
@@ -223,7 +222,7 @@ class CopyPasteHandler {
         foreach ($this->disallowed_objects as $entry) {
           $dns[] = $entry['dn'];
         }
-        //  msg_dialog::display(_("Permission"),msgPool::permCreate($dns),INFO_DIALOG);
+        msg_dialog::display(_("Permission"), msgPool::permCreate($dns), INFO_DIALOG);
       }
       $this->require_update = FALSE;
     }
@@ -349,15 +348,17 @@ class CopyPasteHandler {
       $o_ogroup->save();
     }
 
-    // Update roles
-    $roles = get_sub_list("(&(objectClass=organizationalRole)(roleOccupant=".LDAP::prepare4filter(LDAP::fix($src_dn))."))",
-            "roles", array(get_ou("roleRDN")), $this->config->current['BASE'], array("dn"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
+    if (class_available('roleGeneric')) {
+      // Update roles
+      $roles = get_sub_list("(&(objectClass=organizationalRole)(roleOccupant=".LDAP::prepare4filter(LDAP::fix($src_dn))."))",
+              "roles", array(get_ou("roleRDN")), $this->config->current['BASE'], array("dn"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
 
-    // Walk through all roles
-    foreach ($roles as $role) {
-      $role = new roleGeneric($this->config, $role['dn']);
-      $role->roleOccupant[] = $dst_dn;
-      $role->save();
+      // Walk through all roles
+      foreach ($roles as $role) {
+        $role = new roleGeneric($this->config, $role['dn']);
+        $role->roleOccupant[] = $dst_dn;
+        $role->save();
+      }
     }
 
     // Update groups

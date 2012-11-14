@@ -23,21 +23,21 @@
 class aclroletab extends tabs
 {
 
-  function aclroletab($config, $data, $dn)
+  function aclroletab($config, $data, $dn, $cat = "", $copied_object = NULL)
   {
     $data = array(array("CLASS" => "aclrole" , "NAME" => _("ACL Templates")));
-    tabs::tabs($config, $data, $dn,"acl");
+    tabs::tabs($config, $data, $dn, "acl", $copied_object);
   }
 
-  function save($ignore_account= FALSE)
+  function save($ignore_account = FALSE)
   {
-    $baseobject= $this->by_object['aclrole'];
+    $baseobject = $this->by_object['aclrole'];
 
     /* Check for new 'dn', in order to propagate the
        'dn' to all plugins */
-    $new_dn= 'cn='.$baseobject->cn.",".get_ou('aclRoleRDN').$baseobject->base;
+    $new_dn = 'cn='.$baseobject->cn.",".get_ou('aclRoleRDN').$baseobject->base;
 
-    if ($this->dn != $new_dn){
+    if ($this->dn != $new_dn) {
 
       /* Write entry on new 'dn' */
       if ($this->dn != "new"){
@@ -58,7 +58,7 @@ class aclroletab extends tabs
   {
     tabs::save_object();
   }
-  
+
   function execute()
   {
     $display= tabs::execute();

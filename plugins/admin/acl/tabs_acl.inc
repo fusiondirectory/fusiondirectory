@@ -23,73 +23,37 @@
 class acltab extends tabs
 {
 
-  function acltab($config, $data, $dn)
+  function acltab($config, $data, $dn, $cat = "", $copied_object = NULL)
   {
     $data = array(array("CLASS" => "acl" , "NAME" => _("ACL")));
-
-    /* Save dn */
-    $this->dn= $dn;
-    $this->config= $config;
-
-    $baseobject= NULL;
-
-    foreach ($data as $tab){
-      $this->by_name[$tab['CLASS']]= $tab['NAME'];
-
-      
-      if ($baseobject === NULL){
-        if($tab['CLASS'] == "acl"){
-          $baseobject= new $tab['CLASS']($this->config, $this, $this->dn);
-        }else{
-          $baseobject= new $tab['CLASS']($this->config,$this->dn);
-        }
-        $this->by_object[$tab['CLASS']]= $baseobject;
-      } else {
-        if($tab['CLASS'] == "acl"){
-          $this->by_object[$tab['CLASS']]= new $tab['CLASS']($this->config,$this,$this->dn, $baseobject);
-        }else{
-          $this->by_object[$tab['CLASS']]= new $tab['CLASS']($this->config, $this->dn, $baseobject);
-        }
-      }
-
-      $this->by_object[$tab['CLASS']]->parent= &$this;
-      $this->by_object[$tab['CLASS']]->set_acl_category("acl");
-      $this->read_only |= $this->by_object[$tab['CLASS']]->read_only;
-
-      /* Initialize current */
-      if ($this->current == ""){
-        $this->current= $tab['CLASS'];
-      }
-    }
+    parent::__construct($config, $data, $dn, "", $copied_object);
   }
 
-  function save($ignore_account= FALSE)
+  function save($ignore_account = FALSE)
   {
-    $ret= tabs::save();
-    return $ret;
+    return parent::save();
   }
 
-  function save_object($ignore_account= FALSE)
+  function save_object($ignore_account = FALSE)
   {
-    tabs::save_object();
+    return parent::save_object();
   }
-  
+
   function execute()
   {
-    $display= tabs::execute();
-    if($this->read_only){
-      $display.= "<p style=\"text-align:right\">\n";
-      $display.= "  <input type=submit name=\"edit_cancel\" value=\"".msgPool::cancelButton()."\">\n";
-      $display.= "</p>";
-    }elseif(!$this->by_object['acl']->dialog){
-      $display.= "<p style=\"text-align:right\">\n";
-      $display.= "  <input type=submit name=\"edit_finish\" style=\"width:80px\" value=\"".msgPool::okButton()."\">\n";
-      $display.= "  &nbsp;\n";
-      $display.= "  <input type=submit name=\"edit_cancel\" value=\"".msgPool::cancelButton()."\">\n";
-      $display.= "</p>";
+    $display = parent::execute();
+    if ($this->read_only) {
+      $display .= "<p style=\"text-align:right\">\n";
+      $display .= "  <input type=submit name=\"edit_cancel\" value=\"".msgPool::cancelButton()."\">\n";
+      $display .= "</p>";
+    } elseif (!$this->by_object['acl']->dialog) {
+      $display .= "<p style=\"text-align:right\">\n";
+      $display .= "  <input type=submit name=\"edit_finish\" style=\"width:80px\" value=\"".msgPool::okButton()."\">\n";
+      $display .= "  &nbsp;\n";
+      $display .= "  <input type=submit name=\"edit_cancel\" value=\"".msgPool::cancelButton()."\">\n";
+      $display .= "</p>";
     }
-    return($display);
+    return $display;
   }
 }
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

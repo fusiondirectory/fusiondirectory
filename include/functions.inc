@@ -113,14 +113,16 @@ $REWRITE= array( "ä" => "ae",
 function __fusiondirectory_autoload($class_name) {
     global $class_mapping, $BASE_DIR;
 
-    if ($class_mapping === NULL){
+    if ($class_mapping === NULL) {
       echo sprintf(_("Fatal error: no class locations defined - please run '%s' to fix this"), "<b>fusiondirectory-setup --update-cache</b>");
       exit;
     }
 
-    if (isset($class_mapping["$class_name"])){
+    if (isset($class_mapping["$class_name"])) {
       require_once($BASE_DIR."/".$class_mapping["$class_name"]);
     } else {
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class_name, "Could not load");
+      print_r(debug_backtrace());
       echo sprintf(_("Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"), $class_name, "<b>fusiondirectory-setup --update-cache</b>");
       exit;
     }

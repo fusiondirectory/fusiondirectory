@@ -22,18 +22,18 @@
 
 class deptabs extends tabs
 {
-  var $base= "";
-  var $moved = FALSE;
-  var $base_name = "department";
+  var $base       = "";
+  var $moved      = FALSE;
+  var $base_name  = "department";
 
-  function deptabs($config, $data, $dn,$category,$hide_refs = FALSE, $hide_acls = FALSE)
+  function deptabs($config, $data, $dn, $category, $copied_object)
   {
-    tabs::tabs($config, $data, $dn,$category,$hide_refs, $hide_acls);
+    parent::tabs($config, $data, $dn, $category, $copied_object);
 
     /* Detect the base class  (The classs which extends from department)
      */
-    foreach($this->by_object as $name => $object){
-      if($object instanceOf department){
+    foreach ($this->by_object as $name => $object) {
+      if ($object instanceOf department) {
         $this->base_name = get_class($object);
         break;
       }
@@ -42,42 +42,41 @@ class deptabs extends tabs
 
     /* Add references/acls/snapshots */
     $this->addSpecialTabs();
-    if(isset($this->by_object['acl'])){
-      $this->by_object['acl']->skipTagging= TRUE;
+    if (isset($this->by_object['acl'])) {
+      $this->by_object['acl']->skipTagging = TRUE;
     }
   }
 
-  function check($ignore_account= FALSE)
+  function check($ignore_account = FALSE)
   {
-    return (tabs::check(TRUE));
+    return parent::check(TRUE);
   }
 
-  function save($ignore_account= FALSE)
+  function save($ignore_account = FALSE)
   {
-    $baseobject= &$this->by_object[$this->base_name];
-    $namingAttr       = $baseobject->namingAttr;
-    $nAV      = preg_replace('/,/', '\,', $baseobject->$namingAttr); 
-    $nAV      = preg_replace('/"/', '\"', $nAV); 
-    $new_dn   = @LDAP::convert($namingAttr.'='.$nAV.','.$baseobject->base);
+    $baseobject = &$this->by_object[$this->base_name];
+    $namingAttr = $baseobject->namingAttr;
+    $nAV        = preg_replace('/,/', '\,', $baseobject->$namingAttr);
+    $nAV        = preg_replace('/"/', '\"', $nAV);
+    $new_dn     = @LDAP::convert($namingAttr.'='.$nAV.','.$baseobject->base);
 
     /* Move group? */
-    if ($this->dn != $new_dn && $this->dn != "new"){
-      $baseobject->move($this->dn,$new_dn);
-    } 
+    if ($this->dn != $new_dn && $this->dn != "new") {
+      $baseobject->move($this->dn, $new_dn);
+    }
 
-    /* Update department cache. 
+    /* Update department cache.
      */
-    if($this->dn != $new_dn){
+    if ($this->dn != $new_dn) {
       global $config;
       $config->get_departments();
     }
 
-    $this->dn= $new_dn;
-    $baseobject->dn= $this->dn;
-    if (!$ignore_account){
-      tabs::save(TRUE);
+    $this->dn       = $new_dn;
+    $baseobject->dn = $this->dn;
+    if (!$ignore_account) {
+      parent::save(TRUE);
     }
   }
 }
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

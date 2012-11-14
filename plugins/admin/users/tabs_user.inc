@@ -30,7 +30,7 @@ class usertabs extends tabs
   var $givenName  = "";
   var $sn         = "";
 
-  function usertabs($config, $data, $dn, $cat = "", $copied_object)
+  function usertabs($config, $data, $dn, $cat = "", $copied_object = NULL)
   {
     parent::tabs($config, $data, $dn, 'users', $copied_object);
     $this->base = $this->by_object['user']->base;

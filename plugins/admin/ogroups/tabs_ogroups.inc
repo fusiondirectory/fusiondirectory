@@ -28,12 +28,13 @@ class ogrouptabs extends tabs
 
   function reload($dd)
   {
-    $objects      = preg_replace('/[\[\]]/', '', $dd);
+    $objects = preg_replace('/[\[\]]/', '', $dd);
+    $baseobject = $this->getBaseObject();
 
     /* Check if we have a group with a set different mixed objects.
      */
     $mixed_type = FALSE;
-    for($i = 0 ; $i < (strlen($objects) -1 );$i++){
+    for ($i = 0 ; $i < (strlen($objects) -1 );$i++) {
       $mixed_type |= $objects[$i] != $objects[($i+1)];
     }
 
@@ -41,11 +42,11 @@ class ogrouptabs extends tabs
      * but there is no user left with goPhoneAccount ... remove it.
      */
     $usePhoneTab = false;
-    if(class_available("phonequeue")){
+    if (class_available("phonequeue")) {
 
-      foreach($this->by_object['ogroup']->memberList as $dn => $val){
-        if(isset($this->by_object['ogroup']->objcache[$dn])){
-          $obj = $this->by_object['ogroup']->objcache[$dn];
+      foreach($baseobject->memberList as $dn => $val){
+        if(isset($baseobject->objcache[$dn])){
+          $obj = $baseobject->objcache[$dn];
           if(isset($obj['objectClass'])){
             if(in_array("goFonAccount",$obj['objectClass'])){
               $usePhoneTab = true;
@@ -76,14 +77,14 @@ class ogrouptabs extends tabs
      */
     if(class_available("phonequeue")){
       if(!isset($this->by_object['phonequeue'])){
-        foreach($this->by_object['ogroup']->memberList as $dn => $val){
-          if(isset($this->by_object['ogroup']->objcache[$dn])){
-            $obj = $this->by_object['ogroup']->objcache[$dn];
+        foreach($baseobject->memberList as $dn => $val){
+          if(isset($baseobject->objcache[$dn])){
+            $obj = $baseobject->objcache[$dn];
             if(isset($obj['objectClass'])){
               if(in_array("goFonAccount",$obj['objectClass'])){
-                $this->by_name['phonequeue']= _("Phone queue");
-                $this->by_object['phonequeue']= new phonequeue($this->config, $this->dn);
-                $this->by_object['phonequeue']->parent= &$this;
+                $this->by_name['phonequeue'] = _("Phone queue");
+                $this->by_object['phonequeue'] = new phonequeue($this->config, $this->dn, $baseobject);
+                $this->by_object['phonequeue']->parent = &$this;
                 break;
               }
             }
@@ -97,7 +98,7 @@ class ogrouptabs extends tabs
       if((preg_match("/U/",$objects))&&(!isset($this->by_object['mailogroup']))){
         if ($this->config->get_cfg_value("mailmethod") == "kolab"){
           $this->by_name['mailogroup']= _("Mail");
-          $this->by_object['mailogroup']= new mailogroup($this->config, $this->dn);
+          $this->by_object['mailogroup']= new mailogroup($this->config, $this->dn, $baseobject);
           $this->by_object['mailogroup']->parent= &$this;
         }
       }
@@ -134,7 +135,7 @@ class ogrouptabs extends tabs
     if(class_available("environment")){
       if((preg_match("/G/",$objects) || preg_match("/U/",$objects)) && !isset($this->by_name['environment'])){
         $this->by_name['environment']= _("Environment");
-        $this->by_object['environment']= new environment($this->config, $this->dn);
+        $this->by_object['environment']= new environment($this->config, $this->dn, $baseobject);
         $this->by_object['environment']->acl = "#all#";
         $this->by_object['environment']->parent= &$this;
       }
@@ -153,7 +154,7 @@ class ogrouptabs extends tabs
     if(class_available("appgroup")){
       if((preg_match("/G/",$objects) || preg_match("/U/",$objects)) && !isset($this->by_name['appgroup'])){
         $this->by_name['appgroup']= _("Applications");
-        $this->by_object['appgroup']= new appgroup($this->config, $this->dn);
+        $this->by_object['appgroup']= new appgroup($this->config, $this->dn, $baseobject);
         $this->by_object['appgroup']->acl = "#all#";
         $this->by_object['appgroup']->parent= &$this;
       }
@@ -199,8 +200,8 @@ class ogrouptabs extends tabs
 
   function addTab ($class, $name) {
     $this->by_name["$class"] = $name;
-    $this->by_object["$class"] = new $class($this->config, $this->dn, $this->by_object['ogroup']);
-    $this->by_object["$class"]->parent= &$this;
+    $this->by_object["$class"] = new $class($this->config, $this->dn, $this->getBaseObject());
+    $this->by_object["$class"]->parent = &$this;
     $this->by_object["$class"]->acl = "#all#";
   }
 
@@ -209,14 +210,14 @@ class ogrouptabs extends tabs
     $this->by_object['ogroup']->AddDelMembership();
     $this->reload($this->by_object['ogroup']->gosaGroupObjects);
     $str .= tabs::execute();
-    return ( $str);
+    return $str;
   }
 
-  function ogrouptabs($config, $data, $dn,$category ="ogroups",$hide_refs = FALSE, $hide_acls = FALSE)
+  function ogrouptabs($config, $data, $dn, $category = "ogroups", $copied_object = NULL)
   {
 
-    tabs::tabs($config, $data, $dn, $category,$hide_refs, $hide_acls);
-    $this->base= $this->by_object['ogroup']->base;
+    tabs::tabs($config, $data, $dn, $category, $copied_object);
+    $this->base = $this->by_object['ogroup']->base;
     $this->acl_category = $category;
 
     /* Add references/acls/snapshots */
@@ -244,22 +245,22 @@ class ogrouptabs extends tabs
   }
 
 
-  function check($ignore_account= FALSE)
+  function check($ignore_account = FALSE)
   {
-    return (tabs::check(FALSE));
+    return parent::check(FALSE);
   }
 
 
-  function save_object($save_current= FALSE)
+  function save_object($save_current = FALSE)
   {
-    tabs::save_object($save_current);
+    parent::save_object($save_current);
 
     /* Update reference, transfer variables */
     $baseobject= $this->by_object['ogroup'];
-    foreach ($this->by_object as $name => $obj){
+    foreach ($this->by_object as $name => $obj) {
 
       /* Don't touch base object */
-      if ($name != 'ogroup'){
+      if ($name != 'ogroup') {
         $obj->parent    = &$this;
         $obj->uid       = $baseobject->uid;
         $obj->cn        = $baseobject->cn;
@@ -269,24 +270,24 @@ class ogrouptabs extends tabs
       }
 
       /* Update parent in base object */
-      $this->by_object['ogroup']->parent= &$this;
+      $this->by_object['ogroup']->parent = &$this;
     }
   }
 
 
-  function save($ignore_account= FALSE)
+  function save($ignore_account = FALSE)
   {
-    $baseobject= $this->by_object['ogroup'];
+    $baseobject = $this->by_object['ogroup'];
 
     /* Check for new 'dn', in order to propagate the
        'dn' to all plugins */
-    $new_dn= 'cn='.$baseobject->cn.','.get_ou('ogroupRDN').$baseobject->base;
+    $new_dn = 'cn='.$baseobject->cn.','.get_ou('ogroupRDN').$baseobject->base;
 
     /* Move group? */
-    if (LDAP::fix($this->dn) != LDAP::fix($new_dn)){
+    if (LDAP::fix($this->dn) != LDAP::fix($new_dn)) {
 
       /* Write entry on new 'dn' */
-      if ($this->dn != "new"){
+      if ($this->dn != "new") {
         $baseobject->move($this->dn, $new_dn);
         $this->by_object['ogroup']= $baseobject;
       }
@@ -295,7 +296,7 @@ class ogrouptabs extends tabs
       $this->dn= $new_dn;
     }
 
-    if ($this->dn == "new"){
+    if ($this->dn == "new") {
       $this->dn= 'cn='.$baseobject->cn.','.get_ou('ogroupRDN').$baseobject->base;
     }
 
@@ -305,9 +306,7 @@ class ogrouptabs extends tabs
   function getCopyDialog()
   {
     $this->reload($this->by_object['ogroup']->gosaGroupObjects);
-    return(tabs::getCopyDialog());
+    return tabs::getCopyDialog();
   }
 }
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

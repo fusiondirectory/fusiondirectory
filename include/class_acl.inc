@@ -31,10 +31,6 @@
  */
 class acl extends plugin
 {
-  /* Definitions */
-  var $plHeadline= "Access control";
-  var $plDescription= "Manage access control lists";
-
   /* attribute list for save action */
   var $attributes= array('gosaAclEntry');
   var $objectclasses= array('gosaAcl');
@@ -71,52 +67,53 @@ class acl extends plugin
    *
    * \param String $dn The DN
    */
-  function acl (&$config, $parent, $dn= NULL)
+  function acl (&$config, $dn = NULL, $baseobject = NULL)
   {
     /* Include config object */
-    plugin::plugin($config, $dn);
+    plugin::plugin($config, $dn, $baseobject);
 
     /* Load ACL's */
-    $this->gosaAclEntry= array();
-    if (isset($this->attrs['gosaAclEntry'])){
-      for ($i= 0; $i<$this->attrs['gosaAclEntry']['count']; $i++){
-        $acl= $this->attrs['gosaAclEntry'][$i];
-        $this->gosaAclEntry= array_merge($this->gosaAclEntry, acl::explodeACL($acl));
+    $this->gosaAclEntry = array();
+    if (isset($this->attrs['gosaAclEntry'])) {
+      for ($i = 0; $i < $this->attrs['gosaAclEntry']['count']; $i++) {
+        $acl = $this->attrs['gosaAclEntry'][$i];
+        $this->gosaAclEntry = array_merge($this->gosaAclEntry, acl::explodeACL($acl));
       }
     }
     ksort($this->gosaAclEntry);
 
     /* Save parent - we've to know more about it than other plugins... */
-    $this->parent= &$parent;
+    if (($baseobject !== NULL) && isset($baseobject->parent)) {
+      $this->parent = &($baseobject->parent);
+    }
 
     /* Container? */
-    if (preg_match('/^(o|ou|c|l|dc)=/i', $dn)){
-      $this->isContainer= TRUE;
+    if (preg_match('/^(o|ou|c|l|dc)=/i', $dn)) {
+      $this->isContainer = TRUE;
     }
 
     /* Users */
-    $ui= get_userinfo();
-    $tag= $ui->gosaUnitTag;
-    $ldap= $config->get_ldap_link();
+    $ui   = get_userinfo();
+    $tag  = $ui->gosaUnitTag;
+    $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
-    if ($tag == ""){
+    if ($tag == "") {
       $ldap->search('(objectClass=gosaAccount)', array('uid', 'cn'));
     } else {
       $ldap->search('(&(objectClass=gosaAccount)(gosaUnitTag='.$tag.'))', array('uid', 'cn'));
     }
-    while ($attrs= $ldap->fetch()){
 
+    while ($attrs = $ldap->fetch()) {
       // Allow objects without cn to be listed without causing an error.
-      if(!isset($attrs['cn'][0]) && isset($attrs['uid'][0])){
-        $this->users['U:'.$attrs['dn']]=  $attrs['uid'][0];
-      }elseif(!isset($attrs['uid'][0]) && isset($attrs['cn'][0])){
-        $this->users['U:'.$attrs['dn']]=  $attrs['cn'][0];
-      }elseif(!isset($attrs['uid'][0]) && !isset($attrs['cn'][0])){
-        $this->users['U:'.$attrs['dn']]= $attrs['dn'];
-      }else{
-        $this->users['U:'.$attrs['dn']]= $attrs['cn'][0].' ['.$attrs['uid'][0].']';
+      if (!isset($attrs['cn'][0]) && isset($attrs['uid'][0])) {
+        $this->users['U:'.$attrs['dn']] =  $attrs['uid'][0];
+      } elseif (!isset($attrs['uid'][0]) && isset($attrs['cn'][0])) {
+        $this->users['U:'.$attrs['dn']] =  $attrs['cn'][0];
+      } elseif (!isset($attrs['uid'][0]) && !isset($attrs['cn'][0])) {
+        $this->users['U:'.$attrs['dn']] = $attrs['dn'];
+      } else {
+        $this->users['U:'.$attrs['dn']] = $attrs['cn'][0].' ['.$attrs['uid'][0].']';
       }
-
     }
     ksort($this->users);
 
@@ -127,14 +124,14 @@ class acl extends plugin
 #    } else {
 #      $ldap->search('(&(objectClass=posixGroup)(gosaUnitTag='.$tag.'))', array('cn', 'description'));
 #    }
-    while ($attrs= $ldap->fetch()){
-      $dsc= "";
-      if (isset($attrs['description'][0])){
-        $dsc= $attrs['description'][0];
+    while ($attrs = $ldap->fetch()) {
+      $dsc = "";
+      if (isset($attrs['description'][0])) {
+        $dsc = $attrs['description'][0];
       }
-      $this->groups['G:'.$attrs['dn']]= $attrs['cn'][0].' ['.$dsc.']';
+      $this->groups['G:'.$attrs['dn']] = $attrs['cn'][0].' ['.$dsc.']';
     }
-    $this->groups['G:*']= _("All users");
+    $this->groups['G:*'] = _("All users");
     ksort($this->groups);
 
     /* Roles */
@@ -144,7 +141,7 @@ class acl extends plugin
 #    } else {
 #     $ldap->search('(&(objectClass=gosaRole)(gosaUnitTag='.$tag.'))', array('cn', 'description','gosaAclTemplate','dn'));
 #    }
-    while ($attrs= $ldap->fetch()){
+    while ($attrs= $ldap->fetch()) {
       $dsc= "";
       if (isset($attrs['description'][0])){
         $dsc= $attrs['description'][0];
@@ -162,27 +159,27 @@ class acl extends plugin
     }
 
     /* Objects */
-    $tmp= session::global_get('plist');
-    $plist= $tmp->info;
-    $cats = array();
-    if (isset($this->parent) && $this->parent !== NULL){
-      $oc= array();
-      foreach ($this->parent->by_object as $key => $obj){
-        $oc= array_merge($oc, $obj->objectclasses);
-        if(isset($obj->acl_category)){
-          $tmp= str_replace("/","",$obj->acl_category);
+    $tmp    = session::global_get('plist');
+    $plist  = $tmp->info;
+    $cats   = array();
+    if (isset($this->parent) && $this->parent !== NULL) {
+      $oc = array();
+      foreach ($this->parent->by_object as $key => $obj) {
+        $oc = array_merge($oc, $obj->objectclasses);
+        if (isset($obj->acl_category)) {
+          $tmp = str_replace("/", "", $obj->acl_category);
           $cats[$tmp] = $tmp;
         }
       }
-      if (in_array_ics('organizationalUnit', $oc)){
-        $this->isContainer= TRUE;
+      if (in_array_ics('organizationalUnit', $oc)) {
+        $this->isContainer = TRUE;
       }
     } else {
-      $oc=  $this->attrs['objectClass'];
+      $oc = $this->attrs['objectClass'];
     }
 
     /* Extract available categories from plugin info list */
-    foreach ($plist as $class => $acls){
+    foreach ($plist as $class => $acls) {
 
       /* Only feed categories */
       if (isset($acls['plCategory'])){
@@ -1353,7 +1350,7 @@ class acl extends plugin
   {
     return array(
       "plShortName"   => _("ACL"),
-      "plDescription" => _("ACL")."&nbsp;("._("Access control list").")",
+      "plDescription" => _("Manage access control lists"),
       "plSelfModify"  => FALSE,
       "plCategory"    => array("acl" => array("description"  => _("ACL")."&nbsp;&amp;&nbsp;"._("ACL roles"),
                                                       "objectClass"  => array("gosaAcl","gosaRole"))),

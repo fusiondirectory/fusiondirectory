@@ -725,7 +725,7 @@ class management
         trigger_error("We can't edit any object(s). 'tabClass' or 'tabType' is empty!");
       }else{
         $tab = $tabClass;
-        $this->tabObject= new $tab($this->config,$this->config->data['TABS'][$tabType], $this->dn,$aclCategory);
+        $this->tabObject = new $tab($this->config, $this->config->data['TABS'][$tabType], $this->dn, $aclCategory);
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$this->dn,"Edit entry initiated!");
         $this->tabObject->set_acl_base($this->dn);
         $this->tabObject->parent = &$this;

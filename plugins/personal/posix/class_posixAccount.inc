@@ -104,7 +104,7 @@ class posixAccount extends plugin
 
   /* constructor, if 'dn' is set, the node loads the given
      'dn' from LDAP */
-  function posixAccount (&$config, $dn= NULL)
+  function posixAccount (&$config, $dn = NULL, $object = NULL)
   {
     global $class_mapping;
 
@@ -112,51 +112,51 @@ class posixAccount extends plugin
     $this->config= $config;
 
     /* Load bases attributes */
-    plugin::plugin($config, $dn);
+    plugin::plugin($config, $dn, $object);
 
     /*  If gotoLastSystemLogin is available read it from ldap and create a readable
         date time string, fallback to sambaLogonTime if available.
      */
-    if(isset($this->attrs['gotoLastSystemLogin'][0]) && preg_match("/^[0-9]*$/",$this->attrs['gotoLastSystemLogin'][0])){
+    if (isset($this->attrs['gotoLastSystemLogin'][0]) && preg_match("/^[0-9]*$/",$this->attrs['gotoLastSystemLogin'][0])) {
       $this->gotoLastSystemLogin = date("d.m.Y H:i:s", strtotime($this->attrs['gotoLastSystemLogin'][0]));
-    } else if(isset($this->attrs['sambaLogonTime'][0]) && preg_match("/^[0-9]*$/",$this->attrs['sambaLogonTime'][0])){
+    } elseif(isset($this->attrs['sambaLogonTime'][0]) && preg_match("/^[0-9]*$/",$this->attrs['sambaLogonTime'][0])) {
       $this->gotoLastSystemLogin = date("d.m.Y H:i:s", $this->attrs['sambaLogonTime'][0]);
     }
 
     /* Setting uid to default */
-    if(isset($this->attrs['uid'][0])){
+    if (isset($this->attrs['uid'][0])) {
       $this->uid = $this->attrs['uid'][0];
     }
 
-    $ldap= $this->config->get_ldap_link();
+    $ldap = $this->config->get_ldap_link();
 
-    if ($dn !== NULL){
+    if ($dn !== NULL) {
 
       /* Correct is_account. shadowAccount is not required. */
       if (isset($this->attrs['objectClass']) &&
-          in_array ('posixAccount', $this->attrs['objectClass'])){
+          in_array ('posixAccount', $this->attrs['objectClass'])) {
 
-        $this->is_account= TRUE;
+        $this->is_account = TRUE;
       }
 
       /* Is this account a trustAccount? */
-      if ($this->is_account && isset($this->attrs['host'])){
+      if ($this->is_account && isset($this->attrs['host'])) {
 
         if ($this->attrs['host'][0] == "*") {
-          $this->trustModel= "fullaccess";
+          $this->trustModel = "fullaccess";
         } else {
-          $this->trustModel= "byhost";
+          $this->trustModel = "byhost";
           $this->accessTo = array();
-            if ($this->is_account && isset($this->attrs['host'])){
-              for ($i= 0; $i<$this->attrs['host']['count']; $i++){
-                $tmp= $this->attrs['host'][$i];
+            if ($this->is_account && isset($this->attrs['host'])) {
+              for ($i = 0; $i < $this->attrs['host']['count']; $i++) {
+                $tmp = $this->attrs['host'][$i];
                 $this->accessTo[$tmp]= $tmp;
               }
             }
         }
-        $this->was_trust_account= TRUE;
+        $this->was_trust_account = TRUE;
       } else {
-        $this->was_trust_account= FALSE;
+        $this->was_trust_account = FALSE;
         $this->trustModel= "";
       }
 
@@ -170,8 +170,8 @@ class posixAccount extends plugin
       $this->initially_was_account = $this->is_account;
 
       // Templates do not have a gidNumber
-      if($this->gidNumber == 2147483647){
-        $this->gidNumber = "";
+      if ($this->gidNumber == 2147483647) {
+        $this->gidNumber    = "";
         $this->primaryGroup = 0;
       }
 

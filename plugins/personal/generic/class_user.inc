@@ -1557,31 +1557,6 @@ class user extends plugin
     return($ret);
   }
 
-  function saveCopyDialog()
-  {
-    /* Set_acl_base */
-    $this->set_acl_base($this->base);
-
-    if((isset($_FILES['picture_file']['tmp_name'])) && ($_FILES['picture_file']['size'] > 0)){
-      $this->set_picture($_FILES['picture_file']['tmp_name']);
-    }
-
-    /* Remove picture? */
-    if (isset($_POST['picture_remove'])){
-      $this->jpegPhoto= "*removed*";
-      $this->set_picture ("./plugins/users/images/default.jpg");
-      $this->is_modified= TRUE;
-    }
-
-    $attrs = array("uid","givenName","sn");
-    foreach($attrs as $attr){
-      if(isset($_POST[$attr])){
-        $this->$attr = $_POST[$attr];
-      }
-    }
-  }
-
-
   function PrepareForCopyPaste($source)
   {
     plugin::PrepareForCopyPaste($source);

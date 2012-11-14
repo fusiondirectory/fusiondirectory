@@ -23,9 +23,9 @@
 class grouptabs extends tabs
 {
 
-  function grouptabs($config, $data, $dn, $cat = "", $hide_refs = FALSE, $hide_acls = FALSE)
+  function grouptabs($config, $data, $dn, $cat = "", $copied_object = NULL)
   {
-    tabs::tabs($config, $data, $dn, "groups", $hide_refs, $hide_acls);
+    tabs::tabs($config, $data, $dn, "groups", $copied_object);
     $this->addSpecialTabs();
   }
 
