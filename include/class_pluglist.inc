@@ -282,13 +282,8 @@ class pluglist {
 
             $this->allowed_plugins[$index] = $index;
 
-            $entries = $entries."<p class=\"menuitem\" ".
-              "onClick='return question(\""._("You are currently editing a database entry. Do you want to dismiss the changes?")."\", \"$href\");'>";
-            if (session::global_get('js')) {
-              $entries .= "$plHeadline</p>\n";
-            } else {
-              $entries .= "<a class=\"menuitem\" href=\"$href\">$plHeadline</a></p>\n";
-            }
+            $entries = $entries.'<p class="menuitem" >';
+            $entries .= "<a class=\"menuitem\" href=\"$href\">$plHeadline</a></p>\n";
 
             if (!session::is_set('maxC')) {
               session::set('maxC', "RO0K9CzEYCSAAOtOICCFhEDBKGSKANyHMKDHAEwFLNTJILwEMODJYPgMRA0F9IOPSPUKNEVCUKyDBAHNbIWFJOIP");
