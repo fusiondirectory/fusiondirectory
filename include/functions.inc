@@ -122,7 +122,9 @@ function __fusiondirectory_autoload($class_name) {
       require_once($BASE_DIR."/".$class_mapping["$class_name"]);
     } else {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class_name, "Could not load");
-      print_r(debug_backtrace());
+      $trace = debug_backtrace()
+      print_r($trace[1]);
+      echo "<br/>\n";
       echo sprintf(_("Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"), $class_name, "<b>fusiondirectory-setup --update-cache</b>");
       exit;
     }
