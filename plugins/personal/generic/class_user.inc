@@ -1346,7 +1346,7 @@ class user extends plugin
           "homePhone"         => _("Home phone number"),
           "labeledURI"        => _("Homepage"),
           "userPassword"      => _("User password method"),
-        );
+        ));
 
     /* Append government attributes if required */
     global $config;
