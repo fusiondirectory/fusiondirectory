@@ -75,18 +75,8 @@ class user extends plugin
   var $photoData      = "";
   var $old_jpegPhoto  = "";
   var $old_photoData  = "";
-  var $cert_dialog    = FALSE;
   var $picture_dialog = FALSE;
   var $pwObject       = NULL;
-
-  var $userPKCS12                   = "";
-  var $userSMIMECertificate         = "";
-  var $userCertificate              = "";
-  var $certificateSerialNumber      = "";
-  var $old_certificateSerialNumber  = "";
-  var $old_userPKCS12               = "";
-  var $old_userSMIMECertificate     = "";
-  var $old_userCertificate          = "";
 
   var $houseIdentifier            = "";
   var $street                     = "";
@@ -109,7 +99,6 @@ class user extends plugin
   /* variables to trigger password changes */
   var $pw_storage           = "md5";
   var $last_pw_storage      = "unset";
-  var $had_userCertificate  = FALSE;
 
   var $view_logged = FALSE;
 
@@ -122,8 +111,8 @@ class user extends plugin
   var $attributes = array("sn", "givenName", "uid", "personalTitle", "academicTitle",
       "homePostalAddress", "homePhone", "labeledURI", "ou", "o", "dateOfBirth", "gender","preferredLanguage",
       "departmentNumber", "employeeNumber", "employeeType", "l", "st","jpegPhoto",
-      "roomNumber", "telephoneNumber", "mobile", "pager", "cn", "userPKCS12", "street", "postalCode",
-      "postalAddress", "facsimileTelephoneNumber", "userSMIMECertificate", "gosaLoginRestriction", "manager");
+      "roomNumber", "telephoneNumber", "mobile", "pager", "cn", "street", "postalCode",
+      "postalAddress", "facsimileTelephoneNumber", "gosaLoginRestriction", "manager");
 
   var $objectclasses = array("top", "person", "organizationalPerson", "inetOrgPerson",
       "gosaAccount");
@@ -132,7 +121,7 @@ class user extends plugin
   var $govattrs = array("gouvernmentOrganizationalUnit", "houseIdentifier", "vocation",
       "ivbbLastDeliveryCollective", "gouvernmentOrganizationalPersonLocality",
       "gouvernmentOrganizationalUnitDescription","gouvernmentOrganizationalUnitSubjectArea",
-      "functionalTitle", "certificateSerialNumber", "publicVisible", "street", "role",
+      "functionalTitle", "publicVisible", "street", "role",
       "postalCode");
 
   var $multiple_support = TRUE;
@@ -216,12 +205,8 @@ class user extends plugin
         $this->pw_storage= $hash;
       }
 
-      /* Load extra attributes: certificate and picture */
-      $this->load_cert();
+      /* Load extra attributes: picture */
       $this->load_picture();
-      if ($this->userCertificate != ""){
-        $this->had_userCertificate= TRUE;
-      }
     }
 
     /* Reset password storage indicator, used by password_change_needed() */
@@ -438,151 +423,9 @@ class user extends plugin
       $this->dialog= FALSE;
     }
 
-    /* Want certificate= */
-    if ((isset($_POST['edit_cert'])) && $this->acl_is_readable("Certificate")){
-
-      /* Save original values for later reconstruction */
-      foreach (array("certificateSerialNumber", "userCertificate",
-            "userSMIMECertificate", "userPKCS12") as $val){
-
-        $oval= "old_$val";
-        $this->$oval= $this->$val;
-      }
-
-      $this->cert_dialog= TRUE;
-      $this->dialog= TRUE;
-    }
-
-
-    /* Cancel certificate dialog */
-    if (isset($_POST['cert_edit_cancel'])){
-
-      /* Restore original values in case of 'cancel' */
-      foreach (array("certificateSerialNumber", "userCertificate",
-            "userSMIMECertificate", "userPKCS12") as $val){
-
-        $oval= "old_$val";
-        $this->$val= $this->$oval;
-      }
-      $this->cert_dialog= FALSE;
-      $this->dialog= FALSE;
-    }
-
-
-    /* Remove certificate? */
-    if($this->acl_is_writeable("Certificate",(!is_object($this->parent) && !session::is_set('edit')))){
-      foreach (array ("userCertificate", "userSMIMECertificate", "userPKCS12") as $val){
-        if (isset($_POST["remove_$val"])){
-
-          /* Reset specified cert*/
-          $this->$val= "";
-          $this->is_modified= TRUE;
-        }
-      }
-    }
-
-    /* Upload new cert and close dialog? */
-    if($this->acl_is_writeable("Certificate",(!is_object($this->parent) && !session::is_set('edit')))){
-
-      $fail =false;
-
-      if (isset($_POST['cert_edit_finish'])){
-
-        /* for all certificates do */
-        foreach (array ("userCertificate", "userSMIMECertificate", "userPKCS12")
-            as $val){
-
-          /* Check for clean upload */
-          if (array_key_exists($val."_file", $_FILES) &&
-              array_key_exists('name', $_FILES[$val."_file"]) &&
-              $_FILES[$val."_file"]['name'] != "" &&
-              is_uploaded_file($_FILES[$val."_file"]['tmp_name'])) {
-            $this->set_cert("$val", $_FILES[$val."_file"]['tmp_name']);
-          }
-        }
-
-        /* Save serial number */
-        if (isset($_POST["certificateSerialNumber"]) &&
-            $_POST["certificateSerialNumber"] != ""){
-
-          if (!tests::is_id($_POST["certificateSerialNumber"])){
-            $fail = true;
-            msg_dialog::display(_("Error"), msgPool::invalid(_("Serial number"),$_POST["certificateSerialNumber"],"/[0-9]/"),ERROR_DIALOG);
-
-            foreach(array("userCertificate", "userSMIMECertificate", "userPKCS12") as $cert){
-              if ($this->$cert != ""){
-                $smarty->assign("$cert"."_state", "true");
-              } else {
-                $smarty->assign("$cert"."_state", "");
-              }
-            }
-          }
-
-          $this->certificateSerialNumber= $_POST["certificateSerialNumber"];
-          $this->is_modified= TRUE;
-        }
-        if(!$fail){
-          $this->cert_dialog= FALSE;
-          $this->dialog= FALSE;
-        }
-      }
-    }
     /* Display picture dialog */
     if ($this->picture_dialog){
       return($smarty->fetch (get_template_path('generic_picture.tpl', TRUE, dirname(__FILE__))));
-    }
-
-    /* Display cert dialog */
-    if ($this->cert_dialog){
-      $smarty->assign("CertificateACL",$this->getacl("Certificate",(!is_object($this->parent) && !session::is_set('edit'))));
-      $smarty->assign("Certificate_readable",$this->acl_is_readable("Certificate"));
-      $smarty->assign("certificateSerialNumber",$this->certificateSerialNumber);
-
-      foreach(array("userCertificate", "userSMIMECertificate", "userPKCS12") as $cert){
-        if ($this->$cert != ""){
-          /* import certificate */
-          $certificate = new certificate;
-          $certificate->import($this->$cert);
-
-          /* Read out data*/
-          $timeto   = $certificate->getvalidto_date();
-          $timefrom = $certificate->getvalidfrom_date();
-
-
-          /* Additional info if start end time is '0' */
-          $add_str_info = "";
-          if($timeto == 0 && $timefrom == 0){
-            $add_str_info = "<br><i>"._("(Some types of certificates are currently not supported and may be displayed as 'invalid'.)")."</i>";
-          }
-
-          $str = "<table summary=\"\" border=0>
-                    <tr>
-                      <td style='vertical-align:top'>CN</td>
-                      <td>".preg_replace("/ /", "&nbsp;", $certificate->getname())."</td>
-                    </tr>
-                  </table><br>".
-
-                  sprintf(_("Certificate is valid from %s to %s and is currently %s."),
-                        "<b>".date('d M Y',$timefrom)."</b>",
-                        "<b>".date('d M Y',$timeto)."</b>",
-                        $certificate->isvalid()?"<b><font style='color:green'>"._("valid")."</font></b>":
-                                                "<b><font style='color:red'>"._("invalid")."</font></b>").$add_str_info;
-
-          $smarty->assign($cert."info",$str);
-          $smarty->assign($cert."_state","true");
-        } else {
-          $smarty->assign($cert."info", "<i>"._("No certificate installed")."</i>");
-          $smarty->assign($cert."_state","");
-        }
-      }
-
-      if($this->governmentmode){
-        $smarty->assign("honourIvbbAttributes", "true");
-      }else{
-        $smarty->assign("honourIvbbAttributes", "false");
-      }
-      $smarty->assign("governmentmode", $this->governmentmode);
-      return($smarty->fetch (get_template_path('generic_certs.tpl', TRUE, dirname(__FILE__))));
     }
 
     /* Prepare password hashes */
@@ -644,12 +487,6 @@ class user extends plugin
     $smarty->assign("pwmode_select", $this->pw_storage);
     $smarty->assign("pw_configurable", $is_configurable);
     $smarty->assign("passwordStorageACL", $this->getacl("userPassword",(!is_object($this->parent) && !session::is_set('edit'))));
-
-    if(!session::is_set('edit')){
-      $smarty->assign("CertificatesACL","");
-    }else{
-      $smarty->assign("CertificatesACL",  $this->getacl("Certificate"));
-    }
 
     $smarty->assign("userPictureACL",   $this->getacl("userPicture",(!is_object($this->parent) && !session::is_set('edit'))));
     $smarty->assign("userPicture_is_readable",   $this->acl_is_readable("userPicture",(!is_object($this->parent) && !session::is_set('edit'))));
@@ -955,14 +792,6 @@ class user extends plugin
 
     }
 
-    /* Special handling for attribute userCertificate needed */
-    if ($this->userCertificate != ""){
-      $this->attrs["userCertificate;binary"]= $this->userCertificate;
-      $remove_userCertificate= false;
-    } else {
-      $remove_userCertificate= true;
-    }
-
     /* Special handling for dateOfBirth value */
     if ($this->dateOfBirth == ""){
       if ($this->is_new) {
@@ -1080,37 +909,6 @@ class user extends plugin
       new log("modify","users/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
     }else{
       new log("create","users/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
-    }
-
-    /* Remove cert?
-       For some reason, the 'ldap' class doesn't want to remove binary entries, so I need
-       to work around myself. */
-    if ($remove_userCertificate == true && !$this->is_new && $this->had_userCertificate){
-
-      /* Reset array, assemble new, this should be reworked */
-      $this->attrs= array();
-      $this->attrs['userCertificate;binary']= array();
-
-      /* Prepare connection */
-      if (!($ds = ldap_connect($this->config->current['SERVER']))) {
-        die ("Could not connect to LDAP server");
-      }
-      ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
-      if (function_exists("ldap_set_rebind_proc") && $this->config->get_cfg_value("ldapFollowReferrals") == "TRUE") {
-        ldap_set_option($this->cid, LDAP_OPT_REFERRALS, 1);
-        ldap_set_rebind_proc($ds, array(&$this, "rebind"));
-      }
-      if($this->config->get_cfg_value("ldapTLS") == "TRUE"){
-        ldap_start_tls($ds);
-      }
-      if (!($res = @ldap_bind($ds, $this->config->current['ADMIN'],
-              $this->config->current['PASSWORD']))) {
-        die ("Could not bind to LDAP");
-      }
-
-      /* Modify using attrs */
-      ldap_mod_del($ds,$this->dn,$this->attrs);
-      ldap_close($ds);
     }
 
     /* If needed, let the password method do some cleanup */
@@ -1384,45 +1182,10 @@ class user extends plugin
     }
   }
 
-
-  /* Load a certificate from LDAP, this is going to be simplified later on */
-  function load_cert()
-  {
-    $ds= ldap_connect($this->config->current['SERVER']);
-    ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
-    if (function_exists("ldap_set_rebind_proc") && $this->config->get_cfg_value("ldapFollowReferrals") == "TRUE"){
-      ldap_set_option($this->cid, LDAP_OPT_REFERRALS, 1);
-      ldap_set_rebind_proc($ds, array(&$this, "rebind"));
-    }
-    if ($this->config->get_cfg_value("ldapTLS") == "TRUE"){
-      ldap_start_tls($ds);
-    }
-
-    $r= ldap_bind($ds);
-    $sr= @ldap_read($ds, $this->dn, "userCertificate=*", array("userCertificate"));
-
-    if ($sr) {
-      $ei= @ldap_first_entry($ds, $sr);
-
-      if ($ei) {
-        if (!$info = @ldap_get_values_len($ds, $ei, "userCertificate;binary")){
-          $this->userCertificate= "";
-        } else {
-          $this->userCertificate= $info[0];
-        }
-      }
-    } else {
-      $this->userCertificate= "";
-    }
-
-    ldap_unbind($ds);
-  }
-
-
   /* Load picture from file to object */
-  function set_picture($filename ="")
+  function set_picture($filename = "")
   {
-    if (!is_file($filename) || $filename =="" ){
+    if (!is_file($filename) || $filename == "" ) {
       $filename= "./plugins/users/images/default.jpg";
       $this->jpegPhoto= "*removed*";
     }
@@ -1435,22 +1198,6 @@ class user extends plugin
     $this->jpegPhoto= "";
 
     fclose ($fd);
-  }
-
-
-  /* Load certificate from file to object */
-  function set_cert($cert, $filename)
-  {
-    clearstatcache();
-    if(!$this->acl_is_writeable("Certificate",(!is_object($this->parent) && !session::is_set('edit')))) return;
-    $fd = fopen ($filename, "rb");
-    if (filesize($filename)>0) {
-      $this->$cert= fread ($fd, filesize ($filename));
-      fclose ($fd);
-      $this->is_modified= TRUE;
-    } else {
-      msg_dialog::display(_("Error"), _("Cannot open certificate!"), ERROR_DIALOG);
-    }
   }
 
   /* Adapt from given 'dn' */
@@ -1548,7 +1295,6 @@ class user extends plugin
         "gouvernmentOrganizationalUnitDescription"  =>  _("Unit description"),
         "gouvernmentOrganizationalUnitSubjectArea"  =>  _("Subject area"),
         "functionalTitle"                           =>  _("Functional title"),
-        "certificateSerialNumber"                   =>  _("Certificate serial number"),
         "publicVisible"                             =>  _("Public visible"),
         "street"                                    =>  _("Street"),
         "role"                                      =>  _("Role"),
@@ -1600,7 +1346,6 @@ class user extends plugin
           "homePhone"         => _("Home phone number"),
           "labeledURI"        => _("Homepage"),
           "userPassword"      => _("User password method"),
-          "Certificate"       => _("User certificates"))
         );
 
     /* Append government attributes if required */
