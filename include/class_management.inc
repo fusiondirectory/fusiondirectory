@@ -124,16 +124,20 @@ class management
     $this->registerAction("remove",           "removeEntryRequested");
     $this->registerAction("removeConfirmed",  "removeEntryConfirmed");
 
-    $this->registerAction("copy",   "copyPasteHandler");
-    $this->registerAction("cut",    "copyPasteHandler");
-    $this->registerAction("paste",  "copyPasteHandler");
+    if ($this->config->get_cfg_value("copyPaste") == "TRUE") {
+      $this->registerAction("copy",   "copyPasteHandler");
+      $this->registerAction("cut",    "copyPasteHandler");
+      $this->registerAction("paste",  "copyPasteHandler");
+    }
 
-    $this->registerAction("snapshot", "createSnapshotDialog");
-    $this->registerAction("restore",  "restoreSnapshotDialog");
+    if ($this->config->get_cfg_value("enableSnapshots") == "TRUE") {
+      $this->registerAction("snapshot", "createSnapshotDialog");
+      $this->registerAction("restore",  "restoreSnapshotDialog");
 
-    $this->registerAction("saveSnapshot",     "saveSnapshot");
-    $this->registerAction("restoreSnapshot",  "restoreSnapshot");
-    $this->registerAction("cancelSnapshot",   "closeDialogs");
+      $this->registerAction("saveSnapshot",     "saveSnapshot");
+      $this->registerAction("restoreSnapshot",  "restoreSnapshot");
+      $this->registerAction("cancelSnapshot",   "closeDialogs");
+    }
   }
 
   /*!
@@ -144,7 +148,7 @@ class management
   {
     // Ensure that html posts and gets are kept even if we see a 'Entry islocked' dialog.
     $vars = array('/^act$/','/^listing/','/^PID$/','/^FILTER_PID$/');
-    session::set('LOCK_VARS_TO_USE',$vars);
+    session::set('LOCK_VARS_TO_USE', $vars);
 
     /* Display the copy & paste dialog, if it is currently open */
     $ret = $this->copyPasteHandler("", array());
@@ -905,7 +909,7 @@ class management
   {
     // Return without any actions while copy&paste handler is disabled.
     if (!is_object($this->cpHandler)) {
-      return "";
+      return FALSE;
     }
 
     $tabType      = $this->tabType;

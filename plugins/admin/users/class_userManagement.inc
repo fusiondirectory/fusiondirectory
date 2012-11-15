@@ -820,6 +820,10 @@ class userManagement extends management
   function copyPasteHandler($action = "", $target = array(), $all = array(),
       $altTabClass = "", $altTabType = "", $altAclCategory = "", $altAclPlugin = "")
   {
+    // Return without any actions while copy&paste handler is disabled.
+    if (!is_object($this->cpHandler)) {
+      return FALSE;
+    }
     $str = management::copyPasteHandler($action, $target, $all);
     if (isset($this->cpHandler->lastdn) && ($this->cpHandler->lastdn != "") &&
         isset($_POST['passwordTodo']) &&
