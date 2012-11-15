@@ -93,10 +93,6 @@ class Step_Migrate extends setup_step
   var $menu_dialog           = FALSE;
   var $menu                  = array();
 
-  /* Win-Workstations outside to reserved ou */
-  var $outside_winstations        = array();
-  var $outside_winstations_dialog = FALSE;
-
   /* check for multiple use of same uidNumber */
   var $check_uidNumbers        = array();
   var $check_uidNumbers_dialog = FALSE;
@@ -179,12 +175,6 @@ class Step_Migrate extends setup_step
     $this->checks['outside_groups']['ERROR_MSG'] = "";
     $this->search_outside_groups();
     $this->check_organizationalUnits();
-
-    $this->checks['outside_winstations']['TITLE']     = _("Checking for windows workstations outside the computers tree");
-    $this->checks['outside_winstations']['STATUS']    = FALSE;
-    $this->checks['outside_winstations']['STATUS_MSG']= "";
-    $this->checks['outside_winstations']['ERROR_MSG'] = "";
-    $this->search_outside_winstations();
 
     $this->checks['uidNumber_usage']['TITLE']     = _("Checking for duplicated UID numbers");
     $this->checks['uidNumber_usage']['STATUS']    = FALSE;
@@ -320,68 +310,6 @@ class Step_Migrate extends setup_step
       return(TRUE);
     }
   }
-
-
-  /* Search for winstations outside the computers ou
-   */
-  function search_outside_winstations()
-  {
-    /* Establish ldap connection */
-    $cv = $this->parent->captured_values;
-    $ldap_l = new LDAP($cv['admin'],
-        $cv['password'],
-        $cv['connection'],
-        FALSE,
-        $cv['tls']);
-
-    $ldap = new ldapMultiplexer($ldap_l);
-
-    /* Get winstation ou */
-    if($cv['generic_settings']['wws_ou_active']) {
-      $winstation_ou = $cv['generic_settings']['wws_ou'];
-    } else {
-      $winstation_ou = "ou=computers";
-    }
-
-    if($cv['samba_version'] == 3){
-      $oc = "sambaSamAccount";
-    } else {
-      $oc = "sambaAccount";
-    }
-
-    $ldap->cd($cv['base']);
-    $res = $ldap->search("(&(objectClass=".$oc.")(uid=*$))",array("dn","sambaSID"));
-    if(!$res){
-      $this->checks['outside_winstations']['STATUS']    = FALSE;
-      $this->checks['outside_winstations']['STATUS_MSG']= _("LDAP query failed");
-      $this->checks['outside_winstations']['ERROR_MSG'] = _("Possibly the 'root object' is missing.");
-      return(false);
-    }
-
-    $this->outside_winstations = array();
-    while($attrs = $ldap->fetch()){
-      if((!preg_match("/^[^,]+,".preg_quote($winstation_ou, '/')."/",$attrs['dn'])) && !preg_match("/,dc=addressbook,/",$attrs['dn'])){
-        $attrs['selected'] = FALSE;
-        $attrs['ldif']     = "";
-        $this->outside_winstations[base64_encode($attrs['dn'])] = $attrs;
-      }
-    }
-
-    if(count($this->outside_winstations)){
-      $this->checks['outside_winstations']['STATUS']    = FALSE;
-      $this->checks['outside_winstations']['STATUS_MSG']= _("Failed");
-      $this->checks['outside_winstations']['ERROR_MSG'] =
-        sprintf(_("Found %s winstations outside the predefined computers department ou '%s'."),count($this->outside_winstations),$winstation_ou);
-      $this->checks['outside_winstations']['ERROR_MSG'].= "<input type='submit' name='outside_winstations_dialog' value='"._("Migrate")."...'>";
-      return(false);
-    } else {
-      $this->checks['outside_winstations']['STATUS']    = TRUE;
-      $this->checks['outside_winstations']['STATUS_MSG']= _("Ok");
-      $this->checks['outside_winstations']['ERROR_MSG'] = "";
-      return(TRUE);
-    }
-  }
-
 
   /* Search for groups outside the group ou
    */
@@ -1216,57 +1144,6 @@ class Step_Migrate extends setup_step
     return(TRUE);
   }
 
-
-  function migrate_outside_winstations($perform = FALSE)
-  {
-    /* Establish ldap connection */
-    $cv = $this->parent->captured_values;
-    $ldap_l = new LDAP($cv['admin'],
-        $cv['password'],
-        $cv['connection'],
-        FALSE,
-        $cv['tls']);
-
-    $ldap = new ldapMultiplexer($ldap_l);
-
-    $ldap->cd($cv['base']);
-
-    /* Check if there was a destination department posted */
-    if(isset($_POST['move_winstation_to'])){
-      $destination_dep = $_POST['move_winstation_to'];
-    } else {
-      msg_dialog::display(_("LDAP error"), _("Cannot move users to the requested department!"), ERROR_DIALOG);
-      return(false);
-    }
-
-    foreach($this->outside_winstations as $b_dn => $data){
-      $this->outside_winstations[$b_dn]['ldif'] ="";
-      if($data['selected']){
-        $dn = base64_decode($b_dn);
-        $d_dn = preg_replace("/,.*$/",",".base64_decode($destination_dep),$dn);
-        if(!$perform){
-          $this->outside_winstations[$b_dn]['ldif'] = _("Winstation will be moved from").":<br>\t".($ldap->fix($dn))."<br>"._("to").":<br>\t".($ldap->fix($d_dn));
-
-
-          /* Check if there are references to this object */
-          $ldap->search("(&(member=".LDAP::prepare4filter($dn).")(|(objectClass=gosaGroupOfNames)(objectClass=groupOfNames)))",array('dn'));
-          $refs = "";
-          while($attrs = $ldap->fetch()){
-            $ref_dn = $attrs['dn'];
-            $refs .= "<br />\t".$ref_dn;
-          }
-          if(!empty($refs)){
-            $this->outside_winstations[$b_dn]['ldif'] .= "<br /><br /><i>"._("Updating following references too").":</i>".$refs;
-          }
-
-        } else {
-          $this->move($dn,$d_dn);
-        }
-      }
-    }
-  }
-
-
   function migrate_outside_groups($perform = FALSE)
   {
     /* Establish ldap connection */
@@ -1372,47 +1249,6 @@ class Step_Migrate extends setup_step
       $this->checks_initialised = TRUE;
     }
 
-    /*************
-     * Winstations outside the computers ou
-     *************/
-
-    if(isset($_POST['outside_winstations_dialog_cancel'])){
-      $this->outside_winstations_dialog = FALSE;
-      $this->dialog = FALSE;
-      $this->show_details = FALSE;
-    }
-
-    if(isset($_POST['outside_winstations_dialog_whats_done'])){
-      $this->migrate_outside_winstations(FALSE);
-    }
-
-    if(isset($_POST['outside_winstations_dialog_perform'])){
-      $this->migrate_outside_winstations(TRUE);
-      $this->search_outside_winstations();
-      $this->dialog = FALSE;
-      $this->show_details = FALSE;
-      $this->outside_winstations_dialog = FALSE;
-    }
-
-    if(isset($_POST['outside_winstations_dialog'])){
-      $this->outside_winstations_dialog = TRUE;
-      $this->dialog = TRUE;
-    }
-
-    if($this->outside_winstations_dialog){
-
-      /* Fix displayed dn syntax */
-      $tmp = $this->outside_winstations;
-      foreach($tmp as $key => $data){
-        $tmp[$key]['dn'] = LDAP::fix($data['dn']);
-      }
-
-      $smarty = get_smarty();
-      $smarty->assign("ous",$this->get_all_winstation_ous());
-      $smarty->assign("method","outside_winstations");
-      $smarty->assign("outside_winstations",$tmp);
-      return($smarty->fetch(get_template_path("setup_migrate.tpl",TRUE,dirname(__FILE__))));
-    }
     /*************
      * Groups outside the group ou
      *************/
@@ -1886,18 +1722,7 @@ class Step_Migrate extends setup_step
 
   function save_object()
   {
-    $this->is_completed= TRUE;
-
-    /* Capture all selected winstations from outside_winstations_dialog */
-    if($this->outside_winstations_dialog){
-      foreach($this->outside_winstations as $dn => $data){
-        if(isset($_POST['select_winstation_'.$dn])){
-          $this->outside_winstations[$dn]['selected'] = TRUE;
-        } else {
-          $this->outside_winstations[$dn]['selected'] = FALSE;
-        }
-      }
-    }
+    $this->is_completed = TRUE;
 
     /* Capture all selected groups from outside_groups_dialog */
     if($this->outside_groups_dialog){
@@ -2265,54 +2090,6 @@ class Step_Migrate extends setup_step
     }
     return($tmp);
   }
-
-
-  function get_all_winstation_ous()
-  {
-    /* Establish ldap connection */
-    $cv = $this->parent->captured_values;
-    $ldap_l = new LDAP($cv['admin'],
-        $cv['password'],
-        $cv['connection'],
-        FALSE,
-        $cv['tls']);
-
-    $ldap = new ldapMultiplexer($ldap_l);
-
-    /* Get winstation ou */
-    if($cv['generic_settings']['wws_ou_active']) {
-      $winstation_ou = $cv['generic_settings']['wws_ou'];
-    } else {
-      $winstation_ou = "ou=computers";
-    }
-
-    $ldap->cd($cv['base']);
-    $ldap->search("(".$winstation_ou.")",array("dn"));
-
-    if($ldap->count() == 0 ){
-      $add_dn = $winstation_ou.",ou=systems,".$cv['base'];
-      $naming_attr = preg_replace("/=.*$/","",$add_dn);
-      $naming_value = preg_replace("/^[^=]*+=([^,]*).*$/","\\1",$add_dn);
-      $add = array();
-      $add['objectClass'] = array("organizationalUnit");
-      $add[$naming_attr] = $naming_value;
-
-      $ldap->cd($cv['base']);
-      $ldap->create_missing_trees(preg_replace("/^[^,]+,/","",$add_dn));
-      $ldap->cd($add_dn);
-      $ldap->add($add);
-    }
-
-    $ldap->search("(".$winstation_ou.")",array("dn"));
-    $tmp = array();
-    while($attrs= $ldap->fetch()){
-      if(!preg_match("/ou=snapshots,/",$attrs['dn'])){
-        $tmp[base64_encode($attrs['dn'])] = $ldap->fix($attrs['dn']);
-      }
-    }
-    return($tmp);
-  }
-
 
  function get_all_group_ous()
   {

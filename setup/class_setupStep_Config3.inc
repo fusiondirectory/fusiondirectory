@@ -242,7 +242,7 @@ class Step_Config3 extends setup_step
     $attrs['fdSchemaCheck'] = ($cv['enable_schema_check']?"TRUE":"FALSE");
 
     $attrs['fdLogging']         = ($this->optional['logging']?"TRUE":"FALSE");
-    $attrs['fdDisplayErrors']   = ($cv['errorlvl']?"TRUE":"FALSE");
+    $attrs['fdDisplayErrors']   = ($this->errorlvl?"TRUE":"FALSE");
     $attrs['fdSessionLifetime'] = $this->optional['session_lifetime'];
     $attrs['fdDebugLevel']      = $this->optional['debuglevel'];
 
