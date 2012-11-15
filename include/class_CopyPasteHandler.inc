@@ -36,12 +36,12 @@ class CopyPasteHandler {
   /*!
    * \brief This array contains all dns of the currently copyied objects
    */
-  var $queue       = array();
+  var $queue = array();
 
   /*!
    *  \brief The dn of the last edited object
    */
-  var $lastdn      = "";
+  var $lastdn = "";
 
   var $disallowed_objects = array();
   var $objects_to_fix     = array();
@@ -157,7 +157,6 @@ class CopyPasteHandler {
     if ($entry['method'] == "copy") {
       $attrs_wrapper = new stdClass();
       $attrs_wrapper->attrs = $entry['source_data'];
-      echo "<h1>Creating tab object with copied_object as parameter</h1>";
       $entry['object'] = new $tab_c($this->config, $this->config->data['TABS'][$tab_o], "new", $tab_a, $attrs_wrapper);
       $entry['object']->set_acl_base($base);
     } else {

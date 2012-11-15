@@ -26,7 +26,7 @@ class deptabs extends tabs
   var $moved      = FALSE;
   var $base_name  = "department";
 
-  function deptabs($config, $data, $dn, $category, $copied_object)
+  function deptabs($config, $data, $dn, $category, $copied_object = NULL)
   {
     parent::tabs($config, $data, $dn, $category, $copied_object);
 
