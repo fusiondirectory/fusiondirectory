@@ -159,6 +159,7 @@ class CopyPasteHandler {
       $attrs_wrapper->attrs = $entry['source_data'];
       $entry['object'] = new $tab_c($this->config, $this->config->data['TABS'][$tab_o], "new", $tab_a, $attrs_wrapper);
       $entry['object']->set_acl_base($base);
+      $entry['object']->postCopyHook();
     } else {
       $entry['object'] = new $tab_c($this->config, $this->config->data['TABS'][$tab_o], $entry['dn'], $tab_a);
       $entry['object']->set_acl_base($base);

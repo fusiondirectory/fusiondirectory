@@ -611,6 +611,7 @@ function ldap_login_user ($username, $password)
 {
   global $config;
 
+
   /* look through the entire ldap */
   $ldap = $config->get_ldap_link();
   if (!$ldap->success()){
@@ -619,6 +620,7 @@ function ldap_login_user ($username, $password)
         FATAL_ERROR_DIALOG);
     exit();
   }
+
   $ldap->cd($config->current['BASE']);
   $allowed_attributes = array("uid","mail");
   $verify_attr = array();
@@ -630,6 +632,7 @@ function ldap_login_user ($username, $password)
       }
     }
   }
+
   if(count($verify_attr) == 0){
     $verify_attr = array("uid");
   }
@@ -641,6 +644,7 @@ function ldap_login_user ($username, $password)
   }
   $filter = "(&(|".$filter.")(objectClass=gosaAccount))";
   $ldap->search($filter,$tmp);
+
 
   /* get results, only a count of 1 is valid */
   switch ($ldap->count()){
@@ -658,6 +662,7 @@ function ldap_login_user ($username, $password)
             return (NULL);
   }
 
+
   /* LDAP schema is not case sensitive. Perform additional check. */
   $attrs= $ldap->fetch();
   $success = FALSE;
@@ -670,6 +675,7 @@ function ldap_login_user ($username, $password)
     return(FALSE);
   }
 
+
   /* got user dn, fill acl's */
   $ui= new userinfo($config, $ldap->getDN());
   $ui->username= $attrs['uid'][0];
@@ -679,6 +685,7 @@ function ldap_login_user ($username, $password)
   if (!$ui->loginAllowed()){
     return (NULL);
   }
+
 
   /* password check, bind as user with supplied password  */
   $ldap->disconnect();
@@ -691,8 +698,10 @@ function ldap_login_user ($username, $password)
     return (NULL);
   }
 
+
   /* Username is set, load subtreeACL's now */
   $ui->loadACL();
+
 
   return ($ui);
 }

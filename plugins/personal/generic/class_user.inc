@@ -39,30 +39,36 @@ class user extends plugin
   var $cn         = "";
   var $new_dn     = "";
 
-  var $personalTitle= "";
-  var $academicTitle= "";
-  var $homePostalAddress= "";
-  var $homePhone= "";
-  var $labeledURI= "";
-  var $o= "";
-  var $ou= "";
-  var $departmentNumber= "";
+  var $personalTitle      = "";
+  var $academicTitle      = "";
+  var $homePostalAddress  = "";
+  var $homePhone          = "";
+  var $labeledURI         = "";
+  var $departmentNumber   = "";
+
+  var $o  = "";
+  var $ou = "";
+
   var $gosaLoginRestriction= array();
   var $gosaLoginRestrictionWidget;
-  var $employeeNumber= "";
-  var $employeeType= "";
-  var $roomNumber= "";
-  var $telephoneNumber= "";
-  var $facsimileTelephoneNumber= "";
-  var $mobile= "";
-  var $pager= "";
-  var $l= "";
-  var $st= "";
-  var $postalAddress= "";
+
+  var $employeeNumber           = "";
+  var $employeeType             = "";
+  var $roomNumber               = "";
+  var $telephoneNumber          = "";
+  var $facsimileTelephoneNumber = "";
+
+  var $mobile = "";
+  var $pager  = "";
+  var $l      = "";
+  var $st     = "";
+
+  var $postalAddress  = "";
   var $dateOfBirth;
-  var $use_dob= "0";
-  var $gender="0";
-  var $preferredLanguage="0";
+
+  var $use_dob            = "0";
+  var $gender             = "0";
+  var $preferredLanguage  = "0";
   var $baseSelector;
 
   var $jpegPhoto      = "*removed*";
@@ -1524,73 +1530,15 @@ class user extends plugin
     return($bases);
   }
 
-
-  function getCopyDialog()
+  /* FIXME : is that useful? */
+  function postCopyHook()
   {
-    $str = "";
-
-    session::set('binary',$this->photoData);
-    session::set('binarytype',"image/jpeg");
-
-    /* Get random number for pictures */
-    srand((double)microtime()*1000000);
-    $rand = rand(0, 10000);
-
-    $smarty = get_smarty();
-
-    $smarty->assign("passwordTodo","clear");
-
-    if(isset($_POST['passwordTodo'])){
-      $smarty->assign("passwordTodo",$_POST['passwordTodo']);
-    }
-
-    $smarty->assign("sn",       $this->sn);
-    $smarty->assign("givenName",$this->givenName);
-    $smarty->assign("uid",      $this->uid);
-    $smarty->assign("rand",     $rand);
-    $str = $smarty->fetch(get_template_path("paste_generic.tpl",TRUE,dirname(__FILE__)));
-
-
-    $ret = array();
-    $ret['string'] = $str;
-    $ret['status'] = "";
-    return($ret);
-  }
-
-  function PrepareForCopyPaste($source)
-  {
-    plugin::PrepareForCopyPaste($source);
-
-    /* Reset certificate information addepted from source user
-       to avoid setting the same user certificate for the destination user. */
-    $this->userPKCS12= "";
-    $this->userSMIMECertificate= "";
-    $this->userCertificate= "";
-    $this->certificateSerialNumber= "";
-    $this->old_certificateSerialNumber= "";
-    $this->old_userPKCS12= "";
-    $this->old_userSMIMECertificate= "";
-    $this->old_userCertificate= "";
-
-    /* Generate dateOfBirth entry */
-    if (isset ($source['dateOfBirth'])){
-        list($year, $month, $day)= explode("-", $source['dateOfBirth'][0], 3);
-        $this->dateOfBirth= "$day.$month.$year";
-    } else {
-        $this->dateOfBirth= "";
-    }
-
-    // Try to load the user picture
-    $tmp_dn = $this->dn;
-    $this->dn = $source['dn'];
     $this->load_picture();
-    $this->dn = $tmp_dn;
   }
 
 
   static function plInfo()
   {
-
     $govattrs = array(
         "gouvernmentOrganizationalUnit"             =>  _("Unit"),
         "houseIdentifier"                           =>  _("House identifier"),

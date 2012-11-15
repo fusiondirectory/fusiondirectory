@@ -150,9 +150,9 @@ if (!session::global_is_set('plist')) {
   $config->loadPlist($plist);
 
   /* Load ocMapping into userinfo */
-  $tmp= new acl($config, NULL, $ui->dn);
-  $ui->ocMapping= $tmp->ocMapping;
-  session::global_set('ui',$ui);
+  $tmp = new acl($config, $ui->dn);
+  $ui->ocMapping = $tmp->ocMapping;
+  session::global_set('ui', $ui);
 }
 $plist= session::global_get('plist');
 

@@ -700,6 +700,13 @@ class plugin
   }
 
   /*!
+   * \brief Executes a command after an object has been copied
+   */
+  function postCopyHook()
+  {
+  }
+
+  /*!
    * \brief Create unique DN
    *
    * \param string $data
@@ -1272,58 +1279,6 @@ class plugin
       } elseif(is_array($arr)) {
         $str = implode("\n", $arr);
         @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Result: ".$str);
-      }
-    }
-  }
-
-
-  function saveCopyDialog(){
-  }
-
-  /*!
-   * \brief Accessor of the copy dialog
-   *
-   * \return the copy dialog
-   */
-  function getCopyDialog(){
-    return(array("string"=>"","status"=>""));
-  }
-
-
-  /*!
-   * \brief Prepare for Copy & Paste
-   *
-   * \param string $source Source to prepare for copy and paste
-   */
-  function PrepareForCopyPaste($source)
-  {
-    $todo = $this->attributes;
-    if(isset($this->CopyPasteVars)){
-      $todo = array_merge($todo,$this->CopyPasteVars);
-    }
-
-    if(count($this->objectclasses)){
-      $this->is_account = TRUE;
-      foreach($this->objectclasses as $class){
-        if(!in_array($class,$source['objectClass'])){
-          $this->is_account = FALSE;
-        }
-      }
-    }
-
-    foreach($todo as $var){
-      if (isset($source[$var])){
-        if(isset($source[$var]['count'])){
-          if($source[$var]['count'] > 1){
-            $tmp= $source[$var];
-            unset($tmp['count']);
-            $this->$var = $tmp;
-          }else{
-            $this->$var = $source[$var][0];
-          }
-        }else{
-          $this->$var= $source[$var];
-        }
       }
     }
   }

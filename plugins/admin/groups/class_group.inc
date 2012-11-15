@@ -1132,45 +1132,6 @@ class group extends plugin
   }
 
 
-  function getCopyDialog()
-  {
-    $vars = array("cn");
-
-    if($this ->force_gid){
-      $used = " checked ";
-      $dis  = "";
-    }else{
-      $used = "";
-      $dis  = " disabled ";
-    }
-
-    $smarty = get_smarty();
-    $smarty->assign("used",$used);
-    $smarty->assign("dis" ,$dis);
-    $smarty->assign("cn" ,$this->cn);
-    $smarty->assign("gidNumber",$this->gidNumber);
-    $str = $smarty->fetch(get_template_path("paste_generic.tpl",TRUE));
-    $ret = array();
-    $ret['string'] = $str;
-    $ret['status'] = "";
-    return($ret);
-  }
-
-  function saveCopyDialog()
-  {
-    if(isset($_POST['cn'])){
-      $this->cn = $_POST['cn'];
-    }
-    if(isset($_POST['force_gid'])){
-      $this->force_gid  = 1;
-      $this->gidNumber= $_POST['gidNumber'];
-    }else{
-      $this->force_gid  = 0;
-      $this->gidNumber  = false;
-    }
-  }
-
-
   /* Return plugin informations for acl handling  */
   static function plInfo()
   {
@@ -1324,74 +1285,6 @@ class group extends plugin
       ksort($this->memberUid_used_by_some);
     }
   }
-
-
-  function PrepareForCopyPaste($source)
-  {
-    plugin::PrepareForCopyPaste($source);
-
-    /* Get samba Domain in case of samba 3 */
-    if ($this->sambaSID != ""){
-      $this->SID= preg_replace ("/-[^-]+$/", "", $this->sambaSID);
-      $ldap= $this->config->get_ldap_link();
-      $ldap->cd($this->config->current['BASE']);
-      $ldap->search ("(&(objectClass=sambaDomain)(sambaSID=$this->SID))",array("sambaAlgorithmicRidBase"));
-      if ($ldap->count() != 0){
-        $attrs= $ldap->fetch();
-        if(isset($attrs['sambaAlgorithmicRidBase'])){
-          $this->ridBase= $attrs['sambaAlgorithmicRidBase'][0];
-        } else {
-          $this->ridBase= $this->config->get_cfg_value("sambaRidBase");
-        }
-
-        /* Get domain name for SID */
-        $this->sambaDomainName= "DEFAULT";
-        foreach ($this->config->data['SERVERS']['SAMBA'] as $key => $val){
-          if ($val['SID'] == $this->SID){
-            $this->sambaDomainName= $key;
-            break;
-          }
-        }
-      } else {
-        if ($this->config->get_cfg_value("sambaRidBase") != ""){
-          $this->sambaDomainName= "DEFAULT";
-          $this->ridBase= $this->config->get_cfg_value("sambaRidBase");
-          $this->SID= $this->config->get_cfg_value("sid");
-        } else {
-          msg_dialog::display(_("Configuration error"), _("Cannot find group SID in your configuration!"), ERROR_DIALOG);
-        }
-      }
-
-      /* Get group type */
-      $this->groupType= (int)substr(strrchr($this->sambaSID, "-"), 1);
-      if ($this->groupType < 500 || $this->groupType > 553){
-        $this->groupType= 0;
-      }
-      $this->oldgroupType= $this->groupType;
-    }
-
-
-    // Detect samba groups and adapt its values.
-    $this->smbgroup = in_array('sambaGroupMapping', $source['objectClass']);
-    if ($this->smbgroup) {
-      $this->sambaSID = $this->getSambaSID();
-    }
-
-    $this->memberUid = array();
-    if(isset($source['memberUid'])){
-      for($i = 0 ; $i < $source['memberUid']['count']; $i ++){
-        $this->memberUid[] = $source['memberUid'][$i];
-      }
-    }
-    $this->accessTo = array();
-    if (isset($source['accessTo'])){
-      for ($i= 0; $i<$source['accessTo']['count']; $i++){
-        $tmp= $source['accessTo'][$i];
-        $this->accessTo[$tmp]= $tmp;
-      }
-    }
-  }
-
 
   function set_multi_edit_values($attrs)
   {

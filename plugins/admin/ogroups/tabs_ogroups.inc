@@ -302,11 +302,5 @@ class ogrouptabs extends tabs
 
     tabs::save();
   }
-
-  function getCopyDialog()
-  {
-    $this->reload($this->by_object['ogroup']->gosaGroupObjects);
-    return tabs::getCopyDialog();
-  }
 }
 ?>

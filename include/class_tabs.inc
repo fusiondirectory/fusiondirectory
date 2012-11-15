@@ -388,37 +388,13 @@ class tabs
   /*!
    * \brief Save attributes posted by copy & paste dialog
    */
-  function saveCopyDialog()
+  function postCopyHook()
   {
-    foreach ($this->by_object as &$obj){
-      if($obj->is_account || $obj->ignore_account){
-        $obj->saveCopyDialog();
+    foreach ($this->by_object as &$obj) {
+      if ($obj->is_account || $obj->ignore_account) {
+        $obj->postCopyHook();
       }
     }
-  }
-
-  /*!
-   * \brief Return copy & paste dialog
-   */
-  function getCopyDialog()
-  {
-    $ret = "";
-    $this->SubDialog = false;
-    foreach ($this->by_object as &$obj){
-      if($obj->is_account || $obj->ignore_account){
-        $tmp = $obj->getCopyDialog();
-        if($tmp['status'] == "SubDialog"){
-          $this->SubDialog = true;
-          return($tmp['string']);
-        }else{
-          if(!empty($tmp['string'])){
-            $ret .= $tmp['string'];
-            $ret .= "<p class='seperator'>&nbsp;</p>";
-          }
-        }
-      }
-    }
-    return($ret);
   }
 
   /*!

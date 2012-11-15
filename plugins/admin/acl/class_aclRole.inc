@@ -688,36 +688,6 @@ class aclrole extends acl
     }
   }
 
-
-  function saveCopyDialog()
-  {
-    if(isset($_POST['cn'])){
-      $this->cn = $_POST['cn'];
-    }
-  }
-
-
-  function getCopyDialog()
-  {
-    $smarty = get_smarty();
-    $smarty->assign("cn",$this->cn);
-    $str = $smarty->fetch(get_template_path("paste_role.tpl",TRUE,dirname(__FILE__)));
-    $ret = array();
-    $ret['string'] = $str;
-    $ret['status'] = "";
-    return($ret);
-  }
-
-
-  function PrepareForCopyPaste($source)
-  {
-    plugin::PrepareForCopyPaste($source);
-
-    $source_o = new aclrole($this->config,$source['dn']);
-    $this->gosaAclTemplate = $source_o->gosaAclTemplate;
-  }
-
-
   /* Return plugin informations for acl handling  */
   static function plInfo()
   {

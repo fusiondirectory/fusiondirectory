@@ -110,41 +110,41 @@ function displayLogin()
 /* Set error handler to own one, initialize time calculation
    and start session. */
 session::start();
-session::set('errorsAlreadyPosted',array());
+session::set('errorsAlreadyPosted', array());
 
 /* Destroy old session if exists.
    Else you will get your old session back, if you not logged out correctly. */
-if(is_array(session::get_all()) && count(session::get_all())){
+if (is_array(session::get_all()) && count(session::get_all())) {
   session::destroy();
   session::start();
 }
 
-$username= "";
+$username = "";
 
 /* Reset errors */
-session::set('errors',"");
-session::set('errorsAlreadyPosted',"");
-session::set('LastError',"");
+session::set('errors', "");
+session::set('errorsAlreadyPosted', "");
+session::set('LastError', "");
 
 /* Check if we need to run setup */
-if (!file_exists(CONFIG_DIR."/".CONFIG_FILE)){
+if (!file_exists(CONFIG_DIR."/".CONFIG_FILE)) {
   header("location:setup.php");
   exit();
 }
 
 /* Reset errors */
-session::set('errors',"");
+session::set('errors', "");
 
 /* Check for java script */
-if(isset($_POST['javascript']) && $_POST['javascript'] == "true") {
-  session::global_set('js',TRUE);
-}elseif(isset($_POST['javascript'])) {
-  session::global_set('js',FALSE);
+if (isset($_POST['javascript']) && $_POST['javascript'] == "true") {
+  session::global_set('js', TRUE);
+} elseif(isset($_POST['javascript'])) {
+  session::global_set('js', FALSE);
 }
 
 /* Check if fusiondirectory.conf (.CONFIG_FILE) is accessible */
 if (!is_readable(CONFIG_DIR."/".CONFIG_FILE)) {
-  msg_dialog::display(_("Configuration error"), sprintf(_("FusionDirectory configuration %s/%s is not readable. Aborted."), CONFIG_DIR,CONFIG_FILE),FATAL_ERROR_DIALOG);
+  msg_dialog::display(_("Configuration error"), sprintf(_("FusionDirectory configuration %s/%s is not readable. Aborted."), CONFIG_DIR,CONFIG_FILE), FATAL_ERROR_DIALOG);
   exit();
 }
 
@@ -159,8 +159,8 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
 $smarty->compile_dir = $config->get_cfg_value("templateCompileDirectory", SPOOL_DIR);
 
 /* Check for compile directory */
-if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))){
-  msg_dialog::display(_("Smarty error"),sprintf(_("Directory '%s' specified as compile directory is not accessible!"),
+if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))) {
+  msg_dialog::display(_("Smarty error"), sprintf(_("Directory '%s' specified as compile directory is not accessible!"),
         $smarty->compile_dir),FATAL_ERROR_DIALOG);
   exit();
 }
@@ -168,12 +168,13 @@ if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))){
 /* Check for old files in compile directory */
 clean_smarty_compile_dir($smarty->compile_dir);
 
+
 /* Language setup */
-$lang= get_browser_language();
+$lang = get_browser_language();
 putenv("LANGUAGE=");
 putenv("LANG=$lang");
 setlocale(LC_ALL, $lang);
-$GLOBALS['t_language']= $lang;
+$GLOBALS['t_language']            = $lang;
 $GLOBALS['t_gettext_message_dir'] = $BASE_DIR.'/locale/';
 
 /* Set the text domain as 'messages' */
@@ -182,47 +183,47 @@ bindtextdomain($domain, LOCALE_DIR);
 textdomain($domain);
 $smarty->assign ('nextfield', 'username');
 
-if ($_SERVER["REQUEST_METHOD"] != "POST"){
+if ($_SERVER["REQUEST_METHOD"] != "POST") {
   @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang, "Setting language to");
 }
 
 
 /* Check for SSL connection */
-$ssl= "";
+$ssl = "";
 if (!isset($_SERVER['HTTPS']) ||
     !stristr($_SERVER['HTTPS'], "on")) {
 
   if (empty($_SERVER['REQUEST_URI'])) {
-    $ssl= "https://".$_SERVER['HTTP_HOST'].
+    $ssl = "https://".$_SERVER['HTTP_HOST'].
       $_SERVER['PATH_INFO'];
   } else {
-    $ssl= "https://".$_SERVER['HTTP_HOST'].
+    $ssl = "https://".$_SERVER['HTTP_HOST'].
       $_SERVER['REQUEST_URI'];
   }
 }
 
 /* If SSL is forced, just forward to the SSL enabled site */
-if ($config->get_cfg_value("forcessl") == "TRUE" && $ssl != ''){
+if ($config->get_cfg_value("forcessl") == "TRUE" && $ssl != '') {
   header ("Location: $ssl");
   exit;
 }
 
 /* Do we have htaccess authentification enabled? */
-$htaccess_authenticated= FALSE;
-if ($config->get_cfg_value("htaccessAuthentication") == "TRUE" ){
-  if (!isset($_SERVER['REMOTE_USER'])){
+$htaccess_authenticated = FALSE;
+if ($config->get_cfg_value("htaccessAuthentication") == "TRUE" ) {
+  if (!isset($_SERVER['REMOTE_USER'])) {
     msg_dialog::display(_("Configuration error"), _("There is a problem with the authentication setup!"), FATAL_ERROR_DIALOG);
     exit;
   }
 
-  $tmp= process_htaccess($_SERVER['REMOTE_USER'], isset($_SERVER['KRB5CCNAME']));
-  $username= $tmp['username'];
-  $server= $tmp['server'];
-  if ($username == ""){
+  $tmp      = process_htaccess($_SERVER['REMOTE_USER'], isset($_SERVER['KRB5CCNAME']));
+  $username = $tmp['username'];
+  $server   = $tmp['server'];
+  if ($username == "") {
     msg_dialog::display(_("Error"), _("Cannot find a valid user for the current authentication setup!"), FATAL_ERROR_DIALOG);
     exit;
   }
-  if ($server == ""){
+  if ($server == "") {
     msg_dialog::display(_("Error"), _("User information is not unique across the configured LDAP trees!"), FATAL_ERROR_DIALOG);
     exit;
   }
@@ -230,29 +231,33 @@ if ($config->get_cfg_value("htaccessAuthentication") == "TRUE" ){
   $htaccess_authenticated= TRUE;
 }
 
+
 /* Got a formular answer, validate and try to log in */
-if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htaccess_authenticated){
+if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htaccess_authenticated) {
 
   /* Reset error messages */
-  $message= "";
+  $message = "";
+
 
   /* Destroy old sessions, they cause a successfull login to relog again ...*/
-  if(session::global_is_set('_LAST_PAGE_REQUEST')){
+  if (session::global_is_set('_LAST_PAGE_REQUEST')) {
     session::global_set('_LAST_PAGE_REQUEST',time());
   }
 
-  if (!$htaccess_authenticated){
-    $server= get_post("server");
+  if (!$htaccess_authenticated) {
+    $server = get_post("server");
   }
   $config->set_current($server);
 
+
   /* Admin-logon and verify */
   $ldap = $config->get_ldap_link();
-  if (is_null($ldap) || (is_int($ldap) && $ldap == 0)){
+  if (is_null($ldap) || (is_int($ldap) && $ldap == 0)) {
     msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, 0, get_class()));
     displayLogin();
     exit();
   }
+
 
   /* Check for schema file presence */
   if ($config->get_cfg_value("schemaCheck") == "TRUE") {
@@ -281,6 +286,7 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
     }
   }
 
+
   /* Check for locking area */
   $ldap->cat($config->get_cfg_value("config"), array("dn"));
   $attrs= $ldap->fetch();
@@ -289,17 +295,18 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
     $ldap->create_missing_trees($config->get_cfg_value("config"));
   }
 
+
   /* Check for valid input */
-  $ok= true;
-  if (!$htaccess_authenticated){
-    $username= trim(get_post("username"));
-    if (!preg_match("/^[@A-Za-z0-9_.-]+$/", $username)){
-      $message= _("Please specify a valid username!");
-      $ok= false;
-    } elseif (mb_strlen(get_post("password"), 'UTF-8') == 0){
-      $message= _("Please specify your password!");
+  $ok = TRUE;
+  if (!$htaccess_authenticated) {
+    $username = trim(get_post("username"));
+    if (!preg_match("/^[@A-Za-z0-9_.-]+$/", $username)) {
+      $message = _("Please specify a valid username!");
+      $ok = FALSE;
+    } elseif (mb_strlen(get_post("password"), 'UTF-8') == 0) {
+      $message = _("Please specify your password!");
       $smarty->assign ('nextfield', 'password');
-      $ok= false;
+      $ok = FALSE;
     }
   }
 
@@ -313,7 +320,7 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
         exit;
       }
     } else {
-      $ui= ldap_login_user($username, get_post("password"));
+      $ui = ldap_login_user($username, get_post("password"));
     }
     if ($ui === NULL || !$ui){
       $message= _("Please check the username/password combination.");
@@ -404,7 +411,6 @@ if (session::is_set('errors') && session::get('errors') != ""){
 $smarty->assign("focus", $focus);
 displayLogin();
 
-// vim:tabstop=2:expandtab:shiftwidth=2:softtabstop=2:filetype=php:syntax:ruler:
 ?>
 
 </body>

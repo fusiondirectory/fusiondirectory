@@ -84,7 +84,7 @@ class acl extends plugin
 
     /* Save parent - we've to know more about it than other plugins... */
     if (($baseobject !== NULL) && isset($baseobject->parent)) {
-      $this->parent = &($baseobject->parent);
+      $this->parent =& $baseobject->parent;
     }
 
     /* Container? */
@@ -119,11 +119,7 @@ class acl extends plugin
 
     /* Groups */
     $ldap->cd($config->current['BASE']);
-#    if ($tag == ""){
-      $ldap->search('(objectClass=posixGroup)', array('cn', 'description'));
-#    } else {
-#      $ldap->search('(&(objectClass=posixGroup)(gosaUnitTag='.$tag.'))', array('cn', 'description'));
-#    }
+    $ldap->search('(objectClass=posixGroup)', array('cn', 'description'));
     while ($attrs = $ldap->fetch()) {
       $dsc = "";
       if (isset($attrs['description'][0])) {
@@ -136,11 +132,7 @@ class acl extends plugin
 
     /* Roles */
     $ldap->cd($config->current['BASE']);
-#    if ($tag == ""){
-      $ldap->search('(objectClass=gosaRole)', array('cn', 'description','gosaAclTemplate','dn'));
-#    } else {
-#     $ldap->search('(&(objectClass=gosaRole)(gosaUnitTag='.$tag.'))', array('cn', 'description','gosaAclTemplate','dn'));
-#    }
+    $ldap->search('(objectClass=gosaRole)', array('cn', 'description','gosaAclTemplate','dn'));
     while ($attrs= $ldap->fetch()) {
       $dsc= "";
       if (isset($attrs['description'][0])){

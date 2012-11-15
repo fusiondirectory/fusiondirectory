@@ -84,22 +84,6 @@ class grouptabs extends tabs
 
     return tabs::save();
   }
-
-  function saveCopyDialog()
-  {
-    tabs::saveCopyDialog();
-
-    /* Update reference, transfer variables */
-    $baseobject = $this->getBaseObject();
-    foreach ($this->by_object as $name => &$obj) {
-      /* Don't touch base object */
-      if ($name != $this->baseclass) {
-        $obj->parent  = &$this;
-        $obj->cn      = $baseobject->cn;
-      }
-    }
-  }
-
 }
 
 ?>

@@ -883,47 +883,6 @@ class ogroup extends plugin
     $this->handle_post_events("remove");
   }
 
-
-  function PrepareForCopyPaste($source)
-  {
-    plugin::PrepareForCopyPaste($source);
-
-    /* Reload tabs */
-    $this->parent->reload($this->gosaGroupObjects );
-
-    /* Reload plugins */
-    foreach($this->parent->by_object as $name => $class ){
-      if(get_class($this) != $name) {
-        $this->parent->by_object[$name]->PrepareForCopyPaste($source);
-      }
-    }
-
-    $source_o = new ogroup ($this->config, $source['dn']);
-    foreach(array("accessTo","member","gosaGroupObjects")  as $attr){
-      $this->$attr = $source_o->$attr;
-    }
-  }
-
-
-  function getCopyDialog()
-  {
-    $smarty = get_smarty();
-    $smarty->assign("cn",     $this->cn);
-    $str = $smarty->fetch(get_template_path("paste_generic.tpl",TRUE,dirname(__FILE__)));
-    $ret = array();
-    $ret['string'] = $str;
-    $ret['status'] = "";
-    return($ret);
-  }
-
-  function saveCopyDialog()
-  {
-    if(isset($_POST['cn'])){
-      $this->cn = $_POST['cn'];
-    }
-  }
-
-
   function IsReleaseManagementActivated()
   {
     /* Check if we should enable the release selection */
@@ -956,6 +915,4 @@ class ogroup extends plugin
     );
   }
 }
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
