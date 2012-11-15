@@ -253,7 +253,7 @@ class Step_Config3 extends setup_step
 
     $ldap = new ldapMultiplexer($ldap_l);
     $dn = CONFIGRDN.$cv['base'];
-    $ldap->cd($cv['base'];);
+    $ldap->cd($cv['base']);
     $ldap->create_missing_trees($dn);
     if (!$ldap->success()) {
       return msgPool::ldaperror($ldap->get_error(), $dn, 'create_missing_trees', get_class());
