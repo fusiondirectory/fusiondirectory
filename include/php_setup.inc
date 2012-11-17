@@ -131,103 +131,13 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
   }
 
   /* Create error header */
-  $error_collector.= "<table summary=\"\" width=\"100%\" cellspacing=0 style='background-color:#402005;color:white;border:2px solid red'><tr><td colspan=3><h1 style='color:white'>"._("PHP error")." \"$errstr\"</h1></td></tr>";
-
   $error_collector_mailto .= rawurlencode("=== Error === \n");
   $error_collector_mailto .= rawurlencode("PHP error: $errstr ($errfile, line $errline)\n");
   $error_collector_mailto .= rawurlencode("=== /Error === \n\n");
 
-  /* Extract traceback data - if available */
-  if (function_exists('debug_backtrace')){
-    $trace= debug_backtrace();
-
-    $error_collector_mailto .= rawurlencode("=== Trace ===");
-
-    /* Generate trace history */
-    for ($index= 0, $c= count($trace); $index<$c; $index++){
-
-
-      $ct= $trace[$index];
-      $loc= "";
-      if (isset($ct['class'])){
-        $loc.= _("class")." ".$ct['class'];
-        if (isset($ct['function'])){
-          $loc.= " / ";
-        }
-      }
-      if (isset($ct['function'])){
-        $loc.= _("function")." ".$ct['function'];
-      }
-      if (isset($ct['type'])){
-        switch ($ct['type']){
-          case "::":
-            $type= _("static");
-          break;
-
-          case "->":
-            $type= _("method");
-          break;
-        }
-      } else {
-        $type= "-";
-      }
-      $args= "";
-      if (isset($ct['args'])) {
-        $f = function ($arg) use(&$f) {
-          static $i = 0;
-          if ($i>4) {
-            return "…";
-          }
-          if (is_object($arg)) {
-            return "CLASS:&nbsp;".get_class($arg);
-          } elseif (is_array($arg)) { /* Avoid convertig array to string errors */
-            $i++;
-            $ret = "array(".implode(',',array_map($f,$arg)).")";
-            $i--;
-            return $ret;
-          } else {
-            if (strlen("$arg") > 512) {
-              $arg = substr("$arg",0,512)."…";
-            }
-            return '"'.htmlentities("$arg", ENT_COMPAT, 'UTF-8').'"';
-          }
-        };
-        $args = implode(',',array_map($f,$ct['args']));
-      }
-      if (empty($args)) {
-        $args = "-";
-      }
-      if (isset($ct['file'])) {
-        $file = $ct['file'];
-      } else {
-        $file = "";
-      }
-      if (isset($ct['line'])) {
-        $line = $ct['line'];
-      } else {
-        $line = "";
-      }
-      $color= ($index&1)?'#404040':'606060';
-      $error_collector.= "<tr style='background-color:$color'><td style='padding-left:20px' width=\"30%\">"._("Trace")."[$index]: $loc</td>";
-      $error_collector.= "<td>"._("File").": $file ("._('Line')." $line)</td><td width=\"10%\">"._("Type").": $type</td></tr>";
-      $error_collector.= "<tr style='background-color:$color'><td colspan=3 style='padding-left:20px;'>"._("Arguments").": $args</td></tr>";
-
-      /* Add trace part to mailto body */
-      $error_collector_mailto .= rawurlencode(
-                                   "\nTrace[".$index."]:".$loc.
-                                   "\nFile : ".$file.
-                                   "\nLine : ".$line.
-                                   "\nType : ".$type.
-                                   "\n  ".$args.
-                                   "\n");
-
-    }
-
-    $error_collector_mailto .= rawurlencode("=== /Trace === \n");
-  }
-
-  /* Close error table */
-  $error_collector.= "</table>";
+  list($html_trace, $mailto_trace) = html_trace();
+  $error_collector        .= $html_trace;
+  $error_collector_mailto .= $mailto_trace;
 
   /* Flush in case of fatal errors */
   set_error_handler('gosaRaiseError', E_WARNING |  E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT) ;

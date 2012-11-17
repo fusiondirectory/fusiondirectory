@@ -144,14 +144,21 @@ class msg_dialog
    */
   public function execute()
   {
+    global $config;
     if($this->i_Type == FATAL_ERROR_DIALOG) {
       $display =
         "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"
         \"http://www.w3.org/TR/html4/transitional.dtd\">
         <html><head>
         <title>FusionDirectory startup failed</title>
-        </head><body>
-        <table style='width:100%; border:2px solid red;' summary=''>
+        </head><body>";
+      if (isset($config) && is_object($config) &&
+        $config->get_cfg_value("displayerrors") == "TRUE") {
+        list($trace,) = html_trace();
+        $display .= $trace;
+      }
+      $display .=
+        "<table style='width:100%; border:2px solid red;' summary=''>
         <tr><td style='vertical-align:top;padding:10px'>
         <img src='images/error.png' alt='{t}Error{/t}'>
         </td><td style='width:100%'>
@@ -160,12 +167,12 @@ class msg_dialog
         "._("Please fix the above error and reload the page.")."
         </td></tr>
         </table></body></html>";
-      return($display);;
+      return $display;
     }else{
 
       $smarty = get_smarty();
-      $smarty->assign("s_Trace" ,print_a($this->a_Trace,TRUE));
-      $smarty->assign("i_TraceCnt",count($this->a_Trace));
+      $smarty->assign("s_Trace", print_a($this->a_Trace,TRUE));
+      $smarty->assign("i_TraceCnt", count($this->a_Trace));
       $smarty->assign("i_Type",$this->i_Type);
       $smarty->assign("s_Message",$this->s_Message);
       $smarty->assign("s_Title",$this->s_Title);
@@ -173,7 +180,7 @@ class msg_dialog
       $smarty->assign("frame",false);
       $smarty->assign("JS",session::global_get('js'));
       $smarty->assign("IE",preg_match("/MSIE/", $_SERVER['HTTP_USER_AGENT']));
-      return($smarty->fetch(get_template_path('msg_dialog.tpl')));
+      return $smarty->fetch(get_template_path('msg_dialog.tpl'));
     }
   }
 

@@ -111,23 +111,32 @@ $REWRITE= array( "ä" => "ae",
  */
 
 function __fusiondirectory_autoload($class_name) {
-    global $class_mapping, $BASE_DIR;
+  global $class_mapping, $BASE_DIR, $config;
 
-    if ($class_mapping === NULL) {
-      echo sprintf(_("Fatal error: no class locations defined - please run '%s' to fix this"), "<b>fusiondirectory-setup --update-cache</b>");
-      exit;
-    }
-
-    if (isset($class_mapping["$class_name"])) {
-      require_once($BASE_DIR."/".$class_mapping["$class_name"]);
-    } else {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class_name, "Could not load");
-      $trace = debug_backtrace();
-      print_r($trace[1]);
+  if ($class_mapping === NULL) {
+    if (isset($config) && is_object($config) &&
+        $config->get_cfg_value("displayerrors") == "TRUE") {
+      list($trace,) = html_trace();
+      echo $trace;
       echo "<br/>\n";
-      echo sprintf(_("Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"), $class_name, "<b>fusiondirectory-setup --update-cache</b>");
-      exit;
     }
+    echo sprintf(_("Fatal error: no class locations defined - please run '%s' to fix this"), "<b>fusiondirectory-setup --update-cache</b>");
+    exit;
+  }
+
+  if (isset($class_mapping["$class_name"])) {
+    require_once($BASE_DIR."/".$class_mapping["$class_name"]);
+  } else {
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class_name, "Could not load");
+    if (isset($config) && is_object($config) &&
+        $config->get_cfg_value("displayerrors") == "TRUE") {
+      list($trace,) = html_trace();
+      echo $trace;
+      echo "<br/>\n";
+    }
+    echo sprintf(_("Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"), $class_name, "<b>fusiondirectory-setup --update-cache</b>");
+    exit;
+  }
 }
 spl_autoload_register('__fusiondirectory_autoload');
 
@@ -3900,6 +3909,98 @@ function reset_errors()
 function fix_dos_linebreaks($str)
 {
     return preg_replace('/\\r\\n/', "\n", $str);
+}
+
+function html_trace()
+{
+  if (!function_exists('debug_backtrace')) {
+    return array ("", "");
+  }
+  $trace = debug_backtrace();
+
+  $return_html    = "<table summary=\"\" width=\"100%\" cellspacing=0 style='background-color:#402005;color:white;border:2px solid red'><tr><td colspan=3><h1 style='color:white'>"._("PHP error")." \"$errstr\"</h1></td></tr>";
+  $return_mailto  = rawurlencode("=== Trace ===");
+  /* Generate trace history */
+  for ($index = 0, $c = count($trace); $index < $c; $index++) {
+    $ct   = $trace[$index];
+    $loc  = "";
+    if (isset($ct['class'])) {
+      $loc .= _("class")." ".$ct['class'];
+      if (isset($ct['function'])) {
+        $loc .= " / ";
+      }
+    }
+    if (isset($ct['function'])) {
+      $loc .= _("function")." ".$ct['function'];
+    }
+    if (isset($ct['type'])) {
+      switch ($ct['type']) {
+        case "::":
+          $type = _("static");
+        break;
+
+        case "->":
+          $type = _("method");
+        break;
+      }
+    } else {
+      $type = "-";
+    }
+    $args = "";
+    if (isset($ct['args'])) {
+      $f = function ($arg) use(&$f) {
+        static $i = 0;
+        if ($i > 4) {
+          return "…";
+        }
+        if (is_object($arg)) {
+          return "CLASS:&nbsp;".get_class($arg);
+        } elseif (is_array($arg)) { /* Avoid convertig array to string errors */
+          $i++;
+          $ret = "array(".implode(',',array_map($f,$arg)).")";
+          $i--;
+          return $ret;
+        } else {
+          if (strlen("$arg") > 512) {
+            $arg = substr("$arg",0,512)."…";
+          }
+          return '"'.htmlentities("$arg", ENT_COMPAT, 'UTF-8').'"';
+        }
+      };
+      $args = implode(',', array_map($f, $ct['args']));
+    }
+    if (empty($args)) {
+      $args = "-";
+    }
+    if (isset($ct['file'])) {
+      $file = $ct['file'];
+    } else {
+      $file = "";
+    }
+    if (isset($ct['line'])) {
+      $line = $ct['line'];
+    } else {
+      $line = "";
+    }
+    $color= ($index&1)?'#404040':'606060';
+    $return_html .= "<tr style='background-color:$color'><td style='padding-left:20px' width=\"30%\">"._("Trace")."[$index]: $loc</td>";
+    $return_html .= "<td>"._("File").": $file ("._('Line')." $line)</td><td width=\"10%\">"._("Type").": $type</td></tr>";
+    $return_html .= "<tr style='background-color:$color'><td colspan=3 style='padding-left:20px;'>"._("Arguments").": $args</td></tr>";
+
+    /* Add trace part to mailto body */
+    $return_mailto .= rawurlencode(
+                                 "\nTrace[".$index."]:".$loc.
+                                 "\nFile : ".$file.
+                                 "\nLine : ".$line.
+                                 "\nType : ".$type.
+                                 "\n  ".$args.
+                                 "\n");
+  }
+
+  $return_html    .= "</table>";
+  $return_mailto  .= rawurlencode("=== /Trace ===");
+
+  return array($return_html, $return_mailto);
 }
 
 
