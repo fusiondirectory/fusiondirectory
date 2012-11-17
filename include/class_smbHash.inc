@@ -17,8 +17,7 @@ $Id$
 
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
+  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
 /**
@@ -132,249 +131,249 @@ private $sbox = array(array(array(14,  4, 13,  1,  2, 15, 11,  8,  3, 10,  6, 12
              array( 7, 11,  4,  1,  9, 12, 14,  2,  0,  6, 10, 13, 15,  3,  5,  8),
              array( 2,  1, 14,  7,  4, 10,  8, 13, 15, 12,  9,  0,  3,  5,  6, 11)));
 
-	/**
-	* Fixes too large numbers
-	*/
-	private function x($i) {
-		if ($i < 0) return 4294967296 - $i;
-		else return $i;
-	}
+  /**
+  * Fixes too large numbers
+  */
+  private function x($i) {
+    if ($i < 0) return 4294967296 - $i;
+    else return $i;
+  }
 
-	/**
-	* @param integer count
-	* @param array $data
-	* @return array
-	*/
-	private function lshift($count, $data) {
-		$ret = array();
-		for ($i = 0; $i < sizeof($data); $i++) {
-			$ret[$i] = $data[($i + $count)%sizeof($data)];
-		}
-		return $ret;
-	}
+  /**
+  * @param integer count
+  * @param array $data
+  * @return array
+  */
+  private function lshift($count, $data) {
+    $ret = array();
+    for ($i = 0; $i < sizeof($data); $i++) {
+      $ret[$i] = $data[($i + $count)%sizeof($data)];
+    }
+    return $ret;
+  }
 
-	/**
-	* @param array in input data
-	* @param array p permutation
-	* @return array
-	*/
-	private function permute($in, $p, $n) {
-		$ret = array();
-		for ($i = 0; $i < $n; $i++) {
-			$ret[$i] = $in[$p[$i] - 1]?1:0;
-		}
-		return $ret;
-	}
+  /**
+  * @param array in input data
+  * @param array p permutation
+  * @return array
+  */
+  private function permute($in, $p, $n) {
+    $ret = array();
+    for ($i = 0; $i < $n; $i++) {
+      $ret[$i] = $in[$p[$i] - 1]?1:0;
+    }
+    return $ret;
+  }
 
-	/**
-	* @param array $in1
-	* @param array $in2
-	* @return array
-	*/
-	private function mxor($in1, $in2) {
-		$ret = array();
-		for ($i = 0; $i < sizeof($in1); $i++) {
-			$ret[$i] = $in1[$i] ^ $in2[$i];
-		}
-		return $ret;
-	}
+  /**
+  * @param array $in1
+  * @param array $in2
+  * @return array
+  */
+  private function mxor($in1, $in2) {
+    $ret = array();
+    for ($i = 0; $i < sizeof($in1); $i++) {
+      $ret[$i] = $in1[$i] ^ $in2[$i];
+    }
+    return $ret;
+  }
 
-	/**
-	* @param array $in
-	* @param array $key
-	* @param boolean $forw
-	* @return array
-	*/
-	function doHash($in, $key, $forw) {
-		$ki = array();
-	
-		$pk1 = $this->permute($key, $this->perm1, 56);
-		
-		$c = array();
-		$d = array();
-		for ($i = 0; $i < 28; $i++) {
-			$c[$i] = $pk1[$i];
-			$d[$i] = $pk1[28 + $i];
-		}
-		
-		for ($i = 0; $i < 16; $i++) {
-			$c = $this->lshift($this->sc[$i], $c);
-			$d = $this->lshift($this->sc[$i], $d);
-			
-			$cd = $c;
-			for ($k = 0; $k < sizeof($d); $k++) $cd[] = $d[$k];
-			$ki[$i] = $this->permute($cd, $this->perm2, 48);
-		}
-		
-		$pd1 = $this->permute($in, $this->perm3, 64);
-		
-		$l = array();
-		$r = array();
-		for ($i = 0; $i < 32; $i++) {
-			$l[$i] = $pd1[$i];
-			$r[$i] = $pd1[32 + $i];
-		}
-		
-		for ($i = 0; $i < 16; $i++) {
-			$er = $this->permute($r, $this->perm4, 48);
-			if ($forw) $erk = $this->mxor($er, $ki[$i]);
-			else $erk = $this->mxor($er, $ki[15 - $i]);
-			
-			for ($j = 0; $j < 8; $j++) {
-				for ($k = 0; $k < 6; $k++) {
-					$b[$j][$k] = $erk[($j * 6) + $k];
-				}
-			}
-			for ($j = 0; $j < 8; $j++) {
-				$m = array();
-				$n = array();
-				$m = ($b[$j][0] << 1) | $b[$j][5];
-				$n = ($b[$j][1] << 3) | ($b[$j][2] << 2) | ($b[$j][3] << 1) | $b[$j][4];
-				
-				for ($k = 0; $k < 4; $k++) {
-					$b[$j][$k]=($this->sbox[$j][$m][$n] & (1 << (3-$k)))?1:0;
-				}
-			}
-			
-			for ($j = 0; $j < 8; $j++) {
-				for ($k = 0; $k < 4; $k++) {
-					$cb[($j * 4) + $k] = $b[$j][$k];
-				}
-			}
-			$pcb = $this->permute($cb, $this->perm5, 32);
-			$r2 = $this->mxor($l, $pcb);
-			for ($k = 0; $k < 32; $k++) $l[$k] = $r[$k];
-			for ($k = 0; $k < 32; $k++) $r[$k] = $r2[$k];
-		}
-		$rl = $r;
-		for ($i = 0; $i < sizeof($l); $i++) $rl[] = $l[$i];
-		return $this->permute($rl, $this->perm6, 64);
-	}
+  /**
+  * @param array $in
+  * @param array $key
+  * @param boolean $forw
+  * @return array
+  */
+  function doHash($in, $key, $forw) {
+    $ki = array();
 
-	/**
-	 * str_to_key
-	 *
-	 * @param string $str
-	 * @return string key
-	 */
-	private function str_to_key($str) {
-		$key[0] = $this->unsigned_shift_r($str[0], 1);
-		$key[1] = (($str[0]&0x01)<<6) | $this->unsigned_shift_r($str[1], 2);
-		$key[2] = (($str[1]&0x03)<<5) | $this->unsigned_shift_r($str[2], 3);
-		$key[3] = (($str[2]&0x07)<<4) | $this->unsigned_shift_r($str[3], 4);
-		$key[4] = (($str[3]&0x0F)<<3) | $this->unsigned_shift_r($str[4], 5);
-		$key[5] = (($str[4]&0x1F)<<2) | $this->unsigned_shift_r($str[5], 6);
-		$key[6] = (($str[5]&0x3F)<<1) | $this->unsigned_shift_r($str[6], 7);
-		$key[7] = $str[6]&0x7F;
-		for ($i = 0; $i < 8; $i++) {
-			$key[$i] = ($key[$i] << 1);
-		}
-		return $key;
-	}
+    $pk1 = $this->permute($key, $this->perm1, 56);
 
-	/**
-	 * smb_hash
-	 *
-	 * @param unknown_type $in
-	 * @param unknown_type $key
-	 * @param unknown_type $forw
-	 * @return unknown
-	 */
-	private function smb_hash($in, $key, $forw){
-		$key2 = $this->str_to_key($key);
-	
-		for ($i = 0; $i < 64; $i++) {
-			$inb[$i] = ($in[$i/8] & (1<<(7-($i%8)))) ? 1:0;
-			$keyb[$i] = ($key2[$i/8] & (1<<(7-($i%8)))) ? 1:0;
-			$outb[$i] = 0;
-		}
-		$outb = $this->doHash($inb, $keyb, $forw);
-		for ($i = 0; $i < 8; $i++) {
-			$out[$i] = 0;
-		}
-		for ($i = 0; $i < 64; $i++) {
-			if ( $outb[$i] )  {
-				$out[$i/8] |= (1<<(7-($i%8)));
-			}
-		}
-		return $out;
-	}
+    $c = array();
+    $d = array();
+    for ($i = 0; $i < 28; $i++) {
+      $c[$i] = $pk1[$i];
+      $d[$i] = $pk1[28 + $i];
+    }
 
-	/**
-	 * E_P16
-	 *
-	 * @param unknown_type $in
-	 * @return unknown
-	 */
-	private function E_P16($in) {
-		$p14 = array_values(unpack("C*",$in));
-		$sp8 = array(0x4b, 0x47, 0x53, 0x21, 0x40, 0x23, 0x24, 0x25);
-		$p14_1 = array();
-		$p14_2 = array();
-		for ($i = 0; $i < 7; $i++) {
-			$p14_1[$i] = $p14[$i];
-			$p14_2[$i] = $p14[$i + 7];
-		}
-		$p16_1 = $this->smb_hash($sp8, $p14_1, true);
-		$p16_2 = $this->smb_hash($sp8, $p14_2, true);
-		$p16 = $p16_1;
-		for ($i = 0; $i < sizeof($p16_2); $i++) {
-			$p16[] = $p16_2[$i];
-		}
-		return $p16;
-	}
+    for ($i = 0; $i < 16; $i++) {
+      $c = $this->lshift($this->sc[$i], $c);
+      $d = $this->lshift($this->sc[$i], $d);
 
-	/**
-	* Calculates the LM hash of a given password.
-	*
-	* @param string $password password
-	* @return string hash value
-	*/
-	public function lmhash($password = "") {
-		$password = strtoupper($password);
-		$password = substr($password,0,14);
-		$password = str_pad($password, 14, chr(0));
-		$p16 = $this->E_P16($password);
-		for ($i = 0; $i < sizeof($p16); $i++) {
-			$p16[$i] = sprintf("%02X", $p16[$i]);
-		}
-		return join("", $p16);
-	}
+      $cd = $c;
+      for ($k = 0; $k < sizeof($d); $k++) $cd[] = $d[$k];
+      $ki[$i] = $this->permute($cd, $this->perm2, 48);
+    }
 
-	/**
-	* Calculates the NT hash of a given password.
-	*
-	* @param string $password password
-	* @return string hash value
-	*/
-	public function nthash($password = "") {
-		if (function_exists('mhash'))
-			if (defined('MHASH_MD4'))
-				return strtoupper(bin2hex(mhash(MHASH_MD4,iconv('UTF-8','UTF-16LE',$password))));
-			else
-				return strtoupper(hash('md4', iconv("UTF-8","UTF-16LE",$password)));
-		else
-			error(_('Your PHP install does not have the mhash() function. Cannot do hashes.'),'error','index.php');
-	}
+    $pd1 = $this->permute($in, $this->perm3, 64);
 
-	/**
-	* Unsigned shift operation for 32bit values.
-	*
-	* PHP 4 only supports signed shifts by default.
-	*/
-	private function unsigned_shift_r($a, $b) { 
-		$z = 0x80000000; 
-		if ($z & $a) { 
-			$a = ($a >> 1); 
-			$a &= (~$z); 
-			$a |= 0x40000000; 
-			$a = ($a >> ($b - 1)); 
-		} 
-		else { 
-			$a = ($a >> $b); 
-		} 
-		return $a; 
-	} 
+    $l = array();
+    $r = array();
+    for ($i = 0; $i < 32; $i++) {
+      $l[$i] = $pd1[$i];
+      $r[$i] = $pd1[32 + $i];
+    }
+
+    for ($i = 0; $i < 16; $i++) {
+      $er = $this->permute($r, $this->perm4, 48);
+      if ($forw) $erk = $this->mxor($er, $ki[$i]);
+      else $erk = $this->mxor($er, $ki[15 - $i]);
+
+      for ($j = 0; $j < 8; $j++) {
+        for ($k = 0; $k < 6; $k++) {
+          $b[$j][$k] = $erk[($j * 6) + $k];
+        }
+      }
+      for ($j = 0; $j < 8; $j++) {
+        $m = array();
+        $n = array();
+        $m = ($b[$j][0] << 1) | $b[$j][5];
+        $n = ($b[$j][1] << 3) | ($b[$j][2] << 2) | ($b[$j][3] << 1) | $b[$j][4];
+
+        for ($k = 0; $k < 4; $k++) {
+          $b[$j][$k]=($this->sbox[$j][$m][$n] & (1 << (3-$k)))?1:0;
+        }
+      }
+
+      for ($j = 0; $j < 8; $j++) {
+        for ($k = 0; $k < 4; $k++) {
+          $cb[($j * 4) + $k] = $b[$j][$k];
+        }
+      }
+      $pcb = $this->permute($cb, $this->perm5, 32);
+      $r2 = $this->mxor($l, $pcb);
+      for ($k = 0; $k < 32; $k++) $l[$k] = $r[$k];
+      for ($k = 0; $k < 32; $k++) $r[$k] = $r2[$k];
+    }
+    $rl = $r;
+    for ($i = 0; $i < sizeof($l); $i++) $rl[] = $l[$i];
+    return $this->permute($rl, $this->perm6, 64);
+  }
+
+  /**
+   * str_to_key
+   *
+   * @param string $str
+   * @return string key
+   */
+  private function str_to_key($str) {
+    $key[0] = $this->unsigned_shift_r($str[0], 1);
+    $key[1] = (($str[0]&0x01)<<6) | $this->unsigned_shift_r($str[1], 2);
+    $key[2] = (($str[1]&0x03)<<5) | $this->unsigned_shift_r($str[2], 3);
+    $key[3] = (($str[2]&0x07)<<4) | $this->unsigned_shift_r($str[3], 4);
+    $key[4] = (($str[3]&0x0F)<<3) | $this->unsigned_shift_r($str[4], 5);
+    $key[5] = (($str[4]&0x1F)<<2) | $this->unsigned_shift_r($str[5], 6);
+    $key[6] = (($str[5]&0x3F)<<1) | $this->unsigned_shift_r($str[6], 7);
+    $key[7] = $str[6]&0x7F;
+    for ($i = 0; $i < 8; $i++) {
+      $key[$i] = ($key[$i] << 1);
+    }
+    return $key;
+  }
+
+  /**
+   * smb_hash
+   *
+   * @param unknown_type $in
+   * @param unknown_type $key
+   * @param unknown_type $forw
+   * @return unknown
+   */
+  private function smb_hash($in, $key, $forw){
+    $key2 = $this->str_to_key($key);
+
+    for ($i = 0; $i < 64; $i++) {
+      $inb[$i] = ($in[$i/8] & (1<<(7-($i%8)))) ? 1:0;
+      $keyb[$i] = ($key2[$i/8] & (1<<(7-($i%8)))) ? 1:0;
+      $outb[$i] = 0;
+    }
+    $outb = $this->doHash($inb, $keyb, $forw);
+    for ($i = 0; $i < 8; $i++) {
+      $out[$i] = 0;
+    }
+    for ($i = 0; $i < 64; $i++) {
+      if ( $outb[$i] )  {
+        $out[$i/8] |= (1<<(7-($i%8)));
+      }
+    }
+    return $out;
+  }
+
+  /**
+   * E_P16
+   *
+   * @param unknown_type $in
+   * @return unknown
+   */
+  private function E_P16($in) {
+    $p14 = array_values(unpack("C*",$in));
+    $sp8 = array(0x4b, 0x47, 0x53, 0x21, 0x40, 0x23, 0x24, 0x25);
+    $p14_1 = array();
+    $p14_2 = array();
+    for ($i = 0; $i < 7; $i++) {
+      $p14_1[$i] = $p14[$i];
+      $p14_2[$i] = $p14[$i + 7];
+    }
+    $p16_1 = $this->smb_hash($sp8, $p14_1, true);
+    $p16_2 = $this->smb_hash($sp8, $p14_2, true);
+    $p16 = $p16_1;
+    for ($i = 0; $i < sizeof($p16_2); $i++) {
+      $p16[] = $p16_2[$i];
+    }
+    return $p16;
+  }
+
+  /**
+  * Calculates the LM hash of a given password.
+  *
+  * @param string $password password
+  * @return string hash value
+  */
+  public function lmhash($password = "") {
+    $password = strtoupper($password);
+    $password = substr($password,0,14);
+    $password = str_pad($password, 14, chr(0));
+    $p16 = $this->E_P16($password);
+    for ($i = 0; $i < sizeof($p16); $i++) {
+      $p16[$i] = sprintf("%02X", $p16[$i]);
+    }
+    return join("", $p16);
+  }
+
+  /**
+  * Calculates the NT hash of a given password.
+  *
+  * @param string $password password
+  * @return string hash value
+  */
+  public function nthash($password = "") {
+    if (function_exists('mhash'))
+      if (defined('MHASH_MD4'))
+        return strtoupper(bin2hex(mhash(MHASH_MD4,iconv('UTF-8','UTF-16LE',$password))));
+      else
+        return strtoupper(hash('md4', iconv("UTF-8","UTF-16LE",$password)));
+    else
+      error(_('Your PHP install does not have the mhash() function. Cannot do hashes.'),'error','index.php');
+  }
+
+  /**
+  * Unsigned shift operation for 32bit values.
+  *
+  * PHP 4 only supports signed shifts by default.
+  */
+  private function unsigned_shift_r($a, $b) {
+    $z = 0x80000000;
+    if ($z & $a) {
+      $a = ($a >> 1);
+      $a &= (~$z);
+      $a |= 0x40000000;
+      $a = ($a >> ($b - 1));
+    }
+    else {
+      $a = ($a >> $b);
+    }
+    return $a;
+  }
 
 }
 
