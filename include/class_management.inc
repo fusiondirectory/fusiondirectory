@@ -76,6 +76,9 @@ class management
   // Whether to display a footer or not.
   protected $skipFooter = FALSE;
 
+  protected $skipCpHandler    = FALSE;
+  protected $skipSnapHandler  = FALSE;
+
   // Copy&Paste handler
   protected $cpHandler = NULL;
 
@@ -103,11 +106,11 @@ class management
     $this->config   = $config;
 
     // Add copy&paste and snapshot handler.
-    if ($this->config->get_cfg_value("copyPaste") == "TRUE") {
+    if (!$this->skipCpHandler && ($this->config->get_cfg_value("copyPaste") == "TRUE")) {
       $this->cpHandler = new CopyPasteHandler($this->config);
       $this->headpage->setCopyPasteHandler($this->cpHandler);
     }
-    if ($this->config->get_cfg_value("enableSnapshots") == "TRUE") {
+    if (!$this->skipSnapHandler && ($this->config->get_cfg_value("enableSnapshots") == "TRUE")) {
       $this->snapHandler = new SnapshotHandler($this->config);
       $this->headpage->setSnapshotHandler($this->snapHandler);
     }
