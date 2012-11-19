@@ -1,6 +1,6 @@
-dn: cn=fusiondirectory-conf.schema,cn=schema,cn=config
+dn: cn=fusiondirectory-conf,cn=schema,cn=config
 objectClass: olcSchemaConfig
-cn: cn=fusiondirectory-conf.schema
+cn: cn=fusiondirectory-conf
 ##
 ## fusiondirectory-conf.schema - Needed by FusionDirectory for its configuration
 ##
