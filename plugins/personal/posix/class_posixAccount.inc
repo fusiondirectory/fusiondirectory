@@ -104,12 +104,12 @@ class posixAccount extends plugin
 
   /* constructor, if 'dn' is set, the node loads the given
      'dn' from LDAP */
-  function posixAccount (&$config, $dn = NULL, $object = NULL)
+  function __construct (&$config, $dn = NULL, $object = NULL)
   {
     global $class_mapping;
 
     /* Configuration is fine, allways */
-    $this->config= $config;
+    $this->config = $config;
 
     /* Load bases attributes */
     plugin::plugin($config, $dn, $object);
@@ -281,6 +281,16 @@ class posixAccount extends plugin
       session::set("sysfilter", $sysfilter);
     }
     $this->ui = get_userinfo();
+  }
+
+  function resetCopyInfos()
+  {
+    parent::resetCopyInfos();
+    $this->savedGroupMembership = array();
+    $this->savedUidNumber       = "";
+    $this->savedGidNumber       = "";
+    $this->uidNumber       = "";
+    $this->gidNumber       = "";
   }
 
 
