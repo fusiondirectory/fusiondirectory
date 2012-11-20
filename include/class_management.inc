@@ -919,16 +919,16 @@ class management
     $tabClass     = $this->tabClass;
     $aclCategory  = $this->aclCategory;
     $aclPlugin    = $this->aclPlugin;
-    if (!empty($altTabClass)) {
+    if (!empty($altTabClass) && !is_array($altTabClass)) {
       $tabClass = $altTabClass;
     }
-    if (!empty($altTabType)) {
+    if (!empty($altTabType) && !is_array($altTabType)) {
       $tabType = $altTabType;
     }
-    if (!empty($altAclCategory)) {
+    if (!empty($altAclCategory) && !is_array($altAclCategory)) {
       $aclCategory = $altAclCategory;
     }
-    if (!empty($altAclPlugin)) {
+    if (!empty($altAclPlugin) && !is_array($altAclPlugin)) {
       $aclPlugin = $altAclPlugin;
     }
 
@@ -939,19 +939,32 @@ class management
     if ($action == "copy" || $action == "cut") {
       $this->cpHandler->cleanup_queue();
       foreach ($target as $dn) {
+        if (is_array($altTabClass)) {
+          $tabClass = $altTabClass[$dn];
+        }
+        if (is_array($altTabType)) {
+          $tabType = $altTabType[$dn];
+        }
+        if (is_array($altAclCategory)) {
+          $aclCategory = $altAclCategory[$dn];
+        }
+        if (is_array($altAclPlugin)) {
+          $aclPlugin = $altAclPlugin[$dn];
+        }
+
         if($action == "copy" && $this->ui->is_copyable($dn, $aclCategory, $aclPlugin)) {
           $this->cpHandler->add_to_queue($dn, "copy", $tabClass, $tabType, $aclCategory);
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$dn,"Entry copied!");
+          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Entry copied!");
         }
         if($action == "cut" && $this->ui->is_cutable($dn, $aclCategory, $aclPlugin)) {
           $this->cpHandler->add_to_queue($dn, "cut", $tabClass, $tabType, $aclCategory);
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$dn,"Entry cutted!");
+          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Entry cutted!");
         }
       }
     }
 
     // Initiate pasting
-    if($action == "paste") {
+    if ($action == "paste") {
       $this->cpPastingStarted = TRUE;
     }
 
