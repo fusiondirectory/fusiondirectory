@@ -258,10 +258,12 @@ class Step_Config3 extends setup_step
     if (!$ldap->success()) {
       return msgPool::ldaperror($ldap->get_error(), $dn, 'create_missing_trees', get_class());
     }
-    $ldap->cd($dn);
-    $ldap->rmdir($dn);
-    if (!$ldap->success()) {
-      return msgPool::ldaperror($ldap->get_error(), $dn, 'rmdir', get_class());
+    $ldap->cat($dn);
+    if ($ldap->count()) {
+      $ldap->rmdir($dn);
+      if (!$ldap->success()) {
+        return msgPool::ldaperror($ldap->get_error(), $dn, 'rmdir', get_class());
+      }
     }
     $ldap->cd($dn);
     $ldap->add($attrs);
