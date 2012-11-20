@@ -151,18 +151,11 @@ class CopyPasteHandler {
     $tab_o  = $entry['tab_object'];
     $tab_a  = $entry['tab_acl_category'];
 
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cat($entry['dn']);
-    $entry['source_data'] = $ldap->fetch();
+    $entry['object'] = new $tab_c($this->config, $this->config->data['TABS'][$tab_o], $entry['dn'], $tab_a);
+    $entry['object']->set_acl_base($base);
+
     if ($entry['method'] == "copy") {
-      $attrs_wrapper = new stdClass();
-      $attrs_wrapper->attrs = $entry['source_data'];
-      $entry['object'] = new $tab_c($this->config, $this->config->data['TABS'][$tab_o], "new", $tab_a, $attrs_wrapper);
-      $entry['object']->set_acl_base($base);
-      $entry['object']->postCopyHook();
-    } else {
-      $entry['object'] = new $tab_c($this->config, $this->config->data['TABS'][$tab_o], $entry['dn'], $tab_a);
-      $entry['object']->set_acl_base($base);
+      $entry['object']->resetCopyInfos();
     }
 
     return $entry;

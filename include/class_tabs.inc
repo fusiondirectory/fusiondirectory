@@ -63,9 +63,9 @@ class tabs
    *
    * \param string $acl_category
    *
-   * \param Object $copied_object An object to copy values from
+   * \param Object $attrs_object An object to copy values from
    */
-  function tabs(&$config, $data, $dn, $acl_category = "", $copied_object = NULL)
+  function tabs(&$config, $data, $dn, $acl_category = "", $attrs_object = NULL)
   {
     /* Save dn */
     $this->dn         = $dn;
@@ -88,7 +88,7 @@ class tabs
       $this->by_name[$tab['CLASS']] = $tab['NAME'];
 
       if ($baseobject === NULL) {
-        $baseobject = new $tab['CLASS']($this->config, $this->dn, $copied_object);
+        $baseobject = new $tab['CLASS']($this->config, $this->dn, $attrs_object);
         $baseobject->enable_CSN_check();
         $this->by_object[$tab['CLASS']] = $baseobject;
         $this->baseclass                = $tab['CLASS'];
@@ -128,6 +128,17 @@ class tabs
       }
       $this->by_object[$name]->parent = &$this;
       $this->by_object[$name]->set_acl_category($this->acl_category);
+    }
+  }
+
+  function resetCopyInfos()
+  {
+    $this->dn = 'new';
+    foreach ($this->by_object as &$obj) {
+      $obj->resetCopyInfos();
+      if ($obj->is_account || $obj->ignore_account) {
+        $obj->postCopyHook();
+      }
     }
   }
 
@@ -382,18 +393,6 @@ class tabs
           $key, "Adapting");
       $obj->parent= &$this;
       $obj->adapt_from_template($dn, $skip);
-    }
-  }
-
-  /*!
-   * \brief Save attributes posted by copy & paste dialog
-   */
-  function postCopyHook()
-  {
-    foreach ($this->by_object as &$obj) {
-      if ($obj->is_account || $obj->ignore_account) {
-        $obj->postCopyHook();
-      }
     }
   }
 

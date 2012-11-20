@@ -276,6 +276,18 @@ class plugin
     $this->initially_was_account = $this->is_account;
   }
 
+  /*!
+   * \brief This function is called on the copied object to set its dn to where it will be saved
+   */
+  function resetCopyInfos()
+  {
+    $this->dn = "new";
+    $this->saved_attributes = array();
+
+    $this->orig_dn = $this->dn;
+    $this->initially_was_account = FALSE;
+  }
+
 
   /*!
    * \brief Generates the html output for this node
