@@ -135,7 +135,7 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
   $error_collector_mailto .= rawurlencode("PHP error: $errstr ($errfile, line $errline)\n");
   $error_collector_mailto .= rawurlencode("=== /Error === \n\n");
 
-  list($html_trace, $mailto_trace) = html_trace();
+  list($html_trace, $mailto_trace) = html_trace($errstr);
   $error_collector        .= $html_trace;
   $error_collector_mailto .= $mailto_trace;
 

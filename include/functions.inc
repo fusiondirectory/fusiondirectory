@@ -3911,7 +3911,7 @@ function fix_dos_linebreaks($str)
     return preg_replace('/\\r\\n/', "\n", $str);
 }
 
-function html_trace()
+function html_trace($errstr = "")
 {
   if (!function_exists('debug_backtrace')) {
     return array ("", "");
