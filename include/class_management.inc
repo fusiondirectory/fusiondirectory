@@ -392,7 +392,7 @@ class management
 
         // Delete the object
         $this->dn = $dn;
-        $this->tabObject= new $tabClass($this->config,$this->config->data['TABS'][$tabType], $this->dn, $aclCategory, true, true);
+        $this->tabObject= new $tabClass($this->config,$this->config->data['TABS'][$tabType], $this->dn, $aclCategory);
         $this->tabObject->set_acl_base($this->dn);
         $this->tabObject->parent = &$this;
         $this->tabObject->delete ();
