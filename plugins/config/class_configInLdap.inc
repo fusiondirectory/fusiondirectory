@@ -109,67 +109,6 @@ class configInLdap extends simplePlugin
           ),
         )
       ),
-      'people_and_group' => array(
-        'name'  => _('People and group storage'),
-        'attrs' => array(
-          new SelectAttribute (
-            _('People DN attribute'), _('Attribute to use at the beginning of users dn'),
-            'fdAccountPrimaryAttribute', TRUE,
-            array('uid', 'cn')
-          ),
-          new BooleanAttribute (
-            _('Include personal title in user DN'),
-            _('Include personal title in user DN'),
-            'fdPersonalTitleInDN'
-          ),
-          new StringAttribute (
-            _('Customized CN'), _('Use a placeholder pattern for generating account cns'),
-            'fdAccountRDN', FALSE
-          ),
-          new StringAttribute (
-            _('Next id hook'), _('A script to be called for finding the next free id for users or groups externaly.'),
-            'fdNextIdHook', FALSE
-          ),
-          new StringAttribute (
-            _('Automatic UIDs'), _('Automatic way to generate new user ids'),
-            'fdIdGenerator', FALSE
-          ),
-          new BooleanAttribute (
-            _('Strict naming policy'),
-            _('Enables strict checking of uids and group names'),
-            'fdStrictNamingRules', FALSE,
-            TRUE
-          ),
-          new IntAttribute (
-            _('GID/UID min id'),
-            _('The minimum assignable user or group id to avoid security leaks with uid 0 accounts.'),
-            'fdMinId', FALSE,
-            0, FALSE
-          ),
-          new IntAttribute (
-            _('Number base for people'),
-            _('Where to start looking for a new free user id.'),
-            'fdUidNumberBase', FALSE,
-            0, FALSE, 1100
-          ),
-          new IntAttribute (
-            _('Number base for groups'),
-            _('Where to start looking for a new free group id.'),
-            'fdGidNumberBase', FALSE,
-            0, FALSE, 1100
-          ),
-          new StringAttribute (
-            _('Users RDN'), _('The branch where user are stored.'),
-            'fdUserRDN', TRUE,
-            'ou=people'
-          ),
-          new StringAttribute (
-            _('Groups RDN'), _('The branch where groups are stored.'),
-            'fdGroupRDN', TRUE,
-            'ou=groups'
-          ),
-        )
-      ),
       'password' => array(
         'name'  => _('Password settings'),
         'attrs' => array(
@@ -280,6 +219,94 @@ class configInLdap extends simplePlugin
           ),
         )
       ),
+      'snapshots' => array(
+        'name'  => _('Snapshots / Undo'),
+        'attrs' => array(
+          new BooleanAttribute (
+            _('Enable snapshots'), _('This enables you to save certain states of entries and restore them later on.'),
+            'fdEnableSnapshots'
+          ),
+          new StringAttribute (
+            _('Snapshot base'), _('The base where snapshots should be stored inside of the LDAP.'),
+            'fdSnapshotBase'
+          ),
+          new StringAttribute (
+            _('Snapshot server'), _('LDAP URI for the server which is used to do object snapshots.'),
+            'fdSnapshotURI'
+          ),
+          new StringAttribute (
+            _('Snapshot user'), _('The user which is used to authenticate when connecting to snapshot server.'),
+            'fdSnapshotAdminDn'
+          ),
+          new PasswordAttribute (
+            _('Snapshot password'), _('The credentials which are used in combination with snapshot user in order to authenticate.'),
+            'fdSnapshotAdminPassword'
+          ),
+        )
+      ),
+      'people_and_group' => array(
+        'name'  => _('People and group storage'),
+        'class' => array('critical'),
+        'icon'  => 'images/small_warning.png',
+        'attrs' => array(
+          new SelectAttribute (
+            _('People DN attribute'), _('Attribute to use at the beginning of users dn'),
+            'fdAccountPrimaryAttribute', TRUE,
+            array('uid', 'cn')
+          ),
+          new BooleanAttribute (
+            _('Include personal title in user DN'),
+            _('Include personal title in user DN'),
+            'fdPersonalTitleInDN'
+          ),
+          new StringAttribute (
+            _('Customized CN'), _('Use a placeholder pattern for generating account cns'),
+            'fdAccountRDN', FALSE
+          ),
+          new StringAttribute (
+            _('Next id hook'), _('A script to be called for finding the next free id for users or groups externaly.'),
+            'fdNextIdHook', FALSE
+          ),
+          new StringAttribute (
+            _('Automatic UIDs'), _('Automatic way to generate new user ids'),
+            'fdIdGenerator', FALSE
+          ),
+          new BooleanAttribute (
+            _('Strict naming policy'),
+            _('Enables strict checking of uids and group names'),
+            'fdStrictNamingRules', FALSE,
+            TRUE
+          ),
+          new IntAttribute (
+            _('GID/UID min id'),
+            _('The minimum assignable user or group id to avoid security leaks with uid 0 accounts.'),
+            'fdMinId', FALSE,
+            0, FALSE
+          ),
+          new IntAttribute (
+            _('Number base for people'),
+            _('Where to start looking for a new free user id.'),
+            'fdUidNumberBase', FALSE,
+            0, FALSE, 1100
+          ),
+          new IntAttribute (
+            _('Number base for groups'),
+            _('Where to start looking for a new free group id.'),
+            'fdGidNumberBase', FALSE,
+            0, FALSE, 1100
+          ),
+          new StringAttribute (
+            _('Users RDN'), _('The branch where user are stored.'),
+            'fdUserRDN', TRUE,
+            'ou=people'
+          ),
+          new StringAttribute (
+            _('Groups RDN'), _('The branch where groups are stored.'),
+            'fdGroupRDN', TRUE,
+            'ou=groups'
+          ),
+        )
+      ),
       'debug' => array(
         'name'  => _('Debugging'),
         'attrs' => array(
@@ -309,31 +336,6 @@ class configInLdap extends simplePlugin
               array('Trace',      'LDAP',     'Database', 'Shell',      'POST',
                     'SESSION',      'ACL',      'SI',     'Mail')
             )
-          ),
-        )
-      ),
-      'snapshots' => array(
-        'name'  => _('Snapshots / Undo'),
-        'attrs' => array(
-          new BooleanAttribute (
-            _('Enable snapshots'), _('This enables you to save certain states of entries and restore them later on.'),
-            'fdEnableSnapshots'
-          ),
-          new StringAttribute (
-            _('Snapshot base'), _('The base where snapshots should be stored inside of the LDAP.'),
-            'fdSnapshotBase'
-          ),
-          new StringAttribute (
-            _('Snapshot server'), _('LDAP URI for the server which is used to do object snapshots.'),
-            'fdSnapshotURI'
-          ),
-          new StringAttribute (
-            _('Snapshot user'), _('The user which is used to authenticate when connecting to snapshot server.'),
-            'fdSnapshotAdminDn'
-          ),
-          new PasswordAttribute (
-            _('Snapshot password'), _('The credentials which are used in combination with snapshot user in order to authenticate.'),
-            'fdSnapshotAdminPassword'
           ),
         )
       ),
