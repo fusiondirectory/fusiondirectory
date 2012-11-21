@@ -122,7 +122,7 @@ olcObjectClasses: ( 1.3.6.1.4.1.10098.1.2.1.25NAME 'goKrbServer' SUP top AUXILIA
 # Fax Server description
 olcObjectClasses: ( 1.3.6.1.4.1.10098.1.2.1.26NAME 'goFaxServer' SUP top AUXILIARY DESC 'Fax server description (v2.6.1)' MUST ( cn $ goFaxAdmin $ goFaxPassword ) MAY  ( description $ goFaxServerStatus ))
 # Common server class
-olcObjectClasses: ( 1.3.6.1.4.1.10098.1.2.1.27NAME 'goServer' SUP top AUXILIARY DESC 'Server description (v2.6.1)' MUST ( cn ) MAY  ( description $ macAddress $ ipHostNumber ))
+olcObjectClasses: ( 1.3.6.1.4.1.10098.1.2.1.27NAME 'goServer' SUP top AUXILIARY DESC 'Server description (v2.6.1)' MUST ( cn ) MAY  ( description $ macAddress $ ipHostNumber $ goComment))
 # LogDB Server description
 olcObjectClasses: ( 1.3.6.1.4.1.10098.1.2.1.28NAME 'goLogDBServer' SUP top AUXILIARY DESC 'Log DB server description (v2.6.1)' MUST ( cn $ gosaLogDB $ goLogAdmin $ goLogPassword ) MAY  ( goLogDBServerStatus ))
 # Fon Server description
