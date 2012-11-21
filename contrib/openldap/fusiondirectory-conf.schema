@@ -305,6 +305,16 @@ attributetype ( 1.3.6.1.4.1.38414.8.18.1 NAME 'fdHonourIvbbAttributes'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
   SINGLE-VALUE )
 
+# Plugins
+
+attributetype ( 1.3.6.1.4.1.38414.8.19.1 NAME 'fdOGroupRDN'
+  DESC 'FusionDirectory - OGroup RDN'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
+
 # Object Class
 objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
   DESC 'FusionDirectory configuration'
@@ -334,3 +344,9 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
 
     fdHonourIvbbAttributes
    ) )
+
+objectclass ( 1.3.6.1.4.1.38414.8.2.2 NAME 'fusionDirectoryPluginsConf'
+  DESC 'FusionDirectory plugins configuration'
+  SUP top STRUCTURAL
+  MUST ( cn )
+  MAY ( fdOGroupRDN ) )
