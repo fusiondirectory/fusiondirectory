@@ -641,7 +641,6 @@ class management
     $this->dn = "new";
     $this->is_new = TRUE;
     $this->is_single_edit = FALSE;
-    $this->is_multiple_edit = FALSE;
 
     set_object_info($this->dn);
 
@@ -713,10 +712,9 @@ class management
     $this->displayApplyBtn = count($target) == 1;
 
     // Single edit - we only got one object dn.
-    if(count($target) == 1){
+    if (count($target) == 1) {
       $this->is_new = FALSE;
       $this->is_single_edit = TRUE;
-      $this->is_multiple_edit = FALSE;
 
       // Get the dn of the object and creates lock
       $this->dn = array_pop($target);
@@ -736,35 +734,6 @@ class management
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$this->dn,"Edit entry initiated!");
         $this->tabObject->set_acl_base($this->dn);
         $this->tabObject->parent = &$this;
-      }
-    }else{
-
-      // We've multiple entries to edit.
-      $this->is_new = FALSE;
-      $this->is_singel_edit = FALSE;
-      $this->is_multiple_edit = TRUE;
-
-      // Open multiple edit handler.
-      if(empty($tabClass) || empty($tabType)){
-        trigger_error("We can't edit any object(s). 'tabClass' or 'tabType' is empty!");
-      }else{
-        $this->dns = $target;
-        $tmp = new multi_plug($this->config,$tabClass,$this->config->data['TABS'][$tabType],
-            $this->dns,$this->headpage->getBase(),$aclCategory);
-
-        // Check for locked entries
-        if ($tmp->entries_locked()){
-          return($tmp->display_lock_message());
-        }
-
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$this->dns,"Edit entry initiated!");
-
-        // Now lock entries.
-        if($tmp->multiple_available()){
-          $tmp->lock_entries($this->ui->dn);
-          $this->tabObject = $tmp;
-          set_object_info($this->tabObject->get_object_info());
-        }
       }
     }
   }

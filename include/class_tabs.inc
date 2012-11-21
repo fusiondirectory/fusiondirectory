@@ -44,8 +44,6 @@ class tabs
   var $SubDialog  = FALSE;
   var $acl_category;
 
-  var $multiple_support_active = FALSE;
-
   var $parent = NULL; // A parent object if available, e.g. a management class.
 
   var $read_only = FALSE; // Used when the entry is opened as "readonly" due to locks.
@@ -156,13 +154,7 @@ class tabs
     $display = "<table summary=\"\" cellpadding=4 cellspacing=0 border=0 style=\"width:100%; background-color:#F8F8F8; border-style:solid; border-color:#AAA; border-top-width:0px; border-bottom-width:1px; border-left-width:1px; border-right-width:1px;\">\n";
     $display .= "<tr><td>\n";
 
-    /* If multiple edit is enabled for this tab,
-       we have to display different templates */
-    if (!$this->multiple_support_active) {
-      $display .= $this->by_object[$this->current]->execute();
-    } else {
-      $display .= $this->by_object[$this->current]->multiple_execute();
-    }
+    $display .= $this->by_object[$this->current]->execute();
     $modal_dialog = $this->by_object[$this->current]->is_modal_dialog();
 
     /* Build tab line */
@@ -201,11 +193,7 @@ class tabs
     if ($this->last != "") {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->last, "Saving");
 
-      if (!$this->multiple_support_active) {
-        $this->by_object[$this->last]->save_object();
-      } else {
-        $this->by_object[$this->last]->multiple_save_object();
-      }
+      $this->by_object[$this->last]->save_object();
     }
   }
 
@@ -327,11 +315,7 @@ class tabs
       if ($obj->is_account || $ignore_account || $obj->ignore_account) {
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$key, "Checking");
 
-        if (!$this->multiple_support_active) {
-          $msg = $obj->check();
-        } else {
-          $msg = $obj->multiple_check();
-        }
+        $msg = $obj->check();
 
         if (count($msg)) {
           $obj->pl_notify = TRUE;
@@ -431,48 +415,5 @@ class tabs
       }
     }
   }
-
-
-  /*!
-   * \brief Checks if one of the used tab plugins supports multiple edit.
-   *
-   * \return boolean TRUE if at least one plugins supports multiple edit.
-   */
-  function multiple_support_available()
-  {
-    foreach($this->by_object as $name => $obj){
-      if($obj->multiple_support){
-        return(TRUE);
-      }
-    }
-    return(FALSE);
-  }
-
-
-  /*!
-   * \brief Enables multiple edit support for the given tab.
-   *
-   * All unsupported plugins will be disabled.
-   *
-   * \return boolean TRUE if at least one plugin supports multiple edit
-   */
-  function enable_multiple_support()
-  {
-    if(!$this->multiple_support_available()){
-      return(FALSE);
-    }else{
-      $this->multiple_support_active = TRUE;
-      foreach($this->by_object as $name => $obj){
-        if($obj->multiple_support){
-          $this->by_object[$name]->enable_multiple_support();
-        }else{
-          unset($this->by_object[$name]);
-          unset($this->by_name[$name]);
-        }
-      }
-    }
-    return(TRUE);
-  }
 }
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

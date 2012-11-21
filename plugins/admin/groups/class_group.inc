@@ -73,8 +73,6 @@ class group extends plugin
 
   var $CopyPasteVars  = array("force_gid","fon_group","smbgroup","groupType","sambaSID","sambaDomainName","SID","nagios_group","sambaGroupType");
 
-  var $multiple_support = TRUE;
-
   function group (&$config, $dn= NULL)
   {
      /* Set rfc2307bis flag */
@@ -496,9 +494,6 @@ class group extends plugin
     $smarty->assign("tree_image", get_template_path('images/lists/search-subtree.png'));
     $smarty->assign("deplist", $this->config->idepartments);
 
-    /* Multiple edit handling */
-    $smarty->assign("multiple_support",$this->multiple_support_active);
-
     $smarty->assign("memberUid_All",$this->memberUid);
     $smarty->assign("memberUid_Some",$this->memberUid_used_by_some);
 
@@ -522,17 +517,6 @@ class group extends plugin
 
   function addUser($uid)
   {
-    /* In mutliple edit we have to handle two arrays.
-     *  memberUid               : Containing users used in all groups
-     *  memberUid_used_by_some  : Those which are not used in all groups
-     * So we have to remove the given $uid from the ..used_by_some array first.
-     */
-    if($this->multiple_support_active){
-      if(isset($this->memberUid_used_by_some[$uid])){
-        unset($this->memberUid_used_by_some[$uid]);
-      }
-    }
-
     /* Ensure that the requested object is known to the group class
      */
     if(!isset($this->dnMapping[$uid])){
@@ -569,17 +553,6 @@ class group extends plugin
     $temp= array();
     if(isset($this->memberUid[$uid])){
       unset($this->memberUid[$uid]);
-    }
-
-    /* We have two array contianing group members in multiple edit.
-     *  this->memberUid             : Groups used by all currently edited groups
-     *  this->memberUid_used_by_some: Used by some
-     * So we have to remove the specified uid from both arrays.
-     */
-    if($this->multiple_support_active){
-      if(isset($this->memberUid_used_by_some[$uid])){
-        unset($this->memberUid_used_by_some[$uid]);
-      }
     }
   }
 
@@ -1160,152 +1133,6 @@ class group extends plugin
     );
   }
 
-
-  function multiple_save_object()
-  {
-    if(isset($_POST['group_mulitple_edit'])){
-
-      /* Create a base backup and reset the
-         base directly after calling plugin::save_object();
-         Base will be set seperatly a few lines below */
-      $base_tmp = $this->base;
-      plugin::multiple_save_object();
-      plugin::save_object();
-      $this->base = $base_tmp;
-
-      foreach(array("base","smbgroup","groupType","sambaDomainName","fon_group","nagios_group","trustmode") as $attr){
-        if(isset($_POST['use_'.$attr])){
-          $this->multi_boxes[] = $attr;
-        }
-      }
-
-      /* Refresh base */
-      if ($this->acl_is_moveable($this->base)){
-        if (!$this->baseSelector->update()) {
-          msg_dialog::display(_("Error"), msgPool::permMove(), ERROR_DIALOG);
-        }
-        if ($this->base != $this->baseSelector->getBase()) {
-          $this->base= $this->baseSelector->getBase();
-          $this->is_modified= TRUE;
-        }
-      }
-
-      foreach (array( "smbgroup"   => "sambaGroupType" ,"nagios_group" => "nagios_group") as $val => $aclname) {
-        if ($this->acl_is_writeable($aclname)){
-          if(isset($_POST["$val"])){
-            $this->$val=  TRUE;
-          }else{
-            $this->$val=  FALSE;
-          }
-        }
-      }
-
-      /* Save sambaDomain attribute */
-      if ($this->acl_is_writeable("sambaDomainName") && isset ($_POST['sambaDomainName'])){
-        $this->sambaDomainName= $_POST['sambaDomainName'];
-        $this->groupType= $_POST['groupType'];
-      }
-
-      /* Trust mode - special handling */
-      if($this->acl_is_writeable("trustModel")){
-        if (isset($_POST['trustmode'])){
-          $saved= $this->trustModel;
-          if ($_POST['trustmode'] == "1"){
-            $this->trustModel= "fullaccess";
-          } elseif ($_POST['trustmode'] == "2"){
-            $this->trustModel= "byhost";
-          } else {
-            $this->trustModel= "";
-          }
-          if ($this->trustModel != $saved){
-            $this->is_modified= TRUE;
-          }
-        }
-      }
-
-      /* Save fon attribute */
-      if ($this->acl_is_writeable("fonGroup")){
-        if (isset ($_POST['fon_group'])){
-          $this->fon_group= TRUE;
-        } else {
-          $this->fon_group= FALSE;
-        }
-      }
-    }
-  }
-
-
-  function get_multi_edit_values()
-  {
-    $ret = plugin::get_multi_edit_values();
-
-    foreach(array("base","smbgroup","groupType","sambaDomainName","fon_group","nagios_group") as $attr){
-      if(in_array($attr,$this->multi_boxes)){
-        $ret[$attr] = $this->$attr;
-      }
-    }
-
-    if(in_array("trustmode",$this->multi_boxes)){
-      $ret['trustModel'] = $this->trustModel;
-      $ret['accessTo'] = $this->accessTo;
-    }
-
-    $ret['memberUid'] = $this->memberUid;
-    $ret['memberUid_used_by_some'] = $this->memberUid_used_by_some;
-    return($ret);
-  }
-
-  function multiple_execute()
-  {
-    return($this->execute());
-  }
-
-
-  /* Initialize plugin with given atribute arrays
-   */
-  function init_multiple_support($attrs,$all)
-  {
-    plugin::init_multiple_support($attrs,$all);
-
-    $this->memberUid = array();
-    $this->memberUid_used_by_some = array();
-    if (isset($attrs['memberUid'])){
-      for ($i= 0; $i<$attrs['memberUid']['count']; $i++){
-        $this->memberUid[$attrs['memberUid'][$i]]= $attrs['memberUid'][$i];
-      }
-      ksort($this->memberUid);
-    }
-
-    if (isset($all['memberUid'])){
-      for ($i= 0; $i<$all['memberUid']['count']; $i++){
-        if(!in_array($all['memberUid'][$i],$this->memberUid)){
-          $this->memberUid_used_by_some[$all['memberUid'][$i]]= $all['memberUid'][$i];
-        }
-      }
-      ksort($this->memberUid_used_by_some);
-    }
-  }
-
-  function set_multi_edit_values($attrs)
-  {
-    $users = array();
-
-    /* Update groupMembership, keep optinal group */
-    foreach($attrs['memberUid_used_by_some'] as $uid){
-      if(in_array($uid,$this->memberUid)){
-        $users[$uid] = $uid;
-      }
-    }
-
-    /* Update groupMembership, add forced groups */
-    foreach($attrs['memberUid'] as $uid){
-      $users[$uid] = $uid;
-    }
-    plugin::set_multi_edit_values($attrs);
-    $this->memberUid = $users;
-  }
-
-
   /*! \brief Get a new SambaSID for a group */
   function getSambaSID()
   {
@@ -1323,7 +1150,5 @@ class group extends plugin
 
     return $sid;
   }
-
 }
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
