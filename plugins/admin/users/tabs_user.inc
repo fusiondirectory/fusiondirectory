@@ -50,16 +50,6 @@ class usertabs extends tabs
     /* Update reference, transfer variables */
     $baseobject = $this->getBaseObject();
     foreach ($this->by_object as $name => $obj) {
-
-      /* Adding uid to sub plugins of connectivity */
-      if ($name == "connectivity") {
-        foreach ($obj->plugin_name as $plg_name) {
-          if (isset($obj->plugin[$plg_name]->uid)) {
-            $obj->plugin[$plg_name]->uid = $baseobject->uid;
-          }
-        }
-      }
-
       /* Don't touch base object */
       if ($name != 'user') {
         $obj->parent    = &$this;
