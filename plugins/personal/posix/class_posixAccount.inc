@@ -312,11 +312,7 @@ class posixAccount extends plugin
       session::set('CurrentMainBase',validate($_POST['depselect']));
     }
 
-    if($this->multiple_support_active){
-      $this->is_account = TRUE;
-    }
-
-    if(!$isCopyPaste && ! $this->multiple_support_active){
+    if (!$isCopyPaste) {
 
       /* Do we need to flip is_account state? */
       if(isset($_POST['modify_state'])){
@@ -505,15 +501,10 @@ class posixAccount extends plugin
     $smarty->assign("shells", $this->loginShellList);
     $smarty->assign("secondaryGroups", $this->secondaryGroups);
     $smarty->assign("primaryGroup", $this->primaryGroup);
-    if(!$this->multiple_support_active){
-      if (!count($this->groupMembership)){
-        $smarty->assign("groupMembership", array("&nbsp;"));
-      } else {
-        $smarty->assign("groupMembership", $this->groupMembership);
-      }
-    }else{
+    if (!count($this->groupMembership)){
+      $smarty->assign("groupMembership", array("&nbsp;"));
+    } else {
       $smarty->assign("groupMembership", $this->groupMembership);
-      $smarty->assign("groupMembership_some", $this->groupMembership_some);
     }
     if (count($this->groupMembership) > 16){
       $smarty->assign("groups", "too_many_for_nfs");
@@ -1137,9 +1128,6 @@ class posixAccount extends plugin
 
         if(obj_is_writable($attrs['dn'],"groups/group","memberUid")){
           $this->groupMembership[$attrs['dn']]= $entry;
-          if($this->multiple_support_active && isset($this->groupMembership_some[$attrs['dn']])){
-            unset($this->groupMembership_some[$attrs['dn']]);
-          }
         }
       }
     }
@@ -1157,11 +1145,6 @@ class posixAccount extends plugin
     foreach($groups as $dn_to_del){
       if(isset($this->groupMembership[$dn_to_del]) && obj_is_writable($dn_to_del,"groups/group","memberUid")){
         unset($this->groupMembership[$dn_to_del]);
-      }
-      if($this->multiple_support_active){
-        if(isset($this->groupMembership_some[$dn_to_del]) && obj_is_writable($dn_to_del,"groups/group","memberUid")){
-          unset($this->groupMembership_some[$dn_to_del]);
-        }
       }
     }
   }

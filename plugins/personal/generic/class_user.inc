@@ -516,7 +516,6 @@ class user extends plugin
     } else {
       $smarty->assign("has_phoneaccount", "false");
     }
-    $smarty->assign("multiple_support" , $this->multiple_support_active);
     $smarty->assign("manager_name",$this->manager_name);
     return $smarty->fetch (get_template_path('generic.tpl', TRUE, dirname(__FILE__)));
   }
@@ -1136,11 +1135,7 @@ class user extends plugin
   /* Indicate whether a password change is needed or not */
   function password_change_needed()
   {
-    if ($this->multiple_support_active) {
-      return FALSE;
-    } else {
-      return ($this->pw_storage != $this->last_pw_storage && !$this->is_template);
-    }
+    return ($this->pw_storage != $this->last_pw_storage && !$this->is_template);
   }
 
 
