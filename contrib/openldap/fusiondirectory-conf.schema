@@ -202,6 +202,12 @@ attributetype ( 1.3.6.1.4.1.38414.8.14.6 NAME 'fdLogging'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
   SINGLE-VALUE )
 
+attributetype ( 1.3.6.1.4.1.38414.8.14.7 NAME 'fdLdapSizeLimit'
+  DESC 'FusionDirectory - LDAP size limit'
+  EQUALITY integerMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+  SINGLE-VALUE)
+
 # Login and session
 
 attributetype ( 1.3.6.1.4.1.38414.8.15.1 NAME 'fdLoginAttribute'
@@ -333,7 +339,7 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
     fdPasswordHook $ fdHandleExpiredAccounts $ fdSaslRealm $ fdSaslExop $
 
     fdPrimaryGroupFilter $ fdListSummary $ fdHonourUnitTags $
-    fdModificationDetectionAttribute $ fdCopyPaste $ fdLogging $
+    fdModificationDetectionAttribute $ fdCopyPaste $ fdLogging $ fdLdapSizeLimit $
 
     fdLoginAttribute $ fdForceSSL $ fdWarnSSL $ fdStoreFilterSettings $ fdSessionLifeTime $
 

@@ -183,6 +183,11 @@ class configInLdap extends simplePlugin
             'fdLogging', FALSE,
             TRUE
           ),
+          new IntAttribute (
+            _('LDAP size limit'), _('Defines the number of entries to get from LDAP by default.'),
+            'fdLdapSizeLimit', FALSE,
+            0 /*min*/, FALSE /*no max*/, 200
+          ),
         )
       ),
       'login' => array(
