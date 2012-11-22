@@ -458,18 +458,6 @@ class user extends plugin
     $ui =get_userinfo();
     foreach($this->attributes as $val){
       $smarty->assign("$val", $this->$val);
-      if(in_array($val,$this->multi_boxes)){
-        $smarty->assign("use_".$val,TRUE);
-      }else{
-        $smarty->assign("use_".$val,FALSE);
-      }
-    }
-    foreach(array("base","pw_storage","edit_picture") as $val){
-      if(in_array($val,$this->multi_boxes)){
-        $smarty->assign("use_".$val,TRUE);
-      }else{
-        $smarty->assign("use_".$val,FALSE);
-      }
     }
 
     /* Set acls */
@@ -1148,14 +1136,10 @@ class user extends plugin
   /* Indicate whether a password change is needed or not */
   function password_change_needed()
   {
-    if($this->multiple_support_active){
-      return(FALSE);
-    }else{
-
-      if(in_array("pw_storage",$this->multi_boxes)){
-        return(TRUE);
-      }
-      return($this->pw_storage != $this->last_pw_storage && !$this->is_template);
+    if ($this->multiple_support_active) {
+      return FALSE;
+    } else {
+      return ($this->pw_storage != $this->last_pw_storage && !$this->is_template);
     }
   }
 
@@ -1357,193 +1341,6 @@ class user extends plugin
     }
     return $ret;
   }
-
-  function get_multi_edit_values()
-  {
-    $ret = plugin::get_multi_edit_values();
-    if(in_array("pw_storage",$this->multi_boxes)){
-      $ret['pw_storage'] = $this->pw_storage;
-    }
-    if(in_array("edit_picture",$this->multi_boxes)){
-      $ret['jpegPhoto'] = $this->jpegPhoto;
-      $ret['photoData'] = $this->photoData;
-      $ret['old_jpegPhoto'] = $this->old_jpegPhoto;
-      $ret['old_photoData'] = $this->old_photoData;
-    }
-    if(isset($ret['dateOfBirth'])){
-      unset($ret['dateOfBirth']);
-    }
-    if(isset($ret['cn'])){
-      unset($ret['cn']);
-    }
-    $ret['is_modified'] = $this->is_modified;
-    if(in_array("base",$this->multi_boxes)){
-      $ret['orig_base']="Changed_by_Multi_Plug";
-      $ret['base']=$this->base;
-    }
-
-    $ret['gosaLoginRestriction'] = $this->gosaLoginRestriction;
-    $ret['gosaLoginRestriction_some'] = $this->gosaLoginRestriction_some;
-
-    return($ret);
-  }
-
-
-  function multiple_save_object()
-  {
-
-    if(!isset($_POST['user_mulitple_edit'])) return;
-
-    plugin::multiple_save_object();
-
-    /* Get pw_storage mode */
-    if (isset($_POST['pw_storage'])){
-      foreach(array("pw_storage") as $val){
-        if(isset($_POST[$val])){
-          $data= validate(get_post($val));
-          if ($data != $this->$val){
-            $this->is_modified= TRUE;
-          }
-          $this->$val= $data;
-        }
-      }
-    }
-
-    /* Refresh base */
-    if ($this->acl_is_moveable($this->base)){
-      if (!$this->baseSelector->update()) {
-        msg_dialog::display(_("Error"), msgPool::permMove(), ERROR_DIALOG);
-      }
-      if ($this->base != $this->baseSelector->getBase()) {
-        $this->base= $this->baseSelector->getBase();
-      }
-    }
-
-    if(isset($_POST['user_mulitple_edit'])){
-      foreach(array("base","pw_storage","edit_picture") as $val){
-        if(isset($_POST["use_".$val])){
-          $this->multi_boxes[] = $val;
-        }
-      }
-    }
-
-    /* Sync lists */
-    $this->gosaLoginRestrictionWidget->save_object();
-    if ($this->gosaLoginRestrictionWidget->isModified()) {
-      $this->gosaLoginRestriction= array_values($this->gosaLoginRestrictionWidget->getMaintainedData());
-    }
-  }
-
-
-  function multiple_check()
-  {
-    /* Call check() to set new_dn correctly ... */
-    $message = plugin::multiple_check();
-
-    /* Set the new acl base */
-    if($this->dn == "new") {
-      $this->set_acl_base($this->base);
-    }
-    if (!tests::is_url($this->labeledURI) && in_array("labeledURI",$this->multi_boxes)){
-      $message[]= msgPool::invalid(_("Homepage"));
-    }
-    if (!tests::is_phone_nr($this->telephoneNumber) && in_array("telephoneNumber",$this->multi_boxes)){
-      $message[]= msgPool::invalid(_("Phone"), $this->telephoneNumber, "/[\/0-9 ()+*-]/");
-    }
-    if (!tests::is_phone_nr($this->facsimileTelephoneNumber) &&  in_array("facsimileTelephoneNumber",$this->multi_boxes)){
-      $message[]= msgPool::invalid(_("Fax"), $this->facsimileTelephoneNumber, "/[\/0-9 ()+*-]/");
-    }
-    if (!tests::is_phone_nr($this->mobile) && in_array("mobile",$this->multi_boxes)){
-      $message[]= msgPool::invalid(_("Mobile"), $this->mobile, "/[\/0-9 ()+*-]/");
-    }
-    if (!tests::is_phone_nr($this->pager) && in_array("pager",$this->multi_boxes)){
-      $message[]= msgPool::invalid(_("Pager"), $this->pager, "/[\/0-9 ()+*-]/");
-    }
-    if (preg_match ('/[,+"?\'()=<>;\\\\]/', $this->givenName) && in_array("givenName",$this->multi_boxes)){
-      $message[]= msgPool::invalid(_("Given name"), $this->giveName, '/[^,+"?\'()=<>;\\\\]/');
-    }
-    if (preg_match ('/[,+"?\'()=<>;\\\\]/', $this->sn) && in_array("sn",$this->multi_boxes)){
-      $message[]= msgPool::invalid(_("Name"), $this->sn, '/[^,+"?\'()=<>;\\\\]/');
-    }
-    return($message);
-  }
-
-
-
-  function multiple_execute()
-  {
-    return($this->execute());
-  }
-
-
-  /*! \brief  Prepares the plugin to be used for multiple edit
-   *          Update plugin attributes with given array of attribtues.
-   *  \param  array   Array with attributes that must be updated.
-   */
-  function init_multiple_support($attrs,$all)
-  {
-    plugin::init_multiple_support($attrs,$all);
-
-    // Get login restrictions
-    if(isset($attrs['gosaLoginRestriction'])){
-      $this->gosaLoginRestriction  =array();
-      for($i =0;$i < $attrs['gosaLoginRestriction']['count']; $i++){
-        $this->gosaLoginRestriction[] = $attrs['gosaLoginRestriction'][$i];
-      }
-    }
-
-    // Detect the managers name
-    $this->manager_name = "";
-    $ldap = $this->config->get_ldap_link();
-    if(!empty($this->manager)){
-      $ldap->cat($this->manager, array('cn'));
-      if($ldap->count()){
-        $attrs = $ldap->fetch();
-        $this->manager_name = $attrs['cn'][0];
-      }else{
-        $this->manager_name = "("._("Unknown")."!): ".$this->manager;
-      }
-    }
-
-    // Detect login restriction not used in all user objects.
-    $this->gosaLoginRestriction_some = array();
-    if(isset($all['gosaLoginRestriction'])){
-      for($i=0;$i<$all['gosaLoginRestriction']['count'];$i++){
-        $this->gosaLoginRestriction_some[] = $all['gosaLoginRestriction'][$i];
-      }
-    }
-
-
-    // Reinit the login restriction list.
-    $data = $this->convertLoginRestriction();
-    if(count($data)){
-      $this->gosaLoginRestrictionWidget->setListData($data['data'], $data['displayData']);
-    }
-  }
-
-
-  function set_multi_edit_values($attrs)
-  {
-    $lR = array();
-
-    // Update loginRestrictions, keep my settings while ip is optional
-    foreach($attrs['gosaLoginRestriction_some'] as $ip){
-      if(in_array($ip, $this->gosaLoginRestriction) && in_array($ip, $attrs['gosaLoginRestriction'])){
-        $lR[] = $ip;
-      }
-    }
-
-    // Add enforced loginRestrictions
-    foreach($attrs['gosaLoginRestriction'] as $ip){
-      $lR[] = $ip;
-    }
-
-    $lR = array_values(array_unique($lR));
-    $this->is_modified |=  array_differs($this->gosaLoginRestriction, $lR);
-    plugin::set_multi_edit_values($attrs);
-    $this->gosaLoginRestriction = $lR;
-  }
-
 
   function convertLoginRestriction()
   {

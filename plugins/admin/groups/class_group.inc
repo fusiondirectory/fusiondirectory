@@ -497,22 +497,7 @@ class group extends plugin
     $smarty->assign("memberUid_All",$this->memberUid);
     $smarty->assign("memberUid_Some",$this->memberUid_used_by_some);
 
-    foreach($this->attributes as $val){
-      if(in_array($val,$this->multi_boxes)){
-        $smarty->assign("use_".$val,TRUE);
-      }else{
-        $smarty->assign("use_".$val,FALSE);
-      }
-    }
-    foreach(array("base","smbgroup","groupType","sambaDomainName","fon_group","nagios_group","trustmode") as $val){
-      if(in_array($val,$this->multi_boxes)){
-        $smarty->assign("use_".$val,TRUE);
-      }else{
-        $smarty->assign("use_".$val,FALSE);
-      }
-    }
-
-    return($smarty->fetch (get_template_path('generic.tpl', TRUE)));
+    return $smarty->fetch (get_template_path('generic.tpl', TRUE));
   }
 
   function addUser($uid)
