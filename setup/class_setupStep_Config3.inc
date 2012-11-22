@@ -52,7 +52,7 @@ class Step_Config3 extends setup_step
               "gosaSupportURI_active"       => FALSE,
               "kioskpath_active"            => FALSE,
 
-              "enableCopyPaste"         => FALSE,
+              "enableCopyPaste"         => TRUE,
               "logging"                 => TRUE,
               "uniq_identifier"         => "entryCSN",
               "uniq_identifier_active"  => TRUE,
