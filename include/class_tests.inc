@@ -70,7 +70,7 @@ class tests {
   /*!
    * \brief Test if the given string contains characters allowed in a hostname
    *
-   * \param string $str The hostname to check 
+   * \param string $str The hostname to check
    */
   public static function is_valid_hostname($str)
   {
@@ -85,11 +85,12 @@ class tests {
    */
   public static function is_url($url)
   {
-    if ($url == ""){
-      return (TRUE);
+    if ($url == "") {
+      return TRUE;
     }
 
-    return preg_match ("/^(http|https):\/\/((?:[a-zA-Z0-9_-]+\.?)+):?(\d*)/", $url);
+    /* Using @stephenhay regexp from http://mathiasbynens.be/demo/url-regex (removed ftp through) */
+    return preg_match ("@^(https?)://[^\s/$.?#].[^\s]*$@i", $url);
   }
 
 
