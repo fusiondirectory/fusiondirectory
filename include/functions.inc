@@ -1623,6 +1623,8 @@ function get_ou($name)
 
                 "aliasRDN"    => "ou=alias,",
 
+                "dsaRDN"    => "ou=dsa,",
+
                 "mimetypeRDN" => "ou=mime,");
 
   /* Preset ou... */
