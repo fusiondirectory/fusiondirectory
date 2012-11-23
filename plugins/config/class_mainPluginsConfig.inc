@@ -46,33 +46,6 @@ class mainPluginsConfig extends simplePlugin
             'fdOGroupRDN', TRUE,
             'ou=groups'
           ),
-          new OrderedArrayAttribute (
-            new CompositeAttribute (
-              _('Hooks that are called when specific actions happens'),
-              'fdTabHook',
-              array(
-                new SelectAttribute(
-                  _('tab'), _('The tab that this hook concerns'),
-                  'hookTab', TRUE,
-                  array('posixAccount')
-                ),
-                new SelectAttribute(
-                  _('mode'), _('When to call this command'),
-                  'hookMode', TRUE,
-                  array('postcreate', 'postremove', 'postmodify')
-                ),
-                new StringAttribute(
-                  _('cmd'), _('The command that will be called'),
-                  'hookCmd', TRUE
-                )
-              ),
-              '%[^|]|%[^|]|%s',
-              '%s|%s|%s',
-              '', // acl
-              _('Hooks')
-            ),
-            FALSE // non-ordered
-          ),
         )
       ),
     );

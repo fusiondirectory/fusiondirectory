@@ -2103,6 +2103,10 @@ min-width:80%;
 float:none;
 clear:both;
 width:auto;
+margin-top:0.5%;
+margin-left:0.5%;
+margin-bottom:0.5%;
+margin-right:0.5%;
 }
 
 fieldset.plugin_section.critical legend span, .plugin_section.critical > span.legend {

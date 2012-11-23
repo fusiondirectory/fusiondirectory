@@ -70,6 +70,10 @@ class configInLdap extends simplePlugin
 
   static function getAttributesInfo ()
   {
+    $plugins = array();
+    if (session::global_is_set('plist')) {
+      $plugins = array_keys(session::global_get('plist')->info);
+    }
     return array(
       'look_n_feel' => array(
         'name'  => _('Look n feel'),
@@ -246,6 +250,40 @@ class configInLdap extends simplePlugin
           new PasswordAttribute (
             _('Snapshot password'), _('The credentials which are used in combination with snapshot user in order to authenticate.'),
             'fdSnapshotAdminPassword'
+          ),
+        )
+      ),
+      'miscellaneous' => array(
+        'name'  => _('Miscellaneous'),
+        'class' => array('fullwidth'),
+        'attrs' => array(
+          new OrderedArrayAttribute (
+            new CompositeAttribute (
+              _('Hooks that are called when specific actions happens'),
+              'fdTabHook',
+              array(
+                new SelectAttribute(
+                  _('tab'), _('The tab that this hook concerns'),
+                  'hookTab', TRUE,
+                  $plugins
+                ),
+                new SelectAttribute(
+                  _('mode'), _('When to call this command'),
+                  'hookMode', TRUE,
+                  array('postcreate', 'postremove', 'postmodify',
+                        'precreate', 'preremove', 'premodify')
+                ),
+                new StringAttribute(
+                  _('cmd'), _('The command that will be called'),
+                  'hookCmd', TRUE
+                )
+              ),
+              '%[^|]|%[^|]|%[ -~]',// Last part might contain some |. [ -~] is the ascii range for all characters that can be displayed.
+              '%s|%s|%s',
+              '', // acl
+              _('Hooks')
+            ),
+            FALSE // non-ordered
           ),
         )
       ),
