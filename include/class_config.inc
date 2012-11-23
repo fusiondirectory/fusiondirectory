@@ -712,7 +712,18 @@ class config  {
     if ($attrs = $ldap->fetch()) {
       for ($i = 0; $i < $attrs['count']; $i++) {
         $key = $attrs[$i];
-        if (preg_match('/^fd/',$key)) {
+        if (preg_match('/^fdTabHook$/i',$key)) {
+          for ($j = 0; $j < $attrs[$key]['count']; ++$j) {
+            $parts  = explode('|',$attrs[$key][$j],3);
+            $class  = strtoupper($parts[0]);
+            $mode   = strtoupper($parts[1]);
+            $cmd    = $parts[2];
+            if (!isset($this->data['HOOKS'][$class])) {
+              $this->data['HOOKS'][$class] = array('CLASS' => $parts[0]);
+            }
+            $this->data['HOOKS'][$class][$mode] = $cmd;
+          }
+        } elseif (preg_match('/^fd/',$key)) {
           if (isset($attrs[$key]['count']) && ($attrs[$key]['count'] > 1)) {
             unset($attrs['count']);
             $value = join(',', $attrs[$key]);

@@ -349,11 +349,13 @@ class plugin
     foreach ($this->attributes as $val){
       if ($this->acl_is_writeable($val) && isset ($_POST["$val"])){
         /* Check for modifications */
-        $data= $this->$val = $_POST["$val"];
+        $data = $_POST["$val"];
 
         if ($this->$val != $data) {
-          $this->is_modified= TRUE;
+          $this->is_modified = TRUE;
         }
+
+        $this->$val = $data;
 
         /* Okay, how can I explain this fix ...
          * In firefox, disabled option fields aren't selectable ... but in IE you can select these fileds.
@@ -362,10 +364,10 @@ class plugin
          * This &nbsp; was added for W3c compliance, but now causes these ... ldap errors ...
          * So we set these Fields to ""; a normal empty string, and we can check these values in plugin::check() again ...
          */
-        if(isset($data[0]) && $data[0] == chr(194)) {
+        if (isset($data[0]) && $data[0] == chr(194)) {
           $data = "";
         }
-        $this->$val= $data;
+        $this->$val = $data;
       }
     }
   }
@@ -1135,23 +1137,23 @@ class plugin
   /*! \brief Forward command execution requests
    *         to the post hook execution method.
    */
-  function handle_post_events($mode, $addAttrs= array())
+  function handle_post_events($mode, $addAttrs = array())
   {
-    if(!in_array($mode, array('add','remove','modify'))){
+    if (!in_array($mode, array('add','remove','modify'))) {
       trigger_error(sprintf("Invalid post event type given %s! Valid types are [add,modify,remove].", $mode));
       return;
     }
-    switch ($mode){
+    switch ($mode) {
       case "add":
-        plugin::callHook($this,"POSTCREATE", $addAttrs);
+        plugin::callHook($this, "POSTCREATE", $addAttrs);
       break;
 
       case "modify":
-        plugin::callHook($this,"POSTMODIFY", $addAttrs);
+        plugin::callHook($this, "POSTMODIFY", $addAttrs);
       break;
 
       case "remove":
-        plugin::callHook($this,"POSTREMOVE", $addAttrs);
+        plugin::callHook($this, "POSTREMOVE", $addAttrs);
       break;
     }
   }
@@ -1161,23 +1163,23 @@ class plugin
    *  \brief Forward command execution requests
    *         to the pre hook execution method.
    */
-  function handle_pre_events($mode, $addAttrs= array())
+  function handle_pre_events($mode, $addAttrs = array())
   {
-    if(!in_array($mode, array('add','remove','modify'))){
+    if (!in_array($mode, array('add','remove','modify'))) {
       trigger_error(sprintf("Invalid pre event type given %s! Valid types are [add,modify,remove].", $mode));
       return;
     }
-    switch ($mode){
+    switch ($mode) {
       case "add":
-        plugin::callHook($this,"PRECREATE", $addAttrs);
+        plugin::callHook($this, "PRECREATE", $addAttrs);
       break;
 
       case "modify":
-        plugin::callHook($this,"PREMODIFY", $addAttrs);
+        plugin::callHook($this, "PREMODIFY", $addAttrs);
       break;
 
       case "remove":
-        plugin::callHook($this,"PREREMOVE", $addAttrs);
+        plugin::callHook($this, "PREREMOVE", $addAttrs);
       break;
     }
   }
@@ -1206,7 +1208,7 @@ class plugin
   static function callHook($plugin, $cmd, $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL)
   {
     global $config;
-    $command = $config->search(get_class($plugin), $cmd, array('menu','tabs'));
+    $command = $config->search(get_class($plugin), $cmd, array('menu','tabs','hooks'));
 
     if ($command != "") {
       // Walk trough attributes list and add the plugins attributes.
