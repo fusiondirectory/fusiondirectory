@@ -803,7 +803,7 @@ class userManagement extends management
       if (preg_match("/c/",$acl)) {
         // Search all templates from the current dn.
         $ldap->cd(get_people_ou().$value);
-        $ldap->search("(objectClass=gosaUserTemplate)", array("uid"));
+        $ldap->search("(objectClass=gosaUserTemplate)", array('cn'));
         if ($ldap->count() != 0) {
           while ($attrs = $ldap->fetch()) {
             $templates[$ldap->getDN()] = $attrs['cn'][0]." - ".LDAP::fix($key);
