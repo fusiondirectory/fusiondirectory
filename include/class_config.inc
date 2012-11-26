@@ -338,7 +338,7 @@ class config  {
         $this->ldap->referrals= $this->current['REFERRAL'];
       }
 
-      if (!session::global_is_set('size_limit')){
+      if (!session::global_is_set('size_limit')) {
         session::global_set('size_limit',$this->current['LDAPSIZELIMIT']);
         session::global_set('size_ignore',$this->current['LDAPSIZEIGNORE']);
       }
@@ -387,18 +387,6 @@ class config  {
     if (!isset($this->current['MINID'])){
       $this->current['MINID']= 100;
     }
-    if (!isset($this->current['LDAPSIZELIMIT'])){
-      $this->current['LDAPSIZELIMIT']= 200;
-    }
-    if (!isset($this->current['SIZEINGORE'])){
-      $this->current['LDAPSIZEIGNORE']= TRUE;
-    } else {
-      if (preg_match("/true/i", $this->current['LDAPSIZEIGNORE'])){
-        $this->current['LDAPSIZEIGNORE']= TRUE;
-      } else {
-        $this->current['LDAPSIZEIGNORE']= FALSE;
-      }
-    }
 
     /* Sort referrals, if present */
     if (isset ($this->current['REFERRAL'])){
@@ -437,6 +425,21 @@ class config  {
 
     /* Load in-ldap configuration */
     $this->load_inldap_config();
+
+    if (!isset($this->current['LDAPSIZELIMIT'])) {
+      $this->current['LDAPSIZELIMIT'] = 200;
+    }
+    session::global_set('size_limit',$this->current['LDAPSIZELIMIT']);
+
+    if (!isset($this->current['LDAPSIZEIGNORE'])) {
+      $this->current['LDAPSIZEIGNORE'] = TRUE;
+    } else {
+      if (preg_match("/true/i", $this->current['LDAPSIZEIGNORE'])) {
+        $this->current['LDAPSIZEIGNORE'] = TRUE;
+      } else {
+        $this->current['LDAPSIZEIGNORE'] = FALSE;
+      }
+    }
 
     /* Load server informations */
     $this->load_servers();
