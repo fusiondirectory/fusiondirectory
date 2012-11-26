@@ -495,7 +495,7 @@ class ogroup extends plugin
           "DN"=> get_ou('workstationRDN')   ,"ACL" => "workstation"),
         "winstations"     => array("OBJ"=>"wingeneric", "CLASS"=>"sambaSamAccount",
           "DN"=> get_ou('sambaMachineAccountRDN')     ,"ACL" => "winstation"),
-        "terminals"       => array("OBJ"=>"termgeneric", "CLASS"=>"gotoTerminal"   ,
+        "terminals"       => array("OBJ"=>"terminalGeneric", "CLASS"=>"gotoTerminal"   ,
           "DN"=> get_ou('terminalRDN')      ,"ACL" => "terminal"),
         "printers"        => array("OBJ"=>"printgeneric", "CLASS"=>"gotoPrinter"    ,
           "DN"=> get_ou('printerRDN')       ,"ACL" => "printer"),

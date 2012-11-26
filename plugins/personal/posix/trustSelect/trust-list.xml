@@ -38,7 +38,7 @@
       <label>Terminal</label>
       <objectClass>gotoTerminal</objectClass>
       <category>terminal</category>
-      <class>termgeneric</class>
+      <class>terminalGeneric</class>
       <image>plugins/systems/images/select_terminal.png</image>
     </objectType>
 
