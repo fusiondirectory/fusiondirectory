@@ -43,6 +43,12 @@ foreach my $arg ( @ARGV ) {
   } elsif ($schemalist) {
     if ($arg =~ /(.*).ldif/) { # ignore ".ldif" if it is there
       push @schemas, $1;
+    } elsif ($arg =~ /(.*).schema/) {
+      if (system("fusiondirectory-schema2ldif $arg > $1.ldif") == 0) {
+        push @schemas, $1;
+      } else {
+        print "Something went wrong while trying to convert $arg to ldif\n";
+      }
     } else {
       push @schemas, $arg;
     }
