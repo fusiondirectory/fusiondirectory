@@ -291,16 +291,16 @@ class listing {
         $link= "href='?plug=".$_GET['plug']."&amp;PID=".$this->pid."&amp;act=SORT_$index'";
         if (isset($config['label'])) {
           if ($sortable) {
-            $this->header[$index]= "<td class='listheader' ".$this->colprops[$index]."><a $link>"._($config['label'])."$sorter</a></td>";
+            $this->header[$index]= "<th ".$this->colprops[$index]."><a $link>"._($config['label'])."$sorter</a></td>";
           } else {
-            $this->header[$index]= "<td class='listheader' ".$this->colprops[$index].">"._($config['label'])."</td>";
+            $this->header[$index]= "<th ".$this->colprops[$index].">"._($config['label'])."</td>";
           }
           $this->plainHeader[]= _($config['label']);
         } else {
           if ($sortable) {
-            $this->header[$index]= "<td class='listheader' ".$this->colprops[$index]."><a $link>&nbsp;$sorter</a></td>";
+            $this->header[$index]= "<th ".$this->colprops[$index]."><a $link>&nbsp;$sorter</a></td>";
           } else {
-            $this->header[$index]= "<td class='listheader' ".$this->colprops[$index].">&nbsp;</td>";
+            $this->header[$index]= "<th ".$this->colprops[$index].">&nbsp;</td>";
           }
           $this->plainHeader[]= "";
         }
@@ -334,18 +334,18 @@ class listing {
       $height= $this->height;
     }
 
-    $result.= "<div class='listContainer' id='d_scrollbody' style='border-top:1px solid #B0B0B0;border-right:1px solid #B0B0B0;width:100%;'>\n";
-    $result.= "<table summary='$this->headline' style='width:100%; table-layout:fixed' cellspacing='0' cellpadding='0' id='t_scrolltable'>\n";
+    $result.= "<div id='d_scrollbody' style='width:100%;'>\n";
+    $result.= "<table summary='$this->headline' style='width:100%;' id='t_scrolltable' class='listingTable'>\n";
     $this->numColumns= count($this->colprops) + ($this->multiSelect?1:0);
 
     // Build list header
-    $result.= "<thead class='fixedListHeader listHeaderFormat'><tr>\n";
+    $result.= "<thead><tr>\n";
     if ($this->multiSelect) {
       $width= "24px";
       if (preg_match('/Konqueror/i', $_SERVER['HTTP_USER_AGENT'])){
         $width= "28px";
       }
-      $result.= "<td class='listheader' style='text-align:center;padding:0;width:$width;'><input type='checkbox' id='select_all' name='select_all' title='"._("Select all")."' onClick='toggle_all_(\"listing_selected_[0-9]*$\",\"select_all\");' ></td>\n";
+      $result.= "<th style='text-align:center;padding:0;width:$width;'><input type='checkbox' id='select_all' name='select_all' title='"._("Select all")."' onClick='toggle_all_(\"listing_selected_[0-9]*$\",\"select_all\");' ></th>\n";
     }
     foreach ($this->header as $header) {
       $result.= $header;
@@ -353,11 +353,11 @@ class listing {
     $result.= "</tr></thead>\n";
 
     // Build list body
-    $result.= "<tbody class='listScrollContent listBodyFormat' id='t_nscrollbody'>\n";
+    $result.= "<tbody id='t_nscrollbody'>\n";
 
     // No results? Just take an empty colspanned row
     if (count($this->entries) + count($this->departments) == 0) {
-      $result.= "<tr class='rowxp0'><td class='list1nohighlight' colspan='$this->numColumns' style='height:100%;border-right:0px;width:100%;'>&nbsp;</td></tr>";
+      $result.= "<tr><td class='list1nohighlight' colspan='$this->numColumns' style='height:100%;width:100%;'>&nbsp;</td></tr>";
     }
 
     // Line color alternation
@@ -370,11 +370,11 @@ class listing {
       // Fill with department browser if configured this way
       $departmentIterator= new departmentSortIterator($this->departments, $this->sortDirection[$this->sortColumn]);
       foreach ($departmentIterator as $row => $entry){
-        $result.="<tr class='rowxp".($alt&1)."'>";
+        $result.="<tr>";
 
         // Render multi select if needed
         if ($this->multiSelect) {
-          $result.="<td style='text-align:center;padding:0;' class='list1'>&nbsp;</td>";
+          $result.="<td style='text-align:center;padding:0;'>&nbsp;</td>";
         }
 
         // Render defined department columns, fill the rest with some stuff
@@ -385,14 +385,14 @@ class listing {
             $colspan= $config['span'];
             $this->useSpan= true;
           }
-          $result.="<td colspan='$colspan' ".$this->colprops[$index]." class='list1'>".$this->renderCell($config['value'], $entry, $row)."</td>";
+          $result.="<td colspan='$colspan' ".$this->colprops[$index].">".$this->renderCell($config['value'], $entry, $row)."</td>";
           $rest-= $colspan;
         }
 
         // Fill remaining cols with nothing
         $last= $this->numColumns - $rest;
         for ($i= 0; $i<$rest; $i++){
-          $result.= "<td ".$this->colprops[$last+$i-1]." class='list1'>&nbsp;</td>";
+          $result.= "<td ".$this->colprops[$last+$i-1].">&nbsp;</td>";
         }
         $result.="</tr>";
 
@@ -407,12 +407,12 @@ class listing {
 
       // Render multi select if needed
       if ($this->multiSelect) {
-        $trow.="<td style='text-align:center;width:20px;' class='list0'><input type='checkbox' id='listing_selected_$row' name='listing_selected_$row'></td>\n";
+        $trow.="<td style='text-align:center;width:20px;'><input type='checkbox' id='listing_selected_$row' name='listing_selected_$row'></td>\n";
       }
 
       foreach ($this->xmlData['table']['column'] as $index => $config) {
         $renderedCell= $this->renderCell($config['value'], $entry, $row);
-        $trow.="<td ".$this->colprops[$index]." class='list0'>".$renderedCell."</td>\n";
+        $trow.="<td ".$this->colprops[$index].">".$renderedCell."</td>\n";
 
         // Save rendered column
         $sort= preg_replace('/.*>([^<]+)<.*$/', '$1', $renderedCell);
@@ -705,10 +705,7 @@ class listing {
     }
 
     // Save number of columns for later use
-    $this->numColumns= count($cols);
-
-    // Add no border to the last column
-    $result[$this->numColumns-1]= preg_replace("/'$/", "border-right:0;'", $result[$this->numColumns-1]);
+    $this->numColumns = count($cols);
 
     return $result;
   }
