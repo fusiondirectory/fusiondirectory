@@ -23,15 +23,6 @@ td,p,b,th {
 font-size:12px;
 }
 
-td.listheader {
-background:#F0F0F0;
-font-weight:bold;
-border-right:1px solid #AAA;
-border-bottom:1px solid #AAA;
-padding:3px;
-height:22px;
-}
-
 td#menucell {
 border:1px solid #AAA;
 }
@@ -57,59 +48,6 @@ div.scrollbody {
 background-color:#FFF;
 overflow:auto;
 text-align:left;
-}
-
-td.list0 {
-background:transparent;
-border-right:1px solid #B0B0B0;
-padding:3px;
-height:22px;
-}
-
-td.list0#icon {
-width:20px;
-text-align:center;
-}
-
-td.list0#entry {
-}
-
-td.list0#info {
-width:200px;
-}
-
-td.list0#property {
-width:50px;
-}
-
-td.list0#properties7 {
-width:136px;
-}
-
-td.list0#properties8 {
-width:152px;
-}
-
-td.list0#properties9 {
-width:168px;
-}
-
-td.list0#properties10 {
-width:186px;
-}
-
-td.list0#actions {
-width:52px;
-border-right:0;
-text-align:right;
-}
-
-tr.rowxp1 {
-background:#F0F0F0;
-}
-
-tr.rowxp1:hover {
-background-color:#D8D8D8;
 }
 
 td.list1 {
@@ -1863,77 +1801,6 @@ height:22px;
 
 
 /* List border */
-div.listContainer {
-border-top:1px solid #AAA;
-border-bottom:1px solid #AAA;
-border-left:1px solid #AAA;
-}
-
-.fixedListHeader tr {
-position:relative;
-height:auto;
-}
-
-.listHeaderFormat {
-margin:3px;
-padding:1px;
-white-space:nowrap;
-}
-
-.listHeaderFormat tr td {
-border-right:1px solid #AAA;
-padding:2px;
-background-color:#F5F5F5;
-}
-
-.listScrollContent {
-height:100%;
-overflow-x:hidden;
-overflow-y:auto;
-}
-
-.listScrollContent tr {
-height:auto;
-white-space:nowrap;
-}
-
-.listScrollContent tr:nth-child(odd) {
-  background-color:#FFF;
-}
-
-.listScrollContent tr:nth-child(even) {
-  background-color:#F5F5F5;
-}
-
-.listScrollContent tr.entry-locked:nth-child(odd) {
-  background-color:#FFC;
-}
-
-.listScrollContent tr.entry-locked:nth-child(even) {
-  background-color:#F5F5CC;
-}
-
-.listScrollContent tr td:last-child {
-padding-right:20px;
-}
-
-.listScrollContent tr:hover {
-  background-color:#DDD;
-}
-
-.listScrollContent tr.entry-locked:hover {
-  background-color:#DDA;
-}
-
-.listBodyFormat tr td {
-color:#000;
-margin:3px;
-padding:2px;
-border-right:1px solid #AAA;
-word-wrap:break-word;
-white-space:normal;
-max-width:500px;
-}
 
 div.nlistFooter {
 background-color:#E5E5E5;
@@ -1944,7 +1811,7 @@ padding:0;
 width:100%;
 }
 
-/* Sortable Lists */
+/* Sortable Lists (only used in user main tab) */
 div.sortableListContainer {
 border:1px solid #AAA;
 overflow:auto;
@@ -2014,7 +1881,7 @@ tr.sortableListItemMarked {
 background-color:#FFD;
 }
 
-/* Tree List */
+/* Tree List (used in baseSelector) */
 ul.treeList,ul.treeList ul {
 list-style-type:none;
 background:url(../../images/lists/vline.png) repeat-y;
