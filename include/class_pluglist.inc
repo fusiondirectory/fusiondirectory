@@ -322,7 +322,12 @@ class pluglist {
       /* Parse headlines */
       foreach ($this->config->data['SECTIONS'] as $section => $section_infos) {
         $col = 1;
-        $menu = "<h1 class=\"menuheader\">".
+        if ($this->iconmenu == "") {
+          $menu = "<h1 class=\"menuheader\" style=\"border-top:none;\">";
+        } else {
+          $menu = "<h1 class=\"menuheader\">";
+        }
+        $menu .=
           $section_infos['NAME']."</h1>\n<table summary=\"\" style=\"width:100%;".
           "font-size: 14px;\" cellpadding=7 border=0>\n<tr>\n";
         $entries = "";
