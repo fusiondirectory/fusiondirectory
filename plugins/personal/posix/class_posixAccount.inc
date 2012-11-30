@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
@@ -31,12 +30,315 @@
   does syntax checking and displays the formulars required.
  */
 
-class posixAccount extends plugin
+class PosixStatusAttribute extends Attribute
 {
-  /* Definitions */
-  var $plHeadline     = "UNIX";
-  var $plDescription  = "Edit users POSIX settings";
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "")
+  {
+    parent::__construct ($label, $description, $ldapName, $required, $defaultValue, $acl);
+    $this->setInLdap(FALSE);
+  }
 
+  function renderFormInput ()
+  {
+    return $this->getValue();
+  }
+}
+
+class posixAccount extends simplePlugin
+{
+  var $displayHeader = TRUE;
+  var $objectclasses = array("posixAccount", "shadowAccount");
+
+  // The main function : information about attributes
+  static function getAttributesInfo ()
+  {
+    return array(
+      'main' => array(
+        'name'  => _("Generic"),
+        'icon'  => 'images/rightarrow.png',
+        'attrs' => array(
+          new StringAttribute(
+            _('Home directory'), _('The path to the home directory of this user'),
+            'homeDirectory', TRUE
+          ),
+          new SelectAttribute(
+            _('Shell'), _('Which shell should be used when this user log in'),
+            'loginShell', TRUE
+          ),
+          new SelectAttribute(
+            _('Primary group'), _('Primary group for this user'),
+            'primaryGroup', FALSE
+          ),
+          new PosixStatusAttribute(
+            _('Status'), _('Status of this user unix account'),
+            'posixStatus', FALSE
+          ),
+          new BooleanAttribute(
+            _('Force UID/GID'), _('Force UID and GID values for this user'),
+            'force_ids', FALSE
+          ),
+          new IntAttribute(
+            _('UID'), _('UID value for this user'),
+            'uidNumber', FALSE,
+            0, FALSE, ""
+          ),
+          new IntAttribute(
+            _('GID'), _('GID value for this user'),
+            'gidNumber', FALSE,
+            0, FALSE, ""
+          )
+        )
+      )
+    );
+  }
+
+  static function plInfo()
+  {
+    return array(
+      "plShortName"     => _("Unix"),
+      "plDescription"   => _("Edit users POSIX settings"),
+      "plSelfModify"    => TRUE,
+      "plDepends"       => array("user"),
+      "plPriority"      => 2,
+      "plCategory"      => array("users"),
+      "plObjectType"    => array("user"),
+
+      "plProvidedAcls"  => parent::generatePlProvidedAcls(self::getAttributesInfo())
+    );
+  }
+
+  function __construct (&$config, $dn = NULL, $object = NULL)
+  {
+    parent::__construct($config, $dn, $object);
+
+    $this->attributesInfo['main']['attrs']['uidNumber']->setUnique(TRUE);
+    $this->attributesInfo['main']['attrs']['force_ids']->setInLdap(FALSE);
+    $this->attributesInfo['main']['attrs']['force_ids']->setManagedAttributes(
+      array(
+        'disable' => array (
+          FALSE => array (
+            'main' => array (
+              'uidNumber',
+              'gidNumber',
+            )
+          )
+        )
+      )
+    );
+    $this->attributesInfo['main']['attrs']['primaryGroup']->setInLdap(FALSE);
+
+    /* Setting uid to default */
+    if (isset($this->attrs['uid'][0])) {
+      $this->uid = $this->attrs['uid'][0];
+    }
+
+    if ($dn !== NULL) {
+
+      /* Correct is_account. shadowAccount is not required. */
+      if (isset($this->attrs['objectClass']) &&
+          in_array ('posixAccount', $this->attrs['objectClass'])) {
+        $this->is_account = TRUE;
+      }
+
+      $this->initially_was_account = $this->is_account;
+
+      // Templates do not have a gidNumber
+      if ($this->attributesInfo['main']['attrs']['gidNumber']->getValue() == 2147483647) {
+        $this->attributesInfo['main']['attrs']['gidNumber']->setValue("");
+      }
+
+      /* Fill group */
+      $this->attributesInfo['main']['attrs']['primaryGroup']->setValue($this->attributesInfo['main']['attrs']['gidNumber']->getValue());
+    }
+
+    /* Generate shell list from SYSTEMS_DIR./shells */
+    $loginShellList = array();
+    if (file_exists(SYSTEMS_DIR.'/shells')) {
+      $shells = file (SYSTEMS_DIR.'/shells');
+      foreach ($shells as $line) {
+        if (!preg_match ("/^#/", $line)) {
+          $loginShellList[] = trim($line);
+        }
+      }
+    } else {
+      if ($this->loginShell == "") {
+        $loginShellList[] = _("unconfigured");
+      }
+    }
+
+    /* Insert possibly missing loginShell */
+    $loginShell = $this->attributesInfo['main']['attrs']['loginShell']->getValue();
+    echo "<h1>$loginShell</h1>\n";
+    if ($loginShell != "" && !in_array($loginShell, $loginShellList)) {
+      $loginShellList[]= $loginShell;
+    }
+    $this->attributesInfo['main']['attrs']['loginShell']->setChoices($loginShellList);
+
+    $this->ui = get_userinfo();
+
+    $secondaryGroups = array();
+    $secondaryGroups[0] = "- "._("automatic")." -";
+    $ldap = $this->config->get_ldap_link();
+    $ldap->cd($this->config->current['BASE']);
+    $ldap->search("(objectClass=posixGroup)", array("cn", "gidNumber"));
+    while ($attrs = $ldap->fetch()) {
+      $secondaryGroups[$attrs['gidNumber'][0]] = $attrs['cn'][0];
+    }
+    asort ($secondaryGroups);
+    $this->attributesInfo['main']['attrs']['primaryGroup']->setChoices(array_keys($secondaryGroups), array_values($secondaryGroups));
+
+    $current = date("U");
+    $current = floor($current / 60 / 60 / 24);
+
+    //~ $shadowExpire     = $this->attributesInfo['account']['attrs']['shadowExpire']->getValue();
+    //~ $shadowInactive   = $this->attributesInfo['account']['attrs']['shadowInactive']->getValue();
+    //~ $shadowMin        = $this->attributesInfo['account']['attrs']['shadowMin']->getValue();
+    //~ $shadowMax        = $this->attributesInfo['account']['attrs']['shadowMax']->getValue();
+    //~ $shadowLastChange = $this->attributesInfo['account']['attrs']['shadowLastChange']->getValue();
+    //~ if (($current >= $shadowExpire) && ($shadowExpire > 0)) {
+      //~ $status = _("expired");
+      //~ if (($current - $shadowExpire) < $shadowInactive) {
+        //~ $status .= ", "._("grace time active");
+      //~ }
+    //~ } elseif (($shadowLastChange + $shadowMin) >= $current) {
+      //~ $status = _("active").", "._("password not changeable");
+    //~ } elseif (($shadowLastChange + $shadowMax) >= $current) {
+      //~ $status = _("active").", "._("password expired");
+    //~ } else {
+      $status = _("active");
+    //~ }
+    $this->attributesInfo['main']['attrs']['posixStatus']->setValue($status);
+  }
+
+  function resetCopyInfos()
+  {
+    parent::resetCopyInfos();
+
+    $this->savedGroupMembership = array();
+    $this->savedUidNumber       = "";
+    $this->savedGidNumber       = "";
+
+    $this->uidNumber       = "";
+    $this->gidNumber       = "";
+  }
+
+  function save()
+  {
+    $force_ids = $this->attributesInfo['main']['attrs']['force_ids']->getValue();
+
+    if (!$force_ids) {
+      /* Handle uidNumber.
+       * - use existing number if possible
+       * - if not, try to create a new uniqe one.
+       * */
+      if ($this->attributesInfo['main']['attrs']['uidNumber']->getInitialValue() != "") {
+        $this->attributesInfo['main']['attrs']['uidNumber']->setValue(
+          $this->attributesInfo['main']['attrs']['uidNumber']->getInitialValue()
+        );
+      } else {
+        /* Calculate new id's. We need to place a lock before calling get_next_id
+           to get real unique values.
+         */
+        $wait = 10;
+        while (get_lock("uidnumber") != "") {
+          sleep (1);
+
+          /* Oups - timed out */
+          if ($wait-- == 0) {
+            msg_dialog::display(_("Warning"), _("Timeout while waiting for lock. Ignoring lock!"), WARNING_DIALOG);
+            break;
+          }
+        }
+        add_lock ("uidnumber", "gosa");
+        $this->attributesInfo['main']['attrs']['uidNumber']->setValue(
+          get_next_id("uidNumber", $this->dn)
+        );
+      }
+    }
+
+    /* Handle gidNumber
+     * - If we do not have a primary group selected (automatic), we will check if there
+     *    is already a group  with the same name and use this as primary.
+     * - .. if we couldn't find a group with the same name, we will create a new one,
+     *    using the users uid as cn and a generated uniqe gidNumber.
+     * */
+    if ($this->is_template && ($this->attributesInfo['main']['attrs']['primaryGroup']->getValue() == 0)) {
+      $this->attributesInfo['main']['attrs']['uidNumber']->setValue(2147483647);
+    } elseif (($this->attributesInfo['main']['attrs']['primaryGroup']->getValue() == 0) || $force_ids) {
+
+      /* Search for existing group */
+      $ldap = $this->config->get_ldap_link();
+      $ldap->cd($this->config->current['BASE']);
+
+      /* Are we forced to use a special gidNumber? */
+      if($force_ids) {
+        $gidNumber = $this->attributesInfo['main']['attrs']['gidNumber']->getValue();
+        $ldap->search("(&(objectClass=posixGroup)(gidNumber=$gidNumber))", array("cn","gidNumber"));
+      } else {
+        $ldap->search("(&(objectClass=posixGroup)(gidNumber=*)(cn=".$this->uid."))", array("cn","gidNumber"));
+      }
+
+      /* No primary group found, create a new one */
+      if ($ldap->count() == 0) {
+        $groupcn = $this->uid;
+        $pri_attr = $this->config->get_cfg_value("accountPrimaryAttribute");
+        $groupdn = preg_replace ('/^'.preg_quote($pri_attr,'/').'=[^,]+,'.preg_quote(get_people_ou(),'/').'/i',
+            'cn='.$groupcn.','.get_groups_ou(), $this->dn);
+
+        /* Request a new and uniqe gidNumber, if required */
+        if (!$force_ids) {
+          $this->attributesInfo['main']['attrs']['gidNumber']->setValue(
+            get_next_id("gidNumber", $this->dn)
+          );
+        }
+
+        /* If forced gidNumber could not be found, then check if the given group name already exists
+           we do not want to modify the gidNumber of an existing group.
+         */
+        $cnt = 0;
+        while ($ldap->dn_exists($groupdn) && ($cnt < 100)) {
+          $cnt++;
+          $groupcn = $this->uid."_".$cnt;
+          $groupdn = preg_replace ('/^'.preg_quote($pri_attr, '/').'=[^,]+,'.preg_quote(get_people_ou(),'/').'/i',
+              'cn='.$groupcn.','.get_groups_ou(), $this->dn);
+        }
+
+        /* Create new primary group and enforce the new gidNumber */
+        $g = new group($this->config, $groupdn);
+        $g->cn = $groupcn;
+        $g->force_gid = 1;
+        $g->gidNumber = $this->attributesInfo['main']['attrs']['gidNumber']->getValue();
+        $g->description = _("Group of user")." ".$this->givenName;
+        $g->save();
+
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
+          sprintf("Primary group '%s' created, using gidNumber '%s'.", $groupcn,
+          $this->attributesInfo['main']['attrs']['gidNumber']->getValue()),"");
+      } else {
+        $attrs = $ldap->fetch();
+        $this->attributesInfo['main']['attrs']['gidNumber']->setValue(
+          $attrs['gidNumber'][0]
+        );
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
+          "Found and used: <i>".$attrs['dn']."</i>",
+          sprintf("Primary group '%s' exists, gidNumber is '%s'.", $this->uid,
+          $this->attributesInfo['main']['attrs']['gidNumber']->getValue()));
+      }
+    } else {
+      /* Primary group was selected by user */
+      $this->attributesInfo['main']['attrs']['gidNumber']->setValue(
+        $this->attributesInfo['main']['attrs']['primaryGroup']->getValue()
+      );
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
+        sprintf("Primary group '%s' for user '%s' manually selected.",
+        $this->attributesInfo['main']['attrs']['gidNumber']->getValue(), $this->uid), "");
+    }
+    parent::save();
+  }
+}
+
+class old_posixAccount extends plugin
+{
   /* Plugin specific values */
   var $homeDirectory      = "";
   var $loginShell         = "/bin/bash";
@@ -244,16 +546,16 @@ class posixAccount extends plugin
 
 
     /* Generate shell list from SYSTEMS_DIR./shells */
-    if (file_exists(SYSTEMS_DIR.'/shells')){
+    if (file_exists(SYSTEMS_DIR.'/shells')) {
       $shells = file (SYSTEMS_DIR.'/shells');
-      foreach ($shells as $line){
-        if (!preg_match ("/^#/", $line)){
-          $this->loginShellList[]= trim($line);
+      foreach ($shells as $line) {
+        if (!preg_match ("/^#/", $line)) {
+          $this->loginShellList[] = trim($line);
         }
       }
     } else {
-      if ($this->loginShell == ""){
-        $this->loginShellList[]= _("unconfigured");
+      if ($this->loginShell == "") {
+        $this->loginShellList[] = _("unconfigured");
       }
     }
 
@@ -515,19 +817,6 @@ class posixAccount extends plugin
     /* Avoid "Undefined index: forceMode" */
     $smarty->assign("forceMode", "");
 
-    /* Checkboxes */
-    if ($this->force_ids == 1){
-      $smarty->assign("force_ids", "checked");
-      if (session::get('js')){
-        $smarty->assign("forceMode", "");
-      }
-    } else {
-      if (session::get('js')){
-        $smarty->assign("forceMode", "disabled");
-      }
-      $smarty->assign("force_ids", "");
-    }
-
     /* Create onClick="" action string for the "Force UID/GID" option
      */
     $onClickIDS ="";
@@ -660,19 +949,6 @@ class posixAccount extends plugin
       plugin::save_object();
 
 
-      /* Save force GID checkbox */
-      if($this->acl_is_writeable("gidNumber") || $this->acl_is_writeable("uidNumber")){
-        if (isset ($_POST['force_ids'])){
-          $data= 1;
-        } else {
-          $data= 0;
-        }
-        if ($this->force_ids != $data){
-          $this->is_modified= TRUE;
-        }
-        $this->force_ids= $data;
-      }
-
       /*Save primary group settings */
       if($this->acl_is_writeable("primaryGroup") && isset($_POST['primaryGroup'])){
         $data= $_POST['primaryGroup'];
@@ -770,109 +1046,6 @@ class posixAccount extends plugin
     }
     if (!$this->activate_shadowWarning) {
       $this->shadowWarning = "0";
-    }
-
-    /* Check what to do with ID's
-        Nothing forced, so we may have to generate our own IDs, if not done already.
-     */
-    if ($this->force_ids == 0) {
-
-      /* Handle uidNumber.
-       * - use existing number if possible
-       * - if not, try to create a new uniqe one.
-       * */
-      if ($this->savedUidNumber != "") {
-        $this->uidNumber= $this->savedUidNumber;
-      } else {
-
-        /* Calculate new id's. We need to place a lock before calling get_next_id
-           to get real unique values.
-         */
-        $wait= 10;
-        while (get_lock("uidnumber") != "") {
-          sleep (1);
-
-          /* Oups - timed out */
-          if ($wait-- == 0) {
-            msg_dialog::display(_("Warning"), _("Timeout while waiting for lock. Ignoring lock!"), WARNING_DIALOG);
-            break;
-          }
-        }
-        add_lock ("uidnumber", "gosa");
-        $this->uidNumber= get_next_id("uidNumber", $this->dn);
-      }
-    }
-
-
-    /* Handle gidNumber
-     * - If we do not have a primary group selected (automatic), we will check if there
-     *    is already a group  with the same name and use this as primary.
-     * - .. if we couldn't find a group with the same name, we will create a new one,
-     *    using the users uid as cn and a generated uniqe gidNumber.
-     * */
-    if($this->is_template && !$this->primaryGroup){
-      $this->gidNumber = 2147483647;
-    }elseif ($this->primaryGroup == 0 || $this->force_ids){
-
-      /* Search for existing group */
-      $ldap = $this->config->get_ldap_link();
-      $ldap->cd($this->config->current['BASE']);
-
-      /* Are we forced to use a special gidNumber? */
-      if($this->force_ids) {
-        $ldap->search("(&(objectClass=posixGroup)(gidNumber=".$this->gidNumber."))", array("cn","gidNumber"));
-      } else {
-        $ldap->search("(&(objectClass=posixGroup)(gidNumber=*)(cn=".$this->uid."))", array("cn","gidNumber"));
-      }
-
-      /* No primary group found, create a new one */
-      if ($ldap->count() == 0) {
-
-        $groupcn = $this->uid;
-        $pri_attr = $this->config->get_cfg_value("accountPrimaryAttribute");
-        $groupdn= preg_replace ('/^'.preg_quote($pri_attr,'/').'=[^,]+,'.preg_quote(get_people_ou(),'/').'/i',
-            'cn='.$groupcn.','.get_groups_ou(), $this->dn);
-
-        /* Request a new and uniqe gidNumber, if required */
-        if (!$this->force_ids) {
-          $this->gidNumber= get_next_id("gidNumber", $this->dn);
-        }
-
-        /* If forced gidNumber could not be found, then check if the given group name already exists
-           we do not want to modify the gidNumber of an existing group.
-         */
-        $cnt= 0;
-        while ($ldap->dn_exists($groupdn) && ($cnt < 100)) {
-          $cnt ++;
-          $groupcn = $this->uid."_".$cnt;
-          $groupdn= preg_replace ('/^'.preg_quote($pri_attr,'/').'=[^,]+,'.preg_quote(get_people_ou(),'/').'/i',
-              'cn='.$groupcn.','.get_groups_ou(), $this->dn);
-        }
-
-        /* Create new primary group and enforce the new gidNumber */
-        $g= new group($this->config, $groupdn);
-        $g->cn= $groupcn;
-        $g->force_gid= 1;
-        $g->gidNumber= $this->gidNumber;
-        $g->description= _("Group of user")." ".$this->givenName;
-        $g->save ();
-
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
-            sprintf("Primary group '%s' created, using gidNumber '%s'.",$groupcn,$this->gidNumber),"");
-      } else {
-        $attrs = $ldap->fetch();
-        $this->gidNumber = $attrs['gidNumber'][0];
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
-            "Found and used: <i>".$attrs['dn']."</i>",
-            sprintf("Primary group '%s' exists, gidNumber is '%s'.",$this->uid,$this->gidNumber));
-      }
-    } else {
-
-      /* Primary group was selected by user
-       */
-      $this->gidNumber = $this->primaryGroup;
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
-          sprintf("Primary group '%s' for user '%s' manually selected.",$this->gidNumber,$this->uid),"");
     }
 
     if ($this->activate_shadowMin != "1" ) {
@@ -1231,36 +1404,6 @@ class posixAccount extends plugin
     return($ids);
   }
 
-  static function plInfo()
-  {
-    return array(
-      "plShortName"       => _("Unix"),
-      "plDescription"     => _("POSIX account"),
-      "plSelfModify"      => TRUE,
-      "plDepends"         => array("user"),
-      "plPriority"        => 2,
-      "plCategory"        => array("users"),
-      "plObjectType"      => array("user"),
-
-      "plProvidedAcls"  => array(
-        "homeDirectory"       =>  _("Home directory"),
-        "loginShell"          =>  _("Shell"),
-        "uidNumber"           =>  _("User ID"),
-        "gidNumber"           =>  _("Group ID"),
-
-        "mustchangepassword"=>  _("Force password change on login"),
-        "shadowMin"           =>  _("Shadow min"),
-        "shadowMax"           =>  _("Shadow max"),
-        "shadowWarning"       =>  _("Shadow warning"),
-        "shadowInactive"      =>  _("Shadow inactive"),
-        "shadowExpire"        =>  _("Shadow expire"),
-        "sshPublickey"        =>  _("Public SSH key"),
-        "trustModel"          =>  _("System trust model")
-      )
-    );
-  }
-
 }
 
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
