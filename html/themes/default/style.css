@@ -1686,13 +1686,15 @@ padding:2px;
 
 .date {
 float:left;
+text-align:center;
+width:90px;
 }
 
 .datepicker-opener-table {
 border:1px solid transparent;
 padding:0;
 border-spacing:0;
-margin:0 0 0 3px;
+margin:0 0 0 93px;
 background:transparent url(../../images/datepicker.gif) no-repeat 0 0;
 width:18px;
 height:18px;

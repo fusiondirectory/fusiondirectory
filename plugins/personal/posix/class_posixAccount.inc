@@ -44,6 +44,37 @@ class PosixStatusAttribute extends Attribute
   }
 }
 
+class EpochDaysDateAttribute extends DateAttribute
+{
+  public static $secondsPerDay = 86400; //60 * 60 * 24
+
+  function __construct ($label, $description, $ldapName, $required, $defaultValue = 'now', $acl = "")
+  {
+    parent::__construct($label, $description, $ldapName, $required, '', $defaultValue, $acl);
+  }
+
+  protected function ldapToDate($ldapValue)
+  {
+    $date = DateTime::createFromFormat('U', $ldapValue * self::$secondsPerDay, new DateTimeZone('UTC'));
+    if ($date !== FALSE) {
+      return $date;
+    } else {
+      trigger_error('LDAP value for '.$this->getLdapName().' was not in the right date format.');
+      return new DateTime($ldapValue, new DateTimeZone('UTC'));
+    }
+  }
+
+  protected function dateToLdap($dateValue)
+  {
+    return floor($dateValue->format('U') / self::$secondsPerDay);
+  }
+
+  function getEpochDays()
+  {
+    return $this->dateToLdap($this->getDateValue());
+  }
+}
+
 class posixAccount extends simplePlugin
 {
   var $displayHeader = TRUE;
@@ -54,7 +85,7 @@ class posixAccount extends simplePlugin
   {
     return array(
       'main' => array(
-        'name'  => _("Generic"),
+        'name'  => _('Generic'),
         'icon'  => 'images/rightarrow.png',
         'attrs' => array(
           new StringAttribute(
@@ -87,6 +118,46 @@ class posixAccount extends simplePlugin
             'gidNumber', FALSE,
             0, FALSE, ""
           )
+        )
+      ),
+      'account' => array(
+        'name'  => _('Account'),
+        'icon'  => 'plugins/posix/images/terminal_small.png',
+        'attrs' => array(
+          new BooleanAttribute(
+            _('User must change password on first login'), _('User must change password on first login (leave empty to disable)'),
+            'mustchangepassword', FALSE
+          ),
+          new IntAttribute(
+            _('Delay before locking password (days)'), _('The user won\'t be able to change his password after this number of days (leave empty to disable)'),
+            'shadowMin', FALSE,
+            0, FALSE, ""
+          ),
+          new IntAttribute(
+            _('Delay before forcing password change (days)'), _('The user will be forced to change his password after this number of days (leave empty to disable)'),
+            'shadowMax', FALSE,
+            0, FALSE, ""
+          ),
+          new EpochDaysDateAttribute(
+            _('Password expiration date'), _('Date after which this user password will expire (leave empty to disable)'),
+            'shadowExpire', FALSE,
+            ''
+          ),
+          new IntAttribute(
+            _('Delay of inactivity before disabling user (days)'), _('Maximum delay of inactivity after password expiration before the user is disabled (leave empty to disable)'),
+            'shadowInactive', FALSE,
+            0, FALSE, ""
+          ),
+          new IntAttribute(
+            _('Delay for user warning before password expiry (days)'), _('The user will be warned this number of days before his password expiration (leave empty to disable)'),
+            'shadowWarning', FALSE,
+            0, FALSE, ""
+          ),
+          new IntAttribute(
+            'No label', 'No description',
+            'shadowLastChange', FALSE,
+            0, FALSE, ''
+          ),
         )
       )
     );
@@ -126,6 +197,9 @@ class posixAccount extends simplePlugin
       )
     );
     $this->attributesInfo['main']['attrs']['primaryGroup']->setInLdap(FALSE);
+
+    $this->attributesInfo['account']['attrs']['mustchangepassword']->setInLdap(FALSE);
+    $this->attributesInfo['account']['attrs']['shadowLastChange']->setVisible(FALSE);
 
     /* Setting uid to default */
     if (isset($this->attrs['uid'][0])) {
@@ -168,7 +242,6 @@ class posixAccount extends simplePlugin
 
     /* Insert possibly missing loginShell */
     $loginShell = $this->attributesInfo['main']['attrs']['loginShell']->getValue();
-    echo "<h1>$loginShell</h1>\n";
     if ($loginShell != "" && !in_array($loginShell, $loginShellList)) {
       $loginShellList[]= $loginShell;
     }
@@ -187,26 +260,30 @@ class posixAccount extends simplePlugin
     asort ($secondaryGroups);
     $this->attributesInfo['main']['attrs']['primaryGroup']->setChoices(array_keys($secondaryGroups), array_values($secondaryGroups));
 
-    $current = date("U");
-    $current = floor($current / 60 / 60 / 24);
+    $current = floor(date("U") / EpochDaysDateAttribute::$secondsPerDay);
 
-    //~ $shadowExpire     = $this->attributesInfo['account']['attrs']['shadowExpire']->getValue();
-    //~ $shadowInactive   = $this->attributesInfo['account']['attrs']['shadowInactive']->getValue();
-    //~ $shadowMin        = $this->attributesInfo['account']['attrs']['shadowMin']->getValue();
-    //~ $shadowMax        = $this->attributesInfo['account']['attrs']['shadowMax']->getValue();
-    //~ $shadowLastChange = $this->attributesInfo['account']['attrs']['shadowLastChange']->getValue();
-    //~ if (($current >= $shadowExpire) && ($shadowExpire > 0)) {
-      //~ $status = _("expired");
-      //~ if (($current - $shadowExpire) < $shadowInactive) {
-        //~ $status .= ", "._("grace time active");
-      //~ }
-    //~ } elseif (($shadowLastChange + $shadowMin) >= $current) {
-      //~ $status = _("active").", "._("password not changeable");
-    //~ } elseif (($shadowLastChange + $shadowMax) >= $current) {
-      //~ $status = _("active").", "._("password expired");
-    //~ } else {
+    $shadowExpire     = $this->attributesInfo['account']['attrs']['shadowExpire']->getEpochDays();
+    $shadowInactive   = $this->attributesInfo['account']['attrs']['shadowInactive']->getValue();
+    $shadowMin        = $this->attributesInfo['account']['attrs']['shadowMin']->getValue();
+    $shadowMax        = $this->attributesInfo['account']['attrs']['shadowMax']->getValue();
+    $shadowLastChange = $this->attributesInfo['account']['attrs']['shadowLastChange']->getValue();
+    echo "<h1>current: $current</h1>\n";
+    echo "<h1>shadowExpire: $shadowExpire</h1>\n";
+    echo "<h1>Last change: $shadowLastChange</h1>\n";
+    echo "<h1>shadowMax: $shadowMax</h1>\n";
+    echo "<h1>($shadowLastChange + $shadowMax) >= $current)</h1>\n";
+    if (($current >= $shadowExpire) && ($shadowExpire > 0)) {
+      $status = _("expired");
+      if ($shadowInactive != "" && ($current - $shadowExpire) < $shadowInactive) {
+        $status .= ", "._("grace time active");
+      }
+    } elseif ($shadowMax != "" && ($shadowLastChange + $shadowMax) <= $current) {
+      $status = _("active").", "._("password expired");
+    } elseif ($shadowMin != "" && ($shadowLastChange + $shadowMin) <= $current) {
+      $status = _("active").", "._("password not changeable");
+    } else {
       $status = _("active");
-    //~ }
+    }
     $this->attributesInfo['main']['attrs']['posixStatus']->setValue($status);
   }
 
@@ -222,7 +299,7 @@ class posixAccount extends simplePlugin
     $this->gidNumber       = "";
   }
 
-  function save()
+  function prepare_save()
   {
     $force_ids = $this->attributesInfo['main']['attrs']['force_ids']->getValue();
 
@@ -333,8 +410,53 @@ class posixAccount extends simplePlugin
         sprintf("Primary group '%s' for user '%s' manually selected.",
         $this->attributesInfo['main']['attrs']['gidNumber']->getValue(), $this->uid), "");
     }
-    parent::save();
+
+    if ($this->attributesInfo['account']['attrs']['mustchangepassword']->getValue()) {
+      echo "<h1>forcing password change</h1>\n";
+      $this->attributesInfo['account']['attrs']['shadowLastChange']->setValue(
+        floor(date("U") / EpochDaysDateAttribute::$secondsPerDay) - $this->attributesInfo['account']['attrs']['shadowMax']->getValue() - 1
+      );
+    } elseif ($this->is_account && !$this->initially_was_account) {
+      echo "<h1>init shadowLastChange</h1>\n";
+      $this->attributesInfo['account']['attrs']['shadowLastChange']->setValue(
+        floor(date("U") / EpochDaysDateAttribute::$secondsPerDay)
+      );
+    }
+
+    $this->updateAttributesValues();
+    parent::prepare_save();
+    print_r($this->attrs);
   }
+
+  function save()
+  {
+    parent::save();
+    del_lock("uidnumber");
+  }
+
+  /* remove object from parent */
+  function remove_from_parent()
+  {
+    /* Cancel if there's nothing to do here */
+    if ((!$this->initially_was_account) || (!$this->acl_is_removeable())) {
+      return;
+    }
+
+    /* Remove and write to LDAP */
+    parent::remove_from_parent();
+
+    /* Delete group only if cn is uid and there are no other members inside */
+    $ldap = $this->config->get_ldap_link();
+    $ldap->cd ($this->config->current['BASE']);
+    $ldap->search ("(&(objectClass=posixGroup)(gidNumber=".$this->gidNumber."))", array("cn", "memberUid"));
+    if ($ldap->count() != 0) {
+      $attrs = $ldap->fetch();
+      if ($attrs['cn'][0] == $this->uid && !isset($this->attrs['memberUid'])) {
+        $ldap->rmDir($ldap->getDN());
+      }
+    }
+  }
+
 }
 
 class old_posixAccount extends plugin
@@ -425,21 +547,7 @@ class old_posixAccount extends plugin
       $this->gotoLastSystemLogin = date("d.m.Y H:i:s", $this->attrs['sambaLogonTime'][0]);
     }
 
-    /* Setting uid to default */
-    if (isset($this->attrs['uid'][0])) {
-      $this->uid = $this->attrs['uid'][0];
-    }
-
-    $ldap = $this->config->get_ldap_link();
-
     if ($dn !== NULL) {
-
-      /* Correct is_account. shadowAccount is not required. */
-      if (isset($this->attrs['objectClass']) &&
-          in_array ('posixAccount', $this->attrs['objectClass'])) {
-
-        $this->is_account = TRUE;
-      }
 
       /* Is this account a trustAccount? */
       if ($this->is_account && isset($this->attrs['host'])) {
@@ -462,42 +570,6 @@ class old_posixAccount extends plugin
         $this->trustModel= "";
       }
 
-/*      $this->accessTo = array();
-      if ($this->is_account && isset($this->attrs['host'])){
-        for ($i= 0; $i<$this->attrs['host']['count']; $i++){
-          $tmp= $this->attrs['host'][$i];
-          $this->accessTo[$tmp]= $tmp;
-        }
-      }*/
-      $this->initially_was_account = $this->is_account;
-
-      // Templates do not have a gidNumber
-      if ($this->gidNumber == 2147483647) {
-        $this->gidNumber    = "";
-        $this->primaryGroup = 0;
-      }
-
-      /* Fill group */
-      $this->primaryGroup = $this->gidNumber;
-
-      /* Generate status text */
-      $current = date("U");
-
-      $current = floor($current / 60 /60 / 24);
-
-      if (($current >= $this->shadowExpire) && $this->shadowExpire) {
-        $this->status = _("expired");
-        if (($current - $this->shadowExpire) < $this->shadowInactive) {
-          $this->status .= ", "._("grace time active");
-        }
-      } elseif (($this->shadowLastChange + $this->shadowMin) >= $current) {
-        $this->status = _("active").", "._("password not changeable");
-      } elseif (($this->shadowLastChange + $this->shadowMax) >= $current) {
-        $this->status = _("active").", "._("password expired");
-      } else {
-        $this->status = _("active");
-      }
-
       /* Get group membership */
       $ldap->cd($this->config->current['BASE']);
       $ldap->search("(&(objectClass=posixGroup)(memberUid=".$this->uid."))", array("cn", "description"));
@@ -513,8 +585,6 @@ class old_posixAccount extends plugin
       asort($this->groupMembership);
       reset($this->groupMembership);
       $this->savedGroupMembership= $this->groupMembership;
-      $this->savedUidNumber= $this->uidNumber;
-      $this->savedGidNumber= $this->gidNumber;
 
       // Instanciate SSH object if available
       if (isset($class_mapping["sshPublicKey"])){
@@ -527,52 +597,12 @@ class old_posixAccount extends plugin
       }
     }
 
-    /* Adjust shadow checkboxes */
-    foreach (array("shadowMin", "shadowMax", "shadowWarning", "shadowInactive",
-          "shadowExpire") as $val){
-
-      if ($this->$val != 0){
-        $oval= "activate_".$val;
-        $this->$oval= "1";
-      }
-    }
-
     /* Convert shadowExpire for usage */
-    if ($this->shadowExpire == 0){
-      $this->shadowExpire= "";
+    if ($this->shadowExpire == 0) {
+      $this->shadowExpire = "";
     } else {
-      $this->shadowExpire= date('d.m.Y', $this->shadowExpire * 60 * 60 * 24);
+      $this->shadowExpire = date('d.m.Y', $this->shadowExpire * 60 * 60 * 24);
     }
-
-
-    /* Generate shell list from SYSTEMS_DIR./shells */
-    if (file_exists(SYSTEMS_DIR.'/shells')) {
-      $shells = file (SYSTEMS_DIR.'/shells');
-      foreach ($shells as $line) {
-        if (!preg_match ("/^#/", $line)) {
-          $this->loginShellList[] = trim($line);
-        }
-      }
-    } else {
-      if ($this->loginShell == "") {
-        $this->loginShellList[] = _("unconfigured");
-      }
-    }
-
-    /* Insert possibly missing loginShell */
-    if ($this->loginShell != "" && !in_array($this->loginShell, $this->loginShellList)){
-      $this->loginShellList[]= $this->loginShell;
-    }
-
-    /* Generate group list */
-    $this->ui = get_userinfo();
-    $this->secondaryGroups[0]= "- "._("automatic")." -";
-    $ldap->cd($this->config->current['BASE']);
-    $ldap->search("(objectClass=posixGroup)", array("cn", "gidNumber"));
-    while($attrs = $ldap->fetch()){
-      $this->secondaryGroups[$attrs['gidNumber'][0]]= $attrs['cn'][0];
-    }
-    asort ($this->secondaryGroups);
 
     /* Get global filter config */
     if (!session::is_set("sysfilter")){
@@ -585,17 +615,6 @@ class old_posixAccount extends plugin
     $this->ui = get_userinfo();
   }
 
-  function resetCopyInfos()
-  {
-    parent::resetCopyInfos();
-    $this->savedGroupMembership = array();
-    $this->savedUidNumber       = "";
-    $this->savedGidNumber       = "";
-    $this->uidNumber       = "";
-    $this->gidNumber       = "";
-  }
-
-
   /* execute generates the html output for this node */
   function execute($isCopyPaste = false)
   {
@@ -603,36 +622,12 @@ class old_posixAccount extends plugin
     plugin::execute();
     $display= "";
 
-    /* Log view */
-    if($this->is_account && !$this->view_logged){
-      $this->view_logged = TRUE;
-      new log("view","users/".get_class($this),$this->dn);
-    }
-
     /* Department has changed? */
     if(isset($_POST['depselect'])){
       session::set('CurrentMainBase',validate($_POST['depselect']));
     }
 
     if (!$isCopyPaste) {
-
-      /* Do we need to flip is_account state? */
-      if(isset($_POST['modify_state'])){
-        if($this->is_account && $this->acl_is_removeable()){
-          $this->is_account= FALSE;
-        }elseif(!$this->is_account && $this->acl_is_createable()){
-          $this->is_account= TRUE;
-        }
-      }
-
-      /* Do we represent a valid posixAccount? */
-      if (!$this->is_account && $this->parent === NULL ){
-        $display= "<img alt=\"\" src=\"images/small-error.png\" align=\"middle\">&nbsp;<b>".
-          msgPool::noValidExtension(_("POSIX"))."</b>";
-        $display.= back_to_main();
-        return ($display);
-      }
-
 
       /* Show tab dialog headers */
       if ($this->parent !== NULL){
@@ -763,46 +758,10 @@ class old_posixAccount extends plugin
 
     $smarty->assign("sshPublicKeyACL", $this->getacl("sshPublicKey", $SkipWrite));
 
-    /* Depending on pwmode, currently hardcoded because there are no other methods */
-    if ( 1 == 1 ){
-      $smarty->assign("pwmode", dirname(__FILE__)."/posix_shadow");
-
-      $shadowMinACL     =  $this->getacl("shadowMin",$SkipWrite);
-      $smarty->assign("shadowmins", sprintf(_("Password can't be changed up to %s days after last change"),
-                                              "<input name=\"shadowMin\" size=3 maxlength=4 value=\"".$this->shadowMin."\">"));
-
-      $shadowMaxACL     =  $this->getacl("shadowMax",$SkipWrite);
-      $smarty->assign("shadowmaxs", sprintf(_("Password must be changed after %s days"),
-                                              "<input name=\"shadowMax\" size=3 maxlength=4 value=\"".$this->shadowMax."\">"));
-
-      $shadowInactiveACL=  $this->getacl("shadowInactive",$SkipWrite);
-      $smarty->assign("shadowinactives", sprintf(_("Disable account after %s days of inactivity after password expiry"),
-                                              "<input name=\"shadowInactive\" size=3 maxlength=4 value=\"".$this->shadowInactive."\">"));
-
-      $shadowWarningACL =  $this->getacl("shadowWarning",$SkipWrite);
-      $smarty->assign("shadowwarnings", sprintf(_("Warn user %s days before password expiry"),
-                                              "<input name=\"shadowWarning\" size=3 maxlength=4 value=\"".$this->shadowWarning."\">"));
-
-      foreach( array("activate_shadowMin", "activate_shadowMax",
-                     "activate_shadowExpire", "activate_shadowInactive","activate_shadowWarning") as $val){
-        if ($this->$val == 1){
-          $smarty->assign("$val", "checked");
-        } else {
-          $smarty->assign("$val", "");
-        }
-        $smarty->assign("$val"."ACL", $this->getacl($val,$SkipWrite));
-      }
-
-      $smarty->assign("mustchangepasswordACL", $this->getacl("mustchangepassword",$SkipWrite));
-    }
-
     // Set last system login
     $smarty->assign("gotoLastSystemLogin",$this->gotoLastSystemLogin);
 
     /* Fill arrays */
-    $smarty->assign("shells", $this->loginShellList);
-    $smarty->assign("secondaryGroups", $this->secondaryGroups);
-    $smarty->assign("primaryGroup", $this->primaryGroup);
     if (!count($this->groupMembership)){
       $smarty->assign("groupMembership", array("&nbsp;"));
     } else {
@@ -817,35 +776,11 @@ class old_posixAccount extends plugin
     /* Avoid "Undefined index: forceMode" */
     $smarty->assign("forceMode", "");
 
-    /* Create onClick="" action string for the "Force UID/GID" option
-     */
-    $onClickIDS ="";
-    if(preg_match("/w/",$this->getacl("uidNumber",$SkipWrite))){
-      $onClickIDS .= "changeState('uidNumber');";
-    }
-    if(preg_match("/w/",$this->getacl("gidNumber",$SkipWrite))){
-      $onClickIDS .= "changeState('gidNumber');";
-    }
-    $smarty->assign("onClickIDS", $onClickIDS);
-    $smarty->assign("force_idsACL", $this->getacl("uidNumber",$SkipWrite).$this->getacl("gidNumber",$SkipWrite));
-
-    /* Load attributes and acl's */
-    foreach($this->attributes as $val){
-      if((session::get("js"))&&(($val=="uidNumber")||($val=="gidNumber")))
-      {
-        $smarty->assign("$val"."ACL",$this->getacl($val,$SkipWrite));
-        $smarty->assign("$val", $this->$val);
-        continue;
-      }
-      $smarty->assign("$val", $this->$val);
-      $smarty->assign("$val"."ACL", $this->getacl($val,$SkipWrite));
-    }
     if($SkipWrite){
       $smarty->assign("groupMembershipACL","r");
     }else{
       $smarty->assign("groupMembershipACL","rw");
     }
-    $smarty->assign("status", $this->status);
 
     /* Work on trust modes */
     $smarty->assign("trusthide", " disabled ");
@@ -873,12 +808,6 @@ class old_posixAccount extends plugin
       $smarty->assign("emptyArrAccess",true);
     else
       $smarty->assign("emptyArrAccess",false);
-
-      if($this->mustchangepassword){
-        $smarty->assign("mustchangepassword", " checked ");
-      } else {
-        $smarty->assign("mustchangepassword", "");
-      }
 
     $smarty->assign("workstations", $this->accessTo);
 
@@ -948,39 +877,6 @@ class old_posixAccount extends plugin
       /* Save values to object */
       plugin::save_object();
 
-
-      /*Save primary group settings */
-      if($this->acl_is_writeable("primaryGroup") && isset($_POST['primaryGroup'])){
-        $data= $_POST['primaryGroup'];
-        if ($this->primaryGroup != $data){
-          $this->is_modified= TRUE;
-        }
-        $this->primaryGroup= $_POST['primaryGroup'];
-      }
-
-      /* Get seelcted shadow checkboxes */
-      foreach(array("shadowMin","shadowMax","shadowExpire","shadowInactive","shadowWarning") as $var) {
-        if($this->acl_is_writeable($var)){
-          $activate_var = "activate_".$var;
-          if(isset($_POST['activate_'.$var])){
-            $this->$activate_var  = true;
-            $this->$var      = $_POST[$var];
-          }else{
-            $this->$activate_var  = false;
-            if ($var != "shadowExpire") {
-              $this->$var      = 0;
-            }
-          }
-        }
-      }
-
-      /* Force change password ? */
-      if(isset($_POST['mustchangepassword'])){
-        $this->mustchangepassword = TRUE;
-      }else{
-        $this->mustchangepassword = FALSE;
-      }
-
       /* Trust mode - special handling */
       if($this->acl_is_writeable("trustModel")){
         if (isset($_POST['trustmode'])){
@@ -1034,38 +930,7 @@ class old_posixAccount extends plugin
     } else {
       /* Transform date to days since the beginning */
       list($day, $month, $year) = explode('.', $this->shadowExpire, 3);
-      $this->shadowExpire = (int)(mktime(0, 0, 0, $month, $day, $year)/ (60 * 60 * 24)) ;
-    }
-    if (!$this->activate_shadowMax) {
-      $this->shadowMax = "0";
-    }
-    if ($this->mustchangepassword) {
-      $this->shadowLastChange = (int)(date("U") / 86400) - $this->shadowMax - 1;
-    } elseif ($this->is_account && !$this->initially_was_account) {
-      $this->shadowLastChange = (int)(date("U") / 86400);
-    }
-    if (!$this->activate_shadowWarning) {
-      $this->shadowWarning = "0";
-    }
-
-    if ($this->activate_shadowMin != "1" ) {
-      $this->shadowMin = "";
-    }
-
-    if (($this->activate_shadowMax != "1") && ($this->mustchangepassword != "1")) {
-      $this->shadowMax = "";
-    }
-
-    if ($this->activate_shadowWarning != "1" ) {
-      $this->shadowWarning = "";
-    }
-
-    if ($this->activate_shadowInactive != "1" ) {
-      $this->shadowInactive = "";
-    }
-
-    if ($this->activate_shadowExpire != "1" ) {
-      $this->shadowExpire = "";
+      $this->shadowExpire = (int)(mktime(0, 0, 0, $month, $day, $year) / (60 * 60 * 24));
     }
 
     /* Fill gecos */
@@ -1076,9 +941,6 @@ class old_posixAccount extends plugin
       }
     }
 
-    foreach (array("shadowMin","shadowMax","shadowWarning","shadowInactive","shadowExpire") as $attr) {
-      $this->$attr = (int) $this->$attr;
-    }
     /* Call parents save to prepare $this->attrs */
     plugin::save();
 
@@ -1172,15 +1034,6 @@ class old_posixAccount extends plugin
         $g->by_object['group']->removeUser ($this->uid);
         $g->save();
       }
-    }
-
-    /* Optionally execute a command after we're done */
-    if ($this->initially_was_account == $this->is_account) {
-      if ($this->is_modified) {
-        $this->handle_post_events("modify",array("uid" => $this->uid));
-      }
-    } else {
-      $this->handle_post_events("add" ,array("uid"=> $this->uid));
     }
   }
 
