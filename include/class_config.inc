@@ -1059,20 +1059,20 @@ class config  {
 
   function __search(&$arr, $name, $return)
   {
-    $return= strtoupper($return);
-    if (is_array($arr)){
-      foreach ($arr as &$a){
-        if (isset($a['CLASS']) && strcasecmp($name, $a['CLASS']) == 0){
-          return(isset($a[$return])?$a[$return]:"");
+    $return = strtoupper($return);
+    if (is_array($arr)) {
+      foreach ($arr as &$a) {
+        if (isset($a['CLASS']) && strcasecmp($name, $a['CLASS']) == 0) {
+          return (isset($a[$return])?$a[$return]:"");
         } else {
           $res= $this->__search ($a, $name, $return);
-          if ($res != ""){
+          if ($res != "") {
             return $res;
           }
         }
       }
     }
-    return ("");
+    return "";
   }
 
 
