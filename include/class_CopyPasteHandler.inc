@@ -349,7 +349,9 @@ class CopyPasteHandler {
       // Walk through all roles
       foreach ($roles as $role) {
         $role = new roleGeneric($this->config, $role['dn']);
-        $role->roleOccupant[] = $dst_dn;
+        $roleOccupants = $role->roleOccupant;
+        $roleOccupants[] = $dst_dn;
+        $role->roleOccupant = $roleOccupants;
         $role->save();
       }
     }
