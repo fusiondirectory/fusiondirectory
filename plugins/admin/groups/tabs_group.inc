@@ -54,7 +54,7 @@ class grouptabs extends tabs
     tabs::delete();
   }
 
-  function save($ignore_account = FALSE)
+  function save()
   {
     $baseobject = $this->getBaseObject();
 

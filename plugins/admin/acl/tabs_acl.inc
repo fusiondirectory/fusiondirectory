@@ -29,16 +29,6 @@ class acltab extends tabs
     parent::__construct($config, $data, $dn, "", $copied_object);
   }
 
-  function save($ignore_account = FALSE)
-  {
-    return parent::save();
-  }
-
-  function save_object($ignore_account = FALSE)
-  {
-    return parent::save_object();
-  }
-
   function execute()
   {
     $display = parent::execute();

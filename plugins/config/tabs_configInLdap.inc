@@ -20,10 +20,10 @@
 
 class tabs_configInLdap extends tabs
 {
-  function save ($ignore_account = FALSE)
+  function save ()
   {
     global $config;
-    parent::save($ignore_account);
+    parent::save();
     $config->check_and_reload(TRUE);
     $plist = session::global_get('plist');
     if ($plist) {

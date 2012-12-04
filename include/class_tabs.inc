@@ -304,7 +304,7 @@ class tabs
    *
    * \param boolean $ignore_account false
    */
-  function check($ignore_account = FALSE)
+  function check()
   {
     $messages = array();
 
@@ -312,7 +312,7 @@ class tabs
 
     /* Check all plugins */
     foreach ($this->by_object as $key => &$obj) {
-      if ($obj->is_account || $ignore_account || $obj->ignore_account) {
+      if ($obj->is_account || $obj->ignore_account) {
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$key, "Checking");
 
         $msg = $obj->check();
@@ -339,19 +339,18 @@ class tabs
    *
    * \param boolean $ignore_account false
    */
-  function save($ignore_account = FALSE)
+  function save()
   {
     /* Save all plugins */
-    foreach ($this->by_object as $key => &$obj){
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
-          $key, "Saving");
+    foreach ($this->by_object as $key => &$obj) {
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Saving");
 
       $obj->dn = $this->dn;
 
       if (!$obj instanceof plugin && !$obj instanceOf management) {
         trigger_error("Something went wrong while saving ".$obj->dn.". Object class '".get_class($obj)."'.");
       } else {
-        if ($obj->is_account || $ignore_account || $obj->ignore_account) {
+        if ($obj->is_account || $obj->ignore_account) {
           if ($obj->save() == 1) {
             return 1;
           }

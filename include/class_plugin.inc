@@ -68,8 +68,8 @@ class plugin
 
     \sa plugin::plugin()
    */
-  var $is_account= FALSE;
-  var $initially_was_account= FALSE;
+  var $is_account             = FALSE;
+  var $initially_was_account  = FALSE;
 
   /*!
     \brief Mark plugin as template
@@ -80,42 +80,42 @@ class plugin
 
     \sa plugin::save() plugin::execute()
    */
-  var $is_template= FALSE;
-  var $ignore_account= FALSE;
-  var $is_modified= FALSE;
+  var $is_template    = FALSE;
+  var $ignore_account = FALSE;
+  var $is_modified    = FALSE;
 
   /*!
     \brief Represent temporary LDAP data
 
     This is only used internally.
    */
-  var $attrs= array();
+  var $attrs = array();
 
   /* Keep set of conflicting plugins */
-  var $conflicts= array();
+  var $conflicts = array();
 
   /* Save unit tags */
-  var $gosaUnitTag= "";
-  var $skipTagging= FALSE;
+  var $gosaUnitTag  = "";
+  var $skipTagging  = FALSE;
 
   /*!
     \brief Used standard values
 
     dn
    */
-  var $dn= "";
-  var $uid= "";
-  var $sn= "";
-  var $givenName= "";
-  var $acl= "*none*";
-  var $dialog= FALSE;
+  var $dn         = "";
+  var $uid        = "";
+  var $sn         = "";
+  var $givenName  = "";
+  var $acl        = "*none*";
+  var $dialog     = FALSE;
   var $snapDialog = NULL;
 
   /* attribute list for save action */
-  var $attributes= array();
-  var $objectclasses= array();
-  var $is_new= TRUE;
-  var $saved_attributes= array();
+  var $attributes       = array();
+  var $objectclasses    = array();
+  var $is_new           = TRUE;
+  var $saved_attributes = array();
 
   var $acl_base= "";
   var $acl_category= "";

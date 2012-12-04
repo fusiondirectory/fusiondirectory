@@ -52,7 +52,7 @@ class deptabs extends tabs
     return parent::check(TRUE);
   }
 
-  function save($ignore_account = FALSE)
+  function save()
   {
     $baseobject = &$this->by_object[$this->base_name];
     $namingAttr = $baseobject->namingAttr;
@@ -74,9 +74,7 @@ class deptabs extends tabs
 
     $this->dn       = $new_dn;
     $baseobject->dn = $this->dn;
-    if (!$ignore_account) {
-      parent::save(TRUE);
-    }
+    parent::save();
   }
 }
 ?>
