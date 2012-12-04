@@ -314,8 +314,6 @@ class posixAccount extends simplePlugin
 
     $this->savedGroupMembership = array();
 
-    $this->savedUidNumber       = "";
-    $this->savedGidNumber       = "";
     $this->uidNumber       = "";
     $this->gidNumber       = "";
   }

@@ -226,15 +226,22 @@ class group extends plugin
     }
 
     /* This is always an account */
-    $this->is_account= TRUE;
+    $this->is_account = TRUE;
 
     /* Instanciate base selector */
-    $this->baseSelector= new baseSelector($this->get_allowed_bases(), $this->base);
-    $this->baseSelector->setSubmitButton(false);
+    $this->baseSelector = new baseSelector($this->get_allowed_bases(), $this->base);
+    $this->baseSelector->setSubmitButton(FALSE);
     $this->baseSelector->setHeight(300);
-    $this->baseSelector->update(true);
+    $this->baseSelector->update(TRUE);
 
     $this->reload(TRUE);
+  }
+
+  function resetCopyInfos()
+  {
+    parent::resetCopyInfos();
+    $this->force_gid  = 0;
+    $this->gidNumber  = FALSE;
   }
 
   function execute()
