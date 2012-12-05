@@ -232,40 +232,45 @@ class plugin
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, "found", "Object check");
       }
 
-      /* Prepare saved attributes */
-      $this->saved_attributes = $this->attrs;
-      foreach ($this->saved_attributes as $index => $value) {
-        if (is_numeric($index)) {
-          unset($this->saved_attributes[$index]);
-          continue;
-        }
-
-        if (!in_array_ics($index, $this->attributes) && strcasecmp('objectClass', $index)) {
-          unset($this->saved_attributes[$index]);
-          continue;
-        }
-
-        if (isset($this->saved_attributes[$index][0])) {
-          if (!isset($this->saved_attributes[$index]["count"])) {
-            $this->saved_attributes[$index]["count"] = count($this->saved_attributes[$index]);
-          }
-          if ($this->saved_attributes[$index]["count"] == 1) {
-            $tmp = $this->saved_attributes[$index][0];
-            unset($this->saved_attributes[$index]);
-            $this->saved_attributes[$index] = $tmp;
-            continue;
-          }
-        }
-        unset($this->saved_attributes["$index"]["count"]);
-      }
-
-      if (isset($this->attrs['gosaUnitTag'])) {
-        $this->saved_attributes['gosaUnitTag'] = $this->attrs['gosaUnitTag'][0];
-      }
+      $this->prepareSavedAttributes();
     }
 
     /* Save initial account state */
     $this->initially_was_account = $this->is_account;
+  }
+
+  function prepareSavedAttributes()
+  {
+    /* Prepare saved attributes */
+    $this->saved_attributes = $this->attrs;
+    foreach ($this->saved_attributes as $index => $value) {
+      if (is_numeric($index)) {
+        unset($this->saved_attributes[$index]);
+        continue;
+      }
+
+      if (!in_array_ics($index, $this->attributes) && strcasecmp('objectClass', $index)) {
+        unset($this->saved_attributes[$index]);
+        continue;
+      }
+
+      if (isset($this->saved_attributes[$index][0])) {
+        if (!isset($this->saved_attributes[$index]["count"])) {
+          $this->saved_attributes[$index]["count"] = count($this->saved_attributes[$index]);
+        }
+        if ($this->saved_attributes[$index]["count"] == 1) {
+          $tmp = $this->saved_attributes[$index][0];
+          unset($this->saved_attributes[$index]);
+          $this->saved_attributes[$index] = $tmp;
+          continue;
+        }
+      }
+      unset($this->saved_attributes["$index"]["count"]);
+    }
+
+    if (isset($this->attrs['gosaUnitTag'])) {
+      $this->saved_attributes['gosaUnitTag'] = $this->attrs['gosaUnitTag'][0];
+    }
   }
 
   /*!
