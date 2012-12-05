@@ -400,12 +400,10 @@ class configInLdap extends simplePlugin
       array(
         'disable' => array (
           FALSE => array (
-            'snapshots' => array (
-              'fdSnapshotBase',
-              'fdSnapshotURI',
-              'fdSnapshotAdminDn',
-              'fdSnapshotAdminPassword',
-            )
+            'fdSnapshotBase',
+            'fdSnapshotURI',
+            'fdSnapshotAdminDn',
+            'fdSnapshotAdminPassword',
           )
         )
       )
@@ -414,9 +412,7 @@ class configInLdap extends simplePlugin
       array(
         'erase' => array (
           'uid' => array (
-            'people_and_group' => array (
-              'fdPersonalTitleInDN',
-            )
+            'fdPersonalTitleInDN',
           )
         )
       )
@@ -425,9 +421,7 @@ class configInLdap extends simplePlugin
       array(
         'disable' => array (
           TRUE => array (
-            'login' => array (
-              'fdWarnSSL',
-            )
+            'fdWarnSSL',
           )
         )
       )

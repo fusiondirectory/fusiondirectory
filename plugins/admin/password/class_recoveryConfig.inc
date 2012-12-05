@@ -150,15 +150,9 @@ class recoveryConfig extends simplePlugin
       array(
         'disable' => array(
           FALSE => array(
-            'settings' => array(
-              'passwordRecoveryEmail','passwordRecoveryValidity','passwordRecoverySalt'
-            ),
-            'first_email' => array(
-              'passwordRecoveryMailSubject','passwordRecoveryMailBody'
-            ),
-            'second_email' => array(
-              'passwordRecoveryMail2Subject','passwordRecoveryMail2Body'
-            )
+            'passwordRecoveryEmail','passwordRecoveryValidity','passwordRecoverySalt',
+            'passwordRecoveryMailSubject','passwordRecoveryMailBody',
+            'passwordRecoveryMail2Subject','passwordRecoveryMail2Body'
           )
         )
       )

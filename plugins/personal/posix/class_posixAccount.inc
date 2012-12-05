@@ -198,10 +198,8 @@ class posixAccount extends simplePlugin
       array(
         'disable' => array (
           FALSE => array (
-            'main' => array (
-              'uidNumber',
-              'gidNumber',
-            )
+            'uidNumber',
+            'gidNumber',
           )
         )
       )
