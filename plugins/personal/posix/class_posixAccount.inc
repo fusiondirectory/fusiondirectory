@@ -88,10 +88,11 @@ class posixAccount extends simplePlugin
         'name'  => _('Generic'),
         'icon'  => 'images/rightarrow.png',
         'attrs' => array(
-          new StringAttribute(
+          new PathAttribute(
             _('Home directory'), _('The path to the home directory of this user'),
             'homeDirectory', TRUE
           ),
+          new StringAttribute('gecos', 'gecos', 'gecos'),
           new SelectAttribute(
             _('Shell'), _('Which shell should be used when this user log in'),
             'loginShell', TRUE
@@ -189,9 +190,11 @@ class posixAccount extends simplePlugin
   {
     parent::__construct($config, $dn, $object);
 
-    $this->attributesInfo['main']['attrs']['uidNumber']->setUnique(TRUE);
-    $this->attributesInfo['main']['attrs']['force_ids']->setInLdap(FALSE);
-    $this->attributesInfo['main']['attrs']['force_ids']->setManagedAttributes(
+    $this->attributesAccess['gecos']->setVisible(FALSE);
+
+    $this->attributesAccess['uidNumber']->setUnique(TRUE);
+    $this->attributesAccess['force_ids']->setInLdap(FALSE);
+    $this->attributesAccess['force_ids']->setManagedAttributes(
       array(
         'disable' => array (
           FALSE => array (
@@ -203,10 +206,10 @@ class posixAccount extends simplePlugin
         )
       )
     );
-    $this->attributesInfo['main']['attrs']['primaryGroup']->setInLdap(FALSE);
+    $this->attributesAccess['primaryGroup']->setInLdap(FALSE);
 
-    $this->attributesInfo['account']['attrs']['mustchangepassword']->setInLdap(FALSE);
-    $this->attributesInfo['account']['attrs']['shadowLastChange']->setVisible(FALSE);
+    $this->attributesAccess['mustchangepassword']->setInLdap(FALSE);
+    $this->attributesAccess['shadowLastChange']->setVisible(FALSE);
 
     /* Setting uid to default */
     if (isset($this->attrs['uid'][0])) {
@@ -224,12 +227,12 @@ class posixAccount extends simplePlugin
       $this->initially_was_account = $this->is_account;
 
       // Templates do not have a gidNumber
-      if ($this->attributesInfo['main']['attrs']['gidNumber']->getValue() == 2147483647) {
-        $this->attributesInfo['main']['attrs']['gidNumber']->setValue("");
+      if ($this->gidNumber == 2147483647) {
+        $this->gidNumber = "";
       }
 
       /* Fill group */
-      $this->attributesInfo['main']['attrs']['primaryGroup']->setValue($this->attributesInfo['main']['attrs']['gidNumber']->getValue());
+      $this->primaryGroup = $this->gidNumber;
     }
 
     /* Generate shell list from SYSTEMS_DIR./shells */
@@ -248,11 +251,11 @@ class posixAccount extends simplePlugin
     }
 
     /* Insert possibly missing loginShell */
-    $loginShell = $this->attributesInfo['main']['attrs']['loginShell']->getValue();
+    $loginShell = $this->attributesAccess['loginShell']->getValue();
     if ($loginShell != "" && !in_array($loginShell, $loginShellList)) {
       $loginShellList[]= $loginShell;
     }
-    $this->attributesInfo['main']['attrs']['loginShell']->setChoices($loginShellList);
+    $this->attributesAccess['loginShell']->setChoices($loginShellList);
 
     $this->ui = get_userinfo();
 
@@ -265,15 +268,15 @@ class posixAccount extends simplePlugin
       $secondaryGroups[$attrs['gidNumber'][0]] = $attrs['cn'][0];
     }
     asort ($secondaryGroups);
-    $this->attributesInfo['main']['attrs']['primaryGroup']->setChoices(array_keys($secondaryGroups), array_values($secondaryGroups));
+    $this->attributesAccess['primaryGroup']->setChoices(array_keys($secondaryGroups), array_values($secondaryGroups));
 
     $current = floor(date("U") / EpochDaysDateAttribute::$secondsPerDay);
 
-    $shadowExpire     = $this->attributesInfo['account']['attrs']['shadowExpire']->getEpochDays();
-    $shadowInactive   = $this->attributesInfo['account']['attrs']['shadowInactive']->getValue();
-    $shadowMin        = $this->attributesInfo['account']['attrs']['shadowMin']->getValue();
-    $shadowMax        = $this->attributesInfo['account']['attrs']['shadowMax']->getValue();
-    $shadowLastChange = $this->attributesInfo['account']['attrs']['shadowLastChange']->getValue();
+    $shadowExpire     = $this->attributesAccess['shadowExpire']->getEpochDays();
+    $shadowInactive   = $this->attributesAccess['shadowInactive']->getValue();
+    $shadowMin        = $this->attributesAccess['shadowMin']->getValue();
+    $shadowMax        = $this->attributesAccess['shadowMax']->getValue();
+    $shadowLastChange = $this->attributesAccess['shadowLastChange']->getValue();
     if (($current >= $shadowExpire) && ($shadowExpire > 0)) {
       $status = _("expired");
       if ($shadowInactive != "" && ($current - $shadowExpire) < $shadowInactive) {
@@ -286,7 +289,7 @@ class posixAccount extends simplePlugin
     } else {
       $status = _("active");
     }
-    $this->attributesInfo['main']['attrs']['posixStatus']->setValue($status);
+    $this->attributesAccess['posixStatus']->setValue($status);
 
     /* Groups handling */
     $ldap->cd($this->config->current['BASE']);
@@ -302,9 +305,9 @@ class posixAccount extends simplePlugin
     }
     asort($groupMembership);
     reset($groupMembership);
-    $this->attributesInfo['groups']['attrs']['groupMembership']->setInLdap(FALSE);
-    $this->attributesInfo['groups']['attrs']['groupMembership']->setValue(array_keys($groupMembership));
-    $this->attributesInfo['groups']['attrs']['groupMembership']->setDisplayValues(array_values($groupMembership));
+    $this->attributesAccess['groupMembership']->setInLdap(FALSE);
+    $this->attributesAccess['groupMembership']->setValue(array_keys($groupMembership));
+    $this->attributesAccess['groupMembership']->setDisplayValues(array_values($groupMembership));
     $this->savedGroupMembership = array_keys($groupMembership);
   }
 
@@ -314,23 +317,64 @@ class posixAccount extends simplePlugin
 
     $this->savedGroupMembership = array();
 
-    $this->uidNumber       = "";
-    $this->gidNumber       = "";
+    $this->force_ids = FALSE;
+    $this->uidNumber = "";
+    $this->gidNumber = "";
+  }
+
+  function check()
+  {
+    $message = parent::check();
+
+    /* Check ID's if they are forced by user */
+    if ($this->force_ids) {
+      if ($this->uidNumber < $this->config->get_cfg_value("minId")) {
+        $message[] = msgPool::toosmall(_("UID"), $this->config->get_cfg_value("minId"));
+      }
+      if ($this->gidNumber < $this->config->get_cfg_value("minId")) {
+        $message[] = msgPool::toosmall(_("GID"), $this->config->get_cfg_value("minId"));
+      }
+    }
+
+    /* Check shadow settings */
+    if ($this->shadowWarning !== "") {
+      if ($this->shadowMax === "") {
+        $message[] = msgPool::depends("shadowWarning", "shadowMax");
+      }
+      if ($this->shadowWarning > $this->shadowMax) {
+        $message[] = msgPool::toobig("shadowWarning", "shadowMax");
+      }
+      if (($this->shadowMin !== "") && ($this->shadowWarning < $this->shadowMin)) {
+        $message[] = msgPool::toosmall("shadowWarning", "shadowMin");
+      }
+    }
+
+    if (($this->shadowInactive !== "") && ($this->shadowMax === "")) {
+      $message[]= msgPool::depends("shadowInactive", "shadowMax");
+    }
+    if (($this->shadowMin !== "") && ($this->shadowMax !== "") &&
+        ($this->shadowMin > $this->shadowMax)) {
+      $message[] = msgPool::toobig("shadowMin", "shadowMax");
+    }
   }
 
   function prepare_save()
   {
-    $force_ids = $this->attributesInfo['main']['attrs']['force_ids']->getValue();
+    /* Fill gecos */
+    if (isset($this->parent) && $this->parent !== NULL) {
+      $this->gecos = rewrite($this->parent->getBaseObject()->cn);
+      if (!preg_match('/^[a-z0-9 -]+$/i', $this->gecos)) {
+        $this->gecos = "";
+      }
+    }
 
-    if (!$force_ids) {
+    if (!$this->force_ids) {
       /* Handle uidNumber.
        * - use existing number if possible
        * - if not, try to create a new uniqe one.
        * */
-      if ($this->attributesInfo['main']['attrs']['uidNumber']->getInitialValue() != "") {
-        $this->attributesInfo['main']['attrs']['uidNumber']->setValue(
-          $this->attributesInfo['main']['attrs']['uidNumber']->getInitialValue()
-        );
+      if ($this->attributesAccess['uidNumber']->getInitialValue() != "") {
+        $this->uidNumber = $this->attributesAccess['uidNumber']->getInitialValue();
       } else {
         /* Calculate new id's. We need to place a lock before calling get_next_id
            to get real unique values.
@@ -346,9 +390,7 @@ class posixAccount extends simplePlugin
           }
         }
         add_lock ("uidnumber", "gosa");
-        $this->attributesInfo['main']['attrs']['uidNumber']->setValue(
-          get_next_id("uidNumber", $this->dn)
-        );
+        $this->uidNumber = get_next_id("uidNumber", $this->dn);
       }
     }
 
@@ -358,18 +400,17 @@ class posixAccount extends simplePlugin
      * - .. if we couldn't find a group with the same name, we will create a new one,
      *    using the users uid as cn and a generated uniqe gidNumber.
      * */
-    if ($this->is_template && ($this->attributesInfo['main']['attrs']['primaryGroup']->getValue() == 0)) {
-      $this->attributesInfo['main']['attrs']['uidNumber']->setValue(2147483647);
-    } elseif (($this->attributesInfo['main']['attrs']['primaryGroup']->getValue() == 0) || $force_ids) {
+    if ($this->is_template && ($this->primaryGroup == 0)) {
+      $this->uidNumber = 2147483647;
+    } elseif (($this->primaryGroup == 0) || $this->force_ids) {
 
       /* Search for existing group */
       $ldap = $this->config->get_ldap_link();
       $ldap->cd($this->config->current['BASE']);
 
       /* Are we forced to use a special gidNumber? */
-      if($force_ids) {
-        $gidNumber = $this->attributesInfo['main']['attrs']['gidNumber']->getValue();
-        $ldap->search("(&(objectClass=posixGroup)(gidNumber=$gidNumber))", array("cn","gidNumber"));
+      if($this->force_ids) {
+        $ldap->search("(&(objectClass=posixGroup)(gidNumber=".$this->gidNumber."))", array("cn","gidNumber"));
       } else {
         $ldap->search("(&(objectClass=posixGroup)(gidNumber=*)(cn=".$this->uid."))", array("cn","gidNumber"));
       }
@@ -382,10 +423,8 @@ class posixAccount extends simplePlugin
             'cn='.$groupcn.','.get_groups_ou(), $this->dn);
 
         /* Request a new and uniqe gidNumber, if required */
-        if (!$force_ids) {
-          $this->attributesInfo['main']['attrs']['gidNumber']->setValue(
-            get_next_id("gidNumber", $this->dn)
-          );
+        if (!$this->force_ids) {
+          $this->gidNumber = get_next_id("gidNumber", $this->dn);
         }
 
         /* If forced gidNumber could not be found, then check if the given group name already exists
@@ -403,41 +442,33 @@ class posixAccount extends simplePlugin
         $g = new group($this->config, $groupdn);
         $g->cn = $groupcn;
         $g->force_gid = 1;
-        $g->gidNumber = $this->attributesInfo['main']['attrs']['gidNumber']->getValue();
+        $g->gidNumber = $this->gidNumber;
         $g->description = _("Group of user")." ".$this->givenName;
         $g->save();
 
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
           sprintf("Primary group '%s' created, using gidNumber '%s'.", $groupcn,
-          $this->attributesInfo['main']['attrs']['gidNumber']->getValue()),"");
+          $this->gidNumber),"");
       } else {
         $attrs = $ldap->fetch();
-        $this->attributesInfo['main']['attrs']['gidNumber']->setValue(
-          $attrs['gidNumber'][0]
-        );
+        $this->gidNumber = $attrs['gidNumber'][0];
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
           "Found and used: <i>".$attrs['dn']."</i>",
-          sprintf("Primary group '%s' exists, gidNumber is '%s'.", $this->uid,
-          $this->attributesInfo['main']['attrs']['gidNumber']->getValue()));
+          sprintf("Primary group '%s' exists, gidNumber is '%s'.", $this->uid, $this->gidNumber));
       }
     } else {
       /* Primary group was selected by user */
-      $this->attributesInfo['main']['attrs']['gidNumber']->setValue(
-        $this->attributesInfo['main']['attrs']['primaryGroup']->getValue()
-      );
+      $this->gidNumber = $this->primaryGroup;
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
         sprintf("Primary group '%s' for user '%s' manually selected.",
-        $this->attributesInfo['main']['attrs']['gidNumber']->getValue(), $this->uid), "");
+        $this->gidNumber, $this->uid), "");
     }
 
-    if ($this->attributesInfo['account']['attrs']['mustchangepassword']->getValue()) {
-      $this->attributesInfo['account']['attrs']['shadowLastChange']->setValue(
-        floor(date("U") / EpochDaysDateAttribute::$secondsPerDay) - $this->attributesInfo['account']['attrs']['shadowMax']->getValue() - 1
-      );
+    if ($this->mustchangepassword) {
+      $this->shadowLastChange =
+        floor(date("U") / EpochDaysDateAttribute::$secondsPerDay) - $this->shadowMax - 1;
     } elseif ($this->is_account && !$this->initially_was_account) {
-      $this->attributesInfo['account']['attrs']['shadowLastChange']->setValue(
-        floor(date("U") / EpochDaysDateAttribute::$secondsPerDay)
-      );
+      $this->shadowLastChange = floor(date("U") / EpochDaysDateAttribute::$secondsPerDay);
     }
 
     $this->updateAttributesValues();
@@ -949,68 +980,6 @@ class old_posixAccount extends plugin
       $this->ssh->setDN($this->dn);
       $this->ssh->save();
     }
-  }
-
-
-  /* Check formular input */
-  function check()
-  {
-    /* Include global link_info */
-    $ldap= $this->config->get_ldap_link();
-
-    /* Append groups as memberGroup: to check hook
-     */
-    $tmp_attributes  = $this->attributes;
-    $this->attributes[] = "memberGroup";
-    $this->memberGroup = array();
-    foreach($this->groupMembership as $dn => $name){
-      $this->memberGroup[] = $name;
-    }
-
-    /* Call common method to give check the hook */
-    $message= plugin::check();
-    $this->attributes = $tmp_attributes;
-
-    /* must: homeDirectory */
-    if (!tests::is_path($this->homeDirectory)){
-      $message[]= msgPool::invalid(_("Home directory"), "", "", "/home/yourname" );
-    }
-
-    /* Check ID's if they are forced by user */
-    if ($this->force_ids == "1"){
-      if ($this->uidNumber < $this->config->get_cfg_value("minId")){
-        $message[]= msgPool::toosmall(_("UID"), $this->config->get_cfg_value("minId"));
-      }
-      if ($this->gidNumber < $this->config->get_cfg_value("minId")){
-        $message[]= msgPool::toosmall(_("GID"), $this->config->get_cfg_value("minId"));
-      }
-    }
-
-    /* Check shadow settings */
-    if ($this->activate_shadowWarning) {
-      if (!$this->activate_shadowMax) {
-        $message[]= msgPool::depends("shadowWarning", "shadowMax");
-      }
-      if ($this->shadowWarning > $this->shadowMax) {
-        $message[]= msgPool::toobig("shadowWarning", "shadowMax");
-      }
-      if ($this->activate_shadowMin && $this->shadowWarning < $this->shadowMin) {
-        $message[]= msgPool::toosmall("shadowWarning", "shadowMin");
-      }
-    }
-
-    if ($this->activate_shadowInactive) {
-      if (!$this->activate_shadowMax) {
-        $message[]= msgPool::depends("shadowInactive", "shadowMax");
-      }
-    }
-    if ($this->activate_shadowMin && $this->activate_shadowMax){
-      if ($this->shadowMin > $this->shadowMax){
-        $message[]= msgPool::toobig("shadowMin", "shadowMax");
-      }
-    }
-
-    return ($message);
   }
 
   /* Adapt from template, using 'dn' */
