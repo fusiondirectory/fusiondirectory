@@ -476,8 +476,8 @@ class config  {
     /* Search mailMethod configuration in main section too
      */
     $this->current['MAILMETHOD']    = $this->get_cfg_value("mailMethod", "");
-    $maiMethodClass                 = 'mailMethod'.$this->current['MAILMETHOD'];
-    $this->data['SERVERS']['IMAP']  = $maiMethodClass::get_server_list($this);
+    $mailMethodClass                = 'mailMethod'.$this->current['MAILMETHOD'];
+    $this->data['SERVERS']['IMAP']  = $mailMethodClass::get_server_list($this);
 
     /* Get kerberos servers */
     $ldap->cd($this->current['BASE']);
