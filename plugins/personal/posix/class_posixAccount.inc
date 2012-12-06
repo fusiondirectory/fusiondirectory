@@ -112,12 +112,12 @@ class posixAccount extends simplePlugin
           new IntAttribute(
             _('UID'), _('UID value for this user'),
             'uidNumber', FALSE,
-            0, FALSE, ""
+            0, FALSE, ''
           ),
           new IntAttribute(
             _('GID'), _('GID value for this user'),
             'gidNumber', FALSE,
-            0, FALSE, ""
+            0, FALSE, ''
           )
         )
       ),
@@ -139,12 +139,12 @@ class posixAccount extends simplePlugin
           new IntAttribute(
             _('Delay before locking password (days)'), _('The user won\'t be able to change his password after this number of days (leave empty to disable)'),
             'shadowMin', FALSE,
-            0, FALSE, ""
+            0, FALSE, ''
           ),
           new IntAttribute(
             _('Delay before forcing password change (days)'), _('The user will be forced to change his password after this number of days (leave empty to disable)'),
             'shadowMax', FALSE,
-            0, FALSE, ""
+            0, FALSE, ''
           ),
           new EpochDaysDateAttribute(
             _('Password expiration date'), _('Date after which this user password will expire (leave empty to disable)'),
@@ -154,18 +154,35 @@ class posixAccount extends simplePlugin
           new IntAttribute(
             _('Delay of inactivity before disabling user (days)'), _('Maximum delay of inactivity after password expiration before the user is disabled (leave empty to disable)'),
             'shadowInactive', FALSE,
-            0, FALSE, ""
+            0, FALSE, ''
           ),
           new IntAttribute(
             _('Delay for user warning before password expiry (days)'), _('The user will be warned this number of days before his password expiration (leave empty to disable)'),
             'shadowWarning', FALSE,
-            0, FALSE, ""
+            0, FALSE, ''
           ),
           new IntAttribute(
             'No label', 'No description',
             'shadowLastChange', FALSE,
             0, FALSE, ''
           ),
+        )
+      ),
+      'system_trust' => array(
+        'name'  => _('System trust'),
+        'icon'  => 'images/lists/locked.png',
+        'attrs' => array(
+          new SelectAttribute(
+            _('Trust mode'), _(''),
+            'trustMode', FALSE,
+            array('', 'fullaccess', 'byhost'),
+            '',
+            array(_('disabled'), _('full access'), _('allow access to these hosts'))
+          ),
+          new TrustsAttribute(
+            '', _('Only allow this user to connect to this list of hosts'),
+            'host', FALSE
+          )
         )
       )
     );
@@ -191,6 +208,22 @@ class posixAccount extends simplePlugin
     parent::__construct($config, $dn, $object);
 
     $this->attributesAccess['gecos']->setVisible(FALSE);
+
+    $this->attributesAccess['trustMode']->setInLdap(FALSE);
+    $this->attributesAccess['trustMode']->setManagedAttributes(
+      array(
+        'multiplevalues' => array('notbyhost' => array('','fullaccess')),
+        'erase' => array(
+          'notbyhost' => array('host')
+        )
+      )
+    );
+    if ((count($this->host) == 1) && ($this->host[0] == '*')) {
+      $this->trustMode = 'fullaccess';
+    } elseif (count($this->host) > 0) {
+      $this->trustMode = 'byhost';
+    }
+
 
     $this->attributesAccess['uidNumber']->setUnique(TRUE);
     $this->attributesAccess['force_ids']->setInLdap(FALSE);
@@ -471,6 +504,17 @@ class posixAccount extends simplePlugin
 
     $this->updateAttributesValues();
     parent::prepare_save();
+
+    if ($this->trustMode == 'fullaccess') {
+      $this->attrs['host'] = array('*');
+    }
+
+    /* Trust accounts */
+    if (($this->trustMode != "") && !in_array('hostObject',$this->attrs['objectClass'])) {
+      $this->attrs['objectClass'][] = 'hostObject';
+    } elseif (($this->trustMode == "") && (($key = array_search('hostObject',$this->attrs['objectClass'])) !== FALSE)) {
+      unset($this->attrs['objectClass'][$key]);
+    }
   }
 
   function save()
@@ -711,55 +755,9 @@ class old_posixAccount extends plugin
       }
     }
 
-    // Allow to select trusted machines from a list
-    if (isset($_POST["add_ws"])){
-      $this->trustSelect= new trustSelect($this->config,get_userinfo());
-      $this->dialog= TRUE;
-    }
-
-    // Cancel trust and group dialog
-    if (isset($_POST['add_groups_cancel']) || isset($_POST['add_ws_cancel'])){
-      $this->groupSelect= NULL;
-      $this->trustSelect= NULL;
-      $this->dialog= FALSE;
-    }
-
-    // Add selected machines to trusted ones.
-    if (isset($_POST["add_ws_finish"]) &&  $this->trustSelect){
-      $trusts = $this->trustSelect->detectPostActions();
-      if(isset($trusts['targets'])){
-
-        $headpage = $this->trustSelect->getHeadpage();
-        foreach($trusts['targets'] as $id){
-          $attrs = $headpage->getEntry($id);
-          $this->accessTo[$attrs['cn'][0]]= $attrs['cn'][0];
-        }
-        ksort($this->accessTo);
-        $this->is_modified= TRUE;
-      }
-      $this->trustSelect= NULL;
-      $this->dialog= FALSE;
-    }
-
-    // Remove machine from trusted ones.
-    if (isset($_POST["delete_ws"]) && isset($_POST['workstation_list'])){
-      foreach($_POST['workstation_list'] as $name){
-        unset ($this->accessTo[$name]);
-      }
-      $this->is_modified= TRUE;
-    }
-
     /* Templates now! */
     $smarty= get_smarty();
     $smarty->assign("usePrototype", "true");
-
-    /* Show ws dialog */
-    if ($this->trustSelect){
-
-      // Build up blocklist
-      session::set('filterBlacklist', array('cn' => array_values($this->accessTo)));
-      return($this->trustSelect->execute());
-    }
 
     // Handle ssh dialog?
     if ($this->ssh instanceOf sshPublicKey && preg_match('/[rw]/', $this->getacl("sshPublicKey"))) {
@@ -789,35 +787,6 @@ class old_posixAccount extends plugin
     /* Avoid "Undefined index: forceMode" */
     $smarty->assign("forceMode", "");
 
-    /* Work on trust modes */
-    $smarty->assign("trusthide", " disabled ");
-    $smarty->assign("trustmodeACL",  $this->getacl("trustModel",$SkipWrite));
-    if ($this->trustModel == "fullaccess"){
-      $trustmode= 1;
-      // pervent double disable tag in html code, this will disturb our clean w3c html
-      $smarty->assign("trustmode",  $this->getacl("trustModel",$SkipWrite));
-
-    } elseif ($this->trustModel == "byhost"){
-      $trustmode= 2;
-      $smarty->assign("trusthide", "");
-    } else {
-      // pervent double disable tag in html code, this will disturb our clean w3c html
-      $smarty->assign("trustmode",  $this->getacl("trustModel",$SkipWrite));
-      $trustmode= 0;
-    }
-    $smarty->assign("trustmode", $trustmode);
-    $smarty->assign("trustmodes", array( 0 => _("disabled"), 1 => _("full access"),
-          2 => _("allow access to these hosts")));
-
-
-
-    if((count($this->accessTo))==0)
-      $smarty->assign("emptyArrAccess",true);
-    else
-      $smarty->assign("emptyArrAccess",false);
-
-    $smarty->assign("workstations", $this->accessTo);
-
     // Add SSH button if available
     $smarty->assign("sshPublicKey", $this->ssh?1:0);
 
@@ -826,69 +795,8 @@ class old_posixAccount extends plugin
     return $display;
   }
 
-
-  /* remove object from parent */
-  function remove_from_parent()
-  {
-    /* Cancel if there's nothing to do here */
-    if ((!$this->initially_was_account) || (!$this->acl_is_removeable())){
-      return;
-    }
-
-
-    /* Remove and write to LDAP */
-    plugin::remove_from_parent();
-
-    /* Zero out array */
-    $this->attrs['gosaHostACL']= array();
-
-    /* Keep uid, because we need it for authentification! */
-    unset($this->attrs['uid']);
-    unset($this->attrs['trustModel']); /* FIXME should be host ?? */
-
-    @DEBUG (DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__,
-    /* include global link_info */
-     $this->attributes, "Save");
-    $ldap= $this->config->get_ldap_link();
-    $ldap->cd($this->dn);
-    $this->cleanup();
-    $ldap->modify ($this->attrs);
-
-    new log("remove","users/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
-
-    if (!$ldap->success()){
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_DEL, get_class()));
-    }
-
-    /* Optionally execute a command after we're done */
-    $this->handle_post_events("remove",array("uid" => $this->uid));
-  }
-
-
   function save_object()
   {
-    if (isset($_POST['posixTab'])){
-      /* Save values to object */
-      plugin::save_object();
-
-      /* Trust mode - special handling */
-      if($this->acl_is_writeable("trustModel")){
-        if (isset($_POST['trustmode'])){
-          $saved= $this->trustModel;
-          if ($_POST['trustmode'] == "1"){
-            $this->trustModel= "fullaccess";
-          } elseif ($_POST['trustmode'] == "2"){
-            $this->trustModel= "byhost";
-          } else {
-            $this->trustModel= "";
-          }
-          if ($this->trustModel != $saved){
-            $this->is_modified= TRUE;
-          }
-        }
-      }
-    }
-
     /* Get regex from alphabet */
     if(isset($_GET['search'])){
       $this->GroupRegex = $_GET['search']."*";
@@ -917,45 +825,8 @@ class old_posixAccount extends plugin
   /* Save data to LDAP, depending on is_account we save or delete */
   function save()
   {
-    /* Fill gecos */
-    if (isset($this->parent) && $this->parent !== NULL) {
-      $this->gecos= rewrite($this->parent->by_object['user']->cn);
-      if (!preg_match('/^[a-z0-9 -]+$/i', $this->gecos)) {
-        $this->gecos= "";
-      }
-    }
-
     /* Call parents save to prepare $this->attrs */
     plugin::save();
-
-    /* Trust accounts */
-    $objectclasses= array();
-    foreach ($this->attrs['objectClass'] as $key => $class) {
-      /*if (preg_match('/trustAccount/i', $class)){*/
-      if (preg_match('/hostObject/i', $class)) {
-        continue;
-      }
-      $objectclasses[]= $this->attrs['objectClass'][$key];
-    }
-    $this->attrs['objectClass']= $objectclasses;
-    if ($this->trustModel != "") {
-      $this->attrs['objectClass'][]= "hostObject";
-      $this->attrs['host']= array();
-
-      if ($this->trustModel == "fullaccess") {
-        $this->attrs['host'][0]= "*";
-      } else {
-        if ($this->trustModel == "byhost") {
-          foreach ($this->accessTo as $hosts) {
-            $this->attrs['host'][]= $hosts;
-          }
-        }
-      }
-    } else {
-      if ($this->was_trust_account) {
-        $this->attrs['host']= array();
-      }
-    }
 
     if (empty($this->attrs['gosaDefaultPrinter'])) {
       $thid->attrs['gosaDefaultPrinter']=array();

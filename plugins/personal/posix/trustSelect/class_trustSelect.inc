@@ -26,24 +26,19 @@ class trustSelect extends management
   protected $skipFooter = TRUE;
   protected $skipHeader = TRUE;
 
-  function __construct($config,$ui)
+  function __construct($config, $ui)
   {
     $this->config = $config;
-    $this->ui = $ui;
-   
+    $this->ui     = $ui;
+
     $this->storagePoints = array(get_ou("workstationRDN"),get_ou("terminalRDN"),get_ou("serverRDN"),get_ou("sambaMachineAccountRDN"),);
- 
-#    // Build filter
-#    if (session::global_is_set(get_class($this)."_filter")){
-#      $filter= session::global_get(get_class($this)."_filter");
-#    } else {
-      $filter = new filter(get_template_path("trust-filter.xml", true, dirname(__FILE__)));
-      $filter->setObjectStorage($this->storagePoints);
-#    }
+
+    $filter = new filter(get_template_path("trust-filter.xml", TRUE, dirname(__FILE__)));
+    $filter->setObjectStorage($this->storagePoints);
     $this->setFilter($filter);
 
     // Build headpage
-    $headpage = new listing(get_template_path("trust-list.xml", true, dirname(__FILE__)));
+    $headpage = new listing(get_template_path("trust-list.xml", TRUE, dirname(__FILE__)));
     $headpage->registerElementFilter("filterProperties", "groupManagement::filterProperties");
     $headpage->setFilter($filter);
     parent::__construct($config, $ui, "groups", $headpage);
@@ -52,55 +47,55 @@ class trustSelect extends management
 
   static function filterProperties($row, $classes)
   {
-    $result= "";
+    $result = "";
 
     $map = array(
-        "posixGroup" => 
+        "posixGroup" =>
         array(
-          "image" => "plugins/groups/images/groups.png",
-          "plugin" => "group",
-          "alt" => _("Posix"),
-          "title" => _("Edit posix properties")
+          "image"   => "plugins/groups/images/groups.png",
+          "plugin"  => "group",
+          "alt"     => _("Posix"),
+          "title"   => _("Edit posix properties")
           ),
 
-        "gosaMailAccount" => 
+        "gosaMailAccount" =>
         array(
-          "image" => "plugins/groups/images/mail.png",
-          "plugin" => "mailgroup",
-          "alt" => _("Mail"),
-          "title" => _("Edit mail properties")
+          "image"   => "plugins/groups/images/mail.png",
+          "plugin"  => "mailgroup",
+          "alt"     => _("Mail"),
+          "title"   => _("Edit mail properties")
           ),
 
-        "sambaGroupMapping" => 
+        "sambaGroupMapping" =>
         array(
-          "image" => "plugins/groups/images/samba.png",
-          "plugin" => "group",
-          "alt" => _("Samba"),
-          "title" => _("Edit samba properties")
+          "image"   => "plugins/groups/images/samba.png",
+          "plugin"  => "group",
+          "alt"     => _("Samba"),
+          "title"   => _("Edit samba properties")
           ),
 
-        "goFonPickupGroup" => 
+        "goFonPickupGroup" =>
           array(
-              "image" => "plugins/groups/images/asterisk.png",
-              "plugin" => "group",
-              "alt" => _("Phone"),
-              "title" => _("Edit phone properties")
+              "image"   => "plugins/groups/images/asterisk.png",
+              "plugin"  => "group",
+              "alt"     => _("Phone"),
+              "title"   => _("Edit phone properties")
               ),
 
-        "gotoMenuGroup" => 
+        "gotoMenuGroup" =>
           array(
-              "image" => "plugins/groups/images/menu.png",
-              "plugin" => "appgroup",
-              "alt" => _("Menu"),
-              "title" => _("Edit start menu properties")
+              "image"   => "plugins/groups/images/menu.png",
+              "plugin"  => "appgroup",
+              "alt"     => _("Menu"),
+              "title"   => _("Edit start menu properties")
               ),
 
-        "gotoEnvironment" => 
+        "gotoEnvironment" =>
           array(
-              "image" => "plugins/groups/images/environment.png",
-              "plugin" => "environment",
-              "alt" => _("Environment"),
-              "title" => _("Edit environment properties")
+              "image"   => "plugins/groups/images/environment.png",
+              "plugin"  => "environment",
+              "alt"     => _("Environment"),
+              "title"   => _("Edit environment properties")
               )
           );
 
@@ -108,15 +103,67 @@ class trustSelect extends management
     // Walk thru map
     foreach ($map as $oc => $properties) {
       if (in_array_ics($oc, $classes)) {
-        $result.="<input class='center' type='image' src='".$properties['image']."' ".
+        $result .= "<input class='center' type='image' src='".$properties['image']."' ".
           "alt='".$properties['alt']."' title='".$properties['title'].
                  "' name='listing_edit_".$properties['plugin']."_$row' style='padding:1px'>";
       } else {
-        $result.="<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
+        $result .= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
       }
     }
     return $result;
   }
-} 
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
+}
+
+class TrustSelectDialog
+{
+  private $trustSelect;
+  private $trustsAttribute;
+
+  function __construct ($simplePlugin, $trustsAttribute)
+  {
+    $this->trustsAttribute  = $trustsAttribute;
+    $this->trustSelect      = new trustSelect($simplePlugin->config, get_userinfo());
+  }
+
+  function execute ()
+  {
+    if (isset($_POST['add_ws_cancel'])) {
+      return FALSE;
+    }
+    if (isset($_POST['add_ws_finish'])) {
+      $systems = $this->trustSelect->detectPostActions();
+      if (isset($systems['targets'])) {
+        $headpage = $this->trustSelect->getHeadpage();
+        foreach ($systems['targets'] as $dn) {
+          $attrs = $headpage->getEntry($dn);
+
+          $this->trustsAttribute->addValue($dn, $attrs);
+        }
+      }
+      return FALSE;
+    }
+    session::set('filterBlacklist', $this->trustsAttribute->getFilterBlackList());
+    return $this->trustSelect->execute();
+  }
+}
+
+class TrustsAttribute extends DialogAttribute
+{
+  protected $dialogClass = "TrustSelectDialog";
+
+  function addValue ($dn, $entry)
+  {
+    $value = $entry['cn'][0];
+    if (!in_array($value, $this->value)) {
+      $this->value[]    = $value;
+    }
+  }
+
+  function getFilterBlackList ()
+  {
+    return array('cn' => $this->getValue());
+  }
+}
+
+
 ?>
