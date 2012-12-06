@@ -470,67 +470,14 @@ class config  {
     }
 
     /* Fill imap servers */
-    $ldap= $this->get_ldap_link();
+    $ldap = $this->get_ldap_link();
     $ldap->cd ($this->current['BASE']);
 
     /* Search mailMethod configuration in main section too
      */
-    $this->current['MAILMETHOD'] = $this->get_cfg_value("mailMethod","");
-    if (!isset($this->current['MAILMETHOD'])) {
-      $this->current['MAILMETHOD']= "";
-    }
-    if ($this->current['MAILMETHOD'] == "") {
-      $ldap->search ("(objectClass=goMailServer)", array('cn'));
-      $this->data['SERVERS']['IMAP']= array();
-      while ($attrs= $ldap->fetch()) {
-        $name= $attrs['cn'][0];
-        $this->data['SERVERS']['IMAP'][$name]=
-          array(
-              "server_dn"   => $attrs['dn'],
-              "connect"     => "",
-              "admin"       => "",
-              "password"    => "",
-              "sieve_server"=> "",
-              "sieve_option"=> "",
-              "sieve_port"  => "");
-      }
-    } else {
-      $ldap->search ("(&(objectClass=goImapServer)(goImapSieveServer=*))",
-                    array('goImapName', 'goImapConnect', 'goImapAdmin', 'goImapPassword',
-            'goImapSieveServer', 'goImapSievePort'));
-
-      $this->data['SERVERS']['IMAP']= array();
-
-      while ($attrs= $ldap->fetch()) {
-
-        /* Check if the given goImapSieveServer is in the new style "{cn:port/option}"
-           or the old style just "cn".
-         */
-        if(preg_match("/\{/",$attrs['goImapSieveServer'][0])){
-          $sieve_server = preg_replace("/^\{([^:]*).*$/","\\1",$attrs['goImapSieveServer'][0]);
-          $sieve_option = preg_replace("/^[^:]*[^\/]*+\/(.*)\}$/","\\1",$attrs['goImapSieveServer'][0]);
-        }else{
-          $sieve_server = $attrs['goImapSieveServer'][0];
-          $sieve_option = "";
-        }
-
-        $pwd            = $attrs['goImapPassword'][0];
-        $imap_admin     = $attrs['goImapAdmin'][0];
-        $imap_connect   = $attrs['goImapConnect'][0];
-        $imap_server    = $attrs['goImapName'][0];
-        $sieve_port     = $attrs['goImapSievePort'][0];
-
-        $this->data['SERVERS']['IMAP'][$imap_server]=
-            array(
-            "server_dn"   => $attrs['dn'],
-            "connect"     => $imap_connect,
-            "admin"       => $imap_admin,
-            "password"    => $pwd,
-            "sieve_server"=> $sieve_server,
-            "sieve_option"=> $sieve_option,
-            "sieve_port"  => $sieve_port);
-      }
-    }
+    $this->current['MAILMETHOD']    = $this->get_cfg_value("mailMethod", "");
+    $maiMethodClass                 = 'mailMethod'.$this->current['MAILMETHOD'];
+    $this->data['SERVERS']['IMAP']  = $maiMethodClass::get_server_list($this);
 
     /* Get kerberos servers */
     $ldap->cd($this->current['BASE']);

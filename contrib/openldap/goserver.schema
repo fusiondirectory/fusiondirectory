@@ -44,42 +44,6 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.9.12 NAME 'goLdapBase'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
   SINGLE-VALUE)
 
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.13 NAME 'goImapName'
-  DESC 'Name of IMAP server appearing in GOsa'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.14 NAME 'goImapConnect'
-  DESC 'PHP connect string for IMAP server'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.15 NAME 'goImapAdmin'
-  DESC 'IMAP admin account'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.16 NAME 'goImapPassword'
-  DESC 'IMAP admin password'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.17 NAME 'goImapSieveServer'
-  DESC 'Cyrus sieve server address or name'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.18 NAME 'goImapSievePort'
-  DESC 'Cyrus sieve server port'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
 attributetype ( 1.3.6.1.4.1.10098.1.1.9.19 NAME 'goKrbRealm'
   DESC 'Default Kerberos realm to use for this server'
   EQUALITY caseExactIA5Match
@@ -310,30 +274,6 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.9.56 NAME 'postfixRecipientRestrictions'
   EQUALITY caseExactIA5Match
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.57 NAME 'cyrusImap'
-  DESC 'Start IMAP service? true/false'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.58 NAME 'cyrusImapSSL'
-  DESC 'Start IMAP SSL service? true/false'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.59 NAME 'cyrusPop3'
-  DESC 'Start POP3 service? true/false'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.60 NAME 'cyrusPop3SSL'
-  DESC 'Start POP3 SSL service? true/false'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
 attributetype ( 1.3.6.1.4.1.10098.1.1.9.61 NAME 'goCupsServerStatus'
   DESC 'Server status container - on / off / fail'
   EQUALITY caseExactIA5Match
@@ -514,13 +454,6 @@ objectclass (1.3.6.1.4.1.10098.1.2.1.23 NAME 'goCupsServer' SUP top AUXILIARY
   DESC 'CUPS server description (v2.6.1)'
   MUST ( cn )
   MAY  ( description $ goCupsServerStatus ))
-
-# IMAP Server description
-objectclass (1.3.6.1.4.1.10098.1.2.1.24 NAME 'goImapServer' SUP top AUXILIARY
-  DESC 'IMAP server description (v2.6.1)'
-  MUST ( cn $ goImapName $ goImapConnect $ goImapAdmin $ goImapPassword )
-  MAY  ( goImapSieveServer $ goImapSievePort $ description $ goImapServerStatus $
-         cyrusImap $ cyrusImapSSL $ cyrusPop3 $ cyrusPop3SSL ))
 
 # Kerberos Server description
 objectclass (1.3.6.1.4.1.10098.1.2.1.25 NAME 'goKrbServer' SUP top AUXILIARY
