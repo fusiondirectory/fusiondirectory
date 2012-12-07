@@ -478,7 +478,7 @@ class config  {
     $mailMethodClass                = 'mailMethod'.$this->current['MAILMETHOD'];
     if (class_available($mailMethodClass)) {
       $this->data['SERVERS']['IMAP']  = $mailMethodClass::get_server_list($this);
-    } elseif ($this->current['MAILMETHOD'] != "") {
+    } elseif (class_available('mailMethod')) {
       msg_dialog::display(
         _("Error"),
         sprintf(_("The selected mail method (class %s) is not available"), $mailMethodClass),
