@@ -240,8 +240,10 @@ class group extends plugin
   function resetCopyInfos()
   {
     parent::resetCopyInfos();
-    $this->force_gid  = 0;
-    $this->gidNumber  = FALSE;
+
+    $this->force_gid        = FALSE;
+    $this->gidNumber        = "";
+    $this->saved_gidNumber  = "";
   }
 
   function execute()
@@ -727,7 +729,7 @@ class group extends plugin
         }
       }
 
-      $this->force_gid= 0;
+      $this->force_gid = FALSE;
 
       /* Only reset sambagroup flag if we are able to write this flag */
       if($this->acl_is_writeable("sambaGroupType")){
@@ -790,8 +792,8 @@ class group extends plugin
   {
 
     /* ID handling */
-    if ($this->force_gid == 0){
-      if ($this->saved_gidNumber != ""){
+    if (!$this->force_gid) {
+      if ($this->saved_gidNumber != "") {
         $this->gidNumber= $this->saved_gidNumber;
       } else {
         /* Calculate new, lock uids */
@@ -1069,11 +1071,11 @@ class group extends plugin
     }
 
     /* Check ID */
-    if ($this->force_gid == "1"){
-      if (!tests::is_id($this->gidNumber)){
+    if ($this->force_gid) {
+      if (!tests::is_id($this->gidNumber)) {
         $message[]= msgPool::invalid(_("GID"), $this->gidNumber, "/[0-9]/");
       } else {
-        if ($this->gidNumber < $this->config->get_cfg_value("minId")){
+        if ($this->gidNumber < $this->config->get_cfg_value("minId")) {
           $message[]= msgPool::toosmall(_("GID"), $this->config->get_cfg_value("minId"));
         }
 
