@@ -473,11 +473,18 @@ class config  {
     $ldap = $this->get_ldap_link();
     $ldap->cd ($this->current['BASE']);
 
-    /* Search mailMethod configuration in main section too
-     */
+    /* Search mailMethod configuration in main section too */
     $this->current['MAILMETHOD']    = $this->get_cfg_value("mailMethod", "");
     $mailMethodClass                = 'mailMethod'.$this->current['MAILMETHOD'];
-    $this->data['SERVERS']['IMAP']  = $mailMethodClass::get_server_list($this);
+    if (class_available($mailMethodClass)) {
+      $this->data['SERVERS']['IMAP']  = $mailMethodClass::get_server_list($this);
+    } elseif ($this->current['MAILMETHOD'] != "") {
+      msg_dialog::display(
+        _("Error"),
+        sprintf(_("The selected mail method (class %s) is not available"), $mailMethodClass),
+        ERROR_DIALOG
+      );
+    }
 
     /* Get kerberos servers */
     $ldap->cd($this->current['BASE']);
