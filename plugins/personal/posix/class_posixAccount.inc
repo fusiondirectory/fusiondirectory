@@ -349,6 +349,8 @@ class posixAccount extends simplePlugin
     $this->savedGroupMembership = array();
 
     $this->force_ids = FALSE;
+    $this->attributesAccess['uidNumber']->setInitialValue("");
+    $this->attributesAccess['gidNumber']->setInitialValue("");
     $this->uidNumber = "";
     $this->gidNumber = "";
   }
@@ -448,9 +450,9 @@ class posixAccount extends simplePlugin
 
       /* No primary group found, create a new one */
       if ($ldap->count() == 0) {
-        $groupcn = $this->uid;
+        $groupcn  = $this->uid;
         $pri_attr = $this->config->get_cfg_value("accountPrimaryAttribute");
-        $groupdn = preg_replace ('/^'.preg_quote($pri_attr,'/').'=[^,]+,'.preg_quote(get_people_ou(),'/').'/i',
+        $groupdn  = preg_replace ('/^'.preg_quote($pri_attr,'/').'=[^,]+,'.preg_quote(get_people_ou(),'/').'/i',
             'cn='.$groupcn.','.get_groups_ou(), $this->dn);
 
         /* Request a new and uniqe gidNumber, if required */
