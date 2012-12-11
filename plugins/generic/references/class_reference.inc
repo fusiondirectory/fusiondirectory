@@ -46,8 +46,6 @@ class reference extends plugin
           "image" => "images/mailto.png"),
         "sambaSamAccount" => array("text" => _("Samba"),
           "image" => "images/windows.png"),
-        "sambaAccount" => array(   "text" => _("Samba"),
-          "image" => "images/windows.png"),
         "goFaxAccount" => array(   "text" => _("FAX"),
           "image" => "plugins/gofax/images/fax_small.png"),
         "gosaProxyAccount" => array("text" => _("Proxy"),
