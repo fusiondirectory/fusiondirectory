@@ -212,68 +212,6 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.9.45 NAME 'goGlpiServerStatus'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
   SINGLE-VALUE)
 
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.46 NAME 'postfixHeaderSizeLimit'
-  DESC 'Keep postfix header-size-limit variable'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.47 NAME 'postfixMailboxSizeLimit'
-  DESC 'Keep postfix mailbox-size-limit variable'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.48 NAME 'postfixMessageSizeLimit'
-  DESC 'Keep postfix message-size-limit variable'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.49 NAME 'postfixMyDestinations'
-  DESC 'Keep postfix mydestinations variable'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.50 NAME 'postfixMyDomain'
-  DESC 'Keep postfix mydomain variable'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.51 NAME 'postfixMyHostname'
-  DESC 'Keep postfix myhostname variable'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.52 NAME 'postfixMyNetworks'
-  DESC 'Keep postfix mynetworks variable'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.53 NAME 'postfixRelayhost'
-  DESC 'Keep postfix relayhost variable'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.54 NAME 'postfixTransportTable'
-  DESC 'Keep postfix transport tables'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.55 NAME 'postfixSenderRestrictions'
-  DESC 'Keep postfix sender restrictions'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.56 NAME 'postfixRecipientRestrictions'
-  DESC 'Keep postfix transport tables'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
-
 attributetype ( 1.3.6.1.4.1.10098.1.1.9.61 NAME 'goCupsServerStatus'
   DESC 'Server status container - on / off / fail'
   EQUALITY caseExactIA5Match
@@ -490,16 +428,6 @@ objectclass (1.3.6.1.4.1.10098.1.2.1.33 NAME 'goShareServer' SUP top AUXILIARY
   DESC 'Share server description (v2.6.1)'
   MUST ( cn )
   MAY  ( description $ goExportEntry $ goShareServerStatus ))
-
-# Mail Server description
-objectclass (1.3.6.1.4.1.10098.1.2.1.36 NAME 'goMailServer' SUP top AUXILIARY
-  DESC 'Mail server definition (v2.6.1)'
-  MUST ( cn )
-  MAY  ( description $ goMailServerStatus $ postfixHeaderSizeLimit $
-         postfixMailboxSizeLimit $ postfixMessageSizeLimit $
-         postfixMydestinations $ postfixMydomain $ postfixMyhostname $
-         postfixMynetworks $ postfixRelayhost $ postfixTransportTable $
-         postfixSenderRestrictions $ postfixRecipientRestrictions ) )
 
 # Glpi Server description
 objectclass (1.3.6.1.4.1.10098.1.2.1.37 NAME 'goGlpiServer' SUP top AUXILIARY
