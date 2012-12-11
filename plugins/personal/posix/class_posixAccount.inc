@@ -284,7 +284,7 @@ class posixAccount extends simplePlugin
     /* Insert possibly missing loginShell */
     $loginShell = $this->attributesAccess['loginShell']->getValue();
     if ($loginShell != "" && !in_array($loginShell, $loginShellList)) {
-      $loginShellList[]= $loginShell;
+      $loginShellList[] = $loginShell;
     }
     $this->attributesAccess['loginShell']->setChoices($loginShellList);
 
@@ -332,7 +332,7 @@ class posixAccount extends simplePlugin
       } else {
         $entry = $attrs["cn"][0]." [".$attrs["description"][0]."]";
       }
-      $groupMembership[$ldap->getDN()]= $entry;
+      $groupMembership[$ldap->getDN()] = $entry;
     }
     asort($groupMembership);
     reset($groupMembership);
@@ -391,7 +391,7 @@ class posixAccount extends simplePlugin
     }
 
     if (($this->shadowInactive !== "") && ($this->shadowMax === "")) {
-      $message[]= msgPool::depends("shadowInactive", "shadowMax");
+      $message[] = msgPool::depends("shadowInactive", "shadowMax");
     }
     if (($this->shadowMin !== "") && ($this->shadowMax !== "") &&
         ($this->shadowMin > $this->shadowMax)) {
@@ -450,7 +450,7 @@ class posixAccount extends simplePlugin
       $ldap->cd($this->config->current['BASE']);
 
       /* Are we forced to use a special gidNumber? */
-      if($this->force_ids) {
+      if ($this->force_ids) {
         $ldap->search("(&(objectClass=posixGroup)(gidNumber=".$this->gidNumber."))", array("cn","gidNumber"));
       } else {
         $ldap->search("(&(objectClass=posixGroup)(gidNumber=*)(cn=".$this->uid."))", array("cn","gidNumber"));
@@ -460,7 +460,7 @@ class posixAccount extends simplePlugin
       if ($ldap->count() == 0) {
         $groupcn  = $this->uid;
         $pri_attr = $this->config->get_cfg_value("accountPrimaryAttribute");
-        $groupdn  = preg_replace ('/^'.preg_quote($pri_attr,'/').'=[^,]+,'.preg_quote(get_people_ou(),'/').'/i',
+        $groupdn  = preg_replace ('/^'.preg_quote($pri_attr, '/').'=[^,]+,'.preg_quote(get_people_ou(), '/').'/i',
             'cn='.$groupcn.','.get_groups_ou(), $this->dn);
 
         /* Request a new and uniqe gidNumber, if required */
@@ -475,7 +475,7 @@ class posixAccount extends simplePlugin
         while ($ldap->dn_exists($groupdn) && ($cnt < 100)) {
           $cnt++;
           $groupcn = $this->uid."_".$cnt;
-          $groupdn = preg_replace ('/^'.preg_quote($pri_attr, '/').'=[^,]+,'.preg_quote(get_people_ou(),'/').'/i',
+          $groupdn = preg_replace ('/^'.preg_quote($pri_attr, '/').'=[^,]+,'.preg_quote(get_people_ou(), '/').'/i',
               'cn='.$groupcn.','.get_groups_ou(), $this->dn);
         }
 
@@ -489,7 +489,7 @@ class posixAccount extends simplePlugin
 
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
           sprintf("Primary group '%s' created, using gidNumber '%s'.", $groupcn,
-          $this->gidNumber),"");
+          $this->gidNumber), "");
       } else {
         $attrs = $ldap->fetch();
         $this->gidNumber = $attrs['gidNumber'][0];
@@ -520,9 +520,9 @@ class posixAccount extends simplePlugin
     }
 
     /* Trust accounts */
-    if (($this->trustMode != "") && !in_array('hostObject',$this->attrs['objectClass'])) {
+    if (($this->trustMode != "") && !in_array('hostObject', $this->attrs['objectClass'])) {
       $this->attrs['objectClass'][] = 'hostObject';
-    } elseif (($this->trustMode == "") && (($key = array_search('hostObject',$this->attrs['objectClass'])) !== FALSE)) {
+    } elseif (($this->trustMode == "") && (($key = array_search('hostObject', $this->attrs['objectClass'])) !== FALSE)) {
       unset($this->attrs['objectClass'][$key]);
     }
   }
@@ -581,149 +581,12 @@ class posixAccount extends simplePlugin
 
 class old_posixAccount extends plugin
 {
-  /* Plugin specific values */
-  var $homeDirectory      = "";
-  var $loginShell         = "/bin/bash";
-  var $uidNumber          = "";
-  var $gidNumber          = "";
-  var $gecos              = "";
-  var $shadowMin          = "0";
-  var $shadowMax          = "0";
-  var $shadowWarning      = "0";
-  var $shadowLastChange   = "0";
-  var $shadowInactive     = "0";
-  var $shadowExpire       = "";
-  var $gosaDefaultPrinter = "";
-  var $accessTo           = array();
-  var $trustModel         = "";
-  var $host               = array();
-
-  var $glist                    = array();
-  var $status                   = "";
-  var $loginShellList           = array();
-  var $groupMembership          = array();
-  var $savedGroupMembership     = array();
-  var $savedUidNumber           = "";
-  var $savedGidNumber           = "";
-  var $activate_shadowMin       = "0";
-  var $activate_shadowMax       = "0";
-  var $activate_shadowWarning   = "0";
-  var $activate_shadowInactive  = "0";
-  var $activate_shadowExpire    = "0";
-  var $mustchangepassword       = "0";
-  var $force_ids                = 0;
-  var $gotoLastSystemLogin      = "";
-  var $groupSelect              = FALSE;
-  var $trustSelect              = FALSE;
-  var $secondaryGroups          = array();
-  var $primaryGroup             = 0;
-  var $was_trust_account        = FALSE;
-  var $memberGroup              = array();
-  var $grouplist                = array();
-  var $ui                       = array();
-  var $ssh                      = null;
-  var $sshAcl                   = "";
-
-  var $GroupRegex               = "*";
-  var $GroupUserRegex           = "*";
-  var $SubSearch                = false;
-
-  var $view_logged              = false;
-
-  /* attribute list for save action */
-  var $CopyPasteVars  =
-      array("grouplist","groupMembership","activate_shadowMin",
-      "activate_shadowMax","activate_shadowWarning","activate_shadowInactive","activate_shadowExpire",
-      "must_change_password","printerList","grouplist","savedGidNumber","savedUidNumber");
-
-  var $attributes     = array("homeDirectory", "loginShell", "uidNumber", "gidNumber", "gecos",
-      "shadowMin", "shadowMax", "shadowWarning", "shadowInactive", "shadowLastChange",
-      "shadowExpire", "gosaDefaultPrinter", "uid", "host", "gotoLastSystemLogin");
-
   var $objectclasses  = array("posixAccount", "shadowAccount");
-
-  var $uid                  = "";
-  var $multiple_support     = TRUE;
-  var $groupMembership_some = array();
 
   /* constructor, if 'dn' is set, the node loads the given
      'dn' from LDAP */
   function __construct (&$config, $dn = NULL, $object = NULL)
   {
-    global $class_mapping;
-
-    /* Configuration is fine, allways */
-    $this->config = $config;
-
-    /* Load bases attributes */
-    plugin::plugin($config, $dn, $object);
-
-    if ($dn !== NULL) {
-
-      /* Is this account a trustAccount? */
-      if ($this->is_account && isset($this->attrs['host'])) {
-
-        if ($this->attrs['host'][0] == "*") {
-          $this->trustModel = "fullaccess";
-        } else {
-          $this->trustModel = "byhost";
-          $this->accessTo = array();
-            if ($this->is_account && isset($this->attrs['host'])) {
-              for ($i = 0; $i < $this->attrs['host']['count']; $i++) {
-                $tmp = $this->attrs['host'][$i];
-                $this->accessTo[$tmp]= $tmp;
-              }
-            }
-        }
-        $this->was_trust_account = TRUE;
-      } else {
-        $this->was_trust_account = FALSE;
-        $this->trustModel= "";
-      }
-
-      /* Get group membership */
-      $ldap->cd($this->config->current['BASE']);
-      $ldap->search("(&(objectClass=posixGroup)(memberUid=".$this->uid."))", array("cn", "description"));
-
-      while ($attrs= $ldap->fetch()) {
-        if (!isset($attrs["description"][0])) {
-          $entry = $attrs["cn"][0];
-        } else {
-          $entry = $attrs["cn"][0]." [".$attrs["description"][0]."]";
-        }
-        $this->groupMembership[$ldap->getDN()]= $entry;
-      }
-      asort($this->groupMembership);
-      reset($this->groupMembership);
-      $this->savedGroupMembership= $this->groupMembership;
-
-      // Instanciate SSH object if available
-      if (isset($class_mapping["sshPublicKey"])){
-        if (empty($this->acl_base)){
-          $this->acl_base= $config->current['BASE'];
-        }
-
-        $this->sshAcl= $this->getacl("sshPublicKey");
-        $this->ssh= new sshPublicKey($this->config, $this->dn, $this->sshAcl);
-      }
-    }
-
-    /* Convert shadowExpire for usage */
-    if ($this->shadowExpire == 0) {
-      $this->shadowExpire = "";
-    } else {
-      $this->shadowExpire = date('d.m.Y', $this->shadowExpire * 60 * 60 * 24);
-    }
-
-    /* Get global filter config */
-    if (!session::is_set("sysfilter")){
-      $ui= get_userinfo();
-      $base= get_base_from_people($ui->dn);
-      $sysfilter= array( "depselect"       => $base,
-          "regex"           => "*");
-      session::set("sysfilter", $sysfilter);
-    }
-    $this->ui = get_userinfo();
   }
 
   /* execute generates the html output for this node */
@@ -733,60 +596,9 @@ class old_posixAccount extends plugin
     plugin::execute();
     $display= "";
 
-    /* Department has changed? */
-    if(isset($_POST['depselect'])){
-      session::set('CurrentMainBase',validate($_POST['depselect']));
-    }
-
-    if (!$isCopyPaste) {
-
-      /* Show tab dialog headers */
-      if ($this->parent !== NULL){
-        if ($this->is_account){
-          if (isset($this->parent->by_object['sambaAccount'])){
-            $obj= $this->parent->by_object['sambaAccount'];
-          }
-          if (isset($obj) && $obj->is_account == TRUE &&
-              ((isset($this->parent->by_object['sambaAccount']))&&($this->parent->by_object['sambaAccount']->is_account))
-              ||(isset($this->parent->by_object['environment'] ))&&($this->parent->by_object['environment'] ->is_account)){
-
-            /* Samba3 dependency on posix accounts are enabled
-               in the moment, because I need to rely on unique
-               uidNumbers. There'll be a better solution later
-               on. */
-            $display= $this->show_disable_header(msgPool::removeFeaturesButton(_("POSIX")), msgPool::featuresEnabled(_("POSIX"), array(_("Samba"), _("Environment"))), TRUE);
-          } else {
-            $display= $this->show_disable_header(msgPool::removeFeaturesButton(_("POSIX")), msgPool::featuresEnabled(_("POSIX")));
-          }
-        } else {
-          $display= $this->show_enable_header(msgPool::addFeaturesButton(_("POSIX")), msgPool::featuresDisabled(_("POSIX")));
-          return($display);
-        }
-      }
-    }
-
     /* Templates now! */
     $smarty= get_smarty();
     $smarty->assign("usePrototype", "true");
-
-    // Handle ssh dialog?
-    if ($this->ssh instanceOf sshPublicKey && preg_match('/[rw]/', $this->getacl("sshPublicKey"))) {
-        $smarty->assign("usePrototype", "false");
-       if ($result= $this->ssh->execute()) {
-         $this->dialog= true;
-         return $result;
-       }
-       $this->dialog= false;
-    }
-
-    /* Show main page */
-    $smarty= get_smarty();
-    $smarty->assign("usePrototype", "true");
-
-    /* In 'MyAccount' mode, we must remove write acls if we are not in editing mode. */
-    $SkipWrite = (!isset($this->parent) || !$this->parent) && !session::is_set('edit');
-
-    $smarty->assign("sshPublicKeyACL", $this->getacl("sshPublicKey", $SkipWrite));
 
     if (count($this->groupMembership) > 16){
       $smarty->assign("groups", "too_many_for_nfs");
@@ -794,71 +606,9 @@ class old_posixAccount extends plugin
       $smarty->assign("groups", "");
     }
 
-    /* Avoid "Undefined index: forceMode" */
-    $smarty->assign("forceMode", "");
-
-    // Add SSH button if available
-    $smarty->assign("sshPublicKey", $this->ssh?1:0);
-
     $smarty->assign("apply", apply_filter());
     $display .= $smarty->fetch (get_template_path('generic.tpl', TRUE, dirname(__FILE__)));
     return $display;
-  }
-
-  function save_object()
-  {
-    /* Get regex from alphabet */
-    if(isset($_GET['search'])){
-      $this->GroupRegex = $_GET['search']."*";
-    }
-
-    /* Check checkboxes and regexes */
-    if(isset($_POST["PosixGroupDialogPosted"])){
-
-      if(isset($_POST['SubSearch']) && ($_POST['SubSearch'])){
-        $this->SubSearch = true;
-      }else{
-        $this->SubSearch = false;
-      }
-      if(isset($_POST['guser'])){
-        $this->GroupUserRegex = $_POST['guser'];
-      }
-      if(isset($_POST['regex'])){
-        $this->GroupRegex = $_POST['regex'];
-      }
-    }
-    $this->GroupRegex = preg_replace("/\*\**/","*",$this->GroupRegex);
-    $this->GroupUserRegex = preg_replace("/\*\**/","*",$this->GroupUserRegex);
-  }
-
-
-  /* Save data to LDAP, depending on is_account we save or delete */
-  function save()
-  {
-    /* Call parents save to prepare $this->attrs */
-    plugin::save();
-
-    if (empty($this->attrs['gosaDefaultPrinter'])) {
-      $thid->attrs['gosaDefaultPrinter']=array();
-    }
-
-    /* include global link_info */
-    $this->cleanup();
-
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cd($this->dn);
-    unset($this->attrs['uid']);
-    $ldap->modify ($this->attrs);
-
-    if (!$ldap->success()){
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_MOD, get_class()));
-    }
-
-    // Save ssh stuff if needed
-    if ($this->ssh) {
-      $this->ssh->setDN($this->dn);
-      $this->ssh->save();
-    }
   }
 
   /* Adapt from template, using 'dn' */
