@@ -37,7 +37,7 @@ class reference extends plugin
   $this->dn= $dn;
 
         /* Fill translation array */
-        $this->obtypes= array(  
+        $this->obtypes= array(
         "gosaAccount" => array(    "text" => _("Generic"),
           "image" => "images/penguin.png"),
         "posixAccount" => array(   "text" =>_("UNIX"),
@@ -45,9 +45,9 @@ class reference extends plugin
         "gosaMailAccount" => array("text" => _("Mail"),
           "image" => "images/mailto.png"),
         "sambaSamAccount" => array("text" => _("Samba"),
-          "image" => "plugins/systems/images/select_winstation.png"),
+          "image" => "images/windows.png"),
         "sambaAccount" => array(   "text" => _("Samba"),
-          "image" => "plugins/sysmtes/images/select_winstation.png"),
+          "image" => "images/windows.png"),
         "goFaxAccount" => array(   "text" => _("FAX"),
           "image" => "plugins/gofax/images/fax_small.png"),
         "gosaProxyAccount" => array("text" => _("Proxy"),
@@ -105,7 +105,7 @@ class reference extends plugin
   $ldap->cd($this->config->current['BASE']);
 
   $ldap->search("(|(gotoHotplugDeviceDN=".LDAP::prepare4filter($this->dn).")(member=".LDAP::prepare4filter($this->dn).")(memberUid=".$this->uid."))",array("memberUid","member","cn","description","objectClass"));
-  
+
     $cycle= array("F5F5F5", "ECECEC");
   $id= 0;
   $this->objectlist= "";
@@ -118,11 +118,11 @@ class reference extends plugin
       if (isset($attrs['memberUid'])){
         unset($attrs['memberUid']['count']);
         $memberattr= "memberUid";
-      } 
+      }
       if (isset($attrs['member'])){
         unset($attrs['member']['count']);
         $memberattr= "member";
-      } 
+      }
       if ($memberattr == ""){
         continue;
       }
@@ -151,7 +151,7 @@ class reference extends plugin
 
     $id++;
   }
-  
+
   }
 
   function getCacheObject($dn)
@@ -169,7 +169,7 @@ class reference extends plugin
       if(isset($attrs['ou']) && !isset($attrs['cn'])){
         $attrs['cn'] = $attrs['ou'];
       }
-        
+
       if (isset($attrs['description'])){
         $description= $attrs['description'][0];
       } else {
@@ -197,7 +197,7 @@ class reference extends plugin
   }
   return (preg_replace('/ $/', '', $result));
   }
-  
+
 }
 
 ?>

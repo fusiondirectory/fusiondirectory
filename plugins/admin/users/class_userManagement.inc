@@ -878,7 +878,7 @@ class userManagement extends management
                                          "alt" => _("Mail"),
                                          "plugin" => "mailAccount",
                                          "title" => _("Edit mail properties")),
-                 "sambaSamAccount" => array("image" => "plugins/systems/images/select_winstation.png",
+                 "sambaSamAccount" => array("image" => "images/windows.png",
                                          "plugin" => "sambaAccount",
                                          "alt" => _("Samba"),
                                          "title" => _("Edit samba properties")),
