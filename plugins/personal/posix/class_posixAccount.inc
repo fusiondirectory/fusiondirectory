@@ -348,6 +348,14 @@ class posixAccount extends simplePlugin
 
     $this->savedGroupMembership = array();
 
+    $ldap = $this->config->get_ldap_link();
+    $ldap->cd($this->config->current['BASE']);
+    $ldap->search("(&(objectClass=posixGroup)(gidNumber=".$this->gidNumber.")(cn=".$this->uid."))", array("cn","gidNumber"));
+    if ($ldap->count() > 0) {
+      /* The copied user had its own group */
+      $this->primaryGroup = 0; // switch back to automatic
+    }
+
     $this->force_ids = FALSE;
     $this->attributesAccess['uidNumber']->setInitialValue("");
     $this->attributesAccess['gidNumber']->setInitialValue("");
