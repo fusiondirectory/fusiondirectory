@@ -634,16 +634,16 @@ class config  {
     }
 
     /* Get samba servers from LDAP */
+    $this->data['SERVERS']['SAMBA'] = array();
     if (class_available('sambaAccount')) {
-      $this->data['SERVERS']['SAMBA']= array();
-      $ldap->cd ($this->current['BASE']);
-      $ldap->search ("(objectClass=sambaDomain)");
-      while ($attrs= $ldap->fetch()){
-        $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]]= array( "SID" =>"","RIDBASE" =>"");
-        if(isset($attrs["sambaSID"][0])){
-          $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]]["SID"]  = $attrs["sambaSID"][0];
+      $ldap->cd($this->current['BASE']);
+      $ldap->search("(objectClass=sambaDomain)");
+      while ($attrs = $ldap->fetch()) {
+        $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]] = array( "SID" => "","RIDBASE" => "");
+        if (isset($attrs["sambaSID"][0])) {
+          $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]]["SID"] = $attrs["sambaSID"][0];
         }
-        if(isset($attrs["sambaAlgorithmicRidBase"][0])){
+        if (isset($attrs["sambaAlgorithmicRidBase"][0])) {
           $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]]["RIDBASE"] = $attrs["sambaAlgorithmicRidBase"][0];
         }
       }
