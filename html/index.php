@@ -54,7 +54,7 @@ function displayLogin()
   $smarty->assign ("message", $message);
 
   /* Displasy SSL mode warning? */
-  if ($ssl != "" && $config->get_cfg_value('warnSSL') == 'true'){
+  if (($ssl != "") && ($config->get_cfg_value('warnSSL') == 'TRUE')) {
     $smarty->assign ("ssl", _("Warning").": <a style=\"color:red;\" href=\"$ssl\">"._("Session is not encrypted!")."</a>");
   } else {
     $smarty->assign ("ssl", "");
@@ -187,7 +187,6 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
   @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang, "Setting language to");
 }
 
-
 /* Check for SSL connection */
 $ssl = "";
 if (!isset($_SERVER['HTTPS']) ||
@@ -200,12 +199,6 @@ if (!isset($_SERVER['HTTPS']) ||
     $ssl = "https://".$_SERVER['HTTP_HOST'].
       $_SERVER['REQUEST_URI'];
   }
-}
-
-/* If SSL is forced, just forward to the SSL enabled site */
-if ($config->get_cfg_value("forcessl") == "TRUE" && $ssl != '') {
-  header ("Location: $ssl");
-  exit;
 }
 
 /* Do we have htaccess authentification enabled? */
@@ -228,7 +221,21 @@ if ($config->get_cfg_value("htaccessAuthentication") == "TRUE" ) {
     exit;
   }
 
-  $htaccess_authenticated= TRUE;
+  $htaccess_authenticated = TRUE;
+}
+if (!$htaccess_authenticated) {
+  if (isset($_POST['server'])) {
+    $server = get_post("server");
+  } else {
+    $server = $config->data['MAIN']['DEFAULT'];
+  }
+}
+$config->set_current($server);
+
+/* If SSL is forced, just forward to the SSL enabled site */
+if ($config->get_cfg_value("forcessl") == "TRUE" && $ssl != '') {
+  header ("Location: $ssl");
+  exit;
 }
 
 
@@ -243,12 +250,6 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
   if (session::global_is_set('_LAST_PAGE_REQUEST')) {
     session::global_set('_LAST_PAGE_REQUEST',time());
   }
-
-  if (!$htaccess_authenticated) {
-    $server = get_post("server");
-  }
-  $config->set_current($server);
-
 
   /* Admin-logon and verify */
   $ldap = $config->get_ldap_link();
@@ -289,8 +290,8 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
 
   /* Check for locking area */
   $ldap->cat($config->get_cfg_value("config"), array("dn"));
-  $attrs= $ldap->fetch();
-  if (!count ($attrs)){
+  $attrs = $ldap->fetch();
+  if (!count ($attrs)) {
     $ldap->cd($config->current['BASE']);
     $ldap->create_missing_trees($config->get_cfg_value("config"));
   }

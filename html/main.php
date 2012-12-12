@@ -94,18 +94,18 @@ if (session::global_get('_LAST_PAGE_REQUEST') == "") {
 $smarty->compile_dir= $config->get_cfg_value("templateCompileDirectory", SPOOL_DIR);
 
 /* Set default */
-$reload_navigation = false;
+$reload_navigation = FALSE;
 
 /* Set last initialised language to current, browser settings */
 if (!session::global_is_set('Last_init_lang')) {
-  $reload_navigation = true;
+  $reload_navigation = TRUE;
   session::global_set('Last_init_lang',get_browser_language());
 }
 
 /* If last language != current force navi reload */
 $lang= get_browser_language();
 if (session::global_get('Last_init_lang') != $lang) {
-  $reload_navigation = true;
+  $reload_navigation = TRUE;
 }
 
 /* Language setup */
@@ -307,7 +307,7 @@ if (isset($plug)) {
 } else {
   $plug= "";
 }
-if (session::global_get('js')==FALSE) {
+if (session::global_get('js') == FALSE) {
   $smarty->assign("javascript", "false");
 } else {
   $smarty->assign("javascript", "true");

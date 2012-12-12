@@ -162,11 +162,6 @@ class config  {
       msg_dialog::display(_("Configuration error"), $msg, FATAL_ERROR_DIALOG);
       exit;
     }
-
-    // Default schemacheck to "true"
-    if(!isset($this->data['MAIN']['SCHEMACHECK'])){
-      $this->data['MAIN']['SCHEMACHECK'] = "true";
-    }
   }
 
 
@@ -199,11 +194,11 @@ class config  {
     }
 
     /* yes/no to true/false and upper case TRUE to true and so on*/
-    foreach($attrs as $name => $value){
-      if(preg_match("/^(true|yes)$/i",$value)){
-        $attrs[$name] = "true";
-      }elseif(preg_match("/^(false|no)$/i",$value)){
-        $attrs[$name] = "false";
+    foreach ($attrs as $name => $value) {
+      if (preg_match("/^(true|yes)$/i", $value)) {
+        $attrs[$name] = "TRUE";
+      } elseif(preg_match("/^(false|no)$/i", $value)) {
+        $attrs[$name] = "FALSE";
       }
     }
 
@@ -249,6 +244,11 @@ class config  {
 
                     $this->data['LOCATIONS'][$this->currentLocation]['REFERRAL'][$server]= $attrs;
                   }
+                  break;
+
+                  /* Load main parameters */
+      case 'MAIN':
+                  $this->data['MAIN'] = array_merge ($this->data['MAIN'], $attrs);
                   break;
     }
   }
@@ -339,8 +339,8 @@ class config  {
       }
 
       if (!session::global_is_set('size_limit')) {
-        session::global_set('size_limit',$this->current['LDAPSIZELIMIT']);
-        session::global_set('size_ignore',$this->current['LDAPSIZEIGNORE']);
+        session::global_set('size_limit',   $this->current['LDAPSIZELIMIT']);
+        session::global_set('size_ignore',  preg_match('/true/i', $this->current['LDAPSIZEIGNORE']));
       }
     }
 
@@ -361,85 +361,83 @@ class config  {
    */
   function set_current($name)
   {
-    $this->current= $this->data['LOCATIONS'][$name];
+    $this->current = $this->data['LOCATIONS'][$name];
 
-    if (!isset($this->current['USERRDN'])){
-      $this->current['USERRDN']= "ou=people";
-    }
-    if (!isset($this->current['GROUPRDN'])){
-      $this->current['GROUPS']= "ou=groups";
-    }
-
-    if (isset($this->current['INITIAL_BASE'])){
-      session::global_set('CurrentMainBase',$this->current['INITIAL_BASE']);
-    }
-
-    /* Remove possibly added ',' from end of group and people ou */
-    $this->current['GROUPS'] = preg_replace("/,*$/","",$this->current['GROUPRDN']);
-    $this->current['USERRDN'] = preg_replace("/,*$/","",$this->current['USERRDN']);
-
-    if (!isset($this->current['SAMBAMACHINEACCOUNTRDN'])){
-      $this->current['SAMBAMACHINEACCOUNTRDN']= "ou=computers,ou=systems";
-    }
-    if (!isset($this->current['ACCOUNTPRIMARYATTRIBUTE'])){
-      $this->current['ACCOUNTPRIMARYATTRIBUTE']= "cn";
-    }
-    if (!isset($this->current['MINID'])){
-      $this->current['MINID']= 100;
+    if (isset($this->current['INITIAL_BASE'])) {
+      session::global_set('CurrentMainBase', $this->current['INITIAL_BASE']);
     }
 
     /* Sort referrals, if present */
-    if (isset ($this->current['REFERRAL'])){
-      $bases= array();
-      $servers= array();
-      foreach ($this->current['REFERRAL'] as $ref){
-        $server= preg_replace('%^(.*://[^/]+)/.*$%', '\\1', $ref['URI']);
-        $base= preg_replace('%^.*://[^/]+/(.*)$%', '\\1', $ref['URI']);
-        $bases[$base]= strlen($base);
-        $servers[$base]= $server;
+    if (isset($this->current['REFERRAL'])) {
+      $bases    = array();
+      $servers  = array();
+      foreach ($this->current['REFERRAL'] as $ref) {
+        $server = preg_replace('%^(.*://[^/]+)/.*$%', '\\1', $ref['URI']);
+        $base   = preg_replace('%^.*://[^/]+/(.*)$%', '\\1', $ref['URI']);
+
+        $bases[$base]   = strlen($base);
+        $servers[$base] = $server;
       }
       asort($bases);
       reset($bases);
     }
 
     /* SERVER not defined? Load the one with the shortest base */
-    if (!isset($this->current['SERVER'])){
-      $this->current['SERVER']= $servers[key($bases)];
+    if (!isset($this->current['SERVER'])) {
+      $this->current['SERVER'] = $servers[key($bases)];
     }
 
     /* BASE not defined? Load the one with the shortest base */
-    if (!isset($this->current['BASE'])){
-      $this->current['BASE']= key($bases);
+    if (!isset($this->current['BASE'])) {
+      $this->current['BASE'] = key($bases);
     }
 
     /* Convert BASE to have escaped special characters */
-    $this->current['BASE']= @LDAP::convert($this->current['BASE']);
+    $this->current['BASE'] = @LDAP::convert($this->current['BASE']);
 
     /* Parse LDAP referral informations */
-    if (!isset($this->current['ADMINDN']) || !isset($this->current['ADMINPASSWORD'])){
-      $url= $this->current['SERVER'];
-      $referral= $this->current['REFERRAL'][$url];
-      $this->current['ADMINDN']= $referral['ADMINDN'];
-      $this->current['ADMINPASSWORD']= $referral['ADMINPASSWORD'];
+    if (!isset($this->current['ADMINDN']) || !isset($this->current['ADMINPASSWORD'])) {
+      $url      = $this->current['SERVER'];
+      $referral = $this->current['REFERRAL'][$url];
+
+      $this->current['ADMINDN']       = $referral['ADMINDN'];
+      $this->current['ADMINPASSWORD'] = $referral['ADMINPASSWORD'];
+    }
+
+    /* We need LDAPSIZELIMIT and LDAPSIZEIGNORE set before we connect to the ldap */
+    if (!isset($this->current['LDAPSIZELIMIT'])) {
+      $this->current['LDAPSIZELIMIT'] = 200;
+    }
+    if (!isset($this->current['LDAPSIZEIGNORE'])) {
+      $this->current['LDAPSIZEIGNORE'] = "TRUE";
     }
 
     /* Load in-ldap configuration */
     $this->load_inldap_config();
 
-    if (!isset($this->current['LDAPSIZELIMIT'])) {
-      $this->current['LDAPSIZELIMIT'] = 200;
+    if (!isset($this->current['SAMBAMACHINEACCOUNTRDN'])) {
+      $this->current['SAMBAMACHINEACCOUNTRDN'] = "ou=computers,ou=systems";
     }
-    session::global_set('size_limit',$this->current['LDAPSIZELIMIT']);
+    if (!isset($this->current['ACCOUNTPRIMARYATTRIBUTE'])) {
+      $this->current['ACCOUNTPRIMARYATTRIBUTE'] = "cn";
+    }
+    if (!isset($this->current['MINID'])) {
+      $this->current['MINID']= 100;
+    }
 
-    if (!isset($this->current['LDAPSIZEIGNORE'])) {
-      $this->current['LDAPSIZEIGNORE'] = TRUE;
-    } else {
-      if (preg_match("/true/i", $this->current['LDAPSIZEIGNORE'])) {
-        $this->current['LDAPSIZEIGNORE'] = TRUE;
-      } else {
-        $this->current['LDAPSIZEIGNORE'] = FALSE;
-      }
+    if (!isset($this->current['USERRDN'])) {
+      $this->current['USERRDN'] = "ou=people";
     }
+    if (!isset($this->current['GROUPRDN'])) {
+      $this->current['GROUPRDN'] = "ou=groups";
+    }
+
+    /* Remove possibly added ',' from end of group and people ou */
+    $this->current['GROUPRDN']  = preg_replace("/,*$/", "", $this->current['GROUPRDN']);
+    $this->current['USERRDN']   = preg_replace("/,*$/", "", $this->current['USERRDN']);
+
+    /* We update LDAPSIZELIMIT as it may have been changed by ldap config */
+    session::global_set('size_limit',$this->current['LDAPSIZELIMIT']);
 
     /* Load server informations */
     $this->load_servers();
@@ -905,7 +903,7 @@ class config  {
    *
    * \return array list of share defined in the current LDAP
    */
-  function getShareList($listboxEntry = false)
+  function getShareList($listboxEntry = FALSE)
   {
     $tmp = get_sub_list("(&(objectClass=goShareServer)(goExportEntry=*))","server",get_ou("serverRDN"),
         $this->current['BASE'],array("goExportEntry","cn"), GL_NONE);
