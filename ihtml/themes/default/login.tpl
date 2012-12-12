@@ -49,7 +49,7 @@
     </div>
     <div style='text-align:center; padding:15px;'>
             <img class='center' align='middle' src='{$directory_img}' alt='{t}Directory{/t}' title='{t}Directory{/t}' />&nbsp;
-      <select name='server'  title='{t}Directory{/t}'>
+      <select name='server' title='{t}Directory{/t}' onchange='javascript:document.mainform.submit();'>
         {html_options options=$server_options selected=$server_id}
       </select>
     </div>
