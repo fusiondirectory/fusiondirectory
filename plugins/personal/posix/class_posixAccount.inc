@@ -577,103 +577,43 @@ class posixAccount extends simplePlugin
     }
   }
 
-}
-
-class old_posixAccount extends plugin
-{
-  var $objectclasses  = array("posixAccount", "shadowAccount");
-
-  /* constructor, if 'dn' is set, the node loads the given
-     'dn' from LDAP */
-  function __construct (&$config, $dn = NULL, $object = NULL)
-  {
-  }
-
-  /* execute generates the html output for this node */
-  function execute($isCopyPaste = false)
-  {
-    /* Call parent execute */
-    plugin::execute();
-    $display= "";
-
-    /* Templates now! */
-    $smarty= get_smarty();
-    $smarty->assign("usePrototype", "true");
-
-    if (count($this->groupMembership) > 16){
-      $smarty->assign("groups", "too_many_for_nfs");
-    } else {
-      $smarty->assign("groups", "");
-    }
-
-    $smarty->assign("apply", apply_filter());
-    $display .= $smarty->fetch (get_template_path('generic.tpl', TRUE, dirname(__FILE__)));
-    return $display;
-  }
-
   /* Adapt from template, using 'dn' */
-  function adapt_from_template($dn, $skip= array())
+  function adapt_from_template($dn, $skip = array())
   {
     /* Include global link_info */
-    $ldap= $this->config->get_ldap_link();
+    $ldap = $this->config->get_ldap_link();
 
-    plugin::adapt_from_template($dn, $skip);
-    $template= $this->attrs['uid'][0];
+    parent::adapt_from_template($dn, $skip);
+    $template = $this->attrs['uid'][0];
 
     /* Adapt group membership */
     $ldap->cd($this->config->current['BASE']);
-    $ldap->search("(&(objectClass=posixGroup)(memberUid=".$this->attrs["uid"][0]."))", array("description", "cn"));
+    $ldap->search("(&(objectClass=posixGroup)(memberUid=$template))", array("description", "cn"));
 
-    while ($this->attrs= $ldap->fetch()){
-      if (!isset($this->attrs["description"][0])){
-        $entry= $this->attrs["cn"][0];
-      } else {
-        $entry= $this->attrs["cn"][0]." [".$this->attrs["description"][0]."]";
-      }
-      $this->groupMembership[$ldap->getDN()]= $entry;
+    while ($entry = $ldap->fetch()) {
+      $this->groupMembership->addValue($ldap->getDN(), $entry);
     }
 
     /* Fix primary group settings */
-    if($this->gidNumber == 2147483647){
+    if ($this->gidNumber == 2147483647) {
       $this->gidNumber = "";
     }
 
-    if($this->gidNumber){
+    if ($this->gidNumber) {
       $ldap->cd($this->config->current['BASE']);
       $ldap->search("(&(objectClass=posixGroup)(cn=$template)(gidNumber=".$this->gidNumber."))", array("cn"));
-      if ($ldap->count() != 1){
-        $this->primaryGroup= $this->gidNumber;
+      if ($ldap->count() != 1) {
+        $this->primaryGroup = $this->gidNumber;
       }
     }
 
     $ldap->cd($this->config->current['BASE']);
-    $ldap->search("(&(objectClass=gosaUserTemplate)(uid=".$template.")(accessTo=*))", array("cn","accessTo"));
-    while($attr = $ldap->fetch()){
+    $ldap->search("(&(objectClass=gosaUserTemplate)(uid=$template)(accessTo=*))", array("cn","accessTo"));
+    while ($attr = $ldap->fetch()) {
       $tmp = $attr['accessTo'];
-      unset ($tmp['count']);
+      unset($tmp['count']);
       $this->accessTo = $tmp;
     }
-
-    /* Adjust shadow checkboxes */
-    foreach (array("shadowMin", "shadowMax", "shadowWarning", "shadowInactive", "shadowExpire") as $val){
-      if ($this->$val != 0){
-        $oval= "activate_".$val;
-        $this->$oval= "1";
-      }
-    }
-
-    /* Only enable checkbox, if shadowExpire is in the future */
-    if($this->shadowExpire > time()) {
-        $this->activate_shadowExpire= "1";
-    }
-
-    /* Convert shadowExpire for usage */
-    if ($this->shadowExpire == 0){
-        $this->shadowExpire= "";
-    } else {
-        $this->shadowExpire= date('d.m.Y', $this->shadowExpire * 60 * 60 * 24);
-    }
-
   }
 }
 
