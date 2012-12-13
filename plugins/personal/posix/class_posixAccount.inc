@@ -194,7 +194,6 @@ class posixAccount extends simplePlugin
       "plShortName"     => _("Unix"),
       "plDescription"   => _("Edit users POSIX settings"),
       "plSelfModify"    => TRUE,
-      "plDepends"       => array("user"),
       "plPriority"      => 2,
       "plCategory"      => array("users"),
       "plObjectType"    => array("user"),

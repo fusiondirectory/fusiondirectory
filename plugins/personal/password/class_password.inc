@@ -199,7 +199,6 @@ class password extends plugin
       "plShortName"     => _("Password"),
       "plDescription"   => _("Change user password"),
       "plSelfModify"    => TRUE,
-      "plDepends"       => array("user"),
       "plPriority"      => 10,
       "plCategory"      => array("users"),
       "plSection"       => "personal",

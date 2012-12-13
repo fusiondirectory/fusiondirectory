@@ -74,6 +74,7 @@ class pluglist {
     $classes = get_declared_classes();
 
     $index = 0;
+    $depends_infos = array();
     foreach ($classes as $cname) {
       $cmethods = get_class_methods($cname);
       if (in_array_ics('plInfo', $cmethods)) {
@@ -90,9 +91,26 @@ class pluglist {
         if (isset($class_mapping[$cname])) {
           $infos['PATH'] = dirname($class_mapping[$cname]);
         }
+        if (isset($infos['plDepends'])) {
+          $depends_infos[] = $cname;
+        }
         $infos['INDEX']                 = $index;
         $this->info[$cname]             = $infos;
         $this->dirlist[$index++]  = $cname;
+      }
+    }
+
+    foreach ($depends_infos as $cname) {
+      foreach ($this->info[$cname]['plDepends'] as $depend) {
+        if (isset($this->info[$depend])) {
+          if (isset($this->info[$depend]['plDepending'])) {
+            $this->info[$depend]['plDepending'][] = $cname;
+          } else {
+            $this->info[$depend]['plDepending'] = array($cname);
+          }
+        } else {
+          trigger_error("$cname depends off the inexisting plugin $depend");
+        }
       }
     }
 
@@ -454,5 +472,14 @@ class pluglist {
     $this->iconmenu = "";
   }
 
+  static function pluginInfos($cname)
+  {
+    $plist = session::global_get('plist');
+    if ($plist) {
+      return $plist->info[$cname];
+    } else {
+      trigger_error('plist not loaded yet');
+    }
+  }
 }
 ?>
