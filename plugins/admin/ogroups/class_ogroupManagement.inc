@@ -125,10 +125,10 @@ class ogroupManagement extends management
 
   /*! \brief  Sends a message to a set of users using Argonauts events.
    */
-  function sendMessage($action="",$target=array(),$all=array())
+  function sendMessage($action = "", $target = array(), $all = array())
   {
 
-    if(class_available("DaemonEvent_notify")){
+    if (class_available("DaemonEvent")) {
 
       // Resolv targets
       $targets = array();
@@ -136,7 +136,7 @@ class ogroupManagement extends management
       $ldap = $this->config->get_ldap_link();
 
       // Collect selected ogroups
-      foreach($target as $dn){
+      foreach ($target as $dn) {
         $ldap->cat($dn, array('member'));
         while ($entry = $ldap->fetch()) {
           $m_list[] = $entry;
@@ -166,11 +166,10 @@ class ogroupManagement extends management
       }
 
       // We've at least one recipient
-      if(count($targets)){
-        $events = DaemonEvent::get_event_types(USER_EVENT);
-        if(isset($events['BY_CLASS']['DaemonEvent_notify'])){
-          $type = $events['BY_CLASS']['DaemonEvent_notify'];
-          $this->dialogObject = new $type['CLASS_NAME']($this->config);
+      if (count($targets)) {
+        $events = DaemonEvent::get_event_types();
+        if (isset($events['notify'])) {
+          $this->dialogObject = new DaemonEvent($this->config, 'notify');
           $this->dialogObject->add_targets($targets);
           $this->dialogObject->set_type(TRIGGERED_EVENT);
         }
