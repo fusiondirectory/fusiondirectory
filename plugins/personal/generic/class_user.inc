@@ -99,6 +99,7 @@ class user extends plugin
   /* variables to trigger password changes */
   var $pw_storage           = "md5";
   var $last_pw_storage      = "unset";
+  var $template_default_pw  = "";
 
   var $view_logged = FALSE;
 
@@ -614,7 +615,7 @@ class user extends plugin
   /* Save data to object */
   function save_object()
   {
-    if(isset($_POST['generic']) || isset($_POST['multiple_user_posted'])){
+    if (isset($_POST['generic'])) {
 
       /* Make a backup of the current selected base */
       $base_tmp = $this->base;
@@ -654,21 +655,17 @@ class user extends plugin
       }
 
       /* Get pw_storage mode */
-      if (isset($_POST['pw_storage'])){
-        foreach(array("pw_storage") as $val){
-          if(isset($_POST[$val])){
-            $data= validate($_POST[$val]);
-            if ($data != $this->$val){
-              $this->is_modified= TRUE;
-            }
-            $this->$val= $data;
-          }
+      if (isset($_POST['pw_storage'])) {
+        $data = validate($_POST['pw_storage']);
+        if ($data != $this->pw_storage) {
+          $this->is_modified = TRUE;
         }
+        $this->pw_storage = $data;
       }
 
       if ($this->pw_storage != $this->last_pw_storage && isset($_POST['pw_storage'])) {
         if ($this->acl_is_writeable("userPassword")) {
-          $temp= passwordMethod::get_available_methods();
+          $temp = passwordMethod::get_available_methods();
           if (!is_object($this->pwObject) || !($this->pwObject instanceOf $temp[$this->pw_storage])) {
             foreach ($temp as $id => $data) {
               if (isset($data['name']) && $data['name'] == $this->pw_storage && $data['is_configurable']) {
@@ -684,6 +681,9 @@ class user extends plugin
         /* Template mode */
         $this->givenName  = $this->sn;
         $this->cn         = $this->sn;
+        if (isset($_POST['default_pw'])) {
+          $this->userPassword = $_POST['default_pw'];
+        }
       } else {
         /* Save current cn */
         $this->cn = $this->givenName." ".$this->sn;
@@ -854,12 +854,16 @@ class user extends plugin
 
     /* Set password to some junk stuff in case of templates */
     if ($this->is_template){
-      $temp= passwordMethod::get_available_methods();
-      foreach($temp as $id => $data){
-        if(isset($data['name']) && $data['name'] == $this->pw_storage){
-          $tmp = new  $temp[$this->pw_storage]($this->config,$this->dn);
+      $temp = passwordMethod::get_available_methods();
+      foreach ($temp as $id => $data) {
+        if (isset($data['name']) && ($data['name'] == $this->pw_storage)) {
+          $tmp = new $temp[$this->pw_storage]($this->config, $this->dn);
           $tmp->set_hash($this->pw_storage);
-          $this->attrs['userPassword'] = $tmp->create_template_hash($this->attrs);
+          if ($this->template_default_pw != "") {
+            $this->attrs['userPassword'] = $tmp->create_template_hash($this->attrs).'|'.$this->template_default_pw;
+          } else {
+            $this->attrs['userPassword'] = $tmp->create_template_hash($this->attrs);
+          }
           break;
         }
       }
@@ -907,6 +911,8 @@ class user extends plugin
         $test->attrs= $this->attrs;
         $test->remove_from_parent();
       }
+    } elseif (!$this->is_template && isset($this->template_default_pw)) {
+      change_password ($this->dn, $this->template_default_pw, 0, $this->pw_storage);
     }
 
     /* Maybe the current password method want's to do some changes... */
@@ -1186,13 +1192,24 @@ class user extends plugin
 
     /* Get password method from template
      */
-    $tmp= passwordMethod::get_method($this->attrs['userPassword'][0]);
-    if(is_object($tmp)){
-      if($tmp->is_configurable()){
+     list ($hash, $default_pw) = split('|', $this->attrs['userPassword'][0], 2);
+    $tmp = passwordMethod::get_method($hash);
+    if (is_object($tmp)) {
+      if ($tmp->is_configurable()) {
         $tmp->adapt_from_template($dn);
         $this->pwObject = &$tmp;
       }
       $this->pw_storage= $tmp->get_hash();
+    }
+
+    if ($default_pw != '') {
+      foreach (array("sn", "givenName", "uid") as $repl) {
+        if (preg_match("/%$repl/i", $default_pw)) {
+          $default_pw = preg_replace ("/%$repl/i", $this->parent->$repl, $default_pw);
+        }
+      }
+      $this->template_default_pw  = $default_pw;
+      $this->last_pw_storage      = $this->pw_storage;
     }
 
     /* Get base */

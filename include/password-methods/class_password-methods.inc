@@ -54,9 +54,9 @@ class passwordMethod
    */
   function create_template_hash($attrs)
   {
-    if($this->get_hash_name() == ""){
+    if ($this->get_hash_name() == "") {
       return("{crypt}N0T$3T4N0W");
-    }else{
+    } else {
       return('{'.$this->get_hash().'}').'N0T$3T4N0W';
     }
   }

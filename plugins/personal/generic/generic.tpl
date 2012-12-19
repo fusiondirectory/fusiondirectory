@@ -46,51 +46,39 @@
   <!-- Name, ... -->
   <td style="vertical-align:top;">
    <table summary="">
-    {if $is_template ne "true"}
+{if $is_template ne "true"}
     <tr>
      <td><label for="sn">{t}Last name{/t}{$must}</label></td>
      <td>
-{if $multiple_support}
-   <input type="text" id="sn" name="dummy2" size=25 maxlength=60 value="{t}Multiple edit{/t}" disabled>
-{else}
 {render acl=$snACL}
    <input type="text" id="sn" name="sn" size=25 maxlength=60 value="{$sn}">
 {/render}
-{/if}
    </td>
     </tr>
-    {else}
+{else}
     <tr>
      <td><label for="sn">{t}Template name{/t}{$must}</label></td>
      <td>{render acl=$snACL}<input type="text" id="sn" name="sn" size=25 maxlength=60 value="{$sn}">{/render}</td>
     </tr>
-    {/if}
+{/if}
 
-    {if $is_template ne "true"}
+{if $is_template ne "true"}
     <tr>
      <td><label for="givenName">{t}First name{/t}{$must}</label></td>
      <td>
 
-{if $multiple_support}
-   <input type="text" id="givenName" name="dummy3" size=25 maxlength=60 value="{t}Multiple edit{/t}" disabled>
-{else}
 {render acl=$givenNameACL}
    <input type="text" id="givenName" name="givenName" size=25 maxlength=60 value="{$givenName}">
 {/render}
-{/if}
    </td>
     </tr>
-    {/if}
+{/if}
     <tr>
      <td><label for="uid">{t}Login{/t}{if $is_template ne "true"}{$must}{/if}</label></td>
      <td>
-    {if !$multiple_support}
 {render acl=$uidACL}
       <input type="text" id="uid" name="uid" size=25 maxlength=60  value="{$uid}">
 {/render}
-    {else}
-      <input type="text" id="uid" name="dummy1" size=25 maxlength=60  value="{t}Multiple edit{/t}" disabled>
-    {/if}
    </td>
     </tr>
 
@@ -225,6 +213,14 @@
 {/render}
      </td>
     </tr>
+  {if $is_template}
+    <tr>
+      <td><label for="default_pw">Default password</label></td>
+      <td>
+        <input id="default_pw" type="text" name="default_pw" value=""/>
+      </td>
+    </tr>
+  {/if}
 
     <tr>
      <td colspan=2>
@@ -618,9 +614,6 @@
  </tr>
 </table>
 
-{if $multiple_support}
-  <input type="hidden" name="user_mulitple_edit" value="1">
-{/if}
 <input type=hidden name="generic">
 
 <!-- Place cursor -->
