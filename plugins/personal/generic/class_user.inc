@@ -185,25 +185,29 @@ class user extends plugin
       }
 
       /* get password storage type */
-      if (isset ($this->attrs['userPassword'][0])){
+      if (isset($this->attrs['userPassword'][0])) {
         /* Initialize local array */
-        $matches= array();
-        if (preg_match ("/^{[^}]+}/", $this->attrs['userPassword'][0])){
-          $tmp= passwordMethod::get_method($this->attrs['userPassword'][0]);
-          if(is_object($tmp)){
-            $this->pw_storage= $tmp->get_hash();
+        $matches = array();
+        if (preg_match ("/^{[^}]+}/", $this->attrs['userPassword'][0])) {
+          $userPassword = $this->attrs['userPassword'][0];
+          if ($this->is_template && preg_match ('/|/', $userPassword)) {
+            list ($userPassword, $default_pw) = explode('|', $userPassword);
+            $this->template_default_pw = $default_pw;
           }
-
+          $tmp = passwordMethod::get_method($userPassword);
+          if (is_object($tmp)) {
+            $this->pw_storage = $tmp->get_hash();
+          }
         } else {
-          if ($this->attrs['userPassword'][0] != ""){
-            $this->pw_storage= "clear";
+          if ($this->attrs['userPassword'][0] != "") {
+            $this->pw_storage = "clear";
           } else {
-            $this->pw_storage= $hash;
+            $this->pw_storage = $hash;
           }
         }
       } else {
         /* Preset with vaule from configuration */
-        $this->pw_storage= $hash;
+        $this->pw_storage = $hash;
       }
 
       /* Load extra attributes: picture */
@@ -518,6 +522,11 @@ class user extends plugin
       $smarty->assign("has_phoneaccount", "false");
     }
     $smarty->assign("manager_name",$this->manager_name);
+
+    if ($this->is_template) {
+      $smarty->assign('default_pw', $this->template_default_pw);
+    }
+
     return $smarty->fetch (get_template_path('generic.tpl', TRUE, dirname(__FILE__)));
   }
 
@@ -682,7 +691,7 @@ class user extends plugin
         $this->givenName  = $this->sn;
         $this->cn         = $this->sn;
         if (isset($_POST['default_pw'])) {
-          $this->userPassword = $_POST['default_pw'];
+          $this->template_default_pw = $_POST['default_pw'];
         }
       } else {
         /* Save current cn */
@@ -1192,7 +1201,7 @@ class user extends plugin
 
     /* Get password method from template
      */
-     list ($hash, $default_pw) = split('|', $this->attrs['userPassword'][0], 2);
+    list ($hash, $default_pw) = explode('|', $this->attrs['userPassword'][0], 2);
     $tmp = passwordMethod::get_method($hash);
     if (is_object($tmp)) {
       if ($tmp->is_configurable()) {

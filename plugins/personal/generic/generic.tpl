@@ -217,7 +217,7 @@
     <tr>
       <td><label for="default_pw">Default password</label></td>
       <td>
-        <input id="default_pw" type="text" name="default_pw" value=""/>
+        <input id="default_pw" type="text" name="default_pw" value="{$default_pw}"/>
       </td>
     </tr>
   {/if}
