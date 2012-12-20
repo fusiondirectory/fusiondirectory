@@ -105,6 +105,11 @@ class bad_code {
       $a = 1;
     }
 
+    if (isset($a) &&
+        isset($b)) { // should not complain
+      $a = 1;
+    }
+
     some_function($a,$b); // should complain
     some_function($a, $b); // should not complain
     some_function($a,  $b); // should not complain
@@ -131,6 +136,17 @@ class bad_code {
   function bad_return ()
   {
     return ($something); // should complain
+    $a = 4; // should complain : not executed code
+  }
+
+  function other_bad_return ()
+  {
+    return($something); // should complain
+  }
+
+  function yet_another_bad_return ()
+  {
+    return (fake_function($something == "something")); // should complain
   }
 
   function good_return ()
@@ -141,6 +157,11 @@ class bad_code {
   function other_good_return ()
   {
     return $something; // should not complain
+  }
+
+  function yet_another_good_return ()
+  {
+    return (3 * 4) + (2 * 3); // should not complain
   }
 
   function bad_assignment ()

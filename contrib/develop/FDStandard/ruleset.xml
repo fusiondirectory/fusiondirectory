@@ -36,7 +36,13 @@
         </properties>
     </rule>
     <rule ref="PEAR.Commenting.InlineComment"/>
-    <rule ref="Squiz.PHP.CommentedOutCode"/>
+    <rule ref="Squiz.PHP.CommentedOutCode.Found">
+        <properties>
+            <!-- RC: 35% is too easily triggered-->
+            <property name="maxPercentage" value="50"/>
+        </properties>
+    </rule>
     <rule ref="PEAR.WhiteSpace.ScopeClosingBrace"/>
     <rule ref="Squiz.WhiteSpace.FunctionOpeningBraceSpace"/>
+    <rule ref="Squiz.PHP.NonExecutableCode"/>
 </ruleset>
