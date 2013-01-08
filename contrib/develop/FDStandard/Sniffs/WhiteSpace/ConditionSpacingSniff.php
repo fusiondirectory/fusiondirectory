@@ -55,13 +55,17 @@ class FDStandard_Sniffs_WhiteSpace_ConditionSpacingSniff implements PHP_CodeSnif
           }
         }
 
-        if ($nextBracket = $phpcsFile->findNext(array(T_OPEN_CURLY_BRACKET),$stackPtr+1)) {
-          $closingParenthesis = $phpcsFile->findPrevious(array(T_CLOSE_PARENTHESIS),$nextBracket);
-          $needsParenthesis   = in_array($tokens[$stackPtr]['code'],array(T_ELSEIF, T_IF));
-          if (($needsParenthesis && ($tokens[$nextBracket]['line'] != $tokens[$closingParenthesis]['line'])) ||
-              (!$needsParenthesis && ($tokens[$nextBracket]['line'] != $tokens[$stackPtr]['line']))) {
+        if (isset($tokens[$stackPtr]['scope_opener'])) {
+          $nextBracket = $tokens[$stackPtr]['scope_opener'];
+          if (isset($tokens[$stackPtr]['parenthesis_closer'])) {
+            $parenthesis = $tokens[$stackPtr]['parenthesis_closer'];
+            $line = $tokens[$parenthesis]['line'];
+          } else {
+            $line = $tokens[$stackPtr]['line'];
+          }
+          if ($tokens[$nextBracket]['line'] != $line) {
               $error = 'The brace after "'.$tokens[$stackPtr]['content'].'" should be on the same line';
-              $phpcsFile->addError($error, $nextBracket, 'ConditionAfterBracketLine');
+              $phpcsFile->addError($error, $stackPtr, 'ConditionAfterBracketLine');
           } elseif ($tokens[$nextBracket-1]['code'] !== T_WHITESPACE) {
               $error = 'The "'.$tokens[$nextBracket]['content'].'" after "'.$tokens[$stackPtr]['content'].'" should be preceded by a space';
               $phpcsFile->addError($error, $stackPtr, 'ConditionAfterBracketSpace');
