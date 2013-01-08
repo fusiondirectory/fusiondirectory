@@ -35,8 +35,8 @@ class FDStandard_Sniffs_Returns_ParenthesisSniff implements PHP_CodeSniffer_Snif
     {
         $tokens = $phpcsFile->getTokens();
 
-        //Check that there is a space after the return token
-        if ($tokens[$stackPtr+1]['code'] !== T_WHITESPACE) {
+        //Check that there is a space after the return token (or a semicolon)
+        if (($tokens[$stackPtr+1]['code'] !== T_WHITESPACE) && ($tokens[$stackPtr+1]['code'] !== T_SEMICOLON)) {
             $error = 'Token "'.$tokens[$stackPtr]['content'].'" should be followed by a space';
             $phpcsFile->addError($error, $stackPtr, 'ReturnAfterSpace');
         }

@@ -32,6 +32,10 @@ class bad_code {
     { // should complain about the brace
       $r = 3;
     }
+
+    do {
+      echo "nothing";
+    } while (TRUE); // should not complain
   }
 
   function bad_indent ()
@@ -149,6 +153,11 @@ class bad_code {
     return (fake_function($something == "something")); // should complain
   }
 
+  function yet_another_bad_return_bis ()
+  {
+    return$something; // should complain
+  }
+
   function good_return ()
   {
     return ($something == "something"); // should not complain
@@ -162,6 +171,11 @@ class bad_code {
   function yet_another_good_return ()
   {
     return (3 * 4) + (2 * 3); // should not complain
+  }
+
+  function yet_another_good_return_bis ()
+  {
+    return; // should not complain
   }
 
   function bad_assignment ()
