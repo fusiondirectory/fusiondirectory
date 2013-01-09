@@ -39,7 +39,7 @@
       <label>Winstation</label>
       <objectClass>sambaSamAccount</objectClass>
       <category>winstation</category>
-      <class>wingeneric</class>
+      <class>winstationGeneric</class>
       <image>plugins/systems/images/select_winstation.png</image>
     </objectType>
 

@@ -493,7 +493,7 @@ class ogroup extends plugin
           "DN"=> get_ou('serverRDN')        ,"ACL" => "server"),
         "workstations"    => array("OBJ"=>"workstationGeneric", "CLASS"=>"gotoWorkstation",
           "DN"=> get_ou('workstationRDN')   ,"ACL" => "workstation"),
-        "winstations"     => array("OBJ"=>"wingeneric", "CLASS"=>"sambaSamAccount",
+        "winstations"     => array("OBJ"=>"winstationGeneric", "CLASS"=>"sambaSamAccount",
           "DN"=> get_ou('sambaMachineAccountRDN')     ,"ACL" => "winstation"),
         "terminals"       => array("OBJ"=>"terminalGeneric", "CLASS"=>"gotoTerminal"   ,
           "DN"=> get_ou('terminalRDN')      ,"ACL" => "terminal"),
