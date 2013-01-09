@@ -256,29 +256,28 @@ class userManagement extends management
           $this->passwordChangeForceable =
               in_array('sambaAccount', $attrs['objectClass']) ||
               (in_array('posixAccount', $attrs['objectClass']) && isset($attrs['shadowMax']));
-          $smarty->assign("passwordChangeForceable" , $this->passwordChangeForceable);
-          $smarty->assign("enforcePasswordChange" , $this->enforcePasswordChange);
+          $smarty->assign("passwordChangeForceable", $this->passwordChangeForceable);
+          $smarty->assign("enforcePasswordChange", $this->enforcePasswordChange);
 
           // Assign proposal variables
-          $smarty->assign("proposal" , $this->proposal);
-          $smarty->assign("proposalEnabled" , $this->proposalEnabled);
-          $smarty->assign("proposalSelected" , $this->proposalSelected);
+          $smarty->assign("proposal",         $this->proposal);
+          $smarty->assign("proposalEnabled",  $this->proposalEnabled);
+          $smarty->assign("proposalSelected", $this->proposalSelected);
 
           set_object_info($this->dn);
-          return ($smarty->fetch(get_template_path('password.tpl', TRUE)));
+          return $smarty->fetch(get_template_path('password.tpl', TRUE));
       }
 
       // If we've just refreshed the proposal then do not check the password for validity.
-      if(isset($_POST['refreshProposal'])){
+      if (isset($_POST['refreshProposal'])) {
           return ($smarty->fetch(get_template_path('password.tpl', TRUE)));
       }
 
       // Check permissions
-      if(isset($_POST['password_finish'])){
-
-          $dn  = $this->dn;
-          $acl = $this->ui->get_permissions($dn, "users/password");
-          $cacl= $this->ui->get_permissions($dn, "users/user");
+      if (isset($_POST['password_finish'])) {
+          $dn   = $this->dn;
+          $acl  = $this->ui->get_permissions($dn, "users/password");
+          $cacl = $this->ui->get_permissions($dn, "users/user");
           if (preg_match('/w/', $acl) || preg_match('/c/', $cacl)){
 
               // Get posted passwords
@@ -375,8 +374,7 @@ class userManagement extends management
               }
 
               new log("modify","users/".get_class($this),$this->dn,array(),"Password has been changed");
-              $this->dn ="";
-
+              $this->dn = "";
           } else {
               msg_dialog::display(_("Password change"),
                       _("You have no permission to change this users password!"),
@@ -384,10 +382,10 @@ class userManagement extends management
           }
       }
       // Cleanup
-      if(!count($this->pwd_change_queue) && $this->dn=""){
+      if (!count($this->pwd_change_queue) && ($this->dn == "")) {
           $this->remove_lock();
           $this->closeDialogs();
-      }else{
+      } else {
           return($this->handlePasswordQueue());
       }
   }
@@ -403,6 +401,10 @@ class userManagement extends management
     $str = management::saveChanges();
 
     if (!empty($str)) return($str);
+    if (is_object($this->tabObject)) {
+      /* If tabObject still exists, it means there was some errors */
+      return "";
+    }
 
     if ($this->last_tabObject instanceOf multi_plug) {
       foreach($this->last_tabObject->a_handles as $user) {

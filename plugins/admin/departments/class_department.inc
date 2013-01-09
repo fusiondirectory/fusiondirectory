@@ -654,7 +654,7 @@ class department extends plugin
       "plDescription" => _("Departments"),
       "plSelfModify"  => FALSE,
       "plCategory"    => array("department" => array("objectClass" => "gosaDepartment", "description" => _("Departments"))),
-      "plObjetType"   => array("department" => array("name" => _("Department"), "filter" => "objectClass=gosaDepartment")),
+      "plObjectType"  => array("department" => array("name" => _("Department"), "filter" => "objectClass=gosaDepartment")),
 
       "plProvidedAcls" => array(
         "ou"                => _("Department name"),
