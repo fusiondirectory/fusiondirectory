@@ -66,7 +66,8 @@ class passwordRecovery {
     session::global_set('js', TRUE);
     reset_errors();
 
-    $this->config = $this->loadConfig();
+    $config       = $this->loadConfig();
+    $this->config = $config;
 
     $this->setupSmarty();
 
