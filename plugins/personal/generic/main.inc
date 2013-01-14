@@ -125,7 +125,7 @@ if ( $cleanup ){
   }
 
   /* Show page footer depending on the mode */
-  if (!$user->passwordClass && !$user->cert_dialog && !$user->picture_dialog && !$user->dialog && $user->is_account && empty($lock_msg)){
+  if (!$user->passwordClass && !$user->picture_dialog && !$user->dialog && $user->is_account && empty($lock_msg)){
       $display.= "<p class=\"plugbottom\">";
 
       /* Are we in edit mode? */
