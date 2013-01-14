@@ -817,23 +817,24 @@ class user extends plugin
       /* Reset attribute to avoid writing *removed* as value */
       $this->attrs["jpegPhoto"] = array();
     } else {
-        if (class_exists('Imagick')) {
-          $im = new Imagick();
-          $im->readImageBlob($this->photoData);
+      if (class_exists('Imagick')) {
+        $im = new Imagick();
+        $im->readImageBlob($this->photoData);
 
-          $size = $im->getSize();
+        $size = $im->getImageGeometry();
 
-          if (($size['columns'] != 0 and $size['rows'] != 0) and ($size['columns'] != 147 and $size['rows'] != 200)) {
-            $im->resizeImage(147, 200, Imagick::FILTER_GAUSSIAN, 1, FALSE);
-            $im->setImageFormat('jpeg');
-          }
-            /* Save attribute */
-            $this->attrs["jpegPhoto"] = $im->getImageBlob();
-        } else {
-            msg_dialog::display(_("Error"),
-                    _("Cannot save user picture, FusionDirectory requires the package 'php5-imagick' to be installed!"),
-                    ERROR_DIALOG);
+        if (($size['width'] != 0 and $size['height'] != 0) and ($size['width'] != 147 and $size['height'] != 200)) {
+          $im->resizeImage(147, 200, Imagick::FILTER_GAUSSIAN, 1, FALSE);
         }
+        $im->setImageFormat('jpeg');
+
+        /* Save attribute */
+        $this->attrs["jpegPhoto"] = $im->getImageBlob();
+      } else {
+        msg_dialog::display(_("Error"),
+                  _("Cannot save user picture, FusionDirectory requires the package 'php5-imagick' to be installed!"),
+                  ERROR_DIALOG);
+      }
     }
 
     /* This only gets called when user is renaming himself */
