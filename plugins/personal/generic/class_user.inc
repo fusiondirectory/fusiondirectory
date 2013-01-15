@@ -920,7 +920,7 @@ class user extends plugin
         $test->attrs= $this->attrs;
         $test->remove_from_parent();
       }
-    } elseif (!$this->is_template && isset($this->template_default_pw)) {
+    } elseif (!$this->is_template && ($this->template_default_pw != "")) {
       change_password ($this->dn, $this->template_default_pw, 0, $this->pw_storage);
     }
 
