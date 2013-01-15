@@ -217,17 +217,7 @@ class plugin
       }
 
       /* Is Account? */
-      $found = TRUE;
-      foreach ($this->objectclasses as $obj) {
-        if (preg_match('/top/i', $obj)) {
-          continue;
-        }
-        if (!isset($this->attrs['objectClass']) || !in_array_ics ($obj, $this->attrs['objectClass'])) {
-          $found = FALSE;
-          break;
-        }
-      }
-      if ($found) {
+      if ($this->is_this_account($this->attrs)) {
         $this->is_account = TRUE;
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, "found", "Object check");
       }
@@ -237,6 +227,21 @@ class plugin
 
     /* Save initial account state */
     $this->initially_was_account = $this->is_account;
+  }
+
+  function is_this_account($attrs)
+  {
+    $found = TRUE;
+    foreach ($this->objectclasses as $obj) {
+      if (preg_match('/top/i', $obj)) {
+        continue;
+      }
+      if (!isset($attrs['objectClass']) || !in_array_ics ($obj, $attrs['objectClass'])) {
+        $found = FALSE;
+        break;
+      }
+    }
+    return $found;
   }
 
   function prepareSavedAttributes()
