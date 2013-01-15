@@ -15,12 +15,12 @@
   <td style="vertical-align:top">
     <table>
      <tr>
-        <td style='width:147px; height:200px; background-color:gray; vertical-align: middle; text-align: center;'>
+        <td style='width:150px; height:200px; background-color:gray; vertical-align: middle; text-align: center;'>
 
     {if !$userPicture_is_readable}
       <img class='center' border="0" width="100%" src="plugins/users/images/default.jpg" alt="{t}Personal picture{/t}">
     {else}
-            <img  src="getbin.php?rand={$rand}" alt='' style='max-width:147px; max-height: 200px; vertical-align: middle;'
+            <img  src="getbin.php?rand={$rand}" alt='' style='max-width:150px; max-height: 200px; vertical-align: middle;'
               alt="{t}Personal picture{/t}" >
     {/if}
     </td>

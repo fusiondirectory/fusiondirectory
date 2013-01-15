@@ -812,19 +812,21 @@ class user extends plugin
     }
 
     /* Special handling for attribute jpegPhote needed, scale image via
-       image magick to 147x200 pixels and inject resulting data. */
+       image magick to 150x200 pixels and inject resulting data. */
     if ($this->jpegPhoto == "*removed*"){
       /* Reset attribute to avoid writing *removed* as value */
       $this->attrs["jpegPhoto"] = array();
     } else {
       if (class_exists('Imagick')) {
+        $width  = 150;
+        $height = 200;
         $im = new Imagick();
         $im->readImageBlob($this->photoData);
 
         $size = $im->getImageGeometry();
 
-        if (($size['width'] != 0 and $size['height'] != 0) and ($size['width'] != 147 and $size['height'] != 200)) {
-          $im->resizeImage(147, 200, Imagick::FILTER_GAUSSIAN, 1, FALSE);
+        if (($size['width'] != 0 && $size['height'] != 0) && ($size['width'] != $width || $size['height'] != $height)) {
+          $im->resizeImage($width, $height, Imagick::FILTER_GAUSSIAN, 1, TRUE);
         }
         $im->setImageFormat('jpeg');
 
