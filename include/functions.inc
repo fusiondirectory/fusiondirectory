@@ -1594,6 +1594,7 @@ function get_ou($name)
                 "phoneRDN"                => "ou=phones,ou=systems,",
                 "componentRDN"            => "ou=netdevices,ou=systems,",
                 "sambaMachineAccountRDN"  => "ou=computers,",
+                "mobilePhoneRDN"          => "ou=mobile,ou=systems,",
 
                 "faxBlocklistRDN"     => "ou=gofax,ou=systems,",
                 "aclRoleRDN"          => "ou=aclroles,",
