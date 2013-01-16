@@ -131,9 +131,6 @@ If -i is specified, insert the given list of schemas instead of the default list
  fusion@catbert$ fusiondirectory-insert-schema
    Insert the schemas in your directory
 
- fusion@catbert$ fusiondirectory-insert-schema /etc/ldap/otherschema -i myschema
-   Insert the schema /etc/ldap/otherschema/myschema.ldif
-
  fusion@catbert$ fusiondirectory-insert-schema -i /etc/ldap/otherschema/myschema.ldif
    Insert the schema /etc/ldap/otherschema/myschema.ldif
 
