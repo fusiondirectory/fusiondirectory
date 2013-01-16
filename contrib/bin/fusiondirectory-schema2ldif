@@ -99,8 +99,8 @@ if ($mode eq "static") {
 # Reading the input schema file in loop
 # processing definitions
 
-READLOOP:
-while (<>) {
+my @file = <> or exit 1;
+foreach (@file) {
 
   # Comments
   if (/^\s*#/) {

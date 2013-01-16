@@ -119,7 +119,7 @@ fusiondirectory-insert-schema - insert schema needed by FusionDirectory into the
 
 =head1 SYNOPSIS
 
-fusiondirectory-insert-schema <path of your schema files> [-i schema1 schema2]
+fusiondirectory-insert-schema [<path of your schema files>] [-i schema1 schema2]
 
 =head1 DESCRIPTION
 
@@ -129,10 +129,13 @@ If -i is specified, insert the given list of schemas instead of the default list
 =head1 EXAMPLES
 
  fusion@catbert$ fusiondirectory-insert-schema
-   Insert the schemas in your directory
+   Insert the core schemas in your LDAP directory
 
  fusion@catbert$ fusiondirectory-insert-schema -i /etc/ldap/otherschema/myschema.ldif
    Insert the schema /etc/ldap/otherschema/myschema.ldif
+
+ fusion@catbert$ fusiondirectory-insert-schema -i /etc/ldap/otherschema/myschema.schema
+   Convert /etc/ldap/otherschema/myschema.schema to ldif and insert it
 
  fusion@catbert$ fusiondirectory-insert-schema -i myschema
    Insert the schema myschema.ldif from working directory
