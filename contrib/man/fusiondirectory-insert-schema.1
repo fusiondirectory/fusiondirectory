@@ -124,7 +124,7 @@
 .\" ========================================================================
 .\"
 .IX Title "FUSIONDIRECTORY-INSERT-SCHEMA 1"
-.TH FUSIONDIRECTORY-INSERT-SCHEMA 1 "2012-08-05" "FusionDirectory 1.0" "FusionDirectory Documentation"
+.TH FUSIONDIRECTORY-INSERT-SCHEMA 1 "2013-01-16" "FusionDirectory 1.0" "FusionDirectory Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -133,7 +133,7 @@
 fusiondirectory\-insert\-schema \- insert schema needed by FusionDirectory into the ldap server
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-fusiondirectory-insert-schema <path of your schema files> [\-i schema1 schema2]
+fusiondirectory-insert-schema [<path of your schema files>] [\-i schema1 schema2]
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
 This program will insert the schema needed by FusionDirectory into the ldap server
@@ -142,13 +142,13 @@ If \-i is specified, insert the given list of schemas instead of the default lis
 .IX Header "EXAMPLES"
 .Vb 2
 \& fusion@catbert$ fusiondirectory\-insert\-schema
-\&   Insert the schemas in your directory
-\&
-\& fusion@catbert$ fusiondirectory\-insert\-schema /etc/ldap/otherschema \-i myschema
-\&   Insert the schema /etc/ldap/otherschema/myschema.ldif
+\&   Insert the core schemas in your LDAP directory
 \&
 \& fusion@catbert$ fusiondirectory\-insert\-schema \-i /etc/ldap/otherschema/myschema.ldif
 \&   Insert the schema /etc/ldap/otherschema/myschema.ldif
+\&
+\& fusion@catbert$ fusiondirectory\-insert\-schema \-i /etc/ldap/otherschema/myschema.schema
+\&   Convert /etc/ldap/otherschema/myschema.schema to ldif and insert it
 \&
 \& fusion@catbert$ fusiondirectory\-insert\-schema \-i myschema
 \&   Insert the schema myschema.ldif from working directory
