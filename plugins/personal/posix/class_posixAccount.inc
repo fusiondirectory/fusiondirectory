@@ -396,6 +396,8 @@ class posixAccount extends simplePlugin
         ($this->shadowMin > $this->shadowMax)) {
       $message[] = msgPool::toobig("shadowMin", "shadowMax");
     }
+
+    return $message;
   }
 
   function prepare_save()
