@@ -441,7 +441,7 @@ class posixAccount extends simplePlugin
      *    using the users uid as cn and a generated uniqe gidNumber.
      * */
     if ($this->is_template && ($this->primaryGroup == 0)) {
-      $this->uidNumber = 2147483647;
+      $this->gidNumber = 2147483647;
     } elseif (($this->primaryGroup == 0) || $this->force_ids) {
 
       /* Search for existing group */
@@ -590,7 +590,7 @@ class posixAccount extends simplePlugin
     $ldap->search("(&(objectClass=posixGroup)(memberUid=$template))", array("description", "cn"));
 
     while ($entry = $ldap->fetch()) {
-      $this->groupMembership->addValue($ldap->getDN(), $entry);
+      $this->attributesAccess['groupMembership']->addValue($ldap->getDN(), $entry);
     }
 
     /* Fix primary group settings */

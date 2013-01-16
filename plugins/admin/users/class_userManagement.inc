@@ -140,16 +140,16 @@ class userManagement extends management
 
   function editEntry($action = "", $target = array(), $all = array(), $altTabClass = "", $altTabType = "", $altAclCategory = "")
   {
-    $str = management::editEntry($action,$target);
+    $str = management::editEntry($action, $target);
     if ($str) {
       return $str;
     }
 
-    if(preg_match("/^edit_/",$action)){
-      $tab = preg_replace("/^edit_/","",$action);
-      if(isset($this->tabObject->by_object[$tab])){
+    if (preg_match("/^edit_/", $action)) {
+      $tab = preg_replace("/^edit_/", "", $action);
+      if (isset($this->tabObject->by_object[$tab])) {
         $this->tabObject->current = $tab;
-      }else{
+      } else {
         trigger_error("Unknown tab: ".$tab);
       }
     }
