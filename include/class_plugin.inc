@@ -606,19 +606,7 @@ class plugin
     }
 
     /* Is Account? */
-    $found = TRUE;
-    foreach ($this->objectclasses as $obj) {
-      if (preg_match('/top/i', $obj)) {
-        continue;
-      }
-      if (!in_array_ics ($obj, $this->attrs['objectClass'])){
-        $found= FALSE;
-        break;
-      }
-    }
-    if ($found){
-      $this->is_account= TRUE;
-    }
+    $this->is_account = $this->is_this_account($this->attrs);
   }
 
   /*
