@@ -283,7 +283,17 @@ class configInLdap extends simplePlugin
               '', // acl
               _('Hooks')
             ),
-            FALSE // non-ordered
+            FALSE, // non-ordered
+            array(),
+            TRUE // edition
+          ),
+          new SetAttribute(
+            new StringAttribute (
+              _('Available shells'), _('Available POSIX shells for FD users.'),
+              'fdShells', FALSE
+            ),
+            array('/bin/ash','/bin/bash','/bin/csh','/bin/sh','/bin/ksh',
+                  '/bin/tcsh','/bin/dash','/bin/zsh')
           ),
         )
       ),

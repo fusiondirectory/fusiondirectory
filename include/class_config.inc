@@ -680,8 +680,8 @@ class config  {
           }
         } elseif (preg_match('/^fd/',$key)) {
           if (isset($attrs[$key]['count']) && ($attrs[$key]['count'] > 1)) {
-            unset($attrs['count']);
-            $value = join(',', $attrs[$key]);
+            $value = $attrs[$key];
+            unset($value['count']);
           } else {
             $value = $attrs[$key][0];
           }
@@ -1091,15 +1091,15 @@ class config  {
 
     /* Check if we have a current value for $name */
     if (isset($this->current[$name])) {
-      return ($this->current[$name]);
+      return $this->current[$name];
     }
 
     /* Check if we have a global value for $name */
     if (isset($this->data["MAIN"][$name])) {
-      return ($this->data["MAIN"][$name]);
+      return $this->data["MAIN"][$name];
     }
 
-    return ($default);
+    return $default;
   }
 
 

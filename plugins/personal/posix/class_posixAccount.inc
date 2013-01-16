@@ -265,20 +265,11 @@ class posixAccount extends simplePlugin
       $this->primaryGroup = $this->gidNumber;
     }
 
-    /* Generate shell list from SYSTEMS_DIR./shells */
-    $loginShellList = array();
-    if (file_exists(SYSTEMS_DIR.'/shells')) {
-      $shells = file (SYSTEMS_DIR.'/shells');
-      foreach ($shells as $line) {
-        if (!preg_match ("/^#/", $line)) {
-          $loginShellList[] = trim($line);
-        }
-      }
-    } else {
-      if ($this->loginShell == "") {
-        $loginShellList[] = _("unconfigured");
-      }
-    }
+    /* Generate shell list from config */
+    $loginShellList = $this->config->get_cfg_value('Shells', array(_('unconfigured')));
+    echo "<br/>loginShellList : '";
+    print_r($loginShellList);
+    echo "'<br/>\n";
 
     /* Insert possibly missing loginShell */
     $loginShell = $this->attributesAccess['loginShell']->getValue();
