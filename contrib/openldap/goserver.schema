@@ -255,20 +255,6 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.9.82 NAME 'gotoSessionType'
   EQUALITY caseExactIA5Match
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.84 NAME 'goDHCPServerStatus'
-  DESC 'Server status container - on / off / fail'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.85 NAME 'goDNSServerStatus'
-  DESC 'Server status container - on / off / fail'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-
-
 ##
 ##    Objectclasses
 ##
@@ -277,49 +263,49 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.9.85 NAME 'goDNSServerStatus'
 objectclass (1.3.6.1.4.1.10098.1.2.1.16 NAME 'goTerminalServer' SUP top AUXILIARY
   DESC 'Terminal server description (v2.6.1)'
   MUST ( cn $ goXdmcpIsEnabled )
-  MAY  ( description $ goTerminalServerStatus $ gotoSessionType ))
+  MAY  ( description $ gotoSessionType ))
 
 # NFS Server description
 objectclass (1.3.6.1.4.1.10098.1.2.1.19 NAME 'goNfsServer' SUP top AUXILIARY
   DESC 'NFS server description (v2.6.1)'
   MUST ( cn )
-  MAY  ( goExportEntry $ description $ goNfsServerStatus ))
+  MAY  ( goExportEntry $ description ))
 
 # Time Server description
 objectclass (1.3.6.1.4.1.10098.1.2.1.20 NAME 'goNtpServer' SUP top AUXILIARY
   DESC 'Time server description (v2.6.1)'
   MUST ( cn )
-        MAY  ( goTimeSource $ description $ goNtpServerStatus ))
+        MAY  ( goTimeSource $ description ))
 
 # Syslog Server description
 objectclass (1.3.6.1.4.1.10098.1.2.1.21 NAME 'goSyslogServer' SUP top AUXILIARY
   DESC 'Syslog server description (v2.6.1)'
   MUST ( cn )
-  MAY  ( goSyslogSection $ description $ goSyslogServerStatus ))
+  MAY  ( goSyslogSection $ description ))
 
 # LDAP Server description
 objectclass (1.3.6.1.4.1.10098.1.2.1.22 NAME 'goLdapServer' SUP top AUXILIARY
   DESC 'LDAP server description (v2.6.1)'
   MUST ( cn )
-  MAY  ( goLdapBase $ description $ goLdapServerStatus ))
+  MAY  ( goLdapBase $ description ))
 
 # CUPS Server description
 objectclass (1.3.6.1.4.1.10098.1.2.1.23 NAME 'goCupsServer' SUP top AUXILIARY
   DESC 'CUPS server description (v2.6.1)'
   MUST ( cn )
-  MAY  ( description $ goCupsServerStatus ))
+  MAY  ( description ))
 
 # Kerberos Server description
 objectclass (1.3.6.1.4.1.10098.1.2.1.25 NAME 'goKrbServer' SUP top AUXILIARY
   DESC 'Kerberos server description (v2.6.1)'
   MUST ( cn $ goKrbRealm )
-  MAY  ( description $ goKrbServerStatus ))
+  MAY  ( description ))
 
 # Fax Server description
 objectclass (1.3.6.1.4.1.10098.1.2.1.26 NAME 'goFaxServer' SUP top AUXILIARY
   DESC 'Fax server description (v2.6.1)'
   MUST ( cn $ goFaxAdmin $ goFaxPassword )
-  MAY  ( description $ goFaxServerStatus ))
+  MAY  ( description ))
 
 # Common server class
 objectclass (1.3.6.1.4.1.10098.1.2.1.27 NAME 'goServer' SUP top AUXILIARY
@@ -330,26 +316,25 @@ objectclass (1.3.6.1.4.1.10098.1.2.1.27 NAME 'goServer' SUP top AUXILIARY
 # LogDB Server description
 objectclass (1.3.6.1.4.1.10098.1.2.1.28 NAME 'goLogDBServer' SUP top AUXILIARY
   DESC 'Log DB server description (v2.6.1)'
-  MUST ( cn $ gosaLogDB $ goLogAdmin $ goLogPassword )
-  MAY  ( goLogDBServerStatus ))
+  MUST ( cn $ gosaLogDB $ goLogAdmin $ goLogPassword ))
 
 # Fon Server description
 objectclass (1.3.6.1.4.1.10098.1.2.1.29 NAME 'goFonServer' SUP top AUXILIARY
         DESC 'Fon server description (v2.6.1)'
         MUST ( cn $ goFonAdmin $ goFonPassword $ goFonAreaCode $ goFonCountryCode )
-        MAY  ( description $ goFonServerStatus ))
+        MAY  ( description ))
 
 # Share Server description
 objectclass (1.3.6.1.4.1.10098.1.2.1.33 NAME 'goShareServer' SUP top AUXILIARY
   DESC 'Share server description (v2.6.1)'
   MUST ( cn )
-  MAY  ( description $ goExportEntry $ goShareServerStatus ))
+  MAY  ( description $ goExportEntry ))
 
 # Glpi Server description
 objectclass (1.3.6.1.4.1.10098.1.2.1.37 NAME 'goGlpiServer' SUP top AUXILIARY
   DESC 'Glpi server definition (v2.6.1)'
   MUST ( cn $ goGlpiAdmin $ goGlpiDatabase)
-  MAY  ( description $ goGlpiPassword $ goGlpiServerStatus ) )
+  MAY  ( description $ goGlpiPassword ) )
 
 # Spamassassin definitions
 objectclass (1.3.6.1.4.1.10098.1.2.1.38 NAME 'goSpamServer' SUP top AUXILIARY
@@ -370,10 +355,3 @@ objectclass (1.3.6.1.4.1.10098.1.2.1.39 NAME 'goVirusServer' SUP top AUXILIARY
 objectclass (1.3.6.1.4.1.10098.1.2.1.40 NAME 'gosaLogServer' SUP top AUXILIARY
   DESC 'GOsa log server (v2.6)'
   MUST ( cn $ goLogDB $ goLogDBUser $ goLogDBPassword ))
-
-# Environment Server
-objectclass (1.3.6.1.4.1.10098.1.2.1.41 NAME 'goEnvironmentServer' SUP top AUXILIARY
-  DESC 'Environment server definition (v2.6)'
-  MUST ( cn )
-  MAY  ( gotoKioskProfile ) )
-

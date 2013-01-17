@@ -39,12 +39,6 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.11.10 NAME 'gotoLogonScript'
         SUBSTR caseIgnoreSubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
 
-attributetype ( 1.3.6.1.4.1.10098.1.1.11.11 NAME 'gotoKioskProfile'
-        DESC 'GOto - specifies a kiosk profile'
-        EQUALITY caseIgnoreIA5Match
-        SUBSTR caseIgnoreIA5SubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
-
 attributetype ( 1.3.6.1.4.1.10098.1.1.11.12 NAME 'gotoUserPrinter'
         DESC 'GOto - keeps printers shown for this user'
         EQUALITY caseIgnoreIA5Match
