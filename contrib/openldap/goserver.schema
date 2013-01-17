@@ -200,12 +200,6 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.9.43 NAME 'goShareServerStatus'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
   SINGLE-VALUE)
 
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.44 NAME 'goMailServerStatus'
-  DESC 'Server status container - on / off / fail'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
 attributetype ( 1.3.6.1.4.1.10098.1.1.9.45 NAME 'goGlpiServerStatus'
   DESC 'Server status container - on / off / fail'
   EQUALITY caseExactIA5Match
