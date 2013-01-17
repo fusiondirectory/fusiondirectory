@@ -44,24 +44,6 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.9.12 NAME 'goLdapBase'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
   SINGLE-VALUE)
 
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.19 NAME 'goKrbRealm'
-  DESC 'Default Kerberos realm to use for this server'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.20 NAME 'goKrbAdmin'
-  DESC 'Admin principal for kerberos server'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.21 NAME 'goKrbPassword'
-  DESC 'Admin password for kerberos server'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
 attributetype ( 1.3.6.1.4.1.10098.1.1.9.22 NAME 'goFaxAdmin'
   DESC 'Admin principal for fax server'
   EQUALITY caseExactIA5Match
@@ -275,12 +257,6 @@ objectclass (1.3.6.1.4.1.10098.1.2.1.22 NAME 'goLdapServer' SUP top AUXILIARY
 objectclass (1.3.6.1.4.1.10098.1.2.1.23 NAME 'goCupsServer' SUP top AUXILIARY
   DESC 'CUPS server description (v2.6.1)'
   MUST ( cn )
-  MAY  ( description ))
-
-# Kerberos Server description
-objectclass (1.3.6.1.4.1.10098.1.2.1.25 NAME 'goKrbServer' SUP top AUXILIARY
-  DESC 'Kerberos server description (v2.6.1)'
-  MUST ( cn $ goKrbRealm )
   MAY  ( description ))
 
 # Fax Server description
