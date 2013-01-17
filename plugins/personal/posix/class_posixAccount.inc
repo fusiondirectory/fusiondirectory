@@ -71,7 +71,11 @@ class EpochDaysDateAttribute extends DateAttribute
 
   function getEpochDays()
   {
-    return $this->dateToLdap($this->getDateValue());
+    if (empty($this->value)) {
+      return 0;
+    } else {
+      return $this->dateToLdap($this->getDateValue());
+    }
   }
 }
 
