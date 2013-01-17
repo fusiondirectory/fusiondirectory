@@ -65,6 +65,7 @@ while ($ARGV[0] =~ /^-/) {
 }
 
 $cn = $ARGV[0];
+die "Error: $cn is not a file\n" unless -f $cn;
 
 $cn =~ s/^\.?\/?([^\/]+\/)*([^\/]+)\.[^.]+$/$2/;
 
@@ -98,9 +99,7 @@ if ($mode eq "static") {
 
 # Reading the input schema file in loop
 # processing definitions
-
-my @file = <> or exit 1;
-foreach (@file) {
+while (<>) {
 
   # Comments
   if (/^\s*#/) {
