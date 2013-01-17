@@ -35,6 +35,7 @@ my $ldap_utils_path = "/usr/bin/ldapadd";
 my $schemalist  = 0;
 my $pathunset   = 1;
 my @schemas     = ();
+my @gen_files   = ();
 foreach my $arg ( @ARGV ) {
   if (lc($arg) eq '-i') {
     $schemalist = 1;
@@ -46,6 +47,7 @@ foreach my $arg ( @ARGV ) {
     } elsif ($arg =~ /(.*).schema/) {
       if (system("fusiondirectory-schema2ldif $arg > $1.ldif") == 0) {
         push @schemas, $1;
+        push @gen_files, $1;
       } else {
         die "Something went wrong while trying to convert $arg to ldif\n";
       }
@@ -73,7 +75,9 @@ if (scalar(@schemas) == 0) {
   # insert the default schemas
   @schemas = ("samba","gosystem","gofon","gofax","goto","goserver","goto-mime","gosa-samba3","ldapns","recovery","fusiondirectory-conf");
   foreach my $schema (@schemas) {
-    if (system("fusiondirectory-schema2ldif $path$schema.schema > $path$schema.ldif") != 0) {
+    if (system("fusiondirectory-schema2ldif $path$schema.schema > $path$schema.ldif") == 0) {
+      push @gen_files, $path.$schema;
+    } else {
       die "Something went wrong while trying to convert $path$schema.schema to ldif\n";
     }
   }
@@ -92,8 +96,14 @@ foreach my $schema (@schemas) {
   if ($search !~ /# numEntries: 1/m) {
     $full_cmd = $add_cmd.$path.$schema.".ldif";
     print "executing '$full_cmd'";
-    system ($full_cmd);
+    if (system ($full_cmd) != 0) {
+      print "Insertion failed!\n";
+    }
   }
+}
+
+foreach my $file (@gen_files) {
+  unlink "$file.ldif" or print "Could not delete $file.ldif\n";
 }
 
 sub usage
