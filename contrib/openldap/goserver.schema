@@ -130,12 +130,6 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.9.66 NAME 'saRule'
   EQUALITY caseExactIA5Match
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.67 NAME 'saStatus'
-  DESC 'Server status container - on / off / fail'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
 attributetype ( 1.3.6.1.4.1.10098.1.1.9.68 NAME 'avMaxThreads'
   DESC 'Number of AV scanning threads'
   EQUALITY integerMatch
@@ -184,12 +178,6 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.9.76 NAME 'avHttpProxyURL'
   DESC 'How to get the updates'
   EQUALITY caseExactIA5Match
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.77 NAME 'avStatus'
-  DESC 'Server status container - on / off / fail'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.9.78 NAME 'avChecksPerDay'
         DESC 'Update checks per day'
@@ -293,7 +281,7 @@ objectclass (1.3.6.1.4.1.10098.1.2.1.38 NAME 'goSpamServer' SUP top AUXILIARY
   DESC 'Spam server definition (v2.6.1)'
   MUST ( cn )
   MAY  ( saRewriteHeader $ saTrustedNetworks $ saRequiredScore $ saFlags $
-         saRule $ saStatus ) )
+         saRule ) )
 
 # Clamav definitions
 objectclass (1.3.6.1.4.1.10098.1.2.1.39 NAME 'goVirusServer' SUP top AUXILIARY
@@ -301,7 +289,7 @@ objectclass (1.3.6.1.4.1.10098.1.2.1.39 NAME 'goVirusServer' SUP top AUXILIARY
   MUST ( cn )
   MAY  ( avMaxThreads $ avMaxDirectoryRecursions $ avUser $ avFlags $
                avArchiveMaxFileSize $ avArchiveMaxRecursion $ avArchiveMaxCompressionRatio $
-               avDatabaseMirror $ avChecksPerDay $ avHttpProxyURL $ avStatus) )
+               avDatabaseMirror $ avChecksPerDay $ avHttpProxyURL ) )
 
 # LogDB Server description
 objectclass (1.3.6.1.4.1.10098.1.2.1.40 NAME 'gosaLogServer' SUP top AUXILIARY
