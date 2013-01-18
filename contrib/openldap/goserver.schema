@@ -184,24 +184,6 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.9.78 NAME 'avChecksPerDay'
         EQUALITY integerMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 SINGLE-VALUE)
 
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.79 NAME 'goLogDB'
-  DESC 'Name of logging DB'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.80 NAME 'goLogDBUser'
-  DESC 'Auth user for logging DB'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.9.81 NAME 'goLogDBPassword'
-  DESC 'Password for logging DB user'
-  EQUALITY caseExactIA5Match
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
 attributetype ( 1.3.6.1.4.1.10098.1.1.9.82 NAME 'gotoSessionType'
   DESC 'Supported type for a terminal server'
   EQUALITY caseExactIA5Match
@@ -290,8 +272,3 @@ objectclass (1.3.6.1.4.1.10098.1.2.1.39 NAME 'goVirusServer' SUP top AUXILIARY
   MAY  ( avMaxThreads $ avMaxDirectoryRecursions $ avUser $ avFlags $
                avArchiveMaxFileSize $ avArchiveMaxRecursion $ avArchiveMaxCompressionRatio $
                avDatabaseMirror $ avChecksPerDay $ avHttpProxyURL ) )
-
-# LogDB Server description
-objectclass (1.3.6.1.4.1.10098.1.2.1.40 NAME 'gosaLogServer' SUP top AUXILIARY
-  DESC 'GOsa log server (v2.6)'
-  MUST ( cn $ goLogDB $ goLogDBUser $ goLogDBPassword ))
