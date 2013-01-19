@@ -26,59 +26,6 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.12.3 NAME 'gosaObject'
   SUBSTR caseIgnoreSubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
 
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.4 NAME 'gosaMailServer'
-        DESC 'Specify users main mail server'
-        EQUALITY caseIgnoreIA5Match
-  SUBSTR caseIgnoreIA5SubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.5 NAME 'gosaMailQuota'
-        DESC 'GOsa quota definitions'
-        EQUALITY caseIgnoreIA5Match
-  SUBSTR caseIgnoreIA5SubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.6 NAME 'gosaMailAlternateAddress'
-        DESC 'Additional mail addresses where the user is reachable'
-        EQUALITY caseIgnoreIA5Match
-  SUBSTR caseIgnoreIA5SubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.7 NAME 'gosaMailForwardingAddress'
-        DESC 'Addresses where to forward mail to'
-        EQUALITY caseIgnoreIA5Match
-  SUBSTR caseIgnoreIA5SubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.8 NAME 'gosaMailMaxSize'
-        DESC 'Block mails bigger than this value'
-        EQUALITY caseIgnoreIA5Match
-  SUBSTR caseIgnoreIA5SubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.9 NAME 'gosaSpamSortLevel'
-        DESC 'Spamassassins hits'
-        EQUALITY caseIgnoreIA5Match
-  SUBSTR caseIgnoreIA5SubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.10 NAME 'gosaSpamMailbox'
-        DESC 'Where to put spam'
-        EQUALITY caseIgnoreIA5Match
-  SUBSTR caseIgnoreIA5SubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.11 NAME 'gosaVacationMessage'
-        DESC 'Text to display in case of vacation'
-        EQUALITY caseIgnoreMatch
-  SUBSTR caseIgnoreSubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.12 NAME 'gosaMailDeliveryMode'
-        DESC 'What to do with mails'
-        EQUALITY caseIgnoreIA5Match
-  SUBSTR caseIgnoreIA5SubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.13 NAME 'gosaDefaultPrinter'
         DESC 'Defines a default printer a user owns'
@@ -155,12 +102,6 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.12.31 NAME 'gosaApplicationCategory'
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.24 NAME 'gosaApplicationIcon'
         DESC 'Keeps the application icon in png format'
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.28)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.25 NAME 'gosaSharedFolderTarget'
-        DESC 'Keeps the target of cyrus shared folders'
-        EQUALITY caseIgnoreIA5Match
-  SUBSTR caseIgnoreIA5SubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.26 NAME 'gosaMemberApplication'
         DESC 'Like memberUid, just for applications'
@@ -241,14 +182,6 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.12.40 NAME 'gosaSetting'
         DESC 'Original DN of saved object'
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
 
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.41 NAME 'gosaVacationStart'
-        DESC 'Timestamp for enabling current vacation message'
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.42 NAME 'gosaVacationStop'
-        DESC 'Timestamp for switching off current vacation message'
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE)
-
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.43 NAME 'gosaApplicationPriority'
         DESC 'Keeps the application icon in png format'
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE)
@@ -284,14 +217,6 @@ attributetype ( 1.3.6.1.4.1.15305.2.2 NAME ( 'dateOfBirth' 'dob' )
         SYNTAX  1.3.6.1.4.1.1466.115.121.1.15{10}
         SINGLE-VALUE )
 
-# cyrus imapd access control list
-# acls work with users and groups
-attributetype ( 1.3.6.1.4.1.19414.2.1.651
-    NAME 'acl'
-      EQUALITY caseIgnoreIA5Match
-    SUBSTR caseIgnoreIA5SubstringsMatch
-      SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} )
-
 # Classes
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.1 NAME 'gosaObject' SUP top AUXILIARY
         DESC 'Class for GOsa settings (v2.6.1)'
@@ -310,13 +235,6 @@ objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.4 NAME 'gosaDepartment' SUP top AUXILIA
         DESC 'Class to mark Departments for GOsa (v2.6.1)'
   MUST  ( ou $ description )
   MAY   ( manager ))
-
-objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.5 NAME 'gosaMailAccount' SUP top AUXILIARY
-        DESC 'Class to mark MailAccounts for GOsa (v2.6.1)'
-  MUST ( mail $ gosaMailServer $ gosaMailDeliveryMode)
-  MAY  ( gosaMailQuota $ gosaMailAlternateAddress $ gosaMailForwardingAddress $
-         gosaMailMaxSize $ gosaSpamSortLevel $ gosaSpamMailbox $
-         gosaVacationMessage $ gosaVacationStart $ gosaVacationStop $ gosaSharedFolderTarget $ acl))
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.6 NAME 'gosaAccount' SUP top AUXILIARY
         DESC 'Class for GOsa Accounts (v2.6.6)'
