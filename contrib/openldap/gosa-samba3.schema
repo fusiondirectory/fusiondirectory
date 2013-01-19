@@ -39,57 +39,11 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.12.14 NAME 'gosaDefaultLanguage'
   SUBSTR caseIgnoreIA5SubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
 
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.21 NAME 'gosaApplicationName'
-        DESC 'Specifies the name of an application to be shown up on users desktop'
-        EQUALITY caseIgnoreMatch
-  SUBSTR caseIgnoreSubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.22 NAME 'gosaApplicationExecute'
-        DESC 'Specifies the executable path of an application'
-        EQUALITY caseIgnoreMatch
-  SUBSTR caseIgnoreSubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.23 NAME 'gosaApplicationFlags'
-        DESC 'Specifies the application flags G(roup only), D(esktop), M(enu)'
-        EQUALITY caseIgnoreIA5Match
-  SUBSTR caseIgnoreIA5SubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.31 NAME 'gosaApplicationCategory'
-  DESC 'Store application parameters'
-  EQUALITY caseIgnoreMatch
-  SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.24 NAME 'gosaApplicationIcon'
-        DESC 'Keeps the application icon in png format'
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.28)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.26 NAME 'gosaMemberApplication'
-        DESC 'Like memberUid, just for applications'
-        EQUALITY caseIgnoreMatch
-  SUBSTR caseIgnoreSubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.27 NAME 'gosaApplicationParameter'
-        DESC 'Store application parameters'
-  EQUALITY caseIgnoreMatch
-  SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
-
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.30 NAME 'gosaGroupObjects'
         DESC 'Takes a list of all object types that are in a gosaGroupOfNames'
         EQUALITY caseIgnoreIA5Match
         SUBSTR caseIgnoreIA5SubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.32 NAME 'gosaApplicationMimeType'
-  DESC 'Takes a list of relevant mime-type|priority settings'
-  EQUALITY caseIgnoreIA5Match
-  SUBSTR caseIgnoreIA5SubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.33 NAME 'gosaUnitTag'
         DESC 'Takes a list of relevant mime-type|priority settings'
@@ -129,10 +83,6 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.12.38 NAME 'gosaSnapshotDN'
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.39 NAME 'gosaSnapshotData'
         DESC 'Original DN of saved object'
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.5 SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.43 NAME 'gosaApplicationPriority'
-        DESC 'Keeps the application icon in png format'
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.46 NAME 'gosaLoginRestriction'
         DESC 'Multivalue attribute to carry a number of allowed ips/subnets'
@@ -182,18 +132,6 @@ objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.6 NAME 'gosaAccount' SUP top AUXILIARY
         gosaDefaultLanguage $ academicTitle $ personalTitle $ dateOfBirth $
         sambaBadPasswordCount $ sambaBadPasswordTime $ gender $ gosaLoginRestriction ))
 
-objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.9 NAME 'gosaApplication' SUP top STRUCTURAL
-        DESC 'Class for GOsa applications (v2.6.1)'
-        MUST ( cn $ gosaApplicationExecute )
-        MAY ( gosaApplicationName $ gosaApplicationIcon $ gosaApplicationFlags $ gosaApplicationMimeType $
-              gosaApplicationParameter $ gotoLogonScript $ description $ gosaApplicationCategory $
-              gotoLogoffScript ))
-
-objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.10 NAME 'gosaApplicationGroup' SUP top AUXILIARY
-        DESC 'Class for GOsa application groups (v2.6.1)'
-        MUST ( cn )
-        MAY ( gosaMemberApplication $ gosaApplicationParameter ))
-
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.11 NAME 'gosaUserTemplate' SUP top AUXILIARY
         DESC 'Class for GOsa User Templates (v2.6.1)'
         MUST ( cn ))
@@ -238,15 +176,4 @@ objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.19 NAME 'gosaSnapshotObject'
        MUST ( gosaSnapshotType $ gosaSnapshotTimestamp $ gosaSnapshotDN $ gosaSnapshotData )
        MAY  ( description ) )
 
-# GOto submenu entries
-objectclass (1.3.6.1.4.1.10098.1.2.1.43 NAME 'gotoSubmenuEntry'
-        DESC 'GOto - contains environment settings (v2.6)' SUP top STRUCTURAL
-        MUST ( cn )
-        MAY ( gosaApplicationIcon $ gosaApplicationPriority ) )
-
-# GOto menu entries
-objectclass (1.3.6.1.4.1.10098.1.2.1.44 NAME 'gotoMenuEntry'
-        DESC 'GOto - defines a menu entry (v2.6)' SUP top STRUCTURAL
-        MUST ( cn )
-        MAY ( gosaApplicationParameter $ gosaApplicationPriority ) )
 
