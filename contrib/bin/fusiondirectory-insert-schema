@@ -73,7 +73,7 @@ die ("! ldap-utils doesn't seem to be installed") if (!-e $ldap_utils_path);
 
 if (scalar(@schemas) == 0) {
   # insert the default schemas
-  @schemas = ("samba","core-fd","ldapns","recovery","fusiondirectory-conf");
+  @schemas = ("samba","core-fd","core-fd-conf","ldapns","recovery-fd");
   foreach my $schema (@schemas) {
     if (system("fusiondirectory-schema2ldif $path$schema.schema > $path$schema.ldif") == 0) {
       push @gen_files, $path.$schema;
