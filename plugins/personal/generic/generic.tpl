@@ -391,7 +391,10 @@
      <td><label for="telephoneNumber">{t}Phone{/t}</label></td>
      <td>
 {render acl=$telephoneNumberACL checkbox=$multiple_support checked=$use_telephoneNumber}
-          <input type="text" id="telephoneNumber" name="telephoneNumber" size=22 maxlength=60 value="{$telephoneNumber}">
+          <input type="text" id="telephoneNumber" name="telephoneNumber" size=22 maxlength=60 value="{$telephoneNumber}"/>
+        {if $phone_dialog_available}
+          <input type='image' src='images/lists/edit.png' name='editPhone' class='center'/>
+        {/if}
 {/render}
      </td>
     </tr>
@@ -400,7 +403,10 @@
      <td><label for="mobile">{t}Mobile{/t}</label></td>
      <td>
 {render acl=$mobileACL checkbox=$multiple_support checked=$use_mobile}
-    <input type="text" id="mobile" name="mobile" size=22 maxlength=60 value="{$mobile}">
+    <input type="text" id="mobile" name="mobile" size=22 maxlength=60 value="{$mobile}"/>
+        {if $mobile_dialog_available}
+          <input type='image' src='images/lists/edit.png' name='editMobile' class='center'/>
+        {/if}
 {/render}
      </td>
     </tr>

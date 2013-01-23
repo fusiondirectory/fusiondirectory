@@ -129,6 +129,9 @@ class user extends plugin
 
   var $governmentmode = FALSE;
 
+  var $mobiles_available;
+  var $phones_available;
+
   /* constructor, if 'dn' is set, the node loads the given
      'dn' from LDAP */
   function user (&$config, $dn = NULL, $object = NULL)
@@ -259,16 +262,19 @@ class user extends plugin
 
     // Detect the managers name
     $this->manager_name = "";
-    $ldap = $this->config->get_ldap_link();
-    if(!empty($this->manager)){
+    if (!empty($this->manager)) {
+      $ldap = $this->config->get_ldap_link();
       $ldap->cat($this->manager, array('cn'));
-      if($ldap->count()){
+      if ($ldap->count()) {
         $attrs = $ldap->fetch();
         $this->manager_name = $attrs['cn'][0];
-      }else{
+      } else {
         $this->manager_name = "("._("Unknown")."!): ".$this->manager;
       }
     }
+
+    $this->phones_available   = class_available('phoneGeneric');
+    $this->mobiles_available  = class_available('mobilePhoneGeneric');
   }
 
 
@@ -326,12 +332,37 @@ class user extends plugin
     if(isset($_POST['add_users_cancel'])){
       $this->dialog = NULL;
     }
-    if($this->dialog instanceOf singleUserSelect) return($this->dialog->execute());
+    if($this->dialog instanceOf singleUserSelect) {
+      return($this->dialog->execute());
+    }
+    if ($this->mobiles_available || $this->phones_available) {
+      if (preg_match("/ edit(Phone|Mobile)/i", " ".implode(array_keys($_POST),' '), $m)) {
+        $this->dialog = new phoneSelect($this->config, get_userinfo(), ($m[1] == 'Mobile'));
+      } elseif (isset($_POST['select_phone_cancel'])) {
+        $this->dialog = NULL;
+      } elseif ($this->dialog instanceOf phoneSelect) {
+        $phone = $this->dialog->detectPostActions();
+        if (isset($phone['targets']) && count($phone['targets'])) {
+          $attrs = $this->dialog->getHeadpage()->getEntry($phone['targets'][0]);
+          if ($this->dialog->mobileDialog) {
+            $this->mobile = $attrs['telephoneNumber'][0];
+          } else {
+            $this->telephoneNumber = $attrs['goFonMSN'][0];
+          }
+          $this->dialog = NULL;
+        }
+      }
+      if($this->dialog instanceOf phoneSelect) {
+        return $this->dialog->execute();
+      }
+    }
 
 
-    $smarty= get_smarty();
+    $smarty = get_smarty();
     $smarty->assign("usePrototype", "true");
     $smarty->assign("gosaLoginRestrictionWidget", $this->gosaLoginRestrictionWidget->render());
+    $smarty->assign("phone_dialog_available", $this->phones_available);
+    $smarty->assign("mobile_dialog_available", $this->mobiles_available);
 
     /* Assign sex */
     $sex= array(0 => "&nbsp;", "F" => _("female"), "M" => _("male"));

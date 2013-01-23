@@ -250,6 +250,10 @@ class listing {
       }
     }
 
+    if (isset($this->xmlData['actiontriggers']['action']['type'])) {
+      $this->xmlData['actiontriggers']['action'] = array($this->xmlData['actiontriggers']['action']);
+    }
+
     return true;
   }
 
@@ -926,7 +930,7 @@ class listing {
 
     // Go thru all actions
     $result= "";
-    $actions= $this->xmlData['actiontriggers']['action'];
+    $actions = $this->xmlData['actiontriggers']['action'];
     foreach($actions as $action) {
       // Skip the entry completely if there's no permission to execute it
       if (!$this->hasActionPermission($action, $dn, $classes)) {
