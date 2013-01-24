@@ -271,18 +271,18 @@ class tests {
    *
    * \param boolean $template FALSE
    */
-  public static function is_email($address, $template= FALSE)
+  public static function is_email($address, $deprecated = FALSE)
   {
-    if ($address == ""){
-      return (TRUE);
+    if ($address == "") {
+      return TRUE;
     }
-    if ($template){
-      return preg_match ("/^[._a-z0-9%\+-]+@[_a-z0-9-]+(\.[a-z0-9-]+)(\.[a-z0-9-]+)*$/i",
-          $address);
-    } else {
-      return preg_match ("/^[._a-z0-9\+-]+@[_a-z0-9-]+(\.[a-z0-9i-]+)(\.[a-z0-9-]+)*$/i",
-          $address);
+    if (filter_var($address, FILTER_VALIDATE_EMAIL) !== FALSE) {
+      return TRUE;
+    } elseif (filter_var($address.'.com', FILTER_VALIDATE_EMAIL) !== FALSE) {
+      /* this is to allow addresses like example@localhost, which are refused by some PHP version */
+      return TRUE;
     }
+    return FALSE;
   }
 
 
