@@ -597,8 +597,8 @@ class plugin
         $value= $this->attrs["$val"][0];
 
         foreach (array("sn", "givenName", "uid") as $repl) {
-          if (preg_match("/%$repl/i", $value)){
-            $value= preg_replace ("/%$repl/i", $this->parent->$repl, $value);
+          if (preg_match("/%$repl%/i", $value)){
+            $value= preg_replace ("/%$repl%/i", $this->parent->$repl, $value);
           }
         }
         $this->$val = $value;
@@ -1193,7 +1193,7 @@ class plugin
 
     // Now replace the placeholder
     foreach ($tmp as $name => $len) {
-      $command  = str_replace("%$name", escapeshellarg($addAttrs[$name]), $command);
+      $command  = str_replace("%$name%", escapeshellarg($addAttrs[$name]), $command);
     }
     return $command;
   }

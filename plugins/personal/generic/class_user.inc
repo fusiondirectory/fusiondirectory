@@ -998,11 +998,11 @@ class user extends plugin
 
     // Walk thru sorted attributes and replace them in pattern
     foreach ($attrl as $attr => $dummy) {
-      if (!is_array($this->$attr)){
-        $pattern= preg_replace("/%$attr/", $this->$attr, $pattern);
+      if (!is_array($this->$attr)) {
+        $pattern = preg_replace("/%$attr%/", $this->$attr, $pattern);
       } else {
         // Array elements cannot be used for ID generation
-        if (preg_match("/%$attr/", $pattern)) {
+        if (preg_match("/%$attr%/", $pattern)) {
           msg_dialog::display(_("Error"), _("Cannot build RDN: invalid attribute parameters!"), ERROR_DIALOG);
           break;
         }
@@ -1010,7 +1010,7 @@ class user extends plugin
     }
 
     // Internally assign value
-    $this->$attribute= preg_replace('/^[^=]+=/', '', $pattern);
+    $this->$attribute = preg_replace('/^[^=]+=/', '', $pattern);
 
     return $pattern;
   }
@@ -1247,8 +1247,8 @@ class user extends plugin
 
     if ($default_pw != '') {
       foreach (array("sn", "givenName", "uid") as $repl) {
-        if (preg_match("/%$repl/i", $default_pw)) {
-          $default_pw = preg_replace ("/%$repl/i", $this->parent->$repl, $default_pw);
+        if (preg_match("/%$repl%/i", $default_pw)) {
+          $default_pw = preg_replace ("/%$repl%/i", $this->parent->$repl, $default_pw);
         }
       }
       $this->template_default_pw  = $default_pw;
@@ -1268,19 +1268,19 @@ class user extends plugin
           continue;
         }
 
-        if (isset($this->attrs["$val"][0])){
+        if (isset($this->attrs["$val"][0])) {
 
           /* If attribute is set, replace dynamic parts:
              %sn, %givenName and %uid. Fill these in our local variables. */
-          $value= $this->attrs["$val"][0];
+          $value = $this->attrs["$val"][0];
 
-          foreach (array("sn", "givenName", "uid") as $repl){
-            if (preg_match("/%$repl/i", $value)){
-              $value= preg_replace ("/%$repl/i",
+          foreach (array("sn", "givenName", "uid") as $repl) {
+            if (preg_match("/%$repl%/i", $value)) {
+              $value = preg_replace ("/%$repl%/i",
                   $this->parent->$repl, $value);
             }
           }
-          $this->$val= $value;
+          $this->$val = $value;
         }
       }
     }
