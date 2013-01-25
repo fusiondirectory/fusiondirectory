@@ -2957,20 +2957,20 @@ function check_schema($cfg,$rfc2307bis = FALSE)
   /* The FusionDirectory base schema */
   $checks['gosaObject'] = $def_check;
   $checks['gosaObject']['REQUIRED_VERSION'] = "2.6.1";
-  $checks['gosaObject']['SCHEMA_FILES']     = array("gosa-samba3.schema");
+  $checks['gosaObject']['SCHEMA_FILES']     = array("core-fd.schema");
   $checks['gosaObject']['CLASSES_REQUIRED'] = array("gosaObject");
   $checks['gosaObject']['IS_MUST_HAVE']     = TRUE;
 
   /* FusionDirectory Account class */
   $checks["gosaAccount"]["REQUIRED_VERSION"]= "2.6.6";
-  $checks["gosaAccount"]["SCHEMA_FILES"]    = array("gosa-samba3.schema");
+  $checks["gosaAccount"]["SCHEMA_FILES"]    = array("core-fd.schema");
   $checks["gosaAccount"]["CLASSES_REQUIRED"]= array("gosaAccount");
   $checks["gosaAccount"]["IS_MUST_HAVE"]    = TRUE;
   $checks["gosaAccount"]["INFO"]            = _("Used to store account specific informations.");
 
   /* FusionDirectory lock entry, used to mark currently edited objects as 'in use' */
   $checks["gosaLockEntry"]["REQUIRED_VERSION"] = "2.6.1";
-  $checks["gosaLockEntry"]["SCHEMA_FILES"]     = array("gosa-samba3.schema");
+  $checks["gosaLockEntry"]["SCHEMA_FILES"]     = array("core-fd.schema");
   $checks["gosaLockEntry"]["CLASSES_REQUIRED"] = array("gosaLockEntry");
   $checks["gosaLockEntry"]["IS_MUST_HAVE"]     = TRUE;
   $checks["gosaLockEntry"]["INFO"]             = _("Used to lock currently edited entries to avoid multiple changes at the same time.");
@@ -2979,26 +2979,7 @@ function check_schema($cfg,$rfc2307bis = FALSE)
   foreach(array(
         "gosaCacheEntry"        => array("version" => "2.6.1", "class" => "gosaAccount"),
         "gosaDepartment"        => array("version" => "2.6.1", "class" => "gosaAccount"),
-        "goFaxAccount"          => array("version" => "1.0.4", "class" => "gofaxAccount","file" => "gofax.schema"),
-        "goFaxSBlock"           => array("version" => "1.0.4", "class" => "gofaxAccount","file" => "gofax.schema"),
-        "goFaxRBlock"           => array("version" => "1.0.4", "class" => "gofaxAccount","file" => "gofax.schema"),
         "gosaUserTemplate"      => array("version" => "2.6.1", "class" => "posixAccount","file" => "nis.schema"),
-        "gosaMailAccount"       => array("version" => "2.6.1", "class" => "mailAccount","file" => "gosa-samba3.schema"),
-        "gosaProxyAccount"      => array("version" => "2.6.1", "class" => "proxyAccount","file" => "gosa-samba3.schema"),
-        "gosaApplication"       => array("version" => "2.6.1", "class" => "appgroup","file" => "gosa.schema"),
-        "gosaApplicationGroup"  => array("version" => "2.6.1", "class" => "appgroup","file" => "gosa.schema"),
-        "GOhard"                => array("version" => "2.6.1", "class" => "terminals","file" => "goto.schema"),
-        "gotoTerminal"          => array("version" => "2.6.1", "class" => "terminals","file" => "goto.schema"),
-        "goServer"              => array("version" => "2.6.1", "class" => "server","file" => "goserver.schema"),
-        "goTerminalServer"      => array("version" => "2.6.1", "class" => "terminals","file" => "goto.schema"),
-        "goShareServer"         => array("version" => "2.6.1", "class" => "terminals","file" => "goto.schema"),
-        "goNtpServer"           => array("version" => "2.6.1", "class" => "terminals","file" => "goto.schema"),
-        "goSyslogServer"        => array("version" => "2.6.1", "class" => "terminals","file" => "goto.schema"),
-        "goLdapServer"          => array("version" => "2.6.1", "class" => "goServer"),
-        "goCupsServer"          => array("version" => "2.6.1", "class" => array("posixAccount", "terminals"),),
-        "goImapServer"          => array("version" => "2.6.1", "class" => array("mailAccount", "mailgroup"),"file" => "gosa-samba3.schema"),
-        "goKrbServer"           => array("version" => "2.6.1", "class" => "goServer"),
-        "goFaxServer"           => array("version" => "2.6.1", "class" => "gofaxAccount","file" => "gofax.schema"),
         ) as $name => $values){
 
           $checks[$name] = $def_check;
@@ -3039,7 +3020,7 @@ function check_schema($cfg,$rfc2307bis = FALSE)
   /* The FusionDirectory base schema */
   $checks['posixGroup'] = $def_check;
   $checks['posixGroup']['REQUIRED_VERSION'] = "2.6.1";
-  $checks['posixGroup']['SCHEMA_FILES']     = array("gosa-samba3.schema");
+  $checks['posixGroup']['SCHEMA_FILES']     = array("core-fd.schema");
   $checks['posixGroup']['CLASSES_REQUIRED'] = array("posixGroup");
   $checks['posixGroup']['STATUS']           = TRUE;
   $checks['posixGroup']['IS_MUST_HAVE']     = TRUE;
