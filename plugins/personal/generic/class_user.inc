@@ -852,17 +852,26 @@ class user extends plugin
         $width  = 150;
         $height = 200;
         $im = new Imagick();
+        $modify = FALSE;
         $im->readImageBlob($this->photoData);
 
         $size = $im->getImageGeometry();
 
-        if (($size['width'] != 0 && $size['height'] != 0) && ($size['width'] != $width || $size['height'] != $height)) {
+        if (($size['width'] > 0 && $size['height'] > 0) && (($size['width'] < $width && $size['height'] < $height) || $size['width'] > $width || $size['height'] > $height)) {
+          $modify = TRUE;
           $im->resizeImage($width, $height, Imagick::FILTER_GAUSSIAN, 1, TRUE);
         }
-        $im->setImageFormat('jpeg');
 
-        /* Save attribute */
-        $this->attrs["jpegPhoto"] = $im->getImageBlob();
+        if ($modify || !preg_match('/^jpeg$/i',$im->getImageFormat())) {
+          $im->setImageCompression(Imagick::COMPRESSION_JPEG);
+          $im->setImageCompressionQuality(90);
+          $im->setImageFormat('jpeg');
+
+          /* Save attribute */
+          $this->attrs["jpegPhoto"] = $im->getImageBlob();
+        } else {
+          $this->attrs["jpegPhoto"] = $this->photoData;
+        }
       } else {
         msg_dialog::display(_("Error"),
                   _("Cannot save user picture, FusionDirectory requires the package 'php5-imagick' to be installed!"),
