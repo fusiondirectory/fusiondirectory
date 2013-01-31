@@ -278,7 +278,7 @@ class configInLdap extends simplePlugin
                   'hookCmd', TRUE
                 )
               ),
-              '%[^|]|%[^|]|%[ -~]',// Last part might contain some |. [ -~] is the ascii range for all characters that can be displayed.
+              '/^(.+)\\|(.+)\\|(.+)$/',
               '%s|%s|%s',
               '', // acl
               _('Hooks')
