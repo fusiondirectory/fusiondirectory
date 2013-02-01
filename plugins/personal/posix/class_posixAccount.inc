@@ -177,7 +177,7 @@ class posixAccount extends simplePlugin
         'icon'  => 'images/lists/locked.png',
         'attrs' => array(
           new SelectAttribute(
-            _('Trust mode'), _(''),
+            _('Trust mode'), _('Type of authorization for those hosts'),
             'trustMode', FALSE,
             array('', 'fullaccess', 'byhost'),
             '',
