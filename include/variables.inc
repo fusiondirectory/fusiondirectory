@@ -73,27 +73,7 @@
   /*!
    * \brief Directory containing the vacation files
    */
-  define ("VACATION_DIR", "/var/cache/fusiondirectory/vacation/"); /* FusionDirectory vacation directory */
-
-  /*!
-   * \brief Directory containing the vacation files
-   */
   define ("SUPANN_DIR", "/var/cache/fusiondirectory/supann/"); /* FusionDirectory supann template directory */
-
-  /*!
-   * \brief Directory containing the asterisk files
-   */
-  define ("ASTERISK_DIR", "/var/cache/fusiondirectory/asterisk/"); /* FusionDirectory asterisk template directory */
-
-  /*!
-   * \brief Directory containing the systems files
-   */
-  define ("SYSTEMS_DIR", "/var/cache/fusiondirectory/systems/"); /* FusionDirectory systems template directory */
-
-  /*!
-   * \brief Directory containing the mail files
-   */
-  define ("MAIL_DIR", "/var/cache/fusiondirectory/mail/"); /* FusionDirectory mail template directory */
 
   /*!
    * \brief name of the class.cache file
