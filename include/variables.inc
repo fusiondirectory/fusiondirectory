@@ -73,7 +73,7 @@
   /*!
    * \brief Directory containing the vacation files
    */
-  define ("SUPANN_DIR", "/var/cache/fusiondirectory/supann/"); /* FusionDirectory supann template directory */
+  define ("SUPANN_DIR", "/etc/fusiondirectory/supann/"); /* FusionDirectory supann template directory */
 
   /*!
    * \brief name of the class.cache file
