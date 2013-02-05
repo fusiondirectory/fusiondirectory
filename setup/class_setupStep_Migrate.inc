@@ -2441,8 +2441,8 @@ class Step_Migrate extends setup_step
   }
 
 
-  /*! \brief  Check for old style (gosa-2.5) services that have to be migrated
-               to be useable in gosa-2.6.
+  /*! \brief  Check for old style (FD < 1.0.5) services that have to be migrated
+               to be useable in FD >= 1.0.5.
               All required changes are stored in $this->service, also some
                readable informations describing the actions required
                to migrate the service
@@ -2450,12 +2450,12 @@ class Step_Migrate extends setup_step
   function check_services()
   {
     /* Establish ldap connection */
-    $cv = $this->parent->captured_values;
-    $ldap_l = new LDAP($cv['admin'],
-        $cv['password'],
-        $cv['connection'],
-        FALSE,
-        $cv['tls']);
+    $cv     = $this->parent->captured_values;
+    $ldap_l = new LDAP(
+      $cv['admin'], $cv['password'],
+      $cv['connection'], FALSE,
+      $cv['tls']
+    );
 
     $ldap = new ldapMultiplexer($ldap_l);
     $this->service = array();
@@ -2463,31 +2463,34 @@ class Step_Migrate extends setup_step
     /* Check for Ldap services that must be migrated
      */
     $ldap->cd($cv['base']);
-    $res = $ldap->search("(objectClass=goLdapServer)", array("goLdapBase", "cn"));
+    $res = $ldap->search('(objectClass=goLdapServer)');
 
     /* Check if we were able to query the ldap server
      */
-    if(!$res){
-      $this->checks['old_style_services']['STATUS']    = FALSE;
-      $this->checks['old_style_services']['STATUS_MSG']= _("LDAP query failed");
-      $this->checks['old_style_services']['ERROR_MSG'] = _("Possibly the 'root object' is missing.");
+    if (!$res) {
+      $this->checks['old_style_services']['STATUS']     = FALSE;
+      $this->checks['old_style_services']['STATUS_MSG'] = _("LDAP query failed");
+      $this->checks['old_style_services']['ERROR_MSG']  = _("Possibly the 'root object' is missing.");
       return;
     }
 
     /* Walk through each configured ldap server
         and check if it is configured correctly.
      */
-    while($attrs = $ldap->fetch()){
-      $dn= $attrs['dn'];
-      $uri= $attrs['goLdapBase'][0];
-      if (! preg_match("!^ldaps?://!", $uri)){
-        $this->service[] = array(
-            "TYPE"    => "modify" ,
-            "DN"      => $dn,
-            "DETAILS" => FALSE,
-            "ATTRS"   => array("goLdapBase" => "ldap://".$attrs['cn'][0]."/$uri"),
-            "CURRENT" => "goLdapBase: ".$uri,
-            "AFTER"   => "goLdapBase: "."ldap://".$attrs['cn'][0]."/$uri");
+    while ($attrs = $ldap->fetch()) {
+      if (!isset($attrs['goLdapURI'])) {
+        $dn   = $attrs['dn'];
+        $uri  = $attrs['goLdapBase'][0];
+        if (preg_match("!^(ldaps?://[^/]+)/(.+)$!", $uri, $m)) {
+          $this->service[] = array(
+            'TYPE'    => 'modify' ,
+            'DN'      => $dn,
+            'DETAILS' => FALSE,
+            'ATTRS'   => array('goLdapBase' => $m[2], 'goLdapURI' => $m[1]),
+            'CURRENT' => 'goLdapBase: '.$uri,
+            'AFTER'   => 'goLdapBase: '.$m[2].', goLdapURI: '.$m[1]
+          );
+        }
       }
     }
 
@@ -2496,17 +2499,17 @@ class Step_Migrate extends setup_step
 
     /*  Update status message
      */
-    if(count($this->service)){
-      $this->checks['old_style_services']['STATUS']    = FALSE;
-      $this->checks['old_style_services']['STATUS_MSG']= "<font style='color:#F0A500'>"._("Warning")."</font>";
-      $this->checks['old_style_services']['ERROR_MSG'] =
+    if (count($this->service)) {
+      $this->checks['old_style_services']['STATUS']     = FALSE;
+      $this->checks['old_style_services']['STATUS_MSG'] = "<font style='color:#F0A500'>"._("Warning")."</font>";
+      $this->checks['old_style_services']['ERROR_MSG']  =
         sprintf(_("There are %s services that need to be migrated."),
             count($this->service)).
         "<input type='submit' name='service_dialog' value='"._("Migrate")."'>";
     } else {
-      $this->checks['old_style_services']['STATUS']    = TRUE;
-      $this->checks['old_style_services']['STATUS_MSG']= _("Ok");
-      $this->checks['old_style_services']['ERROR_MSG'] = "";
+      $this->checks['old_style_services']['STATUS']     = TRUE;
+      $this->checks['old_style_services']['STATUS_MSG'] = _("Ok");
+      $this->checks['old_style_services']['ERROR_MSG']  = "";
     }
   }
 
