@@ -132,6 +132,11 @@ Please note that if you changed the path of your FusionDirectory installation yo
 
   * fusiondirectory-setup --set-fd_home=<your path> --install-plugins
 
+- Copy the two file from argonaut/include into the global FusionDirectory include directory
+
+  cp argonaut/include/class_supportDaemon.inc /var/www/fusiondirectory/include
+  cp argonaut/include/jsonRPCClient.php /var/www/fusiondirectory/include
+
 - Copy the file from contrib/apache to the apache site configuration dir
 
   * mv /var/www/fusiondirectory/contrib/apache/fusiondirectory-apache.conf <your-apache-configuration-directory>
