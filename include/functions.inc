@@ -215,22 +215,23 @@ function make_seed() {
  *
  * \param string $info Optional: Additional information
  */
-function DEBUG($level, $line, $function, $file, $data, $info="")
+function DEBUG($level, $line, $function, $file, $data, $info = "")
 {
   if (session::global_get('DEBUGLEVEL') & $level) {
-    $output= "DEBUG[$level] ";
-    if ($function != ""){
-      $output.= "($file:$function():$line) - $info: ";
+    $output = "DEBUG[$level] ";
+    if ($function != "") {
+      $output .= "($file:$function():$line) - $info: ";
     } else {
-      $output.= "($file:$line) - $info: ";
+      $output .= "($file:$line) - $info: ";
     }
+    echo '<div class="debug_div"><a href="#mainform">&nbsp;&darr;&nbsp;</a>';
     echo $output;
-    if (is_array($data)){
+    if (is_array($data)) {
       print_a($data);
     } else {
       echo "'$data'";
     }
-    echo "<br>";
+    echo "</div>\n";
   }
 }
 

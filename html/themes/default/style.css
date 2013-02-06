@@ -2063,3 +2063,11 @@ background-color:#FBC6B6;
 .plugin_section.critical > div {
 background-color:#FFEFDF;
 }
+
+.debug_div:nth-child(1) ~ .debug_div > a {
+display:none;
+}
+
+.debug_div:nth-child(1) > a {
+background-color:yellow;
+}

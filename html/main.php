@@ -70,7 +70,7 @@ if (session::global_get('_LAST_PAGE_REQUEST') == "") {
 } else {
 
   /* check FusionDirectory.conf for defined session lifetime */
-  $max_life= $config->get_cfg_value("sessionLifetime", 60*60*2);
+  $max_life = $config->get_cfg_value("sessionLifetime", 60*60*2);
 
   /* get time difference between last page reload */
   $request_time = (time()- session::global_get('_LAST_PAGE_REQUEST'));
