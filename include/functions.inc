@@ -217,14 +217,19 @@ function make_seed() {
  */
 function DEBUG($level, $line, $function, $file, $data, $info = "")
 {
+  static $first = TRUE;
   if (session::global_get('DEBUGLEVEL') & $level) {
+    if ($first) {
+      echo '<div id="debug_handling"><img src="images/info_small.png" alt="info icon" style="vertical-align:middle;margin-right:.2em;"/>There is some debug output <a href="#debug_handling">[+]</a><a href="#">[-]</a></div>';
+      $first = FALSE;
+    }
     $output = "DEBUG[$level] ";
     if ($function != "") {
       $output .= "($file:$function():$line) - $info: ";
     } else {
       $output .= "($file:$line) - $info: ";
     }
-    echo '<div class="debug_div"><a href="#mainform">&nbsp;&darr;&nbsp;</a>';
+    echo '<div class="debug_div">';
     echo $output;
     if (is_array($data)) {
       print_a($data);

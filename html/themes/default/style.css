@@ -2064,10 +2064,35 @@ background-color:#FBC6B6;
 background-color:#FFEFDF;
 }
 
-.debug_div:nth-child(1) ~ .debug_div > a {
+#debug_handling ~ .debug_div {
 display:none;
 }
 
-.debug_div:nth-child(1) > a {
-background-color:yellow;
+#debug_handling > a[href='#'] {
+display:none;
+}
+
+#debug_handling > a[href='#debug_handling'] {
+display:inline;
+}
+
+#debug_handling:target > a[href='#'] {
+display:inline;
+}
+
+#debug_handling:target > a[href='#debug_handling'] {
+display:none;
+}
+
+#debug_handling:target ~ .debug_div {
+display:block;
+}
+
+#debug_handling {
+background:#FFF6BF none repeat scroll 0 0;
+border-color:#FFD324;
+color:#514721;
+border:2px solid #DDDDDD;
+margin:.2em;
+padding:.3em;
 }
