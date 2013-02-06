@@ -220,7 +220,11 @@ function DEBUG($level, $line, $function, $file, $data, $info = "")
   static $first = TRUE;
   if (session::global_get('DEBUGLEVEL') & $level) {
     if ($first) {
-      echo '<div id="debug_handling"><img src="images/info_small.png" alt="info icon" style="vertical-align:middle;margin-right:.2em;"/>There is some debug output <a href="#debug_handling">[+]</a><a href="#">[-]</a></div>';
+      echo '<div id="debug_handling">'.
+            '<img src="images/info_small.png" alt="info icon" style="vertical-align:middle;margin-right:.2em;"/>'.
+            'There is some debug output '.
+            '<button onClick="javascript:$$(\'div.debug_div\').each(function (a) { a.toggle(); });">Toggle</button>'.
+          '</div>';
       $first = FALSE;
     }
     $output = "DEBUG[$level] ";
@@ -229,7 +233,7 @@ function DEBUG($level, $line, $function, $file, $data, $info = "")
     } else {
       $output .= "($file:$line) - $info: ";
     }
-    echo '<div class="debug_div">';
+    echo '<div class="debug_div" style="display:none;">';
     echo $output;
     if (is_array($data)) {
       print_a($data);
