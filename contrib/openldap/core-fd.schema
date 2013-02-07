@@ -9,160 +9,153 @@
 
 # Attributes
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.1 NAME 'gosaSubtreeACL'
-        DESC 'GOsa acl entry'
+  DESC 'GOsa acl entry'
   EQUALITY caseIgnoreMatch
   SUBSTR caseIgnoreSubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.2 NAME 'gosaUser'
-        DESC 'GOsa user'
-        EQUALITY caseIgnoreMatch
+  DESC 'GOsa user'
+  EQUALITY caseIgnoreMatch
   SUBSTR caseIgnoreSubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.3 NAME 'gosaObject'
-        DESC 'GOsa object'
-        EQUALITY caseIgnoreMatch
+  DESC 'GOsa object'
+  EQUALITY caseIgnoreMatch
   SUBSTR caseIgnoreSubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
-
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.13 NAME 'gosaDefaultPrinter'
-        DESC 'Defines a default printer a user owns'
-        EQUALITY caseIgnoreIA5Match
-  SUBSTR caseIgnoreIA5SubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.14 NAME 'gosaDefaultLanguage'
-        DESC 'Defines the default language for a user'
-        EQUALITY caseIgnoreIA5Match
+  DESC 'Defines the default language for a user'
+  EQUALITY caseIgnoreIA5Match
   SUBSTR caseIgnoreIA5SubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.30 NAME 'gosaGroupObjects'
-        DESC 'Takes a list of all object types that are in a gosaGroupOfNames'
-        EQUALITY caseIgnoreIA5Match
-        SUBSTR caseIgnoreIA5SubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
+  DESC 'Takes a list of all object types that are in a gosaGroupOfNames'
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.33 NAME 'gosaUnitTag'
-        DESC 'Takes a list of relevant mime-type|priority settings'
-        EQUALITY caseIgnoreIA5Match
-        SUBSTR caseIgnoreIA5SubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
+  DESC 'Takes a list of relevant mime-type|priority settings'
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.34 NAME 'gosaAclTemplate'
-        DESC 'Takes ACL entries for gosaRoles'
-        EQUALITY caseIgnoreIA5Match
-        SUBSTR caseIgnoreIA5SubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
+  DESC 'Takes ACL entries for gosaRoles'
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.35 NAME 'gosaAclEntry'
-        DESC 'Takes ACL entries for gosaRoles'
-        EQUALITY caseIgnoreIA5Match
-        SUBSTR caseIgnoreIA5SubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
+  DESC 'Takes ACL entries for gosaRoles'
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.36 NAME 'gosaSnapshotType'
-        DESC 'Takes either undo or snapshot'
-        EQUALITY caseIgnoreMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE)
+  DESC 'Takes either undo or snapshot'
+  EQUALITY caseIgnoreMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.37 NAME 'gosaSnapshotTimestamp'
-        DESC 'Unix timestamp of snapshot'
-        EQUALITY caseIgnoreMatch
-        SUBSTR caseIgnoreSubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE)
+  DESC 'Unix timestamp of snapshot'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.38 NAME 'gosaSnapshotDN'
-        DESC 'Original DN of saved object'
-        EQUALITY caseIgnoreMatch
+  DESC 'Original DN of saved object'
+  EQUALITY caseIgnoreMatch
   SUBSTR caseIgnoreSubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE)
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.39 NAME 'gosaSnapshotData'
-        DESC 'Original DN of saved object'
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.5 SINGLE-VALUE)
+  DESC 'Original DN of saved object'
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.5 SINGLE-VALUE)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.46 NAME 'gosaLoginRestriction'
-        DESC 'Multivalue attribute to carry a number of allowed ips/subnets'
-        SUP name)
+  DESC 'Multivalue attribute to carry a number of allowed ips/subnets'
+  SUP name)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.6.2 NAME 'academicTitle'
-        DESC 'Field to represent the academic title'
-        EQUALITY caseIgnoreMatch
-        SUBSTR caseIgnoreSubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
+  DESC 'Field to represent the academic title'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
 
 attributetype ( 1.3.6.1.4.1.15305.2.1 NAME ( 'gender' 'sex' )
-        DESC    'Gender: M for male, F for female'
-        EQUALITY caseIgnoreIA5Match
-        SYNTAX  1.3.6.1.4.1.1466.115.121.1.26{1}
-        SINGLE-VALUE )
+  DESC    'Gender: M for male, F for female'
+  EQUALITY caseIgnoreIA5Match
+  SYNTAX  1.3.6.1.4.1.1466.115.121.1.26{1}
+  SINGLE-VALUE )
 
 attributetype ( 1.3.6.1.4.1.15305.2.2 NAME ( 'dateOfBirth' 'dob' )
-        DESC    'Date of birth in ISO 8601 format'
-        EQUALITY caseIgnoreMatch
-        SYNTAX  1.3.6.1.4.1.1466.115.121.1.15{10}
-        SINGLE-VALUE )
+  DESC    'Date of birth in ISO 8601 format'
+  EQUALITY caseIgnoreMatch
+  SYNTAX  1.3.6.1.4.1.1466.115.121.1.15{10}
+  SINGLE-VALUE )
 
 # Classes
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.1 NAME 'gosaObject' SUP top AUXILIARY
-        DESC 'Class for GOsa settings (v2.6.1)'
-        MUST ( gosaSubtreeACL ))
+  DESC 'Class for GOsa settings (v2.6.1)'
+  MUST ( gosaSubtreeACL ))
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.2 NAME 'gosaLockEntry' SUP top STRUCTURAL
-        DESC 'Class for GOsa locking (v2.6.1)'
-        MUST ( gosaUser $ gosaObject $ cn ))
+  DESC 'Class for GOsa locking (v2.6.1)'
+  MUST ( gosaUser $ gosaObject $ cn ))
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.3 NAME 'gosaCacheEntry' SUP top STRUCTURAL
-        DESC 'Class for GOsa caching (v2.6.1)'
+  DESC 'Class for GOsa caching (v2.6.1)'
   MAY  ( gosaUser )
   MUST ( cn ))
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.4 NAME 'gosaDepartment' SUP top AUXILIARY
-        DESC 'Class to mark Departments for GOsa (v2.6.1)'
+  DESC 'Class to mark Departments for GOsa (v2.6.1)'
   MUST  ( ou $ description )
   MAY   ( manager ))
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.6 NAME 'gosaAccount' SUP top AUXILIARY
-        DESC 'Class for GOsa Accounts (v2.6.6)'
+  DESC 'Class for GOsa Accounts (v2.6.6)'
   MUST ( uid )
-        MAY ( sambaLMPassword $ sambaNTPassword $ sambaPwdLastSet $ gosaDefaultPrinter $
+        MAY ( sambaLMPassword $ sambaNTPassword $ sambaPwdLastSet $
         gosaDefaultLanguage $ academicTitle $ personalTitle $ dateOfBirth $
         sambaBadPasswordCount $ sambaBadPasswordTime $ gender $ gosaLoginRestriction ))
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.11 NAME 'gosaUserTemplate' SUP top AUXILIARY
-        DESC 'Class for GOsa User Templates (v2.6.1)'
-        MUST ( cn ))
+  DESC 'Class for GOsa User Templates (v2.6.1)'
+  MUST ( cn ))
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.12 NAME 'gosaGroupOfNames'
-        DESC 'GOsa object grouping (v2.6.1)'
-    SUP top STRUCTURAL
-    MUST ( cn $ gosaGroupObjects ) MAY ( member $ description ) )
+  DESC 'GOsa object grouping (v2.6.1)'
+  SUP top STRUCTURAL
+  MUST ( cn $ gosaGroupObjects ) MAY ( member $ description ) )
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.15 NAME 'gosaAdministrativeUnit'
-       DESC 'Marker for administrational units (v2.6.1)'
-           SUP top AUXILIARY
-       MUST ( gosaUnitTag ))
+  DESC 'Marker for administrational units (v2.6.1)'
+  SUP top AUXILIARY
+  MUST ( gosaUnitTag ))
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.16 NAME 'gosaAdministrativeUnitTag'
-       DESC 'Marker for objects below administrational units (v2.6.1)'
-           SUP top AUXILIARY
-       MUST ( gosaUnitTag ))
+  DESC 'Marker for objects below administrational units (v2.6.1)'
+  SUP top AUXILIARY
+  MUST ( gosaUnitTag ))
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.17 NAME 'gosaRole'
-       DESC 'ACL container to define roles (v2.6.1)' SUP top STRUCTURAL
-       MUST ( gosaAclTemplate $ cn )
-       MAY  ( description ) )
+  DESC 'ACL container to define roles (v2.6.1)' SUP top STRUCTURAL
+  MUST ( gosaAclTemplate $ cn )
+  MAY  ( description ) )
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.18 NAME 'gosaAcl'
-       DESC 'ACL container to define single ACLs (v2.6.1)' SUP top AUXILIARY
-       MUST ( gosaAclEntry  ))
+  DESC 'ACL container to define single ACLs (v2.6.1)' SUP top AUXILIARY
+  MUST ( gosaAclEntry  ))
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.19 NAME 'gosaSnapshotObject'
-       DESC 'Container object for undo and snapshot data (v2.6.1)' SUP top STRUCTURAL
-       MUST ( gosaSnapshotType $ gosaSnapshotTimestamp $ gosaSnapshotDN $ gosaSnapshotData )
-       MAY  ( description ) )
+  DESC 'Container object for undo and snapshot data (v2.6.1)' SUP top STRUCTURAL
+  MUST ( gosaSnapshotType $ gosaSnapshotTimestamp $ gosaSnapshotDN $ gosaSnapshotData )
+  MAY  ( description ) )
 
 
