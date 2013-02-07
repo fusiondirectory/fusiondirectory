@@ -45,6 +45,7 @@ class user extends plugin
   var $homePhone          = "";
   var $labeledURI         = "";
   var $departmentNumber   = "";
+  var $description        = "";
 
   var $o  = "";
   var $ou = "";
@@ -111,7 +112,7 @@ class user extends plugin
   /* attribute list for save action */
   var $attributes = array("sn", "givenName", "uid", "personalTitle", "academicTitle",
       "homePostalAddress", "homePhone", "labeledURI", "ou", "o", "dateOfBirth", "gender","preferredLanguage",
-      "departmentNumber", "employeeNumber", "employeeType", "l", "st","jpegPhoto",
+      "departmentNumber", "description", "employeeNumber", "employeeType", "l", "st", "jpegPhoto",
       "roomNumber", "telephoneNumber", "mobile", "pager", "cn", "street", "postalCode",
       "postalAddress", "facsimileTelephoneNumber", "gosaLoginRestriction", "manager");
 
@@ -1376,6 +1377,7 @@ class user extends plugin
           "o"                 => _("Organization"),
           "ou"                => _("Department"),
           "departmentNumber"  => _("Department number"),
+          "description"       => _("Description"),
           "manager"           => _("Manager"),
           "employeeNumber"    => _("Employee number"),
           "employeeType"      => _("Employee type"),

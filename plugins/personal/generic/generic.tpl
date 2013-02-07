@@ -150,11 +150,19 @@
     </tr>
     <tr>
      <td>
-      <div style="height:10px;"></div>
+      <label for="description">{t}Description{/t}</label>
+     </td>
+     <td>
+{render acl=$descriptionACL}
+      <input type="text" id="description" name="description" value="{$description}"/>
+{/render}
+     </td>
+    </tr>
+    <tr>
+     <td>
       <label for="base">{t}Base{/t}</label>
      </td>
      <td>
-      <div style="height:10px;"></div>
 {render acl=$baseACL checkbox=$multiple_support checked=$use_base}
       {$base}
 {/render}
