@@ -177,9 +177,7 @@ class user extends plugin
 
     /* Make hash default to md5 if not set in config */
     $this->pw_storage = $this->config->get_cfg_value("passwordDefaultHash", "crypt/md5");
-    echo "<h1>force:".$this->config->get_cfg_value("forcePasswordDefaultHash", "FALSE")."</h1>\n";
     if ($this->config->get_cfg_value("forcePasswordDefaultHash", "FALSE") === "TRUE") {
-      echo "<h1>TRUE</h1>\n";
       $this->force_hash = $this->pw_storage;
     }
 
