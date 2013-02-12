@@ -2,23 +2,24 @@
 host = https://www.transifex.net
 
 [FusionDirectory.fusiondirectory-core]
-source_file = locale/core/messages.po
+source_file = locale/messages.po
 source_lang = en
-trans.ca = locale/core/ca/LC_MESSAGES/messages.po
-trans.cs_CZ = locale/core/cs_CZ/LC_MESSAGES/messages.po
-trans.de = locale/core/de/LC_MESSAGES/messages.po
-trans.es = locale/core/es/LC_MESSAGES/messages.po
-trans.es_VE = locale/core/es_VE/LC_MESSAGES/messages.po
-trans.fa_IR = locale/core/fa_IR/LC_MESSAGES/messages.po
-trans.fr = locale/core/fr/LC_MESSAGES/messages.po
-trans.id_ID = locale/core/id_ID/LC_MESSAGES/messages.po
-trans.it = locale/core/it/LC_MESSAGES/messages.po
-trans.nl = locale/core/nl/LC_MESSAGES/messages.po
-trans.pl = locale/core/pl/LC_MESSAGES/messages.po
-trans.pt = locale/core/pt/LC_MESSAGES/messages.po
-trans.ru = locale/core/ru/LC_MESSAGES/messages.po
-trans.ug = locale/core/ug/LC_MESSAGES/messages.po
-trans.vi = locale/core/vi/LC_MESSAGES/messages.po
-trans.zh = locale/core/zh/LC_MESSAGES/messages.po
+trans.ca = locale/ca/messages.po
+trans.cs_CZ = locale/cs_CZ/messages.po
+trans.de = locale/de/messages.po
+trans.es = locale/es/messages.po
+trans.es_VE = locale/es_VE/messages.po
+trans.fa_IR = locale/fa_IR/messages.po
+trans.fr = locale/fr/messages.po
+trans.id_ID = locale/id_ID/messages.po
+trans.it = locale/it/messages.po
+trans.nl = locale/nl/messages.po
+trans.nb = locale/nb/messages.po
+trans.pl = locale/pl/messages.po
+trans.pt = locale/pt/messages.po
+trans.ru = locale/ru/messages.po
+trans.ug = locale/ug/messages.po
+trans.vi = locale/vi/messages.po
+trans.zh = locale/zh/messages.po
 type = PO
 
