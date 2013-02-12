@@ -98,7 +98,7 @@ class user extends plugin
   var $dialog;
 
   /* variables to trigger password changes */
-  var $pw_storage           = "md5";
+  var $pw_storage           = "";
   var $last_pw_storage      = "unset";
   var $template_default_pw  = "";
 
@@ -175,17 +175,16 @@ class user extends plugin
     }
 
     /* Make hash default to md5 if not set in config */
-    $hash= $this->config->get_cfg_value("passwordDefaultHash", "crypt/md5");
+    $this->pw_storage = $this->config->get_cfg_value("passwordDefaultHash", "crypt/md5");
 
     /* Load data from LDAP? */
-    if ($dn !== NULL){
-
+    if ($dn !== NULL) {
       /* Do base conversation */
-      if ($this->dn == "new"){
-        $ui= get_userinfo();
-        $this->base= dn2base(session::global_is_set("CurrentMainBase")?"cn=dummy,".session::global_get("CurrentMainBase"):$ui->dn);
+      if ($this->dn == "new") {
+        $ui         = get_userinfo();
+        $this->base = dn2base(session::global_is_set("CurrentMainBase")?"cn=dummy,".session::global_get("CurrentMainBase"):$ui->dn);
       } else {
-        $this->base= dn2base($dn);
+        $this->base = dn2base($dn);
       }
 
       /* get password storage type */
@@ -196,7 +195,7 @@ class user extends plugin
           $userPassword = $this->attrs['userPassword'][0];
           if ($this->is_template && preg_match ('/|/', $userPassword)) {
             list ($userPassword, $default_pw) = explode('|', $userPassword);
-            $this->template_default_pw = $default_pw;
+            $this->template_default_pw        = $default_pw;
           }
           $tmp = passwordMethod::get_method($userPassword);
           if (is_object($tmp)) {
@@ -205,13 +204,8 @@ class user extends plugin
         } else {
           if ($this->attrs['userPassword'][0] != "") {
             $this->pw_storage = "clear";
-          } else {
-            $this->pw_storage = $hash;
           }
         }
-      } else {
-        /* Preset with vaule from configuration */
-        $this->pw_storage = $hash;
       }
 
       /* Load extra attributes: picture */
@@ -219,14 +213,14 @@ class user extends plugin
     }
 
     /* Reset password storage indicator, used by password_change_needed() */
-    if ($dn == "new"){
-      $this->last_pw_storage= "unset";
+    if ($dn == "new") {
+      $this->last_pw_storage = "unset";
     } else {
-      $this->last_pw_storage= $this->pw_storage;
+      $this->last_pw_storage = $this->pw_storage;
     }
 
     /* Generate dateOfBirth entry */
-    if (isset ($this->attrs['dateOfBirth'])){
+    if (isset ($this->attrs['dateOfBirth'])) {
       /* This entry is ISO 8601 conform */
       list($year, $month, $day)= explode("-", $this->attrs['dateOfBirth'][0], 3);
 
