@@ -121,6 +121,10 @@ class configInLdap extends simplePlugin
             'fdPasswordDefaultHash', TRUE,
             array('crypt/md5')
           ),
+          new BooleanAttribute (
+            _('Force default hash'), _('Force the use of the default password hash'),
+            'fdForcePasswordDefaultHash'
+          ),
           new IntAttribute (
             _('Password minimum length'), _('Minimum length of user passwords'),
             'fdPasswordMinLength', FALSE,

@@ -100,6 +100,7 @@ class user extends plugin
   /* variables to trigger password changes */
   var $pw_storage           = "";
   var $last_pw_storage      = "unset";
+  var $force_hash           = FALSE;
   var $template_default_pw  = "";
 
   var $view_logged = FALSE;
@@ -170,12 +171,17 @@ class user extends plugin
     }
 
     /* Create me for new accounts */
-    if ($dn == "new"){
-      $this->is_account= TRUE;
+    if ($dn == "new") {
+      $this->is_account = TRUE;
     }
 
     /* Make hash default to md5 if not set in config */
     $this->pw_storage = $this->config->get_cfg_value("passwordDefaultHash", "crypt/md5");
+    echo "<h1>force:".$this->config->get_cfg_value("forcePasswordDefaultHash", "FALSE")."</h1>\n";
+    if ($this->config->get_cfg_value("forcePasswordDefaultHash", "FALSE") === "TRUE") {
+      echo "<h1>TRUE</h1>\n";
+      $this->force_hash = $this->pw_storage;
+    }
 
     /* Load data from LDAP? */
     if ($dn !== NULL) {
@@ -217,6 +223,10 @@ class user extends plugin
       $this->last_pw_storage = "unset";
     } else {
       $this->last_pw_storage = $this->pw_storage;
+    }
+
+    if ($this->force_hash !== FALSE) {
+      $this->pw_storage = $this->force_hash;
     }
 
     /* Generate dateOfBirth entry */
@@ -486,7 +496,7 @@ class user extends plugin
     }
 
     /* Load attributes and acl's */
-    $ui =get_userinfo();
+    $ui = get_userinfo();
     foreach($this->attributes as $val){
       $smarty->assign("$val", $this->$val);
     }
@@ -505,6 +515,7 @@ class user extends plugin
     $smarty->assign("pwmode", $pwd_methods);
     $smarty->assign("pwmode_select", $this->pw_storage);
     $smarty->assign("pw_configurable", $is_configurable);
+    $smarty->assign("disabled_pw_storage", ($this->force_hash === FALSE?"":" disabled"));
     $smarty->assign("passwordStorageACL", $this->getacl("userPassword",(!is_object($this->parent) && !session::is_set('edit'))));
 
     $smarty->assign("userPictureACL",   $this->getacl("userPicture",(!is_object($this->parent) && !session::is_set('edit'))));

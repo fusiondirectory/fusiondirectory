@@ -210,7 +210,7 @@
      <td><label for="pw_storage">{t}Password storage{/t}</label></td>
      <td>
 {render acl=$passwordStorageACL checkbox=$multiple_support checked=$use_pw_storage}
-        <select size="1" id="pw_storage" name="pw_storage" onchange='document.mainform.submit()'>
+        <select size="1" id="pw_storage" name="pw_storage" onchange='document.mainform.submit()'{$disabled_pw_storage}>
       {foreach from=$pwmode key=value item=desc}
         <option value="{$value}" {if $pwmode_select == $value}selected{/if} >{$desc}</option>
       {/foreach}

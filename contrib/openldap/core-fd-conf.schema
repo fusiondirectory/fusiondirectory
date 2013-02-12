@@ -163,6 +163,12 @@ attributetype ( 1.3.6.1.4.1.38414.8.13.7 NAME 'fdSaslExop'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
   SINGLE-VALUE )
 
+attributetype ( 1.3.6.1.4.1.38414.8.13.8 NAME 'fdForcePasswordDefaultHash'
+  DESC 'FusionDirectory - Force password default hash'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE )
+
 # Core settings
 
 attributetype ( 1.3.6.1.4.1.38414.8.14.1 NAME 'fdPrimaryGroupFilter'
@@ -349,6 +355,7 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
 
     fdPasswordDefaultHash $ fdPasswordMinLength $ fdPasswordMinDiffer $
     fdPasswordHook $ fdHandleExpiredAccounts $ fdSaslRealm $ fdSaslExop $
+    fdForcePasswordDefaultHash $
 
     fdPrimaryGroupFilter $ fdListSummary $ fdHonourUnitTags $
     fdModificationDetectionAttribute $ fdCopyPaste $ fdLogging $ fdLdapSizeLimit $
