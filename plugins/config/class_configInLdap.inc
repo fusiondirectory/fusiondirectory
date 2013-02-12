@@ -141,7 +141,7 @@ class configInLdap extends simplePlugin
           ),
           new BooleanAttribute (
             _('Use account expiration'),
-            _('Enables shadow attribute tests during the login to FusionDirectory and forces password renewal or account lock‐out'),
+            _('Enables shadow attribute tests during the login to FusionDirectory and forces password renewal or account locking'),
             'fdHandleExpiredAccounts'
           ),
           new StringAttribute (
