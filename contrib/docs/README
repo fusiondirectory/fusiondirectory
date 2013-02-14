@@ -26,10 +26,10 @@ We are using [[https://www.transifex.net/|transifex]] to translate FusionDirecto
   * If your team doesn't exist you can ask for his creation
 
 If you're ready with that, create a directory for your language using
-the ISO shortcuts (i.e. es for spain) with a subdirectory LC_MESSAGES.
+the ISO shortcuts (i.e. es for spain).
 In case of spain this will be
 
- fusiondirectory/locales/core/es/LC_MESSAGES
+ fusiondirectory/locales/core/es
 
 and put the freshly translated messages.po in this directory.
 

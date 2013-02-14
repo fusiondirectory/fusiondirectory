@@ -86,8 +86,8 @@ Q: FusionDirectory is not in my native language, can I translate it to my langua
 A: Yes. Just go to the locale directory and copy the messages.po file somewhere
    else. Edit the copy and put your translations into the msgstr lines. To be
    included in next FusionDirectory releases, you may want to send it to the FusionDirectory maintainer.
-   Finally you need to create a directory with your language code. (i.e. de for
-   german) containing the LC_MESSAGES directory. Move your messages.po file there
+   Finally you need to create a directory with your language code (i.e. de for
+   german). Move your messages.po file there
    and run 'msgfmt messages.po' in that directory. That's it.
 
    You may need to restart apache, depending on your setup. On Debian, be sure
