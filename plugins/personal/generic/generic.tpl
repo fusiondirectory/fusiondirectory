@@ -154,7 +154,7 @@
      </td>
      <td>
 {render acl=$descriptionACL}
-      <input type="text" id="description" name="description" value="{$description}"/>
+      <input type="text" id="description" name="description" size=35 maxlength=80 value="{$description}"/>
 {/render}
      </td>
     </tr>
