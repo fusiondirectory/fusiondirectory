@@ -730,7 +730,7 @@ sub set_vars {
 
   @root_config_dirs = ( $vars{fd_home}, $vars{fd_config_dir} );
   @apache_config_dirs = ( $vars{fd_spool_dir}, $vars{fd_cache}, $tmp_dir, $fai_log_dir,
-                          $template_dir, $supann_dir, $asterisk_dir, $systems_dir, $mail_dir );
+                          $template_dir );
   @config_dirs = ( @root_config_dirs, @apache_config_dirs );
 }
 
