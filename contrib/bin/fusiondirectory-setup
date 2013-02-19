@@ -365,24 +365,11 @@ sub write_vars {
   /* Directory containing the fai logs */
   define ("FAI_LOG_DIR", "$fai_log_dir/"); /* FusionDirectory fai directory */
 
-  /* Directory containing the vacation files */
-  define ("VACATION_DIR", "$vars{fd_cache}/vacation/"); /* FusionDirectory vacation directory */
+  /* Directory containing the supann files
+  define ("SUPANN_DIR", "$vars{fd_config_dir}/supann/"); /* FusionDirectory supann template directory */
 
   /* name of the class.cache file */
   define("CLASS_CACHE", "$vars{class_cache}"); /* name of the class cache */
-
-  /* Supann cache directory */
-  define("SUPANN_DIR", "$vars{fd_cache}/supann/"); /* FusionDirectory supann template directory */
-
-  /* asterisk cache directory */
-  define ("ASTERISK_DIR", "$vars{fd_cache}/asterisk/"); /* FusionDirectory asterisk template directory */
-
-  /* systems cache directory */
-  define ("SYSTEMS_DIR", "$vars{fd_cache}/systems/"); /* FusionDirectory systems template directory */
-
-  /* mail cache directory */
-  define ("MAIL_DIR", "$vars{fd_cache}/mail/"); /* FusionDirectory mail template directory */
-
 ?>
 eof
 
