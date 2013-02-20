@@ -1,21 +1,21 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 # Clever de Oliveira Jr. <clever@dri.cefetmg.br>, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-13 00:51+0100\n"
+"Report-Msgid-Bugs-To: https://forge.fusiondirectory.org/projects/fd\n"
+"POT-Creation-Date: 2013-02-12 11:22+0100\n"
 "PO-Revision-Date: 2013-02-12 18:40+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: pt\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: html/main.php:140 html/class_passwordRecovery.inc:226
@@ -79,8 +79,8 @@ msgstr ""
 #: html/main.php:364
 #, php-format
 msgid ""
-"Fatal error: Cannot find any plugin definitions for plugin '%s' ('%s' is not "
-"a file)!"
+"Fatal error: Cannot find any plugin definitions for plugin '%s' ('%s' is not"
+" a file)!"
 msgstr ""
 
 #: html/main.php:379
@@ -119,8 +119,7 @@ msgstr ""
 msgid ""
 "The passwords you've entered as 'New password' and 'Repeated new password' "
 "do not match."
-msgstr ""
-"A senha digitada nos campos 'Nova senha' e 'Repita nova senha' não conferem."
+msgstr "A senha digitada nos campos 'Nova senha' e 'Repita nova senha' não conferem."
 
 #: html/class_passwordRecovery.inc:409 ihtml/themes/default/password.tpl:81
 #: ihtml/themes/default/password.tpl:82
@@ -367,9 +366,7 @@ msgstr ""
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
-msgstr ""
-"Seu navegador está com suporte a cookies desabilitado. Por favor, habilite-o "
-"e recarregue essa página antes de entrar!"
+msgstr "Seu navegador está com suporte a cookies desabilitado. Por favor, habilite-o e recarregue essa página antes de entrar!"
 
 #: ihtml/themes/default/conflict.tpl:2
 msgid "Session conflict detected"
@@ -379,14 +376,14 @@ msgstr "Conflito de sessão detectado"
 msgid ""
 "Probably there's another active instance of your session. Multiple window "
 "operation is technical not possible and heavily depends on the browser "
-"you're using. Usage of different browsers at a time (i.e. IE and Mozilla) is "
-"possible. Pressing the Logout button will close this session."
+"you're using. Usage of different browsers at a time (i.e. IE and Mozilla) is"
+" possible. Pressing the Logout button will close this session."
 msgstr ""
 
 #: ihtml/themes/default/conflict.tpl:10
 msgid ""
-"Ignoring this message will change/destroy the data you're currently editing, "
-"so please close multiple windows and log in again."
+"Ignoring this message will change/destroy the data you're currently editing,"
+" so please close multiple windows and log in again."
 msgstr ""
 
 #: ihtml/themes/default/conflict.tpl:14
@@ -402,10 +399,7 @@ msgid ""
 "If this lock detection is false, the other person has obviously closed the "
 "webbrowser during the edit operation. You may want to take over the lock by "
 "pressing the 'Edit anyway' button."
-msgstr ""
-"Se esta detecção for falsa, um usuário pode ter fechado o navegador durante "
-"a operação de edição. Você pode destravar pressionando o botão 'Editar mesmo "
-"assim'."
+msgstr "Se esta detecção for falsa, um usuário pode ter fechado o navegador durante a operação de edição. Você pode destravar pressionando o botão 'Editar mesmo assim'."
 
 #: ihtml/themes/default/islocked.tpl:16
 msgid "Read only"
@@ -532,8 +526,8 @@ msgstr "Senha"
 
 #: ihtml/themes/default/password.tpl:52
 msgid ""
-"This dialog provides a simple way to change your password. Enter the current "
-"password and the new password (twice) in the fields below and press the "
+"This dialog provides a simple way to change your password. Enter the current"
+" password and the new password (twice) in the fields below and press the "
 "'Change' button."
 msgstr ""
 
@@ -633,9 +627,7 @@ msgstr ""
 #: plugins/admin/users/remove.tpl:10 plugins/admin/groups/remove.tpl:10
 #: plugins/admin/ogroups/remove.tpl:10
 msgid "So - if you're sure - press 'Delete' to continue or 'Cancel' to abort."
-msgstr ""
-"Então, se você tem certeza, pressione 'Deletar' para continuar ou 'Cancelar' "
-"para abortar."
+msgstr "Então, se você tem certeza, pressione 'Deletar' para continuar ou 'Cancelar' para abortar."
 
 #: ihtml/themes/default/acl.tpl:7 plugins/admin/acl/acl_role.tpl:3
 msgid "Assigned ACL for current entry"
@@ -750,9 +742,9 @@ msgstr "Ok"
 
 #: ihtml/themes/default/sizelimit.tpl:3
 msgid ""
-"The size limit option makes LDAP operations faster and saves the LDAP server "
-"from getting too much load. The easiest way to handle big databases without "
-"long timeouts would be to limit your search to smaller values and use "
+"The size limit option makes LDAP operations faster and saves the LDAP server"
+" from getting too much load. The easiest way to handle big databases without"
+" long timeouts would be to limit your search to smaller values and use "
 "filters to get the entries you are looking for."
 msgstr ""
 
@@ -856,8 +848,8 @@ msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:59
 msgid ""
-"If none of the above methods suits you, contact your administrator to change "
-"your password"
+"If none of the above methods suits you, contact your administrator to change"
+" your password"
 msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:71
@@ -899,8 +891,8 @@ msgstr ""
 #: setup/setup_language.tpl:5
 msgid ""
 "At this point, you can select the site wide default language. Choosing "
-"'automatic' will use the language requested by the browser. This setting can "
-"be overriden per user."
+"'automatic' will use the language requested by the browser. This setting can"
+" be overriden per user."
 msgstr ""
 
 #: setup/setup_language.tpl:9
@@ -1069,7 +1061,8 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:215
 msgid ""
-"Search for 'max_execution_time' in your php.ini and set it to '30' or higher."
+"Search for 'max_execution_time' in your php.ini and set it to '30' or "
+"higher."
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:222
@@ -1088,7 +1081,8 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:231
 msgid ""
-"Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'."
+"Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to "
+"'Off'."
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:241
@@ -1128,8 +1122,8 @@ msgstr ""
 
 #: setup/setup_schema.tpl:31
 msgid ""
-"Could not read any schema informations, all checks skipped. Adjust your ldap "
-"acls."
+"Could not read any schema informations, all checks skipped. Adjust your ldap"
+" acls."
 msgstr ""
 
 #: setup/setup_schema.tpl:35
@@ -1734,8 +1728,8 @@ msgstr ""
 
 #: setup/setup_feedback.tpl:50
 msgid ""
-"When checking this option, FusionDirectory will try to connect http://www."
-"fusiondirectory.org in order to submit your form anonymously."
+"When checking this option, FusionDirectory will try to connect "
+"http://www.fusiondirectory.org in order to submit your form anonymously."
 msgstr ""
 
 #: setup/setup_feedback.tpl:52
@@ -1806,7 +1800,8 @@ msgid "What features of FusionDirectory do you use?"
 msgstr ""
 
 #: setup/setup_feedback.tpl:150
-msgid "What features do you want to see in future versions of FusionDirectory?"
+msgid ""
+"What features do you want to see in future versions of FusionDirectory?"
 msgstr ""
 
 #: setup/setup_feedback.tpl:157
@@ -1815,8 +1810,8 @@ msgstr ""
 
 #: setup/setup_migrate.tpl:5
 msgid ""
-"During the LDAP inspection, we're going to check for several common pitfalls "
-"that may occur when migration to FusionDirectory base LDAP administration. "
+"During the LDAP inspection, we're going to check for several common pitfalls"
+" that may occur when migration to FusionDirectory base LDAP administration. "
 "You may want to fix the problems below, in order to provide smooth services."
 msgstr ""
 
@@ -1978,9 +1973,9 @@ msgstr ""
 
 #: setup/setup_migrate.tpl:396
 msgid ""
-"The listed devices are currently invisible in the FusionDirectory interface. "
-"If you want to change this for a couple of devices, just select them and use "
-"the 'Migrate' button below."
+"The listed devices are currently invisible in the FusionDirectory interface."
+" If you want to change this for a couple of devices, just select them and "
+"use the 'Migrate' button below."
 msgstr ""
 
 #: setup/setup_migrate.tpl:422 setup/setup_migrate.tpl:465
@@ -2000,8 +1995,8 @@ msgstr ""
 #: setup/setup_migrate.tpl:484
 msgid ""
 "The listed menus are currently invisible in the FusionDirectory interface. "
-"If you want to change this for a couple of devices, just select them and use "
-"the 'Migrate' button below."
+"If you want to change this for a couple of devices, just select them and use"
+" the 'Migrate' button below."
 msgstr ""
 
 #: setup/class_setupStep_Welcome.inc:38
@@ -2279,7 +2274,8 @@ msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:960
 msgid ""
-"There is no valid FusionDirectory 1.0 administrator account inside your LDAP."
+"There is no valid FusionDirectory 1.0 administrator account inside your "
+"LDAP."
 msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:962 setup/class_setupStep_Migrate.inc:978
@@ -2449,8 +2445,8 @@ msgstr ""
 #: include/class_config.inc:1148 include/class_config.inc:1179
 #, php-format
 msgid ""
-"The snapshot functionality is enabled, but the required variable '%s' is not "
-"set."
+"The snapshot functionality is enabled, but the required variable '%s' is not"
+" set."
 msgstr ""
 
 #: include/class_SnapshotHandler.inc:71 include/class_config.inc:1161
@@ -2482,9 +2478,7 @@ msgstr "Todos os objetos nessa categoria"
 
 #: include/class_pluglist.inc:273
 msgid "The configuration format has changed. Please re-run setup!"
-msgstr ""
-"O formato da configuração foi alterado. Por favor, execute novamente o "
-"configurador!"
+msgstr "O formato da configuração foi alterado. Por favor, execute novamente o configurador!"
 
 #: include/class_pluglist.inc:294 include/class_pluglist.inc:295
 #: include/class_pluglist.inc:368
@@ -2997,9 +2991,7 @@ msgstr "Erro de XML no fusiondirectory.conf: %s na linha %d"
 
 #: include/class_config.inc:330
 msgid "Cannot bind to LDAP. Please contact the system administrator."
-msgstr ""
-"Não foi possível realizar bind para o LDAP. Por favor, contacte o "
-"administrador do sistema."
+msgstr "Não foi possível realizar bind para o LDAP. Por favor, contacte o administrador do sistema."
 
 #: include/class_config.inc:482
 #, php-format
@@ -3033,8 +3025,8 @@ msgstr ""
 
 #: include/class_plugin.inc:563
 msgid ""
-"The object has changed since opened in FusionDirectory. All changes that may "
-"be done by others get lost if you save this entry!"
+"The object has changed since opened in FusionDirectory. All changes that may"
+" be done by others get lost if you save this entry!"
 msgstr ""
 
 #: include/class_plugin.inc:1996
@@ -3107,9 +3099,7 @@ msgstr ""
 msgid ""
 "The timezone setting '%s' in your fusiondirectory.conf is not valid. Cannot "
 "calculate correct timezone offset."
-msgstr ""
-"A configuração do fuso horário '%s' no fusiondirectory.conf não é válida. "
-"Não foi possível calcular o intervalo do fuso horário corretamente."
+msgstr "A configuração do fuso horário '%s' no fusiondirectory.conf não é válida. Não foi possível calcular o intervalo do fuso horário corretamente."
 
 #: include/class_certificate.inc:87
 msgid "Certificate is empty!"
@@ -3275,22 +3265,18 @@ msgstr "Alerta de performance"
 #: include/class_ldap.inc:315 include/class_ldap.inc:359
 #, php-format
 msgid "LDAP performance is poor: last query took about %.2fs!"
-msgstr ""
-"A performance do LDAP está ruim: a última pesquisa levou cerca de %.2fs!"
+msgstr "A performance do LDAP está ruim: a última pesquisa levou cerca de %.2fs!"
 
 #: include/class_ldap.inc:871
 #, php-format
 msgid ""
 "Cannot automatically create subtrees with RDN '%s': no object class found!"
-msgstr ""
-"Não foi possível criar subárvores automaticamente com RDN '%s': classe de "
-"objeto não encontrada!"
+msgstr "Não foi possível criar subárvores automaticamente com RDN '%s': classe de objeto não encontrada!"
 
 #: include/class_ldap.inc:922
 #, php-format
 msgid "Cannot automatically create subtrees with RDN '%s': not supported"
-msgstr ""
-"Não foi possível criar subárvores automaticamente com '%s': não suportado"
+msgstr "Não foi possível criar subárvores automaticamente com '%s': não suportado"
 
 #: include/class_ldap.inc:1031
 #, php-format
@@ -3310,17 +3296,15 @@ msgstr ""
 #: include/class_ldap.inc:1246
 #, php-format
 msgid ""
-"This is not a valid DN: '%s'. A block for import should begin with 'dn: ...' "
-"in line %s"
-msgstr ""
-"Esse não é um DN válido: '%s'. O bloco para importação deve iniciar com "
-"'dn: ...' na linha %s"
+"This is not a valid DN: '%s'. A block for import should begin with 'dn: ...'"
+" in line %s"
+msgstr "Esse não é um DN válido: '%s'. O bloco para importação deve iniciar com 'dn: ...' na linha %s"
 
 #: include/class_ldap.inc:1275
 #, php-format
-msgid "Error while importing dn: '%s', please check your LDIF from line %s on!"
-msgstr ""
-"Erro enquanto importava dn: '%s', por favor, verifique seu LDIF na linha %s!"
+msgid ""
+"Error while importing dn: '%s', please check your LDIF from line %s on!"
+msgstr "Erro enquanto importava dn: '%s', por favor, verifique seu LDIF na linha %s!"
 
 #: include/php_setup.inc:114
 msgid "Generating this page caused the PHP interpreter to raise some errors!"
@@ -3635,20 +3619,22 @@ msgstr ""
 #: include/class_msgPool.inc:575
 #, php-format
 msgid ""
-"This account has %s settings enabled. You can disable them by clicking below."
+"This account has %s settings enabled. You can disable them by clicking "
+"below."
 msgstr ""
 
 #: include/class_msgPool.inc:581 include/class_msgPool.inc:588
 #, php-format
 msgid ""
-"This account has %s settings enabled. To disable them, you'll need to remove "
-"the %s settings first!"
+"This account has %s settings enabled. To disable them, you'll need to remove"
+" the %s settings first!"
 msgstr ""
 
 #: include/class_msgPool.inc:603
 #, php-format
 msgid ""
-"This account has %s settings disabled. You can enable them by clicking below."
+"This account has %s settings disabled. You can enable them by clicking "
+"below."
 msgstr ""
 
 #: include/class_msgPool.inc:609 include/class_msgPool.inc:616
@@ -3933,9 +3919,9 @@ msgstr ""
 
 #: plugins/admin/acl/remove.tpl:6 plugins/admin/users/remove.tpl:6
 msgid ""
-"This includes all account data, system access rules, imap settings, etc. for "
-"this user. Please double check if your really want to do this since there is "
-"no way for FusionDirectory to get your data back."
+"This includes all account data, system access rules, imap settings, etc. for"
+" this user. Please double check if your really want to do this since there "
+"is no way for FusionDirectory to get your data back."
 msgstr ""
 
 #: plugins/admin/acl/class_aclManagement.inc:37
@@ -4003,19 +3989,14 @@ msgid ""
 "To change the user password use the fields below. The changes take effect "
 "immediately. Please memorize the new password, because the user wouldn't be "
 "able to login without it."
-msgstr ""
-"Para alterar a senha do usuário utilize os campos abaixo. As alterações "
-"surtem efeito imediatamente. Por favor, memorize a nova senha porque o "
-"usuário não será capaz de acessar o sistema sem ela."
+msgstr "Para alterar a senha do usuário utilize os campos abaixo. As alterações surtem efeito imediatamente. Por favor, memorize a nova senha porque o usuário não será capaz de acessar o sistema sem ela."
 
 #: plugins/admin/users/password.tpl:8 plugins/personal/password/password.tpl:8
 #: plugins/personal/generic/password.tpl:8
 msgid ""
 "Changing the password affects your authentification on mail, proxy, samba "
 "and unix services."
-msgstr ""
-"Alteração de senha afeta a autenticação dos serviços de correio, proxy, "
-"samba e unix."
+msgstr "Alteração de senha afeta a autenticação dos serviços de correio, proxy, samba e unix."
 
 #: plugins/admin/users/password.tpl:21 plugins/admin/users/password.tpl:64
 #: plugins/personal/password/password.tpl:32
@@ -4064,10 +4045,7 @@ msgid ""
 "Creating a new user can be assisted by using templates. Many database "
 "records will be filled automatically. Choose 'none' to skip the usage of "
 "templates."
-msgstr ""
-"A criação de usuários pode ser assistida pelo uso de modelos. Muitos campos "
-"podem ser preenchidos automaticamente. Escolha 'nenhum' para não utilizar "
-"modelos."
+msgstr "A criação de usuários pode ser assistida pelo uso de modelos. Muitos campos podem ser preenchidos automaticamente. Escolha 'nenhum' para não utilizar modelos."
 
 #: plugins/admin/users/template.tpl:15
 #: plugins/admin/users/class_userManagement.inc:528
@@ -4433,8 +4411,8 @@ msgstr ""
 #: plugins/admin/password/class_recoveryConfig.inc:122
 #, php-format
 msgid ""
-"Body of the second email, sent to confirm the password has been changed. Use "
-"%s for the user login."
+"Body of the second email, sent to confirm the password has been changed. Use"
+" %s for the user login."
 msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:125
@@ -4908,10 +4886,7 @@ msgid ""
 "Best thing to do before performing this action would be to save the current "
 "contents of your LDAP tree in a file. So - if you've done so - press "
 "'Delete' to continue or 'Cancel' to abort."
-msgstr ""
-"O melhor que se tem a fazer antes de realizar esta ação é salvar os dados da "
-"sua árvore LDAP em um arquivo. Então, se pronto, pressione 'Deletar' para "
-"continuar ou 'Cancelar' para abortar."
+msgstr "O melhor que se tem a fazer antes de realizar esta ação é salvar os dados da sua árvore LDAP em um arquivo. Então, se pronto, pressione 'Deletar' para continuar ou 'Cancelar' para abortar."
 
 #: plugins/admin/departments/organization.tpl:11
 msgid "Name of organization"
@@ -5492,8 +5467,8 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:162
 msgid ""
-"It is time consuming to evaluate which groups are primary and which are not, "
-"so you may want to disable it if your group plugin is slow."
+"It is time consuming to evaluate which groups are primary and which are not,"
+" so you may want to disable it if your group plugin is slow."
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:168
@@ -5561,7 +5536,8 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:239
 msgid ""
-"This enables you to save certain states of entries and restore them later on."
+"This enables you to save certain states of entries and restore them later "
+"on."
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:243
@@ -5591,8 +5567,8 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:255
 msgid ""
-"The credentials which are used in combination with snapshot user in order to "
-"authenticate."
+"The credentials which are used in combination with snapshot user in order to"
+" authenticate."
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:261
@@ -5717,8 +5693,8 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:372
 msgid ""
-"Shows PHP errors in the upper part of the screen. This should be disabled in "
-"productive deployments, because there might be some passwords in it."
+"Shows PHP errors in the upper part of the screen. This should be disabled in"
+" productive deployments, because there might be some passwords in it."
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:376
@@ -5969,10 +5945,7 @@ msgid ""
 "To change your personal password use the fields below. The changes take "
 "effect immediately. Please memorize the new password, because you wouldn't "
 "be able to login without it."
-msgstr ""
-"Para alterar sua senha pessoal, use os campos abaixo. As alterações terão "
-"efeito imediato. Por favor, memorize a nova senha porque você não será capaz "
-"de acessar o sistema sem ela."
+msgstr "Para alterar sua senha pessoal, use os campos abaixo. As alterações terão efeito imediato. Por favor, memorize a nova senha porque você não será capaz de acessar o sistema sem ela."
 
 #: plugins/personal/password/password.tpl:14
 msgid "Your Password has expired. Please choose a new password!"
@@ -6023,9 +5996,7 @@ msgstr ""
 msgid ""
 "You've successfully changed your password. Remember to change all programms "
 "configured to use it as well."
-msgstr ""
-"Sua senha foi alterada com sucesso. Lembre-se de alterar todos os programas "
-"que a usem."
+msgstr "Sua senha foi alterada com sucesso. Lembre-se de alterar todos os programas que a usem."
 
 #: plugins/personal/password/nochange.tpl:2
 #: plugins/personal/generic/nochange.tpl:2
@@ -6091,8 +6062,8 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:881
 msgid ""
-"Cannot save user picture, FusionDirectory requires the package 'php5-"
-"imagick' to be installed!"
+"Cannot save user picture, FusionDirectory requires the package "
+"'php5-imagick' to be installed!"
 msgstr ""
 
 #: plugins/personal/generic/class_user.inc:994
