@@ -233,7 +233,7 @@ function DEBUG($level, $line, $function, $file, $data, $info = "")
     } else {
       $output .= "($file:$line) - $info: ";
     }
-    echo '<div class="debug_div" style="display:none;">';
+    echo '<div class="debug_div">';
     echo $output;
     if (is_array($data)) {
       print_a($data);
@@ -3226,7 +3226,7 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
 
   // Detect the encryption Method
   if ($config->get_cfg_value("forcePasswordDefaultHash") == "true"){
-    // if forcePasswordDefaultHash is true we use the passwordDefaultHash 
+    // if forcePasswordDefaultHash is true we use the passwordDefaultHash
     // hash and if it is not defined we use 'crypt/md5' as default
     $hash = $config->get_cfg_value("passwordDefaultHash", "crypt/md5");
     $test = new $available[$hash]($config, $dn);
