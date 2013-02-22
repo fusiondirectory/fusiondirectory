@@ -79,19 +79,24 @@ sub ask_yn_question {
 
 # function that ask for an user input and do some checks
 sub ask_user_input {
+ my ($thing_to_ask, $default_answer) = @_;
+ my $answer;
 
- my ($think_to_ask) = @_;
- my $answer = "";
+ if (defined $default_answer) {
+   $thing_to_ask .= " [$default_answer]";
+ }
+ print $thing_to_ask.":\n";
 
- print $think_to_ask."\n";
-
- while ($answer eq "")
+ do
  {
    $answer = <STDIN>;
    chomp $answer;
    $answer =~ s/^\s+|\s+$//g;
- }
+ } while (($answer eq "") && (not defined $default_answer));
 
+ if ($answer eq "") {
+   return $default_answer;
+ }
  return $answer;
 }
 
@@ -246,7 +251,7 @@ sub get_apache_user {
     $apache_user = "apache";
   } else {
     print ("! Looks like you are not a Debian, Redhat or Mageia, I don't know your distribution !\n");
-    $apache_user = ask_user_input ("Who is your apache user ?: ");
+    $apache_user = ask_user_input ("Who is your apache user ?");
   }
   return $apache_user;
 }
@@ -385,11 +390,11 @@ eof
 # function that add the FusionDirectory's admin account
 # return nothing is it a problem?
 sub add_ldap_admin {
+  my ($base, $ldap, $acllines) = @_;
 
-  my ($base, $ldap) = @_;
-
-  my $fd_admin_pwd = ask_user_input ("Please enter FusionDirectory's admin password: ");
-  my $fd_admin_pwd_confirm = ask_user_input ("Please enter it again: ");
+  my $fd_admin_uid = ask_user_input ("Please enter a login for FusionDirectory's admin", "fd-admin");
+  my $fd_admin_pwd = ask_user_input ("Please enter FusionDirectory's admin password");
+  my $fd_admin_pwd_confirm = ask_user_input ("Please enter it again");
 
   # while the confirmation password is not the same than the first one
   while ( ($fd_admin_pwd_confirm ne $fd_admin_pwd) && ($fd_admin_pwd_confirm ne "quit" ) ){
@@ -397,18 +402,73 @@ sub add_ldap_admin {
   }
   return -1 if ($fd_admin_pwd_confirm eq "quit");
 
-  my $admin_add = $ldap->add( "uid=fd-admin,$peopleou,$base",
-    attr => [
-      'cn'  =>  'System Administrator',
-      'sn'  =>  'Administrator',
-      'uid' =>  'fd-admin',
-      'givenname' =>  'System',
-      'objectclass' =>  [ 'top', 'person', 'gosaAccount', 'organizationalPerson', 'inetOrgPerson' ],
-      'userPassword' => "{CRYPT}".unix_md5_crypt($fd_admin_pwd)
-      ]
+  # Get the configuration to know which attribute must be used in the dn
+  my $mesg = $ldap->search(
+    base => "$base",
+    filter => "(&(objectClass=fusionDirectoryConf)(cn=fusiondirectory))",
+    attrs => ['fdAccountPrimaryAttribute']
   );
+  my $attr;
+  if ($mesg->count <= 0) {
+    print "Could not find configuration object, using default value\n";
+    $attr = 'uid';
+  } elsif (($mesg->entries)[0]->exists('fdAccountPrimaryAttribute')) {
+    $attr = ($mesg->entries)[0]->get_value('fdAccountPrimaryAttribute');
+  } else {
+    $attr = 'uid';
+  }
+  my $obj = {
+    'cn'  =>  'System Administrator',
+    'sn'  =>  'Administrator',
+    'uid' =>  $fd_admin_uid,
+    'givenname'     =>  'System',
+    'objectclass'   =>  [ 'top', 'person', 'gosaAccount', 'organizationalPerson', 'inetOrgPerson' ],
+    'userPassword'  => "{CRYPT}".unix_md5_crypt($fd_admin_pwd)
+  };
+  if (not defined $obj->{$attr}) {
+    print "Error : invalid account primary attribute $attr, using uid\n";
+    $attr = 'uid';
+  }
+  my $dn = "$attr=".$obj->{$attr}.",$peopleou,$base";
+
+  # Add the administator user object
+  my $admin_add = $ldap->add( $dn, attr => %$obj );
   # send a warning if the ldap's admin's add didn't gone well
-  $admin_add->code && warn "\n! failed to add LDAP's cn=System Administrator,$peopleou,$base entry";
+  $admin_add->code && warn "\n! failed to add LDAP's $dn entry";
+
+  # Add the acl that make him an administrator
+  my $acls = $ldap->search (
+    base => "$base",
+    scope => 'base',
+    attrs => ['objectClass', 'gosaAclEntry']
+  );
+  my $oclass = ($acls->entries)[0]->getValue("objectClass", asref => 1);
+  # Add admin acl
+  my $newacl = ["0:psub:".base64_encode($dn).":all;cmdrw"];
+  if (not (grep $_ eq 'gosaAcl', @$oclass)) {
+    push (@$oclass, 'gosaAcl');
+  } else {
+    my $acl = ($acls->entries)[0]->getValue("gosaAclEntry", asref => 1);
+    my $i = 1;
+    if (defined $acl) {
+      foreach my $line (@$acl) {
+        # Ignore existing admin acls
+        if (not (grep $_ eq $line, @$acllines)) {
+          # Reorder existing non-admin acls
+          push (@$newacl, $line =~ s/^\d+:/$i:/);
+          $i++;
+        }
+      }
+    }
+  }
+  my $result = $ldap->modify (
+    $base,
+    replace => {
+      'objectClass'   => $oclass,
+      'gosaAclEntry'  => $newacl
+    }
+  );
+  $result->code && warn "\n! failed to add ACL for admin on $base";
 }
 
 # function that initiate the ldap connexion, and bind as the ldap's admin
@@ -442,12 +502,12 @@ sub get_ldap_connexion {
   } else {
 
     if ( ask_yn_question ("Can't find fusiondirectory.conf, do you want to specify LDAP's informations yourself ?: ") ) {
-      $uri = ask_user_input ("LDAP server's URI: ");
-      $base = ask_user_input ("Search base: ");
+      $uri = ask_user_input ("LDAP server's URI");
+      $base = ask_user_input ("Search base");
       $hash_result{base} = $base;
 
-      $bind_dn = ask_user_input ("Bind DN: ");
-      $bind_pwd = ask_user_input("Bind password: ");
+      $bind_dn = ask_user_input ("Bind DN");
+      $bind_pwd = ask_user_input("Bind password");
     } else {
       return;
     }
@@ -465,6 +525,59 @@ sub get_ldap_connexion {
   $bind->code && die ("! Failed to bind to LDAP server: ", $bind->error."\n");
 
   return %hash_result;
+}
+
+# function that check if there is an admin
+sub check_admin {
+  my ($base, $ldap) = @_;
+
+  # search for FusionDirectory's admin account
+  my $acls = $ldap->search (
+    base => "$base",
+    filter => "(objectClass=gosaAcl)",
+    attrs => ['gosaAclEntry']
+  );
+  my @dns = ();
+  if ($acls->count < 1) {
+    print ("! ACL entries are missing\n");
+  } else {
+    my $acl = ($acls->entries)[0]->getValue("gosaAclEntry", asref => 1);
+    if (defined $acl) {
+      foreach my $line (@$acl) {
+        my @parts = split(':',$line);
+        if ($parts[1] =~ /sub$/) {
+          my @domains = split(",",$parts[3]);
+          foreach my $domain (@domains) {
+            if ($domain eq 'all;cmdrw') {
+              push (@dns,$line);
+              last;
+            }
+          }
+        }
+      }
+    }
+    foreach my $line (@dns) {
+      my @parts = split(':',$line);
+      my $dn = decode_base64($parts[2]);
+      my $mesg = $ldap->search (
+        base    => $dn,
+        scope   => 'base',
+        filter  => "(objectClass=gosaAccount)"
+      );
+      if ( $mesg->count == 1 ) {
+        print ("$dn is a valid admin\n");
+        return;
+      }
+    }
+  }
+  foreach my $line (@dns) {
+    my @parts = split(':',$line);
+    my $dn = decode_base64($parts[2]);
+    print ("! $dn is supposed to be admin but does not exists\n");
+  }
+  if (ask_yn_question("No valid admin account found, do you want to create it ?")) {
+    return add_ldap_admin($base, $ldap, \@dns);
+  }
 }
 
 # function that check LDAP configuration
@@ -487,24 +600,7 @@ sub check_ldap {
   # if ou=people exists
   if ( defined ($people_entries[0]) ) {
 
-    # search for FusionDirectory's admin account
-    my $admin = $ldap->search ( base => "$peopleou,$base", filter => "(&(cn=System Administrator)(uid=fd-admin)(objectClass=inetOrgPerson))" );
-
-    # store search's results
-    my @admin_entries = $admin->entries;
-
-    # if the search didn't returned a result
-    if ( !defined ( $admin_entries[0] ) ) {
-      print ("! FusionDirectory's admin not found in your LDAP directory\n");
-
-      # if user's answer is "yes", creating admin account
-      if ( ask_yn_question("Do you want to create it ?: ") ) {
-        $admin_add = add_ldap_admin($base, $ldap);
-        return -1 if ($admin_add eq "-1");
-      } else {
-        print ("Skiping...\n");
-      }
-    }
+    check_admin();
 
   # if ou=people doesn't exists
   } else {
@@ -629,7 +725,7 @@ sub create_and_copy_plugin_dir {
 # function that install all the FD's plugins from a directory
 sub install_plugins {
   # ask for the plugins archive
-  my $plugins_archive = ask_user_input ("Where is your plugins archive ?: ");
+  my $plugins_archive = ask_user_input ("Where is your plugins archive ?");
   die ("! ".$plugins_archive." doesn't exists") if (!-e $plugins_archive);
 
   # check the archive format
