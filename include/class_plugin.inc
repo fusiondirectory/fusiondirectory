@@ -573,10 +573,10 @@ class plugin
    *
    * \param array $skip A new array
    */
-  function adapt_from_template($dn, $skip= array())
+  function adapt_from_template($dn, $skip = array())
   {
     /* Include global link_info */
-    $ldap= $this->config->get_ldap_link();
+    $ldap = $this->config->get_ldap_link();
 
     /* Load requested 'dn' to 'attrs' */
     $ldap->cat($dn);
@@ -594,19 +594,65 @@ class plugin
 
         /* If attribute is set, replace dynamic parts:
            %sn, %givenName and %uid. Fill these in our local variables. */
-        $value= $this->attrs["$val"][0];
+        $value = $this->tpl_parse($this->attrs["$val"][0], $skip);
 
-        foreach (array("sn", "givenName", "uid") as $repl) {
-          if (preg_match("/%$repl%/i", $value)){
-            $value= preg_replace ("/%$repl%/i", $this->parent->$repl, $value);
-          }
-        }
         $this->$val = $value;
       }
     }
 
     /* Is Account? */
     $this->is_account = $this->is_this_account($this->attrs);
+  }
+
+  function tpl_apply_modifier($m, $str)
+  {
+    switch($m) {
+      case 'u':
+        return mb_strtoupper($str, 'UTF-8');
+      case 'l':
+        return mb_strtolower($str, 'UTF-8');
+      case 'a':
+        return $str;
+      default:
+        trigger_error("Unkown modifier '$m'");
+        return $str;
+    }
+  }
+
+  function tpl_parse_mask($mask, $skip)
+  {
+    if ($mask == "|") {
+      return "%";
+    }
+    $modifiers = array();
+    if (preg_match('/^([^|]+)\|/', $mask, $m)) {
+      $modifiers = str_split($m[1]);
+      $mask = substr($mask, strlen($m[0]));
+    }
+    if (in_array($mask, $skip)) {
+      trigger_error("Forbidden mask '$mask'");
+      return "";
+    }
+    if (isset($this->parent->$mask)) {
+      $result = $this->parent->$mask;
+    } else {
+      $result = $this->$mask;
+    }
+    foreach ($modifiers as $m) {
+      $result = $this->tpl_apply_modifier($m, $result);
+    }
+    return $result;
+  }
+
+  function tpl_parse($string, $skip)
+  {
+    $offset = 0;
+    while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
+      $replace = $this->tpl_parse_mask($m[1][0], $skip);
+      $string = substr_replace($string, $replace, $m[0][1], strlen($m[0][0]));
+      $offset = $m[0][1] + strlen($replace);
+    }
+    return $string;
   }
 
   /*
