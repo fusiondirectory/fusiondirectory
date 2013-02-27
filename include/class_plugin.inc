@@ -612,6 +612,11 @@ class plugin
       case 'l':
         return mb_strtolower($str, 'UTF-8');
       case 'a':
+        $str = htmlentities($str, ENT_NOQUOTES, 'UTF-8');
+
+        $str = preg_replace('#&([A-za-z])(?:acute|cedil|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
+        $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // handle ligatures
+        return preg_replace('#&[^;]+;#', '', $str); // delete unhandled characters
         return $str;
       default:
         trigger_error("Unkown modifier '$m'");
