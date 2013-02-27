@@ -600,7 +600,7 @@ sub check_ldap {
   # if ou=people exists
   if ( defined ($people_entries[0]) ) {
 
-    check_admin();
+    check_admin($base, $ldap);
 
   # if ou=people doesn't exists
   } else {
