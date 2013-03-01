@@ -356,7 +356,13 @@ class posixAccount extends simplePlugin
 
   function check()
   {
-    $message = parent::check();
+    if (isset($this->parent) &&
+        isset($this->parent->getBaseObject()->is_template) &&
+        $this->parent->getBaseObject()->is_template) {
+      $message = array();
+    } else {
+      $message = parent::check();
+    }
 
     /* Check ID's if they are forced by user */
     if ($this->force_ids) {
