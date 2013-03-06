@@ -199,7 +199,7 @@ class user extends plugin
         $matches = array();
         if (preg_match ("/^{[^}]+}/", $this->attrs['userPassword'][0])) {
           $userPassword = $this->attrs['userPassword'][0];
-          if ($this->is_template && preg_match ('/|/', $userPassword)) {
+          if ($this->is_template && preg_match ('/\|/', $userPassword)) {
             list ($userPassword, $default_pw) = explode('|', $userPassword);
             $this->template_default_pw        = $default_pw;
           }
