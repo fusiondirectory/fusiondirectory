@@ -594,7 +594,7 @@ class plugin
 
         /* If attribute is set, replace dynamic parts:
            %sn, %givenName and %uid. Fill these in our local variables. */
-        $value = $this->tpl_parse($this->attrs["$val"][0], $skip);
+        $value = $this->tpl_parse($this->attrs["$val"][0]);
 
         $this->$val = $value;
       }
@@ -624,7 +624,7 @@ class plugin
     }
   }
 
-  function tpl_parse_mask($mask, $skip)
+  function tpl_parse_mask($mask)
   {
     if ($mask == "|") {
       return "%";
@@ -633,10 +633,6 @@ class plugin
     if (preg_match('/^([^|]+)\|/', $mask, $m)) {
       $modifiers = str_split($m[1]);
       $mask = substr($mask, strlen($m[0]));
-    }
-    if (in_array($mask, $skip)) {
-      trigger_error("Forbidden mask '$mask'");
-      return "";
     }
     if (isset($this->parent->$mask)) {
       $result = $this->parent->$mask;
@@ -649,11 +645,11 @@ class plugin
     return $result;
   }
 
-  function tpl_parse($string, $skip)
+  function tpl_parse($string)
   {
     $offset = 0;
     while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
-      $replace = $this->tpl_parse_mask($m[1][0], $skip);
+      $replace = $this->tpl_parse_mask($m[1][0]);
       $string = substr_replace($string, $replace, $m[0][1], strlen($m[0][0]));
       $offset = $m[0][1] + strlen($replace);
     }

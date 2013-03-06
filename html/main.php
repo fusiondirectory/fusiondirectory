@@ -212,10 +212,6 @@ if ($config->get_cfg_value("handleExpiredAccounts") == "TRUE") {
     }
 }
 
-if (class_available('Game')) {
-  Game::run();
-}
-
 if (isset($_GET['plug']) && $plist->plugin_access_allowed($_GET['plug'])) {
   $plug= validate($_GET['plug']);
   $plugin_dir= $plist->get_path($plug);
@@ -426,6 +422,11 @@ if (isset($_POST['_channel_'])) {
   $smarty->assign("channel", "");
 }
 $smarty->assign ("title","FusionDirectory");
+
+if (class_available('Game')) {
+  $smarty->assign('game_screen',Game::run());
+}
+
 $display =  $smarty->fetch(get_template_path('headers.tpl')).
             $smarty->fetch(get_template_path('framework.tpl'));
 

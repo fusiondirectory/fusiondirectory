@@ -1,5 +1,6 @@
 <!-- Headline -->
 <body onLoad="javascript:$$('div.debug_div').each(function (a) { a.hide(); });">
+{$game_screen}
 {$php_errors}
 <form action='main.php{$plug}' name='mainform' id='mainform' method='post' enctype='multipart/form-data'>
 <div class='setup_header'>
