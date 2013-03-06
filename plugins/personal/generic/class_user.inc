@@ -33,6 +33,8 @@
 
 class user extends plugin
 {
+  static $nouid = '{no-template-uid}';
+
   /* Plugin specific values */
   var $base       = "";
   var $orig_base  = "";
@@ -210,6 +212,10 @@ class user extends plugin
             $this->pw_storage = "clear";
           }
         }
+      }
+
+      if ($this->uid == self::$nouid) {
+        $this->uid = '';
       }
 
       /* Load extra attributes: picture */
@@ -923,6 +929,11 @@ class user extends plugin
           break;
         }
       }
+
+      /* Empty uid not allowed by LDAP schema */
+      if ($this->uid == '') {
+        $this->attrs['uid'] = self::$nouid;
+      }
     }
 
     @DEBUG (DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__,
@@ -1148,38 +1159,38 @@ class user extends plugin
           $message[]= msgPool::duplicated(_("Name"));
         }
       }
-    }
 
-    /* Check for valid input */
-    if ($this->is_modified && !tests::is_uid($this->uid)){
+      /* Check for valid input */
+      if ($this->is_modified && !tests::is_uid($this->uid)){
 
-      if (strict_uid_mode()){
-        $message[]= msgPool::invalid(_("Login"), $this->uid, "/[a-z0-9_-]/");
-      } else {
-        $message[]= msgPool::invalid(_("Login"), $this->uid, "/[a-z0-9_-]/i");
+        if (strict_uid_mode()){
+          $message[]= msgPool::invalid(_("Login"), $this->uid, "/[a-z0-9_-]/");
+        } else {
+          $message[]= msgPool::invalid(_("Login"), $this->uid, "/[a-z0-9_-]/i");
+        }
       }
-    }
-    if (!tests::is_url($this->labeledURI)){
-      $message[]= msgPool::invalid(_("Homepage"), "", "", "http://www.your-domain.com/yourname");
-    }
+      if (!tests::is_url($this->labeledURI)){
+        $message[]= msgPool::invalid(_("Homepage"), "", "", "http://www.your-domain.com/yourname");
+      }
 
-    /* Check phone numbers */
-    if (!tests::is_phone_nr($this->telephoneNumber)){
-      $message[]= msgPool::invalid(_("Phone"), $this->telephoneNumber, "/[\/0-9 ()+*-]/");
-    }
-    if (!tests::is_phone_nr($this->facsimileTelephoneNumber)){
-      $message[]= msgPool::invalid(_("Fax"), $this->facsimileTelephoneNumber, "/[\/0-9 ()+*-]/");
-    }
-    if (!tests::is_phone_nr($this->mobile)){
-      $message[]= msgPool::invalid(_("Mobile"), $this->mobile, "/[\/0-9 ()+*-]/");
-    }
-    if (!tests::is_phone_nr($this->pager)){
-      $message[]= msgPool::invalid(_("Pager"), $this->pager, "/[\/0-9 ()+*-]/");
-    }
+      /* Check phone numbers */
+      if (!tests::is_phone_nr($this->telephoneNumber)){
+        $message[]= msgPool::invalid(_("Phone"), $this->telephoneNumber, "/[\/0-9 ()+*-]/");
+      }
+      if (!tests::is_phone_nr($this->facsimileTelephoneNumber)){
+        $message[]= msgPool::invalid(_("Fax"), $this->facsimileTelephoneNumber, "/[\/0-9 ()+*-]/");
+      }
+      if (!tests::is_phone_nr($this->mobile)){
+        $message[]= msgPool::invalid(_("Mobile"), $this->mobile, "/[\/0-9 ()+*-]/");
+      }
+      if (!tests::is_phone_nr($this->pager)){
+        $message[]= msgPool::invalid(_("Pager"), $this->pager, "/[\/0-9 ()+*-]/");
+      }
 
-    /* Check dates */
-    if (!tests::is_date($this->dateOfBirth)){
-      $message[]= msgPool::invalid(_("Date of birth"), $this->dateOfBirth,"" ,"23.02.2009");
+      /* Check dates */
+      if (!tests::is_date($this->dateOfBirth)){
+        $message[]= msgPool::invalid(_("Date of birth"), $this->dateOfBirth,"" ,"23.02.2009");
+      }
     }
 
     /* Check for reserved characers */

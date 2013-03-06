@@ -592,7 +592,7 @@ class userManagement extends management
         } else {
           $ldap->cat($_POST['template']);
           $attrs = $ldap->fetch();
-          if (isset($attrs['uid'][0])) {
+          if ($attrs['uid'][0] != user::$nouid) {
             $uids = gen_uids($attrs['uid'][0], $attributes);
             if (count($uids)) {
               $smarty->assign("edit_uid", "false");
