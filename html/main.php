@@ -212,6 +212,9 @@ if ($config->get_cfg_value("handleExpiredAccounts") == "TRUE") {
     }
 }
 
+if (class_available('Game')) {
+  Game::run();
+}
 
 if (isset($_GET['plug']) && $plist->plugin_access_allowed($_GET['plug'])) {
   $plug= validate($_GET['plug']);
