@@ -685,7 +685,7 @@ class group extends plugin
     $ldap->cd($this->config->current['BASE']);
     $ldap->search("(&(objectClass=gosaAcl)(gosaAclEntry=*".base64_encode($this->dn)."*))",array("gosaAclEntry","dn"));
     while($attrs = $ldap->fetch()){
-      $acl = new acl($this->config,$this->parent,$attrs['dn']);
+      $acl = new acl($this->config,$attrs['dn'],$this->parent);
       foreach($acl->gosaAclEntry as $id => $entry){
         foreach($entry['members'] as $m_id => $member){
           if($m_id == "G:".$this->dn || $m_id == "U:".$this->dn){
@@ -974,7 +974,7 @@ class group extends plugin
     /* Remove ACL dependencies too,
      */
     if($this->dn != $this->orig_dn && $this->orig_dn != "new"){
-      $tmp = new acl($this->config,$this->parent,$this->dn);
+      $tmp = new acl($this->config,$this->dn,$this->parent);
       $tmp->update_acl_membership($this->orig_dn,$this->dn);
     }
 

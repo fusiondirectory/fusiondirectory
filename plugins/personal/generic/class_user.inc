@@ -958,9 +958,9 @@ class user extends plugin
     }
 
     /* Remove ACL dependencies too */
-    if($this->dn != $this->orig_dn && $this->orig_dn != "new"){
-      $tmp = new acl($this->config,$this->parent,$this->dn);
-      $tmp->update_acl_membership($this->orig_dn,$this->dn);
+    if ($this->dn != $this->orig_dn && $this->orig_dn != "new") {
+      $tmp = new acl($this->config, $this->dn, $this->parent);
+      $tmp->update_acl_membership($this->orig_dn, $this->dn);
     }
 
     if($mode == "modify"){

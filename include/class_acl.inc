@@ -1209,7 +1209,7 @@ class acl extends plugin
     plugin::PrepareForCopyPaste($source);
 
     $dn = $source['dn'];
-    $acl_c = new acl($this->config, $this->parent,$dn);
+    $acl_c = new acl($this->config, $dn, $this->parent);
     $this->gosaAclEntry = $acl_c->gosaAclEntry;
   }
 
@@ -1428,7 +1428,7 @@ class acl extends plugin
     $ldap->cd($this->config->current['BASE']);
     $ldap->search("(&(objectClass=gosaAcl)(gosaAclEntry=*".base64_encode($src)."*))",array("gosaAclEntry","dn"));
     while($attrs = $ldap->fetch()){
-      $acl = new acl($this->config,$this->parent,$attrs['dn']);
+      $acl = new acl($this->config, $attrs['dn'], $this->parent);
       foreach($acl->gosaAclEntry as $id => $entry){
         foreach($entry['members'] as $m_id => $member){
           if($m_id == "U:".$src){
