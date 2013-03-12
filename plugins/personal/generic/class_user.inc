@@ -1259,7 +1259,9 @@ class user extends plugin
 
     /* Get password method from template
      */
-    list ($hash, $default_pw) = explode('|', $this->attrs['userPassword'][0], 2);
+    $tmp_array  = explode('|', $this->attrs['userPassword'][0], 2);
+    $hash       = $tmp_array[0];
+    $default_pw = (isset($tmp_array[1])?$tmp_array[1]:'');
     $tmp = passwordMethod::get_method($hash);
     if (is_object($tmp)) {
       if ($tmp->is_configurable()) {

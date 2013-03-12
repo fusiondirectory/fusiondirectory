@@ -593,6 +593,8 @@ class posixAccount extends simplePlugin
       $this->attributesAccess['groupMembership']->addValue($ldap->getDN(), $entry);
     }
 
+    $this->attributesAccess['uidNumber']->setInitialValue('');
+
     /* Fix primary group settings */
     if ($this->gidNumber == 2147483647) {
       $this->gidNumber = "";
