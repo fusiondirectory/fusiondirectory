@@ -1207,8 +1207,18 @@ class config  {
             if (isset($this->data['OBJECTS'][strtoupper($key)])) {
               die('duplicated object type');
             }
-            $this->data['OBJECTS'][strtoupper($key)] = $value;
             $tabclass = strtoupper($key)."TABS";
+            $value['tabGroup']  = $tabclass;
+            $value['mainTab']   = $class;
+            foreach (array('ou', 'tabClass') as $i) {
+              if (!isset($value[$i])) {
+                $value[$i] = NULL;
+              }
+            }
+            if (!isset($value['aclCategory'])) {
+              $value['aclCategory'] = $key;
+            }
+            $this->data['OBJECTS'][strtoupper($key)] = $value;
             @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $tabclass, "Adding $class as main tab of");
             if (!isset($this->data['TABS'][$tabclass])) {
               $this->data['TABS'][$tabclass] = array();

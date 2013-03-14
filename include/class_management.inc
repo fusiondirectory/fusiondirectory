@@ -909,13 +909,13 @@ class management
       $this->cpHandler->cleanup_queue();
       foreach ($target as $dn) {
         if (is_array($altTabClass)) {
-          $tabClass = $altTabClass[$dn];
+          $tabClass = (empty($altTabClass[$dn])?$this->tabClass:$altTabClass[$dn]);
         }
         if (is_array($altTabType)) {
           $tabType = $altTabType[$dn];
         }
         if (is_array($altAclCategory)) {
-          $aclCategory = $altAclCategory[$dn];
+          $aclCategory = (empty($altAclCategory[$dn])?$this->aclCategory:$altAclCategory[$dn]);
         }
         if (is_array($altAclPlugin)) {
           $aclPlugin = $altAclPlugin[$dn];
