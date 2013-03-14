@@ -1,0 +1,142 @@
+=head1 NAME
+
+fusiondirectory.conf - FusionDirectory configuration file
+
+=head1 DESCRIPTION
+
+The fusiondirectory.conf file is a XML style configuration file. It is parsed by FusionDirectory during log in.  The file may contain extra tabs and newlines for formatting purposes.  Tag keywords in the file are case-insensitive. Comments should be placed outside of XML tags and should  be  encapsulated  inside  of <!-- --> tags.
+
+The fusiondirectory.conf file can be used to configure the access control of the FusionDirectory webinterface.
+
+=head2 Configuration layout
+
+The configuration has to be specified inside of the <conf> tags. It is composed by a main configuration - including information about several locations.
+
+Layout example:
+
+<?xml version="1.0"?>
+
+   <conf configVersion="...." >
+
+     <!-- Global setup -->
+     <main>
+
+        <!-- Location specific setups -->
+        <location name="">
+    ...
+        </location>
+
+     </main>
+
+   </conf>
+
+=head2 Main section
+
+The main section defines global settings, which might be overridden by each location definition inside of this global definition.
+
+Example layout:
+
+<main default="Example Net" listSummary="false" ... >
+
+   <location name="Example Net"
+      logging="TRUE"
+      forceSSL="TRUE"
+       ...
+
+       <referral uri="ldaps://ldap.example.net:636/dc=example,dc=net"
+           admin="cn=fusiondirectory-admin,dc=example,dc=net"
+           password="secret" />
+
+    </location>
+
+</main>
+
+=head2 Generic options
+
+=over
+
+=item B<forceSSL> I<bool>
+
+The forceSSL statement enables PHP security checks to force encrypted access to the web interface. FusionDirectory will try to redirect to the same URL just  with https://.
+
+=item B<logging> I<bool>
+
+The logging statement enables event logging on FusionDirectory side. Setting it to true, FusionDirectory will log every action a user performs via syslog.  If  you  use rsyslog and configure it to mysql logging, you can browse all events within FusionDirectory.
+FusionDirectory will not log anything, if the logging value is empty or set to false.
+
+=item B<templateCompileDirectory> I<path>
+
+The templateCompileDirectory statements defines the path, where the PHP templating engins smarty should store its compiled FusionDirectory templates for improved speed.
+This path needs to be writeable by the user your webserver is running with.
+
+=item B<ignoreAcl> I<dn>
+
+The ignoreAcl value tells FusionDirectory to ignore complete ACL sets for the given DN. Add your DN here and you'll be able to restore accidently dropped ACLs.
+
+=item B<debuglevel> I<integer>
+
+The debuglevel value tells FusionDirectory to display certain information on each page load. Value is an AND combination of the following byte values :
+
+DEBUG_TRACE    = 1
+
+DEBUG_LDAP     = 2
+
+DEBUG_DB       = 4
+
+DEBUG_SHELL    = 8
+
+DEBUG_POST     = 16
+
+DEBUG_SESSION  = 32
+
+DEBUG_CONFIG   = 64
+
+DEBUG_ACL      = 128
+
+DEBUG_ARGONAUT = 256
+
+DEBUG_MAIL     = 512
+
+=back
+
+=head2 LDAP options
+
+=over
+
+=item B<ldapTLS> I<bool>
+
+The ldapTLS statement enables or disables TLS operating on LDAP connections.
+
+=back
+
+=head2 LDAP resource definition
+
+For every location you define inside your fusiondirectory.conf, you need at least one entry of the type referral. These entries define the way how to connect to some directory service.
+
+Example:
+
+   <referral uri="ldap://ldap.example.net/dc=example,dc=net"
+       admin="cn=fusiondirectory-admin,dc=example,dc=net"
+       password="secret" />
+
+uri is a valid LDAP uri extendet by the base this referral is responsible for.  admin is the DN which has the permission to write LDAP entries. And password is the corresponding password for this DN.
+You can define a set of referrals if you have several server to connect to.
+
+=head1 BUGS
+
+Please report any bugs, or post any suggestions, to the fusiondirectory mailing list fusiondirectory-users or to <https://forge.fusiondirectory.org/projects/fdirectory/issues/new>
+
+=head1 LICENCE AND COPYRIGHT
+
+This code is part of FusionDirectory <http://www.fusiondirectory.org>
+
+=over 2
+
+=item Copyright (C) 2003-2010 GONICUS GmbH
+
+=item Copyright (C) 2011-2013 FusionDirectory project
+
+=back
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
