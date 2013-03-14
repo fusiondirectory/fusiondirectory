@@ -2273,51 +2273,6 @@ function recurse($rule, $variables)
 
 
 /*!
- * \brief Expands user ID based on possible rules
- *
- * Unroll given rule string by filling in attributes.
- *
- * \param string $rule The rule string from fusiondirectory.conf.
- * \param array $attributes A dictionary of attribute/value mappings
- *
- * \return string Expanded string, still containing the id keyword.
- */
-function expand_id($rule, $attributes)
-{
-  /* Check for id rule */
-  if(preg_match('/^id(:|#|!)\d+$/',$rule)){
-    return (array("{$rule}"));
-  }
-
-  /* Check for clean attribute */
-  if (preg_match('/^%[a-zA-Z0-9]+$/', $rule)){
-    $rule= preg_replace('/^%/', '', $rule);
-    $val= rewrite(str_replace(' ', '', strtolower($attributes[$rule])));
-    return (array($val));
-  }
-
-  /* Check for attribute with parameters */
-  if (preg_match('/^%[a-zA-Z0-9]+\[[0-9-]+\]$/', $rule)){
-    $param= preg_replace('/^[^[]+\[([^]]+)]$/', '\\1', $rule);
-    $part= preg_replace('/^%/', '', preg_replace('/\[.*$/', '', $rule));
-    $val= rewrite(str_replace(' ', '', strtolower($attributes[$part])));
-    $start= preg_replace ('/-.*$/', '', $param);
-    $stop = preg_replace ('/^[^-]+-/', '', $param);
-
-    /* Assemble results */
-    $result= array();
-    for ($i= $start; $i<= $stop; $i++){
-      $result[]= substr($val, 0, $i);
-    }
-    return ($result);
-  }
-
-  echo "Error in idGenerator string: don't know how to handle rule $rule.\n";
-  return (array($rule));
-}
-
-
-/*!
  * \brief Generate a list of uid proposals based on a rule
  *
  *  Unroll given rule string by filling in attributes and replacing
@@ -2333,40 +2288,27 @@ function gen_uids($rule, $attributes)
 {
   global $config;
 
+  $attrs_object = new stdClass();
   // Strip out non ascii chars
   foreach ($attributes as $name => $value) {
       $value = iconv('UTF-8', 'US-ASCII//TRANSLIT', $value);
       $value = preg_replace('/[^(\x20-\x7F)]*/', '', $value);
-      $attributes[$name] = $value;
+      $attributes[$name]    = $value;
+      $attrs_object->$name  = $value;
   }
 
   /* Search for keys and fill the variables array with all
      possible values for that key. */
   $part       = "";
   $trigger    = FALSE;
-  $stripped   = "";
+  $stripped   = $rule;
   $variables  = array();
 
-  for ($pos = 0, $l = strlen($rule); $pos < $l; $pos++) {
-
-    if ($rule[$pos] == "{") {
-      $trigger  = TRUE;
-      $part     = "";
-      continue;
-    }
-
-    if ($rule[$pos] == "}") {
-      $variables[$pos]  = expand_id($part, $attributes);
-      $stripped         .= "{".$pos."}";
-      $trigger          = FALSE;
-      continue;
-    }
-
-    if ($trigger) {
-      $part .= $rule[$pos];
-    } else {
-      $stripped .= $rule[$pos];
-    }
+  for ($pos = 0; preg_match('/%([^%]+)%/', $stripped, $m, PREG_OFFSET_CAPTURE, $pos); ) {
+    $variables[$pos] = plugin::tpl_parse_mask($m[1][0], array($attrs_object));
+    $replace = '{'.$pos.'}';
+    $stripped = substr_replace($stripped, $replace, $m[0][1], strlen($m[0][0]));
+    $pos = $m[0][1] + strlen($replace);
   }
 
   /* Recurse through all possible combinations */

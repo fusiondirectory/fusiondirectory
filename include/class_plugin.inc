@@ -604,43 +604,79 @@ class plugin
     $this->is_account = $this->is_this_account($this->attrs);
   }
 
-  function tpl_apply_modifier($m, $str)
+  /* Apply a modifier
+   * Returns an array of possible values */
+  static function tpl_apply_modifier($m, $args, $str)
   {
+    echo "applying modifier $m to $str<br/>\n";
     switch($m) {
-      case 'u':
-        return mb_strtoupper($str, 'UTF-8');
-      case 'l':
-        return mb_strtolower($str, 'UTF-8');
-      case 'a':
+      case 'u': // uppercase
+        return array(mb_strtoupper($str, 'UTF-8'));
+      case 'l': // lowercase
+        return array(mb_strtolower($str, 'UTF-8'));
+      case 'a': // remove accent
         $str = htmlentities($str, ENT_NOQUOTES, 'UTF-8');
 
         $str = preg_replace('#&([A-za-z])(?:acute|cedil|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
         $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // handle ligatures
-        return preg_replace('#&[^;]+;#', '', $str); // delete unhandled characters
-        return $str;
+        return array(preg_replace('#&[^;]+;#', '', $str)); // delete unhandled characters
+      case 's': // substring
+        if (count($args) < 1) {
+          trigger_error("Missing 's' substr modifier parameter");
+        }
+        if (count($args) < 2) {
+          array_unshift($args, 0);
+        }
+        if (preg_match('/^(\d+)-(\d+)$/', $args[1], $m)) {
+          $res = array();
+          for ($i = $m[1];$i < $m[2]; ++$i) {
+            $res[] = substr($str, $args[0], $i);
+          }
+          return array_unique($res);
+        } else {
+          return array(substr($str, $args[0], $args[1]));
+        }
       default:
         trigger_error("Unkown modifier '$m'");
-        return $str;
+        return array($str);
     }
   }
 
-  function tpl_parse_mask($mask)
+  static function tpl_parse_mask($mask, $objects)
   {
     if ($mask == "|") {
-      return "%";
+      return array("%");
     }
-    $modifiers = array();
+    $modifiers = '';
     if (preg_match('/^([^|]+)\|/', $mask, $m)) {
-      $modifiers = str_split($m[1]);
+      $modifiers = $m[1];
       $mask = substr($mask, strlen($m[0]));
     }
-    if (isset($this->parent->$mask)) {
-      $result = $this->parent->$mask;
-    } else {
-      $result = $this->$mask;
+    $result = NULL;
+    foreach ($objects as &$object) {
+      if (isset($object->$mask)) {
+        $result = array($object->$mask);
+        break;
+      }
     }
-    foreach ($modifiers as $m) {
-      $result = $this->tpl_apply_modifier($m, $result);
+    if ($result === NULL) {
+      trigger_error("'$mask' was not found in objects");
+      $result = array('');
+    }
+    $len    = strlen($modifiers);
+    for ($i = 0; $i<$len; ++$i) {
+      $args     = array();
+      $modifier = $modifiers[$i];
+      if (preg_match('/^\[([^\]]+)\].*$/', substr($modifiers, $i+1), $m)) {
+        /* get modifier args */
+        $args = explode(',', $m[1]);
+        $i += strlen($m[1])+2;
+      }
+      $result_tmp = array();
+      foreach ($result as $r) {
+        $result_tmp = array_merge($result_tmp, self::tpl_apply_modifier($modifier, $args, $r));
+      }
+      $result = $result_tmp;
     }
     return $result;
   }
@@ -649,7 +685,8 @@ class plugin
   {
     $offset = 0;
     while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
-      $replace = $this->tpl_parse_mask($m[1][0]);
+      $replace = self::tpl_parse_mask($m[1][0], array($this->parent, $this));
+      $replace = $replace[0];
       $string = substr_replace($string, $replace, $m[0][1], strlen($m[0][0]));
       $offset = $m[0][1] + strlen($replace);
     }
@@ -2194,30 +2231,28 @@ class plugin
         }
       }
 
-      if($pasteable){
-        if($this->CopyPasteHandler->entries_queued()){
-          $img = "<img border='0' class='center' src='images/lists/paste.png' alt=''>";
-          $s.="..|".$img."&nbsp;"._("Paste")."|editPaste|\n";
-        }else{
-          $img = "<img border='0' class='center' src='images/lists/paste-grey.png' alt=''>";
-          $s.="..|".$img."&nbsp;"._("Paste")."\n";
+      if ($pasteable) {
+        if ($this->CopyPasteHandler->entries_queued()) {
+          $img  = "<img border='0' class='center' src='images/lists/paste.png' alt=''>";
+          $s    .= "..|".$img."&nbsp;"._("Paste")."|editPaste|\n";
+        } else {
+          $img  = "<img border='0' class='center' src='images/lists/paste-grey.png' alt=''>";
+          $s    .= "..|".$img."&nbsp;"._("Paste")."\n";
         }
       }
     }
-    return($s);
+    return $s;
   }
 
 
   function get_used_snapshot_bases()
   {
-     return(array());
+     return array();
   }
 
   function is_modal_dialog()
   {
-    return(isset($this->dialog) && $this->dialog);
+    return (isset($this->dialog) && $this->dialog);
   }
 }
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
