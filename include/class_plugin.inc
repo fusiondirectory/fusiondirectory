@@ -608,7 +608,6 @@ class plugin
    * Returns an array of possible values */
   static function tpl_apply_modifier($m, $args, $str)
   {
-    echo "applying modifier $m to $str<br/>\n";
     switch($m) {
       case 'u': // uppercase
         return array(mb_strtoupper($str, 'UTF-8'));
