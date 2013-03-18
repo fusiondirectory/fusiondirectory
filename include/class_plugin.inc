@@ -658,6 +658,7 @@ class plugin
         break;
       }
     }
+    unset($object);
     if ($result === NULL) {
       trigger_error("'$mask' was not found in objects");
       $result = array('');

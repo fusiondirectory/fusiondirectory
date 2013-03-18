@@ -98,6 +98,7 @@ class tabs
       $this->by_object[$tab['CLASS']]->parent = &$this;
       $this->by_object[$tab['CLASS']]->set_acl_category($this->acl_category);
     }
+    unset($tab);
 
     /* Initialize current */
     $this->current = $this->baseclass;
@@ -138,6 +139,7 @@ class tabs
         $obj->postCopyHook();
       }
     }
+    unset($obj);
   }
 
   function getBaseObject()
@@ -188,6 +190,7 @@ class tabs
         break;
       }
     }
+    unset($obj);
 
     /* Save last tab */
     if ($this->last != "") {
@@ -295,6 +298,7 @@ class tabs
         return TRUE;
       }
     }
+    unset($obj);
 
     return FALSE;
   }
@@ -331,6 +335,8 @@ class tabs
         $obj->pl_notify = FALSE;
       }
     }
+    unset($obj);
+
     return $messages;
   }
 
@@ -359,6 +365,8 @@ class tabs
         }
       }
     }
+    unset($obj);
+
     return 0;
   }
 
@@ -371,12 +379,13 @@ class tabs
    */
   function adapt_from_template($dn, $skip= array())
   {
-    foreach ($this->by_object as $key => &$obj){
+    foreach ($this->by_object as $key => &$obj) {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
           $key, "Adapting");
       $obj->parent= &$this;
       $obj->adapt_from_template($dn, $skip);
     }
+    unset($obj);
   }
 
   /*!
@@ -413,6 +422,7 @@ class tabs
         $obj->set_acl_base($base);
       }
     }
+    unset($obj);
   }
 }
 ?>

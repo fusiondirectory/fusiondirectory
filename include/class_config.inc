@@ -1023,6 +1023,7 @@ class config  {
           }
         }
       }
+      unset($a);
     }
     return "";
   }

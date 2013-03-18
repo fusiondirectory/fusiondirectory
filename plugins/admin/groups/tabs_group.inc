@@ -42,6 +42,7 @@ class grouptabs extends tabs
         $obj->cn      = $baseobject->cn;
       }
     }
+    unset($obj);
   }
 
   function delete()
