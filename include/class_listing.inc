@@ -626,16 +626,16 @@ class listing {
 
     // Reload departments
     if ($this->departmentBrowser){
-      $this->departments= $this->getDepartments();
+      $this->departments = $this->getDepartments();
     }
 
     // Update filter and refresh entries
     $this->filter->setBase($this->base);
-    $this->entries= $this->filter->query();
+    $this->entries = $this->filter->query();
 
     // Fix filter if querie returns NULL
-    if ($this->entries == null) {
-      $this->entries= array();
+    if ($this->entries == NULL) {
+      $this->entries = array();
     }
   }
 
@@ -718,23 +718,23 @@ class listing {
   function renderCell($data, $config, $row)
   {
     // Replace flat attributes in data string
-    for ($i= 0; $i<$config['count']; $i++) {
-      $attr= $config[$i];
-      $value= "";
+    for ($i = 0; $i<$config['count']; $i++) {
+      $attr   = $config[$i];
+      $value  = "";
       if (is_array($config[$attr])) {
-        $value= $config[$attr][0];
+        $value = $config[$attr][0];
       } else {
-        $value= $config[$attr];
+        $value = $config[$attr];
       }
-      $data= preg_replace("/%\{$attr\}/", $value, $data);
+      $data = preg_replace("/%\{$attr\}/", htmlentities($value, ENT_COMPAT, 'UTF-8'), $data);
     }
 
     // Watch out for filters and prepare to execute them
-    $data= $this->processElementFilter($data, $config, $row);
+    $data = $this->processElementFilter($data, $config, $row);
 
     // Replace all non replaced %{...} instances because they
     // are non resolved attributes or filters
-    $data= preg_replace('/%{[^}]+}/', '&nbsp;', $data);
+    $data = preg_replace('/%{[^}]+}/', '&nbsp;', $data);
 
     return $data;
   }
@@ -755,62 +755,62 @@ class listing {
     preg_match_all("/%\{filter:([^(]+)\((.*)\)\}/", $data, $matches, PREG_SET_ORDER);
 
     foreach ($matches as $match) {
-      $cl= "";
-      $method= "";
+      $cl     = "";
+      $method = "";
       if (preg_match('/::/', $match[1])) {
-        $cl= preg_replace('/::.*$/', '', $match[1]);
-        $method= preg_replace('/^.*::/', '', $match[1]);
+        $cl     = preg_replace('/::.*$/', '', $match[1]);
+        $method = preg_replace('/^.*::/', '', $match[1]);
       } else {
         if (!isset($this->filters[$match[1]])) {
           continue;
         }
-        $cl= preg_replace('/::.*$/', '', $this->filters[$match[1]]);
-        $method= preg_replace('/^.*::/', '', $this->filters[$match[1]]);
+        $cl     = preg_replace('/::.*$/', '', $this->filters[$match[1]]);
+        $method = preg_replace('/^.*::/', '', $this->filters[$match[1]]);
       }
 
       // Prepare params for function call
-      $params= array();
+      $params = array();
       preg_match_all('/"[^"]+"|[^,]+/', $match[2], $parts);
       foreach ($parts[0] as $param) {
 
         // Row is replaced by the row number
         if ($param == "row") {
-          $params[]= $row;
+          $params[] = $row;
           continue;
         }
 
         // pid is replaced by the current PID
         if ($param == "pid") {
-          $params[]= $this->pid;
+          $params[] = $this->pid;
           continue;
         }
 
         // base is replaced by the current base
         if ($param == "base") {
-          $params[]= $this->getBase();
+          $params[] = $this->getBase();
           continue;
         }
 
         // Fixie with "" is passed directly
         if (preg_match('/^".*"$/', $param)){
-          $params[]= preg_replace('/"/', '', $param);
+          $params[] = preg_replace('/"/', '', $param);
           continue;
         }
 
         // Move dn if needed
         if ($param == "dn") {
-          $params[]= LDAP::fix($config["dn"]);
+          $params[] = LDAP::fix($config["dn"]);
           continue;
         }
 
         // LDAP variables get replaced by their objects
         for ($i= 0; $i<$config['count']; $i++) {
           if ($param == $config[$i]) {
-            $values= $config[$config[$i]];
-            if (is_array($values)){
+            $values = $config[$config[$i]];
+            if (is_array($values)) {
               unset($values['count']);
             }
-            $params[]= $values;
+            $params[] = $values;
             break;
           }
         }
@@ -819,10 +819,10 @@ class listing {
       // Replace information
       if ($cl == "listing") {
         // Non static call - seems to result in errors
-        $data= @preg_replace('/'.preg_quote($match[0]).'/', call_user_func_array(array($this, "$method"), $params), $data);
+        $data = @preg_replace('/'.preg_quote($match[0]).'/', call_user_func_array(array($this, "$method"), $params), $data);
       } else {
         // Static call
-        $data= preg_replace('/'.preg_quote($match[0]).'/', call_user_func_array(array($cl, $method), $params), $data);
+        $data = preg_replace('/'.preg_quote($match[0]).'/', call_user_func_array(array($cl, $method), $params), $data);
       }
     }
 
@@ -1021,13 +1021,13 @@ class listing {
    */
   function filterDepartmentLink($row, $dn, $description)
   {
-    $attr= $this->departments[$row]['sort-attribute'];
-    $name= $this->departments[$row][$attr];
-    if (is_array($name)){
-      $name= $name[0];
+    $attr = $this->departments[$row]['sort-attribute'];
+    $name = $this->departments[$row][$attr];
+    if (is_array($name)) {
+      $name = $name[0];
     }
-    $result= sprintf("%s [%s]", $name, $description[0]);
-    return("<a href='?plug=".$_GET['plug']."&amp;PID=$this->pid&amp;act=department_$row' title='$dn'>$result</a>");
+    $result = htmlentities(sprintf("%s [%s]", $name, $description[0]), ENT_COMPAT, 'UTF-8');
+    return "<a href='?plug=".$_GET['plug']."&amp;PID=$this->pid&amp;act=department_$row' title='$dn'>$result</a>";
   }
 
   /*!
@@ -1044,16 +1044,15 @@ class listing {
 
     // Collect sprintf params
     for ($i = 3;$i < func_num_args();$i++) {
-      $val= func_get_arg($i);
-      if (is_array($val)){
-        $params[]= $val[0];
-        continue;
+      $val = func_get_arg($i);
+      if (is_array($val)) {
+        $val = $val[0];
       }
-      $params[]= $val;
+      $params[] = htmlentities($val, ENT_COMPAT, 'UTF-8');
     }
 
-    $result= "&nbsp;";
-    $trans= call_user_func_array("sprintf", $params);
+    $result = "&nbsp;";
+    $trans  = call_user_func_array("sprintf", $params);
     if ($trans != "") {
       return("<a href='?plug=".$_GET['plug']."&amp;PID=$pid&amp;act=listing_edit_$row' title='$dn'>$trans</a>");
     }
