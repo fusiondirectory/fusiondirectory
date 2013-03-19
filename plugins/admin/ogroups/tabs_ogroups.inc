@@ -239,6 +239,9 @@ class ogrouptabs extends tabs
         'faiSummary'      => _('FAI summary'),
         'argonautClient'  => _('Argonaut client'),
       ),
+      "/O/" => array(
+        'opsiClient'      => _('OPSI'),
+      ),
     );
     $this->reload($this->by_object['ogroup']->gosaGroupObjects);
     $this->addSpecialTabs();
