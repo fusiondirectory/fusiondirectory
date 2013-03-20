@@ -417,45 +417,49 @@ sub add_ldap_admin {
   } else {
     $attr = 'uid';
   }
-  my $obj = {
+  my %obj = (
     'cn'  =>  'System Administrator',
     'sn'  =>  'Administrator',
     'uid' =>  $fd_admin_uid,
     'givenname'     =>  'System',
     'objectclass'   =>  [ 'top', 'person', 'gosaAccount', 'organizationalPerson', 'inetOrgPerson' ],
     'userPassword'  => "{CRYPT}".unix_md5_crypt($fd_admin_pwd)
-  };
-  if (not defined $obj->{$attr}) {
+  );
+  if (not defined $obj{$attr}) {
     print "Error : invalid account primary attribute $attr, using uid\n";
     $attr = 'uid';
   }
-  my $dn = "$attr=".$obj->{$attr}.",$peopleou,$base";
+  my $dn = "$attr=".$obj{$attr}.",$peopleou,$base";
 
   # Add the administator user object
-  my $admin_add = $ldap->add( $dn, attr => %$obj );
+  my @options = %obj;
+  my $admin_add = $ldap->add( $dn, attr => \@options );
   # send a warning if the ldap's admin's add didn't gone well
-  $admin_add->code && warn "\n! failed to add LDAP's $dn entry";
+  $admin_add->code && die "\n! failed to add LDAP's $dn entry - ".$admin_add->error_name.": ".$admin_add->error_text;
 
   # Add the acl that make him an administrator
   my $acls = $ldap->search (
-    base => "$base",
-    scope => 'base',
-    attrs => ['objectClass', 'gosaAclEntry']
+    base    => "$base",
+    scope   => 'base',
+    filter  => "(objectClass=*)",
+    attrs   => ['objectClass', 'gosaAclEntry']
   );
-  my $oclass = ($acls->entries)[0]->getValue("objectClass", asref => 1);
+  $acls->code && die "\n! failed to search acls in '$base' - ".$acls->error_name.": ".$acls->error_text;
+  my $oclass = ($acls->entries)[0]->get_value("objectClass", asref => 1);
   # Add admin acl
-  my $newacl = ["0:psub:".base64_encode($dn).":all;cmdrw"];
+  my $newacl = ["0:psub:".encode_base64($dn).":all;cmdrw"];
   if (not (grep $_ eq 'gosaAcl', @$oclass)) {
     push (@$oclass, 'gosaAcl');
   } else {
-    my $acl = ($acls->entries)[0]->getValue("gosaAclEntry", asref => 1);
+    my $acl = ($acls->entries)[0]->get_value("gosaAclEntry", asref => 1);
     my $i = 1;
     if (defined $acl) {
       foreach my $line (@$acl) {
         # Ignore existing admin acls
         if (not (grep $_ eq $line, @$acllines)) {
           # Reorder existing non-admin acls
-          push (@$newacl, $line =~ s/^\d+:/$i:/);
+          $line =~ s/^\d+:/$i:/;
+          push (@$newacl, $line);
           $i++;
         }
       }
@@ -468,7 +472,7 @@ sub add_ldap_admin {
       'gosaAclEntry'  => $newacl
     }
   );
-  $result->code && warn "\n! failed to add ACL for admin on $base";
+  $result->code && warn "\n! failed to add ACL for admin on '$base' - ".$result->error_name.": ".$result->error_text;
 }
 
 # function that initiate the ldap connexion, and bind as the ldap's admin
@@ -541,7 +545,7 @@ sub check_admin {
   if ($acls->count < 1) {
     print ("! ACL entries are missing\n");
   } else {
-    my $acl = ($acls->entries)[0]->getValue("gosaAclEntry", asref => 1);
+    my $acl = ($acls->entries)[0]->get_value("gosaAclEntry", asref => 1);
     if (defined $acl) {
       foreach my $line (@$acl) {
         my @parts = split(':',$line);
