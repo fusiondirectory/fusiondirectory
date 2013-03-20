@@ -109,6 +109,13 @@ class userManagement extends management
     $this->registerAction("edit_environment",   "editEntry");
     $this->registerAction("edit_gofaxAccount",  "editEntry");
     $this->registerAction("edit_phoneAccount",  "editEntry");
+    if (!class_available('mailAccount')) {
+      /* If mail plugin is not installed, ignore mail filter */
+      $this->filter->elements['MAIL']['unset']      = '';
+      $this->filter->elements['MAIL']['set']        = '';
+      /* The FUNCTIONAL filter must not use inexisting gosaMailAccount class */
+      $this->filter->elements['FUNCTIONAL']['set']  = '(!(|(objectClass=posixAccount)(objectClass=sambaSamAccount)))';
+    }
   }
 
   function renderList ()
