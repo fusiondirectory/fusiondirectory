@@ -11,7 +11,9 @@
 {$TEMPLATES}&nbsp;<LABEL for='TEMPLATES'>{t}Show templates{/t}</LABEL><br>
 {$FUNCTIONAL}&nbsp;<LABEL for='FUNCTIONAL'>{t}Show functional users{/t}</LABEL><br>
 {$POSIX}&nbsp;<LABEL for='POSIX'>{t}Show POSIX users{/t}</LABEL><br>
-{$MAIL}&nbsp;<LABEL for='MAIL'>{t}Show Mail users{/t}</LABEL><br>
+{if $USE_MAIL}
+  {$MAIL}&nbsp;<LABEL for='MAIL'>{t}Show Mail users{/t}</LABEL><br>
+{/if}
 {$SAMBA}&nbsp;<LABEL for='SAMBA'>{t}Show Samba users{/t}</LABEL><br>
 
  <div style="border-top:1px solid #AAAAAA"></div>

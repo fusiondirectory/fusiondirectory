@@ -111,6 +111,13 @@ class userManagement extends management
     $this->registerAction("edit_phoneAccount",  "editEntry");
   }
 
+  function renderList ()
+  {
+    $smarty = get_smarty();
+    $smarty->assign('USE_MAIL', class_available('mailAccount'));
+    return parent::renderList();
+  }
+
 
   function refreshProposal()
   {
