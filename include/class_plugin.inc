@@ -1093,16 +1093,18 @@ class plugin
       $o_group->save();
     }
 
-    /* Update roles to use the new entry dn */
-    $roles = get_sub_list("(&(objectClass=organizationalRole)(roleOccupant=".LDAP::prepare4filter(LDAP::fix($src_dn))."))","roles", array(get_ou("roleRDN")),$this->config->current['BASE'],array("dn"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
+    if (class_available('roleGeneric')) {
+      /* Update roles to use the new entry dn */
+      $roles = get_sub_list("(&(objectClass=organizationalRole)(roleOccupant=".LDAP::prepare4filter(LDAP::fix($src_dn))."))", "roles", array(get_ou("roleRDN")), $this->config->current['BASE'], array("dn"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
 
-    // Walk through all roles
-    foreach($roles as $role){
-      $role = new roleGeneric($this->config,$role['dn']);
-      $key= array_search($src_dn, $role->roleOccupant);
-      if($key !== FALSE){
-        $role->roleOccupant[$key] = $dst_dn;
-        $role->save();
+      // Walk through all roles
+      foreach ($roles as $role) {
+        $role = new roleGeneric($this->config, $role['dn']);
+        $key  = array_search($src_dn, $role->roleOccupant);
+        if ($key !== FALSE) {
+          $role->roleOccupant[$key] = $dst_dn;
+          $role->save();
+        }
       }
     }
 
