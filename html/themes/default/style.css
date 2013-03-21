@@ -153,19 +153,17 @@ text-decoration:none;
 font-weight:normal;
 font-size:12px;
 text-align:left;
-cursor:pointer;
-padding-left:15px;
-padding-top:2px;
-padding-bottom:2px;
 vertical-align:middle;
 margin:2px;
 background-color:#FFF;
-padding-right:5px;
 }
 
-p.menuitem:hover {
-background-color:#F0F0F0;
-cursor:pointer;
+a.menuitem {
+padding-left:15px;
+padding-top:2px;
+padding-bottom:2px;
+padding-right:5px;
+display:block;
 }
 
 table.menuitem {
@@ -254,6 +252,7 @@ color:#00008f;
 
 a.menuitem:hover {
 text-decoration:none;
+background-color:#F0F0F0;
 }
 
 td.iconmenu {
