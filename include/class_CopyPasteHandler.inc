@@ -60,7 +60,6 @@ class CopyPasteHandler {
     $this->config       = &$config;
     $this->current      = NULL;
     $this->queue        = array();
-    $this->setvar_array = array();
   }
 
 
@@ -82,8 +81,10 @@ class CopyPasteHandler {
    * \param String $tab_object Tab object name used to initialize correct object Type like USERTABS
    *
    * \param String $tab_acl_category Tab with acl category
+   *
+   * \param Object $parent the parent to set to the tab object
    */
-  function add_to_queue($dn, $action, $tab_class, $tab_object, $tab_acl_category)
+  function add_to_queue($dn, $action, $tab_class, $tab_object, $tab_acl_category, $parent = NULL)
   {
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "add_to_queue");
     if (!class_available($tab_class)) {
@@ -108,6 +109,7 @@ class CopyPasteHandler {
     $tmp['tab_class']         = $tab_class;
     $tmp['tab_object']        = $tab_object;
     $tmp['tab_acl_category']  = $tab_acl_category;
+    $tmp['parent']            = $parent;
 
     $this->queue[]        = $tmp;
     $this->require_update = TRUE;
@@ -153,6 +155,9 @@ class CopyPasteHandler {
 
     $entry['object'] = new $tab_c($this->config, $this->config->data['TABS'][$tab_o], $entry['dn'], $tab_a);
     $entry['object']->set_acl_base($base);
+    if ($entry['parent'] !== NULL) {
+      $entry['object']->parent = $entry['parent'];
+    }
 
     if ($entry['method'] == "copy") {
       $entry['object']->resetCopyInfos();
