@@ -343,7 +343,7 @@ class pluglist {
         if ($this->iconmenu == "") {
           $menu = "<h1 class=\"menuheader\" style=\"border-top:none;\">";
         } else {
-          $menu = "<h1 class=\"menuheader\">";
+          $menu = "</td></tr>\n<tr><td>\n<h1 class=\"menuheader\">";
         }
         $menu .=
           $section_infos['NAME']."</h1>\n<table summary=\"\" style=\"width:100%;".

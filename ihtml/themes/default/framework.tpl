@@ -42,16 +42,15 @@
 
             <!-- Plugin window -->
             <td style="background-color:white; width:100%; vertical-align:top; height:15px;" colspan="2">
-                <table style="vertical-align:top; text-align:justify;
-                    background-color: white; border:1px solid #AAA;
-                    margin-top:0px; margin-left:7px; margin-right:7px;
-                    width:99%" summary="">
+                <table summary="" class="plugin_window">
+                  <tbody>
                     <tr>
-                        <td style="padding:0">
+                        <td>
                             {$msg_dialogs}
                             {$contents}
                         </td>
                     </tr>
+                  </tbody>
                 </table>
             </td>
         </tr>
