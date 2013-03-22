@@ -439,8 +439,10 @@ class config  {
     /* We update LDAPSIZELIMIT as it may have been changed by ldap config */
     session::global_set('size_limit',$this->current['LDAPSIZELIMIT']);
 
-    /* Load server informations */
-    $this->load_servers();
+    if (class_available('systemManagement')) {
+      /* Load server informations */
+      $this->load_servers();
+    }
 
     $debugLevel = $this->get_cfg_value('DEBUGLEVEL');
     if ($debugLevel & DEBUG_CONFIG) { // value from LDAP can't activate DEBUG_CONFIG
@@ -581,11 +583,11 @@ class config  {
         if(preg_match('/^[^|]+\|[^|]+\|NFS\|.*$/', $attrs["goExportEntry"][$i])){
           $path= preg_replace ("/^[^|]+\|[^|]+\|[^|]+\|[^|]+\|([^|]+).*$/", '\1', $attrs["goExportEntry"][$i]);
           $tmp[]= $attrs["cn"][0].":$path";
-  }
+        }
         if(preg_match('/^[^|]+\|[^|]+\|NBD\|.*$/', $attrs["goExportEntry"][$i])){
           $path= preg_replace ("/^[^|]+\|[^|]+\|[^|]+\|[^|]+\|([^|]+).*$/", '\1', $attrs["goExportEntry"][$i]);
           $tmp2[]= $attrs["cn"][0].":$path";
-  }
+        }
       }
     }
     $this->data['SERVERS']['NFS']= $tmp;
