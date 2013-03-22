@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 /*!
  * \file class_SnapShotDialog.inc
  * Source code for SnapShotDialog
- */ 
+ */
 
 /*!
  * \brief This class contains all the function needed to make dialogs
@@ -56,8 +56,8 @@ class SnapShotDialog extends plugin
    *
    * \param string $dn The DN
    *
-   * \param string $parent 
-   */ 
+   * \param string $parent
+   */
   function SnapShotDialog(&$config, $dn, &$parent)
   {
     plugin::plugin($config,$dn);
@@ -182,7 +182,7 @@ class SnapShotDialog extends plugin
 
   /*!
    * \brief Check the snapshot dialog
-   */ 
+   */
   function check()
   {
     $message = plugin::check();
@@ -196,7 +196,7 @@ class SnapShotDialog extends plugin
 
   /*!
    * \brief Save an object
-   */ 
+   */
   function save_object()
   {
     plugin::save_object();

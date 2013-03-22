@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -1287,7 +1287,7 @@ class plugin
   /*!
    * \brief    Calls external hooks which are defined for this plugin (fusiondirectory.conf)
    *           Replaces placeholder by class values of this plugin instance.
-   *		   Allows to a add special replacements.
+   *       Allows to a add special replacements.
    */
   static function callHook($plugin, $cmd, $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL)
   {

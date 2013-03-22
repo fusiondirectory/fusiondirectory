@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 /*!
  * \file class_session.inc
  * Source code for class session
- */ 
+ */
 
 /*!
  * \brief This class contains all the function needed to manage sessions
@@ -37,14 +37,14 @@ class session {
 
   public static function get_element_size()
   {
-  
+
   }
 
   /*!
    * \brief Add channel in the session
    *
    * \param string $name Name of the new channel
-   */ 
+   */
   public static function add_channel($name)
   {
     /* If there's already such kind of channel, skip... */
@@ -82,7 +82,7 @@ class session {
    * \brief Check if the name of the session is set
    *
    * \param string $name The name of the session
-   */ 
+   */
   public static function is_set($name)
   {
     $channel= "";
@@ -108,7 +108,7 @@ class session {
    * \brief Check if a session is defined
    *
    * \param string $name Name of the session
-   */ 
+   */
   public static function global_is_set($name)
   {
     return(isset($_SESSION[$name]));
@@ -179,7 +179,7 @@ class session {
     $ret = &$_SESSION[$channel][$name];
     return($ret);
   }
-  
+
   /*!
    * \brief Accessor of a session
    *
@@ -226,7 +226,7 @@ class session {
       unset($_SESSION[$name]);
     }
   }
-  
+
   /*!
    * \brief Unset a session
    *
@@ -249,7 +249,7 @@ class session {
 
   /*!
    * \brief Start a session
-   */ 
+   */
   public static function start()
   {
     /* Set cookie lifetime to one day (The parameter is in seconds ) */
@@ -286,7 +286,7 @@ class session {
 
   /*!
    * \brief Destroy a session
-   */ 
+   */
   public static function destroy()
   {
     @session_destroy();
@@ -300,7 +300,7 @@ class session {
 
   /*!
    * \brief Get all sessions
-   */ 
+   */
   public static function &get_all()
   {
     $ret = &$_SESSION;

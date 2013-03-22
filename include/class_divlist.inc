@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -23,11 +23,11 @@
 /*!
  * \file class_divlist.inc
  * Source code for class divlist
- */ 
- 
+ */
+
 /*!
  * \brief This class contains all function to manage page
- */ 
+ */
 class divlist {
 
   var $a_entries;
@@ -39,7 +39,7 @@ class divlist {
   //FIXME: Ignoring the fact, that they were missing - height and width are numeric...
   var $s_height;
   var $s_width;
-  
+
   // Members for page managment
   var $i_currentPage;
   var $i_entriesPerPage;
@@ -47,14 +47,14 @@ class divlist {
   var $force_height = false;
   var $list_footer = "";
   var $fix_list_for_plugins = FALSE;
-  
+
   // Added php 4 constructor
   /*!
    * \brief Divlist constructor.
-   * 		Initialized all the vars
-   * 
+   *    Initialized all the vars
+   *
    * \param string $pageid Identifier for the page
-   */ 
+   */
   function divlist($pageid){
 
     $this->i_currentPage    = 0;
@@ -71,16 +71,16 @@ class divlist {
 
   /*!
    * \brief Divlist destructor
-   */ 
+   */
   function __destruct(){
-  
+
   }
 
   /*!
    * \brief Set the plugin mode
-   * 
+   *
    * \param boolean $val true
-   */ 
+   */
   function SetPluginMode($val = TRUE)
   {
     $this->fix_list_for_plugins = $val;
@@ -88,9 +88,9 @@ class divlist {
 
   /*!
    * \brief Set a footer
-   * 
+   *
    * \param string $str The new footer
-   */ 
+   */
   function SetFooter($str)
   {
     $this->list_footer = $str;
@@ -98,42 +98,42 @@ class divlist {
 
   /*!
    * \brief Add an entry
-   * 
+   *
    * \param $a_entriedata The entry to add
-   */ 
+   */
   function AddEntry($a_entriedata) {
     $this->a_entries[] = $a_entriedata;
   }
 
   /*!
    * \brief Disable the page numbers
-   */ 
+   */
   function DisablePageNums() {
     $this->b_displayPageNums =false;
   }
 
   /*!
    * \brief Set a header at the page
-   * 
+   *
    * \param string $a_headerdata The header of the page
-   */ 
+   */
   function SetHeader($a_headerdata) {
     $this->a_header[] = $a_headerdata ;
   }
-  
+
   /*!
    * \brief Set the height of the page
-   * 
+   *
    * \param integer $s_height The height
-   */ 
+   */
   function SetHeight($s_height) {
     $this->s_height= $s_height;
     $this->force_height = true;
   }
- 
+
   /*!
    * \brief Set the width of the page
-   * 
+   *
    * \param integer $s_width The width
    */
   function SetWidth($s_width) {
@@ -145,16 +145,16 @@ class divlist {
 
   /*!
    * \brief Set the number of entries per page
-   * 
+   *
    * \param int $i_num The number
-   */ 
+   */
   function SetEntriesPerPage($i_num){
     $this->i_entriesPerPage=$i_num;
   }
-  
+
   /*!
    * \brief This fonction draw the list of the page
-   */ 
+   */
   function DrawList(){
     $s_return = "";
     if(!$this->force_height){
@@ -169,38 +169,38 @@ class divlist {
 
     $s_return.= $this->_generateHeader();
     $s_return.= $this->_generatePage();
-    $s_return.= $this->_generateFooter(); 
+    $s_return.= $this->_generateFooter();
     $s_return.= "</table>";
-    
+
     return ($s_return);
   }
-  
+
   /*!
    * \brief Calculate the number of the current page
-   */ 
+   */
   function _numpages(){
     $cnt = count($this->a_entries);
-    
+
     $pages  = (int) ($cnt / $this->i_entriesPerPage);
     if($cnt % $this->i_entriesPerPage){
       $pages++;
     }
-    
+
     return $pages;
   }
-  
+
   /*!
    * \brief Calculate the number of entries
-   * 
+   *
    * \return the number of entries
-   */ 
+   */
   function _numentries(){
     return count($this->a_entries);
   }
 
   /*!
    * \brief Generate the footer of the page
-   */ 
+   */
   function _generateFooter()
   {
     $s_return = "";
@@ -227,15 +227,15 @@ class divlist {
     }
     return($s_return);
   }
-  
+
   /*!
    * \brief Generate the page's header
-   */ 
+   */
   function _generateHeader(){
     $s_return = "";
     $s_value  = "";
     $s_key    = "";
-    
+
     // Using scrolltable?
     if($this->i_entriesPerPage == 0) {
       if(!$this->force_height) {
@@ -258,7 +258,7 @@ class divlist {
       $this->cols++;
 
     }
-    
+
     // Attach a 13px-wide column (used as scrollbar space in body-table),
     // but do this only if we are really using scrolltables.
     if($this->i_entriesPerPage == 0) {
@@ -269,25 +269,25 @@ class divlist {
     $s_return.= "\n</tr>";
     return $s_return;
   }
-  
+
   /*!
    * \brief Set the structure of table
-   * 
+   *
    * \param string $msg The summary
-   */ 
+   */
   function SetSummary($msg){
     $this->s_summary = $msg;
   }
 
   /*!
    * \brief Generate de page
-   */ 
+   */
   function _generatePage(){
-    
+
     $s_value  = "";
     $s_key    = "";
     $s_return   = "";
-   
+
     if($this->i_entriesPerPage == 0) {
       // We need to construct a "body"-table that is width-of-scrollbar thinner than the "head"-table.
       if(!$this->force_height || $this->fix_list_for_plugins) {
@@ -298,7 +298,7 @@ class divlist {
         $s_return .= "<table summary='' style='height:100%;width:581px;' cellspacing='0' id='t_scrollbody_onlywidth'>";
       }
     }
- 
+
     $i_alternate=0;
     if(isset($_GET['start'])){
       session::set('start'.$this->pageid,$_GET['start']);
@@ -321,46 +321,46 @@ class divlist {
       }
       return($str);
     } else {
-    
+
       //FIXME: Ahrg. I'd like to read this code without wasting my time.
       if ($this->i_entriesPerPage > 0) {
         while($start > $this->_numentries()){
           $start = $start - $this->i_entriesPerPage;
-        } 
-    
+        }
+
         $stop  = $start + $this->i_entriesPerPage;
-    
+
         $appendempty = ($this->_numentries() -$start);
-    
+
         for($i = $start ; $i < $stop;$i++){
-          
+
           if(isset($this->a_entries[$i])){
-                  
+
             $s_value = $this->a_entries[$i];
-            
-            // Alternation of background color    
+
+            // Alternation of background color
             if($i_alternate) $i_alternate=0; else $i_alternate=1;
-            
+
           $s_return .= "\n<tr class='rowxp".$i_alternate."'>";
-            
-            $cnt = 0;           
-              
-            foreach($s_value as $s_key2 => $s_value2 ){       
-    
-              $cnt++;         
-    
+
+            $cnt = 0;
+
+            foreach($s_value as $s_key2 => $s_value2 ){
+
+              $cnt++;
+
               if(!isset($s_value2['class'])){
-                $class = "list".$i_alternate; 
+                $class = "list".$i_alternate;
               }else{
                 $class = $s_value2['class'];
               }
-    
+
               if(!isset($s_value2['attach'])){
                 $style = "";
               }else{
                 $style = " ".$s_value2['attach']." "  ;
               }
-    
+
               $s_return .= "\n<td ".$style." class='".$class."'>";
               $s_return .= $s_value2['string'];
               $s_return .= "\n</td>";
@@ -368,11 +368,11 @@ class divlist {
             if($cnt == 0 ){
               $s_return.="\n<td>&nbsp;</td>";
             }
-  
+
             $s_return .= "\n</tr>";
-          } 
+          }
         }
-    
+
         if(!(($stop)<$this->_numentries())){
           $nums = $stop - $this->_numentries();// - $stop;
           for($i = 0 ; $i < $nums ; $i ++ ){
@@ -386,47 +386,47 @@ class divlist {
               }
             }
             $s_return.="\n</tr>";
-          } 
+          }
         }
-    
+
         if($this->b_displayPageNums){
           $s_return .= "<tr><td colspan='".$this->cols."' align='center'>".range_selector($this->_numentries(),$start,$this->i_entriesPerPage)."</td></tr>";
         }
       } else {
         // $this->i_entriesPerPage <= 0
         // We should display all entries on one page
-  
+
         $i = $this->_numEntries();
         foreach($this->a_entries as $s_key => $s_value){
           $i--;
-  
-          if($i_alternate!=0){ 
-            $i_alternate=0; 
+
+          if($i_alternate!=0){
+            $i_alternate=0;
           } else {
             $i_alternate=1;
           }
-        
+
           $s_return .= "\n<tr class='rowxp".$i_alternate."'>";
-            
-          $cnt = 0;           
-              
-          foreach($s_value as $s_key2 => $s_value2 ){       
-  
-            $this->cols = count($s_value) ;           
-            $cnt++;         
-  
+
+          $cnt = 0;
+
+          foreach($s_value as $s_key2 => $s_value2 ){
+
+            $this->cols = count($s_value) ;
+            $cnt++;
+
             if(!isset($s_value2['class'])){
-              $class = "list".$i_alternate; 
+              $class = "list".$i_alternate;
             } else {
               $class = $s_value2['class'];
             }
-  
+
             if(!isset($s_value2['attach'])){
               $style = "";
             } else {
               $style = " ".$s_value2['attach']." "  ;
             }
-            
+
             $s_return .= "\n<td ".$style." class='".$class."'>";
             $s_return .= $s_value2['string'];
             $s_return .= "</td>";
@@ -444,7 +444,7 @@ class divlist {
           }
         }
         $s_return.="\n</tr>";
-  
+
       if($this->i_entriesPerPage == 0) {
         $s_return .= "\n</table></div></td>";
       }

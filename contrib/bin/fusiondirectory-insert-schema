@@ -4,7 +4,7 @@
 #
 # fusiondirectory-insert-schema -- insert schema needed into the ldap server
 #
-# Copyright (C) 2011-2012 FusionDirectory project
+# Copyright (C) 2011-2013 FusionDirectory project
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

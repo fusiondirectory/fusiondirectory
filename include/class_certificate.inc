@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -29,32 +29,32 @@
 define("PEM","pem");
 define("DER","der");
 
-/*! 
+/*!
  * \brief This class contains all the function needed to import certificates
  */
-class certificate 
+class certificate
 {
   /* vars */
   var $data;
   var $type;
   var $error;
 
-  /* 
+  /*
    * \brief Certificate constructor (initialize all vars)
-   */ 
+   */
   function certificate()
   {
     $this->data= "";
     $this->type= false;
-    $this->error="";  
+    $this->error="";
     $this->info = array();
-  } 
+  }
 
-  /* 
+  /*
    * \brief Reads specified Certfile/string and convert it to PEM
-   * 
+   *
    * \param string $data
-   * 
+   *
    * \param boolean $type false
    */
   function import($data,$type=false)
@@ -84,15 +84,15 @@ class certificate
     /* Data can't be empty */
     if($data = ""){
       $this->certificate();
-      $this->error = _("Certificate is empty!"); 
+      $this->error = _("Certificate is empty!");
       return(false);
     }
 
     /* Prefer specified certtype*/
     if($type) {
-      $this->type = $type;  
+      $this->type = $type;
     }else{
-      /* Detect certtype, cause there is none specified */      
+      /* Detect certtype, cause there is none specified */
 
       /* PEM always starts with ----BEGIN CERTIFICATE-----*/
       if(strstr($this->data,"CERTIFICATE"))  {
@@ -103,7 +103,7 @@ class certificate
       }
     }
 
-    /* Convert to PEM to give $this->info the ability to read the cert */  
+    /* Convert to PEM to give $this->info the ability to read the cert */
     if($this->type == DER )    {
       $this->derTOpem();
     }
@@ -122,12 +122,12 @@ class certificate
     return(true);
   }
 
-  /* 
+  /*
    * \brief Get all data of a certificate
-   * 
+   *
    * \param boolean $ret true
-   * 
-   * \return Array with all containing data 
+   *
+   * \return Array with all containing data
    */
   function info($ret = true)
   {
@@ -151,7 +151,7 @@ class certificate
     }else{
       return(false);
     }
-  } 
+  }
 
   function getvalidfrom_date()
   {
@@ -162,12 +162,12 @@ class certificate
     }
 
   }
-  
+
   /*!
    * \brief Get the name of the certificate
-   * 
-   * \return String with the name, but return false if not found 
-   */	
+   *
+   * \return String with the name, but return false if not found
+   */
   function getname()
   {
     if(isset($this->info['name'])){
@@ -176,12 +176,12 @@ class certificate
       return(false);
     }
   }
-  
+
   /*!
    * \brief Get the CN of the certificate
-   * 
-   * \return String with the CN, but return false if not found 
-   */	
+   *
+   * \return String with the CN, but return false if not found
+   */
   function getCN()
   {
     if(isset($this->info['subject']['CN'])){
@@ -210,9 +210,9 @@ class certificate
   }
   /*!
    * \brief Get the serial number of the certificate
-   * 
+   *
    * \return Integer number, but return false if not found
-   */ 
+   */
   function getSerialNumber()
   {
     if(isset($this->info['serialNumber'])){
@@ -224,20 +224,20 @@ class certificate
 
   /*
    * \brief Check if the certificate is valid
-   * 		Is valide if the length of array > 1
-   * 		and type is true
-   */ 
+   *    Is valide if the length of array > 1
+   *    and type is true
+   */
   function isvalid()
   {
     return (($this->type != false)&&(count($this->info)>1));
   }
-  
 
-  /* 
+
+  /*
    * \brief Export Certificate to specified file, with specified method
-   * 
+   *
    * \param boolean $type
-   * 
+   *
    * \param string $filename Initialized at 'temp'
    */
   function export($type,$filename="temp")
@@ -248,7 +248,7 @@ class certificate
       if($this->type!= $type){
         $strConv = $this->type."TO".$type;
         $this->$strConv();
-      }    
+      }
 
       /* open file for writing */
       $fp = fopen($filename,"w+");
@@ -257,18 +257,18 @@ class certificate
         $this->error= msgPool::cannotWriteFile($filename);
         return(false);
       }else{
-        fwrite($fp,$this->data,strlen($this->data));        
+        fwrite($fp,$this->data,strlen($this->data));
       }
       return(true);
     }else{
       $this->error= _("No valid certificate loaded!");
-      return(false);    
+      return(false);
     }
     return(false);
-  } 
+  }
 
 
-  /* 
+  /*
    * \brief Convert der to pem Certificate
    */
   function derTOpem()
@@ -276,7 +276,7 @@ class certificate
     /* if type is DER start convert */
     if($this->type == DER)    {
       /* converting */
-      $this->type= PEM; 
+      $this->type= PEM;
       $str = base64_encode($this->data);
       $len = strlen($str);
 
@@ -293,13 +293,13 @@ class certificate
       $strend .= "-----END CERTIFICATE-----";
 
       $this->data     = $strend;
-      return(true); 
+      return(true);
     }
     return(false);
   }
 
   /*
-   * Convert pem to der Certificate 
+   * Convert pem to der Certificate
    */
   function pemTOder()
   {

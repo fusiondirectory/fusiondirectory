@@ -5,7 +5,7 @@
   Copyright (C) 2003-2010  Cajus Pollmeier
   Copyright (C) 2003 Alejandro Escanero Blanco <aescanero@chaosdimension.org>
   Copyright (C) 1998  Eric Kilfoil <eric@ipass.net>
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -40,23 +40,23 @@ define("SPECIALS_OVERRIDE", TRUE);
 
 class LDAP{
 
-  var $hascon  				= false;
-  var $reconnect			= false;
-  var $tls      			= false;
-  var $cid;								//connection identifier
-  var $hasres  				= array();
-  var $sr       			= array();
-  var $re       			= array();
-  var $basedn   			= "";
-  var $start    			= array(); // 0 if we are fetching the first entry, otherwise 1
-  var $error    			= ""; // Any error messages to be returned can be put here
-  var $srp     				= 0;
-  var $objectClasses		= array(); // Information read from slapd.oc.conf
-  var $binddn   			= "";	// the dn for the bind
-  var $bindpw   			= "";	//the dn's password for the bind
-  var $hostname 			= "";
-  var $follow_referral 		= FALSE;
-  var $referrals			= array();
+  var $hascon         = false;
+  var $reconnect      = false;
+  var $tls            = false;
+  var $cid;               //connection identifier
+  var $hasres         = array();
+  var $sr             = array();
+  var $re             = array();
+  var $basedn         = "";
+  var $start          = array(); // 0 if we are fetching the first entry, otherwise 1
+  var $error          = ""; // Any error messages to be returned can be put here
+  var $srp            = 0;
+  var $objectClasses    = array(); // Information read from slapd.oc.conf
+  var $binddn         = ""; // the dn for the bind
+  var $bindpw         = ""; //the dn's password for the bind
+  var $hostname       = "";
+  var $follow_referral    = FALSE;
+  var $referrals      = array();
   var $max_ldap_query_time  = 0;   // 0, empty or negative values will disable this check
 
   /*!

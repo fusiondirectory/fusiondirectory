@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -26,12 +26,12 @@
  */
 
 /*!
- * \brief This class contains all the function needed to sort list 
+ * \brief This class contains all the function needed to sort list
  * go up, go down , back , next. etc...
  */
 class listingSortIterator implements Iterator {
   private $data;
-  
+
   /*!
    * \brief listingSortIterator constructor
    *
@@ -42,14 +42,14 @@ class listingSortIterator implements Iterator {
    * \param $attribute Attribute
    *
    * \param string $type
-   */ 
+   */
   public function __construct($data, $direction, $attribute, $type= "string") {
     global $_sortAttribute;
     global $_sortType;
-    $_sortAttribute= $attribute; 
-    $_sortType= $type; 
+    $_sortAttribute= $attribute;
+    $_sortType= $type;
 
-    // Inline function to 
+    // Inline function to
     function attrSort($ao, $bo) {
       global $_sortAttribute;
       global $_sortType;
@@ -108,19 +108,19 @@ class listingSortIterator implements Iterator {
       $this->data= $data;
     }
   }
-  
+
   /*!
    * \brief Put the array pointer to the first element
    *
    * \return the first element of the array
-   */ 
+   */
   function rewind() {
     return reset($this->data);
   }
 
   /*!
    * \brief Get the current data element
-   * 
+   *
    * \return The current element pointed by array pointer
    */
   function current() {

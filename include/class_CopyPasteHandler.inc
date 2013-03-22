@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -120,8 +120,8 @@ class CopyPasteHandler {
 
   /*!
    * \brief This removes all objects from queue.
-   * 		Remove hdd dumps of current entries too.
-   * 		Remove entries older than 24 hours.
+   *    Remove hdd dumps of current entries too.
+   *    Remove entries older than 24 hours.
    */
   function cleanup_queue()
   {
@@ -168,7 +168,7 @@ class CopyPasteHandler {
 
   /*!
    * \brief Displays a dialog which allows the user to fix all dependencies of this object.
-   * 	    Create unique names, ids, or what ever
+   *      Create unique names, ids, or what ever
    */
   function execute($base)
   {

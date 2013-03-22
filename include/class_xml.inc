@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -23,12 +23,12 @@
 /*!
  * \file class_xml.inc
  * Source code for class xml
- */ 
+ */
 
 /*!
  * \brief This class contains all the function needed to manage xml
  * files
- */ 
+ */
 class xml {
 
   /*!
@@ -37,14 +37,14 @@ class xml {
    * \param string $file XML Filename
    *
    * \param string $schema Schema of the XML file
-   */ 
+   */
   static function validate($file, $schema) {
     // Enable user error handling
     libxml_use_internal_errors(true);
-    
+
     $xml= new DOMDocument();
     $xml->load($file);
-    
+
     if (!$xml->schemaValidate($schema)) {
       $errors = libxml_get_errors();
       foreach ($errors as $error) {
@@ -79,7 +79,7 @@ class xml {
    * \param integer $get_attributes Initialized at 1
    *
    * \param string $priority Initialized at 'tag'
-   */ 
+   */
   static function xml2array($contents, $get_attributes=1, $priority = 'tag') {
     if(!$contents) return array();
 
@@ -117,7 +117,7 @@ class xml {
 
         $result = array();
         $attributes_data = array();
-        
+
         if(isset($value)) {
             if($priority == 'tag') $result = $value;
             else $result['value'] = $value; //Put the value in a assoc array if we are in the 'Attribute' mode
@@ -149,7 +149,7 @@ class xml {
                 } else {//This section will make the value an array if multiple tags with the same name appear together
                     $current[$tag] = array($current[$tag],$result);//This will combine the existing item and the new item together to make an array
                     $repeated_tag_index[$tag.'_'.$level] = 2;
-                    
+
                     if(isset($current[$tag.'_attr'])) { //The attribute of the last(0th) tag must be moved as well
                         $current[$tag]['0_attr'] = $current[$tag.'_attr'];
                         unset($current[$tag.'_attr']);
@@ -172,7 +172,7 @@ class xml {
 
                     // ...push the new element into that array.
                     $current[$tag][$repeated_tag_index[$tag.'_'.$level]] = $result;
-                    
+
                     if($priority == 'tag' and $get_attributes and $attributes_data) {
                         $current[$tag][$repeated_tag_index[$tag.'_'.$level] . '_attr'] = $attributes_data;
                     }
@@ -183,11 +183,11 @@ class xml {
                     $repeated_tag_index[$tag.'_'.$level] = 1;
                     if($priority == 'tag' and $get_attributes) {
                         if(isset($current[$tag.'_attr'])) { //The attribute of the last(0th) tag must be moved as well
-                            
+
                             $current[$tag]['0_attr'] = $current[$tag.'_attr'];
                             unset($current[$tag.'_attr']);
                         }
-                        
+
                         if($attributes_data) {
                             $current[$tag][$repeated_tag_index[$tag.'_'.$level] . '_attr'] = $attributes_data;
                         }
@@ -200,8 +200,8 @@ class xml {
             $current = &$parent[$level-1];
         }
     }
-    
+
     return($xml_array);
   }
 
-}  
+}

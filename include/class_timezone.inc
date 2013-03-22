@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -23,16 +23,16 @@
 /*!
  * \file class_timezone.inc
  * Source code for class timezone
- */ 
+ */
 
 /*!
  * \brief This class contains all the function needed to manage the
  * timezones
- */ 
+ */
 class timezone {
 
   /*
-   * \brief This function returns the offset for the default timezone. 
+   * \brief This function returns the offset for the default timezone.
    *
    * \param $stamp is used to detect summer or winter time.
    * In case of PHP5, the integrated timezone functions are used.
