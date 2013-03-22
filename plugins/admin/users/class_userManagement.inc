@@ -879,55 +879,47 @@ class userManagement extends management
   }
 
 
-  static function filterProperties($row, $classes)
+  static function filterProperties($row, $dn)
   {
-    $result= "";
-    $map= array( "gosaAccount" => array( "image" => "plugins/users/images/select_user.png",
-                                         "plugin" => "user",
-                                         "alt" => _("Generic"),
-                                         "title" => _("Edit generic properties")),
-                 "posixAccount" => array("image" => "images/penguin.png",
-                                         "plugin" => "posixAccount",
-                                         "alt" => _("POSIX"),
-                                         "title" => _("Edit POSIX properties")),
-                 "gosaMailAccount" => array("image" => "images/mailto.png",
-                                         "alt" => _("Mail"),
-                                         "plugin" => "mailAccount",
-                                         "title" => _("Edit mail properties")),
-                 "sambaSamAccount" => array("image" => "images/windows.png",
-                                         "plugin" => "sambaAccount",
-                                         "alt" => _("Samba"),
-                                         "title" => _("Edit samba properties")),
-                 "apple-user" => array("image" => "plugins/netatalk/images/select_netatalk.png",
-                                         "plugin" => "netatalk",
-                                         "alt" => _("Netatalk"),
-                                         "title" => _("Edit netatalk properties")),
-                 "gotoEnvironment" => array("image" => "plugins/users/images/small_environment.png",
-                                         "plugin" => "environment",
-                                         "alt" => _("Environment"),
-                                         "title" => _("Edit environment properties")),
-                 "goFaxAccount" => array("image" => "plugins/users/images/fax_small.png",
-                                         "plugin" => "gofaxAccount",
-                                         "alt" => _("FAX"),
-                                         "title" => _("Edit FAX properties")),
-                 "goFonAccount" => array("image" => "plugins/gofon/images/select_phone.png",
-                                         "plugin" => "phoneAccount",
-                                         "alt" => _("Phone"),
-                                         "title" => _("Edit phone properties")));
+    global $config;
+    static $usertabs = array();
+    if (empty($usertabs)) {
+      foreach ($config->data['TABS']['USERTABS'] as $plug) {
+        if ($plug['CLASS'] == 'user') {
+          continue;
+        }
+        if (class_available($plug['CLASS'])) {
+          $name = $plug['CLASS'];
 
-    // Walk thru map
-    foreach ($map as $oc => $properties) {
-      if (in_array_ics($oc, $classes)) {
-        $result.="<input class='center' type='image' src='".$properties['image']."' ".
-                 "alt='".$properties['alt']."' title='".$properties['title'].
-                 "' name='listing_edit_".$properties['plugin']."_$row' style='padding:1px'>";
-      } else {
-        $result.="<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
+          $usertabs[$name] = new $name($config, $dn);
+        }
       }
     }
+
+    // Load information if needed
+    $ldap = $config->get_ldap_link();
+    $ldap->cat($dn);
+    $result = "<input class='center' type='image' src='plugins/users/images/select_user.png' ".
+                       "alt='"._('Generic')."' title='"._("Generic properties")."' ".
+                       "name='listing_edit_user_$row' style='padding:1px'/>";
+    if ($attrs = $ldap->fetch()) {
+      foreach ($usertabs as $class => $usertab) {
+        if ($usertab->is_this_account($attrs)) {
+          $infos = pluglist::pluginInfos($class);
+          if (isset($infos['plSmallIcon'])) {
+            $result .= "<input class='center' type='image' src='".$infos['plSmallIcon']."' ".
+                       "alt='".$infos['plShortName']."' title='".$infos['plShortName']."' ".
+                       "name='listing_edit_".$class."_$row' style='padding:1px'/>";
+          } else {
+            @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['plShortName']." ($class)", "No icon for");
+          }
+        } else {
+          $result .= "<img src='images/empty.png' alt=' ' class='center $class' style='padding:1px'>";
+        }
+      }
+    }
+
     return $result;
   }
-
 }
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

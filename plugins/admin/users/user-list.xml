@@ -71,7 +71,7 @@
 
     <column>
       <label>Properties</label>
-      <value>%{filter:filterProperties(row,objectClass)}</value>
+      <value>%{filter:filterProperties(row,dn)}</value>
     </column>
 
     <column>
