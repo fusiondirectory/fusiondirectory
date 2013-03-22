@@ -24,7 +24,7 @@ class aclManagement extends management
 {
   // Tab definition
   protected $tabClass     = "aclroletab";
-  protected $tabType      = "ACLROLETAB";
+  protected $tabType      = "ACLROLETABS";
   protected $aclCategory  = "acl";
   protected $aclPlugin    = "acl";
   protected $objectName   = "acl";
@@ -112,7 +112,7 @@ class aclManagement extends management
   {
     $this->skipFooter = TRUE;
     $altTabClass      = "aclroletab";
-    $altTabType       = "ACLROLETAB";
+    $altTabType       = "ACLROLETABS";
     return management::newEntry($action, $target, $all, $altTabClass, $altTabType, $altAclCategory);
   }
 
