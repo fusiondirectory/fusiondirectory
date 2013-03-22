@@ -25,6 +25,9 @@ use Archive::Extract;
 # used to copy files
 use File::Copy::Recursive qw(rcopy);
 
+#XML parser
+use XML::Twig;
+
 # fd's directory and class.cache file's path declaration
 my %vars = (
  fd_home =>       "/var/www/fusiondirectory",
@@ -486,22 +489,33 @@ sub get_ldap_connexion {
 
   # read ldap's server's info from /etc/fusiondirectory/fusiondirectory.conf
   if (-e $fd_config) {
-    # open fusiondirectory.conf in read mode
-    my $fd_conf_file = file ($fd_config);
-    my $fhr = $fd_conf_file->openr;
-
-    while (my $line = $fhr->getline) {
-      if ($line =~ /^.*referral\ URI="(.*:[0-9]*)\/(.*)"$/) {
-        $uri = $1;
-        $hash_result{base} = $2;
-      } elsif ($line =~ /^.*adminDn="(.*)"$/) {
-        $bind_dn = $1;
-      } elsif ($line =~ /^.*adminPassword="(.*)".*$/) {
-        $bind_pwd = $1;
-      }
+    my $twig = XML::Twig->new();    # create the twig
+    $twig->parsefile($fd_config); # build it
+    my @locs = $twig->root->first_child('main')->children('location');
+    my %locations = ();
+    foreach my $loc (@locs) {
+      my $ref = $loc->first_child('referral');
+      $locations{$loc->{'att'}->{'name'}} = {
+        'uri'       => $ref->{'att'}->{'URI'},
+        'bind_dn'   => $ref->{'att'}->{'adminDn'},
+        'bind_pwd'  => $ref->{'att'}->{'adminPassword'}
+      };
     }
 
-    $fhr->close;
+    my ($location) = keys(%locations);
+    if (scalar(keys(%locations)) > 1) {
+      my $question = "There are several locations in your config file, which one should be used : (".join(',',keys(%locations)).")";
+      my $answer;
+      do {
+        $answer = ask_user_input ($question, $location);
+      } while (not exists($locations{$answer}));
+      $location = $answer;
+    }
+
+    $uri      = $locations{$location}->{'uri'};
+    $bind_dn  = $locations{$location}->{'bind_dn'};
+    $bind_pwd = $locations{$location}->{'bind_pwd'};
+
   # if can't find fusiondirectory.conf
   } else {
 
