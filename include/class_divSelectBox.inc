@@ -36,13 +36,13 @@ class divSelectBox {
   var $cols;
 
   // Members for page managment
-  var $height=200;
+  var $height = '200px';
 
   // Added php 4 constructor
   /*!
    * \brief Default divSelectBox constructor
    */
-  function divSelectBox(){
+  function divSelectBox() {
     $this->s_summary                = "";
     $this->a_entries                = array();
     $this->cols                     = 0;
@@ -53,8 +53,12 @@ class divSelectBox {
    *
    * \param integer $h Height
    */
-  function setHeight($h){
-    $this->height=$h;
+  function setHeight($h) {
+    if (is_numeric($h)) {
+      $this->height = $h.'px';
+    } else {
+      $this->height = $h;
+    }
   }
 
   /*!
@@ -72,19 +76,19 @@ class divSelectBox {
   function DrawList(){
     $s_return  = "";
     $s_return .= "<div style=\"padding-right:1px;padding-bottom:2px;height:".$this->height.";width:100%\">\n";
-    $s_return .= "<div style=\"overflow: auto;width:100%;height:".($this->height)."px;\">\n";
+    $s_return .= "<div style=\"overflow: auto;width:100%;height:100%;\">\n";
     $s_return .= "<table ".
                     "summary='".$this->s_summary."' ".
                     "width='100%' ".
                     "class='listingTable'".
                     "style='overflow:scroll; ".
-                    "height:".($this->height-2)."px;".
-                    "padding-right:1px; ".
-                    "padding-bottom:2px;'".
+                      "height:98%;".
+                      "padding-right:1px; ".
+                      "padding-bottom:2px;'".
                     ">\n";
-    $s_return.=$this->_generatePage();
-    $s_return.= "</table></div></div>";
-    return ($s_return);
+    $s_return .= $this->_generatePage();
+    $s_return .= "</table></div></div>";
+    return $s_return;
   }
 
   /*!
