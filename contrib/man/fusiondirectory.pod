@@ -1,0 +1,564 @@
+=head1 NAME
+
+fusiondirectory - FusionDirectory configuration parameters
+
+=head1 DESCRIPTION
+
+FusionDirectory have lots of options that can alter the way it works, find informations or specific configuration can be achieved.
+All those paarameters are configured with the help of the configuration plugin inside FusionDirectory and saved into the ldap tree.
+
+=head2 Generic options
+
+=over
+
+=item B<warnSSL> I<bool>
+
+The warnSSL statement enables PHP security checks to detect non encrypted access to the web interface. FusionDirectory will display a warning in this case.
+
+=item B<modificationDetectionAttribute> I<string>
+
+The modificationDetectionAttribute statement enables FusionDirectory to check if a entry currently being edited has been modified from someone else outside
+FusionDirectory in the meantime. It will display an informative dialog then. It can be set to entryCSN for OpenLDAP based systems or contextCSN for Sun DS based systems.
+
+=item B<logging> I<string>
+
+The logging statement enables event logging on FusionDirectory side. Setting it to true, FusionDirectory will log every action a user performs via syslog.  If  you  use
+rsyslog and configure it to mysql logging, you can browse all events within FusionDirectory.
+
+FusionDirectory will not log anything, if the logging value is empty or set to false.
+
+=item B<loginAttribute> I<string>
+
+The loginAttribute statement tells FusionDirectory which LDAP attribute is used as the login name during login. It can be set to uid, mail or both.
+
+=item B<copyPaste> I<bool>
+
+The copyPaste statement enables copy and paste for LDAP entries managed with FusionDirectory.
+
+=item B<snapshots> I<bool>
+
+The snapshots statement enables a snapshot mechanism in FusionDirectory. This enables you to save certain states of entries and restore them later on.
+
+=item B<snapshotBase> I<dn>
+
+The snapshotBase statement defines the base where snapshots should be stored inside of the LDAP.
+
+=item B<snapshotURI> I<uri>
+
+The snapshotURI variable defines the LDAP URI for the server which is used to do object snapshots.
+
+=item B<snapshotAdminDn> I<dn>
+
+The snapshotAdminDn variable defines the user which is used to authenticate when connecting to snapshotURI.
+
+=item B<snapshotAdminPassword> I<string>
+
+The snapshotAdminPassword variable defines the credentials which are used in combination with snapshotAdminDn and snapshotURI in order to authenticate.
+
+=item B<timezone> I<string>
+
+The timezone statements defines the timezone used inside of FusionDirectory to handle date related tasks, such as password expiery, vacation messages, etc.   The  time‐
+zone value should be a unix conform timezone value like in /etc/timezone.
+
+=item B<honourIvbbAttributes> I<bool>
+
+The honourIvbbAttributes statement enables the IVBB mode inside of FusionDirectory. You need the ivbb.schema file from used by german authorities.
+
+=item B<strictNamingRules> I<bool>
+
+The strictNamingRules statement enables strict checking of uids and group names. If you need characters like . or - inside of your accounts, set this to false.
+
+=item B<allowUidProposalModification> I<bool>
+
+The allowUidProposalModification statement enables the abilitiy to modify uid proposals when creating a new user from a template.
+
+=item B<honourUnitTags> I<bool>
+
+The  honourUnitTags statement enables checking of unitTag attributes when using administrative units. If this is set to true FusionDirectory can only see objects inside
+the administrative unit a user is logged into.
+
+=item B<rfc2307bis> I<bool>
+
+The rfc2307bis statement enables rfc2307bis style groups in FusionDirectory. You can use member attributes instead of memberUid in this case. To make it  work  on  unix
+systems, you've to adjust your NSS configuration to use rfc2307bis style groups, too.
+
+=item B<ppdPath> I<path>
+
+The ppdPath variable defines where to store PPD files for the environment plugins.
+
+=item B<resolutions> I<path>
+
+The resolutions variable defines a plain text file which contains additional resolutions to be shown in the environment and system plugins.
+
+=item B<htaccessAuthentication> I<bool>
+
+The  htaccessAuthentication  variable  tells FusionDirectory to use either htaccess authentication or LDAP authentication.
+This can be used if you want to use i.e. ker‐beros to authenticate the users.
+
+=back
+
+=head2 Browser and display options
+
+=over
+
+=item B<listSummary> I<bool>
+
+The listSummary statement determines whether a status bar will be shown on the bottom of FusionDirectory generated lists,
+displaying a short summary of type and  numberof elements in the list.
+
+=item B<iconsize> I<size value>
+
+The iconsize statement sets the icon size in the main menu. Its value should be something like 48x48.
+
+=item B<storeFilterSettings> I<true/false>
+
+The storeFilterSettings statement determines whether FusionDirectory should store filter and plugin settings inside of a cookie.
+
+=item B<language> I<string>
+
+The language statement defines the default language used by FusionDirectory. Normally FusionDirectory autodetects the language
+from the browser settings. If this is notworking or you want to force the language, just add the language code (i.e. de for german) here.
+
+=item B<theme> I<string>
+
+The theme statement defines what theme is used to display FusionDirectory pages. You can install some corporate identity
+like theme and/or modify certain  templates  tofit your needs within themes. Take a look at the FusionDirectory FAQ for more information.
+
+=item B<sessionLifetime> I<int>
+
+The  sessionLifetime  value  defines  when  a  session will expire in seconds. For Debian systems,
+this will not work because the sessions will be removed by a cron jobinstead. Please modify the value inside of your php.ini instead.
+
+=item B<primaryGroupFilter> I<bool>
+
+The primaryGroupFilter variable enables or disables the group filter to show primary user groups. It is time consuming to evaluate
+which groups are  primary  and  whichare not. So you may want to set it to true if your group plugin is slow.
+
+=back
+
+=head2 Password options
+
+=over
+
+=item B<passwordMinLength> I<integer>
+
+The passwordMinLength statement determines whether a newly entered password has to be of a minimum length.
+
+=item B<passwordMinDiffer> I<integer>
+
+The passwordMinDiffer statement determines whether a newly entered password has to be checked to have at least n different characters.
+
+strictPasswordRules statement determines if we check for problematic unicode caracters in password creation
+
+=item B<handleExpiredAccounts> I<bool>
+
+The handleExpiredAccounts statement enables shadow attribute tests during the login to the FusionDirectory web interface and forces password renewal or account lockout.
+
+=item B<useSaslForKerberos> I<bool>
+
+The  useSaslForKerberos statement defines the way the kerberos realm is stored in the userPassword attribute.Set it to true in order to get
+{sasl}user@REALM.NET, or tofalse to get {kerberos}user@REALM.NET. The latter is outdated, but may be needed from time to time.
+
+=item B<saslRealm> I<string>
+
+The saslRealm statement defines the way the kerberos realm is stored in the userPassword attribute.
+Set it to REALM.NET in order to get {sasl}user@REALM.NET
+
+=item B<saslExop> I<string>
+
+The saslExop statement defines the attribute to be stored in the userPasword attribute. Set it to uid in order to get the {sasl}uid of the user
+
+=back
+
+=head2 LDAP options
+
+=over
+
+=item B<ldapMaxQueryTime> I<integer>
+
+The ldapMaxQueryTime statement tells FusionDirectory to stop LDAP actions if there is no answer within the specified number of seconds.
+
+=item B<schemaCheck> I<bool>
+
+The schemaCheck statement enables or disables schema checking during login. It is recommended to switch this on
+in order to let FusionDirectory handle object creation more efficiently.
+
+=item B<accountPrimaryAttribute> I<cn/uid>
+
+The  accountPrimaryAttribute  option  tells  FusionDirectory  how to create new accounts. Possible values are uid and cn.
+
+In the first case FusionDirectory creates uidstyle DN entries:
+   uid=superuser,ou=staff,dc=example,dc=net
+
+In the second case, FusionDirectory creates cn style DN entries:
+   cn=Foo Bar,ou=staff,dc=example,dc=net
+
+If you choose "cn" to be your accountPrimaryAttribute you can decide whether to include the personal title
+in your dn by selecting personalTitleInDN.
+
+=item B<accountRDN> I<pattern>
+
+The accountRDN option tells FusionDirectory to use a placeholder pattern for generating account RDNs.
+A pattern can include attribute names prefaced by a % and normal text:
+
+  accountRDN="cn=%sn %givenName"
+
+This  will  generate  a  RDN consisting of cn=.... filled with surname and given name of the edited account.
+This option disables the use of accountPrimaryAttribute and personalTitleInDn in your config.
+The latter attributes are maintained for compatibility.
+
+=item B<personalTitleInDN> I<bool>
+
+The personalTitleInDN option tells FusionDirectory to include the personal title in user DNs when accountPrimaryAttribute is set to "cn".
+
+=item B<userRDN> I<string>
+
+The userRDN statement defines the location where new accounts will be created inside of defined departments. The default is ou=people.
+
+=item B<groupsRDN> string
+
+The groupsRDN statement defines the location where new groups will be created inside of defined departments. The default is ou=groups.
+
+=item B<sudoRDN> I<string>
+
+The sudoRDN statement defines the location where new groups will be created inside of defined departments. The default is ou=groups.
+
+=item B<sambaMachineAccountRDN> I<string>
+
+This statement defines the location where FusionDirectory looks for new samba workstations.
+
+=item B<ogroupRDN> I<string>
+
+This statement defines the location where FusionDirectory creates new object groups inside of defined departments. Default is ou=groups.
+
+=item B<serverRDN> I<string>
+
+This statement defines the location where FusionDirectory creates new servers inside of defined departments. Default is ou=servers.
+
+=item B<terminalRDN> I<string>
+
+This statement defines the location where FusionDirectory creates new terminals inside of defined departments. Default is ou=terminals.
+
+=item B<workstationRDN> I<string>
+
+This statement defines the location where FusionDirectory creates new workstations inside of defined departments. Default is ou=workstations.
+
+=item B<printerRDN> I<string>
+
+This statement defines the location where FusionDirectory creates new printers inside of defined departments. Default is ou=printers.
+
+=item B<componentRDN> I<string>
+
+This statement defines the location where FusionDirectory creates new network components inside of defined departments. Default is ou=components.
+
+=item B<phoneRDN> I<string>
+
+This statement defines the location where FusionDirectory creates new phones inside of defined departments. Default is ou=phones.
+
+=item B<phoneConferenceRDN> I<string>
+
+This statement defines the location where FusionDirectory creates new phone conferences inside of defined departments. Default is ou=conferences.
+
+=item B<faxBlocklistRDN> I<string>
+
+This statement defines the location where FusionDirectory creates new fax blocklists inside of defined departments. Default is ou=blocklists.
+
+=item B<systemRDN> I<string>
+
+This statement defines the base location for servers, workstations, terminals, phones and components. Default is ou=systems.
+
+=item B<ogroupRDN> I<string>
+
+This statement defines the location where FusionDirectory looks for object groups.  Default is ou=groups.
+
+=item B<aclRoleRDN> I<string>
+
+This statement defines the location where FusionDirectory stores ACL role definitions.  Default is ou=aclroles.
+
+=item B<phoneMacroRDN> I<string>
+
+This statement defines the location where FusionDirectory stores phone macros for  use  with  the  Asterisk  phone  server.
+Default  is  ou=macros,ou=asterisk,ou=configs,ou=systems.
+
+=item B<faiBaseRDN> I<string>
+
+This statement defines the location where FusionDirectory looks for FAI settings.  Default is ou=fai,ou=configs,ou=systems.
+
+=item B<faiScriptRDN, faiHookRDN, faiTemplateRDN, faiVariableRDN, faiProfileRDN, faiPackageRDN, faiPartitionRDN> I<string>
+
+These  statement  define  the  location where FusionDirectory stores FAI classes. The complete base for the corresponding class is an additive
+of faiBaseRDN an and this value.
+
+=item B<deviceRDN> I<string>
+
+This statement defines the location where FusionDirectory looks for devices.  Default is ou=devices.
+
+=item B<mimetypeRDN> I<string>
+
+This statement defines the location where FusionDirectory stores mime type definitions.
+Default is ou=mimetypes.
+
+=item B<applicationRDN> I<string>
+
+This statement defines the location where FusionDirectory stores application definitions.  Default is ou=apps.
+
+=item B<ldapFilterNestingLimit> I<integer>
+
+The ldapFilterNestingLimit statement can be used to speed up group handling for groups with several hundreds of members.
+The default behaviour is, that FusionDirectory will resolv the memberUid values in a group to real names.
+To achieve this, it writes a single filter to minimize searches. Some LDAP servers (namely Sun DS) simply
+crash when the filter gets too big. You can set a member limit, where FusionDirectory will stop to do these lookups.
+
+=item B<ldapSizelimit> I<integer>
+
+The ldapSizelimit statement tells FusionDirectory to retrieve the specified maximum number of results. The user will get a warning, that not all entries were shown.
+
+=item B<ldapFollowReferrals> I<bool>
+
+The ldapFollowReferrals statement tells FusionDirectory to follow LDAP referrals.
+
+=back
+
+=head2 Account creation options
+
+=over
+
+=item B<uidNumberBase> I<integer>
+
+The uidNumberBase statement defines where to start looking for a new free user id.
+This should be synced with your adduser.conf to avoid overlapping uidNumber values
+between local and LDAP based lookups. The uidNumberBase can even be dynamic. Take a look at the baseIdHook definition below.
+
+=item B<gidNumberBase> I<integer>
+
+The gidNumberBase statement defines where to start looking for a new free group id. This should be synced with your adduser.conf
+to avoid overlapping gidNumber values between local and LDAP based lookups. The gidNumberBase can even be dynamic.
+Take a look at the nextIdHook definition below.
+
+=item B<idAllocationMethod> I<traditional/pool>
+
+The idAllocationMethod statement defines how FusionDirectory generates numeric user and group id values.
+If it is set to traditional FusionDirectory will do create a lock and perform a search for the next free ID.
+The lock will be removed after the procedure completes.
+If it is set to pool will use the sambaUnixIdPool objectclass settings inside your LDAP.
+This one is unsafe, because it does not check for concurrent LDAP access and already used IDs in this range.
+On the other hand it is much faster.
+
+=item B<minId> I<integer>
+
+The minId statement defines the minimum assignable user or group id to avoid security leaks with uid 0 accounts. This is used for the traditional method
+
+=item B<uidNumberPoolMin/gidNumberPoolMin> I<integer>
+
+The uidNumberPoolMin/gidNumberPoolMin statement defines the minimum assignable user/group id for use with the pool method.
+
+=item B<uidNumberPoolMax/gidNumberPoolMax> I<integer>
+
+The uidNumberPoolMin/gidNumberPoolMin statement defines the highest assignable user/group id for use with the pool method.
+
+=item B<nextIdHook> I<path>
+
+The nextIdHook statement defines a script to be called for finding the next free id for users or groups externaly.
+It gets called with the current entry "dn" and the attribute to be ID'd. It should return an integer value.
+
+=item B<hash> I<string>
+
+The  hash  statement  defines  the default password hash to choose for new accounts.
+Valid values are crypt/standard-des, crypt/md5, crypt/enhanced-des, crypt/blowfish, md5, sha, ssha, smd5, clear and sasl.
+These values will be overridden when using templates.
+
+=item B<idGenerator> I<string>
+
+The idGenerator statement describes an automatic way to generate new user ids. There are two basic functions supported - which can be combined:
+
+  a) using attributes
+
+     You can specify LDAP attributes (currently only sn and givenName) in
+     braces {} and add a percent sign befor it. Optionally you can strip it
+     down to a number of characters, specified in []. I.e.
+
+       idGenerator="{%sn}-{%givenName[2-4]}"
+
+     will generate an ID using the full surname, adding a dash, and adding at
+     least the first two characters of givenName. If this ID is used, it'll
+     use up to four characters. If no automatic generation is possible, a
+     input box is shown.
+
+  b) using automatic id's
+
+     I.e. specifying
+
+       idGenerator="acct{id:3}"
+
+     will generate a three digits id with the next free entry appended to
+     "acct".
+
+       idGenerator="acct{id!1}"
+
+     will generate a one digit id with the next free entry appended to
+     "acct" - if needed.
+
+       idGenerator="ext{id#3}"
+
+
+
+     will generate a three digits random number appended to "ext".
+
+=back
+
+=head2 Samba options
+
+=over
+
+=item B<sambaSID> I<string>
+
+The sambaSID statement defines a samba SID if not available inside of the LDAP. You can retrieve the current sid by net getlocalsid.
+
+=item B<sambaRidBase> I<integer>
+
+The sambaRidBase statement defines the base id to add to ordinary sid calculations - if not available inside of the LDAP.
+
+=item B<sambaidmapping> I<bool>
+
+The sambaidmapping statement tells FusionDirectory to maintain sambaIdmapEntry objects.
+Depending on your setup this can drastically improve the windows login performance.
+
+=back
+
+=head2 Asterisk options
+
+=over
+
+=item B<ctiHook> I<path>
+
+The ctiHook statement defines a script to be executed if someone clicks on a phone number inside of the addressbook plugin. It gets called with two parameters:
+
+  ctiHook $source_number $destination_number
+
+  This script can be used to do automatted dialing from the addressbook.
+
+=item B<asteriskParameterDelimiter>
+
+This defines the delimiter to be used when storing dialplan applications, since asterisk 1.8 the parameter delimiter for dialplan applications has changed from the pipe to comma, by default we use pipe.
+
+
+=back
+
+=head2 Mail options
+
+=over
+
+=item B<mailMethod Cyrus/SendmailCyrus/Kolab/Kolab22> I<string>
+
+The mailMethod statement tells FusionDirectory which mail method the setup should use to communicate with a possible mail server.
+
+Cyrus maintains accounts and sieve scripts in cyrus servers. Kolab/Kolab22 is like cyrus, but lets the kolab daemon maintain the accounts.
+SendmailCyrus is based on sendmail LDAP attributes.
+
+=item B<cyrusUseSlashes> I<bool>
+
+The cyrusUseSlashes statement determines if FusionDirectory should use "foo/bar" or "foo.bar" namespaces in IMAP. Unix style is with slashes.
+
+=item B<cyrusDeleteMailbox> I<bool>
+
+The cyrusDeleteMailbox statement determines if FusionDirectory should remove the mailbox from your IMAP server or keep it after the account is deleted in LDAP.
+
+=item B<cyrusAutocreateFolders> I<string>
+
+The cyrusAutocreateFolders statement contains a comma separated list of personal IMAP folders that should be created along initial account creation.
+
+=item B<mailAttribute> I<mail/uid>
+
+The mailAttribute statement determines which attribute FusionDirectory will use to create accounts.  Valid values are mail and uid.
+
+=item B<imapTimeout Integer> I<integer>
+
+The imapTimeout statement sets the connection timeout for imap actions. Default 10 seconds
+
+=item B<mailFolderCreation> I<string>
+
+Every mail method has its own way to create mail accounts like share/development or shared.development@example.com
+which is used to identify the accounts, set quotas or add acls.
+
+To override the methods default account creation syntax, you can set the mailFolderCreation option.
+
+  Examples
+
+  mailFolderCreation="%prefix%%cn%"        => "shared.development"
+  mailFolderCreation="my-prefix.%cn%%domain%"    => "my-prefix.development@example.com">
+
+  Placeholders
+
+  %prefix%    The methods default prefix. (Depends on cyrusUseSlashes=FALSE/TRUE)
+  %cn%      The groups/users cn.
+  %uid%     The users uid.
+  %mail%      The objects mail attribute.
+  %domain%    The domain part of the objects mail attribute.
+  %mailpart%  The user address part of the mail address.
+  %uattrib%   Depends on mailAttribute="uid/mail".
+
+
+=item B<mailUserCreation> I<string>
+
+This attribute allows to override the user account creation syntax, see the mailFolderCreation description for more details.
+
+  Examples
+
+  mailUserCreation="%prefix%%uid%"     => "user.foobar"
+  mailUserCreation=my-prefix.%uid%%domain%"  => "my-prefix.foobar@example.com"
+
+=item B<vacationTemplateDirectory> I<path>
+
+The vacationTemplateDirectory statement sets the path where FusionDirectory will look for vacation message templates.
+Default is /var/cache/fusiondirectory/vacation.
+
+  Example template /varc/cache/fusiondirectory/vacation/business.txt:
+
+  DESC:Away from desk
+  Hi, I'm currently away from my desk. You can contact me on
+  my cell phone via %mobile.
+
+  Greetings,
+  %givenName %sn
+
+=back
+
+=head2 Debug options
+
+=over
+
+=item B<ldapstats> I<bool>
+
+The ldapstats statement tells FusionDirectory to track LDAP timing statistics to the syslog.
+This may help to find indexing problems or bad search filters.
+
+=item B<ignoreAcl> I<dn>
+
+The ignoreAcl value tells FusionDirectory to ignore complete ACL sets for the given DN. Add your DN here and you'll be able to restore accidently dropped ACLs.
+
+=back
+
+=head1 BUGS
+
+Please report any bugs, or post any suggestions, to the fusiondirectory mailing list fusiondirectory-users or to
+<https://forge.fusiondirectory.org/projects/fdirectory/issues/new>
+
+
+=head1 LICENCE AND COPYRIGHT
+
+This code is part of FusionDirectory <http://www.fusiondirectory.org>
+
+=over 2
+
+=item Copyright (C) 2003-2010 GONICUS GmbH
+
+=item Copyright (C) 2011-2013 FusionDirectory project
+
+=back
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+=cut
