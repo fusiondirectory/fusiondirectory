@@ -100,7 +100,7 @@ class configInLdap extends simplePlugin
         'name'  => _('Schema setup'),
         'attrs' => array(
           new BooleanAttribute (
-            _('rfc237bis'),
+            _('rfc2370bis'),
             _('Enables rfc2307bis style groups. You can use member attributes instead of memberUid in this case.'),
             'fdRfc2307bis', FALSE,
             FALSE
