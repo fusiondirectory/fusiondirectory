@@ -35,7 +35,7 @@ class aclManagement extends management
     return array(
       "plShortName"   => _("Acl"),
       "plDescription" => _("Access control list management"),
-      "plIcon"        => "plugins/acl/images/plugin.png",
+      "plIcon"        => "plugins/acl/images/icon.png",
       "plSection"     => "admin",
       "plCategory"    => array("acl"),
 

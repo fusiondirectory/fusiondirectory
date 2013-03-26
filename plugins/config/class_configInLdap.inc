@@ -56,7 +56,7 @@ class configInLdap extends simplePlugin
     return array(
       "plShortName"     => _("Configuration"),
       "plDescription"   => _("FusionDirectory configuration"),
-      "plIcon"          => "plugins/config/images/plugin.png",
+      "plIcon"          => "plugins/config/images/icon.png",
       "plSelfModify"    => FALSE,
       "plCategory"      => array("configuration"),
       "plObjectType"    => array("configuration" => array("name"  => _("FusionDirectory configuration"),

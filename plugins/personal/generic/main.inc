@@ -165,7 +165,7 @@ if ( $cleanup ){
 
 
   /* Page header*/
-  $display= print_header(get_template_path('plugins/generic/images/plugin.png'),
+  $display= print_header(get_template_path('plugins/generic/images/icon.png'),
       _("Generic user information"), $info).$display;
 
 }

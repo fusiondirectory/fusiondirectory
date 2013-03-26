@@ -238,7 +238,7 @@ class pluglist {
       return FALSE;
     }
     if (!$plIcon) {
-      $plIcon = "plugin.png";
+      $plIcon = "icon.png";
     }
     return array($plHeadline,$plDescription,$plIcon);
   }

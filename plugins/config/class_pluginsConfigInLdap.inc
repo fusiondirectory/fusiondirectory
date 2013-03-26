@@ -28,7 +28,7 @@ class pluginsConfigInLdap extends multiPlugin
     return array(
       "plShortName"   => _("Plugins"),
       "plDescription" => _("Configuration for plugins"),
-      "plIcon"        => "plugins/config/images/plugin.png",
+      "plIcon"        => "plugins/config/images/icon.png",
       "plPriority"    => 20,
       "plCategory"    => array("configuration"),
       "plObjectType"  => array("configuration"),

@@ -35,7 +35,7 @@ class departmentManagement extends management
     return array(
       "plShortName"   => _("Departments"),
       "plDescription" => _("Manage departments"),
-      "plIcon"        => "plugins/departments/images/plugin.png",
+      "plIcon"        => "plugins/departments/images/icon.png",
       "plSection"     => array("admin" => array("name" => _("Administration"), "priority" => 0)),
       "plCategory"    => array("department"),
       "plPriority"    => 0,
