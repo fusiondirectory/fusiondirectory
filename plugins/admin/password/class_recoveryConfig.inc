@@ -34,7 +34,7 @@ class recoveryConfig extends simplePlugin
     return array(
       "plShortName"   => _("Password recovery config"),
       "plDescription" => _("Settings for the password recovery feature"),
-      "plIcon"        => "plugins/password/images/password.png",
+      "plIcon"        => "plugins/password/images/iconRecovery.png",
       "plSelfModify"  => FALSE,
       "plSection"     => "addons",
       "plPriority"    => 9,
