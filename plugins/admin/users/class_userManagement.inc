@@ -101,14 +101,11 @@ class userManagement extends management
     $this->registerAction("passwordCancel", "closeDialogs");
 
     // Register shortcut icon actions
-    $this->registerAction("edit_user",          "editEntry");
-    $this->registerAction("edit_posixAccount",  "editEntry");
-    $this->registerAction("edit_mailAccount",   "editEntry");
-    $this->registerAction("edit_sambaAccount",  "editEntry");
-    $this->registerAction("edit_netatalk",      "editEntry");
-    $this->registerAction("edit_environment",   "editEntry");
-    $this->registerAction("edit_gofaxAccount",  "editEntry");
-    $this->registerAction("edit_phoneAccount",  "editEntry");
+    foreach ($config->data['TABS']['USERTABS'] as $plug) {
+      if (class_available($plug['CLASS'])) {
+        $this->registerAction("edit_".$plug['CLASS'], "editEntry");
+      }
+    }
     if (!class_available('mailAccount')) {
       /* If mail plugin is not installed, ignore mail filter */
       $this->filter->elements['MAIL']['unset']      = '';
