@@ -51,7 +51,7 @@ class userManagement extends management
     return array(
       "plShortName"   => _("Users"),
       "plDescription" => _("Manage users"),
-      "plIcon"        => "plugins/users/images/user.png",
+      "plIcon"        => "plugins/users/images/icon.png",
       "plSection"     => "admin",
       "plCategory"    => array("users"),
       "plPriority"    => 1,
