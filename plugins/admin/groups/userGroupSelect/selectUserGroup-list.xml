@@ -24,7 +24,7 @@
       <objectClass>posixGroup</objectClass>
       <category>groups</category>
       <class>group</class>
-      <image>plugins/groups/images/groups.png</image>
+      <image>plugins/groups/images/iconMini.png</image>
     </objectType>
 
   </definition>

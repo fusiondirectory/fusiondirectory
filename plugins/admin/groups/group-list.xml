@@ -16,7 +16,7 @@
       <objectClass>posixGroup</objectClass>
       <category>groups</category>
       <class>group</class>
-      <image>plugins/groups/images/groups.png</image>
+      <image>plugins/groups/images/iconMini.png</image>
     </objectType>
 
     <objectType>
@@ -24,7 +24,7 @@
       <objectClass>gotoSubmenuEntry</objectClass>
       <category>groups</category>
       <class>group</class>
-      <image>plugins/groups/images/groups.png</image>
+      <image>plugins/groups/images/iconMini.png</image>
     </objectType>
 
     <objectType>
@@ -32,7 +32,7 @@
       <objectClass>gotoMenuEntry</objectClass>
       <category>groups</category>
       <class>group</class>
-      <image>plugins/groups/images/groups.png</image>
+      <image>plugins/groups/images/iconMini.png</image>
     </objectType>
 
 
@@ -92,7 +92,7 @@
      <action>
       <name>new</name>
       <type>entry</type>
-      <image>plugins/groups/images/new.png</image>
+      <image>plugins/groups/images/iconMini.png</image>
       <label>Group</label>
      </action>
     </action>

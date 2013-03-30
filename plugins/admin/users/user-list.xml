@@ -24,7 +24,7 @@
       <objectClass>gosaAccount</objectClass>
       <category>users</category>
       <class>user</class>
-      <image>plugins/users/images/select_user.png</image>
+      <image>plugins/users/images/iconMini.png</image>
     </objectType>
 
   </definition>
@@ -91,7 +91,7 @@
      <action>
       <name>new</name>
       <type>entry</type>
-      <image>plugins/users/images/list_new_user.png</image>
+      <image>plugins/users/images/iconMini.png</image>
       <label>User</label>
      </action>
 

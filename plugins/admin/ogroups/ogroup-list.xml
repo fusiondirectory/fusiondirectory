@@ -16,7 +16,7 @@
       <objectClass>gosaGroupOfNames</objectClass>
       <category>ogroups</category>
       <class>ogroup</class>
-      <image>plugins/ogroups/images/ogroup.png</image>
+      <image>plugins/ogroups/images/iconMini.png</image>
     </objectType>
 
   </definition>
@@ -75,7 +75,7 @@
      <action>
       <name>new</name>
       <type>entry</type>
-      <image>plugins/ogroups/images/new.png</image>
+      <image>plugins/ogroups/images/iconMini.png</image>
       <label>Group</label>
      </action>
     </action>
