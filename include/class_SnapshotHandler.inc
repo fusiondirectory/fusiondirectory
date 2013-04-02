@@ -296,6 +296,12 @@ class SnapshotHandler {
    */
   function create_snapshot($dn, $description= array())
   {
+    if (is_array($dn)) {
+      $dns  = $dn;
+      $dn   = $dns[0];
+    } else {
+      $dns = array($dn);
+    }
 
     /* Check if snapshot functionality is enabled */
     if(!$this->snapshotEnabled()){
@@ -344,11 +350,14 @@ class SnapshotHandler {
       $new_base       = preg_replace("/".preg_quote($base, '/')."$/","",$base_of_object).$snap_base;
 
       /* Create object */
-      $data             = $ldap->generateLdif(LDAP::fix($dn),
-              "(&(!(objectClass=gosaDepartment))(!(objectClass=FAIclass)))",array(),'base');
+      $data = '';
+      foreach ($dns as $dn) {
+        $data .= $ldap->generateLdif(LDAP::fix($dn),
+              '(&(!(objectClass=gosaDepartment))(!(objectClass=FAIclass)))', array(), 'base');
+      }
 
       $newName          = str_replace(".", "", $sec."-".$usec);
-      $target= array();
+      $target = array();
       $target['objectClass']            = array("top", "gosaSnapshotObject");
       $target['gosaSnapshotData']       = gzcompress($data, 6);
       $target['gosaSnapshotType']       = "snapshot";

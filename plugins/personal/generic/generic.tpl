@@ -238,39 +238,16 @@
     <tr>
      <td style='vertical-align:top'><label for="edit_perms">{t}Restrict login to{/t}</label></td>
      <td>
-
-     {if !$multiple_support}
         {render acl=$gosaLoginRestrictionACL}
           {$gosaLoginRestrictionWidget}
         {/render}
         {render acl=$gosaLoginRestrictionACL}
-          <input type="text" id="res" name="res" size=22 maxlength=33
-            value="{t}IP or network{/t}" onFocus='document.getElementById("res").value=""'>
+          <input type="text" id="res" name="res" size="22" maxlength="33"
+            value="{t}IP or network{/t}" onFocus='document.getElementById("res").value=""'/>
         {/render}
         {render acl=$gosaLoginRestrictionACL}
-           <input id="add_res" type="submit" name="add_res" value="{t}Add{/t}">
+           <input id="add_res" type="submit" name="add_res" value="{t}Add{/t}"/>
         {/render}
-     {else}
-      <input type='checkbox' name='use_gosaLoginRestriction' {if $use_gosaLoginRestriction} checked {/if}
-        onClick='document.mainform.submit();'
-      >
-      {if !$use_gosaLoginRestriction}
-        {render acl=$gosaLoginRestriction_ONLY_R_ACL}
-          {$gosaLoginRestrictionWidget}
-        {/render}
-      {else}
-        {render acl=$gosaLoginRestrictionACL}
-          {$gosaLoginRestrictionWidget}
-        {/render}
-        {render acl=$gosaLoginRestrictionACL}
-          <input type="text" id="res" name="res" size=22 maxlength=33
-            value="{t}IP or network{/t}" onFocus='document.getElementById("res").value=""'>
-        {/render}
-        {render acl=$gosaLoginRestrictionACL}
-          <input id="add_res" type="submit" name="add_res" value="{t}Add{/t}">
-        {/render}
-      {/if}
-     {/if}
      </td>
     </tr>
    </table>
