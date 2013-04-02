@@ -37,6 +37,7 @@ class aclManagement extends management
       "plDescription" => _("Access control list management"),
       "plIcon"        => "plugins/acl/images/icon.png",
       "plSection"     => "admin",
+      "plPriority"    => 42,
       "plCategory"    => array("acl"),
 
       "plProvidedAcls" => array()

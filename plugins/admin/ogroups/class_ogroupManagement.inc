@@ -38,7 +38,7 @@ class ogroupManagement extends management
       "plIcon"        => "plugins/ogroups/images/icon.png",
       "plSection"     => "admin",
       "plCategory"    => array("ogroups"),
-      "plPriority"    => 4,
+      "plPriority"    => 3,
 
       "plProvidedAcls" => array()
     );
