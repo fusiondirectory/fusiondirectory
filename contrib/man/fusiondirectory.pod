@@ -132,7 +132,7 @@ this will not work because the sessions will be removed by a cron jobinstead. Pl
 =item B<primaryGroupFilter> I<bool>
 
 The primaryGroupFilter variable enables or disables the group filter to show primary user groups. It is time consuming to evaluate
-which groups are  primary  and  whichare not. So you may want to set it to true if your group plugin is slow.
+which groups are  primary  and  whichare not. So you may want to set it to false if your group plugin is slow.
 
 =back
 
@@ -221,7 +221,7 @@ The groupsRDN statement defines the location where new groups will be created in
 
 =item B<sudoRDN> I<string>
 
-The sudoRDN statement defines the location where new groups will be created inside of defined departments. The default is ou=groups.
+The sudoRDN statement defines the location where new groups will be created inside of defined departments. The default is ou=sudoers.
 
 =item B<sambaMachineAccountRDN> I<string>
 
@@ -259,6 +259,11 @@ This statement defines the location where FusionDirectory creates new phones ins
 
 This statement defines the location where FusionDirectory creates new phone conferences inside of defined departments. Default is ou=conferences.
 
+=item B<phoneMacroRDN> I<string>
+
+This statement defines the location where FusionDirectory stores phone macros for use with the Asterisk phone server.
+Default is ou=macros,ou=asterisk,ou=configs,ou=systems.
+
 =item B<faxBlocklistRDN> I<string>
 
 This statement defines the location where FusionDirectory creates new fax blocklists inside of defined departments. Default is ou=blocklists.
@@ -274,11 +279,6 @@ This statement defines the location where FusionDirectory looks for object group
 =item B<aclRoleRDN> I<string>
 
 This statement defines the location where FusionDirectory stores ACL role definitions.  Default is ou=aclroles.
-
-=item B<phoneMacroRDN> I<string>
-
-This statement defines the location where FusionDirectory stores phone macros for  use  with  the  Asterisk  phone  server.
-Default  is  ou=macros,ou=asterisk,ou=configs,ou=systems.
 
 =item B<faiBaseRDN> I<string>
 

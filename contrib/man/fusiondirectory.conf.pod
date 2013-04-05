@@ -94,7 +94,7 @@ The config statement defines the LDAP base, where FusionDirectory stores managem
 
 =item B<debuglevel> I<integer>
 
-The debuglevel value tells FusionDirectory to display certain information on each page load. Value is an AND combination of the following byte values :
+The debuglevel value tells FusionDirectory to display certain information on each page load. Value is an OR combination of the following byte values :
 
 DEBUG_TRACE    = 1
 
