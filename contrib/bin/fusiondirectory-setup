@@ -512,7 +512,12 @@ sub get_ldap_connexion {
       $location = $answer;
     }
 
-    $uri      = $locations{$location}->{'uri'};
+    if ($locations{$location}->{'uri'} =~ qr|^(.*)/([^/]+)$|) {
+      $uri  = $1;
+      $base = $2;
+    } else {
+      die '"'.$locations{$location}->{'uri'}.'" does not contain any base!';
+    }
     $bind_dn  = $locations{$location}->{'bind_dn'};
     $bind_pwd = $locations{$location}->{'bind_pwd'};
 
@@ -535,6 +540,7 @@ sub get_ldap_connexion {
   my $ldap = Net::LDAP->new ($uri) or die ("! Can't contact LDAP server $uri\n");
 
   $hash_result{ldap} = $ldap;
+  $hash_result{base} = $base;
 
   # bind to the LDAP server
   my $bind = $ldap->bind ($bind_dn, password => $bind_pwd);
