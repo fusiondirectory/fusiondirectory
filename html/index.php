@@ -144,7 +144,7 @@ if (isset($_POST['javascript']) && $_POST['javascript'] == "true") {
 
 /* Check if fusiondirectory.conf (.CONFIG_FILE) is accessible */
 if (!is_readable(CONFIG_DIR."/".CONFIG_FILE)) {
-  msg_dialog::display(_("Configuration error"), sprintf(_("FusionDirectory configuration %s/%s is not readable. Aborted."), CONFIG_DIR,CONFIG_FILE), FATAL_ERROR_DIALOG);
+  msg_dialog::display(_("Configuration error"), sprintf(_("FusionDirectory configuration %s/%s is not readable. Please run fusiondirectory-setup --check-config to fix this."), CONFIG_DIR,CONFIG_FILE), FATAL_ERROR_DIALOG);
   exit();
 }
 
