@@ -393,17 +393,7 @@ eof
 # function that add the FusionDirectory's admin account
 # return nothing is it a problem?
 sub add_ldap_admin {
-  my ($base, $ldap, $acllines) = @_;
-
-  my $fd_admin_uid = ask_user_input ("Please enter a login for FusionDirectory's admin", "fd-admin");
-  my $fd_admin_pwd = ask_user_input ("Please enter FusionDirectory's admin password");
-  my $fd_admin_pwd_confirm = ask_user_input ("Please enter it again");
-
-  # while the confirmation password is not the same than the first one
-  while ( ($fd_admin_pwd_confirm ne $fd_admin_pwd) && ($fd_admin_pwd_confirm ne "quit" ) ){
-    $fd_admin_pwd_confirm = ask_user_input ("! Inputs don't match, try again or type 'quit' to end this function");
-  }
-  return -1 if ($fd_admin_pwd_confirm eq "quit");
+  my ($base, $ldap, $acllines, $people_entries) = @_;
 
   # Get the configuration to know which attribute must be used in the dn
   my $mesg = $ldap->search(
@@ -420,25 +410,53 @@ sub add_ldap_admin {
   } else {
     $attr = 'uid';
   }
-  my %obj = (
-    'cn'  =>  'System Administrator',
-    'sn'  =>  'Administrator',
-    'uid' =>  $fd_admin_uid,
-    'givenname'     =>  'System',
-    'objectclass'   =>  [ 'top', 'person', 'gosaAccount', 'organizationalPerson', 'inetOrgPerson' ],
-    'userPassword'  => "{CRYPT}".unix_md5_crypt($fd_admin_pwd)
-  );
-  if (not defined $obj{$attr}) {
-    print "Error : invalid account primary attribute $attr, using uid\n";
-    $attr = 'uid';
-  }
-  my $dn = "$attr=".$obj{$attr}.",$peopleou,$base";
 
-  # Add the administator user object
-  my @options = %obj;
-  my $admin_add = $ldap->add( $dn, attr => \@options );
-  # send a warning if the ldap's admin's add didn't gone well
-  $admin_add->code && die "\n! failed to add LDAP's $dn entry - ".$admin_add->error_name.": ".$admin_add->error_text;
+  my $fd_admin_uid = ask_user_input ("Please enter a login for FusionDirectory's admin", "fd-admin");
+  # Does this user exists?
+  my $dn = "";
+  foreach my $entry (@$people_entries) {
+    my $mesg = $ldap->search(
+      base => "$entry",
+      filter => "(&(objectClass=gosaAccount)(uid=$fd_admin_uid))",
+      attrs => ['uid']
+    );
+    if ($mesg->count) {
+      print "User $fd_admin_uid already existing, adding admin acl to it\n";
+      $dn = ($mesg->entries)[0]->dn;
+      last;
+    }
+  }
+
+  if ($dn eq "") {
+    my $fd_admin_pwd = ask_user_input ("Please enter FusionDirectory's admin password");
+    my $fd_admin_pwd_confirm = ask_user_input ("Please enter it again");
+
+    # while the confirmation password is not the same than the first one
+    while ( ($fd_admin_pwd_confirm ne $fd_admin_pwd) && ($fd_admin_pwd_confirm ne "quit" ) ) {
+      $fd_admin_pwd_confirm = ask_user_input ("! Inputs don't match, try again or type 'quit' to end this function");
+    }
+    return -1 if ($fd_admin_pwd_confirm eq "quit");
+
+    my %obj = (
+      'cn'  =>  'System Administrator',
+      'sn'  =>  'Administrator',
+      'uid' =>  $fd_admin_uid,
+      'givenname'     =>  'System',
+      'objectclass'   =>  [ 'top', 'person', 'gosaAccount', 'organizationalPerson', 'inetOrgPerson' ],
+      'userPassword'  => "{CRYPT}".unix_md5_crypt($fd_admin_pwd)
+    );
+    if (not defined $obj{$attr}) {
+      print "Error : invalid account primary attribute $attr, using uid\n";
+      $attr = 'uid';
+    }
+    $dn = "$attr=".$obj{$attr}.",$peopleou,$base";
+
+    # Add the administator user object
+    my @options = %obj;
+    my $admin_add = $ldap->add( $dn, attr => \@options );
+    # send a warning if the ldap's admin's add didn't gone well
+    $admin_add->code && die "\n! failed to add LDAP's $dn entry - ".$admin_add->error_name.": ".$admin_add->error_text;
+  }
 
   # Add the acl that make him an administrator
   my $acls = $ldap->search (
@@ -553,7 +571,7 @@ sub get_ldap_connexion {
 
 # function that check if there is an admin
 sub check_admin {
-  my ($base, $ldap) = @_;
+  my ($base, $ldap, $people_entries) = @_;
 
   # search for FusionDirectory's admin account
   my $acls = $ldap->search (
@@ -600,7 +618,7 @@ sub check_admin {
     print ("! $dn is supposed to be admin but does not exists\n");
   }
   if (ask_yn_question("No valid admin account found, do you want to create it ?")) {
-    return add_ldap_admin($base, $ldap, \@dns);
+    return add_ldap_admin($base, $ldap, \@dns, $people_entries);
   }
 }
 
@@ -624,7 +642,7 @@ sub check_ldap {
   # if ou=people exists
   if ( defined ($people_entries[0]) ) {
 
-    check_admin($base, $ldap);
+    check_admin($base, $ldap, \@people_entries);
 
   # if ou=people doesn't exists
   } else {
