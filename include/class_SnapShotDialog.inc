@@ -146,6 +146,70 @@ class SnapShotDialog extends plugin
     return($tmp2);
   }
 
+  /*
+   * \brief Return available snapshots for the given base
+   *
+   * \param string $dn The DN
+   *
+   * \param string boolean $raw FALSE
+   */
+  function Available_SnapsShots($dn,$raw = false)
+  {
+    if(!$this->snapshotEnabled()) return(array());
+
+    /* Create an additional ldap object which
+       points to our ldap snapshot server */
+    $ldap= $this->config->get_ldap_link();
+    $ldap->cd($this->config->current['BASE']);
+    $cfg= &$this->config->current;
+
+    /* check if there are special server configurations for snapshots */
+    if($this->config->get_cfg_value("snapshotURI") == ""){
+      $ldap_to      = $ldap;
+    }else{
+      $server         = $this->config->get_cfg_value("snapshotURI");
+      $user           = $this->config->get_cfg_value("snapshotAdminDn");
+      $password       = $this->config->get_credentials($this->config->get_cfg_value("snapshotAdminPassword"));
+      $snapldapbase   = $this->config->get_cfg_value("snapshotBase");
+      $ldap_to        = new ldapMultiplexer(new LDAP($user,$password, $server));
+      $ldap_to -> cd($snapldapbase);
+      if (!$ldap_to->success()){
+        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap_to->get_error(), $snapldapbase, "", get_class()));
+      }
+    }
+
+    /* Prepare bases and some other infos */
+    $base           = $this->config->current['BASE'];
+    $snap_base      = $this->config->get_cfg_value("snapshotBase");
+    $base_of_object = preg_replace ('/^[^,]+,/i', '', $dn);
+    $new_base       = preg_replace("/".preg_quote($base, '/')."$/","",$base_of_object).$snap_base;
+    $tmp            = array();
+
+    /* Fetch all objects with  gosaSnapshotDN=$dn */
+    $ldap_to->cd($new_base);
+    $ldap_to->ls("(&(objectClass=gosaSnapshotObject)(gosaSnapshotDN=".$dn."))",$new_base,
+        array("gosaSnapshotType","gosaSnapshotTimestamp","gosaSnapshotDN","description"));
+
+    /* Put results into a list and add description if missing */
+    while($entry = $ldap_to->fetch()){
+      if(!isset($entry['description'][0])){
+        $entry['description'][0]  = "";
+      }
+      $tmp[] = $entry;
+    }
+
+    /* Return the raw array, or format the result */
+    if($raw){
+      return($tmp);
+    }else{
+      $tmp2 = array();
+      foreach($tmp as $entry){
+        $tmp2[base64_encode($entry['dn'])] = $entry['description'][0];
+      }
+    }
+    return($tmp2);
+  }
+
 
   /*!
    * \brief Set a snapshot base
