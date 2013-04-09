@@ -3283,8 +3283,13 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
  */
 function generate_smb_nt_hash($password)
 {
+  global $config;
   $smbHash = new smbHash();
-  $attrs['sambaLMPassword'] = $smbHash->lmhash($password);
+  if ($config->get_cfg_value("sambaGenLMPassword", "FALSE") == "TRUE") {
+    $attrs['sambaLMPassword'] = $smbHash->lmhash($password);
+  } else {
+    $attrs['sambaLMPassword'] = array();
+  }
   $attrs['sambaNTPassword'] = $smbHash->nthash($password);
   $attrs['sambaPwdLastSet'] = date('U');
 
