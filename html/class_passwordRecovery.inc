@@ -268,13 +268,8 @@ class passwordRecovery {
     global $GLOBALS,$BASE_DIR;
 
     /* Language setup */
-    if ($this->config->get_cfg_value("language") == "") {
-      $lang = get_browser_language();
-    } else {
-      $lang = $this->config->get_cfg_value("language");
-    }
+    $lang = get_browser_language();
 
-    $lang .= ".UTF-8";
     putenv("LANGUAGE=");
     putenv("LANG=$lang");
     setlocale(LC_ALL, $lang);

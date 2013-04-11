@@ -96,15 +96,10 @@ $smarty->compile_dir= $config->get_cfg_value("templateCompileDirectory", SPOOL_D
 /* Set default */
 $reload_navigation = FALSE;
 
-/* Set last initialised language to current, browser settings */
-if (!session::global_is_set('Last_init_lang')) {
-  $reload_navigation = TRUE;
-  session::global_set('Last_init_lang',get_browser_language());
-}
-
 /* If last language != current force navi reload */
-$lang= get_browser_language();
-if (session::global_get('Last_init_lang') != $lang) {
+$lang = get_browser_language();
+/* Set last initialised language to current, browser settings */
+if ((!session::global_is_set('Last_init_lang')) || (session::global_get('Last_init_lang') != $lang)) {
   $reload_navigation = TRUE;
 }
 

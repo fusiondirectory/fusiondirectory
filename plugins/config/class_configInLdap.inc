@@ -79,9 +79,9 @@ class configInLdap extends simplePlugin
         'name'  => _('Look n feel'),
         'attrs' => array(
           new SelectAttribute (
-            _('Language'), _('Default language to be used if the one asked by the browser is not available'),
+            _('Language'), _('Language of the application. If \'automatic\' or not available, the one asked by the browser will be used. This setting can be overriden per user.'),
             'fdLanguage', FALSE,
-            array('en_US')
+            array('')
           ),
           new SelectAttribute (
             _('Theme'), _('Theme to be used'),
@@ -401,15 +401,20 @@ class configInLdap extends simplePlugin
 
   function __construct(&$config, $dn = NULL, $object = NULL)
   {
-    parent::__construct($config, $dn, $object);
-    $this->attributesInfo['look_n_feel']['attrs']['fdTimezone']->setChoices(timezone::_get_tz_zones());
+    $attributesInfo = self::getAttributesInfo();
+    /* Languages */
     $languages = get_languages(TRUE);
     asort($languages);
     $languages = array_merge(array("" => _("Automatic")), $languages);
-    $this->attributesInfo['look_n_feel']['attrs']['fdLanguage']->setChoices(array_keys($languages), array_values($languages));
+    $attributesInfo['look_n_feel']['attrs'][0]->setChoices(array_keys($languages), array_values($languages));
+    /* Timezones */
+    $attributesInfo['look_n_feel']['attrs'][2]->setChoices(timezone::_get_tz_zones());
+    /* Password methods */
     $methods = passwordMethod::get_available_methods();
     $methods = $methods['name'];
-    $this->attributesInfo['password']['attrs']['fdPasswordDefaultHash']->setChoices($methods);
+    $attributesInfo['password']['attrs'][0]->setChoices($methods);
+
+    parent::__construct($config, $dn, $object, $attributesInfo);
     $this->attributesInfo['snapshots']['attrs']['fdEnableSnapshots']->setManagedAttributes(
       array(
         'disable' => array (

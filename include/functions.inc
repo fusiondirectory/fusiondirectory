@@ -3002,7 +3002,7 @@ function check_schema($cfg,$rfc2307bis = FALSE)
  *
  * \param boolean $languages_in_own_language FALSE
  *
- * \param boolean $strip_region_tag FALSEfunction
+ * \param boolean $strip_region_tag FALSE
  */
 function get_languages($languages_in_own_language = FALSE, $strip_region_tag = FALSE)
 {
