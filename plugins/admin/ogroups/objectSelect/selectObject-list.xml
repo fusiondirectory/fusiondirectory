@@ -72,7 +72,7 @@
       <objectClass>gosaAccount</objectClass>
       <category>users</category>
       <class>user</class>
-      <image>plugins/users/images/select_user.png</image>
+      <image>plugins/users/images/iconMini.png</image>
     </objectType>
 
     <objectType>

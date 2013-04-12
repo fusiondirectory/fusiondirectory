@@ -41,7 +41,7 @@ class reference extends plugin
         "gosaAccount" => array(    "text" => _("Generic"),
           "image" => "images/penguin.png"),
         "posixAccount" => array(   "text" =>_("UNIX"),
-          "image" => "plugins/users/images/select_user.png"),
+          "image" => "plugins/users/images/iconMini.png"),
         "gosaMailAccount" => array("text" => _("Mail"),
           "image" => "images/mailto.png"),
         "sambaSamAccount" => array("text" => _("Samba"),
