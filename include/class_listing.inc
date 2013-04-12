@@ -227,7 +227,6 @@ class listing {
         }
       }
     }
-    $this->objectTypes = array_values($this->objectTypes);
 
     // Parse layout per column
     $this->colprops= $this->parseLayout($this->xmlData['table']['layout']);
@@ -832,39 +831,46 @@ class listing {
   /*!
    * \brief Get the object type
    *
-   * \param string $types
-   *
    * \param string $classes
    */
-  function getObjectType($types, $classes)
+  function getObjectType($classes)
   {
     // Walk thru types and see if there's something matching
-    foreach ($types as $objectType) {
-      $ocs= $objectType['objectClass'];
-      if (!is_array($ocs)){
-        $ocs= array($ocs);
+    foreach ($this->objectTypes as $type => $objectType) {
+      $ocs = $objectType['objectClass'];
+      if (!is_array($ocs)) {
+        $ocs = array($ocs);
       }
 
-      $found= true;
-      foreach ($ocs as $oc){
+      $found = TRUE;
+      foreach ($ocs as $oc) {
         if (preg_match('/^!(.*)$/', $oc, $match)) {
-          $oc= $match[1];
+          $oc = $match[1];
           if (in_array($oc, $classes)) {
-            $found= false;
+            $found = FALSE;
           }
         } else {
           if (!in_array($oc, $classes)) {
-            $found= false;
+            $found = FALSE;
           }
         }
       }
 
       if ($found) {
-        return $objectType;
+        return $type;
       }
     }
 
     return null;
+  }
+
+  function getObjectTypeInfos($classes)
+  {
+    $type = $this->getObjectType($classes);
+    if ($type === NULL) {
+      return NULL;
+    }
+    return $this->objectTypes[$type];
   }
 
 
@@ -897,16 +903,16 @@ class listing {
   function filterObjectType($dn, $classes)
   {
     // Walk thru classes and return on first match
-    $result= "&nbsp;";
+    $result = "&nbsp;";
 
-    $objectType= $this->getObjectType($this->objectTypes, $classes);
-    if ($objectType) {
-      $this->objectDnMapping[$dn]= $objectType["objectClass"];
-      $result= "<img class='center' title='".LDAP::fix($dn)."' src='".$objectType["image"]."'>";
-      if (!isset($this->objectTypeCount[$objectType['label']])) {
-        $this->objectTypeCount[$objectType['label']]= 0;
+    $type = $this->getObjectType($classes);
+    if ($type) {
+      $this->objectDnMapping[$dn] = $type;
+      $result = "<img class='center' title='".LDAP::fix($dn)."' src='".$this->objectTypes[$type]["image"]."'>";
+      if (!isset($this->objectTypeCount[$this->objectTypes[$type]['label']])) {
+        $this->objectTypeCount[$this->objectTypes[$type]['label']]= 0;
       }
-      $this->objectTypeCount[$objectType['label']]++;
+      $this->objectTypeCount[$this->objectTypes[$type]['label']]++;
     }
 
     return $result;
@@ -990,19 +996,19 @@ class listing {
       // Handle special types
       if ($action['type'] == "copypaste" || $action['type'] == "snapshot") {
 
-        $objectType= $this->getObjectType($this->objectTypes, $this->entries[$row]['objectClass']);
-        $category= $class= null;
+        $objectType = $this->getObjectTypeInfos($this->entries[$row]['objectClass']);
+        $category   = $class = NULL;
         if ($objectType) {
-          $category= $objectType['category'];
-          $class= $objectType['class'];
+          $category = $objectType['category'];
+          $class    = $objectType['class'];
         }
 
         if ($action['type'] == "copypaste") {
           $copy = !isset($action['copy']) || $action['copy'] == "true";
-          $cut = !isset($action['cut']) || $action['cut'] == "true";
-          $result.= $this->renderCopyPasteActions($row, $this->entries[$row]['dn'], $category, $class,$copy,$cut);
+          $cut  = !isset($action['cut']) || $action['cut'] == "true";
+          $result .= $this->renderCopyPasteActions($row, $this->entries[$row]['dn'], $category, $class,$copy,$cut);
         } else {
-          $result.= $this->renderSnapshotActions($row, $this->entries[$row]['dn'], $category, $class);
+          $result .= $this->renderSnapshotActions($row, $this->entries[$row]['dn'], $category, $class);
         }
       }
     }
@@ -1331,20 +1337,20 @@ class listing {
 
         // Replace %acl if available
         if ($classes) {
-          $otype= $this->getObjectType($this->objectTypes, $classes);
-          $acl= str_replace('%acl', $otype['category']."/".$otype['class'], $acl);
+          $otype  = $this->getObjectTypeInfos($classes);
+          $acl    = str_replace('%acl', $otype['category']."/".$otype['class'], $acl);
         }
 
         // Split for category and plugins if needed
         // match for "[rw]" style entries
-        if (preg_match('/^\[([rwcdm]+)\]$/', $acl, $match)){
-          $aclList= array($match[1]);
+        if (preg_match('/^\[([rwcdm]+)\]$/', $acl, $match)) {
+          $aclList = array($match[1]);
         }
 
         // match for "users[rw]" style entries
-        if (preg_match('/^([a-zA-Z0-9]+)\[([rwcdm]+)\]$/', $acl, $match)){
-          $module= $match[1];
-          $aclList= array($match[2]);
+        if (preg_match('/^([a-zA-Z0-9]+)\[([rwcdm]+)\]$/', $acl, $match)) {
+          $module   = $match[1];
+          $aclList  = array($match[2]);
         }
 
         // match for "users/user[rw]" style entries
@@ -1693,7 +1699,7 @@ class listing {
     if (isset($this->objectDnMapping[$dn])) {
       return $this->objectDnMapping[$dn];
     }
-    return null;
+    return NULL;
   }
 
 }
