@@ -204,8 +204,8 @@ sub get_i18n {
         next;
       }
 
-      # if the file's directory is ???/language/messages.po
-      if ($file =~ qr{^.*/(\w+)/messages.po$}) {
+      # if the file's directory is ???/language/fusiondirectory.po
+      if ($file =~ qr{^.*/(\w+)/fusiondirectory.po$}) {
         # push the file's path in the language (fr/en/es/it...) array (wich is inside the hash pointed by $ref_result
         push @{$i18n_hash_result{$1}}, $file;
       }
@@ -234,10 +234,10 @@ sub rescan_i18n {
     chomp $po_files;
 
     # merging .po files
-    system ( "msgcat --use-first ".$po_files.">".$lang_cache_dir."/messages.po" ) and die ("! Unable to merge .po files for $lang with msgcat, is it already installed?\n");
+    system ( "msgcat --use-first ".$po_files.">".$lang_cache_dir."/fusiondirectory.po" ) and die ("! Unable to merge .po files for $lang with msgcat, is it already installed?\n");
 
     # compiling .po files in .mo files
-    system ( "msgfmt -o $lang_cache_dir/messages.mo $lang_cache_dir/messages.po && rm $lang_cache_dir/messages.po" ) and die ("! Unable to compile .mo files with msgfmt, is it already installed?\n");
+    system ( "msgfmt -o $lang_cache_dir/messages.mo $lang_cache_dir/fusiondirectory.po && rm $lang_cache_dir/fusiondirectory.po" ) and die ("! Unable to compile .mo files with msgfmt, is it already installed?\n");
   }
 }
 

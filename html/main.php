@@ -31,8 +31,8 @@ require_once ("variables.inc");
 /* Set header */
 header("Content-type: text/html; charset=UTF-8");
 
-/* Set the text domain as 'messages' */
-$domain = 'messages';
+/* Set the text domain as 'fusiondirectory' */
+$domain = 'fusiondirectory';
 bindtextdomain($domain, LOCALE_DIR);
 textdomain($domain);
 
@@ -117,8 +117,8 @@ setlocale(LC_ALL, $lang);
 $GLOBALS['t_language']= $lang;
 $GLOBALS['t_gettext_message_dir'] = $BASE_DIR.'/locale/';
 
-/* Set the text domain as 'messages' */
-$domain = 'messages';
+/* Set the text domain as 'fusiondirectory' */
+$domain = 'fusiondirectory';
 bindtextdomain($domain, LOCALE_DIR);
 textdomain($domain);
 @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang, "Setting language to");

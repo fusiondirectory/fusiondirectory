@@ -31,9 +31,9 @@ In case of spain this will be
 
  fusiondirectory/locales/core/es
 
-and put the freshly translated messages.po in this directory.
+and put the freshly translated fusiondirectory.po in this directory.
 
-To test this, you've deploy the messages.po file in your running copy
+To test this, you've deploy the fusiondirectory.po file in your running copy
 of FusionDirectory and run the "fusiondirectory-setup --update-locales"
 command, to let FusionDirectory merge the translations. Then, Make sure
 your apache has locale support or, in case of debian, that the specific
