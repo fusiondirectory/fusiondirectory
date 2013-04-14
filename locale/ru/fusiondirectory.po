@@ -3,54 +3,56 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Jordi Mallach <jordi@softcatala.org>, 2011.
+# Valia V. Vaneeva <fattie@altlinux.ru>, 2004.
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-24 14:48+0100\n"
-"PO-Revision-Date: 2013-03-06 21:40+0000\n"
+"POT-Creation-Date: 2013-04-14 20:13+0200\n"
+"PO-Revision-Date: 2013-03-24 15:00+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: ca\n"
+"Language-Team: Russian (http://www.transifex.com/projects/p/FusionDirectory/"
+"language/ru/)\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: html/main.php:140 html/class_passwordRecovery.inc:226
+#: html/main.php:135 html/class_passwordRecovery.inc:226
 #: include/class_xml.inc:60 include/functions.inc:509
 #: plugins/admin/departments/class_department.inc:431
 msgid "Fatal error"
-msgstr "Error fatal"
+msgstr ""
 
-#: html/main.php:141
+#: html/main.php:136
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr ""
 
-#: html/main.php:162
+#: html/main.php:157
 msgid "PHP configuration"
-msgstr "Configuració del PHP"
+msgstr ""
 
-#: html/main.php:163
+#: html/main.php:158
 msgid ""
 "Fatal error: Register globals is on. FusionDirectory will refuse to login "
 "unless this is fixed by an administrator."
 msgstr ""
 
-#: html/main.php:192 ihtml/themes/default/password.tpl:40
-#: plugins/admin/users/class_userManagement.inc:393
+#: html/main.php:187 ihtml/themes/default/password.tpl:40
+#: plugins/admin/users/class_userManagement.inc:390
 #: plugins/personal/password/class_password.inc:156
 #: plugins/personal/password/class_password.inc:162
 msgid "Password change"
-msgstr "Canvi de contrasenya"
+msgstr ""
 
-#: html/main.php:192
+#: html/main.php:187
 msgid "Your password is about to expire, please change your password!"
 msgstr ""
 
-#: html/main.php:261 html/class_passwordRecovery.inc:301 html/index.php:147
+#: html/main.php:256 html/class_passwordRecovery.inc:296 html/index.php:147
 #: html/index.php:208 include/class_SnapshotHandler.inc:57
 #: include/class_SnapshotHandler.inc:70 include/class_SnapshotHandler.inc:88
 #: include/class_pluglist.inc:272 include/functions.inc:933
@@ -62,32 +64,32 @@ msgstr ""
 #: include/class_timezone.inc:60 plugins/admin/groups/class_group.inc:161
 #: plugins/admin/groups/class_group.inc:638
 msgid "Configuration error"
-msgstr "Error de la configuració"
+msgstr ""
 
-#: html/main.php:261
+#: html/main.php:256
 msgid "Running out of memory!"
-msgstr "S'està exhaurint la memòria!"
+msgstr ""
 
-#: html/main.php:316
+#: html/main.php:311
 msgid "User ACL checks disabled"
-msgstr "S'han inhabilitat les comprovacions de les ACL dels usuaris"
+msgstr ""
 
-#: html/main.php:362
+#: html/main.php:357
 msgid "Plugin"
-msgstr "Connector"
+msgstr ""
 
-#: html/main.php:363
+#: html/main.php:358
 #, php-format
 msgid ""
 "Fatal error: Cannot find any plugin definitions for plugin '%s' ('%s' is not "
 "a file)!"
 msgstr ""
 
-#: html/main.php:378
+#: html/main.php:373
 msgid "Configuration Error"
 msgstr ""
 
-#: html/main.php:379
+#: html/main.php:374
 #, php-format
 msgid ""
 "Fatal error: not all POST variables have been transfered by PHP - please "
@@ -97,57 +99,54 @@ msgstr ""
 #: html/class_passwordRecovery.inc:126
 #: plugins/personal/generic/class_user.inc:488
 msgid "Password method"
-msgstr "Mètode de contrasenya"
+msgstr ""
 
 #: html/class_passwordRecovery.inc:127
 msgid "Error: Password method not available!"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:227 html/index.php:147
+#: html/class_passwordRecovery.inc:227
 #, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
 msgstr ""
-"La configuració %s/%s del FusionDirectori no és llegible. S'està avortant."
 
-#: html/class_passwordRecovery.inc:302 html/setup.php:63 html/index.php:163
+#: html/class_passwordRecovery.inc:297 html/setup.php:63 html/index.php:163
 #, php-format
 msgid "Directory '%s' specified as compile directory is not accessible!"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:407
-#: plugins/admin/users/class_userManagement.inc:309
+#: html/class_passwordRecovery.inc:402
+#: plugins/admin/users/class_userManagement.inc:306
 #: plugins/personal/password/class_password.inc:113
 msgid ""
 "The passwords you've entered as 'New password' and 'Repeated new password' "
 "do not match."
-msgstr ""
-"Les contrasenyes que heu introduït com a «Contrasenya nova» i «Contrasenya "
-"nova repetida» no concorden."
+msgstr "Введенные пароли не совпадают!"
 
-#: html/class_passwordRecovery.inc:409 ihtml/themes/default/password.tpl:81
+#: html/class_passwordRecovery.inc:404 ihtml/themes/default/password.tpl:81
 #: ihtml/themes/default/password.tpl:82
 #: ihtml/themes/default/accountexpired.tpl:32
 #: ihtml/themes/default/accountexpired.tpl:36
 #: ihtml/themes/default/recovery.tpl:93 ihtml/themes/default/recovery.tpl:94
 #: plugins/admin/users/password.tpl:17 plugins/admin/users/password.tpl:60
-#: plugins/admin/users/class_userManagement.inc:312
+#: plugins/admin/users/class_userManagement.inc:309
 #: plugins/personal/password/password.tpl:27
 #: plugins/personal/password/password.tpl:78
 #: plugins/personal/generic/password.tpl:22
 #: plugins/personal/generic/password.tpl:72
 msgid "New password"
-msgstr "Contrasenya nova"
+msgstr "Новый пароль"
 
-#: html/class_passwordRecovery.inc:411
+#: html/class_passwordRecovery.inc:406
 msgid "The password used as new is too short."
 msgstr ""
 
-#: html/class_passwordRecovery.inc:413
+#: html/class_passwordRecovery.inc:408
 #: plugins/personal/password/class_password.inc:121
 msgid "The password contains possibly problematic Unicode characters!"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:437 html/index.php:58 html/index.php:64
+#: html/class_passwordRecovery.inc:432 html/index.php:58 html/index.php:64
 #: html/index.php:403 ihtml/themes/default/conflict.tpl:6
 #: ihtml/themes/default/islocked.tpl:6 ihtml/themes/default/remove.tpl:2
 #: ihtml/themes/default/msg_dialog.tpl:59
@@ -168,41 +167,41 @@ msgstr ""
 #: plugins/admin/departments/remove.tpl:2 plugins/admin/ogroups/remove.tpl:2
 #: plugins/personal/posix/class_posixAccount.inc:430
 msgid "Warning"
-msgstr "Avís"
+msgstr "Предупреждение"
 
-#: html/class_passwordRecovery.inc:438
+#: html/class_passwordRecovery.inc:433
 msgid "Session will not be encrypted."
-msgstr "No es xifrarà la sessió."
+msgstr "Данные, передаваемые в течение этого сеанса, не будут зашифрованы."
 
-#: html/class_passwordRecovery.inc:440
+#: html/class_passwordRecovery.inc:435
 msgid "Enter SSL session"
-msgstr "Entreu a la sessió amb SSL"
+msgstr "Использовать шифрование SSL"
 
-#: html/class_passwordRecovery.inc:481
+#: html/class_passwordRecovery.inc:476
 #, php-format
 msgid "Did not found account %s"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:484
+#: html/class_passwordRecovery.inc:479
 #, php-format
 msgid "Found multiple accounts %s"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:498 ihtml/themes/default/recovery.tpl:142
+#: html/class_passwordRecovery.inc:493 ihtml/themes/default/recovery.tpl:142
 msgid "Adresse mail"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:515
+#: html/class_passwordRecovery.inc:510
 #, php-format
 msgid "There is no account using email %s"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:518
+#: html/class_passwordRecovery.inc:513
 #, php-format
 msgid "There are several accounts using email %s"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:543 html/index.php:257 html/index.php:269
+#: html/class_passwordRecovery.inc:538 html/index.php:257 html/index.php:269
 #: html/index.php:282 setup/class_setupStep_Migrate.inc:1138
 #: setup/class_setupStep_Migrate.inc:1164
 #: setup/class_setupStep_Migrate.inc:1213
@@ -214,20 +213,17 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:2549
 #: setup/class_setupStep_Migrate.inc:2896
 #: setup/class_setupStep_Migrate.inc:2910
-#: include/class_SnapshotHandler.inc:150 include/class_SnapshotHandler.inc:329
-#: include/class_SnapshotHandler.inc:378 include/class_SnapshotHandler.inc:382
-#: include/class_SnapshotHandler.inc:402 include/class_SnapshotHandler.inc:445
-#: include/class_SnapshotHandler.inc:508 include/class_SnapshotHandler.inc:577
-#: include/class_SnapshotHandler.inc:592 include/functions.inc:547
+#: include/class_SnapshotHandler.inc:150 include/class_SnapshotHandler.inc:335
+#: include/class_SnapshotHandler.inc:388 include/class_SnapshotHandler.inc:392
+#: include/class_SnapshotHandler.inc:412 include/class_SnapshotHandler.inc:455
+#: include/class_SnapshotHandler.inc:518 include/class_SnapshotHandler.inc:587
+#: include/class_SnapshotHandler.inc:602 include/functions.inc:547
 #: include/functions.inc:583 include/functions.inc:591
 #: include/functions.inc:639 include/functions.inc:948
 #: include/functions.inc:998 include/functions.inc:1058
 #: include/functions.inc:1113 include/functions.inc:3244
-#: include/functions.inc:3509 include/class_config.inc:330
-#: include/class_plugin.inc:1500 include/class_plugin.inc:1550
-#: include/class_plugin.inc:1554 include/class_plugin.inc:1574
-#: include/class_plugin.inc:1621 include/class_plugin.inc:1681
-#: include/class_plugin.inc:1751 include/class_plugin.inc:1766
+#: include/functions.inc:3514 include/class_SnapShotDialog.inc:104
+#: include/class_SnapShotDialog.inc:177 include/class_config.inc:330
 #: include/class_acl.inc:1308 include/class_acl.inc:1413
 #: include/class_ldap.inc:934 include/class_ldap.inc:1421
 #: plugins/admin/acl/class_aclRole.inc:613
@@ -244,21 +240,21 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:594
 #: plugins/personal/generic/class_user.inc:958
 msgid "LDAP error"
-msgstr "Error d'LDAP"
+msgstr "Ошибка LDAP"
 
-#: html/class_passwordRecovery.inc:566
+#: html/class_passwordRecovery.inc:561
 msgid "Contact your administrator, there was a problem with mail server"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:577
+#: html/class_passwordRecovery.inc:572
 msgid "This token is invalid"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:615
+#: html/class_passwordRecovery.inc:610
 msgid "External password changer reported a problem: "
-msgstr ""
+msgstr "При попытке сменить пароль извне возникла проблема: "
 
-#: html/class_passwordRecovery.inc:640
+#: html/class_passwordRecovery.inc:635
 msgid "There was a problem with mail server, confirmation email not sent"
 msgstr ""
 
@@ -276,6 +272,13 @@ msgid ""
 "overridden by php.ini settings."
 msgstr ""
 
+#: html/index.php:147
+#, php-format
+msgid ""
+"FusionDirectory configuration %s/%s is not readable. Please run "
+"fusiondirectory-setup --check-config to fix this."
+msgstr ""
+
 #: html/index.php:163
 msgid "Smarty error"
 msgstr ""
@@ -290,22 +293,22 @@ msgstr ""
 #: setup/setup_checks.tpl:91 setup/class_setupStep_Migrate.inc:1127
 #: include/class_xml.inc:57 include/class_tabs.inc:74
 #: include/class_management.inc:507 include/class_management.inc:657
-#: include/functions.inc:3613 include/functions.inc:3633
-#: include/functions.inc:3663 include/functions.inc:3671
-#: include/functions.inc:3683 include/functions.inc:3687
-#: include/functions.inc:3702 include/functions.inc:3711
-#: include/functions.inc:3779 include/class_listing.inc:522
+#: include/functions.inc:3618 include/functions.inc:3638
+#: include/functions.inc:3668 include/functions.inc:3676
+#: include/functions.inc:3688 include/functions.inc:3692
+#: include/functions.inc:3707 include/functions.inc:3716
+#: include/functions.inc:3784 include/class_listing.inc:521
 #: include/class_config.inc:483 include/class_CopyPasteHandler.inc:264
 #: include/password-methods/class_password-methods-sasl.inc:51
 #: include/password-methods/class_password-methods-sasl.inc:63
 #: include/password-methods/class_password-methods.inc:342
 #: include/password-methods/class_password-methods.inc:447
 #: include/password-methods/class_password-methods.inc:458
-#: include/class_plugin.inc:1368 include/class_plugin.inc:1843
-#: include/class_msg_dialog.inc:128 include/class_msgPool.inc:215
-#: include/class_msgPool.inc:235 include/class_msgPool.inc:265
-#: include/class_msgPool.inc:680 include/class_msgPool.inc:711
-#: include/class_msgPool.inc:738 include/class_databaseManagement.inc:78
+#: include/class_plugin.inc:1367 include/class_msg_dialog.inc:128
+#: include/class_msgPool.inc:215 include/class_msgPool.inc:235
+#: include/class_msgPool.inc:265 include/class_msgPool.inc:680
+#: include/class_msgPool.inc:711 include/class_msgPool.inc:738
+#: include/class_databaseManagement.inc:78
 #: plugins/admin/acl/class_aclRole.inc:681
 #: plugins/admin/groups/class_group.inc:521
 #: plugins/admin/groups/class_group.inc:527
@@ -323,7 +326,7 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:1014
 #: plugins/personal/generic/class_user.inc:1032
 msgid "Error"
-msgstr "Error"
+msgstr ""
 
 #: html/index.php:216
 msgid "Cannot find a valid user for the current authentication setup!"
@@ -339,19 +342,19 @@ msgstr ""
 
 #: html/index.php:282
 msgid "Your LDAP setup contains old schema definitions:"
-msgstr "La vostra configuració d'LDAP conté definicions d'esquema antigues:"
+msgstr ""
 
 #: html/index.php:305
 msgid "Please specify a valid username!"
-msgstr "Especifiqueu un nom d'usuari vàlid."
+msgstr "Введите корректное имя пользователя!"
 
 #: html/index.php:308
 msgid "Please specify your password!"
-msgstr "Especifiqueu la vostra contrasenya."
+msgstr "Введите свой пароль!"
 
 #: html/index.php:320
 msgid "Authentication error"
-msgstr "Error d'autenticació."
+msgstr ""
 
 #: html/index.php:320
 msgid "Cannot retrieve user information for htaccess authentication!"
@@ -359,23 +362,21 @@ msgstr ""
 
 #: html/index.php:327
 msgid "Please check the username/password combination."
-msgstr ""
+msgstr "Проверьте, правильно ли вы ввели имя пользователя и пароль."
 
 #: html/index.php:381
 msgid "Account locked. Please contact your system administrator!"
-msgstr "El compte és blocat. Contacteu el vostre administrador de sistemes."
+msgstr ""
 
 #: html/index.php:403
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
 msgstr ""
-"El vostre navegador té les galetes inhabilitades. Habiliteu les galetes i "
-"torneu a carregar aquesta pàgina abans d'entrar."
 
 #: ihtml/themes/default/conflict.tpl:2
 msgid "Session conflict detected"
-msgstr "S'ha detectat un conflicte de sessions"
+msgstr "Конфликт сеансов"
 
 #: ihtml/themes/default/conflict.tpl:6
 msgid ""
@@ -390,14 +391,16 @@ msgid ""
 "Ignoring this message will change/destroy the data you're currently editing, "
 "so please close multiple windows and log in again."
 msgstr ""
+"Если вы ничего не предпримете, редактируемые вами данные не будут сохранены, "
+"поэтому закройте все окна, кроме одного, и начните сеанс заново."
 
 #: ihtml/themes/default/conflict.tpl:14
 msgid "Logout"
-msgstr "Surt"
+msgstr "Выход"
 
 #: ihtml/themes/default/islocked.tpl:2
 msgid "Locking conflict detected"
-msgstr ""
+msgstr "Конфликт блокировок"
 
 #: ihtml/themes/default/islocked.tpl:9
 msgid ""
@@ -408,7 +411,7 @@ msgstr ""
 
 #: ihtml/themes/default/islocked.tpl:16
 msgid "Read only"
-msgstr "Només lectura"
+msgstr ""
 
 #: ihtml/themes/default/islocked.tpl:19
 #: ihtml/themes/default/snapshotdialog.tpl:44
@@ -425,7 +428,7 @@ msgstr "Només lectura"
 #: setup/setup_ldap.tpl:17 include/class_msgPool.inc:461
 #, php-format
 msgid "Cancel"
-msgstr "Canceŀla"
+msgstr "Отмена"
 
 #: ihtml/themes/default/snapshotdialog.tpl:3
 msgid "Restoring object snapshots"
@@ -456,7 +459,7 @@ msgstr ""
 #: include/class_acl.inc:818 include/class_msgPool.inc:708
 #: plugins/admin/departments/class_department.inc:617
 msgid "Object"
-msgstr "Objecte"
+msgstr "Объект"
 
 #: ihtml/themes/default/snapshotdialog.tpl:29
 msgid "There is no snapshot available that could be restored"
@@ -485,7 +488,7 @@ msgstr ""
 
 #: ihtml/themes/default/snapshotdialog.tpl:70
 msgid "Timestamp"
-msgstr "Marca de temps"
+msgstr ""
 
 #: ihtml/themes/default/snapshotdialog.tpl:79
 msgid "Reason for generating this snapshot"
@@ -496,7 +499,7 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:557
 #: plugins/admin/departments/class_department.inc:639
 msgid "Continue"
-msgstr "Continua"
+msgstr "Продолжить"
 
 #: ihtml/themes/default/logout-close.tpl:5
 msgid "Your FusionDirectory session has been closed!"
@@ -510,15 +513,15 @@ msgstr ""
 
 #: ihtml/themes/default/password.tpl:6
 msgid "Change your password"
-msgstr "Canvieu la vostra contrasenya"
+msgstr ""
 
 #: ihtml/themes/default/password.tpl:34 ihtml/themes/default/recovery.tpl:120
 msgid "Success"
-msgstr "Èxit"
+msgstr ""
 
 #: ihtml/themes/default/password.tpl:34 ihtml/themes/default/recovery.tpl:120
 msgid "Your password has been changed successfully."
-msgstr "S'ha canviat la vostra contrasenya amb èxit."
+msgstr ""
 
 #: ihtml/themes/default/password.tpl:39 ihtml/themes/default/login.tpl:44
 #: ihtml/themes/default/login.tpl:46 ihtml/themes/default/recovery.tpl:25
@@ -527,7 +530,7 @@ msgstr "S'ha canviat la vostra contrasenya amb èxit."
 #: plugins/personal/password/class_password.inc:199
 #: plugins/personal/generic/paste_generic.tpl:20
 msgid "Password"
-msgstr "Contrasenya"
+msgstr "Пароль"
 
 #: ihtml/themes/default/password.tpl:52
 msgid ""
@@ -541,13 +544,13 @@ msgstr ""
 #: ihtml/themes/default/recovery.tpl:78 ihtml/themes/default/recovery.tpl:80
 #: ihtml/themes/default/recovery.tpl:133 ihtml/themes/default/recovery.tpl:135
 msgid "Directory"
-msgstr "Directori"
+msgstr "Каталог"
 
 #: ihtml/themes/default/password.tpl:68 ihtml/themes/default/password.tpl:70
 #: ihtml/themes/default/login.tpl:39 ihtml/themes/default/login.tpl:41
 #: ihtml/themes/default/recovery.tpl:87
 msgid "Username"
-msgstr "Nom d'usuari"
+msgstr "Имя пользователя"
 
 #: ihtml/themes/default/password.tpl:77 ihtml/themes/default/password.tpl:78
 #: plugins/personal/password/password.tpl:22
@@ -555,12 +558,12 @@ msgstr "Nom d'usuari"
 #: plugins/personal/generic/password.tpl:17
 #: plugins/personal/generic/password.tpl:44
 msgid "Current password"
-msgstr "Contrasenya actual"
+msgstr "Текущий пароль"
 
 #: ihtml/themes/default/password.tpl:85 ihtml/themes/default/password.tpl:86
 #: ihtml/themes/default/recovery.tpl:97 ihtml/themes/default/recovery.tpl:98
 msgid "New password repeated"
-msgstr "Contrasenya nova repetida"
+msgstr ""
 
 #: ihtml/themes/default/password.tpl:89 ihtml/themes/default/recovery.tpl:101
 #: plugins/personal/password/password.tpl:37
@@ -568,41 +571,41 @@ msgstr "Contrasenya nova repetida"
 #: plugins/personal/generic/password.tpl:32
 #: plugins/personal/generic/password.tpl:82
 msgid "Password strength"
-msgstr "Qualitat de la contrasenya"
+msgstr ""
 
 #: ihtml/themes/default/password.tpl:100 ihtml/themes/default/recovery.tpl:112
 #: ihtml/themes/default/recovery.tpl:149
 msgid "Change"
-msgstr "Canvia"
+msgstr ""
 
 #: ihtml/themes/default/password.tpl:101
 #: ihtml/themes/default/accountexpired.tpl:52
 #: ihtml/themes/default/recovery.tpl:112 ihtml/themes/default/recovery.tpl:150
 msgid "Click here to change your password"
-msgstr "Feu clic aquí per canviar la vostra contrasenya"
+msgstr ""
 
 #: ihtml/themes/default/accountexpired.tpl:15
 msgid "Your password has expired. Please choose a new one!"
-msgstr "La vostra contrasenya ha caducat. Establiu-ne una nova!"
+msgstr ""
 
 #: ihtml/themes/default/accountexpired.tpl:23
 #: ihtml/themes/default/accountexpired.tpl:27
 msgid "Old password"
-msgstr "Contrasenya antiga"
+msgstr ""
 
 #: ihtml/themes/default/accountexpired.tpl:41
 #: ihtml/themes/default/accountexpired.tpl:45
 msgid "Verify password"
-msgstr "Verifica la contrasenya"
+msgstr ""
 
 #: ihtml/themes/default/accountexpired.tpl:51
 #: plugins/admin/users/user-list.xml:128 plugins/admin/users/user-list.xml:224
 msgid "Change password"
-msgstr "Canvia la contrasenya"
+msgstr "Сменить пароль"
 
 #: ihtml/themes/default/login.tpl:24
 msgid "Login screen"
-msgstr "Pantalla d'entrada"
+msgstr ""
 
 #: ihtml/themes/default/login.tpl:31
 msgid ""
@@ -616,11 +619,11 @@ msgstr ""
 
 #: ihtml/themes/default/login.tpl:76 ihtml/themes/default/login.tpl:79
 msgid "Sign in"
-msgstr "Entra"
+msgstr "Войти"
 
 #: ihtml/themes/default/login.tpl:77
 msgid "Click here to log in"
-msgstr "Feu clic ací per entrar"
+msgstr "Нажмите на эту кнопку, чтобы войти в систему"
 
 #: ihtml/themes/default/remove.tpl:6
 msgid ""
@@ -640,11 +643,11 @@ msgstr ""
 
 #: ihtml/themes/default/acl.tpl:12 plugins/admin/acl/acl_role.tpl:38
 msgid "New ACL"
-msgstr "ACL nou"
+msgstr ""
 
 #: ihtml/themes/default/acl.tpl:17 plugins/admin/acl/acl_role.tpl:44
 msgid "ACL type"
-msgstr "Tipus d'ACL"
+msgstr ""
 
 #: ihtml/themes/default/acl.tpl:19 ihtml/themes/default/acl.tpl:24
 #: plugins/admin/acl/acl_role.tpl:44
@@ -661,7 +664,7 @@ msgstr ""
 #: include/class_msgPool.inc:477
 #, php-format
 msgid "Apply"
-msgstr "Aplica"
+msgstr "Применить"
 
 #: ihtml/themes/default/acl.tpl:36
 msgid "Additional filter options"
@@ -701,15 +704,15 @@ msgstr ""
 
 #: ihtml/themes/default/framework.tpl:9
 msgid "Main"
-msgstr "Principal"
+msgstr "Начало"
 
 #: ihtml/themes/default/framework.tpl:13
 msgid "Sign out"
-msgstr "Surt"
+msgstr "Выход"
 
 #: ihtml/themes/default/framework.tpl:21
 msgid "Signed in:"
-msgstr "Identificat com a:"
+msgstr "Пользователь:"
 
 #: ihtml/themes/default/framework.tpl:23
 #, php-format
@@ -718,13 +721,13 @@ msgstr ""
 
 #: ihtml/themes/default/framework.tpl:28
 msgid "FusionDirectory main menu"
-msgstr "Menú principal del FusionDirectory"
+msgstr ""
 
 #: ihtml/themes/default/msg_dialog.tpl:61
 #: ihtml/themes/default/msg_dialog.tpl:108 setup/setup_ldap.tpl:121
 #: plugins/admin/ogroups/class_ogroup.inc:247
 msgid "Information"
-msgstr "Informació"
+msgstr "Информация"
 
 #: ihtml/themes/default/msg_dialog.tpl:76
 #: ihtml/themes/default/msg_dialog.tpl:78
@@ -743,7 +746,7 @@ msgstr "Informació"
 #: setup/class_setupStep_Migrate.inc:2841 include/class_msgPool.inc:469
 #, php-format
 msgid "Ok"
-msgstr "D'acord"
+msgstr ""
 
 #: ihtml/themes/default/sizelimit.tpl:3
 msgid ""
@@ -752,14 +755,19 @@ msgid ""
 "long timeouts would be to limit your search to smaller values and use "
 "filters to get the entries you are looking for."
 msgstr ""
+"Ограничение на количество возвращаемых объектов позволяет ускорить операции "
+"поиска и предохраняет сервер LDAP от большой нагрузки. Простейший способ "
+"снизить время обработки запроса при обслуживаии большой базы данных это "
+"установить минимальное значение. Кроме того, будет очень полезно "
+"использовать фильтры для просмотра только ограниченного количества объектов."
 
 #: ihtml/themes/default/sizelimit.tpl:6
 msgid "Please choose the way to react for this session"
-msgstr ""
+msgstr "Выберите тип реакции для данной сессии"
 
 #: ihtml/themes/default/sizelimit.tpl:9
 msgid "ignore this error and show all entries the LDAP server returns"
-msgstr ""
+msgstr "игнорировать ошибку и показать все найденые объекты"
 
 #: ihtml/themes/default/sizelimit.tpl:10
 msgid ""
@@ -770,7 +778,7 @@ msgstr ""
 #: ihtml/themes/default/sizelimit.tpl:14 include/class_msgPool.inc:515
 #, php-format
 msgid "Set"
-msgstr ""
+msgstr "Установить"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:1
 msgid "Copy & paste wizard"
@@ -796,25 +804,25 @@ msgstr ""
 #: ihtml/themes/default/copyPasteDialog.tpl:19 include/class_msgPool.inc:485
 #, php-format
 msgid "Save"
-msgstr "Desa"
+msgstr "Сохранить"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:24
 #: include/class_CopyPasteHandler.inc:292
 msgid "Cancel all"
-msgstr "Canceŀla-ho tot"
+msgstr ""
 
 #: ihtml/themes/default/copyPasteDialog.tpl:30
 msgid "Operation complete"
-msgstr "S'ha completat l'operació"
+msgstr ""
 
 #: ihtml/themes/default/copyPasteDialog.tpl:32
 #: setup/class_setupStep_Finish.inc:36
 msgid "Finish"
-msgstr "Finalitza"
+msgstr "Готово"
 
 #: ihtml/themes/default/logout.tpl:5
 msgid "Your FusionDirectory session has expired!"
-msgstr "La vostra sessió del FusionDirectori ha caducat!"
+msgstr ""
 
 #: ihtml/themes/default/logout.tpl:7
 msgid ""
@@ -825,7 +833,7 @@ msgstr ""
 
 #: ihtml/themes/default/logout.tpl:10
 msgid "Sign in again"
-msgstr "Torneu a entrar-hi"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl:10
 msgid "FusionDirectory password recovery"
@@ -880,7 +888,7 @@ msgstr ""
 #: plugins/generic/references/class_reference.inc:45
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:65
 msgid "Mail"
-msgstr ""
+msgstr "Почта"
 
 #: ihtml/themes/default/recovery.tpl:159
 msgid ""
@@ -890,7 +898,7 @@ msgstr ""
 
 #: setup/setup_language.tpl:3
 msgid "Please select the preferred language"
-msgstr "Seleccioneu la llengua preferida"
+msgstr ""
 
 #: setup/setup_language.tpl:5
 msgid ""
@@ -971,131 +979,128 @@ msgid ""
 "databases."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:136
-msgid "MDB2 mysql"
-msgstr ""
-
-#: setup/class_setupStep_Checks.inc:137
+#: setup/class_setupStep_Checks.inc:134
 msgid ""
-"FusionDirectory requires this module to communicate with mysql databases."
+"If you do not want to install MDB2 and won't use databases, remove the "
+"class_databaseManagement.inc file."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:143
+#: setup/class_setupStep_Checks.inc:138
 msgid "imagick"
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:144
+#: setup/class_setupStep_Checks.inc:139
 msgid "FusionDirectory requires this extension to handle images."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:159
+#: setup/class_setupStep_Checks.inc:154
 msgid "compression module"
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:160
+#: setup/class_setupStep_Checks.inc:155
 msgid "FusionDirectory requires this extension to handle snapshots."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:171
+#: setup/class_setupStep_Checks.inc:166
 msgid ""
 "register_globals is a PHP mechanism to register all global variables to be "
 "accessible from scripts without changing the scope. This may be a security "
 "risk."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:172
+#: setup/class_setupStep_Checks.inc:167
 msgid "Search for 'register_globals' in your php.ini and switch it to 'Off'."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:180
+#: setup/class_setupStep_Checks.inc:175
 msgid "PHP uses this value for the garbage collector to delete old sessions."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:181
+#: setup/class_setupStep_Checks.inc:176
 msgid ""
 "Setting this value to one day will prevent loosing session and cookies "
 "before they really timeout."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:182
+#: setup/class_setupStep_Checks.inc:177
 msgid ""
 "Search for 'session.gc_maxlifetime' in your php.ini and set it to 86400 or "
 "higher."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:189 setup/class_setupStep_Checks.inc:205
-#: setup/class_setupStep_Checks.inc:221 setup/class_setupStep_Checks.inc:229
+#: setup/class_setupStep_Checks.inc:184 setup/class_setupStep_Checks.inc:200
+#: setup/class_setupStep_Checks.inc:216 setup/class_setupStep_Checks.inc:224
 msgid "Off"
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:190
+#: setup/class_setupStep_Checks.inc:185
 msgid ""
 "In Order to use FusionDirectory without any trouble, the session.auto_start "
 "option in your php.ini should be set to 'Off'."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:191
+#: setup/class_setupStep_Checks.inc:186
 msgid "Search for 'session.auto_start' in your php.ini and set it to 'Off'."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:198
+#: setup/class_setupStep_Checks.inc:193
 msgid ""
 "FusionDirectory needs at least 128MB of memory. Setting it below this limit "
 "may cause errors that are not reproducable! Increase it for larger setups."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:199
+#: setup/class_setupStep_Checks.inc:194
 msgid ""
 "Search for 'memory_limit' in your php.ini and set it to '128M' or higher."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:206
+#: setup/class_setupStep_Checks.inc:201
 msgid ""
 "This option influences the PHP output handling. Turn this Option off, to "
 "increase performance."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:207
+#: setup/class_setupStep_Checks.inc:202
 msgid "Search for 'implicit_flush' in your php.ini and set it to 'Off'."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:214
+#: setup/class_setupStep_Checks.inc:209
 msgid "The Execution time should be at least 30 seconds."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:215
+#: setup/class_setupStep_Checks.inc:210
 msgid ""
 "Search for 'max_execution_time' in your php.ini and set it to '30' or higher."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:222
+#: setup/class_setupStep_Checks.inc:217
 msgid ""
 "Increase the server security by setting expose_php to 'off'. PHP won't send "
 "any information about the server you are running in this case."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:223
+#: setup/class_setupStep_Checks.inc:218
 msgid "Search for 'expose_php' in your php.ini and set if to 'Off'."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:230
+#: setup/class_setupStep_Checks.inc:225
 msgid "Increase your server performance by setting magic_quotes_gpc to 'off'."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:231
+#: setup/class_setupStep_Checks.inc:226
 msgid ""
 "Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:241
+#: setup/class_setupStep_Checks.inc:236
 msgid "Configuration writeable"
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:242
+#: setup/class_setupStep_Checks.inc:237
 msgid "The configuration file can't be written"
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:243
+#: setup/class_setupStep_Checks.inc:238
 #, php-format
 msgid ""
 "FusionDirectory reads its configuration from a file located in (%s/%s). The "
@@ -1303,7 +1308,7 @@ msgstr ""
 #: setup/setup_config1.tpl:124 plugins/config/class_configInLdap.inc:117
 #: plugins/personal/password/main.inc:54
 msgid "Password settings"
-msgstr "Paràmetres de la contrasenya"
+msgstr ""
 
 #: setup/setup_config1.tpl:128
 msgid "Password encryption algorithm"
@@ -1387,7 +1392,7 @@ msgstr ""
 #: plugins/generic/references/class_reference.inc:63
 #: plugins/personal/posix/trustSelect/trust-list.xml:14
 msgid "Server"
-msgstr ""
+msgstr "Сервер"
 
 #: setup/setup_config2.tpl:49 setup/setup_config2.tpl:94
 #: plugins/admin/users/user-list.xml:23 plugins/admin/users/user-list.xml:95
@@ -1398,7 +1403,7 @@ msgstr ""
 #: plugins/admin/ogroups/objectSelect/selectObject-list.xml:71
 #: plugins/personal/generic/class_user.inc:1376
 msgid "User"
-msgstr ""
+msgstr "Пользователь"
 
 #: setup/setup_config3.tpl:2
 msgid "FusionDirectory core settings"
@@ -1504,11 +1509,11 @@ msgstr ""
 
 #: setup/class_setupStep_Config1.inc:125
 msgid "People storage ou"
-msgstr ""
+msgstr "Структурная единица (OU) пользователей"
 
 #: setup/class_setupStep_Config1.inc:129
 msgid "Group storage ou"
-msgstr ""
+msgstr "OU групп"
 
 #: setup/class_setupStep_Config1.inc:133
 msgid "Uid base must be numeric"
@@ -1643,9 +1648,9 @@ msgstr ""
 #: plugins/admin/departments/class_organizationGeneric.inc:115
 #: plugins/admin/departments/class_organizationGeneric.inc:118
 #: plugins/personal/generic/class_user.inc:1395
-#: plugins/personal/generic/generic.tpl:300
+#: plugins/personal/generic/generic.tpl:277
 msgid "Organization"
-msgstr "Organització"
+msgstr "Организация"
 
 #: setup/setup_feedback.tpl:28 setup/setup_migrate.tpl:235
 #: plugins/admin/acl/acl-list.xml:49 plugins/admin/acl/acl-filter.tpl:21
@@ -1653,8 +1658,8 @@ msgstr "Organització"
 #: plugins/admin/acl/class_aclRole.inc:702
 #: plugins/admin/acl/class_aclRole.inc:715
 #: plugins/admin/acl/class_aclRole.inc:725
-#: plugins/admin/users/class_userManagement.inc:545
-#: plugins/admin/users/class_userManagement.inc:592
+#: plugins/admin/users/class_userManagement.inc:542
+#: plugins/admin/users/class_userManagement.inc:589
 #: plugins/admin/users/user-filter.tpl:26
 #: plugins/admin/groups/group-filter.tpl:21
 #: plugins/admin/groups/userSelect/user-filter.tpl:17
@@ -1718,11 +1723,11 @@ msgstr "Organització"
 #: plugins/personal/generic/class_user.inc:1161
 #: plugins/personal/generic/class_user.inc:1203
 msgid "Name"
-msgstr "Nom"
+msgstr "Фамилия"
 
 #: setup/setup_feedback.tpl:36
 msgid "Mail address"
-msgstr "Adreça de correu"
+msgstr ""
 
 #: setup/setup_feedback.tpl:47
 msgid "Send feedback to the FusionDirectory project team"
@@ -1735,7 +1740,7 @@ msgid ""
 msgstr ""
 
 #: setup/setup_feedback.tpl:52
-#: plugins/admin/users/class_userManagement.inc:903
+#: plugins/admin/users/class_userManagement.inc:900
 #: plugins/admin/groups/class_group.inc:1106
 #: plugins/admin/departments/class_department.inc:653
 #: plugins/admin/ogroups/class_ogroup.inc:895
@@ -1743,7 +1748,7 @@ msgstr ""
 #: plugins/personal/posix/class_posixAccount.inc:92
 #: plugins/personal/generic/class_user.inc:1371
 msgid "Generic"
-msgstr "Genèric"
+msgstr "Общее"
 
 #: setup/setup_feedback.tpl:56
 msgid "Did the setup procedure help you to get started?"
@@ -1875,7 +1880,7 @@ msgstr ""
 #: setup/setup_migrate.tpl:101 setup/setup_migrate.tpl:153
 #: setup/setup_migrate.tpl:320 setup/setup_migrate.tpl:373
 #: setup/setup_migrate.tpl:416 setup/setup_migrate.tpl:459
-#: setup/setup_migrate.tpl:503 include/class_listing.inc:352
+#: setup/setup_migrate.tpl:503 include/class_listing.inc:351
 msgid "Select all"
 msgstr ""
 
@@ -1944,7 +1949,7 @@ msgstr ""
 
 #: setup/setup_migrate.tpl:243
 msgid "User ID"
-msgstr ""
+msgstr "Идентификатор пользователя"
 
 #: setup/setup_migrate.tpl:259
 msgid "Password (again)"
@@ -2038,7 +2043,7 @@ msgstr ""
 
 #: setup/setup_ldap.tpl:13
 msgid "Search"
-msgstr "Cerca"
+msgstr "Поиск"
 
 #: setup/setup_ldap.tpl:25
 msgid "LDAP connection"
@@ -2046,7 +2051,7 @@ msgstr ""
 
 #: setup/setup_ldap.tpl:29
 msgid "Location name"
-msgstr ""
+msgstr "Местоположение"
 
 #: setup/setup_ldap.tpl:37
 msgid "Connection URI"
@@ -2086,7 +2091,7 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:1389
 #: plugins/personal/generic/generic.tpl:163
 msgid "Base"
-msgstr "Base"
+msgstr "Ветка"
 
 #: setup/setup_ldap.tpl:69
 msgid "Authentication"
@@ -2094,7 +2099,7 @@ msgstr ""
 
 #: setup/setup_ldap.tpl:73
 msgid "Admin DN"
-msgstr ""
+msgstr "DN администратора"
 
 #: setup/setup_ldap.tpl:78
 #: plugins/admin/groups/singleUserSelect/singleUser-list.xml:79
@@ -2108,7 +2113,7 @@ msgstr ""
 
 #: setup/setup_ldap.tpl:93
 msgid "Admin password"
-msgstr ""
+msgstr "Пароль администратора"
 
 #: setup/setup_ldap.tpl:101
 msgid "Schema based settings"
@@ -2238,7 +2243,7 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:1954
 #: setup/class_setupStep_Migrate.inc:2991
 msgid "Failed"
-msgstr ""
+msgstr "Ошибка"
 
 #: setup/class_setupStep_Migrate.inc:512 setup/class_setupStep_Migrate.inc:525
 #, php-format
@@ -2284,19 +2289,19 @@ msgstr ""
 #: plugins/admin/departments/dep-list.xml:98
 #: plugins/admin/ogroups/ogroup-list.xml:73
 msgid "Create"
-msgstr ""
+msgstr "Создать"
 
 #: setup/class_setupStep_Migrate.inc:966 include/class_acl.inc:239
 #: plugins/admin/users/class_userManagement.inc:52
 #: plugins/personal/generic/class_user.inc:1374
 msgid "Users"
-msgstr ""
+msgstr "Пользователи"
 
 #: setup/class_setupStep_Migrate.inc:969 include/class_acl.inc:239
 #: plugins/admin/groups/class_group.inc:1109
 #: plugins/admin/groups/class_groupManagement.inc:36
 msgid "Groups"
-msgstr ""
+msgstr "Группы"
 
 #: setup/class_setupStep_Migrate.inc:977
 msgid "There is no FusionDirectory administrator account inside your LDAP."
@@ -2343,7 +2348,7 @@ msgid "Group will be moved from"
 msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1175
-#: setup/class_setupStep_Migrate.inc:1223 include/class_plugin.inc:2083
+#: setup/class_setupStep_Migrate.inc:1223 include/class_plugin.inc:1675
 msgid "to"
 msgstr ""
 
@@ -2418,11 +2423,10 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:2647 include/class_msgPool.inc:495
 #: plugins/admin/groups/userGroupSelect/selectUserGroup-list.xml:83
 #: plugins/admin/ogroups/objectSelect/selectObject-list.xml:138
-#: plugins/personal/generic/generic.tpl:251
-#: plugins/personal/generic/generic.tpl:270
+#: plugins/personal/generic/generic.tpl:249
 #, php-format
 msgid "Add"
-msgstr ""
+msgstr "Добавить"
 
 #: setup/class_setupStep_Migrate.inc:2648 plugins/admin/acl/acl-list.xml:95
 #: plugins/admin/acl/acl-list.xml:144 plugins/admin/users/user-list.xml:121
@@ -2434,7 +2438,7 @@ msgstr ""
 #: plugins/personal/generic/generic_certs.tpl:45
 #: plugins/personal/generic/generic_certs.tpl:69
 msgid "Remove"
-msgstr ""
+msgstr "Удалить"
 
 #: setup/class_setupStep_Migrate.inc:2837
 #, php-format
@@ -2518,16 +2522,16 @@ msgstr ""
 #: plugins/admin/acl/class_aclRole.inc:382
 #: plugins/admin/acl/class_aclRole.inc:732
 msgid "ACL"
-msgstr ""
+msgstr "Доступ"
 
 #: include/class_tabs.inc:402
 msgid "References"
-msgstr ""
+msgstr "Ссылки"
 
 #: include/class_management.inc:41 include/class_management.inc:42
 #: plugins/personal/posix/class_posixAccount.inc:275
 msgid "unconfigured"
-msgstr ""
+msgstr "Не настроено"
 
 #: include/class_management.inc:168
 msgid "Filter error"
@@ -2540,28 +2544,25 @@ msgstr ""
 #: include/class_management.inc:333 include/class_management.inc:483
 #: include/class_management.inc:536 include/class_management.inc:576
 #: include/class_management.inc:590 include/class_CopyPasteHandler.inc:223
-#: include/class_plugin.inc:1791 include/class_plugin.inc:1803
-#: include/class_plugin.inc:1818 include/class_plugin.inc:1831
-#: plugins/admin/users/class_userManagement.inc:205
-#: plugins/admin/users/class_userManagement.inc:761
+#: plugins/admin/users/class_userManagement.inc:202
+#: plugins/admin/users/class_userManagement.inc:758
 msgid "Permission"
 msgstr ""
 
 #: include/class_management.inc:403
-#: plugins/admin/acl/class_aclManagement.inc:100
-#: plugins/admin/users/class_userManagement.inc:719
-#: plugins/admin/users/class_userManagement.inc:723
+#: plugins/admin/acl/class_aclManagement.inc:101
+#: plugins/admin/users/class_userManagement.inc:716
+#: plugins/admin/users/class_userManagement.inc:720
 msgid "Permission error"
 msgstr ""
 
-#: include/class_management.inc:483 include/class_plugin.inc:1791
+#: include/class_management.inc:483
 #, php-format
 msgid "You are not allowed to create a snapshot for %s."
 msgstr ""
 
 #: include/class_management.inc:536 include/class_management.inc:576
-#: include/class_management.inc:590 include/class_plugin.inc:1803
-#: include/class_plugin.inc:1818 include/class_plugin.inc:1831
+#: include/class_management.inc:590
 #, php-format
 msgid "You are not allowed to restore a snapshot for %s."
 msgstr ""
@@ -2634,7 +2635,7 @@ msgstr ""
 #: include/functions.inc:1396
 #, php-format
 msgid "The size limit of %d entries is exceed!"
-msgstr ""
+msgstr "Найдено более %d объектов."
 
 #: include/functions.inc:1398
 #, php-format
@@ -2642,14 +2643,16 @@ msgid ""
 "Set the new size limit to %s and show me this message if the limit still "
 "exceeds"
 msgstr ""
+"Установить новое значение лимита в %s и показать мне это сообщение если "
+"лимит будет исчерпан."
 
 #: include/functions.inc:1415 plugins/personal/generic/generic.tpl:219
 msgid "Configure"
-msgstr ""
+msgstr "Настроить"
 
 #: include/functions.inc:1420
 msgid "incomplete"
-msgstr ""
+msgstr "не полный"
 
 #: include/functions.inc:1858
 msgid "Continue anyway"
@@ -2674,7 +2677,7 @@ msgstr ""
 
 #: include/functions.inc:2435 include/class_filter.inc:348
 msgid "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-msgstr ""
+msgstr "*АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯ0123456789"
 
 #: include/functions.inc:2571
 #, php-format
@@ -2762,153 +2765,150 @@ msgid ""
 "Command '%s', specified as POSTMODIFY for plugin '%s' doesn't seem to exist."
 msgstr ""
 
-#: include/functions.inc:3613 include/functions.inc:3633
-#: include/functions.inc:3671 include/functions.inc:3683
-#: include/functions.inc:3687 include/functions.inc:3702
-#: include/functions.inc:3711
+#: include/functions.inc:3618 include/functions.inc:3638
+#: include/functions.inc:3676 include/functions.inc:3688
+#: include/functions.inc:3692 include/functions.inc:3707
+#: include/functions.inc:3716
 msgid "Cannot allocate a free ID:"
 msgstr ""
 
-#: include/functions.inc:3613
+#: include/functions.inc:3618
 msgid "unknown idAllocation method!"
 msgstr ""
 
-#: include/functions.inc:3633
+#: include/functions.inc:3638
 #, php-format
 msgid "%sPoolMin >= %sPoolMax!"
 msgstr ""
 
-#: include/functions.inc:3663
+#: include/functions.inc:3668
 msgid "Cannot create sambaUnixIdPool entry!"
 msgstr ""
 
-#: include/functions.inc:3671
+#: include/functions.inc:3676
 msgid "sambaUnixIdPool is not unique!"
 msgstr ""
 
-#: include/functions.inc:3683 include/functions.inc:3687
+#: include/functions.inc:3688 include/functions.inc:3692
 msgid "no ID available!"
 msgstr ""
 
-#: include/functions.inc:3711
+#: include/functions.inc:3716
 msgid "maximum tries exceeded!"
 msgstr ""
 
-#: include/functions.inc:3779
+#: include/functions.inc:3784
 msgid "Cannot allocate a free ID!"
 msgstr ""
 
-#: include/class_listing.inc:291 include/class_listing.inc:1099
-#: include/class_listing.inc:1101 include/class_sortableListing.inc:343
+#: include/class_listing.inc:290 include/class_listing.inc:1105
+#: include/class_listing.inc:1107 include/class_sortableListing.inc:343
 #: include/class_acl.inc:504 plugins/admin/acl/class_aclRole.inc:372
 msgid "Up"
 msgstr ""
 
-#: include/class_listing.inc:291 include/class_sortableListing.inc:343
+#: include/class_listing.inc:290 include/class_sortableListing.inc:343
 #: include/class_acl.inc:506 plugins/admin/acl/class_aclRole.inc:374
 msgid "Down"
 msgstr ""
 
-#: include/class_listing.inc:564
+#: include/class_listing.inc:563
 msgid "created by"
 msgstr ""
 
-#: include/class_listing.inc:1091
+#: include/class_listing.inc:1097
 msgid "Go to root department"
 msgstr ""
 
-#: include/class_listing.inc:1091 include/class_listing.inc:1093
+#: include/class_listing.inc:1097 include/class_listing.inc:1099
 #: include/class_baseSelector.inc:205
 msgid "Root"
 msgstr ""
 
-#: include/class_listing.inc:1099
+#: include/class_listing.inc:1105
 msgid "Go up one department"
 msgstr ""
 
-#: include/class_listing.inc:1107
+#: include/class_listing.inc:1113
 msgid "Go to users department"
 msgstr ""
 
-#: include/class_listing.inc:1107 include/class_listing.inc:1109
+#: include/class_listing.inc:1113 include/class_listing.inc:1115
 msgid "Home"
 msgstr ""
 
-#: include/class_listing.inc:1114
+#: include/class_listing.inc:1120
 msgid "Reload list"
 msgstr ""
 
-#: include/class_listing.inc:1114 include/class_baseSelector.inc:252
+#: include/class_listing.inc:1120 include/class_baseSelector.inc:252
 msgid "Submit"
 msgstr ""
 
-#: include/class_listing.inc:1211 plugins/admin/acl/acl-list.xml:65
+#: include/class_listing.inc:1217 plugins/admin/acl/acl-list.xml:65
 #: plugins/admin/users/user-list.xml:78 plugins/admin/groups/group-list.xml:79
 #: plugins/admin/groups/singleUserSelect/singleUser-list.xml:64
 #: plugins/admin/departments/dep-list.xml:87
 #: plugins/admin/ogroups/ogroup-list.xml:62
 msgid "Actions"
-msgstr ""
+msgstr "Действия"
 
-#: include/class_listing.inc:1495 include/class_listing.inc:1545
-#: include/class_plugin.inc:2228
+#: include/class_listing.inc:1501 include/class_listing.inc:1551
 msgid "Copy"
 msgstr ""
 
-#: include/class_listing.inc:1501 include/class_listing.inc:1535
-#: include/class_plugin.inc:2232
+#: include/class_listing.inc:1507 include/class_listing.inc:1541
 msgid "Cut"
 msgstr ""
 
-#: include/class_listing.inc:1509 include/class_listing.inc:1511
-#: include/class_CopyPasteHandler.inc:400 include/class_plugin.inc:2239
-#: include/class_plugin.inc:2242
+#: include/class_listing.inc:1515 include/class_listing.inc:1517
+#: include/class_CopyPasteHandler.inc:400
 msgid "Paste"
 msgstr ""
 
-#: include/class_listing.inc:1535 include/class_plugin.inc:2186
+#: include/class_listing.inc:1541
 msgid "Cut this entry"
 msgstr ""
 
-#: include/class_listing.inc:1545 include/class_plugin.inc:2194
+#: include/class_listing.inc:1551
 msgid "Copy this entry"
 msgstr ""
 
-#: include/class_listing.inc:1577 include/class_listing.inc:1579
+#: include/class_listing.inc:1583 include/class_listing.inc:1585
 msgid "Restore snapshots"
 msgstr ""
 
-#: include/class_listing.inc:1593
+#: include/class_listing.inc:1599
 msgid "Export list"
 msgstr ""
 
-#: include/class_listing.inc:1628 include/class_listing.inc:1629
-#: include/class_SnapShotDialog.inc:153 include/class_plugin.inc:2160
+#: include/class_listing.inc:1634 include/class_listing.inc:1635
+#: include/class_SnapShotDialog.inc:298
 msgid "Restore snapshot"
 msgstr ""
 
-#: include/class_listing.inc:1638 include/class_plugin.inc:2167
+#: include/class_listing.inc:1644
 msgid "Create snapshot"
 msgstr ""
 
-#: include/class_listing.inc:1639 include/class_plugin.inc:2168
+#: include/class_listing.inc:1645
 msgid "Create a new snapshot from this object"
 msgstr ""
 
-#: include/class_SnapShotDialog.inc:99
+#: include/class_SnapShotDialog.inc:244
 #, php-format
 msgid "You're about to delete the snapshot '%s'."
 msgstr ""
 
-#: include/class_SnapShotDialog.inc:155
+#: include/class_SnapShotDialog.inc:300
 msgid "Remove snapshot"
 msgstr ""
 
-#: include/class_SnapShotDialog.inc:157 include/class_SnapShotDialog.inc:177
+#: include/class_SnapShotDialog.inc:302 include/class_SnapShotDialog.inc:322
 msgid "Y-m-d, H:i:s"
 msgstr ""
 
-#: include/class_SnapShotDialog.inc:191 plugins/admin/acl/acl-list.xml:57
+#: include/class_SnapShotDialog.inc:336 plugins/admin/acl/acl-list.xml:57
 #: plugins/admin/acl/acl_role.tpl:17 plugins/admin/acl/class_aclRole.inc:704
 #: plugins/admin/groups/class_group.inc:1114
 #: plugins/admin/groups/group-list.xml:66 plugins/admin/groups/generic.tpl:24
@@ -2942,12 +2942,12 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:1398
 #: plugins/personal/generic/generic.tpl:153
 msgid "Description"
-msgstr ""
+msgstr "Описание"
 
 #: include/class_config.inc:159
 #, php-format
 msgid "XML error in fusiondirectory.conf: %s at line %d"
-msgstr ""
+msgstr "Ошибка XML в fusiondirectory.conf: %s в строке %d"
 
 #: include/class_config.inc:330
 msgid "Cannot bind to LDAP. Please contact the system administrator."
@@ -2964,7 +2964,7 @@ msgstr ""
 
 #: include/class_config.inc:1276
 msgid "My account"
-msgstr "El meu compte"
+msgstr "Моя учетная запись"
 
 #: include/class_CopyPasteHandler.inc:402
 msgid "Cannot paste"
@@ -2983,30 +2983,18 @@ msgstr ""
 msgid "Cannot find a suitable password method for the current hash!"
 msgstr ""
 
-#: include/class_plugin.inc:563
+#: include/class_plugin.inc:562
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may "
 "be done by others get lost if you save this entry!"
 msgstr ""
 
-#: include/class_plugin.inc:2082
+#: include/class_plugin.inc:1674
 msgid "Changing ACL dn"
 msgstr ""
 
-#: include/class_plugin.inc:2082
+#: include/class_plugin.inc:1674
 msgid "from"
-msgstr ""
-
-#: include/class_plugin.inc:2136 include/class_plugin.inc:2138
-msgid "Restore"
-msgstr ""
-
-#: include/class_plugin.inc:2186
-msgid "cut"
-msgstr ""
-
-#: include/class_plugin.inc:2194
-msgid "copy"
 msgstr ""
 
 #: include/class_sortableListing.inc:303
@@ -3022,7 +3010,7 @@ msgstr ""
 #: plugins/admin/departments/dep-list.xml:172
 #: plugins/admin/ogroups/ogroup-list.xml:91
 msgid "Edit"
-msgstr ""
+msgstr "Изменить"
 
 #: include/class_sortableListing.inc:308
 msgid "Edit this entry"
@@ -3034,7 +3022,7 @@ msgstr ""
 #: plugins/admin/acl/class_aclRole.inc:430
 #, php-format
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"
 
 #: include/class_sortableListing.inc:313
 msgid "Delete this entry"
@@ -3162,12 +3150,12 @@ msgstr ""
 #: include/class_acl.inc:832 include/class_acl.inc:955
 #: include/class_acl.inc:959
 msgid "read"
-msgstr ""
+msgstr "чтение"
 
 #: include/class_acl.inc:833 include/class_acl.inc:957
 #: include/class_acl.inc:960
 msgid "write"
-msgstr ""
+msgstr "запись"
 
 #: include/class_acl.inc:837
 msgid "Complete object"
@@ -3299,7 +3287,7 @@ msgstr ""
 
 #: include/php_setup.inc:102
 msgid "Type"
-msgstr ""
+msgstr "Тип"
 
 #: include/php_setup.inc:103
 msgid "Arguments"
@@ -3599,29 +3587,27 @@ msgstr ""
 #: include/class_msgPool.inc:525
 #, php-format
 msgid "Edit..."
-msgstr "Edita…"
+msgstr ""
 
 #: include/class_msgPool.inc:525
 #, php-format
 msgid "Edit %s..."
-msgstr "Edita %s…"
+msgstr ""
 
 #: include/class_msgPool.inc:533
 msgid "Back"
-msgstr "Enrere"
+msgstr "Назад"
 
 #: include/class_msgPool.inc:562
 #, php-format
 msgid "This account has no valid %s extensions!"
-msgstr "Aquest compte no té extensions de %s vàlides!"
+msgstr ""
 
 #: include/class_msgPool.inc:575
 #, php-format
 msgid ""
 "This account has %s settings enabled. You can disable them by clicking below."
 msgstr ""
-"Aquest compte té paràmetres de %s habilitats. Podeu inhabilitar-los fent "
-"clic a sota."
 
 #: include/class_msgPool.inc:581 include/class_msgPool.inc:588
 #, php-format
@@ -3655,84 +3641,83 @@ msgstr ""
 
 #: include/class_msgPool.inc:647
 msgid "Click the 'Edit' button below to change informations in this dialog"
-msgstr ""
-"Feu clic al botó «Edita» a sota per canviar la informació d'aquest diàleg"
+msgstr "Нажмите 'Изменить' чтобы отредактировать данные в этой форме."
 
 #: include/class_msgPool.inc:655
 msgid "January"
-msgstr "gener"
+msgstr "Январь"
 
 #: include/class_msgPool.inc:655
 msgid "February"
-msgstr "febrer"
+msgstr "Февраль"
 
 #: include/class_msgPool.inc:655
 msgid "March"
-msgstr "març"
+msgstr "Март"
 
 #: include/class_msgPool.inc:655
 msgid "April"
-msgstr "abril"
+msgstr "Апрель"
 
 #: include/class_msgPool.inc:656
 msgid "May"
-msgstr "maig"
+msgstr "Май"
 
 #: include/class_msgPool.inc:656
 msgid "June"
-msgstr "juny"
+msgstr "Июнь"
 
 #: include/class_msgPool.inc:656
 msgid "July"
-msgstr "juliol"
+msgstr "Июль"
 
 #: include/class_msgPool.inc:656
 msgid "August"
-msgstr "agost"
+msgstr "Август"
 
 #: include/class_msgPool.inc:656
 msgid "September"
-msgstr "setembre"
+msgstr "Сентябрь"
 
 #: include/class_msgPool.inc:657
 msgid "October"
-msgstr "octubre"
+msgstr "Октябрь"
 
 #: include/class_msgPool.inc:657
 msgid "November"
-msgstr "novembre"
+msgstr "Ноябрь"
 
 #: include/class_msgPool.inc:657
 msgid "December"
-msgstr "desembre"
+msgstr "Декабрь"
 
 #: include/class_msgPool.inc:666
 msgid "Sunday"
-msgstr "diumenge"
+msgstr ""
 
 #: include/class_msgPool.inc:666
 msgid "Monday"
-msgstr "dilluns"
+msgstr ""
 
 #: include/class_msgPool.inc:666
 msgid "Tuesday"
-msgstr "dimarts"
+msgstr ""
 
 #: include/class_msgPool.inc:666
 msgid "Wednesday"
-msgstr "dimecres"
+msgstr ""
 
 #: include/class_msgPool.inc:666
 msgid "Thursday"
-msgstr "dijous"
+msgstr ""
 
 #: include/class_msgPool.inc:666
 msgid "Friday"
-msgstr "divendres"
+msgstr ""
 
 #: include/class_msgPool.inc:666
 msgid "Saturday"
-msgstr "dissabte"
+msgstr ""
 
 #: include/class_msgPool.inc:679
 msgid "Database operation failed!"
@@ -3880,17 +3865,16 @@ msgstr ""
 msgid "List of acls"
 msgstr ""
 
-#: plugins/admin/acl/acl-list.xml:15
+#: plugins/admin/acl/acl-list.xml:15 plugins/admin/acl/acl-list.xml:82
 #: plugins/admin/acl/class_aclManagement.inc:36
 msgid "Acl"
 msgstr ""
 
-#: plugins/admin/acl/acl-list.xml:23 plugins/admin/acl/acl-list.xml:82
-#: plugins/admin/acl/class_aclRole.inc:695
+#: plugins/admin/acl/acl-list.xml:23 plugins/admin/acl/class_aclRole.inc:695
 #: plugins/personal/generic/class_user.inc:1367
-#: plugins/personal/generic/generic.tpl:515
+#: plugins/personal/generic/generic.tpl:492
 msgid "Role"
-msgstr ""
+msgstr "Роль"
 
 #: plugins/admin/acl/acl-filter.tpl:3 plugins/admin/users/user-filter.tpl:3
 #: plugins/admin/groups/group-filter.tpl:3
@@ -3903,7 +3887,7 @@ msgstr ""
 #: plugins/personal/posix/trustSelect/trust-filter.tpl:3
 #: plugins/personal/posix/groupSelect/group-filter.tpl:3
 msgid "Filter"
-msgstr ""
+msgstr "Фильтр"
 
 #: plugins/admin/acl/acl-filter.tpl:11
 msgid "Show access control lists"
@@ -3928,7 +3912,7 @@ msgstr ""
 msgid "Access control list management"
 msgstr ""
 
-#: plugins/admin/acl/class_aclManagement.inc:160
+#: plugins/admin/acl/class_aclManagement.inc:161
 msgid "ACL Assignment"
 msgstr ""
 
@@ -3990,9 +3974,6 @@ msgid ""
 "immediately. Please memorize the new password, because the user wouldn't be "
 "able to login without it."
 msgstr ""
-"Per canviar la vostra contrasenya personal, empreu els camps següents. Els "
-"canvis tenen efecte immediatament. Memoritzeu la contrasenya nova, perquè "
-"l'usuari no podrà entrar sense ella."
 
 #: plugins/admin/users/password.tpl:8 plugins/personal/password/password.tpl:8
 #: plugins/personal/generic/password.tpl:8
@@ -4000,8 +3981,6 @@ msgid ""
 "Changing the password affects your authentification on mail, proxy, samba "
 "and unix services."
 msgstr ""
-"Canviar la contrasenya afecta la vostra autenticació al correu, servidor "
-"intermediari, Samba i serveis UNIX."
 
 #: plugins/admin/users/password.tpl:21 plugins/admin/users/password.tpl:64
 #: plugins/personal/password/password.tpl:32
@@ -4009,11 +3988,11 @@ msgstr ""
 #: plugins/personal/generic/password.tpl:27
 #: plugins/personal/generic/password.tpl:77
 msgid "Repeat new password"
-msgstr "Repeteix la contrasenya nova"
+msgstr "Подтверждение"
 
 #: plugins/admin/users/password.tpl:25 plugins/admin/users/password.tpl:68
 msgid "Strength"
-msgstr "Qualitat"
+msgstr ""
 
 #: plugins/admin/users/password.tpl:35
 msgid "Password input dialog"
@@ -4039,11 +4018,11 @@ msgstr ""
 #: plugins/personal/password/password.tpl:101
 #: plugins/personal/generic/password.tpl:95
 msgid "Set password"
-msgstr ""
+msgstr "Изменить пароль"
 
 #: plugins/admin/users/template.tpl:2
 msgid "Creating a new user using templates"
-msgstr ""
+msgstr "Создание пользователя на основе шаблона"
 
 #: plugins/admin/users/template.tpl:6
 msgid ""
@@ -4053,23 +4032,23 @@ msgid ""
 msgstr ""
 
 #: plugins/admin/users/template.tpl:15
-#: plugins/admin/users/class_userManagement.inc:542
+#: plugins/admin/users/class_userManagement.inc:539
 #: plugins/admin/users/templatize.tpl:15 plugins/admin/users/user-list.xml:15
 #: plugins/admin/users/user-list.xml:102
 msgid "Template"
-msgstr ""
+msgstr "Шаблон"
 
 #: plugins/admin/users/template.tpl:23
 #: plugins/personal/generic/paste_generic.tpl:7
 #: plugins/personal/generic/generic.tpl:51
 msgid "Last name"
-msgstr "Cognoms"
+msgstr ""
 
 #: plugins/admin/users/template.tpl:27
 #: plugins/personal/generic/paste_generic.tpl:11
 #: plugins/personal/generic/generic.tpl:67
 msgid "First name"
-msgstr "Nom"
+msgstr ""
 
 #: plugins/admin/users/template.tpl:32 plugins/admin/users/user-list.xml:65
 #: plugins/admin/groups/userSelect/user-list.xml:56
@@ -4082,29 +4061,29 @@ msgstr "Nom"
 #: plugins/personal/generic/paste_generic.tpl:15
 #: plugins/personal/generic/generic.tpl:77
 msgid "Login"
-msgstr "Entrada"
+msgstr "Имя пользователя"
 
 #: plugins/admin/users/class_userManagement.inc:53
 msgid "Manage users"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:344
+#: plugins/admin/users/class_userManagement.inc:341
 #: plugins/personal/password/class_password.inc:136
 #, php-format
 msgid "Check-hook reported a problem: %s. Password change canceled!"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:394
+#: plugins/admin/users/class_userManagement.inc:391
 msgid "You have no permission to change this users password!"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:470
-#: plugins/admin/users/class_userManagement.inc:504
-#: plugins/admin/users/class_userManagement.inc:535
+#: plugins/admin/users/class_userManagement.inc:467
+#: plugins/admin/users/class_userManagement.inc:501
+#: plugins/admin/users/class_userManagement.inc:532
 msgid "none"
-msgstr "cap"
+msgstr "нет"
 
-#: plugins/admin/users/class_userManagement.inc:548
+#: plugins/admin/users/class_userManagement.inc:545
 #: plugins/admin/users/user-list.xml:57
 #: plugins/admin/groups/userSelect/user-list.xml:40
 #: plugins/admin/groups/singleUserSelect/singleUser-list.xml:40
@@ -4112,31 +4091,31 @@ msgstr "cap"
 #: plugins/personal/generic/class_user.inc:1200
 #: plugins/personal/generic/class_user.inc:1381
 msgid "Given name"
-msgstr ""
+msgstr "Имя"
 
-#: plugins/admin/users/class_userManagement.inc:799
+#: plugins/admin/users/class_userManagement.inc:796
 msgid "Account locking"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:800
+#: plugins/admin/users/class_userManagement.inc:797
 #, php-format
 msgid ""
 "Password method '%s' does not support locking. Account (%s) has not been "
 "locked!"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:873
+#: plugins/admin/users/class_userManagement.inc:870
 msgid "Unlock account"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:875
+#: plugins/admin/users/class_userManagement.inc:872
 msgid "Lock account"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:903
+#: plugins/admin/users/class_userManagement.inc:900
 #, fuzzy
 msgid "Generic properties"
-msgstr "Informació genèrica de l'usuari"
+msgstr "Свойства"
 
 #: plugins/admin/users/templatize.tpl:2
 msgid "Applying a template"
@@ -4154,7 +4133,7 @@ msgstr ""
 
 #: plugins/admin/users/user-filter.tpl:11
 msgid "Show templates"
-msgstr ""
+msgstr "Показать шаблоны"
 
 #: plugins/admin/users/user-filter.tpl:12
 msgid "Show functional users"
@@ -4174,7 +4153,7 @@ msgstr ""
 
 #: plugins/admin/users/user-list.xml:11
 msgid "List of users"
-msgstr ""
+msgstr "Список пользователей"
 
 #: plugins/admin/users/user-list.xml:49
 #: plugins/admin/groups/userSelect/user-list.xml:48
@@ -4192,7 +4171,7 @@ msgstr ""
 #: plugins/admin/departments/generic.tpl:7
 #: plugins/admin/ogroups/ogroup-list.xml:57
 msgid "Properties"
-msgstr ""
+msgstr "Свойства"
 
 #: plugins/admin/users/user-list.xml:141
 msgid "Lock users"
@@ -4223,8 +4202,9 @@ msgid "Remove user"
 msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:35
-msgid "Password recovery config"
-msgstr ""
+#, fuzzy
+msgid "Password recovery"
+msgstr "Хэширование паролей"
 
 #: plugins/admin/password/class_recoveryConfig.inc:36
 msgid "Settings for the password recovery feature"
@@ -4355,12 +4335,12 @@ msgstr ""
 #: plugins/admin/groups/group-filter.tpl:11
 #: plugins/personal/posix/groupSelect/group-filter.tpl:11
 msgid "Show primary groups"
-msgstr ""
+msgstr "Показать основные группы"
 
 #: plugins/admin/groups/group-filter.tpl:12
 #: plugins/personal/posix/groupSelect/group-filter.tpl:12
 msgid "Show samba groups"
-msgstr ""
+msgstr "Показать группы samba"
 
 #: plugins/admin/groups/group-filter.tpl:13
 #: plugins/personal/posix/groupSelect/group-filter.tpl:13
@@ -4376,33 +4356,33 @@ msgstr ""
 #: plugins/admin/groups/trust_machines.tpl:6
 #: plugins/admin/ogroups/trust_machines.tpl:6
 msgid "Select systems to add"
-msgstr ""
+msgstr "Выберите системы для добавления"
 
 #: plugins/admin/groups/trust_machines.tpl:19
 #: plugins/admin/ogroups/ogroup_objects.tpl:20
 msgid "Filters"
-msgstr ""
+msgstr "Фильтры"
 
 #: plugins/admin/groups/trust_machines.tpl:25
 #: plugins/admin/ogroups/trust_machines.tpl:26
 msgid "Display systems of department"
-msgstr ""
+msgstr "Показать системы в подразделении"
 
 #: plugins/admin/groups/trust_machines.tpl:26
 #: plugins/admin/ogroups/trust_machines.tpl:27
 #: plugins/admin/ogroups/ogroup_objects.tpl:37
 msgid "Choose the department the search will be based on"
-msgstr ""
+msgstr "Выбрать раздел, для которого будет осуществлен поиск"
 
 #: plugins/admin/groups/trust_machines.tpl:29
 #: plugins/admin/ogroups/trust_machines.tpl:30
 msgid "Display systems matching"
-msgstr ""
+msgstr "Показать подходяшие системы"
 
 #: plugins/admin/groups/trust_machines.tpl:30
 #: plugins/admin/ogroups/trust_machines.tpl:31
 msgid "Regular expression for matching addresses"
-msgstr ""
+msgstr "Регулярное выражение для поиска адреса"
 
 #: plugins/admin/groups/userSelect/user-list.xml:10
 #: plugins/admin/groups/userGroupSelect/selectUserGroup-list.xml:11
@@ -4422,27 +4402,29 @@ msgstr ""
 #: plugins/admin/ogroups/paste_generic.tpl:4
 #: plugins/admin/ogroups/generic.tpl:7
 msgid "Group name"
-msgstr ""
+msgstr "Группа"
 
 #: plugins/admin/groups/paste_generic.tpl:8
 #: plugins/admin/groups/generic.tpl:17
 msgid "Posix name of the group"
-msgstr ""
+msgstr "Имя группы, соответствующее стандарту POSIX"
 
 #: plugins/admin/groups/paste_generic.tpl:13
 #: plugins/admin/groups/generic.tpl:59
 msgid "Normally IDs are autogenerated, select to specify manually"
 msgstr ""
+"Обычно идентификаторы создаются автоматически, но вы можете выбрать указание "
+"вручную"
 
 #: plugins/admin/groups/paste_generic.tpl:15
 #: plugins/admin/groups/generic.tpl:62
 msgid "Force GID"
-msgstr ""
+msgstr "Указать GID вручную"
 
 #: plugins/admin/groups/paste_generic.tpl:18
 #: plugins/admin/groups/generic.tpl:65
 msgid "Forced ID number"
-msgstr ""
+msgstr "Указанный вручную GID"
 
 #: plugins/admin/groups/class_group.inc:161
 msgid "Cannot find group SID in your configuration!"
@@ -4450,42 +4432,42 @@ msgstr ""
 
 #: plugins/admin/groups/class_group.inc:411
 msgid "Samba group"
-msgstr ""
+msgstr "Группа Samba"
 
 #: plugins/admin/groups/class_group.inc:411
 msgid "Domain admins"
-msgstr ""
+msgstr "Администраторы домена"
 
 #: plugins/admin/groups/class_group.inc:411
 msgid "Domain users"
-msgstr ""
+msgstr "Пользователи домена"
 
 #: plugins/admin/groups/class_group.inc:412
 msgid "Domain guests"
-msgstr ""
+msgstr "Непривилегированные пользователи домена"
 
 #: plugins/admin/groups/class_group.inc:417
 #, php-format
 msgid "Special group (%d)"
-msgstr ""
+msgstr "Специальная группа (%d)"
 
 #: plugins/admin/groups/class_group.inc:444
 #: plugins/admin/ogroups/class_ogroup.inc:392
 #: plugins/personal/posix/class_posixAccount.inc:184
 msgid "disabled"
-msgstr ""
+msgstr "отключен"
 
 #: plugins/admin/groups/class_group.inc:444
 #: plugins/admin/ogroups/class_ogroup.inc:392
 #: plugins/personal/posix/class_posixAccount.inc:184
 msgid "full access"
-msgstr ""
+msgstr "полный доступ"
 
 #: plugins/admin/groups/class_group.inc:445
 #: plugins/admin/ogroups/class_ogroup.inc:393
 #: plugins/personal/posix/class_posixAccount.inc:184
 msgid "allow access to these hosts"
-msgstr ""
+msgstr "разрешить доступ только на эти хосты"
 
 #: plugins/admin/groups/class_group.inc:522
 #, php-format
@@ -4527,7 +4509,7 @@ msgstr ""
 #: plugins/personal/posix/class_posixAccount.inc:122
 #: plugins/personal/posix/class_posixAccount.inc:375
 msgid "GID"
-msgstr ""
+msgstr "GID"
 
 #: plugins/admin/groups/class_group.inc:1107
 msgid "Generic group settings"
@@ -4539,11 +4521,10 @@ msgstr ""
 #: plugins/admin/groups/userGroupSelect/selectUserGroup-list.xml:23
 #: plugins/admin/ogroups/class_ogroupManagement.inc:187
 #: plugins/admin/ogroups/objectSelect/selectObject-list.xml:79
-#: plugins/admin/ogroups/ogroup-list.xml:79
 #: plugins/generic/references/class_reference.inc:55
 #: plugins/personal/posix/groupSelect/group-list.xml:15
 msgid "Group"
-msgstr ""
+msgstr "Группа"
 
 #: plugins/admin/groups/class_group.inc:1119
 msgid "Samba group type"
@@ -4558,7 +4539,7 @@ msgstr ""
 #: plugins/admin/ogroups/generic.tpl:36
 #: plugins/personal/posix/class_posixAccount.inc:176
 msgid "System trust"
-msgstr ""
+msgstr "Системные доверия"
 
 #: plugins/admin/groups/class_group.inc:1122
 msgid "Phone pickup group"
@@ -4574,7 +4555,7 @@ msgstr ""
 
 #: plugins/admin/groups/group-list.xml:11
 msgid "List of groups"
-msgstr ""
+msgstr "Список групп"
 
 #: plugins/admin/groups/group-list.xml:23
 msgid "Group submenu entry"
@@ -4615,7 +4596,7 @@ msgstr ""
 #: plugins/generic/references/class_reference.inc:47
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:73
 msgid "Samba"
-msgstr ""
+msgstr "Samba"
 
 #: plugins/admin/groups/class_groupManagement.inc:118
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:74
@@ -4631,10 +4612,10 @@ msgstr ""
 #: plugins/generic/references/class_reference.inc:59
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:81
 #: plugins/personal/generic/class_user.inc:1180
-#: plugins/personal/generic/generic.tpl:399
-#: plugins/personal/generic/generic.tpl:586
+#: plugins/personal/generic/generic.tpl:376
+#: plugins/personal/generic/generic.tpl:563
 msgid "Phone"
-msgstr "Telèfon"
+msgstr "Телефон"
 
 #: plugins/admin/groups/class_groupManagement.inc:126
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:82
@@ -4655,7 +4636,7 @@ msgstr ""
 #: plugins/admin/ogroups/tabs_ogroups.inc:137
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:97
 msgid "Environment"
-msgstr ""
+msgstr "Окружение"
 
 #: plugins/admin/groups/class_groupManagement.inc:142
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:98
@@ -4668,19 +4649,19 @@ msgstr ""
 
 #: plugins/admin/groups/generic.tpl:28 plugins/admin/ogroups/generic.tpl:18
 msgid "Descriptive text for this group"
-msgstr ""
+msgstr "Описание группы"
 
 #: plugins/admin/groups/generic.tpl:75 plugins/admin/groups/generic.tpl:102
 msgid "Select to create a samba conform group"
-msgstr ""
+msgstr "Создать группу для работы с Samba"
 
 #: plugins/admin/groups/generic.tpl:87 plugins/admin/groups/generic.tpl:110
 msgid "in domain"
-msgstr ""
+msgstr "в домене"
 
 #: plugins/admin/groups/generic.tpl:131
 msgid "Members are in a phone pickup group"
-msgstr ""
+msgstr "Члены телефонной группы"
 
 #: plugins/admin/groups/generic.tpl:146
 msgid "Members are in a nagios group"
@@ -4694,7 +4675,7 @@ msgstr ""
 
 #: plugins/admin/groups/generic.tpl:236
 msgid "Group members"
-msgstr ""
+msgstr "Члены группы"
 
 #: plugins/admin/groups/generic.tpl:243
 msgid "In all groups"
@@ -4707,12 +4688,12 @@ msgstr ""
 #: plugins/admin/groups/userGroupSelect/selectUserGroup-filter.tpl:11
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:12
 msgid "Show users"
-msgstr "Mostra els usuaris"
+msgstr ""
 
 #: plugins/admin/groups/userGroupSelect/selectUserGroup-filter.tpl:12
 #: plugins/admin/ogroups/objectSelect/selectObject-filter.tpl:13
 msgid "Show groups"
-msgstr "Mostra els grups"
+msgstr ""
 
 #: plugins/admin/departments/class_localityGeneric.inc:83
 #: plugins/admin/departments/class_localityGeneric.inc:84
@@ -4721,7 +4702,7 @@ msgstr "Mostra els grups"
 #: plugins/admin/departments/dep-list.xml:39
 #: plugins/admin/departments/dep-list.xml:124
 msgid "Locality"
-msgstr "Localitat"
+msgstr ""
 
 #: plugins/admin/departments/class_localityGeneric.inc:90
 #: plugins/admin/departments/organization.tpl:78
@@ -4731,9 +4712,9 @@ msgstr "Localitat"
 #: plugins/admin/departments/generic.tpl:91
 #: plugins/admin/departments/class_organizationGeneric.inc:129
 #: plugins/personal/generic/class_user.inc:1410
-#: plugins/personal/generic/generic.tpl:448
+#: plugins/personal/generic/generic.tpl:425
 msgid "Location"
-msgstr "Localització"
+msgstr "Местоположение"
 
 #: plugins/admin/departments/class_localityGeneric.inc:92
 #: plugins/admin/departments/class_dcObject.inc:91
@@ -4748,10 +4729,10 @@ msgstr "Localització"
 #: plugins/admin/departments/generic.tpl:51
 #: plugins/admin/departments/class_organizationGeneric.inc:126
 #: plugins/personal/generic/class_user.inc:1399
-#: plugins/personal/generic/generic.tpl:341
-#: plugins/personal/generic/generic.tpl:362
+#: plugins/personal/generic/generic.tpl:318
+#: plugins/personal/generic/generic.tpl:339
 msgid "Manager"
-msgstr "Responsable"
+msgstr ""
 
 #: plugins/admin/departments/class_localityGeneric.inc:94
 #: plugins/admin/departments/class_dcObject.inc:93
@@ -4766,7 +4747,7 @@ msgstr "Responsable"
 #: plugins/admin/departments/generic.tpl:132
 #: plugins/admin/departments/class_organizationGeneric.inc:134
 msgid "Administrative settings"
-msgstr "Paràmetres administratius"
+msgstr ""
 
 #: plugins/admin/departments/class_dcObject.inc:82
 #: plugins/admin/departments/class_dcObject.inc:83
@@ -4782,7 +4763,7 @@ msgstr ""
 #: plugins/admin/departments/dep-list.xml:15
 #: plugins/admin/departments/dep-list.xml:103
 msgid "Domain"
-msgstr ""
+msgstr "Домен"
 
 #: plugins/admin/departments/country.tpl:11
 #: plugins/admin/departments/class_countryGeneric.inc:89
@@ -4799,7 +4780,7 @@ msgstr ""
 #: plugins/admin/departments/dcObject.tpl:22
 #: plugins/admin/departments/locality.tpl:22
 msgid "Descriptive text for department"
-msgstr ""
+msgstr "Описание подразделения"
 
 #: plugins/admin/departments/country.tpl:69
 #: plugins/admin/departments/domain.tpl:69
@@ -4875,49 +4856,49 @@ msgstr ""
 #: plugins/admin/departments/generic.tpl:27
 #: plugins/admin/departments/class_organizationGeneric.inc:123
 msgid "Category"
-msgstr "Categoria"
+msgstr "Категория"
 
 #: plugins/admin/departments/organization.tpl:30
 #: plugins/admin/departments/generic.tpl:30
 msgid "Category for this subtree"
-msgstr ""
+msgstr "Категория этой ветки"
 
 #: plugins/admin/departments/organization.tpl:82
 #: plugins/admin/departments/class_department.inc:665
 #: plugins/admin/departments/generic.tpl:83
 #: plugins/admin/departments/class_organizationGeneric.inc:128
 #: plugins/personal/generic/class_user.inc:1409
-#: plugins/personal/generic/generic.tpl:456
+#: plugins/personal/generic/generic.tpl:433
 msgid "State"
-msgstr "Província"
+msgstr "Адм. единица"
 
 #: plugins/admin/departments/organization.tpl:85
 #: plugins/admin/departments/generic.tpl:86
 msgid "State where this subtree is located"
-msgstr ""
+msgstr "Адм. единица, в которой находится ветка"
 
 #: plugins/admin/departments/organization.tpl:93
 #: plugins/admin/departments/generic.tpl:94
 msgid "Location of this subtree"
-msgstr ""
+msgstr "Местоположение ветки"
 
 #: plugins/admin/departments/organization.tpl:98
 #: plugins/admin/departments/class_department.inc:667
 #: plugins/admin/departments/generic.tpl:99
 #: plugins/personal/generic/generic.tpl:181
-#: plugins/personal/generic/generic.tpl:464
+#: plugins/personal/generic/generic.tpl:441
 msgid "Address"
-msgstr "Adreça"
+msgstr "Адрес"
 
 #: plugins/admin/departments/organization.tpl:101
 #: plugins/admin/departments/generic.tpl:102
 msgid "Postal address of this subtree"
-msgstr ""
+msgstr "Почтовый адрес для ветки"
 
 #: plugins/admin/departments/organization.tpl:108
 #: plugins/admin/departments/generic.tpl:109
 msgid "Base telephone number of this subtree"
-msgstr ""
+msgstr "Основный телефонный номер для ветки"
 
 #: plugins/admin/departments/organization.tpl:113
 #: plugins/admin/departments/class_department.inc:371
@@ -4925,15 +4906,15 @@ msgstr ""
 #: plugins/admin/departments/generic.tpl:114
 #: plugins/admin/departments/class_organizationGeneric.inc:132
 #: plugins/personal/generic/class_user.inc:1183
-#: plugins/personal/generic/generic.tpl:430
-#: plugins/personal/generic/generic.tpl:598
+#: plugins/personal/generic/generic.tpl:407
+#: plugins/personal/generic/generic.tpl:575
 msgid "Fax"
-msgstr "Fax"
+msgstr "Факс"
 
 #: plugins/admin/departments/organization.tpl:116
 #: plugins/admin/departments/generic.tpl:117
 msgid "Base facsimile telephone number of this subtree"
-msgstr ""
+msgstr "Основный номер факса для ветки"
 
 #: plugins/admin/departments/dcObject.tpl:11
 #: plugins/admin/departments/locality.tpl:11
@@ -4949,7 +4930,7 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:654
 #: plugins/admin/departments/class_department.inc:656
 msgid "Departments"
-msgstr "Departaments"
+msgstr "Подразделения"
 
 #: plugins/admin/departments/class_departmentManagement.inc:37
 msgid "Manage departments"
@@ -4966,7 +4947,7 @@ msgstr ""
 #: plugins/admin/departments/dep-list.xml:31
 #: plugins/admin/departments/dep-list.xml:117
 msgid "Country"
-msgstr "Estat"
+msgstr "Страна"
 
 #: plugins/admin/departments/class_departmentManagement.inc:255
 #: plugins/admin/departments/class_department.inc:657
@@ -4977,9 +4958,9 @@ msgstr "Estat"
 #: plugins/admin/ogroups/objectSelect/selectObject-list.xml:15
 #: plugins/generic/references/class_reference.inc:57
 #: plugins/personal/generic/class_user.inc:1396
-#: plugins/personal/generic/generic.tpl:308
+#: plugins/personal/generic/generic.tpl:285
 msgid "Department"
-msgstr "Departament"
+msgstr "Подразделение"
 
 #: plugins/admin/departments/class_department.inc:431
 msgid "Cannot find an unused tag for this administrative unit!"
@@ -5006,7 +4987,7 @@ msgstr ""
 
 #: plugins/admin/departments/class_department.inc:668
 msgid "Telephone"
-msgstr ""
+msgstr "Телефон"
 
 #: plugins/admin/departments/class_department.inc:724
 #, php-format
@@ -5025,11 +5006,11 @@ msgstr ""
 
 #: plugins/admin/departments/generic.tpl:11
 msgid "Name of department"
-msgstr ""
+msgstr "Подразделение"
 
 #: plugins/admin/departments/generic.tpl:14
 msgid "Name of subtree to create"
-msgstr ""
+msgstr "Имя создаваемой ветки"
 
 #: plugins/admin/departments/generic.tpl:22
 msgid "Descriptive text for   department"
@@ -5037,7 +5018,7 @@ msgstr ""
 
 #: plugins/admin/departments/dep-list.xml:11
 msgid "List of departments"
-msgstr ""
+msgstr "Список подразделений"
 
 #: plugins/admin/departments/dep-list.xml:23
 #: plugins/admin/departments/dep-list.xml:110
@@ -5046,21 +5027,21 @@ msgstr ""
 
 #: plugins/admin/departments/class_organizationGeneric.inc:121
 msgid "Organization name"
-msgstr "Nom de l'organització"
+msgstr ""
 
 #: plugins/admin/departments/class_organizationGeneric.inc:130
 #: plugins/personal/generic/class_user.inc:1411
 msgid "Postal address"
-msgstr "Adreça postal"
+msgstr ""
 
 #: plugins/admin/departments/class_organizationGeneric.inc:131
 msgid "Phone number"
-msgstr "Número de telèfon"
+msgstr ""
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:36
 #: plugins/admin/ogroups/class_ogroup.inc:899
 msgid "Object groups"
-msgstr ""
+msgstr "Объединения"
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:37
 msgid "Manage object groups"
@@ -5078,14 +5059,14 @@ msgstr ""
 #: plugins/admin/ogroups/objectSelect/selectObject-list.xml:87
 #: plugins/generic/references/class_reference.inc:61
 msgid "Application"
-msgstr ""
+msgstr "Приложение"
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:192
 #: plugins/admin/ogroups/objectSelect/selectObject-list.xml:31
 #: plugins/generic/references/class_reference.inc:67
 #: plugins/personal/posix/trustSelect/trust-list.xml:22
 msgid "Workstation"
-msgstr ""
+msgstr "Рабочая станция"
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:193
 msgid "Windows Install"
@@ -5101,7 +5082,7 @@ msgstr ""
 #: plugins/admin/ogroups/objectSelect/selectObject-list.xml:55
 #: plugins/generic/references/class_reference.inc:71
 msgid "Printer"
-msgstr ""
+msgstr "Принтер"
 
 #: plugins/admin/ogroups/objectSelect/selectObject-list.xml:39
 #: plugins/personal/posix/trustSelect/trust-list.xml:30
@@ -5197,20 +5178,20 @@ msgstr ""
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:156
 msgid "Applications"
-msgstr ""
+msgstr "Приложения"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:226
 #: plugins/admin/ogroups/tabs_ogroups.inc:233
 msgid "Devices"
-msgstr ""
+msgstr "Устройства"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:227
 msgid "Startup"
-msgstr ""
+msgstr "Запуск"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:230
 msgid "Systems"
-msgstr ""
+msgstr "Системы"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:236
 msgid "Workstartup"
@@ -5263,7 +5244,7 @@ msgstr ""
 #: plugins/admin/ogroups/ogroup-list.xml:15
 #: plugins/generic/references/class_reference.inc:69
 msgid "Object group"
-msgstr ""
+msgstr "Объект группы"
 
 #: plugins/admin/ogroups/class_ogroup.inc:909
 msgid "Member"
@@ -5271,15 +5252,20 @@ msgstr ""
 
 #: plugins/admin/ogroups/generic.tpl:10
 msgid "Name of the group"
-msgstr ""
+msgstr "Название группы"
 
 #: plugins/admin/ogroups/generic.tpl:65
 msgid "Member objects"
-msgstr ""
+msgstr "Включаемые объекты"
 
 #: plugins/admin/ogroups/ogroup-list.xml:11
 msgid "List of object groups"
 msgstr ""
+
+#: plugins/admin/ogroups/ogroup-list.xml:79
+#, fuzzy
+msgid "Objectgroup"
+msgstr "Объект группы"
 
 #: plugins/admin/ogroups/ogroup-list.xml:106
 msgid "Send message"
@@ -5295,19 +5281,19 @@ msgstr ""
 
 #: plugins/admin/ogroups/ogroup_objects.tpl:6
 msgid "Select objects to add"
-msgstr ""
+msgstr "Выбрать объекты для добавления"
 
 #: plugins/admin/ogroups/ogroup_objects.tpl:36
 msgid "Display objects of department"
-msgstr ""
+msgstr "Показать объекты подразделения"
 
 #: plugins/admin/ogroups/ogroup_objects.tpl:40
 msgid "Display objects matching"
-msgstr ""
+msgstr "Показать совпадения объектов"
 
 #: plugins/admin/ogroups/ogroup_objects.tpl:41
 msgid "Regular expression for matching object names"
-msgstr ""
+msgstr "Регулярное выражение, соответствующее именам объектов"
 
 #: plugins/config/class_mainPluginsConfig.inc:28
 msgid "Plugins configuration"
@@ -5340,7 +5326,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:64
 msgid "Addons"
-msgstr ""
+msgstr "Дополнительно"
 
 #: plugins/config/class_configInLdap.inc:79
 msgid "Look n feel"
@@ -5348,11 +5334,12 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:82
 msgid "Language"
-msgstr ""
+msgstr "Язык"
 
 #: plugins/config/class_configInLdap.inc:82
 msgid ""
-"Default language to be used if the one asked by the browser is not available"
+"Language of the application. If 'automatic' or not available, the one asked "
+"by the browser will be used. This setting can be overriden per user."
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:87
@@ -5368,7 +5355,7 @@ msgid "Schema setup"
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:103
-msgid "rfc237bis"
+msgid "rfc2307bis"
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:104
@@ -5550,7 +5537,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:261
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Разное"
 
 #: plugins/config/class_configInLdap.inc:266
 msgid "Hooks that are called when specific actions happens"
@@ -5700,15 +5687,15 @@ msgstr ""
 
 #: plugins/generic/references/class_reference.inc:43
 msgid "UNIX"
-msgstr "UNIX"
+msgstr "Unix"
 
 #: plugins/generic/references/class_reference.inc:49
 msgid "FAX"
-msgstr ""
+msgstr "Факс"
 
 #: plugins/generic/references/class_reference.inc:51
 msgid "Proxy"
-msgstr "Servidor intermediari"
+msgstr "Прокси-сервер"
 
 #: plugins/generic/references/class_reference.inc:53
 msgid "FTP"
@@ -5716,24 +5703,24 @@ msgstr "FTP"
 
 #: plugins/generic/references/class_reference.inc:65
 msgid "Thin Client"
-msgstr ""
+msgstr "Тонкий клиент"
 
 #: plugins/generic/references/contents.tpl:11
 msgid "Object name"
-msgstr "Nom de l'objecte"
+msgstr "Имя объекта"
 
 #: plugins/generic/references/contents.tpl:11
 msgid "Contents"
-msgstr "Continguts"
+msgstr ""
 
 #: plugins/generic/references/contents.tpl:18
 msgid "This object has no relationship to other objects."
-msgstr ""
+msgstr "Данный объект не имеет ссылок на другие объекты"
 
 #: plugins/generic/welcome/main.inc:26
 #, php-format
 msgid "Welcome %s!"
-msgstr ""
+msgstr "Добро пожаловать %s!"
 
 #: plugins/generic/welcome/welcome.tpl:8
 msgid "The FusionDirectory team"
@@ -5741,19 +5728,19 @@ msgstr ""
 
 #: plugins/personal/posix/trustSelect/trust-filter.tpl:11
 msgid "Show servers"
-msgstr ""
+msgstr "Показать серверы"
 
 #: plugins/personal/posix/trustSelect/trust-filter.tpl:12
 msgid "Show workstations"
-msgstr ""
+msgstr "Показать рабочие станции"
 
 #: plugins/personal/posix/trustSelect/trust-filter.tpl:14
 msgid "Show terminals"
-msgstr ""
+msgstr "Показать терминалы"
 
 #: plugins/personal/posix/class_posixAccount.inc:96
 msgid "Home directory"
-msgstr "Directori personal"
+msgstr "Домашний каталог"
 
 #: plugins/personal/posix/class_posixAccount.inc:96
 msgid "The path to the home directory of this user"
@@ -5761,7 +5748,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:101
 msgid "Shell"
-msgstr "Intèrpret d'ordres"
+msgstr "Оболочка"
 
 #: plugins/personal/posix/class_posixAccount.inc:101
 msgid "Which shell should be used when this user log in"
@@ -5769,7 +5756,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:105
 msgid "Primary group"
-msgstr ""
+msgstr "Основная группа"
 
 #: plugins/personal/posix/class_posixAccount.inc:105
 msgid "Primary group for this user"
@@ -5777,7 +5764,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:109
 msgid "Status"
-msgstr ""
+msgstr "Состояние"
 
 #: plugins/personal/posix/class_posixAccount.inc:109
 msgid "Status of this user unix account"
@@ -5785,7 +5772,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:113
 msgid "Force UID/GID"
-msgstr ""
+msgstr "Указать UID/GID вручную"
 
 #: plugins/personal/posix/class_posixAccount.inc:113
 msgid "Force UID and GID values for this user"
@@ -5807,15 +5794,15 @@ msgstr ""
 #: plugins/personal/posix/class_posixAccount.inc:129
 #: plugins/personal/posix/class_posixAccount.inc:132
 msgid "Group membership"
-msgstr ""
+msgstr "Членство в группах"
 
 #: plugins/personal/posix/class_posixAccount.inc:136
 msgid "Account"
-msgstr "Compte"
+msgstr "Учетная запись"
 
 #: plugins/personal/posix/class_posixAccount.inc:140
 msgid "User must change password on first login"
-msgstr ""
+msgstr "Пользователь должен сменить пароль при первом входе в систему"
 
 #: plugins/personal/posix/class_posixAccount.inc:140
 msgid "User must change password on first login (leave empty to disable)"
@@ -5888,7 +5875,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:287
 msgid "automatic"
-msgstr ""
+msgstr "автоматически"
 
 #: plugins/personal/posix/class_posixAccount.inc:305
 msgid "expired"
@@ -5918,7 +5905,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:488
 msgid "Group of user"
-msgstr "Grup de l'usuari"
+msgstr "Группа пользователя"
 
 #: plugins/personal/password/password.tpl:4
 #: plugins/personal/generic/password.tpl:4
@@ -5935,34 +5922,34 @@ msgstr ""
 #: plugins/personal/password/password.tpl:47
 #: plugins/personal/generic/password.tpl:42
 msgid "Password change dialog"
-msgstr "Diàleg de canvi de contrasenya"
+msgstr ""
 
 #: plugins/personal/password/password.tpl:103
 #: plugins/personal/generic/password.tpl:97
 msgid "Clear fields"
-msgstr "Neteja els camps"
+msgstr "Очистить поля"
 
 #: plugins/personal/password/class_password.inc:111
 msgid "You need to specify your current password in order to proceed."
-msgstr ""
+msgstr "Для продолжения укажите свой текущий пароль."
 
 #: plugins/personal/password/class_password.inc:115
 msgid "The password you've entered as 'New password' is empty."
-msgstr ""
+msgstr "Вы не указали новый пароль."
 
 #: plugins/personal/password/class_password.inc:117
 msgid "The password used as new and current are too similar."
-msgstr "La contrasenya nova i l'actual són massa similars."
+msgstr "Новый и текущий пароли слишком похожи."
 
 #: plugins/personal/password/class_password.inc:119
 msgid "The password used as new is to short."
-msgstr "La contrasenya nova és massa curta."
+msgstr "Новый пароль слишком короткий."
 
 #: plugins/personal/password/class_password.inc:157
 msgid ""
 "The password you've entered as your current password doesn't match the real "
 "one."
-msgstr ""
+msgstr "Введенный вами текущий пароль не совпадает с реальным."
 
 #: plugins/personal/password/class_password.inc:163
 msgid "You have no permission to change your password."
@@ -5978,6 +5965,8 @@ msgid ""
 "You've successfully changed your password. Remember to change all programms "
 "configured to use it as well."
 msgstr ""
+"Вы успешно сменили свой пароль. Не забудьте изменить нужные настройки "
+"использующих его программ."
 
 #: plugins/personal/password/nochange.tpl:2
 #: plugins/personal/generic/nochange.tpl:2
@@ -5990,36 +5979,36 @@ msgstr ""
 #: plugins/personal/generic/generic.tpl:24
 #: plugins/personal/generic/generic.tpl:40
 msgid "Personal picture"
-msgstr "Imatge personal"
+msgstr "Изображение"
 
 #: plugins/personal/generic/generic_picture.tpl:27
 #: plugins/personal/generic/paste_generic.tpl:52
 msgid "Remove picture"
-msgstr "Suprimeix la imatge"
+msgstr "Удалить изображение"
 
 #: plugins/personal/generic/main.inc:169
 msgid "Generic user information"
-msgstr "Informació genèrica de l'usuari"
+msgstr "Общая информация о пользователе"
 
 #: plugins/personal/generic/generic_certs.tpl:3
 msgid "Certificates"
-msgstr "Certificats"
+msgstr "Сертификаты"
 
 #: plugins/personal/generic/generic_certs.tpl:8
 msgid "Standard certificate"
-msgstr "Certificat estàndard"
+msgstr "Стандартный сертификат"
 
 #: plugins/personal/generic/generic_certs.tpl:33
 msgid "S/MIME certificate"
-msgstr "Certificat S/MIME"
+msgstr "Сертификат S/MIME"
 
 #: plugins/personal/generic/generic_certs.tpl:57
 msgid "PKCS12 certificate"
-msgstr "Certificat PKCS12"
+msgstr "Сертификат PKCS12"
 
 #: plugins/personal/generic/generic_certs.tpl:78
 msgid "Certificate serial number"
-msgstr ""
+msgstr "Серийный номер сертификата"
 
 #: plugins/personal/generic/class_user.inc:309
 msgid "Please add a single IP address or a network/netmask combination!"
@@ -6027,11 +6016,11 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:377
 msgid "female"
-msgstr "home"
+msgstr "женский"
 
 #: plugins/personal/generic/class_user.inc:377
 msgid "male"
-msgstr "dona"
+msgstr "мужской"
 
 #: plugins/personal/generic/class_user.inc:445
 msgid "Cannot upload file!"
@@ -6067,78 +6056,78 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:1415
 #: plugins/personal/generic/generic.tpl:197
 msgid "Homepage"
-msgstr "Pàgina principal"
+msgstr "Домашняя страница"
 
 #: plugins/personal/generic/class_user.inc:1186
-#: plugins/personal/generic/generic.tpl:411
+#: plugins/personal/generic/generic.tpl:388
 msgid "Mobile"
-msgstr "Mòbil"
+msgstr "Мобильный"
 
 #: plugins/personal/generic/class_user.inc:1189
-#: plugins/personal/generic/generic.tpl:422
+#: plugins/personal/generic/generic.tpl:399
 msgid "Pager"
-msgstr "Buscapersones"
+msgstr "Пейджер"
 
 #: plugins/personal/generic/class_user.inc:1194
 #: plugins/personal/generic/class_user.inc:1386
 #: plugins/personal/generic/generic.tpl:109
 msgid "Date of birth"
-msgstr "Data de naixement"
+msgstr "Дата рождения"
 
 #: plugins/personal/generic/class_user.inc:1357
-#: plugins/personal/generic/generic.tpl:538
+#: plugins/personal/generic/generic.tpl:515
 msgid "Unit"
-msgstr ""
+msgstr "Подразделение"
 
 #: plugins/personal/generic/class_user.inc:1358
-#: plugins/personal/generic/generic.tpl:563
+#: plugins/personal/generic/generic.tpl:540
 msgid "House identifier"
-msgstr ""
+msgstr "Номер дома"
 
 #: plugins/personal/generic/class_user.inc:1359
-#: plugins/personal/generic/generic.tpl:480
+#: plugins/personal/generic/generic.tpl:457
 msgid "Vocation"
-msgstr ""
+msgstr "Специальность"
 
 #: plugins/personal/generic/class_user.inc:1360
-#: plugins/personal/generic/generic.tpl:607
+#: plugins/personal/generic/generic.tpl:584
 msgid "Last delivery"
-msgstr ""
+msgstr "Последняя доставка"
 
 #: plugins/personal/generic/class_user.inc:1361
-#: plugins/personal/generic/generic.tpl:529
+#: plugins/personal/generic/generic.tpl:506
 msgid "Person locality"
-msgstr ""
+msgstr "Местоположение сотрудника"
 
 #: plugins/personal/generic/class_user.inc:1362
-#: plugins/personal/generic/generic.tpl:488
+#: plugins/personal/generic/generic.tpl:465
 msgid "Unit description"
-msgstr ""
+msgstr "Описание подразделения"
 
 #: plugins/personal/generic/class_user.inc:1363
-#: plugins/personal/generic/generic.tpl:497
+#: plugins/personal/generic/generic.tpl:474
 msgid "Subject area"
-msgstr ""
+msgstr "Область деятельности"
 
 #: plugins/personal/generic/class_user.inc:1364
-#: plugins/personal/generic/generic.tpl:506
+#: plugins/personal/generic/generic.tpl:483
 msgid "Functional title"
-msgstr ""
+msgstr "Должность"
 
 #: plugins/personal/generic/class_user.inc:1365
-#: plugins/personal/generic/generic.tpl:616
+#: plugins/personal/generic/generic.tpl:593
 msgid "Public visible"
-msgstr ""
+msgstr "Видимый всем"
 
 #: plugins/personal/generic/class_user.inc:1366
-#: plugins/personal/generic/generic.tpl:547
+#: plugins/personal/generic/generic.tpl:524
 msgid "Street"
-msgstr ""
+msgstr "Улица"
 
 #: plugins/personal/generic/class_user.inc:1368
-#: plugins/personal/generic/generic.tpl:555
+#: plugins/personal/generic/generic.tpl:532
 msgid "Postal code"
-msgstr ""
+msgstr "Почтовый индекс"
 
 #: plugins/personal/generic/class_user.inc:1372
 msgid "Generic user settings"
@@ -6151,146 +6140,145 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:1383
 #: plugins/personal/generic/generic.tpl:88
 msgid "Personal title"
-msgstr "Tractament"
+msgstr "Обращение"
 
 #: plugins/personal/generic/class_user.inc:1384
 #: plugins/personal/generic/generic.tpl:98
 msgid "Academic title"
-msgstr "Titulació acadèmica"
+msgstr "Академическое звание"
 
 #: plugins/personal/generic/class_user.inc:1387
 #: plugins/personal/generic/generic.tpl:128
 msgid "Sex"
-msgstr "Gènere"
+msgstr "Пол"
 
 #: plugins/personal/generic/class_user.inc:1388
 msgid "Preferred language"
-msgstr "Llengua preferida"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1391
 #: plugins/personal/generic/paste_generic.tpl:47
 msgid "User picture"
-msgstr "Imatge de l'usuari"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1393
 msgid "Login restrictions"
-msgstr "Restriccions d'entrada"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1397
 msgid "Department number"
-msgstr "Número de departament"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1400
 msgid "Employee number"
-msgstr "Número d'empleat"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1401
-#: plugins/personal/generic/generic.tpl:332
+#: plugins/personal/generic/generic.tpl:309
 msgid "Employee type"
-msgstr "Categoria professional"
+msgstr "Форма трудоустройства"
 
 #: plugins/personal/generic/class_user.inc:1403
 msgid "Room number"
-msgstr "Número de sala"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1404
 msgid "Telefon number"
-msgstr "Número de telèfon"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1405
 msgid "Pager number"
-msgstr "Número de buscapersones"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1406
 msgid "Mobile number"
-msgstr "Número de mòbil"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1407
 msgid "Fax number"
-msgstr "Número de fax"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1413
 msgid "Home postal address"
-msgstr "Adreça postal personal"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1414
 msgid "Home phone number"
-msgstr "Número de telèfon personal"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1416
 msgid "User password method"
-msgstr "Mètode de contrasenya de l'usuari"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1436
 msgid "Entries differ"
-msgstr "Les entrades no coincideixen"
+msgstr ""
 
 #: plugins/personal/generic/paste_generic.tpl:1
 msgid "User settings"
-msgstr "Paràmetres de l'usuari"
+msgstr ""
 
 #: plugins/personal/generic/paste_generic.tpl:23
 msgid "Clear password"
-msgstr "Neteja la contrasenya"
+msgstr ""
 
 #: plugins/personal/generic/paste_generic.tpl:24
 msgid "Set new password"
-msgstr "Estableix una contrasenya nova"
+msgstr ""
 
 #: plugins/personal/generic/generic.tpl:6
 msgid "Personal information"
-msgstr "Informació personal"
+msgstr "Личная информация"
 
 #: plugins/personal/generic/generic.tpl:31
 #: plugins/personal/generic/generic.tpl:42
 msgid "Change picture"
-msgstr "Canvia la imatge"
+msgstr "Сменить изображение"
 
 #: plugins/personal/generic/generic.tpl:60
 msgid "Template name"
-msgstr "Nom de la plantilla"
+msgstr ""
 
 #: plugins/personal/generic/generic.tpl:141
 msgid "Preferred langage"
-msgstr "Llengua preferida"
+msgstr ""
 
 #: plugins/personal/generic/generic.tpl:189
 msgid "Private phone"
-msgstr "Telèfon privat"
+msgstr "Личный телефон"
 
 #: plugins/personal/generic/generic.tpl:210
 msgid "Password storage"
-msgstr "Emmagatzematge de contrasenyes"
+msgstr "Хэширование паролей"
 
 #: plugins/personal/generic/generic.tpl:239
 msgid "Restrict login to"
-msgstr "Restringeix l'entrada a"
+msgstr ""
 
-#: plugins/personal/generic/generic.tpl:248
-#: plugins/personal/generic/generic.tpl:267
+#: plugins/personal/generic/generic.tpl:246
 msgid "IP or network"
-msgstr "IP o xarxa"
+msgstr ""
 
-#: plugins/personal/generic/generic.tpl:288
+#: plugins/personal/generic/generic.tpl:265
 msgid "Organizational information"
-msgstr ""
+msgstr "Информация об организации"
 
-#: plugins/personal/generic/generic.tpl:316
+#: plugins/personal/generic/generic.tpl:293
 msgid "Department No."
-msgstr "Núm de department"
+msgstr "Номер подразделения"
 
-#: plugins/personal/generic/generic.tpl:324
+#: plugins/personal/generic/generic.tpl:301
 msgid "Employee No."
-msgstr "Núm d'empleat"
+msgstr "Номер работника"
 
-#: plugins/personal/generic/generic.tpl:390
-#: plugins/personal/generic/generic.tpl:578
+#: plugins/personal/generic/generic.tpl:367
+#: plugins/personal/generic/generic.tpl:555
 msgid "Room No."
-msgstr "Núm de sala"
+msgstr "Номер комнаты"
 
-#: plugins/personal/generic/generic.tpl:592
+#: plugins/personal/generic/generic.tpl:569
 msgid "Please use the phone tab"
-msgstr ""
+msgstr "Воспользуйтесь закладкой \"Телефон\""
 
 #: plugins/personal/generic/nochange.tpl:5
 msgid "Your password hash method will not be changed!"
