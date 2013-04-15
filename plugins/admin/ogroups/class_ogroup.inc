@@ -647,8 +647,8 @@ class ogroup extends plugin
     $temp= "";
     $conv= array(
         "Y" => "plugins/users/images/select_template.png",
-        "U" => "plugins/generic/images/head.png",
-        "G" => "plugins/groups/images/groups.png",
+        "U" => "plugins/users/images/iconMini.png",
+        "G" => "plugins/groups/images/iconMini.png",
         "A" => "plugins/ogroups/images/application.png",
         "D" => "plugins/departments/images/department.png",
         "S" => "plugins/ogroups/images/server.png",
