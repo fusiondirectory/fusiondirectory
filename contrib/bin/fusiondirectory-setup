@@ -60,7 +60,6 @@ my $peopleou = "ou=$oupeople";
 
 # ask a question send as parameter, and return true if the answer is "yes"
 sub ask_yn_question {
-
   return 1 if ($yes_flag);
   my ($question) = @_;
   print ( "$question [Yes/No]?\n" );
@@ -641,7 +640,7 @@ sub check_ldap {
 
   # if ou=people exists
   if ( defined ($people_entries[0]) ) {
-
+    @people_entries = map {$_->dn} @people_entries;
     check_admin($base, $ldap, \@people_entries);
 
   # if ou=people doesn't exists
