@@ -210,6 +210,21 @@ class SnapShotDialog extends plugin
     return($tmp2);
   }
 
+  /*!
+   * \brief Remove a snapshot
+   *
+   * \param string $dn The DN
+   */
+  function remove_snapshot($dn)
+  {
+    $ldap = $this->config->get_ldap_link();
+    $ldap->cd($this->config->current['BASE']);
+    $ldap->rmdir_recursive($dn);
+    if (!$ldap->success()) {
+      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn));
+    }
+  }
+
 
   /*!
    * \brief Set a snapshot base
