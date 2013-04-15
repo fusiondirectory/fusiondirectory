@@ -1643,7 +1643,7 @@ function get_ou($name)
     $ou = $config->get_cfg_value($name);
   } elseif (isset($map[$name])) {
     $ou = $map[$name];
-    return($ou);
+    return $ou;
   } else {
     trigger_error("No department mapping found for type ".$name);
     return "";
@@ -1659,7 +1659,11 @@ function get_ou($name)
     if (preg_match("/".preg_quote($config->current['BASE'], '/')."$/",$ou)) {
       return $ou;
     } else {
-      return "$ou,";
+      if (preg_match('/,$/', $ou)) {
+        return $ou;
+      } else {
+        return "$ou,";
+      }
     }
 
   } else {
