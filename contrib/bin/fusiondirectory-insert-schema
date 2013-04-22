@@ -31,6 +31,7 @@ my $search_cmd  = "ldapsearch -Y EXTERNAL -H ldapi:// -b \"cn=schema,cn=config\"
 my $path        = "/etc/ldap/schema/fusiondirectory/";
 my $full_cmd    = "";
 my $ldap_utils_path = "/usr/bin/ldapadd";
+my $schema2ldif = "schema2ldif";
 
 my $schemalist  = 0;
 my $pathunset   = 1;
@@ -45,7 +46,7 @@ foreach my $arg ( @ARGV ) {
     if ($arg =~ /(.*).ldif/) { # ignore ".ldif" if it is there
       push @schemas, $1;
     } elsif ($arg =~ /(.*).schema/) {
-      if (system("fusiondirectory-schema2ldif $arg > $1.ldif") == 0) {
+      if (system("$schema2ldif $arg > $1.ldif") == 0) {
         push @schemas, $1;
         push @gen_files, $1;
       } else {
@@ -75,7 +76,7 @@ if (scalar(@schemas) == 0) {
   # insert the default schemas
   @schemas = ("samba","core-fd","core-fd-conf","ldapns","recovery-fd");
   foreach my $schema (@schemas) {
-    if (system("fusiondirectory-schema2ldif $path$schema.schema > $path$schema.ldif") == 0) {
+    if (system("$schema2ldif $path$schema.schema > $path$schema.ldif") == 0) {
       push @gen_files, $path.$schema;
     } else {
       die "Something went wrong while trying to convert $path$schema.schema to ldif\n";
