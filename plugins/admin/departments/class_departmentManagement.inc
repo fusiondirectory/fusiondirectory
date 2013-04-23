@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -22,22 +22,33 @@
 
 class departmentManagement extends management
 {
-  var $plHeadline     = "Departments";
-  var $plDescription  = "Manage Departments";
-  var $plIcon         = "plugins/departments/images/plugin.png";
-
-  // Tab definition 
-  protected $tabClass = "deptabs";
-  protected $tabType = "DEPTABS";
-  protected $aclCategory = "department";
-  protected $aclPlugin   = "generic";
+  // Tab definition
+  protected $tabClass     = "deptabs";
+  protected $tabType      = "DEPARTMENTTABS";
+  protected $aclCategory  = "department";
+  protected $aclPlugin    = "generic";
   protected $objectName   = "department";
+
+  /* Return plugin informations for acl handling */
+  static function plInfo()
+  {
+    return array(
+      "plShortName"   => _("Departments"),
+      "plDescription" => _("Manage departments"),
+      "plIcon"        => "plugins/departments/images/icon.png",
+      "plSection"     => array("admin" => array("name" => _("Administration"), "priority" => 0)),
+      "plCategory"    => array("department"),
+      "plPriority"    => 0,
+
+      "plProvidedAcls" => array()
+    );
+  }
 
   function __construct($config,$ui)
   {
     $this->config = $config;
     $this->ui = $ui;
-   
+
     // Build filter
     if (session::global_is_set(get_class($this)."_filter")){
       $filter= session::global_get(get_class($this)."_filter");
@@ -51,14 +62,6 @@ class departmentManagement extends management
     $headpage->registerElementFilter("depLabel", "departmentManagement::filterDepLabel");
     $headpage->setFilter($filter);
     $this->setFilter($filter);
-
-    // Add copy&paste and snapshot handler.
-    if ($this->config->boolValueIsTrue("main", "copyPaste")){
-      $this->cpHandler = new CopyPasteHandler($this->config);
-    }
-    if($this->config->get_cfg_value("enableSnapshots") == "true"){
-      $this->snapHandler = new SnapshotHandler($this->config);
-    }
 
     parent::__construct($config, $ui, "departments", $headpage);
 
@@ -114,7 +117,7 @@ class departmentManagement extends management
     $str = management::saveChanges();
     if(!empty($str)) return($str);
 
-    $this->refreshDeps(); 
+    $this->refreshDeps();
 /*
     // FIXME : what was this code for? Is it useful? What is department tagging?
     $plugname = $this->last_tabObject->base_name;
@@ -127,17 +130,17 @@ class departmentManagement extends management
 */
   }
 
-  
+
   function refreshDeps()
   {
-    global $config; 
+    global $config;
     $config->get_departments();
     $config->make_idepartments();
     $this->config = $config;
     $headpage = $this->getHeadpage();
     $headpage->refreshBasesList();
   }
- 
+
 
   // An action handler which enables to switch into deparmtment by clicking the names.
   function openEntry($action,$entry)
@@ -151,7 +154,7 @@ class departmentManagement extends management
   protected function removeEntryRequested($action="",$target=array(),$all=array())
   {
     $target = array_remove_entries(array($this->config->current['BASE']),$target);
-    return(management::removeEntryRequested($action,$target,$all)); 
+    return(management::removeEntryRequested($action,$target,$all));
   }
 
 
@@ -166,7 +169,7 @@ class departmentManagement extends management
     return("<a href='?plug=".$_GET['plug']."&amp;PID=$pid&amp;act=listing_open_$row' title='$dn'>$ou</a>");
   }
 
-  
+
   // Finally remove departments and update departmnet browsers
   function removeEntryConfirmed($action="",$target=array(),$all=array(),$altTabClass="",$altTabType="",$altAclCategory="")
   {
@@ -179,25 +182,25 @@ class departmentManagement extends management
    */
   public static function get_support_departments()
   {
-    /* Domain 
-     */ 
+    /* Domain
+     */
     $types = array();
-    $types['domain']['ACL']     = "domain"; 
-    $types['domain']['CLASS']   = "domain"; 
-    $types['domain']['ATTR']    = "dc"; 
-    $types['domain']['TAB']     = "DOMAIN_TABS"; 
-    $types['domain']['OC']      = "domain"; 
-    $types['domain']['IMG']     = "plugins/departments/images/domain.png"; 
-    $types['domain']['IMG_FULL']= "plugins/departments/images/domain.png"; 
-    $types['domain']['TITLE']   = _("Domain"); 
-    $types['domain']['TPL']     = "domain.tpl"; 
+    $types['domain']['ACL']     = "domain";
+    $types['domain']['CLASS']   = "domain";
+    $types['domain']['ATTR']    = "dc";
+    $types['domain']['TAB']     = "DOMAINTABS";
+    $types['domain']['OC']      = "domain";
+    $types['domain']['IMG']     = "plugins/departments/images/domain.png";
+    $types['domain']['IMG_FULL']= "plugins/departments/images/domain.png";
+    $types['domain']['TITLE']   = _("Domain");
+    $types['domain']['TPL']     = "domain.tpl";
 
-    /* Domain component 
+    /* Domain component
      */
     $types['dcObject']['ACL']     = "dcObject";
     $types['dcObject']['CLASS']   = "dcObject";
     $types['dcObject']['ATTR']    = "dc";
-    $types['dcObject']['TAB']     = "DCOBJECT_TABS";
+    $types['dcObject']['TAB']     = "DCOBJECTTABS";
     $types['dcObject']['OC']      = "dcObject";
     $types['dcObject']['IMG']     = "plugins/departments/images/dc.png";
     $types['dcObject']['IMG_FULL']= "plugins/departments/images/dc.png";
@@ -208,7 +211,7 @@ class departmentManagement extends management
      */
     $types['country']['ACL']     = "country";
     $types['country']['CLASS']   = "country";
-    $types['country']['TAB']     = "COUNTRY_TABS";
+    $types['country']['TAB']     = "COUNTRYTABS";
     $types['country']['ATTR']    = "c";
     $types['country']['OC']      = "country";
     $types['country']['IMG']     = "plugins/departments/images/country.png";
@@ -220,7 +223,7 @@ class departmentManagement extends management
      */
     $types['locality']['ACL']     = "locality";
     $types['locality']['CLASS']   = "locality";
-    $types['locality']['TAB']     = "LOCALITY_TABS";
+    $types['locality']['TAB']     = "LOCALITYTABS";
     $types['locality']['ATTR']    = "l";
     $types['locality']['OC']      = "locality";
     $types['locality']['IMG']     = "plugins/departments/images/locality.png";
@@ -232,7 +235,7 @@ class departmentManagement extends management
      */
     $types['organization']['ACL']     = "organization";
     $types['organization']['CLASS']   = "organization";
-    $types['organization']['TAB']     = "ORGANIZATION_TABS";
+    $types['organization']['TAB']     = "ORGANIZATIONTABS";
     $types['organization']['ATTR']    = "o";
     $types['organization']['OC']      = "organization";
     $types['organization']['IMG']     = "plugins/departments/images/organization.png";
@@ -244,7 +247,7 @@ class departmentManagement extends management
      */
     $types['organizationalUnit']['ACL']     = "department";
     $types['organizationalUnit']['CLASS']   = "department";
-    $types['organizationalUnit']['TAB']     = "DEPTABS";
+    $types['organizationalUnit']['TAB']     = "DEPARTMENTTABS";
     $types['organizationalUnit']['ATTR']    = "ou";
     $types['organizationalUnit']['OC']      = "organizationalUnit";
     $types['organizationalUnit']['IMG']     = "images/lists/folder.png";//plugins/departments/images/department.png";
@@ -253,6 +256,6 @@ class departmentManagement extends management
     $types['organizationalUnit']['TPL']     = "generic.tpl";
     return($types);
   }
-} 
+}
 // vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

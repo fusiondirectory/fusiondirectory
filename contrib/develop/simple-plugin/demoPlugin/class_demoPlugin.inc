@@ -92,7 +92,7 @@ class demoPlugin extends simplePlugin
               new StringAttribute (_('Host'),     _('Host for FTP'),      'ftpHost'),
               new IntAttribute    (_('Port'),     _('Port for FTP'),      'ftpPort', FALSE, 0, FALSE, 21),
             ),
-            'ftp://%[^@:]:%[^@:]@%[^@:]:%d',
+            '/^ftp:\\/\\/(.+):(.+)@(.+):(\\d+)$/',
             'ftp://%s:%s@%s:%d'
           )
         )
@@ -107,8 +107,8 @@ class demoPlugin extends simplePlugin
       "plShortName"       => _("Demo Plugin"),
       "plDescription"     => _("Edit some useless personal information"),
       "plSelfModify"      => TRUE,                  // Does this plugin have an owner that might be able to edit its entry
-      "plSection"         => array("personal"),     // Should be either addon, administration or personal
       "plCategory"        => array("users"),
+      "plObjectType"      => array("user"),
 
       // But simplePlugin can generate the ACL list for us
       "plProvidedAcls"    => parent::generatePlProvidedAcls(self::getAttributesInfo())

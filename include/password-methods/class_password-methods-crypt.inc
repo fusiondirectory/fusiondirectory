@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -102,6 +102,22 @@ class passwordMethodCrypt extends passwordMethod
       $salt .= "\$";
     }
 
+    if ($this->hash == "crypt/sha-256"){
+      $salt = "\$5\$";
+      for ($i = 0; $i < 16; $i++) {
+          $salt .= get_random_char();
+      }
+      $salt .= "\$";
+    }
+
+    if ($this->hash == "crypt/sha-512"){
+      $salt = "\$6\$";
+      for ($i = 0; $i < 16; $i++) {
+          $salt .= get_random_char();
+      }
+      $salt .= "\$";
+    }
+
     return "{CRYPT}".crypt($pwd, $salt);
   }
 
@@ -125,6 +141,14 @@ class passwordMethodCrypt extends passwordMethod
 
     if (CRYPT_BLOWFISH == 1) {
       $hashes[]= "crypt/blowfish";
+    }
+
+    if (CRYPT_SHA256 == 1) {
+      $hashes[]= "crypt/sha-256";
+    }
+
+    if (CRYPT_SHA512 == 1) {
+      $hashes[]= "crypt/sha-512";
     }
 
     return $hashes;
@@ -157,6 +181,14 @@ class passwordMethodCrypt extends passwordMethod
 
     if (preg_match('/^(\$2\$|\$2a\$)/', $password_hash)) {
       return "crypt/blowfish";
+    }
+
+    if (preg_match('/^\$5\$/', $password_hash)) {
+      return "crypt/sha-256";
+    }
+
+    if (preg_match('/^\$6\$/', $password_hash)) {
+      return "crypt/sha-512";
     }
 
     return "";

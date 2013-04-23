@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -34,6 +34,10 @@ if ($remove_lock){
 if ( $cleanup ){
   session::un_set('aclManagement');
 }else{
+  /* Reset requested? */
+  if (isset($_GET['reset']) && $_GET['reset'] == 1){
+    session::un_set ('aclManagement');
+  }
 
   /* Create usermanagement object on demand */
   if (!session::is_set('aclManagement')){
@@ -42,11 +46,6 @@ if ( $cleanup ){
   }
   $aclManagement = session::get('aclManagement');
   $display= $aclManagement->execute();
-
-  /* Reset requested? */
-  if (isset($_GET['reset']) && $_GET['reset'] == 1){
-    session::un_set ('aclManagement');
-  }
 
   /* Show and save dialog */
   session::set('aclManagement',$aclManagement);

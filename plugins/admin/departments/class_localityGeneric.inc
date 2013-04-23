@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ class locality extends department
   function check()
   {
     $message = plugin::check();
-    
+
     /* Check for presence of this department */
     $ldap= $this->config->get_ldap_link();
     $ldap->ls ("(&(l=".$this->l.")(objectClass=locality))", $this->base, array('dn'));
@@ -76,24 +76,24 @@ class locality extends department
   }
 
 
-  /* Return plugin informations for acl handling */ 
+  /* Return plugin informations for acl handling */
   static function plInfo()
   {
-    return (array("plShortName"   => _("Locality"),
-          "plDescription" => _("Locality"),
-          "plSelfModify"  => FALSE,
-          "plPriority"    => 3,
-          "plDepends"     => array(),
-          "plSection"     => array("administration"),
-          "plCategory"    => array("department"),
+    return array(
+      "plShortName"   => _("Locality"),
+      "plDescription" => _("Locality"),
+      "plSelfModify"  => FALSE,
+      "plCategory"    => array("department"),
+      "plObjectType"  => array("locality" => array("name" => _("Locality"), "filter" => "objectClass=locality")),
 
-          "plProvidedAcls" => array(
-            "l"                 => _("Location"),
-            "description"       => _("Description"),
-            "manager"                 => _("Manager"),
-            "base"              => _("Base"),
-            "gosaUnitTag"       => _("Administrative settings"))
-          ));
+      "plProvidedAcls" => array(
+        "l"                 => _("Location"),
+        "description"       => _("Description"),
+        "manager"           => _("Manager"),
+        "base"              => _("Base"),
+        "gosaUnitTag"       => _("Administrative settings")
+      )
+    );
   }
 }
 

@@ -42,6 +42,9 @@ class Attribute
   protected $acl;
   /* \brief Is this attribute disabled */
   protected $disabled = FALSE;
+  /* \brief Should this attribute submit formular when changing value
+   * If this is not a boolean it is a string containing a method name to call on the plugin when changing value */
+  protected $submitForm = FALSE;
   /* \brief Value of this attribute */
   protected $value;
   /* \brief Value we read from POST */
@@ -52,11 +55,14 @@ class Attribute
   protected $initialValue;
   /* \brief Reference to the plugin */
   protected $plugin;
-  /* \brief Array of attributes to manage (prefix => value => section => attribute)
+  /* \brief Array of attributes to manage (prefix => value => attribute)
    * Prefix should be 'erase' or 'disable' */
   protected $managedAttributes = array();
   /* \brief Array of multiple values groups for managed attributes */
   protected $managedAttributesMultipleValues = array();
+
+  /* \bried Array of booleans telling for each managing attributes if he's disabling us */
+  protected $managingAttributesOrders = array();
 
   /*! \brief The constructor of Attribute
    *
@@ -117,14 +123,21 @@ class Attribute
 
   function setValue ($value)
   {
-    $this->value = $value;
+    $old_value    = $this->value;
+    $this->value  = $value;
+    if (($this->submitForm != FALSE) && ($this->submitForm !== TRUE) && ($old_value != $value) && is_object($this->plugin)) {
+      $func = $this->submitForm;
+      $this->plugin->$func();
+    }
     $this->manageAttributes($this->value);
   }
 
   function setPostValue ($value)
   {
-    $this->postValue = $value;
-    $this->manageAttributes($this->postValue);
+    if ($this->isVisible()) {
+      $this->postValue = $value;
+      $this->manageAttributes($this->postValue);
+    }
   }
 
   /*! \brief Reset this attribute to its default value
@@ -139,14 +152,10 @@ class Attribute
     return $this->value;
   }
 
+  /* Return the value as an array of values to be displayed in a table columns */
   function getArrayValue ()
   {
-    $value = $this->getValue();
-    if (is_array($value)) {
-      return $value;
-    } else {
-      return array($value);
-    }
+    return array($this->displayValue($this->getValue()));
   }
 
   function getLdapName ()
@@ -208,6 +217,22 @@ class Attribute
     $this->disabled = $disabled;
   }
 
+  function setManagingDisabled ($sender, $value)
+  {
+    $this->managingAttributesOrders[$sender] = $value;
+    $this->setDisabled(array_reduce($this->managingAttributesOrders,
+      function ($a, $b)
+      {
+        return $a || $b;
+      }
+    ));
+  }
+
+  function setSubmitForm ($submitForm)
+  {
+    $this->submitForm = $submitForm;
+  }
+
   /*! \brief If in LDAP, loads this attribute value from the attrs array
    */
   function loadValue ($attrs)
@@ -232,6 +257,11 @@ class Attribute
     return $this->initialValue;
   }
 
+  function setInitialValue ($value)
+  {
+    $this->initialValue = $value;
+  }
+
   function hasChanged ()
   {
     return ($this->getValue() !== $this->initialValue);
@@ -242,14 +272,18 @@ class Attribute
     return $value;
   }
 
-  function inputValue ($value)
+  /*! \brief Return the ldap value in the correct intern format value
+   *
+   *  \param $ldapValue The value as found in the LDAP
+   */
+  function inputValue ($ldapValue)
   {
-    return $value;
+    return $ldapValue;
   }
 
   function setDefaultValue ($value)
   {
-    $this->defaultValue = $this->inputValue($value);
+    $this->defaultValue = $value;
   }
 
   /*! \brief Set a list of attributes that are managed by this attributes.
@@ -282,12 +316,10 @@ class Attribute
       return FALSE;
     }
     foreach ($this->managedAttributes as $prefix => $array) {
-      foreach ($array as $value => $sections) {
-        foreach ($sections as $section => $attributes) {
-          foreach ($attributes as $attribute) {
-            $disabled = $this->isValueManagingValue($myvalue, $value);
-            $this->plugin->attributesInfo[$section]['attrs'][$attribute]->setDisabled($disabled);
-          }
+      foreach ($array as $value => $attributes) {
+        foreach ($attributes as $attribute) {
+          $disabled = $this->isValueManagingValue($myvalue, $value);
+          $this->plugin->attributesAccess[$attribute]->setManagingDisabled($this->getLdapName(), $disabled);
         }
       }
     }
@@ -298,8 +330,11 @@ class Attribute
    */
   function loadPostValue ()
   {
-    if (isset($_POST[$this->getHtmlId()])) {
-      $this->setPostValue($_POST[$this->getHtmlId()]);
+    if ($this->isVisible()) {
+      $this->postValue = $this->value;
+      if (isset($_POST[$this->getHtmlId()])) {
+        $this->setPostValue($_POST[$this->getHtmlId()]);
+      }
     }
   }
 
@@ -307,7 +342,7 @@ class Attribute
    */
   function applyPostValue ()
   {
-    if (!$this->disabled) {
+    if (!$this->disabled && $this->isVisible()) {
       $this->setValue($this->postValue);
     }
   }
@@ -341,16 +376,14 @@ class Attribute
       if ($prefix != 'erase') {
         continue;
       }
-      foreach ($array as $value => $sections) {
+      foreach ($array as $value => $attributes) {
         $myvalue = $this->getValue();
         $erase = $this->isValueManagingValue($myvalue, $value);
         if (!$erase) {
           continue;
         }
-        foreach ($sections as $section => $attributes) {
-          foreach ($attributes as $attribute) {
-            $attrs[$attribute] = array();
-          }
+        foreach ($attributes as $attribute) {
+          $attrs[$attribute] = array();
         }
       }
     }
@@ -360,12 +393,22 @@ class Attribute
    */
   function check ()
   {
-    if ($this->isRequired() && !$this->disabled && (($this->value == "") || ($this->value == array()))) {
+    $value = $this->getValue();
+    if ($this->isRequired() && !$this->disabled && (($value === "") || ($value === array()))) {
       return msgPool::required($this->getLabel());
-    } elseif ($this->unique && !$this->disabled && ($this->value != "") && ($this->value != array())) {
+    } elseif ($this->unique && !$this->disabled) {
+      $value = $this->computeLdapValue();
+      if (($value === "") || ($value === array())) {
+        return;
+      }
       $ldap = $this->plugin->config->get_ldap_link();
-      $ldap->cd(dn2base($this->plugin->dn));
-      $filter = "(".$this->getLdapName()."=".$this->computeLdapValue().")";
+      if (isset($this->plugin->base) && !empty($this->plugin->base)) {
+        $base = $this->plugin->base;
+      } else {
+        $base = dn2base($this->plugin->dn);
+      }
+      $ldap->cd($base);
+      $filter = "(".$this->getLdapName()."=".$value.")";
       $pluginFilter = $this->plugin->getObjectClassFilter();
       if (!empty($pluginFilter)) {
         $filter = "(&$pluginFilter$filter)";
@@ -380,15 +423,24 @@ class Attribute
   }
 
   /*! \brief Render this attribute form input(s)
+   *
+   *  \param array& attributes the attributes array
+   *
+   *  \param bool readOnly should we show text or input
    */
-  function renderAttribute(&$attributes)
+  function renderAttribute(&$attributes, $readOnly)
   {
     if ($this->visible) {
+      if ($readOnly) {
+        $input = $this->getValue();
+      } else {
+        $input = $this->renderFormInput();
+      }
       $attributes[$this->getLdapName()] = array(
         'htmlid'      => $this->getHtmlId(),
         'label'       => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired()?'{$must}':''),
         'description' => ($this->isRequired()?sprintf(_("%s (required)"), $this->getDescription()):$this->getDescription()),
-        'input'       => $this->renderFormInput(),
+        'input'       => $input,
       );
     }
   }
@@ -436,17 +488,15 @@ class Attribute
     $js = '';
     $id = $this->getHtmlId();
     foreach ($this->managedAttributes as $prefix => $array) {
-      foreach ($array as $value => $sections) {
+      foreach ($array as $value => $attributes) {
         if (isset($this->managedAttributesMultipleValues[$value])) {
           $js .= 'disableAttributes = inArray(document.getElementById('.json_encode($id).').value,'.json_encode($this->managedAttributesMultipleValues[$value]).');';
         } else {
           $js .= 'disableAttributes = (document.getElementById('.json_encode($id).').value == '.json_encode($value).');'."\n";
         }
-        foreach ($sections as $section => $attributes) {
-          foreach ($attributes as $attribute) {
-            foreach ($this->plugin->attributesInfo[$section]['attrs'][$attribute]->htmlIds() as $htmlId) {
-              $js .= 'document.getElementById('.json_encode($htmlId).').disabled = disableAttributes;'."\n";
-            }
+        foreach ($attributes as $attribute) {
+          foreach ($this->plugin->attributesAccess[$attribute]->htmlIds() as $htmlId) {
+            $js .= 'document.getElementById('.json_encode($htmlId).').disabled = disableAttributes;'."\n";
           }
         }
       }
@@ -460,8 +510,8 @@ class Attribute
  */
 class BooleanAttribute extends Attribute
 {
-  private $trueValue;
-  private $falseValue;
+  public $trueValue;
+  public $falseValue;
 
   /*! \brief The constructor of BooleanAttribute
    *
@@ -481,11 +531,9 @@ class BooleanAttribute extends Attribute
     $this->falseValue = $falseValue;
   }
 
-  protected function loadAttrValue ($attrs)
+  function inputValue ($value)
   {
-    if (isset($attrs[$this->getLdapName()])) {
-      $this->setValue($attrs[$this->getLdapName()][0] == $this->trueValue);
-    }
+    return ($value == $this->trueValue);
   }
 
   function loadPostValue ()
@@ -506,7 +554,10 @@ class BooleanAttribute extends Attribute
     $display  = '<input type="checkbox" name="'.$id.'" id="'.$id.'" '.
                 ($this->disabled? 'disabled="disabled"':'').
                 ($this->value?    'checked="checked"':'');
-    if (!empty($this->managedAttributes)) {
+    if ($this->submitForm) {
+      $js       = 'document.mainform.submit();';
+      $display  .= 'onChange="javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8').'"';
+    } elseif (!empty($this->managedAttributes)) {
       $js       = $this->managedAttributesJS();
       $display  .= 'onClick="javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8').'"';
     }
@@ -519,17 +570,15 @@ class BooleanAttribute extends Attribute
     $js = '';
     $id = $this->getHtmlId();
     foreach ($this->managedAttributes as $prefix => $array) {
-      foreach ($array as $value => $sections) {
+      foreach ($array as $value => $attributes) {
         if (isset($this->managedAttributesMultipleValues[$value])) {
           trigger_error('Multiple values are not available for boolean attributes');
         } else {
           $js .= 'disableAttributes = (document.getElementById('.json_encode($id).').checked == '.($value?'true':'false').');'."\n";
         }
-        foreach ($sections as $section => $attributes) {
-          foreach ($attributes as $attribute) {
-            foreach ($this->plugin->attributesInfo[$section]['attrs'][$attribute]->htmlIds() as $htmlId) {
-              $js .= 'document.getElementById('.json_encode($htmlId).').disabled = disableAttributes;'."\n";
-            }
+        foreach ($attributes as $attribute) {
+          foreach ($this->plugin->attributesAccess[$attribute]->htmlIds() as $htmlId) {
+            $js .= 'document.getElementById('.json_encode($htmlId).').disabled = disableAttributes;'."\n";
           }
         }
       }
@@ -646,6 +695,27 @@ class StringAttribute extends Attribute
   }
 }
 
+class HiddenAttribute extends Attribute
+{
+  /*! \brief The constructor of HiddenAttribute
+   *
+   *  \param string $label The label to show for this attribute
+   *  \param string $description A more detailed description for the attribute
+   *  \param string $ldapName The name of the attribute in the LDAP (If it's not in the ldap, still provide a unique name)
+   *  \param boolean $required Is this attribute mandatory or not
+   *  \param mixed $defaultValue The default value for this attribute
+   *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
+   */
+  function __construct ($ldapName, $required = FALSE, $defaultValue = "", $acl = "", $label = NULL, $description = "hidden")
+  {
+    if ($label === NULL) {
+      $label = $ldapName;
+    }
+    parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
+    $this->setVisible(FALSE);
+  }
+}
+
 /*! \brief This class allow to handle easily a String LDAP attribute that appears as a text area
  *
  */
@@ -682,7 +752,6 @@ class SelectAttribute extends Attribute
 {
   protected $choices;
   protected $outputs    = NULL;
-  protected $submitForm = FALSE;
 
   /*! \brief The constructor of SelectAttribute
    *
@@ -695,24 +764,22 @@ class SelectAttribute extends Attribute
    *  \param array $outputs The label corresponding to the choices, leave to NULL if you want to display the choices themselves
    *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
    */
-  function __construct ($label, $description, $ldapName, $required, $choices = array(), $defaultValue = "", $outputs = NULL, $acl = "")
+  function __construct ($label, $description, $ldapName, $required = FALSE, $choices = array(), $defaultValue = "", $outputs = NULL, $acl = "")
   {
+    if (!in_array($defaultValue, $choices) && isset($choices[0])) {
+      $defaultValue = $choices[0];
+    }
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->setChoices($choices, $outputs);
-  }
-
-  function setSubmitForm ($submitForm)
-  {
-    $this->submitForm = $submitForm;
   }
 
   function setChoices ($choices, $outputs = NULL)
   {
     $this->outputs = NULL;
     if (!$this->isRequired() && !in_array("", $choices)) {
-      $choices[] = "";
+      array_unshift($choices, "");
       if (is_array($outputs)) {
-        $outputs[] = _("None");
+        array_unshift($outputs, _("None"));
       }
     }
     $this->choices = $choices;
@@ -742,6 +809,7 @@ class SelectAttribute extends Attribute
     $key = array_search("", $this->choices);
     if ($this->isRequired() && ($key !== FALSE)) {
       unset($this->choices[$key]);
+      unset($this->outputs[""]);
     } elseif (!$this->isRequired() && !in_array("", $this->choices)) {
       $this->choices[] = "";
       if (!isset($this->output[""])) {
@@ -753,7 +821,12 @@ class SelectAttribute extends Attribute
   function displayValue ($value)
   {
     if ($this->outputs !== NULL) {
-      return $this->outputs[$value];
+      if (isset($this->outputs[$value])) {
+        return $this->outputs[$value];
+      } else {
+        trigger_error("No display value set for '$value' in ".$this->getLabel());
+        return $value;
+      }
     } else {
       return $value;
     }
@@ -797,6 +870,11 @@ class SelectAttribute extends Attribute
     $display .= '{html_options values=$'.$id.'_choices output=$'.$id.'_outputs selected=$'.$id.'_selected}';
     $display .= '</select>';
     return $this->renderAcl($display);
+  }
+
+  function getChoices ()
+  {
+    return $this->choices;
   }
 }
 
@@ -918,12 +996,17 @@ class FloatAttribute extends IntAttribute
 
   function inputValue ($value)
   {
+    if (!$this->isRequired() && empty($value) && !is_numeric($value)) {
+      // value is "" or array()
+      return "";
+    }
     return floatval($value);
   }
 }
 
 /*! \brief This class allow to handle easily an Date LDAP attribute
  *
+ * We are using UTC timezone because we don't care about time, we just want date.
  */
 class DateAttribute extends Attribute
 {
@@ -949,23 +1032,47 @@ class DateAttribute extends Attribute
   {
     if ($value === "" && !$this->isRequired()) {
       return $value;
-    } elseif ($value instanceof DateTime) {
-      return $value;
     } else {
-      try {
-        $date = DateTime::createFromFormat($this->format, $value);
-        if ($date !== FALSE) {
-          return $date;
-        }
-      } catch (Exception $e) {
-      }
-      return new DateTime($value);
+      return $this->ldapToDate($value);
     }
   }
 
   function getValue ()
   {
-    return $this->inputValue($this->value);
+    if ($this->value === "" && !$this->isRequired()) {
+      return $this->value;
+    } else {
+      try {
+        return $this->getDateValue()->format('d.m.Y');
+      } catch (Exception $e) {
+        return "";
+      }
+    }
+  }
+
+  protected function ldapToDate($ldapValue)
+  {
+    $date = DateTime::createFromFormat($this->format, $ldapValue, new DateTimeZone('UTC'));
+    if ($date !== FALSE) {
+      return $date;
+    } else {
+      trigger_error('LDAP value for '.$this->getLdapName().' was not in the right date format.');
+      return new DateTime($ldapValue, new DateTimeZone('UTC'));
+    }
+  }
+
+  protected function dateToLdap($dateValue)
+  {
+    return $dateValue->format($this->format);
+  }
+
+  function getDateValue()
+  {
+    $value = $this->value;
+    if (!($value instanceof DateTime)) {
+      $value = new DateTime($value, new DateTimeZone('UTC'));
+    }
+    return $value;
   }
 
   function computeLdapValue ()
@@ -973,9 +1080,9 @@ class DateAttribute extends Attribute
     if ($this->value === "" && !$this->isRequired()) {
       return $this->value;
     } elseif (!($this->value instanceof DateTime)) {
-      $this->setValue($this->inputValue($this->value));
+      $this->setValue($this->getDateValue());
     }
-    return $this->value->format($this->format);
+    return $this->dateToLdap($this->value);
   }
 
   function check ()
@@ -988,20 +1095,11 @@ class DateAttribute extends Attribute
         return;
       } else {
         try {
-          $this->inputValue($this->value);
+          $this->getDateValue();
         } catch (Exception $e) {
           return _("Error, incorrect date: ").$e->getMessage();
         }
       }
-    }
-  }
-
-  private function getDisplayValue ()
-  {
-    if ($this->value === "" && !$this->isRequired()) {
-      return $this->value;
-    } else {
-      return $this->getValue()->format('d.m.Y');
     }
   }
 
@@ -1010,7 +1108,7 @@ class DateAttribute extends Attribute
     $smarty = get_smarty();
     $smarty->assign('usePrototype', 'true');
     $id = $this->getHtmlId();
-    $display  = '<input type="text" class="date" name="'.$id.'" id="'.$id.'" value="{literal}'.$this->getDisplayValue().'{/literal}" '.
+    $display  = '<input type="text" class="date" name="'.$id.'" id="'.$id.'" value="{literal}'.$this->getValue().'{/literal}" '.
                 ($this->disabled? 'disabled="disabled"':'').'/>';
     $display  .= '{if $'.$this->getAcl().'ACL|regex_replace:"/[cdmr]/":"" == "w"}'.
         '<script type="text/javascript">
@@ -1031,7 +1129,7 @@ class FileAttribute extends Attribute
 {
   function loadPostValue()
   {
-    if (!empty($_FILES[$this->getHtmlId()]['name'])) {
+    if (!empty($_FILES[$this->getHtmlId()]['name']) && $this->isVisible()) {
       if ($_FILES[$this->getHtmlId()]['size'] <= 0) {
         msg_dialog::display(_("Error"), sprintf(_("Cannot read uploaded file: %s"), _("file is empty")), ERROR_DIALOG);
       } elseif (!file_exists($_FILES[$this->getHtmlId()]['tmp_name'])) {
@@ -1058,7 +1156,7 @@ class FileAttribute extends Attribute
   {
     $this->postValue = fread($handle, 1024);
     while (!feof($handle)) {
-      $postValue .= fread($handle, 1024);
+      $this->postValue .= fread($handle, 1024);
     }
     @fclose($handle);
   }
@@ -1069,6 +1167,62 @@ class FileAttribute extends Attribute
     $display  = '<input type="file" name="'.$id.'" id="'.$id.'" '.
                 ($this->disabled? 'disabled="disabled"':'').'/>';
     return $this->renderAcl($display);
+  }
+}
+
+class FileTextAreaAttribute extends FileAttribute
+{
+  function computeFilename()
+  {
+    return $this->getLdapName().".txt";
+  }
+
+  /*! \brief Update this attributes postValue depending of the $_POST values
+   */
+  function loadPostValue ()
+  {
+    if ($this->isVisible()) {
+      foreach ($_POST as $name => $value) {
+        if (preg_match('/^download'.$this->getHtmlId().'/', $name)) {
+          session::set('binary', $this->value);
+          session::set('binarytype', 'octet-stream');
+          session::set('binaryfile', $this->computeFilename());
+          header('location: getbin.php');
+          exit();
+        }
+      }
+      if (isset($_POST['upload'.$this->getHtmlId()])) {
+        parent::loadPostValue();
+      } else {
+        $id = $this->getHtmlId().'_text';
+        if (isset($_POST[$id])) {
+          $this->setPostValue($_POST[$id]);
+        }
+      }
+    }
+  }
+
+  function renderFormInput ()
+  {
+    $id = $this->getHtmlId();
+    $display  = '<textarea name="'.$id.'_text" id="'.$id.'_text"'.
+                ($this->disabled? 'disabled="disabled"':'').'>'.
+                '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea>';
+    $display  .= '<input type="file" name="'.$id.'" id="'.$id.'" '.
+                ($this->disabled? 'disabled="disabled"':'').'/>';
+    $display  .= '<input type="submit" name="upload'.$id.'" id="upload'.$id.'"'.
+                ($this->disabled? ' disabled="disabled"':'').
+                ' value="'._('Upload').'"/>';
+    $display  .= '<input type="image" name="download'.$id.'"'.
+                ($this->disabled? ' disabled="disabled"':'').
+                ' src="images/save.png" title="'._('Download').'" class="center"/>';
+    return $this->renderAcl($display);
+  }
+
+  protected function htmlIds()
+  {
+    $id = $this->getHtmlId();
+    return array($id.'_text',$id,'upload'.$id,'download'.$id);
   }
 }
 
@@ -1101,14 +1255,12 @@ class BaseSelectorAttribute extends Attribute
   {
     parent::setParent($plugin);
     if (is_object($this->plugin)) {
-      $this->plugin->base =& $this->value;
       /* Do base conversation */
       if ($this->plugin->dn == "new") {
         $ui = get_userinfo();
         $this->setValue(dn2base(session::global_is_set("CurrentMainBase")?"cn=dummy,".session::global_get("CurrentMainBase"):$ui->dn));
       } else {
         $this->setValue(dn2base($this->plugin->dn, $this->ou));
-        echo "Setting value to ".dn2base($this->plugin->dn, $this->ou)." for ".$this->plugin->dn." and ".$this->ou."<br/>\n";
       }
       $this->orig_dn = $this->plugin->dn;
       /* Instanciate base selector */
@@ -1126,7 +1278,7 @@ class BaseSelectorAttribute extends Attribute
 
   function applyPostValue ()
   {
-    if (!$this->disabled) {
+    if (!$this->disabled && $this->isVisible()) {
       /* Refresh base */
       if  ($this->plugin->acl_is_moveable($this->value) ||
           ($this->plugin->dn == "new" && $this->plugin->acl_is_createable($this->value))) {
@@ -1180,7 +1332,13 @@ class BaseSelectorAttribute extends Attribute
   {
     $smarty = get_smarty();
     $smarty->assign('usePrototype', 'true');
-    return $this->renderAcl('{literal}'.$this->baseSelector->render().'{/literal}');
+    if ($this->disabled) {
+      $display = '<input type="text" value="{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}" '.
+                  'disabled="disabled"/>';
+    } else {
+      $display = '{literal}'.$this->baseSelector->render().'{/literal}';
+    }
+    return $this->renderAcl($display);
   }
 }
 
@@ -1190,6 +1348,8 @@ class BaseSelectorAttribute extends Attribute
 class ArrayAttribute extends Attribute
 {
   public $attribute;
+  protected $editingValue     = FALSE;
+  protected $linearRendering  = TRUE;
 
   /*! \brief The constructor of ArrayAttribute
    *
@@ -1210,6 +1370,11 @@ class ArrayAttribute extends Attribute
   function setManagedAttributes ($dontcare)
   {
     trigger_error('method setManagedAttributes is not supported for ArrayAttributes');
+  }
+
+  function setLinearRendering ($bool)
+  {
+    $this->linearRendering = $bool;
   }
 
   protected function loadAttrValue ($attrs)
@@ -1246,14 +1411,21 @@ class ArrayAttribute extends Attribute
 
   function loadPostValue ()
   {
-    $this->postValue = $this->value;
-    if (isset($_POST["add".$this->getHtmlId()])) {
-      $this->attribute->loadPostValue();
-      $this->attribute->applyPostValue();
-      $this->addPostValue($this->attribute->getValue());
-    } elseif (isset($_POST["del".$this->getHtmlId()]) && isset($_POST["row".$this->getHtmlId()])) {
-      foreach ($_POST["row".$this->getHtmlId()] as $key) {
-        $this->delPostValue($key);
+    $this->editingValue = FALSE;
+    if ($this->isVisible()) {
+      $this->postValue = $this->value;
+      if (isset($_POST["add".$this->getHtmlId()])) {
+        $this->attribute->loadPostValue();
+        $this->attribute->applyPostValue();
+        $this->addPostValue($this->attribute->getValue());
+      } elseif (isset($_POST["del".$this->getHtmlId()]) && isset($_POST["row".$this->getHtmlId()])) {
+        foreach ($_POST["row".$this->getHtmlId()] as $key) {
+          $this->delPostValue($key);
+        }
+      } else {
+        $this->attribute->loadPostValue();
+        $this->attribute->applyPostValue();
+        $this->editingValue = $this->attribute->getValue();
       }
     }
   }
@@ -1276,15 +1448,23 @@ class ArrayAttribute extends Attribute
 
   function renderFormInput ()
   {
+    $display      = $this->renderOnlyFormInput();
+    $attr_display = $this->renderAttributeInput();
+    $buttons      = $this->renderButtons();
+    return $this->renderAcl($display).$attr_display.$this->renderAcl($buttons);
+  }
+
+  function renderOnlyFormInput()
+  {
     $id = $this->getHtmlId();
     $smarty = get_smarty();
     $smarty->assign($id.'_values', $this->getDisplayValues());
-    $display = '<select multiple="multiple"  name="row'.$id.'[]" id="row'.$id.'" >'."\n";
+    $display = '<select multiple="multiple"  name="row'.$id.'[]" id="row'.$id.'"'.
+                ($this->disabled? ' disabled="disabled"':'').
+                ' >'."\n";
     $display .= '{html_options options=$'.$id.'_values}';
     $display .= '</select><br/>'."\n";
-    $attr_display = $this->renderAttributeInput();
-    $buttons = $this->renderButtons();
-    return $this->renderAcl($display).$attr_display.$this->renderAcl($buttons);
+    return $display;
   }
 
   function getDisplayValues ()
@@ -1299,11 +1479,44 @@ class ArrayAttribute extends Attribute
     );
   }
 
+  function handleEditingValue()
+  {
+    if ($this->editingValue === FALSE) {
+      $this->attribute->resetToDefault();
+    } else {
+      $this->attribute->setValue($this->editingValue);
+    }
+  }
+
   function renderAttributeInput ()
   {
-    $this->attribute->resetToDefault();
-    $this->attribute->setDisabled($this->disabled);
+    $this->handleEditingValue();
     return $this->attribute->renderFormInput();
+  }
+
+  function renderAttribute(&$attributes, $readOnly)
+  {
+    if ($this->visible) {
+      $this->attribute->setDisabled($this->disabled);
+      if ($this->linearRendering || $readOnly) {
+        parent::renderAttribute($attributes, $readOnly);
+      } else {
+        $attributes[$this->getLdapName()] = array(
+          'htmlid'      => $this->getHtmlId(),
+          'label'       => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired()?'{$must}':''),
+          'description' => ($this->isRequired()?sprintf(_("%s (required)"), $this->getDescription()):$this->getDescription()),
+          'input'       => $this->renderOnlyFormInput(),
+        );
+        $this->handleEditingValue();
+        $this->attribute->renderAttribute($attributes, $readOnly);
+        $attributes[$this->getLdapName().'_buttons'] = array(
+          'htmlid'      => 'add'.$this->getHtmlId(),
+          'label'       => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired()?'{$must}':''),
+          'description' => '',
+          'input'       => $this->renderButtons(),
+        );
+      }
+    }
   }
 
   function renderButtons ()
@@ -1327,6 +1540,30 @@ class ArrayAttribute extends Attribute
   {
     $id = $this->getHtmlId();
     return array_merge(array('add'.$id,'del'.$id,'row'.$id), $this->attribute->htmlIds());
+  }
+
+  /*! \brief Set the parent plugin for this attribute
+   *
+   *  \param simplePlugin &$plugin The parent plugin
+   */
+  function setParent (&$plugin)
+  {
+    parent::setParent($plugin);
+    $this->attribute->setParent($plugin);
+  }
+
+  function getArrayValues()
+  {
+    $result = array();
+    foreach ($this->value as $key => $value) {
+      $this->attribute->setValue($value);
+      $row = array();
+      foreach ($this->attribute->getArrayValue() as $val) {
+        $row[] = $val;
+      }
+      $result[] = $row;
+    }
+    return $result;
   }
 }
 
@@ -1374,20 +1611,29 @@ class CompositeAttribute extends Attribute
    *  \param string $description A more detailed description for the attribute
    *  \param string $ldapName The name of the attribute in the LDAP (If it's not in the ldap, still provide a unique name)
    *  \param array $attributes The attributes that are parts of this composite attribute
-   *  \param string $readFormat the scanf format that's gonna be used in order to read values from LDAP
+   *  \param string $readFormat the preg_match format that's gonna be used in order to read values from LDAP
    *  \param string $writeFormat the printf format that's gonna be used in order to write values into LDAP
    *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
    *  \param string $label The label to show for this attribute. Only useful if you put this attribute inside a Set or ArrayAttribute, or if you use a specific template that needs it.
    */
-  function __construct ($description, $ldapName, $attributes, $readFormat, $writeFormat, $acl = "", $label = "Composite attribute")
+  function __construct ($description, $ldapName, $attributes, $readFormat, $writeFormat, $acl = "", $label = NULL)
   {
+    if ($label === NULL) {
+      $label = $ldapName;
+    }
     parent::__construct($label, $description, $ldapName, FALSE, "", $acl);
-    $this->attributes   = $attributes;
     $this->readFormat   = $readFormat;
     $this->writeFormat  = $writeFormat;
+    $this->setAttributes($attributes);
+  }
+
+  function setAttributes ($attributes)
+  {
+    $this->attributes   = $attributes;
     foreach ($this->attributes as &$attribute) {
       $attribute->setAcl($this->getAcl());
     }
+    unset($attribute);
   }
 
   function setAcl ($acl)
@@ -1396,6 +1642,7 @@ class CompositeAttribute extends Attribute
     foreach ($this->attributes as &$attribute) {
       $attribute->setAcl($this->getAcl());
     }
+    unset($attribute);
   }
 
   function setParent (&$plugin)
@@ -1404,6 +1651,7 @@ class CompositeAttribute extends Attribute
     foreach ($this->attributes as &$attribute) {
       $attribute->setParent($plugin);
     }
+    unset($attribute);
   }
 
   function setManagedAttributes ($dontcare)
@@ -1418,7 +1666,20 @@ class CompositeAttribute extends Attribute
 
   function readValues($value)
   {
-    return sscanf($value, $this->readFormat);
+    $res = preg_match($this->readFormat, $value, $m);
+    if ($res === 1) {
+      $m = array_slice($m, 1);
+      $values = array();
+      foreach ($this->attributes as $pname => $attr) {
+        $values[] = $m[$pname];
+      }
+      return $values;
+    } elseif ($res === FALSE) {
+      trigger_error('Error in preg_match : '.preg_last_error());
+    } elseif ($value !== "") { /* If an empty value does not match, we don't trigger an error */
+      trigger_error('String passed "'.$value.'"to Composite did not match format "'.$this->readFormat.'"');
+    }
+    return array_fill(0, count($this->attributes), '');
   }
 
   function writeValues($values)
@@ -1431,15 +1692,19 @@ class CompositeAttribute extends Attribute
     foreach ($this->attributes as &$attribute) {
       $attribute->resetToDefault();
     }
+    unset($attribute);
   }
 
   function inputValue ($value)
   {
-    if (is_array($value)) {
-      return $value;
-    } else {
-      return $this->readValues($value);
+    $values = $this->readValues($value);
+    $i = 0;
+    foreach ($this->attributes as &$attribute) {
+      $values[$i] = $attribute->inputValue($values[$i]);
+      $i++;
     }
+    unset($attribute);
+    return $values;
   }
 
   function loadPostValue ()
@@ -1447,6 +1712,7 @@ class CompositeAttribute extends Attribute
     foreach ($this->attributes as &$attribute) {
       $attribute->loadPostValue();
     }
+    unset($attribute);
   }
 
   function applyPostValue ()
@@ -1454,15 +1720,19 @@ class CompositeAttribute extends Attribute
     foreach ($this->attributes as &$attribute) {
       $attribute->applyPostValue();
     }
+    unset($attribute);
   }
 
   function setValue ($values)
   {
-    $values = $this->inputValue($values);
+    if (!is_array($values)) {
+      $values = $this->inputValue($values);
+    }
     $i = 0;
     foreach ($this->attributes as &$attribute) {
       $attribute->setValue($values[$i++]);
     }
+    unset($attribute);
   }
 
   /* We always return the LDAP value as the composite attribute has nothing else */
@@ -1483,7 +1753,7 @@ class CompositeAttribute extends Attribute
     $values = array_map(
       function ($a)
       {
-        return $a->getValue();
+        return $a->displayValue($a->getValue());
       },
       $this->attributes
     );
@@ -1492,24 +1762,30 @@ class CompositeAttribute extends Attribute
 
   function check ()
   {
-    foreach ($this->attributes as $attribute) {
+    $error = parent::check();
+    if (!empty($error)) {
+      return $error;
+    }
+    foreach ($this->attributes as &$attribute) {
       $error = $attribute->check();
       if (!empty($error)) {
         return $error;
       }
     }
+    unset($attribute);
   }
 
-  function renderAttribute(&$attributes)
+  function renderAttribute(&$attributes, $readOnly)
   {
     if ($this->visible) {
       if ($this->linearRendering) {
-        parent::renderAttribute($attributes);
+        parent::renderAttribute($attributes, $readOnly);
       } else {
-        foreach ($this->attributes as $attribute) {
+        foreach ($this->attributes as &$attribute) {
           $attribute->setDisabled($this->disabled);
-          $attribute->renderAttribute($attributes);
+          $attribute->renderAttribute($attributes, $readOnly);
         }
+        unset($attribute);
       }
     }
   }
@@ -1517,19 +1793,21 @@ class CompositeAttribute extends Attribute
   function renderFormInput()
   {
     $display = "";
-    foreach ($this->attributes as $attribute) {
+    foreach ($this->attributes as &$attribute) {
       $attribute->setDisabled($this->disabled);
       $display .= '<label for="'.$attribute->getHtmlId().'">'.$attribute->getLabel().'</label>'." ".$attribute->renderFormInput()." ";
     }
+    unset($attribute);
     return $display;
   }
 
   protected function htmlIds()
   {
     $ret = array();
-    foreach ($this->attributes as $attribute) {
+    foreach ($this->attributes as &$attribute) {
       $ret = array_merge($ret, $attribute->htmlIds());
     }
+    unset($attribute);
     return $ret;
   }
 }
@@ -1537,16 +1815,24 @@ class CompositeAttribute extends Attribute
 class OrderedArrayAttribute extends SetAttribute
 {
   protected $order;
+  protected $edit_enabled;
+  protected $height = 90;
 
   /*! \brief The constructor of OrderedArrayAttribute
    *
    *  \param Attribute $attribute The composite attribute you want to see multi-valuated
    *  \param array $values The default values
    */
-  function __construct ($attribute, $order = TRUE, $values = array())
+  function __construct ($attribute, $order = TRUE, $values = array(), $edit_enabled = FALSE)
   {
-    parent::__construct($attribute);
-    $this->order = $order;
+    parent::__construct($attribute, $values);
+    $this->order        = $order;
+    $this->edit_enabled = $edit_enabled;
+  }
+
+  function setHeight($h)
+  {
+    $this->height = $h;
   }
 
   function readValue($value)
@@ -1596,12 +1882,12 @@ class OrderedArrayAttribute extends SetAttribute
     }
   }
 
-  function renderFormInput ()
+  function renderOnlyFormInput ()
   {
     $id = $this->getHtmlId();
     $div = new divSelectBox($id);
     $smarty = get_smarty();
-    $div->SetHeight(90);
+    $div->SetHeight($this->height);
     foreach ($this->value as $key => $value) {
       $img = '';
 
@@ -1617,21 +1903,21 @@ class OrderedArrayAttribute extends SetAttribute
           $img .= '<img src="images/empty.png" style="width:10px;"/>';
         }
       }
-      $img .= '<input type="image" src="images/lists/trash.png" name="'.$id.'_del_'.$key.'" class="center">&nbsp;';
+      if ($this->edit_enabled) {
+        $img .= '<input type="image" src="images/lists/edit.png" name="'.$id.'_edit_'.$key.'" class="center"/>&nbsp;';
+      }
+      $img .= '<input type="image" src="images/lists/trash.png" name="'.$id.'_del_'.$key.'" class="center"/>&nbsp;';
 
       $fields = array();
       $this->attribute->setValue($value);
       foreach ($this->attribute->getArrayValue() as $field) {
-        $fields[] = array("string" => $field);
+        $fields[] = array("string" => ($field == ''?'&nbsp;':$field));
       }
       $fields[] = array("string" => $img, "attach" => "style='border-right:0px;width:40px;'");
       $div->AddEntry($fields);
     }
     $smarty->assign("div_$id", $div->DrawList());
-    $display = '{$div_'.$id.'}'."\n";
-    $attr_display = $this->renderAttributeInput();
-    $buttons = $this->renderButtons();
-    return $this->renderAcl($display).$attr_display.$this->renderAcl($buttons);
+    return '{$div_'.$id.'}'."\n";
   }
 
   protected function reIndexValues ()
@@ -1641,40 +1927,61 @@ class OrderedArrayAttribute extends SetAttribute
 
   function loadPostValue ()
   {
-    $this->postValue = $this->value;
-    $id = $this->getHtmlId();
-    foreach ($_POST as $name => $value) {
-      if ($this->order) {
-        if (preg_match('/^'.$id.'_up_/', $name)) {
-          $key = preg_replace('/^'.$id.'_up_/', '', $name);
-          $key = preg_replace('/_[xy]$/', '', $key);
+    $this->editingValue = FALSE;
+    if ($this->isVisible()) {
+      $this->postValue = $this->value;
+      $id = $this->getHtmlId();
+      foreach ($_POST as $name => $value) {
+        if ($this->order) {
+          if (preg_match('/^'.$id.'_up_/', $name)) {
+            $key = preg_replace('/^'.$id.'_up_/', '', $name);
+            $key = preg_replace('/_[xy]$/', '', $key);
 
-          $tmp                        = $this->postValue[$key];
-          $this->postValue[$key]      = $this->postValue[$key - 1];
-          $this->postValue[$key - 1]  = $tmp;
-          break;
+            $tmp                        = $this->postValue[$key];
+            $this->postValue[$key]      = $this->postValue[$key - 1];
+            $this->postValue[$key - 1]  = $tmp;
+            break;
+          }
+          if (preg_match('/^'.$id.'_down_/', $name)) {
+            $key = preg_replace('/^'.$id.'_down_/', '', $name);
+            $key = preg_replace('/_[xy]$/', '', $key);
+
+            $tmp                        = $this->postValue[$key];
+            $this->postValue[$key]      = $this->postValue[$key + 1];
+            $this->postValue[$key + 1]  = $tmp;
+            break;
+          }
         }
-        if (preg_match('/^'.$id.'_down_/', $name)) {
-          $key = preg_replace('/^'.$id.'_down_/', '', $name);
+        if ($this->edit_enabled) {
+          if (preg_match('/^'.$id.'_edit_/', $name)) {
+            $key = preg_replace('/^'.$id.'_edit_/', '', $name);
+            $key = preg_replace('/_[xy]$/', '', $key);
+            $this->editingValue = $this->value[$key];
+            $this->delPostValue($key);
+            $this->plugin->focusedField = $this->getHtmlId();
+            break;
+          }
+        }
+        if (preg_match('/^'.$id.'_del_/', $name)) {
+          $key = preg_replace('/^'.$id.'_del_/', '', $name);
           $key = preg_replace('/_[xy]$/', '', $key);
-
-          $tmp                        = $this->postValue[$key];
-          $this->postValue[$key]      = $this->postValue[$key + 1];
-          $this->postValue[$key + 1]  = $tmp;
+          $this->delPostValue($key);
           break;
         }
       }
-      if (preg_match('/^'.$id.'_del_/', $name)) {
-        $key = preg_replace('/^'.$id.'_del_/', '', $name);
-        $key = preg_replace('/_[xy]$/', '', $key);
-        $this->delPostValue($key);
-        break;
+      if (isset($_POST["add$id"])) {
+        $this->attribute->loadPostValue();
+        $this->attribute->applyPostValue();
+        if ($error = $this->attribute->check()) {
+          msg_dialog::display(sprintf(_('Invalid value for %s'), $this->getLabel()), $error);
+        } else {
+          $this->addPostValue($this->attribute->getValue());
+        }
+      } elseif ($this->editingValue === FALSE) {
+        $this->attribute->loadPostValue();
+        $this->attribute->applyPostValue();
+        $this->editingValue = $this->attribute->getValue();
       }
-    }
-    if (isset($_POST["add$id"])) {
-      $this->attribute->loadPostValue();
-      $this->attribute->applyPostValue();
-      $this->addPostValue($this->attribute->getValue());
     }
   }
 
@@ -1712,6 +2019,61 @@ class OrderedArrayAttribute extends SetAttribute
                 ($this->disabled? ' disabled="disabled"':'').
                 ' value="{msgPool type=addButton}"/>';
     return $buttons;
+  }
+}
+
+
+/*! \brief This class allow to handle an attribute that stores flags based on other BooleanAttributes
+ *
+ */
+class FlagsAttribute extends StringAttribute
+{
+  protected $flags;
+
+  /*! \brief The constructor of IntAttribute
+   *
+   *  \param string $ldapName The name of the attribute in the LDAP (If it's not in the ldap, still provide a unique name)
+   *  \param array  $flags The ids of the BooleanAttributes to use as flags
+   *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
+   */
+  function __construct ($ldapName, $flags, $acl = "")
+  {
+    parent::__construct('', '', $ldapName, FALSE, '', $acl);
+    $this->setVisible(FALSE);
+    $this->flags = $flags;
+  }
+
+  function setParent (&$plugin)
+  {
+    parent::setParent($plugin);
+    if (is_object($this->plugin)) {
+      foreach ($this->flags as $attr) {
+        $this->plugin->attributesAccess[$attr]->setInLdap(FALSE);
+      }
+    }
+  }
+
+  function setValue ($value)
+  {
+    parent::setValue($value);
+    if (is_object($this->plugin)) {
+      foreach ($this->flags as $attr) {
+        $trueValue = $this->plugin->attributesAccess[$attr]->trueValue;
+        $this->plugin->attributesAccess[$attr]->setValue(preg_match("/$trueValue/", $this->value));
+      }
+    }
+  }
+
+  function getValue()
+  {
+    $value = '[';
+    if (is_object($this->plugin)) {
+      foreach ($this->flags as $attr) {
+        $value .= $this->plugin->attributesAccess[$attr]->computeLdapValue();
+      }
+    }
+    $value .= ']';
+    return $value;
   }
 }
 

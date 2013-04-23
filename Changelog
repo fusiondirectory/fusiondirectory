@@ -1,6 +1,733 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.5
+
+[Fix] Bugs #216: Missing translation on the index.php file
+[Fix] Bugs #256: Icone in properties column when listing all itme isn't dynamique
+[Fix] Bugs #374: in_array_strict in place of in_array in fd core
+[Fix] Bugs #375: Replaced in_array calls for fd-plugins
+[Fix] Bugs #378: Sieve vacation start stop times, can be handled by the script itself instead of a cronjob
+[Fix] Bugs #443: template issues
+[Fix] Bugs #459: the fusiondirectory.conf.5 manpages should be converted back to pod to have an easy to edit manpage
+[Fix] Bugs #482: the migrate fonction in the setup shhould be completely rewritten
+[Feature] Bugs #517: create a plugin to manage puppet node
+[Fix] Bugs #531: translation of system plugin
+[Fix] Bugs #555: Cannot see groupOfNames groups
+[Fix] Bugs #617: bug in winstations
+[Fix] Bugs #680: the session expire on is not correctly saved
+[Fix] Bugs #681: the getvlan.pl script need to be cleaned
+[Fix] Bugs #682: the script getvlan.pl need to read a config file and not have var to be changed inside
+[Fix] Bugs #684: the save grouphunt doesnt exist :)
+[Fix] Bugs #690: creating a clean schema for the opsi ldap backend
+[Fix] Bugs #712: the freeradius plugin should have the same entries as the dialupadmin user interface
+[Fix] Bugs #717: Variable name consistency should be check and fixed
+[Feature] Bugs #833: an automount service would be nice
+[Fix] Bugs #835: FusionDirectory should allow more than one fax, kerberos, cups server
+[Feature] Bugs #837: The whole configuration system via website was quite neat.
+[Fix] Bugs #852: Code does not follow FD guidelines
+[Feature] Bugs #858: FD should have a PHP CodeSniffer standard to check Guidelines respect
+[Feature] Bugs #868: We need an FD plugin for debconf
+[Fix] Bugs #927: those services should be renamed to be more in line with the others
+[Fix] Bugs #965: remove the LC_messages from the locale directory to ease translation and packaging
+[Fix] Bugs #966: remove the LC_messages from the locale directory to ease translation and packaging
+[Fix] Bugs #967: the locales should be named around the language name and not all messages.po :/
+[Feature] Bugs #968: the locales should be named around the language name and not all messages.po :/
+[Feature] Bugs #981: Improve the FusionDirectory API
+[Feature] Bugs #991: Some plugins should use simplePlugin
+[Fix] Bugs #1004: the dns and logging services don't have the start/stop/restart button
+[Fix] Bugs #1006: Wrong name for 0-freeradius.ldif
+[Fix] Bugs #1007: Missing $cn var in class_freeradiusGroup.inc
+[Fix] Bugs #1008: freeradius plugin codereview
+[Fix] Bugs #1013: Code does not follow FD guidelines
+[Fix] Bugs #1015: update_entries function should be remove from supportDaemon
+[Feature] Bugs #1026: those services should be renamed to be more in line with the others
+[Fix] Bugs #1027: Fixed problems with unsaved user pictures, due to caches file sizes. Thanks to 'arodier' (bug 1180 gosa)
+[Fix] Bugs #1028: gosaLoginRestriction ignores ACL
+[Fix] Bugs #1029: sieve login does not work if plain login is only available under a layer (gosa bug 1175)
+[Fix] Bugs #1030: Do not create a group for templates. (from gosa Changeset 21143)
+[Fix] Bugs #1035: Fixed problems with mail folder retrieval while dot separated account ids were used (gosa rev 21153)
+[Fix] Bugs #1044: error when adding freeradius group
+[Fix] Bugs #1045: Move reset handling before object creation, otherwise no new object is created, when _GET['reset'] is set to 1.
+[Fix] Bugs #1046: Move reset handling before object creation, otherwise no new object is created, when _GET['reset'] is set to 1.
+[Fix] Bugs #1047: Use faiPackageList instead of faiPackage because thats actually the right objectclass for package lists.
+[Fix] Bugs #1048: Make repository class only conflict with itself (so that a repository service cannot be added twice) instead of conflicting with goKioskService,
+[Fix] Bugs #1049: Change button label from "Import" to "Import script"
+[Fix] Bugs #1050: Fix check for used DNs
+[Fix] Bugs #1051: Check for invalid names first before trimming name, catching trailing spaces at the end or beginning
+[Fix] Bugs #1052: Make error message for the case when trying to create a share with special characters more informative.
+[Fix] Bugs #1053: Disallow '\' and '"' in object group names as they lead to LDAP errors
+[Fix] Bugs #1054: Use 'Device name' as string in error messages for wrong device name attributes
+[Fix] Bugs #1055: Add type attribute to CopyPasteVars
+[Fix] Bugs #1057: Optimize LDAP searchfilter. The LDAP-Performance-Warning after Gosa-Login doesn't appear anymore.
+[Fix] Bugs #1058: Convert vendorId and productId to lower case. Udev-rules only match if vendorId and productId are lower case.
+[Fix] Bugs #1059: Make CopyPasteVars complete, Force adding the new object to eventually existing printer objects on Copy/Paste
+[Fix] Bugs #1060: Allow dashes in share names.
+[Fix] Bugs #1061: Run code to update printer objects not only when a printer is added or removed, but also in case the group name changes
+[Fix] Bugs #1062: When moving or renaming devices, check whether they are in use by a user, group or object group
+[Fix] Bugs #1063: When copying workstations / terminals additional copy some missing attributes (FAIstate, gotoSysStatus, etc.)
+[Fix] Bugs #1064: Fix problems with removing services after saving service
+[Fix] Bugs #1065: Fix a bug in filterLDAP::get_list which gets triggered, if the class is used with multiple storage points and the search shall return objects in the search base.
+[Fix] Bugs #1066: Fix #2186: Fix tooltip for menu categories
+[Fix] Bugs #1067: Fix #6591: Strip CR from logon scripts
+[Fix] Bugs #1068: Show description on user's hotplug devices
+[Fix] Bugs #1070: Only allow [A-Za-z0-9_] in class names
+[Fix] Bugs #1071: Trim whitespace at the end of template filenames
+[Fix] Bugs #1072: Trim printer URI when saving object, to avoid problems, when copy-pasting an URL into the URL field
+[Fix] Bugs #1073: Add logoff scripts to user environment
+[Feature] Bugs #1074: Add logoff scripts to LDAP schema
+[Feature] Bugs #1075: Add logoff script to applications
+[Fix] Bugs #1076: serverService should be reworked
+[Fix] Bugs #1077: Fix DOS line breaks in scripts
+[Fix] Bugs #1079: Add support for logoff scripts in multi edit mode
+[Fix] Bugs #1080: In printerPPDDialog::SelectPPD(), check whether PPD file source and destination are identical and abort copying files over in this case.
+[Fix] Bugs #1085: Plugins configuration files not stored in /etc
+[Fix] Bugs #1087: non-functional menu "Action" under IE9
+[Fix] Bugs #1088: tabs_server constructor seems wrong
+[Fix] Bugs #1089: Bad encoding format for supann schema and ldif files
+[Fix] Bugs #1090: plugin should treat objectClass in a case insensitive way.
+[Fix] Bugs #1091: Rewrote freeradius
+[Fix] Bugs #1094: Rewrote nagios to extends simplePlugin
+[Fix] Bugs #1097: ACL menu should show plShortName
+[Fix] Bugs #1098: Rewrote pureftpd plugin to extends simplePlugin
+[Fix] Bugs #1099: Rewrote phpscheduleit plugin to extends simplePlugin
+[Fix] Bugs #1101: Rewrote pptp plugin to extend simplePlugin
+[Fix] Bugs #1102: Rewrote squid plugin to extend simplePlugin
+[Fix] Bugs #1103: Rewrote openstack-compute plugin to extend simplePlugin
+[Fix] Bugs #1107: migrate the plugin to the simple plugin framework
+[Fix] Bugs #1108: can we remove the old-plugin dir
+[Fix] Bugs #1110: Fix wrong sizelimit warning (#8319) in groups
+[Fix] Bugs #1111: [PATCH] #8280: Decode HTML entities in CSV exporter
+[Fix] Bugs #1113: [PATCH] #8290: Generic fix for DOS linebreaks
+[Fix] Bugs #1114: [PATCH] #8609: Fix “Using $this when not in object context”
+[Fix] Bugs #1119: Rewrote rsyslog plugin to extend simplePlugin
+[Fix] Bugs #1135: argonautClient should use simplePlugin
+[Fix] Bugs #1136: Rewrite the rolemanagement plugin with simplePlugin
+[Fix] Bugs #1137: [PATCH] Fix #7143: In printerPPDDialog::SelectPPD(), check whether PPD file source and destination are identical and abort copying files over in this case.
+[Fix] Bugs #1138: [PATCH] Reduce code duplication in class_environment - [PATCH] Extend features of user templates (Trac: #6032)
+[Fix] Bugs #1145: [PATCH] #8449: Fix ACL class for hotplug device selection
+[Fix] Bugs #1146: PATCH] Add FAI state column.
+[Fix] Bugs #1147: [PATCH] Forward port revision 13784
+[Fix] Bugs #1150: Asterisk plugin should use simplePlugin
+[Fix] Bugs #1151: All plugins using section templates must be updated
+[Fix] Bugs #1152: Missing uppercases on menu Labels
+[Fix] Bugs #1162: Cancel changes dialog box always appears when leaving the Password Recovery screen
+[Fix] Bugs #1165: Template qui ne prends pas en compte le groupe principal
+[Fix] Bugs #1166: Disallow usage of an existing FAI profile as name for a FAI class created by copy and paste
+[Fix] Bugs #1167: Add a new function get_configured_packages and move logic, which gets debconf configuration for all configured packages from LDAP, to this function.
+[Fix] Bugs #1168: Use FAI::get_all_objects_for_given_base to get the list of FAI classes and limit the scope to the current FAI release.
+[Fix] Bugs #1169: Move check for used workstations so that the check is executed after adding a workstation instead of complaining on save.
+[Fix] Bugs #1170: Added special check when copying applications.
+[Fix] Bugs #1171: Fix wrong mountpoint display and wrong partition type, by setting mountpoint explicit to - (as required for FAI)
+[Fix] Bugs #1172: Do not check if gosaApplicationFlags changed as it appears to be not neccessary and causes bugs
+[Fix] Bugs #1177: Rewrote terminal service
+[Fix] Bugs #1179: problem updating dhcp values
+[Fix] Bugs #1182: Rewrote sudo plugin to extend simplePlugin
+[Fix] Bugs #1184: Rewrote virus service
+[Fix] Bugs #1186: Rewrote imap service
+[Fix] Bugs #1187: Rewrote ntp service
+[Fix] Bugs #1188: Rewrote fax service
+[Fix] Bugs #1201: Rewrote apache plugin to extend simplePlugin
+[Fix] Bugs #1206: lines 153 and 156 of ogroupManagement seems wrong
+[Fix] Bugs #1210: Rewrite kolab service with simpleService
+[Fix] Bugs #1212: Rewrote mail plugin (userTab)
+[Fix] Bugs #1213: Rewrote mail service
+[Fix] Bugs #1218: Rewrote spam service, in mail admin
+[Feature] Bugs #1222: remove the access to the perl code for samba hash generation
+[Feature] Bugs #1223: New tab system
+[Fix] Bugs #1231: Rewrote kolab plugin, in connectivity
+[Fix] Bugs #1233: Small string change in core
+[Fix] Bugs #1253: Rewrite argonaut service
+[Fix] Bugs #1255: next button in welcome wizard setup
+[Fix] Bugs #1262: systems should not be saved with fai class by default
+[Fix] Bugs #1263: Allow special characters in passwords
+[Fix] Bugs #1272: check that when changing the name of a workstation, winstations, pc the name is changed inside the objects group
+[Fix] Bugs #1288: Deleting User
+[Fix] Bugs #1289: User Template
+[Fix] Bugs #1290: Problem Memory size
+[Fix] Bugs #1291: Duplicate entry for windows server in systems when migration to samba domain
+[Fix] Bugs #1312: The css style for tables should be re-organized
+[Fix] Bugs #1315: Reoganize menu
+[Fix] Bugs #1322: boot kernel should not depend on fai
+[Fix] Bugs #1324: having a mode dropdown selector for type of deployment
+[Fix] Bugs #1326: Error when creating a new server in ou=servers
+[Fix] Bugs #1329: adding some kind of configuration management to board
+[Fix] Bugs #1336: Enhance ogroups tab handling
+[Fix] Bugs #1338: workstationGeneric should use simplePlugin
+[Fix] Bugs #1341: termDNS should be renamed
+[Fix] Bugs #1352: Some tests::is_url should be checked
+[Fix] Bugs #1353: Functions.inc check uid against 'admin'
+[Feature] Bugs #1355: style.css should be adapted to have some css about simplePlugin
+[Fix] Bugs #1366: Missing breakline in setup
+[Fix] Bugs #1370: the deconf plugin should appears like only one entry in the admin menu
+[Fix] Bugs #1371: PHP error "No department mapping found for type debconfRDN"
+[Feature] Bugs #1377: adding debconf to ogroups
+[Fix] Bugs #1378: set_post should be added to funtions.inc and renamed
+[Fix] Bugs #1379: htmlencode should be used instead of inexisting set_post
+[Fix] Bugs #1381: (re)start and stop buttons should not depend on some weird LDAP field
+[Fix] Bugs #1383: We should test if the class_supportDaemon.inc is available
+[Fix] Bugs #1384: Apache service should only allow one ScriptAlias
+[Fix] Bugs #1386: making a debian package for puppet plugin
+[Fix] Bugs #1387: making puppet plugin conform to plugin directory specification
+[Fix] Bugs #1389: adding ldif for puppet schema
+[Fix] Bugs #1406: When argonaut server is configured but not answering, the wait is too long
+[Fix] Bugs #1407: Edit anyway does not work on Apache vhosts
+[Fix] Bugs #1408: Board plugin counts are wrong
+[Fix] Bugs #1419: supportDaemon should follow code GUIDELINES
+[Fix] Bugs #1425: wrong copyright
+[Fix] Bugs #1427: (re)start and stop buttons should not depend on some weird LDAP field
+[Fix] Bugs #1429: Argonaut services should be checked
+[Fix] Bugs #1432: servtabs and worktabs should be renamed
+[Fix] Bugs #1434: password recovery documentation
+[Fix] Bugs #1443: servtabs and worktabs should be renamed
+[Feature] Bugs #1445: Fusiondirectory configuratin should go into the LDAP
+[Fix] Bugs #1447: some files miss a copyright header
+[Fix] Bugs #1457: Some things are wrong in the man of fusiondirectory.conf
+[Feature] Bugs #1458: Fusiondirectory configuratin should go into the LDAP
+[Fix] Bugs #1459: timezone should be properly set by main.php
+[Fix] Bugs #1460: shadow* in acl posix
+[Feature] Bugs #1461: Setup should write config into the LDAP
+[Feature] Bugs #1469: Argonaut-fuse should let modules read their own config
+[Fix] Bugs #1470: sender error in password recovery
+[Feature] Bugs #1471: workstationGeneric should use simplePlugin
+[Fix] Bugs #1472: Editing the config appears to break the tab systems
+[Feature] Bugs #1475: New tab system
+[Feature] Bugs #1476: suppress incoming and arpnew device
+[Fix] Bugs #1477: suppress incoming and arpnew device
+[Fix] Bugs #1478: rsyslog Smarty error
+[Fix] Bugs #1479: plSection should only be set in plInfo of plugin that must appear in the menu
+[Feature] Bugs #1480: plSection should only be set in plInfo of plugin that must appear in the menu
+[Fix] Bugs #1483: syntax error in class_environment
+[Fix] Bugs #1484: typo in mailAccount
+[Fix] Bugs #1492: Seg fault error after upgrade to debian package 1.0.4-1
+[Fix] Bugs #1493: DHCP dialog issue
+[Fix] Bugs #1496: Board tabs are broken
+[Fix] Bugs #1497: Error in service dialog when none chosen
+[Fix] Bugs #1498: setup seems broken when detecting smbhash libraries
+[Fix] Bugs #1501: userMainInc is deprecated
+[Fix] Bugs #1502: config debugLevel is not applying as it should
+[Fix] Bugs #1503: Double authentication using SSL
+[Fix] Bugs #1505: setup doesnt store the config in the ldap server
+[Fix] Bugs #1506: copy/paste should be put to yes into the setup
+[Fix] Bugs #1507: fusiondirectory-insert-schema should install fusiondirectory-conf.schema
+[Fix] Bugs #1508: error message when clicking on a printer : Fatal error: Call to a member function getBaseObject() on a non-object
+[Fix] Bugs #1509: when opening a workstation i got two generic tab, the second is the printer one
+[Fix] Bugs #1510: ip/mac should be mandatory
+[Fix] Bugs #1511: when going to groups i got this error
+[Feature] Bugs #1514: adding aliasRDN default to functions.inc
+[Fix] Bugs #1515: adding a config for alias to the configuration system
+[Fix] Bugs #1516: printGeneric have an old plSection
+[Fix] Bugs #1518: in the step inspect ldap i get those errors
+[Fix] Bugs #1519: Copy/Paste should be fixed
+[Fix] Bugs #1520: the alias plugin should support departement
+[Fix] Bugs #1521: we should remove the code for the certificates management as it old and wrong
+[Fix] Bugs #1522: you are edting a databse entry removal
+[Fix] Bugs #1523: Copy/Paste should be fixed
+[Fix] Bugs #1524: we need pictures in the second collum to say what kind of list this is
+[Fix] Bugs #1525: a filter on the right to be able to filter by type
+[Fix] Bugs #1526: fix copyright issues
+[Fix] Bugs #1527: fix copyright issues
+[Feature] Bugs #1528: the ldap sizelimit should be in to ldap config backend and used by the software
+[Fix] Bugs #1529: service ldap should be converted to simple plugin
+Bugs #1530: there should be an icon for the sympa service in the system list
+[Feature] Bugs #1531: Trace should be given for each fatal error
+[Fix] Bugs #1532: System info tab should be deleted
+[Fix] Bugs #1533: Missing uppercase for the conference item
+[Fix] Bugs #1535: field of MAC and IP are disabled
+[Fix] Bugs #1536: fatal error when trying to instyall a new
+[Fix] Bugs #1538: Board plugin needs both dhcp and dns if systems is installed
+[Fix] Bugs #1539: fatal error when trying to instyall a new
+[Fix] Bugs #1540: when modifying an entry it doesnt save it in the right branch
+[Fix] Bugs #1541: copy paste should work on aliases too
+[Feature] Bugs #1542: copy paste for user having generic/unix/samba/mail attributes
+[Fix] Bugs #1545: error in ldif to due bogus convertion
+[Fix] Bugs #1550: ldapmanager error
+[Fix] Bugs #1551: entry deletion is broken in management
+[Fix] Bugs #1553: schema2ldif regexp is wrong
+[Fix] Bugs #1554: multiple edition should be removed
+[Feature] Bugs #1556: Connectivity should use the brand new multiPlugin class
+[Fix] Bugs #1557: argonaut error in restart from interface
+[Fix] Bugs #1559: edition is not possible in the nova plugin
+[Fix] Bugs #1562: error in wks opening
+[Fix] Bugs #1563: multiple edition should be removed
+[Fix] Bugs #1565: Error in fusiondirectory-conf.schema
+[Feature] Bugs #1566: separator and plugbottom class should be enhanced
+[Feature] Bugs #1567: adding dsaRDN default to functions.inc
+[Fix] Bugs #1568: icon for main menu and listing is missing
+[Fix] Bugs #1569: renaming /deleting a system -> incorrect ldap changes
+[Fix] Bugs #1572: hook not useable anymore
+[Fix] Bugs #1576: paste sould be on the action column on the right after copy
+[Fix] Bugs #1577: favicon in fusiondirectory/html is wrong
+[Fix] Bugs #1578: icon for spamassassin is wrong (only a ?)
+[Fix] Bugs #1579: in the imap service we got checkbox for starting and stop imap and pop services
+[Fix] Bugs #1580: icon for the antivirus service is wrong its only a ?.
+[Fix] Bugs #1581: critical error in supann plugin
+[Fix] Bugs #1582: there is not edit possible
+[Fix] Bugs #1585: template from Gosda2.6 aren't migrate/ shown correctly ion FD 1.0.5-dev
+
+[Fix] Bugs #1586: mail tabs layout is .... not functional
+[Fix] Bugs #1587: gosaMailDeliveryMode aren't correct flagged
+[Fix] Bugs #1588: in Mail tabs on a user : if soem field are missing, they are filled by default values
+[Fix] Bugs #1589: in Mail tabs on a user : some field ared filled by default value but saved anywhere
+[Fix] Bugs #1590: Terminal tabs should be using simple plugin
+[Fix] Bugs #1592: OU of supann structure isn't detected
+[Fix] Bugs #1596: Terminal tabs should be using simple plugin
+[Fix] Bugs #1597: merging dsa plugin into core plugins
+[Fix] Bugs #1598: merging alias plugin into core plugins
+[Fix] Bugs #1599: merging sympa plugin into core plugins
+[Fix] Bugs #1600: alias, sympa, dsa contains a false string for the deletion of objects
+[Fix] Bugs #1602: Login must be mandatory for user templates too
+[Fix] Bugs #1603: in Mail user tab : Spam section
+[Fix] Bugs #1604: in Mail user tab : title of label gosaMailForwardingAddress is correct
+[Fix] Bugs #1605: space caracters isn't supported in name of alias
+[Fix] Bugs #1606: in FD config addons nothing appears
+[Fix] Bugs #1609: Installer: interface for chosing LDAP Admin account has bug
+[Fix] Bugs #1610: even with the samba plugin installed it doesnt take the default for samba-sid / samba-rid
+[Fix] Bugs #1611: Samba hash hook should be removed from the config backend plugin of samba
+[Fix] Bugs #1615: BootKernelAttribute should not be in faiStartup
+[Fix] Bugs #1617: Upload pictures error php5-imagick
+[Fix] Bugs #1618: Main menu message should be deleted
+[Fix] Bugs #1620: mailAccount is messing with save if we don't visit the tab
+[Fix] Bugs #1621: we need a mailmethod that only store data into the ldap without connection to a server
+[Fix] Bugs #1622: samba-sid and samba-ri in samba config backend should have default values
+[Fix] Bugs #1623: The css style for tables should be re-organized
+[Feature] Bugs #1626: posixAccount should use simplePlugin
+[Fix] Bugs #1627: remove all the ldif from the plugins
+[Fix] Bugs #1628: on a server with ntp and ldap the screen of server generic is broken
+[Fix] Bugs #1629: the fai summary tab say plugin is not activated
+[Fix] Bugs #1632: image path bug in smarty template
+[Fix] Bugs #1633: system deployement should be preplaced by system queue or something more explicit
+[Fix] Bugs #1634: in the argonaut server service timeout the field timeout should be at 10 by default
+[Fix] Bugs #1635: inclusion of a patch from the limux code use in_array_strict that was added to gosa 2.7 it should be replaced by in_array or equivalent
+[Fix] Bugs #1636: Same UID in differents LDAP branches - Issues with FD
+[Fix] Bugs #1637: in fusionDirectory configuration screen ( conf store in LDAP)
+[Fix] Bugs #1638: in Mail plugin
+[Fix] Bugs #1639: UserGroupsAttribute should go into simple-plugin
+[Fix] Bugs #1642: __set and __get should be used to access attributes directly
+[Fix] Bugs #1644: unable to reload DNS zone from fusionDirectory interface
+[Fix] Bugs #1645: when creating a user and adding unix properties i got this error
+[Fix] Bugs #1646: puppetNode have wrong setting in plInfo/plSection
+[Fix] Bugs #1647: the fai summary tab say plugin is not activated
+[Fix] Bugs #1648: FusionDirectory bugreport - copy paste of a user with generic / posix / samba
+[Fix] Bugs #1649: when i copy a group it doesnt generate a new guid
+[Fix] Bugs #1650: Undefined property: sambaAccount::$multiple_support_active
+[Fix] Bugs #1651: when creating a user with a samba account : Cannot convert primary group to samba group: group cannot be identified!
+[Fix] Bugs #1652: if i don't save in the config backend the samba attribute he put garbadge in samba sid
+[Fix] Bugs #1653: FusionDirectory bugreport - error when generation group for samba from unix
+[Fix] Bugs #1655: when the debconf plugin is installed but not activate in a system i get Error: Invalid syntax - objectClass: debconfStartup
+[Fix] Bugs #1656: when the debconf plugin is installed but not activate in a system i get Error: Invalid syntax - objectClass: debconfStartup
+[Fix] Bugs #1657: Quota plugin template have a space at the wrong place
+[Fix] Bugs #1660: Fatal error: Call to a member function cd() on a non-object in sambaAccount
+[Fix] Bugs #1661: Sections should not be used for anything but display
+[Fix] Bugs #1662: Sections should not be used for anything but display
+[Feature] Bugs #1664: rename the imap service to cyrusService
+[Fix] Bugs #1666: for the generic basicMail method we need a mailService
+[Fix] Bugs #1667: the cyrus mail method and service should be moved in his own plugin
+[Fix] Bugs #1670: serviceMail should be renomed servicePostfix as its about postfix stuff only
+[Fix] Bugs #1671: with the latest change for the mailMethod i can no longer log into Fusiondirectory
+[Fix] Bugs #1672: when copying a user it doesnt generate a new uidnumber and guidnumber
+[Fix] Bugs #1674: error in sclaix plugin when generating the locales
+[Fix] Bugs #1675: error in squiq plugin when generating the locales
+[Fix] Bugs #1676: You are not allowed to view the fai summary.
+[Fix] Bugs #1678: when creating a new group : PHP error: Undefined index: SAMBA
+[Fix] Bugs #1679: when creating a new server : Indirect modification of overloaded property serverGeneric::$cn
+[Fix] Bugs #1680: when creating a fai profile PHP error: Undefined variable: name
+[Fix] Bugs #1681: when creating an application : PHP error: Undefined property: application::$gotoLogoffScript
+[Fix] Bugs #1682: when creatin a samba user with the sid inside the ldap PHP error: Undefined variable: sambaSID
+[Fix] Bugs #1683: the icon used in user list for samba come from the system plugin
+[Fix] Bugs #1684: the icon used in object group list for samba user come from the system plugin
+[Feature] Bugs #1685: plDepends should be used to handle tab dependency
+[Fix] Bugs #1686: SSH should be using simplePlugin
+[Fix] Bugs #1687: the warning that tell if the session is encrypted or not doesnt show up on the login screen
+[Fix] Bugs #1688: looking for old samba code and classes inside fusiondirectory core
+[Fix] Bugs #1689: Undefined mailMethod should be renamed
+[Fix] Bugs #1691: on the main page with the cyrus plugin installed PHP error: Missing argument 4 for IntAttribute::__construct(), called in
+[Feature] Bugs #1692: serviceMail should be renomed servicePostfix as its about postfix stuff only
+[Fix] Bugs #1693: when using the fai summary tab PHP error "Undefined index: FAIclass"
+[Fix] Bugs #1694: in the apache plugin i have a back button but no save button on the list of virtual hosts
+[Fix] Bugs #1695: Missing label in buttons
+[Fix] Bugs #1697: look for all unecessary tpl in the plugins
+[Fix] Bugs #1699: plDepends should be used to handle tab dependency
+[Fix] Bugs #1701: Migrate repository service to simplePlugin
+[Fix] Bugs #1702: Clean up the DaemonEvent mess
+[Fix] Bugs #1703: Clean up the DaemonEvent mess
+[Feature] Bugs #1704: Migrate repository service to simplePlugin
+[Fix] Bugs #1705: remove gosa leftover in the fusiondirectory.conf
+[Fix] Bugs #1708: Admin handling in fusiondirectory-setup seems wrong
+[Fix] Bugs #1712: look for all unecessary tpl in the plugins
+[Fix] Bugs #1713: when ssh plugin is installed i got a bug when click on ssh in the my account
+[Fix] Bugs #1714: duplicate arrtribute in the config ldap backend for mail
+[Fix] Bugs #1715: sambaAccount shoud be using simplePlugin
+[Fix] Bugs #1716: duplicate ip with different mac in same dhcp section
+[Fix] Bugs #1717: Recovery password not working in tls
+[Feature] Bugs #1723: CodeSniffer error : 'return;' is not allowed
+[Feature] Bugs #1724: CodeSniffer error : do while is triggerring errors
+[Fix] Bugs #1725: the management of the windows workstations in the samba plugin should be migrated to simple plugin
+[Fix] Bugs #1726: renaming dpts -> ldap inconsistencies
+[Feature] Bugs #1727: the management of the windows workstations in the samba plugin should be migrated to simple plugin
+[Fix] Bugs #1728: fai_repository.tpl must be undeleted
+[Fix] Bugs #1729: Share service should be using simpleService
+[Fix] Bugs #1730: winstation network info are not saved
+[Fix] Bugs #1732: DHCP reservations issue
+[Fix] Bugs #1733: serverService should not use a plugin to display services list
+[Fix] Bugs #1734: serverService should not use a plugin to display services list
+[Fix] Bugs #1735: Applications plugin should be using simplePlugin
+[Fix] Bugs #1736: error when going to the generic in my account PHP error "Undefined property: user::$cert_dialog"
+[Fix] Bugs #1741: the postfix class and attributes should be moved from the goserver schema to a postfix schema
+[Fix] Bugs #1742: we should put all schema in all plugin into contrib/openldap to be standard
+[Fix] Bugs #1743: User image code does not do what it should
+[Fix] Bugs #1744: User password is broken
+[Fix] Bugs #1747: serverService should not use a plugin to display services list
+[Fix] Bugs #1748: Systems plugin needs a configuration plugin
+[Fix] Bugs #1749: error modifiate alias
+[Fix] Bugs #1750: unable to create alias redirect
+[Fix] Bugs #1751: error when modify a user
+[Fix] Bugs #1752: error when creating a user
+[Fix] Bugs #1753: when creating a user, template aren't taken correctly
+[Fix] Bugs #1756: posixAccount does not return error messages
+[Fix] Bugs #1762: Plugins configuration files not stored in /etc
+[Fix] Bugs #1766: ip/mac not mandatory in the case of mobile phone
+[Fix] Bugs #1767: they should be a default domain if none is present in the ldap tree
+[Fix] Bugs #1763: duplicate entries in ldap schema postfix attribute
+[Fix] Bugs #1769: fusiondirectory-insert-schema should remove the ldif created after inserting them
+[Fix] Bugs #1770: status in unix tab is always expired
+[Fix] Bugs #1771: the ssh plugin doesnt have an icon for the my account menu
+[Fix] Bugs #1772: Plugins configuration files not stored in /etc
+[Fix] Bugs #1773: remove all the xxxStatus from the goserver.schema
+[Fix] Bugs #1774: there is not glpi plugin anymore but attributes are still in the goserver.schema
+[Fix] Bugs #1775: remove all the xxxStatus from the goserver.schema
+[Fix] Bugs #1776: remove the kiosk service from the system plugin
+[Fix] Bugs #1778: unable to see all supannStructures
+[Fix] Bugs #1779: when creating a user, template aren't taken correctly
+[Fix] Bugs #1780: remove old kerberos attribute from the schema
+[Feature] Bugs #1781: review all the schema to have lighter basic schema for core fonctionnalities
+[Fix] Bugs #1782: remove the profiles and resolution changing from user/environment
+[Fix] Bugs #1783: remove the profiles and resolution changing from group/environment
+[Fix] Bugs #1786: remove the unused gosaLogServer from the goserver.schema
+[Feature] Bugs #1787: move to gofon.schema to asterisk plugin
+[Fix] Bugs #1788: move to gofon.schema to asterisk plugin
+[Feature] Bugs #1789: move to gofax.schema to fax plugin
+[Fix] Bugs #1790: move to gofax.schema to fax plugin
+[Feature] Bugs #1791: move to goto-mime.schema to system plugin
+[Fix] Bugs #1792: move to goto-mime.schema to system plugin
+[Fix] Bugs #1793: move to goserver.schema goto.schema gosystem.schema to system plugin
+[Fix] Bugs #1794: move to goserver.schema goto.schema gosystem.schema to system plugin
+[Fix] Bugs #1801: move all sql files inside contrib/sql
+[Fix] Bugs #1802: rename gofon.sql to asteriskcdrdb.sql
+[Fix] Bugs #1808: moving proxy attributes from core schema to proxy-fd.schema
+[Fix] Bugs #1805: moving mail attributes and objectclass into the mail-fd.schema
+[Fix] Bugs #1806: moving mail attributes and objectclass into the mail-fd.schema
+[Fix] Bugs #1807: moving proxy attributes from core schema to proxy-fd.schema
+[Fix] Bugs #1809: remove obsolete attribute from gosa-samba3.schema
+[Fix] Bugs #1810: moving the attributes from the core schema to the systems schema
+[Fix] Bugs #1811: moving the attributes from the core schema to the systems schema
+[Fix] Bugs #1812: moving intranet attributes from core to the intranet plugin
+[Feature] Bugs #1816: remove from fusiondirectory-schema all the schema that are now transfered into there plugins
+[Fix] Bugs #1817: rename update from-1.0.3 to update-from-1.0.3-to-1.0.4
+[Fix] Bugs #1818: moving the update from update-from-1.0.3 to the plugins now that the schema have been moved
+[Fix] Bugs #1819: moving the update from update-from-1.0.3 to the plugins now that the schema have been moved
+[Fix] Bugs #1820: rename update from-1.0.3 to update-from-1.0.3-to-1.0.4
+[Fix] Bugs #1825: '/var/cache/fusiondirectory/systems//encodings" didn't exists
+[Fix] Bugs #1826: Application should use FileTextAreaAttribute
+[Fix] Bugs #1827: Date handling must be checked
+[Fix] Bugs #1830: enhancing the ldap service
+[Fix] Bugs #1836: rename fusiondirectory-conf.schema to core-fd-conf.schema
+[Fix] Bugs #1837: rename recovery.schema to recovery-fd.schema
+[Fix] Bugs #1838: change the name of fusiondirectory-conf.schema and recovery.schema inside fusiondirectory-insert-schema
+[Fix] Bugs #1844: moving the sieve*.txt scripts into the cyrus plugin
+[Fix] Bugs #1847: syntax error, unexpected ')' in asterisk plugin
+[Fix] Bugs #1849: when trying to add virtualhost apache every fielad are in read only
+[Fix] Bugs #1850: We need an icon for mobile phones
+[Fix] Bugs #1851: Systems filter checkbox are always there
+[Fix] Bugs #1852: remove the fonction to change password for systems
+[Fix] Bugs #1853: remove the vacation dir from the mail plugin
+[Fix] Bugs #1856: check all the plugin for ("") in the code
+[Fix] Bugs #1857: check all the plugin for ("") in the code
+[Fix] Bugs #1858: SUPANN structures should use simplePlugin
+[Fix] Bugs #1859: error when saving a template
+[Fix] Bugs #1860: Cleaning all the schema in the system plugin
+[Fix] Bugs #1862: can't add a mobiel device when all field are filled
+[Fix] Bugs #1863: schema for storing OS of mobile phone autorize only number
+[Fix] Bugs #1864: rename gofon.schema to asterisk-fd.schema
+[Fix] Bugs #1866: rename gofax.schema to fax-fd.schema
+[Fix] Bugs #1868: rename argonaut.schema to argonaut-fd.schema
+[Fix] Bugs #1870: rename dhcp.schema to dhcp-fd.schema
+[Fix] Bugs #1872: rename dsa-fd.schema to dsa-fd-conf.schema
+[Fix] Bugs #1874: splitting the mail-f.schema into mail-fd.schema and mail-fd-conf.schema
+[Fix] Bugs #1878: rename the fd-samba-conf.schema to samba-fd-conf.schema
+[Fix] Bugs #1880: rename the supann-fd.schema to supann-fd-conf.schema
+[Fix] Bugs #1881: splitting the alias-fd.schema into alias-fd.schema and alias-fd-conf.schema
+[Fix] Bugs #1883: DNS is_this_account does not work
+[Fix] Bugs #1889: as we changed the way some mail flags where used, we have to check all mail methods for this
+[Fix] Bugs #1891: removing the the objectclasses now in each plugin from the schema check in functions.inc
+[Fix] Bugs #1892: rename gosaLogDB into goLogDB
+[Fix] Bugs #1893: remove gotoLastUser from schema and systems filter
+[Fix] Bugs #1894: quota plugin should use simplePlugin
+[Fix] Bugs #1897: erro whane loading quota plugin
+[Fix] Bugs #1899: divSelectBox should use the new style organisation
+[Fix] Bugs #1901: User image is altered by editing and saving
+[Fix] Bugs #1902: link to images is wrong in the asterisk plugin
+[Fix] Bugs #1903: link to images is wrong in the fax plugin
+[Fix] Bugs #1905: SupAnn should use simplePlugin
+[Fix] Bugs #1908: Using preg_match in CompositeAttribute
+[Fix] Bugs #1907: Using preg_match in CompositeAttribute
+[Fix] Bugs #1909: removing quota and share from the fusiondirectory.conf
+[Fix] Bugs #1910: move the supann file back to /etc/fusiondirectory/supann
+[Fix] Bugs #1914: Opsi client tab (management) modeled after the argonaut client tab
+[Fix] Bugs #1917: creating an opsi service
+[Fix] Bugs #1921: check_services in setupStep_Migrate should check new LDAP service
+[Fix] Bugs #1923: faiStartup needs its mask redone
+[Fix] Bugs #1924: systems-fd.schema should not depend of asterisk-fd.schema
+[Fix] Bugs #1925: Cyrus connect bug?
+[Fix] Bugs #1926: rename goFonHardware attribute to goFonPhone because goFonHardware is an ObjectClass
+[Fix] Bugs #1927: verify the description into the schema there is lot of copy paste
+[Fix] Bugs #1928: verify the description into the schema there is lot of copy paste
+[Fix] Bugs #1929: adapt the INSTALL file to include setup of the argonaut include dirs
+[Feature] Bugs #1930: We should be able of hiding debug
+[Fix] Bugs #1932: objectGroup don"t save when i click on inherited
+[Fix] Bugs #1934: verify the description into the schema there is lot of copy paste
+[Fix] Bugs #1935: correct the contributed slapd.conf to use the correct schema
+[Feature] Bugs #1936: move the gosaDefaultPrinter from core schema to system.schema
+[Fix] Bugs #1937: move the gosaDefaultPrinter from core schema to system.schema
+[Fix] Bugs #1938: acl should be renomed cyrusAcl and should be moved to the cyrus-fd.schema
+[Fix] Bugs #1941: sambaAcctFlags saving seems wrong
+[Fix] Bugs #1944: error in quota plugin when generating the locales
+[Fix] Bugs #1945: error in samba plugin when generating the locales
+[Fix] Bugs #1946: french language in the supann plugin
+[Fix] Bugs #1947: duplicate user tabs
+[Fix] Bugs #1950: The system does not use the passwordDefaultHash for new users
+[Fix] Bugs #1952: error in supann plugin when generating the locales
+[Fix] Bugs #1953: locale is broken for fusiondirectory-core
+[Feature] Bugs #1956: locale .po file are no longer in in locale/ca/LC_MESSAGES/messages.po
+[Fix] Bugs #1960: OPSI module should be able to handle global import
+[Fix] Bugs #1961: when removing a windows pc, it should be removed from opsi if activated
+[Fix] Bugs #1965: gotomasses needs an update
+[Fix] Bugs #1969: jsonRPCClient.php should show JSON decode errors
+[Fix] Bugs #1970: Encodings config field mask needs to be fixed
+[Fix] Bugs #1971: translation defaut nisGroup tabs name
+[Fix] Bugs #1972: We should be able of setting the profile in the OPSI client tab
+[Fix] Bugs #1974: Supann tabs appears twice
+[Fix] Bugs #1976: missing objectClass fdOpsiConf
+[Fix] Bugs #1977: SUPANN can't creat an etablissement
+[Feature] Bugs #1980: removing the message.po file form the locale dir
+[Fix] Bugs #1990: There are some mistakes in supportDaemon and DaemonEvent code
+[Fix] Bugs #1991: remove non needed anymore directories creation from fusiondirectory-setup
+[Fix] Bugs #1993: Deployment queue should show winstation as valid targets
+[Feature] Bugs #1994: Debug output should be displayed by default
+[Fix] Bugs #1995: warning icon in "People and group storage" configuration
+[Fix] Bugs #1997: update LDAP number rules page in wiki
+[Fix] Bugs #1999: OPSI server service url could have a default value
+[Fix] Bugs #2002: inherited attribute is missing
+[Fix] Bugs #2003: modify opsi-import
+[Fix] Bugs #2012: the code and entry on the menu have to be removed for rescan
+[Fix] Bugs #2013: the action on all the system should be install in place of reinstall in the web interface
+[Fix] Bugs #2014: the action on all the system should have reinstall in the action dropdown
+[Fix] Bugs #2015: when a system is locked there sould be no order send to him
+[Fix] Bugs #2018: OPSI profile should allow to select the requested action
+[Fix] Bugs #2019: OPSI profile should allow to set product properties
+[Fix] Bugs #2021: removing goComment from server service, its of no use there
+[Fix] Bugs #2024: duplicate objectClass: "1.3.6.1.4.1.38414.20.2.3" in opsi-fd schema
+[Fix] Bugs #2025: when adding an apsi profiles I get structural error
+[Fix] Bugs #2026: host created in opsi but profil isn't applied
+[Fix] Bugs #2027: Some plugin could use simpleTabs
+[Fix] Bugs #2028: bad description in opsi-fd.schema
+[Fix] Bugs #2030: board plugin is broken
+[Fix] Bugs #2031: opsiClient should be object group compliant
+[Fix] Bugs #2033: the creation of hooks, template etc ... doesnt work anymore in fai plugin
+[Fix] Bugs #2034: when removing a profile i doesnt show the name of the profile between ()
+[Fix] Bugs #2035: when copy/pasting a disk in fai i got this error
+[Fix] Bugs #2037: icons of management system
+[Feature] Bugs #2038: FusionDirectory could have a tutorial game to discover the features
+[Fix] Bugs #2039: Uid should be filled in user template if it's not
+[Fix] Bugs #2042: template editing trigger a PHP error
+[Fix] Bugs #2040: merge autofs into core plugins
+[Fix] Bugs #2043: merge freeradius into fusiondirectory-plugins
+[Fix] Bugs #2047: merge debconf into fusiondirectory-plugins
+[Fix] Bugs #2052: merge game into fusiondirectory-plugins
+[Fix] Bugs #2053: merge puppet into fusiondirectory-plugins
+[Fix] Bugs #2055: tab doesn't appear
+[Fix] Bugs #2057: cleanup the freeradius plugin
+[Feature] Bugs #2061: uid generator and uid in template
+[Fix] Bugs #2062: the template don't escape the html inside itself
+[Fix] Bugs #2063: for opsi we need to manage list of products
+[Fix] Bugs #2064: the name of the product is not right in opsi products selections in the profile
+[Fix] Bugs #2066: uidNumber not update when create user by using a template
+[Fix] Bugs #2071: reorganize the admin and addons menu
+[Fix] Bugs #2074: move out kolab, proxy, ftp from connectivity
+[Fix] Bugs #2075: cleaning of connectivity
+[Feature] Bugs #2076: make user properties dynamical
+[Fix] Bugs #2077: the icon for the nagios plugin is wrong
+[Fix] Bugs #2094: remove fusiondirectory.mkntpassword from fusiondirectory manpages
+[Fix] Bugs #2095: FAQ should be rewritten or removed
+[Fix] Bugs #2096: INSTALL file should be updated from the documentation source into the fusiondirectory package
+[Fix] Bugs #2097: README.cnconfig should be updated
+[Fix] Bugs #2098: the fusiondirectory-encrypt-password file contains wrong example for the apache config
+[Fix] Bugs #2099: remove GOsa_MultiSelectHeader.ihtml from fusiondirectory
+[Fix] Bugs #2100: add missing authors from bug reports and patches
+[Fix] Bugs #2101: update the copyright in all plugins
+[Fix] Bugs #2102: update the copyright in all plugins
+[Fix] Bugs #2103: The order of acl constructor attributes is wrong in some places
+[Fix] Bugs #2104: The order of acl constructor attributes is wrong in some places
+[Fix] Bugs #2106: redeclaration of mail attribute in zarafa/class_groupMail.inc
+[Fix] Bugs #2107: when I remove FAI options in dFD I geta n Objetc class violations
+[Fix] Bugs #2108: missing main.inc in personal dir of several plugin create error in web interface
+[Fix] Bugs #2110: we need an icon for squid and pureftpd for the main menu
+[Fix] Bugs #2114: check that the freeradius plugin is working correctly
+[Fix] Bugs #2117: we need icons for squid, phpscheduleit, pureftpd, zarafa for the main menu
+[Fix] Bugs #2124: manpage of fusiondirectory.conf must be updated
+[Fix] Bugs #2125: sudo should not be in the fusiondirectory.conf
+[Feature] Bugs #2127: config should store more information about objectTypes
+[Fix] Bugs #2128: nagios-schema
+[Fix] Bugs #2129: ldapmanager tabs
+[Fix] Bugs #2131: Check foreach code
+[Fix] Bugs #2132: debconf icon
+[Fix] Bugs #2134: New users not appearing
+[Fix] Bugs #2135: PHP error: Indirect modification of overloaded property mailAccount::$mail has no effect
+[Fix] Bugs #2138: PHP Fatal error: Call to undefined function html_trace() in /var/www/html/fusiondirectory/include/php_setup.inc on line 138
+[Fix] Bugs #2139: Check foreach code
+[Fix] Bugs #2140: the template don't escape the html inside itself
+[Fix] Bugs #2141: Can't delete Samba settings from user object
+[Fix] Bugs #2142: gosaMailAccount is used in core but is not in core.schema
+Bugs #2143: Cyrus service config dialog confusing
+[Feature] Bugs #2153: opsiClient should be object group compliant
+[Fix] Bugs #2155: ACL not effective on group
+[Fix] Bugs #2156: Problème de lock sur fiches utilisateurs
+[Feature] Bugs #2158: Duplicate objectType error message could be more detailed
+[Feature] Bugs #2159: fusiondirectory-setup should have an option to select the ldap server to which it should connect
+[Fix] Bugs #2160: unknown attributes since new core installation
+[Fix] Bugs #2161: User class should check roleGeneric is available
+[Fix] Bugs #2162: error in acl's role creation
+[Feature] Bugs #2164: We should be able of clicking anywhere on lleftmenu items
+[Fix] Bugs #2165: when copy/pasting a disk in fai i got this error
+[Fix] Bugs #2167: sambaPwdMustChange is obsolete
+[Fix] Bugs #2168: rewrote the main inc when plugin have been migrated to simple plugin
+[Fix] Bugs #2169: Snaphots should be tested
+[Fix] Bugs #2170: sambaPwdCanChange is obsolete
+[Fix] Bugs #2172: size of windows for managing properties of opsi products
+[Fix] Bugs #2173: make user properties dynamical
+[Fix] Bugs #2175: Fatal error: Call to undefined method netgroupAccount::mainInc()
+[Fix] Bugs #2177: clean up and create icon in big and small and mini format
+[Fix] Bugs #2181: bug in users listing related to php_setup.inc
+[Fix] Bugs #2182: size of windows for managing properties of opsi products
+[Fix] Bugs #2184: netgroup plugin misses config in ldap backend
+[Fix] Bugs #2185: the rest of the netgroup plugin should be migrated to simple plugin
+[Fix] Bugs #2187: cleaning up the mail goup tab
+[Fix] Bugs #2188: moving the status_* icons to the system plugin
+[Fix] Bugs #2189: moving the status_* icons to the system plugin
+[Fix] Bugs #2190: standardizing the icon and mini icons naming
+[Fix] Bugs #2192: rfc2307bis entry error in configuration
+[Fix] Bugs #2193: standardizing the icon and mini icons naming
+[Fix] Bugs #2196: icons for ssh plugin
+[Fix] Bugs #2198: second parameter missing in the freeradius/personnal/main.inc
+[Fix] Bugs #2199: when going to group with mail tab activated : PHP error "Undefined index: plShortName"
+[Fix] Bugs #2202: removing the scalix plugin
+[Fix] Bugs #2204: Cyrus mailboxes not being created
+[Fix] Bugs #2205: Error installing rsyslog plugin
+[Fix] Bugs #2208: sieve setting are saved but not showed back when reopng it
+[Fix] Bugs #2209: ACL not working for field in User
+[Fix] Bugs #2210: apache plugin error with server alias check should be implemented to validate data entry
+[Fix] Bugs #2211: script alias in apache plugin generate errors
+[Fix] Bugs #2215: Message about MDB2 check not precise enough on the wizard
+[Feature] Bugs #2216: removal of option to disable sambaLMPassword
+[Fix] Bugs #2218: ssh plugin - acl not working for ssh public key
+[Feature] Bugs #2219: reorganize the admin and addons menu
+[Fix] Bugs #2221: Snaphots should be tested
+[Fix] Bugs #2222: Can't delete fai tab
+[Fix] Bugs #2223: DNS service is triggering PHP errors
+[Fix] Bugs #2225: cannot insert mail-fd.schema attribut is missing
+[Fix] Bugs #2226: php syntax error
+[Fix] Bugs #2228: fai branch not created when adding a repository
+[Fix] Bugs #2232: ldap2repository doesn't exist, but is part of config dialog
+[Fix] Bugs #2233: error in user with terminal server in samba account activated
+[Fix] Bugs #2234: reorganize the user tab
+[Fix] Bugs #2241: Missing base selector in sympaAlias
+[Fix] Bugs #2242: localization don't work
+[Fix] Bugs #2243: wrong title for label fdDSARDN
+[Fix] Bugs #2244: no title for some labels in user mail tab
+[Fix] Bugs #2246: wrong title for label fdCyrusUseSlashes
+[Fix] Bugs #2249: required field not editable in postfix service
+[Fix] Bugs #2250: syntax error in mail plugin
+[Fix] Bugs #2252: when saving global configuration : "Invalid syntax - objectClass: sambaPluginConf (objectClass: value #1 invalid per syntax"
+[Fix] Bugs #2255: wrong title and label for radiusFramedIPAddress
+[Fix] Bugs #2256: date picker for radiusExpiration
+[Fix] Bugs #2257: the autofs-fd.schema should be renamed to autofs-fd-conf.schema
+[Fix] Bugs #2259: remove dorkboy from freeradius plugin
+[Fix] Bugs #2260: remove readme dans free radius
+[Fix] Bugs #2261: Error when reading config should tell users to run fusiondirectory-setup --check-config
+[Fix] Bugs #2262: Fatal error: cannot instantiate class 'String' - try running 'fusiondirectory-setup --update-cache' to fix this ?
+[Fix] Bugs #2263: user and template icons broken in group members add
+[Fix] Bugs #2265: removal of option to disable sambaLMPassword
+[Fix] Bugs #2267: No icon in ldapmanager export/import
+[Fix] Bugs #2268: no sudoers ou created after sudo-plugin installation
+[Fix] Bugs #2269: new icons for sudo-plugin
+[Fix] Bugs #2270: Lots of errors and problems in the sudo plugin
+[Fix] Bugs #2275: user miniicon don't appear in sudo-plugin
+[Fix] Bugs #2276: Argonaut actions are called twice
+[Fix] Bugs #2277: rename the service starting with go ot the server name
+[Fix] Bugs #2278: rename all the goto leftover to argonaut
+[Fix] Bugs #2279: Invalid syntax - objectClass: lconfContact
+[Fix] Bugs #2280: Error: No such object in netgroups plugin
+[Fix] Bugs #2281: Fatal error: cannot instantiate class 'gotoLogView' - try running 'fusiondirectory-setup --update-cache' to fix this
+[Fix] Bugs #2284: we need a corrected version of the netways.schema because only one structural classe is allowed
+[Fix] Bugs #2285: OPSI Admin should be renamed
+[Fix] Bugs #2286: error when removing nis netgroup entry
+[Fix] Bugs #2287: user miniicon don't appear in sudo-plugin
+[Fix] Bugs #2289: simpleManagement does not require remove.tpl anymore
+[Fix] Bugs #2290: OPSI should have icons for OPSI profile, software list and ondemand list
+[Fix] Bugs #2291: fai tab doesnt read the repository and release even if there is one in the ldap
+[Fix] Bugs #2292: error in opsi import
+[Fix] Bugs #2293: error when removing nis netgroup entry
+[Fix] Bugs #2294: no snapshot fonctionality on some plugins
+[Fix] Bugs #2295: in the hotplug plugin the description doesnt appear in the list
+[Fix] Bugs #2296: there is no cancel button in the apache plugin
+[Fix] Bugs #2298: remove the release filter from applicatons and mime type filter
+[Fix] Bugs #2299: in the sudo plugin the add a system button show a list of user
+[Fix] Bugs #2300: the miniIcon is wrong in sudo list
+[Fix] Bugs #2302: remove the broken netatalk plugin
+[Fix] Bugs #2305: in object groups the icons are wrong for users and groups in the list
+[Fix] Bugs #2306: missing copy paste on nis netgroups
+[Fix] Bugs #2307: remove the phpscheduleit plugin
+[Feature] Bugs #2309: moving localization files from messages.po to fusiondirectory.po
+[Fix] Bugs #2310: moving localization files from messages.po to fusiondirectory.po
+[Fix] Bugs #2311: when trying to create a profile into fai fusiondirectory crashe
+[Fix] Bugs #2312: get_ou should always return a 1 comma ended string
+[Fix] Bugs #2314: Translation are wrong in SUPANN
+[Fix] Bugs #2315: hotplug should be removed from systems
+[Fix] Bugs #2316: board additional parameters
+[Fix] Bugs #2318: add serviceOpsi = opsiconfd in argonaut client
+[Fix] Bugs #2320: moving cyrus-imap service name from service imap to service cyrus in argonaut client
+[Fix] Bugs #2321: OPSI remove_from_parent is wrong
+[Fix] Bugs #2323: the add ldap serveur is always ghosted and doesnt show the ldap uri
+[Fix] Bugs #2324: don't remove opsi-client-agent from winstation when apply a software on demand list
+[Fix] Bugs #2325: Systems action menu is broken
+[Fix] Bugs #2326: remove the on demand fonctionnality from opsi profile
+[Fix] Bugs #2327: strange errors when apply in opsiClient
+[Fix] Bugs #2329: call OPSI.update_or_insert in both cases (opsi client in winstation or opsi client in objectgroup)
+[Feature] Wishlist #324: New release of the freeradius plugin
+[Fix] Wishlist #438: plugin system / fai second tab the version name in french is confusing
+[Fix] Wishlist #509: user with OpenldapPerson class
+[Fix] Wishlist #1020: First Load with only mandatory LDAP Shema
+[Fix] Wishlist #1124: Autogénération de mots de passe dans les templates
+[Fix] Wishlist #1126: id-generator différent suivant le template
+[Feature] Wishlist #1294: add a new type of device : mobile device
+[Fix] Wishlist #1423: icons for apache2 service
+[Fix] Wishlist #1504: fusiondirectory-insert-schema should be able of inserting .schema files
+[Fix] Wishlist #1537: configuration screen
+[Fix] Wishlist #1552: zone file and named filed are in the same folder
+[Feature]Wishlist #1593: creaating a option for synchronizing UNIX expiration date to (or from) SAMBA espiration date
+[Fix] Wishlist #1594: add description field in "generic" user tabs
+[Feature] Wishlist #1746: add a new type of device : mobile device
+[Fix] Wishlist #1777: provide a warning when fdShells is empty
+[Fix] Wishlist #1854: allow selecting a phone number from user information tab
+[Feature]Wishlist #1848: allow selecting a phone number from user information tab
+[Feature] Wishlist #1906: rSyslog plugin not only mysql!!
+[Feature] Wishlist #1933: manipulate Lower/uppser case in template
+[Feature] Wishlist #1949: Add support for crypt/sha-256 and crypt/sha-512
+[Feature] Wishlist #1951: Add support for a configuration setting to force the use of a hash when setting or changing passwords
+[Feature] Wishlist #1968: We should have a way of creating OPSI profiles
+[Feature] Wishlist #2145: fusiondirectory-insert-schema should be able of inserting plugins schemas
+[Feature] Wishlist #2163: Main menu is ugly
+
 * FusionDirectory 1.0.4
 
 [Fix] Pre/post script not working properly with mail command

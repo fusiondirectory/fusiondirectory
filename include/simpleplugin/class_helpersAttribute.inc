@@ -61,6 +61,19 @@ class HostNameAttribute extends StringAttribute
   }
 }
 
+/*! \brief This class allow to handle easily a String LDAP attribute that contains a path
+ *
+ */
+class PathAttribute extends StringAttribute
+{
+  function validate ()
+  {
+    if (!tests::is_path($this->value)) {
+      return msgPool::invalid($this->getLabel(), $this->value);
+    }
+  }
+}
+
 /*! \brief This class allow to handle easily a String LDAP attribute that contains an IPv4
  *
  */
@@ -110,6 +123,65 @@ class IPAttribute extends StringAttribute
     if (!tests::is_ip($this->value) && !tests::is_ipv6($this->value)) {
       return msgPool::invalid($this->getLabel(), $this->value);
     }
+  }
+}
+
+class CharSeparatedCompositeAttribute extends CompositeAttribute
+{
+  private $sep;
+
+  function __construct($description, $ldapName, $attributes, $sep, $acl = "", $label = "Composite attribute")
+  {
+    parent::__construct($description, $ldapName, $attributes, '', '', $acl, $label);
+    $this->sep = $sep;
+  }
+
+  function readValues($value)
+  {
+    return explode($this->sep, $value);
+  }
+
+  function writeValues($values)
+  {
+    return join($this->sep, $values);
+  }
+}
+
+class PipeSeparatedCompositeAttribute extends CharSeparatedCompositeAttribute
+{
+  function __construct($description, $ldapName, $attributes, $acl = "", $label = "Composite attribute")
+  {
+    parent::__construct($description, $ldapName, $attributes, '|', $acl, $label);
+  }
+}
+
+class CommaListAttribute extends CompositeAttribute
+{
+  private $sep = ',';
+
+  function __construct($ldapName, $attribute, $sep = ',')
+  {
+    parent::__construct(
+      $attribute->getDescription(), $ldapName,
+      array(
+        $attribute
+      ), '', ''
+    );
+    $this->sep = $sep;
+  }
+
+  function readValues($value)
+  {
+    if ($value == '') {
+      return array(array());
+    } else {
+      return array(explode($this->sep, $value));
+    }
+  }
+
+  function writeValues($values)
+  {
+    return join($this->sep, $values[0]);
   }
 }
 

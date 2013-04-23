@@ -5,7 +5,7 @@
   Copyright (C) 2003-2010  Cajus Pollmeier
   Copyright (C) 2003 Alejandro Escanero Blanco <aescanero@chaosdimension.org>
   Copyright (C) 1998  Eric Kilfoil <eric@ipass.net>
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -26,50 +26,50 @@
  * \file class_ldap.inc
  * Source code for Class LDAP
  */
- 
+
 define("ALREADY_EXISTING_ENTRY",-10001);
 define("UNKNOWN_TOKEN_IN_LDIF_FILE",-10002);
 define("NO_FILE_UPLOADED",10003);
 define("INSERT_OK",10000);
 define("SPECIALS_OVERRIDE", TRUE);
 
-/*! 
- * \brief This class contains all ldap function needed to make 
+/*!
+ * \brief This class contains all ldap function needed to make
  * ldap operations easy
  */
 
 class LDAP{
 
-  var $hascon  				= false;
-  var $reconnect			= false;
-  var $tls      			= false;
-  var $cid;								//connection identifier
-  var $hasres  				= array();
-  var $sr       			= array();
-  var $re       			= array();
-  var $basedn   			= "";
-  var $start    			= array(); // 0 if we are fetching the first entry, otherwise 1
-  var $error    			= ""; // Any error messages to be returned can be put here
-  var $srp     				= 0;
-  var $objectClasses		= array(); // Information read from slapd.oc.conf
-  var $binddn   			= "";	// the dn for the bind
-  var $bindpw   			= "";	//the dn's password for the bind
-  var $hostname 			= "";
-  var $follow_referral 		= FALSE;
-  var $referrals			= array();
-  var $max_ldap_query_time  = 0;   // 0, empty or negative values will disable this check 
+  var $hascon         = false;
+  var $reconnect      = false;
+  var $tls            = false;
+  var $cid;               //connection identifier
+  var $hasres         = array();
+  var $sr             = array();
+  var $re             = array();
+  var $basedn         = "";
+  var $start          = array(); // 0 if we are fetching the first entry, otherwise 1
+  var $error          = ""; // Any error messages to be returned can be put here
+  var $srp            = 0;
+  var $objectClasses    = array(); // Information read from slapd.oc.conf
+  var $binddn         = ""; // the dn for the bind
+  var $bindpw         = ""; //the dn's password for the bind
+  var $hostname       = "";
+  var $follow_referral    = FALSE;
+  var $referrals      = array();
+  var $max_ldap_query_time  = 0;   // 0, empty or negative values will disable this check
 
   /*!
    * \brief Create a LDAP connection
-   * 
+   *
    * \param string $binddn Bind of the DN
-   * 
+   *
    * \param string $bindpw Bind
-   * 
+   *
    * \param string $hostname The hostname
-   * 
+   *
    * \param boolean $follow_referral false
-   * 
+   *
    * \param boolean $tls false
    */
   function LDAP($binddn,$bindpw, $hostname, $follow_referral= FALSE, $tls= FALSE)
@@ -82,7 +82,7 @@ class LDAP{
     $this->bindpw=$bindpw;
     $this->hostname=$hostname;
 
-    /* Check if MAX_LDAP_QUERY_TIME is defined */ 
+    /* Check if MAX_LDAP_QUERY_TIME is defined */
     if(is_object($config) && $config->get_cfg_value("ldapMaxQueryTime") != ""){
       $str = $config->get_cfg_value("ldapMaxQueryTime");
       $this->max_ldap_query_time = (float)($str);
@@ -93,7 +93,7 @@ class LDAP{
 
   /*!
    * \brief Get the search ressource
-   * 
+   *
    * \return increase srp
    */
   function getSearchResource()
@@ -105,23 +105,23 @@ class LDAP{
   }
 
   /*! \brief Function to replace all problematic characters inside a DN by \001XX
-   * 
+   *
    * Function to replace all problematic characters inside a DN by \001XX, where
    * \001 is decoded to chr(1) [ctrl+a]. It is not impossible, but very unlikely
    * that this character is inside a DN.
-   * 
+   *
    * Currently used codes:
    * \code
    * ,   => CO
    * \2C => CO
    * (   => OB
    * )   => CB
-   * /   => SL                                                                  
+   * /   => SL
    * \22 => DQ
    * \endcode
-   * 
+   *
    * \param string $dn The DN
-   * 
+   *
    * \return String, the corrected DN
    */
   static function convert($dn)
@@ -136,17 +136,17 @@ class LDAP{
     }
   }
 
-  /*! 
+  /*!
    * \brief Function to fix all problematic characters inside a DN DN by replacing \001XX codes
    * to their original values
    *
    * Function to fix all problematic characters inside a DN by replacing \001XX codes
-   * to their original values. See "convert" for more information. 
+   * to their original values. See "convert" for more information.
    * ',' characters are always expanded to \, (not \2C), since all tested LDAP servers
    * seem to take it the correct way.
-   * 
+   *
    * \param string $dn The DN
-   * 
+   *
    * \return String, the fixed DN
    */
   static function fix($dn)
@@ -162,7 +162,7 @@ class LDAP{
 
   /*!
    * \brief Function to fix problematic characters in DN's that are used for search requests. I.e. member=....
-   * 
+   *
    * \param string $dn The DN
    */
   static function prepare4filter($dn)
@@ -173,7 +173,7 @@ class LDAP{
 
   /*!
    *  \brief Create a connection to LDAP server
-   * 
+   *
    *  The string $error containts result of the connection
    */
   function connect()
@@ -237,7 +237,7 @@ class LDAP{
   }
 
   /*!
-   *  \brief Unbind to LDAP server 
+   *  \brief Unbind to LDAP server
    */
   function unbind()
   {
@@ -258,7 +258,7 @@ class LDAP{
 
   /*!
    * \brief Change directory
-   *  
+   *
    * \param string $dir The new directory
    */
   function cd($dir)
@@ -272,9 +272,9 @@ class LDAP{
 
   /*!
    * \brief Accessor of the parent directory of the basedn
-   * 
+   *
    * \param string $basedn The basedn which we want the parent directory
-   * 
+   *
    * \return String, the parent directory
    */
   function getParentDir($basedn = "")
@@ -289,11 +289,11 @@ class LDAP{
 
   /*!
    * \brief Search about filter
-   * 
+   *
    * \param integer $srp srp
    *
    * \param string $filter The filter
-   * 
+   *
    * \param array $attrs
    */
   function search($srp, $filter, $attrs= array())
@@ -307,7 +307,7 @@ class LDAP{
       $this->error = @ldap_error($this->cid);
       $this->resetResult($srp);
       $this->hasres[$srp]=true;
-   
+
       /* Check if query took longer as specified in max_ldap_query_time */
       if($this->max_ldap_query_time){
         $diff = microtime(true) - $start;
@@ -326,15 +326,15 @@ class LDAP{
 
   /*
    * \brief List
-   * 
+   *
    * \param integer $srp
-   * 
+   *
    * \param string $filter Initialized at "(objectclass=*)"
-   * 
+   *
    * \param string $basedn Empty string
-   * 
+   *
    * \param array $attrs
-   */ 
+   */
   function ls($srp, $filter = "(objectclass=*)", $basedn = "",$attrs = array("*"))
   {
     if($this->hascon){
@@ -345,7 +345,7 @@ class LDAP{
         $basedn = $this->basedn;
       else
         $basedn= LDAP::convert($basedn);
-  
+
       $start = microtime(true);
       $this->sr[$srp] = @ldap_list($this->cid, LDAP::fix($basedn), $filter,$attrs);
       $this->error = @ldap_error($this->cid);
@@ -368,18 +368,18 @@ class LDAP{
       return("");
     }
   }
- 
+
   /*
    * \brief Concatenate
-   * 
+   *
    * \param integer $srp
-   * 
+   *
    * \param string $dn The DN
-   * 
+   *
    * \param array $attrs
-   * 
+   *
    * \param string $filter Initialized at "(objectclass=*)"
-   */ 
+   */
   function cat($srp, $dn,$attrs= array("*"), $filter = "(objectclass=*)")
   {
     if($this->hascon){
@@ -399,11 +399,11 @@ class LDAP{
 
   /*!
    * \brief Search object from a filter
-   * 
+   *
    * \param string $dn The DN
-   * 
+   *
    * \param string $filter The filter of the research
-   */ 
+   */
   function object_match_filter($dn,$filter)
   {
     if($this->hascon){
@@ -419,9 +419,9 @@ class LDAP{
 
   /*!
    * \brief Set a size limit
-   * 
+   *
    * \param $size The limit
-   */ 
+   */
   function set_size_limit($size)
   {
     /* Ignore zero settings */
@@ -437,9 +437,9 @@ class LDAP{
 
   /*!
    * \brief Fetch
-   * 
+   *
    * \param integer $srp
-   */ 
+   */
   function fetch($srp)
   {
     $att= array();
@@ -478,9 +478,9 @@ class LDAP{
 
   /*!
    * \brief Reset the result
-   * 
+   *
    * \param integer $srp Value to be reset
-   */ 
+   */
   function resetResult($srp)
   {
     $this->start[$srp] = 0;
@@ -488,9 +488,9 @@ class LDAP{
 
   /*!
    * \brief Clear a result
-   * 
+   *
    * \param integer $srp The result to clear
-   */ 
+   */
   function clearResult($srp)
   {
     if($this->hasres[$srp]){
@@ -501,9 +501,9 @@ class LDAP{
 
   /*!
    * \brief Accessor of the DN
-   * 
+   *
    * \param $srp srp
-   */ 
+   */
   function getDN($srp)
   {
     if($this->hascon){
@@ -516,7 +516,7 @@ class LDAP{
           else
           {
           $rv = @ldap_get_dn($this->cid, $this->re[$srp]);
-        
+
           $this->error = @ldap_error($this->cid);
           return(trim(LDAP::convert($rv)));
            }
@@ -532,9 +532,9 @@ class LDAP{
 
   /*!
    * \brief Return the numbers of entries
-   * 
+   *
    * \param $srp srp
-   */ 
+   */
   function count($srp)
   {
     if($this->hascon){
@@ -555,11 +555,11 @@ class LDAP{
 
   /*!
    * \brief Remove
-   * 
+   *
    * \param string $attrs Empty string
-   * 
+   *
    * \param string $dn Empty string
-   */ 
+   */
   function rm($attrs = "", $dn = "")
   {
     if($this->hascon){
@@ -594,11 +594,11 @@ class LDAP{
 
   /*!
    * \brief Rename the dn
-   * 
-   * \param string $attrs 
-   * 
+   *
+   * \param string $attrs
+   *
    * \param string $dn The DN
-   */ 
+   */
   function rename($attrs, $dn = "")
   {
     if($this->hascon){
@@ -617,9 +617,9 @@ class LDAP{
 
   /*!
    * \brief Remove directory
-   * 
+   *
    * \param string $deletedn The DN to be deleted
-  */ 
+  */
   function rmdir($deletedn)
   {
     if($this->hascon){
@@ -636,11 +636,11 @@ class LDAP{
 
   /*!
    * \brief Move the given Ldap entry from $source to $dest
-   * 
+   *
    * \param  String  $source The source dn.
    *
    * \param  String  $dest   The destination dn.
-   * 
+   *
    * \return Boolean TRUE on success else FALSE.
    */
   function rename_dn($source,$dest)
@@ -652,7 +652,7 @@ class LDAP{
       return(FALSE);
     }
 
-    /* Check if destination entry exists */    
+    /* Check if destination entry exists */
     if($this->dn_exists($dest)){
       trigger_error("Destination '$dest' already exists.");
       $this->error = "Destination '$dest' already exists.";
@@ -660,7 +660,7 @@ class LDAP{
     }
 
     /* Extract the name and the parent part out ouf source dn.
-        e.g.  cn=herbert,ou=department,dc=... 
+        e.g.  cn=herbert,ou=department,dc=...
          parent   =>  ou=department,dc=...
          dest_rdn =>  cn=herbert
      */
@@ -669,10 +669,10 @@ class LDAP{
 
     if($this->hascon){
       if ($this->reconnect) $this->connect();
-      $r= ldap_rename($this->cid,@LDAP::fix($source), @LDAP::fix($dest_rdn),@LDAP::fix($parent),TRUE); 
+      $r= ldap_rename($this->cid,@LDAP::fix($source), @LDAP::fix($dest_rdn),@LDAP::fix($parent),TRUE);
       $this->error = ldap_error($this->cid);
 
-      /* Check if destination dn exists, if not the 
+      /* Check if destination dn exists, if not the
           server may not support this operation */
       $r &= is_resource($this->dn_exists($dest));
       return($r);
@@ -683,15 +683,15 @@ class LDAP{
   }
 
 
-  /*! 
+  /*!
    * \brief Function rmdir_recursive
    *
    * Based in recursive_remove, adding two thing: full subtree remove, and delete own node.
-   * 
+   *
    * \param $srp srp
-   * 
+   *
    * \param string $deletedn The dn to delete
-   * 
+   *
    * \return TRUE on sucessfull , 0 in error, and "" when we don't get a ldap conection
    */
   function rmdir_recursive($srp, $deletedn)
@@ -699,7 +699,7 @@ class LDAP{
     if($this->hascon){
       if ($this->reconnect) $this->connect();
       $delarray= array();
-        
+
       /* Get sorted list of dn's to delete */
       $this->ls ($srp, "(objectClass=*)",$deletedn);
       while ($this->fetch($srp)){
@@ -713,7 +713,7 @@ class LDAP{
       foreach ($delarray as $key => $value){
         $this->rmdir_recursive($srp, $key);
       }
-      
+
       /* Finally Delete own Node */
       $r = @ldap_delete($this->cid, LDAP::fix($deletedn));
       $this->error = @ldap_error($this->cid);
@@ -725,7 +725,7 @@ class LDAP{
   }
 
   function makeReadableErrors($error,$attrs)
-  { 
+  {
     global $config;
 
     if($this->success()) return("");
@@ -739,7 +739,7 @@ class LDAP{
     }
     if($error == "Undefined attribute type"){
       $str = " - <b>attribute: ".preg_replace("/:.*$/","",$this->get_additional_error())."</b>";
-    } 
+    }
 
     @DEBUG(DEBUG_LDAP,__LINE__,__FUNCTION__,__FILE__,$attrs,"Erroneous data");
 
@@ -747,10 +747,10 @@ class LDAP{
   }
 
   /*!
-   * \brief Modify a entry of the directory LDAP 
-   * 
+   * \brief Modify a entry of the directory LDAP
+   *
    * \param string $attrs The new entry
-   */ 	
+   */
   function modify($attrs)
   {
     if(count($attrs) == 0){
@@ -772,9 +772,9 @@ class LDAP{
 
   /*!
    * \brief Add entry in the LDAP directory
-   * 
+   *
    * \param string $attrs The entry to add
-   */ 
+   */
   function add($attrs)
   {
     if($this->hascon){
@@ -832,7 +832,7 @@ class LDAP{
 
       /* Create missing entry? */
       if (count ($attrs)){
-      
+
         /* Catch the tag - if present */
         if (isset($attrs['gosaUnitTag'][0])){
           $tag= $attrs['gosaUnitTag'][0];
@@ -926,7 +926,7 @@ class LDAP{
         }
         $this->cd($cdn);
         $this->add($na);
-    
+
         if (!$this->success()){
 
           print_a(array($cdn,$na));
@@ -940,11 +940,11 @@ class LDAP{
     return TRUE;
   }
 
-  /*! 
+  /*!
    * \brief Recursive remove
-   * 
+   *
    * \param integer $srp
-   */ 	
+   */
   function recursive_remove($srp)
   {
     $delarray= array();
@@ -966,13 +966,13 @@ class LDAP{
 
   /*!
    * \brief Read a entry from a directory
-   * 
+   *
    * \param string $dn The DN
-   * 
+   *
    * \param string $name The name of the entry
-   * 
+   *
    * \param integer $r_array Initialized at 0
-   */ 
+   */
   function get_attribute($dn, $name,$r_array=0)
   {
     $data= "";
@@ -994,13 +994,13 @@ class LDAP{
       return ($info);
     }
   }
- 
+
 
   /*!
    * \brief Get the LDAP additional error
-   * 
+   *
    * \return string $error containts LDAP_OPT_ERROR_STRING
-   */ 
+   */
   function get_additional_error()
   {
     $error= "";
@@ -1010,9 +1010,9 @@ class LDAP{
 
   /*!
    * \brief Success
-   * 
-   * \return boolean TRUE if Success is found in $error, else return FALSE  
-   */ 
+   *
+   * \return boolean TRUE if Success is found in $error, else return FALSE
+   */
   function success()
   {
     return (preg_match('/Success/i', $this->error));
@@ -1020,7 +1020,7 @@ class LDAP{
 
   /*!
    * \brief Get the error
-   */ 
+   */
   function get_error()
   {
     if ($this->error == 'Success'){
@@ -1057,22 +1057,22 @@ class LDAP{
   }
 
 
-  /*! 
+  /*!
    * \brief  Generates an ldif for all entries matching the filter settings, scope and limit.
-   * 
+   *
    * \param  $dn           The entry to export.
-   * 
+   *
    * \param  $filter       Limit the exported object to those maching this filter.
-   * 
+   *
    * \param  array $attributes Attributes
-   * 
+   *
    * \param  $scope        'base', 'sub' .. see manpage for 'ldapmodify' for details.
-   * 
+   *
    * \param  $limit        Limits the result.
    */
   function generateLdif ($dn, $filter= "(objectClass=*)", $attributes= array(),$scope = 'sub', $limit=0)
   {
-        
+
       // Attributes are unused !!
       $attrs = '';
 
@@ -1105,7 +1105,7 @@ class LDAP{
       $admin = escapeshellarg($this->binddn);
       $filter = escapeshellarg($filter);
 
-        
+
       $cmd = "ldapsearch -x -LLLL -D {$admin} {$filter} {$limit} {$scope} -H {$host} -b {$dn} -w {$pwd} ";
 
       // Create list of process pipes
@@ -1140,24 +1140,24 @@ class LDAP{
   {
     return @ldap_list($this->cid, LDAP::fix($dn), "(objectClass=*)", array("objectClass"));
   }
-  
 
 
-  /*! 
+
+  /*!
    * \brief Function to imports ldifs
-   * 
-   * If DeleteOldEntries is true, the destination entry will be deleted first. 
+   *
+   * If DeleteOldEntries is true, the destination entry will be deleted first.
    * If JustModify is true the destination entry will only be touched by the attributes specified in the ldif.
-   * if JustMofify is false the destination dn will be overwritten by the new ldif. 
-   * 
+   * if JustMofify is false the destination dn will be overwritten by the new ldif.
+   *
    * \param integer $srp
-   * 
+   *
    * \param string $str_attr
-   * 
-   * \param string $error 
-   * 
+   *
+   * \param string $error
+   *
    * \param boolean $JustModify
-   * 
+   *
    * \param boolean $DeleteOldEntries
    */
   function import_complete_ldif($srp, $str_attr,$error,$JustModify,$DeleteOldEntries)
@@ -1169,7 +1169,7 @@ class LDAP{
     $entries = preg_split("/\n/",$str_attr);
 
     $data = "";
-    $cnt = 0; 
+    $cnt = 0;
     $current_line = 0;
 
     /* FIX ldif */
@@ -1189,7 +1189,7 @@ class LDAP{
     foreach($tmp as $entry) {
       $current_line ++;
 
-      /* Removing Spaces to .. 
+      /* Removing Spaces to ..
          .. test if a new entry begins */
       $tmp  = str_replace(" ","",$data );
 
@@ -1217,7 +1217,7 @@ class LDAP{
           }
           else
           {
-            /* Add Linenumber */ 
+            /* Add Linenumber */
             $data .= $current_line."#".base64_encode($entry)."\n";
           }
         }
@@ -1227,12 +1227,12 @@ class LDAP{
     /* The Data we collected is not in the array all[];
        For example the Data is stored like this..
 
-       all[0] = "1#dn : .... \n 
+       all[0] = "1#dn : .... \n
        2#ObjectType: person \n ...."
-       
+
        Now we check every insertblock and try to insert */
     foreach ( $all as $single) {
-      $lineone = preg_split("/\n/",$single);  
+      $lineone = preg_split("/\n/",$single);
       $ndn = explode("#", $lineone[0]);
       $line = base64_decode($ndn[1]);
 
@@ -1244,7 +1244,7 @@ class LDAP{
       /* Every block must begin with a dn */
       if($dn != "dn") {
         $error= sprintf(_("This is not a valid DN: '%s'. A block for import should begin with 'dn: ...' in line %s"), $line, $current_line);
-        return -2;  
+        return -2;
       }
 
       /* Should we use Modify instead of Add */
@@ -1252,7 +1252,7 @@ class LDAP{
 
       /* Delete before insert */
       $usermdir= false;
-    
+
       /* The dn address already exists, Don't delete destination entry, overwrite it */
       if (($this->dn_exists($value))&&((!$JustModify)&&(!$DeleteOldEntries))) {
 
@@ -1262,14 +1262,14 @@ class LDAP{
       } elseif(($this->dn_exists($value))&&($DeleteOldEntries)){
 
         /* Delete first, then add */
-        $usermdir = true;        
+        $usermdir = true;
 
       } elseif(($this->dn_exists($value))&&($JustModify)) {
-        
+
         /* Modify instead of Add */
         $usemodify = true;
       }
-     
+
       /* If we can't Import, return with a file error */
       if(!$this->import_single_entry($srp, $single,$usemodify,$usermdir) ) {
         $error= sprintf(_("Error while importing dn: '%s', please check your LDIF from line %s on!"), $line,
@@ -1281,17 +1281,17 @@ class LDAP{
   }
 
   /*! \brief Function to Imports a single entry
-   * 
+   *
    * If $delete is true;  The old entry will be deleted if it exists.
    * if $modify is true;  All variables that are not touched by the new ldif will be kept.
    * if $modify is false; The new ldif overwrites the old entry, and all untouched attributes get lost.
-   * 
+   *
    * \param integer $srp
-   * 
+   *
    * \param string $str_attr
-   * 
+   *
    * \param boolean $modify
-   * 
+   *
    * \param boolean $delete
    */
   function import_single_entry($srp, $str_attr,$modify,$delete)
@@ -1301,7 +1301,7 @@ class LDAP{
     if(!$config){
       trigger_error("Can't import ldif, can't read config object.");
     }
-  
+
 
     if($this->reconnect) $this->connect();
 
@@ -1310,13 +1310,13 @@ class LDAP{
     $data= false;
 
     foreach($rows as $row) {
-      
+
       /* Check if we use Linenumbers (when import_complete_ldif is called we use
          Linenumbers) Linenumbers are use like this 123#attribute : value */
       if(!empty($row)) {
         if(strpos($row,"#")!=FALSE) {
 
-          /* We are using line numbers 
+          /* We are using line numbers
              Because there is a # before a : */
           $tmp1= explode("#",$row);
           $current_line= $tmp1[0];
@@ -1345,10 +1345,10 @@ class LDAP{
           if(!is_array($tmp)) {
             $new[0]=$tmp;
             $new[1]=$attr[1];
-            $datas[$attr[0]]['count']=1;             
+            $datas[$attr[0]]['count']=1;
             $data[$attr[0]]=$new;
           } else {
-            $cnt = $datas[$attr[0]]['count'];           
+            $cnt = $datas[$attr[0]]['count'];
             $cnt ++;
             $data[$attr[0]][$cnt]=$attr[1];
             $datas[$attr[0]]['count'] = $cnt;
@@ -1369,7 +1369,7 @@ class LDAP{
       }
       $newdn = preg_replace("/,$/","",$newdn);
       $data['dn'] = $newdn;
-   
+
       /* Creating Entry */
       $this->cd($data['dn']);
 
@@ -1377,7 +1377,7 @@ class LDAP{
       if($delete){
         $this->rmdir_recursive($srp, $data['dn']);
       }
-     
+
       /* Create missing trees */
       $this->cd ($this->basedn);
       $this->cd($config->current['BASE']);
@@ -1386,12 +1386,12 @@ class LDAP{
 
       $dn = $data['dn'];
       unset($data['dn']);
-      
+
       if(!$modify){
 
         $this->cat($srp, $dn);
         if($this->count($srp)){
-        
+
           /* The destination entry exists, overwrite it with the new entry */
           $attrs = $this->fetch($srp);
           foreach($attrs as $name => $value ){
@@ -1403,15 +1403,15 @@ class LDAP{
             }
           }
           $ret = $this->modify($data);
-    
+
         }else{
-    
+
           /* The destination entry doesn't exists, create it */
           $ret = $this->add($data);
         }
 
       } else {
-        
+
         /* Keep all vars that aren't touched by this ldif */
         $ret = $this->modify($data);
       }
@@ -1426,9 +1426,9 @@ class LDAP{
 
   /*!
    * \brief Split a string
-   * 
+   *
    * \param string $str
-   */ 
+   */
   function importcsv($str)
   {
     $lines = preg_split("/\n/",$str);
@@ -1446,74 +1446,74 @@ class LDAP{
       $cells = explode(",",$line )  ;
       $linet= str_replace ("\t\t",",",$line);
       $cells = preg_split("/\t/",$line);
-      $count = count($cells);  
+      $count = count($cells);
     }
 
   }
-  
+
   /*!
    * \brief Get the object classes
-   * 
+   *
    * \param boolean $force_reload FALSE
-   */ 
+   */
   function get_objectclasses( $force_reload = FALSE)
   {
     $objectclasses = array();
     global $config;
 
     /* Only read schema if it is allowed */
-    if(isset($config) && preg_match("/config/i",get_class($config))){
-      if ($config->get_cfg_value("schemaCheck") != "true"){
-        return($objectclasses);
-      } 
+    if (isset($config) && preg_match("/config/i", get_class($config))) {
+      if ($config->get_cfg_value("schemaCheck") != "TRUE") {
+        return $objectclasses;
+      }
     }
 
     /* Return the cached results. */
-    if(class_available('session') && session::global_is_set("LDAP_CACHE::get_objectclasses") && !$force_reload){
+    if (class_available('session') && session::global_is_set("LDAP_CACHE::get_objectclasses") && !$force_reload) {
       $objectclasses = session::global_get("LDAP_CACHE::get_objectclasses");
-      return($objectclasses);
+      return $objectclasses;
     }
-  
-    # Get base to look for schema 
+
+    # Get base to look for schema
     $sr = @ldap_read ($this->cid, "", "objectClass=*", array("subschemaSubentry"));
     $attr = @ldap_get_entries($this->cid,$sr);
-    if (!isset($attr[0]['subschemasubentry'][0])){
+    if (!isset($attr[0]['subschemasubentry'][0])) {
       return array();
     }
-  
+
     /* Get list of objectclasses and fill array */
-    $nb= $attr[0]['subschemasubentry'][0];
-    $objectclasses= array();
-    $sr= ldap_read ($this->cid, $nb, "objectClass=*", array("objectclasses"));
-    $attrs= ldap_get_entries($this->cid,$sr);
-    if (!isset($attrs[0])){
+    $nb = $attr[0]['subschemasubentry'][0];
+    $objectclasses = array();
+    $sr = ldap_read ($this->cid, $nb, "objectClass=*", array("objectclasses"));
+    $attrs = ldap_get_entries($this->cid, $sr);
+    if (!isset($attrs[0])) {
       return array();
     }
-    foreach ($attrs[0]['objectclasses'] as $val){
-      if (preg_match('/^[0-9]+$/', $val)){
+    foreach ($attrs[0]['objectclasses'] as $val) {
+      if (preg_match('/^[0-9]+$/', $val)) {
         continue;
       }
-      $name= "OID";
-      $pattern= explode(' ', $val);
-      $ocname= preg_replace("/^.* NAME\s+\(*\s*'([^']+)'\s*\)*.*$/", '\\1', $val);
-      $objectclasses[$ocname]= array();
+      $name = "OID";
+      $pattern = explode(' ', $val);
+      $ocname = preg_replace("/^.* NAME\s+\(*\s*'([^']+)'\s*\)*.*$/", '\\1', $val);
+      $objectclasses[$ocname] = array();
 
-      foreach($pattern as $chunk){
-        switch($chunk){
+      foreach ($pattern as $chunk) {
+        switch ($chunk) {
 
           case '(':
-                    $value= "";
+                    $value = "";
                     break;
 
-          case ')': if ($name != ""){
+          case ')': if ($name != "") {
                       $v = $this->value2container($value);
-                      if(in_array($name, array('MUST', 'MAY')) && !is_array($v)){
+                      if (in_array($name, array('MUST', 'MAY')) && !is_array($v)) {
                         $v = array($v);
                       }
                       $objectclasses[$ocname][$name]= $v;
                     }
-                    $name= "";
-                    $value= "";
+                    $name = "";
+                    $value = "";
                     break;
 
           case 'NAME':
@@ -1524,24 +1524,24 @@ class LDAP{
           case 'AUXILIARY':
           case 'MUST':
           case 'MAY':
-                    if ($name != ""){
+                    if ($name != "") {
                       $v = $this->value2container($value);
-                      if(in_array($name, array('MUST', 'MAY')) && !is_array($v)){
+                      if (in_array($name, array('MUST', 'MAY')) && !is_array($v)) {
                         $v = array($v);
                       }
-                      $objectclasses[$ocname][$name]= $v;
+                      $objectclasses[$ocname][$name] = $v;
                     }
-                    $name= $chunk;
-                    $value= "";
+                    $name = $chunk;
+                    $value = "";
                     break;
 
-          default:  $value.= $chunk." ";
+          default:  $value .= $chunk." ";
         }
       }
 
     }
-    if(class_available("session")){
-      session::global_set("LDAP_CACHE::get_objectclasses",$objectclasses);
+    if (class_available("session")) {
+      session::global_set("LDAP_CACHE::get_objectclasses", $objectclasses);
     }
 
     return $objectclasses;
@@ -1571,9 +1571,9 @@ class LDAP{
 
   /*!
    * \brief Add a string in log file
-   * 
-   * \param string $string 
-   */ 
+   *
+   * \param string $string
+   */
   function log($string)
   {
     if (session::global_is_set('config')){
@@ -1585,12 +1585,12 @@ class LDAP{
   }
 
   /* added by Guido Serra aka Zeph <zeph@purotesto.it> */
-  
-  /*! 
+
+  /*!
    * \brief Function to get cn
-   * 
-   * \param $dn The DN 
-   */ 
+   *
+   * \param $dn The DN
+   */
   function getCn($dn){
     $simple= explode(",", $dn);
 
@@ -1635,7 +1635,7 @@ class LDAP{
     /* Get base to look for naming contexts */
     $sr  = @ldap_read ($ds, "", "objectClass=*", array("+"));
     $attr= @ldap_get_entries($ds,$sr);
-   
+
     /* Return empty array, if nothing was set */
     if (!isset($attr[0])){
       return array();

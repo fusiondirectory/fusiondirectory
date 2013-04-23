@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -75,24 +75,24 @@ class dcObject extends department
   }
 
 
-  /* Return plugin informations for acl handling */ 
+  /* Return plugin informations for acl handling */
   static function plInfo()
   {
-    return (array("plShortName"   => _("Domain Component"),
-          "plDescription" => _("Domain Component"),
-          "plSelfModify"  => FALSE,
-          "plPriority"    => 4,
-          "plDepends"     => array(),
-          "plSection"     => array("administration"),
-          "plCategory"    => array("department"),
+    return array(
+      "plShortName"   => _("Domain Component"),
+      "plDescription" => _("Domain Component"),
+      "plSelfModify"  => FALSE,
+      "plCategory"    => array("department"),
+      "plObjectType"  => array("dcObject" => array("name" => _("Domain Component"), "filter" => "objectClass=dcObject")),
 
-          "plProvidedAcls" => array(
-            "dc"                => _("Name"),
-            "description"       => _("Description"),
-            "manager"                 => _("Manager"),
-            "base"              => _("Base"),
-            "gosaUnitTag"       => _("Administrative settings"))
-          ));
+      "plProvidedAcls" => array(
+        "dc"                => _("Name"),
+        "description"       => _("Description"),
+        "manager"           => _("Manager"),
+        "base"              => _("Base"),
+        "gosaUnitTag"       => _("Administrative settings")
+      )
+    );
   }
 }
 

@@ -6,7 +6,7 @@
       <div class="contentboxh">
         <p class="contentboxh">&nbsp;{$HEADLINE}&nbsp;{$SIZELIMIT}</p>
       </div>
-      
+
       <div class="contentboxb">
        <div style='background:white;padding:3px'>
         <table><tr>
@@ -14,7 +14,7 @@
         </tr></table>
        </div>
       </div>
-      
+
       <div style='height:4px;'>
       </div>
       {$LIST}

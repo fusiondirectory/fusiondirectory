@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -111,19 +111,32 @@ $REWRITE= array( "ä" => "ae",
  */
 
 function __fusiondirectory_autoload($class_name) {
-    global $class_mapping, $BASE_DIR;
+  global $class_mapping, $BASE_DIR, $config;
 
-    if ($class_mapping === NULL){
-      echo sprintf(_("Fatal error: no class locations defined - please run '%s' to fix this"), "<b>fusiondirectory-setup --update-cache</b>");
-      exit;
+  if ($class_mapping === NULL) {
+    if (isset($config) && is_object($config) &&
+        $config->get_cfg_value("displayerrors") == "TRUE") {
+      list($trace,) = html_trace();
+      echo $trace;
+      echo "<br/>\n";
     }
+    echo sprintf(_("Fatal error: no class locations defined - please run '%s' to fix this"), "<b>fusiondirectory-setup --update-cache</b>");
+    exit;
+  }
 
-    if (isset($class_mapping["$class_name"])){
-      require_once($BASE_DIR."/".$class_mapping["$class_name"]);
-    } else {
-      echo sprintf(_("Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"), $class_name, "<b>fusiondirectory-setup --update-cache</b>");
-      exit;
+  if (isset($class_mapping["$class_name"])) {
+    require_once($BASE_DIR."/".$class_mapping["$class_name"]);
+  } else {
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class_name, "Could not load");
+    if (isset($config) && is_object($config) &&
+        $config->get_cfg_value("displayerrors") == "TRUE") {
+      list($trace,) = html_trace();
+      echo $trace;
+      echo "<br/>\n";
     }
+    echo sprintf(_("Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"), $class_name, "<b>fusiondirectory-setup --update-cache</b>");
+    exit;
+  }
 }
 spl_autoload_register('__fusiondirectory_autoload');
 
@@ -202,22 +215,32 @@ function make_seed() {
  *
  * \param string $info Optional: Additional information
  */
-function DEBUG($level, $line, $function, $file, $data, $info="")
+function DEBUG($level, $line, $function, $file, $data, $info = "")
 {
-  if (session::global_get('DEBUGLEVEL') & $level){
-    $output= "DEBUG[$level] ";
-    if ($function != ""){
-      $output.= "($file:$function():$line) - $info: ";
-    } else {
-      $output.= "($file:$line) - $info: ";
+  static $first = TRUE;
+  if (session::global_get('DEBUGLEVEL') & $level) {
+    if ($first) {
+      echo '<div id="debug_handling">'.
+            '<img src="images/info_small.png" alt="info icon" style="vertical-align:middle;margin-right:.2em;"/>'.
+            'There is some debug output '.
+            '<button onClick="javascript:$$(\'div.debug_div\').each(function (a) { a.toggle(); });">Toggle</button>'.
+          '</div>';
+      $first = FALSE;
     }
+    $output = "DEBUG[$level] ";
+    if ($function != "") {
+      $output .= "($file:$function():$line) - $info: ";
+    } else {
+      $output .= "($file:$line) - $info: ";
+    }
+    echo '<div class="debug_div">';
     echo $output;
-    if (is_array($data)){
+    if (is_array($data)) {
       print_a($data);
     } else {
       echo "'$data'";
     }
-    echo "<br>";
+    echo "</div>\n";
   }
 }
 
@@ -373,7 +396,7 @@ function get_template_path($filename= '', $plugin= FALSE, $path= "")
  */
 function array_remove_entries($needles, $haystack)
 {
-  return (array_merge(array_diff($haystack, $needles)));
+  return array_values(array_diff($haystack, $needles));
 }
 
 
@@ -390,12 +413,22 @@ function array_remove_entries($needles, $haystack)
 function array_remove_entries_ics($needles, $haystack)
 {
   // strcasecmp will work, because we only compare ASCII values here
-  return (array_merge(array_udiff($haystack, $needles, 'strcasecmp')));
+  return array_values(array_udiff($haystack, $needles, 'strcasecmp'));
 }
 
+/*!
+ * \brief Removes duplicates in an array (case-insensitive)
+ *
+ * Removes duplicates in an array (case-insensitive), the returned array will be lower-case only
+ *
+ * \param array $array original array to remove duplicates from
+ */
+function array_unique_ics($array) {
+  return array_values(array_unique(array_map('strtolower',$array)));
+}
 
 /*!
- * \brief Merge to array but remove duplicate entries
+ * \brief Merge to array but remove duplicate entries (case-insensitive)
  *
  * Merges two arrays and removes duplicate entries. Triggers
  * an error if first or second parametre is not an array.
@@ -406,13 +439,18 @@ function array_remove_entries_ics($needles, $haystack)
  *
  * \return array
  */
+function array_merge_unique($ar1,$ar2)
+{
+  if (!is_array($ar1) || !is_array($ar2)) {
+    trigger_error("Specified parameter(s) are not valid arrays.");
+  } else {
+    return array_values(array_unique(array_merge($ar1,$ar2)));
+  }
+}
 function fusiondirectory_array_merge($ar1,$ar2)
 {
-  if(!is_array($ar1) || !is_array($ar2)){
-    trigger_error("Specified parameter(s) are not valid arrays.");
-  }else{
-    return(array_values(array_unique(array_merge($ar1,$ar2))));
-  }
+  trigger_error("fusiondirectory_array_merge is deprecated, please use array_merge_unique");
+  return array_merge_unique($ar1,$ar2);
 }
 
 
@@ -499,7 +537,7 @@ function process_htaccess ($username, $kerberos= FALSE)
 
     $config->set_current($name);
     $mode= "kerberos";
-    if ($config->get_cfg_value("useSaslForKerberos") == "true"){
+    if ($config->get_cfg_value("useSaslForKerberos") == "TRUE"){
       $mode= "sasl";
     }
 
@@ -594,6 +632,7 @@ function ldap_login_user ($username, $password)
 {
   global $config;
 
+
   /* look through the entire ldap */
   $ldap = $config->get_ldap_link();
   if (!$ldap->success()){
@@ -602,6 +641,7 @@ function ldap_login_user ($username, $password)
         FATAL_ERROR_DIALOG);
     exit();
   }
+
   $ldap->cd($config->current['BASE']);
   $allowed_attributes = array("uid","mail");
   $verify_attr = array();
@@ -613,6 +653,7 @@ function ldap_login_user ($username, $password)
       }
     }
   }
+
   if(count($verify_attr) == 0){
     $verify_attr = array("uid");
   }
@@ -624,6 +665,7 @@ function ldap_login_user ($username, $password)
   }
   $filter = "(&(|".$filter.")(objectClass=gosaAccount))";
   $ldap->search($filter,$tmp);
+
 
   /* get results, only a count of 1 is valid */
   switch ($ldap->count()){
@@ -641,6 +683,7 @@ function ldap_login_user ($username, $password)
             return (NULL);
   }
 
+
   /* LDAP schema is not case sensitive. Perform additional check. */
   $attrs= $ldap->fetch();
   $success = FALSE;
@@ -653,6 +696,7 @@ function ldap_login_user ($username, $password)
     return(FALSE);
   }
 
+
   /* got user dn, fill acl's */
   $ui= new userinfo($config, $ldap->getDN());
   $ui->username= $attrs['uid'][0];
@@ -662,6 +706,7 @@ function ldap_login_user ($username, $password)
   if (!$ui->loginAllowed()){
     return (NULL);
   }
+
 
   /* password check, bind as user with supplied password  */
   $ldap->disconnect();
@@ -674,8 +719,10 @@ function ldap_login_user ($username, $password)
     return (NULL);
   }
 
+
   /* Username is set, load subtreeACL's now */
   $ui->loadACL();
+
 
   return ($ui);
 }
@@ -712,7 +759,9 @@ function ldap_expired_account($config, $userdn, $uid)
 {
 
     // Skip this for the admin account, we do not want to lock him out.
-    if($uid == 'admin') return(0);
+    if (is_user_admin($userdn)) {
+      return 0;
+    }
 
     $ldap= $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
@@ -817,9 +866,20 @@ function ldap_expired_account($config, $userdn, $uid)
     return(0);
 }
 
+/* \brief Check if a user is a 'user admin'
+ * \param $dn The dn of the user we want to check, FALSE if we want to check the connected one
+ */
+function is_user_admin($dn = FALSE)
+{
+  global $config;
 
-
-
+  if ($dn === FALSE) {
+    $ui = get_userinfo();
+  } else {
+    $ui = new userinfo($config, $dn);
+  }
+  return ($ui->get_category_permissions($config->current['BASE'], "users") == "rwcdm");
+}
 
 /*!
  *  \brief Add a lock for object(s)
@@ -1544,9 +1604,9 @@ function get_ou($name)
                 "phoneRDN"                => "ou=phones,ou=systems,",
                 "componentRDN"            => "ou=netdevices,ou=systems,",
                 "sambaMachineAccountRDN"  => "ou=computers,",
+                "mobilePhoneRDN"          => "ou=mobile,ou=systems,",
 
                 "faxBlocklistRDN"     => "ou=gofax,ou=systems,",
-                "systemIncomingRDN"   => "ou=incoming,",
                 "aclRoleRDN"          => "ou=aclroles,",
                 "phoneMacroRDN"       => "ou=macros,ou=asterisk,ou=configs,ou=systems,",
                 "phoneConferenceRDN"  => "ou=conferences,ou=asterisk,ou=configs,ou=systems,",
@@ -1571,6 +1631,11 @@ function get_ou($name)
                 "netgroupRDN" => "ou=netgroup,",
 
                 "deviceRDN"   => "ou=devices,",
+
+                "aliasRDN"    => "ou=alias,",
+
+                "dsaRDN"    => "ou=dsa,",
+
                 "mimetypeRDN" => "ou=mime,");
 
   /* Preset ou... */
@@ -1578,7 +1643,7 @@ function get_ou($name)
     $ou = $config->get_cfg_value($name);
   } elseif (isset($map[$name])) {
     $ou = $map[$name];
-    return($ou);
+    return $ou;
   } else {
     trigger_error("No department mapping found for type ".$name);
     return "";
@@ -1594,7 +1659,11 @@ function get_ou($name)
     if (preg_match("/".preg_quote($config->current['BASE'], '/')."$/",$ou)) {
       return $ou;
     } else {
-      return "$ou,";
+      if (preg_match('/,$/', $ou)) {
+        return $ou;
+      } else {
+        return "$ou,";
+      }
     }
 
   } else {
@@ -1682,7 +1751,7 @@ function strict_uid_mode()
   global $config;
 
   if (isset($config)){
-    return ($config->get_cfg_value("strictNamingRules") == "true");
+    return ($config->get_cfg_value("strictNamingRules") == "TRUE");
   }
   return (TRUE);
 }
@@ -1945,12 +2014,13 @@ function print_header($image, $headline, $info= "")
     $smarty->assign("headline_image",$image);
     $display="";
 
-  if ($info != ""){
+  if ($info != "") {
     $display.= "<div class=\"pluginfo\">\n";
     $display.= "$info";
     $display.= "</div>\n";
+    $display.= "<div></div>\n";
   }
-  return ($display);
+  return $display;
 }
 
 
@@ -2207,51 +2277,6 @@ function recurse($rule, $variables)
 
 
 /*!
- * \brief Expands user ID based on possible rules
- *
- * Unroll given rule string by filling in attributes.
- *
- * \param string $rule The rule string from fusiondirectory.conf.
- * \param array $attributes A dictionary of attribute/value mappings
- *
- * \return string Expanded string, still containing the id keyword.
- */
-function expand_id($rule, $attributes)
-{
-  /* Check for id rule */
-  if(preg_match('/^id(:|#|!)\d+$/',$rule)){
-    return (array("{$rule}"));
-  }
-
-  /* Check for clean attribute */
-  if (preg_match('/^%[a-zA-Z0-9]+$/', $rule)){
-    $rule= preg_replace('/^%/', '', $rule);
-    $val= rewrite(str_replace(' ', '', strtolower($attributes[$rule])));
-    return (array($val));
-  }
-
-  /* Check for attribute with parameters */
-  if (preg_match('/^%[a-zA-Z0-9]+\[[0-9-]+\]$/', $rule)){
-    $param= preg_replace('/^[^[]+\[([^]]+)]$/', '\\1', $rule);
-    $part= preg_replace('/^%/', '', preg_replace('/\[.*$/', '', $rule));
-    $val= rewrite(str_replace(' ', '', strtolower($attributes[$part])));
-    $start= preg_replace ('/-.*$/', '', $param);
-    $stop = preg_replace ('/^[^-]+-/', '', $param);
-
-    /* Assemble results */
-    $result= array();
-    for ($i= $start; $i<= $stop; $i++){
-      $result[]= substr($val, 0, $i);
-    }
-    return ($result);
-  }
-
-  echo "Error in idGenerator string: don't know how to handle rule $rule.\n";
-  return (array($rule));
-}
-
-
-/*!
  * \brief Generate a list of uid proposals based on a rule
  *
  *  Unroll given rule string by filling in attributes and replacing
@@ -2267,104 +2292,90 @@ function gen_uids($rule, $attributes)
 {
   global $config;
 
+  $attrs_object = new stdClass();
   // Strip out non ascii chars
-  foreach($attributes as $name => $value){
+  foreach ($attributes as $name => $value) {
       $value = iconv('UTF-8', 'US-ASCII//TRANSLIT', $value);
-      $value = preg_replace('/[^(\x20-\x7F)]*/','',$value);
-      $attributes[$name] = $value;
+      $value = preg_replace('/[^(\x20-\x7F)]*/', '', $value);
+      $attributes[$name]    = $value;
+      $attrs_object->$name  = $value;
   }
 
   /* Search for keys and fill the variables array with all
      possible values for that key. */
-  $part= "";
-  $trigger= false;
-  $stripped= "";
-  $variables= array();
+  $part       = "";
+  $trigger    = FALSE;
+  $stripped   = $rule;
+  $variables  = array();
 
-  for ($pos= 0, $l= strlen($rule); $pos < $l; $pos++){
-
-    if ($rule[$pos] == "{" ){
-      $trigger= true;
-      $part= "";
-      continue;
-    }
-
-    if ($rule[$pos] == "}" ){
-      $variables[$pos]= expand_id($part, $attributes);
-      $stripped.= "{".$pos."}";
-      $trigger= false;
-      continue;
-    }
-
-    if ($trigger){
-      $part.= $rule[$pos];
-    } else {
-      $stripped.= $rule[$pos];
-    }
+  for ($pos = 0; preg_match('/%([^%]+)%/', $stripped, $m, PREG_OFFSET_CAPTURE, $pos); ) {
+    $variables[$pos] = plugin::tpl_parse_mask($m[1][0], array($attrs_object));
+    $replace = '{'.$pos.'}';
+    $stripped = substr_replace($stripped, $replace, $m[0][1], strlen($m[0][0]));
+    $pos = $m[0][1] + strlen($replace);
   }
 
   /* Recurse through all possible combinations */
-  $proposed= recurse($stripped, $variables);
+  $proposed = recurse($stripped, $variables);
 
   /* Get list of used ID's */
-  $ldap= $config->get_ldap_link();
+  $ldap = $config->get_ldap_link();
   $ldap->cd($config->current['BASE']);
 
   /* Remove used uids and watch out for id tags */
-  $ret= array();
-  foreach($proposed as $uid){
-
+  $ret = array();
+  foreach ($proposed as $uid) {
     /* Check for id tag and modify uid if needed */
-    if(preg_match('/\{id(:|!)\d+}/',$uid, $m)){
-      $size= preg_replace('/^.*{id(:|!)(\d+)}.*$/', '\\2', $uid);
+    if (preg_match('/\{id(:|!)(\d+)}/',$uid, $m)) {
+      $size = $m[2];
 
-      $start= $m[1]==":"?0:-1;
-      for ($i= $start, $p= pow(10,$size)-1; $i < $p; $i++){
+      $start = ($m[1] == ":"?0:-1);
+      for ($i = $start, $p = pow(10, $size)-1; $i < $p; $i++) {
         if ($i == -1) {
-          $number= "";
+          $number = "";
         } else {
-          $number= sprintf("%0".$size."d", $i+1);
+          $number = sprintf("%0".$size."d", $i+1);
         }
-        $res= preg_replace('/{id(:|!)\d+}/', $number, $uid);
+        $res = preg_replace('/{id(:|!)\d+}/', $number, $uid);
 
         $ldap->search("(uid=".preg_replace('/[{}]/', '', $res).")",array('dn'));
-        if($ldap->count() == 0){
-          $uid= $res;
+        if ($ldap->count() == 0) {
+          $uid = $res;
           break;
         }
       }
 
       /* Remove link if nothing has been found */
-      $uid= preg_replace('/{id(:|!)\d+}/', '', $uid);
+      $uid = preg_replace('/{id(:|!)\d+}/', '', $uid);
     }
 
-    if(preg_match('/\{id#\d+}/',$uid)){
-      $size= preg_replace('/^.*{id#(\d+)}.*$/', '\\1', $uid);
+    if (preg_match('/\{id#\d+}/', $uid)) {
+      $size = preg_replace('/^.*{id#(\d+)}.*$/', '\\1', $uid);
 
-      while (true){
+      while (TRUE) {
         mt_srand((double) microtime()*1000000);
-        $number= sprintf("%0".$size."d", mt_rand(0, pow(10, $size)-1));
-        $res= preg_replace('/{id#(\d+)}/', $number, $uid);
+        $number = sprintf("%0".$size."d", mt_rand(0, pow(10, $size)-1));
+        $res    = preg_replace('/{id#(\d+)}/', $number, $uid);
         $ldap->search("(uid=".preg_replace('/[{}]/', '', $res).")",array('dn'));
-        if($ldap->count() == 0){
-          $uid= $res;
+        if ($ldap->count() == 0) {
+          $uid = $res;
           break;
         }
       }
 
       /* Remove link if nothing has been found */
-      $uid= preg_replace('/{id#\d+}/', '', $uid);
+      $uid = preg_replace('/{id#\d+}/', '', $uid);
     }
 
     /* Don't assign used ones */
     $ldap->search("(uid=".preg_replace('/[{}]/', '', $uid).")",array('dn'));
-    if($ldap->count() == 0){
+    if ($ldap->count() == 0) {
       /* Add uid, but remove {} first. These are invalid anyway. */
-      $ret[]= preg_replace('/[{}]/', '', $uid);
+      $ret[] = preg_replace('/[{}]/', '', $uid);
     }
   }
 
-  return(array_unique($ret));
+  return array_unique($ret);
 }
 
 
@@ -2544,35 +2555,35 @@ function scan_directory($path,$sort_desc=false)
  */
 function clean_smarty_compile_dir($directory)
 {
-  if(is_dir($directory) && is_readable($directory)) {
+  if (is_dir($directory) && is_readable($directory)) {
     // Set revision filename to REVISION
-    $revision_file= $directory."/REVISION";
+    $revision_file = $directory."/REVISION";
 
     /* Is there a stamp containing the current revision? */
-    if(!file_exists($revision_file)) {
-      // create revision file
-      create_revision($revision_file, FD_VERSION);
-    } else {
-      # check for "$config->...['CONFIG']/revision" and the
-      # contents should match the revision number
-      if(!compare_revision($revision_file, FD_VERSION)){
+    if (file_exists($revision_file)) {
+      // check for "$config->...['CONFIG']/revision" and the
+      // contents should match the revision number
+      if (!compare_revision($revision_file, FD_VERSION)) {
         // If revision differs, clean compile directory
-        foreach(scan_directory($directory) as $file) {
-          if(($file==".")||($file=="..")) continue;
-          if( is_file($directory."/".$file) &&
-              is_writable($directory."/".$file)) {
+        foreach (scan_directory($directory) as $file) {
+          if (($file == ".") || ($file == "..")) {
+            continue;
+          }
+          if (is_file($directory."/".$file)) {
             // delete file
-            if(!unlink($directory."/".$file)) {
-              msg_dialog::display(_("Internal error"), sprintf(_("File '%s' could not be deleted."), $directory."/".$file), ERROR_DIALOG);
-              // This should never be reached
+            if (!unlink($directory."/".$file)) {
+              msg_dialog::display(_("Internal error"), sprintf(_("File '%s' could not be deleted. Try fusiondirectory-setup --check-directories to fix permissions."), $directory."/".$file), ERROR_DIALOG);
             }
           }
         }
-        // We should now create a fresh revision file
-        clean_smarty_compile_dir($directory);
       } else {
         // Revision matches, nothing to do
       }
+    }
+    /* If the file does not exists or has just been deleted */
+    if (!file_exists($revision_file)) {
+      // create revision file
+      create_revision($revision_file, FD_VERSION);
     }
   } else {
     // Smarty compile dir is not accessible
@@ -2902,20 +2913,20 @@ function check_schema($cfg,$rfc2307bis = FALSE)
   /* The FusionDirectory base schema */
   $checks['gosaObject'] = $def_check;
   $checks['gosaObject']['REQUIRED_VERSION'] = "2.6.1";
-  $checks['gosaObject']['SCHEMA_FILES']     = array("gosa-samba3.schema");
+  $checks['gosaObject']['SCHEMA_FILES']     = array("core-fd.schema");
   $checks['gosaObject']['CLASSES_REQUIRED'] = array("gosaObject");
   $checks['gosaObject']['IS_MUST_HAVE']     = TRUE;
 
   /* FusionDirectory Account class */
   $checks["gosaAccount"]["REQUIRED_VERSION"]= "2.6.6";
-  $checks["gosaAccount"]["SCHEMA_FILES"]    = array("gosa-samba3.schema");
+  $checks["gosaAccount"]["SCHEMA_FILES"]    = array("core-fd.schema");
   $checks["gosaAccount"]["CLASSES_REQUIRED"]= array("gosaAccount");
   $checks["gosaAccount"]["IS_MUST_HAVE"]    = TRUE;
   $checks["gosaAccount"]["INFO"]            = _("Used to store account specific informations.");
 
   /* FusionDirectory lock entry, used to mark currently edited objects as 'in use' */
   $checks["gosaLockEntry"]["REQUIRED_VERSION"] = "2.6.1";
-  $checks["gosaLockEntry"]["SCHEMA_FILES"]     = array("gosa-samba3.schema");
+  $checks["gosaLockEntry"]["SCHEMA_FILES"]     = array("core-fd.schema");
   $checks["gosaLockEntry"]["CLASSES_REQUIRED"] = array("gosaLockEntry");
   $checks["gosaLockEntry"]["IS_MUST_HAVE"]     = TRUE;
   $checks["gosaLockEntry"]["INFO"]             = _("Used to lock currently edited entries to avoid multiple changes at the same time.");
@@ -2924,26 +2935,7 @@ function check_schema($cfg,$rfc2307bis = FALSE)
   foreach(array(
         "gosaCacheEntry"        => array("version" => "2.6.1", "class" => "gosaAccount"),
         "gosaDepartment"        => array("version" => "2.6.1", "class" => "gosaAccount"),
-        "goFaxAccount"          => array("version" => "1.0.4", "class" => "gofaxAccount","file" => "gofax.schema"),
-        "goFaxSBlock"           => array("version" => "1.0.4", "class" => "gofaxAccount","file" => "gofax.schema"),
-        "goFaxRBlock"           => array("version" => "1.0.4", "class" => "gofaxAccount","file" => "gofax.schema"),
         "gosaUserTemplate"      => array("version" => "2.6.1", "class" => "posixAccount","file" => "nis.schema"),
-        "gosaMailAccount"       => array("version" => "2.6.1", "class" => "mailAccount","file" => "gosa-samba3.schema"),
-        "gosaProxyAccount"      => array("version" => "2.6.1", "class" => "proxyAccount","file" => "gosa-samba3.schema"),
-        "gosaApplication"       => array("version" => "2.6.1", "class" => "appgroup","file" => "gosa.schema"),
-        "gosaApplicationGroup"  => array("version" => "2.6.1", "class" => "appgroup","file" => "gosa.schema"),
-        "GOhard"                => array("version" => "2.6.1", "class" => "terminals","file" => "goto.schema"),
-        "gotoTerminal"          => array("version" => "2.6.1", "class" => "terminals","file" => "goto.schema"),
-        "goServer"              => array("version" => "2.6.1", "class" => "server","file" => "goserver.schema"),
-        "goTerminalServer"      => array("version" => "2.6.1", "class" => "terminals","file" => "goto.schema"),
-        "goShareServer"         => array("version" => "2.6.1", "class" => "terminals","file" => "goto.schema"),
-        "goNtpServer"           => array("version" => "2.6.1", "class" => "terminals","file" => "goto.schema"),
-        "goSyslogServer"        => array("version" => "2.6.1", "class" => "terminals","file" => "goto.schema"),
-        "goLdapServer"          => array("version" => "2.6.1", "class" => "goServer"),
-        "goCupsServer"          => array("version" => "2.6.1", "class" => array("posixAccount", "terminals"),),
-        "goImapServer"          => array("version" => "2.6.1", "class" => array("mailAccount", "mailgroup"),"file" => "gosa-samba3.schema"),
-        "goKrbServer"           => array("version" => "2.6.1", "class" => "goServer"),
-        "goFaxServer"           => array("version" => "2.6.1", "class" => "gofaxAccount","file" => "gofax.schema"),
         ) as $name => $values){
 
           $checks[$name] = $def_check;
@@ -2984,7 +2976,7 @@ function check_schema($cfg,$rfc2307bis = FALSE)
   /* The FusionDirectory base schema */
   $checks['posixGroup'] = $def_check;
   $checks['posixGroup']['REQUIRED_VERSION'] = "2.6.1";
-  $checks['posixGroup']['SCHEMA_FILES']     = array("gosa-samba3.schema");
+  $checks['posixGroup']['SCHEMA_FILES']     = array("core-fd.schema");
   $checks['posixGroup']['CLASSES_REQUIRED'] = array("posixGroup");
   $checks['posixGroup']['STATUS']           = TRUE;
   $checks['posixGroup']['IS_MUST_HAVE']     = TRUE;
@@ -3014,7 +3006,7 @@ function check_schema($cfg,$rfc2307bis = FALSE)
  *
  * \param boolean $languages_in_own_language FALSE
  *
- * \param boolean $strip_region_tag FALSEfunction
+ * \param boolean $strip_region_tag FALSE
  */
 function get_languages($languages_in_own_language = FALSE, $strip_region_tag = FALSE)
 {
@@ -3093,6 +3085,33 @@ function get_post($name)
   return(validate($_POST[$name]));
 }
 
+/*!
+ * \brief Run htmlentities on the var, or on its members if it's an array. Ignore booleans.
+ *
+ * \param string $name the var to escape
+ *
+ * \return string
+ */
+function htmlencode($value)
+{
+  // Take care of array, recursivly convert each array entry.
+  if (is_array($value)) {
+    foreach ($value as $key => $val) {
+      $value[$key] = htmlencode($val);
+    }
+    return $value;
+  }
+
+  // Do not touch boolean values, we may break them.
+  if ($value === TRUE || $value === FALSE ) {
+    return $value;
+  }
+
+  // Return a fixed string which can then be used in HTML fields without
+  // breaking the layout or the values. This allows to use '"<> in input fields.
+  return htmlentities($value, ENT_QUOTES, 'utf-8');
+}
+
 
 /*!
  * \brief Return class name in correct case
@@ -3152,7 +3171,12 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
   }
 
   // Detect the encryption Method
-  if ( (isset($attrs['userPassword'][0]) &&  preg_match ("/^{([^}]+)}(.+)/", $attrs['userPassword'][0], $matches)) ||  $hash != ""){
+  if ($config->get_cfg_value("forcePasswordDefaultHash") == "true"){
+    // if forcePasswordDefaultHash is true we use the passwordDefaultHash
+    // hash and if it is not defined we use 'crypt/md5' as default
+    $hash = $config->get_cfg_value("passwordDefaultHash", "crypt/md5");
+    $test = new $available[$hash]($config, $dn);
+  } elseif ( (isset($attrs['userPassword'][0]) &&  preg_match ("/^{([^}]+)}(.+)/", $attrs['userPassword'][0], $matches)) ||  $hash != ""){
 
     /* Check for supported algorithm */
     mt_srand((double) microtime()*1000000);
@@ -3195,9 +3219,7 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
     if ($mode == 0) {
       if ($test->need_password()) {
         // Create SMB Password
-        if ($config->get_cfg_value('sambaHashHook', NULL)) {
-          $attrs = generate_smb_nt_hash($password);
-        }
+        $attrs = generate_smb_nt_hash($password);
       } else {
         $attrs['sambaLMPassword']       = array();
         $attrs['sambaNTPassword']       = array();
@@ -3266,25 +3288,15 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
 function generate_smb_nt_hash($password)
 {
   global $config;
-
-  $tmp = $config->get_cfg_value('sambaHashHook')." ".escapeshellarg($password);
-  @DEBUG (DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $tmp, "Execute");
-
-  exec($tmp, $ar);
-  flush();
-  reset($ar);
-  $hash = current($ar);
-
-  if ($hash == "") {
-    msg_dialog::display(_("Configuration error"), sprintf(_("Cannot generate samba hash: running '%s' failed, check the 'sambaHashHook'!"),$config->get_cfg_value('sambaHashHook')), ERROR_DIALOG);
-    return "";
+  $smbHash = new smbHash();
+  if ($config->get_cfg_value("sambaGenLMPassword", "FALSE") == "TRUE") {
+    $attrs['sambaLMPassword'] = $smbHash->lmhash($password);
+  } else {
+    $attrs['sambaLMPassword'] = array();
   }
-
-  list($lm,$nt) = explode(":", trim($hash));
-
-  $attrs['sambaLMPassword'] = $lm;
-  $attrs['sambaNTPassword'] = $nt;
+  $attrs['sambaNTPassword'] = $smbHash->nthash($password);
   $attrs['sambaPwdLastSet'] = date('U');
+
   $attrs['sambaBadPasswordCount'] = "0";
   $attrs['sambaBadPasswordTime']  = "0";
   return $attrs;
@@ -3838,5 +3850,15 @@ function reset_errors()
   session::set('LastError',"");
 }
 
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
+/*!
+ * \brief Convert dos linebreak to unix ones
+ *
+ * \param string $str
+ *
+ * \return Return the string with linebreak converted into unix mode
+ */
+function fix_dos_linebreaks($str)
+{
+    return preg_replace('/\\r\\n/', "\n", $str);
+}
 ?>

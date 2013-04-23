@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -59,8 +59,8 @@ setlocale(LC_ALL, $lang);
 $GLOBALS['t_language']= $lang;
 $GLOBALS['t_gettext_message_dir'] = $BASE_DIR.'/locale/';
 
-/* Set the text domain as 'messages' */
-$domain = 'messages';
+/* Set the text domain as 'fusiondirectory' */
+$domain = 'fusiondirectory';
 bindtextdomain($domain, LOCALE_DIR);
 textdomain($domain);
 
@@ -81,7 +81,7 @@ if (isset($_GET['request'])){
   session::destroy ();
 
   /* If we're not using htaccess authentication, just redirect... */
-  if (isset($config) && $config->get_cfg_value("htaccessAuthentication") == "true"){
+  if (isset($config) && $config->get_cfg_value("htaccessAuthentication") == "TRUE"){
 
     /* Else notice that the user has to close the browser... */
     $smarty->assign("usePrototype", "false");

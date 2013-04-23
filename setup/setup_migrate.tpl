@@ -53,60 +53,12 @@
       <br>
       <input type='submit' name='rootOC_migrate_start' value='{t}Migrate{/t}'>
       </p>
-        
 
-      <p class='seperator'>&nbsp;</p> 
+
+      <p class='seperator'>&nbsp;</p>
       <div style='width:100%; text-align:right; padding:5px;'>
         <input type='submit' name='rootOC_dialog_cancel' value='{t}Close{/t}'>
       </div>
-
-    {elseif $method == "outside_winstations"}
-
-      <h2>{t}Move windows workstations into a valid windows workstation department{/t}</h2>
-
-      {t}This dialog allows you to move the displayed windows workstations into a valid department{/t}
-      <br>
-      {t}Be careful with this tool, there may be references pointing to this workstations that can't be migrated.{/t}
-      <br>
-      <br>  
-
-      {foreach from=$outside_winstations item=val key=key}
-        {if $outside_winstations.$key.selected}
-          <input id='select_winstation_{$key}' type='checkbox' name='select_winstation_{$key}' checked>
-        {else}
-          <input id='select_winstation_{$key}' type='checkbox' name='select_winstation_{$key}'>
-        {/if}
-
-        &nbsp;{$outside_winstations.$key.dn}
-        {if $outside_winstations.$key.ldif != ""}
-                    <div class="step2_entry_container_info" id="sol_8">
-            <div style='padding-left:20px;'>
-              <pre>
-                {$outside_winstations.$key.ldif}
-              </pre>
-            </div>
-          </div>
-        {/if}
-        <br>
-      {/foreach}
-      <input type='checkbox' id='toggle_calue' onClick="toggle_all_('^select_winstation_','toggle_calue')">
-      {t}Select all{/t}
-      <p>
-      <b>{t}Move selected windows workstations into the following FusionDirectory department{/t} : </b>
-      <select name='move_winstation_to'>
-        {html_options options=$ous}
-      </select>
-      <br>
-      <input type='submit' name='outside_winstations_dialog_perform' value='{t}Move selected workstations{/t}'>
-      <input type='submit' name='outside_winstations_dialog_whats_done' value='{t}What will be done here{/t}'>
-      </p>
-        
-
-      <p class='seperator'>&nbsp;</p> 
-      <div style='width:100%; text-align:right; padding:5px;'>
-        <input type='submit' name='outside_winstations_dialog_cancel' value='{t}Close{/t}'>
-      </div>
-    
 
     {elseif $method == "outside_groups"}
 
@@ -119,7 +71,7 @@
                         {t}Be careful with this option! There may be references pointing to these groups. The FusionDirectory setup can't migrate references, so you may want to cancel the migration in this case.{/t}
                         </p>
       <p>
-      {t}Move selected groups into this group tree{/t}: 
+      {t}Move selected groups into this group tree{/t}:
       <select name='move_group_to'>
         {html_options options=$ous}
       </select>
@@ -156,13 +108,13 @@
                         {/if}
       </p>
 
-      <p class='seperator'>&nbsp;</p> 
+      <p class='seperator'>&nbsp;</p>
       <div style='width:99%; text-align:right; padding:5px;'>
         <input type='submit' name='outside_groups_dialog_perform' value='{t}Apply{/t}'>
         &nbsp;
         <input type='submit' name='outside_groups_dialog_cancel' value='{t}Cancel{/t}'>
       </div>
-    
+
     {elseif $method == "outside_users"}
 
       <h2>{t}Move users into configured user tree{/t}</h2>
@@ -171,9 +123,9 @@
       </p>
       <p style='color:red'>
       {t}Be careful with this option! There may be references pointing to these users. The FusionDirectory setup can't migrate references, so you may want to cancel the migration in this case.{/t}
-      </p>  
+      </p>
       <p>
-      {t}Move selected users into this people tree{/t}: 
+      {t}Move selected users into this people tree{/t}:
       <select name='move_user_to'>
         {html_options options=$ous}
       </select>
@@ -207,21 +159,21 @@
       <input type='submit' name='outside_users_dialog_whats_done' value='{t}Show changes{/t}'>
       {/if}
 
-      <p class='seperator'>&nbsp;</p> 
+      <p class='seperator'>&nbsp;</p>
       <div style='width:99%; text-align:right; padding:5px;'>
         <input type='submit' name='outside_users_dialog_perform' value='{t}Apply{/t}'>
         &nbsp;
         <input type='submit' name='outside_users_dialog_cancel' value='{t}Cancel{/t}'>
       </div>
-    
+
 
     {elseif $method == "migrate_acls"}
       <h2>{t}Migrate GOsa 2.5 administrative accounts{/t}</h2>
             <p>
             {t}This dialog allows the migration of GOsa 2.5 admin accounts into FusionDirectory 1.0 useable accounts.{/t}
             </p>
-      <table> 
-        <tr>  
+      <table>
+        <tr>
           <td></td>
           <td></td>
         </tr>
@@ -255,9 +207,9 @@
       {/if}
 
       <input type='submit' value="{t}Reload{/t}">
-      <p class='seperator'>&nbsp;</p> 
+      <p class='seperator'>&nbsp;</p>
       <div style='width:99%; text-align:right; padding:5px;'>
-        <input type='submit' name='migrate_admin_user' value='{t}Apply{/t}'>  
+        <input type='submit' name='migrate_admin_user' value='{t}Apply{/t}'>
         <input type='submit' name='migrate_acls_cancel' value='{t}Cancel{/t}'>
       </div>
 
@@ -268,12 +220,12 @@
 <pre>
 {$what_will_be_done_now}
 </pre>
-      </div>    
+      </div>
       <input type='submit' name='create_acls_create_confirmed' value='{t}Next{/t}'>
       <input type='submit' name='create_acls_create_abort' value='{t}Abort{/t}'>
     {else}
       <h2>{t}Create a new FusionDirectory administrator account{/t}</h2>
-  
+
       <p>
       {t}This dialog will automatically add a new super administrator to your LDAP tree.{/t}
       </p>
@@ -312,7 +264,7 @@
           </td>
         </tr>
       </table>
-  
+
 <!-- Place cursor -->
 <script language="JavaScript" type="text/javascript">
   <!-- // First input field on page
@@ -320,19 +272,19 @@
   -->
 </script>
 
-      <p class='seperator'>&nbsp;</p> 
+      <p class='seperator'>&nbsp;</p>
       <div style='width:99%; text-align:right; padding:5px;'>
-        <input type='submit' name='create_admin_user' value='{t}Apply{/t}'> 
+        <input type='submit' name='create_admin_user' value='{t}Apply{/t}'>
         <input type='submit' name='create_acls_cancel' value='{t}Cancel{/t}'>
       </div>
-      {/if} 
+      {/if}
     {elseif $method == "migrate_deps"}
-  
+
       <h2>Department migration</h2>
 
       <p>{t}The listed departments are currently invisible in the FusionDirectory user interface. If you want to change this for a couple of entries, select them and use the migrate button below.{/t}</p>
       <p>{t}If you want to know what will be done when migrating the selected entries, use the 'Show changes' button to see the LDIF.{/t}</p>
-          
+
       {foreach from=$deps_to_migrate item=val key=key}
 
         {if $deps_to_migrate.$key.checked}
@@ -361,7 +313,7 @@ dn: {$deps_to_migrate.$key.dn}
           <input id='migrate_{$key}' type='checkbox' name='migrate_{$key}'>
           {$deps_to_migrate.$key.dn}
         {/if}
-        
+
       <br>
       {/foreach}
       <input type='checkbox' id='toggle_calue' onClick="toggle_all_('^migrate_','toggle_calue')">
@@ -374,7 +326,7 @@ dn: {$deps_to_migrate.$key.dn}
       <input type='submit' name='deps_visible_migrate_whatsdone' value='{t}Show changes{/t}'>
       {/if}
 
-      <p class='seperator'>&nbsp;</p> 
+      <p class='seperator'>&nbsp;</p>
 
       <div style='width:99%; text-align:right; padding:5px;'>
         <input type='submit' name='deps_visible_migrate_migrate' value='{t}Apply{/t}'>
@@ -382,7 +334,7 @@ dn: {$deps_to_migrate.$key.dn}
         <input type='submit' name='deps_visible_migrate_close' value='{t}Cancel{/t}'>
       </div>
     {elseif $method == "migrate_users"}
-  
+
       <h2>User migration</h2>
 
       <p>{t}The listed users are currently invisible in the FusionDirectory user interface. If you want to change this for a couple of users, just select them and use the 'Migrate' button below.{/t}</p>
@@ -427,7 +379,7 @@ dn: {$users_to_migrate.$key.dn}
       <input type='submit' name='users_visible_migrate_whatsdone' value='{t}Show changes{/t}'>
       {/if}
 
-      <p class='seperator'>&nbsp;</p> 
+      <p class='seperator'>&nbsp;</p>
 
       <div style='width:99%; text-align:right; padding-top:5px;'>
         <input type='submit' name='users_visible_migrate_migrate' value='{t}Apply{/t}'>
@@ -446,14 +398,14 @@ dn: {$users_to_migrate.$key.dn}
     {foreach from=$devices item=item key=key}
             <input type='checkbox' name='migrate_{$key}' id='migrate_{$key}' {if $item.DETAILS} checked {/if}>
         <b>{$item.DEVICE_NAME}</b>
-         - {$item.DN} 
+         - {$item.DN}
 
         {if $item.DETAILS && $device_details}
           <div class="step2_entry_container_info">
             <b>{t}Current{/t}</b>
             <pre>{$item.CURRENT}</pre>
-  
-            
+
+
             <b>{t}After migration{/t}</b>
             <pre>{$item.AFTER}</pre>
           </div>
@@ -462,7 +414,7 @@ dn: {$users_to_migrate.$key.dn}
     {/foreach}
     <input type='checkbox' id='toggle_calue' onClick="toggle_all_('^migrate_','toggle_calue')">
     {t}Select all{/t}
-  
+
     <br>
 
     {if $device_details}
@@ -472,7 +424,7 @@ dn: {$users_to_migrate.$key.dn}
       <input type='submit' name='device_dialog_whats_done' value='{t}Show changes{/t}'>
     {/if}
 
-    <p class='seperator'>&nbsp;</p> 
+    <p class='seperator'>&nbsp;</p>
 
     <div style='width:99%; text-align:right; padding-top:5px;'>
       <input type='submit' name='migrate_devices' value='{t}Apply{/t}'>
@@ -495,8 +447,8 @@ dn: {$users_to_migrate.$key.dn}
           <div class="step2_entry_container_info">
             <b>{t}Current{/t}</b>
             <pre>{$item.CURRENT}</pre>
-  
-            
+
+
             <b>{t}After migration{/t}</b>
             <pre>{$item.AFTER}</pre>
           </div>
@@ -505,7 +457,7 @@ dn: {$users_to_migrate.$key.dn}
     {/foreach}
     <input type='checkbox' id='toggle_calue' onClick="toggle_all_('^migrate_','toggle_calue')">
     {t}Select all{/t}
-  
+
     <br>
 
     {if $service_details}
@@ -515,7 +467,7 @@ dn: {$users_to_migrate.$key.dn}
       <input type='submit' name='service_dialog_whats_done' value='{t}Show changes{/t}'>
     {/if}
 
-    <p class='seperator'>&nbsp;</p> 
+    <p class='seperator'>&nbsp;</p>
 
     <div style='width:99%; text-align:right; padding-top:5px;'>
       <input type='submit' name='migrate_services' value='{t}Apply{/t}'>
@@ -539,8 +491,8 @@ dn: {$users_to_migrate.$key.dn}
           <div class="step2_entry_container_info">
             <b>{t}Current{/t}</b>
             <pre>{$item.CURRENT}</pre>
-  
-            
+
+
             <b>{t}After migration{/t}</b>
             <pre>{$item.AFTER}</pre>
           </div>
@@ -549,7 +501,7 @@ dn: {$users_to_migrate.$key.dn}
     {/foreach}
     <input type='checkbox' id='toggle_calue' onClick="toggle_all_('^migrate_','toggle_calue')">
     {t}Select all{/t}
-  
+
     <br>
 
     {if $menu_details}
@@ -559,7 +511,7 @@ dn: {$users_to_migrate.$key.dn}
       <input type='submit' name='menu_dialog_whats_done' value='{t}Show changes{/t}'>
     {/if}
 
-    <p class='seperator'>&nbsp;</p> 
+    <p class='seperator'>&nbsp;</p>
 
     <div style='width:99%; text-align:right; padding-top:5px;'>
       <input type='submit' name='migrate_menus' value='{t}Apply{/t}'>

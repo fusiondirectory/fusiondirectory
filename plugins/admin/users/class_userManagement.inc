@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -22,44 +22,54 @@
 
 class userManagement extends management
 {
-  var $plHeadline     = "Users";
-  var $plDescription  = "Manage users";
-  var $plIcon  = "plugins/users/images/user.png";
-
-  var $sn = "";
-  var $givenName = "";
-  var $uid = "";
-  var $got_uid = "";
-  var $edit_uid = "";
+  var $sn         = "";
+  var $givenName  = "";
+  var $uid        = "";
+  var $got_uid    = "";
+  var $edit_uid   = "";
 
   var $pwd_change_queue = array();
-  var $force_hash_type = array();
+  var $force_hash_type  = array();
 
   // Tab definition
-  protected $tabClass = "usertabs";
-  protected $tabType = "USERTABS";
-  protected $aclCategory = "users";
-  protected $aclPlugin   = "user";
+  protected $tabClass     = "usertabs";
+  protected $tabType      = "USERTABS";
+  protected $aclCategory  = "users";
+  protected $aclPlugin    = "user";
   protected $objectName   = "user";
 
-  protected $proposal = "";
-  protected $proposalEnabled = FALSE;
+  protected $proposal         = "";
+  protected $proposalEnabled  = FALSE;
   protected $proposalSelected = FALSE;
 
-  protected $passwordChangeForceable = FALSE;
-  protected $enforcePasswordChange = FALSE;
+  protected $passwordChangeForceable  = FALSE;
+  protected $enforcePasswordChange    = FALSE;
 
+  /* Return plugin informations for acl handling */
+  static function plInfo()
+  {
+    return array(
+      "plShortName"   => _("Users"),
+      "plDescription" => _("Manage users"),
+      "plIcon"        => "plugins/users/images/icon.png",
+      "plSection"     => "admin",
+      "plCategory"    => array("users"),
+      "plPriority"    => 1,
 
-  function __construct($config,$ui)
+      "plProvidedAcls" => array()
+    );
+  }
+
+  function __construct($config, $ui)
   {
     $this->config = $config;
-    $this->ui = $ui;
+    $this->ui     = $ui;
 
     $this->storagePoints = array(get_ou("userRDN"));
 
     // Build filter
-    if (session::global_is_set(get_class($this)."_filter")){
-      $filter= session::global_get(get_class($this)."_filter");
+    if (session::global_is_set(get_class($this)."_filter")) {
+      $filter = session::global_get(get_class($this)."_filter");
     } else {
       $filter = new filter(get_template_path("user-filter.xml", true));
       $filter->setObjectStorage($this->storagePoints);
@@ -73,46 +83,50 @@ class userManagement extends management
     $headpage->registerElementFilter("filterProperties", "userManagement::filterProperties");
     $headpage->setFilter($filter);
 
-    // Add copy&paste and snapshot handler.
-    if ($this->config->boolValueIsTrue("main", "copyPaste")){
-      $this->cpHandler = new CopyPasteHandler($this->config);
-    }
-    if($this->config->get_cfg_value("enableSnapshots") == "true"){
-      $this->snapHandler = new SnapshotHandler($this->config);
-    }
-
     parent::__construct($config, $ui, "users", $headpage);
 
     // Register special user actions
-    $this->registerAction("lock",   "lockEntry");
-    $this->registerAction("lockUsers",   "lockUsers");
-    $this->registerAction("unlockUsers", "lockUsers");
+    $this->registerAction("lock",         "lockEntry");
+    $this->registerAction("lockUsers",    "lockUsers");
+    $this->registerAction("unlockUsers",  "lockUsers");
     $this->registerAction("new_template", "newTemplate");
-    $this->registerAction("newfromtpl", "newUserFromTemplate");
-    $this->registerAction("templateContinue", "templateContinue");
-    $this->registerAction("templatize", "templatizeUsers");
+    $this->registerAction("newfromtpl",   "newUserFromTemplate");
+
+    $this->registerAction("templateContinue",   "templateContinue");
+    $this->registerAction("templatize",         "templatizeUsers");
     $this->registerAction("templatizeContinue", "templatizeContinue");
 
-    $this->registerAction("password", "changePassword");
-    $this->registerAction("passwordQueue", "handlePasswordQueue");
+    $this->registerAction("password",       "changePassword");
+    $this->registerAction("passwordQueue",  "handlePasswordQueue");
     $this->registerAction("passwordCancel", "closeDialogs");
 
     // Register shortcut icon actions
-    $this->registerAction("edit_user","editEntry");
-    $this->registerAction("edit_posixAccount","editEntry");
-    $this->registerAction("edit_mailAccount","editEntry");
-    $this->registerAction("edit_sambaAccount","editEntry");
-    $this->registerAction("edit_netatalk","editEntry");
-    $this->registerAction("edit_environment","editEntry");
-    $this->registerAction("edit_gofaxAccount","editEntry");
-    $this->registerAction("edit_phoneAccount","editEntry");
+    foreach ($config->data['TABS']['USERTABS'] as $plug) {
+      if (class_available($plug['CLASS'])) {
+        $this->registerAction("edit_".$plug['CLASS'], "editEntry");
+      }
+    }
+    if (!class_available('mailAccount')) {
+      /* If mail plugin is not installed, ignore mail filter */
+      $this->filter->elements['MAIL']['unset']      = '';
+      $this->filter->elements['MAIL']['set']        = '';
+      /* The FUNCTIONAL filter must not use inexisting gosaMailAccount class */
+      $this->filter->elements['FUNCTIONAL']['set']  = '(!(|(objectClass=posixAccount)(objectClass=sambaSamAccount)))';
+    }
+  }
+
+  function renderList ()
+  {
+    $smarty = get_smarty();
+    $smarty->assign('USE_MAIL', class_available('mailAccount'));
+    return parent::renderList();
   }
 
 
   function refreshProposal()
   {
-    $this->proposal = passwordMethod::getPasswordProposal($this->config);
-    $this->proposalEnabled = (!empty($this->proposal));
+    $this->proposal         = passwordMethod::getPasswordProposal($this->config);
+    $this->proposalEnabled  = (!empty($this->proposal));
   }
 
 
@@ -120,27 +134,33 @@ class userManagement extends management
   function detectPostActions()
   {
     $action = management::detectPostActions();
-    if(isset($_POST['template_continue'])) $action['action'] = "templateContinue";
-    if(isset($_POST['templatize_continue'])) $action['action'] = "templatizeContinue";
-    if(isset($_POST['password_cancel'])){
+    if(isset($_POST['template_continue'])) {
+      $action['action'] = "templateContinue";
+    }
+    if(isset($_POST['templatize_continue'])) {
+      $action['action'] = "templatizeContinue";
+    }
+    if (isset($_POST['password_cancel'])) {
       $action['action'] = "passwordCancel";
-    }elseif((count($this->pwd_change_queue) || isset($_POST['password_finish']) || isset($_POST['refreshProposal']))){
+    } elseif((count($this->pwd_change_queue) || isset($_POST['password_finish']) || isset($_POST['refreshProposal']))) {
       $action['action'] = "passwordQueue";
     }
-    return($action);
+    return $action;
   }
 
 
-  function editEntry($action="",$target=array(),$all=array(), $altTabClass ="", $altTabType = "", $altAclCategory="")
+  function editEntry($action = "", $target = array(), $all = array(), $altTabClass = "", $altTabType = "", $altAclCategory = "")
   {
-    $str = management::editEntry($action,$target);
-    if($str) return($str);
+    $str = management::editEntry($action, $target);
+    if ($str) {
+      return $str;
+    }
 
-    if(preg_match("/^edit_/",$action)){
-      $tab = preg_replace("/^edit_/","",$action);
-      if(isset($this->tabObject->by_object[$tab])){
+    if (preg_match("/^edit_/", $action)) {
+      $tab = preg_replace("/^edit_/", "", $action);
+      if (isset($this->tabObject->by_object[$tab])) {
         $this->tabObject->current = $tab;
-      }else{
+      } else {
         trigger_error("Unknown tab: ".$tab);
       }
     }
@@ -247,29 +267,28 @@ class userManagement extends management
           $this->passwordChangeForceable =
               in_array('sambaAccount', $attrs['objectClass']) ||
               (in_array('posixAccount', $attrs['objectClass']) && isset($attrs['shadowMax']));
-          $smarty->assign("passwordChangeForceable" , $this->passwordChangeForceable);
-          $smarty->assign("enforcePasswordChange" , $this->enforcePasswordChange);
+          $smarty->assign("passwordChangeForceable", $this->passwordChangeForceable);
+          $smarty->assign("enforcePasswordChange", $this->enforcePasswordChange);
 
           // Assign proposal variables
-          $smarty->assign("proposal" , $this->proposal);
-          $smarty->assign("proposalEnabled" , $this->proposalEnabled);
-          $smarty->assign("proposalSelected" , $this->proposalSelected);
+          $smarty->assign("proposal",         $this->proposal);
+          $smarty->assign("proposalEnabled",  $this->proposalEnabled);
+          $smarty->assign("proposalSelected", $this->proposalSelected);
 
           set_object_info($this->dn);
-          return ($smarty->fetch(get_template_path('password.tpl', TRUE)));
+          return $smarty->fetch(get_template_path('password.tpl', TRUE));
       }
 
       // If we've just refreshed the proposal then do not check the password for validity.
-      if(isset($_POST['refreshProposal'])){
+      if (isset($_POST['refreshProposal'])) {
           return ($smarty->fetch(get_template_path('password.tpl', TRUE)));
       }
 
       // Check permissions
-      if(isset($_POST['password_finish'])){
-
-          $dn  = $this->dn;
-          $acl = $this->ui->get_permissions($dn, "users/password");
-          $cacl= $this->ui->get_permissions($dn, "users/user");
+      if (isset($_POST['password_finish'])) {
+          $dn   = $this->dn;
+          $acl  = $this->ui->get_permissions($dn, "users/password");
+          $cacl = $this->ui->get_permissions($dn, "users/user");
           if (preg_match('/w/', $acl) || preg_match('/c/', $cacl)){
 
               // Get posted passwords
@@ -366,8 +385,7 @@ class userManagement extends management
               }
 
               new log("modify","users/".get_class($this),$this->dn,array(),"Password has been changed");
-              $this->dn ="";
-
+              $this->dn = "";
           } else {
               msg_dialog::display(_("Password change"),
                       _("You have no permission to change this users password!"),
@@ -375,10 +393,10 @@ class userManagement extends management
           }
       }
       // Cleanup
-      if(!count($this->pwd_change_queue) && $this->dn=""){
+      if (!count($this->pwd_change_queue) && ($this->dn == "")) {
           $this->remove_lock();
           $this->closeDialogs();
-      }else{
+      } else {
           return($this->handlePasswordQueue());
       }
   }
@@ -394,6 +412,10 @@ class userManagement extends management
     $str = management::saveChanges();
 
     if (!empty($str)) return($str);
+    if (is_object($this->tabObject)) {
+      /* If tabObject still exists, it means there was some errors */
+      return "";
+    }
 
     if ($this->last_tabObject instanceOf multi_plug) {
       foreach($this->last_tabObject->a_handles as $user) {
@@ -551,7 +573,7 @@ class userManagement extends management
      * 2   There was a template selected, now ask for the uid.
      ********************/
 
-    if ($_POST['template'] != 'none' && !isset($_POST['uid'])){
+    if ($_POST['template'] != 'none' && !isset($_POST['uid'])) {
 
       // Remember user input.
       $smarty = get_smarty();
@@ -563,61 +585,71 @@ class userManagement extends management
       $ldap= $this->config->get_ldap_link();
       $ldap->cd ($dn);
       $ldap->search ("(&(sn=".normalizeLdap($this->sn).")(givenName=".normalizeLdap($this->givenName)."))", array("givenName"));
-      if ($ldap->count () != 0){
+      if ($ldap->count () != 0) {
         msg_dialog::displayChecks(array(msgPool::duplicated(_("Name"))));
-      }else{
+      } else {
 
         // Preset uid field by using the idGenerator
-        $attributes= array('sn' => $this->sn, 'givenName' => $this->givenName);
-        if ($this->config->get_cfg_value("idGenerator") != ""){
-          $uids= gen_uids ($this->config->get_cfg_value("idGenerator"), $attributes);
-          if (count($uids)){
+        $smarty->assign("edit_uid", "");
+        $this->uid = "";
+        $attributes = array('sn' => $this->sn, 'givenName' => $this->givenName);
+        if ($this->config->get_cfg_value("idGenerator") != "") {
+          $uids = gen_uids($this->config->get_cfg_value("idGenerator"), $attributes);
+          if (count($uids)) {
             $smarty->assign("edit_uid", "false");
             $smarty->assign("uids", $uids);
-            $this->uid= current($uids);
+            $this->uid = current($uids);
           }
         } else {
-          $smarty->assign("edit_uid", "");
-          $this->uid= "";
+          $ldap->cat($_POST['template']);
+          $attrs = $ldap->fetch();
+          if ($attrs['uid'][0] != user::$nouid) {
+            $uids = gen_uids($attrs['uid'][0], $attributes);
+            if (count($uids)) {
+              $smarty->assign("edit_uid", "false");
+              $smarty->assign("uids", $uids);
+              $this->uid = current($uids);
+            }
+          }
         }
-        $this->got_uid= true;
+        $this->got_uid = TRUE;
       }
 
       // Assign user input
-      foreach(array("sn", "givenName", "uid", "got_uid") as $attr){
+      foreach (array("sn", "givenName", "uid", "got_uid") as $attr) {
         $smarty->assign("$attr", $this->$attr);
       }
-      if (isset($_POST['template'])){
+      if (isset($_POST['template'])) {
         $smarty->assign("template", $_POST['template']);
       }
-      $smarty->assign("templates",$templates);
-      return($smarty->fetch(get_template_path('template.tpl', TRUE)));
+      $smarty->assign("templates", $templates);
+      return $smarty->fetch(get_template_path('template.tpl', TRUE));
     }
 
 
     /********************
      * 3   No template - Ok. Lets fill the data into the user object and skip templating here.
      ********************/
-    if ($_POST['template'] == 'none'){
-      foreach(array("sn", "givenName", "uid") as $attr){
-        if (isset($_POST[$attr])){
+    if ($_POST['template'] == 'none') {
+      foreach (array("sn", "givenName", "uid") as $attr) {
+        if (isset($_POST[$attr])) {
           $this->tabObject->by_object['user']->$attr= $_POST[$attr];
         }
       }
 
       // The user Tab object is already instantiated, so just go back and let the
       //  management class do the rest.
-      return("");
+      return "";
     }
 
 
     /********************
-     * 4   Template selected and uid given - Ok, then lets adapt tempalte values.
+     * 4   Template selected and uid given - Ok, then lets adapt template values.
      ********************/
-    if(isset($_POST['uid'])){
+    if (isset($_POST['uid'])) {
 
       // Move user supplied data to sub plugins
-      foreach(array("uid","sn","givenName") as $attr){
+      foreach (array("uid","sn","givenName") as $attr) {
         $this->$attr = $_POST[$attr];
         $this->tabObject->$attr       = $this->$attr;
         $this->tabObject->by_object['user']->$attr = $this->$attr;
@@ -627,7 +659,7 @@ class userManagement extends management
       $template_dn              = $_POST['template'];
       $this->tabObject->adapt_from_template($template_dn, array("uid","cn","givenName","sn"));
       $template_base            = preg_replace("/^[^,]+,".preg_quote(get_people_ou(), '/i')."/", '', $template_dn);
-      $this->tabObject->by_object['user']->base= $template_base;
+      $this->tabObject->by_object['user']->base = $template_base;
 
       // The user Tab object is already instantiated, so just go back and let the
       //  management class do the rest.
@@ -777,42 +809,42 @@ class userManagement extends management
    */
   function get_templates()
   {
-    $templates= array();
-    $ldap= $this->config->get_ldap_link();
-    foreach ($this->config->departments as $key => $value){
-      $acl = $this->ui->get_permissions($value,$this->aclCategory."/".$this->aclPlugin);
-      if (preg_match("/c/",$acl)){
-
+    $templates = array();
+    $ldap = $this->config->get_ldap_link();
+    foreach ($this->config->departments as $key => $value) {
+      $acl = $this->ui->get_permissions($value, $this->aclCategory."/".$this->aclPlugin);
+      if (preg_match("/c/",$acl)) {
         // Search all templates from the current dn.
-        $ldap->cd (get_people_ou().$value);
-        $ldap->search ("(objectClass=gosaUserTemplate)", array("uid"));
-        if ($ldap->count() != 0){
-          while ($attrs= $ldap->fetch()){
-            $templates[$ldap->getDN()]= $attrs['uid'][0]." - ".LDAP::fix($key);
+        $ldap->cd(get_people_ou().$value);
+        $ldap->search("(objectClass=gosaUserTemplate)", array('cn'));
+        if ($ldap->count() != 0) {
+          while ($attrs = $ldap->fetch()) {
+            $templates[$ldap->getDN()] = $attrs['cn'][0]." - ".LDAP::fix($key);
           }
         }
       }
     }
-    natcasesort ($templates);
-    reset ($templates);
-    return($templates);
+    natcasesort($templates);
+    reset($templates);
+    return $templates;
   }
 
 
-  function copyPasteHandler($action="",$target=array(),$all=array(),
-      $altTabClass ="", $altTabType = "", $altAclCategory="",$altAclPlugin="")
+  function copyPasteHandler($action = "", $target = array(), $all = array(),
+      $altTabClass = "", $altTabType = "", $altAclCategory = "", $altAclPlugin = "")
   {
-    if ($this->config->boolValueIsTrue("main", "copyPaste")){
-      $this->cpHandler->lastdn = "";
-      $str = management::copyPasteHandler($action,$target,$all);
-      if($this->cpHandler->lastdn != "" && isset($_POST['passwordTodo']) && $_POST['passwordTodo'] == "new"){
-        $this->pwd_change_queue[] = $this->cpHandler->lastdn;
-        return($this->handlePasswordQueue());
-      }
-      return($str);
+    // Return without any actions while copy&paste handler is disabled.
+    if (!is_object($this->cpHandler)) {
+      return FALSE;
     }
-
-    return "";
+    $str = management::copyPasteHandler($action, $target, $all);
+    if (isset($this->cpHandler->lastdn) && ($this->cpHandler->lastdn != "") &&
+        isset($_POST['passwordTodo']) &&
+        ($_POST['passwordTodo'] == "new")) {
+      $this->pwd_change_queue[] = $this->cpHandler->lastdn;
+      return $this->handlePasswordQueue();
+    }
+    return $str;
   }
 
 
@@ -844,55 +876,47 @@ class userManagement extends management
   }
 
 
-  static function filterProperties($row, $classes)
+  static function filterProperties($row, $dn)
   {
-    $result= "";
-    $map= array( "gosaAccount" => array( "image" => "plugins/users/images/select_user.png",
-                                         "plugin" => "user",
-                                         "alt" => _("Generic"),
-                                         "title" => _("Edit generic properties")),
-                 "posixAccount" => array("image" => "images/penguin.png",
-                                         "plugin" => "posixAccount",
-                                         "alt" => _("POSIX"),
-                                         "title" => _("Edit POSIX properties")),
-                 "gosaMailAccount" => array("image" => "images/mailto.png",
-                                         "alt" => _("Mail"),
-                                         "plugin" => "mailAccount",
-                                         "title" => _("Edit mail properties")),
-                 "sambaSamAccount" => array("image" => "plugins/systems/images/select_winstation.png",
-                                         "plugin" => "sambaAccount",
-                                         "alt" => _("Samba"),
-                                         "title" => _("Edit samba properties")),
-                 "apple-user" => array("image" => "plugins/netatalk/images/select_netatalk.png",
-                                         "plugin" => "netatalk",
-                                         "alt" => _("Netatalk"),
-                                         "title" => _("Edit netatalk properties")),
-                 "gotoEnvironment" => array("image" => "plugins/users/images/small_environment.png",
-                                         "plugin" => "environment",
-                                         "alt" => _("Environment"),
-                                         "title" => _("Edit environment properties")),
-                 "goFaxAccount" => array("image" => "plugins/users/images/fax_small.png",
-                                         "plugin" => "gofaxAccount",
-                                         "alt" => _("FAX"),
-                                         "title" => _("Edit FAX properties")),
-                 "goFonAccount" => array("image" => "plugins/gofon/images/select_phone.png",
-                                         "plugin" => "phoneAccount",
-                                         "alt" => _("Phone"),
-                                         "title" => _("Edit phone properties")));
+    global $config;
+    static $usertabs = array();
+    if (empty($usertabs)) {
+      foreach ($config->data['TABS']['USERTABS'] as $plug) {
+        if ($plug['CLASS'] == 'user') {
+          continue;
+        }
+        if (class_available($plug['CLASS'])) {
+          $name = $plug['CLASS'];
 
-    // Walk thru map
-    foreach ($map as $oc => $properties) {
-      if (in_array_ics($oc, $classes)) {
-        $result.="<input class='center' type='image' src='".$properties['image']."' ".
-                 "alt='".$properties['alt']."' title='".$properties['title'].
-                 "' name='listing_edit_".$properties['plugin']."_$row' style='padding:1px'>";
-      } else {
-        $result.="<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
+          $usertabs[$name] = new $name($config, $dn);
+        }
       }
     }
+
+    // Load information if needed
+    $ldap = $config->get_ldap_link();
+    $ldap->cat($dn);
+    $result = "<input class='center' type='image' src='plugins/users/images/iconMini.png' ".
+                       "alt='"._('Generic')."' title='"._("Generic properties")."' ".
+                       "name='listing_edit_user_$row' style='padding:1px'/>";
+    if ($attrs = $ldap->fetch()) {
+      foreach ($usertabs as $class => $usertab) {
+        if ($usertab->is_this_account($attrs)) {
+          $infos = pluglist::pluginInfos($class);
+          if (isset($infos['plSmallIcon'])) {
+            $result .= "<input class='center' type='image' src='".$infos['plSmallIcon']."' ".
+                       "alt='".$infos['plShortName']."' title='".$infos['plShortName']."' ".
+                       "name='listing_edit_".$class."_$row' style='padding:1px'/>";
+          } else {
+            @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['plShortName']." ($class)", "No icon for");
+          }
+        } else {
+          $result .= "<img src='images/empty.png' alt=' ' class='center $class' style='padding:1px'>";
+        }
+      }
+    }
+
     return $result;
   }
-
 }
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -149,7 +149,7 @@ class ogroup extends plugin
     foreach($res as $og){
       if($og['dn'] == $this->dn) continue;
       $test = array_intersect($ws_dns,$og['member']);
-      if(($og['gosaGroupObjects'] == "[W]" || $og['gosaGroupObjects'] == "[T]") && count($test)){
+      if(($og['gosaGroupObjects'][0] == "[W]" || $og['gosaGroupObjects'][0] == "[T]") && count($test)){
         $this->used_workstations = array_merge($this->used_workstations,$test);
       }
     }
@@ -192,7 +192,23 @@ class ogroup extends plugin
       /* Add objects to group */
       if (isset($_POST['objectSelect_save']) && $this->objectSelect instanceOf objectSelect){
           $objects = $this->objectSelect->save();
+          $objects_dns = array();
+
+          foreach($objects as $object) {
+            $objects_dns[] = $object['dn'];
+          }
+
           $skipped = FALSE;
+
+          $test = array_unique(array_intersect($this->used_workstations, $objects_dns));
+          if(count($test)) {
+            $str = "";
+            foreach ($test as $dn) {
+              $str .= "<li>".$dn."</li>";
+            }
+            msg_dialog::display(_("Error"), sprintf(_("These systems are already configured by other object groups and cannot be added:")."<br><ul>%s</ul>", $str), ERROR_DIALOG);
+          }
+
           foreach($objects as $object){
 
               $tmp = "";
@@ -217,6 +233,8 @@ class ogroup extends plugin
                   $skipped =TRUE;
               }elseif(preg_match("/W/",$tmp) && $type == "T"){
                   $skipped =TRUE;
+              }elseif(in_array($dn, $this->used_workstations)) {
+                  continue;
               }else{
 
                   $this->memberList["$dn"]= $object;
@@ -471,13 +489,13 @@ class ogroup extends plugin
           "DN"=> get_ou('applicationRDN')   ,"ACL" => "application"),
         "departments"     => array("OBJ"=>"department", "CLASS"=>"gosaDepartment" ,
           "DN"=> ""                        ,"ACL" => "department"),
-        "servers"         => array("OBJ"=>"servgeneric", "CLASS"=>"goServer"       ,
+        "servers"         => array("OBJ"=>"serverGeneric", "CLASS"=>"goServer"       ,
           "DN"=> get_ou('serverRDN')        ,"ACL" => "server"),
-        "workstations"    => array("OBJ"=>"workgeneric", "CLASS"=>"gotoWorkstation",
+        "workstations"    => array("OBJ"=>"workstationGeneric", "CLASS"=>"gotoWorkstation",
           "DN"=> get_ou('workstationRDN')   ,"ACL" => "workstation"),
-        "winstations"     => array("OBJ"=>"wingeneric", "CLASS"=>"sambaSamAccount",
+        "winstations"     => array("OBJ"=>"winstationGeneric", "CLASS"=>"sambaSamAccount",
           "DN"=> get_ou('sambaMachineAccountRDN')     ,"ACL" => "winstation"),
-        "terminals"       => array("OBJ"=>"termgeneric", "CLASS"=>"gotoTerminal"   ,
+        "terminals"       => array("OBJ"=>"terminalGeneric", "CLASS"=>"gotoTerminal"   ,
           "DN"=> get_ou('terminalRDN')      ,"ACL" => "terminal"),
         "printers"        => array("OBJ"=>"printgeneric", "CLASS"=>"gotoPrinter"    ,
           "DN"=> get_ou('printerRDN')       ,"ACL" => "printer"),
@@ -629,8 +647,8 @@ class ogroup extends plugin
     $temp= "";
     $conv= array(
         "Y" => "plugins/users/images/select_template.png",
-        "U" => "plugins/generic/images/head.png",
-        "G" => "plugins/groups/images/groups.png",
+        "U" => "plugins/users/images/iconMini.png",
+        "G" => "plugins/groups/images/iconMini.png",
         "A" => "plugins/ogroups/images/application.png",
         "D" => "plugins/departments/images/department.png",
         "S" => "plugins/ogroups/images/server.png",
@@ -710,19 +728,6 @@ class ogroup extends plugin
       $new_dn= $this->dn;
     }
 
-    /* Check if we have workstations assigned, that are already assigned to
-        another object group.  */
-    if ($this->gosaGroupObjects == "[W]" || $this->gosaGroupObjects == "[T]" ) {
-      $test =array_intersect($this->used_workstations,$this->member);
-      if(count($test)){
-        $str = "";
-        foreach($test as $dn){
-          $str .= "<li>".$dn."</li>";
-        }
-        $message[] = sprintf(_("These systems are already configured by other object groups and cannot be added:")."<br><ul>%s</ul>",$str);
-      }
-    }
-
     $ldap = $this->config->get_ldap_link();
     if(LDAP::fix($this->dn) != LDAP::fix($new_dn)){
       $ldap->cat ($new_dn, array('dn'));
@@ -747,8 +752,13 @@ class ogroup extends plugin
       $message[]= msgPool::required(_("Name"));
     }
 
-    if (preg_match('/[=,+<>#;]/', $this->cn)) {
-      $message[] = msgPool::invalid(_("Name"), $this->cn, "/[^=+,<>#;]/");
+    if (preg_match('/[\\\\=\",+<>#;]/', $this->cn)) {
+      $message[] = msgPool::invalid(_("Name"), $this->cn, "/[^\\\\=\"+,<>#;]/");
+    }
+
+    /* To many different object types? */
+    if (strlen($this->gosaGroupObjects) > 4){
+      $message[]= _("You can combine two different object types at maximum, only!");
     }
 
     /* Check if we are allowed to create or move this object
@@ -873,78 +883,32 @@ class ogroup extends plugin
     $this->handle_post_events("remove");
   }
 
-
-  function PrepareForCopyPaste($source)
-  {
-    plugin::PrepareForCopyPaste($source);
-
-    /* Reload tabs */
-    $this->parent->reload($this->gosaGroupObjects );
-
-    /* Reload plugins */
-    foreach($this->parent->by_object as $name => $class ){
-      if(get_class($this) != $name) {
-        $this->parent->by_object[$name]->PrepareForCopyPaste($source);
-      }
-    }
-
-    $source_o = new ogroup ($this->config, $source['dn']);
-    foreach(array("accessTo","member","gosaGroupObjects")  as $attr){
-      $this->$attr = $source_o->$attr;
-    }
-  }
-
-
-  function getCopyDialog()
-  {
-    $smarty = get_smarty();
-    $smarty->assign("cn",     $this->cn);
-    $str = $smarty->fetch(get_template_path("paste_generic.tpl",TRUE,dirname(__FILE__)));
-    $ret = array();
-    $ret['string'] = $str;
-    $ret['status'] = "";
-    return($ret);
-  }
-
-  function saveCopyDialog()
-  {
-    if(isset($_POST['cn'])){
-      $this->cn = $_POST['cn'];
-    }
-  }
-
-
   function IsReleaseManagementActivated()
   {
     /* Check if we should enable the release selection */
-    $tmp = $this->config->search("faiManagement", "CLASS",array('menu','tabs'));
-    if(!empty($tmp) && class_available("faiManagement")){
-      return(true);
-    }
-    return(false);
+    return class_available("faiManagement");
   }
-
 
   static function plInfo()
   {
-    return (array(
-          "plShortName"   => _("Generic"),
-          "plDescription" => _("Object group generic"),
-          "plSelfModify"  => FALSE,
-          "plDepends"     => array(),
-          "plPriority"    => 1,
-          "plSection"     => array("administration"),
-          "plCategory"    => array("ogroups" => array("description"  => _("Object groups"),
-                                                      "objectClass"  => "gosaGroupOfNames")),
-          "plProvidedAcls"=> array(
-            "cn"                => _("Name"),
-            "base"              => _("Base"),
-            "description"       => _("Description"),
-            "trustModel"        => _("System trust"),
-            "member"            => _("Member"))
-          ));
+    return array(
+      "plShortName"   => _("Generic"),
+      "plDescription" => _("Object group generic"),
+      "plSelfModify"  => FALSE,
+      "plPriority"    => 1,
+      "plCategory"    => array("ogroups" => array("description"  => _("Object groups"),
+                                                  "objectClass"  => "gosaGroupOfNames")),
+      "plObjectType"  => array("ogroup" => array("name"  => _("Object group"),
+                                                  "filter"  => "objectClass=gosaGroupOfNames")),
+
+      "plProvidedAcls"=> array(
+        "cn"                => _("Name"),
+        "base"              => _("Base"),
+        "description"       => _("Description"),
+        "trustModel"        => _("System trust"),
+        "member"            => _("Member")
+      )
+    );
   }
 }
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

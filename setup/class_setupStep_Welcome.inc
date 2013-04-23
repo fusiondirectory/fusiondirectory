@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2007  Fabian Hickert
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ class Step_Welcome  extends setup_step
   {
     $this->is_enabled     = TRUE;
     $this->is_active      = TRUE;
-    $this->update_strings(); 
+    $this->update_strings();
   }
 
   function update_strings()
@@ -39,7 +39,7 @@ class Step_Welcome  extends setup_step
     $this->s_info       = _("The welcome message");
     $this->s_title_long = _("Welcome to FusionDirectory setup wizard");
   }
-  
+
   function execute()
   {
     $smarty = get_smarty();
@@ -52,7 +52,7 @@ class Step_Welcome  extends setup_step
   function save_object()
   {
     $id = "";
-    
+
     /* Get auth ID from file */
     $path = '/tmp/fusiondirectory.auth';
     if (file_exists($path) && is_readable($path)){

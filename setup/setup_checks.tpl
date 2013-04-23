@@ -1,25 +1,25 @@
-<!-- 
-  Div container with PHP module checks 
+<!--
+  Div container with PHP module checks
 -->
-<div style='float:left;width:50%;'> 
+<div style='float:left;width:50%;'>
 
-  <!-- Set content styles --> 
+  <!-- Set content styles -->
   <div class='default' style='margin:10px;'>
     <!-- Beginning PHP module check output -->
     <h2 class='step2_container_title'>{t}PHP module and extension checks{/t}</h2>
     <!-- {cycle reset=true values="#F0F0F0, #FFF"} -->
     {foreach from=$basic item=val key=key}
-      <!-- Entry {$key} -->   
+      <!-- Entry {$key} -->
       {if $basic[$key].SOLUTION != "" && !$basic[$key].RESULT}
-    
-        <!-- Add ability to display info popup -->  
+
+        <!-- Add ability to display info popup -->
         <div class='step2_entry_container_info' style='background-color:{cycle values="#F0F0F0, #FFF"}'>
       {else}
 
         <!-- Normal entry everything is fine -->
-        <div class='step2_entry_container' style='background-color:{cycle values="#F0F0F0, #FFF"}'> 
+        <div class='step2_entry_container' style='background-color:{cycle values="#F0F0F0, #FFF"}'>
       {/if}
-      
+
       <div class='step2_entry_name'>{$basic[$key].NAME}</div>
       <div class='step2_entry_status'>
 
@@ -32,16 +32,16 @@
           <div class='step2_warning'>{t}Warning{/t}</div>
         {/if}
         {if $basic[$key].SOLUTION != ""}
-  
+
         <!-- Inforamtion popup -->
         <div class='solution_visible' id='sol_{$key}'>
           {if $basic[$key].MUST}
             <div class='step2_failed_text' style="background-image: url('images/small_error.png')">
-            {$basic[$key].SOLUTION}
+            {$basic[$key].SOLUTION}<br/>
             <b>{t}FusionDirectory will NOT run without fixing this.{/t}</b>
           {else}
             <div class="step2_warning_text" style="background-image: url('images/small_warning.png')">
-            {$basic[$key].SOLUTION}
+            {$basic[$key].SOLUTION}<br/>
             <b>{t}FusionDirectory will run without fixing this.{/t}</b>
           {/if}
           </div>
@@ -55,12 +55,12 @@
 </div>
 
 
-<!-- 
-  Div container with PHP config checks 
+<!--
+  Div container with PHP config checks
 -->
 <div style='width:50%; float:left;'>
 
-  <!-- Set content styles --> 
+  <!-- Set content styles -->
   <div class='default' style='margin:10px;'>
 
     <!-- Beginning PHP config check output -->
@@ -94,7 +94,7 @@
         {/if}
 
         {if $config[$key].SOLUTION != ""}
-  
+
         <!-- Inforamtion popup -->
         <div class='solution_visible' id='sol_config_{$key}'>
           {if $config[$key].MUST}

@@ -2,7 +2,7 @@
 
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2011-2012  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -31,17 +31,17 @@ class recoveryConfig extends simplePlugin
   /* Return plugin informations for acl handling */
   static function plInfo()
   {
-    return (array(
-          "plShortName"   => _("Password recovery config"),
-          "plDescription" => _("Settings for the password recovery feature"),
-          "plIcon"        => "plugins/password/images/password.png",
-          "plSelfModify"  => FALSE,
-          "plPriority"    => 91,
-          "plSection"     => array("administration"),
-          "plCategory"    => array("recovery"),
+    return array(
+      "plShortName"   => _("Password recovery"),
+      "plDescription" => _("Settings for the password recovery feature"),
+      "plIcon"        => "plugins/password/images/iconRecovery.png",
+      "plSelfModify"  => FALSE,
+      "plSection"     => "addons",
+      "plPriority"    => 9,
+      "plCategory"    => array("recovery"),
 
-          "plProvidedAcls"=> parent::generatePlProvidedAcls(self::getAttributesInfo())
-          ));
+      "plProvidedAcls"  => parent::generatePlProvidedAcls(self::getAttributesInfo())
+    );
   }
 
   /*!
@@ -129,7 +129,7 @@ class recoveryConfig extends simplePlugin
     );
   }
 
- function __construct(&$config, $dn = NULL, $object = NULL)
+  function __construct(&$config, $dn = NULL, $object = NULL)
   {
     // Check if token branch is here
     $ldap = $config->get_ldap_link();
@@ -150,15 +150,9 @@ class recoveryConfig extends simplePlugin
       array(
         'disable' => array(
           FALSE => array(
-            'settings' => array(
-              'passwordRecoveryEmail','passwordRecoveryValidity','passwordRecoverySalt'
-            ),
-            'first_email' => array(
-              'passwordRecoveryMailSubject','passwordRecoveryMailBody'
-            ),
-            'second_email' => array(
-              'passwordRecoveryMail2Subject','passwordRecoveryMail2Body'
-            )
+            'passwordRecoveryEmail','passwordRecoveryValidity','passwordRecoverySalt',
+            'passwordRecoveryMailSubject','passwordRecoveryMailBody',
+            'passwordRecoveryMail2Subject','passwordRecoveryMail2Body'
           )
         )
       )

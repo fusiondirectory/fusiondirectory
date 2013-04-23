@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -66,7 +66,8 @@ class passwordRecovery {
     session::global_set('js', TRUE);
     reset_errors();
 
-    $this->config = $this->loadConfig();
+    $config       = $this->loadConfig();
+    $this->config = $config;
 
     $this->setupSmarty();
 
@@ -267,13 +268,8 @@ class passwordRecovery {
     global $GLOBALS,$BASE_DIR;
 
     /* Language setup */
-    if ($this->config->get_cfg_value("language") == "") {
-      $lang = get_browser_language();
-    } else {
-      $lang = $this->config->get_cfg_value("language");
-    }
+    $lang = get_browser_language();
 
-    $lang .= ".UTF-8";
     putenv("LANGUAGE=");
     putenv("LANG=$lang");
     setlocale(LC_ALL, $lang);
@@ -407,7 +403,9 @@ class passwordRecovery {
     } elseif ($new_password == "") {
       return msgPool::required(_("New password"));
     } elseif (strlen($new_password) < $MinLength) {
-      return _("The password used as new is to short.");
+      return _("The password used as new is too short.");
+    } elseif (!passwordMethod::is_harmless($new_password)) {
+      return _("The password contains possibly problematic Unicode characters!");
     }
   }
 
@@ -607,7 +605,7 @@ class passwordRecovery {
     /* Passed quality check, just try to change the password now */
     if ($this->config->get_cfg_value("passwordHook") != "") {
       exec($this->config->get_cfg_value("passwordHook")." ".
-           escapeshellarg($_POST['new_password']), $resarr);
+           escapeshellarg($this->uid)." ".escapeshellarg($_POST['new_password']), $resarr);
       if (count($resarr) > 0) {
         $this->message[] = _("External password changer reported a problem: ".join('\n', $resarr));
         msg_dialog::displayChecks($this->message);
@@ -627,11 +625,14 @@ class passwordRecovery {
     $headers = "From: ".$this->from_mail."\r\n";
     $headers .= "Reply-To: ".$this->from_mail."\r\n";
 
+    $additional_parameters = "-f".$this->from_mail;
 
-    if (mail($this->address_mail, $this->mail2_subject, $mail_body, $headers)) {
+    if (mail($this->address_mail, $this->mail2_subject, $mail_body, $headers, $additional_parameters)) {
       $smarty = get_smarty();
       $this->step = 5;
       $smarty->assign('changed', TRUE);
+    } else {
+      $this->message[] = msgPool::invalid(_("There was a problem with mail server, confirmation email not sent"));
     }
   }
 }

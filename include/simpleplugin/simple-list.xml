@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<list>
+  <definition>
+    <departmentBrowser>true</departmentBrowser>
+    <departmentRootVisible>true</departmentRootVisible>
+    <baseMode>true</baseMode>
+    <multiSelect>true</multiSelect>
+    <template>simple-list.tpl</template>
+    <module>simple</module>
+    <label>NO LABEL</label>
+    <defaultSortColumn>1</defaultSortColumn>
+  </definition>
+
+  <table>
+    <layout>|20px;c|||150px;r|</layout>
+
+    <department>
+      <value>%{filter:objectType(dn,objectClass)}</value>
+    </department>
+
+    <department>
+      <value>%{filter:departmentLink(row,dn,description)}</value>
+      <span>3</span>
+    </department>
+
+    <column>
+      <value>%{filter:objectType(dn,objectClass)}</value>
+    </column>
+
+    <column>
+      <label>Name</label>
+      <sortAttribute>cn</sortAttribute>
+      <sortType>string</sortType>
+      <value>%{filter:link(row,dn,"%s",cn)}</value>
+      <export>true</export>
+    </column>
+
+    <column>
+      <label>Description</label>
+      <sortAttribute>description</sortAttribute>
+      <sortType>string</sortType>
+      <value>%{filter:link(row,dn,"%s",description)}</value>
+      <export>true</export>
+    </column>
+
+    <column>
+      <label>Actions</label>
+      <value>%{filter:actions(dn,row,objectClass)}</value>
+    </column>
+
+  </table>
+
+  <actionmenu>
+
+    <action>
+     <type>sub</type>
+     <image>images/lists/new.png</image>
+     <label>Create</label>
+    </action>
+
+    <action>
+      <name>edit</name>
+      <type>entry</type>
+      <image>images/lists/edit.png</image>
+      <label>Edit</label>
+    </action>
+
+     <action>
+      <name>remove</name>
+      <type>entry</type>
+      <image>images/lists/trash.png</image>
+      <label>Remove</label>
+    </action>
+
+    <action>
+      <type>separator</type>
+    </action>
+
+    <action>
+      <type>exporter</type>
+    </action>
+
+    <action>
+      <type>separator</type>
+    </action>
+
+    <action>
+      <type>copypaste</type>
+    </action>
+
+    <action>
+      <type>snapshot</type>
+    </action>
+
+  </actionmenu>
+
+  <actiontriggers snapshot="true" copypaste="true">
+
+    <action>
+      <name>cp</name>
+      <type>copypaste</type>
+    </action>
+
+    <action>
+      <name>edit</name>
+      <type>entry</type>
+      <image>images/lists/edit.png</image>
+      <label>Edit</label>
+    </action>
+
+    <action>
+      <name>snapshot</name>
+      <type>snapshot</type>
+    </action>
+
+    <action>
+      <name>remove</name>
+      <type>entry</type>
+      <image>images/lists/trash.png</image>
+      <acl>%acl[d]</acl>
+      <label>Remove</label>
+    </action>
+
+  </actiontriggers>
+
+</list>

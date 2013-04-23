@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
  * Source code for the class userinfo
  */
 
-/*! 
+/*!
  * \brief Class userinfo
  * This class contains all informations and functions
  * about user
@@ -94,7 +94,7 @@ class userinfo
     $this->reset_acl_cache();
   }
 
-/*! 
+/*!
  * \brief Reset acl cache
  */
   public function reset_acl_cache()
@@ -102,14 +102,14 @@ class userinfo
     /* Initialize ACL_CACHE */
     session::global_set('ACL_CACHE',array());
   }
-  
-  /*! 
+
+  /*!
    * \brief Load an acl
    */
   function loadACL()
   {
-    $this->ACL= array();    
-    $this->groups= array();    
+    $this->ACL= array();
+    $this->groups= array();
     $this->result_cache =array();
     $this->reset_acl_cache();
     $ldap= $this->config->get_ldap_link();
@@ -132,12 +132,12 @@ class userinfo
       $aclc[$attrs['dn']]= array();
       $ol= array();
       for($i= 0; $i<$attrs['gosaAclEntry']['count']; $i++){
-        $ol= array_merge($ol, @acl::explodeAcl($attrs['gosaAclEntry'][$i]));
+        $ol= array_merge($ol, acl::explodeAcl($attrs['gosaAclEntry'][$i]));
       }
       $aclc[$attrs['dn']]= $ol;
     }
 
-    /* Resolve roles here. 
+    /* Resolve roles here.
      */
     foreach($aclc as $dn => $data){
       foreach($data as $prio => $aclc_value)  {
@@ -150,7 +150,7 @@ class userinfo
 
           if(isset($attrs['gosaAclTemplate'])){
             for($i= 0; $i<$attrs['gosaAclTemplate']['count']; $i++){
-              $tmp = @acl::explodeAcl($attrs['gosaAclTemplate'][$i]);  
+              $tmp = @acl::explodeAcl($attrs['gosaAclTemplate'][$i]);
 
               foreach($tmp as $new_acl){
 
@@ -159,7 +159,7 @@ class userinfo
                 $new_acl['members'] = $aclc_value['members'];
                 $aclc[$dn][] =$new_acl;
               }
-            }      
+            }
           }
         }
       }
@@ -173,10 +173,10 @@ class userinfo
       /* Check if we need to keep this ACL */
       foreach($aclc[$dn] as $idx => $type){
         $interresting= FALSE;
-        
+
         /* No members? This ACL rule is deactivated ... */
         if (!count($type['members'])){
-          $interresting= FALSE; 
+          $interresting= FALSE;
         } else {
 
           /* Inspect members... */
@@ -208,13 +208,13 @@ class userinfo
       }
     }
 
-    /* Create an array which represenet all relevant permissions settings 
+    /* Create an array which represenet all relevant permissions settings
         per dn.
 
       The array will look like this:
-      
+
       .     ['ou=base']        ['ou=base']          = array(ACLs);
-      .     
+      .
       .     ['ou=dep1,ou=base']['ou=dep1,ou=base']  = array(ACLs);
       .                        ['ou=base']          = array(ACLs);
 
@@ -225,20 +225,20 @@ class userinfo
     $without_self_acl = $all_acl = array();
     foreach($this->ACL as $dn => $acl){
       $sdn =$dn;
-      $first= TRUE; // Run at least once 
+      $first= TRUE; // Run at least once
       while(strpos($dn,",") !== FALSE || $first){
         $first = FALSE;
         if(isset($this->ACL[$dn])){
           $all_acl[$sdn][$dn] = $this->ACL[$dn];
-          $without_self_acl[$sdn][$dn] = $this->ACL[$dn]; 
+          $without_self_acl[$sdn][$dn] = $this->ACL[$dn];
           foreach($without_self_acl[$sdn][$dn] as $acl_id => $acl_set){
-  
-            /* Remember which ACL set has speicial user filter 
+
+            /* Remember which ACL set has speicial user filter
              */
             if(isset($acl_set['filter']{1})){
               $this->ACLperPath_usesFilter[$sdn] = TRUE;
             }
-          
+
             /* Remove all acl entries which are especially for the current user (self acl)
              */
             foreach($acl_set['acl'] as $object => $object_acls){
@@ -250,7 +250,7 @@ class userinfo
         }
         $dn = preg_replace("/^[^,]*+,/","",$dn);
       }
-    } 
+    }
     $this->ACLperPath =$without_self_acl;
 
     /* Append Self entry */
@@ -265,23 +265,23 @@ class userinfo
 
   /*!
    * \brief Returns an array containing all target objects we've permissions on
-   * 
+   *
    * \return Return the next id or NULL if failed
    */
   function get_acl_target_objects()
   {
     return(array_keys($this->ACLperPath));
   }
-  
-  /*! 
+
+  /*!
    * \brief Get permissions by category
-   * 
+   *
    * \param string $dn Dn from which we want to know permissions.
-   * 
+   *
    * \param string $category Category for which we want the acl eg: server
    *
    * \param bool $any_acl FALSE
-   * 
+   *
    * \return all the permissions for the dn and category
    */
   function get_category_permissions($dn, $category, $any_acl = FALSE)
@@ -289,17 +289,17 @@ class userinfo
     return(@$this->get_permissions($dn,$category.'/0',""));
   }
 
-  
-  /*! 
+
+  /*!
    * \brief Check if the given object (dn) is copyable
-   * 
-   * \param string $dn     The object dn 
-   * 
+   *
+   * \param string $dn     The object dn
+   *
    * \param string $object The acl  category (e.g. users)
-   * 
-   * \param string $class  The acl  class (e.g. user) 
-   * 
-   * \return boolean TRUE if the given object is copyable else FALSE 
+   *
+   * \param string $class  The acl  class (e.g. user)
+   *
+   * \return boolean TRUE if the given object is copyable else FALSE
   */
   function is_copyable($dn, $object, $class)
   {
@@ -307,16 +307,16 @@ class userinfo
   }
 
 
-  /*! 
+  /*!
    * \brief Check if the given object (dn) is cutable
-   * 
-   * \param string $dn     The object dn 
-   * 
-   * \param string $object The acl  category (e.g. users) 
-   * 
+   *
+   * \param string $dn     The object dn
+   *
+   * \param string $object The acl  category (e.g. users)
+   *
    * \param string $class  The acl  class (e.g. user)
-   * 
-   * \return boolean TRUE if the given object is cutable else FALSE 
+   *
+   * \return boolean TRUE if the given object is cutable else FALSE
    */
   function is_cutable($dn, $object, $class)
   {
@@ -329,10 +329,10 @@ class userinfo
   /*!
    * \brief Checks if we are allowed to paste an object to the given destination ($dn)
    *
-   * \param string $dn The destination dn 
-   * 
-   * \param string $object The acl  category (e.g. users) 
-   * 
+   * \param string $dn The destination dn
+   *
+   * \param string $object The acl  category (e.g. users)
+   *
    * \return Boolean TRUE if we are allowed to paste an object.
    */
   function is_pasteable($dn, $object)
@@ -341,13 +341,13 @@ class userinfo
   }
 
 
-  /*! 
+  /*!
    * \brief Checks if we are allowed to restore a snapshot for the given dn.
-   * 
-   * \param string $dn     The destination dn 
-   * 
+   *
+   * \param string $dn     The destination dn
+   *
    * \param string $object The acl  category (e.g. users)
-   * 
+   *
    * \return boolean TRUE if we are allowed to restore a snapshot.
    */
   function allow_snapshot_restore($dn, $object)
@@ -360,17 +360,17 @@ class userinfo
       $w &= preg_match("/w/",$this->has_complete_category_acls($dn, $category));
       $r &= preg_match("/r/",$this->has_complete_category_acls($dn, $category));
     }
-    return($r && $w ); 
-  }  
+    return($r && $w );
+  }
 
 
-  /*! 
+  /*!
    * \brief Checks if we are allowed to create a snapshot of the given dn.
-   * 
-   * \param string $dn     The source dn 
-   * 
-   * \param string $object The acl category (e.g. users) 
-   * 
+   *
+   * \param string $dn     The source dn
+   *
+   * \param string $object The acl category (e.g. users)
+   *
    * \return boolean TRUE if we are allowed to restore a snapshot.
    */
   function allow_snapshot_create($dn, $object)
@@ -382,24 +382,24 @@ class userinfo
     foreach($object as $category){
       $r &= preg_match("/r/",$this->has_complete_category_acls($dn, $category));
     }
-    return($r) ; 
-  }  
+    return($r) ;
+  }
 
-  /*! 
+  /*!
    * \brief Get the permissions for a specified dn
-   * 
-   * \param string $dn         The object dn 
-   * 
-   * \param string $object     The acl category (e.g. users) 
-   * 
+   *
+   * \param string $dn         The object dn
+   *
+   * \param string $object     The acl category (e.g. users)
+   *
    * \param string $attribute  The acl class (e.g. user)
-   * 
+   *
    * \param bool $skip_write   Remove the write acl for this dn
-   * 
+   *
    */
   function get_permissions($dn, $object, $attribute= "", $skip_write= FALSE)
   {
-    /* If we are forced to skip ACLs checks for the current user 
+    /* If we are forced to skip ACLs checks for the current user
         then return all permissions.
      */
     if($this->ignore_acl_for_current_user()){
@@ -419,7 +419,7 @@ class userinfo
       return($ret);
     }
 
-    /* Detect the set of ACLs we have to check for this object 
+    /* Detect the set of ACLs we have to check for this object
      */
     $adn = $dn;
     while(!isset($this->ACLperPath[$adn]) && strpos($adn,",") !== FALSE){
@@ -431,8 +431,8 @@ class userinfo
       $ACL_CACHE["$dn+$object+$attribute"] = "";
       return("");
     }
- 
-    /* If we do not need to respect any user-filter settings 
+
+    /* If we do not need to respect any user-filter settings
         we can skip the per object ACL checks.
      */
     $orig_dn= $dn;
@@ -449,8 +449,8 @@ class userinfo
         return($ret);
       }
     }
- 
-    /* Get ldap object, for later filter checks 
+
+    /* Get ldap object, for later filter checks
      */
     $ldap = $this->config->get_ldap_link();
 
@@ -502,13 +502,13 @@ class userinfo
             }
           }
 
-          /* Self ACLs? 
+          /* Self ACLs?
            */
           if($dn != $this->dn && isset($subacl['acl'][$object][0]) && (strpos($subacl['acl'][$object][0],"s") !== FALSE)){
             continue;
           }
 
-          /* If attribute is "", we want to know, if we've *any* permissions here... 
+          /* If attribute is "", we want to know, if we've *any* permissions here...
               Merge global class ACLs [0] with attributes specific ACLs [attribute].
            */
           if ($attribute == "" && isset($subacl['acl'][$object])){
@@ -545,13 +545,13 @@ class userinfo
               /* if $attribute is "", then check every single attribute for this object.
                  if it is 0, then just check the object category ACL.
                */
-              if($attribute == ""){    
+              if($attribute == ""){
                 foreach($this->ocMapping[$ocs] as $oc){
                   if (isset($subacl['acl'][$ocs.'/'.$oc])){
 
                       // Skip ACLs wich are defined for ourselfs only - if not checking against ($ui->dn)
-                      if(isset($subacl['acl'][$ocs.'/'.$oc][0]) && 
-                              $dn != $this->dn && 
+                      if(isset($subacl['acl'][$ocs.'/'.$oc][0]) &&
+                              $dn != $this->dn &&
                               strpos($subacl['acl'][$ocs.'/'.$oc][0],"s") !== FALSE) continue;
 
                     foreach($subacl['acl'][$ocs.'/'.$oc] as $attr => $dummy){
@@ -573,7 +573,7 @@ class userinfo
       }
     }
 
-    /* If the requested ACL is for a container object, then alter 
+    /* If the requested ACL is for a container object, then alter
         ACLs by applying cleanACL a last time.
      */
     if(isset($this->config->idepartments[$dn])){
@@ -598,21 +598,21 @@ class userinfo
     return ($ret);
   }
 
-  /*! 
+  /*!
    * \brief Extract all departments that are accessible
-   * 
+   *
    * Extract all departments that are accessible (direct or 'on the way' to an
    * accessible department)
-   * 
+   *
    * \param string $module The module
-   * 
-   * \param bool $skip_self_acls FALSE 
-   * 
+   *
+   * \param bool $skip_self_acls FALSE
+   *
    * \return array Return all accessible departments
    */
   function get_module_departments($module, $skip_self_acls = FALSE )
   {
-    /* If we are forced to skip ACLs checks for the current user 
+    /* If we are forced to skip ACLs checks for the current user
         then return all departments as valid.
      */
     if($this->ignore_acl_for_current_user()){
@@ -648,7 +648,7 @@ class userinfo
               $found =TRUE;
               break;
             }
-          } 
+          }
 
           if($found && !isset($this->config->idepartments[$dn])){
             while(!isset($this->config->idepartments[$dn]) && strpos($dn, ",")){
@@ -682,13 +682,13 @@ class userinfo
     return (array_values($res));
   }
 
-  /*! 
+  /*!
    * \brief Merge acls
-   * 
+   *
    * \param $acl The ACL
-   * 
+   *
    * \param $type The type
-   * 
+   *
    * \param $newACL The new ACL
    */
   function mergeACL($acl, $type, $newACL)
@@ -728,7 +728,7 @@ class userinfo
  * \brief Clean acls
  *
  * \param $acl ACL to be cleaned
- * 
+ *
  * \param boolean $reset FALSE
  */
   function cleanACL($acl, $reset= FALSE)
@@ -759,21 +759,21 @@ class userinfo
     return ($acl);
   }
 
-  /*! 
+  /*!
    * \brief Return combined acls for a given category
-   * 
+   *
    * #FIXME This could be logical wrong or could be optimized in the future
-   * Return combined acls for a given category. 
-   * All acls will be combined like boolean AND 
+   * Return combined acls for a given category.
+   * All acls will be combined like boolean AND
    * As example ('rwcdm' + 'rcd' + 'wrm'= 'r')
-   * 
+   *
    * Results will be cached in $this->result_cache.
    * $this->result_cache will be resetted if load_acls is called.
-   * 
+   *
    * \param string $dn The DN
-   * 
+   *
    * \param string $category The category
-   * 
+   *
    * \return string return acl combined with boolean AND
    */
   function has_complete_category_acls($dn,$category)
@@ -782,7 +782,7 @@ class userinfo
     $types  = "rwcdm";
 
     if(!is_string($category)){
-      trigger_error("category must be string");   
+      trigger_error("category must be string");
       $acl = "";
     }else{
       if(!isset($this->result_cache['has_complete_category_acls'][$dn][$category]))   {
@@ -793,7 +793,7 @@ class userinfo
             if($oc == "0") continue;
             $tmp =  $this->get_permissions($dn, $category."/".$oc);
             for($i = 0, $l= strlen($types); $i < $l; $i++) {
-              if(!preg_match("/".$types[$i]."/",$tmp)){ 
+              if(!preg_match("/".$types[$i]."/",$tmp)){
                 $acl = preg_replace("/".$types[$i]."/","",$acl);
               }
             }
@@ -809,13 +809,13 @@ class userinfo
     return($acl);
   }
 
- 
-  /*! 
+
+  /*!
    * \brief Ignore acl for the current user
-   * 
+   *
    * \return Returns TRUE if the current user is configured in IGNORE_ACL=".."
    *  in your fusiondirectory.conf FALSE otherwise
-   */ 
+   */
   function ignore_acl_for_current_user()
   {
     return($this->ignoreACL);

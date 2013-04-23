@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -32,15 +32,27 @@
  * \see class_plugin
  */
 class pluglist {
-  var $index            = 0;
   var $menu             = "";
   var $iconmenu         = "";
-  var $menuparts        = array();
   var $config           = NULL;
-  var $dirlist          = array();
   var $ui               = NULL;
   var $current          = "";
+
+
+  /*!
+   * \brief The plInfo result for all plugin, using class as key.
+   * Contains the plugin index in 'INDEX' and the path in 'PATH'
+   */
   var $info             = array();
+
+  /*!
+   * \brief Using the plugin index as a key, the class of the plugin.
+   */
+  var $dirlist          = array();
+
+  /*!
+   * \brief List plugin indexes of all plugin that the user have acl for
+   */
   var $allowed_plugins  = array();
   var $silly_cache      = array();
 
@@ -51,21 +63,54 @@ class pluglist {
    *
    * \param $ui UI
    */
-  function pluglist(&$config, &$ui)
+  function __construct(&$config, &$ui)
   {
+    global $class_mapping;
+
     $this->ui     = &$ui;
     $this->config = &$config;
-
-    /* Create dirlist for all plugins */
-    $this->dirlist = $this->get_plugins ($this->dirlist, $this->config->data['MENU']);
 
     /* Fill info part of pluglist */
     $classes = get_declared_classes();
 
+    $index = 0;
+    $depends_infos = array();
     foreach ($classes as $cname) {
       $cmethods = get_class_methods($cname);
       if (in_array_ics('plInfo', $cmethods)) {
-        $this->info[$cname] = call_user_func(array($cname, 'plInfo'));
+        $infos = call_user_func(array($cname, 'plInfo'));
+        if (is_subclass_of($cname, 'simpleService')) {
+          $infos['plSelfModify']  = FALSE;
+          unset($infos['plObjectType']); // services are not part of any objectType
+          $infos['plCategory']    = array('server');
+        } else {
+          if (!isset($infos['plSelfModify'])) {
+            $infos['plSelfModify'] = FALSE;
+          }
+        }
+        if (isset($class_mapping[$cname])) {
+          $infos['PATH'] = dirname($class_mapping[$cname]);
+        }
+        if (isset($infos['plDepends'])) {
+          $depends_infos[] = $cname;
+        }
+        $infos['INDEX']                 = $index;
+        $this->info[$cname]             = $infos;
+        $this->dirlist[$index++]  = $cname;
+      }
+    }
+
+    foreach ($depends_infos as $cname) {
+      foreach ($this->info[$cname]['plDepends'] as $depend) {
+        if (isset($this->info[$depend])) {
+          if (isset($this->info[$depend]['plDepending'])) {
+            $this->info[$depend]['plDepending'][] = $cname;
+          } else {
+            $this->info[$depend]['plDepending'] = array($cname);
+          }
+        } else {
+          trigger_error("$cname depends off the inexisting plugin $depend");
+        }
       }
     }
 
@@ -75,37 +120,28 @@ class pluglist {
     $this->info['all']['plProvidedAcls']  = array();
     $this->info['all']['plDescription']   = _("All objects in this category");
     $this->info['all']['plSelfModify']    = FALSE;
-  }
 
-
-  /*!
-   * \brief Get the plugins of a list
-   *
-   * \param array $list
-   *
-   * \param string $config Plugin configuration
-   */
-  function get_plugins($list, &$config)
-  {
-    global $class_mapping;
-
-    if (!isset($config['CLASS'])) {
-      if (is_array($config)) {
-        foreach ($config as $val) {
-          $list = $this->get_plugins($list, $val);
+    uasort($this->info,
+      function ($a, $b)
+      {
+        if (isset($a['plPriority']) && isset($b['plPriority'])) {
+          if ($a['plPriority'] == $b['plPriority']) {
+            return 0;
+          } elseif ($a['plPriority'] < $b['plPriority']) {
+            return -1;
+          } else {
+            return 1;
+          }
+        } elseif (isset($a['plPriority'])) {
+          return -1;
+        } elseif (isset($b['plPriority'])) {
+          return 1;
+        } else {
+          return 0;
         }
       }
-    } else {
-      if (is_array($config) && isset($class_mapping[$config['CLASS']])) {
-        $list[$this->index++] = dirname($class_mapping[$config['CLASS']]);
-      } else {
-        $list[$this->index++] = "";
-      }
-    }
-
-    return $list;
+    );
   }
-
 
   /*!
    * \brief  Check whether we are allowed to modify the given acl or not
@@ -202,7 +238,7 @@ class pluglist {
       return FALSE;
     }
     if (!$plIcon) {
-      $plIcon = "plugin.png";
+      $plIcon = "icon.png";
     }
     return array($plHeadline,$plDescription,$plIcon);
   }
@@ -217,19 +253,18 @@ class pluglist {
       $cfg    = $this->config->data['MENU'];
 
       /* Parse headlines */
-      foreach ($cfg as $headline => $plug) {
+      foreach ($this->config->data['SECTIONS'] as $section => $section_infos) {
         if ($first) {
           $style = "";
           $first = FALSE;
         } else {
           $style = "style='border-top:1px solid #AAA; margin-top:0.8em;'";
         }
-        $menu = "<p class=\"menuheader\" $style>"._($headline)."</p>\n";
+        $menu = "<p class=\"menuheader\" $style>".$section_infos['NAME']."</p>\n";
         $entries = "";
-        $this->menuparts[_($headline)] = array();
 
         /* Parse sub-plugins */
-        foreach ($plug as $info) {
+        foreach ($this->config->data['MENU'][$section] as $info) {
 
           /* Read information from class variable */
           if (!isset($info['CLASS'])) {
@@ -265,13 +300,8 @@ class pluglist {
 
             $this->allowed_plugins[$index] = $index;
 
-            $entries = $entries."<p class=\"menuitem\" ".
-              "onClick='return question(\""._("You are currently editing a database entry. Do you want to dismiss the changes?")."\", \"$href\");'>";
-            if (session::global_get('js')) {
-              $entries .= "$plHeadline</p>\n";
-            } else {
-              $entries .= "<a class=\"menuitem\" href=\"$href\">$plHeadline</a></p>\n";
-            }
+            $entries = $entries.'<p class="menuitem" >';
+            $entries .= "<a class=\"menuitem\" href=\"$href\">$plHeadline</a></p>\n";
 
             if (!session::is_set('maxC')) {
               session::set('maxC', "RO0K9CzEYCSAAOtOICCFhEDBKGSKANyHMKDHAEwFLNTJILwEMODJYPgMRA0F9IOPSPUKNEVCUKyDBAHNbIWFJOIP");
@@ -291,38 +321,6 @@ class pluglist {
     return $this->menu;
   }
 
-  function gen_current()
-  {
-    /* Do we have a current value? */
-    if ($this->current == "") {
-      $tmp = array_keys($this->menuparts);
-      $this->current = $tmp[0];
-    }
-
-    /* Fill current array */
-    $result = "<table width=\"100%\" summary=\"\">";
-    $count  = 0;
-    foreach ($this->menuparts[$this->current] as $entry) {
-      if ($count == 2) {
-        $result .= "</tr>";
-        $count  = 0;
-      }
-      if ($count == 0) {
-        $result .= "<tr>";
-      }
-      $result .= "<td>$entry</td>";
-      $count++;
-    }
-
-    /* Add missing cell? */
-    if ($count == 1) {
-      $result .= "<td>&nbsp;</td>";
-    }
-
-    $result .= "</table>";
-    return $result;
-  }
-
   /*!
    * \brief Show the menu icon
    */
@@ -340,14 +338,19 @@ class pluglist {
       }
 
       /* Parse headlines */
-      foreach ($cfg as $headline => $plug) {
+      foreach ($this->config->data['SECTIONS'] as $section => $section_infos) {
         $col = 1;
-        $menu = "<h1 class=\"menuheader\">".
-          _($headline)."</h1>\n<table summary=\"\" style=\"width:100%;".
+        if ($this->iconmenu == "") {
+          $menu = "<h1 class=\"menuheader\" style=\"border-top:none;\">";
+        } else {
+          $menu = "</td></tr>\n<tr><td>\n<h1 class=\"menuheader\">";
+        }
+        $menu .=
+          $section_infos['NAME']."</h1>\n<table summary=\"\" style=\"width:100%;".
           "font-size: 14px;\" cellpadding=7 border=0>\n<tr>\n";
         $entries = "";
 
-        foreach ($plug as $info) {
+        foreach ($this->config->data['MENU'][$section] as $info) {
 
           if (!plugin_available($info['CLASS'])) {
             continue;
@@ -428,7 +431,7 @@ class pluglist {
     if (!isset($this->dirlist[$index])) {
       return "";
     }
-    return "../".$this->dirlist[$index];
+    return "../".$this->info[$this->dirlist[$index]]['PATH'];
   }
 
   /*
@@ -438,14 +441,9 @@ class pluglist {
    */
   function get_index($class)
   {
-    /* Search for plugin index (id), identify entry by path && class */
-    $data = $this->config->data['MENU'];
-    foreach ($data as $section => $plugins) {
-      foreach ($plugins as $key => $plugin) {
-        if ($plugin['CLASS'] == $class) {
-          return $key;
-        }
-      }
+    /* Search for plugin index (id), identify entry by class */
+    if (isset($this->info[$class])) {
+      return $this->info[$class]['INDEX'];
     }
 
     /* Nothing */
@@ -474,5 +472,14 @@ class pluglist {
     $this->iconmenu = "";
   }
 
+  static function pluginInfos($cname)
+  {
+    $plist = session::global_get('plist');
+    if ($plist) {
+      return $plist->info[$cname];
+    } else {
+      trigger_error('plist not loaded yet');
+    }
+  }
 }
 ?>

@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -26,6 +26,98 @@
  */
 require_once ("variables.inc");
 
+function html_trace($errstr = "")
+{
+  if (!function_exists('debug_backtrace')) {
+    return array ("", "");
+  }
+  $trace = debug_backtrace();
+
+  $return_html    = "<table summary=\"\" width=\"100%\" cellspacing=0 style='background-color:#402005;color:white;border:2px solid red'><tr><td colspan=3><h1 style='color:white'>"._("PHP error")." \"$errstr\"</h1></td></tr>";
+  $return_mailto  = rawurlencode("=== Trace ===");
+  /* Generate trace history */
+  for ($index = 0, $c = count($trace); $index < $c; $index++) {
+    $ct   = $trace[$index];
+    $loc  = "";
+    if (isset($ct['class'])) {
+      $loc .= _("class")." ".$ct['class'];
+      if (isset($ct['function'])) {
+        $loc .= " / ";
+      }
+    }
+    if (isset($ct['function'])) {
+      $loc .= _("function")." ".$ct['function'];
+    }
+    if (isset($ct['type'])) {
+      switch ($ct['type']) {
+        case "::":
+          $type = _("static");
+          break;
+
+        case "->":
+          $type = _("method");
+          break;
+      }
+    } else {
+      $type = "-";
+    }
+    $args = "";
+    if (isset($ct['args'])) {
+      $f = function ($arg) use(&$f) {
+        static $i = 0;
+        if ($i > 4) {
+          return "…";
+        }
+        if (is_object($arg)) {
+          return "CLASS:&nbsp;".get_class($arg);
+        } elseif (is_array($arg)) { /* Avoid convertig array to string errors */
+          $i++;
+          $ret = "array(".implode(',', array_map($f, $arg)).")";
+          $i--;
+          return $ret;
+        } else {
+          if (strlen("$arg") > 512) {
+            $arg = substr("$arg", 0, 512)."…";
+          }
+          return '"'.htmlentities("$arg", ENT_COMPAT, 'UTF-8').'"';
+        }
+      };
+      $args = implode(',', array_map($f, $ct['args']));
+    }
+    if (empty($args)) {
+      $args = "-";
+    }
+    if (isset($ct['file'])) {
+      $file = $ct['file'];
+    } else {
+      $file = "";
+    }
+    if (isset($ct['line'])) {
+      $line = $ct['line'];
+    } else {
+      $line = "";
+    }
+    $color = ($index & 1)?'#404040':'606060';
+    $return_html .= "<tr style='background-color:$color'><td style='padding-left:20px' width=\"30%\">"._("Trace")."[$index]: $loc</td>";
+    $return_html .= "<td>"._("File").": $file ("._('Line')." $line)</td><td width=\"10%\">"._("Type").": $type</td></tr>";
+    $return_html .= "<tr style='background-color:$color'><td colspan=3 style='padding-left:20px;'>"._("Arguments").": $args</td></tr>";
+
+    /* Add trace part to mailto body */
+    $return_mailto .= rawurlencode(
+                                 "\nTrace[".$index."]:".$loc.
+                                 "\nFile : ".$file.
+                                 "\nLine : ".$line.
+                                 "\nType : ".$type.
+                                 "\n  ".$args.
+                                 "\n");
+  }
+
+  $return_html    .= "</table>";
+  $return_mailto  .= rawurlencode("=== /Trace ===");
+
+  return array($return_html, $return_mailto);
+}
+
 /*!
  * \brief Raise an error
  *
@@ -45,49 +137,49 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
   restore_error_handler();
 
   /* Return if error reporting is set to zero */
-  if (error_reporting() == 0){
-    set_error_handler('gosaRaiseError', E_WARNING |  E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT) ;
+  if (error_reporting() == 0) {
+    set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
     return;
   }
 
   /* Workaround for buggy imap_open error outputs */
-  if (preg_match('/imap_open/', $errstr)){
-    set_error_handler('gosaRaiseError', E_WARNING |  E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT) ;
+  if (preg_match('/imap_open/', $errstr)) {
+    set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
     return;
   }
 
   /* Hide ldap size limit messages */
-  if (preg_match('/ldap_error/', $errstr)){
-    if (preg_match('/sizelimit/', $errstr)){
-      set_error_handler('gosaRaiseError', E_WARNING |  E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT) ;
+  if (preg_match('/ldap_error/', $errstr)) {
+    if (preg_match('/sizelimit/', $errstr)) {
+      set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
       return;
     }
   }
 
   /* Error messages are hidden in FusionDirectory, so we only send them to the logging class and abort here */
-  if(isset($config->data) && $config->get_cfg_value("displayerrors") != "true"){
+  if (isset($config->data) && $config->get_cfg_value("displayerrors") != "TRUE") {
 
     /* Write to syslog */
-    if(class_exists("log") && !preg_match("/No such object/",$errstr)){
-      new log("view","error","",array(),"PHP error: $errstr ($errfile, line $errline)");
+    if (class_exists("log") && !preg_match("/No such object/", $errstr)) {
+      new log("view", "error", "", array(), "PHP error: $errstr ($errfile, line $errline)");
     }
 
-    set_error_handler('gosaRaiseError', E_WARNING |  E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT) ;
+    set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
     return;
   }
 
   /* Send all errors to logging class, except "Ldap : No such object" messages*/
-  if(class_exists("log") && !preg_match("/No such object/",$errstr)){
-    new log("debug","all",$errfile,array(),"Type:".$errno.", Message:".$errstr.", File:".$errfile.", Line: ".$errline);
+  if (class_exists("log") && !preg_match("/No such object/", $errstr)) {
+    new log("debug", "all", $errfile, array(), "Type:".$errno.", Message:".$errstr.", File:".$errfile.", Line: ".$errline);
   }
 
   /* Create header as needed */
-  if ($error_collector == ""){
+  if ($error_collector == "") {
 
     /* Mailto body header */
     $version = FD_VERSION;
 
-    $error_collector_mailto .=rawurlencode(
+    $error_collector_mailto .= rawurlencode(
                               "Oups. Seems like you've catched some kind of bug inside FusionDirectory/PHP. You may want to help ".
                               "us to improve the software stability. If so, please provide some more information below.".
                               "\n\n".
@@ -99,13 +191,13 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
                               "\n\n".
                               "*** PHP error information ***\n\n");
 
-    if (class_exists('session') && session::is_set('js') && session::get('js')==FALSE){
-      $error_collector= "<div>";
+    if (class_exists('session') && session::is_set('js') && (session::get('js') == FALSE)) {
+      $error_collector = "<div>";
     } else {
 
-      $warning_path = (is_callable('get_template_path')) ? get_template_path('images/warning.png') : 'images/warning.png' ;
+      $warning_path = (is_callable('get_template_path') ? get_template_path('images/warning.png') : 'images/warning.png');
 
-      $error_collector= "
+      $error_collector = "
         <table summary=\"\" width=\"100%\" style='background-color:#E0E0E0;border-bottom:1px solid black;z-index:150;'>
           <tr>
             <td>
@@ -131,107 +223,17 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
   }
 
   /* Create error header */
-  $error_collector.= "<table summary=\"\" width=\"100%\" cellspacing=0 style='background-color:#402005;color:white;border:2px solid red'><tr><td colspan=3><h1 style='color:white'>"._("PHP error")." \"$errstr\"</h1></td></tr>";
-
   $error_collector_mailto .= rawurlencode("=== Error === \n");
   $error_collector_mailto .= rawurlencode("PHP error: $errstr ($errfile, line $errline)\n");
   $error_collector_mailto .= rawurlencode("=== /Error === \n\n");
 
-  /* Extract traceback data - if available */
-  if (function_exists('debug_backtrace')){
-    $trace= debug_backtrace();
-
-    $error_collector_mailto .= rawurlencode("=== Trace ===");
-
-    /* Generate trace history */
-    for ($index= 0, $c= count($trace); $index<$c; $index++){
-
-
-      $ct= $trace[$index];
-      $loc= "";
-      if (isset($ct['class'])){
-        $loc.= _("class")." ".$ct['class'];
-        if (isset($ct['function'])){
-          $loc.= " / ";
-        }
-      }
-      if (isset($ct['function'])){
-        $loc.= _("function")." ".$ct['function'];
-      }
-      if (isset($ct['type'])){
-        switch ($ct['type']){
-          case "::":
-            $type= _("static");
-          break;
-
-          case "->":
-            $type= _("method");
-          break;
-        }
-      } else {
-        $type= "-";
-      }
-      $args= "";
-      if (isset($ct['args'])) {
-        $f = function ($arg) use(&$f) {
-          static $i = 0;
-          if ($i>4) {
-            return "…";
-          }
-          if (is_object($arg)) {
-            return "CLASS:&nbsp;".get_class($arg);
-          } elseif (is_array($arg)) { /* Avoid convertig array to string errors */
-            $i++;
-            $ret = "array(".implode(',',array_map($f,$arg)).")";
-            $i--;
-            return $ret;
-          } else {
-            if (strlen("$arg") > 512) {
-              $arg = substr("$arg",0,512)."…";
-            }
-            return '"'.htmlentities("$arg", ENT_COMPAT, 'UTF-8').'"';
-          }
-        };
-        $args = implode(',',array_map($f,$ct['args']));
-      }
-      if (empty($args)) {
-        $args = "-";
-      }
-      if (isset($ct['file'])) {
-        $file = $ct['file'];
-      } else {
-        $file = "";
-      }
-      if (isset($ct['line'])) {
-        $line = $ct['line'];
-      } else {
-        $line = "";
-      }
-      $color= ($index&1)?'#404040':'606060';
-      $error_collector.= "<tr style='background-color:$color'><td style='padding-left:20px' width=\"30%\">"._("Trace")."[$index]: $loc</td>";
-      $error_collector.= "<td>"._("File").": $file ("._('Line')." $line)</td><td width=\"10%\">"._("Type").": $type</td></tr>";
-      $error_collector.= "<tr style='background-color:$color'><td colspan=3 style='padding-left:20px;'>"._("Arguments").": $args</td></tr>";
-
-      /* Add trace part to mailto body */
-      $error_collector_mailto .= rawurlencode(
-                                   "\nTrace[".$index."]:".$loc.
-                                   "\nFile : ".$file.
-                                   "\nLine : ".$line.
-                                   "\nType : ".$type.
-                                   "\n  ".$args.
-                                   "\n");
-
-    }
-
-    $error_collector_mailto .= rawurlencode("=== /Trace === \n");
-  }
-
-  /* Close error table */
-  $error_collector.= "</table>";
+  list($html_trace, $mailto_trace) = html_trace($errstr);
+  $error_collector        .= $html_trace;
+  $error_collector_mailto .= $mailto_trace;
 
   /* Flush in case of fatal errors */
-  set_error_handler('gosaRaiseError', E_WARNING |  E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT) ;
-  if (preg_match('/^fatal/i', $errstr)){
+  set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
+  if (preg_match('/^fatal/i', $errstr)) {
     echo $error_collector."</div>";
     flush();
     exit;
@@ -246,7 +248,7 @@ function dummy_error_handler()
 }
 
 /* Bail out for incompatible/old PHP versions */
-if (!version_compare(phpversion(),"5.2.0",">=")){
+if (!version_compare(phpversion(), "5.2.0", ">=")) {
   echo "PHP version needs to be 5.2.0 or above to run FusionDirectory. Aborted.";
   exit();
 }
@@ -255,41 +257,40 @@ if (!version_compare(phpversion(),"5.2.0",">=")){
 date_default_timezone_set("GMT");
 
 /* Get base dir for reference */
-$BASE_DIR= dirname(dirname(__FILE__));
-$ROOT_DIR= $BASE_DIR."/html";
+$BASE_DIR = dirname(dirname(__FILE__));
+$ROOT_DIR = $BASE_DIR."/html";
 error_reporting (E_ALL | E_STRICT);
 
 /* Register error handler */
-$error_collector= "";
-$error_collector_mailto= "";
+$error_collector        = "";
+$error_collector_mailto = "";
 
-set_error_handler('gosaRaiseError', E_WARNING |  E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT) ;
+set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
 
-$variables_order= "ES";
-ini_set("track_vars",1);
-ini_set("display_errors",1);
-ini_set("report_memleaks",1);
-ini_set("include_path",".:$BASE_DIR/include:".PHP_DIR.":".PEAR_DIR);
+$variables_order = "ES";
+ini_set("track_vars", 1);
+ini_set("display_errors", 1);
+ini_set("report_memleaks", 1);
+ini_set("include_path", ".:$BASE_DIR/include:".PHP_DIR.":".PEAR_DIR);
 
 /* Do smarty setup */
 
 if (file_exists(SMARTY)) {
- require(SMARTY);
+  require(SMARTY);
 } else {
- require(SMARTY3);
+  require(SMARTY3);
 }
 
 /*require(SMARTY_PATH);*/
 $smarty = new Smarty;
+
 $smarty->template_dir = $BASE_DIR.'/ihtml/';
-$smarty->caching= false;
+$smarty->caching      = FALSE;
 
 // To be able to switch between smarty version 2/3
-if(defined('SMARTY_PHP_REMOVE')){
-    $smarty->php_handling= SMARTY_PHP_REMOVE;
-}else{
-    $smarty->php_handling= Smarty::PHP_REMOVE;
+if (defined('SMARTY_PHP_REMOVE')) {
+    $smarty->php_handling = SMARTY_PHP_REMOVE;
+} else {
+    $smarty->php_handling = Smarty::PHP_REMOVE;
 }
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

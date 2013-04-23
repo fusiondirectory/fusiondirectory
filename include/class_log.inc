@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2007  Fabian Hickert
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -23,12 +23,12 @@
 /*!
  * \file class_log.inc
  * Source code for the class log
- */ 
+ */
 
-/*! 
+/*!
  * \brief This is the base class for the FusionDirectory logging functionality.
- * All logging should lead to this class. 
- * 
+ * All logging should lead to this class.
+ *
  * \author  Fabian Hickert <hickert@gonicus.de>
  * \version 2.6
  * \date    11.04.2007
@@ -37,19 +37,19 @@ class log {
 
   var $config;
 
-  /*! 
+  /*!
    * \brief logging constructor
-   * 
+   *
    * \param $action         One of these values (modify|create|remove|snapshot|copy)
-   * 
+   *
    * \param $objecttype     represents the current edited objecttype, like users/user
-   * 
+   *
    * \param $object         represents the current edited object dn
-   * 
+   *
    * \param $changes_array  An array containing names of all touched attributes
-   * 
-   * \param $result         A status message, containing errors or success messages 
-   * 
+   *
+   * \param $result         A status message, containing errors or success messages
+   *
    * \sa log()
    */
   function log($action,$objecttype,$object,$changes_array = array(),$result = "")
@@ -59,13 +59,13 @@ class log {
       $changes_array = array();
     }
 
-    $entry = array(); 
+    $entry = array();
     if(!session::global_is_set('config')){
       $entry['user']= "unkown";
     }else{
 
       $this->config = session::global_get('config');
-      $ui           = get_userinfo(); 
+      $ui           = get_userinfo();
       $entry['user']= @$ui->dn;
     }
 
@@ -75,7 +75,7 @@ class log {
       $changes .= $str.",";
     }
     $changes = preg_replace("/,$/","",$changes );
-    
+
     /* Create data object */
     $entry['timestamp'] = time();
     $entry['action']    = $action;
@@ -105,9 +105,9 @@ class log {
 
   /*!
    * \brief Check the options
-   * 
+   *
    * \param Array $entry to be checked
-   */ 
+   */
   function check($entry = array())
   {
     $msgs = array();
@@ -119,15 +119,15 @@ class log {
     if(!isset($entry['objecttype']) || empty($entry['objecttype'])){
       $msgs[] = _("Specified objectType is empty or invalid!");
     }
-  
+
     return($msgs);
   }
 
-   
-  /* 
+
+  /*
    * \brief This function is used to into the systems syslog
-   * 
-   * \param Array $entry Entry to be loged 
+   *
+   * \param Array $entry Entry to be loged
    */
   function log_into_syslog($entry)
   {

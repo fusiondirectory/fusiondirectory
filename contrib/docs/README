@@ -26,14 +26,14 @@ We are using [[https://www.transifex.net/|transifex]] to translate FusionDirecto
   * If your team doesn't exist you can ask for his creation
 
 If you're ready with that, create a directory for your language using
-the ISO shortcuts (i.e. es for spain) with a subdirectory LC_MESSAGES.
+the ISO shortcuts (i.e. es for spain).
 In case of spain this will be
 
- fusiondirectory/locales/core/es/LC_MESSAGES
+ fusiondirectory/locales/core/es
 
-and put the freshly translated messages.po in this directory.
+and put the freshly translated fusiondirectory.po in this directory.
 
-To test this, you've deploy the messages.po file in your running copy
+To test this, you've deploy the fusiondirectory.po file in your running copy
 of FusionDirectory and run the "fusiondirectory-setup --update-locales"
 command, to let FusionDirectory merge the translations. Then, Make sure
 your apache has locale support or, in case of debian, that the specific

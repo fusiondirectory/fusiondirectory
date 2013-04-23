@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -75,7 +75,7 @@ class filterLDAP {
    *
    * \param flag $flags GL_SUBSEARCH
    */
-  static function get_list($parent, $base, $filter, $attributes, $category, $objectStorage, $flags= GL_SUBSEARCH)
+  static function get_list($parent, $base, $filter, $attributes, $category, $objectStorage, $flags = GL_SUBSEARCH)
   {
     $ui = session::global_get('ui');
     $config = session::global_get('config');
@@ -88,7 +88,7 @@ class filterLDAP {
     // Store in base - i.e. is a rdn value empty?
     $storeOnBase = in_array("",$objectStorage);
 
-    $method = ($storeOnBase && !($flags & GL_SUBSEARCH))?"ls":"search";
+    $default_method = ($storeOnBase && !($flags & GL_SUBSEARCH))?"ls":"search";
 
     // Initialize search bases
     $bases = array();
@@ -98,7 +98,7 @@ class filterLDAP {
       $bases[$base] = "";
     } else {
       foreach ($objectStorage as $oc) {
-        $oc= preg_replace('/,$/', '', $oc);
+        $oc = preg_replace('/,$/', '', $oc);
         if (!strpos($oc,',')) {
           preg_match('/([^=]+)=(.*)$/', $oc, $m);
           if ($flags & GL_SUBSEARCH) {
@@ -125,11 +125,16 @@ class filterLDAP {
     // Do search for every base
     $result = array();
     $limit_exceeded = FALSE;
-    foreach($bases as $base => $dnFilters) {
+
+    // Save initial selected base for comparison purposes
+    $initial_base = $base;
+
+    foreach ($bases as $base => $dnFilters) {
+      $method = $default_method;
 
       // Break if the size limit is exceeded
       if ($limit_exceeded) {
-        return($result);
+        return $result;
       }
 
       // Switch to new base and search
@@ -143,6 +148,13 @@ class filterLDAP {
         $dnFilter = "";
       }
       $ldap->cd($base);
+
+      // In no-subsearch mode overwrite default method if
+      // current base equals the initial base
+      if ($base == $initial_base && !($flags & GL_SUBSEARCH)) {
+          $method = "ls";
+      }
+
       if ($method == "ls") {
         $ldap->ls("(&$filter$dnFilter)", $base, $attributes);
       } else {
@@ -168,18 +180,17 @@ class filterLDAP {
         }
 
         /* Skip ACL checks if we are forced to skip those checks */
-        if($flags & GL_NO_ACL_CHECK){
-          $result[]= $attrs;
-        }else{
-
+        if ($flags & GL_NO_ACL_CHECK) {
+          $result[] = $attrs;
+        } else {
           // Check entry permission
-          $obj = $parent->headpage->getObjectType($parent->headpage->objectTypes, $attrs['objectClass']);
-          if(isset($obj['category'])){
+          $obj = $parent->headpage->getObjectTypeInfos($attrs['objectClass']);
+          if (isset($obj['category'])) {
             $o = $obj['category']."/".$obj['class'];
-            if(preg_match("/r/",$ui->get_permissions($dn,$o))){
-              $result[]= $attrs;
+            if (preg_match("/r/", $ui->get_permissions($dn, $o))) {
+              $result[] = $attrs;
             }
-          }else{
+          } else {
             //trigger_error("Invalid objectType given, please check listing.xml '{$dn}'!");
           }
         }
@@ -189,8 +200,6 @@ class filterLDAP {
 
     return $result;
   }
-
-
 }
 
 ?>

@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -22,16 +22,27 @@
 
 class ogroupManagement extends management
 {
-  var $plHeadline     = "Object groups";
-  var $plDescription  = "Manage object groups";
-  var $plIcon  = "plugins/ogroups/images/plugin.png";
-
-  // Tab definition 
+  // Tab definition
   protected $tabClass = "ogrouptabs";
   protected $tabType = "OGROUPTABS";
   protected $aclCategory = "ogroups";
   protected $aclPlugin   = "ogroup";
   protected $objectName   = "object group";
+
+  /* Return plugin informations for acl handling */
+  static function plInfo()
+  {
+    return array(
+      "plShortName"   => _("Object groups"),
+      "plDescription" => _("Manage object groups"),
+      "plIcon"        => "plugins/ogroups/images/icon.png",
+      "plSection"     => "admin",
+      "plCategory"    => array("ogroups"),
+      "plPriority"    => 3,
+
+      "plProvidedAcls" => array()
+    );
+  }
 
   function __construct($config,$ui)
   {
@@ -54,13 +65,6 @@ class ogroupManagement extends management
     $headpage->registerElementFilter("filterProperties", "ogroupManagement::filterProperties");
     $headpage->setFilter($filter);
 
-    // Add copy&paste and snapshot handler.
-    if ($this->config->boolValueIsTrue("main", "copyPaste")){
-      $this->cpHandler = new CopyPasteHandler($this->config);
-    }
-    if($this->config->get_cfg_value("enableSnapshots") == "true"){
-      $this->snapHandler = new SnapshotHandler($this->config);
-    }
     parent::__construct($config, $ui, "ogroups", $headpage);
 
     $this->registerAction("edit_ogroup","editEntry");
@@ -121,18 +125,18 @@ class ogroupManagement extends management
 
   /*! \brief  Sends a message to a set of users using Argonauts events.
    */
-  function sendMessage($action="",$target=array(),$all=array())
+  function sendMessage($action = "", $target = array(), $all = array())
   {
 
-    if(class_available("DaemonEvent_notify")){
+    if (class_available("DaemonEvent")) {
 
-      // Resolv targets  
+      // Resolv targets
       $targets = array();
       $m_list  = array();
       $ldap = $this->config->get_ldap_link();
 
       // Collect selected ogroups
-      foreach($target as $dn){
+      foreach ($target as $dn) {
         $ldap->cat($dn, array('member'));
         while ($entry = $ldap->fetch()) {
           $m_list[] = $entry;
@@ -160,13 +164,12 @@ class ogroupManagement extends management
           }
         }
       }
-    
+
       // We've at least one recipient
-      if(count($targets)){
-        $events = DaemonEvent::get_event_types(USER_EVENT);
-        if(isset($events['BY_CLASS']['DaemonEvent_notify'])){
-          $type = $events['BY_CLASS']['DaemonEvent_notify'];
-          $this->dialogObject = new $type['CLASS_NAME']($this->config);
+      if (count($targets)) {
+        $events = DaemonEvent::get_event_types();
+        if (isset($events['notify'])) {
+          $this->dialogObject = new DaemonEvent($this->config, 'notify');
           $this->dialogObject->add_targets($targets);
           $this->dialogObject->set_type(TRIGGERED_EVENT);
         }
@@ -180,8 +183,8 @@ class ogroupManagement extends management
 
     $conv= array(
         "Y" => array("plugins/users/images/select_template.png",_("Templates") , "ogroup"),
-        "U" => array("plugins/generic/images/head.png"        ,_("User")        , "ogroup"),
-        "G" => array("plugins/groups/images/groups.png"       ,_("Group")       , "ogroup"),
+        "U" => array("plugins/users/images/iconMini.png"        ,_("User")        , "ogroup"),
+        "G" => array("plugins/groups/images/iconMini.png"       ,_("Group")       , "ogroup"),
         "A" => array("plugins/ogroups/images/application.png" ,_("Application") , "ogroup"),
         "D" => array("plugins/departments/department.png"     ,_("Department")  , "ogroup"),
         "S" => array("plugins/ogroups/images/server.png"      ,_("Server")      , "ogroup"),
@@ -202,6 +205,6 @@ class ogroupManagement extends management
     }
     return($result);
   }
-} 
+}
 // vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

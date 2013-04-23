@@ -16,7 +16,7 @@
       <objectClass>gosaAccount</objectClass>
       <category>users</category>
       <class>user</class>
-      <image>plugins/users/images/select_user.png</image>
+      <image>plugins/users/images/iconMini.png</image>
     </objectType>
 
     <objectType>
@@ -24,7 +24,7 @@
       <objectClass>posixGroup</objectClass>
       <category>groups</category>
       <class>group</class>
-      <image>plugins/groups/images/groups.png</image>
+      <image>plugins/groups/images/iconMini.png</image>
     </objectType>
 
   </definition>

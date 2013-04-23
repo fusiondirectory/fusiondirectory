@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -68,8 +68,8 @@ class plugin
 
     \sa plugin::plugin()
    */
-  var $is_account= FALSE;
-  var $initially_was_account= FALSE;
+  var $is_account             = FALSE;
+  var $initially_was_account  = FALSE;
 
   /*!
     \brief Mark plugin as template
@@ -80,42 +80,41 @@ class plugin
 
     \sa plugin::save() plugin::execute()
    */
-  var $is_template= FALSE;
-  var $ignore_account= FALSE;
-  var $is_modified= FALSE;
+  var $is_template    = FALSE;
+  var $ignore_account = FALSE;
+  var $is_modified    = FALSE;
 
   /*!
     \brief Represent temporary LDAP data
 
     This is only used internally.
    */
-  var $attrs= array();
+  var $attrs = array();
 
   /* Keep set of conflicting plugins */
-  var $conflicts= array();
+  var $conflicts = array();
 
   /* Save unit tags */
-  var $gosaUnitTag= "";
-  var $skipTagging= FALSE;
+  var $gosaUnitTag  = "";
+  var $skipTagging  = FALSE;
 
   /*!
     \brief Used standard values
 
     dn
    */
-  var $dn= "";
-  var $uid= "";
-  var $sn= "";
-  var $givenName= "";
-  var $acl= "*none*";
-  var $dialog= FALSE;
-  var $snapDialog = NULL;
+  var $dn         = "";
+  var $uid        = "";
+  var $sn         = "";
+  var $givenName  = "";
+  var $acl        = "*none*";
+  var $dialog     = FALSE;
 
   /* attribute list for save action */
-  var $attributes= array();
-  var $objectclasses= array();
-  var $is_new= TRUE;
-  var $saved_attributes= array();
+  var $attributes       = array();
+  var $objectclasses    = array();
+  var $is_new           = TRUE;
+  var $saved_attributes = array();
 
   var $acl_base= "";
   var $acl_category= "";
@@ -128,15 +127,7 @@ class plugin
   var $entryCSN         = "";
   var $CSN_check_active = FALSE;
 
-  /* This variable indicates that this class can handle multiple dns at once. */
-  var $multiple_support = FALSE;
-  var $multi_attrs      = array();
-  var $multi_attrs_all  = array();
-
-  /* This variable indicates, that we are currently in multiple edit handle */
-  var $multiple_support_active = FALSE;
   var $selected_edit_values = array();
-  var $multi_boxes = array();
 
   /*!
    * \brief plugin constructor
@@ -151,18 +142,18 @@ class plugin
    *
    * \sa plugin()
    */
-  function plugin (&$config, $dn= NULL, $object= NULL)
+  function plugin (&$config, $dn = NULL, $object = NULL)
   {
     /* Configuration is fine, allways */
-    $this->config= &$config;
-    $this->dn= $dn;
+    $this->config = &$config;
+    $this->dn     = $dn;
 
     // Ensure that we've a valid acl_category set.
-    if(empty($this->acl_category)){
+    if (empty($this->acl_category)) {
       $tmp = $this->plInfo();
       if (isset($tmp['plCategory'])) {
         $c = key($tmp['plCategory']);
-        if(is_numeric($c)){
+        if (is_numeric($c)) {
           $c = $tmp['plCategory'][0];
         }
         $this->acl_category = $c."/";
@@ -170,109 +161,132 @@ class plugin
     }
 
     /* Handle new accounts, don't read information from LDAP */
-    if ($dn == "new"){
-      return;
-    }
-
-    /* Check if this entry was opened in read only mode */
-    if(isset($_POST['open_readonly'])){
-      if(session::global_is_set("LOCK_CACHE")){
-        $cache = &session::get("LOCK_CACHE");
-        if(isset($cache['READ_ONLY'][$this->dn])){
-          $this->read_only = TRUE;
+    if ($this->dn != "new") {
+      /* Check if this entry was opened in read only mode */
+      if (isset($_POST['open_readonly'])) {
+        if (session::global_is_set("LOCK_CACHE")) {
+          $cache = &session::get("LOCK_CACHE");
+          if (isset($cache['READ_ONLY'][$this->dn])) {
+            $this->read_only = TRUE;
+          }
         }
+      }
+
+      /* Save current dn as acl_base */
+      $this->acl_base = $this->dn;
+
+      if ($this->dn === NULL) {
+        return;
       }
     }
 
-    /* Save current dn as acl_base */
-    $this->acl_base= $dn;
-
     /* Get LDAP descriptor */
-    if ($dn !== NULL){
+    if (($this->dn != "new") || ($object !== NULL)) {
 
       /* Load data to 'attrs' and save 'dn' */
-      if ($object !== NULL){
-        $this->attrs= $object->attrs;
+      if ($object !== NULL) {
+        $this->attrs = $object->attrs;
       } else {
-        $ldap= $this->config->get_ldap_link();
-        $ldap->cat ($dn);
-        $this->attrs= $ldap->fetch();
+        $ldap = $this->config->get_ldap_link();
+        $ldap->cat($this->dn);
+        $this->attrs = $ldap->fetch();
       }
 
       /* Copy needed attributes */
-      foreach ($this->attributes as $val){
-        $found= array_key_ics($val, $this->attrs);
-        if ($found != ""){
-          $this->$val= $found[0];
+      foreach ($this->attributes as $val) {
+        $found = array_key_ics($val, $this->attrs);
+        if ($found != "") {
+          $this->$val = $found[0];
         }
       }
 
       /* gosaUnitTag loading... */
-      if (isset($this->attrs['gosaUnitTag'][0])){
-        $this->gosaUnitTag= $this->attrs['gosaUnitTag'][0];
+      if (isset($this->attrs['gosaUnitTag'][0])) {
+        $this->gosaUnitTag = $this->attrs['gosaUnitTag'][0];
       }
 
       /* Set the template flag according to the existence of objectClass
          gosaUserTemplate */
-      if (isset($this->attrs['objectClass'])){
-        if (in_array_ics ("gosaUserTemplate", $this->attrs['objectClass'])){
-          $this->is_template= TRUE;
+      if (isset($this->attrs['objectClass'])) {
+        if (in_array_ics ("gosaUserTemplate", $this->attrs['objectClass'])) {
+          $this->is_template = TRUE;
           @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
               "found", "Template check");
         }
       }
 
       /* Is Account? */
-      $found= TRUE;
-      foreach ($this->objectclasses as $obj){
-        if (preg_match('/top/i', $obj)){
-          continue;
-        }
-        if (!isset($this->attrs['objectClass']) || !in_array_ics ($obj, $this->attrs['objectClass'])){
-          $found= FALSE;
-          break;
-        }
-      }
-      if ($found){
-        $this->is_account= TRUE;
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
-            "found", "Object check");
+      if ($this->is_this_account($this->attrs)) {
+        $this->is_account = TRUE;
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, "found", "Object check");
       }
 
-      /* Prepare saved attributes */
-      $this->saved_attributes= $this->attrs;
-      foreach ($this->saved_attributes as $index => $value){
-        if (is_numeric($index)){
-          unset($this->saved_attributes[$index]);
-          continue;
-        }
-
-        if (!in_array_ics($index, $this->attributes) && strcasecmp('objectClass', $index)){
-          unset($this->saved_attributes[$index]);
-          continue;
-        }
-
-        if (isset($this->saved_attributes[$index][0])){
-          if(!isset($this->saved_attributes[$index]["count"])){
-            $this->saved_attributes[$index]["count"] = count($this->saved_attributes[$index]);
-          }
-          if($this->saved_attributes[$index]["count"] == 1){
-            $tmp= $this->saved_attributes[$index][0];
-            unset($this->saved_attributes[$index]);
-            $this->saved_attributes[$index]= $tmp;
-            continue;
-          }
-        }
-        unset($this->saved_attributes["$index"]["count"]);
-      }
-
-      if(isset($this->attrs['gosaUnitTag'])){
-        $this->saved_attributes['gosaUnitTag'] = $this->attrs['gosaUnitTag'][0];
-      }
+      $this->prepareSavedAttributes();
     }
 
     /* Save initial account state */
-    $this->initially_was_account= $this->is_account;
+    $this->initially_was_account = $this->is_account;
+  }
+
+  function is_this_account($attrs)
+  {
+    $found = TRUE;
+    foreach ($this->objectclasses as $obj) {
+      if (preg_match('/top/i', $obj)) {
+        continue;
+      }
+      if (!isset($attrs['objectClass']) || !in_array_ics ($obj, $attrs['objectClass'])) {
+        $found = FALSE;
+        break;
+      }
+    }
+    return $found;
+  }
+
+  function prepareSavedAttributes()
+  {
+    /* Prepare saved attributes */
+    $this->saved_attributes = $this->attrs;
+    foreach ($this->saved_attributes as $index => $value) {
+      if (is_numeric($index)) {
+        unset($this->saved_attributes[$index]);
+        continue;
+      }
+
+      if (!in_array_ics($index, $this->attributes) && strcasecmp('objectClass', $index)) {
+        unset($this->saved_attributes[$index]);
+        continue;
+      }
+
+      if (isset($this->saved_attributes[$index][0])) {
+        if (!isset($this->saved_attributes[$index]["count"])) {
+          $this->saved_attributes[$index]["count"] = count($this->saved_attributes[$index]);
+        }
+        if ($this->saved_attributes[$index]["count"] == 1) {
+          $tmp = $this->saved_attributes[$index][0];
+          unset($this->saved_attributes[$index]);
+          $this->saved_attributes[$index] = $tmp;
+          continue;
+        }
+      }
+      unset($this->saved_attributes["$index"]["count"]);
+    }
+
+    if (isset($this->attrs['gosaUnitTag'])) {
+      $this->saved_attributes['gosaUnitTag'] = $this->attrs['gosaUnitTag'][0];
+    }
+  }
+
+  /*!
+   * \brief This function is called on the copied object to set its dn to where it will be saved
+   */
+  function resetCopyInfos()
+  {
+    $this->dn = "new";
+    $this->saved_attributes = array();
+
+    $this->orig_dn = $this->dn;
+    $this->initially_was_account = FALSE;
   }
 
 
@@ -344,11 +358,13 @@ class plugin
     foreach ($this->attributes as $val){
       if ($this->acl_is_writeable($val) && isset ($_POST["$val"])){
         /* Check for modifications */
-        $data= $this->$val = $_POST["$val"];
+        $data = $_POST["$val"];
 
         if ($this->$val != $data) {
-          $this->is_modified= TRUE;
+          $this->is_modified = TRUE;
         }
+
+        $this->$val = $data;
 
         /* Okay, how can I explain this fix ...
          * In firefox, disabled option fields aren't selectable ... but in IE you can select these fileds.
@@ -357,10 +373,10 @@ class plugin
          * This &nbsp; was added for W3c compliance, but now causes these ... ldap errors ...
          * So we set these Fields to ""; a normal empty string, and we can check these values in plugin::check() again ...
          */
-        if(isset($data[0]) && $data[0] == chr(194)) {
+        if (isset($data[0]) && $data[0] == chr(194)) {
           $data = "";
         }
-        $this->$val= $data;
+        $this->$val = $data;
       }
     }
   }
@@ -395,7 +411,7 @@ class plugin
     }
 
     /* Load (minimum) attributes, add missing ones */
-    $this->attrs['objectClass']= fusiondirectory_array_merge($oc,$this->objectclasses);
+    $this->attrs['objectClass'] = array_merge_unique($oc,$this->objectclasses);
 
     /* Copy standard attributes */
     foreach ($this->attributes as $val){
@@ -556,52 +572,124 @@ class plugin
    *
    * \param array $skip A new array
    */
-  function adapt_from_template($dn, $skip= array())
+  function adapt_from_template($dn, $skip = array())
   {
     /* Include global link_info */
-    $ldap= $this->config->get_ldap_link();
+    $ldap = $this->config->get_ldap_link();
 
     /* Load requested 'dn' to 'attrs' */
-    $ldap->cat ($dn);
-    $this->attrs= $ldap->fetch();
+    $ldap->cat($dn);
+    $this->attrs = $ldap->fetch();
 
     /* Walk through attributes */
-    foreach ($this->attributes as $val){
+    foreach ($this->attributes as $val) {
 
       /* Skip the ones in skip list */
-      if (in_array($val, $skip)){
+      if (in_array($val, $skip)) {
         continue;
       }
 
-      if (isset($this->attrs["$val"][0])){
+      if (isset($this->attrs["$val"][0])) {
 
         /* If attribute is set, replace dynamic parts:
            %sn, %givenName and %uid. Fill these in our local variables. */
-        $value= $this->attrs["$val"][0];
+        $value = $this->tpl_parse($this->attrs["$val"][0]);
 
-        foreach (array("sn", "givenName", "uid") as $repl){
-          if (preg_match("/%$repl/i", $value)){
-            $value= preg_replace ("/%$repl/i", $this->parent->$repl, $value);
-          }
-        }
-        $this->$val= $value;
+        $this->$val = $value;
       }
     }
 
     /* Is Account? */
-    $found= TRUE;
-    foreach ($this->objectclasses as $obj){
-      if (preg_match('/top/i', $obj)){
-        continue;
-      }
-      if (!in_array_ics ($obj, $this->attrs['objectClass'])){
-        $found= FALSE;
+    $this->is_account = $this->is_this_account($this->attrs);
+  }
+
+  /* Apply a modifier
+   * Returns an array of possible values */
+  static function tpl_apply_modifier($m, $args, $str)
+  {
+    switch($m) {
+      case 'u': // uppercase
+        return array(mb_strtoupper($str, 'UTF-8'));
+      case 'l': // lowercase
+        return array(mb_strtolower($str, 'UTF-8'));
+      case 'a': // remove accent
+        $str = htmlentities($str, ENT_NOQUOTES, 'UTF-8');
+
+        $str = preg_replace('#&([A-za-z])(?:acute|cedil|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
+        $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // handle ligatures
+        return array(preg_replace('#&[^;]+;#', '', $str)); // delete unhandled characters
+      case 's': // substring
+        if (count($args) < 1) {
+          trigger_error("Missing 's' substr modifier parameter");
+        }
+        if (count($args) < 2) {
+          array_unshift($args, 0);
+        }
+        if (preg_match('/^(\d+)-(\d+)$/', $args[1], $m)) {
+          $res = array();
+          for ($i = $m[1];$i < $m[2]; ++$i) {
+            $res[] = substr($str, $args[0], $i);
+          }
+          return array_unique($res);
+        } else {
+          return array(substr($str, $args[0], $args[1]));
+        }
+      default:
+        trigger_error("Unkown modifier '$m'");
+        return array($str);
+    }
+  }
+
+  static function tpl_parse_mask($mask, $objects)
+  {
+    if ($mask == "|") {
+      return array("%");
+    }
+    $modifiers = '';
+    if (preg_match('/^([^|]+)\|/', $mask, $m)) {
+      $modifiers = $m[1];
+      $mask = substr($mask, strlen($m[0]));
+    }
+    $result = NULL;
+    foreach ($objects as &$object) {
+      if (isset($object->$mask)) {
+        $result = array($object->$mask);
         break;
       }
     }
-    if ($found){
-      $this->is_account= TRUE;
+    unset($object);
+    if ($result === NULL) {
+      trigger_error("'$mask' was not found in objects");
+      $result = array('');
     }
+    $len    = strlen($modifiers);
+    for ($i = 0; $i<$len; ++$i) {
+      $args     = array();
+      $modifier = $modifiers[$i];
+      if (preg_match('/^\[([^\]]+)\].*$/', substr($modifiers, $i+1), $m)) {
+        /* get modifier args */
+        $args = explode(',', $m[1]);
+        $i += strlen($m[1])+2;
+      }
+      $result_tmp = array();
+      foreach ($result as $r) {
+        $result_tmp = array_merge($result_tmp, self::tpl_apply_modifier($modifier, $args, $r));
+      }
+      $result = $result_tmp;
+    }
+    return $result;
+  }
+
+  function tpl_parse($string)
+  {
+    $offset = 0;
+    while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
+      $replace = self::tpl_parse_mask($m[1][0], array($this->parent, $this));
+      $replace = $replace[0];
+      $string = substr_replace($string, $replace, $m[0][1], strlen($m[0][0]));
+      $offset = $m[0][1] + strlen($replace);
+    }
+    return $string;
   }
 
   /*
@@ -663,7 +751,7 @@ class plugin
     }
     $display = "<div width=\"100%\"><p><b>$text</b><br/>\n";
     $display .= "<input type=\"submit\" value=\"$button_text\" name=\"$name\" ".$state.
-      "></p><hr class=\"separator\"/></div>";
+      "></p></div><hr class=\"separator\"/>";
 
     return $display;
   }
@@ -696,6 +784,13 @@ class plugin
   function postremove($add_attrs = array())
   {
     return self::callHook ($this, "POSTREMOVE", $add_attrs);
+  }
+
+  /*!
+   * \brief Executes a command after an object has been copied
+   */
+  function postCopyHook()
+  {
   }
 
   /*!
@@ -997,16 +1092,18 @@ class plugin
       $o_group->save();
     }
 
-    /* Update roles to use the new entry dn */
-    $roles = get_sub_list("(&(objectClass=organizationalRole)(roleOccupant=".LDAP::prepare4filter(LDAP::fix($src_dn))."))","roles", array(get_ou("roleRDN")),$this->config->current['BASE'],array("dn"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
+    if (class_available('roleGeneric')) {
+      /* Update roles to use the new entry dn */
+      $roles = get_sub_list("(&(objectClass=organizationalRole)(roleOccupant=".LDAP::prepare4filter(LDAP::fix($src_dn))."))", "roles", array(get_ou("roleRDN")), $this->config->current['BASE'], array("dn"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
 
-    // Walk through all roles
-    foreach($roles as $role){
-      $role = new roleGeneric($this->config,$role['dn']);
-      $key= array_search($src_dn, $role->roleOccupant);
-      if($key !== FALSE){
-        $role->roleOccupant[$key] = $dst_dn;
-        $role->save();
+      // Walk through all roles
+      foreach ($roles as $role) {
+        $role = new roleGeneric($this->config, $role['dn']);
+        $key  = array_search($src_dn, $role->roleOccupant);
+        if ($key !== FALSE) {
+          $role->roleOccupant[$key] = $dst_dn;
+          $role->save();
+        }
       }
     }
 
@@ -1123,23 +1220,23 @@ class plugin
   /*! \brief Forward command execution requests
    *         to the post hook execution method.
    */
-  function handle_post_events($mode, $addAttrs= array())
+  function handle_post_events($mode, $addAttrs = array())
   {
-    if(!in_array($mode, array('add','remove','modify'))){
+    if (!in_array($mode, array('add','remove','modify'))) {
       trigger_error(sprintf("Invalid post event type given %s! Valid types are [add,modify,remove].", $mode));
       return;
     }
-    switch ($mode){
+    switch ($mode) {
       case "add":
-        plugin::callHook($this,"POSTCREATE", $addAttrs);
+        plugin::callHook($this, "POSTCREATE", $addAttrs);
       break;
 
       case "modify":
-        plugin::callHook($this,"POSTMODIFY", $addAttrs);
+        plugin::callHook($this, "POSTMODIFY", $addAttrs);
       break;
 
       case "remove":
-        plugin::callHook($this,"POSTREMOVE", $addAttrs);
+        plugin::callHook($this, "POSTREMOVE", $addAttrs);
       break;
     }
   }
@@ -1149,23 +1246,23 @@ class plugin
    *  \brief Forward command execution requests
    *         to the pre hook execution method.
    */
-  function handle_pre_events($mode, $addAttrs= array())
+  function handle_pre_events($mode, $addAttrs = array())
   {
-    if(!in_array($mode, array('add','remove','modify'))){
+    if (!in_array($mode, array('add','remove','modify'))) {
       trigger_error(sprintf("Invalid pre event type given %s! Valid types are [add,modify,remove].", $mode));
       return;
     }
-    switch ($mode){
+    switch ($mode) {
       case "add":
-        plugin::callHook($this,"PRECREATE", $addAttrs);
+        plugin::callHook($this, "PRECREATE", $addAttrs);
       break;
 
       case "modify":
-        plugin::callHook($this,"PREMODIFY", $addAttrs);
+        plugin::callHook($this, "PREMODIFY", $addAttrs);
       break;
 
       case "remove":
-        plugin::callHook($this,"PREREMOVE", $addAttrs);
+        plugin::callHook($this, "PREREMOVE", $addAttrs);
       break;
     }
   }
@@ -1181,7 +1278,7 @@ class plugin
 
     // Now replace the placeholder
     foreach ($tmp as $name => $len) {
-      $command  = str_replace("%$name", escapeshellarg($addAttrs[$name]), $command);
+      $command  = str_replace("%$name%", escapeshellarg($addAttrs[$name]), $command);
     }
     return $command;
   }
@@ -1194,7 +1291,7 @@ class plugin
   static function callHook($plugin, $cmd, $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL)
   {
     global $config;
-    $command = $config->search(get_class($plugin), $cmd, array('menu','tabs'));
+    $command = $config->search(get_class($plugin), $cmd, array('menu','tabs','hooks'));
 
     if ($command != "") {
       // Walk trough attributes list and add the plugins attributes.
@@ -1271,58 +1368,6 @@ class plugin
       } elseif(is_array($arr)) {
         $str = implode("\n", $arr);
         @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Result: ".$str);
-      }
-    }
-  }
-
-
-  function saveCopyDialog(){
-  }
-
-  /*!
-   * \brief Accessor of the copy dialog
-   *
-   * \return the copy dialog
-   */
-  function getCopyDialog(){
-    return(array("string"=>"","status"=>""));
-  }
-
-
-  /*!
-   * \brief Prepare for Copy & Paste
-   *
-   * \param string $source Source to prepare for copy and paste
-   */
-  function PrepareForCopyPaste($source)
-  {
-    $todo = $this->attributes;
-    if(isset($this->CopyPasteVars)){
-      $todo = array_merge($todo,$this->CopyPasteVars);
-    }
-
-    if(count($this->objectclasses)){
-      $this->is_account = TRUE;
-      foreach($this->objectclasses as $class){
-        if(!in_array($class,$source['objectClass'])){
-          $this->is_account = FALSE;
-        }
-      }
-    }
-
-    foreach($todo as $var){
-      if (isset($source[$var])){
-        if(isset($source[$var]['count'])){
-          if($source[$var]['count'] > 1){
-            $tmp= $source[$var];
-            unset($tmp['count']);
-            $this->$var = $tmp;
-          }else{
-            $this->$var = $source[$var][0];
-          }
-        }else{
-          $this->$var= $source[$var];
-        }
       }
     }
   }
@@ -1410,413 +1455,6 @@ class plugin
     $reason= "";
     return $reason;
   }
-
-
-  /*!
-   * \brief Create a snapshot of the current object
-   *
-   * \param string $type Initialized at "snapshot"
-   *
-   * \param array $description
-   */
-  function create_snapshot($type= "snapshot", $description= array())
-  {
-
-    /* Check if snapshot functionality is enabled */
-    if(!$this->snapshotEnabled()){
-      return;
-    }
-
-    /* Get configuration from fusiondirectory.conf */
-    $config = $this->config;
-
-    /* Create lokal ldap connection */
-    $ldap= $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
-
-    /* check if there are special server configurations for snapshots */
-    if($config->get_cfg_value("snapshotURI") == ""){
-
-      /* Source and destination server are both the same, just copy source to dest obj */
-      $ldap_to      = $ldap;
-      $snapldapbase = $this->config->current['BASE'];
-
-    }else{
-      $server         = $config->get_cfg_value("snapshotURI");
-      $user           = $config->get_cfg_value("snapshotAdminDn");
-      $password       = $this->config->get_credentials($config->get_cfg_value("snapshotAdminPassword"));
-      $snapldapbase   = $config->get_cfg_value("snapshotBase");
-
-      $ldap_to        = new ldapMultiplexer(new LDAP($user,$password, $server));
-      $ldap_to -> cd($snapldapbase);
-
-      if (!$ldap_to->success()){
-        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap_to->get_error(), $snapldapbase, "", get_class()));
-      }
-
-    }
-
-    /* check if the dn exists */
-    if ($ldap->dn_exists($this->dn)){
-
-      /* Extract seconds & mysecs, they are used as entry index */
-      list($usec, $sec)= explode(" ", microtime());
-
-      /* Collect some infos */
-      $base           = $this->config->current['BASE'];
-      $snap_base      = $config->get_cfg_value("snapshotBase");
-      $base_of_object = preg_replace ('/^[^,]+,/i', '', $this->dn);
-      $new_base       = preg_replace("/".preg_quote($base, '/')."$/","",$base_of_object).$snap_base;
-
-      /* Create object */
-      $data             = $ldap->generateLdif(LDAP::fix($dn),
-              "(&(!(objectClass=gosaDepartment))(!(objectClass=FAIclass)))",array(),'base');
-
-      $newName          = str_replace(".", "", $sec."-".$usec);
-      $target= array();
-      $target['objectClass']            = array("top", "gosaSnapshotObject");
-      $target['gosaSnapshotData']       = gzcompress($data, 6);
-      $target['gosaSnapshotType']       = $type;
-      $target['gosaSnapshotDN']         = $this->dn;
-      $target['description']            = $description;
-      $target['gosaSnapshotTimestamp']  = $newName;
-
-      /* Insert the new snapshot
-         But we have to check first, if the given gosaSnapshotTimestamp
-         is already used, in this case we should increment this value till there is
-         an unused value. */
-      $new_dn                           = "gosaSnapshotTimestamp=".$newName.",".$new_base;
-      $ldap_to->cat($new_dn);
-      while($ldap_to->count()){
-        $ldap_to->cat($new_dn);
-        $newName = str_replace(".", "", $sec."-".($usec++));
-        $new_dn                           = "gosaSnapshotTimestamp=".$newName.",".$new_base;
-        $target['gosaSnapshotTimestamp']  = $newName;
-      }
-
-      /* Inset this new snapshot */
-      $ldap_to->cd($snapldapbase);
-      $ldap_to->create_missing_trees($snapldapbase);
-      $ldap_to->create_missing_trees($new_base);
-      $ldap_to->cd($new_dn);
-      $ldap_to->add($target);
-      if (!$ldap_to->success()){
-        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap_to->get_error(), $new_dn, LDAP_ADD, get_class()));
-      }
-
-      if (!$ldap->success()){
-        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $new_base, "", get_class()));
-      }
-
-    }
-  }
-
-  /*!
-   * \brief Remove a snapshot
-   *
-   * \param string $dn The DN
-   */
-  function remove_snapshot($dn)
-  {
-    $ui       = get_userinfo();
-    $old_dn   = $this->dn;
-    $this->dn = $dn;
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
-    $ldap->rmdir_recursive($this->dn);
-    if(!$ldap->success()){
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn));
-    }
-    $this->dn = $old_dn;
-  }
-
-
-  /*! \brief Test if snapshoting is enabled
-   *
-   * Test weither snapshotting is enabled or not. There will also be some errors posted,
-   * if the configuration failed
-   *
-   * \return TRUE if snapshots are enabled, and FALSE if it is disabled
-   */
-  function snapshotEnabled()
-  {
-    return $this->config->snapshotEnabled();
-  }
-
-
-  /*
-   * \brief Return available snapshots for the given base
-   *
-   * \param string $dn The DN
-   *
-   * \param string boolean $raw FALSE
-   */
-  function Available_SnapsShots($dn,$raw = false)
-  {
-    if(!$this->snapshotEnabled()) return(array());
-
-    /* Create an additional ldap object which
-       points to our ldap snapshot server */
-    $ldap= $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
-    $cfg= &$this->config->current;
-
-    /* check if there are special server configurations for snapshots */
-    if($this->config->get_cfg_value("snapshotURI") == ""){
-      $ldap_to      = $ldap;
-    }else{
-      $server         = $this->config->get_cfg_value("snapshotURI");
-      $user           = $this->config->get_cfg_value("snapshotAdminDn");
-      $password       = $this->config->get_credentials($this->config->get_cfg_value("snapshotAdminPassword"));
-      $snapldapbase   = $this->config->get_cfg_value("snapshotBase");
-      $ldap_to        = new ldapMultiplexer(new LDAP($user,$password, $server));
-      $ldap_to -> cd($snapldapbase);
-      if (!$ldap_to->success()){
-        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap_to->get_error(), $snapldapbase, "", get_class()));
-      }
-    }
-
-    /* Prepare bases and some other infos */
-    $base           = $this->config->current['BASE'];
-    $snap_base      = $this->config->get_cfg_value("snapshotBase");
-    $base_of_object = preg_replace ('/^[^,]+,/i', '', $dn);
-    $new_base       = preg_replace("/".preg_quote($base, '/')."$/","",$base_of_object).$snap_base;
-    $tmp            = array();
-
-    /* Fetch all objects with  gosaSnapshotDN=$dn */
-    $ldap_to->cd($new_base);
-    $ldap_to->ls("(&(objectClass=gosaSnapshotObject)(gosaSnapshotDN=".$dn."))",$new_base,
-        array("gosaSnapshotType","gosaSnapshotTimestamp","gosaSnapshotDN","description"));
-
-    /* Put results into a list and add description if missing */
-    while($entry = $ldap_to->fetch()){
-      if(!isset($entry['description'][0])){
-        $entry['description'][0]  = "";
-      }
-      $tmp[] = $entry;
-    }
-
-    /* Return the raw array, or format the result */
-    if($raw){
-      return($tmp);
-    }else{
-      $tmp2 = array();
-      foreach($tmp as $entry){
-        $tmp2[base64_encode($entry['dn'])] = $entry['description'][0];
-      }
-    }
-    return($tmp2);
-  }
-
-  /*!
-   * \brief Get all deleted snapshots
-   */
-  function getAllDeletedSnapshots($base_of_object,$raw = false)
-  {
-    if(!$this->snapshotEnabled()) return(array());
-
-    /* Create an additional ldap object which
-       points to our ldap snapshot server */
-    $ldap= $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
-    $cfg= &$this->config->current;
-
-    /* check if there are special server configurations for snapshots */
-    if($this->config->get_cfg_value("snapshotURI") == ""){
-      $ldap_to      = $ldap;
-    }else{
-      $server         = $this->config->get_cfg_value("snapshotURI");
-      $user           = $this->config->get_cfg_value("snapshotAdminDn");
-      $password       = $this->config->get_credentials($this->config->get_cfg_value("snapshotAdminPassword"));
-      $snapldapbase   = $this->config->get_cfg_value("snapshotBase");
-      $ldap_to        = new ldapMultiplexer(new LDAP($user,$password, $server));
-      $ldap_to -> cd($snapldapbase);
-      if (!$ldap_to->success()){
-        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap_to->get_error(), $snapldapbase, "", get_class()));
-      }
-    }
-
-    /* Prepare bases */
-    $base           = $this->config->current['BASE'];
-    $snap_base      = $this->config->get_cfg_value("snapshotBase");
-    $new_base       = preg_replace("/".preg_quote($base, '/')."$/","",$base_of_object).$snap_base;
-
-    /* Fetch all objects and check if they do not exist anymore */
-    $ui = get_userinfo();
-    $tmp = array();
-    $ldap_to->cd($new_base);
-    $ldap_to->ls("(objectClass=gosaSnapshotObject)",$new_base,array("gosaSnapshotType","gosaSnapshotTimestamp","gosaSnapshotDN","description"));
-    while($entry = $ldap_to->fetch()){
-
-      $chk =  str_replace($new_base,"",$entry['dn']);
-      if(preg_match("/,ou=/",$chk)) continue;
-
-      if(!isset($entry['description'][0])){
-        $entry['description'][0]  = "";
-      }
-      $tmp[] = $entry;
-    }
-
-    /* Check if entry still exists */
-    foreach($tmp as $key => $entry){
-      $ldap->cat($entry['gosaSnapshotDN'][0]);
-      if($ldap->count()){
-        unset($tmp[$key]);
-      }
-    }
-
-    /* Format result as requested */
-    if($raw) {
-      return($tmp);
-    }else{
-      $tmp2 = array();
-      foreach($tmp as $key => $entry){
-        $tmp2[base64_encode($entry['dn'])] = $entry['description'][0];
-      }
-    }
-    return($tmp2);
-  }
-
-
-  /*
-   * \brief Restore selected snapshot
-   *
-   * \param strind $dn The DN
-   */
-  function restore_snapshot($dn)
-  {
-    if(!$this->snapshotEnabled()) return(array());
-
-    $ldap= $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
-    $cfg= &$this->config->current;
-
-    /* check if there are special server configurations for snapshots */
-    if($this->config->get_cfg_value("snapshotURI") == ""){
-      $ldap_to      = $ldap;
-    }else{
-      $server         = $this->config->get_cfg_value("snapshotURI");
-      $user           = $this->config->get_cfg_value("snapshotAdminDn");
-      $password       = $this->config->get_credentials($this->config->get_cfg_value("snapshotAdminPassword"));
-      $snapldapbase   = $this->config->get_cfg_value("snapshotBase");
-      $ldap_to        = new ldapMultiplexer(new LDAP($user,$password, $server));
-      $ldap_to -> cd($snapldapbase);
-      if (!$ldap_to->success()){
-        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap_to->get_error(), $snapldapbase, "", get_class()));
-      }
-    }
-
-    /* Get the snapshot */
-    $ldap_to->cat($dn);
-    $restoreObject = $ldap_to->fetch();
-
-    /* Prepare import string */
-    $data  = gzuncompress($ldap_to->get_attribute($dn,'gosaSnapshotData'));
-
-    /* Import the given data */
-    $err = "";
-    $ldap->import_complete_ldif($data,$err,false,false);
-    if (!$ldap->success()){
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, "", get_class()));
-    }
-  }
-
-  /*!
-   * \brief Show snapshot dialog
-   */
-  function showSnapshotDialog($base,$baseSuffixe,&$parent)
-  {
-    $once = true;
-    $ui = get_userinfo();
-    $this->parent = $parent;
-
-    foreach($_POST as $name => $value){
-
-      /* Create a new snapshot, display a dialog */
-      if(preg_match("/^CreateSnapShotDialog_[^_]*_[xy]$/",$name) && $once){
-
-        $entry = base64_decode(preg_replace("/^CreateSnapShotDialog_([^_]*)_[xy]$/","\\1",$name));
-        $once = false;
-        $entry = preg_replace("/^CreateSnapShotDialog_/","",$entry);
-
-        if(!empty($entry) && $ui->allow_snapshot_create($entry,$this->parent->acl_module)){
-          $this->snapDialog = new SnapShotDialog($this->config,$entry,$this);
-        }else{
-          msg_dialog::display(_("Permission"),sprintf(_("You are not allowed to create a snapshot for %s."),$entry),ERROR_DIALOG);
-        }
-      }
-
-      /* Restore a snapshot, display a dialog with all snapshots of the current object */
-      if(preg_match("/^RestoreSnapShotDialog_/",$name) && $once){
-        $once = false;
-        $entry = base64_decode(preg_replace("/^RestoreSnapShotDialog_([^_]*)_[xy]$/i","\\1",$name));
-        if(!empty($entry) && $ui->allow_snapshot_restore($this->dn,$this->parent->acl_module)){
-          $this->snapDialog = new SnapShotDialog($this->config,$entry,$this);
-          $this->snapDialog->display_restore_dialog = true;
-        }else{
-          msg_dialog::display(_("Permission"),sprintf(_("You are not allowed to restore a snapshot for %s."),$entry),ERROR_DIALOG);
-        }
-      }
-
-      /* Restore one of the already deleted objects */
-      if(((isset($_POST['menu_action']) && $_POST['menu_action'] == "RestoreDeletedSnapShot")
-          || preg_match("/^RestoreDeletedSnapShot_/",$name)) && $once){
-        $once = false;
-
-        if($ui->allow_snapshot_restore($this->dn,$this->parent->acl_module)){
-          $this->snapDialog = new SnapShotDialog($this->config,"",$this);
-          $this->snapDialog->set_snapshot_bases($baseSuffixe);
-          $this->snapDialog->display_restore_dialog      = true;
-          $this->snapDialog->display_all_removed_objects  = true;
-        }else{
-          msg_dialog::display(_("Permission"),sprintf(_("You are not allowed to restore a snapshot for %s."),$base),ERROR_DIALOG);
-        }
-      }
-
-      /* Restore selected snapshot */
-      if(preg_match("/^RestoreSnapShot_/",$name) && $once){
-        $once = false;
-        $entry = base64_decode(preg_replace("/^RestoreSnapShot_([^_]*)_[xy]$/i","\\1",$name));
-
-        if(!empty($entry) && $ui->allow_snapshot_restore($this->dn,$this->parent->acl_module)){
-          $this->restore_snapshot($entry);
-          $this->snapDialog = NULL;
-        }else{
-          msg_dialog::display(_("Permission"),sprintf(_("You are not allowed to restore a snapshot for %s."),$entry),ERROR_DIALOG);
-        }
-      }
-    }
-
-    /* Create a new snapshot requested, check
-       the given attributes and create the snapshot*/
-    if(isset($_POST['CreateSnapshot']) && is_object($this->snapDialog)){
-      $this->snapDialog->save_object();
-      $msgs = $this->snapDialog->check();
-      if(count($msgs)){
-        foreach($msgs as $msg){
-          msg_dialog::display(_("Error"), $msg, ERROR_DIALOG);
-        }
-      }else{
-        $this->dn =  $this->snapDialog->dn;
-        $this->create_snapshot("snapshot",$this->snapDialog->CurrentDescription);
-        $this->snapDialog = NULL;
-      }
-    }
-
-    /* Restore is requested, restore the object with the posted dn .*/
-    if((isset($_POST['RestoreSnapshot'])) && (isset($_POST['SnapShot']))){
-    }
-
-    if(isset($_POST['CancelSnapshot'])){
-      $this->snapDialog = NULL;
-    }
-
-    if(is_object($this->snapDialog )){
-      $this->snapDialog->save_object();
-      return($this->snapDialog->execute());
-    }
-  }
-
 
   /*!
    * \brief Return plugin informations for acl handling
@@ -2052,8 +1690,6 @@ class plugin
     }
   }
 
-
-
   /*!
    * \brief Enable the Serial ID check
    *
@@ -2067,299 +1703,9 @@ class plugin
     $this->entryCSN = getEntryCSN($this->dn);
   }
 
-
-  /*!
-   * \brief  Prepares the plugin to be used for multiple edit
-   *          Update plugin attributes with given array of attribtues.
-   * \param  $attrs   Array with attributes that must be updated.
-   *
-   * \param  $all All
-   */
-  function init_multiple_support($attrs,$all)
-  {
-    $ldap= $this->config->get_ldap_link();
-    $this->multi_attrs    = $attrs;
-    $this->multi_attrs_all= $all;
-
-    /* Copy needed attributes */
-    foreach ($this->attributes as $val){
-      $found= array_key_ics($val, $this->multi_attrs);
-
-      if ($found != ""){
-        if(isset($this->multi_attrs["$val"][0])){
-          $this->$val= $this->multi_attrs["$val"][0];
-        }
-      }
-    }
-  }
-
-
-  /*!
-   *  \brief  Enables multiple support for this plugin
-   */
-  function enable_multiple_support()
-  {
-    $this->ignore_account = TRUE;
-    $this->multiple_support_active = TRUE;
-  }
-
-
-  /*!
-   * \brief  Returns all values that have been modfied in multiple edit mode.
-   *
-   * \return array Containing all modified values.
-   */
-  function get_multi_edit_values()
-  {
-    $ret = array();
-    foreach($this->attributes as $attr){
-      if(in_array($attr,$this->multi_boxes)){
-        $ret[$attr] = $this->$attr;
-      }
-    }
-    return($ret);
-  }
-
-
-  /*!
-   * \brief  Update class variables with values collected by multiple edit.
-   *
-   * \param array $attrs Array containts attributes
-   */
-  function set_multi_edit_values($attrs)
-  {
-    foreach($attrs as $name => $value){
-      $this->$name = $value;
-    }
-  }
-
-
-  /*!
-   * \brief Generates the html output for this node for multi edit
-   */
-  function multiple_execute()
-  {
-    /* This one is empty currently. Fabian - please fill in the docu code */
-    session::global_set('current_class_for_help',get_class($this));
-
-    /* Reset Lock message POST/GET check array, to prevent perg_match errors*/
-    session::set('LOCK_VARS_TO_USE',array());
-    session::set('LOCK_VARS_USED_GET',array());
-    session::set('LOCK_VARS_USED_POST',array());
-    session::set('LOCK_VARS_USED_REQUEST',array());
-
-    return("Multiple edit is currently not implemented for this plugin.");
-  }
-
-
-  /*!
-   *  \brief Save HTML posted data to object for multiple edit
-   */
-  function multiple_save_object()
-  {
-    if(empty($this->entryCSN) && $this->CSN_check_active){
-      $this->entryCSN = getEntryCSN($this->dn);
-    }
-
-    /* Save values to object */
-    $this->multi_boxes = array();
-    foreach ($this->attributes as $val){
-
-      /* Get selected checkboxes from multiple edit */
-      if(isset($_POST["use_".$val])){
-        $this->multi_boxes[] = $val;
-      }
-
-      if ($this->acl_is_writeable($val) && isset ($_POST["$val"])){
-
-        /* Check for modifications */
-        $data= $this->$val = $_POST["$val"];
-
-        if ($this->$val != $data){
-          $this->is_modified= TRUE;
-        }
-
-        /* IE post fix */
-        if(isset($data[0]) && $data[0] == chr(194)) {
-          $data = "";
-        }
-        $this->$val= $data;
-      }
-    }
-  }
-
-
-  /*!
-   * \brief Returns all attributes of this plugin.
-   *
-   * To be able to detect multiple used attributes
-   * in multi_plugg::detect_multiple_used_attributes().
-   *
-   * \return array Attributes required for intialization of multi_plug
-   */
-  public function get_multi_init_values()
-  {
-    $attrs = $this->attrs;
-    return($attrs);
-  }
-
-
-  /*!
-   * \brief  Check given values in multiple edit
-   *
-   * \return array Error messages
-   */
-  function multiple_check()
-  {
-    $message = plugin::check();
-    return($message);
-  }
-
-
-  /*!
-   * \brief  Returns the snapshot header part for "Actions" menu in management dialogs
-   *
-   * \param string $base
-   *
-   * \param string $category
-   */
-  function get_snapshot_header($base,$category)
-  {
-    $str = "";
-    $ui = get_userinfo();
-    if($this->snapshotEnabled() && $ui->allow_snapshot_restore($base,$category)){
-
-      $ok = false;
-      foreach($this->get_used_snapshot_bases() as $base){
-        $ok |= count($this->getAllDeletedSnapshots($base)) >= 1 ;
-      }
-
-      if($ok){
-        $str = "..|<img class='center' src='images/lists/restore.png' ".
-          "alt='"._("Restore")."'>&nbsp;"._("Restore").                       "|RestoreDeletedSnapShot|\n";
-      }else{
-        $str = "..|<img class='center' src='images/lists/restore_grey.png' alt=''>&nbsp;"._("Restore")."||\n";
-      }
-    }
-    return($str);
-  }
-
-  /*!
-   * \brief Get the snapshot action
-   *
-   * \param string $base
-   *
-   * \param string $category
-   */
-  function get_snapshot_action($base,$category)
-  {
-    $str= "";
-    $ui = get_userinfo();
-    if($this->snapshotEnabled()){
-      if ($ui->allow_snapshot_restore($base,$category)){
-
-        if(count($this->Available_SnapsShots($base))){
-          $str.= "<input class='center' type='image' src='images/lists/restore.png'
-            alt='"._("Restore snapshot")."' name='RestoreSnapShotDialog_".base64_encode($base)."' title='"._("Restore snapshot")."'>&nbsp;";
-        } else {
-          $str = "<img class='center' src='images/lists/restore_grey.png' alt=''>&nbsp;";
-        }
-      }
-      if($ui->allow_snapshot_create($base,$category)){
-        $str.= "<input class='center' type='image' src='images/snapshot.png'
-          alt='"._("Create snapshot")."' name='CreateSnapShotDialog_".base64_encode($base)."'
-          title='"._("Create a new snapshot from this object")."'>&nbsp;";
-      }else{
-        $str = "<img class='center' src='images/empty.png' alt=' '>&nbsp;";
-      }
-    }
-
-    return($str);
-  }
-
-
-  function get_copypaste_action($base,$category,$class,$copy = TRUE, $cut = TRUE)
-  {
-    $ui = get_userinfo();
-    $action = "";
-    if($this->CopyPasteHandler){
-      if($cut){
-        if($ui->is_cutable($base,$category,$class)){
-          $action .= "<input class='center' type='image'
-            src='images/lists/cut.png' alt='"._("cut")."' name='cut_%KEY%' title='"._("Cut this entry")."'>&nbsp;";
-        }else{
-          $action.="<img src='images/empty.png' alt=' ' class='center'>&nbsp;";
-        }
-      }
-      if($copy){
-        if($ui->is_copyable($base,$category,$class)){
-          $action.= "<input class='center' type='image'
-            src='images/lists/copy.png' alt='"._("copy")."' name='copy_%KEY%' title='"._("Copy this entry")."'>&nbsp;";
-        }else{
-          $action.="<img src='images/empty.png' alt=' ' class='center'>&nbsp;";
-        }
-      }
-    }
-
-    return($action);
-  }
-
-
-  function get_copypaste_header($base,$category,$copy = TRUE, $cut = TRUE)
-  {
-    $s = "";
-    $ui =get_userinfo();
-
-    if(!is_array($category)){
-      $category = array($category);
-    }
-
-    /* Check permissions for each category, if there is at least one category which
-        support read or paste permissions for the given base, then display the specific actions.
-     */
-    $readable = $pasteable = false;
-    foreach($category as $cat){
-      $readable= $readable || preg_match('/r/', $ui->get_category_permissions($base, $cat));
-      $pasteable= $pasteable || $ui->is_pasteable($base, $cat) == 1;
-    }
-
-    if(($cut || $copy) && isset($this->CopyPasteHandler) && is_object($this->CopyPasteHandler)){
-      if($readable){
-        $s.= "..|---|\n";
-        if($copy){
-          $s.= "..|<img src='images/lists/copy.png' alt='' border='0' class='center'>".
-            "&nbsp;"._("Copy")."|"."multiple_copy_systems|\n";
-        }
-        if($cut){
-          $s.= "..|<img src='images/lists/cut.png' alt='' border='0' class='center'>".
-            "&nbsp;"._("Cut")."|"."multiple_cut_systems|\n";
-        }
-      }
-
-      if($pasteable){
-        if($this->CopyPasteHandler->entries_queued()){
-          $img = "<img border='0' class='center' src='images/lists/paste.png' alt=''>";
-          $s.="..|".$img."&nbsp;"._("Paste")."|editPaste|\n";
-        }else{
-          $img = "<img border='0' class='center' src='images/lists/paste-grey.png' alt=''>";
-          $s.="..|".$img."&nbsp;"._("Paste")."\n";
-        }
-      }
-    }
-    return($s);
-  }
-
-
-  function get_used_snapshot_bases()
-  {
-     return(array());
-  }
-
   function is_modal_dialog()
   {
-    return(isset($this->dialog) && $this->dialog);
+    return (isset($this->dialog) && $this->dialog);
   }
 }
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

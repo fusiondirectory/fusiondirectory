@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -125,7 +125,7 @@ if ( $cleanup ){
   }
 
   /* Show page footer depending on the mode */
-  if (!$user->passwordClass && !$user->cert_dialog && !$user->picture_dialog && !$user->dialog && $user->is_account && empty($lock_msg)){
+  if (!$user->passwordClass && !$user->picture_dialog && !$user->dialog && $user->is_account && empty($lock_msg)){
       $display.= "<p class=\"plugbottom\">";
 
       /* Are we in edit mode? */
@@ -165,7 +165,7 @@ if ( $cleanup ){
 
 
   /* Page header*/
-  $display= print_header(get_template_path('plugins/generic/images/plugin.png'),
+  $display= print_header(get_template_path('plugins/generic/images/icon.png'),
       _("Generic user information"), $info).$display;
 
 }

@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -129,33 +129,10 @@ class Step_Checks extends setup_step
     $D = _("FusionDirectory requires this module to communicate with several supported databases.");
     $S = msgPool::installPearModule("MDB2");
     $R = ((@include_once("PEAR.php")) && (@include_once("MDB2.php")));
-    $M = FALSE;
-    $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
-
-    /* Check if MDB2 mysql driver is available */
-    $N = msgPool::checkingFor(_("MDB2 mysql"));
-    $D = _("FusionDirectory requires this module to communicate with mysql databases.");
-    $S = msgPool::installPearModule("MDB2 mysql");
-    $R = ((@include_once("PEAR.php")) && (@include_once("MDB2/Driver/mysql.php")));
-    $M = FALSE;
-    $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
-
-    /* Check generation of LM/NT password hashes */
-    /* need the perl Mcrypt library or fusiondirectory-mkntpassword executable */
-    $query= "mkntpwd 2>&1";
-    $output= shell_exec ($query);
-    $have_mkntpwd= preg_match("/^Usage: fusiondirectory-mkntpassword /", $output);
-    if (!$have_mkntpwd){
-      $query= 'LC_ALL=C LANG=C perl -MCrypt::SmbHash -e "print join(q[:], ntlmgen $ARGV[0]), $/;" >/dev/null';
-      system ($query, $ret);
-      $have_mkntpwd |= ($ret == 0);
+    $M = class_available("databaseManagement");
+    if ($M) {
+      $D .= "<br/>"._("If you do not want to install MDB2 and won't use databases, remove the class_databaseManagement.inc file.");
     }
-
-    $N = msgPool::checkingFor(_("samba hash generator"));
-    $D = _("FusionDirectory requires this command to synchronize POSIX and samba passwords.");
-    $S = _("Install the perl Crypt::SmbHash modules or the fusiondirectory-mkntpassword executable");
-    $R = $have_mkntpwd;
-    $M = TRUE;
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     $N = msgPool::checkingFor(_("imagick"));

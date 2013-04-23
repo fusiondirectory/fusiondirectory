@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2007 Fabian Hickert
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -34,13 +34,13 @@ class setup_step extends plugin
   var $attributes   = array();
   var $parent       = NULL;
   var $dialog       = FALSE;
-  
+
   function setup_step()
   {
   }
 
   function execute()
-  { 
+  {
   }
 
   function save_object()
@@ -49,20 +49,20 @@ class setup_step extends plugin
   }
 
   function get_title()
-  { 
+  {
     return($this->s_title);
   }
 
   function get_long_title()
-  { 
+  {
     return($this->s_title_long);
   }
 
   function get_small_info()
-  { 
+  {
     return($this->s_info);
   }
-  
+
   function is_active()
   {
     return($this->is_active);
@@ -80,28 +80,28 @@ class setup_step extends plugin
 
   function set_active($value = TRUE)
   {
-    if($value){ 
-      $this->is_active = TRUE;  
-    }else{
-      $this->is_active = FALSE;  
+    if($value){
+      $this->is_active = TRUE;
+    } else {
+      $this->is_active = FALSE;
     }
   }
 
   function set_enabled($value = TRUE)
   {
-    if($value){ 
-      $this->is_enabled = TRUE;  
-    }else{
-      $this->is_enabled = FALSE;  
+    if($value){
+      $this->is_enabled = TRUE;
+    } else {
+      $this->is_enabled = FALSE;
     }
   }
 
   function set_completed($value = TRUE)
   {
-    if($value){ 
-      $this->is_completed = TRUE;  
-    }else{
-      $this->is_completed = FALSE;  
+    if($value){
+      $this->is_completed = TRUE;
+    } else {
+      $this->is_completed = FALSE;
     }
   }
 

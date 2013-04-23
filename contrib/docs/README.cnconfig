@@ -11,27 +11,22 @@ Why cn=config system ? Before using cn=config, all configuration was stored in f
 
 But it's quite more difficult to manage it …
 
-step 1 : convert the schema
----------------------------
-
-All the schema for FusionDirectory are provided in .schema and .ldif format so you don't need to convert them.
-
-If you need to convert another schema we provide a tool for this fusiondirectory-schema2ldif.
-
-fusiondirectory-schema2ldif is included in the basic FusionDirectory packages or in contrib/bin in the tar.gz packages.
-
-  * example : fusiondirectory-schema2ldif quota.schema > quota.ldif
-
-a ldif file is created !
-
-step 2 : how to insert
+how to insert a schema
 ----------------------
 
-  * fusiondirectory-insert-schema -i /etc/ldap/otherschema/myschema.ldif
+All the schema for FusionDirectory are provided in .schema.
 
-The latest version of this explanation is always avaible at
+our tool fusiondirectory-insert-schema is capable or converting and inserting schema in your ldap server automatically
 
-http://documentation.fusiondirectory.org/en/documentation/convert_schema
+#fusiondirectory-insert-schema -i /usr/share/doc/libapache2-mod-vhost-ldap/mod_vhost_ldap.schema
+
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+executing 'ldapadd -Y EXTERNAL -H ldapi:/// -f /usr/share/doc/libapache2-mod-vhost-ldap/mod_vhost_ldap.ldif'SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+adding new entry "cn=mod_vhost_ldap,cn=schema,cn=config"
 
 Have fun!
 

@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -23,9 +23,9 @@
 /*!
  * \file class_config.inc
  *  Source code for the class config
- */ 
+ */
 
-/*! 
+/*!
  * \brief This class is responsible for parsing and querying the
  * fusiondirectory configuration file.
  */
@@ -40,24 +40,24 @@ class config  {
   var $gpc= 0;
   var $section= "";
   var $currentLocation= "";
-  
-  /*! 
-   * \brief Store configuration for current location 
+
+  /*!
+   * \brief Store configuration for current location
    */
-  var $current= array(); 
+  var $current= array();
 
   /* Link to LDAP-server */
   var $ldap= NULL;
   var $referrals= array();
 
-  /* 
+  /*
    * \brief Configuration data
    *
    * - $data['SERVERS'] contains server informations.
    */
   var $data= array( 'TABS' => array(), 'LOCATIONS' => array(), 'SERVERS' => array(),
       'MAIN' => array(),
-      'MENU' => array(), 'SERVICE' => array());
+      'MENU' => array());
   var $basedir= "";
   var $config_version ="NOT SET";
 
@@ -73,9 +73,9 @@ class config  {
 
   /*!
    * \brief Class constructor of the config class
-   *  
+   *
    * \param string $filename path to the configuration file
-   * 
+   *
    * \param string $basedir base directory
    */
   function config($filename, $basedir= "")
@@ -95,28 +95,28 @@ class config  {
 
   /*!
    * \brief Check and reload the configuration
-   * 
+   *
    * This function checks if the configuration has changed, since it was
    * read the last time and reloads it. It uses the file mtime to check
    * weither the file changed or not.
-   */ 
-  function check_and_reload()
+   */
+  function check_and_reload($force = FALSE)
   {
     global $ui;
 
-    /* Check if class_location.inc has changed, this is the case 
-        if we have installed or removed plugins. 
+    /* Check if class_location.inc has changed, this is the case
+        if we have installed or removed plugins.
      */
-    if(session::global_is_set("class_location.inc:timestamp")){
+    if (session::global_is_set("class_location.inc:timestamp")) {
       $tmp = stat(CACHE_DIR."/".CLASS_CACHE);
-      if($tmp['mtime'] != session::global_get("class_location.inc:timestamp")){
+      if ($tmp['mtime'] != session::global_get("class_location.inc:timestamp")) {
         session::global_un_set("plist");
       }
     }
     $tmp = stat(CACHE_DIR."/".CLASS_CACHE);
     session::global_set("class_location.inc:timestamp",$tmp['mtime']);
 
-    if($this->filename != "" && filemtime($this->filename) != $this->last_modified){
+    if (($this->filename != "") && ((filemtime($this->filename) != $this->last_modified) || $force)) {
 
       $this->config_found= FALSE;
       $this->tags= array();
@@ -131,11 +131,11 @@ class config  {
       $this->parse($this->filename);
       $this->set_current($this->current['NAME']);
     }
-  }  
+  }
 
 
-  /*! 
-   * \brief Parse the given configuration file 
+  /*!
+   * \brief Parse the given configuration file
    *
    * Parses the configuration file and displays errors if there
    * is something wrong with it.
@@ -145,15 +145,14 @@ class config  {
   function parse($filename)
   {
     $this->data = array(
-        "TABS"      => array(), 
-        "LOCATIONS" => array(), 
-        "MAIN"      => array(), 
-        "MENU"      => array(), 
-        "SERVICE"   => array());
+        "TABS"      => array(),
+        "LOCATIONS" => array(),
+        "MAIN"      => array(),
+        "MENU"      => array());
 
     $this->last_modified = filemtime($filename);
     $this->filename = $filename;
-    $fh= fopen($filename, "r"); 
+    $fh= fopen($filename, "r");
     $xmldata= fread($fh, 100000);
     fclose($fh);
     if(!xml_parse($this->parser, chop($xmldata))){
@@ -163,21 +162,16 @@ class config  {
       msg_dialog::display(_("Configuration error"), $msg, FATAL_ERROR_DIALOG);
       exit;
     }
-
-    // Default schemacheck to "true"
-    if(!isset($this->data['MAIN']['SCHEMACHECK'])){
-      $this->data['MAIN']['SCHEMACHECK'] = "true";
-    }
   }
 
 
-  /*! 
+  /*!
    * \brief Open xml tag when parsing the xml config
    *
    * \param string $parser
-   * 
+   *
    * \param string $tag
-   * 
+   *
    * \param string $attrs
    */
   function tag_open($parser, $tag, $attrs)
@@ -200,23 +194,23 @@ class config  {
     }
 
     /* yes/no to true/false and upper case TRUE to true and so on*/
-    foreach($attrs as $name => $value){
-      if(preg_match("/^(true|yes)$/i",$value)){
-        $attrs[$name] = "true";
-      }elseif(preg_match("/^(false|no)$/i",$value)){
-        $attrs[$name] = "false";
-      } 
+    foreach ($attrs as $name => $value) {
+      if (preg_match("/^(true|yes)$/i", $value)) {
+        $attrs[$name] = "TRUE";
+      } elseif(preg_match("/^(false|no)$/i", $value)) {
+        $attrs[$name] = "FALSE";
+      }
     }
 
     /* Look through attributes */
-    switch ($this->tags[$this->level-1]){
+    switch ($this->tags[$this->level-1]) {
 
 
       /* Handle tab section */
       case 'TAB': $name= $this->tags[$this->level-2];
 
                   /* Create new array? */
-                  if (!isset($this->data['TABS'][$name])){
+                  if (!isset($this->data['TABS'][$name])) {
                     $this->data['TABS'][$name]= array();
                   }
 
@@ -226,7 +220,7 @@ class config  {
 
                   /* Handle location */
       case 'LOCATION':
-                  if ($this->tags[$this->level-2] == 'MAIN'){
+                  if ($this->tags[$this->level-2] == 'MAIN') {
                     $name= $attrs['NAME'];
                     $name = preg_replace("/[<>\"']/","",$name);
                     $attrs['NAME'] = $name;
@@ -239,12 +233,12 @@ class config  {
 
                   /* Handle referral tags */
       case 'REFERRAL':
-                  if ($this->tags[$this->level-2] == 'LOCATION'){
+                  if ($this->tags[$this->level-2] == 'LOCATION') {
                     $url= $attrs['URI'];
                     $server= preg_replace('!^([^:]+://[^/]+)/.*$!', '\\1', $url);
 
                     /* Add location elements */
-                    if (!isset($this->data['LOCATIONS'][$this->currentLocation]['REFERRAL'])){
+                    if (!isset($this->data['LOCATIONS'][$this->currentLocation]['REFERRAL'])) {
                       $this->data['LOCATIONS'][$this->currentLocation]['REFERRAL']= array();
                     }
 
@@ -254,37 +248,17 @@ class config  {
 
                   /* Load main parameters */
       case 'MAIN':
-                  $this->data['MAIN']= array_merge ($this->data['MAIN'], $attrs);
-                  break;
-
-                  /* Load menu */
-      case 'SECTION':
-                  if ($this->tags[$this->level-2] == 'MENU'){
-                    $this->section= $attrs['NAME'];
-                    $this->data['MENU'][$this->section]= array(); ;
-                  }
-                  break;
-
-                  /* Inser plugins */
-      case 'PLUGIN':
-                  if ($this->tags[$this->level-3] == 'MENU' &&
-                      $this->tags[$this->level-2] == 'SECTION'){
-
-                    $this->data['MENU'][$this->section][$this->gpc++]= $attrs;
-                  }
-                  if ($this->tags[$this->level-2] == 'SERVICEMENU'){
-                    $this->data['SERVICE'][$attrs['CLASS']]= $attrs;
-                  }
+                  $this->data['MAIN'] = array_merge ($this->data['MAIN'], $attrs);
                   break;
     }
   }
 
 
-  /*! 
+  /*!
    * \brief Close xml tag when parsing the xml config
    *
    * \param string $parser
-   * 
+   *
    * \param string $tag
    */
   function tag_close($parser, $tag)
@@ -297,12 +271,12 @@ class config  {
   }
 
 
-  /*! 
+  /*!
    * \brief Get the password when needed from the config file
    *
-   * This function can be used to get the password associated to 
+   * This function can be used to get the password associated to
    * a keyword in the config file
-   * 
+   *
    * \param string $creds the keyword associated to the password needed
    *
    * \return string the password corresponding to the keyword
@@ -324,7 +298,7 @@ class config  {
   }
 
 
-  /*! 
+  /*!
    * \brief Get a LDAP link object
    *
    * This function can be used to get an ldap object, which in turn can
@@ -339,7 +313,7 @@ class config  {
    * \param boolean $sizelimit Weither to impose a sizelimit on the LDAP object or not.
    * Defaults to false. If set to true, the size limit in the configuration
    * file will be used to set the option LDAP_OPT_SIZELIMIT.
-   * 
+   *
    * \return ldapMultiplexer object
    */
   function get_ldap_link($sizelimit= FALSE)
@@ -364,9 +338,9 @@ class config  {
         $this->ldap->referrals= $this->current['REFERRAL'];
       }
 
-      if (!session::global_is_set('size_limit')){
-        session::global_set('size_limit',$this->current['LDAPSIZELIMIT']);
-        session::global_set('size_ignore',$this->current['LDAPSIZEIGNORE']);
+      if (!session::global_is_set('size_limit')) {
+        session::global_set('size_limit',   $this->current['LDAPSIZELIMIT']);
+        session::global_set('size_ignore',  preg_match('/true/i', $this->current['LDAPSIZEIGNORE']));
       }
     }
 
@@ -380,89 +354,104 @@ class config  {
   }
 
 
-  /*! 
+  /*!
    * \brief Set the current location
-   *  
+   *
    * \param string $name the name of the location
    */
   function set_current($name)
   {
-    $this->current= $this->data['LOCATIONS'][$name];
+    $this->current = $this->data['LOCATIONS'][$name];
 
-    if (!isset($this->current['USERRDN'])){
-      $this->current['USERRDN']= "ou=people";
-    }
-    if (!isset($this->current['GROUPRDN'])){
-      $this->current['GROUPS']= "ou=groups";
-    }
-
-    if (isset($this->current['INITIAL_BASE'])){
-      session::global_set('CurrentMainBase',$this->current['INITIAL_BASE']);
-    }
-  
-    /* Remove possibly added ',' from end of group and people ou */
-    $this->current['GROUPS'] = preg_replace("/,*$/","",$this->current['GROUPRDN']);
-    $this->current['USERRDN'] = preg_replace("/,*$/","",$this->current['USERRDN']);
-
-    if (!isset($this->current['SAMBAMACHINEACCOUNTRDN'])){
-      $this->current['SAMBAMACHINEACCOUNTRDN']= "ou=computers,ou=systems";
-    }
-    if (!isset($this->current['ACCOUNTPRIMARYATTRIBUTE'])){
-      $this->current['ACCOUNTPRIMARYATTRIBUTE']= "cn";
-    }
-    if (!isset($this->current['MINID'])){
-      $this->current['MINID']= 100;
-    }
-    if (!isset($this->current['LDAPSIZELIMIT'])){
-      $this->current['LDAPSIZELIMIT']= 200;
-    }
-    if (!isset($this->current['SIZEINGORE'])){
-      $this->current['LDAPSIZEIGNORE']= TRUE;
-    } else {
-      if (preg_match("/true/i", $this->current['LDAPSIZEIGNORE'])){
-        $this->current['LDAPSIZEIGNORE']= TRUE;
-      } else {
-        $this->current['LDAPSIZEIGNORE']= FALSE;
-      }
+    if (isset($this->current['INITIAL_BASE'])) {
+      session::global_set('CurrentMainBase', $this->current['INITIAL_BASE']);
     }
 
     /* Sort referrals, if present */
-    if (isset ($this->current['REFERRAL'])){
-      $bases= array();
-      $servers= array();
-      foreach ($this->current['REFERRAL'] as $ref){
-        $server= preg_replace('%^(.*://[^/]+)/.*$%', '\\1', $ref['URI']);
-        $base= preg_replace('%^.*://[^/]+/(.*)$%', '\\1', $ref['URI']);
-        $bases[$base]= strlen($base);
-        $servers[$base]= $server;
+    if (isset($this->current['REFERRAL'])) {
+      $bases    = array();
+      $servers  = array();
+      foreach ($this->current['REFERRAL'] as $ref) {
+        $server = preg_replace('%^(.*://[^/]+)/.*$%', '\\1', $ref['URI']);
+        $base   = preg_replace('%^.*://[^/]+/(.*)$%', '\\1', $ref['URI']);
+
+        $bases[$base]   = strlen($base);
+        $servers[$base] = $server;
       }
       asort($bases);
       reset($bases);
     }
 
     /* SERVER not defined? Load the one with the shortest base */
-    if (!isset($this->current['SERVER'])){
-      $this->current['SERVER']= $servers[key($bases)];
+    if (!isset($this->current['SERVER'])) {
+      $this->current['SERVER'] = $servers[key($bases)];
     }
 
     /* BASE not defined? Load the one with the shortest base */
-    if (!isset($this->current['BASE'])){
-      $this->current['BASE']= key($bases);
+    if (!isset($this->current['BASE'])) {
+      $this->current['BASE'] = key($bases);
     }
 
     /* Convert BASE to have escaped special characters */
-    $this->current['BASE']= @LDAP::convert($this->current['BASE']);
+    $this->current['BASE'] = @LDAP::convert($this->current['BASE']);
 
     /* Parse LDAP referral informations */
-    if (!isset($this->current['ADMINDN']) || !isset($this->current['ADMINPASSWORD'])){
-      $url= $this->current['SERVER'];
-      $referral= $this->current['REFERRAL'][$url];
-      $this->current['ADMINDN']= $referral['ADMINDN'];
-      $this->current['ADMINPASSWORD']= $referral['ADMINPASSWORD'];
+    if (!isset($this->current['ADMINDN']) || !isset($this->current['ADMINPASSWORD'])) {
+      $url      = $this->current['SERVER'];
+      $referral = $this->current['REFERRAL'][$url];
+
+      $this->current['ADMINDN']       = $referral['ADMINDN'];
+      $this->current['ADMINPASSWORD'] = $referral['ADMINPASSWORD'];
     }
 
-    /* Load server informations */
-    $this->load_servers();
+    /* We need LDAPSIZELIMIT and LDAPSIZEIGNORE set before we connect to the ldap */
+    if (!isset($this->current['LDAPSIZELIMIT'])) {
+      $this->current['LDAPSIZELIMIT'] = 200;
+    }
+    if (!isset($this->current['LDAPSIZEIGNORE'])) {
+      $this->current['LDAPSIZEIGNORE'] = "TRUE";
+    }
+
+    /* Load in-ldap configuration */
+    $this->load_inldap_config();
+
+    if (!isset($this->current['SAMBAMACHINEACCOUNTRDN'])) {
+      $this->current['SAMBAMACHINEACCOUNTRDN'] = "ou=computers,ou=systems";
+    }
+    if (!isset($this->current['ACCOUNTPRIMARYATTRIBUTE'])) {
+      $this->current['ACCOUNTPRIMARYATTRIBUTE'] = "cn";
+    }
+    if (!isset($this->current['MINID'])) {
+      $this->current['MINID']= 100;
+    }
+
+    if (!isset($this->current['USERRDN'])) {
+      $this->current['USERRDN'] = "ou=people";
+    }
+    if (!isset($this->current['GROUPRDN'])) {
+      $this->current['GROUPRDN'] = "ou=groups";
+    }
+
+    /* Remove possibly added ',' from end of group and people ou */
+    $this->current['GROUPRDN']  = preg_replace("/,*$/", "", $this->current['GROUPRDN']);
+    $this->current['USERRDN']   = preg_replace("/,*$/", "", $this->current['USERRDN']);
+
+    /* We update LDAPSIZELIMIT as it may have been changed by ldap config */
+    session::global_set('size_limit',$this->current['LDAPSIZELIMIT']);
+
+    if (class_available('systemManagement')) {
+      /* Load server informations */
+      $this->load_servers();
+    }
+
+    $debugLevel = $this->get_cfg_value('DEBUGLEVEL');
+    if ($debugLevel & DEBUG_CONFIG) { // value from LDAP can't activate DEBUG_CONFIG
+      $debugLevel -= DEBUG_CONFIG;
+    }
+    if (isset($this->data['MAIN']['DEBUGLEVEL'])) {
+      $debugLevel |= $this->data['MAIN']['DEBUGLEVEL'];
+    }
+    session::global_set('DEBUGLEVEL', $debugLevel);
   }
 
 
@@ -476,152 +465,112 @@ class config  {
   function load_servers ()
   {
     /* Only perform actions if current is set */
-    if ($this->current === NULL){
+    if ($this->current === NULL) {
       return;
     }
 
     /* Fill imap servers */
-    $ldap= $this->get_ldap_link();
+    $ldap = $this->get_ldap_link();
     $ldap->cd ($this->current['BASE']);
 
-    /* Search mailMethod configuration in main section too 
-     */
-    $this->current['MAILMETHOD'] = $this->get_cfg_value("mailMethod","");
-    if (!isset($this->current['MAILMETHOD'])){
-      $this->current['MAILMETHOD']= "";
-    }
-    if ($this->current['MAILMETHOD'] == ""){
-      $ldap->search ("(objectClass=goMailServer)", array('cn'));
-      $this->data['SERVERS']['IMAP']= array();
-      while ($attrs= $ldap->fetch()){
-        $name= $attrs['cn'][0];
-        $this->data['SERVERS']['IMAP'][$name]= 
-          array( 
-              "server_dn"   => $attrs['dn'],
-              "connect"     => "",
-              "admin"       => "",
-              "password"    => "",
-              "sieve_server"=> "",
-              "sieve_option"=> "",
-              "sieve_port"  => "");
-      }
-    } else {
-      $ldap->search ("(&(objectClass=goImapServer)(goImapSieveServer=*))", 
-                    array('goImapName', 'goImapConnect', 'goImapAdmin', 'goImapPassword',
-            'goImapSieveServer', 'goImapSievePort'));
-
-      $this->data['SERVERS']['IMAP']= array();
-
-      while ($attrs= $ldap->fetch()){
-
-        /* Check if the given goImapSieveServer is in the new style "{cn:port/option}"
-           or the old style just "cn".
-         */
-        if(preg_match("/\{/",$attrs['goImapSieveServer'][0])){
-          $sieve_server = preg_replace("/^\{([^:]*).*$/","\\1",$attrs['goImapSieveServer'][0]);
-          $sieve_option = preg_replace("/^[^:]*[^\/]*+\/(.*)\}$/","\\1",$attrs['goImapSieveServer'][0]);
-        }else{
-          $sieve_server = $attrs['goImapSieveServer'][0];
-          $sieve_option = "";
-        }
-
-        $pwd            = $attrs['goImapPassword'][0];
-        $imap_admin     = $attrs['goImapAdmin'][0];
-        $imap_connect   = $attrs['goImapConnect'][0];
-        $imap_server    = $attrs['goImapName'][0];
-        $sieve_port     = $attrs['goImapSievePort'][0];
-        
-        $this->data['SERVERS']['IMAP'][$imap_server]= 
-            array( 
-            "server_dn"   => $attrs['dn'],
-            "connect"     => $imap_connect,
-            "admin"       => $imap_admin,
-            "password"    => $pwd,
-            "sieve_server"=> $sieve_server,
-            "sieve_option"=> $sieve_option,
-            "sieve_port"  => $sieve_port);
-      }
+    /* Search mailMethod configuration in main section too */
+    $this->current['MAILMETHOD']    = $this->get_cfg_value("mailMethod", "");
+    $mailMethodClass                = 'mailMethod'.$this->current['MAILMETHOD'];
+    if (class_available($mailMethodClass)) {
+      $this->data['SERVERS']['IMAP']  = $mailMethodClass::get_server_list($this);
+    } elseif (class_available('mailMethod')) {
+      msg_dialog::display(
+        _("Error"),
+        sprintf(_("The selected mail method (class %s) is not available"), $mailMethodClass),
+        ERROR_DIALOG
+      );
     }
 
-    /* Get kerberos server. FIXME: only one is supported currently */
-    $ldap->cd ($this->current['BASE']);
-    $ldap->search ("(&(goKrbRealm=*)(goKrbAdmin=*)(objectClass=goKrbServer))");
-    if ($ldap->count()){
-      $attrs= $ldap->fetch();
-      $this->data['SERVERS']['KERBEROS']= array( 'SERVER' => $attrs['cn'][0],
-          'REALM' => $attrs['goKrbRealm'][0],
-          'ADMIN' => $attrs['goKrbAdmin'][0]);
+    /* Get kerberos servers */
+    $ldap->cd($this->current['BASE']);
+    $ldap->search("(objectClass=goKrbServer)(goKrbRealm=*)(goKrbAdmin=*))");
+    $this->data['SERVERS']['KERBEROS'] = array();
+    while ($attrs = $ldap->fetch()) {
+      $this->data['SERVERS']['KERBEROS'][] = array(
+        'SERVER'  => $attrs['cn'][0],
+        'REALM'   => $attrs['goKrbRealm'][0],
+        'ADMIN'   => $attrs['goKrbAdmin'][0]
+      );
     }
 
-    /* Get cups server. FIXME: only one is supported currently */
-    $ldap->cd ($this->current['BASE']);
-    $ldap->search ("(objectClass=goCupsServer)");
-    if ($ldap->count()){
-      $attrs= $ldap->fetch();
-      $this->data['SERVERS']['CUPS']= $attrs['cn'][0];  
+    /* Get cups servers */
+    $ldap->cd($this->current['BASE']);
+    $ldap->search("(objectClass=goCupsServer)");
+    $this->data['SERVERS']['CUPS'] = array();
+    while ($attrs= $ldap->fetch()) {
+      $this->data['SERVERS']['CUPS'][] = $attrs['cn'][0];
     }
 
-    /* Get fax server. FIXME: only one is supported currently */
-    $ldap->cd ($this->current['BASE']);
-    $ldap->search ("(objectClass=goFaxServer)");
-    if ($ldap->count()){
-      $attrs= $ldap->fetch();
-      $this->data['SERVERS']['FAX']= array( 'SERVER' => $attrs['cn'][0],
-          'LOGIN' => $attrs['goFaxAdmin'][0],
-          'PASSWORD' => $attrs['goFaxPassword'][0]);
+    /* Get fax servers */
+    $ldap->cd($this->current['BASE']);
+    $ldap->search("(objectClass=goFaxServer)");
+    $this->data['SERVERS']['FAX'] = array();
+    while ($attrs = $ldap->fetch()) {
+      $this->data['SERVERS']['FAX'][] = array(
+        'SERVER'    => $attrs['cn'][0],
+        'LOGIN'     => $attrs['goFaxAdmin'][0],
+        'PASSWORD'  => $attrs['goFaxPassword'][0]
+      );
     }
 
 
     /* Get asterisk servers */
-    $ldap->cd ($this->current['BASE']);
-    $ldap->search ("(objectClass=goFonServer)");
-    $this->data['SERVERS']['FON']= array();
-    if ($ldap->count()){
-      while ($attrs= $ldap->fetch()){
+    $ldap->cd($this->current['BASE']);
+    $ldap->search("(objectClass=goFonServer)");
+    $this->data['SERVERS']['FON'] = array();
+    while ($attrs= $ldap->fetch()) {
 
-        /* Add 0 entry for development */
-        if(count($this->data['SERVERS']['FON']) == 0){
-          $this->data['SERVERS']['FON'][0]= array(
-              'DN'      => $attrs['dn'],
-              'SERVER'  => $attrs['cn'][0],
-              'LOGIN'   => $attrs['goFonAdmin'][0],
-              'PASSWORD'  => $attrs['goFonPassword'][0],
-              'DB'    => "gophone",
-              'SIP_TABLE'   => "sip_users",
-              'EXT_TABLE'   => "extensions",
-              'VOICE_TABLE' => "voicemail_users",
-              'QUEUE_TABLE' => "queues",
-              'QUEUE_MEMBER_TABLE'  => "queue_members");
-        }
-
-        /* Add entry with 'dn' as index */
-        $this->data['SERVERS']['FON'][$attrs['dn']]= array(
-            'DN'      => $attrs['dn'],
-            'SERVER'  => $attrs['cn'][0],
-            'LOGIN'   => $attrs['goFonAdmin'][0],
-            'PASSWORD'  => $attrs['goFonPassword'][0],
-            'DB'    => "gophone",
-            'SIP_TABLE'   => "sip_users",
-            'EXT_TABLE'   => "extensions",
-            'VOICE_TABLE' => "voicemail_users",
-            'QUEUE_TABLE' => "queues",
-            'QUEUE_MEMBER_TABLE'  => "queue_members");
+      /* Add 0 entry for development */
+      if(count($this->data['SERVERS']['FON']) == 0) {
+        $this->data['SERVERS']['FON'][0] = array(
+          'DN'      => $attrs['dn'],
+          'SERVER'  => $attrs['cn'][0],
+          'LOGIN'   => $attrs['goFonAdmin'][0],
+          'PASSWORD'  => $attrs['goFonPassword'][0],
+          'DB'    => "gophone",
+          'SIP_TABLE'   => "sip_users",
+          'EXT_TABLE'   => "extensions",
+          'VOICE_TABLE' => "voicemail_users",
+          'QUEUE_TABLE' => "queues",
+          'QUEUE_MEMBER_TABLE'  => "queue_members"
+        );
       }
+
+      /* Add entry with 'dn' as index */
+      $this->data['SERVERS']['FON'][$attrs['dn']] = array(
+        'DN'      => $attrs['dn'],
+        'SERVER'  => $attrs['cn'][0],
+        'LOGIN'   => $attrs['goFonAdmin'][0],
+        'PASSWORD'  => $attrs['goFonPassword'][0],
+        'DB'    => "gophone",
+        'SIP_TABLE'   => "sip_users",
+        'EXT_TABLE'   => "extensions",
+        'VOICE_TABLE' => "voicemail_users",
+        'QUEUE_TABLE' => "queues",
+        'QUEUE_MEMBER_TABLE'  => "queue_members"
+      );
     }
 
 
     /* Get logdb server */
-    $ldap->cd ($this->current['BASE']);
-    $ldap->search ("(objectClass=goLogDBServer)");
-    if ($ldap->count()){
-      $attrs= $ldap->fetch();
-      if(!isset($attrs['gosaLogDB'][0])){
+    $ldap->cd($this->current['BASE']);
+    $ldap->search("(objectClass=goLogDBServer)");
+    if ($ldap->count()) {
+      $attrs = $ldap->fetch();
+      if (!isset($attrs['gosaLogDB'][0])) {
         $attrs['gosaLogDB'][0] = "gomon";
       }
-      $this->data['SERVERS']['LOG']= array( 'SERVER' => $attrs['cn'][0],
-          'LOGIN' => $attrs['goLogAdmin'][0],
-          'DB' => $attrs['gosaLogDB'][0],
-          'PASSWORD' => $attrs['goLogPassword'][0]);
+      $this->data['SERVERS']['LOG'] = array(
+        'SERVER'    => $attrs['cn'][0],
+        'LOGIN'     => $attrs['goLogAdmin'][0],
+        'DB'        => $attrs['gosaLogDB'][0],
+        'PASSWORD'  => $attrs['goLogPassword'][0]
+      );
     }
 
     /* Get NFS server lists */
@@ -634,11 +583,11 @@ class config  {
         if(preg_match('/^[^|]+\|[^|]+\|NFS\|.*$/', $attrs["goExportEntry"][$i])){
           $path= preg_replace ("/^[^|]+\|[^|]+\|[^|]+\|[^|]+\|([^|]+).*$/", '\1', $attrs["goExportEntry"][$i]);
           $tmp[]= $attrs["cn"][0].":$path";
-  }
+        }
         if(preg_match('/^[^|]+\|[^|]+\|NBD\|.*$/', $attrs["goExportEntry"][$i])){
           $path= preg_replace ("/^[^|]+\|[^|]+\|[^|]+\|[^|]+\|([^|]+).*$/", '\1', $attrs["goExportEntry"][$i]);
           $tmp2[]= $attrs["cn"][0].":$path";
-  }
+        }
       }
     }
     $this->data['SERVERS']['NFS']= $tmp;
@@ -656,17 +605,17 @@ class config  {
       $this->data['SERVERS']['TERMINAL'][]= $attrs["cn"][0];
       if(isset( $attrs["gotoSessionType"]['count'])){
         for($i =0 ; $i < $attrs["gotoSessionType"]['count'] ; $i++){
-          $this->data['SERVERS']['TERMINAL_SESSION_TYPES'][$attrs["cn"][0]][] = $attrs["gotoSessionType"][$i]; 
+          $this->data['SERVERS']['TERMINAL_SESSION_TYPES'][$attrs["cn"][0]][] = $attrs["gotoSessionType"][$i];
         }
       }
     }
 
-    /* Ldap Server 
+    /* Ldap Server
      */
-    $this->data['SERVERS']['LDAP']= array();
-    $ldap->cd ($this->current['BASE']);
-    $ldap->search ("(&(objectClass=goLdapServer)(goLdapBase=*))");
-    while ($attrs= $ldap->fetch()){
+    $this->data['SERVERS']['LDAP'] = array();
+    $ldap->cd($this->current['BASE']);
+    $ldap->search("(&(objectClass=goLdapServer)(goLdapBase=*))");
+    while ($attrs = $ldap->fetch()) {
       $this->data['SERVERS']['LDAP'][$attrs['dn']] = $attrs;
     }
 
@@ -685,39 +634,73 @@ class config  {
     }
 
     /* Get samba servers from LDAP */
-    $this->data['SERVERS']['SAMBA']= array();
-    $ldap->cd ($this->current['BASE']);
-    $ldap->search ("(objectClass=sambaDomain)");
-    while ($attrs= $ldap->fetch()){
-      $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]]= array( "SID" =>"","RIDBASE" =>"");
-      if(isset($attrs["sambaSID"][0])){
-        $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]]["SID"]  = $attrs["sambaSID"][0];
+    $this->data['SERVERS']['SAMBA'] = array();
+    if (class_available('sambaAccount')) {
+      $ldap->cd($this->current['BASE']);
+      $ldap->search("(objectClass=sambaDomain)");
+      while ($attrs = $ldap->fetch()) {
+        $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]] = array( "SID" => "","RIDBASE" => "");
+        if (isset($attrs["sambaSID"][0])) {
+          $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]]["SID"] = $attrs["sambaSID"][0];
+        }
+        if (isset($attrs["sambaAlgorithmicRidBase"][0])) {
+          $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]]["RIDBASE"] = $attrs["sambaAlgorithmicRidBase"][0];
+        }
       }
-      if(isset($attrs["sambaAlgorithmicRidBase"][0])){
-        $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]]["RIDBASE"] = $attrs["sambaAlgorithmicRidBase"][0];
+
+      /* If no samba servers are found, look for configured sid/ridbase */
+      if (count($this->data['SERVERS']['SAMBA']) == 0) {
+        if (!isset($this->current["SAMBASID"]) || !isset($this->current["SAMBARIDBASE"])) {
+          msg_dialog::display(_("Configuration error"), _("sambaSID and/or sambaRidBase missing in the configuration!"), ERROR_DIALOG);
+        } else {
+          $this->data['SERVERS']['SAMBA']['DEFAULT']= array(
+              "SID" => $this->current["SAMBASID"],
+              "RIDBASE" => $this->current["SAMBARIDBASE"]);
+        }
       }
     }
 
-    /* If no samba servers are found, look for configured sid/ridbase */
-    if (count($this->data['SERVERS']['SAMBA']) == 0){
-      if (!isset($this->current["SAMBASID"]) || !isset($this->current["SAMBARIDBASE"])){
-        msg_dialog::display(_("Configuration error"), _("sambaSID and/or sambaRidBase missing in the configuration!"), ERROR_DIALOG);
-      } else {
-        $this->data['SERVERS']['SAMBA']['DEFAULT']= array(
-            "SID" => $this->current["SAMBASID"],
-            "RIDBASE" => $this->current["SAMBARIDBASE"]);
+  }
+
+  function load_inldap_config()
+  {
+    $ldap = $this->get_ldap_link();
+    $ldap->cat(CONFIGRDN.$this->current['BASE']);
+    if ($attrs = $ldap->fetch()) {
+      for ($i = 0; $i < $attrs['count']; $i++) {
+        $key = $attrs[$i];
+        if (preg_match('/^fdTabHook$/i',$key)) {
+          for ($j = 0; $j < $attrs[$key]['count']; ++$j) {
+            $parts  = explode('|',$attrs[$key][$j],3);
+            $class  = strtoupper($parts[0]);
+            $mode   = strtoupper($parts[1]);
+            $cmd    = $parts[2];
+            if (!isset($this->data['HOOKS'][$class])) {
+              $this->data['HOOKS'][$class] = array('CLASS' => $parts[0]);
+            }
+            $this->data['HOOKS'][$class][$mode] = $cmd;
+          }
+        } elseif (preg_match('/^fd/',$key)) {
+          if (isset($attrs[$key]['count']) && ($attrs[$key]['count'] > 1)) {
+            $value = $attrs[$key];
+            unset($value['count']);
+          } else {
+            $value = $attrs[$key][0];
+          }
+          $key = strtoupper(preg_replace('/^fd/','',$key));
+          $this->current[$key] = $value;
+        }
       }
     }
-    
   }
 
 
-  /*! 
+  /*!
    * \brief Get the departments from ldap
    *
-   * This function can be used to get the password associated to 
+   * This function can be used to get the password associated to
    * a keyword in the config file
-   * 
+   *
    * \param string $ignore_dn dn of the department
    */
   function get_departments($ignore_dn= "")
@@ -731,12 +714,12 @@ class config  {
     $this->tdepartments= array();
 
     /* Get all department types from department Management, to be able detect the department type.
-        -It is possible that differnty department types have the same name, 
+        -It is possible that differnty department types have the same name,
          in this case we have to mark the department name to be able to differentiate.
           (e.g l=Name  or   o=Name)
-     */    
+     */
     $types = departmentManagement::get_support_departments();
-    
+
     /* Create a list of attributes to fetch */
     $ldap_values = array("objectClass","gosaUnitTag", "description");
     $filter = "";
@@ -776,12 +759,12 @@ class config  {
         $administrative[$dn]= $attrs['gosaUnitTag'][0];
         $this->tdepartments[$dn]= $attrs['gosaUnitTag'][0];
       }
-    
+
       if (in_array_ics("gosaAdministrativeUnitTag", $attrs['objectClass']) &&
           isset($attrs['gosaUnitTag'][0])){
         $this->tdepartments[$dn]= $attrs['gosaUnitTag'][0];
       }
-    
+
       if ($dn == $ignore_dn){
         continue;
       }
@@ -825,7 +808,7 @@ class config  {
       }
 
       /* Split dn into single department pieces */
-      $elements = array_reverse(explode(',',preg_replace("/$qbase$/",'',$val)));    
+      $elements = array_reverse(explode(',',preg_replace("/$qbase$/",'',$val)));
 
       /* Add last ou element of current dn to our array */
       $last = &$arr;
@@ -834,7 +817,7 @@ class config  {
         /* skip empty */
         if(empty($ele)) continue;
 
-        /* Extract department name */   
+        /* Extract department name */
         $elestr = trim(preg_replace('/^[^=]*+=/','', $ele),',');
         $nameA  = trim(preg_replace('/=.*$/','', $ele),',');
         if($nameA != 'ou'){
@@ -842,8 +825,8 @@ class config  {
         }else{
           $nameA = '';
         }
-    
-        /* Add to array */  
+
+        /* Add to array */
         if($key == (count($elements)-1)){
           $last[$elestr.$nameA]['ENTRY'] = $val;
         }
@@ -861,13 +844,13 @@ class config  {
   }
 
 
-  /* 
-   * \brief Creates display friendly output from make_idepartments 
-   * 
+  /*
+   * \brief Creates display friendly output from make_idepartments
+   *
    * \param $arr arr
-   * 
+   *
    * \param int $depth initialized at -1
-   * 
+   *
    * \param int $max_size initialized at 256
    */
   function generateDepartmentArray($arr,$depth = -1,$max_size = 256)
@@ -875,11 +858,11 @@ class config  {
     $ret = array();
     $depth ++;
 
-    /* Walk through array */  
+    /* Walk through array */
     ksort($arr);
     foreach($arr as $name => $entries){
 
-      /* If this department is the last in the current tree position 
+      /* If this department is the last in the current tree position
        * remove it, to avoid generating output for it */
       if(count($entries['SUB'])==0){
         unset($entries['SUB']);
@@ -893,14 +876,14 @@ class config  {
         $name = mb_substr($name,0,($max_size-3), 'UTF-8')." ...";
       }
 
-      /* Append the name to the list */ 
+      /* Append the name to the list */
       if(isset($entries['ENTRY'])){
         $a = "";
         for($i = 0 ; $i < $depth ; $i ++){
           $a.=".";
         }
         $ret[$entries['ENTRY']]=$a."&nbsp;".$name;
-      } 
+      }
 
       /* recursive add of subdepartments */
       if(isset($entries['SUB'])){
@@ -912,17 +895,17 @@ class config  {
   }
 
 
-  /*! 
+  /*!
    * \brief Get all available shares defined in the current LDAP
    *
    * This function returns all available Shares defined in this ldap
-   *  
+   *
    * \param boolean $listboxEntry If set to TRUE, only name and path are
    *  attached to the array. If FALSE, the whole entry will be parsed an atached to the result.
-   * 
+   *
    * \return array list of share defined in the current LDAP
    */
-  function getShareList($listboxEntry = false)
+  function getShareList($listboxEntry = FALSE)
   {
     $tmp = get_sub_list("(&(objectClass=goShareServer)(goExportEntry=*))","server",get_ou("serverRDN"),
         $this->current['BASE'],array("goExportEntry","cn"), GL_NONE);
@@ -953,7 +936,7 @@ class config  {
   }
 
 
-  /*! 
+  /*!
    * \brief Return all available share servers in LDAP
    *
    * This function returns all available ShareServers.
@@ -970,7 +953,7 @@ class config  {
           get_ou("serverRDN"), $base,array("goExportEntry","cn"),GL_NONE | GL_NO_ACL_CHECK);
 
     foreach($res as $entry){
-        
+
         $acl = $ui->get_permissions($entry['dn'],"server","");
         if(isset($entry['goExportEntry']['count'])){
           unset($entry['goExportEntry']['count']);
@@ -991,7 +974,7 @@ class config  {
   }
 
 
-  /*! 
+  /*!
    * \brief Check if there's the specified bool value set in the configuration
    *
    *  The function checks, weither the specified bool value is set to a true
@@ -1006,7 +989,7 @@ class config  {
    *  \endcode
    *
    *  \param string $section Section in the configuration file.
-   * 
+   *
    *  \param string $value Key in the given section, which is subject to check
    *
    *  \return bool TRUE if option set in the config file
@@ -1016,7 +999,7 @@ class config  {
     $section= strtoupper($section);
     $value= strtoupper($value);
     if (isset($this->data[$section][$value])){
-    
+
       $data= $this->data[$section][$value];
       if (preg_match("/^true$/i", $data) || preg_match("/yes/i", $data)){
         return TRUE;
@@ -1030,24 +1013,25 @@ class config  {
 
   function __search(&$arr, $name, $return)
   {
-    $return= strtoupper($return);
-    if (is_array($arr)){
-      foreach ($arr as &$a){
-        if (isset($a['CLASS']) && strcasecmp($name, $a['CLASS']) == 0){
-          return(isset($a[$return])?$a[$return]:"");
+    $return = strtoupper($return);
+    if (is_array($arr)) {
+      foreach ($arr as &$a) {
+        if (isset($a['CLASS']) && strcasecmp($name, $a['CLASS']) == 0) {
+          return (isset($a[$return])?$a[$return]:"");
         } else {
           $res= $this->__search ($a, $name, $return);
-          if ($res != ""){
+          if ($res != "") {
             return $res;
           }
         }
       }
+      unset($a);
     }
-    return ("");
+    return "";
   }
 
 
-  /*! 
+  /*!
    * \brief Search for a configuration setting in different categories
    *
    *  Searches for the value of a given key in the configuration data.
@@ -1060,11 +1044,11 @@ class config  {
    *  \endcode
    *
    *  \param string $class The class name
-   * 
+   *
    *  \param string $value Key to search in the configuration data
-   * 
-   *  \param array $categories Array where the search should run 
-   * 
+   *
+   *  \param array $categories Array where the search should run
+   *
    *  \return string the value you asked for or empty
    */
   function search($class, $value, $categories= "")
@@ -1082,13 +1066,13 @@ class config  {
       } else {
         return $this->__search($this->data[strtoupper($categories)], $class, $value);
       }
-    } 
+    }
 
     return ("");
   }
 
 
-  /*! 
+  /*!
    * \brief Get a configuration value from the config
    *
    *  This returns a configuration value from the config. It either
@@ -1100,33 +1084,33 @@ class config  {
    *  then the default is returned.
    *
    * \param string $name The configuration key (case-insensitive)
-   * 
+   *
    * \param string $default A default that is returned, if no value is found
    *
    * \return string the configuration value if found or the default value
    */
-  function get_cfg_value($name, $default= "") {
-    $name= strtoupper($name);
+  function get_cfg_value($name, $default = "") {
+    $name = strtoupper($name);
 
     /* Check if we have a current value for $name */
-    if (isset($this->current[$name])){
-      return ($this->current[$name]);
+    if (isset($this->current[$name])) {
+      return $this->current[$name];
     }
 
     /* Check if we have a global value for $name */
-    if (isset($this->data["MAIN"][$name])){
-      return ($this->data["MAIN"][$name]);
+    if (isset($this->data["MAIN"][$name])) {
+      return $this->data["MAIN"][$name];
     }
 
-    return ($default);
+    return $default;
   }
 
 
-  /*! 
+  /*!
    * \brief Check if session lifetime matches session.gc_maxlifetime
    *
    *  On debian systems the session files are deleted with
-   *  a cronjob, which detects all files older than specified 
+   *  a cronjob, which detects all files older than specified
    *  in php.ini:'session.gc_maxlifetime' and removes them.
    *  This function checks if the fusiondirectory.conf value matches the range
    *  defined by session.gc_maxlifetime.
@@ -1141,21 +1125,21 @@ class config  {
       $cfg_lifetime = $this->data['MAIN']['SESSIONLIFETIME'];
       $ini_lifetime = ini_get('session.gc_maxlifetime');
       $deb_system   = file_exists('/etc/debian_version');
-      return(!($deb_system && ($ini_lifetime < $cfg_lifetime)));  
+      return(!($deb_system && ($ini_lifetime < $cfg_lifetime)));
     }else{
-      return(TRUE);
+      return TRUE;
     }
   }
 
 
-  /*! 
+  /*!
    * \brief Check if snapshot are enabled
    *
    * \return boolean TRUE if snapshot are enabled, FALSE otherwise
    */
   function snapshotEnabled()
   {
-    if($this->get_cfg_value("enableSnapshots") == "true"){
+    if($this->get_cfg_value("enableSnapshots") == "TRUE"){
 
       /* Check if the snapshot_base is defined */
       if ($this->get_cfg_value("snapshotBase") == ""){
@@ -1167,7 +1151,7 @@ class config  {
               sprintf(_("The snapshot functionality is enabled, but the required variable '%s' is not set."),
                       "snapshotBase"), ERROR_DIALOG);
         }
-        return(FALSE);
+        return FALSE;
       }
 
       /* Check if the snapshot_base is defined */
@@ -1179,35 +1163,136 @@ class config  {
           msg_dialog::display(_("Configuration error"),
               sprintf(_("The snapshot functionality is enabled, but the required compression module is missing. Please install '%s'."),"php5-zip / php5-gzip"), ERROR_DIALOG);
         }
-        return(FALSE);
+        return FALSE;
       }
 
       /* check if there are special server configurations for snapshots */
-      if ($this->get_cfg_value("snapshotURI") != ""){
+      if ($this->get_cfg_value("snapshotURI") != "") {
 
         /* check if all required vars are available to create a new ldap connection */
         $missing = "";
-        foreach(array("snapshotURI","snapshotAdminDn","snapshotAdminPassword","snapshotBase") as $var){
-          if($this->get_cfg_value($var) == ""){
+        foreach (array("snapshotURI","snapshotAdminDn","snapshotAdminPassword","snapshotBase") as $var) {
+          if ($this->get_cfg_value($var) == "") {
             $missing .= $var." ";
 
             /* Send message if not done already */
-            if(!session::is_set("snapshotFailMessageSend")){
-              session::set("snapshotFailMessageSend",TRUE);
+            if (!session::is_set("snapshotFailMessageSend")) {
+              session::set("snapshotFailMessageSend", TRUE);
               msg_dialog::display(_("Configuration error"),
                   sprintf(_("The snapshot functionality is enabled, but the required variable '%s' is not set."),
                     $missing), ERROR_DIALOG);
             }
-            return(FALSE);
+            return FALSE;
           }
-                    }
-            }
-            return(TRUE);
+        }
+      }
+      return TRUE;
     }
-    return(FALSE);
+    return FALSE;
   }
 
+  function loadPlist ($plist)
+  {
+    $this->data['OBJECTS'] = array();
+    $this->data['SECTIONS'] = array();
+    foreach ($plist->info as $class => $plInfo) {
+      if (isset($plInfo['plObjectType'])) {
+        $entry = array('CLASS' => $class,'NAME' => $plInfo['plShortName']);
+        foreach ($plInfo['plObjectType'] as $key => $value) {
+          if (is_numeric($key)) { // This is not the main tab
+            $tabclass = strtoupper($value)."TABS";
+            @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $tabclass, "Adding $class to tab list");
+            if (!isset($this->data['TABS'][$tabclass])) {
+              $this->data['TABS'][$tabclass] = array();
+            }
+            $this->data['TABS'][$tabclass][] = $entry;
+          } else {
+            if (isset($this->data['OBJECTS'][strtoupper($key)])) {
+              die("duplicated object type ".strtoupper($key)." in ".$this->data['OBJECTS'][strtoupper($key)]['mainTab']." and $class");
+            }
+            $tabclass = strtoupper($key)."TABS";
+            $value['tabGroup']  = $tabclass;
+            $value['mainTab']   = $class;
+            foreach (array('ou', 'tabClass') as $i) {
+              if (!isset($value[$i])) {
+                $value[$i] = NULL;
+              }
+            }
+            if (!isset($value['aclCategory'])) {
+              $value['aclCategory'] = $key;
+            }
+            $this->data['OBJECTS'][strtoupper($key)] = $value;
+            @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $tabclass, "Adding $class as main tab of");
+            if (!isset($this->data['TABS'][$tabclass])) {
+              $this->data['TABS'][$tabclass] = array();
+            }
+            array_unshift($this->data['TABS'][$tabclass], $entry);
+          }
+
+        }
+      } elseif (class_available($class) && is_subclass_of($class, 'simpleService')) {
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class, "Adding service");
+        if (!isset($this->data['TABS']['SERVERSERVICE'])) {
+          $this->data['TABS']['SERVERSERVICE'] = array();
+        }
+        $this->data['TABS']['SERVERSERVICE'][] = array(
+          'CLASS' => $class,
+          'NAME' => $plInfo['plShortName']
+        );
+      }
+      if (isset($plInfo['plSection'])) {
+        $section  = $plInfo['plSection'];
+        $acl = $plInfo['plCategory'];
+        if (!is_array($acl)) {
+          $acl = array($acl);
+        }
+        $key = key($acl);
+        if (!is_numeric(key($acl))) {
+          $acl = array_keys($acl);
+        }
+        if (isset($plInfo['plSelfModify']) && $plInfo['plSelfModify']) {
+          $acl[] = $acl[0].'/'.$class.':self';
+        }
+        $acl = join(',', $acl);
+
+        if (is_array($section)) {
+          $section  = key($section);
+          if (is_numeric($section)) {
+            trigger_error("$class have wrong setting in plInfo/plSection");
+            continue;
+          }
+          $this->data['SECTIONS'][$section] = array_change_key_case($plInfo['plSection'][$section], CASE_UPPER);
+        }
+        if (!isset($this->data['MENU'][$section])) {
+          $this->data['MENU'][$section] = array();
+        }
+        $attrs = array('CLASS' => $class);
+        if (!empty($acl)) {
+          $attrs['ACL'] = $acl;
+        }
+        $this->data['MENU'][$section][] = $attrs;
+      }
+    }
+    $this->data['SECTIONS']["personal"] = array('NAME' => _('My account'), 'PRIORITY' => 20);
+    $personal = array();
+    foreach ($this->data['TABS']['USERTABS'] as $tab) {
+      $personal[] = array('CLASS' => $tab['CLASS'], 'ACL' => 'users/'.$tab['CLASS'].':self');
+    }
+    if (!isset($this->data['MENU']["personal"])) {
+      $this->data['MENU']["personal"] = $personal;
+    } else {
+      $this->data['MENU']["personal"] = array_merge($personal, $this->data['MENU']["personal"]);
+    }
+    uasort($this->data['SECTIONS'],
+      function ($a, $b)
+      {
+        if ($a['PRIORITY'] == $b['PRIORITY']) {
+          return 0;
+        }
+        return (($a['PRIORITY'] < $b['PRIORITY']) ? -1 : 1);
+      }
+    );
+  }
 }
 
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

@@ -2,7 +2,7 @@
 
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012  FusionDirectory
+  Copyright (C) 2012-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -38,12 +38,18 @@ class databaseManagement {
    */
   static function connectDatabase($database)
   {
-    $link = MDB2::connect(array( 'phptype'=>'mysql',
-                                  'hostspec'=>$database['SERVER'],
-                                  'username'=>$database['LOGIN'],
-                                  'password'=>$database['PASSWORD'],
-                                  'database'=>$database['DB'],
-                          ));
+    if (!isset($database['DRIVER'])) {
+      /* Deprecated old call with no driver */
+      $database['DRIVER'] = 'mysql';
+      trigger_error('connectDatabase called with no driver, defaulting to mysql.');
+    }
+    $link = MDB2::connect(array(
+      'phptype'   => $database['DRIVER'],
+      'hostspec'  => $database['SERVER'],
+      'username'  => $database['LOGIN'],
+      'password'  => $database['PASSWORD'],
+      'database'  => $database['DB'],
+    ));
     return $link;
   }
 
@@ -55,27 +61,27 @@ class databaseManagement {
    *
    * \param String $queries Queries to execute
    */
-  static function executeQueriesInTransaction($link,$queries)
+  static function executeQueriesInTransaction($link, $queries)
   {
     /* Start transaction, to be able to rollback */
-    @DEBUG (DEBUG_DB, __LINE__, __FUNCTION__, __FILE__,"<b>---Updating/Inserting entries---</b>","");
+    @DEBUG (DEBUG_DB, __LINE__, __FUNCTION__, __FILE__, "<b>---Updating/Inserting entries---</b>", "");
 
     $link->beginTransaction();
-    @DEBUG (DEBUG_DB, __LINE__, __FUNCTION__, __FILE__,"<b>begin;</b>","<i>Starting transaction!</i>");
+    @DEBUG (DEBUG_DB, __LINE__, __FUNCTION__, __FILE__, "<b>begin;</b>", "<i>Starting transaction!</i>");
 
     foreach ($queries as $query) {
-      @DEBUG (DEBUG_DB, __LINE__, __FUNCTION__, __FILE__,"<b>".$query."</b>", "");
+      @DEBUG (DEBUG_DB, __LINE__, __FUNCTION__, __FILE__, "<b>".$query."</b>", "");
       $res = $link->exec($query);
       if (PEAR::isError($res)) {
         $err = $res->getMessage();
-        @DEBUG (DEBUG_DB, __LINE__, __FUNCTION__, __FILE__,"\n".$err, "<b>FAILED</b>");
+        @DEBUG (DEBUG_DB, __LINE__, __FUNCTION__, __FILE__, "\n".$err, "<b>FAILED</b>");
         msg_dialog::display(_("Error"),
-            msgPool::dbError($err,__CLASS__)."&nbsp;".
+            msgPool::dbError($err, __CLASS__)."&nbsp;".
             "\n<p>"._("Please activate debugging for details!")."</p>",
             ERROR_DIALOG);
 
         $link->rollback();
-        @DEBUG (DEBUG_DB, __LINE__, __FUNCTION__, __FILE__,"<b>rollback;</b>", "<b>ERROR</b> Rollback transaction!");
+        @DEBUG (DEBUG_DB, __LINE__, __FUNCTION__, __FILE__, "<b>rollback;</b>", "<b>ERROR</b> Rollback transaction!");
         $link->disconnect();
         return FALSE;
       }
@@ -83,8 +89,8 @@ class databaseManagement {
 
     /* Let changes get active, everything was fine */
     $link->commit();
-    @DEBUG (DEBUG_DB, __LINE__, __FUNCTION__, __FILE__,"<b>commit;</b>", "");
-    @DEBUG (DEBUG_DB, __LINE__, __FUNCTION__, __FILE__,"<b>---Transaction sucessful!---</b>", "");
+    @DEBUG (DEBUG_DB, __LINE__, __FUNCTION__, __FILE__, "<b>commit;</b>", "");
+    @DEBUG (DEBUG_DB, __LINE__, __FUNCTION__, __FILE__, "<b>---Transaction sucessful!---</b>", "");
     return TRUE;
   }
 }

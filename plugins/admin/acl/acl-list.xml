@@ -78,8 +78,8 @@
      <action>
       <name>new</name>
       <type>entry</type>
-      <image>plugins/acl/images/role.png</image>
-      <label>Role</label>
+      <image>plugins/acl/images/iconMini.png</image>
+      <label>Acl</label>
      </action>
 
     </action>

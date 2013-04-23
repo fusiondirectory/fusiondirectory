@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -33,8 +33,8 @@ class organization extends department
   var $objectclasses  = array("top", "gosaDepartment");
   var $structuralOC   = array("organization");
 
-  /* Attributes 
-   */ 
+  /* Attributes
+   */
   var $st                       ="";
   var $l                        ="";
   var $description              ="";
@@ -57,7 +57,7 @@ class organization extends department
   var $teletexTerminalIdentifier="";
   var $physicalDeliveryOfficeName="";
 
-  /* Naming attributes 
+  /* Naming attributes
    */
   var $o            ="";
   var $type         = "organization";
@@ -110,30 +110,30 @@ class organization extends department
   /* Return plugin informations for acl handling */
   static function plInfo()
   {
-    return (array("plShortName"   => _("Organization"),
-          "plDescription" => _("Organization"),
-          "plSelfModify"  => FALSE,
-          "plPriority"    => 1,
-          "plDepends"     => array(),
-          "plSection"     => array("administration"),
-          "plCategory"    => array("department"),
+    return array(
+      "plShortName"   => _("Organization"),
+      "plDescription" => _("Organization"),
+      "plSelfModify"  => FALSE,
+      "plCategory"    => array("department"),
+      "plObjectType"  => array("organization" => array("name" => _("Organization"), "filter" => "objectClass=organization")),
 
-          "plProvidedAcls" => array(
-            "o"                       => _("Organization name"),
-            "description"             => _("Description"),
-            "businessCategory"        => _("Category"),
-            "base"                    => _("Base"),
+      "plProvidedAcls" => array(
+        "o"                       => _("Organization name"),
+        "description"             => _("Description"),
+        "businessCategory"        => _("Category"),
+        "base"                    => _("Base"),
 
-            "manager"                 => _("Manager"),
+        "manager"                 => _("Manager"),
 
-            "st"                      => _("State"),
-            "l"                       => _("Location"),
-            "postalAddress"           => _("Postal address"),
-            "telephoneNumber"         => _("Phone number"),
-            "facsimileTelephoneNumber"=> _("Fax"),
+        "st"                        => _("State"),
+        "l"                         => _("Location"),
+        "postalAddress"             => _("Postal address"),
+        "telephoneNumber"           => _("Phone number"),
+        "facsimileTelephoneNumber"  => _("Fax"),
 
-            "gosaUnitTag"             => _("Administrative settings"))
-          ));
+        "gosaUnitTag"             => _("Administrative settings")
+      )
+    );
   }
 
 }

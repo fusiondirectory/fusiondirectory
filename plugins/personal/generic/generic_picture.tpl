@@ -11,8 +11,8 @@
   <td>
    <table>
     <tr>
-     <td style='width:147px; height:200px; background-color:gray; vertical-align: middle; text-align: center;'>
-      <img  src="getbin.php?rand={$rand}" alt='' style='max-width:147px; max-height: 200px; vertical-align: middle;' >
+     <td style='width:150px; height:200px; background-color:gray; vertical-align: middle; text-align: center;'>
+      <img  src="getbin.php?rand={$rand}" alt='' style='max-width:150px; max-height: 200px; vertical-align: middle;' >
      </td>
     </tr>
    </table>

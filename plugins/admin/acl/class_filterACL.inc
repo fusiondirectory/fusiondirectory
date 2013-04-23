@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@ class filterACL {
         $res[$entry['dn']]=$entry;
       }
     }
-    return(array_values($res)); 
+    return(array_values($res));
   }
 
   static function get_list($parent, $base, $filter, $attributes, $category, $objectStorage, $flags= GL_SUBSEARCH, $method= "")
@@ -66,7 +66,7 @@ class filterACL {
 
     // Initialize search bases
     $bases= array();
-    
+
     // Get list of sub bases to search on
     if (count($objectStorage) == 0) {
       $bases[$base]= "";
@@ -130,7 +130,7 @@ class filterACL {
       if (preg_match("/size limit/i", $ldap->get_error())){
         session::set('limit_exceeded', TRUE);
         $limit_exceeded = TRUE;
-      } 
+      }
 
       /* Crawl through result entries and perform the migration to the
          result array */

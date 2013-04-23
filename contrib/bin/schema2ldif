@@ -1,0 +1,143 @@
+#!/usr/bin/perl
+
+#
+# schema2ldif: Tool for converting OpenLDAP-style schemas to the LDIF format
+# See pod documentation at the end of the file
+#
+
+use strict;
+use warnings;
+
+use 5.008;
+
+use Getopt::Long;
+use Pod::Usage;
+
+my $cn      = "" ;
+my $branch  = "cn=schema,cn=config";
+my $help    = 0;
+
+# Process command-line
+
+GetOptions(
+  'help|?'    => \$help,
+  'cn=s'      => \$cn,
+  'branch=s'  => \$branch,
+) or pod2usage(2);
+pod2usage(1) if $help;
+
+
+if ($cn eq '') {
+  if (@ARGV <= 0) {
+    pod2usage(2);
+  }
+  $cn = $ARGV[0];
+  die "Error: $cn is not a file\n" unless -f $cn;
+
+  $cn =~ s|^(.*/)?([^/]+)\.[^.]+$|$2|;
+}
+
+# [openldap.ldif]
+#   In addition to the actual schema directives, the file needs a small
+#     header to make it a valid LDAP entry. This header must provide the
+#     dn of the entry, the objectClass, and the cn, as shown here:
+print "dn: cn=$cn,$branch\n";
+print "objectClass: olcSchemaConfig\n";
+print "cn: $cn\n";
+
+# Reading the input schema file in loop
+# processing definitions
+while (<>) {
+  # Comments
+  if (/^\s*#/) {
+    # Pass the comments to output file
+    print;
+    next;
+  }
+
+  chomp;
+
+# [openldap.ldif]
+#   In LDIF, a blank line terminates an entry. Blank lines in a *.schema
+#     file should be replaced with a single '#' to turn them into
+#     comments, or they should just be removed.
+  next if m/^$/;
+
+# [openldap.ldif]
+#   First a basic string substitution can be done on each of the keywords:
+#     objectIdentifier -> olcObjectIdentifier:
+#     objectClass -> olcObjectClasses:
+#     attributeType -> olcAttributeTypes:
+  s/objectidentifier/olcObjectIdentifier:/i;
+  s/attributetype/olcAttributeTypes:/i;
+  s/objectclass/olcObjectClasses:/i;
+
+# [openldap.ldif]
+#   Then leading whitespace must be fixed. The slapd.conf format allows
+#     tabs or spaces to denote line continuation, while LDIF only allows
+#     the space character.
+#   Also slapd.conf preserves the continuation character, while LDIF strips
+#     it out. So a single TAB/SPACE in slapd.conf must be replaced with
+#     two SPACEs in LDIF, otherwise the continued text may get joined as
+#     a single word.
+  s/^\s+/  /;
+
+  print;
+  print "\n";
+}
+
+__END__
+
+=head1 NAME
+
+schema2ldif - Tool for converting OpenLDAP-style schemas to the LDIF format
+
+=head1 SYNOPSIS
+
+B<schema2ldif> [I<options>] [I<FILE>] > file.ldif
+
+=head1 DESCRIPTION
+
+B<schema2ldif> will read the given input file and convert it to an LDIF file that you can insert into your LDAP directory.
+If B<FILE> is not provided, will read from standard input. In this case, cn option is mandatory.
+Otherwise, the name of the file (without extension) will be used as cn.
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<-h>, B<--help>
+
+Print a brief help message and exits.
+
+=item B<-c>, B<--cn>=I<CN>
+
+Use CN as cn for the schema (mandatory if no file provided)
+
+=item B<-b>, B<--branch>=I<BRANCH>
+
+Use BRANCH instead of cn=schema,cn=config
+
+=back
+
+=head1 BUGS
+
+Please report any bugs, or post any suggestions, to the fusiondirectory mailing list fusiondirectory-users or to <https://forge.fusiondirectory.org/projects/schema2ldif/issues/new>
+
+=head1 AUTHOR
+
+Come Bernigaud
+
+=head1 LICENCE AND COPYRIGHT
+
+=over 2
+
+=item Copyright (C) 2013 FusionDirectory project
+
+=back
+
+License BSD
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the LICENSE file for more details.
+
+=cut

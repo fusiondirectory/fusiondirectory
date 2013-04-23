@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -70,7 +70,7 @@ class tests {
   /*!
    * \brief Test if the given string contains characters allowed in a hostname
    *
-   * \param string $str The hostname to check 
+   * \param string $str The hostname to check
    */
   public static function is_valid_hostname($str)
   {
@@ -85,11 +85,12 @@ class tests {
    */
   public static function is_url($url)
   {
-    if ($url == ""){
-      return (TRUE);
+    if ($url == "") {
+      return TRUE;
     }
 
-    return preg_match ("/^(http|https):\/\/((?:[a-zA-Z0-9_-]+\.?)+):?(\d*)/", $url);
+    /* Using @stephenhay regexp from http://mathiasbynens.be/demo/url-regex (removed ftp through) */
+    return preg_match ("@^(https?)://[^\s/$.?#].[^\s]*$@i", $url);
   }
 
 
@@ -270,18 +271,18 @@ class tests {
    *
    * \param boolean $template FALSE
    */
-  public static function is_email($address, $template= FALSE)
+  public static function is_email($address, $deprecated = FALSE)
   {
-    if ($address == ""){
-      return (TRUE);
+    if ($address == "") {
+      return TRUE;
     }
-    if ($template){
-      return preg_match ("/^[._a-z0-9%\+-]+@[_a-z0-9-]+(\.[a-z0-9-]+)(\.[a-z0-9-]+)*$/i",
-          $address);
-    } else {
-      return preg_match ("/^[._a-z0-9\+-]+@[_a-z0-9-]+(\.[a-z0-9i-]+)(\.[a-z0-9-]+)*$/i",
-          $address);
+    if (filter_var($address, FILTER_VALIDATE_EMAIL) !== FALSE) {
+      return TRUE;
+    } elseif (filter_var($address.'.com', FILTER_VALIDATE_EMAIL) !== FALSE) {
+      /* this is to allow addresses like example@localhost, which are refused by some PHP version */
+      return TRUE;
     }
+    return FALSE;
   }
 
 

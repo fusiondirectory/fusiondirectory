@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@ if ( $cleanup ){
   $display.= $password->execute ();
 
   /* Page header*/
-  $display = print_header(get_template_path('plugins/password/images/plugin.png'),
+  $display = print_header(get_template_path('plugins/password/images/icon.png'),
                          _("Password settings"), "").$display;
 
 }

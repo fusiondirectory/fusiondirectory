@@ -19,17 +19,8 @@ font-size:13px;
 color:#00378a;
 }
 
-td,p,b {
+td,p,b,th {
 font-size:12px;
-}
-
-td.listheader {
-background:#F0F0F0;
-font-weight:bold;
-border-right:1px solid #AAA;
-border-bottom:1px solid #AAA;
-padding:3px;
-height:22px;
 }
 
 td#menucell {
@@ -57,59 +48,6 @@ div.scrollbody {
 background-color:#FFF;
 overflow:auto;
 text-align:left;
-}
-
-td.list0 {
-background:transparent;
-border-right:1px solid #B0B0B0;
-padding:3px;
-height:22px;
-}
-
-td.list0#icon {
-width:20px;
-text-align:center;
-}
-
-td.list0#entry {
-}
-
-td.list0#info {
-width:200px;
-}
-
-td.list0#property {
-width:50px;
-}
-
-td.list0#properties7 {
-width:136px;
-}
-
-td.list0#properties8 {
-width:152px;
-}
-
-td.list0#properties9 {
-width:168px;
-}
-
-td.list0#properties10 {
-width:186px;
-}
-
-td.list0#actions {
-width:52px;
-border-right:0;
-text-align:right;
-}
-
-tr.rowxp1 {
-background:#F0F0F0;
-}
-
-tr.rowxp1:hover {
-background-color:#D8D8D8;
 }
 
 td.list1 {
@@ -192,6 +130,7 @@ background-color:#d7e6b4;
 cursor:pointer;
 }
 
+/* Side menu */
 p.menuheader {
 font-family:arial,helvetica,sans-serif;
 color:#00008F;
@@ -214,19 +153,17 @@ text-decoration:none;
 font-weight:normal;
 font-size:12px;
 text-align:left;
-cursor:pointer;
-padding-left:15px;
-padding-top:2px;
-padding-bottom:2px;
 vertical-align:middle;
 margin:2px;
 background-color:#FFF;
-padding-right:5px;
 }
 
-p.menuitem:hover {
-background-color:#F0F0F0;
-cursor:pointer;
+a.menuitem {
+padding-left:15px;
+padding-top:2px;
+padding-bottom:2px;
+padding-right:5px;
+display:block;
 }
 
 table.menuitem {
@@ -250,16 +187,32 @@ td.phonelist {
 border-right:1px solid #B0B0B0;
 }
 
+/* Main menu */
+table.plugin_window
+{
+vertical-align:top;
+text-align:justify;
+background-color: white;
+margin-top:0px;
+margin-left:7px;
+margin-right:7px;
+width:99%;
+border-collapse:collapse;
+}
+
+table.plugin_window, table.plugin_window > tbody > tr, table.plugin_window > tbody >tr > td
+{
+border:1px solid #AAA;
+padding:0;
+}
+
 h1.menuheader {
-border-style:solid;
-border-color:#AAA;
-width:100%;
-border-top-width:1px;
-border-bottom-width:0;
-border-left-width:0;
-border-right-width:0;
-padding-top:10px;
-padding-bottom:0;
+margin:0;
+padding:10px;
+display:inline-block;
+border-bottom:1px solid #AAAAAA;
+border-right:1px solid #AAAAAA;
+background-color:#DBE6C6;
 }
 
 div.copynotice {
@@ -299,6 +252,7 @@ color:#00008f;
 
 a.menuitem:hover {
 text-decoration:none;
+background-color:#F0F0F0;
 }
 
 td.iconmenu {
@@ -378,7 +332,7 @@ margin-bottom:0;
 text-align:left;
 }
 
-p.plugbottom {
+.plugbottom {
 border-style:solid;
 border-color:#a0a0a0;
 width:100%;
@@ -1748,13 +1702,15 @@ padding:2px;
 
 .date {
 float:left;
+text-align:center;
+width:90px;
 }
 
 .datepicker-opener-table {
 border:1px solid transparent;
 padding:0;
 border-spacing:0;
-margin:0 0 0 3px;
+margin:0 0 0 93px;
 background:transparent url(../../images/datepicker.gif) no-repeat 0 0;
 width:18px;
 height:18px;
@@ -1785,70 +1741,71 @@ cursor:pointer;
 /********************************
  *           L i s t s          *
  ********************************/
-/* List border */
-div.listContainer {
+table.listingTable {
 border-top:1px solid #AAA;
 border-bottom:1px solid #AAA;
 border-left:1px solid #AAA;
+table-layout:fixed;
+border-spacing:0;
 }
 
-.fixedListHeader tr {
+table.listingTable thead tr {
 position:relative;
 height:auto;
-}
-
-.listHeaderFormat {
 margin:3px;
 padding:1px;
 white-space:nowrap;
 }
 
-.listHeaderFormat tr td {
+table.listingTable > thead > tr > th {
+background:#F0F0F0;
+font-weight:bold;
 border-right:1px solid #AAA;
-padding:2px;
-background-color:#F5F5F5;
+border-bottom:1px solid #AAA;
+padding:3px;
+height:22px;
 }
 
-.listScrollContent {
+table.listingTable > tbody {
 height:100%;
 overflow-x:hidden;
 overflow-y:auto;
 }
 
-.listScrollContent tr {
+table.listingTable > tbody > tr {
 height:auto;
 white-space:nowrap;
 }
 
-.listScrollContent tr:nth-child(odd) {
+table.listingTable > tbody > tr:nth-child(odd) {
   background-color:#FFF;
 }
 
-.listScrollContent tr:nth-child(even) {
+table.listingTable > tbody > tr:nth-child(even) {
   background-color:#F5F5F5;
 }
 
-.listScrollContent tr.entry-locked:nth-child(odd) {
+table.listingTable > tbody > tr.entry-locked:nth-child(odd) {
   background-color:#FFC;
 }
 
-.listScrollContent tr.entry-locked:nth-child(even) {
+table.listingTable > tbody > tr.entry-locked:nth-child(even) {
   background-color:#F5F5CC;
 }
 
-.listScrollContent tr td:last-child {
+table.listingTable > tbody > tr td:last-child {
 padding-right:20px;
 }
 
-.listScrollContent tr:hover {
+table.listingTable > tbody > tr:hover {
   background-color:#DDD;
 }
 
-.listScrollContent tr.entry-locked:hover {
+table.listingTable > tbody > tr.entry-locked:hover {
   background-color:#DDA;
 }
 
-.listBodyFormat tr td {
+table.listingTable > tbody > tr td {
 color:#000;
 margin:3px;
 padding:2px;
@@ -1856,7 +1813,12 @@ border-right:1px solid #AAA;
 word-wrap:break-word;
 white-space:normal;
 max-width:500px;
+background:transparent;
+height:22px;
 }
+
+
+/* List border */
 
 div.nlistFooter {
 background-color:#E5E5E5;
@@ -1867,7 +1829,7 @@ padding:0;
 width:100%;
 }
 
-/* Sortable Lists */
+/* Sortable Lists (only used in user main tab) */
 div.sortableListContainer {
 border:1px solid #AAA;
 overflow:auto;
@@ -1937,7 +1899,7 @@ tr.sortableListItemMarked {
 background-color:#FFD;
 }
 
-/* Tree List */
+/* Tree List (used in baseSelector) */
 ul.treeList,ul.treeList ul {
 list-style-type:none;
 background:url(../../images/lists/vline.png) repeat-y;
@@ -2026,12 +1988,22 @@ color:#B22;
 .plugin_section {
 display:block;
 float:left;
-width:48%;
+clear:left;
+width:49%;
 vertical-align:top;
 border:1px solid #B0B0B0;
 padding:0;
-margin:5px;
+margin-top:0.5%;
+margin-left:0.5%;
+margin-bottom:0.5%;
+margin-right:0;
 position: relative;
+}
+.plugin_section:nth-child(even) {
+float:right;
+clear:right;
+margin-left:0;
+margin-right:0.5%;
 }
 
 div.plugin_section {
@@ -2093,4 +2065,26 @@ min-width:80%;
 float:none;
 clear:both;
 width:auto;
+margin-top:0.5%;
+margin-left:0.5%;
+margin-bottom:0.5%;
+margin-right:0.5%;
+}
+
+fieldset.plugin_section.critical legend span, .plugin_section.critical > span.legend {
+font-weight:bold;
+background-color:#FBC6B6;
+}
+
+.plugin_section.critical > div {
+background-color:#FFEFDF;
+}
+
+#debug_handling {
+background:#FFF6BF none repeat scroll 0 0;
+border-color:#FFD324;
+color:#514721;
+border:2px solid #DDDDDD;
+margin:.2em;
+padding:.3em;
 }

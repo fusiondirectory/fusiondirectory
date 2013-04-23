@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -31,8 +31,8 @@ require_once ("variables.inc");
 /* Set header */
 header("Content-type: text/html; charset=UTF-8");
 
-/* Set the text domain as 'messages' */
-$domain = 'messages';
+/* Set the text domain as 'fusiondirectory' */
+$domain = 'fusiondirectory';
 bindtextdomain($domain, LOCALE_DIR);
 textdomain($domain);
 
@@ -45,7 +45,7 @@ session::set('limit_exceeded',FALSE);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   @DEBUG (DEBUG_POST, __LINE__, __FUNCTION__, __FILE__, $_POST, "_POST");
 }
-@DEBUG (DEBUG_POST, __LINE__, __FUNCTION__, __FILE__, session::get_all(), "_SESSION");
+@DEBUG (DEBUG_SESSION, __LINE__, __FUNCTION__, __FILE__, session::get_all(), "_SESSION");
 
 /* Logged in? Simple security check */
 if (!session::global_is_set('config')) {
@@ -61,8 +61,8 @@ if ($_SERVER['REMOTE_ADDR'] != $ui->ip) {
   header ("Location: logout.php");
   exit;
 }
-$config= session::global_get('config');
-$config->check_and_reload();
+$config = session::global_get('config');
+timezone::get_default_timezone();
 
 /* Check for invalid sessions */
 if (session::global_get('_LAST_PAGE_REQUEST') == "") {
@@ -70,7 +70,7 @@ if (session::global_get('_LAST_PAGE_REQUEST') == "") {
 } else {
 
   /* check FusionDirectory.conf for defined session lifetime */
-  $max_life= $config->get_cfg_value("sessionLifetime", 60*60*2);
+  $max_life = $config->get_cfg_value("sessionLifetime", 60*60*2);
 
   /* get time difference between last page reload */
   $request_time = (time()- session::global_get('_LAST_PAGE_REQUEST'));
@@ -94,18 +94,13 @@ if (session::global_get('_LAST_PAGE_REQUEST') == "") {
 $smarty->compile_dir= $config->get_cfg_value("templateCompileDirectory", SPOOL_DIR);
 
 /* Set default */
-$reload_navigation = false;
-
-/* Set last initialised language to current, browser settings */
-if (!session::global_is_set('Last_init_lang')) {
-  $reload_navigation = true;
-  session::global_set('Last_init_lang',get_browser_language());
-}
+$reload_navigation = FALSE;
 
 /* If last language != current force navi reload */
-$lang= get_browser_language();
-if (session::global_get('Last_init_lang') != $lang) {
-  $reload_navigation = true;
+$lang = get_browser_language();
+/* Set last initialised language to current, browser settings */
+if ((!session::global_is_set('Last_init_lang')) || (session::global_get('Last_init_lang') != $lang)) {
+  $reload_navigation = TRUE;
 }
 
 /* Language setup */
@@ -122,8 +117,8 @@ setlocale(LC_ALL, $lang);
 $GLOBALS['t_language']= $lang;
 $GLOBALS['t_gettext_message_dir'] = $BASE_DIR.'/locale/';
 
-/* Set the text domain as 'messages' */
-$domain = 'messages';
+/* Set the text domain as 'fusiondirectory' */
+$domain = 'fusiondirectory';
 bindtextdomain($domain, LOCALE_DIR);
 textdomain($domain);
 @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang, "Setting language to");
@@ -145,17 +140,19 @@ if (!session::global_is_set('plist')) {
     }
   }
 
-  session::global_set('plist', new pluglist($config, $ui));
+  $plist = new pluglist($config, $ui);
+  session::global_set('plist', $plist);
+  $config->loadPlist($plist);
 
   /* Load ocMapping into userinfo */
-  $tmp= new acl($config, NULL, $ui->dn);
-  $ui->ocMapping= $tmp->ocMapping;
-  session::global_set('ui',$ui);
+  $tmp = new acl($config, $ui->dn);
+  $ui->ocMapping = $tmp->ocMapping;
+  session::global_set('ui', $ui);
 }
 $plist= session::global_get('plist');
 
 /* Check for register globals */
-if (isset($global_check) && $config->get_cfg_value("forceglobals") == "true") {
+if (isset($global_check) && $config->get_cfg_value("forceglobals") == "TRUE") {
   msg_dialog::display(
             _("PHP configuration"),
             _("Fatal error: Register globals is on. FusionDirectory will refuse to login unless this is fixed by an administrator."),
@@ -181,7 +178,7 @@ $plist->gen_menu();
 
 /* check if we are using account expiration */
 $smarty->assign("hideMenus", FALSE);
-if ($config->get_cfg_value("handleExpiredAccounts") == "true") {
+if ($config->get_cfg_value("handleExpiredAccounts") == "TRUE") {
     $expired= ldap_expired_account($config, $ui->dn, $ui->username);
     if ($expired == POSIX_WARN_ABOUT_EXPIRATION && !session::is_set('POSIX_WARN_ABOUT_EXPIRATION__DONE')) {
 
@@ -209,7 +206,6 @@ if ($config->get_cfg_value("handleExpiredAccounts") == "true") {
         }
     }
 }
-
 
 if (isset($_GET['plug']) && $plist->plugin_access_allowed($_GET['plug'])) {
   $plug= validate($_GET['plug']);
@@ -305,7 +301,7 @@ if (isset($plug)) {
 } else {
   $plug= "";
 }
-if (session::global_get('js')==FALSE) {
+if (session::global_get('js') == FALSE) {
   $smarty->assign("javascript", "false");
 } else {
   $smarty->assign("javascript", "true");
@@ -359,7 +355,7 @@ if (is_file("$plugin_dir/main.inc")) {
 } else {
   msg_dialog::display(
       _("Plugin"),
-      sprintf(_("Fatal error: Cannot find any plugin definitions for plugin '%s'!"), $plug),
+      sprintf(_("Fatal error: Cannot find any plugin definitions for plugin '%s' ('%s' is not a file)!"), $plug, "$plugin_dir/main.inc"),
       FATAL_ERROR_DIALOG);
   exit();
 }
@@ -421,8 +417,13 @@ if (isset($_POST['_channel_'])) {
   $smarty->assign("channel", "");
 }
 $smarty->assign ("title","FusionDirectory");
-$display= "<!-- headers.tpl-->".$smarty->fetch(get_template_path('headers.tpl')).
-          $smarty->fetch(get_template_path('framework.tpl'));
+
+if (class_available('Game')) {
+  $smarty->assign('game_screen',Game::run());
+}
+
+$display =  $smarty->fetch(get_template_path('headers.tpl')).
+            $smarty->fetch(get_template_path('framework.tpl'));
 
 /* Save dialog filters and selected base in a cookie.
    So we may be able to restore the filter an base settings on reload.
@@ -436,7 +437,7 @@ if (isset($_COOKIE['FusionDirectory_Filter_Settings'])) {
 }
 
 /* Save filters? */
-if ($config->get_cfg_value("storeFilterSettings") == "true") {
+if ($config->get_cfg_value("storeFilterSettings") == "TRUE") {
   $cookie_vars = array("MultiDialogFilters","CurrentMainBase");
   foreach ($cookie_vars as $var) {
     if (session::global_is_set($var)) {

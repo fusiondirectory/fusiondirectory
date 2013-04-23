@@ -14,7 +14,7 @@
       <label>Server</label>
       <objectClass>goServer</objectClass>
       <category>server</category>
-      <class>servgeneric</class>
+      <class>serverGeneric</class>
       <image>plugins/systems/images/select_server.png</image>
     </objectType>
 
@@ -22,7 +22,7 @@
       <label>Workstation</label>
       <objectClass>gotoWorkstation</objectClass>
       <category>workstation</category>
-      <class>workgeneric</class>
+      <class>workstationGeneric</class>
       <image>plugins/systems/images/select_workstation.png</image>
     </objectType>
 
@@ -30,7 +30,7 @@
       <label>Winstation</label>
       <objectClass>sambaSamAccount</objectClass>
       <category>winstation</category>
-      <class>wingeneric</class>
+      <class>winstationGeneric</class>
       <image>plugins/systems/images/select_winstation.png</image>
     </objectType>
 
@@ -38,7 +38,7 @@
       <label>Terminal</label>
       <objectClass>gotoTerminal</objectClass>
       <category>terminal</category>
-      <class>termgeneric</class>
+      <class>terminalGeneric</class>
       <image>plugins/systems/images/select_terminal.png</image>
     </objectType>
 

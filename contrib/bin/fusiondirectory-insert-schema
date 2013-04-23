@@ -4,7 +4,7 @@
 #
 # fusiondirectory-insert-schema -- insert schema needed into the ldap server
 #
-# Copyright (C) 2011-2012 FusionDirectory project
+# Copyright (C) 2011-2013 FusionDirectory project
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,10 +31,12 @@ my $search_cmd  = "ldapsearch -Y EXTERNAL -H ldapi:// -b \"cn=schema,cn=config\"
 my $path        = "/etc/ldap/schema/fusiondirectory/";
 my $full_cmd    = "";
 my $ldap_utils_path = "/usr/bin/ldapadd";
+my $schema2ldif = "schema2ldif";
 
 my $schemalist  = 0;
 my $pathunset   = 1;
 my @schemas     = ();
+my @gen_files   = ();
 foreach my $arg ( @ARGV ) {
   if (lc($arg) eq '-i') {
     $schemalist = 1;
@@ -43,6 +45,13 @@ foreach my $arg ( @ARGV ) {
   } elsif ($schemalist) {
     if ($arg =~ /(.*).ldif/) { # ignore ".ldif" if it is there
       push @schemas, $1;
+    } elsif ($arg =~ /(.*).schema/) {
+      if (system("$schema2ldif $arg > $1.ldif") == 0) {
+        push @schemas, $1;
+        push @gen_files, $1;
+      } else {
+        die "Something went wrong while trying to convert $arg to ldif\n";
+      }
     } else {
       push @schemas, $arg;
     }
@@ -65,7 +74,14 @@ die ("! ldap-utils doesn't seem to be installed") if (!-e $ldap_utils_path);
 
 if (scalar(@schemas) == 0) {
   # insert the default schemas
-  @schemas = ("samba","gosystem","gofon","gofax","goto","goserver","goto-mime","gosa-samba3","ldapns","recovery");
+  @schemas = ("samba","core-fd","core-fd-conf","ldapns","recovery-fd");
+  foreach my $schema (@schemas) {
+    if (system("$schema2ldif $path$schema.schema > $path$schema.ldif") == 0) {
+      push @gen_files, $path.$schema;
+    } else {
+      die "Something went wrong while trying to convert $path$schema.schema to ldif\n";
+    }
+  }
 } elsif ($pathunset) {
   $path = "";
 }
@@ -81,8 +97,14 @@ foreach my $schema (@schemas) {
   if ($search !~ /# numEntries: 1/m) {
     $full_cmd = $add_cmd.$path.$schema.".ldif";
     print "executing '$full_cmd'";
-    system ($full_cmd);
+    if (system ($full_cmd) != 0) {
+      print "Insertion failed!\n";
+    }
   }
+}
+
+foreach my $file (@gen_files) {
+  unlink "$file.ldif" or print "Could not delete $file.ldif\n";
 }
 
 sub usage
@@ -108,7 +130,7 @@ fusiondirectory-insert-schema - insert schema needed by FusionDirectory into the
 
 =head1 SYNOPSIS
 
-fusiondirectory-insert-schema <path of your schema files> [-i schema1 schema2]
+fusiondirectory-insert-schema [<path of your schema files>] [-i schema1 schema2]
 
 =head1 DESCRIPTION
 
@@ -118,13 +140,13 @@ If -i is specified, insert the given list of schemas instead of the default list
 =head1 EXAMPLES
 
  fusion@catbert$ fusiondirectory-insert-schema
-   Insert the schemas in your directory
-
- fusion@catbert$ fusiondirectory-insert-schema /etc/ldap/otherschema -i myschema
-   Insert the schema /etc/ldap/otherschema/myschema.ldif
+   Insert the core schemas in your LDAP directory
 
  fusion@catbert$ fusiondirectory-insert-schema -i /etc/ldap/otherschema/myschema.ldif
    Insert the schema /etc/ldap/otherschema/myschema.ldif
+
+ fusion@catbert$ fusiondirectory-insert-schema -i /etc/ldap/otherschema/myschema.schema
+   Convert /etc/ldap/otherschema/myschema.schema to ldif and insert it
 
  fusion@catbert$ fusiondirectory-insert-schema -i myschema
    Insert the schema myschema.ldif from working directory
@@ -144,7 +166,7 @@ This code is part of FusionDirectory <http://www.fusiondirectory.org>
 
 =over 1
 
-=item Copyright (C) 2011-2012 FusionDirectory Project
+=item Copyright (C) 2011-2013 FusionDirectory Project
 
 =back
 

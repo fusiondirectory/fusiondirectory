@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -22,16 +22,27 @@
 
 class groupManagement extends management
 {
-  var $plHeadline     = "Groups";
-  var $plDescription  = "Group administration";
-  var $plIcon  = "plugins/groups/images/plugin.png";
-
   // Tab definition
   protected $tabClass = "grouptabs";
   protected $tabType = "GROUPTABS";
   protected $aclCategory = "groups";
   protected $aclPlugin   = "group";
   protected $objectName   = "group";
+
+  /* Return plugin informations for acl handling */
+  static function plInfo()
+  {
+    return array(
+      "plShortName"   => _("Groups"),
+      "plDescription" => _("Manage groups"),
+      "plIcon"        => "plugins/groups/images/icon.png",
+      "plSection"     => "admin",
+      "plCategory"    => array("groups"),
+      "plPriority"    => 2,
+
+      "plProvidedAcls" => array()
+    );
+  }
 
   function __construct($config,$ui)
   {
@@ -54,13 +65,6 @@ class groupManagement extends management
     $headpage->registerElementFilter("filterProperties", "groupManagement::filterProperties");
     $headpage->setFilter($filter);
 
-    // Add copy&paste and snapshot handler.
-    if ($this->config->boolValueIsTrue("main", "copyPaste")){
-      $this->cpHandler = new CopyPasteHandler($this->config);
-    }
-    if($this->config->get_cfg_value("enableSnapshots") == "true"){
-      $this->snapHandler = new SnapshotHandler($this->config);
-    }
     parent::__construct($config, $ui, "groups", $headpage);
 
     $this->registerAction("edit_group","editEntry");
@@ -92,7 +96,7 @@ class groupManagement extends management
     $map = array(
         "posixGroup" =>
         array(
-          "image" => "plugins/groups/images/groups.png",
+          "image" => "plugins/groups/images/iconMini.png",
           "plugin" => "group",
           "alt" => _("Posix"),
           "title" => _("Edit posix properties")

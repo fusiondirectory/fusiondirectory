@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -33,6 +33,11 @@ if ( $cleanup ){
   session::un_set('ogroupManagement');
 }else{
 
+  /* Reset requested? */
+  if (isset($_GET['reset']) && $_GET['reset'] == 1){
+    session::un_set ('ogroupManagement');
+  }
+
   /* Create ogroupmanagement object on demand */
   if (!session::is_set('ogroupManagement')){
     $ogroupManagement= new ogroupManagement ($config, $ui);
@@ -40,11 +45,6 @@ if ( $cleanup ){
   }
   $ogroupManagement = session::get('ogroupManagement');
   $display= $ogroupManagement->execute();
-
-  /* Reset requested? */
-  if (isset($_GET['reset']) && $_GET['reset'] == 1){
-    session::un_set ('ogroupManagement');
-  }
 
   /* Show and save dialog */
   session::set('ogroupManagement',$ogroupManagement);

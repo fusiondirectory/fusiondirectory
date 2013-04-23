@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ class country extends department
   function check()
   {
     $message = plugin::check();
-    
+
     /* Check for presence of this department */
     $ldap= $this->config->get_ldap_link();
     $ldap->ls ("(&(c=".$this->c.")(objectClass=country))", $this->base, array('dn'));
@@ -75,25 +75,24 @@ class country extends department
   }
 
 
-  /* Return plugin informations for acl handling */ 
+  /* Return plugin informations for acl handling */
   static function plInfo()
   {
-    return (array(
-          "plShortName"   => _("Country"),
-          "plDescription" => _("Country"),
-          "plSelfModify"  => FALSE,
-          "plPriority"    => 2,
-          "plDepends"     => array(),
-          "plSection"     => array("administration"),
-          "plCategory"    => array("department"),
+    return array(
+      "plShortName"   => _("Country"),
+      "plDescription" => _("Country"),
+      "plSelfModify"  => FALSE,
+      "plCategory"    => array("department"),
+      "plObjectType"  => array("country" => array("name" => _("Country"), "filter" => "objectClass=country")),
 
-          "plProvidedAcls" => array(
-            "c"                 => _("Country name"),
-            "description"       => _("Description"),
-            "manager"                 => _("Manager"),
-            "base"              => _("Base"),
-            "gosaUnitTag"       => _("Administrative settings"))
-          ));
+      "plProvidedAcls" => array(
+        "c"                 => _("Country name"),
+        "description"       => _("Description"),
+        "manager"           => _("Manager"),
+        "base"              => _("Base"),
+        "gosaUnitTag"       => _("Administrative settings")
+      )
+    );
   }
 }
 

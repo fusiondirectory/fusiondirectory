@@ -55,10 +55,17 @@ class FDStandard_Sniffs_WhiteSpace_ConditionSpacingSniff implements PHP_CodeSnif
           }
         }
 
-        if ($nextBracket = $phpcsFile->findNext(array(T_OPEN_CURLY_BRACKET),$stackPtr+1)) {
-          if ($tokens[$nextBracket]['line'] != $tokens[$stackPtr]['line']) {
+        if (isset($tokens[$stackPtr]['scope_opener'])) {
+          $nextBracket = $tokens[$stackPtr]['scope_opener'];
+          if (isset($tokens[$stackPtr]['parenthesis_closer'])) {
+            $parenthesis = $tokens[$stackPtr]['parenthesis_closer'];
+            $line = $tokens[$parenthesis]['line'];
+          } else {
+            $line = $tokens[$stackPtr]['line'];
+          }
+          if ($tokens[$nextBracket]['line'] != $line) {
               $error = 'The brace after "'.$tokens[$stackPtr]['content'].'" should be on the same line';
-              $phpcsFile->addError($error, $nextBracket, 'ConditionAfterBracketLine');
+              $phpcsFile->addError($error, $stackPtr, 'ConditionAfterBracketLine');
           } elseif ($tokens[$nextBracket-1]['code'] !== T_WHITESPACE) {
               $error = 'The "'.$tokens[$nextBracket]['content'].'" after "'.$tokens[$stackPtr]['content'].'" should be preceded by a space';
               $phpcsFile->addError($error, $stackPtr, 'ConditionAfterBracketSpace');

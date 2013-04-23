@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -23,95 +23,68 @@
 class grouptabs extends tabs
 {
 
-  function grouptabs($config, $data, $dn, $cat = "", $hide_refs = FALSE, $hide_acls = FALSE)
+  function grouptabs($config, $data, $dn, $cat = "", $copied_object = NULL)
   {
-    tabs::tabs($config, $data, $dn,"groups", $hide_refs, $hide_acls);
+    tabs::tabs($config, $data, $dn, "groups", $copied_object);
     $this->addSpecialTabs();
   }
 
-  function save_object($save_current= FALSE)
+  function save_object($save_current = FALSE)
   {
     tabs::save_object($save_current);
 
     /* Update reference, transfer variables */
-    $baseobject= $this->by_object['group'];
-    foreach ($this->by_object as $name => $obj){
+    $baseobject = $this->getBaseObject();
+    foreach ($this->by_object as $name => &$obj) {
       /* Don't touch base object */
-      if ($name != 'group'){
-        $obj->parent= &$this;
-        $obj->cn= $baseobject->cn;
-        $this->by_object[$name]= $obj;
+      if ($name != $this->baseclass) {
+        $obj->parent  = &$this;
+        $obj->cn      = $baseobject->cn;
       }
     }
+    unset($obj);
   }
 
   function delete()
   {
     /* Put baseobjects 'cn' to mailobjects 'uid' */
-    $baseobject= $this->by_object['group'];
-    if (isset($this->by_object['mailgroup'])){
-      $this->by_object['mailgroup']->uid= $baseobject->cn;
+    $baseobject = $this->getBaseObject();
+    if (isset($this->by_object['mailgroup'])) {
+      $this->by_object['mailgroup']->uid = $baseobject->cn;
     }
     tabs::delete();
   }
 
-  function save($ignore_account= FALSE)
+  function save()
   {
-    $baseobject= $this->by_object['group'];
+    $baseobject = $this->getBaseObject();
 
     /* Check for new 'dn', in order to propagate the
        'dn' to all plugins */
-    $new_dn= 'cn='.$baseobject->cn.','.get_groups_ou().$baseobject->base;
+    $new_dn = 'cn='.$baseobject->cn.','.get_groups_ou().$baseobject->base;
 
-    /* Put baseobjects 'cn' to mailobjects 'uid' */
-    if (isset($this->by_object['mailgroup'])){
-      $this->by_object['mailgroup']->uid= $baseobject->cn;
-    }
-
-
-    /* Update reference, transfer variables */
-    foreach ($this->by_object as $name => $obj){
-      /* Transfer attributes for mailgroup account */
-      if ($name == 'mailgroup'){
-        $this->by_object['mailgroup']->members= $baseobject->memberUid;;
-      }
+    /* Transfer attributes for mailgroup account */
+    if (isset($this->by_object['mailgroup'])) {
+      $this->by_object['mailgroup']->uid      = $baseobject->cn;
+      $this->by_object['mailgroup']->members  = $baseobject->memberUid;
     }
 
     /* Move group? */
-    if ($this->dn != $new_dn){
+    if ($this->dn != $new_dn) {
 
       /* Write entry on new 'dn' */
-      if ($this->dn != "new"){
-        $baseobject->update_acls($this->dn,$new_dn);
+      if ($this->dn != "new") {
+        $baseobject->update_acls($this->dn, $new_dn);
         $baseobject->move($this->dn, $new_dn);
-        $this->by_object['group']= $baseobject;
+        $this->by_object[$this->baseclass] = $baseobject;
       }
 
       /* Happen to use the new one */
-      $this->dn= $new_dn;
+      $this->dn = $new_dn;
     }
 
-    $ret= tabs::save();
-
-    return $ret;
+    return tabs::save();
   }
-
-  function saveCopyDialog()
-  {
-    tabs::saveCopyDialog();
-    
-    /* Update reference, transfer variables */
-    $baseobject= $this->by_object['group'];
-    foreach ($this->by_object as $name => $obj){
-      /* Don't touch base object */
-      if ($name != 'group'){
-        $obj->parent= &$this;
-        $obj->cn= $baseobject->cn;
-        $this->by_object[$name]= $obj;
-      }
-    }
-  }
-  
 }
 
 ?>

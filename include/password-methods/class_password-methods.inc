@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -54,9 +54,9 @@ class passwordMethod
    */
   function create_template_hash($attrs)
   {
-    if($this->get_hash_name() == ""){
+    if ($this->get_hash_name() == "") {
       return("{crypt}N0T$3T4N0W");
-    }else{
+    } else {
       return('{'.$this->get_hash().'}').'N0T$3T4N0W';
     }
   }
@@ -416,7 +416,7 @@ class passwordMethod
   {
     global $config;
 
-    if ($config->get_cfg_value("strictPasswordRules") == "true") {
+    if ($config->get_cfg_value("strictPasswordRules") == "TRUE") {
       // Do we have UTF8 characters in the password?
       return ($password == utf8_decode($password));
     }

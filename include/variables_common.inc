@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -72,12 +72,12 @@ define("SMARTY", "/usr/share/php/smarty/libs/Smarty.class.php"); /*! Define smar
 define("SMARTY3", "/usr/share/php/smarty3/Smarty.class.php"); /*! Define smarty3 library path */
 
 /*!
- * \brief name of the utility used to create windows passwords
- */
-define ("MKNTPWD", "/usr/sbin/fusiondirectory-mkntpassword"); /*! Define the name of the binary used to create smb password */
-
-/*!
  * \brief FusionDirectory Version
  */
-define ("FD_VERSION", "1.0.4"); /*! Define FusionDirectory version */
+define ("FD_VERSION", "1.0.5"); /*! Define FusionDirectory version */
+
+/*!
+ * \brief FusionDirectory config object RDN
+ */
+define ("CONFIGRDN", "cn=fusiondirectory,ou=configs,"); /*! Define FusionDirectory config object */
 ?>

@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 
 class objectSelect extends management
 {
-  // Tab definition 
+  // Tab definition
   protected $skipFooter = TRUE;
   protected $skipHeader = TRUE;
 
@@ -31,7 +31,7 @@ class objectSelect extends management
     $this->config = $config;
     $this->ui = $ui;
     $this->storagePoints = array(
-        get_ou("userRDN"), 
+        get_ou("userRDN"),
         get_ou("groupRDN"),
         get_ou("applicationRDN"),
         get_ou("terminalRDN"),

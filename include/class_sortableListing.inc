@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -24,12 +24,12 @@
  * \file class_sortableListing.inc
  * Source code for class sortableListing
  */
- 
+
 define ('LIST_NORMAL', 0);
 define ('LIST_MARKED', 1);
 define ('LIST_DISABLED', 2);
 
-/*! \brief This class contains all the function needed to make list 
+/*! \brief This class contains all the function needed to make list
  * and management them
  */
 class sortableListing {
@@ -69,7 +69,7 @@ class sortableListing {
    * \param $displayData null
    *
    * \param boolean $reorderable false
-   */ 
+   */
   public function sortableListing($data= array(), $displayData= null, $reorderable= false)
   {
     global $config;
@@ -77,7 +77,7 @@ class sortableListing {
     // Save data to display
     $this->setListData($data, $displayData);
 
-    // Get list of used IDs 
+    // Get list of used IDs
     if(!session::is_set('sortableListing_USED_IDS')){
         session::set('sortableListing_USED_IDS',array());
     }
@@ -110,7 +110,7 @@ class sortableListing {
    * \brief Set new reorderable value
    *
    * \param boolean $bool
-   */ 
+   */
   public function setReorderable($bool)
   {
     $this->reorderable= $bool;
@@ -120,7 +120,7 @@ class sortableListing {
    * \brief Set a default sort column
    *
    * \param integer $id
-   */  
+   */
   public function setDefaultSortColumn($id)
   {
     $this->sortColumn = $id;
@@ -132,7 +132,7 @@ class sortableListing {
    * \param array $data
    *
    * \param array $displayData
-   */ 
+   */
   public function setListData($data, $displayData= null)
   {
     // Save data to display
@@ -151,7 +151,7 @@ class sortableListing {
    * \brief Set a data
    *
    * \param array $data
-   */ 
+   */
   private function setData($data)
   {
     $this->data= $data;
@@ -161,7 +161,7 @@ class sortableListing {
    * \brief Set a display data
    *
    * \param array $data
-   */ 
+   */
   private function setDisplayData($data)
   {
     if (!is_array($data)) {
@@ -202,12 +202,12 @@ class sortableListing {
         }
     }
   }
-  
+
  /*!
    * \brief Set width
    *
    * \param string $width px
-   */ 
+   */
   public function setWidth($width)
   {
     $this->width= $width;
@@ -217,7 +217,7 @@ class sortableListing {
    * \brief Set instant delete value
    *
    * \param boolean $flag
-   */ 
+   */
   public function setInstantDelete($flag)
   {
     $this->instantDelete= $flag;
@@ -227,7 +227,7 @@ class sortableListing {
    * \brief Set color alternate value
    *
    * \param boolean $flag
-   */ 
+   */
   public function setColorAlternate($flag)
   {
     $this->colorAlternate= $flag;
@@ -237,7 +237,7 @@ class sortableListing {
    * \brief Set editable value
    *
    * \param boolean $flag
-   */ 
+   */
   public function setEditable($flag)
   {
     $this->editable= $flag;
@@ -257,7 +257,7 @@ class sortableListing {
    * \brief Set height
    *
    * \param string $height px
-   */ 
+   */
   public function setHeight($height)
   {
     $this->height= $height;
@@ -268,7 +268,7 @@ class sortableListing {
    * \brief Set CSS class
    *
    * \param string $css
-   */ 
+   */
   public function setCssClass($css)
   {
     $this->cssclass= $css;
@@ -278,7 +278,7 @@ class sortableListing {
    * \brief Set header
    *
    * \param array $header
-   */ 
+   */
   public function setHeader($header)
   {
     $this->header= $header;
@@ -288,7 +288,7 @@ class sortableListing {
    * \brief Set a colspecs
    *
    * \param array $specs
-   */ 
+   */
   public function setColspecs($specs)
   {
     $this->colspecs= $specs;
@@ -296,7 +296,7 @@ class sortableListing {
 
   /*!
    * \brief Render
-   */ 
+   */
   public function render()
   {
       $result= "<div class='sortableListContainer' id='scroll_".$this->id."' style='min-width:".$this->width.";height: ".$this->height."'>\n";
@@ -340,7 +340,7 @@ class sortableListing {
         $link= "href='?plug=".$_GET['plug']."&amp;PID=".$this->id."&amp;act=SORT_$i'";
         $sorter= "";
         if ($i == $this->sortColumn){
-            $sorter= "&nbsp;<img border='0' title='".($this->sortDirection[$i]?_("Up"):_("Down"))."' 
+            $sorter= "&nbsp;<img border='0' title='".($this->sortDirection[$i]?_("Up"):_("Down"))."'
                 src='images/lists/sort-".($this->sortDirection[$i]?"up":"down").".png' align='top'>";
         }
 
@@ -434,14 +434,14 @@ class sortableListing {
 
   /*!
    * \brief Update sortableListing
-   */ 
+   */
   public function update()
   {
 
     // Filter GET with "act" attributes
     if (!$this->reorderable){
       if(isset($_GET['act']) && isset($_GET['PID']) && $this->id == $_GET['PID']) {
-    
+
         $key= validate($_GET['act']);
         if (preg_match('/^SORT_([0-9]+)$/', $key, $match)) {
 
@@ -455,7 +455,7 @@ class sortableListing {
 
         }
       }
-  
+
       // Update mapping according to sort parameters
       $this->sortData();
     }
@@ -463,7 +463,7 @@ class sortableListing {
 
   /*!
    * \brief Save an object
-   */ 
+   */
   public function save_object()
   {
     // Do not do anything if this is not our PID, or there's even no PID available...
@@ -538,7 +538,7 @@ class sortableListing {
 
   /*!
    * \brief Get action
-   */ 
+   */
   public function getAction()
   {
     // Do not do anything if we're not posted
@@ -560,8 +560,8 @@ class sortableListing {
   /*!
    * \brief Delete an entry
    *
-   * \param $id Entry identifier 
-   */ 
+   * \param $id Entry identifier
+   */
   private function deleteEntry($id)
   {
     // Remove mapping
@@ -575,7 +575,7 @@ class sortableListing {
 
   /*!
    * \brief GEt maintained data
-   */ 
+   */
   public function getMaintainedData()
   {
     $tmp= array();
@@ -590,7 +590,7 @@ class sortableListing {
    * \brief Chech if is modified
    *
    * \return TRUE if is modified, return FALSE otherwise
-   */ 
+   */
   public function isModified()
   {
     return $this->modified;
@@ -600,7 +600,7 @@ class sortableListing {
    * \brief Set a acl value
    *
    * \param string $acl
-   */ 
+   */
   public function setAcl($acl)
   {
     $this->acl= $acl;
@@ -608,7 +608,7 @@ class sortableListing {
 
   /*!
    * \brief Sort the data
-   */ 
+   */
   public function sortData()
   {
     if(!count($this->data)) return;
@@ -645,7 +645,7 @@ class sortableListing {
    * \param $displayEntry null
    *
    * \param $key null
-   */ 
+   */
   public function addEntry($entry, $displayEntry= null, $key= null)
   {
     // Only add if not already there
@@ -701,7 +701,7 @@ class sortableListing {
    * \brief Get the key
    *
    * \param string $index
-   */ 
+   */
   public function getKey($index) {
     return isset($this->keys[$index])?$this->keys[$index]:null;
   }
@@ -710,7 +710,7 @@ class sortableListing {
    * \brief Get data
    *
    * \param string $index
-   */ 
+   */
   public function getData($index) {
     $realkey = $this->keys[$index];
     return($this->data[$realkey]);
