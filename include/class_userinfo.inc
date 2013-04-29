@@ -38,55 +38,57 @@ class userinfo
   var $username;
   var $cn;
   var $uid;
-  var $restrictions= array();
-  var $gidNumber= -1;
-  var $language= "";
+  var $restrictions = array();
+  var $gidNumber    = -1;
+  var $language     = "";
   var $config;
-  var $gosaUnitTag= "";
-  var $subtreeACL= array();
-  var $ACL= array();
-  var $ocMapping= array();
-  var $groups= array();
-  var $result_cache =array();
-  var $ignoreACL = FALSE;
-  var $ACLperPath = array();
-  var $ACLperPath_usesFilter = array();
+  var $gosaUnitTag  = "";
+  var $subtreeACL   = array();
+  var $ACL          = array();
+  var $ocMapping    = array();
+  var $groups       = array();
+  var $result_cache = array();
+  var $ignoreACL    = FALSE;
+
+  var $ACLperPath             = array();
+  var $ACLperPath_usesFilter  = array();
 
   /* get acl's an put them into the userinfo object
      attr subtreeACL (userdn:components, userdn:component1#sub1#sub2,component2,...) */
-  function userinfo(&$config, $userdn){
-    $this->config= &$config;
-    $ldap= $this->config->get_ldap_link();
-    $ldap->cat($userdn,array('sn', 'givenName', 'uid', 'gidNumber', 'preferredLanguage', 'gosaUnitTag', 'gosaLoginRestriction'));
-    $attrs= $ldap->fetch();
+  function userinfo(&$config, $userdn)
+  {
+    $this->config = &$config;
+    $ldap = $this->config->get_ldap_link();
+    $ldap->cat($userdn, array('sn', 'givenName', 'uid', 'gidNumber', 'preferredLanguage', 'gosaUnitTag', 'gosaLoginRestriction'));
+    $attrs = $ldap->fetch();
 
-    if (isset($attrs['givenName'][0]) && isset($attrs['sn'][0])){
-      $this->cn= $attrs['givenName'][0]." ".$attrs['sn'][0];
+    if (isset($attrs['givenName'][0]) && isset($attrs['sn'][0])) {
+      $this->cn = $attrs['givenName'][0]." ".$attrs['sn'][0];
     } else {
-      $this->cn= $attrs['uid'][0];
+      $this->cn = $attrs['uid'][0];
     }
-    if (isset($attrs['gidNumber'][0])){
-      $this->gidNumber= $attrs['gidNumber'][0];
+    if (isset($attrs['gidNumber'][0])) {
+      $this->gidNumber = $attrs['gidNumber'][0];
     }
 
     /* Restrictions? */
-    if (isset($attrs['gosaLoginRestriction'])){
-      $this->restrictions= $attrs['gosaLoginRestriction'];
+    if (isset($attrs['gosaLoginRestriction'])) {
+      $this->restrictions = $attrs['gosaLoginRestriction'];
       unset($this->restrictions['count']);
     }
 
     /* Assign user language */
-    if (isset($attrs['preferredLanguage'][0])){
-      $this->language= $attrs['preferredLanguage'][0];
+    if (isset($attrs['preferredLanguage'][0])) {
+      $this->language = $attrs['preferredLanguage'][0];
     }
 
-    if (isset($attrs['gosaUnitTag'][0])){
-      $this->gosaUnitTag= $attrs['gosaUnitTag'][0];
+    if (isset($attrs['gosaUnitTag'][0])) {
+      $this->gosaUnitTag = $attrs['gosaUnitTag'][0];
     }
 
-    $this->dn= $userdn;
-    $this->uid= $attrs['uid'][0];
-    $this->ip= $_SERVER['REMOTE_ADDR'];
+    $this->dn   = $userdn;
+    $this->uid  = $attrs['uid'][0];
+    $this->ip   = $_SERVER['REMOTE_ADDR'];
 
     $this->ignoreACL = ($this->config->get_cfg_value("ignoreAcl") == $this->dn);
 
@@ -94,13 +96,13 @@ class userinfo
     $this->reset_acl_cache();
   }
 
-/*!
- * \brief Reset acl cache
- */
+  /*!
+  * \brief Reset acl cache
+  */
   public function reset_acl_cache()
   {
     /* Initialize ACL_CACHE */
-    session::global_set('ACL_CACHE',array());
+    session::global_set('ACL_CACHE', array());
   }
 
   /*!
@@ -108,33 +110,33 @@ class userinfo
    */
   function loadACL()
   {
-    $this->ACL= array();
-    $this->groups= array();
-    $this->result_cache =array();
+    $this->ACL          = array();
+    $this->groups       = array();
+    $this->result_cache = array();
     $this->reset_acl_cache();
-    $ldap= $this->config->get_ldap_link();
+    $ldap = $this->config->get_ldap_link();
     $ldap->cd($this->config->current['BASE']);
 
     /* Get member groups... */
     $ldap->search("(&(objectClass=posixGroup)(memberUid=".$this->uid."))", array('dn'));
-    while ($attrs= $ldap->fetch()){
-      $this->groups[$attrs['dn']]= $attrs['dn'];
+    while ($attrs = $ldap->fetch()) {
+      $this->groups[$attrs['dn']] = $attrs['dn'];
     }
 
     /* Crawl through ACLs and move relevant to the tree */
     $ldap->search("(objectClass=gosaACL)", array('dn', 'gosaAclEntry'));
-    $aclp= array();
-    $aclc= array();
-    while ($attrs= $ldap->fetch()){
+    $aclp = array();
+    $aclc = array();
+    while ($attrs = $ldap->fetch()) {
 
       /* Insert links in ACL array */
-      $aclp[$attrs['dn']]= substr_count($attrs['dn'], ',');
-      $aclc[$attrs['dn']]= array();
-      $ol= array();
-      for($i= 0; $i<$attrs['gosaAclEntry']['count']; $i++){
-        $ol= array_merge($ol, acl::explodeAcl($attrs['gosaAclEntry'][$i]));
+      $aclp[$attrs['dn']] = substr_count($attrs['dn'], ',');
+      $aclc[$attrs['dn']] = array();
+      $ol = array();
+      for ($i = 0; $i<$attrs['gosaAclEntry']['count']; $i++) {
+        $ol = array_merge($ol, acl::explodeAcl($attrs['gosaAclEntry'][$i]));
       }
-      $aclc[$attrs['dn']]= $ol;
+      $aclc[$attrs['dn']] = $ol;
     }
 
     /* Resolve roles here.
@@ -867,8 +869,142 @@ class userinfo
     return true;
   }
 
+  /*!
+  * \brief Checks the posixAccount status by comparing the shadow attributes.
+  *
+  * \param object $config   The FusionDirectory configuration object.
+  *
+  * \return const
+  *                  POSIX_ACCOUNT_EXPIRED           - If the account is expired.
+  *                  POSIX_WARN_ABOUT_EXPIRATION     - If the account is going to expire.
+  *                  POSIX_FORCE_PASSWORD_CHANGE     - The password has to be changed.
+  *                  POSIX_DISALLOW_PASSWORD_CHANGE  - The password cannot be changed right now.
+  *
+  *
+  *
+  *      shadowLastChange
+  *      |
+  *      |---- shadowMin --->    |       <-- shadowMax --
+  *      |                       |       |
+  *      |------- shadowWarning ->       |
+  *                                      |-- shadowInactive --> DEACTIVATED
+  *                                      |
+  *                                      EXPIRED
+  *
+  */
+  function expired_status ()
+  {
+    // Skip this for the admin account, we do not want to lock him out.
+    if ($this->is_user_admin()) {
+      return 0;
+    }
+
+    $ldap = $this->config->get_ldap_link();
+    $ldap->cd($this->config->current['BASE']);
+    $ldap->cat($this->dn);
+    $attrs    = $ldap->fetch();
+    $current  = floor(date("U") / 60 / 60 / 24);
+
+    // Fetch required attributes
+    foreach (array('shadowExpire','shadowLastChange','shadowMax','shadowMin',
+                'shadowInactive','shadowWarning','sambaKickoffTime') as $attr) {
+      $$attr = (isset($attrs[$attr][0])? $attrs[$attr][0] : NULL);
+    }
+
+
+    // Check if the account has reached its kick off limitations.
+    // ---------------------------------------------------------
+    // Once the accout reaches the kick off limit it has expired.
+    if ($sambaKickoffTime !== NULL) {
+      if (time() >= $sambaKickoffTime) {
+        return POSIX_ACCOUNT_EXPIRED;
+      }
+    }
+
+
+    // Check if the account has expired.
+    // ---------------------------------
+    // An account is locked/expired once its expiration date has reached (shadowExpire).
+    // If the optional attribute (shadowInactive) is set, we've to postpone
+    //  the account expiration by the amount of days specified in (shadowInactive).
+    if (($shadowExpire != NULL) && ($shadowExpire <= $current)) {
+
+      // The account seems to be expired, but we've to check 'shadowInactive' additionally.
+      // ShadowInactive specifies an amount of days we've to reprieve the user.
+      // It some kind of x days' grace.
+      if (($shadowInactive == NULL) || $current > $shadowExpire + $shadowInactive) {
+
+        // Finally we've detect that the account is deactivated.
+        return POSIX_ACCOUNT_EXPIRED;
+      }
+    }
+
+    // The users password is going to expire.
+    // --------------------------------------
+    // We've to warn the user in the case of an expiring account.
+    // An account is going to expire when it reaches its expiration date (shadowExpire).
+    // The user has to be warned, if the days left till expiration, match the
+    //  configured warning period (shadowWarning)
+    // --> shadowWarning: Warn x days before account expiration.
+    if (($shadowExpire != NULL) && ($shadowWarning != NULL)) {
+
+      // Check if the account is still active and not already expired.
+      if ($shadowExpire >= $current) {
+
+        // Check if we've to warn the user by comparing the remaining
+        //  number of days till expiration with the configured amount
+        //  of days in shadowWarning.
+        if (($shadowExpire - $current) <= $shadowWarning) {
+          return POSIX_WARN_ABOUT_EXPIRATION;
+        }
+      }
+    }
+
+    // -- I guess this is the correct detection, isn't it?
+    if (($shadowLastChange != NULL) && ($shadowWarning != NULL) && ($shadowMax != NULL)) {
+      $daysRemaining = ($shadowLastChange + $shadowMax) - $current;
+      if ($daysRemaining > 0 && $daysRemaining <= $shadowWarning) {
+        return POSIX_WARN_ABOUT_EXPIRATION;
+      }
+    }
+
+    // Check if we've to force the user to change his password.
+    // --------------------------------------------------------
+    // A password change is enforced when the password is older than
+    //  the configured amount of days (shadowMax).
+    // The age of the current password (shadowLastChange) plus the maximum
+    //  amount amount of days (shadowMax) has to be smaller than the
+    //  current timestamp.
+    if (($shadowLastChange != NULL) && ($shadowMax != NULL)) {
+      // Check if we've an outdated password.
+      if ($current >= ($shadowLastChange + $shadowMax)) {
+        return POSIX_FORCE_PASSWORD_CHANGE;
+      }
+    }
+
+    // Check if we've to freeze the users password.
+    // --------------------------------------------
+    // Once a user has changed his password, he cannot change it again
+    //  for a given amount of days (shadowMin).
+    // We should not allow to change the password within FusionDirectory too.
+    if (($shadowLastChange != NULL) && ($shadowMin != NULL)) {
+      // Check if we've an outdated password.
+      if (($shadowLastChange + $shadowMin) >= $current) {
+        return POSIX_DISALLOW_PASSWORD_CHANGE;
+      }
+    }
+
+    return 0;
+  }
+
+  /* \brief Check if a user is a 'user admin'
+   */
+  function is_user_admin()
+  {
+    if (empty($this->ACLperPath)) {
+      $this->loadACL();
+    }
+    return ($this->get_category_permissions($this->config->current['BASE'], 'users') == 'rwcdm');
+  }
 }
-
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
