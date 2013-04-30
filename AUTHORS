@@ -100,6 +100,7 @@ documentation and additional help.
 
 * Bernigaud Côme <come.bernigaud@laposte.net>
   New daemon code class_supportDaemon.inc, and all the new deployment stuff :)
+  Simple plugin framework developper
 
 * Alexis Michon <alexis.michon@ibcp.fr>
   Testing, First version of Password reset
