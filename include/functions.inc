@@ -501,8 +501,8 @@ function ldap_init ($server, $base, $binddn='', $pass='')
   global $config;
 
   $ldap = new LDAP ($binddn, $pass, $server,
-      isset($config->current['LDAPFOLLOWREFERRALS']) && $config->current['LDAPFOLLOWREFERRALS'] == "true",
-      isset($config->current['LDAPTLS']) && $config->current['LDAPTLS'] == "true");
+      isset($config->current['LDAPFOLLOWREFERRALS']) && $config->current['LDAPFOLLOWREFERRALS'] == "TRUE",
+      isset($config->current['LDAPTLS']) && $config->current['LDAPTLS'] == "TRUE");
 
   /* Sadly we've no proper return values here. Use the error message instead. */
   if (!$ldap->success()){
@@ -712,9 +712,9 @@ function ldap_login_user ($username, $password)
   $ldap->disconnect();
   $ldap= new LDAP($ui->dn, $password, $config->current['SERVER'],
       isset($config->current['LDAPFOLLOWREFERRALS']) &&
-      $config->current['LDAPFOLLOWREFERRALS'] == "true",
+      $config->current['LDAPFOLLOWREFERRALS'] == "TRUE",
       isset($config->current['LDAPTLS'])
-      && $config->current['LDAPTLS'] == "true");
+      && $config->current['LDAPTLS'] == "TRUE");
   if (!$ldap->success()){
     return (NULL);
   }
@@ -3017,7 +3017,7 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
   }
 
   // Detect the encryption Method
-  if ($config->get_cfg_value("forcePasswordDefaultHash") == "true"){
+  if ($config->get_cfg_value("forcePasswordDefaultHash", "FALSE") == "TRUE") {
     // if forcePasswordDefaultHash is true we use the passwordDefaultHash
     // hash and if it is not defined we use 'crypt/md5' as default
     $hash = $config->get_cfg_value("passwordDefaultHash", "crypt/md5");
