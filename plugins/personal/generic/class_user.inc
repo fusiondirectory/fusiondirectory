@@ -129,8 +129,6 @@ class user extends plugin
       "functionalTitle", "publicVisible", "street", "role",
       "postalCode");
 
-  var $multiple_support = TRUE;
-
   var $governmentmode = FALSE;
 
   var $mobiles_available;
