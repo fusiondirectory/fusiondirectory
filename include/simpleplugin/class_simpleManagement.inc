@@ -21,22 +21,35 @@
 
 class simpleManagement extends management
 {
-  // Tab definition
+  /* Management attributes we override */
   protected $tabClass     = 'simpleTabs';
   protected $tabType      = '';
   protected $aclCategory  = '';
   protected $aclPlugin    = '';
+
+  /* Attributes that child classes should override */
   protected $objectName   = ''; // FIXME : should not be needed anymore
   protected $objectTypes  = array();
 
+  /* Attributes that child classes can override */
   protected $departmentBrowser      = TRUE;
   protected $departmentRootVisible  = TRUE;
   protected $baseMode               = TRUE;
+
+  protected $filterXMLPath  = NULL;
+  protected $listXMLPath    = NULL;
 
   function __construct($config, $ui)
   {
     $this->config = $config;
     $this->ui     = $ui;
+
+    if ($this->filterXMLPath === NULL) {
+      $this->filterXMLPath = get_template_path('simple-filter.xml', TRUE, dirname(__FILE__));
+    }
+    if ($this->listXMLPath === NULL) {
+      $this->listXMLPath = get_template_path('simple-list.xml', TRUE, dirname(__FILE__));
+    }
 
     foreach ($this->objectTypes as &$object) {
       $object = strtoupper($object);
@@ -59,13 +72,13 @@ class simpleManagement extends management
     if (session::global_is_set(get_class($this).'_filter')) {
       $filter = session::global_get(get_class($this).'_filter');
     } else {
-      $filter = new filter(get_template_path('simple-filter.xml', TRUE, dirname(__FILE__)));
+      $filter = new filter($this->filterXMLPath);
       $filter->setObjectStorage($this->storagePoints);
     }
     $this->setFilter($filter);
 
     // Build headpage
-    $headpage = new listing(get_template_path('simple-list.xml', TRUE, dirname(__FILE__)));
+    $headpage = new listing($this->listXMLPath);
     $headpage->departmentBrowser      = $this->departmentBrowser;
     $headpage->departmentRootVisible  = $this->departmentRootVisible;
     $headpage->baseMode               = $this->baseMode;
@@ -73,6 +86,12 @@ class simpleManagement extends management
 
     parent::__construct($config, $ui, 'unused', $headpage);
 
+    $this->configureFilterAndHeadpage();
+  }
+
+  /* Build the action menu, fill the object definition, etc, based on objectTypes info */
+  function configureFilterAndHeadpage ()
+  {
     $this->headpage->xmlData['actionmenu']['action'][0]['action'] = array();
     $pInfos = pluglist::pluginInfos(get_class($this));
     $this->headpage->headline = $pInfos['plShortName'];
