@@ -41,7 +41,7 @@
 
 <p class="seperator">&nbsp;</p>
 <div style="width:100%; text-align:right;">
-    <input type='submit' name='CancelSnapshot' value='{t}Cancel{/t}'>
+    <input type="submit" name="CancelSnapshot" value="{t}Cancel{/t}">
 </div>
 
 {else}
@@ -61,22 +61,22 @@
     <td>
       <b>{t}Object{/t}</b>
     </td>
-    <td style="width:95%"> 
+    <td style="width:95%">
        {$CurrentDN}
     </td>
   </tr>
   <tr>
     <td>
-      <b>{t}Timestamp{/t}</b> 
+      <b>{t}Timestamp{/t}</b>
     </td>
-    <td> 
+    <td>
        {$CurrentDate}
     </td>
   </tr>
   <tr>
     <td style="vertical-align:top;" colspan="2">
       <br>
-      {t}Reason for generating this snapshot{/t}<br> 
+      {t}Reason for generating this snapshot{/t}<br>
       <textarea name="CurrentDescription" style="width:100%;height:160px;" rows=10 cols=100>{$CurrentDescription}</textarea>
     </td>
   </tr>
@@ -84,9 +84,9 @@
 
 <p class="seperator">&nbsp;</p>
 <div style="width:100%; text-align:right;">
-    <input type='submit' name='CreateSnapshot' value='{t}Continue{/t}'>
+    <input type="submit" name="CreateSnapshot" value="{t}Continue{/t}">
     &nbsp;
-    <input type='submit' name='CancelSnapshot' value='{t}Cancel{/t}'>
+    <input type="submit" name="CancelSnapshot" value="{t}Cancel{/t}">
 </div>
 
 <script language="JavaScript" type="text/javascript">
