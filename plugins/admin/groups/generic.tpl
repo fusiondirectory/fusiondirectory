@@ -15,7 +15,7 @@
       <LABEL for="description">{t}Description{/t}</LABEL>
      </td>
      <td>
-{render acl=$descriptionACL checked=$use_description}
+{render acl=$descriptionACL}
       <input type='text' id="description" name="description" size=40 maxlength=80 value="{$description}" title="{t}Descriptive text for this group{/t}">
 {/render}
      </td>
@@ -30,7 +30,7 @@
       <LABEL for="base">{t}Base{/t}</LABEL>{$must}
      </td>
      <td>
-{render acl=$baseACL checked=$use_base}
+{render acl=$baseACL}
        {$base}
 {/render}
      </td>
