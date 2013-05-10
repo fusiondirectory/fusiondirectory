@@ -124,7 +124,7 @@
 .\" ========================================================================
 .\"
 .IX Title "FUSIONDIRECTORY.CONF 1"
-.TH FUSIONDIRECTORY.CONF 1 "2013-03-14" "FusionDirectory 1.0" "FusionDirectory Documentation"
+.TH FUSIONDIRECTORY.CONF 1 "2013-05-07" "FusionDirectory 1.0" "FusionDirectory Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -181,8 +181,8 @@ Example layout:
 .Ve
 .PP
 </main>
-.SS "Generic options"
-.IX Subsection "Generic options"
+.SS "Main section options"
+.IX Subsection "Main section options"
 .IP "\fBforceSSL\fR \fIbool\fR" 4
 .IX Item "forceSSL bool"
 The forceSSL statement enables \s-1PHP\s0 security checks to force encrypted access to the web interface. FusionDirectory will try to redirect to the same \s-1URL\s0 just  with https://.
@@ -197,9 +197,21 @@ This path needs to be writeable by the user your webserver is running with.
 .IP "\fBignoreAcl\fR \fIdn\fR" 4
 .IX Item "ignoreAcl dn"
 The ignoreAcl value tells FusionDirectory to ignore complete \s-1ACL\s0 sets for the given \s-1DN\s0. Add your \s-1DN\s0 here and you'll be able to restore accidently dropped ACLs.
+.IP "\fBdisplayerrors\fR bool" 4
+.IX Item "displayerrors bool"
+The  displayerrors  statement tells FusionDirectory to show \s-1PHP\s0 errors in the upper part of the screen. This should be disabled in productive deployments, because there
+might be some important passwords arround.
+.SS "Location section options"
+.IX Subsection "Location section options"
+.IP "\fBname\fR \fIstring\fR" 4
+.IX Item "name string"
+The name of this location section that will appear in the dropdown on FusionDirectory homepage
+.IP "\fBconfig\fR \fIdn\fR" 4
+.IX Item "config dn"
+The config statement defines the \s-1LDAP\s0 base, where FusionDirectory stores management information, such as site wide locking and user notifications.
 .IP "\fBdebuglevel\fR \fIinteger\fR" 4
 .IX Item "debuglevel integer"
-The debuglevel value tells FusionDirectory to display certain information on each page load. Value is an \s-1AND\s0 combination of the following byte values :
+The debuglevel value tells FusionDirectory to display certain information on each page load. Value is an \s-1OR\s0 combination of the following byte values :
 .Sp
 \&\s-1DEBUG_TRACE\s0    = 1
 .Sp
@@ -225,6 +237,9 @@ The debuglevel value tells FusionDirectory to display certain information on eac
 .IP "\fBldapTLS\fR \fIbool\fR" 4
 .IX Item "ldapTLS bool"
 The ldapTLS statement enables or disables \s-1TLS\s0 operating on \s-1LDAP\s0 connections.
+.IP "\fBldapFollowReferrals\fR \fIbool\fR" 4
+.IX Item "ldapFollowReferrals bool"
+The ldapFollowReferrals statement tells FusionDirectory to follow \s-1LDAP\s0 referrals.
 .SS "\s-1LDAP\s0 resource definition"
 .IX Subsection "LDAP resource definition"
 For every location you define inside your fusiondirectory.conf, you need at least one entry of the type referral. These entries define the way how to connect to some directory service.
@@ -253,3 +268,9 @@ This code is part of FusionDirectory <http://www.fusiondirectory.org>
 .PD
 .PP
 This program is distributed in the hope that it will be useful, but \s-1WITHOUT\s0 \s-1ANY\s0 \s-1WARRANTY\s0; without even the implied warranty of \s-1MERCHANTABILITY\s0 or \s-1FITNESS\s0 \s-1FOR\s0 A \s-1PARTICULAR\s0 \s-1PURPOSE\s0.  See the \s-1GNU\s0 General Public License for more details.
+.SH "POD ERRORS"
+.IX Header "POD ERRORS"
+Hey! \fBThe above document had some coding errors, which are explained below:\fR
+.IP "Around line 131:" 4
+.IX Item "Around line 131:"
+\&'=item' outside of any '=over'

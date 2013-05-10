@@ -87,8 +87,25 @@ if (scalar(@schemas) == 0) {
 }
 
 foreach my $schema (@schemas) {
-  my $schema_name = $schema;
-  $schema_name =~ s|^.*/||;
+  my $schema_name = "";
+
+  # Searching schema name in ldif file first line.
+  open FILE, '< '.$path.$schema.".ldif" or die "Count not open ldif file : $!\n";
+  my $dn = "";
+  while ($dn eq "") {
+    chomp($dn = <FILE>);
+  }
+  if ($dn =~ /^dn: cn=([^,]+),/) {
+    $schema_name = $1;
+  }
+  close(FILE);
+
+  # Fallback on file name
+  if ($schema_name eq "") {
+    $schema_name = $schema;
+    $schema_name =~ s|^.*/||;
+  }
+
   $full_cmd = $search_cmd.$schema_name;
   print ("\n");
   my $search = `$full_cmd`;
@@ -96,10 +113,12 @@ foreach my $schema (@schemas) {
   # if the schema doesn't already exists in the LDAP server, adding it
   if ($search !~ /# numEntries: 1/m) {
     $full_cmd = $add_cmd.$path.$schema.".ldif";
-    print "executing '$full_cmd'";
+    print "executing '$full_cmd'\n";
     if (system ($full_cmd) != 0) {
       print "Insertion failed!\n";
     }
+  } else {
+    print "$schema_name already exists in the LDAP, skipping…\n";
   }
 }
 

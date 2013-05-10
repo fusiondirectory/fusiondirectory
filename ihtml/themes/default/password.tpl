@@ -31,21 +31,21 @@
 
 {if $changed}
 <div class='success'">
-<img class='center' src='images/true.png' alt='{t}Success{/t}' title='{t}Success{/t}'>&nbsp;<b>{t}Your password has been changed successfully.{/t}</b>
+<img class="center" src="images/true.png" alt="{t}Success{/t}" title="{t}Success{/t}">&nbsp;<b>{t}Your password has been changed successfully.{/t}</b>
 </div>
 {else}
-<form action='password.php{$params}' method='post' name='mainform' onSubmit='js_check(this);return true;'>
-    <h1 class='headline'>
-    <img class='center' src='{$password_img}' alt='{t}Password{/t}' title='{t}Password{/t}'>
+<form action="password.php{$params}" method="post" name="mainform" onSubmit="js_check(this);return true;">
+    <h1 class="headline">
+    <img class="center" src="{$password_img}" alt="{t}Password{/t}" title="{t}Password{/t}">
     {t}Password change{/t}
     </h1>
 
     <!-- Display SSL warning message on demand -->
-    <p class='warning'> {$ssl} </p>
-    <input type='hidden' name='javascript' value='false'/>    
+    <p class="warning"> {$ssl} </p>
+    <input type="hidden" name="javascript" value="false"/>
 
     <!-- Display error message on demand -->
-    <p class='warning'> {$message} </p>
+    <p class="warning"> {$message} </p>
 
 
     <p class="infotext">
@@ -58,32 +58,32 @@
       <tr>
        <td>{t}Directory{/t}</td>
        <td>
-          <select name='server'  title='{t}Directory{/t}'>
+          <select name="server"  title="{t}Directory{/t}">
             {html_options options=$server_options selected=$server_id}
           </select>
   </td>
       </tr>
       {/if}
       <tr>
-       <td><label for='uid'>{t}Username{/t}</label></td>
+       <td><label for="uid">{t}Username{/t}</label></td>
        <td>{if $display_username}
-           <input type='text' name='uid' id='uid' maxlength='40' value='{$uid}' title='{t}Username{/t}' onFocus="nextfield= 'current_password';">
+           <input type="text" name="uid" id="uid" maxlength="40" value="{$uid}" title="{t}Username{/t}" onFocus="nextfield= 'current_password';">
            {else}
            <i>{$uid}</i>
            {/if}
        </td>
       </tr>
       <tr>
-       <td><label for='current_password'>{t}Current password{/t}</label></td>
-       <td><input type='password' name='current_password' id='current_password' maxlength='40' value='' title='{t}Current password{/t}' onFocus="nextfield= 'new_password';"></td>
+       <td><label for="current_password">{t}Current password{/t}</label></td>
+       <td><input type="password" name="current_password" id="current_password" maxlength="40" value="" title="{t}Current password{/t}" onFocus="nextfield= 'new_password';"></td>
       </tr>
       <tr>
-       <td><label for='new_password'>{t}New password{/t}</label></td>
-       <td><input type='password' name='new_password' id="new_password" maxlength='40' value='' title='{t}New password{/t}' onFocus="nextfield= 'new_password_repeated';" onkeyup="testPasswordCss(document.getElementById('new_password').value);"></td>
+       <td><label for="new_password">{t}New password{/t}</label></td>
+       <td><input type="password" name="new_password" id="new_password" maxlength="40" value="" title="{t}New password{/t}" onFocus="nextfield= 'new_password_repeated';" onkeyup="testPasswordCss(document.getElementById('new_password').value);"></td>
       </tr>
       <tr>
-       <td><label for='new_password_repeated'>{t}New password repeated{/t}</label></td>
-       <td><input type='password' name='new_password_repeated' id='new_password_repeated' maxlength='40' value='' title='{t}New password repeated{/t}' onFocus="nextfield= 'apply';"></td>
+       <td><label for="new_password_repeated">{t}New password repeated{/t}</label></td>
+       <td><input type="password" name="new_password_repeated" id="new_password_repeated" maxlength="40" value="" title="{t}New password repeated{/t}" onFocus="nextfield= 'apply';"></td>
       </tr>
       <tr>
        <td>{t}Password strength{/t}</td>
@@ -97,12 +97,12 @@
     <div class="ruler"></div>
 
     <div class="change">
-    <input type='submit' name='apply'  value='{t}Change{/t}'
-                 title='{t}Click here to change your password{/t}'>
-    <input type='hidden' id='formSubmit'>
+    <input type="submit" name="apply"  value="{t}Change{/t}"
+                 title="{t}Click here to change your password{/t}">
+    <input type="hidden" id="formSubmit">
     </div>
     <!-- check, if cookies are enabled -->
-    <p class='warning'>
+    <p class="warning">
      <script language="JavaScript" type="text/javascript">
         <!--
             document.cookie = "gosatest=empty;path=/";
@@ -120,7 +120,7 @@
 
 {$msg_dialogs}
 
-<table class='iesucks'><tr><td>{$errors}</td></tr></table>
+<table class="iesucks"><tr><td>{$errors}</td></tr></table>
 
 <!-- Place cursor in username field -->
 <script language="JavaScript" type="text/javascript">
