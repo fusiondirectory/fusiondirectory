@@ -68,9 +68,9 @@ while (<>) {
 #     objectIdentifier -> olcObjectIdentifier:
 #     objectClass -> olcObjectClasses:
 #     attributeType -> olcAttributeTypes:
-  s/objectidentifier/olcObjectIdentifier:/i;
-  s/attributetype/olcAttributeTypes:/i;
-  s/objectclass/olcObjectClasses:/i;
+  s/^objectidentifier/olcObjectIdentifier:/i;
+  s/^attributetype/olcAttributeTypes:/i;
+  s/^objectclass/olcObjectClasses:/i;
 
 # [openldap.ldif]
 #   Then leading whitespace must be fixed. The slapd.conf format allows

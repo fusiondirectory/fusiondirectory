@@ -128,6 +128,12 @@ The ldapTLS statement enables or disables TLS operating on LDAP connections.
 
 =back
 
+=item B<ldapFollowReferrals> I<bool>
+
+The ldapFollowReferrals statement tells FusionDirectory to follow LDAP referrals.
+
+=back
+
 =head2 LDAP resource definition
 
 For every location you define inside your fusiondirectory.conf, you need at least one entry of the type referral. These entries define the way how to connect to some directory service.

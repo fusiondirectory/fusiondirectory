@@ -10,11 +10,11 @@
  <tr>
   <td class='gosaAccountExpiredBack' style="width:550px;">
    <div class='gosaAccountExpiredBack'>
-       
+
     <p class='gosaAccountExpiredHeader'>
     {t}Your password has expired. Please choose a new one!{/t}
     </p>
-    
+
     <!-- Formular data, containing a table to center fields -->
     <form action='index.php' method='post' name='mainform' onSubmit='js_check(this);return true;'>
      <table summary="" style='vertical-align:middle; text-align:left;' cellspacing='7' align='center'>
@@ -23,8 +23,8 @@
           <p> {t}Old password{/t}</p>
         </td>
         <td>
-    <input type='password' name='oldpassword' maxlength='25' value=''
-     title='{t}Old password{/t}' onFocus="nextfield= 'newpassword';">
+    <input type="password" name="oldpassword" maxlength="25" value=""
+     title="{t}Old password{/t}" onFocus="nextfield= 'newpassword';">
         </td>
       </tr>
       <tr>
@@ -32,8 +32,8 @@
           <p> {t}New password{/t}</p>
         </td>
         <td>
-    <input type='password' name='newpassword' maxlength='25' value=''
-     title='{t}New password{/t}' onFocus="nextfield= 'verifypassword';">
+    <input type="password" name="newpassword" maxlength="25" value=""
+     title="{t}New password{/t}" onFocus="nextfield= 'verifypassword';">
         </td>
       </tr>
       <tr>
@@ -41,19 +41,19 @@
           <p> {t}Verify password{/t}</p>
         </td>
         <td>
-    <input type='password' name='verifypassword' maxlength='25' value=''
-     title='{t}Verify password{/t}' onFocus="nextfield= 'changepassword';">
+    <input type="password" name="verifypassword" maxlength="25" value=""
+     title="{t}Verify password{/t}" onFocus="nextfield= 'changepassword';">
        </td>
       </tr>
       <tr>
-       <td colspan='2' style='text-align:center;'>
+       <td colspan="2" style="text-align:center;">
        <br />
-    <input type='submit' name='changepassword' value='{t}Change password{/t}'
-       title='{t}Click here to change your password{/t}'>
+    <input type="submit" name="changepassword" value="{t}Change password{/t}"
+       title="{t}Click here to change your password{/t}">
        </td>
       </tr>
      </table>
-    <input type='hidden' name='javascript' value='false'/>    
+    <input type="hidden" name="javascript" value="false"/>
     </form>
 
    </div>
@@ -70,5 +70,5 @@
 </script>
 
 <!-- Spacer for some browsers -->
-<div class='gosaLoginSpacer'></div>
+<div class="gosaLoginSpacer"></div>
 </body>
