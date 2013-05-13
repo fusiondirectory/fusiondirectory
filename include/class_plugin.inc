@@ -493,76 +493,27 @@ class plugin
    */
   function check()
   {
-    $message= array();
+    $message = array();
 
     /* Skip if we've no config object */
-    if (!isset($this->config) || !is_object($this->config)){
+    if (!isset($this->config) || !is_object($this->config)) {
       return $message;
     }
 
-    /* Find hooks entries for this class */
-    $command= $this->config->search(get_class($this), "CHECK", array('menu', 'tabs'));
-
-    if ($command != ""){
-
-      if (!check_command($command)){
-        $message[]= msgPool::cmdnotfound("CHECK", get_class($this));
-      } else {
-
-        /* Generate "ldif" for check hook */
-        $ldif= "dn: $this->dn\n";
-
-        /* ... objectClasses */
-        foreach ($this->objectclasses as $oc){
-          $ldif.= "objectClass: $oc\n";
-        }
-
-        /* ... attributes */
-        foreach ($this->attributes as $attr){
-          if ($this->$attr == ""){
-            continue;
-          }
-          if (is_array($this->$attr)){
-            foreach ($this->$attr as $val){
-              $ldif.= "$attr: $val\n";
-            }
-          } else {
-              $ldif.= "$attr: ".$this->$attr."\n";
-          }
-        }
-
-        /* Append empty line */
-        $ldif.= "\n";
-
-        /* Feed "ldif" into hook and retrieve result*/
-        $descriptorspec = array( 0 => array("pipe", "r"), 1 => array("pipe", "w"), 2 => array("pipe", "w"));
-        $fh= proc_open($command, $descriptorspec, $pipes);
-        if (is_resource($fh)) {
-          fwrite ($pipes[0], $ldif);
-          fclose($pipes[0]);
-
-          $result= stream_get_contents($pipes[1]);
-          if ($result != ""){
-            $message[]= $result;
-          }
-
-          fclose($pipes[1]);
-          fclose($pipes[2]);
-          proc_close($fh);
-        }
-      }
-
+    self::callHook($this, 'CHECK', array(), $returnOutput);
+    if (!empty($returnOutput)) {
+      $message[] = join("\n", $returnOutput);
     }
 
     /* Check entryCSN */
-    if($this->CSN_check_active){
+    if ($this->CSN_check_active) {
       $current_csn = getEntryCSN($this->dn);
-      if($current_csn != $this->entryCSN && !empty($this->entryCSN) && !empty($current_csn)){
+      if (($current_csn != $this->entryCSN) && !empty($this->entryCSN) && !empty($current_csn)) {
         $this->entryCSN = $current_csn;
         $message[] = _("The object has changed since opened in FusionDirectory. All changes that may be done by others get lost if you save this entry!");
       }
     }
-    return ($message);
+    return $message;
   }
 
   /*
@@ -876,12 +827,12 @@ class plugin
    */
   function rebind($ldap, $referral)
   {
-    $credentials= LDAP::get_credentials($referral, $this->config->current['REFERRAL']);
+    $credentials = LDAP::get_credentials($referral, $this->config->current['REFERRAL']);
     if (ldap_bind($ldap, $credentials['ADMIN'], $this->config->get_credentials($credentials['PASSWORD']))) {
-      $this->error = "Success";
-      $this->hascon=true;
-      $this->reconnect= true;
-      return (0);
+      $this->error      = "Success";
+      $this->hascon     = TRUE;
+      $this->reconnect  = TRUE;
+      return 0;
     } else {
       $this->error = "Could not bind to " . $credentials['ADMIN'];
       return NULL;
@@ -1377,10 +1328,10 @@ class plugin
    *  If this is called from departmentGeneric, we have to skip this
    *  tagging procedure.
   */
-  function tag_attrs(&$at, $dn= "", $tag= "", $show= false)
+  function tag_attrs(&$at, $dn = "", $tag = "", $show = FALSE)
   {
     /* Skip tagging? */
-    if($this->skipTagging){
+    if ($this->skipTagging) {
       return;
     }
 
@@ -1575,29 +1526,29 @@ class plugin
     $deps = array();
 
     /* Is this a new object ? Or just an edited existing object */
-    if(!$this->initially_was_account && $this->is_account){
-      $new = true;
-    }else{
-      $new = false;
+    if (!$this->initially_was_account && $this->is_account) {
+      $new = TRUE;
+    } else {
+      $new = FALSE;
     }
 
-    foreach($this->config->idepartments as $dn => $name){
-      if($new && $this->acl_is_createable($dn)){
+    foreach ($this->config->idepartments as $dn => $name) {
+      if ($new && $this->acl_is_createable($dn)) {
         $deps[$dn] = $name;
-      }elseif(!$new && $this->acl_is_moveable($dn)){
+      } elseif(!$new && $this->acl_is_moveable($dn)) {
         $deps[$dn] = $name;
       }
     }
 
     /* Add current base */
-    if(isset($this->base) && isset($this->config->idepartments[$this->base])){
+    if (isset($this->base) && isset($this->config->idepartments[$this->base])) {
       $deps[$this->base] = $this->config->idepartments[$this->base];
-    }elseif(strtolower($this->dn) == strtolower($this->config->current['BASE'])){
+    } elseif(strtolower($this->dn) == strtolower($this->config->current['BASE'])) {
 
-    }else{
+    } else {
       trigger_error("Cannot return list of departments, no default base found in class ".get_class($this).". ".$this->base);
     }
-    return($deps);
+    return $deps;
   }
 
 
@@ -1636,7 +1587,7 @@ class plugin
       $ldap->search("(&(objectClass=gosaAcl)(gosaAclEntry=*".base64_encode($old_dn)."*))",array("cn","gosaAclEntry"));
       while($attrs = $ldap->fetch()){
         $acls = array();
-        $found = false;
+        $found = FALSE;
         for($i = 0 ; $i <  $attrs['gosaAclEntry']['count'] ; $i ++ ){
           $acl_parts = explode(":",$attrs['gosaAclEntry'][$i]);
 
@@ -1699,7 +1650,7 @@ class plugin
    */
   function enable_CSN_check()
   {
-    $this->CSN_check_active =TRUE;
+    $this->CSN_check_active = TRUE;
     $this->entryCSN = getEntryCSN($this->dn);
   }
 

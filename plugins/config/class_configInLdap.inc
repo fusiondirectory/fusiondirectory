@@ -74,6 +74,7 @@ class configInLdap extends simplePlugin
     if (session::global_is_set('plist')) {
       $plugins = array_keys(session::global_get('plist')->info);
     }
+    sort($plugins);
     return array(
       'look_n_feel' => array(
         'name'  => _('Look n feel'),
@@ -275,7 +276,7 @@ class configInLdap extends simplePlugin
                   _('mode'), _('When to call this command'),
                   'hookMode', TRUE,
                   array('postcreate', 'postremove', 'postmodify',
-                        'precreate', 'preremove', 'premodify')
+                        'precreate', 'preremove', 'premodify', 'check')
                 ),
                 new StringAttribute(
                   _('cmd'), _('The command that will be called'),
