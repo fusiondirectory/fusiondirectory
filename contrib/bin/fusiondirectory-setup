@@ -820,7 +820,6 @@ sub check_ldap {
   my $base = $hash_ldap_param{base};
   my $ldap = $hash_ldap_param{ldap};
 
-
   ldap_check_rdn($people_rdn.$base);
 
   # search for branch people
