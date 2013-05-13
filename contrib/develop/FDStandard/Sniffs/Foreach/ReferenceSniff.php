@@ -35,7 +35,6 @@ class FDStandard_Sniffs_Foreach_ReferenceSniff implements PHP_CodeSniffer_Sniff
     {
         $tokens = $phpcsFile->getTokens();
 
-        print_r($tokens[$stackPtr]);
         $as = $phpcsFile->findNext(T_AS, $tokens[$stackPtr]['parenthesis_opener']+1, $tokens[$stackPtr]['parenthesis_closer']);
         if (!$as) {
           return;
