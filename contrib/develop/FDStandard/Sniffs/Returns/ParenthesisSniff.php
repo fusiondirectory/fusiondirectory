@@ -60,13 +60,10 @@ class FDStandard_Sniffs_Returns_ParenthesisSniff implements PHP_CodeSniffer_Snif
             if ($semiColon == $nonWhiteSpace) {
                 /* Check that this is not logical algebra */
                 $tobecheckedToken = $openingParenthesis;
-                $parenthesisAuthorized    = PHP_CodeSniffer_Tokens::$comparisonTokens;
+                $parenthesisAuthorized    = array_merge(PHP_CodeSniffer_Tokens::$comparisonTokens,PHP_CodeSniffer_Tokens::$booleanOperators);
                 $parenthesisAuthorized[]  = T_INLINE_THEN;
                 $ok = FALSE;
-                while ($tobecheckedToken = $phpcsFile->findNext($parenthesisAuthorized, $tobecheckedToken+1)) {
-                    if ($tobecheckedToken > $closingParenthesis) {
-                        break;
-                    }
+                while ($tobecheckedToken = $phpcsFile->findNext($parenthesisAuthorized, $tobecheckedToken+1, $closingParenthesis)) {
                     if (end($tokens[$tobecheckedToken]['nested_parenthesis']) == $closingParenthesis) {
                         $ok = TRUE;
                         break;
