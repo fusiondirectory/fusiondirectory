@@ -178,6 +178,11 @@ class bad_code {
     return; // should not complain
   }
 
+  function yet_another_good_return_3 ()
+  {
+    return ($a && $b); // should not complain
+  }
+
   function bad_assignment ()
   {
     $a    = "aaaaa"; // should not complain for this assignment block
@@ -202,4 +207,25 @@ class bad_code {
     }
   }
 
+  function bad_foreach ()
+  {
+    foreach ($tests as &$test) { // should complain about missing unset
+      echo $test;
+    }
+  }
+
+  function good_foreach ()
+  { // should not complain
+    foreach ($tests as &$test) {
+      echo $test;
+    }
+    unset($test);
+  }
+
+  function another_good_foreach ()
+  { // should not complain
+    foreach ($tests as $test) {
+      echo $test;
+    }
+  }
 }
