@@ -33,44 +33,45 @@ define ('LIST_DISABLED', 2);
  * and management them
  */
 class sortableListing {
-  private $header= null;
-  private $colspecs= null;
-  private $reorderable= true;
-  private $width= "400px";
-  private $height= "100px";
-  private $cssclass= "";
+  private $header       = NULL;
+  private $colspecs     = NULL;
+  private $reorderable  = TRUE;
+  private $width        = "400px";
+  private $height       = "100px";
+  private $cssclass     = "";
   private $id;
 
-  private $data= array();
-  private $keys= array();
-  private $modes= array();
-  private $displayData= array();
-  private $columns= 0;
-  private $deleteable= false;
-  private $editable= false;
-  private $colorAlternate= false;
-  private $instantDelete= true;
+  private $data           = array();
+  private $keys           = array();
+  private $modes          = array();
+  private $displayData    = array();
+  private $columns        = 0;
+  private $deleteable     = FALSE;
+  private $editable       = FALSE;
+  private $colorAlternate = FALSE;
+  private $instantDelete  = TRUE;
+
   private $action;
   private $mapping;
   private $current_mapping;
   private $active_index;
-  private $scrollPosition= 0;
-  private $sortColumn= 0;
-  private $sortDirection= array();
+  private $scrollPosition = 0;
+  private $sortColumn     = 0;
+  private $sortDirection  = array();
 
-  private $acl= "";
-  private $modified= false;
+  private $acl      = "";
+  private $modified = FALSE;
 
   /*!
    * \brief Create a sortaleListing
    *
    * \param array $data
    *
-   * \param $displayData null
+   * \param $displayData NULL
    *
-   * \param boolean $reorderable false
+   * \param boolean $reorderable FALSE
    */
-  public function sortableListing($data= array(), $displayData= null, $reorderable= false)
+  public function sortableListing($data = array(), $displayData = NULL, $reorderable = FALSE)
   {
     global $config;
 
@@ -78,29 +79,30 @@ class sortableListing {
     $this->setListData($data, $displayData);
 
     // Get list of used IDs
-    if(!session::is_set('sortableListing_USED_IDS')){
-        session::set('sortableListing_USED_IDS',array());
+    if (!session::is_set('sortableListing_USED_IDS')) {
+      session::set('sortableListing_USED_IDS', array());
     }
     $usedIds = session::get('sortableListing_USED_IDS');
 
     // Generate instance wide unique ID
     $id = "";
-    while($id == "" || in_array($id, $usedIds)){
-
-        // Wait 1 msec to ensure that we definately get a new id
-        if($id != "") usleep(1);
-        $tmp= gettimeofday();
-        $id =  'l'.md5(microtime().$tmp['sec']);
+    while ($id == "" || in_array($id, $usedIds)) {
+      // Wait 1 msec to ensure that we definately get a new id
+      if ($id != "") {
+        usleep(1);
+      }
+      $tmp  = gettimeofday();
+      $id   = 'l'.md5(microtime().$tmp['sec']);
     }
 
     // Only keep the last 10 list IDsi
-    $usedIds = array_slice($usedIds, count($usedIds) -10, 10);
+    $usedIds = array_slice($usedIds, count($usedIds) - 10, 10);
     $usedIds[] = $id;
-    session::set('sortableListing_USED_IDS',$usedIds);
+    session::set('sortableListing_USED_IDS', $usedIds);
     $this->id = $id;
 
     // Set reorderable flag
-    $this->reorderable= $reorderable;
+    $this->reorderable = $reorderable;
     if (!$reorderable) {
       $this->sortData();
     }
@@ -113,7 +115,7 @@ class sortableListing {
    */
   public function setReorderable($bool)
   {
-    $this->reorderable= $bool;
+    $this->reorderable = $bool;
   }
 
   /*!
@@ -133,14 +135,14 @@ class sortableListing {
    *
    * \param array $displayData
    */
-  public function setListData($data, $displayData= null)
+  public function setListData($data, $displayData = NULL)
   {
     // Save data to display
     $this->setData($data);
     if (!$displayData) {
-      $displayData= array();
+      $displayData = array();
       foreach ($data as $key => $value) {
-        $displayData[$key]= array("data" => array($value));
+        $displayData[$key] = array("data" => array($value));
       }
     }
     $this->setDisplayData($displayData);
@@ -154,7 +156,7 @@ class sortableListing {
    */
   private function setData($data)
   {
-    $this->data= $data;
+    $this->data = $data;
   }
 
   /*!
@@ -169,48 +171,48 @@ class sortableListing {
     }
 
     // Transfer information
-    $this->displayData= array();
-    $this->modes= array();
-    $this->mapping= array();
+    $this->displayData  = array();
+    $this->modes        = array();
+    $this->mapping      = array();
     foreach ($data as $key => $value) {
-      $this->displayData[]= $value['data'];
+      $this->displayData[] = $value['data'];
       if (isset($value['mode'])) {
-        $this->modes[]= $value['mode'];
+        $this->modes[] = $value['mode'];
       }
     }
-    $this->keys= array_keys($data);
+    $this->keys = array_keys($data);
 
     // Create initial mapping
-    if(count($this->keys)){
-      $this->mapping= range(0, abs(count($this->keys)-1));
+    if (count($this->keys)) {
+      $this->mapping = range(0, abs(count($this->keys) - 1));
     }
-    $this->current_mapping= $this->mapping;
+    $this->current_mapping = $this->mapping;
 
     // Find the number of coluns
     reset($this->displayData);
-    $first= current($this->displayData);
+    $first = current($this->displayData);
     if (is_array($first)) {
-      $this->columns= count($first);
+      $this->columns = count($first);
     } else {
-      $this->columns= 1;
+      $this->columns = 1;
     }
 
     // Preset sort orders to 'down'
-    for ($column= 0; $column<$this->columns; $column++) {
-        if(!isset($this->sortDirection[$column])){
-            $this->sortDirection[$column]= true;
-        }
+    for ($column = 0; $column < $this->columns; $column++) {
+      if (!isset($this->sortDirection[$column])) {
+        $this->sortDirection[$column] = TRUE;
+      }
     }
   }
 
- /*!
+  /*!
    * \brief Set width
    *
    * \param string $width px
    */
   public function setWidth($width)
   {
-    $this->width= $width;
+    $this->width = $width;
   }
 
   /*!
@@ -220,7 +222,7 @@ class sortableListing {
    */
   public function setInstantDelete($flag)
   {
-    $this->instantDelete= $flag;
+    $this->instantDelete = $flag;
   }
 
   /*!
@@ -230,7 +232,7 @@ class sortableListing {
    */
   public function setColorAlternate($flag)
   {
-    $this->colorAlternate= $flag;
+    $this->colorAlternate = $flag;
   }
 
   /*!
@@ -240,7 +242,7 @@ class sortableListing {
    */
   public function setEditable($flag)
   {
-    $this->editable= $flag;
+    $this->editable = $flag;
   }
 
   /*!
@@ -250,7 +252,7 @@ class sortableListing {
    */
   public function setDeleteable($flag)
   {
-    $this->deleteable= $flag;
+    $this->deleteable = $flag;
   }
 
   /*!
@@ -260,7 +262,7 @@ class sortableListing {
    */
   public function setHeight($height)
   {
-    $this->height= $height;
+    $this->height = $height;
   }
 
 
@@ -271,7 +273,7 @@ class sortableListing {
    */
   public function setCssClass($css)
   {
-    $this->cssclass= $css;
+    $this->cssclass = $css;
   }
 
   /*!
@@ -281,7 +283,7 @@ class sortableListing {
    */
   public function setHeader($header)
   {
-    $this->header= $header;
+    $this->header = $header;
   }
 
   /*!
@@ -291,7 +293,7 @@ class sortableListing {
    */
   public function setColspecs($specs)
   {
-    $this->colspecs= $specs;
+    $this->colspecs = $specs;
   }
 
   /*!
@@ -299,135 +301,135 @@ class sortableListing {
    */
   public function render()
   {
-      $result= "<div class='sortableListContainer' id='scroll_".$this->id."' style='min-width:".$this->width.";height: ".$this->height."'>\n";
-      $result.= "<table summary='"._("Sortable list")."' border='0' cellpadding='0' cellspacing='0' width='100%' style='width:100%' ".(!empty($this->cssclass)?" class='".$this->cssclass."'":"").">\n";
-      $action_width= 0;
-      if (strpos($this->acl, 'w') === false) {
-          $edit_image= $this->editable?"<img class='center' src='images/lists/edit-grey.png' alt='"._("Edit")."'>":"";
-      } else {
-          $edit_image= $this->editable?"<input class='center' type='image' src='images/lists/edit.png' alt='"._("Edit")."' name='%ID' id='%ID'  title='"._("Edit this entry")."'>":"";
-      }
-      if (strpos($this->acl, 'w') === false) {
-          $delete_image= $this->deleteable?"<img class='center' src='images/lists/trash-grey.png' alt='"._("Delete")."'>":"";
-      } else {
-          $delete_image= $this->deleteable?"<input class='center' type='image' src='images/lists/trash.png' alt='"._("Delete")."' name='%ID'    title='"._("Delete this entry")."'>":"";
-      }
+    $result = "<div class='sortableListContainer' id='scroll_".$this->id."' style='min-width:".$this->width.";height: ".$this->height."'>\n";
+    $result .= "<table summary='"._("Sortable list")."' border='0' cellpadding='0' cellspacing='0' width='100%' style='width:100%' ".(!empty($this->cssclass)?" class='".$this->cssclass."'":"").">\n";
+    $action_width = 0;
+    if (strpos($this->acl, 'w') === FALSE) {
+      $edit_image = $this->editable?"<img class='center' src='images/lists/edit-grey.png' alt='"._("Edit")."'>":"";
+    } else {
+      $edit_image = $this->editable?"<input class='center' type='image' src='images/lists/edit.png' alt='"._("Edit")."' name='%ID' id='%ID'  title='"._("Edit this entry")."'>":"";
+    }
+    if (strpos($this->acl, 'w') === FALSE) {
+      $delete_image = $this->deleteable?"<img class='center' src='images/lists/trash-grey.png' alt='"._("Delete")."'>":"";
+    } else {
+      $delete_image = $this->deleteable?"<input class='center' type='image' src='images/lists/trash.png' alt='"._("Delete")."' name='%ID'    title='"._("Delete this entry")."'>":"";
+    }
 
     // Do we need colspecs?
-    $action_width= ($this->editable?30:0) + ($this->deleteable?30:0);
+    $action_width = ($this->editable?30:0) + ($this->deleteable?30:0);
     if ($this->colspecs) {
-      $result.= " <colgroup>\n";
-      for ($i= 0; $i<$this->columns; $i++) {
-        if(isset($this->colspecs[$i]) && $this->colspecs[$i] != '*'){
-          $result.= "  <col style='width:".($this->colspecs[$i])."'>\n";
-        }else{
-          $result.= "  <col>\n";
+      $result .= " <colgroup>\n";
+      for ($i = 0; $i < $this->columns; $i++) {
+        if (isset($this->colspecs[$i]) && $this->colspecs[$i] != '*') {
+          $result .= "  <col style='width:".($this->colspecs[$i])."'>\n";
+        } else {
+          $result .= "  <col>\n";
         }
       }
 
       // Extend by another column if we've actions specified
       if ($action_width) {
-        $result.= "  <col style='width:".$action_width."px' >\n";
+        $result .= "  <col style='width:".$action_width."px' >\n";
       }
-      $result.= " </colgroup>\n";
+      $result .= " </colgroup>\n";
     }
 
     // Do we need a header?
     if ($this->header) {
-      $result.= " <thead>\n  <tr>\n";
-      $first= " style='border-left:0'";
-      for ($i= 0; $i<$this->columns; $i++) {
-        $link= "href='?plug=".$_GET['plug']."&amp;PID=".$this->id."&amp;act=SORT_$i'";
-        $sorter= "";
-        if ($i == $this->sortColumn){
-            $sorter= "&nbsp;<img border='0' title='".($this->sortDirection[$i]?_("Up"):_("Down"))."'
+      $result .= " <thead>\n  <tr>\n";
+      $first  = " style='border-left:0'";
+      for ($i = 0; $i < $this->columns; $i++) {
+        $link   = "href='?plug=".$_GET['plug']."&amp;PID=".$this->id."&amp;act=SORT_$i'";
+        $sorter = "";
+        if ($i == $this->sortColumn) {
+          $sorter = "&nbsp;<img border='0' title='".($this->sortDirection[$i]?_("Up"):_("Down"))."'
                 src='images/lists/sort-".($this->sortDirection[$i]?"up":"down").".png' align='top'>";
         }
 
         if ($this->reorderable) {
-          $result.= "   <th$first>".(isset($this->header[$i])?$this->header[$i]:"")."</th>";
+          $result .= "   <th$first>".(isset($this->header[$i])?$this->header[$i]:"")."</th>";
         } else {
-          $result.= "   <th$first><a $link>".(isset($this->header[$i])?$this->header[$i]:"")."</a>$sorter</th>";
+          $result .= "   <th$first><a $link>".(isset($this->header[$i])?$this->header[$i]:"")."</a>$sorter</th>";
         }
-        $first= "";
+        $first = "";
       }
       if ($action_width) {
-        $result.= "<th>&nbsp;</th>";
+        $result .= "<th>&nbsp;</th>";
       }
-      $result.= "\n  </tr>\n </thead>\n";
+      $result .= "\n  </tr>\n </thead>\n";
     }
 
     // Render table body if we've read permission
-    $result.= " <tbody id='".$this->id."'>\n";
-    $reorderable= $this->reorderable?"":" style='cursor:default'";
-    if (strpos($this->acl, 'r') !== false) {
+    $result       .= " <tbody id='".$this->id."'>\n";
+    $reorderable  = $this->reorderable?"":" style='cursor:default'";
+    if (strpos($this->acl, 'r') !== FALSE) {
       foreach ($this->mapping as $nr => $row) {
-        $editable= $this->editable?" onClick='$(\"edit_".$this->id."_$nr\").click()'":"";
+        $editable = $this->editable?" onClick='$(\"edit_".$this->id."_$nr\").click()'":"";
 
-        $id= "";
+        $id = "";
         if (isset($this->modes[$row])) {
           switch ($this->modes[$row]) {
             case LIST_DISABLED:
-              $id= " sortableListItemDisabled";
-              $editable= "";
+              $id       = " sortableListItemDisabled";
+              $editable = "";
               break;
             case LIST_MARKED:
-              $id= " sortableListItemMarked";
+              $id = " sortableListItemMarked";
               break;
           }
         }
 
-        $result.= "  <tr class='sortableListItem".((($nr&1)||!$this->colorAlternate)?'':'Odd')."$id' id='item_".$this->id."_$nr'$reorderable>\n";
-        $first= " style='border:0'";
+        $result .= "  <tr class='sortableListItem".
+                    ((($nr & 1) || !$this->colorAlternate)?'':'Odd').
+                    "$id' id='item_".$this->id."_$nr'$reorderable>\n";
+        $first  = " style='border:0'";
 
         foreach ($this->displayData[$row] as $column) {
-
-            // Do NOT use the onClick statement for columns that contain links or buttons.
-            if(preg_match("<.*type=.submit..*>", $column) || preg_match("<a.*href=.*>", $column)){
-                $result.= "   <td$first>".$column."</td>\n";
-            }else{
-                $result.= "   <td$editable$first>".$column."</td>\n";
-            }
-            $first= "";
+          // Do NOT use the onClick statement for columns that contain links or buttons.
+          if (preg_match("<.*type=.submit..*>", $column) || preg_match("<a.*href=.*>", $column)) {
+            $result .= "   <td$first>".$column."</td>\n";
+          } else {
+            $result .= "   <td$editable$first>".$column."</td>\n";
+          }
+          $first = "";
         }
 
         if ($action_width) {
-          $result.= "<td>".str_replace('%ID', "edit_".$this->id."_$nr", $edit_image).
+          $result .= "<td>".str_replace('%ID', "edit_".$this->id."_$nr", $edit_image).
                            str_replace('%ID', "del_".$this->id."_$nr", $delete_image)."</td>";
         }
 
-        $result.= "  </tr>\n";
+        $result .= "  </tr>\n";
       }
     }
 
     // Add spacer
-    $result.= "  <tr class='sortableListItemFill' style='height:100%'><td style='border:0'></td>";
-    $num= $action_width?$this->columns:$this->columns-1;
-    for ($i= 0; $i<$num; $i++) {
-      $result.= "<td class='sortableListItemFill'></td>";
+    $result .= "  <tr class='sortableListItemFill' style='height:100%'><td style='border:0'></td>";
+    $num    = ($action_width?$this->columns:$this->columns - 1);
+    for ($i = 0; $i < $num; $i++) {
+      $result .= "<td class='sortableListItemFill'></td>";
     }
-    $result.= "</tr>\n";
+    $result .= "</tr>\n";
 
-    $result.= " </tbody>\n</table>\n</div>\n";
-#    $result.= " <input type='hidden' name='PID' value='".$this->id."' id='PID'>\n";
-    $result.= " <input type='hidden' name='position_".$this->id."' id='position_".$this->id."'>\n";
-    $result.= " <input type='hidden' name='reorder_".$this->id."' id='reorder_".$this->id."'>\n";
+    $result .= " </tbody>\n</table>\n</div>\n";
+    $result .= " <input type='hidden' name='position_".$this->id."' id='position_".$this->id."'>\n";
+    $result .= " <input type='hidden' name='reorder_".$this->id."' id='reorder_".$this->id."'>\n";
 
     // Append script stuff if needed
-    $result.= '<script type="text/javascript" language="javascript">';
+    $result .= '<script type="text/javascript" language="javascript">';
     if ($this->reorderable) {
-      $result.= ' function updateOrder(){';
-      $result.= '    var ampcharcode= \'%26\';';
-      $result.= '    var serializeOpts = Sortable.serialize(\''.$this->id.'\')+"='.$this->id.'";';
-      $result.= '    $("reorder_'.$this->id.'").value= serializeOpts;';
-      $result.= '    document.mainform.submit();';
-      $result.= ' }';
-      $result.= 'Position.includeScrollOffsets = true;';
-      $result.= ' Sortable.create(\''.$this->id.'\',{tag:\'tr\', ghosting:false, constraint:\'vertical\', scroll:\'scroll_'.$this->id.'\',onUpdate : updateOrder});';
+      $result .= ' function updateOrder(){';
+      $result .= '    var ampcharcode= \'%26\';';
+      $result .= '    var serializeOpts = Sortable.serialize(\''.$this->id.'\')+"='.$this->id.'";';
+      $result .= '    $("reorder_'.$this->id.'").value= serializeOpts;';
+      $result .= '    document.mainform.submit();';
+      $result .= ' }';
+      $result .= 'Position.includeScrollOffsets = true;';
+      $result .= ' Sortable.create(\''.$this->id.'\',{tag:\'tr\', ghosting:false, constraint:\'vertical\', scroll:\'scroll_'.$this->id.'\',onUpdate : updateOrder});';
     }
-    $result.= '$("scroll_'.$this->id.'").scrollTop= '.$this->scrollPosition.';';
-    $result.= 'var box = $("scroll_'.$this->id.'").onscroll= function() {$("position_'.$this->id.'").value= this.scrollTop;}';
-    $result.= '</script>';
+    $result .= '$("scroll_'.$this->id.'").scrollTop= '.$this->scrollPosition.';';
+    $result .= 'var box = $("scroll_'.$this->id.'").onscroll= function() {$("position_'.$this->id.'").value= this.scrollTop;}';
+    $result .= '</script>';
 
     return $result;
   }
@@ -437,22 +439,19 @@ class sortableListing {
    */
   public function update()
   {
-
     // Filter GET with "act" attributes
-    if (!$this->reorderable){
-      if(isset($_GET['act']) && isset($_GET['PID']) && $this->id == $_GET['PID']) {
-
-        $key= validate($_GET['act']);
+    if (!$this->reorderable) {
+      if (isset($_GET['act']) && isset($_GET['PID']) && $this->id == $_GET['PID']) {
+        $key = validate($_GET['act']);
         if (preg_match('/^SORT_([0-9]+)$/', $key, $match)) {
 
           // Switch to new column or invert search order?
-          $column= $match[1];
+          $column = $match[1];
           if ($this->sortColumn != $column) {
-            $this->sortColumn= $column;
+            $this->sortColumn = $column;
           } else {
-            $this->sortDirection[$column]= !$this->sortDirection[$column];
+            $this->sortDirection[$column] = !$this->sortDirection[$column];
           }
-
         }
       }
 
@@ -467,48 +466,48 @@ class sortableListing {
   public function save_object()
   {
     // Do not do anything if this is not our PID, or there's even no PID available...
-    if(isset($_REQUEST['PID']) && $_REQUEST['PID'] != $this->id) {
+    if (isset($_REQUEST['PID']) && $_REQUEST['PID'] != $this->id) {
       return;
     }
 
     // Do not do anything if we're not posted - or have no permission
-    if (strpos($this->acl, 'w') !== false && isset($_POST['reorder_'.$this->id])){
+    if (strpos($this->acl, 'w') !== FALSE && isset($_POST['reorder_'.$this->id])) {
 
       if (isset($_POST['position_'.$this->id]) && is_numeric($_POST['position_'.$this->id])) {
-        $this->scrollPosition= $_POST['position_'.$this->id];
+        $this->scrollPosition = $_POST['position_'.$this->id];
       }
 
       // Move requested?
-      $move= $_POST['reorder_'.$this->id];
+      $move = $_POST['reorder_'.$this->id];
       if ($move != "") {
         preg_match_all('/=([0-9]+)[&=]/', $move, $matches);
-        $this->action= "reorder";
-        $tmp= array();
+        $this->action = "reorder";
+        $tmp          = array();
         foreach ($matches[1] as $id => $row) {
-          $tmp[$id]= $this->mapping[$row];
+          $tmp[$id] = $this->mapping[$row];
         }
-        $this->mapping= $tmp;
-        $this->current_mapping= $matches[1];
-        $this->modified= true;
+        $this->mapping          = $tmp;
+        $this->current_mapping  = $matches[1];
+        $this->modified         = TRUE;
         return;
       }
     }
 
     // Delete requested?
     $this->action = "";
-    if (strpos($this->acl, 'd') !== false){
+    if (strpos($this->acl, 'd') !== FALSE) {
       foreach ($_POST as $key => $value) {
         if (preg_match('/^del_'.$this->id.'_([0-9]+)_x$/', $key, $matches)) {
-          $this->active_index= $this->mapping[$matches[1]];
+          $this->active_index = $this->mapping[$matches[1]];
 
           // Ignore request if mode requests it
           if (isset($this->modes[$this->active_index]) && $this->modes[$this->active_index] == LIST_DISABLED) {
-            $this->active_index= null;
+            $this->active_index = NULL;
             continue;
           }
 
           // Set action
-          $this->action= "delete";
+          $this->action = "delete";
 
           // Remove value if requested
           if ($this->instantDelete) {
@@ -519,18 +518,18 @@ class sortableListing {
     }
 
     // Edit requested?
-    if (strpos($this->acl, 'w') !== false){
+    if (strpos($this->acl, 'w') !== FALSE) {
       foreach ($_POST as $key => $value) {
         if (preg_match('/^edit_'.$this->id.'_([0-9]+)_x$/', $key, $matches)) {
-          $this->active_index= $this->mapping[$matches[1]];
+          $this->active_index = $this->mapping[$matches[1]];
 
           // Ignore request if mode requests it
           if (isset($this->modes[$this->active_index]) && $this->modes[$this->active_index] == LIST_DISABLED) {
-            $this->active_index= null;
+            $this->active_index = NULL;
             continue;
           }
 
-          $this->action= "edit";
+          $this->action = "edit";
         }
       }
     }
@@ -542,7 +541,7 @@ class sortableListing {
   public function getAction()
   {
     // Do not do anything if we're not posted
-    if(!isset($_POST['reorder_'.$this->id])) {
+    if (!isset($_POST['reorder_'.$this->id])) {
       return;
     }
 
@@ -552,7 +551,7 @@ class sortableListing {
     }
 
     // Edit and delete
-    $result= array("targets" => array($this->active_index), "action" => $this->action);
+    $result = array("targets" => array($this->active_index), "action" => $this->action);
 
     return $result;
   }
@@ -565,11 +564,11 @@ class sortableListing {
   private function deleteEntry($id)
   {
     // Remove mapping
-    $index= array_search($id, $this->mapping);
-    if ($index !== false) {
+    $index = array_search($id, $this->mapping);
+    if ($index !== FALSE) {
       unset($this->mapping[$index]);
-      $this->mapping= array_values($this->mapping);
-      $this->modified= true;
+      $this->mapping  = array_values($this->mapping);
+      $this->modified = TRUE;
     }
   }
 
@@ -578,10 +577,10 @@ class sortableListing {
    */
   public function getMaintainedData()
   {
-    $tmp= array();
+    $tmp = array();
     foreach ($this->mapping as $src => $dst) {
-      $realKey  = $this->keys[$dst];
-      $tmp[$realKey] = $this->data[$realKey];
+      $realKey        = $this->keys[$dst];
+      $tmp[$realKey]  = $this->data[$realKey];
     }
     return $tmp;
   }
@@ -603,7 +602,7 @@ class sortableListing {
    */
   public function setAcl($acl)
   {
-    $this->acl= $acl;
+    $this->acl = $acl;
   }
 
   /*!
@@ -611,15 +610,15 @@ class sortableListing {
    */
   public function sortData()
   {
-    if(!count($this->data)) return;
+    if (!count($this->data)) return;
 
     // Extract data
-    $tmp= array();
-    foreach($this->displayData as $item) {
-      if (isset($item[$this->sortColumn])){
-        $tmp[]= $item[$this->sortColumn];
+    $tmp = array();
+    foreach ($this->displayData as $item) {
+      if (isset($item[$this->sortColumn])) {
+        $tmp[] = $item[$this->sortColumn];
       } else {
-        $tmp[]= "";
+        $tmp[] = "";
       }
     }
 
@@ -631,9 +630,9 @@ class sortableListing {
     }
 
     // Adapt mapping accordingly
-    $this->mapping= array();
+    $this->mapping = array();
     foreach ($tmp as $key => $value) {
-      $this->mapping[]= $key;
+      $this->mapping[] = $key;
     }
   }
 
@@ -642,11 +641,11 @@ class sortableListing {
    *
    * \param $entry The new entry
    *
-   * \param $displayEntry null
+   * \param $displayEntry NULL
    *
-   * \param $key null
+   * \param $key NULL
    */
-  public function addEntry($entry, $displayEntry= null, $key= null)
+  public function addEntry($entry, $displayEntry = NULL, $key = NULL)
   {
     // Only add if not already there
     if (!$key) {
@@ -661,35 +660,35 @@ class sortableListing {
 
     // Prefill with default value if not specified
     if (!$displayEntry) {
-      $displayEntry= array('data' => array($entry));
+      $displayEntry = array('data' => array($entry));
     }
 
     // Append to data and mapping
     if ($key) {
-      $this->data[$key]= $entry;
-      $this->keys[]= $key;
+      $this->data[$key] = $entry;
+      $this->keys[]     = $key;
     } else {
-      $this->data[]= $entry;
-      $this->keys[]= count($this->mapping);
+      $this->data[] = $entry;
+      $this->keys[] = count($this->mapping);
     }
-    $this->displayData[]= $displayEntry['data'];
-    $this->mapping[]= count($this->mapping);
-    $this->modified= true;
+    $this->displayData[]  = $displayEntry['data'];
+    $this->mapping[]      = count($this->mapping);
+    $this->modified       = TRUE;
 
     // Find the number of coluns
     reset($this->displayData);
-    $first= current($this->displayData);
+    $first = current($this->displayData);
     if (is_array($first)) {
-        $this->columns= count($first);
+      $this->columns = count($first);
     } else {
-        $this->columns= 1;
+      $this->columns = 1;
     }
 
     // Preset sort orders to 'down'
-    for ($column= 0; $column<$this->columns; $column++) {
-        if(!isset($this->sortDirection[$column])){
-            $this->sortDirection[$column]= true;
-        }
+    for ($column = 0; $column < $this->columns; $column++) {
+      if (!isset($this->sortDirection[$column])) {
+        $this->sortDirection[$column] = TRUE;
+      }
     }
 
 
@@ -702,8 +701,9 @@ class sortableListing {
    *
    * \param string $index
    */
-  public function getKey($index) {
-    return isset($this->keys[$index])?$this->keys[$index]:null;
+  public function getKey($index)
+  {
+    return (isset($this->keys[$index])?$this->keys[$index]:NULL);
   }
 
   /*!
@@ -711,8 +711,9 @@ class sortableListing {
    *
    * \param string $index
    */
-  public function getData($index) {
+  public function getData($index)
+  {
     $realkey = $this->keys[$index];
-    return($this->data[$realkey]);
+    return $this->data[$realkey];
   }
 }
