@@ -81,7 +81,6 @@ class Step_Config3 extends setup_step
   {
     global $BASE_DIR;
     $cv = $this->parent->captured_values;
-    /*$this->optional['sudoou'] = preg_replace("/%BASE%/",$cv['base'],$this->optional['sudoou']);*/
     $smarty = get_smarty();
     $smarty->assign("bool", array(FALSE => _("No"), TRUE => _("Yes")));
     $smarty->assign("uniq_identifiers", array("entryCSN" => "entryCSN",
@@ -296,7 +295,7 @@ class Step_Config3 extends setup_step
     foreach (array("optional") as $attr) {
       $tmp[$attr] = $this->$attr;
     }
-    return($tmp);
+    return $tmp;
   }
 
 }
