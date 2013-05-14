@@ -96,7 +96,7 @@ class pluglist {
         }
         $infos['INDEX']                 = $index;
         $this->info[$cname]             = $infos;
-        $this->dirlist[$index++]  = $cname;
+        $this->dirlist[$index++]        = $cname;
       }
     }
 
@@ -260,8 +260,8 @@ class pluglist {
         } else {
           $style = "style='border-top:1px solid #AAA; margin-top:0.8em;'";
         }
-        $menu = "<p class=\"menuheader\" $style>".$section_infos['NAME']."</p>\n";
-        $entries = "";
+        $menu     = "<p class=\"menuheader\" $style>".$section_infos['NAME']."</p>\n";
+        $entries  = "";
 
         /* Parse sub-plugins */
         foreach ($this->config->data['MENU'][$section] as $info) {
@@ -334,25 +334,21 @@ class pluglist {
         list($x, $y) = explode("x", $this->config->get_cfg_value("iconsize"));
         $isize = "width=\"$x\" height=\"$y\"";
       } else {
-        $isize = "";
+        $isize = 'width="48" height="48"';
       }
 
       /* Parse headlines */
       foreach ($this->config->data['SECTIONS'] as $section => $section_infos) {
-        $col = 1;
-        if ($this->iconmenu == "") {
-          $menu = "<h1 class=\"menuheader\" style=\"border-top:none;\">";
-        } else {
-          $menu = "</td></tr>\n<tr><td>\n<h1 class=\"menuheader\">";
-        }
-        $menu .=
-          $section_infos['NAME']."</h1>\n<table summary=\"\" style=\"width:100%;".
-          "font-size: 14px;\" cellpadding=7 border=0>\n<tr>\n";
-        $entries = "";
+        $entries  = '';
+        $menu     = '';
+        $menu     = '<div class="iconmenu_section"><h1 class="menuheader">';
+        $menu     .= $section_infos['NAME']."</h1>\n";
 
         foreach ($this->config->data['MENU'][$section] as $info) {
-
           if (!plugin_available($info['CLASS'])) {
+            continue;
+          }
+          if (!$this->check_access($info['ACL'])) {
             continue;
           }
 
@@ -363,58 +359,37 @@ class pluglist {
             $index  = $this->get_index($info['CLASS']);
             $href   = "main.php?plug=".$index."&amp;reset=1";
           } else {
-            /* Check if class is available. If the class doesn't exists display error symbol
+            /* If the class doesn't exists display error symbol
               to avoid that a user clicks on a non existing plugin  */
-            $plHeadline = $plDescription = _("Unknown");
+            $plHeadline   = $plDescription = _("Unknown");
             $info['ICON'] = "error.png";
-            $href = "main.php?reset=1";
+            $href         = "main.php?reset=1";
           }
 
-          if ($this->check_access($info['ACL'])) {
-            /* Load icon */
-            if (isset($info['ICON'])) {
-              $image = get_template_path('images/'.$info['ICON']);
+          /* Load icon */
+          if (isset($info['ICON'])) {
+            $image = get_template_path('images/'.$info['ICON']);
+          } else {
+            if (!preg_match("/\//", $plIcon)) {
+              $image = get_template_path("plugins/".preg_replace('%^.*/([^/]+)/[^/]+$%', '\1', $class_mapping[$info['CLASS']])."/images/$plIcon");
             } else {
-              if (!preg_match("/\//", $plIcon)) {
-                $image = get_template_path("plugins/".preg_replace('%^.*/([^/]+)/[^/]+$%', '\1', $class_mapping[$info['CLASS']])."/images/$plIcon");
-              } else {
-                $image = $plIcon;
-              }
+              $image = $plIcon;
             }
-            if ($col > 5) {
-              $entries  = $entries."</tr><tr>";
-              $col      = 1;
-            }
-            $entries .= "<td class=\"iconmenu\" style=\"width:20%;\" onClick='location.href=\"".$href."\"'>";
-            if (session::global_get('js')) {
-              $entries .= "<img $isize border=0 align=middle src=\"$image\" alt=\"*\">&nbsp;$plHeadline";
-            } else {
-              $entries .= "<a class=\"iconmenu\" href=\"".$href."\">".
-                "<img $isize border=0 align=middle src=\"$image\" alt=\"*\">&nbsp;$plHeadline</a>";
-            }
-            $entries .= "</td>\n";
-            $col++;
           }
+
+          $entries  .= '<div class="iconmenu" onClick=\'location.href="'.$href.'"\' title="'.$plDescription.'">';
+          $item     = "<img $isize src=\"$image\" alt=\"$plHeadline icon\">&nbsp;$plHeadline";
+          if (!session::global_get('js')) {
+            $item = "<a href=\"".$href."\">$item</a>";
+          }
+          $entries .= $item."</div>\n";
         }
 
         /* Append to menu */
         if ($entries != "") {
-          $this->iconmenu .= $menu.$entries;
-
-          /* Fill up remaining columns */
-          if ($col != 1) {
-            $col--;
-            while ($col % 5) {
-              $this->iconmenu = $this->iconmenu."<td style=\"width:20%\">&nbsp;</td>\n";
-              $col++;
-            }
-          }
-
-          /* close table */
-          $this->iconmenu = $this->iconmenu."</tr>\n</table>\n";
+          $this->iconmenu .= $menu.$entries."</div>\n";
         }
       }
-
     }
 
     /* Write menu output */
