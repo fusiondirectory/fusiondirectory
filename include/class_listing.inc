@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
@@ -33,35 +32,35 @@ class listing {
 
   var $xmlData;
   var $entries;
-  var $departments= array();
-  var $departmentBrowser= false;
-  var $departmentRootVisible= false;
-  var $multiSelect= false;
+  var $departments            = array();
+  var $departmentBrowser      = FALSE;
+  var $departmentRootVisible  = FALSE;
+  var $multiSelect            = FALSE;
   var $template;
   var $headline;
   var $base;
-  var $sortDirection= null;
-  var $sortColumn= null;
+  var $sortDirection  = NULL;
+  var $sortColumn     = NULL;
   var $sortAttribute;
   var $sortType;
   var $numColumns;
-  var $baseMode= false;
-  var $bases= array();
-  var $header= array();
-  var $colprops= array();
-  var $filters= array();
-  var $filter= null;
+  var $baseMode = FALSE;
+  var $bases    = array();
+  var $header   = array();
+  var $colprops = array();
+  var $filters  = array();
+  var $filter   = NULL;
   var $pid;
-  var $objectTypes= array();
-  var $objectTypeCount= array();
-  var $objectDnMapping= array();
-  var $copyPasteHandler= null;
-  var $snapshotHandler= null;
-  var $exporter= array();
-  var $exportColumns= array();
-  var $useSpan= false;
-  var $height= 0;
-  var $scrollPosition= 0;
+  var $objectTypes      = array();
+  var $objectTypeCount  = array();
+  var $objectDnMapping  = array();
+  var $copyPasteHandler = NULL;
+  var $snapshotHandler  = NULL;
+  var $exporter       = array();
+  var $exportColumns  = array();
+  var $useSpan        = FALSE;
+  var $height         = 0;
+  var $scrollPosition = 0;
   var $baseSelector;
 
   /*!
@@ -75,7 +74,7 @@ class listing {
     global $class_mapping;
 
     // Initialize pid
-    $this->pid= preg_replace("/[^0-9]/", "", microtime(TRUE));
+    $this->pid = preg_replace("/[^0-9]/", "", microtime(TRUE));
 
     if (!$this->load($filename)) {
       die("Cannot parse $filename!");
@@ -83,17 +82,17 @@ class listing {
 
     // Set base for filter
     if ($this->baseMode) {
-      $this->base= session::global_get("CurrentMainBase");
-      if ($this->base == null) {
-        $this->base= $config->current['BASE'];
+      $this->base = session::global_get("CurrentMainBase");
+      if ($this->base == NULL) {
+        $this->base = $config->current['BASE'];
       }
       $this->refreshBasesList();
     } else {
-      $this->base= $config->current['BASE'];
+      $this->base = $config->current['BASE'];
     }
 
     // Move footer information
-    $this->showFooter= ($config->get_cfg_value("listSummary") == "TRUE");
+    $this->showFooter = ($config->get_cfg_value("listSummary") == "TRUE");
 
     // Register build in filters
     $this->registerElementFilter("objectType", "listing::filterObjectType");
@@ -102,17 +101,17 @@ class listing {
     $this->registerElementFilter("actions", "listing::filterActions");
 
     // Load exporters
-    foreach($class_mapping as $class => $dummy) {
+    foreach ($class_mapping as $class => $dummy) {
       if (preg_match('/Exporter$/', $class)) {
-        $info= call_user_func(array($class, "getInfo"));
-        if ($info != null) {
-          $this->exporter= array_merge($this->exporter, $info);
+        $info = call_user_func(array($class, "getInfo"));
+        if ($info != NULL) {
+          $this->exporter = array_merge($this->exporter, $info);
         }
       }
     }
 
     // Instanciate base selector
-    $this->baseSelector= new baseSelector($this->bases, $this->base);
+    $this->baseSelector = new baseSelector($this->bases, $this->base);
   }
 
   /*!
@@ -124,7 +123,7 @@ class listing {
    */
   function setCopyPasteHandler($handler)
   {
-    $this->copyPasteHandler= &$handler;
+    $this->copyPasteHandler = &$handler;
   }
 
   /*!
@@ -134,7 +133,7 @@ class listing {
    */
   function setHeight($height)
   {
-    $this->height= $height;
+    $this->height = $height;
   }
 
   /*!
@@ -146,7 +145,7 @@ class listing {
    */
   function setSnapshotHandler($handler)
   {
-    $this->snapshotHandler= &$handler;
+    $this->snapshotHandler = &$handler;
   }
 
   /*!
@@ -158,10 +157,10 @@ class listing {
    */
   function setFilter($filter)
   {
-    $this->filter= &$filter;
+    $this->filter     = &$filter;
     $filter->headpage = &$this;
-    if ($this->departmentBrowser){
-      $this->departments= $this->getDepartments();
+    if ($this->departmentBrowser) {
+      $this->departments = $this->getDepartments();
     }
     $this->filter->setBase($this->base);
   }
@@ -176,11 +175,11 @@ class listing {
   function registerElementFilter($name, $call)
   {
     if (!isset($this->filters[$name])) {
-      $this->filters[$name]= $call;
-      return true;
+      $this->filters[$name] = $call;
+      return TRUE;
     }
 
-    return false;
+    return FALSE;
   }
 
   /*!
@@ -191,60 +190,60 @@ class listing {
   function load($filename)
   {
     $contents = file_get_contents($filename);
-    $this->xmlData= xml::xml2array($contents, 1);
+    $this->xmlData = xml::xml2array($contents, 1);
 
     if (!isset($this->xmlData['list'])) {
-      return false;
+      return FALSE;
     }
 
-    $this->xmlData= $this->xmlData["list"];
+    $this->xmlData = $this->xmlData["list"];
 
     // Load some definition values
     foreach (array("departmentBrowser", "departmentRootVisible", "multiSelect", "baseMode") as $token) {
       if (isset($this->xmlData['definition'][$token]) &&
-          $this->xmlData['definition'][$token] == "true"){
-        $this->$token= true;
+          $this->xmlData['definition'][$token] == "true") {
+        $this->$token = TRUE;
       }
     }
 
     // Fill objectTypes from departments and xml definition
     $types = departmentManagement::get_support_departments();
     foreach ($types as $class => $data) {
-      $this->objectTypes[$data['OC']]= array("label" => $data['TITLE'],
+      $this->objectTypes[$data['OC']] = array("label" => $data['TITLE'],
                                   "objectClass" => $data['OC'],
                                   "image" => $data['IMG']);
     }
-    $this->categories= array();
+    $this->categories = array();
     if (isset($this->xmlData['definition']['objectType'])) {
-      if(isset($this->xmlData['definition']['objectType']['label'])) {
-        $this->xmlData['definition']['objectType']= array($this->xmlData['definition']['objectType']);
+      if (isset($this->xmlData['definition']['objectType']['label'])) {
+        $this->xmlData['definition']['objectType'] = array($this->xmlData['definition']['objectType']);
       }
       foreach ($this->xmlData['definition']['objectType'] as $index => $otype) {
         $tmp = $this->xmlData['definition']['objectType'][$index];
-        $this->objectTypes[$tmp['objectClass']]= $tmp;
-        if (isset($this->xmlData['definition']['objectType'][$index]['category'])){
-          $this->categories[]= $otype['category'];
+        $this->objectTypes[$tmp['objectClass']] = $tmp;
+        if (isset($this->xmlData['definition']['objectType'][$index]['category'])) {
+          $this->categories[] = $otype['category'];
         }
       }
     }
 
     // Parse layout per column
-    $this->colprops= $this->parseLayout($this->xmlData['table']['layout']);
+    $this->colprops = $this->parseLayout($this->xmlData['table']['layout']);
 
     // Prepare table headers
     $this->renderHeader();
 
     // Assign headline/Categories
-    $this->headline= _($this->xmlData['definition']['label']);
-    if (!is_array($this->categories)){
-      $this->categories= array($this->categories);
+    $this->headline = _($this->xmlData['definition']['label']);
+    if (!is_array($this->categories)) {
+      $this->categories = array($this->categories);
     }
 
     // Evaluate columns to be exported
-    if (isset($this->xmlData['table']['column'])){
+    if (isset($this->xmlData['table']['column'])) {
       foreach ($this->xmlData['table']['column'] as $index => $config) {
-        if (isset($config['export']) && $config['export'] == "true"){
-          $this->exportColumns[]= $index;
+        if (isset($config['export']) && $config['export'] == "true") {
+          $this->exportColumns[] = $index;
         }
       }
     }
@@ -253,59 +252,59 @@ class listing {
       $this->xmlData['actiontriggers']['action'] = array($this->xmlData['actiontriggers']['action']);
     }
 
-    return true;
+    return TRUE;
   }
 
 
   function renderHeader()
   {
-    $this->header= array();
-    $this->plainHeader= array();
+    $this->header = array();
+    $this->plainHeader = array();
 
     // Initialize sort?
-    $sortInit= false;
+    $sortInit = FALSE;
     if (!$this->sortDirection) {
-      $this->sortColumn= 0;
-      if (isset($this->xmlData['definition']['defaultSortColumn'])){
-        $this->sortColumn= $this->xmlData['definition']['defaultSortColumn'];
+      $this->sortColumn = 0;
+      if (isset($this->xmlData['definition']['defaultSortColumn'])) {
+        $this->sortColumn = $this->xmlData['definition']['defaultSortColumn'];
       } else {
-        $this->sortAttribute= "";
+        $this->sortAttribute = "";
       }
-      $this->sortDirection= array();
-      $sortInit= true;
+      $this->sortDirection = array();
+      $sortInit = TRUE;
     }
 
-    if (isset($this->xmlData['table']['column'])){
+    if (isset($this->xmlData['table']['column'])) {
       foreach ($this->xmlData['table']['column'] as $index => $config) {
         // Initialize everything to one direction
         if ($sortInit) {
-          $this->sortDirection[$index]= false;
+          $this->sortDirection[$index] = FALSE;
         }
 
-        $sorter= "";
+        $sorter = "";
         if ($index == $this->sortColumn && isset($config['sortAttribute']) &&
             isset($config['sortType'])) {
-          $this->sortAttribute= $config['sortAttribute'];
-          $this->sortType= $config['sortType'];
-          $sorter= "&nbsp;<img border='0' title='".($this->sortDirection[$index]?_("Up"):_("Down"))."' src='images/lists/sort-".($this->sortDirection[$index]?"up":"down").".png' align='top'>";
+          $this->sortAttribute  = $config['sortAttribute'];
+          $this->sortType       = $config['sortType'];
+          $sorter = "&nbsp;<img border='0' title='".($this->sortDirection[$index]?_("Up"):_("Down"))."' src='images/lists/sort-".($this->sortDirection[$index]?"up":"down").".png' align='top'>";
         }
-        $sortable= (isset($config['sortAttribute']));
+        $sortable = (isset($config['sortAttribute']));
 
-        $link= "href='?plug=".$_GET['plug']."&amp;PID=".$this->pid."&amp;act=SORT_$index'";
+        $link = "href='?plug=".$_GET['plug']."&amp;PID=".$this->pid."&amp;act=SORT_$index'";
         if (isset($config['label'])) {
           if ($sortable) {
-            $this->header[$index]= "<th ".$this->colprops[$index]."><a $link>"._($config['label'])."$sorter</a></td>";
+            $this->header[$index] = "<th ".$this->colprops[$index]."><a $link>"._($config['label'])."$sorter</a></td>";
           } else {
-            $this->header[$index]= "<th ".$this->colprops[$index].">"._($config['label'])."</td>";
+            $this->header[$index] = "<th ".$this->colprops[$index].">"._($config['label'])."</td>";
           }
-          $this->plainHeader[]= _($config['label']);
+          $this->plainHeader[] = _($config['label']);
         } else {
           if ($sortable) {
-            $this->header[$index]= "<th ".$this->colprops[$index]."><a $link>&nbsp;$sorter</a></td>";
+            $this->header[$index] = "<th ".$this->colprops[$index]."><a $link>&nbsp;$sorter</a></td>";
           } else {
-            $this->header[$index]= "<th ".$this->colprops[$index].">&nbsp;</td>";
+            $this->header[$index] = "<th ".$this->colprops[$index].">&nbsp;</td>";
           }
-          $this->plainHeader[]= "";
+          $this->plainHeader[] = "";
         }
       }
     }
@@ -317,169 +316,169 @@ class listing {
   function render()
   {
     // Check for exeeded sizelimit
-    if (($message= check_sizelimit()) != ""){
-      return($message);
+    if (($message = check_sizelimit()) != "") {
+      return $message;
     }
 
     // Some browsers don't have the ability do do scrollable table bodies, filter them
     // here.
-    $switch= false;
-    if (preg_match('/(Opera|Konqueror|Safari)/i', $_SERVER['HTTP_USER_AGENT'])){
-      $switch= true;
+    $switch = FALSE;
+    if (preg_match('/(Opera|Konqueror|Safari)/i', $_SERVER['HTTP_USER_AGENT'])) {
+      $switch = TRUE;
     }
 
     // Initialize list
-    $result= "<input type='hidden' value='$this->pid' name='PID'>\n";
-    $result.= "<input type='hidden' name='position_".$this->pid."' id='position_".$this->pid."'>\n";
-    $height= 450;
+    $result = "<input type='hidden' value='$this->pid' name='PID'>\n";
+    $result .= "<input type='hidden' name='position_".$this->pid."' id='position_".$this->pid."'>\n";
+    $height = 450;
     if ($this->height != 0) {
-      $result.= "<input type='hidden' value='$this->height' id='d_height'>\n";
-      $height= $this->height;
+      $result .= "<input type='hidden' value='$this->height' id='d_height'>\n";
+      $height = $this->height;
     }
 
-    $result.= "<div id='d_scrollbody' style='width:100%;'>\n";
-    $result.= "<table summary='$this->headline' style='width:100%;' id='t_scrolltable' class='listingTable'>\n";
-    $this->numColumns= count($this->colprops) + ($this->multiSelect?1:0);
+    $result .= "<div id='d_scrollbody' style='width:100%;'>\n";
+    $result .= "<table summary='$this->headline' style='width:100%;' id='t_scrolltable' class='listingTable'>\n";
+    $this->numColumns = count($this->colprops) + ($this->multiSelect?1:0);
 
     // Build list header
-    $result.= "<thead><tr>\n";
+    $result .= "<thead><tr>\n";
     if ($this->multiSelect) {
-      $width= "24px";
-      if (preg_match('/Konqueror/i', $_SERVER['HTTP_USER_AGENT'])){
-        $width= "28px";
+      $width = "24px";
+      if (preg_match('/Konqueror/i', $_SERVER['HTTP_USER_AGENT'])) {
+        $width = "28px";
       }
-      $result.= "<th style='text-align:center;padding:0;width:$width;'><input type='checkbox' id='select_all' name='select_all' title='"._("Select all")."' onClick='toggle_all_(\"listing_selected_[0-9]*$\",\"select_all\");' ></th>\n";
+      $result .= "<th style='text-align:center;padding:0;width:$width;'><input type='checkbox' id='select_all' name='select_all' title='"._("Select all")."' onClick='toggle_all_(\"listing_selected_[0-9]*$\",\"select_all\");' ></th>\n";
     }
     foreach ($this->header as $header) {
-      $result.= $header;
+      $result .= $header;
     }
-    $result.= "</tr></thead>\n";
+    $result .= "</tr></thead>\n";
 
     // Build list body
-    $result.= "<tbody id='t_nscrollbody'>\n";
+    $result .= "<tbody id='t_nscrollbody'>\n";
 
     // No results? Just take an empty colspanned row
     if (count($this->entries) + count($this->departments) == 0) {
-      $result.= "<tr><td class='list1nohighlight' colspan='$this->numColumns' style='height:100%;width:100%;'>&nbsp;</td></tr>";
+      $result .= "<tr><td class='list1nohighlight' colspan='$this->numColumns' style='height:100%;width:100%;'>&nbsp;</td></tr>";
     }
 
     // Line color alternation
-    $alt= 0;
-    $deps= 0;
+    $alt  = 0;
+    $deps = 0;
 
     // Draw department browser if configured and we're not in sub mode
-    $this->useSpan= false;
+    $this->useSpan = FALSE;
     if ($this->departmentBrowser && $this->filter->scope != "sub") {
       // Fill with department browser if configured this way
-      $departmentIterator= new departmentSortIterator($this->departments, $this->sortDirection[$this->sortColumn]);
-      foreach ($departmentIterator as $row => $entry){
-        $result.="<tr>";
+      $departmentIterator = new departmentSortIterator($this->departments, $this->sortDirection[$this->sortColumn]);
+      foreach ($departmentIterator as $row => $entry) {
+        $result .= "<tr>";
 
         // Render multi select if needed
         if ($this->multiSelect) {
-          $result.="<td style='text-align:center;padding:0;'>&nbsp;</td>";
+          $result .= "<td style='text-align:center;padding:0;'>&nbsp;</td>";
         }
 
         // Render defined department columns, fill the rest with some stuff
-        $rest= $this->numColumns - 1;
+        $rest = $this->numColumns - 1;
         foreach ($this->xmlData['table']['department'] as $index => $config) {
-          $colspan= 1;
-          if (isset($config['span'])){
-            $colspan= $config['span'];
-            $this->useSpan= true;
+          $colspan = 1;
+          if (isset($config['span'])) {
+            $colspan        = $config['span'];
+            $this->useSpan  = TRUE;
           }
-          $result.="<td colspan='$colspan' ".$this->colprops[$index].">".$this->renderCell($config['value'], $entry, $row)."</td>";
-          $rest-= $colspan;
+          $result .= "<td colspan='$colspan' ".$this->colprops[$index].">".$this->renderCell($config['value'], $entry, $row)."</td>";
+          $rest -= $colspan;
         }
 
         // Fill remaining cols with nothing
-        $last= $this->numColumns - $rest;
-        for ($i= 0; $i<$rest; $i++){
-          $result.= "<td ".$this->colprops[$last+$i-1].">&nbsp;</td>";
+        $last = $this->numColumns - $rest;
+        for ($i = 0; $i < $rest; $i++) {
+          $result .= "<td ".$this->colprops[$last + $i - 1].">&nbsp;</td>";
         }
-        $result.="</tr>";
+        $result .= "</tr>";
 
         $alt++;
       }
-      $deps= $alt;
+      $deps = $alt;
     }
 
     // Fill with contents, sort as configured
     foreach ($this->entries as $row => $entry) {
-      $trow= "";
+      $trow = "";
 
       // Render multi select if needed
       if ($this->multiSelect) {
-        $trow.="<td style='text-align:center;width:20px;'><input type='checkbox' id='listing_selected_$row' name='listing_selected_$row'></td>\n";
+        $trow .= "<td style='text-align:center;width:20px;'><input type='checkbox' id='listing_selected_$row' name='listing_selected_$row'></td>\n";
       }
 
       foreach ($this->xmlData['table']['column'] as $index => $config) {
-        $renderedCell= $this->renderCell($config['value'], $entry, $row);
-        $trow.="<td ".$this->colprops[$index].">".$renderedCell."</td>\n";
+        $renderedCell = $this->renderCell($config['value'], $entry, $row);
+        $trow .= "<td ".$this->colprops[$index].">".$renderedCell."</td>\n";
 
         // Save rendered column
-        $sort= preg_replace('/.*>([^<]+)<.*$/', '$1', $renderedCell);
-        $sort= preg_replace('/&nbsp;/', '', $sort);
-        if (preg_match('/</', $sort)){
-          $sort= "";
+        $sort = preg_replace('/.*>([^<]+)<.*$/', '$1', $renderedCell);
+        $sort = preg_replace('/&nbsp;/', '', $sort);
+        if (preg_match('/</', $sort)) {
+          $sort = "";
         }
-        $this->entries[$row]["_sort$index"]= $sort;
+        $this->entries[$row]["_sort$index"] = $sort;
       }
 
       // Save rendered entry
-      $this->entries[$row]['_rendered']= $trow;
+      $this->entries[$row]['_rendered'] = $trow;
     }
 
     // Complete list by sorting entries for _sort$index and appending them to the output
-    $entryIterator= new listingSortIterator($this->entries, $this->sortDirection[$this->sortColumn], "_sort".$this->sortColumn, $this->sortType);
-    foreach ($entryIterator as $row => $entry){
+    $entryIterator = new listingSortIterator($this->entries, $this->sortDirection[$this->sortColumn], "_sort".$this->sortColumn, $this->sortType);
+    foreach ($entryIterator as $row => $entry) {
       // Apply custom class to row?
       if (preg_match("/<rowClass:([a-z0-9_-]*)\/>/i", $entry['_rendered'], $matches)) {
-          $result.="<tr class='".$matches[1]."'>\n";
-          $result.= preg_replace("/<rowClass[^>]+>/", '', $entry['_rendered']);
+          $result .= "<tr class='".$matches[1]."'>\n";
+          $result .= preg_replace("/<rowClass[^>]+>/", '', $entry['_rendered']);
       } else {
-          $result.="<tr>\n";
-          $result.= $entry['_rendered'];
+          $result .= "<tr>\n";
+          $result .= $entry['_rendered'];
       }
 
-      $result.="</tr>\n";
+      $result .= "</tr>\n";
       $alt++;
     }
 
     // Close list body
-    $result.= "</tbody></table></div>";
+    $result .= "</tbody></table></div>";
 
     // Add the footer if requested
     if ($this->showFooter) {
-      $result.= "<div class='nlistFooter'><div style='padding:3px'>";
+      $result .= "<div class='nlistFooter'><div style='padding:3px'>";
 
       foreach ($this->objectTypes as $objectType) {
         if (isset($this->objectTypeCount[$objectType['label']])) {
-          $label= _($objectType['label']);
-          $result.= "<img class='center' src='".$objectType['image']."' title='$label' alt='$label'>&nbsp;".$this->objectTypeCount[$objectType['label']]."&nbsp;&nbsp;&nbsp;&nbsp;";
+          $label = _($objectType['label']);
+          $result .= "<img class='center' src='".$objectType['image']."' title='$label' alt='$label'>&nbsp;".$this->objectTypeCount[$objectType['label']]."&nbsp;&nbsp;&nbsp;&nbsp;";
         }
       }
 
-      $result.= "</div></div>";
+      $result .= "</div></div>";
     }
 
     // Close list
-    $result.= $switch?"<input type='hidden' id='list_workaround'>":"";
+    $result .= $switch?"<input type='hidden' id='list_workaround'>":"";
 
     // Add scroll positioner
-    $result.= '<script type="text/javascript" language="javascript">';
-    $result.= '$("t_nscrollbody").scrollTop= '.$this->scrollPosition.';';
-    $result.= 'var box = $("t_nscrollbody").onscroll= function() {$("position_'.$this->pid.'").value= this.scrollTop;}';
-    $result.= '</script>';
+    $result .= '<script type="text/javascript" language="javascript">';
+    $result .= '$("t_nscrollbody").scrollTop= '.$this->scrollPosition.';';
+    $result .= 'var box = $("t_nscrollbody").onscroll= function() {$("position_'.$this->pid.'").value= this.scrollTop;}';
+    $result .= '</script>';
 
-    $smarty= get_smarty();
+    $smarty = get_smarty();
     $smarty->assign("usePrototype", "true");
     $smarty->assign("FILTER", $this->filter->render());
     $smarty->assign("SIZELIMIT", print_sizelimit_warning());
     $smarty->assign("LIST", $result);
 
     // Assign navigation elements
-    $nav= $this->renderNavigation();
+    $nav = $this->renderNavigation();
     foreach ($nav as $key => $html) {
       $smarty->assign($key, $html);
     }
@@ -495,14 +494,14 @@ class listing {
     $smarty->assign("HEADLINE", $this->headline);
 
     // Try to load template from plugin the folder first...
-    $file = get_template_path($this->xmlData['definition']['template'], true);
+    $file = get_template_path($this->xmlData['definition']['template'], TRUE);
 
     // ... if this fails, try to load the file from the theme folder.
-    if(!file_exists($file)){
+    if (!file_exists($file)) {
       $file = get_template_path($this->xmlData['definition']['template']);
     }
 
-    return ($smarty->fetch($file));
+    return $smarty->fetch($file);
   }
 
   /*!
@@ -511,43 +510,43 @@ class listing {
   function update()
   {
     global $config;
-    $ui= get_userinfo();
+    $ui = get_userinfo();
 
     // Take care of base selector
     if ($this->baseMode) {
       $this->baseSelector->update();
       // Check if a wrong base was supplied
-      if(!$this->baseSelector->checkLastBaseUpdate()){
+      if (!$this->baseSelector->checkLastBaseUpdate()) {
          msg_dialog::display(_("Error"), msgPool::check_base(), ERROR_DIALOG);
       }
     }
 
     // Save base
-    $refresh= false;
+    $refresh = FALSE;
     if ($this->baseMode) {
-      $this->base= $this->baseSelector->getBase();
+      $this->base = $this->baseSelector->getBase();
       session::global_set("CurrentMainBase", $this->base);
-      $refresh= true;
+      $refresh = TRUE;
     }
 
 
     // Reset object counter / DN mapping
-    $this->objectTypeCount= array();
-    $this->objectDnMapping= array();
+    $this->objectTypeCount = array();
+    $this->objectDnMapping = array();
 
     // Do not do anything if this is not our PID
-    if($refresh || !(isset($_REQUEST['PID']) && $_REQUEST['PID'] != $this->pid)) {
+    if ($refresh || !(isset($_REQUEST['PID']) && $_REQUEST['PID'] != $this->pid)) {
 
       // Save position if set
       if (isset($_POST['position_'.$this->pid]) && is_numeric($_POST['position_'.$this->pid])) {
-        $this->scrollPosition= $_POST['position_'.$this->pid];
+        $this->scrollPosition = $_POST['position_'.$this->pid];
       }
 
       // Override the base if we got a message from the browser navigation
       if ($this->departmentBrowser && isset($_GET['act'])) {
-        if (preg_match('/^department_([0-9]+)$/', validate($_GET['act']), $match)){
-          if (isset($this->departments[$match[1]])){
-            $this->base= $this->departments[$match[1]]['dn'];
+        if (preg_match('/^department_([0-9]+)$/', validate($_GET['act']), $match)) {
+          if (isset($this->departments[$match[1]])) {
+            $this->base = $this->departments[$match[1]]['dn'];
             if ($this->baseMode) {
               $this->baseSelector->setBase($this->base);
             }
@@ -559,30 +558,30 @@ class listing {
       // Filter POST with "act" attributes -> posted from action menu
       if (isset($_POST['exec_act']) && $_POST['act'] != '') {
         if (preg_match('/^export.*$/', $_POST['act']) && isset($this->exporter[$_POST['act']])) {
-          $exporter= $this->exporter[$_POST['act']];
-          $userinfo= ", "._("created by")." ".$ui->cn." - ".strftime('%A, %d. %B %Y, %H:%M:%S');
-          $entryIterator= new listingSortIterator($this->entries, $this->sortDirection[$this->sortColumn], "_sort".$this->sortColumn, $this->sortType);
-          $sortedEntries= array();
-          foreach ($entryIterator as $entry){
-            $sortedEntries[]= $entry;
+          $exporter = $this->exporter[$_POST['act']];
+          $userinfo = ", "._("created by")." ".$ui->cn." - ".strftime('%A, %d. %B %Y, %H:%M:%S');
+          $entryIterator = new listingSortIterator($this->entries, $this->sortDirection[$this->sortColumn], "_sort".$this->sortColumn, $this->sortType);
+          $sortedEntries = array();
+          foreach ($entryIterator as $entry) {
+            $sortedEntries[] = $entry;
           }
-          $instance= new $exporter['class']($this->headline.$userinfo, $this->plainHeader, $sortedEntries, $this->exportColumns);
-          $type= call_user_func(array($exporter['class'], "getInfo"));
-          $type= $type[$_POST['act']];
-          send_binary_content($instance->query(), $type['filename'], $type= $type['mime']);
+          $instance = new $exporter['class']($this->headline.$userinfo, $this->plainHeader, $sortedEntries, $this->exportColumns);
+          $type = call_user_func(array($exporter['class'], "getInfo"));
+          $type = $type[$_POST['act']];
+          send_binary_content($instance->query(), $type['filename'], $type = $type['mime']);
         }
       }
 
       // Filter GET with "act" attributes
       if (isset($_GET['act'])) {
-        $key= validate($_GET['act']);
+        $key = validate($_GET['act']);
         if (preg_match('/^SORT_([0-9]+)$/', $key, $match)) {
           // Switch to new column or invert search order?
-          $column= $match[1];
+          $column = $match[1];
           if ($this->sortColumn != $column) {
-            $this->sortColumn= $column;
+            $this->sortColumn = $column;
           } else {
-            $this->sortDirection[$column]= !$this->sortDirection[$column];
+            $this->sortDirection[$column] = !$this->sortDirection[$column];
           }
 
           // Allow header to update itself according to the new sort settings
@@ -591,40 +590,40 @@ class listing {
       }
 
       // Override base if we got signals from the navigation elements
-      $action= "";
+      $action = "";
       foreach ($_POST as $key => $value) {
         if (preg_match('/^(ROOT|BACK|HOME)_x$/', $key, $match)) {
-          $action= $match[1];
+          $action = $match[1];
           break;
         }
       }
 
       // Navigation handling
       if ($action == 'ROOT') {
-        $deps= $ui->get_module_departments($this->categories);
-        $this->base= $deps[0];
+        $deps = $ui->get_module_departments($this->categories);
+        $this->base = $deps[0];
         $this->baseSelector->setBase($this->base);
         session::global_set("CurrentMainBase", $this->base);
       }
       if ($action == 'BACK') {
-        $deps= $ui->get_module_departments($this->categories);
-        $base= preg_replace("/^[^,]+,/", "", $this->base);
-        if(in_array_ics($base, $deps)){
-          $this->base= $base;
+        $deps = $ui->get_module_departments($this->categories);
+        $base = preg_replace("/^[^,]+,/", "", $this->base);
+        if (in_array_ics($base, $deps)) {
+          $this->base = $base;
           $this->baseSelector->setBase($this->base);
           session::global_set("CurrentMainBase", $this->base);
         }
       }
       if ($action == 'HOME') {
-        $ui= get_userinfo();
-        $this->base= get_base_from_people($ui->dn);
+        $ui = get_userinfo();
+        $this->base = get_base_from_people($ui->dn);
         $this->baseSelector->setBase($this->base);
         session::global_set("CurrentMainBase", $this->base);
       }
     }
 
     // Reload departments
-    if ($this->departmentBrowser){
+    if ($this->departmentBrowser) {
       $this->departments = $this->getDepartments();
     }
 
@@ -645,7 +644,7 @@ class listing {
    */
   function setBase($base)
   {
-    $this->base= $base;
+    $this->base = $base;
     if ($this->baseMode) {
       $this->baseSelector->setBase($this->base);
     }
@@ -668,42 +667,42 @@ class listing {
    */
   function parseLayout($layout)
   {
-    $result= array();
-    $layout= preg_replace("/^\|/", "", $layout);
-    $layout= preg_replace("/\|$/", "", $layout);
-    $cols= explode("|", $layout);
+    $result = array();
+    $layout = preg_replace("/^\|/", "", $layout);
+    $layout = preg_replace("/\|$/", "", $layout);
+    $cols = explode("|", $layout);
 
     foreach ($cols as $index => $config) {
       if ($config != "") {
-        $res= "";
-        $components= explode(';', $config);
+        $res = "";
+        $components = explode(';', $config);
         foreach ($components as $part) {
           if (preg_match("/^r$/", $part)) {
-            $res.= "text-align:right;";
+            $res .= "text-align:right;";
             continue;
           }
           if (preg_match("/^l$/", $part)) {
-            $res.= "text-align:left;";
+            $res .= "text-align:left;";
             continue;
           }
           if (preg_match("/^c$/", $part)) {
-            $res.= "text-align:center;";
+            $res .= "text-align:center;";
             continue;
           }
           if (preg_match("/^[0-9]+(|px|%)$/", $part)) {
-            $res.= "width:$part;min-width:$part;";
+            $res .= "width:$part;min-width:$part;";
             continue;
           }
         }
 
         // Add minimum width for scalable columns
-        if (!preg_match('/width:/', $res)){
-          $res.= "min-width:200px;";
+        if (!preg_match('/width:/', $res)) {
+          $res .= "min-width:200px;";
         }
 
-        $result[$index]= " style='$res'";
+        $result[$index] = " style='$res'";
       } else {
-        $result[$index]= " style='min-width:100px;'";
+        $result[$index] = " style='min-width:100px;'";
       }
     }
 
@@ -717,7 +716,7 @@ class listing {
   function renderCell($data, $config, $row)
   {
     // Replace flat attributes in data string
-    for ($i = 0; $i<$config['count']; $i++) {
+    for ($i = 0; $i < $config['count']; $i++) {
       $attr   = $config[$i];
       $value  = "";
       if (is_array($config[$attr])) {
@@ -791,7 +790,7 @@ class listing {
         }
 
         // Fixie with "" is passed directly
-        if (preg_match('/^".*"$/', $param)){
+        if (preg_match('/^".*"$/', $param)) {
           $params[] = preg_replace('/"/', '', $param);
           continue;
         }
@@ -803,7 +802,7 @@ class listing {
         }
 
         // LDAP variables get replaced by their objects
-        for ($i= 0; $i<$config['count']; $i++) {
+        for ($i = 0; $i < $config['count']; $i++) {
           if ($param == $config[$i]) {
             $values = $config[$config[$i]];
             if (is_array($values)) {
@@ -861,7 +860,7 @@ class listing {
       }
     }
 
-    return null;
+    return NULL;
   }
 
   function getObjectTypeInfos($classes)
@@ -886,11 +885,11 @@ class listing {
    */
   function filterObjectTypes($dn, $classes)
   {
-      $result = "";
-      foreach($classes as $class) {
-          $result.= $this->filterObjectType($dn, array($class))."&nbsp;";
-      }
-      return "";
+    $result = "";
+    foreach ($classes as $class) {
+        $result .= $this->filterObjectType($dn, array($class))."&nbsp;";
+    }
+    return "";
   }
 
   /*!
@@ -910,7 +909,7 @@ class listing {
       $this->objectDnMapping[$dn] = $type;
       $result = "<img class='center' title='".LDAP::fix($dn)."' src='".$this->objectTypes[$type]["image"]."'>";
       if (!isset($this->objectTypeCount[$this->objectTypes[$type]['label']])) {
-        $this->objectTypeCount[$this->objectTypes[$type]['label']]= 0;
+        $this->objectTypeCount[$this->objectTypes[$type]['label']] = 0;
       }
       $this->objectTypeCount[$this->objectTypes[$type]['label']]++;
     }
@@ -935,27 +934,27 @@ class listing {
     }
 
     // Go thru all actions
-    $result= "";
-    $actions = $this->xmlData['actiontriggers']['action'];
-    foreach($actions as $action) {
+    $result   = "";
+    $actions  = $this->xmlData['actiontriggers']['action'];
+    foreach ($actions as $action) {
       // Skip the entry completely if there's no permission to execute it
       if (!$this->hasActionPermission($action, $dn, $classes)) {
-        $result.= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
+        $result .= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
         continue;
       }
 
       // Skip entry if the pseudo filter does not fit
       if (isset($action['filter']) && preg_match('/^[a-z0-9_]+!?=[a-z0-9_]+$/i', $action['filter'])) {
-        list($fa, $fv)= explode('=', $action['filter']);
-        if (preg_match('/^(.*)!$/', $fa, $m)){
-          $fa= $m[1];
+        list($fa, $fv) = explode('=', $action['filter']);
+        if (preg_match('/^(.*)!$/', $fa, $m)) {
+          $fa = $m[1];
           if (isset($this->entries[$row][$fa]) && $this->entries[$row][$fa][0] == $fv) {
-            $result.= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
+            $result .= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
             continue;
           }
         } else {
           if (!isset($this->entries[$row][$fa]) && !$this->entries[$row][$fa][0] == $fv) {
-            $result.= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
+            $result .= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
             continue;
           }
         }
@@ -964,22 +963,22 @@ class listing {
 
       // If there's an objectclass definition and we don't have it
       // add an empty picture here.
-      if (isset($action['objectclass'])){
-        $objectclass= $action['objectclass'];
-        if (preg_match('/^!(.*)$/', $objectclass, $m)){
-          $objectclass= $m[1];
-          if(in_array($objectclass, $classes)) {
-            $result.= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
+      if (isset($action['objectclass'])) {
+        $objectclass = $action['objectclass'];
+        if (preg_match('/^!(.*)$/', $objectclass, $m)) {
+          $objectclass = $m[1];
+          if (in_array($objectclass, $classes)) {
+            $result .= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
             continue;
           }
         } elseif (is_string($objectclass)) {
-          if(!in_array($objectclass, $classes)) {
-            $result.= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
+          if (!in_array($objectclass, $classes)) {
+            $result .= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
             continue;
           }
         } elseif (is_array($objectclass)) {
-          if(count(array_intersect($objectclass, $classes)) != count($objectclass)){
-            $result.= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
+          if (count(array_intersect($objectclass, $classes)) != count($objectclass)) {
+            $result .= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
             continue;
           }
         }
@@ -987,9 +986,9 @@ class listing {
 
       // Render normal entries as usual
       if ($action['type'] == "entry") {
-        $label= $this->processElementFilter($action['label'], $this->entries[$row], $row);
-        $image= $this->processElementFilter($action['image'], $this->entries[$row], $row);
-        $result.="<input class='center' type='image' src='$image' title='$label' ".
+        $label = $this->processElementFilter($action['label'], $this->entries[$row], $row);
+        $image = $this->processElementFilter($action['image'], $this->entries[$row], $row);
+        $result .= "<input class='center' type='image' src='$image' title='$label' ".
                  "name='listing_".$action['name']."_$row' style='padding:1px'>";
       }
 
@@ -1006,7 +1005,7 @@ class listing {
         if ($action['type'] == "copypaste") {
           $copy = !isset($action['copy']) || $action['copy'] == "true";
           $cut  = !isset($action['cut']) || $action['cut'] == "true";
-          $result .= $this->renderCopyPasteActions($row, $this->entries[$row]['dn'], $category, $class,$copy,$cut);
+          $result .= $this->renderCopyPasteActions($row, $this->entries[$row]['dn'], $category, $class, $copy, $cut);
         } else {
           $result .= $this->renderSnapshotActions($row, $this->entries[$row]['dn'], $category, $class);
         }
@@ -1041,12 +1040,12 @@ class listing {
    */
   function filterLink()
   {
-    $result= "&nbsp;";
+    $result = "&nbsp;";
 
-    $row= func_get_arg(0);
-    $pid= $this->pid;
-    $dn= LDAP::fix(func_get_arg(1));
-    $params= array(func_get_arg(2));
+    $row = func_get_arg(0);
+    $pid = $this->pid;
+    $dn = LDAP::fix(func_get_arg(1));
+    $params = array(func_get_arg(2));
 
     // Collect sprintf params
     for ($i = 3;$i < func_num_args();$i++) {
@@ -1060,7 +1059,7 @@ class listing {
     $result = "&nbsp;";
     $trans  = call_user_func_array("sprintf", $params);
     if ($trans != "") {
-      return("<a href='?plug=".$_GET['plug']."&amp;PID=$pid&amp;act=listing_edit_$row' title='$dn'>$trans</a>");
+      return "<a href='?plug=".$_GET['plug']."&amp;PID=$pid&amp;act=listing_edit_$row' title='$dn'>$trans</a>";
     }
 
     return $result;
@@ -1069,57 +1068,57 @@ class listing {
 
   function renderNavigation()
   {
-    $result= array();
-    $enableBack = true;
-    $enableRoot = true;
-    $enableHome = true;
+    $result = array();
+    $enableBack = TRUE;
+    $enableRoot = TRUE;
+    $enableHome = TRUE;
 
     $ui = get_userinfo();
 
     /* Check if base = first available base */
     $deps = $ui->get_module_departments($this->categories);
 
-    if(!count($deps) || $deps[0] == $this->filter->base){
-      $enableBack = false;
-      $enableRoot = false;
+    if (!count($deps) || $deps[0] == $this->filter->base) {
+      $enableBack = FALSE;
+      $enableRoot = FALSE;
     }
 
-    $listhead ="";
+    $listhead = "";
 
     /* Check if we are in users home  department */
-    if(!count($deps) || $this->filter->base == get_base_from_people($ui->dn)){
-      $enableHome = false;
+    if (!count($deps) || $this->filter->base == get_base_from_people($ui->dn)) {
+      $enableHome = FALSE;
     }
 
     /* Draw root button */
-    if($enableRoot){
-      $result["ROOT"]= "<input class='center' type='image' src='images/lists/root.png' align='middle' ".
+    if ($enableRoot) {
+      $result["ROOT"] = "<input class='center' type='image' src='images/lists/root.png' align='middle' ".
                        "title='"._("Go to root department")."' name='ROOT' alt='"._("Root")."'>";
-    }else{
-      $result["ROOT"]= "<img src='images/lists/root_grey.png' class='center' alt='"._("Root")."'>";
+    } else {
+      $result["ROOT"] = "<img src='images/lists/root_grey.png' class='center' alt='"._("Root")."'>";
     }
 
     /* Draw back button */
-    if($enableBack){
-      $result["BACK"]= "<input class='center' type='image' align='middle' src='images/lists/back.png' ".
+    if ($enableBack) {
+      $result["BACK"] = "<input class='center' type='image' align='middle' src='images/lists/back.png' ".
                        "title='"._("Go up one department")."' alt='"._("Up")."' name='BACK'>";
-    }else{
-      $result["BACK"]= "<img src='images/lists/back_grey.png' class='center' alt='"._("Up")."'>";
+    } else {
+      $result["BACK"] = "<img src='images/lists/back_grey.png' class='center' alt='"._("Up")."'>";
     }
 
     /* Draw home button */
-    if($enableHome){
-      $result["HOME"]= "<input class='center' type='image' align='middle' src='images/lists/home.png' ".
+    if ($enableHome) {
+      $result["HOME"] = "<input class='center' type='image' align='middle' src='images/lists/home.png' ".
                        "title='"._("Go to users department")."' alt='"._("Home")."' name='HOME'>";
-    }else{
-      $result["HOME"]= "<img src='images/lists/home_grey.png' class='center' alt='"._("Home")."'>";
+    } else {
+      $result["HOME"] = "<img src='images/lists/home_grey.png' class='center' alt='"._("Home")."'>";
     }
 
     /* Draw reload button, this button is enabled everytime */
-    $result["RELOAD"]= "<input class='center' type='image' src='images/lists/reload.png' align='middle' ".
+    $result["RELOAD"] = "<input class='center' type='image' src='images/lists/reload.png' align='middle' ".
                        "title='"._("Reload list")."' name='REFRESH' alt='"._("Submit")."'>";
 
-    return ($result);
+    return $result;
   }
 
   /*!
@@ -1128,24 +1127,24 @@ class listing {
   function getAction()
   {
     // Do not do anything if this is not our PID, or there's even no PID available...
-    if(!isset($_REQUEST['PID']) || $_REQUEST['PID'] != $this->pid) {
+    if (!isset($_REQUEST['PID']) || $_REQUEST['PID'] != $this->pid) {
       return;
     }
 
     // Save position if set
     if (isset($_POST['position_'.$this->pid]) && is_numeric($_POST['position_'.$this->pid])) {
-      $this->scrollPosition= $_POST['position_'.$this->pid];
+      $this->scrollPosition = $_POST['position_'.$this->pid];
     }
 
-    $result= array("targets" => array(), "action" => "");
+    $result = array("targets" => array(), "action" => "");
 
     // Filter GET with "act" attributes
     if (isset($_GET['act'])) {
-      $key= validate($_GET['act']);
-      $target= preg_replace('/^listing_[a-zA-Z_]+_([0-9]+)$/', '$1', $key);
+      $key    = validate($_GET['act']);
+      $target = preg_replace('/^listing_[a-zA-Z_]+_([0-9]+)$/', '$1', $key);
       if (isset($this->entries[$target]['dn'])) {
-        $result['action']= preg_replace('/^listing_([a-zA-Z_]+)_[0-9]+$/', '$1', $key);
-        $result['targets'][]= $this->entries[$target]['dn'];
+        $result['action']     = preg_replace('/^listing_([a-zA-Z_]+)_[0-9]+$/', '$1', $key);
+        $result['targets'][]  = $this->entries[$target]['dn'];
       }
 
       // Drop targets if empty
@@ -1160,34 +1159,34 @@ class listing {
 
       // Capture selections
       if (preg_match('/^listing_selected_[0-9]+$/', $key)) {
-        $target= preg_replace('/^listing_selected_([0-9]+)$/', '$1', $key);
+        $target = preg_replace('/^listing_selected_([0-9]+)$/', '$1', $key);
         if (isset($this->entries[$target]['dn'])) {
-          $result['targets'][]= $this->entries[$target]['dn'];
+          $result['targets'][] = $this->entries[$target]['dn'];
         }
         continue;
       }
 
       // Capture action with target - this is a one shot
       if (preg_match('/^listing_[a-zA-Z_]+_[0-9]+(|_x)$/', $key)) {
-        $target= preg_replace('/^listing_[a-zA-Z_]+_([0-9]+)(|_x)$/', '$1', $key);
+        $target = preg_replace('/^listing_[a-zA-Z_]+_([0-9]+)(|_x)$/', '$1', $key);
         if (isset($this->entries[$target]['dn'])) {
-          $result['action']= preg_replace('/^listing_([a-zA-Z_]+)_[0-9]+(|_x)$/', '$1', $key);
-          $result['targets']= array($this->entries[$target]['dn']);
+          $result['action']   = preg_replace('/^listing_([a-zA-Z_]+)_[0-9]+(|_x)$/', '$1', $key);
+          $result['targets']  = array($this->entries[$target]['dn']);
         }
         break;
       }
 
       // Capture action without target
       if (preg_match('/^listing_[a-zA-Z_]+(|_x)$/', $key)) {
-        $result['action']= preg_replace('/^listing_([a-zA-Z_]+)(|_x)$/', '$1', $key);
+        $result['action'] = preg_replace('/^listing_([a-zA-Z_]+)(|_x)$/', '$1', $key);
         continue;
       }
     }
 
     // Filter POST with "act" attributes -> posted from action menu
     if (isset($_POST['act']) && $_POST['act'] != '') {
-      if (!preg_match('/^export.*$/', $_POST['act'])){
-        $result['action']= validate($_POST['act']);
+      if (!preg_match('/^export.*$/', $_POST['act'])) {
+        $result['action'] = validate($_POST['act']);
       }
     }
 
@@ -1202,23 +1201,23 @@ class listing {
   function renderActionMenu()
   {
     // Don't send anything if the menu is not defined
-    if (!isset($this->xmlData['actionmenu']['action'])){
+    if (!isset($this->xmlData['actionmenu']['action'])) {
       return "";
     }
 
-    // Array?
-    if (isset($this->xmlData['actionmenu']['action']['type'])){
-      $this->xmlData['actionmenu']['action']= array($this->xmlData['actionmenu']['action']);
+    // Make sure we got an array of actions
+    if (isset($this->xmlData['actionmenu']['action']['type'])) {
+      $this->xmlData['actionmenu']['action'] = array($this->xmlData['actionmenu']['action']);
     }
 
     // Load shortcut
-    $actions= &$this->xmlData['actionmenu']['action'];
-    $result= "<input type='hidden' name='act' id='actionmenu' value=''><div style='display:none'><input type='submit' name='exec_act' id='exec_act' value=''></div>".
+    $actions  = &$this->xmlData['actionmenu']['action'];
+    $result   = "<input type='hidden' name='act' id='actionmenu' value=''><div style='display:none'><input type='submit' name='exec_act' id='exec_act' value=''></div>".
              "<ul class='level1' id='root'><li><a href='#'>"._("Actions")."&nbsp;<img ".
              "border=0 class='center' src='images/lists/sort-down.png'></a>";
 
     // Build ul/li list
-    $result.= $this->recurseActions($actions);
+    $result .= $this->recurseActions($actions);
 
     return "<div id='pulldown'>".$result."</li></ul><div>";
   }
@@ -1227,9 +1226,9 @@ class listing {
   function recurseActions($actions)
   {
     global $class_mapping;
-    static $level= 2;
-    $result= "<ul class='level$level'>";
-    $separator= "";
+    static $level = 2;
+    $result       = "<ul class='level$level'>";
+    $separator    = "";
 
     foreach ($actions as $action) {
 
@@ -1240,73 +1239,73 @@ class listing {
 
       // Skip entry if there're missing dependencies
       if (isset($action['depends'])) {
-        $deps= is_array($action['depends'])?$action['depends']:array($action['depends']);
-        foreach($deps as $clazz) {
-          if (!isset($class_mapping[$clazz])){
+        $deps = is_array($action['depends'])?$action['depends']:array($action['depends']);
+        foreach ($deps as $clazz) {
+          if (!isset($class_mapping[$clazz])) {
             continue 2;
           }
         }
       }
 
       // Fill image if set
-      $img= "";
-      if (isset($action['image'])){
-        $img= "<img border='0' class='center' src='".$action['image']."'>&nbsp;";
+      $img = "";
+      if (isset($action['image'])) {
+        $img = "<img border='0' class='center' src='".$action['image']."'>&nbsp;";
       }
 
-      if ($action['type'] == "separator"){
-        $separator= " style='border-top:1px solid #AAA' ";
+      if ($action['type'] == "separator") {
+        $separator = " style='border-top:1px solid #AAA' ";
         continue;
       }
 
       // Dive into subs
       if ($action['type'] == "sub" && isset($action['action'])) {
         $level++;
-        if (isset($action['label'])){
-          $result.= "<li$separator><a href='#'>$img"._($action['label'])."&nbsp;<img border='0' src='images/forward-arrow.png'></a>";
+        if (isset($action['label'])) {
+          $result .= "<li$separator><a href='#'>$img"._($action['label'])."&nbsp;<img border='0' src='images/forward-arrow.png'></a>";
         }
 
         // Ensure we've an array of actions, this enables sub menus with only one action.
-        if(isset($action['action']['type'])){
+        if (isset($action['action']['type'])) {
           $action['action'] = array($action['action']);
         }
 
-        $result.= $this->recurseActions($action['action'])."</li>";
+        $result .= $this->recurseActions($action['action'])."</li>";
         $level--;
-        $separator= "";
+        $separator = "";
         continue;
       }
 
       // Render entry elseways
-      if (isset($action['label'])){
-        $result.= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"".$action['name']."\";mainform.submit();'>$img"._($action['label'])."</a></li>";
+      if (isset($action['label'])) {
+        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"".$action['name']."\";mainform.submit();'>$img"._($action['label'])."</a></li>";
       }
 
       // Check for special types
       switch ($action['type']) {
         case 'copypaste':
-          $cut = !isset($action['cut']) || $action['cut'] != "false";
-          $copy = !isset($action['copy']) || $action['copy'] != "false";
-          $result.= $this->renderCopyPasteMenu($separator, $copy , $cut);
+          $cut    = !isset($action['cut']) || $action['cut'] != "false";
+          $copy   = !isset($action['copy']) || $action['copy'] != "false";
+          $result .= $this->renderCopyPasteMenu($separator, $copy, $cut);
           break;
 
         case 'snapshot':
-          $result.= $this->renderSnapshotMenu($separator);
+          $result .= $this->renderSnapshotMenu($separator);
           break;
 
         case 'exporter':
-          $result.= $this->renderExporterMenu($separator);
+          $result .= $this->renderExporterMenu($separator);
           break;
 
         case 'daemon':
-          $result.= $this->renderDaemonMenu($separator);
+          $result .= $this->renderDaemonMenu($separator);
           break;
       }
 
-      $separator= "";
+      $separator = "";
     }
 
-    $result.= "</ul>";
+    $result .= "</ul>";
     return $result;
   }
 
@@ -1320,20 +1319,20 @@ class listing {
    * \param string $classes
    *
    */
-  function hasActionPermission($action, $dn, $classes= null)
+  function hasActionPermission($action, $dn, $classes = NULL)
   {
-    $ui= get_userinfo();
+    $ui = get_userinfo();
 
     if (isset($action['acl'])) {
-      $acls= $action['acl'];
+      $acls = $action['acl'];
       if (!is_array($acls)) {
-        $acls= array($acls);
+        $acls = array($acls);
       }
 
       // Every ACL has to pass
       foreach ($acls as $acl) {
-        $module= $this->categories;
-        $aclList= array();
+        $module   = $this->categories;
+        $aclList  = array();
 
         // Replace %acl if available
         if ($classes) {
@@ -1354,39 +1353,39 @@ class listing {
         }
 
         // match for "users/user[rw]" style entries
-        if (preg_match('/^([a-zA-Z0-9]+\/[a-zA-Z0-9]+)\[([rwcdm]+)\]$/', $acl, $match)){
-          $module= $match[1];
-          $aclList= array($match[2]);
+        if (preg_match('/^([a-zA-Z0-9]+\/[a-zA-Z0-9]+)\[([rwcdm]+)\]$/', $acl, $match)) {
+          $module   = $match[1];
+          $aclList  = array($match[2]);
         }
 
         // match "users/user[userPassword:rw(,...)*]" style entries
-        if (preg_match('/^([a-zA-Z0-9]+\/[a-zA-Z0-9]+)\[([a-zA-Z0-9]+:[rwcdm]+(,[a-zA-Z0-9]+:[rwcdm]+)*)\]$/', $acl, $match)){
-          $module= $match[1];
-          $aclList= explode(',', $match[2]);
+        if (preg_match('/^([a-zA-Z0-9]+\/[a-zA-Z0-9]+)\[([a-zA-Z0-9]+:[rwcdm]+(,[a-zA-Z0-9]+:[rwcdm]+)*)\]$/', $acl, $match)) {
+          $module   = $match[1];
+          $aclList  = explode(',', $match[2]);
         }
 
         // Walk thru prepared ACL by using $module
-        foreach($aclList as $sAcl) {
-          $checkAcl= "";
+        foreach ($aclList as $sAcl) {
+          $checkAcl = "";
 
           // Category or detailed permission?
-          if (strpos($module, '/') !== false) {
-            if (preg_match('/([a-zA-Z0-9]+):([rwcdm]+)/', $sAcl, $m) ) {
-              $checkAcl= $ui->get_permissions($dn, $module, $m[1]);
-              $sAcl= $m[2];
+          if (strpos($module, '/') !== FALSE) {
+            if (preg_match('/([a-zA-Z0-9]+):([rwcdm]+)/', $sAcl, $m)) {
+              $checkAcl = $ui->get_permissions($dn, $module, $m[1]);
+              $sAcl = $m[2];
             } else {
-              $checkAcl= $ui->get_permissions($dn, $module, '0');
+              $checkAcl = $ui->get_permissions($dn, $module, '0');
             }
           } else {
-            $checkAcl= $ui->get_category_permissions($dn, $module);
+            $checkAcl = $ui->get_category_permissions($dn, $module);
           }
 
           // Split up remaining part of the acl and check if it we're
           // allowed to do something...
-          $parts= str_split($sAcl);
+          $parts = str_split($sAcl);
           foreach ($parts as $part) {
-            if (strpos($checkAcl, $part) === false){
-              return false;
+            if (strpos($checkAcl, $part) === FALSE) {
+              return FALSE;
             }
           }
 
@@ -1394,7 +1393,7 @@ class listing {
       }
     }
 
-    return true;
+    return TRUE;
   }
 
   /*!
@@ -1403,17 +1402,17 @@ class listing {
   function refreshBasesList()
   {
     global $config;
-    $ui= get_userinfo();
+    $ui = get_userinfo();
 
     // Do some array munching to get it user friendly
-    $ids= $config->idepartments;
-    $d= $ui->get_module_departments($this->categories);
-    $k_ids= array_keys($ids);
-    $deps= array_intersect($d,$k_ids);
+    $ids    = $config->idepartments;
+    $d      = $ui->get_module_departments($this->categories);
+    $k_ids  = array_keys($ids);
+    $deps   = array_intersect($d, $k_ids);
 
     // Fill internal bases list
-    $this->bases= array();
-    foreach($k_ids as $department){
+    $this->bases = array();
+    foreach ($k_ids as $department) {
       $this->bases[$department] = $ids[$department];
     }
 
@@ -1429,8 +1428,8 @@ class listing {
    */
   function getDepartments()
   {
-    $departments= array();
-    $ui= get_userinfo();
+    $departments = array();
+    $ui = get_userinfo();
 
     // Get list of supported department types
     $types = departmentManagement::get_support_departments();
@@ -1440,14 +1439,14 @@ class listing {
 
     // Build filter and look in the LDAP for possible sub departments
     // of current base
-    $filter= "(&(objectClass=gosaDepartment)(|";
-    $attrs= array("description", "objectClass");
-    foreach($types as $name => $data){
-      $filter.= "(objectClass=".$data['OC'].")";
-      $attrs[]= $data['ATTR'];
+    $filter = "(&(objectClass=gosaDepartment)(|";
+    $attrs  = array("description", "objectClass");
+    foreach ($types as $name => $data) {
+      $filter .= "(objectClass=".$data['OC'].")";
+      $attrs[] = $data['ATTR'];
     }
-    $filter.= "))";
-    $res= get_list($filter, $this->categories, $this->base, $attrs, GL_NONE);
+    $filter .= "))";
+    $res = get_list($filter, $this->categories, $this->base, $attrs, GL_NONE);
 
     // Analyze list of departments
     foreach ($res as $department) {
@@ -1456,77 +1455,77 @@ class listing {
       }
 
       // Add the attribute where we use for sorting
-      $oc= null;
-      foreach(array_keys($types) as $type) {
+      $oc = NULL;
+      foreach (array_keys($types) as $type) {
         if (in_array($type, $department['objectClass'])) {
-          $oc= $type;
+          $oc = $type;
           break;
         }
       }
-      $department['sort-attribute']= $types[$oc]['ATTR'];
+      $department['sort-attribute'] = $types[$oc]['ATTR'];
 
       // Move to the result list
-      $departments[]= $department;
+      $departments[] = $department;
     }
 
     return $departments;
   }
 
 
-  function renderCopyPasteMenu($separator, $copy= true, $cut= true)
+  function renderCopyPasteMenu($separator, $copy = TRUE, $cut = TRUE)
   {
     // We can only provide information if we've got a copypaste handler
     // instance
-    if(!(isset($this->copyPasteHandler) && is_object($this->copyPasteHandler))){
+    if (!(isset($this->copyPasteHandler) && is_object($this->copyPasteHandler))) {
       return "";
     }
 
     // Presets
-    $result= "";
-    $read= $paste= false;
-    $ui= get_userinfo();
+    $result = "";
+    $read   = FALSE;
+    $paste  = FALSE;
+    $ui     = get_userinfo();
 
     // Switch flags to on if there's at least one category which allows read/paste
-    foreach($this->categories as $category){
-      $read= $read || preg_match('/r/', $ui->get_category_permissions($this->base, $category));
-      $paste= $paste || $ui->is_pasteable($this->base, $category) == 1;
+    foreach ($this->categories as $category) {
+      $read   = $read || preg_match('/r/', $ui->get_category_permissions($this->base, $category));
+      $paste  = $paste || $ui->is_pasteable($this->base, $category) == 1;
     }
 
 
     // Draw entries that allow copy and cut
-    if($read){
-
+    if ($read) {
       // Copy entry
-      if($copy){
-        $result.= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"copy\";document.getElementById(\"exec_act\").click();'><img src='images/lists/copy.png' alt='' border='0' class='center'>&nbsp;"._("Copy")."</a></li>";
-        $separator= "";
+      if ($copy) {
+        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"copy\";document.getElementById(\"exec_act\").click();'><img src='images/lists/copy.png' alt='' border='0' class='center'>&nbsp;"._("Copy")."</a></li>";
+        $separator = "";
       }
 
       // Cut entry
-      if($cut){
-        $result.= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"cut\";document.getElementById(\"exec_act\").click();'><img src='images/lists/cut.png' alt='' border='0' class='center'>&nbsp;"._("Cut")."</a></li>";
-        $separator= "";
+      if ($cut) {
+        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"cut\";document.getElementById(\"exec_act\").click();'><img src='images/lists/cut.png' alt='' border='0' class='center'>&nbsp;"._("Cut")."</a></li>";
+        $separator = "";
       }
     }
 
     // Draw entries that allow pasting entries
-    if($paste){
-      if($this->copyPasteHandler->entries_queued()){
-        $result.= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"paste\";document.getElementById(\"exec_act\").click();'><img src='images/lists/paste.png' alt='' border='0' class='center'>&nbsp;"._("Paste")."</a></li>";
-      }else{
-        $result.= "<li$separator><a href='#'><img src='images/lists/paste-grey.png' alt='' border='0' class='center'>&nbsp;"._("Paste")."</a></li>";
+    if ($paste) {
+      if ($this->copyPasteHandler->entries_queued()) {
+        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"paste\";document.getElementById(\"exec_act\").click();'><img src='images/lists/paste.png' alt='' border='0' class='center'>&nbsp;"._("Paste")."</a></li>";
+      } else {
+        $result .= "<li$separator><a href='#'><img src='images/lists/paste-grey.png' alt='' border='0' class='center'>&nbsp;"._("Paste")."</a></li>";
       }
     }
 
-    return($result);
+    return $result;
   }
 
 
-  function renderCopyPasteActions($row, $dn, $category, $class, $copy= true, $cut= true)
+  function renderCopyPasteActions($row, $dn, $category, $class, $copy = TRUE, $cut = TRUE)
   {
     // We can only provide information if we've got a copypaste handler
     // instance
-    if(!(isset($this->copyPasteHandler) && is_object($this->copyPasteHandler))){
+    if (!(isset($this->copyPasteHandler) && is_object($this->copyPasteHandler))) {
       return "";
     }
 
@@ -1535,26 +1534,26 @@ class listing {
     $result = "";
 
     // Render cut entries
-    if($cut){
-      if($ui->is_cutable($dn, $category, $class)){
+    if ($cut) {
+      if ($ui->is_cutable($dn, $category, $class)) {
         $result .= "<input class='center' type='image'
           src='images/lists/cut.png' alt='"._("Cut")."' name='listing_cut_$row' title='"._("Cut this entry")."' style='padding:1px'>";
-      }else{
-        $result.="<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
+      } else {
+        $result .= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
       }
     }
 
     // Render copy entries
-    if($copy){
-      if($ui->is_copyable($dn, $category, $class)){
-        $result.= "<input class='center' type='image'
+    if ($copy) {
+      if ($ui->is_copyable($dn, $category, $class)) {
+        $result .= "<input class='center' type='image'
           src='images/lists/copy.png' alt='"._("Copy")."' name='listing_copy_$row' title='"._("Copy this entry")."' style='padding:1px'>";
-      }else{
-        $result.="<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
+      } else {
+        $result .= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
       }
     }
 
-    return($result);
+    return $result;
   }
 
 
@@ -1562,31 +1561,31 @@ class listing {
   {
     // We can only provide information if we've got a snapshot handler
     // instance
-    if(!(isset($this->snapshotHandler) && is_object($this->snapshotHandler))){
+    if (!(isset($this->snapshotHandler) && is_object($this->snapshotHandler))) {
       return "";
     }
 
     // Presets
     $result = "";
-    $ui = get_userinfo();
+    $ui     = get_userinfo();
 
-    if($this->snapshotHandler->enabled() && $ui->allow_snapshot_restore($this->base, $this->categories)){
+    if ($this->snapshotHandler->enabled() && $ui->allow_snapshot_restore($this->base, $this->categories)) {
 
       // Check if there is something to restore
-      $restore= false;
-      foreach($this->snapshotHandler->getSnapshotBases() as $base){
-        $restore= $restore || count($this->snapshotHandler->getDeletedSnapshots($base)) > 0;
+      $restore = FALSE;
+      foreach ($this->snapshotHandler->getSnapshotBases() as $base) {
+        $restore = $restore || count($this->snapshotHandler->getDeletedSnapshots($base)) > 0;
       }
 
       // Draw icons according to the restore flag
-      if($restore){
-        $result.= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"restore\";document.getElementById(\"exec_act\").click();'><img src='images/lists/restore.png' alt='' border='0' class='center'>&nbsp;"._("Restore snapshots")."</a></li>";
-      }else{
-        $result.= "<li$separator><a href='#'><img src='images/lists/restore_grey.png' alt='' border='0' class='center'>&nbsp;"._("Restore snapshots")."</a></li>";
+      if ($restore) {
+        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"restore\";document.getElementById(\"exec_act\").click();'><img src='images/lists/restore.png' alt='' border='0' class='center'>&nbsp;"._("Restore snapshots")."</a></li>";
+      } else {
+        $result .= "<li$separator><a href='#'><img src='images/lists/restore_grey.png' alt='' border='0' class='center'>&nbsp;"._("Restore snapshots")."</a></li>";
       }
     }
 
-    return($result);
+    return $result;
   }
 
 
@@ -1596,73 +1595,73 @@ class listing {
     $result = "";
 
     // Draw entries
-    $result.= "<li$separator><a href='#'><img border='0' class='center' src='images/lists/export.png'>&nbsp;"._("Export list")."&nbsp;<img border='0' src='images/forward-arrow.png'></a><ul class='level3'>";
+    $result .= "<li$separator><a href='#'><img border='0' class='center' src='images/lists/export.png'>&nbsp;"._("Export list")."&nbsp;<img border='0' src='images/forward-arrow.png'></a><ul class='level3'>";
 
     // Export CVS as build in exporter
     foreach ($this->exporter as $action => $exporter) {
-      $result.= "<li><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"$action\";document.getElementById(\"exec_act\").click();'><img border='0' class='center' src='".$exporter['image']."'>&nbsp;".$exporter['label']."</a></li>";
+      $result .= "<li><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"$action\";document.getElementById(\"exec_act\").click();'><img border='0' class='center' src='".$exporter['image']."'>&nbsp;".$exporter['label']."</a></li>";
     }
 
     // Finalize list
-    $result.= "</ul></li>";
+    $result .= "</ul></li>";
 
-    return($result);
+    return $result;
   }
 
 
-  function renderSnapshotActions($row, $dn, $category, $class, $copy= true, $cut= true)
+  function renderSnapshotActions($row, $dn, $category, $class, $copy = TRUE, $cut = TRUE)
   {
     // We can only provide information if we've got a snapshot handler
     // instance
-    if(!(isset($this->snapshotHandler) && is_object($this->snapshotHandler))){
+    if (!(isset($this->snapshotHandler) && is_object($this->snapshotHandler))) {
       return "";
     }
 
     // Presets
-    $result= "";
+    $result = "";
     $ui = get_userinfo();
 
     // Only act if enabled here
-    if($this->snapshotHandler->enabled()){
+    if ($this->snapshotHandler->enabled()) {
 
       // Draw restore button
-      if ($ui->allow_snapshot_restore($dn, $category)){
+      if ($ui->allow_snapshot_restore($dn, $category)) {
 
         // Do we have snapshots for this dn?
-        if($this->snapshotHandler->hasSnapshots($dn)){
-          $result.= "<input class='center' type='image' src='images/lists/restore.png' ".
+        if ($this->snapshotHandler->hasSnapshots($dn)) {
+          $result .= "<input class='center' type='image' src='images/lists/restore.png' ".
                      "alt='"._("Restore snapshot")."' name='listing_restore_$row' title='".
                      _("Restore snapshot")."' style='padding:1px'>";
         } else {
-          $result.= "<img src='images/lists/restore_grey.png' alt=' ' class='center' style='padding:1px'>";
+          $result .= "<img src='images/lists/restore_grey.png' alt=' ' class='center' style='padding:1px'>";
         }
       }
 
       // Draw snapshot button
-      if($ui->allow_snapshot_create($dn, $category)){
-          $result.= "<input class='center' type='image' src='images/snapshot.png' ".
+      if ($ui->allow_snapshot_create($dn, $category)) {
+          $result .= "<input class='center' type='image' src='images/snapshot.png' ".
                      "alt='"._("Create snapshot")."' name='listing_snapshot_$row' title='".
                      _("Create a new snapshot from this object")."' style='padding:1px'>";
-      }else{
-          $result.= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
+      } else {
+          $result .= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
       }
     }
 
-    return($result);
+    return $result;
   }
 
 
   function renderDaemonMenu($separator)
   {
-    $result= "";
+    $result = "";
 
     // If there is a daemon registered, draw the menu entries
-    if(class_available("DaemonEvent")){
-      $events= DaemonEvent::get_event_types_by_category($this->categories);
-      if(isset($events['BY_CLASS']) && count($events['BY_CLASS'])){
-        foreach($events['BY_CLASS'] as $name => $event){
-          $result.= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value=\"$name\";document.getElementById(\"exec_act\").click();'>".$event['MenuImage']."&nbsp;".$event['s_Menu_Name']."</a></li>";
-          $separator= "";
+    if (class_available("DaemonEvent")) {
+      $events = DaemonEvent::get_event_types_by_category($this->categories);
+      if (isset($events['BY_CLASS']) && count($events['BY_CLASS'])) {
+        foreach ($events['BY_CLASS'] as $name => $event) {
+          $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value=\"$name\";document.getElementById(\"exec_act\").click();'>".$event['MenuImage']."&nbsp;".$event['s_Menu_Name']."</a></li>";
+          $separator = "";
         }
       }
     }
@@ -1674,11 +1673,11 @@ class listing {
   function getEntry($dn)
   {
     foreach ($this->entries as $entry) {
-      if (isset($entry['dn']) && strcasecmp($dn, $entry['dn']) == 0){
+      if (isset($entry['dn']) && strcasecmp($dn, $entry['dn']) == 0) {
         return $entry;
       }
     }
-    return null;
+    return NULL;
   }
 
   /*!
