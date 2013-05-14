@@ -188,6 +188,28 @@ border-right:1px solid #B0B0B0;
 }
 
 /* Main menu */
+.iconmenu_section
+{
+border-top:1px solid #AAAAAA;
+clear:both;
+}
+
+.iconmenu_section + br
+{
+clear:both;
+}
+
+.iconmenu_section:first-child
+{
+border-top:none;
+}
+
+.iconmenu img
+{
+border:none;
+vertical-align:middle;
+}
+
 table.plugin_window
 {
 vertical-align:top;
@@ -213,6 +235,7 @@ display:inline-block;
 border-bottom:1px solid #AAAAAA;
 border-right:1px solid #AAAAAA;
 background-color:#DBE6C6;
+float:left;
 }
 
 div.copynotice {
@@ -255,26 +278,31 @@ text-decoration:none;
 background-color:#F0F0F0;
 }
 
-td.iconmenu {
+.iconmenu {
 cursor:pointer;
+display:inline-block;
+float:left;
+width:18%;
+margin:3px;
+padding:3px;
 }
 
-a.iconmenu:link {
+.iconmenu:nth-child(2)
+{
+clear:left;
+}
+
+.iconmenu > a:link, .iconmenu > a:visited {
 text-decoration:none;
 color:#00008f;
 }
 
-td.iconmenu:hover {
+.iconmenu > a:hover {
+text-decoration:none;
+}
+
+div.iconmenu:hover {
 background-color:#F0F0F0;
-}
-
-a.iconmenu:visited {
-text-decoration:none;
-color:#00008f;
-}
-
-a.iconmenu:hover {
-text-decoration:none;
 }
 
 h1.plugtop {
