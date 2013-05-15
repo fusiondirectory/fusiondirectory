@@ -757,36 +757,6 @@ class plugin
   }
 
   /*!
-   * \brief Executes commands after an object has been created
-   *
-   * \param array $add_attrs
-   */
-  function postcreate($add_attrs = array())
-  {
-    return self::callHook ($this, "POSTCREATE", $add_attrs);
-  }
-
-  /*!
-   * \brief Execute commands after an object has been modified
-   *
-   * \param array $add_attrs
-   */
-  function postmodify($add_attrs = array())
-  {
-    return self::callHook ($this, "POSTMODIFY", $add_attrs);
-  }
-
-  /*!
-   * \brief Executes a command after an object has been removed
-   *
-   * \param array $add_attrs
-   */
-  function postremove($add_attrs = array())
-  {
-    return self::callHook ($this, "POSTREMOVE", $add_attrs);
-  }
-
-  /*!
    * \brief Executes a command after an object has been copied
    */
   function postCopyHook()
@@ -1216,31 +1186,43 @@ class plugin
     return (TRUE);
   }
 
+  /*! \brief Forward command execution requests
+   *         to the pre/post hook execution method.
+   *
+   * \param  string  $when must be PRE or POST
+   *
+   * \param  string  $mode add, remove or modify
+   *
+   * \param  array  $addAttrs
+   */
+  protected function handle_hooks($when, $mode, $addAttrs = array())
+  {
+    switch ($mode) {
+      case 'add':
+        plugin::callHook($this, $when.'CREATE', $addAttrs);
+      break;
+
+      case 'modify':
+        plugin::callHook($this, $when.'MODIFY', $addAttrs);
+      break;
+
+      case 'remove':
+        plugin::callHook($this, $when.'REMOVE', $addAttrs);
+      break;
+
+      default:
+        trigger_error(sprintf('Invalid %s event type given %s! Valid types are [add,modify,remove].', strtolower($when), $mode));
+      break;
+    }
+  }
 
   /*! \brief Forward command execution requests
    *         to the post hook execution method.
    */
   function handle_post_events($mode, $addAttrs = array())
   {
-    if (!in_array($mode, array('add','remove','modify'))) {
-      trigger_error(sprintf("Invalid post event type given %s! Valid types are [add,modify,remove].", $mode));
-      return;
-    }
-    switch ($mode) {
-      case "add":
-        plugin::callHook($this, "POSTCREATE", $addAttrs);
-      break;
-
-      case "modify":
-        plugin::callHook($this, "POSTMODIFY", $addAttrs);
-      break;
-
-      case "remove":
-        plugin::callHook($this, "POSTREMOVE", $addAttrs);
-      break;
-    }
+    return $this->handle_hooks('POST', $mode, $addAttrs);
   }
-
 
   /*!
    *  \brief Forward command execution requests
@@ -1248,23 +1230,7 @@ class plugin
    */
   function handle_pre_events($mode, $addAttrs = array())
   {
-    if (!in_array($mode, array('add','remove','modify'))) {
-      trigger_error(sprintf("Invalid pre event type given %s! Valid types are [add,modify,remove].", $mode));
-      return;
-    }
-    switch ($mode) {
-      case "add":
-        plugin::callHook($this, "PRECREATE", $addAttrs);
-      break;
-
-      case "modify":
-        plugin::callHook($this, "PREMODIFY", $addAttrs);
-      break;
-
-      case "remove":
-        plugin::callHook($this, "PREREMOVE", $addAttrs);
-      break;
-    }
+    return $this->handle_hooks('PRE', $mode, $addAttrs);
   }
 
 

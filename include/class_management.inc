@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
@@ -171,58 +170,62 @@ class management
 
     // Handle actions (POSTs and GETs)
     $str = $this->handleActions($this->detectPostActions());
-    if($str) return($this->getHeader().$str);
+    if ($str) {
+      return $this->getHeader().$str;
+    }
 
     // Open single dialog objects
-    if(is_object($this->dialogObject)){
-      if(method_exists($this->dialogObject,'save_object')) $this->dialogObject->save_object();
-      if(method_exists($this->dialogObject,'execute')){
+    if (is_object($this->dialogObject)) {
+      if (method_exists($this->dialogObject, 'save_object')) {
+        $this->dialogObject->save_object();
+      }
+      if (method_exists($this->dialogObject, 'execute')) {
         $display = $this->dialogObject->execute();
-        $display.= $this->_getTabFooter();
-        return($this->getHeader().$display);
+        $display .= $this->_getTabFooter();
+        return $this->getHeader().$display;
       }
     }
 
     // Display tab object.
-    if($this->tabObject instanceOf tabs || $this->tabObject instanceOf multi_plug){
+    if ($this->tabObject instanceOf tabs) {
       $this->tabObject->save_object();
       $display = $this->tabObject->execute();
-      $display.= $this->_getTabFooter();
-      return($this->getHeader().$display);
+      $display .= $this->_getTabFooter();
+      return $this->getHeader().$display;
     }
 
     // Set current restore base for snapshot handling.
-    if(is_object($this->snapHandler)){
+    if (is_object($this->snapHandler)) {
       $bases = array();
-      foreach($this->storagePoints as $sp){
+      foreach ($this->storagePoints as $sp) {
         $bases[] = $sp.$this->headpage->getBase();
       }
 
       // No bases specified? Try base
-      if(!count($bases)) $bases[] = $this->headpage->getBase();
+      if (!count($bases)) $bases[] = $this->headpage->getBase();
 
       $this->snapHandler->setSnapshotBases($bases);
     }
 
     // Display list
-    return($this->renderList());
+    return $this->renderList();
   }
 
   function renderList()
   {
     $this->headpage->update();
     $display = $this->headpage->render();
-    return($this->getHeader().$display);
+    return $this->getHeader().$display;
   }
 
   function getHeadpage()
   {
-    return($this->headpage);
+    return $this->headpage;
   }
 
   function getFilter()
   {
-    return($this->filter);
+    return $this->filter;
   }
 
   /*!
@@ -262,7 +265,7 @@ class management
   protected function _getTabFooter()
   {
     // Do not display tab footer for non tab objects
-    if (!($this->tabObject instanceOf tabs || $this->tabObject instanceOf multi_plug)) {
+    if (!($this->tabObject instanceOf tabs)) {
       return "";
     }
 
@@ -282,7 +285,7 @@ class management
     // In case an of locked entry, we may have opened a read-only tab.
     $str = "";
     if (isset($this->tabObject->read_only) && $this->tabObject->read_only == TRUE) {
-      $str.= "<p style=\"text-align:right\">
+      $str .= "<p style=\"text-align:right\">
         <input type=submit name=\"edit_cancel\" value=\"".msgPool::cancelButton()."\">
         </p>";
       return $str;
@@ -313,46 +316,46 @@ class management
    *
    * \param  Array   $all     A combination of both 'action' and 'target'.
    */
-  protected function removeEntryRequested($action="",$target=array(),$all=array())
+  protected function removeEntryRequested($action = "", $target = array(), $all = array())
   {
     $disallowed = array();
     $this->dns = array();
 
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$target,"Entry removel requested!");
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removel requested!");
 
     // Check permissons for each target
-    foreach($target as $dn){
+    foreach ($target as $dn) {
       $acl = $this->ui->get_permissions($dn, $this->aclCategory."/".$this->aclPlugin);
-      if(preg_match("/d/",$acl)){
+      if (preg_match("/d/", $acl)) {
         $this->dns[] = $dn;
-      }else{
+      } else {
         $disallowed[] = $dn;
       }
     }
-    if(count($disallowed)){
-      msg_dialog::display(_("Permission"),msgPool::permDelete($disallowed),INFO_DIALOG);
+    if (count($disallowed)) {
+      msg_dialog::display(_("Permission"), msgPool::permDelete($disallowed), INFO_DIALOG);
     }
 
     // We've at least one entry to delete.
-    if(count($this->dns)){
+    if (count($this->dns)) {
 
       // check locks
-      if ($user= get_multiple_locks($this->dns)){
-        return(gen_locked_message($user,$this->dns));
+      if ($user = get_multiple_locks($this->dns)) {
+        return gen_locked_message($user, $this->dns);
       }
 
       // Add locks
       $dns_names = array();
-      foreach($this->dns as $dn){
-        $dns_names[] =LDAP::fix($dn);
+      foreach ($this->dns as $dn) {
+        $dns_names[] = LDAP::fix($dn);
       }
       add_lock ($this->dns, $this->ui->dn);
 
       // Display confirmation dialog.
       $smarty = get_smarty();
-      $smarty->assign("info", msgPool::deleteInfo($dns_names,_($this->objectName)));
-      $smarty->assign("multiple", true);
-      return($smarty->fetch(get_template_path('remove.tpl', TRUE)));
+      $smarty->assign("info", msgPool::deleteInfo($dns_names, _($this->objectName)));
+      $smarty->assign("multiple", TRUE);
+      return $smarty->fetch(get_template_path('remove.tpl', TRUE));
     }
   }
 
@@ -372,27 +375,28 @@ class management
    *
    * \param String $altAclCategory Empty string.
    */
-  function removeEntryConfirmed($action="",$target=array(),$all=array(),
-      $altTabClass="",$altTabType="",$altAclCategory="")
+  function removeEntryConfirmed($action = "", $target = array(), $all = array(),
+      $altTabClass = "", $altTabType = "", $altAclCategory = "")
   {
-    $tabType = $this->tabType;
-    $tabClass = $this->tabClass;
-    $aclCategory = $this->aclCategory;
-    if(!empty($altTabClass)) $tabClass = $altTabClass;
-    if(!empty($altTabType)) $tabType = $altTabType;
-    if(!empty($altAclCategory)) $aclCategory = $altAclCategory;
+    $tabType      = $this->tabType;
+    $tabClass     = $this->tabClass;
+    $aclCategory  = $this->aclCategory;
 
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$target,"Entry removel confirmed!");
+    if (!empty($altTabClass)) $tabClass = $altTabClass;
+    if (!empty($altTabType)) $tabType = $altTabType;
+    if (!empty($altAclCategory)) $aclCategory = $altAclCategory;
 
-    foreach($this->dns as $key => $dn){
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removel confirmed!");
+
+    foreach ($this->dns as $key => $dn) {
 
       // Check permissions, are we allowed to remove this object?
       $acl = $this->ui->get_permissions($dn, $this->aclCategory."/".$this->aclPlugin);
-      if(preg_match("/d/",$acl)){
+      if (preg_match("/d/", $acl)) {
 
         // Delete the object
         $this->dn = $dn;
-        $this->tabObject= new $tabClass($this->config,$this->config->data['TABS'][$tabType], $this->dn, $aclCategory);
+        $this->tabObject = new $tabClass($this->config, $this->config->data['TABS'][$tabType], $this->dn, $aclCategory);
         $this->tabObject->set_acl_base($this->dn);
         $this->tabObject->parent = &$this;
         $this->tabObject->delete ();
@@ -401,7 +405,7 @@ class management
         del_lock($this->dn);
       } else {
         msg_dialog::display(_("Permission error"), msgPool::permDelete(), ERROR_DIALOG);
-        new log("security","groups/".get_class($this),$dn,array(),"Tried to trick deletion.");
+        new log("security", "groups/".get_class($this), $dn, array(), "Tried to trick deletion.");
       }
     }
 
@@ -417,23 +421,23 @@ class management
    */
   function detectPostActions()
   {
-    if(!is_object($this->headpage)){
+    if (!is_object($this->headpage)) {
       trigger_error("No valid headpage given....!");
-      return(array());
+      return array();
     }
-    $action= $this->headpage->getAction();
-    if(isset($_POST['edit_apply']))  $action['action'] = "apply";
-    if(isset($_POST['edit_finish'])) $action['action'] = "save";
-    if(isset($_POST['edit_cancel'])) $action['action'] = "cancel";
-    if(isset($_POST['delete_confirmed'])) $action['action'] = "removeConfirmed";
-    if(isset($_POST['delete_cancel'])) $action['action'] = "cancelDelete";
+    $action = $this->headpage->getAction();
+    if (isset($_POST['edit_apply']))  $action['action'] = "apply";
+    if (isset($_POST['edit_finish'])) $action['action'] = "save";
+    if (isset($_POST['edit_cancel'])) $action['action'] = "cancel";
+    if (isset($_POST['delete_confirmed'])) $action['action'] = "removeConfirmed";
+    if (isset($_POST['delete_cancel'])) $action['action'] = "cancelDelete";
 
     // Detect Snapshot actions
-    if(isset($_POST['CreateSnapshot'])) $action['action'] = "saveSnapshot";
-    if(isset($_POST['CancelSnapshot'])) $action['action'] = "cancelSnapshot";
+    if (isset($_POST['CreateSnapshot'])) $action['action'] = "saveSnapshot";
+    if (isset($_POST['CancelSnapshot'])) $action['action'] = "cancelSnapshot";
     $matches = array();
-    foreach($_POST as $name => $value) {
-      if (preg_match("/^RestoreSnapshot_(.*)_[xy]/",$name,$matches)) {
+    foreach ($_POST as $name => $value) {
+      if (preg_match("/^RestoreSnapshot_(.*)_[xy]/", $name, $matches)) {
         $entry = intval($matches[1]);
         if (isset($this->dialogObject->last_list[$entry])) {
           $action['action'] = "restoreSnapshot";
@@ -452,10 +456,12 @@ class management
   function handleActions($action)
   {
     // Start action
-    if(isset($this->actions[$action['action']])){
+    if (isset($this->actions[$action['action']])) {
       $func = $this->actions[$action['action']];
-      if(!isset($action['targets']))$action['targets']= array();
-      return($this->$func($action['action'],$action['targets'],$action));
+      if (!isset($action['targets'])) {
+        $action['targets'] = array();
+      }
+      return $this->$func($action['action'], $action['targets'], $action);
     }
   }
 
@@ -469,18 +475,17 @@ class management
    *
    * \param  Array   $all     A combination of both 'action' and 'target'.
    */
-  function createSnapshotDialog($action="",$target=array(),$all=array())
+  function createSnapshotDialog($action = "", $target = array(), $all = array())
   {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$target,"Snaptshot creation initiated!");
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Snaptshot creation initiated!");
 
-    foreach($target as $entry){
-      if(!empty($entry) && $this->ui->allow_snapshot_create($entry,$this->aclCategory)){
-        $this->dialogObject = new SnapShotDialog($this->config,$entry,$this);
+    foreach ($target as $entry) {
+      if (!empty($entry) && $this->ui->allow_snapshot_create($entry, $this->aclCategory)) {
+        $this->dialogObject = new SnapShotDialog($this->config, $entry, $this);
         $this->dialogObject->aclCategories = array($this->aclCategory);
         $this->dialogObject->parent = &$this;
-
-      }else{
-        msg_dialog::display(_("Permission"),sprintf(_("You are not allowed to create a snapshot for %s."),$entry),
+      } else {
+        msg_dialog::display(_("Permission"), sprintf(_("You are not allowed to create a snapshot for %s."), $entry),
             ERROR_DIALOG);
       }
     }
@@ -497,19 +502,21 @@ class management
    *
    *  \param  Array   $all     A combination of both 'action' and 'target'.
    */
-  function saveSnapshot($action="",$target=array(),$all=array())
+  function saveSnapshot($action = "", $target = array(), $all = array())
   {
-    if(!is_object($this->dialogObject)) return;
+    if (!is_object($this->dialogObject)) {
+      return;
+    }
     $this->dialogObject->save_object();
     $msgs = $this->dialogObject->check();
-    if(count($msgs)){
-      foreach($msgs as $msg){
+    if (count($msgs)) {
+      foreach ($msgs as $msg) {
         msg_dialog::display(_("Error"), $msg, ERROR_DIALOG);
       }
-    }else{
-      $this->dn =  $this->dialogObject->dn;
-      $this->snapHandler->create_snapshot( $this->dn,$this->dialogObject->CurrentDescription);
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$this->dn,"Snaptshot created!");
+    } else {
+      $this->dn = $this->dialogObject->dn;
+      $this->snapHandler->create_snapshot($this->dn, $this->dialogObject->CurrentDescription);
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Snaptshot created!");
       $this->closeDialogs();
     }
   }
@@ -525,15 +532,15 @@ class management
    *
    * \param  Array   $all     A combination of both 'action' and 'target'.
    */
-  function restoreSnapshot($action="",$target=array(),$all=array())
+  function restoreSnapshot($action = "", $target = array(), $all = array())
   {
     $entry = array_pop($target);
-    if(!empty($entry) && $this->ui->allow_snapshot_restore($entry,$this->aclCategory)){
+    if (!empty($entry) && $this->ui->allow_snapshot_restore($entry, $this->aclCategory)) {
       $this->snapHandler->restore_snapshot($entry);
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$this->dn,"Snaptshot restored!");
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Snaptshot restored!");
       $this->closeDialogs();
-    }else{
-      msg_dialog::display(_("Permission"),sprintf(_("You are not allowed to restore a snapshot for %s."),$entry),
+    } else {
+      msg_dialog::display(_("Permission"), sprintf(_("You are not allowed to restore a snapshot for %s."), $entry),
           ERROR_DIALOG);
     }
   }
@@ -549,47 +556,37 @@ class management
    *
    * \param  Array   $all'     A combination of both 'action' and 'target'.
    */
-  function restoreSnapshotDialog($action="",$target=array(),$all=array())
+  function restoreSnapshotDialog($action = "", $target = array(), $all = array())
   {
     // Set current restore base for snapshot handling.
-    if(is_object($this->snapHandler)){
+    if (is_object($this->snapHandler)) {
       $bases = array();
-      foreach($this->storagePoints as $sp){
+      foreach ($this->storagePoints as $sp) {
         $bases[] = $sp.$this->headpage->getBase();
       }
     }
 
     // No bases specified? Try base
-    if(!count($bases)) $bases[] = $this->headpage->getBase();
+    if (!count($bases)) $bases[] = $this->headpage->getBase();
 
-    // No target, open the restore removed object dialog.
-    if(!count($target)){
+    if (!count($target)) {
+      // No target, open the restore removed object dialog.
       $entry = $this->headpage->getBase();
-      if(!empty($entry) && $this->ui->allow_snapshot_restore($entry,$this->aclCategory)){
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$entry,"Snaptshot restoring initiated!");
-        $this->dialogObject = new SnapShotDialog($this->config,$entry,$this);
-        $this->dialogObject->set_snapshot_bases($bases);
-        $this->dialogObject->display_all_removed_objects = true;
-        $this->dialogObject->display_restore_dialog = true;
-        $this->dialogObject->parent = &$this;
-      }else{
-        msg_dialog::display(_("Permission"),sprintf(_("You are not allowed to restore a snapshot for %s."),$entry),
-            ERROR_DIALOG);
-      }
-    }else{
-
+    } else {
       // Display the restore points for a given object.
       $entry = array_pop($target);
-      if(!empty($entry) && $this->ui->allow_snapshot_restore($entry,$this->aclCategory)){
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$entry,"Snaptshot restoring initiated!");
-        $this->dialogObject = new SnapShotDialog($this->config,$entry,$this);
-        $this->dialogObject->set_snapshot_bases($bases);
-        $this->dialogObject->display_restore_dialog = true;
-        $this->dialogObject->parent = &$this;
-      }else{
-        msg_dialog::display(_("Permission"),sprintf(_("You are not allowed to restore a snapshot for %s."),$entry),
-            ERROR_DIALOG);
-      }
+    }
+
+    if (!empty($entry) && $this->ui->allow_snapshot_restore($entry, $this->aclCategory)) {
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $entry, "Snaptshot restoring initiated!");
+      $this->dialogObject = new SnapShotDialog($this->config, $entry, $this);
+      $this->dialogObject->set_snapshot_bases($bases);
+      $this->dialogObject->display_all_removed_objects  = !count($target);
+      $this->dialogObject->display_restore_dialog       = TRUE;
+      $this->dialogObject->parent                       = &$this;
+    } else {
+      msg_dialog::display(_("Permission"), sprintf(_("You are not allowed to restore a snapshot for %s."), $entry),
+          ERROR_DIALOG);
     }
   }
 
@@ -609,7 +606,7 @@ class management
    *
    * \param String $altAclCategory Empty string.
    */
-  function newEntry($action="",$target=array(),$all=array(), $altTabClass ="", $altTabType = "", $altAclCategory="")
+  function newEntry($action = "", $target = array(), $all = array(), $altTabClass = "", $altTabType = "", $altAclCategory = "")
   {
     /* To handle mutliple object types overload this method.
      * ...
@@ -617,9 +614,9 @@ class management
      *   registerAction('newGroup','newEntry');
      * ...
      *
-     * function newEntry($action="",$target=array(),$all=array(), $altTabClass ="", $altTabType = "", $altAclCategory)
+     * function newEntry($action = "", $target= array(), $all=array(), $altTabClass ="", $altTabType = "", $altAclCategory)
      * {
-     *   switch($action){
+     *   switch($action) {
      *     case 'newUser' : {
      *       mangement::newEntry($action,$target,$all,"usertabs","USERTABS","users");
      *     }
@@ -629,30 +626,30 @@ class management
      *   }
      * }
      **/
-    $tabType = $this->tabType;
-    $tabClass = $this->tabClass;
-    $aclCategory = $this->aclCategory;
-    if(!empty($altTabClass)) $tabClass = $altTabClass;
-    if(!empty($altTabType)) $tabType = $altTabType;
-    if(!empty($altAclCategory)) $aclCategory = $altAclCategory;
+    $tabType      = $this->tabType;
+    $tabClass     = $this->tabClass;
+    $aclCategory  = $this->aclCategory;
+    if (!empty($altTabClass)) $tabClass = $altTabClass;
+    if (!empty($altTabType)) $tabType = $altTabType;
+    if (!empty($altAclCategory)) $aclCategory = $altAclCategory;
 
     // Check locking & lock entry if required
-    $this->displayApplyBtn = FALSE;
-    $this->dn = "new";
-    $this->is_new = TRUE;
-    $this->is_single_edit = FALSE;
+    $this->displayApplyBtn  = FALSE;
+    $this->dn               = "new";
+    $this->is_new           = TRUE;
+    $this->is_single_edit   = FALSE;
 
     set_object_info($this->dn);
 
     // Open object.
-    if(empty($tabClass) || empty($tabType)){
+    if (empty($tabClass) || empty($tabType)) {
       // No tab type defined
-    }else{
+    } else {
       if (isset($this->config->data['TABS'][$tabType])) {
-        $this->tabObject= new $tabClass($this->config,$this->config->data['TABS'][$tabType], $this->dn, $aclCategory);
+        $this->tabObject = new $tabClass($this->config,$this->config->data['TABS'][$tabType], $this->dn, $aclCategory);
         $this->tabObject->set_acl_base($this->headpage->getBase());
         $this->tabObject->parent = &$this;
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$this->dn,"Create new entry initiated!");
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Create new entry initiated!");
       } else {
         msg_dialog::display(_("Error"), sprintf(_("No tab declaration for '%s' found in your configuration file. Cannot create plugin instance!"), $tabType), ERROR_DIALOG);
       }
@@ -675,7 +672,7 @@ class management
    *
    * \param String $altAclCategory Empty string.
    */
-  function editEntry($action="",$target=array(),$all=array(), $altTabClass ="", $altTabType = "", $altAclCategory="")
+  function editEntry($action = "", $target = array(), $all = array(), $altTabClass = "", $altTabType = "", $altAclCategory = "")
   {
     /* To handle mutliple object types overload this method.
      * ...
@@ -683,9 +680,9 @@ class management
      *   registerAction('editGroup','editEntry');
      * ...
      *
-     * function editEntry($action="",$target=array(),$all=array(), $altTabClass ="", $altTabType = "", $altAclCategory)
+     * function editEntry($action = "", $target= array(), $all=array(), $altTabClass ="", $altTabType = "", $altAclCategory)
      * {
-     *   switch($action){
+     *   switch($action) {
      *     case 'editUser' : {
      *       mangement::editEntry($action,$target,$all,"usertabs","USERTABS","users");
      *     }
@@ -698,40 +695,40 @@ class management
 
     // Do not create a new tabObject while there is already one opened,
     //  the user may have just pressed F5 to reload the page.
-    if(is_object($this->tabObject)){
+    if (is_object($this->tabObject)) {
       return;
     }
 
-    $tabType = $this->tabType;
-    $tabClass = $this->tabClass;
-    $aclCategory = $this->aclCategory;
-    if(!empty($altTabClass)) $tabClass = $altTabClass;
-    if(!empty($altTabType)) $tabType = $altTabType;
-    if(!empty($altAclCategory)) $aclCategory = $altAclCategory;
+    $tabType      = $this->tabType;
+    $tabClass     = $this->tabClass;
+    $aclCategory  = $this->aclCategory;
+    if (!empty($altTabClass)) $tabClass = $altTabClass;
+    if (!empty($altTabType)) $tabType = $altTabType;
+    if (!empty($altAclCategory)) $aclCategory = $altAclCategory;
 
     $this->displayApplyBtn = count($target) == 1;
 
     // Single edit - we only got one object dn.
     if (count($target) == 1) {
-      $this->is_new = FALSE;
+      $this->is_new         = FALSE;
       $this->is_single_edit = TRUE;
 
       // Get the dn of the object and creates lock
       $this->dn = array_pop($target);
       set_object_info($this->dn);
       $user = get_lock($this->dn);
-      if ($user != ""){
-        return(gen_locked_message ($user, $this->dn,TRUE));
+      if ($user != "") {
+        return gen_locked_message($user, $this->dn, TRUE);
       }
       add_lock ($this->dn, $this->ui->dn);
 
       // Open object.
-      if(empty($tabClass) || empty($tabType)){
+      if (empty($tabClass) || empty($tabType)) {
         trigger_error("We can't edit any object(s). 'tabClass' or 'tabType' is empty!");
-      }else{
+      } else {
         $tab = $tabClass;
         $this->tabObject = new $tab($this->config, $this->config->data['TABS'][$tabType], $this->dn, $aclCategory);
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$this->dn,"Edit entry initiated!");
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Edit entry initiated!");
         $this->tabObject->set_acl_base($this->dn);
         $this->tabObject->parent = &$this;
       }
@@ -748,27 +745,27 @@ class management
    */
   protected function saveChanges()
   {
-    if($this->tabObject instanceOf tabs || $this->tabObject instanceOf multi_plug){
+    if ($this->tabObject instanceOf tabs) {
       $this->tabObject->save_object();
       $msgs = $this->tabObject->check();
-      if(count($msgs)){
+      if (count($msgs)) {
         msg_dialog::displayChecks($msgs);
-        return("");
-      }else{
+        return "";
+      } else {
         $this->tabObject->save();
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$this->dns,"Entry saved!");
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, "Entry saved!");
         $this->remove_lock();
         $this->closeDialogs();
       }
-    }elseif($this->dialogObject instanceOf plugin){
+    } elseif ($this->dialogObject instanceOf plugin) {
       $this->dialogObject->save_object();
       $msgs = $this->dialogObject->check();
-      if(count($msgs)){
+      if (count($msgs)) {
         msg_dialog::displayChecks($msgs);
-        return("");
-      }else{
+        return "";
+      } else {
         $this->dialogObject->save();
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$this->dns,"Entry saved!");
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, "Entry saved!");
         $this->remove_lock();
         $this->closeDialogs();
       }
@@ -783,15 +780,15 @@ class management
    */
   protected function applyChanges()
   {
-    if($this->tabObject instanceOf tabs || $this->tabObject instanceOf multi_plug){
+    if ($this->tabObject instanceOf tabs) {
       $this->tabObject->save_object();
       $msgs = $this->tabObject->check();
-      if(count($msgs)){
+      if (count($msgs)) {
         msg_dialog::displayChecks($msgs);
-        return("");
-      }else{
+        return "";
+      } else {
         $this->tabObject->save();
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$this->dns,"Modifications applied!");
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, "Modifications applied!");
         $this->tabObject->re_init();
       }
     }
@@ -804,15 +801,17 @@ class management
    */
   protected function closeDialogs()
   {
-    $this->last_dn = $this->dn;
+    $this->last_dn  = $this->dn;
+    $this->dn       = "";
     $this->last_dns = $this->dns;
-    $this->last_tabObject = $this->tabObject;
-    $this->last_dialogObject = $this->dialogObject;
-    $this->dn = "";
-    $this->dns = array();
-    $this->tabObject = null;
-    $this->dialogObject = null;
-    $this->skipFooter = FALSE;
+    $this->dns      = array();
+
+    $this->last_tabObject     = $this->tabObject;
+    $this->tabObject          = NULL;
+    $this->last_dialogObject  = $this->dialogObject;
+    $this->dialogObject       = NULL;
+
+    $this->skipFooter   = FALSE;
     set_object_info();
   }
 
@@ -835,7 +834,7 @@ class management
    *          When the action/event new is send, the method 'createUser'
    *          will be called.
    */
-  function registerAction($action,$target)
+  function registerAction($action, $target)
   {
     $this->actions[$action] = $target;
   }
@@ -849,10 +848,10 @@ class management
    */
   function remove_lock()
   {
-    if(!empty($this->dn) && $this->dn != "new"){
+    if (!empty($this->dn) && $this->dn != "new") {
       del_lock($this->dn);
     }
-    if(count($this->dns)){
+    if (count($this->dns)) {
       del_lock($this->dns);
     }
   }
@@ -921,11 +920,11 @@ class management
           $aclPlugin = $altAclPlugin[$dn];
         }
 
-        if($action == "copy" && $this->ui->is_copyable($dn, $aclCategory, $aclPlugin)) {
+        if ($action == "copy" && $this->ui->is_copyable($dn, $aclCategory, $aclPlugin)) {
           $this->cpHandler->add_to_queue($dn, "copy", $tabClass, $tabType, $aclCategory);
           @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Entry copied!");
         }
-        if($action == "cut" && $this->ui->is_cutable($dn, $aclCategory, $aclPlugin)) {
+        if ($action == "cut" && $this->ui->is_cutable($dn, $aclCategory, $aclPlugin)) {
           $this->cpHandler->add_to_queue($dn, "cut", $tabClass, $tabType, $aclCategory);
           @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Entry cutted!");
         }
@@ -957,50 +956,14 @@ class management
    *
    * \param string $str The new filter
    */
-  function setFilter($str) {
+  function setFilter($str)
+  {
     $this->filter = $str;
-  }
-
-  function postcreate() {
-      $this->handle_post_events('add');
-  }
-  function postmodify(){
-      $this->handle_post_events('modify');
-  }
-  function postremove(){
-      $this->handle_post_events('remove');
   }
 
   function is_modal_dialog()
   {
-      return(is_object($this->tabObject) || is_object($this->dialogObject));
-  }
-
-  /*!
-   * \brief    Forward command execution request
-   *             to the correct method.
-   */
-  function handle_post_events($mode, $addAttrs= array())
-  {
-      if(!in_array($mode, array('add','remove','modify'))){
-          trigger_error(sprintf("Invalid post event type given %s! Valid types are [add,modify,remove].", $mode));
-          return;
-      }
-      switch ($mode){
-          case "add":
-              plugin::callHook($this,"POSTCREATE", $addAttrs);
-          break;
-
-          case "modify":
-              plugin::callHook($this,"POSTMODIFY", $addAttrs);
-          break;
-
-          case "remove":
-              plugin::callHook($this,"POSTREMOVE", $addAttrs);
-          break;
-      }
+    return (is_object($this->tabObject) || is_object($this->dialogObject));
   }
 }
-
-// vism:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
