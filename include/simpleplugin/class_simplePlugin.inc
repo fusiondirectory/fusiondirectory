@@ -379,7 +379,7 @@ class simplePlugin extends plugin
     $group = new $class($this->config, $this->group_attrs['dn'], $attrsWrapper);
     $smarty = get_smarty();
 
-    $this->renderAttributes(TRUE);
+    $group->renderAttributes(TRUE);
     $smarty->assign("hiddenPostedInput", get_class($this)."_posted");
 
     return "<h1>Inherited informations:</h1><div></div>\n".$smarty->fetch($this->templatePath);
