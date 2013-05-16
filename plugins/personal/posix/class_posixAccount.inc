@@ -30,20 +30,6 @@
   does syntax checking and displays the formulars required.
  */
 
-class PosixStatusAttribute extends Attribute
-{
-  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "")
-  {
-    parent::__construct ($label, $description, $ldapName, $required, $defaultValue, $acl);
-    $this->setInLdap(FALSE);
-  }
-
-  function renderFormInput ()
-  {
-    return $this->getValue();
-  }
-}
-
 class EpochDaysDateAttribute extends DateAttribute
 {
   public static $secondsPerDay = 86400; //60 * 60 * 24
@@ -105,7 +91,7 @@ class posixAccount extends simplePlugin
             _('Primary group'), _('Primary group for this user'),
             'primaryGroup', FALSE
           ),
-          new PosixStatusAttribute(
+          new DisplayAttribute(
             _('Status'), _('Status of this user unix account'),
             'posixStatus', FALSE
           ),
