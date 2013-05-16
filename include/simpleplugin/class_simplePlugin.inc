@@ -426,13 +426,22 @@ class simplePlugin extends plugin
    */
   function remove_from_parent()
   {
-    if (!$this->initially_was_account) {
+    if (!$this->initially_was_account || !$this->acl_is_removeable()) {
       return;
     }
+    $this->prepare_remove();
+    $this->ldap_remove();
+    $this->log_remove();
+  }
 
+  protected function prepare_remove ()
+  {
     /* Remove FusionDirectory attributes */
     plugin::remove_from_parent();
+  }
 
+  protected function ldap_remove ()
+  {
     $ldap = $this->config->get_ldap_link();
     if ($this->mainTab) {
       $ldap->rmdir_recursive($this->dn);
@@ -444,7 +453,10 @@ class simplePlugin extends plugin
     if (!$ldap->success()) {
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_MOD, get_class()));
     }
+  }
 
+  protected function log_remove ()
+  {
     new log("remove", "plugin/".get_class($this), $this->dn, array_keys($this->attrs), $ldap->get_error());
 
     /* Optionally execute a command after we're done */
@@ -685,8 +697,8 @@ class simplePlugin extends plugin
             foreach ($account->by_object as &$obj) {
               $obj->setNeedEditMode(TRUE);
             }
+            unset($obj);
           }
-          unset($obj);
         } else {
           $account = new $classname($config, $entry_dn);
           $account->enable_CSN_check();

@@ -91,32 +91,6 @@ class simpleService extends simplePlugin {
     return $fields;
   }
 
-  /*! \brief This function removes the service object from LDAP
-   */
-  function remove_from_parent()
-  {
-    if (!$this->initially_was_account || !$this->acl_is_removeable()) {
-      return;
-    }
-
-    parent::remove_from_parent();
-
-    /* Check if this is a new entry ... add/modify */
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cat($this->dn, array("objectClass"));
-    if ($ldap->count()) {
-      $ldap->cd($this->dn);
-      $ldap->modify($this->attrs);
-    }
-
-    new log("remove", "server/".get_class($this), $this->dn, array_keys($this->attrs), $ldap->get_error());
-
-    if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, 0, get_class()));
-    }
-    $this->handle_post_events("remove");
-  }
-
   /*! \brief This function save new status flag */
   function setStatus($value)
   {
