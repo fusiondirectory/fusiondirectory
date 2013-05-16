@@ -38,12 +38,6 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.12.30 NAME 'gosaGroupObjects'
   SUBSTR caseIgnoreIA5SubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
 
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.33 NAME 'gosaUnitTag'
-  DESC 'Takes a list of relevant mime-type|priority settings'
-  EQUALITY caseIgnoreIA5Match
-  SUBSTR caseIgnoreIA5SubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
-
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.34 NAME 'gosaAclTemplate'
   DESC 'Takes ACL entries for gosaRoles'
   EQUALITY caseIgnoreIA5Match
@@ -133,16 +127,6 @@ objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.12 NAME 'gosaGroupOfNames'
   DESC 'GOsa object grouping (v2.6.1)'
   SUP top STRUCTURAL
   MUST ( cn $ gosaGroupObjects ) MAY ( member $ description ) )
-
-objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.15 NAME 'gosaAdministrativeUnit'
-  DESC 'Marker for administrational units (v2.6.1)'
-  SUP top AUXILIARY
-  MUST ( gosaUnitTag ))
-
-objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.16 NAME 'gosaAdministrativeUnitTag'
-  DESC 'Marker for objects below administrational units (v2.6.1)'
-  SUP top AUXILIARY
-  MUST ( gosaUnitTag ))
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.17 NAME 'gosaRole'
   DESC 'ACL container to define roles (v2.6.1)' SUP top STRUCTURAL

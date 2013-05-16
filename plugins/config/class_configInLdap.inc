@@ -169,11 +169,6 @@ class configInLdap extends simplePlugin
             'fdListSummary', FALSE,
             TRUE
           ),
-          new BooleanAttribute (
-            _('Honour administrative units'),
-            _('Enables  checking  of unitTag attributes when using administrative units.'),
-            'fdHonourUnitTags'
-          ),
           new SelectAttribute (
             _('Edit locking'),
             _('Check if a entry currently being edited has been modified outside of FusionDirectory in the meantime.'),

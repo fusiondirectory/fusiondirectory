@@ -64,8 +64,6 @@ class config  {
   /* Keep a copy of the current department list */
   var $departments= array();
   var $idepartments= array();
-  var $adepartments= array();
-  var $tdepartments= array();
   var $department_info= array();
   var $filename = "";
   var $last_modified = 0;
@@ -709,9 +707,7 @@ class config  {
 
     /* Initialize result hash */
     $result= array();
-    $administrative= array();
     $result['/']= $this->current['BASE'];
-    $this->tdepartments= array();
 
     /* Get all department types from department Management, to be able detect the department type.
         -It is possible that differnty department types have the same name,
@@ -721,7 +717,7 @@ class config  {
     $types = departmentManagement::get_support_departments();
 
     /* Create a list of attributes to fetch */
-    $ldap_values = array("objectClass","gosaUnitTag", "description");
+    $ldap_values = array("objectClass", "description");
     $filter = "";
     foreach($types as $type){
       $ldap_values[] = $type['ATTR'];
@@ -748,24 +744,11 @@ class config  {
       if(!count($type_data)) continue;
 
       $dn= $ldap->getDN();
-      $this->tdepartments[$dn]= "";
       $this->department_info[$dn]= array("img" => $type_data['IMG'],
                                          "description" => isset($attrs['description'][0])?$attrs['description'][0]:"",
                                          "name" => $attrs[$type_data['ATTR']][0]);
 
-      /* Save administrative departments */
-      if (in_array_ics("gosaAdministrativeUnit", $attrs['objectClass']) &&
-          isset($attrs['gosaUnitTag'][0])){
-        $administrative[$dn]= $attrs['gosaUnitTag'][0];
-        $this->tdepartments[$dn]= $attrs['gosaUnitTag'][0];
-      }
-
-      if (in_array_ics("gosaAdministrativeUnitTag", $attrs['objectClass']) &&
-          isset($attrs['gosaUnitTag'][0])){
-        $this->tdepartments[$dn]= $attrs['gosaUnitTag'][0];
-      }
-
-      if ($dn == $ignore_dn){
+      if ($dn == $ignore_dn) {
         continue;
       }
       $c_dn = convert_department_dn($dn)." (".$type_data['ATTR'].")";
@@ -776,18 +759,14 @@ class config  {
       }
     }
 
-    $this->adepartments= $administrative;
-    $this->departments= $result;
+    $this->departments  = $result;
   }
-
-
 
   function make_idepartments($max_size= 28)
   {
     global $config;
-    $base = $config->current['BASE'];
-    $qbase = preg_quote($base, '/');
-    $utags= isset($config->current['HONOURUNITTAGS']) && preg_match('/true/i', $config->current['HONOURUNITTAGS']);
+    $base   = $config->current['BASE'];
+    $qbase  = preg_quote($base, '/');
 
     $arr = array();
     $ui= get_userinfo();
@@ -796,16 +775,6 @@ class config  {
 
     /* Create multidimensional array, with all departments. */
     foreach ($this->departments as $key => $val){
-
-      /* When using strict_units, filter non relevant parts */
-      if ($utags){
-        if ($ui->gosaUnitTag != '' && isset($this->tdepartments[$val]) &&
-            $this->tdepartments[$val] != $ui->gosaUnitTag){
-
-            #TODO: link with strict*
-            #continue;
-        }
-      }
 
       /* Split dn into single department pieces */
       $elements = array_reverse(explode(',',preg_replace("/$qbase$/",'',$val)));

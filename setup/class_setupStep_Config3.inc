@@ -32,7 +32,6 @@ class Step_Config3 extends setup_step
                                 "uid,mail"  => "both");
   var $optional = array(
               "login_attribute"             => "uid",
-              "strict_units"                => FALSE,
               "list_summary"                => TRUE,
               "forceglobals"                => TRUE,
               "forcessl"                    => FALSE,
@@ -108,7 +107,7 @@ class Step_Config3 extends setup_step
         }
       }
 
-      foreach (array("login_attribute","list_summary","strict_units","noprimarygroup","forceglobals","forcessl","ldapstats","user_filter_cookie","warnssl","compile","debuglevel","session_lifetime","enableCopyPaste","logging") as $name) {
+      foreach (array("login_attribute","list_summary","noprimarygroup","forceglobals","forcessl","ldapstats","user_filter_cookie","warnssl","compile","debuglevel","session_lifetime","enableCopyPaste","logging") as $name) {
         if (isset($_POST[$name])) {
           $this->optional[$name] = get_post($name);
         }
@@ -190,7 +189,6 @@ class Step_Config3 extends setup_step
     if ($cv['timezone']) {
       $attrs['fdTimezone'] = $cv['timezone'];
     }
-    $attrs['fdHonourUnitTags']      = ($this->optional['strict_units']?"TRUE":"FALSE");
     $attrs['fdRfc2307bis']          = ($cv['rfc2307bis']?"TRUE":"FALSE");
     $attrs['fdPersonalTitleInDN']   = ($cv['include_personal_title']?"TRUE":"FALSE");
     if ($cv['base_hook_active']) {

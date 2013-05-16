@@ -72,11 +72,6 @@ The strictNamingRules statement enables strict checking of uids and group names.
 
 The allowUidProposalModification statement enables the abilitiy to modify uid proposals when creating a new user from a template.
 
-=item B<honourUnitTags> I<bool>
-
-The  honourUnitTags statement enables checking of unitTag attributes when using administrative units. If this is set to true FusionDirectory can only see objects inside
-the administrative unit a user is logged into.
-
 =item B<rfc2307bis> I<bool>
 
 The rfc2307bis statement enables rfc2307bis style groups in FusionDirectory. You can use member attributes instead of memberUid in this case. To make it  work  on  unix

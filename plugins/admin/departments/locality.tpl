@@ -60,15 +60,4 @@
   </td>
  </tr>
 </table>
-<p class='seperator'>&nbsp;</p>
-<table summary="" style="width:100%; vertical-align:top; text-align:left;" cellpadding=4>
- <tr>
-   <td style="vertical-align:top; width:100%">
-     <h2><img class="center" alt="" align="middle" src="images/lists/locked.png"> {t}Administrative settings{/t}</h2>
-{render acl=$gosaUnitTagACL}
-     <input id="is_administrational_unit" type=checkbox name="is_administrational_unit" value="1" {$gosaUnitTag}><label for="is_administrational_unit">{t}Tag department as an independent administrative unit{/t}</label>
-{/render}
-   </td>
-  </tr>
-</table>
 <input type='hidden' name='dep_generic_posted' value='1'>

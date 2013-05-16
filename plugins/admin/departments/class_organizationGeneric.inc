@@ -28,7 +28,7 @@ class organization extends department
       "destinationIndicator","preferredDeliveryMethod","telexNumber",
       "telephoneNumber","internationaliSDNNumber","facsimileTelephoneNumber","street",
       "postOfficeBox","postalCode", "postalAddress","physicalDeliveryOfficeName",
-      "st","l","teletexTerminalIdentifier","gosaUnitTag");
+      "st","l","teletexTerminalIdentifier");
 
   var $objectclasses  = array("top", "gosaDepartment");
   var $structuralOC   = array("organization");
@@ -130,13 +130,8 @@ class organization extends department
         "postalAddress"             => _("Postal address"),
         "telephoneNumber"           => _("Phone number"),
         "facsimileTelephoneNumber"  => _("Fax"),
-
-        "gosaUnitTag"             => _("Administrative settings")
       )
     );
   }
-
 }
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

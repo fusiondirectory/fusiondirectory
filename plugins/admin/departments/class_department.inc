@@ -33,8 +33,6 @@ class department extends plugin
   var $businessCategory         = "";
   var $telephoneNumber          = "";
   var $facsimileTelephoneNumber = "";
-  var $is_administrational_unit = FALSE;
-  var $gosaUnitTag              = "";
   var $view_logged              = FALSE;
 
   var $type       = "organizationalUnit";
@@ -47,13 +45,11 @@ class department extends plugin
 
   /* attribute list for save action */
   var $attributes = array("ou", "description", "businessCategory", "st", "l", "postalAddress",
-      "telephoneNumber", "facsimileTelephoneNumber", "gosaUnitTag", "manager");
+      "telephoneNumber", "facsimileTelephoneNumber", "manager");
 
   /* Do not append the structural object classes here, they are added dynamically in the constructor */
   var $objectclasses  = array("top", "gosaDepartment");
   var $structuralOC   = array("organizationalUnit");
-
-  var $initially_was_tagged = FALSE;
 
   var $orig_base  = "";
   var $orig_ou    = "";
@@ -114,23 +110,15 @@ class department extends plugin
 
     $this->orig_base = $this->base;
 
-    /* Is administrational Unit? */
-    if ($dn != "new" && in_array_ics('gosaAdministrativeUnit', $this->attrs['objectClass'])) {
-      $this->is_administrational_unit = TRUE;
-      $this->initially_was_tagged     = TRUE;
-    }
-
     /* Instanciate base selector */
     $this->baseSelector = new baseSelector($this->get_allowed_bases(), $this->base);
     $this->baseSelector->setSubmitButton(FALSE);
     $this->baseSelector->setHeight(300);
     $this->baseSelector->update(TRUE);
 
-
-
     // If the 'manager' attribute is present in gosaDepartment allow to manage it.
     $ldap = $this->config->get_ldap_link();
-    $ocs = $ldap->get_objectclasses();
+    $ocs  = $ldap->get_objectclasses();
     if (isset($ocs['gosaDepartment']['MAY']) && in_array('manager', $ocs['gosaDepartment']['MAY'])) {
       $this->manager_enabled = TRUE;
 
@@ -237,15 +225,7 @@ class department extends plugin
     }
     $smarty->assign("base", $this->baseSelector->render());
 
-    /* Set admin unit flag */
-    if ($this->is_administrational_unit) {
-      $smarty->assign("gosaUnitTag", "checked");
-    } else {
-      $smarty->assign("gosaUnitTag", "");
-    }
-
     $smarty->assign("dep_type", $this->type);
-
 
     $dep_types = departmentManagement::get_support_departments();
     $tpl = "";
@@ -314,15 +294,6 @@ class department extends plugin
         if ($this->base != $this->baseSelector->getBase()) {
           $this->base         = $this->baseSelector->getBase();
           $this->is_modified  = TRUE;
-        }
-      }
-
-      /* Save tagging flag */
-      if ($this->acl_is_writeable("gosaUnitTag")) {
-        if (isset($_POST['is_administrational_unit'])) {
-          $this->is_administrational_unit = TRUE;
-        } else {
-          $this->is_administrational_unit = FALSE;
         }
       }
 
@@ -400,60 +371,7 @@ class department extends plugin
     $nA       = $this->namingAttr;
     $this->ou = $this->$nA;
 
-    /* Add tag objects if needed */
-    if ($this->is_administrational_unit) {
-      /* If this wasn't tagged before add oc an reset unit tag */
-      if (!$this->initially_was_tagged) {
-        $this->objectclasses[]  = "gosaAdministrativeUnit";
-        $this->gosaUnitTag      = "";
-
-        /* It seams that this method is called twice,
-           set this to TRUE. to avoid adding this oc twice */
-        $this->initially_was_tagged = TRUE;
-      }
-
-      if ($this->gosaUnitTag == "") {
-        /* It's unlikely, but check if already used... */
-        $try = 5;
-        $ldap->cd($this->config->current['BASE']);
-        while ($try--) {
-          /* Generate microtime stamp as tag */
-          list($usec, $sec) = explode(" ", microtime());
-          $time_stamp = preg_replace("/\./", "", $sec.$usec);
-
-          $ldap->search("(&(objectClass=gosaAdministrativeUnit)(gosaUnitTag=$time_stamp))", array("gosaUnitTag"));
-          if ($ldap->count() == 0) {
-            break;
-          }
-        }
-        if ($try == 0) {
-          msg_dialog::display(_("Fatal error"), _("Cannot find an unused tag for this administrative unit!"), WARNING_DIALOG);
-          return;
-        }
-        $this->gosaUnitTag = preg_replace("/\./", "", $sec.$usec);
-      }
-    }
-    $this->skipTagging = TRUE;
     plugin::save();
-
-    /* Remove tag information if needed */
-    if (!$this->is_administrational_unit && $this->initially_was_tagged) {
-      $tmp = array();
-
-      /* Remove gosaAdministrativeUnit from this plugin */
-      foreach ($this->attrs['objectClass'] as $oc) {
-        if (preg_match("/^gosaAdministrativeUnitTag$/i", $oc)) {
-          continue;
-        }
-        if (!preg_match("/^gosaAdministrativeUnit$/i", $oc)) {
-          $tmp[] = $oc;
-        }
-      }
-      $this->attrs['objectClass'] = $tmp;
-      $this->attrs['gosaUnitTag'] = array();
-      $this->gosaUnitTag = "";
-    }
-
 
     /* Write back to ldap */
     $ldap->cat($this->dn, array('dn'));
@@ -473,93 +391,8 @@ class department extends plugin
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, 0, get_class()));
     }
 
-    /* The parameter forces only to set must_be_tagged, and don't touch any objects
-       This will be done later */
-    $this->tag_objects(TRUE);
-
     return FALSE;
   }
-
-
-  /* Tag objects to have the gosaAdministrativeUnitTag */
-  function tag_objects($OnlySetTagFlag = FALSE)
-  {
-    if (!$OnlySetTagFlag) {
-      $smarty = get_smarty();
-      /* Print out html introduction */
-      echo '  <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
-        <html>
-        <head>
-        <title></title>
-        <style type="text/css">@import url("themes/default/style.css");</style>
-        <script language="javascript" src="include/focus.js" type="text/javascript"></script>
-        </head>
-        <body style="background: none; margin:4px;" id="body" >
-        ';
-      echo "<h3>".sprintf(_("Tagging '%s'."), "<i>".LDAP::fix($this->dn)."</i>")."</h3>";
-    }
-
-    $add  = $this->is_administrational_unit;
-    $len  = strlen($this->dn);
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cd($this->dn);
-    if ($add) {
-      $ldap->search('(!(&(objectClass=gosaAdministrativeUnitTag)(gosaUnitTag='.
-                $this->gosaUnitTag.')))', array('dn'));
-    } else {
-      $ldap->search('objectClass=gosaAdministrativeUnitTag', array('dn'));
-    }
-
-    $objects = array();
-    while ($attrs = $ldap->fetch()) {
-      $objects[] = $attrs;
-    }
-    foreach ($objects as $attrs) {
-      /* Skip self */
-      if ($attrs['dn'] == $this->dn) {
-        continue;
-      }
-
-      /* Check for confilicting administrative units */
-      $fix = TRUE;
-      foreach ($this->config->adepartments as $key => $tag) {
-        /* This one is shorter than our dn, its not relevant... */
-        if ($len >= strlen($key)) {
-          continue;
-        }
-
-        /* This one matches with the latter part. Break and don't fix this entry */
-        if (preg_match('/(^|,)'.preg_quote($key, '/').'$/', $attrs['dn'])) {
-          $fix = FALSE;
-          break;
-        }
-      }
-
-      /* Fix entry if needed */
-      if ($fix) {
-        if ($OnlySetTagFlag) {
-          $this->must_be_tagged = TRUE;
-          return;
-        }
-        $this->handle_object_tagging($attrs['dn'], $this->gosaUnitTag, TRUE );
-        echo "<script language=\"javascript\" type=\"text/javascript\">scrollDown2();</script>";
-      }
-    }
-
-    if (!$OnlySetTagFlag) {
-      $this->must_be_tagged = FALSE;
-      echo '<p class="seperator">&nbsp;</p>';
-      echo "<div style='width:100%;text-align:right;'>".
-        "<form name='form' method='post' action='?plug=".$_GET['plug']."' target='_parent'>".
-        "<br>".
-        "<input type='submit' name='back' value='"._("Continue")."'>".
-        "<input type='hidden' name='php_c_check' value='1'>".
-        "</form>".
-        "</div>";
-      echo "<script language=\"javascript\" type=\"text/javascript\">scrollDown2();</script>";
-    }
-  }
-
 
   /* Move/Rename complete trees */
   function recursive_move($src_dn, $dst_dn, $force = FALSE)
@@ -666,120 +499,9 @@ class department extends plugin
         "telephoneNumber"           => _("Telephone"),
         "facsimileTelephoneNumber"  => _("Fax"),
         "manager"                   => _("Manager"),
-
-        "gosaUnitTag" => _("Administrative settings")
       )
     );
   }
-
-  function handle_object_tagging($dn = "", $tag = "", $show = FALSE)
-  {
-    /* No dn? Self-operation... */
-    if ($dn == "") {
-      $dn = $this->dn;
-
-      /* No tag? Find it yourself... */
-      if ($tag == "") {
-        $len = strlen($dn);
-
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, "No tag for $dn - looking for one...", "Tagging");
-        $relevant = array();
-        foreach ($this->config->adepartments as $key => $ntag) {
-
-          /* This one is bigger than our dn, its not relevant... */
-          if ($len <= strlen($key)) {
-            continue;
-          }
-
-          /* This one matches with the latter part. Break and don't fix this entry */
-          if (preg_match('/(^|,)'.preg_quote($key, '/').'$/', $dn)) {
-            @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, "DEBUG: Possibly relevant: $key", "Tagging");
-            $relevant[strlen($key)] = $ntag;
-            continue;
-          }
-
-        }
-
-        /* If we've some relevant tags to set, just get the longest one */
-        if (count($relevant)) {
-          ksort($relevant);
-          $tmp  = array_keys($relevant);
-          $idx  = end($tmp);
-          $tag  = $relevant[$idx];
-          $this->gosaUnitTag = $tag;
-        }
-      }
-    }
-
-    /* Set tag? */
-    if ($tag != "") {
-      /* Set objectclass and attribute */
-      $ldap = $this->config->get_ldap_link();
-      $ldap->cat($dn, array('gosaUnitTag', 'objectClass'));
-      $attrs = $ldap->fetch();
-      if (isset($attrs['gosaUnitTag'][0]) && $attrs['gosaUnitTag'][0] == $tag) {
-        if ($show) {
-          echo sprintf(_("Object '%s' is already tagged"), LDAP::fix($dn))."<br>";
-          flush();
-        }
-        return;
-      }
-      if (count($attrs)) {
-        if ($show) {
-          echo sprintf(_("Adding tag (%s) to object '%s'"), $tag, LDAP::fix($dn))."<br>";
-          flush();
-        }
-        $nattrs = array("gosaUnitTag" => $tag);
-        $nattrs['objectClass'] = array();
-        for ($i = 0; $i < $attrs['objectClass']['count']; $i++) {
-          $oc = $attrs['objectClass'][$i];
-          if ($oc != "gosaAdministrativeUnitTag") {
-            $nattrs['objectClass'][] = $oc;
-          }
-        }
-        $nattrs['objectClass'][] = "gosaAdministrativeUnitTag";
-        $ldap->cd($dn);
-        $ldap->modify($nattrs);
-        if (!$ldap->success()) {
-          msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD, get_class()));
-        }
-      } else {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, "Not tagging ($tag) $dn - seems to have moved away", "Tagging");
-      }
-
-    } else {
-      /* Remove objectclass and attribute */
-      $ldap = $this->config->get_ldap_link();
-      $ldap->cat($dn, array('gosaUnitTag', 'objectClass'));
-      $attrs = $ldap->fetch();
-      if (isset($attrs['objectClass']) && !in_array_ics("gosaAdministrativeUnitTag", $attrs['objectClass'])) {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, "$dn is not tagged", "Tagging");
-        return;
-      }
-      if (count($attrs)) {
-        if ($show) {
-          echo sprintf(_("Removing tag from object '%s'"), LDAP::fix($dn))."<br>";
-          flush();
-        }
-        $nattrs = array("gosaUnitTag" => array());
-        $nattrs['objectClass'] = array();
-        for ($i = 0; $i < $attrs['objectClass']['count']; $i++) {
-          $oc = $attrs['objectClass'][$i];
-          if ($oc != "gosaAdministrativeUnitTag") {
-            $nattrs['objectClass'][] = $oc;
-          }
-        }
-        $ldap->cd($dn);
-        $ldap->modify($nattrs);
-        if (!$ldap->success()) {
-          msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD, get_class()));
-        }
-      } else {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, "Not removing tag ($tag) $dn - seems to have moved away", "Tagging");
-      }
-    }
-  }
-
 }
 
 ?>

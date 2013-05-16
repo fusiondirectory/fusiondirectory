@@ -94,14 +94,9 @@ class acl extends plugin
 
     /* Users */
     $ui   = get_userinfo();
-    $tag  = $ui->gosaUnitTag;
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
-    if ($tag == "") {
-      $ldap->search('(objectClass=gosaAccount)', array('uid', 'cn'));
-    } else {
-      $ldap->search('(&(objectClass=gosaAccount)(gosaUnitTag='.$tag.'))', array('uid', 'cn'));
-    }
+    $ldap->search('(objectClass=gosaAccount)', array('uid', 'cn'));
 
     while ($attrs = $ldap->fetch()) {
       // Allow objects without cn to be listed without causing an error.

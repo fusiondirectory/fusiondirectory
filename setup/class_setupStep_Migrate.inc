@@ -2266,7 +2266,7 @@ class Step_Migrate extends setup_step
     $ldap = new ldapMultiplexer($ldap_l);
     $ldap->cd($cv['base']);
     $res = $ldap->search("(&(|(objectClass=posixAccount)(objectClass=posixGroup))(gotoHotplugDevice=*))",
-        array("cn","gotoHotplugDevice","gosaUnitTag"));
+        array("cn","gotoHotplugDevice"));
 
     if (!$res) {
       $this->checks['old_style_devices']['STATUS']      = FALSE;
@@ -2317,10 +2317,6 @@ class Step_Migrate extends setup_step
             $after .= "changetype: add\n";
             $after .= "objectClass: top\n";
             $after .= "objectClass: gotoDevice\n";
-            if (isset($attrs['gosaunittag'][0])) {
-              $after .= "objectClass: gosaAdminiafter\n";
-              $after .= "gosaUnitTag: ".$attrs['gosaunittag'][0]."\n";
-            }
             $after .= "cn: $name\n";
             $after .= "gotoHotplugDevice: $desc|$serial|$vendor|$product\n\n";
 
@@ -2632,7 +2628,7 @@ class Step_Migrate extends setup_step
     $appgroups = array();
     $ldap->cd($cv['base']);
     $ldap->search("(&(objectClass=gosaApplicationGroup)(objectClass=posixGroup)(FAIrelease=*))",
-        array("gosaMemberApplication","gosaApplicationParameter","FAIrelease","objectClass","gosaUnitTag"));
+        array("gosaMemberApplication","gosaApplicationParameter","FAIrelease","objectClass"));
 
     /* Create readable prefix for "What will be done" infos
      */
@@ -2648,13 +2644,6 @@ class Step_Migrate extends setup_step
       $data     = array();
       $current  = "";
       $after    = "";
-
-      /* Get unit tag
-       */
-      $tag = "";
-      if (isset($info['gosaUnitTag'])) {
-        $tag = $info['gosaUnitTag'][0];
-      }
 
       /* Collect application parameter for this group
        */
@@ -2687,22 +2676,12 @@ class Step_Migrate extends setup_step
           $after      .= $s_add."objectClass: FAIbranch\n";
           $after      .= $s_add."objectClass: organizationalUnit\n";
 
-          /* Append UnitTag
-           */
-          if ($tag != "") {
-            $after .= $s_add."objectClass: gosaAdministrativeUnitTag\n";
-            $after .= $s_add."gosaUnitTag: $tag\n";
-          }
           $after   .= $s_add."ou: $part\n";
 
           /* Append release data to ldap actions
            */
           $d = array();
           $d['objectClass'] = array("top","FAIbranch","organizationalUnit");
-          if (!empty($tag)) {
-            $d['objectClass'][] = "gosaAdministrativeUnitTag";
-            $d['gosaUnitTag']   = $tag;
-          }
           $d['ou'] = $part;
 
           $data['ADD'][$release_dn] = $d;
@@ -2752,12 +2731,6 @@ class Step_Migrate extends setup_step
             $after .= $s_add."dn: $location_dn$release_dn\n";
             $after .= $s_add."objectClass: gotoSubmenuEntry\n";
 
-            /* Append UnitTag
-             */
-            if ($tag != "") {
-              $after .= $s_add."objectClass: gosaAdministrativeUnitTag\n";
-              $after .= $s_add."gosaUnitTag: $tag\n";
-            }
             $after .= $s_add."cn: $location\n";
 
             /* Create ldap entry to append
@@ -2765,10 +2738,6 @@ class Step_Migrate extends setup_step
             $d = array();
             $d['cn'] = $location;
             $d['objectClass'] = array("gotoSubmenuEntry");
-            if (!empty($tag)) {
-              $d['objectClass'][] = "gosaAdministrativeUnitTag";
-              $d['gosaUnitTag']   = $tag;
-            }
             $data['ADD'][$location_dn.$release_dn] = $d;
           }
 
@@ -2779,10 +2748,6 @@ class Step_Migrate extends setup_step
             $after .= "\n";
             $after .= $s_add."dn: cn=$name,$location_dn$release_dn\n";
             $after .= $s_add."objectClass: gotoMenuEntry\n";
-            if ($tag != "") {
-              $after .= $s_add."objectClass: gosaAdministrativeUnitTag\n";
-              $after .= $s_add."gosaUnitTag: $tag\n";
-            }
             $after .= $s_add."cn: $name\n";
             $after .= $s_add."gosaApplicationPriority: $priority\n";
 
@@ -2790,10 +2755,6 @@ class Step_Migrate extends setup_step
              */
             $d = array();
             $d['objectClass'] = array("gotoMenuEntry");
-            if (!empty($tag)) {
-              $d['objectClass'][] = "gosaAdministrativeUnitTag";
-              $d['gosaUnitTag']   = $tag;
-            }
             $d['cn']                      = $name;
             $d['gosaApplicationPriority'] = $priority;
 
