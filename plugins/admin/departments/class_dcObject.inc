@@ -23,7 +23,7 @@
 class dcObject extends department
 {
   /* attribute list for save action */
-  var $attributes     = array( "dc", "ou", "description","gosaUnitTag", "manager");
+  var $attributes     = array( "dc", "ou", "description", "manager");
   var $objectclasses  = array("top", "dcObject", "gosaDepartment");
   var $structuralOC   = array("locality");
   var $type       = "dcObject";
@@ -90,11 +90,8 @@ class dcObject extends department
         "description"       => _("Description"),
         "manager"           => _("Manager"),
         "base"              => _("Base"),
-        "gosaUnitTag"       => _("Administrative settings")
       )
     );
   }
 }
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

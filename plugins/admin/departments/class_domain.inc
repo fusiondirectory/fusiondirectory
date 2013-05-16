@@ -23,7 +23,7 @@
 class domain extends department
 {
   /* attribute list for save action */
-  var $attributes     = array( "dc", "ou", "description","gosaUnitTag", "manager");
+  var $attributes     = array( "dc", "ou", "description", "manager");
   var $objectclasses  = array("top", "domain", "gosaDepartment");
         var $structuralOC   = array("domain");
         var $type       = "domain";
@@ -91,11 +91,8 @@ class domain extends department
         "description"       => _("Description"),
         "base"              => _("Base"),
         "manager"           => _("Manager"),
-        "gosaUnitTag"       => _("Administrative settings")
       )
     );
   }
 }
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

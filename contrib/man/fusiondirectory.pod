@@ -64,6 +64,13 @@ zone value should be a unix conform timezone value like in /etc/timezone.
 
 The strictNamingRules statement enables strict checking of uids and group names. If you need characters like . or - inside of your accounts, set this to false.
 
+<<<<<<< HEAD
+=======
+=item B<allowUidProposalModification> I<bool>
+
+The allowUidProposalModification statement enables the abilitiy to modify uid proposals when creating a new user from a template.
+
+>>>>>>> 5c7246b... Fixes: #2418 Removed gosaUnitTag
 =item B<rfc2307bis> I<bool>
 
 The rfc2307bis statement enables rfc2307bis style groups in FusionDirectory. You can use member attributes instead of memberUid in this case. To make it  work  on  unix

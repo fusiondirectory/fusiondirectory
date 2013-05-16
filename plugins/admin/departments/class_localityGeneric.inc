@@ -23,7 +23,7 @@
 class locality extends department
 {
   /* attribute list for save action */
-  var $attributes     = array("l", "description", "ou", "gosaUnitTag", "manager");
+  var $attributes     = array("l", "description", "ou", "manager");
   var $objectclasses  = array("top", "gosaDepartment");
   var $structuralOC   = array("locality");
 
@@ -91,11 +91,8 @@ class locality extends department
         "description"       => _("Description"),
         "manager"           => _("Manager"),
         "base"              => _("Base"),
-        "gosaUnitTag"       => _("Administrative settings")
       )
     );
   }
 }
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

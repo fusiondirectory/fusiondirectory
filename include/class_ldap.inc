@@ -807,7 +807,6 @@ class LDAP{
     }
     unset($l['count']);
     $cdn = $this->basedn;
-    $tag = "";
 
     /* Load schema if available... */
     $classes = $this->get_objectclasses();
@@ -834,14 +833,7 @@ class LDAP{
       $attrs = $this->fetch($srp);
 
       /* Create missing entry? */
-      if (count ($attrs)) {
-
-        /* Catch the tag - if present */
-        if (isset($attrs['gosaUnitTag'][0])) {
-          $tag = $attrs['gosaUnitTag'][0];
-        }
-
-      } else {
+      if (!count($attrs)) {
         $type   = preg_replace('/^([^=]+)=.*$/', '\\1', $cdn);
         $param  = LDAP::fix(preg_replace('/^[^=]+=([^,]+).*$/', '\\1', $cdn));
         $param  = preg_replace(array('/\\\\,/','/\\\\"/'), array(',','"'), $param);
@@ -876,12 +868,7 @@ class LDAP{
           }
 
           /* Assemble_entry */
-          if ($tag != "") {
-            $na['objectClass'] = array($ocname, "gosaAdministrativeUnitTag");
-            $na["gosaUnitTag"] = $tag;
-          } else {
-            $na['objectClass'] = array($ocname);
-          }
+          $na['objectClass'] = array($ocname);
           if (isset($classes[$ocname]['AUXILIARY'])) {
             $na['objectClass'][] = $classes[$ocname]['SUP'];
           }
@@ -904,21 +891,11 @@ class LDAP{
           /* Use alternative add... */
           switch ($type) {
             case 'ou':
-              if ($tag != "") {
-                $na["objectClass"] = array("organizationalUnit", "gosaAdministrativeUnitTag");
-                $na["gosaUnitTag"] = $tag;
-              } else {
-                $na["objectClass"] = "organizationalUnit";
-              }
+              $na["objectClass"] = "organizationalUnit";
               $na["ou"] = $param;
               break;
             case 'dc':
-              if ($tag != "") {
-                $na["objectClass"] = array("dcObject", "top", "locality", "gosaAdministrativeUnitTag");
-                $na["gosaUnitTag"] = $tag;
-              } else {
-                $na["objectClass"] = array("dcObject", "top", "locality");
-              }
+              $na["objectClass"] = array("dcObject", "top", "locality");
               $na["dc"] = $param;
               break;
             default:

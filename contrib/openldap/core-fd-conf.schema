@@ -214,12 +214,6 @@ attributetype ( 1.3.6.1.4.1.38414.8.14.2 NAME 'fdListSummary'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
   SINGLE-VALUE )
 
-attributetype ( 1.3.6.1.4.1.38414.8.14.3 NAME 'fdHonourUnitTags'
-  DESC 'FusionDirectory - Honour unit tags'
-  EQUALITY booleanMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
-  SINGLE-VALUE )
-
 attributetype ( 1.3.6.1.4.1.38414.8.14.4 NAME 'fdModificationDetectionAttribute'
   DESC 'FusionDirectory - Modification detection attribute'
   EQUALITY caseExactIA5Match
@@ -392,7 +386,7 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
     fdPasswordDefaultHash $ fdPasswordMinLength $ fdPasswordMinDiffer $
     fdPasswordHook $ fdHandleExpiredAccounts $ fdSaslRealm $ fdSaslExop $
     fdForcePasswordDefaultHash $
-    fdPrimaryGroupFilter $ fdListSummary $ fdHonourUnitTags $
+    fdPrimaryGroupFilter $ fdListSummary $
     fdModificationDetectionAttribute $ fdCopyPaste $ fdLogging $ fdLdapSizeLimit $
     fdLoginAttribute $ fdForceSSL $ fdWarnSSL $ fdStoreFilterSettings $ fdSessionLifeTime $
     fdDisplayErrors $ fdLdapMaxQueryTime $ fdLdapStats $ fdDebugLevel $
