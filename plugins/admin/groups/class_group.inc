@@ -131,24 +131,24 @@ class group extends plugin
     }
 
     /* Get samba Domain in case of samba 3 */
-    if ($this->sambaSID != ""){
-      $this->SID= preg_replace ("/-[^-]+$/", "", $this->sambaSID);
-      $ldap= $this->config->get_ldap_link();
+    if (($this->sambaSID != "") && (class_available('sambaAccount'))) {
+      $this->SID = preg_replace ("/-[^-]+$/", "", $this->sambaSID);
+      $ldap = $this->config->get_ldap_link();
       $ldap->cd($this->config->current['BASE']);
-      $ldap->search ("(&(objectClass=sambaDomain)(sambaSID=$this->SID))",array("sambaAlgorithmicRidBase"));
-      if ($ldap->count() != 0){
-        $attrs= $ldap->fetch();
-        if(isset($attrs['sambaAlgorithmicRidBase'])){
-          $this->ridBase= $attrs['sambaAlgorithmicRidBase'][0];
+      $ldap->search ("(&(objectClass=sambaDomain)(sambaSID=$this->SID))", array("sambaAlgorithmicRidBase"));
+      if ($ldap->count() != 0) {
+        $attrs = $ldap->fetch();
+        if (isset($attrs['sambaAlgorithmicRidBase'])) {
+          $this->ridBase = $attrs['sambaAlgorithmicRidBase'][0];
         } else {
-          $this->ridBase= $this->config->get_cfg_value("sambaRidBase");
+          $this->ridBase = $this->config->get_cfg_value("sambaRidBase");
         }
 
         /* Get domain name for SID */
-        $this->sambaDomainName= "DEFAULT";
-        foreach ($this->config->data['SERVERS']['SAMBA'] as $key => $val){
-          if ($val['SID'] == $this->SID){
-            $this->sambaDomainName= $key;
+        $this->sambaDomainName = "DEFAULT";
+        foreach ($this->config->data['SERVERS']['SAMBA'] as $key => $val) {
+          if ($val['SID'] == $this->SID) {
+            $this->sambaDomainName = $key;
             break;
           }
         }
@@ -171,7 +171,7 @@ class group extends plugin
     }
 
     /* Get global filter config */
-    if (!session::is_set("gufilter")){
+    if (!session::is_set("gufilter")) {
       $ui= get_userinfo();
       $base= get_base_from_people($ui->dn);
       $gufilter= array( "dselect"       => $base,
@@ -402,13 +402,15 @@ class group extends plugin
     /* Create base acls */
     $smarty->assign("base", $this->baseSelector->render());
 
-    $domains= array();
-    foreach($this->config->data['SERVERS']['SAMBA'] as $name => $content){
-      $domains[$name]= $name;
+    $domains = array();
+    if (isset($this->config->data['SERVERS']['SAMBA'])) {
+      foreach ($this->config->data['SERVERS']['SAMBA'] as $name => $content) {
+        $domains[$name] = $name;
+      }
     }
     $smarty->assign("sambaDomains", $domains);
     $smarty->assign("sambaDomainName", $this->sambaDomainName);
-    $groupTypes= array(0 => _("Samba group"), 512 => _("Domain admins"), 513 => _("Domain users"),
+    $groupTypes = array(0 => _("Samba group"), 512 => _("Domain admins"), 513 => _("Domain users"),
         514 => _("Domain guests"));
 
     /* Don't loose special groups! If not key'ed above, add it to
@@ -854,34 +856,32 @@ class group extends plugin
     $ldap= $this->config->get_ldap_link();
 
     /* Add samba group functionality */
-    if ($this->smbgroup){
+    if ($this->smbgroup) {
 
       /* Fixed undefined index ...
        */
       $this->SID = $this->ridBase = "";
-      if(isset($this->config->data['SERVERS']['SAMBA'][$this->sambaDomainName]['SID'])){
+      if (isset($this->config->data['SERVERS']['SAMBA'][$this->sambaDomainName]['SID'])) {
         $this->SID    = $this->config->data['SERVERS']['SAMBA'][$this->sambaDomainName]['SID'];
-      }else{
+      } else {
         msg_dialog::display(_("Error"), sprintf(_("Cannot find any SID for '%s'!"), $this->sambaDomainName), ERROR_DIALOG);
       }
-      if(isset($this->config->data['SERVERS']['SAMBA'][$this->sambaDomainName]['RIDBASE'])){
-        $this->ridBase= $this->config->data['SERVERS']['SAMBA'][$this->sambaDomainName]['RIDBASE'];
-      }else{
+      if (isset($this->config->data['SERVERS']['SAMBA'][$this->sambaDomainName]['RIDBASE'])) {
+        $this->ridBase = $this->config->data['SERVERS']['SAMBA'][$this->sambaDomainName]['RIDBASE'];
+      } else {
         msg_dialog::display(_("Error"), sprintf(_("Cannot find any RIDBASE for '%s'!"), $this->sambaDomainName), ERROR_DIALOG);
       }
 
-      $this->attrs['objectClass'][]= 'sambaGroupMapping';
-      $this->attrs['sambaGroupType']= "2";
+      $this->attrs['objectClass'][]   = 'sambaGroupMapping';
+      $this->attrs['sambaGroupType']  = "2";
 
       /* Check if we need to create a special entry */
-      if ($this->groupType == 0){
-
-        if ($this->sambaSID == "" || $this->oldgroupType != $this->groupType){
+      if ($this->groupType == 0) {
+        if (($this->sambaSID == "") || ($this->oldgroupType != $this->groupType)) {
           $sid = $this->getSambaSID();
-          $this->attrs['sambaSID']= $sid;
-          $this->sambaSID= $sid;
+          $this->attrs['sambaSID'] = $sid;
+          $this->sambaSID = $sid;
         }
-
       } else {
         $this->attrs['sambaSID']=$this->SID."-".$this->groupType;
       }
