@@ -228,4 +228,17 @@ class bad_code {
       echo $test;
     }
   }
+
+  function good_indent ()
+  {
+    switch ($nothing) {
+      case 1:
+        something();
+      break; // should complain
+      case 2:
+        break; // should not complain
+      default:
+          break; // should complain
+    }
+  }
 }

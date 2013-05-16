@@ -70,6 +70,9 @@
     </rule>
     <rule ref="PEAR.WhiteSpace.ScopeClosingBrace">
         <severity>6</severity>
+        <properties>
+            <property name="indent" value="2"/>
+        </properties>
     </rule>
     <rule ref="Squiz.WhiteSpace.FunctionOpeningBraceSpace">
         <severity>6</severity>
@@ -90,5 +93,8 @@
     </rule>
     <rule ref="FDStandard.WhiteSpace.FunctionCallArgumentSpacing">
         <severity>6</severity>
+    </rule>
+    <rule ref="FDStandard.Foreach.Reference">
+        <severity>8</severity>
     </rule>
 </ruleset>
