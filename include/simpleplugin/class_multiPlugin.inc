@@ -54,7 +54,7 @@ class multiPlugin extends simplePlugin
       /* Acl base && category configuration,
           these settings will be overloaded in main.inc,
           if we are editing ourself */
-      $this->plugin[$name]->set_acl_category($plInfos['plCategory']);
+      $this->plugin[$name]->set_acl_category($plInfos['plCategory'][0]);
       $this->plugin[$name]->set_acl_base($this->dn);
     }
   }
