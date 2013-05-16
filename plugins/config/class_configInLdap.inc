@@ -305,7 +305,6 @@ class configInLdap extends simplePlugin
       'people_and_group' => array(
         'name'  => _('People and group storage'),
         'class' => array('critical'),
-        'icon'  => 'images/small_warning.png',
         'attrs' => array(
           new SelectAttribute (
             _('People DN attribute'), _('Attribute to use at the beginning of users dn'),
