@@ -35,22 +35,18 @@ class FDStandard_Sniffs_Foreach_ReferenceSniff implements PHP_CodeSniffer_Sniff
     {
         $tokens = $phpcsFile->getTokens();
 
+        /* Find the as token of the foreach */
         $as = $phpcsFile->findNext(T_AS, $tokens[$stackPtr]['parenthesis_opener']+1, $tokens[$stackPtr]['parenthesis_closer']);
         if (!$as) {
           return;
         }
-        $next = $phpcsFile->findNext(T_WHITESPACE, $as+1, $tokens[$stackPtr]['parenthesis_closer'], TRUE);
-        if (!$next) {
-          return;
-        }
-        if ($tokens[$next]['code'] != T_BITWISE_AND) {
+        /* Search for a reference between as and closing parenthesis  */
+        $ref = $phpcsFile->findNext(T_BITWISE_AND, $as+1, $tokens[$stackPtr]['parenthesis_closer']);
+        if (!$ref) {
           return;
         }
 
         $error = 'Foreach token using a reference should unset it afterwards';
-        for ($i = $tokens[$stackPtr]['parenthesis_opener']; $i < $tokens[$stackPtr]['parenthesis_closer']; ++$i) {
-          print_r($tokens[$i]);
-        }
         if ($next = $phpcsFile->findNext(T_WHITESPACE, $tokens[$stackPtr]['scope_closer']+1, NULL, TRUE)) {
           if ($tokens[$next]['content'] == 'unset') {
             return;

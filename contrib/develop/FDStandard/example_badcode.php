@@ -214,6 +214,13 @@ class bad_code {
     }
   }
 
+  function another_bad_foreach ()
+  {
+    foreach ($tests as $yo => &$test) { // should complain about missing unset
+      echo $test;
+    }
+  }
+
   function good_foreach ()
   { // should not complain
     foreach ($tests as &$test) {
