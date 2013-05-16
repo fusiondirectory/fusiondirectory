@@ -74,7 +74,7 @@ define("SMARTY3", "/usr/share/php/smarty3/Smarty.class.php"); /*! Define smarty3
 /*!
  * \brief FusionDirectory Version
  */
-define ("FD_VERSION", "1.0.6"); /*! Define FusionDirectory version */
+define ("FD_VERSION", "1.0.7-dev"); /*! Define FusionDirectory version */
 
 /*!
  * \brief FusionDirectory config object RDN
