@@ -450,6 +450,9 @@ class simplePlugin extends plugin
       $ldap->cd($this->dn);
       $ldap->modify($this->attrs);
     }
+
+    $this->ldap_error = $ldap->get_error();
+
     if (!$ldap->success()) {
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_MOD, get_class()));
     }
@@ -457,7 +460,7 @@ class simplePlugin extends plugin
 
   protected function log_remove ()
   {
-    new log("remove", "plugin/".get_class($this), $this->dn, array_keys($this->attrs), $ldap->get_error());
+    new log("remove", "plugin/".get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
 
     /* Optionally execute a command after we're done */
     $this->handle_post_events("remove");
