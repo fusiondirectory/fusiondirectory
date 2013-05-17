@@ -1,0 +1,157 @@
+
+h1.plugtop {
+width:100%;
+padding-bottom:6px;
+text-align:left;
+font-family:arial,helvetica,sans-serif;
+font-size:24px;
+}
+
+a.plugtop {
+margin-left:35px;
+border:1px solid #B0B0B0;
+padding:5px;
+margin:0;
+text-align:center;
+vertical-align:middle;
+background-color:#dbe6c6;
+font-family:arial,helvetica,sans-serif;
+/*
+font-weight:bold;
+*/
+font-size:18px;
+}
+
+a.plugtop img {
+height:32px;
+}
+
+div.pluginfo {
+border-bottom:1px solid #AAA;
+width:100%;
+padding-top:2px;
+padding-bottom:2px;
+margin-bottom:10px;
+text-align:right;
+vertical-align:middle;
+background-color:#F8F8F8;
+font-family:arial,helvetica,sans-serif;
+font-size:11px;
+}
+
+.plugbottom {
+border-style:solid;
+border-color:#a0a0a0;
+width:100%;
+border-top-width:1px;
+border-bottom-width:0;
+border-left-width:0;
+border-right-width:0;
+padding-top:10px;
+padding-bottom:0;
+text-align:right;
+font-family:arial,helvetica,sans-serif;
+clear:both;
+}
+
+/* Simple Plugin specific things */
+
+.plugin_section {
+display:block;
+float:left;
+clear:left;
+width:49%;
+vertical-align:top;
+border:1px solid #B0B0B0;
+padding:0;
+margin-top:0.5%;
+margin-left:0.5%;
+margin-bottom:0.5%;
+margin-right:0;
+position: relative;
+}
+.plugin_section:nth-child(even) {
+float:right;
+clear:right;
+margin-left:0;
+margin-right:0.5%;
+}
+
+div.plugin_section {
+padding-top:25px;
+}
+
+.plugin_section > div {
+padding:5px;
+}
+
+fieldset.plugin_section > div {
+padding-top:30px;
+}
+
+fieldset.plugin_section legend {
+float:left;
+padding:0;
+margin:0;
+}
+
+fieldset.plugin_section legend span, .plugin_section > span.legend {
+font-weight:bold;
+background-color:#DBE6C6;
+border:1px solid #B0B0B0;
+width:100%;
+padding-top:5px;
+padding-bottom:5px;
+margin-left:-1px;
+text-align:center;
+display:block;
+}
+
+fieldset.plugin_section legend span {
+position: absolute;
+left:0;
+top:0;
+margin-top:-1px;
+}
+
+.plugin_section > span.legend {
+margin-top:-26px;
+}
+
+fieldset.plugin_section legend img, .plugin_section span.legend img {
+margin-right:3px;
+vertical-align:middle;
+}
+
+
+fieldset.plugin_section select[multiple], fieldset.plugin_section textarea {
+width:100%;
+}
+
+.plugin_section > div > table {
+min-width:80%;
+}
+
+.plugin_section.fullwidth {
+float:none;
+clear:both;
+width:auto;
+margin-top:0.5%;
+margin-left:0.5%;
+margin-bottom:0.5%;
+margin-right:0.5%;
+}
+
+fieldset.plugin_section.critical legend span, .plugin_section.critical > span.legend {
+font-weight:bold;
+background-color:#BCF;
+}
+
+fieldset.plugin_section.critical legend span:after, .plugin_section.critical > span.legend:after {
+content:"   (editing this can break your LDAP)";
+color:#D00;
+}
+
+.plugin_section.critical > div {
+background-color:#DFEFFF;
+}
