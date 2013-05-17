@@ -43,7 +43,6 @@ class userinfo
   var $config;
   var $subtreeACL   = array();
   var $ACL          = array();
-  var $ocMapping    = array();
   var $groups       = array();
   var $result_cache = array();
   var $ignoreACL    = FALSE;
@@ -533,13 +532,13 @@ class userinfo
            */
           if (strstr($object, "/0")) {
             $ocs = preg_replace("/\/0$/", "", $object);
-            if (isset($this->ocMapping[$ocs])) {
+            if (isset($this->config->data['CATEGORIES'][$ocs])) {
 
               /* if $attribute is "", then check every single attribute for this object.
                  if it is 0, then just check the object category ACL.
                */
               if ($attribute == "") {
-                foreach ($this->ocMapping[$ocs] as $oc) {
+                foreach ($this->config->data['CATEGORIES'][$ocs]['classes'] as $oc) {
                   if (isset($subacl['acl'][$ocs.'/'.$oc])) {
                     // Skip ACLs wich are defined for ourselfs only - if not checking against ($ui->dn)
                     if (isset($subacl['acl'][$ocs.'/'.$oc][0]) &&
@@ -783,8 +782,8 @@ class userinfo
       $acl = "";
     } else {
       if (!isset($this->result_cache['has_complete_category_acls'][$dn][$category]))   {
-        if (isset($this->ocMapping[$category])) {
-          foreach ($this->ocMapping[$category] as $oc) {
+        if (isset($this->config->data['CATEGORIES'][$category])) {
+          foreach ($this->config->data['CATEGORIES'][$category]['classes'] as $oc) {
             /* Skip objectClass '0' (e.g. users/0) get_permissions will ever return '' ??  */
             if ($oc == "0") continue;
             $tmp = $this->get_permissions($dn, $category."/".$oc);
