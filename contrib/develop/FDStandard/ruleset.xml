@@ -2,19 +2,6 @@
 <ruleset name="FDStandard">
     <description>Fusion Directory coding standard.</description>
 
-    <rule ref="Generic.Files.LineLength">
-        <properties>
-            <property name="lineLimit" value="80"/>
-            <property name="absoluteLineLimit" value="120"/>
-        </properties>
-    </rule>
-    <rule ref="Generic.Files.LineLength.MaxExceeded">
-        <severity>4</severity>
-    </rule>
-    <rule ref="Generic.Files.LineLength.TooLong">
-        <severity>3</severity>
-    </rule>
-
     <rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman">
         <severity>6</severity>
     </rule>
@@ -34,12 +21,13 @@
         <severity>6</severity>
     </rule>
     <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace">
+        <exclude name="Squiz.WhiteSpace.SuperfluousWhitespace.EmptyLines"/>
         <severity>6</severity>
     </rule>
-    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace.EmptyLines">
-        <severity>0</severity>
-    </rule>
     <rule ref="Generic.NamingConventions.UpperCaseConstantName">
+        <severity>7</severity>
+    </rule>
+    <rule ref="Generic.NamingConventions.ConstructorName">
         <severity>7</severity>
     </rule>
     <rule ref="Generic.PHP.DeprecatedFunctions">
