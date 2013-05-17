@@ -16,7 +16,7 @@
   <meta http-equiv="Cache-Control" content="post-check=0, pre-check=0">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-  <style type="text/css">@import url('{filePath file="style.css"}');</style>
+  {include file={filePath file="css.tpl"}}
   <link rel="stylesheet" type="text/css" href="{filePath file="printer.css"}" media="print">
 
   <link rel="shortcut icon" href="favicon.ico">

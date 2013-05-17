@@ -242,23 +242,23 @@ class tabs
       /* Take care about notifications */
       $obj = $this->by_object[$class];
       if ($this->by_object[$class]->pl_notify && ($obj->is_account || $obj->ignore_account)) {
-        $notify = "id=\"notify\"";
+        $notify = " tab_notify";
       } else {
         $notify = "";
       }
 
       if ($disabled) {
-        $display.= "<div ".$notify." class=\"$style[$index]\"
+        $display.= "<div class=\"$style[$index]$notify\"
           style=' font-family:arial,helvetica,sans-serif;
                   font-weight:bold;
                   font-size:13px;
                   color: gray;'
           title=\"$title\">".$title."</div>";
       }elseif (session::global_get('js')==FALSE){
-        $display.= "<div ".$notify." class=\"$style[$index]\"><input type=\"submit\" name=\"$class\"".
+        $display.= "<div class=\"$style[$index]$notify\"><input type=\"submit\" name=\"$class\"".
           " class=\"$style[$index]\" value=\"$title\"></div></td>";
       } else {
-        $display.= "<div ".$notify." class=\"$style[$index]\"><a class=\"$style[$index]\" onclick=\"return true;\" href=\"javascript:document.mainform.arg.value='$class';document.mainform.submit();\">$title</a></div></td>";
+        $display.= "<div class=\"$style[$index]$notify\"><a class=\"$style[$index]\" onclick=\"return true;\" href=\"javascript:document.mainform.arg.value='$class';document.mainform.submit();\">$title</a></div></td>";
       }
     }
     $display.= "<td style=\"vertical-align:bottom;\">\n";
