@@ -1164,6 +1164,7 @@ class config  {
   {
     $this->data['OBJECTS'] = array();
     $this->data['SECTIONS'] = array();
+    $this->data['CATEGORIES'] = array();
     foreach ($plist->info as $class => $plInfo) {
       if (isset($plInfo['plObjectType'])) {
         $entry = array('CLASS' => $class,'NAME' => $plInfo['plShortName']);
@@ -1215,7 +1216,6 @@ class config  {
         if (!is_array($acl)) {
           $acl = array($acl);
         }
-        $key = key($acl);
         if (!is_numeric(key($acl))) {
           $acl = array_keys($acl);
         }
@@ -1241,16 +1241,50 @@ class config  {
         }
         $this->data['MENU'][$section][] = $attrs;
       }
+      /* Feed categories */
+      if (isset($plInfo['plCategory'])) {
+        /* Walk through supplied list and feed only translated categories */
+        foreach ($plInfo['plCategory'] as $idx => $data) {
+          $cat = (is_numeric($idx)?$data:$idx);
+          if (!isset($this->data['CATEGORIES'][$cat])) {
+            $this->data['CATEGORIES'][$cat]   = array( 'classes' => array('0') );
+          }
+          $this->data['CATEGORIES'][$cat]['classes'][] = $class;
+          if (!is_numeric($idx)) {
+            /* Non numeric index means -> base object containing more informations */
+            $this->data['CATEGORIES'][$cat]['description'] = $data['description'];
+            if (!is_array($data['objectClass'])) {
+              $data['objectClass'] = array($data['objectClass']);
+            }
+            $this->data['CATEGORIES'][$cat]['objectClass'] = $data['objectClass'];
+          }
+        }
+      }
     }
-    $this->data['SECTIONS']["personal"] = array('NAME' => _('My account'), 'PRIORITY' => 20);
+    $this->data['CATEGORIES']['all'] = array(
+      'classes'     => array('all'),
+      'description' => '*&nbsp;'._("All categories"),
+      'objectClass' => array(),
+    );
+    asort($this->data['CATEGORIES']);
+    foreach ($this->data['CATEGORIES'] as $name => &$infos) {
+      if (!isset($infos['description'])) {
+        /* TODO: check if there is an objectType matching? */
+        trigger_error("ACL category '$name' has no definition");
+        $infos['description'] = $name;
+        $infos['objectClass'] = array();
+      }
+    }
+    unset($infos);
+    $this->data['SECTIONS']['personal'] = array('NAME' => _('My account'), 'PRIORITY' => 20);
     $personal = array();
     foreach ($this->data['TABS']['USERTABS'] as $tab) {
       $personal[] = array('CLASS' => $tab['CLASS'], 'ACL' => 'users/'.$tab['CLASS'].':self');
     }
-    if (!isset($this->data['MENU']["personal"])) {
-      $this->data['MENU']["personal"] = $personal;
+    if (!isset($this->data['MENU']['personal'])) {
+      $this->data['MENU']['personal'] = $personal;
     } else {
-      $this->data['MENU']["personal"] = array_merge($personal, $this->data['MENU']["personal"]);
+      $this->data['MENU']['personal'] = array_merge($personal, $this->data['MENU']['personal']);
     }
     uasort($this->data['SECTIONS'],
       function ($a, $b)

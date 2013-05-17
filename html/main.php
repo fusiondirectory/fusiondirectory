@@ -55,7 +55,7 @@ if (!session::global_is_set('config')) {
 }
 
 /* Check for uniqe ip address */
-$ui= session::global_get('ui');
+$ui = session::global_get('ui');
 if ($_SERVER['REMOTE_ADDR'] != $ui->ip) {
   new log("security","login","",array(),"main.php called with session which has a changed IP address.") ;
   header ("Location: logout.php");
@@ -143,13 +143,8 @@ if (!session::global_is_set('plist')) {
   $plist = new pluglist($config, $ui);
   session::global_set('plist', $plist);
   $config->loadPlist($plist);
-
-  /* Load ocMapping into userinfo */
-  $tmp = new acl($config, $ui->dn);
-  $ui->ocMapping = $tmp->ocMapping;
-  session::global_set('ui', $ui);
 }
-$plist= session::global_get('plist');
+$plist = session::global_get('plist');
 
 /* Check for register globals */
 if (isset($global_check) && $config->get_cfg_value("forceglobals") == "TRUE") {
