@@ -4,13 +4,13 @@
 {$php_errors}
 <form action='main.php{$plug}' name='mainform' id='mainform' method='post' enctype='multipart/form-data'>
 <div class='setup_header'>
-  <div style="float:left;"><img src='themes/default/images/go_logo.png' class='center' alt='FusionDirectory' style="padding-left:2px; padding-right:25px;">
+  <div style="float:left;"><img src='{filePath file="images/fd_logo.png"}' class='center' alt='FusionDirectory' style="padding-left:2px; padding-right:25px;">
     <a class="maintitlebar" href='main.php?reset=1'>
-      <img src='{$go_home}' class='center' border="0" alt="Main"/>&nbsp;{t}Main{/t}
+      <img src='{filePath file="images/home.png"}' class='center' border="0" alt="Main"/>&nbsp;{t}Main{/t}
     </a>
     &nbsp;
     <a class="maintitlebar" href='logout.php?request' style="margin-left:35px;">
-      <img src='{$go_out}' class='center' border="0" alt="Sign out"/>&nbsp;{t}Sign out{/t}
+      <img src='{filePath file="images/sign_out.png"}' class='center' border="0" alt="Sign out"/>&nbsp;{t}Sign out{/t}
     </a>
     <a class="plugtop" style="margin-left:35px;">
       <img src="{$headline_image}" class="center" align="middle" alt="{t}{$headline}{/t}"/>&nbsp;
