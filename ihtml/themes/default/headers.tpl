@@ -16,8 +16,8 @@
   <meta http-equiv="Cache-Control" content="post-check=0, pre-check=0">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-  <style type="text/css">@import url('themes/default/style.css');</style>
-  <link rel="stylesheet" type="text/css" href="themes/default/printer.css" media="print">
+  <style type="text/css">@import url('{filePath file="style.css"}');</style>
+  <link rel="stylesheet" type="text/css" href="{filePath file="printer.css"}" media="print">
 
   <link rel="shortcut icon" href="favicon.ico">
 

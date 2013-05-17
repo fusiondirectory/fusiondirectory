@@ -338,9 +338,9 @@ function get_template_path($filename= '', $plugin= FALSE, $path= "")
 
   /* Set theme */
   if (isset ($config)) {
-  $theme= $config->get_cfg_value("theme", "default");
+    $theme = $config->get_cfg_value("theme", "default");
   } else {
-    $theme= "default";
+    $theme = "default";
   }
 
   /* Return path for empty filename */
