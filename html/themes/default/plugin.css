@@ -155,3 +155,13 @@ color:#D00;
 .plugin_section.critical > div {
 background-color:#DFEFFF;
 }
+
+/* On small screens */
+@media (max-width: 640px) {
+  table.plugin_window {
+  margin-top:3px;
+  margin-left:0;
+  border:none;
+  width:100%;
+  }
+}

@@ -22,14 +22,6 @@ background-color:#FFF;
 text-align:left;
 }
 
-/* Header col */
-div.setup_header {
-background-color:#bbcc99;
-padding:4px 5px 2px;
-border-bottom:1px solid #999;
-color:#000;
-}
-
 div.setup_menu {
 background-color:#F8F8F8;
 padding:4px 5px;

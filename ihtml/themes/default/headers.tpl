@@ -8,6 +8,7 @@
   <meta name="generator" content="my hands">
   <meta name="description" content="FusionDirectory - Login">
   <meta name="author" lang="en" content="FusionDirectory Project">
+  <meta name="viewport" content="width=device-width">
 
   <meta http-equiv="Expires" content="Mon, 26 Jul 1997 05:00:00 GMT">
   <meta http-equiv="Last-Modified" content="{$date} GMT">
