@@ -10,11 +10,9 @@
 
 {* FusionDirectory login - smarty template *}
 
-<!-- Spacer for some browsers -->
-<div class='gosaLoginSpacer'></div>
+<div id="login_container">
 
-<div style='float:left; width:25%;'>&nbsp;</div>
-<div style='float:left; width:50%; border:1px solid #AAAAAA;background-color:white'>
+<div id="login_window">
 <form action='index.php' method='post' name='mainform' onSubmit='js_check(this);return true;'>
 
 {$msg_dialogs}
@@ -84,9 +82,9 @@
 </form>
 </div>
 
-<div style="clear:both"></div>
-
 {$errors}
+
+</div>
 
 <script language="JavaScript" type="text/javascript">
 <!--

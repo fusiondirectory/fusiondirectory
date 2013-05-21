@@ -202,45 +202,6 @@ vertical-align:middle;
 }
 
 /********************** Template migration *********************/
-/* Login screen */
-div.gosaLoginSpacer {
-height:100px;
-}
-
-table.gosaLoginMask {
-background-color:#8b898b;
-text-align:center;
-border:0;
-}
-
-td.gosaLoginBack {
-width:606px;
-height:406px;
-background:url(images/login.png);
-vertical-align:top;
-}
-
-div.gosaLoginBack {
-padding-top:35px;
-margin-left:100px;
-margin-right:50px;
-padding-bottom:0;
-vertical-align:top;
-}
-
-p.gosaLoginHeader {
-text-align:center;
-font-size:14px;
-font-weight:bold;
-margin-bottom:15px;
-}
-
-p.gosaLoginWarning {
-text-align:center;
-color:red;
-font-weight:bold;
-font-size:12px;
-}
 
 /* Account Expired screen */
 td.gosaAccountExpiredBack {
