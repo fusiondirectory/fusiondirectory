@@ -1188,13 +1188,13 @@ class config  {
    */
   function snapshotEnabled()
   {
-    if($this->get_cfg_value("enableSnapshots") == "TRUE"){
+    if($this->get_cfg_value("enableSnapshots") == "TRUE") {
 
       /* Check if the snapshot_base is defined */
-      if ($this->get_cfg_value("snapshotBase") == ""){
+      if ($this->get_cfg_value("snapshotBase") == "") {
 
         /* Send message if not done already */
-        if(!session::is_set("snapshotFailMessageSend")){
+        if(!session::is_set("snapshotFailMessageSend")) {
           session::set("snapshotFailMessageSend",TRUE);
           msg_dialog::display(_("Configuration error"),
               sprintf(_("The snapshot functionality is enabled, but the required variable '%s' is not set."),
@@ -1207,7 +1207,7 @@ class config  {
       if (!is_callable("gzcompress")){
 
         /* Send message if not done already */
-        if(!session::is_set("snapshotFailMessageSend")){
+        if(!session::is_set("snapshotFailMessageSend")) {
           session::set("snapshotFailMessageSend",TRUE);
           msg_dialog::display(_("Configuration error"),
               sprintf(_("The snapshot functionality is enabled, but the required compression module is missing. Please install '%s'."),"php5-zip / php5-gzip"), ERROR_DIALOG);
