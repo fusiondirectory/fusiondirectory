@@ -152,8 +152,8 @@ if ( $cleanup ){
           /* Only display edit button if there is at least one attribute editable */
           if(preg_match("/r/",$ui->get_permissions($ui->dn,"users/user"))){
               if ($fn == "edit"){
-                  $info.= "<img class=\"center\" alt=\"\" align=\"middle\" src=\"".get_template_path('images/lists/on.png')."\"> ".
-                      msgPool::clickEditToChange();
+                  $info.= "<div class=\"optional\"><img class=\"center\" alt=\"\" align=\"middle\" src=\"".get_template_path('images/lists/on.png')."\"> ".
+                      msgPool::clickEditToChange()."</div>";
                   $display.= "<input type=submit name=\"$fn\" value=\"$str\">\n";
               }
           }

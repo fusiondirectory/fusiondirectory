@@ -791,9 +791,9 @@ class simplePlugin extends plugin
 
           /* Only display edit button if there is at least one attribute editable */
           if (preg_match("/r/", $ui->get_permissions($entry_dn, "$plCategory/$classname"))) {
-            $info .= "<img alt=\"\" align=\"middle\" src=\"".
+            $info .= "<div class=\"optional\"><img alt=\"\" align=\"middle\" src=\"".
                       get_template_path('images/lists/on.png')."\"> ".
-                      msgPool::clickEditToChange();
+                      msgPool::clickEditToChange()."</div>";
 
             $display .= "<input type=submit name=\"edit\" value=\"".msgPool::editButton()."\">\n";
           }

@@ -164,4 +164,18 @@ background-color:#DFEFFF;
   border:none;
   width:100%;
   }
+  .plugin_section, .plugin_section:nth-child(even), .plugin_section.fullwidth {
+  display:block;
+  float:none;
+  clear:both;
+  width:100%;
+  vertical-align:top;
+  border-top: none;
+  padding:0;
+  margin:0;
+  position: relative;
+  }
+  div.pluginfo {
+  margin-bottom:0;
+  }
 }
