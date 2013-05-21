@@ -30,72 +30,19 @@
  * the snapshot functionality
  */
 class SnapshotHandler {
-
   var $config;
-  var $isEnabled= false;
-  var $snapshotBases= array();
-
+  var $isEnabled      = FALSE;
+  var $snapshotBases  = array();
 
   /*!
    * \brief Create handler
    *
-   * \param ŝtring $config
+   * \param config $config
    */
-  function SnapshotHandler(&$config)
+  function __construct(&$config)
   {
-    $this->config = &$config;
-    $config = $this->config;
-
-    if($config->get_cfg_value("enableSnapshots") == "TRUE"){
-
-      /* Check if the snapshot_base is defined */
-      if ($config->get_cfg_value("snapshotBase") == ""){
-
-        /* Send message if not done already */
-        if(!session::is_set("snapshotFailMessageSend")){
-          session::set("snapshotFailMessageSend",TRUE);
-          msg_dialog::display(_("Configuration error"),
-              sprintf(_("The snapshot functionality is enabled, but the required variable '%s' is not set."),
-                "snapshotBase"), ERROR_DIALOG);
-        }
-        return;
-      }
-
-      /* Check if the snapshot_base is defined */
-      if (!is_callable("gzcompress")){
-
-        /* Send message if not done already */
-        if(!session::is_set("snapshotFailMessageSend")){
-          session::set("snapshotFailMessageSend",TRUE);
-          msg_dialog::display(_("Configuration error"),
-              sprintf(_("The snapshot functionality is enabled, but the required compression module is missing. Please install '%s'."),"php5-zip / php5-gzip"), ERROR_DIALOG);
-        }
-        return;
-      }
-
-      /* check if there are special server configurations for snapshots */
-      if ($config->get_cfg_value("snapshotURI") != ""){
-
-        /* check if all required vars are available to create a new ldap connection */
-        $missing = "";
-        foreach(array("snapshotURI","snapshotAdminDn","snapshotAdminPassword","snapshotBase") as $var){
-          if($config->get_cfg_value($var) == ""){
-            $missing .= $var." ";
-
-            /* Send message if not done already */
-            if(!session::is_set("snapshotFailMessageSend")){
-              session::set("snapshotFailMessageSend",TRUE);
-              msg_dialog::display(_("Configuration error"),
-                  sprintf(_("The snapshot functionality is enabled, but the required variable '%s' is not set."),
-                    $missing), ERROR_DIALOG);
-            }
-            return;
-          }
-        }
-      }
-      $this->isEnabled= true;
-      return;
-    }
+    $this->config     = $config;
+    $this->isEnabled  = $this->config->snapshotEnabled();
   }
 
   /*!
@@ -115,7 +62,7 @@ class SnapshotHandler {
    */
   function setSnapshotBases($bases)
   {
-    $this->snapshotBases= $bases;
+    $this->snapshotBases = $bases;
   }
 
   /*!
@@ -131,26 +78,45 @@ class SnapshotHandler {
   /*!
    * \brief Get a snapshot LDAP Multiplexer
    */
-  function get_snapshot_link()
+  protected function get_snapshot_link($default = NULL)
   {
-    $snapshotLdap= null;
+    $snapshotLdap = $default;
 
     /* check if there are special server configurations for snapshots */
-    if($this->config->get_cfg_value("snapshotURI") != ""){
-      $server= $this->config->get_cfg_value("snapshotURI");
-      $user= $this->config->get_cfg_value("snapshotAdminDn");
-      $password= $this->config->get_credentials($this->config->get_cfg_value("snapshotAdminPassword"));
-      $snapshotLdap= new ldapMultiplexer(new LDAP($user,$password, $server));
+    if ($this->config->get_cfg_value("snapshotURI") != "") {
+      $server       = $this->config->get_cfg_value("snapshotURI");
+      $user         = $this->config->get_cfg_value("snapshotAdminDn");
+      $password     = $this->config->get_credentials($this->config->get_cfg_value("snapshotAdminPassword"));
+      $snapshotLdap = new ldapMultiplexer(new LDAP($user, $password, $server));
     }
 
     /* Prepare bases */
-    $this->snapshotLdapBase= $this->config->get_cfg_value("snapshotBase");
+    $this->snapshotLdapBase = $this->config->get_cfg_value("snapshotBase");
     $snapshotLdap->cd($this->snapshotLdapBase);
-    if (!$snapshotLdap->success()){
+    if (!$snapshotLdap->success()) {
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($snapshotLdap->get_error(), $this->snapshotLdapBase, "", get_class()));
     }
 
     return $snapshotLdap;
+  }
+
+  /* \brief Get an LDAP link and a snapshotlink
+   * */
+  protected function get_ldap_links()
+  {
+    /* Create an additional ldap object which
+       points to our ldap snapshot server */
+    $ldap = $this->config->get_ldap_link();
+    $ldap->cd($this->config->current['BASE']);
+    return array($ldap, $this->get_snapshot_link($ldap));
+  }
+
+  /* \brief Get the snapshot dn of an object dn
+   */
+  protected function snapshot_dn($dn)
+  {
+    return preg_replace("/".preg_quote($this->config->current['BASE'], '/')."$/", "", $dn)
+            .$this->snapshotLdapBase;
   }
 
   /*!
@@ -158,65 +124,58 @@ class SnapshotHandler {
    *
    * \param string $objectBase
    *
-   * \param boolean $raw false
+   * \param boolean $raw FALSE
    */
-  function getDeletedSnapshots($objectBase, $raw= false)
+  function getDeletedSnapshots($objectBase, $raw = FALSE)
   {
-    // Skip if not enabled
-    if(!$this->enabled()){
-      return(array());
+    if (!$this->enabled()) {
+      return array();
     }
 
     // Load user info
-    $ui= get_userinfo();
+    $ui = get_userinfo();
 
-    /* Create an additional ldap object which
-       points to our ldap snapshot server */
-    $ldap= $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
-    $snapshotLdap= $this->get_snapshot_link();
-    if (!$snapshotLdap) {
-      $snapshotLdap= $ldap;
-    }
+    list($ldap, $snapshotLdap) = $this->get_ldap_links();
 
     // Initialize base
-    $base= preg_replace("/".preg_quote($this->config->current['BASE'], '/')."$/",
-                        "", $objectBase).$this->snapshotLdapBase;
+    $base = $this->snapshot_dn($objectBase);
 
     /* Fetch all objects and check if they do not exist anymore */
-    $objects= array();
+    $objects = array();
     $snapshotLdap->cd($base);
     $snapshotLdap->ls("(objectClass=gosaSnapshotObject)", $base,
                       array("gosaSnapshotType", "gosaSnapshotTimestamp", "gosaSnapshotDN", "description"));
-    while($entry = $snapshotLdap->fetch()){
+    while ($entry = $snapshotLdap->fetch()) {
 
-      $chk =  str_replace($base,"",$entry['dn']);
-      if(preg_match("/,ou=/",$chk)) continue;
+      $chk = str_replace($base, "", $entry['dn']);
+      if (preg_match("/,ou=/", $chk)) {
+        continue;
+      }
 
-      if(!isset($entry['description'][0])){
+      if (!isset($entry['description'][0])) {
         $entry['description'][0]  = "";
       }
       $objects[] = $entry;
     }
 
     /* Check if entry still exists */
-    foreach($objects as $key => $entry){
+    foreach ($objects as $key => $entry) {
       $ldap->cat($entry['gosaSnapshotDN'][0]);
-      if($ldap->count()){
+      if ($ldap->count()) {
         unset($objects[$key]);
       }
     }
 
     /* Format result as requested */
-    if($raw) {
-      return($objects);
-    }else{
+    if ($raw) {
+      return $objects;
+    } else {
       $tmp = array();
-      foreach($objects as $key => $entry){
+      foreach ($objects as $key => $entry) {
         $tmp[base64_encode($entry['dn'])] = $entry['description'][0];
       }
     }
-    return($tmp);
+    return $tmp;
   }
 
   /*!
@@ -234,56 +193,45 @@ class SnapshotHandler {
    *
    * \param string $dn The DN
    *
-   * \param string $raw false
+   * \param string $raw FALSE
    */
-  function getSnapshots($dn, $raw= false)
+  function getSnapshots($dn, $raw = FALSE)
   {
-    // Empty if disabled
-    if(!$this->enabled()){
-      return(array());
+    if (!$this->enabled()) {
+      return array();
     }
 
-    /* Create an additional ldap object which
-       points to our ldap snapshot server */
-    $ldap= $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
+    list(, $snapshotLdap) = $this->get_ldap_links();
 
-    // Load snapshot LDAP connection
-    $snapshotLdap= $this->get_snapshot_link();
-    if (!$snapshotLdap) {
-      $snapshotLdap= $ldap;
-    }
-
-    $objectBase= preg_replace("/^[^,]*./","",$dn);
+    $objectBase = preg_replace("/^[^,]*./", "", $dn);
 
     // Initialize base
-    $base= preg_replace("/".preg_quote($this->config->current['BASE'], '/')."$/",
-                        "", $objectBase).$this->snapshotLdapBase;
+    $base = $this->snapshot_dn($objectBase);
 
     /* Fetch all objects with  gosaSnapshotDN=$dn */
     $snapshotLdap->cd($base);
-    $snapshotLdap->ls("(&(objectClass=gosaSnapshotObject)(gosaSnapshotDN=".$dn."))",$base,
+    $snapshotLdap->ls("(&(objectClass=gosaSnapshotObject)(gosaSnapshotDN=".$dn."))", $base,
         array("gosaSnapshotType","gosaSnapshotTimestamp","gosaSnapshotDN","description"));
 
     /* Put results into a list and add description if missing */
-    $objects= array();
-    while($entry = $snapshotLdap->fetch()){
-      if(!isset($entry['description'][0])){
+    $objects = array();
+    while ($entry = $snapshotLdap->fetch()) {
+      if (!isset($entry['description'][0])) {
         $entry['description'][0]  = "";
       }
       $objects[] = $entry;
     }
 
     /* Return the raw array, or format the result */
-    if($raw){
-      return($objects);
-    }else{
+    if ($raw) {
+      return $objects;
+    } else {
       $tmp = array();
-      foreach($objects as $entry){
+      foreach ($objects as $entry) {
         $tmp[base64_encode($entry['dn'])] = $entry['description'][0];
       }
     }
-    return($tmp);
+    return $tmp;
   }
 
 
@@ -296,6 +244,10 @@ class SnapshotHandler {
    */
   function create_snapshot($dn, $description = array())
   {
+    if (!$this->enabled()) {
+      return;
+    }
+
     if (is_array($dn)) {
       $dns  = $dn;
       $dn   = $dns[0];
@@ -303,39 +255,10 @@ class SnapshotHandler {
       $dns = array($dn);
     }
 
-    /* Check if snapshot functionality is enabled */
-    if (!$this->snapshotEnabled()) {
-      return;
-    }
-
     /* Get configuration from fusiondirectory.conf */
     $config = $this->config;
 
-    /* Create lokal ldap connection */
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
-
-    /* check if there are special server configurations for snapshots */
-    if ($config->get_cfg_value("snapshotURI") == "") {
-
-      /* Source and destination server are both the same, just copy source to dest obj */
-      $ldap_to      = $ldap;
-      $snapldapbase = $this->config->current['BASE'];
-
-    } else {
-      $server         = $config->get_cfg_value("snapshotURI");
-      $user           = $config->get_cfg_value("snapshotAdminDn");
-      $password       = $this->config->get_credentials($config->get_cfg_value("snapshotAdminPassword"));
-      $snapldapbase   = $config->get_cfg_value("snapshotBase");
-
-      $ldap_to        = new ldapMultiplexer(new LDAP($user, $password, $server));
-      $ldap_to -> cd($snapldapbase);
-
-      if (!$ldap_to->success()) {
-        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap_to->get_error(), $snapldapbase, "", get_class()));
-      }
-
-    }
+    list($ldap, $ldap_to) = $this->get_ldap_links();
 
     /* check if the dn exists */
     if ($ldap->dn_exists($dn)) {
@@ -344,11 +267,8 @@ class SnapshotHandler {
       list($usec, $sec) = explode(" ", microtime());
 
       /* Collect some infos */
-      $base           = $this->config->current['BASE'];
-      $snap_base      = $config->get_cfg_value("snapshotBase");
       $base_of_object = preg_replace ('/^[^,]+,/i', '', $dn);
-      $new_base       = preg_replace("/".preg_quote($base, '/')."$/", "", $base_of_object).$snap_base;
-
+      $new_base       = $this->snapshot_dn($base_of_object);
       /* Create object */
       $data = '';
       foreach ($dns as $tmp_dn) {
@@ -379,8 +299,8 @@ class SnapshotHandler {
         $target['gosaSnapshotTimestamp']  = $newName;
       }
       /* Inset this new snapshot */
-      $ldap_to->cd($snapldapbase);
-      $ldap_to->create_missing_trees($snapldapbase);
+      $ldap_to->cd($this->snapshotLdapBase);
+      $ldap_to->create_missing_trees($this->snapshotLdapBase);
       $ldap_to->create_missing_trees($new_base);
       $ldap_to->cd($new_dn);
       $ldap_to->add($target);
@@ -408,83 +328,53 @@ class SnapshotHandler {
     $ldap = $this->config->get_ldap_link();
     $ldap->cd($this->config->current['BASE']);
     $ldap->rmdir_recursive($this->dn);
-    if(!$ldap->success()){
+    if (!$ldap->success()) {
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn));
     }
     $this->dn = $old_dn;
   }
-
- /*!
-  * \brief Check if the snapshot is enabled
-  *
-  * \return true if snapshots are enabled, and false if it is disalbed
-  *   There will also be some errors psoted, if the configuration failed
-  */
-  function snapshotEnabled()
-  {
-    return $this->config->snapshotEnabled();
-  }
-
 
   /*!
    * \brief Get the available snapshots
    *
    * \return available snapshots for the given base
    */
-  function Available_SnapsShots($dn,$raw = false)
+  function Available_SnapsShots($dn, $raw = FALSE)
   {
-    if(!$this->snapshotEnabled()) return(array());
-
-    /* Create an additional ldap object which
-       points to our ldap snapshot server */
-    $ldap= $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
-    $cfg= &$this->config->current;
-
-    /* check if there are special server configurations for snapshots */
-    if($this->config->get_cfg_value("snapshotURI") == ""){
-      $ldap_to      = $ldap;
-    }else{
-      $server         = $this->config->get_cfg_value("snapshotURI");
-      $user           = $this->config->get_cfg_value("snapshotAdminDn");
-      $password       = $this->config->get_credentials($this->config->get_cfg_value("snapshotAdminPassword"));
-      $snapldapbase   = $this->config->get_cfg_value("snapshotBase");
-      $ldap_to        = new ldapMultiplexer(new LDAP($user,$password, $server));
-      $ldap_to -> cd($snapldapbase);
-      if (!$ldap_to->success()){
-        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap_to->get_error(), $snapldapbase, "", get_class()));
-      }
+    if (!$this->enabled()) {
+      return array();
     }
+
+    list (, $ldap_to) = $this->get_ldap_links();
+
     /* Prepare bases and some other infos */
-    $base           = $this->config->current['BASE'];
-    $snap_base      = $this->config->get_cfg_value("snapshotBase");
     $base_of_object = preg_replace ('/^[^,]+,/i', '', $dn);
-    $new_base       = preg_replace("/".preg_quote($base, '/')."$/","",$base_of_object).$snap_base;
+    $new_base       = $this->snapshot_dn($base_of_object);
     $tmp            = array();
 
     /* Fetch all objects with  gosaSnapshotDN=$dn */
     $ldap_to->cd($new_base);
-    $ldap_to->ls("(&(objectClass=gosaSnapshotObject)(gosaSnapshotDN=".$dn."))",$new_base,
+    $ldap_to->ls("(&(objectClass=gosaSnapshotObject)(gosaSnapshotDN=".$dn."))", $new_base,
         array("gosaSnapshotType","gosaSnapshotTimestamp","gosaSnapshotDN","description"));
 
     /* Put results into a list and add description if missing */
-    while($entry = $ldap_to->fetch()){
-      if(!isset($entry['description'][0])){
+    while ($entry = $ldap_to->fetch()) {
+      if (!isset($entry['description'][0])) {
         $entry['description'][0]  = "";
       }
       $tmp[] = $entry;
     }
 
     /* Return the raw array, or format the result */
-    if($raw){
-      return($tmp);
-    }else{
+    if ($raw) {
+      return $tmp;
+    } else {
       $tmp2 = array();
-      foreach($tmp as $entry){
+      foreach ($tmp as $entry) {
         $tmp2[base64_encode($entry['dn'])] = $entry['description'][0];
       }
     }
-    return($tmp2);
+    return $tmp2;
   }
 
   /*!
@@ -492,71 +382,54 @@ class SnapshotHandler {
    *
    * \param string $base_of_object
    *
-   * \param boolean $raw false
+   * \param boolean $raw FALSE
    */
-  function getAllDeletedSnapshots($base_of_object,$raw = false)
+  function getAllDeletedSnapshots($base_of_object, $raw = FALSE)
   {
-    if(!$this->snapshotEnabled()) return(array());
-
-    /* Create an additional ldap object which
-       points to our ldap snapshot server */
-    $ldap= $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
-    $cfg= &$this->config->current;
-
-    /* check if there are special server configurations for snapshots */
-    if($this->config->get_cfg_value("snapshotURI") == ""){
-      $ldap_to      = $ldap;
-    }else{
-      $server         = $this->config->get_cfg_value("snapshotURI");
-      $user           = $this->config->get_cfg_value("snapshotAdminDn");
-      $password       = $this->config->get_credentials($this->config->get_cfg_value("snapshotAdminPassword"));
-      $snapldapbase   = $this->config->get_cfg_value("snapshotBase");
-      $ldap_to        = new ldapMultiplexer(new LDAP($user,$password, $server));
-      $ldap_to -> cd($snapldapbase);
-      if (!$ldap_to->success()){
-        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap_to->get_error(), $snapldapbase, "", get_class()));
-      }
+    if (!$this->enabled()) {
+      return array();
     }
 
+    list ($ldap, $ldap_to) = $this->get_ldap_links();
+
     /* Prepare bases */
-    $base           = $this->config->current['BASE'];
-    $snap_base      = $this->config->get_cfg_value("snapshotBase");
-    $new_base       = preg_replace("/".preg_quote($base, '/')."$/","",$base_of_object).$snap_base;
-  /* Fetch all objects and check if they do not exist anymore */
-    $ui = get_userinfo();
-    $tmp = array();
+    $new_base       = $this->snapshot_dn($base_of_object);
+    /* Fetch all objects and check if they do not exist anymore */
+    $ui   = get_userinfo();
+    $tmp  = array();
     $ldap_to->cd($new_base);
-    $ldap_to->ls("(objectClass=gosaSnapshotObject)",$new_base,array("gosaSnapshotType","gosaSnapshotTimestamp","gosaSnapshotDN","description"));
-    while($entry = $ldap_to->fetch()){
+    $ldap_to->ls("(objectClass=gosaSnapshotObject)", $new_base, array("gosaSnapshotType","gosaSnapshotTimestamp","gosaSnapshotDN","description"));
+    while ($entry = $ldap_to->fetch()) {
 
-      $chk =  str_replace($new_base,"",$entry['dn']);
-      if(preg_match("/,ou=/",$chk)) continue;
+      $chk = str_replace($new_base, "", $entry['dn']);
+      if (preg_match("/,ou=/", $chk)) {
+        continue;
+      }
 
-      if(!isset($entry['description'][0])){
+      if (!isset($entry['description'][0])) {
         $entry['description'][0]  = "";
       }
       $tmp[] = $entry;
     }
 
     /* Check if entry still exists */
-    foreach($tmp as $key => $entry){
+    foreach ($tmp as $key => $entry) {
       $ldap->cat($entry['gosaSnapshotDN'][0]);
-      if($ldap->count()){
+      if ($ldap->count()) {
         unset($tmp[$key]);
       }
     }
 
     /* Format result as requested */
-    if($raw) {
-      return($tmp);
-    }else{
+    if ($raw) {
+      return $tmp;
+    } else {
       $tmp2 = array();
-      foreach($tmp as $key => $entry){
+      foreach ($tmp as $key => $entry) {
         $tmp2[base64_encode($entry['dn'])] = $entry['description'][0];
       }
     }
-    return($tmp2);
+    return $tmp2;
   }
 
 
@@ -567,43 +440,25 @@ class SnapshotHandler {
    */
   function restore_snapshot($dn)
   {
-    if(!$this->snapshotEnabled()) return(array());
-
-    $ldap= $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
-    $cfg= &$this->config->current;
-
-    /* check if there are special server configurations for snapshots */
-    if($this->config->get_cfg_value("snapshotURI") == ""){
-      $ldap_to      = $ldap;
-    }else{
-      $server         = $this->config->get_cfg_value("snapshotURI");
-      $user           = $this->config->get_cfg_value("snapshotAdminDn");
-      $password       = $this->config->get_credentials($this->config->get_cfg_value("snapshotAdminPassword"));
-      $snapldapbase   = $this->config->get_cfg_value("snapshotBase");
-      $ldap_to        = new ldapMultiplexer(new LDAP($user,$password, $server));
-      $ldap_to -> cd($snapldapbase);
-      if (!$ldap_to->success()){
-        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap_to->get_error(), $snapldapbase, "", get_class()));
-      }
+    if (!$this->enabled()) {
+      return array();
     }
+
+    list ($ldap, $ldap_to) = $this->get_ldap_links();
 
     /* Get the snapshot */
     $ldap_to->cat($dn);
     $restoreObject = $ldap_to->fetch();
 
     /* Prepare import string */
-    $data  = gzuncompress($ldap_to->get_attribute($dn,'gosaSnapshotData'));
+    $data = gzuncompress($ldap_to->get_attribute($dn, 'gosaSnapshotData'));
 
     /* Import the given data */
     $err = "";
-    $ldap->import_complete_ldif($data,$err,false,false);
-    if (!$ldap->success()){
+    $ldap->import_complete_ldif($data, $err, FALSE, FALSE);
+    if (!$ldap->success()) {
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, "", get_class()));
     }
   }
-
-
 }
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
