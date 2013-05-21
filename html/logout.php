@@ -64,8 +64,7 @@ $domain = 'fusiondirectory';
 bindtextdomain($domain, LOCALE_DIR);
 textdomain($domain);
 
-/* Create smarty & Set template compile directory */
-$smarty= new smarty();
+/* Set smarty template compile directory */
 if (isset($config)){
   $smarty->compile_dir= $config->get_cfg_value("templateCompileDirectory", SPOOL_DIR);
 } else {
