@@ -44,3 +44,11 @@ display:inline-block;
 div#login_container {
 text-align:center;
 }
+
+/* On small screens */
+@media (max-width: 640px) {
+  div#login_window {
+  margin-top:10px;
+  }
+}
+

@@ -250,6 +250,7 @@ border:0;
 border-spacing:0;
 padding:0;
 margin-left:3px;
+margin-top:7px;
 vertical-align:top;
 }
 
@@ -522,4 +523,92 @@ color:#514721;
 border:2px solid #DDDDDD;
 margin:.2em;
 padding:.3em;
+}
+
+/* Header */
+
+div#header_left {
+float:left;
+}
+
+div#header_left .plugtop {
+margin-left:35px;
+}
+
+div#header_left img {
+vertical-align:middle;
+}
+
+div#header_left img#fd_logo {
+padding-left:2px;
+padding-right:25px;
+}
+
+div#header_left .logout {
+margin-left:35px;
+}
+
+div#header_right {
+padding-top:8px;
+text-align:right;
+height:38px;
+color:black;
+}
+
+/* Header col */
+div.setup_header {
+background-color:#bbcc99;
+padding:4px 5px 2px;
+border-bottom:1px solid #999;
+color:#000;
+}
+
+/* On small screens */
+@media (max-width: 640px) {
+  div.setup_header {
+  padding:2px;
+  }
+  a.maintitlebar {
+  width:22px;
+  height:22px;
+  overflow:hidden;
+  margin:5px;
+  display:inline-block;
+  float:left;
+  padding:0;
+  }
+  div#header_left .logout {
+  margin-left:5px;
+  float:right;
+  }
+  div#header_left img#fd_logo {
+  padding-left:2px;
+  padding-right:2px;
+  }
+  div#header_right {
+  height:26px;
+  }
+  .optional {
+  display:none;
+  }
+  div#header_left .plugtop {
+  display:inline-block;
+  hyphens:none;
+  overflow:hidden;
+  white-space: nowrap;
+  margin:0px;
+  padding-top:0;
+  padding-bottom:0;
+  padding-left:0;
+  padding-right:5px;
+  font-size:1em;
+  }
+  div.logout-label {
+  display:inline-block;
+  vertical-align:middle;
+  }
+  table.framework {
+  margin:0;
+  border:none;
+  }
 }
