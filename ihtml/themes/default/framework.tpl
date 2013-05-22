@@ -18,7 +18,7 @@
     </a>
   </div>
   <div id="header_right">
-    <a><a class="optional">{t}Signed in:{/t} </a><b>{$username}</b></a>
+    <a><span class="optional">{t}Signed in:{/t} </span><b>{$username}</b></a>
     <div class="logout-label">
       <canvas id="sTimeout" width="22" height="22" title="{$sessionLifetime}|{t}Session expires in %d!{/t}"></canvas>
     </div>
