@@ -16,14 +16,18 @@ function smarty_function_filePath($params, &$smarty)
   if (file_exists("themes/$theme/$filename")) {
     return "themes/$theme/$filename";
   }
-  if (file_exists($smarty->template_dir."/themes/$theme/$filename")) {
-    return $smarty->template_dir."/themes/$theme/$filename";
+  $dir = $smarty->template_dir;
+  if (is_array($dir)) {
+    $dir = $dir[0];
+  }
+  if (file_exists("$dir/themes/$theme/$filename")) {
+    return "$dir/themes/$theme/$filename";
   }
   if (file_exists("themes/default/$filename")) {
     return "themes/default/$filename";
   }
-  if (file_exists($smarty->template_dir."/themes/default/$filename")) {
-    return $smarty->template_dir."/themes/default/$filename";
+  if (file_exists("$dir/themes/default/$filename")) {
+    return "$dir/themes/default/$filename";
   }
   return $filename;
 }
