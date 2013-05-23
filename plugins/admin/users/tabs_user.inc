@@ -35,9 +35,9 @@ class usertabs extends tabs
     parent::tabs($config, $data, $dn, 'users', $copied_object);
     $this->base = $this->getBaseObject()->base;
 
-    $this->uid        = &$this->by_object['user']->uid;
-    $this->givenName  = &$this->by_object['user']->givenName;
-    $this->sn         = &$this->by_object['user']->sn;
+    $this->uid        = $this->by_object['user']->uid;
+    $this->givenName  = $this->by_object['user']->givenName;
+    $this->sn         = $this->by_object['user']->sn;
 
     /* Add references/acls/snapshots */
     $this->addSpecialTabs();

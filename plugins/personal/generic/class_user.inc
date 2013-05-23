@@ -340,16 +340,17 @@ class user extends simplePlugin
     $this->cn = $pt.$this->givenName." ".$this->sn;
 
     // Handle accountRDN if filled
-    $pattern = $this->config->get_cfg_value('accountRDN', '');
+    $attribute  = '';
+    $pattern    = $this->config->get_cfg_value('accountRDN', '');
     if ($pattern != '') {
       $attribute  = preg_replace('/^([^=]+)=/', '\1', $pattern);
       $pattern    = preg_replace('/^[^=]+=/',   '',   $pattern);
-      $this->$attribute = $this->tpl_parse($pattern);
+      $this->attributesAccess[$attribute]->setValue($this->tpl_parse($pattern));
     } else {
       $attribute = $this->config->get_cfg_value('accountPrimaryAttribute', 'uid');
     }
 
-    return $attribute.'='.$this->$attribute.','.get_people_ou().$this->base;
+    return $attribute.'='.$this->attributesAccess[$attribute]->getValue().','.get_people_ou().$this->base;
   }
 
   function save()
