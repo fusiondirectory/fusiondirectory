@@ -163,12 +163,12 @@ class user extends simplePlugin
           new StringAttribute (
             _('Last name'), _('Last name of this user'),
             'sn', TRUE,
-            '', '', '/[,+"?\'()=<>;\\\\]/'
+            '', '', '/[^,+"?\'()=<>;\\\\]/'
           ),
           new StringAttribute (
             _('First name'), _('First name of this user'),
             'givenName', TRUE,
-            '', '', '/[,+"?\'()=<>;\\\\]/'
+            '', '', '/[^,+"?\'()=<>;\\\\]/'
           ),
           new StringAttribute (
             _('Personal title'), _('Personal title'),
@@ -203,7 +203,7 @@ class user extends simplePlugin
         'name'  => _('Account information'),
         'icon'  => 'images/lists/search-subtree.png',
         'attrs' => array(
-          new BaseSelectorAttribute (get_ou('peopleRDN')),
+          new BaseSelectorAttribute (get_people_ou()),
           new UidAttribute (
             _('Login'), _('Login of this user'),
             'uid', TRUE
@@ -214,7 +214,7 @@ class user extends simplePlugin
             array_keys($languages), '', array_values($languages)
           ),
           new UserPasswordAttribute(
-            _('Password storage'), _('Password storage'),
+            _('Password'), _('Password of the user'),
             'userPassword', FALSE
           ),
           new SetAttribute(
