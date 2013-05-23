@@ -1262,6 +1262,103 @@ class FileTextAreaAttribute extends FileAttribute
   }
 }
 
+class ImageAttribute extends FileAttribute
+{
+  protected $width;
+  protected $height;
+  protected $format;
+  protected $forceSize;
+
+  function __construct ($label, $description, $ldapName, $required = FALSE, $width = 48, $height = 48, $format = 'png', $forceSize = FALSE, $defaultValue = "", $acl = "")
+  {
+    parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
+    $this->width      = $width;
+    $this->height     = $height;
+    $this->format     = $format;
+    $this->forceSize  = $forceSize;
+  }
+
+  /*! \brief Update this attributes postValue depending of the $_POST values
+   */
+  function loadPostValue ()
+  {
+    if (isset($_POST['upload'.$this->getHtmlId()])) {
+      parent::loadPostValue();
+    }
+  }
+
+  function setValue ($value)
+  {
+    if ($value == "") {
+      $this->value = "";
+      return;
+    }
+    if (class_exists('Imagick')) {
+      $im     = new Imagick();
+      $modify = FALSE;
+      $im->readImageBlob($value);
+
+      $size = $im->getImageGeometry();
+
+      if (
+          ($size['width'] > 0 && $size['height'] > 0) &&
+          (
+            ($size['width'] < $this->width && $size['height'] < $this->height) ||
+            ($size['width'] > $this->width) ||
+            ($size['height'] > $this->height)
+          )
+        ) {
+        $modify = TRUE;
+        $im->resizeImage($this->width, $this->height, Imagick::FILTER_GAUSSIAN, 1, !$this->forceSize);
+      }
+
+      if ($modify || !preg_match('/^'.$this->format.'$/i',$im->getImageFormat())) {
+        if ($this->format == 'jpeg') {
+          $im->setImageCompression(Imagick::COMPRESSION_JPEG);
+          $im->setImageCompressionQuality(90);
+        }
+        $im->setImageFormat($this->format);
+
+        /* Save attribute */
+        $this->value = $im->getImageBlob();
+      } else {
+        $this->value = $value;
+      }
+    } else {
+      msg_dialog::display(_("Error"),
+                _("Cannot save user picture, FusionDirectory requires the package 'php5-imagick' to be installed!"),
+                ERROR_DIALOG);
+    }
+  }
+
+  function renderFormInput ()
+  {
+    $this->setValue($this->inputValue($this->getValue()));
+    $id = $this->getHtmlId();
+    srand((double)microtime()*1000000); // Just to be sure the image is not cached
+    $display  = '<img name="'.$id.'_img" id="'.$id.'_img"'.
+                ($this->disabled? 'disabled="disabled"':'').
+                ' src="getbin.php?rand='.rand(0, 10000).'"'.
+                ' style="vertical-align:middle;margin-right:10px;border:1px solid black;"'.
+                ' title="'.$this->getDescription().'"'
+                .' /><br/>';
+    $display  .= '<input type="file" name="'.$id.'" id="'.$id.'" '.
+                ($this->disabled? 'disabled="disabled"':'').'/>';
+    $display  .= '<input type="submit" name="upload'.$id.'" id="upload'.$id.'"'.
+                ($this->disabled? ' disabled="disabled"':'').
+                ' value="'._('Upload').'"/>';
+    session::set('binary', $this->getValue());
+    session::set('binarytype', 'image/png');
+    return $this->renderAcl($display);
+  }
+
+  protected function htmlIds()
+  {
+    $id = $this->getHtmlId();
+    return array($id.'_img',$id,'upload'.$id);
+  }
+}
+
 /*! \brief This class allow to handle easily an Base selector attribute
  *
  */
