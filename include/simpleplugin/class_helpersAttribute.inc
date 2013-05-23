@@ -48,30 +48,60 @@ class MailAttribute extends StringAttribute
   }
 }
 
-/*! \brief This class allow to handle easily a String LDAP attribute that contains a host name
+
+/*! \brief This class allow to handle easily a String LDAP attribute that needs to be validated by a test from class tests
  *
  */
-class HostNameAttribute extends StringAttribute
+class TestValidateAttribute extends StringAttribute
 {
+  protected $testFunc = '';
+
   function validate ()
   {
-    if (!tests::is_valid_hostname($this->value)) {
+    if (!tests::$testFunc($this->value)) {
       return msgPool::invalid($this->getLabel(), $this->value);
     }
   }
 }
 
+/*! \brief This class allow to handle easily a String LDAP attribute that contains a host name
+ *
+ */
+class HostNameAttribute extends TestValidateAttribute
+{
+  protected $testFunc = 'is_valid_hostname';
+}
+
+/*! \brief This class allow to handle easily a String LDAP attribute that contains an uid
+ *
+ */
+class UidAttribute extends TestValidateAttribute
+{
+  protected $testFunc = 'is_uid';
+}
+
 /*! \brief This class allow to handle easily a String LDAP attribute that contains a path
  *
  */
-class PathAttribute extends StringAttribute
+class PathAttribute extends TestValidateAttribute
 {
-  function validate ()
-  {
-    if (!tests::is_path($this->value)) {
-      return msgPool::invalid($this->getLabel(), $this->value);
-    }
-  }
+  protected $testFunc = 'is_path';
+}
+
+/*! \brief This class allow to handle easily a String LDAP attribute that contains an URL
+ *
+ */
+class URLAttribute extends TestValidateAttribute
+{
+  protected $testFunc = 'is_url';
+}
+
+/*! \brief This class allow to handle easily a String LDAP attribute that contains a path
+ *
+ */
+class PhoneNumberAttribute extends TestValidateAttribute
+{
+  protected $testFunc = 'is_phone_nr';
 }
 
 /*! \brief This class allow to handle easily a String LDAP attribute that contains an IPv4
@@ -90,14 +120,9 @@ class IPv4Attribute extends StringAttribute
 /*! \brief This class allow to handle easily a String LDAP attribute that contains a IPv6
  *
  */
-class IPv6Attribute extends StringAttribute
+class IPv6Attribute extends TestValidateAttribute
 {
-  function validate ()
-  {
-    if (!tests::is_ipv6($this->value)) {
-      return msgPool::invalid($this->getLabel(), $this->value);
-    }
-  }
+  protected $testFunc = 'is_ipv6';
 }
 
 /*! \brief This class allow to handle easily a String LDAP attribute that contains a mac address
