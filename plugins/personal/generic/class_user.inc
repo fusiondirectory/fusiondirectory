@@ -130,7 +130,7 @@ class UserPasswordAttribute extends CompositeAttribute
   }
 }
 
-class userSimple extends simplePlugin
+class user extends simplePlugin
 {
   var $objectclasses  = array('top','person','organizationalPerson','inetOrgPerson','gosaAccount');
   var $mainTab        = TRUE;
@@ -157,12 +157,12 @@ class userSimple extends simplePlugin
     return array(
       'perso' => array(
         'name'  => _('Personal information'),
-        'icon'  => 'images/head.png',
+        'icon'  => 'plugins/users/images/iconMini.png',
         'attrs' => array(
           new HiddenAttribute('cn'),
           new StringAttribute (
             _('Last name'), _('Last name of this user'),
-            'sn', TRUE
+            'sn', TRUE,
             '', '', '/[,+"?\'()=<>;\\\\]/'
           ),
           new StringAttribute (
@@ -201,7 +201,7 @@ class userSimple extends simplePlugin
       ),
       'account' => array(
         'name'  => _('Account information'),
-        'icon'  => 'images/',
+        'icon'  => 'images/lists/search-subtree.png',
         'attrs' => array(
           new BaseSelectorAttribute (get_ou('peopleRDN')),
           new UidAttribute (
@@ -227,7 +227,7 @@ class userSimple extends simplePlugin
       ),
       'contact' => array(
         'name'  => _('Contact information'),
-        'icon'  => 'images/',
+        'icon'  => 'images/mailto.png',
         'attrs' => array(
           new StringAttribute (
             _('Location'), _('Location'),
@@ -265,7 +265,7 @@ class userSimple extends simplePlugin
       ),
       'organization' => array(
         'name'  => _('Organizational information'),
-        'icon'  => 'images/house.png',
+        'icon'  => 'images/select_department.png',
         'attrs' => array(
           new StringAttribute (
             _('Organization'), _('Organization'),
@@ -295,7 +295,7 @@ class userSimple extends simplePlugin
       ),
       'homecontact' => array(
         'name'  => _('Personal contact information'),
-        'icon'  => 'images/',
+        'icon'  => 'plugins/users/images/house.png',
         'attrs' => array(
           new TextAreaAttribute (
             _('Home address'), _('Home postal address'),
@@ -375,10 +375,10 @@ class userSimple extends simplePlugin
   {
     parent::ldap_remove();
 
-    $fixed_dn = LDAP::prepare4filter($this->dn)
+    $fixed_dn = LDAP::prepare4filter($this->dn);
 
     /* Delete references to groups */
-    $ldap->cd ($this->config->current['BASE']);
+    $ldap->cd($this->config->current['BASE']);
     $ldap->search ('(&(objectClass=posixGroup)(memberUid='.$this->uid.'))', array('uid'));
     while ($ldap->fetch()) {
       $g = new group($this->config, $ldap->getDN());
