@@ -49,3 +49,10 @@ select[disabled] {
 color:#000;
 background-color:#DDD;
 }
+
+/* On small screens */
+@media (max-width: 640px) {
+  input[type=text], input[type=password], input[type=file], textarea, select {
+  max-width:100%;
+  }
+}
