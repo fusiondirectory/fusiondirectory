@@ -427,7 +427,7 @@ class config  {
       $this->current['SAMBAMACHINEACCOUNTRDN'] = "ou=computers,ou=systems";
     }
     if (!isset($this->current['ACCOUNTPRIMARYATTRIBUTE'])) {
-      $this->current['ACCOUNTPRIMARYATTRIBUTE'] = "cn";
+      $this->current['ACCOUNTPRIMARYATTRIBUTE'] = "uid";
     }
     if (!isset($this->current['MINID'])) {
       $this->current['MINID'] = 100;
