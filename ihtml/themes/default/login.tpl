@@ -3,7 +3,7 @@
 {$php_errors}
 <div>
     <div class='setup_header'>
-      <div style="float:left;"><img src='themes/default/images/go_logo.png' class='center' alt='FusionDirectory' /></div>
+      <div style="float:left;"><img src='themes/default/images/fd_logo.png' class='center' alt='FusionDirectory' /></div>
       <div style="padding-top:8px;text-align:right;height:38px;color:#000000;font-size:20px">{$version}</div>
     </div>
 </div>
