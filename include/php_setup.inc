@@ -286,6 +286,7 @@ $smarty = new Smarty;
 
 $smarty->template_dir = $BASE_DIR.'/ihtml/';
 $smarty->caching      = FALSE;
+$smarty->assign('css_files', array());
 
 // To be able to switch between smarty version 2/3
 if (defined('SMARTY_PHP_REMOVE')) {

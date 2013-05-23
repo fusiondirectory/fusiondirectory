@@ -46,6 +46,7 @@ function displayLogin()
   $smarty->assign ('personal_img', get_template_path('images/login-head.png'));
   $smarty->assign ('password_img', get_template_path('images/password.png'));
   $smarty->assign ('directory_img', get_template_path('images/ldapserver.png'));
+  $smarty->append ('css_files',  get_template_path('login.css'));
 
   /* Some error to display? */
   if (!isset($message)){
