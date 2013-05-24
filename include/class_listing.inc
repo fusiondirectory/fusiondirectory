@@ -689,8 +689,15 @@ class listing {
             $res .= "text-align:center;";
             continue;
           }
-          if (preg_match("/^[0-9]+(|px|%)$/", $part)) {
-            $res .= "width:$part;min-width:$part;";
+          if (preg_match("/^[0-9]+(|px|%)(-d)?$/", $part)) {
+            if (!preg_match('/-d$/', $part)) {
+              /* d suffix means dynamic, ie no fixed width */
+              $res .= "width:$part;";
+            } else {
+              /* Remove the -d suffix */
+              $part = preg_replace('/-d$/', '', $part);
+            }
+            $res .= "min-width:$part;";
             continue;
           }
         }
@@ -939,7 +946,7 @@ class listing {
     foreach ($actions as $action) {
       // Skip the entry completely if there's no permission to execute it
       if (!$this->hasActionPermission($action, $dn, $classes)) {
-        $result .= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
+        $result .= "<img src='images/empty.png' alt=' ' class='center optional' style='padding:1px'>";
         continue;
       }
 
@@ -949,12 +956,12 @@ class listing {
         if (preg_match('/^(.*)!$/', $fa, $m)) {
           $fa = $m[1];
           if (isset($this->entries[$row][$fa]) && $this->entries[$row][$fa][0] == $fv) {
-            $result .= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
+            $result .= "<img src='images/empty.png' alt=' ' class='center optional' style='padding:1px'>";
             continue;
           }
         } else {
           if (!isset($this->entries[$row][$fa]) && !$this->entries[$row][$fa][0] == $fv) {
-            $result .= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
+            $result .= "<img src='images/empty.png' alt=' ' class='center optional' style='padding:1px'>";
             continue;
           }
         }
@@ -968,17 +975,17 @@ class listing {
         if (preg_match('/^!(.*)$/', $objectclass, $m)) {
           $objectclass = $m[1];
           if (in_array($objectclass, $classes)) {
-            $result .= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
+            $result .= "<img src='images/empty.png' alt=' ' class='center optional' style='padding:1px'>";
             continue;
           }
         } elseif (is_string($objectclass)) {
           if (!in_array($objectclass, $classes)) {
-            $result .= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
+            $result .= "<img src='images/empty.png' alt=' ' class='center optional' style='padding:1px'>";
             continue;
           }
         } elseif (is_array($objectclass)) {
           if (count(array_intersect($objectclass, $classes)) != count($objectclass)) {
-            $result .= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
+            $result .= "<img src='images/empty.png' alt=' ' class='center optional' style='padding:1px'>";
             continue;
           }
         }
@@ -1539,7 +1546,7 @@ class listing {
         $result .= "<input class='center' type='image'
           src='images/lists/cut.png' alt='"._("Cut")."' name='listing_cut_$row' title='"._("Cut this entry")."' style='padding:1px'>";
       } else {
-        $result .= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
+        $result .= "<img src='images/empty.png' alt=' ' class='center optional' style='padding:1px'>";
       }
     }
 
@@ -1549,7 +1556,7 @@ class listing {
         $result .= "<input class='center' type='image'
           src='images/lists/copy.png' alt='"._("Copy")."' name='listing_copy_$row' title='"._("Copy this entry")."' style='padding:1px'>";
       } else {
-        $result .= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
+        $result .= "<img src='images/empty.png' alt=' ' class='center optional' style='padding:1px'>";
       }
     }
 
@@ -1643,7 +1650,7 @@ class listing {
                      "alt='"._("Create snapshot")."' name='listing_snapshot_$row' title='".
                      _("Create a new snapshot from this object")."' style='padding:1px'>";
       } else {
-          $result .= "<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
+          $result .= "<img src='images/empty.png' alt=' ' class='center optional' style='padding:1px'>";
       }
     }
 

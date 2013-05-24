@@ -901,7 +901,7 @@ class userManagement extends management
             @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['plShortName']." ($class)", "No icon for");
           }
         } else {
-          $result .= "<img src='images/empty.png' alt=' ' class='center $class' style='padding:1px'>";
+          $result .= "<img src='images/empty.png' alt=' ' class='center optional $class' style='padding:1px'>";
         }
       }
     }
