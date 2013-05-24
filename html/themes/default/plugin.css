@@ -175,6 +175,9 @@ background-color:#DFEFFF;
   border:none;
   width:100%;
   }
+  .plugin_section > div > table {
+  width:100%;
+  }
   .plugin_section, .plugin_section:nth-child(even), .plugin_section.fullwidth {
   display:block;
   float:none;
@@ -185,5 +188,27 @@ background-color:#DFEFFF;
   }
   div.pluginfo {
   margin-bottom:0;
+  }
+  .plugbottom {
+  text-align:center;
+  width:100%;
+  margin:0;
+  padding-top:5px;
+  padding-bottom:4px;
+  padding-left:1px;
+  padding-right:1px;
+  border:none;
+  }
+  .plugbottom input[type=submit], .plugbottom input[type=button] {
+  border:1px solid #DDD;
+  width:30% !important;
+  padding:10px;
+  display:inline-block;
+  font-weight:bold;
+  }
+  .plugbottom input[type=submit]:active, .plugbottom input[type=button]:active {
+  position:relative;
+  top:1px;
+  left:1px;
   }
 }

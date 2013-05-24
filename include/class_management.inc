@@ -284,23 +284,22 @@ class management
 
     // In case an of locked entry, we may have opened a read-only tab.
     $str = "";
-    if (isset($this->tabObject->read_only) && $this->tabObject->read_only == TRUE) {
-      $str .= "<p style=\"text-align:right\">
-        <input type=submit name=\"edit_cancel\" value=\"".msgPool::cancelButton()."\">
-        </p>";
+    if (isset($this->tabObject->read_only) && ($this->tabObject->read_only == TRUE)) {
+      $str .= '<p class="plugbottom">'."\n".
+        '<input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'">'."\n".
+        '</p>';
       return $str;
     } else {
-
       // Display ok, (apply) and cancel buttons
-      $str .= "<p style=\"text-align:right\">\n";
-      $str .= "<input type=submit name=\"edit_finish\" style=\"width:80px\" value=\"".msgPool::okButton()."\">\n";
+      $str .= '<p class="plugbottom">'."\n";
+      $str .= '<input type="submit" name="edit_finish" style="width:80px" value="'.msgPool::okButton().'"/>'."\n";
       $str .= "&nbsp;\n";
       if ($this->displayApplyBtn) {
-        $str .= "<input type=submit name=\"edit_apply\" value=\"".msgPool::applyButton()."\">\n";
+        $str .= '<input type="submit" name="edit_apply" value="'.msgPool::applyButton().'"/>'."\n";
         $str .= "&nbsp;\n";
       }
-      $str .= "<input type=submit name=\"edit_cancel\" value=\"".msgPool::cancelButton()."\">\n";
-      $str .= "</p>";
+      $str .= '<input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
+      $str .= '</p>';
     }
     return $str;
   }
