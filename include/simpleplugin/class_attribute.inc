@@ -1268,6 +1268,7 @@ class ImageAttribute extends FileAttribute
   protected $height;
   protected $format;
   protected $forceSize;
+  protected $placeholder;
 
   function __construct ($label, $description, $ldapName, $required = FALSE, $width = 48, $height = 48, $format = 'png', $forceSize = FALSE, $defaultValue = "", $acl = "")
   {
@@ -1276,6 +1277,11 @@ class ImageAttribute extends FileAttribute
     $this->height     = $height;
     $this->format     = $format;
     $this->forceSize  = $forceSize;
+  }
+
+  function setPlaceholder($placeholder)
+  {
+    $this->placeholder = $placeholder;
   }
 
   /*! \brief Update this attributes postValue depending of the $_POST values
@@ -1312,7 +1318,7 @@ class ImageAttribute extends FileAttribute
         $im->resizeImage($this->width, $this->height, Imagick::FILTER_GAUSSIAN, 1, !$this->forceSize);
       }
 
-      if ($modify || !preg_match('/^'.$this->format.'$/i',$im->getImageFormat())) {
+      if ($modify || !preg_match('/^'.$this->format.'$/i', $im->getImageFormat())) {
         if ($this->format == 'jpeg') {
           $im->setImageCompression(Imagick::COMPRESSION_JPEG);
           $im->setImageCompressionQuality(90);
@@ -1335,20 +1341,25 @@ class ImageAttribute extends FileAttribute
   {
     $this->setValue($this->inputValue($this->getValue()));
     $id = $this->getHtmlId();
-    srand((double)microtime()*1000000); // Just to be sure the image is not cached
+    srand((double)microtime() * 1000000); // Just to be sure the image is not cached
     $display  = '<img name="'.$id.'_img" id="'.$id.'_img"'.
                 ($this->disabled? 'disabled="disabled"':'').
                 ' src="getbin.php?rand='.rand(0, 10000).'"'.
-                ' style="vertical-align:middle;margin-right:10px;border:1px solid black;"'.
+                ' style="border:1px solid black;"'.
                 ' title="'.$this->getDescription().'"'
                 .' /><br/>';
-    $display  .= '<input type="file" name="'.$id.'" id="'.$id.'" '.
-                ($this->disabled? 'disabled="disabled"':'').'/>';
+    $display  .= '<input type="file" name="'.$id.'" id="'.$id.'"'.
+                ($this->disabled? ' disabled="disabled"':'').
+                '/>';
     $display  .= '<input type="submit" name="upload'.$id.'" id="upload'.$id.'"'.
                 ($this->disabled? ' disabled="disabled"':'').
                 ' value="'._('Upload').'"/>';
-    session::set('binary', $this->getValue());
-    session::set('binarytype', 'image/png');
+    if (($this->getValue() == '') && ($this->placeholder != '')) {
+      session::set('binary', $this->placeholder);
+    } else {
+      session::set('binary', $this->getValue());
+    }
+    session::set('binarytype', 'image/'.$this->format);
     return $this->renderAcl($display);
   }
 
