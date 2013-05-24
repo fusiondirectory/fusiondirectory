@@ -321,10 +321,14 @@ class user extends simplePlugin
     $this->attributesAccess['uid']->setUnique(TRUE);
     $this->attributesAccess['uid']->setDisabled($this->initially_was_account);
 
-    $attr = $this->config->get_cfg_value('accountPrimaryAttribute', '');
-    if ($attr != '') {
+    $attr = $this->config->get_cfg_value('accountPrimaryAttribute', 'uid');
+    if ($attr != 'uid') {
       $this->attributesAccess[$attr]->setUnique(TRUE);
     }
+
+    $filename = './plugins/users/images/default.jpg';
+    $fd       = fopen ($filename, 'rb');
+    $this->attributesAccess['jpegPhoto']->setPlaceholder(fread ($fd, filesize($filename)));
   }
 
   function compute_dn()
@@ -351,6 +355,13 @@ class user extends simplePlugin
     }
 
     return $attribute.'='.$this->attributesAccess[$attribute]->getValue().','.get_people_ou().$this->base;
+  }
+
+  function execute()
+  {
+    $smarty = get_smarty();
+    $smarty->append('css_files', 'plugins/users/style/user_tab.css');
+    return parent::execute();
   }
 
   function save()
