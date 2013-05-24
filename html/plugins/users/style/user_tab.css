@@ -1,0 +1,13 @@
+
+/* On big screens */
+@media (min-width: 640px) {
+  .plugin_section#perso img#jpegPhoto_img {
+  position:absolute;
+  left:5px;
+  top:35px;
+  }
+
+  .plugin_section#perso > div > table {
+  margin-left:160px;
+  }
+}
