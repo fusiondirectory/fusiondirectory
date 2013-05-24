@@ -734,24 +734,6 @@ class DisplayAttribute extends Attribute
   }
 }
 
-/*! \brief This class allow to display a text in front of an attribute.
- *
- * For instance, it can be used to display a link.
- */
-class DisplayAttribute extends Attribute
-{
-  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "")
-  {
-    parent::__construct ($label, $description, $ldapName, $required, $defaultValue, $acl);
-    $this->setInLdap(FALSE);
-  }
-
-  function renderFormInput ()
-  {
-    return $this->getValue();
-  }
-}
-
 /*! \brief This class allow to handle easily a String LDAP attribute that appears as a text area
  *
  */
