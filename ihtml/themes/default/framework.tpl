@@ -42,16 +42,10 @@
 
             <!-- Plugin window -->
             <td style="background-color:white; width:100%; vertical-align:top; height:15px;" colspan="2">
-                <table summary="" class="plugin_window">
-                  <tbody>
-                    <tr>
-                        <td>
-                            {$msg_dialogs}
-                            {$contents}
-                        </td>
-                    </tr>
-                  </tbody>
-                </table>
+                <div class="plugin_window">
+                    {$msg_dialogs}
+                    {$contents}
+                </div>
             </td>
         </tr>
         {if $channel != ""}

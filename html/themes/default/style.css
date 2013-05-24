@@ -289,7 +289,7 @@ vertical-align:top;
 div.contentboxh {
 background-color:#F0F0F0;
 border:1px solid #AAA;
-border-bottom-width:0;
+border-bottom:none;
 height:26px;
 vertical-align:middle;
 width:100%;

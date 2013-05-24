@@ -55,4 +55,7 @@ background-color:#DDD;
   input[type=text], input[type=password], input[type=file], textarea, select {
   max-width:100%;
   }
+  input[type=text].base_selector {
+  max-width:100px;
+  }
 }
