@@ -110,7 +110,7 @@ $display = "";
 require_once("../setup/main.inc");
 
 $smarty->assign("date", date("l, dS F Y H:i:s O"));
-$header = $smarty->fetch(get_template_path('setup_headers.tpl'));
+$header = $smarty->fetch(get_template_path('headers.tpl'));
 
 
 

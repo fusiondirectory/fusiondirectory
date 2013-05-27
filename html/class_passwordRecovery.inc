@@ -212,6 +212,7 @@ class passwordRecovery {
     $smarty->assign("delay_allowed", $this->delay_allowed);
 
     $smarty->assign("activated", $this->activated);
+    $smarty->append ('css_files',  get_template_path('login.css'));
 
     $smarty->display(get_template_path('recovery.tpl'));
     exit();

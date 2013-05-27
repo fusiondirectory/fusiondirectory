@@ -314,7 +314,6 @@ if ($ui->ignore_acl_for_current_user()) {
 } else {
   $smarty->assign ("username", $ui->username);
 }
-$smarty->assign ("go_logo", get_template_path('images/go_logo.png'));
 $smarty->assign ("go_base", get_template_path('images/dtree.png'));
 $smarty->assign ("go_home", get_template_path('images/gohome.png'));
 $smarty->assign ("go_out", get_template_path('images/logout.png'));
