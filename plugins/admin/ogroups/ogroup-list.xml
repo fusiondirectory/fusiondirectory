@@ -6,7 +6,7 @@
     <departmentRootVisible>false</departmentRootVisible>
     <baseMode>true</baseMode>
     <multiSelect>true</multiSelect>
-    <template>ogroup-list.tpl</template>
+    <template>simple-list.tpl</template>
     <module>ogroups</module>
     <label>List of object groups</label>
     <defaultSortColumn>1</defaultSortColumn>

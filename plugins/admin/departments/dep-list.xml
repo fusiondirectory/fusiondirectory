@@ -6,7 +6,7 @@
     <departmentRootVisible>false</departmentRootVisible>
     <baseMode>true</baseMode>
     <multiSelect>true</multiSelect>
-    <template>dep-list.tpl</template>
+    <template>simple-list.tpl</template>
     <module>departments</module>
     <label>List of departments</label>
     <defaultSortColumn>1</defaultSortColumn>
@@ -103,7 +103,7 @@
       <label>Domain</label>
       <image>plugins/departments/images/domain.png</image>
      </action>
-    
+
      <action>
       <name>new_dcObject</name>
       <type>entry</type>
