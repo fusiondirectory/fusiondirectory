@@ -266,6 +266,7 @@ vertical-align:top;
   }
   table.listing_container > tbody > tr > td.list, table.listing_container > tbody >  tr > td.filter {
   width:100%;
+  height:auto;
   display:block;
   padding:0;
   }

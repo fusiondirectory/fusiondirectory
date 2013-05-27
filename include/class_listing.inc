@@ -670,11 +670,12 @@ class listing {
     $result = array();
     $layout = preg_replace("/^\|/", "", $layout);
     $layout = preg_replace("/\|$/", "", $layout);
-    $cols = explode("|", $layout);
+    $cols   = explode("|", $layout);
 
     foreach ($cols as $index => $config) {
       if ($config != "") {
-        $res = "";
+        $res      = "";
+        $classes  = "";
         $components = explode(';', $config);
         foreach ($components as $part) {
           if (preg_match("/^r$/", $part)) {
@@ -687,6 +688,10 @@ class listing {
           }
           if (preg_match("/^c$/", $part)) {
             $res .= "text-align:center;";
+            continue;
+          }
+          if (preg_match("/^o$/", $part)) {
+            $classes .= "optional ";
             continue;
           }
           if (preg_match("/^[0-9]+(|px|%)(-d)?$/", $part)) {
@@ -702,14 +707,12 @@ class listing {
           }
         }
 
-        // Add minimum width for scalable columns
-        if (!preg_match('/width:/', $res)) {
-          $res .= "min-width:200px;";
-        }
-
         $result[$index] = " style='$res'";
+        if ($classes != "") {
+          $result[$index] .= " class='$classes'";
+        }
       } else {
-        $result[$index] = " style='min-width:100px;'";
+        $result[$index] = "";
       }
     }
 
