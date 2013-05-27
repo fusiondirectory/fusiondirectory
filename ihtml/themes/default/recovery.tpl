@@ -1,30 +1,25 @@
-<body style='height:100%; width:100%;'>
+<body onLoad="javascript:$$('div.debug_div').each(function (a) { a.hide(); });">
   {* FusionDirectory recovery - smarty template *}
   {$php_errors}
   <div>
-      <div class='setup_header'>
-        <div style="float:left;"><img src='themes/default/images/go_logo.png' class='center' alt='FusionDirectory' /></div>
-        <div style="padding-top:8px;text-align:right;height:38px;color:#FFFFFF">{$version}</div>
-      </div>
-        <div class='setup_menu'>
-          <b>{t}FusionDirectory password recovery{/t}</b>
-        </div>
+    {include file={filePath file="setup_header.tpl"}}
+    <div class='setup_menu'>
+      <b>{t}FusionDirectory password recovery{/t}</b>
+    </div>
   </div>
 
-  <!-- Spacer for some browsers -->
-  <div class='gosaLoginSpacer'></div>
+<div id="window_container">
 
-  <div style='float:left; width:25%;'>&nbsp;</div>
-  <div style='float:left; width:50%; border:1px solid #AAAAAA;background-color:white'>
+<div id="window_div">
 
   <form action='recovery.php{$params}' method='post' name='mainform' onSubmit='js_check(this);return true;'>
 
-{$msg_dialogs}
-  <div style='padding:3px; background-color:#F8F8F8;border-bottom:1px solid #AAAAAA'>
-  <p class="center" style="margin:0px 0px 0px 5px;padding:5px;font-size:24px;font-weight:bold;">
-  <img class="center" src="images/password.png" alt="{t}Password{/t}" title="{t}Password{/t}">
-    {t}Lost password{/t}
-  </p>
+  {$msg_dialogs}
+  <div id="window_titlebar">
+    <p>
+      <img class="center" src="images/password.png" alt="{t}Password{/t}" title="{t}Password{/t}"/>
+      {t}Lost password{/t}
+    </p>
   </div>
 {if $activated}
   <div style="padding-left:10px;padding-right:10px;">
@@ -160,6 +155,8 @@
 {/if}
   </div>
   </form>
+</div>
+</div>
 
   <!-- Place cursor in username field -->
   <script language="JavaScript" type="text/javascript">
