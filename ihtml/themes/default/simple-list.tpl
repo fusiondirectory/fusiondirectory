@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-<table summary="" border="0" style="width:100%;height:100%; vertical-align:top; text-align:left;" cellpadding=2>
-  <tr>
-    <td style="vertical-align:top;height:100%">
-      <div class="contentboxh">
-        <p class="contentboxh">&nbsp;{$HEADLINE}&nbsp;{$SIZELIMIT}</p>
-      </div>
-=======
 <table summary="" class="listing_container">
   <tbody>
     <tr>
@@ -21,8 +13,6 @@
           </tr></table>
          </div>
         </div>
->>>>>>> Fixed list.tpl for small screens
-
         <div style='margin-top:4px;'>
           {$LIST}
         </div>
