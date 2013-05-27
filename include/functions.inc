@@ -839,14 +839,14 @@ function del_lock ($object)
 
   /* Check for existance and remove the entry */
   $ldap = $config->get_ldap_link();
-  $ldap->cd($config->get_cfg_value("config"));
-  $ldap->search("(&(objectClass=gosaLockEntry)(gosaObject=".base64_encode($object)."))", array("gosaObject"));
-  if ($ldap->getDN() != "" && $ldap->success()) {
+  $ldap->cd($config->get_cfg_value('config'));
+  $ldap->search('(&(objectClass=gosaLockEntry)(gosaObject='.base64_encode($object).'))', array('gosaObject'));
+  $ldap->fetch();
+  if (!$ldap->success()) {
+    msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $ldap->getDN(), LDAP_DEL, ERROR_DIALOG));
+    return;
+  } elseif ($ldap->getDN() != '') {
     $ldap->rmdir($ldap->getDN());
-    if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $ldap->getDN(), LDAP_DEL, ERROR_DIALOG));
-      return;
-    }
   }
 }
 
