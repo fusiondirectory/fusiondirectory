@@ -6,7 +6,7 @@
     <departmentRootVisible>false</departmentRootVisible>
     <baseMode>true</baseMode>
     <multiSelect>true</multiSelect>
-    <template>group-list.tpl</template>
+    <template>simple-list.tpl</template>
     <module>groups</module>
     <label>List of groups</label>
     <defaultSortColumn>1</defaultSortColumn>
