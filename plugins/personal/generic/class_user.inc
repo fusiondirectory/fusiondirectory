@@ -409,10 +409,7 @@ class user extends simplePlugin
 
     // Update 'manager' attributes from gosaDepartment and inetOrgPerson
     $filter = '(&(objectClass=inetOrgPerson)(manager='.$fixed_dn.'))';
-    $ocs    = $ldap->get_objectclasses();
-    if (isset($ocs['gosaDepartment']['MAY']) && in_array('manager', $ocs['gosaDepartment']['MAY'])) {
-      $filter = '(|'.$filter.'(&(objectClass=gosaDepartment)(manager='.$fixed_dn.')))';
-    }
+    $filter = '(|'.$filter.'(&(objectClass=gosaDepartment)(manager='.$fixed_dn.')))';
     $leaf_deps = get_list($filter, array('all'), $this->config->current['BASE'],
         array('manager','dn','objectClass'), GL_SUBSEARCH | GL_NO_ACL_CHECK);
     foreach ($leaf_deps as $entry) {
