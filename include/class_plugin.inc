@@ -990,10 +990,9 @@ class plugin
     $groups = get_sub_list("(&(objectClass=posixGroup)(member=".LDAP::prepare4filter(LDAP::fix($src_dn))."))","groups", array(get_ou("groupRDN")),$this->config->current['BASE'],array("dn"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
 
     // Walk through all POSIX groups
-    foreach($groups as $group){
-
+    foreach ($groups as $group) {
       // Migrate old to new dn
-      $o_group= new group($this->config,$group['dn']);
+      $o_group = new group($this->config, $group['dn']);
       $o_group->save();
     }
 
@@ -1013,18 +1012,15 @@ class plugin
     }
 
     // Update 'manager' attributes from gosaDepartment and inetOrgPerson
-    $filter = "(&(objectClass=inetOrgPerson)(manager=".LDAP::prepare4filter(LDAP::fix($src_dn))."))";
-    $ocs = $ldap->get_objectclasses();
-    if(isset($ocs['gosaDepartment']['MAY']) && in_array('manager', $ocs['gosaDepartment']['MAY'])){
-      $filter = "(|".$filter."(&(objectClass=gosaDepartment)(manager=".LDAP::prepare4filter(LDAP::fix($src_dn)).")))";
-    }
-    $leaf_deps=  get_list($filter,array("all"),$this->config->current['BASE'],
-        array("manager","dn","objectClass"),GL_SUBSEARCH | GL_NO_ACL_CHECK);
-    foreach($leaf_deps as $entry){
+    $filter     = '(&(objectClass=inetOrgPerson)(manager='.LDAP::prepare4filter(LDAP::fix($src_dn)).'))';
+    $filter     = '(|'.$filter.'(&(objectClass=gosaDepartment)(manager='.LDAP::prepare4filter(LDAP::fix($src_dn)).')))';
+    $leaf_deps  =  get_list($filter, array('all'), $this->config->current['BASE'],
+                            array('manager','dn','objectClass'), GL_SUBSEARCH | GL_NO_ACL_CHECK);
+    foreach ($leaf_deps as $entry) {
       $update = array('manager' => $dst_dn);
       $ldap->cd($entry['dn']);
       $ldap->modify($update);
-      if(!$ldap->success()){
+      if (!$ldap->success()) {
         trigger_error(sprintf("Failed to update manager for '%s', error was '%s'", $entry['dn'], $ldap->get_error()));
       }
     }
@@ -1032,18 +1028,18 @@ class plugin
     /* Check if there are gosa departments moved.
        If there were deps moved, the force reload of config->deps.
      */
-    $leaf_deps=  get_list("(objectClass=gosaDepartment)",array("all"),$dst_dn,
-          array("dn","objectClass"),GL_SUBSEARCH | GL_NO_ACL_CHECK);
+    $leaf_deps =  get_list("(objectClass=gosaDepartment)", array("all"), $dst_dn,
+                            array("dn","objectClass"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
 
-    if(count($leaf_deps)){
+    if (count($leaf_deps)) {
       $this->config->get_departments();
       $this->config->make_idepartments();
-      session::global_set("config",$this->config);
-      $ui =get_userinfo();
+      session::global_set("config", $this->config);
+      $ui = get_userinfo();
       $ui->reset_acl_cache();
     }
 
-    return(TRUE);
+    return TRUE;
   }
 
 

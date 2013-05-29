@@ -1431,13 +1431,6 @@ class LDAP{
     $objectclasses = array();
     global $config;
 
-    /* Only read schema if it is allowed */
-    if (isset($config) && preg_match("/config/i", get_class($config))) {
-      if ($config->get_cfg_value("schemaCheck") != "TRUE") {
-        return $objectclasses;
-      }
-    }
-
     /* Return the cached results. */
     if (class_available('session') && session::global_is_set("LDAP_CACHE::get_objectclasses") && !$force_reload) {
       $objectclasses = session::global_get("LDAP_CACHE::get_objectclasses");

@@ -55,7 +55,6 @@ class department extends plugin
   var $orig_ou    = "";
   var $baseSelector;
 
-  var $manager_enabled  = FALSE;
   var $manager_name     = "";
   var $manager          = "";
 
@@ -116,23 +115,16 @@ class department extends plugin
     $this->baseSelector->setHeight(300);
     $this->baseSelector->update(TRUE);
 
-    // If the 'manager' attribute is present in gosaDepartment allow to manage it.
+    // Detect the managers name
+    $this->manager_name = "";
     $ldap = $this->config->get_ldap_link();
-    $ocs  = $ldap->get_objectclasses();
-    if (isset($ocs['gosaDepartment']['MAY']) && in_array('manager', $ocs['gosaDepartment']['MAY'])) {
-      $this->manager_enabled = TRUE;
-
-      // Detect the managers name
-      $this->manager_name = "";
-      $ldap = $this->config->get_ldap_link();
-      if (!empty($this->manager)) {
-        $ldap->cat($this->manager, array('cn'));
-        if ($ldap->count()) {
-          $attrs = $ldap->fetch();
-          $this->manager_name = $attrs['cn'][0];
-        } else {
-          $this->manager_name = "("._("Unknown")."!): ".$this->manager;
-        }
+    if (!empty($this->manager)) {
+      $ldap->cat($this->manager, array('cn'));
+      if ($ldap->count()) {
+        $attrs = $ldap->fetch();
+        $this->manager_name = $attrs['cn'][0];
+      } else {
+        $this->manager_name = "("._("Unknown")."!): ".$this->manager;
       }
     }
   }
@@ -161,35 +153,32 @@ class department extends plugin
     }
 
     // Allow to manager manager attribute
-    if ($this->manager_enabled) {
 
-      // Allow to select a new inetOrgPersion:manager
-      if (preg_match("/ editManager/i", " ".implode(array_keys($_POST), ' ')." ")) {
-        $this->dialog = new singleUserSelect($this->config, get_userinfo());
-      }
-      if ($this->dialog && count($this->dialog->detectPostActions())) {
-        $users = $this->dialog->detectPostActions();
-        if (isset($users['targets']) && count($users['targets'])) {
+    // Allow to select a new inetOrgPersion:manager
+    if (preg_match("/ editManager/i", " ".implode(array_keys($_POST), ' ')." ")) {
+      $this->dialog = new singleUserSelect($this->config, get_userinfo());
+    }
+    if ($this->dialog && count($this->dialog->detectPostActions())) {
+      $users = $this->dialog->detectPostActions();
+      if (isset($users['targets']) && count($users['targets'])) {
 
-          $headpage = $this->dialog->getHeadpage();
-          $dn = $users['targets'][0];
-          $attrs = $headpage->getEntry($dn);
-          $this->manager = $dn;
-          $this->manager_name = $attrs['cn'][0];
-          $this->dialog = NULL;
-        }
-      }
-      if (isset($_POST['add_users_cancel'])) {
+        $headpage = $this->dialog->getHeadpage();
+        $dn = $users['targets'][0];
+        $attrs = $headpage->getEntry($dn);
+        $this->manager = $dn;
+        $this->manager_name = $attrs['cn'][0];
         $this->dialog = NULL;
       }
-      if ($this->dialog) {
-        return $this->dialog->execute();
-      }
     }
+    if (isset($_POST['add_users_cancel'])) {
+      $this->dialog = NULL;
+    }
+    if ($this->dialog) {
+      return $this->dialog->execute();
+    }
+
     $smarty->assign("manager", $this->manager);
     $smarty->assign("manager_name", $this->manager_name);
-    $smarty->assign("manager_enabled", $this->manager_enabled);
-
 
     $tmp = $this->plInfo();
     foreach ($tmp['plProvidedAcls'] as $name => $translation) {

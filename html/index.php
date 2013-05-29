@@ -247,7 +247,7 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
     $recursive  = ($config->get_cfg_value("ldapFollowReferrals") == "TRUE");
     $tls        = ($config->get_cfg_value("ldapTLS") == "TRUE");
 
-    if(!count($ldap->get_objectclasses())){
+    if (!count($ldap->get_objectclasses())) {
       msg_dialog::display(_("LDAP error"), _("Cannot detect information about the installed LDAP schema!"), ERROR_DIALOG);
       displayLogin();
       exit()  ;
@@ -259,8 +259,8 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
       $cfg['tls']       = $tls;
       $str = check_schema($cfg, $config->get_cfg_value("rfc2307bis") == "TRUE");
       $checkarr = array();
-      foreach($str as $tr){
-        if(isset($tr['IS_MUST_HAVE']) && !$tr['STATUS']){
+      foreach ($str as $tr) {
+        if (isset($tr['IS_MUST_HAVE']) && !$tr['STATUS']) {
           msg_dialog::display(_("LDAP error"), _("Your LDAP setup contains old schema definitions:")."<br><br><i>".$tr['MSG']."</i>", ERROR_DIALOG);
           displayLogin();
           exit();
