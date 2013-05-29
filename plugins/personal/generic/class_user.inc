@@ -287,7 +287,7 @@ class user extends simplePlugin
             _('Employee type'), _('Employee type'),
             'employeeType', FALSE
           ),
-          new StringAttribute ( // TODO : ManagerAttribute
+          new UserAttribute(
             _('Manager'), _('Manager'),
             'manager', FALSE
           ),
@@ -341,7 +341,9 @@ class user extends simplePlugin
       }
     }
 
-    $this->cn = $pt.$this->givenName." ".$this->sn;
+    $this->attributesAccess['cn']->setValue(
+      $pt.$this->attributesAccess['givenName']->getValue()." ".$this->attributesAccess['sn']->getValue()
+    );
 
     // Handle accountRDN if filled
     $attribute  = '';
