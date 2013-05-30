@@ -165,7 +165,7 @@ class Attribute
 
   function getHtmlId ()
   {
-    return preg_replace('/[\/\-]/', '_', $this->getLdapName());
+    return preg_replace('/[\/\-,.#:;]/', '_', $this->getLdapName());
   }
 
   function getLabel ()
