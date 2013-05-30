@@ -243,8 +243,10 @@ class aclrole extends acl
       }
 
       /* ACL saving... */
-      if (preg_match('/^acl_.*_[^xy]$/', $name) && $this->acl_is_writeable("gosaAclEntry")){
-        list($dummy, $object, $attribute, $value)= explode('_', $name);
+      if (preg_match('/^acl_([^_]+)_(.*)_([^_yx])$/', $name, $matches)) {
+        $object     = $matches[1];
+        $attribute  = $matches[2];
+        $value      = $matches[3];
 
         /* Skip for detection entry */
         if ($object == 'dummy') {
