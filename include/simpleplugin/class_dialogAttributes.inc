@@ -105,6 +105,13 @@ class SingleUserSelectDialog extends GenericDialog
   }
 }
 
+class SystemSelectDialog extends GenericSelectDialog
+{
+  protected $dialogClass = 'systemSelect';
+  protected $post_cancel = 'add_ws_cancel';
+  protected $post_finish = 'add_ws_finish';
+}
+
 class UserGroupSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'userGroupSelect';
@@ -262,8 +269,8 @@ class DialogAttribute extends SetAttribute
 class UsersAttribute extends DialogAttribute
 {
   protected $displays;
-  protected $dialogClass = "UserSelectDialog";
-  protected $attr = 'cn';
+  protected $dialogClass  = 'UserSelectDialog';
+  protected $attr         = 'cn';
 
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $attr = 'cn', $acl = "")
   {
@@ -322,7 +329,7 @@ class UsersAttribute extends DialogAttribute
  *
  * It looks like a SetAttribute, but clicking "Add" will open a dialog that allow to select one or more users or groups.
  * It stores their dn as values, but displays the cn.
- *
+ *"
  */
 class UsersGroupsAttribute extends DialogAttribute
 {
@@ -401,14 +408,14 @@ class GroupsAttribute extends DialogAttribute
   }
 }
 
-/*! \brief This class allows to handle an attribute for selecting user
+/*! \brief This class allows to handle an attribute for selecting an mail address
  *
  * It looks like a SetAttribute, but clicking "Add" will open a dialog that allow to select one or more users.
  *
  */
 class MailsAttribute extends DialogAttribute
 {
-  protected $dialogClass = "MailSelectDialog";
+  protected $dialogClass = 'MailSelectDialog';
 
   /*! \brief The constructor of MailsAttribute
    *
@@ -481,6 +488,24 @@ class MailsAttribute extends DialogAttribute
   }
 }
 
+class SystemsAttribute extends DialogAttribute
+{
+  protected $dialogClass = 'SystemSelectDialog';
+
+  function addValue ($dn, $entry)
+  {
+    $value = $entry['cn'][0];
+    if (!in_array($value, $this->value)) {
+      $this->value[]    = $value;
+    }
+  }
+
+  function getFilterBlackList ()
+  {
+    return array('cn' => $this->getValue());
+  }
+}
+
 class ButtonAttribute extends Attribute
 {
   protected $dialogClass  = NULL;
@@ -523,7 +548,8 @@ class UserAttribute extends ButtonAttribute
     parent::__construct($label, $description, $ldapName, $required, 'SingleUserSelectDialog', '', $defaultValue, $acl);
   }
 
-  function handleDialogResult ($dn, $attrs) {
+  function handleDialogResult ($dn, $attrs)
+  {
     $this->setValue($dn);
     $this->buttonText = $attrs['cn'][0];
   }
