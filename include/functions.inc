@@ -3392,7 +3392,7 @@ function get_random_char () {
 function cred_encrypt($input, $password) {
 
   $size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
-  $iv = mcrypt_create_iv($size, MCRYPT_DEV_RANDOM);
+  $iv = mcrypt_create_iv($size, MCRYPT_DEV_URANDOM);
 
   return bin2hex(mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $password, $input, MCRYPT_MODE_ECB, $iv));
 
@@ -3407,7 +3407,7 @@ function cred_encrypt($input, $password) {
  */
 function cred_decrypt($input,$password) {
   $size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
-  $iv = mcrypt_create_iv($size, MCRYPT_DEV_RANDOM);
+  $iv = mcrypt_create_iv($size, MCRYPT_DEV_URANDOM);
 
   return mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $password, pack("H*", $input), MCRYPT_MODE_ECB, $iv);
 }
