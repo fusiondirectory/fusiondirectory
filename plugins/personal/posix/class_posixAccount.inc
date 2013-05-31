@@ -169,7 +169,7 @@ class posixAccount extends simplePlugin
             '',
             array(_('disabled'), _('full access'), _('allow access to these hosts'))
           ),
-          new TrustsAttribute(
+          new SystemsAttribute(
             '', _('Only allow this user to connect to this list of hosts'),
             'host', FALSE
           )
