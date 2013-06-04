@@ -69,7 +69,7 @@ class GenericSelectDialog extends GenericDialog
     $result = $this->dialog->detectPostActions();
     if (isset($result['targets'])) {
       $headpage = $this->dialog->getHeadpage();
-      foreach ($users['targets'] as $dn) {
+      foreach ($result['targets'] as $dn) {
         $attrs = $headpage->getEntry($dn);
 
         $this->attribute->addValue($dn, $attrs);
