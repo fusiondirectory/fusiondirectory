@@ -126,8 +126,6 @@ DEBUG_MAIL     = 512
 
 The ldapTLS statement enables or disables TLS operating on LDAP connections.
 
-=back
-
 =item B<ldapFollowReferrals> I<bool>
 
 The ldapFollowReferrals statement tells FusionDirectory to follow LDAP referrals.
