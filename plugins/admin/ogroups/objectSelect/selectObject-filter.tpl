@@ -6,8 +6,6 @@
 
 <div class="contentboxb">
 
-<div style="border-top:1px solid #AAAAAA"></div>
-
 {$DEPARTMENT}&nbsp;<LABEL for='DEPARTMENT'>{t}Show department{/t}</LABEL><br>
 {$USER}&nbsp;<LABEL for='USER'>{t}Show users{/t}</LABEL><br>
 {$GROUP}&nbsp;<LABEL for='GROUP'>{t}Show groups{/t}</LABEL><br>

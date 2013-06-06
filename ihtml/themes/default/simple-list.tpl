@@ -7,11 +7,9 @@
         </div>
 
         <div class="contentboxb">
-         <div style='background:white;padding:3px'>
-          <table><tr>
-            <td>{$ROOT}&nbsp;</td><td>{$BACK}&nbsp;</td><td>{$HOME}&nbsp;</td><td>{$RELOAD}&nbsp;</td><td>{$SEPARATOR}&nbsp;</td><td>{t}Base{/t} {$BASE}&nbsp;</td><td>{$SEPARATOR}&nbsp;</td><td><img src='images/rocket.png' alt='' class='center'></td><td> {$ACTIONS}</td>
-          </tr></table>
-         </div>
+          {$ROOT}{$BACK}{$HOME}{$RELOAD}&nbsp;{$SEPARATOR}&nbsp;<div>{t}Base{/t} {$BASE}</div>{$SEPARATOR}
+          <img src="images/rocket.png" alt="actions" class="center optional"/>
+          {$ACTIONS}
         </div>
         <div style='margin-top:4px;'>
           {$LIST}

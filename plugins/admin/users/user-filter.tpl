@@ -6,8 +6,6 @@
 
 <div class="contentboxb">
 
-<div style="border-top:1px solid #AAAAAA"></div>
-
 {$TEMPLATES}&nbsp;<LABEL for='TEMPLATES'>{t}Show templates{/t}</LABEL><br>
 {$FUNCTIONAL}&nbsp;<LABEL for='FUNCTIONAL'>{t}Show functional users{/t}</LABEL><br>
 {$POSIX}&nbsp;<LABEL for='POSIX'>{t}Show POSIX users{/t}</LABEL><br>

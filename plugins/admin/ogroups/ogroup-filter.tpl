@@ -6,8 +6,6 @@
 
 <div class="contentboxb">
 
-<div style="border-top:1px solid #AAAAAA"></div>
-
  {$USER}&nbsp;<LABEL for='USER'>{t}user groups{/t}</LABEL><br>
  {$GROUP}&nbsp;<LABEL for='GROUP'>{t}nested groups{/t}</LABEL><br>
  {$APPLICATION}&nbsp;<LABEL for='APPLICATION'>{t}application groups{/t}</LABEL><br>

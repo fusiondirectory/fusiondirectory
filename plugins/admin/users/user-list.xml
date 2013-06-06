@@ -6,7 +6,7 @@
     <departmentRootVisible>false</departmentRootVisible>
     <baseMode>true</baseMode>
     <multiSelect>true</multiSelect>
-    <template>user-list.tpl</template>
+    <template>simple-list.tpl</template>
     <module>users</module>
     <label>List of users</label>
     <defaultSortColumn>1</defaultSortColumn>

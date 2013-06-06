@@ -5,6 +5,7 @@
 </div>
 
 <div class="contentboxb">
+
  <div style="border-top:1px solid #AAAAAA"></div>
  {$SCOPE}
 
