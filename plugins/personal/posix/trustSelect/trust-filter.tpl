@@ -6,8 +6,6 @@
 
 <div class="contentboxb">
 
-<div style="border-top:1px solid #AAAAAA"></div>
-
   {$SERVER}&nbsp;{t}Show servers{/t}<br>
   {$WORKSTATION}&nbsp;{t}Show workstations{/t}<br>
   {$WINSTATION}&nbsp;{t}Show Windows PC{/t}<br>

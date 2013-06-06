@@ -6,8 +6,6 @@
 
 <div class="contentboxb">
 
-<div style="border-top:1px solid #AAAAAA"></div>
-
 {$ACL}&nbsp;<LABEL for='ACL'>{t}Show access control lists{/t}</LABEL><br>
 {$ROLE}&nbsp;<LABEL for='ROLE'>{t}Show roles{/t}</LABEL><br>
 

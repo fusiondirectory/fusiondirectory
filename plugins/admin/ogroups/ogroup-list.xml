@@ -22,7 +22,7 @@
   </definition>
 
   <table>
-    <layout>|20px;c|||100px;r|130px;r|</layout>
+    <layout>|20px;c|||100px-d;r|130px-d;r|</layout>
 
     <department>
       <value>%{filter:objectType(dn,objectClass)}</value>

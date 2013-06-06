@@ -1125,7 +1125,7 @@ class listing {
     }
 
     /* Draw reload button, this button is enabled everytime */
-    $result["RELOAD"] = "<input class='center' type='image' src='images/lists/reload.png' align='middle' ".
+    $result["RELOAD"] = "<input class='center optional' type='image' src='images/lists/reload.png' align='middle' ".
                        "title='"._("Reload list")."' name='REFRESH' alt='"._("Submit")."'>";
 
     return $result;
@@ -1224,12 +1224,12 @@ class listing {
     $actions  = &$this->xmlData['actionmenu']['action'];
     $result   = "<input type='hidden' name='act' id='actionmenu' value=''><div style='display:none'><input type='submit' name='exec_act' id='exec_act' value=''></div>".
              "<ul class='level1' id='root'><li><a href='#'>"._("Actions")."&nbsp;<img ".
-             "border=0 class='center' src='images/lists/sort-down.png'></a>";
+             "border='0' class='center optional' src='images/lists/sort-down.png'/></a>";
 
     // Build ul/li list
     $result .= $this->recurseActions($actions);
 
-    return "<div id='pulldown'>".$result."</li></ul><div>";
+    return "<div id='pulldown'>".$result."</li></ul></div>";
   }
 
 

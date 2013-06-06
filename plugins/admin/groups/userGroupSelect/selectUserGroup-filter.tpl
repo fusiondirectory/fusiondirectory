@@ -6,8 +6,6 @@
 
 <div class="contentboxb">
 
-<div style="border-top:1px solid #AAAAAA"></div>
-
 {$USER}&nbsp;<LABEL for='SAMBA'>{t}Show users{/t}</LABEL><br>
 {$GROUP}&nbsp;<LABEL for='POSIX'>{t}Show groups{/t}</LABEL><br>
 

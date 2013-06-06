@@ -253,7 +253,7 @@ border:1px solid #AAA;
 border-bottom:none;
 height:26px;
 vertical-align:middle;
-width:100%;
+width:auto;
 }
 
 p.contentboxh {
@@ -268,7 +268,20 @@ div.contentboxb {
 border:1px solid #b0b0b0;
 border-top-width:0;
 vertical-align:middle;
-width:100%;
+width:auto;
+background:white;
+padding:5px;
+}
+.filter div.contentboxb {
+padding:0;
+}
+div.contentboxb > div {
+display:inline-block;
+margin:1px;
+}
+div.contentboxb > img, div.contentboxb > input {
+display:inline-block;
+margin:3px;
 }
 
 p.contentboxb {
@@ -425,7 +438,6 @@ z-index:90;
 }
 
 #pulldown ul li {
-float:left;
 margin:0 3px 0 0;
 padding:0;
 font-size:12px;
@@ -588,7 +600,7 @@ color:#000;
   background:#bbcc99;
   }
   .optional {
-  display:none;
+  display:none !important;
   }
   div#header_left .plugtop {
   display:inline-block;
