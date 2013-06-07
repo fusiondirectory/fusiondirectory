@@ -76,6 +76,8 @@ class setup
       msg_dialog::display(_("Setup error"), $msg, ERROR_DIALOG);
     }
 
+    $smarty = get_smarty();
+    $smarty->assign('usePrototype', 'true');
     $this->o_steps[$this->i_last]->set_active(FALSE);
     $this->o_steps[$this->i_current]->set_active();
     $content = $this->o_steps[$this->i_current]->execute();
