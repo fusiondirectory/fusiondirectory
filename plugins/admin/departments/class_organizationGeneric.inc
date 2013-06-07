@@ -115,7 +115,11 @@ class organization extends department
       "plDescription" => _("Organization"),
       "plSelfModify"  => FALSE,
       "plCategory"    => array("department"),
-      "plObjectType"  => array("organization" => array("name" => _("Organization"), "filter" => "objectClass=organization")),
+      "plObjectType"  => array("organization" => array(
+        "aclCategory" => "department",
+        "name" => _("Organization"),
+        "filter" => "objectClass=organization")
+      ),
 
       "plProvidedAcls" => array(
         "o"                       => _("Organization name"),

@@ -58,9 +58,10 @@ class configInLdap extends simplePlugin
       "plDescription"   => _("FusionDirectory configuration"),
       "plIcon"          => "plugins/config/images/icon.png",
       "plSelfModify"    => FALSE,
-      "plCategory"      => array("configuration"),
-      "plObjectType"    => array("configuration" => array("name"  => _("FusionDirectory configuration"),
-                                                          "filter"  => "objectClass=fusionDirectoryConf")),
+      "plObjectType"    => array("configuration" => array(
+        "name"    => _("FusionDirectory configuration"),
+        "filter"  => "objectClass=fusionDirectoryConf"
+      )),
       "plSection"       => array("addons" => array("name" => _("Addons"), "priority" => 10)),
       "plPriority"      => 0,
 

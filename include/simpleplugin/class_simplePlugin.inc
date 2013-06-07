@@ -664,7 +664,7 @@ class simplePlugin extends plugin
       }
       $tabclass = strtoupper($key)."TABS";
     }
-    $plCategory = (isset($plInfo['plCategory'])?$plInfo['plCategory']:array("users"));
+    $plCategory = (isset($plInfo['plCategory'])?$plInfo['plCategory']:array("user"));
     $key = key($plCategory);
     if (is_numeric($key)) {
       $plCategory = $plCategory[$key];

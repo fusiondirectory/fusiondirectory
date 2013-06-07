@@ -259,7 +259,7 @@ class ogroup extends plugin
 
     if(!$this->view_logged){
       $this->view_logged = TRUE;
-      new log("view","ogroups/".get_class($this),$this->dn);
+      new log("view","ogroup/".get_class($this),$this->dn);
     }
 
 
@@ -482,9 +482,9 @@ class ogroup extends plugin
       ###########*/
 
     $p_f= array("accounts"=> array("OBJ"=>"user", "CLASS"=>"gosaAccount"    ,
-          "DN"=> get_people_ou()           ,"ACL" => "users"),
+          "DN"=> get_people_ou()           ,"ACL" => "user"),
         "groups"          => array("OBJ"=>"group", "CLASS"=>"posixGroup"     ,
-          "DN"=> get_groups_ou('ogroupRDN') ,"ACL" => "groups"),
+          "DN"=> get_groups_ou('ogroupRDN') ,"ACL" => "group"),
         "applications"    => array("OBJ"=>"application", "CLASS"=>"gosaApplication",
           "DN"=> get_ou('applicationRDN')   ,"ACL" => "application"),
         "departments"     => array("OBJ"=>"department", "CLASS"=>"gosaDepartment" ,
@@ -850,9 +850,9 @@ class ogroup extends plugin
     $ldap->$mode($this->attrs);
 
     if($mode == "add"){
-      new log("create","ogroups/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
+      new log("create","ogroup/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
     }else{
-      new log("modify","ogroups/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
+      new log("modify","ogroup/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
     }
 
     /* Trigger post signal */
@@ -877,7 +877,7 @@ class ogroup extends plugin
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, 0, get_class()));
     }
 
-    new log("remove","ogroups/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
+    new log("remove","ogroup/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
 
     /* Trigger remove signal */
     $this->handle_post_events("remove");
@@ -896,10 +896,11 @@ class ogroup extends plugin
       "plDescription" => _("Object group generic"),
       "plSelfModify"  => FALSE,
       "plPriority"    => 1,
-      "plCategory"    => array("ogroups" => array("description"  => _("Object groups"),
-                                                  "objectClass"  => "gosaGroupOfNames")),
-      "plObjectType"  => array("ogroup" => array("name"  => _("Object group"),
-                                                  "filter"  => "objectClass=gosaGroupOfNames")),
+      "plObjectType"  => array("ogroup" => array(
+        "description" => _("Object groups"),
+        "name"        => _("Object group"),
+        "filter"      => "objectClass=gosaGroupOfNames")
+      ),
 
       "plProvidedAcls"=> array(
         "cn"                => _("Name"),

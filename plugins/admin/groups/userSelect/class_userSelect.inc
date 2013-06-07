@@ -45,7 +45,7 @@ class userSelect extends management
     // Build headpage
     $headpage = new listing(get_template_path("user-list.xml", true, dirname(__FILE__)));
     $headpage->setFilter($filter);
-    parent::__construct($config, $ui, "users", $headpage);
+    parent::__construct($config, $ui, "user", $headpage);
   }
 }
 // vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:

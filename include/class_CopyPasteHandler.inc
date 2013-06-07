@@ -339,7 +339,7 @@ class CopyPasteHandler {
 
     // Migrate objectgroups
     $ogroups = get_sub_list("(&(objectClass=gosaGroupOfNames)(member=".LDAP::prepare4filter(LDAP::fix($src_dn))."))",
-            "ogroups", array(get_ou("ogroupRDN")), $this->config->current['BASE'], array("dn"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
+            "ogroup", array(get_ou("ogroupRDN")), $this->config->current['BASE'], array("dn"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
 
     // Walk through all objectGroups
     foreach ($ogroups as $ogroup) {
@@ -375,7 +375,7 @@ class CopyPasteHandler {
 
         $uid = $this->current['object']->uid;
         $groups = get_sub_list("(&(objectClass=posixGroup)(memberUid={$suid}))",
-                "groups", array(get_ou("groupRDN")), $this->config->current['BASE'], array("dn"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
+                "group", array(get_ou("groupRDN")), $this->config->current['BASE'], array("dn"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
 
         // Walk through all POSIX groups
         foreach ($groups as $group) {

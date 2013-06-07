@@ -1139,12 +1139,12 @@ class config  {
    */
   function check_session_lifetime()
   {
-    if(isset($this->data['MAIN']['SESSIONLIFETIME'])){
+    if (isset($this->data['MAIN']['SESSIONLIFETIME'])) {
       $cfg_lifetime = $this->data['MAIN']['SESSIONLIFETIME'];
       $ini_lifetime = ini_get('session.gc_maxlifetime');
       $deb_system   = file_exists('/etc/debian_version');
-      return(!($deb_system && ($ini_lifetime < $cfg_lifetime)));
-    }else{
+      return !($deb_system && ($ini_lifetime < $cfg_lifetime));
+    } else {
       return TRUE;
     }
   }
@@ -1157,14 +1157,14 @@ class config  {
    */
   function snapshotEnabled()
   {
-    if($this->get_cfg_value("enableSnapshots") == "TRUE") {
+    if ($this->get_cfg_value("enableSnapshots") == "TRUE") {
 
       /* Check if the snapshot_base is defined */
       if ($this->get_cfg_value("snapshotBase") == "") {
 
         /* Send message if not done already */
-        if(!session::is_set("snapshotFailMessageSend")) {
-          session::set("snapshotFailMessageSend",TRUE);
+        if (!session::is_set("snapshotFailMessageSend")) {
+          session::set("snapshotFailMessageSend", TRUE);
           msg_dialog::display(_("Configuration error"),
               sprintf(_("The snapshot functionality is enabled, but the required variable '%s' is not set."),
                       "snapshotBase"), ERROR_DIALOG);
@@ -1173,13 +1173,13 @@ class config  {
       }
 
       /* Check if the snapshot_base is defined */
-      if (!is_callable("gzcompress")){
+      if (!is_callable("gzcompress")) {
 
         /* Send message if not done already */
-        if(!session::is_set("snapshotFailMessageSend")) {
-          session::set("snapshotFailMessageSend",TRUE);
+        if (!session::is_set("snapshotFailMessageSend")) {
+          session::set("snapshotFailMessageSend", TRUE);
           msg_dialog::display(_("Configuration error"),
-              sprintf(_("The snapshot functionality is enabled, but the required compression module is missing. Please install '%s'."),"php5-zip / php5-gzip"), ERROR_DIALOG);
+              sprintf(_("The snapshot functionality is enabled, but the required compression module is missing. Please install '%s'."), "php5-zip / php5-gzip"), ERROR_DIALOG);
         }
         return FALSE;
       }
@@ -1266,9 +1266,74 @@ class config  {
           'NAME' => $plInfo['plShortName']
         );
       }
+      /* Feed categories */
+      if (isset($plInfo['plCategory'])) {
+        /* Walk through supplied list and feed only translated categories */
+        foreach ($plInfo['plCategory'] as $idx => $data) {
+          $cat = (is_numeric($idx)?$data:$idx);
+          if (!isset($this->data['CATEGORIES'][$cat])) {
+            $this->data['CATEGORIES'][$cat]   = array( 'classes' => array('0') );
+          }
+          $this->data['CATEGORIES'][$cat]['classes'][] = $class;
+          if (!is_numeric($idx)) {
+            /* Non numeric index means -> base object containing more informations */
+            $this->data['CATEGORIES'][$cat]['description'] = $data['description'];
+            if (!is_array($data['objectClass'])) {
+              $data['objectClass'] = array($data['objectClass']);
+            }
+            $this->data['CATEGORIES'][$cat]['objectClass'] = $data['objectClass'];
+          }
+        }
+      }
+    }
+    $this->data['CATEGORIES']['all'] = array(
+      'classes'     => array('all'),
+      'description' => '*&nbsp;'._("All categories"),
+      'objectClass' => array(),
+    );
+    /* Extract categories definitions from object types */
+    foreach ($this->data['OBJECTS'] as $key => $infos) {
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['aclCategory'], "ObjectType $key category");
+      if (strtoupper($infos['aclCategory']) == $key) {
+        $cat = $infos['aclCategory'];
+        if (!isset($this->data['CATEGORIES'][$cat])) {
+          $this->data['CATEGORIES'][$cat] = array('classes' => array('0'));
+        }
+        if (!isset($this->data['CATEGORIES'][$cat]['description'])) {
+          $this->data['CATEGORIES'][$cat]['description'] = $infos['name'];
+          $this->data['CATEGORIES'][$cat]['objectClass'] = $infos['filter'];
+        }
+      }
+    }
+    /* Now that OBJECTS are filled, place tabs in categories */
+    foreach ($plist->info as $class => $plInfo) {
+      $acl = array();
+      if (isset($plInfo['plCategory'])) {
+        $acl = $plInfo['plCategory'];
+        if (!is_array($acl)) {
+          $acl = array($acl);
+        }
+      }
+      if (isset($plInfo['plObjectType'])) {
+        foreach ($plInfo['plObjectType'] as $key => $value) {
+          if (is_numeric($key)) { // This is not the main tab
+            $obj = strtoupper($value);
+          } else {
+            $obj = strtoupper($key);
+          }
+          /* if this is an existing objectType, not just a tab group */
+          if (isset($this->data['OBJECTS'][$obj])) {
+            $cat    = $this->data['OBJECTS'][$obj]['aclCategory'];
+            $acl[]  = $cat;
+
+            $this->data['CATEGORIES'][$cat]['classes'][] = $class;
+          }
+        }
+      }
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, join(',',$acl), "Class $class categories");
+      /* Feed menu */
       if (isset($plInfo['plSection'])) {
         $section  = $plInfo['plSection'];
-        $acl      = $plInfo['plCategory'];
         if (!is_array($acl)) {
           $acl = array($acl);
         }
@@ -1297,35 +1362,11 @@ class config  {
         }
         $this->data['MENU'][$section][] = $attrs;
       }
-      /* Feed categories */
-      if (isset($plInfo['plCategory'])) {
-        /* Walk through supplied list and feed only translated categories */
-        foreach ($plInfo['plCategory'] as $idx => $data) {
-          $cat = (is_numeric($idx)?$data:$idx);
-          if (!isset($this->data['CATEGORIES'][$cat])) {
-            $this->data['CATEGORIES'][$cat]   = array( 'classes' => array('0') );
-          }
-          $this->data['CATEGORIES'][$cat]['classes'][] = $class;
-          if (!is_numeric($idx)) {
-            /* Non numeric index means -> base object containing more informations */
-            $this->data['CATEGORIES'][$cat]['description'] = $data['description'];
-            if (!is_array($data['objectClass'])) {
-              $data['objectClass'] = array($data['objectClass']);
-            }
-            $this->data['CATEGORIES'][$cat]['objectClass'] = $data['objectClass'];
-          }
-        }
-      }
     }
-    $this->data['CATEGORIES']['all'] = array(
-      'classes'     => array('all'),
-      'description' => '*&nbsp;'._("All categories"),
-      'objectClass' => array(),
-    );
     asort($this->data['CATEGORIES']);
     foreach ($this->data['CATEGORIES'] as $name => &$infos) {
+      $infos['classes'] = array_unique($infos['classes']);
       if (!isset($infos['description'])) {
-        /* TODO: check if there is an objectType matching? */
         trigger_error("ACL category '$name' has no definition");
         $infos['description'] = $name;
         $infos['objectClass'] = array();
@@ -1335,7 +1376,7 @@ class config  {
     $this->data['SECTIONS']['personal'] = array('NAME' => _('My account'), 'PRIORITY' => 20);
     $personal = array();
     foreach ($this->data['TABS']['USERTABS'] as $tab) {
-      $personal[] = array('CLASS' => $tab['CLASS'], 'ACL' => 'users/'.$tab['CLASS'].':self');
+      $personal[] = array('CLASS' => $tab['CLASS'], 'ACL' => 'user/'.$tab['CLASS'].':self');
     }
     if (!isset($this->data['MENU']['personal'])) {
       $this->data['MENU']['personal'] = $personal;

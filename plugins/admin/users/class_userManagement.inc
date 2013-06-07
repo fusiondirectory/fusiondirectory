@@ -34,7 +34,7 @@ class userManagement extends management
   // Tab definition
   protected $tabClass     = "usertabs";
   protected $tabType      = "USERTABS";
-  protected $aclCategory  = "users";
+  protected $aclCategory  = "user";
   protected $aclPlugin    = "user";
   protected $objectName   = "user";
 
@@ -53,7 +53,7 @@ class userManagement extends management
       "plDescription" => _("Manage users"),
       "plIcon"        => "plugins/users/images/icon.png",
       "plSection"     => "admin",
-      "plCategory"    => array("users"),
+      "plCategory"    => array("user"),
       "plPriority"    => 1,
 
       "plProvidedAcls" => array()
@@ -83,7 +83,7 @@ class userManagement extends management
     $headpage->registerElementFilter("filterProperties", "userManagement::filterProperties");
     $headpage->setFilter($filter);
 
-    parent::__construct($config, $ui, "users", $headpage);
+    parent::__construct($config, $ui, "user", $headpage);
 
     // Register special user actions
     $this->registerAction("lock",         "lockEntry");
@@ -287,8 +287,8 @@ class userManagement extends management
       // Check permissions
       if (isset($_POST['password_finish'])) {
           $dn   = $this->dn;
-          $acl  = $this->ui->get_permissions($dn, "users/password");
-          $cacl = $this->ui->get_permissions($dn, "users/user");
+          $acl  = $this->ui->get_permissions($dn, "user/password");
+          $cacl = $this->ui->get_permissions($dn, "user/user");
           if (preg_match('/w/', $acl) || preg_match('/c/', $cacl)){
 
               // Get posted passwords
@@ -382,7 +382,7 @@ class userManagement extends management
                   }
               }
 
-              new log("modify","users/".get_class($this),$this->dn,array(),"Password has been changed");
+              new log("modify","user/".get_class($this),$this->dn,array(),"Password has been changed");
               $this->dn = "";
           } else {
               msg_dialog::display(_("Password change"),
@@ -736,7 +736,7 @@ class userManagement extends management
     $disallowed = array();
     $dns = array();
     foreach($entry as $dn){
-      if (!preg_match("/w/",$this->ui->get_permissions($dn,"users/password"))){
+      if (!preg_match("/w/",$this->ui->get_permissions($dn,"user/password"))){
         $disallowed[] = $dn;
       }else{
         $allowed[] = $dn;

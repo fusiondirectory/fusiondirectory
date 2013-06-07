@@ -38,7 +38,7 @@ class recoveryConfig extends simplePlugin
       "plSelfModify"  => FALSE,
       "plSection"     => "addons",
       "plPriority"    => 9,
-      "plCategory"    => array("recovery"),
+      "plCategory"    => array("configuration"),
 
       "plProvidedAcls"  => parent::generatePlProvidedAcls(self::getAttributesInfo())
     );

@@ -187,7 +187,6 @@ class posixAccount extends simplePlugin
       "plSmallIcon"     => "images/penguin.png",
       "plSelfModify"    => TRUE,
       "plPriority"      => 2,
-      "plCategory"      => array("users"),
       "plObjectType"    => array("user"),
 
       "plProvidedAcls"  => parent::generatePlProvidedAcls(self::getAttributesInfo())
@@ -526,10 +525,10 @@ class posixAccount extends simplePlugin
     del_lock("uidnumber");
 
     /* Take care about groupMembership values: add to groups */
-    $groupMembership = $this->attributesInfo['groups']['attrs']['groupMembership']->getValue();
+    $groupMembership = $this->attributesAccess['groupMembership']->getValue();
     foreach ($groupMembership as $value) {
       if (!in_array($value, $this->savedGroupMembership)) {
-        $g = new grouptabs($this->config, $this->config->data['TABS']['GROUPTABS'], $value, "groups");
+        $g = new grouptabs($this->config, $this->config->data['TABS']['GROUPTABS'], $value, "group");
         $g->set_acl_base($value);
         $g->by_object['group']->addUser($this->getUid());
         $g->save();
@@ -539,7 +538,7 @@ class posixAccount extends simplePlugin
     /* Remove groups not listed in groupMembership */
     foreach ($this->savedGroupMembership as $value) {
       if (!in_array($value, $groupMembership)) {
-        $g = new grouptabs($this->config, $this->config->data['TABS']['GROUPTABS'], $value, "groups");
+        $g = new grouptabs($this->config, $this->config->data['TABS']['GROUPTABS'], $value, "group");
         $g->set_acl_base($value);
         $g->by_object['group']->removeUser($this->getUid());
         $g->save();
