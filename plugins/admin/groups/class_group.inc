@@ -254,7 +254,7 @@ class group extends plugin
     /* Log view */
     if($this->is_account && !$this->view_logged){
       $this->view_logged = TRUE;
-      new log("view","groups/".get_class($this),$this->dn);
+      new log("view","group/".get_class($this),$this->dn);
     }
 
     /* Do we represent a valid group? */
@@ -619,7 +619,7 @@ class group extends plugin
     $i = 0;
 
 
-    $res = get_list($filter,"users",$base,array("dn", "uid", "sn", "givenName"),$flag);
+    $res = get_list($filter,"user",$base,array("dn", "uid", "sn", "givenName"),$flag);
 
     /* Fetch all users and skip already used users */
     foreach($res as $attrs){
@@ -670,7 +670,7 @@ class group extends plugin
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_DEL, get_class()));
     }
 
-    new log("remove","groups/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
+    new log("remove","group/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
 
     /* Delete references to object groups */
     $ldap->cd ($this->config->current['BASE']);
@@ -692,7 +692,7 @@ class group extends plugin
         foreach($entry['members'] as $m_id => $member){
           if($m_id == "G:".$this->dn || $m_id == "U:".$this->dn){
             unset($acl->gosaAclEntry[$id]['members'][$m_id]);
-            fusiondirectory_log("modify","groups/acl",$attrs['dn'],array(),sprintf("Removed acl for %s on object %s.",$this->dn,$attrs['dn']));
+            fusiondirectory_log("modify","group/acl",$attrs['dn'],array(),sprintf("Removed acl for %s on object %s.",$this->dn,$attrs['dn']));
           }
         }
       }
@@ -979,9 +979,9 @@ class group extends plugin
     }
 
     if($this->initially_was_account){
-      new log("modify","groups/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
+      new log("modify","group/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
     }else{
-      new log("create","groups/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
+      new log("create","group/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
     }
 
     $ret= 0;
@@ -1106,8 +1106,11 @@ class group extends plugin
       "plShortName"   => _("Generic"),
       "plDescription" => _("Generic group settings"),
       "plSelfModify"  => FALSE,
-      "plCategory"    => array("groups" => array("objectClass" => "posixGroup", "description" => _("Groups"))),
-      "plObjectType"  => array("group" => array("name" => _("Group"), "filter" => "objectClass=posixGroup")),
+      "plObjectType"  => array("group" => array(
+        "description" => _("Groups"),
+        "name"        => _("Group"),
+        "filter"      => "objectClass=posixGroup"
+      )),
 
       "plProvidedAcls"    => array(
         "cn"                => _("Name"),

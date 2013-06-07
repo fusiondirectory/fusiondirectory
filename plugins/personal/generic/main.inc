@@ -46,7 +46,7 @@ if ( $cleanup ){
     $user= new user ($config, $ui->dn);
     $user->enable_CSN_check();
     $user->set_acl_base($ui->dn);
-    $user->set_acl_category("users");
+    $user->set_acl_category("user");
     session::set('user',$user);
   }
   $user = session::get('user');
@@ -57,7 +57,7 @@ if ( $cleanup ){
   }
 
   /* Enter edit mode? */
-  if ((isset($_POST['edit'])) && (!session::is_set('edit')) &&preg_match("/w/",$ui->get_permissions($ui->dn,"users/user"))){
+  if ((isset($_POST['edit'])) && (!session::is_set('edit')) &&preg_match("/w/",$ui->get_permissions($ui->dn,"user/user"))){
 
     /* Check locking */
     if (($username= get_lock($ui->dn)) != ""){
@@ -150,7 +150,7 @@ if ( $cleanup ){
           }
 
           /* Only display edit button if there is at least one attribute editable */
-          if(preg_match("/r/",$ui->get_permissions($ui->dn,"users/user"))){
+          if(preg_match("/r/",$ui->get_permissions($ui->dn,"user/user"))){
               if ($fn == "edit"){
                   $info.= "<div class=\"optional\"><img class=\"center\" alt=\"\" align=\"middle\" src=\"".get_template_path('images/lists/on.png')."\"> ".
                       msgPool::clickEditToChange()."</div>";

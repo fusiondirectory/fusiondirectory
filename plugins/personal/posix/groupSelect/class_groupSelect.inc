@@ -45,7 +45,7 @@ class groupSelect extends management
     // Build headpage
     $headpage = new listing(get_template_path("group-list.xml", true, dirname(__FILE__)));
     $headpage->setFilter($filter);
-    parent::__construct($config, $ui, "groups", $headpage);
+    parent::__construct($config, $ui, "group", $headpage);
   }
 }
 // vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:

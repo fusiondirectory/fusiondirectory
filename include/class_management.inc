@@ -404,7 +404,7 @@ class management
         del_lock($this->dn);
       } else {
         msg_dialog::display(_("Permission error"), msgPool::permDelete(), ERROR_DIALOG);
-        new log("security", "groups/".get_class($this), $dn, array(), "Tried to trick deletion.");
+        new log("security", "group/".get_class($this), $dn, array(), "Tried to trick deletion.");
       }
     }
 

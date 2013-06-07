@@ -107,7 +107,6 @@ class demoPlugin extends simplePlugin
       "plShortName"       => _("Demo Plugin"),
       "plDescription"     => _("Edit some useless personal information"),
       "plSelfModify"      => TRUE,                  // Does this plugin have an owner that might be able to edit its entry
-      "plCategory"        => array("users"),
       "plObjectType"      => array("user"),
 
       // But simplePlugin can generate the ACL list for us

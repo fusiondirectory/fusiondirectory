@@ -44,7 +44,7 @@ class systemSelect extends management
     $headpage = new listing(get_template_path('systemSelect-list.xml', TRUE, dirname(__FILE__)));
     $headpage->registerElementFilter('filterProperties', 'groupManagement::filterProperties');
     $headpage->setFilter($filter);
-    parent::__construct($config, $ui, 'groups', $headpage);
+    parent::__construct($config, $ui, 'group', $headpage);
   }
 
   static function filterProperties($row, $classes)

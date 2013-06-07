@@ -83,7 +83,11 @@ class country extends department
       "plDescription" => _("Country"),
       "plSelfModify"  => FALSE,
       "plCategory"    => array("department"),
-      "plObjectType"  => array("country" => array("name" => _("Country"), "filter" => "objectClass=country")),
+      "plObjectType"  => array("country" => array(
+        "aclCategory" => "department",
+        "name"        => _("Country"),
+        "filter"      => "objectClass=country")
+      ),
 
       "plProvidedAcls" => array(
         "c"                 => _("Country name"),

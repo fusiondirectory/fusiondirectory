@@ -1020,7 +1020,7 @@ class plugin
 
     // Migrate objectgroups if needed
     $ogroups = get_sub_list("(&(objectClass=gosaGroupOfNames)(member=".LDAP::prepare4filter(LDAP::fix($src_dn))."))",
-      "ogroups", array(get_ou("ogroupRDN")),$this->config->current['BASE'],array("dn"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
+      "ogroup", array(get_ou("ogroupRDN")),$this->config->current['BASE'],array("dn"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
 
     // Walk through all objectGroups
     foreach($ogroups as $ogroup){
@@ -1036,7 +1036,7 @@ class plugin
     }
 
     // Migrate rfc groups if needed
-    $groups = get_sub_list("(&(objectClass=posixGroup)(member=".LDAP::prepare4filter(LDAP::fix($src_dn))."))","groups", array(get_ou("groupRDN")),$this->config->current['BASE'],array("dn"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
+    $groups = get_sub_list("(&(objectClass=posixGroup)(member=".LDAP::prepare4filter(LDAP::fix($src_dn))."))","group", array(get_ou("groupRDN")),$this->config->current['BASE'],array("dn"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
 
     // Walk through all POSIX groups
     foreach ($groups as $group) {

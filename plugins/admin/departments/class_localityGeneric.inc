@@ -84,7 +84,11 @@ class locality extends department
       "plDescription" => _("Locality"),
       "plSelfModify"  => FALSE,
       "plCategory"    => array("department"),
-      "plObjectType"  => array("locality" => array("name" => _("Locality"), "filter" => "objectClass=locality")),
+      "plObjectType"  => array("locality" => array(
+        "aclCategory" => "department",
+        "name"        => _("Locality"),
+        "filter"      => "objectClass=locality")
+      ),
 
       "plProvidedAcls" => array(
         "l"                 => _("Location"),

@@ -25,7 +25,7 @@ class ogroupManagement extends management
   // Tab definition
   protected $tabClass = "ogrouptabs";
   protected $tabType = "OGROUPTABS";
-  protected $aclCategory = "ogroups";
+  protected $aclCategory = "ogroup";
   protected $aclPlugin   = "ogroup";
   protected $objectName   = "object group";
 
@@ -37,7 +37,7 @@ class ogroupManagement extends management
       "plDescription" => _("Manage object groups"),
       "plIcon"        => "plugins/ogroups/images/icon.png",
       "plSection"     => "admin",
-      "plCategory"    => array("ogroups"),
+      "plCategory"    => array("ogroup"),
       "plPriority"    => 3,
 
       "plProvidedAcls" => array()
@@ -65,7 +65,7 @@ class ogroupManagement extends management
     $headpage->registerElementFilter("filterProperties", "ogroupManagement::filterProperties");
     $headpage->setFilter($filter);
 
-    parent::__construct($config, $ui, "ogroups", $headpage);
+    parent::__construct($config, $ui, "ogroup", $headpage);
 
     $this->registerAction("edit_ogroup","editEntry");
     $this->registerAction("edit_phonequeue","editEntry");

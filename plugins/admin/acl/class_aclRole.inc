@@ -640,7 +640,11 @@ class aclrole extends acl
       "plDescription" => _("Access control roles"),
       "plSelfModify"  => FALSE,
       "plCategory"    => array("acl"),
-      "plObjectType"  => array("aclRole" => array("name" => _("ACL role"), "filter" => "objectClass=gosaRole")),
+      "plObjectType"  => array("aclRole" => array(
+        "aclCategory" => "acl",
+        "name"        => _("ACL role"),
+        "filter"      => "objectClass=gosaRole")
+      ),
 
       "plProvidedAcls"  => array(
         "cn"                => _("Name"),

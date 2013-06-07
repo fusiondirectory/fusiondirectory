@@ -213,7 +213,7 @@ class ogrouptabs extends tabs
     return $str;
   }
 
-  function ogrouptabs($config, $data, $dn, $category = "ogroups", $copied_object = NULL)
+  function ogrouptabs($config, $data, $dn, $category = "ogroup", $copied_object = NULL)
   {
 
     tabs::tabs($config, $data, $dn, $category, $copied_object);

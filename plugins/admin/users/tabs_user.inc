@@ -32,7 +32,7 @@ class usertabs extends tabs
 
   function usertabs($config, $data, $dn, $cat = '', $copied_object = NULL)
   {
-    parent::tabs($config, $data, $dn, 'users', $copied_object);
+    parent::tabs($config, $data, $dn, 'user', $copied_object);
     $this->base = $this->getBaseObject()->base;
 
     $this->uid        = $this->by_object['user']->uid;

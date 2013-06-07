@@ -3013,7 +3013,7 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
       $test->lock_account($config, $dn);
     }
 
-    new log("modify", "users/passwordMethod", $dn, array_keys($attrs), $ldap->get_error());
+    new log("modify", "user/passwordMethod", $dn, array_keys($attrs), $ldap->get_error());
 
     if (!$ldap->success()) {
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD, ERROR_DIALOG));

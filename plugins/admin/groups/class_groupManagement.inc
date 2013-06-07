@@ -23,10 +23,10 @@
 class groupManagement extends management
 {
   // Tab definition
-  protected $tabClass = "grouptabs";
-  protected $tabType = "GROUPTABS";
-  protected $aclCategory = "groups";
-  protected $aclPlugin   = "group";
+  protected $tabClass     = "grouptabs";
+  protected $tabType      = "GROUPTABS";
+  protected $aclCategory  = "group";
+  protected $aclPlugin    = "group";
   protected $objectName   = "group";
 
   /* Return plugin informations for acl handling */
@@ -37,7 +37,7 @@ class groupManagement extends management
       "plDescription" => _("Manage groups"),
       "plIcon"        => "plugins/groups/images/icon.png",
       "plSection"     => "admin",
-      "plCategory"    => array("groups"),
+      "plCategory"    => array("group"),
       "plPriority"    => 2,
 
       "plProvidedAcls" => array()
@@ -65,7 +65,7 @@ class groupManagement extends management
     $headpage->registerElementFilter("filterProperties", "groupManagement::filterProperties");
     $headpage->setFilter($filter);
 
-    parent::__construct($config, $ui, "groups", $headpage);
+    parent::__construct($config, $ui, "group", $headpage);
 
     $this->registerAction("edit_group","editEntry");
     $this->registerAction("edit_environment","editEntry");

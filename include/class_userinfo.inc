@@ -784,7 +784,7 @@ class userinfo
       if (!isset($this->result_cache['has_complete_category_acls'][$dn][$category]))   {
         if (isset($this->config->data['CATEGORIES'][$category])) {
           foreach ($this->config->data['CATEGORIES'][$category]['classes'] as $oc) {
-            /* Skip objectClass '0' (e.g. users/0) get_permissions will ever return '' ??  */
+            /* Skip objectClass '0' (e.g. user/0) get_permissions will ever return '' ??  */
             if ($oc == "0") continue;
             $tmp = $this->get_permissions($dn, $category."/".$oc);
             for ($i = 0, $l = strlen($types); $i < $l; $i++) {
@@ -997,7 +997,7 @@ class userinfo
     if (empty($this->ACLperPath)) {
       $this->loadACL();
     }
-    return ($this->get_category_permissions($this->config->current['BASE'], 'users') == 'rwcdm');
+    return ($this->get_category_permissions($this->config->current['BASE'], 'user') == 'rwcdm');
   }
 }
 ?>

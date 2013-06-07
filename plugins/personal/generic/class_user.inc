@@ -141,10 +141,11 @@ class user extends simplePlugin
       'plShortName'   => _('Generic'),
       'plDescription' => _('Generic user settings'),
       'plSelfModify'  => TRUE,
-      'plCategory'    => array('users' => array('description' => _('Users'),
-                                                'objectClass' => 'gosaAccount')),
-      'plObjectType'  => array('user' => array('name' => _('User'),
-                                                'filter' => 'objectClass=gosaAccount')),
+      'plObjectType'  => array('user' => array(
+        'description' => _('Users'),
+        'name' => _('User'),
+        'filter' => 'objectClass=gosaAccount'
+      )),
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())
     );
