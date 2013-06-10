@@ -1301,7 +1301,8 @@ class config  {
         }
         if (!isset($this->data['CATEGORIES'][$cat]['description'])) {
           $this->data['CATEGORIES'][$cat]['description'] = $infos['name'];
-          $this->data['CATEGORIES'][$cat]['objectClass'] = $infos['filter'];
+          preg_match_all('/objectClass=([^= \)\(]+)/', $infos['filter'], $m);
+          $this->data['CATEGORIES'][$cat]['objectClass'] = $m[1];
         }
       }
     }
