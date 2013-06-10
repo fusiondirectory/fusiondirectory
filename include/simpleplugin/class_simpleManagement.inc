@@ -139,7 +139,7 @@ class simpleManagement extends management
         'tag'     => $tag,
         'default' => TRUE,
         'unset'   => array(),
-        'set'     => '('.$this->config->data['OBJECTS'][$object]['filter'].')'
+        'set'     => $this->config->data['OBJECTS'][$object]['filter']
       );
       $this->filter->elementValues[$tag] = TRUE;
     }
