@@ -129,7 +129,7 @@ class simpleManagement extends management
     $filter .= ')';
     $this->filter->category = key($pInfos['plCategory']);
     $this->filter->query[0]['filter']    = '(&'.$filter.'$NAME)';
-    $this->filter->query[0]['attribute'] = array('dn', 'cn');
+    $this->filter->query[0]['attribute'] = array('dn', 'cn', 'description');
     $this->filter->element['NAME']['set'] = '(cn=*$*)';
     $this->filter->element['NAME']['autocomplete']['filter'] = '(&'.$filter.'(cn=*$NAME*))';
     foreach ($this->objectTypes as $object) {
