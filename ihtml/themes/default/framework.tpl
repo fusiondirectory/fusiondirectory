@@ -32,16 +32,14 @@
 
     <table summary="" class="framework" cellspacing="0" cellpadding="0">
         <tr style="vertical-align:top;">
-
             <!-- Menu -->
             <td class="optional" id="menucell">
                 {$menu}
-                <br />
-                <div style="height:1px; width:140px;"></div>
+                <br/>
             </td>
 
             <!-- Plugin window -->
-            <td style="background-color:white; width:100%; vertical-align:top; height:15px;" colspan="2">
+            <td id="maincell" colspan="2">
                 <div class="plugin_window">
                     {$msg_dialogs}
                     {$contents}
