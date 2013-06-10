@@ -410,6 +410,37 @@ class simpleManagement extends management
 
     return parent::copyPasteHandler($action, $target, $all, $tabClass, $tabType, $aclCategory, $aclPlugin);
   }
+
+  static function mainInc ($classname)
+  {
+    global $remove_lock, $cleanup, $display, $config, $ui;
+
+    /* Remove locks */
+    if ($remove_lock) {
+      if (session::is_set($classname)) {
+          $macl = session::get($classname);
+          $macl->remove_lock();
+      }
+    }
+
+    if ($cleanup) {
+      /* Clean up */
+      session::un_set($classname);
+    } else {
+      if (!session::is_set($classname) || (isset($_GET['reset']) && $_GET['reset'] == 1)) {
+        /* Create the object if missing or reset requested */
+        $managementObject = new $classname($config, $ui);
+      } else {
+        /* Retrieve the object from session */
+        $managementObject = session::get($classname);
+      }
+      /* Execute and display */
+      $display = $managementObject->execute();
+
+      /* Store the object in the session */
+      session::set($classname, $managementObject);
+    }
+  }
 }
 
 ?>
