@@ -8,9 +8,8 @@
   {foreach from=$objectFilters item="ofilter"}
     {${$ofilter.id}}<label for="{$ofilter.id}">&nbsp;{$ofilter.label}</label><br/>
   {/foreach}
-  {$OPSIPROFILE}
 
-  <div style="border-top:1px solid #AAAAAA"></div>
+  <div style="width=100%;border-top:1px solid #AAAAAA;"></div>
 
  {$SCOPE}
 
