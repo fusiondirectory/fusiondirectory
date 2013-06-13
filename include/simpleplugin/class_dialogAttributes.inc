@@ -253,34 +253,39 @@ class DialogAttribute extends SetAttribute
   }
 }
 
-/*! \brief This class allows to handle an attribute for selecting user
- *
- * It looks like a SetAttribute, but clicking "Add" will open a dialog that allow to select one or more users.
- * It stores their dn as values, but displays the cn.
- *
- */
-class UsersAttribute extends DialogAttribute
+class GenericDialogAttribute extends DialogAttribute
 {
   protected $displays;
-  protected $dialogClass = "UserSelectDialog";
-  protected $attr = 'cn';
 
-  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $attr = 'cn', $acl = "")
+  protected $store_attr   = 'dn';
+  protected $display_attr = 'cn';
+
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $store_attr = 'dn', $display_attr = 'cn', $acl = '')
   {
-    $this->attr = $attr;
+    $this->store_attr   = $store_attr;
+    $this->display_attr = $display_attr;
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
   }
 
   function getFilterBlackList ()
   {
-    return array('dn' => $this->getValue());
+    return array($this->store_attr => $this->getValue());
   }
 
-  function addValue ($value, $attrs)
+  function addValue ($dn, $attrs)
   {
+    if ($this->store_attr == 'dn') {
+      $value = $dn;
+    } else {
+      $value = $attrs[$this->store_attr][0];
+    }
     if (!in_array($value, $this->value)) {
       $this->value[]    = $value;
-      $this->displays[] = $attrs[$this->attr][0];
+      if ($this->display_attr == 'dn') {
+        $this->displays[] = $dn;
+      } else {
+        $this->displays[] = $attrs[$this->display_attr][0];
+      }
     }
   }
 
@@ -300,22 +305,43 @@ class UsersAttribute extends DialogAttribute
     return $this->displays;
   }
 
+  function setDisplayValues ($array)
+  {
+    $this->displays = $array;
+  }
+
   protected function fillDisplayValue ($i)
   {
-    $dn = $this->value[$i];
     $ldap = $this->plugin->config->get_ldap_link();
-    $ldap->cat($dn, array($this->attr));
+
+    $value = $this->value[$i];
+    if ($this->store_attr == 'dn') {
+      $ldap->cat($value, array($this->display_attr));
+    } else {
+      $ldap->search('('.$this->store_attr.'='.$value.')', array($this->display_attr));
+    }
     if (!$ldap->count()) {
       unset($this->value[$i]);
     } else {
       $attrs = $ldap->fetch();
-      if (!isset($attrs[$this->attr])) {
+      if (!isset($attrs[$this->display_attr])) {
         unset($this->value[$i]);
       } else {
-        $this->displays[$i] = $attrs[$this->attr][0];
+        $this->displays[$i] = $attrs[$this->display_attr][0];
       }
     }
   }
+}
+
+/*! \brief This class allows to handle an attribute for selecting user
+ *
+ * It looks like a SetAttribute, but clicking "Add" will open a dialog that allow to select one or more users.
+ * It stores their dn as values, but displays the cn.
+ *
+ */
+class UsersAttribute extends GenericDialogAttribute
+{
+  protected $dialogClass  = 'UserSelectDialog';
 }
 
 /*! \brief This class allows to handle an attribute for selecting user or groups
@@ -326,7 +352,7 @@ class UsersAttribute extends DialogAttribute
  */
 class UsersGroupsAttribute extends DialogAttribute
 {
-  protected $dialogClass = "UserGroupSelectDialog";
+  protected $dialogClass = 'UserGroupSelectDialog';
 
   function addValue ($dn, $entry)
   {
@@ -361,43 +387,26 @@ class UsersGroupsAttribute extends DialogAttribute
  * It stores their dn as values, but displays the cn.
  *
  */
-class GroupsAttribute extends DialogAttribute
+class GroupsAttribute extends GenericDialogAttribute
 {
-  protected $displays;
-  protected $dialogClass = "GroupSelectDialog";
+  protected $dialogClass = 'GroupSelectDialog';
+
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $acl = '')
+  {
+    parent::__construct ($label, $description, $ldapName, $required, $defaultValue, 'dn', 'cn', $acl);
+  }
 
   function addValue ($dn, $entry)
   {
     if (!in_array($dn, $this->value)) {
       $display = $entry['cn'][0];
-      if (isset($entry['description'][0])) {
+      if (isset($entry['description'][0]) && !empty($entry['description'][0])) {
         $display .= ' ['.preg_replace ('/^Group of user/', _('Group of user'), $entry['description'][0]).']';
       }
 
       $this->value[]    = $dn;
       $this->displays[] = $display;
     }
-  }
-
-  function setDisplayValues ($array)
-  {
-    $this->displays = $array;
-  }
-
-  function getDisplayValues ()
-  {
-    return $this->displays;
-  }
-
-  protected function removeValue ($row)
-  {
-    unset($this->displays[$row]);
-    unset($this->value[$row]);
-  }
-
-  function getFilterBlackList ()
-  {
-    return array('dn' => $this->getValue());
   }
 }
 
