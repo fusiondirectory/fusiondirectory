@@ -2037,9 +2037,9 @@ class OrderedArrayAttribute extends SetAttribute
       $fields = array();
       $this->attribute->setValue($value);
       foreach ($this->attribute->getArrayValue() as $field) {
-        $fields[] = array("string" => ($field == ''?'&nbsp;':$field));
+        $fields[] = array("string" => $field);
       }
-      $fields[] = array("string" => $img, "attach" => "style='border-right:0px;width:40px;'");
+      $fields[] = array("html" => $img, "attach" => "style='border-right:0px;width:40px;'");
       $div->AddEntry($fields);
     }
     $smarty->assign("div_$id", $div->DrawList());
