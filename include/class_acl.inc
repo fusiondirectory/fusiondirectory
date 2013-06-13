@@ -462,8 +462,8 @@ class acl extends plugin
           $link = $this->assembleAclSummary($entry);
         }
 
-        $field1= array("string" => $this->aclTypes[$entry['type']], "attach" => "style='width:150px'");
-        $field2= array("string" => $link);
+        $field1= array("html" => $this->aclTypes[$entry['type']], "attach" => "style='width:150px'");
+        $field2= array("html" => $link);
 
         if($this->acl_is_writeable("")){
           $action.= "<input type='image' name='sortup_$key' alt='up'
@@ -481,7 +481,7 @@ class acl extends plugin
             alt='"._("Delete")."' name='acl_del_$key' title='".msgPool::delButton(_("ACL"))."'>";
         }
 
-        $field3= array("string" => $action, "attach" => "style='border-right:0px;width:50px;text-align:right;'");
+        $field3= array("html" => $action, "attach" => "style='border-right:0px;width:50px;text-align:right;'");
         $aclList->AddEntry(array($field1, $field2, $field3));
       }
 
@@ -528,9 +528,9 @@ class acl extends plugin
             alt='"._("Delete")."' name='cat_del_$section' title='".msgPool::delButton(_("category ACL"))."'>";
         }
 
-        $field1= array("string" => $infos['description'], "attach" => "style='width:100px'");
-        $field2= array("string" => $summary);
-        $field3= array("string" => $actions, "attach" => "style='border-right:0px;width:50px'");
+        $field1= array("html" => $infos['description'], "attach" => "style='width:100px'");
+        $field2= array("html" => $summary);
+        $field3= array("html" => $actions, "attach" => "style='border-right:0px;width:50px'");
         $aclList->AddEntry(array($field1, $field2, $field3));
       }
 
@@ -664,9 +664,9 @@ class acl extends plugin
         $option = "<input type='radio' name='selected_role' value='".base64_encode($dn)."'>";
       }
 
-      $field1 = array("string" => $option) ;
-      $field2 = array("string" => $values['cn'], "attach" => "style='width:200px;'") ;
-      $field3 = array("string" => $values['description'],"attach" => "style='border-right:0px;'") ;
+      $field1 = array("html" => $option) ;
+      $field2 = array("html" => $values['cn'], "attach" => "style='width:200px;'") ;
+      $field3 = array("html" => $values['description'],"attach" => "style='border-right:0px;'") ;
 
       $D_List->AddEntry(array($field1,$field2,$field3));
     }
