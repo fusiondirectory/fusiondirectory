@@ -99,9 +99,6 @@ class plugin
     dn
    */
   var $dn         = "";
-  var $uid        = "";
-  var $sn         = "";
-  var $givenName  = "";
   var $acl        = "*none*";
   var $dialog     = FALSE;
 
@@ -510,7 +507,10 @@ class plugin
       }
 
       if (isset($this->attrs["$val"][0])) {
-        $this->$val = $this->attrs["$val"][0];
+        /* If attribute is set, replace dynamic parts */
+        $value = $this->tpl_parse($this->attrs["$val"][0]);
+
+        $this->$val = $value;
       }
     }
 

@@ -75,8 +75,8 @@ class posixAccount extends simplePlugin
   {
     return array(
       'main' => array(
-        'name'  => _('Unix'),
-        'icon'  => 'images/rightarrow.png',
+        'name'  => _('Generic'),
+        'icon'  => 'geticon.php?context=applications&icon=os-linux&size=16',
         'attrs' => array(
           new PathAttribute(
             _('Home directory'), _('The path to the home directory of this user'),
@@ -203,6 +203,12 @@ class posixAccount extends simplePlugin
     $this->attributesAccess['gecos']->setVisible(FALSE);
 
     $this->attributesAccess['trustMode']->setInLdap(FALSE);
+    if (!class_available('systemManagement')) {
+      $this->attributesAccess['trustMode']->setChoices(
+            array('', 'fullaccess'),
+            array(_('disabled'), _('full access'))
+      );
+    }
     $this->attributesAccess['trustMode']->setManagedAttributes(
       array(
         'multiplevalues' => array('notbyhost' => array('','fullaccess')),
@@ -489,7 +495,7 @@ class posixAccount extends simplePlugin
         $g->cn          = $groupcn;
         $g->force_gid   = 1;
         $g->gidNumber   = $this->gidNumber;
-        $g->description = sprintf(_("Group of user %s"), $this->givenName);
+        $g->description = sprintf(_("Group of user %s"), $this->getUid());
         $g->save();
 
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
@@ -512,9 +518,12 @@ class posixAccount extends simplePlugin
 
     if ($this->mustchangepassword) {
       $this->shadowLastChange =
-        floor(date("U") / EpochDaysDateAttribute::$secondsPerDay) - $this->shadowMax - 1;
-    } elseif ($this->is_account && !$this->initially_was_account) {
-      $this->shadowLastChange = floor(date("U") / EpochDaysDateAttribute::$secondsPerDay);
+        floor(date('U') / EpochDaysDateAttribute::$secondsPerDay) - $this->shadowMax - 1;
+    } elseif (
+        ($this->is_account && !$this->initially_was_account) ||
+        $this->parent->getBaseObject()->attributesAccess['userPassword']->hasChanged()
+      ) {
+      $this->shadowLastChange = floor(date('U') / EpochDaysDateAttribute::$secondsPerDay);
     }
 
     $this->updateAttributesValues();
@@ -573,7 +582,7 @@ class posixAccount extends simplePlugin
     /* Delete group only if cn is uid and there are no other members inside */
     $ldap = $this->config->get_ldap_link();
     $ldap->cd ($this->config->current['BASE']);
-    $ldap->search ("(&(objectClass=posixGroup)(gidNumber=".$this->gidNumber."))", array("cn", "memberUid"));
+    $ldap->search ('(&(objectClass=posixGroup)(gidNumber='.$this->gidNumber.')(cn='.$this->getUid().'))', array('cn', 'memberUid'));
     if ($ldap->count() != 0) {
       $attrs = $ldap->fetch();
       if ($attrs['cn'][0] == $this->getUid() && !isset($this->attrs['memberUid'])) {
@@ -586,24 +595,17 @@ class posixAccount extends simplePlugin
   function adapt_from_template($attrs, $skip = array())
   {
     /* Include global link_info */
-    $ldap = $this->config->get_ldap_link();
+    //~ $ldap = $this->config->get_ldap_link();
 
     parent::adapt_from_template($attrs, $skip);
-
-    $templatedn = $attrs['dn'];
-    $ldap->cd($this->config->current['BASE']);
-    $ldap->cat($templatedn);
-    $templateattrs  = $ldap->fetch();
-    $templateuid    = $templateattrs['uid'][0];
-    $templatecn     = $templateattrs['cn'][0];
-
-    /* Adapt group membership */
-    $ldap->cd($this->config->current['BASE']);
-    $ldap->search("(&(objectClass=posixGroup)(memberUid=$templateuid))", array("description", "cn"));
-
-    while ($entry = $ldap->fetch()) {
-      $this->attributesAccess['groupMembership']->addValue($ldap->getDN(), $entry);
-    }
+    $template = $this->attrs['uid'][0];
+    //~ /* Adapt group membership */
+    //~ $ldap->cd($this->config->current['BASE']);
+    //~ $ldap->search("(&(objectClass=posixGroup)(memberUid=$template))", array("description", "cn"));
+    //~ while ($entry = $ldap->fetch()) {
+      //~ $this->attributesAccess['groupMembership']->addValue($ldap->getDN(), $entry);
+    //~ }
+    // FIXME : we need to find a way to handle group membership through templates
 
     $this->attributesAccess['uidNumber']->setInitialValue('');
 
@@ -614,18 +616,10 @@ class posixAccount extends simplePlugin
 
     if ($this->gidNumber) {
       $ldap->cd($this->config->current['BASE']);
-      $ldap->search("(&(objectClass=posixGroup)(cn=$templatecn)(gidNumber=".$this->gidNumber."))", array("cn"));
+      $ldap->search("(&(objectClass=posixGroup)(cn=$template)(gidNumber=".$this->gidNumber."))", array("cn"));
       if ($ldap->count() != 1) {
         $this->primaryGroup = $this->gidNumber;
       }
-    }
-
-    $ldap->cd($this->config->current['BASE']);
-    $ldap->search("(&(objectClass=gosaUserTemplate)(uid=$templateuid)(accessTo=*))", array("cn","accessTo"));
-    while ($attr = $ldap->fetch()) {
-      $tmp = $attr['accessTo'];
-      unset($tmp['count']);
-      $this->accessTo = $tmp;
     }
   }
 
