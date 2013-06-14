@@ -214,7 +214,6 @@ class posixAccount extends simplePlugin
       $this->trustMode = 'byhost';
     }
 
-
     $this->attributesAccess['uidNumber']->setUnique(TRUE);
     $this->attributesAccess['force_ids']->setInLdap(FALSE);
     $this->attributesAccess['force_ids']->setManagedAttributes(
@@ -234,7 +233,9 @@ class posixAccount extends simplePlugin
 
     /* Setting uid to default */
     if (isset($this->attrs['uid'][0])) {
-      $this->uid = $this->attrs['uid'][0];
+      $uid = $this->attrs['uid'][0];
+    } elseif (isset($object)) {
+      $uid = $object->uid;
     }
 
     if ($dn !== NULL) {
@@ -302,7 +303,7 @@ class posixAccount extends simplePlugin
 
     /* Groups handling */
     $ldap->cd($this->config->current['BASE']);
-    $ldap->search("(&(objectClass=posixGroup)(memberUid=".$this->uid."))", array("cn", "description"));
+    $ldap->search('(&(objectClass=posixGroup)(memberUid='.$uid.'))', array('cn', 'description'));
     $groupMembership = array();
     while ($attrs = $ldap->fetch()) {
       if (!isset($attrs["description"][0])) {
@@ -328,7 +329,8 @@ class posixAccount extends simplePlugin
 
     $ldap = $this->config->get_ldap_link();
     $ldap->cd($this->config->current['BASE']);
-    $ldap->search("(&(objectClass=posixGroup)(gidNumber=".$this->gidNumber.")(cn=".$this->uid."))", array("cn","gidNumber"));
+    $uid = $this->parent->getBaseObject()->uid;
+    $ldap->search('(&(objectClass=posixGroup)(gidNumber='.$this->gidNumber.')(cn='.$uid.'))', array('cn','gidNumber'));
     if ($ldap->count() > 0) {
       /* The copied user had its own group */
       $this->primaryGroup = 0; // switch back to automatic
@@ -427,6 +429,7 @@ class posixAccount extends simplePlugin
      * - .. if we couldn't find a group with the same name, we will create a new one,
      *    using the users uid as cn and a generated uniqe gidNumber.
      * */
+    $uid = $this->parent->getBaseObject()->uid;
     if ($this->is_template && ($this->primaryGroup == 0)) {
       $this->gidNumber = 2147483647;
     } elseif (($this->primaryGroup == 0) || $this->force_ids) {
@@ -437,15 +440,15 @@ class posixAccount extends simplePlugin
 
       /* Are we forced to use a special gidNumber? */
       if ($this->force_ids) {
-        $ldap->search("(&(objectClass=posixGroup)(gidNumber=".$this->gidNumber."))", array("cn","gidNumber"));
+        $ldap->search('(&(objectClass=posixGroup)(gidNumber='.$this->gidNumber.'))', array('cn','gidNumber'));
       } else {
-        $ldap->search("(&(objectClass=posixGroup)(gidNumber=*)(cn=".$this->uid."))", array("cn","gidNumber"));
+        $ldap->search('(&(objectClass=posixGroup)(gidNumber=*)(cn='.$uid.'))', array('cn','gidNumber'));
       }
 
       /* No primary group found, create a new one */
       if ($ldap->count() == 0) {
-        $groupcn  = $this->uid;
-        $pri_attr = $this->config->get_cfg_value("accountPrimaryAttribute");
+        $groupcn  = $uid;
+        $pri_attr = $this->config->get_cfg_value('accountPrimaryAttribute');
         $groupdn  = preg_replace ('/^'.preg_quote($pri_attr, '/').'=[^,]+,'.preg_quote(get_people_ou(), '/').'/i',
             'cn='.$groupcn.','.get_groups_ou(), $this->dn);
 
@@ -460,7 +463,7 @@ class posixAccount extends simplePlugin
         $cnt = 0;
         while ($ldap->dn_exists($groupdn) && ($cnt < 100)) {
           $cnt++;
-          $groupcn = $this->uid."_".$cnt;
+          $groupcn = $uid."_".$cnt;
           $groupdn = preg_replace ('/^'.preg_quote($pri_attr, '/').'=[^,]+,'.preg_quote(get_people_ou(), '/').'/i',
               'cn='.$groupcn.','.get_groups_ou(), $this->dn);
         }
@@ -481,14 +484,14 @@ class posixAccount extends simplePlugin
         $this->gidNumber = $attrs['gidNumber'][0];
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
           "Found and used: <i>".$attrs['dn']."</i>",
-          sprintf("Primary group '%s' exists, gidNumber is '%s'.", $this->uid, $this->gidNumber));
+          sprintf("Primary group '%s' exists, gidNumber is '%s'.", $uid, $this->gidNumber));
       }
     } else {
       /* Primary group was selected by user */
       $this->gidNumber = $this->primaryGroup;
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
         sprintf("Primary group '%s' for user '%s' manually selected.",
-        $this->gidNumber, $this->uid), "");
+        $this->gidNumber, $uid), "");
     }
 
     if ($this->mustchangepassword) {
@@ -518,13 +521,15 @@ class posixAccount extends simplePlugin
     parent::save();
     del_lock("uidnumber");
 
+    $uid = $this->parent->getBaseObject()->uid;
+
     /* Take care about groupMembership values: add to groups */
     $groupMembership = $this->attributesAccess['groupMembership']->getValue();
     foreach ($groupMembership as $value) {
       if (!in_array($value, $this->savedGroupMembership)) {
         $g = new grouptabs($this->config, $this->config->data['TABS']['GROUPTABS'], $value, "group");
         $g->set_acl_base($value);
-        $g->by_object['group']->addUser($this->uid);
+        $g->by_object['group']->addUser($uid);
         $g->save();
       }
     }
@@ -534,7 +539,7 @@ class posixAccount extends simplePlugin
       if (!in_array($value, $groupMembership)) {
         $g = new grouptabs($this->config, $this->config->data['TABS']['GROUPTABS'], $value, "group");
         $g->set_acl_base($value);
-        $g->by_object['group']->removeUser($this->uid);
+        $g->by_object['group']->removeUser($uid);
         $g->save();
       }
     }
@@ -551,13 +556,15 @@ class posixAccount extends simplePlugin
     /* Remove and write to LDAP */
     parent::remove_from_parent();
 
+    $uid = $this->parent->getBaseObject()->uid;
+
     /* Delete group only if cn is uid and there are no other members inside */
     $ldap = $this->config->get_ldap_link();
     $ldap->cd ($this->config->current['BASE']);
-    $ldap->search ("(&(objectClass=posixGroup)(gidNumber=".$this->gidNumber."))", array("cn", "memberUid"));
+    $ldap->search ('(&(objectClass=posixGroup)(gidNumber='.$this->gidNumber.')(cn='.$uid.'))', array('cn', 'memberUid'));
     if ($ldap->count() != 0) {
       $attrs = $ldap->fetch();
-      if ($attrs['cn'][0] == $this->uid && !isset($this->attrs['memberUid'])) {
+      if (!isset($this->attrs['memberUid'])) {
         $ldap->rmDir($ldap->getDN());
       }
     }

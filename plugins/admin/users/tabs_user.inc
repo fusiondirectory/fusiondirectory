@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
@@ -22,22 +21,9 @@
 
 class usertabs extends tabs
 {
-  var $base;
-
-  /* Template adaption variables
-   */
-  var $uid        = '';
-  var $givenName  = '';
-  var $sn         = '';
-
   function usertabs($config, $data, $dn, $cat = '', $copied_object = NULL)
   {
     parent::tabs($config, $data, $dn, 'user', $copied_object);
-    $this->base = $this->getBaseObject()->base;
-
-    $this->uid        = $this->by_object['user']->uid;
-    $this->givenName  = $this->by_object['user']->givenName;
-    $this->sn         = $this->by_object['user']->sn;
 
     /* Add references/acls/snapshots */
     $this->addSpecialTabs();
@@ -53,9 +39,6 @@ class usertabs extends tabs
       /* Don't touch base object */
       if ($name != 'user') {
         $obj->parent    = &$this;
-        $obj->uid       = $baseobject->uid;
-        $obj->givenName = $baseobject->givenName;
-        $obj->sn        = $baseobject->sn;
       }
 
       /* Copy mail if needed */
@@ -131,14 +114,6 @@ class usertabs extends tabs
     }
 
     return parent::save();
-  }
-
-
-  function set_template_mode()
-  {
-    foreach ($this->by_object as $key => $obj) {
-      $this->by_object[$key]->is_template = TRUE;
-    }
   }
 }
 ?>
