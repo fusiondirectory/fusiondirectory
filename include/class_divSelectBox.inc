@@ -31,6 +31,7 @@
  */
 class divSelectBox
 {
+  var $headers = FALSE;
   var $a_entries;
   var $summary;
   var $cols;
@@ -43,9 +44,9 @@ class divSelectBox
    */
   function __construct()
   {
-    $this->s_summary                = '';
-    $this->a_entries                = array();
-    $this->cols                     = 0;
+    $this->s_summary  = '';
+    $this->a_entries  = array();
+    $this->cols       = 0;
   }
 
   /*!
@@ -73,11 +74,21 @@ class divSelectBox
   }
 
   /*!
+   * \brief Set column headers
+   *
+   * \param array $a_entriedata
+   */
+  function SetHeaders($headers)
+  {
+    $this->headers = $headers;
+  }
+
+  /*!
    * \brief Draw the list
    */
   function DrawList()
   {
-    $s_return = "";
+    $s_return = '';
     $s_return .= '<div style="padding-right:1px;padding-bottom:2px;height:'.$this->height.';width:100%">'."\n";
     $s_return .= '<div style="overflow: auto;width:100%;height:100%;">'."\n";
     $s_return .= '<table '.
@@ -118,6 +129,25 @@ class divSelectBox
    */
   function _generatePage()
   {
+    $display = '';
+    if ($this->headers !== FALSE) {
+      $display .= '<thead><tr>';
+      foreach ($this->headers as $header) {
+        if ($header === '') {
+          $header = '&nbsp;';
+        }
+        $display .= '<th>'.$header.'</th>';
+      }
+      $display .= '</tr></thead>'."\n";
+    }
+    return $display.'<tbody>'.$this->_generateBody().'</tbody>';
+  }
+
+  /*!
+   * \brief Generate the body
+   */
+  function _generateBody()
+  {
     $s_value  = '';
     $s_key    = '';
     $s_return = '';
@@ -125,7 +155,20 @@ class divSelectBox
 
     /* If divlist is empty, append a single white entry */
     if (count($this->a_entries) == 0) {
-      $str .= '<tr><td style="height:100%; border-right:0px;">&nbsp;</td></tr>';
+      if ($this->headers !== FALSE) {
+        $this->cols = count($this->headers);
+        $str .= '<tr>';
+        for ($i = 0; $i < ($this->cols); $i++) {
+          if ($i >= ($this->cols - 1)) {
+            $str .= '<td style="height:100%;border:0px;">&nbsp;</td>';
+          } else {
+            $str .= '<td style="height:100%;">&nbsp;</td>';
+          }
+        }
+        $str .= '</tr>';
+      } else {
+        $str .= '<tr><td style="height:100%; border-right:0px;">&nbsp;</td></tr>';
+      }
       return $str;
     }
 
@@ -137,8 +180,8 @@ class divSelectBox
 
       $cnt = 0;
 
+      $this->cols = count($s_value);
       foreach ($s_value as $s_key2 => $s_value2) {
-        $this->cols = count($s_value);
         $cnt++;
 
         if (!isset($s_value2['class'])) {
