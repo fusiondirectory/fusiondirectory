@@ -1365,9 +1365,15 @@ class BaseSelectorAttribute extends Attribute
    *
    *  \param string $ou The ou your objects are into. It will be used in order to detect the base they are in.
    */
-  function __construct ($ou)
+  function __construct ($ou, $label = NULL, $desc = NULL)
   {
-    parent::__construct(_('Base'), _('Object base'), 'base', FALSE, '');
+    if ($label === NULL) {
+      $label = _('Base');
+    }
+    if ($desc === NULL) {
+      $desc = _('Object base');
+    }
+    parent::__construct($label, $desc, 'base', FALSE, '');
     $this->setInLdap(FALSE);
     $this->ou = $ou;
   }
