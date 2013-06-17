@@ -710,7 +710,9 @@ class simplePlugin extends plugin
             $account->setNeedEditMode(TRUE);
           }
         }
-        $account->set_acl_base($entry_dn);
+        if (($entry_dn != '') && ($entry_dn != 'new')) {
+          $account->set_acl_base($entry_dn);
+        }
         session::set($classname, $account);
       }
       $account = session::get($classname);
