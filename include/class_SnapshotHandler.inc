@@ -596,9 +596,12 @@ class SnapshotHandler {
     $data  = gzuncompress($ldap_to->get_attribute($dn,'gosaSnapshotData'));
 
     /* Import the given data */
-    $err = "";
-    $ldap->import_complete_ldif($data,$err,false,false);
-    if (!$ldap->success()){
+    try {
+      $ldap->import_complete_ldif($data, FALSE, FALSE);
+    } catch(Exception $e) {
+      msg_dialog::display(_('LDAP error'), $e->getMessage(), ERROR_DIALOG);
+    }
+    if (!$ldap->success()) {
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, "", get_class()));
     }
   }
