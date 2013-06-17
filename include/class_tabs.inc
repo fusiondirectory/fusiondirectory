@@ -63,11 +63,11 @@ class tabs
    *
    * \param Object $attrs_object An object to copy values from
    */
-  function tabs(&$config, $data, $dn, $acl_category = "", $attrs_object = NULL)
+  function __construct(&$config, $data, $dn, $acl_category = "", $attrs_object = NULL)
   {
     /* Save dn */
-    $this->dn         = $dn;
-    $this->config     = &$config;
+    $this->dn     = $dn;
+    $this->config = &$config;
 
     if (!count($data)) {
       $data[] = array("CLASS" => 'plugin',"NAME" => 'Error');
@@ -211,9 +211,9 @@ class tabs
     if (!$disabled) {
       $display .= "<input type=\"hidden\" name=\"arg\" value=\"\">";
     }
-    $display .= "<table summary=\"\" cellpadding=0 cellspacing=0 border=0 style=\"width:100%;\"><tr>";
-    $index = 0;
-    $style = array("tab_left", "tab_active", "tab_near_active", "tab_right");
+    $display  .= "<table summary=\"\" cellpadding=0 cellspacing=0 border=0 style=\"width:100%;\"><tr>";
+    $index    = 0;
+    $style    = array("tab_left", "tab_active", "tab_near_active", "tab_right");
     foreach ($this->by_name as $class => $name) {
 
       /* Activate right tabs with style "tab_right"
@@ -248,23 +248,23 @@ class tabs
       }
 
       if ($disabled) {
-        $display.= "<div class=\"$style[$index]$notify\"
+        $display .= "<div class=\"$style[$index]$notify\"
           style=' font-family:arial,helvetica,sans-serif;
                   font-weight:bold;
                   font-size:13px;
                   color: gray;'
           title=\"$title\">".$title."</div>";
-      }elseif (session::global_get('js')==FALSE){
-        $display.= "<div class=\"$style[$index]$notify\"><input type=\"submit\" name=\"$class\"".
+      } elseif (session::global_get('js') == FALSE) {
+        $display .= "<div class=\"$style[$index]$notify\"><input type=\"submit\" name=\"$class\"".
           " class=\"$style[$index]\" value=\"$title\"></div></td>";
       } else {
-        $display.= "<div class=\"$style[$index]$notify\"><a class=\"$style[$index]\" onclick=\"return true;\" href=\"javascript:document.mainform.arg.value='$class';document.mainform.submit();\">$title</a></div></td>";
+        $display .= "<div class=\"$style[$index]$notify\"><a class=\"$style[$index]\" onclick=\"return true;\" href=\"javascript:document.mainform.arg.value='$class';document.mainform.submit();\">$title</a></div></td>";
       }
     }
-    $display.= "<td style=\"vertical-align:bottom;\">\n";
-    $display.= "<div class=\"tab_border\">&nbsp;</div></td></tr></table>";
+    $display .= "<td style=\"vertical-align:bottom;\">\n";
+    $display .= "<div class=\"tab_border\">&nbsp;</div></td></tr></table>";
 
-    return($display);
+    return $display;
   }
 
   /*!
@@ -273,16 +273,16 @@ class tabs
   function delete()
   {
     /* Check if all plugins will ACK for deletion */
-    foreach (array_reverse($this->by_object) as $key => $obj){
-      $reason= $obj->allow_remove();
-      if ($reason != ""){
+    foreach (array_reverse($this->by_object) as $key => $obj) {
+      $reason = $obj->allow_remove();
+      if ($reason != "") {
         msg_dialog::display(_("Warning"), sprintf(_("Delete process has been canceled by plugin '%s': %s"), $key, $reason), WARNING_DIALOG);
         return;
       }
     }
 
     /* Delete for all plugins */
-    foreach (array_reverse($this->by_object) as $obj){
+    foreach (array_reverse($this->by_object) as $obj) {
       $obj->remove_from_parent();
     }
   }
@@ -293,8 +293,8 @@ class tabs
   function password_change_needed()
   {
     /* Ask all plugins for needed password changes */
-    foreach ($this->by_object as &$obj){
-      if ($obj->password_change_needed()){
+    foreach ($this->by_object as &$obj) {
+      if ($obj->password_change_needed()) {
         return TRUE;
       }
     }
@@ -317,7 +317,7 @@ class tabs
     /* Check all plugins */
     foreach ($this->by_object as $key => &$obj) {
       if ($obj->is_account || $obj->ignore_account) {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$key, "Checking");
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Checking");
 
         $msg = $obj->check();
 
@@ -377,12 +377,12 @@ class tabs
    *
    * \param array $skip
    */
-  function adapt_from_template($dn, $skip= array())
+  function adapt_from_template($dn, $skip = array())
   {
     foreach ($this->by_object as $key => &$obj) {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
           $key, "Adapting");
-      $obj->parent= &$this;
+      $obj->parent = &$this;
       $obj->adapt_from_template($dn, $skip);
     }
     unset($obj);
