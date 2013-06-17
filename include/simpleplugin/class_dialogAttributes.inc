@@ -516,23 +516,12 @@ class SystemsAttribute extends DialogAttribute
 
 class ButtonAttribute extends Attribute
 {
-  protected $dialogClass  = NULL;
-  protected $buttonText   = NULL;
+  protected $buttonText = NULL;
 
-  function __construct ($label, $description, $ldapName, $required, $dialogClass, $buttonText, $defaultValue = "", $acl = "")
+  function __construct ($label, $description, $ldapName, $required, $buttonText, $defaultValue = "", $acl = "")
   {
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
-    $this->dialogClass  = $dialogClass;
     $this->buttonText   = $buttonText;
-  }
-
-  function loadPostValue ()
-  {
-    if ($this->isVisible()) {
-      if (isset($_POST[$this->getLdapName()])) {
-        $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
-      }
-    }
   }
 
   function renderFormInput ()
@@ -546,10 +535,29 @@ class ButtonAttribute extends Attribute
   function applyPostValue ()
   {
   }
-
 }
 
-class UserAttribute extends ButtonAttribute
+class DialogButtonAttribute extends ButtonAttribute
+{
+  protected $dialogClass  = NULL;
+
+  function __construct ($label, $description, $ldapName, $required, $dialogClass, $buttonText, $defaultValue = "", $acl = "")
+  {
+    parent::__construct($label, $description, $ldapName, $required, $buttonText, $defaultValue, $acl);
+    $this->dialogClass  = $dialogClass;
+  }
+
+  function loadPostValue ()
+  {
+    if ($this->isVisible()) {
+      if (isset($_POST[$this->getLdapName()])) {
+        $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
+      }
+    }
+  }
+}
+
+class UserAttribute extends DialogButtonAttribute
 {
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "")
   {
