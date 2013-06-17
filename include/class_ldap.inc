@@ -27,10 +27,6 @@
  * Source code for Class LDAP
  */
 
-define("ALREADY_EXISTING_ENTRY", -10001);
-define("UNKNOWN_TOKEN_IN_LDIF_FILE", -10002);
-define("NO_FILE_UPLOADED", 10003);
-define("INSERT_OK", 10000);
 define("SPECIALS_OVERRIDE", TRUE);
 
 /*!
@@ -1144,7 +1140,7 @@ class LDAP{
    *
    * \param boolean $DeleteOldEntries
    */
-  function import_complete_ldif($srp, $str_attr, $error, $JustModify, $DeleteOldEntries)
+  function import_complete_ldif($srp, $str_attr, $JustModify, $DeleteOldEntries)
   {
     if ($this->reconnect) $this->connect();
 
@@ -1224,7 +1220,7 @@ class LDAP{
       /* Every block must begin with a dn */
       if ($dn != "dn") {
         $error = sprintf(_("This is not a valid DN: '%s'. A block for import should begin with 'dn: ...' in line %s"), $line, $current_line);
-        return -2;
+        throw new Exception($error);
       }
 
       /* Should we use Modify instead of Add */
@@ -1254,11 +1250,9 @@ class LDAP{
       if (!$this->import_single_entry($srp, $single, $usemodify, $usermdir)) {
         $error = sprintf(_("Error while importing dn: '%s', please check your LDIF from line %s on!"), $line,
                         $current_line);
-        return UNKNOWN_TOKEN_IN_LDIF_FILE;
+        throw new Exception($error);
       }
     }
-
-    return INSERT_OK;
   }
 
   /*! \brief Function to Imports a single entry
