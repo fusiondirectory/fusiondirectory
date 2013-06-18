@@ -23,10 +23,10 @@
 class aclroletab extends tabs
 {
 
-  function aclroletab($config, $data, $dn, $cat = "", $copied_object = NULL)
+  function __construct($config, $data, $dn, $cat = "", $copied_object = NULL)
   {
     $data = array(array("CLASS" => "aclrole" , "NAME" => _("ACL Templates")));
-    tabs::tabs($config, $data, $dn, "acl", $copied_object);
+    parent::__construct($config, $data, $dn, "acl", $copied_object);
   }
 
   function save($ignore_account = FALSE)
