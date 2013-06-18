@@ -582,7 +582,9 @@ class UserAttribute extends DialogButtonAttribute
     } else {
       $display  .= '<a>'.$this->buttonText.'</a>';
     }
-    $display  .= '<input class="center" type="image" src="images/lists/edit.png" name="'.$id.'" id="'.$id.'" value="{literal}'.$this->buttonText.'{/literal}" '.
+    $display  .= '<input class="center" type="image" src="images/lists/edit.png" '.
+                'alt="'._('Edit').'" title="'._('Edit').'" name="'.$id.'" id="'.$id.'" '.
+                'value="{literal}'.$this->buttonText.'{/literal}" '.
                 ($this->disabled? 'disabled="disabled"':'').'/>';
     return $this->renderAcl($display);
   }
