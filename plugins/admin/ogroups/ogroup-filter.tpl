@@ -1,6 +1,6 @@
 <div class="contentboxh">
  <p class="contentboxh">
-  <img src="images/launch.png" alt="[F]">{t}Filter{/t}
+  <img src="images/launch.png" alt="[F]"/>{t}Filter{/t}
  </p>
 </div>
 
@@ -20,11 +20,11 @@
 
  {$SCOPE}
 
- <table summary="" style="width:100%;border-top:1px solid #B0B0B0;">
+ <table style="width:100%;border-top:1px solid #B0B0B0;">
   <tr>
    <td>
     <label for="NAME">
-     <img src="images/lists/search.png"/>&nbsp;{t}Name{/t}
+     <img src="images/lists/search.png" alt="search"/>&nbsp;{t}Name{/t}
     </label>
    </td>
    <td>
