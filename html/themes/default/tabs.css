@@ -1,4 +1,26 @@
 
+table.tabs_header {
+width:100%;
+border:none;
+border-spacing:0px;
+}
+
+table.tabs_header > tbody > tr > td {
+padding:0;
+}
+
+div.tab_content {
+padding:4px;
+width:100%;
+background-color:#F8F8F8;
+border-style:solid;
+border-color:#AAA;
+border-top-width:0px;
+border-bottom-width:1px;
+border-left-width:1px;
+border-right-width:1px;
+}
+
 div.tab_active {
 text-align:center;
 background-color:#f8f8f8;

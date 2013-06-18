@@ -21,7 +21,7 @@
     <div class="optional">
       {t}Please use your username and your password to log into the site administration system.{/t}<br />
       {if $ssl}<b>{$ssl}</b>{/if}
-      {if $lifetime}<b><font style="color:red";>{$lifetime}</font></b>{/if}
+      {if $lifetime}<b><div style="color:red;">{$lifetime}</div></b>{/if}
     </div>
 
     <input id="focus" name="focus" type="image" src="images/empty.png" style="width:0px; height:0px;" />

@@ -168,8 +168,7 @@ class tabs
   function execute()
   {
     /* Show object */
-    $display = "<table summary=\"\" cellpadding=4 cellspacing=0 border=0 style=\"width:100%; background-color:#F8F8F8; border-style:solid; border-color:#AAA; border-top-width:0px; border-bottom-width:1px; border-left-width:1px; border-right-width:1px;\">\n";
-    $display .= "<tr><td>\n";
+    $display = '<div class="tab_content">'."\n";
 
     $display .= $this->by_object[$this->current]->execute();
     $modal_dialog = $this->by_object[$this->current]->is_modal_dialog();
@@ -178,7 +177,7 @@ class tabs
     $tabs   = $this->gen_tabs($modal_dialog);
 
     /* Footer for tabbed dialog */
-    $display = $tabs.$display."</td></tr></table>";
+    $display = $tabs.$display.'</div>';
 
     return $display;
   }

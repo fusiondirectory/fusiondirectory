@@ -2,7 +2,7 @@
 
 function smarty_block_render($params, $text, &$smarty)
 {
-	/* Skip closing tag </render> */	
+	/* Skip closing tag </render> */
 	if(empty($text)) {
 		return("");
 	}
@@ -15,14 +15,14 @@ function smarty_block_render($params, $text, &$smarty)
 
 	/* Debug output */
 	if (session::is_set('DEBUGLEVEL') && session::get('DEBUGLEVEL') & DEBUG_ACL ){
-		echo "<font color='blue' size='2'>&nbsp;".$acl."</font>";
+		echo "<div style='color:blue;font-size:2;'>&nbsp;".$acl."</div>";
 	}
 
 
 
 	/* Parameter : checkbox, checked
-     *  If the parameter 'checkbox' is given, we create a html checkbox in front 
-     *   of the current object. 
+     *  If the parameter 'checkbox' is given, we create a html checkbox in front
+     *   of the current object.
      *	The parameter 'checked' specifies whether the box is checked or not.
      *  The checkbox disables or enables the current object.
      */
@@ -30,30 +30,30 @@ function smarty_block_render($params, $text, &$smarty)
 
 		/* Detect name and id of the current object */
 		$use_text = preg_replace("/\n/"," ",$text);
-		$name = preg_replace('/^.* name[ ]*=[ ]*("|\')([^\"\' ]*).*$/i',"\\2",$use_text);	
+		$name = preg_replace('/^.* name[ ]*=[ ]*("|\')([^\"\' ]*).*$/i',"\\2",$use_text);
 
 		/* Detect id */
 		if(preg_match("/ id=(\"|')[^\"']*(\"|')/i",$text)){
-			$id = preg_replace('/^.* id[ ]*=[ ]*("|\')([^\"\' ]*).*$/i',"\\2",$use_text);	
+			$id = preg_replace('/^.* id[ ]*=[ ]*("|\')([^\"\' ]*).*$/i',"\\2",$use_text);
 		}else{
 			$id = "";
 		}
-		
+
 		/* Is the box checked? */
 		isset($params['checked'])&&$params['checked'] ? $check = " checked " : $check = "";
 
-		/* If name isset, we have a html input field */	
+		/* If name isset, we have a html input field */
 		if(!empty($name)){
 
 			/* Print checkbox */
-			echo "<input type='checkbox' name='use_".$name."' ".$check." 
+			echo "<input type='checkbox' name='use_".$name."' ".$check."
 					onClick=\"changeState('".$name."');\" class='center'>";
 
 			/* Disable current object, if checkbox isn't checked */
 			if($check == ""){
 				$text = preg_replace("/name=/i"," disabled name=",$text);
 			}
-			
+
 			/* Add id to current entry, if it is missing */
 			if($id == ""){
 				$text = preg_replace("/name=/i"," id=\"".$name."\" name=",$text);
@@ -81,8 +81,8 @@ function smarty_block_render($params, $text, &$smarty)
 				"class='list1nohighlightdisabled'",
 				"class='list1nohighlightdisabled'",
 				"class='sortableListItemDisabled'");
-				
-		if(!preg_match("/ disabled /",$text)){
+
+		if(!preg_match('/ disabled(="disabled")?( |\/?>)/', $text)){
 			$from [] = "/name=/i" ;
 			$to   [] = "disabled name=";
 		}
@@ -95,14 +95,14 @@ function smarty_block_render($params, $text, &$smarty)
 			$new = "src=\"".$params['disable_picture']."\"";
 			$text = preg_replace($syn,$new,$text);
 		}
-	}		
+	}
 
 	/* Read only */
 	if(preg_match("/r/i",$acl)){
-		return(preg_replace("/GOSA_LINE_BREAK/","\n",$text));	
+		return(preg_replace("/GOSA_LINE_BREAK/","\n",$text));
 	}
 
-	/* No acls */	
+	/* No acls */
 	if(preg_match("/type['\"= ].*submit/",$text)){
 		$text = preg_replace("/submit/","button",$text);
 	}else{

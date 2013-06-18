@@ -183,7 +183,7 @@ html.rtl p.seperator {
 text-align:right;
 }
 
-font.must {
+.must {
 color:red;
 font-family:arial,helvetica,sans-serif;
 }

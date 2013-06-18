@@ -201,10 +201,10 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
         <table summary=\"\" width=\"100%\" style='background-color:#E0E0E0;border-bottom:1px solid black;z-index:150;'>
           <tr>
             <td>
-              <img alt=\"\" align=\"middle\" src='{$warning_path}'>&nbsp;
-              <font style='font-size:14px;font-weight:bold'>".
+              <img alt=\"\" src='{$warning_path}'>&nbsp;
+              <div style='font-size:14px;font-weight:bold'>".
                 _("Generating this page caused the PHP interpreter to raise some errors!")."
-              </font>
+              </div>
             </td>
             <td align=right>
               <a href=\"mailto:bugs@fusiondirectory.org?subject=FusionDirectory%20bugreport&amp;body=%BUGBODY%\">

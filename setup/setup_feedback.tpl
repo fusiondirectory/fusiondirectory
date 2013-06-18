@@ -1,20 +1,20 @@
 
 {if $feedback_send}
 
-  <div class='default' style='margin:12px; '>  
-    <font color='green'>{t}Feedback successfully send{/t}</font>
-  </div>  
+  <div class='default' style='margin:12px; '>
+    <div style='color:green;'>{t}Feedback successfully send{/t}</div>
+  </div>
 
 {else}
-  
-<div class='default' style='margin:12px; '>  
+
+<div class='default' style='margin:12px; '>
 
   <h2>{$additional_info}</h2>
 
   <h2>
     <input {if $subscribe} checked {/if} type='checkbox' name='subscribe' value='1' class='center'>&nbsp;{t}Subscribe to the fusiondirectory-users mailinglist{/t}
   </h2>
-  <table> 
+  <table>
     <tr>
       <td>
         {t}Organization{/t}
@@ -36,7 +36,7 @@
         {t}Mail address{/t}{$must}
       </td>
       <td>
-        <input name='eMail' type='text' value='{$eMail}' style='width:300px;'>  
+        <input name='eMail' type='text' value='{$eMail}' style='width:300px;'>
       </td>
     </tr>
   </table>
@@ -50,10 +50,10 @@
   {t}When checking this option, FusionDirectory will try to connect http://www.fusiondirectory.org in order to submit your form anonymously.{/t}
   </p>
   <b>{t}Generic{/t}</b>
-  <table> 
+  <table>
     <tr>
       <td style='vertical-align:top'>
-        {t}Did the setup procedure help you to get started?{/t}   
+        {t}Did the setup procedure help you to get started?{/t}
       </td>
       <td>
         <input {if $get_started} checked {/if} type='radio' name='get_started' value='1'>{t}Yes{/t}
@@ -78,10 +78,10 @@
         <br>
         <input {if !$first_use} checked {/if} type='radio' name='first_use' value='0'>{t}No{/t},
         {t}I use it since{/t}
-        <select name='use_since' title='{t}Select the year since when you are using FusionDirectory{/t}'> 
+        <select name='use_since' title='{t}Select the year since when you are using FusionDirectory{/t}'>
           {html_options options=$years}
         </select>
-      </td> 
+      </td>
     </tr>
     <tr>
       <td style='vertical-align:top'>

@@ -73,6 +73,12 @@ text-align:left;
 
 /* Simple Plugin specific things */
 
+.plugin_sections:after {
+content: "";
+display: block;
+clear: both;
+}
+
 .plugin_section {
 display:block;
 float:left;
