@@ -159,7 +159,7 @@ class msg_dialog
         $display .= $trace;
       }
       $display .=
-        "<table style='width:100%; border:2px solid red;' summary=''>
+        "<table style='width:100%; border:2px solid red;'>
         <tr><td style='vertical-align:top;padding:10px'>
         <img src='images/error.png' alt='{t}Error{/t}'>
         </td><td style='width:100%'>

@@ -33,7 +33,7 @@ function html_trace($errstr = "")
   }
   $trace = debug_backtrace();
 
-  $return_html    = "<table summary=\"\" width=\"100%\" cellspacing=0 style='background-color:#402005;color:white;border:2px solid red'><tr><td colspan=3><h1 style='color:white'>"._("PHP error")." \"$errstr\"</h1></td></tr>";
+  $return_html    = "<table width=\"100%\" cellspacing=0 style='background-color:#402005;color:white;border:2px solid red'><tr><td colspan=3><h1 style='color:white'>"._("PHP error")." \"$errstr\"</h1></td></tr>";
   $return_mailto  = rawurlencode("=== Trace ===");
   /* Generate trace history */
   for ($index = 0, $c = count($trace); $index < $c; $index++) {

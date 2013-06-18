@@ -1895,7 +1895,7 @@ function range_selector($dcnt, $start, $range = 25, $post_var = FALSE)
 
   if ($post_var) {
     $output .= "<div style='border:1px solid #E0E0E0; background-color:#FFFFFF;'>
-      <table summary='' width='100%'><tr><td style='width:25%'></td><td style='text-align:center;'>";
+      <table width='100%'><tr><td style='width:25%'></td><td style='text-align:center;'>";
   } else {
     $output .= "<div style='border:1px solid #E0E0E0; background-color:#FFFFFF;'>";
   }
@@ -1904,7 +1904,7 @@ function range_selector($dcnt, $start, $range = 25, $post_var = FALSE)
   if ($start > 0 ) {
     $output .= "  <a href= \"main.php?plug=".validate($_GET['plug'])."&amp;start=".
       ($start - $range)."\">".
-      "<img class=\"center\" alt=\"\" src=\"images/back.png\" border=0 align=\"middle\"></a>";
+      '<img class="center" alt="back" src="images/back.png"/></a>';
   }
 
   /* Draw pages */
@@ -1923,7 +1923,7 @@ function range_selector($dcnt, $start, $range = 25, $post_var = FALSE)
   if ($start < ($dcnt - $range)) {
     $output .= "  <a href= \"main.php?plug=".validate($_GET['plug'])."&amp;start=".
       ($start + $range)."\">".
-      "<img class=\"center\" alt=\"\" src=\"images/forward.png\" border=\"0\" align=\"middle\"></a>";
+      '<img class="center" alt="forward" src="images/forward.png"/></a>';
   }
 
   if ($post_var && $numpages) {
@@ -1956,8 +1956,8 @@ function range_selector($dcnt, $start, $range = 25, $post_var = FALSE)
  */
 function apply_filter()
 {
-  return '<table summary=""  width="100%"  style="background:#EEEEEE;border-top:1px solid #B0B0B0;">'.
-    '<tr><td width="100%" align="right">'.
+  return '<table  width="100%"  style="background:#EEEEEE;border-top:1px solid #B0B0B0;">'.
+    '<tr><td style="width:100%;text-align:right;">'.
     '<input type="submit" name="apply" value="'._("Apply filter").'">'.
     '</td></tr></table>';
 }

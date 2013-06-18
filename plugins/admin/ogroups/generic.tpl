@@ -1,8 +1,8 @@
-<table summary="" style="width:100%;">
+<table style="width:100%;">
  <tr>
   <td style="width:50%; vertical-align:top">
    <input type="hidden" name="ogroupedit" value="1">
-   <table summary="">
+   <table>
     <tr>
      <td><LABEL for="cn">{t}Group name{/t}</LABEL>{$must}</td>
      <td>
@@ -33,7 +33,7 @@
    </table>
 
   <p class="seperator">&nbsp;</p>
-  <h2><img alt="" class="center" align="middle" src="images/lists/locked.png" /> {t}System trust{/t}</h2>
+  <h2><img alt="" class="center" src="images/lists/locked.png" /> {t}System trust{/t}</h2>
     {t}Trust mode{/t}&nbsp;
     {render acl=$trustmodeACL}
         <select name="trustmode" id="trustmode" size=1
@@ -81,7 +81,7 @@
 </table>
 
 <!-- Place cursor -->
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
   <!-- // First input field on page
   focus_field('cn');
   -->

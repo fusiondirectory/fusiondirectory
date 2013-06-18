@@ -1,4 +1,4 @@
-<table summary="" class="listing_container">
+<table class="listing_container">
   <tbody>
     <tr>
       <td class="list">

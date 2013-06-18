@@ -6,7 +6,7 @@
 <!-- Spacer for some browsers -->
 <div class='gosaLoginSpacer'></div>
 
-<table summary="" class='gosaLoginMask' style="text-align:right;" align='center'>
+<table class='gosaLoginMask' style="text-align:right;" align='center'>
  <tr>
   <td class='gosaAccountExpiredBack' style="width:550px;">
    <div class='gosaAccountExpiredBack'>
@@ -17,7 +17,7 @@
 
     <!-- Formular data, containing a table to center fields -->
     <form action='index.php' method='post' name='mainform' onSubmit='js_check(this);return true;'>
-     <table summary="" style='vertical-align:middle; text-align:left;' cellspacing='7' align='center'>
+     <table style='vertical-align:middle; text-align:left;' cellspacing='7' align='center'>
       <tr>
         <td>
           <p> {t}Old password{/t}</p>
@@ -61,7 +61,7 @@
 </table>
 
 <!-- Place cursor in username field -->
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
   <!-- // First input field on page
   nextfield= "{$nextfield}";
   focus_field({$nextfield});

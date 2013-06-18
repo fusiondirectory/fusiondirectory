@@ -394,7 +394,7 @@ class CopyPasteHandler {
    */
   function generatePasteIcon()
   {
-    $Copy_Paste = "&nbsp;<img class='center' src='images/lists/seperator.png' align='middle' alt='' height='16' width='1'>&nbsp;";
+    $Copy_Paste = "&nbsp;<img class='center' src='images/lists/seperator.png' alt='' height='16' width='1'>&nbsp;";
     if ($this->entries_queued()) {
       $img = "images/lists/paste.png";
 

@@ -197,7 +197,7 @@ class baseSelector {
     }
 
     $link = "onclick=\"\$('bs_rebase_".$this->pid."').value='".base64_encode($config->current['BASE'])."';  $('submit_tree_base_".$this->pid."').click();\"";
-    $this->tree = "<input class='base_selector' 'type='text' name='bs_input_".$this->pid."' id='bs_input_".$this->pid."' onkeydown=\"\$('bs_".$this->pid."').hide()\" onfocus=\"\$('bs_".$this->pid."').hide()\" onmouseover=\"Element.clonePosition(\$('bs_".$this->pid."'), 'bs_input_".$this->pid."', {setHeight: false, setWidth: false, offsetTop:(Element.getHeight('bs_input_".$this->pid."'))});\$('bs_".$this->pid."').show();\" onmouseout=\"rtimer= Element.hide.delay(0.25, 'bs_".$this->pid."')\" value=\"".preg_replace('/"/', '&quot;', $this->pathMapping[$this->base])."\">";
+    $this->tree = "<input class='base_selector' type='text' name='bs_input_".$this->pid."' id='bs_input_".$this->pid."' onkeydown=\"\$('bs_".$this->pid."').hide()\" onfocus=\"\$('bs_".$this->pid."').hide()\" onmouseover=\"Element.clonePosition(\$('bs_".$this->pid."'), 'bs_input_".$this->pid."', {setHeight: false, setWidth: false, offsetTop:(Element.getHeight('bs_input_".$this->pid."'))});\$('bs_".$this->pid."').show();\" onmouseout=\"rtimer= Element.hide.delay(0.25, 'bs_".$this->pid."')\" value=\"".preg_replace('/"/', '&quot;', $this->pathMapping[$this->base])."\">";
 
     // Autocompleter
     $this->tree .= "<div id='autocomplete_".$this->pid."' class='autocomplete'></div>".
@@ -236,10 +236,10 @@ class baseSelector {
         }
         $this->tree .= "</li>\n";
       }
-      $selected   = $this->base == $base?" class='treeListSelected'":"";
+      $selected   = ($this->base == $base?" class='treeListSelected'":"");
       $link       = "onclick=\"\$('bs_rebase_".$this->pid."').value='".base64_encode($base)."';$('submit_tree_base_".$this->pid."').click();\"";
       $this->tree .= "<li><a$selected $link>".
-                    "<img class='center' src='".$config->department_info[$base]['img']."'>&nbsp;".
+                    "<img class='center' src='".$config->department_info[$base]['img']."' alt='".$config->department_info[$base]['name']."'/>&nbsp;".
                     $this->gennonbreaks($config->department_info[$base]['name']).
                     ($config->department_info[$base]['description'] == ''?'':'&nbsp;<span class="informal">['.$this->gennonbreaks($config->department_info[$base]['description']).']</span>').
                     "</a>";
@@ -249,14 +249,14 @@ class baseSelector {
     }
 
     // Close tree
-    for ($i = 0; $i < $last_indent; $i++) {
+    for ($i = 1; $i < $last_indent; $i++) {
       $this->tree .= "</li></ul>\n";
     }
     $this->tree .= "</div>\n";
 
     // Draw submitter if required
     if ($this->submitButton) {
-      $this->tree .= "&nbsp;<input class='center' type='image' src='images/lists/submit.png' align='middle' title='"._("Submit")."' name='submit_base_".$this->pid."' id='submit_base_".$this->pid."' alt='"._("Submit")."'>";
+      $this->tree .= "&nbsp;<input class='center' type='image' src='images/lists/submit.png' title='"._("Submit")."' name='submit_base_".$this->pid."' id='submit_base_".$this->pid."' alt='"._("Submit")."'>";
     }
     $this->tree .= "<input type='submit' style='display:none' name='submit_tree_base_".$this->pid."' id='submit_tree_base_".$this->pid."'>";
     $this->tree .= "<input type='hidden' name='bs_rebase_".$this->pid."' id='bs_rebase_".$this->pid."'>";

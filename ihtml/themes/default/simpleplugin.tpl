@@ -7,7 +7,7 @@
 <input name="{$hiddenPostedInput}" value="1" type="hidden"/>
 
 <!-- Place cursor -->
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
   <!-- // First input field on page
     focus_field('{$focusedField}');
   -->

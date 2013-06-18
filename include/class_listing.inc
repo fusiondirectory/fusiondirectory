@@ -303,23 +303,23 @@ class listing {
             isset($config['sortType'])) {
           $this->sortAttribute  = $config['sortAttribute'];
           $this->sortType       = $config['sortType'];
-          $sorter = "&nbsp;<img border='0' title='".($this->sortDirection[$index]?_("Up"):_("Down"))."' src='images/lists/sort-".($this->sortDirection[$index]?"up":"down").".png' align='top'>";
+          $sorter = "&nbsp;<img title='".($this->sortDirection[$index]?_("Up"):_("Down"))."' src='images/lists/sort-".($this->sortDirection[$index]?"up":"down").".png' alt='".($this->sortDirection[$index]?_('Sort up'):_('Sort down'))."'>";
         }
         $sortable = (isset($config['sortAttribute']));
 
         $link = "href='?plug=".$_GET['plug']."&amp;PID=".$this->pid."&amp;act=SORT_$index'";
         if (isset($config['label'])) {
           if ($sortable) {
-            $this->header[$index] = "<th ".$this->colprops[$index]."><a $link>"._($config['label'])."$sorter</a></td>";
+            $this->header[$index] = "<th ".$this->colprops[$index]."><a $link>"._($config['label'])."$sorter</a></th>";
           } else {
-            $this->header[$index] = "<th ".$this->colprops[$index].">"._($config['label'])."</td>";
+            $this->header[$index] = "<th ".$this->colprops[$index].">"._($config['label'])."</th>";
           }
           $this->plainHeader[] = _($config['label']);
         } else {
           if ($sortable) {
-            $this->header[$index] = "<th ".$this->colprops[$index]."><a $link>&nbsp;$sorter</a></td>";
+            $this->header[$index] = "<th ".$this->colprops[$index]."><a $link>&nbsp;$sorter</a></th>";
           } else {
-            $this->header[$index] = "<th ".$this->colprops[$index].">&nbsp;</td>";
+            $this->header[$index] = "<th ".$this->colprops[$index].">&nbsp;</th>";
           }
           $this->plainHeader[] = "";
         }
@@ -354,7 +354,7 @@ class listing {
     }
 
     $result .= "<div id='d_scrollbody' style='width:100%;'>\n";
-    $result .= "<table summary='$this->headline' style='width:100%;' id='t_scrolltable' class='listingTable'>\n";
+    $result .= "<table style='width:100%;' id='t_scrolltable' class='listingTable'>\n";
     $this->numColumns = count($this->colprops) + ($this->multiSelect?1:0);
 
     // Build list header
@@ -483,7 +483,7 @@ class listing {
     $result .= $switch?"<input type='hidden' id='list_workaround'>":"";
 
     // Add scroll positioner
-    $result .= '<script type="text/javascript" language="javascript">';
+    $result .= '<script type="text/javascript">';
     $result .= '$("t_nscrollbody").scrollTop= '.$this->scrollPosition.';';
     $result .= 'var box = $("t_nscrollbody").onscroll= function() {$("position_'.$this->pid.'").value= this.scrollTop;}';
     $result .= '</script>';
@@ -505,7 +505,7 @@ class listing {
     $smarty->assign("BASE", $this->renderBase());
 
     // Assign separator
-    $smarty->assign("SEPARATOR", "<img src='images/lists/seperator.png' alt='-' align='middle' height='16' width='1' class='center'>");
+    $smarty->assign("SEPARATOR", "<img src='images/lists/seperator.png' alt='-' height='16' width='1' class='center'>");
 
     // Assign summary
     $smarty->assign("HEADLINE", $this->headline);
@@ -933,7 +933,7 @@ class listing {
     $type = $this->getObjectType($classes);
     if ($type) {
       $this->objectDnMapping[$dn] = $type;
-      $result = "<img class='center' title='".LDAP::fix($dn)."' src='".$this->objectTypes[$type]["image"]."'>";
+      $result = "<img class='center' title='".LDAP::fix($dn)."' src='".$this->objectTypes[$type]["image"]."' alt='$type'/>";
       if (!isset($this->objectTypeCount[$this->objectTypes[$type]['label']])) {
         $this->objectTypeCount[$this->objectTypes[$type]['label']] = 0;
       }
@@ -1013,7 +1013,7 @@ class listing {
       if ($action['type'] == "entry") {
         $label = $this->processElementFilter($action['label'], $this->entries[$row], $row);
         $image = $this->processElementFilter($action['image'], $this->entries[$row], $row);
-        $result .= "<input class='center' type='image' src='$image' title='$label' ".
+        $result .= "<input class='center' type='image' src='$image' title='$label' alt='$label' ".
                  "name='listing_".$action['name']."_$row' style='padding:1px'>";
       }
 
@@ -1115,7 +1115,7 @@ class listing {
 
     /* Draw root button */
     if ($enableRoot) {
-      $result["ROOT"] = "<input class='center' type='image' src='images/lists/root.png' align='middle' ".
+      $result["ROOT"] = "<input class='center' type='image' src='images/lists/root.png' ".
                        "title='"._("Go to root department")."' name='ROOT' alt='"._("Root")."'>";
     } else {
       $result["ROOT"] = "<img src='images/lists/root_grey.png' class='center' alt='"._("Root")."'>";
@@ -1123,7 +1123,7 @@ class listing {
 
     /* Draw back button */
     if ($enableBack) {
-      $result["BACK"] = "<input class='center' type='image' align='middle' src='images/lists/back.png' ".
+      $result["BACK"] = "<input class='center' type='image' src='images/lists/back.png' ".
                        "title='"._("Go up one department")."' alt='"._("Up")."' name='BACK'>";
     } else {
       $result["BACK"] = "<img src='images/lists/back_grey.png' class='center' alt='"._("Up")."'>";
@@ -1131,14 +1131,14 @@ class listing {
 
     /* Draw home button */
     if ($enableHome) {
-      $result["HOME"] = "<input class='center' type='image' align='middle' src='images/lists/home.png' ".
+      $result["HOME"] = "<input class='center' type='image' src='images/lists/home.png' ".
                        "title='"._("Go to users department")."' alt='"._("Home")."' name='HOME'>";
     } else {
       $result["HOME"] = "<img src='images/lists/home_grey.png' class='center' alt='"._("Home")."'>";
     }
 
     /* Draw reload button, this button is enabled everytime */
-    $result["RELOAD"] = "<input class='center optional' type='image' src='images/lists/reload.png' align='middle' ".
+    $result["RELOAD"] = "<input class='center optional' type='image' src='images/lists/reload.png' ".
                        "title='"._("Reload list")."' name='REFRESH' alt='"._("Submit")."'>";
 
     return $result;
@@ -1255,7 +1255,7 @@ class listing {
     $actions  = &$this->xmlData['actionmenu']['action'];
     $result   = "<input type='hidden' name='act' id='actionmenu' value=''><div style='display:none'><input type='submit' name='exec_act' id='exec_act' value=''></div>".
              "<ul class='level1' id='root'><li><a href='#'>"._("Actions")."&nbsp;<img ".
-             "border='0' class='center optional' src='images/lists/sort-down.png'/></a>";
+             "class='center optional' src='images/lists/sort-down.png' alt='down arrow'/></a>";
 
     // Build ul/li list
     $result .= $this->recurseActions($actions);
@@ -1291,7 +1291,7 @@ class listing {
       // Fill image if set
       $img = "";
       if (isset($action['image'])) {
-        $img = "<img border='0' class='center' src='".$action['image']."'>&nbsp;";
+        $img = "<img class='center' src='".$action['image']."' alt='".$action['type']."'/>&nbsp;";
       }
 
       if ($action['type'] == "separator") {
@@ -1303,7 +1303,7 @@ class listing {
       if ($action['type'] == "sub" && isset($action['action'])) {
         $level++;
         if (isset($action['label'])) {
-          $result .= "<li$separator><a href='#'>$img"._($action['label'])."&nbsp;<img border='0' src='images/forward-arrow.png'></a>";
+          $result .= "<li$separator><a href='#'>$img"._($action['label'])."&nbsp;<img src='images/forward-arrow.png' alt='forward arrow'/></a>";
         }
 
         // Ensure we've an array of actions, this enables sub menus with only one action.
@@ -1537,13 +1537,13 @@ class listing {
     if ($read) {
       // Copy entry
       if ($copy) {
-        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"copy\";document.getElementById(\"exec_act\").click();'><img src='images/lists/copy.png' alt='' border='0' class='center'>&nbsp;"._("Copy")."</a></li>";
+        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"copy\";document.getElementById(\"exec_act\").click();'><img src='images/lists/copy.png' alt='copy' class='center'>&nbsp;"._("Copy")."</a></li>";
         $separator = "";
       }
 
       // Cut entry
       if ($cut) {
-        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"cut\";document.getElementById(\"exec_act\").click();'><img src='images/lists/cut.png' alt='' border='0' class='center'>&nbsp;"._("Cut")."</a></li>";
+        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"cut\";document.getElementById(\"exec_act\").click();'><img src='images/lists/cut.png' alt='cut' class='center'>&nbsp;"._("Cut")."</a></li>";
         $separator = "";
       }
     }
@@ -1551,9 +1551,9 @@ class listing {
     // Draw entries that allow pasting entries
     if ($paste) {
       if ($this->copyPasteHandler->entries_queued()) {
-        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"paste\";document.getElementById(\"exec_act\").click();'><img src='images/lists/paste.png' alt='' border='0' class='center'>&nbsp;"._("Paste")."</a></li>";
+        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"paste\";document.getElementById(\"exec_act\").click();'><img src='images/lists/paste.png' alt='paste' class='center'>&nbsp;"._("Paste")."</a></li>";
       } else {
-        $result .= "<li$separator><a href='#'><img src='images/lists/paste-grey.png' alt='' border='0' class='center'>&nbsp;"._("Paste")."</a></li>";
+        $result .= "<li$separator><a href='#'><img src='images/lists/paste-grey.png' alt='paste' class='center'>&nbsp;"._("Paste")."</a></li>";
       }
     }
 
@@ -1619,9 +1619,9 @@ class listing {
 
       // Draw icons according to the restore flag
       if ($restore) {
-        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"restore\";document.getElementById(\"exec_act\").click();'><img src='images/lists/restore.png' alt='' border='0' class='center'>&nbsp;"._("Restore snapshots")."</a></li>";
+        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"restore\";document.getElementById(\"exec_act\").click();'><img src='images/lists/restore.png' alt='restore' class='center'>&nbsp;"._("Restore snapshots")."</a></li>";
       } else {
-        $result .= "<li$separator><a href='#'><img src='images/lists/restore_grey.png' alt='' border='0' class='center'>&nbsp;"._("Restore snapshots")."</a></li>";
+        $result .= "<li$separator><a href='#'><img src='images/lists/restore_grey.png' alt='restore' class='center'>&nbsp;"._("Restore snapshots")."</a></li>";
       }
     }
 
@@ -1635,11 +1635,11 @@ class listing {
     $result = "";
 
     // Draw entries
-    $result .= "<li$separator><a href='#'><img border='0' class='center' src='images/lists/export.png'>&nbsp;"._("Export list")."&nbsp;<img border='0' src='images/forward-arrow.png'></a><ul class='level3'>";
+    $result .= "<li$separator><a href='#'><img class='center' src='images/lists/export.png' alt='export'>&nbsp;"._("Export list")."&nbsp;<img src='images/forward-arrow.png' alt='arrow'></a><ul class='level3'>";
 
     // Export CVS as build in exporter
     foreach ($this->exporter as $action => $exporter) {
-      $result .= "<li><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"$action\";document.getElementById(\"exec_act\").click();'><img border='0' class='center' src='".$exporter['image']."'>&nbsp;".$exporter['label']."</a></li>";
+      $result .= "<li><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"$action\";document.getElementById(\"exec_act\").click();'><img class='center' src='".$exporter['image']."' alt='$action'>&nbsp;".$exporter['label']."</a></li>";
     }
 
     // Finalize list
@@ -1673,7 +1673,7 @@ class listing {
                      "alt='"._("Restore snapshot")."' name='listing_restore_$row' title='".
                      _("Restore snapshot")."' style='padding:1px'>";
         } else {
-          $result .= "<img src='images/lists/restore_grey.png' alt=' ' class='center' style='padding:1px'>";
+          $result .= "<img src='images/lists/restore_grey.png' alt='restore' class='center' style='padding:1px'>";
         }
       }
 

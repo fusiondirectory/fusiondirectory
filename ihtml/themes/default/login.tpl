@@ -8,7 +8,7 @@
 <div id="window_container">
 
 <div id="window_div">
-<form action='index.php' method='post' name='mainform' onSubmit='js_check(this);return true;'>
+<form action="index.php" method="post" name="mainform" onSubmit="js_check(this);return true;">
 
 {$msg_dialogs}
   <div id="window_titlebar">
@@ -24,21 +24,20 @@
       {if $lifetime}<b><div style="color:red;">{$lifetime}</div></b>{/if}
     </div>
 
-    <input id="focus" name="focus" type="image" src="images/empty.png" style="width:0px; height:0px;" />
     <div>
-      <label for="username"><img class="center" align="middle" src="{$personal_img}" alt="{t}Username{/t}" title="{t}Username{/t}"/>&nbsp;</label>
+      <label for="username"><img class="center" src="{$personal_img}" alt="{t}Username{/t}" title="{t}Username{/t}"/>&nbsp;</label>
       <input type="text" name="username" id="username" maxlength="40" value="{$username}"
        title="{t}Username{/t}" onFocus="nextfield= 'password';" />
       <br />
       <br />
-      <label for="password"><img class="center" align="middle" src="{$password_img}" alt="{t}Password{/t}" title="{t}Password{/t}" />&nbsp;</label>
+      <label for="password"><img class="center" src="{$password_img}" alt="{t}Password{/t}" title="{t}Password{/t}" />&nbsp;</label>
       <input type="password" name="password" id="password" maxlength="40" value=""
          title="{t}Password{/t}" onFocus="nextfield= 'login';" />
       <br />
       <a href="recovery.php">{t}I forgot my password{/t}</a>
     </div>
     <div>
-      <img class="center" align="middle" src="{$directory_img}" alt="{t}Directory{/t}" title="{t}Directory{/t}" />&nbsp;
+      <img class="center" src="{$directory_img}" alt="{t}Directory{/t}" title="{t}Directory{/t}" />&nbsp;
       <select name="server" title="{t}Directory{/t}" onchange="javascript:document.mainform.submit();">
         {html_options options=$server_options selected=$server_id}
       </select>
@@ -46,7 +45,7 @@
 
       <!-- check, if cookies are enabled -->
       <p class="gosaLoginWarning">
-       <script language="JavaScript" type="text/javascript">
+       <script type="text/javascript">
         <!--
         document.cookie = "gosatest=empty;path=/";
         if (document.cookie.indexOf( "gosatest=") > -1 )
@@ -77,7 +76,7 @@
 
 </div>
 
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 <!--
   enable_keyPress = false;
   nextfield= "{$nextfield}";

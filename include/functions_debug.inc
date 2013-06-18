@@ -9,7 +9,7 @@
 * License.......: Free to use. Postcardware ;)
 *
 *-----------------------------------------------------------------------
-* 
+*
 * Functions in this library:
 *
 * print_a( array array [,int mode] )
@@ -49,7 +49,7 @@
  * \file functions_debug.inc
  * Source code for print_a class
  * and helper function
- */ 
+ */
 
 /*!
  * \brief print_a class and helper function

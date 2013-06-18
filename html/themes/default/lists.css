@@ -142,22 +142,6 @@ background-color:#FFF;
 cursor:default;
 }
 
-tr.sortableListItemOdd ::-moz-selection,tr.sortableListItem ::-moz-selection {
-background:transparent;
-}
-
-tr.sortableListItemOdd ::selection,tr.sortableListItem ::selection {
-background:transparent;
-}
-
-tr.sortableListItemOdd code::-moz-selection,tr.sortableListItem code::-moz-selection {
-background:transparent;
-}
-
-tr.sortableListItemOdd code::selection,tr.sortableListItem code::selection {
-background:transparent;
-}
-
 tr.sortableListItemOdd {
 background-color:#F5F5F5;
 cursor:move;

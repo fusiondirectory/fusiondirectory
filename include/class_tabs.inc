@@ -223,11 +223,11 @@ class tabs
   {
     $display = "";
     if (!$disabled) {
-      $display .= "<input type=\"hidden\" name=\"arg\" value=\"\">";
+      $display .= '<input type="hidden" name="arg" value=""/>';
     }
-    $display  .= "<table summary=\"\" cellpadding=0 cellspacing=0 border=0 style=\"width:100%;\"><tr>";
-    $index    = 0;
-    $style    = array("tab_left", "tab_active", "tab_near_active", "tab_right");
+    $display .= '<table class="tabs_header"><tbody><tr>';
+    $index = 0;
+    $style = array("tab_left", "tab_active", "tab_near_active", "tab_right");
     foreach ($this->by_name as $class => $name) {
 
       /* Activate right tabs with style "tab_right"
