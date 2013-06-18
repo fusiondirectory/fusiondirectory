@@ -21,9 +21,9 @@
 
 class usertabs extends tabs
 {
-  function usertabs($config, $data, $dn, $cat = '', $copied_object = NULL)
+  function __construct($config, $data, $dn, $cat = '', $copied_object = NULL)
   {
-    parent::tabs($config, $data, $dn, 'user', $copied_object);
+    parent::__construct($config, $data, $dn, 'user', $copied_object);
 
     /* Add references/acls/snapshots */
     $this->addSpecialTabs();
