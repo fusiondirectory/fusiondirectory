@@ -1,4 +1,14 @@
 
+table.tabs_header {
+width:100%;
+border:none;
+border-spacing:0px;
+}
+
+table.tabs_header > tbody > tr > td {
+padding:0;
+}
+
 div.tab_active {
 text-align:center;
 background-color:#f8f8f8;

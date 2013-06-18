@@ -159,7 +159,7 @@
 </div>
 
   <!-- Place cursor in username field -->
-  <script language="JavaScript" type="text/javascript">
+  <script type="text/javascript">
     <!-- // First input field on page
     focus_field('error_accept','uid','directory', 'username', 'current_password');
     next_msg_dialog();

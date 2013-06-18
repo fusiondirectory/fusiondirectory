@@ -20,9 +20,9 @@
   <style type="text/css">@import url('themes/default/password-style.css');</style>
   <link rel="shortcut icon" href="favicon.ico">
 
-  <script language="javascript" src="include/prototype.js" type="text/javascript"></script>
-  <script language="javascript" src="include/fusiondirectory.js" type="text/javascript"></script>
-  <script language="javascript" src="include/pwdStrength.js" type="text/javascript"></script>
+  <script src="include/prototype.js" type="text/javascript"></script>
+  <script src="include/fusiondirectory.js" type="text/javascript"></script>
+  <script src="include/pwdStrength.js" type="text/javascript"></script>
 </head>
 
 <body style='height:100%; width:100%;'>
@@ -103,7 +103,7 @@
     </div>
     <!-- check, if cookies are enabled -->
     <p class="warning">
-     <script language="JavaScript" type="text/javascript">
+     <script type="text/javascript">
         <!--
             document.cookie = "gosatest=empty;path=/";
             if (document.cookie.indexOf( "gosatest=") > -1 )
@@ -123,7 +123,7 @@
 <table class="iesucks"><tr><td>{$errors}</td></tr></table>
 
 <!-- Place cursor in username field -->
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
   <!-- // First input field on page
   focus_field('error_accept','uid','directory', 'username', 'current_password');
   next_msg_dialog();

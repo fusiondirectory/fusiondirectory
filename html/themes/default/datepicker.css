@@ -98,7 +98,6 @@ border:1px #CCE9FF solid;
 background:#E9F5FF;
 background-image:url(../../images/date_active.gif);
 background-repeat:no-repeat;
-position:top left;
 width:21px;
 height:16px;
 line-height:16px;
@@ -109,7 +108,6 @@ border:1px #CCE9FF solid;
 background:#E9F5FF;
 background-image:url(../../images/date_active.gif);
 background-repeat:no-repeat;
-position:top left;
 }
 
 div.datepicker-calendar table tbody tr td.nclick,div.datepicker-calendar table tbody tr td.nclick_outbound {

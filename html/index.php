@@ -406,7 +406,7 @@ $smarty->assign ("cookies", "<b>"._("Warning").":<\/b> "._("Your browser has coo
 /* Set focus to the error button if we've an error message */
 $focus= "";
 if (session::is_set('errors') && session::get('errors') != ""){
-  $focus= '<script language="JavaScript" type="text/javascript">';
+  $focus= '<script type="text/javascript">';
   $focus.= 'document.forms[0].error_accept.focus();';
   $focus.= '</script>';
 }

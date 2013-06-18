@@ -17,7 +17,7 @@
 
 {if !$proposalEnabled}
 
-  <table summary="" style="vertical-align:top; text-align:left;" cellpadding=4 border=0>
+  <table style="vertical-align:top; text-align:left;" cellpadding=4 border=0>
     <tr>
       <td><b><LABEL for="current_password">{t}Current password{/t}</LABEL></b></td>
       <td><input id="current_password" type="password" name="current_password"
@@ -44,7 +44,7 @@
 
 {else}
 
-  <table cellpadding=4 border=0 summary="{t}Password change dialog{/t}">
+  <table cellpadding="4" border="0">
     <tr>
       <td><b><LABEL for="current_password">{t}Current password{/t}</LABEL></b></td>
       <td><input id="current_password" type="password" name="current_password"
@@ -106,7 +106,7 @@
 
 <input type="hidden" name="ignore">
 {literal}
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
     nextfield= 'current_password';
     focus_field('current_password');
 

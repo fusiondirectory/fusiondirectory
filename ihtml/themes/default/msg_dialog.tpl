@@ -63,7 +63,7 @@
       </td><td style="font-size: 1.1em; font-weight:bold;">{$s_Title}</td></tr>
       </table>
       </div>
-      <table style="width:100%; border-top: solid 1px #BBBBBB;" cellspacing=0 cellpadding=2 summary="" border=0>
+      <table style="width:100%; border-top: solid 1px #BBBBBB;" cellspacing=0 cellpadding=2 border=0>
         <tr>
           <td style="width:100%;padding:7px; padding-bottom:14px">
             {$s_Message}
@@ -111,7 +111,7 @@
     </table>
     </div>
 
-      <table style="z-index:250;width:100%; border-top: solid 1px #BBBBBB;" cellspacing=0 cellpadding=2 summary="" border=0>
+      <table style="z-index:250;width:100%; border-top: solid 1px #BBBBBB;" cellspacing=0 cellpadding=2 border=0>
         <tr>
           <td style="width:100%; padding:7px; padding-bottom:14px;">
             {$s_Message}
@@ -147,7 +147,7 @@
         </tr>
       </table>
       </div>
-    <script language="JavaScript" type="text/javascript">
+    <script type="text/javascript">
       focus_field('MSG_OK{$i_ID}');
     </script>
 

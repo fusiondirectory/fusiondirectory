@@ -33,7 +33,7 @@ function html_trace($errstr = "")
   }
   $trace = debug_backtrace();
 
-  $return_html    = "<table summary=\"\" width=\"100%\" cellspacing=0 style='background-color:#402005;color:white;border:2px solid red'><tr><td colspan=3><h1 style='color:white'>"._("PHP error")." \"$errstr\"</h1></td></tr>";
+  $return_html    = "<table width=\"100%\" cellspacing=0 style='background-color:#402005;color:white;border:2px solid red'><tr><td colspan=3><h1 style='color:white'>"._("PHP error")." \"$errstr\"</h1></td></tr>";
   $return_mailto  = rawurlencode("=== Trace ===");
   /* Generate trace history */
   for ($index = 0, $c = count($trace); $index < $c; $index++) {
@@ -198,10 +198,10 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
       $warning_path = (is_callable('get_template_path') ? get_template_path('images/warning.png') : 'images/warning.png');
 
       $error_collector = "
-        <table summary=\"\" width=\"100%\" style='background-color:#E0E0E0;border-bottom:1px solid black;z-index:150;'>
+        <table width=\"100%\" style='background-color:#E0E0E0;border-bottom:1px solid black;z-index:150;'>
           <tr>
             <td>
-              <img alt=\"\" align=\"middle\" src='{$warning_path}'>&nbsp;
+              <img alt=\"\" src='{$warning_path}'>&nbsp;
               <font style='font-size:14px;font-weight:bold'>".
                 _("Generating this page caused the PHP interpreter to raise some errors!")."
               </font>

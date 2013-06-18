@@ -78,7 +78,7 @@ if (isset($_POST['lang_selected'])) {
 
 /* Check for js */
 if (!isset($_GET['js']) && !session::global_is_set('js')) {
-  echo '<script language="JavaScript" type="text/javascript">';
+  echo '<script type="text/javascript">';
   echo '  location = "setup.php?js=true";';
   echo '</script>';
 
@@ -117,12 +117,12 @@ $header = $smarty->fetch(get_template_path('headers.tpl'));
 /* Set focus to the error button if we've an error message */
 $focus= "";
 if (session::is_set('errors') && session::get('errors') != ""){
-  $focus= '<script language="JavaScript" type="text/javascript">';
+  $focus= '<script type="text/javascript">';
   $focus.= 'document.forms[0].error_accept.focus();';
   $focus.= '</script>';
 }
 
-$focus= '<script language="JavaScript" type="text/javascript">';
+$focus= '<script type="text/javascript">';
 $focus.= 'next_msg_dialog();';
 $focus.= '</script>';
 

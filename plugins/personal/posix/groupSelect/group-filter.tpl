@@ -25,9 +25,9 @@
   </tr>
  </table>
 
- <table summary=""  width="100%"  style="background:#EEEEEE;border-top:1px solid #B0B0B0;">
+ <table style="width:100%;background:#EEEEEE;border-top:1px solid #B0B0B0;">
   <tr>
-   <td width="100%" align="right">
+   <td style="width:100%;text-align:right;">
     {$APPLY}
    </td>
   </tr>

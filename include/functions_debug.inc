@@ -9,7 +9,7 @@
 * License.......: Free to use. Postcardware ;)
 *
 *-----------------------------------------------------------------------
-* 
+*
 * Functions in this library:
 *
 * print_a( array array [,int mode] )
@@ -49,7 +49,7 @@
  * \file functions_debug.inc
  * Source code for print_a class
  * and helper function
- */ 
+ */
 
 /*!
  * \brief print_a class and helper function
@@ -81,7 +81,7 @@ class Print_a_class {
 
   /*!
    * \brief Print_a_class constructor
-   */ 
+   */
   function Print_a_class() {
     $this->export_hash = uniqid('');
   }
@@ -130,7 +130,7 @@ class Print_a_class {
     }
 
     # build a single table ... may be nested
-    $this->output .= '<table summary="" style="border:none;" cellspacing="1" '.( !$iteration && $this->export_flag ? 'onClick="document.getElementById(\'pa_form_'.$this->export_hash.'\').submit();" )' : '' ).'>';
+    $this->output .= '<table style="border:none;" cellspacing="1" '.( !$iteration && $this->export_flag ? 'onClick="document.getElementById(\'pa_form_'.$this->export_hash.'\').submit();" )' : '' ).'>';
     foreach( $array as $key => $value ) {
 
       $value_style = 'color:black;';
@@ -263,7 +263,7 @@ function _script_globals() {
 
 /*!
  * \brief Show the runtime
- */ 
+ */
 function show_runtime() {
   $MICROTIME_END    = microtime();
   $MICROTIME_START  = explode(' ', $GLOBALS['MICROTIME_START']);
@@ -334,7 +334,7 @@ function show_vars($show_all_vars = FALSE, $show_object_vars = FALSE) {
  * \param string $sql_string
  *
  * \param boolean $simple_mode FALSE
- */ 
+ */
 function pre($sql_string, $simple_mode = FALSE) {
 
   if(!$simple_mode) {

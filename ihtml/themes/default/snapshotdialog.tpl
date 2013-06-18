@@ -13,7 +13,7 @@
 <br>
 <p class="seperator">&nbsp;</p>
 <br>
-<table summary="" style="width:100%">
+<table style="width:100%">
   {if !$restore_deleted}
   <tr>
     <td>
@@ -56,7 +56,7 @@
 <br>
 <p class="seperator">&nbsp;</p>
 <br>
-<table summary="" style="width:100%">
+<table style="width:100%">
   <tr>
     <td>
       <b>{t}Object{/t}</b>
@@ -89,7 +89,7 @@
     <input type="submit" name="CancelSnapshot" value="{t}Cancel{/t}">
 </div>
 
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
   <!-- // First input field on page
   document.mainform.CurrentDescription.focus();
   -->

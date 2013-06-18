@@ -386,12 +386,12 @@ if ($error_collector != "") {
 /* Set focus to the error button if we've an error message */
 $focus= "";
 if (session::is_set('errors') && session::get('errors') != "") {
-  $focus= '<script language="JavaScript" type="text/javascript">';
+  $focus= '<script type="text/javascript">';
   $focus.= 'document.forms[0].error_accept.focus();';
   $focus.= '</script>';
 }
 
-$focus= '<script language="JavaScript" type="text/javascript">';
+$focus= '<script type="text/javascript">';
 $focus.= 'next_msg_dialog();';
 $focus.= '</script>';
 $smarty->assign("focus", $focus);

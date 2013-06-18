@@ -12,7 +12,7 @@
 
 {if !$proposalEnabled}
 
-  <table summary="" style="vertical-align:top; text-align:left;" cellpadding=4 border=0>
+  <table style="vertical-align:top; text-align:left;" cellpadding=4 border=0>
     <tr>
       <td><b><LABEL for="new_password">{t}New password{/t}</LABEL></b></td>
       <td><input type="password" id="new_password" name="new_password" onFocus="nextfield= 'repeated_password';" onkeyup="testPasswordCss(document.getElementById('new_password').value);"></td>
@@ -32,7 +32,7 @@
 
 {else}
 
-  <table summary="{t}Password input dialog{/t}" cellpadding=4 border=0>
+  <table cellpadding="4" border="0">
     <tr>
       <td>
         <input type='radio' value='1' name='proposalSelected' id='proposalSelected' onClick='updateFields();'
@@ -95,7 +95,7 @@
 </p>
 
 {literal}
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
     nextfield= 'current_password';
     focus_field('current_password');
 

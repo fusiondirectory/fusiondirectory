@@ -467,9 +467,9 @@ class acl extends plugin
 
         if($this->acl_is_writeable("")){
           $action.= "<input type='image' name='sortup_$key' alt='up'
-            title='"._("Up")."' src='images/lists/sort-up.png' align='top'>";
+            title='"._("Up")."' src='images/lists/sort-up.png'/>";
           $action.= "<input type='image' name='sortdown_$key' alt='down'
-            title='"._("Down")."' src='images/lists/sort-down.png'>";
+            title='"._("Down")."' src='images/lists/sort-down.png'/>";
         }
 
         if($this->acl_is_readable("")){

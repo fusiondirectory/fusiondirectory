@@ -5,7 +5,7 @@
 <table summary="" style="width:100%; vertical-align:top; text-align:left;" cellpadding=4>
  <tr>
    <td style="vertical-align:top; width:50%">
-     <h2><img class="center" alt="" align="middle" src="images/rightarrow.png"> {t}Properties{/t}</h2>
+     <h2><img class="center" alt="" src="images/rightarrow.png"> {t}Properties{/t}</h2>
      <table summary="">
       <tr>
        <td><LABEL for="dc">{t}Domain name{/t}</LABEL>{$must}</td>

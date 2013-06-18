@@ -12,20 +12,20 @@
 
 {if !$proposalEnabled}
 
-  <table summary="" style="vertical-align:top; text-align:left;" cellpadding=4 border=0>
+  <table style="vertical-align:top; text-align:left;" cellpadding=4 border=0>
     <tr>
       <td><b><LABEL for="current_password">{t}Current password{/t}</LABEL></b></td>
-      <td><input id="current_password" type="password" name="current_password" 
+      <td><input id="current_password" type="password" name="current_password"
           onFocus="nextfield= 'new_password';"></td>
     </tr>
     <tr>
       <td><b><LABEL for="new_password">{t}New password{/t}</LABEL></b></td>
-      <td><input id="new_password" type="password" name="new_password" 
+      <td><input id="new_password" type="password" name="new_password"
           onFocus="nextfield= 'repeated_password';" onkeyup="testPasswordCss(document.getElementById('new_password').value);"></td>
     </tr>
     <tr>
       <td><b><LABEL for="repeated_password">{t}Repeat new password{/t}</LABEL></b></td>
-      <td><input id="repeated_password" type="password" name="repeated_password" 
+      <td><input id="repeated_password" type="password" name="repeated_password"
           onFocus="nextfield= 'password_finish';"></td>
     </tr>
     <tr>
@@ -39,10 +39,10 @@
 
 {else}
 
-  <table cellpadding=4 border=0 summary="{t}Password change dialog{/t}">
+  <table cellpadding="4" border="0">
     <tr>
       <td><b><LABEL for="current_password">{t}Current password{/t}</LABEL></b></td>
-      <td><input id="current_password" type="password" name="current_password" 
+      <td><input id="current_password" type="password" name="current_password"
           onFocus="nextfield= 'new_password';"></td>
     </tr>
     <tr>
@@ -70,12 +70,12 @@
     </tr>
     <tr>
       <td  style='padding-left:40px;'><b><LABEL for="new_password">{t}New password{/t}</LABEL></b></td>
-      <td><input id="new_password" type="password" name="new_password" 
+      <td><input id="new_password" type="password" name="new_password"
           onFocus="nextfield= 'repeated_password';" onkeyup="testPasswordCss(document.getElementById('new_password').value);"></td>
     </tr>
     <tr>
       <td  style='padding-left:40px;'><b><LABEL for="repeated_password">{t}Repeat new password{/t}</LABEL></b></td>
-      <td><input id="repeated_password" type="password" name="repeated_password" 
+      <td><input id="repeated_password" type="password" name="repeated_password"
           onFocus="nextfield= 'password_finish';"></td>
     </tr>
     <tr>
@@ -101,7 +101,7 @@
 <input type="hidden" name="ignore">
 
 <!-- Place cursor -->
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
   <!-- // First input field on page
   nextfield= 'current_password';
   focus_field('current_password');

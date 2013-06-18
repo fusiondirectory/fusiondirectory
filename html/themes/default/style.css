@@ -23,6 +23,10 @@ td,p,b,th {
 font-size:12px;
 }
 
+img {
+border:none;
+}
+
 a:link {
 text-decoration:none;
 color:#00008F;
@@ -243,6 +247,11 @@ width:auto;
 vertical-align:top;
 }
 
+/* cellpadding="0" */
+table.framework > tbody > tr > td {
+padding:0;
+}
+
 table.maintab {
 width:100%;
 height:100%;
@@ -337,7 +346,7 @@ border-bottom:1px solid #B0B0B0;
 .item {
 text-align:left;
 white-space:nowrap;
-font-family:bitstream vera sans, luxi sans, verdana, geneva, arial, helvetica, sans-serif;
+font-family:"bitstream vera sans", "luxi sans", verdana, geneva, arial, helvetica, sans-serif;
 font-size:12px;
 padding-top:2px;
 }

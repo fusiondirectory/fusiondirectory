@@ -1,12 +1,12 @@
 <!--////////////////////
   //  ORGANIZATIONAL UNIT (ou)
     //////////////////// -->
-<table summary="" style="width:100%; vertical-align:top; text-align:left;" cellpadding=4>
+<table style="width:100%; vertical-align:top; text-align:left;" cellpadding=4>
  <tr>
    <td style="vertical-align:top; width:50%">
-     <h2><img class="center" alt="" align="middle" src="images/rightarrow.png"> {t}Properties{/t}</h2>
+     <h2><img class="center" alt="" src="images/rightarrow.png"> {t}Properties{/t}</h2>
 
-     <table summary="">
+     <table>
       <tr>
        <td><LABEL for="ou">{t}Name of department{/t}</LABEL>{$must}</td>
        <td>
@@ -76,9 +76,9 @@
     &nbsp;
    </td>
    <td>
-     <h2><img class="center" alt="" align="middle" src="plugins/departments/images/department.png"> {t}Location{/t}</h2>
+     <h2><img class="center" alt="" src="plugins/departments/images/department.png"> {t}Location{/t}</h2>
 
-     <table summary="" style="width:100%">
+     <table style="width:100%">
       <tr>
        <td><LABEL for="st">{t}State{/t}</LABEL></td>
        <td>
@@ -128,7 +128,7 @@
 
 <!-- Place cursor -->
 <input type='hidden' name='dep_generic_posted' value='1'>
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
   <!-- // First input field on page
   focus_field('ou');
   -->

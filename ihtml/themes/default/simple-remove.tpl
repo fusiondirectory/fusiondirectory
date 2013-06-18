@@ -1,5 +1,5 @@
 <div style="font-size:18px;">
- <img alt="" src="images/warning.png" align=top>&nbsp;{t}Warning{/t}
+ <img alt="" src="images/warning.png">&nbsp;{t}Warning{/t}
 </div>
 <p>
   {$info}

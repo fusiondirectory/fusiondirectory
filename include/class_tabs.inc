@@ -153,7 +153,7 @@ class tabs
   function execute()
   {
     /* Show object */
-    $display = "<table summary=\"\" cellpadding=4 cellspacing=0 border=0 style=\"width:100%; background-color:#F8F8F8; border-style:solid; border-color:#AAA; border-top-width:0px; border-bottom-width:1px; border-left-width:1px; border-right-width:1px;\">\n";
+    $display = '<table cellpadding="4" style="width:100%; background-color:#F8F8F8; border-style:solid; border-color:#AAA; border-top-width:0px; border-bottom-width:1px; border-left-width:1px; border-right-width:1px; border-spacing:0px;">'."\n";
     $display .= "<tr><td>\n";
 
     $display .= $this->by_object[$this->current]->execute();
@@ -209,11 +209,11 @@ class tabs
   {
     $display = "";
     if (!$disabled) {
-      $display .= "<input type=\"hidden\" name=\"arg\" value=\"\">";
+      $display .= '<input type="hidden" name="arg" value=""/>';
     }
-    $display  .= "<table summary=\"\" cellpadding=0 cellspacing=0 border=0 style=\"width:100%;\"><tr>";
-    $index    = 0;
-    $style    = array("tab_left", "tab_active", "tab_near_active", "tab_right");
+    $display .= '<table class="tabs_header"><tbody><tr>';
+    $index = 0;
+    $style = array("tab_left", "tab_active", "tab_near_active", "tab_right");
     foreach ($this->by_name as $class => $name) {
 
       /* Activate right tabs with style "tab_right"
@@ -261,8 +261,9 @@ class tabs
         $display .= "<div class=\"$style[$index]$notify\"><a class=\"$style[$index]\" onclick=\"return true;\" href=\"javascript:document.mainform.arg.value='$class';document.mainform.submit();\">$title</a></div></td>";
       }
     }
-    $display .= "<td style=\"vertical-align:bottom;\">\n";
-    $display .= "<div class=\"tab_border\">&nbsp;</div></td></tr></table>";
+
+    $display.= "<td style=\"vertical-align:bottom;\">\n";
+    $display.= "<div class=\"tab_border\">&nbsp;</div></td></tr></tbody></table>";
 
     return $display;
   }

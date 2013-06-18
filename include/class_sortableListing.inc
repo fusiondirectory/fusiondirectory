@@ -302,7 +302,7 @@ class sortableListing {
   public function render()
   {
     $result = "<div class='sortableListContainer' id='scroll_".$this->id."' style='min-width:".$this->width.";height: ".$this->height."'>\n";
-    $result .= "<table summary='"._("Sortable list")."' border='0' cellpadding='0' cellspacing='0' width='100%' style='width:100%' ".(!empty($this->cssclass)?" class='".$this->cssclass."'":"").">\n";
+    $result .= "<table cellpadding='0' style='width:100%;border-spacing:0px;border:none;' ".(!empty($this->cssclass)?" class='".$this->cssclass."'":"").">\n";
     $action_width = 0;
     if (strpos($this->acl, 'w') === FALSE) {
       $edit_image = $this->editable?"<img class='center' src='images/lists/edit-grey.png' alt='"._("Edit")."'>":"";
@@ -342,8 +342,8 @@ class sortableListing {
         $link   = "href='?plug=".$_GET['plug']."&amp;PID=".$this->id."&amp;act=SORT_$i'";
         $sorter = "";
         if ($i == $this->sortColumn) {
-          $sorter = "&nbsp;<img border='0' title='".($this->sortDirection[$i]?_("Up"):_("Down"))."'
-                src='images/lists/sort-".($this->sortDirection[$i]?"up":"down").".png' align='top'>";
+          $sorter = "&nbsp;<img title='".($this->sortDirection[$i]?_("Up"):_("Down"))."'
+                src='images/lists/sort-".($this->sortDirection[$i]?"up":"down").".png'/>";
         }
 
         if ($this->reorderable) {
@@ -416,7 +416,7 @@ class sortableListing {
     $result .= " <input type='hidden' name='reorder_".$this->id."' id='reorder_".$this->id."'>\n";
 
     // Append script stuff if needed
-    $result .= '<script type="text/javascript" language="javascript">';
+    $result .= '<script type="text/javascript">';
     if ($this->reorderable) {
       $result .= ' function updateOrder(){';
       $result .= '    var ampcharcode= \'%26\';';

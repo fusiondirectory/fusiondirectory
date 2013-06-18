@@ -6,7 +6,7 @@
     <p>
     <b>{t}Please choose the LDAP user to be used by FusionDirectory{/t}</b>
     </p>
-    <select name='admin_to_use' size=20 style="width:100%; margin-bottom:10px;">        
+    <select name='admin_to_use' size=20 style="width:100%; margin-bottom:10px;">
       {html_options options=$resolved_users selected=$admin}
     </select>
     <input type='text' value='{$resolve_filter}' name='resolve_filter'>
@@ -16,8 +16,8 @@
     <input type='submit' value='{t}Apply{/t}' name='use_selected_user'>
     <input type='submit' value='{t}Cancel{/t}' name='resolve_user'>
     </div>
-  </div>    
-  
+  </div>
+
   <div style="clear:both;"></div>
 
   {else}
@@ -51,12 +51,12 @@
           </div>
         </div>
   <div class='step4_container'>
-    <div class='step4_name'> 
+    <div class='step4_name'>
       {t}Base{/t}
     </div>
     <div class='step4_value'>
       {if $namingContextsCount >= 1}
-        <select name='base'>    
+        <select name='base'>
           {html_options values=$namingContexts output=$namingContexts selected=$base}
         </select>
       {else}
@@ -69,7 +69,7 @@
   <b>{t}Authentication{/t}</b>
   </p>
   <div class='step4_container'>
-    <div class='step4_name'> 
+    <div class='step4_name'>
       {t}Admin DN{/t}
     </div>
     <div class='step4_value'>
@@ -80,7 +80,7 @@
   </div>
 
   <div class='step4_container'>
-    <div class='step4_name'> 
+    <div class='step4_name'>
     </div>
     <div class='step4_value'>
       <input onClick='document.mainform.submit();' {if $append_base_to_admin_dn} checked {/if} type='checkbox' name='append_base_to_admin_dn' value='1'>&nbsp;{t}Automatically append LDAP base to admin DN{/t}
@@ -128,7 +128,7 @@
 
 </div>
 <!-- Place cursor -->
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
   <!-- // First input field on page
   focus_field('location');
   -->
