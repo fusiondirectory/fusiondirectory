@@ -1117,7 +1117,7 @@ class acl extends plugin
           $summary.= $cn.", ";
         }
       } else {
-        $summary.= "<font color='red'><i>"._("inactive")."&nbsp;-&nbsp;"._("No members")."</i></font>";
+        $summary.= "<div style='color:red;'><i>"._("inactive")."&nbsp;-&nbsp;"._("No members")."</i></div>";
       }
     }
     return (preg_replace('/, $/', '', $summary));

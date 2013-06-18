@@ -246,7 +246,7 @@ class Step_Migrate extends setup_step
 
     if ($this->check_uidNumbers) {
       $this->checks['uidNumber_usage']['STATUS']      = FALSE;
-      $this->checks['uidNumber_usage']['STATUS_MSG']  = "<font style='color:#F0A500'>"._("Warning")."</font>";
+      $this->checks['uidNumber_usage']['STATUS_MSG']  = "<div style='color:#F0A500'>"._("Warning")."</div>";
       $this->checks['uidNumber_usage']['ERROR_MSG']   =
         sprintf(_("Found %s duplicate values for attribute 'uidNumber'."), count($this->check_uidNumbers));
       return FALSE;
@@ -298,7 +298,7 @@ class Step_Migrate extends setup_step
 
     if ($this->check_gidNumbers) {
       $this->checks['gidNumber_usage']['STATUS']      = FALSE;
-      $this->checks['gidNumber_usage']['STATUS_MSG']  = "<font style='color:#F0A500'>"._("Warning")."</font>";
+      $this->checks['gidNumber_usage']['STATUS_MSG']  = "<div style='color:#F0A500'>"._("Warning")."</div>";
       $this->checks['gidNumber_usage']['ERROR_MSG']   =
         sprintf(_("Found %s duplicate values for attribute 'gidNumber'."), count($this->check_gidNumbers));
       return FALSE;
@@ -369,7 +369,7 @@ class Step_Migrate extends setup_step
 
     if (count($this->outside_groups)) {
       $this->checks['outside_groups']['STATUS']     = FALSE;
-      $this->checks['outside_groups']['STATUS_MSG'] = "<font style='color:#F0A500'>"._("Warning")."</font>";
+      $this->checks['outside_groups']['STATUS_MSG'] = "<div style='color:#F0A500'>"._("Warning")."</div>";
       $this->checks['outside_groups']['ERROR_MSG']  =
         sprintf(_("Found %s groups outside the configured tree '%s'."), count($this->outside_groups), $group_ou);
       $this->checks['outside_groups']['ERROR_MSG']  .= "&nbsp;<input type='submit' name='outside_groups_dialog' value='"._("Move")."...'>";
@@ -446,7 +446,7 @@ class Step_Migrate extends setup_step
 
     if (count($this->outside_users)) {
       $this->checks['outside_users']['STATUS']      = FALSE;
-      $this->checks['outside_users']['STATUS_MSG']  = "<font style='color:#F0A500'>"._("Warning")."</font>";
+      $this->checks['outside_users']['STATUS_MSG']  = "<div style='color:#F0A500'>"._("Warning")."</div>";
       $this->checks['outside_users']['ERROR_MSG']   =
         sprintf(_("Found %s user(s) outside the configured tree '%s'."), count($this->outside_users), $people_ou);
       $this->checks['outside_users']['ERROR_MSG']   .= "<input type='submit' name='outside_users_dialog' value='"._("Move")."...'>";
@@ -586,7 +586,7 @@ class Step_Migrate extends setup_step
       $this->checks['users_visible']['ERROR_MSG']   = "";
     } else {
       $this->checks['users_visible']['STATUS']      = FALSE;
-      $this->checks['users_visible']['STATUS_MSG']  = "<font style='color:#F0A500'>"._("Warning")."</font>";
+      $this->checks['users_visible']['STATUS_MSG']  = "<div style='color:#F0A500'>"._("Warning")."</div>";
       $this->checks['users_visible']['ERROR_MSG']   = sprintf(_("Found %s user(s) that will not be visible in FusionDirectory or which are incomplete."),
           count($this->users_to_migrate));
       $this->checks['users_visible']['ERROR_MSG']   .= "<input type='submit' name='users_visible_migrate' value='"._("Migrate")."...'>";
@@ -2333,7 +2333,7 @@ class Step_Migrate extends setup_step
       }
 
       $this->checks['old_style_devices']['STATUS']      = FALSE;
-      $this->checks['old_style_devices']['STATUS_MSG']  = "<font style='color:#F0A500'>"._("Warning")."</font>";
+      $this->checks['old_style_devices']['STATUS_MSG']  = "<div style='color:#F0A500'>"._("Warning")."</div>";
       $this->checks['old_style_devices']['ERROR_MSG']   =
         sprintf(_("There are %s devices that need to be migrated."), count($this->device)).
           "<input type='submit' name='device_dialog' value='"._("Migrate")."'>";
@@ -2489,7 +2489,7 @@ class Step_Migrate extends setup_step
      */
     if (count($this->service)) {
       $this->checks['old_style_services']['STATUS']     = FALSE;
-      $this->checks['old_style_services']['STATUS_MSG'] = "<font style='color:#F0A500'>"._("Warning")."</font>";
+      $this->checks['old_style_services']['STATUS_MSG'] = "<div style='color:#F0A500'>"._("Warning")."</div>";
       $this->checks['old_style_services']['ERROR_MSG']  =
         sprintf(_("There are %s services that need to be migrated."),
             count($this->service)).
@@ -2789,7 +2789,7 @@ class Step_Migrate extends setup_step
      */
     if (count($this->menu)) {
       $this->checks['old_style_menus']['STATUS']      = FALSE;
-      $this->checks['old_style_menus']['STATUS_MSG']  = "<font style='color:#F0A500'>"._("Warning")."</font>";
+      $this->checks['old_style_menus']['STATUS_MSG']  = "<div style='color:#F0A500'>"._("Warning")."</div>";
       $this->checks['old_style_menus']['ERROR_MSG']   = sprintf(_("There are %s application menus which have to be migrated."),
                                                       count($this->menu))."<input type='submit' name='menu_dialog' value='"._("Migrate")."'>";
     } else {

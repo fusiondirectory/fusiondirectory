@@ -51,7 +51,7 @@
              Dummy recuperation method
           </li>
           <li>
-            <font color="red">{t}If none of the above methods suits you, contact your administrator to change your password{/t}</font>
+            <div style="color:red;">{t}If none of the above methods suits you, contact your administrator to change your password{/t}</div>
           </li>
         {/if}
       </ul>
@@ -59,7 +59,7 @@
 {elseif $step==3}
     <p class="infotext">
       {t}Informations to reset password for {$uid} have been sent to email address {$address_mail}{/t}<br/>
-      <font color="red">{t}Warning : this email is only valid for {$delay_allowed} minutes.{/t}</font>
+      <div style="color:red;">{t}Warning : this email is only valid for {$delay_allowed} minutes.{/t}</div>
     </p>
 {elseif $step==4}
     <p class="infotext">

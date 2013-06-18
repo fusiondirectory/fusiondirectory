@@ -11,7 +11,7 @@
 <hr>
 
 {if $passwordExpired}
-    <b><font color='red'>{t}Your Password has expired. Please choose a new password!{/t}</font></b>
+    <b><div style='color:red;'>{t}Your Password has expired. Please choose a new password!{/t}</div></b>
 <hr>
 {/if}
 

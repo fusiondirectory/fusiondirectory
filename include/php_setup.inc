@@ -202,9 +202,9 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
           <tr>
             <td>
               <img alt=\"\" src='{$warning_path}'>&nbsp;
-              <font style='font-size:14px;font-weight:bold'>".
+              <div style='font-size:14px;font-weight:bold'>".
                 _("Generating this page caused the PHP interpreter to raise some errors!")."
-              </font>
+              </div>
             </td>
             <td align=right>
               <a href=\"mailto:bugs@fusiondirectory.org?subject=FusionDirectory%20bugreport&amp;body=%BUGBODY%\">

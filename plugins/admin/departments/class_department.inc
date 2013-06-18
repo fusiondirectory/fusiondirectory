@@ -439,7 +439,7 @@ class department extends plugin
       $this->update_acls($object, $dst, TRUE);
 
       if (!$this->copy($src, $dst)) {
-        echo "<font color='#FF0000'><br>".sprintf(_("FAILED to copy %s, aborting operation"), LDAP::fix($src))."</font>";
+        echo "<div style='color:#FF0000'><br/>".sprintf(_("FAILED to copy %s, aborting operation"), LDAP::fix($src))."</div>";
         return FALSE;
       }
       echo "<script language=\"javascript\" type=\"text/javascript\">scrollDown2();</script>";

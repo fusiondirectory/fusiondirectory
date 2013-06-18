@@ -430,7 +430,7 @@ class msgPool {
         if (preg_match("$regex", $currentChar)){
           $result.= $currentChar;
         } else {
-          $result.= "<font style='color:red;text-decoration:underline;'>".($currentChar)."</font>";
+          $result.= "<div style='color:red;text-decoration:underline;'>".($currentChar)."</div>";
           $mismatch.= $currentChar;
         }
       }
