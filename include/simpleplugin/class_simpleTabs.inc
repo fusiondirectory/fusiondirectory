@@ -30,7 +30,7 @@ class simpleTabs extends tabs
 
   function __construct($config, $data, $dn, $category, $copied_object = NULL)
   {
-    parent::tabs($config, $data, $dn, $category, $copied_object);
+    parent::__construct($config, $data, $dn, $category, $copied_object);
 
     if ($this->specialTabs) {
       /* Add references/acls/snapshots */
