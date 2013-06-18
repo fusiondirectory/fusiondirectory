@@ -11,7 +11,7 @@ padding:0;
 
 div.tab_content {
 padding:4px;
-width:100%;
+width:auto;
 background-color:#F8F8F8;
 border-style:solid;
 border-color:#AAA;
