@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,39 +19,15 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class usertabs extends tabs
+class usertabs extends simpleTabs
 {
-  function __construct($config, $data, $dn, $cat = '', $copied_object = NULL)
-  {
-    parent::__construct($config, $data, $dn, 'user', $copied_object);
-
-    /* Add references/acls/snapshots */
-    $this->addSpecialTabs();
-  }
-
   function save_object($save_current = FALSE)
   {
     parent::save_object($save_current);
 
-    /* Update reference, transfer variables */
-    $baseobject = $this->getBaseObject();
-    foreach ($this->by_object as $name => &$obj) {
-      /* Don't touch base object */
-      if ($name != 'user') {
-        $obj->parent    = &$this;
-      }
-
-      /* Copy mail if needed */
-      if ($name == 'gofaxAccount') {
-        if (isset($this->by_object['mailAccount']) && $this->by_object['mailAccount']->is_account) {
-          $obj->mail = $this->by_object['mailAccount']->mail;
-        }
-      }
+    if (isset($this->by_object['gofaxAccount']) && isset($this->by_object['mailAccount']) && $this->by_object['mailAccount']->is_account) {
+      $this->by_object['gofaxAccount']->mail = $this->by_object['mailAccount']->mail;
     }
-    unset($obj);
-
-    /* Update parent in base object */
-    $baseobject->parent = &$this;
 
     /* Move facsimile / phone number if nessecary */
     if ($this->last == 'user' && isset($this->by_object['gofaxAccount'])) {
@@ -88,32 +64,6 @@ class usertabs extends tabs
 
     /* Possibly change acl base */
     $this->set_acl_base();
-  }
-
-  function save()
-  {
-    /* Check for new 'dn', in order to propagate the
-       'dn' to all plugins */
-    $baseobject = $this->getBaseObject();
-    $new_dn     = $baseobject->compute_dn();
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $new_dn, 'Saving');
-
-    /* Move ? */
-    if ($this->dn != $new_dn) {
-      /* Write entry on new 'dn' */
-      if ($this->dn != 'new') {
-        /* Udpate acls */
-        $baseobject->update_acls($this->dn, $new_dn);
-        $baseobject->move($this->dn, $new_dn);
-
-        /* Did we change ourselves? Update ui object. */
-        change_ui_dn($this->dn, $new_dn);
-      }
-      /* Happen to use the new one */
-      $this->dn = $new_dn;
-    }
-
-    return parent::save();
   }
 }
 ?>

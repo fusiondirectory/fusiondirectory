@@ -938,7 +938,7 @@ class plugin
    *
    * \return boolean TRUE on success else FALSE.
    */
-  function rename($src_dn, $dst_dn)
+  private function rename($src_dn, $dst_dn)
   {
     $start = microtime(1);
 
@@ -951,7 +951,43 @@ class plugin
       new log("debug","Ldap Protocol v3 implementation error, ldap_rename failed, falling back to manual copy.","FROM: $src_dn  -- TO: $dst_dn",array(),$ldap->get_error());
       @DEBUG(DEBUG_LDAP,__LINE__,__FUNCTION__,__FILE__,"Rename failed FROM: $src_dn  -- TO:  $dst_dn",
           "Ldap Protocol v3 implementation error, falling back to maunal method.");
-      return(FALSE);
+      return FALSE;
+    }
+
+    return TRUE;
+  }
+
+
+   /*!
+    * \brief Move ldap entries from one place to another
+    *
+    * \param  string  $src_dn the source DN.
+    *
+    * \param  string  $dst_dn the destination DN.
+    */
+  function move($src_dn, $dst_dn)
+  {
+    /* Do not move if only upper- lowercase has changed */
+    if (strtolower($src_dn) == strtolower($dst_dn)) {
+      return TRUE;
+    }
+
+    /* Try to move with ldap routines, if this was not successfull
+        fall back to the old style copy & remove method
+     */
+    if (!$this->rename($src_dn, $dst_dn)) {
+      /* Copy source to destination */
+      if (!$this->copy($src_dn, $dst_dn)) {
+        return FALSE;
+      }
+
+      /* Delete source */
+      $ldap = $this->config->get_ldap_link();
+      $ldap->rmdir_recursive($src_dn);
+      if (!$ldap->success()) {
+        trigger_error("Trying to delete $src_dn failed.", E_USER_WARNING);
+        return FALSE;
+      }
     }
 
     /* Get list of users,groups and roles within this tree,
@@ -1036,53 +1072,6 @@ class plugin
     }
 
     return TRUE;
-  }
-
-
-   /*!
-    * \brief Move ldap entries from one place to another
-    *
-    * \param  string  $src_dn the source DN.
-    *
-    * \param  string  $dst_dn the destination DN.
-    */
-  function move($src_dn, $dst_dn)
-  {
-    /* Do not copy if only upper- lowercase has changed */
-    if(strtolower($src_dn) == strtolower($dst_dn)){
-      return(TRUE);
-    }
-
-
-    /* Try to move the entry instead of copy & delete
-     */
-    if(TRUE){
-
-      /* Try to move with ldap routines, if this was not successfull
-          fall back to the old style copy & remove method
-       */
-      if($this->rename($src_dn, $dst_dn)){
-        return(TRUE);
-      }else{
-        // See code below.
-      }
-    }
-
-    /* Copy source to destination */
-    if (!$this->copy($src_dn, $dst_dn)){
-      return (FALSE);
-    }
-
-    /* Delete source */
-    $ldap= $this->config->get_ldap_link();
-    $ldap->rmdir_recursive($src_dn);
-    if (!$ldap->success()){
-      trigger_error("Trying to delete $src_dn failed.",
-          E_USER_WARNING);
-      return (FALSE);
-    }
-
-    return (TRUE);
   }
 
 

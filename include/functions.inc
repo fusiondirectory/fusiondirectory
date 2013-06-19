@@ -292,28 +292,6 @@ function get_browser_language()
   return al2gt($langs, 'text/html');
 }
 
-
-/*!
- * \brief Rewrite ui object to another dn
- *
- * Usually used when a user is renamed. In this case the dn
- * in the user object must be updated in order to point
- * to the correct DN.
- *
- * \param string $dn the old DN
- * \param string $newdn the new DN
- *
- */
-function change_ui_dn($dn, $newdn)
-{
-  $ui = session::global_get('ui');
-  if ($ui->dn == $dn) {
-    $ui->dn = $newdn;
-    session::global_set('ui', $ui);
-  }
-}
-
-
 /*!
  * \brief Return themed path for specified base file
  *
