@@ -8,7 +8,7 @@ class debugHelp
       'plShortName'   => _('Diagram'),
       'plDescription' => _('Debug diagram help'),
       'plSection'     => 'addons',
-      'plIcon'        => 'plugins/ldapmanager/images/icon.png',
+      'plIcon'        => 'plugins/debug-help/images/icon.png',
       'plCategory'    => array('debug' => array('objectClass' => 'none', 'description' => _('Diagram'))),
 
       'plProvidedAcls' => array()
