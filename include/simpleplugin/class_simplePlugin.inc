@@ -776,30 +776,30 @@ class simplePlugin extends plugin
       if ($edit_mode &&
           ($tabs || (!$account->dialog && $account->is_account)) &&
           empty($lock_msg)) {
-        $display .= "<p class=\"plugbottom\">";
+        $display .= '<p class="plugbottom">';
 
         /* Are we in edit mode? */
         if (session::is_set('edit')) {
-          $display .= "<input type=submit name=\"edit_finish\" style=\"width:80px\" value=\"".msgPool::okButton()."\">\n";
+          $display .= '<input type="submit" name="edit_finish" style="width:80px" value="'.msgPool::okButton().'"/>'."\n";
           $display .= "&nbsp;";
-          $display .= "<input type=submit name=\"edit_cancel\" value=\"".msgPool::cancelButton()."\">\n";
-          $info = "<img alt=\"\" align=\"middle\" src=\"".
-                  get_template_path('images/lists/locked.png')."\"> ".
+          $display .= '<input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
+          $info = '<img alt="locked" src="'.
+                  get_template_path('images/lists/locked.png').'"> '.
                   $entry_dn."&nbsp;";
         } else {
-          $info = "<img alt=\"\" align=\"middle\" src=\"".
-                  get_template_path('images/lists/unlocked.png')."\"> ".
-                  $entry_dn."&nbsp;";
+          $info = '<img alt="unlocked" src="'.
+                  get_template_path('images/lists/unlocked.png').'"> '.
+                  $entry_dn.'&nbsp;';
 
           /* Only display edit button if there is at least one attribute editable */
           if (preg_match("/r/", $ui->get_permissions($entry_dn, "$plCategory/$classname"))) {
-            $info .= "<div class=\"optional\"><img alt=\"\" align=\"middle\" src=\"".
-                      get_template_path('images/lists/on.png')."\"> ".
+            $info .= '<img alt="lightbulb" src="'.
+                      get_template_path('images/lists/on.png').'"> '.
                       msgPool::clickEditToChange()."</div>";
 
-            $display .= "<input type=submit name=\"edit\" value=\"".msgPool::editButton()."\">\n";
+            $display .= '<input type="submit" name="edit" value="'.msgPool::editButton().'"/>'."\n";
           }
-          $display .= "<input type=\"hidden\" name=\"ignore\">\n";
+          $display .= '<input type="hidden" name="ignore"/>'."\n";
         }
         $display .= "</p>\n";
       }
