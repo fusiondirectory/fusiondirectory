@@ -783,19 +783,19 @@ class simplePlugin extends plugin
           $display .= '<input type="submit" name="edit_finish" style="width:80px" value="'.msgPool::okButton().'"/>'."\n";
           $display .= "&nbsp;";
           $display .= '<input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
-          $info = '<img alt="locked" src="'.
+          $info = '<img class="center" alt="locked" src="'.
                   get_template_path('images/lists/locked.png').'"> '.
                   $entry_dn."&nbsp;";
         } else {
-          $info = '<img alt="unlocked" src="'.
+          $info = '<img class="center" alt="unlocked" src="'.
                   get_template_path('images/lists/unlocked.png').'"> '.
                   $entry_dn.'&nbsp;';
 
           /* Only display edit button if there is at least one attribute editable */
           if (preg_match("/r/", $ui->get_permissions($entry_dn, "$plCategory/$classname"))) {
-            $info .= '<img alt="lightbulb" src="'.
+            $info .= '<div style="display:inline-block" class="optional"><img class="center" alt="lightbulb" src="'.
                       get_template_path('images/lists/on.png').'"> '.
-                      msgPool::clickEditToChange()."</div>";
+                      msgPool::clickEditToChange().'</div>';
 
             $display .= '<input type="submit" name="edit" value="'.msgPool::editButton().'"/>'."\n";
           }
