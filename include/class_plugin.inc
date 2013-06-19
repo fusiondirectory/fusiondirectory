@@ -99,7 +99,6 @@ class plugin
     dn
    */
   var $dn         = "";
-  var $acl        = "*none*";
   var $dialog     = FALSE;
 
   /* attribute list for save action */
@@ -173,24 +172,27 @@ class plugin
       /* Load data to 'attrs' and save 'dn' */
       if ($object !== NULL) {
         $this->attrs = $object->attrs;
+        if (isset($object->is_template)) {
+          $this->setTemplate($object->is_template);
+        }
       } else {
         $ldap = $this->config->get_ldap_link();
         $ldap->cat($this->dn);
         $this->attrs = $ldap->fetch();
       }
 
-      /* Set the template flag according to the existence of objectClass gosaUserTemplate */
+      /* Set the template flag according to the existence of objectClass fdTemplate */
       if (isset($this->attrs['objectClass'])) {
-        if (in_array_ics ("gosaUserTemplate", $this->attrs['objectClass'])) {
-          $this->is_template = TRUE;
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, "found", "Template check");
+        if (in_array_ics ('fdTemplate', $this->attrs['objectClass'])) {
+          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, 'found', 'Template check');
+          $this->templateLoadAttrs($this->attrs);
         }
       }
 
       /* Is Account? */
       if ($this->is_this_account($this->attrs)) {
         $this->is_account = TRUE;
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, "found", "Object check");
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, 'found', 'Object check');
       }
     }
 
@@ -256,6 +258,67 @@ class plugin
       }
       unset($this->saved_attributes[$index]["count"]);
     }
+  }
+
+  protected function templateLoadAttrs($template_attrs)
+  {
+    $this->is_template = TRUE;
+    if ($this->mainTab) {
+      $this->_template_cn = $template_attrs['cn'][0];
+    }
+    $this->attrs = self::tpl_template_to_attrs($template_attrs);
+  }
+
+  protected function templateSaveAttrs()
+  {
+    $ldap = $this->config->get_ldap_link();
+    $ldap->cat($this->dn);
+    $template_attrs = $ldap->fetch();
+    if (!$template_attrs) {
+      if (!$this->mainTab) {
+        trigger_error('It seems main tab has not been saved.');
+      }
+      $template_attrs = array(
+        'objectClass'     => array('fdTemplate'),
+        'fdTemplateField' => array()
+      );
+    } else {
+      unset($template_attrs['dn']);
+      unset($template_attrs['fdTemplateField']['count']);
+      unset($template_attrs['objectClass']['count']);
+      for ($i = 0; $i < $template_attrs['count']; ++$i) { // Remove numeric keys
+        unset($template_attrs[$i]);
+      }
+      unset($template_attrs['count']);
+    }
+    if ($this->mainTab) {
+      $template_attrs['cn'] = $this->_template_cn;
+    }
+    /* First remove all concerned values */
+    foreach ($template_attrs['fdTemplateField'] as $key => $value) {
+      preg_match('/^([^:]+):(.*)$/', $value, $m);
+      if (isset($this->attrs[$m[1]])) {
+        unset($template_attrs['fdTemplateField'][$key]);
+      }
+    }
+    /* Then insert non-empty values */
+    foreach ($this->attrs as $key => $value) {
+      if (is_array($value)) {
+        foreach ($value as $v) {
+          if ($value == "") {
+            continue;
+          }
+          $template_attrs['fdTemplateField'][] = $key.':'.$v;
+        }
+      } else {
+        if ($value == "") {
+          continue;
+        }
+        $template_attrs['fdTemplateField'][] = $key.':'.$value;
+      }
+    }
+    sort($template_attrs['fdTemplateField']);
+    return $template_attrs;
   }
 
   /*!
@@ -376,22 +439,30 @@ class plugin
     /* Start with empty array */
     $this->attrs = array();
 
-    /* Get current objectClasses in order to add the required ones */
-    $ldap->cat($this->dn);
-
-    $tmp = $ldap->fetch ();
-
-    $oc = array();
-    if (isset($tmp['objectClass'])) {
-      $oc = $tmp["objectClass"];
-      unset($oc['count']);
-      $this->is_new = FALSE;
+    if ($this->is_template) {
+      // TODO: do it this way even if not a template?
+      $this->attrs['objectClass'] = $this->objectclasses;
+      if (!empty($this->saved_attributes)) {
+        $this->attrs['objectClass'] = array_merge_unique($this->saved_attributes['objectClass'], $this->attrs['objectClass']);
+      }
     } else {
-      $this->is_new = TRUE;
-    }
+      /* Get current objectClasses in order to add the required ones */
+      $ldap->cat($this->dn);
 
-    /* Load (minimum) attributes, add missing ones */
-    $this->attrs['objectClass'] = array_merge_unique($oc, $this->objectclasses);
+      $tmp = $ldap->fetch ();
+
+      $oc = array();
+      if (isset($tmp['objectClass'])) {
+        $oc = $tmp["objectClass"];
+        unset($oc['count']);
+        $this->is_new = FALSE;
+      } else {
+        $this->is_new = TRUE;
+      }
+
+      /* Load (minimum) attributes, add missing ones */
+      $this->attrs['objectClass'] = array_merge_unique($oc, $this->objectclasses);
+    }
 
     /* Copy standard attributes */
     foreach ($this->attributes as $val) {
@@ -472,7 +543,7 @@ class plugin
       return $message;
     }
 
-    self::callHook($this, 'CHECK', array(), $returnOutput);
+    $this->callHook('CHECK', array(), $returnOutput);
     if (!empty($returnOutput)) {
       $message[] = join("\n", $returnOutput);
     }
@@ -507,10 +578,7 @@ class plugin
       }
 
       if (isset($this->attrs["$val"][0])) {
-        /* If attribute is set, replace dynamic parts */
-        $value = $this->tpl_parse($this->attrs["$val"][0]);
-
-        $this->$val = $value;
+        $this->$val = $this->attrs["$val"][0];
       }
     }
 
@@ -522,6 +590,11 @@ class plugin
   {
   }
 
+  function setTemplate ($bool)
+  {
+    $this->is_template = $bool;
+  }
+
   static function tpl_fetch_template($dn)
   {
     global $config;
@@ -529,10 +602,29 @@ class plugin
     $ldap = $config->get_ldap_link();
     $ldap->cat($dn);
     $attrs    = $ldap->fetch();
-    //~ $attrs    = self::tpl_template_to_attrs($attrs);
+    $attrs    = self::tpl_template_to_attrs($attrs);
     $depends  = self::tpl_attrs_depends($attrs);
     $attrs    = self::tpl_sort_attrs($attrs, $depends);
     return array($attrs, $depends);
+  }
+
+  static function tpl_template_to_attrs($template_attrs)
+  {
+    /* Translate template attrs into $attrs as if taken from LDAP */
+    unset($template_attrs['fdTemplateField']['count']);
+    sort($template_attrs['fdTemplateField']);
+    $attrs = array();
+    foreach ($template_attrs['fdTemplateField'] as $field) {
+      preg_match('/^([^:]+):(.*)$/', $field, $m);
+      if (isset($attrs[$m[1]])) {
+        $attrs[$m[1]][] = $m[2];
+        $attrs[$m[1]]['count']++;
+      } else {
+        $attrs[$m[1]]           = array($m[2]);
+        $attrs[$m[1]]['count']  = 1;
+      }
+    }
+    return $attrs;
   }
 
   /* Apply a modifier
@@ -556,13 +648,13 @@ class plugin
         } else {
           return array(join($str));
         }
+      case 'c': // comment
+        return array('');
       case 'b': // base64
         if (isset($args[0]) && ($args[0] == 'd')) {
           return array(base64_decode($str));
         }
         return array(base64_encode($str));
-      case 'c': // comment
-        return array('');
       case 'u': // uppercase
         return array(mb_strtoupper($str, 'UTF-8'));
       case 'l': // lowercase
@@ -608,8 +700,8 @@ class plugin
 
   static function tpl_parse_mask($mask, $attrs)
   {
-    if ($mask == "|") {
-      return array("%");
+    if ($mask == '|') {
+      return array('%');
     }
     $modifiers = '';
     if (preg_match('/^([^|]+)\|/', $mask, $m)) {
@@ -622,9 +714,7 @@ class plugin
         unset($result[0]['count']);
       }
     } else {
-      if (!preg_match('/c/', $modifiers)) {
-        trigger_error("'$mask' was not found in attributes");
-      }
+      trigger_error("'$mask' was not found in attributes");
       $result = array('');
     }
     $len    = strlen($modifiers);
@@ -740,6 +830,7 @@ class plugin
     return $needed;
   }
 
+
   /*! Brief Parse attrs template masks
    *
    * return an array with the final values of attributes
@@ -842,44 +933,6 @@ class plugin
   /*!
    * \brief Create unique DN
    *
-   * \param string $data
-   *
-   * \param string $base
-   */
-  function create_unique_dn2($data, $base)
-  {
-    $ldap = $this->config->get_ldap_link();
-    $base = preg_replace("/^,*/", "", $base);
-
-    /* Try to use plain entry first */
-    $dn         = "$data,$base";
-    $attribute  = preg_replace('/=.*$/', '', $data);
-    $ldap->cat ($dn, array('dn'));
-    if (!$ldap->fetch()) {
-      return $dn;
-    }
-
-    /* Look for additional attributes */
-    foreach ($this->attributes as $attr) {
-      if ($attr == $attribute || $this->$attr == "") {
-        continue;
-      }
-
-      $dn = "$data+$attr=".$this->$attr.",$base";
-      $ldap->cat ($dn, array('dn'));
-      if (!$ldap->fetch()) {
-        return $dn;
-      }
-    }
-
-    /* None found */
-    return "none";
-  }
-
-
-  /*!
-   * \brief Create unique DN
-   *
    * \param string $attribute
    *
    * \param string $base
@@ -891,6 +944,9 @@ class plugin
 
     /* Try to use plain entry first */
     $dn = "$attribute=".$this->$attribute.",$base";
+    if ($dn == $this->orig_dn) {
+      return $dn;
+    }
     $ldap->cat($dn, array('dn'));
     if (!$ldap->fetch()) {
       return $dn;
@@ -903,6 +959,9 @@ class plugin
       }
 
       $dn = "$attribute=".$this->$attribute."+$attr=".$this->$attr.",$base";
+      if ($dn == $this->orig_dn) {
+        return $dn;
+      }
       $ldap->cat($dn, array('dn'));
       if (!$ldap->fetch()) {
         return $dn;
@@ -1064,10 +1123,6 @@ class plugin
    *
    * Move a given ldap object indentified by $src_dn to the
    * given destination $dst_dn
-   *
-   * - Ensure that all references are updated (ogroups)
-   * - Update ACLs
-   * - Update accessTo
    *
    * \param  string  $src_dn the source DN.
    *
@@ -1240,8 +1295,8 @@ class plugin
                 );
               $filter = plugin::tpl_parse_string($filter, array('oldvalue' => $oldvalue, 'newvalue' => $newvalue));
             } elseif ($mode == 'references') {
-              $foreignRefs[$objectType]['refs'][$class]['name']             = $cinfos['plShortName'];
-              $foreignRefs[$objectType]['refs'][$class]['fields'][$ofield]  =
+              $foreignRefs[$objectType]['refs'][$class]['name'] = $cinfos['plShortName'];
+              $foreignRefs[$objectType]['refs'][$class]['fields'][$ofield] =
                 array(
                   'tab'     => $tabclass,
                   'tabname' => $this->parent->by_name[$tabclass],
@@ -1414,15 +1469,15 @@ class plugin
   {
     switch ($mode) {
       case 'add':
-        plugin::callHook($this, $when.'CREATE', $addAttrs);
+        $this->callHook($when.'CREATE', $addAttrs);
         break;
 
       case 'modify':
-        plugin::callHook($this, $when.'MODIFY', $addAttrs);
+        $this->callHook($when.'MODIFY', $addAttrs);
         break;
 
       case 'remove':
-        plugin::callHook($this, $when.'REMOVE', $addAttrs);
+        $this->callHook($when.'REMOVE', $addAttrs);
         break;
 
       default:
@@ -1459,25 +1514,25 @@ class plugin
    *           Replaces placeholder by class values of this plugin instance.
    *       Allows to a add special replacements.
    */
-  static function callHook($plugin, $cmd, $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL)
+  function callHook($cmd, $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL)
   {
     global $config;
-    $command = $config->search(get_class($plugin), $cmd, array('menu','tabs','hooks'));
+    $command = $config->search(get_class($this), $cmd, array('menu','tabs','hooks'));
 
     if ($command != "") {
       // Walk trough attributes list and add the plugins attributes.
-      foreach ($plugin->attributes as $attr) {
-        $addAttrs[$attr] = $plugin->$attr;
+      foreach ($this->attributes as $attr) {
+        $addAttrs[$attr] = $this->$attr;
       }
 
       $ui = get_userinfo();
 
       $addAttrs['callerDN'] = $ui->dn;
-      $addAttrs['dn']       = $plugin->dn;
+      $addAttrs['dn']       = $this->dn;
       $addAttrs['location'] = $config->current['NAME'];
 
-      if (isset($plugin->parent->by_object)) {
-        foreach ($plugin->parent->by_object as $object) {
+      if (isset($this->parent->by_object)) {
+        foreach ($this->parent->by_object as $object) {
           foreach ($object->attributes as $attr) {
             if (!isset($addAttrs[$attr])) {
               $addAttrs[$attr] = $object->$attr;
@@ -1491,7 +1546,7 @@ class plugin
       // If there are still some %.. in our command, try to fill these with some other class vars (FIXME: useless)
       if (preg_match("/%/", $command)) {
         $addAttrs = array();
-        $attrs = get_object_vars($plugin);
+        $attrs = get_object_vars($this);
         foreach ($attrs as $name => $value) {
           if (is_array($value)) {
             $s = "";
@@ -1517,7 +1572,7 @@ class plugin
       if ($returnCode != 0) {
         $str = implode("\n", $arr);
         @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execution failed code: ".$returnCode);
-        $message = msgPool::cmdexecfailed($cmd, $command, get_class($plugin));
+        $message = msgPool::cmdexecfailed($cmd, $command, get_class($this));
         if (!empty($str)) {
           $message .= "Result: ".$str;
         }
@@ -1526,7 +1581,7 @@ class plugin
         $str = implode("\n", $arr);
         @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Result: ".$str);
         if (!empty($str) && $config->get_cfg_value("displayHookOutput", "FALSE") == "TRUE") {
-          msg_dialog::display('['.get_class($plugin).' '.strtolower($cmd)."hook] $command", $str, INFO_DIALOG);
+          msg_dialog::display('['.get_class($this).' '.strtolower($cmd)."hook] $command", $str, INFO_DIALOG);
         }
       }
     }
