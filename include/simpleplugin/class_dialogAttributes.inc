@@ -580,48 +580,4 @@ class UserAttribute extends DialogButtonAttribute
   }
 }
 
-class UserAttribute extends ButtonAttribute
-{
-  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "")
-  {
-    parent::__construct($label, $description, $ldapName, $required, 'SingleUserSelectDialog', '', $defaultValue, $acl);
-  }
-
-  function handleDialogResult ($dn, $attrs) {
-    $this->setValue($dn);
-    $this->buttonText = $attrs['cn'][0];
-  }
-
-  // TODO : Add a remove button if we're non-required (needed by manager in class_user)
-  function renderFormInput ()
-  {
-    $id = $this->getHtmlId();
-    $display  = '<img src="plugins/users/images/iconMini.png" alt="user icon" class="center"/>';
-    if ($this->getValue() == '') {
-      $display  .= '<b>'._('None').'</b>';
-    } elseif ($this->buttonText === NULL) {
-      $display  .= '<b>'._('Unknown').'</b>';
-    } else {
-      $display  .= '<a>'.$this->buttonText.'</a>';
-    }
-    $display  .= '<input class="center" type="image" src="images/lists/edit.png" name="'.$id.'" id="'.$id.'" value="{literal}'.$this->buttonText.'{/literal}" '.
-                ($this->disabled? 'disabled="disabled"':'').'/>';
-    return $this->renderAcl($display);
-  }
-
-  protected function loadAttrValue ($attrs)
-  {
-    parent::loadAttrValue($attrs);
-    $dn = $this->getValue();
-    if ($dn != '') {
-      $ldap = $this->plugin->config->get_ldap_link();
-      $ldap->cat($dn);
-      if ($attrs = $ldap->fetch()) {
-        $this->handleDialogResult($dn, $attrs);
-      } else {
-        $this->buttonText = NULL;
-      }
-    }
-  }
-}
 ?>
