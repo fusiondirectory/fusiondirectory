@@ -513,7 +513,7 @@ class simplePlugin extends plugin
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "save");
     $this->prepare_save();
     $this->ldap_save();
-    $this->log_save();
+    $this->post_save();
   }
 
   protected function prepare_save ()
@@ -568,8 +568,42 @@ class simplePlugin extends plugin
     }
   }
 
-  protected function log_save()
+  /*! \brief This function is called after LDAP save to do some post operations and logging
+   *
+   * This function calls hooks, update foreign keys and log modification
+   */
+  protected function post_save()
   {
+    /* Update foreign keys */
+    $infos = pluglist::pluginInfos(get_class($this));
+    if (isset($infos['plForeignRefs'])) {
+      foreach ($infos['plForeignRefs'] as $field => $ref) {
+        if ($field == 'dn') {
+          /* dn needs to be handled in move method */
+          /* Note : but code should not be duplicated in both places */
+          continue;
+        }
+        if ($this->attributesAccess[$field]->hasChanged()) {
+          $old_value = $this->attributesAccess[$field]->getInitialValue();
+          $new_value = $this->attributesAccess[$field]->getValue();
+          $rinfos = pluglist::pluginInfos($ref[0]);
+          foreach ($rinfos['plObjectType'] as $ot => $value) {
+            if (is_numeric($ot)) {
+              $ot = $value;
+            }
+            $ot = strtoupper($ot);
+            $outdated_objs = $this->config->getObjectList($ot, array('dn' => 'raw'), NULL, $ref[1]."=$old_value");
+            foreach (array_keys($outdated_objs) as $dn) {
+              $attrs = array($ref[1] => $new_value);
+              /* Here we need to create the tab class, change the value and save it
+               * But it won't be efficient to it this way, so we first need to compute things correctly
+               * The point is that if you get two fields to change in user main tab and one in posix tab,
+               * you do only one creation/save of tabclass */
+            }
+          }
+        }
+      }
+    }
     /* Propagate and log the event */
     if ($this->initially_was_account) {
       $this->handle_post_events("modify");
