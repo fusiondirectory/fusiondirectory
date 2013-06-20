@@ -1194,11 +1194,11 @@ class user extends plugin
     }
 
     /* Check for reserved characers */
-    if (preg_match ('/[,+"?\'()=<>;\\\\]/', $this->givenName)){
-      $message[]= msgPool::invalid(_("Given name"), $this->givenName, '/[^,+"?\'()=<>;\\\\]/');
+    if (preg_match ('/[,+"?()=<>;\\\\]/', $this->givenName)){
+      $message[]= msgPool::invalid(_("Given name"), $this->givenName, '/[^,+"?()=<>;\\\\]/');
     }
-    if (preg_match ('/[,+"?\'()=<>;\\\\]/', $this->sn)){
-      $message[]= msgPool::invalid(_("Name"), $this->sn, '/[^,+"?\'()=<>;\\\\]/');
+    if (preg_match ('/[,+"?()=<>;\\\\]/', $this->sn)){
+      $message[]= msgPool::invalid(_("Name"), $this->sn, '/[^,+"?()=<>;\\\\]/');
     }
 
     return $message;
