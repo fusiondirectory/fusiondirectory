@@ -235,11 +235,19 @@ vertical-align:top;
 
 table.listing_container > tbody >  tr > td.filter {
 min-width:250px;
+max-width:300px;
 vertical-align:top;
 }
 
 /* On small screens */
 @media (max-width: 640px) {
+  table.listingTable {
+  table-layout:auto;
+  }
+  table.listingTable > tbody > tr > td, table.listingTable > thead > tr > th {
+  width:auto !important;
+  min-width:0 !important;
+  }
   table.listingTable > tbody > tr td:last-child {
   padding-right:1px;
   }
@@ -250,6 +258,8 @@ vertical-align:top;
   }
   table.listing_container > tbody > tr > td.list, table.listing_container > tbody >  tr > td.filter {
   width:100%;
+  min-width:0;
+  max-width:none;
   height:auto;
   display:block;
   padding:0;
