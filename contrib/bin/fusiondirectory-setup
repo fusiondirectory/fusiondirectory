@@ -1022,11 +1022,11 @@ This option will list the variables you can change to install FusionDirectory on
 
 =item --set-VAR=variable
 
-This option will change the variable for the FusionDirectory installation. it is only usefull with --install-directories and for people installing from sources.
+This option will change the variable for the FusionDirectory installation. it is only useful with --install-directories and for people installing from sources.
 
 =item --write-vars
 
-This option will write back the variables.inc file with the updated variables and is only usefull with --set-VAR=variable and for people installing from sources.
+This option will write back the variables.inc file with the updated variables and is only useful with --set-VAR=variable and for people installing from sources.
 
 =item --yes
 
