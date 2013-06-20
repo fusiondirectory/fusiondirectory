@@ -164,12 +164,12 @@ class user extends simplePlugin
           new StringAttribute (
             _('Last name'), _('Last name of this user'),
             'sn', TRUE,
-            '', '', '/[^,+"?\'()=<>;\\\\]/'
+            '', '', '/[^,+"?()=<>;\\\\]/'
           ),
           new StringAttribute (
             _('First name'), _('First name of this user'),
             'givenName', TRUE,
-            '', '', '/[^,+"?\'()=<>;\\\\]/'
+            '', '', '/[^,+"?()=<>;\\\\]/'
           ),
           new StringAttribute (
             _('Personal title'), _('Personal title'),
