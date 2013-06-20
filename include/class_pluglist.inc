@@ -74,7 +74,8 @@ class pluglist {
     $classes = get_declared_classes();
 
     $index = 0;
-    $depends_infos = array();
+    $depends_infos  = array();
+    $foreign_refs   = array();
     foreach ($classes as $cname) {
       $cmethods = get_class_methods($cname);
       if (in_array_ics('plInfo', $cmethods)) {
@@ -94,6 +95,25 @@ class pluglist {
         if (isset($infos['plDepends'])) {
           $depends_infos[] = $cname;
         }
+        if (isset($infos['plForeignKey'])) {
+          foreach ($infos['plForeignKey'] as $ofield => $pfk) {
+            if (!is_array($pfk)) {
+              $class = $pfk;
+              $field = 'dn';
+              $infos['plForeignKey'][$ofield] = array($class, $field);
+            } else {
+              $class = $pfk[0];
+              $field = $pfk[1];
+            }
+            if (!isset($foreign_refs[$class])) {
+              $foreign_refs[$class] = array();
+            }
+            if (!isset($foreign_refs[$class][$field])) {
+              $foreign_refs[$class][$field] = array();
+            }
+            $foreign_refs[$class][$field][] = array($cname, $ofield);
+          }
+        }
         $infos['INDEX']                 = $index;
         $this->info[$cname]             = $infos;
         $this->dirlist[$index++]        = $cname;
@@ -112,6 +132,9 @@ class pluglist {
           trigger_error("$cname depends off the inexisting plugin $depend");
         }
       }
+    }
+    foreach ($foreign_refs as $cname => $refs) {
+      $this->info[$depend]['plForeignRefs'] = $refs;
     }
 
     /* Provide field for 'all' */
