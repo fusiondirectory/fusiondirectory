@@ -392,6 +392,8 @@ class user extends simplePlugin
 
     $fixed_dn = LDAP::prepare4filter($this->dn);
 
+    $ldap = $this->config->get_ldap_link();
+
     /* Delete references to groups */
     $ldap->cd($this->config->current['BASE']);
     $ldap->search ('(&(objectClass=posixGroup)(memberUid='.$this->uid.'))', array('uid'));
