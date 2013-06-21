@@ -1452,6 +1452,10 @@ class BaseSelectorAttribute extends Attribute
       if ($this->plugin->dn == "new") {
         $this->plugin->set_acl_base($this->value);
       }
+
+      if (($this->baseSelector !== NULL) && ($this->baseSelector->getBase() !== $this->value)) {
+        $this->baseSelector->setBase($this->value);
+      }
     }
   }
 
