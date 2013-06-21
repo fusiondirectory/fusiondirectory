@@ -159,9 +159,11 @@ class CopyPasteHandler {
       $entry['object']->parent = $entry['parent'];
     }
 
-    if ($entry['method'] == "copy") {
+    if ($entry['method'] == 'copy') {
       $entry['object']->resetCopyInfos();
     }
+
+    $entry['object']->resetBase();
 
     return $entry;
   }
