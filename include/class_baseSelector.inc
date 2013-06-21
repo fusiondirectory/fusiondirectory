@@ -84,7 +84,11 @@ class baseSelector {
   {
     if (isset($this->pathMapping[$base])) {
       $this->base = $base;
-      $this->update(TRUE);
+      $this->lastState = TRUE;
+      return $this->update(TRUE);
+    } else {
+      $this->lastState = FALSE;
+      return FALSE;
     }
   }
 
