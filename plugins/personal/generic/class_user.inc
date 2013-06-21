@@ -330,9 +330,17 @@ class user extends simplePlugin
     $filename = './plugins/users/images/default.jpg';
     $fd       = fopen ($filename, 'rb');
     $this->attributesAccess['jpegPhoto']->setPlaceholder(fread ($fd, filesize($filename)));
+
+    $this->update_cn();
   }
 
-  function compute_dn()
+  function save_object()
+  {
+    parent::save_object();
+    $this->update_cn();
+  }
+
+  private function update_cn()
   {
     // Fill cn (it may be overridden by accountRDN)
     $pt = "";
@@ -345,7 +353,11 @@ class user extends simplePlugin
     $this->attributesAccess['cn']->setValue(
       $pt.$this->attributesAccess['givenName']->getValue()." ".$this->attributesAccess['sn']->getValue()
     );
+  }
 
+  function compute_dn()
+  {
+    $this->update_cn();
     // Handle accountRDN if filled
     $attribute  = '';
     $pattern    = $this->config->get_cfg_value('accountRDN', '');
@@ -381,7 +393,7 @@ class user extends simplePlugin
 
     /* Remove ACL dependencies too */
     if ($this->dn != $this->orig_dn && $this->orig_dn != 'new') {
-      $tmp = new acl($this->config, $this->dn, $this->parent);
+      $tmp = new acl($this->config, $this->dn, $this);
       $tmp->update_acl_membership($this->orig_dn, $this->dn);
     }
   }
