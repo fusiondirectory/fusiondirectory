@@ -68,7 +68,7 @@ class acl extends plugin
   function acl (&$config, $dn = NULL, $baseobject = NULL)
   {
     /* Include config object */
-    plugin::plugin($config, $dn, $baseobject);
+    parent::__construct($config, $dn, $baseobject);
 
     /* Load ACL's */
     $this->gosaAclEntry = array();
@@ -1214,27 +1214,27 @@ class acl extends plugin
       }
 
       /* Remove object class */
-      $this->attrs['objectClass']= array_remove_entries(array('gosaAcl'), $this->attrs['objectClass']);
+      $this->attrs['objectClass'] = array_remove_entries(array('gosaAcl'), $this->attrs['objectClass']);
     }
 
     /* Do LDAP modifications */
-    $ldap= $this->config->get_ldap_link();
+    $ldap = $this->config->get_ldap_link();
     $ldap->cd($this->dn);
     $this->cleanup();
     $ldap->modify ($this->attrs);
 
-    if(count($this->attrs)){
-      new log("modify","acls/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
+    if (count($this->attrs)) {
+      new log("modify", "acls/".get_class($this), $this->dn, array_keys($this->attrs), $ldap->get_error());
     }
 
-    if (!$ldap->success()){
+    if (!$ldap->success()) {
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_MOD, get_class()), ERROR_DIALOG);
     }
 
     /* Refresh users ACLs */
-    $ui= get_userinfo();
+    $ui = get_userinfo();
     $ui->loadACL();
-    session::global_set('ui',$ui);
+    session::global_set('ui', $ui);
   }
 
   /*!
@@ -1242,19 +1242,19 @@ class acl extends plugin
    */
   function remove_from_parent()
   {
-    plugin::remove_from_parent();
+    parent::remove_from_parent();
 
     /* include global link_info */
-    $ldap= $this->config->get_ldap_link();
+    $ldap = $this->config->get_ldap_link();
 
     $ldap->cd($this->dn);
     $this->cleanup();
-    $ldap->modify ($this->attrs);
+    $ldap->modify($this->attrs);
 
-    new log("remove","acls/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
+    new log('remove', 'acls/'.get_class($this), $this->dn, array_keys($this->attrs), $ldap->get_error());
 
     /* Optionally execute a command after we're done */
-    $this->handle_post_events("remove",array("uid" => $this->uid));
+    $this->handle_post_events('remove');
   }
 
 
