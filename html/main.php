@@ -420,7 +420,9 @@ if (isset($_POST['_channel_'])) {
 $smarty->assign ("title","FusionDirectory");
 
 if (class_available('Game')) {
-  $smarty->assign('game_screen',Game::run());
+  $smarty->assign('game_screen', Game::run());
+} else {
+  $smarty->assign('game_screen', '');
 }
 
 $display =  $smarty->fetch(get_template_path('headers.tpl')).
