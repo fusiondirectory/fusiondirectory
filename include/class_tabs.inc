@@ -135,9 +135,6 @@ class tabs
     $this->dn = 'new';
     foreach ($this->by_object as &$obj) {
       $obj->resetCopyInfos();
-      if ($obj->is_account || $obj->ignore_account) {
-        $obj->postCopyHook();
-      }
     }
     unset($obj);
   }

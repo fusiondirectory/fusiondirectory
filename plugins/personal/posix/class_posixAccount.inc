@@ -470,10 +470,11 @@ class posixAccount extends simplePlugin
 
         /* Create new primary group and enforce the new gidNumber */
         $g = new group($this->config, $groupdn);
-        $g->cn = $groupcn;
-        $g->force_gid = 1;
-        $g->gidNumber = $this->gidNumber;
-        $g->description = _("Group of user")." ".$this->givenName;
+
+        $g->cn          = $groupcn;
+        $g->force_gid   = 1;
+        $g->gidNumber   = $this->gidNumber;
+        $g->description = sprintf(_("Group of user %s"), $uid);
         $g->save();
 
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,

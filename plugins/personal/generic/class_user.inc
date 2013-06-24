@@ -322,22 +322,14 @@ class user extends simplePlugin
     $this->attributesAccess['uid']->setUnique(TRUE);
     $this->attributesAccess['uid']->setDisabled($this->initially_was_account);
 
-    $attr = $this->config->get_cfg_value('accountPrimaryAttribute', 'uid');
-    if ($attr != 'uid') {
-      $this->attributesAccess[$attr]->setUnique(TRUE);
-    }
-
     $filename = './plugins/users/images/default.jpg';
     $fd       = fopen ($filename, 'rb');
     $this->attributesAccess['jpegPhoto']->setPlaceholder(fread ($fd, filesize($filename)));
-
-    $this->update_cn();
   }
 
-  function save_object()
+  function postCopyHook()
   {
-    parent::save_object();
-    $this->update_cn();
+    $this->attributesAccess['uid']->setDisabled($this->initially_was_account);
   }
 
   private function update_cn()
@@ -369,7 +361,7 @@ class user extends simplePlugin
       $attribute = $this->config->get_cfg_value('accountPrimaryAttribute', 'uid');
     }
 
-    return $attribute.'='.$this->attributesAccess[$attribute]->getValue().','.get_people_ou().$this->base;
+    return $this->create_unique_dn($attribute, get_people_ou().$this->base);
   }
 
   function execute()

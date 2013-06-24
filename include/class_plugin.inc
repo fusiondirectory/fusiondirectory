@@ -266,11 +266,13 @@ class plugin
    */
   function resetCopyInfos()
   {
-    $this->dn = "new";
-    $this->saved_attributes = array();
+    $this->dn       = 'new';
+    $this->orig_dn  = $this->dn;
 
-    $this->orig_dn = $this->dn;
-    $this->initially_was_account = FALSE;
+    $this->saved_attributes       = array();
+    $this->initially_was_account  = FALSE;
+
+    $this->postCopyHook();
   }
 
 
@@ -688,75 +690,43 @@ class plugin
   /*!
    * \brief Create unique DN
    *
-   * \param string $data
-   *
-   * \param string $base
-   */
-  function create_unique_dn2($data, $base)
-  {
-    $ldap= $this->config->get_ldap_link();
-    $base= preg_replace("/^,*/", "", $base);
-
-    /* Try to use plain entry first */
-    $dn= "$data,$base";
-    $attribute= preg_replace('/=.*$/', '', $data);
-    $ldap->cat ($dn, array('dn'));
-    if (!$ldap->fetch()){
-      return ($dn);
-    }
-
-    /* Look for additional attributes */
-    foreach ($this->attributes as $attr){
-      if ($attr == $attribute || $this->$attr == ""){
-        continue;
-      }
-
-      $dn= "$data+$attr=".$this->$attr.",$base";
-      $ldap->cat ($dn, array('dn'));
-      if (!$ldap->fetch()){
-        return ($dn);
-      }
-    }
-
-    /* None found */
-    return ("none");
-  }
-
-
-  /*!
-   * \brief Create unique DN
-   *
    * \param string $attribute
    *
    * \param string $base
    */
   function create_unique_dn($attribute, $base)
   {
-    $ldap= $this->config->get_ldap_link();
-    $base= preg_replace("/^,*/", "", $base);
+    $ldap = $this->config->get_ldap_link();
+    $base = preg_replace('/^,*/', '', $base);
 
     /* Try to use plain entry first */
-    $dn= "$attribute=".$this->$attribute.",$base";
-    $ldap->cat ($dn, array('dn'));
-    if (!$ldap->fetch()){
-      return ($dn);
+    $dn = "$attribute=".$this->$attribute.",$base";
+    if ($dn == $this->orig_dn) {
+      return $dn;
+    }
+    $ldap->cat($dn, array('dn'));
+    if (!$ldap->fetch()) {
+      return $dn;
     }
 
     /* Look for additional attributes */
-    foreach ($this->attributes as $attr){
-      if ($attr == $attribute || $this->$attr == ""){
+    foreach ($this->attributes as $attr) {
+      if ($attr == $attribute || $this->$attr == "" || is_array($this->$attr)) {
         continue;
       }
 
-      $dn= "$attribute=".$this->$attribute."+$attr=".$this->$attr.",$base";
-      $ldap->cat ($dn, array('dn'));
-      if (!$ldap->fetch()){
-        return ($dn);
+      $dn = "$attribute=".$this->$attribute."+$attr=".$this->$attr.",$base";
+      if ($dn == $this->orig_dn) {
+        return $dn;
+      }
+      $ldap->cat($dn, array('dn'));
+      if (!$ldap->fetch()) {
+        return $dn;
       }
     }
 
     /* None found */
-    return ("none");
+    return 'none';
   }
 
   /*!
