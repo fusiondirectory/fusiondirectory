@@ -623,15 +623,6 @@ class plugin
     return $string;
   }
 
-  /*
-   * \brief Indicate whether a password change is needed or not
-   */
-  function password_change_needed()
-  {
-    return FALSE;
-  }
-
-
   /*!
    * \brief Show header message for tab dialogs
    *

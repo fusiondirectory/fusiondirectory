@@ -401,44 +401,6 @@ class userManagement extends management
       }
   }
 
-
-
-
-  /*! \brief  Save user modifications.
-   *          Whenever we save a 'new' user, request a password change for him.
-   */
-  function saveChanges()
-  {
-    $str = management::saveChanges();
-
-    if (!empty($str)) return($str);
-    if (is_object($this->tabObject)) {
-      /* If tabObject still exists, it means there was some errors */
-      return "";
-    }
-
-    if (isset($this->last_tabObject->by_object['user']) && $this->last_tabObject->by_object['user']->password_change_needed()) {
-      $this->force_hash_type[$this->last_tabObject->dn] = $this->last_tabObject->by_object['user']->pw_storage;
-      $this->pwd_change_queue[] = $this->last_tabObject->dn;
-      return $this->handlePasswordQueue();
-    }
-  }
-
-  function cancelEdit()
-  {
-    $str = management::cancelEdit();
-    if(!empty($str)) return($str);
-
-    if(isset($this->last_tabObject->by_object['user']) &&
-        $this->last_tabObject->by_object['user']->dn != "new" &&
-        $this->last_tabObject->by_object['user']->password_change_needed()){
-      $this->force_hash_type[$this->last_tabObject->dn] = $this->last_tabObject->by_object['user']->pw_storage;
-      $this->pwd_change_queue[] = $this->last_tabObject->dn;
-      return($this->handlePasswordQueue());
-    }
-  }
-
-
   /*! \brief  Intiates user creation.
    *          If we've user templates, then the user will be asked to use to use one.
    *          -> See 'templateContinue' for further handling.

@@ -302,22 +302,6 @@ class tabs
     }
   }
 
-  /*
-   * \brief Ask all plugins for needed password changes
-   */
-  function password_change_needed()
-  {
-    /* Ask all plugins for needed password changes */
-    foreach ($this->by_object as &$obj) {
-      if ($obj->password_change_needed()) {
-        return TRUE;
-      }
-    }
-    unset($obj);
-
-    return FALSE;
-  }
-
   /*!
    * \brief Check
    *
