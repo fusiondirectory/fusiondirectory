@@ -540,26 +540,27 @@ class simplePlugin extends plugin
     /* Check if this is a new entry ... add/modify */
     $ldap = $this->config->get_ldap_link();
     $ldap->cat($this->dn, array("objectClass"));
-    if ($ldap->count()) {
-      $ldap->cd($this->dn);
-      if ($cleanup) {
-        $this->cleanup();
+    if ($this->mainTab && !$this->initially_was_account) {
+      if ($ldap->count()) {
+        msg_dialog::display(_("Error when saving"), sprintf(_('There is already an entry with the same dn : %s'), $this->dn));
+        return;
+      }
+      $ldap->cd($this->config->current['BASE']);
+      $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $this->dn));
+      $action = "add";
+    } else {
+      if (!$ldap->count()) {
+        msg_dialog::display(_("Error when saving"), sprintf(_('The entry %s is not existing'), $this->dn));
+        return;
       }
       $action = "modify";
-      $ldap->modify($this->attrs);
-    } else {
-      if ($this->mainTab) {
-        $ldap->cd($this->config->current['BASE']);
-        $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $this->dn));
-      }
-      if ($cleanup) {
-        $this->cleanup();
-      }
-      $ldap->cd($this->dn);
-      $action = "add";
-      $ldap->add($this->attrs);
     }
 
+    if ($cleanup) {
+      $this->cleanup();
+    }
+    $ldap->cd($this->dn);
+    $ldap->$action($this->attrs);
     $this->ldap_error = $ldap->get_error();
 
     /* Check for errors */
