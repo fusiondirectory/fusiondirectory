@@ -65,6 +65,9 @@ class debugHelp
         $nodes  .= "\t".'node [shape=plaintext,label="'.$tabclass.'",color=white] '.$tabclass.";\n";
       }
       foreach ($tabs as $tab) {
+        if (!class_available($tab['CLASS']))  {
+          continue;
+        }
         if ($tabclass == 'tabclass_SERVERSERVICE') {
           if (is_subclass_of($tab['CLASS'], 'simpleService')) {
             $color = 'green';
