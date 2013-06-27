@@ -255,8 +255,8 @@ class DialogAttribute extends SetAttribute
 
 class GenericDialogAttribute extends DialogAttribute
 {
-  protected $displays;
 
+  protected $displays     = array();
   protected $store_attr   = 'dn';
   protected $display_attr = 'cn';
 
