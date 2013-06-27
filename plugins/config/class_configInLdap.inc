@@ -95,6 +95,7 @@ class configInLdap extends simplePlugin
             'fdTimezone', TRUE,
             array('America/New_York')
           ),
+          new HiddenAttribute ('fusionConfigMd5'),
         )
       ),
       'schema_setup' => array(
@@ -415,7 +416,10 @@ class configInLdap extends simplePlugin
     $attributesInfo['password']['attrs'][0]->setChoices($methods);
 
     parent::__construct($config, $dn, $object, $attributesInfo);
-    $this->attributesInfo['snapshots']['attrs']['fdEnableSnapshots']->setManagedAttributes(
+
+    $this->fusionConfigMd5 = md5_file(CACHE_DIR."/".CLASS_CACHE);
+
+    $this->attributesAccess['fdEnableSnapshots']->setManagedAttributes(
       array(
         'disable' => array (
           FALSE => array (
@@ -427,7 +431,7 @@ class configInLdap extends simplePlugin
         )
       )
     );
-    $this->attributesInfo['people_and_group']['attrs']['fdAccountPrimaryAttribute']->setManagedAttributes(
+    $this->attributesAccess['fdAccountPrimaryAttribute']->setManagedAttributes(
       array(
         'erase' => array (
           'uid' => array (
@@ -436,7 +440,7 @@ class configInLdap extends simplePlugin
         )
       )
     );
-    $this->attributesInfo['login']['attrs']['fdForceSSL']->setManagedAttributes(
+    $this->attributesAccess['fdForceSSL']->setManagedAttributes(
       array(
         'disable' => array (
           TRUE => array (
@@ -445,7 +449,6 @@ class configInLdap extends simplePlugin
         )
       )
     );
-
   }
 
   static function get_themes()

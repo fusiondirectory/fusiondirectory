@@ -329,6 +329,12 @@ attributetype ( 1.3.6.1.4.1.38414.8.18.3 NAME 'fdShells'
   SUBSTR caseExactIA5SubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
 
+attributetype ( 1.3.6.1.4.1.38414.8.18.4 NAME 'fusionConfigMd5'
+  DESC 'FusionDirectory - md5sum of class.cache'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
 # Plugins
 
 attributetype ( 1.3.6.1.4.1.38414.8.19.1 NAME 'fdOGroupRDN'
@@ -345,6 +351,8 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
   SUP top STRUCTURAL
   MUST ( cn )
   MAY (
+    fusionConfigMd5 $
+
     fdRfc2307bis $ fdSchemaCheck $
     fdLanguage $ fdTheme $ fdTimezone $
     fdAccountPrimaryAttribute $ fdAccountRDN $ fdNextIdHook $ fdIdGenerator $
