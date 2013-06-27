@@ -117,33 +117,11 @@ class simplePlugin extends plugin
     // We call plugin constructor
     parent::__construct($config, $dn, $object);
 
-    $this->updateAttributesValues();
-    $this->prepareSavedAttributes();
-
     $this->orig_dn = $dn;
 
     if ($this->mainTab) {
       $this->is_account = TRUE;
     }
-
-    // We load attributes values
-    // First the one flagged as preInit
-    foreach ($this->preInitAttributes as $attr) {
-      $this->attributesAccess[$attr]->setParent($this);
-      $this->attributesAccess[$attr]->loadValue($this->attrs);
-    }
-    // Then the others
-    foreach ($this->attributesInfo as $section => &$sectionInfo) {
-      foreach ($sectionInfo['attrs'] as $name => &$attr) {
-        if (in_array($name, $this->preInitAttributes)) {
-          continue; // skip the preInit ones
-        }
-        $attr->setParent($this);
-        $attr->loadValue($this->attrs);
-      }
-      unset($attr);
-    }
-    unset($sectionInfo);
 
     if (!isset($this->templatePath)) {
       $this->templatePath = get_template_path('simpleplugin.tpl');
@@ -168,6 +146,30 @@ class simplePlugin extends plugin
         }
       }
     }
+  }
+
+  protected function loadAttributes()
+  {
+    // We load attributes values
+    // First the one flagged as preInit
+    foreach ($this->preInitAttributes as $attr) {
+      $this->attributesAccess[$attr]->setParent($this);
+      $this->attributesAccess[$attr]->loadValue($this->attrs);
+    }
+    // Then the others
+    foreach ($this->attributesInfo as $section => &$sectionInfo) {
+      foreach ($sectionInfo['attrs'] as $name => &$attr) {
+        if (in_array($name, $this->preInitAttributes)) {
+          continue; // skip the preInit ones
+        }
+        $attr->setParent($this);
+        $attr->loadValue($this->attrs);
+      }
+      unset($attr);
+    }
+    unset($sectionInfo);
+
+    $this->updateAttributesValues();
   }
 
   /*! \brief This function allows to use the syntax $plugin->attributeName to get attributes values
@@ -512,6 +514,10 @@ class simplePlugin extends plugin
   {
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "save");
     $this->prepare_save();
+    if ($this->is_template) {
+      $this->attrs = $this->saveTemplateAttrs();
+      $this->saved_attributes = array();
+    }
     $this->ldap_save();
     $this->post_save();
   }
@@ -521,13 +527,13 @@ class simplePlugin extends plugin
     /* Call parents save to prepare $this->attrs */
     parent::save();
 
-    /* Adapt some values to LDAP syntax (mostly booleans) */
+    /* Fill attributes LDAP values into the attrs array */
     foreach ($this->attributesInfo as $section => $sectionInfo) {
       foreach ($sectionInfo['attrs'] as $attr) {
         $attr->fillLdapValue($this->attrs);
       }
     }
-    /* Adapt some values to LDAP syntax (mostly booleans) */
+    /* Some of them have post-filling hook */
     foreach ($this->attributesInfo as $section => $sectionInfo) {
       foreach ($sectionInfo['attrs'] as $attr) {
         $attr->fillLdapValueHook($this->attrs);

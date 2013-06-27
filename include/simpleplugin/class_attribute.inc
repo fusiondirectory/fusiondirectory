@@ -433,6 +433,8 @@ class Attribute
     if ($this->visible) {
       if ($readOnly) {
         $input = $this->getValue();
+      } elseif (is_object($this->plugin) && $this->plugin->is_template) {
+        $input = $this->renderTemplateInput();
       } else {
         $input = $this->renderFormInput();
       }
@@ -502,6 +504,14 @@ class Attribute
       }
     }
     return $js;
+  }
+
+  function renderTemplateInput ()
+  {
+    $id = $this->getHtmlId();
+    $display  = '<input type="text" name="'.$id.'" id="'.$id.'" value="{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}" '.
+                ($this->disabled? 'disabled="disabled"':'').'/>';
+    return $this->renderAcl($display);
   }
 }
 
@@ -1585,7 +1595,15 @@ class ArrayAttribute extends Attribute
   function renderFormInput ()
   {
     $display      = $this->renderOnlyFormInput();
-    $attr_display = $this->renderAttributeInput();
+    $attr_display = $this->renderAttributeInput(FALSE);
+    $buttons      = $this->renderButtons();
+    return $this->renderAcl($display).$attr_display.$this->renderAcl($buttons);
+  }
+
+  function renderTemplateInput ()
+  {
+    $display      = $this->renderOnlyFormInput();
+    $attr_display = $this->renderAttributeInput(TRUE);
     $buttons      = $this->renderButtons();
     return $this->renderAcl($display).$attr_display.$this->renderAcl($buttons);
   }
@@ -1624,10 +1642,14 @@ class ArrayAttribute extends Attribute
     }
   }
 
-  function renderAttributeInput ()
+  function renderAttributeInput ($template = FALSE)
   {
     $this->handleEditingValue();
-    return $this->attribute->renderFormInput();
+    if ($template) {
+      return $this->attribute->renderTemplateInput();
+    } else {
+      return $this->attribute->renderFormInput();
+    }
   }
 
   function renderAttribute(&$attributes, $readOnly)
