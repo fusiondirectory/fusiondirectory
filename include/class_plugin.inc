@@ -143,7 +143,7 @@ class plugin
 
     // Ensure that we've a valid acl_category set.
     if (empty($this->acl_category)) {
-      $tmp = $this->plInfo();
+      $tmp = pluglist::pluginInfos(get_class($this));
       if (isset($tmp['plCategory'])) {
         $c = key($tmp['plCategory']);
         if (is_numeric($c)) {
@@ -175,7 +175,6 @@ class plugin
 
     /* Get LDAP descriptor */
     if (($this->dn != "new") || ($object !== NULL)) {
-
       /* Load data to 'attrs' and save 'dn' */
       if ($object !== NULL) {
         $this->attrs = $object->attrs;
@@ -185,21 +184,12 @@ class plugin
         $this->attrs = $ldap->fetch();
       }
 
-      /* Copy needed attributes */
-      foreach ($this->attributes as $val) {
-        $found = array_key_ics($val, $this->attrs);
-        if ($found != "") {
-          $this->$val = $found[0];
-        }
-      }
-
-      /* Set the template flag according to the existence of objectClass
-         gosaUserTemplate */
+      /* Set the template flag according to the existence of objectClass fdTemplate */
       if (isset($this->attrs['objectClass'])) {
-        if (in_array_ics ("gosaUserTemplate", $this->attrs['objectClass'])) {
+        if (in_array_ics ("fdTemplate", $this->attrs['objectClass'])) {
+          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, "found", "Template check");
           $this->is_template = TRUE;
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
-              "found", "Template check");
+          $this->attrs = self::prepareTemplateAttrs($this->attrs);
         }
       }
 
@@ -208,12 +198,25 @@ class plugin
         $this->is_account = TRUE;
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, "found", "Object check");
       }
-
-      $this->prepareSavedAttributes();
     }
+
+    $this->loadAttributes();
+
+    $this->prepareSavedAttributes();
 
     /* Save initial account state */
     $this->initially_was_account = $this->is_account;
+  }
+
+  protected function loadAttributes()
+  {
+    /* Copy needed attributes */
+    foreach ($this->attributes as $val) {
+      $found = array_key_ics($val, $this->attrs);
+      if ($found != "") {
+        $this->$val = $found[0];
+      }
+    }
   }
 
   function is_this_account($attrs)
@@ -259,6 +262,40 @@ class plugin
       }
       unset($this->saved_attributes["$index"]["count"]);
     }
+  }
+
+  static function prepareTemplateAttrs($template_attrs)
+  {
+    /* Translate template attrs into $attrs as if taken from LDAP */
+    sort($template_attrs['fdTemplateField']);
+    $attrs = array();
+    foreach ($template_attrs['fdTemplateField'] as $field) {
+      preg_match('/^([^:]+):(.*)$/', $field, $m);
+      if (isset($attrs[$m[1]])) {
+        $attrs[$m[1]][] = $m[2];
+        $attrs[$m[1]]['count']++;
+      } else {
+        $attrs[$m[1]]           = array($m[2]);
+        $attrs[$m[1]]['count']  = 1;
+      }
+    }
+    return $attrs;
+  }
+
+  protected function saveTemplateAttrs()
+  {
+    $template_attrs = array('objectClass' => 'fdTemplate', 'fdTemplateField' => array());
+    /* Translate $attrs into template attrs */
+    foreach ($this->attrs as $key => $value) {
+      if (empty($value)) {
+        continue;
+      }
+      unset($value['count']);
+      foreach ($value as $v) {
+        $template_attrs['fdTemplateField'][] = $key.':'.$v;
+      }
+    }
+    return $template_attrs;
   }
 
   /*!
