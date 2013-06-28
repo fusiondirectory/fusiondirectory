@@ -222,7 +222,7 @@ class DialogAttribute extends SetAttribute
     return Attribute::setAcl($acl);
   }
 
-  function renderAttributeInput ()
+  function renderAttributeInput ($template = FALSE)
   {
   }
 
@@ -464,9 +464,9 @@ class MailsAttribute extends DialogAttribute
     }
   }
 
-  function renderAttributeInput ()
+  function renderAttributeInput ($template = FALSE)
   {
-    return SetAttribute::renderAttributeInput();
+    return SetAttribute::renderAttributeInput($template);
   }
 
   function renderButtons ()

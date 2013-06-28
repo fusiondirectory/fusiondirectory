@@ -508,10 +508,7 @@ class Attribute
 
   function renderTemplateInput ()
   {
-    $id = $this->getHtmlId();
-    $display  = '<input type="text" name="'.$id.'" id="'.$id.'" value="{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}" '.
-                ($this->disabled? 'disabled="disabled"':'').'/>';
-    return $this->renderAcl($display);
+    return $this->renderFormInput();
   }
 }
 
@@ -771,6 +768,11 @@ class PasswordAttribute extends StringAttribute
                 ($this->disabled? 'disabled="disabled"':'').'/>';
     return $this->renderAcl($display);
   }
+
+  function renderTemplateInput ()
+  {
+    return parent::renderFormInput();
+  }
 }
 
 /*! \brief This class allow to handle easily a Select LDAP attribute with a set of choices
@@ -982,6 +984,14 @@ class IntAttribute extends Attribute
     ($this->disabled? 'disabled="disabled"':'').
     ($this->step !== FALSE?' step="'.$this->step.'"':'').
     '/>';
+    return $this->renderAcl($display);
+  }
+
+  function renderTemplateInput ()
+  {
+    $id = $this->getHtmlId();
+    $display  = '<input type="text" name="'.$id.'" id="'.$id.'" value="{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}" '.
+                ($this->disabled? 'disabled="disabled"':'').'/>';
     return $this->renderAcl($display);
   }
 }
