@@ -317,7 +317,7 @@ class tabs
 
     /* Check all plugins */
     foreach ($this->by_object as $key => &$obj) {
-      if ($obj->is_account || $obj->ignore_account) {
+      if (($obj->is_account || $obj->ignore_account) && (!$obj->is_template)) {
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Checking");
 
         $msg = $obj->check();
@@ -424,6 +424,16 @@ class tabs
       } else {
         $obj->set_acl_base($base);
       }
+    }
+    unset($obj);
+  }
+
+  function setTemplateMode($cn)
+  {
+    $this->getBaseObject()->template_cn = $cn;
+
+    foreach ($this->by_object as &$obj) {
+      $obj->is_template = TRUE;
     }
     unset($obj);
   }

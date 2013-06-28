@@ -123,10 +123,6 @@ objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.6 NAME 'gosaAccount' SUP top AUXILIARY
         gosaDefaultLanguage $ academicTitle $ personalTitle $ dateOfBirth $
         sambaBadPasswordCount $ sambaBadPasswordTime $ gender $ gosaLoginRestriction ))
 
-objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.11 NAME 'gosaUserTemplate' SUP top AUXILIARY
-  DESC 'Class for GOsa User Templates (v2.6.1)'
-  MUST ( cn ))
-
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.12 NAME 'gosaGroupOfNames'
   DESC 'GOsa object grouping (v2.6.1)'
   SUP top STRUCTURAL
