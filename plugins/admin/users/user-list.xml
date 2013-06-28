@@ -13,7 +13,7 @@
 
     <objectType>
       <label>Template</label>
-      <objectClass>gosaUserTemplate</objectClass>
+      <objectClass>fdTemplate</objectClass>
       <category>users</category>
       <class>user</class>
       <image>plugins/users/images/select_template.png</image>
@@ -188,13 +188,13 @@
       <name>newfromtpl</name>
       <type>entry</type>
       <image>images/lists/new.png</image>
-      <objectclass>gosaUserTemplate</objectclass>
+      <objectclass>fdTemplate</objectclass>
       <label>New user from template</label>
     </action>
 
     <action>
       <name>cp</name>
-      <objectclass>!gosaUserTemplate</objectclass>
+      <objectclass>!fdTemplate</objectclass>
       <type>copypaste</type>
     </action>
 
@@ -209,7 +209,7 @@
     <action>
       <name>lock</name>
       <type>entry</type>
-      <objectclass>!gosaUserTemplate</objectclass>
+      <objectclass>!fdTemplate</objectclass>
       <image>%{filter:lockImage(userPassword)}</image>
       <acl>users/password[w]</acl>
       <label>%{filter:lockLabel(userPassword)}</label>
@@ -218,7 +218,7 @@
     <action>
       <name>password</name>
       <type>entry</type>
-      <objectclass>!gosaUserTemplate</objectclass>
+      <objectclass>!fdTemplate</objectclass>
       <acl>users/password[w]</acl>
       <image>plugins/users/images/list_password.png</image>
       <label>Change password</label>
@@ -227,7 +227,7 @@
     <action>
       <name>snapshot</name>
       <type>snapshot</type>
-      <objectclass>!gosaUserTemplate</objectclass>
+      <objectclass>!fdTemplate</objectclass>
     </action>
 
     <action>

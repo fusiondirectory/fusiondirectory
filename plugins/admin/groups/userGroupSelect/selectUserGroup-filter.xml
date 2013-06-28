@@ -45,7 +45,7 @@
     <type>checkbox</type>
     <tag>USER</tag>
     <default>true</default>
-    <set>(&amp;(objectClass=posixAccount)(!(objectClass=gosaUserTemplate)))</set>
+    <set>(objectClass=posixAccount)</set>
     <unset></unset>
   </element>
 

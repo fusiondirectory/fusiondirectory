@@ -606,7 +606,7 @@ class group extends plugin
     /* Create display list of users matching regex & filter
      */
     $this->displayUsers = array();
-    $filter = "(&(objectClass=gosaAccount)(!(objectClass=gosaUserTemplate))(!(uid=*$))(|(uid=".$regex.")(sn=".$regex.")(givenName=".$regex.")))";
+    $filter = "(&(objectClass=gosaAccount)(!(uid=*$))(|(uid=".$regex.")(sn=".$regex.")(givenName=".$regex.")))";
 
     /* Search in current tree or within subtrees depending on the checkbox from filter section */
     if($gufilter['SubSearchGroup']){

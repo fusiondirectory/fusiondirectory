@@ -3,13 +3,13 @@
 ##
 
 # Attributes
-attributetype ( 1.3.6.1.4.1.38414.ID.1.1 NAME 'fdTemplateField'
+attributetype ( 1.3.6.1.4.1.38414.38.1.1 NAME 'fdTemplateField'
   DESC 'FusionDirectory - template field'
   EQUALITY caseExactIA5Match
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
 # Objectclasses
-objectclass (1.3.6.1.4.1.38414.ID.2.1 NAME 'fdTemplate'
+objectclass (1.3.6.1.4.1.38414.38.2.1 NAME 'fdTemplate'
   DESC 'FusionDirectory - template object'
   MUST ( cn )
   MAY ( fdTemplateField ) )

@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
@@ -81,6 +80,7 @@ class plugin
     \sa plugin::save() plugin::execute()
    */
   var $is_template    = FALSE;
+  var $template_cn    = FALSE;
   var $ignore_account = FALSE;
   var $is_modified    = FALSE;
 
@@ -188,8 +188,7 @@ class plugin
       if (isset($this->attrs['objectClass'])) {
         if (in_array_ics ("fdTemplate", $this->attrs['objectClass'])) {
           @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, "found", "Template check");
-          $this->is_template = TRUE;
-          $this->attrs = self::prepareTemplateAttrs($this->attrs);
+          $this->loadTemplateAttrs($this->attrs);
         }
       }
 
@@ -264,9 +263,14 @@ class plugin
     }
   }
 
-  static function prepareTemplateAttrs($template_attrs)
+  protected function loadTemplateAttrs($template_attrs)
   {
+    $this->is_template = TRUE;
+    if ($this->mainTab) {
+      $this->template_cn = $template_attrs['cn'][0];
+    }
     /* Translate template attrs into $attrs as if taken from LDAP */
+    unset($template_attrs['fdTemplateField']['count']);
     sort($template_attrs['fdTemplateField']);
     $attrs = array();
     foreach ($template_attrs['fdTemplateField'] as $field) {
@@ -279,22 +283,52 @@ class plugin
         $attrs[$m[1]]['count']  = 1;
       }
     }
-    return $attrs;
+    $this->attrs = $attrs;
   }
 
   protected function saveTemplateAttrs()
   {
-    $template_attrs = array('objectClass' => 'fdTemplate', 'fdTemplateField' => array());
-    /* Translate $attrs into template attrs */
-    foreach ($this->attrs as $key => $value) {
-      if (empty($value)) {
-        continue;
+    $ldap = $this->config->get_ldap_link();
+    $ldap->cat($this->dn);
+    $template_attrs = $ldap->fetch();
+    if (!$template_attrs) {
+      if (!$this->mainTab) {
+        trigger_error('It seems main tab has not been saved.');
       }
-      unset($value['count']);
-      foreach ($value as $v) {
-        $template_attrs['fdTemplateField'][] = $key.':'.$v;
+      $template_attrs = array(
+        'objectClass'     => array('fdTemplate'),
+        'fdTemplateField' => array()
+      );
+    }
+    if ($this->mainTab) {
+      $template_attrs['cn'] = $this->template_cn;
+    }
+    unset($template_attrs['fdTemplateField']['count']);
+    /* First remove all concerned values */
+    foreach ($template_attrs['fdTemplateField'] as $key => $value) {
+      preg_match('/^([^:]+):(.*)$/', $value, $m);
+      if (isset($this->attrs[$m[1]])) {
+        unset($template_attrs['fdTemplateField'][$key]);
       }
     }
+    /* Then insert non-empty values */
+    foreach ($this->attrs as $key => $value) {
+      if (is_array($value)) {
+        foreach ($value as $v) {
+          if ($value == "") {
+            continue;
+          }
+          $template_attrs['fdTemplateField'][] = $key.':'.$v;
+        }
+      } else {
+        if ($value == "") {
+          continue;
+        }
+        $template_attrs['fdTemplateField'][] = $key.':'.$value;
+      }
+    }
+    sort($template_attrs['fdTemplateField']);
+    print_r($template_attrs);
     return $template_attrs;
   }
 

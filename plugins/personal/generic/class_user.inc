@@ -349,6 +349,11 @@ class user extends simplePlugin
 
   function compute_dn()
   {
+    if ($this->is_template) {
+      $dn = 'cn='.$this->template_cn.',ou=templates,'.get_people_ou().$this->base;
+      return $dn;
+    }
+
     $this->update_cn();
     // Handle accountRDN if filled
     $attribute  = '';
@@ -384,7 +389,7 @@ class user extends simplePlugin
     }
 
     /* Remove ACL dependencies too */
-    if ($this->dn != $this->orig_dn && $this->orig_dn != 'new') {
+    if (($this->dn != $this->orig_dn) && ($this->orig_dn != 'new') && (!$this->is_template)) {
       $tmp = new acl($this->config, $this->dn, $this);
       $tmp->update_acl_membership($this->orig_dn, $this->dn);
     }

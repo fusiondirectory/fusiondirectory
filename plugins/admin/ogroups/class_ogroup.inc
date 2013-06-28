@@ -673,7 +673,7 @@ class ogroup extends plugin
     $type= "I";
 
     foreach(array(
-          "Y" => "gosaUserTemplate",
+          "Y" => "fdTemplate",
           "U" => "gosaAccount",
           "G" => "posixGroup",
           "A" => "gosaApplication",

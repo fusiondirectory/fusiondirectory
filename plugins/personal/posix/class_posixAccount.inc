@@ -603,13 +603,13 @@ class posixAccount extends simplePlugin
       }
     }
 
-    $ldap->cd($this->config->current['BASE']);
-    $ldap->search("(&(objectClass=gosaUserTemplate)(uid=$template)(accessTo=*))", array("cn","accessTo"));
-    while ($attr = $ldap->fetch()) {
-      $tmp = $attr['accessTo'];
-      unset($tmp['count']);
-      $this->accessTo = $tmp;
-    }
+    //~ $ldap->cd($this->config->current['BASE']);
+    //~ $ldap->search("(&(objectClass=gosaUserTemplate)(uid=$template)(accessTo=*))", array("cn","accessTo"));
+    //~ while ($attr = $ldap->fetch()) {
+      //~ $tmp = $attr['accessTo'];
+      //~ unset($tmp['count']);
+      //~ $this->accessTo = $tmp;
+    //~ }
   }
 }
 

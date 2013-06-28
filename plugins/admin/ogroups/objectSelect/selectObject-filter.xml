@@ -61,7 +61,7 @@
     <type>checkbox</type>
     <tag>USER</tag>
     <default></default>
-    <set>(&amp;(objectClass=gosaAccount)(!(objectClass=gosaUserTemplate)))</set>
+    <set>(objectClass=gosaAccount)</set>
     <unset></unset>
   </element>
 
@@ -88,7 +88,7 @@
     <unset></unset>
     <set>(objectClass=gosaApplication)</set>
   </element>
-  
+
   <element>
     <type>checkbox</type>
     <tag>SERVER</tag>
