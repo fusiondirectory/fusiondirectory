@@ -1537,7 +1537,11 @@ class ArrayAttribute extends Attribute
 
   function addPostValue ($value)
   {
+    if (empty($value)) {
+      return FALSE;
+    }
     $this->postValue[] = $value;
+    return TRUE;
   }
 
   function delPostValue ($key)
@@ -1720,6 +1724,9 @@ class SetAttribute extends ArrayAttribute
 
   function addPostValue ($value)
   {
+    if (empty($value)) {
+      return FALSE;
+    }
     if (!in_array($value, $this->postValue)) {
       $this->postValue[] = $value;
       return TRUE;
