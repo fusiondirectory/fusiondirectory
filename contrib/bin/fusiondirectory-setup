@@ -18,6 +18,7 @@ use MIME::Base64;
 
 # used to generate {CRYPT} password (for LDAP)
 use Crypt::PasswdMD5;
+use Crypt::CBC;
 
 # used to uncompress tar.gz
 use Archive::Extract;
@@ -30,20 +31,21 @@ use XML::Twig;
 
 # fd's directory and class.cache file's path declaration
 my %vars = (
- fd_home =>       "/var/www/fusiondirectory",
- fd_cache =>      "/var/cache/fusiondirectory",
- fd_config_dir => "/etc/fusiondirectory",
- fd_spool_dir =>  "/var/spool/fusiondirectory",
- config_file =>   "fusiondirectory.conf",
- locale_dir =>    "locale",
- class_cache =>   "class.cache",
+ fd_home          => "/var/www/fusiondirectory",
+ fd_cache         => "/var/cache/fusiondirectory",
+ fd_config_dir    => "/etc/fusiondirectory",
+ fd_spool_dir     => "/var/spool/fusiondirectory",
+ config_file      => "fusiondirectory.conf",
+ secrets_file     => "fusiondirectory.secrets",
+ locale_dir       => "locale",
+ class_cache      => "class.cache",
  locale_cache_dir => "locale",
- tmp_dir =>       "tmp",
- fai_log_dir =>   "fai",
- template_dir =>  "template"
+ tmp_dir          => "tmp",
+ fai_log_dir      => "fai",
+ template_dir     => "template"
 );
 
-my ($fd_config,$locale_dir,$class_cache,$locale_cache_dir,$tmp_dir,$fai_log_dir,$template_dir);
+my ($fd_config,$fd_secrets,$locale_dir,$class_cache,$locale_cache_dir,$tmp_dir,$fai_log_dir,$template_dir);
 
 my (@root_config_dirs,@apache_config_dirs,@config_dirs);
 
@@ -100,6 +102,101 @@ sub ask_user_input {
    return $default_answer;
  }
  return $answer;
+}
+
+###################################################### Password encryption #########################################################################
+
+sub cred_encrypt {
+  my ($input, $password) = @_;
+  my $cipher = Crypt::CBC->new(
+                -key    =>  $password,
+                -cipher => 'Rijndael',
+                -salt   => 1,
+              ) || die "Couldn't create CBC object";
+  return $cipher->encrypt_hex($input);
+}
+
+sub get_random_string {
+  my ($size) = @_;
+  $size = 32 if !$size;
+  my @chars = ("A".."Z", "a".."z", '.', '/', 0..9);
+  my $string;
+  $string .= $chars[rand @chars] for 1..$size;
+  return $string;
+}
+
+sub encrypt_passwords {
+  if (!-e $fd_config) {
+    die "Cannot find a valid configuration file ($fd_config)!\n";
+  }
+  if (-e $fd_secrets) {
+    die "There's already a file '$fd_secrets'. Cannot convert your existing fusiondirectory.conf - aborted\n";
+  }
+  print "Starting password encryption\n";
+  print "* generating random master key\n";
+  my $master_key = get_random_string();
+  print "* creating '$fd_secrets'\n";
+  my $fp_file = file($fd_secrets);
+  my $fp = $fp_file->openw() or die "! Unable to open '$fd_secrets' in write mode\n";
+  $fp->print("RequestHeader set FD_KEY $master_key\n");
+  $fp->close or die "! Can't close '$fd_secrets'\n";
+  chmod 0600, $fd_secrets or die "! Unable to change '$fd_secrets' rights\n";
+  my $root_uid = getpwnam("root");
+  my $root_gid = getgrnam("root");
+  chown $root_uid,$root_gid,$fd_secrets or die "! Unable to change '$fd_secrets' owner\n";
+
+  # Move original fusiondirectory.conf out of the way and make it unreadable for the web user
+  print "* creating backup in '$fd_config.orig'\n";
+  rcopy($fd_config, "$fd_config.orig");
+  chmod 0600, "$fd_config.orig" or die "! Unable to change '$fd_config.orig' rights\n";
+  chown $root_uid,$root_gid,"$fd_config.orig" or die "! Unable to change '$fd_config.orig' owner\n";
+
+  print "* loading '$fd_config'\n";
+  my $twig = XML::Twig->new();    # create the twig
+  $twig->parsefile($fd_config); # build it
+  # Locate all passwords inside the fusiondirectory.conf
+  my @locs = $twig->root->first_child('main')->children('location');
+  foreach my $loc (@locs) {
+    my $ref = $loc->first_child('referral');
+    print "* encrypting FusionDirectory password for: ".$ref->{'att'}->{'adminDn'}."\n";
+    $ref->set_att('adminPassword' => cred_encrypt($ref->{'att'}->{'adminPassword'}, $master_key));
+
+    # Encrypt the snapshot passwords
+    if ($loc->{'att'}->{'snapshotAdminPassword'}) {
+      print "* encrypting snapshot pasword for location: ".$loc->{'att'}->{'name'}."\n";
+      $loc->set_att('snapshotAdminPassword' => cred_encrypt($loc->{'att'}->{'snapshotAdminPassword'}, $master_key));
+    }
+  }
+
+
+  # Save
+  print "* saving modified '$fd_config'\n";
+  $twig->print_to_file($fd_config, pretty_print => 'indented') or die "Cannot write modified $fd_config - aborted\n";
+  print "OK\n\n";
+
+  # Print reminder
+  print "
+Please adapt your http fusiondirectory location declaration to include the newly
+created $fd_config.
+
+Example:
+
+Alias /fusiondirectory /usr/share/fusiondirectory/html
+
+<Location /fusiondirectory>
+  php_admin_flag engine on
+  php_admin_flag register_globals off
+  php_admin_flag allow_call_time_pass_reference off
+  php_admin_flag expose_php off
+  php_admin_flag zend.ze1_compatibility_mode off
+  php_admin_flag register_long_arrays off
+  php_admin_value upload_tmp_dir /var/spool/fusiondirectory/
+  php_admin_value session.cookie_lifetime 0
+  include /etc/fusiondirectory/fusiondirectory.secrets
+</Location>
+
+
+Please reload your httpd configuration after you've modified anything.\n";
 }
 
 ####################################################### class.cache update #########################################################################
@@ -853,19 +950,20 @@ sub migrate_users {
 
 # function that set useful vars based on user specified folders and files
 sub set_vars {
-  $fd_config = $vars{fd_config_dir}."/".$vars{config_file};
-  $locale_dir = $vars{fd_home}."/".$vars{locale_dir};
-  $class_cache = $vars{fd_cache}."/".$vars{class_cache};
+  $fd_config        = $vars{fd_config_dir}."/".$vars{config_file};
+  $fd_secrets       = $vars{fd_config_dir}."/".$vars{secrets_file};
+  $locale_dir       = $vars{fd_home}."/".$vars{locale_dir};
+  $class_cache      = $vars{fd_cache}."/".$vars{class_cache};
   $locale_cache_dir = $vars{fd_cache}."/".$vars{locale_cache_dir};
-  $tmp_dir = $vars{fd_cache}."/".$vars{tmp_dir};
-  $fai_log_dir = $vars{fd_cache}."/".$vars{fai_log_dir};
-  $template_dir = $vars{fd_cache}."/".$vars{template_dir};
-  my $supann_dir = $vars{fd_cache}."/supann";
-  my $asterisk_dir = $vars{fd_cache}."/asterisk";
-  my $systems_dir = $vars{fd_cache}."/systems";
-  my $mail_dir = $vars{fd_cache}."/mail";
+  $tmp_dir          = $vars{fd_cache}."/".$vars{tmp_dir};
+  $fai_log_dir      = $vars{fd_cache}."/".$vars{fai_log_dir};
+  $template_dir     = $vars{fd_cache}."/".$vars{template_dir};
+  my $supann_dir    = $vars{fd_cache}."/supann";
+  my $asterisk_dir  = $vars{fd_cache}."/asterisk";
+  my $systems_dir   = $vars{fd_cache}."/systems";
+  my $mail_dir      = $vars{fd_cache}."/mail";
 
-  @root_config_dirs = ( $vars{fd_home}, $vars{fd_config_dir} );
+  @root_config_dirs   = ( $vars{fd_home}, $vars{fd_config_dir} );
   @apache_config_dirs = ( $vars{fd_spool_dir}, $vars{fd_cache}, $tmp_dir, $fai_log_dir,
                           $template_dir );
   @config_dirs = ( @root_config_dirs, @apache_config_dirs );
@@ -893,6 +991,7 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--migrate-repositories"} = ["Migrating your FAI repositories",               \&migrate_repo];
   $commands{"--migrate-users"}        = ["Migrating your users",                          \&migrate_users];
   $commands{"--install-plugins"}      = ["Installing FusionDirectory's plugins",          \&install_plugins];
+  $commands{"--encrypt-passwords"}    = ["Encrypt passwords in fusiondirectory.conf",     \&encrypt_passwords];
   $commands{"--write-vars"}           = ["Choose FusionDirectory Directories",            \&write_vars];
   $commands{"--list-vars"}            = ["List possible vars to give --set",              \&list_vars];
   $commands{"--set-VAR=value"}        = ["Set the variable VAR to value see --list-vars", \&die]; # Won't be called because it contains uppercase

@@ -3272,21 +3272,6 @@ function get_random_char ()
 }
 
 /*!
- * \brief  Encrypt a string with RIJNDAEL_128
- *
- * \param string $input The string to encrypt.
- *
- * \param String $password The password used
- */
-function cred_encrypt($input, $password)
-{
-  $size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
-  $iv   = mcrypt_create_iv($size, MCRYPT_DEV_RANDOM);
-
-  return bin2hex(mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $password, $input, MCRYPT_MODE_ECB, $iv));
-}
-
-/*!
  * \brief  Decrypt a string with RIJNDAEL_128
  *
  * \param string $input The string to decrypt.
