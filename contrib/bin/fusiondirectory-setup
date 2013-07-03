@@ -145,6 +145,7 @@ sub cred_encrypt {
                 -key    =>  $password,
                 -cipher => 'Rijndael',
                 -salt   => 1,
+                -header => 'salt',
               ) || die "Couldn't create CBC object";
   return $cipher->encrypt_hex($input);
 }

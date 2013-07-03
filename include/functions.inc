@@ -3374,11 +3374,30 @@ function get_random_char () {
  *
  * \param String $password The password used
  */
-function cred_decrypt($input, $password) {
-  $size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
-  $iv   = mcrypt_create_iv($size, MCRYPT_DEV_URANDOM);
+function cred_decrypt($input, $password)
+{
+  /************************* Inspired by Crypt/CBC.pm *******************************/
+  $input = pack('H*', $input);
+  if (substr($input, 0, 8) != 'Salted__') {
+    die("Invalid hash header, expected 'Salted__', found '".substr($input, 0, 8)."'");
+  }
+  $salt   = substr($input, 8, 8);
+  $input  = substr($input, 16);
 
-  return mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $password, pack("H*", $input), MCRYPT_MODE_ECB, $iv);
+  $key_len  = 32;
+  $iv_len   = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
+
+  $data = '';
+  $d    = '';
+  while (strlen($data) < $key_len+$iv_len) {
+    $d = md5($d . $password . $salt, TRUE);
+    $data .= $d;
+  }
+  $key  = substr($data, 0, $key_len);
+  $iv   = substr($data, $key_len, $iv_len);
+  /**********************************************************************************/
+
+  return rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, $input, MCRYPT_MODE_CBC, $iv), "\0\3\n");
 }
 
 
