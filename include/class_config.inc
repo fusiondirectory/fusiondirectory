@@ -281,18 +281,18 @@ class config  {
    */
   function get_credentials($creds)
   {
-    if (isset($_SERVER['HTTP_FD_KEY'])){
-      if (!session::global_is_set('HTTP_FD_KEY_CACHE')){
-        session::global_set('HTTP_FD_KEY_CACHE',array());
+    if (isset($_SERVER['HTTP_FD_KEY'])) {
+      if (!session::global_is_set('HTTP_FD_KEY_CACHE')) {
+        session::global_set('HTTP_FD_KEY_CACHE', array());
       }
       $cache = session::global_get('HTTP_FD_KEY_CACHE');
-      if(!isset($cache[$creds])){
+      if (!isset($cache[$creds])) {
         $cache[$creds] = cred_decrypt($creds, $_SERVER['HTTP_FD_KEY']);
-        session::global_set('HTTP_FD_KEY_CACHE',$cache);
+        session::global_set('HTTP_FD_KEY_CACHE', $cache);
       }
-      return ($cache[$creds]);
+      return $cache[$creds];
     }
-    return ($creds);
+    return $creds;
   }
 
 
