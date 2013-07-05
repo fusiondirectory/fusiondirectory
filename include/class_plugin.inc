@@ -48,14 +48,14 @@ class plugin
    *
    * \sa tab
    */
-  var $parent= NULL;
+  var $parent = NULL;
 
   /*!
     \brief Configuration container
 
     Access to global configuration
    */
-  var $config= NULL;
+  var $config = NULL;
 
   /*!
     \brief Mark plugin as account
@@ -112,12 +112,12 @@ class plugin
   var $is_new           = TRUE;
   var $saved_attributes = array();
 
-  var $acl_base= "";
-  var $acl_category= "";
-  var $read_only = FALSE; // Used when the entry is opened as "readonly" due to locks.
+  var $acl_base     = "";
+  var $acl_category = "";
+  var $read_only    = FALSE; // Used when the entry is opened as "readonly" due to locks.
 
   /* This can be set to render the tabulators in another stylesheet */
-  var $pl_notify= FALSE;
+  var $pl_notify = FALSE;
 
   /* Object entry CSN */
   var $entryCSN         = "";
@@ -283,13 +283,13 @@ class plugin
   function execute()
   {
     /* This one is empty currently. Fabian - please fill in the docu code */
-    session::global_set('current_class_for_help',get_class($this));
+    session::global_set('current_class_for_help', get_class($this));
 
     /* Reset Lock message POST/GET check array, to prevent perg_match errors*/
-    session::set('LOCK_VARS_TO_USE',array());
-    session::set('LOCK_VARS_USED_GET',array());
-    session::set('LOCK_VARS_USED_POST',array());
-    session::set('LOCK_VARS_USED_REQUEST',array());
+    session::set('LOCK_VARS_TO_USE', array());
+    session::set('LOCK_VARS_USED_GET', array());
+    session::set('LOCK_VARS_USED_POST', array());
+    session::set('LOCK_VARS_USED_REQUEST', array());
   }
 
   /*!
@@ -298,35 +298,32 @@ class plugin
   function remove_from_parent()
   {
     /* include global link_info */
-    $ldap= $this->config->get_ldap_link();
+    $ldap = $this->config->get_ldap_link();
 
     /* Get current objectClasses in order to add the required ones */
     $ldap->cat($this->dn);
-    $tmp= $ldap->fetch ();
-    $oc= array();
-    if (isset($tmp['objectClass'])){
-      $oc= $tmp['objectClass'];
+    $tmp  = $ldap->fetch ();
+    $oc   = array();
+    if (isset($tmp['objectClass'])) {
+      $oc = $tmp['objectClass'];
       unset($oc['count']);
     }
 
     /* Remove objectClasses from entry */
     $ldap->cd($this->dn);
-    $this->attrs= array();
-    $this->attrs['objectClass']= array_remove_entries_ics($this->objectclasses,$oc);
+    $this->attrs                = array();
+    $this->attrs['objectClass'] = array_remove_entries_ics($this->objectclasses, $oc);
 
     /* Unset attributes from entry */
-    foreach ($this->attributes as $val){
-      $this->attrs["$val"]= array();
+    foreach ($this->attributes as $val) {
+      $this->attrs["$val"] = array();
     }
 
     /* Do not write in plugin base class, this must be done by
        children, since there are normally additional attribs,
        lists, etc. */
-    /*
-       $ldap->modify($this->attrs);
-     */
-    if($this->initially_was_account){
-        $this->handle_pre_events('remove');
+    if ($this->initially_was_account) {
+      $this->handle_pre_events('remove');
     }
   }
 
@@ -337,13 +334,13 @@ class plugin
   function save_object()
   {
     /* Update entry CSN if it is empty. */
-    if(empty($this->entryCSN) && $this->CSN_check_active){
+    if (empty($this->entryCSN) && $this->CSN_check_active) {
       $this->entryCSN = getEntryCSN($this->dn);
     }
 
     /* Save values to object */
-    foreach ($this->attributes as $val){
-      if ($this->acl_is_writeable($val) && isset ($_POST["$val"])){
+    foreach ($this->attributes as $val) {
+      if ($this->acl_is_writeable($val) && isset ($_POST["$val"])) {
         /* Check for modifications */
         $data = $_POST["$val"];
 
@@ -360,7 +357,7 @@ class plugin
          * This &nbsp; was added for W3c compliance, but now causes these ... ldap errors ...
          * So we set these Fields to ""; a normal empty string, and we can check these values in plugin::check() again ...
          */
-        if (isset($data[0]) && $data[0] == chr(194)) {
+        if (isset($data[0]) && ($data[0] == chr(194))) {
           $data = "";
         }
         $this->$val = $data;
@@ -375,37 +372,37 @@ class plugin
   function save()
   {
     /* include global link_info */
-    $ldap= $this->config->get_ldap_link();
+    $ldap = $this->config->get_ldap_link();
 
     /* Save all plugins */
     $this->entryCSN = "";
 
     /* Start with empty array */
-    $this->attrs= array();
+    $this->attrs = array();
 
     /* Get current objectClasses in order to add the required ones */
     $ldap->cat($this->dn);
 
-    $tmp= $ldap->fetch ();
+    $tmp = $ldap->fetch ();
 
-    $oc= array();
-    if (isset($tmp['objectClass'])){
-      $oc= $tmp["objectClass"];
-      $this->is_new= FALSE;
+    $oc = array();
+    if (isset($tmp['objectClass'])) {
+      $oc = $tmp["objectClass"];
       unset($oc['count']);
+      $this->is_new = FALSE;
     } else {
-      $this->is_new= TRUE;
+      $this->is_new = TRUE;
     }
 
     /* Load (minimum) attributes, add missing ones */
-    $this->attrs['objectClass'] = array_merge_unique($oc,$this->objectclasses);
+    $this->attrs['objectClass'] = array_merge_unique($oc, $this->objectclasses);
 
     /* Copy standard attributes */
-    foreach ($this->attributes as $val){
-      if ($this->$val != ""){
-        $this->attrs["$val"]= $this->$val;
+    foreach ($this->attributes as $val) {
+      if ($this->$val != "") {
+        $this->attrs["$val"] = $this->$val;
       } elseif (!$this->is_new) {
-        $this->attrs["$val"]= array();
+        $this->attrs["$val"] = array();
       }
     }
 
@@ -422,24 +419,21 @@ class plugin
    */
   function cleanup()
   {
-    foreach ($this->attrs as $index => $value){
+    foreach ($this->attrs as $index => $value) {
 
       /* Convert arrays with one element to non arrays, if the saved
          attributes are no array, too */
       if (is_array($this->attrs[$index]) &&
           count ($this->attrs[$index]) == 1 &&
           isset($this->saved_attributes[$index]) &&
-          !is_array($this->saved_attributes[$index])){
-
-        $tmp= $this->attrs[$index][0];
-        $this->attrs[$index]= $tmp;
+          !is_array($this->saved_attributes[$index])) {
+        $this->attrs[$index] = $this->attrs[$index][0];
       }
 
       /* Remove emtpy arrays if they do not differ */
       if (is_array($this->attrs[$index]) &&
           count($this->attrs[$index]) == 0 &&
-          !isset($this->saved_attributes[$index])){
-
+          !isset($this->saved_attributes[$index])) {
         unset ($this->attrs[$index]);
         continue;
       }
@@ -448,8 +442,7 @@ class plugin
       if (!is_array($this->attrs[$index]) &&
           isset($this->saved_attributes[$index]) &&
           !is_array($this->saved_attributes[$index]) &&
-          $this->attrs[$index] == $this->saved_attributes[$index]){
-
+          $this->attrs[$index] == $this->saved_attributes[$index]) {
         unset ($this->attrs[$index]);
         continue;
       }
@@ -457,9 +450,8 @@ class plugin
       /* Remove arrays that do not differ */
       if (is_array($this->attrs[$index]) &&
           isset($this->saved_attributes[$index]) &&
-          is_array($this->saved_attributes[$index])){
-
-        if (!array_differs($this->attrs[$index],$this->saved_attributes[$index])){
+          is_array($this->saved_attributes[$index])) {
+        if (!array_differs($this->attrs[$index], $this->saved_attributes[$index])) {
           unset ($this->attrs[$index]);
           continue;
         }
@@ -467,7 +459,7 @@ class plugin
     }
 
     /* Update saved attributes and ensure that next cleanups will be successful too */
-    foreach($this->attrs as $name => $value){
+    foreach ($this->attrs as $name => $value) {
       $this->saved_attributes[$name] = $value;
     }
   }
@@ -542,7 +534,7 @@ class plugin
    * Returns an array of possible values */
   static function tpl_apply_modifier($m, $args, $str)
   {
-    switch($m) {
+    switch ($m) {
       case 'u': // uppercase
         return array(mb_strtoupper($str, 'UTF-8'));
       case 'l': // lowercase
@@ -598,13 +590,13 @@ class plugin
       $result = array('');
     }
     $len    = strlen($modifiers);
-    for ($i = 0; $i<$len; ++$i) {
+    for ($i = 0; $i < $len; ++$i) {
       $args     = array();
       $modifier = $modifiers[$i];
-      if (preg_match('/^\[([^\]]+)\].*$/', substr($modifiers, $i+1), $m)) {
+      if (preg_match('/^\[([^\]]+)\].*$/', substr($modifiers, $i + 1), $m)) {
         /* get modifier args */
         $args = explode(',', $m[1]);
-        $i += strlen($m[1])+2;
+        $i += strlen($m[1]) + 2;
       }
       $result_tmp = array();
       foreach ($result as $r) {
@@ -679,7 +671,7 @@ class plugin
    */
   function show_header($button_text, $text, $plugin_enabled, $button_disabled = FALSE, $name = "modify_state")
   {
-    if (($button_disabled) || ((!$this->acl_is_createable() && !$plugin_enabled) || (!$this->acl_is_removeable() && $plugin_enabled))){
+    if (($button_disabled) || ((!$this->acl_is_createable() && !$plugin_enabled) || (!$this->acl_is_removeable() && $plugin_enabled))) {
         $state = "disabled=\"disabled\"";
     } else {
         $state = "";
@@ -800,35 +792,33 @@ class plugin
    *
    * \param string $dst_dn The DN destination
    */
-  function _copy($src_dn,$dst_dn)
+  function _copy($src_dn, $dst_dn)
   {
-    $ldap=$this->config->get_ldap_link();
+    $ldap = $this->config->get_ldap_link();
     $ldap->cat($src_dn);
-    $attrs= $ldap->fetch();
+    $attrs = $ldap->fetch();
 
     /* Grummble. This really sucks. PHP ldap doesn't support rdn stuff. */
-    $ds= ldap_connect($this->config->current['SERVER']);
+    $ds = ldap_connect($this->config->current['SERVER']);
     ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
     if (function_exists("ldap_set_rebind_proc") && isset($this->config->current['REFERRAL'])) {
       ldap_set_rebind_proc($ds, array(&$this, "rebind"));
     }
 
-    $pwd = $this->config->get_credentials($this->config->current['ADMINPASSWORD']);
-    $r=ldap_bind($ds,$this->config->current['ADMINDN'], $pwd);
-    $sr=ldap_read($ds, LDAP::fix($src_dn), "objectClass=*");
+    $pwd  = $this->config->get_credentials($this->config->current['ADMINPASSWORD']);
+    $r    = ldap_bind($ds, $this->config->current['ADMINDN'], $pwd);
 
     /* Fill data from LDAP */
-    $new= array();
-    if ($sr) {
-      $ei=ldap_first_entry($ds, $sr);
-      if ($ei) {
-        foreach($attrs as $attr => $val){
-          if ($info = @ldap_get_values_len($ds, $ei, $attr)){
-            for ($i= 0; $i<$info['count']; $i++){
-              if ($info['count'] == 1){
-                $new[$attr]= $info[$i];
+    $new = array();
+    if ($sr = ldap_read($ds, LDAP::fix($src_dn), "objectClass=*")) {
+      if ($ei = ldap_first_entry($ds, $sr)) {
+        foreach ($attrs as $attr => $val) {
+          if ($info = @ldap_get_values_len($ds, $ei, $attr)) {
+            for ($i = 0; $i < $info['count']; $i++) {
+              if ($info['count'] == 1) {
+                $new[$attr] = $info[$i];
               } else {
-                $new[$attr][]= $info[$i];
+                $new[$attr][] = $info[$i];
               }
             }
           }
@@ -840,16 +830,16 @@ class plugin
     ldap_unbind($ds);
 
     /* Adapt naming attribute */
-    $dst_name= preg_replace("/^([^=]+)=.*$/", "\\1", $dst_dn);
-    $dst_val = preg_replace("/^[^=]+=([^,+]+).*,.*$/", "\\1", $dst_dn);
-    $new[$dst_name]= LDAP::fix($dst_val);
+    $dst_name       = preg_replace("/^([^=]+)=.*$/", "\\1", $dst_dn);
+    $dst_val        = preg_replace("/^[^=]+=([^,+]+).*,.*$/", "\\1", $dst_dn);
+    $new[$dst_name] = LDAP::fix($dst_val);
 
     /* Check if this is a department.
      * If it is a dep. && there is a , override in his ou
      *  change \2C to , again, else this entry can't be saved ...
      */
-    if((isset($new['ou'])) &&( preg_match("/\\,/",$new['ou']))){
-      $new['ou'] = str_replace("\\\\,",",",$new['ou']);
+    if (isset($new['ou']) && preg_match("/\\,/", $new['ou'])) {
+      $new['ou'] = str_replace("\\\\,", ",", $new['ou']);
     }
 
     /* Save copy */
@@ -862,20 +852,22 @@ class plugin
         could not be saved, because the attribute FAIvariable was different to
         the dn FAIvariable=..., cn=... */
 
-    if(!is_array($new['objectClass'])) $new['objectClass'] = array($new['objectClass']);
+    if (!is_array($new['objectClass'])) {
+      $new['objectClass'] = array($new['objectClass']);
+    }
 
-    if(in_array_ics("FAIdebconfInfo",$new['objectClass'])){
+    if (in_array_ics("FAIdebconfInfo", $new['objectClass'])) {
       $new['FAIvariable'] = $ldap->fix($new['FAIvariable']);
     }
     $ldap->cd($dst_dn);
     $ldap->add($new);
 
-    if (!$ldap->success()){
+    if (!$ldap->success()) {
       trigger_error("Trying to save $dst_dn failed.",
           E_USER_WARNING);
-      return(FALSE);
+      return FALSE;
     }
-    return(TRUE);
+    return TRUE;
   }
 
   /*
@@ -889,40 +881,40 @@ class plugin
   function copy($src_dn, $dst_dn)
   {
     /* Rename dn in possible object groups */
-    $ldap= $this->config->get_ldap_link();
+    $ldap = $this->config->get_ldap_link();
     $ldap->search('(&(objectClass=gosaGroupOfNames)(member='.@LDAP::prepare4filter($src_dn).'))',
         array('cn'));
-    while ($attrs= $ldap->fetch()){
-      $og= new ogroup($this->config, $ldap->getDN());
+    while ($attrs = $ldap->fetch()) {
+      $og = new ogroup($this->config, $ldap->getDN());
       unset($og->member[$src_dn]);
-      $og->member[$dst_dn]= $dst_dn;
-      $og->save ();
+      $og->member[$dst_dn] = $dst_dn;
+      $og->save();
     }
 
     $ldap->cat($dst_dn);
-    $attrs= $ldap->fetch();
-    if (count($attrs)){
+    $attrs = $ldap->fetch();
+    if (count($attrs)) {
       trigger_error("Trying to overwrite ".LDAP::fix($dst_dn).", which already exists.",
           E_USER_WARNING);
-      return (FALSE);
+      return FALSE;
     }
 
     $ldap->cat($src_dn);
-    $attrs= $ldap->fetch();
-    if (!count($attrs)){
+    $attrs = $ldap->fetch();
+    if (!count($attrs)) {
       trigger_error("Trying to move ".LDAP::fix($src_dn).", which does not seem to exist.",
           E_USER_WARNING);
-      return (FALSE);
+      return FALSE;
     }
 
     $ldap->cd($src_dn);
-    $ldap->search("objectClass=*",array("dn"));
-    while($attrs = $ldap->fetch()){
+    $ldap->search("objectClass=*", array("dn"));
+    while ($attrs = $ldap->fetch()) {
       $src = $attrs['dn'];
-      $dst = preg_replace("/".preg_quote($src_dn, '/')."$/",$dst_dn,$attrs['dn']);
-      $this->_copy($src,$dst);
+      $dst = preg_replace("/".preg_quote($src_dn, '/')."$/", $dst_dn, $attrs['dn']);
+      $this->_copy($src, $dst);
     }
-    return (TRUE);
+    return TRUE;
   }
 
 
@@ -949,11 +941,11 @@ class plugin
     /* Try to move the source entry to the destination position */
     $ldap = $this->config->get_ldap_link();
     $ldap->cd($this->config->current['BASE']);
-    $ldap->create_missing_trees(preg_replace("/^[^,]+,/","",$dst_dn));
-    if (!$ldap->rename_dn($src_dn,$dst_dn)){
-#      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $src_dn, "", get_class()));
-      new log("debug","Ldap Protocol v3 implementation error, ldap_rename failed, falling back to manual copy.","FROM: $src_dn  -- TO: $dst_dn",array(),$ldap->get_error());
-      @DEBUG(DEBUG_LDAP,__LINE__,__FUNCTION__,__FILE__,"Rename failed FROM: $src_dn  -- TO:  $dst_dn",
+    $ldap->create_missing_trees(preg_replace("/^[^,]+,/", "", $dst_dn));
+    if (!$ldap->rename_dn($src_dn, $dst_dn)) {
+      new log("debug", "Ldap Protocol v3 implementation error, ldap_rename failed, falling back to manual copy.",
+              "FROM: $src_dn  -- TO: $dst_dn", array(), $ldap->get_error());
+      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, "Rename failed FROM: $src_dn  -- TO:  $dst_dn",
           "Ldap Protocol v3 implementation error, falling back to maunal method.");
       return FALSE;
     }
@@ -997,33 +989,36 @@ class plugin
     /* Get list of users,groups and roles within this tree,
         maybe we have to update ACL references.
      */
-    $leaf_objs = get_list("(|(objectClass=posixGroup)(objectClass=gosaAccount)(objectClass=gosaRole))",array("all"),$dst_dn,
-          array("dn","objectClass"),GL_SUBSEARCH | GL_NO_ACL_CHECK);
-    foreach($leaf_objs as $obj){
+    $leaf_objs = get_list("(|(objectClass=posixGroup)(objectClass=gosaAccount)(objectClass=gosaRole))", array("all"), $dst_dn,
+                          array("dn","objectClass"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
+    foreach ($leaf_objs as $obj) {
       $new_dn = $obj['dn'];
-      $old_dn = preg_replace("/".preg_quote(LDAP::convert($dst_dn), '/')."$/i",$src_dn,LDAP::convert($new_dn));
-      $this->update_acls($old_dn,$new_dn);
+      $old_dn = preg_replace("/".preg_quote(LDAP::convert($dst_dn), '/')."$/i", $src_dn, LDAP::convert($new_dn));
+      $this->update_acls($old_dn, $new_dn);
     }
 
     // Migrate objectgroups if needed
     $ogroups = get_sub_list("(&(objectClass=gosaGroupOfNames)(member=".LDAP::prepare4filter(LDAP::fix($src_dn))."))",
-      "ogroup", array(get_ou("ogroupRDN")),$this->config->current['BASE'],array("dn"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
+                            "ogroup", array(get_ou("ogroupRDN")), $this->config->current['BASE'],
+                            array("dn"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
 
     // Walk through all objectGroups
-    foreach($ogroups as $ogroup){
+    foreach ($ogroups as $ogroup) {
       // Migrate old to new dn
-      $o_ogroup= new ogroup($this->config,$ogroup['dn']);
+      $o_ogroup = new ogroup($this->config, $ogroup['dn']);
       if (isset($o_ogroup->member[$src_dn])) {
         unset($o_ogroup->member[$src_dn]);
       }
-      $o_ogroup->member[$dst_dn]= $dst_dn;
+      $o_ogroup->member[$dst_dn] = $dst_dn;
 
       // Save object group
       $o_ogroup->save();
     }
 
     // Migrate rfc groups if needed
-    $groups = get_sub_list("(&(objectClass=posixGroup)(member=".LDAP::prepare4filter(LDAP::fix($src_dn))."))","group", array(get_ou("groupRDN")),$this->config->current['BASE'],array("dn"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
+    $groups = get_sub_list("(&(objectClass=posixGroup)(member=".LDAP::prepare4filter(LDAP::fix($src_dn))."))",
+                            "group", array(get_ou("groupRDN")), $this->config->current['BASE'], array("dn"),
+                            GL_SUBSEARCH | GL_NO_ACL_CHECK);
 
     // Walk through all POSIX groups
     foreach ($groups as $group) {
@@ -1050,7 +1045,7 @@ class plugin
     // Update 'manager' attributes from gosaDepartment and inetOrgPerson
     $filter     = '(&(objectClass=inetOrgPerson)(manager='.LDAP::prepare4filter(LDAP::fix($src_dn)).'))';
     $filter     = '(|'.$filter.'(&(objectClass=gosaDepartment)(manager='.LDAP::prepare4filter(LDAP::fix($src_dn)).')))';
-    $leaf_deps  =  get_list($filter, array('all'), $this->config->current['BASE'],
+    $leaf_deps  = get_list($filter, array('all'), $this->config->current['BASE'],
                             array('manager','dn','objectClass'), GL_SUBSEARCH | GL_NO_ACL_CHECK);
     foreach ($leaf_deps as $entry) {
       $update = array('manager' => $dst_dn);
@@ -1064,7 +1059,7 @@ class plugin
     /* Check if there are gosa departments moved.
        If there were deps moved, the force reload of config->deps.
      */
-    $leaf_deps =  get_list("(objectClass=gosaDepartment)", array("all"), $dst_dn,
+    $leaf_deps = get_list("(objectClass=gosaDepartment)", array("all"), $dst_dn,
                             array("dn","objectClass"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
 
     if (count($leaf_deps)) {
@@ -1088,14 +1083,14 @@ class plugin
   function recursive_move($src_dn, $dst_dn)
   {
     /* Check if the destination entry exists */
-    $ldap= $this->config->get_ldap_link();
+    $ldap = $this->config->get_ldap_link();
 
     /* Check if destination exists - abort */
     $ldap->cat($dst_dn, array('dn'));
-    if ($ldap->fetch()){
+    if ($ldap->fetch()) {
       trigger_error("recursive_move $dst_dn already exists.",
           E_USER_WARNING);
-      return (FALSE);
+      return FALSE;
     }
 
     $this->copy($src_dn, $dst_dn);
@@ -1103,7 +1098,7 @@ class plugin
     /* Remove src_dn */
     $ldap->cd($src_dn);
     $ldap->recursive_remove($src_dn);
-    return (TRUE);
+    return TRUE;
   }
 
   /*! \brief Forward command execution requests
@@ -1120,19 +1115,19 @@ class plugin
     switch ($mode) {
       case 'add':
         plugin::callHook($this, $when.'CREATE', $addAttrs);
-      break;
+        break;
 
       case 'modify':
         plugin::callHook($this, $when.'MODIFY', $addAttrs);
-      break;
+        break;
 
       case 'remove':
         plugin::callHook($this, $when.'REMOVE', $addAttrs);
-      break;
+        break;
 
       default:
         trigger_error(sprintf('Invalid %s event type given %s! Valid types are [add,modify,remove].', strtolower($when), $mode));
-      break;
+        break;
     }
   }
 
@@ -1154,11 +1149,12 @@ class plugin
   }
 
 
-  static protected function matchHookVars ($command, $addAttrs) {
+  static protected function matchHookVars ($command, $addAttrs)
+  {
     // Sort attributes by length, ensures correct replacement
     $tmp = array();
     foreach ($addAttrs as $name => $value) {
-      $tmp[$name] =  strlen($name);
+      $tmp[$name] = strlen($name);
     }
     arsort($tmp);
 
@@ -1183,7 +1179,7 @@ class plugin
       // Walk trough attributes list and add the plugins attributes.
       foreach ($plugin->attributes as $attr) {
         if (is_array($plugin->$attr)) {
-          $addAttrs[$attr] = join('|',$plugin->$attr);
+          $addAttrs[$attr] = join('|', $plugin->$attr);
         } else {
           $addAttrs[$attr] = $plugin->$attr;
         }
@@ -1198,14 +1194,14 @@ class plugin
       $command = self::matchHookVars($command, $addAttrs);
 
       // If there are still some %.. in our command, try to fill these with some other tab vars
-      if (preg_match("/%/",$command)) {
+      if (preg_match("/%/", $command)) {
         $addAttrs = array();
         if (isset($plugin->parent->by_object)) {
           foreach ($plugin->parent->by_object as $object) {
             foreach ($object->attributes as $attr) {
               if (!isset($addAttrs[$attr])) {
                 if (is_array($object->$attr)) {
-                  $addAttrs[$attr] = join('|',$object->$attr);
+                  $addAttrs[$attr] = join('|', $object->$attr);
                 } else {
                   $addAttrs[$attr] = $object->$attr;
                 }
@@ -1218,7 +1214,7 @@ class plugin
       }
 
       // If there are still some %.. in our command, try to fill these with some other class vars
-      if (preg_match("/%/",$command)) {
+      if (preg_match("/%/", $command)) {
         $addAttrs = array();
         $attrs = get_object_vars($plugin);
         foreach ($attrs as $name => $value) {
@@ -1229,7 +1225,7 @@ class plugin
                 $s .= $val.'|';
               }
             }
-            $value = trim($s,'|');
+            $value = trim($s, '|');
           }
           if (!is_string($value) && !is_int($value) && !is_float($value) && !is_bool($value)) {
             continue;
@@ -1239,21 +1235,22 @@ class plugin
         $command = self::matchHookVars($command, $addAttrs);
       }
 
-      @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
+      @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
       exec($command, $arr, $returnCode);
       $returnOutput = $arr;
 
       if ($returnCode != 0) {
         $str = implode("\n", $arr);
-        @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execution failed code: ".$returnCode);
+        @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execution failed code: ".$returnCode);
         $message = msgPool::cmdexecfailed($cmd, $command, get_class($plugin));
         if (!empty($str)) {
           $message .= "Result: ".$str;
         }
         msg_dialog::display(_("Error"), $message, ERROR_DIALOG);
-      } elseif(is_array($arr)) {
+      } elseif (is_array($arr)) {
         $str = implode("\n", $arr);
-        @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Result: ".$str);
+
+        @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Result: ".$str);
       }
     }
   }
@@ -1265,7 +1262,7 @@ class plugin
    */
   function allow_remove()
   {
-    $reason= "";
+    $reason = "";
     return $reason;
   }
 
@@ -1286,7 +1283,7 @@ class plugin
    */
   function set_acl_base($base)
   {
-    $this->acl_base= $base;
+    $this->acl_base = $base;
   }
 
   /*!
@@ -1296,14 +1293,16 @@ class plugin
    */
   function set_acl_category($category)
   {
-    $this->acl_category= "$category/";
+    $this->acl_category = "$category/";
   }
 
   /*! \brief Can we write the acl */
-  function acl_is_writeable($attribute,$skip_write = FALSE)
+  function acl_is_writeable($attribute, $skip_write = FALSE)
   {
-    if($this->read_only) return(FALSE);
-    $ui= get_userinfo();
+    if ($this->read_only) {
+      return FALSE;
+    }
+    $ui = get_userinfo();
     return preg_match('/w/', $ui->get_permissions($this->acl_base, $this->acl_category.get_class($this), $attribute, $skip_write));
   }
 
@@ -1314,7 +1313,7 @@ class plugin
    */
   function acl_is_readable($attribute)
   {
-    $ui= get_userinfo();
+    $ui = get_userinfo();
     return preg_match('/r/', $ui->get_permissions($this->acl_base, $this->acl_category.get_class($this), $attribute));
   }
 
@@ -1323,11 +1322,15 @@ class plugin
    *
    * \param string $base Empty string
    */
-  function acl_is_createable($base ="")
+  function acl_is_createable($base = "")
   {
-    if($this->read_only) return(FALSE);
-    $ui= get_userinfo();
-    if($base == "") $base = $this->acl_base;
+    if ($this->read_only) {
+      return FALSE;
+    }
+    $ui = get_userinfo();
+    if ($base == "") {
+      $base = $this->acl_base;
+    }
     return preg_match('/c/', $ui->get_permissions($base, $this->acl_category.get_class($this), '0'));
   }
 
@@ -1336,11 +1339,15 @@ class plugin
    *
    * \param string $base Empty string
    */
-  function acl_is_removeable($base ="")
+  function acl_is_removeable($base = "")
   {
-    if($this->read_only) return(FALSE);
-    $ui= get_userinfo();
-    if($base == "") $base = $this->acl_base;
+    if ($this->read_only) {
+      return FALSE;
+    }
+    $ui = get_userinfo();
+    if ($base == "") {
+      $base = $this->acl_base;
+    }
     return preg_match('/d/', $ui->get_permissions($base, $this->acl_category.get_class($this), '0'));
   }
 
@@ -1351,9 +1358,13 @@ class plugin
    */
   function acl_is_moveable($base = "")
   {
-    if($this->read_only) return(FALSE);
-    $ui= get_userinfo();
-    if($base == "") $base = $this->acl_base;
+    if ($this->read_only) {
+      return FALSE;
+    }
+    $ui = get_userinfo();
+    if ($base == "") {
+      $base = $this->acl_base;
+    }
     return preg_match('/m/', $ui->get_permissions($base, $this->acl_category.get_class($this), '0'));
   }
 
@@ -1365,11 +1376,11 @@ class plugin
   }
 
   /*! \brief get the acl */
-  function getacl($attribute,$skip_write= FALSE)
+  function getacl($attribute, $skip_write = FALSE)
   {
-    $ui= get_userinfo();
+    $ui         = get_userinfo();
     $skip_write |= $this->read_only;
-    return  $ui->get_permissions($this->acl_base, $this->acl_category.get_class($this), $attribute,$skip_write);
+    return $ui->get_permissions($this->acl_base, $this->acl_category.get_class($this), $attribute, $skip_write);
   }
 
 
@@ -1397,7 +1408,7 @@ class plugin
     foreach ($this->config->idepartments as $dn => $name) {
       if ($new && $this->acl_is_createable($dn)) {
         $deps[$dn] = $name;
-      } elseif(!$new && $this->acl_is_moveable($dn)) {
+      } elseif (!$new && $this->acl_is_moveable($dn)) {
         $deps[$dn] = $name;
       }
     }
@@ -1405,7 +1416,7 @@ class plugin
     /* Add current base */
     if (isset($this->base) && isset($this->config->idepartments[$this->base])) {
       $deps[$this->base] = $this->config->idepartments[$this->base];
-    } elseif(strtolower($this->dn) == strtolower($this->config->current['BASE'])) {
+    } elseif (strtolower($this->dn) == strtolower($this->config->current['BASE'])) {
 
     } else {
       trigger_error("Cannot return list of departments, no default base found in class ".get_class($this).". ".$this->base);
@@ -1423,80 +1434,79 @@ class plugin
    *
    * \param boolean $output_changes FALSE
    */
-  function update_acls($old_dn,$new_dn,$output_changes = FALSE)
+  function update_acls($old_dn, $new_dn, $output_changes = FALSE)
   {
     /* Check if old_dn is empty. This should never happen */
-    if(empty($old_dn) || empty($new_dn)){
+    if (empty($old_dn) || empty($new_dn)) {
       trigger_error("Failed to check acl dependencies, wrong dn given.");
       return;
     }
 
     /* Update userinfo if necessary */
     $ui = session::global_get('ui');
-    if($ui->dn == $old_dn){
+    if ($ui->dn == $old_dn) {
       $ui->dn = $new_dn;
-      session::global_set('ui',$ui);
-      new log("view","acl/".get_class($this),$this->dn,array(),"Updated current object dn from '".$old_dn."' to '".$new_dn."'");
+      session::global_set('ui', $ui);
+      new log("view", "acl/".get_class($this), $this->dn, array(), "Updated current object dn from '".$old_dn."' to '".$new_dn."'");
     }
 
     /* Object was moved, ensure that all acls will be moved too */
-    if($new_dn != $old_dn && $old_dn != "new"){
+    if (($new_dn != $old_dn) && ($old_dn != "new")) {
 
       /* get_ldap configuration */
       $update = array();
-      $ldap = $this->config->get_ldap_link();
+      $ldap   = $this->config->get_ldap_link();
       $ldap->cd ($this->config->current['BASE']);
-      $ldap->search("(&(objectClass=gosaAcl)(gosaAclEntry=*".base64_encode($old_dn)."*))",array("cn","gosaAclEntry"));
-      while($attrs = $ldap->fetch()){
-        $acls = array();
-        $found = FALSE;
-        for($i = 0 ; $i <  $attrs['gosaAclEntry']['count'] ; $i ++ ){
-          $acl_parts = explode(":",$attrs['gosaAclEntry'][$i]);
+      $ldap->search("(&(objectClass=gosaAcl)(gosaAclEntry=*".base64_encode($old_dn)."*))", array("cn","gosaAclEntry"));
+      while ($attrs = $ldap->fetch()) {
+        $acls   = array();
+        $found  = FALSE;
+        for ($i = 0; $i < $attrs['gosaAclEntry']['count']; $i++) {
+          $acl_parts = explode(":", $attrs['gosaAclEntry'][$i]);
 
           /* Roles uses antoher data storage order, members are stored int the third part,
              while the members in direct ACL assignments are stored in the second part.
            */
-          $id = ($acl_parts[1] == "role") ? 3 : 2;
+          $id = ($acl_parts[1] == "role" ? 3 : 2);
 
           /* Update member entries to use $new_dn instead of old_dn
            */
-          $members = explode(",",$acl_parts[$id]);
-          foreach($members as $key => $member){
+          $members = explode(",", $acl_parts[$id]);
+          foreach ($members as $key => $member) {
             $member = base64_decode($member);
-            if($member == $old_dn){
-              $members[$key] = base64_encode($new_dn);
-              $found = TRUE;
+            if ($member == $old_dn) {
+              $members[$key]  = base64_encode($new_dn);
+              $found          = TRUE;
             }
           }
 
           /* Check if the selected role has to updated
            */
-          if($acl_parts[1] == "role" && $acl_parts[2] == base64_encode($old_dn)){
+          if (($acl_parts[1] == "role") && ($acl_parts[2] == base64_encode($old_dn))) {
             $acl_parts[2] = base64_encode($new_dn);
-            $found = TRUE;
+            $found        = TRUE;
           }
 
           /* Build new acl string */
-          $acl_parts[$id] = implode($members,",");
-          $acls[] = implode($acl_parts,":");
+          $acl_parts[$id] = implode($members, ",");
+          $acls[]         = implode($acl_parts, ":");
         }
 
         /* Acls for this object must be adjusted */
-        if($found){
-
-          $debug_info=  _("Changing ACL dn")."&nbsp;:&nbsp;<br>&nbsp;-"._("from")."&nbsp;<b>&nbsp;".
+        if ($found) {
+          $debug_info = _("Changing ACL dn")."&nbsp;:&nbsp;<br>&nbsp;-"._("from")."&nbsp;<b>&nbsp;".
             $old_dn."</b><br>&nbsp;-"._("to")."&nbsp;<b>".$new_dn."</b><br>";
-          @DEBUG (DEBUG_ACL, __LINE__, __FUNCTION__, __FILE__,$debug_info,"ACL");
+          @DEBUG (DEBUG_ACL, __LINE__, __FUNCTION__, __FILE__, $debug_info, "ACL");
 
-          $update[$attrs['dn']] =array();
-          foreach($acls as $acl){
+          $update[$attrs['dn']] = array();
+          foreach ($acls as $acl) {
             $update[$attrs['dn']]['gosaAclEntry'][] = $acl;
           }
         }
       }
 
       /* Write updated acls */
-      foreach($update as $dn => $attrs){
+      foreach ($update as $dn => $attrs) {
         $ldap->cd($dn);
         $ldap->modify($attrs);
       }
