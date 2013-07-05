@@ -152,7 +152,7 @@ class divSelectBox
     $s_return = '';
     $str      = '';
 
-    /* If divlist is empty, append a single white entry */
+    /* If divselectbox is empty, append a single white entry */
     if (count($this->a_entries) == 0) {
       if ($this->headers !== FALSE) {
         $this->cols = count($this->headers);
