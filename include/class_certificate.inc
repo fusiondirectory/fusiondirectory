@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
@@ -26,8 +25,8 @@
  */
 
 /* certificates */
-define("PEM","pem");
-define("DER","der");
+define("PEM", "pem");
+define("DER", "der");
 
 /*!
  * \brief This class contains all the function needed to import certificates
@@ -44,10 +43,10 @@ class certificate
    */
   function certificate()
   {
-    $this->data= "";
-    $this->type= false;
-    $this->error="";
-    $this->info = array();
+    $this->data   = "";
+    $this->type   = FALSE;
+    $this->error  = "";
+    $this->info   = array();
   }
 
   /*
@@ -55,23 +54,23 @@ class certificate
    *
    * \param string $data
    *
-   * \param boolean $type false
+   * \param boolean $type FALSE
    */
-  function import($data,$type=false)
+  function import($data, $type = FALSE)
   {
     /* if is file read from file, else use string as it is*/
-    if(is_file($data))  {
-      $fp = fopen($data,"r+");
-      $str = "";
+    if (is_file($data)) {
+      $fp   = fopen($data, "r+");
+      $str  = "";
 
-      if(!$fp){
+      if (!$fp) {
         $this->certificate();
-        $this->error= msgPool::cannotReadFile($data);
-        return(false);
-      }else{
+        $this->error = msgPool::cannotReadFile($data);
+        return FALSE;
+      } else {
         /* Reading data*/
-        while(!feof($fp)){
-          $str.=fgets($fp,1024);
+        while (!feof($fp)) {
+          $str .= fgets($fp, 1024);
         }
       }
       /* Filename given, so we use the data from the file */
@@ -82,44 +81,44 @@ class certificate
     }
 
     /* Data can't be empty */
-    if($data = ""){
+    if ($data = "") {
       $this->certificate();
       $this->error = _("Certificate is empty!");
-      return(false);
+      return FALSE;
     }
 
     /* Prefer specified certtype*/
-    if($type) {
+    if ($type) {
       $this->type = $type;
-    }else{
+    } else {
       /* Detect certtype, cause there is none specified */
 
       /* PEM always starts with ----BEGIN CERTIFICATE-----*/
-      if(strstr($this->data,"CERTIFICATE"))  {
-        $this->type=PEM;
+      if (strstr($this->data, "CERTIFICATE"))  {
+        $this->type = PEM;
       } else {
         /* We test DER now, on fail abort */
-        $this->type=DER;
+        $this->type = DER;
       }
     }
 
     /* Convert to PEM to give $this->info the ability to read the cert */
-    if($this->type == DER )    {
+    if ($this->type == DER) {
       $this->derTOpem();
     }
 
     /* If cert is loaded correctly and is PEM now, we could read some data out of it */
-    if(count($this->info()) <=1)  {
+    if (count($this->info()) <= 1) {
       $this->certificate();
       $this->error = _("Cannot load certificate - only PEM/DER is supported!");
       /* Reset*/
-      return(false);
+      return FALSE;
     }
 
-    $this->info(false);
+    $this->info(FALSE);
 
     /* Loaded a readable cert */
-    return(true);
+    return TRUE;
   }
 
   /*
@@ -129,96 +128,86 @@ class certificate
    *
    * \return Array with all containing data
    */
-  function info($ret = true)
+  function info($ret = TRUE)
   {
-    if($this->type != PEM){
+    if ($this->type != PEM) {
       $this->error = _("Cannot extract information for non PEM certificates!");
-      return(false);
+      return FALSE;
     } else {
       /* return an array with all given information */
-      $this->info=openssl_x509_parse($this->data);
+      $this->info = openssl_x509_parse($this->data);
 
-      if($ret)
-        return($this->info);
+      if ($ret) {
+        return $this->info;
+      }
     }
   }
 
   /* Return Functions */
   function getvalidto_date()
   {
-    if(isset($this->info['validTo_time_t'])){
-      return($this->info['validTo_time_t']);
-    }else{
-      return(false);
-    }
+    return $this->_genericGet1('validTo_time_t');
   }
 
   function getvalidfrom_date()
   {
-    if(isset($this->info['validFrom_time_t'])){
-      return($this->info['validFrom_time_t']);
-    }else{
-      return(false);
-    }
-
+    return $this->_genericGet1('validFrom_time_t');
   }
 
   /*!
    * \brief Get the name of the certificate
    *
-   * \return String with the name, but return false if not found
+   * \return String with the name, but return FALSE if not found
    */
   function getname()
   {
-    if(isset($this->info['name'])){
-      return($this->info['name']);
-    }else{
-      return(false);
-    }
+    return $this->_genericGet1('name');
   }
 
   /*!
    * \brief Get the CN of the certificate
    *
-   * \return String with the CN, but return false if not found
+   * \return String with the CN, but return FALSE if not found
    */
   function getCN()
   {
-    if(isset($this->info['subject']['CN'])){
-      return($this->info['subject']['CN']);
-    }else{
-      return(false);
-    }
+    return $this->_genericGet2('CN');
   }
 
   function getO()
   {
-    if(isset($this->info['subject']['O'])){
-      return($this->info['subject']['O']);
-    }else{
-      return(false);
-    }
+    return $this->_genericGet2('O');
   }
 
   function getOU()
   {
-    if(isset($this->info['subject']['OU'])){
-      return($this->info['subject']['OU']);
-    }else{
-      return(false);
-    }
+    return $this->_genericGet2('OU');
   }
   /*!
    * \brief Get the serial number of the certificate
    *
-   * \return Integer number, but return false if not found
+   * \return Integer number, but return FALSE if not found
    */
   function getSerialNumber()
   {
-    if(isset($this->info['serialNumber'])){
-      return($this->info['serialNumber']);
-    }else{
-      return(false);
+    return $this->_genericGet1('serialNumber');
+  }
+
+  protected function _genericGet1($key)
+  {
+    if (isset($this->info[$key])) {
+      return $this->info[$key];
+    } else {
+      return FALSE;
+    }
+  }
+
+  protected function _genericGet2($key)
+  {
+    if (isset($this->info['subject'][$key])) {
+      return $this->info['subject'][$key];
+    } else {
+      return FALSE;
     }
   }
 
@@ -229,7 +218,7 @@ class certificate
    */
   function isvalid()
   {
-    return (($this->type != false)&&(count($this->info)>1));
+    return (($this->type != FALSE) && (count($this->info) > 1));
   }
 
 
@@ -240,31 +229,31 @@ class certificate
    *
    * \param string $filename Initialized at 'temp'
    */
-  function export($type,$filename="temp")
+  function export($type, $filename = "temp")
   {
     /* Check if valid cert is loaded*/
-    if($this->type!=false){
+    if ($this->type != FALSE) {
       /* Check if we must convert the cert */
-      if($this->type!= $type){
+      if ($this->type != $type) {
         $strConv = $this->type."TO".$type;
         $this->$strConv();
       }
 
       /* open file for writing */
-      $fp = fopen($filename,"w+");
+      $fp = fopen($filename, "w+");
 
-      if(!$fp){
-        $this->error= msgPool::cannotWriteFile($filename);
-        return(false);
-      }else{
-        fwrite($fp,$this->data,strlen($this->data));
+      if (!$fp) {
+        $this->error = msgPool::cannotWriteFile($filename);
+        return FALSE;
+      } else {
+        fwrite($fp, $this->data, strlen($this->data));
       }
-      return(true);
-    }else{
-      $this->error= _("No valid certificate loaded!");
-      return(false);
+      return TRUE;
+    } else {
+      $this->error = _("No valid certificate loaded!");
+      return FALSE;
     }
-    return(false);
+    return FALSE;
   }
 
 
@@ -274,28 +263,29 @@ class certificate
   function derTOpem()
   {
     /* if type is DER start convert */
-    if($this->type == DER)    {
+    if ($this->type == DER) {
       /* converting */
-      $this->type= PEM;
+      $this->type = PEM;
+
       $str = base64_encode($this->data);
       $len = strlen($str);
 
       $end = "";
 
-      while($len > 0 )      {
-        $len = $len - 64;
-        $str1 = substr($str,0,64)."\n";
-        $str  = substr($str,64,$len);
-        $end.= $str1;
+      while ($len > 0 ) {
+        $len  = $len - 64;
+        $str1 = substr($str, 0, 64)."\n";
+        $str  = substr($str, 64, $len);
+        $end  .= $str1;
       }
 
       $strend = "-----BEGIN CERTIFICATE-----\n".$end;
       $strend .= "-----END CERTIFICATE-----";
 
       $this->data     = $strend;
-      return(true);
+      return TRUE;
     }
-    return(false);
+    return FALSE;
   }
 
   /*
@@ -303,23 +293,21 @@ class certificate
    */
   function pemTOder()
   {
-    if($this->type == PEM)    {
-      $this->type= DER;
+    if ($this->type == PEM) {
+      $this->type = DER;
 
       $str = $this->data;
 
-      $str = str_replace("-----BEGIN CERTIFICATE-----","",$str);
-      $str = str_replace("-----END CERTIFICATE-----","",$str);
+      $str = str_replace("-----BEGIN CERTIFICATE-----", "", $str);
+      $str = str_replace("-----END CERTIFICATE-----", "", $str);
 
       $str = base64_decode($str);
 
       $this->data = $str;
-      return(true);
+      return TRUE;
     }
-    return(false);
+    return FALSE;
   }
-
 }
 
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
