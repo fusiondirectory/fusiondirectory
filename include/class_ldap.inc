@@ -190,7 +190,7 @@ class LDAP{
       }
 
       $this->error = "No Error";
-      if ($bid = @ldap_bind($this->cid, LDAP::fix($this->binddn), $this->bindpw)) {
+      if (@ldap_bind($this->cid, LDAP::fix($this->binddn), $this->bindpw)) {
         $this->error  = "Success";
         $this->hascon = TRUE;
       } else {
@@ -711,7 +711,7 @@ class LDAP{
       reset($delarray);
 
       /* Really Delete ALL dn's in subtree */
-      foreach ($delarray as $key => $value) {
+      foreach (array_keys($delarray) as $key) {
         $this->rmdir_recursive($srp, $key);
       }
 
@@ -727,8 +727,6 @@ class LDAP{
 
   function makeReadableErrors($error, $attrs)
   {
-    global $config;
-
     if ($this->success()) {
       return "";
     }
@@ -796,8 +794,6 @@ class LDAP{
 
   function create_missing_trees($srp, $target)
   {
-    global $config;
-
     $real_path = substr($target, 0, strlen($target) - strlen($this->basedn) - 1);
 
     if ($target == $this->basedn) {
@@ -891,12 +887,12 @@ class LDAP{
           /* Use alternative add... */
           switch ($type) {
             case 'ou':
-              $na["objectClass"] = "organizationalUnit";
-              $na["ou"] = $param;
+              $na["objectClass"]  = "organizationalUnit";
+              $na["ou"]           = $param;
               break;
             case 'dc':
-              $na["objectClass"] = array("dcObject", "top", "locality");
-              $na["dc"] = $param;
+              $na["objectClass"]  = array("dcObject", "top", "locality");
+              $na["dc"]           = $param;
               break;
             default:
               msg_dialog::display(_("Internal error"), sprintf(_("Cannot automatically create subtrees with RDN '%s': not supported"), $type), FATAL_ERROR_DIALOG);
@@ -939,7 +935,7 @@ class LDAP{
     reset($delarray);
 
     /* Delete all dn's in subtree */
-    foreach ($delarray as $key => $value) {
+    foreach (array_keys($delarray) as $key) {
       $this->rmdir($key);
     }
   }
@@ -1052,11 +1048,8 @@ class LDAP{
    *
    * \param  $limit        Limits the result.
    */
-  function generateLdif ($dn, $filter = "(objectClass=*)", $attributes = array(), $scope = 'sub', $limit = 0)
+  function generateLdif ($dn, $filter = "(objectClass=*)", $scope = 'sub', $limit = 0)
   {
-    // Attributes are unused !!
-    $attrs = '';
-
     // Ensure that limit is numeric if not skip here.
     if (!empty($limit) && !is_numeric($limit)) {
         trigger_error(sprintf("Invalid parameter for limit '%s', a numeric value is required."), $limit);
@@ -1091,9 +1084,10 @@ class LDAP{
 
     // Create list of process pipes
     $descriptorspec = array(
-            0 => array("pipe", "r"),  // stdin
-            1 => array("pipe", "w"),  // stdout
-            2 => array("pipe", "w")); // stderr
+      0 => array("pipe", "r"),  // stdin
+      1 => array("pipe", "w"),  // stdout
+      2 => array("pipe", "w")   // stderr
+    );
 
     // Try to open the process
     $process = proc_open($cmd, $descriptorspec, $pipes);
@@ -1142,7 +1136,9 @@ class LDAP{
    */
   function import_complete_ldif($srp, $str_attr, $JustModify, $DeleteOldEntries)
   {
-    if ($this->reconnect) $this->connect();
+    if ($this->reconnect) {
+      $this->connect();
+    }
 
     /* First we have to split the string into empty lines.
        An empty line indicates an new Entry */
@@ -1153,7 +1149,6 @@ class LDAP{
     $current_line = 0;
 
     /* FIX ldif */
-    $last = "";
     $tmp  = "";
     $i    = 0;
     foreach ($entries as $entry) {
@@ -1223,28 +1218,10 @@ class LDAP{
         throw new Exception($error);
       }
 
-      /* Should we use Modify instead of Add */
-      $usemodify = FALSE;
-
       /* Delete before insert */
-      $usermdir = FALSE;
-
-      /* The dn address already exists, Don't delete destination entry, overwrite it */
-      if ($this->dn_exists($value) && (!$JustModify && !$DeleteOldEntries)) {
-
-        $usermdir = $usemodify = FALSE;
-
-      /* Delete old entry first, then add new */
-      } elseif ($this->dn_exists($value) && $DeleteOldEntries) {
-
-        /* Delete first, then add */
-        $usermdir = TRUE;
-
-      } elseif ($this->dn_exists($value) && $JustModify) {
-
-        /* Modify instead of Add */
-        $usemodify = TRUE;
-      }
+      $usermdir = ($this->dn_exists($value) && $DeleteOldEntries);
+      /* Should we use Modify instead of Add */
+      $usemodify = ($this->dn_exists($value) && $JustModify);
 
       /* If we can't Import, return with a file error */
       if (!$this->import_single_entry($srp, $single, $usemodify, $usermdir)) {
@@ -1290,12 +1267,10 @@ class LDAP{
          Linenumbers) Linenumbers are use like this 123#attribute : value */
       if (!empty($row)) {
         if (strpos($row, "#") != FALSE) {
-
           /* We are using line numbers
              Because there is a # before a : */
-          $tmp1         = explode("#", $row);
-          $current_line = $tmp1[0];
-          $row          = base64_decode($tmp1[1]);
+          $tmp1 = explode("#", $row);
+          $row  = base64_decode($tmp1[1]);
         }
 
         /* Split the line into  attribute  and value */
@@ -1368,7 +1343,7 @@ class LDAP{
         if ($this->count($srp)) {
           /* The destination entry exists, overwrite it with the new entry */
           $attrs = $this->fetch($srp);
-          foreach ($attrs as $name => $value ) {
+          foreach (array_keys($attrs) as $name) {
             if (!is_numeric($name)) {
               if (in_array($name, array("dn","count"))) {
                 continue;
@@ -1397,31 +1372,6 @@ class LDAP{
   }
 
   /*!
-   * \brief Split a string
-   *
-   * \param string $str
-   */
-  function importcsv($str)
-  {
-    $lines = preg_split("/\n/", $str);
-    foreach ($lines as $line) {
-      /* continue if theres a comment */
-      if (substr(trim($line), 0, 1) == "#") {
-        continue;
-      }
-
-      $line = str_replace("\t\t", "\t", $line);
-      $line = str_replace("\t",   ",",  $line);
-      echo $line;
-
-      $cells = explode(",", $line );
-      $linet = str_replace("\t\t", ",", $line);
-      $cells = preg_split("/\t/", $line);
-      $count = count($cells);
-    }
-  }
-
-  /*!
    * \brief Get the object classes
    *
    * \param boolean $force_reload FALSE
@@ -1429,7 +1379,6 @@ class LDAP{
   function get_objectclasses($force_reload = FALSE)
   {
     $objectclasses = array();
-    global $config;
 
     /* Return the cached results. */
     if (class_available('session') && session::global_is_set("LDAP_CACHE::get_objectclasses") && !$force_reload) {
