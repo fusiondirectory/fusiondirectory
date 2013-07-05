@@ -273,7 +273,7 @@ class SnapshotHandler {
       $data = '';
       foreach ($dns as $tmp_dn) {
         $data .= $ldap->generateLdif(LDAP::fix($tmp_dn),
-              '(&(!(objectClass=gosaDepartment))(!(objectClass=FAIclass)))', array(), 'sub');
+              '(&(!(objectClass=gosaDepartment))(!(objectClass=FAIclass)))', 'sub');
       }
 
       $newName  = str_replace(".", "", $sec."-".$usec);
