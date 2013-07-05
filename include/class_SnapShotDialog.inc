@@ -306,7 +306,7 @@ class SnapShotDialog extends plugin
       /* Sort generated list */
       krsort($list_of_elements);
 
-      /* Add Elements to divlist */
+      /* Add Elements to divselectbox */
       $this->last_list = array_values($list_of_elements);
       foreach($this->last_list as $key => $entry){
         $actions= "<input type='image' src='images/lists/restore.png' name='RestoreSnapshot_$key'
