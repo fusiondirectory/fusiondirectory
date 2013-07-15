@@ -114,7 +114,7 @@ if (!session::global_is_set('CurrentMainBase')) {
 putenv("LANGUAGE=");
 putenv("LANG=$lang");
 setlocale(LC_ALL, $lang);
-$GLOBALS['t_language']= $lang;
+$GLOBALS['t_language']            = $lang;
 $GLOBALS['t_gettext_message_dir'] = $BASE_DIR.'/locale/';
 
 /* Set the text domain as 'fusiondirectory' */
@@ -292,6 +292,7 @@ if (isset($_GET['reset'])) {
 /* show web frontend */
 $smarty->assign ("date", date("l, dS F Y H:i:s O"));
 $smarty->assign ("lang", preg_replace('/_.*$/', '', $lang));
+$smarty->assign ("rtl", language_is_rtl($lang));
 $smarty->assign ("must", '<span class="must">*</span>');
 if (isset($plug)) {
   $plug= "?plug=$plug";

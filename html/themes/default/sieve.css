@@ -74,13 +74,21 @@ text-align:left;
 padding:2px;
 border-bottom:solid 1px #AAA;
 }
+html.rtl td.object_container_cell_top_right {
+text-align:right;
+}
 
 /* Container cell bottom left */
 td.object_container_cell_bottom_left {
 width:5px;
 background-color:#EEE;
 text-align:center;
+}
+html.ltr td.object_container_cell_bottom_left {
 border-right:solid 1px #AAA;
+}
+html.rtl td.object_container_cell_bottom_left {
+border-left:solid 1px #AAA;
 }
 
 /*************
@@ -153,8 +161,11 @@ background-color:#F8F8F8;
 }
 
 /* Editing area */
-td.sieve_keep_input {
+html.ltr td.sieve_keep_input {
 padding-left:20px;
+}
+html.rtl td.sieve_keep_input {
+padding-right:20px;
 }
 
 /*************
@@ -170,8 +181,11 @@ background-color:#F8F8F8;
 }
 
 /* Editing area */
-td.sieve_discard_input {
+html.ltr td.sieve_discard_input {
 padding-left:20px;
+}
+html.rtl td.sieve_discard_input {
+padding-right:20px;
 }
 
 /*************
@@ -187,8 +201,11 @@ background-color:#F8F8F8;
 }
 
 /* Editing area */
-td.sieve_redirect_input {
+html.ltr td.sieve_redirect_input {
 padding-left:20px;
+}
+html.rtl td.sieve_redirect_input {
+padding-right:20px;
 }
 
 textarea.sieve_redirect_input {
@@ -209,8 +226,11 @@ background-color:#F8F8F8;
 }
 
 /* Editing area */
-td.sieve_reject_input {
+html.ltr td.sieve_reject_input {
 padding-left:20px;
+}
+html.rtl td.sieve_reject_input {
+padding-right:20px;
 }
 
 textarea.sieve_reject_input {
@@ -231,8 +251,11 @@ background-color:#F8F8F8;
 }
 
 /* Editing area */
-td.sieve_stop_input {
+html.ltr td.sieve_stop_input {
 padding-left:20px;
+}
+html.rtl td.sieve_stop_input {
+padding-right:20px;
 }
 
 /*************
@@ -248,8 +271,11 @@ background-color:#F8F8F8;
 }
 
 /* Editing area */
-td.sieve_vacation_input {
+html.ltr td.sieve_vacation_input {
 padding-left:20px;
+}
+html.rtl td.sieve_vacation_input {
+padding-right:20px;
 }
 
 /* Editing area */
@@ -328,12 +354,21 @@ border-spacing:0;
 padding:0;
 }
 
-td.container_,div.container_ {
+html.ltr td.container_, html.ltr div.container_ {
 padding-left:2px;
 border-left:solid 2px #F8F8F8;
 }
+html.rtl td.container_, html.rtl div.container_ {
+padding-right:2px;
+border-right:solid 2px #F8F8F8;
+}
 
 td.container_:hover,div.container_:hover {
-border-left:solid 2px #000;
 display:block;
+}
+html.ltr td.container_:hover, html.ltr div.container_:hover {
+border-left:solid 2px #000;
+}
+html.rtl td.container_:hover, html.rtl div.container_:hover {
+border-right:solid 2px #000;
 }

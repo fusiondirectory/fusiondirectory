@@ -2841,6 +2841,19 @@ function get_languages($languages_in_own_language = FALSE, $strip_region_tag = F
   return $ret;
 }
 
+/*!
+ * \brief Returns TRUE if $lang is a right to left language ($lang should match /.._..(\.UTF-8)?/)
+ */
+function language_is_rtl ($lang)
+{
+  //~ $lang = preg_replace('/\.UTF-8$/', '', $lang);
+
+  if (preg_match('/^fa_/', $lang)) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
 
 /*!
  * \brief Returns contents of the given POST variable and check magic quotes settings
