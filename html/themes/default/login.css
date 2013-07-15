@@ -14,10 +14,16 @@ vertical-align:top;
 
 div.gosaLoginBack {
 padding-top:35px;
-margin-left:100px;
-margin-right:50px;
 padding-bottom:0;
 vertical-align:top;
+}
+html.ltr div.gosaLoginBack {
+margin-left:100px;
+margin-right:50px;
+}
+html.rtl div.gosaLoginBack {
+margin-left:50px;
+margin-right:100px;
 }
 
 p.gosaLoginHeader {
@@ -76,15 +82,24 @@ width:47%;
 padding:1%;
 text-align:left;
 }
+html.rtl div#window_footer > div {
+text-align:right;
+}
 
 div#window_footer > div:nth-child(1) {
 text-align:left;
 color:red;
 font-weight:bold;
 }
+html.rtl div#window_footer > div:nth-child(1) {
+text-align:right;
+}
 
 div#window_footer > div:nth-child(2) {
 text-align:right;
+}
+html.rtl div#window_footer > div:nth-child(2) {
+text-align:left;
 }
 
 /* On small screens */

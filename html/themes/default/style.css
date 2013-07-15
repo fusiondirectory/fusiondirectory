@@ -1,8 +1,5 @@
 body {
-margin-left:0;
-margin-right:0;
-margin-top:0;
-margin-bottom:0;
+margin:0;
 background-color:#FFF;
 color:#00008F;
 font-family:arial,helvetica,sans-serif;
@@ -54,6 +51,9 @@ div.scrollbody {
 background-color:#FFF;
 overflow:auto;
 text-align:left;
+}
+html.rtl div.scrollbody {
+text-align:right;
 }
 
 /* -------------- DEPRECATED ----------------- */
@@ -130,6 +130,7 @@ font-size:12px;
 text-align:center;
 vertical-align:middle;
 cursor:pointer;
+display:inline-block;
 }
 
 a.maintitlebar:hover {
@@ -160,6 +161,9 @@ text-align:right;
 font-family:arial,helvetica,sans-serif;
 font-size:10px;
 }
+html.rtl div.copynotice {
+text-align:left;
+}
 
 p.seperator {
 border-style:solid;
@@ -174,6 +178,9 @@ padding-bottom:0;
 margin-top:0;
 margin-bottom:0;
 text-align:left;
+}
+html.rtl p.seperator {
+text-align:right;
 }
 
 font.must {
@@ -190,15 +197,24 @@ input.center {
 text-align:left;
 vertical-align:middle;
 }
+html.rtl input.center {
+text-align:right;
+}
 
 select.center {
 text-align:left;
 vertical-align:middle;
 }
+html.rtl select.center {
+text-align:right;
+}
 
 a.center {
 text-align:left;
 vertical-align:middle;
+}
+html.rtl a.center {
+text-align:right;
 }
 
 /********************** Template migration *********************/
@@ -232,9 +248,14 @@ width:100%;
 border:0;
 border-spacing:5px;
 padding:0;
-margin-left:0;
 margin-top:0;
 vertical-align:top;
+}
+html.ltr table.framework {
+margin-left:0;
+}
+html.rtl table.framework {
+margin-right:0;
 }
 
 table.framework td#maincell {
@@ -309,25 +330,44 @@ background-color:#e1e1f1;
 color:#000;
 border:1px solid #AAA;
 width:95%;
+}
+html.ltr table.check {
 margin-left:20px;
 }
+html.rtl table.check {
+margin-right:20px;
+}
 
-td.check {
+html.ltr td.check {
 border-right:1px solid #AAA;
+}
+html.rtl td.check {
+border-left:1px solid #AAA;
 }
 
 option.select {
 background-repeat:no-repeat;
 background-position:0 top;
 border:0;
-padding-left:20px;
 padding-bottom:1px;
 height:18px;
 }
+html.ltr option.select {
+padding-left:20px;
+}
+html.rtl option.select {
+padding-right:20px;
+}
+
 
 td.tbhead {
-border-right:1px solid #B0B0B0;
 border-bottom:1px solid #B0B0B0;
+}
+html.ltr td.tbhead {
+border-right:1px solid #B0B0B0;
+}
+html.rtl td.tbhead {
+border-left:1px solid #B0B0B0;
 }
 
 td.tbrhead {
@@ -340,6 +380,9 @@ white-space:nowrap;
 font-family:bitstream vera sans, luxi sans, verdana, geneva, arial, helvetica, sans-serif;
 font-size:12px;
 padding-top:2px;
+}
+html.rtl .item {
+text-align:right;
 }
 
 .item div {
@@ -414,9 +457,15 @@ list-style-type:none;
 display:block;
 margin:0;
 padding:2px;
-padding-left:4px;
 cursor:pointer;
 }
+html.ltr div.autocomplete ul li {
+padding-left:4px;
+}
+html.rtl div.autocomplete ul li {
+padding-right:4px;
+}
+
 
 div.autocomplete li:hover {
 background-color:#F0F0F0;
@@ -430,9 +479,15 @@ background-color:#F0F0F0;
 background:#FFF;
 height:23px;
 border-top:1px #D0D0D0 solid;
-border-left:1px #D0D0D0 solid;
 border-bottom:1px gray solid;
+}
+html.ltr #pulldown {
+border-left:1px #D0D0D0 solid;
 border-right:1px gray solid;
+}
+html.rtl #pulldown {
+border-right:1px #D0D0D0 solid;
+border-left:1px gray solid;
 }
 
 #pulldown ul {
@@ -451,6 +506,9 @@ font-size:12px;
 line-height:1em;
 list-style-type:none;
 }
+html.rtl #pulldown ul li {
+margin:0 0 0 3px;
+}
 
 #pulldown ul li a {
 float:left;
@@ -461,6 +519,9 @@ background:transparent;
 text-decoration:none;
 margin:0;
 padding:5px;
+}
+html.rtl #pulldown ul li a {
+float:right;
 }
 
 #pulldown ul li a:hover {
@@ -531,22 +592,35 @@ padding:.3em;
 div#header_left {
 float:left;
 }
+html.rtl div#header_left {
+float:right;
+}
 
-div#header_left .plugtop {
+html.ltr div#header_left .plugtop {
 margin-left:35px;
+}
+html.rtl div#header_left .plugtop {
+margin-right:35px;
 }
 
 div#header_left img {
 vertical-align:middle;
 }
 
-div#header_left img#fd_logo {
+html.ltr div#header_left img#fd_logo {
 padding-left:2px;
 padding-right:25px;
 }
+html.rtl div#header_left img#fd_logo {
+padding-left:25px;
+padding-right:2px;
+}
 
-div#header_left .logout {
+html.ltr div#header_left .logout {
 margin-left:35px;
+}
+html.rtl div#header_left .logout {
+margin-right:35px;
 }
 
 div#header_right {
@@ -554,6 +628,9 @@ padding-top:8px;
 text-align:right;
 height:38px;
 color:black;
+}
+html.rtl div#header_right {
+text-align:left;
 }
 
 /* Header col */
@@ -578,14 +655,21 @@ color:#000;
   float:left;
   padding:0;
   }
+  html.rtl a.maintitlebar {
+  float:right;
+  }
   a.maintitlebar img {
   padding:6px;
   width:22px;
   height:22px;
   }
-  div#header_left .logout {
+  html.ltr div#header_left .logout {
   margin-left:0;
   float:right;
+  }
+  html.rtl div#header_left .logout {
+  margin-right:0;
+  float:left;
   }
   div#header_left img#fd_logo {
   padding-left:2px;
@@ -620,6 +704,10 @@ color:#000;
   padding-left:0;
   padding-right:5px;
   font-size:1em;
+  }
+  html.rtl div#header_left .plugtop {
+  padding-left:5px;
+  padding-right:0;
   }
   div.logout-label {
   display:inline-block;

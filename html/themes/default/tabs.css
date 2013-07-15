@@ -19,7 +19,12 @@ div.tab_notify {
 background-image:url(../../images/lists/on.png);
 background-repeat:no-repeat;
 background-position:1px 1px;
+}
+html.ltr div.tab_notify {
 padding-left:18px;
+}
+html.rtl div.tab_notify {
+padding-right:18px;
 }
 
 div.tab_left {
@@ -37,6 +42,10 @@ padding-bottom:5px;
 padding-left:8px;
 padding-right:8px;
 }
+html.rtl div.tab_left {
+border-left-width:0;
+border-right-width:1px;
+}
 
 div.tab_right {
 text-align:center;
@@ -52,6 +61,10 @@ padding-top:1px;
 padding-left:8px;
 padding-right:8px;
 padding-bottom:5px;
+}
+html.rtl div.tab_right {
+border-left-width:1px;
+border-right-width:0;
 }
 
 div.tab_near_active {

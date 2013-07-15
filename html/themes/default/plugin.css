@@ -18,9 +18,11 @@ text-align:left;
 font-family:arial,helvetica,sans-serif;
 font-size:24px;
 }
+html.rtl h1.plugtop {
+text-align:right;
+}
 
 a.plugtop {
-margin-left:35px;
 border:1px solid #B0B0B0;
 padding:5px;
 margin:0;
@@ -28,9 +30,6 @@ text-align:center;
 vertical-align:middle;
 background-color:#dbe6c6;
 font-family:arial,helvetica,sans-serif;
-/*
-font-weight:bold;
-*/
 font-size:18px;
 }
 
@@ -50,6 +49,9 @@ background-color:#F8F8F8;
 font-family:arial,helvetica,sans-serif;
 font-size:11px;
 }
+html.rtl div.pluginfo {
+text-align:left;
+}
 
 .plugbottom {
 border-style:solid;
@@ -64,6 +66,9 @@ padding-bottom:0;
 text-align:right;
 font-family:arial,helvetica,sans-serif;
 clear:both;
+}
+html.rtl .plugbottom {
+text-align:left;
 }
 
 /* Simple Plugin specific things */
@@ -82,11 +87,24 @@ margin-bottom:0.5%;
 margin-right:0;
 position: relative;
 }
-.plugin_section:nth-child(even) {
+html.rtl .plugin_section {
 float:right;
 clear:right;
 margin-left:0;
 margin-right:0.5%;
+}
+
+html.ltr .plugin_section:nth-child(even) {
+float:right;
+clear:right;
+margin-left:0;
+margin-right:0.5%;
+}
+html.rtl .plugin_section:nth-child(even) {
+float:left;
+clear:left;
+margin-left:0.5%;
+margin-right:0;
 }
 
 div.plugin_section {
@@ -106,6 +124,9 @@ float:left;
 padding:0;
 margin:0;
 }
+html.rtl fieldset.plugin_section legend {
+float:right;
+}
 
 fieldset.plugin_section legend span, .plugin_section > span.legend {
 font-weight:bold;
@@ -114,16 +135,26 @@ border:1px solid #B0B0B0;
 width:100%;
 padding-top:5px;
 padding-bottom:5px;
-margin-left:-1px;
 text-align:center;
 display:block;
+}
+html.ltr fieldset.plugin_section legend span, .plugin_section > span.legend {
+margin-left:-1px;
+}
+html.rtl fieldset.plugin_section legend span, .plugin_section > span.legend {
+margin-right:-1px;
 }
 
 fieldset.plugin_section legend span {
 position: absolute;
-left:0;
 top:0;
 margin-top:-1px;
+}
+html.ltr fieldset.plugin_section legend span {
+left:0;
+}
+html.rtl fieldset.plugin_section legend span {
+right:0;
 }
 
 .plugin_section > span.legend {
@@ -131,8 +162,13 @@ margin-top:-26px;
 }
 
 fieldset.plugin_section legend img, .plugin_section span.legend img {
-margin-right:3px;
 vertical-align:middle;
+}
+html.ltr fieldset.plugin_section legend img, .plugin_section span.legend img {
+margin-right:3px;
+}
+html.rtl fieldset.plugin_section legend img, .plugin_section span.legend img {
+margin-left:3px;
 }
 
 
@@ -209,6 +245,11 @@ background-color:#DFEFFF;
   .plugbottom input[type=submit]:active, .plugbottom input[type=button]:active {
   position:relative;
   top:1px;
+  }
+  html.ltr .plugbottom input[type=submit]:active, .plugbottom input[type=button]:active {
   left:1px;
+  }
+  html.rtl .plugbottom input[type=submit]:active, .plugbottom input[type=button]:active {
+  right:1px;
   }
 }

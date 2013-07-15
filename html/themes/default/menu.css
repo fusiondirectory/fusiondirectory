@@ -32,6 +32,9 @@ vertical-align:middle;
 margin:2px;
 background-color:#FFF;
 }
+html.rtl p.menuitem {
+text-align:right;
+}
 
 a.menuitem {
 padding-left:15px;
@@ -40,13 +43,22 @@ padding-bottom:2px;
 padding-right:5px;
 display:block;
 }
+html.rtl a.menuitem {
+padding-left:5px;
+padding-right:15px;
+}
 
 table.menuitem {
 width:100%;
 margin-top:10px;
 margin-bottom:10px;
-margin-right:10px;
 background-color:#f0f0f0;
+}
+html.ltr table.menuitem {
+margin-right:10px;
+}
+html.rtl table.menuitem {
+margin-left:10px;
 }
 
 table.menuitem:hover {
@@ -82,9 +94,15 @@ margin:0;
 padding:10px;
 display:inline-block;
 border-bottom:1px solid #AAAAAA;
-border-right:1px solid #AAAAAA;
 background-color:#DBE6C6;
+}
+html.ltr h1.menuheader {
+border-right:1px solid #AAAAAA;
 float:left;
+}
+html.rtl h1.menuheader {
+border-left:1px solid #AAAAAA;
+float:right;
 }
 
 a.menuitem:link {
@@ -111,10 +129,16 @@ min-width:80px;
 margin:3px;
 padding:3px;
 }
+html.rtl .iconmenu {
+float:right;
+}
 
 .iconmenu:nth-child(2)
 {
 clear:left;
+}
+html.rtl .iconmenu:nth-child(2) {
+clear:right;
 }
 
 .iconmenu > a:link, .iconmenu > a:visited {
@@ -146,6 +170,11 @@ background-color:#F0F0F0;
   float:none;
   padding:5px;
   text-align:center;
+  }
+  html.ltr h1.menuheader {
   border-right:none;
+  }
+  html.rtl h1.menuheader {
+  border-left:none;
   }
 }

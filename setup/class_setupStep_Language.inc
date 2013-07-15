@@ -51,6 +51,7 @@ class Step_Language extends setup_step
     $smarty = get_smarty();
     $smarty->assign("languages",    $this->languages);
     $smarty->assign("lang",         $this->lang);
+    $smarty->assign("rtl",          language_is_rtl($this->lang));
     $smarty->assign("lang_selected",$this->lang_selected);
     return($smarty->fetch(get_template_path("setup_language.tpl",TRUE,dirname(__FILE__))));
   }

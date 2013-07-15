@@ -5,10 +5,7 @@
  *********/
 /* The body style */
 body.setup_body {
-margin-left:0;
-margin-right:0;
-margin-top:0;
-margin-bottom:0;
+margin:0;
 color:#00008F;
 font-family:arial,helvetica,sans-serif;
 font-size:12px;
@@ -19,6 +16,9 @@ background-image:none;
 /* The setup complete setup dialog */
 div.setup_dialog {
 background-color:#FFF;
+text-align:left;
+}
+html.rtl div.setup_dialog {
 text-align:left;
 }
 
@@ -42,6 +42,9 @@ clear:left;
 background-color:#DDD;
 border-top:solid 1px red;
 }
+html.rtl div.setup_bottom {
+clear:right;
+}
 
 /* Header col */
 div.setup_plug_header {
@@ -54,11 +57,15 @@ border:10px solid #FFF;
 /* Content col */
 div.setup_contents {
 margin-right:2px;
+margin-left:20%;
 background-color:#FFF;
 width:80%;
-margin-left:20%;
 border:1px solid #AAA;
 padding:2px;
+}
+html.rtl div.setup_contents {
+margin-right:20%;
+margin-left:2px;
 }
 
 /* default.*/
@@ -75,6 +82,9 @@ padding-left:2px;
 padding-right:2px;
 border:1px solid #AAA;
 float:left;
+}
+html.rtl div.setup_navigation {
+float:right;
 }
 
 /* Navigation title */
@@ -153,6 +163,9 @@ display:block;
 width:100%;
 text-align:left;
 }
+html.rtl div.solution_visible {
+text-align:right;
+}
 
 /* Container headline */
 h2.step2_container_title {
@@ -183,6 +196,9 @@ float:left;
 padding-bottom:4px;
 vertical-align:middle;
 }
+html.rtl div.step2_entry_name {
+float:right;
+}
 
 /* Status container */
 div.step2_entry_status {
@@ -190,6 +206,9 @@ float:none;
 text-align:right;
 padding-bottom:4px;
 vertical-align:middle;
+}
+html.rtl div.step2_entry_status {
+text-align:left;
 }
 
 /* Status failed */
@@ -212,13 +231,23 @@ color:green;
 /* Text used in info div. */
 div.step2_failed_text {
 background-repeat:no-repeat;
+}
+html.ltr div.step2_failed_text {
 padding-left:25px;
+}
+html.rtl div.step2_failed_text {
+padding-right:25px;
 }
 
 /* Text used in info div. On warnings */
 div.step2_warning_text {
 background-repeat:no-repeat;
+}
+html.ltr div.step2_warning_text {
 padding-left:25px;
+}
+html.rtl div.step2_warning_text {
+padding-right:25px;
 }
 
 /*
@@ -229,11 +258,17 @@ float:left;
 width:33%;
 height:2em;
 }
+html.rtl li.step4_name,div.step4_name {
+float:right;
+}
 
 li.step4_value,div.step4_value {
 float:left;
 width:50%;
 height:2em;
+}
+html.rtl li.step4_value,div.step4_value {
+float:right;
 }
 
 ul.step4_container,div.step4_container {

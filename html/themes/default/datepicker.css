@@ -150,6 +150,9 @@ float:left;
 text-align:center;
 width:90px;
 }
+html.rtl .date {
+float:right;
+}
 
 .datepicker-opener-table {
 border:1px solid transparent;
@@ -161,15 +164,25 @@ width:18px;
 height:18px;
 cursor:pointer;
 }
+html.rtl .datepicker-opener-table {
+margin:0 93px 0 0;
+}
 
 .Opera .datepicker-opener-table {
 float:right;
+}
+html.rtl .Opera .datepicker-opener-table {
+float:left;
 }
 
 .IE7 .datepicker-opener-table {
 position:relative;
 top:0;
 left:3px;
+}
+html.rtl .IE7 .datepicker-opener-table {
+right:3px;
+left:auto;
 }
 
 .datepicker-opener-table:hover {
@@ -181,4 +194,7 @@ width:16px;
 height:16px;
 margin:0 0 0 3px;
 cursor:pointer;
+}
+html.rtl .datepicker-opener {
+margin:0 3px 0 0;
 }
