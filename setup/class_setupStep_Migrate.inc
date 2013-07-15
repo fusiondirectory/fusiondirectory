@@ -236,7 +236,7 @@ class Step_Migrate extends setup_step
       $tmp[$attrs['uidNumber'][0]][] = $attrs;
     }
 
-    foreach ($tmp as $id => $entries) {
+    foreach ($tmp as $entries) {
       if (count($entries) > 1) {
         foreach ($entries as $entry) {
           $this->check_uidNumbers[base64_encode($entry['dn'])] = $entry;
@@ -288,7 +288,7 @@ class Step_Migrate extends setup_step
       $tmp[$attrs['gidNumber'][0]][] = $attrs;
     }
 
-    foreach ($tmp as $id => $entries) {
+    foreach ($tmp as $entries) {
       if (count($entries) > 1) {
         foreach ($entries as $entry) {
           $this->check_gidNumbers[base64_encode($entry['dn'])] = $entry;
@@ -542,7 +542,6 @@ class Step_Migrate extends setup_step
     /* Remember old list of invisible users, to be able to set
      *  the 'html checked' status for the checkboxes again
      */
-    $cnt_ok = 0;
     $old    = $this->users_to_migrate;
     $this->users_to_migrate = array();
 
@@ -651,7 +650,6 @@ class Step_Migrate extends setup_step
    */
   function check_organizationalUnits()
   {
-    $cnt_ok                 = 0;
     $old                    = $this->deps_to_migrate;
     $this->deps_to_migrate  = array();
 
@@ -821,7 +819,6 @@ class Step_Migrate extends setup_step
       $GOsa_26_found = FALSE; // GOsa 2.6 Account found
       $GOsa_25_found = FALSE; // GOsa 2.5 Account found, allow migration
 
-      $username = "";
       $attrs = $ldap->fetch();
 
       /* Collect a list of available FusionDirectory users and groups
@@ -2239,7 +2236,7 @@ class Step_Migrate extends setup_step
    */
   function check_device_posts()
   {
-    foreach ($this->device as $key => $device) {
+    foreach (array_keys($this->device) as $key) {
       if (isset($_POST["migrate_".$key])) {
         $this->device[$key]['DETAILS'] = TRUE;
       } else {
@@ -2559,7 +2556,7 @@ class Step_Migrate extends setup_step
    */
   function check_service_posts()
   {
-    foreach ($this->service as $key => $service) {
+    foreach (array_keys($this->service) as $key) {
       if (isset($_POST["migrate_".$key])) {
         $this->service[$key]['DETAILS'] = TRUE;
       } else {
@@ -2625,7 +2622,6 @@ class Step_Migrate extends setup_step
 
     /* Search for all groups that have an old style application menu configured.
      */
-    $appgroups = array();
     $ldap->cd($cv['base']);
     $ldap->search("(&(objectClass=gosaApplicationGroup)(objectClass=posixGroup)(FAIrelease=*))",
         array("gosaMemberApplication","gosaApplicationParameter","FAIrelease","objectClass"));
@@ -2805,7 +2801,7 @@ class Step_Migrate extends setup_step
    */
   function check_menu_posts()
   {
-    foreach ($this->menu as $key => $menu) {
+    foreach (array_keys($this->menu) as $key) {
       if (isset($_POST["migrate_".$key])) {
         $this->menu[$key]['DETAILS'] = TRUE;
       } else {
@@ -2981,7 +2977,7 @@ class Step_Migrate extends setup_step
       $groups[$group_attrs['dn']] = $group_attrs['cn'][0];
     }
 
-    foreach ($this->migrate_users as $id => $data) {
+    foreach (array_keys($this->migrate_users) as $id) {
       $this->migrate_users[$id]['checked'] = isset($_POST['migrate_admin_'.$id]);
     }
 
