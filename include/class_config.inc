@@ -521,7 +521,24 @@ class config  {
     $ldap->cd($this->current['BASE']);
     $ldap->search("(objectClass=goFonServer)");
     $this->data['SERVERS']['FON'] = array();
-    while ($attrs= $ldap->fetch()) {
+
+    while ($attrs = $ldap->fetch()) {
+
+      $entry = array(
+        'DN'                  => $attrs['dn'],
+        'SERVER'              => $attrs['cn'][0],
+        'LOGIN'               => $attrs['goFonAdmin'][0],
+        'PASSWORD'            => $attrs['goFonPassword'][0],
+        'DB'                  => "gophone",
+        'SIP_TABLE'           => "sip_users",
+        'EXT_TABLE'           => "extensions",
+        'VOICE_TABLE'         => "voicemail_users",
+        'QUEUE_TABLE'         => "queues",
+        'QUEUE_MEMBER_TABLE'  => "queue_members"
+      );
+      if (isset($attrs['fdAsteriskDriver'][0])) {
+        $entry['DRIVER'] = $attrs['fdAsteriskDriver'][0];
+      }
 
       /* Add 0 entry for development */
       if(count($this->data['SERVERS']['FON']) == 0) {
