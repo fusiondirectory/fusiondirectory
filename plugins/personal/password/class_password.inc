@@ -88,13 +88,13 @@ class password extends plugin
     /* Pwd change requested */
     if (isset($_POST['password_finish'])) {
       if ($this->proposalSelected) {
-        $current_password = get_post('current_password');
-        $new_password = $this->proposal;
-        $repeated_password = $this->proposal;
+        $current_password   = $_POST['current_password'];
+        $new_password       = $this->proposal;
+        $repeated_password  = $this->proposal;
       } else {
-        $current_password = get_post('current_password');
-        $new_password = get_post('new_password');
-        $repeated_password = get_post('repeated_password');
+        $current_password   = $_POST['current_password'];
+        $new_password       = $_POST['new_password'];
+        $repeated_password  = $_POST['repeated_password'];
       }
 
       /* Should we check different characters in new password */
@@ -108,17 +108,17 @@ class password extends plugin
       // Perform FusionDirectory password policy checks
       $message = array();
       if (empty($current_password)) {
-          $message[] = _("You need to specify your current password in order to proceed.");
+        $message[] = _("You need to specify your current password in order to proceed.");
       } elseif ($new_password != $repeated_password) {
-          $message[] = _("The passwords you've entered as 'New password' and 'Repeated new password' do not match.");
+        $message[] = _("The passwords you've entered as 'New password' and 'Repeated new password' do not match.");
       } elseif ($new_password == "") {
-          $message[] = _("The password you've entered as 'New password' is empty.");
+        $message[] = _("The password you've entered as 'New password' is empty.");
       } elseif ($check_differ && (substr($current_password, 0, $differ) == substr($new_password, 0, $differ))) {
-          $message[] = _("The password used as new and current are too similar.");
+        $message[] = _("The password used as new and current are too similar.");
       } elseif ($check_length && (strlen($new_password) < $length)) {
-          $message[] = _("The password used as new is to short.");
+        $message[] = _("The password used as new is to short.");
       } elseif (!passwordMethod::is_harmless($new_password)) {
-          $message[] = _("The password contains possibly problematic Unicode characters!");
+        $message[] = _("The password contains possibly problematic Unicode characters!");
       }
 
       /* Call external password quality hook ?*/
@@ -145,11 +145,12 @@ class password extends plugin
 
         /* Try to connect via current password */
         $tldap = new LDAP(
-            $ui->dn,
-            $current_password,
-            $this->config->current['SERVER'],
-            $this->config->get_cfg_value("ldapFollowReferrals") == "TRUE",
-            $this->config->get_cfg_value("ldapTLS") == "TRUE");
+          $ui->dn,
+          $current_password,
+          $this->config->current['SERVER'],
+          $this->config->get_cfg_value("ldapFollowReferrals") == "TRUE",
+          $this->config->get_cfg_value("ldapTLS") == "TRUE"
+        );
 
         /* connection Successfull ? */
         if (!$tldap->success()) {
