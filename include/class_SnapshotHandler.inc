@@ -31,7 +31,6 @@
  */
 class SnapshotHandler {
   var $config;
-  var $isEnabled      = FALSE;
   var $snapshotBases  = array();
 
   /*!
@@ -42,7 +41,6 @@ class SnapshotHandler {
   function __construct(&$config)
   {
     $this->config     = $config;
-    $this->isEnabled  = $this->config->snapshotEnabled();
   }
 
   /*!
@@ -52,7 +50,7 @@ class SnapshotHandler {
    */
   function enabled()
   {
-    return $this->isEnabled;
+    return $this->config->snapshotEnabled();
   }
 
   /*!
@@ -322,16 +320,12 @@ class SnapshotHandler {
    */
   function remove_snapshot($dn)
   {
-    $ui       = get_userinfo();
-    $old_dn   = $this->dn;
-    $this->dn = $dn;
     $ldap = $this->config->get_ldap_link();
     $ldap->cd($this->config->current['BASE']);
-    $ldap->rmdir_recursive($this->dn);
+    $ldap->rmdir_recursive($dn);
     if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn));
+      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn));
     }
-    $this->dn = $old_dn;
   }
 
   /*!
