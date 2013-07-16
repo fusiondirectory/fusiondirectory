@@ -542,6 +542,9 @@ class config  {
         'QUEUE_TABLE'         => "queues",
         'QUEUE_MEMBER_TABLE'  => "queue_members"
       );
+      if (isset($attrs['fdAsteriskDriver'][0])) {
+        $entry['DRIVER'] = $attrs['fdAsteriskDriver'][0];
+      }
 
       /* Add 0 entry for development */
       if (count($this->data['SERVERS']['FON']) == 0) {
