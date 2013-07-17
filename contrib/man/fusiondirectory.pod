@@ -334,40 +334,7 @@ These values will be overridden when using templates.
 
 =item B<idGenerator> I<string>
 
-The idGenerator statement describes an automatic way to generate new user ids. There are two basic functions supported - which can be combined:
-
-  a) using attributes
-
-     You can specify LDAP attributes (currently only sn and givenName) in
-     braces {} and add a percent sign befor it. Optionally you can strip it
-     down to a number of characters, specified in []. I.e.
-
-       idGenerator="{%sn%}-{%givenName%[2-4]}"
-
-     will generate an ID using the full surname, adding a dash, and adding at
-     least the first two characters of givenName. If this ID is used, it'll
-     use up to four characters. If no automatic generation is possible, a
-     input box is shown.
-
-  b) using automatic id's
-
-     I.e. specifying
-
-       idGenerator="acct{id:3}"
-
-     will generate a three digits id with the next free entry appended to
-     "acct".
-
-       idGenerator="acct{id!1}"
-
-     will generate a one digit id with the next free entry appended to
-     "acct" - if needed.
-
-       idGenerator="ext{id#3}"
-
-
-
-     will generate a three digits random number appended to "ext".
+The idGenerator statement describes an automatic way to generate new user ids.
 
 =item B<nextIdHook> I<path>
 
