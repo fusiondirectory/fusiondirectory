@@ -188,7 +188,7 @@ class plugin
       if (isset($this->attrs['objectClass'])) {
         if (in_array_ics ("fdTemplate", $this->attrs['objectClass'])) {
           @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, "found", "Template check");
-          $this->loadTemplateAttrs($this->attrs);
+          $this->templateLoadAttrs($this->attrs);
         }
       }
 
@@ -263,7 +263,7 @@ class plugin
     }
   }
 
-  protected function loadTemplateAttrs($template_attrs)
+  protected function templateLoadAttrs($template_attrs)
   {
     $this->is_template = TRUE;
     if ($this->mainTab) {
@@ -286,7 +286,7 @@ class plugin
     $this->attrs = $attrs;
   }
 
-  protected function saveTemplateAttrs()
+  protected function templateSaveAttrs()
   {
     $ldap = $this->config->get_ldap_link();
     $ldap->cat($this->dn);
@@ -679,10 +679,10 @@ class plugin
   {
     $offset = 0;
     while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
-      $replace = self::tpl_parse_mask($m[1][0], array($this->parent, $this));
-      $replace = $replace[0];
-      $string = substr_replace($string, $replace, $m[0][1], strlen($m[0][0]));
-      $offset = $m[0][1] + strlen($replace);
+      $replace  = self::tpl_parse_mask($m[1][0], array($this->parent, $this));
+      $replace  = $replace[0];
+      $string   = substr_replace($string, $replace, $m[0][1], strlen($m[0][0]));
+      $offset   = $m[0][1] + strlen($replace);
     }
     return $string;
   }
@@ -1445,7 +1445,7 @@ class plugin
     } elseif (strtolower($this->dn) == strtolower($this->config->current['BASE'])) {
 
     } else {
-      trigger_error("Cannot return list of departments, no default base found in class ".get_class($this).". ".$this->base);
+      trigger_error("Cannot return list of departments, no default base found in class ".get_class($this).". (base is '".$this->base."')");
     }
     return $deps;
   }

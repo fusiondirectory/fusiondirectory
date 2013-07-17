@@ -49,7 +49,7 @@
       <label>Surname</label>
       <sortAttribute>sn</sortAttribute>
       <sortType>string</sortType>
-      <value>%{filter:link(row,dn,"%s",sn)}</value>
+      <value>%{filter:filterRowLink(row,dn,sn,cn)}</value>
       <export>true</export>
     </column>
 
@@ -201,7 +201,6 @@
     <action>
       <name>edit</name>
       <type>entry</type>
-      <objectclass>gosaAccount</objectclass>
       <image>images/lists/edit.png</image>
       <label>Edit user</label>
     </action>
@@ -234,7 +233,6 @@
       <name>remove</name>
       <type>entry</type>
       <image>images/lists/trash.png</image>
-      <objectclass>gosaAccount</objectclass>
       <acl>users/user[d]</acl>
       <label>Remove user</label>
     </action>

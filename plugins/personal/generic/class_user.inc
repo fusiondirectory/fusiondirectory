@@ -204,7 +204,7 @@ class user extends simplePlugin
         'name'  => _('Account information'),
         'icon'  => 'images/lists/search-subtree.png',
         'attrs' => array(
-          new BaseSelectorAttribute (get_people_ou()),
+          new BaseSelectorAttribute (get_ou("userRDN")),
           new UidAttribute (
             _('Login'), _('Login of this user'),
             'uid', TRUE
@@ -320,7 +320,7 @@ class user extends simplePlugin
     parent::__construct($config, $dn, $object);
 
     $this->attributesAccess['uid']->setUnique(TRUE);
-    $this->attributesAccess['uid']->setDisabled($this->initially_was_account);
+    $this->attributesAccess['uid']->setDisabled($this->initially_was_account && !$this->is_template);
 
     $filename = './plugins/users/images/default.jpg';
     $fd       = fopen ($filename, 'rb');
@@ -350,7 +350,7 @@ class user extends simplePlugin
   function compute_dn()
   {
     if ($this->is_template) {
-      $dn = 'cn='.$this->template_cn.',ou=templates,'.get_people_ou().$this->base;
+      $dn = 'cn='.$this->template_cn.',ou=templates,'.get_ou("userRDN").$this->base;
       return $dn;
     }
 
