@@ -199,9 +199,9 @@ in your dn by selecting personalTitleInDN.
 =item B<accountRDN> I<pattern>
 
 The accountRDN option tells FusionDirectory to use a placeholder pattern for generating account RDNs.
-A pattern can include attribute names prefaced by a % and normal text:
+A pattern can include attribute names prefaced and terminated by a % and normal text:
 
-  accountRDN="cn=%sn %givenName"
+  accountRDN="cn=%sn% %givenName%"
 
 This  will  generate  a  RDN consisting of cn=.... filled with surname and given name of the edited account.
 This option disables the use of accountPrimaryAttribute and personalTitleInDn in your config.
@@ -377,7 +377,7 @@ The idGenerator statement describes an automatic way to generate new user ids. T
      braces {} and add a percent sign befor it. Optionally you can strip it
      down to a number of characters, specified in []. I.e.
 
-       idGenerator="{%sn}-{%givenName[2-4]}"
+       idGenerator="{%sn%}-{%givenName%[2-4]}"
 
      will generate an ID using the full surname, adding a dash, and adding at
      least the first two characters of givenName. If this ID is used, it'll
@@ -516,10 +516,10 @@ Default is /var/cache/fusiondirectory/vacation.
 
   DESC:Away from desk
   Hi, I'm currently away from my desk. You can contact me on
-  my cell phone via %mobile.
+  my cell phone via %mobile%.
 
   Greetings,
-  %givenName %sn
+  %givenName% %sn%
 
 =back
 
