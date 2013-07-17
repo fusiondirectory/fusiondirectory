@@ -4,8 +4,8 @@ fusiondirectory - FusionDirectory configuration parameters
 
 =head1 DESCRIPTION
 
-FusionDirectory have lots of options that can alter the way it works, find informations or specific configuration can be achieved.
-All those paarameters are configured with the help of the configuration plugin inside FusionDirectory and saved into the ldap tree.
+FusionDirectory have lots of options that can alter the way it works.
+All those parameters are configured with the help of the configuration plugin inside FusionDirectory and saved into the ldap tree.
 
 =head2 Generic options
 
@@ -60,17 +60,9 @@ The snapshotAdminPassword variable defines the credentials which are used in com
 The timezone statements defines the timezone used inside of FusionDirectory to handle date related tasks, such as password expiery, vacation messages, etc.   The  time‐
 zone value should be a unix conform timezone value like in /etc/timezone.
 
-=item B<honourIvbbAttributes> I<bool>
-
-The honourIvbbAttributes statement enables the IVBB mode inside of FusionDirectory. You need the ivbb.schema file from used by german authorities.
-
 =item B<strictNamingRules> I<bool>
 
 The strictNamingRules statement enables strict checking of uids and group names. If you need characters like . or - inside of your accounts, set this to false.
-
-=item B<allowUidProposalModification> I<bool>
-
-The allowUidProposalModification statement enables the abilitiy to modify uid proposals when creating a new user from a template.
 
 =item B<rfc2307bis> I<bool>
 
@@ -80,10 +72,6 @@ systems, you've to adjust your NSS configuration to use rfc2307bis style groups,
 =item B<ppdPath> I<path>
 
 The ppdPath variable defines where to store PPD files for the environment plugins.
-
-=item B<resolutions> I<path>
-
-The resolutions variable defines a plain text file which contains additional resolutions to be shown in the environment and system plugins.
 
 =item B<htaccessAuthentication> I<bool>
 
@@ -124,11 +112,6 @@ like theme and/or modify certain  templates  tofit your needs within themes. Tak
 The  sessionLifetime  value  defines  when  a  session will expire in seconds. For Debian systems,
 this will not work because the sessions will be removed by a cron jobinstead. Please modify the value inside of your php.ini instead.
 
-=item B<primaryGroupFilter> I<bool>
-
-The primaryGroupFilter variable enables or disables the group filter to show primary user groups. It is time consuming to evaluate
-which groups are  primary  and  whichare not. So you may want to set it to false if your group plugin is slow.
-
 =back
 
 =head2 Password options
@@ -168,6 +151,10 @@ The saslExop statement defines the attribute to be stored in the userPasword att
 =head2 LDAP options
 
 =over
+
+=item B<ldapSizelimit> I<integer>
+
+The ldapSizelimit statement tells FusionDirectory to retrieve the specified maximum number of results. The user will get a warning, that not all entries were shown.
 
 =item B<ldapMaxQueryTime> I<integer>
 
@@ -304,10 +291,6 @@ The default behaviour is, that FusionDirectory will resolv the memberUid values 
 To achieve this, it writes a single filter to minimize searches. Some LDAP servers (namely Sun DS) simply
 crash when the filter gets too big. You can set a member limit, where FusionDirectory will stop to do these lookups.
 
-=item B<ldapSizelimit> I<integer>
-
-The ldapSizelimit statement tells FusionDirectory to retrieve the specified maximum number of results. The user will get a warning, that not all entries were shown.
-
 =item B<ldapFollowReferrals> I<bool>
 
 The ldapFollowReferrals statement tells FusionDirectory to follow LDAP referrals.
@@ -342,19 +325,6 @@ On the other hand it is much faster.
 =item B<minId> I<integer>
 
 The minId statement defines the minimum assignable user or group id to avoid security leaks with uid 0 accounts. This is used for the traditional method
-
-=item B<uidNumberPoolMin/gidNumberPoolMin> I<integer>
-
-The uidNumberPoolMin/gidNumberPoolMin statement defines the minimum assignable user/group id for use with the pool method.
-
-=item B<uidNumberPoolMax/gidNumberPoolMax> I<integer>
-
-The uidNumberPoolMin/gidNumberPoolMin statement defines the highest assignable user/group id for use with the pool method.
-
-=item B<nextIdHook> I<path>
-
-The nextIdHook statement defines a script to be called for finding the next free id for users or groups externaly.
-It gets called with the current entry "dn" and the attribute to be ID'd. It should return an integer value.
 
 =item B<hash> I<string>
 
@@ -399,6 +369,11 @@ The idGenerator statement describes an automatic way to generate new user ids. T
 
      will generate a three digits random number appended to "ext".
 
+=item B<nextIdHook> I<path>
+
+The nextIdHook statement defines a script to be called for finding the next free id for users or groups externaly.
+It gets called with the current entry "dn" and the attribute to be ID'd. It should return an integer value.
+
 =back
 
 =head2 Samba options
@@ -417,104 +392,6 @@ The sambaRidBase statement defines the base id to add to ordinary sid calculatio
 
 The sambaidmapping statement tells FusionDirectory to maintain sambaIdmapEntry objects.
 Depending on your setup this can drastically improve the windows login performance.
-
-=back
-
-=head2 Asterisk options
-
-=over
-
-=item B<ctiHook> I<path>
-
-The ctiHook statement defines a script to be executed if someone clicks on a phone number inside of the addressbook plugin. It gets called with two parameters:
-
-  ctiHook $source_number $destination_number
-
-  This script can be used to do automatted dialing from the addressbook.
-
-=item B<asteriskParameterDelimiter>
-
-This defines the delimiter to be used when storing dialplan applications, since asterisk 1.8 the parameter delimiter for dialplan applications has changed from the pipe to comma, by default we use pipe.
-
-
-=back
-
-=head2 Mail options
-
-=over
-
-=item B<mailMethod Cyrus/SendmailCyrus/Kolab/Kolab22> I<string>
-
-The mailMethod statement tells FusionDirectory which mail method the setup should use to communicate with a possible mail server.
-
-Cyrus maintains accounts and sieve scripts in cyrus servers. Kolab/Kolab22 is like cyrus, but lets the kolab daemon maintain the accounts.
-SendmailCyrus is based on sendmail LDAP attributes.
-
-=item B<cyrusUseSlashes> I<bool>
-
-The cyrusUseSlashes statement determines if FusionDirectory should use "foo/bar" or "foo.bar" namespaces in IMAP. Unix style is with slashes.
-
-=item B<cyrusDeleteMailbox> I<bool>
-
-The cyrusDeleteMailbox statement determines if FusionDirectory should remove the mailbox from your IMAP server or keep it after the account is deleted in LDAP.
-
-=item B<cyrusAutocreateFolders> I<string>
-
-The cyrusAutocreateFolders statement contains a comma separated list of personal IMAP folders that should be created along initial account creation.
-
-=item B<mailAttribute> I<mail/uid>
-
-The mailAttribute statement determines which attribute FusionDirectory will use to create accounts.  Valid values are mail and uid.
-
-=item B<imapTimeout Integer> I<integer>
-
-The imapTimeout statement sets the connection timeout for imap actions. Default 10 seconds
-
-=item B<mailFolderCreation> I<string>
-
-Every mail method has its own way to create mail accounts like share/development or shared.development@example.com
-which is used to identify the accounts, set quotas or add acls.
-
-To override the methods default account creation syntax, you can set the mailFolderCreation option.
-
-  Examples
-
-  mailFolderCreation="%prefix%%cn%"        => "shared.development"
-  mailFolderCreation="my-prefix.%cn%%domain%"    => "my-prefix.development@example.com">
-
-  Placeholders
-
-  %prefix%    The methods default prefix. (Depends on cyrusUseSlashes=FALSE/TRUE)
-  %cn%      The groups/users cn.
-  %uid%     The users uid.
-  %mail%      The objects mail attribute.
-  %domain%    The domain part of the objects mail attribute.
-  %mailpart%  The user address part of the mail address.
-  %uattrib%   Depends on mailAttribute="uid/mail".
-
-
-=item B<mailUserCreation> I<string>
-
-This attribute allows to override the user account creation syntax, see the mailFolderCreation description for more details.
-
-  Examples
-
-  mailUserCreation="%prefix%%uid%"     => "user.foobar"
-  mailUserCreation=my-prefix.%uid%%domain%"  => "my-prefix.foobar@example.com"
-
-=item B<vacationTemplateDirectory> I<path>
-
-The vacationTemplateDirectory statement sets the path where FusionDirectory will look for vacation message templates.
-Default is /var/cache/fusiondirectory/vacation.
-
-  Example template /varc/cache/fusiondirectory/vacation/business.txt:
-
-  DESC:Away from desk
-  Hi, I'm currently away from my desk. You can contact me on
-  my cell phone via %mobile%.
-
-  Greetings,
-  %givenName% %sn%
 
 =back
 
