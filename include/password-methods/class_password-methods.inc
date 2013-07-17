@@ -30,10 +30,10 @@
  */
 class passwordMethod
 {
-  var $config = false;
-  var $attrs= array();
-  var $display = FALSE;
-  var $hash= "";
+  var $config   = FALSE;
+  var $attrs    = array();
+  var $display  = FALSE;
+  var $hash     = "";
   var $lockable = TRUE;
 
   /*!
@@ -43,7 +43,7 @@ class passwordMethod
    *
    * \param string $dn The DN
    */
-  function passwordMethod($config, $dn="")
+  function passwordMethod($config, $dn = "")
   {
   }
 
@@ -55,9 +55,9 @@ class passwordMethod
   function create_template_hash($attrs)
   {
     if ($this->get_hash_name() == "") {
-      return("{crypt}N0T$3T4N0W");
+      return "{crypt}N0T$3T4N0W";
     } else {
-      return('{'.$this->get_hash().'}').'N0T$3T4N0W';
+      return '{'.$this->get_hash().'}'.'N0T$3T4N0W';
     }
   }
 
@@ -86,24 +86,26 @@ class passwordMethod
    *
    * \param string $dn The DN
    */
-  function is_locked($config,$dn = "")
+  function is_locked($config, $dn = "")
   {
-    if(!$this->lockable) return FALSE;
+    if (!$this->lockable) {
+      return FALSE;
+    }
 
     /* Get current password hash */
-    $pwd ="";
-    if(!empty($dn)){
+    $pwd = "";
+    if (!empty($dn)) {
       $ldap = $config->get_ldap_link();
       $ldap->cd($config->current['BASE']);
       $ldap->cat($dn);
       $attrs = $ldap->fetch();
-      if(isset($attrs['userPassword'][0])){
+      if (isset($attrs['userPassword'][0])) {
         $pwd = $attrs['userPassword'][0];
       }
-    }elseif(isset($this->attrs['userPassword'][0])){
+    } elseif (isset($this->attrs['userPassword'][0])) {
       $pwd = $this->attrs['userPassword'][0];
     }
-    return(preg_match("/^[^\}]*+\}!/",$pwd));
+    return preg_match("/^[^\}]*+\}!/", $pwd);
   }
 
   /*! \brief       Locks an account (gosaAccount) by added a '!' as prefix to the password hashes.
@@ -116,99 +118,81 @@ class passwordMethod
    *
    * \param string $dn
    */
-  function lock_account($config,$dn = "")
+  function lock_account($config, $dn = "")
   {
-    if(!$this->lockable) return FALSE;
-
-    /* Get current password hash */
-    $pwd ="";
-    $ldap = $config->get_ldap_link();
-    $ldap->cd($config->current['BASE']);
-    if(!empty($dn)){
-      $ldap->cat($dn);
-      $attrs = $ldap->fetch();
-      if(isset($attrs['userPassword'][0])){
-        $pwd = $attrs['userPassword'][0];
-      }
-    }elseif(isset($this->attrs['userPassword'][0])){
-      $pwd = $this->attrs['userPassword'][0];
-      $dn = $this->attrs['dn'];
-    }
-
-    /* We can only lock/unlock non-empty passwords */
-    if(!empty($pwd)){
-
-      /* Check if this entry is already locked. */
-      if(preg_match("/^[^\}]*+\}!/",$pwd)){
-        return(TRUE);
-      }
-
-      // Lock the account by modifying the password hash.
-      $pwdClass = new password($config, $dn);
-      $pwdClass->callHook($pwdClass, 'PRELOCK',array(), $ret);
-
-      /* Lock entry */
-      $pwd = preg_replace("/(^[^\}]+\})(.*$)/","\\1!\\2",$pwd);
-      $ldap->cd($dn);
-      $ldap->modify(array("userPassword" => $pwd));
-
-      // Call the password post-lock hook, if defined.
-      if($ldap->success()){
-          $pwdClass->callHook($pwdClass, 'POSTLOCK',array(), $ret);
-      }
-
-      return($ldap->success());
-    }
-    return(FALSE);
+    return $this->generic_modify_account($config, $dn, 'LOCK');
   }
 
   /*!
    * \brief Unlocks an account (gosaAccount) which was locked by 'lock_account()'.
    *        For details about the locking mechanism see 'lock_account()'.
    */
-  function unlock_account($config,$dn = "")
+  function unlock_account($config, $dn = "")
   {
-    if(!$this->lockable) return FALSE;
+    return $this->generic_modify_account($config, $dn, 'UNLOCK');
+  }
+
+  /*!
+   * \brief Unlocks an account (gosaAccount) which was locked by 'lock_account()'.
+   *        For details about the locking mechanism see 'lock_account()'.
+   */
+  private function generic_modify_account($config, $dn, $mode)
+  {
+    if (!$this->lockable) {
+      return FALSE;
+    }
+    if ($mode != 'LOCK' && $mode != 'UNLOCK') {
+      die('Invalid mode "'.$mode.'"');
+    }
 
     /* Get current password hash */
-    $pwd ="";
+    $pwd  = "";
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
-    if(!empty($dn)){
+    if (!empty($dn)) {
       $ldap->cat($dn);
       $attrs = $ldap->fetch();
-      if(isset($attrs['userPassword'][0])){
+      if (isset($attrs['userPassword'][0])) {
         $pwd = $attrs['userPassword'][0];
       }
-    }elseif(isset($this->attrs['userPassword'][0])){
-      $pwd = $this->attrs['userPassword'][0];
-      $dn = $this->attrs['dn'];
+    } elseif (isset($this->attrs['userPassword'][0])) {
+      $pwd  = $this->attrs['userPassword'][0];
+      $dn   = $this->attrs['dn'];
     }
 
     /* We can only lock/unlock non-empty passwords */
-    if(!empty($pwd)){
+    if (!empty($pwd)) {
 
       /* Check if this entry is already locked. */
-      if(!preg_match("/^[^\}]*+\}!/",$pwd)){
-        return (TRUE);
+      if (!preg_match("/^[^\}]*+\}!/", $pwd)) {
+        if ($mode == 'UNLOCK') {
+          return TRUE;
+        }
+      } elseif ($mode == 'LOCK') {
+        return TRUE;
       }
 
-      // Unlock the account by modifying the password hash.
+      // (Un)lock the account by modifying the password hash.
       $pwdClass = new password($config, $dn);
-      $pwdClass->callHook($pwdClass, 'PREUNLOCK',array(), $ret);
+      $pwdClass->callHook($pwdClass, 'PRE'.$mode, array(), $ret);
 
-      /* Lock entry */
-      $pwd = preg_replace("/(^[^\}]+\})!(.*$)/","\\1\\2",$pwd);
+      if ($mode == 'LOCK') {
+        /* Lock entry */
+        $pwd = preg_replace("/(^[^\}]+\})(.*$)/",   "\\1!\\2",  $pwd);
+      } else {
+        /* Unlock entry */
+        $pwd = preg_replace("/(^[^\}]+\})!(.*$)/",  "\\1\\2",   $pwd);
+      }
       $ldap->cd($dn);
       $ldap->modify(array("userPassword" => $pwd));
 
       // Call the password post-lock hook, if defined.
-      if($ldap->success()){
-          $pwdClass->callHook($pwdClass, 'POSTUNLOCK',array(), $ret);
+      if ($ldap->success()) {
+          $pwdClass->callHook($pwdClass, 'POST'.$mode, array(), $ret);
       }
-      return($ldap->success());
+      return $ldap->success();
     }
-    return(FALSE);
+    return FALSE;
   }
 
 
@@ -218,44 +202,42 @@ class passwordMethod
   static function get_available_methods()
   {
     global $class_mapping, $config;
-    $ret =false;
-    $i =0;
+    $ret  = FALSE;
+    $i    = 0;
 
     /* Only */
-    if(!session::is_set("passwordMethod::get_available_methods")){
-      foreach($class_mapping as $class => $path) {
-        if(preg_match('/passwordMethod/i', $class) && !preg_match("/^passwordMethod$/i", $class)){
-          $name = preg_replace ("/passwordMethod/i", "", $class);
+    if (!session::is_set("passwordMethod::get_available_methods")) {
+      foreach (array_keys($class_mapping) as $class) {
+        if (preg_match('/passwordMethod/i', $class) && !preg_match("/^passwordMethod$/i", $class)) {
           $test = new $class($config, "");
-          if($test->is_available()) {
-            $plugs= $test->get_hash_name();
-            if (!is_array($plugs)){
-              $plugs= array($plugs);
+          if ($test->is_available()) {
+            $plugs = $test->get_hash_name();
+            if (!is_array($plugs)) {
+              $plugs = array($plugs);
             }
 
-            foreach ($plugs as $plugname){
-
+            foreach ($plugs as $plugname) {
               $cfg = $test->is_configurable();
 
-              $ret['name'][$i]= $plugname;
-              $ret['class'][$i]=$class;
-              $ret['is_configurable'][$i]= $cfg;
-              $ret['object'][$i]= $test;
-              $ret['desc'][$i] = $test->get_description();
-              $ret[$i]['name']  = $plugname;
-              $ret[$i]['class'] = $class;
-              $ret[$i]['object']= $test;
-              $ret[$i]['is_configurable']= $cfg;
-              $ret[$i]['desc'] = $test->get_description();
-              $ret[$plugname]=$class;
+              $ret['name'][$i]            = $plugname;
+              $ret['class'][$i]           = $class;
+              $ret['is_configurable'][$i] = $cfg;
+              $ret['object'][$i]          = $test;
+              $ret['desc'][$i]            = $test->get_description();
+              $ret[$i]['name']            = $plugname;
+              $ret[$i]['class']           = $class;
+              $ret[$i]['object']          = $test;
+              $ret[$i]['is_configurable'] = $cfg;
+              $ret[$i]['desc']            = $test->get_description();
+              $ret[$plugname]             = $class;
               $i++;
             }
           }
         }
       }
-      session::set("passwordMethod::get_available_methods",$ret);
+      session::set("passwordMethod::get_available_methods", $ret);
     }
-    return(session::get("passwordMethod::get_available_methods"));
+    return session::get("passwordMethod::get_available_methods");
   }
 
   /*!
@@ -263,7 +245,7 @@ class passwordMethod
    */
   function get_description()
   {
-    return("");
+    return "";
   }
 
 
@@ -282,7 +264,7 @@ class passwordMethod
    */
   function set_password($password)
   {
-    return(TRUE);
+    return TRUE;
   }
 
 
@@ -320,23 +302,19 @@ class passwordMethod
    *
    * \param string $dn The DN
    */
-  static function get_method($password_hash,$dn = "")
+  static function get_method($password_hash, $dn = "")
   {
     global $config;
 
     $methods = passwordMethod::get_available_methods();
 
     foreach ($methods['class'] as $class) {
-
-        //~ $test = new $class($config,$dn);
-#        All listed methods are available.
-#        if(!$test->is_available())continue;
-        $method = $class::_extract_method($class, $password_hash);
-        if ($method != "") {
-          $test = new $class($config, $dn);
-          $test->set_hash($method);
-          return $test;
-        }
+      $method = $class::_extract_method($class, $password_hash);
+      if ($method != "") {
+        $test = new $class($config, $dn);
+        $test->set_hash($method);
+        return $test;
+      }
     }
 
     msg_dialog::display(_("Error"), _("Cannot find a suitable password method for the current hash!"), ERROR_DIALOG);
@@ -370,8 +348,8 @@ class passwordMethod
   {
     global $config;
 
-    $methods= passwordMethod::get_available_methods();
-    $tmp= new $methods[$hash]($config);
+    $methods  = passwordMethod::get_available_methods();
+    $tmp      = new $methods[$hash]($config);
     $tmp->set_hash($hash);
     return $tmp->generate_hash($password);
   }
@@ -383,7 +361,7 @@ class passwordMethod
    */
   function set_hash($hash)
   {
-    $this->hash= $hash;
+    $this->hash = $hash;
   }
 
 
@@ -402,7 +380,7 @@ class passwordMethod
    */
   function adapt_from_template($dn)
   {
-    return($this);
+    return $this;
   }
 
   /*!
@@ -421,7 +399,7 @@ class passwordMethod
       return ($password == utf8_decode($password));
     }
 
-    return(true);
+    return TRUE;
   }
 
   /*!
@@ -431,36 +409,30 @@ class passwordMethod
    */
   static function getPasswordProposal($config)
   {
-      if($config->get_cfg_value('passwordProposalHook','') != ''){
-          $command = $config->get_cfg_value('passwordProposalHook','');
+    if ($config->get_cfg_value('passwordProposalHook', '') != '') {
+        $command = $config->get_cfg_value('passwordProposalHook', '');
+      if (check_command($command)) {
+        @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
+        exec($command, $arr, $returnCode);
 
-          if (check_command($command)){
-
-              @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__,$command,"Execute");
-              exec($command, $arr, $returnCode);
-              $returnOutput = $arr;
-
-              if($returnCode != 0){
-                  $str = implode("\n",$arr);
-                  @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execution failed code: ".$returnCode);
-                  $message= msgPool::cmdexecfailed($cmd,$command, get_class($plugin));
-                  msg_dialog::display(_("Error"), $message, ERROR_DIALOG);
-              }elseif(is_array($arr)){
-                  $str = implode("\n",$arr);
-                  @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Result: ".$str);
-                  if(count($arr) && !empty($arr[0])){
-                      return($arr[0]);
-                  }
-
-              }
-          } else {
-              $message= msgPool::cmdinvalid($cmd,$command, get_class($plugin));
-              msg_dialog::display(_("Error"), $message, ERROR_DIALOG);
+        if ($returnCode != 0) {
+          $str = implode("\n", $arr);
+          @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execution failed code: ".$returnCode);
+          $message = msgPool::cmdexecfailed($cmd, $command, get_class($plugin));
+          msg_dialog::display(_("Error"), $message, ERROR_DIALOG);
+        } elseif (is_array($arr)) {
+          $str = implode("\n", $arr);
+          @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Result: ".$str);
+          if (count($arr) && !empty($arr[0])) {
+            return $arr[0];
           }
-
+        }
+      } else {
+        $message = msgPool::cmdinvalid($cmd, $command, get_class($plugin));
+        msg_dialog::display(_("Error"), $message, ERROR_DIALOG);
       }
-      return('');
+    }
+    return '';
   }
 }
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
