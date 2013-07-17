@@ -1408,6 +1408,9 @@ class BaseSelectorAttribute extends Attribute
     parent::setParent($plugin);
     if (is_object($this->plugin)) {
       /* Do base conversation */
+      if ($this->plugin->is_template) {
+        $this->ou = 'ou=templates,'.$this->ou;
+      }
       if ($this->plugin->dn == "new") {
         $ui = get_userinfo();
         $this->setValue(dn2base(session::global_is_set("CurrentMainBase")?"cn=dummy,".session::global_get("CurrentMainBase"):$ui->dn));
