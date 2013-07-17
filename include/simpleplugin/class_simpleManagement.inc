@@ -38,6 +38,7 @@ class simpleManagement extends management
 
   protected $filterXMLPath  = NULL;
   protected $listXMLPath    = NULL;
+  protected $autoFilter     = TRUE;
 
   function __construct($config, $ui)
   {
@@ -127,24 +128,26 @@ class simpleManagement extends management
       $filter .= '$FILTER'.$object;
     }
     $filter .= ')';
-    $this->filter->category = key($pInfos['plCategory']);
-    $this->filter->query[0]['filter']    = '(&'.$filter.'$NAME)';
-    $this->filter->query[0]['attribute'] = array('dn', 'cn', 'description');
-    $this->filter->element['NAME']['set'] = '(cn=*$*)';
-    $this->filter->element['NAME']['autocomplete']['filter'] = '(&'.$filter.'(cn=*$NAME*))';
-    foreach ($this->objectTypes as $object) {
-      $tag = 'FILTER'.$object;
-      $this->filter->elements[$tag] = array(
-        'type'    => 'checkbox',
-        'tag'     => $tag,
-        'default' => TRUE,
-        'unset'   => array(),
-        'set'     => $this->config->data['OBJECTS'][$object]['filter']
-      );
-      $this->filter->elementValues[$tag] = TRUE;
+    if ($this->autoFilter) {
+      $this->filter->category = key($pInfos['plCategory']);
+      $this->filter->query[0]['filter']    = '(&'.$filter.'$NAME)';
+      $this->filter->query[0]['attribute'] = array('dn', 'cn', 'description');
+      $this->filter->element['NAME']['set'] = '(cn=*$*)';
+      $this->filter->element['NAME']['autocomplete']['filter'] = '(&'.$filter.'(cn=*$NAME*))';
+      foreach ($this->objectTypes as $object) {
+        $tag = 'FILTER'.$object;
+        $this->filter->elements[$tag] = array(
+          'type'    => 'checkbox',
+          'tag'     => $tag,
+          'default' => TRUE,
+          'unset'   => array(),
+          'set'     => $this->config->data['OBJECTS'][$object]['filter']
+        );
+        $this->filter->elementValues[$tag] = TRUE;
+      }
+      uasort($this->filter->elements, 'strlenSort');
+      $this->filter->elements = array_reverse($this->filter->elements);
     }
-    uasort($this->filter->elements, 'strlenSort');
-    $this->filter->elements = array_reverse($this->filter->elements);
   }
 
   function getType($dn)
