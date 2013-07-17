@@ -515,7 +515,7 @@ class simplePlugin extends plugin
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "save");
     $this->prepare_save();
     if ($this->is_template) {
-      $this->attrs = $this->saveTemplateAttrs();
+      $this->attrs = $this->templateSaveAttrs();
       $this->saved_attributes = array();
     }
     $this->ldap_save();
