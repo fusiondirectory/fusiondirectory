@@ -2061,9 +2061,9 @@ function netmask_to_bits($netmask)
 
 
 /*!
- * \brief Recursion helper for gen_id()
+ * \brief Recursion helper for gen_uids()
  */
-function recurse($rule, $variables)
+function _recurse_gen_uids($rule, $variables)
 {
   $result = array();
 
@@ -2078,7 +2078,7 @@ function recurse($rule, $variables)
 
   foreach ($val as $possibility) {
     $nrule  = str_replace("{$key}", $possibility, $rule);
-    $result = array_merge($result, recurse($nrule, $variables));
+    $result = array_merge($result, _recurse_gen_uids($nrule, $variables));
   }
 
   return $result;
@@ -2101,13 +2101,11 @@ function gen_uids($rule, $attributes)
 {
   global $config;
 
-  $attrs_object = new stdClass();
   // Strip out non ascii chars
   foreach ($attributes as $name => $value) {
       $value = iconv('UTF-8', 'US-ASCII//TRANSLIT', $value);
       $value = preg_replace('/[^(\x20-\x7F)]*/', '', $value);
-      $attributes[$name]    = $value;
-      $attrs_object->$name  = $value;
+      $attributes[$name] = array($value);
   }
 
   /* Search for keys and fill the variables array with all
@@ -2116,14 +2114,14 @@ function gen_uids($rule, $attributes)
   $variables  = array();
 
   for ($pos = 0; preg_match('/%([^%]+)%/', $stripped, $m, PREG_OFFSET_CAPTURE, $pos); ) {
-    $variables[$pos]  = plugin::tpl_parse_mask($m[1][0], array($attrs_object));
+    $variables[$pos]  = plugin::tpl_parse_mask($m[1][0], $attributes);
     $replace          = '{'.$pos.'}';
     $stripped         = substr_replace($stripped, $replace, $m[0][1], strlen($m[0][0]));
     $pos              = $m[0][1] + strlen($replace);
   }
 
   /* Recurse through all possible combinations */
-  $proposed = recurse($stripped, $variables);
+  $proposed = _recurse_gen_uids($stripped, $variables);
 
   /* Get list of used ID's */
   $ldap = $config->get_ldap_link();

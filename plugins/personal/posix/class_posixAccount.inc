@@ -572,21 +572,22 @@ class posixAccount extends simplePlugin
   }
 
   /* Adapt from template, using 'dn' */
-  function adapt_from_template($dn, $skip = array())
+  function adapt_from_template($attrs, $skip = array())
   {
     /* Include global link_info */
-    $ldap = $this->config->get_ldap_link();
+    //~ $ldap = $this->config->get_ldap_link();
 
-    parent::adapt_from_template($dn, $skip);
-    $template = $this->attrs['uid'][0];
-
-    /* Adapt group membership */
-    $ldap->cd($this->config->current['BASE']);
-    $ldap->search("(&(objectClass=posixGroup)(memberUid=$template))", array("description", "cn"));
-
-    while ($entry = $ldap->fetch()) {
-      $this->attributesAccess['groupMembership']->addValue($ldap->getDN(), $entry);
-    }
+    parent::adapt_from_template($attrs, $skip);
+    //~ $template = $this->attrs['uid'][0];
+//~
+    //~ /* Adapt group membership */
+    //~ $ldap->cd($this->config->current['BASE']);
+    //~ $ldap->search("(&(objectClass=posixGroup)(memberUid=$template))", array("description", "cn"));
+//~
+    //~ while ($entry = $ldap->fetch()) {
+      //~ $this->attributesAccess['groupMembership']->addValue($ldap->getDN(), $entry);
+    //~ }
+    // FIXME : we need to find a way to handle group membership through templates
 
     $this->attributesAccess['uidNumber']->setInitialValue('');
 
@@ -602,14 +603,6 @@ class posixAccount extends simplePlugin
         $this->primaryGroup = $this->gidNumber;
       }
     }
-
-    //~ $ldap->cd($this->config->current['BASE']);
-    //~ $ldap->search("(&(objectClass=gosaUserTemplate)(uid=$template)(accessTo=*))", array("cn","accessTo"));
-    //~ while ($attr = $ldap->fetch()) {
-      //~ $tmp = $attr['accessTo'];
-      //~ unset($tmp['count']);
-      //~ $this->accessTo = $tmp;
-    //~ }
   }
 }
 

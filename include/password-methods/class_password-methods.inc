@@ -378,7 +378,7 @@ class passwordMethod
    *
    * \param string $dn The DN
    */
-  function adapt_from_template($dn)
+  function adapt_from_template($attrs)
   {
     return $this;
   }

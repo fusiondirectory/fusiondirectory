@@ -503,7 +503,6 @@ class userManagement extends management
     /********************
      * 1   We've had input errors - Display errors and show input dialog again.
      ********************/
-
     if (count($message) > 0) {
       msg_dialog::displayChecks($message);
 
@@ -528,7 +527,6 @@ class userManagement extends management
     /********************
      * 2   There was a template selected, now ask for the uid.
      ********************/
-
     if ($_POST['template'] != 'none' && !isset($_POST['uid'])) {
 
       // Remember user input.
@@ -559,7 +557,13 @@ class userManagement extends management
         } else {
           $ldap->cat($_POST['template']);
           $attrs  = $ldap->fetch();
-          $uids   = gen_uids($attrs['uid'][0], $attributes);
+          $uids   = array();
+          foreach ($attrs['fdTemplateField'] as $value) {
+            if (preg_match('/^uid:(.*)$/', $value, $m)) {
+              $uids = gen_uids($m[1], $attributes);
+              break;
+            }
+          }
           if (count($uids)) {
             $smarty->assign("edit_uid", "false");
             $smarty->assign("uids", $uids);
@@ -600,16 +604,20 @@ class userManagement extends management
      * 4   Template selected and uid given - Ok, then lets adapt template values.
      ********************/
     if (isset($_POST['uid'])) {
-      // Move user supplied data to sub plugins
-      foreach (array("uid","sn","givenName") as $attr) {
-        $this->$attr                                = $_POST[$attr];
-        $this->tabObject->$attr                     = $this->$attr;
-        $this->tabObject->by_object['user']->$attr  = $this->$attr;
-      }
-
       // Adapt template values.
       $template_dn = $_POST['template'];
-      $this->tabObject->adapt_from_template($template_dn, array("uid","cn","givenName","sn"));
+
+      list($attrs, $depends) = plugin::tpl_fetch_template($template_dn);
+
+      // Move user supplied data to sub plugins
+      foreach (array("uid","sn","givenName") as $attr) {
+        $this->$attr  = $_POST[$attr];
+        $attrs[$attr] = array($this->$attr);
+      }
+
+      $attrs = plugin::tpl_parse_attrs($attrs);
+
+      $this->tabObject->adapt_from_template($attrs, array("cn"));
       $template_base = preg_replace("/^[^,]+,".preg_quote(get_people_ou(), '/i')."/", '', $template_dn);
       $this->tabObject->by_object['user']->base = $template_base;
 
@@ -659,8 +667,16 @@ class userManagement extends management
         // User writeable
         $acl = $this->ui->get_permissions($dn, $this->aclCategory."/".$this->aclPlugin);
         if (preg_match('/w/', $acl)) {
+          list($attrs, $depends) = plugin::tpl_fetch_template($template_dn);
+          $needed = plugin::tpl_needed_attrs($attrs, $depends);
+          // Move user supplied data to sub plugins
+          foreach ($needed as $attr) {
+            $attrs[$attr] = array($this->$attr);
+          }
+          $attrs = plugin::tpl_parse_attrs($attrs);
+
           $this->tabObject = new $tab($this->config, $this->config->data['TABS'][$this->tabType], $dn, $this->aclCategory);
-          $this->tabObject->adapt_from_template($template, array("sn", "givenName", "uid"));
+          $this->tabObject->adapt_from_template($attrs, array("sn", "givenName", "uid"));
           $this->tabObject->save();
         } else {
           msg_dialog::display(_("Permission error"), msgPool::permModify($dn), ERROR_DIALOG);

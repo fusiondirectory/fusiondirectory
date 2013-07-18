@@ -269,21 +269,7 @@ class plugin
     if ($this->mainTab) {
       $this->template_cn = $template_attrs['cn'][0];
     }
-    /* Translate template attrs into $attrs as if taken from LDAP */
-    unset($template_attrs['fdTemplateField']['count']);
-    sort($template_attrs['fdTemplateField']);
-    $attrs = array();
-    foreach ($template_attrs['fdTemplateField'] as $field) {
-      preg_match('/^([^:]+):(.*)$/', $field, $m);
-      if (isset($attrs[$m[1]])) {
-        $attrs[$m[1]][] = $m[2];
-        $attrs[$m[1]]['count']++;
-      } else {
-        $attrs[$m[1]]           = array($m[2]);
-        $attrs[$m[1]]['count']  = 1;
-      }
-    }
-    $this->attrs = $attrs;
+    $this->attrs = self::tpl_template_to_attrs($template_attrs);
   }
 
   protected function templateSaveAttrs()
@@ -299,11 +285,18 @@ class plugin
         'objectClass'     => array('fdTemplate'),
         'fdTemplateField' => array()
       );
+    } else {
+      unset($template_attrs['dn']);
+      unset($template_attrs['fdTemplateField']['count']);
+      unset($template_attrs['objectClass']['count']);
+      for ($i = 0; $i < $template_attrs['count']; ++$i) { // Remove numeric keys
+        unset($template_attrs[$i]);
+      }
+      unset($template_attrs['count']);
     }
     if ($this->mainTab) {
       $template_attrs['cn'] = $this->template_cn;
     }
-    unset($template_attrs['fdTemplateField']['count']);
     /* First remove all concerned values */
     foreach ($template_attrs['fdTemplateField'] as $key => $value) {
       preg_match('/^([^:]+):(.*)$/', $value, $m);
@@ -568,29 +561,20 @@ class plugin
    *
    * \param array $skip A new array
    */
-  function adapt_from_template($dn, $skip = array())
+  function adapt_from_template($attrs, $skip = array())
   {
-    /* Include global link_info */
-    $ldap = $this->config->get_ldap_link();
-
     /* Load requested 'dn' to 'attrs' */
-    $ldap->cat($dn);
-    $this->attrs = $ldap->fetch();
+    $this->attrs = $attrs;
 
     /* Walk through attributes */
     foreach ($this->attributes as $val) {
-
       /* Skip the ones in skip list */
       if (in_array($val, $skip)) {
         continue;
       }
 
       if (isset($this->attrs["$val"][0])) {
-
-        /* If attribute is set, replace dynamic parts */
-        $value = $this->tpl_parse($this->attrs["$val"][0]);
-
-        $this->$val = $value;
+        $this->$val = $this->attrs["$val"][0];
       }
     }
 
@@ -598,11 +582,57 @@ class plugin
     $this->is_account = $this->is_this_account($this->attrs);
   }
 
+  static function tpl_fetch_template($dn)
+  {
+    global $config;
+
+    $ldap = $config->get_ldap_link();
+    $ldap->cat($dn);
+    $attrs    = $ldap->fetch();
+    $attrs    = self::tpl_template_to_attrs($attrs);
+    $depends  = self::tpl_attrs_depends($attrs);
+    $attrs    = self::tpl_sort_attrs($attrs, $depends);
+    return array($attrs, $depends);
+  }
+
+  static function tpl_template_to_attrs($template_attrs)
+  {
+    /* Translate template attrs into $attrs as if taken from LDAP */
+    unset($template_attrs['fdTemplateField']['count']);
+    sort($template_attrs['fdTemplateField']);
+    $attrs = array();
+    foreach ($template_attrs['fdTemplateField'] as $field) {
+      preg_match('/^([^:]+):(.*)$/', $field, $m);
+      if (isset($attrs[$m[1]])) {
+        $attrs[$m[1]][] = $m[2];
+        $attrs[$m[1]]['count']++;
+      } else {
+        $attrs[$m[1]]           = array($m[2]);
+        $attrs[$m[1]]['count']  = 1;
+      }
+    }
+    return $attrs;
+  }
+
   /* Apply a modifier
    * Returns an array of possible values */
   static function tpl_apply_modifier($m, $args, $str)
   {
+    if (is_array($str) && (strtolower($m) == $m)) {
+      /* $str is an array and $m is lowercase, so it's a string modifier */
+      $str = $str[0];
+    }
     switch ($m) {
+      case 'F': // First
+        return array($str[0]);
+      case 'L': // Last
+        return array(end($str));
+      case 'J': // Join
+        if (isset($args[0])) {
+          return array(join($args[0], $str));
+        } else {
+          return array(join($str));
+        }
       case 'u': // uppercase
         return array(mb_strtoupper($str, 'UTF-8'));
       case 'l': // lowercase
@@ -635,7 +665,7 @@ class plugin
     }
   }
 
-  static function tpl_parse_mask($mask, $objects)
+  static function tpl_parse_mask($mask, $attrs)
   {
     if ($mask == "|") {
       return array("%");
@@ -645,16 +675,11 @@ class plugin
       $modifiers = $m[1];
       $mask = substr($mask, strlen($m[0]));
     }
-    $result = NULL;
-    foreach ($objects as &$object) {
-      if (isset($object->$mask)) {
-        $result = array($object->$mask);
-        break;
-      }
-    }
-    unset($object);
-    if ($result === NULL) {
-      trigger_error("'$mask' was not found in objects");
+    if (isset($attrs[$mask])) {
+      $result = array($attrs[$mask]);
+      unset($result[0]['count']);
+    } else {
+      trigger_error("'$mask' was not found in attributes");
       $result = array('');
     }
     $len    = strlen($modifiers);
@@ -672,19 +697,128 @@ class plugin
       }
       $result = $result_tmp;
     }
+    foreach ($result as &$r) { // Array that were not converted by a modifier into a string are now converted to strings
+      if (is_array($r)) {
+        $r = $r[0];
+      }
+    }
+    unset($r);
     return $result;
   }
 
-  function tpl_parse($string)
+  static function tpl_depends_of (&$cache, $depends, $key, $forbidden = NULL)
   {
-    $offset = 0;
-    while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
-      $replace  = self::tpl_parse_mask($m[1][0], array($this->parent, $this));
-      $replace  = $replace[0];
-      $string   = substr_replace($string, $replace, $m[0][1], strlen($m[0][0]));
-      $offset   = $m[0][1] + strlen($replace);
+    if (isset($cache[$key])) {
+      return $cache[$key];
     }
-    return $string;
+    if ($forbidden === NULL) {
+      $forbidden = $key;
+    } elseif ($forbidden == $key) {
+      die('Error : recursive dependency');
+    }
+    $array        =
+      array_map(
+        function ($a) use (&$cache, $depends, $forbidden)
+        {
+          return plugin::tpl_depends_of ($cache, $depends, $a, $forbidden);
+        },
+        $depends[$key]
+      );
+    $array[]      = $depends[$key];
+    $cache[$key]  = array_unique(call_user_func_array('array_merge_recursive', $array));
+    return $cache[$key];
+  }
+
+  static function tpl_attrs_depends($attrs)
+  {
+    /* Compute dependencies of each attr */
+    $depends = array();
+    foreach ($attrs as $key => $values) {
+      $depends[$key] = array();
+      if (!is_array($values))  {
+        $values = array($values);
+      }
+      unset ($values['count']);
+      foreach ($values as $value) {
+        $offset = 0;
+        while (preg_match('/%([^%\|]+\|)?([^%]+)%/', $value, $m, PREG_OFFSET_CAPTURE, $offset)) {
+          $offset = $m[0][1] + strlen($m[0][0]);
+          $depends[$key][] = $m[2][0];
+          if (!isset($attrs[$m[2][0]])) { // Dependency which has no value might be missing
+            $attrs[$m[2][0]]    = array();
+            $depends[$m[2][0]]  = array();
+          }
+        }
+      }
+    }
+    /* Flattens dependencies */
+    $flatdepends = array();
+    foreach ($depends as $key => $value) {
+      self::tpl_depends_of($flatdepends, $depends, $key);
+    }
+    return $flatdepends;
+  }
+
+  static function tpl_sort_attrs($attrs, $flatdepends)
+  {
+    /* Sort attrs depending of dependencies */
+    uksort($attrs, function ($k1, $k2) use ($flatdepends) {
+      if (in_array($k1, $flatdepends[$k2])) {
+        return -1;
+      } elseif (in_array($k2, $flatdepends[$k1])) {
+        return 1;
+      } else { // When no direct dependency, we sort by number of dependencies
+        $c1 = count($flatdepends[$k1]);
+        $c2 = count($flatdepends[$k2]);
+        if ($c1 == $c2) {
+            return 0;
+        }
+        return (($c1 < $c2) ? -1 : 1);
+      }
+    });
+    return $attrs;
+  }
+
+  /*! Brief Return attrs needed before applying template
+   *
+   * return an array of attributes which are needed by the template
+   */
+  static function tpl_needed_attrs($attrs, $flatdepends)
+  {
+    $needed = array();
+    $dependencies = array_unique(call_user_func_array('array_merge', $flatdepends));
+    foreach ($dependencies as $attr) {
+      if (empty($flatdepends[$attr])) {
+        $needed[] = $attr;
+      }
+    }
+    return $needed;
+  }
+
+
+  /*! Brief Parse attrs template masks
+   *
+   * return an array with the final values of attributes
+   */
+  static function tpl_parse_attrs($attrs)
+  {
+    foreach ($attrs as &$attr) {
+      foreach ($attr as $key => &$string) {
+        if (!is_numeric($key)) {
+          continue;
+        }
+        $offset = 0;
+        while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
+          $replace  = self::tpl_parse_mask($m[1][0], $attrs);
+          $replace  = $replace[0];
+          $string   = substr_replace($string, $replace, $m[0][1], strlen($m[0][0]));
+          $offset   = $m[0][1] + strlen($replace);
+        }
+      }
+      unset($string);
+    }
+    unset($attr);
+    return $attrs;
   }
 
   /*!
