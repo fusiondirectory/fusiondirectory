@@ -857,30 +857,11 @@ class simplePlugin extends plugin
    *
    * \param array $skip A new array
    */
-  function adapt_from_template($dn, $skip = array())
+  function adapt_from_template($attrs, $skip = array())
   {
-    /* Include global link_info */
-    $ldap = $this->config->get_ldap_link();
-
-    /* Load requested 'dn' to 'attrs' */
-    $ldap->cat($dn);
-    $this->attrs = $ldap->fetch();
+    $this->attrs = $attrs;
 
     /* Walk through attributes */
-    for ($i = 0; $i < $this->attrs['count']; ++$i) {
-      $ldapName = $this->attrs[$i];
-      /* Skip the ones in skip list */
-      if (in_array($ldapName, $skip)) {
-        continue;
-      }
-      /* Replace values */
-      foreach ($this->attrs[$ldapName] as $key => &$val) {
-        if (is_numeric($key)) {
-          $val = $this->tpl_parse($val);
-        }
-      }
-      unset($val);
-    }
     foreach ($this->attributesAccess as $ldapName => &$attr) {
       /* Skip the ones in skip list */
       if (in_array($ldapName, $skip)) {

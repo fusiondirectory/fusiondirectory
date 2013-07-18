@@ -176,12 +176,12 @@ class multiPlugin extends simplePlugin
     unset($plug);
   }
 
-  function adapt_from_template($dn, $skip = array())
+  function adapt_from_template($attrs, $skip = array())
   {
     /* Adapt objects */
     foreach ($this->plugin as &$plug) {
       $plug->dn = $this->dn;
-      $plug->adapt_from_template($dn, $skip);
+      $plug->adapt_from_template($attrs, $skip);
     }
     unset($plug);
   }
