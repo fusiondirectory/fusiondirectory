@@ -2844,7 +2844,7 @@ function get_languages($languages_in_own_language = FALSE, $strip_region_tag = F
  */
 function language_is_rtl ($lang)
 {
-  //~ $lang = preg_replace('/\.UTF-8$/', '', $lang);
+  $lang = preg_replace('/\.UTF-8$/', '', $lang);
 
   if (preg_match('/^fa_/', $lang)) {
     return TRUE;

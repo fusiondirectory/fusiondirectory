@@ -659,8 +659,8 @@ class userManagement extends management
   function templatizeContinue()
   {
     // Template readable?
-    $template = get_post('template');
-    $acl      = $this->ui->get_permissions($template, $this->aclCategory."/".$this->aclPlugin);
+    $template_dn  = get_post('template');
+    $acl          = $this->ui->get_permissions($template_dn, $this->aclCategory."/".$this->aclPlugin);
     if (preg_match('/r/', $acl)) {
       $tab = $this->tabClass;
       foreach ($this->dns as $dn) {
@@ -683,7 +683,7 @@ class userManagement extends management
         }
       }
     } else {
-      msg_dialog::display(_("Permission error"), msgPool::permView($template), ERROR_DIALOG);
+      msg_dialog::display(_("Permission error"), msgPool::permView($template_dn), ERROR_DIALOG);
     }
 
     // Cleanup!
@@ -892,10 +892,11 @@ class userManagement extends management
     $dn     = func_get_arg(1);
     $trans  = func_get_arg(2)[0];
     if ($trans != "") {
+      /* FIXME : link does not work because of missing PID */
       return "<a href='?plug=".$_GET['plug']."&amp;act=listing_edit_$row' title='$dn'>$trans</a>";
     }
 
-    return $result;
+    return '';
   }
 }
 ?>

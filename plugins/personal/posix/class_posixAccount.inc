@@ -578,12 +578,10 @@ class posixAccount extends simplePlugin
     //~ $ldap = $this->config->get_ldap_link();
 
     parent::adapt_from_template($attrs, $skip);
-    //~ $template = $this->attrs['uid'][0];
-//~
+    $template = $this->attrs['uid'][0];
     //~ /* Adapt group membership */
     //~ $ldap->cd($this->config->current['BASE']);
     //~ $ldap->search("(&(objectClass=posixGroup)(memberUid=$template))", array("description", "cn"));
-//~
     //~ while ($entry = $ldap->fetch()) {
       //~ $this->attributesAccess['groupMembership']->addValue($ldap->getDN(), $entry);
     //~ }
