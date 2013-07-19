@@ -579,12 +579,32 @@ color:#B22;
 }
 
 #debug_handling {
-background:#FFF6BF none repeat scroll 0 0;
-border-color:#FFD324;
-color:#514721;
-border:2px solid #DDDDDD;
+border-color:#ddd;
+}
+.error, .notice, .success, .info {
+border:2px solid #ddd;
 margin:.2em;
 padding:.3em;
+}
+.error {
+background:#fbe3e4;
+color:#8a1f11;
+border-color:#fbc2c4;
+}
+.notice {
+background:#fff6bf;
+color:#514721;
+border-color:#ffd324;
+}
+.success {
+background:#e6efc2;
+color:#264409;
+border-color:#c6d880;
+}
+.info {
+background:#d5edf8;
+color:#205791;
+border-color:#92cae4;
 }
 
 /* Header */
