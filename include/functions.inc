@@ -1449,7 +1449,8 @@ function get_ou($name)
                 "componentRDN"            => "ou=netdevices,ou=systems,",
                 "sambaMachineAccountRDN"  => "ou=computers,",
                 "mobilePhoneRDN"          => "ou=mobile,ou=systems,",
-
+                "inventoryRDN"            => "ou=inventory,",
+                "ipmiRDN"                 => "ou=ipmi,",
                 "faxBlocklistRDN"     => "ou=gofax,ou=systems,",
                 "aclRoleRDN"          => "ou=aclroles,",
                 "phoneMacroRDN"       => "ou=macros,ou=asterisk,ou=configs,ou=systems,",
@@ -1460,6 +1461,7 @@ function get_ou($name)
                 "faiHookRDN"      => "ou=hooks,",
                 "faiTemplateRDN"  => "ou=templates,",
                 "faiVariableRDN"  => "ou=variables,",
+                "faiProfileRDN"   => "ou=profiles,",
                 "faiProfileRDN"   => "ou=profiles,",
                 "faiPackageRDN"   => "ou=packages,",
                 "faiPartitionRDN" => "ou=disk,",
@@ -2560,6 +2562,34 @@ function array_differs($src, $dst)
   }
 
   return (count(array_diff($src, $dst)) != 0);
+}
+
+/*!
+ * \brief Determine if two arrays are different using recursion for sublevels
+ *
+ * \param array $src The source
+ *
+ * \param array $dst The destination
+ *
+ * \return boolean TRUE or FALSE
+ */
+function array_differs_recursive($src, $dst)
+{
+  if (is_array($src)) {
+    if (!is_array($dst)) {
+      return TRUE;
+    }
+    if (count($src) != count($dst)) {
+      return TRUE;
+    }
+    for ($i = 0; $i < count($src); $i++) {
+      if (array_differs_recursive($src[$i], $dst[$i])) {
+        return TRUE;
+      }
+    }
+    return FALSE;
+  }
+  return ((string)$src != (string)$dst);
 }
 
 
