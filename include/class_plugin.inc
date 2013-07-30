@@ -1243,23 +1243,9 @@ class plugin
    */
   function recursive_move($src_dn, $dst_dn)
   {
-    /* Check if the destination entry exists */
-    $ldap = $this->config->get_ldap_link();
+    trigger_error('Deprecated method : plugin::recursive_move, use plugin::move instead');
 
-    /* Check if destination exists - abort */
-    $ldap->cat($dst_dn, array('dn'));
-    if ($ldap->fetch()) {
-      trigger_error("recursive_move $dst_dn already exists.",
-          E_USER_WARNING);
-      return FALSE;
-    }
-
-    $this->copy($src_dn, $dst_dn);
-
-    /* Remove src_dn */
-    $ldap->cd($src_dn);
-    $ldap->recursive_remove($src_dn);
-    return TRUE;
+    return $this->move($src_dn, $dst_dn);
   }
 
   /*! \brief Forward command execution requests
