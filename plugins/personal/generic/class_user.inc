@@ -403,15 +403,6 @@ class user extends simplePlugin
 
     $ldap = $this->config->get_ldap_link();
 
-    /* Delete references to groups */
-    $ldap->cd($this->config->current['BASE']);
-    $ldap->search ('(&(objectClass=posixGroup)(memberUid='.$this->uid.'))', array('uid'));
-    while ($ldap->fetch()) {
-      $g = new group($this->config, $ldap->getDN());
-      $g->removeUser($this->uid);
-      $g->save();
-    }
-
     /* Delete references to object groups */
     $ldap->cd ($this->config->current['BASE']);
     $ldap->search ('(&(objectClass=gosaGroupOfNames)(member='.$fixed_dn.'))', array('cn'));

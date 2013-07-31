@@ -1098,6 +1098,18 @@ class group extends plugin
     return ($message);
   }
 
+  function foreignKeyUpdate ($field, $oldvalue, $newvalue)
+  {
+    if ($field != 'memberUid') {
+      return parent::foreignKeyUpdate($field, $oldvalue, $newvalue);
+    }
+    unset ($this->members["$oldvalue"]);
+    $this->removeUser($oldvalue);
+    if ($newvalue !== NULL) {
+      $this->addUser($newvalue);
+    }
+  }
+
 
   /* Return plugin informations for acl handling  */
   static function plInfo()
@@ -1111,6 +1123,9 @@ class group extends plugin
         "name"        => _("Group"),
         "filter"      => "objectClass=posixGroup"
       )),
+      "plForeignKey"  => array(
+        'memberUid' => array('user','uid')
+      ),
 
       "plProvidedAcls"    => array(
         "cn"                => _("Name"),

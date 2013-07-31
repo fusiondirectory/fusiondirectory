@@ -1176,18 +1176,6 @@ class plugin
       $o_ogroup->save();
     }
 
-    // Migrate rfc groups if needed
-    $groups = get_sub_list("(&(objectClass=posixGroup)(member=".LDAP::prepare4filter(LDAP::fix($src_dn))."))",
-                            "group", array(get_ou("groupRDN")), $this->config->current['BASE'], array("dn"),
-                            GL_SUBSEARCH | GL_NO_ACL_CHECK);
-
-    // Walk through all POSIX groups
-    foreach ($groups as $group) {
-      // Migrate old to new dn
-      $o_group = new group($this->config, $group['dn']);
-      $o_group->save();
-    }
-
     if (class_available('roleGeneric')) {
       /* Update roles to use the new entry dn */
       $roles = get_sub_list("(&(objectClass=organizationalRole)(roleOccupant=".LDAP::prepare4filter(LDAP::fix($src_dn))."))", "roles", array(get_ou("roleRDN")), $this->config->current['BASE'], array("dn"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
