@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Clever de Oliveira Jr. <clever@dri.cefetmg.br>, 2009
+# Stefan Koehler <stefan@gonicus.de>, 2008
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory\n"
@@ -11,27 +11,27 @@ msgstr ""
 "POT-Creation-Date: 2013-04-14 20:13+0200\n"
 "PO-Revision-Date: 2013-07-30 17:20+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
-"Language-Team: Portuguese (http://www.transifex.com/projects/p/FusionDirectory/language/pt/)\n"
+"Language-Team: Vietnamese (Viet Nam) (http://www.transifex.com/projects/p/FusionDirectory/language/vi_VN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pt\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: vi_VN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: html/main.php:135 html/class_passwordRecovery.inc:226
 #: include/class_xml.inc:60 include/functions.inc:509
 #: plugins/admin/departments/class_department.inc:431
 msgid "Fatal error"
-msgstr ""
+msgstr "Lỗi nặng"
 
 #: html/main.php:136
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
-msgstr ""
+msgstr "Không thể xác định vị trí file '%s'- xin hãy chạy '%s' để sửa lỗi này!"
 
 #: html/main.php:157
 msgid "PHP configuration"
-msgstr ""
+msgstr "Cấu hình PHP"
 
 #: html/main.php:158
 msgid ""
@@ -44,11 +44,11 @@ msgstr ""
 #: plugins/personal/password/class_password.inc:156
 #: plugins/personal/password/class_password.inc:162
 msgid "Password change"
-msgstr "Senha alterada"
+msgstr "Thay đổi mật khẩu"
 
 #: html/main.php:187
 msgid "Your password is about to expire, please change your password!"
-msgstr ""
+msgstr "Mật khẩu của bạn chuẩn bị hết hạn, xin hãy thay đối mật khẩu của bạn!"
 
 #: html/main.php:256 html/class_passwordRecovery.inc:296 html/index.php:147
 #: html/index.php:208 include/class_SnapshotHandler.inc:57
@@ -62,19 +62,19 @@ msgstr ""
 #: include/class_timezone.inc:60 plugins/admin/groups/class_group.inc:161
 #: plugins/admin/groups/class_group.inc:638
 msgid "Configuration error"
-msgstr "Erro de configuração"
+msgstr "Lỗi cấu hình"
 
 #: html/main.php:256
 msgid "Running out of memory!"
-msgstr ""
+msgstr "Hết dung lượng bộ nhớ!"
 
 #: html/main.php:311
 msgid "User ACL checks disabled"
-msgstr ""
+msgstr "Vô hiệu việc kiểm tra ACL của người dùng"
 
 #: html/main.php:357
 msgid "Plugin"
-msgstr ""
+msgstr "Plugin"
 
 #: html/main.php:358
 #, php-format
@@ -97,11 +97,11 @@ msgstr ""
 #: html/class_passwordRecovery.inc:126
 #: plugins/personal/generic/class_user.inc:488
 msgid "Password method"
-msgstr ""
+msgstr "Phương pháp lập mật khẩu"
 
 #: html/class_passwordRecovery.inc:127
 msgid "Error: Password method not available!"
-msgstr "Erro: Método de senha não disponível!"
+msgstr "Lỗi: Phương pháp mật khẩu không có!"
 
 #: html/class_passwordRecovery.inc:227
 #, php-format
@@ -111,7 +111,7 @@ msgstr ""
 #: html/class_passwordRecovery.inc:297 html/setup.php:63 html/index.php:163
 #, php-format
 msgid "Directory '%s' specified as compile directory is not accessible!"
-msgstr ""
+msgstr "Không thể truy cập vào thư mục '%s' được xác định là thư mục soạn thảo!"
 
 #: html/class_passwordRecovery.inc:402
 #: plugins/admin/users/class_userManagement.inc:306
@@ -119,7 +119,7 @@ msgstr ""
 msgid ""
 "The passwords you've entered as 'New password' and 'Repeated new password' "
 "do not match."
-msgstr "A senha digitada nos campos 'Nova senha' e 'Repita nova senha' não conferem."
+msgstr "Các mật khẩu bạn vừa nhập vào: \"Mật khẩu mới\" và \"Mật khẩu lặp lại\" không giống nhau."
 
 #: html/class_passwordRecovery.inc:404 ihtml/themes/default/password.tpl:81
 #: ihtml/themes/default/password.tpl:82
@@ -133,7 +133,7 @@ msgstr "A senha digitada nos campos 'Nova senha' e 'Repita nova senha' não conf
 #: plugins/personal/generic/password.tpl:22
 #: plugins/personal/generic/password.tpl:72
 msgid "New password"
-msgstr "Nova senha"
+msgstr "Mật khẩu mới"
 
 #: html/class_passwordRecovery.inc:406
 msgid "The password used as new is too short."
@@ -165,15 +165,15 @@ msgstr ""
 #: plugins/admin/departments/remove.tpl:2 plugins/admin/ogroups/remove.tpl:2
 #: plugins/personal/posix/class_posixAccount.inc:430
 msgid "Warning"
-msgstr "Atenção"
+msgstr "Cảnh báo"
 
 #: html/class_passwordRecovery.inc:433
 msgid "Session will not be encrypted."
-msgstr "A sessão não será criptografada."
+msgstr "Phiên sẽ không được mã hóa."
 
 #: html/class_passwordRecovery.inc:435
 msgid "Enter SSL session"
-msgstr "Entre com a sessão SSL"
+msgstr "Vào phiên SSL"
 
 #: html/class_passwordRecovery.inc:476
 #, php-format
@@ -238,7 +238,7 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:594
 #: plugins/personal/generic/class_user.inc:958
 msgid "LDAP error"
-msgstr "Erro de LDAP"
+msgstr "Lỗi LDAP"
 
 #: html/class_passwordRecovery.inc:561
 msgid "Contact your administrator, there was a problem with mail server"
@@ -250,7 +250,7 @@ msgstr ""
 
 #: html/class_passwordRecovery.inc:610
 msgid "External password changer reported a problem: "
-msgstr "O alterador externo de senhas reportou um problema:"
+msgstr "Bộ thay đổi mật khẩu bên ngoài báo cáo một vấn đề: "
 
 #: html/class_passwordRecovery.inc:635
 msgid "There was a problem with mail server, confirmation email not sent"
@@ -258,17 +258,17 @@ msgstr ""
 
 #: html/setup.php:63
 msgid "Smarty"
-msgstr ""
+msgstr "Smarty"
 
 #: html/index.php:58
 msgid "Session is not encrypted!"
-msgstr ""
+msgstr "Phiên không được mã hóa!"
 
 #: html/index.php:65
 msgid ""
 "The session lifetime configured in your fusiondirectory.conf will be "
 "overridden by php.ini settings."
-msgstr ""
+msgstr "Thời gian hạn định của phiên được cấu hình trong file fusiondirectory.conf của bạn sẽ được ghi đè lên bởi các thiết lập php.ini."
 
 #: html/index.php:147
 #, php-format
@@ -279,11 +279,11 @@ msgstr ""
 
 #: html/index.php:163
 msgid "Smarty error"
-msgstr ""
+msgstr "Lỗi Smarty"
 
 #: html/index.php:208
 msgid "There is a problem with the authentication setup!"
-msgstr ""
+msgstr "Có vấn đề với  việc cài đặt chức năng xác định thẩm quyền!"
 
 #: html/index.php:216 html/index.php:220
 #: ihtml/themes/default/msg_dialog.tpl:57
@@ -324,11 +324,11 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:1014
 #: plugins/personal/generic/class_user.inc:1032
 msgid "Error"
-msgstr "Erro"
+msgstr "Lỗi"
 
 #: html/index.php:216
 msgid "Cannot find a valid user for the current authentication setup!"
-msgstr ""
+msgstr "Không thể tìm thấy một người dùng hợp lệ cho việc cài đặt xác định thẩm quyền hiện tại!"
 
 #: html/index.php:220
 msgid "User information is not unique across the configured LDAP trees!"
@@ -336,45 +336,45 @@ msgstr ""
 
 #: html/index.php:269
 msgid "Cannot detect information about the installed LDAP schema!"
-msgstr ""
+msgstr "Không thể tìm ra thông tin về lược đồ  LDAP đã được cài đặt!"
 
 #: html/index.php:282
 msgid "Your LDAP setup contains old schema definitions:"
-msgstr ""
+msgstr "Cài đặt LDAP của bạn có chứa các định nghĩa lược đồ cũ:"
 
 #: html/index.php:305
 msgid "Please specify a valid username!"
-msgstr "Por favor, especifique um nome de usuário válido!"
+msgstr "Xin hãy xác định một tên người dùng hợp lệ!"
 
 #: html/index.php:308
 msgid "Please specify your password!"
-msgstr "Por favor, especifique sua senha!"
+msgstr "Xin hãy xác định mật mã của bạn!"
 
 #: html/index.php:320
 msgid "Authentication error"
-msgstr ""
+msgstr "Lỗi xác định thẩm quyền"
 
 #: html/index.php:320
 msgid "Cannot retrieve user information for htaccess authentication!"
-msgstr ""
+msgstr "Không thể phục hồi thông tin của người dùng cho việc thẩm  định quyền htaccess (truy cập ht)!"
 
 #: html/index.php:327
 msgid "Please check the username/password combination."
-msgstr "Por favor, verifique a combinação usuário / senha"
+msgstr "Xin hãy kiểm tra kết hợp tên người dùng/mật khẩu."
 
 #: html/index.php:381
 msgid "Account locked. Please contact your system administrator!"
-msgstr ""
+msgstr "Tài khoản bị khóa. Xin hãy liên lạc với admin quản trị hệ thống của bạn!"
 
 #: html/index.php:403
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
-msgstr "Seu navegador está com suporte a cookies desabilitado. Por favor, habilite-o e recarregue essa página antes de entrar!"
+msgstr "Trình duyệt của bạn đã vô hiệu cookies. Xin hãy cho phép cookies vào và tải lại trang này trước khi đăng nhập!"
 
 #: ihtml/themes/default/conflict.tpl:2
 msgid "Session conflict detected"
-msgstr "Conflito de sessão detectado"
+msgstr "Phát hiện xung đột giữa các phiên"
 
 #: ihtml/themes/default/conflict.tpl:6
 msgid ""
@@ -382,28 +382,28 @@ msgid ""
 "operation is technical not possible and heavily depends on the browser "
 "you're using. Usage of different browsers at a time (i.e. IE and Mozilla) is"
 " possible. Pressing the Logout button will close this session."
-msgstr ""
+msgstr "Có lẽ có một chức năng khác nữa trong phiên của bạn đang hoạt động. Việc chạy nhều cửa sổ cùng lúc về kỹ thuật là không thể và việc này phụ thuộc rất nhiều vào trình duyệt mà bạn đang dùng.Việc sử dụng các trình duyệt khác nhau cùng một lúc (ví dụ như IE và Mozilla) là có thể. Nhấn vào nút đăng xuất để đóng phiên này."
 
 #: ihtml/themes/default/conflict.tpl:10
 msgid ""
 "Ignoring this message will change/destroy the data you're currently editing,"
 " so please close multiple windows and log in again."
-msgstr ""
+msgstr "Bỏ qua tin nhắn này sẽ thay đổi/hủy dữ liệu mà hiện nay bạn đang hiệu chỉnh, vì thể xin hãy đóng các cửa sổ lại và đăng nhập lại."
 
 #: ihtml/themes/default/conflict.tpl:14
 msgid "Logout"
-msgstr "Sair"
+msgstr "Đăng xuất"
 
 #: ihtml/themes/default/islocked.tpl:2
 msgid "Locking conflict detected"
-msgstr "Conflito de travamento detectado"
+msgstr "Phát hiện xung đột khóa"
 
 #: ihtml/themes/default/islocked.tpl:9
 msgid ""
 "If this lock detection is false, the other person has obviously closed the "
 "webbrowser during the edit operation. You may want to take over the lock by "
 "pressing the 'Edit anyway' button."
-msgstr "Se esta detecção for falsa, um usuário pode ter fechado o navegador durante a operação de edição. Você pode destravar pressionando o botão 'Editar mesmo assim'."
+msgstr "Nếu việc phát hiện khóa này sai, một người nào đó chắc hẳn đã đóng trình duyệt web trong quá trình thao tác hiệu chỉnh. Bạn có thể muốn tiếp quản việc khóa bằng các nhấn vào nút 'tiếp tục hiệu chỉnh'."
 
 #: ihtml/themes/default/islocked.tpl:16
 msgid "Read only"
@@ -424,11 +424,11 @@ msgstr ""
 #: setup/setup_ldap.tpl:17 include/class_msgPool.inc:461
 #, php-format
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "Hủy bỏ"
 
 #: ihtml/themes/default/snapshotdialog.tpl:3
 msgid "Restoring object snapshots"
-msgstr ""
+msgstr "Phục hồi chế độ snapshot của đối tượng"
 
 #: ihtml/themes/default/snapshotdialog.tpl:6
 msgid ""
@@ -447,7 +447,7 @@ msgstr ""
 msgid ""
 "Don't forget to check references to other objects, for example does the "
 "selected printer still exists ?"
-msgstr ""
+msgstr "Đừng quên kiểm tra các tham chiếu với các đối tượng khác, ví dụ như liệu máy in được chọn có còn tồn tại không?"
 
 #: ihtml/themes/default/snapshotdialog.tpl:20
 #: ihtml/themes/default/snapshotdialog.tpl:62 include/class_acl.inc:798
@@ -455,47 +455,47 @@ msgstr ""
 #: include/class_acl.inc:818 include/class_msgPool.inc:708
 #: plugins/admin/departments/class_department.inc:617
 msgid "Object"
-msgstr "Objeto"
+msgstr "đối tượng"
 
 #: ihtml/themes/default/snapshotdialog.tpl:29
 msgid "There is no snapshot available that could be restored"
-msgstr ""
+msgstr "Không có snapshot hiện có nào có thể được phục hồi"
 
 #: ihtml/themes/default/snapshotdialog.tpl:31
 msgid "Choose a snapshot and click the folder image, to restore the snapshot"
-msgstr ""
+msgstr "Chọn một snapshot và kích vào hình folder, để phục hồi snapshot"
 
 #: ihtml/themes/default/snapshotdialog.tpl:49
 msgid "Creating object snapshots"
-msgstr ""
+msgstr "Tạo ra snapshot đối tượng"
 
 #: ihtml/themes/default/snapshotdialog.tpl:52
 msgid ""
 "This procedure will create a snapshot of the selected object. It will be "
 "stored inside a special branch of your directory system and can be restored "
 "later on."
-msgstr ""
+msgstr "Thủ tục này sẽ tạo ra một snapshot của đối tượng được chọn. Nó sẽ được lưu trữ trong một nhánh đặc biệt thuộc hệ thống thư mục của bạn và có thể được phục hồi sau này."
 
 #: ihtml/themes/default/snapshotdialog.tpl:55
 msgid ""
 "Remember that database entries, DNS configurations and possibly created "
 "zones in server extensions will not be stored in the snapshot."
-msgstr ""
+msgstr "Hãy nhớ rằng các entry vào cơ sở dữ liệu, các cấu hình DNS và các vùng có thể được tạo ra trong việc mở rộng server sẽ không được lưu lại trong snapshot."
 
 #: ihtml/themes/default/snapshotdialog.tpl:70
 msgid "Timestamp"
-msgstr ""
+msgstr "Timestamp"
 
 #: ihtml/themes/default/snapshotdialog.tpl:79
 msgid "Reason for generating this snapshot"
-msgstr ""
+msgstr "Lý do để tạo ra snapshot này"
 
 #: ihtml/themes/default/snapshotdialog.tpl:87
 #: plugins/admin/users/template.tpl:48
 #: plugins/admin/departments/class_department.inc:557
 #: plugins/admin/departments/class_department.inc:639
 msgid "Continue"
-msgstr "Continuar"
+msgstr "Tiếp tục"
 
 #: ihtml/themes/default/logout-close.tpl:5
 msgid "Your FusionDirectory session has been closed!"
@@ -505,19 +505,19 @@ msgstr ""
 msgid ""
 "Please close this browser window and clean the authentication caches to "
 "avoid an automatic re-authentication by your browser."
-msgstr ""
+msgstr "Xin hãy đóng cửa sổ trình duyệt này lại và dọn sạch bộ nhớ đệm thẩm định quyền để tránh việc tự động thẩm định lại quyền bằng trình duyệt của bạn."
 
 #: ihtml/themes/default/password.tpl:6
 msgid "Change your password"
-msgstr "Altere sua senha"
+msgstr "Thay đổi mật khẩu của bạn"
 
 #: ihtml/themes/default/password.tpl:34 ihtml/themes/default/recovery.tpl:120
 msgid "Success"
-msgstr "Sucesso"
+msgstr "Thành công"
 
 #: ihtml/themes/default/password.tpl:34 ihtml/themes/default/recovery.tpl:120
 msgid "Your password has been changed successfully."
-msgstr "Sua senha foi alterada com sucesso."
+msgstr "Mật khẩu của bạn đã được thay đổi thành công."
 
 #: ihtml/themes/default/password.tpl:39 ihtml/themes/default/login.tpl:44
 #: ihtml/themes/default/login.tpl:46 ihtml/themes/default/recovery.tpl:25
@@ -526,27 +526,27 @@ msgstr "Sua senha foi alterada com sucesso."
 #: plugins/personal/password/class_password.inc:199
 #: plugins/personal/generic/paste_generic.tpl:20
 msgid "Password"
-msgstr "Senha"
+msgstr "Mật khẩu"
 
 #: ihtml/themes/default/password.tpl:52
 msgid ""
 "This dialog provides a simple way to change your password. Enter the current"
 " password and the new password (twice) in the fields below and press the "
 "'Change' button."
-msgstr ""
+msgstr "Hộp thoại này cung cấp một cách đơn giản để thay đổi mật khẩu của bạn. Hãy nhập mật khẩu hiện tại và mật khẩu mới vào (hai lần) trong các trường bên dưới và nhấn vào nút 'Thay đổi'."
 
 #: ihtml/themes/default/password.tpl:59 ihtml/themes/default/password.tpl:61
 #: ihtml/themes/default/login.tpl:51 ihtml/themes/default/login.tpl:52
 #: ihtml/themes/default/recovery.tpl:78 ihtml/themes/default/recovery.tpl:80
 #: ihtml/themes/default/recovery.tpl:133 ihtml/themes/default/recovery.tpl:135
 msgid "Directory"
-msgstr "Diretório"
+msgstr "Thư mục"
 
 #: ihtml/themes/default/password.tpl:68 ihtml/themes/default/password.tpl:70
 #: ihtml/themes/default/login.tpl:39 ihtml/themes/default/login.tpl:41
 #: ihtml/themes/default/recovery.tpl:87
 msgid "Username"
-msgstr "Nome do usuário"
+msgstr "Tên người dùng"
 
 #: ihtml/themes/default/password.tpl:77 ihtml/themes/default/password.tpl:78
 #: plugins/personal/password/password.tpl:22
@@ -554,12 +554,12 @@ msgstr "Nome do usuário"
 #: plugins/personal/generic/password.tpl:17
 #: plugins/personal/generic/password.tpl:44
 msgid "Current password"
-msgstr "Senha atual"
+msgstr "Mật khẩu hiện tại"
 
 #: ihtml/themes/default/password.tpl:85 ihtml/themes/default/password.tpl:86
 #: ihtml/themes/default/recovery.tpl:97 ihtml/themes/default/recovery.tpl:98
 msgid "New password repeated"
-msgstr "Nova senha repetida"
+msgstr "Mật khẩu mới được lặp lại"
 
 #: ihtml/themes/default/password.tpl:89 ihtml/themes/default/recovery.tpl:101
 #: plugins/personal/password/password.tpl:37
@@ -567,47 +567,47 @@ msgstr "Nova senha repetida"
 #: plugins/personal/generic/password.tpl:32
 #: plugins/personal/generic/password.tpl:82
 msgid "Password strength"
-msgstr ""
+msgstr "Ưu điểm của mật khẩu"
 
 #: ihtml/themes/default/password.tpl:100 ihtml/themes/default/recovery.tpl:112
 #: ihtml/themes/default/recovery.tpl:149
 msgid "Change"
-msgstr "Alterar"
+msgstr "Thay đổi"
 
 #: ihtml/themes/default/password.tpl:101
 #: ihtml/themes/default/accountexpired.tpl:52
 #: ihtml/themes/default/recovery.tpl:112 ihtml/themes/default/recovery.tpl:150
 msgid "Click here to change your password"
-msgstr "Clique aqui para alterar sua senha"
+msgstr "Kích vào đây để thay đổi mật khẩu của bạn"
 
 #: ihtml/themes/default/accountexpired.tpl:15
 msgid "Your password has expired. Please choose a new one!"
-msgstr ""
+msgstr "Mật khẩu của bạn đã hết hạn. Xin hãy chọn một mật khẩu mới!"
 
 #: ihtml/themes/default/accountexpired.tpl:23
 #: ihtml/themes/default/accountexpired.tpl:27
 msgid "Old password"
-msgstr ""
+msgstr "Mật khẩu cũ"
 
 #: ihtml/themes/default/accountexpired.tpl:41
 #: ihtml/themes/default/accountexpired.tpl:45
 msgid "Verify password"
-msgstr ""
+msgstr "Xác minh mật khẩu"
 
 #: ihtml/themes/default/accountexpired.tpl:51
 #: plugins/admin/users/user-list.xml:128 plugins/admin/users/user-list.xml:224
 msgid "Change password"
-msgstr "Alterar senha"
+msgstr "Thay đổi mật mã "
 
 #: ihtml/themes/default/login.tpl:24
 msgid "Login screen"
-msgstr ""
+msgstr "Màn hình đăng nhập"
 
 #: ihtml/themes/default/login.tpl:31
 msgid ""
 "Please use your username and your password to log into the site "
 "administration system."
-msgstr ""
+msgstr "Xin hãy sử dụng tên và mật khẩu của bạn để đăng nhập vào trang hệ thống quản trị."
 
 #: ihtml/themes/default/login.tpl:48
 msgid "I forgot my password"
@@ -615,11 +615,11 @@ msgstr ""
 
 #: ihtml/themes/default/login.tpl:76 ihtml/themes/default/login.tpl:79
 msgid "Sign in"
-msgstr "Entrar"
+msgstr "Đăng ký"
 
 #: ihtml/themes/default/login.tpl:77
 msgid "Click here to log in"
-msgstr "Clique aqui para logar"
+msgstr "Kích vào đây để đăng nhập"
 
 #: ihtml/themes/default/remove.tpl:6
 msgid ""
@@ -631,24 +631,24 @@ msgstr ""
 #: plugins/admin/users/remove.tpl:10 plugins/admin/groups/remove.tpl:10
 #: plugins/admin/ogroups/remove.tpl:10
 msgid "So - if you're sure - press 'Delete' to continue or 'Cancel' to abort."
-msgstr "Então, se você tem certeza, pressione 'Deletar' para continuar ou 'Cancelar' para abortar."
+msgstr "Vì thế nếu bạn chắc chắn hãy nhấn \"Xóa bỏ\" để tiếp tục hoặc'Hủy bỏ' để dừng lại."
 
 #: ihtml/themes/default/acl.tpl:7 plugins/admin/acl/acl_role.tpl:3
 msgid "Assigned ACL for current entry"
-msgstr ""
+msgstr "Giao ACL cho entry hiện tại"
 
 #: ihtml/themes/default/acl.tpl:12 plugins/admin/acl/acl_role.tpl:38
 msgid "New ACL"
-msgstr ""
+msgstr "ACL mới"
 
 #: ihtml/themes/default/acl.tpl:17 plugins/admin/acl/acl_role.tpl:44
 msgid "ACL type"
-msgstr ""
+msgstr "Dạng ACL"
 
 #: ihtml/themes/default/acl.tpl:19 ihtml/themes/default/acl.tpl:24
 #: plugins/admin/acl/acl_role.tpl:44
 msgid "Select an acl type"
-msgstr ""
+msgstr "Chọn một dạng acl"
 
 #: ihtml/themes/default/acl.tpl:29 ihtml/themes/default/acl.tpl:52
 #: ihtml/themes/default/acl.tpl:125 ihtml/themes/default/acl.tpl:140
@@ -660,55 +660,55 @@ msgstr ""
 #: include/class_msgPool.inc:477
 #, php-format
 msgid "Apply"
-msgstr "Aplicar"
+msgstr "Áp dụng"
 
 #: ihtml/themes/default/acl.tpl:36
 msgid "Additional filter options"
-msgstr ""
+msgstr "Các lựa chọn thêm cho bộ lọc"
 
 #: ihtml/themes/default/acl.tpl:47
 msgid "Use members from"
-msgstr ""
+msgstr "Sử dụng các thành viên từ"
 
 #: ihtml/themes/default/acl.tpl:61
 msgid "Available members"
-msgstr ""
+msgstr "Những thành viên đang có mặt"
 
 #: ihtml/themes/default/acl.tpl:63 ihtml/themes/default/acl.tpl:68
 msgid "List message possible targets"
-msgstr ""
+msgstr "Liệt kê các mục tiêu có thể gửi tin nhắn"
 
 #: ihtml/themes/default/acl.tpl:82 include/class_acl.inc:1149
 msgid "Members"
-msgstr "Membros"
+msgstr "Các thành viên"
 
 #: ihtml/themes/default/acl.tpl:84 ihtml/themes/default/acl.tpl:90
 msgid "List message recipients"
-msgstr ""
+msgstr "Liệt kê người nhận tin"
 
 #: ihtml/themes/default/acl.tpl:104 plugins/admin/acl/acl_role.tpl:49
 msgid "List of available ACL categories"
-msgstr ""
+msgstr "Danh sách tất cả các mục ACL hiện có"
 
 #: ihtml/themes/default/acl.tpl:112
 msgid "ACL for this object"
-msgstr ""
+msgstr "ACL cho đối tượng này"
 
 #: ihtml/themes/default/acl.tpl:118
 msgid "Available roles"
-msgstr ""
+msgstr "Các vai trò hiện có"
 
 #: ihtml/themes/default/framework.tpl:9
 msgid "Main"
-msgstr "Principal"
+msgstr "Trang chính"
 
 #: ihtml/themes/default/framework.tpl:13
 msgid "Sign out"
-msgstr "Sair"
+msgstr "Đăng xuất"
 
 #: ihtml/themes/default/framework.tpl:21
 msgid "Signed in:"
-msgstr "Logado:"
+msgstr "Đăng nhập:"
 
 #: ihtml/themes/default/framework.tpl:23
 #, php-format
@@ -723,7 +723,7 @@ msgstr ""
 #: ihtml/themes/default/msg_dialog.tpl:108 setup/setup_ldap.tpl:121
 #: plugins/admin/ogroups/class_ogroup.inc:247
 msgid "Information"
-msgstr "Informação"
+msgstr "Thông tin"
 
 #: ihtml/themes/default/msg_dialog.tpl:76
 #: ihtml/themes/default/msg_dialog.tpl:78
@@ -750,30 +750,30 @@ msgid ""
 " from getting too much load. The easiest way to handle big databases without"
 " long timeouts would be to limit your search to smaller values and use "
 "filters to get the entries you are looking for."
-msgstr ""
+msgstr "Lựa chọn giới hạn kích cỡ khiến cho hoạt động của LDAP nhanh hơn và giúp cho LDAP server không chịu quá nhiều tải. Cách đơn giản nhất để quản lý được các cơ sở dữ liệu lớn mà không có thời gian hạn định dài là hạn chế việc tìm kiếm của bạn vào các giá trị nhỏ hơn và sử dụng bộ lọc để có được các entry mà bạn đang tìm kiếm."
 
 #: ihtml/themes/default/sizelimit.tpl:6
 msgid "Please choose the way to react for this session"
-msgstr ""
+msgstr "Xin hãy lựa chọn cách để phản ứng với phiên này"
 
 #: ihtml/themes/default/sizelimit.tpl:9
 msgid "ignore this error and show all entries the LDAP server returns"
-msgstr ""
+msgstr "Lờ đi lỗi này và hiển thị tất cả các entry mà LDAP server trả về "
 
 #: ihtml/themes/default/sizelimit.tpl:10
 msgid ""
 "ignore this error and show all entries that fit into the defined sizelimit "
 "and let me use filters instead"
-msgstr ""
+msgstr "Lờ lỗi này đi và hiển thị tất cả các entry mà phù hợp với giới hạn kích cỡ đã xác định và thay vào đó cho tôi sử dụng các bộ lọc "
 
 #: ihtml/themes/default/sizelimit.tpl:14 include/class_msgPool.inc:515
 #, php-format
 msgid "Set"
-msgstr "Definir"
+msgstr "Đặt"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:1
 msgid "Copy & paste wizard"
-msgstr ""
+msgstr "Copy & Paste wizard"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:7
 msgid ""
@@ -784,7 +784,7 @@ msgstr ""
 
 #: ihtml/themes/default/copyPasteDialog.tpl:9
 msgid "Remember that some properties like taken snapshots will not be copied!"
-msgstr ""
+msgstr "Hãy nhớ rằng một số đặc tính ví dụ như snapshot sẽ không được copy lại!"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:10
 msgid ""
@@ -795,21 +795,21 @@ msgstr ""
 #: ihtml/themes/default/copyPasteDialog.tpl:19 include/class_msgPool.inc:485
 #, php-format
 msgid "Save"
-msgstr "Salvar"
+msgstr "Lưu lại"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:24
 #: include/class_CopyPasteHandler.inc:292
 msgid "Cancel all"
-msgstr ""
+msgstr "Hủy bỏ tất"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:30
 msgid "Operation complete"
-msgstr "Operação finalizada"
+msgstr "Thao tác hoàn thành"
 
 #: ihtml/themes/default/copyPasteDialog.tpl:32
 #: setup/class_setupStep_Finish.inc:36
 msgid "Finish"
-msgstr "Finalizar"
+msgstr "Kết thúc"
 
 #: ihtml/themes/default/logout.tpl:5
 msgid "Your FusionDirectory session has expired!"
@@ -824,7 +824,7 @@ msgstr ""
 
 #: ihtml/themes/default/logout.tpl:10
 msgid "Sign in again"
-msgstr "Entrar novamente"
+msgstr "Đăng ký lại"
 
 #: ihtml/themes/default/recovery.tpl:10
 msgid "FusionDirectory password recovery"
@@ -879,7 +879,7 @@ msgstr ""
 #: plugins/generic/references/class_reference.inc:45
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:65
 msgid "Mail"
-msgstr "Correio"
+msgstr "Thư"
 
 #: ihtml/themes/default/recovery.tpl:159
 msgid ""
@@ -889,39 +889,39 @@ msgstr ""
 
 #: setup/setup_language.tpl:3
 msgid "Please select the preferred language"
-msgstr ""
+msgstr "Xin hãy lựa chọn ngôn ngữ ưu thích"
 
 #: setup/setup_language.tpl:5
 msgid ""
 "At this point, you can select the site wide default language. Choosing "
 "'automatic' will use the language requested by the browser. This setting can"
 " be overriden per user."
-msgstr ""
+msgstr "Tại thời điểm này, bạn có thể lựa chọn trang này với ngôn ngữ mặc định. Nếu chọn 'tự động', bạn sẽ sử dụng ngôn ngữ được yêu cẩu bởi trình duyệt này. Việc thiết lập này có  bị ghi đè với mỗi một người dùng."
 
 #: setup/setup_language.tpl:9
 msgid "Please select your preferred language here"
-msgstr ""
+msgstr "Xin hãy lựa chọn ngôn ngữ bạn muốn dùng ở đây"
 
 #: setup/class_setupStep_Checks.inc:38 setup/class_setupStep_Checks.inc:39
 msgid "Installation check"
-msgstr ""
+msgstr "Kiểm tra cài đặt"
 
 #: setup/class_setupStep_Checks.inc:40
 msgid "Basic checks for PHP compatibility and extensions"
-msgstr ""
+msgstr "Kiểm tra cơ bản cho khả năng tương thích và mở rộng PHP "
 
 #: setup/class_setupStep_Checks.inc:64
 msgid "Checking PHP version"
-msgstr ""
+msgstr "Kiểm tra phiên bản PHP"
 
 #: setup/class_setupStep_Checks.inc:65
 #, php-format
 msgid "PHP must be of version %s or above."
-msgstr ""
+msgstr "PHP phải là phiên bản %s hoặc như trên."
 
 #: setup/class_setupStep_Checks.inc:66
 msgid "Please upgrade to a supported version."
-msgstr ""
+msgstr "Xin hãy cập nhật cho một phiên bản hỗ trợ."
 
 #: setup/class_setupStep_Checks.inc:73
 msgid "FusionDirectory requires this module to talk with your LDAP server."
@@ -954,7 +954,7 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:120
 msgid "mbstring"
-msgstr ""
+msgstr "mbstring"
 
 #: setup/class_setupStep_Checks.inc:121
 msgid "FusionDirectory requires this module to handle unicode strings."
@@ -997,32 +997,32 @@ msgid ""
 "register_globals is a PHP mechanism to register all global variables to be "
 "accessible from scripts without changing the scope. This may be a security "
 "risk."
-msgstr ""
+msgstr "đăng ký_toàn cầu (register_globals) là một cơ chế PHP dùng để đăng ký tất cả các biến số toàn cầu mà có thể truy cập từ các tập lệnh mà không phải thay đổi phạm vi. Đây có thể là một rủi ro về bảo mật."
 
 #: setup/class_setupStep_Checks.inc:167
 msgid "Search for 'register_globals' in your php.ini and switch it to 'Off'."
-msgstr ""
+msgstr "Tìm kiếm 'register_globals' trong thư mục php.ini của bạn và chuyển nó thành 'Off'."
 
 #: setup/class_setupStep_Checks.inc:175
 msgid "PHP uses this value for the garbage collector to delete old sessions."
-msgstr ""
+msgstr "PHP sử dụng giá trị này để phần mềm thu dọn rác có thể sóa các phiên cũ đi."
 
 #: setup/class_setupStep_Checks.inc:176
 msgid ""
 "Setting this value to one day will prevent loosing session and cookies "
 "before they really timeout."
-msgstr ""
+msgstr "Thiết lập giá trị này đến một ngày sẽ ngăn cản việc mất đi các phiên và cookies trước khi chúng thực sự hết hạn."
 
 #: setup/class_setupStep_Checks.inc:177
 msgid ""
 "Search for 'session.gc_maxlifetime' in your php.ini and set it to 86400 or "
 "higher."
-msgstr ""
+msgstr "Tìm kiếm  'session.gc_maxlifetime' trong thư mục php.ini của bạn và thiết lập nó đển 86400 hoặc cao hơn."
 
 #: setup/class_setupStep_Checks.inc:184 setup/class_setupStep_Checks.inc:200
 #: setup/class_setupStep_Checks.inc:216 setup/class_setupStep_Checks.inc:224
 msgid "Off"
-msgstr ""
+msgstr "Tắt"
 
 #: setup/class_setupStep_Checks.inc:185
 msgid ""
@@ -1032,7 +1032,7 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:186
 msgid "Search for 'session.auto_start' in your php.ini and set it to 'Off'."
-msgstr ""
+msgstr "Tìm kiếm  'session.auto_start' trong thư mục php.ini của bạn và đặt nó thành 'Off'."
 
 #: setup/class_setupStep_Checks.inc:193
 msgid ""
@@ -1049,49 +1049,49 @@ msgstr ""
 msgid ""
 "This option influences the PHP output handling. Turn this Option off, to "
 "increase performance."
-msgstr ""
+msgstr "Lựa chọn này sẽ ảnh hưởng tới việc sử lý đầu vào PHP. Tắt chức năng này đi, để tăng khả năng hoạt động."
 
 #: setup/class_setupStep_Checks.inc:202
 msgid "Search for 'implicit_flush' in your php.ini and set it to 'Off'."
-msgstr ""
+msgstr "Tìm kiếm 'implicit_flush' trong thư mục php.ini của bạn và chuyển nó sang 'Off'."
 
 #: setup/class_setupStep_Checks.inc:209
 msgid "The Execution time should be at least 30 seconds."
-msgstr ""
+msgstr "Thời gian chạy ít nhất là 30 giây."
 
 #: setup/class_setupStep_Checks.inc:210
 msgid ""
 "Search for 'max_execution_time' in your php.ini and set it to '30' or "
 "higher."
-msgstr ""
+msgstr "Tìm kiếm 'max_execution_time' trong thư mục php.ini của bạn và thiết lập nó đến '30' hoặc cao hơn."
 
 #: setup/class_setupStep_Checks.inc:217
 msgid ""
 "Increase the server security by setting expose_php to 'off'. PHP won't send "
 "any information about the server you are running in this case."
-msgstr ""
+msgstr "Tăng tính bảo mật của server bằng việc thiết lập expose_php thành 'off'. PHP sẽ không gửi bất cứ thông tin nào về server bạn đang chạy trong trường hợp này."
 
 #: setup/class_setupStep_Checks.inc:218
 msgid "Search for 'expose_php' in your php.ini and set if to 'Off'."
-msgstr ""
+msgstr "Tìm kiếm 'expose_php' trong thư much php.ini của bạn và chuyển nó thành 'Off'."
 
 #: setup/class_setupStep_Checks.inc:225
 msgid "Increase your server performance by setting magic_quotes_gpc to 'off'."
-msgstr ""
+msgstr "Tăng cường khả năng hoạt động cho server của bạn bằng việc thiết lập magic_quotes_gpc thành 'off'."
 
 #: setup/class_setupStep_Checks.inc:226
 msgid ""
 "Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to "
 "'Off'."
-msgstr ""
+msgstr "Tìm kiếm 'zend.ze1_compatibility_mode' trong thư mục  php.ini và chuyển nó thành 'Off'."
 
 #: setup/class_setupStep_Checks.inc:236
 msgid "Configuration writeable"
-msgstr ""
+msgstr "Cấu hình có thể lưu trữ dữ liệu (writable)"
 
 #: setup/class_setupStep_Checks.inc:237
 msgid "The configuration file can't be written"
-msgstr ""
+msgstr "Không thể viết lên File cấu hình "
 
 #: setup/class_setupStep_Checks.inc:238
 #, php-format
@@ -1102,29 +1102,29 @@ msgstr ""
 
 #: setup/setup_schema.tpl:3
 msgid "Schema specific settings"
-msgstr ""
+msgstr "Thiết lập cụ thể lược đồ (schema)"
 
 #: setup/setup_schema.tpl:7
 msgid "Enable schema validation when logging in"
-msgstr ""
+msgstr "Cho phép thông qua lược đồ khi đăng nhập"
 
 #: setup/setup_schema.tpl:16
 msgid "Check status"
-msgstr ""
+msgstr "Kiểm tra trạng thái"
 
 #: setup/setup_schema.tpl:20
 msgid "Schema check succeeded"
-msgstr ""
+msgstr "Kiểm tra lược đồ thành công"
 
 #: setup/setup_schema.tpl:23
 msgid "Schema check failed"
-msgstr ""
+msgstr "Kiểm tra lược đồ thất bại"
 
 #: setup/setup_schema.tpl:31
 msgid ""
 "Could not read any schema informations, all checks skipped. Adjust your ldap"
 " acls."
-msgstr ""
+msgstr "Không thể đọc một thông tin lược đồ nào, bỏ qua toàn bộ việc kiểm tra. Điều chỉnh các acls ldap của bạn."
 
 #: setup/setup_schema.tpl:35
 msgid ""
@@ -1134,45 +1134,45 @@ msgstr ""
 
 #: setup/class_setup.inc:75 setup/class_setupStep_Config3.inc:160
 msgid "Setup error"
-msgstr ""
+msgstr "Lỗi cài đặt"
 
 #: setup/class_setup.inc:195
 msgid "Completed"
-msgstr ""
+msgstr "Đã hoàn thành"
 
 #: setup/class_setup.inc:264 setup/setup_migrate.tpl:224
 msgid "Next"
-msgstr ""
+msgstr "Tiếp tục"
 
 #: setup/class_setupStep_Schema.inc:42 setup/class_setupStep_Schema.inc:43
 msgid "LDAP schema check"
-msgstr ""
+msgstr "Kiểm tra lược đồ LDAP"
 
 #: setup/class_setupStep_Schema.inc:44
 msgid "Perform test on your current LDAP schema"
-msgstr ""
+msgstr "Thực hiện việc kiểm tra trên lược đồ LDAP hiện tại của bạn"
 
 #: setup/class_setupStep_Schema.inc:87 setup/class_setupStep_Ldap.inc:77
 #: setup/class_setupStep_Config1.inc:91 setup/class_setupStep_Config2.inc:76
 #: setup/class_setupStep_Config3.inc:86 setup/setup_feedback.tpl:61
 #: setup/setup_feedback.tpl:79
 msgid "No"
-msgstr ""
+msgstr "Không"
 
 #: setup/class_setupStep_Schema.inc:87 setup/class_setupStep_Ldap.inc:77
 #: setup/class_setupStep_Config1.inc:91 setup/class_setupStep_Config2.inc:76
 #: setup/class_setupStep_Config3.inc:86 setup/setup_feedback.tpl:59
 #: setup/setup_feedback.tpl:77
 msgid "Yes"
-msgstr ""
+msgstr "Có"
 
 #: setup/class_setupStep_Ldap.inc:55
 msgid "LDAP setup"
-msgstr ""
+msgstr "Cài đặt LDAP"
 
 #: setup/class_setupStep_Ldap.inc:56
 msgid "LDAP connection setup"
-msgstr ""
+msgstr "Thiết lập kết nối LDAP"
 
 #: setup/class_setupStep_Ldap.inc:57
 msgid ""
@@ -1183,39 +1183,39 @@ msgstr ""
 #: setup/class_setupStep_Ldap.inc:117
 #, php-format
 msgid "Anonymous bind to server '%s' failed!"
-msgstr ""
+msgstr "Kết nối nặc danh với server '%s' thất bại!"
 
 #: setup/class_setupStep_Ldap.inc:119
 #, php-format
 msgid "Bind as user '%s' failed!"
-msgstr ""
+msgstr "Kết nối với vai trò người dùng '%s' thất bại!"
 
 #: setup/class_setupStep_Ldap.inc:124
 #, php-format
 msgid "Anonymous bind to server '%s' succeeded."
-msgstr ""
+msgstr "Kết nối nặc danh đến server '%s' thành công."
 
 #: setup/class_setupStep_Ldap.inc:125
 msgid "Please specify user and password!"
-msgstr ""
+msgstr "Xin hãy xác định người dùng và mật khẩu!"
 
 #: setup/class_setupStep_Ldap.inc:127
 #, php-format
 msgid "Bind as user '%s' to server '%s' succeeded!"
-msgstr ""
+msgstr "Kết nối với tư cách người dùng '%s' đến server '%s' thành công!"
 
 #: setup/class_setupStep_Language.inc:41 setup/class_setupStep_Language.inc:42
 msgid "Language setup"
-msgstr ""
+msgstr "Cài đặt ngôn ngữ"
 
 #: setup/class_setupStep_Language.inc:43
 msgid "This step allows you to select your preferred language."
-msgstr ""
+msgstr "Bước này cho phép bạn lựa chọn ngôn ngữ bạn muốn dùng."
 
 #: setup/class_setupStep_Language.inc:50
 #: plugins/config/class_configInLdap.inc:408
 msgid "Automatic"
-msgstr ""
+msgstr "Tự động"
 
 #: setup/setup_frame.tpl:12
 msgid "FusionDirectory setup wizard"
@@ -1223,7 +1223,7 @@ msgstr ""
 
 #: setup/setup_frame.tpl:19
 msgid "Installation"
-msgstr ""
+msgstr "Cài đặt"
 
 #: setup/setup_frame.tpl:19
 msgid "Setup"
@@ -1231,7 +1231,7 @@ msgstr ""
 
 #: setup/setup_finish.tpl:3
 msgid "Create your configuration file"
-msgstr ""
+msgstr "Tạo ra file cấu hình của bạn"
 
 #: setup/setup_finish.tpl:8
 msgid "Run "
@@ -1243,27 +1243,27 @@ msgstr ""
 
 #: setup/setup_finish.tpl:12
 msgid "Download configuration"
-msgstr ""
+msgstr "Tải cấu hình về"
 
 #: setup/setup_finish.tpl:17
 msgid "Status: "
-msgstr ""
+msgstr "Trạng thái: "
 
 #: setup/setup_config1.tpl:2
 msgid "Look and feel"
-msgstr ""
+msgstr "Xem và cảm nhận"
 
 #: setup/setup_config1.tpl:6 plugins/config/class_configInLdap.inc:87
 msgid "Theme"
-msgstr ""
+msgstr "Theme"
 
 #: setup/setup_config1.tpl:15 plugins/config/class_configInLdap.inc:305
 msgid "People and group storage"
-msgstr ""
+msgstr "Kho lưu trữ người và nhóm"
 
 #: setup/setup_config1.tpl:18 plugins/config/class_configInLdap.inc:310
 msgid "People DN attribute"
-msgstr ""
+msgstr "Thuộc tính DN người"
 
 #: setup/setup_config1.tpl:29 plugins/config/class_configInLdap.inc:320
 msgid "Customized CN"
@@ -1271,62 +1271,62 @@ msgstr ""
 
 #: setup/setup_config1.tpl:45
 msgid "People storage subtree"
-msgstr ""
+msgstr "Cây con lưu trữ người"
 
 #: setup/setup_config1.tpl:54
 msgid "Group storage subtree"
-msgstr ""
+msgstr "Cây con lưu trữ nhóm"
 
 #: setup/setup_config1.tpl:63 plugins/config/class_configInLdap.inc:315
 #: plugins/config/class_configInLdap.inc:316
 msgid "Include personal title in user DN"
-msgstr ""
+msgstr "Bao gồm chức danh cá nhân trong DN của người dùng"
 
 #: setup/setup_config1.tpl:74
 msgid "Relaxed naming policies"
-msgstr ""
+msgstr "Chính sách đặt tên thoải mái"
 
 #: setup/setup_config1.tpl:85 plugins/config/class_configInLdap.inc:328
 msgid "Automatic UIDs"
-msgstr ""
+msgstr "Các UID tự động"
 
 #: setup/setup_config1.tpl:101 setup/class_setupStep_Config1.inc:121
 msgid "GID / UID min id"
-msgstr ""
+msgstr "ID min GID/UID"
 
 #: setup/setup_config1.tpl:117
 msgid "Number base for people/groups"
-msgstr ""
+msgstr "Cơ sơ số cho người/nhóm"
 
 #: setup/setup_config1.tpl:124 plugins/config/class_configInLdap.inc:117
 #: plugins/personal/password/main.inc:54
 msgid "Password settings"
-msgstr "Configurações de senha"
+msgstr "Thiết lập mật khẩu"
 
 #: setup/setup_config1.tpl:128
 msgid "Password encryption algorithm"
-msgstr ""
+msgstr "Thuật toán mã hóa mật khẩu"
 
 #: setup/setup_config1.tpl:139
 msgid "Password restrictions"
-msgstr ""
+msgstr "Các hạn chế mật khẩu"
 
 #: setup/setup_config1.tpl:146 setup/setup_config1.tpl:150
 #: plugins/config/class_configInLdap.inc:129
 msgid "Password minimum length"
-msgstr ""
+msgstr "Độ dài tối thiểu của mật khẩu"
 
 #: setup/setup_config1.tpl:157 setup/setup_config1.tpl:161
 msgid "Different characters from old password"
-msgstr ""
+msgstr "Các ký tự khác với mật khẩu cũ"
 
 #: setup/setup_config1.tpl:170
 msgid "Password change hook"
-msgstr ""
+msgstr "Móc nối việc thay đổi mật khẩu"
 
 #: setup/setup_config1.tpl:186 plugins/config/class_configInLdap.inc:143
 msgid "Use account expiration"
-msgstr ""
+msgstr "Sử dụng việc hết hạn tài khoản"
 
 #: setup/setup_config1.tpl:198
 msgid ""
@@ -1359,25 +1359,25 @@ msgstr ""
 
 #: setup/setup_config2.tpl:4 plugins/config/class_configInLdap.inc:93
 msgid "Timezone"
-msgstr ""
+msgstr "Múi giờ"
 
 #: setup/setup_config2.tpl:7
 msgid "Please choose your preferred timezone here"
-msgstr ""
+msgstr "Xin hãy lựa chọn múi giờ bạn muốn ở đây"
 
 #: setup/setup_config2.tpl:16 plugins/config/class_configInLdap.inc:236
 msgid "Snapshots / Undo"
-msgstr ""
+msgstr "Snapshots/Undo"
 
 #: setup/setup_config2.tpl:25 setup/setup_config2.tpl:70
 #: plugins/config/class_configInLdap.inc:239
 msgid "Enable snapshots"
-msgstr ""
+msgstr "Bật chức năng snapshots"
 
 #: setup/setup_config2.tpl:31 setup/setup_config2.tpl:76
 #: plugins/config/class_configInLdap.inc:243
 msgid "Snapshot base"
-msgstr ""
+msgstr "Gốc snapshot"
 
 #: setup/setup_config2.tpl:40 setup/setup_config2.tpl:85
 #: plugins/admin/ogroups/class_ogroupManagement.inc:190
@@ -1385,7 +1385,7 @@ msgstr ""
 #: plugins/generic/references/class_reference.inc:63
 #: plugins/personal/posix/trustSelect/trust-list.xml:14
 msgid "Server"
-msgstr "Servidor"
+msgstr "Máy chủ (server)"
 
 #: setup/setup_config2.tpl:49 setup/setup_config2.tpl:94
 #: plugins/admin/users/user-list.xml:23 plugins/admin/users/user-list.xml:95
@@ -1396,7 +1396,7 @@ msgstr "Servidor"
 #: plugins/admin/ogroups/objectSelect/selectObject-list.xml:71
 #: plugins/personal/generic/class_user.inc:1376
 msgid "User"
-msgstr "Usuário"
+msgstr "Người dùng"
 
 #: setup/setup_config3.tpl:2
 msgid "FusionDirectory core settings"
@@ -1408,19 +1408,19 @@ msgstr ""
 
 #: setup/setup_config3.tpl:18 plugins/config/class_configInLdap.inc:167
 msgid "Display summary in listings"
-msgstr ""
+msgstr "Hiển thị tóm tắt trên danh sách"
 
 #: setup/setup_config3.tpl:30 plugins/config/class_configInLdap.inc:173
 msgid "Honour administrative units"
-msgstr ""
+msgstr "Các đơn vị quản trị chức danh"
 
 #: setup/setup_config3.tpl:42
 msgid "Enable edit locking"
-msgstr ""
+msgstr "Bật chức năng khóa việc hiệu chỉnh lên"
 
 #: setup/setup_config3.tpl:63 plugins/config/class_configInLdap.inc:184
 msgid "Enable Copy & Paste"
-msgstr ""
+msgstr "Bật chức năng Copy & Paste"
 
 #: setup/setup_config3.tpl:74
 msgid "FusionDirectory logging"
@@ -1428,59 +1428,59 @@ msgstr ""
 
 #: setup/setup_config3.tpl:85 plugins/config/class_configInLdap.inc:202
 msgid "Login and session"
-msgstr ""
+msgstr "Đăng nhập và phiên"
 
 #: setup/setup_config3.tpl:88 plugins/config/class_configInLdap.inc:205
 msgid "Login attribute"
-msgstr ""
+msgstr "Thuộc tính đăng nhập"
 
 #: setup/setup_config3.tpl:99
 msgid "Enforce register_globals to be deactivated"
-msgstr ""
+msgstr "Tắt chức năng đăng ký _toàn cầu "
 
 #: setup/setup_config3.tpl:111 plugins/config/class_configInLdap.inc:212
 msgid "Enforce encrypted connections"
-msgstr ""
+msgstr "Thực thi việc mã hóa các kết nối"
 
 #: setup/setup_config3.tpl:123 plugins/config/class_configInLdap.inc:217
 msgid "Warn if session is not encrypted"
-msgstr ""
+msgstr "Cảnh báo nếu một phiên chưa được mã hóa"
 
 #: setup/setup_config3.tpl:135 plugins/config/class_configInLdap.inc:223
 msgid "Remember dialog filter settings"
-msgstr ""
+msgstr "Nhớ thiết lập bộ lọc đối thoại "
 
 #: setup/setup_config3.tpl:147 plugins/config/class_configInLdap.inc:229
 msgid "Session lifetime"
-msgstr ""
+msgstr "Thời gian cho một phiên (một Session)"
 
 #: setup/setup_config3.tpl:156 plugins/config/class_configInLdap.inc:368
 msgid "Debugging"
-msgstr ""
+msgstr "Sửa lỗi"
 
 #: setup/setup_config3.tpl:160
 msgid "Show PHP errors"
-msgstr ""
+msgstr "Hiển thị lỗi PHP"
 
 #: setup/setup_config3.tpl:172 plugins/config/class_configInLdap.inc:376
 msgid "Maximum LDAP query time"
-msgstr ""
+msgstr "Thời gian truy vấn LDAP tối đa"
 
 #: setup/setup_config3.tpl:190 plugins/config/class_configInLdap.inc:381
 msgid "Log LDAP statistics"
-msgstr ""
+msgstr "Đăng nhập thống kê LDAP"
 
 #: setup/setup_config3.tpl:202 plugins/config/class_configInLdap.inc:387
 msgid "Debug level"
-msgstr ""
+msgstr "Cấp độ sửa lỗi"
 
 #: setup/setup_config3.tpl:207 setup/setup_config3.tpl:210
 msgid "Disabled"
-msgstr ""
+msgstr "Vô hiệu hóa/ Tắt chức năng"
 
 #: setup/setup_config3.tpl:208 setup/setup_config3.tpl:211
 msgid "Enabled"
-msgstr ""
+msgstr "Bật chức năng"
 
 #: setup/class_setupStep_Config1.inc:76 setup/class_setupStep_Config1.inc:77
 msgid "FusionDirectory settings 1/3"
@@ -1493,32 +1493,32 @@ msgstr ""
 #: setup/class_setupStep_Config1.inc:121
 #, php-format
 msgid "The specified value for '%s' must be a numeric value"
-msgstr ""
+msgstr "Gía trị cụ thể cho '%s' phải là một giá trị số"
 
 #: setup/class_setupStep_Config1.inc:125 setup/class_setupStep_Config1.inc:129
 #, php-format
 msgid "Don't add a trailing comma to '%s'."
-msgstr ""
+msgstr "Đừng thêm dấu phẩy đuôi vào '%s'."
 
 #: setup/class_setupStep_Config1.inc:125
 msgid "People storage ou"
-msgstr ""
+msgstr "ou lưu trữ người"
 
 #: setup/class_setupStep_Config1.inc:129
 msgid "Group storage ou"
-msgstr ""
+msgstr "ou lưu trữ nhóm"
 
 #: setup/class_setupStep_Config1.inc:133
 msgid "Uid base must be numeric"
-msgstr ""
+msgstr "Gốc UID phải là số"
 
 #: setup/class_setupStep_Config1.inc:137
 msgid "The given password minimum length is not numeric."
-msgstr ""
+msgstr "Độ dài tối thiểu của mật khẩu đã cho không phải là số."
 
 #: setup/class_setupStep_Config1.inc:140
 msgid "The given password differ value is not numeric."
-msgstr ""
+msgstr "Gía trị khác của mật khẩu cho trước không phải là số."
 
 #: setup/class_setupStep_Config2.inc:52 setup/class_setupStep_Config2.inc:53
 msgid "FusionDirectory settings 2/3"
@@ -1526,7 +1526,7 @@ msgstr ""
 
 #: setup/class_setupStep_Config2.inc:54
 msgid "Customize special parameters"
-msgstr ""
+msgstr "Tùy biến các thông số đặc biệt"
 
 #: setup/class_setupStep_Config3.inc:74 setup/class_setupStep_Config3.inc:75
 msgid "FusionDirectory settings 3/3"
@@ -1538,29 +1538,29 @@ msgstr ""
 
 #: setup/class_setupStep_Config3.inc:281
 msgid "Session lifetime must be a numeric value!"
-msgstr ""
+msgstr "Khoảng thời gian của phiên phải là một giá trị số!"
 
 #: setup/class_setupStep_Config3.inc:285
 msgid "Maximum LDAP query time must be a numeric value!"
-msgstr ""
+msgstr "Thời gian tối đa để yêu cầu LDAP phải là một giá trị số!"
 
 #: setup/class_setupStep_Finish.inc:37
 msgid "Write configuration file"
-msgstr ""
+msgstr "Viết file cấu hình"
 
 #: setup/class_setupStep_Finish.inc:38
 msgid "Finish - write the configuration file"
-msgstr ""
+msgstr "Kết thúc - viết file cấu hình"
 
 #: setup/class_setupStep_Finish.inc:103
 msgid ""
 "Your configuration file is currently world readable. Please update the file "
 "permissions!"
-msgstr ""
+msgstr "File cấu hình của bạn hiện cả thế giới đều đọc được. Xin hãy cập nhật quyền truy cập file!"
 
 #: setup/class_setupStep_Finish.inc:105
 msgid "The configuration is currently not readable or it does not exists."
-msgstr ""
+msgstr "Cấu hình hiện tại không thể đọc được hoặc nó không tồn tại."
 
 #: setup/class_setupStep_Finish.inc:111
 #, php-format
@@ -1579,39 +1579,39 @@ msgstr ""
 
 #: setup/setup_welcome.tpl:8
 msgid "What will the wizard do for you?"
-msgstr ""
+msgstr "Wizard sẽ giúp bạn những gì?"
 
 #: setup/setup_welcome.tpl:11
 msgid "Create a basic, single site configuration"
-msgstr ""
+msgstr "Tạo ra một cấu hình trang đơn, đơn giản"
 
 #: setup/setup_welcome.tpl:12
 msgid "Tries to find problems within your PHP and LDAP setup"
-msgstr ""
+msgstr "Cố gắng tìm ra vấn đề trong cài đặt PHP và LDAP của bạn "
 
 #: setup/setup_welcome.tpl:13
 msgid "Let you choose from a set of basic and advanced configuration switches"
-msgstr ""
+msgstr "Cho phép bạn lựa chọn từ một loạt các phím chuyển cấu hình cơ bản và cao cấp"
 
 #: setup/setup_welcome.tpl:14
 msgid "Guided migration of existing LDAP trees"
-msgstr ""
+msgstr "Di trú có hướng dẫn của các cây LDAP hiện có"
 
 #: setup/setup_welcome.tpl:17
 msgid "What will the wizard NOT do for you?"
-msgstr ""
+msgstr "Wizard không thể làm gì được cho bạn?"
 
 #: setup/setup_welcome.tpl:20
 msgid "Find every possible configuration error"
-msgstr ""
+msgstr "Tìm được mọi lỗi cấu hình có thể xảy ra"
 
 #: setup/setup_welcome.tpl:21
 msgid "Migrate every possible LDAP setup - create backup dumps!"
-msgstr ""
+msgstr "Di trú mọi cài đặt LDAP - và tạo ra các xổ backup!"
 
 #: setup/setup_welcome.tpl:25
 msgid "To continue..."
-msgstr ""
+msgstr "Còn nữa..."
 
 #: setup/setup_welcome.tpl:28
 msgid ""
@@ -1643,7 +1643,7 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:1395
 #: plugins/personal/generic/generic.tpl:277
 msgid "Organization"
-msgstr "Organização"
+msgstr "Tổ chức"
 
 #: setup/setup_feedback.tpl:28 setup/setup_migrate.tpl:235
 #: plugins/admin/acl/acl-list.xml:49 plugins/admin/acl/acl-filter.tpl:21
@@ -1716,11 +1716,11 @@ msgstr "Organização"
 #: plugins/personal/generic/class_user.inc:1161
 #: plugins/personal/generic/class_user.inc:1203
 msgid "Name"
-msgstr "Nome"
+msgstr "Tên"
 
 #: setup/setup_feedback.tpl:36
 msgid "Mail address"
-msgstr "Endereço de Correio"
+msgstr "Địa chỉ thư"
 
 #: setup/setup_feedback.tpl:47
 msgid "Send feedback to the FusionDirectory project team"
@@ -1741,15 +1741,15 @@ msgstr ""
 #: plugins/personal/posix/class_posixAccount.inc:92
 #: plugins/personal/generic/class_user.inc:1371
 msgid "Generic"
-msgstr "Geral"
+msgstr "Thông tin chung"
 
 #: setup/setup_feedback.tpl:56
 msgid "Did the setup procedure help you to get started?"
-msgstr ""
+msgstr "Các thủ tục cài đặt có giúp bạn bắt đầu được không?"
 
 #: setup/setup_feedback.tpl:66
 msgid "If not, what problems did you encounter"
-msgstr ""
+msgstr "Nếu không, vấn đề mà bạn gặp phải là gì?"
 
 #: setup/setup_feedback.tpl:74
 msgid "Is this the first time you use FusionDirectory?"
@@ -1757,7 +1757,7 @@ msgstr ""
 
 #: setup/setup_feedback.tpl:80
 msgid "I use it since"
-msgstr ""
+msgstr "Tôi sử dụng nó từ khi"
 
 #: setup/setup_feedback.tpl:81
 msgid "Select the year since when you are using FusionDirectory"
@@ -1765,15 +1765,15 @@ msgstr ""
 
 #: setup/setup_feedback.tpl:88
 msgid "What operating system / distribution do you use?"
-msgstr ""
+msgstr "Bạn sử dụng loại hệ điều hành/bản phân phối nảo?"
 
 #: setup/setup_feedback.tpl:96
 msgid "What web server do you use?"
-msgstr ""
+msgstr "Bạn sử dụng loại web server nào?"
 
 #: setup/setup_feedback.tpl:104
 msgid "What PHP version do you use?"
-msgstr ""
+msgstr "Bạn sử dụng phiên bản PHP nào?"
 
 #: setup/setup_feedback.tpl:112
 msgid "FusionDirectory version"
@@ -1781,19 +1781,19 @@ msgstr ""
 
 #: setup/setup_feedback.tpl:120
 msgid "LDAP"
-msgstr ""
+msgstr "LDAP"
 
 #: setup/setup_feedback.tpl:124
 msgid "What kind of LDAP server(s) do you use?"
-msgstr ""
+msgstr "Bạn sử dụng loại LDAP server nào?"
 
 #: setup/setup_feedback.tpl:130
 msgid "How many objects are in your LDAP?"
-msgstr ""
+msgstr "Có bao nhiêu đối tượng trong LDAP của bạn?"
 
 #: setup/setup_feedback.tpl:137
 msgid "Features"
-msgstr ""
+msgstr "Các tính năng"
 
 #: setup/setup_feedback.tpl:140
 msgid "What features of FusionDirectory do you use?"
@@ -1806,7 +1806,7 @@ msgstr ""
 
 #: setup/setup_feedback.tpl:157
 msgid "Send feedback"
-msgstr ""
+msgstr "Gửi phản hồi"
 
 #: setup/setup_migrate.tpl:5
 msgid ""
@@ -1817,7 +1817,7 @@ msgstr ""
 
 #: setup/setup_migrate.tpl:33
 msgid "Check again"
-msgstr ""
+msgstr "Kiểm tra lại"
 
 #: setup/setup_migrate.tpl:37
 msgid "Add required object classes to the LDAP base"
@@ -1828,14 +1828,14 @@ msgstr ""
 #: setup/setup_migrate.tpl:405 setup/setup_migrate.tpl:448
 #: setup/setup_migrate.tpl:492
 msgid "Current"
-msgstr ""
+msgstr "Hiện tại"
 
 #: setup/setup_migrate.tpl:46 setup/setup_migrate.tpl:200
 #: setup/setup_migrate.tpl:303 setup/setup_migrate.tpl:357
 #: setup/setup_migrate.tpl:409 setup/setup_migrate.tpl:452
 #: setup/setup_migrate.tpl:496
 msgid "After migration"
-msgstr ""
+msgstr "Sau khi di trú"
 
 #: setup/setup_migrate.tpl:54 setup/class_setupStep_Migrate.inc:592
 #: setup/class_setupStep_Migrate.inc:732 setup/class_setupStep_Migrate.inc:961
@@ -1844,21 +1844,21 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:2508
 #: setup/class_setupStep_Migrate.inc:2838
 msgid "Migrate"
-msgstr ""
+msgstr "Di trú"
 
 #: setup/setup_migrate.tpl:60
 msgid "Close"
-msgstr "Fechar"
+msgstr "Đóng"
 
 #: setup/setup_migrate.tpl:65
 msgid "Move groups into configured group tree"
-msgstr ""
+msgstr "Chuyển nhóm thành cây nhóm đã được cấu hình"
 
 #: setup/setup_migrate.tpl:68
 msgid ""
 "This dialog allows moving a couple of groups to the configured group tree. "
 "Doing this may straighten your LDAP service."
-msgstr ""
+msgstr "Hộp thoại này cho phép việc chuyển một vài nhóm đến cây nhóm đã được cấu hình. Thực hiện việc này có thể sẽ làm gọn gàng dịch vụ LDAP của bạn."
 
 #: setup/setup_migrate.tpl:71
 msgid ""
@@ -1869,38 +1869,38 @@ msgstr ""
 
 #: setup/setup_migrate.tpl:74
 msgid "Move selected groups into this group tree"
-msgstr ""
+msgstr "Chuyển các nhóm đã chọn vào trong các cây nhóm"
 
 #: setup/setup_migrate.tpl:101 setup/setup_migrate.tpl:153
 #: setup/setup_migrate.tpl:320 setup/setup_migrate.tpl:373
 #: setup/setup_migrate.tpl:416 setup/setup_migrate.tpl:459
 #: setup/setup_migrate.tpl:503 include/class_listing.inc:351
 msgid "Select all"
-msgstr ""
+msgstr "Chọn tất"
 
 #: setup/setup_migrate.tpl:105 setup/setup_migrate.tpl:157
 #: setup/setup_migrate.tpl:206 setup/setup_migrate.tpl:324
 #: setup/setup_migrate.tpl:377 setup/setup_migrate.tpl:421
 #: setup/setup_migrate.tpl:464 setup/setup_migrate.tpl:508
 msgid "Hide changes"
-msgstr ""
+msgstr "Ẩn các thay đổi"
 
 #: setup/setup_migrate.tpl:107 setup/setup_migrate.tpl:159
 #: setup/setup_migrate.tpl:189 setup/setup_migrate.tpl:326
 #: setup/setup_migrate.tpl:379 setup/setup_migrate.tpl:424
 #: setup/setup_migrate.tpl:467 setup/setup_migrate.tpl:511
 msgid "Show changes"
-msgstr ""
+msgstr "Hiển thị các thay đổi"
 
 #: setup/setup_migrate.tpl:120
 msgid "Move users into configured user tree"
-msgstr ""
+msgstr "Chuyển người dùng sang cây người dùng được cấu hình"
 
 #: setup/setup_migrate.tpl:122
 msgid ""
 "This dialog allows moving a couple of users to the configured user tree. "
 "Doing this may straighten your LDAP service."
-msgstr ""
+msgstr "Hộp thoại này cho phép việc chuyển một vài nhóm đến cây nhóm đã được cấu hình. Thực hiện việc này có thể sẽ làm gọn gàng dịch vụ LDAP của bạn."
 
 #: setup/setup_migrate.tpl:125
 msgid ""
@@ -1911,7 +1911,7 @@ msgstr ""
 
 #: setup/setup_migrate.tpl:128
 msgid "Move selected users into this people tree"
-msgstr ""
+msgstr "Chuyển người dùng sang cây người dùng được cấu hình"
 
 #: setup/setup_migrate.tpl:171
 msgid "Migrate GOsa 2.5 administrative accounts"
@@ -1925,11 +1925,11 @@ msgstr ""
 
 #: setup/setup_migrate.tpl:209 setup/setup_ldap.tpl:65
 msgid "Reload"
-msgstr ""
+msgstr "Tải lại"
 
 #: setup/setup_migrate.tpl:225
 msgid "Abort"
-msgstr ""
+msgstr "Ngừng lại"
 
 #: setup/setup_migrate.tpl:227
 msgid "Create a new FusionDirectory administrator account"
@@ -1939,15 +1939,15 @@ msgstr ""
 msgid ""
 "This dialog will automatically add a new super administrator to your LDAP "
 "tree."
-msgstr ""
+msgstr "Hộp thoại này sẽ tự động thêm một siêu admin mới vào cây LDAP của bạn."
 
 #: setup/setup_migrate.tpl:243
 msgid "User ID"
-msgstr "ID do usuário"
+msgstr "ID người dùng"
 
 #: setup/setup_migrate.tpl:259
 msgid "Password (again)"
-msgstr ""
+msgstr "Mật khẩu (nhập lại)"
 
 #: setup/setup_migrate.tpl:285
 msgid ""
@@ -1962,7 +1962,7 @@ msgstr ""
 msgid ""
 "If you want to know what will be done when migrating the selected entries, "
 "use the 'Show changes' button to see the LDIF."
-msgstr ""
+msgstr "Nếu bạn muốn biết việc gì sẽ được tiến hành khi di trú các entry được chọn này, hãy sử dụng phím 'hiển thị thay đổi 'để xem định dạng LDIF."
 
 #: setup/setup_migrate.tpl:340
 msgid ""
@@ -1983,7 +1983,7 @@ msgstr ""
 #: plugins/personal/password/password.tpl:68
 #: plugins/personal/generic/password.tpl:62
 msgid "Refresh"
-msgstr "Recarregar"
+msgstr ""
 
 #: setup/setup_migrate.tpl:440
 msgid ""
@@ -2001,11 +2001,11 @@ msgstr ""
 
 #: setup/class_setupStep_Welcome.inc:38
 msgid "Welcome"
-msgstr ""
+msgstr "Chào mừng"
 
 #: setup/class_setupStep_Welcome.inc:39
 msgid "The welcome message"
-msgstr ""
+msgstr "Tin nhắn chào mừng"
 
 #: setup/class_setupStep_Welcome.inc:40
 msgid "Welcome to FusionDirectory setup wizard"
@@ -2013,7 +2013,7 @@ msgstr ""
 
 #: setup/setup_checks.tpl:9
 msgid "PHP module and extension checks"
-msgstr ""
+msgstr "Kiểm tra các module và mở rộng của PHP"
 
 #: setup/setup_checks.tpl:41 setup/setup_checks.tpl:103
 msgid "FusionDirectory will NOT run without fixing this."
@@ -2025,11 +2025,11 @@ msgstr ""
 
 #: setup/setup_checks.tpl:67
 msgid "PHP setup configuration"
-msgstr ""
+msgstr "Cấu hình cài đặt PHP"
 
 #: setup/setup_checks.tpl:67
 msgid "show information"
-msgstr ""
+msgstr "hiển thị thông tin"
 
 #: setup/setup_ldap.tpl:7
 msgid "Please choose the LDAP user to be used by FusionDirectory"
@@ -2037,15 +2037,15 @@ msgstr ""
 
 #: setup/setup_ldap.tpl:13
 msgid "Search"
-msgstr "Procura"
+msgstr "Tìm kiếm"
 
 #: setup/setup_ldap.tpl:25
 msgid "LDAP connection"
-msgstr ""
+msgstr "Kết nối LDAP"
 
 #: setup/setup_ldap.tpl:29
 msgid "Location name"
-msgstr ""
+msgstr "Tên vị trí"
 
 #: setup/setup_ldap.tpl:37
 msgid "Connection URI"
@@ -2053,7 +2053,7 @@ msgstr ""
 
 #: setup/setup_ldap.tpl:45
 msgid "TLS connection"
-msgstr ""
+msgstr "Kết nối TLS"
 
 #: setup/setup_ldap.tpl:55 plugins/admin/acl/acl-list.tpl:13
 #: plugins/admin/acl/acl_role.tpl:27 plugins/admin/acl/class_aclRole.inc:703
@@ -2085,45 +2085,45 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:1389
 #: plugins/personal/generic/generic.tpl:163
 msgid "Base"
-msgstr "Base"
+msgstr "Cơ sở"
 
 #: setup/setup_ldap.tpl:69
 msgid "Authentication"
-msgstr ""
+msgstr "Thẩm định quyền"
 
 #: setup/setup_ldap.tpl:73
 msgid "Admin DN"
-msgstr ""
+msgstr "Admin DN"
 
 #: setup/setup_ldap.tpl:78
 #: plugins/admin/groups/singleUserSelect/singleUser-list.xml:79
 #: plugins/admin/groups/singleUserSelect/singleUser-list.xml:85
 msgid "Select user"
-msgstr ""
+msgstr "Chọn người dùng"
 
 #: setup/setup_ldap.tpl:86
 msgid "Automatically append LDAP base to admin DN"
-msgstr ""
+msgstr "Tự động nối cơ sở LDAP với admin DN"
 
 #: setup/setup_ldap.tpl:93
 msgid "Admin password"
-msgstr ""
+msgstr "Mật khẩu Admin"
 
 #: setup/setup_ldap.tpl:101
 msgid "Schema based settings"
-msgstr ""
+msgstr "Thiết lập dựa trên Schema"
 
 #: setup/setup_ldap.tpl:105
 msgid "Use rfc2307bis compliant groups"
-msgstr ""
+msgstr "Sử dụng các nhóm tuân thủ tiêu chuẩn rfc2307bis"
 
 #: setup/setup_ldap.tpl:117
 msgid "Current status"
-msgstr ""
+msgstr "Tình trạng hiện tại"
 
 #: setup/class_setupStep_Migrate.inc:122 setup/class_setupStep_Migrate.inc:123
 msgid "LDAP inspection"
-msgstr ""
+msgstr "Thanh tra LDAP"
 
 #: setup/class_setupStep_Migrate.inc:124
 msgid "Analyze your current LDAP for FusionDirectory compatibility"
@@ -2131,7 +2131,7 @@ msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:130
 msgid "Checking for root object"
-msgstr ""
+msgstr "Kiểm tra đối tượng gốc"
 
 #: setup/class_setupStep_Migrate.inc:136
 msgid "Inspecting object classes in root object"
@@ -2143,32 +2143,32 @@ msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:148
 msgid "Checking for invisible departments"
-msgstr ""
+msgstr "Kiểm tra các bộ phận ẩn"
 
 #: setup/class_setupStep_Migrate.inc:153
 msgid "Checking for invisible users"
-msgstr ""
+msgstr "Kiểm tra những người dùng ẩn"
 
 #: setup/class_setupStep_Migrate.inc:160
 #: setup/class_setupStep_Migrate.inc:2989
 msgid "Checking for super administrator"
-msgstr ""
+msgstr "Kiểm tra siêu admin"
 
 #: setup/class_setupStep_Migrate.inc:166
 msgid "Checking for users outside the people tree"
-msgstr ""
+msgstr "Kiểm tra người dùng bên ngoài cây con người"
 
 #: setup/class_setupStep_Migrate.inc:172
 msgid "Checking for groups outside the groups tree"
-msgstr ""
+msgstr "Kiểm tra nhóm bên ngoài cây nhóm"
 
 #: setup/class_setupStep_Migrate.inc:179
 msgid "Checking for duplicated UID numbers"
-msgstr ""
+msgstr "Kiểm tra các số ID cuả người dùng (UID) được nhân bản"
 
 #: setup/class_setupStep_Migrate.inc:185
 msgid "Checking for duplicate GID numbers"
-msgstr ""
+msgstr "Kiểm tra các số ID của nhóm (GID) được nhân bản"
 
 #: setup/class_setupStep_Migrate.inc:191
 msgid "Checking for old style USB devices"
@@ -2191,7 +2191,7 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:2472
 #: setup/class_setupStep_Migrate.inc:2612
 msgid "LDAP query failed"
-msgstr ""
+msgstr "Yêu cầu LDAP thất bại"
 
 #: setup/class_setupStep_Migrate.inc:230 setup/class_setupStep_Migrate.inc:282
 #: setup/class_setupStep_Migrate.inc:349 setup/class_setupStep_Migrate.inc:420
@@ -2202,31 +2202,31 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:2473
 #: setup/class_setupStep_Migrate.inc:2613
 msgid "Possibly the 'root object' is missing."
-msgstr ""
+msgstr "Có thể 'đối tượng gốc' bị mất tích."
 
 #: setup/class_setupStep_Migrate.inc:252
 #, php-format
 msgid "Found %s duplicate values for attribute 'uidNumber'."
-msgstr ""
+msgstr "Đã tìm được %s giá trị nhân bản cho thuộc tính  'uidNumder'."
 
 #: setup/class_setupStep_Migrate.inc:304
 #, php-format
 msgid "Found %s duplicate values for attribute 'gidNumber'."
-msgstr ""
+msgstr "Đã tìm được %s giá trị nhân bản cho thuộc tính  'gidNumder'."
 
 #: setup/class_setupStep_Migrate.inc:375
 #, php-format
 msgid "Found %s groups outside the configured tree '%s'."
-msgstr ""
+msgstr "Đã tìm thấy %s nhóm bên ngoài cây được cấu hình '%s'."
 
 #: setup/class_setupStep_Migrate.inc:376 setup/class_setupStep_Migrate.inc:453
 msgid "Move"
-msgstr ""
+msgstr "Chuyển"
 
 #: setup/class_setupStep_Migrate.inc:452
 #, php-format
 msgid "Found %s user(s) outside the configured tree '%s'."
-msgstr ""
+msgstr "Đã tìm thấy %s người dùng  bên ngoài cây được cấu hình '%s'."
 
 #: setup/class_setupStep_Migrate.inc:510 setup/class_setupStep_Migrate.inc:523
 #: setup/class_setupStep_Migrate.inc:958 setup/class_setupStep_Migrate.inc:976
@@ -2237,13 +2237,13 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:1954
 #: setup/class_setupStep_Migrate.inc:2991
 msgid "Failed"
-msgstr "Erro"
+msgstr "Thất bại"
 
 #: setup/class_setupStep_Migrate.inc:512 setup/class_setupStep_Migrate.inc:525
 #, php-format
 msgid ""
 "The specified user '%s' does not have full access to your ldap database."
-msgstr ""
+msgstr "Người dùng '%s' không có toàn quyền truy cập vào cơ sở dữ liệu LDAP của bạn."
 
 #: setup/class_setupStep_Migrate.inc:590
 #, php-format
@@ -2255,12 +2255,12 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:640 setup/class_setupStep_Migrate.inc:783
 #: setup/class_setupStep_Migrate.inc:1046
 msgid "Migration error"
-msgstr ""
+msgstr "Lỗi di trú"
 
 #: setup/class_setupStep_Migrate.inc:640 setup/class_setupStep_Migrate.inc:783
 #, php-format
 msgid "Cannot migrate department '%s':"
-msgstr ""
+msgstr "Không thể di trú bộ phận '%s':"
 
 #: setup/class_setupStep_Migrate.inc:731
 #, php-format
@@ -2284,19 +2284,19 @@ msgstr ""
 #: plugins/admin/departments/dep-list.xml:98
 #: plugins/admin/ogroups/ogroup-list.xml:73
 msgid "Create"
-msgstr "Criar"
+msgstr "Tạo "
 
 #: setup/class_setupStep_Migrate.inc:966 include/class_acl.inc:239
 #: plugins/admin/users/class_userManagement.inc:52
 #: plugins/personal/generic/class_user.inc:1374
 msgid "Users"
-msgstr "Usuários"
+msgstr "Người dùng"
 
 #: setup/class_setupStep_Migrate.inc:969 include/class_acl.inc:239
 #: plugins/admin/groups/class_group.inc:1109
 #: plugins/admin/groups/class_groupManagement.inc:36
 msgid "Groups"
-msgstr "Grupos"
+msgstr "Các nhóm"
 
 #: setup/class_setupStep_Migrate.inc:977
 msgid "There is no FusionDirectory administrator account inside your LDAP."
@@ -2305,73 +2305,73 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:1046
 #, php-format
 msgid "Cannot add ACL for user '%s':"
-msgstr ""
+msgstr "Không thể thêm ACL cho người dùng '%s':"
 
 #: setup/class_setupStep_Migrate.inc:1084
 #: setup/class_setupStep_Migrate.inc:1094
 msgid "Input error"
-msgstr ""
+msgstr "Lỗi nhập vào"
 
 #: setup/class_setupStep_Migrate.inc:1084
 msgid "Uid"
-msgstr "UID"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1089
 msgid "Password error"
-msgstr ""
+msgstr "Lỗi mật mã"
 
 #: setup/class_setupStep_Migrate.inc:1089
 msgid "Provided passwords do not match!"
-msgstr ""
+msgstr "Những mật khẩu được cung cấp không phù hợp!"
 
 #: setup/class_setupStep_Migrate.inc:1094
 msgid "Specify a valid user ID!"
-msgstr ""
+msgstr "Xác định một ID người dùng hợp lệ!"
 
 #: setup/class_setupStep_Migrate.inc:1127
 #, php-format
 msgid "Adding an administrative user failed: object '%s' already exists!"
-msgstr ""
+msgstr "Việc thêm một người dùng quản trị đã thất bại: đối tượng '%s' đã có rồi!"
 
 #: setup/class_setupStep_Migrate.inc:1164
 #: setup/class_setupStep_Migrate.inc:1213
 msgid "Cannot move users to the requested department!"
-msgstr ""
+msgstr "Không thể chuyển người dùng đến bộ phận được yêu cầu!"
 
 #: setup/class_setupStep_Migrate.inc:1175
 msgid "Group will be moved from"
-msgstr ""
+msgstr "Nhóm sẽ được chuyển từ"
 
 #: setup/class_setupStep_Migrate.inc:1175
 #: setup/class_setupStep_Migrate.inc:1223 include/class_plugin.inc:1675
 msgid "to"
-msgstr ""
+msgstr "đến"
 
 #: setup/class_setupStep_Migrate.inc:1185
 msgid "Updating following references too"
-msgstr ""
+msgstr "Cập nhật cả các tham chiếu sau"
 
 #: setup/class_setupStep_Migrate.inc:1223
 msgid "User will be moved from"
-msgstr ""
+msgstr "Người dùng sẽ được chuyển từ"
 
 #: setup/class_setupStep_Migrate.inc:1233
 msgid "The following references will be updated"
-msgstr ""
+msgstr "Tham chiếu sau sẽ được cập nhật"
 
 #: setup/class_setupStep_Migrate.inc:1814
 msgid ""
 "The LDAP root object is missing. It is required to use your LDAP service."
-msgstr ""
+msgstr "Đối tượng gốc LDAP đang mất tích. Để sử dụng dịch vụ LDAP của bạn, bạn cần có nó."
 
 #: setup/class_setupStep_Migrate.inc:1815
 #: setup/class_setupStep_Migrate.inc:1828
 msgid "Try to create root object"
-msgstr ""
+msgstr "Cố tạo ra một đối tượng gốc"
 
 #: setup/class_setupStep_Migrate.inc:1827
 msgid "Root object couldn't be created, you should try it on your own."
-msgstr ""
+msgstr "Đối tượng gốc không thể được tạo ra, bạn phải cố tự mình tạo ra nó."
 
 #: setup/class_setupStep_Migrate.inc:1882
 #, php-format
@@ -2392,7 +2392,7 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:2215
 #, php-format
 msgid "Copy '%s' to '%s' failed:"
-msgstr ""
+msgstr "Sao chép '%s' đến '%s' bị thất bại:"
 
 #: setup/class_setupStep_Migrate.inc:2350
 #, php-format
@@ -2421,7 +2421,7 @@ msgstr ""
 #: plugins/personal/generic/generic.tpl:249
 #, php-format
 msgid "Add"
-msgstr "Adicionar"
+msgstr "Thêm vào"
 
 #: setup/class_setupStep_Migrate.inc:2648 plugins/admin/acl/acl-list.xml:95
 #: plugins/admin/acl/acl-list.xml:144 plugins/admin/users/user-list.xml:121
@@ -2433,7 +2433,7 @@ msgstr "Adicionar"
 #: plugins/personal/generic/generic_certs.tpl:45
 #: plugins/personal/generic/generic_certs.tpl:69
 msgid "Remove"
-msgstr "Remover"
+msgstr "Xóa bỏ"
 
 #: setup/class_setupStep_Migrate.inc:2837
 #, php-format
@@ -2446,7 +2446,7 @@ msgstr ""
 msgid ""
 "The snapshot functionality is enabled, but the required variable '%s' is not"
 " set."
-msgstr ""
+msgstr "Chức năng Snapshot đã được bật, nhưng biến số được yêu cầu: '%s' vẫn chưa được thiết lập."
 
 #: include/class_SnapshotHandler.inc:71 include/class_config.inc:1164
 #, php-format
@@ -2473,18 +2473,18 @@ msgstr ""
 
 #: include/class_pluglist.inc:121
 msgid "All objects in this category"
-msgstr "Todos os objetos nessa categoria"
+msgstr "Tất cả các đối tượng trong hạng mục này"
 
 #: include/class_pluglist.inc:273
 msgid "The configuration format has changed. Please re-run setup!"
-msgstr "O formato da configuração foi alterado. Por favor, execute novamente o configurador!"
+msgstr "Định dạng cấu hình đã thay đổi. Xin hãy chạy lại cài đặt!"
 
 #: include/class_pluglist.inc:294 include/class_pluglist.inc:295
 #: include/class_pluglist.inc:368
 #: plugins/admin/departments/class_department.inc:145
 #: plugins/personal/generic/class_user.inc:281
 msgid "Unknown"
-msgstr "Desconhecido"
+msgstr "Không rõ"
 
 #: include/class_xml.inc:65
 msgid "in"
@@ -2508,7 +2508,7 @@ msgstr ""
 #: include/class_tabs.inc:279
 #, php-format
 msgid "Delete process has been canceled by plugin '%s': %s"
-msgstr ""
+msgstr "Qúa trình xóa đã bị hủy bỏ bởi plugin '%s': %s"
 
 #: include/class_tabs.inc:397 include/class_acl.inc:511
 #: include/class_acl.inc:515 include/class_acl.inc:1344
@@ -2521,12 +2521,12 @@ msgstr "ACL"
 
 #: include/class_tabs.inc:402
 msgid "References"
-msgstr "Referências"
+msgstr "Các tham chiếu"
 
 #: include/class_management.inc:41 include/class_management.inc:42
 #: plugins/personal/posix/class_posixAccount.inc:275
 msgid "unconfigured"
-msgstr "desconfigurado"
+msgstr "không được cấu hình"
 
 #: include/class_management.inc:168
 msgid "Filter error"
@@ -2542,25 +2542,25 @@ msgstr ""
 #: plugins/admin/users/class_userManagement.inc:202
 #: plugins/admin/users/class_userManagement.inc:758
 msgid "Permission"
-msgstr ""
+msgstr "Cho phép"
 
 #: include/class_management.inc:403
 #: plugins/admin/acl/class_aclManagement.inc:101
 #: plugins/admin/users/class_userManagement.inc:716
 #: plugins/admin/users/class_userManagement.inc:720
 msgid "Permission error"
-msgstr ""
+msgstr "Lỗi về cấp phép"
 
 #: include/class_management.inc:483
 #, php-format
 msgid "You are not allowed to create a snapshot for %s."
-msgstr ""
+msgstr "Bạn không được phép tạo ra snapshot cho %s."
 
 #: include/class_management.inc:536 include/class_management.inc:576
 #: include/class_management.inc:590
 #, php-format
 msgid "You are not allowed to restore a snapshot for %s."
-msgstr ""
+msgstr "Bạn không được phép phục hồi một snapshot cho %s."
 
 #: include/class_management.inc:657
 #, php-format
@@ -2572,22 +2572,22 @@ msgstr ""
 #: include/functions.inc:123
 #, php-format
 msgid "Fatal error: no class locations defined - please run '%s' to fix this"
-msgstr ""
+msgstr "Lỗi nghiêm trọng: không có vị trí lớp nào được xác định - xin hãy chạy '%s' để sửa lỗi này"
 
 #: include/functions.inc:137
 #, php-format
 msgid ""
 "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
-msgstr ""
+msgstr "Lỗi nghiêm trọng: không thể tạo ra lớp '%s' - hãy thử chạy '%s' để sửa lỗi này"
 
 #: include/functions.inc:510
 #, php-format
 msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
-msgstr ""
+msgstr "LỖI NGHIÊM TRỌNG: Lỗi khi đang kết nối với LDAP. Server thông báo '%s'."
 
 #: include/functions.inc:591
 msgid "Username / UID is not unique inside the LDAP tree!"
-msgstr ""
+msgstr "Tên người dùng/ UID không phải là duy nhất trong cây LDAP!"
 
 #: include/functions.inc:682 include/functions.inc:923
 #: include/functions.inc:1045 include/functions.inc:1476
@@ -2597,80 +2597,80 @@ msgstr ""
 #: include/class_session.inc:137 include/class_session.inc:175
 #: include/class_ldap.inc:871 include/class_ldap.inc:922
 msgid "Internal error"
-msgstr "Erro interno"
+msgstr "Lỗi nội bộ"
 
 #: include/functions.inc:682
 msgid ""
 "Username / UID is not unique inside the LDAP tree. Please contact your "
 "Administrator."
-msgstr ""
+msgstr "Tên người dùng/UID không phải là duy nhất trong cây LDAP. Xin hãy liên Lạc với Admin của bạn."
 
 #: include/functions.inc:923 include/functions.inc:1045
 msgid "Error while adding a lock. Contact the developers!"
-msgstr ""
+msgstr "Lỗi khi đang thêm một khóa vào. Hãy liên lạc với các nhà phát triển!"
 
 #: include/functions.inc:933
 #, php-format
 msgid ""
 "Cannot create locking information in LDAP tree. Please contact your "
 "administrator!"
-msgstr ""
+msgstr "Không thể tạo ra việc khóa thông tin trong cây LDAP.Xin hãy liên lạc với admin của bạn!"
 
 #: include/functions.inc:933
 #, php-format
 msgid "LDAP server returned: %s"
-msgstr ""
+msgstr "LDAP server trả về: %s"
 
 #: include/functions.inc:1066
 msgid ""
 "Found multiple locks for object to be locked. This should not happen - "
 "cleaning up multiple references."
-msgstr ""
+msgstr "Tìm thấy nhiều khóa khác nhau để khóa đối tượng. Điều này không nên xảy ra - hãy dọn sạch các tham chiếu."
 
 #: include/functions.inc:1396
 #, php-format
 msgid "The size limit of %d entries is exceed!"
-msgstr ""
+msgstr "Đã vượt quá giới hạn kích cỡ của các entry %d!"
 
 #: include/functions.inc:1398
 #, php-format
 msgid ""
 "Set the new size limit to %s and show me this message if the limit still "
 "exceeds"
-msgstr ""
+msgstr "Thiết lập kích cỡ mới cho %s và cho tôi thấy tin nhắn nếu giới hạn này vẫn vượt quá tiêu chuẩn"
 
 #: include/functions.inc:1415 plugins/personal/generic/generic.tpl:219
 msgid "Configure"
-msgstr "Configurar"
+msgstr "Cấu hình"
 
 #: include/functions.inc:1420
 msgid "incomplete"
-msgstr ""
+msgstr "chưa hoàn thành"
 
 #: include/functions.inc:1858
 msgid "Continue anyway"
-msgstr ""
+msgstr "Cứ tiếp tục"
 
 #: include/functions.inc:1860
 msgid "Edit anyway"
-msgstr "Editar mesmo assim"
+msgstr "Cứ hiệu chỉnh"
 
 #: include/functions.inc:1862
 #, php-format
 msgid "You're going to edit the LDAP entry/entries %s"
-msgstr ""
+msgstr "Bạn sẽ hiệu chỉnh entry/các entry %s của LDAP"
 
 #: include/functions.inc:2118
 msgid "Entries per page"
-msgstr ""
+msgstr "các entry cho mỗi trang"
 
 #: include/functions.inc:2151 include/class_filter.inc:386
 msgid "Apply filter"
-msgstr "Aplicar filtro"
+msgstr "Áp dụng bộ lọc"
 
 #: include/functions.inc:2435 include/class_filter.inc:348
 msgid "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-msgstr ""
+msgstr "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 #: include/functions.inc:2571
 #, php-format
@@ -2681,7 +2681,7 @@ msgstr ""
 
 #: include/functions.inc:2613
 msgid "Cannot write to revision file!"
-msgstr ""
+msgstr "Không thể viết lên revision file!"
 
 #: include/functions.inc:2642
 msgid "Cannot read to revision file!"
@@ -2694,69 +2694,69 @@ msgstr ""
 
 #: include/functions.inc:2895
 msgid "LDAP warning"
-msgstr ""
+msgstr "Cảnh báo LDAP"
 
 #: include/functions.inc:2895
 msgid "Cannot get schema information from server. No schema check possible!"
-msgstr ""
+msgstr "Không thể dùng thông tin lược đồ từ server. Không thể kiểm tra giản đồ!"
 
 #: include/functions.inc:2921
 msgid "Used to store account specific informations."
-msgstr ""
+msgstr "Đã từng lưu trữ thông tin cụ thể về tài khoản."
 
 #: include/functions.inc:2928
 msgid ""
 "Used to lock currently edited entries to avoid multiple changes at the same "
 "time."
-msgstr ""
+msgstr "Đã từng khóa các entry hiện đang được hiệu chỉnh nhằm tránh các thay đổi khác nhau tại cùng một thời điểm."
 
 #: include/functions.inc:2954
 #, php-format
 msgid "Missing required object class '%s'!"
-msgstr ""
+msgstr "Lớp đối tượng '%s' được yêu cầu mất tích!"
 
 #: include/functions.inc:2957
 #, php-format
 msgid "Missing optional object class '%s'!"
-msgstr ""
+msgstr "Lớp đối tượng lựa chọn '%s' mất tích!"
 
 #: include/functions.inc:2962
 #, php-format
 msgid "Version mismatch for required object class '%s' (!=%s)!"
-msgstr ""
+msgstr "Phiên bản không phù hợp với lớp đối tượng '%s' được yêu cầu (!=%s)!"
 
 #: include/functions.inc:2965
 #, php-format
 msgid "Class(es) available"
-msgstr ""
+msgstr "Đã có lớp"
 
 #: include/functions.inc:2987
 msgid ""
 "You have enabled the rfc2307bis option on the 'ldap setup' step, but your "
 "schema    configuration do not support this option."
-msgstr ""
+msgstr "Bạn vừa bật lựa chọn rfc2307bis lên trên bước ' cài đặt ldap', nhưng cấu hình giản đồ của bạn không hỗ trợ lựa chọn này."
 
 #: include/functions.inc:2988
 msgid ""
 "In order to use rfc2307bis conform groups the objectClass 'posixGroup' must "
 "be      AUXILIARY"
-msgstr ""
+msgstr "Để có thể sử dụng được nhóm conform rfc2307bis, objectClass 'posixGroup' (nhóm posix) phải được hỗ trợ     "
 
 #: include/functions.inc:2992
 msgid ""
 "Your schema is configured to support the rfc2307bis group, but you have "
 "disabled this option on the 'ldap setup' step."
-msgstr ""
+msgstr "Lược đồ của bạn được cấu hình để hỗ trợ nhóm rfc2307bis, nhưng bạn đã vừa tắt chức năng này đi trong bước 'cài đặt ldap'."
 
 #: include/functions.inc:2993
 msgid "The objectClass 'posixGroup' must be STRUCTURAL"
-msgstr ""
+msgstr "ObjectClass (Lớp đối tượng) 'posixGroup' phải CÓ CẤU TRÚC"
 
 #: include/functions.inc:3264
 #, php-format
 msgid ""
 "Command '%s', specified as POSTMODIFY for plugin '%s' doesn't seem to exist."
-msgstr ""
+msgstr "Lệnh '%s', được xác định là POSTMODIFY (thay đổi sau) cho chế độ plugin '%s' hình như không tồn tại."
 
 #: include/functions.inc:3618 include/functions.inc:3638
 #: include/functions.inc:3676 include/functions.inc:3688
@@ -2792,18 +2792,18 @@ msgstr ""
 
 #: include/functions.inc:3784
 msgid "Cannot allocate a free ID!"
-msgstr ""
+msgstr "Không thể phân phối một ID miễn phí!"
 
 #: include/class_listing.inc:290 include/class_listing.inc:1105
 #: include/class_listing.inc:1107 include/class_sortableListing.inc:343
 #: include/class_acl.inc:504 plugins/admin/acl/class_aclRole.inc:372
 msgid "Up"
-msgstr "Para cima"
+msgstr "Lên"
 
 #: include/class_listing.inc:290 include/class_sortableListing.inc:343
 #: include/class_acl.inc:506 plugins/admin/acl/class_aclRole.inc:374
 msgid "Down"
-msgstr "Para baixo"
+msgstr "Xuống"
 
 #: include/class_listing.inc:563
 msgid "created by"
@@ -2811,32 +2811,32 @@ msgstr ""
 
 #: include/class_listing.inc:1097
 msgid "Go to root department"
-msgstr "Ir para departamento raiz"
+msgstr "Đi đến bộ phận gốc"
 
 #: include/class_listing.inc:1097 include/class_listing.inc:1099
 #: include/class_baseSelector.inc:205
 msgid "Root"
-msgstr "Raiz"
+msgstr "Gốc"
 
 #: include/class_listing.inc:1105
 msgid "Go up one department"
-msgstr "Subir um departamento"
+msgstr "Đi lên một bộ phận"
 
 #: include/class_listing.inc:1113
 msgid "Go to users department"
-msgstr "Ir para departamento de usuários"
+msgstr "Đi đến bộ phận người dùng"
 
 #: include/class_listing.inc:1113 include/class_listing.inc:1115
 msgid "Home"
-msgstr "Origem"
+msgstr "Nhà"
 
 #: include/class_listing.inc:1120
 msgid "Reload list"
-msgstr "Recarregar lista"
+msgstr "Danh sách reload"
 
 #: include/class_listing.inc:1120 include/class_baseSelector.inc:252
 msgid "Submit"
-msgstr "Submeter"
+msgstr "Nộp"
 
 #: include/class_listing.inc:1217 plugins/admin/acl/acl-list.xml:65
 #: plugins/admin/users/user-list.xml:78 plugins/admin/groups/group-list.xml:79
@@ -2844,28 +2844,28 @@ msgstr "Submeter"
 #: plugins/admin/departments/dep-list.xml:87
 #: plugins/admin/ogroups/ogroup-list.xml:62
 msgid "Actions"
-msgstr "Ações"
+msgstr "Các thao tác"
 
 #: include/class_listing.inc:1501 include/class_listing.inc:1551
 msgid "Copy"
-msgstr ""
+msgstr "Copy"
 
 #: include/class_listing.inc:1507 include/class_listing.inc:1541
 msgid "Cut"
-msgstr ""
+msgstr "Cut"
 
 #: include/class_listing.inc:1515 include/class_listing.inc:1517
 #: include/class_CopyPasteHandler.inc:400
 msgid "Paste"
-msgstr "Colar"
+msgstr "Paste"
 
 #: include/class_listing.inc:1541
 msgid "Cut this entry"
-msgstr ""
+msgstr "Cắt entry này"
 
 #: include/class_listing.inc:1551
 msgid "Copy this entry"
-msgstr ""
+msgstr "Copy entry này"
 
 #: include/class_listing.inc:1583 include/class_listing.inc:1585
 msgid "Restore snapshots"
@@ -2878,28 +2878,28 @@ msgstr ""
 #: include/class_listing.inc:1634 include/class_listing.inc:1635
 #: include/class_SnapShotDialog.inc:298
 msgid "Restore snapshot"
-msgstr ""
+msgstr "Phục hồi lại snapshot"
 
 #: include/class_listing.inc:1644
 msgid "Create snapshot"
-msgstr ""
+msgstr "Tạo ra snapshot"
 
 #: include/class_listing.inc:1645
 msgid "Create a new snapshot from this object"
-msgstr ""
+msgstr "Tạo ra một snapshot mới từ đối tượng này"
 
 #: include/class_SnapShotDialog.inc:244
 #, php-format
 msgid "You're about to delete the snapshot '%s'."
-msgstr ""
+msgstr "Bạn chuẩn bị xóa chế độ snapshot '%s'."
 
 #: include/class_SnapShotDialog.inc:300
 msgid "Remove snapshot"
-msgstr ""
+msgstr "Xóa snapshot"
 
 #: include/class_SnapShotDialog.inc:302 include/class_SnapShotDialog.inc:322
 msgid "Y-m-d, H:i:s"
-msgstr ""
+msgstr "Y-m-d, H:i:s (Năm-tháng-ngày)"
 
 #: include/class_SnapShotDialog.inc:336 plugins/admin/acl/acl-list.xml:57
 #: plugins/admin/acl/acl_role.tpl:17 plugins/admin/acl/class_aclRole.inc:704
@@ -2935,16 +2935,16 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:1398
 #: plugins/personal/generic/generic.tpl:153
 msgid "Description"
-msgstr "Descrição"
+msgstr "Mô tả"
 
 #: include/class_config.inc:159
 #, php-format
 msgid "XML error in fusiondirectory.conf: %s at line %d"
-msgstr "Erro de XML no fusiondirectory.conf: %s na linha %d"
+msgstr "Lỗi XML trong fusiondirectory.conf: %s tại dòng %d"
 
 #: include/class_config.inc:330
 msgid "Cannot bind to LDAP. Please contact the system administrator."
-msgstr "Não foi possível realizar bind para o LDAP. Por favor, contacte o administrador do sistema."
+msgstr "Không thể nối kết với LDAP. Xin hãy liên lạc với với admin hệ thống."
 
 #: include/class_config.inc:484
 #, php-format
@@ -2953,15 +2953,15 @@ msgstr ""
 
 #: include/class_config.inc:654
 msgid "sambaSID and/or sambaRidBase missing in the configuration!"
-msgstr "sambaSID e/ou sambaRidBase não configurado!"
+msgstr ""
 
 #: include/class_config.inc:1276
 msgid "My account"
-msgstr "Minha conta"
+msgstr "Tài khoản của tôi"
 
 #: include/class_CopyPasteHandler.inc:402
 msgid "Cannot paste"
-msgstr "Impossível colar"
+msgstr "Không thể paste"
 
 #: include/password-methods/class_password-methods-sasl.inc:51
 msgid "SASL"
@@ -2974,7 +2974,7 @@ msgstr ""
 
 #: include/password-methods/class_password-methods.inc:342
 msgid "Cannot find a suitable password method for the current hash!"
-msgstr ""
+msgstr "Không thể tìm thấy một phương pháp mật khẩu phù hợp cho hàm băm hiện tại!"
 
 #: include/class_plugin.inc:562
 msgid ""
@@ -2984,11 +2984,11 @@ msgstr ""
 
 #: include/class_plugin.inc:1674
 msgid "Changing ACL dn"
-msgstr ""
+msgstr "Thay đổi ACL dn"
 
 #: include/class_plugin.inc:1674
 msgid "from"
-msgstr "de"
+msgstr "Từ"
 
 #: include/class_sortableListing.inc:303
 msgid "Sortable list"
@@ -3003,11 +3003,11 @@ msgstr ""
 #: plugins/admin/departments/dep-list.xml:172
 #: plugins/admin/ogroups/ogroup-list.xml:91
 msgid "Edit"
-msgstr "Editar"
+msgstr "Hiệu chỉnh"
 
 #: include/class_sortableListing.inc:308
 msgid "Edit this entry"
-msgstr "Editar esta entrada"
+msgstr "Hiệu chỉnh entry này"
 
 #: include/class_sortableListing.inc:311 include/class_sortableListing.inc:313
 #: include/class_acl.inc:515 include/class_acl.inc:563
@@ -3015,53 +3015,53 @@ msgstr "Editar esta entrada"
 #: plugins/admin/acl/class_aclRole.inc:430
 #, php-format
 msgid "Delete"
-msgstr "Deletar"
+msgstr "Xóa"
 
 #: include/class_sortableListing.inc:313
 msgid "Delete this entry"
-msgstr "Deletar esta entrada"
+msgstr "Xóa bỏ entry"
 
 #: include/class_log.inc:97
 #, php-format
 msgid "Logging failed: %s"
-msgstr ""
+msgstr "Đăng nhập thất bại: %s"
 
 #: include/class_log.inc:116
 #, php-format
 msgid "Invalid option '%s' specified!"
-msgstr ""
+msgstr "Lựa chọn '%s' không hợp lệ đã được chỉ định!"
 
 #: include/class_log.inc:120
 msgid "Specified objectType is empty or invalid!"
-msgstr ""
+msgstr "ObjecType được chỉ định đang rỗng hặc không hợp lệ!"
 
 #: include/class_timezone.inc:60
 #, php-format
 msgid ""
 "The timezone setting '%s' in your fusiondirectory.conf is not valid. Cannot "
 "calculate correct timezone offset."
-msgstr "A configuração do fuso horário '%s' no fusiondirectory.conf não é válida. Não foi possível calcular o intervalo do fuso horário corretamente."
+msgstr "Múi giờ thiết lập '%s' trong fusiondirectory.config không hợp lệ. Không thể tính toán chính xác thời gian bù thêm vào múi giờ."
 
 #: include/class_certificate.inc:87
 msgid "Certificate is empty!"
-msgstr ""
+msgstr "Giấy chứng nhận trống!"
 
 #: include/class_certificate.inc:114
 msgid "Cannot load certificate - only PEM/DER is supported!"
-msgstr ""
+msgstr "Không thể tải giấy chứng nhận - chỉ có PEM/DER là được hỗ trợ!"
 
 #: include/class_certificate.inc:135
 msgid "Cannot extract information for non PEM certificates!"
-msgstr ""
+msgstr "Không thể triết xuất thông tin cho những giấy chứng nhận không phải là PEM!"
 
 #: include/class_certificate.inc:264
 msgid "No valid certificate loaded!"
-msgstr ""
+msgstr "Không tải được giấy chứng nhận có hiệu lực nào!"
 
 #: include/class_filter.inc:397 include/class_msgPool.inc:51
 #: plugins/admin/ogroups/ogroup_objects.tpl:33
 msgid "Search in subtrees"
-msgstr "Procurar em subárvores"
+msgstr "Tìm kiếm tại các cây con"
 
 #: include/class_acl.inc:130 include/class_acl.inc:589
 #: include/class_acl.inc:1060
@@ -3071,116 +3071,116 @@ msgstr ""
 
 #: include/class_acl.inc:220 plugins/admin/acl/class_aclRole.inc:127
 msgid "All categories"
-msgstr "Todas as categorias"
+msgstr "Tất cả các mục"
 
 #: include/class_acl.inc:228
 msgid "Reset ACLs"
-msgstr "Limpar ACLs"
+msgstr "Xác lập lại ACLs"
 
 #: include/class_acl.inc:229 plugins/admin/acl/class_aclRole.inc:135
 msgid "One level"
-msgstr "Um nível"
+msgstr "Một cấp độ"
 
 #: include/class_acl.inc:230 include/class_acl.inc:235
 #: plugins/admin/acl/class_aclRole.inc:136
 msgid "Current object"
-msgstr "Objeto atual"
+msgstr "Đối tượng hiện tại"
 
 #: include/class_acl.inc:231 plugins/admin/acl/class_aclRole.inc:137
 msgid "Complete subtree"
-msgstr "Subárvore completa"
+msgstr "Hoàn thành cây thư mục con"
 
 #: include/class_acl.inc:232 plugins/admin/acl/class_aclRole.inc:138
 msgid "Complete subtree (permanent)"
-msgstr "Subárvore completa (permanente)"
+msgstr "Hoàn thành cây thư mục con (vĩnh viễn)"
 
 #: include/class_acl.inc:233 include/class_acl.inc:236
 msgid "Use ACL defined in role"
-msgstr "Use ACL definida na regra"
+msgstr "Sử dụng ACL được xác định trong vai trò"
 
 #: include/class_acl.inc:551
 msgid "No ACL settings for this category!"
-msgstr "Nenhuma configuração de ACL para essa categoria!"
+msgstr "Không có thiết lập ACL cho hạng mục này!"
 
 #: include/class_acl.inc:553
 #, php-format
 msgid "Contains ACLs for these objects: %s"
-msgstr "Contém ACLs para estes objetos: %s"
+msgstr "Có chứa ACLs cho các đối tượng: %s "
 
 #: include/class_acl.inc:559 include/class_acl.inc:563
 msgid "category ACL"
-msgstr "Categoria ACL"
+msgstr "Hạng mục ACL"
 
 #: include/class_acl.inc:615
 #, php-format
 msgid "Edit ACL for '%s' - scope is '%s'"
-msgstr "Editar ACL para '%s' - o escopo é '%s'"
+msgstr "Hiệu chỉnh ACL cho '%s' - phạm vi là '%s'"
 
 #: include/class_acl.inc:625 plugins/admin/acl/class_aclRole.inc:460
 msgid "All objects in current subtree"
-msgstr "Todos os objetos na subárvore atual"
+msgstr "Tất cả các đối tượng hiện trong  cây thư mục con hiện tại"
 
 #: include/class_acl.inc:800 include/class_acl.inc:807
 msgid "Show/hide advanced settings"
-msgstr "Exibir/Ocultar configurações avançadas"
+msgstr "Hiển thị/ Ẩn các thiết lập cao cấp "
 
 #: include/class_acl.inc:824
 msgid "Create objects"
-msgstr "Criar objetos"
+msgstr "Tạo ra đối tượng"
 
 #: include/class_acl.inc:825
 msgid "Move objects"
-msgstr "Mover objetos"
+msgstr "Dịch chuyển đối tượng"
 
 #: include/class_acl.inc:826
 msgid "Remove objects"
-msgstr "Remover objetos"
+msgstr "Xóa đối tượng"
 
 #: include/class_acl.inc:828
 msgid "Grant permission to owner"
-msgstr "Conceder permissão para o dono"
+msgstr ""
 
 #: include/class_acl.inc:832 include/class_acl.inc:955
 #: include/class_acl.inc:959
 msgid "read"
-msgstr "leitura"
+msgstr "đọc"
 
 #: include/class_acl.inc:833 include/class_acl.inc:957
 #: include/class_acl.inc:960
 msgid "write"
-msgstr "escrita"
+msgstr "viết"
 
 #: include/class_acl.inc:837
 msgid "Complete object"
-msgstr "Objeto completo"
+msgstr "Hoàn thành đối tượng"
 
 #: include/class_acl.inc:1003
 #, php-format
 msgid "Unkown ACL type '%s'!"
-msgstr "Tipo de ACL desconhecida '%s'!"
+msgstr "dạng ACL '%s' không được biết đến!"
 
 #: include/class_acl.inc:1056
 #, php-format
 msgid "Unknown entry '%s'!"
-msgstr "Entrada desconhecida '%s'!"
+msgstr "Entry '%s' không được biết đến!"
 
 #: include/class_acl.inc:1128 include/class_acl.inc:1130
 #, php-format
 msgid "Role: %s"
-msgstr "Regra: %s"
+msgstr "Vai trò: %s"
 
 #: include/class_acl.inc:1130
 msgid "unknown role"
-msgstr "regra desconhecida"
+msgstr "Vai trò không được biết đến"
 
 #: include/class_acl.inc:1138
 #, php-format
 msgid "Contains settings for these objects: %s"
-msgstr "Contém configurações para estes objetos: %s"
+msgstr "Chứa các thiết lập cho các đối tượng: %s"
 
 #: include/class_acl.inc:1155
 msgid "inactive"
-msgstr ""
+msgstr "không hoạt động"
 
 #: include/class_acl.inc:1155
 msgid "No members"
@@ -3188,11 +3188,11 @@ msgstr ""
 
 #: include/class_acl.inc:1345
 msgid "Manage access control lists"
-msgstr "Gerenciar listas de controle de acesso"
+msgstr "Quản lý các danh sách kiểm soát truy cập"
 
 #: include/class_acl.inc:1347
 msgid "ACL roles"
-msgstr "Regras de ACL"
+msgstr "Các vai trò ACL"
 
 #: include/class_session.inc:100 include/class_session.inc:137
 #: include/class_session.inc:175
@@ -3201,33 +3201,33 @@ msgstr ""
 
 #: include/class_ldap.inc:315 include/class_ldap.inc:359
 msgid "Performance warning"
-msgstr "Alerta de performance"
+msgstr "Cảnh báo khả năng hoạt động"
 
 #: include/class_ldap.inc:315 include/class_ldap.inc:359
 #, php-format
 msgid "LDAP performance is poor: last query took about %.2fs!"
-msgstr "A performance do LDAP está ruim: a última pesquisa levou cerca de %.2fs!"
+msgstr "Khả năng hoạt động của LDAP rất thấp: truy vấn lần cuối mất khoảng %.2fs!"
 
 #: include/class_ldap.inc:871
 #, php-format
 msgid ""
 "Cannot automatically create subtrees with RDN '%s': no object class found!"
-msgstr "Não foi possível criar subárvores automaticamente com RDN '%s': classe de objeto não encontrada!"
+msgstr "Không thể tự động tạo ra cây con với RDN '%s': không có lớp đối tượng nào được tìm thấy!"
 
 #: include/class_ldap.inc:922
 #, php-format
 msgid "Cannot automatically create subtrees with RDN '%s': not supported"
-msgstr "Não foi possível criar subárvores automaticamente com '%s': não suportado"
+msgstr "Không thể tự động tạo ra cây con với RDN '%s': không được hỗ trợ "
 
 #: include/class_ldap.inc:1031
 #, php-format
 msgid "while operating on '%s' using LDAP server '%s'"
-msgstr "enquanto executava em '%s' usando LDAP server '%s'"
+msgstr "Trong khi chạy trên '%s' sử dụng LDAP server '%s'"
 
 #: include/class_ldap.inc:1033
 #, php-format
 msgid "while operating on LDAP server %s"
-msgstr "enquanto executava no LDAP server %s"
+msgstr "Trong khi chạy trên LDAP server %s"
 
 #: include/class_ldap.inc:1097
 #, php-format
@@ -3239,57 +3239,57 @@ msgstr ""
 msgid ""
 "This is not a valid DN: '%s'. A block for import should begin with 'dn: ...'"
 " in line %s"
-msgstr "Esse não é um DN válido: '%s'. O bloco para importação deve iniciar com 'dn: ...' na linha %s"
+msgstr "Đây không phải là một DN hợp lệ: '%s'. Khóa để chặn việc nạp thêm phải được bắt đầu với 'dn:...' trong dòng %s "
 
 #: include/class_ldap.inc:1275
 #, php-format
 msgid ""
 "Error while importing dn: '%s', please check your LDIF from line %s on!"
-msgstr "Erro enquanto importava dn: '%s', por favor, verifique seu LDIF na linha %s!"
+msgstr "Lỗi trong khi đang nạp thêm dn:'%s', xin hãy kiểm tra lại LDIF của bạn từ dòng %s trở đi!"
 
 #: include/php_setup.inc:36
 msgid "PHP error"
-msgstr ""
+msgstr "Lỗi PHP"
 
 #: include/php_setup.inc:43
 msgid "class"
-msgstr ""
+msgstr "lớp"
 
 #: include/php_setup.inc:49
 msgid "function"
-msgstr ""
+msgstr "chức năng"
 
 #: include/php_setup.inc:54
 msgid "static"
-msgstr ""
+msgstr "tĩnh"
 
 #: include/php_setup.inc:58
 msgid "method"
-msgstr ""
+msgstr "phương pháp"
 
 #: include/php_setup.inc:101
 msgid "Trace"
-msgstr ""
+msgstr "Dò theo"
 
 #: include/php_setup.inc:102
 msgid "File"
-msgstr ""
+msgstr "File"
 
 #: include/php_setup.inc:102
 msgid "Line"
-msgstr ""
+msgstr "Dòng"
 
 #: include/php_setup.inc:102
 msgid "Type"
-msgstr "Tipo"
+msgstr "Loại"
 
 #: include/php_setup.inc:103
 msgid "Arguments"
-msgstr ""
+msgstr "Tranh luận"
 
 #: include/php_setup.inc:206
 msgid "Generating this page caused the PHP interpreter to raise some errors!"
-msgstr ""
+msgstr "Tạo ra trang này khiến cho bộ dịch PHP sinh ra một số lỗi!"
 
 #: include/php_setup.inc:211
 msgid "Send bug report to the FusionDirectory Team"
@@ -3297,212 +3297,212 @@ msgstr ""
 
 #: include/php_setup.inc:211
 msgid "Send bugreport"
-msgstr ""
+msgstr "Gửi thông báo lỗi"
 
 #: include/php_setup.inc:216
 msgid "Toggle information"
-msgstr ""
+msgstr "Thông tin Toggle"
 
 #: include/class_msg_dialog.inc:167
 msgid "Please fix the above error and reload the page."
-msgstr ""
+msgstr "Xin hãy sửa lỗi trên và reload trang trên."
 
 #: include/class_msgPool.inc:43
 #, php-format
 msgid "Select to list objects of type '%s'."
-msgstr "Selecione para listar objetos do tipo '%s'."
+msgstr "Chọn để liệt kê các đối tượng loại '%s'."
 
 #: include/class_msgPool.inc:45
 #, php-format
 msgid "Select to list objects containig '%s'."
-msgstr "Selecione para listar objetos contendo '%s'."
+msgstr "Chọn để liệt kê đối tượng chứa '%s'."
 
 #: include/class_msgPool.inc:47
 #, php-format
 msgid "Select to list objects that have '%s' enabled"
-msgstr "Selecione para listar objetos que possuem '%s' habilitado"
+msgstr "Chọn để liệt kê đối tượng mà cho phép '%s'"
 
 #: include/class_msgPool.inc:49 plugins/admin/ogroups/ogroup_objects.tpl:33
 msgid "Select to search within subtrees"
-msgstr "Selecione para pesquisar dentro das sub-árvores"
+msgstr "Chọn để tìm kiếm trong các cây con"
 
 #: include/class_msgPool.inc:67
 msgid "This object will be deleted!"
-msgstr "Esse objeto será apagado!"
+msgstr "Đối tượng này sẽ bị xóa!"
 
 #: include/class_msgPool.inc:69
 #, php-format
 msgid "This '%s' object will be deleted!"
-msgstr "Esse objeto '%s' será apagado!"
+msgstr "Đối tượng '%s' này sẽ bị xóa!"
 
 #: include/class_msgPool.inc:74
 #, php-format
 msgid "This object will be deleted: %s"
-msgstr "Esse objeto será apagado: %s"
+msgstr "Đối tượng này sẽ bị xóa: %s"
 
 #: include/class_msgPool.inc:76
 #, php-format
 msgid "This '%s' object will be deleted: %s"
-msgstr "Esse objeto '%s' será apagado: %s"
+msgstr "Đối tượng '%s' này sẽ bị xóa: '%s'"
 
 #: include/class_msgPool.inc:81
 msgid "This object will be deleted:"
-msgstr "Esse objeto será apagado:"
+msgstr "Đối tượng này sẽ bị xóa:"
 
 #: include/class_msgPool.inc:83
 #, php-format
 msgid "This '%s' object will be deleted:"
-msgstr "Esse objeto '%s' será apagado:"
+msgstr "Đối tượng '%s' này sẽ bị xóa:"
 
 #: include/class_msgPool.inc:87
 #, php-format
 msgid "These objects will be deleted: %s"
-msgstr "Estes objetos serão apagados: %s"
+msgstr "Đối tượng này sẽ bị xóa: %s"
 
 #: include/class_msgPool.inc:89
 #, php-format
 msgid "These '%s' objects will be deleted: %s"
-msgstr "Estes objetos '%s' serão apagados: %s"
+msgstr "Đối tượng '%s' này sẽ bị xóa; %s"
 
 #: include/class_msgPool.inc:101
 msgid "You have no permission to delete this object!"
-msgstr "Você não tem permissão para apagar esse objeto!"
+msgstr "Bạn không có quyền xóa đối tượng này!"
 
 #: include/class_msgPool.inc:105 include/class_msgPool.inc:109
 msgid "You have no permission to delete the object:"
-msgstr "Você não tem permissão para apagar o objeto:"
+msgstr "Bạn không có quyền xóa đối tượng này:"
 
 #: include/class_msgPool.inc:112
 msgid "You have no permission to delete these objects:"
-msgstr "Você não tem permissão para apagar estes objetos:"
+msgstr "Bạn không có quyền xóa những đối tượng này:"
 
 #: include/class_msgPool.inc:123
 msgid "You have no permission to create this object!"
-msgstr "Você não tem permissão para criar esse objeto!"
+msgstr "Bạn không có quyền tạo ra đối tượng này!"
 
 #: include/class_msgPool.inc:127 include/class_msgPool.inc:131
 msgid "You have no permission to create the object:"
-msgstr "Você não tem permissão para criar o objeto:"
+msgstr "Bạn không có quyền tạo ra đối tượng này:"
 
 #: include/class_msgPool.inc:134
 msgid "You have no permission to create these objects:"
-msgstr "Você não tem permissão para criar estes objetos:"
+msgstr "Bạn không có quyền tạo ra những đối tượng này:"
 
 #: include/class_msgPool.inc:145
 msgid "You have no permission to modify this object!"
-msgstr "Você não tem permissão para modificar esse objeto!"
+msgstr "Bạn không có quyền thay đổi đối tượng này!"
 
 #: include/class_msgPool.inc:149 include/class_msgPool.inc:153
 msgid "You have no permission to modify the object:"
-msgstr "Você não tem permissão para modificar o objeto:"
+msgstr "Bạn không có quyền thay đổi đối tượng này:"
 
 #: include/class_msgPool.inc:156
 msgid "You have no permission to modify these objects:"
-msgstr "Você não tem permissão para modificar estes objetos:"
+msgstr "Bạn không có quyền thay đổi những đối tượng này:"
 
 #: include/class_msgPool.inc:167
 msgid "You have no permission to view this object!"
-msgstr "Você não tem permissão para ver esse objeto!"
+msgstr "Bạn không có quyền xem đối tượng này!"
 
 #: include/class_msgPool.inc:171 include/class_msgPool.inc:175
 msgid "You have no permission to view the object:"
-msgstr "Você não tem permissão para ver o objeto:"
+msgstr "Bạn không có quyền xem đối tượng này:"
 
 #: include/class_msgPool.inc:178
 msgid "You have no permission to view these objects:"
-msgstr "Você não tem permissão para ver estes objetos:"
+msgstr "Bạn không có quyền xem những đối tượng này:"
 
 #: include/class_msgPool.inc:189
 msgid "You have no permission to move this object!"
-msgstr "Você não tem permissão para mover esse objeto!"
+msgstr "Bạn không có quyền di chuyển đối tượng này!"
 
 #: include/class_msgPool.inc:193 include/class_msgPool.inc:197
 msgid "You have no permission to move the object:"
-msgstr "Você não tem permissão para mover o objeto:"
+msgstr "Bạn không có quyền di chuyển đối tượng này:"
 
 #: include/class_msgPool.inc:200
 msgid "You have no permission to move these objects:"
-msgstr "Você não tem permissão para mover estes objetos:"
+msgstr "Bạn không có quyền di chuyển những đối tượng này:"
 
 #: include/class_msgPool.inc:218 include/class_msgPool.inc:238
 #: include/class_msgPool.inc:268
 msgid "Connection information"
-msgstr "Informação da conexão"
+msgstr "Thông tin kết nối"
 
 #: include/class_msgPool.inc:220
 #, php-format
 msgid "Cannot connect to %s database!"
-msgstr "Não foi possível conectar ao banco de dados  %s!"
+msgstr "Không thể kết nối đến cơ sở dữ liệu %s!"
 
 #: include/class_msgPool.inc:240
 #, php-format
 msgid "Cannot select %s database!"
-msgstr "Não foi possível selecionar o banco de dados %s!"
+msgstr "Không thể lựa chọn cơ sở dữ liệu %s!"
 
 #: include/class_msgPool.inc:250
 #, php-format
 msgid "No %s server defined!"
-msgstr "Servidor %s não definido!"
+msgstr "Không xác định được  Server '%s'!"
 
 #: include/class_msgPool.inc:270
 #, php-format
 msgid "Cannot query %s database!"
-msgstr "Não foi possível pesquisar no banco de dados %s!"
+msgstr "Không truy vấn được cơ sở dữ liệu %s!"
 
 #: include/class_msgPool.inc:280
 #, php-format
 msgid "The field '%s' contains a reserved keyword!"
-msgstr "O campo '%s' contém uma palavra reservada!"
+msgstr "Trường '%s' có chứa một từ khóa dự trữ!"
 
 #: include/class_msgPool.inc:292
 #, php-format
 msgid "Command specified as %s hook for plugin '%s' does not exist!"
-msgstr "O comando especificado como %s, relativo ao plugin '%s', não existe!"
+msgstr "Lệnh được cụ thể hóa là %s móc nối với plugin '%s' không tồn tại!"
 
 #: include/class_msgPool.inc:307
 #, php-format
 msgid "'%s' command is invalid!"
-msgstr "O comando '%s' é inválido!"
+msgstr "Lệnh '%s' không hợp lệ!"
 
 #: include/class_msgPool.inc:309
 #, php-format
 msgid "'%s' command (%s) for plugin %s is invalid!"
-msgstr "O comando '%s' (%s) para o plugin %s é inválido!"
+msgstr "Lệnh '%s' (%s) cho plugin %s không hợp lệ!"
 
 #: include/class_msgPool.inc:311
 #, php-format
 msgid "'%s' command for plugin %s is invalid!"
-msgstr "O comando '%s' para o plugin %s is invalid!"
+msgstr "Lệnh '%s' cho plugin '%s' không hợp lệ!"
 
 #: include/class_msgPool.inc:313
 #, php-format
 msgid "'%s' command (%s) is invalid!"
-msgstr "O comando '%s' (%s) é inválido!"
+msgstr "Lệnh '%s' (%s) không hợp lệ!"
 
 #: include/class_msgPool.inc:329
 #, php-format
 msgid "Cannot execute '%s' command!"
-msgstr "Não foi possível executar o comando '%s'!"
+msgstr "Không thể chạy lệnh '%s'!"
 
 #: include/class_msgPool.inc:331
 #, php-format
 msgid "Cannot execute '%s' command (%s) for plugin %s!"
-msgstr "Não foi possível executar o comando '%s' (%s) para o plugin %s!"
+msgstr "Không thể chạy lệnh '%s' ('%s) cho plugin %s!"
 
 #: include/class_msgPool.inc:333
 #, php-format
 msgid "Cannot execute '%s' command for plugin %s!"
-msgstr "Não foi possível executar o comando '%s' para o plugin %s!"
+msgstr "Không thể chạy lệnh '%s' cho plugin %s!"
 
 #: include/class_msgPool.inc:335
 #, php-format
 msgid "Cannot execute '%s' command (%s)!"
-msgstr ""
+msgstr "Không thể chạy lệnh '%s' ('%s)!"
 
 #: include/class_msgPool.inc:349
 #, php-format
 msgid "Value for '%s' is too large!"
-msgstr ""
+msgstr "Gía trị '%s' quá lớn!"
 
 #: include/class_msgPool.inc:351
 #, php-format
@@ -3512,208 +3512,208 @@ msgstr ""
 #: include/class_msgPool.inc:365
 #, php-format
 msgid "Value for '%s' is too small!"
-msgstr ""
+msgstr "Gía trị '%s' quá nhỏ!"
 
 #: include/class_msgPool.inc:367
 #, php-format
 msgid "'%s' must be %d or above!"
-msgstr ""
+msgstr "'%s' phải lớn hơn %d hoặc trên nữa!"
 
 #: include/class_msgPool.inc:380
 #, php-format
 msgid "'%s' depends on '%s' - please provide both values!"
-msgstr ""
+msgstr "'%s' phụ thuộc vào '%s'- xin hãy cung cấp cả hai giá trị!"
 
 #: include/class_msgPool.inc:390
 #, php-format
 msgid "There is already an entry with this '%s' attribute in the system!"
-msgstr ""
+msgstr "Đã có sẵn một entry với thuộc tính '%s' trong hệ thống này!"
 
 #: include/class_msgPool.inc:400
 #, php-format
 msgid "The required field '%s' is empty!"
-msgstr ""
+msgstr "Trường được yêu cầu '%s' bị rỗng!"
 
 #: include/class_msgPool.inc:418
 msgid "Example"
-msgstr ""
+msgstr "Ví dụ"
 
 #: include/class_msgPool.inc:438
 #, php-format
 msgid "The Field '%s' contains invalid characters"
-msgstr ""
+msgstr "Trường '%s' chứa các ký tự không hợp lệ"
 
 #: include/class_msgPool.inc:439
 #, php-format
 msgid "'%s' is not allowed:"
-msgstr ""
+msgstr "'%s' không được phép:"
 
 #: include/class_msgPool.inc:439
 #, php-format
 msgid "'%s' are not allowed!"
-msgstr ""
+msgstr "'%s' không được cho phép!"
 
 #: include/class_msgPool.inc:442
 #, php-format
 msgid "The Field '%s' contains invalid characters!"
-msgstr ""
+msgstr "Trường '%s' chứa các ký tự không hợp lệ!"
 
 #: include/class_msgPool.inc:453
 #, php-format
 msgid "Missing %s PHP extension!"
-msgstr ""
+msgstr "PHP mở rộng %s mất tích!"
 
 #: include/class_msgPool.inc:495
 #, php-format
 msgid "Add %s"
-msgstr ""
+msgstr "Thêm %s"
 
 #: include/class_msgPool.inc:505
 #, php-format
 msgid "Delete %s"
-msgstr ""
+msgstr "Xóa %s"
 
 #: include/class_msgPool.inc:515
 #, php-format
 msgid "Set %s"
-msgstr ""
+msgstr "Thiết lập %s"
 
 #: include/class_msgPool.inc:525
 #, php-format
 msgid "Edit..."
-msgstr ""
+msgstr "Hiệu chỉnh..."
 
 #: include/class_msgPool.inc:525
 #, php-format
 msgid "Edit %s..."
-msgstr ""
+msgstr "Hiệu chỉnh %s..."
 
 #: include/class_msgPool.inc:533
 msgid "Back"
-msgstr "Voltar"
+msgstr "Quay lại"
 
 #: include/class_msgPool.inc:562
 #, php-format
 msgid "This account has no valid %s extensions!"
-msgstr ""
+msgstr "Tài khoản này không có chức năng mở rộng %s hợp lệ!"
 
 #: include/class_msgPool.inc:575
 #, php-format
 msgid ""
 "This account has %s settings enabled. You can disable them by clicking "
 "below."
-msgstr ""
+msgstr "Tài khoản này đã bật các thiết lập %s lên. Bạn có thể tắt chúng đi bằng việc kích vào bên dưới."
 
 #: include/class_msgPool.inc:581 include/class_msgPool.inc:588
 #, php-format
 msgid ""
 "This account has %s settings enabled. To disable them, you'll need to remove"
 " the %s settings first!"
-msgstr ""
+msgstr "Tài khoản này đã bật các thiết lập %s lên. Để tắt chúng đi, bạn cần phải xóa thiết lập %s trước!"
 
 #: include/class_msgPool.inc:603
 #, php-format
 msgid ""
 "This account has %s settings disabled. You can enable them by clicking "
 "below."
-msgstr ""
+msgstr "Tài khoản này đã tắt các thiết lập %s đi. Bạn có thể bật chúng lên bằng việc kích vào bên dưới."
 
 #: include/class_msgPool.inc:609 include/class_msgPool.inc:616
 #, php-format
 msgid ""
 "This account has %s settings disabled. To enable them, you'll need to add "
 "the %s settings first!"
-msgstr ""
+msgstr "Tài khoản này đã tắt các thiết lập %s đi. Để bật chúng lên, bạn cần phải thêm thiết lập %s trước!"
 
 #: include/class_msgPool.inc:628
 #, php-format
 msgid "Add %s settings"
-msgstr ""
+msgstr "Thêm thiết lập %s "
 
 #: include/class_msgPool.inc:639
 #, php-format
 msgid "Remove %s settings"
-msgstr ""
+msgstr "Xóa thiết lập %s"
 
 #: include/class_msgPool.inc:647
 msgid "Click the 'Edit' button below to change informations in this dialog"
-msgstr "Clique em Editar para alterar as informações desta janela"
+msgstr "Kích phím 'Hiệu chỉnh' bên dưới để thay đổi thông tin trong hộp thoại này "
 
 #: include/class_msgPool.inc:655
 msgid "January"
-msgstr "Janeiro"
+msgstr "Tháng Một"
 
 #: include/class_msgPool.inc:655
 msgid "February"
-msgstr "Fevereiro"
+msgstr "Tháng Hai"
 
 #: include/class_msgPool.inc:655
 msgid "March"
-msgstr "Março"
+msgstr "Tháng Ba"
 
 #: include/class_msgPool.inc:655
 msgid "April"
-msgstr "Abril"
+msgstr "Tháng Tư"
 
 #: include/class_msgPool.inc:656
 msgid "May"
-msgstr "Maio"
+msgstr "Tháng Năm"
 
 #: include/class_msgPool.inc:656
 msgid "June"
-msgstr "Junho"
+msgstr "Tháng Sáu"
 
 #: include/class_msgPool.inc:656
 msgid "July"
-msgstr "Julho"
+msgstr "Tháng Bảy"
 
 #: include/class_msgPool.inc:656
 msgid "August"
-msgstr "Agosto"
+msgstr "Tháng Tám"
 
 #: include/class_msgPool.inc:656
 msgid "September"
-msgstr "Setembro"
+msgstr "Tháng Chín"
 
 #: include/class_msgPool.inc:657
 msgid "October"
-msgstr "Outubro"
+msgstr "Tháng Mười"
 
 #: include/class_msgPool.inc:657
 msgid "November"
-msgstr "Novembro"
+msgstr "Tháng Mười Một"
 
 #: include/class_msgPool.inc:657
 msgid "December"
-msgstr "Dezembro"
+msgstr "Tháng Mười Hai"
 
 #: include/class_msgPool.inc:666
 msgid "Sunday"
-msgstr "Domingo"
+msgstr "Chủ nhật"
 
 #: include/class_msgPool.inc:666
 msgid "Monday"
-msgstr "Segunda"
+msgstr "Thứ Hai"
 
 #: include/class_msgPool.inc:666
 msgid "Tuesday"
-msgstr "Terça"
+msgstr "Thứ Ba"
 
 #: include/class_msgPool.inc:666
 msgid "Wednesday"
-msgstr "Quarta"
+msgstr "Thứ Tư"
 
 #: include/class_msgPool.inc:666
 msgid "Thursday"
-msgstr "Quinta"
+msgstr "Thứ Năm"
 
 #: include/class_msgPool.inc:666
 msgid "Friday"
-msgstr "Sexta"
+msgstr "Thứ Sáu"
 
 #: include/class_msgPool.inc:666
 msgid "Saturday"
-msgstr "Sábado"
+msgstr "Thứ Bảy"
 
 #: include/class_msgPool.inc:679
 msgid "Database operation failed!"
@@ -3721,84 +3721,84 @@ msgstr ""
 
 #: include/class_msgPool.inc:697
 msgid "read operation"
-msgstr ""
+msgstr "Đọc thao tác"
 
 #: include/class_msgPool.inc:697
 msgid "add operation"
-msgstr ""
+msgstr "thêm tao tác"
 
 #: include/class_msgPool.inc:697
 msgid "modify operation"
-msgstr ""
+msgstr "thay đối thao tác"
 
 #: include/class_msgPool.inc:698
 msgid "delete operation"
-msgstr ""
+msgstr "xóa thao tác"
 
 #: include/class_msgPool.inc:698
 msgid "search operation"
-msgstr ""
+msgstr "tìm kiếm thao tác"
 
 #: include/class_msgPool.inc:698
 msgid "authentication"
-msgstr ""
+msgstr "Xác định thẩm quyền"
 
 #: include/class_msgPool.inc:701
 #, php-format
 msgid "LDAP %s failed!"
-msgstr ""
+msgstr "LDAP %s thất bại!"
 
 #: include/class_msgPool.inc:703
 msgid "LDAP operation failed!"
-msgstr ""
+msgstr "Hoạt động LDAP thất bại!"
 
 #: include/class_msgPool.inc:722
 msgid "Upload failed!"
-msgstr ""
+msgstr "Tải lên thất bại!"
 
 #: include/class_msgPool.inc:725
 #, php-format
 msgid "Upload failed: %s"
-msgstr ""
+msgstr "Tải lên thất bại: %s"
 
 #: include/class_msgPool.inc:736
 msgid "Communication failure with the infrastructure service!"
-msgstr ""
+msgstr "Giao tiếp với dịch vụ cơ sở hạ tầng bị thất bại!"
 
 #: include/class_msgPool.inc:738
 #, php-format
 msgid "Communication failure with the infrastructure service: %s"
-msgstr ""
+msgstr "Giao tiếp với dịch vụ cơ sở hạ tầng bị thất bại: %s"
 
 #: include/class_msgPool.inc:751 include/class_msgPool.inc:754
 #, php-format
 msgid "This '%s' is still in use by this object: %s"
-msgstr ""
+msgstr "'%s' này vẫn còn được sử dụng bởi đối tượng: %s "
 
 #: include/class_msgPool.inc:757
 #, php-format
 msgid "This '%s' is still in use."
-msgstr ""
+msgstr "'%s' này vẫn còn được sử dụng."
 
 #: include/class_msgPool.inc:759
 #, php-format
 msgid "This '%s' is still in use by these objects: %s"
-msgstr ""
+msgstr "'%s' vẫn còn được sử dụng bởi các đối tượng này: %s"
 
 #: include/class_msgPool.inc:769
 #, php-format
 msgid "File '%s' does not exist!"
-msgstr ""
+msgstr "File '%s' không tồn tại!"
 
 #: include/class_msgPool.inc:779
 #, php-format
 msgid "Cannot open file '%s' for reading!"
-msgstr ""
+msgstr "Không thể mở file '%s' để đọc!"
 
 #: include/class_msgPool.inc:789
 #, php-format
 msgid "Cannot open file '%s' for writing!"
-msgstr ""
+msgstr "Không thể mở file '%s' để viết!"
 
 #: include/class_msgPool.inc:799
 #, php-format
@@ -3810,27 +3810,27 @@ msgstr ""
 #: include/class_msgPool.inc:809
 #, php-format
 msgid "Cannot delete file '%s'!"
-msgstr ""
+msgstr "Không thế xóa file '%s'!"
 
 #: include/class_msgPool.inc:819
 #, php-format
 msgid "Cannot create folder '%s'!"
-msgstr ""
+msgstr "Không thể tạo ra folder '%s'!"
 
 #: include/class_msgPool.inc:829
 #, php-format
 msgid "Cannot delete folder '%s'!"
-msgstr ""
+msgstr "Không thể xóa folder '%s'!"
 
 #: include/class_msgPool.inc:839
 #, php-format
 msgid "Checking for %s support"
-msgstr ""
+msgstr "Kiểm tra hỗ trợ %s"
 
 #: include/class_msgPool.inc:849
 #, php-format
 msgid "Install and activate the %s PHP module."
-msgstr ""
+msgstr "Cài đặt và kích hoạt mô-đun PHP %s."
 
 #: include/class_msgPool.inc:859
 #, php-format
@@ -3859,18 +3859,18 @@ msgstr ""
 
 #: plugins/admin/acl/acl-list.xml:11
 msgid "List of acls"
-msgstr ""
+msgstr "Danh sách các ads"
 
 #: plugins/admin/acl/acl-list.xml:15 plugins/admin/acl/acl-list.xml:82
 #: plugins/admin/acl/class_aclManagement.inc:36
 msgid "Acl"
-msgstr "ACL"
+msgstr ""
 
 #: plugins/admin/acl/acl-list.xml:23 plugins/admin/acl/class_aclRole.inc:695
 #: plugins/personal/generic/class_user.inc:1367
 #: plugins/personal/generic/generic.tpl:492
 msgid "Role"
-msgstr "Papel"
+msgstr "Vai trò"
 
 #: plugins/admin/acl/acl-filter.tpl:3 plugins/admin/users/user-filter.tpl:3
 #: plugins/admin/groups/group-filter.tpl:3
@@ -3895,7 +3895,7 @@ msgstr ""
 
 #: plugins/admin/acl/tabs_acl_role.inc:28
 msgid "ACL Templates"
-msgstr ""
+msgstr "Các mẫu ACL"
 
 #: plugins/admin/acl/remove.tpl:6 plugins/admin/users/remove.tpl:6
 msgid ""
@@ -3915,46 +3915,46 @@ msgstr ""
 #: plugins/admin/acl/class_aclRole.inc:26
 #: plugins/admin/acl/class_aclRole.inc:696
 msgid "Access control roles"
-msgstr ""
+msgstr "Các vai trò kiểm soát truy cập"
 
 #: plugins/admin/acl/class_aclRole.inc:27
 msgid "Edit AC roles"
-msgstr ""
+msgstr "Hiệu chỉnh các vai trò ACL"
 
 #: plugins/admin/acl/class_aclRole.inc:134
 msgid "Reset ACL"
-msgstr ""
+msgstr "Xác lập lại ACL"
 
 #: plugins/admin/acl/class_aclRole.inc:418
 msgid "No ACL settings for this category"
-msgstr ""
+msgstr "Không có cài đặt ACL cho mục này"
 
 #: plugins/admin/acl/class_aclRole.inc:420
 #, php-format
 msgid "ACL for these objects: %s"
-msgstr ""
+msgstr "ACL cho các đối tượng sau: %s"
 
 #: plugins/admin/acl/class_aclRole.inc:426
 msgid "Edit category ACL"
-msgstr ""
+msgstr "Hiệu chính mục ACL"
 
 #: plugins/admin/acl/class_aclRole.inc:430
 msgid "Reset category ACL"
-msgstr ""
+msgstr "Xác lập mục ACL"
 
 #: plugins/admin/acl/class_aclRole.inc:450
 #, php-format
 msgid "Edit ACL for '%s', scope is '%s'"
-msgstr ""
+msgstr "Hiệu chỉnh ACL cho'%s', vùng là '%s'"
 
 #: plugins/admin/acl/class_aclRole.inc:646
 msgid "Object in use"
-msgstr ""
+msgstr "Đối tượng đang được sử dụng"
 
 #: plugins/admin/acl/class_aclRole.inc:646
 #, php-format
 msgid "This role cannot be removed while it is in use by these objects:"
-msgstr ""
+msgstr "Vai trò này không thể bị xóa bỏ trong khi nó vẫn đang được sử dụng bởi các đối tượng:"
 
 #: plugins/admin/acl/class_aclRole.inc:699
 msgid "ACL role"
@@ -3969,14 +3969,14 @@ msgid ""
 "To change the user password use the fields below. The changes take effect "
 "immediately. Please memorize the new password, because the user wouldn't be "
 "able to login without it."
-msgstr "Para alterar a senha do usuário utilize os campos abaixo. As alterações surtem efeito imediatamente. Por favor, memorize a nova senha porque o usuário não será capaz de acessar o sistema sem ela."
+msgstr "Để thay đổi mật khẩu người dùng sử dụng các trường dưới đây. Việc thay đổi sẽ có hiệu lực ngay lập tức. Hãy nhớ mật mã mới bởi người dùng sẽ không thể đăng nhập nếu thiếu nó."
 
 #: plugins/admin/users/password.tpl:8 plugins/personal/password/password.tpl:8
 #: plugins/personal/generic/password.tpl:8
 msgid ""
 "Changing the password affects your authentification on mail, proxy, samba "
 "and unix services."
-msgstr "Alteração de senha afeta a autenticação dos serviços de correio, proxy, samba e unix."
+msgstr "Thay đổi mật khẩu có thể ảnh hưởng đến sự xác nhận của bạn lên các dịch vụ mail, ủy quyền (proxy), samba và unix."
 
 #: plugins/admin/users/password.tpl:21 plugins/admin/users/password.tpl:64
 #: plugins/personal/password/password.tpl:32
@@ -3984,11 +3984,11 @@ msgstr "Alteração de senha afeta a autenticação dos serviços de correio, pr
 #: plugins/personal/generic/password.tpl:27
 #: plugins/personal/generic/password.tpl:77
 msgid "Repeat new password"
-msgstr "Repita nova senha"
+msgstr "Lặp lại mật khẩu mới"
 
 #: plugins/admin/users/password.tpl:25 plugins/admin/users/password.tpl:68
 msgid "Strength"
-msgstr ""
+msgstr "Cường độ"
 
 #: plugins/admin/users/password.tpl:35
 msgid "Password input dialog"
@@ -4014,37 +4014,37 @@ msgstr ""
 #: plugins/personal/password/password.tpl:101
 #: plugins/personal/generic/password.tpl:95
 msgid "Set password"
-msgstr "Definir a senha"
+msgstr "Đặt mật khẩu"
 
 #: plugins/admin/users/template.tpl:2
 msgid "Creating a new user using templates"
-msgstr "Criando um novo usuário usando modelos"
+msgstr "Tạo ra một người sử dụng mới sử dụng các mấu"
 
 #: plugins/admin/users/template.tpl:6
 msgid ""
 "Creating a new user can be assisted by using templates. Many database "
 "records will be filled automatically. Choose 'none' to skip the usage of "
 "templates."
-msgstr "A criação de usuários pode ser assistida pelo uso de modelos. Muitos campos podem ser preenchidos automaticamente. Escolha 'nenhum' para não utilizar modelos."
+msgstr "Dùng các mẫu có thể hỗ trợ việc tạo ra một người sử dụng mới. Nhiều ghi chép cơ sở dữ liệu có thể tự động tiến hành. Chọn 'none' để bỏ qua việc sử dụng các mẫu."
 
 #: plugins/admin/users/template.tpl:15
 #: plugins/admin/users/class_userManagement.inc:539
 #: plugins/admin/users/templatize.tpl:15 plugins/admin/users/user-list.xml:15
 #: plugins/admin/users/user-list.xml:102
 msgid "Template"
-msgstr "Modelo"
+msgstr "Mẫu"
 
 #: plugins/admin/users/template.tpl:23
 #: plugins/personal/generic/paste_generic.tpl:7
 #: plugins/personal/generic/generic.tpl:51
 msgid "Last name"
-msgstr "Último nome"
+msgstr "Họ"
 
 #: plugins/admin/users/template.tpl:27
 #: plugins/personal/generic/paste_generic.tpl:11
 #: plugins/personal/generic/generic.tpl:67
 msgid "First name"
-msgstr "Primeiro nome"
+msgstr "Tên"
 
 #: plugins/admin/users/template.tpl:32 plugins/admin/users/user-list.xml:65
 #: plugins/admin/groups/userSelect/user-list.xml:56
@@ -4057,11 +4057,11 @@ msgstr "Primeiro nome"
 #: plugins/personal/generic/paste_generic.tpl:15
 #: plugins/personal/generic/generic.tpl:77
 msgid "Login"
-msgstr "Login"
+msgstr "Đăng nhập"
 
 #: plugins/admin/users/class_userManagement.inc:53
 msgid "Manage users"
-msgstr ""
+msgstr "Quản lý người dùng"
 
 #: plugins/admin/users/class_userManagement.inc:341
 #: plugins/personal/password/class_password.inc:136
@@ -4071,13 +4071,13 @@ msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:391
 msgid "You have no permission to change this users password!"
-msgstr ""
+msgstr "Bạn không được phép thay đổi mật mã người dùng này!"
 
 #: plugins/admin/users/class_userManagement.inc:467
 #: plugins/admin/users/class_userManagement.inc:501
 #: plugins/admin/users/class_userManagement.inc:532
 msgid "none"
-msgstr "nenhum"
+msgstr "không có"
 
 #: plugins/admin/users/class_userManagement.inc:545
 #: plugins/admin/users/user-list.xml:57
@@ -4087,7 +4087,7 @@ msgstr "nenhum"
 #: plugins/personal/generic/class_user.inc:1200
 #: plugins/personal/generic/class_user.inc:1381
 msgid "Given name"
-msgstr "Nome fornecido"
+msgstr "Tên thật"
 
 #: plugins/admin/users/class_userManagement.inc:796
 msgid "Account locking"
@@ -4114,17 +4114,17 @@ msgstr ""
 
 #: plugins/admin/users/templatize.tpl:2
 msgid "Applying a template"
-msgstr ""
+msgstr "Áp dụng một mẫu"
 
 #: plugins/admin/users/templatize.tpl:6
 msgid ""
 "Applying a template to several users will replace all user attributes "
 "defined in the template."
-msgstr ""
+msgstr "Việc áp dụng một mẫu cho vài người dùng sẽ thay thế tất cả các thuộc tính của người dùng được xác định trên mẫu."
 
 #: plugins/admin/users/templatize.tpl:33
 msgid "No templates available!"
-msgstr ""
+msgstr "Không có mẫu nào!"
 
 #: plugins/admin/users/user-filter.tpl:11
 msgid "Show templates"
@@ -4148,14 +4148,14 @@ msgstr ""
 
 #: plugins/admin/users/user-list.xml:11
 msgid "List of users"
-msgstr "Lista de usuários"
+msgstr "Danh sách người dùng"
 
 #: plugins/admin/users/user-list.xml:49
 #: plugins/admin/groups/userSelect/user-list.xml:48
 #: plugins/admin/groups/singleUserSelect/singleUser-list.xml:48
 #: plugins/personal/generic/class_user.inc:1380
 msgid "Surname"
-msgstr "Sobrenome"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:73 plugins/admin/groups/group-list.xml:74
 #: plugins/admin/departments/country.tpl:8
@@ -4166,7 +4166,7 @@ msgstr "Sobrenome"
 #: plugins/admin/departments/generic.tpl:7
 #: plugins/admin/ogroups/ogroup-list.xml:57
 msgid "Properties"
-msgstr "Propriedades"
+msgstr "Properties"
 
 #: plugins/admin/users/user-list.xml:141
 msgid "Lock users"
@@ -4178,7 +4178,7 @@ msgstr ""
 
 #: plugins/admin/users/user-list.xml:160
 msgid "Apply template"
-msgstr ""
+msgstr "Áp dụng mẫu"
 
 #: plugins/admin/users/user-list.xml:192
 msgid "New user from template"
@@ -4350,33 +4350,33 @@ msgstr ""
 #: plugins/admin/groups/trust_machines.tpl:6
 #: plugins/admin/ogroups/trust_machines.tpl:6
 msgid "Select systems to add"
-msgstr "Selecione sistemas para adicionar"
+msgstr "Chọn hệ thống để thêm vào"
 
 #: plugins/admin/groups/trust_machines.tpl:19
 #: plugins/admin/ogroups/ogroup_objects.tpl:20
 msgid "Filters"
-msgstr "Filtros"
+msgstr "Các bộ lọc"
 
 #: plugins/admin/groups/trust_machines.tpl:25
 #: plugins/admin/ogroups/trust_machines.tpl:26
 msgid "Display systems of department"
-msgstr "Exibir sistemas do departamento"
+msgstr "Hiển thị các hệ thống của bộ phận"
 
 #: plugins/admin/groups/trust_machines.tpl:26
 #: plugins/admin/ogroups/trust_machines.tpl:27
 #: plugins/admin/ogroups/ogroup_objects.tpl:37
 msgid "Choose the department the search will be based on"
-msgstr "Escolha o departamento para base de procura"
+msgstr "Chọn bộ phận mà việc tìm kiếm sẽ tiến hành trên đó "
 
 #: plugins/admin/groups/trust_machines.tpl:29
 #: plugins/admin/ogroups/trust_machines.tpl:30
 msgid "Display systems matching"
-msgstr "Exibir sistemas combinados"
+msgstr "Hiển thị việc khớp các hệ thống"
 
 #: plugins/admin/groups/trust_machines.tpl:30
 #: plugins/admin/ogroups/trust_machines.tpl:31
 msgid "Regular expression for matching addresses"
-msgstr "Expressão regular para conferência de endereços"
+msgstr "Biểu thức thông thường cho việc khớp các địa chỉ"
 
 #: plugins/admin/groups/userSelect/user-list.xml:10
 #: plugins/admin/groups/userGroupSelect/selectUserGroup-list.xml:11
@@ -4389,77 +4389,77 @@ msgstr ""
 
 #: plugins/admin/groups/paste_generic.tpl:1
 msgid "Group settings"
-msgstr ""
+msgstr "Thiết lập nhóm"
 
 #: plugins/admin/groups/paste_generic.tpl:5
 #: plugins/admin/groups/generic.tpl:11
 #: plugins/admin/ogroups/paste_generic.tpl:4
 #: plugins/admin/ogroups/generic.tpl:7
 msgid "Group name"
-msgstr "Nome do grupo"
+msgstr "Tên nhóm"
 
 #: plugins/admin/groups/paste_generic.tpl:8
 #: plugins/admin/groups/generic.tpl:17
 msgid "Posix name of the group"
-msgstr ""
+msgstr "Tên Posix của nhóm"
 
 #: plugins/admin/groups/paste_generic.tpl:13
 #: plugins/admin/groups/generic.tpl:59
 msgid "Normally IDs are autogenerated, select to specify manually"
-msgstr ""
+msgstr "Thường thì các ID sẽ được tự động sinh ra, hãy lựa chọn để xác định thủ công  "
 
 #: plugins/admin/groups/paste_generic.tpl:15
 #: plugins/admin/groups/generic.tpl:62
 msgid "Force GID"
-msgstr "Forçar GID"
+msgstr "Áp dụng GID"
 
 #: plugins/admin/groups/paste_generic.tpl:18
 #: plugins/admin/groups/generic.tpl:65
 msgid "Forced ID number"
-msgstr ""
+msgstr "Số ID được áp dụng"
 
 #: plugins/admin/groups/class_group.inc:161
 msgid "Cannot find group SID in your configuration!"
-msgstr ""
+msgstr "Không thể tìm được nhóm SID trong cấu hình của bạn!"
 
 #: plugins/admin/groups/class_group.inc:411
 msgid "Samba group"
-msgstr "Grupo samba"
+msgstr "Nhóm Samba"
 
 #: plugins/admin/groups/class_group.inc:411
 msgid "Domain admins"
-msgstr "Administradores do domínio"
+msgstr "Admin miền"
 
 #: plugins/admin/groups/class_group.inc:411
 msgid "Domain users"
-msgstr "Usuários do domínio"
+msgstr "Người dùng miền"
 
 #: plugins/admin/groups/class_group.inc:412
 msgid "Domain guests"
-msgstr "Convidados do domínio"
+msgstr "Khách miền"
 
 #: plugins/admin/groups/class_group.inc:417
 #, php-format
 msgid "Special group (%d)"
-msgstr ""
+msgstr "Nhóm đặc biệt (%d)"
 
 #: plugins/admin/groups/class_group.inc:444
 #: plugins/admin/ogroups/class_ogroup.inc:392
 #: plugins/personal/posix/class_posixAccount.inc:184
 msgid "disabled"
-msgstr "desabilitado"
+msgstr "Đã vô hiệu"
 
 #: plugins/admin/groups/class_group.inc:444
 #: plugins/admin/ogroups/class_ogroup.inc:392
 #: plugins/personal/posix/class_posixAccount.inc:184
 msgid "full access"
-msgstr "acesso completo"
+msgstr "Truy cập hoàn toàn"
 
 #: plugins/admin/groups/class_group.inc:445
 #: plugins/admin/ogroups/class_ogroup.inc:393
 #: plugins/personal/posix/class_posixAccount.inc:184
 msgid "allow access to these hosts"
-msgstr "permitir acesso a estas máquinas"
+msgstr "Cho phép truy cập đến các máy chủ này"
 
 #: plugins/admin/groups/class_group.inc:522
 #, php-format
@@ -4478,17 +4478,17 @@ msgstr ""
 #: plugins/admin/groups/class_group.inc:638
 #, php-format
 msgid "Search returned too many results. Not displaying more than %s entries!"
-msgstr ""
+msgstr "Việc tìm kiếm có quá nhiều kết quả. Không hiển thị nhiều hơn %s mục vào!"
 
 #: plugins/admin/groups/class_group.inc:865
 #, php-format
 msgid "Cannot find any SID for '%s'!"
-msgstr ""
+msgstr "Không thể tìm thấy một SID nào cho '%s'!"
 
 #: plugins/admin/groups/class_group.inc:870
 #, php-format
 msgid "Cannot find any RIDBASE for '%s'!"
-msgstr ""
+msgstr "Không thể tìm thấy một RIDBASE nào cho '%s'!"
 
 #: plugins/admin/groups/class_group.inc:965
 #, php-format
@@ -4501,11 +4501,11 @@ msgstr ""
 #: plugins/personal/posix/class_posixAccount.inc:122
 #: plugins/personal/posix/class_posixAccount.inc:375
 msgid "GID"
-msgstr "GID"
+msgstr "Số ID của nhóm"
 
 #: plugins/admin/groups/class_group.inc:1107
 msgid "Generic group settings"
-msgstr ""
+msgstr "Thiết lập nhóm chung"
 
 #: plugins/admin/groups/class_group.inc:1110
 #: plugins/admin/groups/group-list.xml:15
@@ -4516,38 +4516,38 @@ msgstr ""
 #: plugins/generic/references/class_reference.inc:55
 #: plugins/personal/posix/groupSelect/group-list.xml:15
 msgid "Group"
-msgstr ""
+msgstr "Nhóm "
 
 #: plugins/admin/groups/class_group.inc:1119
 msgid "Samba group type"
-msgstr ""
+msgstr "Loại nhóm Samba"
 
 #: plugins/admin/groups/class_group.inc:1120
 msgid "Samba domain name"
-msgstr ""
+msgstr "Tên miền Samba"
 
 #: plugins/admin/groups/class_group.inc:1121
 #: plugins/admin/ogroups/class_ogroup.inc:908
 #: plugins/admin/ogroups/generic.tpl:36
 #: plugins/personal/posix/class_posixAccount.inc:176
 msgid "System trust"
-msgstr "Sistema de confiança"
+msgstr "Ủy thác hệ thống"
 
 #: plugins/admin/groups/class_group.inc:1122
 msgid "Phone pickup group"
-msgstr ""
+msgstr "Nhóm nhấc điện thoại"
 
 #: plugins/admin/groups/class_group.inc:1123
 msgid "Nagios group"
-msgstr ""
+msgstr "Nhóm phần mềm Nagios"
 
 #: plugins/admin/groups/class_group.inc:1125
 msgid "Group member"
-msgstr ""
+msgstr "Thành viên nhóm"
 
 #: plugins/admin/groups/group-list.xml:11
 msgid "List of groups"
-msgstr "Lista dos grupos"
+msgstr "Danh sách các nhóm"
 
 #: plugins/admin/groups/group-list.xml:23
 msgid "Group submenu entry"
@@ -4582,7 +4582,7 @@ msgstr ""
 #: plugins/admin/groups/class_groupManagement.inc:110
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:66
 msgid "Edit mail properties"
-msgstr "Editar propriedades de correio"
+msgstr "Hiệu chỉnh các tính năng mail"
 
 #: plugins/admin/groups/class_groupManagement.inc:117
 #: plugins/generic/references/class_reference.inc:47
@@ -4593,7 +4593,7 @@ msgstr "Samba"
 #: plugins/admin/groups/class_groupManagement.inc:118
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:74
 msgid "Edit samba properties"
-msgstr "Editar propriedades do samba"
+msgstr "Hiệu chỉnh các tính năng samba"
 
 #: plugins/admin/groups/class_groupManagement.inc:125
 #: plugins/admin/departments/organization.tpl:105
@@ -4607,12 +4607,12 @@ msgstr "Editar propriedades do samba"
 #: plugins/personal/generic/generic.tpl:376
 #: plugins/personal/generic/generic.tpl:563
 msgid "Phone"
-msgstr "Fone"
+msgstr "Số điện thoại"
 
 #: plugins/admin/groups/class_groupManagement.inc:126
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:82
 msgid "Edit phone properties"
-msgstr "Editar propriedades de telefone"
+msgstr "Hiệu chỉnh các tính năng điện thoại"
 
 #: plugins/admin/groups/class_groupManagement.inc:133
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:89
@@ -4628,12 +4628,12 @@ msgstr ""
 #: plugins/admin/ogroups/tabs_ogroups.inc:137
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:97
 msgid "Environment"
-msgstr "Ambiente"
+msgstr "Môi trường"
 
 #: plugins/admin/groups/class_groupManagement.inc:142
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:98
 msgid "Edit environment properties"
-msgstr "Editar propriedades de ambiente"
+msgstr "Hiệu chỉnh các tính năng môi trường"
 
 #: plugins/admin/groups/generic.tpl:14
 msgid "Multiple edit"
@@ -4641,33 +4641,33 @@ msgstr ""
 
 #: plugins/admin/groups/generic.tpl:28 plugins/admin/ogroups/generic.tpl:18
 msgid "Descriptive text for this group"
-msgstr ""
+msgstr "Văn bản mô tả cho nhóm này"
 
 #: plugins/admin/groups/generic.tpl:75 plugins/admin/groups/generic.tpl:102
 msgid "Select to create a samba conform group"
-msgstr ""
+msgstr "Chọn để tạo ra một nhóm thích hợp với samba"
 
 #: plugins/admin/groups/generic.tpl:87 plugins/admin/groups/generic.tpl:110
 msgid "in domain"
-msgstr "no domínio"
+msgstr "trong miền"
 
 #: plugins/admin/groups/generic.tpl:131
 msgid "Members are in a phone pickup group"
-msgstr "Membros estão no grupo phone pickup"
+msgstr "Các thành viên trong một nhóm nhấc điện thoại"
 
 #: plugins/admin/groups/generic.tpl:146
 msgid "Members are in a nagios group"
-msgstr ""
+msgstr "Các thành viên trong một nhóm Nargios"
 
 #: plugins/admin/groups/generic.tpl:160 plugins/admin/groups/generic.tpl:194
 #: plugins/admin/ogroups/generic.tpl:37
 #: plugins/personal/posix/class_posixAccount.inc:180
 msgid "Trust mode"
-msgstr "Modo de confiança"
+msgstr "Chế độ ủy thác"
 
 #: plugins/admin/groups/generic.tpl:236
 msgid "Group members"
-msgstr "Membros do grupo"
+msgstr "Các thành viên nhóm"
 
 #: plugins/admin/groups/generic.tpl:243
 msgid "In all groups"
@@ -4706,7 +4706,7 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:1410
 #: plugins/personal/generic/generic.tpl:425
 msgid "Location"
-msgstr "Localização"
+msgstr "Vị trí"
 
 #: plugins/admin/departments/class_localityGeneric.inc:92
 #: plugins/admin/departments/class_dcObject.inc:91
@@ -4739,7 +4739,7 @@ msgstr ""
 #: plugins/admin/departments/generic.tpl:132
 #: plugins/admin/departments/class_organizationGeneric.inc:134
 msgid "Administrative settings"
-msgstr ""
+msgstr "Thiết lập quản trị"
 
 #: plugins/admin/departments/class_dcObject.inc:82
 #: plugins/admin/departments/class_dcObject.inc:83
@@ -4772,7 +4772,7 @@ msgstr ""
 #: plugins/admin/departments/dcObject.tpl:22
 #: plugins/admin/departments/locality.tpl:22
 msgid "Descriptive text for department"
-msgstr ""
+msgstr "Văn bản mô tả cho bộ phận"
 
 #: plugins/admin/departments/country.tpl:69
 #: plugins/admin/departments/domain.tpl:69
@@ -4781,27 +4781,27 @@ msgstr ""
 #: plugins/admin/departments/locality.tpl:69
 #: plugins/admin/departments/generic.tpl:134
 msgid "Tag department as an independent administrative unit"
-msgstr ""
+msgstr "Đặt bộ phận như một đơn vị quản trị độc lập"
 
 #: plugins/admin/departments/dep_iframe.tpl:1
 msgid "Processing the requested operation"
-msgstr ""
+msgstr "Xử lý thao tác được yêu cầu"
 
 #: plugins/admin/departments/dep_iframe.tpl:7
 msgid ""
 "Your browser doesn't support iframes, please use this link to perform the "
 "requested operation."
-msgstr ""
+msgstr "Trình duyệt của bạn không hỗ trợ iframe, xin hãy sử dụng đường link này để thực hiện những thao tác được yêu cầu."
 
 #: plugins/admin/departments/dep_move_confirm.tpl:2
 msgid "You are currently moving/renaming this department."
-msgstr ""
+msgstr "Bạn hiện đang bỏ/đổi tên bộ phận này."
 
 #: plugins/admin/departments/dep_move_confirm.tpl:5
 msgid ""
 "Modifying a departments naming attribute 'ou' or base may corrupt acls and "
 "snapshot entries for all entire objects."
-msgstr ""
+msgstr "Thay đổi thuộc tính đặt tên 'ou' của các bộ phận hoặc cơ sở có thể ảnh hưởng đển các file acl và các entry snapshot cho toàn bộ các đối tượng."
 
 #: plugins/admin/departments/dep_move_confirm.tpl:8
 msgid "FusionDirectory can NOT fix this for you, yet."
@@ -4811,7 +4811,7 @@ msgstr ""
 msgid ""
 "Before you confirm this action, ensure that everything will be as expected, "
 "possibly the best solution is a backup."
-msgstr ""
+msgstr "Trước khi bạn xác nhận hành động này, hãy đảm bảo rằng mọi thứ sẽ như mong đợi, có lẽ cách giải quyết tốt nhất là có một bản backup."
 
 #: plugins/admin/departments/domain.tpl:11
 msgid "Domain name"
@@ -4833,7 +4833,7 @@ msgid ""
 "Best thing to do before performing this action would be to save the current "
 "contents of your LDAP tree in a file. So - if you've done so - press "
 "'Delete' to continue or 'Cancel' to abort."
-msgstr "O melhor que se tem a fazer antes de realizar esta ação é salvar os dados da sua árvore LDAP em um arquivo. Então, se pronto, pressione 'Deletar' para continuar ou 'Cancelar' para abortar."
+msgstr "Tốt nhất là trước khi thực hiện thao tác này bạn nên  lưu lại nội dung hiện tại của cây thư mục LDAP trong một file. Nếu bạn đã làm thế, hãy kích 'Delete' để tiếp tục hoặc kích 'Cancel' để hủy bỏ."
 
 #: plugins/admin/departments/organization.tpl:11
 msgid "Name of organization"
@@ -4848,12 +4848,12 @@ msgstr ""
 #: plugins/admin/departments/generic.tpl:27
 #: plugins/admin/departments/class_organizationGeneric.inc:123
 msgid "Category"
-msgstr ""
+msgstr "Các danh mục"
 
 #: plugins/admin/departments/organization.tpl:30
 #: plugins/admin/departments/generic.tpl:30
 msgid "Category for this subtree"
-msgstr ""
+msgstr "Các danh mục cho cây con"
 
 #: plugins/admin/departments/organization.tpl:82
 #: plugins/admin/departments/class_department.inc:665
@@ -4862,17 +4862,17 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:1409
 #: plugins/personal/generic/generic.tpl:433
 msgid "State"
-msgstr "Estado"
+msgstr "Bang"
 
 #: plugins/admin/departments/organization.tpl:85
 #: plugins/admin/departments/generic.tpl:86
 msgid "State where this subtree is located"
-msgstr ""
+msgstr "Xác định xem tập cây con này ở đâu"
 
 #: plugins/admin/departments/organization.tpl:93
 #: plugins/admin/departments/generic.tpl:94
 msgid "Location of this subtree"
-msgstr ""
+msgstr "Vị trí của cây con"
 
 #: plugins/admin/departments/organization.tpl:98
 #: plugins/admin/departments/class_department.inc:667
@@ -4880,17 +4880,17 @@ msgstr ""
 #: plugins/personal/generic/generic.tpl:181
 #: plugins/personal/generic/generic.tpl:441
 msgid "Address"
-msgstr "Endereço"
+msgstr "Địa chỉ"
 
 #: plugins/admin/departments/organization.tpl:101
 #: plugins/admin/departments/generic.tpl:102
 msgid "Postal address of this subtree"
-msgstr ""
+msgstr "Địa chỉ bưu điện của cây con này"
 
 #: plugins/admin/departments/organization.tpl:108
 #: plugins/admin/departments/generic.tpl:109
 msgid "Base telephone number of this subtree"
-msgstr ""
+msgstr "Đặt số điện thoại của cây con này"
 
 #: plugins/admin/departments/organization.tpl:113
 #: plugins/admin/departments/class_department.inc:371
@@ -4901,12 +4901,12 @@ msgstr ""
 #: plugins/personal/generic/generic.tpl:407
 #: plugins/personal/generic/generic.tpl:575
 msgid "Fax"
-msgstr "Fax"
+msgstr "Số fax"
 
 #: plugins/admin/departments/organization.tpl:116
 #: plugins/admin/departments/generic.tpl:117
 msgid "Base facsimile telephone number of this subtree"
-msgstr ""
+msgstr "Đặt số fax của cây con này"
 
 #: plugins/admin/departments/dcObject.tpl:11
 #: plugins/admin/departments/locality.tpl:11
@@ -4922,7 +4922,7 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:654
 #: plugins/admin/departments/class_department.inc:656
 msgid "Departments"
-msgstr "Departamentos"
+msgstr "Các bộ phận"
 
 #: plugins/admin/departments/class_departmentManagement.inc:37
 msgid "Manage departments"
@@ -4939,7 +4939,7 @@ msgstr ""
 #: plugins/admin/departments/dep-list.xml:31
 #: plugins/admin/departments/dep-list.xml:117
 msgid "Country"
-msgstr "País"
+msgstr "Quốc Gia"
 
 #: plugins/admin/departments/class_departmentManagement.inc:255
 #: plugins/admin/departments/class_department.inc:657
@@ -4952,57 +4952,57 @@ msgstr "País"
 #: plugins/personal/generic/class_user.inc:1396
 #: plugins/personal/generic/generic.tpl:285
 msgid "Department"
-msgstr "Departamento"
+msgstr "Bộ phận"
 
 #: plugins/admin/departments/class_department.inc:431
 msgid "Cannot find an unused tag for this administrative unit!"
-msgstr ""
+msgstr "Không thể tìm được một tag chưa được dùng cho đơn vị quản trị này!"
 
 #: plugins/admin/departments/class_department.inc:500
 #, php-format
 msgid "Tagging '%s'."
-msgstr ""
+msgstr "Tagging '%s'."
 
 #: plugins/admin/departments/class_department.inc:581
 #, php-format
 msgid "Moving '%s' to '%s'"
-msgstr ""
+msgstr "Chuyển từ '%s' đến '%s'"
 
 #: plugins/admin/departments/class_department.inc:622
 #, php-format
 msgid "FAILED to copy %s, aborting operation"
-msgstr ""
+msgstr "Thất bại trong việc copy %s, bãi bỏ thao tác"
 
 #: plugins/admin/departments/class_department.inc:660
 msgid "Department name"
-msgstr "Nome do departamento"
+msgstr "Tên bộ phận"
 
 #: plugins/admin/departments/class_department.inc:668
 msgid "Telephone"
-msgstr ""
+msgstr "Số điện thoại"
 
 #: plugins/admin/departments/class_department.inc:724
 #, php-format
 msgid "Object '%s' is already tagged"
-msgstr ""
+msgstr "Đối tượng '%s' đã bị tag"
 
 #: plugins/admin/departments/class_department.inc:731
 #, php-format
 msgid "Adding tag (%s) to object '%s'"
-msgstr ""
+msgstr "Thêm tag (%s) vào đối tượng '%s'"
 
 #: plugins/admin/departments/class_department.inc:763
 #, php-format
 msgid "Removing tag from object '%s'"
-msgstr ""
+msgstr "Bỏ tag từ đối tượng '%s'"
 
 #: plugins/admin/departments/generic.tpl:11
 msgid "Name of department"
-msgstr ""
+msgstr "Tên bộ phận"
 
 #: plugins/admin/departments/generic.tpl:14
 msgid "Name of subtree to create"
-msgstr ""
+msgstr "Tên của cây con được tạo"
 
 #: plugins/admin/departments/generic.tpl:22
 msgid "Descriptive text for   department"
@@ -5010,7 +5010,7 @@ msgstr ""
 
 #: plugins/admin/departments/dep-list.xml:11
 msgid "List of departments"
-msgstr "Lista dos departamentos"
+msgstr "Danh sách các bộ phận"
 
 #: plugins/admin/departments/dep-list.xml:23
 #: plugins/admin/departments/dep-list.xml:110
@@ -5024,7 +5024,7 @@ msgstr ""
 #: plugins/admin/departments/class_organizationGeneric.inc:130
 #: plugins/personal/generic/class_user.inc:1411
 msgid "Postal address"
-msgstr "Caixa postal"
+msgstr "Địa chỉ theo bưu điện"
 
 #: plugins/admin/departments/class_organizationGeneric.inc:131
 msgid "Phone number"
@@ -5033,48 +5033,48 @@ msgstr ""
 #: plugins/admin/ogroups/class_ogroupManagement.inc:36
 #: plugins/admin/ogroups/class_ogroup.inc:899
 msgid "Object groups"
-msgstr "Grupos de objeto"
+msgstr "Tất cả các nhóm đối tượng"
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:37
 msgid "Manage object groups"
-msgstr ""
+msgstr "Quản lý các nhóm đối tượng "
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:119
 msgid "Infrastructure error"
-msgstr ""
+msgstr "Lỗi cơ sở hạ tầng"
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:185
 msgid "Templates"
-msgstr "Modelos"
+msgstr ""
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:188
 #: plugins/admin/ogroups/objectSelect/selectObject-list.xml:87
 #: plugins/generic/references/class_reference.inc:61
 msgid "Application"
-msgstr "Aplicação"
+msgstr "Ứng dụng"
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:192
 #: plugins/admin/ogroups/objectSelect/selectObject-list.xml:31
 #: plugins/generic/references/class_reference.inc:67
 #: plugins/personal/posix/trustSelect/trust-list.xml:22
 msgid "Workstation"
-msgstr "Estação de trabalho"
+msgstr "Máy trạm"
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:193
 msgid "Windows Install"
-msgstr ""
+msgstr "Cài đặt window"
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:194
 #: plugins/admin/ogroups/objectSelect/selectObject-list.xml:47
 #: plugins/personal/posix/trustSelect/trust-list.xml:38
 msgid "Terminal"
-msgstr ""
+msgstr "Thiết bị cuối "
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:195
 #: plugins/admin/ogroups/objectSelect/selectObject-list.xml:55
 #: plugins/generic/references/class_reference.inc:71
 msgid "Printer"
-msgstr "Impressora"
+msgstr "Máy in"
 
 #: plugins/admin/ogroups/objectSelect/selectObject-list.xml:39
 #: plugins/personal/posix/trustSelect/trust-list.xml:30
@@ -5116,43 +5116,43 @@ msgstr ""
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:11
 msgid "user groups"
-msgstr ""
+msgstr "các nhóm người dùng"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:12
 msgid "nested groups"
-msgstr ""
+msgstr "các nhóm làm tổ"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:13
 msgid "application groups"
-msgstr ""
+msgstr "các nhóm ứng dụng"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:14
 msgid "department groups"
-msgstr ""
+msgstr "các nhóm bộ phận"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:15
 msgid "server groups"
-msgstr ""
+msgstr "các nhóm server"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:16
 msgid "workstation groups"
-msgstr ""
+msgstr "các nhóm máy trạm"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:17
 msgid "windows workstation groups"
-msgstr ""
+msgstr "các nhóm máy trạm windows"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:18
 msgid "terminal groups"
-msgstr ""
+msgstr "các nhóm thiết bị cuối"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:19
 msgid "printer groups"
-msgstr ""
+msgstr "các nhóm máy in"
 
 #: plugins/admin/ogroups/ogroup-filter.tpl:20
 msgid "phone groups"
-msgstr ""
+msgstr "các nhóm điện thoại"
 
 #: plugins/admin/ogroups/remove.tpl:6
 msgid ""
@@ -5162,28 +5162,28 @@ msgstr ""
 
 #: plugins/admin/ogroups/paste_generic.tpl:7
 msgid "Please enter the new object group name"
-msgstr ""
+msgstr "Xin mời nhập tên nhóm đối tượng mới vào"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:85
 msgid "Phone queue"
-msgstr "Fila de Telefone"
+msgstr "Các hàng phone"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:156
 msgid "Applications"
-msgstr "Aplicações"
+msgstr "Các ứng dụng"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:226
 #: plugins/admin/ogroups/tabs_ogroups.inc:233
 msgid "Devices"
-msgstr "Dispositivos"
+msgstr "Các thiết bị"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:227
 msgid "Startup"
-msgstr "Início"
+msgstr "Khởi động"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:230
 msgid "Systems"
-msgstr "Sistemas"
+msgstr "Các hệ thống"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:236
 msgid "Workstartup"
@@ -5199,7 +5199,7 @@ msgstr ""
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:239
 msgid "FAI summary"
-msgstr "Sumário FAI"
+msgstr "Tóm tắt FAI"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:240
 msgid "Argonaut client"
@@ -5218,41 +5218,41 @@ msgstr ""
 
 #: plugins/admin/ogroups/class_ogroup.inc:247
 msgid "You cannot combine terminals and workstations in one object group!"
-msgstr ""
+msgstr "Bạn không thể kết hợp các thiết bị cuối và máy trạm vào trong một nhóm đối tượng!"
 
 #: plugins/admin/ogroups/class_ogroup.inc:583
 msgid "Non existing dn:"
-msgstr "Dn não existente:"
+msgstr "dn không tồn tại:"
 
 #: plugins/admin/ogroups/class_ogroup.inc:761
 msgid "You can combine two different object types at maximum, only!"
-msgstr ""
+msgstr "Bạn chỉ có thể kết hợp hai đối tượng khác nhau tại mức cực đại!"
 
 #: plugins/admin/ogroups/class_ogroup.inc:896
 msgid "Object group generic"
-msgstr ""
+msgstr "Nhóm đối tượng chung"
 
 #: plugins/admin/ogroups/class_ogroup.inc:901
 #: plugins/admin/ogroups/ogroup-list.xml:15
 #: plugins/generic/references/class_reference.inc:69
 msgid "Object group"
-msgstr ""
+msgstr "Nhóm đối tượng"
 
 #: plugins/admin/ogroups/class_ogroup.inc:909
 msgid "Member"
-msgstr ""
+msgstr "Thành viên"
 
 #: plugins/admin/ogroups/generic.tpl:10
 msgid "Name of the group"
-msgstr ""
+msgstr "Tên của nhóm"
 
 #: plugins/admin/ogroups/generic.tpl:65
 msgid "Member objects"
-msgstr ""
+msgstr "Các đối tượng thành viên"
 
 #: plugins/admin/ogroups/ogroup-list.xml:11
 msgid "List of object groups"
-msgstr ""
+msgstr "Danh sách các nhóm đối tượng"
 
 #: plugins/admin/ogroups/ogroup-list.xml:79
 msgid "Objectgroup"
@@ -5272,19 +5272,19 @@ msgstr ""
 
 #: plugins/admin/ogroups/ogroup_objects.tpl:6
 msgid "Select objects to add"
-msgstr ""
+msgstr "Chọn nhóm đối tượng để thêm vào"
 
 #: plugins/admin/ogroups/ogroup_objects.tpl:36
 msgid "Display objects of department"
-msgstr ""
+msgstr "Hiển thị nhóm đối tượng của các bộ phận"
 
 #: plugins/admin/ogroups/ogroup_objects.tpl:40
 msgid "Display objects matching"
-msgstr "Exibir combinação de objetos"
+msgstr "Hiển thị việc khớp các đối tượng"
 
 #: plugins/admin/ogroups/ogroup_objects.tpl:41
 msgid "Regular expression for matching object names"
-msgstr "Expressão regular para combinação de nomes de objeto"
+msgstr "Hiển thị thông thường cho việc khớp tên các đối tượng"
 
 #: plugins/config/class_mainPluginsConfig.inc:28
 msgid "Plugins configuration"
@@ -5308,7 +5308,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:57
 msgid "Configuration"
-msgstr "Configuração"
+msgstr "Cấu hình"
 
 #: plugins/config/class_configInLdap.inc:58
 #: plugins/config/class_configInLdap.inc:62
@@ -5683,7 +5683,7 @@ msgstr "UNIX"
 
 #: plugins/generic/references/class_reference.inc:49
 msgid "FAX"
-msgstr "FAX"
+msgstr "Fax"
 
 #: plugins/generic/references/class_reference.inc:51
 msgid "Proxy"
@@ -5691,28 +5691,28 @@ msgstr "Proxy"
 
 #: plugins/generic/references/class_reference.inc:53
 msgid "FTP"
-msgstr "FTP"
+msgstr "FTP "
 
 #: plugins/generic/references/class_reference.inc:65
 msgid "Thin Client"
-msgstr ""
+msgstr "Máy khách yếu"
 
 #: plugins/generic/references/contents.tpl:11
 msgid "Object name"
-msgstr "Nome do objeto"
+msgstr "Tên đối tượng"
 
 #: plugins/generic/references/contents.tpl:11
 msgid "Contents"
-msgstr ""
+msgstr "Nội dung"
 
 #: plugins/generic/references/contents.tpl:18
 msgid "This object has no relationship to other objects."
-msgstr ""
+msgstr "Đối tượng này không có mối quan hệ nào với các đối tượng khác."
 
 #: plugins/generic/welcome/main.inc:26
 #, php-format
 msgid "Welcome %s!"
-msgstr "Bem vindo %s!"
+msgstr "Chào mừng %s!"
 
 #: plugins/generic/welcome/welcome.tpl:8
 msgid "The FusionDirectory team"
@@ -5732,7 +5732,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:96
 msgid "Home directory"
-msgstr "Diretório pessoal"
+msgstr "Thư mục chủ"
 
 #: plugins/personal/posix/class_posixAccount.inc:96
 msgid "The path to the home directory of this user"
@@ -5748,7 +5748,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:105
 msgid "Primary group"
-msgstr "Grupo primário"
+msgstr "Nhóm sơ cấp"
 
 #: plugins/personal/posix/class_posixAccount.inc:105
 msgid "Primary group for this user"
@@ -5756,7 +5756,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:109
 msgid "Status"
-msgstr "Estatus"
+msgstr "Trạng thái"
 
 #: plugins/personal/posix/class_posixAccount.inc:109
 msgid "Status of this user unix account"
@@ -5764,7 +5764,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:113
 msgid "Force UID/GID"
-msgstr "Forçar UID/GID"
+msgstr "Bắt buộc có UID/GID "
 
 #: plugins/personal/posix/class_posixAccount.inc:113
 msgid "Force UID and GID values for this user"
@@ -5773,7 +5773,7 @@ msgstr ""
 #: plugins/personal/posix/class_posixAccount.inc:117
 #: plugins/personal/posix/class_posixAccount.inc:372
 msgid "UID"
-msgstr "UID"
+msgstr "Số ID của người sử dụng"
 
 #: plugins/personal/posix/class_posixAccount.inc:117
 msgid "UID value for this user"
@@ -5786,15 +5786,15 @@ msgstr ""
 #: plugins/personal/posix/class_posixAccount.inc:129
 #: plugins/personal/posix/class_posixAccount.inc:132
 msgid "Group membership"
-msgstr "Membros do grupo"
+msgstr "Tư cách thành viên nhóm"
 
 #: plugins/personal/posix/class_posixAccount.inc:136
 msgid "Account"
-msgstr "Conta"
+msgstr "Tài khoản"
 
 #: plugins/personal/posix/class_posixAccount.inc:140
 msgid "User must change password on first login"
-msgstr "O usuário deve alterar sua senha no primeiro acesso"
+msgstr "Người dùng phải thay đổi mật khẩu ngay lần đăng nhập đầu tiên"
 
 #: plugins/personal/posix/class_posixAccount.inc:140
 msgid "User must change password on first login (leave empty to disable)"
@@ -5863,29 +5863,29 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:199
 msgid "Edit users POSIX settings"
-msgstr ""
+msgstr "Hiệu chỉnh cài đặt POSIX của người dùng"
 
 #: plugins/personal/posix/class_posixAccount.inc:287
 msgid "automatic"
-msgstr "automático"
+msgstr "tự động"
 
 #: plugins/personal/posix/class_posixAccount.inc:305
 msgid "expired"
-msgstr "expirado"
+msgstr "hết hạn"
 
 #: plugins/personal/posix/class_posixAccount.inc:307
 msgid "grace time active"
-msgstr ""
+msgstr "Thời gian trước khi tài khoản bị khóa đang hoạt động"
 
 #: plugins/personal/posix/class_posixAccount.inc:310
 #: plugins/personal/posix/class_posixAccount.inc:312
 #: plugins/personal/posix/class_posixAccount.inc:314
 msgid "active"
-msgstr "ativo"
+msgstr "hoạt động"
 
 #: plugins/personal/posix/class_posixAccount.inc:310
 msgid "password expired"
-msgstr ""
+msgstr "mật khẩu hết hạn"
 
 #: plugins/personal/posix/class_posixAccount.inc:312
 msgid "password not changeable"
@@ -5893,11 +5893,11 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:430
 msgid "Timeout while waiting for lock. Ignoring lock!"
-msgstr ""
+msgstr "Thời gian chờ khóa. Bỏ qua khóa!"
 
 #: plugins/personal/posix/class_posixAccount.inc:488
 msgid "Group of user"
-msgstr "Grupo do usuário"
+msgstr "Nhóm người dùng"
 
 #: plugins/personal/password/password.tpl:4
 #: plugins/personal/generic/password.tpl:4
@@ -5905,7 +5905,7 @@ msgid ""
 "To change your personal password use the fields below. The changes take "
 "effect immediately. Please memorize the new password, because you wouldn't "
 "be able to login without it."
-msgstr "Para alterar sua senha pessoal, use os campos abaixo. As alterações terão efeito imediato. Por favor, memorize a nova senha porque você não será capaz de acessar o sistema sem ela."
+msgstr "Để thay đổi được mật khẩu cá nhân, sử dụng các trường dưới đây. Các thay đổi sẽ diễn ra ngay lập tức. Xin hãy nhớ mật khẩu mới, bởi vì bạn sẽ không thể đăng nhập vào nếu không có nó."
 
 #: plugins/personal/password/password.tpl:14
 msgid "Your Password has expired. Please choose a new password!"
@@ -5919,49 +5919,49 @@ msgstr ""
 #: plugins/personal/password/password.tpl:103
 #: plugins/personal/generic/password.tpl:97
 msgid "Clear fields"
-msgstr "Limpar campos"
+msgstr "Dọn sạch các trường "
 
 #: plugins/personal/password/class_password.inc:111
 msgid "You need to specify your current password in order to proceed."
-msgstr "Você precisa especificar sua senha atual para continuar."
+msgstr "Bạn cần xác định mật khẩu hiện tại để có thể tiếp tục."
 
 #: plugins/personal/password/class_password.inc:115
 msgid "The password you've entered as 'New password' is empty."
-msgstr "O campo 'Nova senha' esta vazio."
+msgstr "Mật khẩu bạn vừa nhập vào làm \"Mật khẩu mới\" bị rỗng."
 
 #: plugins/personal/password/class_password.inc:117
 msgid "The password used as new and current are too similar."
-msgstr "A senha utilizada como nova e atual são muito similares."
+msgstr "Mật khẩu mới và mật khẩu cũ quá giống nhau."
 
 #: plugins/personal/password/class_password.inc:119
 msgid "The password used as new is to short."
-msgstr "A senha utilizada como nova é curta."
+msgstr "Mật khẩu mới cần được cắt ngắn lại."
 
 #: plugins/personal/password/class_password.inc:157
 msgid ""
 "The password you've entered as your current password doesn't match the real "
 "one."
-msgstr "A senha digitada não confere com a senha atual."
+msgstr "Mật khẩu bạn vừa đưa vào làm mật khẩu hiện tại không giống mật khẩu thật."
 
 #: plugins/personal/password/class_password.inc:163
 msgid "You have no permission to change your password."
-msgstr ""
+msgstr "Bạn không có quyền thay đổi mật khẩu của bạn."
 
 #: plugins/personal/password/class_password.inc:200
 msgid "Change user password"
-msgstr ""
+msgstr "Thay đổi mật khẩu người dùng"
 
 #: plugins/personal/password/changed.tpl:3
 #: plugins/personal/generic/changed.tpl:3
 msgid ""
 "You've successfully changed your password. Remember to change all programms "
 "configured to use it as well."
-msgstr "Sua senha foi alterada com sucesso. Lembre-se de alterar todos os programas que a usem."
+msgstr "Bạn đã thay đổi mật khẩu thành công. Hãy nhớ thay đổi cả các chương trình cấu hình để sử dụng được nó."
 
 #: plugins/personal/password/nochange.tpl:2
 #: plugins/personal/generic/nochange.tpl:2
 msgid "You have no permission to change your password at this time"
-msgstr ""
+msgstr "Bạn không được phép thay đổi mật khẩu tại thời điểm này"
 
 #: plugins/personal/generic/generic_picture.tpl:5
 #: plugins/personal/generic/paste_generic.tpl:37
@@ -5969,36 +5969,36 @@ msgstr ""
 #: plugins/personal/generic/generic.tpl:24
 #: plugins/personal/generic/generic.tpl:40
 msgid "Personal picture"
-msgstr "Foto pessoal"
+msgstr "Ảnh cá nhân"
 
 #: plugins/personal/generic/generic_picture.tpl:27
 #: plugins/personal/generic/paste_generic.tpl:52
 msgid "Remove picture"
-msgstr "Remover foto"
+msgstr "Xóa ảnh "
 
 #: plugins/personal/generic/main.inc:169
 msgid "Generic user information"
-msgstr "Informação geral do usuário"
+msgstr "Thông tin chung của người dùng"
 
 #: plugins/personal/generic/generic_certs.tpl:3
 msgid "Certificates"
-msgstr "Certificados"
+msgstr "Các giấy phép"
 
 #: plugins/personal/generic/generic_certs.tpl:8
 msgid "Standard certificate"
-msgstr "Certificado padrão"
+msgstr "Giấy phép chuẩn"
 
 #: plugins/personal/generic/generic_certs.tpl:33
 msgid "S/MIME certificate"
-msgstr "Certificado S/MIME"
+msgstr "Giấy phép S/MIME"
 
 #: plugins/personal/generic/generic_certs.tpl:57
 msgid "PKCS12 certificate"
-msgstr "Certificado PKCS12"
+msgstr "Giấy phép PKCS12"
 
 #: plugins/personal/generic/generic_certs.tpl:78
 msgid "Certificate serial number"
-msgstr "Número serial do certificado"
+msgstr "Số seri chứng nhận"
 
 #: plugins/personal/generic/class_user.inc:309
 msgid "Please add a single IP address or a network/netmask combination!"
@@ -6006,19 +6006,19 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:377
 msgid "female"
-msgstr "feminino"
+msgstr "Nữ"
 
 #: plugins/personal/generic/class_user.inc:377
 msgid "male"
-msgstr "masculino"
+msgstr "Nam"
 
 #: plugins/personal/generic/class_user.inc:445
 msgid "Cannot upload file!"
-msgstr ""
+msgstr "Không thể tải file lên!"
 
 #: plugins/personal/generic/class_user.inc:488
 msgid "The selected password method is no longer available."
-msgstr ""
+msgstr "Phương pháp lập mật khẩu được chọn này không còn ở đây."
 
 #: plugins/personal/generic/class_user.inc:889
 msgid ""
@@ -6040,116 +6040,116 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1111
 msgid "The selected password method requires initial configuration!"
-msgstr ""
+msgstr "Phương pháp lập mật khẩu được chọn yêu cầu cấu hình ban đầu!"
 
 #: plugins/personal/generic/class_user.inc:1175
 #: plugins/personal/generic/class_user.inc:1415
 #: plugins/personal/generic/generic.tpl:197
 msgid "Homepage"
-msgstr "Página pessoal"
+msgstr "Trang chủ"
 
 #: plugins/personal/generic/class_user.inc:1186
 #: plugins/personal/generic/generic.tpl:388
 msgid "Mobile"
-msgstr "Celular"
+msgstr "Điện thoại di động"
 
 #: plugins/personal/generic/class_user.inc:1189
 #: plugins/personal/generic/generic.tpl:399
 msgid "Pager"
-msgstr "Pager"
+msgstr "Máy nhắn tin"
 
 #: plugins/personal/generic/class_user.inc:1194
 #: plugins/personal/generic/class_user.inc:1386
 #: plugins/personal/generic/generic.tpl:109
 msgid "Date of birth"
-msgstr "Data de nascimento"
+msgstr "Ngày sinh"
 
 #: plugins/personal/generic/class_user.inc:1357
 #: plugins/personal/generic/generic.tpl:515
 msgid "Unit"
-msgstr "Unidade"
+msgstr "Đơn vị"
 
 #: plugins/personal/generic/class_user.inc:1358
 #: plugins/personal/generic/generic.tpl:540
 msgid "House identifier"
-msgstr "Identificação da residência"
+msgstr "Mô tả căn nhà"
 
 #: plugins/personal/generic/class_user.inc:1359
 #: plugins/personal/generic/generic.tpl:457
 msgid "Vocation"
-msgstr "Vocação"
+msgstr "Nghề nghiệp"
 
 #: plugins/personal/generic/class_user.inc:1360
 #: plugins/personal/generic/generic.tpl:584
 msgid "Last delivery"
-msgstr "Última entrega"
+msgstr "Lần cung cấp cuối"
 
 #: plugins/personal/generic/class_user.inc:1361
 #: plugins/personal/generic/generic.tpl:506
 msgid "Person locality"
-msgstr "Localização da pessoa"
+msgstr "Địa phương của người dùng"
 
 #: plugins/personal/generic/class_user.inc:1362
 #: plugins/personal/generic/generic.tpl:465
 msgid "Unit description"
-msgstr "Descrição da unidade"
+msgstr "Mô tả đơn vị "
 
 #: plugins/personal/generic/class_user.inc:1363
 #: plugins/personal/generic/generic.tpl:474
 msgid "Subject area"
-msgstr "Área de assunto"
+msgstr "Lĩnh vực chuyên môn"
 
 #: plugins/personal/generic/class_user.inc:1364
 #: plugins/personal/generic/generic.tpl:483
 msgid "Functional title"
-msgstr "Título funcional"
+msgstr "Danh xưng chức năng"
 
 #: plugins/personal/generic/class_user.inc:1365
 #: plugins/personal/generic/generic.tpl:593
 msgid "Public visible"
-msgstr "Visível publicamente"
+msgstr "Hiển thị với tất cả mọi người"
 
 #: plugins/personal/generic/class_user.inc:1366
 #: plugins/personal/generic/generic.tpl:524
 msgid "Street"
-msgstr "Rua"
+msgstr "Phố"
 
 #: plugins/personal/generic/class_user.inc:1368
 #: plugins/personal/generic/generic.tpl:532
 msgid "Postal code"
-msgstr "CEP"
+msgstr "Mã bưu điện"
 
 #: plugins/personal/generic/class_user.inc:1372
 msgid "Generic user settings"
-msgstr ""
+msgstr "Thiết lập chung của người dùng"
 
 #: plugins/personal/generic/class_user.inc:1382
 msgid "User identification"
-msgstr ""
+msgstr "Chứng nhận người dùng"
 
 #: plugins/personal/generic/class_user.inc:1383
 #: plugins/personal/generic/generic.tpl:88
 msgid "Personal title"
-msgstr "Título pessoal"
+msgstr "Chức danh cá nhân"
 
 #: plugins/personal/generic/class_user.inc:1384
 #: plugins/personal/generic/generic.tpl:98
 msgid "Academic title"
-msgstr "Título acadêmico"
+msgstr "Chức danh học thuật"
 
 #: plugins/personal/generic/class_user.inc:1387
 #: plugins/personal/generic/generic.tpl:128
 msgid "Sex"
-msgstr "Sexo"
+msgstr "Giới tính"
 
 #: plugins/personal/generic/class_user.inc:1388
 msgid "Preferred language"
-msgstr ""
+msgstr "Ngôn ngữ muốn sử dụng"
 
 #: plugins/personal/generic/class_user.inc:1391
 #: plugins/personal/generic/paste_generic.tpl:47
 msgid "User picture"
-msgstr "Foto do usuário"
+msgstr "Ảnh của người sử dụng"
 
 #: plugins/personal/generic/class_user.inc:1393
 msgid "Login restrictions"
@@ -6157,44 +6157,44 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1397
 msgid "Department number"
-msgstr ""
+msgstr "Số phòng làm việc"
 
 #: plugins/personal/generic/class_user.inc:1400
 msgid "Employee number"
-msgstr ""
+msgstr "Số nhân viên"
 
 #: plugins/personal/generic/class_user.inc:1401
 #: plugins/personal/generic/generic.tpl:309
 msgid "Employee type"
-msgstr "Tipo de empregado"
+msgstr "Loại nhân viên"
 
 #: plugins/personal/generic/class_user.inc:1403
 msgid "Room number"
-msgstr ""
+msgstr "Số phòng"
 
 #: plugins/personal/generic/class_user.inc:1404
 msgid "Telefon number"
-msgstr ""
+msgstr "Số điện thoại"
 
 #: plugins/personal/generic/class_user.inc:1405
 msgid "Pager number"
-msgstr ""
+msgstr "Số máy nhắn tin"
 
 #: plugins/personal/generic/class_user.inc:1406
 msgid "Mobile number"
-msgstr ""
+msgstr "Số di động"
 
 #: plugins/personal/generic/class_user.inc:1407
 msgid "Fax number"
-msgstr ""
+msgstr "Số fax"
 
 #: plugins/personal/generic/class_user.inc:1413
 msgid "Home postal address"
-msgstr "Caixa postal residencial"
+msgstr "Đại chỉ nhà theo bưu điện"
 
 #: plugins/personal/generic/class_user.inc:1414
 msgid "Home phone number"
-msgstr ""
+msgstr "Số điện thoại nhà"
 
 #: plugins/personal/generic/class_user.inc:1416
 msgid "User password method"
@@ -6206,40 +6206,40 @@ msgstr ""
 
 #: plugins/personal/generic/paste_generic.tpl:1
 msgid "User settings"
-msgstr "Configurações do usuário"
+msgstr "Thiết lập của người dùng"
 
 #: plugins/personal/generic/paste_generic.tpl:23
 msgid "Clear password"
-msgstr "Senha limpa"
+msgstr "Bỏ mật khẩu"
 
 #: plugins/personal/generic/paste_generic.tpl:24
 msgid "Set new password"
-msgstr "Definir nova senha"
+msgstr "Đặt mật khẩu mới"
 
 #: plugins/personal/generic/generic.tpl:6
 msgid "Personal information"
-msgstr "Informação pessoal"
+msgstr "Thông tin cá nhân"
 
 #: plugins/personal/generic/generic.tpl:31
 #: plugins/personal/generic/generic.tpl:42
 msgid "Change picture"
-msgstr "Alterar foto"
+msgstr "Thay đổi hình ảnh"
 
 #: plugins/personal/generic/generic.tpl:60
 msgid "Template name"
-msgstr "Nome modelo"
+msgstr "Tên Mẫu"
 
 #: plugins/personal/generic/generic.tpl:141
 msgid "Preferred langage"
-msgstr "Linguagem preferida"
+msgstr "Ngôn ngữ muốn dùng"
 
 #: plugins/personal/generic/generic.tpl:189
 msgid "Private phone"
-msgstr "Telefone privativo"
+msgstr "Số điện thoại riêng"
 
 #: plugins/personal/generic/generic.tpl:210
 msgid "Password storage"
-msgstr "Armazenamento da senha"
+msgstr "Kho lưu mật khẩu"
 
 #: plugins/personal/generic/generic.tpl:239
 msgid "Restrict login to"
@@ -6251,24 +6251,24 @@ msgstr ""
 
 #: plugins/personal/generic/generic.tpl:265
 msgid "Organizational information"
-msgstr "Informação organizacional"
+msgstr "Thông tin về tổ chức"
 
 #: plugins/personal/generic/generic.tpl:293
 msgid "Department No."
-msgstr "Nº do departamento"
+msgstr "Số phòng ban"
 
 #: plugins/personal/generic/generic.tpl:301
 msgid "Employee No."
-msgstr "Nº do empregado"
+msgstr "Số nhân viên"
 
 #: plugins/personal/generic/generic.tpl:367
 #: plugins/personal/generic/generic.tpl:555
 msgid "Room No."
-msgstr "Nº da sala"
+msgstr "Số phòng"
 
 #: plugins/personal/generic/generic.tpl:569
 msgid "Please use the phone tab"
-msgstr "Por favor, utilize a orelha telefone"
+msgstr "Xin hãy sử dụng Phone Tab"
 
 #: plugins/personal/generic/nochange.tpl:5
 msgid "Your password hash method will not be changed!"
