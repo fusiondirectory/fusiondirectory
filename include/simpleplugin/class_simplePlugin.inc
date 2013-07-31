@@ -422,7 +422,7 @@ class simplePlugin extends plugin
     }
     $this->prepare_remove();
     $this->ldap_remove();
-    $this->log_remove();
+    $this->post_remove();
   }
 
   protected function prepare_remove ()
@@ -449,8 +449,10 @@ class simplePlugin extends plugin
     }
   }
 
-  protected function log_remove ()
+  protected function post_remove ()
   {
+    $this->handleForeignKeys($this->dn, NULL);
+
     new log("remove", "plugin/".get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
 
     /* Optionally execute a command after we're done */
