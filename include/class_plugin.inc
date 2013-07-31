@@ -1073,6 +1073,22 @@ class plugin
     return TRUE;
   }
 
+  /*! \brief This function returns an LDAP filter for this plugin object classes
+   */
+  function getObjectClassFilter ()
+  {
+    if (!empty($this->objectclasses)) {
+      return "(&(objectClass=".implode(")(objectClass=", $this->objectclasses)."))";
+    } else {
+      return "";
+    }
+  }
+
+  function foreignKeyUpdate ($field, $oldvalue, $newvalue)
+  {
+    die("Foreign key was declared but there is no method to handle it!");
+  }
+
 
   /* \brief Move/Rename complete trees
    *

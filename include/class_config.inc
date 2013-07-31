@@ -1391,80 +1391,12 @@ class config  {
 
   /*!
    * \brief Get list of object of objectType $type in $ou
-   *
-   * \param string  $type the objectType to list
-   * \param mixed   $attrs The attributes to fetch.
-   * If this is a single value, the resulting associative array will have for each dn the value of this attribute.
-   * If this is an array, the keys must be the wanted attributes, and the values can be either 1, '*' or 'raw'
-   *  depending if you want a single value or an array of values. 'raw' means untouched LDAP value and is only useful for dns.
-   *  Other values are considered to be 1.
-   * \param string  $ou the LDAP branch to search in, base will be used if it is NULL
-   * \param string  $filter an additional filter to use in the LDAP search. Should be surrounded by parenthesis.
-   *
-   * \return The list of objects as an associative array (keys are dns)
    */
   function getObjectList ($type, $attrs = array(), $ou = NULL, $filter = '')
   {
-    if ($ou === NULL) {
-      $ou = $this->current['BASE'];
-    }
-    $type = strtoupper($type);
-    if (!isset($this->data['OBJECTS'][$type])) {
-      throw new Exception('Non-existing type '.$type);
-    }
-    $object_ou = $this->data['OBJECTS'][$type]['ou'];
-    if (!empty($object_ou)) {
-      if (!preg_match("/^$object_ou/", $ou)) {
-        $ou = $object_ou.$ou;
-      }
-    }
-    $ldap = $this->get_ldap_link();
-    if (!$ldap->dn_exists($ou)) {
-      /* Non-existing ou, returning empty list */
-      return array();
-    }
-    if (empty($filter)) {
-      $filter = $this->data['OBJECTS'][$type]['filter'];
-    } else {
-      if (!preg_match('/^\(.*\)$/', $filter)) {
-        $filter = '('.$filter.')';
-      }
-      $filter = '(&'.$filter.$this->data['OBJECTS'][$type]['filter'].')';
-    }
-    if (is_array($attrs)) {
-      $search_attrs = array_keys($attrs);
-    } else {
-      $search_attrs = array($attrs);
-    }
-    $ldap->cd($ou);
-    $ldap->search($filter, $search_attrs);
-    if (!$ldap->success()) {
-      throw new Exception($ldap->get_error());
-    }
-    $result = array();
-    while ($fetched_attrs = $ldap->fetch()) {
-      $key = $fetched_attrs['dn'];
-      if (is_array($attrs)) {
-        $result[$key] = array();
-        foreach ($attrs as $attr => $mode) {
-          if (isset($fetched_attrs[$attr])) {
-            switch ($mode) {
-              case '*':
-                unset($fetched_attrs[$attr]['count']);
-              case 'raw':
-                $result[$key][$attr] = $fetched_attrs[$attr];
-                break;
-              case 1:
-              default:
-                $result[$key][$attr] = $fetched_attrs[$attr][0];
-            }
-          }
-        }
-      } elseif (isset($fetched_attrs[$attrs])) {
-        $result[$key] = $fetched_attrs[$attrs][0];
-      }
-    }
-    return $result;
+    trigger_error('Deprecated');
+
+    return objects::ls($type, $attrs, $ou, $filter);
   }
 }
 
