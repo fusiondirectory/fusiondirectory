@@ -510,6 +510,13 @@ class Attribute
   {
     return $this->renderFormInput();
   }
+
+  function foreignKeyUpdate($oldvalue, $newvalue, $source)
+  {
+    if ($this->getValue() == $oldvalue) {
+      $this->setValue($newvalue);
+    }
+  }
 }
 
 /*! \brief This class allow to handle easily a Boolean LDAP attribute
@@ -1758,6 +1765,20 @@ class ArrayAttribute extends Attribute
       $result[] = $row;
     }
     return $result;
+  }
+
+  function foreignKeyUpdate($oldvalue, $newvalue, $source)
+  {
+    foreach ($this->value as $key => &$value) {
+      if ($value == $oldvalue) {
+        if ($newvalue === NULL) {
+          unset($this->value[$key]);
+        } else {
+          $value = $newvalue;
+        }
+      }
+    }
+    unset($value);
   }
 }
 

@@ -413,17 +413,6 @@ class simplePlugin extends plugin
     return ($this->needEditMode && !session::is_set('edit'));
   }
 
-  /*! \brief This function returns an LDAP filter for this plugin object classes
-   */
-  function getObjectClassFilter ()
-  {
-    if (!empty($this->objectclasses)) {
-      return "(&(objectClass=".implode(")(objectClass=", $this->objectclasses)."))";
-    } else {
-      return "";
-    }
-  }
-
   /*! \brief This function removes the object from LDAP
    */
   function remove_from_parent()
@@ -582,35 +571,7 @@ class simplePlugin extends plugin
   protected function post_save()
   {
     /* Update foreign keys */
-    $infos = pluglist::pluginInfos(get_class($this));
-    if (isset($infos['plForeignRefs'])) {
-      foreach ($infos['plForeignRefs'] as $field => $ref) {
-        if ($field == 'dn') {
-          /* dn needs to be handled in move method */
-          /* Note : but code should not be duplicated in both places */
-          continue;
-        }
-        if ($this->attributesAccess[$field]->hasChanged()) {
-          $old_value = $this->attributesAccess[$field]->getInitialValue();
-          $new_value = $this->attributesAccess[$field]->getValue();
-          $rinfos = pluglist::pluginInfos($ref[0]);
-          foreach ($rinfos['plObjectType'] as $ot => $value) {
-            if (is_numeric($ot)) {
-              $ot = $value;
-            }
-            $ot = strtoupper($ot);
-            $outdated_objs = $this->config->getObjectList($ot, array('dn' => 'raw'), NULL, $ref[1]."=$old_value");
-            foreach (array_keys($outdated_objs) as $dn) {
-              $attrs = array($ref[1] => $new_value);
-              /* Here we need to create the tab class, change the value and save it
-               * But it won't be efficient to it this way, so we first need to compute things correctly
-               * The point is that if you get two fields to change in user main tab and one in posix tab,
-               * you do only one creation/save of tabclass */
-            }
-          }
-        }
-      }
-    }
+    $this->handleForeignKeys();
     /* Propagate and log the event */
     if ($this->initially_was_account) {
       $this->handle_post_events("modify");
@@ -619,6 +580,22 @@ class simplePlugin extends plugin
       $this->handle_post_events("add");
       new log("create", "plugin/".get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
     }
+  }
+
+   /*!
+    * \brief Move ldap entries from one place to another
+    *
+    * \param  string  $src_dn the source DN.
+    *
+    * \param  string  $dst_dn the destination DN.
+    */
+  function move($src_dn, $dst_dn)
+  {
+    $result = parent::move($src_dn, $dst_dn);
+    if ($result) {
+      $this->handleForeignKeys($src_dn, $dst_dn);
+    }
+    return $result;
   }
 
   /*! \brief This function checks the attributes values and yell if something is wrong
@@ -874,6 +851,81 @@ class simplePlugin extends plugin
 
     /* Is Account? */
     $this->is_account = $this->is_this_account($this->attrs);
+  }
+
+  function handleForeignKeys ($olddn = NULL, $newdn = NULL)
+  {
+    if (($olddn !== NULL) && ($olddn == $newdn)) {
+      return;
+    }
+    // We group by objetType concerned
+    $infos = pluglist::pluginInfos(get_class($this));
+    $foreignRefs = array();
+    foreach ($infos['plForeignRefs'] as $field => $refs) {
+      if ($olddn !== NULL) {
+        if ($field != 'dn') {
+          continue;
+        }
+      } else {
+        if ($field == 'dn') {
+          continue;
+        }
+        if (!$this->attributesAccess[$field]->hasChanged()) {
+          continue;
+        }
+      }
+      foreach ($refs as $ref) {
+        $class  = $ref[0];
+        $ofield = $ref[1];
+        $cinfos = pluglist::pluginInfos($class);
+        foreach ($cinfos['plObjectType'] as $objectType) {
+          $foreignRefs[$objectType][$class][$ofield] = $field;
+        }
+      }
+    }
+
+    // For each concerned objectType
+    foreach ($foreignRefs as $objectType => $tabRefs) {
+      // Search objects
+      $objects = objects::ls($objectType, array('dn' => 'raw'));
+      // For each object of this type
+      foreach (array_keys($objects) as $dn) {
+        // Build the object
+        $tabobject = objects::open($objectType, $dn);
+        // For each tab concerned
+        foreach ($tabRefs as $tab => $fieldRefs) {
+          // If the tab is activated on this object
+          if (isset($tabobject->by_object[$tab])) {
+            // For each field
+            foreach ($fieldRefs as $ofield => $field) {
+              // call plugin::foreignKeyUpdate(ldapname, oldvalue, newvalue) on the object
+              if ($olddn !== NULL) {
+                $tabobject->by_object[$tab]->foreignKeyUpdate(
+                  $ofield,
+                  $olddn,
+                  $newdn,
+                  $field
+                );
+              } else {
+                $tabobject->by_object[$tab]->foreignKeyUpdate(
+                  $ofield,
+                  $this->attributesAccess[$field]->getInitialValue(),
+                  $this->attributesAccess[$field]->getValue(),
+                  $field
+                );
+              }
+            }
+            $tabobject->by_object[$tab]->save_object();
+            $tabobject->by_object[$tab]->save();
+          }
+        }
+      }
+    }
+  }
+
+  function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
+  {
+    $this->attributesAccess[$field]->foreignKeyUpdate($oldvalue, $newvalue, $source);
   }
 }
 
