@@ -1123,7 +1123,7 @@ class group extends plugin
         "name"        => _("Group"),
         "filter"      => "objectClass=posixGroup"
       )),
-      "plForeignKey"  => array(
+      "plForeignKeys"  => array(
         'memberUid' => array('user','uid')
       ),
 

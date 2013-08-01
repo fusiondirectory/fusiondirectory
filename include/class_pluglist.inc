@@ -95,12 +95,12 @@ class pluglist {
         if (isset($infos['plDepends'])) {
           $depends_infos[] = $cname;
         }
-        if (isset($infos['plForeignKey'])) {
-          foreach ($infos['plForeignKey'] as $ofield => $pfk) {
+        if (isset($infos['plForeignKeys'])) {
+          foreach ($infos['plForeignKeys'] as $ofield => $pfk) {
             if (!is_array($pfk)) {
               $class = $pfk;
               $field = 'dn';
-              $infos['plForeignKey'][$ofield] = array($class, $field);
+              $infos['plForeignKeys'][$ofield] = array($class, $field);
             } else {
               $class = $pfk[0];
               $field = $pfk[1];
@@ -113,7 +113,10 @@ class pluglist {
             }
             $foreign_refs[$class][$field][] = array($cname, $ofield);
           }
+        } else {
+          $infos['plForeignKeys'] = array();
         }
+        $infos['plForeignRefs']         = array();
         $infos['INDEX']                 = $index;
         $this->info[$cname]             = $infos;
         $this->dirlist[$index++]        = $cname;
@@ -134,7 +137,7 @@ class pluglist {
       }
     }
     foreach ($foreign_refs as $cname => $refs) {
-      $this->info[$depend]['plForeignRefs'] = $refs;
+      $this->info[$cname]['plForeignRefs'] = $refs;
     }
 
     /* Provide field for 'all' */
