@@ -186,7 +186,7 @@ width:100%;
 min-width:80%;
 }
 
-.plugin_section.fullwidth {
+html.ltr .plugin_section.fullwidth, html.rtl .plugin_section.fullwidth {
 float:none;
 clear:both;
 width:auto;
