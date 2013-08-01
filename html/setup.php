@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
@@ -43,25 +42,25 @@ require_once("../setup/class_setupStep_Finish.inc");
 header("Content-type: text/html; charset=UTF-8");
 
 /* Set cookie lifetime to one day (The parameter is in seconds ) */
-session_set_cookie_params(24*60*60);
-session_cache_expire(60*24);  // default is 180
-ini_set("session.gc_maxlifetime",24*60*60);
+session_set_cookie_params(24 * 60 * 60);
+session_cache_expire(60 * 24);  // default is 180
+ini_set("session.gc_maxlifetime", 24 * 60 * 60);
 
 /* Start session */
 session::start();
-session::global_set('DEBUGLEVEL',1);
-session::set('errorsAlreadyPosted',array());
+session::global_set('DEBUGLEVEL', 1);
+session::set('errorsAlreadyPosted', array());
 
 /* Attribute initialization, reset errors */
 reset_errors();
 
 /* Set template compile directory */
-$smarty->compile_dir= SPOOL_DIR;
+$smarty->compile_dir = SPOOL_DIR;
 
 /* Check for compile directory */
-if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))){
-  msg_dialog::display(_("Smarty"),sprintf(_("Directory '%s' specified as compile directory is not accessible!"),
-    $smarty->compile_dir),FATAL_ERROR_DIALOG);
+if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))) {
+  msg_dialog::display(_("Smarty"), sprintf(_("Directory '%s' specified as compile directory is not accessible!"),
+    $smarty->compile_dir), FATAL_ERROR_DIALOG);
   exit();
 }
 
@@ -96,8 +95,9 @@ if (!preg_match("/utf(-)8$/i", $lang)) {
 putenv("LANGUAGE=");
 putenv("LANG=$lang");
 setlocale(LC_ALL, $lang);
-$GLOBALS['t_language'] = $lang;
+$GLOBALS['t_language']            = $lang;
 $GLOBALS['t_gettext_message_dir'] = $BASE_DIR.'/locale/';
+$smarty->assign("rtl", language_is_rtl($lang));
 
 /* Set the text domain as 'fusiondirectory' */
 $domain = 'fusiondirectory';
@@ -115,6 +115,7 @@ $header = $smarty->fetch(get_template_path('headers.tpl'));
 
 
 /* Set focus to the error button if we've an error message */
+<<<<<<< HEAD
 $focus= "";
 if (session::is_set('errors') && session::get('errors') != ""){
   $focus= '<script language="JavaScript" type="text/javascript">';
@@ -125,24 +126,35 @@ if (session::is_set('errors') && session::get('errors') != ""){
 $focus= '<script language="JavaScript" type="text/javascript">';
 $focus.= 'next_msg_dialog();';
 $focus.= '</script>';
+=======
+$focus = "";
+if (session::is_set('errors') && session::get('errors') != "") {
+  $focus = '<script type="text/javascript">';
+  $focus .= 'document.forms[0].error_accept.focus();';
+  $focus .= '</script>';
+}
+
+$focus = '<script type="text/javascript">';
+$focus .= 'next_msg_dialog();';
+$focus .= '</script>';
+>>>>>>> 6073c83... Fixes: #2592 PHP error: Undefined index: rtl
 
 /* show web frontend */
 $setup = session::global_get('setup');
-$smarty->assign("contents"  , $display);
-$smarty->assign("navigation", $setup->get_navigation_html());
-$smarty->assign("header", $setup->get_header_html());
-$smarty->assign("bottom", $focus.$setup->get_bottom_html());
-$smarty->assign("msg_dialogs", msg_dialog::get_dialogs());
+$smarty->assign("contents",     $display);
+$smarty->assign("navigation",   $setup->get_navigation_html());
+$smarty->assign("header",       $setup->get_header_html());
+$smarty->assign("bottom",       $focus.$setup->get_bottom_html());
+$smarty->assign("msg_dialogs",  msg_dialog::get_dialogs());
 
-if ($error_collector != ""){
-  $smarty->assign("php_errors", preg_replace("/%BUGBODY%/",$error_collector_mailto,$error_collector)."</div>");
+if ($error_collector != "") {
+  $smarty->assign("php_errors", preg_replace("/%BUGBODY%/", $error_collector_mailto, $error_collector)."</div>");
 } else {
   $smarty->assign("php_errors", "");
 }
 
-$smarty->assign("version",FD_VERSION);
-
+$smarty->assign("version", FD_VERSION);
 
 echo $header.$smarty->fetch("$BASE_DIR/setup/setup_frame.tpl");
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
+
 ?>
