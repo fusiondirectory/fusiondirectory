@@ -987,7 +987,7 @@ function get_sub_list($filter, $category, $sub_deps, $base = "", $attributes = a
     $sub_deps = array($sub_deps);
   }
 
-  /* Remove ,.*$ ("ou=1,ou=2.." => "ou=1") */
+  /* Remove ,.*$ : "ou=1,ou=2.." => "ou=1" */
   $sub_bases = array();
   foreach ($sub_deps as $key => $sub_base) {
     if (empty($sub_base)) {
@@ -2717,7 +2717,7 @@ function check_schema($cfg, $rfc2307bis = FALSE)
       "STATUS"           => FALSE,
       "IS_MUST_HAVE"     => FALSE,
       "MSG"              => "",
-      "INFO"             => ""); // "There is currently no information specified for this schema extension.";
+      "INFO"             => ""); // There is currently no information specified for this schema extension.;
 
   /* The FusionDirectory base schema */
   $checks['gosaObject'] = $def_check;
@@ -3171,7 +3171,6 @@ function add_objectClass($classes, &$attrs)
 function remove_objectClass($classes, &$attrs)
 {
   if (isset($attrs['objectClass'])) {
-    /* Array? */
     if (is_array($classes)) {
       $list = $classes;
     } else {
@@ -3339,13 +3338,12 @@ function cred_decrypt($input, $password)
 
   $data = '';
   $d    = '';
-  while (strlen($data) < $key_len+$iv_len) {
+  while (strlen($data) < $key_len + $iv_len) {
     $d = md5($d . $password . $salt, TRUE);
     $data .= $d;
   }
   $key  = substr($data, 0, $key_len);
   $iv   = substr($data, $key_len, $iv_len);
-  /**********************************************************************************/
 
   return rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, $input, MCRYPT_MODE_CBC, $iv), "\0\3\n");
 }

@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
@@ -48,8 +47,8 @@ class tests {
    */
   public static function is_phone_nr($nr)
   {
-    if ($nr == ""){
-      return (TRUE);
+    if ($nr == "") {
+      return TRUE;
     }
 
     return preg_match ("/^[\/0-9 ()+*-]+$/", $nr);
@@ -63,7 +62,7 @@ class tests {
    */
   public static function is_dns_name($str)
   {
-    return(preg_match("/^[a-z0-9\.\-_]*$/i",$str));
+    return preg_match("/^[a-z0-9\.\-_]*$/i", $str);
   }
 
 
@@ -74,7 +73,7 @@ class tests {
    */
   public static function is_valid_hostname($str)
   {
-    return(preg_match("/^[a-z0-9\.\-]*$/i",$str));
+    return preg_match("/^[a-z0-9\.\-]*$/i", $str);
   }
 
 
@@ -101,8 +100,8 @@ class tests {
    */
   public static function is_dn($dn)
   {
-    if ($dn == ""){
-      return (TRUE);
+    if ($dn == "") {
+      return TRUE;
     }
 
     return preg_match ("/^[a-z0-9 _-]+$/i", $dn);
@@ -116,13 +115,13 @@ class tests {
    */
   public static function is_uid($uid)
   {
-    if ($uid == ""){
-      return (TRUE);
+    if ($uid == "") {
+      return TRUE;
     }
 
     /* STRICT adds spaces and case insenstivity to the uid check.
        This is dangerous and should not be used. */
-    if (strict_uid_mode()){
+    if (strict_uid_mode()) {
       return preg_match ("/^[a-z0-9_-]+$/", $uid);
     } else {
       return preg_match ("/^[a-z0-9 _.-]+$/i", $uid);
@@ -137,7 +136,7 @@ class tests {
    */
   public static function is_ip($ip)
   {
-    if(function_exists('filter_var')) {
+    if (function_exists('filter_var')) {
       return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
     } else {
       return preg_match("/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/", $ip);
@@ -151,11 +150,11 @@ class tests {
    */
   public static function is_ipv6($ip)
   {
-    if(function_exists('filter_var')) {
+    if (function_exists('filter_var')) {
         return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
     } else {
         $ipv4 = '(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)';
-        $g = '([0-9a-f]{1,4})'; //IPv6 group
+        $g    = '([0-9a-f]{1,4})'; //IPv6 group
         return preg_match("/^$g:$g:$g:$g:$g:$g:$g:$g$/", $ip) ||
                preg_match("/^$g:$g:$g:$g:$g:$g:$ipv4$/", $ip);
     }
@@ -181,40 +180,40 @@ class tests {
    */
   public static function is_ip_with_subnetmask($ip)
   {
-          /* Generate list of valid submasks */
-          $res = array();
-          for($e = 0 ; $e <= 32; $e++){
-                  $res[$e] = $e;
-          }
-          $i[0] =255;
-          $i[1] =255;
-          $i[2] =255;
-          $i[3] =255;
-          for($a= 3 ; $a >= 0 ; $a --){
-                  $c = 1;
-                  while($i[$a] > 0 ){
-                          $str  = $i[0].".".$i[1].".".$i[2].".".$i[3];
-                          $res[$str] = $str;
-                          $i[$a] -=$c;
-                          $c = 2*$c;
-                  }
-          }
-          $res["0.0.0.0"] = "0.0.0.0";
-          if(preg_match("/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.".
-                          "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.".
-                          "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.".
-                          "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/", $ip)){
-                  $mask = preg_replace("/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.".
-                          "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.".
-                          "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.".
-                          "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/","",$ip);
+    /* Generate list of valid submasks */
+    $res = array();
+    for ($e = 0; $e <= 32; $e++) {
+      $res[$e] = $e;
+    }
+    $i[0] = 255;
+    $i[1] = 255;
+    $i[2] = 255;
+    $i[3] = 255;
+    for ($a = 3; $a >= 0; $a--) {
+      $c = 1;
+      while ($i[$a] > 0) {
+        $str        = $i[0].".".$i[1].".".$i[2].".".$i[3];
+        $res[$str]  = $str;
+        $i[$a]      -= $c;
+        $c          = 2 * $c;
+      }
+    }
+    $res["0.0.0.0"] = "0.0.0.0";
+    if (preg_match("/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.".
+                    "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.".
+                    "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.".
+                    "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/", $ip)) {
+      $mask = preg_replace("/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.".
+              "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.".
+              "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.".
+              "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/", "", $ip);
 
-                  $mask = preg_replace("/^\//","",$mask);
-                  if((in_array("$mask",$res)) && preg_match("/^[0-9\.]/",$mask)){
-                          return(TRUE);
-                  }
-          }
-          return(FALSE);
+      $mask = preg_replace("/^\//", "", $mask);
+      if ((in_array("$mask", $res)) && preg_match("/^[0-9\.]/", $mask)) {
+        return TRUE;
+      }
+    }
+    return FALSE;
   }
 
 
@@ -227,7 +226,7 @@ class tests {
    */
   public static function is_domain($str)
   {
-    return(preg_match("/^(([a-z0-9\-]{2,63})\.)*[a-z]{2,63}$/i",$str));
+    return preg_match("/^(([a-z0-9\-]{2,63})\.)*[a-z]{2,63}$/i", $str);
   }
 
 
@@ -238,8 +237,8 @@ class tests {
    */
   public static function is_id($id)
   {
-    if ($id == ""){
-      return (FALSE);
+    if ($id == "") {
+      return FALSE;
     }
 
     return preg_match ("/^[0-9]+$/", $id);
@@ -253,11 +252,11 @@ class tests {
    */
   public static function is_path($path)
   {
-    if ($path == ""){
-      return (TRUE);
+    if ($path == "") {
+      return TRUE;
     }
-    if (!preg_match('/^[a-z0-9%\/_.+-]+$/i', $path)){
-      return (FALSE);
+    if (!preg_match('/^[a-z0-9%\/_.+-]+$/i', $path)) {
+      return FALSE;
     }
 
     return preg_match ("/\/.+$/", $path);
@@ -293,25 +292,25 @@ class tests {
    *
    * \param string $base
    */
-  public static function is_department_name_reserved($name,$base)
+  public static function is_department_name_reserved($name, $base)
   {
     $reservedName = array("systems","apps","incomming","internal","accounts","fax","addressbook",
-                            preg_replace("/ou=(.*),/","\\1",get_people_ou()),
-                            preg_replace("/ou=(.*),/","\\1",get_groups_ou()));
+                            preg_replace("/ou=(.*),/", "\\1", get_people_ou()),
+                            preg_replace("/ou=(.*),/", "\\1", get_groups_ou()));
     $follwedNames['/ou=fai,ou=configs,ou=systems,/'] = array("fai","hooks","templates","scripts","disk","packages","variables","profiles");
 
     /* Check if name is one of the reserved names */
-    if(in_array_ics($name,$reservedName)) {
-      return(true);
+    if (in_array_ics($name, $reservedName)) {
+      return TRUE;
     }
 
     /* Check all follow combinations if name is in array && parent base == array_key, return false*/
-    foreach($follwedNames as $key => $names){
-      if((in_array_ics($name,$names)) && (preg_match($key,$base))){
-        return(true);
+    foreach ($follwedNames as $key => $names) {
+      if ((in_array_ics($name, $names)) && (preg_match($key, $base))) {
+        return TRUE;
       }
     }
-    return(false);
+    return FALSE;
   }
 
 
@@ -324,17 +323,17 @@ class tests {
    *
    * \return TRUE in case of a valid range, FALSE in case of an error.
    */
-  public static function is_ip_range($ip1,$ip2)
+  public static function is_ip_range($ip1, $ip2)
   {
-    if(!tests::is_ip($ip1) || !tests::is_ip($ip2)){
-      return(FALSE);
-    }else{
-      $ar1 = explode(".",$ip1);
+    if (!tests::is_ip($ip1) || !tests::is_ip($ip2)) {
+      return FALSE;
+    } else {
+      $ar1  = explode(".", $ip1);
       $var1 = $ar1[0] * (16777216) + $ar1[1] * (65536) + $ar1[2] * (256) + $ar1[3];
 
-      $ar2 = explode(".",$ip2);
+      $ar2  = explode(".", $ip2);
       $var2 = $ar2[0] * (16777216) + $ar2[1] * (65536) + $ar2[2] * (256) + $ar2[3];
-      return($var1 < $var2);
+      return ($var1 < $var2);
     }
   }
 
@@ -350,22 +349,22 @@ class tests {
    */
   public static function is_in_network($network, $netmask, $address)
   {
-    $nw= explode('.', $network);
-    $nm= explode('.', $netmask);
-    $ad= explode('.', $address);
+    $nw = explode('.', $network);
+    $nm = explode('.', $netmask);
+    $ad = explode('.', $address);
 
     /* Generate inverted netmask */
-    for ($i= 0; $i<4; $i++){
-      $ni[$i]= 255-$nm[$i];
-      $la[$i]= $nw[$i] | $ni[$i];
+    for ($i = 0; $i < 4; $i++) {
+      $ni[$i] = 255 - $nm[$i];
+      $la[$i] = $nw[$i] | $ni[$i];
     }
 
     /* Transform to integer */
-    $first= $nw[0] * (16777216) + $nw[1] * (65536) + $nw[2] * (256) + $nw[3];
-    $curr=  $ad[0] * (16777216) + $ad[1] * (65536) + $ad[2] * (256) + $ad[3];
-    $last=  $la[0] * (16777216) + $la[1] * (65536) + $la[2] * (256) + $la[3];
+    $first  = $nw[0] * (16777216) + $nw[1] * (65536) + $nw[2] * (256) + $nw[3];
+    $curr   = $ad[0] * (16777216) + $ad[1] * (65536) + $ad[2] * (256) + $ad[3];
+    $last   = $la[0] * (16777216) + $la[1] * (65536) + $la[2] * (256) + $la[3];
 
-    return ($first < $curr&& $last > $curr);
+    return ($first < $curr && $last > $curr);
   }
 
   /*
@@ -377,16 +376,16 @@ class tests {
   {
     global $lang;
 
-    if ($date == ""){
-      return (TRUE);
+    if ($date == "") {
+      return TRUE;
     }
 
-    #TODO: use $lang to check date format
+    //TODO: use $lang to check date format
     if (!preg_match("/([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})/", $date, $matches)) {
-      return false;
+      return FALSE;
     }
 
-    return checkdate($matches[2],$matches[1],$matches[3]);
+    return checkdate($matches[2], $matches[1], $matches[3]);
   }
 
   /* \brief Check if the specified IP address $address is inside the given network */
@@ -397,13 +396,12 @@ class tests {
     $ad   = explode('.', $address);
 
     /* Transform to integer */
-    $from= $from[0] * (16777216) + $from[1] * (65536) + $from[2] * (256) + $from[3];
-    $to=  $to[0] * (16777216) + $to[1] * (65536) + $to[2] * (256) + $to[3];
-    $ad=  $ad[0] * (16777216) + $ad[1] * (65536) + $ad[2] * (256) + $ad[3];
+    $from = $from[0] * (16777216) + $from[1] * (65536) + $from[2] * (256) + $from[3];
+    $to   = $to[0] * (16777216) + $to[1] * (65536) + $to[2] * (256) + $to[3];
+    $ad   = $ad[0] * (16777216) + $ad[1] * (65536) + $ad[2] * (256) + $ad[3];
 
     return ($ad >= $from && $ad <= $to);
   }
 }
 
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
