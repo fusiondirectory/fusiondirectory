@@ -864,16 +864,15 @@ class simplePlugin extends plugin
     $infos = pluglist::pluginInfos(get_class($this));
     $foreignRefs = array();
     foreach ($infos['plForeignRefs'] as $field => $refs) {
-      if ($olddn !== NULL) {
+      if ($newdn !== NULL) {
         if ($field != 'dn') {
           continue;
         }
       } else {
-        if ($field == 'dn') {
-          continue;
-        }
-        if (!$this->attributesAccess[$field]->hasChanged()) {
-          continue;
+        if ($field != 'dn') {
+          if (!$this->attributesAccess[$field]->hasChanged()) {
+            continue;
+          }
         }
       }
       foreach ($refs as $ref) {
@@ -901,11 +900,18 @@ class simplePlugin extends plugin
             // For each field
             foreach ($fieldRefs as $ofield => $field) {
               // call plugin::foreignKeyUpdate(ldapname, oldvalue, newvalue) on the object
-              if ($olddn !== NULL) {
+              if ($field == 'dn') {
                 $tabobject->by_object[$tab]->foreignKeyUpdate(
                   $ofield,
                   $olddn,
                   $newdn,
+                  $field
+                );
+              } elseif (($olddn !== NULL) && ($newdn === NULL)) {
+                $tabobject->by_object[$tab]->foreignKeyUpdate(
+                  $ofield,
+                  $this->attributesAccess[$field]->getInitialValue(),
+                  NULL,
                   $field
                 );
               } else {
