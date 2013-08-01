@@ -115,18 +115,6 @@ $header = $smarty->fetch(get_template_path('headers.tpl'));
 
 
 /* Set focus to the error button if we've an error message */
-<<<<<<< HEAD
-$focus= "";
-if (session::is_set('errors') && session::get('errors') != ""){
-  $focus= '<script language="JavaScript" type="text/javascript">';
-  $focus.= 'document.forms[0].error_accept.focus();';
-  $focus.= '</script>';
-}
-
-$focus= '<script language="JavaScript" type="text/javascript">';
-$focus.= 'next_msg_dialog();';
-$focus.= '</script>';
-=======
 $focus = "";
 if (session::is_set('errors') && session::get('errors') != "") {
   $focus = '<script type="text/javascript">';
@@ -137,7 +125,6 @@ if (session::is_set('errors') && session::get('errors') != "") {
 $focus = '<script type="text/javascript">';
 $focus .= 'next_msg_dialog();';
 $focus .= '</script>';
->>>>>>> 6073c83... Fixes: #2592 PHP error: Undefined index: rtl
 
 /* show web frontend */
 $setup = session::global_get('setup');
