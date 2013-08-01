@@ -161,14 +161,7 @@ sub encrypt_passwords {
     my $ref = $loc->first_child('referral');
     print "* encrypting FusionDirectory password for: ".$ref->{'att'}->{'adminDn'}."\n";
     $ref->set_att('adminPassword' => cred_encrypt($ref->{'att'}->{'adminPassword'}, $master_key));
-
-    # Encrypt the snapshot passwords
-    if ($loc->{'att'}->{'snapshotAdminPassword'}) {
-      print "* encrypting snapshot pasword for location: ".$loc->{'att'}->{'name'}."\n";
-      $loc->set_att('snapshotAdminPassword' => cred_encrypt($loc->{'att'}->{'snapshotAdminPassword'}, $master_key));
-    }
   }
-
 
   # Save
   print "* saving modified '$fd_config'\n";
