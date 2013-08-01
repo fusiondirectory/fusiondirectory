@@ -1361,7 +1361,7 @@ class config  {
   {
     trigger_error('Deprecated');
 
-    return objects::ls($type, $attrs, $ou, $filter)
+    return objects::ls($type, $attrs, $ou, $filter);
   }
 }
 
