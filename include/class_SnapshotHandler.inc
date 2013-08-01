@@ -136,11 +136,11 @@ class SnapshotHandler {
     $snapshotLdap= null;
 
     /* check if there are special server configurations for snapshots */
-    if($this->config->get_cfg_value("snapshotURI") != ""){
-      $server= $this->config->get_cfg_value("snapshotURI");
-      $user= $this->config->get_cfg_value("snapshotAdminDn");
-      $password= $this->config->get_credentials($this->config->get_cfg_value("snapshotAdminPassword"));
-      $snapshotLdap= new ldapMultiplexer(new LDAP($user,$password, $server));
+    if ($this->config->get_cfg_value("snapshotURI") != "") {
+      $server       = $this->config->get_cfg_value("snapshotURI");
+      $user         = $this->config->get_cfg_value("snapshotAdminDn");
+      $password     = $this->config->get_cfg_value("snapshotAdminPassword");
+      $snapshotLdap = new ldapMultiplexer(new LDAP($user, $password, $server));
     }
 
     /* Prepare bases */
