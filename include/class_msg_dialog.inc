@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
@@ -24,12 +23,12 @@
  * Source code for class message dialog
  */
 
-define("INFO_DIALOG"    , 10001);
-define("WARNING_DIALOG"   , 10002);
-define("ERROR_DIALOG"   , 10003);
-define("CONFIRM_DIALOG"   , 10004);
-define("OK_CANCEL_DIALOG" , 10005);
-define("FATAL_ERROR_DIALOG" , 10006);
+define("INFO_DIALOG",         10001);
+define("WARNING_DIALOG",      10002);
+define("ERROR_DIALOG",        10003);
+define("CONFIRM_DIALOG",      10004);
+define("OK_CANCEL_DIALOG",    10005);
+define("FATAL_ERROR_DIALOG",  10006);
 
 /*!
  * \brief This class contains all the function needed to make messages
@@ -37,11 +36,11 @@ define("FATAL_ERROR_DIALOG" , 10006);
  */
 class msg_dialog
 {
-  private $s_Title  = "Undefined";
+  private $s_Title    = "Undefined";
   private $s_Message  = "Undefined";
-  private $i_Type   = INFO_DIALOG ;
-  private $i_ID   = 0;
-  private $a_Trace  = array();
+  private $i_Type     = INFO_DIALOG;
+  private $i_ID       = 0;
+  private $a_Trace    = array();
 
 
   /*!
@@ -53,33 +52,35 @@ class msg_dialog
    *
    * \param string $i_type The type of the message dialog, by default = INFO_DIALOG
    */
-  public function __construct($s_title,$s_message,$i_type)
+  public function __construct($s_title, $s_message, $i_type)
   {
     global $config;
 
-    if(empty($s_message)) return;
+    if (empty($s_message)) {
+      return;
+    }
 
-    if(!in_array($i_type,array(INFO_DIALOG,WARNING_DIALOG,ERROR_DIALOG,CONFIRM_DIALOG,FATAL_ERROR_DIALOG,OK_CANCEL_DIALOG))){
+    if (!in_array($i_type, array(INFO_DIALOG,WARNING_DIALOG,ERROR_DIALOG,CONFIRM_DIALOG,FATAL_ERROR_DIALOG,OK_CANCEL_DIALOG))) {
       trigger_error("Invalid msg_dialog type.");
       $i_type = INFO_DIALOG;
     }
 
-    if((!session::is_set('errorsAlreadyPosted')) || !is_array(session::get('errorsAlreadyPosted'))){
-      session::set('errorsAlreadyPosted',array());
+    if ((!session::is_set('errorsAlreadyPosted')) || !is_array(session::get('errorsAlreadyPosted'))) {
+      session::set('errorsAlreadyPosted', array());
     }
 
     $errorsAlreadyPosted = session::get('errorsAlreadyPosted');
-    if(!isset($errorsAlreadyPosted[$s_title.$s_message])){
+    if (!isset($errorsAlreadyPosted[$s_title.$s_message])) {
       $errorsAlreadyPosted[$s_title.$s_message] = 0;
     }
     $errorsAlreadyPosted[$s_title.$s_message]++;
 
-    if($errorsAlreadyPosted[$s_title.$s_message] <=1  ){
+    if ($errorsAlreadyPosted[$s_title.$s_message] <= 1) {
 
-      $this->i_ID    = preg_replace("/[^0-9]*/","",microtime());
-      $this->s_Title   = $s_title;
-      $this->s_Message = $s_message;
-      $this->i_Type  = $i_type;
+      $this->i_ID       = preg_replace("/[^0-9]*/", "", microtime());
+      $this->s_Title    = $s_title;
+      $this->s_Message  = $s_message;
+      $this->i_Type     = $i_type;
 
       /* Append trace information, only if error messages are enabled */
       if (isset($config) && is_object($config) &&
@@ -96,10 +97,10 @@ class msg_dialog
       } else {
         $msg_dialogs   = session::get('msg_dialogs');
         $msg_dialogs[] = $this;
-        session::set('msg_dialogs',$msg_dialogs);
+        session::set('msg_dialogs', $msg_dialogs);
       }
     }
-    session::set('errorsAlreadyPosted',$errorsAlreadyPosted);
+    session::set('errorsAlreadyPosted', $errorsAlreadyPosted);
   }
 
   /*!
@@ -111,9 +112,9 @@ class msg_dialog
    *
    * \param string $i_type The type of the message dialog, by default = INFO_DIALOG
    */
-  public static function display($s_title,$s_message,$i_type = INFO_DIALOG)
+  public static function display($s_title, $s_message, $i_type = INFO_DIALOG)
   {
-    new msg_dialog($s_title,$s_message,$i_type);
+    new msg_dialog($s_title, $s_message, $i_type);
   }
 
   /*
@@ -124,7 +125,7 @@ class msg_dialog
   public static function displayChecks($messages)
   {
     /* Assemble the message array to a plain string */
-    foreach ($messages as $error){
+    foreach ($messages as $error) {
       msg_dialog::display(_("Error"), $error, ERROR_DIALOG);
     }
   }
@@ -136,7 +137,7 @@ class msg_dialog
    */
   public function get_ID()
   {
-    return($this->i_ID);
+    return $this->i_ID;
   }
 
   /*!
@@ -145,7 +146,7 @@ class msg_dialog
   public function execute()
   {
     global $config;
-    if($this->i_Type == FATAL_ERROR_DIALOG) {
+    if ($this->i_Type == FATAL_ERROR_DIALOG) {
       $display =
         "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"
         \"http://www.w3.org/TR/html4/transitional.dtd\">
@@ -168,18 +169,18 @@ class msg_dialog
         </td></tr>
         </table></body></html>";
       return $display;
-    }else{
+    } else {
 
       $smarty = get_smarty();
-      $smarty->assign("s_Trace", print_a($this->a_Trace,TRUE));
+      $smarty->assign("s_Trace", print_a($this->a_Trace, TRUE));
       $smarty->assign("i_TraceCnt", count($this->a_Trace));
-      $smarty->assign("i_Type",$this->i_Type);
-      $smarty->assign("s_Message",$this->s_Message);
-      $smarty->assign("s_Title",$this->s_Title);
-      $smarty->assign("i_ID",$this->i_ID);
-      $smarty->assign("frame",false);
-      $smarty->assign("JS",session::global_get('js'));
-      $smarty->assign("IE",preg_match("/MSIE/", $_SERVER['HTTP_USER_AGENT']));
+      $smarty->assign("i_Type", $this->i_Type);
+      $smarty->assign("s_Message", $this->s_Message);
+      $smarty->assign("s_Title", $this->s_Title);
+      $smarty->assign("i_ID", $this->i_ID);
+      $smarty->assign("frame", FALSE);
+      $smarty->assign("JS", session::global_get('js'));
+      $smarty->assign("IE", preg_match("/MSIE/", $_SERVER['HTTP_USER_AGENT']));
       return $smarty->fetch(get_template_path('msg_dialog.tpl'));
     }
   }
@@ -191,10 +192,10 @@ class msg_dialog
    */
   public function is_confirmed()
   {
-    if(isset($_POST['MSG_OK'.$this->i_ID])){
-      return(TRUE);
-    }else{
-      return(FALSE);
+    if (isset($_POST['MSG_OK'.$this->i_ID])) {
+      return TRUE;
+    } else {
+      return FALSE;
     }
   }
 
@@ -203,48 +204,48 @@ class msg_dialog
    */
   public static function get_dialogs()
   {
-    $return  ="";
-    $dialog_ids= "";
+    $return     = "";
+    $dialog_ids = "";
 
     $seen = "";
-    if(isset($_POST['closed_msg_dialogs'])){
-     //$seen = $_POST['closed_msg_dialogs'];
-    }
+    /*if (isset($_POST['closed_msg_dialogs'])) {
+      $seen = $_POST['closed_msg_dialogs'];
+    }*/
 
-    if(session::is_set('msg_dialogs') && is_array(session::get('msg_dialogs')) && count(session::get('msg_dialogs'))){
+    if (session::is_set('msg_dialogs') && is_array(session::get('msg_dialogs')) && count(session::get('msg_dialogs'))) {
 
       /* Get frame one */
       $smarty = get_smarty();
-      $smarty->assign("frame", true);
-      $smarty->assign("IE",preg_match("/MSIE/", $_SERVER['HTTP_USER_AGENT']));
+      $smarty->assign("frame", TRUE);
+      $smarty->assign("IE", preg_match("/MSIE/", $_SERVER['HTTP_USER_AGENT']));
       $return = $smarty->fetch(get_template_path('msg_dialog.tpl'));
 
-      if(!session::global_get('js')){
+      if (!session::global_get('js')) {
         $dialog = array_pop(session::get('msg_dialogs'));
-        $return.= $dialog->execute();
-      }else{
+        $return .= $dialog->execute();
+      } else {
         $msg_dialogs = session::get('msg_dialogs');
-        foreach($msg_dialogs as $key => $dialog){
+        foreach ($msg_dialogs as $key => $dialog) {
 
-          if(preg_match("/".$dialog->get_ID()."/",$seen)){
+          if (preg_match("/".$dialog->get_ID()."/", $seen)) {
             unset($msg_dialogs[$key]);
-          }else{
-            $return.= $dialog->execute();
-            $dialog_ids= $dialog->get_ID().",".$dialog_ids;
+          } else {
+            $return     .= $dialog->execute();
+            $dialog_ids = $dialog->get_ID().",".$dialog_ids;
           }
           unset($msg_dialogs[$key]);
         }
-        session::set('msg_dialogs',$msg_dialogs);
+        session::set('msg_dialogs', $msg_dialogs);
       }
-      $dialog_ids = preg_replace("/,$/","",$dialog_ids);
+      $dialog_ids = preg_replace("/,$/", "", $dialog_ids);
 
       $return .= "</div>";
-      $return .="<input type='hidden' style='width:400px;' name='pending_msg_dialogs' id='pending_msg_dialogs' value='".$dialog_ids."'>";
-      $return .="<input type='hidden' style='width:400px;' name='closed_msg_dialogs' id='closed_msg_dialogs' value=''>";
-      $return .="<input type='hidden' style='width:400px;' name='current_msg_dialogs' id='current_msg_dialogs' value=''>";
-      $return .="<input type='hidden' style='width:700px;' name='js_debug' id='js_debug'>";
+      $return .= "<input type='hidden' style='width:400px;' name='pending_msg_dialogs' id='pending_msg_dialogs' value='".$dialog_ids."'>";
+      $return .= "<input type='hidden' style='width:400px;' name='closed_msg_dialogs' id='closed_msg_dialogs' value=''>";
+      $return .= "<input type='hidden' style='width:400px;' name='current_msg_dialogs' id='current_msg_dialogs' value=''>";
+      $return .= "<input type='hidden' style='width:700px;' name='js_debug' id='js_debug'>";
     }
-    return($return);
+    return $return;
   }
 
 }
