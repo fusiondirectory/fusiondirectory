@@ -2530,8 +2530,11 @@ function array_differs_recursive($src, $dst)
     if (count($src) != count($dst)) {
       return TRUE;
     }
-    for ($i = 0; $i < count($src); $i++) {
-      if (array_differs_recursive($src[$i], $dst[$i])) {
+    foreach ($src as $key => $value) {
+      if (!isset($dst[$key])) {
+        return TRUE;
+      }
+      if (array_differs_recursive($dst[$key], $value)) {
         return TRUE;
       }
     }
