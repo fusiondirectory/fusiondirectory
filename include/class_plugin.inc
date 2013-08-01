@@ -1233,7 +1233,7 @@ class plugin
     }
   }
 
-  function foreignKeyUpdate ($field, $oldvalue, $newvalue)
+  function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
   {
     die("Foreign key was declared but there is no method to handle it!");
   }

@@ -1098,10 +1098,10 @@ class group extends plugin
     return ($message);
   }
 
-  function foreignKeyUpdate ($field, $oldvalue, $newvalue)
+  function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
   {
     if ($field != 'memberUid') {
-      return parent::foreignKeyUpdate($field, $oldvalue, $newvalue);
+      return parent::foreignKeyUpdate($field, $oldvalue, $newvalue, $source);
     }
     unset ($this->members["$oldvalue"]);
     $this->removeUser($oldvalue);
