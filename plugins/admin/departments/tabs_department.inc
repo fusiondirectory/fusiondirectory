@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
@@ -20,61 +19,29 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class deptabs extends tabs
+class deptabs extends simpleTabs
 {
-  var $base       = "";
-  var $moved      = FALSE;
-  var $base_name  = "department";
-
-  function __construct($config, $data, $dn, $category, $copied_object = NULL)
-  {
-    parent::__construct($config, $data, $dn, $category, $copied_object);
-
-    /* Detect the base class  (The classs which extends from department)
-     */
-    foreach ($this->by_object as $name => $object) {
-      if ($object instanceOf department) {
-        $this->base_name = get_class($object);
-        break;
-      }
-    }
-
-
-    /* Add references/acls/snapshots */
-    $this->addSpecialTabs();
-    if (isset($this->by_object['acl'])) {
-      $this->by_object['acl']->skipTagging = TRUE;
-    }
-  }
-
-  function check($ignore_account = FALSE)
-  {
-    return parent::check(TRUE);
-  }
-
   function save()
   {
-    $baseobject = &$this->by_object[$this->base_name];
-    $namingAttr = $baseobject->namingAttr;
-    $nAV        = preg_replace('/,/', '\,', $baseobject->$namingAttr);
-    $nAV        = preg_replace('/"/', '\"', $nAV);
-    $new_dn     = @LDAP::convert($namingAttr.'='.$nAV.','.$baseobject->base);
+    $baseobject = $this->getBaseObject();
+    $new_dn     = $baseobject->compute_dn();
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $new_dn, "Saving");
 
-    /* Move group? */
-    if ($this->dn != $new_dn && $this->dn != "new") {
-      $baseobject->move($this->dn, $new_dn);
-    }
-
-    /* Update department cache.
-     */
+    /* Move ? */
     if ($this->dn != $new_dn) {
+      /* Write entry on new 'dn' */
+      if ($this->dn != 'new') {
+        $baseobject->move($this->dn, $new_dn);
+      }
+      /* Happen to use the new one */
+      $this->dn = $new_dn;
+
+      /* Update department cache */
       global $config;
       $config->get_departments();
     }
 
-    $this->dn       = $new_dn;
-    $baseobject->dn = $this->dn;
-    parent::save();
+    tabs::save();
   }
 }
 ?>
