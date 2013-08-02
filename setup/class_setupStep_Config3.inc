@@ -79,14 +79,12 @@ class Step_Config3 extends setup_step
   function execute()
   {
     global $BASE_DIR;
-    $cv = $this->parent->captured_values;
     $smarty = get_smarty();
     $smarty->assign("bool", array(FALSE => _("No"), TRUE => _("Yes")));
     $smarty->assign("uniq_identifiers", array("entryCSN" => "entryCSN",
                                               "contextCSN" => "contextCSN" ));
 
-    $smarty->assign("logging", $this->optional['logging']);
-
+    $smarty->assign("logging",  $this->optional['logging']);
     $smarty->assign("optional", reverse_html_entities($this->optional));
     foreach ($this->attributes as $attr) {
       $smarty->assign($attr, reverse_html_entities($this->$attr));

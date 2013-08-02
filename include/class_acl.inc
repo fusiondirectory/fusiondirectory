@@ -90,7 +90,6 @@ class acl extends plugin
     }
 
     /* Users */
-    $ui   = get_userinfo();
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
     $ldap->search('(objectClass=gosaAccount)', array('uid', 'cn'));
@@ -144,15 +143,14 @@ class acl extends plugin
     }
 
     /* Objects */
-    $tmp    = session::global_get('plist');
-    $plist  = $tmp->info;
-    $cats   = array();
+    $tmp  = session::global_get('plist');
+    $cats = array();
     if (isset($this->parent) && $this->parent !== NULL) {
       $oc = array();
-      foreach ($this->parent->by_object as $key => $obj) {
+      foreach ($this->parent->by_object as $obj) {
         $oc = array_merge($oc, $obj->objectclasses);
         if (isset($obj->acl_category)) {
-          $tmp = str_replace("/", "", $obj->acl_category);
+          $tmp        = str_replace("/", "", $obj->acl_category);
           $cats[$tmp] = $tmp;
         }
       }
@@ -242,8 +240,7 @@ class acl extends plugin
       $this->loadAclEntry();
     }
 
-    foreach ($_POST as $name => $post) {
-
+    foreach (array_keys($_POST) as $name) {
       /* Actions... */
       if (preg_match('/^acl_edit_.*_x/', $name)) {
         $this->dialogState  = 'create';
@@ -623,28 +620,21 @@ class acl extends plugin
    */
   function sort_by_priority($list)
   {
-    $tmp    = session::global_get('plist');
-    $plist  = $tmp->info;
-    asort($plist);
-    $newSort = array();
-
-    foreach ($list as $name => $translation) {
-      $na   = preg_replace("/^.*\//", "", $name);
-      $prio = 0;
-      if (isset($plist[$na]['plPriority'])) {
-        $prio = $plist[$na]['plPriority'];
+    uasort($list,
+      function ($a, $b)
+      {
+        $infos_a = pluglist::pluginInfos($a);
+        $infos_b = pluglist::pluginInfos($b);
+        $pa = (isset($infos_a['plPriority'])?$infos_a['plPriority']:0);
+        $pb = (isset($infos_b['plPriority'])?$infos_b['plPriority']:0);
+        if ($pa == $pb) {
+          return 0;
+        }
+        return ($pa < $pb ? -1 : 1);
       }
+    );
 
-      $newSort[$name] = $prio;
-    }
-
-    asort($newSort);
-
-    $ret = array();
-    foreach ($newSort as $name => $prio) {
-      $ret[$name] = $list[$name];
-    }
-    return $ret;
+    return $list;
   }
 
   /*!

@@ -60,12 +60,10 @@ class Step_Config2 extends setup_step
     global $BASE_DIR;
 
     /* Update snapshot values, with already collected values */
-    foreach ($this->generic_settings as $key => $value) {
-      foreach (array("snapshot_base","snapshot_user","snapshot_server") as $attr) {
-        foreach ($this->parent->captured_values as $replace_name => $replace_value) {
-          if (is_string($replace_value))  {
-            $this->generic_settings[$attr] = preg_replace("/%".$replace_name."%/", $replace_value, $this->generic_settings[$attr]);
-          }
+    foreach (array("snapshot_base","snapshot_user","snapshot_server") as $attr) {
+      foreach ($this->parent->captured_values as $replace_name => $replace_value) {
+        if (is_string($replace_value))  {
+          $this->generic_settings[$attr] = preg_replace("/%".$replace_name."%/", $replace_value, $this->generic_settings[$attr]);
         }
       }
     }
