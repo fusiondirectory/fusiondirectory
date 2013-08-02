@@ -18,22 +18,21 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class domain extends department
+class country extends department
 {
-  static $namingAttr  = "dc";
-  var $objectclasses  = array("top", "domain", "gosaDepartment");
-  var $structuralOC   = array("domain");
+  static $namingAttr  = "c";
+  var $structuralOC   = array("country");
 
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("Domain"),
-      "plDescription" => _("Domain"),
+      "plShortName"   => _("Country"),
+      "plDescription" => _("Country"),
       "plCategory"    => array("department"),
-      "plObjectType"  => array("domain" => array(
+      "plObjectType"  => array("country" => array(
         "aclCategory" => "department",
-        "name"        => _("Domain"),
-        "filter"      => "objectClass=domain")
+        "name"        => _("Country"),
+        "filter"      => "objectClass=country")
       ),
 
       "plProvidedAcls" => parent::generatePlProvidedAcls(self::getAttributesInfo())
@@ -42,7 +41,7 @@ class domain extends department
 
   static function getAttributesInfo ()
   {
-    $attributesInfo = parent::getDepartmentAttributesInfo(_('domain'), self::$namingAttr);
+    $attributesInfo = parent::getDepartmentAttributesInfo(_('country'), self::$namingAttr);
     unset($attributesInfo['location']);
     unset($attributesInfo['properties']['attrs'][3]); // category
     return $attributesInfo;

@@ -71,29 +71,6 @@ class departmentManagement extends management
     $this->registerAction("new_dcObject",           "newEntry");
     $this->registerAction("new_organization",       "newEntry");
     $this->registerAction("new_organizationalUnit", "newEntry");
-    $this->registerAction("performRecMove",         "performRecMove");
-    $this->registerAction("tagDepartment",          "tagDepartment");
-  }
-
-  // Inject additional actions here.
-  function detectPostActions()
-  {
-    $actions = management::detectPostActions();
-    if (isset($_GET['PerformRecMove'])) {
-      $actions['action'] = "performRecMove";
-    }
-    if (isset($_GET['TagDepartment'])) {
-      $actions['action'] = "tagDepartment";
-    }
-    return $actions;
-  }
-
-  // Action handler which allows department tagging - Creates the iframe contents.
-  function tagDepartment()
-  {
-    $plugname = $this->last_tabObject->base_name;
-    $this->last_tabObject->by_object[$plugname]->tag_objects();
-    exit();
   }
 
   // Overridden new handler - We've different types of departments to create!
