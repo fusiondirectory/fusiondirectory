@@ -888,12 +888,12 @@ class userManagement extends management
 
   static function filterRowLink()
   {
-    $row    = func_get_arg(0);
-    $dn     = func_get_arg(1);
-    $trans  = func_get_arg(2)[0];
+    $pid    = func_get_arg(0);
+    $row    = func_get_arg(1);
+    $dn     = func_get_arg(2);
+    $trans  = func_get_arg(3)[0];
     if ($trans != "") {
-      /* FIXME : link does not work because of missing PID */
-      return "<a href='?plug=".$_GET['plug']."&amp;act=listing_edit_$row' title='$dn'>$trans</a>";
+      return "<a href='?plug=".$_GET['plug']."&amp;PID=$pid&amp;act=listing_edit_$row' title='$dn'>$trans</a>";
     }
 
     return '';

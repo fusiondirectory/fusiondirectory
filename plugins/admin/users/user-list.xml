@@ -49,7 +49,7 @@
       <label>Surname</label>
       <sortAttribute>sn</sortAttribute>
       <sortType>string</sortType>
-      <value>%{filter:filterRowLink(row,dn,sn,cn)}</value>
+      <value>%{filter:filterRowLink(pid,row,dn,sn,cn)}</value>
       <export>true</export>
     </column>
 
