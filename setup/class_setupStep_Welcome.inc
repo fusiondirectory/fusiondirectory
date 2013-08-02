@@ -26,7 +26,7 @@ class Step_Welcome  extends setup_step
   var $attributes     = array();
   var $header_image   = "images/setup/welcome.png";
 
-  function Step_Welcome()
+  function __construct()
   {
     $this->is_enabled     = TRUE;
     $this->is_active      = TRUE;
@@ -45,8 +45,8 @@ class Step_Welcome  extends setup_step
     $smarty = get_smarty();
     $smarty->assign('auth_id', session_id());
 
-    $smarty->assign("path",'/tmp/fusiondirectory.auth');
-    return($smarty->fetch(get_template_path("setup_welcome.tpl",TRUE,dirname(__FILE__))));
+    $smarty->assign("path", '/tmp/fusiondirectory.auth');
+    return $smarty->fetch(get_template_path("setup_welcome.tpl", TRUE, dirname(__FILE__)));
   }
 
   function save_object()
@@ -55,20 +55,19 @@ class Step_Welcome  extends setup_step
 
     /* Get auth ID from file */
     $path = '/tmp/fusiondirectory.auth';
-    if (file_exists($path) && is_readable($path)){
-      $contents= file($path);
-      $id= chop($contents[0]);
+    if (file_exists($path) && is_readable($path)) {
+      $contents = file($path);
+      $id       = chop($contents[0]);
     }
 
     /* Continue if we've the correct ID */
-    if ($id == session_id()){
-      $this->is_completed = true;
+    if ($id == session_id()) {
+      $this->is_completed = TRUE;
     } else {
-      $this->is_completed = false;
+      $this->is_completed = FALSE;
     }
 
   }
 }
 
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

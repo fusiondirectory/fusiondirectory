@@ -22,12 +22,12 @@
 
 class Step_Checks extends setup_step
 {
-  var $basic_checks = array();
-  var $config_checks= array();
-  var $is_writeable = array();
-  var $header_image = "images/setup/system.png";
+  var $basic_checks   = array();
+  var $config_checks  = array();
+  var $is_writeable   = array();
+  var $header_image   = "images/setup/system.png";
 
-  function Step_Checks()
+  function __construct()
   {
     $this->update_strings();
   }
@@ -46,10 +46,10 @@ class Step_Checks extends setup_step
   {
     $this->run_checks();
     $smarty = get_smarty();
-    $smarty->assign("basic"       ,$this->basic_checks);
-    $smarty->assign("config"      ,$this->config_checks);
-    $smarty->assign("is_writeable",$this->is_writeable);
-    return($smarty->fetch(get_template_path("setup_checks.tpl",TRUE,dirname(__FILE__))));
+    $smarty->assign("basic",        $this->basic_checks);
+    $smarty->assign("config",       $this->config_checks);
+    $smarty->assign("is_writeable", $this->is_writeable);
+    return $smarty->fetch(get_template_path("setup_checks.tpl", TRUE, dirname(__FILE__)));
   }
 
 
@@ -142,9 +142,8 @@ class Step_Checks extends setup_step
     $IMGVER = phpversion('imagick');
 
     if ($IMGVER > 1.0) {
-        $R = method_exists('imagick','getImageBlob');
-    }
-    else {
+        $R = method_exists('imagick', 'getImageBlob');
+    } else {
         $R = is_callable("imagick_blob2image") || !empty($output);
     }
 
@@ -208,7 +207,7 @@ class Step_Checks extends setup_step
     $N = "max_execution_time &gt;= <b>30</b>";
     $D = _("The Execution time should be at least 30 seconds.");
     $S = _("Search for 'max_execution_time' in your php.ini and set it to '30' or higher.");
-    $R = ini_get("max_execution_time") >= 30 ;
+    $R = ini_get("max_execution_time") >= 30;
     $M = TRUE;
     $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
@@ -235,10 +234,10 @@ class Step_Checks extends setup_step
     /* Check if we can create a config file.*/
     $N = _("Configuration writeable");
     $D = _("The configuration file can't be written");
-    $S = sprintf(_("FusionDirectory reads its configuration from a file located in (%s/%s). The setup can write the configuration directly if it is writeable."),CONFIG_DIR,CONFIG_FILE);
+    $S = sprintf(_("FusionDirectory reads its configuration from a file located in (%s/%s). The setup can write the configuration directly if it is writeable."), CONFIG_DIR, CONFIG_FILE);
     /* is there a config file ? or There is none, but can we create a file there ?*/
-    $R =    ( file_exists(CONFIG_DIR."/".CONFIG_FILE) && is_writeable(CONFIG_DIR."/".CONFIG_FILE))
-        ||  (!file_exists(CONFIG_DIR."/".CONFIG_FILE) && is_writeable(CONFIG_DIR));
+    $R = ( file_exists(CONFIG_DIR."/".CONFIG_FILE) && is_writeable(CONFIG_DIR."/".CONFIG_FILE))
+          || (!file_exists(CONFIG_DIR."/".CONFIG_FILE) && is_writeable(CONFIG_DIR));
     $M = FALSE;
     $this->is_writeable[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
@@ -248,14 +247,12 @@ class Step_Checks extends setup_step
   function save_object()
   {
      /* If everything is fine, set this step to completed
-     *  and allow switching to next setup step
-     */
-    $failed = false;
-    foreach(array("basic_checks","config_checks","is_writeable") as $type){
-      foreach($this->$type as $obj){
-
-        if($obj['MUST'] && !$obj['RESULT']){
-          $failed = true;
+     *  and allow switching to next setup step */
+    $failed = FALSE;
+    foreach (array("basic_checks","config_checks","is_writeable") as $type) {
+      foreach ($this->$type as $obj) {
+        if ($obj['MUST'] && !$obj['RESULT']) {
+          $failed = TRUE;
           break;
         }
       }
@@ -268,9 +265,8 @@ class Step_Checks extends setup_step
       with the current version of FusionDirectory */
   function check_php_version()
   {
-    return(version_compare(phpversion(),"5.2.0",">="));
+    return version_compare(phpversion(), "5.2.0", ">=");
   }
 }
 
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

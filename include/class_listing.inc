@@ -105,7 +105,7 @@ class listing {
     $this->registerElementFilter("actions", "listing::filterActions");
 
     // Load exporters
-    foreach ($class_mapping as $class => $dummy) {
+    foreach (array_keys($class_mapping) as $class) {
       if (preg_match('/Exporter$/', $class)) {
         $info = call_user_func(array($class, "getInfo"));
         if ($info != NULL) {
@@ -216,7 +216,7 @@ class listing {
 
     // Fill objectTypes from departments and xml definition
     $types = departmentManagement::get_support_departments();
-    foreach ($types as $class => $data) {
+    foreach ($types as $data) {
       $this->objectTypes[$data['OC']] = array("label" => $data['TITLE'],
                                   "objectClass" => $data['OC'],
                                   "image" => $data['IMG']);
@@ -517,7 +517,6 @@ class listing {
    */
   function update()
   {
-    global $config;
     $ui = get_userinfo();
 
     // Take care of base selector
@@ -536,7 +535,6 @@ class listing {
       session::global_set("CurrentMainBase", $this->base);
       $refresh = TRUE;
     }
-
 
     // Reset object counter / DN mapping
     $this->objectTypeCount = array();
@@ -599,7 +597,7 @@ class listing {
 
       // Override base if we got signals from the navigation elements
       $action = "";
-      foreach ($_POST as $key => $value) {
+      foreach (array_keys($_POST) as $key) {
         if (preg_match('/^(ROOT|BACK|HOME)_x$/', $key, $match)) {
           $action = $match[1];
           break;
@@ -978,7 +976,6 @@ class listing {
         }
       }
 
-
       // If there's an objectclass definition and we don't have it
       // add an empty picture here.
       if (isset($action['objectclass'])) {
@@ -1101,8 +1098,6 @@ class listing {
       $enableRoot = FALSE;
     }
 
-    $listhead = "";
-
     /* Check if we are in users home  department */
     if (!count($deps) || $this->filter->base == get_base_from_people($ui->dn)) {
       $enableHome = FALSE;
@@ -1173,7 +1168,7 @@ class listing {
     }
 
     // Filter POST with "listing_" attributes
-    foreach ($_POST as $key => $prop) {
+    foreach (array_keys($_POST) as $key) {
 
       // Capture selections
       if (preg_match('/^listing_selected_[0-9]+$/', $key)) {
@@ -1426,7 +1421,6 @@ class listing {
     $ids    = $config->idepartments;
     $d      = $ui->get_module_departments($this->categories);
     $k_ids  = array_keys($ids);
-    $deps   = array_intersect($d, $k_ids);
 
     // Fill internal bases list
     $this->bases = array();
@@ -1459,7 +1453,7 @@ class listing {
     // of current base
     $filter = "(&(objectClass=gosaDepartment)(|";
     $attrs  = array("description", "objectClass");
-    foreach ($types as $name => $data) {
+    foreach ($types as $data) {
       $filter .= "(objectClass=".$data['OC'].")";
       $attrs[] = $data['ATTR'];
     }
@@ -1509,7 +1503,6 @@ class listing {
       $read   = $read || preg_match('/r/', $ui->get_category_permissions($this->base, $category));
       $paste  = $paste || $ui->is_pasteable($this->base, $category) == 1;
     }
-
 
     // Draw entries that allow copy and cut
     if ($read) {
