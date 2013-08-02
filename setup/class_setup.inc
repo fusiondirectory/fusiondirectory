@@ -31,7 +31,7 @@ class setup
   var $o_steps          = array();
   var $captured_values  = array();
 
-  function setup()
+  function __construct()
   {
     $i = 1;
     $this->o_steps[$i++] = new Step_Welcome();

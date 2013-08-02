@@ -111,7 +111,7 @@ class Step_Migrate extends setup_step
   var $rootOC_migrate_dialog = FALSE;
   var $rootOC_details = array();
 
-  function Step_Migrate()
+  function __construct()
   {
     $this->update_strings();
   }

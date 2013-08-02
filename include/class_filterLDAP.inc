@@ -49,12 +49,12 @@ class filterLDAP {
    *
    * \param array $objectStorage
    */
-  static function query($parent,$base, $scope, $filter, $attributes, $category, $objectStorage= array(""))
+  static function query($parent, $base, $scope, $filter, $attributes, $category, $objectStorage = array(""))
   {
-    $config= session::global_get('config');
-    $ldap= $config->get_ldap_link(TRUE);
-    $flag= ($scope == "sub")?GL_SUBSEARCH:0;
-    $result= filterLDAP::get_list($parent,$base, $filter, $attributes, $category, $objectStorage, $flag | GL_SIZELIMIT);
+    $config = session::global_get('config');
+    $ldap   = $config->get_ldap_link(TRUE);
+    $flag   = ($scope == "sub"?GL_SUBSEARCH:0);
+    $result = filterLDAP::get_list($parent, $base, $filter, $attributes, $category, $objectStorage, $flag | GL_SIZELIMIT);
     return $result;
   }
 
@@ -86,7 +86,7 @@ class filterLDAP {
     }
 
     // Store in base - i.e. is a rdn value empty?
-    $storeOnBase = in_array("",$objectStorage);
+    $storeOnBase = in_array("", $objectStorage);
 
     $default_method = ($storeOnBase && !($flags & GL_SUBSEARCH))?"ls":"search";
 
@@ -99,7 +99,7 @@ class filterLDAP {
     } else {
       foreach ($objectStorage as $oc) {
         $oc = preg_replace('/,$/', '', $oc);
-        if (!strpos($oc,',')) {
+        if (!strpos($oc, ',')) {
           preg_match('/([^=]+)=(.*)$/', $oc, $m);
           if ($flags & GL_SUBSEARCH) {
             $bases[$base][] = $m[1].":dn:=".$m[2];
@@ -162,21 +162,21 @@ class filterLDAP {
       }
 
       // Check for size limit exceeded messages for GUI feedback
-      if (preg_match("/size limit/i", $ldap->get_error())){
+      if (preg_match("/size limit/i", $ldap->get_error())) {
         session::set('limit_exceeded', TRUE);
         $limit_exceeded = TRUE;
       }
 
       /* Crawl through result entries and perform the migration to the
          result array */
-      while($attrs = $ldap->fetch()) {
-        $dn= $ldap->getDN();
+      while ($attrs = $ldap->fetch()) {
+        $dn = $ldap->getDN();
 
         /* Convert dn into a printable format */
-        if ($flags & GL_CONVERT){
-          $attrs["dn"]= convert_department_dn($dn);
+        if ($flags & GL_CONVERT) {
+          $attrs["dn"] = convert_department_dn($dn);
         } else {
-          $attrs["dn"]= $dn;
+          $attrs["dn"] = $dn;
         }
 
         /* Skip ACL checks if we are forced to skip those checks */

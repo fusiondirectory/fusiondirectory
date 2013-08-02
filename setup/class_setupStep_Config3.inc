@@ -62,7 +62,7 @@ class Step_Config3 extends setup_step
 
   var $attributes = array("errorlvl");
 
-  function Step_Config3()
+  function __construct()
   {
     $this->update_strings();
   }
@@ -201,9 +201,6 @@ class Step_Config3 extends setup_step
     if ($cv['id_settings']['minid_active']) {
       $attrs['fdMinId'] = $cv['id_settings']['minid'];
     }
-    //~ $attrs['fdGosaSharedPrefix'] = "";
-    //~ $attrs['fdLdapTLS']   = ($cv['tls']?"TRUE":"FALSE");
-    //~ $attrs['fdHonourIvbbAttributes']  = ($cv['governmentmode']?"TRUE":"FALSE");
     $attrs['fdHandleExpiredAccounts'] = ($cv['account_expiration']?"TRUE":"FALSE");
     $attrs['fdEnableSnapshots']       = ($cv['generic_settings']['snapshot_active']?"TRUE":"FALSE");
     $attrs['fdSnapshotBase']          = $cv['generic_settings']['snapshot_base'];

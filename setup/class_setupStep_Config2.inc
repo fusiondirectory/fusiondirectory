@@ -39,7 +39,7 @@ class Step_Config2 extends setup_step
   var $attributes = array("timezone");
   var $called = FALSE;
 
-  function Step_Config2()
+  function __construct()
   {
     $this->update_strings();
 

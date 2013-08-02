@@ -60,7 +60,7 @@ class Step_Config1 extends setup_step
                           "base_hook","base_hook_active","account_expiration","strict","include_personal_title",
                           "cngen_active","cngen");
 
-  function Step_Config1()
+  function __construct()
   {
     $this->update_strings();
 
@@ -214,14 +214,7 @@ class Step_Config1 extends setup_step
       }
 
       /* base hook settings */
-/*      if (isset($_POST['base_hook_active'])) {
-        $this->pwd_rules['base_hook_active'] = TRUE;
-        if (isset($_POST['base_hook'])) {
-          $this->pwd_rules['base_hook'] = get_post('base_hook');
-        }
-      } else {*/
-        $this->pwd_rules['base_hook_active'] = FALSE;
-/*      }*/
+      $this->pwd_rules['base_hook_active'] = FALSE;
 
       if (isset($_POST['cngen_active'])) {
         $this->cngen_active = TRUE;
