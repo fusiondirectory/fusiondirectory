@@ -46,7 +46,6 @@
        </tr>
   {/if}
 
-  {if $manager_enabled}
     <tr>
      <td><label for="manager">{t}Manager{/t}</label></td>
      <td>
@@ -67,8 +66,7 @@
         {/if}
      </td>
     </tr>
-  {/if}
-     </table>
+  </table>
 
    </td>
    <td style="border-left:1px solid #A0A0A0">
