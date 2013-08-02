@@ -54,9 +54,10 @@ class setup
       exit();
     }
 
-    foreach ($this->o_steps as $key => $step) {
-      $this->o_steps[$key]->parent = &$this;
+    foreach ($this->o_steps as &$step) {
+      $step->parent = &$this;
     }
+    unset($step);
   }
 
   function execute()
@@ -167,16 +168,17 @@ class setup
   function disable_steps_from($start)
   {
     $found = FALSE;
-    foreach ($this->o_steps as $key => $step) {
+    foreach ($this->o_steps as $key => &$step) {
       if ($key == $start) {
         $found = TRUE;
       }
 
       if ($found) {
-        $this->o_steps[$key]->set_enabled(FALSE);
-        $this->o_steps[$key]->set_completed(FALSE);
+        $step->set_enabled(FALSE);
+        $step->set_completed(FALSE);
       }
     }
+    unset($step);
   }
 
 

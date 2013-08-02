@@ -142,9 +142,9 @@ class Step_Checks extends setup_step
     $IMGVER = phpversion('imagick');
 
     if ($IMGVER > 1.0) {
-        $R = method_exists('imagick', 'getImageBlob');
+      $R = method_exists('imagick', 'getImageBlob');
     } else {
-        $R = is_callable("imagick_blob2image") || !empty($output);
+      $R = is_callable("imagick_blob2image");
     }
 
     $M = TRUE;

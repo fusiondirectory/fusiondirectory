@@ -133,12 +133,11 @@ class Step_Ldap extends setup_step
 
   function resolve_user()
   {
-    $filter  = $this->resolve_filter;
+    $filter = $this->resolve_filter;
 
     /* Establish ldap connection */
-    $cv = $this->parent->captured_values;
     $ldap_l = new LDAP("", "", $this->connection, FALSE, $this->tls);
-    $ldap = new ldapMultiplexer($ldap_l);
+    $ldap   = new ldapMultiplexer($ldap_l);
     $ldap->cd($this->base);
     $ldap->search("(&(objectClass=person)(|(uid=".$filter.")(cn=".$filter.")))");
     $tmp = array();

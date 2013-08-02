@@ -237,7 +237,7 @@ class plugin
   {
     /* Prepare saved attributes */
     $this->saved_attributes = $this->attrs;
-    foreach ($this->saved_attributes as $index => $value) {
+    foreach (array_keys($this->saved_attributes) as $index) {
       if (is_numeric($index)) {
         unset($this->saved_attributes[$index]);
         continue;
@@ -259,7 +259,7 @@ class plugin
           continue;
         }
       }
-      unset($this->saved_attributes["$index"]["count"]);
+      unset($this->saved_attributes[$index]["count"]);
     }
   }
 
@@ -807,18 +807,28 @@ class plugin
         if (!is_numeric($key)) {
           continue;
         }
-        $offset = 0;
-        while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
-          $replace  = self::tpl_parse_mask($m[1][0], $attrs);
-          $replace  = $replace[0];
-          $string   = substr_replace($string, $replace, $m[0][1], strlen($m[0][0]));
-          $offset   = $m[0][1] + strlen($replace);
-        }
+        $string = self::tpl_parse_string($string, $attrs);
       }
       unset($string);
     }
     unset($attr);
     return $attrs;
+  }
+
+  /*! Brief Parse template masks in a single string
+   *
+   * return the string with patterns replaced by their values
+   */
+  static function tpl_parse_string($string, $attrs)
+  {
+    $offset = 0;
+    while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
+      $replace  = self::tpl_parse_mask($m[1][0], $attrs);
+      $replace  = $replace[0];
+      $string   = substr_replace($string, $replace, $m[0][1], strlen($m[0][0]));
+      $offset   = $m[0][1] + strlen($replace);
+    }
+    return $string;
   }
 
   /*!
@@ -967,13 +977,13 @@ class plugin
     }
 
     $pwd  = $this->config->get_credentials($this->config->current['ADMINPASSWORD']);
-    $r    = ldap_bind($ds, $this->config->current['ADMINDN'], $pwd);
+    ldap_bind($ds, $this->config->current['ADMINDN'], $pwd);
 
     /* Fill data from LDAP */
     $new = array();
     if ($sr = ldap_read($ds, LDAP::fix($src_dn), "objectClass=*")) {
       if ($ei = ldap_first_entry($ds, $sr)) {
-        foreach ($attrs as $attr => $val) {
+        foreach (array_keys($attrs) as $attr) {
           if ($info = @ldap_get_values_len($ds, $ei, $attr)) {
             for ($i = 0; $i < $info['count']; $i++) {
               if ($info['count'] == 1) {
@@ -1097,8 +1107,6 @@ class plugin
    */
   private function rename($src_dn, $dst_dn)
   {
-    $start = microtime(1);
-
     /* Try to move the source entry to the destination position */
     $ldap = $this->config->get_ldap_link();
     $ldap->cd($this->config->current['BASE']);
@@ -1299,23 +1307,6 @@ class plugin
     return $this->handle_hooks('PRE', $mode, $addAttrs);
   }
 
-
-  static protected function matchHookVars ($command, $addAttrs)
-  {
-    // Sort attributes by length, ensures correct replacement
-    $tmp = array();
-    foreach ($addAttrs as $name => $value) {
-      $tmp[$name] = strlen($name);
-    }
-    arsort($tmp);
-
-    // Now replace the placeholder
-    foreach ($tmp as $name => $len) {
-      $command  = str_replace("%$name%", escapeshellarg($addAttrs[$name]), $command);
-    }
-    return $command;
-  }
-
   /*!
    * \brief    Calls external hooks which are defined for this plugin (fusiondirectory.conf)
    *           Replaces placeholder by class values of this plugin instance.
@@ -1329,11 +1320,7 @@ class plugin
     if ($command != "") {
       // Walk trough attributes list and add the plugins attributes.
       foreach ($plugin->attributes as $attr) {
-        if (is_array($plugin->$attr)) {
-          $addAttrs[$attr] = join('|', $plugin->$attr);
-        } else {
-          $addAttrs[$attr] = $plugin->$attr;
-        }
+        $addAttrs[$attr] = $plugin->$attr;
       }
 
       $ui = get_userinfo();
@@ -1342,7 +1329,7 @@ class plugin
       $addAttrs['dn']       = $plugin->dn;
       $addAttrs['location'] = $config->current['NAME'];
 
-      $command = self::matchHookVars($command, $addAttrs);
+      $command = self::tpl_parse_string($command, $addAttrs);
 
       // If there are still some %.. in our command, try to fill these with some other tab vars
       if (preg_match("/%/", $command)) {
@@ -1351,17 +1338,13 @@ class plugin
           foreach ($plugin->parent->by_object as $object) {
             foreach ($object->attributes as $attr) {
               if (!isset($addAttrs[$attr])) {
-                if (is_array($object->$attr)) {
-                  $addAttrs[$attr] = join('|', $object->$attr);
-                } else {
-                  $addAttrs[$attr] = $object->$attr;
-                }
+                $addAttrs[$attr] = $object->$attr;
               }
             }
           }
         }
 
-        $command = self::matchHookVars($command, $addAttrs);
+        $command = self::tpl_parse_string($command, $addAttrs);
       }
 
       // If there are still some %.. in our command, try to fill these with some other class vars
@@ -1383,7 +1366,7 @@ class plugin
           }
           $addAttrs[$name] = $value;
         }
-        $command = self::matchHookVars($command, $addAttrs);
+        $command = self::tpl_parse_string($command, $addAttrs);
       }
 
       @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");

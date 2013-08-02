@@ -420,33 +420,6 @@ class aclrole extends acl
     return $smarty->fetch(get_template_path('acl_role.tpl', dirname(__FILE__)));
   }
 
-  function sort_by_priority($list)
-  {
-    $tmp    = session::get('plist');
-    $plist  = $tmp->info;
-    asort($plist);
-    $newSort = array();
-
-    foreach ($list as $name => $translation) {
-      $na = preg_replace("/^.*\//", "", $name);
-      if (!isset($plist[$na]['plPriority'])) {
-        $prio = 0;
-      } else {
-        $prio = $plist[$na]['plPriority'];
-      }
-
-      $newSort[$name] = $prio;
-    }
-
-    asort($newSort);
-
-    $ret = array();
-    foreach ($newSort as $name => $prio) {
-      $ret[$name] = $list[$name];
-    }
-    return $ret;
-  }
-
   function loadAclEntry($new = FALSE)
   {
     /* New entry gets presets... */
