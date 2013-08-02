@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
@@ -41,7 +40,6 @@ class department extends plugin
   /* Headpage attributes */
   var $last_dep_sorting = "invalid";
   var $departments      = array();
-  var $must_be_tagged   = FALSE;
 
   /* attribute list for save action */
   var $attributes = array("ou", "description", "businessCategory", "st", "l", "postalAddress",
@@ -58,10 +56,9 @@ class department extends plugin
   var $manager_name     = "";
   var $manager          = "";
 
-  function department (&$config, $dn)
+  function __construct (&$config, $dn)
   {
-    /* Add the default structural object class if this is a new entry
-     */
+    /* Add the default structural object class if this is a new entry */
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
     if ($dn == "" || $dn == "new" || !$ldap->dn_exists($dn)) {
@@ -81,11 +78,11 @@ class department extends plugin
     }
     $this->objectclasses = array_unique($this->objectclasses);
 
-    plugin::plugin($config, $dn);
+    parent::__construct($config, $dn);
     $this->is_account = TRUE;
-    $this->ui = get_userinfo();
-    $this->dn = $dn;
-    $this->orig_dn = $dn;
+    $this->ui         = get_userinfo();
+    $this->dn         = $dn;
+    $this->orig_dn    = $dn;
 
     /* Save current naming attribute
      */
@@ -106,7 +103,6 @@ class department extends plugin
     } else {
       $this->base = preg_replace ("/^[^,]+,/", "", $this->dn);
     }
-
     $this->orig_base = $this->base;
 
     /* Instanciate base selector */
@@ -132,7 +128,7 @@ class department extends plugin
   function execute()
   {
     /* Call parent execute */
-    plugin::execute();
+    parent::execute();
 
     /* Log view */
     if ($this->is_account && !$this->view_logged) {
@@ -161,13 +157,13 @@ class department extends plugin
     if ($this->dialog && count($this->dialog->detectPostActions())) {
       $users = $this->dialog->detectPostActions();
       if (isset($users['targets']) && count($users['targets'])) {
-
         $headpage = $this->dialog->getHeadpage();
-        $dn = $users['targets'][0];
-        $attrs = $headpage->getEntry($dn);
-        $this->manager = $dn;
+        $dn       = $users['targets'][0];
+        $attrs    = $headpage->getEntry($dn);
+
+        $this->manager      = $dn;
         $this->manager_name = $attrs['cn'][0];
-        $this->dialog = NULL;
+        $this->dialog       = NULL;
       }
     }
     if (isset($_POST['add_users_cancel'])) {
@@ -194,20 +190,7 @@ class department extends plugin
       $smarty->assign($nA, $this->getacl($this->namingAttr, TRUE));
     }
 
-    /* Hide all departments, that are subtrees of this department */
-    $bases = $this->get_allowed_bases();
-    if (($this->dn == "new") || ($this->dn == "")) {
-      $tmp = $bases;
-    } else {
-      $tmp  = array();
-      foreach ($bases as $dn => $base) {
-        /* Only attach departments which are not a subtree of this one */
-        if (!preg_match("/".preg_quote($this->dn)."/", $dn)) {
-          $tmp[$dn] = $base;
-        }
-      }
-    }
-    $this->baseSelector->setBases($tmp);
+    $this->baseSelector->setBases($this->get_allowed_bases());
 
     foreach ($this->attributes as $val) {
       $smarty->assign("$val", htmlentities($this->$val, ENT_COMPAT, 'UTF-8'));
@@ -218,7 +201,7 @@ class department extends plugin
 
     $dep_types = departmentManagement::get_support_departments();
     $tpl = "";
-    foreach ($dep_types as $key => $data) {
+    foreach ($dep_types as $data) {
       if ($data['OC'] == $this->type) {
         $tpl = $data['TPL'];
         break;
@@ -228,16 +211,24 @@ class department extends plugin
       trigger_error("No template specified for container type '".$this->type."', please update departmentManagement::get_support_departments().");
       $tpl = "generic.tpl";
     }
-    return $smarty->fetch (get_template_path($tpl, TRUE));
+    return $smarty->fetch(get_template_path($tpl, TRUE));
   }
 
-  function clear_fields()
+  function get_allowed_bases()
   {
-    $this->dn   = "";
-    $this->base = "";
-
-    foreach ($this->attributes as $val) {
-      $this->$val = "";
+    /* Hide all departments, that are subtrees of this department */
+    $bases = parent::get_allowed_bases();
+    if (($this->dn == "new") || ($this->dn == "")) {
+      return $bases;
+    } else {
+      $tmp = array();
+      foreach ($bases as $dn => $base) {
+        /* Only attach departments which are not a subtree of this one */
+        if (!preg_match("/".preg_quote($this->dn)."/", $dn)) {
+          $tmp[$dn] = $base;
+        }
+      }
+      return $tmp;
     }
   }
 
@@ -255,11 +246,6 @@ class department extends plugin
     $this->handle_post_events('remove');
   }
 
-  function must_be_tagged()
-  {
-    return $this->must_be_tagged;
-  }
-
   /* Save data to object */
   function save_object()
   {
@@ -272,7 +258,7 @@ class department extends plugin
          base directly after calling plugin::save_object();
          Base will be set seperatly a few lines below */
       $base_tmp = $this->base;
-      plugin::save_object();
+      parent::save_object();
       $this->base = $base_tmp;
 
       /* Refresh base */
@@ -294,7 +280,6 @@ class department extends plugin
       }
     }
   }
-
 
   /* Check values */
   function check()
@@ -335,7 +320,7 @@ class department extends plugin
 
     // Check if a wrong base was supplied
     if (!$this->baseSelector->checkLastBaseUpdate()) {
-      $message[] = msgPool::check_base();;
+      $message[] = msgPool::check_base();
     }
 
     /* Check if we are allowed to create or move this object
@@ -349,7 +334,6 @@ class department extends plugin
     return $message;
   }
 
-
   /* Save to LDAP */
   function save()
   {
@@ -360,7 +344,7 @@ class department extends plugin
     $nA       = $this->namingAttr;
     $this->ou = $this->$nA;
 
-    plugin::save();
+    parent::save();
 
     /* Write back to ldap */
     $ldap->cat($this->dn, array('dn'));

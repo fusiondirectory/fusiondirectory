@@ -23,17 +23,17 @@
 class dcObject extends department
 {
   /* attribute list for save action */
-  var $attributes     = array( "dc", "ou", "description", "manager");
+  var $attributes     = array("dc", "ou", "description", "manager");
   var $objectclasses  = array("top", "dcObject", "gosaDepartment");
   var $structuralOC   = array("locality");
+
   var $type       = "dcObject";
   var $dc         = "";
   var $orgi_dc    = "";
   var $namingAttr = "dc";
 
-  var $manager_enabled = FALSE;
-  var $manager_name ="";
-  var $manager ="";
+  var $manager_name     = "";
+  var $manager          = "";
 
 
   function check()
@@ -41,37 +41,37 @@ class dcObject extends department
     $message = plugin::check();
 
     /* Check for presence of this department */
-    $ldap= $this->config->get_ldap_link();
+    $ldap = $this->config->get_ldap_link();
     $ldap->ls ("(&(dc=".$this->dc.")(objectClass=dcObject))", $this->base, array('dn'));
-    if ($this->orig_dc == "new" && $ldap->count()){
-      $message[]= msgPool::duplicated(_("Name"));
-    } elseif ($this->orig_dn != $this->dn && $ldap->count()){
-      $message[]= msgPool::duplicated(_("Name"));
+    if ($this->orig_dc == "new" && $ldap->count()) {
+      $message[] = msgPool::duplicated(_("Name"));
+    } elseif ($this->orig_dn != $this->dn && $ldap->count()) {
+      $message[] = msgPool::duplicated(_("Name"));
     }
 
     /* All required fields are set? */
-    if ($this->dc == ""){
-      $message[]= msgPool::required(_("Name"));
-    }elseif(tests::is_department_name_reserved($this->dc,$this->base)){
-      $message[]= msgPool::reserved(_("Name"));
-    }elseif(!preg_match ('/[a-z0-9 \.,\-_]/i', $this->dc)){
-      $message[]= msgPool::invalid(_("Name"), $this->dc, "/[a-z0-9 \.,\-_]/");
+    if ($this->dc == "") {
+      $message[] = msgPool::required(_("Name"));
+    } elseif (tests::is_department_name_reserved($this->dc, $this->base)) {
+      $message[] = msgPool::reserved(_("Name"));
+    } elseif (!preg_match ('/[a-z0-9 \.,\-_]/i', $this->dc)) {
+      $message[] = msgPool::invalid(_("Name"), $this->dc, "/[a-z0-9 \.,\-_]/");
     }
 
     /* Check description */
-    if ($this->description == ""){
-      $message[]= msgPool::required(_("Description"));
+    if ($this->description == "") {
+      $message[] = msgPool::required(_("Description"));
     }
 
     /* Check if we are allowed to create or move this object
      */
-    if($this->orig_dn == "new" && !$this->acl_is_createable($this->base)){
+    if ($this->orig_dn == "new" && !$this->acl_is_createable($this->base)) {
       $message[] = msgPool::permCreate();
-    }elseif($this->orig_dn != "new" && $this->base != $this->orig_base && !$this->acl_is_moveable($this->base)){
+    } elseif ($this->orig_dn != "new" && $this->base != $this->orig_base && !$this->acl_is_moveable($this->base)) {
       $message[] = msgPool::permMove();
     }
 
-    return($message);
+    return $message;
   }
 
 
