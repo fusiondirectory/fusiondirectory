@@ -193,10 +193,10 @@ class DialogAttribute extends SetAttribute
   function loadPostValue ()
   {
     if ($this->isVisible()) {
-      if (isset($_POST['add'.$this->getLdapName().'_dialog'])) {
+      if (isset($_POST['add'.$this->getHtmlId().'_dialog'])) {
         $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
-      } elseif (isset($_POST['del'.$this->getLdapName()]) && isset($_POST['row'.$this->getLdapName()])) {
-        foreach ($_POST['row'.$this->getLdapName()] as $row) {
+      } elseif (isset($_POST['del'.$this->getHtmlId()]) && isset($_POST['row'.$this->getHtmlId()])) {
+        foreach ($_POST['row'.$this->getHtmlId()] as $row) {
           $this->removeValue($row);
         }
       }
@@ -549,8 +549,8 @@ class DialogButtonAttribute extends ButtonAttribute
 
   function loadPostValue ()
   {
-    if ($this->isVisible()) {
-      if (isset($_POST[$this->getLdapName()])) {
+    if (!$this->disabled && $this->isVisible()) {
+      if (isset($_POST[$this->getHtmlId()])) {
         $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
       }
     }
@@ -570,7 +570,6 @@ class UserAttribute extends DialogButtonAttribute
     $this->buttonText = $attrs['cn'][0];
   }
 
-  // TODO : Add a remove button if we're non-required (needed by manager in class_user)
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
@@ -582,11 +581,35 @@ class UserAttribute extends DialogButtonAttribute
     } else {
       $display  .= '<a>'.$this->buttonText.'</a>';
     }
-    $display  .= '<input class="center" type="image" src="images/lists/edit.png" '.
-                'alt="'._('Edit').'" title="'._('Edit').'" name="'.$id.'" id="'.$id.'" '.
-                'value="{literal}'.$this->buttonText.'{/literal}" '.
-                ($this->disabled? 'disabled="disabled"':'').'/>';
+    $display  .=  '<input class="center" type="image" src="images/lists/edit.png" '.
+                  'alt="'._('Edit').'" title="'._('Edit').'" name="'.$id.'" id="'.$id.'" '.
+                  ($this->disabled? 'disabled="disabled"':'').'/>';
+    if (!$this->isRequired()) {
+      $display  .=  '<input class="center" type="image" src="images/lists/trash.png" '.
+                    'alt="'._('Remove').'" title="'._('Remove').'" name="'.$id.'_remove" id="'.$id.'_remove" '.
+                    ($this->disabled? 'disabled="disabled"':'').'/>';
+    }
     return $this->renderAcl($display);
+  }
+
+  function loadPostValue ()
+  {
+    $id = $this->getHtmlId();
+    if (!$this->disabled && $this->isVisible()) {
+      foreach ($_POST as $name => $value) {
+        if (!$this->isRequired()) {
+          if (preg_match('/^'.$id.'_remove_/', $name)) {
+            $this->setValue('');
+            $this->buttonText = NULL;
+            break;
+          }
+        }
+        if (preg_match('/^'.$id.'_/', $name)) {
+          $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
+          break;
+        }
+      }
+    }
   }
 
   protected function loadAttrValue ($attrs)
@@ -602,6 +625,15 @@ class UserAttribute extends DialogButtonAttribute
         $this->buttonText = NULL;
       }
     }
+  }
+
+  protected function htmlIds()
+  {
+    $ids = array($this->getHtmlId());
+    if (!$this->isRequired()) {
+      $ids[] = $ids[0].'_remove';
+    }
+    return $ids;
   }
 }
 ?>
