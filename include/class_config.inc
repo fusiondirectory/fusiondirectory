@@ -729,9 +729,6 @@ class config  {
   /*!
    * \brief Get the departments from ldap
    *
-   * This function can be used to get the password associated to
-   * a keyword in the config file
-   *
    * \param string $ignore_dn dn of the department
    */
   function get_departments($ignore_dn = "")
@@ -744,18 +741,19 @@ class config  {
     $result['/'] = $this->current['BASE'];
 
     /* Get all department types from department Management, to be able detect the department type.
-        -It is possible that differnty department types have the same name,
+        -It is possible that different department types have the same name,
          in this case we have to mark the department name to be able to differentiate.
           (e.g l=Name  or   o=Name)
      */
-    $types = departmentManagement::get_support_departments();
+    $types = departmentManagement::getDepartmentTypes();
 
     /* Create a list of attributes to fetch */
-    $ldap_values  = array("objectClass", "description");
     $filter       = "";
+    $ldap_values  = array("objectClass", "description");
     foreach ($types as $type) {
-      $ldap_values[]  = $type['ATTR'];
-      $filter         .= "(objectClass=".$type['OC'].")";
+      $i = objects::infos($type);
+      $filter         .= $i['filter'];
+      $ldap_values[]  = $i['mainAttr']; // Specific key for departement objectTypes
     }
     $filter = "(&(objectClass=gosaDepartment)(|".$filter."))";
 
@@ -766,28 +764,29 @@ class config  {
     while ($attrs = $ldap->fetch()) {
 
       /* Detect department type */
-      $type_data = array();
-      foreach ($types as $t => $data) {
-        if (in_array($data['OC'], $attrs['objectClass'])) {
-          $type_data = $data;
+      $oc = NULL;
+      foreach ($types as $type) {
+        if (objects::isOfType($attrs, $type)) {
+          $oc = $type;
           break;
         }
       }
 
       /* Unknown department type -> skip */
-      if (!count($type_data)) {
+      if ($oc == NULL) {
         continue;
       }
 
       $dn = $ldap->getDN();
-      $this->department_info[$dn] = array("img" => $type_data['IMG'],
-                                         "description" => isset($attrs['description'][0])?$attrs['description'][0]:"",
-                                         "name" => $attrs[$type_data['ATTR']][0]);
+      $data = objects::infos($oc);
+      $this->department_info[$dn] = array("img"         => $data['icon'],
+                                         "description"  => isset($attrs['description'][0])?$attrs['description'][0]:"",
+                                         "name"         => $attrs[$data['mainAttr']][0]);
 
       if ($dn == $ignore_dn) {
         continue;
       }
-      $c_dn = convert_department_dn($dn)." (".$type_data['ATTR'].")";
+      $c_dn = convert_department_dn($dn)." (".$data['mainAttr'].")";
 
       /* Only assign non-root departments */
       if ($dn != $result['/']) {

@@ -202,6 +202,7 @@ class objects
 
     if (!isset($config->data['OBJECTS'][strtoupper($type)])) {
       throw new NonExistingObjectTypeException('Non-existing type "'.$type.'"');
+
     }
 
     return $config->data['OBJECTS'][strtoupper($type)];

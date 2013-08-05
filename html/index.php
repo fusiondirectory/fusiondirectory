@@ -325,10 +325,7 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
       session::global_set('ui', $ui);
       session::global_set('session_cnt', 0);
 
-      /* Let FusionDirectory trigger a new connection for each POST, save
-         config to session. */
-      $config->get_departments();
-      $config->make_idepartments();
+      /* Let FusionDirectory trigger a new connection for each POST, save config to session. */
       session::global_set('config', $config);
 
       /* Restore filter settings from cookie, if available */

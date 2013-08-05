@@ -27,16 +27,20 @@ class organization extends department
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("Organization"),
-      "plDescription" => _("Organization"),
-      "plCategory"    => array("department"),
-      "plObjectType"  => array("organization" => array(
-        "aclCategory" => "department",
-        "name"        => _("Organization"),
-        "filter"      => "objectClass=organization")
-      ),
+      'plShortName'   => _('Organization'),
+      'plDescription' => _('Organization'),
+      'plCategory'    => array('department'),
+      'plObjectType'  => array('organization' => array(
+        'aclCategory' => 'department',
+        'name'        => _('Organization'),
+        'filter'      => '(&(objectClass=organization)(objectClass=gosaDepartment))',
+        'ou'          => '',
+        'icon'        => 'plugins/departments/images/organization.png',
+        'tabClass'    => 'deptabs',
+        'mainAttr'    => self::$namingAttr,
+      )),
 
-      "plProvidedAcls" => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())
     );
   }
 

@@ -27,16 +27,20 @@ class domain extends department
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("Domain"),
-      "plDescription" => _("Domain"),
-      "plCategory"    => array("department"),
-      "plObjectType"  => array("domain" => array(
-        "aclCategory" => "department",
-        "name"        => _("Domain"),
-        "filter"      => "objectClass=domain")
-      ),
+      'plShortName'   => _('Domain'),
+      'plDescription' => _('Domain'),
+      'plCategory'    => array('department'),
+      'plObjectType'  => array('domain' => array(
+        'aclCategory' => 'department',
+        'name'        => _('Domain'),
+        'filter'      => '(&(objectClass=domain)(objectClass=gosaDepartment))',
+        'ou'          => '',
+        'icon'        => 'plugins/departments/images/domain.png',
+        'tabClass'    => 'deptabs',
+        'mainAttr'    => self::$namingAttr,
+      )),
 
-      "plProvidedAcls" => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())
     );
   }
 
