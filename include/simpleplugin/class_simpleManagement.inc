@@ -100,10 +100,15 @@ class simpleManagement extends management
     foreach ($this->objectTypes as $object) {
       $i = $this->config->data['OBJECTS'][$object];
 
+      $objectClass = '';
+      if (preg_match('/objectClass=([^)]+)/', $i['filter'], $m)) {
+        $objectClass = $m[1];
+      }
+
       $this->headpage->objectTypes[$object] =
         array(
           'label'       => $i['name'],
-          'objectClass' => preg_replace('/^.*objectClass=([^)]+)(\).*)?$/', '\\1', $i['filter']),
+          'objectClass' => $objectClass,
           'category'    => $i['aclCategory'],
           'class'       => $i['mainTab'],
           'image'       => $i['icon']
