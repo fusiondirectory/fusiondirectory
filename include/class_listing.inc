@@ -207,11 +207,16 @@ class listing {
     }
 
     // Fill objectTypes from departments and xml definition
-    $types = departmentManagement::get_support_departments();
-    foreach ($types as $data) {
-      $this->objectTypes[$data['OC']] = array("label" => $data['TITLE'],
-                                  "objectClass" => $data['OC'],
-                                  "image" => $data['IMG']);
+    $types = departmentManagement::getDepartmentTypes();
+    foreach ($types as $type) {
+      $i = objects::infos($type);
+      $this->objectTypes[strtoupper($type)] = array(
+        'label'       => $i['name'],
+        'image'       => $i['icon'],
+        'objectClass' => preg_replace('/^.*objectClass=([^)]+)(\).*)?$/', '\\1', $i['filter']),
+        'category'    => $i['aclCategory'],
+        'class'       => $i['mainTab'],
+      );
     }
     $this->categories = array();
     if (isset($this->xmlData['definition']['objectType'])) {
@@ -1407,18 +1412,9 @@ class listing {
   function refreshBasesList()
   {
     global $config;
-    $ui = get_userinfo();
-
-    // Do some array munching to get it user friendly
-    $ids    = $config->idepartments;
-    $d      = $ui->get_module_departments($this->categories);
-    $k_ids  = array_keys($ids);
 
     // Fill internal bases list
-    $this->bases = array();
-    foreach ($k_ids as $department) {
-      $this->bases[$department] = $ids[$department];
-    }
+    $this->bases = $config->idepartments;
 
     // Populate base selector if already present
     if ($this->baseSelector && $this->baseMode) {
@@ -1436,7 +1432,7 @@ class listing {
     $ui = get_userinfo();
 
     // Get list of supported department types
-    $types = departmentManagement::get_support_departments();
+    $types = departmentManagement::getDepartmentTypes();
 
     // Load departments allowed by ACL
     $validDepartments = $ui->get_module_departments($this->categories);
@@ -1445,9 +1441,10 @@ class listing {
     // of current base
     $filter = "(&(objectClass=gosaDepartment)(|";
     $attrs  = array("description", "objectClass");
-    foreach ($types as $data) {
-      $filter .= "(objectClass=".$data['OC'].")";
-      $attrs[] = $data['ATTR'];
+    foreach ($types as $type) {
+      $i = objects::infos($type);
+      $filter .= $i['filter'];
+      $attrs[] = $i['mainAttr']; // Specific key for departement objectTypes
     }
     $filter .= "))";
     $res = get_list($filter, $this->categories, $this->base, $attrs, GL_NONE);
@@ -1460,13 +1457,14 @@ class listing {
 
       // Add the attribute where we use for sorting
       $oc = NULL;
-      foreach (array_keys($types) as $type) {
-        if (in_array($type, $department['objectClass'])) {
+      foreach ($types as $type) {
+        if (objects::isOfType($department, $type)) {
           $oc = $type;
           break;
         }
       }
-      $department['sort-attribute'] = $types[$oc]['ATTR'];
+      $i = objects::infos($oc);
+      $department['sort-attribute'] = $i['mainAttr'];
 
       // Move to the result list
       $departments[] = $department;

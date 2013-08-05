@@ -131,11 +131,19 @@ class objects
   {
     global $config;
 
-    if (!isset($config->data['OBJECTS'][$type])) {
+    if (!isset($config->data['OBJECTS'][strtoupper($type)])) {
       throw new NonExistingObjectTypeException('Non-existing type '.$type);
     }
 
     return $config->data['OBJECTS'][strtoupper($type)];
+  }
+
+  static function isOfType ($attrs, $type)
+  {
+    //TODO : cache ldapFilter objects?
+    $infos  = self::infos($type);
+    $filter = ldapFilter::parse($infos['filter']);
+    return $filter($attrs);
   }
 }
 

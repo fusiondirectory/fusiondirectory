@@ -2,62 +2,12 @@
 
 <list>
   <definition>
-    <departmentBrowser>false</departmentBrowser>
-    <departmentRootVisible>false</departmentRootVisible>
     <baseMode>true</baseMode>
     <multiSelect>true</multiSelect>
     <template>simple-list.tpl</template>
     <module>departments</module>
     <label>List of departments</label>
     <defaultSortColumn>1</defaultSortColumn>
-
-    <objectType>
-      <label>Domain</label>
-      <objectClass>domain</objectClass>
-      <category>department</category>
-      <class>domain</class>
-      <image>plugins/departments/images/domain.png</image>
-    </objectType>
-
-    <objectType>
-      <label>Domain component</label>
-      <objectClass>dcObject</objectClass>
-      <category>department</category>
-      <class>dcObject</class>
-      <image>plugins/departments/images/dc.png</image>
-    </objectType>
-
-    <objectType>
-      <label>Country</label>
-      <objectClass>country</objectClass>
-      <category>department</category>
-      <class>country</class>
-      <image>plugins/departments/images/country.png</image>
-    </objectType>
-
-    <objectType>
-      <label>Locality</label>
-      <objectClass>locality</objectClass>
-      <category>department</category>
-      <class>locality</class>
-      <image>plugins/departments/images/locality.png</image>
-    </objectType>
-
-    <objectType>
-      <label>Organization</label>
-      <objectClass>organization</objectClass>
-      <category>department</category>
-      <class>organization</class>
-      <image>plugins/departments/images/organization.png</image>
-    </objectType>
-
-    <objectType>
-      <label>Department</label>
-      <objectClass>organizationalUnit</objectClass>
-      <category>department</category>
-      <class>department</class>
-      <image>images/lists/folder.png</image>
-    </objectType>
   </definition>
 
   <table>
@@ -96,49 +46,6 @@
      <type>sub</type>
      <image>images/lists/new.png</image>
      <label>Create</label>
-
-     <action>
-      <name>new_domain</name>
-      <type>entry</type>
-      <label>Domain</label>
-      <image>plugins/departments/images/domain.png</image>
-     </action>
-
-     <action>
-      <name>new_dcObject</name>
-      <type>entry</type>
-      <label>Domain component</label>
-      <image>plugins/departments/images/dc.png</image>
-     </action>
-
-     <action>
-      <name>new_country</name>
-      <type>entry</type>
-      <label>Country</label>
-      <image>plugins/departments/images/country.png</image>
-     </action>
-
-     <action>
-      <name>new_locality</name>
-      <type>entry</type>
-      <label>Locality</label>
-      <image>plugins/departments/images/locality.png</image>
-     </action>
-
-     <action>
-      <name>new_organization</name>
-      <type>entry</type>
-      <label>Organization</label>
-      <image>plugins/departments/images/organization.png</image>
-     </action>
-
-     <action>
-      <name>new_organizationalUnit</name>
-      <type>entry</type>
-      <label>Department</label>
-      <image>images/lists/folder.png</image>
-     </action>
-
     </action>
 
     <action>

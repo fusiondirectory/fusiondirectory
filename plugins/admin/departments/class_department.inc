@@ -31,18 +31,22 @@ class department extends simplePlugin
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("Generic"),
-      "plDescription" => _("Departments"),
-      "plCategory"    => array("department" => array("objectClass" => "gosaDepartment", "description" => _("Departments"))),
-      "plObjectType"  =>
+      'plShortName'   => _('Generic'),
+      'plDescription' => _('Departments'),
+      'plCategory'    => array('department' => array('objectClass' => 'gosaDepartment', 'description' => _('Departments'))),
+      'plObjectType'  =>
         array(
-          "department" => array(
-            "name"    => _("Department"),
-            "filter"  => "objectClass=gosaDepartment"
+          'department' => array(
+            'name'      => _('Department'),
+            'filter'    => '(&(objectClass=organizationalUnit)(objectClass=gosaDepartment))',
+            'ou'        => '',
+            'icon'      => 'images/lists/folder.png',
+            'tabClass'  => 'deptabs',
+            'mainAttr'  => self::$namingAttr,
           )
         ),
 
-      "plProvidedAcls" => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())
     );
   }
 

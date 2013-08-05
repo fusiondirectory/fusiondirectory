@@ -26,16 +26,20 @@ class country extends department
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("Country"),
-      "plDescription" => _("Country"),
-      "plCategory"    => array("department"),
-      "plObjectType"  => array("country" => array(
-        "aclCategory" => "department",
-        "name"        => _("Country"),
-        "filter"      => "objectClass=country")
-      ),
+      'plShortName'   => _('Country'),
+      'plDescription' => _('Country'),
+      'plCategory'    => array('department'),
+      'plObjectType'  => array('country' => array(
+        'aclCategory' => 'department',
+        'name'        => _('Country'),
+        'filter'      => '(&(objectClass=country)(objectClass=gosaDepartment))',
+        'ou'          => '',
+        'icon'        => 'plugins/departments/images/country.png',
+        'tabClass'    => 'deptabs',
+        'mainAttr'    => self::$namingAttr,
+      )),
 
-      "plProvidedAcls" => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())
     );
   }
 

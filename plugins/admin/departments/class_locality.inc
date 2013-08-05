@@ -27,16 +27,20 @@ class locality extends department
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("Locality"),
-      "plDescription" => _("Locality"),
-      "plCategory"    => array("department"),
-      "plObjectType"  => array("locality" => array(
-        "aclCategory" => "department",
-        "name"        => _("Locality"),
-        "filter"      => "objectClass=locality")
-      ),
+      'plShortName'   => _('Locality'),
+      'plDescription' => _('Locality'),
+      'plCategory'    => array('department'),
+      'plObjectType'  => array('locality' => array(
+        'aclCategory' => 'department',
+        'name'        => _('Locality'),
+        'filter'      => '(&(objectClass=locality)(objectClass=gosaDepartment))',
+        'ou'          => '',
+        'icon'        => 'plugins/departments/images/locality.png',
+        'tabClass'    => 'deptabs',
+        'mainAttr'    => self::$namingAttr,
+      )),
 
-      "plProvidedAcls" => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())
     );
   }
 

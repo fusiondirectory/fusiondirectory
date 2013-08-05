@@ -143,6 +143,8 @@ if (!session::global_is_set('plist')) {
   $plist = new pluglist($config, $ui);
   session::global_set('plist', $plist);
   $config->loadPlist($plist);
+  $config->get_departments();
+  $config->make_idepartments();
 }
 $plist = session::global_get('plist');
 

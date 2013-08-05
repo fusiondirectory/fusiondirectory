@@ -27,16 +27,20 @@ class dcObject extends department
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("Domain Component"),
-      "plDescription" => _("Domain Component"),
-      "plCategory"    => array("department"),
-      "plObjectType"  => array("dcObject" => array(
-        "aclCategory" => "department",
-        "name"        => _("Domain Component"),
-        "filter"      => "objectClass=dcObject")
-      ),
+      'plShortName'   => _('Domain Component'),
+      'plDescription' => _('Domain Component'),
+      'plCategory'    => array('department'),
+      'plObjectType'  => array('dcObject' => array(
+        'aclCategory' => 'department',
+        'name'        => _('Domain Component'),
+        'filter'      => '(&(objectClass=dcObject)(objectClass=gosaDepartment))',
+        'ou'          => '',
+        'icon'        => 'plugins/departments/images/dc.png',
+        'tabClass'    => 'deptabs',
+        'mainAttr'    => self::$namingAttr,
+      )),
 
-      "plProvidedAcls" => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())
     );
   }
 
