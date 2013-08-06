@@ -1,18 +1,52 @@
 <?php
 
-class debugHelp
+class debugHelp extends simplePlugin
 {
+  var $mainTab = TRUE;
+
   static function plInfo()
   {
     return array(
-      'plShortName'   => _('Diagram'),
-      'plDescription' => _('Debug diagram help'),
+      'plShortName'   => _('Diagrams'),
+      'plDescription' => _('Debug diagrams'),
       'plSection'     => 'addons',
       'plIcon'        => 'plugins/debug-help/images/icon.png',
       'plCategory'    => array('debug' => array('objectClass' => 'none', 'description' => _('Diagram'))),
 
-      'plProvidedAcls' => array()
+      'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())
     );
+  }
+
+  static function getAttributesInfo ()
+  {
+    return array(
+      'main' => array(
+        'name'      => _('Diagrams'),
+        'class'     => array('fullwidth'),
+        'attrs'     => array(
+          new ButtonAttribute(
+            _('Object types diagram'), '',
+            'links', FALSE,
+            _('Get')
+          )
+        )
+      ),
+    );
+  }
+
+  function __construct(&$config, $dn = NULL, $object = NULL)
+  {
+    parent::__construct($config, $dn, $object);
+  }
+
+  function save_object()
+  {
+    parent::save_object();
+    if (isset($_POST[get_class($this)."_posted"])) {
+      if (isset($_POST['links'])) {
+        self::buildDiagram();
+      }
+    }
   }
 
   /*!
