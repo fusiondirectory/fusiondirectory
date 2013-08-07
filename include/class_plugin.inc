@@ -677,7 +677,9 @@ class plugin
     }
     if (isset($attrs[$mask])) {
       $result = array($attrs[$mask]);
-      unset($result[0]['count']);
+      if (is_array($result[0])) {
+        unset($result[0]['count']);
+      }
     } else {
       trigger_error("'$mask' was not found in attributes");
       $result = array('');
