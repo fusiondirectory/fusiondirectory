@@ -34,7 +34,11 @@ class ldapDump extends simplePlugin
 
     $ldap = $this->config->get_ldap_link();
     $ldap->cat($this->dn);
-    $this->dump = array($this->dumpLdapNode($ldap->fetch(), $this->config->current['BASE']));
+    if ($attrs = $ldap->fetch()) {
+      $this->dump = array($this->dumpLdapNode($attrs, $this->config->current['BASE']));
+    } else {
+      $this->dump = array();
+    }
   }
 
   function execute()
