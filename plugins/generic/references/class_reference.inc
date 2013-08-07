@@ -29,6 +29,23 @@ class reference extends plugin
   var $fold           = array();
   var $objectCache    = array();
 
+  /*
+   * \brief Return plugin informations for acl handling
+   */
+  static function plInfo()
+  {
+    return array(
+      "plShortName"   => _("References"),
+      "plDescription" => _("References"),
+      "plSelfModify"  => FALSE,
+      "plCategory"    => array('acl'),
+      "plObjectType"  => array('special'),
+      'plPriority'    => 1,
+
+      "plProvidedAcls"  => array()
+    );
+  }
+
   function reference (&$config, $dn = NULL)
   {
     /* Include config object */

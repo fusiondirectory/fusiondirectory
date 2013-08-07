@@ -1293,15 +1293,18 @@ class acl extends plugin
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("ACL"),
-      "plDescription" => _("Manage access control lists"),
-      "plSelfModify"  => FALSE,
-      "plCategory"    => array("acl" => array("description"  => _("ACL")."&nbsp;&amp;&nbsp;"._("ACL roles"),
-                                                      "objectClass"  => array("gosaAcl","gosaRole"))),
-      "plObjectType"  => array("acl" => array("name"  => _("ACL"),
-                                              "filter"  => "objectClass=gosaAcl")),
+      'plShortName'   => _('ACL'),
+      'plDescription' => _('Manage access control lists'),
+      'plSelfModify'  => FALSE,
+      'plPriority'    => 0,
+      'plCategory'    => array('acl' => array('description'  => _('ACL').'&nbsp;&amp;&nbsp;'._('ACL roles'),
+                                                      'objectClass'  => array('gosaAcl','gosaRole'))),
+      'plObjectType'  => array(
+        'acl'     => array('name' => _('ACL'),  'filter' => 'objectClass=gosaAcl'),
+        'special' => array('name' => 'special', 'filter' => 'none')
+      ),
 
-      "plProvidedAcls"  => array()
+      'plProvidedAcls'  => array()
     );
   }
 
