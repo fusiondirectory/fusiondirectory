@@ -406,18 +406,21 @@ class tabs
   /*!
    * \brief Add special Tabs
    */
-  function addSpecialTabs($hide_refs = FALSE, $hide_acls = FALSE)
+  function addSpecialTabs()
   {
-    if (!$hide_acls) {
-      $this->by_name['acl']           = _("ACL");
-      $this->by_object['acl']         = new acl($this->config, $this->dn, $this->getBaseObject());
-      $this->by_object['acl']->parent = &$this;
+    $data       = $this->config->data['TABS']['SPECIALTABS'];
+    $baseobject = $this->getBaseObject();
+    foreach ($data as &$tab) {
+      if (!plugin_available($tab['CLASS'])) {
+        continue;
+      }
+
+      $this->by_name[$tab['CLASS']] = $tab['NAME'];
+      $this->by_object[$tab['CLASS']] = new $tab['CLASS']($this->config, $this->dn, $baseobject);
+      $this->by_object[$tab['CLASS']]->parent = &$this;
+      $this->by_object[$tab['CLASS']]->set_acl_category($this->acl_category);
     }
-    if (!$hide_refs) {
-      $this->by_name['reference']           = _("References");
-      $this->by_object['reference']         = new reference($this->config, $this->dn, $this->getBaseObject());
-      $this->by_object['reference']->parent = &$this;
-    }
+    unset($tab);
   }
 
   /*!

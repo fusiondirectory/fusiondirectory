@@ -7,7 +7,8 @@ class ldapDump extends simplePlugin
     return array(
       'plShortName'   => _('LDAP'),
       'plDescription' => _('LDAP Dump'),
-      'plObjectType'  => array('user', 'workstation', 'group', 'ogroup', 'server'),
+      'plObjectType'  => array('special'),
+      'plPriority'    => 99,
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())
     );
