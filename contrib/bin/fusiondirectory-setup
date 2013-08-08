@@ -1009,18 +1009,18 @@ die ("! You have to run this script as root\n") if ($<!=0);
   my @vars_keys = keys %vars;
 
   my %commands = ();
-  $commands{"--update-cache"}         = ["Updating class.cache",                          \&rescan_classes];
-  $commands{"--update-locales"}       = ["Updating translations",                         \&rescan_i18n];
+  $commands{"--update-cache     "}    = ["Updating class.cache",                          \&rescan_classes];
+  $commands{"--update-locales   "}    = ["Updating translations",                         \&rescan_i18n];
   $commands{"--check-directories"}    = ["Checking FusionDirectory's directories",        \&check_directories];
-  $commands{"--check-config"}         = ["Checking FusionDirectory's config file",        \&check_config];
-  $commands{"--check-ldap"}           = ["Checking your LDAP tree",                       \&check_ldap];
+  $commands{"--check-config     "}    = ["Checking FusionDirectory's config file",        \&check_config];
+  $commands{"--check-ldap       "}    = ["Checking your LDAP tree",                       \&check_ldap];
   $commands{"--migrate-repositories"} = ["Migrating your FAI repositories",               \&migrate_repo];
-  $commands{"--migrate-users"}        = ["Migrating your users",                          \&migrate_users];
-  $commands{"--install-plugins"}      = ["Installing FusionDirectory's plugins",          \&install_plugins];
+  $commands{"--migrate-users    "}    = ["Migrating your users",                          \&migrate_users];
+  $commands{"--install-plugins  "}    = ["Installing FusionDirectory's plugins",          \&install_plugins];
   $commands{"--encrypt-passwords"}    = ["Encrypt passwords in fusiondirectory.conf",     \&encrypt_passwords];
-  $commands{"--write-vars"}           = ["Choose FusionDirectory Directories",            \&write_vars];
-  $commands{"--list-vars"}            = ["List possible vars to give --set",              \&list_vars];
-  $commands{"--set-VAR=value"}        = ["Set the variable VAR to value see --list-vars", \&die]; # Won't be called because it contains uppercase
+  $commands{"--write-vars       "}    = ["Choose FusionDirectory Directories",            \&write_vars];
+  $commands{"--list-vars        "}    = ["List possible vars to give --set",              \&list_vars];
+  $commands{"--set-VAR=value    "}    = ["Set the variable VAR to value see --list-vars", \&die]; # Won't be called because it contains uppercase
 
   my $usage = 0;
 
@@ -1108,6 +1108,10 @@ This option add FusionDirectory attributes to the people branch.
 =item --install-plugins
 
 This option will install the plugin from a tar.gz of the plugin. This option is intended for people wanting to install from the sources.
+
+=item  --encrypt-passwords
+
+This option will crypt the password to connect the to ldap from fusiondirectory.conf into fusiondirectory.secrets and used the apache headers module to decypher it
 
 =item --list_vars
 
