@@ -9,7 +9,7 @@
 
   <search>
     <query>
-      <backend>GroupLDAP</backend>
+      <backend>LDAP</backend>
       <filter>(&amp;(objectClass=posixGroup)$NAME(|$PRIMARY$MAIL$SAMBA))</filter>
       <attribute>dn</attribute>
       <attribute>objectClass</attribute>

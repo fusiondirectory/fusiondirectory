@@ -28,19 +28,21 @@ class group extends simplePlugin
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("Generic"),
-      "plDescription" => _("Generic group settings"),
-      "plSelfModify"  => FALSE,
-      "plObjectType"  => array("group" => array(
-        "description" => _("Groups"),
-        "name"        => _("Group"),
-        "filter"      => "objectClass=posixGroup"
+      'plShortName'   => _('Generic'),
+      'plDescription' => _('Generic group settings'),
+      'plSelfModify'  => FALSE,
+      'plObjectType'  => array('group' => array(
+        'description' => _('Groups'),
+        'name'        => _('Group'),
+        'ou'          => get_ou('groupRDN'),
+        'filter'      => 'objectClass=posixGroup',
+        'icon'        => 'plugins/groups/images/iconMini.png'
       )),
-      "plForeignKeys"  => array(
+      'plForeignKeys'  => array(
         'memberUid' => array('user','uid')
       ),
 
-      "plProvidedAcls"  => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls'  => parent::generatePlProvidedAcls(self::getAttributesInfo())
     );
   }
 
