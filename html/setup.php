@@ -109,6 +109,7 @@ textdomain($domain);
 $display = "";
 require_once("../setup/main.inc");
 
+$smarty->assign("rtl", language_is_rtl($lang));
 $smarty->assign("date", date("l, dS F Y H:i:s O"));
 $header = $smarty->fetch(get_template_path('headers.tpl'));
 
