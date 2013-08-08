@@ -1,4 +1,4 @@
 <?php
 
-simplePlugin::mainInc('debugHelp', 'dc=mcmic,dc=test', FALSE, FALSE, FALSE);
+simplePlugin::mainInc('debugHelp', $config->current['BASE'], FALSE, FALSE, FALSE);
 ?>
