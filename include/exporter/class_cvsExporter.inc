@@ -23,7 +23,7 @@
 /*!
  * \file class_cvsExporter.inc
  * Source code for class cvsExporter
- */ 
+ */
 
 /*!
  * \brief This class contains all the functions needed for cvs export
@@ -42,42 +42,43 @@ class csvExporter
    * \param array $entries
    *
    * \param array $columns
-   */ 	
-  function csvExporter($headline, $header, $entries, $columns= array()) {
+   */
+  function __construct($headline, $header, $entries, $columns = array())
+  {
     // If no preset, render all columns
     if (!count($columns)) {
       foreach ($header as $index => $dummy) {
-        $columns[]= $index;
+        $columns[] = $index;
       }
     }
-    
+
     // Generate header
-    $this->result= "#";
+    $this->result = "#";
     foreach ($columns as $index) {
-      if (isset($header[$index])){
-        $this->result.= trim(html_entity_decode($header[$index], ENT_QUOTES, 'UTF-8').";");
+      if (isset($header[$index])) {
+        $this->result .= trim(html_entity_decode($header[$index], ENT_QUOTES, 'UTF-8').";");
       } else {
-        $this->result.= ";";
+        $this->result .= ";";
       }
-    } 
-    $this->result= preg_replace('/;$/', '', $this->result)."\n";
+    }
+    $this->result = preg_replace('/;$/', '', $this->result)."\n";
 
     // Append entries
     foreach ($entries as $row) {
       foreach ($columns as $index) {
-        if (isset($row["_sort$index"])){
-          $this->result.= trim(html_entity_decode($row["_sort$index"], ENT_QUOTES, 'UTF-8')).";";
+        if (isset($row["_sort$index"])) {
+          $this->result .= trim(html_entity_decode($row["_sort$index"], ENT_QUOTES, 'UTF-8')).";";
         } else {
-          $this->result.= ";";
+          $this->result .= ";";
         }
       }
-      $this->result= preg_replace('/;$/', '', $this->result)."\n";
+      $this->result = preg_replace('/;$/', '', $this->result)."\n";
     }
   }
 
   /*!
    * \brief Get the result
-   */ 
+   */
   function query()
   {
      return $this->result;
@@ -86,10 +87,10 @@ class csvExporter
 
   /*!
    * \brief Get Informations
-   */ 
+   */
   static function getInfo()
   {
-    return array("exportCVS" => array( "label" => _("CSV"), "image" => "images/lists/csv.png", "class"=> "csvExporter", "mime" => "text/x-csv", "filename" => "export.csv" ));
+    return array("exportCVS" => array( "label" => _("CSV"), "image" => "images/lists/csv.png", "class" => "csvExporter", "mime" => "text/x-csv", "filename" => "export.csv" ));
   }
 
 }
