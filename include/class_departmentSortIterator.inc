@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
@@ -38,25 +37,26 @@ class departmentSortIterator implements Iterator {
    *
    * \param $direction Direction
    */
-  public function __construct($data, $direction) {
-
-    function depSort($ao, $bo) {
+  public function __construct($data, $direction)
+  {
+    function depSort($ao, $bo)
+    {
       // Override sort attribute from data if needed
-      $attribute_a= $ao['sort-attribute'];
-      $attribute_b= $bo['sort-attribute'];
+      $attribute_a = $ao['sort-attribute'];
+      $attribute_b = $bo['sort-attribute'];
 
       // Extract values from ao and bo
-      $a= $b= "";
+      $a = $b = "";
       if (isset($ao[$attribute_a])) {
-        $a= $ao[$attribute_a];
+        $a = $ao[$attribute_a];
         if (is_array($a)) {
-          $a= $a[0];
+          $a = $a[0];
         }
       }
       if (isset($bo[$attribute_b])) {
-        $b= $bo[$attribute_b];
+        $b = $bo[$attribute_b];
         if (is_array($b)) {
-          $b= $b[0];
+          $b = $b[0];
         }
       }
 
@@ -69,9 +69,9 @@ class departmentSortIterator implements Iterator {
 
     // Invert if direction is set
     if ($direction) {
-      $this->data= array_reverse($data, true);
+      $this->data = array_reverse($data, TRUE);
     } else {
-      $this->data= $data;
+      $this->data = $data;
     }
   }
 
@@ -80,7 +80,8 @@ class departmentSortIterator implements Iterator {
    *
    * \return the first element of the array
    */
-  function rewind() {
+  function rewind()
+  {
     return reset($this->data);
   }
 
@@ -89,7 +90,8 @@ class departmentSortIterator implements Iterator {
    *
    * \return The current element pointed by array pointer
    */
-  function current() {
+  function current()
+  {
     return current($this->data);
   }
 
@@ -98,7 +100,8 @@ class departmentSortIterator implements Iterator {
    *
    * \return the key element of the array
    */
-  function key() {
+  function key()
+  {
     return key($this->data);
   }
 
@@ -107,7 +110,8 @@ class departmentSortIterator implements Iterator {
    *
    * \return The next element pointed by array pointer
    */
-  function next() {
+  function next()
+  {
     return next($this->data);
   }
 
@@ -116,9 +120,9 @@ class departmentSortIterator implements Iterator {
    *
    * \return TRUE if the array is valid, return FALSE otherwise
    */
-  function valid() {
-    return key($this->data) !== null;
+  function valid()
+  {
+    return (key($this->data) !== NULL);
   }
 }
-
 ?>
