@@ -218,10 +218,14 @@ class listing {
     $types = departmentManagement::getDepartmentTypes();
     foreach ($types as $type) {
       $i = objects::infos($type);
+      $objectClass = '';
+      if (preg_match('/objectClass=([^)]+)/', $i['filter'], $m)) {
+        $objectClass = $m[1];
+      }
       $this->objectTypes[strtoupper($type)] = array(
         'label'       => $i['name'],
         'image'       => $i['icon'],
-        'objectClass' => preg_replace('/^.*objectClass=([^)]+)(\).*)?$/', '\\1', $i['filter']),
+        'objectClass' => $objectClass,
         'category'    => $i['aclCategory'],
         'class'       => $i['mainTab'],
       );
