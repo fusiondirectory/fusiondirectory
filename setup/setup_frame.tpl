@@ -2,7 +2,6 @@
 {$php_errors}
 <form action='setup.php' name='mainform' method='post' enctype='multipart/form-data'>
   {$msg_dialogs}
-<input id='focus' name='focus' type='image' src='images/empty.png' style='width:0px; height:0px;' >
 <div class='setup_dialog'>
   {include file={filePath file="setup_header.tpl"}}
   <div class='setup_menu'>
@@ -36,9 +35,5 @@
 
 <input type='hidden' name='setup_goto_step' value=''>
 </form>
-
-<script type='javascript'>
-  document.getElementById('focus').focus();
-</script>
 </body>
 </html>

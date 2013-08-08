@@ -144,10 +144,10 @@ padding-bottom:5px;
 text-align:center;
 display:block;
 }
-html.ltr fieldset.plugin_section legend span, .plugin_section > span.legend {
+html.ltr fieldset.plugin_section legend span, html.ltr .plugin_section > span.legend {
 margin-left:-1px;
 }
-html.rtl fieldset.plugin_section legend span, .plugin_section > span.legend {
+html.rtl fieldset.plugin_section legend span, html.rtl .plugin_section > span.legend {
 margin-right:-1px;
 }
 
@@ -170,10 +170,10 @@ margin-top:-26px;
 fieldset.plugin_section legend img, .plugin_section span.legend img {
 vertical-align:middle;
 }
-html.ltr fieldset.plugin_section legend img, .plugin_section span.legend img {
+html.ltr fieldset.plugin_section legend img, html.ltr .plugin_section span.legend img {
 margin-right:3px;
 }
-html.rtl fieldset.plugin_section legend img, .plugin_section span.legend img {
+html.rtl fieldset.plugin_section legend img, html.rtl .plugin_section span.legend img {
 margin-left:3px;
 }
 
@@ -252,10 +252,10 @@ background-color:#DFEFFF;
   position:relative;
   top:1px;
   }
-  html.ltr .plugbottom input[type=submit]:active, .plugbottom input[type=button]:active {
+  html.ltr .plugbottom input[type=submit]:active, html.ltr .plugbottom input[type=button]:active {
   left:1px;
   }
-  html.rtl .plugbottom input[type=submit]:active, .plugbottom input[type=button]:active {
+  html.rtl .plugbottom input[type=submit]:active, html.rtl .plugbottom input[type=button]:active {
   right:1px;
   }
 }

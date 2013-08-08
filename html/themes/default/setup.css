@@ -254,20 +254,24 @@ padding-right:25px;
   Setup step 4 styles
 */
 li.step4_name,div.step4_name {
-float:left;
 width:33%;
 height:2em;
 }
-html.rtl li.step4_name,div.step4_name {
+html.ltr li.step4_name, html.ltr div.step4_name {
+float:left;
+}
+html.rtl li.step4_name, html.rtl div.step4_name {
 float:right;
 }
 
 li.step4_value,div.step4_value {
-float:left;
 width:50%;
 height:2em;
 }
-html.rtl li.step4_value,div.step4_value {
+html.ltr li.step4_value, html.ltr div.step4_value {
+float:left;
+}
+html.rtl li.step4_value, html.rtl div.step4_value {
 float:right;
 }
 
