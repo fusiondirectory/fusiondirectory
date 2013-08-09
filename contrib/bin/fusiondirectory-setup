@@ -117,6 +117,17 @@ sub cred_encrypt {
   return $cipher->encrypt_hex($input);
 }
 
+sub cred_decrypt {
+  my ($input, $password) = @_;
+  my $cipher = Crypt::CBC->new(
+                -key    =>  $password,
+                -cipher => 'Rijndael',
+                -salt   => 1,
+                -header => 'salt',
+              ) || die "Couldn't create CBC object";
+  return $cipher->decrypt_hex($input);
+}
+
 sub get_random_string {
   my ($size) = @_;
   $size = 32 if !$size;
@@ -651,6 +662,18 @@ sub get_ldap_connexion {
   $hash_result{base} = $base;
 
   # bind to the LDAP server
+  if (-e $fd_secrets) {
+    open(SECRETS, $fd_secrets) || die ("Could not open $fd_secrets");
+    my $key = "";
+    while(<SECRETS>) {
+      if ($_ =~ m/"RequestHeader set FD_KEY ([^ ]+)"/) {
+        $key = $1;
+        last;
+      }
+    }
+    close(SECRETS);
+    $bind_pwd = cred_decrypt($bind_pwd, $key);
+  }
   my $bind = $ldap->bind ($bind_dn, password => $bind_pwd);
 
   # send a warning if the bind didn't gone well
