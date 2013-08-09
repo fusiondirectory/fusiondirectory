@@ -726,6 +726,19 @@ sub get_ldap_connexion {
   $hash_result{base} = $base;
 
   # bind to the LDAP server
+
+  if (-e $fd_secrets) {
+    open(SECRETS, $fd_secrets) || die ("Could not open $fd_secrets");
+    my $key = "";
+    while(<SECRETS>) {
+      if ($_ =~ m/RequestHeader set FD_KEY ([^ \n]+)\n/) {
+        $key = $1;
+        last;
+      }
+    }
+    close(SECRETS);
+    $bind_pwd = cred_decrypt($bind_pwd, $key);
+  }
   my $bind = $ldap->bind ($bind_dn, password => $bind_pwd);
 
   # send a warning if the bind didn't gone well
