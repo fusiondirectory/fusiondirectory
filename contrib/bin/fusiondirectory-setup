@@ -56,40 +56,7 @@ my %classes_hash_result = ();
 my %i18n_hash_result = ();
 
 my $oupeople = "people";
-my $people_rdn        = "ou=people,";
-my $group_rdn         = "ou=groups,";
-my $user_primaryattr  = "uid";
-
-####################################################### config reading ######################################################################
-
-sub fetch_config {
-  # initiate the LDAP connexion
-  my %hash_ldap_param = get_ldap_connexion();
-
-  # LDAP's connection's parameters
-  my $base = $hash_ldap_param{base};
-  my $ldap = $hash_ldap_param{ldap};
-
-  my $mesg = $ldap->search(
-    base    => $base,
-    filter  => "(&(objectClass=fusionDirectoryConf)(cn=fusiondirectory))"
-  );
-  $mesg->code && die "\n! LDAP error while searching config node ! - ".$mesg->error_name.": ".$mesg->error_text;
-  if ($mesg->count > 0) {
-    my $config = ($mesg->entries)[0];
-    if ($config->exists('fdAccountPrimaryAttribute')) {
-      $user_primaryattr = $config->get_value('fdAccountPrimaryAttribute');
-    }
-    if ($config->exists('fdUserRDN')) {
-      $people_rdn = $config->get_value('fdUserRDN');
-    }
-    if ($config->exists('fdGroupRDN')) {
-      $group_rdn = $config->get_value('fdGroupRDN');
-    }
-  }
-  $group_rdn  =~ s/,?$/,/;
-  $people_rdn =~ s/,?$/,/;
-}
+my $peopleou = "ou=$oupeople";
 
 #################################################################################################################################################
 
@@ -529,7 +496,21 @@ eof
 sub add_ldap_admin {
   my ($base, $ldap, $acllines, $people_entries) = @_;
 
-  my $attr = $user_primaryattr;
+  # Get the configuration to know which attribute must be used in the dn
+  my $mesg = $ldap->search(
+    base => "$base",
+    filter => "(&(objectClass=fusionDirectoryConf)(cn=fusiondirectory))",
+    attrs => ['fdAccountPrimaryAttribute']
+  );
+  my $attr;
+  if ($mesg->count <= 0) {
+    print "Could not find configuration object, using default value\n";
+    $attr = 'uid';
+  } elsif (($mesg->entries)[0]->exists('fdAccountPrimaryAttribute')) {
+    $attr = ($mesg->entries)[0]->get_value('fdAccountPrimaryAttribute');
+  } else {
+    $attr = 'uid';
+  }
 
   my $fd_admin_uid = ask_user_input ("Please enter a login for FusionDirectory's admin", "fd-admin");
   # Does this user exists?
@@ -569,7 +550,7 @@ sub add_ldap_admin {
       print "Error : invalid account primary attribute $attr, using uid\n";
       $attr = 'uid';
     }
-    $dn = "$attr=".$obj{$attr}.",$people_rdn,$base";
+    $dn = "$attr=".$obj{$attr}.",$peopleou,$base";
 
     # Add the administator user object
     my @options = %obj;
@@ -614,62 +595,6 @@ sub add_ldap_admin {
     }
   );
   $result->code && warn "\n! failed to add ACL for admin on '$base' - ".$result->error_name.": ".$result->error_text;
-}
-
-# function that create a missing RDN
-sub ldap_create_rdn {
-  my ($ldap,$rdn) = @_;
-
-  $rdn =~ m/^([^,]*),?(.*)$/ or die "could not parse RDN $rdn\n";
-  if ($2 ne "") {
-    my $node = $ldap->search(base => $2, scope => 'base');
-    unless ($node->count()) {
-      ldap_create_rdn($2);
-    }
-  }
-
-  $1 =~ m/^([^=]+)=(.+)$/ or die "could not parse $1\n";
-  my $oc;
-  if ($1 == 'ou') {
-    $oc = 'organizationalUnit';
-  } elsif ($1 == 'dc') {
-    $oc = 'domainComponent';
-  } else {
-    die "Unknown part $1, could not create RDN\n";
-  }
-
-  my $mesg = $ldap->add( "$rdn",
-    attr => [
-      $1  => $2,
-      'objectClass' =>  $oc
-    ]
-  );
-
-  $mesg->code && die "Failed to create RDN $rdn - ".$mesg->error_name.": ".$mesg->error_text."\n";
-}
-
-# function that check if an RDN exists, and ask for creation if not
-sub ldap_check_rdn {
-  my ($ldap,$rdn) = @_;
-
-  print "Searching for $rdn\n";
-
-  my $node = $ldap->search( base => $rdn, scope => 'base');
-  unless ($node->count()) {
-    print "! $rdn not found in your LDAP directory\n";
-
-    # if user's answer is "yes", creating branch
-    if ( ask_yn_question("Do you want to create it ?") ) {
-      eval {
-        ldap_create_rdn($ldap, $rdn);
-      };
-      if ($@) {
-        print "! Creation failed: $@\n";
-      };
-    } else {
-      print "Skiping...\n";
-    }
-  }
 }
 
 # function that initiate the ldap connexion, and bind as the ldap's admin
@@ -820,17 +745,61 @@ sub check_ldap {
   my $base = $hash_ldap_param{base};
   my $ldap = $hash_ldap_param{ldap};
 
-  ldap_check_rdn($people_rdn.$base);
-
   # search for branch people
-  my $people_filter = $people_rdn;
-  $people_filter =~ s/^([^,]*),.*$/$1/;
-  my $people = $ldap->search (base => $base, filter => $people_filter);
-  # stock search results
-  my @people_entries = map {$_->dn} $people->entries;
-  check_admin($base, $ldap, \@people_entries);
+  my $people = $ldap->search (base => $base, filter => $peopleou);
 
-  ldap_check_rdn($group_rdn.$base);
+  # stock search results
+  my @people_entries = $people->entries;
+  my $admin_add = "";
+
+  # if ou=people exists
+  if ( defined ($people_entries[0]) ) {
+    @people_entries = map {$_->dn} @people_entries;
+    check_admin($base, $ldap, \@people_entries);
+
+  # if ou=people doesn't exists
+  } else {
+    print ( "! $peopleou,$base not found in your LDAP directory\n" );
+
+    # if user's answer is "yes", creating ou=people branch
+    if ( ask_yn_question("Do you want to create it ?: ") ) {
+      my $people_add = $ldap->add( "$peopleou,$base",
+        attr => [
+          'ou'  => $oupeople,
+          'objectClass' =>  'organizationalUnit'
+          ]
+      );
+
+      $people_add->code and warn "! failed to add LDAP's $peopleou,$base branch\n";
+      $admin_add = add_ldap_admin($base, $ldap);
+      return -1 if ($admin_add eq "-1");
+    } else {
+      print ("Skiping...\n");
+    }
+  }
+
+  # search for ou=groups
+  my $ldap_groups = $ldap->search ( base => $base, filter => "ou=groups" );
+  my @groups_entries = $ldap_groups->entries;
+
+  # if ou=groups don't exists
+  if ( !defined $groups_entries[0] ) {
+    print ("! ou=groups,$base not found in your LDAP directory\n");
+
+    # if user's answer is "yes", creating ou=groups branch
+    if ( ask_yn_question("Do you want to create it ?: ") ) {
+      my $group_add = $ldap->add( "ou=groups,$base",
+        attr => [
+          'ou'  => 'groups',
+          'objectClass' =>  'organizationalUnit'
+          ]
+      );
+
+      $group_add->code and warn "! failed to add LDAP's ou=groups,$base branch\n";
+    } else {
+      print ("skiping...\n");
+    }
+  }
 
   # search for workstations and object groups
   my $faiclasses = $ldap->search (base => "$base",
@@ -976,11 +945,11 @@ sub migrate_users {
   my $base = $hash_ldap_param{base};
   my $ldap = $hash_ldap_param{ldap};
 
-  print ("Add FusionDirectory attributes for the following users from $people_rdn,$base\n");
+  print ("Add FusionDirectory attributes for the following users from $peopleou,$base\n");
   print ("---------------------------------------------\n");
 
   my $mesg = $ldap->search( filter=>"(|(!(objectClass~=gosaAccount))(!(objectClass~=organizationalPerson))(!(objectClass~=Person)))",
-                            base=>"$people_rdn,$base",
+                            base=>"$peopleou,$base",
                             scope=>$scope);
   my @entries = $mesg->entries;
 
