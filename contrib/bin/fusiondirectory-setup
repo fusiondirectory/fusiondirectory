@@ -666,7 +666,7 @@ sub get_ldap_connexion {
     open(SECRETS, $fd_secrets) || die ("Could not open $fd_secrets");
     my $key = "";
     while(<SECRETS>) {
-      if ($_ =~ m/"RequestHeader set FD_KEY ([^ ]+)"/) {
+      if ($_ =~ m/RequestHeader set FD_KEY ([^ \n]+)\n/) {
         $key = $1;
         last;
       }
