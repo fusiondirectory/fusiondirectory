@@ -115,7 +115,7 @@ foreach my $schema (@schemas) {
     $full_cmd = $add_cmd.$path.$schema.".ldif";
     print "executing '$full_cmd'\n";
     if (system ($full_cmd) != 0) {
-      print "Insertion failed!\n";
+      die "Insertion failed!\n";
     }
   } else {
     print "$schema_name already exists in the LDAP, skipping…\n";
