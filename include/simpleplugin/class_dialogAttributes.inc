@@ -38,7 +38,7 @@ class GenericDialog
     if (isset($_POST[$this->post_cancel])) {
       return FALSE;
     }
-    if (isset($_POST[$this->post_finish])) {
+    if (isset($_POST[$this->post_finish]) || isset($_GET[$this->post_finish])) {
       return $this->handle_finish();
     }
     return $this->dialog_execute();
@@ -88,7 +88,7 @@ class UserSelectDialog extends GenericSelectDialog
 
 class SingleUserSelectDialog extends GenericDialog
 {
-  protected $dialogClass = 'userSelect';
+  protected $dialogClass = 'singleUserSelect';
   protected $post_cancel = 'add_users_cancel';
   protected $post_finish = 'add_users_finish';
 
@@ -286,12 +286,8 @@ class GenericDialogAttribute extends DialogAttribute
       $value = $attrs[$this->store_attr][0];
     }
     if (!in_array($value, $this->value)) {
-      $this->value[]    = $value;
-      if ($this->display_attr == 'dn') {
-        $this->displays[] = $dn;
-      } else {
-        $this->displays[] = $attrs[$this->display_attr][0];
-      }
+      $size = array_push($this->value, $value);
+      $this->fillDisplayValueFrom($size - 1, $attrs);
     }
   }
 
@@ -330,8 +326,17 @@ class GenericDialogAttribute extends DialogAttribute
       unset($this->value[$i]);
     } else {
       $attrs = $ldap->fetch();
-      if (!isset($attrs[$this->display_attr])) {
-        unset($this->value[$i]);
+      $this->fillDisplayValueFrom($i, $attrs);
+    }
+  }
+
+  protected function fillDisplayValueFrom ($i, $attrs)
+  {
+    if (!isset($attrs[$this->display_attr])) {
+      unset($this->value[$i]);
+    } else {
+      if ($this->display_attr == 'dn') {
+        $this->displays[$i] = $attrs['dn'];
       } else {
         $this->displays[$i] = $attrs[$this->display_attr][0];
       }
