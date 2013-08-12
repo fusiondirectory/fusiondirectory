@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
@@ -22,31 +21,59 @@
 
 class userSelect extends management
 {
-
   protected $skipFooter = TRUE;
   protected $skipHeader = TRUE;
 
-  function __construct($config,$ui)
+  function __construct($config, $ui)
   {
-    $this->config = $config;
-    $this->ui = $ui;
-
     $this->storagePoints = array(get_ou("userRDN"));
 
-#    // Build filter
-#    if (session::global_is_set(get_class($this)."_filter")){
-#      $filter= session::global_get(get_class($this)."_filter");
-#    } else {
-      $filter = new filter(get_template_path("user-filter.xml", true, dirname(__FILE__)));
-      $filter->setObjectStorage($this->storagePoints);
-#    }
+    // Build filter
+    $filter = new filter(get_template_path("user-filter.xml", TRUE, dirname(__FILE__)));
+    $filter->setObjectStorage($this->storagePoints);
     $this->setFilter($filter);
 
     // Build headpage
-    $headpage = new listing(get_template_path("user-list.xml", true, dirname(__FILE__)));
+    $headpage = new listing(get_template_path("user-list.xml", TRUE, dirname(__FILE__)));
+    $headpage->registerElementFilter("selectLink", get_class($this)."::filterSelectLink");
     $headpage->setFilter($filter);
     parent::__construct($config, $ui, "user", $headpage);
   }
+
+  static function filterSelectLink()
+  {
+    // TODO : replace this with javascript that select the line
+    $pid    = func_get_arg(0);
+    $row    = func_get_arg(1);
+    $dn     = func_get_arg(2);
+    $trans  = func_get_arg(3)[0];
+    if ($trans != "") {
+      return "<a href='?plug=".$_GET['plug']."&amp;PID=$pid&amp;act=listing_select_$row&amp;add_users_finish=1' title='$dn'>$trans</a>";
+    }
+
+    return '';
+  }
 }
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
+
+class singleUserSelect extends userSelect
+{
+  function __construct($config, $ui)
+  {
+    parent::__construct($config, $ui);
+    $this->headpage->multiSelect = FALSE;
+  }
+
+  static function filterSelectLink()
+  {
+    $pid    = func_get_arg(0);
+    $row    = func_get_arg(1);
+    $dn     = func_get_arg(2);
+    $trans  = func_get_arg(3)[0];
+    if ($trans != "") {
+      return "<a href='?plug=".$_GET['plug']."&amp;PID=$pid&amp;act=listing_select_$row&amp;add_users_finish=1' title='$dn'>$trans</a>";
+    }
+
+    return '';
+  }
+}
 ?>

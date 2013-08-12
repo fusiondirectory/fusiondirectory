@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
@@ -22,42 +21,36 @@
 
 class userGroupSelect extends management
 {
-  // Tab definition
   protected $skipFooter = TRUE;
   protected $skipHeader = TRUE;
 
-  function __construct($config,$ui)
+  function __construct($config, $ui)
   {
-    $this->config = $config;
-    $this->ui = $ui;
     $this->storagePoints = array(get_ou("userRDN"), get_ou("groupRDN"));
 
-#    // Build filter
- #   if (session::global_is_set(get_class($this)."_filter")){
-  #    $filter= session::global_get(get_class($this)."_filter");
-   # } else {
-      $filter = new filter(get_template_path("selectUserGroup-filter.xml", true, dirname(__FILE__)));
-      $filter->setObjectStorage($this->storagePoints);
-    #}
+    // Build filter
+    $filter = new filter(get_template_path("selectUserGroup-filter.xml", TRUE, dirname(__FILE__)));
+    $filter->setObjectStorage($this->storagePoints);
     $this->setFilter($filter);
 
     // Build headpage
-    $headpage = new listing(get_template_path("selectUserGroup-list.xml", true, dirname(__FILE__)));
+    $headpage = new listing(get_template_path("selectUserGroup-list.xml", TRUE, dirname(__FILE__)));
     $headpage->setFilter($filter);
     parent::__construct($config, $ui, "object", $headpage);
   }
 
   function save()
   {
-    $act = $this->detectPostActions();
+    $act      = $this->detectPostActions();
     $headpage = $this->getHeadpage();
-    if(!isset($act['targets'])) return(array());
+    if (!isset($act['targets'])) {
+      return array();
+    }
     $ret = array();
-    foreach($act['targets'] as $dn){
+    foreach ($act['targets'] as $dn) {
       $ret[] = $headpage->getEntry($dn);
     }
-    return($ret);
+    return $ret;
   }
 }
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

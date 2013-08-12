@@ -40,7 +40,7 @@
       <label>Given name</label>
       <sortAttribute>givenName</sortAttribute>
       <sortType>string</sortType>
-      <value>%{givenName}</value>
+      <value>%{filter:selectLink(pid,row,dn,givenName)}</value>
       <export>true</export>
     </column>
 
@@ -48,7 +48,7 @@
       <label>Surname</label>
       <sortAttribute>sn</sortAttribute>
       <sortType>string</sortType>
-      <value>%{sn}</value>
+      <value>%{filter:selectLink(pid,row,dn,sn)}</value>
       <export>true</export>
     </column>
 
@@ -56,10 +56,9 @@
       <label>Login</label>
       <sortAttribute>uid</sortAttribute>
       <sortType>string</sortType>
-      <value>%{uid}</value>
+      <value>%{filter:selectLink(pid,row,dn,uid)}</value>
       <export>true</export>
     </column>
-
   </table>
 
   <actionmenu>
