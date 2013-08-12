@@ -36,7 +36,7 @@ class passwordMethodsha extends passwordMethod
    *
    * \param string $config
    */
-  function passwordMethodsha($config)
+  function __construct($config)
   {
   }
 
@@ -47,12 +47,12 @@ class passwordMethodsha extends passwordMethod
    */
   function is_available()
   {
-    if (function_exists('sha1')){
-      return(true);
-    }elseif(function_exists('mhash')){
-      return true;
-    }else{
-      return false;
+    if (function_exists('sha1')) {
+      return TRUE;
+    } elseif (function_exists('mhash')) {
+      return TRUE;
+    } else {
+      return FALSE;
     }
   }
 
@@ -64,12 +64,12 @@ class passwordMethodsha extends passwordMethod
   function generate_hash($password)
   {
     if (function_exists('sha1')) {
-      $hash = "{SHA}" . base64_encode(pack("H*",sha1($password)));
-    }elseif (function_exists('mhash')) {
+      $hash = "{SHA}" . base64_encode(pack("H*", sha1($password)));
+    } elseif (function_exists('mhash')) {
       $hash = "{SHA}" . base64_encode(mHash(MHASH_SHA1, $password));
-    }else{
+    } else {
       msg_dialog::display(_("Configuration error"), msgPool::missingext("mhash"), ERROR_DIALOG);
-      return false;
+      return FALSE;
     }
 
     return $hash;
@@ -82,8 +82,5 @@ class passwordMethodsha extends passwordMethod
   {
     return "sha";
   }
-
 }
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

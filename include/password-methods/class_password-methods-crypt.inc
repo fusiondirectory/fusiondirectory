@@ -37,7 +37,7 @@ class passwordMethodCrypt extends passwordMethod
    *
    * \param string $config
    */
-  function passwordMethodCrypt($config)
+  function __construct($config)
   {
   }
 
@@ -48,10 +48,10 @@ class passwordMethodCrypt extends passwordMethod
    */
   function is_available()
   {
-    if(function_exists("crypt")){
-      return true;
-    }else{
-      return false;
+    if (function_exists("crypt")) {
+      return TRUE;
+    } else {
+      return FALSE;
     }
   }
 
@@ -62,7 +62,7 @@ class passwordMethodCrypt extends passwordMethod
    */
   function create_template_hash($attrs)
   {
-    return($this->generate_hash('N0T$3T4N0W').'N0T$3T4N0W');
+    return $this->generate_hash('N0T$3T4N0W').'N0T$3T4N0W';
   }
 
   /*!
@@ -72,21 +72,21 @@ class passwordMethodCrypt extends passwordMethod
    */
   function generate_hash($pwd)
   {
-    if ($this->hash == "crypt/standard-des"){
+    if ($this->hash == "crypt/standard-des") {
       $salt = "";
       for ($i = 0; $i < 2; $i++) {
           $salt .= get_random_char();
       }
     }
 
-    if ($this->hash == "crypt/enhanced-des"){
+    if ($this->hash == "crypt/enhanced-des") {
       $salt = "_";
       for ($i = 0; $i < 8; $i++) {
           $salt .= get_random_char();
       }
     }
 
-    if ($this->hash == "crypt/md5"){
+    if ($this->hash == "crypt/md5") {
       $salt = "\$1\$";
       for ($i = 0; $i < 8; $i++) {
           $salt .= get_random_char();
@@ -94,7 +94,7 @@ class passwordMethodCrypt extends passwordMethod
       $salt .= "\$";
     }
 
-    if ($this->hash == "crypt/blowfish"){
+    if ($this->hash == "crypt/blowfish") {
       $salt = "\$2a\$07\$";
       for ($i = 0; $i < CRYPT_SALT_LENGTH; $i++) {
           $salt .= get_random_char();
@@ -102,7 +102,7 @@ class passwordMethodCrypt extends passwordMethod
       $salt .= "\$";
     }
 
-    if ($this->hash == "crypt/sha-256"){
+    if ($this->hash == "crypt/sha-256") {
       $salt = "\$5\$";
       for ($i = 0; $i < 16; $i++) {
           $salt .= get_random_char();
@@ -110,7 +110,7 @@ class passwordMethodCrypt extends passwordMethod
       $salt .= "\$";
     }
 
-    if ($this->hash == "crypt/sha-512"){
+    if ($this->hash == "crypt/sha-512") {
       $salt = "\$6\$";
       for ($i = 0; $i < 16; $i++) {
           $salt .= get_random_char();
@@ -126,29 +126,29 @@ class passwordMethodCrypt extends passwordMethod
    */
   static function get_hash_name()
   {
-    $hashes= array();
+    $hashes = array();
     if (CRYPT_STD_DES == 1) {
-      $hashes[]= "crypt/standard-des";
+      $hashes[] = "crypt/standard-des";
     }
 
     if (CRYPT_EXT_DES == 1) {
-      $hashes[]= "crypt/enhanced-des";
+      $hashes[] = "crypt/enhanced-des";
     }
 
     if (CRYPT_MD5 == 1) {
-      $hashes[]= "crypt/md5";
+      $hashes[] = "crypt/md5";
     }
 
     if (CRYPT_BLOWFISH == 1) {
-      $hashes[]= "crypt/blowfish";
+      $hashes[] = "crypt/blowfish";
     }
 
     if (CRYPT_SHA256 == 1) {
-      $hashes[]= "crypt/sha-256";
+      $hashes[] = "crypt/sha-256";
     }
 
     if (CRYPT_SHA512 == 1) {
-      $hashes[]= "crypt/sha-512";
+      $hashes[] = "crypt/sha-512";
     }
 
     return $hashes;
@@ -193,8 +193,5 @@ class passwordMethodCrypt extends passwordMethod
 
     return "";
   }
-
 }
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

@@ -38,7 +38,7 @@ class passwordMethodClear extends passwordMethod
    *
    * \param string $config
    */
-  function passwordMethodClear($config)
+  function __construct($config)
   {
   }
 
@@ -49,7 +49,7 @@ class passwordMethodClear extends passwordMethod
    */
   function is_available()
   {
-    return true;
+    return TRUE;
   }
 
   /*!
@@ -71,6 +71,4 @@ class passwordMethodClear extends passwordMethod
   }
 
 }
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

@@ -613,7 +613,6 @@ function ldap_login_user ($username, $password)
 {
   global $config;
 
-
   /* look through the entire ldap */
   $ldap = $config->get_ldap_link();
   if (!$ldap->success()) {
@@ -647,24 +646,21 @@ function ldap_login_user ($username, $password)
   $filter = "(&(|".$filter.")(objectClass=gosaAccount))";
   $ldap->search($filter, $tmp);
 
-
   /* get results, only a count of 1 is valid */
   switch ($ldap->count()) {
-
     /* user not found */
     case 0:
       return NULL;
 
-            /* valid uniq user */
+    /* valid uniq user */
     case 1:
       break;
 
-            /* found more than one matching id */
+    /* found more than one matching id */
     default:
       msg_dialog::display(_("Internal error"), _("Username / UID is not unique inside the LDAP tree. Please contact your Administrator."), FATAL_ERROR_DIALOG);
       return NULL;
   }
-
 
   /* LDAP schema is not case sensitive. Perform additional check. */
   $attrs = $ldap->fetch();
@@ -678,7 +674,6 @@ function ldap_login_user ($username, $password)
     return FALSE;
   }
 
-
   /* got user dn, fill acl's */
   $ui = new userinfo($config, $ldap->getDN());
   $ui->username = $attrs['uid'][0];
@@ -688,7 +683,6 @@ function ldap_login_user ($username, $password)
   if (!$ui->loginAllowed()) {
     return NULL;
   }
-
 
   /* password check, bind as user with supplied password  */
   $ldap->disconnect();
@@ -701,10 +695,8 @@ function ldap_login_user ($username, $password)
     return NULL;
   }
 
-
   /* Username is set, load subtreeACL's now */
   $ui->loadACL();
-
 
   return $ui;
 }

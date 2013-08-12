@@ -36,7 +36,7 @@ class passwordMethodssha extends passwordMethod
    *
    * \param string $config
    */
-  function passwordMethodssha($config)
+  function __construct($config)
   {
   }
 
@@ -47,12 +47,12 @@ class passwordMethodssha extends passwordMethod
    */
   function is_available()
   {
-    if(function_exists("sha1")){
-      return true;
-    }elseif(function_exists("mhash")){
-      return true;
-    }else{
-      return false;
+    if (function_exists("sha1")) {
+      return TRUE;
+    } elseif (function_exists("mhash")) {
+      return TRUE;
+    } else {
+      return FALSE;
     }
   }
 
@@ -64,16 +64,16 @@ class passwordMethodssha extends passwordMethod
   function generate_hash($pwd)
   {
     if (function_exists("sha1")) {
-      $salt= substr(pack("h*", md5(mt_rand())), 0, 8);
-      $salt= substr(pack("H*", sha1($salt.$pwd)), 0, 4);
-      $pwd= "{SSHA}".base64_encode(pack("H*", sha1($pwd.$salt)).$salt);
+      $salt = substr(pack("h*", md5(mt_rand())), 0, 8);
+      $salt = substr(pack("H*", sha1($salt.$pwd)), 0, 4);
+      $pwd  = "{SSHA}".base64_encode(pack("H*", sha1($pwd.$salt)).$salt);
       return $pwd;
-    } elseif(function_exists("mhash")) {
-      $salt=mhash_keygen_s2k(MHASH_SHA1,$pwd, substr(pack("h*",md5(mt_rand())),0,8),4);
-      $pwd= "{SSHA}".base64_encode(mhash(MHASH_SHA1, $pwd.$salt).$salt);
+    } elseif (function_exists("mhash")) {
+      $salt = mhash_keygen_s2k(MHASH_SHA1, $pwd, substr(pack("h*", md5(mt_rand())), 0, 8), 4);
+      $pwd  = "{SSHA}".base64_encode(mhash(MHASH_SHA1, $pwd.$salt).$salt);
     } else {
       msg_dialog::display(_("Configuration error"), msgPool::missingext("mhash"), ERROR_DIALOG);
-      return(false);
+      return FALSE;
     }
     return $pwd;
   }
@@ -85,8 +85,5 @@ class passwordMethodssha extends passwordMethod
   {
     return "ssha";
   }
-
 }
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

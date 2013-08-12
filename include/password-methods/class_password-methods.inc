@@ -43,7 +43,7 @@ class passwordMethod
    *
    * \param string $dn The DN
    */
-  function passwordMethod($config, $dn = "")
+  function __construct($config, $dn = "")
   {
   }
 
