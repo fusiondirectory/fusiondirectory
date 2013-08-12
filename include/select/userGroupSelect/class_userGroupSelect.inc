@@ -1,7 +1,8 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013-2015  FusionDirectory
+  Copyright (C) 2003  Cajus Pollmeier
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -18,9 +19,38 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class userGroupSelect extends simpleSelectManagement
+class userGroupSelect extends management
 {
-  protected $objectTypes = array('user', 'group');
-  protected $autoFilterAttributes = array('dn', 'cn', 'uid', 'description');
+  protected $skipFooter = TRUE;
+  protected $skipHeader = TRUE;
+
+  function __construct($config, $ui)
+  {
+    $this->storagePoints = array(get_ou("userRDN"), get_ou("groupRDN"));
+
+    // Build filter
+    $filter = new filter(get_template_path("selectUserGroup-filter.xml", TRUE, dirname(__FILE__)));
+    $filter->setObjectStorage($this->storagePoints);
+    $this->setFilter($filter);
+
+    // Build headpage
+    $headpage = new listing(get_template_path("selectUserGroup-list.xml", TRUE, dirname(__FILE__)));
+    $headpage->setFilter($filter);
+    parent::__construct($config, $ui, "object", $headpage);
+  }
+
+  function save()
+  {
+    $act      = $this->detectPostActions();
+    $headpage = $this->getHeadpage();
+    if (!isset($act['targets'])) {
+      return array();
+    }
+    $ret = array();
+    foreach ($act['targets'] as $dn) {
+      $ret[] = $headpage->getEntry($dn);
+    }
+    return $ret;
+  }
 }
 ?>
