@@ -37,7 +37,7 @@ class passwordMethodMd5 extends passwordMethod
    *
    * \param string $config
    */
-  function passwordMethodMd5($config)
+  function __construct($config)
   {
   }
 
@@ -48,10 +48,10 @@ class passwordMethodMd5 extends passwordMethod
    */
   function is_available()
   {
-    if (function_exists('md5')){
-      return(true);
-    }else{
-      return false;
+    if (function_exists('md5')) {
+      return TRUE;
+    } else {
+      return FALSE;
     }
   }
 
@@ -72,8 +72,5 @@ class passwordMethodMd5 extends passwordMethod
   {
     return "md5";
   }
-
 }
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
