@@ -20,18 +20,6 @@
       <attribute>givenName</attribute>
       <attribute>description</attribute>
     </query>
-    <query>
-      <backend>LDAPDepartmentBlacklist</backend>
-      <filter>(&amp;(| $DEPARTMENT)  $NAME)</filter>
-      <attribute>dn</attribute>
-      <attribute>objectClass</attribute>
-      <attribute>cn</attribute>
-      <attribute>sn</attribute>
-      <attribute>ou</attribute>
-      <attribute>uid</attribute>
-      <attribute>givenName</attribute>
-      <attribute>description</attribute>
-    </query>
     <scope>auto</scope>
   </search>
 
@@ -46,7 +34,7 @@
     <alphabet>true</alphabet>
     <autocomplete>
       <backend>LDAPBlacklist</backend>
-      <filter>(&amp;(|(objectClass=gosaDepartment)(objectClass=gosaAccount)(objectClass=posixGroup)(objectClass=goServer)(objectClass=gotoWorkstation)(objectClass=sambaSamAccount)(objectClass=gotoTerminal)(objectClass=gotoPrinter)(objectClass=goFonHardware))(|(cn=*$NAME*)(sn=*$NAME*)(givenName=*$NAME*)(ou=*$NAME*)(dc=*$NAME*)(c=*$NAME*)(l=*$NAME*)))</filter>
+      <filter>(&amp;(|(objectClass=gosaAccount)(objectClass=posixGroup)(objectClass=goServer)(objectClass=gotoWorkstation)(objectClass=sambaSamAccount)(objectClass=gotoTerminal)(objectClass=gotoPrinter)(objectClass=goFonHardware))(|(cn=*$NAME*)(sn=*$NAME*)(givenName=*$NAME*)(ou=*$NAME*)(dc=*$NAME*)(c=*$NAME*)(l=*$NAME*)))</filter>
       <attribute>cn</attribute>
       <attribute>l</attribute>
       <attribute>o</attribute>
@@ -71,14 +59,6 @@
     <default></default>
     <unset></unset>
     <set>(objectClass=posixGroup)</set>
-  </element>
-
-  <element>
-    <type>checkbox</type>
-    <tag>DEPARTMENT</tag>
-    <default></default>
-    <unset></unset>
-    <set>(objectClass=gosaDepartment)</set>
   </element>
 
   <element>
@@ -136,5 +116,4 @@
     <unset></unset>
     <set>(objectClass=goFonHardware)</set>
   </element>
-
 </filterdef>
