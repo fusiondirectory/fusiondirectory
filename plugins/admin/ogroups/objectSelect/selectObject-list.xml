@@ -2,8 +2,8 @@
 
 <list>
   <definition>
-    <departmentBrowser>false</departmentBrowser>
-    <departmentRootVisible>false</departmentRootVisible>
+    <departmentBrowser>true</departmentBrowser>
+    <departmentRootVisible>true</departmentRootVisible>
     <baseMode>true</baseMode>
     <multiSelect>true</multiSelect>
     <template>../plugins/admin/ogroups/objectSelect/selectObject-list.tpl</template>
@@ -112,7 +112,7 @@
       <label>Name</label>
       <sortAttribute>cn</sortAttribute>
       <sortType>string</sortType>
-      <value>%{filter:depLabel(row,dn,pid,base,objectClass,cn)}</value>
+      <value>%{filter:selectLink(row,dn,pid,cn)}</value>
       <export>true</export>
     </column>
 

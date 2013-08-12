@@ -263,10 +263,10 @@ class ogrouptabs extends tabs
       /* Don't touch base object */
       if ($name != 'ogroup') {
         $obj->parent    = &$this;
-        $obj->uid       = $baseobject->uid;
+        $obj->uid       = $baseobject->cn;
         $obj->cn        = $baseobject->cn;
-        $obj->sn        = $baseobject->uid;
-        $obj->givenName = $baseobject->uid;
+        $obj->sn        = $baseobject->cn;
+        $obj->givenName = $baseobject->cn;
         $this->by_object[$name]= $obj;
       }
 

@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
@@ -22,76 +21,62 @@
 
 class objectSelect extends management
 {
-  // Tab definition
   protected $skipFooter = TRUE;
   protected $skipHeader = TRUE;
 
-  function __construct($config,$ui)
+  function __construct($config, $ui)
   {
     $this->config = $config;
-    $this->ui = $ui;
+    $this->ui     = $ui;
     $this->storagePoints = array(
-        get_ou("userRDN"),
-        get_ou("groupRDN"),
-        get_ou("applicationRDN"),
-        get_ou("terminalRDN"),
-        get_ou("workstationRDN"),
-        get_ou("sambaMachineAccountRDN"),
-        get_ou("serverRDN"),
-        get_ou("printerRDN"),
-        get_ou("phoneRDN"));
+      get_ou("userRDN"),
+      get_ou("groupRDN"),
+      get_ou("applicationRDN"),
+      get_ou("terminalRDN"),
+      get_ou("workstationRDN"),
+      get_ou("sambaMachineAccountRDN"),
+      get_ou("serverRDN"),
+      get_ou("printerRDN"),
+      get_ou("phoneRDN")
+    );
 
-#    // Build filter
- #   if (session::global_is_set(get_class($this)."_filter")){
-  #    $filter= session::global_get(get_class($this)."_filter");
-   # } else {
-      $filter = new filter(get_template_path("selectObject-filter.xml", true, dirname(__FILE__)));
-      $filter->setObjectStorage($this->storagePoints);
-    #}
+    // Build filter
+    $filter = new filter(get_template_path("selectObject-filter.xml", TRUE, dirname(__FILE__)));
+    $filter->setObjectStorage($this->storagePoints);
     $this->setFilter($filter);
 
     // Build headpage
-    $headpage = new listing(get_template_path("selectObject-list.xml", true, dirname(__FILE__)));
-    $headpage->registerElementFilter("depLabel", "objectSelect::filterDepLabel");
-    $this->registerAction("open","openEntry");
+    $headpage = new listing(get_template_path("selectObject-list.xml", TRUE, dirname(__FILE__)));
+    $headpage->registerElementFilter("selectLink", "objectSelect::filterSelectLink");
     $headpage->setFilter($filter);
     parent::__construct($config, $ui, "object", $headpage);
   }
 
-
-  // An action handler which enables to switch into deparmtment by clicking the names.
-  function openEntry($action,$entry)
+  static function filterSelectLink()
   {
-    $headpage = $this->getHeadpage();
-    $headpage->setBase(array_pop($entry));
-  }
-
-
-  // A filter which allows to open a department by clicking on the departments name.
-  static function filterDepLabel($row,$dn,$pid,$base,$objectClass, $cn)
-  {
-    $cn = $cn[0];
-    if(!in_array('gosaDepartment', $objectClass)){
-       return($cn);
+    $pid    = func_get_arg(0);
+    $row    = func_get_arg(1);
+    $dn     = func_get_arg(2);
+    $trans  = func_get_arg(3)[0];
+    if ($trans != "") {
+      return "<a href='?plug=".$_GET['plug']."&amp;PID=$pid&amp;act=listing_select_$row&amp;objectSelect_save=1' title='$dn'>$trans</a>";
     }
-    if($dn == $base){
-      $cn =".";
-    }
-    $dn= LDAP::fix(func_get_arg(1));
-    return("<a href='?plug=".$_GET['plug']."&amp;PID=$pid&amp;act=listing_open_$row' title='$dn'>$cn</a>");
+
+    return '';
   }
 
   function save()
   {
-    $act = $this->detectPostActions();
+    $act      = $this->detectPostActions();
     $headpage = $this->getHeadpage();
-    if(!isset($act['targets'])) return(array());
+    if (!isset($act['targets'])) {
+      return array();
+    }
     $ret = array();
-    foreach($act['targets'] as $dn){
+    foreach ($act['targets'] as $dn) {
       $ret[] = $headpage->getEntry($dn);
     }
-    return($ret);
+    return $ret;
   }
 }
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
