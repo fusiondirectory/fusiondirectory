@@ -892,7 +892,7 @@ class simplePlugin extends plugin
       // For each object of this type
       foreach (array_keys($objects) as $dn) {
         // Build the object
-        $tabobject = objects::open($objectType, $dn);
+        $tabobject = objects::open($dn, $objectType);
         // For each tab concerned
         foreach ($tabRefs as $tab => $fieldRefs) {
           // If the tab is activated on this object
