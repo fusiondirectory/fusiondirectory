@@ -32,17 +32,25 @@ class ldapDump extends simplePlugin
   {
     parent::__construct($config, $dn, $object);
 
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cat($this->dn);
-    if ($attrs = $ldap->fetch()) {
-      $this->dump = array($this->dumpLdapNode($attrs, $this->config->current['BASE']));
-    } else {
-      $this->dump = array();
-    }
+    $this->dump = NULL;
   }
 
   function execute()
   {
+    if ($this->dump === NULL) {
+      $ui = get_userinfo();
+      if (preg_match('/r/', $ui->get_category_permissions($this->acl_base, 'all'))) {
+        $ldap = $this->config->get_ldap_link();
+        $ldap->cat($this->dn);
+        if ($attrs = $ldap->fetch()) {
+          $this->dump = array($this->dumpLdapNode($attrs, $this->config->current['BASE']));
+        } else {
+          $this->dump = array();
+        }
+      } else {
+        $this->dump = FALSE;
+      }
+    }
     $smarty = get_smarty();
     $smarty->assign('usePrototype', 'true');
     return parent::execute();
