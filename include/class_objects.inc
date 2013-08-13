@@ -46,10 +46,10 @@ class objects
     } else {
       $search_attrs = array($attrs);
     }
-    try {
-      $ldap   = self::search($type, $search_attrs, $ou, $filter);
-    } catch (NonExistingBranchException $e) {
-      return array();
+
+    $ldap   = self::search($type, $search_attrs, $ou, $filter);
+    if ($ldap === FALSE) {
+      throw new Exception("Type '$type' has no LDAP filter defined");
     }
     $result = array();
     while ($fetched_attrs = $ldap->fetch()) {
@@ -88,11 +88,8 @@ class objects
    */
   static function count ($type, $ou = NULL, $filter = '')
   {
-    try {
-      $ldap = self::search($type, array('dn'), $ou, $filter);
-    } catch (EmptyFilterException $e) {
-      return 0;
-    } catch (NonExistingBranchException $e) {
+    $ldap = self::search($type, array('dn'), $ou, $filter);
+    if ($ldap === FALSE) {
       return 0;
     }
     return $ldap->count();
@@ -108,7 +105,7 @@ class objects
     $infos = self::infos($type);
 
     if ($infos['filter'] == '') {
-      throw new EmptyFilterException();
+      return FALSE;
     }
 
     $object_ou = $infos['ou'];
@@ -116,10 +113,6 @@ class objects
       if (!preg_match("/^$object_ou/", $ou)) {
         $ou = $object_ou.$ou;
       }
-    }
-    $ldap = $config->get_ldap_link();
-    if (!$ldap->dn_exists($ou)) {
-      throw new NonExistingBranchException();
     }
     if (empty($filter)) {
       $filter = $infos['filter'];
@@ -129,6 +122,8 @@ class objects
       }
       $filter = '(&'.$filter.$infos['filter'].')';
     }
+
+    $ldap = $config->get_ldap_link();
     $ldap->cd($ou);
     $ldap->search($filter, $search_attrs);
     if (!$ldap->success()) {

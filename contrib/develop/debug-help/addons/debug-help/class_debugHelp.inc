@@ -20,7 +20,7 @@ class debugHelp extends simplePlugin
   static function getAttributesInfo ()
   {
     return array(
-      'main' => array(
+      'diagram' => array(
         'name'      => _('Diagrams'),
         'class'     => array('fullwidth'),
         'attrs'     => array(
@@ -31,12 +31,22 @@ class debugHelp extends simplePlugin
           )
         )
       ),
+      'objectTypes' => array(
+        'name'      => _('Object Types'),
+        'class'     => array('fullwidth'),
+        'attrs'     => array(
+          new FakeAttribute('dump')
+        ),
+        'template'  => get_template_path('ldapdump.tpl', TRUE, dirname(__FILE__))
+      ),
     );
   }
 
   function __construct(&$config, $dn = NULL, $object = NULL)
   {
     parent::__construct($config, $dn, $object);
+
+    $this->buildObjectTypesDump();
   }
 
   function save_object()
@@ -47,6 +57,47 @@ class debugHelp extends simplePlugin
         self::buildDiagram();
       }
     }
+  }
+
+  function buildObjectTypesDump()
+  {
+    $dump = array();
+    foreach ($this->config->data['OBJECTS'] as $type => $infos) {
+      if (isset($infos['icon'])) {
+        $img = $infos['icon'];
+      } else {
+        $img = 'images/empty.png';
+      }
+      $node = array(
+        'name'      => '<img alt="icon" src="'.$img.'"/>'.$infos['name'],
+        'attrs'     => array(),
+        'subnodes'  => array()
+      );
+      foreach (array('aclCategory', 'mainAttr', 'ou', 'filter', 'tabClass', 'tabGroup', 'mainTab') as $key) {
+        if (isset($infos[$key])) {
+          if ($infos[$key] != '') {
+            $node['attrs'][$key] = array($infos[$key]);
+          } else {
+            $node['attrs'][$key] = '&nbsp;';
+          }
+        }
+      }
+      try {
+        $node['attrs']['count'] = objects::count($type);
+      } catch (Exception $e) {
+        $node['attrs']['count'] = $e->getMessage();
+      }
+      $dump[] = $node;
+    }
+
+    $this->dump = $dump;
+  }
+
+  function execute()
+  {
+    $smarty = get_smarty();
+    $smarty->assign('usePrototype', 'true');
+    return parent::execute();
   }
 
   /*!

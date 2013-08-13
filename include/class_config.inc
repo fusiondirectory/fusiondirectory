@@ -1240,6 +1240,12 @@ class config  {
             } else {
               $value['filter'] = NULL;
             }
+            if (!isset($value['mainAttr'])) {
+              $value['mainAttr'] = 'cn';
+            }
+            if (!isset($value['tabClass'])) {
+              $value['tabClass'] = 'simpleTabs';
+            }
             $this->data['OBJECTS'][strtoupper($key)] = $value;
             @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $tabclass, "Adding $class as main tab of");
             if (!isset($this->data['TABS'][$tabclass])) {
