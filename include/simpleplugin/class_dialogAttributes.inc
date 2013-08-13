@@ -318,9 +318,9 @@ class GenericDialogAttribute extends DialogAttribute
 
     $value = $this->value[$i];
     if ($this->store_attr == 'dn') {
-      $ldap->cat($value, array($this->display_attr));
+      $ldap->cat($value, $this->ldapAttributesToGet());
     } else {
-      $ldap->search('('.$this->store_attr.'='.$value.')', array($this->display_attr));
+      $ldap->search('('.$this->store_attr.'='.$value.')', $this->ldapAttributesToGet());
     }
     if (!$ldap->count()) {
       unset($this->value[$i]);
@@ -328,6 +328,11 @@ class GenericDialogAttribute extends DialogAttribute
       $attrs = $ldap->fetch();
       $this->fillDisplayValueFrom($i, $attrs);
     }
+  }
+
+  protected function ldapAttributesToGet ()
+  {
+    return array($this->display_attr);
   }
 
   protected function fillDisplayValueFrom ($i, $attrs)
