@@ -1301,7 +1301,7 @@ class acl extends plugin
                                                       'objectClass'  => array('gosaAcl','gosaRole'))),
       'plObjectType'  => array(
         'acl'     => array('name' => _('ACL'),  'filter' => 'objectClass=gosaAcl'),
-        'special' => array('name' => 'special', 'filter' => 'none')
+        'special' => array('name' => 'special')
       ),
 
       'plProvidedAcls'  => array()

@@ -33,45 +33,20 @@ class objects
    *  depending if you want a single value or an array of values. 'raw' means untouched LDAP value and is only useful for dns.
    *  Other values are considered to be 1.
    * \param string  $ou the LDAP branch to search in, base will be used if it is NULL
-   * \param string  $filter an additional filter to use in the LDAP search. Should be surrounded by parenthesis.
+   * \param string  $filter an additional filter to use in the LDAP search.
    *
    * \return The list of objects as an associative array (keys are dns)
    */
   static function ls ($type, $attrs = array(), $ou = NULL, $filter = '')
   {
-    global $config;
-
-    if ($ou === NULL) {
-      $ou = $config->current['BASE'];
-    }
-    $type = strtoupper($type);
-    if (!isset($config->data['OBJECTS'][$type])) {
-      throw new NonExistingObjectTypeException('Non-existing type '.$type);
-    }
-    $object_ou = $config->data['OBJECTS'][$type]['ou'];
-    if (!empty($object_ou)) {
-      if (!preg_match("/^$object_ou/", $ou)) {
-        $ou = $object_ou.$ou;
-      }
-    }
-    if (empty($filter)) {
-      $filter = $config->data['OBJECTS'][$type]['filter'];
-    } else {
-      if (!preg_match('/^\(.*\)$/', $filter)) {
-        $filter = '('.$filter.')';
-      }
-      $filter = '(&'.$filter.$config->data['OBJECTS'][$type]['filter'].')';
-    }
-    $ldap = $config->get_ldap_link();
-    $ldap->cd($ou);
     if (is_array($attrs)) {
       $search_attrs = array_keys($attrs);
     } else {
       $search_attrs = array($attrs);
     }
-    $ldap->search($filter, $search_attrs);
-    if (!$ldap->success()) {
-      throw new Exception($ldap->get_error());
+    $ldap   = self::search($type, $search_attrs, $ou, $filter);
+    if ($ldap === FALSE) {
+      throw new Exception("Type '$type' has no LDAP filter defined");
     }
     $result = array();
     while ($fetched_attrs = $ldap->fetch()) {
@@ -100,6 +75,60 @@ class objects
   }
 
   /*!
+   * \brief Get count of objects of objectType $type in $ou
+   *
+   * \param string  $type the objectType to list
+   * \param string  $ou the LDAP branch to search in, base will be used if it is NULL
+   * \param string  $filter an additional filter to use in the LDAP search.
+   *
+   * \return The number of objects of type $type in $ou
+   */
+  static function count ($type, $ou = NULL, $filter = '')
+  {
+    $ldap = self::search($type, array('dn'), $ou, $filter);
+    if ($ldap === FALSE) {
+      return 0;
+    }
+    return $ldap->count();
+  }
+
+  private static function search ($type, $search_attrs, $ou = NULL, $filter = '')
+  {
+    global $config;
+
+    if ($ou === NULL) {
+      $ou = $config->current['BASE'];
+    }
+    $infos = self::infos($type);
+
+    if ($infos['filter'] == '') {
+      return FALSE;
+    }
+
+    $object_ou = $infos['ou'];
+    if (!empty($object_ou)) {
+      if (!preg_match("/^$object_ou/", $ou)) {
+        $ou = $object_ou.$ou;
+      }
+    }
+    if (empty($filter)) {
+      $filter = $infos['filter'];
+    } else {
+      if (!preg_match('/^\(.*\)$/', $filter)) {
+        $filter = '('.$filter.')';
+      }
+      $filter = '(&'.$filter.$infos['filter'].')';
+    }
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($ou);
+    $ldap->search($filter, $search_attrs);
+    if (!$ldap->success()) {
+      throw new Exception($ldap->get_error());
+    }
+    return $ldap;
+  }
+
+  /*!
    * \brief Create the tab object for the given dn
    *
    * \param string  $type the objectType to open
@@ -109,11 +138,8 @@ class objects
    */
   static function open ($type, $dn)
   {
-    $infos  = self::infos($type);
+    $infos    = self::infos($type);
     $tabClass = $infos['tabClass'];
-    if ($tabClass === NULL) {
-      $tabClass = 'simpleTabs';
-    }
 
     $tabObject = new $tabClass($config, $config->data['TABS'][$infos['tabGroup']], $dn, $infos['aclCategory']);
     $tabObject->set_acl_base($config->current['BASE']);
