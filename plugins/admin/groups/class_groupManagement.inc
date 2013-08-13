@@ -34,14 +34,15 @@ class groupManagement extends simpleManagement
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("Groups"),
-      "plDescription" => _("Manage groups"),
-      "plIcon"        => "plugins/groups/images/icon.png",
-      "plSection"     => "admin",
-      "plCategory"    => array("group"),
-      "plPriority"    => 2,
+      'plShortName'   => _('Groups'),
+      'plDescription' => _('Manage groups'),
+      'plIcon'        => 'plugins/groups/images/icon.png',
+      'plSection'     => 'admin',
+      'plCategory'    => array('group'),
+      'plManages'     => array('group'),
+      'plPriority'    => 2,
 
-      "plProvidedAcls" => array()
+      'plProvidedAcls' => array()
     );
   }
 

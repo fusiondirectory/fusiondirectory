@@ -1298,7 +1298,7 @@ class config  {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, join(',', $acl), "Class $class categories");
       /* Feed menu */
       if (isset($plInfo['plSection'])) {
-        $section  = $plInfo['plSection'];
+        $section = $plInfo['plSection'];
         if (!is_array($acl)) {
           $acl = array($acl);
         }
@@ -1326,6 +1326,12 @@ class config  {
           $attrs['ACL'] = $acl;
         }
         $this->data['MENU'][$section][] = $attrs;
+      }
+      /* Read management info */
+      if (isset($plInfo['plManages'])) {
+        foreach ($plInfo['plManages'] as $type) {
+          $this->data['OBJECTS'][strtoupper($type)]['management'] = $class;
+        }
       }
     }
     asort($this->data['CATEGORIES']);

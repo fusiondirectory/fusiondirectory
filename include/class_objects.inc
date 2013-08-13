@@ -136,7 +136,7 @@ class objects
    *
    * \return The created tab object
    */
-  static function open ($type, $dn)
+  static function open ($dn, $type)
   {
     $infos    = self::infos($type);
     $tabClass = $infos['tabClass'];
@@ -146,6 +146,35 @@ class objects
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Openned as $type object");
 
     return $tabObject;
+  }
+
+  static function link($dn, $type, $text = NULL, $icon = TRUE)
+  {
+    $infos = self::infos($type);
+    if (!isset($infos['management'])) {
+      throw new Exception('Asked for link for type "'.$type.'" but it does not have a management class');
+    }
+    $index  = pluglist::pluginInfos($infos['management'])['INDEX'];
+    $href   = "main.php?plug=$index&amp;reset=1";
+
+    if ($text === NULL) {
+      global $config;
+      $ldap = $config->get_ldap_link();
+      $ldap->cat($dn, array($infos['mainAttr']));
+      if ($attrs = $ldap->fetch()) {
+        $text = $attrs[$infos['mainAttr']][0];
+      } else {
+        throw new Exception('Dn '.$dn.' not found in LDAP');
+      }
+    } elseif (is_array($text)) {
+      $text = $text[$infos['mainAttr']][0];
+    }
+
+    if ($icon) {
+      $text = '<img alt="'.$infos['name'].' '.$dn.'" src="'.$infos['icon'].'" class="center"/>'.$text;
+    }
+
+    return '<a href="'.$href.'">'.$text.'</a>';
   }
 
   static function create ($type)
