@@ -152,7 +152,7 @@ class objects
     return $tabObject;
   }
 
-  static function link($dn, $type, $subaction = '', $text = NULL, $icon = TRUE)
+  static function link($dn, $type, $text = NULL, $icon = TRUE)
   {
     $infos = self::infos($type);
     if (!isset($infos['management'])) {

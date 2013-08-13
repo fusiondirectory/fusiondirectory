@@ -49,14 +49,14 @@ class userManagement extends management
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("Users"),
-      "plDescription" => _("Manage users"),
-      "plIcon"        => "plugins/users/images/icon.png",
-      "plSection"     => "admin",
-      "plCategory"    => array("user"),
-      "plPriority"    => 1,
+      'plShortName'   => _('Users'),
+      'plDescription' => _('Manage users'),
+      'plIcon'        => 'plugins/users/images/icon.png',
+      'plSection'     => 'admin',
+      'plCategory'    => array('user'),
+      'plPriority'    => 1,
 
-      "plProvidedAcls" => array()
+      'plProvidedAcls' => array()
     );
   }
 
