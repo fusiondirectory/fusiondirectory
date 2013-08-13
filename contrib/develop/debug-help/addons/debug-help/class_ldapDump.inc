@@ -18,7 +18,7 @@ class ldapDump extends simplePlugin
   {
     return array(
       'main' => array(
-        'name'      => _('Diagrams'),
+        'name'      => _('LDAP Dump'),
         'class'     => array('fullwidth'),
         'attrs'     => array(
           new FakeAttribute('dump')
