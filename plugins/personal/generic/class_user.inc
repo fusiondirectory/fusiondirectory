@@ -143,8 +143,10 @@ class user extends simplePlugin
       'plSelfModify'  => TRUE,
       'plObjectType'  => array('user' => array(
         'description' => _('Users'),
-        'name' => _('User'),
-        'filter' => 'objectClass=gosaAccount'
+        'name'        => _('User'),
+        'filter'      => 'objectClass=gosaAccount',
+        'mainAttr'    => 'cn',
+        'icon'        => 'plugins/users/images/iconMini.png',
       )),
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())

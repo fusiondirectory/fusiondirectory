@@ -239,11 +239,8 @@ class ogrouptabs extends tabs
   }
 
   function execute() {
-    $str = "";
-    $this->by_object['ogroup']->AddDelMembership();
     $this->reload($this->by_object['ogroup']->gosaGroupObjects);
-    $str .= tabs::execute();
-    return $str;
+    return parent::execute();
   }
 
   function check($ignore_account = FALSE)
@@ -278,11 +275,11 @@ class ogrouptabs extends tabs
 
   function save()
   {
-    $baseobject = $this->by_object['ogroup'];
+    $baseobject = $this->getBaseObject();
 
     /* Check for new 'dn', in order to propagate the
        'dn' to all plugins */
-    $new_dn = 'cn='.$baseobject->cn.','.get_ou('ogroupRDN').$baseobject->base;
+    $new_dn = $baseobject->compute_dn();
 
     /* Move group? */
     if (LDAP::fix($this->dn) != LDAP::fix($new_dn)) {

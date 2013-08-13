@@ -37,7 +37,8 @@ class group extends simplePlugin
         'name'        => _('Group'),
         'ou'          => get_ou('groupRDN'),
         'filter'      => 'objectClass=posixGroup',
-        'icon'        => 'plugins/groups/images/iconMini.png'
+        'icon'        => 'plugins/groups/images/iconMini.png',
+        'mainAttr'    => 'cn',
       )),
       'plForeignKeys'  => array(
         'memberUid' => array('user','uid')

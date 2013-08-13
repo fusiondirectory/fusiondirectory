@@ -67,6 +67,7 @@ class objectSelect extends management
 
   function save()
   {
+    trigger_error('deprecated');
     $act      = $this->detectPostActions();
     $headpage = $this->getHeadpage();
     if (!isset($act['targets'])) {
