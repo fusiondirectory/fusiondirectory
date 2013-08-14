@@ -277,6 +277,11 @@ class acl_createedit extends acl
     $this->loadAclEntry($acl);
   }
 
+  function compute_dn()
+  {
+    return 'cn='.$this->cn.",".get_ou('aclRoleRDN').$this->base;
+  }
+
   function execute()
   {
     /* Call parent execute */

@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
@@ -22,8 +21,7 @@
 
 class acltab extends tabs
 {
-
-  function acltab($config, $data, $dn, $cat = "", $copied_object = NULL)
+  function __construct($config, $data, $dn, $cat = "", $copied_object = NULL)
   {
     $data = array(array("CLASS" => "acl" , "NAME" => _("ACL")));
     parent::__construct($config, $data, $dn, "", $copied_object);

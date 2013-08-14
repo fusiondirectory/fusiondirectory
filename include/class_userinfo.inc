@@ -52,7 +52,7 @@ class userinfo
 
   /* get acl's an put them into the userinfo object
      attr subtreeACL (userdn:components, userdn:component1#sub1#sub2,component2,...) */
-  function userinfo(&$config, $userdn)
+  function __construct(&$config, $userdn)
   {
     $this->config = &$config;
     $ldap = $this->config->get_ldap_link();
@@ -174,7 +174,7 @@ class userinfo
           $interresting = FALSE;
         } else {
           /* Inspect members... */
-          foreach ($type['members'] as $grp => $grpdsc) {
+          foreach (array_keys($type['members']) as $grp) {
             /* Some group inside the members that is relevant for us? */
             if (in_array_ics(@LDAP::convert(preg_replace('/^G:/', '', $grp)), $this->groups)) {
               $interresting = TRUE;
@@ -621,7 +621,6 @@ class userinfo
       $module = array($module);
     }
 
-    global $plist;
     $res = array();
     foreach ($module as $mod) {
       if (isset($ACL_CACHE['MODULE_DEPARTMENTS'][$mod])) {
@@ -904,16 +903,14 @@ class userinfo
       $$attr = (isset($attrs[$attr][0])? $attrs[$attr][0] : NULL);
     }
 
-
     // Check if the account has reached its kick off limitations.
-    // ---------------------------------------------------------
+    // ----------------------------------------------------------
     // Once the accout reaches the kick off limit it has expired.
     if ($sambaKickoffTime !== NULL) {
       if (time() >= $sambaKickoffTime) {
         return POSIX_ACCOUNT_EXPIRED;
       }
     }
-
 
     // Check if the account has expired.
     // ---------------------------------

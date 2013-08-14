@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
@@ -20,11 +19,11 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class aclroletab extends tabs
+class aclroletab extends simpleTabs_noSpecial
 {
   function execute()
   {
-    $display = tabs::execute();
+    $display = parent::execute();
     if ($this->read_only) {
       $display .= '<p class="plugbottom">'."\n";
       $display .= '  <input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
