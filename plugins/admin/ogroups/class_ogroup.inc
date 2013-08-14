@@ -72,7 +72,6 @@ class ObjectsAttribute extends GenericDialogAttribute
   function renderOnlyFormInput()
   {
     $id       = $this->getHtmlId();
-    $smarty   = get_smarty();
     $display  = '<select multiple="multiple"  name="row'.$id.'[]" id="row'.$id.'"'.
                 ($this->disabled? ' disabled="disabled"':'').
                 ' >'."\n";

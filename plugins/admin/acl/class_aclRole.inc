@@ -93,6 +93,10 @@ class aclrole extends acl
     $this->baseSelector->update(TRUE);
   }
 
+  function compute_dn()
+  {
+    return 'cn='.$this->cn.",".get_ou('aclRoleRDN').$this->base;
+  }
 
   function execute()
   {
