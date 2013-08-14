@@ -134,7 +134,10 @@ class ogroup extends simplePlugin
       'plObjectType'  => array('ogroup' => array(
         'description' => _('Object groups'),
         'name'        => _('Object group'),
-        'filter'      => 'objectClass=gosaGroupOfNames'
+        'ou'          => get_ou('ogroupRDN'),
+        'filter'      => 'objectClass=gosaGroupOfNames',
+        'icon'        => 'plugins/ogroups/images/iconMini.png',
+        'tabClass'    => 'ogrouptabs',
       )),
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(self::getAttributesInfo())

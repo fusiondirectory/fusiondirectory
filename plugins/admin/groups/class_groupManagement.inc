@@ -48,35 +48,11 @@ class groupManagement extends simpleManagement
 
   function __construct($config, $ui)
   {
-    $this->filterXMLPath = get_template_path('group-filter.xml', TRUE, dirname(__FILE__));
-    $this->listXMLPath = get_template_path('group-list.xml', TRUE, dirname(__FILE__));
+    $this->filterXMLPath  = get_template_path('group-filter.xml', TRUE, dirname(__FILE__));
+    $this->listXMLPath    = get_template_path('group-list.xml', TRUE, dirname(__FILE__));
 
     parent::__construct($config, $ui);
     $this->headpage->registerElementFilter("filterProperties", "groupManagement::filterProperties");
-    // Register shortcut icon actions
-    foreach ($config->data['TABS']['GROUPTABS'] as $plug) {
-      if (class_available($plug['CLASS'])) {
-        $this->registerAction("edit_".$plug['CLASS'], "editEntry");
-      }
-    }
-  }
-
-
-  function editEntry($action = "", $target = array(), $all = array(), $altTabClass = "", $altTabType = "", $altAclCategory = "")
-  {
-    $str = parent::editEntry($action, $target);
-
-    if (preg_match("/^edit_/", $action)) {
-      $tab = preg_replace("/^edit_/", "", $action);
-      if (isset($this->tabObject->by_object[$tab])) {
-        $this->tabObject->current = $tab;
-      } else {
-        trigger_error("Unknown tab: ".$tab);
-      }
-    }
-    if (!empty($str)) {
-      return $str;
-    }
   }
 
   static function filterProperties($row, $dn)
@@ -101,7 +77,7 @@ class groupManagement extends simpleManagement
     $ldap->cat($dn);
     $result = "<input class='center' type='image' src='plugins/groups/images/iconMini.png' ".
                        "alt='"._('Posix')."' title='"._("Edit posix properties")."' ".
-                       "name='listing_edit_group_$row' style='padding:1px'/>";
+                       "name='listing_edit_tab_group_$row' style='padding:1px'/>";
     if ($attrs = $ldap->fetch()) {
       foreach ($grouptabs as $class => $grouptab) {
         if ($grouptab->is_this_account($attrs)) {
@@ -109,7 +85,7 @@ class groupManagement extends simpleManagement
           if (isset($infos['plSmallIcon'])) {
             $result .= "<input class='center' type='image' src='".$infos['plSmallIcon']."' ".
                        "alt='".$infos['plShortName']."' title='".$infos['plShortName']."' ".
-                       "name='listing_edit_".$class."_$row' style='padding:1px'/>";
+                       "name='listing_edit_tab_".$class."_$row' style='padding:1px'/>";
           } else {
             @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['plShortName']." ($class)", "No icon for");
           }

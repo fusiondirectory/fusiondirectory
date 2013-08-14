@@ -11,14 +11,6 @@
     <label>List of object groups</label>
     <defaultSortColumn>1</defaultSortColumn>
 
-    <objectType>
-      <label>Object group</label>
-      <objectClass>gosaGroupOfNames</objectClass>
-      <category>ogroups</category>
-      <class>ogroup</class>
-      <image>plugins/ogroups/images/iconMini.png</image>
-    </objectType>
-
   </definition>
 
   <table>
