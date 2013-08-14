@@ -260,10 +260,10 @@ class simpleManagement extends management
     $type   = $this->getType($target[0]);
     $infos  = $this->config->data['OBJECTS'][$type];
 
-    $str = management::editEntry( $action, $target, $all, $infos['tabClass'],
+    $str = management::editEntry($action, $target, $all, $infos['tabClass'],
                                 $infos['tabGroup'], $infos['aclCategory']);
-    if (preg_match('/^edit_/', $action)) {
-      $tab = preg_replace('/^edit_/', '', $action);
+    if (isset($all['subaction'])) {
+      $tab = preg_replace('/^tab_/', '', $all['subaction']);
       if (isset($this->tabObject->by_object[$tab])) {
         $this->tabObject->current = $tab;
       } else {
