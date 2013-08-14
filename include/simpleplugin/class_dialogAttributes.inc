@@ -299,7 +299,7 @@ class GenericDialogAttribute extends DialogAttribute
 
   function getDisplayValues ()
   {
-    foreach ($this->value as $i => $dn) {
+    foreach (array_keys($this->value) as $i) {
       if (!isset($this->displays[$i])) {
         $this->fillDisplayValue($i);
       }
@@ -591,11 +591,11 @@ class UserAttribute extends DialogButtonAttribute
     } else {
       $display  .= '<a>'.$this->buttonText.'</a>';
     }
-    $display  .=  '<input class="center" type="image" src="images/lists/edit.png" '.
+    $display .= '<input class="center" type="image" src="images/lists/edit.png" '.
                   'alt="'._('Edit').'" title="'._('Edit').'" name="'.$id.'" id="'.$id.'" '.
                   ($this->disabled? 'disabled="disabled"':'').'/>';
     if (!$this->isRequired()) {
-      $display  .=  '<input class="center" type="image" src="images/lists/trash.png" '.
+      $display .= '<input class="center" type="image" src="images/lists/trash.png" '.
                     'alt="'._('Remove').'" title="'._('Remove').'" name="'.$id.'_remove" id="'.$id.'_remove" '.
                     ($this->disabled? 'disabled="disabled"':'').'/>';
     }
@@ -606,7 +606,7 @@ class UserAttribute extends DialogButtonAttribute
   {
     $id = $this->getHtmlId();
     if (!$this->disabled && $this->isVisible()) {
-      foreach ($_POST as $name => $value) {
+      foreach (array_keys($_POST) as $name) {
         if (!$this->isRequired()) {
           if (preg_match('/^'.$id.'_remove_/', $name)) {
             $this->setValue('');

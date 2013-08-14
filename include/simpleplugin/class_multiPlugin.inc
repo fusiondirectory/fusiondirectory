@@ -63,9 +63,6 @@ class multiPlugin extends simplePlugin
   {
     $display = "";
 
-    /* Prepare templating */
-    $smarty = get_smarty();
-
     /* Do we represent a valid account? */
     if ($this->parent === NULL) {
       $enabled = FALSE;

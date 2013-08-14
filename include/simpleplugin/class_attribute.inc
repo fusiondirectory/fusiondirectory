@@ -315,7 +315,7 @@ class Attribute
     if ($this->plugin === NULL) {
       return FALSE;
     }
-    foreach ($this->managedAttributes as $prefix => $array) {
+    foreach ($this->managedAttributes as $array) {
       foreach ($array as $value => $attributes) {
         foreach ($attributes as $attribute) {
           $disabled = $this->isValueManagingValue($myvalue, $value);
@@ -489,7 +489,7 @@ class Attribute
   {
     $js = '';
     $id = $this->getHtmlId();
-    foreach ($this->managedAttributes as $prefix => $array) {
+    foreach ($this->managedAttributes as $array) {
       foreach ($array as $value => $attributes) {
         if (isset($this->managedAttributesMultipleValues[$value])) {
           $js .= 'disableAttributes = inArray(document.getElementById('.json_encode($id).').value,'.json_encode($this->managedAttributesMultipleValues[$value]).');';
@@ -583,7 +583,7 @@ class BooleanAttribute extends Attribute
   {
     $js = '';
     $id = $this->getHtmlId();
-    foreach ($this->managedAttributes as $prefix => $array) {
+    foreach ($this->managedAttributes as $array) {
       foreach ($array as $value => $attributes) {
         if (isset($this->managedAttributesMultipleValues[$value])) {
           trigger_error('Multiple values are not available for boolean attributes');
@@ -733,18 +733,14 @@ class HiddenAttribute extends Attribute
 /* Dummy attribute class in order to give stats information to the template */
 class FakeAttribute extends Attribute
 {
-  private $var_name;
-
-  function __construct ($var)
+  function __construct ($ldapName)
   {
-    parent::__construct("Fake one", "", $var, FALSE, "", "noacl");
+    parent::__construct("Fake one", "", $ldapName, FALSE, "", "noacl");
     $this->setInLdap(FALSE);
-    $this->var_name = $var;
   }
 
   function renderAttribute(&$attributes, $readOnly)
   {
-    $var = $this->var_name;
     $attributes[$this->getLdapName()] = $this->getValue();
   }
 }
@@ -1246,7 +1242,7 @@ class FileTextAreaAttribute extends FileAttribute
   function loadPostValue ()
   {
     if ($this->isVisible()) {
-      foreach ($_POST as $name => $value) {
+      foreach (array_keys($_POST) as $name) {
         if (preg_match('/^download'.$this->getHtmlId().'/', $name)) {
           session::set('binary', $this->value);
           session::set('binarytype', 'octet-stream');
@@ -1756,7 +1752,7 @@ class ArrayAttribute extends Attribute
   function getArrayValues()
   {
     $result = array();
-    foreach ($this->value as $key => $value) {
+    foreach ($this->value as $value) {
       $this->attribute->setValue($value);
       $row = array();
       foreach ($this->attribute->getArrayValue() as $val) {
@@ -1888,8 +1884,8 @@ class CompositeAttribute extends Attribute
     if ($res === 1) {
       $m = array_slice($m, 1);
       $values = array();
-      foreach ($this->attributes as $pname => $attr) {
-        $values[] = $m[$pname];
+      foreach (array_keys($this->attributes) as $name) {
+        $values[] = $m[$name];
       }
       return $values;
     } elseif ($res === FALSE) {
@@ -2149,7 +2145,7 @@ class OrderedArrayAttribute extends SetAttribute
     if ($this->isVisible()) {
       $this->postValue = $this->value;
       $id = $this->getHtmlId();
-      foreach ($_POST as $name => $value) {
+      foreach (array_keys($_POST) as $name) {
         if ($this->order) {
           if (preg_match('/^'.$id.'_up_/', $name)) {
             $key = preg_replace('/^'.$id.'_up_/', '', $name);

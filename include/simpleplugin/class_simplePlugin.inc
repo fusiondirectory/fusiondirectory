@@ -157,7 +157,7 @@ class simplePlugin extends plugin
       $this->attributesAccess[$attr]->loadValue($this->attrs);
     }
     // Then the others
-    foreach ($this->attributesInfo as $section => &$sectionInfo) {
+    foreach ($this->attributesInfo as &$sectionInfo) {
       foreach ($sectionInfo['attrs'] as $name => &$attr) {
         if (in_array($name, $this->preInitAttributes)) {
           continue; // skip the preInit ones
@@ -607,7 +607,7 @@ class simplePlugin extends plugin
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "check");
     $message = parent::check();
 
-    foreach ($this->attributesInfo as $section => $sectionInfo) {
+    foreach ($this->attributesInfo as $sectionInfo) {
       foreach ($sectionInfo['attrs'] as $attr) {
         $error = $attr->check();
         if (!empty($error)) {
@@ -630,7 +630,7 @@ class simplePlugin extends plugin
   static function generatePlProvidedAcls ($attributesInfo)
   {
     $plProvidedAcls = array();
-    foreach ($attributesInfo as $section => $sectionInfo) {
+    foreach ($attributesInfo as $sectionInfo) {
       foreach ($sectionInfo['attrs'] as $attr) {
         $aclInfo = $attr->getAclInfo();
         if ($aclInfo !== FALSE) {
