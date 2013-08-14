@@ -10,15 +10,6 @@
     <module>ogroups</module>
     <label>List of object groups</label>
     <defaultSortColumn>1</defaultSortColumn>
-
-    <objectType>
-      <label>Object group</label>
-      <objectClass>gosaGroupOfNames</objectClass>
-      <category>ogroup</category>
-      <class>ogroup</class>
-      <image>geticon.php?context=types&amp;icon=resource-group&amp;size=16</image>
-    </objectType>
-
   </definition>
 
   <table>

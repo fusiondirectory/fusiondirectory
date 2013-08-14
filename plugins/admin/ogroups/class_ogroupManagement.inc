@@ -19,16 +19,17 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class ogroupManagement extends management
+class ogroupManagement extends simpleManagement
 {
-  // Tab definition
-  protected $tabClass = "ogrouptabs";
-  protected $tabType = "OGROUPTABS";
-  protected $aclCategory = "ogroup";
-  protected $aclPlugin   = "ogroup";
-  protected $objectName   = "object group";
+  protected $objectName   = 'ogroup';
+  protected $objectTypes  = array('ogroup');
 
-  /* Return plugin informations for acl handling */
+  protected $departmentBrowser      = TRUE;
+  protected $departmentRootVisible  = FALSE;
+  protected $baseMode               = TRUE;
+
+  protected $autoFilter = FALSE;
+
   static function plInfo()
   {
     return array(
@@ -45,136 +46,11 @@ class ogroupManagement extends management
 
   function __construct($config, $ui)
   {
-    $this->config = $config;
-    $this->ui = $ui;
+    $this->filterXMLPath  = get_template_path('ogroup-filter.xml', TRUE, dirname(__FILE__));
+    $this->listXMLPath    = get_template_path('ogroup-list.xml', TRUE, dirname(__FILE__));
 
-    $this->storagePoints = array(get_ou("ogroupRDN"));
-
-    // Build filter
-    if (session::global_is_set(get_class($this)."_filter")){
-      $filter= session::global_get(get_class($this)."_filter");
-    } else {
-      $filter = new filter(get_template_path("ogroup-filter.xml", true));
-      $filter->setObjectStorage($this->storagePoints);
-    }
-    $this->setFilter($filter);
-
-    // Build headpage
-    $headpage = new listing(get_template_path("ogroup-list.xml", true));
-    $headpage->registerElementFilter("filterProperties", "ogroupManagement::filterProperties");
-    $headpage->setFilter($filter);
-
-    parent::__construct($config, $ui, "ogroup", $headpage);
-
-    $this->registerAction("edit_ogroup","editEntry");
-    $this->registerAction("edit_phonequeue","editEntry");
-    $this->registerAction("edit_workstartup","editEntry");
-    $this->registerAction("edit_termgroup","editEntry");
-
-    $this->registerAction("sendMessage", "sendMessage");
-    $this->registerAction("saveEventDialog", "saveEventDialog");
-    $this->registerAction("abortEventDialog", "closeDialogs");
-  }
-
-
-  // Inject user actions
-  function detectPostActions()
-  {
-    $action = management::detectPostActions();
-
-    if(isset($_POST['save_event_dialog'])) $action['action'] = "saveEventDialog";
-    if(isset($_POST['abort_event_dialog'])) $action['action'] = "abortEventDialog";
-    return($action);
-  }
-
-
-  function editEntry($action="",$target=array(),$all=array(), $altTabClass ="", $altTabType = "", $altAclCategory="")
-  {
-    $str = management::editEntry($action,$target);
-    if(preg_match("/^edit_/",$action)){
-      $tab = preg_replace("/^edit_/","",$action);
-      if(isset($this->tabObject->by_object[$tab])){
-        $this->tabObject->current = $tab;
-      }else{
-        trigger_error("Unknown tab: ".$tab);
-      }
-    }
-    if(!empty($str)) return($str);
-  }
-
-
-  /*! \brief  Sends a message to a set of users using Argonauts events.
-   */
-  function saveEventDialog()
-  {
-    $this->dialogObject->save_object();
-    $msgs = $this->dialogObject->check();
-    if(count($msgs)){
-      msg_dialog::displayChecks($msgs);
-    }else{
-      $o_queue = new gosaSupportDaemon();
-      $o_queue->append($this->dialogObject);
-      if($o_queue->is_error()){
-        msg_dialog::display(_("Infrastructure error"), msgPool::siError($o_queue->get_error()),ERROR_DIALOG);
-      }
-      $this->closeDialogs();
-    }
-  }
-
-
-  /*! \brief  Sends a message to a set of users using Argonauts events.
-   */
-  function sendMessage($action = "", $target = array(), $all = array())
-  {
-
-    if (class_available("DaemonEvent")) {
-
-      // Resolv targets
-      $targets = array();
-      $m_list  = array();
-      $ldap = $this->config->get_ldap_link();
-
-      // Collect selected ogroups
-      foreach ($target as $dn) {
-        $ldap->cat($dn, array('member'));
-        while ($entry = $ldap->fetch()) {
-          $m_list[] = $entry;
-        }
-      }
-
-      // Collect object group member dns
-      foreach($m_list as $entry){
-        $members = $entry['member'];
-        for($i=0;$i<$members['count'];$i++) {
-
-          // Fetch member object
-          $ldap->cat($members[$i], array('uid','cn','objectClass'));
-          if ($ldap->count() > 0) {
-
-            // Determine which type the object has
-            $attrs = $ldap->fetch();
-            if (array_search('gosaAccount', $attrs['objectClass'])) {
-              $uid = $attrs['uid'][0];
-              $targets['USERS'][] = $uid;
-            }elseif (array_search('posixGroup', $attrs['objectClass'])) {
-              $group = $attrs['cn'][0];
-              $targets['GROUPS'][] = $group;
-            }
-          }
-        }
-      }
-
-      // We've at least one recipient
-      if (count($targets)) {
-        $events = DaemonEvent::get_event_types();
-        if (isset($events['notify'])) {
-          $this->dialogObject = new DaemonEvent($this->config, 'notify');
-          $this->dialogObject->add_targets($targets);
-          $this->dialogObject->set_type(TRIGGERED_EVENT);
-        }
-      }
-
-    }
+    parent::__construct($config, $ui);
+    $this->headpage->registerElementFilter("filterProperties", "ogroupManagement::filterProperties");
   }
 
   static function filterProperties($row, $gosaGroupObjects)
@@ -199,11 +75,12 @@ class ogroupManagement extends management
       $type = $types[$i];
       $result.="<input class='center' type='image' src='".$conv[$type][0]."' ".
         "alt='".$conv[$type][1]."' title='".$conv[$type][1].
-        "' name='listing_edit_".$conv[$type][2]."_$row' style='padding:1px'>";
-
+        "' name='listing_edit_tab_".$conv[$type][2]."_$row' style='padding:1px'>";
     }
-    return($result);
+    if ($result == "") {
+      return '&nbsp;';
+    }
+    return $result;
   }
 }
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
