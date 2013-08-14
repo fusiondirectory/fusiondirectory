@@ -100,12 +100,6 @@ class userManagement extends management
     $this->registerAction("passwordQueue",  "handlePasswordQueue");
     $this->registerAction("passwordCancel", "closeDialogs");
 
-    // Register shortcut icon actions
-    foreach ($config->data['TABS']['USERTABS'] as $plug) {
-      if (class_available($plug['CLASS'])) {
-        $this->registerAction("edit_".$plug['CLASS'], "editEntry");
-      }
-    }
     if (!class_available('mailAccount')) {
       /* If mail plugin is not installed, ignore mail filter */
       $this->filter->elements['MAIL']['unset']      = '';
@@ -156,12 +150,12 @@ class userManagement extends management
       return $str;
     }
 
-    if (preg_match("/^edit_/", $action)) {
-      $tab = preg_replace("/^edit_/", "", $action);
+    if (isset($all['subaction'])) {
+      $tab = preg_replace('/^tab_/', '', $all['subaction']);
       if (isset($this->tabObject->by_object[$tab])) {
         $this->tabObject->current = $tab;
       } else {
-        trigger_error("Unknown tab: ".$tab);
+        trigger_error('Unknown tab: '.$tab);
       }
     }
   }
@@ -886,7 +880,7 @@ class userManagement extends management
     $ldap->cat($dn);
     $result = "<input class='center' type='image' src='plugins/users/images/iconMini.png' ".
                        "alt='"._('Generic')."' title='"._("Generic properties")."' ".
-                       "name='listing_edit_user_$row' style='padding:1px'/>";
+                       "name='listing_edit_tab_user_$row' style='padding:1px'/>";
     if ($attrs = $ldap->fetch()) {
       foreach ($usertabs as $class => $usertab) {
         if ($usertab->is_this_account($attrs)) {
@@ -894,7 +888,7 @@ class userManagement extends management
           if (isset($infos['plSmallIcon'])) {
             $result .= "<input class='center' type='image' src='".$infos['plSmallIcon']."' ".
                        "alt='".$infos['plShortName']."' title='".$infos['plShortName']."' ".
-                       "name='listing_edit_".$class."_$row' style='padding:1px'/>";
+                       "name='listing_edit_tab_".$class."_$row' style='padding:1px'/>";
           } else {
             @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['plShortName']." ($class)", "No icon for");
           }

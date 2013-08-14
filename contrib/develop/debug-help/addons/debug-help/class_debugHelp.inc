@@ -69,11 +69,12 @@ class debugHelp extends simplePlugin
         $img = 'images/empty.png';
       }
       $node = array(
-        'name'      => '<img alt="icon" src="'.$img.'"/>'.$infos['name'],
+        'img'       => $img,
+        'name'      => $infos['name'],
         'attrs'     => array(),
         'subnodes'  => array()
       );
-      foreach (array('aclCategory', 'mainAttr', 'ou', 'filter', 'tabClass', 'tabGroup', 'mainTab') as $key) {
+      foreach (array('aclCategory', 'mainAttr', 'ou', 'filter', 'tabClass', 'tabGroup', 'mainTab', 'management') as $key) {
         if (isset($infos[$key])) {
           if ($infos[$key] != '') {
             $node['attrs'][$key] = array($infos[$key]);
