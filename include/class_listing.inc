@@ -1140,8 +1140,9 @@ class listing {
    */
   function getAction()
   {
+    global $config;
     // Do not do anything if this is not our PID, or there's even no PID available...
-    if (!isset($_REQUEST['PID']) || $_REQUEST['PID'] != $this->pid) {
+    if (!isset($_REQUEST['dn']) && (!isset($_REQUEST['PID']) || $_REQUEST['PID'] != $this->pid)) {
       return;
     }
 
@@ -1154,16 +1155,32 @@ class listing {
 
     // Filter GET with "act" attributes
     if (isset($_GET['act'])) {
-      $key    = validate($_GET['act']);
-      $target = preg_replace('/^listing_[a-zA-Z_]+_([0-9]+)$/', '$1', $key);
-      if (isset($this->entries[$target]['dn'])) {
-        $result['action']     = preg_replace('/^listing_([a-zA-Z_]+)_[0-9]+$/', '$1', $key);
-        $result['targets'][]  = $this->entries[$target]['dn'];
+      $key = validate($_GET['act']);
+      if (preg_match('/^listing_([a-zA-Z_]+)_([0-9]+)$/', $key, $m)) {
+        $action = $m[1];
+        $target = $m[2];
+        if (isset($this->entries[$target]['dn'])) {
+          $result['action']     = $action;
+          $result['targets'][]  = $this->entries[$target]['dn'];
+        }
+      } elseif (isset($_REQUEST['dn']) && preg_match('/^listing_([a-zA-Z_]+)$/', $key, $m)) {
+        $dn                   = urldecode($_REQUEST['dn']);
+        $result['action']     = $m[1];
+        $result['targets'][]  = $dn;
+        // Make sure no other management class intercept the same dn
+        unset($_REQUEST['dn']);
+      } else {
+        trigger_error('Unknown action "'.$key.'"');
+        unset($target);
       }
 
       // Drop targets if empty
       if (count($result['targets']) == 0) {
         unset($result['targets']);
+      }
+      if (preg_match('/^(edit)_([a-zA-Z_]+)$/', $result['action'], $m)) {
+        $result['action']     = $m[1];
+        $result['subaction']  = $m[2];
       }
       return $result;
     }
@@ -1207,6 +1224,10 @@ class listing {
     // Drop targets if empty
     if (count($result['targets']) == 0) {
       unset($result['targets']);
+    }
+    if (preg_match('/^(edit)_([a-zA-Z_]+)/', $result['action'], $m)) {
+      $result['action']     = $m[1];
+      $result['subaction']  = $m[2];
     }
     return $result;
   }

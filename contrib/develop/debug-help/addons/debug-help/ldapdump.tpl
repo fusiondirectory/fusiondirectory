@@ -7,7 +7,11 @@
       {function name=printNodes}
         <ul>
           {foreach from=$nodes key=key item=node}
-            <li>
+            {if isset($node.img)}
+              <li style="list-style-image:url('{$node.img}');">
+            {else}
+              <li>
+            {/if}
               <a href="#" onclick="Effect.toggle('toggle_{$key}', 'blind', {literal}{ duration: 0.3 }{/literal}); return false;">
                 {$node.name}
               </a>

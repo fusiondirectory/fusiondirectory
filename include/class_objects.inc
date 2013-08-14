@@ -148,14 +148,18 @@ class objects
     return $tabObject;
   }
 
-  static function link($dn, $type, $text = NULL, $icon = TRUE)
+  static function link($dn, $type, $subaction = '', $text = NULL, $icon = TRUE)
   {
     $infos = self::infos($type);
     if (!isset($infos['management'])) {
       throw new Exception('Asked for link for type "'.$type.'" but it does not have a management class');
     }
     $index  = pluglist::pluginInfos($infos['management'])['INDEX'];
-    $href   = "main.php?plug=$index&amp;reset=1";
+    $action = 'edit';
+    if ($subaction != '') {
+      $action .= '_'.$subaction;
+    }
+    $href   = "main.php?plug=$index&amp;reset=1&amp;act=listing_$action&amp;dn=".urlencode($dn);
 
     if ($text === NULL) {
       global $config;

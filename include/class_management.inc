@@ -168,6 +168,11 @@ class management
       }
     }
 
+    // Pre-render list to init things if a dn is gonna be opened on first load
+    if (isset($_REQUEST['dn'])) {
+      $this->renderList();
+    }
+
     // Handle actions (POSTs and GETs)
     $str = $this->handleActions($this->detectPostActions());
     if ($str) {

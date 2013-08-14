@@ -1330,7 +1330,9 @@ class config  {
       /* Read management info */
       if (isset($plInfo['plManages'])) {
         foreach ($plInfo['plManages'] as $type) {
-          $this->data['OBJECTS'][strtoupper($type)]['management'] = $class;
+          if (isset($this->data['OBJECTS'][strtoupper($type)])) {
+            $this->data['OBJECTS'][strtoupper($type)]['management'] = $class;
+          }
         }
       }
     }
