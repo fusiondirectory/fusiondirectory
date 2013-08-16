@@ -52,52 +52,51 @@ class log {
    *
    * \sa log()
    */
-  function log($action,$objecttype,$object,$changes_array = array(),$result = "")
+  function log($action, $objecttype, $object, $changes_array = array(), $result = "")
   {
-    if(!is_array($changes_array)){
+    if (!is_array($changes_array)) {
       trigger_error("log(string,string,string,array(),bool). Forth parameter must be an array.");
       $changes_array = array();
     }
 
     $entry = array();
-    if(!session::global_is_set('config')){
-      $entry['user']= "unkown";
-    }else{
-
-      $this->config = session::global_get('config');
-      $ui           = get_userinfo();
-      $entry['user']= @$ui->dn;
+    if (!session::global_is_set('config')) {
+      $entry['user'] = "unkown";
+    } else {
+      $this->config   = session::global_get('config');
+      $ui             = get_userinfo();
+      $entry['user']  = @$ui->dn;
     }
 
     /* Create string out of changes */
-    $changes  ="";
-    foreach($changes_array as $str ){
+    $changes  = "";
+    foreach ($changes_array as $str) {
       $changes .= $str.",";
     }
-    $changes = preg_replace("/,$/","",$changes );
+    $changes = preg_replace("/,$/", "", $changes);
 
     /* Create data object */
-    $entry['timestamp'] = time();
-    $entry['action']    = $action;
-    $entry['objecttype']= $objecttype;
-    $entry['object']    = $object;
-    $entry['changes']   = $changes;
-    $entry['result']    = $result;
+    $entry['timestamp']   = time();
+    $entry['action']      = $action;
+    $entry['objecttype']  = $objecttype;
+    $entry['object']      = $object;
+    $entry['changes']     = $changes;
+    $entry['result']      = $result;
 
-    if(!isset($this->config) && empty($entry['user'])){
+    if (!isset($this->config) && empty($entry['user'])) {
       $entry['user']  = "unknown";
     }
 
     /* Check if all given values are valid */
     global $config;
     $msgs = @log::check($entry);
-    if(count($msgs)){
-      foreach($msgs as $msg){
+    if (count($msgs)) {
+      foreach ($msgs as $msg) {
         trigger_error("Logging failed, reason was: ".$msg);
         msg_dialog::display(_("Internal error"), sprintf(_("Logging failed: %s"), $msg), ERROR_DIALOG);
       }
-    }else{
-      if(is_object($config) && preg_match("/true/i",$config->get_cfg_value("logging",""))){
+    } else {
+      if (is_object($config) && preg_match("/true/i", $config->get_cfg_value("logging", ""))) {
         $this->log_into_syslog($entry);
       }
     }
@@ -112,15 +111,15 @@ class log {
   {
     $msgs = array();
 
-    if(!isset($entry['action']) || !in_array($entry['action'],array("modify","create","remove","copy","snapshot","view","security","debug"))){
+    if (!isset($entry['action']) || !in_array($entry['action'], array("modify","create","remove","copy","snapshot","view","security","debug"))) {
       $msgs[] = sprintf(_("Invalid option '%s' specified!"), $entry['action']);
     }
 
-    if(!isset($entry['objecttype']) || empty($entry['objecttype'])){
+    if (!isset($entry['objecttype']) || empty($entry['objecttype'])) {
       $msgs[] = _("Specified objectType is empty or invalid!");
     }
 
-    return($msgs);
+    return $msgs;
   }
 
 
@@ -131,7 +130,7 @@ class log {
    */
   function log_into_syslog($entry)
   {
-    $str= "";
+    $str = "";
     if (empty($entry['object']) && empty($entry['changes'])) {
       $str = "(".$entry['action'].") ".$entry['objecttype'].": ".$entry['result'];
     } else {
@@ -139,8 +138,5 @@ class log {
     }
     fusiondirectory_log($str);
   }
-
 }
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
