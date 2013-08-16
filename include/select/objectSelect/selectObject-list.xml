@@ -6,7 +6,7 @@
     <departmentRootVisible>true</departmentRootVisible>
     <baseMode>true</baseMode>
     <multiSelect>true</multiSelect>
-    <template>../plugins/admin/ogroups/objectSelect/selectObject-list.tpl</template>
+    <template>../include/select/objectSelect/selectObject-list.tpl</template>
     <module>users</module>
     <label>Please select the desired entries</label>
     <defaultSortColumn>1</defaultSortColumn>

@@ -3,7 +3,7 @@
 <filterdef>
   <definition>
     <category>groups</category>
-    <template>../plugins/personal/posix/groupSelect/group-filter.tpl</template>
+    <template>../include/select/groupSelect/group-filter.tpl</template>
     <initial>true</initial>
   </definition>
 
