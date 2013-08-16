@@ -104,12 +104,8 @@ class config  {
    */
   function check_and_reload($force = FALSE)
   {
-    global $ui;
-
     /* Check if class_location.inc has changed, this is the case
-        if we have installed or removed plugins.
-     */
-    $tmp = stat(CACHE_DIR."/".CLASS_CACHE);
+        if we have installed or removed plugins. */
     if (session::global_is_set("class_location.inc:timestamp")) {
       if ($tmp['mtime'] != session::global_get("class_location.inc:timestamp")) {
         session::global_un_set("plist");
@@ -207,7 +203,6 @@ class config  {
 
     /* Look through attributes */
     switch ($this->tags[$this->level - 1]) {
-
 
       /* Handle tab section */
       case 'TAB':
@@ -340,7 +335,6 @@ class config  {
 
       /* Check for connection */
       if (is_null($this->ldap) || (is_int($this->ldap) && $this->ldap == 0)) {
-        $smarty = get_smarty();
         msg_dialog::display(_("LDAP error"), _("Cannot bind to LDAP. Please contact the system administrator."), FATAL_ERROR_DIALOG);
         exit();
       }
@@ -532,7 +526,6 @@ class config  {
       );
     }
 
-
     /* Get asterisk servers */
     $ldap->cd($this->current['BASE']);
     $ldap->search("(objectClass=goFonServer)");
@@ -564,7 +557,6 @@ class config  {
       /* Add entry with 'dn' as index */
       $this->data['SERVERS']['FON'][$attrs['dn']] = $entry;
     }
-
 
     /* Get logdb server */
     $ldap->cd($this->current['BASE']);
@@ -608,7 +600,6 @@ class config  {
     $this->data['SERVERS']['TERMINAL']                = array();
     $this->data['SERVERS']['TERMINAL'][]              = "default";
     $this->data['SERVERS']['TERMINAL_SESSION_TYPES']  = array();
-
 
     while ($attrs = $ldap->fetch()) {
       $this->data['SERVERS']['TERMINAL'][] = $attrs["cn"][0];
@@ -733,8 +724,6 @@ class config  {
    */
   function get_departments($ignore_dn = "")
   {
-    global $config;
-
     /* Initialize result hash */
     $result = array();
 
@@ -777,7 +766,7 @@ class config  {
         continue;
       }
 
-      $dn = $ldap->getDN();
+      $dn   = $ldap->getDN();
       $data = objects::infos($oc);
       $this->department_info[$dn] = array("img"         => $data['icon'],
                                          "description"  => isset($attrs['description'][0])?$attrs['description'][0]:"",
@@ -799,12 +788,10 @@ class config  {
 
   function make_idepartments($max_size = 28)
   {
-    global $config;
-    $base   = $config->current['BASE'];
+    $base   = $this->current['BASE'];
     $qbase  = preg_quote($base, '/');
 
     $arr  = array();
-    $ui   = get_userinfo();
 
     $this->idepartments = array();
 
@@ -841,7 +828,6 @@ class config  {
         $last = &$last[$elestr.$nameA]['SUB'];
       }
     }
-
 
     /* Add base entry */
     $ret['/']['ENTRY']  = $base;
@@ -951,10 +937,9 @@ class config  {
    */
   function getShareServerList()
   {
-    global $config;
     $return = array();
     $ui     = get_userinfo();
-    $base   = $config->current['BASE'];
+    $base   = $this->current['BASE'];
     $res    = get_sub_list("(&(objectClass=goShareServer)(goExportEntry=*))", "server",
               get_ou("serverRDN"), $base, array("goExportEntry","cn"), GL_NONE | GL_NO_ACL_CHECK);
 
@@ -977,6 +962,7 @@ class config  {
         $return[$entry['cn'][0]."|".$sharename] = $data;
       }
     }
+
     return $return;
   }
 
