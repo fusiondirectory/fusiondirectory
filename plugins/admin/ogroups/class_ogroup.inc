@@ -22,25 +22,13 @@
 class ObjectsAttribute extends GenericDialogAttribute
 {
   //TODO : insert in black list used workstations
-  static $objectTypes = array(
-    "U" => "user",
-    "G" => "group",
-    "A" => "application",
-    "S" => "server",
-    "W" => "workstation",
-    "O" => "winstation",
-    "T" => "terminal",
-    "F" => "phone",
-    "P" => "printer"
-  );
-
   protected $dialogClass  = 'ObjectSelectDialog';
   protected $types        = array();
 
   protected function fillDisplayValueFrom ($i, $attrs)
   {
     if ($attrs) {
-      foreach (self::$objectTypes as $code => $objectType) {
+      foreach (ogroup::$objectTypes as $code => $objectType) {
         try {
           if (objects::isOfType($attrs, $objectType)) {
             $infos = objects::infos($objectType);
@@ -55,7 +43,7 @@ class ObjectsAttribute extends GenericDialogAttribute
           }
         } catch (NonExistingObjectTypeException $e) {
           @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $e->getMessage(), "Objecttype");
-          unset(self::$objectTypes[$code]);
+          unset(ogroup::$objectTypes[$code]);
         }
       }
       if (!isset($this->displays[$i])) {
@@ -76,9 +64,13 @@ class ObjectsAttribute extends GenericDialogAttribute
                 ($this->disabled? ' disabled="disabled"':'').
                 ' >'."\n";
     foreach ($this->getDisplayValues() as $key => $value) {
-      $infos = array();
-      if ($this->types[$key] !== 'I') {
-        $infos = objects::infos(self::$objectTypes[$this->types[$key]]);
+      try {
+        $infos = array();
+        if ($this->types[$key] !== 'I') {
+          $infos = objects::infos(ogroup::$objectTypes[$this->types[$key]]);
+        }
+      } catch (NonExistingObjectTypeException $e) {
+        die('No type for '.$key.' '.$value);
       }
       if (isset($infos['icon'])) {
         $img = $infos['icon'];
@@ -108,6 +100,7 @@ class ObjectsAttribute extends GenericDialogAttribute
 
   function listObjectTypes()
   {
+    $this->getDisplayValues(); // refresh types and displays
     return '['.join(array_unique($this->types)).']';
   }
 }
@@ -123,6 +116,18 @@ class ogroup extends simplePlugin
 {
   var $mainTab        = TRUE;
   var $objectclasses  = array('top', 'gosaGroupOfNames');
+
+  static $objectTypes = array(
+    "U" => "user",
+    "G" => "group",
+    "A" => "application",
+    "S" => "server",
+    "W" => "workstation",
+    "O" => "winstation",
+    "T" => "terminal",
+    "F" => "phone",
+    "P" => "printer"
+  );
 
   static function plInfo()
   {
@@ -244,12 +249,6 @@ class ogroup extends simplePlugin
     return 'cn='.$this->attributesAccess['cn']->getValue().','.get_ou('ogroupRDN').$this->base;
   }
 
-  function save_object()
-  {
-    parent::save_object();
-    $this->reload();
-  }
-
   function prepare_save()
   {
     $this->reload();
@@ -270,6 +269,12 @@ class ogroup extends simplePlugin
   function reload()
   {
     $this->gosaGroupObjects = $this->attributesAccess['member']->listObjectTypes();
+  }
+
+  function getGroupObjectTypes()
+  {
+    $this->reload();
+    return $this->gosaGroupObjects;
   }
 }
 
