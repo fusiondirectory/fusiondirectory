@@ -3,7 +3,7 @@
 <filterdef>
   <definition>
     <category>users</category>
-    <template>../plugins/admin/ogroups/objectSelect/selectObject-filter.tpl</template>
+    <template>../include/select/objectSelect/selectObject-filter.tpl</template>
     <initial>true</initial>
   </definition>
 

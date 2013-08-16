@@ -3,7 +3,7 @@
 <filterdef>
   <definition>
     <category>users</category>
-    <template>../plugins/admin/groups/userGroupSelect/selectUserGroup-filter.tpl</template>
+    <template>../include/select/userGroupSelect/selectUserGroup-filter.tpl</template>
     <initial>true</initial>
   </definition>
 
