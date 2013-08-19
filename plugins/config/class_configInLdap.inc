@@ -363,6 +363,32 @@ class configInLdap extends simplePlugin
             'fdGroupRDN', TRUE,
             'ou=groups'
           ),
+          new SelectAttribute (
+            _('Id allocation method'), _('Method to allocate uid/gid numbers'),
+            'fdIdAllocationMethod', TRUE,
+            array('traditional', 'pool'), 'traditional',
+            array(_('Traditional'), _('Samba unix id pool'))
+          ),
+          new IntAttribute (
+            _('Pool uid min'), _('Minimum value for uid when using pool method'),
+            'fdUidNumberPoolMin', FALSE,
+            0, FALSE, 10000
+          ),
+          new IntAttribute (
+            _('Pool uid max'), _('Maximum value for uid when using pool method'),
+            'fdUidNumberPoolMax', FALSE,
+            0, FALSE, 40000
+          ),
+          new IntAttribute (
+            _('Pool gid min'), _('Minimum value for gid when using pool method'),
+            'fdGidNumberPoolMin', FALSE,
+            0, FALSE, 10000
+          ),
+          new IntAttribute (
+            _('Pool gid max'), _('Maximum value for gid when using pool method'),
+            'fdGidNumberPoolMax', FALSE,
+            0, FALSE, 40000
+          ),
         )
       ),
       'debug' => array(
@@ -445,6 +471,16 @@ class configInLdap extends simplePlugin
         'disable' => array (
           TRUE => array (
             'fdWarnSSL',
+          )
+        )
+      )
+    );
+    $this->attributesAccess['fdIdAllocationMethod']->setManagedAttributes(
+      array(
+        'erase' => array (
+          'traditional' => array (
+            'fdUidNumberPoolMin','fdUidNumberPoolMax',
+            'fdGidNumberPoolMin','fdGidNumberPoolMax',
           )
         )
       )
