@@ -2636,33 +2636,33 @@ function gosa_ldap_explode_dn($dn, $config = NULL, $verify_in_ldap = FALSE)
 }
 
 /*!
- * \brief Get base from external hook
- *
- * \param string $dn The DN
+ * \brief Get idNumber from external hook
  *
  * \param array $attrib
+ *
+ * \param string $dn The DN
  */
-function get_base_from_hook($dn, $attrib)
+function get_next_id_hook($attrib, $dn)
 {
   global $config;
 
-  if ($config->get_cfg_value("baseIdHook") != "") {
+  if ($config->get_cfg_value("nextIdHook") != "") {
     /* Call hook script - if present */
-    $command = $config->get_cfg_value("baseIdHook");
+    $command = $config->get_cfg_value("nextIdHook");
 
     if ($command != "") {
       $command .= " ".escapeshellarg(LDAP::fix($dn))." ".escapeshellarg($attrib);
       if (check_command($command)) {
         @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
         exec($command, $output);
-        if (preg_match("/^[0-9]+$/", $output[0])) {
+        if (is_numeric($output[0])) {
           return $output[0];
         }
       }
     }
   }
 
-  msg_dialog::display(_("Warning"), _("'baseIdHook' is not available. Using default base!"), WARNING_DIALOG);
+  msg_dialog::display(_("Warning"), _("'nextIdHook' is not available. Using default base!"), WARNING_DIALOG);
   return $config->get_cfg_value("uidNumberBase");
 }
 
@@ -3385,6 +3385,10 @@ function get_next_id($attrib, $dn)
 {
   global $config;
 
+  if ($config->get_cfg_value("nextIdHook") != "") {
+    return get_next_id_hook($attrib, $dn);
+  }
+
   switch ($config->get_cfg_value("idAllocationMethod", "traditional")) {
     case "pool":
       return get_next_id_pool($attrib);
@@ -3419,7 +3423,7 @@ function get_next_id_pool($attrib)
 
   /* ID to skip */
   $ldap = $config->get_ldap_link();
-  $id = NULL;
+  $id   = NULL;
 
   /* Try to allocate the ID several times before failing */
   $tries = 3;
@@ -3530,19 +3534,13 @@ function get_next_id_traditional($attrib, $dn)
   }
 
   /* Set hwm to max if not set - for backward compatibility */
-  $lwm = $tmp[0];
+  $base = $tmp[0];
   if (isset($tmp[1])) {
     $hwm = $tmp[1];
   } else {
     $hwm = pow(2, 32);
   }
   /* Find out next free id near to UID_BASE */
-  if ($config->get_cfg_value("baseIdHook") == "") {
-    $base = $lwm;
-  } else {
-    /* Call base hook */
-    $base = get_base_from_hook($dn, $attrib);
-  }
   for ($id = $base; $id++; $id < $hwm) {
     if (!in_array($id, $ids)) {
       return $id;

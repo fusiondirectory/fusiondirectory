@@ -358,6 +358,32 @@ class configInLdap extends simplePlugin
             'fdGroupRDN', TRUE,
             'ou=groups'
           ),
+          new SelectAttribute (
+            _('Id allocation method'), _('Method to allocate uid/gid numbers'),
+            'fdIdAllocationMethod', TRUE,
+            array('traditional', 'pool'), 'traditional',
+            array(_('Traditional'), _('Samba unix id pool'))
+          ),
+          new IntAttribute (
+            _('Pool uid min'), _('Minimum value for uid when using pool method'),
+            'fdUidNumberPoolMin', FALSE,
+            0, FALSE, 10000
+          ),
+          new IntAttribute (
+            _('Pool uid max'), _('Maximum value for uid when using pool method'),
+            'fdUidNumberPoolMax', FALSE,
+            0, FALSE, 40000
+          ),
+          new IntAttribute (
+            _('Pool gid min'), _('Minimum value for gid when using pool method'),
+            'fdGidNumberPoolMin', FALSE,
+            0, FALSE, 10000
+          ),
+          new IntAttribute (
+            _('Pool gid max'), _('Maximum value for gid when using pool method'),
+            'fdGidNumberPoolMax', FALSE,
+            0, FALSE, 40000
+          ),
         )
       ),
       'debug' => array(
@@ -411,7 +437,7 @@ class configInLdap extends simplePlugin
     $attributesInfo['password']['attrs'][0]->setChoices($methods);
 
     parent::__construct($config, $dn, $object, $attributesInfo);
-    $this->attributesInfo['snapshots']['attrs']['fdEnableSnapshots']->setManagedAttributes(
+    $this->attributesAccess['fdEnableSnapshots']->setManagedAttributes(
       array(
         'disable' => array (
           FALSE => array (
@@ -423,7 +449,7 @@ class configInLdap extends simplePlugin
         )
       )
     );
-    $this->attributesInfo['people_and_group']['attrs']['fdAccountPrimaryAttribute']->setManagedAttributes(
+    $this->attributesAccess['fdAccountPrimaryAttribute']->setManagedAttributes(
       array(
         'erase' => array (
           'uid' => array (
@@ -432,7 +458,7 @@ class configInLdap extends simplePlugin
         )
       )
     );
-    $this->attributesInfo['login']['attrs']['fdForceSSL']->setManagedAttributes(
+    $this->attributesAccess['fdForceSSL']->setManagedAttributes(
       array(
         'disable' => array (
           TRUE => array (
@@ -441,7 +467,16 @@ class configInLdap extends simplePlugin
         )
       )
     );
-
+    $this->attributesAccess['fdIdAllocationMethod']->setManagedAttributes(
+      array(
+        'erase' => array (
+          'traditional' => array (
+            'fdUidNumberPoolMin','fdUidNumberPoolMax',
+            'fdGidNumberPoolMin','fdGidNumberPoolMax',
+          )
+        )
+      )
+    );
   }
 
   static function get_themes()
