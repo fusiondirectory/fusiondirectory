@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
@@ -46,6 +45,7 @@ if (!defined("CONFIG_FILE")) {
 define("SMARTY", "/usr/share/php/smarty3/Smarty.class.php");
 
 /*!
+
  * \brief Smarty compile dir
  */
 define ("SPOOL_DIR", "/var/spool/fusiondirectory/"); /* FusionDirectory spool directory */
