@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
@@ -30,7 +29,7 @@ class password extends plugin
 
   function password(&$config, $dn = NULL, $parent = NULL)
   {
-    plugin::plugin($config, $dn, $parent);
+    parent::__construct($config, $dn, $parent);
 
     // Try to generate a password proposal, if this is successfull
     //  then preselect the proposal usage.
@@ -47,8 +46,8 @@ class password extends plugin
 
   function refreshProposal()
   {
-    $this->proposal = passwordMethod::getPasswordProposal($this->config);
-    $this->proposalEnabled = (!empty($this->proposal));
+    $this->proposal         = passwordMethod::getPasswordProposal($this->config);
+    $this->proposalEnabled  = (!empty($this->proposal));
   }
 
   function execute()

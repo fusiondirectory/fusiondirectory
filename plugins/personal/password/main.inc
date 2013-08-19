@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
@@ -21,39 +20,36 @@
 */
 
 /* Remove locks created by this plugin  */
-$lock_msg="";
-if ($remove_lock){
-  if(session::is_set('password')){
+$lock_msg = "";
+if ($remove_lock) {
+  if (session::is_set('password')) {
     //Nothing to do here
   }
 }
 
 /* Remove this plugin from session */
-if ( $cleanup ){
+if ($cleanup) {
   session::un_set('password');
   session::un_set('edit');
-}else{
-
+} else {
   /* Reset requested? */
-  if (isset($_POST['edit_cancel'])){
-    session::un_set ('edit');
-    session::un_set ('password');
+  if (isset($_POST['edit_cancel'])) {
+    session::un_set('edit');
+    session::un_set('password');
   }
 
   /* Create password object on demand */
-  if (!session::is_set('password') || (isset($_GET['reset']) && $_GET['reset'] == 1)){
+  if (!session::is_set('password') || (isset($_GET['reset']) && $_GET['reset'] == 1)) {
     session::set('password', new password ($config, $ui->dn));
   }
   $password = session::get('password');
 
   /* Execute formular */
-  $display.= $password->execute ();
+  $display .= $password->execute();
 
   /* Page header*/
   $display = print_header(get_template_path('plugins/password/images/icon.png'),
                          _("Password settings"), "").$display;
 
 }
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
