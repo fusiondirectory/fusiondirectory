@@ -39,33 +39,34 @@ class departmentSortIterator implements Iterator {
    */
   public function __construct($data, $direction)
   {
-    function depSort($ao, $bo)
-    {
-      // Override sort attribute from data if needed
-      $attribute_a = $ao['sort-attribute'];
-      $attribute_b = $bo['sort-attribute'];
-
-      // Extract values from ao and bo
-      $a = $b = "";
-      if (isset($ao[$attribute_a])) {
-        $a = $ao[$attribute_a];
-        if (is_array($a)) {
-          $a = $a[0];
-        }
-      }
-      if (isset($bo[$attribute_b])) {
-        $b = $bo[$attribute_b];
-        if (is_array($b)) {
-          $b = $b[0];
-        }
-      }
-
-      // Sort for string by default
-      return strnatcmp($a, $b);
-    }
-
     // Sort for attribute
-    uasort($data, "depSort");
+    uasort(
+      $data,
+      function ($ao, $bo)
+      {
+        // Override sort attribute from data if needed
+        $attribute_a = $ao['sort-attribute'];
+        $attribute_b = $bo['sort-attribute'];
+
+        // Extract values from ao and bo
+        $a = $b = "";
+        if (isset($ao[$attribute_a])) {
+          $a = $ao[$attribute_a];
+          if (is_array($a)) {
+            $a = $a[0];
+          }
+        }
+        if (isset($bo[$attribute_b])) {
+          $b = $bo[$attribute_b];
+          if (is_array($b)) {
+            $b = $b[0];
+          }
+        }
+
+        // Sort for string by default
+        return strnatcmp($a, $b);
+      }
+    );
 
     // Invert if direction is set
     if ($direction) {

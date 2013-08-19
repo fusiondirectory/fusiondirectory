@@ -49,57 +49,57 @@ class listingSortIterator implements Iterator {
     $_sortAttribute = $attribute;
     $_sortType      = $type;
 
-    // Inline function to
-    function attrSort($ao, $bo)
-    {
-      global $_sortAttribute;
-      global $_sortType;
-
-      // Extract values from ao and bo
-      $a = $b = "";
-      if (isset($ao[$_sortAttribute])) {
-        $a = $ao[$_sortAttribute];
-        if (is_array($a)) {
-          $a = $a[0];
-        }
-      }
-      if (isset($bo[$_sortAttribute])) {
-        $b = $bo[$_sortAttribute];
-        if (is_array($b)) {
-          $b = $b[0];
-        }
-      }
-
-      // Take a look at the several types
-      switch ($_sortType) {
-        case 'string':
-          return strcoll($a, $b);
-
-        case 'integer':
-          return $b - $a;
-
-        case 'date':
-          if ($a == "") {
-            $a = "31.12.0000";
-          }
-          if ($b == "") {
-            $b = "31.12.0000";
-          }
-          list($d, $m, $y) = explode('.', $a);
-          $a = (int)sprintf("%04d%02d%02d", $y, $m, $d);
-          list($d, $m, $y) = explode('.', $b);
-          $b = (int)sprintf("%04d%02d%02d", $y, $m, $d);
-          return $b - $a;
-
-        // Sort for string by default
-        default:
-          return strcoll($a, $b);
-      }
-    }
-
     // Sort for attribute
     if ($attribute != "") {
-      uasort($data, "attrSort");
+      uasort(
+        $data,
+        function ($ao, $bo)
+        {
+          global $_sortAttribute;
+          global $_sortType;
+
+          // Extract values from ao and bo
+          $a = $b = "";
+          if (isset($ao[$_sortAttribute])) {
+            $a = $ao[$_sortAttribute];
+            if (is_array($a)) {
+              $a = $a[0];
+            }
+          }
+          if (isset($bo[$_sortAttribute])) {
+            $b = $bo[$_sortAttribute];
+            if (is_array($b)) {
+              $b = $b[0];
+            }
+          }
+
+          // Take a look at the several types
+          switch ($_sortType) {
+            case 'string':
+              return strcoll($a, $b);
+
+            case 'integer':
+              return $b - $a;
+
+            case 'date':
+              if ($a == "") {
+                $a = "31.12.0000";
+              }
+              if ($b == "") {
+                $b = "31.12.0000";
+              }
+              list($d, $m, $y) = explode('.', $a);
+              $a = (int)sprintf("%04d%02d%02d", $y, $m, $d);
+              list($d, $m, $y) = explode('.', $b);
+              $b = (int)sprintf("%04d%02d%02d", $y, $m, $d);
+              return $b - $a;
+
+            // Sort for string by default
+            default:
+              return strcoll($a, $b);
+          }
+        }
+      );
     }
 
     // Invert if direction is set
