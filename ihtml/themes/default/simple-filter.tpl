@@ -9,7 +9,7 @@
     {${$ofilter.id}}<label for="{$ofilter.id}">&nbsp;{$ofilter.label}</label><br/>
   {/foreach}
 
-  <div style="width=100%;border-top:1px solid #AAAAAA;"></div>
+  <div style="display:block;width=100%;border-top:1px solid #AAAAAA;"></div>
 
  {$SCOPE}
 
