@@ -1367,6 +1367,12 @@ class config  {
         $ou = $object_ou.$ou;
       }
     }
+    $ldap = $this->get_ldap_link();
+    $ldap->cd($ou);
+    if (!$ldap->success()) {
+      /* Non-existing ou, returning empty list */
+      return array();
+    }
     if (empty($filter)) {
       $filter = $this->data['OBJECTS'][$type]['filter'];
     } else {
@@ -1375,8 +1381,6 @@ class config  {
       }
       $filter = '(&'.$filter.$this->data['OBJECTS'][$type]['filter'].')';
     }
-    $ldap = $this->get_ldap_link();
-    $ldap->cd($ou);
     if (is_array($attrs)) {
       $search_attrs = array_keys($attrs);
     } else {
