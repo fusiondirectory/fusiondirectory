@@ -158,6 +158,9 @@ background-color:#F0F0F0;
 @media (max-width: 640px) {
   .iconmenu {
   text-align:center;
+  margin:2px;
+  padding:2px;
+  min-width:70px;
   }
   .iconmenu img
   {
@@ -167,14 +170,15 @@ background-color:#F0F0F0;
   }
   h1.menuheader {
   display:block;
-  float:none;
   padding:5px;
   text-align:center;
   }
   html.ltr h1.menuheader {
   border-right:none;
+  float:none;
   }
   html.rtl h1.menuheader {
   border-left:none;
+  float:none;
   }
 }
