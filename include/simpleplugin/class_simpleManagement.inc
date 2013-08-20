@@ -28,7 +28,6 @@ class simpleManagement extends management
   protected $aclPlugin    = '';
 
   /* Attributes that child classes should override */
-  protected $objectName   = ''; // FIXME : should not be needed anymore
   protected $objectTypes  = array();
 
   /* Attributes that child classes can override */
@@ -96,9 +95,8 @@ class simpleManagement extends management
     $this->headpage->xmlData['actionmenu']['action'][0]['action'] = array();
     $pInfos = pluglist::pluginInfos(get_class($this));
     $this->headpage->headline = $pInfos['plShortName'];
-    $filter = '(|';
     foreach ($this->objectTypes as $object) {
-      $i = $this->config->data['OBJECTS'][$object];
+      $i = objects::infos($object);
 
       $objectClass = '';
       if (preg_match('/objectClass=([^)]+)/', $i['filter'], $m)) {
@@ -130,26 +128,28 @@ class simpleManagement extends management
         'image' => $icon,
         'label' => $i['name'],
       );
-      $filter .= '$FILTER'.$object;
     }
-    $filter .= ')';
     if ($this->autoFilter) {
       $this->filter->category = key($pInfos['plCategory']);
-      $this->filter->query[0]['filter']    = '(&'.$filter.'$NAME)';
-      $this->filter->query[0]['attribute'] = array('dn', 'cn', 'description');
-      $this->filter->element['NAME']['set'] = '(cn=*$*)';
-      $this->filter->element['NAME']['autocomplete']['filter'] = '(&'.$filter.'(cn=*$NAME*))';
+      $filter = '(|';
       foreach ($this->objectTypes as $object) {
-        $tag = 'FILTER'.$object;
+        $tag    = 'FILTER'.$object;
+        $filter .= '$'.$tag;
+        $i      = objects::infos($object);
         $this->filter->elements[$tag] = array(
           'type'    => 'checkbox',
           'tag'     => $tag,
           'default' => TRUE,
           'unset'   => array(),
-          'set'     => $this->config->data['OBJECTS'][$object]['filter']
+          'set'     => $i['filter']
         );
         $this->filter->elementValues[$tag] = TRUE;
       }
+      $filter .= ')';
+      $this->filter->query[0]['filter']    = '(&'.$filter.'$NAME)';
+      $this->filter->query[0]['attribute'] = array('dn', 'cn', 'description');
+      $this->filter->element['NAME']['set'] = '(cn=*$*)';
+      $this->filter->element['NAME']['autocomplete']['filter'] = '(&'.$filter.'(cn=*$NAME*))';
       uasort($this->filter->elements, 'strlenSort');
       $this->filter->elements = array_reverse($this->filter->elements);
     }
@@ -220,16 +220,16 @@ class simpleManagement extends management
     $tInfo = $this->config->data['OBJECTS'];
     foreach ($target as $dn) {
       $type = $this->getType($dn);
-      if (!isset($tInfo[$type])) {
-        trigger_error("Unknown object type received '$type'!");
-      } else {
-        $info = $tInfo[$type];
-        $acl = $this->ui->get_permissions($dn, $info['aclCategory'].'/'.$info['mainTab']);
+      try {
+        $info = objects::infos($type);
+        $acl  = $this->ui->get_permissions($dn, $info['aclCategory'].'/'.$info['mainTab']);
         if (preg_match('/d/', $acl)) {
           $this->dns[] = $dn;
         } else {
           $disallowed[] = $dn;
         }
+      } catch (NonExistingObjectTypeException $e) {
+        trigger_error("Unknown object type received :".$e->getMessage());
       }
     }
     if (count($disallowed)) {
@@ -245,15 +245,23 @@ class simpleManagement extends management
       }
 
       // Add locks
-      $dns_names = array();
+      $objects = array();
       foreach ($this->dns as $dn) {
-        $dns_names[] = LDAP::fix($dn);
+        $type   = $this->getType($dn);
+        $info   = objects::infos($type);
+        $entry  = $this->getHeadpage()->getEntry($dn);
+        $objects[] = array(
+          'name'  => $entry[$info['mainAttr']][0],
+          'dn'    => LDAP::fix($dn),
+          'icon'  => $info['icon'],
+          'type'  => $info['name']
+        );
       }
       add_lock ($this->dns, $this->ui->dn);
 
       // Display confirmation dialog.
       $smarty = get_smarty();
-      $smarty->assign('info', msgPool::deleteInfo($dns_names, _($this->objectName)));
+      $smarty->assign('objects', $objects);
       $smarty->assign('multiple', TRUE);
       return $smarty->fetch(get_template_path('simple-remove.tpl'));
     }
