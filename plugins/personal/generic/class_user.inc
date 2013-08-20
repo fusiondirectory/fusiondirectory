@@ -147,6 +147,7 @@ class user extends simplePlugin
         'filter'      => 'objectClass=gosaAccount',
         'mainAttr'    => 'cn',
         'icon'        => 'plugins/users/images/iconMini.png',
+        'ou'          => get_ou('userRDN'),
       )),
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())

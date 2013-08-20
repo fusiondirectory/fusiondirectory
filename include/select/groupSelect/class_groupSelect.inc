@@ -1,9 +1,7 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,33 +18,16 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class groupSelect extends management
+class groupSelect extends simpleSelectManagement
 {
+  protected $objectTypes  = array('group');
+  protected $autoFilter   = FALSE;
 
-  protected $skipFooter = TRUE;
-  protected $skipHeader = TRUE;
-
-  function __construct($config,$ui)
+  function __construct($config, $ui)
   {
-    $this->config = $config;
-    $this->ui = $ui;
+    $this->filterXMLPath = get_template_path('group-filter.xml', TRUE, dirname(__FILE__));
 
-    $this->storagePoints = array(get_ou("groupRDN"));
-
-    // Build filter
-    if (session::global_is_set(get_class($this)."_filter")){
-      $filter= session::global_get(get_class($this)."_filter");
-    } else {
-      $filter = new filter(get_template_path("group-filter.xml", true, dirname(__FILE__)));
-      $filter->setObjectStorage($this->storagePoints);
-    }
-    $this->setFilter($filter);
-
-    // Build headpage
-    $headpage = new listing(get_template_path("group-list.xml", true, dirname(__FILE__)));
-    $headpage->setFilter($filter);
-    parent::__construct($config, $ui, "group", $headpage);
+    parent::__construct($config, $ui);
   }
 }
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
