@@ -269,8 +269,10 @@ class GenericDialogAttribute extends DialogAttribute
       $value = $attrs[$this->store_attr][0];
     }
     if (!in_array($value, $this->value)) {
-      $size = array_push($this->value, $value);
-      $this->fillDisplayValueFrom($size - 1, $attrs);
+      end($this->value);
+      $new_key = key($this->value) + 1;
+      $this->value[$new_key] = $value;
+      $this->fillDisplayValueFrom($new_key, $attrs);
     }
   }
 
@@ -305,12 +307,7 @@ class GenericDialogAttribute extends DialogAttribute
     } else {
       $ldap->search('('.$this->store_attr.'='.$value.')', $this->ldapAttributesToGet());
     }
-    if (!$ldap->count()) {
-      unset($this->value[$i]);
-    } else {
-      $attrs = $ldap->fetch();
-      $this->fillDisplayValueFrom($i, $attrs);
-    }
+    $this->fillDisplayValueFrom($i, $ldap->fetch());
   }
 
   protected function ldapAttributesToGet ()

@@ -41,6 +41,8 @@ class simpleManagement extends management
   protected $autoFilter       = TRUE;
   protected $autoActions      = TRUE;
 
+  protected $autoFilterAttributes = array('dn', 'cn', 'description');
+
   function __construct($config, $ui)
   {
     $this->config = $config;
@@ -59,10 +61,16 @@ class simpleManagement extends management
     unset($object);
 
     $this->storagePoints = array();
-    foreach ($this->objectTypes as $object) {
-      $ou = $this->config->data['OBJECTS'][$object]['ou'];
-      if ($ou !== NULL) {
-        $this->storagePoints[] = $ou;
+    foreach ($this->objectTypes as $key => $object) {
+      try {
+        $i = objects::infos($object);
+      } catch (NonExistingObjectTypeException $e) {
+        /* Remove objectTypes which are not existing */
+        unset($this->objectTypes[$key]);
+        continue;
+      }
+      if ($i['ou'] !== NULL) {
+        $this->storagePoints[] = $i['ou'];
       }
     }
     $this->storagePoints = array_unique($this->storagePoints);
@@ -107,6 +115,11 @@ class simpleManagement extends management
         $objectClass = $m[1];
       }
 
+      if (!isset($i['icon'])) {
+        trigger_error('Missing icon for type '.$object);
+        $i['icon'] = '';
+      }
+
       $this->headpage->objectTypes[$object] =
         array(
           'label'       => $i['name'],
@@ -115,7 +128,6 @@ class simpleManagement extends management
           'class'       => $i['mainTab'],
           'image'       => $i['icon']
         );
-      print_r($i);
       $this->headpage->categories[] = $i['aclCategory'];
       if ($this->autoActions) {
         $this->registerAction('new_'.$object, 'newEntry');
@@ -155,7 +167,7 @@ class simpleManagement extends management
   {
     if ($this->autoFilter) {
       $this->configureFilterCategory();
-      $attributes = array('dn', 'cn', 'description');
+      $attributes = $this->autoFilterAttributes;
       $filter = '(|';
       foreach ($this->objectTypes as $object) {
         $tag    = 'FILTER'.$object;

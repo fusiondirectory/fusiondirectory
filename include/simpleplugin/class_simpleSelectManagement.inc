@@ -45,15 +45,30 @@ class simpleSelectManagement extends simpleManagement
     $this->headpage->registerElementFilter("selectLink", "simpleSelectManagement::filterSelectLink");
   }
 
+  function configureFilter ()
+  {
+    parent::configureFilter();
+    if ($this->autoFilter) {
+      $this->filter->query['0']['backend'] = 'LDAPBlacklist';
+    }
+  }
+
+  function configureHeadline ()
+  {
+  }
+
   function configureFilterCategory ()
   {
-    $infos = objects::infos(key($this->objectTypes));
+    $infos = objects::infos($this->objectTypes[0]);
     $this->filter->category = $infos['aclCategory'];
   }
 
   static function filterSelectLink()
   {
     // TODO : replace this with javascript that select the line when multiSelect is TRUE
+    if (func_num_args() < 4) {
+      return '&nbsp';
+    }
     $pid    = func_get_arg(0);
     $row    = func_get_arg(1);
     $dn     = func_get_arg(2);
