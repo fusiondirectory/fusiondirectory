@@ -20,19 +20,8 @@
 
 class userSelect extends simpleSelectManagement
 {
-  protected $objectTypes = array('user');
-
-  /* Return plugin informations for acl handling */
-  static function plInfo()
-  {
-    return array(
-      'plShortName'   => _('User'),
-      'plDescription' => _('User selection'),
-      'plCategory'    => array('user'),
-
-      'plProvidedAcls' => array()
-    );
-  }
+  protected $objectTypes          = array('user');
+  protected $autoFilterAttributes = array('dn', 'cn', 'uid', 'description');
 }
 
 class singleUserSelect extends userSelect

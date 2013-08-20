@@ -52,7 +52,7 @@ class ObjectsAttribute extends GenericDialogAttribute
         $this->types[$i]    = 'I';
       }
     } else {
-      $this->displays[$i] = sprintf(_("Non existing dn: %s"), LDAP::fix($attrs['dn']));
+      $this->displays[$i] = sprintf(_("Non existing dn: %s"), LDAP::fix($this->value[$i]));
       $this->types[$i]    = 'I';
     }
   }
@@ -108,8 +108,6 @@ class ObjectsAttribute extends GenericDialogAttribute
 class ObjectSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'objectSelect';
-  protected $post_cancel = 'objectSelect_cancel';
-  protected $post_finish = 'objectSelect_save';
 }
 
 class ogroup extends simplePlugin

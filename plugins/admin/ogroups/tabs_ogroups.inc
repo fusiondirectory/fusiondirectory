@@ -48,18 +48,27 @@ class ogrouptabs extends simpleTabs_noSpecial
       $dtabs  = $this->config->data['TABS']['OGROUP-DYNAMICTABS'];
       $tabs   = FALSE;
       for ($i = 0; $i < strlen($objects); $i++) {
+        if ($objects[$i] == 'I') {
+          continue;
+        }
         $otype = ogroup::$objectTypes[$objects[$i]];
-        $otabs = array_merge(
-          array_uintersect(
+        $otabs = array();
+        if (isset($this->config->data['TABS'][strtoupper($otype).'TABS'])) {
+          $otabs = array_uintersect(
             $dtabs,
             $this->config->data['TABS'][strtoupper($otype).'TABS'],
             function ($a, $b)
             {
               return strcmp($a['CLASS'], $b['CLASS']);
             }
-          ),
-          $this->config->data['TABS']['OGROUP-'.strtoupper($otype).'TABS']
-        );
+          );
+        }
+        if (isset($this->config->data['TABS']['OGROUP-'.strtoupper($otype).'TABS'])) {
+          $otabs = array_merge(
+            $otabs,
+            $this->config->data['TABS']['OGROUP-'.strtoupper($otype).'TABS']
+          );
+        }
         if ($tabs === FALSE) {
           $tabs = $otabs;
         } else {
