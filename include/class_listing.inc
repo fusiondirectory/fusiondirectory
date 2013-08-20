@@ -66,9 +66,9 @@ class listing {
   /*!
    * \brief Create a listing
    *
-   * \param string $filename
+   * \param string $data either a filename or an array representation of the XML
    */
-  function listing($filename)
+  function listing($data)
   {
     global $config;
     global $class_mapping;
@@ -76,8 +76,12 @@ class listing {
     // Initialize pid
     $this->pid = preg_replace("/[^0-9]/", "", microtime(TRUE));
 
-    if (!$this->load($filename)) {
-      die("Cannot parse $filename!");
+    if (!$this->load($data)) {
+      if (is_array($data)) {
+        die("Cannot parse data : ".print_r($data, TRUE));
+      } else {
+        die("Cannot parse $data!");
+      }
     }
 
     // Set base for filter
@@ -185,12 +189,16 @@ class listing {
   /*!
    * \brief Load a file
    *
-   * \param string $filename
+   * \param string $data either a filename or an array representation of the XML
    */
-  function load($filename)
+  function load($data)
   {
-    $contents = file_get_contents($filename);
-    $this->xmlData = xml::xml2array($contents, 1);
+    if (is_array($data)) {
+      $this->xmlData = $data;
+    } else {
+      $contents = file_get_contents($data);
+      $this->xmlData = xml::xml2array($contents, 1);
+    }
 
     if (!isset($this->xmlData['list'])) {
       return FALSE;
