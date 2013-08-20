@@ -116,8 +116,6 @@ class UserGroupSelectDialog extends GenericSelectDialog
 class GroupSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'groupSelect';
-  protected $post_cancel = 'add_groups_cancel';
-  protected $post_finish = 'add_groups_finish';
 }
 
 class MailSelectDialog extends GenericSelectDialog
