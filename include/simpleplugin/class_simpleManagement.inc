@@ -34,10 +34,12 @@ class simpleManagement extends management
   protected $departmentBrowser      = TRUE;
   protected $departmentRootVisible  = TRUE;
   protected $baseMode               = TRUE;
+  protected $multiSelect            = TRUE;
 
-  protected $filterXMLPath  = NULL;
-  protected $listXMLPath    = NULL;
-  protected $autoFilter     = TRUE;
+  protected $filterXMLPath    = NULL;
+  protected $listXMLPath      = NULL;
+  protected $autoFilter       = TRUE;
+  protected $autoActions      = TRUE;
 
   function __construct($config, $ui)
   {
@@ -78,19 +80,20 @@ class simpleManagement extends management
     $this->setFilter($filter);
 
     // Build headpage
-    $headpage = new listing($this->listXMLPath);
-    $headpage->departmentBrowser      = $this->departmentBrowser;
-    $headpage->departmentRootVisible  = $this->departmentRootVisible;
-    $headpage->baseMode               = $this->baseMode;
+    $headpage = new listing($this->parseXML($this->listXMLPath));
     $headpage->setFilter($filter);
 
     parent::__construct($config, $ui, 'unused', $headpage);
 
-    $this->configureFilterAndHeadpage();
+    $this->configureHeadpage();
+    $this->configureFilter();
+    if ($this->departmentBrowser === FALSE) {
+      $this->headpage->setBase($this->config->current['BASE']);
+    }
   }
 
   /* Build the action menu, fill the object definition, etc, based on objectTypes info */
-  function configureFilterAndHeadpage ()
+  function configureHeadpage ()
   {
     $this->headpage->xmlData['actionmenu']['action'][0]['action'] = array();
     $pInfos = pluglist::pluginInfos(get_class($this));
@@ -112,25 +115,34 @@ class simpleManagement extends management
           'image'       => $i['icon']
         );
       $this->headpage->categories[] = $i['aclCategory'];
-      $this->registerAction('new_'.$object, 'newEntry');
-      $icon = 'images/lists/new.png';
-      if (isset($i['icon'])) {
-        $icon = $i['icon'];
-      } else {
-        $infos = pluglist::pluginInfos($i['mainTab']);
-        if (isset($infos['plIcon'])) {
-          $icon = $infos['plIcon'];
+      if ($this->autoActions) {
+        $this->registerAction('new_'.$object, 'newEntry');
+        $icon = 'images/lists/new.png';
+        if (isset($i['icon'])) {
+          $icon = $i['icon'];
+        } else {
+          $infos = pluglist::pluginInfos($i['mainTab']);
+          if (isset($infos['plIcon'])) {
+            $icon = $infos['plIcon'];
+          }
         }
+        $this->headpage->xmlData['actionmenu']['action'][0]['action'][] = array(
+          'name' => 'new_'.$object,
+          'type' => 'entry',
+          'image' => $icon,
+          'label' => $i['name'],
+        );
       }
-      $this->headpage->xmlData['actionmenu']['action'][0]['action'][] = array(
-        'name' => 'new_'.$object,
-        'type' => 'entry',
-        'image' => $icon,
-        'label' => $i['name'],
-      );
     }
+  }
+
+  /* Build the filter(s) based on objectTypes info */
+  function configureFilter ()
+  {
+    $pInfos = pluglist::pluginInfos(get_class($this));
     if ($this->autoFilter) {
       $this->filter->category = key($pInfos['plCategory']);
+      $attributes = array('dn', 'cn', 'description');
       $filter = '(|';
       foreach ($this->objectTypes as $object) {
         $tag    = 'FILTER'.$object;
@@ -144,15 +156,28 @@ class simpleManagement extends management
           'set'     => $i['filter']
         );
         $this->filter->elementValues[$tag] = TRUE;
+
+        $attributes[] = $i['mainAttr'];
       }
       $filter .= ')';
-      $this->filter->query[0]['filter']    = '(&'.$filter.'$NAME)';
-      $this->filter->query[0]['attribute'] = array('dn', 'cn', 'description');
-      $this->filter->element['NAME']['set'] = '(cn=*$*)';
-      $this->filter->element['NAME']['autocomplete']['filter'] = '(&'.$filter.'(cn=*$NAME*))';
+      $attributes = array_unique($attributes);
+      $this->filter->query[0]['filter']     = '(&'.$filter.'$NAME)';
+      $this->filter->query[0]['attribute']  = $attributes;
+      $this->filter->element['NAME']['set'] = '(|('.join('=*$*)(', $attributes).'))';
+      $this->filter->element['NAME']['autocomplete']['filter'] = '(&'.$filter.'(|('.join('=*$NAME*)(', $attributes).'))'.')';
       uasort($this->filter->elements, 'strlenSort');
       $this->filter->elements = array_reverse($this->filter->elements);
     }
+  }
+
+  function parseXML ($file)
+  {
+    $contents = file_get_contents($file);
+    $data     = xml::xml2array($contents, 1);
+    foreach (array('departmentBrowser','departmentRootVisible','baseMode','multiSelect') as $var) {
+      $data['list']['definition']["$var"] = ($this->$var?'true':'false');
+    }
+    return $data;
   }
 
   function getType($dn)
