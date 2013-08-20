@@ -21,7 +21,6 @@
 
 class groupManagement extends simpleManagement
 {
-  protected $objectName   = "group";
   protected $objectTypes  = array('group');
 
   protected $departmentBrowser      = TRUE;
