@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012  FusionDirectory
+  Copyright (C) 2012-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -82,15 +82,11 @@ class GenericSelectDialog extends GenericDialog
 class UserSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'userSelect';
-  protected $post_cancel = 'add_users_cancel';
-  protected $post_finish = 'add_users_finish';
 }
 
 class SingleUserSelectDialog extends GenericDialog
 {
   protected $dialogClass = 'singleUserSelect';
-  protected $post_cancel = 'add_users_cancel';
-  protected $post_finish = 'add_users_finish';
 
   function handle_finish ()
   {
@@ -115,17 +111,6 @@ class SystemSelectDialog extends GenericSelectDialog
 class UserGroupSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'userGroupSelect';
-  protected $post_cancel = 'userGroupSelect_cancel';
-  protected $post_finish = 'userGroupSelect_save';
-
-  function handle_finish ()
-  {
-    $users = $this->userGroupSelect->save();
-    foreach ($users as $user) {
-      $this->dialogAttribute->addValue($user['dn'], $user);
-    }
-    return FALSE;
-  }
 }
 
 class GroupSelectDialog extends GenericSelectDialog

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<list>
+  <definition>
+    <departmentBrowser>true</departmentBrowser>
+    <departmentRootVisible>true</departmentRootVisible>
+    <baseMode>true</baseMode>
+    <multiSelect>true</multiSelect>
+    <template>simple-select-list.tpl</template>
+    <module>simple</module>
+    <label>Please select the desired entries</label>
+    <defaultSortColumn>1</defaultSortColumn>
+  </definition>
+
+  <table>
+    <layout>|20px;c|||</layout>
+
+    <department>
+      <value>%{filter:objectType(dn,objectClass)}</value>
+    </department>
+
+    <department>
+      <value>%{filter:departmentLink(row,dn,description)}</value>
+      <span>2</span>
+    </department>
+
+    <column>
+      <value>%{filter:objectType(dn,objectClass)}</value>
+    </column>
+
+    <column>
+      <label>Name</label>
+      <sortAttribute>cn</sortAttribute>
+      <sortType>string</sortType>
+      <value>%{filter:selectLink(pid,row,dn,cn)}</value>
+      <export>true</export>
+    </column>
+
+    <column>
+      <label>Description</label>
+      <sortAttribute>description</sortAttribute>
+      <sortType>string</sortType>
+      <value>%{filter:selectLink(pid,row,dn,description)}</value>
+      <export>true</export>
+    </column>
+  </table>
+
+  <actionmenu>
+  </actionmenu>
+
+  <actiontriggers snapshot="false" copypaste="false">
+  </actiontriggers>
+
+</list>

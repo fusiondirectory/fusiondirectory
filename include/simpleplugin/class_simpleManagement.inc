@@ -95,9 +95,10 @@ class simpleManagement extends management
   /* Build the action menu, fill the object definition, etc, based on objectTypes info */
   function configureHeadpage ()
   {
-    $this->headpage->xmlData['actionmenu']['action'][0]['action'] = array();
-    $pInfos = pluglist::pluginInfos(get_class($this));
-    $this->headpage->headline = $pInfos['plShortName'];
+    if ($this->autoActions) {
+      $this->headpage->xmlData['actionmenu']['action'][0]['action'] = array();
+    }
+    $this->configureHeadline();
     foreach ($this->objectTypes as $object) {
       $i = objects::infos($object);
 
@@ -114,6 +115,7 @@ class simpleManagement extends management
           'class'       => $i['mainTab'],
           'image'       => $i['icon']
         );
+      print_r($i);
       $this->headpage->categories[] = $i['aclCategory'];
       if ($this->autoActions) {
         $this->registerAction('new_'.$object, 'newEntry');
@@ -136,12 +138,23 @@ class simpleManagement extends management
     }
   }
 
+  function configureHeadline ()
+  {
+    $pInfos = pluglist::pluginInfos(get_class($this));
+    $this->headpage->headline = $pInfos['plShortName'];
+  }
+
+  function configureFilterCategory ()
+  {
+    $pInfos = pluglist::pluginInfos(get_class($this));
+    $this->filter->category = key($pInfos['plCategory']);
+  }
+
   /* Build the filter(s) based on objectTypes info */
   function configureFilter ()
   {
-    $pInfos = pluglist::pluginInfos(get_class($this));
     if ($this->autoFilter) {
-      $this->filter->category = key($pInfos['plCategory']);
+      $this->configureFilterCategory();
       $attributes = array('dn', 'cn', 'description');
       $filter = '(|';
       foreach ($this->objectTypes as $object) {
