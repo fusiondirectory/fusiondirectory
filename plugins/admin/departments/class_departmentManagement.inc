@@ -21,7 +21,6 @@
 
 class departmentManagement extends simpleManagement
 {
-  protected $objectName   = "Departments";
   protected $objectTypes;
 
   protected $departmentBrowser      = FALSE;
@@ -46,13 +45,10 @@ class departmentManagement extends simpleManagement
   function __construct($config, $ui)
   {
     $this->objectTypes  = self::getDepartmentTypes();
-    $this->acl_base     = $config->current['BASE'];
     $this->listXMLPath  = get_template_path('dep-list.xml', TRUE, dirname(__FILE__));
     parent::__construct($config, $ui);
     $this->headpage->registerElementFilter("depLabel", "departmentManagement::filterDepLabel");
-    $this->headpage->setBase($this->acl_base);
-    $this->registerAction("open",                   "openEntry");
-    $this->filter->query[0]['attribute'] = array('dn', 'cn', 'ou', 'description');
+    $this->registerAction("open", "openEntry");
   }
 
   // Overriden save handler - We've to take care about the department tagging here.
