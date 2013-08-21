@@ -1368,8 +1368,7 @@ class config  {
       }
     }
     $ldap = $this->get_ldap_link();
-    $ldap->cd($ou);
-    if (!$ldap->success()) {
+    if (!$ldap->dn_exists($ou)) {
       /* Non-existing ou, returning empty list */
       return array();
     }
@@ -1386,6 +1385,7 @@ class config  {
     } else {
       $search_attrs = array($attrs);
     }
+    $ldap->cd($ou);
     $ldap->search($filter, $search_attrs);
     if (!$ldap->success()) {
       throw new Exception($ldap->get_error());
