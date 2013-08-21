@@ -3379,7 +3379,7 @@ function cred_decrypt($input, $password)
   /************************* Inspired by Crypt/CBC.pm *******************************/
   $input = pack('H*', $input);
   if (substr($input, 0, 8) != 'Salted__') {
-    die("Invalid hash header, expected 'Salted__', found '".substr($input, 0, 8)."'");
+    throw new Exception("Invalid hash header: expected 'Salted__', found '".substr($input, 0, 8)."'");
   }
   $salt   = substr($input, 8, 8);
   $input  = substr($input, 16);
