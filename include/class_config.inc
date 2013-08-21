@@ -290,8 +290,17 @@ class config  {
       }
       $cache = session::global_get('HTTP_FD_KEY_CACHE');
       if (!isset($cache[$creds])) {
-        $cache[$creds] = cred_decrypt($creds, $_SERVER['HTTP_FD_KEY']);
-        session::global_set('HTTP_FD_KEY_CACHE', $cache);
+        try {
+          $cache[$creds] = cred_decrypt($creds, $_SERVER['HTTP_FD_KEY']);
+          session::global_set('HTTP_FD_KEY_CACHE', $cache);
+        } catch (Exception $e) {
+          $msg = sprintf(
+            _('It seems you are trying to decode something which is not encoded : %s<br/>\n'.
+              'Please check you are not using a fusiondirectory.secrets file while your passwords are not encrypted.'),
+            $e->getMessage()
+          );
+          msg_dialog::display(_("Configuration error"), $msg, FATAL_ERROR_DIALOG);
+        }
       }
       return $cache[$creds];
     }
