@@ -118,8 +118,7 @@ class objects
       }
     }
     $ldap = $config->get_ldap_link();
-    $ldap->cd($ou);
-    if (!$ldap->success()) {
+    if (!$ldap->dn_exists($ou)) {
       throw new NonExistingBranchException();
     }
     if (empty($filter)) {
@@ -130,6 +129,7 @@ class objects
       }
       $filter = '(&'.$filter.$infos['filter'].')';
     }
+    $ldap->cd($ou);
     $ldap->search($filter, $search_attrs);
     if (!$ldap->success()) {
       throw new Exception($ldap->get_error());
