@@ -28,19 +28,23 @@ use 5.008;
 
 my $add_cmd     = "ldapadd -Y EXTERNAL -H ldapi:/// -f ";
 my $search_cmd  = "ldapsearch -Y EXTERNAL -H ldapi:// -b \"cn=schema,cn=config\" cn={*}";
+my $list_cmd    = $search_cmd."* cn 2>/dev/null";
 my $path        = "/etc/ldap/schema/fusiondirectory/";
 my $full_cmd    = "";
 my $ldap_utils_path = "/usr/bin/ldapadd";
 my $schema2ldif = "schema2ldif";
 
+my $listschemas = 0;
 my $schemalist  = 0;
 my $pathunset   = 1;
 my @schemas     = ();
 my @gen_files   = ();
 foreach my $arg ( @ARGV ) {
-  if (lc($arg) eq '-i') {
+  if ((lc($arg) eq '-i') || (lc($arg) eq '--insert')) {
     $schemalist = 1;
-  } elsif (lc($arg) eq '-h') {
+  } elsif ((lc($arg) eq '-l') || (lc($arg) eq '--list')) {
+    $listschemas = 1;
+  } elsif ((lc($arg) eq '-h') || (lc($arg) eq '--help')) {
     usage();
   } elsif ($schemalist) {
     if ($arg =~ /(.*).ldif/) { # ignore ".ldif" if it is there
@@ -65,6 +69,11 @@ foreach my $arg ( @ARGV ) {
 
 # die if user is not "root"
 die ("! You have to run this script as root\n") if ($<!=0);
+
+if ($listschemas) {
+  list_schemas();
+  exit 0;
+}
 
 # die if the path doesn't exists
 die ("! $path doesn't seems to exists\n") if (!-e $path);
@@ -126,6 +135,16 @@ foreach my $file (@gen_files) {
   unlink "$file.ldif" or print "Could not delete $file.ldif\n";
 }
 
+sub list_schemas
+{
+  my @schemas = `$list_cmd`;
+  foreach my $schema (@schemas) {
+    if ($schema =~ m/cn:\s*{[0-9]+}(.*)$/) {
+      print "$1\n";
+    }
+  }
+}
+
 sub usage
 {
   (@_) && print STDERR "\n@_\n\n";
@@ -133,9 +152,10 @@ sub usage
   print STDERR << "EOF";
  usage: $0 [-h] [path] [-i schema1 schema2 …]
 
-  -h   : this (help) message
-  path : where to find the schemas
-  -i   : specify the schemas to insert
+  -h, --help    : this (help) message
+  path          : where to find the schemas
+  -i, --insert  : specify the schemas to insert
+  -l, --list    : list inserted schemas
 
 EOF
   exit -1;
