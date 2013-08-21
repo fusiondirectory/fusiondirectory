@@ -329,43 +329,5 @@ class ogroup_old extends plugin
               msg_dialog::display(_("Information"), _("You cannot combine terminals and workstations in one object group!"), INFO_DIALOG);
           }
   }
-
-  function convert_list($input)
-  {
-    $temp= "";
-    $conv= array(
-        "Y" => "plugins/users/images/select_template.png",
-        "U" => "plugins/users/images/iconMini.png",
-        "G" => "plugins/groups/images/iconMini.png",
-        "A" => "plugins/ogroups/images/application.png",
-        "D" => "plugins/departments/images/department.png",
-        "S" => "plugins/ogroups/images/server.png",
-        "W" => "plugins/ogroups/images/workstation.png",
-        "O" => "plugins/ogroups/images/winstation.png",
-        "T" => "plugins/ogroups/images/terminal.png",
-        "F" => "plugins/ogroups/images/phone.png",
-        "P" => "plugins/ogroups/images/printer.png",
-        "I" => "images/false.png");
-
-    foreach ($input as $key => $value){
-      /* Generate output */
-      $temp.= "<option title='".addslashes( $key)."' value=\"$key\" class=\"select\" style=\"background-image:url('".get_template_path($conv[$value['type']])."');\">".$value['text']."</option>\n";
-    }
-
-    return ($temp);
-  }
-
-  function check()
-  {
-    /* Call common method to give check the hook */
-    $message= plugin::check();
-
-    /* To many different object types? */
-    if (strlen($this->gosaGroupObjects) > 4){
-      $message[]= _("You can combine two different object types at maximum, only!");
-    }
-
-    return ($message);
-  }
 }
 ?>

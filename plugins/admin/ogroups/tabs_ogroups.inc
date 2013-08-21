@@ -84,7 +84,13 @@ class ogrouptabs extends simpleTabs_noSpecial
       }
     }
     $tabs = array_merge($this->config->data['TABS']['OGROUPTABS'], (array)$tabs);
-    $tabs = array_map(function ($a) { return $a['CLASS']; }, $tabs);
+    $tabs = array_map(
+      function ($a)
+      {
+        return $a['CLASS'];
+      },
+      $tabs
+    );
 
     foreach ($this->by_object as $tab => $object) {
       if (!in_array($tab, $tabs)) {
@@ -152,141 +158,4 @@ class ogrouptabs extends simpleTabs_noSpecial
     $this->by_object['ogroup']->parent = &$this;
   }
 }
-
-class ogrouptabs_oldfuncs
-{
-  var $dynamic_tabs;
-  function oldcode() {
-    /* Add references/acls/snapshots */
-    $this->dynamic_tabs = array(
-      "/T/" => array(
-        'termservice'     => _('Devices'),
-        'termstartup'     => _('Startup'),
-      ),
-      "/[WT]/" => array(
-        'termgroup'       => _('Systems'),
-      ),
-      "/W/" => array(
-        'workservice'     => _('Devices'),
-      ),
-      "/[SW]/" => array(
-        'workstartup'     => _('Workstartup'),
-        'debconfStartup'  => _('Debconf'),
-        'faiStartup'      => _('FAI'),
-        'faiSummary'      => _('FAI summary'),
-        'argonautClient'  => _('Argonaut client'),
-      ),
-    );
-  }
-  function reload($dd)
-  {
-    $objects = preg_replace('/[\[\]]/', '', $dd);
-    $baseobject = $this->getBaseObject();
-
-    /* Check if we have a group with a set different mixed objects.
-     */
-    $mixed_type = FALSE;
-    for ($i = 0 ; $i < (strlen($objects) -1 );$i++) {
-      $mixed_type |= $objects[$i] != $objects[($i+1)];
-    }
-
-    /* If there is a phonequeue,
-     * but there is no user left with goPhoneAccount ... remove it.
-     */
-    $usePhoneTab = false;
-    if (class_available("phonequeue")) {
-
-      foreach($baseobject->memberList as $dn => $val){
-        if(isset($baseobject->objcache[$dn])){
-          $obj = $baseobject->objcache[$dn];
-          if(isset($obj['objectClass'])){
-            if(in_array("goFonAccount",$obj['objectClass'])){
-              $usePhoneTab = true;
-            }
-          }
-        }
-      }
-      if((!$usePhoneTab && isset($this->by_object['phonequeue']))||
-         (!preg_match("/U/",$objects) && isset($this->by_object['phonequeue']))){
-        $this->by_object['phonequeue']->remove_from_parent();
-        unset($this->by_object['phonequeue']);
-        unset($this->by_name['phonequeue']);
-      }
-    }
-
-    /* Remove mail group if there is no user anymore
-     */
-    if(class_available("mailogroup")){
-      if(!preg_match("/U/",$objects) && isset($this->by_object['mailogroup'])){
-        $this->by_object['mailogroup']->remove_from_parent();
-        unset($this->by_object['mailogroup']);
-        unset($this->by_name['mailogroup']);
-      }
-    }
-
-    /* Create goPhoneAccount if theres an user with goPhoneAccount
-     * but only if there is currently no queue enabled.
-     */
-    if(class_available("phonequeue")){
-      if(!isset($this->by_object['phonequeue'])){
-        foreach($baseobject->memberList as $dn => $val){
-          if(isset($baseobject->objcache[$dn])){
-            $obj = $baseobject->objcache[$dn];
-            if(isset($obj['objectClass'])){
-              if(in_array("goFonAccount",$obj['objectClass'])){
-                $this->by_name['phonequeue'] = _("Phone queue");
-                $this->by_object['phonequeue'] = new phonequeue($this->config, $this->dn, $baseobject);
-                $this->by_object['phonequeue']->parent = &$this;
-                break;
-              }
-            }
-          }
-        }
-      }
-    }
-
-    /* Add mail group tab , if there is curerntly no mail tab defined */
-    if(class_available("mailogroup")){
-      if((preg_match("/U/",$objects))&&(!isset($this->by_object['mailogroup']))){
-        if ($this->config->get_cfg_value("mailmethod") == "kolab"){
-          $this->by_name['mailogroup']= _("Mail");
-          $this->by_object['mailogroup']= new mailogroup($this->config, $this->dn, $baseobject);
-          $this->by_object['mailogroup']->parent= &$this;
-        }
-      }
-    }
-
-    /* Add Workstation tabs */
-    if (!$mixed_type) {
-      foreach ($this->dynamic_tabs as $pattern => $tabs) {
-        if (preg_match($pattern,$objects)) {
-          foreach ($tabs as $class => $name) {
-            if (class_available($class) && !isset($this->by_object["$class"])) {
-              $this->addTab($class, $name);
-            }
-          }
-        } else {
-          foreach ($tabs as $class => $name) {
-            if (class_available($class) && isset($this->by_object["$class"])) {
-              $this->by_object["$class"]->remove_from_parent();
-              unset($this->by_object["$class"]);
-              unset($this->by_name["$class"]);
-            }
-          }
-        }
-      }
-      if (isset($this->by_object['workservice'])) {
-        $this->by_object['workservice']->inheritTimeServer = false;
-      }
-      if (isset($this->by_object['termgroup'])) {
-        $this->by_object['termgroup']->inheritTimeServer = false;
-      }
-    }
-
-    foreach($this->by_object as $name => $obj){
-      $this->by_object[$name]->set_acl_category($this->acl_category);
-    }
-  }
-}
-
 ?>
