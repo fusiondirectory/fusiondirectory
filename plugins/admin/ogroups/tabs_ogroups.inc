@@ -19,227 +19,108 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class ogrouptabs extends tabs
+class ogrouptabs extends simpleTabs_noSpecial
 {
-  var $base = "";
-  var $acl_category;
-  var $dynamic_tabs;
+  private $groupObjects = NULL;
 
-  function __construct($config, $data, $dn, $category = "ogroup", $copied_object = NULL)
+  function __construct($type, $dn, $copied_object = NULL)
   {
-    parent::__construct($config, $data, $dn, $category, $copied_object);
-    $this->base = $this->by_object['ogroup']->base;
-    $this->acl_category = $category;
+    parent::__construct($type, $dn, $copied_object);
 
-    /* Add references/acls/snapshots */
-    $this->dynamic_tabs = array(
-      "/T/" => array(
-        'termservice'     => _('Devices'),
-        'termstartup'     => _('Startup'),
-      ),
-      "/[WT]/" => array(
-        'termgroup'       => _('Systems'),
-      ),
-      "/W/" => array(
-        'workservice'     => _('Devices'),
-      ),
-      "/[SW]/" => array(
-        'workstartup'     => _('Workstartup'),
-        'debconfStartup'  => _('Debconf'),
-        'faiStartup'      => _('FAI'),
-        'faiSummary'      => _('FAI summary'),
-        'argonautClient'  => _('Argonaut client'),
-      ),
-      "/O/" => array(
-        'opsiClient'      => _('OPSI'),
-      ),
+    $this->loadtabs($this->getBaseObject()->gosaGroupObjects);
+  }
+
+  function loadtabs($gosaGroupObjects)
+  {
+    if ($this->groupObjects == $gosaGroupObjects) {
+      return;
+    }
+    $this->groupObjects = $gosaGroupObjects;
+    $objects = preg_replace('/[\[\]]/', '', $gosaGroupObjects);
+
+    $tabs = array();
+    if (strlen($objects)) {
+      $dtabs  = $this->config->data['TABS']['OGROUP-DYNAMICTABS'];
+      $tabs   = FALSE;
+      for ($i = 0; $i < strlen($objects); $i++) {
+        if ($objects[$i] == 'I') {
+          continue;
+        }
+        $otype = ogroup::$objectTypes[$objects[$i]];
+        $otabs = array();
+        if (isset($this->config->data['TABS'][strtoupper($otype).'TABS'])) {
+          $otabs = array_uintersect(
+            $dtabs,
+            $this->config->data['TABS'][strtoupper($otype).'TABS'],
+            function ($a, $b)
+            {
+              return strcmp($a['CLASS'], $b['CLASS']);
+            }
+          );
+        }
+        if (isset($this->config->data['TABS']['OGROUP-'.strtoupper($otype).'TABS'])) {
+          $otabs = array_merge(
+            $otabs,
+            $this->config->data['TABS']['OGROUP-'.strtoupper($otype).'TABS']
+          );
+        }
+        if ($tabs === FALSE) {
+          $tabs = $otabs;
+        } else {
+          $tabs = array_uintersect(
+            $tabs,
+            $otabs,
+            function ($a, $b)
+            {
+              return strcmp($a['CLASS'], $b['CLASS']);
+            }
+          );
+        }
+      }
+    }
+    $tabs = array_merge($this->config->data['TABS']['OGROUPTABS'], (array)$tabs);
+    $tabs = array_map(
+      function ($a)
+      {
+        return $a['CLASS'];
+      },
+      $tabs
     );
-    $this->reload($this->by_object['ogroup']->gosaGroupObjects);
+
+    foreach ($this->by_object as $tab => $object) {
+      if (!in_array($tab, $tabs)) {
+        $this->delTab($tab);
+      }
+    }
+    foreach ($tabs as $class) {
+      if (class_available($class) && !isset($this->by_object["$class"])) {
+        $this->addTab($class);
+      }
+    }
     $this->addSpecialTabs();
   }
 
-  function reload($dd)
+  function addTab ($class)
   {
-    $objects = preg_replace('/[\[\]]/', '', $dd);
-    $baseobject = $this->getBaseObject();
-
-    /* Check if we have a group with a set different mixed objects.
-     */
-    $mixed_type = FALSE;
-    for ($i = 0 ; $i < (strlen($objects) -1 );$i++) {
-      $mixed_type |= $objects[$i] != $objects[($i+1)];
-    }
-
-    /* If there is a phonequeue,
-     * but there is no user left with goPhoneAccount ... remove it.
-     */
-    $usePhoneTab = false;
-    if (class_available("phonequeue")) {
-
-      foreach($baseobject->memberList as $dn => $val){
-        if(isset($baseobject->objcache[$dn])){
-          $obj = $baseobject->objcache[$dn];
-          if(isset($obj['objectClass'])){
-            if(in_array("goFonAccount",$obj['objectClass'])){
-              $usePhoneTab = true;
-            }
-          }
-        }
-      }
-      if((!$usePhoneTab && isset($this->by_object['phonequeue']))||
-         (!preg_match("/U/",$objects) && isset($this->by_object['phonequeue']))){
-        $this->by_object['phonequeue']->remove_from_parent();
-        unset($this->by_object['phonequeue']);
-        unset($this->by_name['phonequeue']);
-      }
-    }
-
-    /* Remove mail group if there is no user anymore
-     */
-    if(class_available("mailogroup")){
-      if(!preg_match("/U/",$objects) && isset($this->by_object['mailogroup'])){
-        $this->by_object['mailogroup']->remove_from_parent();
-        unset($this->by_object['mailogroup']);
-        unset($this->by_name['mailogroup']);
-      }
-    }
-
-    /* Create goPhoneAccount if theres an user with goPhoneAccount
-     * but only if there is currently no queue enabled.
-     */
-    if(class_available("phonequeue")){
-      if(!isset($this->by_object['phonequeue'])){
-        foreach($baseobject->memberList as $dn => $val){
-          if(isset($baseobject->objcache[$dn])){
-            $obj = $baseobject->objcache[$dn];
-            if(isset($obj['objectClass'])){
-              if(in_array("goFonAccount",$obj['objectClass'])){
-                $this->by_name['phonequeue'] = _("Phone queue");
-                $this->by_object['phonequeue'] = new phonequeue($this->config, $this->dn, $baseobject);
-                $this->by_object['phonequeue']->parent = &$this;
-                break;
-              }
-            }
-          }
-        }
-      }
-    }
-
-    /* Add mail group tab , if there is curerntly no mail tab defined */
-    if(class_available("mailogroup")){
-      if((preg_match("/U/",$objects))&&(!isset($this->by_object['mailogroup']))){
-        if ($this->config->get_cfg_value("mailmethod") == "kolab"){
-          $this->by_name['mailogroup']= _("Mail");
-          $this->by_object['mailogroup']= new mailogroup($this->config, $this->dn, $baseobject);
-          $this->by_object['mailogroup']->parent= &$this;
-        }
-      }
-    }
-
-    /* Add Workstation tabs */
-    if (!$mixed_type) {
-      foreach ($this->dynamic_tabs as $pattern => $tabs) {
-        if (preg_match($pattern,$objects)) {
-          foreach ($tabs as $class => $name) {
-            if (class_available($class) && !isset($this->by_object["$class"])) {
-              $this->addTab($class, $name);
-            }
-          }
-        } else {
-          foreach ($tabs as $class => $name) {
-            if (class_available($class) && isset($this->by_object["$class"])) {
-              $this->by_object["$class"]->remove_from_parent();
-              unset($this->by_object["$class"]);
-              unset($this->by_name["$class"]);
-            }
-          }
-        }
-      }
-      if (isset($this->by_object['workservice'])) {
-        $this->by_object['workservice']->inheritTimeServer = false;
-      }
-      if (isset($this->by_object['termgroup'])) {
-        $this->by_object['termgroup']->inheritTimeServer = false;
-      }
-    }
-
-    /* Add environment tab if user or group is member in this object group*/
-    if(class_available("environment")){
-      if((preg_match("/G/",$objects) || preg_match("/U/",$objects)) && !isset($this->by_name['environment'])){
-        $this->by_name['environment']= _("Environment");
-        $this->by_object['environment']= new environment($this->config, $this->dn, $baseobject);
-        $this->by_object['environment']->acl = "#all#";
-        $this->by_object['environment']->parent= &$this;
-      }
-    }
-
-    /* Remove environment tab if not required any longer */
-    if(class_available("environment")){
-      if(!preg_match("/G/",$objects) && !preg_match("/U/",$objects) && isset($this->by_name['environment'])){
-        $this->by_object['environment']->remove_from_parent();
-        unset($this->by_name['environment']);
-        unset($this->by_object['environment']);
-      }
-    }
-
-    /* Add application tab if user or group is member in this object group*/
-    if(class_available("appgroup")){
-      if((preg_match("/G/",$objects) || preg_match("/U/",$objects)) && !isset($this->by_name['appgroup'])){
-        $this->by_name['appgroup']= _("Applications");
-        $this->by_object['appgroup']= new appgroup($this->config, $this->dn, $baseobject);
-        $this->by_object['appgroup']->acl = "#all#";
-        $this->by_object['appgroup']->parent= &$this;
-      }
-    }
-
-    /* Remove application tab if not required any longer */
-    if(class_available("appgroup")){
-      if(!preg_match("/G/",$objects) && !preg_match("/U/",$objects) && isset($this->by_name['appgroup'])){
-        $this->by_object['appgroup']->remove_from_parent();
-        unset($this->by_name['appgroup']);
-        unset($this->by_object['appgroup']);
-      }
-    }
-
-    /* Move reference tab to second position from right */
-    if(class_available("acl")){
-      if(isset($this->by_name['acl'])){
-        $tmp = $this->by_name['acl'];
-        unset($this->by_name['acl']);
-        $this->by_name['acl'] = $tmp;
-      }
-
-      /* Move reference tab to last position*/
-      if(class_available("reference")){
-        if(isset($this->by_name['reference'])){
-          $tmp = $this->by_name['reference'];
-          unset($this->by_name['reference']);
-          $this->by_name['reference'] = $tmp;
-        }
-      }
-
-      /* Reset acls */
-      if($this->dn == "new"){
-        $this->set_acl_base($this->base);
-      }else{
-        $this->set_acl_base($this->dn);
-      }
-      foreach($this->by_object as $name => $obj){
-        $this->by_object[$name]->set_acl_category($this->acl_category);
-      }
-    }
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class, "Adding tab ");
+    $plInfos = pluglist::pluginInfos($class);
+    $this->by_name["$class"]            = $plInfos['plShortName'];
+    $this->by_object["$class"]          = new $class($this->config, $this->dn, $this->getBaseObject());
+    $this->by_object["$class"]->parent  = &$this;
+    $this->by_object["$class"]->set_acl_category($this->acl_category);
   }
 
-  function addTab ($class, $name) {
-    $this->by_name["$class"] = $name;
-    $this->by_object["$class"] = new $class($this->config, $this->dn, $this->getBaseObject());
-    $this->by_object["$class"]->parent = &$this;
-    $this->by_object["$class"]->acl = "#all#";
+  function delTab ($class)
+  {
+    $this->by_object["$class"]->remove_from_parent();
+    unset($this->by_object["$class"]);
+    unset($this->by_name["$class"]);
   }
 
-  function execute() {
-    $this->reload($this->by_object['ogroup']->gosaGroupObjects);
-    return parent::execute();
+  function gen_tabs($disabled = FALSE)
+  {
+    $this->loadtabs($this->getBaseObject()->getGroupObjectTypes());
+    return parent::gen_tabs($disabled);
   }
 
   function check($ignore_account = FALSE)
@@ -247,57 +128,28 @@ class ogrouptabs extends tabs
     return parent::check(FALSE);
   }
 
-
   function save_object($save_current = FALSE)
   {
     parent::save_object($save_current);
 
     /* Update reference, transfer variables */
-    $baseobject= $this->by_object['ogroup'];
+    $baseobject = $this->getBaseObject();
     foreach ($this->by_object as $name => $obj) {
 
       /* Don't touch base object */
       if ($name != 'ogroup') {
         $obj->parent    = &$this;
-        $obj->uid       = $baseobject->uid;
+        $obj->uid       = $baseobject->cn;
         $obj->cn        = $baseobject->cn;
-        $obj->sn        = $baseobject->uid;
-        $obj->givenName = $baseobject->uid;
-        $this->by_object[$name]= $obj;
+        $obj->sn        = $baseobject->cn;
+        $obj->givenName = $baseobject->cn;
+
+        $this->by_object[$name] = $obj;
       }
-
-      /* Update parent in base object */
-      $this->by_object['ogroup']->parent = &$this;
-    }
-  }
-
-
-  function save()
-  {
-    $baseobject = $this->getBaseObject();
-
-    /* Check for new 'dn', in order to propagate the
-       'dn' to all plugins */
-    $new_dn = $baseobject->compute_dn();
-
-    /* Move group? */
-    if (LDAP::fix($this->dn) != LDAP::fix($new_dn)) {
-
-      /* Write entry on new 'dn' */
-      if ($this->dn != "new") {
-        $baseobject->move($this->dn, $new_dn);
-        $this->by_object['ogroup']= $baseobject;
-      }
-
-      /* Happen to use the new one */
-      $this->dn= $new_dn;
     }
 
-    if ($this->dn == "new") {
-      $this->dn= 'cn='.$baseobject->cn.','.get_ou('ogroupRDN').$baseobject->base;
-    }
-
-    tabs::save();
+    /* Update parent in base object */
+    $this->by_object['ogroup']->parent = &$this;
   }
 }
 ?>

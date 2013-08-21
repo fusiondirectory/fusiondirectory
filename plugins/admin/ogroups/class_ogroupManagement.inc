@@ -55,27 +55,15 @@ class ogroupManagement extends simpleManagement
 
   static function filterProperties($row, $gosaGroupObjects)
   {
-    $conv= array(
-      "Y" => array("plugins/users/images/select_template.png"                   ,_("Templates")       ,"ogroup"),
-      "U" => array('geticon.php?context=types&icon=user&size=16'                ,_("User")            ,"ogroup"),
-      "G" => array('geticon.php?context=types&icon=user-group&size=16'          ,_("Group")           ,"ogroup"),
-      "A" => array('geticon.php?context=types&icon=application&size=16'         ,_("Application")     ,"ogroup"),
-      "D" => array('geticon.php?context=places&icon=folder&size=16'             ,_("Department")      ,"ogroup"),
-      "S" => array('geticon.php?context=devices&icon=server&size=16'            ,_("Server")          ,"ogroup"),
-      "F" => array('geticon.php?context=devices&icon=telephone&size=16'         ,_("Phone")           ,"phonequeue"),
-      "W" => array('geticon.php?context=devices&icon=computer&size=16'          ,_("Workstation")     ,"workstartup"),
-      "O" => array('geticon.php?context=devices&icon=computer-windows&size=16'  ,_("Windows Install") ,"ogroup"),
-      "T" => array('geticon.php?context=devices&icon=terminal&size=16'          ,_("Terminal")        ,"termgroup"),
-      "P" => array('geticon.php?context=devices&icon=printer&size=16'           ,_("Printer")         ,"ogroup")
-    );
-
-    $types = preg_replace("/[^a-z]/i","",$gosaGroupObjects[0]);
-    $result ="";
-    for($i = 0 ; $i < strlen($types); $i++){
-      $type = $types[$i];
-      $result.="<input class='center' type='image' src='".$conv[$type][0]."' ".
-        "alt='".$conv[$type][1]."' title='".$conv[$type][1].
-        "' name='listing_edit_tab_".$conv[$type][2]."_$row' style='padding:1px'>";
+    $types  = preg_replace("/[^a-z]/i", "", $gosaGroupObjects[0]);
+    $result = "";
+    for ($i = 0; $i < strlen($types); $i++) {
+      if ($types[$i] == 'I') {
+        continue;
+      }
+      $info   = objects::infos(ogroup::$objectTypes[$types[$i]]);
+      $result .= '<img class="center" src="'.$info['icon'].'" '.
+        'alt="'.$info['name'].'" title="'.$info['name'].'" style="padding:1px"/>';
     }
     if ($result == "") {
       return '&nbsp;';
