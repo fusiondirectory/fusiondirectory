@@ -159,7 +159,24 @@ class simpleManagement extends management
   function configureFilterCategory ()
   {
     $pInfos = pluglist::pluginInfos(get_class($this));
-    $this->filter->category = key($pInfos['plCategory']);
+    $cat = NULL;
+    if (isset($pInfos['plCategory'])) {
+      $cat = key($pInfos['plCategory']);
+      if (is_numeric($cat)) {
+        $cat = $pInfos['plCategory'][$cat];
+      }
+    } elseif (isset($pInfos['plObjectType'])) {
+      $ot = key($pInfos['plObjectType']);
+      if (is_numeric($ot)) {
+        $ot = $pInfos['plObjectType'][$ot];
+      }
+      $infos = objects::infos($ot);
+      $cat = $infos['aclCategory'];
+    }
+    if ($cat === NULL) {
+      trigger_error('Could not find a category for '.get_class($this));
+    }
+    $this->filter->category = $cat;
   }
 
   /* Build the filter(s) based on objectTypes info */
@@ -185,11 +202,12 @@ class simpleManagement extends management
         $attributes[] = $i['mainAttr'];
       }
       $filter .= ')';
-      $attributes = array_unique($attributes);
+      $attributes = array_values(array_unique($attributes));
       $this->filter->query[0]['filter']     = '(&'.$filter.'$NAME)';
       $this->filter->query[0]['attribute']  = $attributes;
-      $this->filter->element['NAME']['set'] = '(|('.join('=*$*)(', $attributes).'))';
-      $this->filter->element['NAME']['autocomplete']['filter'] = '(&'.$filter.'(|('.join('=*$NAME*)(', $attributes).'))'.')';
+      $this->filter->elements['NAME']['set'] = '(|('.join('=*$*)(', $attributes).'=*$*))';
+      $this->filter->elements['NAME']['autocomplete']['filter'] = '(&'.$filter.'(|('.join('=*$NAME*)(', $attributes).'=*$NAME*))'.')';
+      $this->filter->elements['NAME']['autocomplete']['attribute'] = $attributes;
       uasort($this->filter->elements, 'strlenSort');
       $this->filter->elements = array_reverse($this->filter->elements);
     }
