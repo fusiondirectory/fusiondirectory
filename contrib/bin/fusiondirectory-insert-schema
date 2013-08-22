@@ -26,13 +26,15 @@ use warnings;
 
 use 5.008;
 
-my $add_cmd     = "ldapadd -Y EXTERNAL -H ldapi:/// -f ";
-my $search_cmd  = "ldapsearch -Y EXTERNAL -H ldapi:// -b \"cn=schema,cn=config\" cn={*}";
-my $list_cmd    = $search_cmd."* cn 2>/dev/null";
-my $path        = "/etc/ldap/schema/fusiondirectory/";
-my $full_cmd    = "";
+my $add_cmd         = "ldapadd -Y EXTERNAL -H ldapi:/// -f ";
+my $ldapsearch      = "ldapsearch -Y EXTERNAL -H ldapi:// ";
+my $search_cmd      = $ldapsearch." -b \"cn=schema,cn=config\" cn={*}";
+my $list_cmd        = $search_cmd."* cn 2>/dev/null";
+my $cnconfig_cmd    = $ldapsearch." -b \"cn=config\" cn=config dn 2>/dev/null | grep dn:";
+my $path            = "/etc/ldap/schema/fusiondirectory/";
+my $full_cmd        = "";
 my $ldap_utils_path = "/usr/bin/ldapadd";
-my $schema2ldif = "schema2ldif";
+my $schema2ldif     = "schema2ldif";
 
 my $listschemas = 0;
 my $schemalist  = 0;
@@ -80,6 +82,12 @@ die ("! $path doesn't seems to exists\n") if (!-e $path);
 
 # die if ldap-utils are not installed
 die ("! ldap-utils doesn't seem to be installed") if (!-e $ldap_utils_path);
+
+#die if we are not in cn=config
+my $cnconfig = `$cnconfig_cmd`;
+if (!($cnconfig =~ m/^dn:\s*cn=config$/)) {
+  die ("! This tool is only intended to be with with a cn=config backend, cn=config could not be found in the LDAP");
+}
 
 if (scalar(@schemas) == 0) {
   # insert the default schemas
