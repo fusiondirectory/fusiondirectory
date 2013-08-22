@@ -136,6 +136,7 @@ class simpleManagement extends management
         );
       }
     }
+    $this->headpage->registerElementFilter('filterRowLink', 'simpleManagement::filterRowLink');
   }
 
   function configureHeadline ()
@@ -481,6 +482,21 @@ class simpleManagement extends management
     }
 
     return parent::copyPasteHandler($action, $target, $all, $tabClass, $tabType, $aclCategory, $aclPlugin);
+  }
+
+  static function filterRowLink()
+  {
+    $pid    = func_get_arg(0);
+    $row    = func_get_arg(1);
+    $dn     = func_get_arg(2);
+    $trans  = func_get_arg(3);
+    unset($trans['count']);
+    $trans  = join("<br/>\n", $trans);
+    if ($trans != "") {
+      return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$pid.'&amp;act=listing_edit_'.$row.'" title="'.$dn.'">'.$trans.'</a>';
+    }
+
+    return '';
   }
 
   static function mainInc ($classname)
