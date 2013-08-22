@@ -2,7 +2,7 @@
 
 <filterdef>
   <definition>
-    <category>alias</category>
+    <category>noneyet</category>
     <template>simple-filter.tpl</template>
     <initial>true</initial>
   </definition>
@@ -34,13 +34,5 @@
       <frequency>0.5</frequency>
       <characters>3</characters>
     </autocomplete>
-  </element>
-
-  <element>
-    <type>checkbox</type>
-    <tag>FAKE</tag>
-    <default>true</default>
-    <unset></unset>
-    <set>(objectClass=FAKEFILTER)</set>
   </element>
 </filterdef>
