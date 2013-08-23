@@ -62,6 +62,13 @@ if ($_SERVER['REMOTE_ADDR'] != $ui->ip) {
   exit;
 }
 $config = session::global_get('config');
+
+/* If SSL is forced, just forward to the SSL enabled site */
+if (($config->get_cfg_value("forcessl") == "TRUE") && ($ssl != '')) {
+  header ("Location: $ssl");
+  exit;
+}
+
 timezone::get_default_timezone();
 
 /* Check for invalid sessions */

@@ -188,20 +188,6 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
   @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang, "Setting language to");
 }
 
-/* Check for SSL connection */
-$ssl = "";
-if (!isset($_SERVER['HTTPS']) ||
-    !stristr($_SERVER['HTTPS'], "on")) {
-
-  if (empty($_SERVER['REQUEST_URI'])) {
-    $ssl = "https://".$_SERVER['HTTP_HOST'].
-      $_SERVER['PATH_INFO'];
-  } else {
-    $ssl = "https://".$_SERVER['HTTP_HOST'].
-      $_SERVER['REQUEST_URI'];
-  }
-}
-
 /* Do we have htaccess authentification enabled? */
 $htaccess_authenticated = FALSE;
 if ($config->get_cfg_value("htaccessAuthentication") == "TRUE" ) {
@@ -234,7 +220,7 @@ if (!$htaccess_authenticated) {
 $config->set_current($server);
 
 /* If SSL is forced, just forward to the SSL enabled site */
-if ($config->get_cfg_value("forcessl") == "TRUE" && $ssl != '') {
+if (($config->get_cfg_value("forcessl") == "TRUE") && ($ssl != '')) {
   header ("Location: $ssl");
   exit;
 }
