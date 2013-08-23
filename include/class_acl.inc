@@ -565,7 +565,7 @@ class acl extends plugin
             alt='"._("Delete")."' name='cat_del_$section' title='".msgPool::delButton(_("category ACL"))."'>";
         }
 
-        $field1= array("html" => $infos['description'], "attach" => "style='width:100px'");
+        $field1= array("html" => $dsc, "attach" => "style='width:100px'");
         $field2= array("html" => $summary);
         $field3= array("html" => $actions, "attach" => "style='border-right:0px;width:50px'");
         $aclList->AddEntry(array($field1, $field2, $field3));
