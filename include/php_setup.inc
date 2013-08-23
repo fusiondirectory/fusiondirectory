@@ -294,4 +294,14 @@ if (defined('SMARTY_PHP_REMOVE')) {
 } else {
     $smarty->php_handling = Smarty::PHP_REMOVE;
 }
+
+/* Check for SSL connection */
+$ssl = "";
+if (!(isset($_SERVER['HTTPS']) && stristr($_SERVER['HTTPS'], "on"))) {
+  if (empty($_SERVER['REQUEST_URI'])) {
+    $ssl = "https://".$_SERVER['HTTP_HOST'].$_SERVER['PATH_INFO'];
+  } else {
+    $ssl = "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+  }
+}
 ?>

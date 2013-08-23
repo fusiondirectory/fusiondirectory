@@ -1,8 +1,6 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2003-2010  Cajus Pollmeier
   Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
@@ -23,6 +21,15 @@
 require_once("../include/php_setup.inc");
 require_once("functions.inc");
 require_once("variables.inc");
+
+$config = session::global_get('config');
+
+/* If SSL is forced, just forward to the SSL enabled site */
+if (($config->get_cfg_value("forcessl") == "TRUE") && ($ssl != '')) {
+  header ("Location: $ssl");
+  exit;
+}
+
 
 $pwRecovery = new passwordRecovery();
 
