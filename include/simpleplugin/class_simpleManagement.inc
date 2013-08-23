@@ -115,7 +115,6 @@ class simpleManagement extends management
           'class'       => $i['mainTab'],
           'image'       => $i['icon']
         );
-      print_r($i);
       $this->headpage->categories[] = $i['aclCategory'];
       if ($this->autoActions) {
         $this->registerAction('new_'.$object, 'newEntry');
