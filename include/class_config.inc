@@ -696,7 +696,7 @@ class config  {
 
 
   /*!
-   * \brief Get the departments from ldap
+   * \brief Store the departments from ldap in $this->departments
    *
    * \param string $ignore_dn dn of the department
    */
@@ -722,7 +722,7 @@ class config  {
       $filter         .= $i['filter'];
       $ldap_values[]  = $i['mainAttr']; // Specific key for departement objectTypes
     }
-    $filter = "(&(objectClass=gosaDepartment)(|".$filter."))";
+    $filter = "(|".$filter.")";
 
     /* Get list of department objects */
     $ldap = $this->get_ldap_link();

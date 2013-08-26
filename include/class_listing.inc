@@ -1472,14 +1472,14 @@ class listing {
 
     // Build filter and look in the LDAP for possible sub departments
     // of current base
-    $filter = "(&(objectClass=gosaDepartment)(|";
+    $filter = "(|";
     $attrs  = array("description", "objectClass");
     foreach ($types as $type) {
       $i = objects::infos($type);
       $filter .= $i['filter'];
       $attrs[] = $i['mainAttr']; // Specific key for departement objectTypes
     }
-    $filter .= "))";
+    $filter .= ")";
     $res = get_list($filter, $this->categories, $this->base, $attrs, GL_NONE);
 
     // Analyze list of departments
