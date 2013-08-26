@@ -163,7 +163,8 @@ class objects
     if (!isset($infos['management'])) {
       throw new Exception('Asked for link for type "'.$type.'" but it does not have a management class');
     }
-    $index  = pluglist::pluginInfos($infos['management'])['INDEX'];
+    $pInfos = pluglist::pluginInfos($infos['management']);
+    $index  = $pInfos['INDEX'];
     $action = 'edit';
     if ($subaction != '') {
       $action .= '_'.$subaction;
