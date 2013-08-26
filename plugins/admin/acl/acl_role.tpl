@@ -6,7 +6,7 @@
   <td>
     {t}Name{/t}
   </td>
-  <td>  
+  <td>
 {render acl=$cnACL}
     <input type="text" name='cn' value="{$cn}" style='width:200px;'>
 {/render}
@@ -24,7 +24,7 @@
 </tr>
 <tr>
   <td>
-    {t}Base{/t}{$MUST}
+    {t}Base{/t}{$must}
   </td>
   <td>
 {render acl=$baseACL}
