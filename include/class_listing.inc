@@ -1177,9 +1177,6 @@ class listing {
         $result['targets'][]  = $dn;
         // Make sure no other management class intercept the same dn
         unset($_REQUEST['dn']);
-      } else {
-        trigger_error('Unknown action "'.$key.'"');
-        unset($target);
       }
 
       // Drop targets if empty
