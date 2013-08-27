@@ -97,6 +97,9 @@ class management
   // Attributes managed by this plugin, can be used in post events;
   public $attributes = array();
 
+  // Some management classes are used in tab groups and needs this set to FALSE.
+  var $is_template    = FALSE;
+
   function  __construct(&$config, $ui, $plugname, $headpage)
   {
     $this->plugname = $plugname;
