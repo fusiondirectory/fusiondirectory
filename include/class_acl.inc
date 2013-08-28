@@ -620,11 +620,11 @@ class acl extends plugin
    */
   function sort_by_priority($list)
   {
-    uasort($list,
+    uksort($list,
       function ($a, $b)
       {
-        $infos_a = pluglist::pluginInfos($a);
-        $infos_b = pluglist::pluginInfos($b);
+        $infos_a = pluglist::pluginInfos(preg_replace('|^[^/]*/|', '', $a));
+        $infos_b = pluglist::pluginInfos(preg_replace('|^[^/]*/|', '', $b));
         $pa = (isset($infos_a['plPriority'])?$infos_a['plPriority']:0);
         $pb = (isset($infos_b['plPriority'])?$infos_b['plPriority']:0);
         if ($pa == $pb) {
@@ -720,7 +720,6 @@ class acl extends plugin
     /* Build general objects */
     $list = $this->sort_by_priority($list);
     foreach ($list as $key => $name) {
-
       /* Create sub acl if it does not exist */
       if (!isset($this->aclContents[$key])) {
         $this->aclContents[$key] = array();
