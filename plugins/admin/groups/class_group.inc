@@ -926,7 +926,7 @@ class group extends plugin
           }
         }
       } else {
-        $this->attrs['member'][]= $this->dn;
+        $this->attrs['member'][]= $this->config->current['ADMINDN'];
       }
     }
 
