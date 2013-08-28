@@ -406,7 +406,7 @@ class aclrole extends acl
         if ($idx == 0) {
           continue;
         }
-        $aclObjects[$this->aclObject.'/'.$class] = $plist[$class]['plDescription'];
+        $aclObjects[$this->aclObject.'/'.$class] = $plist[$class]['plShortName'];
       }
       if ($this->aclObject == 'all') {
         $aclObjects['all'] = _("All objects in current subtree");
