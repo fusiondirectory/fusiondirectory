@@ -791,29 +791,13 @@ class acl extends plugin
         $back_color = "#C8C8C8";
       }
 
-      if(session::global_get('js')) {
-        if(isset($_SERVER['HTTP_USER_AGENT']) &&
-             (preg_match("/gecko/i",$_SERVER['HTTP_USER_AGENT'])) ||
-             (preg_match("/presto/i",$_SERVER['HTTP_USER_AGENT']))) {
-          $display.= "\n<table style='width:100%;border:1px solid #A0A0A0' cellspacing=0 cellpadding=2>".
-                     "\n  <tr>".
-                     "\n    <td style='background-color:{$back_color};height:1.8em;' colspan=".($cols-1)."><b>"._("Object").": $name</b></td>".
-                     "\n    <td align='right' style='background-color:{$back_color};height:1.8em;'>".
-                     "\n    <input type='button' onclick=\"$('{$tname}').toggle();\" value='"._("Show/hide advanced settings")."' /></td>".
-                     "\n  </tr>";
-        } else if (isset($_SERVER['HTTP_USER_AGENT']) && preg_match("/ie/i",$_SERVER['HTTP_USER_AGENT'])) {
-          $display.= "\n<table style='width:100%;border:1px solid #A0A0A0' cellspacing=0 cellpadding=2>".
-                     "\n  <tr>".
-                     "\n    <td style='background-color:#C8C8C8;height:1.8em;' colspan=".($cols-1)."><b>"._("Object").": $name</b></td>".
-                     "\n    <td align='right' style='background-color:#C8C8C8;height:1.8em;'>".
-                     "\n    <input type='button' onclick=\"$('{$tname}').toggle();\" value='"._("Show/hide advanced settings")."' /></td>".
-                     "\n  </tr>";
-        } else {
-          $display.= "\n<table style='width:100%;border:1px solid #A0A0A0' cellspacing=0 cellpadding=2>".
-                     "\n  <tr>".
-                     "\n    <td style='background-color:#C8C8C8;height:1.8em;' colspan=$cols><b>"._("Object").": $name</b></td>".
-                     "\n  </tr>";
-        }
+      if (session::global_get('js')) {
+        $display .= "\n<table style='width:100%;border:1px solid #A0A0A0' cellspacing=0 cellpadding=2>".
+                    "\n  <tr>".
+                    "\n    <td style='background-color:{$back_color};height:1.8em;' colspan=".($cols - 1)."><b>"._("Object").": $name</b></td>".
+                    "\n    <td align='right' style='background-color:{$back_color};height:1.8em;'>".
+                    "\n    <input type='button' onclick=\"$('{$tname}').toggle();\" value='"._("Show/hide advanced settings")."' /></td>".
+                    "\n  </tr>";
       } else {
           $display.= "\n<table style='width:100%;border:1px solid #A0A0A0' cellspacing=0 cellpadding=2>".
                      "\n  <tr>".
@@ -840,22 +824,13 @@ class acl extends plugin
                  "\n  </tr>";
 
       /* Walk through the list of attributes */
-      $cnt= 1;
-      $splist= $plist[preg_replace('%^.*/%', '', $key)]['plProvidedAcls'];
-      if(session::global_get('js')) {
-        if(isset($_SERVER['HTTP_USER_AGENT']) &&
-            (preg_match("/gecko/i",$_SERVER['HTTP_USER_AGENT'])) || (preg_match("/presto/i",$_SERVER['HTTP_USER_AGENT']))) {
-          $display.= "\n  <tr id='tr_$tname' style='vertical-align:top;height:0px;'>".
-                     "\n    <td colspan=".$cols.">".
-                     "\n      <div id='$tname' style='overflow:hidden; display:none;vertical-align:top;width:100%;'>".
-                     "\n        <table style='width:100%;'>";
-        } else if (isset($_SERVER['HTTP_USER_AGENT']) && preg_match("/ie/i",$_SERVER['HTTP_USER_AGENT'])) {
-          $display.= "\n  <tr id='tr_$tname' style='vertical-align:top;height:0px;'>".
-                     "\n    <td colspan=".$cols.">".
-                     "\n      <div id='$tname' style='position:absolute;overflow:hidden;display:none;;vertical-align:top;width:100%;'>".
-                     "\n        <table style='width:100%;'>";
-        }else{
-        }
+      $cnt    = 1;
+      $splist = $plist[preg_replace('%^.*/%', '', $key)]['plProvidedAcls'];
+      if (session::global_get('js')) {
+        $display .= "\n  <tr id='tr_$tname' style='vertical-align:top;height:0px;'>".
+                    "\n    <td colspan=".$cols.">".
+                    "\n      <div id='$tname' style='overflow:hidden; display:none;vertical-align:top;width:100%;'>".
+                    "\n        <table style='width:100%;'>";
       }
 
 
@@ -896,16 +871,11 @@ class acl extends plugin
        $display.= str_repeat("\n    <td style='border-top:1px solid #A0A0A0; width:".(int)(100/$cols)."%'>&nbsp;</td>", $cols-$cnt);
       }
 
-      if(session::global_get('js')) {
-        if(isset($_SERVER['HTTP_USER_AGENT']) &&
-            (preg_match("/gecko/i",$_SERVER['HTTP_USER_AGENT'])) ||
-            (preg_match("/presto/i",$_SERVER['HTTP_USER_AGENT'])) ||
-            (preg_match("/ie/i",$_SERVER['HTTP_USER_AGENT']))) {
-          $display.= "\n        </table>".
-                     "\n      </div>".
-                     "\n    </td>".
-                     "\n  </tr>";
-        }
+      if (session::global_get('js')) {
+        $display .= "\n        </table>".
+                    "\n      </div>".
+                    "\n    </td>".
+                    "\n  </tr>";
       }
 
       $display.= "\n</table><br />\n";
