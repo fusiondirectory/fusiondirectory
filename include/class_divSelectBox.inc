@@ -89,15 +89,15 @@ class divSelectBox
   function DrawList()
   {
     $s_return = '';
-    $s_return .= '<div style="padding-right:1px;padding-bottom:2px;height:'.$this->height.';width:100%">'."\n";
+    $s_return .= '<div style="border:1px solid rgb(170,170,170);padding-right:1px;height:'.$this->height.';width:100%">'."\n";
     $s_return .= '<div style="overflow:auto; width:100%; height:100%;">'."\n";
     $s_return .= '<table '.
                     'class="listingTable" '.
                     'style="overflow:scroll; '.
                       'height:98%; '.
                       'width:100%; '.
-                      'padding-right:1px; '.
-                      'padding-bottom:2px;"'.
+                      'border:none; '.
+                    '"'.
                   ">\n";
     $s_return .= $this->_generatePage();
     $s_return .= '</table></div></div>';

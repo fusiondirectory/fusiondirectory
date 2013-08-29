@@ -22,56 +22,19 @@
 
 class aclroletab extends tabs
 {
-
-  function __construct($config, $data, $dn, $cat = "", $copied_object = NULL)
-  {
-    $data = array(array("CLASS" => "aclrole" , "NAME" => _("ACL Templates")));
-    parent::__construct($config, $data, $dn, "acl", $copied_object);
-  }
-
-  function save($ignore_account = FALSE)
-  {
-    $baseobject = $this->by_object['aclrole'];
-
-    /* Check for new 'dn', in order to propagate the
-       'dn' to all plugins */
-    $new_dn = 'cn='.$baseobject->cn.",".get_ou('aclRoleRDN').$baseobject->base;
-
-    if ($this->dn != $new_dn) {
-
-      /* Write entry on new 'dn' */
-      if ($this->dn != "new"){
-        $baseobject->move($this->dn, $new_dn);
-        $this->by_object['aclrole']= $baseobject;
-      }
-
-      /* Happen to use the new one */
-      $this->dn= $new_dn;
-    }
-
-    $ret= tabs::save();
-
-    return $ret;
-  }
-
-  function save_object($ignore_account= FALSE)
-  {
-    tabs::save_object();
-  }
-
   function execute()
   {
     $display = tabs::execute();
     if ($this->read_only) {
-      $display.= '<p class="plugbottom">'."\n";
-      $display.= '  <input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
-      $display.= '</p>';
-    } elseif(!$this->by_object['aclrole']->dialog) {
-      $display.= '<p class="plugbottom">'."\n";
-      $display.= '  <input type="submit" name="edit_finish" style="width:80px" value="'.msgPool::okButton().'"/>'."\n";
-      $display.= "  &nbsp;\n";
-      $display.= '  <input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
-      $display.= '</p>';
+      $display .= '<p class="plugbottom">'."\n";
+      $display .= '  <input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
+      $display .= '</p>';
+    } elseif (!$this->getBaseObject()->dialog) {
+      $display .= '<p class="plugbottom">'."\n";
+      $display .= '  <input type="submit" name="edit_finish" style="width:80px" value="'.msgPool::okButton().'"/>'."\n";
+      $display .= "  &nbsp;\n";
+      $display .= '  <input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
+      $display .= '</p>';
     }
     return $display;
   }

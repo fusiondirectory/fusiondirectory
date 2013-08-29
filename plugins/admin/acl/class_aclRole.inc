@@ -19,124 +19,273 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class aclrole extends acl
+/* ACL categories list */
+class ACLDialog extends GenericDialog
 {
-  /* attribute list for save action */
-  var $attributes     = array('gosaAclTemplate','cn','description');
-  var $objectclasses  = array('top','gosaRole');
+  protected $initialAclValue;
+  protected $post_cancel = 'cancel_new_acl';
+  protected $post_finish = 'submit_new_acl';
 
+  function __construct($simplePlugin, &$attribute, $acl = NULL)
+  {
+    $this->attribute        = $attribute;
+    $this->dialog           = new acl_createedit($simplePlugin->config, $acl);
+    $this->initialAclValue  = $acl;
+  }
+
+  function handle_finish ()
+  {
+    $this->attribute->addValue($this->dialog->getAclEntry());
+    return FALSE;
+  }
+
+  function handle_cancel ()
+  {
+    if ($this->initialAclValue !== NULL) {
+      $this->attribute->addValue($this->initialAclValue);
+    }
+    return FALSE;
+  }
+}
+
+/* complicated stuff */
+class ACLsAttribute extends OrderedArrayAttribute
+{
+  protected $order = TRUE;
+  protected $dialogClass = 'ACLDialog';
+
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $acl = "")
+  {
+    Attribute::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
+    $this->edit_enabled = TRUE;
+  }
+
+  function getAcl ()
+  {
+    return Attribute::getAcl();
+  }
+
+  function setAcl ($acl)
+  {
+    return Attribute::setAcl($acl);
+  }
+
+  function check ()
+  {
+    return Attribute::check();
+  }
+
+  function renderAttributeInput ($template = FALSE)
+  {
+  }
+
+  function renderAttribute(&$attributes, $readOnly)
+  {
+    Attribute::renderAttribute($attributes, $readOnly);
+  }
+
+  function setParent(&$plugin)
+  {
+    Attribute::setParent($plugin);
+  }
+
+  function loadPostValue ()
+  {
+    if ($this->isVisible()) {
+      parent::loadPostValue();
+      parent::applyPostValue();
+      if (isset($_POST['add'.$this->getHtmlId()])) {
+        $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
+      }
+    }
+  }
+
+  protected function handleAddAndEditValue ()
+  {
+  }
+
+  protected function handleEdit($key)
+  {
+    $this->editingValue = $this->value[$key];
+    $this->delPostValue($key);
+    $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this, $this->editingValue));
+  }
+
+  function applyPostValue ()
+  {
+  }
+
+  protected function getAttributeArrayValue($value)
+  {
+    /* Convert text value to displayable array value */
+
+    /* Summarize ACL */
+    $summary = "";
+    foreach ($value['acl'] as $name => $object) {
+      if (count($object)) {
+        $summary .= "$name, ";
+      }
+    }
+    $summary = sprintf(_("Contains settings for these objects: %s"), preg_replace('/, $/', '', $summary));
+    return array(aclRole::typeName($value['type']), $summary);
+  }
+
+  function addValue($value)
+  {
+    $this->value[] = $value;
+    $this->reIndexValues();
+  }
+
+  function readValue($value)
+  {
+    $acl = acl::explodeACL($value);
+    return each($acl);
+  }
+
+  function writeValue($key, $value)
+  {
+    $final    = '';
+    $members  = '';
+    if (isset($value['members'])) {
+      foreach (array_keys($value['members']) as $key) {
+        $members .= base64_encode(preg_replace('/^.:/', '', $key)).',';
+      }
+    }
+    $final = $value['type'].':'.preg_replace('/,$/', '', $members);
+
+    /* ACL's if needed */
+    if ($value['type'] != 'reset' && $value['type'] != 'role') {
+      $acl = ":";
+      foreach ($value['acl'] as $object => $contents) {
+        /* Only save, if we've some contents in there... */
+        if (count($contents)) {
+          $acl .= $object.';';
+          foreach ($contents as $attr => $permission) {
+            /* First entry? Its the one for global settings... */
+            if ($attr == '0') {
+              $acl .= $permission;
+            } else {
+              $acl .= '#'.$attr.';'.$permission;
+            }
+          }
+          $acl .= ',';
+        }
+      }
+      $final .= preg_replace('/,$/', '', $acl);
+    }
+    return $key.':'.$final;
+  }
+}
+
+class aclRole extends simplePlugin
+{
+  var $objectclasses  = array('top','gosaRole');
+  var $mainTab        = TRUE;
+
+  static function plInfo()
+  {
+    return array(
+      'plShortName'   => _('Role'),
+      'plDescription' => _('Access control roles'),
+      'plSelfModify'  => FALSE,
+      'plCategory'    => array('acl'),
+      'plObjectType'  => array('aclRole' => array(
+        'aclCategory' => 'acl',
+        'name'        => _('ACL role'),
+        'filter'      => 'objectClass=gosaRole',
+        'ou'          => get_ou('aclRoleRDN')
+      )),
+
+      'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())
+    );
+  }
+
+  static function getAttributesInfo()
+  {
+    return array(
+      'properties' => array(
+        'name'  => _('Properties'),
+        'attrs' => array(
+          new BaseSelectorAttribute(get_ou('aclRoleRDN')),
+          new HostNameAttribute(
+            _('Name'), _('A name for this role'),
+            'cn', TRUE
+          ),
+          new TextAreaAttribute(
+            _('Description'), _('Short description of this role'),
+            'description', FALSE
+          ),
+        )
+      ),
+      'acls' => array(
+        'name'  => _('ACLs'),
+        'class' => array('fullwidth'),
+        'attrs' => array(
+          new ACLsAttribute(
+            '', _('ACLs which are part of this group'),
+            'gosaAclTemplate', FALSE
+          ),
+        )
+      ),
+    );
+  }
+
+
+  static function typeName($type)
+  {
+    $types = self::getTypeNames();
+    return $types[$type];
+  }
+
+  static function getTypeNames()
+  {
+    static $types = NULL;
+    if ($types === NULL) {
+      $types = array(
+        "reset" => _("Reset ACL"),
+        "one"   => _("One level"),
+        "base"  => _("Current object"),
+        "sub"   => _("Complete subtree"),
+        "psub"  => _("Complete subtree (permanent)")
+      );
+      asort($types);
+    }
+    return $types;
+  }
+}
+
+class acl_createedit extends acl
+{
   /* Helpers */
-  var $dialogState      = "head";
+  var $dialogState      = "create";
   var $aclType          = "";
   var $aclObject        = "";
   var $aclContents      = array();
-  var $target           = "group";
   var $aclTypes         = array();
   var $recipients       = array();
-  var $isContainer      = TRUE;
-  var $currentIndex     = 0;
-  var $wasNewEntry      = FALSE;
   var $savedAclContents = array();
 
-  /* Role attributes */
-  var $gosaAclTemplate  = "";
-  var $cn               = "";
-  var $orig_cn          = "";
-  var $description      = "";
-  var $base             = "";
-  var $orig_dn;
-  var $orig_base;
-  var $baseSelector;
-
-  function aclrole (&$config, $dn = NULL)
+  static function plInfo()
   {
-    /* Include config object */
-    plugin::plugin($config, $dn);
-
-    if ($this->dn == "new") {
-      $ui = get_userinfo();
-      $this->base = dn2base(session::global_is_set("CurrentMainBase")?"cn=test,".session::global_get("CurrentMainBase"):$ui->dn);
-    } else {
-      $this->base = preg_replace("/^[^,]+,[^,]+,/", "", $this->dn);
-      new log("view", "acl/".get_class($this), $this->dn);
-    }
-
-    /* Load ACL's */
-    $this->gosaAclTemplate = array();
-    if (isset($this->attrs["gosaAclTemplate"])) {
-      for ($i = 0; $i < $this->attrs["gosaAclTemplate"]['count']; $i++) {
-        $acl = $this->attrs["gosaAclTemplate"][$i];
-
-        $this->gosaAclTemplate = array_merge($this->gosaAclTemplate, $this->explodeACL($acl));
-      }
-    }
-    ksort($this->gosaAclTemplate);
-
-    /* Fill acl types */
-    $this->aclTypes = array( "reset" => _("Reset ACL"),
-                              "one" => _("One level"),
-                              "base" => _("Current object"),
-                              "sub" => _("Complete subtree"),
-                              "psub" => _("Complete subtree (permanent)"));
-    asort($this->aclTypes);
-
-    /* Finally - we want to get saved... */
-    $this->is_account = TRUE;
-    $this->orig_base  = $this->base;
-    $this->orig_dn    = $this->dn;
-    $this->orig_cn    = $this->cn;
-
-    /* Instanciate base selector */
-    $this->baseSelector = new baseSelector($this->get_allowed_bases(), $this->base);
-    $this->baseSelector->setSubmitButton(FALSE);
-    $this->baseSelector->setHeight(300);
-    $this->baseSelector->update(TRUE);
   }
 
+  function __construct (&$config, $acl = NULL)
+  {
+    /* Include config object */
+    plugin::__construct($config, $config->current['BASE']);
+
+    $this->loadAclEntry($acl);
+  }
 
   function execute()
   {
     /* Call parent execute */
     plugin::execute();
 
-    $tmp    = session::get('plist');
-    $plist  = $tmp->info;
-
-    /* Handle posts */
-    if (isset($_POST['new_acl']) && $this->acl_is_writeable("gosaAclEntry")) {
-      $this->dialogState  = 'create';
-      $this->dialog       = TRUE;
-      $this->currentIndex = count($this->gosaAclTemplate);
-      $this->loadAclEntry(TRUE);
-    }
-
     $new_acl    = array();
-    $aclDialog  = FALSE;
-    $firstedit  = FALSE;
-
-    /* Act on HTML post and gets here.
-     */
-    if (isset($_GET['id']) && isset($_GET['act']) && $_GET['act'] == "edit") {
-      $id = trim($_GET['id']);
-
-      $this->dialogState  = 'create';
-      $firstedit          = TRUE;
-      $this->dialog       = TRUE;
-      $this->currentIndex = $id;
-      $this->loadAclEntry();
-    }
 
     foreach ($_POST as $name => $post) {
-
       /* Actions... */
-      if (preg_match('/^acl_edit_.*_x/', $name)) {
-        $this->dialogState  = 'create';
-        $firstedit          = TRUE;
-        $this->dialog       = TRUE;
-        $this->currentIndex = preg_replace('/^acl_edit_([0-9]+).*$/', '\1', $name);
-        $this->loadAclEntry();
-        continue;
-      }
       if (preg_match('/^cat_edit_.*_x/', $name)) {
         $this->aclObject    = preg_replace('/^cat_edit_([^_]+)_.*$/', '\1', $name);
         $this->dialogState  = 'edit';
@@ -152,37 +301,10 @@ class aclrole extends acl
         continue;
       }
 
-      if (preg_match('/^acl_del_.*_x/', $name) && $this->acl_is_writeable("gosaAclEntry")) {
-        unset($this->gosaAclTemplate[preg_replace('/^acl_del_([0-9]+).*$/', '\1', $name)]);
-        continue;
-      }
-
-      if (preg_match('/^cat_del_.*_x/', $name) && $this->acl_is_writeable("gosaAclEntry")) {
+      if (preg_match('/^cat_del_.*_x/', $name)) {
         $idx = preg_replace('/^cat_del_([^_]+)_.*$/', '\1', $name);
         foreach ($this->config->data['CATEGORIES'][$idx]['classes'] as $key) {
           unset($this->aclContents["$idx/$key"]);
-        }
-        continue;
-      }
-
-      /* Sorting... */
-      if (preg_match('/^sortup_.*_x/', $name) && $this->acl_is_writeable("gosaAclEntry")) {
-        $index = preg_replace('/^sortup_([0-9]+).*$/', '\1', $name);
-        if ($index > 0) {
-          $tmp = $this->gosaAclTemplate[$index];
-
-          $this->gosaAclTemplate[$index]      = $this->gosaAclTemplate[$index - 1];
-          $this->gosaAclTemplate[$index - 1]  = $tmp;
-        }
-        continue;
-      }
-      if (preg_match('/^sortdown_.*_x/', $name) && $this->acl_is_writeable("gosaAclEntry")) {
-        $index = preg_replace('/^sortdown_([0-9]+).*$/', '\1', $name);
-        if ($index < count($this->gosaAclTemplate) - 1) {
-          $tmp = $this->gosaAclTemplate[$index];
-
-          $this->gosaAclTemplate[$index]      = $this->gosaAclTemplate[$index + 1];
-          $this->gosaAclTemplate[$index + 1]  = $tmp;
         }
         continue;
       }
@@ -210,13 +332,8 @@ class aclrole extends acl
       }
     }
 
-    if (isset($_POST['acl_dummy_0_0_0'])) {
-      $aclDialog = TRUE;
-    }
-
     /* Only be interested in new acl's, if we're in the right _POST place */
-    if ($aclDialog && ($this->aclObject != "") && is_array($this->config->data['CATEGORIES'][$this->aclObject])) {
-
+    if (isset($_POST['acl_dummy_0_0_0']) && ($this->aclObject != "") && is_array($this->config->data['CATEGORIES'][$this->aclObject])) {
       foreach ($this->config->data['CATEGORIES'][$this->aclObject]['classes'] as $oc) {
         unset($this->aclContents[$oc]);
         unset($this->aclContents[$this->aclObject.'/'.$oc]);
@@ -229,21 +346,7 @@ class aclrole extends acl
       }
     }
 
-    /* Save new acl in case of base edit mode */
-    if (1 == 0 && $this->aclType == 'base' && !$firstedit) {
-      $this->aclContents = $new_acl;
-    }
-
-    /* Cancel new acl? */
-    if (isset($_POST['cancel_new_acl'])) {
-      $this->dialogState  = 'head';
-      $this->dialog       = FALSE;
-      if ($this->wasNewEntry) {
-        unset($this->gosaAclTemplate[$this->currentIndex]);
-      }
-    }
-
-    /* Store ACL in main object? */
+    /* Store ACL in main object?
     if (isset($_POST['submit_new_acl']) && $this->acl_is_writeable("gosaAclEntry")) {
       $this->gosaAclTemplate[$this->currentIndex]['type']     = $this->aclType;
       $this->gosaAclTemplate[$this->currentIndex]['members']  = $this->recipients;
@@ -251,7 +354,7 @@ class aclrole extends acl
 
       $this->dialogState  = 'head';
       $this->dialog       = FALSE;
-    }
+    }*/
 
     /* Cancel edit acl? */
     if (isset($_POST['cancel_edit_acl'])) {
@@ -263,26 +366,17 @@ class aclrole extends acl
       }
     }
 
-    /* Save edit acl? */
-    if (isset($_POST['submit_edit_acl']) && $this->acl_is_writeable("gosaAclEntry")) {
-      $this->dialogState = 'create';
-    }
-
-    /* Add acl? */
-    if (isset($_POST['add_acl']) && $_POST['aclObject'] != "" && $this->acl_is_writeable("gosaAclEntry")) {
-      $this->dialogState      = 'edit';
-      $this->savedAclContents = array();
-      foreach ($this->config->data['CATEGORIES'][$this->aclObject]['classes'] as $oc) {
-        if (isset($this->aclContents[$oc])) {
-          $this->savedAclContents[$oc] = $this->aclContents[$oc];
-        }
+    if ($this->acl_is_writeable("gosaAclEntry")) {
+      /* Save edit acl? */
+      if (isset($_POST['submit_edit_acl'])) {
+        $this->dialogState = 'create';
       }
-    }
 
-    /* Save common values */
-    foreach (array("aclType", "aclObject", "target") as $key) {
-      if (isset($_POST[$key]) && $this->acl_is_writeable("gosaAclEntry")) {
-        $this->$key = validate($_POST[$key]);
+      /* Save common values */
+      foreach (array("aclType", "aclObject") as $key) {
+        if (isset($_POST[$key])) {
+          $this->$key = validate($_POST[$key]);
+        }
       }
     }
 
@@ -290,52 +384,7 @@ class aclrole extends acl
     $smarty = get_smarty();
     $smarty->assign("usePrototype", "true");
 
-    $smarty->assign("base", $this->baseSelector->render());
-
-    $tmp = $this->plInfo();
-    foreach ($tmp['plProvidedAcls'] as $name => $translation) {
-      $smarty->assign($name."ACL", $this->getacl($name));
-    }
-
-    if ($this->dialogState == 'head') {
-      /* Draw list */
-      $aclList = new divSelectBox("aclList");
-      $aclList->SetHeight(350);
-
-      /* Fill in entries */
-      foreach ($this->gosaAclTemplate as $key => $entry) {
-
-        if ($this->acl_is_readable("")) {
-          $link = "<a href=?plug=".$_GET['plug']."&amp;id=".$key."&amp;act=edit>".$this->assembleAclSummary($entry)."</a>";
-        } else {
-          $link = $this->assembleAclSummary($entry);
-        }
-
-        $field1 = array("html" => $this->aclTypes[$entry['type']], "attach" => "style='width:150px'");
-        $field2 = array("html" => $link);
-
-        $action = "";
-        if ($this->acl_is_writeable("gosaAclEntry")) {
-          $action .= "<input type='image' name='sortup_$key' alt='up'
-            title='"._("Up")."' src='images/lists/sort-up.png' align='top'>";
-          $action .= "<input type='image' name='sortdown_$key' alt='down'
-            title='"._("Down")."' src='images/lists/sort-down.png'>";
-        }
-        if ($this->acl_is_readable("gosaAclEntry")) {
-          $action .= "<input class='center' type='image' src='images/lists/edit.png' alt='"._("Edit")."' name='acl_edit_$key'
-            title='".msgPool::editButton(_("ACL"))."'>";
-        }
-        if ($this->acl_is_writeable("gosaAclEntry")) {
-          $action .= "<input class='center' type='image' src='images/lists/trash.png' alt='"._("Delete")."' name='acl_del_$key'
-            title='".msgPool::delButton(_("ACL"))."'>";
-        }
-
-        $field3 = array("html" => $action, "attach" => "style='border-right:0px;width:50px;text-align:right;'");
-        $aclList->AddEntry(array($field1, $field2, $field3));
-      }
-
-      $smarty->assign("aclList", $aclList->DrawList());
-    }
+    $smarty->assign("gosaAclEntryACL", $this->getacl('gosaAclEntry'));
 
     if ($this->dialogState == 'create') {
       /* Draw list */
@@ -380,29 +429,27 @@ class aclrole extends acl
 
         $field1 = array("html" => $infos['description'], "attach" => "style='width:140px'");
         $field2 = array("html" => $summary);
-        $field3 = array("html" => $action, "attach" => "style='border-right:0px;width:50px'");
+        $field3 = array("html" => $action, "attach" => "style='border-right:0px;width:40px'");
         $aclList->AddEntry(array($field1, $field2, $field3));
       }
 
       $smarty->assign("aclList", $aclList->DrawList());
       $smarty->assign("aclType", $this->aclType);
-      $smarty->assign("aclTypes", $this->aclTypes);
-      $smarty->assign("target", $this->target);
+      $smarty->assign("aclTypes", aclRole::getTypeNames());
 
       if ($this->aclType == 'base') {
         $smarty->assign('aclSelector', $this->buildAclSelector(array()));
       }
-    }
-
-    if ($this->dialogState == 'edit') {
-      $smarty->assign('headline', sprintf(_("Edit ACL for '%s', scope is '%s'"), $this->config->data['CATEGORIES'][$this->aclObject]['description'], $this->aclTypes[$this->aclType]));
+    } elseif ($this->dialogState == 'edit') {
+      $smarty->assign('headline', sprintf(_("Edit ACL for '%s', scope is '%s'"), $this->config->data['CATEGORIES'][$this->aclObject]['description'], aclRole::typeName($this->aclType)));
 
       /* Collect objects for selected category */
       foreach ($this->config->data['CATEGORIES'][$this->aclObject]['classes'] as $idx => $class) {
         if ($idx == 0) {
           continue;
         }
-        $aclObjects[$this->aclObject.'/'.$class] = $plist[$class]['plDescription'];
+        $pInfos = pluglist::pluginInfos($class);
+        $aclObjects[$this->aclObject.'/'.$class] = $pInfos['plShortName'];
       }
       if ($this->aclObject == 'all') {
         $aclObjects['all'] = _("All objects in current subtree");
@@ -413,295 +460,35 @@ class aclrole extends acl
     /* Show main page */
     $smarty->assign("dialogState", $this->dialogState);
 
-    /* Assign cn and decription if this is a role */
-    foreach (array("cn","description") as $name) {
-      $smarty->assign($name, $this->$name);
-    }
     return $smarty->fetch(get_template_path('acl_role.tpl', dirname(__FILE__)));
   }
 
-  function sort_by_priority($list)
-  {
-    $tmp    = session::get('plist');
-    $plist  = $tmp->info;
-    asort($plist);
-    $newSort = array();
-
-    foreach ($list as $name => $translation) {
-      $na = preg_replace("/^.*\//", "", $name);
-      if (!isset($plist[$na]['plPriority'])) {
-        $prio = 0;
-      } else {
-        $prio = $plist[$na]['plPriority'];
-      }
-
-      $newSort[$name] = $prio;
-    }
-
-    asort($newSort);
-
-    $ret = array();
-    foreach ($newSort as $name => $prio) {
-      $ret[$name] = $list[$name];
-    }
-    return $ret;
-  }
-
-  function loadAclEntry($new = FALSE)
+  function loadAclEntry($acl = NULL)
   {
     /* New entry gets presets... */
-    if ($new) {
+    if ($acl === NULL) {
       $this->aclType      = 'sub';
       $this->recipients   = array();
       $this->aclContents  = array();
     } else {
-      $acl = $this->gosaAclTemplate[$this->currentIndex];
-
       $this->aclType      = $acl['type'];
       $this->recipients   = $acl['members'];
       $this->aclContents  = $acl['acl'];
     }
-
-    $this->wasNewEntry = $new;
   }
 
-
-  function aclPostHandler()
+  function getAclEntry()
   {
-    if (isset($_POST['save_acl']) && $this->acl_is_writeable("gosaAclEntry")) {
-      $this->save();
-      return TRUE;
-    }
-
-    return FALSE;
+    return array(
+      'type'    => $this->aclType,
+      'members' => $this->recipients,
+      'acl'     => $this->aclContents,
+    );
   }
-
-
-  function save()
-  {
-    /* Assemble ACL's */
-    $tmp_acl = array();
-    foreach ($this->gosaAclTemplate as $prio => $entry) {
-      $final    = "";
-      $members  = "";
-      if (isset($entry['members'])) {
-        foreach ($entry['members'] as $key => $dummy) {
-          $members .= base64_encode(preg_replace('/^.:/', '', $key)).',';
-        }
-      }
-      $final = $prio.":".$entry['type'].":".preg_replace('/,$/', '', $members);
-
-      /* ACL's if needed */
-      if ($entry['type'] != "reset" && $entry['type'] != "role") {
-        $acl = ":";
-        if (isset($entry['acl'])) {
-          foreach ($entry['acl'] as $object => $contents) {
-
-            /* Only save, if we've some contents in there... */
-            if (count($contents)) {
-              $acl .= $object.";";
-
-              foreach ($contents as $attr => $permission) {
-
-                /* First entry? Its the one for global settings... */
-                if ($attr == '0') {
-                  $acl .= $permission;
-                } else {
-                  $acl .= '#'.$attr.';'.$permission;
-                }
-
-              }
-              $acl .= ',';
-            }
-
-          }
-        }
-        $final .= preg_replace('/,$/', '', $acl);
-      }
-
-      $tmp_acl[] = $final;
-    }
-
-    /* Call main method */
-    plugin::save();
-
-    /* Finally (re-)assign it... */
-    $this->attrs["gosaAclTemplate"] = $tmp_acl;
-
-    /* Remove acl from this entry if it is empty... */
-    if (!count($tmp_acl)) {
-      /* Remove attribute */
-      if ($this->initially_was_account) {
-        $this->attrs["gosaAclTempalte"] = array();
-      } else {
-        if (isset($this->attrs["gosaAclTemplate"])) {
-          unset($this->attrs["gosaAclTemplate"]);
-        }
-      }
-    }
-
-    /* Do LDAP modifications */
-    $ldap = $this->config->get_ldap_link();
-
-    /* Check if object already exists */
-    $ldap->cat($this->dn);
-    if ($ldap->count()) {
-      $ldap->cd($this->dn);
-      $this->cleanup();
-      $ldap->modify ($this->attrs);
-      new log("modify", "acl/".get_class($this), $this->dn, array_keys($this->attrs), $ldap->get_error());
-    } else {
-      $ldap->cd($this->config->current['BASE']);
-      $ldap->create_missing_trees(preg_replace("/^[^,]+,/", "", $this->dn));
-      $ldap->cd($this->dn);
-      $ldap->add($this->attrs);
-      new log("create", "acl/".get_class($this), $this->dn, array_keys($this->attrs), $ldap->get_error());
-    }
-
-    if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, "", get_class()));
-    }
-
-    /* Refresh users ACL */
-    $ui = get_userinfo();
-    $ui->loadACL();
-    session::set('ui', $ui);
-  }
-
-
-  function remove_from_parent()
-  {
-    $ldap       = $this->config->get_ldap_link();
-    $serach_for = "*:role:".base64_encode($this->dn).":*";
-    $ldap->search("(&(objectClass=gosaACL)(gosaAclEntry=".$serach_for."))", array('dn','cn','sn','givenName','uid'));
-    $all_names = "";
-
-
-    $cnt = 3;
-    while (($attrs = $ldap->fetch()) && $cnt) {
-      $name = $attrs['dn'];
-      $name = preg_replace("/[ ]/", "&nbsp;", $name);
-      $name = "<i>'".$name."'</i>";
-
-      $all_names .= $name.", ";
-      $cnt--;
-    }
-
-    if (!empty($all_names)) {
-      $all_names = preg_replace("/, $/", "", $all_names);
-      if (!$cnt) {
-        $all_names .= ", ...";
-      }
-      $all_names = "<span style='text-align:left;'>".$all_names."</span>";
-      msg_dialog::display(_("Object in use"), sprintf(_("This role cannot be removed while it is in use by these objects:")."<br><br>%s", $all_names), WARNING_DIALOG);
-      return;
-    }
-
-    $ldap->rmDir($this->dn);
-    new log("remove", "acl/".get_class($this), $this->dn, array_keys($this->attrs), $ldap->get_error());
-    if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, "", get_class()));
-    }
-
-    /* Optionally execute a command after we're done */
-    $this->handle_post_events("remove");
-
-    /* Delete references to object groups */
-    $ldap->cd ($this->config->current['BASE']);
-    $ldap->search ("(&(objectClass=gosaGroupOfNames)(member=".LDAP::prepare4filter($this->dn)."))", array("cn"));
-    while ($ldap->fetch()) {
-      $og = new ogroup($this->config, $ldap->getDN());
-      unset($og->member[$this->dn]);
-      $og->save ();
-      if (!$ldap->success()) {
-        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $og->dn, "", get_class()));
-      }
-    }
-  }
-
 
   function save_object()
   {
     plugin::save_object();
-    if (isset($_POST['acl_role_posted'])) {
-
-      /* Refresh base */
-      if ($this->acl_is_moveable($this->base)) {
-        if (!$this->baseSelector->update()) {
-          msg_dialog::display(_("Error"), msgPool::permMove(), ERROR_DIALOG);
-        }
-        if ($this->base != $this->baseSelector->getBase()) {
-          $this->base         = $this->baseSelector->getBase();
-          $this->is_modified  = TRUE;
-        }
-      }
-    }
   }
-
-  /* Return plugin informations for acl handling  */
-  static function plInfo()
-  {
-    return array(
-      "plShortName"   => _("Role"),
-      "plDescription" => _("Access control roles"),
-      "plSelfModify"  => FALSE,
-      "plCategory"    => array("acl"),
-      "plObjectType"  => array("aclRole" => array(
-        "aclCategory" => "acl",
-        "name"        => _("ACL role"),
-        "filter"      => "objectClass=gosaRole")
-      ),
-
-      "plProvidedAcls"  => array(
-        "cn"                => _("Name"),
-        "base"              => _("Base"),
-        "description"       => _("Description"),
-        "gosaAclEntry"      => _("Permissions")
-      )
-    );
-  }
-
-  function check()
-  {
-    $message = plugin::check();
-
-    if (empty($this->cn)) {
-      $message[] = msgPool::required(_("Name"));
-    }
-
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
-    if ($this->cn != $this->orig_cn) {
-      $ldap->search("(&(objectClass=gosaRole)(cn=".$this->cn."))");
-      if ($ldap->count()) {
-        while ($attrs = $ldap->fetch()) {
-          if ($attrs['dn'] != $this->orig_dn) {
-            $message[] = msgPool::duplicated(_("Name"));
-          }
-        }
-      }
-    }
-
-    if (!count($this->gosaAclTemplate)) {
-      $message[] = msgPool::required(_("ACL"));
-    }
-
-    // Check if a wrong base was supplied
-    if (!$this->baseSelector->checkLastBaseUpdate()) {
-      $message[] = msgPool::check_base();;
-    }
-
-    /* Check if we are allowed to create or move this object
-     */
-    if ($this->orig_dn == "new" && !$this->acl_is_createable($this->base)) {
-      $message[] = msgPool::permCreate();
-    } elseif ($this->orig_dn != "new" && $this->base != $this->orig_base && !$this->acl_is_moveable($this->base)) {
-      $message[] = msgPool::permMove();
-    }
-
-    return $message;
-  }
-
 }
-
 ?>
