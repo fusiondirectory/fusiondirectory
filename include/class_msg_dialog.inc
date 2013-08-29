@@ -173,13 +173,12 @@ class msg_dialog
       $smarty = get_smarty();
       $smarty->assign("s_Trace", print_a($this->a_Trace,TRUE));
       $smarty->assign("i_TraceCnt", count($this->a_Trace));
-      $smarty->assign("i_Type",$this->i_Type);
-      $smarty->assign("s_Message",$this->s_Message);
-      $smarty->assign("s_Title",$this->s_Title);
-      $smarty->assign("i_ID",$this->i_ID);
-      $smarty->assign("frame",false);
-      $smarty->assign("JS",session::global_get('js'));
-      $smarty->assign("IE",preg_match("/MSIE/", $_SERVER['HTTP_USER_AGENT']));
+      $smarty->assign("i_Type", $this->i_Type);
+      $smarty->assign("s_Message", $this->s_Message);
+      $smarty->assign("s_Title", $this->s_Title);
+      $smarty->assign("i_ID", $this->i_ID);
+      $smarty->assign("frame", FALSE);
+      $smarty->assign("JS", session::global_get('js'));
       return $smarty->fetch(get_template_path('msg_dialog.tpl'));
     }
   }
@@ -215,8 +214,7 @@ class msg_dialog
 
       /* Get frame one */
       $smarty = get_smarty();
-      $smarty->assign("frame", true);
-      $smarty->assign("IE",preg_match("/MSIE/", $_SERVER['HTTP_USER_AGENT']));
+      $smarty->assign("frame", TRUE);
       $return = $smarty->fetch(get_template_path('msg_dialog.tpl'));
 
       if(!session::global_get('js')){

@@ -1,45 +1,13 @@
 {if $frame}
-  {if $IE}
-    <iframe id='e_layer3'
-      style="
-        position:absolute;
-        width:100%;
-        height:100%;
-        top:0px;
-        left:0px;
-        border:none;
-        border-style:none;
-        border-width:0pt;
-        display:block;
-        allowtransparency='true';
-        background-color: #FFFFFF;
-        filter:chroma(color=#FFFFFF);
-        z-index:100; ">
-    </iframe>
-    <div  id='e_layer2'
-      style="
-        position: absolute;
-        left: 0px;
-        top: 0px;
-        right:0px;
-        bottom:0px;
-        z-index:100;
-        width:100%;
-        height:100%;
-        filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=scale, src='images/opacity_black.png'); "
-  >
-  {else}
-    <div  id='e_layer2'
-      style="
-        position: absolute;
-        left: 0px;
-        top: 0px;
-        right:0px;
-        bottom:0px;
-        z-index:100;
-        background-image: url(images/opacity_black.png);">
-
-  {/if}
+  <div  id='e_layer2'
+    style="
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      right:0px;
+      bottom:0px;
+      z-index:100;
+      background-image: url(images/opacity_black.png);">
 {else}
 
 
