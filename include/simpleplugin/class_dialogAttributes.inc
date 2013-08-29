@@ -36,7 +36,7 @@ class GenericDialog
   function execute ()
   {
     if (isset($_POST[$this->post_cancel])) {
-      return FALSE;
+      return $this->handle_cancel();
     }
     if (isset($_POST[$this->post_finish])) {
       return $this->handle_finish();
@@ -52,6 +52,11 @@ class GenericDialog
   function handle_finish ()
   {
     trigger_error('empty function');
+    return FALSE;
+  }
+
+  function handle_cancel ()
+  {
     return FALSE;
   }
 }
