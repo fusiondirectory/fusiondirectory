@@ -21,17 +21,6 @@
 
 class aclroletab extends simpleTabs_noSpecial
 {
-  function __construct($config, $data, $dn, $cat = "", $copied_object = NULL)
-  {
-    $data = array(array("CLASS" => "aclrole" , "NAME" => _("ACL Templates")));
-    parent::__construct($config, $data, $dn, "acl", $copied_object);
-  }
-
-  function save_object($ignore_account = FALSE)
-  {
-    parent::save_object();
-  }
-
   function execute()
   {
     $display = parent::execute();
@@ -39,7 +28,7 @@ class aclroletab extends simpleTabs_noSpecial
       $display .= '<p class="plugbottom">'."\n";
       $display .= '  <input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
       $display .= '</p>';
-    } elseif (!$this->by_object['aclrole']->dialog) {
+    } elseif (!$this->getBaseObject()->dialog) {
       $display .= '<p class="plugbottom">'."\n";
       $display .= '  <input type="submit" name="edit_finish" style="width:80px" value="'.msgPool::okButton().'"/>'."\n";
       $display .= "  &nbsp;\n";

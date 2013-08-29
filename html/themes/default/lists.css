@@ -58,12 +58,11 @@ table.listingTable > tbody > tr.entry-locked:nth-child(even) {
   background-color:#F5F5CC;
 }
 
-table.listingTable > tbody > tr td:last-child {
-padding-right:20px;
+html.ltr table.listingTable > tbody > tr td:last-child {
+padding-right:5px;
 }
 html.rtl table.listingTable > tbody > tr td:last-child {
-padding-left:20px;
-padding-right:0;
+padding-left:5px;
 }
 
 table.listingTable > tbody > tr:hover {
