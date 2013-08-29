@@ -383,7 +383,6 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
   MUST ( cn )
   MAY (
     fusionConfigMd5 $
-
     fdRfc2307bis $ fdSchemaCheck $
     fdLanguage $ fdTheme $ fdTimezone $
     fdAccountPrimaryAttribute $ fdAccountRDN $ fdNextIdHook $ fdIdGenerator $
