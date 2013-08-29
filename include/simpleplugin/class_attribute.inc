@@ -2123,15 +2123,27 @@ class OrderedArrayAttribute extends SetAttribute
       $img .= '<input type="image" src="images/lists/trash.png" name="'.$id.'_del_'.$key.'" class="center" alt="'._('Delete').'" title="'._('Delete').'"/>&nbsp;';
 
       $fields = array();
-      $this->attribute->setValue($value);
-      foreach ($this->attribute->getArrayValue() as $field) {
+      foreach ($this->getAttributeArrayValue($value) as $field) {
         $fields[] = array("string" => $field);
       }
-      $fields[] = array("html" => $img, "attach" => "style='border-right:0px;width:40px;'");
+      $width = 25;
+      if ($this->order) {
+        $width += 20;
+      }
+      if ($this->edit_enabled) {
+        $width += 15;
+      }
+      $fields[] = array("html" => $img, "attach" => 'style="border:0px;width:'.$width.'px;"');
       $div->AddEntry($fields);
     }
     $smarty->assign("div_$id", $div->DrawList());
     return '{$div_'.$id.'}'."\n";
+  }
+
+  protected function getAttributeArrayValue($value)
+  {
+    $this->attribute->setValue($value);
+    return $this->attribute->getArrayValue();
   }
 
   protected function reIndexValues ()
@@ -2170,9 +2182,7 @@ class OrderedArrayAttribute extends SetAttribute
           if (preg_match('/^'.$id.'_edit_/', $name)) {
             $key = preg_replace('/^'.$id.'_edit_/', '', $name);
             $key = preg_replace('/_[xy]$/', '', $key);
-            $this->editingValue = $this->value[$key];
-            $this->delPostValue($key);
-            $this->plugin->focusedField = $this->getHtmlId();
+            $this->handleEdit($key);
             break;
           }
         }
@@ -2183,20 +2193,32 @@ class OrderedArrayAttribute extends SetAttribute
           break;
         }
       }
-      if (isset($_POST["add$id"])) {
-        $this->attribute->loadPostValue();
-        $this->attribute->applyPostValue();
-        if ($error = $this->attribute->check()) {
-          msg_dialog::display(sprintf(_('Invalid value for %s'), $this->getLabel()), $error);
-        } else {
-          $this->addPostValue($this->attribute->getValue());
-        }
-      } elseif ($this->editingValue === FALSE) {
-        $this->attribute->loadPostValue();
-        $this->attribute->applyPostValue();
-        $this->editingValue = $this->attribute->getValue();
-      }
+      $this->handleAddAndEditValue();
     }
+  }
+
+  protected function handleAddAndEditValue()
+  {
+    if (isset($_POST["add$id"])) {
+      $this->attribute->loadPostValue();
+      $this->attribute->applyPostValue();
+      if ($error = $this->attribute->check()) {
+        msg_dialog::display(sprintf(_('Invalid value for %s'), $this->getLabel()), $error);
+      } else {
+        $this->addPostValue($this->attribute->getValue());
+      }
+    } elseif ($this->editingValue === FALSE) {
+      $this->attribute->loadPostValue();
+      $this->attribute->applyPostValue();
+      $this->editingValue = $this->attribute->getValue();
+    }
+  }
+
+  protected function handleEdit($key)
+  {
+    $this->editingValue = $this->value[$key];
+    $this->delPostValue($key);
+    $this->plugin->focusedField = $this->getHtmlId();
   }
 
   function applyPostValue ()
