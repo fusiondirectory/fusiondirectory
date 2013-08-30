@@ -173,6 +173,7 @@ class management
 
     // Pre-render list to init things if a dn is gonna be opened on first load
     if (isset($_REQUEST['dn'])) {
+      $this->headpage->filter->scope = 'sub';
       $this->renderList();
     }
 
