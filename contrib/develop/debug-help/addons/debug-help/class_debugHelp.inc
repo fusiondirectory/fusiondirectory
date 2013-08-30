@@ -37,7 +37,7 @@ class debugHelp extends simplePlugin
         'attrs'     => array(
           new FakeAttribute('dump')
         ),
-        'template'  => get_template_path('ldapdump.tpl', TRUE, dirname(__FILE__))
+        'template'  => get_template_path('debughelp.tpl', TRUE, dirname(__FILE__))
       ),
     );
   }
