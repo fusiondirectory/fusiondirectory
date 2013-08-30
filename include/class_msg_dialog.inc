@@ -179,7 +179,7 @@ class msg_dialog
       $smarty->assign("s_Title", $this->s_Title);
       $smarty->assign("i_ID", $this->i_ID);
       $smarty->assign("frame", FALSE);
-      $smarty->assign("JS", session::global_get('js'));
+      $smarty->assign("JS", TRUE);
       return $smarty->fetch(get_template_path('msg_dialog.tpl'));
     }
   }
@@ -218,23 +218,17 @@ class msg_dialog
       $smarty->assign("frame", TRUE);
       $return = $smarty->fetch(get_template_path('msg_dialog.tpl'));
 
-      if (!session::global_get('js')) {
-        $dialog = array_pop(session::get('msg_dialogs'));
-        $return .= $dialog->execute();
-      } else {
-        $msg_dialogs = session::get('msg_dialogs');
-        foreach ($msg_dialogs as $key => $dialog) {
-
-          if (preg_match("/".$dialog->get_ID()."/", $seen)) {
-            unset($msg_dialogs[$key]);
-          } else {
-            $return     .= $dialog->execute();
-            $dialog_ids = $dialog->get_ID().",".$dialog_ids;
-          }
+      $msg_dialogs = session::get('msg_dialogs');
+      foreach ($msg_dialogs as $key => $dialog) {
+        if (preg_match("/".$dialog->get_ID()."/", $seen)) {
           unset($msg_dialogs[$key]);
+        } else {
+          $return     .= $dialog->execute();
+          $dialog_ids = $dialog->get_ID().",".$dialog_ids;
         }
-        session::set('msg_dialogs', $msg_dialogs);
+        unset($msg_dialogs[$key]);
       }
+      session::set('msg_dialogs', $msg_dialogs);
       $dialog_ids = preg_replace("/,$/", "", $dialog_ids);
 
       $return .= "</div>";

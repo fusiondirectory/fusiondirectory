@@ -202,49 +202,26 @@ class setup
         $s = "<img src='images/empty.png' alt=' ' class='center'>&nbsp;";
       }
 
-      if (session::get('js')) {
+      $str .= "<div >";
 
-        $str .= "<div >";
-
-        if ($b_enabled) {
-          if ($b_active) {
-            $str .= "<div class='navigation_element_active'>";
-            $str .= "<div class='navigation_title_active'>".$s.$s_title."</div>";
-            $str .= "<div class='navigation_info'>".$s_info."</div>";
-            $str .= "</div>";
-          } else {
-            $str .= "<div class='navigation_element'>";
-            $str .= "<div onClick='document.mainform.setup_goto_step.value=\"$key\";document.mainform.submit();'
-              class='navigation_title_inactive'>".$s.$s_title."</div>";
-            $str .= "</div>";
-          }
+      if ($b_enabled) {
+        if ($b_active) {
+          $str .= "<div class='navigation_element_active'>";
+          $str .= "<div class='navigation_title_active'>".$s.$s_title."</div>";
+          $str .= "<div class='navigation_info'>".$s_info."</div>";
+          $str .= "</div>";
         } else {
           $str .= "<div class='navigation_element'>";
-          $str .= "<div class='navigation_title_disabled'>".$s.$s_title."</div>";
+          $str .= "<div onClick='document.mainform.setup_goto_step.value=\"$key\";document.mainform.submit();'
+            class='navigation_title_inactive'>".$s.$s_title."</div>";
           $str .= "</div>";
         }
-        $str .= "</div>";
       } else {
-        $str .= "<div >";
-        if ($b_enabled) {
-          if ($b_active) {
-            $str .= "<div class='navigation_element_active'>";
-            $str .= "<input style='text-align: left; color: #00008F; font-weight: bold; width:100%;'
-                        type='button' value='".$s_title."' name='step_".$key."'>";
-            $str .= "</div>";
-          } else {
-            $str .= "<div class='navigation_element'>";
-            $str .= "<input style='text-align: left; color: #00008F; font-weight: bold; width:100%;'
-                        type='submit' value='".$s_title."' name='step_".$key."'>";
-            $str .= "</div>";
-          }
-        } else {
-          $str .= "<div class='navigation_element'>";
-          $str .= "<div class='navigation_title_disabled'>".$s_title."</div>";
-          $str .= "</div>";
-        }
+        $str .= "<div class='navigation_element'>";
+        $str .= "<div class='navigation_title_disabled'>".$s.$s_title."</div>";
         $str .= "</div>";
       }
+      $str .= "</div>";
     }
     return $str;
   }
