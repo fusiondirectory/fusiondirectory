@@ -53,7 +53,6 @@
        </td>
       </tr>
      </table>
-    <input type="hidden" name="javascript" value="false"/>
     </form>
 
    </div>

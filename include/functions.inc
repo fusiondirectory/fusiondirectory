@@ -609,10 +609,7 @@ function ldap_login_user_htaccess ($username)
   /* Username is set, load subtreeACL's now */
   $ui->loadACL();
 
-  /* TODO: check java script for htaccess authentication */
-  session::global_set('js', TRUE);
-
-  return ($ui);
+  return $ui;
 }
 
 

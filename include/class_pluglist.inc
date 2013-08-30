@@ -379,9 +379,6 @@ class pluglist {
 
           $entries  .= '<div class="iconmenu" onClick=\'location.href="'.$href.'"\' title="'.$plDescription.'">';
           $item     = "<img $isize src=\"$image\" alt=\"$plHeadline icon\"><span>&nbsp;$plHeadline</span>";
-          if (!session::global_get('js')) {
-            $item = "<a href=\"".$href."\">$item</a>";
-          }
           $entries .= $item."</div>\n";
         }
 

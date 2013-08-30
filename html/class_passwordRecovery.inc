@@ -63,7 +63,6 @@ class passwordRecovery {
     session::start();
 
     /* Reset errors */
-    session::global_set('js', TRUE);
     reset_errors();
 
     $config       = $this->loadConfig();
@@ -192,7 +191,6 @@ class passwordRecovery {
 
     $smarty = get_smarty();
 
-    $smarty->assign("JS", session::global_get('js'));
     $smarty->assign("PHPSESSID", session_id());
     if (session::is_set('errors')) {
       $smarty->assign("errors", session::get('errors'));

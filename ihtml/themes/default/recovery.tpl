@@ -25,7 +25,6 @@
   <div style="padding-left:10px;padding-right:10px;">
     <!-- Display SSL warning message on demand -->
     <p class="warning"> {$ssl} </p>
-    <input type="hidden" name="javascript" value="false"/>
 
     <!-- Display error message on demand -->
     <p class="warning"> {$message} </p>

@@ -312,11 +312,6 @@ if (isset($plug)) {
 } else {
   $plug= "";
 }
-if (session::global_get('js') == FALSE) {
-  $smarty->assign("javascript", "false");
-} else {
-  $smarty->assign("javascript", "true");
-}
 
 if ($ui->ignore_acl_for_current_user()) {
   $smarty->assign ("username", "<div style='color:#FF0000;'>"._("User ACL checks disabled")."</div>&nbsp;".$ui->username);

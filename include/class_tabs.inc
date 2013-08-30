@@ -268,9 +268,6 @@ class tabs
                   font-size:13px;
                   color: gray;'
           title=\"$title\">".$title."</div>";
-      }elseif (session::global_get('js')==FALSE){
-        $display.= "<div class=\"$style[$index]$notify\"><input type=\"submit\" name=\"$class\"".
-          " class=\"$style[$index]\" value=\"$title\"></div></td>";
       } else {
         $display.= "<div class=\"$style[$index]$notify\"><a class=\"$style[$index]\" onclick=\"return true;\" href=\"javascript:document.mainform.arg.value='$class';document.mainform.submit();\">$title</a></div></td>";
       }

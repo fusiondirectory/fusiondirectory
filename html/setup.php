@@ -75,18 +75,6 @@ if (isset($_POST['lang_selected'])) {
   session::global_set('lang', get_browser_language());
 }
 
-/* Check for js */
-if (!isset($_GET['js']) && !session::global_is_set('js')) {
-  echo '<script language="JavaScript" type="text/javascript">';
-  echo '  location = "setup.php?js=true";';
-  echo '</script>';
-
-  session::global_set('js', FALSE);
-} elseif (isset($_GET['js'])) {
-  session::global_set('js', TRUE);
-}
-
-
 $lang = session::global_get('lang');
 /* Append .UTF-8 to language string if necessary */
 if (!preg_match("/utf(-)8$/i", $lang)) {
