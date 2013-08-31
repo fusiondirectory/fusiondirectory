@@ -8,130 +8,130 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-develop\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-19 16:43+0200\n"
-"PO-Revision-Date: 2013-08-21 16:40+0000\n"
+"PO-Revision-Date: 2013-08-19 14:51+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
-"Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/FusionDirectory/language/cs_CZ/)\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/FusionDirectory/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: cs_CZ\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Language: pt_BR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: setup/class_setupStep_Config3.inc:73 setup/class_setupStep_Config3.inc:74
 msgid "FusionDirectory settings 3/3"
-msgstr "nastavení FusionDirectory, krok 3 ze 3"
+msgstr ""
 
 #: setup/class_setupStep_Config3.inc:75
 msgid "Tweak some FusionDirectory core behaviour"
-msgstr "závěrečné doladění chování FusionDirectory"
+msgstr ""
 
 #: setup/class_setupStep_Config3.inc:83 setup/class_setupStep_Schema.inc:87
 #: setup/class_setupStep_Config2.inc:74 setup/class_setupStep_Ldap.inc:77
 #: setup/class_setupStep_Config1.inc:91 setup/setup_feedback.tpl.c:32
 #: setup/setup_feedback.tpl.c:44
 msgid "No"
-msgstr "ne"
+msgstr ""
 
 #: setup/class_setupStep_Config3.inc:83 setup/class_setupStep_Schema.inc:87
 #: setup/class_setupStep_Config2.inc:74 setup/class_setupStep_Ldap.inc:77
 #: setup/class_setupStep_Config1.inc:91 setup/setup_feedback.tpl.c:29
 #: setup/setup_feedback.tpl.c:41
 msgid "Yes"
-msgstr "ano"
+msgstr ""
 
 #: setup/class_setupStep_Config3.inc:156 setup/class_setup.inc:77
 msgid "Setup error"
-msgstr "chyba instalátoru"
+msgstr ""
 
 #: setup/class_setupStep_Config3.inc:273
 msgid "Session lifetime must be a numeric value!"
-msgstr "Hodnota délky nečinnosti musí být číslo!"
+msgstr ""
 
 #: setup/class_setupStep_Config3.inc:277
 msgid "Maximum LDAP query time must be a numeric value!"
-msgstr "Hodnota maximální délky prodlevy odpovědi LDAPu musí být číslo!"
+msgstr ""
 
 #: setup/class_setupStep_Schema.inc:42 setup/class_setupStep_Schema.inc:43
 msgid "LDAP schema check"
-msgstr "kontrola schemat v LDAPu"
+msgstr ""
 
 #: setup/class_setupStep_Schema.inc:44
 msgid "Perform test on your current LDAP schema"
-msgstr "otestuje schémata, přítomná ve Vašem LDAPu"
+msgstr ""
 
 #: setup/class_setupStep_Language.inc:41 setup/class_setupStep_Language.inc:42
 msgid "Language setup"
-msgstr "nastavení jazyka"
+msgstr ""
 
 #: setup/class_setupStep_Language.inc:43
 msgid "This step allows you to select your preferred language."
-msgstr "V tomto kroku vyberete Vámi upřednostňovaný jazyk."
+msgstr ""
 
 #: setup/class_setupStep_Language.inc:50
 #: plugins/config/class_configInLdap.inc:430
 msgid "Automatic"
-msgstr "automaticky"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:119 setup/class_setupStep_Migrate.inc:120
 msgid "LDAP inspection"
-msgstr "kontrola LDAPu"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:121
 msgid "Analyze your current LDAP for FusionDirectory compatibility"
-msgstr "prozkoumání Vášeho LDAPu, zda je slučitelný s FusionDirectory"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:127
 msgid "Checking for root object"
-msgstr "kontroluje se přítomnost kořenového objektu"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:133
 msgid "Inspecting object classes in root object"
-msgstr "kontrolují se třídy objektů v kořenovém objektu"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:139
 msgid "Checking permission for LDAP database"
-msgstr "kontrolují se oprávnění na LDAP databázi"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:145
 msgid "Checking for invisible departments"
-msgstr "kontroluje se, zda neexistují „neviditelná“ oddělení"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:150
 msgid "Checking for invisible users"
-msgstr "kontroluje se, zda neexistují „neviditelní“ uživatelé"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:157
 #: setup/class_setupStep_Migrate.inc:2851
 msgid "Checking for super administrator"
-msgstr "kontroluji, zda již existuje účet správce FusionDirectory/GOsa"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:163
 msgid "Checking for users outside the people tree"
-msgstr "kontroluje se, zda neexistují účty uživatelů mimo příslušný podstrom"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:169
 msgid "Checking for groups outside the groups tree"
-msgstr "kontroluje se, zda neexistují účty skupin mimo příslušný podstrom"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:176
 msgid "Checking for duplicated UID numbers"
-msgstr "kontroluje se, zda neexistují duplicity v číselných identifikátorech uživatelů (UID)"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:182
 msgid "Checking for duplicate GID numbers"
-msgstr "kontroluje se, zda neexistují duplicity v číselných identifikátorech skupin (GID)"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:188
 msgid "Checking for old style USB devices"
-msgstr "kontroluje se, zda neexistují zastaralá nastavení USB zařízení"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:194
 msgid "Checking for old services that have to be migrated"
-msgstr "kontroluje se, zda neexistují staré služby, které je třeba migrovat"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:200
 msgid "Checking for old style application menus"
-msgstr "kontroluje se, zda neexistují zastaralá nastavení nabídek aplikace"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:225 setup/class_setupStep_Migrate.inc:276
 #: setup/class_setupStep_Migrate.inc:342 setup/class_setupStep_Migrate.inc:411
@@ -142,7 +142,7 @@ msgstr "kontroluje se, zda neexistují zastaralá nastavení nabídek aplikace"
 #: setup/class_setupStep_Migrate.inc:2409
 #: setup/class_setupStep_Migrate.inc:2536
 msgid "LDAP query failed"
-msgstr "dotaz do LDAPu byl neúspěšný"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:226 setup/class_setupStep_Migrate.inc:277
 #: setup/class_setupStep_Migrate.inc:343 setup/class_setupStep_Migrate.inc:412
@@ -153,7 +153,7 @@ msgstr "dotaz do LDAPu byl neúspěšný"
 #: setup/class_setupStep_Migrate.inc:2410
 #: setup/class_setupStep_Migrate.inc:2537
 msgid "Possibly the 'root object' is missing."
-msgstr "Pravděpodobně chybí 'kořenový objekt'."
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:246 setup/class_setupStep_Migrate.inc:297
 #: setup/class_setupStep_Migrate.inc:367 setup/class_setupStep_Migrate.inc:442
@@ -173,12 +173,12 @@ msgstr "Pravděpodobně chybí 'kořenový objekt'."
 #: setup/setup_checks.tpl.c:11 setup/setup_checks.tpl.c:32
 #: plugins/admin/users/remove.tpl.c:2 plugins/admin/acl/remove.tpl.c:2
 msgid "Warning"
-msgstr "varování"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:248
 #, php-format
 msgid "Found %s duplicate values for attribute 'uidNumber'."
-msgstr "Bylo nalezeno %s duplicitních hodnot atributu 'uidNumber' (číselný identifikátor uživatele)."
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:252 setup/class_setupStep_Migrate.inc:303
 #: setup/class_setupStep_Migrate.inc:374 setup/class_setupStep_Migrate.inc:449
@@ -196,26 +196,26 @@ msgstr "Bylo nalezeno %s duplicitních hodnot atributu 'uidNumber' (číselný i
 #: ihtml/themes/default/msg_dialog.tpl.c:38 setup/setup_checks.tpl.c:5
 #: setup/setup_checks.tpl.c:26
 msgid "Ok"
-msgstr "v pořádku"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:299
 #, php-format
 msgid "Found %s duplicate values for attribute 'gidNumber'."
-msgstr "Bylo nalezeno %s duplicitních hodnot atributu 'gidNumber' (číselný identifikátor skupiny)."
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:369
 #, php-format
 msgid "Found %s groups outside the configured tree '%s'."
-msgstr "Bylo nalezeno %s účtů skupin, nacházejících se mimo příslušný strom '%s'."
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:370 setup/class_setupStep_Migrate.inc:445
 msgid "Move"
-msgstr "přesunout"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:444
 #, php-format
 msgid "Found %s user(s) outside the configured tree '%s'."
-msgstr "Bylo nalezeno %s účtů uživatelů, nacházejících se mimo příslušný strom '%s'."
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:500 setup/class_setupStep_Migrate.inc:512
 #: setup/class_setupStep_Migrate.inc:933 setup/class_setupStep_Migrate.inc:951
@@ -226,13 +226,13 @@ msgstr "Bylo nalezeno %s účtů uživatelů, nacházejících se mimo příslu�
 #: setup/class_setupStep_Migrate.inc:1902
 #: setup/class_setupStep_Migrate.inc:2853
 msgid "Failed"
-msgstr "selhalo"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:502 setup/class_setupStep_Migrate.inc:514
 #, php-format
 msgid ""
 "The specified user '%s' does not have full access to your ldap database."
-msgstr "Zadaný uživatel '%s' nemá neomezený přístup do databáze Vašeho LDAPu."
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:577
 #, php-format
@@ -248,33 +248,33 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:2443
 #: setup/class_setupStep_Migrate.inc:2711 setup/setup_migrate.tpl.c:17
 msgid "Migrate"
-msgstr "migrovat"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:625 setup/class_setupStep_Migrate.inc:765
 #: setup/class_setupStep_Migrate.inc:1021
 msgid "Migration error"
-msgstr "chyba během migrace"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:625 setup/class_setupStep_Migrate.inc:765
 #, php-format
 msgid "Cannot migrate department '%s':"
-msgstr "Oddělení '%s' nelze migrovat:"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:714
 #, php-format
 msgid "Found %s department(s) that will not be visible in FusionDirectory."
-msgstr "Bylo nalezeno %s oddělení, která nebudou viditelná z FusionDirectory."
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:930
 #, php-format
 msgid "GOsa 2.5 administrative accounts found: %s"
-msgstr "Nalezen správcovský účet z GOsa 2.5: %s"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:935
 msgid ""
 "There is no valid FusionDirectory 1.0 administrator account inside your "
 "LDAP."
-msgstr "Ve Vašem LDAP neexistuje platný účet správce FusionDirectory 1.x.x."
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:937 setup/class_setupStep_Migrate.inc:953
 #: plugins/admin/departments/dep-list.xml:48
@@ -282,49 +282,49 @@ msgstr "Ve Vašem LDAP neexistuje platný účet správce FusionDirectory 1.x.x.
 #: plugins/admin/acl/acl-list.xml:76 plugins/admin/ogroups/ogroup-list.xml:65
 #: include/simpleplugin/simple-list.xml:59
 msgid "Create"
-msgstr "vytvořit"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:941
 #: plugins/personal/generic/class_user.inc:145
 #: plugins/admin/users/class_userManagement.inc:52 include/class_acl.inc:201
 msgid "Users"
-msgstr "uživatelé"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:944
 #: plugins/admin/groups/class_group.inc:36
 #: plugins/admin/groups/class_groupManagement.inc:37 include/class_acl.inc:201
 msgid "Groups"
-msgstr "skupiny"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:952
 msgid "There is no FusionDirectory administrator account inside your LDAP."
-msgstr "Ve Vašem LDAPu neexistuje účet správce FusionDirectory/GOsa."
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1021
 #, php-format
 msgid "Cannot add ACL for user '%s':"
-msgstr "Nelze přidat ACL pro uživatele '%s':"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1058
 #: setup/class_setupStep_Migrate.inc:1068
 msgid "Input error"
-msgstr "chyba na vstupu"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1058
 msgid "Uid"
-msgstr "UID"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1063
 msgid "Password error"
-msgstr "chyba hesla"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1063
 msgid "Provided passwords do not match!"
-msgstr "Zadaná hesla se neshodují!"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1068
 msgid "Specify a valid user ID!"
-msgstr "Zadejte platné uživatelské jméno (ID)!"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1101 html/index.php:217
 #: html/index.php:221 plugins/admin/acl/class_aclRole.inc:608
@@ -354,12 +354,12 @@ msgstr "Zadejte platné uživatelské jméno (ID)!"
 #: ihtml/themes/default/msg_dialog.tpl.c:20 setup/setup_checks.tpl.c:8
 #: setup/setup_checks.tpl.c:29
 msgid "Error"
-msgstr "chyba"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1101
 #, php-format
 msgid "Adding an administrative user failed: object '%s' already exists!"
-msgstr "Přidání účtu správce selhalo: objekt '%s' již existuje!"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1112
 #: setup/class_setupStep_Migrate.inc:1138
@@ -389,96 +389,96 @@ msgstr "Přidání účtu správce selhalo: objekt '%s' již existuje!"
 #: include/functions.inc:931 include/functions.inc:3035
 #: include/functions.inc:3289
 msgid "LDAP error"
-msgstr "chyba LDAPu"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1138
 #: setup/class_setupStep_Migrate.inc:1187
 msgid "Cannot move users to the requested department!"
-msgstr "Uživatele nelze přesunout do požadovaného oddělení."
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1149
 msgid "Group will be moved from"
-msgstr "skupina bude přesunuta z"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1149
 #: setup/class_setupStep_Migrate.inc:1197 include/class_plugin.inc:1633
 msgid "to"
-msgstr "pro"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1159
 msgid "Updating following references too"
-msgstr "spolu s tím probíhá také aktualizace následujících odkazů"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1197
 msgid "User will be moved from"
-msgstr "uživatel bude přesunut z"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1207
 msgid "The following references will be updated"
-msgstr "tyto odkazy budou aktualizovány"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1766
 msgid ""
 "The LDAP root object is missing. It is required to use your LDAP service."
-msgstr "Chybí kořenový objekt LDAPu. Ten je nezbytný proto, abyste mohli používat služeb Vašeho LDAPu."
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1767
 #: setup/class_setupStep_Migrate.inc:1780
 msgid "Try to create root object"
-msgstr "pokusit se vytvořit kořenový objekt"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1779
 msgid "Root object couldn't be created, you should try it on your own."
-msgstr "Kořenový objekt se nepodařilo vytvořit – pokuste se to udělat ručním zásahem."
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1833
 #, php-format
 msgid "Missing FusionDirectory object class '%s'!"
-msgstr "Chybí chybí třída objektů '%s' FusionDirectory!"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1834
 msgid "Please check your installation."
-msgstr "Zkontrolujte prosím Vaši instalaci."
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1853
 #, php-format
 msgid ""
 "Cannot handle the structural object type of your root object. Please try to "
 "add the object class '%s' manually."
-msgstr "Nedaří se manipulace s typem struktury kořenového objektu. Prosím pokuste se přidat třídu objektů '%s' ručním zásahem."
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:2163
 #, php-format
 msgid "Copy '%s' to '%s' failed:"
-msgstr "selhalo zkopírování '%s' do '%s':"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:2293
 #, php-format
 msgid "There are %s devices that need to be migrated."
-msgstr "Je třeba zmigrovat %s zařízení."
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:2350
 #, php-format
 msgid "Adding '%s' to the LDAP failed: %s"
-msgstr "Přidání '%s' do LDAPu selhalo: %s"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:2369
 #: setup/class_setupStep_Migrate.inc:2480
 #, php-format
 msgid "Updating '%s' failed: %s"
-msgstr "aktualizace '%s' selhala: %s"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:2441
 #, php-format
 msgid "There are %s services that need to be migrated."
-msgstr "Je třeba zmigrovat tyto služby %s."
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:2568 include/class_msgPool.inc:503
 #: include/select/objectSelect/selectObject-list.xml:138
 #: include/select/userGroupSelect/selectUserGroup-list.xml:83
 #, php-format
 msgid "Add"
-msgstr "přidat"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:2569
 #: plugins/admin/departments/dep-list.xml:67
@@ -491,82 +491,82 @@ msgstr "přidat"
 #: include/simpleplugin/simple-list.xml:73
 #: include/simpleplugin/simple-list.xml:122
 msgid "Remove"
-msgstr "odebrat"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:2710
 #, php-format
 msgid "There are %s application menus which have to be migrated."
-msgstr "%s nabídek aplikací nebude zmigrováno."
+msgstr ""
 
 #: setup/class_setupStep_Welcome.inc:38
 msgid "Welcome"
-msgstr "vítejte"
+msgstr ""
 
 #: setup/class_setupStep_Welcome.inc:39
 msgid "The welcome message"
-msgstr "uvítací zpráva"
+msgstr ""
 
 #: setup/class_setupStep_Welcome.inc:40
 msgid "Welcome to FusionDirectory setup wizard"
-msgstr "vítejte v průvodci nastavením FusionDirectory"
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:38 setup/class_setupStep_Checks.inc:39
 msgid "Installation check"
-msgstr "kontrola instalace"
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:40
 msgid "Basic checks for PHP compatibility and extensions"
-msgstr "základní kontrola toho, zda je PHP a jeho rozšířující moduly ve vyhovujících verzích"
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:64
 msgid "Checking PHP version"
-msgstr "kontroluji verzi PHP"
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:65
 #, php-format
 msgid "PHP must be of version %s or above."
-msgstr "PHP musí být ve verzi %s a vyšší"
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:66
 msgid "Please upgrade to a supported version."
-msgstr "Aktualizujte prosím na verzi, která je podporována."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:73
 msgid "FusionDirectory requires this module to talk with your LDAP server."
-msgstr "FusionDirectory potřebuje tento modul pro komunikaci s LDAP serverem."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:81
 msgid ""
 "FusionDirectory requires this module for an internationalized interface."
-msgstr "FusionDirectory potřebuje tento modul pro přizpůsobení uživatelského rozhraní místním odlišnostem (formát data a času, měrné jednotky, atp.)."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:89
 msgid ""
 "FusionDirectory requires this module to communicate with different types of "
 "servers and protocols."
-msgstr "FusionDirectory potřebuje tento modul pro komunikaci různými protokoly s různými typy serverů."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:97
 msgid "FusionDirectory requires this module for the samba integration."
-msgstr "FusionDirectory potřebuje tento modul pro začlenění Samby."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:105
 msgid ""
 "FusionDirectory requires either 'mhash' or the 'sha1' module to make use of "
 "SSHA encryption."
-msgstr "Aby bylo možné ve FusionDirectory využívat SSHA šifrování, musí být nainstalován jeden z těchto modulů: 'mhash', nebo 'sha1'."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:113
 msgid "FusionDirectory requires this module to talk to an IMAP server."
-msgstr "FusionDirectory potřebuje tento modul pro komunikaci s IMAP serverem."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:120
 msgid "mbstring"
-msgstr "mbstring"
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:121
 msgid "FusionDirectory requires this module to handle unicode strings."
-msgstr "FusionDirectory potřebuje tento modul pro práci se znaky v univerzálním kódování (unicode)."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:128
 msgid "MDB2"
@@ -576,7 +576,7 @@ msgstr ""
 msgid ""
 "FusionDirectory requires this module to communicate with several supported "
 "databases."
-msgstr "FusionDirectory tento modul potřebuje pro komunikaci s databázemi, které podporuje."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:134
 msgid ""
@@ -586,51 +586,51 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:138
 msgid "imagick"
-msgstr "ImageMagick"
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:139
 msgid "FusionDirectory requires this extension to handle images."
-msgstr "FusionDirectory jej potřebuje pro práci s obrázky."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:153
 msgid "compression module"
-msgstr "kompresní modul"
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:154
 msgid "FusionDirectory requires this extension to handle snapshots."
-msgstr "FusionDirectory toto rozšíření potřebuje pro práci se snímky."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:165
 msgid ""
 "register_globals is a PHP mechanism to register all global variables to be "
 "accessible from scripts without changing the scope. This may be a security "
 "risk."
-msgstr "„register_globals“ je mechanizmus v PHP pro registraci všech globálních proměnných, které jsou tak dostupné ze skriptů aniž by bylo třeba měnit jejich rozsah. Jenže to může rizikové z hlediska zabezpečení."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:166
 msgid "Search for 'register_globals' in your php.ini and switch it to 'Off'."
-msgstr "Vyhledejte ve svém php.ini parametr 'register_globals' a nastavte jej na 'off'. "
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:174
 msgid "PHP uses this value for the garbage collector to delete old sessions."
-msgstr "PHP tuto hodnotu používá pro „úklid“ (garbage collector) při odstraňování starých relací."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:175
 msgid ""
 "Setting this value to one day will prevent loosing session and cookies "
 "before they really timeout."
-msgstr "Nastavení této hodnoty na jeden den zabrání ztrátě relace a cookies dříve, než skutečně vyprší nastavený časový limit."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:176
 msgid ""
 "Search for 'session.gc_maxlifetime' in your php.ini and set it to 86400 or "
 "higher."
-msgstr "Vyhledejte ve svém php.ini parametr 'session.gc_maxlifetime' a nastavte jej na hodnotu '86400' a vyšší."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:183 setup/class_setupStep_Checks.inc:199
 #: setup/class_setupStep_Checks.inc:215 setup/class_setupStep_Checks.inc:223
 msgid "Off"
-msgstr "vypnuto"
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:184
 msgid ""
@@ -640,7 +640,7 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:185
 msgid "Search for 'session.auto_start' in your php.ini and set it to 'Off'."
-msgstr "Vyhledejte ve svém php.ini parametr 'session.auto_start' a nastavte jej na 'off'."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:192
 msgid ""
@@ -657,125 +657,125 @@ msgstr ""
 msgid ""
 "This option influences the PHP output handling. Turn this Option off, to "
 "increase performance."
-msgstr "Tato volba ovlivňuje to, jak PHP zachází s výstupem. Pro zvýšení výkonu nastavte na 'vypnuto'."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:201
 msgid "Search for 'implicit_flush' in your php.ini and set it to 'Off'."
-msgstr "Vyhledejte ve svém php.ini parametr 'implicit_flush' a nastavte jej na 'off'."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:208
 msgid "The Execution time should be at least 30 seconds."
-msgstr "PHP skripty by měly dostat čas alespoň 30 vteřin na to, aby proběhly."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:209
 msgid ""
 "Search for 'max_execution_time' in your php.ini and set it to '30' or "
 "higher."
-msgstr "Vyhledejte ve svém php.ini parametr 'max_execution_time' a nastavte jej na hodnotu '30' a vyšší."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:216
 msgid ""
 "Increase the server security by setting expose_php to 'off'. PHP won't send "
 "any information about the server you are running in this case."
-msgstr "Pro zlepšení zabezpečení nastavte PHP tak, aby neposkytovalo jakékoli informace o serveru, na kterém běží."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:217
 msgid "Search for 'expose_php' in your php.ini and set if to 'Off'."
-msgstr "Vyhledejte ve svém php.ini parametr 'expose_php' a nastavte jej na 'off'."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:224
 msgid "Increase your server performance by setting magic_quotes_gpc to 'off'."
-msgstr "Výkonnost Vašeho serveru můžete zlepšit nastavením parametru 'magic_quotes_gpc' na 'off'."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:225
 msgid ""
 "Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to "
 "'Off'."
-msgstr "Vyhledejte ve svém php.ini parametr 'zend.ze1_compatibility_mode' a nastavte jej na 'off'."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:235
 msgid "Configuration writeable"
-msgstr "do nastavení lze zapisovat"
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:236
 msgid "The configuration file can't be written"
-msgstr "Nelze zapisovat do souboru s nastaveními."
+msgstr ""
 
 #: setup/class_setupStep_Checks.inc:237
 #, php-format
 msgid ""
 "FusionDirectory reads its configuration from a file located in (%s/%s). The "
 "setup can write the configuration directly if it is writeable."
-msgstr "FusionDirectory načítá svá nastavení ze souboru nacházejícího se v (%s/%s). Instalátor může zapsat nastavení přímo do tohoto souboru, pokud k tomu bude mít dostatečná oprávnění."
+msgstr ""
 
 #: setup/class_setupStep_Config2.inc:52 setup/class_setupStep_Config2.inc:53
 msgid "FusionDirectory settings 2/3"
-msgstr "nastavení FusionDirectory, krok 2 ze 3"
+msgstr ""
 
 #: setup/class_setupStep_Config2.inc:54
 msgid "Customize special parameters"
-msgstr "nastavení specifických parametrů"
+msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:55
 msgid "LDAP setup"
-msgstr "nastavení LDAPu"
+msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:56
 msgid "LDAP connection setup"
-msgstr "nastavení připojení k LDAPu"
+msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:57
 msgid ""
 "This dialog performs the basic configuration of the LDAP connectivity for "
 "FusionDirectory."
-msgstr "V tomto dialogu budou provedena základní nastavení pro komunikaci FusionDirectory s LDAPem."
+msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:117
 #, php-format
 msgid "Anonymous bind to server '%s' failed!"
-msgstr "Anonymní přihlášení k serveru '%s' se nezdařilo!"
+msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:119
 #, php-format
 msgid "Bind as user '%s' failed!"
-msgstr "Přihlášení jako uživatel '%s' se nezdařilo!"
+msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:124
 #, php-format
 msgid "Anonymous bind to server '%s' succeeded."
-msgstr "Anonymní přihlášení k serveru '%s' proběhlo úspěšně."
+msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:125
 msgid "Please specify user and password!"
-msgstr "Zadejte prosím uživatelské jména a heslo!"
+msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:127
 #, php-format
 msgid "Bind as user '%s' to server '%s' succeeded!"
-msgstr "Přihlášení se jako uživatel '%s' k serveru '%s' proběhlo úspěšně!"
+msgstr ""
 
 #: setup/class_setupStep_Finish.inc:36
 #: ihtml/themes/default/copyPasteDialog.tpl.c:26
 msgid "Finish"
-msgstr "dokončení"
+msgstr ""
 
 #: setup/class_setupStep_Finish.inc:37
 msgid "Write configuration file"
-msgstr "zapsání nastavení do souboru"
+msgstr ""
 
 #: setup/class_setupStep_Finish.inc:38
 msgid "Finish - write the configuration file"
-msgstr "dokončení – zapsání nastavení do souboru"
+msgstr ""
 
 #: setup/class_setupStep_Finish.inc:102
 msgid ""
 "Your configuration file is currently world readable. Please update the file "
 "permissions!"
-msgstr "Váš soubor s konfigurací je v tuto chvíli čitelný úplně pro všechny. Upravte nastavení oprávnění pro přístup k němu."
+msgstr ""
 
 #: setup/class_setupStep_Finish.inc:104
 msgid "The configuration is currently not readable or it does not exists."
-msgstr "Soubor s nastaveními není v tuto chvíli čitelný, nebo zcela chybí."
+msgstr ""
 
 #: setup/class_setupStep_Finish.inc:109
 #, php-format
@@ -783,76 +783,76 @@ msgid ""
 "After downloading and placing the file under %s, please make sure that the "
 "user the webserver is running with is able to read %s, while other users "
 "shouldn't."
-msgstr "Po stažení a umístění souboru do %s se prosím ujistěte, že %s je oprávněn číst pouze uživatelský účet, pod kterým běží webový server a nikdo jiný."
+msgstr ""
 
 #: setup/class_setup.inc:200
 msgid "Completed"
-msgstr "hotovo"
+msgstr ""
 
 #: setup/class_setup.inc:269 setup/setup_migrate.tpl.c:104
 msgid "Next"
-msgstr "následující"
+msgstr ""
 
 #: setup/class_setupStep_Config1.inc:76 setup/class_setupStep_Config1.inc:77
 msgid "FusionDirectory settings 1/3"
-msgstr "nastavení FusionDirectory, krok 1 ze 3"
+msgstr ""
 
 #: setup/class_setupStep_Config1.inc:78
 msgid "FusionDirectory generic settings"
-msgstr "obecná nastavení FusionDirectory"
+msgstr ""
 
 #: setup/class_setupStep_Config1.inc:121
 #, php-format
 msgid "The specified value for '%s' must be a numeric value"
-msgstr "hodnota, zadaná jako '%s' musí být číslo"
+msgstr ""
 
 #: setup/class_setupStep_Config1.inc:121 setup/setup_config1.tpl.c:32
 msgid "GID / UID min id"
-msgstr "o kolik vyšší číslo má být nejnižší přidělené GID / UID oproti základu (níže)"
+msgstr ""
 
 #: setup/class_setupStep_Config1.inc:125 setup/class_setupStep_Config1.inc:129
 #, php-format
 msgid "Don't add a trailing comma to '%s'."
-msgstr "Za '%s' prosím nepište tečku."
+msgstr ""
 
 #: setup/class_setupStep_Config1.inc:125
 msgid "People storage ou"
-msgstr "organizační jednotka (ou) pro účty uživatelů"
+msgstr ""
 
 #: setup/class_setupStep_Config1.inc:129
 msgid "Group storage ou"
-msgstr "organizační jednotka (ou) pro účty skupin"
+msgstr ""
 
 #: setup/class_setupStep_Config1.inc:133
 msgid "Uid base must be numeric"
-msgstr "základ UID musí být číselná hodnota"
+msgstr ""
 
 #: setup/class_setupStep_Config1.inc:137
 msgid "The given password minimum length is not numeric."
-msgstr "Hodnotou minimální délky hesla musí být číslo."
+msgstr ""
 
 #: setup/class_setupStep_Config1.inc:140
 msgid "The given password differ value is not numeric."
-msgstr "Hodnota počtu odlišných znaků musí být číslo."
+msgstr ""
 
 #: html/class_passwordRecovery.inc:126
 #: plugins/personal/generic/class_user.inc:44
 msgid "Password method"
-msgstr "způsob uložení hesla"
+msgstr ""
 
 #: html/class_passwordRecovery.inc:127
 msgid "Error: Password method not available!"
-msgstr "Chyba: tento způsob uložení hesla není k dispozici!"
+msgstr ""
 
 #: html/class_passwordRecovery.inc:227 html/main.php:135
 #: include/class_xml.inc:61 include/functions.inc:490
 msgid "Fatal error"
-msgstr "fatální chyba"
+msgstr ""
 
 #: html/class_passwordRecovery.inc:228
 #, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
-msgstr "Nastavení %s/%s FusionDirectory není čitelné. Akce byla zrušena."
+msgstr ""
 
 #: html/class_passwordRecovery.inc:297 html/main.php:250 html/index.php:148
 #: html/index.php:209 include/simpleplugin/class_simpleService.inc:141
@@ -864,12 +864,12 @@ msgstr "Nastavení %s/%s FusionDirectory není čitelné. Akce byla zrušena."
 #: include/class_timezone.inc:60 include/class_pluglist.inc:298
 #: include/functions.inc:753 include/functions.inc:3056
 msgid "Configuration error"
-msgstr "chyba v nastavení"
+msgstr ""
 
 #: html/class_passwordRecovery.inc:298 html/setup.php:62 html/index.php:164
 #, php-format
 msgid "Directory '%s' specified as compile directory is not accessible!"
-msgstr "Adresář  '%s', nastavený jako místo pro provedení kompilace, není přístupný!"
+msgstr ""
 
 #: html/class_passwordRecovery.inc:403
 #: plugins/personal/password/class_password.inc:112
@@ -877,7 +877,7 @@ msgstr "Adresář  '%s', nastavený jako místo pro provedení kompilace, není 
 msgid ""
 "The passwords you've entered as 'New password' and 'Repeated new password' "
 "do not match."
-msgstr "Zadání v 'nové heslo' a 'zopakování nového hesla' se neshodují!"
+msgstr ""
 
 #: html/class_passwordRecovery.inc:405
 #: plugins/admin/users/class_userManagement.inc:309
@@ -893,7 +893,7 @@ msgstr "Zadání v 'nové heslo' a 'zopakování nového hesla' se neshodují!"
 #: plugins/personal/generic/password.tpl.c:32
 #: plugins/admin/users/password.tpl.c:8 plugins/admin/users/password.tpl.c:26
 msgid "New password"
-msgstr "nové heslo"
+msgstr ""
 
 #: html/class_passwordRecovery.inc:407
 msgid "The password used as new is too short."
@@ -902,25 +902,25 @@ msgstr ""
 #: html/class_passwordRecovery.inc:409
 #: plugins/personal/password/class_password.inc:120
 msgid "The password contains possibly problematic Unicode characters!"
-msgstr "Heslo obsahuje znaky, které mohou být problematické (např. se nenacházejí přímo na klávesnici)."
+msgstr ""
 
 #: html/class_passwordRecovery.inc:434
 msgid "Session will not be encrypted."
-msgstr "Relace nebude šifrována."
+msgstr ""
 
 #: html/class_passwordRecovery.inc:436
 msgid "Enter SSL session"
-msgstr "otevřít relaci šifrovanou pomocí protokolu SSL"
+msgstr ""
 
 #: html/class_passwordRecovery.inc:477
 #, php-format
 msgid "Did not found account %s"
-msgstr "nepodařilo se nalézt účet %s"
+msgstr ""
 
 #: html/class_passwordRecovery.inc:480
 #, php-format
 msgid "Found multiple accounts %s"
-msgstr "bylo nalezeno vícero účtů s názvem %s"
+msgstr ""
 
 #: html/class_passwordRecovery.inc:494 ihtml/themes/default/recovery.tpl.c:83
 msgid "Adresse mail"
@@ -929,24 +929,24 @@ msgstr ""
 #: html/class_passwordRecovery.inc:511
 #, php-format
 msgid "There is no account using email %s"
-msgstr "neexistuje účet používající e-mailovou adresu %s"
+msgstr ""
 
 #: html/class_passwordRecovery.inc:514
 #, php-format
 msgid "There are several accounts using email %s"
-msgstr "e-mailová adresa %s je využívána více účty"
+msgstr ""
 
 #: html/class_passwordRecovery.inc:562
 msgid "Contact your administrator, there was a problem with mail server"
-msgstr "Nastal problém s poštovním serverem – obraťte se prosím na svého správce systémů."
+msgstr ""
 
 #: html/class_passwordRecovery.inc:573
 msgid "This token is invalid"
-msgstr "tato poukázka (token) je neplatná"
+msgstr ""
 
 #: html/class_passwordRecovery.inc:611
 msgid "External password changer reported a problem: "
-msgstr "Externí program pro úpravu hesel ohlásil problém:"
+msgstr ""
 
 #: html/class_passwordRecovery.inc:636
 msgid "There was a problem with mail server, confirmation email not sent"
@@ -954,45 +954,45 @@ msgstr ""
 
 #: html/setup.php:62
 msgid "Smarty"
-msgstr "Smarty"
+msgstr ""
 
 #: html/main.php:136
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
-msgstr "Nemohu nalézt soubor '%s' – opravte to prosím spuštěním '%s' (na serveru)."
+msgstr ""
 
 #: html/main.php:154
 msgid "PHP configuration"
-msgstr "nastavení PHP"
+msgstr ""
 
 #: html/main.php:155
 msgid ""
 "Fatal error: Register globals is on. FusionDirectory will refuse to login "
 "unless this is fixed by an administrator."
-msgstr "Fatální chyba: v PHP je zapnuto 'register globals'. Dokud to Váš správce systémů neopraví, nebude možné se přihlásit do FusionDirectory."
+msgstr ""
 
 #: html/main.php:185 plugins/personal/password/class_password.inc:156
 #: plugins/personal/password/class_password.inc:162
 #: plugins/admin/users/class_userManagement.inc:384
 #: ihtml/themes/default/password.tpl.c:20
 msgid "Password change"
-msgstr "změna hesla"
+msgstr ""
 
 #: html/main.php:185
 msgid "Your password is about to expire, please change your password!"
-msgstr "Platnost Vašeho hesla již brzy skončí – změňte ho prosím!"
+msgstr ""
 
 #: html/main.php:250
 msgid "Running out of memory!"
-msgstr "Dochází volná kapacita operační paměti!"
+msgstr ""
 
 #: html/main.php:306
 msgid "User ACL checks disabled"
-msgstr "kontrola dle ACL je vypnuta"
+msgstr ""
 
 #: html/main.php:351
 msgid "Plugin"
-msgstr "zásuvný modul"
+msgstr ""
 
 #: html/main.php:352
 #, php-format
@@ -1003,24 +1003,24 @@ msgstr ""
 
 #: html/main.php:367
 msgid "Configuration Error"
-msgstr "chyba v nastavení"
+msgstr ""
 
 #: html/main.php:368
 #, php-format
 msgid ""
 "Fatal error: not all POST variables have been transfered by PHP - please "
 "inform your administrator!"
-msgstr "Fatální chyba: ne všechny proměnné POST byly PHP přeneseny – sdělte to prosím svému správci systémů!"
+msgstr ""
 
 #: html/index.php:59
 msgid "Session is not encrypted!"
-msgstr "Tato relace není šifrována!"
+msgstr ""
 
 #: html/index.php:66
 msgid ""
 "The session lifetime configured in your fusiondirectory.conf will be "
 "overridden by php.ini settings."
-msgstr "Nastavení doby udržování relace bude bráno z php.ini namísto z Vašeho fusiondirectory.conf. "
+msgstr ""
 
 #: html/index.php:148
 #, php-format
@@ -1031,57 +1031,57 @@ msgstr ""
 
 #: html/index.php:164
 msgid "Smarty error"
-msgstr "chyba ve Smarty"
+msgstr ""
 
 #: html/index.php:209
 msgid "There is a problem with the authentication setup!"
-msgstr "Vyskytl se problém s nastavením ověřování!"
+msgstr ""
 
 #: html/index.php:217
 msgid "Cannot find a valid user for the current authentication setup!"
-msgstr "Při současném nastavení ověřování se nedaří nalézt platného uživatele!"
+msgstr ""
 
 #: html/index.php:221
 msgid "User information is not unique across the configured LDAP trees!"
-msgstr "Informace o uživateli není jedinečná v rámci nastavených stromů LDAPu!"
+msgstr ""
 
 #: html/index.php:270
 msgid "Cannot detect information about the installed LDAP schema!"
-msgstr "Nedaří se zjistit informace o tom, jaká LDAP schémata jsou nainstalována!"
+msgstr ""
 
 #: html/index.php:283
 msgid "Your LDAP setup contains old schema definitions:"
-msgstr "Váš LDAP adresář obsahuje staré definice schémat:"
+msgstr ""
 
 #: html/index.php:306
 msgid "Please specify a valid username!"
-msgstr "Zadejte prosím platné uživatelské jméno!"
+msgstr ""
 
 #: html/index.php:309
 msgid "Please specify your password!"
-msgstr "Zadejte prosím své heslo!"
+msgstr ""
 
 #: html/index.php:321
 msgid "Authentication error"
-msgstr "chyba ověření"
+msgstr ""
 
 #: html/index.php:321
 msgid "Cannot retrieve user information for htaccess authentication!"
-msgstr "Nelze získat informace o uživateli potřebné pro ověření pomocí htaccess."
+msgstr ""
 
 #: html/index.php:328
 msgid "Please check the username/password combination."
-msgstr "Zkontrolujte prosím správnost zadaného uživatelského jména a hesla."
+msgstr ""
 
 #: html/index.php:379
 msgid "Account locked. Please contact your system administrator!"
-msgstr "Účet je uzamčen. Prosím kontaktujte svého správce systémů."
+msgstr ""
 
 #: html/index.php:401
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
-msgstr "Váš webový prohlížeč má zakázané cookies. Prosím povolte je a před dalším pokusem o přihlášení stránku nechejte tuto stránku načíst znovu!"
+msgstr ""
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:40
 msgid "Hair Information"
@@ -1139,7 +1139,7 @@ msgstr ""
 #: plugins/personal/generic/paste_generic.tpl.c:11
 #: plugins/admin/users/template.tpl.c:17
 msgid "Login"
-msgstr "uživatelské jméno"
+msgstr ""
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:90
 msgid "Login for FTP"
@@ -1157,7 +1157,7 @@ msgstr ""
 #: setup/setup_config2.tpl.c:23 setup/setup_config2.tpl.c:38
 #: plugins/personal/generic/paste_generic.tpl.c:14
 msgid "Password"
-msgstr "heslo"
+msgstr ""
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:91
 msgid "Password for FTP"
@@ -1165,7 +1165,7 @@ msgstr ""
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:92
 msgid "Host"
-msgstr "stroj"
+msgstr ""
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:92
 msgid "Host for FTP"
@@ -1173,7 +1173,7 @@ msgstr ""
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:93
 msgid "Port"
-msgstr "port"
+msgstr ""
 
 #: contrib/develop/simple-plugin/demoPlugin/class_demoPlugin.inc:93
 msgid "Port for FTP"
@@ -1190,7 +1190,7 @@ msgstr ""
 #: contrib/develop/debug-help/addons/debug-help/class_ldapDump.inc:8
 #: setup/setup_feedback.tpl.c:65
 msgid "LDAP"
-msgstr "LDAP"
+msgstr ""
 
 #: contrib/develop/debug-help/addons/debug-help/class_ldapDump.inc:9
 #: contrib/develop/debug-help/addons/debug-help/class_ldapDump.inc:21
@@ -1225,12 +1225,12 @@ msgstr ""
 #: plugins/generic/welcome/main.inc:26
 #, php-format
 msgid "Welcome %s!"
-msgstr "Vítejte, %s!"
+msgstr ""
 
 #: plugins/generic/references/class_reference.inc:38
 #: plugins/generic/references/class_reference.inc:39
 msgid "References"
-msgstr "odkazy"
+msgstr ""
 
 #: plugins/generic/references/class_reference.inc:58
 #: plugins/personal/generic/class_user.inc:141
@@ -1240,35 +1240,35 @@ msgstr "odkazy"
 #: plugins/admin/groups/class_group.inc:32
 #: plugins/admin/ogroups/class_ogroup.inc:135 setup/setup_feedback.tpl.c:23
 msgid "Generic"
-msgstr "obecné"
+msgstr ""
 
 #: plugins/generic/references/class_reference.inc:62
 msgid "UNIX"
-msgstr "UNIX"
+msgstr ""
 
 #: plugins/generic/references/class_reference.inc:66
 #: plugins/admin/ogroups/tabs_ogroups.inc:243
 #: include/simpleplugin/systemSelect/class_systemSelect.inc:67
 #: ihtml/themes/default/recovery.tpl.c:86
 msgid "Mail"
-msgstr "e-mail"
+msgstr ""
 
 #: plugins/generic/references/class_reference.inc:70
 #: include/simpleplugin/systemSelect/class_systemSelect.inc:75
 msgid "Samba"
-msgstr "Samba"
+msgstr ""
 
 #: plugins/generic/references/class_reference.inc:74
 msgid "FAX"
-msgstr "fax"
+msgstr ""
 
 #: plugins/generic/references/class_reference.inc:78
 msgid "Proxy"
-msgstr "proxy"
+msgstr ""
 
 #: plugins/generic/references/class_reference.inc:82
 msgid "FTP"
-msgstr "FTP"
+msgstr ""
 
 #: plugins/generic/references/class_reference.inc:86
 #: plugins/admin/groups/class_group.inc:37
@@ -1277,7 +1277,7 @@ msgstr "FTP"
 #: include/select/objectSelect/selectObject-list.xml:79
 #: include/select/userGroupSelect/selectUserGroup-list.xml:23
 msgid "Group"
-msgstr "skupina"
+msgstr ""
 
 #: plugins/generic/references/class_reference.inc:90
 #: plugins/personal/generic/class_user.inc:278
@@ -1286,7 +1286,7 @@ msgstr "skupina"
 #: plugins/admin/ogroups/class_ogroupManagement.inc:64
 #: include/select/objectSelect/selectObject-list.xml:15
 msgid "Department"
-msgstr "oddělení"
+msgstr ""
 
 #: plugins/generic/references/class_reference.inc:94
 #: plugins/personal/generic/class_user.inc:252
@@ -1295,13 +1295,13 @@ msgstr "oddělení"
 #: include/simpleplugin/systemSelect/class_systemSelect.inc:83
 #: include/select/objectSelect/selectObject-list.xml:63
 msgid "Phone"
-msgstr "telefon"
+msgstr ""
 
 #: plugins/generic/references/class_reference.inc:98
 #: plugins/admin/ogroups/class_ogroupManagement.inc:63
 #: include/select/objectSelect/selectObject-list.xml:87
 msgid "Application"
-msgstr "aplikace"
+msgstr ""
 
 #: plugins/generic/references/class_reference.inc:102
 #: plugins/admin/ogroups/class_ogroupManagement.inc:65
@@ -1309,29 +1309,29 @@ msgstr "aplikace"
 #: include/select/objectSelect/selectObject-list.xml:23
 #: setup/setup_config2.tpl.c:17 setup/setup_config2.tpl.c:32
 msgid "Server"
-msgstr "server"
+msgstr ""
 
 #: plugins/generic/references/class_reference.inc:106
 msgid "Thin Client"
-msgstr "tenký klient"
+msgstr ""
 
 #: plugins/generic/references/class_reference.inc:110
 #: plugins/admin/ogroups/class_ogroupManagement.inc:67
 #: include/simpleplugin/systemSelect/systemSelect-list.xml:22
 #: include/select/objectSelect/selectObject-list.xml:31
 msgid "Workstation"
-msgstr "pracovní stanice"
+msgstr ""
 
 #: plugins/generic/references/class_reference.inc:114
 #: plugins/admin/ogroups/class_ogroup.inc:141
 msgid "Object group"
-msgstr "skupina objektu"
+msgstr ""
 
 #: plugins/generic/references/class_reference.inc:118
 #: plugins/admin/ogroups/class_ogroupManagement.inc:70
 #: include/select/objectSelect/selectObject-list.xml:55
 msgid "Printer"
-msgstr "tiskárna"
+msgstr ""
 
 #: plugins/config/class_mainPluginsConfig.inc:28
 msgid "Plugins configuration"
@@ -1355,7 +1355,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:57
 msgid "Configuration"
-msgstr "nastavení"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:58
 #: plugins/config/class_configInLdap.inc:62
@@ -1364,7 +1364,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:65
 msgid "Addons"
-msgstr "rozšíření"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:81
 msgid "Look n feel"
@@ -1372,7 +1372,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:84
 msgid "Language"
-msgstr "jazyk"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:84
 msgid ""
@@ -1382,7 +1382,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:89 setup/setup_config1.tpl.c:5
 msgid "Theme"
-msgstr "vzhled"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:89
 msgid "Theme to be used"
@@ -1390,7 +1390,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:95 setup/setup_config2.tpl.c:2
 msgid "Timezone"
-msgstr "časová zóna"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:95
 msgid "Timezone to be used"
@@ -1421,7 +1421,7 @@ msgstr ""
 #: plugins/config/class_configInLdap.inc:119
 #: plugins/personal/password/main.inc:52 setup/setup_config1.tpl.c:38
 msgid "Password settings"
-msgstr "nastavení hesel"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:122
 msgid "Password default hash"
@@ -1442,7 +1442,7 @@ msgstr ""
 #: plugins/config/class_configInLdap.inc:131 setup/setup_config1.tpl.c:47
 #: setup/setup_config1.tpl.c:50
 msgid "Password minimum length"
-msgstr "minimální délka hesla"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:131
 msgid "Minimum length of user passwords"
@@ -1466,7 +1466,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:145 setup/setup_config1.tpl.c:62
 msgid "Use account expiration"
-msgstr "omezovat platnost uživatelský účtů na základě platnosti jejich hesel"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:146
 msgid ""
@@ -1492,7 +1492,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:163 setup/setup_config3.tpl.c:5
 msgid "Enable primary group filter"
-msgstr "povolit filtrování uživatelů dle jejich hlavních skupin"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:164
 msgid ""
@@ -1502,7 +1502,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:169 setup/setup_config3.tpl.c:8
 msgid "Display summary in listings"
-msgstr "ve výpisech zobrazovat souhrny"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:170
 msgid ""
@@ -1522,7 +1522,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:181 setup/setup_config3.tpl.c:14
 msgid "Enable Copy & Paste"
-msgstr "zapnout kopírování a vkládání položek"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:182
 msgid "Enables copy and paste for LDAP entries managed with FusionDirectory."
@@ -1546,11 +1546,11 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:199 setup/setup_config3.tpl.c:20
 msgid "Login and session"
-msgstr "přihlašování a relace"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:202 setup/setup_config3.tpl.c:23
 msgid "Login attribute"
-msgstr "atribut použitý pro přihlašování"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:203
 msgid "Which LDAP attribute should be used as the login name during login."
@@ -1558,7 +1558,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:209 setup/setup_config3.tpl.c:29
 msgid "Enforce encrypted connections"
-msgstr "vynucovat šifrované spojení"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:210
 msgid ""
@@ -1568,7 +1568,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:214 setup/setup_config3.tpl.c:32
 msgid "Warn if session is not encrypted"
-msgstr "varovat, pokud relace není šifrována"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:215
 msgid "will display a warning to the user when http is used instead of https."
@@ -1576,7 +1576,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:220 setup/setup_config3.tpl.c:35
 msgid "Remember dialog filter settings"
-msgstr "pamatovat si nastavení dialogu filtru"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:221
 msgid "Store filter and plugin settings inside of a cookie."
@@ -1584,7 +1584,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:226 setup/setup_config3.tpl.c:38
 msgid "Session lifetime"
-msgstr "Doba nečinnosti, po jejímž uplynutí bude relace automaticky ukončena."
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:226
 msgid "Defines when a session will expire in seconds."
@@ -1592,12 +1592,12 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:233 setup/setup_config2.tpl.c:8
 msgid "Snapshots / Undo"
-msgstr "zálohy / obnovování"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:236 setup/setup_config2.tpl.c:11
 #: setup/setup_config2.tpl.c:26
 msgid "Enable snapshots"
-msgstr "zapnout pořizování snímků aktuálního stavu"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:236
 msgid ""
@@ -1608,7 +1608,7 @@ msgstr ""
 #: plugins/config/class_configInLdap.inc:240 setup/setup_config2.tpl.c:14
 #: setup/setup_config2.tpl.c:29
 msgid "Snapshot base"
-msgstr "podstrom pro uložení snímků"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:240
 msgid "The base where snapshots should be stored inside of the LDAP."
@@ -1643,7 +1643,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:258
 msgid "Miscellaneous"
-msgstr "různé"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:263
 msgid "Hooks that are called when specific actions happens"
@@ -1675,7 +1675,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:285
 msgid "Hooks"
-msgstr "háčky"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:293
 msgid "Available shells"
@@ -1687,11 +1687,11 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:302 setup/setup_config1.tpl.c:8
 msgid "People and group storage"
-msgstr "umístění účtů uživatelů a skupin"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:306 setup/setup_config1.tpl.c:11
 msgid "People DN attribute"
-msgstr "atribut účtu uživatele použitý jako DN"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:306
 msgid "Attribute to use at the beginning of users dn"
@@ -1700,7 +1700,7 @@ msgstr ""
 #: plugins/config/class_configInLdap.inc:311
 #: plugins/config/class_configInLdap.inc:312 setup/setup_config1.tpl.c:23
 msgid "Include personal title in user DN"
-msgstr "do DN uživatelských účtů zahrnovat i oslovení"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:316 setup/setup_config1.tpl.c:14
 msgid "Customized CN"
@@ -1722,7 +1722,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:324 setup/setup_config1.tpl.c:29
 msgid "Automatic UIDs"
-msgstr "automatické vytváření názvů účtů uživatelů (UID)"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:324
 msgid "Automatic way to generate new user ids"
@@ -1828,7 +1828,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:390 setup/setup_config3.tpl.c:41
 msgid "Debugging"
-msgstr "diagnostika"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:393
 msgid "Display errors"
@@ -1842,7 +1842,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:398 setup/setup_config3.tpl.c:47
 msgid "Maximum LDAP query time"
-msgstr "maximální prodleva odpovědi LDAPu"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:398
 msgid ""
@@ -1852,7 +1852,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:403 setup/setup_config3.tpl.c:50
 msgid "Log LDAP statistics"
-msgstr "zaznamenávat statistiky LDAPu"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:404
 msgid ""
@@ -1862,7 +1862,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:409 setup/setup_config3.tpl.c:53
 msgid "Debug level"
-msgstr "úroveň podrobností diagnostických informací"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:410
 msgid "Display certain information on each page load."
@@ -1878,39 +1878,39 @@ msgstr ""
 
 #: plugins/personal/password/class_password.inc:110
 msgid "You need to specify your current password in order to proceed."
-msgstr "Pro pokračování musíte zadat své stávající heslo."
+msgstr ""
 
 #: plugins/personal/password/class_password.inc:114
 msgid "The password you've entered as 'New password' is empty."
-msgstr "Heslo, které jste zadal(a) jako 'nové heslo' je prázdné."
+msgstr ""
 
 #: plugins/personal/password/class_password.inc:116
 msgid "The password used as new and current are too similar."
-msgstr "Nové a staré heslo jsou si příliš podobné."
+msgstr ""
 
 #: plugins/personal/password/class_password.inc:118
 msgid "The password used as new is to short."
-msgstr "Nové heslo nelze použít – je příliš krátké (není bezpečné)."
+msgstr ""
 
 #: plugins/personal/password/class_password.inc:135
 #: plugins/admin/users/class_userManagement.inc:340
 #, php-format
 msgid "Check-hook reported a problem: %s. Password change canceled!"
-msgstr "Kontrolní háček (Check-hook) ohlásil problém: %s. Heslo nebylo změněno!"
+msgstr ""
 
 #: plugins/personal/password/class_password.inc:157
 msgid ""
 "The password you've entered as your current password doesn't match the real "
 "one."
-msgstr "Heslo, které jste zadal(a) jako své stávající neodpovídá."
+msgstr ""
 
 #: plugins/personal/password/class_password.inc:163
 msgid "You have no permission to change your password."
-msgstr "Nejste oprávněn(a) změnit si své heslo."
+msgstr ""
 
 #: plugins/personal/password/class_password.inc:200
 msgid "Change user password"
-msgstr "změnit heslo uživatele"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:44
 msgid "Password hash method to use"
@@ -1934,7 +1934,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:142
 msgid "Generic user settings"
-msgstr "obecná nastavení uživatele"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:146
 #: plugins/admin/users/user-list.xml:23 plugins/admin/users/user-list.xml:95
@@ -1944,17 +1944,17 @@ msgstr "obecná nastavení uživatele"
 #: include/select/userSelect/user-list.xml:14 setup/setup_config2.tpl.c:20
 #: setup/setup_config2.tpl.c:35
 msgid "User"
-msgstr "uživatel"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:162
 msgid "Personal information"
-msgstr "osobní informace"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:167
 #: plugins/personal/generic/paste_generic.tpl.c:5
 #: plugins/admin/users/template.tpl.c:11
 msgid "Last name"
-msgstr "příjmení"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:167
 msgid "Last name of this user"
@@ -1964,7 +1964,7 @@ msgstr ""
 #: plugins/personal/generic/paste_generic.tpl.c:8
 #: plugins/admin/users/template.tpl.c:14
 msgid "First name"
-msgstr "jméno"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:172
 msgid "First name of this user"
@@ -1972,19 +1972,19 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:177
 msgid "Personal title"
-msgstr "oslovení"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:181
 msgid "Academic title"
-msgstr "akademický titul"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:185
 msgid "Date of birth"
-msgstr "datum narození"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:190
 msgid "Sex"
-msgstr "pohlaví"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:190
 msgid "Gender"
@@ -2007,7 +2007,7 @@ msgstr ""
 #: plugins/generic/references/contents.tpl.c:5
 #: plugins/admin/acl/acl_role.tpl.c:8
 msgid "Description"
-msgstr "popis"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:195
 msgid "Short description of the user"
@@ -2031,7 +2031,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:215
 msgid "Preferred language"
-msgstr "upřednostňovaný jazyk"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:220
 msgid "Password of the user"
@@ -2055,17 +2055,17 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:84
 #: plugins/admin/departments/class_department.inc:91
 msgid "Location"
-msgstr "umístění"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:240
 #: plugins/admin/departments/class_department.inc:88
 msgid "State"
-msgstr "stát"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:244
 #: plugins/admin/departments/class_department.inc:94
 msgid "Address"
-msgstr "adresa"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:244
 msgid "Business postal address"
@@ -2073,11 +2073,11 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:248
 msgid "Room No."
-msgstr "označení místnosti"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:248
 msgid "Room number"
-msgstr "označení místnosti"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:252
 msgid "Business phone number"
@@ -2085,7 +2085,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:256
 msgid "Mobile"
-msgstr "mobilní"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:256
 msgid "Business mobile number"
@@ -2093,7 +2093,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:260
 msgid "Pager"
-msgstr "pager"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:260
 msgid "Business pager number"
@@ -2102,7 +2102,7 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:264
 #: plugins/admin/departments/class_department.inc:102
 msgid "Fax"
-msgstr "fax"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:264
 msgid "Business fax number"
@@ -2110,7 +2110,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:270
 msgid "Organizational information"
-msgstr "organizační informace"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:274
 #: plugins/admin/departments/class_organization.inc:30
@@ -2118,32 +2118,32 @@ msgstr "organizační informace"
 #: plugins/admin/departments/class_organization.inc:35
 #: setup/setup_feedback.tpl.c:8
 msgid "Organization"
-msgstr "organizace"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:282
 msgid "Department No."
-msgstr "číslo oddělení"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:282
 msgid "Department number"
-msgstr "číslo oddělení"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:286
 msgid "Employee No."
-msgstr "číslo zaměstnance"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:286
 msgid "Employee number"
-msgstr "číslo zaměstnance"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:290
 msgid "Employee type"
-msgstr "typ zaměstnaneckého poměru"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:294
 #: plugins/admin/departments/class_department.inc:78
 msgid "Manager"
-msgstr "nadřízený"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:300
 msgid "Personal contact information"
@@ -2155,19 +2155,19 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:304
 msgid "Home postal address"
-msgstr "poštovní adresa domů"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:308
 msgid "Private phone"
-msgstr "soukromý telefon"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:308
 msgid "Home phone number"
-msgstr "telefonní číslo domů"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:312
 msgid "Homepage"
-msgstr "osobní webové stránky"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:312
 msgid "Personal homepage"
@@ -2175,7 +2175,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:82
 msgid "Home directory"
-msgstr "domovská složka"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:82
 msgid "The path to the home directory of this user"
@@ -2183,7 +2183,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:87
 msgid "Shell"
-msgstr "shell"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:87
 msgid "Which shell should be used when this user log in"
@@ -2191,7 +2191,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:91
 msgid "Primary group"
-msgstr "hlavní skupina"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:91
 msgid "Primary group for this user"
@@ -2199,7 +2199,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:95
 msgid "Status"
-msgstr "stav"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:95
 msgid "Status of this user unix account"
@@ -2207,7 +2207,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:99
 msgid "Force UID/GID"
-msgstr "vynutit konkrétní UID/GID"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:99
 msgid "Force UID and GID values for this user"
@@ -2216,7 +2216,7 @@ msgstr ""
 #: plugins/personal/posix/class_posixAccount.inc:103
 #: plugins/personal/posix/class_posixAccount.inc:359
 msgid "UID"
-msgstr "UID"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:103
 msgid "UID value for this user"
@@ -2227,7 +2227,7 @@ msgstr ""
 #: plugins/admin/groups/class_group.inc:72
 #: plugins/admin/groups/class_group.inc:153
 msgid "GID"
-msgstr "GID"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:108
 msgid "GID value for this user"
@@ -2236,15 +2236,15 @@ msgstr ""
 #: plugins/personal/posix/class_posixAccount.inc:115
 #: plugins/personal/posix/class_posixAccount.inc:118
 msgid "Group membership"
-msgstr "členství ve skupinách"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:122
 msgid "Account"
-msgstr "účet"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:126
 msgid "User must change password on first login"
-msgstr "Uživatel musí při prvním přihlášení změnit heslo."
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:126
 msgid "User must change password on first login (leave empty to disable)"
@@ -2303,13 +2303,13 @@ msgstr ""
 #: plugins/admin/groups/class_group.inc:89
 #: plugins/admin/ogroups/class_ogroup.inc:182
 msgid "System trust"
-msgstr "systém důvěryhodnosti"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:166
 #: plugins/admin/groups/class_group.inc:93
 #: plugins/admin/ogroups/class_ogroup.inc:186
 msgid "Trust mode"
-msgstr "režim důvěryhodnosti"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:166
 #: plugins/admin/groups/class_group.inc:93
@@ -2321,19 +2321,19 @@ msgstr ""
 #: plugins/admin/groups/class_group.inc:97
 #: plugins/admin/ogroups/class_ogroup.inc:190
 msgid "disabled"
-msgstr "zakázáno"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:170
 #: plugins/admin/groups/class_group.inc:97
 #: plugins/admin/ogroups/class_ogroup.inc:190
 msgid "full access"
-msgstr "plný přístup"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:170
 #: plugins/admin/groups/class_group.inc:97
 #: plugins/admin/ogroups/class_ogroup.inc:190
 msgid "allow access to these hosts"
-msgstr "povolit přístup k těmto strojům"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:173
 msgid "Only allow this user to connect to this list of hosts"
@@ -2345,20 +2345,20 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:185
 msgid "Edit users POSIX settings"
-msgstr "upravit POSIXová nastavení uživatele"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:261
 #: include/class_management.inc:40 include/class_management.inc:41
 msgid "unconfigured"
-msgstr "nenastavené"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:273
 msgid "automatic"
-msgstr "automatické"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:291
 msgid "expired"
-msgstr "platnost skončila"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:293
 msgid "grace time active"
@@ -2368,20 +2368,20 @@ msgstr ""
 #: plugins/personal/posix/class_posixAccount.inc:298
 #: plugins/personal/posix/class_posixAccount.inc:300
 msgid "active"
-msgstr "aktivní"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:296
 msgid "password expired"
-msgstr "platnost hesla skončila"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:298
 msgid "password not changeable"
-msgstr "heslo nelze změnit"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:417
 #: plugins/admin/groups/class_group.inc:185
 msgid "Timeout while waiting for lock. Ignoring lock!"
-msgstr "Vypršel časový limit při čekání na zámek – zámek bude proto ignorován!"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:477
 #, php-format
@@ -2390,7 +2390,7 @@ msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:35
 msgid "Password recovery"
-msgstr "obnova zapomenutého hesla"
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:36
 msgid "Settings for the password recovery feature"
@@ -2398,7 +2398,7 @@ msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:54
 msgid "Password recovery settings"
-msgstr "nastavení obnovy zapomenutého hesla"
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:57
 msgid "Activate password recovery"
@@ -2451,7 +2451,7 @@ msgstr ""
 #: plugins/admin/password/class_recoveryConfig.inc:95
 #: plugins/admin/password/class_recoveryConfig.inc:114
 msgid "Subject"
-msgstr "předmět"
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:96
 msgid "Subject of the first email"
@@ -2459,7 +2459,7 @@ msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:99
 msgid "[FusionDirectory] Password recovery link"
-msgstr "[FusionDirectory] odkaz pro obnovu hesla"
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:102
 #, php-format
@@ -2483,7 +2483,7 @@ msgid ""
 " - Link : %s\n"
 "\n"
 "This link is only valid for 10 minutes."
-msgstr "Dobrý den,\n\nZde jsou Vaše přihlašovací údaje:\n- uživatelské jméno: %s\n- odkaz pro obnovu hesla: %s\n\nVýše uvedený odkaz je platný pouze 10 minut!"
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:111
 msgid "Second email"
@@ -2495,7 +2495,7 @@ msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:118
 msgid "[FusionDirectory] Password recovery successful"
-msgstr "[FusionDirectory] obnova ztraceného hesla proběhla úspěšně"
+msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:121
 #, php-format
@@ -2516,13 +2516,13 @@ msgid ""
 "\n"
 "Your password has been changed.\n"
 "Your login is still %s."
-msgstr "Dobrý den,\n\nVaše heslo bylo změněno.\nUživatelské jméno je samozřejmě pořád stejné – %s"
+msgstr ""
 
 #: plugins/admin/departments/class_dcObject.inc:30
 #: plugins/admin/departments/class_dcObject.inc:31
 #: plugins/admin/departments/class_dcObject.inc:35
 msgid "Domain Component"
-msgstr "část (prvek) názvu domény"
+msgstr ""
 
 #: plugins/admin/departments/class_dcObject.inc:49
 msgid "domain component"
@@ -2532,7 +2532,7 @@ msgstr ""
 #: plugins/admin/departments/class_locality.inc:31
 #: plugins/admin/departments/class_locality.inc:35
 msgid "Locality"
-msgstr "místo"
+msgstr ""
 
 #: plugins/admin/departments/class_locality.inc:49
 msgid "locality"
@@ -2542,11 +2542,11 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:36
 #: plugins/admin/departments/class_departmentManagement.inc:35
 msgid "Departments"
-msgstr "oddělení"
+msgstr ""
 
 #: plugins/admin/departments/class_department.inc:55
 msgid "department"
-msgstr "oddělení"
+msgstr ""
 
 #: plugins/admin/departments/class_department.inc:61
 #: plugins/admin/users/user-list.xml:73
@@ -2555,7 +2555,7 @@ msgstr "oddělení"
 #: plugins/admin/ogroups/class_ogroup.inc:156
 #: plugins/admin/ogroups/ogroup-list.xml:49
 msgid "Properties"
-msgstr "vlastnosti"
+msgstr ""
 
 #: plugins/admin/departments/class_department.inc:66
 #, php-format
@@ -2574,7 +2574,7 @@ msgstr ""
 
 #: plugins/admin/departments/class_department.inc:74
 msgid "Category"
-msgstr "kategorie"
+msgstr ""
 
 #: plugins/admin/departments/class_department.inc:74
 #, php-format
@@ -2593,7 +2593,7 @@ msgstr ""
 
 #: plugins/admin/departments/class_department.inc:98
 msgid "Telephone number"
-msgstr "telefonní číslo"
+msgstr ""
 
 #: plugins/admin/departments/class_department.inc:102
 msgid "Facsimile telephone number"
@@ -2626,7 +2626,7 @@ msgstr ""
 #: include/select/userGroupSelect/selectUserGroup-filter.tpl.c:11
 #: include/select/userSelect/user-filter.tpl.c:5
 msgid "Name"
-msgstr "název"
+msgstr ""
 
 #: plugins/admin/departments/class_organization.inc:49
 msgid "organization"
@@ -2636,7 +2636,7 @@ msgstr ""
 #: plugins/admin/departments/class_domain.inc:31
 #: plugins/admin/departments/class_domain.inc:35
 msgid "Domain"
-msgstr "doména"
+msgstr ""
 
 #: plugins/admin/departments/class_domain.inc:49
 msgid "domain"
@@ -2644,14 +2644,14 @@ msgstr ""
 
 #: plugins/admin/departments/dep-list.xml:9
 msgid "List of departments"
-msgstr "seznam oddělení"
+msgstr ""
 
 #: plugins/admin/departments/dep-list.xml:37
 #: plugins/admin/users/user-list.xml:78 plugins/admin/groups/group-list.xml:54
 #: plugins/admin/acl/acl-list.xml:65 plugins/admin/ogroups/ogroup-list.xml:54
 #: include/simpleplugin/simple-list.xml:48 include/class_listing.inc:1251
 msgid "Actions"
-msgstr "akce"
+msgstr ""
 
 #: plugins/admin/departments/dep-list.xml:79
 #: plugins/admin/users/user-list.xml:114
@@ -2667,13 +2667,13 @@ msgstr "akce"
 #: include/simpleplugin/class_attribute.inc:2121 include/class_acl.inc:480
 #: include/class_acl.inc:527
 msgid "Edit"
-msgstr "upravit"
+msgstr ""
 
 #: plugins/admin/departments/class_country.inc:29
 #: plugins/admin/departments/class_country.inc:30
 #: plugins/admin/departments/class_country.inc:34
 msgid "Country"
-msgstr "země"
+msgstr ""
 
 #: plugins/admin/departments/class_country.inc:48
 msgid "country"
@@ -2689,61 +2689,61 @@ msgstr ""
 
 #: plugins/admin/users/user-list.xml:11
 msgid "List of users"
-msgstr "seznam uživatelů"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:15 plugins/admin/users/user-list.xml:102
 #: plugins/admin/users/class_userManagement.inc:488
 #: plugins/admin/users/templatize.tpl.c:8 plugins/admin/users/template.tpl.c:8
 msgid "Template"
-msgstr "šablona"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:49
 #: include/select/userSelect/user-list.xml:48
 msgid "Surname"
-msgstr "příjmení"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:57
 #: plugins/admin/users/class_userManagement.inc:494
 #: include/select/userSelect/user-list.xml:40
 msgid "Given name"
-msgstr "jméno"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:128 plugins/admin/users/user-list.xml:223
 #: ihtml/themes/default/accountexpired.tpl.c:23
 msgid "Change password"
-msgstr "změňit heslo"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:141
 msgid "Lock users"
-msgstr "zamknout uživatele"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:149
 msgid "Unlock users"
-msgstr "odemknout uživatele"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:160
 msgid "Apply template"
-msgstr "aplikovat šablonu"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:192
 msgid "New user from template"
-msgstr "vytvořit nového uživatele pomocí šablony"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:205
 msgid "Edit user"
-msgstr "upravit uživatele"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:214
 msgid "%{filter:lockLabel(userPassword)}"
-msgstr "%{filter:lockLabel(userPassword)}"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:237
 msgid "Remove user"
-msgstr "odebrat uživatele"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:53
 msgid "Manage users"
-msgstr "spravovat uživatele"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:197
 #: plugins/admin/users/class_userManagement.inc:719
@@ -2756,43 +2756,43 @@ msgstr "spravovat uživatele"
 #: include/class_management.inc:547 include/class_management.inc:592
 #: include/class_CopyPasteHandler.inc:225
 msgid "Permission"
-msgstr "oprávnění"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:385
 msgid "You have no permission to change this users password!"
-msgstr "Nejste oprávněn(a) měnit heslo tohoto uživatele!"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:415
 #: plugins/admin/users/class_userManagement.inc:450
 #: plugins/admin/users/class_userManagement.inc:481
 msgid "none"
-msgstr "žádná/ý/é"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:676
 #: plugins/admin/users/class_userManagement.inc:680
 #: plugins/admin/acl/class_aclManagement.inc:101
 #: include/class_management.inc:411
 msgid "Permission error"
-msgstr "chyba oprávnění"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:757
 msgid "Account locking"
-msgstr "zamykání účtu"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:758
 #, php-format
 msgid ""
 "Password method '%s' does not support locking. Account (%s) has not been "
 "locked!"
-msgstr "Způsob ukládání hesel '%s' nepodporuje uzamykání účtů. Účet (%s) proto nebude uzamčen!"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:831
 msgid "Unlock account"
-msgstr "povolit účet"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:833
 msgid "Lock account"
-msgstr "zamknout účet"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:861
 msgid "Generic properties"
@@ -2800,7 +2800,7 @@ msgstr ""
 
 #: plugins/admin/groups/class_group.inc:33
 msgid "Generic group settings"
-msgstr "nastavení skupiny – obecné"
+msgstr ""
 
 #: plugins/admin/groups/class_group.inc:60
 #: plugins/admin/ogroups/class_ogroup.inc:161
@@ -2814,7 +2814,7 @@ msgstr ""
 
 #: plugins/admin/groups/class_group.inc:68
 msgid "Force GID"
-msgstr "vynutit GID"
+msgstr ""
 
 #: plugins/admin/groups/class_group.inc:68
 msgid "Force GID value for this group"
@@ -2827,7 +2827,7 @@ msgstr ""
 #: plugins/admin/groups/class_group.inc:79
 #: plugins/admin/groups/class_group.inc:82
 msgid "Group members"
-msgstr "členové skupiny"
+msgstr ""
 
 #: plugins/admin/groups/class_group.inc:100
 #: plugins/admin/ogroups/class_ogroup.inc:193
@@ -2836,7 +2836,7 @@ msgstr ""
 
 #: plugins/admin/groups/group-list.xml:11
 msgid "List of groups"
-msgstr "seznam skupin"
+msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:38
 msgid "Manage groups"
@@ -2845,12 +2845,12 @@ msgstr ""
 #: plugins/admin/groups/class_groupManagement.inc:79
 #: include/simpleplugin/systemSelect/class_systemSelect.inc:59
 msgid "Posix"
-msgstr "POSIX"
+msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:79
 #: include/simpleplugin/systemSelect/class_systemSelect.inc:60
 msgid "Edit posix properties"
-msgstr "upravit POSIXové vlastnosti"
+msgstr ""
 
 #: plugins/admin/acl/tabs_acl.inc:26 plugins/admin/acl/class_aclRole.inc:330
 #: plugins/admin/acl/class_aclRole.inc:334
@@ -2858,41 +2858,41 @@ msgstr "upravit POSIXové vlastnosti"
 #: include/class_acl.inc:484 include/class_acl.inc:1296
 #: include/class_acl.inc:1300 include/class_acl.inc:1303
 msgid "ACL"
-msgstr "přístupová práva (ACL)"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:76
 msgid "Reset ACL"
-msgstr "resetovat ACL"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:77 include/class_acl.inc:191
 msgid "One level"
-msgstr "tato úroveň"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:78 include/class_acl.inc:192
 #: include/class_acl.inc:197
 msgid "Current object"
-msgstr "tento objekt"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:79 include/class_acl.inc:193
 msgid "Complete subtree"
-msgstr "kompletní podstrom"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:80 include/class_acl.inc:194
 msgid "Complete subtree (permanent)"
-msgstr "kompletní podstrom (neresetovatelné)"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:324
 #: include/class_sortableListing.inc:345 include/class_acl.inc:473
 #: include/class_listing.inc:298 include/class_listing.inc:1118
 #: include/class_listing.inc:1120
 msgid "Up"
-msgstr "nahoru"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:326
 #: include/class_sortableListing.inc:345 include/class_acl.inc:475
 #: include/class_listing.inc:298
 msgid "Down"
-msgstr "dolů"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:333
 #: plugins/admin/acl/class_aclRole.inc:382
@@ -2901,51 +2901,51 @@ msgstr "dolů"
 #: include/class_acl.inc:484 include/class_acl.inc:531
 #, php-format
 msgid "Delete"
-msgstr "smazat"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:370
 msgid "No ACL settings for this category"
-msgstr "pro tuto kategorii není nastaven žádný ACL"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:372
 #, php-format
 msgid "ACL for these objects: %s"
-msgstr "ACL pro tyto objekty: %s"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:378
 msgid "Edit category ACL"
-msgstr "upravit ACL kategorie"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:382
 msgid "Reset category ACL"
-msgstr "resetovat ACL kategorie"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:402
 #, php-format
 msgid "Edit ACL for '%s', scope is '%s'"
-msgstr "upravit ACL pro '%s' v rozsahu '%s'"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:412 include/class_acl.inc:593
 msgid "All objects in current subtree"
-msgstr "všechny objekty v současném podstromu"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:573
 msgid "Object in use"
-msgstr "objekt v používání"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:573
 #, php-format
 msgid "This role cannot be removed while it is in use by these objects:"
-msgstr "Tuto roli není možné odstranit, protože je využívána následujícími objekty:"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:622 plugins/admin/acl/acl-list.xml:23
 #: plugins/admin/acl/acl-list.xml:82
 msgid "Role"
-msgstr "role"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:623
 msgid "Access control roles"
-msgstr "role řízení přístupu"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:628
 msgid "ACL role"
@@ -2956,20 +2956,20 @@ msgstr ""
 #: ihtml/themes/default/simple-list.tpl.c:2 setup/setup_ldap.tpl.c:26
 #: plugins/admin/acl/acl_role.tpl.c:11
 msgid "Base"
-msgstr "základ"
+msgstr ""
 
 #: plugins/admin/acl/class_aclRole.inc:636
 msgid "Permissions"
-msgstr "oprávnění"
+msgstr ""
 
 #: plugins/admin/acl/acl-list.xml:11
 msgid "List of acls"
-msgstr "seznam ACL"
+msgstr ""
 
 #: plugins/admin/acl/acl-list.xml:15
 #: plugins/admin/acl/class_aclManagement.inc:36
 msgid "Acl"
-msgstr "ACL"
+msgstr ""
 
 #: plugins/admin/acl/class_aclManagement.inc:37
 msgid "Access control list management"
@@ -2977,47 +2977,47 @@ msgstr ""
 
 #: plugins/admin/acl/class_aclManagement.inc:161
 msgid "ACL Assignment"
-msgstr "přiřazení ACL"
+msgstr ""
 
 #: plugins/admin/acl/tabs_acl_role.inc:26
 msgid "ACL Templates"
-msgstr "šablony ACL"
+msgstr ""
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:36
 #: plugins/admin/ogroups/class_ogroup.inc:140
 msgid "Object groups"
-msgstr "objekt „skupiny“"
+msgstr ""
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:37
 msgid "Manage object groups"
-msgstr "spravovat skupiny objektů"
+msgstr ""
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:60
 msgid "Templates"
-msgstr "šablony"
+msgstr ""
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:68
 msgid "Windows Install"
-msgstr "instalace OS MS Windows"
+msgstr ""
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:69
 #: include/simpleplugin/systemSelect/systemSelect-list.xml:38
 #: include/select/objectSelect/selectObject-list.xml:47
 msgid "Terminal"
-msgstr "terminál"
+msgstr ""
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:154
 #: plugins/admin/ogroups/tabs_ogroups.inc:161
 msgid "Devices"
-msgstr "zařízení"
+msgstr ""
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:155
 msgid "Startup"
-msgstr "po spuštění"
+msgstr ""
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:158
 msgid "Systems"
-msgstr "systémy"
+msgstr ""
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:164
 msgid "Workstartup"
@@ -3029,19 +3029,19 @@ msgstr ""
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:166
 msgid "FAI"
-msgstr "FAI"
+msgstr ""
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:167
 msgid "FAI summary"
-msgstr "souhrn FAI (plně automatizované instalace)"
+msgstr ""
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:168
 msgid "Argonaut client"
-msgstr "Argonaut klient"
+msgstr ""
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:228
 msgid "Phone queue"
-msgstr "telefonní fronta"
+msgstr ""
 
 #: plugins/admin/ogroups/class_ogroup.inc:51
 #, php-format
@@ -3055,11 +3055,11 @@ msgstr ""
 
 #: plugins/admin/ogroups/class_ogroup.inc:136
 msgid "Object group generic"
-msgstr "skupinu objektu – obecné"
+msgstr ""
 
 #: plugins/admin/ogroups/class_ogroup.inc:172
 msgid "Member objects"
-msgstr "členské objekty"
+msgstr ""
 
 #: plugins/admin/ogroups/class_ogroup.inc:175
 msgid "Objects member of this group"
@@ -3070,25 +3070,25 @@ msgstr ""
 msgid ""
 "These systems are already configured by other object groups and cannot be "
 "added:"
-msgstr "Tyto systémy jsou již nastavovány jinými skupinami objektů a nelze je proto přidat:"
+msgstr ""
 
 #: plugins/admin/ogroups/class_ogroup.inc:331
 #: ihtml/themes/default/msg_dialog.tpl.c:8
 #: ihtml/themes/default/msg_dialog.tpl.c:26 setup/setup_ldap.tpl.c:62
 msgid "Information"
-msgstr "informace"
+msgstr ""
 
 #: plugins/admin/ogroups/class_ogroup.inc:331
 msgid "You cannot combine terminals and workstations in one object group!"
-msgstr "V jediné skupině objektů nemůžete kombinovat terminály a pracovní stanice!"
+msgstr ""
 
 #: plugins/admin/ogroups/class_ogroup.inc:367
 msgid "You can combine two different object types at maximum, only!"
-msgstr "Můžete zkombinovat nejvýše dva různé typy objektů!"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-list.xml:11
 msgid "List of object groups"
-msgstr "seznam skupin objektu"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-list.xml:71
 msgid "Objectgroup"
@@ -3096,103 +3096,103 @@ msgstr ""
 
 #: plugins/admin/ogroups/ogroup-list.xml:98
 msgid "Send message"
-msgstr "poslat zprávu"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-list.xml:134
 msgid "Edit object group"
-msgstr "upravit skupinu objektu"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-list.xml:147
 msgid "Remove object group"
-msgstr "odebrat skupinu objektu"
+msgstr ""
 
 #: include/class_tabs.inc:75
 #, php-format
 msgid ""
 "No plugin definitions found to initialize '%s', please check your "
 "configuration file."
-msgstr "Zásuvný modul '%s' nelze připravit, protože se nezdařilo najít jeho definici – zkontrolujte prosím Váš soubor s nastaveními."
+msgstr ""
 
 #: include/class_tabs.inc:291
 #, php-format
 msgid "Delete process has been canceled by plugin '%s': %s"
-msgstr "Průběh mazání byl přerušen zásuvným modulem '%s': %s"
+msgstr ""
 
 #: include/class_sortableListing.inc:310
 msgid "Edit this entry"
-msgstr "upravit tuto položku"
+msgstr ""
 
 #: include/class_sortableListing.inc:315
 msgid "Delete this entry"
-msgstr "smazat tuto položku"
+msgstr ""
 
 #: include/class_xml.inc:66
 msgid "in"
-msgstr "v"
+msgstr ""
 
 #: include/class_xml.inc:68
 msgid "on line"
-msgstr "připojeno"
+msgstr ""
 
 #: include/class_xml.inc:69
 msgid "XML error"
-msgstr "chyba v XML"
+msgstr ""
 
 #: include/php_setup.inc:36
 msgid "PHP error"
-msgstr "chyba v PHP"
+msgstr ""
 
 #: include/php_setup.inc:43
 msgid "class"
-msgstr "třída"
+msgstr ""
 
 #: include/php_setup.inc:49
 msgid "function"
-msgstr "funkce"
+msgstr ""
 
 #: include/php_setup.inc:54
 msgid "static"
-msgstr "neměnné"
+msgstr ""
 
 #: include/php_setup.inc:58
 msgid "method"
-msgstr "metoda"
+msgstr ""
 
 #: include/php_setup.inc:101
 msgid "Trace"
-msgstr "stopa"
+msgstr ""
 
 #: include/php_setup.inc:102
 msgid "File"
-msgstr "soubor"
+msgstr ""
 
 #: include/php_setup.inc:102
 msgid "Line"
-msgstr "linka"
+msgstr ""
 
 #: include/php_setup.inc:102
 msgid "Type"
-msgstr "typ"
+msgstr ""
 
 #: include/php_setup.inc:103
 msgid "Arguments"
-msgstr "argumenty"
+msgstr ""
 
 #: include/php_setup.inc:207
 msgid "Generating this page caused the PHP interpreter to raise some errors!"
-msgstr "Během vytváření této stránky ohlásil interpret PHP několik chyb!"
+msgstr ""
 
 #: include/php_setup.inc:212
 msgid "Send bug report to the FusionDirectory Team"
-msgstr "zaslat hlášení o chybě vývojářům FusionDirectory"
+msgstr ""
 
 #: include/php_setup.inc:213
 msgid "Send bugreport"
-msgstr "zaslat hlášení o chybě"
+msgstr ""
 
 #: include/php_setup.inc:218
 msgid "Toggle information"
-msgstr "přepnout informace"
+msgstr ""
 
 #: include/class_session.inc:97 include/class_session.inc:134
 #: include/class_session.inc:172 include/class_acl.inc:963
@@ -3202,40 +3202,40 @@ msgstr "přepnout informace"
 #: include/functions.inc:1282 include/functions.inc:2376
 #: include/functions.inc:2418 include/functions.inc:2447
 msgid "Internal error"
-msgstr "vnitřní chyba"
+msgstr ""
 
 #: include/class_session.inc:97 include/class_session.inc:134
 #: include/class_session.inc:172
 msgid "Requested channel does not exist! Please contact your Administrator."
-msgstr "Požadovaný kanál neexistuje! Prosím kontaktujte svého správce systémů."
+msgstr ""
 
 #: include/simpleplugin/systemSelect/class_systemSelect.inc:68
 msgid "Edit mail properties"
-msgstr "upravit e-mailové vlastnosti"
+msgstr ""
 
 #: include/simpleplugin/systemSelect/class_systemSelect.inc:76
 msgid "Edit samba properties"
-msgstr "upravit vlastnosti pro Sambu"
+msgstr ""
 
 #: include/simpleplugin/systemSelect/class_systemSelect.inc:84
 msgid "Edit phone properties"
-msgstr "upravit vlastnosti telefonu"
+msgstr ""
 
 #: include/simpleplugin/systemSelect/class_systemSelect.inc:91
 msgid "Menu"
-msgstr "nabídka"
+msgstr ""
 
 #: include/simpleplugin/systemSelect/class_systemSelect.inc:92
 msgid "Edit start menu properties"
-msgstr "Upravit nabídku Start."
+msgstr ""
 
 #: include/simpleplugin/systemSelect/class_systemSelect.inc:99
 msgid "Environment"
-msgstr "prostředí"
+msgstr ""
 
 #: include/simpleplugin/systemSelect/class_systemSelect.inc:100
 msgid "Edit environment properties"
-msgstr "upravit vlastnosti prostředí"
+msgstr ""
 
 #: include/simpleplugin/systemSelect/systemSelect-list.xml:10
 #: include/select/groupSelect/group-list.xml:11
@@ -3243,12 +3243,12 @@ msgstr "upravit vlastnosti prostředí"
 #: include/select/userGroupSelect/selectUserGroup-list.xml:11
 #: include/select/userSelect/user-list.xml:10
 msgid "Please select the desired entries"
-msgstr "vyberte prosím požadované položky"
+msgstr ""
 
 #: include/simpleplugin/systemSelect/systemSelect-list.xml:30
 #: include/select/objectSelect/selectObject-list.xml:39
 msgid "Winstation"
-msgstr "pracovní stanice s OS MS Windows"
+msgstr ""
 
 #: include/simpleplugin/class_simpleManagement.inc:170
 #, php-format
@@ -3259,7 +3259,7 @@ msgstr ""
 #: include/class_management.inc:492
 #, php-format
 msgid "You are not allowed to create a snapshot for %s."
-msgstr "Nejste oprávněn(a) vytvořit snímek %s."
+msgstr ""
 
 #: include/simpleplugin/class_simpleManagement.inc:346
 #: include/simpleplugin/class_simpleManagement.inc:361
@@ -3267,23 +3267,23 @@ msgstr "Nejste oprávněn(a) vytvořit snímek %s."
 #: include/class_management.inc:547 include/class_management.inc:592
 #, php-format
 msgid "You are not allowed to restore a snapshot for %s."
-msgstr "Nejste oprávněn(a) k obnovení %s ze snímku."
+msgstr ""
 
 #: include/simpleplugin/class_dialogAttributes.inc:420
 msgid "Group of user"
-msgstr "skupina uživatelů"
+msgstr ""
 
 #: include/simpleplugin/class_dialogAttributes.inc:588
 #: include/simpleplugin/class_attribute.inc:834
 #: include/simpleplugin/class_attribute.inc:868
 msgid "None"
-msgstr "žádné"
+msgstr ""
 
 #: include/simpleplugin/class_dialogAttributes.inc:590
 #: include/class_pluglist.inc:320 include/class_pluglist.inc:321
 #: include/class_pluglist.inc:390
 msgid "Unknown"
-msgstr "neznámé"
+msgstr ""
 
 #: include/simpleplugin/simple-list.xml:11
 msgid "NO LABEL"
@@ -3334,34 +3334,34 @@ msgstr ""
 #: include/simpleplugin/class_attribute.inc:1200
 #, php-format
 msgid "Cannot read uploaded file: %s"
-msgstr "Nelze přečíst nahraný soubor: %s"
+msgstr ""
 
 #: include/simpleplugin/class_attribute.inc:1194
 msgid "file is empty"
-msgstr "soubor je prázdný"
+msgstr ""
 
 #: include/simpleplugin/class_attribute.inc:1197
 msgid "file not found"
-msgstr "soubor nebyl nenalezen"
+msgstr ""
 
 #: include/simpleplugin/class_attribute.inc:1200
 msgid "file not readable"
-msgstr "soubor není čitelný"
+msgstr ""
 
 #: include/simpleplugin/class_attribute.inc:1275
 #: include/simpleplugin/class_attribute.inc:1380
 msgid "Upload"
-msgstr "nahrát"
+msgstr ""
 
 #: include/simpleplugin/class_attribute.inc:1278
 msgid "Download"
-msgstr "stažení"
+msgstr ""
 
 #: include/simpleplugin/class_attribute.inc:1359
 msgid ""
 "Cannot save user picture, FusionDirectory requires the package "
 "'php5-imagick' to be installed!"
-msgstr "Fotografii uživatele nelze uložit – FusionDirectory k tomu potřebuje, aby byl nainstalován balíček 'php5-imagick'!"
+msgstr ""
 
 #: include/simpleplugin/class_attribute.inc:1416
 msgid "Object base"
@@ -3404,262 +3404,262 @@ msgstr ""
 #: include/class_msgPool.inc:43
 #, php-format
 msgid "Select to list objects of type '%s'."
-msgstr "Vyberte pro vypsání objektů typu '%s'."
+msgstr ""
 
 #: include/class_msgPool.inc:45
 #, php-format
 msgid "Select to list objects containig '%s'."
-msgstr "Vyberte pro vypsání objektů obsahujících '%s'."
+msgstr ""
 
 #: include/class_msgPool.inc:47
 #, php-format
 msgid "Select to list objects that have '%s' enabled"
-msgstr "Vyberte pro vypsání objektů, které mají zapnuto '%s'."
+msgstr ""
 
 #: include/class_msgPool.inc:49
 msgid "Select to search within subtrees"
-msgstr "zvolte pro vyhledávání i v podstromech"
+msgstr ""
 
 #: include/class_msgPool.inc:51 include/class_filter.inc:396
 msgid "Search in subtrees"
-msgstr "hledat v podstromech"
+msgstr ""
 
 #: include/class_msgPool.inc:67
 msgid "This object will be deleted!"
-msgstr "Tento objekt bude smazán!"
+msgstr ""
 
 #: include/class_msgPool.inc:69
 #, php-format
 msgid "This '%s' object will be deleted!"
-msgstr "Tento '%s' objekt bude smazán!"
+msgstr ""
 
 #: include/class_msgPool.inc:74
 #, php-format
 msgid "This object will be deleted: %s"
-msgstr "Tento objekt bude smazán: %s"
+msgstr ""
 
 #: include/class_msgPool.inc:76
 #, php-format
 msgid "This '%s' object will be deleted: %s"
-msgstr "Tento '%s' objekt bude smazán: %s"
+msgstr ""
 
 #: include/class_msgPool.inc:81
 msgid "This object will be deleted:"
-msgstr "Tento objekt bude smazán:"
+msgstr ""
 
 #: include/class_msgPool.inc:83
 #, php-format
 msgid "This '%s' object will be deleted:"
-msgstr "Tento '%s' objekt bude smazán:"
+msgstr ""
 
 #: include/class_msgPool.inc:87
 #, php-format
 msgid "These objects will be deleted: %s"
-msgstr "Tyto objekty budou smazány: %s"
+msgstr ""
 
 #: include/class_msgPool.inc:89
 #, php-format
 msgid "These '%s' objects will be deleted: %s"
-msgstr "Tyto '%s' objekty budou smazány: %s"
+msgstr ""
 
 #: include/class_msgPool.inc:101
 msgid "You have no permission to delete this object!"
-msgstr "Nejste oprávněn(a) ke smazání tohoto objektu!"
+msgstr ""
 
 #: include/class_msgPool.inc:105 include/class_msgPool.inc:109
 msgid "You have no permission to delete the object:"
-msgstr "Nejste oprávněn(a) ke smazání objektu:"
+msgstr ""
 
 #: include/class_msgPool.inc:112
 msgid "You have no permission to delete these objects:"
-msgstr "Nejste oprávněn(a) ke smazání těchto objektů!"
+msgstr ""
 
 #: include/class_msgPool.inc:123
 msgid "You have no permission to create this object!"
-msgstr "Nejste oprávněn(a) k vytvoření tohoto objektu!"
+msgstr ""
 
 #: include/class_msgPool.inc:127 include/class_msgPool.inc:131
 msgid "You have no permission to create the object:"
-msgstr "Nejste oprávněn(a) k vytvoření objektu:"
+msgstr ""
 
 #: include/class_msgPool.inc:134
 msgid "You have no permission to create these objects:"
-msgstr "Nejste oprávněn(a) k vytvoření těchto objektů:"
+msgstr ""
 
 #: include/class_msgPool.inc:145
 msgid "You have no permission to modify this object!"
-msgstr "Nejste oprávněn(a) k úpravám tohoto objektu!"
+msgstr ""
 
 #: include/class_msgPool.inc:149 include/class_msgPool.inc:153
 msgid "You have no permission to modify the object:"
-msgstr "Nejste oprávněn(a) k úpravám objektu:"
+msgstr ""
 
 #: include/class_msgPool.inc:156
 msgid "You have no permission to modify these objects:"
-msgstr "Nejste oprávněn(a) k úpravám těchto objektů:"
+msgstr ""
 
 #: include/class_msgPool.inc:167
 msgid "You have no permission to view this object!"
-msgstr "Nejste oprávněn(a) k zobrazení tohoto objektu!"
+msgstr ""
 
 #: include/class_msgPool.inc:171 include/class_msgPool.inc:175
 msgid "You have no permission to view the object:"
-msgstr "Nejste oprávněn(a) k zobrazení objektu:"
+msgstr ""
 
 #: include/class_msgPool.inc:178
 msgid "You have no permission to view these objects:"
-msgstr "Nejste oprávněn(a) k zobrazení těchto objektů:"
+msgstr ""
 
 #: include/class_msgPool.inc:189
 msgid "You have no permission to move this object!"
-msgstr "Nejste oprávněn(a) k přesunutí tohoto objektu!"
+msgstr ""
 
 #: include/class_msgPool.inc:193 include/class_msgPool.inc:197
 msgid "You have no permission to move the object:"
-msgstr "Nejste oprávněn(a) k přesunutí tohoto objektu!"
+msgstr ""
 
 #: include/class_msgPool.inc:200
 msgid "You have no permission to move these objects:"
-msgstr "Nejste oprávněn(a) k přesunutí těchto objektů:"
+msgstr ""
 
 #: include/class_msgPool.inc:218 include/class_msgPool.inc:238
 #: include/class_msgPool.inc:268
 msgid "Connection information"
-msgstr "informace o spojení"
+msgstr ""
 
 #: include/class_msgPool.inc:220
 #, php-format
 msgid "Cannot connect to %s database!"
-msgstr "Nelze se připojit k databázi %s!"
+msgstr ""
 
 #: include/class_msgPool.inc:240
 #, php-format
 msgid "Cannot select %s database!"
-msgstr "Databázi %s nelze zvolit!"
+msgstr ""
 
 #: include/class_msgPool.inc:250
 #, php-format
 msgid "No %s server defined!"
-msgstr "není určen server %s!"
+msgstr ""
 
 #: include/class_msgPool.inc:270
 #, php-format
 msgid "Cannot query %s database!"
-msgstr "Nedaří se dotazovat do databáze %s!"
+msgstr ""
 
 #: include/class_msgPool.inc:280
 #, php-format
 msgid "The field '%s' contains a reserved keyword!"
-msgstr "Pole '%s' obsahuje vyhrazené klíčové slovo (použijte prosím něco jiného)!"
+msgstr ""
 
 #: include/class_msgPool.inc:292
 #, php-format
 msgid "Command specified as %s hook for plugin '%s' does not exist!"
-msgstr "Příkaz určený jako háček %s pro zásuvný modul '%s' neexistuje!"
+msgstr ""
 
 #: include/class_msgPool.inc:308
 #, php-format
 msgid "'%s' command is invalid!"
-msgstr "Příkaz '%s' není platný!"
+msgstr ""
 
 #: include/class_msgPool.inc:310
 #, php-format
 msgid "'%s' command for plugin %s is invalid!"
-msgstr "'%s' příkaz pro zásuvný modul %s není správný!"
+msgstr ""
 
 #: include/class_msgPool.inc:314
 #, php-format
 msgid "'%s' command (%s) is invalid!"
-msgstr "'%s' příkaz (%s) není správný!"
+msgstr ""
 
 #: include/class_msgPool.inc:316
 #, php-format
 msgid "'%s' command (%s) for plugin %s is invalid!"
-msgstr "'%s' příkaz (%s) pro zásuvný modul %s není správný!"
+msgstr ""
 
 #: include/class_msgPool.inc:334
 #, php-format
 msgid "Cannot execute '%s' command!"
-msgstr "Nedaří se spustit příkaz '%s'!"
+msgstr ""
 
 #: include/class_msgPool.inc:336
 #, php-format
 msgid "Cannot execute '%s' command for plugin %s!"
-msgstr "Nedaří se spustit příkaz '%s' pro zásuvný modul %s!"
+msgstr ""
 
 #: include/class_msgPool.inc:340
 #, php-format
 msgid "Cannot execute '%s' command (%s)!"
-msgstr "Nedaří se spustit příkaz '%s' (%s)!"
+msgstr ""
 
 #: include/class_msgPool.inc:342
 #, php-format
 msgid "Cannot execute '%s' command (%s) for plugin %s!"
-msgstr "Nedaří se spustit příkaz '%s' (%s) pro zásuvný modul %s!"
+msgstr ""
 
 #: include/class_msgPool.inc:357
 #, php-format
 msgid "Value for '%s' is too large!"
-msgstr "Hodnota '%s' je příliš vysoká!"
+msgstr ""
 
 #: include/class_msgPool.inc:359
 #, php-format
 msgid "'%s' must be smaller than %s!"
-msgstr "'%s' musí být menší než %s!"
+msgstr ""
 
 #: include/class_msgPool.inc:373
 #, php-format
 msgid "Value for '%s' is too small!"
-msgstr "Hodnota '%s' je příliš nízká!"
+msgstr ""
 
 #: include/class_msgPool.inc:375
 #, php-format
 msgid "'%s' must be %d or above!"
-msgstr "'%s' musí být %d a větší!"
+msgstr ""
 
 #: include/class_msgPool.inc:388
 #, php-format
 msgid "'%s' depends on '%s' - please provide both values!"
-msgstr "'%s' závisí na '%s' – zadejte prosím obě hodnoty!"
+msgstr ""
 
 #: include/class_msgPool.inc:398
 #, php-format
 msgid "There is already an entry with this '%s' attribute in the system!"
-msgstr "V systému již existuje položka s atributem '%s'!"
+msgstr ""
 
 #: include/class_msgPool.inc:408
 #, php-format
 msgid "The required field '%s' is empty!"
-msgstr "Pole '%s' nemůže být prázdné!"
+msgstr ""
 
 #: include/class_msgPool.inc:426
 msgid "Example"
-msgstr "ukázka"
+msgstr ""
 
 #: include/class_msgPool.inc:446
 #, php-format
 msgid "The Field '%s' contains invalid characters"
-msgstr "pole '%s' obsahuje nepovolené znaky"
+msgstr ""
 
 #: include/class_msgPool.inc:447
 #, php-format
 msgid "'%s' is not allowed:"
-msgstr "'%s' není dovoleno:"
+msgstr ""
 
 #: include/class_msgPool.inc:447
 #, php-format
 msgid "'%s' are not allowed!"
-msgstr "'%s' nejsou dovolené!"
+msgstr ""
 
 #: include/class_msgPool.inc:450
 #, php-format
 msgid "The Field '%s' contains invalid characters!"
-msgstr "pole '%s' obsahuje nepovolené znaky!"
+msgstr ""
 
 #: include/class_msgPool.inc:461
 #, php-format
 msgid "Missing %s PHP extension!"
-msgstr "Chybějící rozšíření PHP %s!"
+msgstr ""
 
 #: include/class_msgPool.inc:469 ihtml/themes/default/msg_dialog.tpl.c:17
 #: ihtml/themes/default/msg_dialog.tpl.c:35
@@ -3675,7 +3675,7 @@ msgstr "Chybějící rozšíření PHP %s!"
 #: setup/setup_migrate.tpl.c:215 setup/setup_migrate.tpl.c:245
 #: setup/setup_migrate.tpl.c:275
 msgid "Cancel"
-msgstr "zrušit"
+msgstr ""
 
 #: include/class_msgPool.inc:485 ihtml/themes/default/acl.tpl.c:17
 #: ihtml/themes/default/acl.tpl.c:26 ihtml/themes/default/acl.tpl.c:56
@@ -3686,292 +3686,292 @@ msgstr "zrušit"
 #: setup/setup_migrate.tpl.c:212 setup/setup_migrate.tpl.c:242
 #: setup/setup_migrate.tpl.c:272
 msgid "Apply"
-msgstr "použít"
+msgstr ""
 
 #: include/class_msgPool.inc:493 ihtml/themes/default/copyPasteDialog.tpl.c:14
 msgid "Save"
-msgstr "uložit"
+msgstr ""
 
 #: include/class_msgPool.inc:503
 #, php-format
 msgid "Add %s"
-msgstr "přidat %s"
+msgstr ""
 
 #: include/class_msgPool.inc:513
 #, php-format
 msgid "Delete %s"
-msgstr "smazat %s"
+msgstr ""
 
 #: include/class_msgPool.inc:523 ihtml/themes/default/sizelimit.tpl.c:14
 #, php-format
 msgid "Set"
-msgstr "nastavit"
+msgstr ""
 
 #: include/class_msgPool.inc:523
 #, php-format
 msgid "Set %s"
-msgstr "nastavit %s"
+msgstr ""
 
 #: include/class_msgPool.inc:533
 #, php-format
 msgid "Edit..."
-msgstr "upravit…"
+msgstr ""
 
 #: include/class_msgPool.inc:533
 #, php-format
 msgid "Edit %s..."
-msgstr "upravit %s…"
+msgstr ""
 
 #: include/class_msgPool.inc:541
 msgid "Back"
-msgstr "zpět"
+msgstr ""
 
 #: include/class_msgPool.inc:570
 #, php-format
 msgid "This account has no valid %s extensions!"
-msgstr "Tento účet nemá platná rozšíření %s!"
+msgstr ""
 
 #: include/class_msgPool.inc:583
 #, php-format
 msgid ""
 "This account has %s settings enabled. You can disable them by clicking "
 "below."
-msgstr "Tento účet má povolena nastavení %s. Zakázat je můžete kliknutím níže."
+msgstr ""
 
 #: include/class_msgPool.inc:589 include/class_msgPool.inc:596
 #, php-format
 msgid ""
 "This account has %s settings enabled. To disable them, you'll need to remove"
 " the %s settings first!"
-msgstr "Tento účet má vytvořena nastavení pro %s. Pokud je chcete odebrat, musíte ale nejprve odebrat nastavení pro %s!"
+msgstr ""
 
 #: include/class_msgPool.inc:611
 #, php-format
 msgid ""
 "This account has %s settings disabled. You can enable them by clicking "
 "below."
-msgstr "Tento účet má deaktivována nastavení pro %s. Zapnout je můžete kliknutím níže."
+msgstr ""
 
 #: include/class_msgPool.inc:617 include/class_msgPool.inc:624
 #, php-format
 msgid ""
 "This account has %s settings disabled. To enable them, you'll need to add "
 "the %s settings first!"
-msgstr "Tento účet má deaktivována nastavení pro %s. Zapnout je ale můžete teprve poté, co přidáte nastavení pro %s!"
+msgstr ""
 
 #: include/class_msgPool.inc:636
 #, php-format
 msgid "Add %s settings"
-msgstr "přidat nastavení pro %s"
+msgstr ""
 
 #: include/class_msgPool.inc:647
 #, php-format
 msgid "Remove %s settings"
-msgstr "odebrat nastavení pro %s"
+msgstr ""
 
 #: include/class_msgPool.inc:655
 msgid "Click the 'Edit' button below to change informations in this dialog"
-msgstr "pro změnu informací v tomto dialogu klikněte na 'upravit'"
+msgstr ""
 
 #: include/class_msgPool.inc:663
 msgid "January"
-msgstr "leden"
+msgstr ""
 
 #: include/class_msgPool.inc:663
 msgid "February"
-msgstr "únor"
+msgstr ""
 
 #: include/class_msgPool.inc:663
 msgid "March"
-msgstr "březen"
+msgstr ""
 
 #: include/class_msgPool.inc:663
 msgid "April"
-msgstr "duben"
+msgstr ""
 
 #: include/class_msgPool.inc:664
 msgid "May"
-msgstr "květen"
+msgstr ""
 
 #: include/class_msgPool.inc:664
 msgid "June"
-msgstr "červen"
+msgstr ""
 
 #: include/class_msgPool.inc:664
 msgid "July"
-msgstr "červenec"
+msgstr ""
 
 #: include/class_msgPool.inc:664
 msgid "August"
-msgstr "srpen"
+msgstr ""
 
 #: include/class_msgPool.inc:664
 msgid "September"
-msgstr "září"
+msgstr ""
 
 #: include/class_msgPool.inc:665
 msgid "October"
-msgstr "říjen"
+msgstr ""
 
 #: include/class_msgPool.inc:665
 msgid "November"
-msgstr "listopad"
+msgstr ""
 
 #: include/class_msgPool.inc:665
 msgid "December"
-msgstr "prosinec"
+msgstr ""
 
 #: include/class_msgPool.inc:674
 msgid "Sunday"
-msgstr "neděle"
+msgstr ""
 
 #: include/class_msgPool.inc:674
 msgid "Monday"
-msgstr "pondělí"
+msgstr ""
 
 #: include/class_msgPool.inc:674
 msgid "Tuesday"
-msgstr "úterý"
+msgstr ""
 
 #: include/class_msgPool.inc:674
 msgid "Wednesday"
-msgstr "středa"
+msgstr ""
 
 #: include/class_msgPool.inc:674
 msgid "Thursday"
-msgstr "čtvrtek"
+msgstr ""
 
 #: include/class_msgPool.inc:674
 msgid "Friday"
-msgstr "pátek"
+msgstr ""
 
 #: include/class_msgPool.inc:674
 msgid "Saturday"
-msgstr "sobota"
+msgstr ""
 
 #: include/class_msgPool.inc:687
 msgid "Database operation failed!"
-msgstr "Operace v databázi se nezdařila!"
+msgstr ""
 
 #: include/class_msgPool.inc:705
 msgid "read operation"
-msgstr "operace čtení"
+msgstr ""
 
 #: include/class_msgPool.inc:705
 msgid "add operation"
-msgstr "operace přidání"
+msgstr ""
 
 #: include/class_msgPool.inc:705
 msgid "modify operation"
-msgstr "operace upravování"
+msgstr ""
 
 #: include/class_msgPool.inc:706
 msgid "delete operation"
-msgstr "operace smazání"
+msgstr ""
 
 #: include/class_msgPool.inc:706
 msgid "search operation"
-msgstr "operace hledání"
+msgstr ""
 
 #: include/class_msgPool.inc:706
 msgid "authentication"
-msgstr "ověření"
+msgstr ""
 
 #: include/class_msgPool.inc:709
 #, php-format
 msgid "LDAP %s failed!"
-msgstr "LDAP %s selhalo!"
+msgstr ""
 
 #: include/class_msgPool.inc:711
 msgid "LDAP operation failed!"
-msgstr "Operace v LDAPu selhala!"
+msgstr ""
 
 #: include/class_msgPool.inc:716 include/class_acl.inc:759
 #: include/class_acl.inc:766 include/class_acl.inc:773
 #: include/class_acl.inc:779 ihtml/themes/default/snapshotdialog.tpl.c:14
 #: ihtml/themes/default/snapshotdialog.tpl.c:35
 msgid "Object"
-msgstr "objekt"
+msgstr ""
 
 #: include/class_msgPool.inc:730
 msgid "Upload failed!"
-msgstr "Nahrání selhalo!"
+msgstr ""
 
 #: include/class_msgPool.inc:733
 #, php-format
 msgid "Upload failed: %s"
-msgstr "Nahrání selhalo: %s"
+msgstr ""
 
 #: include/class_msgPool.inc:744
 msgid "Communication failure with the infrastructure service!"
-msgstr "Selhání komunikace se službou infrastruktury!"
+msgstr ""
 
 #: include/class_msgPool.inc:746
 #, php-format
 msgid "Communication failure with the infrastructure service: %s"
-msgstr "Selhání komunikace se službou infrastruktury: %s"
+msgstr ""
 
 #: include/class_msgPool.inc:759 include/class_msgPool.inc:762
 #, php-format
 msgid "This '%s' is still in use by this object: %s"
-msgstr "toto '%s' je stále používáno objektem: %s"
+msgstr ""
 
 #: include/class_msgPool.inc:765
 #, php-format
 msgid "This '%s' is still in use."
-msgstr "Toto '%s' je stále používáno."
+msgstr ""
 
 #: include/class_msgPool.inc:767
 #, php-format
 msgid "This '%s' is still in use by these objects: %s"
-msgstr "toto '%s' je stále používáno následujícími objekty: %s"
+msgstr ""
 
 #: include/class_msgPool.inc:777
 #, php-format
 msgid "File '%s' does not exist!"
-msgstr "Soubor '%s' neexistuje!"
+msgstr ""
 
 #: include/class_msgPool.inc:787
 #, php-format
 msgid "Cannot open file '%s' for reading!"
-msgstr "Soubor '%s' nelze číst!"
+msgstr ""
 
 #: include/class_msgPool.inc:797
 #, php-format
 msgid "Cannot open file '%s' for writing!"
-msgstr "Do souboru '%s' nelze zapisovat!"
+msgstr ""
 
 #: include/class_msgPool.inc:807
 #, php-format
 msgid ""
 "The value for '%s' is currently unconfigured or invalid, please check your "
 "configuration file!"
-msgstr "Hodnota '%s' v tuto chvíli buď není nastavena, nebo je neplatná – překontrolujte prosím Váš soubor s nastaveními!"
+msgstr ""
 
 #: include/class_msgPool.inc:817
 #, php-format
 msgid "Cannot delete file '%s'!"
-msgstr "Soubor '%s' nelze smazat!"
+msgstr ""
 
 #: include/class_msgPool.inc:827
 #, php-format
 msgid "Cannot create folder '%s'!"
-msgstr "Složku '%s' nelze vytvořit!"
+msgstr ""
 
 #: include/class_msgPool.inc:837
 #, php-format
 msgid "Cannot delete folder '%s'!"
-msgstr "Složku '%s' nelze smazat!"
+msgstr ""
 
 #: include/class_msgPool.inc:847
 #, php-format
 msgid "Checking for %s support"
-msgstr "kontroluji, zda je podporováno: %s"
+msgstr ""
 
 #: include/class_msgPool.inc:857
 #, php-format
 msgid "Install and activate the %s PHP module."
-msgstr "Nainstalovat a aktivovat modul PHP %s."
+msgstr ""
 
 #: include/class_msgPool.inc:867
 #, php-format
@@ -3983,90 +3983,90 @@ msgstr ""
 msgid ""
 "Cannot initialize class '%s'! Maybe there is a plugin missing in your "
 "FusionDirectory setup?"
-msgstr "Nelze připravit třídu '%s'! Možná ve Vaší instalaci FusionDirectory chybí příslušný zásuvný modul?"
+msgstr ""
 
 #: include/class_msgPool.inc:885
 msgid ""
 "The supplied base is not valid and has been reset to the previous value!"
-msgstr "Nově zadaná hodnota základu není platná a proto je stále používána předchozí!"
+msgstr ""
 
 #: include/exporter/class_cvsExporter.inc:93
 msgid "CSV"
-msgstr "CSV"
+msgstr ""
 
 #: include/exporter/class_PDF.php:61
 msgid "Page"
-msgstr "stránka"
+msgstr ""
 
 #: include/exporter/class_pdfExporter.inc:58
 msgid "No PDF export possible: there is no FPDF library installed."
-msgstr "Není možné exportovat do formátu PDF: není nainstalována potřebná knihovna."
+msgstr ""
 
 #: include/exporter/class_pdfExporter.inc:196
 msgid "PDF"
-msgstr "PDF"
+msgstr ""
 
 #: include/class_management.inc:167
 msgid "Filter error"
-msgstr "chyba filtru"
+msgstr ""
 
 #: include/class_management.inc:167
 msgid "The filter is incomplete!"
-msgstr "Filtr je neúplný!"
+msgstr ""
 
 #: include/class_management.inc:658
 #, php-format
 msgid ""
 "No tab declaration for '%s' found in your configuration file. Cannot create "
 "plugin instance!"
-msgstr "'%s' není deklarován ve Vašem konfiguračním souboru. Zásuvný modul nelze spustit!"
+msgstr ""
 
 #: include/class_filter.inc:347 include/functions.inc:2239
 msgid "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-msgstr "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+msgstr ""
 
 #: include/class_filter.inc:385 include/functions.inc:1962
 msgid "Apply filter"
-msgstr "použít filtr"
+msgstr ""
 
 #: include/class_certificate.inc:86
 msgid "Certificate is empty!"
-msgstr "Certifikát je prázdný!"
+msgstr ""
 
 #: include/class_certificate.inc:113
 msgid "Cannot load certificate - only PEM/DER is supported!"
-msgstr "Nemohu nahrát certifikát – podporovány je pouze typ PEM/DER!"
+msgstr ""
 
 #: include/class_certificate.inc:134
 msgid "Cannot extract information for non PEM certificates!"
-msgstr "Nemohu získat informace pro certifikáty, které nejsou typu PEM!"
+msgstr ""
 
 #: include/class_certificate.inc:253
 msgid "No valid certificate loaded!"
-msgstr "Nebyl nahrán žádný platný certifikát!"
+msgstr ""
 
 #: include/class_CopyPasteHandler.inc:294
 #: ihtml/themes/default/copyPasteDialog.tpl.c:20
 msgid "Cancel all"
-msgstr "zrušit vše"
+msgstr ""
 
 #: include/class_CopyPasteHandler.inc:402 include/class_listing.inc:1540
 #: include/class_listing.inc:1542
 msgid "Paste"
-msgstr "vložit"
+msgstr ""
 
 #: include/class_CopyPasteHandler.inc:404
 msgid "Cannot paste"
-msgstr "nemohu vložit"
+msgstr ""
 
 #: include/class_config.inc:159
 #, php-format
 msgid "XML error in fusiondirectory.conf: %s at line %d"
-msgstr "Chybné XML ve fusiondirectory.conf: %s na řádku %d"
+msgstr ""
 
 #: include/class_config.inc:330
 msgid "Cannot bind to LDAP. Please contact the system administrator."
-msgstr "Nedaří se přihlášení do LDAPu. Kontaktujte prosím správce systémů."
+msgstr ""
 
 #: include/class_config.inc:484
 #, php-format
@@ -4075,38 +4075,38 @@ msgstr ""
 
 #: include/class_config.inc:645
 msgid "sambaSID and/or sambaRidBase missing in the configuration!"
-msgstr "V nastavení chybí jeden či oba tyto parametry: sambaSID a sambaRidBase"
+msgstr ""
 
 #: include/class_config.inc:1114 include/class_config.inc:1145
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required variable '%s' is not"
 " set."
-msgstr "Pořizování snímků je sice povolené, ale není nastavena potřebná proměnná '%s'."
+msgstr ""
 
 #: include/class_config.inc:1127
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required compression module "
 "is missing. Please install '%s'."
-msgstr "Pořizování snímků je sice povolené, ale chybí modul pro jejich kompresi. Nainstalujte prosím '%s'."
+msgstr ""
 
 #: include/class_config.inc:1242
 msgid "All categories"
-msgstr "všechny kategorie"
+msgstr ""
 
 #: include/class_config.inc:1336
 msgid "My account"
-msgstr "můj účet"
+msgstr ""
 
 #: include/class_baseSelector.inc:206 include/class_listing.inc:1110
 #: include/class_listing.inc:1112
 msgid "Root"
-msgstr "kořen"
+msgstr ""
 
 #: include/class_baseSelector.inc:253 include/class_listing.inc:1133
 msgid "Submit"
-msgstr "potvrdit"
+msgstr ""
 
 #: include/password-methods/class_password-methods-sasl.inc:51
 msgid "SASL"
@@ -4119,382 +4119,382 @@ msgstr ""
 
 #: include/password-methods/class_password-methods.inc:320
 msgid "Cannot find a suitable password method for the current hash!"
-msgstr "Pro tento otisk není k dispozici odpovídající mechanizmus šifrování hesla!"
+msgstr ""
 
 #: include/class_plugin.inc:551
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others get lost if you save this entry!"
-msgstr "Objekt byl mezitím změněn. Jeho uložením zahodíte všechny změny, které ostatní mezitím mohli udělat."
+msgstr ""
 
 #: include/class_plugin.inc:1632
 msgid "Changing ACL dn"
-msgstr "probíhá změna DN ACL"
+msgstr ""
 
 #: include/class_plugin.inc:1632
 msgid "from"
-msgstr "od"
+msgstr ""
 
 #: include/class_acl.inc:121 include/class_acl.inc:557
 #: include/class_acl.inc:1018
 #, php-format
 msgid "All users"
-msgstr "všichni uživatelé"
+msgstr ""
 
 #: include/class_acl.inc:190
 msgid "Reset ACLs"
-msgstr "resetovat předchozí ACL"
+msgstr ""
 
 #: include/class_acl.inc:195 include/class_acl.inc:198
 msgid "Use ACL defined in role"
-msgstr "použít ACL určená v roli"
+msgstr ""
 
 #: include/class_acl.inc:519
 msgid "No ACL settings for this category!"
-msgstr "Pro tuto kategorii není nastaven žádný ACL!"
+msgstr ""
 
 #: include/class_acl.inc:521
 #, php-format
 msgid "Contains ACLs for these objects: %s"
-msgstr "Obsahuje ACL pro následující objekty: %s"
+msgstr ""
 
 #: include/class_acl.inc:527 include/class_acl.inc:531
 msgid "category ACL"
-msgstr "ACL kategorie"
+msgstr ""
 
 #: include/class_acl.inc:583
 #, php-format
 msgid "Edit ACL for '%s' - scope is '%s'"
-msgstr "upravit ACL pro '%s' v rozsahu '%s'"
+msgstr ""
 
 #: include/class_acl.inc:761 include/class_acl.inc:768
 msgid "Show/hide advanced settings"
-msgstr "zobrazit/skrýt pokročilá nastavení"
+msgstr ""
 
 #: include/class_acl.inc:785
 msgid "Create objects"
-msgstr "vytvářet objekty"
+msgstr ""
 
 #: include/class_acl.inc:786
 msgid "Move objects"
-msgstr "přesouvat objekty"
+msgstr ""
 
 #: include/class_acl.inc:787
 msgid "Remove objects"
-msgstr "mazat objekty"
+msgstr ""
 
 #: include/class_acl.inc:789
 msgid "Grant permission to owner"
-msgstr "dát oprávnění i vlastníkovi"
+msgstr ""
 
 #: include/class_acl.inc:793 include/class_acl.inc:916
 #: include/class_acl.inc:920
 msgid "read"
-msgstr "číst"
+msgstr ""
 
 #: include/class_acl.inc:794 include/class_acl.inc:918
 #: include/class_acl.inc:921
 msgid "write"
-msgstr "zapisovat"
+msgstr ""
 
 #: include/class_acl.inc:798
 msgid "Complete object"
-msgstr "celý objekt"
+msgstr ""
 
 #: include/class_acl.inc:963
 #, php-format
 msgid "Unkown ACL type '%s'!"
-msgstr "neznámý typ / rozsah ACL '%s'!"
+msgstr ""
 
 #: include/class_acl.inc:1015
 #, php-format
 msgid "Unknown entry '%s'!"
-msgstr "Neznámá položka '%s'!"
+msgstr ""
 
 #: include/class_acl.inc:1084 include/class_acl.inc:1086
 #, php-format
 msgid "Role: %s"
-msgstr "role: %s"
+msgstr ""
 
 #: include/class_acl.inc:1086
 msgid "unknown role"
-msgstr "neznámá role"
+msgstr ""
 
 #: include/class_acl.inc:1094
 #, php-format
 msgid "Contains settings for these objects: %s"
-msgstr "obsahuje nastavení pro následující objekty: %s"
+msgstr ""
 
 #: include/class_acl.inc:1105 ihtml/themes/default/acl.tpl.c:38
 msgid "Members"
-msgstr "členové"
+msgstr ""
 
 #: include/class_acl.inc:1111
 msgid "inactive"
-msgstr "nečinný"
+msgstr ""
 
 #: include/class_acl.inc:1111
 msgid "No members"
-msgstr "žádní členové"
+msgstr ""
 
 #: include/class_acl.inc:1297
 msgid "Manage access control lists"
-msgstr "správa seznamů pro řízení přístupu (ACL)"
+msgstr ""
 
 #: include/class_acl.inc:1300
 msgid "ACL roles"
-msgstr "ACL role"
+msgstr ""
 
 #: include/class_listing.inc:359 setup/setup_migrate.tpl.c:35
 #: setup/setup_migrate.tpl.c:62 setup/setup_migrate.tpl.c:146
 #: setup/setup_migrate.tpl.c:173 setup/setup_migrate.tpl.c:200
 #: setup/setup_migrate.tpl.c:230 setup/setup_migrate.tpl.c:260
 msgid "Select all"
-msgstr "vybrat vše"
+msgstr ""
 
 #: include/class_listing.inc:569
 msgid "created by"
-msgstr "vytvořeno (kým)"
+msgstr ""
 
 #: include/class_listing.inc:1110
 msgid "Go to root department"
-msgstr "přejít do kořene všech oddělení"
+msgstr ""
 
 #: include/class_listing.inc:1118
 msgid "Go up one department"
-msgstr "přejít o jedno oddělení výše"
+msgstr ""
 
 #: include/class_listing.inc:1126
 msgid "Go to users department"
-msgstr "přejít do svého oddělení"
+msgstr ""
 
 #: include/class_listing.inc:1126 include/class_listing.inc:1128
 msgid "Home"
-msgstr "domovské"
+msgstr ""
 
 #: include/class_listing.inc:1133
 msgid "Reload list"
-msgstr "znovunačtení seznamu"
+msgstr ""
 
 #: include/class_listing.inc:1526 include/class_listing.inc:1576
 msgid "Copy"
-msgstr "zkopírovat"
+msgstr ""
 
 #: include/class_listing.inc:1532 include/class_listing.inc:1566
 msgid "Cut"
-msgstr "vyjmout"
+msgstr ""
 
 #: include/class_listing.inc:1566
 msgid "Cut this entry"
-msgstr "vyjmout tuto položku"
+msgstr ""
 
 #: include/class_listing.inc:1576
 msgid "Copy this entry"
-msgstr "kopírovat tuto položku"
+msgstr ""
 
 #: include/class_listing.inc:1608 include/class_listing.inc:1610
 msgid "Restore snapshots"
-msgstr "obnovit ze snímků"
+msgstr ""
 
 #: include/class_listing.inc:1624
 msgid "Export list"
-msgstr "exportovat seznam"
+msgstr ""
 
 #: include/class_listing.inc:1659 include/class_listing.inc:1660
 #: include/class_SnapShotDialog.inc:192
 msgid "Restore snapshot"
-msgstr "obnovit ze snímku"
+msgstr ""
 
 #: include/class_listing.inc:1669
 msgid "Create snapshot"
-msgstr "vytvořit snímek"
+msgstr ""
 
 #: include/class_listing.inc:1670
 msgid "Create a new snapshot from this object"
-msgstr "vytvořit nový snímek tohoto objektu"
+msgstr ""
 
 #: include/class_log.inc:96
 #, php-format
 msgid "Logging failed: %s"
-msgstr "přihlášení selhalo: %s"
+msgstr ""
 
 #: include/class_log.inc:115
 #, php-format
 msgid "Invalid option '%s' specified!"
-msgstr "Byla zadán neplatná volba '%s'!"
+msgstr ""
 
 #: include/class_log.inc:119
 msgid "Specified objectType is empty or invalid!"
-msgstr "Jako objectType (typ objektu) buď nebylo zadáno nic, nebo nesprávná hodnota."
+msgstr ""
 
 #: include/class_timezone.inc:60
 #, php-format
 msgid ""
 "The timezone setting '%s' in your fusiondirectory.conf is not valid. Cannot "
 "calculate correct timezone offset."
-msgstr "Nastavení časové zóny '%s' ve Vašem fusiondirectory.conf není správné. Nelze spočítat posun časové zóny."
+msgstr ""
 
 #: include/class_ldap.inc:315 include/class_ldap.inc:362
 msgid "Performance warning"
-msgstr "varování ohledně výkonu"
+msgstr ""
 
 #: include/class_ldap.inc:315 include/class_ldap.inc:362
 #, php-format
 msgid "LDAP performance is poor: last query took about %.2fs!"
-msgstr "Výkonnost LDAPu je špatná: poslední dotaz trval celých %.2fs!"
+msgstr ""
 
 #: include/class_ldap.inc:862
 #, php-format
 msgid ""
 "Cannot automatically create subtrees with RDN '%s': no object class found!"
-msgstr "Nedaří se automaticky vytvořit podstromy s RND '%s': nebyla nalezena potřebná třída objektů!"
+msgstr ""
 
 #: include/class_ldap.inc:898
 #, php-format
 msgid "Cannot automatically create subtrees with RDN '%s': not supported"
-msgstr "nedaří se automaticky vytvořit podstromy s RND '%s': není podporováno"
+msgstr ""
 
 #: include/class_ldap.inc:1009
 #, php-format
 msgid "while operating on '%s' using LDAP server '%s'"
-msgstr "při operaci na '%s' na LDAP serveru '%s'"
+msgstr ""
 
 #: include/class_ldap.inc:1011
 #, php-format
 msgid "while operating on LDAP server %s"
-msgstr "při operaci na LDAP serveru '%s'"
+msgstr ""
 
 #: include/class_ldap.inc:1071
 #, php-format
 msgid "Missing command line programm '%s'!"
-msgstr "V systému chybí příkaz '%s'!"
+msgstr ""
 
 #: include/class_ldap.inc:1217
 #, php-format
 msgid ""
 "This is not a valid DN: '%s'. A block for import should begin with 'dn: ...'"
 " in line %s"
-msgstr "Toto není platné DN: '%s'. Celek pro import by měl začínat na 'dn: …' na řádku %s"
+msgstr ""
 
 #: include/class_ldap.inc:1228
 #, php-format
 msgid ""
 "Error while importing dn: '%s', please check your LDIF from line %s on!"
-msgstr "Došlo k chybě během importu dn: '%s', zkontrolujte prosím Váš LDIF soubor od řádku %s dále!"
+msgstr ""
 
 #: include/class_msg_dialog.inc:168
 msgid "Please fix the above error and reload the page."
-msgstr "Opravte prosím výše zmíněnou chybu a znovunačtěte stránku."
+msgstr ""
 
 #: include/class_pluglist.inc:147
 msgid "All objects in this category"
-msgstr "všechny objekty v této kategorii"
+msgstr ""
 
 #: include/class_pluglist.inc:299
 msgid "The configuration format has changed. Please re-run setup!"
-msgstr "Formát nastavení se změnil. Spusťte prosím instalátor znovu."
+msgstr ""
 
 #: include/class_databaseManagement.inc:80
 msgid "Please activate debugging for details!"
-msgstr "Pro získání dalších podrobností prosím zapněte režim ladění!"
+msgstr ""
 
 #: include/class_SnapShotDialog.inc:140
 #, php-format
 msgid "You're about to delete the snapshot '%s'."
-msgstr "Chystáte se smazat snímek '%s'."
+msgstr ""
 
 #: include/class_SnapShotDialog.inc:194
 msgid "Remove snapshot"
-msgstr "odebrat snímek"
+msgstr ""
 
 #: include/class_SnapShotDialog.inc:196 include/class_SnapShotDialog.inc:216
 msgid "Y-m-d, H:i:s"
-msgstr "r-m-d, h:m:v"
+msgstr ""
 
 #: include/functions.inc:124
 #, php-format
 msgid "Fatal error: no class locations defined - please run '%s' to fix this"
-msgstr "fatální chyba: není určeno umístění třídy – pro nápravu prosím spusťe '%s'"
+msgstr ""
 
 #: include/functions.inc:138
 #, php-format
 msgid ""
 "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
-msgstr "fatální chyba: nelze vytvořit instanci třídy '%s' – pokuste se to napravit spuštěním '%s' --update-cache (na serveru) a restartujte svůj webový prohlížeč"
+msgstr ""
 
 #: include/functions.inc:491
 #, php-format
 msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
-msgstr "FATÁLNÍ: chyba při připojování do LDAPu. Server ohlásil '%s'."
+msgstr ""
 
 #: include/functions.inc:572
 msgid "Username / UID is not unique inside the LDAP tree!"
-msgstr "Uživatelské jméno / UID není v rámci stromu LDAP jedinečné. "
+msgstr ""
 
 #: include/functions.inc:661
 msgid ""
 "Username / UID is not unique inside the LDAP tree. Please contact your "
 "Administrator."
-msgstr "Uživatelské jméno / UID není v rámci stromu LDAP jedinečné. Kontaktujte prosím svého správce systémů."
+msgstr ""
 
 #: include/functions.inc:743 include/functions.inc:863
 msgid "Error while adding a lock. Contact the developers!"
-msgstr "Nastala chyba při pokusu o přidání zámku. Nahlaste to prosím vývojářům!"
+msgstr ""
 
 #: include/functions.inc:753
 #, php-format
 msgid ""
 "Cannot create locking information in LDAP tree. Please contact your "
 "administrator!"
-msgstr "Nemohu vytvořit informaci o zamykání ve stromu LDAPu. Kontaktujte prosím svého správce systémů!"
+msgstr ""
 
 #: include/functions.inc:753
 #, php-format
 msgid "LDAP server returned: %s"
-msgstr "LDAP server odpověděl: %s"
+msgstr ""
 
 #: include/functions.inc:884
 msgid ""
 "Found multiple locks for object to be locked. This should not happen - "
 "cleaning up multiple references."
-msgstr "Při pokusu o vyhrazení přístupu k objektu bylo nalezeno několik již existujících zámků. To by se nemělo stávat – probíhá jejich odstraňování."
+msgstr ""
 
 #: include/functions.inc:1202
 #, php-format
 msgid "The size limit of %d entries is exceed!"
-msgstr "Limit velikosti položek %d je překročen!"
+msgstr ""
 
 #: include/functions.inc:1204
 #, php-format
 msgid ""
 "Set the new size limit to %s and show me this message if the limit still "
 "exceeds"
-msgstr "nastavit novou hodnotu limitu %s a v případě, že ani to nebude stačit, zobrazit toto hlášení znovu"
+msgstr ""
 
 #: include/functions.inc:1221
 msgid "Configure"
-msgstr "nastavit"
+msgstr ""
 
 #: include/functions.inc:1226
 msgid "incomplete"
-msgstr "neúplné"
+msgstr ""
 
 #: include/functions.inc:1672
 msgid "Continue anyway"
-msgstr "přesto pokračovat"
+msgstr ""
 
 #: include/functions.inc:1674
 msgid "Edit anyway"
-msgstr "přesto upravit"
+msgstr ""
 
 #: include/functions.inc:1676
 #, php-format
 msgid "You're going to edit the LDAP entry/entries %s"
-msgstr "chystáte se upravit položky LDAPu %s"
+msgstr ""
 
 #: include/functions.inc:1931
 msgid "Entries per page"
-msgstr "položek na stránku"
+msgstr ""
 
 #: include/functions.inc:2376
 #, php-format
@@ -4505,11 +4505,11 @@ msgstr ""
 
 #: include/functions.inc:2418
 msgid "Cannot write to revision file!"
-msgstr "Nelze zapsat do souboru s revizemi!"
+msgstr ""
 
 #: include/functions.inc:2447
 msgid "Cannot read to revision file!"
-msgstr "Nelze číst ze souboru s revizemi!"
+msgstr ""
 
 #: include/functions.inc:2665
 msgid "'nextIdHook' is not available. Using default base!"
@@ -4517,137 +4517,137 @@ msgstr ""
 
 #: include/functions.inc:2700
 msgid "LDAP warning"
-msgstr "varování LDAPu"
+msgstr ""
 
 #: include/functions.inc:2700
 msgid "Cannot get schema information from server. No schema check possible!"
-msgstr "Nedaří se získat informace o schématech ze serveru. Schémata proto nelze ověřit!"
+msgstr ""
 
 #: include/functions.inc:2727
 msgid "Used to store account specific informations."
-msgstr "Používá se k ukládání informací jednotlivých účtů."
+msgstr ""
 
 #: include/functions.inc:2734
 msgid ""
 "Used to lock currently edited entries to avoid multiple changes at the same "
 "time."
-msgstr "Používá se k uzamčení právě upravovaných položek, aby se zabránilo vícero (vzájemně si vadícím) úpravám naráz."
+msgstr ""
 
 #: include/functions.inc:2759
 #, php-format
 msgid "Missing required object class '%s'!"
-msgstr "Chybí nezbytně nutná třída objektů '%s'!"
+msgstr ""
 
 #: include/functions.inc:2762
 #, php-format
 msgid "Missing optional object class '%s'!"
-msgstr "Chybí volitelná třída objektů '%s'!"
+msgstr ""
 
 #: include/functions.inc:2766
 #, php-format
 msgid "Version mismatch for required object class '%s' (!=%s)!"
-msgstr "Neshoda ve verzích požadovaných tříd objektů %s' (!=%s)!"
+msgstr ""
 
 #: include/functions.inc:2769
 #, php-format
 msgid "Class(es) available"
-msgstr "dostupné třídy"
+msgstr ""
 
 #: include/functions.inc:2791
 msgid ""
 "You have enabled the rfc2307bis option on the 'ldap setup' step, but your "
 "schema    configuration do not support this option."
-msgstr "V kroku 'nastavení LDAPu' jste vybrali „skupiny dle normy rfc2307bis“, ale ve Vašich schématech to není podporováno."
+msgstr ""
 
 #: include/functions.inc:2792
 msgid ""
 "In order to use rfc2307bis conform groups the objectClass 'posixGroup' must "
 "be      AUXILIARY"
-msgstr "aby bylo možné použít skupiny dle normy rfc2307bis, musí být třída objektů 'posixGroup' POMOCNOU"
+msgstr ""
 
 #: include/functions.inc:2796
 msgid ""
 "Your schema is configured to support the rfc2307bis group, but you have "
 "disabled this option on the 'ldap setup' step."
-msgstr "Vaše schéma je nastaveno tak, aby podporovalo skupiny dle rf2307bis, ale tuto volbu jste v kroku 'nastavení LDAPu' vypnuli."
+msgstr ""
 
 #: include/functions.inc:2797
 msgid "The objectClass 'posixGroup' must be STRUCTURAL"
-msgstr "třída (objectClass) objektu 'posixGroup' musí být „strukturální“ (STRUCTURAL)"
+msgstr ""
 
 #: include/functions.inc:3055
 #, php-format
 msgid ""
 "Command '%s', specified as POSTMODIFY for plugin '%s' doesn't seem to exist."
-msgstr "Příkaz '%s', zadaný jako POSTMODIFY (spusť po dokončení úpravy) pro zásuvný modul '%s' zdá se neexistuje."
+msgstr ""
 
 #: include/functions.inc:3399 include/functions.inc:3420
 #: include/functions.inc:3458 include/functions.inc:3470
 #: include/functions.inc:3474 include/functions.inc:3481
 #: include/functions.inc:3490
 msgid "Cannot allocate a free ID:"
-msgstr "Není k dispozici volné ID:"
+msgstr ""
 
 #: include/functions.inc:3399
 msgid "unknown idAllocation method!"
-msgstr "Neznámá metoda idAllocation (přiřazování ID)!"
+msgstr ""
 
 #: include/functions.inc:3420
 #, php-format
 msgid "%sPoolMin >= %sPoolMax!"
-msgstr "%sPoolMin >= %sPoolMax!"
+msgstr ""
 
 #: include/functions.inc:3450
 msgid "Cannot create sambaUnixIdPool entry!"
-msgstr "Nelze vytvořit položku sambaUnixIdPool!"
+msgstr ""
 
 #: include/functions.inc:3458
 msgid "sambaUnixIdPool is not unique!"
-msgstr "Identifikátor sambaUnixIdPool není jedinečný!"
+msgstr ""
 
 #: include/functions.inc:3470 include/functions.inc:3474
 msgid "no ID available!"
-msgstr "Není k dispozici ID!"
+msgstr ""
 
 #: include/functions.inc:3490
 msgid "maximum tries exceeded!"
-msgstr "překročen maximální počet neúspěšných pokusů!"
+msgstr ""
 
 #: include/functions.inc:3552
 msgid "Cannot allocate a free ID!"
-msgstr "Není k dispozici volné ID – není co přidělit!"
+msgstr ""
 
 #: ihtml/themes/default/logout.tpl.c:2
 msgid "Your FusionDirectory session has expired!"
-msgstr "Vaše relace ve FusionDirectory byla automaticky ukončena po Vaší delší neaktivitě!"
+msgstr ""
 
 #: ihtml/themes/default/logout.tpl.c:5
 msgid ""
 "The last interaction with the FusionDirectory web interface has been some "
 "time ago in the past. For security reasons, the session has been closed. To "
 "continue with administrative tasks, please sign in again."
-msgstr "Na základě toho, že jste v předchozí relaci již dlouho nic neudělali, se zdá, že jste se jen zapomněl(a) odhlásit. Z bezpečnostních důvodů byla proto relace automaticky ukončena. Pokud chcete ve správě pokračovat, prosím přihlaste se znovu."
+msgstr ""
 
 #: ihtml/themes/default/logout.tpl.c:8
 msgid "Sign in again"
-msgstr "přihlásit se znovu"
+msgstr ""
 
 #: ihtml/themes/default/login.tpl.c:2
 msgid "Login screen"
-msgstr "přihlašovací obrazovka"
+msgstr ""
 
 #: ihtml/themes/default/login.tpl.c:5
 msgid ""
 "Please use your username and your password to log into the site "
 "administration system."
-msgstr "Zadejte prosím své uživatelské jméno a heslo pro přihlášení do správy systémů tohoto místa."
+msgstr ""
 
 #: ihtml/themes/default/login.tpl.c:8 ihtml/themes/default/login.tpl.c:11
 #: ihtml/themes/default/login.tpl.c:14 ihtml/themes/default/recovery.tpl.c:38
 #: ihtml/themes/default/password.tpl.c:32
 #: ihtml/themes/default/password.tpl.c:35
 msgid "Username"
-msgstr "uživatelské jméno"
+msgstr ""
 
 #: ihtml/themes/default/login.tpl.c:26
 msgid "I forgot my password"
@@ -4661,15 +4661,15 @@ msgstr ""
 #: ihtml/themes/default/password.tpl.c:26
 #: ihtml/themes/default/password.tpl.c:29
 msgid "Directory"
-msgstr "adresář"
+msgstr ""
 
 #: ihtml/themes/default/login.tpl.c:38 ihtml/themes/default/login.tpl.c:44
 msgid "Sign in"
-msgstr "přihlásit"
+msgstr ""
 
 #: ihtml/themes/default/login.tpl.c:41
 msgid "Click here to log in"
-msgstr "pro přihlášení klikněte sem"
+msgstr ""
 
 #: ihtml/themes/default/simple-filter.tpl.c:2
 #: plugins/admin/users/user-filter.tpl.c:2
@@ -4682,11 +4682,11 @@ msgstr "pro přihlášení klikněte sem"
 #: include/select/userGroupSelect/selectUserGroup-filter.tpl.c:2
 #: include/select/userSelect/user-filter.tpl.c:2
 msgid "Filter"
-msgstr "filtr"
+msgstr ""
 
 #: ihtml/themes/default/conflict.tpl.c:2
 msgid "Session conflict detected"
-msgstr "byl zjištěn konflikt mezi relacemi"
+msgstr ""
 
 #: ihtml/themes/default/conflict.tpl.c:8
 msgid ""
@@ -4694,60 +4694,60 @@ msgid ""
 "operation is technical not possible and heavily depends on the browser "
 "you're using. Usage of different browsers at a time (i.e. IE and Mozilla) is"
 " possible. Pressing the Logout button will close this session."
-msgstr "Pravděpodobně se pokoušíte otevřít další relaci ve stejném prohlížeči, což z technických důvodů není možné. Pokud přesto potřebujete více relací naráz (například k přihlášení se pod jiným účtem), použijte více prohlížečů (napr. IE a Mozillu). Nyní ale tuto relaci ukončete kliknutím na 'odhlášení'."
+msgstr ""
 
 #: ihtml/themes/default/conflict.tpl.c:11
 msgid ""
 "Ignoring this message will change/destroy the data you're currently editing,"
 " so please close multiple windows and log in again."
-msgstr "Ignorováním (a pokračováním v tom co děláte) změníte/zničíte v tuto chvíli upravovaná data. Raději tedy zavřete všechna okna prohlížeče, ve kterých máte FusionDirectory spuštěn a přihlaste se znovu."
+msgstr ""
 
 #: ihtml/themes/default/conflict.tpl.c:14
 msgid "Logout"
-msgstr "odhlásit"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:2
 msgid "FusionDirectory password recovery"
-msgstr "FusionDirectory obnova ztraceného hesla"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:11
 msgid "Lost password"
-msgstr "ztracené heslo"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:14
 msgid "Available methods"
-msgstr "možné způsoby"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:17
 msgid "Receive by email a link that allows you to reset your password"
-msgstr "nechat si na e-mail poslat odkaz pro resetování hesla"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:20
 msgid "Send"
-msgstr "poslat"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:23
 msgid "Click here to send a reset link"
-msgstr "pro zaslání odkazu pro vyresetování klikněte sem"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:26
 msgid ""
 "If none of the above methods suits you, contact your administrator to change"
 " your password"
-msgstr "pokud pro Vás žádný z výše uvedených způsobů není použitelný, kontaktujte pro změnu Vašeho hesla svého správce systémů"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:29
 msgid ""
 "This dialog provides a simple way to change your password. Enter the new "
 "password (twice) in the fields below and press the 'Change' button."
-msgstr "Tento dialog umožňuje jednoduše si změnit heslo. Zadejte (dvakrát) nové heslo do políček níže a klikněte na 'změnit'."
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:47
 #: ihtml/themes/default/recovery.tpl.c:50
 #: ihtml/themes/default/password.tpl.c:50
 #: ihtml/themes/default/password.tpl.c:53
 msgid "New password repeated"
-msgstr "nové heslo znovu"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:53
 #: ihtml/themes/default/password.tpl.c:56
@@ -4756,42 +4756,42 @@ msgstr "nové heslo znovu"
 #: plugins/personal/generic/password.tpl.c:17
 #: plugins/personal/generic/password.tpl.c:38
 msgid "Password strength"
-msgstr "odolnost hesla"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:56
 #: ihtml/themes/default/recovery.tpl.c:89
 #: ihtml/themes/default/password.tpl.c:59
 msgid "Change"
-msgstr "změnit"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:59
 #: ihtml/themes/default/recovery.tpl.c:92
 #: ihtml/themes/default/password.tpl.c:62
 #: ihtml/themes/default/accountexpired.tpl.c:26
 msgid "Click here to change your password"
-msgstr "pro změnu hesla klikněte sem"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:62
 #: ihtml/themes/default/recovery.tpl.c:65
 #: ihtml/themes/default/password.tpl.c:5 ihtml/themes/default/password.tpl.c:8
 msgid "Success"
-msgstr "úspěch"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:68
 #: ihtml/themes/default/password.tpl.c:11
 msgid "Your password has been changed successfully."
-msgstr "Vaše heslo bylo úspěšně změněno."
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:71
 msgid ""
 "Enter your current e-mail address in the field below and press the 'Change' "
 "button."
-msgstr "Do políčka níže zadejte svou e-mailovou adresu a klikněte na  'změnit'."
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:74
 msgid ""
 "=> Use your e-mail in the long format, e.g : John Doe => john.doe@ibcp.fr"
-msgstr "=> zadejte svou e-mailovou adresu v dlouhém formátu, příklad : Jan Novák => jan.novak@vase_domena.cz"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:95
 msgid ""
@@ -4801,7 +4801,7 @@ msgstr ""
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:2
 msgid "Restoring object snapshots"
-msgstr "probíhá obnovování snímků objektu"
+msgstr ""
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:5
 msgid ""
@@ -4820,72 +4820,72 @@ msgstr ""
 msgid ""
 "Don't forget to check references to other objects, for example does the "
 "selected printer still exists ?"
-msgstr "Nezapomeňte zkontrolovat odkazy na ostatní objekty – např. zda stále existuje zvolená tiskárna."
+msgstr ""
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:17
 msgid "There is no snapshot available that could be restored"
-msgstr "Není k dispozici žádný snímek, ze kterého by bylo možné provést obnovu."
+msgstr ""
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:20
 msgid "Choose a snapshot and click the folder image, to restore the snapshot"
-msgstr "Vyberte snímek ze kterého provedena obnova. Tu poté spusťte kliknutím na ikonu složky."
+msgstr ""
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:26
 msgid "Creating object snapshots"
-msgstr "probíhá vytváření snímků objektu"
+msgstr ""
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:29
 msgid ""
 "This procedure will create a snapshot of the selected object. It will be "
 "stored inside a special branch of your directory system and can be restored "
 "later on."
-msgstr "Tímto postupem bude vytvořen snímek stavu zvoleného objektu. Ten bude uložen v k tomu určené větvi Vašeho LDAP adresáře a může být použit pro obnovení."
+msgstr ""
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:32
 msgid ""
 "Remember that database entries, DNS configurations and possibly created "
 "zones in server extensions will not be stored in the snapshot."
-msgstr "Pamatujte, že položky databáze, nastavení DNS a případné definice zón v serverových rozšířeních nebudou součástí snímku."
+msgstr ""
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:38
 msgid "Timestamp"
-msgstr "časová značka"
+msgstr ""
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:41
 msgid "Reason for generating this snapshot"
-msgstr "důvod pořízení tohoto snímku (informace pro Vás)"
+msgstr ""
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:44
 #: plugins/admin/users/template.tpl.c:20
 msgid "Continue"
-msgstr "pokračovat"
+msgstr ""
 
 #: ihtml/themes/default/simple-remove.tpl.c:5
 msgid ""
 "Please double check if you really want to do this since there is no way for "
 "FusionDirectory to get your data back."
-msgstr "Týká se veškerých informací o této položce v adresáři. Prosím velmi dobře si rozmyslete, zda to opravdu chcete udělat, protože provedené změny už ve FusionDirectory nepůjde vzít nijak jednoduše zpět (nanejvýš složitě ze záloh, pokud existují a obsahují potřebná data)!"
+msgstr ""
 
 #: ihtml/themes/default/simple-remove.tpl.c:8
 #: ihtml/themes/default/remove.tpl.c:8 plugins/admin/users/remove.tpl.c:8
 #: plugins/admin/acl/remove.tpl.c:8
 msgid "So - if you're sure - press 'Delete' to continue or 'Cancel' to abort."
-msgstr "Tedy – pokud jste si jist(a), stiskněte 'smazat'. V opačném případě operaci zrušte pomocí 'zrušit'."
+msgstr ""
 
 #: ihtml/themes/default/islocked.tpl.c:2
 msgid "Locking conflict detected"
-msgstr "Zjištěn konflikt při vyhrazování prostředků (zamykání)."
+msgstr ""
 
 #: ihtml/themes/default/islocked.tpl.c:8
 msgid ""
 "If this lock detection is false, the other person has obviously closed the "
 "webbrowser during the edit operation. You may want to take over the lock by "
 "pressing the 'Edit anyway' button."
-msgstr "Pokud se domníváte, že položku nikdo jiný v tuto chvíli neupravuje a proto by neměla být uzamčena, došlo k tomu nejspíš tak, že někdo zavřel okno prohlížeče ve chvíli, kdy ji upravoval. V takovém případě zamčení překonejte kliknutím na 'přesto upravit'."
+msgstr ""
 
 #: ihtml/themes/default/islocked.tpl.c:11
 msgid "Read only"
-msgstr "pouze pro čtení"
+msgstr ""
 
 #: ihtml/themes/default/sizelimit.tpl.c:2
 msgid ""
@@ -4893,114 +4893,114 @@ msgid ""
 " from getting too much load. The easiest way to handle big databases without"
 " long timeouts would be to limit your search to smaller values and use "
 "filters to get the entries you are looking for."
-msgstr "Omezování velikosti napomáhá k zlepšení odezvy LDAPu a chrání server před přílišným zatížením. Nejjednodušším způsobem, jak zacházet s velkými databázemi bez dlouhých odezev, je omezit hledání na menší hodnoty a pro získávání položek, které chcete, využívat filtry."
+msgstr ""
 
 #: ihtml/themes/default/sizelimit.tpl.c:5
 msgid "Please choose the way to react for this session"
-msgstr "zvolte prosím, jak reagovat během této relace"
+msgstr ""
 
 #: ihtml/themes/default/sizelimit.tpl.c:8
 msgid "ignore this error and show all entries the LDAP server returns"
-msgstr "ignorovat tuto chybu a zobrazit všechny položky, které LDAP server poskytne"
+msgstr ""
 
 #: ihtml/themes/default/sizelimit.tpl.c:11
 msgid ""
 "ignore this error and show all entries that fit into the defined sizelimit "
 "and let me use filters instead"
-msgstr "Ignorovat tuto chybu a zobrazit všechny položky, které nejsou větší než zadaný limit – jako náhradu si vystačím s filtry."
+msgstr ""
 
 #: ihtml/themes/default/acl.tpl.c:2 plugins/admin/acl/acl_role.tpl.c:2
 msgid "Assigned ACL for current entry"
-msgstr "ACL přiřazené k této položce"
+msgstr ""
 
 #: ihtml/themes/default/acl.tpl.c:5 plugins/admin/acl/acl_role.tpl.c:14
 msgid "New ACL"
-msgstr "nový ACL"
+msgstr ""
 
 #: ihtml/themes/default/acl.tpl.c:8 plugins/admin/acl/acl_role.tpl.c:17
 msgid "ACL type"
-msgstr "typ / rozsah ACL"
+msgstr ""
 
 #: ihtml/themes/default/acl.tpl.c:11 ihtml/themes/default/acl.tpl.c:14
 #: plugins/admin/acl/acl_role.tpl.c:20
 msgid "Select an acl type"
-msgstr "zvolte typ / rozsah ACL"
+msgstr ""
 
 #: ihtml/themes/default/acl.tpl.c:20
 msgid "Additional filter options"
-msgstr "další volby filtru"
+msgstr ""
 
 #: ihtml/themes/default/acl.tpl.c:23
 msgid "Use members from"
-msgstr "použít členy z"
+msgstr ""
 
 #: ihtml/themes/default/acl.tpl.c:29
 msgid "Available members"
-msgstr "dostupní členové"
+msgstr ""
 
 #: ihtml/themes/default/acl.tpl.c:32 ihtml/themes/default/acl.tpl.c:35
 msgid "List message possible targets"
-msgstr "vypsat možné cíle zprávy"
+msgstr ""
 
 #: ihtml/themes/default/acl.tpl.c:41 ihtml/themes/default/acl.tpl.c:44
 msgid "List message recipients"
-msgstr "vypsat příjemce zprávy"
+msgstr ""
 
 #: ihtml/themes/default/acl.tpl.c:47 plugins/admin/acl/acl_role.tpl.c:23
 msgid "List of available ACL categories"
-msgstr "seznam dostupných katergorií ACL"
+msgstr ""
 
 #: ihtml/themes/default/acl.tpl.c:50
 msgid "ACL for this object"
-msgstr "ACL pro tento objekt"
+msgstr ""
 
 #: ihtml/themes/default/acl.tpl.c:53
 msgid "Available roles"
-msgstr "dostupné role"
+msgstr ""
 
 #: ihtml/themes/default/framework.tpl.c:2
 msgid "Main"
-msgstr "hlavní"
+msgstr ""
 
 #: ihtml/themes/default/framework.tpl.c:5
 msgid "Sign out"
-msgstr "odhlásit"
+msgstr ""
 
 #: ihtml/themes/default/framework.tpl.c:8
 msgid "Signed in:"
-msgstr "přihlášen(a):"
+msgstr ""
 
 #: ihtml/themes/default/framework.tpl.c:11
 #, c-format
 msgid "Session expires in %d!"
-msgstr "Relace vyprší za %d!"
+msgstr ""
 
 #: ihtml/themes/default/remove.tpl.c:5
 msgid ""
 "This may be used by several groups. Please double check if your really want "
 "to do this since there is no way for FusionDirectory to get your data back."
-msgstr "Může být využíváno vícero skupinami. Dobře si prosím rozmyslete, zda to opravdu chcete udělat, protože FusionDirectory pak už nebude moci vzít provedené změny zpět."
+msgstr ""
 
 #: ihtml/themes/default/logout-close.tpl.c:2
 msgid "Your FusionDirectory session has been closed!"
-msgstr "Vaše relace ve FusionDirectory byla ukončena!"
+msgstr ""
 
 #: ihtml/themes/default/logout-close.tpl.c:5
 msgid ""
 "Please close this browser window and clean the authentication caches to "
 "avoid an automatic re-authentication by your browser."
-msgstr "Zavřete prosím okno webového prohlížeče a vyčistěte jeho paměť hesel – zabráníte tak tomu, aby se pak případně někdo jiný přihlásil jako Vy."
+msgstr ""
 
 #: ihtml/themes/default/password.tpl.c:2
 msgid "Change your password"
-msgstr "Změňte si své heslo."
+msgstr ""
 
 #: ihtml/themes/default/password.tpl.c:23
 msgid ""
 "This dialog provides a simple way to change your password. Enter the current"
 " password and the new password (twice) in the fields below and press the "
 "'Change' button."
-msgstr "Tento dialog Vám umožní jednoduše si změnit heslo. Do níže uvedených políček zadejte současné heslo, nové heslo (2x) a klikněte na 'změnit'."
+msgstr ""
 
 #: ihtml/themes/default/password.tpl.c:38
 #: ihtml/themes/default/password.tpl.c:41
@@ -5009,150 +5009,150 @@ msgstr "Tento dialog Vám umožní jednoduše si změnit heslo. Do níže uveden
 #: plugins/personal/generic/password.tpl.c:8
 #: plugins/personal/generic/password.tpl.c:20
 msgid "Current password"
-msgstr "současné heslo"
+msgstr ""
 
 #: ihtml/themes/default/copyPasteDialog.tpl.c:2
 msgid "Copy & paste wizard"
-msgstr "průvodce pro zkopíruj a vlož"
+msgstr ""
 
 #: ihtml/themes/default/copyPasteDialog.tpl.c:5
 msgid ""
 "Some values need to be unique in the complete directory while some "
 "combinations make no sense. FusionDirectory shows the relevant attributes. "
 "Please maintain the values below to fulfill the policies."
-msgstr "Některé hodnoty musí být jedinečné v rámci celého adresáře, některé kombinace jsou zase nesmyslné. FusionDirectory zobrazuje příslušné atributy. Upravte prosím níže uvedené hodnoty tak, aby odpovídaly těmto pravidlům."
+msgstr ""
 
 #: ihtml/themes/default/copyPasteDialog.tpl.c:8
 msgid "Remember that some properties like taken snapshots will not be copied!"
-msgstr "Pamatujte, že některé vlastnosti, jako například záznam o pořízených snímcích, nebudou zkopírovány!"
+msgstr ""
 
 #: ihtml/themes/default/copyPasteDialog.tpl.c:11
 msgid ""
 "Or if you copy or cut an entry within FusionDirectory and delete the source "
 "object, you may get errors while pasting this object again!"
-msgstr "Případně když během kopírováním či přesouvání objektu v rámci FusionDirectory smažete zdrojový objekt, může to vést k selhání vkládání objektů do nového umístění!"
+msgstr ""
 
 #: ihtml/themes/default/copyPasteDialog.tpl.c:23
 msgid "Operation complete"
-msgstr "operace byla dokončena"
+msgstr ""
 
 #: ihtml/themes/default/accountexpired.tpl.c:2
 msgid "Your password has expired. Please choose a new one!"
-msgstr "Platnost hesla skončila. Prosím vytvořte si nové!"
+msgstr ""
 
 #: ihtml/themes/default/accountexpired.tpl.c:5
 #: ihtml/themes/default/accountexpired.tpl.c:8
 msgid "Old password"
-msgstr "původní heslo"
+msgstr ""
 
 #: ihtml/themes/default/accountexpired.tpl.c:17
 #: ihtml/themes/default/accountexpired.tpl.c:20
 msgid "Verify password"
-msgstr "ověřit heslo"
+msgstr ""
 
 #: setup/setup_ldap.tpl.c:2
 msgid "Please choose the LDAP user to be used by FusionDirectory"
-msgstr "Zvolte prosím účet uživatele v LDAPu který bude FusionDirectory využívat"
+msgstr ""
 
 #: setup/setup_ldap.tpl.c:5
 msgid "Search"
-msgstr "hledat"
+msgstr ""
 
 #: setup/setup_ldap.tpl.c:14
 msgid "LDAP connection"
-msgstr "připojení k LDAPu"
+msgstr ""
 
 #: setup/setup_ldap.tpl.c:17
 msgid "Location name"
-msgstr "název místa"
+msgstr ""
 
 #: setup/setup_ldap.tpl.c:20
 msgid "Connection URI"
-msgstr "připojovací URI (adresa)"
+msgstr ""
 
 #: setup/setup_ldap.tpl.c:23
 msgid "TLS connection"
-msgstr "připojení pomocí TLS (šifrované)"
+msgstr ""
 
 #: setup/setup_ldap.tpl.c:29 setup/setup_ldap.tpl.c:32
 #: setup/setup_migrate.tpl.c:95
 msgid "Reload"
-msgstr "načíst znovu"
+msgstr ""
 
 #: setup/setup_ldap.tpl.c:35
 msgid "Authentication"
-msgstr "ověření"
+msgstr ""
 
 #: setup/setup_ldap.tpl.c:38
 msgid "Admin DN"
-msgstr "DN (rozlišené jméno) účtu správce"
+msgstr ""
 
 #: setup/setup_ldap.tpl.c:41 setup/setup_ldap.tpl.c:44
 msgid "Select user"
-msgstr "vybrat uživatele"
+msgstr ""
 
 #: setup/setup_ldap.tpl.c:47
 msgid "Automatically append LDAP base to admin DN"
-msgstr "automaticky připojit základ stromu v LDAPu k DN účtu správce"
+msgstr ""
 
 #: setup/setup_ldap.tpl.c:50
 msgid "Admin password"
-msgstr "heslo správce"
+msgstr ""
 
 #: setup/setup_ldap.tpl.c:53
 msgid "Schema based settings"
-msgstr "nastavení týkající se schémat"
+msgstr ""
 
 #: setup/setup_ldap.tpl.c:56
 msgid "Use rfc2307bis compliant groups"
-msgstr "použít skupiny dle normy rfc2307bis (méně obvyklé)"
+msgstr ""
 
 #: setup/setup_ldap.tpl.c:59
 msgid "Current status"
-msgstr "současný stav"
+msgstr ""
 
 #: setup/setup_config1.tpl.c:2
 msgid "Look and feel"
-msgstr "vzhled a chování"
+msgstr ""
 
 #: setup/setup_config1.tpl.c:17
 msgid "People storage subtree"
-msgstr "podstrom pro uživatelské účty"
+msgstr ""
 
 #: setup/setup_config1.tpl.c:20
 msgid "Group storage subtree"
-msgstr "podstrom pro účty skupin"
+msgstr ""
 
 #: setup/setup_config1.tpl.c:26
 msgid "Relaxed naming policies"
-msgstr "volnější pravidla pro pojmenovávání"
+msgstr ""
 
 #: setup/setup_config1.tpl.c:35
 msgid "Number base for people/groups"
-msgstr "od jaké hodnoty výše budou přidělovány číselné identifikátory uživatelských účtů a skupin"
+msgstr ""
 
 #: setup/setup_config1.tpl.c:41
 msgid "Password encryption algorithm"
-msgstr "algoritmus šifrování hesel"
+msgstr ""
 
 #: setup/setup_config1.tpl.c:44
 msgid "Password restrictions"
-msgstr "podmínky, které musí hesla splňovat"
+msgstr ""
 
 #: setup/setup_config1.tpl.c:53 setup/setup_config1.tpl.c:56
 msgid "Different characters from old password"
-msgstr "počet znaků, o které se musí nové heslo lišit od původního"
+msgstr ""
 
 #: setup/setup_config1.tpl.c:59
 msgid "Password change hook"
-msgstr "skript spouštěný po změně hesla"
+msgstr ""
 
 #: setup/setup_config1.tpl.c:65
 msgid ""
 "FusionDirectory supports several encryption types for your passwords. "
 "Normally this is adjustable via user templates, but you can specify a "
 "default method to be used here, too."
-msgstr "FusionDirectory podporuje několik typů šifrování hesel. Který bude použit lze určovat v šablonách uživatelských účtů. Zde můžete určit, který bude výchozím."
+msgstr ""
 
 #: setup/setup_config1.tpl.c:68
 msgid ""
@@ -5160,149 +5160,149 @@ msgid ""
 "This is a workaround till OpenLDAP's in directory ACI's are    fully "
 "implemented. For this to work, we need the admin DN and the corresponding "
 "password."
-msgstr "Do doby, než OpenLDAP bude sám umět spravovat seznamy pro kontrolu přístupu (ACL), musí to za něho dělat FusionDirectory. Proto je třeba mu poskytnout neomezený přístup do LDAPu, zadáním DN jeho správce a příslušného hesla."
+msgstr ""
 
 #: setup/setup_config1.tpl.c:71
 msgid ""
 "Some basic LDAP parameters are tunable and affect the locations where "
 "FusionDirectory saves people and groups, including the way accounts get "
 "created. Check the values below if the fit your needs."
-msgstr "Některé ze základních parametrů LDAPu je možné poupravit – týká se to např. umístění účtů uživatelů a skupin, způsobu jejich vytváření. Prostudujte si níže uvedené hodnoty, zda odpovídají Vašim potřebám."
+msgstr ""
 
 #: setup/setup_config1.tpl.c:74
 msgid ""
 "FusionDirectory has modular support for several mail methods. These methods "
 "provide interfaces to users mailboxes and general handling    for quotas. "
 "You can choose the dummy plugin to leave all your mail settings untouched."
-msgstr "FusionDirectory podporuje více systémů správy elektronické pošty. Poskytuje rozhraní pro schránky uživatelů a obecnou správu kvót. Pokud odtud svou elektronickou poštu spravovat nechcete, můžete použít „výplňový“, nic nedělající zásuvný modul."
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:2
 msgid ""
 "During the LDAP inspection, we're going to check for several common pitfalls"
 " that may occur when migration to FusionDirectory base LDAP administration. "
 "You may want to fix the problems below, in order to provide smooth services."
-msgstr "Během kontroly LDAPu bude zjišťováno, zda zde existují případné běžně se vyskytující nedostatky, na které lze narazit při přechodu na správu LDAPu pomocí FusionDirectory. Pro docílení bezproblémového chodu služeb bude dobré odstranit níže uvedené problémy."
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:5
 msgid "Check again"
-msgstr "zkontrolovat znovu"
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:8
 msgid "Add required object classes to the LDAP base"
-msgstr "přidejte do LDAPu potřebné třídy objektů"
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:11 setup/setup_migrate.tpl.c:86
 #: setup/setup_migrate.tpl.c:140 setup/setup_migrate.tpl.c:167
 #: setup/setup_migrate.tpl.c:194 setup/setup_migrate.tpl.c:224
 #: setup/setup_migrate.tpl.c:254
 msgid "Current"
-msgstr "současné"
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:14 setup/setup_migrate.tpl.c:89
 #: setup/setup_migrate.tpl.c:143 setup/setup_migrate.tpl.c:170
 #: setup/setup_migrate.tpl.c:197 setup/setup_migrate.tpl.c:227
 #: setup/setup_migrate.tpl.c:257
 msgid "After migration"
-msgstr "po migraci"
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:20
 msgid "Close"
-msgstr "zavřít"
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:23
 msgid "Move groups into configured group tree"
-msgstr "přesunout skupiny do příslušného stromu"
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:26
 msgid ""
 "This dialog allows moving a couple of groups to the configured group tree. "
 "Doing this may straighten your LDAP service."
-msgstr "Tento dialog umožňuje přesunout vícero skupin do příslušného stromu. Je tak možné zlepšit přehlednost služeb LDAPu."
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:29
 msgid ""
 "Be careful with this option! There may be references pointing to these "
 "groups. The FusionDirectory setup can't migrate references, so you may want "
 "to cancel the migration in this case."
-msgstr "U této volby buďte opatrní! Na tyto skupiny se může odkazovat něco dalšího. Instalátor FusionDirectory nemůže odkazy přenést, takže pokud jsou použity, měli byste celou operaci zrušit."
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:32
 msgid "Move selected groups into this group tree"
-msgstr "přesunout vybrané skupiny do příslušného stromu"
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:38 setup/setup_migrate.tpl.c:65
 #: setup/setup_migrate.tpl.c:92 setup/setup_migrate.tpl.c:149
 #: setup/setup_migrate.tpl.c:176 setup/setup_migrate.tpl.c:203
 #: setup/setup_migrate.tpl.c:233 setup/setup_migrate.tpl.c:263
 msgid "Hide changes"
-msgstr "skrýt změny"
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:41 setup/setup_migrate.tpl.c:68
 #: setup/setup_migrate.tpl.c:83 setup/setup_migrate.tpl.c:152
 #: setup/setup_migrate.tpl.c:179 setup/setup_migrate.tpl.c:209
 #: setup/setup_migrate.tpl.c:239 setup/setup_migrate.tpl.c:269
 msgid "Show changes"
-msgstr "zobrazit změny"
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:50
 msgid "Move users into configured user tree"
-msgstr "přesunout uživatele do příslušného stromu"
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:53
 msgid ""
 "This dialog allows moving a couple of users to the configured user tree. "
 "Doing this may straighten your LDAP service."
-msgstr "Tento dialog umožňuje přesunout vícero účtů uživatelů do příslušného stromu. Je tak možné zlepšit přehlednost služeb LDAPu."
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:56
 msgid ""
 "Be careful with this option! There may be references pointing to these "
 "users. The FusionDirectory setup can't migrate references, so you may want "
 "to cancel the migration in this case."
-msgstr "U této volby buďte opatrní! Na tyto uživatele se může odkazovat něco dalšího. Instalátor FusionDirectory nemůže odkazy přenést, takže pokud jsou použity, měli byste celou operaci zrušit."
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:59
 msgid "Move selected users into this people tree"
-msgstr "přesunout vybrané uživatele do tohoto stromu „lidé“ (people)"
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:77
 msgid "Migrate GOsa 2.5 administrative accounts"
-msgstr "migrovat správcovské účty z GOsa 2.5"
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:80
 msgid ""
 "This dialog allows the migration of GOsa 2.5 admin accounts into "
 "FusionDirectory 1.0 useable accounts."
-msgstr "Tento dialog umožnuje migraci správcovských účtů z GOsa 2.5 na účty použitelné ve FusionDirectory 1.x.x."
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:107
 msgid "Abort"
-msgstr "přerušit"
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:110
 msgid "Create a new FusionDirectory administrator account"
-msgstr "vytvořit nový správcovský účet pro FusionDirctory"
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:113
 msgid ""
 "This dialog will automatically add a new super administrator to your LDAP "
 "tree."
-msgstr "tento dialog automaticky přidá nového super správce do Vašeho LDAP stromu."
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:119
 msgid "User ID"
-msgstr "ID uživatele"
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:125
 msgid "Password (again)"
-msgstr "heslo (zopakování)"
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:134
 msgid ""
 "The listed departments are currently invisible in the FusionDirectory user "
 "interface. If you want to change this for a couple of entries, select them "
 "and use the migrate button below."
-msgstr "Tato oddělení nejsou v tuto chvíli viditelná v uživatelském rozhraní FusionDirectory. Ty, u kterých to není úmyslem prostě označte a klikněte na 'migrovat'."
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:137 setup/setup_migrate.tpl.c:164
 #: setup/setup_migrate.tpl.c:191 setup/setup_migrate.tpl.c:221
@@ -5310,227 +5310,227 @@ msgstr "Tato oddělení nejsou v tuto chvíli viditelná v uživatelském rozhra
 msgid ""
 "If you want to know what will be done when migrating the selected entries, "
 "use the 'Show changes' button to see the LDIF."
-msgstr "Náhled toho, co s vybranými položkami stane po migraci, lze získat z LDIFu po kliknutí na 'zobrazit změny'."
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:161
 msgid ""
 "The listed users are currently invisible in the FusionDirectory user "
 "interface. If you want to change this for a couple of users, just select "
 "them and use the 'Migrate' button below."
-msgstr "Tito uživatelé nejsou v tuto chvíli viditelní přes uživatelské rozhraní FusionDirectory. Ty, u kterých to není úmyslem prostě označte a klikněte na 'migrovat'."
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:188
 msgid ""
 "The listed devices are currently invisible in the FusionDirectory interface."
 " If you want to change this for a couple of devices, just select them and "
 "use the 'Migrate' button below."
-msgstr "Tato zařízení nejsou v tuto chvíli viditelní přes uživatelské rozhraní FusionDirectory. Ta, u kterých to není úmyslem prostě označte a klikněte na 'migrovat'."
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:206 setup/setup_migrate.tpl.c:236
 #: setup/setup_migrate.tpl.c:266 plugins/personal/password/password.tpl.c:29
 #: plugins/personal/generic/password.tpl.c:26
 #: plugins/admin/users/password.tpl.c:20
 msgid "Refresh"
-msgstr "obnovit"
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:218
 msgid ""
 "The listed services are currently invalid for the FusionDirectory version "
 "you are going to install. If you want to update a couple of service, just "
 "select them and use the 'Migrate' button below."
-msgstr "Tyto služby nejsou v tuto chvíli viditelné přes uživatelské rozhraní FusionDirectory. Ty, u kterých to není úmyslem prostě označte a klikněte na 'migrovat'."
+msgstr ""
 
 #: setup/setup_migrate.tpl.c:248
 msgid ""
 "The listed menus are currently invisible in the FusionDirectory interface. "
 "If you want to change this for a couple of devices, just select them and use"
 " the 'Migrate' button below."
-msgstr "Tyto nabídky nejsou v tuto chvíli viditelné přes uživatelské rozhraní FusionDirectory. Ty, u kterých to není úmyslem prostě označte a klikněte na 'migrovat'."
+msgstr ""
 
 #: setup/setup_feedback.tpl.c:2
 msgid "Feedback successfully send"
-msgstr "podněty autorům byly úspěšně zaslány"
+msgstr ""
 
 #: setup/setup_feedback.tpl.c:5
 msgid "Subscribe to the fusiondirectory-users mailinglist"
-msgstr "přihlásit se do e-mailové konference fusiondirectory-users"
+msgstr ""
 
 #: setup/setup_feedback.tpl.c:14
 msgid "Mail address"
-msgstr "e-mailová adresa"
+msgstr ""
 
 #: setup/setup_feedback.tpl.c:17
 msgid "Send feedback to the FusionDirectory project team"
-msgstr "poslat podnět(y) vývojářskému týmu FusionDirectory"
+msgstr ""
 
 #: setup/setup_feedback.tpl.c:20
 msgid ""
 "When checking this option, FusionDirectory will try to connect "
 "http://www.fusiondirectory.org in order to submit your form anonymously."
-msgstr "Pokud zaškrtnete tuto volbu, FusionDirectory se pokusí připojit na http://www.fusiondirectory.org a anonymně zde předat Vámi vyplněný formulář."
+msgstr ""
 
 #: setup/setup_feedback.tpl.c:26
 msgid "Did the setup procedure help you to get started?"
-msgstr "Pomohl Vám tento průvodce nastavením?"
+msgstr ""
 
 #: setup/setup_feedback.tpl.c:35
 msgid "If not, what problems did you encounter"
-msgstr "pokud ne, s jakými problémy jste se setkal(a)"
+msgstr ""
 
 #: setup/setup_feedback.tpl.c:38
 msgid "Is this the first time you use FusionDirectory?"
-msgstr "Je to poprvé, co používáte FusionDirectory?"
+msgstr ""
 
 #: setup/setup_feedback.tpl.c:47
 msgid "I use it since"
-msgstr "používám již od"
+msgstr ""
 
 #: setup/setup_feedback.tpl.c:50
 msgid "Select the year since when you are using FusionDirectory"
-msgstr "vyberte rok, ve kterém jste FusionDirectory začal(a) používat"
+msgstr ""
 
 #: setup/setup_feedback.tpl.c:53
 msgid "What operating system / distribution do you use?"
-msgstr "Jaký operační systém / distribuci používáte?"
+msgstr ""
 
 #: setup/setup_feedback.tpl.c:56
 msgid "What web server do you use?"
-msgstr "Jaký používáte webový server?"
+msgstr ""
 
 #: setup/setup_feedback.tpl.c:59
 msgid "What PHP version do you use?"
-msgstr "Jakou používáte verzi PHP?"
+msgstr ""
 
 #: setup/setup_feedback.tpl.c:62
 msgid "FusionDirectory version"
-msgstr "verze FusionDirectory"
+msgstr ""
 
 #: setup/setup_feedback.tpl.c:68
 msgid "What kind of LDAP server(s) do you use?"
-msgstr "Jaký LDAP server (případně servery) používáte?"
+msgstr ""
 
 #: setup/setup_feedback.tpl.c:71
 msgid "How many objects are in your LDAP?"
-msgstr "Kolik objektů máte ve svém LDAPu?"
+msgstr ""
 
 #: setup/setup_feedback.tpl.c:74
 msgid "Features"
-msgstr "funkce"
+msgstr ""
 
 #: setup/setup_feedback.tpl.c:77
 msgid "What features of FusionDirectory do you use?"
-msgstr "Které funkce FusionDirectory využíváte?"
+msgstr ""
 
 #: setup/setup_feedback.tpl.c:80
 msgid ""
 "What features do you want to see in future versions of FusionDirectory?"
-msgstr "Jaké funkce byste rádi viděli v příštích verzích FusionDirectory?"
+msgstr ""
 
 #: setup/setup_feedback.tpl.c:83
 msgid "Send feedback"
-msgstr "zaslat podněty"
+msgstr ""
 
 #: setup/setup_language.tpl.c:2
 msgid "Please select the preferred language"
-msgstr "Prosím zvolte Vámi upřednostňovaný jazyk."
+msgstr ""
 
 #: setup/setup_language.tpl.c:5
 msgid ""
 "At this point, you can select the site wide default language. Choosing "
 "'automatic' will use the language requested by the browser. This setting can"
 " be overriden per user."
-msgstr "Nyní můžete zvolit výchozí jazyk. Volba 'automaticky' použije jazyk požadovaný webovým prohlížečem. Jednotliví uživatelé pak mohou mít individuálně nastaven i jiný jazyk."
+msgstr ""
 
 #: setup/setup_language.tpl.c:8
 msgid "Please select your preferred language here"
-msgstr "Zde prosím zvolte Vámi upřednostňovaný jazyk."
+msgstr ""
 
 #: setup/setup_config2.tpl.c:5
 msgid "Please choose your preferred timezone here"
-msgstr "zvolte upřednostňovanou časovou zónu"
+msgstr ""
 
 #: setup/setup_config3.tpl.c:2
 msgid "FusionDirectory core settings"
-msgstr "nastavení (samotného) FusionDirectory"
+msgstr ""
 
 #: setup/setup_config3.tpl.c:11
 msgid "Enable edit locking"
-msgstr "zapnout vyhrazování (zamykání) při úpravách"
+msgstr ""
 
 #: setup/setup_config3.tpl.c:17
 msgid "FusionDirectory logging"
-msgstr "zaznamenávat události ve FusionDirectory do syslogu"
+msgstr ""
 
 #: setup/setup_config3.tpl.c:26
 msgid "Enforce register_globals to be deactivated"
-msgstr "vynucovat vypnutí parametru 'register_globals' v PHP"
+msgstr ""
 
 #: setup/setup_config3.tpl.c:44
 msgid "Show PHP errors"
-msgstr "zobrazovat chyby v PHP"
+msgstr ""
 
 #: setup/setup_config3.tpl.c:56 setup/setup_config3.tpl.c:62
 msgid "Disabled"
-msgstr "zakázáno"
+msgstr ""
 
 #: setup/setup_config3.tpl.c:59 setup/setup_config3.tpl.c:65
 msgid "Enabled"
-msgstr "povoleno"
+msgstr ""
 
 #: setup/setup_frame.tpl.c:2
 msgid "FusionDirectory setup wizard"
-msgstr "průvodce nastavením FusionDirectory"
+msgstr ""
 
 #: setup/setup_frame.tpl.c:5
 msgid "Installation"
-msgstr "instalace"
+msgstr ""
 
 #: setup/setup_frame.tpl.c:8
 msgid "Setup"
-msgstr "nastavení"
+msgstr ""
 
 #: setup/setup_welcome.tpl.c:2
 msgid ""
 "This seems to be the first time you start FusionDirectory - we didn't find "
 "any configuration right now. This simple wizard intends to help you while "
 "setting it up."
-msgstr "Zdá se, že toto je první spuštění FusionDirectory – není k dispozici jakékoli nastavení. Tento jednoduchý průvodce se pokusí pomoci Vám s jeho vytvořením."
+msgstr ""
 
 #: setup/setup_welcome.tpl.c:5
 msgid "What will the wizard do for you?"
-msgstr "Co pro Vás tento průvodce udělá?"
+msgstr ""
 
 #: setup/setup_welcome.tpl.c:8
 msgid "Create a basic, single site configuration"
-msgstr "vytvoří základní nastavení pro jedinou organizaci"
+msgstr ""
 
 #: setup/setup_welcome.tpl.c:11
 msgid "Tries to find problems within your PHP and LDAP setup"
-msgstr "pokusí se najít problémy, které by mohly existovat ve Vaší instalaci PHP a LDAPu"
+msgstr ""
 
 #: setup/setup_welcome.tpl.c:14
 msgid "Let you choose from a set of basic and advanced configuration switches"
-msgstr "poskytne Vám přístup k základním i pokročilým volbám nastavení"
+msgstr ""
 
 #: setup/setup_welcome.tpl.c:17
 msgid "Guided migration of existing LDAP trees"
-msgstr "poskytne asistenci při migraci stávajících stromů LDAPu"
+msgstr ""
 
 #: setup/setup_welcome.tpl.c:20
 msgid "What will the wizard NOT do for you?"
-msgstr "Co tento průvodce udělat nemůže?"
+msgstr ""
 
 #: setup/setup_welcome.tpl.c:23
 msgid "Find every possible configuration error"
-msgstr "Nalézt všechny případné chyby."
+msgstr ""
 
 #: setup/setup_welcome.tpl.c:26
 msgid "Migrate every possible LDAP setup - create backup dumps!"
-msgstr "provést migraci všech možných variant LDAP adresáře – než začnete, vždy si udělejte zálohu!"
+msgstr ""
 
 #: setup/setup_welcome.tpl.c:29
 msgid "To continue..."
-msgstr "Pokračovat…"
+msgstr ""
 
 #: setup/setup_welcome.tpl.c:32
 msgid ""
@@ -5538,7 +5538,7 @@ msgid ""
 "creating the file '/tmp/fusiondirectory.auth', containing the current "
 "session ID on the servers local filesystem. This can be done by executing "
 "the following command:"
-msgstr "Z bezpečnostních důvodů je třeba, abyste instalačnímu procesu prokázal(a) své oprávnění vytvořením souboru '/tmp/fusiondirectory.auth' na souborovém systému serveru, do kterého zapíšete ID této relace. Můžete tak učinit spuštěním tohoto příkazu (na serveru):"
+msgstr ""
 
 #: setup/setup_welcome.tpl.c:35
 msgid "Click the 'Next' button when you've finished."
@@ -5546,49 +5546,49 @@ msgstr ""
 
 #: setup/setup_checks.tpl.c:2
 msgid "PHP module and extension checks"
-msgstr "kontroly PHP a jeho rozšiřujících modulů"
+msgstr ""
 
 #: setup/setup_checks.tpl.c:14 setup/setup_checks.tpl.c:35
 msgid "FusionDirectory will NOT run without fixing this."
-msgstr "Dokud to nebude opraveno, FusionDirectory NEbude fungovat."
+msgstr ""
 
 #: setup/setup_checks.tpl.c:17 setup/setup_checks.tpl.c:38
 msgid "FusionDirectory will run without fixing this."
-msgstr "FusionDirectory bude fungovat i tak."
+msgstr ""
 
 #: setup/setup_checks.tpl.c:20
 msgid "PHP setup configuration"
-msgstr "nastavení PHP"
+msgstr ""
 
 #: setup/setup_checks.tpl.c:23
 msgid "show information"
-msgstr "zobrazit informace"
+msgstr ""
 
 #: setup/setup_schema.tpl.c:2
 msgid "Schema specific settings"
-msgstr "nastavení týkající se schémat"
+msgstr ""
 
 #: setup/setup_schema.tpl.c:5
 msgid "Enable schema validation when logging in"
-msgstr "zapnout ověřování korektnosti schémat při přihlašování"
+msgstr ""
 
 #: setup/setup_schema.tpl.c:8
 msgid "Check status"
-msgstr "výsledek kontroly"
+msgstr ""
 
 #: setup/setup_schema.tpl.c:11
 msgid "Schema check succeeded"
-msgstr "schémata jsou v pořádku"
+msgstr ""
 
 #: setup/setup_schema.tpl.c:14
 msgid "Schema check failed"
-msgstr "ověření schémat selhalo"
+msgstr ""
 
 #: setup/setup_schema.tpl.c:17
 msgid ""
 "Could not read any schema informations, all checks skipped. Adjust your ldap"
 " acls."
-msgstr "Nezdařilo se načíst žádné informace o schématech – celá kontrola tedy byla vynechána. Upravte oprávnění (ACL) ve svém LDAPu."
+msgstr ""
 
 #: setup/setup_schema.tpl.c:20
 msgid ""
@@ -5598,23 +5598,23 @@ msgstr ""
 
 #: setup/setup_finish.tpl.c:2
 msgid "Create your configuration file"
-msgstr "Vytvořte si svůj soubor s nastaveními."
+msgstr ""
 
 #: setup/setup_finish.tpl.c:5
 msgid "Run "
-msgstr "spustit "
+msgstr ""
 
 #: setup/setup_finish.tpl.c:8
 msgid "to put the correct right on fusiondirectory.conf"
-msgstr "pro nastavení příslušných oprávnění na fusiondirectory.conf"
+msgstr ""
 
 #: setup/setup_finish.tpl.c:11
 msgid "Download configuration"
-msgstr "stáhnout nastavení"
+msgstr ""
 
 #: setup/setup_finish.tpl.c:14
 msgid "Status: "
-msgstr "stav: "
+msgstr ""
 
 #: contrib/develop/debug-help/addons/debug-help/ldapdump.tpl.c:2
 msgid "Insufficient rights"
@@ -5622,31 +5622,31 @@ msgstr ""
 
 #: plugins/generic/welcome/welcome.tpl.c:2
 msgid "The FusionDirectory team"
-msgstr "tým tvůrců FusionDirectory"
+msgstr ""
 
 #: plugins/generic/references/contents.tpl.c:2
 msgid "Object name"
-msgstr "název objektu"
+msgstr ""
 
 #: plugins/generic/references/contents.tpl.c:8
 msgid "Contents"
-msgstr "obsah(uje)"
+msgstr ""
 
 #: plugins/generic/references/contents.tpl.c:11
 msgid "This object has no relationship to other objects."
-msgstr "tento objekt nemá žádné propojení s dalšími objekty"
+msgstr ""
 
 #: plugins/personal/password/changed.tpl.c:2
 #: plugins/personal/generic/changed.tpl.c:2
 msgid ""
 "You've successfully changed your password. Remember to change all programms "
 "configured to use it as well."
-msgstr "Vaše heslo bylo úspěšně změněno. Nezapomeňte ho změnit též ve všech aplikacích, které ho používají."
+msgstr ""
 
 #: plugins/personal/password/nochange.tpl.c:2
 #: plugins/personal/generic/nochange.tpl.c:2
 msgid "You have no permission to change your password at this time"
-msgstr "V tomto okamžiku nejste oprávněn(a) změnit si své heslo."
+msgstr ""
 
 #: plugins/personal/password/password.tpl.c:2
 #: plugins/personal/generic/password.tpl.c:2
@@ -5654,7 +5654,7 @@ msgid ""
 "To change your personal password use the fields below. The changes take "
 "effect immediately. Please memorize the new password, because you wouldn't "
 "be able to login without it."
-msgstr "Pro změnu Vašeho hesla použijte pole níže. Změna nabude platnosti okamžitě. Prosím zapamatujte si nové heslo, protože jinak se nebudete moci přihlásit."
+msgstr ""
 
 #: plugins/personal/password/password.tpl.c:5
 #: plugins/personal/generic/password.tpl.c:5
@@ -5662,11 +5662,11 @@ msgstr "Pro změnu Vašeho hesla použijte pole níže. Změna nabude platnosti 
 msgid ""
 "Changing the password affects your authentification on mail, proxy, samba "
 "and unix services."
-msgstr "Změna hesla se týká též Vašeho ověřování vůči e-mailu, proxy, Sambě a unixovým službám."
+msgstr ""
 
 #: plugins/personal/password/password.tpl.c:8
 msgid "Your Password has expired. Please choose a new password!"
-msgstr "Platnost vašeho hesla skončila. Prosím, nastavte si nové!"
+msgstr ""
 
 #: plugins/personal/password/password.tpl.c:17
 #: plugins/personal/password/password.tpl.c:38
@@ -5674,236 +5674,236 @@ msgstr "Platnost vašeho hesla skončila. Prosím, nastavte si nové!"
 #: plugins/personal/generic/password.tpl.c:35
 #: plugins/admin/users/password.tpl.c:11 plugins/admin/users/password.tpl.c:29
 msgid "Repeat new password"
-msgstr "zopakování nového hesla"
+msgstr ""
 
 #: plugins/personal/password/password.tpl.c:26
 #: plugins/personal/generic/password.tpl.c:23
 #: plugins/admin/users/password.tpl.c:17
 msgid "Use proposal"
-msgstr "použít navržené"
+msgstr ""
 
 #: plugins/personal/password/password.tpl.c:32
 #: plugins/personal/generic/password.tpl.c:29
 #: plugins/admin/users/password.tpl.c:23
 msgid "Manually specify a password"
-msgstr "ruční zadání hesla"
+msgstr ""
 
 #: plugins/personal/password/password.tpl.c:44
 #: plugins/personal/generic/password.tpl.c:41
 #: plugins/admin/users/password.tpl.c:38
 msgid "Set password"
-msgstr "nastavit heslo"
+msgstr ""
 
 #: plugins/personal/password/password.tpl.c:47
 #: plugins/personal/generic/password.tpl.c:44
 msgid "Clear fields"
-msgstr "vymazat všechna pole"
+msgstr ""
 
 #: plugins/personal/generic/nochange.tpl.c:5
 msgid "Your password hash method will not be changed!"
-msgstr "Způsob uložení Vašeho hesla nebyl změněn!"
+msgstr ""
 
 #: plugins/personal/generic/paste_generic.tpl.c:2
 msgid "User settings"
-msgstr "nastavení uživatele"
+msgstr ""
 
 #: plugins/personal/generic/paste_generic.tpl.c:17
 msgid "Clear password"
-msgstr "odebrat heslo"
+msgstr ""
 
 #: plugins/personal/generic/paste_generic.tpl.c:20
 msgid "Set new password"
-msgstr "nastavit nové heslo"
+msgstr ""
 
 #: plugins/personal/generic/paste_generic.tpl.c:23
 msgid "Personal picture"
-msgstr "fotografie"
+msgstr ""
 
 #: plugins/personal/generic/paste_generic.tpl.c:26
 msgid "User picture"
-msgstr "fotografie uživatele"
+msgstr ""
 
 #: plugins/personal/generic/paste_generic.tpl.c:29
 msgid "Remove picture"
-msgstr "odebrat fotografii"
+msgstr ""
 
 #: plugins/admin/users/templatize.tpl.c:2
 msgid "Applying a template"
-msgstr "probíhá aplikování šablony"
+msgstr ""
 
 #: plugins/admin/users/templatize.tpl.c:5
 msgid ""
 "Applying a template to several users will replace all user attributes "
 "defined in the template."
-msgstr "Aplikování šablony na vícero uživatelských účtů nahradí ty jejich atributy, které jsou definovány v šabloně."
+msgstr ""
 
 #: plugins/admin/users/templatize.tpl.c:11
 msgid "No templates available!"
-msgstr "Nejsou dostupné žádné šablony!"
+msgstr ""
 
 #: plugins/admin/users/template.tpl.c:2
 msgid "Creating a new user using templates"
-msgstr "vytvoření nového uživatele s použitím šablony"
+msgstr ""
 
 #: plugins/admin/users/template.tpl.c:5
 msgid ""
 "Creating a new user can be assisted by using templates. Many database "
 "records will be filled automatically. Choose 'none' to skip the usage of "
 "templates."
-msgstr "Při vytváření nového uživatelského účtu je možné použít šablony. Mnohé údaje pak budou vyplněny automaticky. Pokud nechcete použít šablonu, vyberte 'žádná'."
+msgstr ""
 
 #: plugins/admin/users/user-filter.tpl.c:5
 msgid "Show templates"
-msgstr "zobrazit šablony"
+msgstr ""
 
 #: plugins/admin/users/user-filter.tpl.c:8
 msgid "Show functional users"
-msgstr "zobrazit uživatele, kteří nemají účet pro jakékoli služby"
+msgstr ""
 
 #: plugins/admin/users/user-filter.tpl.c:11
 msgid "Show POSIX users"
-msgstr "zobrazit uživatele s POSIX účtem"
+msgstr ""
 
 #: plugins/admin/users/user-filter.tpl.c:14
 msgid "Show Mail users"
-msgstr "zobrazit uživatele s e-mail účtem"
+msgstr ""
 
 #: plugins/admin/users/user-filter.tpl.c:17
 msgid "Show Samba users"
-msgstr "zobrazit uživatele se Samba účtem"
+msgstr ""
 
 #: plugins/admin/users/remove.tpl.c:5 plugins/admin/acl/remove.tpl.c:5
 msgid ""
 "This includes all account data, system access rules, imap settings, etc. for"
 " this user. Please double check if your really want to do this since there "
 "is no way for FusionDirectory to get your data back."
-msgstr "Týká se veškerých informací o této položce v adresáři. Prosím velmi dobře si rozmyslete, zda to opravdu chcete udělat, protože provedené změny už ve FusionDirectory nepůjde vzít nijak jednoduše zpět (nanejvýš složitě ze záloh, pokud existují a obsahují potřebná data)!"
+msgstr ""
 
 #: plugins/admin/users/password.tpl.c:2
 msgid ""
 "To change the user password use the fields below. The changes take effect "
 "immediately. Please memorize the new password, because the user wouldn't be "
 "able to login without it."
-msgstr "Pro změnu hesla použijte políček níže. Změna se projeví okamžitě. Nové heslo si prosím zapamatujte, jinak se nebudete moci přihlásit."
+msgstr ""
 
 #: plugins/admin/users/password.tpl.c:14 plugins/admin/users/password.tpl.c:32
 msgid "Strength"
-msgstr "odolnost"
+msgstr ""
 
 #: plugins/admin/users/password.tpl.c:35
 msgid "Enforce password change on next login."
-msgstr "Vynutit změnu hesla při příštím přihlášení."
+msgstr ""
 
 #: plugins/admin/groups/group-filter.tpl.c:5
 #: include/select/groupSelect/group-filter.tpl.c:5
 msgid "Show primary groups"
-msgstr "zobrazovat primární skupiny"
+msgstr ""
 
 #: plugins/admin/groups/group-filter.tpl.c:8
 #: include/select/groupSelect/group-filter.tpl.c:8
 msgid "Show samba groups"
-msgstr "zobrazovat skupiny Samby"
+msgstr ""
 
 #: plugins/admin/groups/group-filter.tpl.c:11
 #: include/select/groupSelect/group-filter.tpl.c:11
 msgid "Show mail groups"
-msgstr "zobrazovat e-mailové skupiny"
+msgstr ""
 
 #: plugins/admin/acl/acl-filter.tpl.c:5
 msgid "Show access control lists"
-msgstr "zobrazovat seznamy pro řízení přístupu"
+msgstr ""
 
 #: plugins/admin/acl/acl-filter.tpl.c:8
 msgid "Show roles"
-msgstr "zobrazovat role"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-filter.tpl.c:5
 msgid "user groups"
-msgstr "uživatelské skupiny"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-filter.tpl.c:8
 msgid "nested groups"
-msgstr "vnořené skupiny"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-filter.tpl.c:11
 msgid "application groups"
-msgstr "aplikační skupiny"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-filter.tpl.c:14
 msgid "department groups"
-msgstr "skupiny oddělení"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-filter.tpl.c:17
 msgid "server groups"
-msgstr "skupiny serverů"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-filter.tpl.c:20
 msgid "workstation groups"
-msgstr "skupiny pracovních stanic"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-filter.tpl.c:23
 msgid "windows workstation groups"
-msgstr "skupiny pracovních stanic s OS MS Windows"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-filter.tpl.c:26
 msgid "terminal groups"
-msgstr "skupiny terminálů"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-filter.tpl.c:29
 msgid "printer groups"
-msgstr "tiskové skupiny"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-filter.tpl.c:32
 msgid "phone groups"
-msgstr "telefonní skupiny"
+msgstr ""
 
 #: include/simpleplugin/systemSelect/systemSelect-filter.tpl.c:5
 msgid "Show servers"
-msgstr "zobrazit servery"
+msgstr ""
 
 #: include/simpleplugin/systemSelect/systemSelect-filter.tpl.c:8
 msgid "Show workstations"
-msgstr "zobrazit pracovní stanice"
+msgstr ""
 
 #: include/simpleplugin/systemSelect/systemSelect-filter.tpl.c:11
 #: include/select/objectSelect/selectObject-filter.tpl.c:20
 msgid "Show Windows PC"
-msgstr "zobrazit počítače s OS MS Windows"
+msgstr ""
 
 #: include/simpleplugin/systemSelect/systemSelect-filter.tpl.c:14
 msgid "Show terminals"
-msgstr "zobrazit terminály"
+msgstr ""
 
 #: include/select/objectSelect/selectObject-filter.tpl.c:5
 #: include/select/userGroupSelect/selectUserGroup-filter.tpl.c:5
 msgid "Show users"
-msgstr "zobrazit uživatele"
+msgstr ""
 
 #: include/select/objectSelect/selectObject-filter.tpl.c:8
 #: include/select/userGroupSelect/selectUserGroup-filter.tpl.c:8
 msgid "Show groups"
-msgstr "zobrazit skupiny"
+msgstr ""
 
 #: include/select/objectSelect/selectObject-filter.tpl.c:11
 msgid "Show Applications"
-msgstr "zobrazit aplikace"
+msgstr ""
 
 #: include/select/objectSelect/selectObject-filter.tpl.c:14
 msgid "Show server"
-msgstr "zobrazit server"
+msgstr ""
 
 #: include/select/objectSelect/selectObject-filter.tpl.c:17
 msgid "Show workstation"
-msgstr "zobrazit pracovní stanici"
+msgstr ""
 
 #: include/select/objectSelect/selectObject-filter.tpl.c:23
 msgid "Show terminal"
-msgstr "zobrazit terminál"
+msgstr ""
 
 #: include/select/objectSelect/selectObject-filter.tpl.c:26
 msgid "Show printer"
-msgstr "zobrazit tiskárnu"
+msgstr ""
 
 #: include/select/objectSelect/selectObject-filter.tpl.c:29
 msgid "Show phone"
-msgstr "zobrazit telefon"
+msgstr ""
