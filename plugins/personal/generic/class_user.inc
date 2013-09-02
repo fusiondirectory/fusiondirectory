@@ -800,7 +800,8 @@ class user extends plugin
       /* Sync lists */
       $this->gosaLoginRestrictionWidget->save_object();
       if ($this->gosaLoginRestrictionWidget->isModified()) {
-        $this->gosaLoginRestriction= array_values($this->gosaLoginRestrictionWidget->getMaintainedData());
+        $this->gosaLoginRestriction = array_values($this->gosaLoginRestrictionWidget->getMaintainedData());
+        $this->gosaLoginRestrictionWidget->setListData($this->gosaLoginRestrictionWidget->getMaintainedData());
       }
 
       /* Save government mode attributes */
