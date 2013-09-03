@@ -2199,6 +2199,7 @@ class OrderedArrayAttribute extends SetAttribute
 
   protected function handleAddAndEditValue()
   {
+    $id = $this->getHtmlId();
     if (isset($_POST["add$id"])) {
       $this->attribute->loadPostValue();
       $this->attribute->applyPostValue();
