@@ -56,7 +56,7 @@ class passwordRecovery {
   /* Constructor */
   function passwordRecovery()
   {
-    global $config;
+    global $config, $ssl;
     /* Destroy old session if exists.
         Else you will get your old session back, if you not logged out correctly. */
     session::destroy();
@@ -66,6 +66,13 @@ class passwordRecovery {
     reset_errors();
 
     $config       = $this->loadConfig();
+
+    /* If SSL is forced, just forward to the SSL enabled site */
+    if (($config->get_cfg_value("forcessl") == "TRUE") && ($ssl != '')) {
+      header ("Location: $ssl");
+      exit;
+    }
+
     $this->config = $config;
 
     $this->setupSmarty();
