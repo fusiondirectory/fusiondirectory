@@ -22,15 +22,6 @@ require_once("../include/php_setup.inc");
 require_once("functions.inc");
 require_once("variables.inc");
 
-$config = session::global_get('config');
-
-/* If SSL is forced, just forward to the SSL enabled site */
-if (($config->get_cfg_value("forcessl") == "TRUE") && ($ssl != '')) {
-  header ("Location: $ssl");
-  exit;
-}
-
-
 $pwRecovery = new passwordRecovery();
 
 $pwRecovery->execute();
