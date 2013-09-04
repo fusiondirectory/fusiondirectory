@@ -61,14 +61,9 @@ define("FPDF", "/usr/share/php/fpdf/fpdf.php"); /*! Define fpdf library path */
 define("FPDF_FONTPATH", "/usr/share/php/fpdf/font/"); /*! Define fpdf font path  */
 
 /*!
- * \brief Path for smarty libraries
- */
-define("SMARTY", "/usr/share/php/smarty/libs/Smarty.class.php"); /*! Define smarty2 library path */
-
-/*!
  * \brief Path for smarty3 libraries
  */
-define("SMARTY3", "/usr/share/php/smarty3/Smarty.class.php"); /*! Define smarty3 library path */
+define("SMARTY", "/usr/share/php/smarty3/Smarty.class.php"); /*! Define smarty3 library path */
 
 /*!
  * \brief FusionDirectory Version
