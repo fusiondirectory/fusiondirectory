@@ -1898,7 +1898,11 @@ class CompositeAttribute extends Attribute
 
   function writeValues($values)
   {
-    return vsprintf($this->writeFormat, $values);
+    if ($this->writeFormat === FALSE) {
+      return $values;
+    } else {
+      return vsprintf($this->writeFormat, $values);
+    }
   }
 
   function resetToDefault ()
@@ -1943,10 +1947,13 @@ class CompositeAttribute extends Attribute
       $values = $this->inputValue($values);
     }
     $i = 0;
+    reset($values);
     foreach ($this->attributes as &$attribute) {
-      $attribute->setValue($values[$i++]);
+      $attribute->setValue(current($values));
+      next($values);
     }
     unset($attribute);
+    reset($values);
   }
 
   /* We always return the LDAP value as the composite attribute has nothing else */
