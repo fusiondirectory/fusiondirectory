@@ -272,12 +272,7 @@ ini_set("report_memleaks", 1);
 ini_set("include_path", ".:$BASE_DIR/include:".PHP_DIR.":".PEAR_DIR);
 
 /* Do smarty setup */
-
-if (file_exists(SMARTY)) {
-  require(SMARTY);
-} else {
-  require(SMARTY3);
-}
+require(SMARTY);
 
 /*require(SMARTY_PATH);*/
 $smarty = new Smarty;
@@ -286,12 +281,7 @@ $smarty->template_dir = $BASE_DIR.'/ihtml/';
 $smarty->caching      = FALSE;
 $smarty->assign('css_files', array());
 
-// To be able to switch between smarty version 2/3
-if (defined('SMARTY_PHP_REMOVE')) {
-    $smarty->php_handling = SMARTY_PHP_REMOVE;
-} else {
-    $smarty->php_handling = Smarty::PHP_REMOVE;
-}
+$smarty->php_handling = Smarty::PHP_REMOVE;
 
 /* Check for SSL connection */
 $ssl = "";
