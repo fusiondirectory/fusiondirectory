@@ -34,6 +34,7 @@ my %vars = (
  fd_home          => "/var/www/fusiondirectory",
  fd_cache         => "/var/cache/fusiondirectory",
  fd_config_dir    => "/etc/fusiondirectory",
+ fd_smarty_dir    => "/usr/share/php/smarty3/Smarty.class.php",
  fd_spool_dir     => "/var/spool/fusiondirectory",
  config_file      => "fusiondirectory.conf",
  secrets_file     => "fusiondirectory.secrets",
@@ -456,8 +457,11 @@ sub write_vars {
     define ("CONFIG_FILE", "$vars{config_file}"); /* FusionDirectory filename */
   }
 
-  /* Smarty compile dir */
-  define ("SPOOL_DIR","$vars{fd_spool_dir}/"); /* FusionDirectory spool directory */
+/* Path for smarty3 libraries */
+define("SMARTY", "$vars{fd_smarty_dir}");
+
+/* Smarty compile dir */
+define ("SPOOL_DIR", "$vars{fd_spool_dir}/"); /* FusionDirectory spool directory */
 
   /* Global cache dir */
   define ("CACHE_DIR","$vars{fd_cache}/"); /* FusionDirectory var directory */
