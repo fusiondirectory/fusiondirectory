@@ -193,7 +193,7 @@ class objects
 
   static function create ($type)
   {
-    return self::open($type, 'new');
+    return self::open('new', $type);
   }
 
   static function infos ($type)
