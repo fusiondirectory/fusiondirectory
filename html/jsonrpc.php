@@ -33,34 +33,24 @@ require_once("functions.inc");
 require_once("variables.inc");
 require_once("jsonrpcphp/jsonRPCServer.php");
 
-session::start();
+function initiate_rpc_session($id = NULL)
+{
+  global $config, $class_mapping, $BASE_DIR;
 
-if (!session::global_is_set('LOGIN')) {
-  authenticate();
-  session::global_set('LOGIN', TRUE);
-}
+  session::start($id);
 
-/* Reset errors */
-reset_errors();
-/* Check if CONFIG_FILE is accessible */
-if (!is_readable(CONFIG_DIR."/".CONFIG_FILE)) {
-  msg_dialog::display(_("Fatal error"),
-                      sprintf(_("FusionDirectory configuration %s/%s is not readable. Aborted."),
-                              CONFIG_DIR, CONFIG_FILE), FATAL_ERROR_DIALOG);
-  exit();
-}
+  if (!session::global_is_set('LOGIN')) {
+    authenticate();
+    session::global_set('LOGIN', TRUE);
+  }
 
-/* Parse configuration file */
-$config = new config(CONFIG_DIR."/".CONFIG_FILE, $BASE_DIR);
-$config->set_current(key($config->data['LOCATIONS']));
-session::global_set('DEBUGLEVEL', 0);
-$ui = ldap_login_user($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
-if (!$ui) {
-    header('WWW-Authenticate: Basic realm="FusionDirectory"');
-    header('HTTP/1.0 401 Unauthorized');
-    echo 'Invalid user or pwd '.$_SERVER['PHP_AUTH_USER'].'/'.$_SERVER['PHP_AUTH_PW']."\n";
-    exit;
-}
+  /* Reset errors */
+  reset_errors();
+  /* Check if CONFIG_FILE is accessible */
+  if (!is_readable(CONFIG_DIR."/".CONFIG_FILE)) {
+    die(sprintf(_("FusionDirectory configuration %s/%s is not readable. Aborted."), CONFIG_DIR, CONFIG_FILE));
+  }
+
   /* Initially load all classes */
   $class_list = get_declared_classes();
   foreach ($class_mapping as $class => $path) {
@@ -73,12 +63,29 @@ if (!$ui) {
       }
     }
   }
-$plist = new pluglist($config, $ui);
-session::global_set('plist', $plist);
-$config->loadPlist($plist);
-$config->get_departments();
-$config->make_idepartments();
-session::global_set('config', $config);
+  /* Parse configuration file */
+  if (session::global_is_set('config') && session::global_is_set('plist')) {
+    $config = session::global_get('config');
+    $plist  = session::global_get('plist');
+  } else {
+    $config = new config(CONFIG_DIR."/".CONFIG_FILE, $BASE_DIR);
+    $config->set_current(key($config->data['LOCATIONS']));
+    session::global_set('DEBUGLEVEL', 0);
+    $ui = ldap_login_user($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
+    if (!$ui) {
+      header('WWW-Authenticate: Basic realm="FusionDirectory"');
+      header('HTTP/1.0 401 Unauthorized');
+      echo 'Invalid user or pwd '.$_SERVER['PHP_AUTH_USER'].'/'.$_SERVER['PHP_AUTH_PW']."\n";
+      exit;
+    }
+    $plist = new pluglist($config, $ui);
+    session::global_set('plist', $plist);
+    $config->loadPlist($plist);
+    $config->get_departments();
+    $config->make_idepartments();
+    session::global_set('config', $config);
+  }
+}
 
 /*!
  * \brief This class is the JSON-RPC webservice of FusionDirectory
@@ -91,12 +98,20 @@ class fdRPCService
 
   function __construct ()
   {
+  }
+
+  function __call($method, $params)
+  {
+    initiate_rpc_session(array_shift($params));
+
     global $config;
     $this->ldap = $config->get_ldap_link();
     if (!$this->ldap->success()) {
       die('Ldap error: '.$this->ldap->get_error());
     }
     $this->ldap->cd($config->current['BASE']);
+
+    return call_user_func_array(array($this, '_'.$method), $params);
   }
 
   /*!
@@ -113,7 +128,7 @@ class fdRPCService
    *
    * \return The list of objects as an associative array (keys are dns)
    */
-  function ls ($type, $attrs = NULL, $ou = NULL, $filter = '')
+  protected function _ls ($type, $attrs = NULL, $ou = NULL, $filter = '')
   {
     return objects::ls($type, $attrs, $ou, $filter);
   }
@@ -126,7 +141,7 @@ class fdRPCService
    *
    * \return The attributes values as an associative array
    */
-  function cat ($path, $type)
+  protected function _cat ($path, $type)
   {
     $tabobject = objects::open($path, $type);
     $object = $tabobject->getBaseObject();
@@ -145,7 +160,7 @@ class fdRPCService
    *
    * \return The informations on this type as an associative array
    */
-  function infos($type)
+  protected function _infos($type)
   {
     global $config;
     $infos = objects::infos($type);
@@ -164,7 +179,7 @@ class fdRPCService
    *
    * \return All attributes organized as sections
    */
-  function fields($type, $dn = NULL, $tab = NULL)
+  protected function _fields($type, $dn = NULL, $tab = NULL)
   {
     if ($dn === NULL) {
       $tabobject = objects::create($type);
@@ -207,7 +222,7 @@ class fdRPCService
    *
    * \return An array with errors if any, the resulting object dn otherwise
    */
-  function update($type, $dn, $tab, $values)
+  protected function _update($type, $dn, $tab, $values)
   {
     if ($dn === NULL) {
       $tabobject = objects::create($type);
@@ -229,11 +244,17 @@ class fdRPCService
     $tabobject->save();
     return $tabobject->dn;
   }
+
+  protected function _get_id ()
+  {
+    return session_id();
+  }
 }
 
 $service = new fdRPCService();
 if (!jsonRPCServer::handle($service)) {
-  print 'no request';
+  echo "no request\n";
+  echo session_id()."\n";
   print_r($_SERVER);
 }
 ?>

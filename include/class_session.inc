@@ -247,7 +247,7 @@ class session {
   /*!
    * \brief Start a session
    */
-  public static function start()
+  public static function start($id = NULL)
   {
     session_name("FusionDirectory");
     /* Set cookie lifetime to one day (The parameter is in seconds ) */
@@ -260,6 +260,9 @@ class session {
        !! The garbage collector is a cron job on debian systems, the cronjob will fetch the timeout from
        the php.ini, so if you use debian, you must hardcode session.gc_maxlifetime in your php.ini */
     ini_set("session.gc_maxlifetime", 24 * 60 * 60);
+    if ($id !== NULL) {
+      session_id($id);
+    }
     session_start();
 
     /* Check for changed browsers and bail out */
