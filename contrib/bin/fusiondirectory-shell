@@ -1,0 +1,222 @@
+#!/usr/bin/perl
+
+#
+# fusiondirectory-shell: A shell to act on FusionDirectory handled objects
+# See pod documentation at the end of the file
+#
+
+use strict;
+use warnings;
+
+use 5.008;
+
+use Getopt::Long;
+use Pod::Usage;
+use JSON::RPC::Client;
+#~ use Data::Dumper;
+use Term::ShellUI;
+
+my $host      = 'https://localhost/fusiondirectory/jsonrpc.php';
+my $help      = 0;
+my $ca_file   = 0;
+my $login;
+my $password;
+
+# Process command-line
+
+GetOptions(
+  'help|?'      => \$help,
+  'url=s'       => \$host,
+  'ca=s'        => \$ca_file,
+  'login=s'     => \$login,
+  'password=s'  => \$password
+) or pod2usage(2);
+pod2usage(1) if $help;
+
+sub rpc_connect {
+  my ($user, $password) = @_;
+
+  my $client = JSON::RPC::Client->new();
+  $client->version('1.0');
+  if ($client->ua->can('ssl_opts')) {
+    if ($ca_file) {
+      $client->ua->ssl_opts(verify_hostname => 1, SSL_ca_file => "$ca_file");
+    } else {
+      $client->ua->ssl_opts(verify_hostname => 0);
+    }
+  }
+  if ($user) {
+    my $host_noprotocol = $host;
+    $host_noprotocol =~ s|^https?://||;
+    $host_noprotocol =~ s|/.*$||;
+    #~ print "$host_noprotocol\n";
+    $client->ua->credentials($host_noprotocol.":443", "FusionDirectory", "$user", "$password");
+  }
+
+  return $client;
+}
+
+sub rpc_call {
+  my ($client, $action, $params) = @_;
+
+  if (!$params) {
+    $params = [];
+  }
+
+  my $callobj = {
+    method  => $action,
+    params  => $params,
+  };
+
+  #~ print Dumper($callobj);
+
+  my $res = $client->call($host, $callobj);
+
+  if($res) {
+    if ($res->is_error) {
+      die "Error : ", $res->error_message."\n";
+    }
+    else {
+      return $res->result;
+    }
+  }
+  else {
+    die "Status : ".$client->status_line."\n";
+  }
+}
+
+my $client  = rpc_connect($login, $password);
+my $sid     = rpc_call($client, 'get_id');
+my $base    = rpc_call($client, 'get_base');
+
+my $current_base = $base;
+
+#TODO : use Term::shellui
+use Term::ShellUI;
+my $term = new Term::ShellUI(
+  app => "fusiondirectory-shell",
+  commands => {
+    "help" => {
+      desc    => "Print helpful information",
+      args    => sub { shift->help_args(undef, @_); },
+      method  => sub { shift->help_call(undef, @_); }
+    },
+    "h" => { alias => "help", exclude_from_completion=>1},
+    "cd" => {
+      desc    => "Change current base to BASE",
+      maxargs => 1,
+      proc    => \&command_cd,
+    },
+    "chdir" => { alias => 'cd' },
+    "pwd" => {
+      desc    => "Print the current working directory",
+      maxargs => 0,
+      proc    => sub { print $current_base."\n"; },
+    },
+    "ls" => {
+      desc    => "List objects of a given type",
+      minargs => 1,
+      maxargs => 4,
+      proc    => \&command_ls,
+    },
+    "exit" => {
+      desc    => "Exit FusionDirectory shell",
+      maxargs => 0,
+      method  => sub { shift->exit_requested(1); },
+    }
+  },
+  history_file => '~/.fusiondirectory_shell_history',
+);
+print 'Using '.$term->{term}->ReadLine."\n";
+$term->prompt(sub { $login.'@'.$current_base."> " });
+$term->run();
+
+sub command_ls
+{
+  my ($type, $attrs, $ou, $filter) = @_;
+  if (! defined $ou) {
+    $ou = $current_base;
+  }
+  my $res = rpc_call($client, 'ls', [$sid,$type,$attrs,$ou,$filter]);
+  while (my ($dn, $display) = each(%$res))
+  {
+    print "$display\t($dn)\n";
+  }
+}
+
+sub command_cd
+{
+  my ($path) = @_;
+  if (! defined $path) {
+    $path = $base;
+  }
+  if (!($path =~ m/$base$/)) {
+    if (!($path =~ m/,$/)) {
+      $path .= ',';
+    }
+    $path .= $current_base;
+  }
+  $current_base = $path;
+}
+
+__END__
+
+=head1 NAME
+
+fusiondirectory-shell - A shell to act on FusionDirectory handled objects
+
+=head1 SYNOPSIS
+
+B<fusiondirectory-shell> [I<options>]
+
+=head1 DESCRIPTION
+
+B<fusiondirectory-shell> will connect you to FusionDirectory webservice and allow you to list, display and alter objects.
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<-h>, B<--help>
+
+Print a brief help message and exits.
+
+=item B<-u>, B<--url>=I<HOST>
+
+Use HOST instead of https://localhost/fusiondirectory/jsonrpc.php
+
+=item B<-l>, B<--login>=I<LOGIN>
+
+User login to send
+
+=item B<-p>, B<--password>=I<PWD>
+
+User password to send
+
+=item B<-c>, B<--ca>=I<FILE>
+
+Use CA file FILE to check the server identity
+
+=back
+
+=head1 BUGS
+
+Please report any bugs, or post any suggestions, to the fusiondirectory mailing list fusiondirectory-users or to <https://forge.fusiondirectory.org/projects/fusiondirectory/issues/new>
+
+=head1 AUTHOR
+
+Come Bernigaud
+
+=head1 LICENCE AND COPYRIGHT
+
+=over 2
+
+=item Copyright (C) 2013 FusionDirectory project
+
+=back
+
+License BSD
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the LICENSE file for more details.
+
+=cut

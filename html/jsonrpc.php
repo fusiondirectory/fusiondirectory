@@ -249,6 +249,12 @@ class fdRPCService
   {
     return session_id();
   }
+
+  protected function _get_base ()
+  {
+    global $config;
+    return $config->current['BASE'];
+  }
 }
 
 $service = new fdRPCService();
