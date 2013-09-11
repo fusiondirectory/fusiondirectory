@@ -2974,9 +2974,9 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
     }
 
   } else {
-    // User MD5 by default
-    $hash = "md5";
-    $test = new  $available['md5']($config, $dn);
+    // Use MD5 by default
+    $hash = $config->get_cfg_value("passwordDefaultHash", "crypt/md5");
+    $test = new  $available[$hash]($config, $dn);
   }
 
   if ($test instanceOf passwordMethod) {
