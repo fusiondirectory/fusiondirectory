@@ -35,7 +35,7 @@ require_once("jsonrpcphp/jsonRPCServer.php");
 
 function initiate_rpc_session($id = NULL)
 {
-  global $config, $class_mapping, $BASE_DIR;
+  global $config, $class_mapping, $BASE_DIR, $ui;
 
   session::start($id);
 
@@ -67,6 +67,7 @@ function initiate_rpc_session($id = NULL)
   if (session::global_is_set('config') && session::global_is_set('plist')) {
     $config = session::global_get('config');
     $plist  = session::global_get('plist');
+    $ui     = $plist->ui;
   } else {
     $config = new config(CONFIG_DIR."/".CONFIG_FILE, $BASE_DIR);
     $config->set_current(key($config->data['LOCATIONS']));
@@ -110,6 +111,8 @@ class fdRPCService
       die('Ldap error: '.$this->ldap->get_error());
     }
     $this->ldap->cd($config->current['BASE']);
+
+    new log("debug", "JSON-RPC", 'Method '.$method, array(), "Params:".print_r($params, TRUE));
 
     return call_user_func_array(array($this, '_'.$method), $params);
   }

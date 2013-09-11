@@ -13,7 +13,7 @@ use 5.008;
 use Getopt::Long;
 use Pod::Usage;
 use JSON::RPC::Client;
-#~ use Data::Dumper;
+use Data::Dumper;
 use Term::ShellUI;
 
 my $host      = 'https://localhost/fusiondirectory/jsonrpc.php';
@@ -119,6 +119,18 @@ my $term = new Term::ShellUI(
       maxargs => 4,
       proc    => \&command_ls,
     },
+    "cat" => {
+      desc    => "Show an object information",
+      minargs => 1,
+      maxargs => 3,
+      proc    => \&command_cat,
+    },
+    "infos" => {
+      desc    => "Show informations about a type",
+      minargs => 1,
+      maxargs => 1,
+      proc    => \&command_infos,
+    },
     "exit" => {
       desc    => "Exit FusionDirectory shell",
       maxargs => 0,
@@ -157,6 +169,57 @@ sub command_cd
     $path .= $current_base;
   }
   $current_base = $path;
+}
+
+sub command_cat
+{
+  my ($type, $path, $tab) = @_;
+  if (defined $path) {
+    if (!($path =~ m/$base$/)) {
+      if (!($path =~ m/,$/)) {
+        $path .= ',';
+      }
+      $path .= $current_base;
+    }
+  }
+  my $fields = rpc_call($client, 'fields', [$sid, $type, $path, $tab]);
+  foreach my $section (values %$fields) {
+    print '['.$section->{'name'}.']'."\n";
+    foreach my $field (values %{$section->{'attrs'}}) {
+      show_field($field);
+    }
+  }
+}
+
+sub show_field
+{
+  my ($field) = @_;
+  if (grep {$field->{'type'} eq $_} ('StringAttribute', 'DisplayAttribute', 'PasswordAttribute')) {
+    #~ print "\t".$field->{'label'}.": ".$field->{'value'}."\n";
+    printf ("\t%-22s %s\n", $field->{'label'}.':', $field->{'value'});
+  } else {
+    if (ref($field->{'value'}) ne 'ARRAY') {
+      printf ("\t%-22s %s\n", $field->{'label'}.':', $field->{'value'});
+    } else {
+      printf ("\t%-22s %s", $field->{'label'}.':', Dumper($field->{'value'}));
+    }
+  }
+}
+
+sub command_infos
+{
+  my ($type) = @_;
+  my $infos = rpc_call($client, 'infos', [$sid, $type]);
+  while (my ($name, $value) = each(%$infos)) {
+    if ($name eq 'tabs') {
+      print "tabs:\n";
+      foreach my $tab (@$value) {
+        print "\t".$tab->{'NAME'}."\t(".$tab->{'CLASS'}.")\n";
+      }
+    } else {
+      printf ("%-22s %s\n", $name.':', $value);
+    }
+  }
 }
 
 __END__
