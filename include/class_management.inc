@@ -399,7 +399,7 @@ class management
     foreach ($this->dns as $key => $dn) {
 
       // Check permissions, are we allowed to remove this object?
-      $acl = $this->ui->get_permissions($dn, $this->aclCategory."/".$this->aclPlugin);
+      $acl = $this->ui->get_permissions($dn, $aclCategory."/".$this->aclPlugin);
       if (preg_match("/d/", $acl)) {
 
         // Delete the object
