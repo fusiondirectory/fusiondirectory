@@ -432,7 +432,7 @@ class aclrole extends acl
             alt='"._("Delete")."' name='cat_del_$section' title='"._("Reset category ACL")."'>";
         }
 
-        $field1= array("html" => $infos['description'], "attach" => "style='width:140px'");
+        $field1= array("html" => $dsc, "attach" => "style='width:140px'");
         $field2= array("html" => $summary);
         $field3= array("html" => $action, "attach" => "style='border-right:0px;width:50px'");
         $aclList->AddEntry(array($field1, $field2, $field3));
