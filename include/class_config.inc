@@ -1063,18 +1063,21 @@ class config  {
   function get_cfg_value($name, $default = "")
   {
     $name = strtoupper($name);
+    $res  = $default;
 
     /* Check if we have a current value for $name */
     if (isset($this->current[$name])) {
-      return $this->current[$name];
-    }
-
+      $res = $this->current[$name];
     /* Check if we have a global value for $name */
-    if (isset($this->data["MAIN"][$name])) {
-      return $this->data["MAIN"][$name];
+    } elseif (isset($this->data["MAIN"][$name])) {
+      $res = $this->data["MAIN"][$name];
     }
 
-    return $default;
+    if (is_array($default) && !is_array($res)) {
+      $res = array($res);
+    }
+
+    return $res;
   }
 
 
