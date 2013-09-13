@@ -239,7 +239,7 @@ class tabs
       }
 
       /* Paint tab */
-      $display .= "<td style=\"vertical-align:bottom;width:1px;white-space:nowrap;\">";
+      $display .= '<td>';
 
       /* Shorten string if its too long for the tab headers*/
       $title = _($name);
@@ -270,7 +270,7 @@ class tabs
       }
     }
 
-    $display.= "<td style=\"vertical-align:bottom;\">\n";
+    $display.= "<td>\n";
     $display.= "<div class=\"tab_border\">&nbsp;</div></td></tr></tbody></table>";
 
     return $display;
