@@ -242,7 +242,7 @@ class tabs
       }
 
       /* Paint tab */
-      $display .= "<td style=\"vertical-align:bottom;width:1px;white-space:nowrap;\">";
+      $display .= '<td>';
 
       /* Shorten string if its too long for the tab headers*/
       $title = _($name);
@@ -272,8 +272,9 @@ class tabs
         $display.= "<div class=\"$style[$index]$notify\"><a class=\"$style[$index]\" onclick=\"return true;\" href=\"javascript:document.mainform.arg.value='$class';document.mainform.submit();\">$title</a></div></td>";
       }
     }
-    $display.= "<td style=\"vertical-align:bottom;\">\n";
-    $display.= "<div class=\"tab_border\">&nbsp;</div></td></tr></table>";
+
+    $display.= "<td>\n";
+    $display.= "<div class=\"tab_border\">&nbsp;</div></td></tr></tbody></table>";
 
     return($display);
   }

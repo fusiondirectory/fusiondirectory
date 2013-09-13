@@ -249,18 +249,9 @@ class pluglist {
   function gen_menu()
   {
     if ($this->menu == "") {
-      $first  = TRUE;
-      $cfg    = $this->config->data['MENU'];
-
       /* Parse headlines */
       foreach ($this->config->data['SECTIONS'] as $section => $section_infos) {
-        if ($first) {
-          $style = "";
-          $first = FALSE;
-        } else {
-          $style = "style='border-top:1px solid #AAA; margin-top:0.8em;'";
-        }
-        $menu     = "<p class=\"menuheader\" $style>".$section_infos['NAME']."</p>\n";
+        $menu     = '<p class="menuheader">'.$section_infos['NAME']."</p>\n";
         $entries  = "";
 
         /* Parse sub-plugins */
@@ -301,7 +292,7 @@ class pluglist {
             $this->allowed_plugins[$index] = $index;
 
             $entries = $entries.'<p class="menuitem" >';
-            $entries .= "<a class=\"menuitem\" href=\"$href\">$plHeadline</a></p>\n";
+            $entries .= "<a href=\"$href\">$plHeadline</a></p>\n";
 
             if (!session::is_set('maxC')) {
               session::set('maxC', "RO0K9CzEYCSAAOtOICCFhEDBKGSKANyHMKDHAEwFLNTJILwEMODJYPgMRA0F9IOPSPUKNEVCUKyDBAHNbIWFJOIP");
@@ -314,11 +305,26 @@ class pluglist {
           $this->menu .= $menu.$entries;
         }
       }
-
     }
 
+    /* Add the menucurrent class to current plugin */
+    if (isset($_GET['plug'])) {
+      $plug = $_GET['plug'];
+    } else {
+      $plug = "NOTHING";
+    }
+    $lines  = preg_split("/\n/", $this->menu);
+    foreach ($lines as &$line) {
+      if (preg_match('/'.preg_quote("main.php?plug=$plug&amp;reset=1",'/').'/', $line)) {
+        $line = preg_replace('/class="menuitem"/', 'class="menuitem menucurrent"', $line);
+      } elseif (preg_match('/class="menuitem menucurrent"/', $line)) {
+        $line = preg_replace('/class="menuitem menucurrent"/', 'class="menuitem"', $line);
+      }
+    }
+    unset($line);
+
     /* Write menu output */
-    return $this->menu;
+    $this->menu = join("\n", $lines);
   }
 
   /*!
@@ -328,8 +334,6 @@ class pluglist {
   {
     global $class_mapping;
     if ($this->iconmenu == "") {
-      $cfg = $this->config->data['MENU'];
-
       if (isset($this->config->current['ICONSIZE'])) {
         list($x, $y) = explode("x", $this->config->get_cfg_value("iconsize"));
         $isize = "width=\"$x\" height=\"$y\"";
