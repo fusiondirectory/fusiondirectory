@@ -616,24 +616,15 @@ class listing {
       // Navigation handling
       if ($action == 'ROOT') {
         $deps = $ui->get_module_departments($this->categories);
-        $this->base = $deps[0];
-        $this->baseSelector->setBase($this->base);
+        $this->setBase($deps[0]);
         session::global_set("CurrentMainBase", $this->base);
       }
       if ($action == 'BACK') {
-        $deps = $ui->get_module_departments($this->categories);
         $base = preg_replace("/^[^,]+,/", "", $this->base);
-        if (in_array_ics($base, $deps)) {
-          $this->base = $base;
-          $this->baseSelector->setBase($this->base);
-          session::global_set("CurrentMainBase", $this->base);
-        }
+        $this->tryAndSetBase($base);
       }
       if ($action == 'HOME') {
-        $ui = get_userinfo();
-        $this->base = get_base_from_people($ui->dn);
-        $this->baseSelector->setBase($this->base);
-        session::global_set("CurrentMainBase", $this->base);
+        $this->tryAndSetBase(get_base_from_people($ui->dn));
       }
     }
 
@@ -662,6 +653,16 @@ class listing {
     $this->base = $base;
     if ($this->baseMode) {
       $this->baseSelector->setBase($this->base);
+    }
+  }
+
+  function tryAndSetBase($base)
+  {
+    $ui   = get_userinfo();
+    $deps = $ui->get_module_departments($this->categories);
+    if (in_array_ics($base, $deps)) {
+      $this->setBase($base);
+      session::global_set("CurrentMainBase", $this->base);
     }
   }
 
@@ -1108,7 +1109,7 @@ class listing {
     }
 
     /* Check if we are in users home  department */
-    if (!count($deps) || $this->filter->base == get_base_from_people($ui->dn)) {
+    if (!count($deps) || $this->filter->base == get_base_from_people($ui->dn) || !in_array_ics(get_base_from_people($ui->dn), $deps)) {
       $enableHome = FALSE;
     }
 
@@ -1442,13 +1443,21 @@ class listing {
   function refreshBasesList()
   {
     global $config;
+    $ui = get_userinfo();
 
     // Fill internal bases list
-    $this->bases = $config->idepartments;
+    $this->bases = array();
+    $deps = $ui->get_module_departments($this->categories);
+    foreach ($config->idepartments as $key => $dep) {
+      if (in_array_ics($key, $deps)) {
+        $this->bases[$key] = $dep;
+      }
+    }
 
     // Populate base selector if already present
     if ($this->baseSelector && $this->baseMode) {
       $this->baseSelector->setBases($this->bases);
+      $this->baseSelector->setBase($this->base);
       $this->baseSelector->update(TRUE);
     }
   }
