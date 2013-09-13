@@ -41,6 +41,8 @@ class objects
    */
   static function ls ($type, $attrs = array(), $ou = NULL, $filter = '')
   {
+    global $config;
+
     if (is_array($attrs)) {
       $search_attrs = array_keys($attrs);
     } else {
@@ -88,8 +90,13 @@ class objects
    */
   static function count ($type, $ou = NULL, $filter = '')
   {
-    $ldap = self::search($type, array('dn'), $ou, $filter);
-    if ($ldap === FALSE) {
+    global $config;
+
+    try {
+      $ldap = self::search($type, array('dn'), $ou, $filter);
+    } catch (EmptyFilterException $e) {
+      return 0;
+    } catch (NonExistingBranchException $e) {
       return 0;
     }
     return $ldap->count();
@@ -142,11 +149,13 @@ class objects
    */
   static function open ($dn, $type)
   {
+    global $config;
+
     $infos    = self::infos($type);
     $tabClass = $infos['tabClass'];
 
     $tabObject = new $tabClass($config, $config->data['TABS'][$infos['tabGroup']], $dn, $infos['aclCategory']);
-    $tabObject->set_acl_base($config->current['BASE']);
+    $tabObject->set_acl_base($dn);
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Openned as $type object");
 
     return $tabObject;
@@ -154,6 +163,8 @@ class objects
 
   static function link($dn, $type, $subaction = '', $text = NULL, $icon = TRUE)
   {
+    global $config;
+
     $infos = self::infos($type);
     if (!isset($infos['management'])) {
       throw new Exception('Asked for link for type "'.$type.'" but it does not have a management class');
@@ -167,7 +178,6 @@ class objects
     $href   = "main.php?plug=$index&amp;reset=1&amp;act=listing_$action&amp;dn=".urlencode($dn);
 
     if ($text === NULL) {
-      global $config;
       $ldap = $config->get_ldap_link();
       $ldap->cat($dn, array($infos['mainAttr']));
       if ($attrs = $ldap->fetch()) {
@@ -205,6 +215,8 @@ class objects
 
   static function isOfType ($attrs, $type)
   {
+    global $config;
+
     //TODO : cache ldapFilter objects?
     $infos  = self::infos($type);
     $filter = ldapFilter::parse($infos['filter']);
