@@ -3038,19 +3038,31 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
       }
 
       /* Find postmodify entries for this class */
-      $command = $config->search("password", "POSTMODIFY", array('menu'));
+      $command = $config->search("password", "POSTMODIFY", array('menu', 'hooks'));
 
       if ($command != "") {
         /* Walk through attribute list */
-        $command = preg_replace("/%userPassword/", escapeshellarg($password), $command);
-        $command = preg_replace("/%dn/", escapeshellarg($dn), $command);
+        $addAttrs = array(
+          'userPassword' => escapeshellarg($password),
+          'dn'  => escapeshellarg($dn)
+        );
+        $command = self::tpl_parse_string($command, $addAttrs);
 
-        if (check_command($command) || TRUE) {
-          @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
-          exec($command);
-        } else {
-          $message = sprintf(_("Command '%s', specified as POSTMODIFY for plugin '%s' doesn't seem to exist."), $command, "password");
-          msg_dialog::display(_("Configuration error"), $message, ERROR_DIALOG);
+        @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
+        exec($command, $arr, $returnCode);
+        $returnOutput = $arr;
+
+        if ($returnCode != 0) {
+          $str = implode("\n", $arr);
+          @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execution failed code: ".$returnCode);
+          $message = msgPool::cmdexecfailed($cmd, $command, get_class($plugin));
+          if (!empty($str)) {
+            $message .= "Result: ".$str;
+          }
+          msg_dialog::display(_("Error"), $message, ERROR_DIALOG);
+        } elseif (is_array($arr)) {
+          $str = implode("\n", $arr);
+          @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Result: ".$str);
         }
       }
     }
