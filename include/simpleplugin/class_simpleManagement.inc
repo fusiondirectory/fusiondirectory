@@ -337,7 +337,7 @@ class simpleManagement extends management
   }
 
   function removeEntryConfirmed($action = '', $target = array(), $all = array(),
-                                $altTabClass = '', $altTabType = '', $altAclCategory = '', $altAclPlugin = '')
+                                $altTabClass = '', $altTabType = '', $altAclCategory = '')
   {
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removal confirmed!");
 
