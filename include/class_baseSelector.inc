@@ -150,6 +150,11 @@ class baseSelector {
   {
     global $config;
 
+    if (!isset($this->base) || ($this->base == "")) {
+      $this->lastState = FALSE;
+      return FALSE;
+    }
+
     // Analyze for base changes if needed
     $this->action = NULL;
     $last_base    = $this->base;
@@ -186,7 +191,8 @@ class baseSelector {
     }
 
     /* Skip if there's no change */
-    if (($this->tree && $this->base == $last_base) && !$force) {
+    if ($this->tree && ($this->base == $last_base) && !$force) {
+      $this->lastState = TRUE;
       return TRUE;
     }
 
