@@ -141,10 +141,11 @@ class simpleManagement extends management
           }
         }
         $this->headpage->xmlData['actionmenu']['action'][0]['action'][] = array(
-          'name' => 'new_'.$object,
-          'type' => 'entry',
+          'name'  => 'new_'.$object,
+          'type'  => 'entry',
           'image' => $icon,
           'label' => $i['name'],
+          'acl'   => $i['aclCategory'].'/'.$i['mainTab'].'[c]',
         );
       }
     }
