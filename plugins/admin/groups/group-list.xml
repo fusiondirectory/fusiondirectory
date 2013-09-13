@@ -63,6 +63,7 @@
      <type>sub</type>
      <image>images/lists/new.png</image>
      <label>Create</label>
+     <acl>[c]</acl>
     </action>
 
     <action>
@@ -70,6 +71,7 @@
       <type>entry</type>
       <image>images/lists/edit.png</image>
       <label>Edit</label>
+     <acl>[r]</acl>
     </action>
 
      <action>
@@ -77,6 +79,7 @@
       <type>entry</type>
       <image>images/lists/trash.png</image>
       <label>Remove</label>
+      <acl>[d]</acl>
     </action>
 
     <action>

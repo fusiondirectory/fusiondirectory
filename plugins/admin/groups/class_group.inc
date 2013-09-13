@@ -222,6 +222,12 @@ class group extends simplePlugin
     }
   }
 
+  protected function post_save()
+  {
+    del_lock("gidnumber");
+    parent::post_save();
+  }
+
 
   function remove_from_parent()
   {

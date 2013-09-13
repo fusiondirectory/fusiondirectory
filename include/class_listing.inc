@@ -1409,15 +1409,21 @@ class listing {
           $checkAcl = "";
 
           // Category or detailed permission?
-          if (strpos($module, '/') !== FALSE) {
-            if (preg_match('/([a-zA-Z0-9]+):([rwcdm]+)/', $sAcl, $m)) {
-              $checkAcl = $ui->get_permissions($dn, $module, $m[1]);
-              $sAcl = $m[2];
+          $modules = $module;
+          if (!is_array($modules)) {
+            $modules = array($modules);
+          }
+          foreach ($modules as $module) {
+            if (strpos($module, '/') !== FALSE) {
+              if (preg_match('/([a-zA-Z0-9]+):([rwcdm]+)/', $sAcl, $m)) {
+                $checkAcl .= $ui->get_permissions($dn, $module, $m[1]);
+                $sAcl = $m[2];
+              } else {
+                $checkAcl .= $ui->get_permissions($dn, $module, '0');
+              }
             } else {
-              $checkAcl = $ui->get_permissions($dn, $module, '0');
+              $checkAcl .= $ui->get_category_permissions($dn, $module);
             }
-          } else {
-            $checkAcl = $ui->get_category_permissions($dn, $module);
           }
 
           // Split up remaining part of the acl and check if it we're
