@@ -361,17 +361,10 @@ class simpleManagement extends management
       $acl = $this->ui->get_permissions($dn, $infos['aclCategory']."/".$infos['mainTab']);
       if (preg_match("/d/", $acl)) {
         // Delete the object
-        $this->dn = $dn;
-        $tabClass = $infos['tabClass'];
-        $this->tabObject  = new $tabClass(
-          $this->config,
-          $this->config->data['TABS'][$infos['tabGroup']],
-          $this->dn,
-          $infos['aclCategory']
-        );
-        $this->tabObject->set_acl_base($this->dn);
+        $this->dn         = $dn;
+        $this->tabObject  = objects::open($this->dn, $type);
         $this->tabObject->parent = &$this;
-        $this->tabObject->delete ();
+        $this->tabObject->delete();
 
         // Remove the lock for the current object.
         del_lock($this->dn);
