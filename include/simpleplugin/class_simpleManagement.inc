@@ -150,6 +150,7 @@ class simpleManagement extends management
       }
     }
     $this->headpage->registerElementFilter('filterRowLink', 'simpleManagement::filterRowLink');
+    $this->headpage->refreshBasesList();
   }
 
   function configureHeadline ()
