@@ -1193,7 +1193,7 @@ class config  {
     $this->data['OBJECTS'] = array();
     $this->data['SECTIONS'] = array();
     $this->data['CATEGORIES'] = array();
-    foreach ($plist->info as $class => $plInfo) {
+    foreach ($plist->info as $class => &$plInfo) {
       if (isset($plInfo['plObjectType'])) {
         $entry = array('CLASS' => $class,'NAME' => $plInfo['plShortName']);
         foreach ($plInfo['plObjectType'] as $key => $value) {
@@ -1254,12 +1254,16 @@ class config  {
       /* Feed categories */
       if (isset($plInfo['plCategory'])) {
         /* Walk through supplied list and feed only translated categories */
+        $cats = array();
         foreach ($plInfo['plCategory'] as $idx => $data) {
-          $cat = (is_numeric($idx)?$data:$idx);
+          $cat    = (is_numeric($idx)?$data:$idx);
+          $cats[] = $cat;
           if (!isset($this->data['CATEGORIES'][$cat])) {
             $this->data['CATEGORIES'][$cat]   = array( 'classes' => array('0') );
           }
-          $this->data['CATEGORIES'][$cat]['classes'][] = $class;
+          if (!empty($plInfo['plProvidedAcls'])) {
+            $this->data['CATEGORIES'][$cat]['classes'][] = $class;
+          }
           if (!is_numeric($idx)) {
             /* Non numeric index means -> base object containing more informations */
             $this->data['CATEGORIES'][$cat]['description'] = $data['description'];
@@ -1269,8 +1273,10 @@ class config  {
             $this->data['CATEGORIES'][$cat]['objectClass'] = $data['objectClass'];
           }
         }
+        $plInfo['plCategory'] = $cats;
       }
     }
+    unset($plInfo);
     $this->data['CATEGORIES']['all'] = array(
       'classes'     => array('all'),
       'description' => '*&nbsp;'._("All categories"),
@@ -1292,7 +1298,7 @@ class config  {
       }
     }
     /* Now that OBJECTS are filled, place tabs in categories */
-    foreach ($plist->info as $class => $plInfo) {
+    foreach ($plist->info as $class => &$plInfo) {
       $acl = array();
       if (isset($plInfo['plCategory'])) {
         $acl = $plInfo['plCategory'];
@@ -1312,7 +1318,12 @@ class config  {
             $cat    = $this->data['OBJECTS'][$obj]['aclCategory'];
             $acl[]  = $cat;
 
-            $this->data['CATEGORIES'][$cat]['classes'][] = $class;
+            if (!empty($plInfo['plProvidedAcls'])) {
+              $this->data['CATEGORIES'][$cat]['classes'][] = $class;
+            }
+            if (!in_array($cat, $plInfo['plCategory'])) {
+              $plInfo['plCategory'][] = $cat;
+            }
           }
         }
       }
@@ -1366,6 +1377,7 @@ class config  {
         $this->data['MENU'][$section][] = $attrs;
       }
     }
+    unset($plInfo);
     asort($this->data['CATEGORIES']);
     foreach ($this->data['CATEGORIES'] as $name => &$infos) {
       $infos['classes'] = array_unique($infos['classes']);

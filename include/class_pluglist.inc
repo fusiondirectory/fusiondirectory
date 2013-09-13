@@ -116,6 +116,12 @@ class pluglist {
         } else {
           $infos['plForeignKeys'] = array();
         }
+        if (!isset($infos['plProvidedAcls'])) {
+          $infos['plProvidedAcls'] = array();
+        }
+        if (!isset($infos['plCategory'])) {
+          $infos['plCategory'] = array();
+        }
         $infos['plForeignRefs']         = array();
         $infos['INDEX']                 = $index;
         $this->info[$cname]             = $infos;

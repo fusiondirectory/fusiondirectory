@@ -659,6 +659,12 @@ class group extends plugin
     return($ret);
   }
 
+  protected function post_save()
+  {
+    del_lock("gidnumber");
+    parent::post_save();
+  }
+
 
   function remove_from_parent()
   {
