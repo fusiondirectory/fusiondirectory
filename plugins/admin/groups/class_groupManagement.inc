@@ -37,7 +37,6 @@ class groupManagement extends management
       'plDescription' => _('Manage groups'),
       'plIcon'        => 'plugins/groups/images/icon.png',
       'plSection'     => 'admin',
-      'plCategory'    => array('group'),
       'plManages'     => array('group'),
       'plPriority'    => 2,
 

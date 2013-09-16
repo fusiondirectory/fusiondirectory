@@ -188,7 +188,6 @@ class aclRole extends simplePlugin
       'plShortName'   => _('Role'),
       'plDescription' => _('Access control roles'),
       'plSelfModify'  => FALSE,
-      'plCategory'    => array('acl'),
       'plObjectType'  => array('aclRole' => array(
         'aclCategory' => 'acl',
         'name'        => _('ACL role'),

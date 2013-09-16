@@ -29,7 +29,6 @@ class organization extends department
     return array(
       'plShortName'   => _('Organization'),
       'plDescription' => _('Organization'),
-      'plCategory'    => array('department'),
       'plObjectType'  => array('organization' => array(
         'aclCategory' => 'department',
         'name'        => _('Organization'),

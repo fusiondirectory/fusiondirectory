@@ -29,7 +29,6 @@ class domain extends department
     return array(
       'plShortName'   => _('Domain'),
       'plDescription' => _('Domain'),
-      'plCategory'    => array('department'),
       'plObjectType'  => array('domain' => array(
         'aclCategory' => 'department',
         'name'        => _('Domain'),

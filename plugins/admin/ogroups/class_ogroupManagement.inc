@@ -33,14 +33,14 @@ class ogroupManagement extends management
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("Object groups"),
-      "plDescription" => _("Manage object groups"),
-      "plIcon"        => "plugins/ogroups/images/icon.png",
-      "plSection"     => "admin",
-      "plCategory"    => array("ogroup"),
-      "plPriority"    => 3,
+      'plShortName'   => _('Object groups'),
+      'plDescription' => _('Manage object groups'),
+      'plIcon'        => 'plugins/ogroups/images/icon.png',
+      'plSection'     => 'admin',
+      'plManages'     => array('ogroup'),
+      'plPriority'    => 3,
 
-      "plProvidedAcls" => array()
+      'plProvidedAcls' => array()
     );
   }
 

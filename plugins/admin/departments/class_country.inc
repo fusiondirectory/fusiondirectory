@@ -28,7 +28,6 @@ class country extends department
     return array(
       'plShortName'   => _('Country'),
       'plDescription' => _('Country'),
-      'plCategory'    => array('department'),
       'plObjectType'  => array('country' => array(
         'aclCategory' => 'department',
         'name'        => _('Country'),

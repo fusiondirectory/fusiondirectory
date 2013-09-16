@@ -53,7 +53,7 @@ class userManagement extends management
       'plDescription' => _('Manage users'),
       'plIcon'        => 'plugins/users/images/icon.png',
       'plSection'     => 'admin',
-      'plCategory'    => array('user'),
+      'plManages'     => array('user'),
       'plPriority'    => 1,
 
       'plProvidedAcls' => array()

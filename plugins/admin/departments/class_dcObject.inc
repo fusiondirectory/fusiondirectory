@@ -29,7 +29,6 @@ class dcObject extends department
     return array(
       'plShortName'   => _('Domain Component'),
       'plDescription' => _('Domain Component'),
-      'plCategory'    => array('department'),
       'plObjectType'  => array('dcObject' => array(
         'aclCategory' => 'department',
         'name'        => _('Domain Component'),

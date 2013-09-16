@@ -1316,6 +1316,23 @@ class config  {
           }
         }
       }
+      /* Read management info */
+      if (isset($plInfo['plManages'])) {
+        foreach ($plInfo['plManages'] as $type) {
+          if (isset($this->data['OBJECTS'][strtoupper($type)])) {
+            $this->data['OBJECTS'][strtoupper($type)]['management'] = $class;
+            $cat    = $this->data['OBJECTS'][strtoupper($type)]['aclCategory'];
+            $acl[]  = $cat;
+
+            if (!empty($plInfo['plProvidedAcls'])) {
+              $this->data['CATEGORIES'][$cat]['classes'][] = $class;
+            }
+            if (!in_array($cat, $plInfo['plCategory'])) {
+              $plInfo['plCategory'][] = $cat;
+            }
+          }
+        }
+      }
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, join(',', $acl), "Class $class categories");
       /* Feed menu */
       if (isset($plInfo['plSection'])) {
@@ -1347,14 +1364,6 @@ class config  {
           $attrs['ACL'] = $acl;
         }
         $this->data['MENU'][$section][] = $attrs;
-      }
-      /* Read management info */
-      if (isset($plInfo['plManages'])) {
-        foreach ($plInfo['plManages'] as $type) {
-          if (isset($this->data['OBJECTS'][strtoupper($type)])) {
-            $this->data['OBJECTS'][strtoupper($type)]['management'] = $class;
-          }
-        }
       }
     }
     asort($this->data['CATEGORIES']);
