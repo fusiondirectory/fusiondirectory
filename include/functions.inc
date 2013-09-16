@@ -3046,7 +3046,7 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
           'userPassword' => escapeshellarg($password),
           'dn'  => escapeshellarg($dn)
         );
-        $command = self::tpl_parse_string($command, $addAttrs);
+        $command = plugin::tpl_parse_string($command, $addAttrs);
 
         @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
         exec($command, $arr, $returnCode);
