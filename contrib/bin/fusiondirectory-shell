@@ -72,6 +72,8 @@ sub rpc_call {
 
   my $res = $client->call($host, $callobj);
 
+  #~ print Dumper($res);
+
   if($res) {
     if ($res->is_error) {
       die "Error : ", $res->error_message."\n";
@@ -119,6 +121,12 @@ my $term = new Term::ShellUI(
       maxargs => 4,
       proc    => \&command_ls,
     },
+    "count" => {
+      desc    => "Count objects of a given type",
+      minargs => 1,
+      maxargs => 4,
+      proc    => \&command_count,
+    },
     "cat" => {
       desc    => "Show an object information",
       minargs => 1,
@@ -130,6 +138,12 @@ my $term = new Term::ShellUI(
       minargs => 1,
       maxargs => 1,
       proc    => \&command_infos,
+    },
+    "types" => {
+      desc    => "List existing types",
+      minargs => 0,
+      maxargs => 0,
+      proc    => \&command_types,
     },
     "exit" => {
       desc    => "Exit FusionDirectory shell",
@@ -149,11 +163,29 @@ sub command_ls
   if (! defined $ou) {
     $ou = $current_base;
   }
-  my $res = rpc_call($client, 'ls', [$sid,$type,$attrs,$ou,$filter]);
-  while (my ($dn, $display) = each(%$res))
-  {
-    print "$display\t($dn)\n";
+  if (! defined $filter) {
+    $filter = '';
   }
+  my $res = rpc_call($client, 'ls', [$sid,$type,$attrs,$ou,$filter]);
+  if (ref $res eq ref {}) {
+    while (my ($dn, $display) = each(%$res))
+    {
+      print "$display\t($dn)\n";
+    }
+  }
+}
+
+sub command_count
+{
+  my ($type, $ou, $filter) = @_;
+  if (! defined $ou) {
+    $ou = $current_base;
+  }
+  if (! defined $filter) {
+    $filter = '';
+  }
+  my $res = rpc_call($client, 'count', [$sid,$type,$ou,$filter]);
+  print "$res\n";
 }
 
 sub command_cd
@@ -182,7 +214,7 @@ sub command_cat
       $path .= $current_base;
     }
   }
-  my $fields = rpc_call($client, 'fields', [$sid, $type, $path, $tab]);
+  my $fields = rpc_call($client, 'fields', [$sid,$type,$path,$tab]);
   foreach my $section (values %$fields) {
     print '['.$section->{'name'}.']'."\n";
     foreach my $field (values %{$section->{'attrs'}}) {
@@ -219,6 +251,14 @@ sub command_infos
     } else {
       printf ("%-22s %s\n", $name.':', $value);
     }
+  }
+}
+
+sub command_types
+{
+  my $types = rpc_call($client, 'listTypes', [$sid]);
+  while (my ($type, $display) = each(%$types)) {
+    printf ("%-30s %s\n", $display, $type);
   }
 }
 

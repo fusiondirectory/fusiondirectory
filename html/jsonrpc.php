@@ -103,6 +103,9 @@ class fdRPCService
 
   function __call($method, $params)
   {
+    if (preg_match('/^_(.*)$/', $method, $m)) {
+      throw new Exception("Non existing method '$m[1]'");
+    }
     initiate_rpc_session(array_shift($params));
 
     global $config;
@@ -137,24 +140,18 @@ class fdRPCService
   }
 
   /*!
-   * \brief Get all attributes values for object $dn of type $type
+   * \brief Get count of objects of objectType $type in $ou
    *
-   * \param string  $dn   the dn of the object to load
-   * \param string  $type the type of the object
+   * \param string  $type the objectType to list
+   * \param string  $ou the LDAP branch to search in, base will be used if it is NULL
+   * \param string  $filter an additional filter to use in the LDAP search.
    *
-   * \return The attributes values as an associative array
+   * \return The number of objects of type $type in $ou
    */
-  protected function _cat ($path, $type)
+  protected function _count ($type, $ou = NULL, $filter = '')
   {
-    $tabobject = objects::open($path, $type);
-    $object = $tabobject->getBaseObject();
-    $result = array();
-    foreach ($object->attributes as $attribute) {
-      $result[$attribute] = $object->$attribute;
-    }
-    return $result;
+    return objects::count($type, $ou, $filter);
   }
-
 
   /*!
    * \brief Get information about objectType $type
@@ -171,6 +168,24 @@ class fdRPCService
     $infos['tabs'] = $config->data['TABS'][$infos['tabGroup']];
     unset($infos['tabGroup']);
     return $infos;
+  }
+
+  /*!
+   * \brief List existing object types
+   *
+   * \return An associative array with types as keys and their names as values
+   */
+  protected function _listTypes()
+  {
+    global $config;
+    $types  = objects::types();
+
+    $result = array();
+    foreach ($types as $type) {
+      $infos          = objects::infos($type);
+      $result[$type]  = $infos['name'];
+    }
+    return $result;
   }
 
   /*!
@@ -196,20 +211,11 @@ class fdRPCService
     }
     $fields = $object->attributesInfo;
     foreach ($fields as &$section) {
-      foreach ($section['attrs'] as $key => &$attr) {
-        if ($attr->isVisible()) {
-          $attr = array(
-            'type'        => get_class($attr),
-            'label'       => $attr->getLabel(),
-            'description' => $attr->getDescription(),
-            'value'       => $attr->getValue(),
-            'required'    => $attr->isRequired(),
-          );
-        } else {
-          unset($section['attrs'][$key]);
-        }
+      $attributes = array();
+      foreach ($section['attrs'] as $key => $attr) {
+        $attr->serializeAttribute($attributes);
       }
-      unset($attr);
+      $section['attrs'] = $attributes;
     }
     unset($section);
     return $fields;

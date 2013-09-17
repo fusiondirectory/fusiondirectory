@@ -52,7 +52,7 @@ class jsonRPCServer {
 
 		// executes the task on local object
 		try {
-			if ($result = @call_user_func_array(array($object,$request['method']),$request['params'])) {
+			if (($result = @call_user_func_array(array($object,$request['method']),$request['params'])) !== FALSE) {
 				$response = array (
 									'id' => $request['id'],
 									'result' => $result,
