@@ -3101,11 +3101,18 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
 
       if ($command != "") {
         /* Walk through attribute list */
-        $addAttrs = array(
-          'userPassword' => escapeshellarg($password),
-          'dn'  => escapeshellarg($dn)
-        );
-        $command = plugin::tpl_parse_string($command, $addAttrs);
+        $fakeobject = new stdClass();
+        $fakeobject->dn           = escapeshellarg($dn);
+        $fakeobject->userPassword = escapeshellarg($password);
+        $string = $command;
+        $offset = 0;
+        while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
+          $replace = self::tpl_parse_mask($m[1][0], array($fakeobject));
+          $replace = $replace[0];
+          $string = substr_replace($string, $replace, $m[0][1], strlen($m[0][0]));
+          $offset = $m[0][1] + strlen($replace);
+        }
+        $command = $string;
 
         @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
         exec($command, $arr, $returnCode);
