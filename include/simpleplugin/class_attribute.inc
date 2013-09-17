@@ -445,6 +445,24 @@ class Attribute
     }
   }
 
+  /*! \brief Serialize this attribute for RPC requests
+   *
+   *  \param array& attributes the attributes array
+   */
+  function serializeAttribute(&$attributes)
+  {
+    if ($this->visible) {
+      $attributes[$this->getLdapName()] = array(
+        'label'       => $this->getLabel(),
+        'required'    => $this->isRequired(),
+        'disabled'    => $this->disabled,
+        'description' => $this->getDescription(),
+        'value'       => $this->getValue(),
+        'type'        => get_class($this),
+      );
+    }
+  }
+
   /*! \brief Add ACL information around display
    *
    *  \param string $display the display information to pass through ACL
@@ -1956,6 +1974,17 @@ class CompositeAttribute extends Attribute
         }
         unset($attribute);
       }
+    }
+  }
+
+  function serializeAttribute(&$attributes)
+  {
+    if ($this->visible) {
+      foreach ($this->attributes as &$attribute) {
+        $attribute->setDisabled($this->disabled);
+        $attribute->serializeAttribute($attributes);
+      }
+      unset($attribute);
     }
   }
 
