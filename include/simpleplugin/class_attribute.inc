@@ -452,13 +452,19 @@ class Attribute
   function serializeAttribute(&$attributes)
   {
     if ($this->visible) {
+      $class = get_class($this);
+      while ($class != 'Attribute') {
+        $type[] = $class;
+        $class  = get_parent_class($class);
+      }
+      $type[] = 'Attribute'; // To avoid empty array
       $attributes[$this->getLdapName()] = array(
         'label'       => $this->getLabel(),
         'required'    => $this->isRequired(),
         'disabled'    => $this->disabled,
         'description' => $this->getDescription(),
         'value'       => $this->getValue(),
-        'type'        => get_class($this),
+        'type'        => $type,
       );
     }
   }
