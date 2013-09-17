@@ -215,10 +215,14 @@ sub command_cat
     }
   }
   my $fields = rpc_call($client, 'fields', [$sid,$type,$path,$tab]);
-  foreach my $section (values %$fields) {
-    print '['.$section->{'name'}.']'."\n";
-    foreach my $field (values %{$section->{'attrs'}}) {
-      show_field($field);
+  if (ref $fields eq ref {}) {
+    foreach my $section (values %$fields) {
+      print '['.$section->{'name'}.']'."\n";
+      if (ref $section->{'attrs'} eq ref {}) {
+        foreach my $field (values %{$section->{'attrs'}}) {
+          show_field($field);
+        }
+      }
     }
   }
 }

@@ -120,6 +120,21 @@ class fdRPCService
     return call_user_func_array(array($this, '_'.$method), $params);
   }
 
+  function check_access($type, $tab = NULL)
+  {
+    $infos = objects::infos($type);
+    $plist = session::global_get('plist');
+    if (!$plist->check_access($infos['aclCategory'])) {
+      throw new Exception("Unsufficient rights for accessing type '$type'");
+    }
+    if ($tab !== NULL) {
+      $pInfos = pluglist::pluginInfos($tab);
+      if (!$plist->check_access(join(',', $pInfos['plCategory']))) {
+        throw new Exception("Unsufficient rights for accessing tab '$tab' of type '$type'");
+      }
+    }
+  }
+
   /*!
    * \brief Get list of object of objectType $type in $ou
    *
@@ -136,6 +151,7 @@ class fdRPCService
    */
   protected function _ls ($type, $attrs = NULL, $ou = NULL, $filter = '')
   {
+    $this->check_access($type);
     return objects::ls($type, $attrs, $ou, $filter);
   }
 
@@ -150,6 +166,7 @@ class fdRPCService
    */
   protected function _count ($type, $ou = NULL, $filter = '')
   {
+    $this->check_access($type);
     return objects::count($type, $ou, $filter);
   }
 
@@ -162,6 +179,8 @@ class fdRPCService
    */
   protected function _infos($type)
   {
+    $this->check_access($type);
+
     global $config;
     $infos = objects::infos($type);
     unset($infos['tabClass']);
@@ -199,6 +218,8 @@ class fdRPCService
    */
   protected function _fields($type, $dn = NULL, $tab = NULL)
   {
+    $this->check_access($type, $tab);
+
     if ($dn === NULL) {
       $tabobject = objects::create($type);
     } else {
@@ -209,16 +230,36 @@ class fdRPCService
     } else {
       $object = $tabobject->by_object[$tab];
     }
-    $fields = $object->attributesInfo;
-    foreach ($fields as &$section) {
-      $attributes = array();
-      foreach ($section['attrs'] as $key => $attr) {
-        $attr->serializeAttribute($attributes);
+    if (is_subclass_of($object, 'simplePlugin')) {
+      $fields = $object->attributesInfo;
+      foreach ($fields as &$section) {
+        $attributes = array();
+        foreach ($section['attrs'] as $key => $attr) {
+          if ($object->acl_is_readable($attr->getAcl())) {
+            $attr->serializeAttribute($attributes);
+          }
+        }
+        $section['attrs'] = $attributes;
       }
-      $section['attrs'] = $attributes;
+      unset($section);
+      return $fields;
+    } else {
+      /* fallback for old plugins */
+      $fields = array('main' => array('attrs' => array(), 'name' => _('Plugin')));
+      foreach ($object->attributes as $attr) {
+        if ($object->acl_is_readable($attr.'Acl')) {
+          $fields['main']['attrs'][$attr] = array(
+            'value'       => $object->$attr,
+            'required'    => FALSE,
+            'disabled'    => FALSE,
+            'label'       => $attr,
+            'type'        => 'OldPluginAttribute',
+            'description' => '',
+          );
+        }
+      }
+      return $fields;
     }
-    unset($section);
-    return $fields;
   }
 
   /*!
@@ -233,6 +274,8 @@ class fdRPCService
    */
   protected function _update($type, $dn, $tab, $values)
   {
+    $this->check_access($type, $tab);
+
     if ($dn === NULL) {
       $tabobject = objects::create($type);
     } else {
@@ -243,8 +286,11 @@ class fdRPCService
     } else {
       $object = $tabobject->by_object[$tab];
     }
+    /* TODO : replace this by something closer to save_object system, allowing complex things */
     foreach ($values as $key => $value) {
-      $object->attributesAccess[$key]->setValue($value);
+      if ($object->acl_is_writeable($object->attributesAccess[$key]->getAcl())) {
+        $object->attributesAccess[$key]->setValue($value);
+      }
     }
     $errors = $tabobject->check();
     if (!empty($errors)) {

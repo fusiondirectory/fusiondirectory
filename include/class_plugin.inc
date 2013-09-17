@@ -1503,13 +1503,6 @@ class plugin
     return preg_match('/m/', $ui->get_permissions($base, $this->acl_category.get_class($this), '0'));
   }
 
-  /*!
-   *  \brief does the acl have permissions
-   */
-  function acl_have_any_permissions()
-  {
-  }
-
   /*! \brief get the acl */
   function getacl($attribute, $skip_write = FALSE)
   {
