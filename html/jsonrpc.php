@@ -268,7 +268,7 @@ class fdRPCService
    * \param string  $type the object type
    * \param string  $dn   the object to load values from if any (otherwise it's a creation)
    * \param string  $tab  the tab to modify if not the main one
-   * \param array   $values  the values as an associative array
+   * \param array   $values  the values as an associative array. Keys should be the same returned by fields
    *
    * \return An array with errors if any, the resulting object dn otherwise
    */
@@ -281,17 +281,12 @@ class fdRPCService
     } else {
       $tabobject = objects::open($dn, $type);
     }
-    if ($tab === NULL) {
-      $object = $tabobject->getBaseObject();
-    } else {
-      $object = $tabobject->by_object[$tab];
+    if ($tab !== NULL) {
+      $tabobject->current = $tab;
     }
-    /* TODO : replace this by something closer to save_object system, allowing complex things */
-    foreach ($values as $key => $value) {
-      if ($object->acl_is_writeable($object->attributesAccess[$key]->getAcl())) {
-        $object->attributesAccess[$key]->setValue($value);
-      }
-    }
+    $_POST                  = $values;
+    $_POST[$tab.'_posted']  = TRUE;
+    $tabobject->save_object();
     $errors = $tabobject->check();
     if (!empty($errors)) {
       return array('errors' => $errors);

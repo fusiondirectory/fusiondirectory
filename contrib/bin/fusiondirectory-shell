@@ -145,6 +145,12 @@ my $term = new Term::ShellUI(
       maxargs => 0,
       proc    => \&command_types,
     },
+    "create" => {
+      desc    => "Create an object of a given type",
+      minargs => 1,
+      maxargs => 1,
+      proc    => \&command_create,
+    },
     "exit" => {
       desc    => "Exit FusionDirectory shell",
       maxargs => 0,
@@ -230,16 +236,30 @@ sub command_cat
 sub show_field
 {
   my ($field) = @_;
-  if (grep {$field->{'type'} eq $_} ('StringAttribute', 'DisplayAttribute', 'PasswordAttribute')) {
-    #~ print "\t".$field->{'label'}.": ".$field->{'value'}."\n";
-    printf ("\t%-22s %s\n", $field->{'label'}.':', $field->{'value'});
-  } else {
-    if (ref($field->{'value'}) ne 'ARRAY') {
+  foreach my $type (@{$field->{'type'}}) {
+    if (grep {$type eq $_} ('StringAttribute', 'DisplayAttribute')) {
       printf ("\t%-22s %s\n", $field->{'label'}.':', $field->{'value'});
-    } else {
-      printf ("\t%-22s %s", $field->{'label'}.':', Dumper($field->{'value'}));
+      return;
     }
   }
+  # Default display
+  if (ref($field->{'value'}) ne 'ARRAY') {
+    printf ("\t%-22s %s\n", $field->{'label'}.':', $field->{'value'});
+  } else {
+    printf ("\t%-22s %s", $field->{'label'}.':', Dumper($field->{'value'}));
+  }
+}
+
+sub ask_field
+{
+  my ($field) = @_;
+  foreach my $type (@{$field->{'type'}}) {
+    if (grep {$type eq $_} ('StringAttribute', 'IntAttribute')) {
+      return $term->{term}->readline($field->{'label'}.": ");
+      last;
+    }
+  }
+  die("Don't know how to prompt for the attribute of types ".join(',',@{$field->{'type'}}));
 }
 
 sub command_infos
@@ -264,6 +284,26 @@ sub command_types
   while (my ($type, $display) = each(%$types)) {
     printf ("%-30s %s\n", $display, $type);
   }
+}
+
+sub command_create
+{
+  my ($type) = @_;
+  my $fields = rpc_call($client, 'fields', [$sid,$type]);
+  my %values = ();
+  if (ref $fields eq ref {}) {
+    foreach my $section (values %$fields) {
+      print '['.$section->{'name'}.']'."\n";
+      if (ref $section->{'attrs'} eq ref {}) {
+        while (my ($id, $field) = each %{$section->{'attrs'}}) {
+          if ($field->{'required'} && !$field->{'disabled'}) {
+            $values{$id} = ask_field($field);
+          }
+        }
+      }
+    }
+  }
+  print rpc_call($client, 'update', [$sid,$type,undef,undef,\%values]);
 }
 
 __END__
