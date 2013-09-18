@@ -256,7 +256,24 @@ sub ask_field
   foreach my $type (@{$field->{'type'}}) {
     if (grep {$type eq $_} ('StringAttribute', 'IntAttribute')) {
       return $term->{term}->readline($field->{'label'}.": ");
-      last;
+    } elsif ($type eq 'SelectAttribute') {
+      print $field->{'label'}.":\n";
+      my $i = 0;
+      my @keys = keys(%{$field->{'choices'}});
+      if (scalar(@keys) eq 0) {
+        return '';
+      }
+      for ($i = 0; $i < @keys; $i++) {
+        my $key   = $keys[$i];
+        my $label = ${$field->{'choices'}}{$key};
+        print $i.":$label ($key)\n";
+        #~ if ($id eq $field->{'value'}) {
+      }
+      my $choice;
+      do {
+        $choice = $term->{term}->readline("Choice: ");
+      } while (($choice eq '') || ($choice =~ m/[^0-9]/) || ($choice >= scalar(@keys)));
+      return $keys[$choice];
     }
   }
   die("Don't know how to prompt for the attribute of types ".join(',',@{$field->{'type'}}));
@@ -303,7 +320,14 @@ sub command_create
       }
     }
   }
-  print rpc_call($client, 'update', [$sid,$type,undef,undef,\%values]);
+  my $result = rpc_call($client, 'update', [$sid,$type,undef,undef,\%values]);
+  if (ref $result eq ref {}) {
+    foreach my $error (@{$result->{'errors'}}) {
+      print "Error: $error\n";
+    }
+  } else {
+    print "$result\n";
+  }
 }
 
 __END__

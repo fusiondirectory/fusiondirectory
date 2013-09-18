@@ -281,7 +281,9 @@ class fdRPCService
     } else {
       $tabobject = objects::open($dn, $type);
     }
-    if ($tab !== NULL) {
+    if ($tab === NULL) {
+      $tab = $tabobject->current;
+    } else {
       $tabobject->current = $tab;
     }
     $_POST                  = $values;
