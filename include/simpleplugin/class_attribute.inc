@@ -937,6 +937,20 @@ class SelectAttribute extends Attribute
   {
     return $this->choices;
   }
+
+  function serializeAttribute(&$attributes)
+  {
+    if ($this->visible) {
+      parent::serializeAttribute($attributes);
+
+      if ($this->outputs !== NULL) {
+        $outputs = array_values($this->outputs);
+      } else {
+        $outputs = $this->choices;
+      }
+      $attributes[$this->getLdapName()]['choices'] = array_combine($this->choices, $outputs);
+    }
+  }
 }
 
 /*! \brief This class allow to handle easily an Integer LDAP attribute
