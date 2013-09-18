@@ -106,6 +106,16 @@ class fdRPCService
     if (preg_match('/^_(.*)$/', $method, $m)) {
       throw new Exception("Non existing method '$m[1]'");
     }
+
+    if ($method == 'listLdaps') {
+      $config = new config(CONFIG_DIR."/".CONFIG_FILE, $BASE_DIR);
+      $ldaps = array();
+      foreach ($config->data['LOCATIONS'] as $id => $location) {
+        $ldaps[$id] = $location['NAME'];
+      }
+      return $ldaps;
+    }
+
     initiate_rpc_session(array_shift($params));
 
     global $config;
