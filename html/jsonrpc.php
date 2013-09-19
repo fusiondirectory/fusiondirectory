@@ -71,6 +71,14 @@ function initiateRPCSession($id = NULL, $ldap = NULL, $user = NULL, $pwd = NULL)
       authenticateHeader('Invalid LDAP specified');
     }
     session::global_set('DEBUGLEVEL', 0);
+
+    if (($ssl != "") &&
+          (($config->get_cfg_value('webserviceForceSSL', 'TRUE') == 'TRUE') ||
+           ($config->get_cfg_value("forcessl") == "TRUE"))) {
+      header ("Location: $ssl");
+      exit;
+    }
+
     if (!isset($_SERVER['PHP_AUTH_USER']) && ($user === NULL)) {
       authenticateHeader();
     }
