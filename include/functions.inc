@@ -3054,12 +3054,11 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
 
         @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
         exec($command, $arr, $returnCode);
-        $returnOutput = $arr;
 
         if ($returnCode != 0) {
           $str = implode("\n", $arr);
           @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execution failed code: ".$returnCode);
-          $message = msgPool::cmdexecfailed($cmd, $command, get_class($plugin));
+          $message = msgPool::cmdexecfailed('POSTMODIFY', $command, 'password');
           if (!empty($str)) {
             $message .= "Result: ".$str;
           }
