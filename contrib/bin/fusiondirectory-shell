@@ -21,6 +21,7 @@ my $help      = 0;
 my $ca_file   = 0;
 my $login;
 my $password;
+my $ldap_server = undef;
 
 # Process command-line
 
@@ -29,13 +30,14 @@ GetOptions(
   'url=s'       => \$host,
   'ca=s'        => \$ca_file,
   'login=s'     => \$login,
-  'password=s'  => \$password
+  'password=s'  => \$password,
+  'server=s'    => \$ldap_server
 ) or pod2usage(2);
 pod2usage(1) if $help;
 
-sub rpc_connect {
-  my ($user, $password) = @_;
+my $current_base;
 
+sub rpc_init {
   my $client = JSON::RPC::Client->new();
   $client->version('1.0');
   if ($client->ua->can('ssl_opts')) {
@@ -44,13 +46,6 @@ sub rpc_connect {
     } else {
       $client->ua->ssl_opts(verify_hostname => 0);
     }
-  }
-  if ($user) {
-    my $host_noprotocol = $host;
-    $host_noprotocol =~ s|^https?://||;
-    $host_noprotocol =~ s|/.*$||;
-    #~ print "$host_noprotocol\n";
-    $client->ua->credentials($host_noprotocol.":443", "FusionDirectory", "$user", "$password");
   }
 
   return $client;
@@ -87,13 +82,6 @@ sub rpc_call {
   }
 }
 
-my $client  = rpc_connect($login, $password);
-my $sid     = rpc_call($client, 'get_id');
-my $base    = rpc_call($client, 'get_base');
-
-my $current_base = $base;
-
-#TODO : use Term::shellui
 use Term::ShellUI;
 my $term = new Term::ShellUI(
   app => "fusiondirectory-shell",
@@ -159,6 +147,33 @@ my $term = new Term::ShellUI(
   },
   history_file => '~/.fusiondirectory_shell_history',
 );
+
+my $client  = rpc_init();
+if (!defined $ldap_server) {
+  my $ldaps = rpc_call($client, 'listLdaps');
+  my @keys = keys(%$ldaps);
+  if (scalar(@keys) == 0) {
+    die "No LDAP server was returned by FusionDirectory\n";
+  } elsif (scalar(@keys) == 1) {
+    $ldap_server = $keys[0];
+  } else {
+    for (my $i = 0; $i < @keys; $i++) {
+      my $key   = $keys[$i];
+      my $label = $ldaps->{$key};
+      print $i.":$label ($key)\n";
+    }
+    my $choice;
+    do {
+      $choice = $term->{term}->readline("Choice: ");
+    } while (($choice eq '') || ($choice =~ m/[^0-9]/) || ($choice >= scalar(@keys)));
+    $ldap_server = $keys[$choice];
+  }
+}
+my $sid     = rpc_call($client, 'login', [$ldap_server, $login, $password]);
+my $base    = rpc_call($client, 'getBase', [$sid]);
+
+$current_base = $base;
+
 print 'Using '.$term->{term}->ReadLine."\n";
 $term->prompt(sub { $login.'@'.$current_base."> " });
 $term->run();
@@ -367,6 +382,10 @@ User password to send
 =item B<-c>, B<--ca>=I<FILE>
 
 Use CA file FILE to check the server identity
+
+=item B<-s>, B<--server>=I<SERVER>
+
+Use SERVER ldap server on the FusionDirectory instance to connect (if FusionDirectory has several LDAP server configured)
 
 =back
 

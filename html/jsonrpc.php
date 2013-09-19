@@ -18,14 +18,12 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-function authenticate()
+function authenticateHeader($message = 'Authentication required')
 {
-  if (!isset($_SERVER['PHP_AUTH_USER'])) {
-    header('WWW-Authenticate: Basic realm="FusionDirectory"');
-    header('HTTP/1.0 401 Unauthorized');
-    echo 'Authentication required'."\n";
-    exit;
-  }
+  header('WWW-Authenticate: Basic realm="FusionDirectory"');
+  header('HTTP/1.0 401 Unauthorized');
+  echo "$message\n";
+  exit;
 }
 
 require_once("../include/php_setup.inc");
@@ -33,16 +31,11 @@ require_once("functions.inc");
 require_once("variables.inc");
 require_once("jsonrpcphp/jsonRPCServer.php");
 
-function initiate_rpc_session($id = NULL)
+function initiateRPCSession($id = NULL, $ldap = NULL, $user = NULL, $pwd = NULL)
 {
   global $config, $class_mapping, $BASE_DIR, $ui;
 
   session::start($id);
-
-  if (!session::global_is_set('LOGIN')) {
-    authenticate();
-    session::global_set('LOGIN', TRUE);
-  }
 
   /* Reset errors */
   reset_errors();
@@ -64,21 +57,32 @@ function initiate_rpc_session($id = NULL)
     }
   }
   /* Parse configuration file */
-  if (session::global_is_set('config') && session::global_is_set('plist')) {
+  if (session::global_is_set('LOGIN') && session::global_is_set('config') && session::global_is_set('plist')) {
     $config = session::global_get('config');
     $plist  = session::global_get('plist');
     $ui     = $plist->ui;
   } else {
     $config = new config(CONFIG_DIR."/".CONFIG_FILE, $BASE_DIR);
-    $config->set_current(key($config->data['LOCATIONS']));
-    session::global_set('DEBUGLEVEL', 0);
-    $ui = ldap_login_user($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
-    if (!$ui) {
-      header('WWW-Authenticate: Basic realm="FusionDirectory"');
-      header('HTTP/1.0 401 Unauthorized');
-      echo 'Invalid user or pwd '.$_SERVER['PHP_AUTH_USER'].'/'.$_SERVER['PHP_AUTH_PW']."\n";
-      exit;
+    if ($ldap === NULL) {
+      $config->set_current(key($config->data['LOCATIONS']));
+    } elseif (isset($config->data['LOCATIONS'][$ldap])) {
+      $config->set_current($ldap);
+    } else {
+      authenticateHeader('Invalid LDAP specified');
     }
+    session::global_set('DEBUGLEVEL', 0);
+    if (!isset($_SERVER['PHP_AUTH_USER']) && ($user === NULL)) {
+      authenticateHeader();
+    }
+    if ($user !== NULL) {
+      $ui = ldap_login_user($user, $pwd);
+    } else {
+      $ui = ldap_login_user($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
+    }
+    if (!$ui) {
+      authenticateHeader('Invalid user or pwd '.$_SERVER['PHP_AUTH_USER'].'/'.$_SERVER['PHP_AUTH_PW']);
+    }
+    session::global_set('LOGIN', TRUE);
     $plist = new pluglist($config, $ui);
     session::global_set('plist', $plist);
     $config->loadPlist($plist);
@@ -114,9 +118,13 @@ class fdRPCService
         $ldaps[$id] = $location['NAME'];
       }
       return $ldaps;
+    } elseif ($method == 'login') {
+      /* Login method have the following parameters: LDAP, user, password */
+      initiateRPCSession(NULL, array_shift($params), array_shift($params), array_shift($params));
+      $method = 'getId';
+    } else {
+      initiateRPCSession(array_shift($params));
     }
-
-    initiate_rpc_session(array_shift($params));
 
     global $config;
     $this->ldap = $config->get_ldap_link();
@@ -130,7 +138,7 @@ class fdRPCService
     return call_user_func_array(array($this, '_'.$method), $params);
   }
 
-  function check_access($type, $tab = NULL)
+  function checkAccess($type, $tab = NULL)
   {
     $infos = objects::infos($type);
     $plist = session::global_get('plist');
@@ -161,7 +169,7 @@ class fdRPCService
    */
   protected function _ls ($type, $attrs = NULL, $ou = NULL, $filter = '')
   {
-    $this->check_access($type);
+    $this->checkAccess($type);
     return objects::ls($type, $attrs, $ou, $filter);
   }
 
@@ -176,7 +184,7 @@ class fdRPCService
    */
   protected function _count ($type, $ou = NULL, $filter = '')
   {
-    $this->check_access($type);
+    $this->checkAccess($type);
     return objects::count($type, $ou, $filter);
   }
 
@@ -189,7 +197,7 @@ class fdRPCService
    */
   protected function _infos($type)
   {
-    $this->check_access($type);
+    $this->checkAccess($type);
 
     global $config;
     $infos = objects::infos($type);
@@ -228,7 +236,7 @@ class fdRPCService
    */
   protected function _fields($type, $dn = NULL, $tab = NULL)
   {
-    $this->check_access($type, $tab);
+    $this->checkAccess($type, $tab);
 
     if ($dn === NULL) {
       $tabobject = objects::create($type);
@@ -284,7 +292,7 @@ class fdRPCService
    */
   protected function _update($type, $dn, $tab, $values)
   {
-    $this->check_access($type, $tab);
+    $this->checkAccess($type, $tab);
 
     if ($dn === NULL) {
       $tabobject = objects::create($type);
@@ -307,12 +315,12 @@ class fdRPCService
     return $tabobject->dn;
   }
 
-  protected function _get_id ()
+  protected function _getId ()
   {
     return session_id();
   }
 
-  protected function _get_base ()
+  protected function _getBase ()
   {
     global $config;
     return $config->current['BASE'];
