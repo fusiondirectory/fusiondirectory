@@ -18,6 +18,14 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \file jsonrpc.php
+ * \brief This file is a webservice for FusionDirectory
+ *
+ * It's a JSON-RPC service usually used through HTTPS. It should be put in the html folder of FusionDirectory
+ * Then the url of the webservice will be the url of your FusionDirectory instance followed by /jsonrpc.php
+ */
+
 function authenticateHeader($message = 'Authentication required')
 {
   header('WWW-Authenticate: Basic realm="FusionDirectory"');
@@ -113,6 +121,23 @@ class fdRPCService
   {
   }
 
+  /* Documentation for RPC methods */
+  /*!
+   * \fn listLdaps
+   * \brief Get the list of configured LDAP servers
+   *
+   * \return The list of configured LDAP servers as an associative array (keys are ids, values are displayable names)
+   */
+  /*!
+   * \fn login
+   * \brief Login into the webservice
+   *
+   * \param string $ldap the id of the LDAP server to use (can be NULL, in which case the first LDAP server found is used)
+   * \param string $user The user to log in with
+   * \param string $pwd The password for this user
+   *
+   * \return A session ID on success
+   */
   function __call($method, $params)
   {
     if (preg_match('/^_(.*)$/', $method, $m)) {
@@ -146,7 +171,7 @@ class fdRPCService
     return call_user_func_array(array($this, '_'.$method), $params);
   }
 
-  function checkAccess($type, $tab = NULL)
+  protected function checkAccess($type, $tab = NULL)
   {
     $infos = objects::infos($type);
     $plist = session::global_get('plist');
@@ -162,6 +187,7 @@ class fdRPCService
   }
 
   /*!
+   * \fn ls
    * \brief Get list of object of objectType $type in $ou
    *
    * \param string  $type the objectType to list
@@ -182,6 +208,7 @@ class fdRPCService
   }
 
   /*!
+   * \fn count
    * \brief Get count of objects of objectType $type in $ou
    *
    * \param string  $type the objectType to list
@@ -197,6 +224,7 @@ class fdRPCService
   }
 
   /*!
+   * \fn infos
    * \brief Get information about objectType $type
    *
    * \param string  $type the object type
@@ -216,6 +244,7 @@ class fdRPCService
   }
 
   /*!
+   * \fn listTypes
    * \brief List existing object types
    *
    * \return An associative array with types as keys and their names as values
@@ -234,6 +263,7 @@ class fdRPCService
   }
 
   /*!
+   * \fn fields
    * \brief Get all fields from an object type
    *
    * \param string  $type the object type
@@ -289,6 +319,7 @@ class fdRPCService
   }
 
   /*!
+   * \fn update
    * \brief Update values of an object's attributes
    *
    * \param string  $type the object type
@@ -323,11 +354,23 @@ class fdRPCService
     return $tabobject->dn;
   }
 
+  /*!
+   * \fn getId
+   * \brief Get the session ID
+   *
+   * \return The session ID for the current session. (Mainly useless unless you log in with HTTP auth instead of login method)
+   */
   protected function _getId ()
   {
     return session_id();
   }
 
+  /*!
+   * \fn getBase
+   * \brief Get the LDAP base
+   *
+   * \return The configured LDAP base for the selected LDAP in this webservice session (see login)
+   */
   protected function _getBase ()
   {
     global $config;
