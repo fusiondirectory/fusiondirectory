@@ -3107,7 +3107,7 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
         $string = $command;
         $offset = 0;
         while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
-          $replace = self::tpl_parse_mask($m[1][0], array($fakeobject));
+          $replace = plugin::tpl_parse_mask($m[1][0], array($fakeobject));
           $replace = $replace[0];
           $string = substr_replace($string, $replace, $m[0][1], strlen($m[0][0]));
           $offset = $m[0][1] + strlen($replace);
@@ -3116,12 +3116,11 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
 
         @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
         exec($command, $arr, $returnCode);
-        $returnOutput = $arr;
 
         if ($returnCode != 0) {
           $str = implode("\n", $arr);
           @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execution failed code: ".$returnCode);
-          $message = msgPool::cmdexecfailed($cmd, $command, get_class($plugin));
+          $message = msgPool::cmdexecfailed('POSTMODIFY', $command, 'password');
           if (!empty($str)) {
             $message .= "Result: ".$str;
           }
