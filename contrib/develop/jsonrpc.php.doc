@@ -19,7 +19,7 @@
 */
 
 /*!
- * \file jsonrpc.php
+ * \file jsonrpc.php.doc
  * \brief This is the webservice for FusionDirectory
  *
  * It's a JSON-RPC service usually used through HTTPS. It should be put in the html folder of FusionDirectory
