@@ -459,6 +459,7 @@ class Attribute
       }
       $type[] = 'Attribute'; // To avoid empty array
       $attributes[$this->getLdapName()] = array(
+        'id'          => $this->getHtmlId(),
         'label'       => $this->getLabel(),
         'required'    => $this->isRequired(),
         'disabled'    => $this->disabled,
