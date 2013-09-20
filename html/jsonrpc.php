@@ -244,7 +244,7 @@ class fdRPCService
             $attr->serializeAttribute($attributes);
           }
         }
-        $section['attrs'] = $attributes;
+        $section['attrs'] = array_values($attributes);
       }
       unset($section);
       return $fields;

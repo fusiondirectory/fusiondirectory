@@ -239,8 +239,8 @@ sub command_cat
   if (ref $fields eq ref {}) {
     foreach my $section (values %$fields) {
       print '['.$section->{'name'}.']'."\n";
-      if (ref $section->{'attrs'} eq ref {}) {
-        foreach my $field (values %{$section->{'attrs'}}) {
+      if (ref $section->{'attrs'} eq ref []) {
+        foreach my $field (@{$section->{'attrs'}}) {
           show_field($field);
         }
       }
@@ -327,9 +327,9 @@ sub command_create
     foreach my $section (values %$fields) {
       print '['.$section->{'name'}.']'."\n";
       if (ref $section->{'attrs'} eq ref {}) {
-        while (my ($id, $field) = each %{$section->{'attrs'}}) {
+        foreach my $field (@{$section->{'attrs'}}) {
           if ($field->{'required'} && !$field->{'disabled'}) {
-            $values{$id} = ask_field($field);
+            $values{$field->{'id'}} = ask_field($field);
           }
         }
       }
