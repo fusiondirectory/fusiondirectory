@@ -121,23 +121,6 @@ class fdRPCService
   {
   }
 
-  /* Documentation for RPC methods */
-  /*!
-   * \fn listLdaps
-   * \brief Get the list of configured LDAP servers
-   *
-   * \return The list of configured LDAP servers as an associative array (keys are ids, values are displayable names)
-   */
-  /*!
-   * \fn login
-   * \brief Login into the webservice
-   *
-   * \param string $ldap the id of the LDAP server to use (can be NULL, in which case the first LDAP server found is used)
-   * \param string $user The user to log in with
-   * \param string $pwd The password for this user
-   *
-   * \return A session ID on success
-   */
   function __call($method, $params)
   {
     if (preg_match('/^_(.*)$/', $method, $m)) {
@@ -187,19 +170,7 @@ class fdRPCService
   }
 
   /*!
-   * \fn ls
    * \brief Get list of object of objectType $type in $ou
-   *
-   * \param string  $type the objectType to list
-   * \param mixed   $attrs The attributes to fetch.
-   * If this is a single value, the resulting associative array will have for each dn the value of this attribute.
-   * If this is an array, the keys must be the wanted attributes, and the values can be either 1, '*' or 'raw'
-   *  depending if you want a single value or an array of values. 'raw' means untouched LDAP value and is only useful for dns.
-   *  Other values are considered to be 1.
-   * \param string  $ou the LDAP branch to search in, base will be used if it is NULL
-   * \param string  $filter an additional filter to use in the LDAP search.
-   *
-   * \return The list of objects as an associative array (keys are dns)
    */
   protected function _ls ($type, $attrs = NULL, $ou = NULL, $filter = '')
   {
@@ -208,14 +179,7 @@ class fdRPCService
   }
 
   /*!
-   * \fn count
    * \brief Get count of objects of objectType $type in $ou
-   *
-   * \param string  $type the objectType to list
-   * \param string  $ou the LDAP branch to search in, base will be used if it is NULL
-   * \param string  $filter an additional filter to use in the LDAP search.
-   *
-   * \return The number of objects of type $type in $ou
    */
   protected function _count ($type, $ou = NULL, $filter = '')
   {
@@ -224,12 +188,7 @@ class fdRPCService
   }
 
   /*!
-   * \fn infos
    * \brief Get information about objectType $type
-   *
-   * \param string  $type the object type
-   *
-   * \return The informations on this type as an associative array
    */
   protected function _infos($type)
   {
@@ -244,10 +203,7 @@ class fdRPCService
   }
 
   /*!
-   * \fn listTypes
    * \brief List existing object types
-   *
-   * \return An associative array with types as keys and their names as values
    */
   protected function _listTypes()
   {
@@ -263,14 +219,7 @@ class fdRPCService
   }
 
   /*!
-   * \fn fields
    * \brief Get all fields from an object type
-   *
-   * \param string  $type the object type
-   * \param string  $dn   the object to load values from if any
-   * \param string  $tab  the tab to show if not the main one
-   *
-   * \return All attributes organized as sections
    */
   protected function _fields($type, $dn = NULL, $tab = NULL)
   {
@@ -319,15 +268,7 @@ class fdRPCService
   }
 
   /*!
-   * \fn update
    * \brief Update values of an object's attributes
-   *
-   * \param string  $type the object type
-   * \param string  $dn   the object to load values from if any (otherwise it's a creation)
-   * \param string  $tab  the tab to modify if not the main one
-   * \param array   $values  the values as an associative array. Keys should be the same returned by fields
-   *
-   * \return An array with errors if any, the resulting object dn otherwise
    */
   protected function _update($type, $dn, $tab, $values)
   {
@@ -355,10 +296,7 @@ class fdRPCService
   }
 
   /*!
-   * \fn getId
    * \brief Get the session ID
-   *
-   * \return The session ID for the current session. (Mainly useless unless you log in with HTTP auth instead of login method)
    */
   protected function _getId ()
   {
@@ -366,10 +304,7 @@ class fdRPCService
   }
 
   /*!
-   * \fn getBase
    * \brief Get the LDAP base
-   *
-   * \return The configured LDAP base for the selected LDAP in this webservice session (see login)
    */
   protected function _getBase ()
   {
