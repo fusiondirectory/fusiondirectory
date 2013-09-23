@@ -334,7 +334,7 @@ class posixAccount extends simplePlugin
     $ldap = $this->config->get_ldap_link();
     $ldap->cd($this->config->current['BASE']);
     $ldap->search("(&(objectClass=posixGroup)(gidNumber=".$this->gidNumber.")(cn=".$this->getUid()."))", array("cn","gidNumber"));
-    
+
     if ($ldap->count() > 0) {
       /* The copied user had its own group */
       $this->primaryGroup = 0; // switch back to automatic
@@ -433,7 +433,6 @@ class posixAccount extends simplePlugin
      * - .. if we couldn't find a group with the same name, we will create a new one,
      *    using the users uid as cn and a generated uniqe gidNumber.
      * */
-    $uid = $this->parent->getBaseObject()->uid;
     if ($this->is_template && ($this->primaryGroup == 0)) {
       $this->gidNumber = 2147483647;
     } elseif (($this->primaryGroup == 0) || $this->force_ids) {
@@ -478,7 +477,7 @@ class posixAccount extends simplePlugin
         $g->cn          = $groupcn;
         $g->force_gid   = 1;
         $g->gidNumber   = $this->gidNumber;
-        $g->description = sprintf(_("Group of user %s"), $uid);
+        $g->description = sprintf(_("Group of user %s"), $this->getUid());
         $g->save();
 
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
@@ -526,8 +525,6 @@ class posixAccount extends simplePlugin
     parent::save();
     del_lock("uidnumber");
 
-    $uid = $this->parent->getBaseObject()->uid;
-
     /* Take care about groupMembership values: add to groups */
     $groupMembership = $this->attributesAccess['groupMembership']->getValue();
     foreach ($groupMembership as $value) {
@@ -561,12 +558,10 @@ class posixAccount extends simplePlugin
     /* Remove and write to LDAP */
     parent::remove_from_parent();
 
-    $uid = $this->parent->getBaseObject()->uid;
-
     /* Delete group only if cn is uid and there are no other members inside */
     $ldap = $this->config->get_ldap_link();
     $ldap->cd ($this->config->current['BASE']);
-    $ldap->search ('(&(objectClass=posixGroup)(gidNumber='.$this->gidNumber.')(cn='.$uid.'))', array('cn', 'memberUid'));
+    $ldap->search ('(&(objectClass=posixGroup)(gidNumber='.$this->gidNumber.')(cn='.$this->getUid().'))', array('cn', 'memberUid'));
     if ($ldap->count() != 0) {
       $attrs = $ldap->fetch();
 
