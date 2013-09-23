@@ -106,12 +106,12 @@ class config  {
   {
     /* Check if class_location.inc has changed, this is the case
         if we have installed or removed plugins. */
+    $tmp = stat(CACHE_DIR."/".CLASS_CACHE);
     if (session::global_is_set("class_location.inc:timestamp")) {
       if ($tmp['mtime'] != session::global_get("class_location.inc:timestamp")) {
         session::global_un_set("plist");
       }
     }
-    $tmp = stat(CACHE_DIR."/".CLASS_CACHE);
     session::global_set("class_location.inc:timestamp", $tmp['mtime']);
 
     if (($this->filename != "") && ((filemtime($this->filename) != $this->last_modified) || $force)) {
@@ -544,7 +544,6 @@ class config  {
         'QUEUE_TABLE'         => "queues",
         'QUEUE_MEMBER_TABLE'  => "queue_members"
       );
-      
       if (isset($attrs['fdAsteriskDriver'][0])) {
         $entry['DRIVER'] = $attrs['fdAsteriskDriver'][0];
       }
@@ -1327,23 +1326,6 @@ class config  {
           }
         }
       }
-      /* Read management info */
-      if (isset($plInfo['plManages'])) {
-        foreach ($plInfo['plManages'] as $type) {
-          if (isset($this->data['OBJECTS'][strtoupper($type)])) {
-            $this->data['OBJECTS'][strtoupper($type)]['management'] = $class;
-            $cat    = $this->data['OBJECTS'][strtoupper($type)]['aclCategory'];
-            $acl[]  = $cat;
-
-            if (!empty($plInfo['plProvidedAcls'])) {
-              $this->data['CATEGORIES'][$cat]['classes'][] = $class;
-            }
-            if (!in_array($cat, $plInfo['plCategory'])) {
-              $plInfo['plCategory'][] = $cat;
-            }
-          }
-        }
-      }
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, join(',', $acl), "Class $class categories");
       /* Feed menu */
       if (isset($plInfo['plSection'])) {
@@ -1375,6 +1357,14 @@ class config  {
           $attrs['ACL'] = $acl;
         }
         $this->data['MENU'][$section][] = $attrs;
+      }
+      /* Read management info */
+      if (isset($plInfo['plManages'])) {
+        foreach ($plInfo['plManages'] as $type) {
+          if (isset($this->data['OBJECTS'][strtoupper($type)])) {
+            $this->data['OBJECTS'][strtoupper($type)]['management'] = $class;
+          }
+        }
       }
     }
     unset($plInfo);

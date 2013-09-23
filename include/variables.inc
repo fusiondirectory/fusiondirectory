@@ -45,7 +45,6 @@ if (!defined("CONFIG_FILE")) {
 define("SMARTY", "/usr/share/php/smarty3/Smarty.class.php");
 
 /*!
-
  * \brief Smarty compile dir
  */
 define ("SPOOL_DIR", "/var/spool/fusiondirectory/"); /* FusionDirectory spool directory */

@@ -98,7 +98,6 @@ function displayLogin()
   $smarty->assign("rtl", language_is_rtl($lang));
 
   $smarty->display (get_template_path('headers.tpl'));
-
   $smarty->assign("version", FD_VERSION);
 
   $smarty->display(get_template_path('login.tpl'));

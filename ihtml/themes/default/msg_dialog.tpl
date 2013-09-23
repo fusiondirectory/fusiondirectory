@@ -14,6 +14,7 @@
   <div id="trace_{$i_ID}" style="display:none;">
     {$s_Trace}
   </div>
+
   {/if}
 
   {if $i_Type == $smarty.const.INFO_DIALOG || $i_Type == $smarty.const.CONFIRM_DIALOG || $i_Type == $smarty.const.OK_CANCEL_DIALOG}
@@ -74,4 +75,5 @@
   <script type="text/javascript">
     focus_field('MSG_OK{$i_ID}');
   </script>
+
 {/if}
