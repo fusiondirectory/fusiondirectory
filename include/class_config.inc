@@ -106,13 +106,12 @@ class config  {
   {
     /* Check if class_location.inc has changed, this is the case
         if we have installed or removed plugins. */
+    $tmp = stat(CACHE_DIR."/".CLASS_CACHE);
     if (session::global_is_set("class_location.inc:timestamp")) {
-      $tmp = stat(CACHE_DIR."/".CLASS_CACHE);
       if ($tmp['mtime'] != session::global_get("class_location.inc:timestamp")) {
         session::global_un_set("plist");
       }
     }
-    $tmp = stat(CACHE_DIR."/".CLASS_CACHE);
     session::global_set("class_location.inc:timestamp", $tmp['mtime']);
 
     if (($this->filename != "") && ((filemtime($this->filename) != $this->last_modified) || $force)) {
@@ -660,6 +659,28 @@ class config  {
       }
     }
 
+  }
+
+  /* Check that configuration is in LDAP, check that no plugin got installed since last configuration update */
+  function checkLdapConfig ()
+  {
+    global $ui;
+    $ldap   = $this->get_ldap_link();
+    $dn     = CONFIGRDN.$this->current['BASE'];
+    $reload = TRUE;
+    $ldap->cat($dn, array('fusionConfigMd5'));
+    if ($attrs = $ldap->fetch()) {
+      if (isset($attrs['fusionConfigMd5'][0]) && ($attrs['fusionConfigMd5'][0] == md5_file(CACHE_DIR."/".CLASS_CACHE))) {
+        $reload = FALSE;
+      }
+    }
+    if ($reload) {
+      add_lock($dn, $ui->dn);
+      $config_plugin = new tabs_configInLdap($this, $this->data['TABS']['CONFIGURATIONTABS'], $dn, 'configuration');
+      $config_plugin->save_object();
+      $config_plugin->save();
+      del_lock($dn);
+    }
   }
 
   function load_inldap_config()

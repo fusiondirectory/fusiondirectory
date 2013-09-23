@@ -96,6 +96,7 @@ class configInLdap extends simplePlugin
             'fdTimezone', TRUE,
             array('America/New_York')
           ),
+          new HiddenAttribute ('fusionConfigMd5'),
         )
       ),
       'schema_setup' => array(
@@ -437,6 +438,9 @@ class configInLdap extends simplePlugin
     $attributesInfo['password']['attrs'][0]->setChoices($methods);
 
     parent::__construct($config, $dn, $object, $attributesInfo);
+
+    $this->fusionConfigMd5 = md5_file(CACHE_DIR."/".CLASS_CACHE);
+
     $this->attributesAccess['fdEnableSnapshots']->setManagedAttributes(
       array(
         'disable' => array (

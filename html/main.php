@@ -152,6 +152,7 @@ if (!session::global_is_set('plist')) {
   $config->loadPlist($plist);
   $config->get_departments();
   $config->make_idepartments();
+  $config->checkLdapConfig();
 }
 $plist = session::global_get('plist');
 
