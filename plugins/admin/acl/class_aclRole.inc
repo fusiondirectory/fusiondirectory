@@ -188,7 +188,6 @@ class aclRole extends simplePlugin
       'plShortName'   => _('Role'),
       'plDescription' => _('Access control roles'),
       'plSelfModify'  => FALSE,
-      'plCategory'    => array('acl'),
       'plObjectType'  => array('aclRole' => array(
         'aclCategory' => 'acl',
         'name'        => _('ACL role'),
@@ -230,10 +229,6 @@ class aclRole extends simplePlugin
     );
   }
 
-  function compute_dn()
-  {
-    return 'cn='.$this->cn.",".get_ou('aclRoleRDN').$this->base;
-  }
 
   static function typeName($type)
   {
@@ -279,6 +274,11 @@ class acl_createedit extends acl
     plugin::__construct($config, $config->current['BASE']);
 
     $this->loadAclEntry($acl);
+  }
+
+  function compute_dn()
+  {
+    return 'cn='.$this->cn.",".get_ou('aclRoleRDN').$this->base;
   }
 
   function execute()

@@ -33,14 +33,14 @@ class aclManagement extends management
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("Acl"),
-      "plDescription" => _("Access control list management"),
-      "plIcon"        => "plugins/acl/images/icon.png",
-      "plSection"     => "admin",
-      "plPriority"    => 42,
-      "plCategory"    => array("acl"),
+      'plShortName'   => _('Acl'),
+      'plDescription' => _('Access control list management'),
+      'plIcon'        => 'plugins/acl/images/icon.png',
+      'plSection'     => 'admin',
+      'plPriority'    => 42,
+      'plManages'     => array('acl', 'aclRole'),
 
-      "plProvidedAcls" => array()
+      'plProvidedAcls' => array()
     );
   }
 

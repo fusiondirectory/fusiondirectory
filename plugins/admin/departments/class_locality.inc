@@ -29,7 +29,6 @@ class locality extends department
     return array(
       'plShortName'   => _('Locality'),
       'plDescription' => _('Locality'),
-      'plCategory'    => array('department'),
       'plObjectType'  => array('locality' => array(
         'aclCategory' => 'department',
         'name'        => _('Locality'),
