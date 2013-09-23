@@ -231,13 +231,6 @@ class posixAccount extends simplePlugin
     $this->attributesAccess['mustchangepassword']->setInLdap(FALSE);
     $this->attributesAccess['shadowLastChange']->setVisible(FALSE);
 
-    /* Setting uid to default */
-    if (isset($this->attrs['uid'][0])) {
-      $uid = $this->attrs['uid'][0];
-    } elseif (isset($object)) {
-      $uid = $object->uid;
-    }
-
     if ($dn !== NULL) {
 
       /* Correct is_account. shadowAccount is not required. */
@@ -303,7 +296,7 @@ class posixAccount extends simplePlugin
 
     /* Groups handling */
     $ldap->cd($this->config->current['BASE']);
-    $ldap->search('(&(objectClass=posixGroup)(memberUid='.$uid.'))', array('cn', 'description'));
+    $ldap->search("(&(objectClass=posixGroup)(memberUid=".$this->getUid()."))", array("cn", "description"));
     $groupMembership = array();
     while ($attrs = $ldap->fetch()) {
       if (!isset($attrs["description"][0])) {
@@ -321,6 +314,17 @@ class posixAccount extends simplePlugin
     $this->savedGroupMembership = array_keys($groupMembership);
   }
 
+  function getUid()
+  {
+    if (isset($this->parent)) {
+      $baseobject = $this->parent->getBaseObject();
+      return $baseobject->uid;
+    }
+    if (isset($this->attrs['uid'][0])) {
+      return $this->attrs['uid'][0];
+    }
+  }
+
   function resetCopyInfos()
   {
     parent::resetCopyInfos();
@@ -329,8 +333,8 @@ class posixAccount extends simplePlugin
 
     $ldap = $this->config->get_ldap_link();
     $ldap->cd($this->config->current['BASE']);
-    $uid = $this->parent->getBaseObject()->uid;
-    $ldap->search('(&(objectClass=posixGroup)(gidNumber='.$this->gidNumber.')(cn='.$uid.'))', array('cn','gidNumber'));
+    $ldap->search("(&(objectClass=posixGroup)(gidNumber=".$this->gidNumber.")(cn=".$this->getUid()."))", array("cn","gidNumber"));
+    
     if ($ldap->count() > 0) {
       /* The copied user had its own group */
       $this->primaryGroup = 0; // switch back to automatic
@@ -442,13 +446,13 @@ class posixAccount extends simplePlugin
       if ($this->force_ids) {
         $ldap->search('(&(objectClass=posixGroup)(gidNumber='.$this->gidNumber.'))', array('cn','gidNumber'));
       } else {
-        $ldap->search('(&(objectClass=posixGroup)(gidNumber=*)(cn='.$uid.'))', array('cn','gidNumber'));
+        $ldap->search("(&(objectClass=posixGroup)(gidNumber=*)(cn=".$this->getUid()."))", array("cn","gidNumber"));
       }
 
       /* No primary group found, create a new one */
       if ($ldap->count() == 0) {
-        $groupcn  = $uid;
-        $pri_attr = $this->config->get_cfg_value('accountPrimaryAttribute');
+        $groupcn  = $this->getUid();
+        $pri_attr = $this->config->get_cfg_value("accountPrimaryAttribute");
         $groupdn  = preg_replace ('/^'.preg_quote($pri_attr, '/').'=[^,]+,'.preg_quote(get_people_ou(), '/').'/i',
             'cn='.$groupcn.','.get_groups_ou(), $this->dn);
 
@@ -463,7 +467,7 @@ class posixAccount extends simplePlugin
         $cnt = 0;
         while ($ldap->dn_exists($groupdn) && ($cnt < 100)) {
           $cnt++;
-          $groupcn = $uid."_".$cnt;
+          $groupcn = $this->getUid()."_".$cnt;
           $groupdn = preg_replace ('/^'.preg_quote($pri_attr, '/').'=[^,]+,'.preg_quote(get_people_ou(), '/').'/i',
               'cn='.$groupcn.','.get_groups_ou(), $this->dn);
         }
@@ -485,14 +489,14 @@ class posixAccount extends simplePlugin
         $this->gidNumber = $attrs['gidNumber'][0];
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
           "Found and used: <i>".$attrs['dn']."</i>",
-          sprintf("Primary group '%s' exists, gidNumber is '%s'.", $uid, $this->gidNumber));
+          sprintf("Primary group '%s' exists, gidNumber is '%s'.", $this->getUid(), $this->gidNumber));
       }
     } else {
       /* Primary group was selected by user */
       $this->gidNumber = $this->primaryGroup;
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
         sprintf("Primary group '%s' for user '%s' manually selected.",
-        $this->gidNumber, $uid), "");
+        $this->gidNumber, $this->getUid()), "");
     }
 
     if ($this->mustchangepassword) {
@@ -530,7 +534,7 @@ class posixAccount extends simplePlugin
       if (!in_array($value, $this->savedGroupMembership)) {
         $g = new grouptabs($this->config, $this->config->data['TABS']['GROUPTABS'], $value, "group");
         $g->set_acl_base($value);
-        $g->by_object['group']->addUser($uid);
+        $g->by_object['group']->addUser($this->getUid());
         $g->save();
       }
     }
@@ -540,7 +544,7 @@ class posixAccount extends simplePlugin
       if (!in_array($value, $groupMembership)) {
         $g = new grouptabs($this->config, $this->config->data['TABS']['GROUPTABS'], $value, "group");
         $g->set_acl_base($value);
-        $g->by_object['group']->removeUser($uid);
+        $g->by_object['group']->removeUser($this->getUid());
         $g->save();
       }
     }
@@ -565,7 +569,8 @@ class posixAccount extends simplePlugin
     $ldap->search ('(&(objectClass=posixGroup)(gidNumber='.$this->gidNumber.')(cn='.$uid.'))', array('cn', 'memberUid'));
     if ($ldap->count() != 0) {
       $attrs = $ldap->fetch();
-      if (!isset($this->attrs['memberUid'])) {
+
+      if ($attrs['cn'][0] == $this->getUid() && !isset($this->attrs['memberUid'])) {
         $ldap->rmDir($ldap->getDN());
       }
     }
