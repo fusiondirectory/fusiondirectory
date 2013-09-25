@@ -228,6 +228,7 @@ class listing {
         'objectClass' => $objectClass,
         'category'    => $i['aclCategory'],
         'class'       => $i['mainTab'],
+        'filter'      => ldapFilter::parse($i['filter'])
       );
     }
     $this->categories = array();
@@ -858,10 +859,18 @@ class listing {
    *
    * \param string $classes
    */
-  function getObjectType($classes)
+  function getObjectType($attrs)
   {
+    $classes = $attrs['objectClass'];
     // Walk thru types and see if there's something matching
     foreach ($this->objectTypes as $type => $objectType) {
+      if (isset($objectType['filter'])) {
+        if ($objectType['filter']($attrs)) {
+          return $type;
+        } else {
+          continue;
+        }
+      }
       $ocs = $objectType['objectClass'];
       if (!is_array($ocs)) {
         $ocs = array($ocs);
@@ -889,9 +898,9 @@ class listing {
     return NULL;
   }
 
-  function getObjectTypeInfos($classes)
+  function getObjectTypeInfos($attrs)
   {
-    $type = $this->getObjectType($classes);
+    $type = $this->getObjectType($attrs);
     if ($type === NULL) {
       return NULL;
     }
@@ -925,12 +934,16 @@ class listing {
    *
    * \param string $classes
    */
-  function filterObjectType($dn, $classes)
+  function filterObjectType($dn, $classes = array())
   {
     // Walk thru classes and return on first match
     $result = "&nbsp;";
 
-    $type = $this->getObjectType($classes);
+    if (($attrs = $this->getEntry($dn)) != NULL) {
+      $type = $this->getObjectType($attrs);
+    } else {
+      $type = $this->getObjectType(array('objectClass' => $classes));
+    }
     if ($type) {
       $this->objectDnMapping[$dn] = $type;
       $result = "<img class='center' title='".LDAP::fix($dn)."' src='".$this->objectTypes[$type]["image"]."' alt='$type'/>";
@@ -1020,7 +1033,7 @@ class listing {
       // Handle special types
       if ($action['type'] == "copypaste" || $action['type'] == "snapshot") {
 
-        $objectType = $this->getObjectTypeInfos($this->entries[$row]['objectClass']);
+        $objectType = $this->getObjectTypeInfos($this->entries[$row]);
         $category   = $class = NULL;
         if ($objectType) {
           $category = $objectType['category'];
@@ -1365,6 +1378,13 @@ class listing {
     $ui = get_userinfo();
 
     if (isset($action['acl'])) {
+      if (($attrs = $this->getEntry($dn)) != NULL) {
+        $otype = $this->getObjectTypeInfos($attrs);
+      } elseif ($classes) {
+        $otype = $this->getObjectTypeInfos(array('objectClass' => $classes));
+      } else {
+        $otype = FALSE;
+      }
       $acls = $action['acl'];
       if (!is_array($acls)) {
         $acls = array($acls);
@@ -1376,9 +1396,8 @@ class listing {
         $aclList  = array();
 
         // Replace %acl if available
-        if ($classes) {
-          $otype  = $this->getObjectTypeInfos($classes);
-          $acl    = str_replace('%acl', $otype['category']."/".$otype['class'], $acl);
+        if ($otype) {
+          $acl = str_replace('%acl', $otype['category']."/".$otype['class'], $acl);
         }
 
         // Split for category and plugins if needed
