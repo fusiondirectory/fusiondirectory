@@ -983,9 +983,6 @@ sub set_vars {
   $fai_log_dir      = $vars{fd_cache}."/".$vars{fai_log_dir};
   $template_dir     = $vars{fd_cache}."/".$vars{template_dir};
   my $supann_dir    = $vars{fd_cache}."/supann";
-  my $asterisk_dir  = $vars{fd_cache}."/asterisk";
-  my $systems_dir   = $vars{fd_cache}."/systems";
-  my $mail_dir      = $vars{fd_cache}."/mail";
 
   @root_config_dirs   = ( $vars{fd_home}, $vars{fd_config_dir} );
   @apache_config_dirs = ( $vars{fd_spool_dir}, $vars{fd_cache}, $tmp_dir, $fai_log_dir,
