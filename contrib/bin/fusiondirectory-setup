@@ -925,6 +925,9 @@ sub install_plugins {
     # copy contrib
     create_and_copy_plugin_dir($plugin_path."/contrib/",$vars{fd_home}."/doc/contrib/".$plugin);
 
+    # copy includes
+    create_and_copy_plugin_dir($plugin_path."/include/",$vars{fd_home}."/include/");
+
     # copy etc FIXME !!! not right all files goes now to /var/cache/fusiondirectory/plugin
     #my $files_dirs_copied = rcopy($plugin_path."/etc/*", $vars{fd_config_dir});
 
