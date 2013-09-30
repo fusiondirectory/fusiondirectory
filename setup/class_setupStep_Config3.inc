@@ -163,6 +163,7 @@ class Step_Config3 extends setup_step
 
   function save_config_in_ldap ()
   {
+    global $BASE_DIR;
     $cv = $this->parent->captured_values;
 
     $attrs = array(
@@ -263,6 +264,8 @@ class Step_Config3 extends setup_step
     if (!$ldap->success()) {
       return msgPool::ldaperror($ldap->get_error(), $dn, 'add', get_class());
     }
+    $config = new config(CONFIG_DIR."/".CONFIG_FILE, $BASE_DIR);
+    $config->checkLdapConfig();
   }
 
 
