@@ -56,7 +56,7 @@ foreach my $arg ( @ARGV ) {
         push @schemas, $1;
         push @gen_files, $1;
       } else {
-        die "Something went wrong while trying to convert $arg to ldif\n";
+        die_with_error("Something went wrong while trying to convert $arg to ldif\n");
       }
     } else {
       push @schemas, $arg;
@@ -70,7 +70,7 @@ foreach my $arg ( @ARGV ) {
 }
 
 # die if user is not "root"
-die ("! You have to run this script as root\n") if ($<!=0);
+die_with_error ("! You have to run this script as root\n") if ($<!=0);
 
 if ($listschemas) {
   list_schemas();
@@ -78,15 +78,15 @@ if ($listschemas) {
 }
 
 # die if the path doesn't exists
-die ("! $path doesn't seems to exists\n") if (!-e $path);
+die_with_error ("! $path doesn't seems to exists\n") if (!-e $path);
 
 # die if ldap-utils are not installed
-die ("! ldap-utils doesn't seem to be installed") if (!-e $ldap_utils_path);
+die_with_error ("! ldap-utils doesn't seem to be installed") if (!-e $ldap_utils_path);
 
 #die if we are not in cn=config
 my $cnconfig = `$cnconfig_cmd`;
 if (!($cnconfig =~ m/^dn:\s*cn=config$/)) {
-  die ("! This tool is only intended to be with with a cn=config backend, cn=config could not be found in the LDAP");
+  die_with_error ("! This tool is only intended to be with with a cn=config backend, cn=config could not be found in the LDAP");
 }
 
 if (scalar(@schemas) == 0) {
@@ -96,7 +96,7 @@ if (scalar(@schemas) == 0) {
     if (system("$schema2ldif $path$schema.schema > $path$schema.ldif") == 0) {
       push @gen_files, $path.$schema;
     } else {
-      die "Something went wrong while trying to convert $path$schema.schema to ldif\n";
+      die_with_error ("Something went wrong while trying to convert $path$schema.schema to ldif\n");
     }
   }
 } elsif ($pathunset) {
@@ -132,15 +132,27 @@ foreach my $schema (@schemas) {
     $full_cmd = $add_cmd.$path.$schema.".ldif";
     print "executing '$full_cmd'\n";
     if (system ($full_cmd) != 0) {
-      die "Insertion failed!\n";
+      die_with_error ("Insertion failed!\n");
     }
   } else {
     print "$schema_name already exists in the LDAP, skipping…\n";
   }
 }
 
-foreach my $file (@gen_files) {
-  unlink "$file.ldif" or print "Could not delete $file.ldif\n";
+remove_ldifs();
+
+sub remove_ldifs
+{
+  foreach my $file (@gen_files) {
+    unlink "$file.ldif" or print "Could not delete $file.ldif\n";
+  }
+}
+
+sub die_with_error
+{
+  my ($error) = @_;
+  remove_ldifs();
+  die $error;
 }
 
 sub list_schemas
