@@ -318,10 +318,6 @@ class configInLdap extends simplePlugin
             'fdAccountRDN', FALSE
           ),
           new StringAttribute (
-            _('Next id hook'), _('A script to be called for finding the next free id for users or groups externaly.'),
-            'fdNextIdHook', FALSE
-          ),
-          new StringAttribute (
             _('Automatic UIDs'), _('Automatic way to generate new user ids'),
             'fdIdGenerator', FALSE
           ),
@@ -333,19 +329,23 @@ class configInLdap extends simplePlugin
           ),
           new IntAttribute (
             _('GID/UID min id'),
-            _('The minimum assignable user or group id to avoid security leaks with uid 0 accounts.'),
+            _('The minimum assignable user or group id number to avoid security leaks with uid 0 accounts.'),
             'fdMinId', FALSE,
             0, FALSE
           ),
+          new StringAttribute (
+            _('Next id hook'), _('A script to be called for finding the next free id number for users or groups externaly.'),
+            'fdNextIdHook', FALSE
+          ),
           new IntAttribute (
             _('Number base for people'),
-            _('Where to start looking for a new free user id.'),
+            _('Where to start looking for a new free user id number.'),
             'fdUidNumberBase', FALSE,
             0, FALSE, 1100
           ),
           new IntAttribute (
             _('Number base for groups'),
-            _('Where to start looking for a new free group id.'),
+            _('Where to start looking for a new free group id number.'),
             'fdGidNumberBase', FALSE,
             0, FALSE, 1100
           ),
