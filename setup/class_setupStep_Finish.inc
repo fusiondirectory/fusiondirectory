@@ -50,7 +50,7 @@ class Step_Finish extends setup_step
 
   function execute()
   {
-    global $BASE_DIR;
+    global $config, $BASE_DIR;
     if (!function_exists("posix_getgrgid")) {
       $webgroup = "";
     } else {
@@ -69,6 +69,7 @@ class Step_Finish extends setup_step
 
     if (isset($_POST['next']) && $exists && !$this->is_world_readable(CONFIG_DIR."/".CONFIG_FILE)) {
       $config = new config(CONFIG_DIR."/".CONFIG_FILE, $BASE_DIR);
+      $config->set_current($config->data['MAIN']['DEFAULT']);
       $config->checkLdapConfig();
       session::destroy();
       header("Location: index.php");
