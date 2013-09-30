@@ -122,7 +122,7 @@ class configInLdap extends simplePlugin
           new SelectAttribute (
             _('Password default hash'), _('Default hash to be used'),
             'fdPasswordDefaultHash', TRUE,
-            array('crypt/md5')
+            array('ssha')
           ),
           new BooleanAttribute (
             _('Force default hash'), _('Force the use of the default password hash'),
