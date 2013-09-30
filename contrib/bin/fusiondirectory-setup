@@ -928,6 +928,9 @@ sub install_plugins {
     # copy config
     create_and_copy_plugin_dir($plugin_path."/config/",$vars{fd_home}."/plugins/config/");
 
+    # copy ldap schema
+    create_and_copy_plugin_dir($plugin_path."/contrib/openldap/",$vars{fd_home}."/contrib/openldap/");
+
     # copy includes
     create_and_copy_plugin_dir($plugin_path."/include/",$vars{fd_home}."/include/");
 
