@@ -48,7 +48,7 @@ array_to_ldif               - Create ldif output of an ldap result array
 class Step_Migrate extends setup_step
 {
   var $languages      = array();
-  var $attributes     = array();
+  var $attributes     = array('valid_admin');
   var $header_image   = "images/setup/migrate.png";
   var $checks         = array();
 
@@ -109,7 +109,10 @@ class Step_Migrate extends setup_step
   var $rootOC_migrate_dialog = FALSE;
   var $rootOC_details = array();
 
-  function __construct()
+  /* One valid admin dn */
+  var $valid_admin = FALSE;
+
+  function Step_Migrate()
   {
     $this->update_strings();
   }
@@ -780,6 +783,7 @@ class Step_Migrate extends setup_step
     $this->migrate_users = array();
     $this->acl_migrate_dialog = FALSE;
     $this->migrate_acl_base_entry  = "";
+    $valid_admin = FALSE;
 
     /* Establish ldap connection */
     $cv = $this->parent->captured_values;
@@ -834,6 +838,9 @@ class Step_Migrate extends setup_step
               $member = base64_decode($member);
               if (isset($users[$member])) {
                 if (preg_match("/all;cmdrw/i", $tmp[3])) {
+                  if (!$valid_admin) {
+                    $valid_admin = $member;
+                  }
                   $valid_users    .= $users[$member].", ";
                   $GOsa_26_found  = TRUE;
                 }
@@ -846,6 +853,9 @@ class Step_Migrate extends setup_step
                   if (isset($group_attrs['memberUid'])) {
                     for ($e = 0; $e < $group_attrs['memberUid']['count']; $e++) {
                       if (isset($rusers[$group_attrs['memberUid'][$e]])) {
+                        if (!$valid_admin) {
+                          $valid_admin = $rusers[$group_attrs['memberUid'][$e]];
+                        }
                         $val_users .= $group_attrs['memberUid'][$e].", ";
                       }
                     }
@@ -875,6 +885,9 @@ class Step_Migrate extends setup_step
                     $member = base64_decode($member);
 
                     if (isset($users[$member])) {
+                      if (!$valid_admin) {
+                        $valid_admin = $member;
+                      }
                       $valid_users    .= $users[$member].", ";
                       $GOsa_26_found  = TRUE;
                     }
@@ -885,6 +898,9 @@ class Step_Migrate extends setup_step
                       if (isset($group_attrs['memberUid'])) {
                         for ($e = 0; $e < $group_attrs['memberUid']['count']; $e ++) {
                           if (isset($rusers[$group_attrs['memberUid'][$e]])) {
+                            if (!$valid_admin) {
+                              $valid_admin = $rusers[$group_attrs['memberUid'][$e]];
+                            }
                             $val_users .= $group_attrs['memberUid'][$e].", ";
                           }
                         }
@@ -913,6 +929,9 @@ class Step_Migrate extends setup_step
           for ($e = 0; $e < $p_group['memberUid']['count']; $e ++ ) {
             $user = $p_group['memberUid'][$e];
             if (isset($rusers[$user])) {
+              if (!$valid_admin) {
+                $valid_admin = $rusers[$user];
+              }
               $val_users .= $user.", ";
             }
           }
@@ -946,6 +965,7 @@ class Step_Migrate extends setup_step
         $this->checks['acls']['STATUS']     = TRUE;
         $this->checks['acls']['STATUS_MSG'] = _("Ok");
         $this->checks['acls']['ERROR_MSG']  = $str;
+        $this->valid_admin = $valid_admin;
       } else {
         $this->checks['acls']['STATUS']     = FALSE;
         $this->checks['acls']['STATUS_MSG'] = _("Failed");
