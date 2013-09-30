@@ -30,7 +30,7 @@ class Step_Config1 extends setup_step
   var $strict     = TRUE;
 
   var $cngen_active = FALSE;
-  var $cngen        = "%sn %givenName";
+  var $cngen        = "%sn% %givenName%";
 
   var $header_image       = "images/setup/server.png";
   var $account_expiration = FALSE;
@@ -42,17 +42,21 @@ class Step_Config1 extends setup_step
 
   var $include_personal_title = FALSE;
 
-  var $pwd_rules  = array("pwminlen" => 6,
-                          "pwminlen_active" => FALSE,
-                          "pwdiffer" => 5,
-                          "pwdiffer_active" => FALSE,
-                          "externalpwdhook" => "",
-                          "externalpwdhook_active" => FALSE);
+  var $pwd_rules  = array(
+    "pwminlen"                => 6,
+    "pwminlen_active"         => FALSE,
+    "pwdiffer"                => 5,
+    "pwdiffer_active"         => FALSE,
+    "externalpwdhook"         => "",
+    "externalpwdhook_active"  => FALSE
+  );
 
-  var $id_settings = array(       "idgen"         => "{%sn}-{%givenName[2-4]}",
-                                  "idgen_active"  => FALSE,
-                                  "minid"         => "100",
-                                  "minid_active"  => FALSE);
+  var $id_settings = array(
+    "idgen"         => "%laS|sn%-%laSs[2-4]|givenName%",
+    "idgen_active"  => FALSE,
+    "minid"         => "100",
+    "minid_active"  => FALSE
+  );
 
   var $crypt_methods  = array();
 
