@@ -133,19 +133,7 @@ textdomain($domain);
 /* Prepare plugin list */
 if (!session::global_is_set('plist')) {
   /* Initially load all classes */
-  $class_list= get_declared_classes();
-  foreach ($class_mapping as $class => $path) {
-    if (!in_array($class, $class_list)) {
-      if (is_readable("$BASE_DIR/$path")) {
-        require_once("$BASE_DIR/$path");
-      } else {
-        msg_dialog::display(_("Fatal error"),
-            sprintf(_("Cannot locate file '%s' - please run '%s' to fix this"),
-              "$BASE_DIR/$path", "<b>fusiondirectory-setup</b>"), FATAL_ERROR_DIALOG);
-        exit;
-      }
-    }
-  }
+  load_all_classes();
 
   $plist = new pluglist($config, $ui);
   session::global_set('plist', $plist);
