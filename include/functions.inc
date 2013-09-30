@@ -2957,8 +2957,8 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
   // Detect the encryption Method
   if ($config->get_cfg_value("forcePasswordDefaultHash", "FALSE") == "TRUE") {
     // if forcePasswordDefaultHash is TRUE we use the passwordDefaultHash
-    // hash and if it is not defined we use 'crypt/md5' as default
-    $hash = $config->get_cfg_value("passwordDefaultHash", "crypt/md5");
+    // hash and if it is not defined we use 'ssha' as default
+    $hash = $config->get_cfg_value("passwordDefaultHash", "ssha");
     $test = new $available[$hash]($config, $dn);
   } elseif ((isset($attrs['userPassword'][0]) && preg_match ("/^{([^}]+)}(.+)/", $attrs['userPassword'][0])) || $hash != "") {
 
@@ -2975,7 +2975,7 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
 
   } else {
     // Use MD5 by default
-    $hash = $config->get_cfg_value("passwordDefaultHash", "crypt/md5");
+    $hash = $config->get_cfg_value("passwordDefaultHash", "ssha");
     $test = new  $available[$hash]($config, $dn);
   }
 

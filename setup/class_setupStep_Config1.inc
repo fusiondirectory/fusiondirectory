@@ -37,7 +37,7 @@ class Step_Config1 extends setup_step
   var $base_hook          = "";
   var $base_hook_active   = FALSE;
 
-  var $encryption = "crypt/md5";
+  var $encryption = "ssha";
   var $theme      = "default";
 
   var $include_personal_title = FALSE;
