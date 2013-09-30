@@ -68,6 +68,8 @@ class Step_Finish extends setup_step
      *   - Permisssion are set correctly
      */
     if(isset($_POST['next']) && $exists && !$this->is_world_readable(CONFIG_DIR."/".CONFIG_FILE)){
+      $config = new config(CONFIG_DIR."/".CONFIG_FILE, $BASE_DIR);
+      $config->checkLdapConfig();
       session::destroy();
       header("Location: index.php");
       exit();
@@ -139,5 +141,4 @@ class Step_Finish extends setup_step
   }
 }
 
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

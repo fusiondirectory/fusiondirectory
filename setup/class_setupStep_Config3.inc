@@ -271,8 +271,6 @@ class Step_Config3 extends setup_step
     if (!$ldap->success()) {
       return msgPool::ldaperror($ldap->get_error(), $dn, 'add', get_class());
     }
-    $config = new config(CONFIG_DIR."/".CONFIG_FILE, $BASE_DIR);
-    $config->checkLdapConfig();
   }
 
 
