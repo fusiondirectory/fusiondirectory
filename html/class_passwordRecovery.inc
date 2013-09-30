@@ -123,7 +123,7 @@ class passwordRecovery {
     $ssl = $this->checkForSSL();
 
     /* Check for selected password method */
-    $this->method = $this->config->get_cfg_value("passwordDefaultHash", "crypt/md5");
+    $this->method = $this->config->get_cfg_value("passwordDefaultHash", "ssha");
     if (isset($_GET['method'])) {
       $this->method = validate($_GET['method']);
       $tmp = new passwordMethod($this->config);

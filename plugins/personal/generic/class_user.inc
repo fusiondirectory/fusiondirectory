@@ -67,7 +67,7 @@ class UserPasswordAttribute extends CompositeAttribute
   {
     parent::setParent($plugin);
     if (is_object($this->plugin)) {
-      $hash = $this->plugin->config->get_cfg_value('passwordDefaultHash', 'crypt/md5');
+      $hash = $this->plugin->config->get_cfg_value('passwordDefaultHash', 'ssha');
       $this->attributes[0]->setDefaultValue($hash);
       if ($this->plugin->config->get_cfg_value('forcePasswordDefaultHash', 'FALSE') == 'TRUE') {
         $this->attributes[0]->setValue($hash);
@@ -95,7 +95,7 @@ class UserPasswordAttribute extends CompositeAttribute
 
   function readValues($value)
   {
-    $pw_storage = $this->plugin->config->get_cfg_value('passwordDefaultHash', 'crypt/md5');
+    $pw_storage = $this->plugin->config->get_cfg_value('passwordDefaultHash', 'ssha');
     if (preg_match ('/^{[^}]+}/', $value)) {
       $tmp = passwordMethod::get_method($value);
       if (is_object($tmp)) {
@@ -288,7 +288,7 @@ class user extends plugin
     }
 
     /* Make hash default to md5 if not set in config */
-    $this->pw_storage = $this->config->get_cfg_value("passwordDefaultHash", "crypt/md5");
+    $this->pw_storage = $this->config->get_cfg_value("passwordDefaultHash", "ssha");
     if ($this->config->get_cfg_value("forcePasswordDefaultHash", "FALSE") === "TRUE") {
       $this->force_hash = $this->pw_storage;
     }
