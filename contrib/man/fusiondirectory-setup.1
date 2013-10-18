@@ -170,10 +170,10 @@ This option will encrypt the password inside your fusiondirectory.conf file, it 
 This option will list the variables you can change to install FusionDirectory on another set of directories. This option is intended for people wanting to install from the sources.
 .IP "\-\-set\-VAR=variable" 4
 .IX Item "--set-VAR=variable"
-This option will change the variable for the FusionDirectory installation. it is only usefull with \-\-install\-directories and for people installing from sources.
+This option will change the variable for the FusionDirectory installation. it is only useful with \-\-install\-directories and for people installing from sources.
 .IP "\-\-write\-vars" 4
 .IX Item "--write-vars"
-This option will write back the variables.inc file with the updated variables and is only usefull with \-\-set\-VAR=variable and for people installing from sources.
+This option will write back the variables.inc file with the updated variables and is only useful with \-\-set\-VAR=variable and for people installing from sources.
 .IP "\-\-yes" 4
 .IX Item "--yes"
 This flag will answer \*(L"yes\*(R" to every yes/no question asked by the script
@@ -186,17 +186,20 @@ This flag will answer \*(L"yes\*(R" to every yes/no question asked by the script
 \&
 \& benoit@catbert$ fusiondirectory\-setup \-\-list\-vars
 \& List possible vars to give \-\-set
-\& locale_cache_dir [locale]
-\& config_file [fusiondirectory.conf]
-\& fd_cache [/var/cache/fusiondirectory]
-\& fd_spool_dir [/var/spool/fusiondirectory]
-\& fai_log_dir [fai]
-\& tmp_dir [tmp]
-\& template_dir [template]
-\& locale_dir [locale]
-\& fd_config_dir [/etc/fusiondirectory]
-\& class_cache [class.cache]
-\& fd_home [/var/www/fusiondirectory]
+\&locale_cache_dir        [locale]
+\&config_file             [fusiondirectory.conf]
+\&fd_cache                [/var/cache/fusiondirectory]
+\&fd_smarty_dir           [/usr/share/php/smarty3]
+\&fd_spool_dir            [/var/spool/fusiondirectory]
+\&fai_log_dir             [fai]
+\&tmp_dir                 [tmp]
+\&secrets_file            [fusiondirectory.secrets]
+\&template_dir            [template]
+\&locale_dir              [locale]
+\&class_cache             [class.cache]
+\&fd_config_dir           [/etc/fusiondirectory]
+\&fd_home [/var/www/fusiondirectory]
+\&
 \&
 \& benoit@catbert$ fusiondirectory\-setup \-\-set\-class_cache=class.cache \-\-write\-vars
 \&
