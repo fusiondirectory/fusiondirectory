@@ -34,7 +34,7 @@ my %vars = (
  fd_home          => "/var/www/fusiondirectory",
  fd_cache         => "/var/cache/fusiondirectory",
  fd_config_dir    => "/etc/fusiondirectory",
- fd_smarty_dir    => "/usr/share/php/smarty3/Smarty.class.php",
+ fd_smarty_dir    => "/usr/share/php/smarty3",
  fd_spool_dir     => "/var/spool/fusiondirectory",
  config_file      => "fusiondirectory.conf",
  secrets_file     => "fusiondirectory.secrets",
@@ -1139,7 +1139,7 @@ This flag will answer "yes" to every yes/no question asked by the script
 locale_cache_dir	[locale]
 config_file     	[fusiondirectory.conf]
 fd_cache        	[/var/cache/fusiondirectory]
-fd_smarty_dir   	[/usr/share/php/smarty3/Smarty.class.php]
+fd_smarty_dir   	[/usr/share/php/smarty3]
 fd_spool_dir    	[/var/spool/fusiondirectory]
 fai_log_dir     	[fai]
 tmp_dir		        [tmp]
