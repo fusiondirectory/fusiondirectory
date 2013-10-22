@@ -148,6 +148,14 @@ FusionDirectory changelog
 [Fix] Bugs #2757: since their moving the icon for applications and mimetypes doesnt appers in the menu
 [Fix] Bugs #2773: Undefined attribute type
 [Fix] Bugs #2798: remove the old obsolete doc in the netgroups plugin
+[Fix] Bugs #2819: remove scriptaculous from the source
+[Fix] Bugs #2821: remove included smarty gettext
+[Fix] Bugs #2823: remove schema2ldif from the source
+[Fix] Bugs #2824: move the developpers stuff into a developpers plugin in the plugins
+[Fix] Bugs #2828: refresh all manpages for 1.0.7
+[Fix] Bugs #2829: wrong dir for smarty in fusiondirectory-setup
+[Fix] Bugs #2830: refresh readme and install for 1.0.7
+[Fix] Bugs #2825: move the developpers stuff into a developpers plugin in the plugins
 [Fix] Wishlist #2339: "board" plugin rename to "dashboard"
 [Fix] Wishlist #2340: Default value for "encodings" after installation
 [Fix] Wishlist #2406: Allow filter to have no template
