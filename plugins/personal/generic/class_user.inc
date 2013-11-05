@@ -20,6 +20,118 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/* Handle a password and its hash method */
+class UserPasswordAttribute extends CompositeAttribute
+{
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "")
+  {
+    $temp = passwordMethod::get_available_methods();
+
+    /* Create password methods array */
+    $pwd_methods = array();
+    foreach ($temp['name'] as $id => $name) {
+      if (!$temp[$id]['object']->need_password()) {
+        continue;
+      }
+      $pwd_methods[$name] = $name;
+      if (!empty($temp[$id]['desc'])) {
+        $pwd_methods[$name] .= " (".$temp[$id]['desc'].")";
+      }
+    }
+
+    parent::__construct (
+      $description, $ldapName,
+      array(
+        new SelectAttribute(
+          _('Password method'), _('Password hash method to use'),
+          $ldapName.'_pwstorage', TRUE,
+          array_keys($pwd_methods), '', array_values($pwd_methods)
+        ),
+        new PasswordAttribute(
+          _('Password'), _('Password (Leave empty if you do not wish to change it)'),
+          $ldapName.'_password', $required
+        ),
+        new PasswordAttribute(
+          _('Password again'), _('Same password as above, to avoid errors'),
+          $ldapName.'_password2', $required
+        ),
+        new HiddenAttribute(
+          $ldapName.'_hash'
+        )
+      ),
+      '', '', $acl, $label
+    );
+  }
+
+  public function setParent(&$plugin)
+  {
+    parent::setParent($plugin);
+    if (is_object($this->plugin)) {
+      $hash = $this->plugin->config->get_cfg_value('passwordDefaultHash', 'ssha');
+      $this->attributes[0]->setDefaultValue($hash);
+      if ($this->plugin->config->get_cfg_value('forcePasswordDefaultHash', 'FALSE') == 'TRUE') {
+        $this->attributes[0]->setValue($hash);
+        $this->attributes[0]->setDisabled(TRUE);
+      }
+    }
+  }
+
+  /*! \brief Loads this attribute value from the attrs array
+   */
+  protected function loadAttrValue ($attrs)
+  {
+    if (isset($attrs[$this->getLdapName()])) {
+      $this->setValue($this->inputValue($attrs[$this->getLdapName()][0]));
+      $this->setRequired(FALSE);
+      $this->attributes[1]->setRequired(FALSE);
+      $this->attributes[2]->setRequired(FALSE);
+    } else {
+      $this->setRequired(TRUE);
+      $this->attributes[0]->resetToDefault();
+      $this->attributes[1]->setRequired(TRUE);
+      $this->attributes[2]->setRequired(TRUE);
+    }
+  }
+
+  function readValues($value)
+  {
+    $pw_storage = $this->plugin->config->get_cfg_value('passwordDefaultHash', 'ssha');
+    if (preg_match ('/^{[^}]+}/', $value)) {
+      $tmp = passwordMethod::get_method($value);
+      if (is_object($tmp)) {
+        $pw_storage = $tmp->get_hash();
+      }
+    } else {
+      if ($value != '') {
+        $pw_storage = 'clear';
+      }
+    }
+    return array($pw_storage, '', '', $value);
+  }
+
+  function writeValues($values)
+  {
+    if ($values[1] == '') {
+      return $values[3];
+    }
+    $temp = passwordMethod::get_available_methods();
+    $test = new $temp[$values[0]]($this->plugin->config, $this->plugin->dn);
+    $test->set_hash($values[0]);
+    return $test->generate_hash($values[1]);
+  }
+
+  function check()
+  {
+    $error = parent::check();
+    if (!empty($error)) {
+      return $error;
+    }
+    if ($this->attributes[1]->getValue() != $this->attributes[2]->getValue()) {
+      return _('Passwords does not match');
+    }
+  }
+}
+
 /*!
   \brief   user plugin
   \author  Cajus Pollmeier <pollmeier@gonicus.de>
@@ -176,7 +288,7 @@ class user extends plugin
     }
 
     /* Make hash default to md5 if not set in config */
-    $this->pw_storage = $this->config->get_cfg_value("passwordDefaultHash", "crypt/md5");
+    $this->pw_storage = $this->config->get_cfg_value("passwordDefaultHash", "ssha");
     if ($this->config->get_cfg_value("forcePasswordDefaultHash", "FALSE") === "TRUE") {
       $this->force_hash = $this->pw_storage;
     }
@@ -688,7 +800,8 @@ class user extends plugin
       /* Sync lists */
       $this->gosaLoginRestrictionWidget->save_object();
       if ($this->gosaLoginRestrictionWidget->isModified()) {
-        $this->gosaLoginRestriction= array_values($this->gosaLoginRestrictionWidget->getMaintainedData());
+        $this->gosaLoginRestriction = array_values($this->gosaLoginRestrictionWidget->getMaintainedData());
+        $this->gosaLoginRestrictionWidget->setListData($this->gosaLoginRestrictionWidget->getMaintainedData());
       }
 
       /* Save government mode attributes */
@@ -1194,11 +1307,11 @@ class user extends plugin
     }
 
     /* Check for reserved characers */
-    if (preg_match ('/[,+"?\'()=<>;\\\\]/', $this->givenName)){
-      $message[]= msgPool::invalid(_("Given name"), $this->givenName, '/[^,+"?\'()=<>;\\\\]/');
+    if (preg_match ('/[,+"?()=<>;\\\\]/', $this->givenName)){
+      $message[]= msgPool::invalid(_("Given name"), $this->givenName, '/[^,+"?()=<>;\\\\]/');
     }
-    if (preg_match ('/[,+"?\'()=<>;\\\\]/', $this->sn)){
-      $message[]= msgPool::invalid(_("Name"), $this->sn, '/[^,+"?\'()=<>;\\\\]/');
+    if (preg_match ('/[,+"?()=<>;\\\\]/', $this->sn)){
+      $message[]= msgPool::invalid(_("Name"), $this->sn, '/[^,+"?()=<>;\\\\]/');
     }
 
     return $message;

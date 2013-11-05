@@ -136,11 +136,11 @@ class SnapshotHandler {
     $snapshotLdap= null;
 
     /* check if there are special server configurations for snapshots */
-    if($this->config->get_cfg_value("snapshotURI") != ""){
-      $server= $this->config->get_cfg_value("snapshotURI");
-      $user= $this->config->get_cfg_value("snapshotAdminDn");
-      $password= $this->config->get_credentials($this->config->get_cfg_value("snapshotAdminPassword"));
-      $snapshotLdap= new ldapMultiplexer(new LDAP($user,$password, $server));
+    if ($this->config->get_cfg_value("snapshotURI") != "") {
+      $server       = $this->config->get_cfg_value("snapshotURI");
+      $user         = $this->config->get_cfg_value("snapshotAdminDn");
+      $password     = $this->config->get_cfg_value("snapshotAdminPassword");
+      $snapshotLdap = new ldapMultiplexer(new LDAP($user, $password, $server));
     }
 
     /* Prepare bases */
@@ -596,9 +596,12 @@ class SnapshotHandler {
     $data  = gzuncompress($ldap_to->get_attribute($dn,'gosaSnapshotData'));
 
     /* Import the given data */
-    $err = "";
-    $ldap->import_complete_ldif($data,$err,false,false);
-    if (!$ldap->success()){
+    try {
+      $ldap->import_complete_ldif($data, FALSE, FALSE);
+    } catch(Exception $e) {
+      msg_dialog::display(_('LDAP error'), $e->getMessage(), ERROR_DIALOG);
+    }
+    if (!$ldap->success()) {
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, "", get_class()));
     }
   }

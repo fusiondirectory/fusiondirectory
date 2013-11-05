@@ -4,6 +4,7 @@ $Id$
 
   This code is part of LDAP Account Manager (http://www.sourceforge.net/projects/lam)
   Copyright (C) 2004 - 2006 Roland Gruber
+  Copyright (C) 2013 FusionDirectory Project
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -347,13 +348,12 @@ private $sbox = array(array(array(14,  4, 13,  1,  2, 15, 11,  8,  3, 10,  6, 12
   * @return string hash value
   */
   public function nthash($password = "") {
-    if (function_exists('mhash'))
-      if (defined('MHASH_MD4'))
-        return strtoupper(bin2hex(mhash(MHASH_MD4,iconv('UTF-8','UTF-16LE',$password))));
-      else
-        return strtoupper(hash('md4', iconv("UTF-8","UTF-16LE",$password)));
+    if (function_exists('mhash') && defined('MHASH_MD4'))
+      return strtoupper(bin2hex(mhash(MHASH_MD4,iconv('UTF-8','UTF-16LE',$password))));
+    elseif (function_exists('hash'))
+      return strtoupper(hash('md4', iconv('UTF-8','UTF-16LE',$password)));
     else
-      error(_('Your PHP install does not have the mhash() function. Cannot do hashes.'),'error','index.php');
+      die(_('Your PHP install does not have the mhash() nor the hash function. Cannot do MD4 hashes.'));
   }
 
   /**

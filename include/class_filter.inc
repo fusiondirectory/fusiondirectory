@@ -402,14 +402,19 @@ class filter
    */
   function render()
   {
-    $smarty= get_smarty();
+    /* If template is not filled, we display nothing */
+    if (!isset ($this->xmlData['definition']['template'])) {
+      return "";
+    }
+
+    $smarty = get_smarty();
     $smarty->assign("ALPHABET", $this->renderAlphabet());
     $smarty->assign("APPLY", $this->renderApply());
     $smarty->assign("SCOPE", $this->renderScope());
 
     // Load template and replace elementsHtml[]
     foreach ($this->elements as $tag => $element) {
-      $htmlCode= "";
+      $htmlCode = "";
       switch ($element['type']) {
         case "textfield":
           $htmlCode = $this->getTextfield($element);
@@ -430,15 +435,15 @@ class filter
     }
 
     // Try to load template from plugin the folder first...
-    $file = get_template_path($this->xmlData['definition']['template'], true);
+    $file = get_template_path($this->xmlData['definition']['template'], TRUE);
 
     // ... if this fails, try to load the file from the theme folder.
-    if(!file_exists($file)){
+    if (!file_exists($file)) {
       $file = get_template_path($this->xmlData['definition']['template']);
     }
 
     // Load template
-    return ("<input type='hidden' name='FILTER_PID' value='".$this->pid."'>".$smarty->fetch($file));
+    return "<input type='hidden' name='FILTER_PID' value='".$this->pid."'/>".$smarty->fetch($file);
   }
 
   /*!

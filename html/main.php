@@ -62,6 +62,13 @@ if ($_SERVER['REMOTE_ADDR'] != $ui->ip) {
   exit;
 }
 $config = session::global_get('config');
+
+/* If SSL is forced, just forward to the SSL enabled site */
+if (($config->get_cfg_value("forcessl") == "TRUE") && ($ssl != '')) {
+  header ("Location: $ssl");
+  exit;
+}
+
 timezone::get_default_timezone();
 
 /* Check for invalid sessions */
@@ -114,7 +121,7 @@ if (!session::global_is_set('CurrentMainBase')) {
 putenv("LANGUAGE=");
 putenv("LANG=$lang");
 setlocale(LC_ALL, $lang);
-$GLOBALS['t_language']= $lang;
+$GLOBALS['t_language']            = $lang;
 $GLOBALS['t_gettext_message_dir'] = $BASE_DIR.'/locale/';
 
 /* Set the text domain as 'fusiondirectory' */
@@ -126,30 +133,19 @@ textdomain($domain);
 /* Prepare plugin list */
 if (!session::global_is_set('plist')) {
   /* Initially load all classes */
-  $class_list= get_declared_classes();
-  foreach ($class_mapping as $class => $path) {
-    if (!in_array($class, $class_list)) {
-      if (is_readable("$BASE_DIR/$path")) {
-        require_once("$BASE_DIR/$path");
-      } else {
-        msg_dialog::display(_("Fatal error"),
-            sprintf(_("Cannot locate file '%s' - please run '%s' to fix this"),
-              "$BASE_DIR/$path", "<b>fusiondirectory-setup</b>"), FATAL_ERROR_DIALOG);
-        exit;
-      }
-    }
-  }
+  load_all_classes();
 
   $plist = new pluglist($config, $ui);
   session::global_set('plist', $plist);
   $config->loadPlist($plist);
+  $config->checkLdapConfig();
 
   /* Load ocMapping into userinfo */
   $tmp = new acl($config, $ui->dn);
   $ui->ocMapping = $tmp->ocMapping;
   session::global_set('ui', $ui);
 }
-$plist= session::global_get('plist');
+$plist = session::global_get('plist');
 
 /* Check for register globals */
 if (isset($global_check) && $config->get_cfg_value("forceglobals") == "TRUE") {
@@ -297,24 +293,19 @@ if (isset($_GET['reset'])) {
 /* show web frontend */
 $smarty->assign ("date", date("l, dS F Y H:i:s O"));
 $smarty->assign ("lang", preg_replace('/_.*$/', '', $lang));
-$smarty->assign ("must", "<font class=\"must\">*</font>");
+$smarty->assign ("rtl", language_is_rtl($lang));
+$smarty->assign ("must", '<span class="must">*</span>');
 if (isset($plug)) {
   $plug= "?plug=$plug";
 } else {
   $plug= "";
 }
-if (session::global_get('js') == FALSE) {
-  $smarty->assign("javascript", "false");
-} else {
-  $smarty->assign("javascript", "true");
-}
 
 if ($ui->ignore_acl_for_current_user()) {
-  $smarty->assign ("username", "<font color='#FF0000';>"._("User ACL checks disabled")."</font>&nbsp;".$ui->username);
+  $smarty->assign ("username", "<div style='color:#FF0000;'>"._("User ACL checks disabled")."</div>&nbsp;".$ui->username);
 } else {
   $smarty->assign ("username", $ui->username);
 }
-$smarty->assign ("go_logo", get_template_path('images/go_logo.png'));
 $smarty->assign ("go_base", get_template_path('images/dtree.png'));
 $smarty->assign ("go_home", get_template_path('images/gohome.png'));
 $smarty->assign ("go_out", get_template_path('images/logout.png'));
@@ -421,7 +412,9 @@ if (isset($_POST['_channel_'])) {
 $smarty->assign ("title","FusionDirectory");
 
 if (class_available('Game')) {
-  $smarty->assign('game_screen',Game::run());
+  $smarty->assign('game_screen', Game::run());
+} else {
+  $smarty->assign('game_screen', '');
 }
 
 $display =  $smarty->fetch(get_template_path('headers.tpl')).

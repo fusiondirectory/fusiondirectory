@@ -379,7 +379,7 @@ class simplePlugin extends plugin
     $group = new $class($this->config, $this->group_attrs['dn'], $attrsWrapper);
     $smarty = get_smarty();
 
-    $this->renderAttributes(TRUE);
+    $group->renderAttributes(TRUE);
     $smarty->assign("hiddenPostedInput", get_class($this)."_posted");
 
     return "<h1>Inherited informations:</h1><div></div>\n".$smarty->fetch($this->templatePath);
@@ -426,13 +426,22 @@ class simplePlugin extends plugin
    */
   function remove_from_parent()
   {
-    if (!$this->initially_was_account) {
+    if (!$this->initially_was_account || !$this->acl_is_removeable()) {
       return;
     }
+    $this->prepare_remove();
+    $this->ldap_remove();
+    $this->log_remove();
+  }
 
+  protected function prepare_remove ()
+  {
     /* Remove FusionDirectory attributes */
     plugin::remove_from_parent();
+  }
 
+  protected function ldap_remove ()
+  {
     $ldap = $this->config->get_ldap_link();
     if ($this->mainTab) {
       $ldap->rmdir_recursive($this->dn);
@@ -441,11 +450,17 @@ class simplePlugin extends plugin
       $ldap->cd($this->dn);
       $ldap->modify($this->attrs);
     }
+
+    $this->ldap_error = $ldap->get_error();
+
     if (!$ldap->success()) {
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_MOD, get_class()));
     }
+  }
 
-    new log("remove", "plugin/".get_class($this), $this->dn, array_keys($this->attrs), $ldap->get_error());
+  protected function log_remove ()
+  {
+    new log("remove", "plugin/".get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
 
     /* Optionally execute a command after we're done */
     $this->handle_post_events("remove");
@@ -525,26 +540,27 @@ class simplePlugin extends plugin
     /* Check if this is a new entry ... add/modify */
     $ldap = $this->config->get_ldap_link();
     $ldap->cat($this->dn, array("objectClass"));
-    if ($ldap->count()) {
-      $ldap->cd($this->dn);
-      if ($cleanup) {
-        $this->cleanup();
+    if ($this->mainTab && !$this->initially_was_account) {
+      if ($ldap->count()) {
+        msg_dialog::display(_("Error when saving"), sprintf(_('There is already an entry with the same dn : %s'), $this->dn));
+        return;
+      }
+      $ldap->cd($this->config->current['BASE']);
+      $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $this->dn));
+      $action = "add";
+    } else {
+      if (!$ldap->count()) {
+        msg_dialog::display(_("Error when saving"), sprintf(_('The entry %s is not existing'), $this->dn));
+        return;
       }
       $action = "modify";
-      $ldap->modify($this->attrs);
-    } else {
-      if ($this->mainTab) {
-        $ldap->cd($this->config->current['BASE']);
-        $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $this->dn));
-      }
-      if ($cleanup) {
-        $this->cleanup();
-      }
-      $ldap->cd($this->dn);
-      $action = "add";
-      $ldap->add($this->attrs);
     }
 
+    if ($cleanup) {
+      $this->cleanup();
+    }
+    $ldap->cd($this->dn);
+    $ldap->$action($this->attrs);
     $this->ldap_error = $ldap->get_error();
 
     /* Check for errors */
@@ -685,8 +701,8 @@ class simplePlugin extends plugin
             foreach ($account->by_object as &$obj) {
               $obj->setNeedEditMode(TRUE);
             }
+            unset($obj);
           }
-          unset($obj);
         } else {
           $account = new $classname($config, $entry_dn);
           $account->enable_CSN_check();
@@ -695,7 +711,9 @@ class simplePlugin extends plugin
             $account->setNeedEditMode(TRUE);
           }
         }
-        $account->set_acl_base($entry_dn);
+        if (($entry_dn != '') && ($entry_dn != 'new')) {
+          $account->set_acl_base($entry_dn);
+        }
         session::set($classname, $account);
       }
       $account = session::get($classname);
@@ -765,20 +783,21 @@ class simplePlugin extends plugin
         if (session::is_set('edit')) {
           $display .= "<input type=submit name=\"edit_finish\" style=\"width:80px\" value=\"".msgPool::okButton()."\">\n";
           $display .= "&nbsp;";
-          $display .= "<input type=submit name=\"edit_cancel\" value=\"".msgPool::cancelButton()."\">\n";
-          $info = "<img alt=\"\" align=\"middle\" src=\"".
-                  get_template_path('images/lists/locked.png')."\"> ".
+
+          $display .= '<input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
+          $info = '<img class="center" alt="locked" src="'.
+                  get_template_path('images/lists/locked.png').'"> '.
                   $entry_dn."&nbsp;";
         } else {
-          $info = "<img alt=\"\" align=\"middle\" src=\"".
-                  get_template_path('images/lists/unlocked.png')."\"> ".
-                  $entry_dn."&nbsp;";
+          $info = '<img class="center" alt="unlocked" src="'.
+                  get_template_path('images/lists/unlocked.png').'"> '.
+                  $entry_dn.'&nbsp;';
 
           /* Only display edit button if there is at least one attribute editable */
           if (preg_match("/r/", $ui->get_permissions($entry_dn, "$plCategory/$classname"))) {
-            $info .= "<img alt=\"\" align=\"middle\" src=\"".
-                      get_template_path('images/lists/on.png')."\"> ".
-                      msgPool::clickEditToChange();
+            $info .= '<div style="display:inline-block" class="optional"><img class="center" alt="lightbulb" src="'.
+                      get_template_path('images/lists/on.png').'"> '.
+                      msgPool::clickEditToChange().'</div>';
 
             $display .= "<input type=submit name=\"edit\" value=\"".msgPool::editButton()."\">\n";
           }

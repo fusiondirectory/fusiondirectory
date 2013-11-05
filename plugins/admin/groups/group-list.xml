@@ -39,7 +39,7 @@
   </definition>
 
   <table>
-    <layout>|20px;c|||120px|150px;r|</layout>
+    <layout>|20px;c|||120px-d|150px-d;r|</layout>
 
     <department>
       <value>%{filter:objectType(dn,objectClass)}</value>

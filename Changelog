@@ -1,28 +1,194 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.7
+
+[Fix] Bugs #215: /usr/share/fusiondirectory/plugins/addons/goto/deploy-filter.tpl status
+[Fix] Bugs #1097: ACL menu should show plShortName
+[Fix] Bugs #1948: DHCP subsection not appearing
+[Feature] Bugs #2266: fusiondirectory-setup should fetch config in the LDAP
+[Fix] Bugs #2354: Config backend is not in the documentation
+[Fix] Bugs #2375: "launching action T_Deployment.reboot" debug message
+[Fix] Bugs #2384: available roles it's a wrong definition in acl
+[Feature] Bugs #2389: Configuration windows red form not very explicit
+[Fix] Bugs #2390: when proofreading doc i found mention of a check hook
+[Fix] Bugs #2391: Home directory path in samba plugin doesnt have is red star mentionning its mandatory
+[Fix] Bugs #2393: case of cyrusDeleteMailbox
+[Fix] Bugs #2402: when connecting the first time with the autofs plugin installed i got
+[Fix] Bugs #2403: When going to objectgroups with only the core plugins i get Undefined index: SERVERS
+[Fix] Bugs #2404: FusionDirectory bugreport - when going to applications to create one i get PHP error: Illegal string offset 'ke
+[Feature] Bugs #2408: Rework menu html code
+[Feature] Bugs #2409: style.css should be split
+[Fix] Bugs #2413: Board have some useless lines
+[Fix] Bugs #2416: posixAccount should use DisplayAttribute
+[Fix] Bugs #2421: Incorrect syntax for systems-fd schema
+[Fix] Bugs #2424: Error message when i create an user
+[Fix] Bugs #2426: removal of errors cache
+[Fix] Bugs #2429: There are wrong pattern in pod explanations
+[Fix] Bugs #2430: Migrate class_user to simple-plugin
+[Fix] Bugs #2433: remove serviceDebianRepository from argonaut client tab
+[Fix] Bugs #2434: mac should be changed back to non mandatory in system
+[Fix] Bugs #2435: Some clean is needed in the tpl organization.
+[Feature] Bugs #2436: style.css should be split
+[Fix] Bugs #2440: Some clean is needed in the tpl organization.
+[Fix] Bugs #2442: Action scheduling from deployment queue crashes
+[Fix] Bugs #2443: Sauvegarde acl
+[Fix] Bugs #2448: postcreate syntax is wrong in some docs
+[Fix] Bugs #2449: modification d'un utilisateur
+[Fix] Bugs #2452: When /dev/random runs out of entropy, it blocks the mcrypt_create_iv function.
+[Feature] Bugs #2457: migrate fusionddirectory-encrypt-password into fusiondirectory-setup
+[Fix] Bugs #2463: there is an error in fusiondirectory.conf manpage
+[Fix] Bugs #2474: Error deleting object from queue
+[Fix] Bugs #2476: Checking checkbox does not enable fields in setup
+[Feature] Bugs #2478: Adaptation for Dovecot plugin
+[Feature] Bugs #2482: We need a default value for ipmiRDN
+[Fix] Bugs #2484: config directory incorrect for the mail plugin
+[Fix] Bugs #2486: Incorrect syntax for core-fd-conf schema
+[Feature] Bugs #2489: Left menu css should be reworked
+[Fix] Bugs #2490: Board : PHP error "Invalid argument supplied for foreach()"
+[Fix] Bugs #2493: We need to adapt a few things to last simplePlugin commit
+[Feature] Bugs #2494: divSelectBox should escape html code from its cells
+[Feature] Bugs #2498: divSelectBox should escape html code from its cells
+[Fix] Bugs #2506: ButtonAttribute has been renamed
+[Fix] Bugs #2507: import_complete_ldif error handling is broken
+[Fix] Bugs #2508: import_complete_ldif error handling is broken
+[Feature] Bugs #2510: FusionDirectory should provide valid HTML
+[Fix] Bugs #2514: remove the meta code from headers.tpl
+[Fix] Bugs #2515: Allow single quote in givenName
+[Fix] Bugs #2520: Could not load: 'UserPasswordAttribute'
+[Fix] Bugs #2523: correct misspelling from fusiondirectory-setup-manpage.patch and fusiondirectory-setup.patch debian patchs in core
+[Fix] Bugs #2525: Copy paste is broken
+[Fix] Bugs #2528: php errors in logs
+[Fix] Bugs #2529: Not able to list objects in repository plugin
+[Fix] Bugs #2540: It is possible to add a completely blank shell to the shell list in "Configuration"
+[Fix] Bugs #2542: French translation error
+[Fix] Bugs #2543: in the mail config backend the translation for the generic method is false
+[Fix] Bugs #2545: the service postfix doesnt check the postfixMyHostname correctly
+[Fix] Bugs #2557: White page - PHP error when trying to create a new user with an existing uid on second attempt
+[Fix] Bugs #2559: Error message are weirdly displayed
+[Fix] Bugs #2569: cleanup fusiondirectory.pod removing all obsoleted options
+[Fix] Bugs #2574: when saving a windows workstations the uid is stored twice wrongly
+[Fix] Bugs #2578: Update packet
+[Fix] Bugs #2580: Deployment queue - error aborting queued jobs
+[Fix] ugs #2583: Array to string conversion error when saving DNS
+[Fix] Bugs #2584: Array to string conversion error when saving DNS
+[Fix] Bugs #2592: PHP error: Undefined index: rtl
+[Fix] Bugs #2593: fullwidth is broken for right sections
+[Fix] Bugs #2611: bug in ldapfilter Illegal string offset 'key'
+[Fix] Bugs #2612: missing or wrong attribute
+[Fix] Bugs #2614: all the stars for mandatory fields a re blue instead of red
+[Fix] Bugs #2615: remove FakeAttribute due to moving it to simple-plugin
+[Fix] Bugs #2617: fusiondirectory-setup --check-ldap doesnt work if password is chiffred in fusiondirectory.conf
+[Fix] Bugs #2618: adding a --list-ldap to fusiondirectory-setup
+[Fix] Bugs #2620: fusiondirectory-insert-schema should die when an error occurs
+[Fix] Bugs #2630: check hooks are not in the documentation
+[Fix] Bugs #2631: No (obvious) way to select the pool allocation method
+[Fix] Bugs #2632: Not possible to add samba attribute du to a bug with sambaLogonHours
+[Fix] Bugs #2634: Syntax error in systems-fd.schema
+[Fix] Bugs #2635: Add the admin DN as a dummy member instead of the group DN (when using rfc2307bis)
+[Fix] Bugs #2636: DNS Zones unusable with bind-sdb
+[Fix] Bugs #2643: backtrace when trying to create new items with the repository plugin
+[Fix] Bugs #2646: gpg key listing is wrong in user section
+[Fix] Bugs #2647: Warning / Error configuration error displayed even on authentication failure
+[Fix] Bugs #2648: Fusiondirectory first login management
+[Feature] Bugs #2651: integrating dovecot, gpg, ipmi, repository, sogo, weblink into the stable branch
+[Fix] Bugs #2652: fusiondirectory-insert-schema fails when not cn=config
+[Fix] Bugs #2656: the inventory tab should do a lookup on booth mac and ip to show inventory
+[Fix] Bugs #2658: include class_objects.inc in core
+[Fix] Bugs #2660: we need an the icon from the fusioninventory project for our fusioninventory plugin
+[Fix] Bugs #2663: Smarty 3 vs Smarty 2
+[Feature] Bugs #2668: now that we have an acl support in the ldapdump fonctionnality it should be moved out of the debug-help plugin and put onto is own plugin
+[Fix] Bugs #2669: forceSSL in fusiondirectory.conf doesn't work
+[Fix] Bugs #2672: PHP error about MUST undefined
+[Fix] Bugs #2674: php error in class_objects.inc with php PHP 5.3.3-7+squeeze16
+[Fix] Bugs #2675: Boolean options in sudo are always reset to FALSE
+[Fix] Bugs #2679: Quota plugin have some leftovers
+[Fix] Bugs #2680: Invalid PTR record created when you save a system entry
+[Fix] Bugs #2681: class_acl changes html code depending on browser
+[Fix] Bugs #2682: Syntax error in core-fd-conf.schema
+[Fix] Bugs #2683: Compatibility with Smarty 2
+[Feature] Bugs #2685: now that we have an acl support in the ldapdump fonctionnality it should be moved out of the debug-help plugin and put onto is own plugin
+[Fix] Bugs #2687: non-JS fall-backs should be removed
+[Fix] Bugs #2688: non-JS fall-backs should be removed
+[Feature] Bugs #2689: adding the fusioninventory plugin to plugins
+[Fix] Bugs #2691: Not possible to remove login restriction (gosaLoginRestriction)
+[Fix] Bugs #2694: Error while changing a user password
+[Fix]Bugs #2697: moving smarty var from variables_common.inc to variables.inc
+[Fix] Bugs #2698: don't change status of opsi installed package when adding or removing packages to an opsi profile
+[Fix] Bugs #2700: Empty translated strings should be avoided
+[Fix] Bugs #2703: the check on template for uid unicity is wrong
+[Fix] Bugs #2705: in the ldapmanager plugin, the import csv doesnt show my template
+[Fix] Bugs #2710: in the ldapmanager plugin, it doesnt respect the password encryption method declared in FusionDirectory
+[Fix] Bugs #2711: the dn is wrong when saving imported user into ldap from ldapmanager
+[Fix] Bugs #2712: ldapmanager cvs import doesnt create correctly the user default group
+[Fix] Bugs #2713: there is an error when adding a new acl from the acl plugin
+[Fix] Bugs #2715: in the acl plugin is don't see the categories in the list
+[Fix] Bugs #2716: Repositories should be associated to distro/section couples
+[Fix] Bugs #2717: Repository type should be in the form
+[Fix] Bugs #2718: multi-valuated settings cause problem when there is only one value
+[Fix] Bugs #2719: management is wrongly testing ACLs for removal
+[Fix] Bugs #2721: Password posthooks are broken
+[Fix] Bugs #2722: objectClass and attributes are duplicated in systems-fd.schema
+[Fix] Bugs #2723: Default password hash is weak
+[Fix] Bugs #2726: Doxyfile contains absolute paths
+[Fix] Bugs #2739: add a space modifier to remove space in template
+[Fix] Bugs #2740: when the opsi plugin is installed i always have this error even withtout an opsi server configured "Can't find IP for OPSI service"
+[Fix] Bugs #2742: When an opsi server has not an mac address
+[Fix] Bugs #2745: PHP error: Undefined index: mainAttr when going to opsi list
+[Fix] Bugs #2747: the fusiondirectory-setup --install-plugins doesnt install the files contained in the include dir of the plugins
+[Fix] Bugs #2748: we should remove from fusiondirectory-setup all the old code for systems, asterisk, mail
+[Fix] Bugs #2749: the apache config provided by the core should not include the line of config for fusiondirectory.secrets
+[Fix] Bugs #2750: the macro in the part 1/3 of the setup are not right, they show ancien semantics
+[Fix] Bugs #2751: fusiondirectory-setup --install-plugins doesnt install the config backend of each plugin
+[Fix] Bugs #2752: fusiondirectory-setup --install-plugins doesnt install the ldap schema of all in the plugin in the contrib dirs when usign the tarballs
+[Fix] Bugs #2753: when installing FusionDirectory for the first time it put an error message about samba sid / rid right on the login page
+[Fix] Bugs #2754: Next id hook is wrongly placed
+[Fix] Bugs #2755: fusiondirectory-insert-schema should remove the ldif after an error occurs
+[Fix] Bugs #2756: Next id hook should have documentation
+[Fix] Bugs #2757: since their moving the icon for applications and mimetypes doesnt appers in the menu
+[Fix] Bugs #2773: Undefined attribute type
+[Fix] Bugs #2798: remove the old obsolete doc in the netgroups plugin
+[Fix] Bugs #2819: remove scriptaculous from the source
+[Fix] Bugs #2821: remove included smarty gettext
+[Fix] Bugs #2823: remove schema2ldif from the source
+[Fix] Bugs #2824: move the developpers stuff into a developpers plugin in the plugins
+[Fix] Bugs #2828: refresh all manpages for 1.0.7
+[Fix] Bugs #2829: wrong dir for smarty in fusiondirectory-setup
+[Fix] Bugs #2830: refresh readme and install for 1.0.7
+[Fix] Bugs #2825: move the developpers stuff into a developpers plugin in the plugins
+[Fix] Wishlist #2339: "board" plugin rename to "dashboard"
+[Fix] Wishlist #2340: Default value for "encodings" after installation
+[Fix] Wishlist #2406: Allow filter to have no template
+[Feature] Wishlist #2431: We should add an easy way of adding css files.
+[Feature] Wishlist #2546: RTL
+[Fix] Wishlist #2561: remove mysql-dependencies in asterisk-plugin
+[Fix] Wishlist #2564: remove mysql-dependencies in asterisk-plugin
+[Fix] Wishlist #2676: log messages shouldn't be truncated in rsyslog plugin
+[Feature] Wishlist #2677: Add export feature in rsyslog plugin
+[Fix] Wishlist #2690: Rework postfixTransportTable
+
 * FusionDirectory 1.0.6
 
-Bugs #2136: check that on centos fusiondirectory-setup use the correct user for /var/cache/fusiondirectory stuff
-Bugs #2157: Incohérence sur la déclaration du workgroup samba
-Bugs #2304: when i select users i see windows workstations appearing in object groups
-Bugs #2336: kolab2 schema failed insertion
-Bugs #2346: Fusiondirectory 1.0.5 + wheezy + user management
-Bugs #2349: the dsa plugin should allow to select the password encoding method
-Bugs #2350: when i save a mail group i got a not needed gosaMailDelivery mode saved
-Bugs #2351: case of forcePasswordDefaultHash
-Bugs #2352: dsaManagement should use simpleManagement
-Bugs #2355: Severities in the FDstandard codesniffer standard should be set
-Bugs #2356: all checkbox=$multiple_support should be remove from the smarty templates
-Bugs #2357: all checkbox=$multiple_support should be remove from the smarty templates
-Bugs #2361: Login uses simple quotes for translated strings in smarty template
-Bugs #2362: remove the update schema from 1.0.4 for 1.0.6
-Bugs #2364: remove the update schema from 1.0.4 for 1.0.6
-Bugs #2365: remove the remaning readme into the plugins
-Bugs #2371: fusiondirectory-insert-schema should look for the right name
-Bugs #2374: the ldapFollowReferrals should be in fusiondirectory.conf.pod as it is a file config option
-Bugs #2377: config directory incorrect for the samba plugin
-simple-plugin - Bugs #2360: simpleManagement should allow to select an other list or filter xml file
+[Fix] Bugs #2136: check that on centos fusiondirectory-setup use the correct user for /var/cache/fusiondirectory stuff
+[Fix] Bugs #2157: Incohérence sur la déclaration du workgroup samba
+[Fix] Bugs #2304: when i select users i see windows workstations appearing in object groups
+[Fix] Bugs #2336: kolab2 schema failed insertion
+[Fix] Bugs #2346: Fusiondirectory 1.0.5 + wheezy + user management
+[Fix] Bugs #2349: the dsa plugin should allow to select the password encoding method
+[Fix] Bugs #2350: when i save a mail group i got a not needed gosaMailDelivery mode saved
+[Fix] Bugs #2351: case of forcePasswordDefaultHash
+[Feature] Bugs #2352: dsaManagement should use simpleManagement
+[Feature] Bugs #2355: Severities in the FDstandard codesniffer standard should be set
+[Fix] Bugs #2356: all checkbox=$multiple_support should be remove from the smarty templates
+[Fix] Bugs #2357: all checkbox=$multiple_support should be remove from the smarty templates
+[Fix] Bugs #2361: Login uses simple quotes for translated strings in smarty template
+[Fix] Bugs #2362: remove the update schema from 1.0.4 for 1.0.6
+[Fix] Bugs #2364: remove the update schema from 1.0.4 for 1.0.6
+[Fix] Bugs #2365: remove the remaning readme into the plugins
+[Fix] Bugs #2371: fusiondirectory-insert-schema should look for the right name
+[Fix] Bugs #2374: the ldapFollowReferrals should be in fusiondirectory.conf.pod as it is a file config option
+[Fix] Bugs #2377: config directory incorrect for the samba plugin
+[Feature] simple-plugin - Bugs #2360: simpleManagement should allow to select an other list or filter xml file
 
 * FusionDirectory 1.0.5
 

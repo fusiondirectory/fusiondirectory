@@ -18,6 +18,7 @@ use MIME::Base64;
 
 # used to generate {CRYPT} password (for LDAP)
 use Crypt::PasswdMD5;
+use Crypt::CBC;
 
 # used to uncompress tar.gz
 use Archive::Extract;
@@ -30,20 +31,22 @@ use XML::Twig;
 
 # fd's directory and class.cache file's path declaration
 my %vars = (
- fd_home =>       "/var/www/fusiondirectory",
- fd_cache =>      "/var/cache/fusiondirectory",
- fd_config_dir => "/etc/fusiondirectory",
- fd_spool_dir =>  "/var/spool/fusiondirectory",
- config_file =>   "fusiondirectory.conf",
- locale_dir =>    "locale",
- class_cache =>   "class.cache",
+ fd_home          => "/var/www/fusiondirectory",
+ fd_cache         => "/var/cache/fusiondirectory",
+ fd_config_dir    => "/etc/fusiondirectory",
+ fd_smarty_dir    => "/usr/share/php/smarty3",
+ fd_spool_dir     => "/var/spool/fusiondirectory",
+ config_file      => "fusiondirectory.conf",
+ secrets_file     => "fusiondirectory.secrets",
+ locale_dir       => "locale",
+ class_cache      => "class.cache",
  locale_cache_dir => "locale",
- tmp_dir =>       "tmp",
- fai_log_dir =>   "fai",
- template_dir =>  "template"
+ tmp_dir          => "tmp",
+ fai_log_dir      => "fai",
+ template_dir     => "template"
 );
 
-my ($fd_config,$locale_dir,$class_cache,$locale_cache_dir,$tmp_dir,$fai_log_dir,$template_dir);
+my ($fd_config,$fd_secrets,$locale_dir,$class_cache,$locale_cache_dir,$tmp_dir,$fai_log_dir,$template_dir);
 
 my (@root_config_dirs,@apache_config_dirs,@config_dirs);
 
@@ -100,6 +103,106 @@ sub ask_user_input {
    return $default_answer;
  }
  return $answer;
+}
+
+###################################################### Password encryption #########################################################################
+
+sub cred_encrypt {
+  my ($input, $password) = @_;
+  my $cipher = Crypt::CBC->new(
+                -key    =>  $password,
+                -cipher => 'Rijndael',
+                -salt   => 1,
+                -header => 'salt',
+              ) || die "Couldn't create CBC object";
+  return $cipher->encrypt_hex($input);
+}
+
+sub cred_decrypt {
+  my ($input, $password) = @_;
+  my $cipher = Crypt::CBC->new(
+                -key    =>  $password,
+                -cipher => 'Rijndael',
+                -salt   => 1,
+                -header => 'salt',
+              ) || die "Couldn't create CBC object";
+  return $cipher->decrypt_hex($input);
+}
+
+sub get_random_string {
+  my ($size) = @_;
+  $size = 32 if !$size;
+  my @chars = ("A".."Z", "a".."z", '.', '/', 0..9);
+  my $string;
+  $string .= $chars[rand @chars] for 1..$size;
+  return $string;
+}
+
+sub encrypt_passwords {
+  if (!-e $fd_config) {
+    die "Cannot find a valid configuration file ($fd_config)!\n";
+  }
+  if (-e $fd_secrets) {
+    die "There's already a file '$fd_secrets'. Cannot convert your existing fusiondirectory.conf - aborted\n";
+  }
+  print "Starting password encryption\n";
+  print "* generating random master key\n";
+  my $master_key = get_random_string();
+  print "* creating '$fd_secrets'\n";
+  my $fp_file = file($fd_secrets);
+  my $fp = $fp_file->openw() or die "! Unable to open '$fd_secrets' in write mode\n";
+  $fp->print("RequestHeader set FD_KEY $master_key\n");
+  $fp->close or die "! Can't close '$fd_secrets'\n";
+  chmod 0600, $fd_secrets or die "! Unable to change '$fd_secrets' rights\n";
+  my $root_uid = getpwnam("root");
+  my $root_gid = getgrnam("root");
+  chown $root_uid,$root_gid,$fd_secrets or die "! Unable to change '$fd_secrets' owner\n";
+
+  # Move original fusiondirectory.conf out of the way and make it unreadable for the web user
+  print "* creating backup in '$fd_config.orig'\n";
+  rcopy($fd_config, "$fd_config.orig");
+  chmod 0600, "$fd_config.orig" or die "! Unable to change '$fd_config.orig' rights\n";
+  chown $root_uid,$root_gid,"$fd_config.orig" or die "! Unable to change '$fd_config.orig' owner\n";
+
+  print "* loading '$fd_config'\n";
+  my $twig = XML::Twig->new();    # create the twig
+  $twig->parsefile($fd_config); # build it
+  # Locate all passwords inside the fusiondirectory.conf
+  my @locs = $twig->root->first_child('main')->children('location');
+  foreach my $loc (@locs) {
+    my $ref = $loc->first_child('referral');
+    print "* encrypting FusionDirectory password for: ".$ref->{'att'}->{'adminDn'}."\n";
+    $ref->set_att('adminPassword' => cred_encrypt($ref->{'att'}->{'adminPassword'}, $master_key));
+  }
+
+  # Save
+  print "* saving modified '$fd_config'\n";
+  $twig->print_to_file($fd_config, pretty_print => 'indented') or die "Cannot write modified $fd_config - aborted\n";
+  print "OK\n\n";
+
+  # Print reminder
+  print "
+Please adapt your http fusiondirectory location declaration to include the newly
+created $fd_config.
+
+Example:
+
+Alias /fusiondirectory /usr/share/fusiondirectory/html
+
+<Location /fusiondirectory>
+  php_admin_flag engine on
+  php_admin_flag register_globals off
+  php_admin_flag allow_call_time_pass_reference off
+  php_admin_flag expose_php off
+  php_admin_flag zend.ze1_compatibility_mode off
+  php_admin_flag register_long_arrays off
+  php_admin_value upload_tmp_dir /var/spool/fusiondirectory/
+  php_admin_value session.cookie_lifetime 0
+  include /etc/fusiondirectory/fusiondirectory.secrets
+</Location>
+
+
+Please reload your httpd configuration after you've modified anything.\n";
 }
 
 ####################################################### class.cache update #########################################################################
@@ -354,8 +457,11 @@ sub write_vars {
     define ("CONFIG_FILE", "$vars{config_file}"); /* FusionDirectory filename */
   }
 
-  /* Smarty compile dir */
-  define ("SPOOL_DIR","$vars{fd_spool_dir}/"); /* FusionDirectory spool directory */
+/* Path for smarty3 libraries */
+define("SMARTY", "$vars{fd_smarty_dir}");
+
+/* Smarty compile dir */
+define ("SPOOL_DIR", "$vars{fd_spool_dir}/"); /* FusionDirectory spool directory */
 
   /* Global cache dir */
   define ("CACHE_DIR","$vars{fd_cache}/"); /* FusionDirectory var directory */
@@ -560,6 +666,18 @@ sub get_ldap_connexion {
   $hash_result{base} = $base;
 
   # bind to the LDAP server
+  if (-e $fd_secrets) {
+    open(SECRETS, $fd_secrets) || die ("Could not open $fd_secrets");
+    my $key = "";
+    while(<SECRETS>) {
+      if ($_ =~ m/RequestHeader set FD_KEY ([^ \n]+)\n/) {
+        $key = $1;
+        last;
+      }
+    }
+    close(SECRETS);
+    $bind_pwd = cred_decrypt($bind_pwd, $key);
+  }
   my $bind = $ldap->bind ($bind_dn, password => $bind_pwd);
 
   # send a warning if the bind didn't gone well
@@ -807,6 +925,15 @@ sub install_plugins {
     # copy contrib
     create_and_copy_plugin_dir($plugin_path."/contrib/",$vars{fd_home}."/doc/contrib/".$plugin);
 
+    # copy config
+    create_and_copy_plugin_dir($plugin_path."/config/",$vars{fd_home}."/plugins/config/");
+
+    # copy ldap schema
+    create_and_copy_plugin_dir($plugin_path."/contrib/openldap/",$vars{fd_home}."/contrib/openldap/");
+
+    # copy includes
+    create_and_copy_plugin_dir($plugin_path."/include/",$vars{fd_home}."/include/");
+
     # copy etc FIXME !!! not right all files goes now to /var/cache/fusiondirectory/plugin
     #my $files_dirs_copied = rcopy($plugin_path."/etc/*", $vars{fd_config_dir});
 
@@ -853,19 +980,17 @@ sub migrate_users {
 
 # function that set useful vars based on user specified folders and files
 sub set_vars {
-  $fd_config = $vars{fd_config_dir}."/".$vars{config_file};
-  $locale_dir = $vars{fd_home}."/".$vars{locale_dir};
-  $class_cache = $vars{fd_cache}."/".$vars{class_cache};
+  $fd_config        = $vars{fd_config_dir}."/".$vars{config_file};
+  $fd_secrets       = $vars{fd_config_dir}."/".$vars{secrets_file};
+  $locale_dir       = $vars{fd_home}."/".$vars{locale_dir};
+  $class_cache      = $vars{fd_cache}."/".$vars{class_cache};
   $locale_cache_dir = $vars{fd_cache}."/".$vars{locale_cache_dir};
-  $tmp_dir = $vars{fd_cache}."/".$vars{tmp_dir};
-  $fai_log_dir = $vars{fd_cache}."/".$vars{fai_log_dir};
-  $template_dir = $vars{fd_cache}."/".$vars{template_dir};
-  my $supann_dir = $vars{fd_cache}."/supann";
-  my $asterisk_dir = $vars{fd_cache}."/asterisk";
-  my $systems_dir = $vars{fd_cache}."/systems";
-  my $mail_dir = $vars{fd_cache}."/mail";
+  $tmp_dir          = $vars{fd_cache}."/".$vars{tmp_dir};
+  $fai_log_dir      = $vars{fd_cache}."/".$vars{fai_log_dir};
+  $template_dir     = $vars{fd_cache}."/".$vars{template_dir};
+  my $supann_dir    = $vars{fd_cache}."/supann";
 
-  @root_config_dirs = ( $vars{fd_home}, $vars{fd_config_dir} );
+  @root_config_dirs   = ( $vars{fd_home}, $vars{fd_config_dir} );
   @apache_config_dirs = ( $vars{fd_spool_dir}, $vars{fd_cache}, $tmp_dir, $fai_log_dir,
                           $template_dir );
   @config_dirs = ( @root_config_dirs, @apache_config_dirs );
@@ -893,6 +1018,7 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--migrate-repositories"} = ["Migrating your FAI repositories",               \&migrate_repo];
   $commands{"--migrate-users"}        = ["Migrating your users",                          \&migrate_users];
   $commands{"--install-plugins"}      = ["Installing FusionDirectory's plugins",          \&install_plugins];
+  $commands{"--encrypt-passwords"}    = ["Encrypt passwords in fusiondirectory.conf",     \&encrypt_passwords];
   $commands{"--write-vars"}           = ["Choose FusionDirectory Directories",            \&write_vars];
   $commands{"--list-vars"}            = ["List possible vars to give --set",              \&list_vars];
   $commands{"--set-VAR=value"}        = ["Set the variable VAR to value see --list-vars", \&die]; # Won't be called because it contains uppercase
@@ -990,11 +1116,11 @@ This option will list the variables you can change to install FusionDirectory on
 
 =item --set-VAR=variable
 
-This option will change the variable for the FusionDirectory installation. it is only usefull with --install-directories and for people installing from sources.
+This option will change the variable for the FusionDirectory installation. it is only useful with --install-directories and for people installing from sources.
 
 =item --write-vars
 
-This option will write back the variables.inc file with the updated variables and is only usefull with --set-VAR=variable and for people installing from sources.
+This option will write back the variables.inc file with the updated variables and is only useful with --set-VAR=variable and for people installing from sources.
 
 =item --yes
 
@@ -1010,17 +1136,20 @@ This flag will answer "yes" to every yes/no question asked by the script
 
  benoit@catbert$ fusiondirectory-setup --list-vars
  List possible vars to give --set
- locale_cache_dir [locale]
- config_file [fusiondirectory.conf]
- fd_cache [/var/cache/fusiondirectory]
- fd_spool_dir [/var/spool/fusiondirectory]
- fai_log_dir [fai]
- tmp_dir [tmp]
- template_dir [template]
- locale_dir [locale]
- fd_config_dir [/etc/fusiondirectory]
- class_cache [class.cache]
- fd_home [/var/www/fusiondirectory]
+locale_cache_dir	[locale]
+config_file     	[fusiondirectory.conf]
+fd_cache        	[/var/cache/fusiondirectory]
+fd_smarty_dir   	[/usr/share/php/smarty3]
+fd_spool_dir    	[/var/spool/fusiondirectory]
+fai_log_dir     	[fai]
+tmp_dir		        [tmp]
+secrets_file    	[fusiondirectory.secrets]
+template_dir    	[template]
+locale_dir      	[locale]
+class_cache     	[class.cache]
+fd_config_dir   	[/etc/fusiondirectory]
+fd_home [/var/www/fusiondirectory]
+
 
  benoit@catbert$ fusiondirectory-setup --set-class_cache=class.cache --write-vars
 

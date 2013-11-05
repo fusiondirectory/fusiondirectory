@@ -46,6 +46,7 @@ function displayLogin()
   $smarty->assign ('personal_img', get_template_path('images/login-head.png'));
   $smarty->assign ('password_img', get_template_path('images/password.png'));
   $smarty->assign ('directory_img', get_template_path('images/ldapserver.png'));
+  $smarty->append ('css_files',  get_template_path('login.css'));
 
   /* Some error to display? */
   if (!isset($message)){
@@ -93,9 +94,11 @@ function displayLogin()
   $smarty->assign("msg_dialogs", msg_dialog::get_dialogs());
   $smarty->assign("usePrototype", "false");
   $smarty->assign("date", date("l, dS F Y H:i:s O"));
-  $smarty->display (get_template_path('headers.tpl'));
+  $smarty->assign("lang", preg_replace('/_.*$/', '', $lang));
+  $smarty->assign("rtl", language_is_rtl($lang));
 
-  $smarty->assign("version",FD_VERSION);
+  $smarty->display (get_template_path('headers.tpl'));
+  $smarty->assign("version", FD_VERSION);
 
   $smarty->display(get_template_path('login.tpl'));
   exit();
@@ -134,13 +137,6 @@ if (!file_exists(CONFIG_DIR."/".CONFIG_FILE)) {
 
 /* Reset errors */
 session::set('errors', "");
-
-/* Check for java script */
-if (isset($_POST['javascript']) && $_POST['javascript'] == "true") {
-  session::global_set('js', TRUE);
-} elseif(isset($_POST['javascript'])) {
-  session::global_set('js', FALSE);
-}
 
 /* Check if fusiondirectory.conf (.CONFIG_FILE) is accessible */
 if (!is_readable(CONFIG_DIR."/".CONFIG_FILE)) {
@@ -187,20 +183,6 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
   @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang, "Setting language to");
 }
 
-/* Check for SSL connection */
-$ssl = "";
-if (!isset($_SERVER['HTTPS']) ||
-    !stristr($_SERVER['HTTPS'], "on")) {
-
-  if (empty($_SERVER['REQUEST_URI'])) {
-    $ssl = "https://".$_SERVER['HTTP_HOST'].
-      $_SERVER['PATH_INFO'];
-  } else {
-    $ssl = "https://".$_SERVER['HTTP_HOST'].
-      $_SERVER['REQUEST_URI'];
-  }
-}
-
 /* Do we have htaccess authentification enabled? */
 $htaccess_authenticated = FALSE;
 if ($config->get_cfg_value("htaccessAuthentication") == "TRUE" ) {
@@ -233,7 +215,7 @@ if (!$htaccess_authenticated) {
 $config->set_current($server);
 
 /* If SSL is forced, just forward to the SSL enabled site */
-if ($config->get_cfg_value("forcessl") == "TRUE" && $ssl != '') {
+if (($config->get_cfg_value("forcessl") == "TRUE") && ($ssl != '')) {
   header ("Location: $ssl");
   exit;
 }
@@ -304,7 +286,7 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
     if (!preg_match("/^[@A-Za-z0-9_.-]+$/", $username)) {
       $message = _("Please specify a valid username!");
       $ok = FALSE;
-    } elseif (mb_strlen(get_post("password"), 'UTF-8') == 0) {
+    } elseif (mb_strlen($_POST["password"], 'UTF-8') == 0) {
       $message = _("Please specify your password!");
       $smarty->assign ('nextfield', 'password');
       $ok = FALSE;
@@ -321,7 +303,7 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
         exit;
       }
     } else {
-      $ui = ldap_login_user($username, get_post("password"));
+      $ui = ldap_login_user($username, $_POST["password"]);
     }
     if ($ui === NULL || !$ui){
       $message= _("Please check the username/password combination.");

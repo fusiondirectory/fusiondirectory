@@ -142,6 +142,21 @@ class tabs
     unset($obj);
   }
 
+  function resetBase()
+  {
+    $baseobject = $this->getBaseObject();
+    if (isset($baseobject->base)) {
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, '', 'Fixing base');
+      if (session::global_is_set('CurrentMainBase')) {
+        $baseobject->base = dn2base('cn=dummy,'.session::global_get('CurrentMainBase'));
+      } else {
+        $baseobject->base = dn2base(get_userinfo()->dn);
+      }
+    } else {
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, '', 'no base');
+    }
+  }
+
   function getBaseObject()
   {
     return $this->by_object[$this->baseclass];
@@ -153,8 +168,7 @@ class tabs
   function execute()
   {
     /* Show object */
-    $display = "<table summary=\"\" cellpadding=4 cellspacing=0 border=0 style=\"width:100%; background-color:#F8F8F8; border-style:solid; border-color:#AAA; border-top-width:0px; border-bottom-width:1px; border-left-width:1px; border-right-width:1px;\">\n";
-    $display .= "<tr><td>\n";
+    $display = '<div class="tab_content">'."\n";
 
     $display .= $this->by_object[$this->current]->execute();
     $modal_dialog = $this->by_object[$this->current]->is_modal_dialog();
@@ -163,7 +177,7 @@ class tabs
     $tabs   = $this->gen_tabs($modal_dialog);
 
     /* Footer for tabbed dialog */
-    $display = $tabs.$display."</td></tr></table>";
+    $display = $tabs.$display.'</div>';
 
     return $display;
   }
@@ -242,23 +256,20 @@ class tabs
       /* Take care about notifications */
       $obj = $this->by_object[$class];
       if ($this->by_object[$class]->pl_notify && ($obj->is_account || $obj->ignore_account)) {
-        $notify = "id=\"notify\"";
+        $notify = " tab_notify";
       } else {
         $notify = "";
       }
 
       if ($disabled) {
-        $display.= "<div ".$notify." class=\"$style[$index]\"
+        $display.= "<div class=\"$style[$index]$notify\"
           style=' font-family:arial,helvetica,sans-serif;
                   font-weight:bold;
                   font-size:13px;
                   color: gray;'
           title=\"$title\">".$title."</div>";
-      }elseif (session::global_get('js')==FALSE){
-        $display.= "<div ".$notify." class=\"$style[$index]\"><input type=\"submit\" name=\"$class\"".
-          " class=\"$style[$index]\" value=\"$title\"></div></td>";
       } else {
-        $display.= "<div ".$notify." class=\"$style[$index]\"><a class=\"$style[$index]\" onclick=\"return true;\" href=\"javascript:document.mainform.arg.value='$class';document.mainform.submit();\">$title</a></div></td>";
+        $display.= "<div class=\"$style[$index]$notify\"><a class=\"$style[$index]\" onclick=\"return true;\" href=\"javascript:document.mainform.arg.value='$class';document.mainform.submit();\">$title</a></div></td>";
       }
     }
     $display.= "<td style=\"vertical-align:bottom;\">\n";
@@ -391,18 +402,21 @@ class tabs
   /*!
    * \brief Add special Tabs
    */
-  function addSpecialTabs($hide_refs = FALSE, $hide_acls = FALSE)
+  function addSpecialTabs()
   {
-    if (!$hide_acls) {
-      $this->by_name['acl']           = _("ACL");
-      $this->by_object['acl']         = new acl($this->config, $this->dn, $this->getBaseObject());
-      $this->by_object['acl']->parent = &$this;
+    $data       = $this->config->data['TABS']['SPECIALTABS'];
+    $baseobject = $this->getBaseObject();
+    foreach ($data as &$tab) {
+      if (!plugin_available($tab['CLASS'])) {
+        continue;
+      }
+
+      $this->by_name[$tab['CLASS']] = $tab['NAME'];
+      $this->by_object[$tab['CLASS']] = new $tab['CLASS']($this->config, $this->dn, $baseobject);
+      $this->by_object[$tab['CLASS']]->parent = &$this;
+      $this->by_object[$tab['CLASS']]->set_acl_category($this->acl_category);
     }
-    if (!$hide_refs) {
-      $this->by_name['reference']           = _("References");
-      $this->by_object['reference']         = new reference($this->config, $this->dn, $this->getBaseObject());
-      $this->by_object['reference']->parent = &$this;
-    }
+    unset($tab);
   }
 
   /*!

@@ -5,14 +5,15 @@
 </div>
 
 <div class="contentboxb">
+
  <div style="border-top:1px solid #AAAAAA"></div>
  {$SCOPE}
 
- <table summary="" style="width:100%;border-top:1px solid #B0B0B0;">
+ <table style="width:100%;border-top:1px solid #B0B0B0;">
   <tr>
    <td>
     <label for="NAME">
-     <img src="images/lists/search.png" align=middle>&nbsp;{t}Name{/t}
+     <img src="images/lists/search.png" alt="search"/>&nbsp;{t}Name{/t}
     </label>
    </td>
    <td>

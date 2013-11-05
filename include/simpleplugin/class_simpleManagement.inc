@@ -28,16 +28,20 @@ class simpleManagement extends management
   protected $aclPlugin    = '';
 
   /* Attributes that child classes should override */
-  protected $objectName   = ''; // FIXME : should not be needed anymore
   protected $objectTypes  = array();
 
   /* Attributes that child classes can override */
   protected $departmentBrowser      = TRUE;
   protected $departmentRootVisible  = TRUE;
   protected $baseMode               = TRUE;
+  protected $multiSelect            = TRUE;
 
-  protected $filterXMLPath  = NULL;
-  protected $listXMLPath    = NULL;
+  protected $filterXMLPath    = NULL;
+  protected $listXMLPath      = NULL;
+  protected $autoFilter       = TRUE;
+  protected $autoActions      = TRUE;
+
+  protected $autoFilterAttributes = array('dn', 'cn', 'description');
 
   function __construct($config, $ui)
   {
@@ -57,10 +61,16 @@ class simpleManagement extends management
     unset($object);
 
     $this->storagePoints = array();
-    foreach ($this->objectTypes as $object) {
-      $ou = $this->config->data['OBJECTS'][$object]['ou'];
-      if ($ou !== NULL) {
-        $this->storagePoints[] = $ou;
+    foreach ($this->objectTypes as $key => $object) {
+      try {
+        $i = objects::infos($object);
+      } catch (NonExistingObjectTypeException $e) {
+        /* Remove objectTypes which are not existing */
+        unset($this->objectTypes[$key]);
+        continue;
+      }
+      if ($i['ou'] !== NULL) {
+        $this->storagePoints[] = $i['ou'];
       }
     }
     $this->storagePoints = array_unique($this->storagePoints);
@@ -78,73 +88,140 @@ class simpleManagement extends management
     $this->setFilter($filter);
 
     // Build headpage
-    $headpage = new listing($this->listXMLPath);
-    $headpage->departmentBrowser      = $this->departmentBrowser;
-    $headpage->departmentRootVisible  = $this->departmentRootVisible;
-    $headpage->baseMode               = $this->baseMode;
+    $headpage = new listing($this->parseXML($this->listXMLPath));
     $headpage->setFilter($filter);
 
     parent::__construct($config, $ui, 'unused', $headpage);
 
-    $this->configureFilterAndHeadpage();
+    $this->configureHeadpage();
+    $this->configureFilter();
+    if ($this->departmentBrowser === FALSE) {
+      $this->headpage->setBase($this->config->current['BASE']);
+    }
   }
 
   /* Build the action menu, fill the object definition, etc, based on objectTypes info */
-  function configureFilterAndHeadpage ()
+  function configureHeadpage ()
   {
-    $this->headpage->xmlData['actionmenu']['action'][0]['action'] = array();
-    $pInfos = pluglist::pluginInfos(get_class($this));
-    $this->headpage->headline = $pInfos['plShortName'];
-    $filter = '(|';
+    if ($this->autoActions) {
+      $this->headpage->xmlData['actionmenu']['action'][0]['action'] = array();
+    }
+    $this->configureHeadline();
     foreach ($this->objectTypes as $object) {
-      $i = $this->config->data['OBJECTS'][$object];
+      $i = objects::infos($object);
+
+      $objectClass = '';
+      if (preg_match('/objectClass=([^)]+)/', $i['filter'], $m)) {
+        $objectClass = $m[1];
+      }
+
+      if (!isset($i['icon'])) {
+        trigger_error('Missing icon for type '.$object);
+        $i['icon'] = '';
+      }
 
       $this->headpage->objectTypes[$object] =
         array(
           'label'       => $i['name'],
-          'objectClass' => preg_replace('/^.*objectClass=([^)]+)(\).*)?$/', '\\1', $i['filter']),
+          'objectClass' => $objectClass,
           'category'    => $i['aclCategory'],
           'class'       => $i['mainTab'],
           'image'       => $i['icon']
         );
       $this->headpage->categories[] = $i['aclCategory'];
-      $this->registerAction('new_'.$object, 'newEntry');
-      $icon = 'images/lists/new.png';
-      if (isset($i['icon'])) {
-        $icon = $i['icon'];
-      } else {
-        $infos = pluglist::pluginInfos($i['mainTab']);
-        if (isset($infos['plIcon'])) {
-          $icon = $infos['plIcon'];
+      if ($this->autoActions) {
+        $this->registerAction('new_'.$object, 'newEntry');
+        $icon = 'images/lists/new.png';
+        if (isset($i['icon'])) {
+          $icon = $i['icon'];
+        } else {
+          $infos = pluglist::pluginInfos($i['mainTab']);
+          if (isset($infos['plIcon'])) {
+            $icon = $infos['plIcon'];
+          }
         }
+        $this->headpage->xmlData['actionmenu']['action'][0]['action'][] = array(
+          'name' => 'new_'.$object,
+          'type' => 'entry',
+          'image' => $icon,
+          'label' => $i['name'],
+        );
       }
-      $this->headpage->xmlData['actionmenu']['action'][0]['action'][] = array(
-        'name' => 'new_'.$object,
-        'type' => 'entry',
-        'image' => $icon,
-        'label' => $i['name'],
-      );
-      $filter .= '$FILTER'.$object;
     }
-    $filter .= ')';
-    $this->filter->category = key($pInfos['plCategory']);
-    $this->filter->query[0]['filter']    = '(&'.$filter.'$NAME)';
-    $this->filter->query[0]['attribute'] = array('dn', 'cn');
-    $this->filter->element['NAME']['set'] = '(cn=*$*)';
-    $this->filter->element['NAME']['autocomplete']['filter'] = '(&'.$filter.'(cn=*$NAME*))';
-    foreach ($this->objectTypes as $object) {
-      $tag = 'FILTER'.$object;
-      $this->filter->elements[$tag] = array(
-        'type'    => 'checkbox',
-        'tag'     => $tag,
-        'default' => TRUE,
-        'unset'   => array(),
-        'set'     => '('.$this->config->data['OBJECTS'][$object]['filter'].')'
-      );
-      $this->filter->elementValues[$tag] = TRUE;
+    $this->headpage->registerElementFilter('filterRowLink', 'simpleManagement::filterRowLink');
+  }
+
+  function configureHeadline ()
+  {
+    $pInfos = pluglist::pluginInfos(get_class($this));
+    $this->headpage->headline = $pInfos['plShortName'];
+  }
+
+  function configureFilterCategory ()
+  {
+    $pInfos = pluglist::pluginInfos(get_class($this));
+    $cat = NULL;
+    if (isset($pInfos['plCategory'])) {
+      $cat = key($pInfos['plCategory']);
+      if (is_numeric($cat)) {
+        $cat = $pInfos['plCategory'][$cat];
+      }
+    } elseif (isset($pInfos['plObjectType'])) {
+      $ot = key($pInfos['plObjectType']);
+      if (is_numeric($ot)) {
+        $ot = $pInfos['plObjectType'][$ot];
+      }
+      $infos = objects::infos($ot);
+      $cat = $infos['aclCategory'];
     }
-    uasort($this->filter->elements, 'strlenSort');
-    $this->filter->elements = array_reverse($this->filter->elements);
+    if ($cat === NULL) {
+      trigger_error('Could not find a category for '.get_class($this));
+    }
+    $this->filter->category = $cat;
+  }
+
+  /* Build the filter(s) based on objectTypes info */
+  function configureFilter ()
+  {
+    if ($this->autoFilter) {
+      $this->configureFilterCategory();
+      $attributes = $this->autoFilterAttributes;
+      $filter = '(|';
+      foreach ($this->objectTypes as $object) {
+        $tag    = 'FILTER'.$object;
+        $filter .= '$'.$tag;
+        $i      = objects::infos($object);
+        $this->filter->elements[$tag] = array(
+          'type'    => 'checkbox',
+          'tag'     => $tag,
+          'default' => TRUE,
+          'unset'   => array(),
+          'set'     => $i['filter']
+        );
+        $this->filter->elementValues[$tag] = TRUE;
+
+        $attributes[] = $i['mainAttr'];
+      }
+      $filter .= ')';
+      $attributes = array_values(array_unique($attributes));
+      $this->filter->query[0]['filter']     = '(&'.$filter.'$NAME)';
+      $this->filter->query[0]['attribute']  = $attributes;
+      $this->filter->elements['NAME']['set'] = '(|('.join('=*$*)(', $attributes).'=*$*))';
+      $this->filter->elements['NAME']['autocomplete']['filter'] = '(&'.$filter.'(|('.join('=*$NAME*)(', $attributes).'=*$NAME*))'.')';
+      $this->filter->elements['NAME']['autocomplete']['attribute'] = $attributes;
+      uasort($this->filter->elements, 'strlenSort');
+      $this->filter->elements = array_reverse($this->filter->elements);
+    }
+  }
+
+  function parseXML ($file)
+  {
+    $contents = file_get_contents($file);
+    $data     = xml::xml2array($contents, 1);
+    foreach (array('departmentBrowser','departmentRootVisible','baseMode','multiSelect') as $var) {
+      $data['list']['definition']["$var"] = ($this->$var?'true':'false');
+    }
+    return $data;
   }
 
   function getType($dn)
@@ -212,16 +289,16 @@ class simpleManagement extends management
     $tInfo = $this->config->data['OBJECTS'];
     foreach ($target as $dn) {
       $type = $this->getType($dn);
-      if (!isset($tInfo[$type])) {
-        trigger_error("Unknown object type received '$type'!");
-      } else {
-        $info = $tInfo[$type];
-        $acl = $this->ui->get_permissions($dn, $info['aclCategory'].'/'.$info['mainTab']);
+      try {
+        $info = objects::infos($type);
+        $acl  = $this->ui->get_permissions($dn, $info['aclCategory'].'/'.$info['mainTab']);
         if (preg_match('/d/', $acl)) {
           $this->dns[] = $dn;
         } else {
           $disallowed[] = $dn;
         }
+      } catch (NonExistingObjectTypeException $e) {
+        trigger_error("Unknown object type received :".$e->getMessage());
       }
     }
     if (count($disallowed)) {
@@ -237,15 +314,23 @@ class simpleManagement extends management
       }
 
       // Add locks
-      $dns_names = array();
+      $objects = array();
       foreach ($this->dns as $dn) {
-        $dns_names[] = LDAP::fix($dn);
+        $type   = $this->getType($dn);
+        $info   = objects::infos($type);
+        $entry  = $this->getHeadpage()->getEntry($dn);
+        $objects[] = array(
+          'name'  => $entry[$info['mainAttr']][0],
+          'dn'    => LDAP::fix($dn),
+          'icon'  => $info['icon'],
+          'type'  => $info['name']
+        );
       }
       add_lock ($this->dns, $this->ui->dn);
 
       // Display confirmation dialog.
       $smarty = get_smarty();
-      $smarty->assign('info', msgPool::deleteInfo($dns_names, _($this->objectName)));
+      $smarty->assign('objects', $objects);
       $smarty->assign('multiple', TRUE);
       return $smarty->fetch(get_template_path('simple-remove.tpl'));
     }
@@ -409,6 +494,52 @@ class simpleManagement extends management
     }
 
     return parent::copyPasteHandler($action, $target, $all, $tabClass, $tabType, $aclCategory, $aclPlugin);
+  }
+
+  static function filterRowLink()
+  {
+    $pid    = func_get_arg(0);
+    $row    = func_get_arg(1);
+    $dn     = func_get_arg(2);
+    $trans  = func_get_arg(3);
+    unset($trans['count']);
+    $trans  = join("<br/>\n", $trans);
+    if ($trans != "") {
+      return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$pid.'&amp;act=listing_edit_'.$row.'" title="'.$dn.'">'.$trans.'</a>';
+    }
+
+    return '';
+  }
+
+  static function mainInc ($classname)
+  {
+    global $remove_lock, $cleanup, $display, $config, $ui;
+
+    /* Remove locks */
+    if ($remove_lock) {
+      if (session::is_set($classname)) {
+          $macl = session::get($classname);
+          $macl->remove_lock();
+      }
+    }
+
+    if ($cleanup) {
+      /* Clean up */
+      session::un_set($classname);
+    } else {
+      if (!session::is_set($classname) || (isset($_GET['reset']) && $_GET['reset'] == 1)) {
+        /* Create the object if missing or reset requested */
+        $managementObject = new $classname($config, $ui);
+      } else {
+        /* Retrieve the object from session */
+        $managementObject = session::get($classname);
+      }
+      /* Execute and display */
+      $display = $managementObject->execute();
+
+      /* Store the object in the session */
+      session::set($classname, $managementObject);
+    }
   }
 }
 

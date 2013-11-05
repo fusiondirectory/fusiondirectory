@@ -6,7 +6,7 @@
     <departmentRootVisible>true</departmentRootVisible>
     <baseMode>true</baseMode>
     <multiSelect>true</multiSelect>
-    <template>acl-list.tpl</template>
+    <template>simple-list.tpl</template>
     <module>acl</module>
     <label>List of acls</label>
     <defaultSortColumn>1</defaultSortColumn>

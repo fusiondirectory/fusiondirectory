@@ -6,8 +6,6 @@
 
 <div class="contentboxb">
 
-<div style="border-top:1px solid #AAAAAA"></div>
-
  {$PRIMARY}&nbsp;<LABEL for='PRIMARY'>{t}Show primary groups{/t}</LABEL><br>
  {$SAMBA}&nbsp;<LABEL for='SAMBA'>{t}Show samba groups{/t}</LABEL><br>
  {$MAIL}&nbsp;<LABEL for='MAIL'>{t}Show mail groups{/t}</LABEL><br>

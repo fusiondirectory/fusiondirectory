@@ -5,16 +5,8 @@
 <head>
   <title>FusionDirectory - {t}Change your password{/t}</title>
 
-  <meta name="generator" content="my hands">
   <meta name="description" content="FusionDirectory - Password changer">
   <meta name="author" lang="de" content="FusionDirectory Project">
-
-  <meta http-equiv="Expires" content="Mon, 26 Jul 1997 05:00:00 GMT">
-  <meta http-equiv="Last-Modified" content="{$date} GMT">
-  <meta http-equiv="Cache-Control" content="no-cache">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Cache-Control" content="post-check=0, pre-check=0">
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
   <style type="text/css">@import url('themes/default/style.css');</style>
   <style type="text/css">@import url('themes/default/password-style.css');</style>
@@ -42,7 +34,6 @@
 
     <!-- Display SSL warning message on demand -->
     <p class="warning"> {$ssl} </p>
-    <input type="hidden" name="javascript" value="false"/>
 
     <!-- Display error message on demand -->
     <p class="warning"> {$message} </p>

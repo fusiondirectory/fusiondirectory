@@ -56,17 +56,23 @@ class passwordRecovery {
   /* Constructor */
   function passwordRecovery()
   {
-    global $config;
+    global $config, $ssl;
     /* Destroy old session if exists.
         Else you will get your old session back, if you not logged out correctly. */
     session::destroy();
     session::start();
 
     /* Reset errors */
-    session::global_set('js', TRUE);
     reset_errors();
 
     $config       = $this->loadConfig();
+
+    /* If SSL is forced, just forward to the SSL enabled site */
+    if (($config->get_cfg_value("forcessl") == "TRUE") && ($ssl != '')) {
+      header ("Location: $ssl");
+      exit;
+    }
+
     $this->config = $config;
 
     $this->setupSmarty();
@@ -117,7 +123,7 @@ class passwordRecovery {
     $ssl = $this->checkForSSL();
 
     /* Check for selected password method */
-    $this->method = $this->config->get_cfg_value("passwordDefaultHash", "crypt/md5");
+    $this->method = $this->config->get_cfg_value("passwordDefaultHash", "ssha");
     if (isset($_GET['method'])) {
       $this->method = validate($_GET['method']);
       $tmp = new passwordMethod($this->config);
@@ -192,7 +198,6 @@ class passwordRecovery {
 
     $smarty = get_smarty();
 
-    $smarty->assign("JS", session::global_get('js'));
     $smarty->assign("PHPSESSID", session_id());
     if (session::is_set('errors')) {
       $smarty->assign("errors", session::get('errors'));
@@ -212,6 +217,7 @@ class passwordRecovery {
     $smarty->assign("delay_allowed", $this->delay_allowed);
 
     $smarty->assign("activated", $this->activated);
+    $smarty->append ('css_files',  get_template_path('login.css'));
 
     $smarty->display(get_template_path('recovery.tpl'));
     exit();

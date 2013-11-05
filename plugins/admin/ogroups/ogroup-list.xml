@@ -6,7 +6,7 @@
     <departmentRootVisible>false</departmentRootVisible>
     <baseMode>true</baseMode>
     <multiSelect>true</multiSelect>
-    <template>ogroup-list.tpl</template>
+    <template>simple-list.tpl</template>
     <module>ogroups</module>
     <label>List of object groups</label>
     <defaultSortColumn>1</defaultSortColumn>
@@ -22,7 +22,7 @@
   </definition>
 
   <table>
-    <layout>|20px;c|||100px;r|130px;r|</layout>
+    <layout>|20px;c|||100px-d;r|130px-d;r|</layout>
 
     <department>
       <value>%{filter:objectType(dn,objectClass)}</value>

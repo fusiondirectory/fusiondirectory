@@ -321,9 +321,9 @@ class SnapShotDialog extends plugin
           $display_data.= " - ".$entry['gosaSnapshotDN'][0];
         }
 
-        $field0 = array("string"=> $time_stamp , "attach"=> "style='vertical-align:top;width:120px;'");
-        $field1 = array("string"=> htmlentities (utf8_decode(LDAP::fix($display_data))), "attach"=> "");
-        $field2 = array("string"=> $actions ,
+        $field0 = array("html"=> $time_stamp , "attach"=> "style='vertical-align:top;width:120px;'");
+        $field1 = array("html"=> htmlentities (utf8_decode(LDAP::fix($display_data))), "attach"=> "");
+        $field2 = array("html"=> $actions ,
                 "attach"=> "style='border-right:0px;vertical-align:top;width:40px;text-align:right;'");
         $DivListSnapShots->AddEntry(array($field0,$field1,$field2));
       }

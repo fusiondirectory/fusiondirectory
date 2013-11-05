@@ -1,0 +1,184 @@
+#menucell {
+border:1px solid #AAA;
+width:140px;
+background-color:white;
+vertical-align:top;
+}
+
+/* Side menu */
+p.menuheader {
+font-family:arial,helvetica,sans-serif;
+color:#00008F;
+text-decoration:none;
+border-bottom:1px solid #AAA;
+font-weight:bold;
+background-color:#dbe6c6;
+font-size:12px;
+text-align:center;
+vertical-align:middle;
+padding:5px;
+margin-top:0;
+margin-bottom:3px;
+}
+
+p.menuitem {
+font-family:arial,helvetica,sans-serif;
+color:#00008F;
+text-decoration:none;
+font-weight:normal;
+font-size:12px;
+text-align:left;
+vertical-align:middle;
+margin:2px;
+background-color:#FFF;
+}
+html.rtl p.menuitem {
+text-align:right;
+}
+
+a.menuitem {
+padding-left:15px;
+padding-top:2px;
+padding-bottom:2px;
+padding-right:5px;
+display:block;
+}
+html.rtl a.menuitem {
+padding-left:5px;
+padding-right:15px;
+}
+
+table.menuitem {
+width:100%;
+margin-top:10px;
+margin-bottom:10px;
+background-color:#f0f0f0;
+}
+html.ltr table.menuitem {
+margin-right:10px;
+}
+html.rtl table.menuitem {
+margin-left:10px;
+}
+
+table.menuitem:hover {
+background-color:#F0F0F0;
+cursor:pointer;
+}
+
+/* Main menu */
+.iconmenu_section
+{
+border-top:1px solid #AAAAAA;
+clear:both;
+}
+
+.iconmenu_section + br
+{
+clear:both;
+}
+
+.iconmenu_section:first-child
+{
+border-top:none;
+}
+
+.iconmenu img
+{
+border:none;
+vertical-align:middle;
+}
+
+h1.menuheader {
+margin:0;
+padding:10px;
+display:inline-block;
+border-bottom:1px solid #AAAAAA;
+background-color:#DBE6C6;
+}
+html.ltr h1.menuheader {
+border-right:1px solid #AAAAAA;
+float:left;
+}
+html.rtl h1.menuheader {
+border-left:1px solid #AAAAAA;
+float:right;
+}
+
+a.menuitem:link {
+text-decoration:none;
+color:#00008f;
+}
+
+a.menuitem:visited {
+text-decoration:none;
+color:#00008f;
+}
+
+a.menuitem:hover {
+text-decoration:none;
+background-color:#F0F0F0;
+}
+
+.iconmenu {
+cursor:pointer;
+display:inline-block;
+float:left;
+width:18%;
+min-width:80px;
+margin:3px;
+padding:3px;
+}
+html.rtl .iconmenu {
+float:right;
+}
+
+.iconmenu:nth-child(2)
+{
+clear:left;
+}
+html.rtl .iconmenu:nth-child(2) {
+clear:right;
+}
+
+.iconmenu > a:link, .iconmenu > a:visited {
+text-decoration:none;
+color:#00008f;
+}
+
+.iconmenu > a:hover {
+text-decoration:none;
+}
+
+div.iconmenu:hover {
+background-color:#F0F0F0;
+}
+
+/* On small screens */
+@media (max-width: 640px) {
+  .iconmenu {
+  text-align:center;
+  margin:2px;
+  padding:2px;
+  min-width:70px;
+  }
+  .iconmenu img
+  {
+  margin:auto;
+  display:block;
+  float:none;
+  }
+  h1.menuheader {
+  display:block;
+  padding:5px;
+  text-align:center;
+  }
+  html.ltr h1.menuheader {
+  border-right:none;
+  float:none;
+  }
+  html.rtl h1.menuheader {
+  border-left:none;
+  float:none;
+  }
+}

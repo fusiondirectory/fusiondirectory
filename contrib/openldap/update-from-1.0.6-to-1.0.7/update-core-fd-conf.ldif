@@ -1,0 +1,12 @@
+dn: cn=core-fd-conf,cn=schema,cn=config
+changetype: modify
+add: olcAttributeTypes
+olcAttributeTypes: ( 1.3.6.1.4.1.38414.8.12.12 NAME 'fdIdAllocationMethod' DESC 'FusionDirectory - id allocation method traditional/pool' EQUALITY caseExactIA5Match SUBSTR caseExactIA5SubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
+olcAttributeTypes: ( 1.3.6.1.4.1.38414.8.12.13 NAME 'fdGidNumberPoolMin' DESC 'FusionDirectory - pool gid number min' EQUALITY integerMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 SINGLE-VALUE)
+olcAttributeTypes: ( 1.3.6.1.4.1.38414.8.12.14 NAME 'fdUidNumberPoolMin' DESC 'FusionDirectory - pool uid number min' EQUALITY integerMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 SINGLE-VALUE)
+olcAttributeTypes: ( 1.3.6.1.4.1.38414.8.12.15 NAME 'fdGidNumberPoolMax' DESC 'FusionDirectory - pool gid number max' EQUALITY integerMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 SINGLE-VALUE)
+olcAttributeTypes: ( 1.3.6.1.4.1.38414.8.12.16 NAME 'fdUidNumberPoolMax' DESC 'FusionDirectory - pool uid number max' EQUALITY integerMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 SINGLE-VALUE)
+olcAttributeTypes: ( 1.3.6.1.4.1.38414.8.18.4 NAME 'fusionConfigMd5' DESC 'FusionDirectory - md5sum of class.cache' EQUALITY caseExactIA5Match SUBSTR caseExactIA5SubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+-
+replace: olcObjectClasses
+olcObjectClasses: ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf' DESC 'FusionDirectory configuration' SUP top STRUCTURAL MUST ( cn ) MAY ( fusionConfigMd5 $ fdRfc2307bis $ fdSchemaCheck $ fdLanguage $ fdTheme $ fdTimezone $ fdAccountPrimaryAttribute $ fdAccountRDN $ fdNextIdHook $ fdIdGenerator $ fdPersonalTitleInDN $ fdStrictNamingRules $ fdMinId $ fdUidNumberBase $ fdGidNumberBase $ fdUserRDN $ fdGroupRDN $ fdIdAllocationMethod $ fdGidNumberPoolMin $ fdUidNumberPoolMin $ fdGidNumberPoolMax $ fdUidNumberPoolMax $ fdPasswordDefaultHash $ fdPasswordMinLength $ fdPasswordMinDiffer $ fdPasswordHook $ fdHandleExpiredAccounts $ fdSaslRealm $ fdSaslExop $ fdForcePasswordDefaultHash $ fdPrimaryGroupFilter $ fdListSummary $ fdHonourUnitTags $ fdModificationDetectionAttribute $ fdCopyPaste $ fdLogging $ fdLdapSizeLimit $ fdLoginAttribute $ fdForceSSL $ fdWarnSSL $ fdStoreFilterSettings $ fdSessionLifeTime $ fdDisplayErrors $ fdLdapMaxQueryTime $ fdLdapStats $ fdDebugLevel $ fdEnableSnapshots $ fdSnapshotBase $ fdSnapshotURI $ fdSnapshotAdminDn $ fdSnapshotAdminPassword $ fdHonourIvbbAttributes $ fdTabHook $ fdShells ) )

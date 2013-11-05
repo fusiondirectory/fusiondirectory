@@ -292,22 +292,20 @@ class userManagement extends management
           if (preg_match('/w/', $acl) || preg_match('/c/', $cacl)){
 
               // Get posted passwords
-              if($this->proposalSelected){
-                  $new_password = $this->proposal;
-                  $repeated_password = $this->proposal;
-              }else{
-                  $new_password = get_post('new_password');
-                  $repeated_password = get_post('repeated_password');
+              if ($this->proposalSelected) {
+                  $new_password       = $this->proposal;
+                  $repeated_password  = $this->proposal;
+              } else {
+                  $new_password       = $_POST['new_password'];
+                  $repeated_password  = $_POST['repeated_password'];
               }
 
               // Check posted passwords now.
-              $message= array();
+              $message = array();
               if ($new_password != $repeated_password) {
-                  $message[]= _("The passwords you've entered as 'New password' and 'Repeated new password' do not match.");
-              } else {
-                  if ($new_password == "") {
-                      $message[] = msgPool::required(_("New password"));
-                  }
+                $message[] = _("The passwords you've entered as 'New password' and 'Repeated new password' do not match.");
+              } elseif ($new_password == "") {
+                $message[] = msgPool::required(_("New password"));
               }
 
               // Display errors
@@ -348,7 +346,7 @@ class userManagement extends management
               // The user has to change his password on next login
               // - We are going to update samba and posix attributes here, to enforce
               //   such a password change.
-              if($this->passwordChangeForceable && $this->enforcePasswordChange){
+              if ($this->passwordChangeForceable && $this->enforcePasswordChange) {
 
                   // Check if we are able to enforce a password change
                   $ldap = $this->config->get_ldap_link();
@@ -415,16 +413,6 @@ class userManagement extends management
     if (is_object($this->tabObject)) {
       /* If tabObject still exists, it means there was some errors */
       return "";
-    }
-
-    if ($this->last_tabObject instanceOf multi_plug) {
-      foreach($this->last_tabObject->a_handles as $user) {
-        if ($user->password_change_needed()) {
-          $this->force_hash_type[$user->dn] = $user->by_object['user']->pw_storage;
-          $this->pwd_change_queue[] = $user->dn;
-        }
-      }
-      return $this->handlePasswordQueue();
     }
 
     if (isset($this->last_tabObject->by_object['user']) && $this->last_tabObject->by_object['user']->password_change_needed()) {
@@ -911,7 +899,7 @@ class userManagement extends management
             @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['plShortName']." ($class)", "No icon for");
           }
         } else {
-          $result .= "<img src='images/empty.png' alt=' ' class='center $class' style='padding:1px'>";
+          $result .= "<img src='images/empty.png' alt=' ' class='center optional $class' style='padding:1px'>";
         }
       }
     }

@@ -493,76 +493,27 @@ class plugin
    */
   function check()
   {
-    $message= array();
+    $message = array();
 
     /* Skip if we've no config object */
-    if (!isset($this->config) || !is_object($this->config)){
+    if (!isset($this->config) || !is_object($this->config)) {
       return $message;
     }
 
-    /* Find hooks entries for this class */
-    $command= $this->config->search(get_class($this), "CHECK", array('menu', 'tabs'));
-
-    if ($command != ""){
-
-      if (!check_command($command)){
-        $message[]= msgPool::cmdnotfound("CHECK", get_class($this));
-      } else {
-
-        /* Generate "ldif" for check hook */
-        $ldif= "dn: $this->dn\n";
-
-        /* ... objectClasses */
-        foreach ($this->objectclasses as $oc){
-          $ldif.= "objectClass: $oc\n";
-        }
-
-        /* ... attributes */
-        foreach ($this->attributes as $attr){
-          if ($this->$attr == ""){
-            continue;
-          }
-          if (is_array($this->$attr)){
-            foreach ($this->$attr as $val){
-              $ldif.= "$attr: $val\n";
-            }
-          } else {
-              $ldif.= "$attr: ".$this->$attr."\n";
-          }
-        }
-
-        /* Append empty line */
-        $ldif.= "\n";
-
-        /* Feed "ldif" into hook and retrieve result*/
-        $descriptorspec = array( 0 => array("pipe", "r"), 1 => array("pipe", "w"), 2 => array("pipe", "w"));
-        $fh= proc_open($command, $descriptorspec, $pipes);
-        if (is_resource($fh)) {
-          fwrite ($pipes[0], $ldif);
-          fclose($pipes[0]);
-
-          $result= stream_get_contents($pipes[1]);
-          if ($result != ""){
-            $message[]= $result;
-          }
-
-          fclose($pipes[1]);
-          fclose($pipes[2]);
-          proc_close($fh);
-        }
-      }
-
+    self::callHook($this, 'CHECK', array(), $returnOutput);
+    if (!empty($returnOutput)) {
+      $message[] = join("\n", $returnOutput);
     }
 
     /* Check entryCSN */
-    if($this->CSN_check_active){
+    if ($this->CSN_check_active) {
       $current_csn = getEntryCSN($this->dn);
-      if($current_csn != $this->entryCSN && !empty($this->entryCSN) && !empty($current_csn)){
+      if (($current_csn != $this->entryCSN) && !empty($this->entryCSN) && !empty($current_csn)) {
         $this->entryCSN = $current_csn;
         $message[] = _("The object has changed since opened in FusionDirectory. All changes that may be done by others get lost if you save this entry!");
       }
     }
-    return ($message);
+    return $message;
   }
 
   /*
@@ -607,6 +558,8 @@ class plugin
    * Returns an array of possible values */
   static function tpl_apply_modifier($m, $args, $str)
   {
+    mb_internal_encoding('UTF-8');
+    mb_regex_encoding('UTF-8');
     switch($m) {
       case 'u': // uppercase
         return array(mb_strtoupper($str, 'UTF-8'));
@@ -618,6 +571,8 @@ class plugin
         $str = preg_replace('#&([A-za-z])(?:acute|cedil|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
         $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // handle ligatures
         return array(preg_replace('#&[^;]+;#', '', $str)); // delete unhandled characters
+      case 'S': // spaces
+        return array(preg_replace('/\s/u', '', $str));
       case 's': // substring
         if (count($args) < 1) {
           trigger_error("Missing 's' substr modifier parameter");
@@ -757,36 +712,6 @@ class plugin
   }
 
   /*!
-   * \brief Executes commands after an object has been created
-   *
-   * \param array $add_attrs
-   */
-  function postcreate($add_attrs = array())
-  {
-    return self::callHook ($this, "POSTCREATE", $add_attrs);
-  }
-
-  /*!
-   * \brief Execute commands after an object has been modified
-   *
-   * \param array $add_attrs
-   */
-  function postmodify($add_attrs = array())
-  {
-    return self::callHook ($this, "POSTMODIFY", $add_attrs);
-  }
-
-  /*!
-   * \brief Executes a command after an object has been removed
-   *
-   * \param array $add_attrs
-   */
-  function postremove($add_attrs = array())
-  {
-    return self::callHook ($this, "POSTREMOVE", $add_attrs);
-  }
-
-  /*!
    * \brief Executes a command after an object has been copied
    */
   function postCopyHook()
@@ -876,12 +801,12 @@ class plugin
    */
   function rebind($ldap, $referral)
   {
-    $credentials= LDAP::get_credentials($referral, $this->config->current['REFERRAL']);
+    $credentials = LDAP::get_credentials($referral, $this->config->current['REFERRAL']);
     if (ldap_bind($ldap, $credentials['ADMIN'], $this->config->get_credentials($credentials['PASSWORD']))) {
-      $this->error = "Success";
-      $this->hascon=true;
-      $this->reconnect= true;
-      return (0);
+      $this->error      = "Success";
+      $this->hascon     = TRUE;
+      $this->reconnect  = TRUE;
+      return 0;
     } else {
       $this->error = "Could not bind to " . $credentials['ADMIN'];
       return NULL;
@@ -1216,31 +1141,43 @@ class plugin
     return (TRUE);
   }
 
+  /*! \brief Forward command execution requests
+   *         to the pre/post hook execution method.
+   *
+   * \param  string  $when must be PRE or POST
+   *
+   * \param  string  $mode add, remove or modify
+   *
+   * \param  array  $addAttrs
+   */
+  protected function handle_hooks($when, $mode, $addAttrs = array())
+  {
+    switch ($mode) {
+      case 'add':
+        plugin::callHook($this, $when.'CREATE', $addAttrs);
+      break;
+
+      case 'modify':
+        plugin::callHook($this, $when.'MODIFY', $addAttrs);
+      break;
+
+      case 'remove':
+        plugin::callHook($this, $when.'REMOVE', $addAttrs);
+      break;
+
+      default:
+        trigger_error(sprintf('Invalid %s event type given %s! Valid types are [add,modify,remove].', strtolower($when), $mode));
+      break;
+    }
+  }
 
   /*! \brief Forward command execution requests
    *         to the post hook execution method.
    */
   function handle_post_events($mode, $addAttrs = array())
   {
-    if (!in_array($mode, array('add','remove','modify'))) {
-      trigger_error(sprintf("Invalid post event type given %s! Valid types are [add,modify,remove].", $mode));
-      return;
-    }
-    switch ($mode) {
-      case "add":
-        plugin::callHook($this, "POSTCREATE", $addAttrs);
-      break;
-
-      case "modify":
-        plugin::callHook($this, "POSTMODIFY", $addAttrs);
-      break;
-
-      case "remove":
-        plugin::callHook($this, "POSTREMOVE", $addAttrs);
-      break;
-    }
+    return $this->handle_hooks('POST', $mode, $addAttrs);
   }
-
 
   /*!
    *  \brief Forward command execution requests
@@ -1248,23 +1185,7 @@ class plugin
    */
   function handle_pre_events($mode, $addAttrs = array())
   {
-    if (!in_array($mode, array('add','remove','modify'))) {
-      trigger_error(sprintf("Invalid pre event type given %s! Valid types are [add,modify,remove].", $mode));
-      return;
-    }
-    switch ($mode) {
-      case "add":
-        plugin::callHook($this, "PRECREATE", $addAttrs);
-      break;
-
-      case "modify":
-        plugin::callHook($this, "PREMODIFY", $addAttrs);
-      break;
-
-      case "remove":
-        plugin::callHook($this, "PREREMOVE", $addAttrs);
-      break;
-    }
+    return $this->handle_hooks('PRE', $mode, $addAttrs);
   }
 
 
@@ -1377,10 +1298,10 @@ class plugin
    *  If this is called from departmentGeneric, we have to skip this
    *  tagging procedure.
   */
-  function tag_attrs(&$at, $dn= "", $tag= "", $show= false)
+  function tag_attrs(&$at, $dn = "", $tag = "", $show = FALSE)
   {
     /* Skip tagging? */
-    if($this->skipTagging){
+    if ($this->skipTagging) {
       return;
     }
 
@@ -1575,29 +1496,29 @@ class plugin
     $deps = array();
 
     /* Is this a new object ? Or just an edited existing object */
-    if(!$this->initially_was_account && $this->is_account){
-      $new = true;
-    }else{
-      $new = false;
+    if (!$this->initially_was_account && $this->is_account) {
+      $new = TRUE;
+    } else {
+      $new = FALSE;
     }
 
-    foreach($this->config->idepartments as $dn => $name){
-      if($new && $this->acl_is_createable($dn)){
+    foreach ($this->config->idepartments as $dn => $name) {
+      if ($new && $this->acl_is_createable($dn)) {
         $deps[$dn] = $name;
-      }elseif(!$new && $this->acl_is_moveable($dn)){
+      } elseif(!$new && $this->acl_is_moveable($dn)) {
         $deps[$dn] = $name;
       }
     }
 
     /* Add current base */
-    if(isset($this->base) && isset($this->config->idepartments[$this->base])){
+    if (isset($this->base) && isset($this->config->idepartments[$this->base])) {
       $deps[$this->base] = $this->config->idepartments[$this->base];
-    }elseif(strtolower($this->dn) == strtolower($this->config->current['BASE'])){
+    } elseif(strtolower($this->dn) == strtolower($this->config->current['BASE'])) {
 
-    }else{
+    } else {
       trigger_error("Cannot return list of departments, no default base found in class ".get_class($this).". ".$this->base);
     }
-    return($deps);
+    return $deps;
   }
 
 
@@ -1636,7 +1557,7 @@ class plugin
       $ldap->search("(&(objectClass=gosaAcl)(gosaAclEntry=*".base64_encode($old_dn)."*))",array("cn","gosaAclEntry"));
       while($attrs = $ldap->fetch()){
         $acls = array();
-        $found = false;
+        $found = FALSE;
         for($i = 0 ; $i <  $attrs['gosaAclEntry']['count'] ; $i ++ ){
           $acl_parts = explode(":",$attrs['gosaAclEntry'][$i]);
 
@@ -1699,7 +1620,7 @@ class plugin
    */
   function enable_CSN_check()
   {
-    $this->CSN_check_active =TRUE;
+    $this->CSN_check_active = TRUE;
     $this->entryCSN = getEntryCSN($this->dn);
   }
 

@@ -107,23 +107,21 @@ class config  {
     /* Check if class_location.inc has changed, this is the case
         if we have installed or removed plugins.
      */
+    $tmp = stat(CACHE_DIR."/".CLASS_CACHE);
     if (session::global_is_set("class_location.inc:timestamp")) {
-      $tmp = stat(CACHE_DIR."/".CLASS_CACHE);
       if ($tmp['mtime'] != session::global_get("class_location.inc:timestamp")) {
         session::global_un_set("plist");
       }
     }
-    $tmp = stat(CACHE_DIR."/".CLASS_CACHE);
-    session::global_set("class_location.inc:timestamp",$tmp['mtime']);
+    session::global_set("class_location.inc:timestamp", $tmp['mtime']);
 
     if (($this->filename != "") && ((filemtime($this->filename) != $this->last_modified) || $force)) {
-
-      $this->config_found= FALSE;
-      $this->tags= array();
-      $this->level= 0;
-      $this->gpc= 0;
-      $this->section= "";
-      $this->currentLocation= "";
+      $this->config_found     = FALSE;
+      $this->tags             = array();
+      $this->level            = 0;
+      $this->gpc              = 0;
+      $this->section          = "";
+      $this->currentLocation  = "";
 
       $this->parser = xml_parser_create();
       xml_set_object($this->parser, $this);
@@ -283,18 +281,27 @@ class config  {
    */
   function get_credentials($creds)
   {
-    if (isset($_SERVER['HTTP_FD_KEY'])){
-      if (!session::global_is_set('HTTP_FD_KEY_CACHE')){
-        session::global_set('HTTP_FD_KEY_CACHE',array());
+    if (isset($_SERVER['HTTP_FD_KEY'])) {
+      if (!session::global_is_set('HTTP_FD_KEY_CACHE')) {
+        session::global_set('HTTP_FD_KEY_CACHE', array());
       }
       $cache = session::global_get('HTTP_FD_KEY_CACHE');
-      if(!isset($cache[$creds])){
-        $cache[$creds] = cred_decrypt($creds, $_SERVER['HTTP_FD_KEY']);
-        session::global_set('HTTP_FD_KEY_CACHE',$cache);
+      if (!isset($cache[$creds])) {
+        try {
+          $cache[$creds] = cred_decrypt($creds, $_SERVER['HTTP_FD_KEY']);
+          session::global_set('HTTP_FD_KEY_CACHE', $cache);
+        } catch (Exception $e) {
+          $msg = sprintf(
+            _('It seems you are trying to decode something which is not encoded : %s<br/>\n'.
+              'Please check you are not using a fusiondirectory.secrets file while your passwords are not encrypted.'),
+            $e->getMessage()
+          );
+          msg_dialog::display(_("Configuration error"), $msg, FATAL_ERROR_DIALOG);
+        }
       }
-      return ($cache[$creds]);
+      return $cache[$creds];
     }
-    return ($creds);
+    return $creds;
   }
 
 
@@ -523,7 +530,24 @@ class config  {
     $ldap->cd($this->current['BASE']);
     $ldap->search("(objectClass=goFonServer)");
     $this->data['SERVERS']['FON'] = array();
-    while ($attrs= $ldap->fetch()) {
+
+    while ($attrs = $ldap->fetch()) {
+
+      $entry = array(
+        'DN'                  => $attrs['dn'],
+        'SERVER'              => $attrs['cn'][0],
+        'LOGIN'               => $attrs['goFonAdmin'][0],
+        'PASSWORD'            => $attrs['goFonPassword'][0],
+        'DB'                  => "gophone",
+        'SIP_TABLE'           => "sip_users",
+        'EXT_TABLE'           => "extensions",
+        'VOICE_TABLE'         => "voicemail_users",
+        'QUEUE_TABLE'         => "queues",
+        'QUEUE_MEMBER_TABLE'  => "queue_members"
+      );
+      if (isset($attrs['fdAsteriskDriver'][0])) {
+        $entry['DRIVER'] = $attrs['fdAsteriskDriver'][0];
+      }
 
       /* Add 0 entry for development */
       if(count($this->data['SERVERS']['FON']) == 0) {
@@ -660,6 +684,28 @@ class config  {
       }
     }
 
+  }
+
+  /* Check that configuration is in LDAP, check that no plugin got installed since last configuration update */
+  function checkLdapConfig ()
+  {
+    global $ui;
+    $ldap   = $this->get_ldap_link();
+    $dn     = CONFIGRDN.$this->current['BASE'];
+    $reload = TRUE;
+    $ldap->cat($dn, array('fusionConfigMd5'));
+    if ($attrs = $ldap->fetch()) {
+      if (isset($attrs['fusionConfigMd5'][0]) && ($attrs['fusionConfigMd5'][0] == md5_file(CACHE_DIR."/".CLASS_CACHE))) {
+        $reload = FALSE;
+      }
+    }
+    if ($reload) {
+      add_lock($dn, $ui->dn);
+      $config_plugin = new tabs_configInLdap($this, $this->data['TABS']['CONFIGURATIONTABS'], $dn, 'configuration');
+      $config_plugin->save_object();
+      $config_plugin->save();
+      del_lock($dn);
+    }
   }
 
   function load_inldap_config()
@@ -1091,18 +1137,21 @@ class config  {
    */
   function get_cfg_value($name, $default = "") {
     $name = strtoupper($name);
+    $res  = $default;
 
     /* Check if we have a current value for $name */
     if (isset($this->current[$name])) {
-      return $this->current[$name];
-    }
-
+      $res = $this->current[$name];
     /* Check if we have a global value for $name */
-    if (isset($this->data["MAIN"][$name])) {
-      return $this->data["MAIN"][$name];
+    } elseif (isset($this->data["MAIN"][$name])) {
+      $res = $this->data["MAIN"][$name];
     }
 
-    return $default;
+    if (is_array($default) && !is_array($res)) {
+      $res = array($res);
+    }
+
+    return $res;
   }
 
 
@@ -1221,6 +1270,16 @@ class config  {
             if (!isset($value['aclCategory'])) {
               $value['aclCategory'] = $key;
             }
+            if (isset($value['filter'])) {
+              if (!preg_match('/^\(.*\)$/', $value['filter'])) {
+                $value['filter'] = '('.$value['filter'].')';
+              }
+            } else {
+              $value['filter'] = NULL;
+            }
+            if (!isset($value['mainAttr'])) {
+              $value['mainAttr'] = 'cn';
+            }
             $this->data['OBJECTS'][strtoupper($key)] = $value;
             @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $tabclass, "Adding $class as main tab of");
             if (!isset($this->data['TABS'][$tabclass])) {
@@ -1242,7 +1301,7 @@ class config  {
       }
       if (isset($plInfo['plSection'])) {
         $section  = $plInfo['plSection'];
-        $acl = $plInfo['plCategory'];
+        $acl      = $plInfo['plCategory'];
         if (!is_array($acl)) {
           $acl = array($acl);
         }
@@ -1292,6 +1351,84 @@ class config  {
         return (($a['PRIORITY'] < $b['PRIORITY']) ? -1 : 1);
       }
     );
+  }
+
+  /*!
+   * \brief Get list of object of objectType $type in $ou
+   *
+   * \param string  $type the objectType to list
+   * \param mixed   $attrs The attributes to fetch.
+   * If this is a single value, the resulting associative array will have for each dn the value of this attribute.
+   * If this is an array, the keys must be the wanted attributes, and the values can be either 1, '*' or 'raw'
+   *  depending if you want a single value or an array of values. 'raw' means untouched LDAP value and is only useful for dns.
+   *  Other values are considered to be 1.
+   * \param string  $ou the LDAP branch to search in, base will be used if it is NULL
+   * \param string  $filter an additional filter to use in the LDAP search. Should be surrounded by parenthesis.
+   *
+   * \return The list of objects as an associative array (keys are dns)
+   */
+  function getObjectList ($type, $attrs = array(), $ou = NULL, $filter = '')
+  {
+    if ($ou === NULL) {
+      $ou = $this->current['BASE'];
+    }
+    $type = strtoupper($type);
+    if (!isset($this->data['OBJECTS'][$type])) {
+      throw new Exception('Non-existing type '.$type);
+    }
+    $object_ou = $this->data['OBJECTS'][$type]['ou'];
+    if (!empty($object_ou)) {
+      if (!preg_match("/^$object_ou/", $ou)) {
+        $ou = $object_ou.$ou;
+      }
+    }
+    $ldap = $this->get_ldap_link();
+    if (!$ldap->dn_exists($ou)) {
+      /* Non-existing ou, returning empty list */
+      return array();
+    }
+    if (empty($filter)) {
+      $filter = $this->data['OBJECTS'][$type]['filter'];
+    } else {
+      if (!preg_match('/^\(.*\)$/', $filter)) {
+        $filter = '('.$filter.')';
+      }
+      $filter = '(&'.$filter.$this->data['OBJECTS'][$type]['filter'].')';
+    }
+    if (is_array($attrs)) {
+      $search_attrs = array_keys($attrs);
+    } else {
+      $search_attrs = array($attrs);
+    }
+    $ldap->cd($ou);
+    $ldap->search($filter, $search_attrs);
+    if (!$ldap->success()) {
+      throw new Exception($ldap->get_error());
+    }
+    $result = array();
+    while ($fetched_attrs = $ldap->fetch()) {
+      $key = $fetched_attrs['dn'];
+      if (is_array($attrs)) {
+        $result[$key] = array();
+        foreach ($attrs as $attr => $mode) {
+          if (isset($fetched_attrs[$attr])) {
+            switch ($mode) {
+              case '*':
+                unset($fetched_attrs[$attr]['count']);
+              case 'raw':
+                $result[$key][$attr] = $fetched_attrs[$attr];
+                break;
+              case 1:
+              default:
+                $result[$key][$attr] = $fetched_attrs[$attr][0];
+            }
+          }
+        }
+      } elseif (isset($fetched_attrs[$attrs])) {
+        $result[$key] = $fetched_attrs[$attrs][0];
+      }
+    }
+    return $result;
   }
 }
 

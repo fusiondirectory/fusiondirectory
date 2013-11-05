@@ -6,7 +6,7 @@
   <td>
     {t}Name{/t}
   </td>
-  <td>  
+  <td>
 {render acl=$cnACL}
     <input type="text" name='cn' value="{$cn}" style='width:200px;'>
 {/render}
@@ -24,7 +24,7 @@
 </tr>
 <tr>
   <td>
-    {t}Base{/t}{$MUST}
+    {t}Base{/t}{$must}
   </td>
   <td>
 {render acl=$baseACL}
@@ -41,7 +41,7 @@
 {/if}
 
 {if $dialogState eq 'create'}
-<h1>{t}ACL type{/t} <select size="1" name="aclType" title="{t}Select an acl type{/t}" onChange="document.mainform.submit()">{html_options options=$aclTypes selected=$aclType}<option disabled>&nbsp;</option></select>&nbsp;{if $javascript eq 'false'}<input type="submit" value="{msgPool type=applyButton}" name="refresh">{/if}</h1>
+<h1>{t}ACL type{/t} <select size="1" name="aclType" title="{t}Select an acl type{/t}" onChange="document.mainform.submit()">{html_options options=$aclTypes selected=$aclType}<option disabled>&nbsp;</option></select>&nbsp;</h1>
 
 <p class="seperator">&nbsp;</p>
 

@@ -243,8 +243,10 @@ class aclrole extends acl
       }
 
       /* ACL saving... */
-      if (preg_match('/^acl_.*_[^xy]$/', $name) && $this->acl_is_writeable("gosaAclEntry")){
-        list($dummy, $object, $attribute, $value)= explode('_', $name);
+      if (preg_match('/^acl_([^_]+)_(.*)_([^_yx])$/', $name, $matches)) {
+        $object     = $matches[1];
+        $attribute  = $matches[2];
+        $value      = $matches[3];
 
         /* Skip for detection entry */
         if ($object == 'dummy') {
@@ -363,8 +365,8 @@ class aclrole extends acl
           $link = $this->assembleAclSummary($entry);
         }
 
-        $field1= array("string" => $this->aclTypes[$entry['type']], "attach" => "style='width:150px'");
-        $field2= array("string" => $link);
+        $field1= array("html" => $this->aclTypes[$entry['type']], "attach" => "style='width:150px'");
+        $field2= array("html" => $link);
 
         $action ="";
         if($this->acl_is_writeable("gosaAclEntry")){
@@ -382,7 +384,7 @@ class aclrole extends acl
             title='".msgPool::delButton(_("ACL"))."'>";
         }
 
-        $field3= array("string" => $action, "attach" => "style='border-right:0px;width:50px;text-align:right;'");
+        $field3= array("html" => $action, "attach" => "style='border-right:0px;width:50px;text-align:right;'");
         $aclList->AddEntry(array($field1, $field2, $field3));
       }
 
@@ -430,9 +432,9 @@ class aclrole extends acl
             alt='"._("Delete")."' name='cat_del_$section' title='"._("Reset category ACL")."'>";
         }
 
-        $field1= array("string" => $dsc, "attach" => "style='width:140px'");
-        $field2= array("string" => $summary);
-        $field3= array("string" => $action, "attach" => "style='border-right:0px;width:50px'");
+        $field1= array("html" => $dsc, "attach" => "style='width:140px'");
+        $field2= array("html" => $summary);
+        $field3= array("html" => $action, "attach" => "style='border-right:0px;width:50px'");
         $aclList->AddEntry(array($field1, $field2, $field3));
       }
 
@@ -454,7 +456,7 @@ class aclrole extends acl
         if ($idx == 0){
           continue;
         }
-        $aclObjects[$this->aclObject.'/'.$class]= $plist[$class]['plDescription'];
+        $aclObjects[$this->aclObject.'/'.$class] = $plist[$class]['plShortName'];
       }
       if ($this->aclObject == 'all'){
         $aclObjects['all']= _("All objects in current subtree");

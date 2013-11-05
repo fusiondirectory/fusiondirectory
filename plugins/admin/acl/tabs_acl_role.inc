@@ -61,21 +61,19 @@ class aclroletab extends tabs
 
   function execute()
   {
-    $display= tabs::execute();
-    if($this->read_only){
-      $display.= "<p style=\"text-align:right\">\n";
-      $display.= "  <input type=submit name=\"edit_cancel\" value=\"".msgPool::cancelButton()."\">\n";
-      $display.= "</p>";
-    }elseif(!$this->by_object['aclrole']->dialog){
-      $display.= "<p style=\"text-align:right\">\n";
-      $display.= "  <input type=submit name=\"edit_finish\" style=\"width:80px\" value=\"".msgPool::okButton()."\">\n";
+    $display = tabs::execute();
+    if ($this->read_only) {
+      $display.= '<p class="plugbottom">'."\n";
+      $display.= '  <input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
+      $display.= '</p>';
+    } elseif(!$this->by_object['aclrole']->dialog) {
+      $display.= '<p class="plugbottom">'."\n";
+      $display.= '  <input type="submit" name="edit_finish" style="width:80px" value="'.msgPool::okButton().'"/>'."\n";
       $display.= "  &nbsp;\n";
-      $display.= "  <input type=submit name=\"edit_cancel\" value=\"".msgPool::cancelButton()."\">\n";
-      $display.= "</p>";
+      $display.= '  <input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
+      $display.= '</p>';
     }
-    return($display);
+    return $display;
   }
-
 }
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

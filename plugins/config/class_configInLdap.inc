@@ -74,6 +74,7 @@ class configInLdap extends simplePlugin
     if (session::global_is_set('plist')) {
       $plugins = array_keys(session::global_get('plist')->info);
     }
+    sort($plugins);
     return array(
       'look_n_feel' => array(
         'name'  => _('Look n feel'),
@@ -94,6 +95,7 @@ class configInLdap extends simplePlugin
             'fdTimezone', TRUE,
             array('America/New_York')
           ),
+          new HiddenAttribute ('fusionConfigMd5'),
         )
       ),
       'schema_setup' => array(
@@ -119,7 +121,7 @@ class configInLdap extends simplePlugin
           new SelectAttribute (
             _('Password default hash'), _('Default hash to be used'),
             'fdPasswordDefaultHash', TRUE,
-            array('crypt/md5')
+            array('ssha')
           ),
           new BooleanAttribute (
             _('Force default hash'), _('Force the use of the default password hash'),
@@ -275,7 +277,7 @@ class configInLdap extends simplePlugin
                   _('mode'), _('When to call this command'),
                   'hookMode', TRUE,
                   array('postcreate', 'postremove', 'postmodify',
-                        'precreate', 'preremove', 'premodify')
+                        'precreate', 'preremove', 'premodify', 'check')
                 ),
                 new StringAttribute(
                   _('cmd'), _('The command that will be called'),
@@ -304,7 +306,6 @@ class configInLdap extends simplePlugin
       'people_and_group' => array(
         'name'  => _('People and group storage'),
         'class' => array('critical'),
-        'icon'  => 'images/small_warning.png',
         'attrs' => array(
           new SelectAttribute (
             _('People DN attribute'), _('Attribute to use at the beginning of users dn'),
@@ -321,10 +322,6 @@ class configInLdap extends simplePlugin
             'fdAccountRDN', FALSE
           ),
           new StringAttribute (
-            _('Next id hook'), _('A script to be called for finding the next free id for users or groups externaly.'),
-            'fdNextIdHook', FALSE
-          ),
-          new StringAttribute (
             _('Automatic UIDs'), _('Automatic way to generate new user ids'),
             'fdIdGenerator', FALSE
           ),
@@ -336,19 +333,23 @@ class configInLdap extends simplePlugin
           ),
           new IntAttribute (
             _('GID/UID min id'),
-            _('The minimum assignable user or group id to avoid security leaks with uid 0 accounts.'),
+            _('The minimum assignable user or group id number to avoid security leaks with uid 0 accounts.'),
             'fdMinId', FALSE,
             0, FALSE
           ),
+          new StringAttribute (
+            _('Next id hook'), _('A script to be called for finding the next free id number for users or groups externaly.'),
+            'fdNextIdHook', FALSE
+          ),
           new IntAttribute (
             _('Number base for people'),
-            _('Where to start looking for a new free user id.'),
+            _('Where to start looking for a new free user id number.'),
             'fdUidNumberBase', FALSE,
             0, FALSE, 1100
           ),
           new IntAttribute (
             _('Number base for groups'),
-            _('Where to start looking for a new free group id.'),
+            _('Where to start looking for a new free group id number.'),
             'fdGidNumberBase', FALSE,
             0, FALSE, 1100
           ),
@@ -361,6 +362,32 @@ class configInLdap extends simplePlugin
             _('Groups RDN'), _('The branch where groups are stored.'),
             'fdGroupRDN', TRUE,
             'ou=groups'
+          ),
+          new SelectAttribute (
+            _('Id allocation method'), _('Method to allocate uid/gid numbers'),
+            'fdIdAllocationMethod', TRUE,
+            array('traditional', 'pool'), 'traditional',
+            array(_('Traditional'), _('Samba unix id pool'))
+          ),
+          new IntAttribute (
+            _('Pool uid min'), _('Minimum value for uid when using pool method'),
+            'fdUidNumberPoolMin', FALSE,
+            0, FALSE, 10000
+          ),
+          new IntAttribute (
+            _('Pool uid max'), _('Maximum value for uid when using pool method'),
+            'fdUidNumberPoolMax', FALSE,
+            0, FALSE, 40000
+          ),
+          new IntAttribute (
+            _('Pool gid min'), _('Minimum value for gid when using pool method'),
+            'fdGidNumberPoolMin', FALSE,
+            0, FALSE, 10000
+          ),
+          new IntAttribute (
+            _('Pool gid max'), _('Maximum value for gid when using pool method'),
+            'fdGidNumberPoolMax', FALSE,
+            0, FALSE, 40000
           ),
         )
       ),
@@ -415,7 +442,10 @@ class configInLdap extends simplePlugin
     $attributesInfo['password']['attrs'][0]->setChoices($methods);
 
     parent::__construct($config, $dn, $object, $attributesInfo);
-    $this->attributesInfo['snapshots']['attrs']['fdEnableSnapshots']->setManagedAttributes(
+
+    $this->fusionConfigMd5 = md5_file(CACHE_DIR."/".CLASS_CACHE);
+
+    $this->attributesAccess['fdEnableSnapshots']->setManagedAttributes(
       array(
         'disable' => array (
           FALSE => array (
@@ -427,7 +457,7 @@ class configInLdap extends simplePlugin
         )
       )
     );
-    $this->attributesInfo['people_and_group']['attrs']['fdAccountPrimaryAttribute']->setManagedAttributes(
+    $this->attributesAccess['fdAccountPrimaryAttribute']->setManagedAttributes(
       array(
         'erase' => array (
           'uid' => array (
@@ -436,7 +466,7 @@ class configInLdap extends simplePlugin
         )
       )
     );
-    $this->attributesInfo['login']['attrs']['fdForceSSL']->setManagedAttributes(
+    $this->attributesAccess['fdForceSSL']->setManagedAttributes(
       array(
         'disable' => array (
           TRUE => array (
@@ -445,7 +475,16 @@ class configInLdap extends simplePlugin
         )
       )
     );
-
+    $this->attributesAccess['fdIdAllocationMethod']->setManagedAttributes(
+      array(
+        'erase' => array (
+          'traditional' => array (
+            'fdUidNumberPoolMin','fdUidNumberPoolMax',
+            'fdGidNumberPoolMin','fdGidNumberPoolMax',
+          )
+        )
+      )
+    );
   }
 
   static function get_themes()

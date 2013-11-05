@@ -1,25 +1,9 @@
 [main]
-host = https://www.transifex.net
+host = https://www.transifex.com
+type = PO
 
 [FusionDirectory.fusiondirectory-core]
+file_filter = locale/<lang>/fusiondirectory.po
 source_file = locale/fusiondirectory.po
 source_lang = en
-trans.ca = locale/ca/fusiondirectory.po
-trans.cs_CZ = locale/cs_CZ/fusiondirectory.po
-trans.de = locale/de/fusiondirectory.po
-trans.es = locale/es/fusiondirectory.po
-trans.es_VE = locale/es_VE/fusiondirectory.po
-trans.fa_IR = locale/fa_IR/fusiondirectory.po
-trans.fr = locale/fr/fusiondirectory.po
-trans.id_ID = locale/id_ID/fusiondirectory.po
-trans.it = locale/it/fusiondirectory.po
-trans.nl = locale/nl/fusiondirectory.po
-trans.nb = locale/nb/fusiondirectory.po
-trans.pl = locale/pl/fusiondirectory.po
-trans.pt = locale/pt/fusiondirectory.po
-trans.ru = locale/ru/fusiondirectory.po
-trans.ug = locale/ug/fusiondirectory.po
-trans.vi = locale/vi/fusiondirectory.po
-trans.zh = locale/zh/fusiondirectory.po
-type = PO
 

@@ -20,20 +20,17 @@
         {html_options options=$aclTypes selected=$aclType}
         <option disabled>&nbsp;</option>
       </select>&nbsp;
-    {else} 
+    {else}
       <select size="1" name="aclType" title="{t}Select an acl type{/t}" onChange="document.mainform.submit()">
         {html_options options=$aclTypes selected=$aclType}
         <option disabled>&nbsp;</option>
       </select>&nbsp;
-      {if $javascript eq 'false'}
-        <input type="submit" value="{t}Apply{/t}" name="refresh">
-      {/if}
     {/if}
   </h1>
 
   <p class="seperator">&nbsp;</p>
   <div style='padding:3px;'>
-  {t}Additional filter options{/t}&nbsp; 
+  {t}Additional filter options{/t}&nbsp;
     {if !$acl_writeable}
     <input type='text' value='{$aclFilter}' disabled name='dummy_f' style='width:600px;'>
     {else}
@@ -49,7 +46,7 @@
       {html_options options=$targets selected=$target}
       <option disabled>&nbsp;</option>
      </select>
-     {if $javascript eq 'false'}<input type="submit" value="{t}Apply{/t}" name="refresh">{/if}<br><br>
+     <br><br>
     </td>
     <td>
     </td>

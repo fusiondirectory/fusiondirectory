@@ -18,126 +18,134 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-
-class UserSelectDialog
+class GenericDialog
 {
-  private $userSelect;
-  private $usersAttribute;
+  protected $dialogClass = "";
+  protected $dialog;
+  protected $attribute;
 
-  function __construct ($simplePlugin, $usersAttribute)
+  protected $post_cancel = 'add_cancel';
+  protected $post_finish = 'add_finish';
+
+  function __construct($simplePlugin, &$attribute)
   {
-    $this->usersAttribute = $usersAttribute;
-    $this->userSelect = new userSelect($simplePlugin->config, get_userinfo());
+    $this->attribute  = $attribute;
+    $this->dialog     = new $this->dialogClass($simplePlugin->config, get_userinfo());
   }
 
   function execute ()
   {
-    if (isset($_POST['add_users_cancel'])) {
-      return FALSE;
+    if (isset($_POST[$this->post_cancel])) {
+      return $this->handle_cancel();
     }
-    if (isset($_POST['add_users_finish'])) {
-      $users = $this->userSelect->detectPostActions();
-      if (isset($users['targets'])) {
-        $headpage = $this->userSelect->getHeadpage();
-        foreach ($users['targets'] as $dn) {
-          $attrs = $headpage->getEntry($dn);
+    if (isset($_POST[$this->post_finish])) {
+      return $this->handle_finish();
+    }
+    return $this->dialog_execute();
+  }
 
-          $this->usersAttribute->addValue($dn, $attrs);
-        }
-      }
-      return FALSE;
-    }
-    session::set('filterBlacklist', $this->usersAttribute->getFilterBlackList());
-    return $this->userSelect->execute();
+  function dialog_execute ()
+  {
+    return $this->dialog->execute();
+  }
+
+  function handle_finish ()
+  {
+    trigger_error('empty function');
+    return FALSE;
+  }
+
+  function handle_cancel ()
+  {
+    return FALSE;
   }
 }
 
-class UserGroupSelectDialog
+class GenericSelectDialog extends GenericDialog
 {
-  private $userGroupSelect;
-  private $dialogAttribute;
-
-  function __construct ($simplePlugin, $dialogAttribute)
+  function dialog_execute ()
   {
-    $this->dialogAttribute = $dialogAttribute;
-    $this->userGroupSelect = new userGroupSelect($simplePlugin->config, get_userinfo());
+    session::set('filterBlacklist', $this->attribute->getFilterBlackList());
+    return parent::dialog_execute();
   }
 
-  function execute ()
+  function handle_finish ()
   {
-    if (isset($_POST['userGroupSelect_cancel'])) {
-      return FALSE;
-    }
-    if (isset($_POST['userGroupSelect_save'])) {
-      $users = $this->userGroupSelect->save();
-      foreach ($users as $user) {
-        $this->dialogAttribute->addValue($user['dn'], $user);
+    $result = $this->dialog->detectPostActions();
+    if (isset($result['targets'])) {
+      $headpage = $this->dialog->getHeadpage();
+      foreach ($result['targets'] as $dn) {
+        $attrs = $headpage->getEntry($dn);
+
+        $this->attribute->addValue($dn, $attrs);
       }
-      return FALSE;
     }
-    session::set('filterBlacklist', $this->dialogAttribute->getFilterBlackList());
-    return $this->userGroupSelect->execute();
+    return FALSE;
   }
 }
 
-class GroupSelectDialog
+class UserSelectDialog extends GenericSelectDialog
 {
-  private $groupSelect;
-  private $dialogAttribute;
+  protected $dialogClass = 'userSelect';
+  protected $post_cancel = 'add_users_cancel';
+  protected $post_finish = 'add_users_finish';
+}
 
-  function __construct ($simplePlugin, $dialogAttribute)
+class SingleUserSelectDialog extends GenericDialog
+{
+  protected $dialogClass = 'userSelect';
+  protected $post_cancel = 'add_users_cancel';
+  protected $post_finish = 'add_users_finish';
+
+  function handle_finish ()
   {
-    $this->dialogAttribute = $dialogAttribute;
-    $this->groupSelect = new groupSelect($simplePlugin->config, get_userinfo());
-  }
-
-  function execute ()
-  {
-    if (isset($_POST['add_groups_cancel'])) {
-      return FALSE;
+    $result = $this->dialog->detectPostActions();
+    if (isset($result['targets']) && count($result['targets'])) {
+      $headpage = $this->dialog->getHeadpage();
+      $dn       = $result['targets'][0];
+      $attrs    = $headpage->getEntry($dn);
+      $this->attribute->handleDialogResult($dn, $attrs);
     }
-    if (isset($_POST['add_groups_finish'])) {
-      $groups = $this->groupSelect->detectPostActions();
-      if (isset($groups['targets'])) {
-        $headpage = $this->groupSelect->getHeadpage();
-        foreach ($groups['targets'] as $dn) {
-          $attrs = $headpage->getEntry($dn);
-
-          $this->dialogAttribute->addValue($dn, $attrs);
-        }
-      }
-      return FALSE;
-    }
-    session::set('filterBlacklist', $this->dialogAttribute->getFilterBlackList());
-    return $this->groupSelect->execute();
+    return FALSE;
   }
 }
 
-class MailSelectDialog
+class UserGroupSelectDialog extends GenericSelectDialog
 {
-  private $mailSelect;
-  private $mailsAttribute;
+  protected $dialogClass = 'userGroupSelect';
+  protected $post_cancel = 'userGroupSelect_cancel';
+  protected $post_finish = 'userGroupSelect_save';
 
-  function __construct ($simplePlugin, $mailsAttribute)
+  function handle_finish ()
   {
-    $this->mailsAttribute = $mailsAttribute;
-    $this->mailSelect = new mailAddressSelect($simplePlugin->config, get_userinfo());
+    $users = $this->userGroupSelect->save();
+    foreach ($users as $user) {
+      $this->dialogAttribute->addValue($user['dn'], $user);
+    }
+    return FALSE;
   }
+}
 
-  function execute ()
+class GroupSelectDialog extends GenericSelectDialog
+{
+  protected $dialogClass = 'groupSelect';
+  protected $post_cancel = 'add_groups_cancel';
+  protected $post_finish = 'add_groups_finish';
+}
+
+class MailSelectDialog extends GenericSelectDialog
+{
+  protected $dialogClass = 'mailAddressSelect';
+  protected $post_cancel = 'mailAddressSelect_cancel';
+  protected $post_finish = 'mailAddressSelect_save';
+
+  function handle_finish ()
   {
-    if (isset($_POST['mailAddressSelect_cancel'])) {
-      return FALSE;
+    $list = $this->mailSelect->save();
+    foreach ($list as $entry) {
+      $this->mailsAttribute->addValue($entry['dn'], $entry);
     }
-    if (isset($_POST['mailAddressSelect_save'])) {
-      $list = $this->mailSelect->save();
-      foreach ($list as $entry) {
-        $this->mailsAttribute->addValue($entry['dn'], $entry);
-      }
-      return FALSE;
-    }
-    session::set('filterBlacklist', $this->mailsAttribute->getFilterBlackList());
-    return $this->mailSelect->execute();
+    return FALSE;
   }
 }
 
@@ -183,10 +191,10 @@ class DialogAttribute extends SetAttribute
   function loadPostValue ()
   {
     if ($this->isVisible()) {
-      if (isset($_POST['add'.$this->getLdapName().'_dialog'])) {
+      if (isset($_POST['add'.$this->getHtmlId().'_dialog'])) {
         $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
-      } elseif (isset($_POST['del'.$this->getLdapName()]) && isset($_POST['row'.$this->getLdapName()])) {
-        foreach ($_POST['row'.$this->getLdapName()] as $row) {
+      } elseif (isset($_POST['del'.$this->getHtmlId()]) && isset($_POST['row'.$this->getHtmlId()])) {
+        foreach ($_POST['row'.$this->getHtmlId()] as $row) {
           $this->removeValue($row);
         }
       }
@@ -250,34 +258,39 @@ class DialogAttribute extends SetAttribute
   }
 }
 
-/*! \brief This class allows to handle an attribute for selecting user
- *
- * It looks like a SetAttribute, but clicking "Add" will open a dialog that allow to select one or more users.
- * It stores their dn as values, but displays the cn.
- *
- */
-class UsersAttribute extends DialogAttribute
+class GenericDialogAttribute extends DialogAttribute
 {
-  protected $displays;
-  protected $dialogClass = "UserSelectDialog";
-  protected $attr = 'cn';
 
-  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $attr = 'cn', $acl = "")
+  protected $displays     = array();
+  protected $store_attr   = 'dn';
+  protected $display_attr = 'cn';
+
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $store_attr = 'dn', $display_attr = 'cn', $acl = '')
   {
-    $this->attr = $attr;
+    $this->store_attr   = $store_attr;
+    $this->display_attr = $display_attr;
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
   }
 
   function getFilterBlackList ()
   {
-    return array('dn' => $this->getValue());
+    return array($this->store_attr => $this->getValue());
   }
 
-  function addValue ($value, $attrs)
+  function addValue ($dn, $attrs)
   {
+    if ($this->store_attr == 'dn') {
+      $value = $dn;
+    } else {
+      $value = $attrs[$this->store_attr][0];
+    }
     if (!in_array($value, $this->value)) {
       $this->value[]    = $value;
-      $this->displays[] = $attrs[$this->attr][0];
+      if ($this->display_attr == 'dn') {
+        $this->displays[] = $dn;
+      } else {
+        $this->displays[] = $attrs[$this->display_attr][0];
+      }
     }
   }
 
@@ -297,22 +310,43 @@ class UsersAttribute extends DialogAttribute
     return $this->displays;
   }
 
+  function setDisplayValues ($array)
+  {
+    $this->displays = $array;
+  }
+
   protected function fillDisplayValue ($i)
   {
-    $dn = $this->value[$i];
     $ldap = $this->plugin->config->get_ldap_link();
-    $ldap->cat($dn, array($this->attr));
+
+    $value = $this->value[$i];
+    if ($this->store_attr == 'dn') {
+      $ldap->cat($value, array($this->display_attr));
+    } else {
+      $ldap->search('('.$this->store_attr.'='.$value.')', array($this->display_attr));
+    }
     if (!$ldap->count()) {
       unset($this->value[$i]);
     } else {
       $attrs = $ldap->fetch();
-      if (!isset($attrs[$this->attr])) {
+      if (!isset($attrs[$this->display_attr])) {
         unset($this->value[$i]);
       } else {
-        $this->displays[$i] = $attrs[$this->attr][0];
+        $this->displays[$i] = $attrs[$this->display_attr][0];
       }
     }
   }
+}
+
+/*! \brief This class allows to handle an attribute for selecting user
+ *
+ * It looks like a SetAttribute, but clicking "Add" will open a dialog that allow to select one or more users.
+ * It stores their dn as values, but displays the cn.
+ *
+ */
+class UsersAttribute extends GenericDialogAttribute
+{
+  protected $dialogClass  = 'UserSelectDialog';
 }
 
 /*! \brief This class allows to handle an attribute for selecting user or groups
@@ -323,7 +357,7 @@ class UsersAttribute extends DialogAttribute
  */
 class UsersGroupsAttribute extends DialogAttribute
 {
-  protected $dialogClass = "UserGroupSelectDialog";
+  protected $dialogClass = 'UserGroupSelectDialog';
 
   function addValue ($dn, $entry)
   {
@@ -358,43 +392,26 @@ class UsersGroupsAttribute extends DialogAttribute
  * It stores their dn as values, but displays the cn.
  *
  */
-class GroupsAttribute extends DialogAttribute
+class GroupsAttribute extends GenericDialogAttribute
 {
-  protected $displays;
-  protected $dialogClass = "GroupSelectDialog";
+  protected $dialogClass = 'GroupSelectDialog';
+
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $acl = '')
+  {
+    parent::__construct ($label, $description, $ldapName, $required, $defaultValue, 'dn', 'cn', $acl);
+  }
 
   function addValue ($dn, $entry)
   {
     if (!in_array($dn, $this->value)) {
       $display = $entry['cn'][0];
-      if (isset($entry['description'][0])) {
+      if (isset($entry['description'][0]) && !empty($entry['description'][0])) {
         $display .= ' ['.preg_replace ('/^Group of user/', _('Group of user'), $entry['description'][0]).']';
       }
 
       $this->value[]    = $dn;
       $this->displays[] = $display;
     }
-  }
-
-  function setDisplayValues ($array)
-  {
-    $this->displays = $array;
-  }
-
-  function getDisplayValues ()
-  {
-    return $this->displays;
-  }
-
-  protected function removeValue ($row)
-  {
-    unset($this->displays[$row]);
-    unset($this->value[$row]);
-  }
-
-  function getFilterBlackList ()
-  {
-    return array('dn' => $this->getValue());
   }
 }
 
@@ -480,23 +497,12 @@ class MailsAttribute extends DialogAttribute
 
 class ButtonAttribute extends Attribute
 {
-  protected $dialogClass  = NULL;
-  protected $buttonText   = NULL;
+  protected $buttonText = NULL;
 
-  function __construct ($label, $description, $ldapName, $dialogClass, $buttonText, $defaultValue = "", $acl = "")
+  function __construct ($label, $description, $ldapName, $required, $buttonText, $defaultValue = "", $acl = "")
   {
-    parent::__construct($label, $description, $ldapName, FALSE, $defaultValue, $acl);
-    $this->dialogClass  = $dialogClass;
+    parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->buttonText   = $buttonText;
-  }
-
-  function loadPostValue ()
-  {
-    if ($this->isVisible()) {
-      if (isset($_POST[$this->getLdapName()])) {
-        $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
-      }
-    }
   }
 
   function renderFormInput ()
@@ -510,6 +516,107 @@ class ButtonAttribute extends Attribute
   function applyPostValue ()
   {
   }
-
 }
+
+class DialogButtonAttribute extends ButtonAttribute
+{
+  protected $dialogClass  = NULL;
+
+  function __construct ($label, $description, $ldapName, $required, $dialogClass, $buttonText, $defaultValue = "", $acl = "")
+  {
+    parent::__construct($label, $description, $ldapName, $required, $buttonText, $defaultValue, $acl);
+
+    $this->dialogClass  = $dialogClass;
+  }
+
+  function loadPostValue ()
+  {
+    if (!$this->disabled && $this->isVisible()) {
+      if (isset($_POST[$this->getHtmlId()])) {
+        $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
+      }
+    }
+  }
+}
+
+class UserAttribute extends DialogButtonAttribute
+{
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "")
+  {
+    parent::__construct($label, $description, $ldapName, $required, 'SingleUserSelectDialog', '', $defaultValue, $acl);
+  }
+
+  function handleDialogResult ($dn, $attrs)
+  {
+    $this->setValue($dn);
+    $this->buttonText = $attrs['cn'][0];
+  }
+
+  function renderFormInput ()
+  {
+    $id = $this->getHtmlId();
+    $display  = '<img src="plugins/users/images/iconMini.png" alt="user icon" class="center"/>';
+    if ($this->getValue() == '') {
+      $display  .= '<b>'._('None').'</b>';
+    } elseif ($this->buttonText === NULL) {
+      $display  .= '<b>'._('Unknown').'</b>';
+    } else {
+      $display  .= '<a>'.$this->buttonText.'</a>';
+    }
+    $display  .=  '<input class="center" type="image" src="images/lists/edit.png" '.
+                  'alt="'._('Edit').'" title="'._('Edit').'" name="'.$id.'" id="'.$id.'" '.
+                  ($this->disabled? 'disabled="disabled"':'').'/>';
+    if (!$this->isRequired()) {
+      $display  .=  '<input class="center" type="image" src="images/lists/trash.png" '.
+                    'alt="'._('Remove').'" title="'._('Remove').'" name="'.$id.'_remove" id="'.$id.'_remove" '.
+                    ($this->disabled? 'disabled="disabled"':'').'/>';
+    }
+    return $this->renderAcl($display);
+  }
+
+  function loadPostValue ()
+  {
+    $id = $this->getHtmlId();
+    if (!$this->disabled && $this->isVisible()) {
+      foreach ($_POST as $name => $value) {
+        if (!$this->isRequired()) {
+          if (preg_match('/^'.$id.'_remove_/', $name)) {
+            $this->setValue('');
+            $this->buttonText = NULL;
+            break;
+          }
+        }
+        if (preg_match('/^'.$id.'_/', $name)) {
+          $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
+          break;
+        }
+      }
+    }
+  }
+
+  protected function loadAttrValue ($attrs)
+  {
+    parent::loadAttrValue($attrs);
+    $dn = $this->getValue();
+    if ($dn != '') {
+      $ldap = $this->plugin->config->get_ldap_link();
+      $ldap->cat($dn);
+      if ($attrs = $ldap->fetch()) {
+        $this->handleDialogResult($dn, $attrs);
+      } else {
+        $this->buttonText = NULL;
+      }
+    }
+  }
+
+  protected function htmlIds()
+  {
+    $ids = array($this->getHtmlId());
+    if (!$this->isRequired()) {
+      $ids[] = $ids[0].'_remove';
+    }
+    return $ids;
+  }
+}
+
 ?>

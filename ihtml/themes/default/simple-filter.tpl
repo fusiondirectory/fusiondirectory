@@ -1,6 +1,6 @@
 <div class="contentboxh">
  <p class="contentboxh">
-  <img src="images/launch.png" align="right" alt="[F]">{t}Filter{/t}
+  <img src="images/launch.png" class="center" alt="[F]">&nbsp;{t}Filter{/t}
  </p>
 </div>
 
@@ -8,9 +8,8 @@
   {foreach from=$objectFilters item="ofilter"}
     {${$ofilter.id}}<label for="{$ofilter.id}">&nbsp;{$ofilter.label}</label><br/>
   {/foreach}
-  {$OPSIPROFILE}
 
-  <div style="border-top:1px solid #AAAAAA"></div>
+  <div style="display:block;width=100%;border-top:1px solid #AAAAAA;"></div>
 
  {$SCOPE}
 

@@ -2,12 +2,8 @@
 {$php_errors}
 <form action='setup.php' name='mainform' method='post' enctype='multipart/form-data'>
   {$msg_dialogs}
-<input id='focus' name='focus' type='image' src='images/empty.png' style='width:0px; height:0px;' >
 <div class='setup_dialog'>
-  <div class='setup_header'>
-    <div style="float:left;"><img src='themes/default/images/go_logo.png' class='center' alt='FusionDirectory'></div>
-    <div style="padding-top:8px;text-align:right;height:38px;color:#FFFFFF">{$version}</div>
-  </div>
+  {include file={filePath file="setup_header.tpl"}}
   <div class='setup_menu'>
     <b>{t}FusionDirectory setup wizard{/t}</b>
   </div>
@@ -16,11 +12,11 @@
 
     <div class='setup_navigation'>
       <div style='padding:4px'>
-        <img src='images/setup/fai.png' class='center' alt='{t}Installation{/t}'>&nbsp;&nbsp;<font style="font-size:24px;">{t}Setup{/t}</font>
+        <img src='images/setup/fai.png' class='center' alt='{t}Installation{/t}'>&nbsp;&nbsp;<div style="font-size:24px;">{t}Setup{/t}</div>
       </div>
-      {$navigation}   
+      {$navigation}
     </div>
-  
+
     <div class='setup_contents'>
       <div style='border-bottom:1px dashed #AAAAAA'>
         {$errors}
@@ -39,9 +35,5 @@
 
 <input type='hidden' name='setup_goto_step' value=''>
 </form>
-
-<script type='javascript'>
-  document.getElementById('focus').focus();
-</script>
 </body>
 </html>

@@ -339,8 +339,10 @@ class acl extends plugin
       }
 
       /* ACL saving... */
-      if (preg_match('/^acl_.*_[^xy]$/', $name)){
-        list($dummy, $object, $attribute, $value)= explode('_', $name);
+      if (preg_match('/^acl_([^_]+)_(.*)_([^_yx])$/', $name, $matches)) {
+        $object     = $matches[1];
+        $attribute  = $matches[2];
+        $value      = $matches[3];
 
         /* Skip for detection entry */
         if ($object == 'dummy') {
@@ -496,8 +498,8 @@ class acl extends plugin
           $link = $this->assembleAclSummary($entry);
         }
 
-        $field1= array("string" => $this->aclTypes[$entry['type']], "attach" => "style='width:150px'");
-        $field2= array("string" => $link);
+        $field1= array("html" => $this->aclTypes[$entry['type']], "attach" => "style='width:150px'");
+        $field2= array("html" => $link);
 
         if($this->acl_is_writeable("")){
           $action.= "<input type='image' name='sortup_$key' alt='up'
@@ -515,7 +517,7 @@ class acl extends plugin
             alt='"._("Delete")."' name='acl_del_$key' title='".msgPool::delButton(_("ACL"))."'>";
         }
 
-        $field3= array("string" => $action, "attach" => "style='border-right:0px;width:50px;text-align:right;'");
+        $field3= array("html" => $action, "attach" => "style='border-right:0px;width:50px;text-align:right;'");
         $aclList->AddEntry(array($field1, $field2, $field3));
       }
 
@@ -563,9 +565,9 @@ class acl extends plugin
             alt='"._("Delete")."' name='cat_del_$section' title='".msgPool::delButton(_("category ACL"))."'>";
         }
 
-        $field1= array("string" => $dsc, "attach" => "style='width:100px'");
-        $field2= array("string" => $summary);
-        $field3= array("string" => $actions, "attach" => "style='border-right:0px;width:50px'");
+        $field1= array("html" => $dsc, "attach" => "style='width:100px'");
+        $field2= array("html" => $summary);
+        $field3= array("html" => $actions, "attach" => "style='border-right:0px;width:50px'");
         $aclList->AddEntry(array($field1, $field2, $field3));
       }
 
@@ -699,9 +701,9 @@ class acl extends plugin
         $option = "<input type='radio' name='selected_role' value='".base64_encode($dn)."'>";
       }
 
-      $field1 = array("string" => $option) ;
-      $field2 = array("string" => $values['cn'], "attach" => "style='width:200px;'") ;
-      $field3 = array("string" => $values['description'],"attach" => "style='border-right:0px;'") ;
+      $field1 = array("html" => $option) ;
+      $field2 = array("html" => $values['cn'], "attach" => "style='width:200px;'") ;
+      $field3 = array("html" => $values['description'],"attach" => "style='border-right:0px;'") ;
 
       $D_List->AddEntry(array($field1,$field2,$field3));
     }
@@ -789,35 +791,12 @@ class acl extends plugin
         $back_color = "#C8C8C8";
       }
 
-      if(session::global_get('js')) {
-        if(isset($_SERVER['HTTP_USER_AGENT']) &&
-             (preg_match("/gecko/i",$_SERVER['HTTP_USER_AGENT'])) ||
-             (preg_match("/presto/i",$_SERVER['HTTP_USER_AGENT']))) {
-          $display.= "\n<table style='width:100%;border:1px solid #A0A0A0' cellspacing=0 cellpadding=2>".
-                     "\n  <tr>".
-                     "\n    <td style='background-color:{$back_color};height:1.8em;' colspan=".($cols-1)."><b>"._("Object").": $name</b></td>".
-                     "\n    <td align='right' style='background-color:{$back_color};height:1.8em;'>".
-                     "\n    <input type='button' onclick=\"$('{$tname}').toggle();\" value='"._("Show/hide advanced settings")."' /></td>".
-                     "\n  </tr>";
-        } else if (isset($_SERVER['HTTP_USER_AGENT']) && preg_match("/ie/i",$_SERVER['HTTP_USER_AGENT'])) {
-          $display.= "\n<table style='width:100%;border:1px solid #A0A0A0' cellspacing=0 cellpadding=2>".
-                     "\n  <tr>".
-                     "\n    <td style='background-color:#C8C8C8;height:1.8em;' colspan=".($cols-1)."><b>"._("Object").": $name</b></td>".
-                     "\n    <td align='right' style='background-color:#C8C8C8;height:1.8em;'>".
-                     "\n    <input type='button' onclick=\"$('{$tname}').toggle();\" value='"._("Show/hide advanced settings")."' /></td>".
-                     "\n  </tr>";
-        } else {
-          $display.= "\n<table style='width:100%;border:1px solid #A0A0A0' cellspacing=0 cellpadding=2>".
-                     "\n  <tr>".
-                     "\n    <td style='background-color:#C8C8C8;height:1.8em;' colspan=$cols><b>"._("Object").": $name</b></td>".
-                     "\n  </tr>";
-        }
-      } else {
-          $display.= "\n<table style='width:100%;border:1px solid #A0A0A0' cellspacing=0 cellpadding=2>".
-                     "\n  <tr>".
-                     "\n    <td style='background-color:#C8C8C8;height:1.8em;' colspan=$cols><b>"._("Object").": $name</b></td>".
-                     "\n  </tr>";
-      }
+      $display .= "\n<table style='width:100%;border:1px solid #A0A0A0' cellspacing=0 cellpadding=2>".
+                  "\n  <tr>".
+                  "\n    <td style='background-color:{$back_color};height:1.8em;' colspan=".($cols - 1)."><b>"._("Object").": $name</b></td>".
+                  "\n    <td align='right' style='background-color:{$back_color};height:1.8em;'>".
+                  "\n    <input type='button' onclick=\"$('{$tname}').toggle();\" value='"._("Show/hide advanced settings")."' /></td>".
+                  "\n  </tr>";
 
       /* Generate options */
       $spc= "&nbsp;&nbsp;";
@@ -838,24 +817,12 @@ class acl extends plugin
                  "\n  </tr>";
 
       /* Walk through the list of attributes */
-      $cnt= 1;
-      $splist= $plist[preg_replace('%^.*/%', '', $key)]['plProvidedAcls'];
-      if(session::global_get('js')) {
-        if(isset($_SERVER['HTTP_USER_AGENT']) &&
-            (preg_match("/gecko/i",$_SERVER['HTTP_USER_AGENT'])) || (preg_match("/presto/i",$_SERVER['HTTP_USER_AGENT']))) {
-          $display.= "\n  <tr id='tr_$tname' style='vertical-align:top;height:0px;'>".
-                     "\n    <td colspan=".$cols.">".
-                     "\n      <div id='$tname' style='overflow:hidden; display:none;vertical-align:top;width:100%;'>".
-                     "\n        <table style='width:100%;'>";
-        } else if (isset($_SERVER['HTTP_USER_AGENT']) && preg_match("/ie/i",$_SERVER['HTTP_USER_AGENT'])) {
-          $display.= "\n  <tr id='tr_$tname' style='vertical-align:top;height:0px;'>".
-                     "\n    <td colspan=".$cols.">".
-                     "\n      <div id='$tname' style='position:absolute;overflow:hidden;display:none;;vertical-align:top;width:100%;'>".
-                     "\n        <table style='width:100%;'>";
-        }else{
-        }
-      }
-
+      $cnt    = 1;
+      $splist = $plist[preg_replace('%^.*/%', '', $key)]['plProvidedAcls'];
+      $display .= "\n  <tr id='tr_$tname' style='vertical-align:top;height:0px;'>".
+                  "\n    <td colspan=".$cols.">".
+                  "\n      <div id='$tname' style='overflow:hidden; display:none;vertical-align:top;width:100%;'>".
+                  "\n        <table style='width:100%;'>";
 
       foreach($splist as $attr => $dsc){
 
@@ -894,17 +861,10 @@ class acl extends plugin
        $display.= str_repeat("\n    <td style='border-top:1px solid #A0A0A0; width:".(int)(100/$cols)."%'>&nbsp;</td>", $cols-$cnt);
       }
 
-      if(session::global_get('js')) {
-        if(isset($_SERVER['HTTP_USER_AGENT']) &&
-            (preg_match("/gecko/i",$_SERVER['HTTP_USER_AGENT'])) ||
-            (preg_match("/presto/i",$_SERVER['HTTP_USER_AGENT'])) ||
-            (preg_match("/ie/i",$_SERVER['HTTP_USER_AGENT']))) {
-          $display.= "\n        </table>".
-                     "\n      </div>".
-                     "\n    </td>".
-                     "\n  </tr>";
-        }
-      }
+      $display .= "\n        </table>".
+                  "\n      </div>".
+                  "\n    </td>".
+                  "\n  </tr>";
 
       $display.= "\n</table><br />\n";
     }
@@ -1152,7 +1112,7 @@ class acl extends plugin
           $summary.= $cn.", ";
         }
       } else {
-        $summary.= "<font color='red'><i>"._("inactive")."&nbsp;-&nbsp;"._("No members")."</i></font>";
+        $summary.= "<div style='color:red;'><i>"._("inactive")."&nbsp;-&nbsp;"._("No members")."</i></div>";
       }
     }
     return (preg_replace('/, $/', '', $summary));
@@ -1341,18 +1301,18 @@ class acl extends plugin
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("ACL"),
-      "plDescription" => _("Manage access control lists"),
-      "plSelfModify"  => FALSE,
-      "plCategory"    => array("acl" => array("description"  => _("ACL")."&nbsp;&amp;&nbsp;"._("ACL roles"),
-                                                      "objectClass"  => array("gosaAcl","gosaRole"))),
-      "plObjectType"  => array("acl" => array("name"  => _("ACL"),
-                                              "filter"  => "objectClass=gosaAcl")),
+      'plShortName'   => _('ACL'),
+      'plDescription' => _('Manage access control lists'),
+      'plSelfModify'  => FALSE,
+      'plPriority'    => 0,
+      'plCategory'    => array('acl' => array('description'  => _('ACL').'&nbsp;&amp;&nbsp;'._('ACL roles'),
+                                                      'objectClass'  => array('gosaAcl','gosaRole'))),
+      'plObjectType'  => array(
+        'acl'     => array('name' => _('ACL'),  'filter' => 'objectClass=gosaAcl'),
+        'special' => array('name' => 'special', 'filter' => 'none')
+      ),
 
-      "plProvidedAcls"=> array(
-//        "cn"          => _("Role name"),
-//        "description" => _("Role description")
-      )
+      'plProvidedAcls'  => array()
     );
   }
 

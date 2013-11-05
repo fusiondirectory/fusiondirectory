@@ -165,7 +165,7 @@ class Attribute
 
   function getHtmlId ()
   {
-    return preg_replace('/[\/\-]/', '_', $this->getLdapName());
+    return preg_replace('/[\/\-,.#:;]/', '_', $this->getLdapName());
   }
 
   function getLabel ()
@@ -716,6 +716,43 @@ class HiddenAttribute extends Attribute
   }
 }
 
+/* Dummy attribute class in order to give stats information to the template */
+class FakeAttribute extends Attribute
+{
+  private $var_name;
+
+  function __construct ($var)
+  {
+    parent::__construct("Fake one", "", $var, FALSE, "", "noacl");
+    $this->setInLdap(FALSE);
+    $this->var_name = $var;
+  }
+
+  function renderAttribute(&$attributes, $readOnly)
+  {
+    $var = $this->var_name;
+    $attributes[$this->getLdapName()] = $this->getValue();
+  }
+}
+
+/*! \brief This class allow to display a text in front of an attribute.
+ *
+ * For instance, it can be used to display a link.
+ */
+class DisplayAttribute extends Attribute
+{
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "")
+  {
+    parent::__construct ($label, $description, $ldapName, $required, $defaultValue, $acl);
+    $this->setInLdap(FALSE);
+  }
+
+  function renderFormInput ()
+  {
+    return $this->getValue();
+  }
+}
+
 /*! \brief This class allow to handle easily a String LDAP attribute that appears as a text area
  *
  */
@@ -1226,6 +1263,114 @@ class FileTextAreaAttribute extends FileAttribute
   }
 }
 
+class ImageAttribute extends FileAttribute
+{
+  protected $width;
+  protected $height;
+  protected $format;
+  protected $forceSize;
+  protected $placeholder;
+
+  function __construct ($label, $description, $ldapName, $required = FALSE, $width = 48, $height = 48, $format = 'png', $forceSize = FALSE, $defaultValue = "", $acl = "")
+  {
+    parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
+    $this->width      = $width;
+    $this->height     = $height;
+    $this->format     = $format;
+    $this->forceSize  = $forceSize;
+  }
+
+  function setPlaceholder($placeholder)
+  {
+    $this->placeholder = $placeholder;
+  }
+
+  /*! \brief Update this attributes postValue depending of the $_POST values
+   */
+  function loadPostValue ()
+  {
+    if (isset($_POST['upload'.$this->getHtmlId()])) {
+      parent::loadPostValue();
+    }
+  }
+
+  function setValue ($value)
+  {
+    if ($value == "") {
+      $this->value = "";
+      return;
+    }
+    if (class_exists('Imagick')) {
+      $im     = new Imagick();
+      $modify = FALSE;
+      $im->readImageBlob($value);
+
+      $size = $im->getImageGeometry();
+
+      if (
+          ($size['width'] > 0 && $size['height'] > 0) &&
+          (
+            ($size['width'] < $this->width && $size['height'] < $this->height) ||
+            ($size['width'] > $this->width) ||
+            ($size['height'] > $this->height)
+          )
+        ) {
+        $modify = TRUE;
+        $im->resizeImage($this->width, $this->height, Imagick::FILTER_GAUSSIAN, 1, !$this->forceSize);
+      }
+
+      if ($modify || !preg_match('/^'.$this->format.'$/i', $im->getImageFormat())) {
+        if ($this->format == 'jpeg') {
+          $im->setImageCompression(Imagick::COMPRESSION_JPEG);
+          $im->setImageCompressionQuality(90);
+        }
+        $im->setImageFormat($this->format);
+
+        /* Save attribute */
+        $this->value = $im->getImageBlob();
+      } else {
+        $this->value = $value;
+      }
+    } else {
+      msg_dialog::display(_("Error"),
+                _("Cannot save user picture, FusionDirectory requires the package 'php5-imagick' to be installed!"),
+                ERROR_DIALOG);
+    }
+  }
+
+  function renderFormInput ()
+  {
+    $this->setValue($this->inputValue($this->getValue()));
+    $id = $this->getHtmlId();
+    srand((double)microtime() * 1000000); // Just to be sure the image is not cached
+    $display  = '<img name="'.$id.'_img" id="'.$id.'_img"'.
+                ($this->disabled? 'disabled="disabled"':'').
+                ' src="getbin.php?rand='.rand(0, 10000).'"'.
+                ' style="border:1px solid black;"'.
+                ' title="'.$this->getDescription().'"'
+                .' /><br/>';
+    $display  .= '<input type="file" name="'.$id.'" id="'.$id.'"'.
+                ($this->disabled? ' disabled="disabled"':'').
+                '/>';
+    $display  .= '<input type="submit" name="upload'.$id.'" id="upload'.$id.'"'.
+                ($this->disabled? ' disabled="disabled"':'').
+                ' value="'._('Upload').'"/>';
+    if (($this->getValue() == '') && ($this->placeholder != '')) {
+      session::set('binary', $this->placeholder);
+    } else {
+      session::set('binary', $this->getValue());
+    }
+    session::set('binarytype', 'image/'.$this->format);
+    return $this->renderAcl($display);
+  }
+
+  protected function htmlIds()
+  {
+    $id = $this->getHtmlId();
+    return array($id.'_img',$id,'upload'.$id);
+  }
+}
+
 /*! \brief This class allow to handle easily an Base selector attribute
  *
  */
@@ -1239,9 +1384,15 @@ class BaseSelectorAttribute extends Attribute
    *
    *  \param string $ou The ou your objects are into. It will be used in order to detect the base they are in.
    */
-  function __construct ($ou)
+  function __construct ($ou, $label = NULL, $desc = NULL)
   {
-    parent::__construct(_('Base'), _('Object base'), 'base', FALSE, '');
+    if ($label === NULL) {
+      $label = _('Base');
+    }
+    if ($desc === NULL) {
+      $desc = _('Object base');
+    }
+    parent::__construct($label, $desc, 'base', FALSE, '');
     $this->setInLdap(FALSE);
     $this->ou = $ou;
   }
@@ -1319,6 +1470,10 @@ class BaseSelectorAttribute extends Attribute
       /* Set the new acl base */
       if ($this->plugin->dn == "new") {
         $this->plugin->set_acl_base($this->value);
+      }
+
+      if (($this->baseSelector !== NULL) && ($this->baseSelector->getBase() !== $this->value)) {
+        $this->baseSelector->setBase($this->value);
       }
     }
   }
@@ -1401,7 +1556,11 @@ class ArrayAttribute extends Attribute
 
   function addPostValue ($value)
   {
+    if (empty($value)) {
+      return FALSE;
+    }
     $this->postValue[] = $value;
+    return TRUE;
   }
 
   function delPostValue ($key)
@@ -1584,6 +1743,9 @@ class SetAttribute extends ArrayAttribute
 
   function addPostValue ($value)
   {
+    if (empty($value)) {
+      return FALSE;
+    }
     if (!in_array($value, $this->postValue)) {
       $this->postValue[] = $value;
       return TRUE;
@@ -1684,7 +1846,11 @@ class CompositeAttribute extends Attribute
 
   function writeValues($values)
   {
-    return vsprintf($this->writeFormat, $values);
+    if ($this->writeFormat === FALSE) {
+      return $values;
+    } else {
+      return vsprintf($this->writeFormat, $values);
+    }
   }
 
   function resetToDefault ()
@@ -1729,10 +1895,13 @@ class CompositeAttribute extends Attribute
       $values = $this->inputValue($values);
     }
     $i = 0;
+    reset($values);
     foreach ($this->attributes as &$attribute) {
-      $attribute->setValue($values[$i++]);
+      $attribute->setValue(current($values));
+      next($values);
     }
     unset($attribute);
+    reset($values);
   }
 
   /* We always return the LDAP value as the composite attribute has nothing else */
@@ -1909,15 +2078,27 @@ class OrderedArrayAttribute extends SetAttribute
       $img .= '<input type="image" src="images/lists/trash.png" name="'.$id.'_del_'.$key.'" class="center"/>&nbsp;';
 
       $fields = array();
-      $this->attribute->setValue($value);
-      foreach ($this->attribute->getArrayValue() as $field) {
-        $fields[] = array("string" => ($field == ''?'&nbsp;':$field));
+      foreach ($this->getAttributeArrayValue($value) as $field) {
+        $fields[] = array("string" => $field);
       }
-      $fields[] = array("string" => $img, "attach" => "style='border-right:0px;width:40px;'");
+      $width = 25;
+      if ($this->order) {
+        $width += 20;
+      }
+      if ($this->edit_enabled) {
+        $width += 15;
+      }
+      $fields[] = array("html" => $img, "attach" => 'style="border:0px;width:'.$width.'px;"');
       $div->AddEntry($fields);
     }
     $smarty->assign("div_$id", $div->DrawList());
     return '{$div_'.$id.'}'."\n";
+  }
+
+  protected function getAttributeArrayValue($value)
+  {
+    $this->attribute->setValue($value);
+    return $this->attribute->getArrayValue();
   }
 
   protected function reIndexValues ()
@@ -1956,9 +2137,7 @@ class OrderedArrayAttribute extends SetAttribute
           if (preg_match('/^'.$id.'_edit_/', $name)) {
             $key = preg_replace('/^'.$id.'_edit_/', '', $name);
             $key = preg_replace('/_[xy]$/', '', $key);
-            $this->editingValue = $this->value[$key];
-            $this->delPostValue($key);
-            $this->plugin->focusedField = $this->getHtmlId();
+            $this->handleEdit($key);
             break;
           }
         }
@@ -1969,20 +2148,33 @@ class OrderedArrayAttribute extends SetAttribute
           break;
         }
       }
-      if (isset($_POST["add$id"])) {
-        $this->attribute->loadPostValue();
-        $this->attribute->applyPostValue();
-        if ($error = $this->attribute->check()) {
-          msg_dialog::display(sprintf(_('Invalid value for %s'), $this->getLabel()), $error);
-        } else {
-          $this->addPostValue($this->attribute->getValue());
-        }
-      } elseif ($this->editingValue === FALSE) {
-        $this->attribute->loadPostValue();
-        $this->attribute->applyPostValue();
-        $this->editingValue = $this->attribute->getValue();
-      }
+      $this->handleAddAndEditValue();
     }
+  }
+
+  protected function handleAddAndEditValue()
+  {
+    $id = $this->getHtmlId();
+    if (isset($_POST["add$id"])) {
+      $this->attribute->loadPostValue();
+      $this->attribute->applyPostValue();
+      if ($error = $this->attribute->check()) {
+        msg_dialog::display(sprintf(_('Invalid value for %s'), $this->getLabel()), $error);
+      } else {
+        $this->addPostValue($this->attribute->getValue());
+      }
+    } elseif ($this->editingValue === FALSE) {
+      $this->attribute->loadPostValue();
+      $this->attribute->applyPostValue();
+      $this->editingValue = $this->attribute->getValue();
+    }
+  }
+
+  protected function handleEdit($key)
+  {
+    $this->editingValue = $this->value[$key];
+    $this->delPostValue($key);
+    $this->plugin->focusedField = $this->getHtmlId();
   }
 
   function applyPostValue ()

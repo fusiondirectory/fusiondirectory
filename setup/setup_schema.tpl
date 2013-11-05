@@ -17,10 +17,10 @@
     </p>
   <div>
     {if $failed_checks == 0}
-      <font style="color:green">{t}Schema check succeeded{/t}</font>
+      <div style="color:green">{t}Schema check succeeded{/t}</div>
     {else}
       <img src='images/small_warning.png' class='center'>
-        <font style="color:red">{t}Schema check failed{/t}</font>
+        <div style="color:red">{t}Schema check failed{/t}</div>
 
 
     {/if}
@@ -39,7 +39,7 @@
           {if !$checks[$key].STATUS}
           <br>
             {if $checks[$key].IS_MUST_HAVE}
-              <font color='red'>{$checks[$key].MSG}</font>
+              <div style='color:red'>{$checks[$key].MSG}</div>
             {else}
               {$checks[$key].MSG}
             {/if}
