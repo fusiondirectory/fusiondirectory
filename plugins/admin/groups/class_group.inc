@@ -279,13 +279,13 @@ class group extends plugin
     }
 
     /* Add objects finished? */
-    if (isset($_POST["add_users_cancel"])){
+    if (isset($_POST["add_cancel"])){
       $this->userSelect= NULL;
       $this->dialog= FALSE;
     }
 
     /* Add user to group */
-    if (isset($_POST['add_users_finish']) && $this->userSelect){
+    if ((isset($_POST['add_finish']) || isset($_GET['add_finish'])) && $this->userSelect) {
 
       $users = $this->userSelect->detectPostActions();
       if(isset($users['targets'])){
@@ -1115,7 +1115,10 @@ class group extends plugin
       "plObjectType"  => array("group" => array(
         "description" => _("Groups"),
         "name"        => _("Group"),
-        "filter"      => "objectClass=posixGroup"
+        'ou'          => get_ou('groupRDN'),
+        'filter'      => 'objectClass=posixGroup',
+        'icon'        => 'plugins/groups/images/iconMini.png',
+        'mainAttr'    => 'cn',
       )),
 
       "plProvidedAcls"    => array(

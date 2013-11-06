@@ -11,6 +11,13 @@
     <label>List of groups</label>
     <defaultSortColumn>1</defaultSortColumn>
 
+    <objectType>
+      <label>Group</label>
+      <objectClass>posixGroup</objectClass>
+      <category>group</category>
+      <class>group</class>
+      <image>plugins/groups/images/iconMini.png</image>
+    </objectType>
   </definition>
 
   <table>
@@ -47,7 +54,7 @@
 
     <column>
       <label>Properties</label>
-      <value>%{filter:filterProperties(row,dn)}</value>
+      <value>%{filter:filterProperties(row,objectClass)}</value>
     </column>
 
     <column>

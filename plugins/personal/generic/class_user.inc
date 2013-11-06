@@ -1481,8 +1481,14 @@ class user extends plugin
         "plSelfModify"  => TRUE,
         "plCategory"    => array("user" => array("description" => _("Users"),
                                                   "objectClass" => "gosaAccount")),
-        "plObjectType"  => array("user" => array("name" => _("User"),
-                                                  "filter" => "objectClass=gosaAccount")),
+        "plObjectType"  => array("user" => array(
+          'description' => _('Users'),
+          'name'        => _('User'),
+          'filter'      => 'objectClass=gosaAccount',
+          'mainAttr'    => 'cn',
+          'icon'        => 'plugins/users/images/iconMini.png',
+          'ou'          => get_ou('userRDN'),
+        )),
 
         "plProvidedAcls" => array(
           "sn"                => _("Surname"),

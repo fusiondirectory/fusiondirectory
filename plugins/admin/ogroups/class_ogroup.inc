@@ -897,10 +897,13 @@ class ogroup extends plugin
       "plSelfModify"  => FALSE,
       "plPriority"    => 1,
       "plObjectType"  => array("ogroup" => array(
-        "description" => _("Object groups"),
-        "name"        => _("Object group"),
-        "filter"      => "objectClass=gosaGroupOfNames")
-      ),
+        'description' => _('Object groups'),
+        'name'        => _('Object group'),
+        'ou'          => get_ou('ogroupRDN'),
+        'filter'      => 'objectClass=gosaGroupOfNames',
+        'icon'        => 'plugins/ogroups/images/iconMini.png',
+        'tabClass'    => 'ogrouptabs',
+      )),
 
       "plProvidedAcls"=> array(
         "cn"                => _("Name"),
