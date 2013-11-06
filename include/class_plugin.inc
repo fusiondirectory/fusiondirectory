@@ -146,7 +146,7 @@ class plugin
 
     // Ensure that we've a valid acl_category set.
     if (empty($this->acl_category)) {
-      $tmp = $this->plInfo();
+      $tmp = pluglist::pluginInfos(get_class($this));
       if (isset($tmp['plCategory'])) {
         $c = key($tmp['plCategory']);
         if (is_numeric($c)) {
@@ -178,7 +178,6 @@ class plugin
 
     /* Get LDAP descriptor */
     if (($this->dn != "new") || ($object !== NULL)) {
-
       /* Load data to 'attrs' and save 'dn' */
       if ($object !== NULL) {
         $this->attrs = $object->attrs;
@@ -211,12 +210,24 @@ class plugin
         $this->is_account = TRUE;
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, "found", "Object check");
       }
-
-      $this->prepareSavedAttributes();
     }
+
+    $this->loadAttributes();
+    $this->prepareSavedAttributes();
 
     /* Save initial account state */
     $this->initially_was_account = $this->is_account;
+  }
+
+  protected function loadAttributes()
+  {
+    /* Copy needed attributes */
+    foreach ($this->attributes as $val) {
+      $found = array_key_ics($val, $this->attrs);
+      if ($found != "") {
+        $this->$val = $found[0];
+      }
+    }
   }
 
   function is_this_account($attrs)
@@ -269,11 +280,13 @@ class plugin
    */
   function resetCopyInfos()
   {
-    $this->dn = "new";
-    $this->saved_attributes = array();
+    $this->dn       = 'new';
+    $this->orig_dn  = $this->dn;
 
-    $this->orig_dn = $this->dn;
-    $this->initially_was_account = FALSE;
+    $this->saved_attributes       = array();
+    $this->initially_was_account  = FALSE;
+
+    $this->postCopyHook();
   }
 
 
@@ -617,14 +630,6 @@ class plugin
       $offset = $m[0][1] + strlen($replace);
     }
     return $string;
-  }
-
-  /*
-   * \brief Indicate whether a password change is needed or not
-   */
-  function password_change_needed()
-  {
-    return FALSE;
   }
 
   /*! Brief Parse attrs template masks
@@ -1363,13 +1368,6 @@ class plugin
       $base = $this->acl_base;
     }
     return preg_match('/m/', $ui->get_permissions($base, $this->acl_category.get_class($this), '0'));
-  }
-
-  /*!
-   *  \brief does the acl have permissions
-   */
-  function acl_have_any_permissions()
-  {
   }
 
   /*! \brief get the acl */
