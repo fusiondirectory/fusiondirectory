@@ -177,79 +177,83 @@ class ogroup extends plugin
 
   function AddDelMembership()
   {
-      /* Delete objects from group */
-      if (isset($_POST['delete_membership']) && isset($_POST['members'])){
-          foreach ($_POST['members'] as $value){
-              $this->objects["$value"]= $this->memberList[$value];
-              unset ($this->memberList["$value"]);
-              unset ($this->member["$value"]);
-              uasort ($this->objects, 'sort_list');
-              reset ($this->objects);
-          }
-          $this->reload();
+    /* Delete objects from group */
+    if (isset($_POST['delete_membership']) && isset($_POST['members'])){
+      foreach ($_POST['members'] as $value){
+        $this->objects["$value"]= $this->memberList[$value];
+        unset ($this->memberList["$value"]);
+        unset ($this->member["$value"]);
+        uasort ($this->objects, 'sort_list');
+        reset ($this->objects);
+      }
+      $this->reload();
+    }
+
+    /* Add objects to group */
+    if ((isset($_POST['add_finish']) || isset($_GET['add_finish'])) && $this->objectSelect instanceOf objectSelect) {
+
+      $results = $this->objectSelect->detectPostActions();
+      $objects = array();
+      $objects_dns = array();
+      if (isset($results['targets'])) {
+        $headpage = $this->objectSelect->getHeadpage();
+        foreach ($results['targets'] as $dn) {
+          $attrs          = $headpage->getEntry($dn);
+          $objects[]      = $attrs;
+          $objects_dns[]  = $attrs['dn'];
+        }
       }
 
-      /* Add objects to group */
-      if (isset($_POST['objectSelect_save']) && $this->objectSelect instanceOf objectSelect){
-          $objects = $this->objectSelect->save();
-          $objects_dns = array();
+      $skipped = FALSE;
 
-          foreach($objects as $object) {
-            $objects_dns[] = $object['dn'];
-          }
-
-          $skipped = FALSE;
-
-          $test = array_unique(array_intersect($this->used_workstations, $objects_dns));
-          if(count($test)) {
-            $str = "";
-            foreach ($test as $dn) {
-              $str .= "<li>".$dn."</li>";
-            }
-            msg_dialog::display(_("Error"), sprintf(_("These systems are already configured by other object groups and cannot be added:")."<br><ul>%s</ul>", $str), ERROR_DIALOG);
-          }
-
-          foreach($objects as $object){
-
-              $tmp = "";
-              foreach($this->memberList as $obj){
-                  $tmp .= $obj['type'];
-              }
-
-              $type  = $this->getObjectType($object);
-              $name= $this->getObjectName($object);
-              $dn = $object['dn'];
-
-              /* Fill array */
-              if (isset($object["description"][0])){
-                  $object= array("text" => "$name [".$object["description"][0]."]", "type" => "$type");
-              } elseif (isset($object["uid"][0])) {
-                  $object= array("text" => "$name [".$object["uid"][0]."]", "type" => "$type");
-              } else {
-                  $object= array("text" => "$name", "type" => "$type");
-              }
-
-              if(preg_match("/T/",$tmp) && $type == "W"){
-                  $skipped =TRUE;
-              }elseif(preg_match("/W/",$tmp) && $type == "T"){
-                  $skipped =TRUE;
-              }elseif(in_array($dn, $this->used_workstations)) {
-                  continue;
-              }else{
-
-                  $this->memberList["$dn"]= $object;
-                  $this->member["$dn"]= $dn;
-                  uasort ($this->memberList, 'sort_list');
-                  reset ($this->memberList);
-              }
-          }
-          if($skipped){
-              msg_dialog::display(_("Information"), _("You cannot combine terminals and workstations in one object group!"), INFO_DIALOG);
-          }
-          $this->objectSelect= FALSE;
-          $this->dialog= FALSE;
-          $this->reload();
+      $test = array_unique(array_intersect($this->used_workstations, $objects_dns));
+      if(count($test)) {
+        $str = "";
+        foreach ($test as $dn) {
+          $str .= "<li>".$dn."</li>";
+        }
+        msg_dialog::display(_("Error"), sprintf(_("These systems are already configured by other object groups and cannot be added:")."<br><ul>%s</ul>", $str), ERROR_DIALOG);
       }
+
+      foreach($objects as $object){
+        $tmp = "";
+        foreach($this->memberList as $obj){
+          $tmp .= $obj['type'];
+        }
+
+        $type  = $this->getObjectType($object);
+        $name= $this->getObjectName($object);
+        $dn = $object['dn'];
+
+        /* Fill array */
+        if (isset($object["description"][0])){
+          $object= array("text" => "$name [".$object["description"][0]."]", "type" => "$type");
+        } elseif (isset($object["uid"][0])) {
+          $object= array("text" => "$name [".$object["uid"][0]."]", "type" => "$type");
+        } else {
+          $object= array("text" => "$name", "type" => "$type");
+        }
+
+        if(preg_match("/T/",$tmp) && $type == "W"){
+          $skipped =TRUE;
+        }elseif(preg_match("/W/",$tmp) && $type == "T"){
+          $skipped =TRUE;
+        }elseif(in_array($dn, $this->used_workstations)) {
+          continue;
+        }else{
+          $this->memberList["$dn"]= $object;
+          $this->member["$dn"]= $dn;
+          uasort ($this->memberList, 'sort_list');
+          reset ($this->memberList);
+        }
+      }
+      if($skipped){
+        msg_dialog::display(_("Information"), _("You cannot combine terminals and workstations in one object group!"), INFO_DIALOG);
+      }
+      $this->objectSelect= FALSE;
+      $this->dialog= FALSE;
+      $this->reload();
+    }
   }
 
   function execute()
@@ -341,16 +345,17 @@ class ogroup extends plugin
       $this->dialog= TRUE;
     }
 
-    /* Add objects finished? */
-    if (isset($_POST["objectSelect_cancel"])){
-      $this->objectSelect= FALSE;
-      $this->dialog= FALSE;
-    }
 
     /* Manage object add dialog */
     if ($this->objectSelect){
-      session::set('filterBlacklist', array('dn'=> $this->member));
-      return($this->objectSelect->execute());
+      /* Add objects finished? */
+      if (isset($_POST["add_cancel"])) {
+        $this->objectSelect = FALSE;
+        $this->dialog       = FALSE;
+      } else {
+        session::set('filterBlacklist', array('dn'=> $this->member));
+        return $this->objectSelect->execute();
+      }
     }
 
     /* Bases / Departments */
