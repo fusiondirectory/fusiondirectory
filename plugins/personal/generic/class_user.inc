@@ -423,7 +423,7 @@ class user extends plugin
     /* Log view */
     if($this->is_account && !$this->view_logged){
       $this->view_logged = TRUE;
-      new log("view","users/".get_class($this),$this->dn);
+      new log("view","user/".get_class($this),$this->dn);
     }
 
     // Clear manager attribute if requested
@@ -704,7 +704,7 @@ class user extends plugin
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_DEL, get_class()));
     }
 
-    new log("remove","users/".get_class($this),$this->dn,$this->attributes,$ldap->get_error());
+    new log("remove","user/".get_class($this),$this->dn,$this->attributes,$ldap->get_error());
 
     /* Delete references to groups */
     $ldap->cd ($this->config->current['BASE']);
@@ -1074,9 +1074,9 @@ class user extends plugin
     }
 
     if($mode == "modify"){
-      new log("modify","users/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
+      new log("modify","user/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
     }else{
-      new log("create","users/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
+      new log("create","user/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
     }
 
     /* If needed, let the password method do some cleanup */
@@ -1479,7 +1479,7 @@ class user extends plugin
         "plShortName"   => _("Generic"),
         "plDescription" => _("Generic user settings"),
         "plSelfModify"  => TRUE,
-        "plCategory"    => array("users" => array("description" => _("Users"),
+        "plCategory"    => array("user" => array("description" => _("Users"),
                                                   "objectClass" => "gosaAccount")),
         "plObjectType"  => array("user" => array("name" => _("User"),
                                                   "filter" => "objectClass=gosaAccount")),

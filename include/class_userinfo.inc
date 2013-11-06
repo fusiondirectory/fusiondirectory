@@ -288,7 +288,7 @@ class userinfo
    *
    * \param string $dn     The object dn
    *
-   * \param string $object The acl  category (e.g. users)
+   * \param string $object The acl  category (e.g. user)
    *
    * \param string $class  The acl  class (e.g. user)
    *
@@ -305,7 +305,7 @@ class userinfo
    *
    * \param string $dn     The object dn
    *
-   * \param string $object The acl  category (e.g. users)
+   * \param string $object The acl  category (e.g. user)
    *
    * \param string $class  The acl  class (e.g. user)
    *
@@ -324,7 +324,7 @@ class userinfo
    *
    * \param string $dn The destination dn
    *
-   * \param string $object The acl  category (e.g. users)
+   * \param string $object The acl  category (e.g. user)
    *
    * \return Boolean TRUE if we are allowed to paste an object.
    */
@@ -339,7 +339,7 @@ class userinfo
    *
    * \param string $dn     The destination dn
    *
-   * \param string $object The acl  category (e.g. users)
+   * \param string $object The acl  category (e.g. user)
    *
    * \return boolean TRUE if we are allowed to restore a snapshot.
    */
@@ -362,7 +362,7 @@ class userinfo
    *
    * \param string $dn     The source dn
    *
-   * \param string $object The acl category (e.g. users)
+   * \param string $object The acl category (e.g. user)
    *
    * \return boolean TRUE if we are allowed to restore a snapshot.
    */
@@ -383,7 +383,7 @@ class userinfo
    *
    * \param string $dn         The object dn
    *
-   * \param string $object     The acl category (e.g. users)
+   * \param string $object     The acl category (e.g. user)
    *
    * \param string $attribute  The acl class (e.g. user)
    *

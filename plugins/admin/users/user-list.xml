@@ -14,7 +14,7 @@
     <objectType>
       <label>Template</label>
       <objectClass>gosaUserTemplate</objectClass>
-      <category>users</category>
+      <category>user</category>
       <class>user</class>
       <image>plugins/users/images/select_template.png</image>
     </objectType>
@@ -22,7 +22,7 @@
     <objectType>
       <label>User</label>
       <objectClass>gosaAccount</objectClass>
-      <category>users</category>
+      <category>user</category>
       <class>user</class>
       <image>plugins/users/images/iconMini.png</image>
     </objectType>
@@ -126,7 +126,7 @@
       <type>entry</type>
       <image>plugins/users/images/list_password.png</image>
       <label>Change password</label>
-      <acl>users/password[w]</acl>
+      <acl>user/password[w]</acl>
     </action>
 
     <action>
@@ -137,7 +137,7 @@
       <name>lockUsers</name>
       <type>entry</type>
       <image>images/lists/locked.png</image>
-      <acl>users/password[w]</acl>
+      <acl>user/password[w]</acl>
       <label>Lock users</label>
     </action>
 
@@ -145,7 +145,7 @@
       <name>unlockUsers</name>
       <type>entry</type>
       <image>images/lists/unlocked.png</image>
-      <acl>users/password[w]</acl>
+      <acl>user/password[w]</acl>
       <label>Unlock users</label>
     </action>
 
@@ -211,7 +211,7 @@
       <type>entry</type>
       <objectclass>!gosaUserTemplate</objectclass>
       <image>%{filter:lockImage(userPassword)}</image>
-      <acl>users/password[w]</acl>
+      <acl>user/password[w]</acl>
       <label>%{filter:lockLabel(userPassword)}</label>
     </action>
 
@@ -219,7 +219,7 @@
       <name>password</name>
       <type>entry</type>
       <objectclass>!gosaUserTemplate</objectclass>
-      <acl>users/password[w]</acl>
+      <acl>user/password[w]</acl>
       <image>plugins/users/images/list_password.png</image>
       <label>Change password</label>
     </action>
@@ -235,7 +235,7 @@
       <type>entry</type>
       <image>images/lists/trash.png</image>
       <objectclass>gosaAccount</objectclass>
-      <acl>users/user[d]</acl>
+      <acl>user/user[d]</acl>
       <label>Remove user</label>
     </action>
 

@@ -1387,19 +1387,19 @@ class listing {
           $aclList = array($match[1]);
         }
 
-        // match for "users[rw]" style entries
+        // match for "user[rw]" style entries
         if (preg_match('/^([a-zA-Z0-9]+)\[([rwcdm]+)\]$/', $acl, $match)) {
           $module   = $match[1];
           $aclList  = array($match[2]);
         }
 
-        // match for "users/user[rw]" style entries
+        // match for "user/user[rw]" style entries
         if (preg_match('/^([a-zA-Z0-9]+\/[a-zA-Z0-9]+)\[([rwcdm]+)\]$/', $acl, $match)) {
           $module   = $match[1];
           $aclList  = array($match[2]);
         }
 
-        // match "users/user[userPassword:rw(,...)*]" style entries
+        // match "user/user[userPassword:rw(,...)*]" style entries
         if (preg_match('/^([a-zA-Z0-9]+\/[a-zA-Z0-9]+)\[([a-zA-Z0-9]+:[rwcdm]+(,[a-zA-Z0-9]+:[rwcdm]+)*)\]$/', $acl, $match)) {
           $module   = $match[1];
           $aclList  = explode(',', $match[2]);
