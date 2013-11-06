@@ -1,9 +1,7 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,18 +18,8 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class filterLDAPDepartmentBlacklist  extends filterLDAPBlacklist{
-
-  static function query($parent,$base, $scope, $filter, $attributes, $category, $objectStorage= "")
-  {
-    $entries = filterLDAPBlacklist::query($parent,$base, $scope, $filter, $attributes, $category,array());
-    foreach($entries as $key => $entry){
-      $entries[$key]['cn'] = $entry['ou'];
-      $entries[$key][ $entries[$key]['count'] ]= 'cn';
-      $entries[$key]['count'] ++;
-    }
-    return(filterLDAPBlacklist::filterByBlacklist($entries));
-  }
+class userGroupSelect extends simpleSelectManagement
+{
+  protected $objectTypes = array('user', 'group');
 }
-
 ?>
