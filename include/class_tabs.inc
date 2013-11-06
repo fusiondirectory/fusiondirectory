@@ -135,9 +135,6 @@ class tabs
     $this->dn = 'new';
     foreach ($this->by_object as &$obj) {
       $obj->resetCopyInfos();
-      if ($obj->is_account || $obj->ignore_account) {
-        $obj->postCopyHook();
-      }
     }
     unset($obj);
   }
@@ -268,9 +265,6 @@ class tabs
                   font-size:13px;
                   color: gray;'
           title=\"$title\">".$title."</div>";
-      } elseif (session::global_get('js') == FALSE) {
-        $display .= "<div class=\"$style[$index]$notify\"><input type=\"submit\" name=\"$class\"".
-          " class=\"$style[$index]\" value=\"$title\"></div></td>";
       } else {
         $display .= "<div class=\"$style[$index]$notify\"><a class=\"$style[$index]\" onclick=\"return true;\" href=\"javascript:document.mainform.arg.value='$class';document.mainform.submit();\">$title</a></div></td>";
       }
@@ -300,22 +294,6 @@ class tabs
     foreach (array_reverse($this->by_object) as $obj) {
       $obj->remove_from_parent();
     }
-  }
-
-  /*
-   * \brief Ask all plugins for needed password changes
-   */
-  function password_change_needed()
-  {
-    /* Ask all plugins for needed password changes */
-    foreach ($this->by_object as &$obj) {
-      if ($obj->password_change_needed()) {
-        return TRUE;
-      }
-    }
-    unset($obj);
-
-    return FALSE;
   }
 
   /*!
