@@ -725,14 +725,11 @@ class user extends plugin
     }
 
     // Update 'manager' attributes from gosaDepartment and inetOrgPerson
-    $filter = "(&(objectClass=inetOrgPerson)(manager=".LDAP::prepare4filter($this->dn)."))";
-    $ocs = $ldap->get_objectclasses();
-    if(isset($ocs['gosaDepartment']['MAY']) && in_array('manager', $ocs['gosaDepartment']['MAY'])){
-      $filter = "(|".$filter."(&(objectClass=gosaDepartment)(manager=".LDAP::prepare4filter($this->dn).")))";
-    }
-    $leaf_deps=  get_list($filter,array("all"),$this->config->current['BASE'],
-        array("manager","dn","objectClass"),GL_SUBSEARCH | GL_NO_ACL_CHECK);
-    foreach($leaf_deps as $entry){
+    $filter = '(&(objectClass=inetOrgPerson)(manager='.$fixed_dn.'))';
+    $filter = '(|'.$filter.'(&(objectClass=gosaDepartment)(manager='.$fixed_dn.')))';
+    $leaf_deps = get_list($filter, array('all'), $this->config->current['BASE'],
+        array('manager','dn','objectClass'), GL_SUBSEARCH | GL_NO_ACL_CHECK);
+    foreach ($leaf_deps as $entry) {
       $update = array('manager' => array());
       $ldap->cd($entry['dn']);
       $ldap->modify($update);
@@ -800,7 +797,8 @@ class user extends plugin
       /* Sync lists */
       $this->gosaLoginRestrictionWidget->save_object();
       if ($this->gosaLoginRestrictionWidget->isModified()) {
-        $this->gosaLoginRestriction= array_values($this->gosaLoginRestrictionWidget->getMaintainedData());
+        $this->gosaLoginRestriction = array_values($this->gosaLoginRestrictionWidget->getMaintainedData());
+        $this->gosaLoginRestrictionWidget->setListData($this->gosaLoginRestrictionWidget->getMaintainedData());
       }
 
       /* Save government mode attributes */
