@@ -9,7 +9,7 @@
 {$ACL}&nbsp;<LABEL for='ACL'>{t}Show access control lists{/t}</LABEL><br>
 {$ROLE}&nbsp;<LABEL for='ROLE'>{t}Show roles{/t}</LABEL><br>
 
- <div style="border-top:1px solid #AAAAAA"></div>
+ <div style="display:block;width=100%;border-top:1px solid #AAAAAA;"></div>
  {$SCOPE}
 
  <table summary="" style="width:100%;border-top:1px solid #B0B0B0;">
