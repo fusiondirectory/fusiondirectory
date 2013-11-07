@@ -39,9 +39,14 @@ class objects
    *
    * \return The list of objects as an associative array (keys are dns)
    */
-  static function ls ($type, $attrs = array(), $ou = NULL, $filter = '')
+  static function ls ($type, $attrs = NULL, $ou = NULL, $filter = '')
   {
     global $config;
+
+    if ($attrs === NULL) {
+      $infos = self::infos($type);
+      $attrs = $infos['mainAttr'];
+    }
 
     if (is_array($attrs)) {
       $search_attrs = array_keys($attrs);
@@ -157,7 +162,11 @@ class objects
     $tabClass = $infos['tabClass'];
 
     $tabObject = new $tabClass($config, $config->data['TABS'][$infos['tabGroup']], $dn, $infos['aclCategory']);
-    $tabObject->set_acl_base($dn);
+    if ($dn == 'new') {
+      $tabObject->set_acl_base($config->current['BASE']);
+    } else {
+      $tabObject->set_acl_base($dn);
+    }
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Openned as $type object");
 
     return $tabObject;
@@ -222,6 +231,12 @@ class objects
     $infos  = self::infos($type);
     $filter = ldapFilter::parse($infos['filter']);
     return $filter($attrs);
+  }
+
+  static function types ()
+  {
+    global $config;
+    return array_keys($config->data['OBJECTS']);
   }
 }
 
