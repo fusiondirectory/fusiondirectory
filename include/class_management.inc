@@ -692,10 +692,10 @@ class management
      * {
      *   switch($action) {
      *     case 'editUser' : {
-     *       mangement::editEntry($action,$target,$all,"usertabs","USERTABS","users");
+     *       mangement::editEntry($action,$target,$all,"usertabs","USERTABS","user");
      *     }
      *     case 'editGroup' : {
-     *       mangement::editEntry($action,$target,$all,"grouptabs","GROUPTABS","groups");
+     *       mangement::editEntry($action,$target,$all,"grouptabs","GROUPTABS","group");
      *     }
      *   }
      * }

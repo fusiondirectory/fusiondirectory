@@ -14,7 +14,7 @@
     <objectType>
       <label>Object group</label>
       <objectClass>gosaGroupOfNames</objectClass>
-      <category>ogroups</category>
+      <category>ogroup</category>
       <class>ogroup</class>
       <image>plugins/ogroups/images/iconMini.png</image>
     </objectType>
@@ -151,7 +151,7 @@
       <name>remove</name>
       <type>entry</type>
       <image>images/lists/trash.png</image>
-      <acl>ogroups/ogroup[d]</acl>
+      <acl>ogroup/ogroup[d]</acl>
       <label>Remove object group</label>
     </action>
 

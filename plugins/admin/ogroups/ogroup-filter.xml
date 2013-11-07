@@ -2,7 +2,7 @@
 
 <filterdef>
   <definition>
-    <category>ogroups</category>
+    <category>ogroup</category>
     <template>ogroup-filter.tpl</template>
     <initial>true</initial>
   </definition>
