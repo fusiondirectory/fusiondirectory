@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<filterdef>
+  <definition>
+    <category>groups</category>
+    <template>../include/simpleplugin/systemSelect/systemSelect-filter.tpl</template>
+    <initial>true</initial>
+  </definition>
+
+ <search>
+    <query>
+      <backend>LDAPBlacklist</backend>
+      <filter>(&amp;(|$SERVER $WORKSTATION $WINSTATION $TERMINAL)$NAME)</filter>
+      <attribute>dn</attribute>
+      <attribute>objectClass</attribute>
+      <attribute>cn</attribute>
+      <attribute>description</attribute>
+    </query>
+    <scope>auto</scope>
+  </search>
+
+  <element>
+    <type>textfield</type>
+    <tag>NAME</tag>
+    <size>20</size>
+    <maxlength>60</maxlength>
+    <default></default>
+    <unset></unset>
+    <set>(cn=*$*)</set>
+    <alphabet>false</alphabet>
+    <autocomplete>
+      <backend>LDAPBlacklist</backend>
+      <filter>(cn=*$NAME*)</filter>
+      <attribute>cn</attribute>
+      <frequency>0.5</frequency>
+      <characters>3</characters>
+    </autocomplete>
+  </element>
+
+  <element>
+    <type>checkbox</type>
+    <tag>SERVER</tag>
+    <default>true</default>
+    <unset></unset>
+    <set>(objectClass=goServer)</set>
+  </element>
+
+  <element>
+    <type>checkbox</type>
+    <tag>WORKSTATION</tag>
+    <default>true</default>
+    <unset></unset>
+    <set>(objectClass=gotoWorkstation)</set>
+  </element>
+
+  <element>
+    <type>checkbox</type>
+    <tag>WINSTATION</tag>
+    <default>true</default>
+    <unset></unset>
+    <set>(&amp;(objectClass=sambaSamAccount)(objectClass=Account))</set>
+  </element>
+
+  <element>
+    <type>checkbox</type>
+    <tag>TERMINAL</tag>
+    <default>true</default>
+    <unset></unset>
+    <set>(objectClass=gotoTerminal)</set>
+  </element>
+
+</filterdef>
