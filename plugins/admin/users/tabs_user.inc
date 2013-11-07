@@ -30,14 +30,14 @@ class usertabs extends tabs
   var $givenName  = '';
   var $sn         = '';
 
-  function __construct($config, $data, $dn, $cat = '', $copied_object = NULL)
+  function usertabs($config, $data, $dn, $cat = '', $copied_object = NULL)
   {
-    parent::__construct($config, $data, $dn, 'user', $copied_object);
+    parent::tabs($config, $data, $dn, 'users', $copied_object);
     $this->base = $this->getBaseObject()->base;
 
-    $this->uid        = $this->by_object['user']->uid;
-    $this->givenName  = $this->by_object['user']->givenName;
-    $this->sn         = $this->by_object['user']->sn;
+    $this->uid        = &$this->by_object['user']->uid;
+    $this->givenName  = &$this->by_object['user']->givenName;
+    $this->sn         = &$this->by_object['user']->sn;
 
     /* Add references/acls/snapshots */
     $this->addSpecialTabs();
@@ -68,10 +68,11 @@ class usertabs extends tabs
     unset($obj);
 
     /* Update parent in base object */
-    $baseobject->parent = &$this;
+    $this->by_object['user']->parent = &$this;
 
     /* Move facsimile / phone number if nessecary */
-    if ($this->last == 'user' && isset($this->by_object['gofaxAccount'])) {
+    if (($this->last == 'user') && isset($this->by_object['gofaxAccount'])) {
+
       /* Move number to fax plugin */
       $this->by_object['gofaxAccount']->facsimileTelephoneNumber =
         $this->by_object['user']->facsimileTelephoneNumber;
@@ -112,23 +113,20 @@ class usertabs extends tabs
     /* Check for new 'dn', in order to propagate the
        'dn' to all plugins */
     $baseobject = $this->getBaseObject();
-    $new_dn     = $baseobject->compute_dn();
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $new_dn, 'Saving');
+    $baseobject->update_new_dn();
+    if ($this->dn != 'new') {
 
-    /* Move ? */
-    if ($this->dn != $new_dn) {
-      /* Write entry on new 'dn' */
-      if ($this->dn != 'new') {
+      $new_dn = $baseobject->new_dn;
+
+      if ($this->dn != $new_dn) {
+
         /* Udpate acls */
         $baseobject->update_acls($this->dn, $new_dn);
         $baseobject->move($this->dn, $new_dn);
-
-        /* Did we change ourselves? Update ui object. */
-        change_ui_dn($this->dn, $new_dn);
       }
-      /* Happen to use the new one */
-      $this->dn = $new_dn;
     }
+
+    $this->dn = $baseobject->new_dn;
 
     return parent::save();
   }
