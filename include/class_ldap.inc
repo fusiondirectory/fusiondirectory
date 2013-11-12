@@ -1065,13 +1065,6 @@ class LDAP{
     }
     $scope = (!empty($scope))?' -s '.$scope: '';
 
-    // First check if we are able to call 'ldapsearch' on the command line.
-    $check = shell_exec('which ldapsearch');
-    if (empty($check)) {
-      $this->error = sprintf(_("Missing command line programm '%s'!"), 'ldapsearch');
-      return NULL;
-    }
-
     // Prepare parameters to be valid for shell execution
     $dn     = escapeshellarg($dn);
     $pwd    = $this->bindpw;
