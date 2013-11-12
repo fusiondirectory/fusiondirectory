@@ -554,6 +554,10 @@ class plugin
     $this->is_account = $this->is_this_account($this->attrs);
   }
 
+  public function setNeedEditMode ($bool)
+  {
+  }
+
   /* Apply a modifier
    * Returns an array of possible values */
   static function tpl_apply_modifier($m, $args, $str)
