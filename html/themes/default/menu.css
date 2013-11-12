@@ -118,9 +118,8 @@ cursor:pointer;
 display:inline-block;
 float:left;
 width:18%;
-min-width:80px;
-margin:3px;
-padding:3px;
+margin:.5%;
+padding:.5%;
 }
 html.rtl .iconmenu {
 float:right;
