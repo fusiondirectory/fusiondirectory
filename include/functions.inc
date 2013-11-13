@@ -1215,9 +1215,9 @@ function print_sizelimit_warning()
 {
   if (session::global_is_set('size_limit') && session::global_get('size_limit') >= 10000000 ||
       (session::is_set('limit_exceeded') && session::get('limit_exceeded'))) {
-    $config = "<input type='submit' name='edit_sizelimit' value="._("Configure").">";
+    $config = '<input type="submit" name="edit_sizelimit" value="'._('Configure').'"/>';
   } else {
-    $config = "";
+    $config = '';
   }
   if (session::is_set('limit_exceeded') && session::get('limit_exceeded')) {
     return "("._("incomplete").") $config";
