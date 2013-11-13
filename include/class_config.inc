@@ -1326,7 +1326,26 @@ class config  {
           }
         }
       }
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, join(',', $acl), "Class $class categories");
+      /* Read management info */
+      if (isset($plInfo['plManages'])) {
+        foreach ($plInfo['plManages'] as $type) {
+          $obj = strtoupper($type);
+          $cat    = $this->data['OBJECTS'][$obj]['aclCategory'];
+          $acl[]  = $cat;
+
+          if (!empty($plInfo['plProvidedAcls'])) {
+            $this->data['CATEGORIES'][$cat]['classes'][] = $class;
+          }
+          if (!in_array($cat, $plInfo['plCategory'])) {
+            $plInfo['plCategory'][] = $cat;
+          }
+
+          if (isset($this->data['OBJECTS'][$obj])) {
+            $this->data['OBJECTS'][$obj]['management'] = $class;
+          }
+        }
+      }
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, join(',', array_unique($acl)), "Class $class categories");
       /* Feed menu */
       if (isset($plInfo['plSection'])) {
         $section = $plInfo['plSection'];
@@ -1339,7 +1358,7 @@ class config  {
         if (isset($plInfo['plSelfModify']) && $plInfo['plSelfModify']) {
           $acl[] = $acl[0].'/'.$class.':self';
         }
-        $acl = join(',', $acl);
+        $acl = join(',', array_unique($acl));
 
         if (is_array($section)) {
           $section  = key($section);
@@ -1357,14 +1376,6 @@ class config  {
           $attrs['ACL'] = $acl;
         }
         $this->data['MENU'][$section][] = $attrs;
-      }
-      /* Read management info */
-      if (isset($plInfo['plManages'])) {
-        foreach ($plInfo['plManages'] as $type) {
-          if (isset($this->data['OBJECTS'][strtoupper($type)])) {
-            $this->data['OBJECTS'][strtoupper($type)]['management'] = $class;
-          }
-        }
       }
     }
     unset($plInfo);
