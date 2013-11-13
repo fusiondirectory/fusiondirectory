@@ -74,26 +74,7 @@ class Step_Finish extends setup_step
 
     /* Download config */
     if (isset($_POST['getconf'])) {
-
-      header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-      header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-      header("Cache-Control: no-cache");
-      header("Pragma: no-cache");
-      header("Cache-Control: post-check=0, pre-check=0");
-      header("Content-type: text/plain");
-
-      if (preg_match('/MSIE 5.5/', $_SERVER['HTTP_USER_AGENT']) ||
-          preg_match('/MSIE 6.0/', $_SERVER['HTTP_USER_AGENT'])) {
-        header('Content-Disposition: filename="'.CONFIG_FILE.'"');
-      } else {
-        header('Content-Disposition: attachment; filename="'.CONFIG_FILE.'"');
-      }
-
-      $str = $this->get_conf_data();
-      $str = preg_replace("/\n[ ]*\n/", "", $str);
-
-      echo $this->get_conf_data();
-      exit();
+      send_binary_content($this->get_conf_data(), CONFIG_FILE, "text/plain");
     }
 
     $err_msg = "";
