@@ -582,6 +582,9 @@ class group extends plugin
     if(!empty($filter)){
       $ldap->cd($this->config->current['BASE']);
       $ldap->search("(&(objectClass=gosaAccount)(|".$filter."))",array("dn", "uid","sn","givenName"));
+      if (!$ldap->success()) {
+        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_MOD, get_class())."filter : "."(&(objectClass=gosaAccount)(|".$filter."))");
+      }
       while($attrs = $ldap->fetch()){
         $this->dnMapping[$attrs['uid'][0]] = $attrs['dn'];
         $this->members[$attrs['uid'][0]] = $this->createResultName($attrs);
