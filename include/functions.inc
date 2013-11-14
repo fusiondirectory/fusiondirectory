@@ -2565,7 +2565,7 @@ function array_differs_recursive($src, $dst)
  */
 function normalizeLdap($input)
 {
-  return addcslashes($input, '()|');
+  return addcslashes($input, '*()\\/');
 }
 
 /*!
