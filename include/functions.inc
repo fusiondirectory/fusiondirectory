@@ -3097,6 +3097,33 @@ function generate_smb_nt_hash($password)
   return $attrs;
 }
 
+/* Lock or unlock samba account */
+function lock_samba_account($mode, $attrs)
+{
+  $modify = array('sambaNTPassword' => $attrs['sambaNTPassword'][0]);
+  if ($config->get_cfg_value("sambaGenLMPassword", "FALSE") == "TRUE") {
+    $modify['sambaLMPassword'] = $attrs['sambaLMPassword'][0];
+  } else {
+    $modify['sambaLMPassword'] = array();
+  }
+  foreach ($modify as $key => &$pwd) {
+    if (is_array($pwd)) {
+      continue;
+    }
+    if ($mode == 'LOCK') {
+      /* Lock entry */
+      if (!preg_match('/^\!/', $pwd)) {
+        $pwd = '!'.$pwd;
+      }
+    } else {
+      /* Unlock entry */
+      $pwd = preg_replace("/^\!/",  "",   $pwd);
+    }
+  }
+  unset($value);
+  return $modify;
+}
+
 
 /*!
  * \brief Get the Change Sequence Number of a certain DN

@@ -146,18 +146,17 @@ class passwordMethod
     }
 
     /* Get current password hash */
+    $attrs = $this->attrs;
     $pwd  = "";
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
     if (!empty($dn)) {
       $ldap->cat($dn);
       $attrs = $ldap->fetch();
-      if (isset($attrs['userPassword'][0])) {
-        $pwd = $attrs['userPassword'][0];
-      }
-    } elseif (isset($this->attrs['userPassword'][0])) {
-      $pwd  = $this->attrs['userPassword'][0];
-      $dn   = $this->attrs['dn'];
+    }
+    if (isset($attrs['userPassword'][0])) {
+      $pwd = $attrs['userPassword'][0];
+      $dn  = $attrs['dn'];
     }
 
     /* We can only lock/unlock non-empty passwords */
@@ -172,6 +171,9 @@ class passwordMethod
         return TRUE;
       }
 
+      // (Un)lock the samba account
+      $modify = lock_samba_account($mode, $attrs);
+
       // (Un)lock the account by modifying the password hash.
       $pwdClass = new password($config, $dn);
       $pwdClass->callHook($pwdClass, 'PRE'.$mode, array(), $ret);
@@ -183,8 +185,9 @@ class passwordMethod
         /* Unlock entry */
         $pwd = preg_replace("/(^[^\}]+\})!(.*$)/",  "\\1\\2",   $pwd);
       }
+      $modify["userPassword"] = $pwd;
       $ldap->cd($dn);
-      $ldap->modify(array("userPassword" => $pwd));
+      $ldap->modify($modify);
 
       // Call the password post-lock hook, if defined.
       if ($ldap->success()) {
