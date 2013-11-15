@@ -1,5 +1,5 @@
-FusionDirectory 1.0 README
-==========================
+FusionDirectory 1.0.x README
+============================
 
 * Information
 
@@ -15,6 +15,12 @@ with your UNIX installation, of course. This file is not an introduction
 to any of these components. See INSTALL for a quick overview about what
 to do, to get the things up and running.
 
+* Migration from one version to another
+
+you always can find the upgrade instruction here
+
+http://documentation.fusiondirectory.org/en/documentation_admin
+
 * Translations
 
 FusionDirectory is not available in your native language? Just read on...
@@ -29,7 +35,7 @@ If you're ready with that, create a directory for your language using
 the ISO shortcuts (i.e. es for spain).
 In case of spain this will be
 
- fusiondirectory/locales/core/es
+ fusiondirectory/locales/es/
 
 and put the freshly translated fusiondirectory.po in this directory.
 
@@ -53,7 +59,7 @@ Have fun!
 To improve this piece of software, please report all kind of errors using the bug tracker
 on https://forge.fusiondirectory.org
 
-Documentation: http://www.fusiondirectory.org/
+Documentation: http://documentattion.fusiondirectory.org/
 Mailinglist:   http://lists.fusiondirectory.org/
 Irc:           #fusiondirectory on freenode
 
