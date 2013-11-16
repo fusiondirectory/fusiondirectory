@@ -66,7 +66,10 @@ class Step_Finish extends setup_step
      *   - fusiondirectory.conf exists
      *   - Permisssion are set correctly
      */
+
     if (isset($_POST['next']) && $exists && !$this->is_world_readable(CONFIG_DIR."/".CONFIG_FILE)) {
+      $config = new config(CONFIG_DIR."/".CONFIG_FILE, $BASE_DIR);
+      $config->checkLdapConfig();
       session::destroy();
       header("Location: index.php");
       exit();
