@@ -187,14 +187,6 @@ class plugin
         $this->attrs = $ldap->fetch();
       }
 
-      /* Copy needed attributes */
-      foreach ($this->attributes as $val) {
-        $found = array_key_ics($val, $this->attrs);
-        if ($found != "") {
-          $this->$val = $found[0];
-        }
-      }
-
       /* Set the template flag according to the existence of objectClass
          gosaUserTemplate */
       if (isset($this->attrs['objectClass'])) {
@@ -213,6 +205,7 @@ class plugin
     }
 
     $this->loadAttributes();
+
     $this->prepareSavedAttributes();
 
     /* Save initial account state */
@@ -521,21 +514,17 @@ class plugin
     $ldap->cat($dn);
     $this->attrs = $ldap->fetch();
 
+    $this->attrs = self::tpl_parse_attrs($this->attrs);
+
     /* Walk through attributes */
     foreach ($this->attributes as $val) {
-
       /* Skip the ones in skip list */
       if (in_array($val, $skip)) {
         continue;
       }
 
       if (isset($this->attrs["$val"][0])) {
-
-        /* If attribute is set, replace dynamic parts:
-           %sn, %givenName and %uid. Fill these in our local variables. */
-        $value = $this->tpl_parse($this->attrs["$val"][0]);
-
-        $this->$val = $value;
+        $this->$val = $this->attrs["$val"][0];
       }
     }
 
@@ -547,7 +536,21 @@ class plugin
    * Returns an array of possible values */
   static function tpl_apply_modifier($m, $args, $str)
   {
+    if (is_array($str) && (strtolower($m) == $m)) {
+      /* $str is an array and $m is lowercase, so it's a string modifier */
+      $str = $str[0];
+    }
     switch ($m) {
+      case 'F': // First
+        return array($str[0]);
+      case 'L': // Last
+        return array(end($str));
+      case 'J': // Join
+        if (isset($args[0])) {
+          return array(join($args[0], $str));
+        } else {
+          return array(join($str));
+        }
       case 'u': // uppercase
         return array(mb_strtoupper($str, 'UTF-8'));
       case 'l': // lowercase
@@ -580,7 +583,7 @@ class plugin
     }
   }
 
-  static function tpl_parse_mask($mask, $objects)
+  static function tpl_parse_mask($mask, $attrs)
   {
     if ($mask == "|") {
       return array("%");
@@ -590,16 +593,13 @@ class plugin
       $modifiers = $m[1];
       $mask = substr($mask, strlen($m[0]));
     }
-    $result = NULL;
-    foreach ($objects as &$object) {
-      if (isset($object->$mask)) {
-        $result = array($object->$mask);
-        break;
+    if (isset($attrs[$mask])) {
+      $result = array($attrs[$mask]);
+      if (is_array($result[0])) {
+        unset($result[0]['count']);
       }
-    }
-    unset($object);
-    if ($result === NULL) {
-      trigger_error("'$mask' was not found in objects");
+    } else {
+      trigger_error("'$mask' was not found in attributes");
       $result = array('');
     }
     $len    = strlen($modifiers);
@@ -617,19 +617,13 @@ class plugin
       }
       $result = $result_tmp;
     }
-    return $result;
-  }
-
-  function tpl_parse($string)
-  {
-    $offset = 0;
-    while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
-      $replace = self::tpl_parse_mask($m[1][0], array($this->parent, $this));
-      $replace = $replace[0];
-      $string = substr_replace($string, $replace, $m[0][1], strlen($m[0][0]));
-      $offset = $m[0][1] + strlen($replace);
+    foreach ($result as &$r) { // Array that were not converted by a modifier into a string are now converted to strings
+      if (is_array($r)) {
+        $r = $r[0];
+      }
     }
-    return $string;
+    unset($r);
+    return $result;
   }
 
   /*! Brief Parse attrs template masks
