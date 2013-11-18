@@ -292,4 +292,6 @@ if (!(isset($_SERVER['HTTPS']) && stristr($_SERVER['HTTPS'], "on"))) {
     $ssl = "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
   }
 }
+
+define('_OLD_TEMPLATES_', TRUE);
 ?>
