@@ -315,7 +315,7 @@ class Attribute
     if ($this->plugin === NULL) {
       return FALSE;
     }
-    foreach ($this->managedAttributes as $prefix => $array) {
+    foreach ($this->managedAttributes as $array) {
       foreach ($array as $value => $attributes) {
         foreach ($attributes as $attribute) {
           $disabled = $this->isValueManagingValue($myvalue, $value);
@@ -433,6 +433,8 @@ class Attribute
     if ($this->visible) {
       if ($readOnly) {
         $input = $this->getValue();
+      } elseif (is_object($this->plugin) && $this->plugin->is_template) {
+        $input = $this->renderTemplateInput();
       } else {
         $input = $this->renderFormInput();
       }
@@ -512,7 +514,7 @@ class Attribute
   {
     $js = '';
     $id = $this->getHtmlId();
-    foreach ($this->managedAttributes as $prefix => $array) {
+    foreach ($this->managedAttributes as $array) {
       foreach ($array as $value => $attributes) {
         if (isset($this->managedAttributesMultipleValues[$value])) {
           $js .= 'disableAttributes = inArray(document.getElementById('.json_encode($id).').value,'.json_encode($this->managedAttributesMultipleValues[$value]).');';
@@ -527,6 +529,18 @@ class Attribute
       }
     }
     return $js;
+  }
+
+  function renderTemplateInput ()
+  {
+    return $this->renderFormInput();
+  }
+
+  function foreignKeyUpdate($oldvalue, $newvalue, $source)
+  {
+    if ($this->getValue() == $oldvalue) {
+      $this->setValue($newvalue);
+    }
   }
 }
 
@@ -594,7 +608,7 @@ class BooleanAttribute extends Attribute
   {
     $js = '';
     $id = $this->getHtmlId();
-    foreach ($this->managedAttributes as $prefix => $array) {
+    foreach ($this->managedAttributes as $array) {
       foreach ($array as $value => $attributes) {
         if (isset($this->managedAttributesMultipleValues[$value])) {
           trigger_error('Multiple values are not available for boolean attributes');
@@ -744,18 +758,14 @@ class HiddenAttribute extends Attribute
 /* Dummy attribute class in order to give stats information to the template */
 class FakeAttribute extends Attribute
 {
-  private $var_name;
-
-  function __construct ($var)
+  function __construct ($ldapName)
   {
-    parent::__construct("Fake one", "", $var, FALSE, "", "noacl");
+    parent::__construct("Fake one", "", $ldapName, FALSE, "", "noacl");
     $this->setInLdap(FALSE);
-    $this->var_name = $var;
   }
 
   function renderAttribute(&$attributes, $readOnly)
   {
-    $var = $this->var_name;
     $attributes[$this->getLdapName()] = $this->getValue();
   }
 }
@@ -804,6 +814,11 @@ class PasswordAttribute extends StringAttribute
     $display  = '<input type="password" name="'.$id.'" id="'.$id.'" value="{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}" '.
                 ($this->disabled? 'disabled="disabled"':'').'/>';
     return $this->renderAcl($display);
+  }
+
+  function renderTemplateInput ()
+  {
+    return parent::renderFormInput();
   }
 }
 
@@ -1032,6 +1047,14 @@ class IntAttribute extends Attribute
     '/>';
     return $this->renderAcl($display);
   }
+
+  function renderTemplateInput ()
+  {
+    $id = $this->getHtmlId();
+    $display  = '<input type="text" name="'.$id.'" id="'.$id.'" value="{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}" '.
+                ($this->disabled? 'disabled="disabled"':'').'/>';
+    return $this->renderAcl($display);
+  }
 }
 
 /*! \brief This class allow to handle easily an Float LDAP attribute
@@ -1258,7 +1281,7 @@ class FileTextAreaAttribute extends FileAttribute
   function loadPostValue ()
   {
     if ($this->isVisible()) {
-      foreach ($_POST as $name => $value) {
+      foreach (array_keys($_POST) as $name) {
         if (preg_match('/^download'.$this->getHtmlId().'/', $name)) {
           session::set('binary', $this->value);
           session::set('binarytype', 'octet-stream');
@@ -1291,7 +1314,7 @@ class FileTextAreaAttribute extends FileAttribute
                 ' value="'._('Upload').'"/>';
     $display  .= '<input type="image" name="download'.$id.'"'.
                 ($this->disabled? ' disabled="disabled"':'').
-                ' src="images/save.png" title="'._('Download').'" class="center"/>';
+                ' src="images/save.png" title="'._('Download').'" alt="'._('Download').'" class="center"/>';
     return $this->renderAcl($display);
   }
 
@@ -1446,6 +1469,9 @@ class BaseSelectorAttribute extends Attribute
     parent::setParent($plugin);
     if (is_object($this->plugin)) {
       /* Do base conversation */
+      if ($this->plugin->is_template) {
+        $this->ou = 'ou=templates,'.$this->ou;
+      }
       if ($this->plugin->dn == "new") {
         $ui = get_userinfo();
         $this->setValue(dn2base(session::global_is_set("CurrentMainBase")?"cn=dummy,".session::global_get("CurrentMainBase"):$ui->dn));
@@ -1647,7 +1673,15 @@ class ArrayAttribute extends Attribute
   function renderFormInput ()
   {
     $display      = $this->renderOnlyFormInput();
-    $attr_display = $this->renderAttributeInput();
+    $attr_display = $this->renderAttributeInput(FALSE);
+    $buttons      = $this->renderButtons();
+    return $this->renderAcl($display).$attr_display.$this->renderAcl($buttons);
+  }
+
+  function renderTemplateInput ()
+  {
+    $display      = $this->renderOnlyFormInput();
+    $attr_display = $this->renderAttributeInput(TRUE);
     $buttons      = $this->renderButtons();
     return $this->renderAcl($display).$attr_display.$this->renderAcl($buttons);
   }
@@ -1686,10 +1720,14 @@ class ArrayAttribute extends Attribute
     }
   }
 
-  function renderAttributeInput ()
+  function renderAttributeInput ($template = FALSE)
   {
     $this->handleEditingValue();
-    return $this->attribute->renderFormInput();
+    if ($template) {
+      return $this->attribute->renderTemplateInput();
+    } else {
+      return $this->attribute->renderFormInput();
+    }
   }
 
   function renderAttribute(&$attributes, $readOnly)
@@ -1753,7 +1791,7 @@ class ArrayAttribute extends Attribute
   function getArrayValues()
   {
     $result = array();
-    foreach ($this->value as $key => $value) {
+    foreach ($this->value as $value) {
       $this->attribute->setValue($value);
       $row = array();
       foreach ($this->attribute->getArrayValue() as $val) {
@@ -1762,6 +1800,20 @@ class ArrayAttribute extends Attribute
       $result[] = $row;
     }
     return $result;
+  }
+
+  function foreignKeyUpdate($oldvalue, $newvalue, $source)
+  {
+    foreach ($this->value as $key => &$value) {
+      if ($value == $oldvalue) {
+        if ($newvalue === NULL) {
+          unset($this->value[$key]);
+        } else {
+          $value = $newvalue;
+        }
+      }
+    }
+    unset($value);
   }
 }
 
@@ -1871,8 +1923,8 @@ class CompositeAttribute extends Attribute
     if ($res === 1) {
       $m = array_slice($m, 1);
       $values = array();
-      foreach ($this->attributes as $pname => $attr) {
-        $values[] = $m[$pname];
+      foreach (array_keys($this->attributes) as $name) {
+        $values[] = $m[$name];
       }
       return $values;
     } elseif ($res === FALSE) {
@@ -2112,20 +2164,20 @@ class OrderedArrayAttribute extends SetAttribute
 
       if ($this->order) {
         if ($key != 0) {
-          $img .= '<input type="image" src="images/lists/sort-up.png" name="'.$id.'_up_'.$key.'" class="center"/>&nbsp;';
+          $img .= '<input type="image" src="images/lists/sort-up.png" name="'.$id.'_up_'.$key.'" class="center" alt="'._('Sort up').'" title="'._('Sort up').'"/>&nbsp;';
         } else {
-          $img .= '<img src="images/empty.png" style="width:10px;"/>';
+          $img .= '<img src="images/empty.png" alt="" style="width:10px;"/>';
         }
         if (($key + 1) < count($this->value)) {
-          $img .= '<input type="image" src="images/lists/sort-down.png" name="'.$id.'_down_'.$key.'" class="center"/>&nbsp;';
+          $img .= '<input type="image" src="images/lists/sort-down.png" name="'.$id.'_down_'.$key.'" class="center" alt="'._('Sort down').'" title="'._('Sort down').'"/>&nbsp;';
         } else {
-          $img .= '<img src="images/empty.png" style="width:10px;"/>';
+          $img .= '<img src="images/empty.png" alt="" style="width:10px;"/>';
         }
       }
       if ($this->edit_enabled) {
-        $img .= '<input type="image" src="images/lists/edit.png" name="'.$id.'_edit_'.$key.'" class="center"/>&nbsp;';
+        $img .= '<input type="image" src="images/lists/edit.png" name="'.$id.'_edit_'.$key.'" class="center" alt="'._('Edit').'" title="'._('Edit').'"/>&nbsp;';
       }
-      $img .= '<input type="image" src="images/lists/trash.png" name="'.$id.'_del_'.$key.'" class="center"/>&nbsp;';
+      $img .= '<input type="image" src="images/lists/trash.png" name="'.$id.'_del_'.$key.'" class="center" alt="'._('Delete').'" title="'._('Delete').'"/>&nbsp;';
 
       $fields = array();
       foreach ($this->getAttributeArrayValue($value) as $field) {
@@ -2162,7 +2214,7 @@ class OrderedArrayAttribute extends SetAttribute
     if ($this->isVisible()) {
       $this->postValue = $this->value;
       $id = $this->getHtmlId();
-      foreach ($_POST as $name => $value) {
+      foreach (array_keys($_POST) as $name) {
         if ($this->order) {
           if (preg_match('/^'.$id.'_up_/', $name)) {
             $key = preg_replace('/^'.$id.'_up_/', '', $name);

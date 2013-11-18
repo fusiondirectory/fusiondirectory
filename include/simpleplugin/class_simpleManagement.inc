@@ -510,7 +510,6 @@ class simpleManagement extends management
 
     foreach ($target as $dn) {
       $type   = $this->getType($dn);
-      $entry  = $headpage->getEntry($dn);
 
       $tabClass[$dn]    = $tInfo[$type]['tabClass'];
       $tabType[$dn]     = $tInfo[$type]['tabGroup'];

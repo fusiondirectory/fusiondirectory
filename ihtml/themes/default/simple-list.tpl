@@ -1,10 +1,11 @@
-<table class="listing_container">
+<table summary="" class="listing_container">
   <tbody>
     <tr>
       <td class="list">
         <div class="contentboxh">
           <p class="contentboxh">&nbsp;{$HEADLINE}&nbsp;{$SIZELIMIT}</p>
         </div>
+
         <div class="contentboxb" style="background:white;">
           <table>
             <tbody>

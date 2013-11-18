@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012  FusionDirectory
+  Copyright (C) 2012-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ class GenericDialog
     if (isset($_POST[$this->post_cancel])) {
       return $this->handle_cancel();
     }
-    if (isset($_POST[$this->post_finish])) {
+    if (isset($_POST[$this->post_finish]) || isset($_GET[$this->post_finish])) {
       return $this->handle_finish();
     }
     return $this->dialog_execute();
@@ -87,15 +87,11 @@ class GenericSelectDialog extends GenericDialog
 class UserSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'userSelect';
-  protected $post_cancel = 'add_users_cancel';
-  protected $post_finish = 'add_users_finish';
 }
 
 class SingleUserSelectDialog extends GenericDialog
 {
-  protected $dialogClass = 'userSelect';
-  protected $post_cancel = 'add_users_cancel';
-  protected $post_finish = 'add_users_finish';
+  protected $dialogClass = 'singleUserSelect';
 
   function handle_finish ()
   {
@@ -110,27 +106,21 @@ class SingleUserSelectDialog extends GenericDialog
   }
 }
 
+class SystemSelectDialog extends GenericSelectDialog
+{
+  protected $dialogClass = 'systemSelect';
+  protected $post_cancel = 'add_ws_cancel';
+  protected $post_finish = 'add_ws_finish';
+}
+
 class UserGroupSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'userGroupSelect';
-  protected $post_cancel = 'userGroupSelect_cancel';
-  protected $post_finish = 'userGroupSelect_save';
-
-  function handle_finish ()
-  {
-    $users = $this->userGroupSelect->save();
-    foreach ($users as $user) {
-      $this->dialogAttribute->addValue($user['dn'], $user);
-    }
-    return FALSE;
-  }
 }
 
 class GroupSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'groupSelect';
-  protected $post_cancel = 'add_groups_cancel';
-  protected $post_finish = 'add_groups_finish';
 }
 
 class MailSelectDialog extends GenericSelectDialog
@@ -209,7 +199,7 @@ class DialogAttribute extends SetAttribute
     return Attribute::setAcl($acl);
   }
 
-  function renderAttributeInput ()
+  function renderAttributeInput ($template = FALSE)
   {
   }
 
@@ -249,7 +239,6 @@ class DialogAttribute extends SetAttribute
 
 class GenericDialogAttribute extends DialogAttribute
 {
-
   protected $displays     = array();
   protected $store_attr   = 'dn';
   protected $display_attr = 'cn';
@@ -274,12 +263,10 @@ class GenericDialogAttribute extends DialogAttribute
       $value = $attrs[$this->store_attr][0];
     }
     if (!in_array($value, $this->value)) {
-      $this->value[]    = $value;
-      if ($this->display_attr == 'dn') {
-        $this->displays[] = $dn;
-      } else {
-        $this->displays[] = $attrs[$this->display_attr][0];
-      }
+      end($this->value);
+      $new_key = key($this->value) + 1;
+      $this->value[$new_key] = $value;
+      $this->fillDisplayValueFrom($new_key, $attrs);
     }
   }
 
@@ -291,7 +278,7 @@ class GenericDialogAttribute extends DialogAttribute
 
   function getDisplayValues ()
   {
-    foreach ($this->value as $i => $dn) {
+    foreach (array_keys($this->value) as $i) {
       if (!isset($this->displays[$i])) {
         $this->fillDisplayValue($i);
       }
@@ -310,16 +297,25 @@ class GenericDialogAttribute extends DialogAttribute
 
     $value = $this->value[$i];
     if ($this->store_attr == 'dn') {
-      $ldap->cat($value, array($this->display_attr));
+      $ldap->cat($value, $this->ldapAttributesToGet());
     } else {
-      $ldap->search('('.$this->store_attr.'='.$value.')', array($this->display_attr));
+      $ldap->search('('.$this->store_attr.'='.$value.')', $this->ldapAttributesToGet());
     }
-    if (!$ldap->count()) {
+    $this->fillDisplayValueFrom($i, $ldap->fetch());
+  }
+
+  protected function ldapAttributesToGet ()
+  {
+    return array($this->display_attr);
+  }
+
+  protected function fillDisplayValueFrom ($i, $attrs)
+  {
+    if (!isset($attrs[$this->display_attr])) {
       unset($this->value[$i]);
     } else {
-      $attrs = $ldap->fetch();
-      if (!isset($attrs[$this->display_attr])) {
-        unset($this->value[$i]);
+      if ($this->display_attr == 'dn') {
+        $this->displays[$i] = $attrs['dn'];
       } else {
         $this->displays[$i] = $attrs[$this->display_attr][0];
       }
@@ -342,7 +338,7 @@ class UsersAttribute extends GenericDialogAttribute
  *
  * It looks like a SetAttribute, but clicking "Add" will open a dialog that allow to select one or more users or groups.
  * It stores their dn as values, but displays the cn.
- *
+ *"
  */
 class UsersGroupsAttribute extends DialogAttribute
 {
@@ -404,14 +400,14 @@ class GroupsAttribute extends GenericDialogAttribute
   }
 }
 
-/*! \brief This class allows to handle an attribute for selecting user
+/*! \brief This class allows to handle an attribute for selecting an mail address
  *
  * It looks like a SetAttribute, but clicking "Add" will open a dialog that allow to select one or more users.
  *
  */
 class MailsAttribute extends DialogAttribute
 {
-  protected $dialogClass = "MailSelectDialog";
+  protected $dialogClass = 'MailSelectDialog';
 
   /*! \brief The constructor of MailsAttribute
    *
@@ -452,9 +448,9 @@ class MailsAttribute extends DialogAttribute
     }
   }
 
-  function renderAttributeInput ()
+  function renderAttributeInput ($template = FALSE)
   {
-    return SetAttribute::renderAttributeInput();
+    return SetAttribute::renderAttributeInput($template);
   }
 
   function renderButtons ()
@@ -481,6 +477,24 @@ class MailsAttribute extends DialogAttribute
   {
     $id = $this->getHtmlId();
     return array('add'.$id,'add'.$id.'_dialog','del'.$id,'row'.$id);
+  }
+}
+
+class SystemsAttribute extends DialogAttribute
+{
+  protected $dialogClass = 'SystemSelectDialog';
+
+  function addValue ($dn, $entry)
+  {
+    $value = $entry['cn'][0];
+    if (!in_array($value, $this->value)) {
+      $this->value[]    = $value;
+    }
+  }
+
+  function getFilterBlackList ()
+  {
+    return array('cn' => $this->getValue());
   }
 }
 
@@ -514,7 +528,6 @@ class DialogButtonAttribute extends ButtonAttribute
   function __construct ($label, $description, $ldapName, $required, $dialogClass, $buttonText, $defaultValue = "", $acl = "")
   {
     parent::__construct($label, $description, $ldapName, $required, $buttonText, $defaultValue, $acl);
-
     $this->dialogClass  = $dialogClass;
   }
 
@@ -552,11 +565,11 @@ class UserAttribute extends DialogButtonAttribute
     } else {
       $display  .= '<a>'.$this->buttonText.'</a>';
     }
-    $display  .=  '<input class="center" type="image" src="images/lists/edit.png" '.
+    $display .= '<input class="center" type="image" src="images/lists/edit.png" '.
                   'alt="'._('Edit').'" title="'._('Edit').'" name="'.$id.'" id="'.$id.'" '.
                   ($this->disabled? 'disabled="disabled"':'').'/>';
     if (!$this->isRequired()) {
-      $display  .=  '<input class="center" type="image" src="images/lists/trash.png" '.
+      $display .= '<input class="center" type="image" src="images/lists/trash.png" '.
                     'alt="'._('Remove').'" title="'._('Remove').'" name="'.$id.'_remove" id="'.$id.'_remove" '.
                     ($this->disabled? 'disabled="disabled"':'').'/>';
     }
@@ -567,7 +580,7 @@ class UserAttribute extends DialogButtonAttribute
   {
     $id = $this->getHtmlId();
     if (!$this->disabled && $this->isVisible()) {
-      foreach ($_POST as $name => $value) {
+      foreach (array_keys($_POST) as $name) {
         if (!$this->isRequired()) {
           if (preg_match('/^'.$id.'_remove_/', $name)) {
             $this->setValue('');
@@ -607,5 +620,4 @@ class UserAttribute extends DialogButtonAttribute
     return $ids;
   }
 }
-
 ?>
