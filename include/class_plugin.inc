@@ -633,13 +633,15 @@ class plugin
   static function tpl_parse_attrs($attrs)
   {
     foreach ($attrs as &$attr) {
-      foreach ($attr as $key => &$string) {
-        if (!is_numeric($key)) {
-          continue;
+      if (is_array($attr)) {
+        foreach ($attr as $key => &$string) {
+          if (!is_numeric($key)) {
+            continue;
+          }
+          $string = self::tpl_parse_string($string, $attrs);
         }
-        $string = self::tpl_parse_string($string, $attrs);
+        unset($string);
       }
-      unset($string);
     }
     unset($attr);
     return $attrs;
