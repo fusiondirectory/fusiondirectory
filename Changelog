@@ -1,6 +1,15 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.7.1
+
+[Fix] Bugs #2830: refresh readme and install for 1.0.8
+[Fix] Bugs #2842: migration from 1.0.6 to 1.0.7 (update-core-fd-conf.ldif is broken)
+[Fix] Bugs #2845: user main.inc is broken
+[Fix] Bugs #2847: Template bug in memberUid
+[Fix] Bugs #2849: Upgrade to from squeezy to stable makes fusiondirectory unusable
+[Fix] Bugs #2850: Creating several templates with same login placeholder won't work
+
 * FusionDirectory 1.0.7
 
 [Fix] Bugs #215: /usr/share/fusiondirectory/plugins/addons/goto/deploy-filter.tpl status
