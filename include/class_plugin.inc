@@ -505,16 +505,9 @@ class plugin
    *
    * \param array $skip A new array
    */
-  function adapt_from_template($dn, $skip = array())
+  function adapt_from_template($attrs, $skip = array())
   {
-    /* Include global link_info */
-    $ldap = $this->config->get_ldap_link();
-
-    /* Load requested 'dn' to 'attrs' */
-    $ldap->cat($dn);
-    $this->attrs = $ldap->fetch();
-
-    $this->attrs = self::tpl_parse_attrs($this->attrs);
+    $this->attrs = $attrs;
 
     /* Walk through attributes */
     foreach ($this->attributes as $val) {
@@ -530,6 +523,19 @@ class plugin
 
     /* Is Account? */
     $this->is_account = $this->is_this_account($this->attrs);
+  }
+
+  static function tpl_fetch_template($dn)
+  {
+    global $config;
+
+    $ldap = $config->get_ldap_link();
+    $ldap->cat($dn);
+    $attrs    = $ldap->fetch();
+    //~ $attrs    = self::tpl_template_to_attrs($attrs);
+    $depends  = self::tpl_attrs_depends($attrs);
+    $attrs    = self::tpl_sort_attrs($attrs, $depends);
+    return array($attrs, $depends);
   }
 
   /* Apply a modifier
@@ -624,6 +630,95 @@ class plugin
     }
     unset($r);
     return $result;
+  }
+
+  static function tpl_depends_of (&$cache, $depends, $key, $forbidden = NULL)
+  {
+    if (isset($cache[$key])) {
+      return $cache[$key];
+    }
+    if ($forbidden === NULL) {
+      $forbidden = $key;
+    } elseif ($forbidden == $key) {
+      die('Error : recursive dependency');
+    }
+    $array        =
+      array_map(
+        function ($a) use (&$cache, $depends, $forbidden)
+        {
+          return plugin::tpl_depends_of ($cache, $depends, $a, $forbidden);
+        },
+        $depends[$key]
+      );
+    $array[]      = $depends[$key];
+    $cache[$key]  = array_unique(call_user_func_array('array_merge_recursive', $array));
+    return $cache[$key];
+  }
+
+  static function tpl_attrs_depends($attrs)
+  {
+    /* Compute dependencies of each attr */
+    $depends = array();
+    foreach ($attrs as $key => $values) {
+      $depends[$key] = array();
+      if (!is_array($values))  {
+        $values = array($values);
+      }
+      unset ($values['count']);
+      foreach ($values as $value) {
+        $offset = 0;
+        while (preg_match('/%([^%\|]+\|)?([^%]+)%/', $value, $m, PREG_OFFSET_CAPTURE, $offset)) {
+          $offset = $m[0][1] + strlen($m[0][0]);
+          $depends[$key][] = $m[2][0];
+          if (!isset($attrs[$m[2][0]])) { // Dependency which has no value might be missing
+            $attrs[$m[2][0]]    = array();
+            $depends[$m[2][0]]  = array();
+          }
+        }
+      }
+    }
+    /* Flattens dependencies */
+    $flatdepends = array();
+    foreach ($depends as $key => $value) {
+      self::tpl_depends_of($flatdepends, $depends, $key);
+    }
+    return $flatdepends;
+  }
+
+  static function tpl_sort_attrs($attrs, $flatdepends)
+  {
+    /* Sort attrs depending of dependencies */
+    uksort($attrs, function ($k1, $k2) use ($flatdepends) {
+      if (in_array($k1, $flatdepends[$k2])) {
+        return -1;
+      } elseif (in_array($k2, $flatdepends[$k1])) {
+        return 1;
+      } else { // When no direct dependency, we sort by number of dependencies
+        $c1 = count($flatdepends[$k1]);
+        $c2 = count($flatdepends[$k2]);
+        if ($c1 == $c2) {
+            return 0;
+        }
+        return (($c1 < $c2) ? -1 : 1);
+      }
+    });
+    return $attrs;
+  }
+
+  /*! Brief Return attrs needed before applying template
+   *
+   * return an array of attributes which are needed by the template
+   */
+  static function tpl_needed_attrs($attrs, $flatdepends)
+  {
+    $needed = array();
+    $dependencies = array_unique(call_user_func_array('array_merge', $flatdepends));
+    foreach ($dependencies as $attr) {
+      if (empty($flatdepends[$attr])) {
+        $needed[] = $attr;
+      }
+    }
+    return $needed;
   }
 
   /*! Brief Parse attrs template masks
@@ -1247,7 +1342,6 @@ class plugin
         msg_dialog::display(_("Error"), $message, ERROR_DIALOG);
       } elseif (is_array($arr)) {
         $str = implode("\n", $arr);
-
         @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Result: ".$str);
       }
     }
@@ -1410,7 +1504,7 @@ class plugin
     } elseif (strtolower($this->dn) == strtolower($this->config->current['BASE'])) {
 
     } else {
-      trigger_error("Cannot return list of departments, no default base found in class ".get_class($this).". ".$this->base);
+      trigger_error("Cannot return list of departments, no default base found in class ".get_class($this).". (base is '".$this->base."')");
     }
     return $deps;
   }

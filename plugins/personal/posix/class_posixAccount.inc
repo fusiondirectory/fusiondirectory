@@ -570,13 +570,13 @@ class posixAccount extends simplePlugin
   }
 
   /* Adapt from template, using 'dn' */
-  function adapt_from_template($dn, $skip = array())
+  function adapt_from_template($attrs, $skip = array())
   {
     /* Include global link_info */
     $ldap = $this->config->get_ldap_link();
 
-    parent::adapt_from_template($dn, $skip);
-    $template = $this->attrs['uid'][0];
+    parent::adapt_from_template($attrs, $skip);
+    $template = $attrs['uid'][0];
 
     /* Adapt group membership */
     $ldap->cd($this->config->current['BASE']);

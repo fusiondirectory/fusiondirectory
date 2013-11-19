@@ -71,13 +71,13 @@ class userManagement extends management
     if (session::global_is_set(get_class($this)."_filter")) {
       $filter = session::global_get(get_class($this)."_filter");
     } else {
-      $filter = new filter(get_template_path("user-filter.xml", true));
+      $filter = new filter(get_template_path("user-filter.xml", TRUE));
       $filter->setObjectStorage($this->storagePoints);
     }
     $this->setFilter($filter);
 
     // Build headpage
-    $headpage = new listing(get_template_path("user-list.xml", true));
+    $headpage = new listing(get_template_path("user-list.xml", TRUE));
     $headpage->registerElementFilter("lockLabel", "userManagement::filterLockLabel");
     $headpage->registerElementFilter("lockImage", "userManagement::filterLockImage");
     $headpage->registerElementFilter("filterProperties", "userManagement::filterProperties");
@@ -128,15 +128,15 @@ class userManagement extends management
   function detectPostActions()
   {
     $action = management::detectPostActions();
-    if(isset($_POST['template_continue'])) {
+    if (isset($_POST['template_continue'])) {
       $action['action'] = "templateContinue";
     }
-    if(isset($_POST['templatize_continue'])) {
+    if (isset($_POST['templatize_continue'])) {
       $action['action'] = "templatizeContinue";
     }
     if (isset($_POST['password_cancel'])) {
       $action['action'] = "passwordCancel";
-    } elseif((count($this->pwd_change_queue) || isset($_POST['password_finish']) || isset($_POST['refreshProposal']))) {
+    } elseif ((count($this->pwd_change_queue) || isset($_POST['password_finish']) || isset($_POST['refreshProposal']))) {
       $action['action'] = "passwordQueue";
     }
     return $action;
@@ -170,7 +170,7 @@ class userManagement extends management
 
   /*! \brief  Intiates template creation.
    */
-  function newTemplate($action,$entry)
+  function newTemplate($action, $entry)
   {
     $this->newEntry();
     $this->tabObject->set_template_mode ();
@@ -179,218 +179,219 @@ class userManagement extends management
 
   /*! \brief  Queues a set of users for password changes
    */
-  function changePassword($action="",$target=array(),$all=array())
+  function changePassword($action = "", $target = array(), $all = array())
   {
-    $this->dn ="";
+    $this->dn               = "";
     $this->pwd_change_queue = $target;
 
     // Check permisions
     $disallowed = array();
-    foreach($this->pwd_change_queue as $key => $dn){
-      if(!preg_match("/w/",$this->ui->get_permissions($dn,$this->aclCategory."/password"))){
+    foreach ($this->pwd_change_queue as $key => $dn) {
+      if (!preg_match("/w/", $this->ui->get_permissions($dn, $this->aclCategory."/password"))) {
         unset($this->pwd_change_queue[$key]);
         $disallowed[] = $dn;
       }
     }
-    if(count($disallowed)){
-      msg_dialog::display(_("Permission"),msgPool::permModify($disallowed),INFO_DIALOG);
+    if (count($disallowed)) {
+      msg_dialog::display(_("Permission"), msgPool::permModify($disallowed), INFO_DIALOG);
     }
 
     // Now display change dialog.
-    return($this->handlePasswordQueue());
+    return $this->handlePasswordQueue();
   }
 
 
   function handlePasswordQueue()
   {
-      foreach ($this->pwd_change_queue as $key => $dn) {
-        if (isset($this->force_hash_type[$dn])) {
-          $methods = passwordMethod::get_available_methods();
-          if (isset($methods[$this->force_hash_type[$dn]])) {
-            $test = new $methods[$this->force_hash_type[$dn]]($this->config,$dn);
-            if (!$test->need_password()) {
-              change_password($dn, "",0,$this->force_hash_type[$dn]);
-              unset($this->pwd_change_queue[$key]);
-            }
+    foreach ($this->pwd_change_queue as $key => $dn) {
+      if (isset($this->force_hash_type[$dn])) {
+        $methods = passwordMethod::get_available_methods();
+        if (isset($methods[$this->force_hash_type[$dn]])) {
+          $test = new $methods[$this->force_hash_type[$dn]]($this->config,$dn);
+          if (!$test->need_password()) {
+            change_password($dn, "", 0, $this->force_hash_type[$dn]);
+            unset($this->pwd_change_queue[$key]);
           }
-        } else {
-          // read current password entry for $dn, to detect the encryption Method
-          $ldap = $this->config->get_ldap_link();
-          $ldap->cat ($dn, array("shadowLastChange", "userPassword", "uid"));
-          $attrs = $ldap->fetch();
-          if (isset($attrs['userPassword'][0])) {
-            $test = passwordMethod::get_method($attrs['userPassword'][0],$dn);
-            if ($test !== NULL && !$test->need_password()) {
-              change_password($dn, "",0,$test->get_hash());
-              unset($this->pwd_change_queue[$key]);
-            }
+        }
+      } else {
+        // read current password entry for $dn, to detect the encryption Method
+        $ldap = $this->config->get_ldap_link();
+        $ldap->cat ($dn, array("shadowLastChange", "userPassword", "uid"));
+        $attrs = $ldap->fetch();
+        if (isset($attrs['userPassword'][0])) {
+          $test = passwordMethod::get_method($attrs['userPassword'][0], $dn);
+          if ($test !== NULL && !$test->need_password()) {
+            change_password($dn, "", 0, $test->get_hash());
+            unset($this->pwd_change_queue[$key]);
           }
         }
       }
+    }
 
-      // skip if nothing is to do
-      if(empty($this->dn) && !count($this->pwd_change_queue)) return;
+    // skip if nothing is to do
+    if (empty($this->dn) && !count($this->pwd_change_queue)) {
+      return;
+    }
 
-      // Refresh proposal if requested
-      if(isset($_POST['refreshProposal'])) $this->refreshProposal();
-      if(isset($_POST['proposalSelected'])) $this->proposalSelected = get_post('proposalSelected') == 1;
+    // Refresh proposal if requested
+    if (isset($_POST['refreshProposal'])) {
+      $this->refreshProposal();
+    }
+    if (isset($_POST['proposalSelected'])) {
+      $this->proposalSelected = get_post('proposalSelected') == 1;
+    }
 
-      $this->enforcePasswordChange = isset($_POST['new_password']) && isset($_POST['enforcePasswordChange']);
+    $this->enforcePasswordChange = isset($_POST['new_password']) && isset($_POST['enforcePasswordChange']);
 
-      $smarty = get_smarty();
-      $smarty->assign("proposal" , $this->proposal);
-      $smarty->assign("proposalEnabled" , $this->proposalEnabled);
-      $smarty->assign("proposalSelected" , $this->proposalSelected);
+    $smarty = get_smarty();
+    $smarty->assign("proposal", $this->proposal);
+    $smarty->assign("proposalEnabled", $this->proposalEnabled);
+    $smarty->assign("proposalSelected", $this->proposalSelected);
 
-      $smarty->assign("passwordChangeForceable" , $this->passwordChangeForceable);
-      $smarty->assign("enforcePasswordChange" , $this->enforcePasswordChange);
+    $smarty->assign("passwordChangeForceable", $this->passwordChangeForceable);
+    $smarty->assign("enforcePasswordChange", $this->enforcePasswordChange);
 
-      // Get next entry from queue.
-      if(empty($this->dn) && count($this->pwd_change_queue)){
+    // Get next entry from queue.
+    if (empty($this->dn) && count($this->pwd_change_queue)) {
 
-          // Generate new proposal
-          $this->refreshProposal();
-          $this->proposalSelected = ($this->proposal != "");
-          $this->dn = array_pop($this->pwd_change_queue);
+      // Generate new proposal
+      $this->refreshProposal();
+      $this->proposalSelected = ($this->proposal != "");
+      $this->dn = array_pop($this->pwd_change_queue);
+
+      // Check if we are able to enforce a password change
+      $ldap = $this->config->get_ldap_link();
+      $ldap->cd($this->config->current['BASE']);
+      $ldap->cat($this->dn);
+      $attrs = $ldap->fetch();
+      $this->passwordChangeForceable =
+          in_array('sambaAccount', $attrs['objectClass']) ||
+          (in_array('posixAccount', $attrs['objectClass']) && isset($attrs['shadowMax']));
+      $smarty->assign("passwordChangeForceable", $this->passwordChangeForceable);
+      $smarty->assign("enforcePasswordChange", $this->enforcePasswordChange);
+
+      // Assign proposal variables
+      $smarty->assign("proposal",         $this->proposal);
+      $smarty->assign("proposalEnabled",  $this->proposalEnabled);
+      $smarty->assign("proposalSelected", $this->proposalSelected);
+
+      set_object_info($this->dn);
+      return $smarty->fetch(get_template_path('password.tpl', TRUE));
+    }
+
+    // If we've just refreshed the proposal then do not check the password for validity.
+    if (isset($_POST['refreshProposal'])) {
+      return $smarty->fetch(get_template_path('password.tpl', TRUE));
+    }
+
+    // Check permissions
+    if (isset($_POST['password_finish'])) {
+      $dn   = $this->dn;
+      $acl  = $this->ui->get_permissions($dn, "user/password");
+      $cacl = $this->ui->get_permissions($dn, "user/user");
+      if (preg_match('/w/', $acl) || preg_match('/c/', $cacl)) {
+
+        // Get posted passwords
+        if ($this->proposalSelected) {
+          $new_password       = $this->proposal;
+          $repeated_password  = $this->proposal;
+        } else {
+          $new_password       = $_POST['new_password'];
+          $repeated_password  = $_POST['repeated_password'];
+        }
+
+        // Check posted passwords now.
+        $message = array();
+        if ($new_password != $repeated_password) {
+          $message[] = _("The passwords you've entered as 'New password' and 'Repeated new password' do not match.");
+        } elseif ($new_password == "") {
+          $message[] = msgPool::required(_("New password"));
+        }
+
+        // Display errors
+        if (count($message) != 0) {
+          msg_dialog::displayChecks($message);
+          return $smarty->fetch(get_template_path('password.tpl', TRUE));
+        }
+
+        // Change password
+        if (isset($this->force_hash_type[$this->dn])) {
+          if (!change_password ($this->dn, $new_password, 0, $this->force_hash_type[$this->dn])) {
+            return $smarty->fetch(get_template_path('password.tpl', TRUE));
+          }
+        } else {
+          if (!change_password ($this->dn, $new_password)) {
+            return $smarty->fetch(get_template_path('password.tpl', TRUE));
+          }
+        }
+        if ($this->config->get_cfg_value("passwordHook") != "") {
+          $ldap = $this->config->get_ldap_link();
+          $ldap->cd($this->config->current['BASE']);
+          $ldap->cat($this->dn, array('uid'));
+          $attrs = $ldap->fetch();
+          exec($this->config->get_cfg_value("passwordHook")." ".
+                  escapeshellarg($attrs['uid'][0])." ".escapeshellarg($new_password), $resarr);
+          $check_hook_output = "";
+          if (count($resarr) > 0) {
+            $check_hook_output = join('\n', $resarr);
+          }
+          if (!empty($check_hook_output)) {
+            $message[] = sprintf(_("Check-hook reported a problem: %s. Password change canceled!"), $check_hook_output);
+            msg_dialog::displayChecks($message);
+            return $smarty->fetch(get_template_path('password.tpl', TRUE));
+          }
+        }
+
+
+        // The user has to change his password on next login
+        // - We are going to update samba and posix attributes here, to enforce
+        //   such a password change.
+        if ($this->passwordChangeForceable && $this->enforcePasswordChange) {
 
           // Check if we are able to enforce a password change
           $ldap = $this->config->get_ldap_link();
           $ldap->cd($this->config->current['BASE']);
           $ldap->cat($this->dn);
           $attrs = $ldap->fetch();
-          $this->passwordChangeForceable =
-              in_array('sambaAccount', $attrs['objectClass']) ||
-              (in_array('posixAccount', $attrs['objectClass']) && isset($attrs['shadowMax']));
-          $smarty->assign("passwordChangeForceable", $this->passwordChangeForceable);
-          $smarty->assign("enforcePasswordChange", $this->enforcePasswordChange);
+          $samba = in_array('sambaSamAccount', $attrs['objectClass']);
+          $posix = in_array('posixAccount', $attrs['objectClass']);
 
-          // Assign proposal variables
-          $smarty->assign("proposal",         $this->proposal);
-          $smarty->assign("proposalEnabled",  $this->proposalEnabled);
-          $smarty->assign("proposalSelected", $this->proposalSelected);
-
-          set_object_info($this->dn);
-          return $smarty->fetch(get_template_path('password.tpl', TRUE));
-      }
-
-      // If we've just refreshed the proposal then do not check the password for validity.
-      if (isset($_POST['refreshProposal'])) {
-          return ($smarty->fetch(get_template_path('password.tpl', TRUE)));
-      }
-
-      // Check permissions
-      if (isset($_POST['password_finish'])) {
-          $dn   = $this->dn;
-          $acl  = $this->ui->get_permissions($dn, "user/password");
-          $cacl = $this->ui->get_permissions($dn, "user/user");
-          if (preg_match('/w/', $acl) || preg_match('/c/', $cacl)){
-
-              // Get posted passwords
-              if ($this->proposalSelected) {
-                  $new_password       = $this->proposal;
-                  $repeated_password  = $this->proposal;
-              } else {
-                  $new_password       = $_POST['new_password'];
-                  $repeated_password  = $_POST['repeated_password'];
-              }
-
-              // Check posted passwords now.
-              $message = array();
-              if ($new_password != $repeated_password) {
-                $message[] = _("The passwords you've entered as 'New password' and 'Repeated new password' do not match.");
-              } elseif ($new_password == "") {
-                $message[] = msgPool::required(_("New password"));
-              }
-
-              // Display errors
-              if (count($message) != 0) {
-                  msg_dialog::displayChecks($message);
-                  return($smarty->fetch(get_template_path('password.tpl', TRUE)));
-              }
-
-              // Change password
-              if (isset($this->force_hash_type[$this->dn])) {
-                  if (!change_password ($this->dn, $new_password,0,$this->force_hash_type[$this->dn])) {
-                      return $smarty->fetch(get_template_path('password.tpl', TRUE));
-                  }
-              } else {
-                  if (!change_password ($this->dn, $new_password)) {
-                      return $smarty->fetch(get_template_path('password.tpl', TRUE));
-                  }
-              }
-              if ($this->config->get_cfg_value("passwordHook") != "") {
-                  $ldap = $this->config->get_ldap_link();
-                  $ldap->cd($this->config->current['BASE']);
-                  $ldap->cat($this->dn,array('uid'));
-                  $attrs = $ldap->fetch();
-                  exec($this->config->get_cfg_value("passwordHook")." ".
-                          escapeshellarg($attrs['uid'][0])." ".escapeshellarg($new_password), $resarr);
-                  $check_hook_output = "";
-                  if (count($resarr) > 0) {
-                      $check_hook_output = join('\n', $resarr);
-                  }
-                  if (!empty($check_hook_output)) {
-                      $message[] = sprintf(_("Check-hook reported a problem: %s. Password change canceled!"),$check_hook_output);
-                      msg_dialog::displayChecks($message);
-                      return($smarty->fetch(get_template_path('password.tpl', TRUE)));
-                  }
-              }
-
-
-              // The user has to change his password on next login
-              // - We are going to update samba and posix attributes here, to enforce
-              //   such a password change.
-              if ($this->passwordChangeForceable && $this->enforcePasswordChange) {
-
-                  // Check if we are able to enforce a password change
-                  $ldap = $this->config->get_ldap_link();
-                  $ldap->cd($this->config->current['BASE']);
-                  $ldap->cat($this->dn);
-                  $attrs = $ldap->fetch();
-                  $samba = in_array('sambaSamAccount', $attrs['objectClass']);
-                  $posix = in_array('posixAccount', $attrs['objectClass']);
-
-                  // Update the posix shadow flag...
-                  if($posix){
-                      $current= floor(date("U") /60 /60 /24);
-                      $enforceDate = $current -  $attrs['shadowMax'][0];
-                      $new_attrs = array();
-                      $new_attrs['shadowLastChange'] = $enforceDate;
-                      $ldap->cd($this->dn);
-                      $ldap->modify($new_attrs);
-
-#                     $posixAccount = new posixAccount($this->config, $this->dn);
-#                     $posixAccount->is_modified=TRUE;
-#                     $posixAccount->activate_shadowExpire=1;
-#                     $posixAccount->shadowExpire = date('d.m.Y', time() - (1 * 24 * 60 *60));
-#                     $posixAccount->save();
-                  }
-
-                  // Update the samba kickoff flag...
-                  if($samba){
-                      $sambaAccount = new sambaAccount($this->config, $this->dn);
-                      $sambaAccount->is_modified=TRUE;
-                      $sambaAccount->flag_enforcePasswordChange = TRUE;
-                      $sambaAccount->flag_cannotChangePassword = FALSE;
-                      $sambaAccount->save();
-                  }
-              }
-
-              new log("modify","user/".get_class($this),$this->dn,array(),"Password has been changed");
-              $this->dn = "";
-          } else {
-              msg_dialog::display(_("Password change"),
-                      _("You have no permission to change this users password!"),
-                      WARNING_DIALOG);
+          // Update the posix shadow flag...
+          if ($posix) {
+            $current      = floor(date("U") / 60 / 60 / 24);
+            $enforceDate  = $current - $attrs['shadowMax'][0];
+            $new_attrs = array();
+            $new_attrs['shadowLastChange'] = $enforceDate;
+            $ldap->cd($this->dn);
+            $ldap->modify($new_attrs);
           }
-      }
-      // Cleanup
-      if (!count($this->pwd_change_queue) && ($this->dn == "")) {
-          $this->remove_lock();
-          $this->closeDialogs();
+
+          // Update the samba kickoff flag...
+          if ($samba) {
+            $sambaAccount = new sambaAccount($this->config, $this->dn);
+
+            $sambaAccount->is_modified                = TRUE;
+            $sambaAccount->flag_enforcePasswordChange = TRUE;
+            $sambaAccount->flag_cannotChangePassword  = FALSE;
+            $sambaAccount->save();
+          }
+        }
+
+        new log("modify", "user/".get_class($this), $this->dn, array(), "Password has been changed");
+        $this->dn = "";
       } else {
-          return($this->handlePasswordQueue());
+        msg_dialog::display(_("Password change"),
+                  _("You have no permission to change this users password!"),
+                  WARNING_DIALOG);
       }
+    }
+    // Cleanup
+    if (!count($this->pwd_change_queue) && ($this->dn == "")) {
+      $this->remove_lock();
+      $this->closeDialogs();
+    } else {
+      return $this->handlePasswordQueue();
+    }
   }
 
 
@@ -403,7 +404,9 @@ class userManagement extends management
   {
     $str = management::saveChanges();
 
-    if (!empty($str)) return($str);
+    if (!empty($str)) {
+      return $str;
+    }
     if (is_object($this->tabObject)) {
       /* If tabObject still exists, it means there was some errors */
       return "";
@@ -411,7 +414,7 @@ class userManagement extends management
 
     if (isset($this->last_tabObject->by_object['user']) && $this->last_tabObject->by_object['user']->password_change_needed()) {
       $this->force_hash_type[$this->last_tabObject->dn] = $this->last_tabObject->by_object['user']->pw_storage;
-      $this->pwd_change_queue[] = $this->last_tabObject->dn;
+      $this->pwd_change_queue[]                         = $this->last_tabObject->dn;
       return $this->handlePasswordQueue();
     }
   }
@@ -419,14 +422,16 @@ class userManagement extends management
   function cancelEdit()
   {
     $str = management::cancelEdit();
-    if(!empty($str)) return($str);
+    if (!empty($str)) {
+      return $str;
+    }
 
-    if(isset($this->last_tabObject->by_object['user']) &&
+    if (isset($this->last_tabObject->by_object['user']) &&
         $this->last_tabObject->by_object['user']->dn != "new" &&
-        $this->last_tabObject->by_object['user']->password_change_needed()){
+        $this->last_tabObject->by_object['user']->password_change_needed()) {
       $this->force_hash_type[$this->last_tabObject->dn] = $this->last_tabObject->by_object['user']->pw_storage;
-      $this->pwd_change_queue[] = $this->last_tabObject->dn;
-      return($this->handlePasswordQueue());
+      $this->pwd_change_queue[]                         = $this->last_tabObject->dn;
+      return $this->handlePasswordQueue();
     }
   }
 
@@ -435,30 +440,32 @@ class userManagement extends management
    *          If we've user templates, then the user will be asked to use to use one.
    *          -> See 'templateContinue' for further handling.
    */
-  function newUserFromTemplate($action="",$target=array(),$all=array())
+  function newUserFromTemplate($action = "", $target = array(), $all = array())
   {
     // Call parent method, it knows whats to do, locking and so on ...
-    $str = management::newEntry($action,$target,$all);
-    if(!empty($str)) return($str);
+    $str = management::newEntry($action, $target, $all);
+    if (!empty($str)) {
+      return $str;
+    }
 
     // Reset uid selection.
-    $this->got_uid= "";
+    $this->got_uid = "";
 
     // Use template if there are any of them
-    $templates = array();
-    $templates['none']= _("none");
-    $templates = array_merge($templates,$this->get_templates());
+    $templates          = array();
+    $templates['none']  = _("none");
+    $templates          = array_merge($templates, $this->get_templates());
 
     // We've templates, so preset the current template and display the input dialog.
-    if (count($templates)){
+    if (count($templates)) {
       $smarty = get_smarty();
-      foreach(array("sn", "givenName", "uid", "got_uid") as $attr){
+      foreach (array("sn", "givenName", "uid", "got_uid") as $attr) {
         $smarty->assign("$attr", "");
       }
       $smarty->assign("template",  array_pop($target));
       $smarty->assign("templates", $templates);
       $smarty->assign("edit_uid", "");
-      return($smarty->fetch(get_template_path('template.tpl', TRUE)));
+      return $smarty->fetch(get_template_path('template.tpl', TRUE));
 
       // -> See 'templateContinue' for further handling!
     }
@@ -471,30 +478,31 @@ class userManagement extends management
    *           if he wants to use one.
    *          -> See 'templateContinue' for further handling.
    */
-  function newEntry($action="",$target=array(),$all=array(), $altTabClass ="", $altTabType = "", $altAclCategory="")
+  function newEntry($action = "", $target = array(), $all = array(), $altTabClass = "", $altTabType = "", $altAclCategory = "")
   {
-
     // Call parent method, it manages everything, locking, object creation...
-    $str = management::newEntry($action,$target,$all);
-    if(!empty($str)) return($str);
+    $str = management::newEntry($action, $target, $all);
+    if (!empty($str)) {
+      return $str;
+    }
 
     // If we've at least one template, then ask the user if he wants to use one?
-    $templates = array();
-    $templates['none']= _("none");
-    $templates = array_merge($templates,$this->get_templates());
+    $templates          = array();
+    $templates['none']  = _("none");
+    $templates          = array_merge($templates, $this->get_templates());
 
     // Display template selection
-    if (count($templates) > 1){
+    if (count($templates) > 1) {
       $smarty = get_smarty();
 
       // Set default variables, normally empty.
-      foreach(array("sn", "givenName", "uid", "got_uid") as $attr){
+      foreach (array("sn", "givenName", "uid", "got_uid") as $attr) {
         $smarty->assign($attr, "");
       }
       $smarty->assign("template", "none");
       $smarty->assign("templates", $templates);
       $smarty->assign("edit_uid", "");
-      return($smarty->fetch(get_template_path('template.tpl', TRUE)));
+      return $smarty->fetch(get_template_path('template.tpl', TRUE));
 
       // -> See 'templateContinue' for further handling!
     }
@@ -510,44 +518,44 @@ class userManagement extends management
   function templateContinue()
   {
     // Get the list of available templates.
-    $templates = array();
-    $templates['none']= _("none");
-    $templates = array_merge($templates,$this->get_templates());
+    $templates          = array();
+    $templates['none']  = _("none");
+    $templates          = array_merge($templates, $this->get_templates());
 
     // Input validation, if someone wants to create a user from a template
     //  then validate the given values.
     $message = array();
-    if(!isset($_POST['template']) || (empty($_POST['template']))){
-      $message[]= msgPool::invalid(_("Template"));
+    if (!isset($_POST['template']) || (empty($_POST['template']))) {
+      $message[] = msgPool::invalid(_("Template"));
     }
-    if(!isset($_POST['sn']) || (empty($_POST['sn']))){
-      $message[]= msgPool::required(_("Name"));
+    if (!isset($_POST['sn']) || (empty($_POST['sn']))) {
+      $message[] = msgPool::required(_("Name"));
     }
-    if(!isset($_POST['givenName']) || (empty($_POST['givenName']))){
-      $message[]= msgPool::required(_("Given name"));
+    if (!isset($_POST['givenName']) || (empty($_POST['givenName']))) {
+      $message[] = msgPool::required(_("Given name"));
     }
 
     /********************
      * 1   We've had input errors - Display errors and show input dialog again.
      ********************/
 
-    if (count($message) > 0){
+    if (count($message) > 0) {
       msg_dialog::displayChecks($message);
 
       // Preset input fields with user input.
       $smarty = get_smarty();
-      foreach(array("sn", "givenName", "uid", "template") as $attr){
-        if(isset($_POST[$attr])){
+      foreach (array("sn", "givenName", "uid", "template") as $attr) {
+        if (isset($_POST[$attr])) {
           $smarty->assign("$attr", get_post($attr));
-        }else{
+        } else {
           $smarty->assign("$attr", "");
         }
       }
 
-      $smarty->assign("templates",$templates);
+      $smarty->assign("templates", $templates);
       $smarty->assign("got_uid", $this->got_uid);
-      $smarty->assign("edit_uid",false);
-      return($smarty->fetch(get_template_path('template.tpl', TRUE)));
+      $smarty->assign("edit_uid", FALSE);
+      return $smarty->fetch(get_template_path('template.tpl', TRUE));
     }
 
 
@@ -563,8 +571,8 @@ class userManagement extends management
       $this->givenName      = $_POST['givenName'];
 
       // Avoid duplicate entries, check if such a user already exists.
-      $dn= preg_replace("/^[^,]+,/i", "", $_POST['template']);
-      $ldap= $this->config->get_ldap_link();
+      $dn   = preg_replace("/^[^,]+,/i", "", $_POST['template']);
+      $ldap = $this->config->get_ldap_link();
       $ldap->cd ($dn);
       $ldap->search ("(&(sn=".normalizeLdap($this->sn).")(givenName=".normalizeLdap($this->givenName)."))", array("givenName"));
       if ($ldap->count () != 0) {
@@ -615,7 +623,7 @@ class userManagement extends management
     if ($_POST['template'] == 'none') {
       foreach (array("sn", "givenName", "uid") as $attr) {
         if (isset($_POST[$attr])) {
-          $this->tabObject->by_object['user']->$attr= $_POST[$attr];
+          $this->tabObject->by_object['user']->$attr = $_POST[$attr];
         }
       }
 
@@ -629,42 +637,44 @@ class userManagement extends management
      * 4   Template selected and uid given - Ok, then lets adapt template values.
      ********************/
     if (isset($_POST['uid'])) {
+      // Adapt template values.
+      $template_dn = $_POST['template'];
+
+      list($attrs, $depends) = plugin::tpl_fetch_template($template_dn);
 
       // Move user supplied data to sub plugins
       foreach (array("uid","sn","givenName") as $attr) {
-        $this->$attr = $_POST[$attr];
-        $this->tabObject->$attr       = $this->$attr;
-        $this->tabObject->by_object['user']->$attr = $this->$attr;
+        $this->$attr  = $_POST[$attr];
+        $attrs[$attr] = array($this->$attr);
       }
 
-      // Adapt template values.
-      $template_dn              = $_POST['template'];
-      $this->tabObject->adapt_from_template($template_dn, array("uid","cn","givenName","sn"));
+      $attrs = plugin::tpl_parse_attrs($attrs);
+      $this->tabObject->adapt_from_template($attrs, array("cn"));
       $template_base            = preg_replace("/^[^,]+,".preg_quote(get_people_ou(), '/i')."/", '', $template_dn);
       $this->tabObject->by_object['user']->base = $template_base;
 
       // The user Tab object is already instantiated, so just go back and let the
       //  management class do the rest.
-      return("");
+      return "";
     }
   }
 
 
   /* !\brief  This method applies a template to a set of users.
    */
-  function templatizeUsers($action="",$target=array(),$all=array())
+  function templatizeUsers($action = "", $target = array(), $all = array())
   {
     $this->dns = array();
-    if(count($target)){
+    if (count($target)) {
 
       // Get the list of available templates.
       $templates = $this->get_templates();
 
       // Check entry locking
-      foreach($target as $dn){
-        if (($user= get_lock($dn)) != ""){
+      foreach ($target as $dn) {
+        if (($user = get_lock($dn)) != "") {
           $this->dn = $dn;
-          return(gen_locked_message ($user, $dn));
+          return gen_locked_message ($user, $dn);
         }
         $this->dns[] = $dn;
       }
@@ -672,7 +682,7 @@ class userManagement extends management
       // Display template
       $smarty = get_smarty();
       $smarty->assign("templates", $templates);
-      return($smarty->fetch(get_template_path('templatize.tpl', TRUE)));
+      return $smarty->fetch(get_template_path('templatize.tpl', TRUE));
     }
   }
 
@@ -682,17 +692,24 @@ class userManagement extends management
   function templatizeContinue()
   {
     // Template readable?
-    $template= get_post('template');
-    $acl = $this->ui->get_permissions($template, $this->aclCategory."/".$this->aclPlugin);
-    if (preg_match('/r/', $acl)){
+    $template = get_post('template');
+    $acl      = $this->ui->get_permissions($template, $this->aclCategory."/".$this->aclPlugin);
+    if (preg_match('/r/', $acl)) {
       $tab = $this->tabClass;
-      foreach ($this->dns as $dn){
+      foreach ($this->dns as $dn) {
 
         // User writeable
-        $acl = $this->ui->get_permissions($dn,  $this->aclCategory."/".$this->aclPlugin);
-        if (preg_match('/w/', $acl)){
-          $this->tabObject= new $tab($this->config, $this->config->data['TABS'][$this->tabType], $dn, $this->aclCategory);
-          $this->tabObject->adapt_from_template($template, array("sn", "givenName", "uid"));
+        $acl = $this->ui->get_permissions($dn, $this->aclCategory."/".$this->aclPlugin);
+        if (preg_match('/w/', $acl)) {
+          list($attrs, $depends) = plugin::tpl_fetch_template($template_dn);
+          $needed = plugin::tpl_needed_attrs($attrs, $depends);
+          // Move user supplied data to sub plugins
+          foreach ($needed as $attr) {
+            $attrs[$attr] = array($this->$attr);
+          }
+          $attrs = plugin::tpl_parse_attrs($attrs);
+          $this->tabObject = new $tab($this->config, $this->config->data['TABS'][$this->tabType], $dn, $this->aclCategory);
+          $this->tabObject->adapt_from_template($attrs, array("sn", "givenName", "uid"));
           $this->tabObject->save();
         } else {
           msg_dialog::display(_("Permission error"), msgPool::permModify($dn), ERROR_DIALOG);
@@ -710,76 +727,75 @@ class userManagement extends management
 
   /* !\brief  Lock/unlock multiple users.
    */
-  function lockUsers($action,$target,$all)
+  function lockUsers($action, $target, $all)
   {
-    if(!count($target)) return;
-    if($action == "lockUsers"){
-      $this->lockEntry($action,$target, $all, "lock");
-    }else{
-      $this->lockEntry($action,$target, $all, "unlock");
+    if (!count($target)) return;
+    if ($action == "lockUsers") {
+      $this->lockEntry($action, $target, $all, "lock");
+    } else {
+      $this->lockEntry($action, $target, $all, "unlock");
     }
   }
 
 
   /* !\brief  Locks/unlocks the given user(s).
    */
-  function lockEntry($action,$entry, $all, $type = "toggle")
+  function lockEntry($action, $entry, $all, $type = "toggle")
   {
-
     // Filter out entries we are not allowed to modify
     $disallowed = array();
-    $dns = array();
-    foreach($entry as $dn){
-      if (!preg_match("/w/",$this->ui->get_permissions($dn,"user/password"))){
+    $dns        = array();
+    foreach ($entry as $dn) {
+      if (!preg_match("/w/", $this->ui->get_permissions($dn, "user/password"))) {
         $disallowed[] = $dn;
-      }else{
+      } else {
         $allowed[] = $dn;
       }
     }
-    if(count($disallowed)){
-      msg_dialog::display(_("Permission"),msgPool::permDelete($disallowed),INFO_DIALOG);
+    if (count($disallowed)) {
+      msg_dialog::display(_("Permission"), msgPool::permDelete($disallowed), INFO_DIALOG);
     }
 
     // Try to lock/unlock the rest of the entries.
     $ldap = $this->config->get_ldap_link();
-    foreach($allowed as $dn){
+    foreach ($allowed as $dn) {
       $ldap->cat($dn, array('userPassword'));
-      if($ldap->count() == 1){
+      if ($ldap->count() == 1) {
 
         // We can't lock empty passwords.
         $val = $ldap->fetch();
-        if(!isset($val['userPassword'])){
+        if (!isset($val['userPassword'])) {
           continue;
         }
 
         // Detect the password method and try to lock/unlock.
-        $pwd = $val['userPassword'][0];
-        $method = passwordMethod::get_method($pwd,$val['dn']);
-        $success= true;
-        if($method instanceOf passwordMethod){
-          if($type == "toggle"){
-            if($method->is_locked($this->config,$val['dn'])){
-              $success= $method->unlock_account($this->config,$val['dn']);
-            }else{
-              $success= $method->lock_account($this->config,$val['dn']);
+        $pwd      = $val['userPassword'][0];
+        $method   = passwordMethod::get_method($pwd, $val['dn']);
+        $success  = TRUE;
+        if ($method instanceOf passwordMethod) {
+          if ($type == "toggle") {
+            if ($method->is_locked($this->config, $val['dn'])) {
+              $success = $method->unlock_account($this->config, $val['dn']);
+            } else {
+              $success = $method->lock_account($this->config, $val['dn']);
             }
-          }elseif($type == "lock" && !$method->is_locked($this->config,$val['dn'])){
-            $success= $method->lock_account($this->config,$val['dn']);
-          }elseif($type == "unlock" && $method->is_locked($this->config,$val['dn'])){
-            $success= $method->unlock_account($this->config,$val['dn']);
+          } elseif ($type == "lock" && !$method->is_locked($this->config, $val['dn'])) {
+            $success = $method->lock_account($this->config, $val['dn']);
+          } elseif ($type == "unlock" && $method->is_locked($this->config, $val['dn'])) {
+            $success = $method->unlock_account($this->config, $val['dn']);
           }
 
           // Check if everything went fine.
-          if (!$success){
-            $hn= $method->get_hash_name();
-            if (is_array($hn)){
-              $hn= $hn[0];
+          if (!$success) {
+            $hn = $method->get_hash_name();
+            if (is_array($hn)) {
+              $hn = $hn[0];
             }
             msg_dialog::display(_("Account locking"),
                 sprintf(_("Password method '%s' does not support locking. Account (%s) has not been locked!"),
-                  $hn,$dn),WARNING_DIALOG);
+                  $hn, $dn), WARNING_DIALOG);
           }
-        }else{
+        } else {
           // Can't lock unknown methods.
         }
       }
@@ -795,7 +811,7 @@ class userManagement extends management
     $ldap = $this->config->get_ldap_link();
     foreach ($this->config->departments as $key => $value) {
       $acl = $this->ui->get_permissions($value, $this->aclCategory."/".$this->aclPlugin);
-      if (preg_match("/c/",$acl)) {
+      if (preg_match("/c/", $acl)) {
         // Search all templates from the current dn.
         $ldap->cd(get_people_ou().$value);
         $ldap->search("(objectClass=gosaUserTemplate)", array('cn'));
@@ -832,12 +848,12 @@ class userManagement extends management
 
   static function filterLockImage($userPassword)
   {
-    $image= "images/empty.png";
-    if(isset($userPassword[0]) && preg_match("/^\{[^\}]/",$userPassword[0])){
-      if(preg_match("/^[^\}]*+\}!/",$userPassword[0])){
-        $image= "images/lists/locked.png";
-      }else{
-        $image= "images/lists/unlocked.png";
+    $image = "images/empty.png";
+    if (isset($userPassword[0]) && preg_match("/^\{[^\}]/", $userPassword[0])) {
+      if (preg_match("/^[^\}]*+\}!/", $userPassword[0])) {
+        $image = "images/lists/locked.png";
+      } else {
+        $image = "images/lists/unlocked.png";
       }
     }
     return $image;
@@ -846,12 +862,12 @@ class userManagement extends management
 
   static function filterLockLabel($userPassword)
   {
-    $label= "";
-    if(isset($userPassword[0]) && preg_match("/^\{[^\}]/",$userPassword[0])){
-      if(preg_match("/^[^\}]*+\}!/",$userPassword[0])){
-        $label= _("Unlock account")."<rowClass:entry-locked/>";
-      }else{
-        $label= _("Lock account");
+    $label = "";
+    if (isset($userPassword[0]) && preg_match("/^\{[^\}]/", $userPassword[0])) {
+      if (preg_match("/^[^\}]*+\}!/", $userPassword[0])) {
+        $label = _("Unlock account")."<rowClass:entry-locked/>";
+      } else {
+        $label = _("Lock account");
       }
     }
     return $label;

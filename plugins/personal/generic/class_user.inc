@@ -1363,10 +1363,10 @@ class user extends plugin
   }
 
   /* Adapt from given 'dn' */
-  function adapt_from_template($dn, $skip= array())
+  function adapt_from_template($attrs, $skip= array())
   {
-    plugin::adapt_from_template($dn, $skip);
-
+    plugin::adapt_from_template($attrs, $skip);
+    $dn = $attrs['dn'];
     /* Get password method from template
      */
     $tmp_array  = explode('|', $this->attrs['userPassword'][0], 2);
@@ -1375,7 +1375,7 @@ class user extends plugin
     $tmp = passwordMethod::get_method($hash);
     if (is_object($tmp)) {
       if ($tmp->is_configurable()) {
-        $tmp->adapt_from_template($dn);
+        $tmp->adapt_from_template($attrs);
         $this->pwObject = &$tmp;
       }
       $this->pw_storage= $tmp->get_hash();
