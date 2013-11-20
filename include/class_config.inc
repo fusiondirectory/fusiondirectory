@@ -423,23 +423,6 @@ class config  {
     /* Load in-ldap configuration */
     $this->load_inldap_config();
 
-    if (!isset($this->current['SAMBAMACHINEACCOUNTRDN'])) {
-      $this->current['SAMBAMACHINEACCOUNTRDN'] = "ou=computers,ou=systems";
-    }
-    if (!isset($this->current['ACCOUNTPRIMARYATTRIBUTE'])) {
-      $this->current['ACCOUNTPRIMARYATTRIBUTE'] = "uid";
-    }
-    if (!isset($this->current['MINID'])) {
-      $this->current['MINID'] = 100;
-    }
-
-    if (!isset($this->current['USERRDN'])) {
-      $this->current['USERRDN'] = "ou=people";
-    }
-    if (!isset($this->current['GROUPRDN'])) {
-      $this->current['GROUPRDN'] = "ou=groups";
-    }
-
     /* Remove possibly added ',' from end of group and people ou */
     $this->current['GROUPRDN']  = preg_replace("/,*$/", "", $this->current['GROUPRDN']);
     $this->current['USERRDN']   = preg_replace("/,*$/", "", $this->current['USERRDN']);
