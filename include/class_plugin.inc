@@ -522,6 +522,10 @@ class plugin
     $this->is_account = $this->is_this_account($this->attrs);
   }
 
+  public function setNeedEditMode ($bool)
+  {
+  }
+
   static function tpl_fetch_template($dn)
   {
     global $config;
