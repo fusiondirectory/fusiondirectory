@@ -238,10 +238,10 @@ class userManagement extends management
       $this->refreshProposal();
     }
     if (isset($_POST['proposalSelected'])) {
-      $this->proposalSelected = get_post('proposalSelected') == 1;
+      $this->proposalSelected = (get_post('proposalSelected') == 1);
     }
 
-    $this->enforcePasswordChange = isset($_POST['new_password']) && isset($_POST['enforcePasswordChange']);
+    $this->enforcePasswordChange = (isset($_POST['new_password']) && isset($_POST['enforcePasswordChange']));
 
     $smarty = get_smarty();
     $smarty->assign("proposal", $this->proposal);
@@ -316,11 +316,11 @@ class userManagement extends management
 
         // Change password
         if (isset($this->force_hash_type[$this->dn])) {
-          if (!change_password ($this->dn, $new_password, 0, $this->force_hash_type[$this->dn])) {
+          if (!change_password($this->dn, $new_password, 0, $this->force_hash_type[$this->dn])) {
             return $smarty->fetch(get_template_path('password.tpl', TRUE));
           }
         } else {
-          if (!change_password ($this->dn, $new_password)) {
+          if (!change_password($this->dn, $new_password)) {
             return $smarty->fetch(get_template_path('password.tpl', TRUE));
           }
         }
@@ -330,7 +330,7 @@ class userManagement extends management
           $ldap->cat($this->dn, array('uid'));
           $attrs = $ldap->fetch();
           exec($this->config->get_cfg_value("passwordHook")." ".
-                  escapeshellarg($attrs['uid'][0])." ".escapeshellarg($new_password), $resarr);
+                escapeshellarg($attrs['uid'][0])." ".escapeshellarg($new_password), $resarr);
           $check_hook_output = "";
           if (count($resarr) > 0) {
             $check_hook_output = join('\n', $resarr);
@@ -360,7 +360,7 @@ class userManagement extends management
           if ($posix) {
             $current      = floor(date("U") / 60 / 60 / 24);
             $enforceDate  = $current - $attrs['shadowMax'][0];
-            $new_attrs = array();
+            $new_attrs    = array();
             $new_attrs['shadowLastChange'] = $enforceDate;
             $ldap->cd($this->dn);
             $ldap->modify($new_attrs);
@@ -381,8 +381,8 @@ class userManagement extends management
         $this->dn = "";
       } else {
         msg_dialog::display(_("Password change"),
-                  _("You have no permission to change this users password!"),
-                  WARNING_DIALOG);
+                _("You have no permission to change this users password!"),
+                WARNING_DIALOG);
       }
     }
     // Cleanup
@@ -462,7 +462,7 @@ class userManagement extends management
       foreach (array("sn", "givenName", "uid", "got_uid") as $attr) {
         $smarty->assign("$attr", "");
       }
-      $smarty->assign("template",  array_pop($target));
+      $smarty->assign("template", array_pop($target));
       $smarty->assign("templates", $templates);
       $smarty->assign("edit_uid", "");
       return $smarty->fetch(get_template_path('template.tpl', TRUE));
@@ -538,7 +538,6 @@ class userManagement extends management
     /********************
      * 1   We've had input errors - Display errors and show input dialog again.
      ********************/
-
     if (count($message) > 0) {
       msg_dialog::displayChecks($message);
 
@@ -555,6 +554,7 @@ class userManagement extends management
       $smarty->assign("templates", $templates);
       $smarty->assign("got_uid", $this->got_uid);
       $smarty->assign("edit_uid", FALSE);
+
       return $smarty->fetch(get_template_path('template.tpl', TRUE));
     }
 
@@ -562,13 +562,13 @@ class userManagement extends management
     /********************
      * 2   There was a template selected, now ask for the uid.
      ********************/
-
     if ($_POST['template'] != 'none' && !isset($_POST['uid'])) {
 
       // Remember user input.
       $smarty = get_smarty();
-      $this->sn             = $_POST['sn'];
-      $this->givenName      = $_POST['givenName'];
+
+      $this->sn         = $_POST['sn'];
+      $this->givenName  = $_POST['givenName'];
 
       // Avoid duplicate entries, check if such a user already exists.
       $dn   = preg_replace("/^[^,]+,/i", "", $_POST['template']);
@@ -578,10 +578,9 @@ class userManagement extends management
       if ($ldap->count () != 0) {
         msg_dialog::displayChecks(array(msgPool::duplicated(_("Name"))));
       } else {
-
         // Preset uid field by using the idGenerator
         $smarty->assign("edit_uid", "");
-        $this->uid = "";
+        $this->uid  = "";
         $attributes = array('sn' => $this->sn, 'givenName' => $this->givenName);
         if ($this->config->get_cfg_value("idGenerator") != "") {
           $uids = gen_uids($this->config->get_cfg_value("idGenerator"), $attributes);
@@ -632,7 +631,6 @@ class userManagement extends management
       return "";
     }
 
-
     /********************
      * 4   Template selected and uid given - Ok, then lets adapt template values.
      ********************/
@@ -650,7 +648,7 @@ class userManagement extends management
 
       $attrs = plugin::tpl_parse_attrs($attrs);
       $this->tabObject->adapt_from_template($attrs, array("cn"));
-      $template_base            = preg_replace("/^[^,]+,".preg_quote(get_people_ou(), '/i')."/", '', $template_dn);
+      $template_base = preg_replace("/^[^,]+,".preg_quote(get_people_ou(), '/i')."/", '', $template_dn);
       $this->tabObject->by_object['user']->base = $template_base;
 
       // The user Tab object is already instantiated, so just go back and let the
@@ -666,7 +664,6 @@ class userManagement extends management
   {
     $this->dns = array();
     if (count($target)) {
-
       // Get the list of available templates.
       $templates = $this->get_templates();
 
@@ -674,7 +671,7 @@ class userManagement extends management
       foreach ($target as $dn) {
         if (($user = get_lock($dn)) != "") {
           $this->dn = $dn;
-          return gen_locked_message ($user, $dn);
+          return gen_locked_message($user, $dn);
         }
         $this->dns[] = $dn;
       }
@@ -692,12 +689,11 @@ class userManagement extends management
   function templatizeContinue()
   {
     // Template readable?
-    $template = get_post('template');
-    $acl      = $this->ui->get_permissions($template, $this->aclCategory."/".$this->aclPlugin);
+    $template_dn  = get_post('template');
+    $acl          = $this->ui->get_permissions($template_dn, $this->aclCategory."/".$this->aclPlugin);
     if (preg_match('/r/', $acl)) {
       $tab = $this->tabClass;
       foreach ($this->dns as $dn) {
-
         // User writeable
         $acl = $this->ui->get_permissions($dn, $this->aclCategory."/".$this->aclPlugin);
         if (preg_match('/w/', $acl)) {
@@ -708,6 +704,7 @@ class userManagement extends management
             $attrs[$attr] = array($this->$attr);
           }
           $attrs = plugin::tpl_parse_attrs($attrs);
+
           $this->tabObject = new $tab($this->config, $this->config->data['TABS'][$this->tabType], $dn, $this->aclCategory);
           $this->tabObject->adapt_from_template($attrs, array("sn", "givenName", "uid"));
           $this->tabObject->save();
@@ -716,7 +713,7 @@ class userManagement extends management
         }
       }
     } else {
-      msg_dialog::display(_("Permission error"), msgPool::permView($template), ERROR_DIALOG);
+      msg_dialog::display(_("Permission error"), msgPool::permView($template_dn), ERROR_DIALOG);
     }
 
     // Cleanup!
@@ -729,7 +726,9 @@ class userManagement extends management
    */
   function lockUsers($action, $target, $all)
   {
-    if (!count($target)) return;
+    if (!count($target)) {
+      return;
+    }
     if ($action == "lockUsers") {
       $this->lockEntry($action, $target, $all, "lock");
     } else {

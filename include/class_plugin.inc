@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
@@ -865,31 +864,31 @@ class plugin
    */
   function create_unique_dn($attribute, $base)
   {
-    $ldap= $this->config->get_ldap_link();
-    $base= preg_replace("/^,*/", "", $base);
+    $ldap = $this->config->get_ldap_link();
+    $base = preg_replace('/^,*/', '', $base);
 
     /* Try to use plain entry first */
-    $dn= "$attribute=".$this->$attribute.",$base";
-    $ldap->cat ($dn, array('dn'));
-    if (!$ldap->fetch()){
-      return ($dn);
+    $dn = "$attribute=".$this->$attribute.",$base";
+    $ldap->cat($dn, array('dn'));
+    if (!$ldap->fetch()) {
+      return $dn;
     }
 
     /* Look for additional attributes */
-    foreach ($this->attributes as $attr){
-      if ($attr == $attribute || $this->$attr == ""){
+    foreach ($this->attributes as $attr) {
+      if ($attr == $attribute || $this->$attr == "" || is_array($this->$attr)) {
         continue;
       }
 
-      $dn= "$attribute=".$this->$attribute."+$attr=".$this->$attr.",$base";
-      $ldap->cat ($dn, array('dn'));
-      if (!$ldap->fetch()){
-        return ($dn);
+      $dn = "$attribute=".$this->$attribute."+$attr=".$this->$attr.",$base";
+      $ldap->cat($dn, array('dn'));
+      if (!$ldap->fetch()) {
+        return $dn;
       }
     }
 
     /* None found */
-    return ("none");
+    return 'none';
   }
 
   /*!

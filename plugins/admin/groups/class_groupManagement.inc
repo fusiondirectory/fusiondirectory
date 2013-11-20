@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
@@ -44,7 +43,7 @@ class groupManagement extends management
     );
   }
 
-  function __construct($config,$ui)
+  function __construct($config, $ui)
   {
     $this->config = $config;
     $this->ui = $ui;
