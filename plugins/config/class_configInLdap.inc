@@ -331,7 +331,7 @@ class configInLdap extends simplePlugin
             _('GID/UID min id'),
             _('The minimum assignable user or group id number to avoid security leaks with uid 0 accounts.'),
             'fdMinId', FALSE,
-            0, FALSE
+            0, FALSE, 100
           ),
           new StringAttribute (
             _('Next id hook'), _('A script to be called for finding the next free id number for users or groups externaly.'),
