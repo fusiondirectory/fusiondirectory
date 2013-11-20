@@ -2,7 +2,7 @@
 
 <filterdef>
   <definition>
-    <category>users</category>
+    <category>user</category>
     <template>user-filter.tpl</template>
     <initial>true</initial>
   </definition>

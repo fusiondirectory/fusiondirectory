@@ -42,7 +42,7 @@ class log {
    *
    * \param $action         One of these values (modify|create|remove|snapshot|copy)
    *
-   * \param $objecttype     represents the current edited objecttype, like users/user
+   * \param $objecttype     represents the current edited objecttype, like user/user
    *
    * \param $object         represents the current edited object dn
    *

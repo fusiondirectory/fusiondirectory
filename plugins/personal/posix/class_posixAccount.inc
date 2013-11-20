@@ -564,7 +564,6 @@ class posixAccount extends simplePlugin
     $ldap->search ('(&(objectClass=posixGroup)(gidNumber='.$this->gidNumber.')(cn='.$this->getUid().'))', array('cn', 'memberUid'));
     if ($ldap->count() != 0) {
       $attrs = $ldap->fetch();
-
       if ($attrs['cn'][0] == $this->getUid() && !isset($this->attrs['memberUid'])) {
         $ldap->rmDir($ldap->getDN());
       }

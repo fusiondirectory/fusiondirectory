@@ -180,7 +180,7 @@ class pluglist {
    *
    * This function is used to check which plugins are visible.
    *
-   * \param string $aclname The acl tag to test, eg.  "users/user:self", "systems",...
+   * \param string $aclname The acl tag to test, eg.  "user/user:self", "systems",...
    *
    * \return Boolean TRUE on success FALSE otherwise
    */
@@ -191,7 +191,7 @@ class pluglist {
     }
 
     /* Split given acl string into an array.
-      e.g. "user,systems" => array("users","systems");
+      e.g. "user,systems" => array("user","systems");
          */
     $acls_to_check = array();
     if (preg_match("/,/", $aclname)) {
@@ -204,7 +204,7 @@ class pluglist {
       $acl_to_check = trim($acl_to_check);
 
       /* Check if the given acl tag is only valid for self acl entries
-                 <plugin acl="users/user:self" class="user"...  */
+                 <plugin acl="user/user:self" class="user"...  */
       if (preg_match("/:self$/", $acl_to_check)) {
         $acl_to_check = preg_replace("/:self$/", "", $acl_to_check);
         if (strpos($acl_to_check, '/')) {

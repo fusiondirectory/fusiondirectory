@@ -2,7 +2,7 @@
 
 <filterdef>
   <definition>
-    <category>groups</category>
+    <category>group</category>
     <template>../include/select/groupSelect/group-filter.tpl</template>
     <initial>true</initial>
   </definition>

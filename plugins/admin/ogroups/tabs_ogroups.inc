@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ class ogrouptabs extends simpleTabs_noSpecial
 
   private $groupObjects = NULL;
 
-  function __construct($config, $data, $dn, $category = "ogroups", $copied_object = NULL)
+  function __construct($config, $data, $dn, $category = "ogroup", $copied_object = NULL)
   {
     parent::__construct($config, $data, $dn, $category, $copied_object);
     $this->base         = $this->by_object['ogroup']->base;

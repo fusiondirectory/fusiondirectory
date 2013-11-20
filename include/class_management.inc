@@ -55,7 +55,7 @@ class management
   protected $tabClass     = "";      // e.g. usertabs
   protected $tabType      = "";      // e.g. USERTABS
   protected $aclPlugin    = "";      // e.g. generic
-  protected $aclCategory  = "";      // e.g. users
+  protected $aclCategory  = "";      // e.g. user
   protected $objectName   = "";      // e.g. users
 
   // The opened object.
@@ -626,10 +626,10 @@ class management
      * {
      *   switch($action) {
      *     case 'newUser' : {
-     *       mangement::newEntry($action,$target,$all,"usertabs","USERTABS","users");
+     *       mangement::newEntry($action,$target,$all,"usertabs","USERTABS","user");
      *     }
      *     case 'newGroup' : {
-     *       mangement::newEntry($action,$target,$all,"grouptabs","GROUPTABS","groups");
+     *       mangement::newEntry($action,$target,$all,"grouptabs","GROUPTABS","group");
      *     }
      *   }
      * }
@@ -692,10 +692,10 @@ class management
      * {
      *   switch($action) {
      *     case 'editUser' : {
-     *       mangement::editEntry($action,$target,$all,"usertabs","USERTABS","users");
+     *       mangement::editEntry($action,$target,$all,"usertabs","USERTABS","user");
      *     }
      *     case 'editGroup' : {
-     *       mangement::editEntry($action,$target,$all,"grouptabs","GROUPTABS","groups");
+     *       mangement::editEntry($action,$target,$all,"grouptabs","GROUPTABS","group");
      *     }
      *   }
      * }

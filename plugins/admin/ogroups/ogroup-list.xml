@@ -143,7 +143,7 @@
       <name>remove</name>
       <type>entry</type>
       <image>images/lists/trash.png</image>
-      <acl>ogroups/ogroup[d]</acl>
+      <acl>ogroup/ogroup[d]</acl>
       <label>Remove object group</label>
     </action>
 

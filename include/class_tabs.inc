@@ -373,8 +373,7 @@ class tabs
   function adapt_from_template($attrs, $skip = array())
   {
     foreach ($this->by_object as $key => &$obj) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
-          $key, "Adapting");
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Adapting");
       $obj->parent = &$this;
       $obj->adapt_from_template($attrs, $skip);
     }

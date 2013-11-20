@@ -255,34 +255,34 @@ class userManagement extends management
     // Get next entry from queue.
     if (empty($this->dn) && count($this->pwd_change_queue)) {
 
-        // Generate new proposal
-        $this->refreshProposal();
-        $this->proposalSelected = ($this->proposal != "");
-        $this->dn = array_pop($this->pwd_change_queue);
+      // Generate new proposal
+      $this->refreshProposal();
+      $this->proposalSelected = ($this->proposal != "");
+      $this->dn = array_pop($this->pwd_change_queue);
 
-        // Check if we are able to enforce a password change
-        $ldap = $this->config->get_ldap_link();
-        $ldap->cd($this->config->current['BASE']);
-        $ldap->cat($this->dn);
-        $attrs = $ldap->fetch();
-        $this->passwordChangeForceable =
-            in_array('sambaAccount', $attrs['objectClass']) ||
-            (in_array('posixAccount', $attrs['objectClass']) && isset($attrs['shadowMax']));
-        $smarty->assign("passwordChangeForceable", $this->passwordChangeForceable);
-        $smarty->assign("enforcePasswordChange", $this->enforcePasswordChange);
+      // Check if we are able to enforce a password change
+      $ldap = $this->config->get_ldap_link();
+      $ldap->cd($this->config->current['BASE']);
+      $ldap->cat($this->dn);
+      $attrs = $ldap->fetch();
+      $this->passwordChangeForceable =
+          in_array('sambaAccount', $attrs['objectClass']) ||
+          (in_array('posixAccount', $attrs['objectClass']) && isset($attrs['shadowMax']));
+      $smarty->assign("passwordChangeForceable", $this->passwordChangeForceable);
+      $smarty->assign("enforcePasswordChange", $this->enforcePasswordChange);
 
-        // Assign proposal variables
-        $smarty->assign("proposal",         $this->proposal);
-        $smarty->assign("proposalEnabled",  $this->proposalEnabled);
-        $smarty->assign("proposalSelected", $this->proposalSelected);
+      // Assign proposal variables
+      $smarty->assign("proposal",         $this->proposal);
+      $smarty->assign("proposalEnabled",  $this->proposalEnabled);
+      $smarty->assign("proposalSelected", $this->proposalSelected);
 
-        set_object_info($this->dn);
-        return $smarty->fetch(get_template_path('password.tpl', TRUE));
+      set_object_info($this->dn);
+      return $smarty->fetch(get_template_path('password.tpl', TRUE));
     }
 
     // If we've just refreshed the proposal then do not check the password for validity.
     if (isset($_POST['refreshProposal'])) {
-        return $smarty->fetch(get_template_path('password.tpl', TRUE));
+      return $smarty->fetch(get_template_path('password.tpl', TRUE));
     }
 
     // Check permissions
@@ -610,7 +610,6 @@ class userManagement extends management
       }
 
       $attrs = plugin::tpl_parse_attrs($attrs);
-
       $this->tabObject->adapt_from_template($attrs, array("cn"));
       $template_base = preg_replace("/^[^,]+,".preg_quote(get_people_ou(), '/i')."/", '', $template_dn);
       $this->tabObject->by_object['user']->base = $template_base;
