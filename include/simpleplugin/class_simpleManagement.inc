@@ -141,14 +141,16 @@ class simpleManagement extends management
           }
         }
         $this->headpage->xmlData['actionmenu']['action'][0]['action'][] = array(
-          'name' => 'new_'.$object,
-          'type' => 'entry',
+          'name'  => 'new_'.$object,
+          'type'  => 'entry',
           'image' => $icon,
           'label' => $i['name'],
+          'acl'   => $i['aclCategory'].'/'.$i['mainTab'].'[c]',
         );
       }
     }
     $this->headpage->registerElementFilter('filterRowLink', 'simpleManagement::filterRowLink');
+    $this->headpage->refreshBasesList();
   }
 
   function configureHeadline ()
@@ -339,6 +341,8 @@ class simpleManagement extends management
   function removeEntryConfirmed($action = '', $target = array(), $all = array(),
                                 $altTabClass = '', $altTabType = '', $altAclCategory = '')
   {
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removal confirmed!");
+
     $targets = array();
     foreach ($this->dns as $dn) {
       $type = $this->getType($dn);
@@ -349,11 +353,32 @@ class simpleManagement extends management
     }
 
     $tInfo = $this->config->data['OBJECTS'];
-    foreach ($targets as $type => $dns) {
-      $this->dns = $dns;
-      management::removeEntryConfirmed($action, $target, $all, $tInfo[$type]['tabClass'],
-                                  $tInfo[$type]['tabGroup'], $tInfo[$type]['aclCategory']);
+    foreach ($this->dns as $dn) {
+      $type = $this->getType($dn);
+      if (empty($type)) {
+        continue;
+      }
+      $infos = objects::infos($type);
+      // Check permissions, are we allowed to remove this object?
+      $acl = $this->ui->get_permissions($dn, $infos['aclCategory']."/".$infos['mainTab']);
+      if (preg_match("/d/", $acl)) {
+        // Delete the object
+        $this->dn         = $dn;
+        $this->tabObject  = objects::open($this->dn, $type);
+        $this->tabObject->parent = &$this;
+        $this->tabObject->delete();
+
+        // Remove the lock for the current object.
+        del_lock($this->dn);
+      } else {
+        msg_dialog::display(_("Permission error"), msgPool::permDelete(), ERROR_DIALOG);
+        new log("security", "simpleManagement/".get_class($this), $dn, array(), "Tried to trick deletion.");
+      }
     }
+
+    // Cleanup
+    $this->remove_lock();
+    $this->closeDialogs();
   }
 
   /*!

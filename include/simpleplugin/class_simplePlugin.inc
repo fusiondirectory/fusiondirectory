@@ -505,7 +505,7 @@ class simplePlugin extends plugin
   {
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "save");
     $this->prepare_save();
-    if ($this->is_template) {
+    if ($this->is_template && (!defined('_OLD_TEMPLATES_') || !_OLD_TEMPLATES_)) {
       $this->attrs = $this->templateSaveAttrs();
       $this->saved_attributes = array();
     }
@@ -879,7 +879,10 @@ class simplePlugin extends plugin
         $class  = $ref[0];
         $ofield = $ref[1];
         $cinfos = pluglist::pluginInfos($class);
-        foreach ($cinfos['plObjectType'] as $objectType) {
+        foreach ($cinfos['plObjectType'] as $key => $objectType) {
+          if (!is_numeric($key)) {
+            $objectType = $key;
+          }
           $foreignRefs[$objectType][$class][$ofield] = $field;
         }
       }

@@ -126,17 +126,6 @@ class GroupSelectDialog extends GenericSelectDialog
 class MailSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'mailAddressSelect';
-  protected $post_cancel = 'mailAddressSelect_cancel';
-  protected $post_finish = 'mailAddressSelect_save';
-
-  function handle_finish ()
-  {
-    $list = $this->mailSelect->save();
-    foreach ($list as $entry) {
-      $this->mailsAttribute->addValue($entry['dn'], $entry);
-    }
-    return FALSE;
-  }
 }
 
 /*! \brief This class allows to handle an attribute with a popup for selection

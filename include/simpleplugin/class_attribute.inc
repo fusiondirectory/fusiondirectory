@@ -447,6 +447,31 @@ class Attribute
     }
   }
 
+  /*! \brief Serialize this attribute for RPC requests
+   *
+   *  \param array& attributes the attributes array
+   */
+  function serializeAttribute(&$attributes)
+  {
+    if ($this->visible) {
+      $class = get_class($this);
+      while ($class != 'Attribute') {
+        $type[] = $class;
+        $class  = get_parent_class($class);
+      }
+      $type[] = 'Attribute'; // To avoid empty array
+      $attributes[$this->getLdapName()] = array(
+        'id'          => $this->getHtmlId(),
+        'label'       => $this->getLabel(),
+        'required'    => $this->isRequired(),
+        'disabled'    => $this->disabled,
+        'description' => $this->getDescription(),
+        'value'       => $this->getValue(),
+        'type'        => $type,
+      );
+    }
+  }
+
   /*! \brief Add ACL information around display
    *
    *  \param string $display the display information to pass through ACL
@@ -927,6 +952,20 @@ class SelectAttribute extends Attribute
   function getChoices ()
   {
     return $this->choices;
+  }
+
+  function serializeAttribute(&$attributes)
+  {
+    if ($this->visible) {
+      parent::serializeAttribute($attributes);
+
+      if ($this->outputs !== NULL) {
+        $outputs = array_values($this->outputs);
+      } else {
+        $outputs = $this->choices;
+      }
+      $attributes[$this->getLdapName()]['choices'] = array_combine($this->choices, $outputs);
+    }
   }
 }
 
@@ -2008,6 +2047,17 @@ class CompositeAttribute extends Attribute
         }
         unset($attribute);
       }
+    }
+  }
+
+  function serializeAttribute(&$attributes)
+  {
+    if ($this->visible) {
+      foreach ($this->attributes as &$attribute) {
+        $attribute->setDisabled($this->disabled);
+        $attribute->serializeAttribute($attributes);
+      }
+      unset($attribute);
     }
   }
 

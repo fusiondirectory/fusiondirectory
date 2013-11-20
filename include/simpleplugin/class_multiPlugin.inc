@@ -41,7 +41,7 @@ class multiPlugin extends simplePlugin
   {
     parent::__construct($config, $dn, $parent);
 
-    $plInfos = $this->plInfo();
+    $plInfos = pluglist::pluginInfos(get_class($this));
 
     /* Load accounts */
     foreach ($config->data['TABS'][$this->tabClass] as $plug) {
