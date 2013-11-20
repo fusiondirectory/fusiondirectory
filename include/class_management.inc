@@ -582,7 +582,7 @@ class management
       $entry = $this->headpage->getBase();
     } else {
       // Display the restore points for a given object.
-      $entry = array_pop($target);
+      $entry = $target[0];
     }
 
     if (!empty($entry) && $this->ui->allow_snapshot_restore($entry, $this->aclCategory)) {
