@@ -36,7 +36,6 @@ class ogroupManagement extends simpleManagement
       'plDescription' => _('Manage object groups'),
       'plIcon'        => 'plugins/ogroups/images/icon.png',
       'plSection'     => 'admin',
-      'plCategory'    => array('ogroup'),
       'plManages'     => array('ogroup'),
       'plPriority'    => 3,
 
