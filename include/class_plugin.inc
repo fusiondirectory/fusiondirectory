@@ -187,13 +187,11 @@ class plugin
         $this->attrs = $ldap->fetch();
       }
 
-      /* Set the template flag according to the existence of objectClass
-         gosaUserTemplate */
+      /* Set the template flag according to the existence of objectClass gosaUserTemplate */
       if (isset($this->attrs['objectClass'])) {
         if (in_array_ics ("gosaUserTemplate", $this->attrs['objectClass'])) {
           $this->is_template = TRUE;
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
-              "found", "Template check");
+          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, "found", "Template check");
         }
       }
 
