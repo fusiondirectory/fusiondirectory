@@ -2,7 +2,7 @@
  <!-- Headline container -->
  <tr>
    <td colspan=2>
-     <h2><img alt="" class="center" align="middle" src="plugins/generic/images/head.png"> {t}Personal picture{/t}</h2>
+     <h2><img alt="" class="center" align="middle" src="plugins/users/images/iconMini.png"> {t}Personal picture{/t}</h2>
    </td>
  </tr>
  <!-- Base container -->
