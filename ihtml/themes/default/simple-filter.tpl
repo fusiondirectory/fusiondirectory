@@ -26,7 +26,7 @@
   </tr>
  </table>
 
- <table  width="100%"  style="background:#EEEEEE;border-top:1px solid #B0B0B0;">
+ <table width="100%" style="background:#EEEEEE;border-top:1px solid #B0B0B0;">
   <tr>
    <td style="width:100%;text-align:right;">
     {$APPLY}

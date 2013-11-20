@@ -1,4 +1,3 @@
-
 <div style="padding:5px;">
   <div style="font-size:18px;">
    <img alt="" src="images/warning.png" class="center"/>&nbsp;{t}Warning{/t}
