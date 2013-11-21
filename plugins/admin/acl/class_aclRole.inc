@@ -121,13 +121,13 @@ class ACLsAttribute extends OrderedArrayAttribute
 
     /* Summarize ACL */
     $summary = "";
-    foreach ($value['acl'] as $name => $object) {
+    foreach ($value as $name => $object) {
       if (count($object)) {
         $summary .= "$name, ";
       }
     }
     $summary = sprintf(_("Contains settings for these objects: %s"), preg_replace('/, $/', '', $summary));
-    return array(aclRole::typeName($value['type']), $summary);
+    return array($summary);
   }
 
   function addValue($value)
@@ -138,42 +138,29 @@ class ACLsAttribute extends OrderedArrayAttribute
 
   function readValue($value)
   {
-    $acl = acl::explodeACL($value);
-    return each($acl);
+    $acl = explode(':', $value, 2);
+    return array($acl[0] => acl::extractACL($acl[1]));
   }
 
   function writeValue($key, $value)
   {
-    $final    = '';
-    $members  = '';
-    if (isset($value['members'])) {
-      foreach (array_keys($value['members']) as $key) {
-        $members .= base64_encode(preg_replace('/^.:/', '', $key)).',';
-      }
-    }
-    $final = $value['type'].':'.preg_replace('/,$/', '', $members);
-
-    /* ACL's if needed */
-    if ($value['type'] != 'reset' && $value['type'] != 'role') {
-      $acl = ":";
-      foreach ($value['acl'] as $object => $contents) {
-        /* Only save, if we've some contents in there... */
-        if (count($contents)) {
-          $acl .= $object.';';
-          foreach ($contents as $attr => $permission) {
-            /* First entry? Its the one for global settings... */
-            if ($attr == '0') {
-              $acl .= $permission;
-            } else {
-              $acl .= '#'.$attr.';'.$permission;
-            }
+    $acl = '';
+    foreach ($value as $object => $contents) {
+      /* Only save, if we've some contents in there... */
+      if (count($contents)) {
+        $acl .= $object.';';
+        foreach ($contents as $attr => $permission) {
+          /* First entry? Its the one for global settings... */
+          if ($attr == '0') {
+            $acl .= $permission;
+          } else {
+            $acl .= '#'.$attr.';'.$permission;
           }
-          $acl .= ',';
         }
+        $acl .= ',';
       }
-      $final .= preg_replace('/,$/', '', $acl);
     }
-    return $key.':'.$final;
+    return $key.':'.preg_replace('/,$/', '', $acl);
   }
 }
 
@@ -187,7 +174,6 @@ class aclRole extends simplePlugin
     return array(
       'plShortName'   => _('Role'),
       'plDescription' => _('Access control roles'),
-      'plSelfModify'  => FALSE,
       'plObjectType'  => array('aclRole' => array(
         'aclCategory' => 'acl',
         'name'        => _('ACL role'),
@@ -229,6 +215,10 @@ class aclRole extends simplePlugin
     );
   }
 
+  function compute_dn()
+  {
+    return 'cn='.$this->cn.",".get_ou('aclRoleRDN').$this->base;
+  }
 
   static function typeName($type)
   {
@@ -274,11 +264,6 @@ class acl_createedit extends acl
     plugin::__construct($config, $config->current['BASE']);
 
     $this->loadAclEntry($acl);
-  }
-
-  function compute_dn()
-  {
-    return 'cn='.$this->cn.",".get_ou('aclRoleRDN').$this->base;
   }
 
   function execute()
@@ -350,16 +335,6 @@ class acl_createedit extends acl
       }
     }
 
-    /* Store ACL in main object?
-    if (isset($_POST['submit_new_acl']) && $this->acl_is_writeable("gosaAclEntry")) {
-      $this->gosaAclTemplate[$this->currentIndex]['type']     = $this->aclType;
-      $this->gosaAclTemplate[$this->currentIndex]['members']  = $this->recipients;
-      $this->gosaAclTemplate[$this->currentIndex]['acl']      = $this->aclContents;
-
-      $this->dialogState  = 'head';
-      $this->dialog       = FALSE;
-    }*/
-
     /* Cancel edit acl? */
     if (isset($_POST['cancel_edit_acl'])) {
       $this->dialogState = 'create';
@@ -377,7 +352,7 @@ class acl_createedit extends acl
       }
 
       /* Save common values */
-      foreach (array("aclType", "aclObject") as $key) {
+      foreach (array("aclObject") as $key) {
         if (isset($_POST[$key])) {
           $this->$key = validate($_POST[$key]);
         }
@@ -438,14 +413,8 @@ class acl_createedit extends acl
       }
 
       $smarty->assign("aclList", $aclList->DrawList());
-      $smarty->assign("aclType", $this->aclType);
-      $smarty->assign("aclTypes", aclRole::getTypeNames());
-
-      if ($this->aclType == 'base') {
-        $smarty->assign('aclSelector', $this->buildAclSelector(array()));
-      }
     } elseif ($this->dialogState == 'edit') {
-      $smarty->assign('headline', sprintf(_("Edit ACL for '%s', scope is '%s'"), $this->config->data['CATEGORIES'][$this->aclObject]['description'], aclRole::typeName($this->aclType)));
+      $smarty->assign('headline', sprintf(_("Edit ACL for '%s'"), $this->config->data['CATEGORIES'][$this->aclObject]['description']));
 
       /* Collect objects for selected category */
       foreach ($this->config->data['CATEGORIES'][$this->aclObject]['classes'] as $idx => $class) {
@@ -471,23 +440,15 @@ class acl_createedit extends acl
   {
     /* New entry gets presets... */
     if ($acl === NULL) {
-      $this->aclType      = 'sub';
-      $this->recipients   = array();
       $this->aclContents  = array();
     } else {
-      $this->aclType      = $acl['type'];
-      $this->recipients   = $acl['members'];
-      $this->aclContents  = $acl['acl'];
+      $this->aclContents  = $acl;
     }
   }
 
   function getAclEntry()
   {
-    return array(
-      'type'    => $this->aclType,
-      'members' => $this->recipients,
-      'acl'     => $this->aclContents,
-    );
+    return $this->aclContents;
   }
 
   function save_object()
