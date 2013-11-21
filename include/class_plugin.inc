@@ -565,6 +565,8 @@ class plugin
     mb_internal_encoding('UTF-8');
     mb_regex_encoding('UTF-8');
     switch($m) {
+      case 'c': // comment
+        return array('');
       case 'u': // uppercase
         return array(mb_strtoupper($str, 'UTF-8'));
       case 'l': // lowercase
