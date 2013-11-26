@@ -167,14 +167,10 @@ class plugin
 
       /* Save current dn as acl_base */
       $this->acl_base = $this->dn;
-
-      if ($this->dn === NULL) {
-        return;
-      }
     }
 
     /* Get LDAP descriptor */
-    if (($this->dn != "new") || ($object !== NULL)) {
+    if (($this->dn != "new" && $this->dn !== NULL) || ($object !== NULL)) {
       /* Load data to 'attrs' and save 'dn' */
       if ($object !== NULL) {
         $this->attrs = $object->attrs;
@@ -1597,13 +1593,11 @@ class plugin
         for ($i = 0; $i < $attrs['gosaAclEntry']['count']; $i++) {
           $acl_parts = explode(":", $attrs['gosaAclEntry'][$i]);
 
-          /* Roles uses antoher data storage order, members are stored int the third part,
-             while the members in direct ACL assignments are stored in the second part.
-           */
-          $id = ($acl_parts[1] == "role" ? 3 : 2);
+          /* Roles uses antoher data storage order, members are stored in the third part,
+             while the members in direct ACL assignments are stored in the second part. */
+          $id = 3;
 
-          /* Update member entries to use $new_dn instead of old_dn
-           */
+          /* Update member entries to use $new_dn instead of old_dn */
           $members = explode(",", $acl_parts[$id]);
           foreach ($members as $key => $member) {
             $member = base64_decode($member);
@@ -1613,9 +1607,8 @@ class plugin
             }
           }
 
-          /* Check if the selected role has to updated
-           */
-          if (($acl_parts[1] == "role") && ($acl_parts[2] == base64_encode($old_dn))) {
+          /* Check if the selected role has to updated */
+          if ($acl_parts[2] == base64_encode($old_dn)) {
             $acl_parts[2] = base64_encode($new_dn);
             $found        = TRUE;
           }

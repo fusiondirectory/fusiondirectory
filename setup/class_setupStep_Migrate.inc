@@ -832,43 +832,7 @@ class Step_Migrate extends setup_step
           $acl = $acls[$i];
           $tmp = explode(":", $acl);
 
-          if ($tmp[1] == "psub") {
-            $members = explode(",", $tmp[2]);
-            foreach ($members as $member) {
-              $member = base64_decode($member);
-              if (isset($users[$member])) {
-                if (preg_match("/all;cmdrw/i", $tmp[3])) {
-                  if (!$valid_admin) {
-                    $valid_admin = $member;
-                  }
-                  $valid_users    .= $users[$member].", ";
-                  $GOsa_26_found  = TRUE;
-                }
-              }
-              if (isset($groups[$member])) {
-                if (preg_match("/all;cmdrw/i", $tmp[3])) {
-                  $ldap->cat($member);
-                  $group_attrs = $ldap->fetch();
-                  $val_users = "";
-                  if (isset($group_attrs['memberUid'])) {
-                    for ($e = 0; $e < $group_attrs['memberUid']['count']; $e++) {
-                      if (isset($rusers[$group_attrs['memberUid'][$e]])) {
-                        if (!$valid_admin) {
-                          $valid_admin = $rusers[$group_attrs['memberUid'][$e]];
-                        }
-                        $val_users .= $group_attrs['memberUid'][$e].", ";
-                      }
-                    }
-                  }
-                  if (!empty($val_users)) {
-                    $valid_groups .= $groups[$member]."(<i>".trim($val_users, ", ")."</i>), ";
-                    $GOsa_26_found  = TRUE;
-                  }
-                }
-              }
-            }
-          } elseif ($tmp[1] == "role") {
-
+          if ($tmp[1] == "subtree") {
             /* Check if acl owner is a valid FusionDirectory user account */
             $ldap->cat(base64_decode($tmp[2]), array("gosaAclTemplate"));
             $ret = $ldap->fetch();
@@ -878,7 +842,7 @@ class Step_Migrate extends setup_step
               for ($e = 0; $e < $cnt; $e++) {
 
                 $a_str = $ret['gosaAclTemplate'][$e];
-                if (preg_match("/^[0-9]*:psub:/", $a_str) && preg_match("/:all;cmdrw$/", $a_str)) {
+                if (preg_match("/^[0-9]*:all;cmdrw$/", $a_str)) {
 
                   $members = explode(",", $tmp[3]);
                   foreach ($members as $member) {
@@ -1016,7 +980,7 @@ class Step_Migrate extends setup_step
       }
     }
 
-    $acl = "0:psub:".base64_encode($dn).":all;cmdrw";
+    $acl = "0:psub:".base64_encode($dn).":all;cmdrw"; //FIXME
     $attrs_new['gosaAclEntry'][] = $acl;
     if (isset($attrs['gosaAclEntry'])) {
       for ($i = 0; $i < $attrs['gosaAclEntry']['count']; $i ++) {
