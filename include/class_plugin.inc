@@ -1202,6 +1202,11 @@ class plugin
     die("Foreign key was declared but there is no method to handle it!");
   }
 
+  function foreignKeyCheck ($field, $value, $source)
+  {
+    die("Foreign key was declared but there is no method to handle it!");
+  }
+
 
   /* \brief Move/Rename complete trees
    *
