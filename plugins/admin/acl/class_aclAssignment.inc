@@ -224,12 +224,15 @@ class aclAssignment extends simplePlugin
     return $this->dn;
   }
 
-  function save_object()
+  function save()
   {
     $this->ignore_account = FALSE;
-    $this->is_account = TRUE;
-    parent::save_object();
     $this->is_account = (count($this->gosaAclEntry) != 0);
+    if ($this->is_account) {
+      return parent::save();
+    } else {
+      $this->remove_from_parent();
+    }
   }
 
   function post_remove()
