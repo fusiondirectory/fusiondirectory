@@ -1,19 +1,31 @@
-{if $objectList ne ""}
-<table summary="" style="width:100%; vertical-align:top; text-align:left; border:1px solid #B0B0B0;"  cellpadding=4 cellspacing=0 border=0 rules="cols">
-
- <colgroup>
-  <col width="20%">
-  <col width="20%">
-  <col width="60%">
- </colgroup>
-
- <tr style="background-color: #E8E8E8; height:26px;font-weight:bold;">
-  <td>{t}Object name{/t}</td><td>{t}Description{/t}</td><td>{t}Contents{/t}</td>
- </tr>
-
- {$objectList}
-
-</table>
-{else}
-<b>{t}This object has no relationship to other objects.{/t}</b>
-{/if}
+<div id="{$sectionId}" class="plugin_section{$sectionClasses}">
+  <span class="legend">
+    {$section}
+  </span>
+  <div>
+    {if $attributes.refs}
+      <ul>
+        {foreach from=$attributes.refs key=key item=object}
+          <li style="list-style-type:none;">
+            {$object.link}
+            <ul>
+              {foreach from=$object.tabs item=tab}
+                <li style="list-style-type:none;">{$tab.link}
+                  <ul>
+                    {foreach from=$tab.fields key=ofield item=field}
+                      <li style="list-style-type:disc;">
+                        {t escape=no 1=$ofield 2=$field.tab 3=$field.field}<strong>%1</strong> references our field <strong>%3</strong> from tab <strong>%2</strong>{/t}
+                      </li>
+                    {/foreach}
+                  </ul>
+                </li>
+              {/foreach}
+            </ul>
+          </li>
+        {/foreach}
+      </ul>
+    {else}
+      <b>{t}This object has no relationship to other objects.{/t}</b>
+    {/if}
+  </div>
+</div>
