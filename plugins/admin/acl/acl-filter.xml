@@ -9,15 +9,15 @@
 
   <search>
     <query>
-      <backend>ACL</backend>
-      <filter>(|$ACL$ROLE)$NAME</filter>
+      <backend>LDAP</backend>
+      <filter>(objectClass=gosaAcl)$NAME</filter>
       <attribute>dn</attribute>
       <attribute>objectClass</attribute>
       <attribute>cn</attribute>
       <attribute>ou</attribute>
       <attribute>description</attribute>
     </query>
-    <scope>auto</scope>
+    <scope>sub</scope>
   </search>
 
   <element>
@@ -31,28 +31,12 @@
     <alphabet>true</alphabet>
     <autocomplete>
       <backend>ACL</backend>
-      <filter>(&amp;(|(objectClass=gosaAcl)(objectClass=gosaRole))(|(ou=*$NAME*)(description=*$NAME*)(cn=*$NAME*)))</filter>
+      <filter>(&amp;(objectClass=gosaAcl)(|(ou=*$NAME*)(description=*$NAME*)(cn=*$NAME*)))</filter>
       <attribute>ou</attribute>
       <attribute>cn</attribute>
       <frequency>0.5</frequency>
       <characters>3</characters>
     </autocomplete>
-  </element>
-
-  <element>
-    <type>checkbox</type>
-    <tag>ACL</tag>
-    <default>true</default>
-    <set>(objectClass=gosaAcl)</set>
-    <unset></unset>
-  </element>
-
-  <element>
-    <type>checkbox</type>
-    <tag>ROLE</tag>
-    <default>true</default>
-    <unset></unset>
-    <set>(objectClass=gosaRole)</set>
   </element>
 
 </filterdef>

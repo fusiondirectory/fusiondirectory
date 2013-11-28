@@ -1,8 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -17,14 +16,7 @@
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 
-class acltab extends tabs
-{
-  function __construct($config, $data, $dn, $cat = "", $copied_object = NULL)
-  {
-    $data = array(array("CLASS" => "aclAssignment" , "NAME" => _("ACL")));
-    parent::__construct($config, $data, $dn, "", $copied_object);
-  }
-}
+simpleManagement::mainInc('aclRoleManagement');
 ?>

@@ -1,8 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,23 +18,29 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class aclroletab extends simpleTabs_noSpecial
+class aclRoleManagement extends simpleManagement
 {
-  function execute()
+  // Tab definition
+  protected $objectTypes  = array('aclRole');
+
+  protected $departmentBrowser      = TRUE;
+  protected $departmentRootVisible  = TRUE;
+  protected $baseMode               = TRUE;
+
+  /* Return plugin informations for acl handling  */
+  public static function plInfo()
   {
-    $display = parent::execute();
-    if ($this->read_only) {
-      $display .= '<p class="plugbottom">'."\n";
-      $display .= '  <input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
-      $display .= '</p>';
-    } elseif (!$this->getBaseObject()->dialog) {
-      $display .= '<p class="plugbottom">'."\n";
-      $display .= '  <input type="submit" name="edit_finish" style="width:80px" value="'.msgPool::okButton().'"/>'."\n";
-      $display .= "  &nbsp;\n";
-      $display .= '  <input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
-      $display .= '</p>';
-    }
-    return $display;
+    return array(
+      'plShortName'   => _('ACL roles'),
+      'plDescription' => _('ACL roles management'),
+      'plIcon'        => 'plugins/acl/images/icon.png',
+      'plSection'     => 'admin',
+      'plPriority'    => 40,
+      'plCategory'    => array('acl'),
+      'plManages'     => array('aclRole'),
+
+      'plProvidedAcls' => array()
+    );
   }
 }
 ?>

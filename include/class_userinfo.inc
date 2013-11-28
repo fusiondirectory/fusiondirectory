@@ -132,29 +132,23 @@ class userinfo
       $aclc[$attrs['dn']] = $ol;
     }
 
-    /* Resolve roles here.
-     */
+    /* Resolve roles here */
     foreach ($aclc as $dn => $data) {
       foreach ($data as $prio => $aclc_value) {
-        if ($aclc_value['type'] == "role") {
+        unset($aclc[$dn][$prio]);
 
-          unset($aclc[$dn][$prio]);
+        $ldap->cat($aclc_value['acl'], array("gosaAclTemplate"));
+        $attrs = $ldap->fetch();
 
-          $ldap->cat($aclc_value['acl'], array("gosaAclTemplate"));
-          $attrs = $ldap->fetch();
-
-          if (isset($attrs['gosaAclTemplate'])) {
-            for ($i = 0; $i < $attrs['gosaAclTemplate']['count']; $i++) {
-              $tmp = @acl::explodeAcl($attrs['gosaAclTemplate'][$i]);
-
-              foreach ($tmp as $new_acl) {
-
-                /* Keep non role attributes here! */
-                $new_acl['filter']  = $aclc_value['filter'];
-                $new_acl['members'] = $aclc_value['members'];
-                $aclc[$dn][]        = $new_acl;
-              }
-            }
+        if (isset($attrs['gosaAclTemplate'])) {
+          $roleAcls = acl::explodeRole($attrs['gosaAclTemplate']);
+          foreach ($roleAcls as $roleAcl) {
+            $aclc[$dn][]  = array(
+              'acl'     => $roleAcl,
+              'type'    => $aclc_value['type'],
+              'members' => $aclc_value['members'],
+              'filter'  => $aclc_value['filter']
+            );
           }
         }
       }
@@ -479,11 +473,6 @@ class userinfo
             continue;
           }
 
-          if ($subacl['type'] == "role") {
-            echo "role skipped";
-            continue;
-          }
-
           /* With user filter */
           if (isset($subacl['filter']) && !empty($subacl['filter'])) {
             $id = $dn."-".$subacl['filter'];
@@ -688,7 +677,7 @@ class userinfo
    */
   function mergeACL($acl, $type, $newACL)
   {
-    $at = array("psub" => "p", "sub" => "s", "one" => "1");
+    $at = array("subtree" => "s", "one" => "1");
 
     if ((strpos($newACL, 'w') !== FALSE) && (strpos($newACL, 'r') === FALSE)) {
       $newACL .= "r";
@@ -705,8 +694,8 @@ class userinfo
         continue;
       }
 
-      /* Skip permanent and subtree entries */
-      if (preg_match('/[sp]/', $acl[$char])) {
+      /* Skip subtree entries */
+      if ($acl[$char] == 's') {
         continue;
       }
 
@@ -730,8 +719,8 @@ class userinfo
   function cleanACL($acl, $reset = FALSE)
   {
     foreach ($acl as $key => $value) {
-      /* Continue, if value is empty or permanent */
-      if (($value == "") || ($value == "p")) {
+      /* Continue, if value is empty or subtree */
+      if (($value == "") || ($value == "s")) {
         continue;
       }
 
