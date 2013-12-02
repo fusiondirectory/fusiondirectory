@@ -42,15 +42,11 @@ class acl extends plugin
   var $aclContents      = array();
   var $aclFilter        = "";
   var $aclMyObjects     = array();
-  var $users            = array();
   var $roles            = array();
-  var $groups           = array();
   var $recipients       = array();
-  var $isContainer      = FALSE;
   var $currentIndex     = 0;
   var $wasNewEntry      = FALSE;
   var $savedAclContents = array();
-  var $myAclObjects     = array();
   var $acl_category     = "acl/";
 
   /*!
@@ -82,10 +78,7 @@ class acl extends plugin
       $this->parent =& $baseobject->parent;
     }
 
-    /* Container? */
-    if (preg_match('/^(o|ou|c|l|dc)=/i', $dn)) {
-      $this->isContainer = TRUE;
-    }
+    $ldap = $config->get_ldap_link();
 
     /* Roles TODO - use objects::ls?*/
     $ldap->cd($config->current['BASE']);
@@ -97,49 +90,6 @@ class acl extends plugin
       $this->roles[$role_id]['cn']    = $attrs['cn'][0];
       if (isset($attrs['description'][0])) {
         $this->roles[$role_id]['description'] = $attrs['description'][0];
-      }
-    }
-
-    /* Objects */
-    $tmp  = session::global_get('plist');
-    $cats = array();
-    if (isset($this->parent) && $this->parent !== NULL) {
-      $oc = array();
-      foreach ($this->parent->by_object as $obj) {
-        $oc = array_merge($oc, $obj->objectclasses);
-        if (isset($obj->acl_category)) {
-          $tmp        = str_replace("/", "", $obj->acl_category);
-          $cats[$tmp] = $tmp;
-        }
-      }
-      if (in_array_ics('organizationalUnit', $oc)) {
-        $this->isContainer = TRUE;
-      }
-    } else {
-      $oc = $this->attrs['objectClass'];
-    }
-
-    /* Extract available categories from plugin info list */
-    foreach ($this->config->data['CATEGORIES'] as $name => $infos) {
-      $insert = FALSE;
-      if (isset($cats[$name])) {
-        $insert = TRUE;
-      } else {
-        foreach ($infos['objectClass'] as $objectClass) {
-          if (in_array_ics($objectClass, $oc)) {
-            $insert = TRUE;
-            break;
-          }
-        }
-      }
-      if ($insert) {
-        foreach ($infos['classes'] as $class) {
-          if ($class == 0) {
-            continue;
-          }
-          $plInfo = pluglist::pluginInfos($class);
-          $this->myAclObjects[$name.'/'.$class] = $plInfo['plShortName'];
-        }
       }
     }
 
@@ -324,7 +274,7 @@ class acl extends plugin
     plugin::PrepareForCopyPaste($source);
 
     $dn                 = $source['dn'];
-    $acl_c              = new acl($this->config, $dn, $this->parent);
+    $acl_c              = new acl($this->config, $dn);
     $this->gosaAclEntry = $acl_c->gosaAclEntry;
   }
 
@@ -435,13 +385,14 @@ class acl extends plugin
    *
    * \param String $dst The destination
    */
-  function update_acl_membership($src, $dst)
+  static function update_acl_membership($src, $dst)
   {
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
+    global $config
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
     $ldap->search("(&(objectClass=gosaAcl)(gosaAclEntry=*".base64_encode($src)."*))", array("gosaAclEntry","dn"));
     while ($attrs = $ldap->fetch()) {
-      $acl = new acl($this->config, $attrs['dn'], $this->parent);
+      $acl = new acl($config, $attrs['dn']);
       foreach ($acl->gosaAclEntry as $id => $entry) {
         foreach ($entry['members'] as $m_id => $member) {
           if ($m_id == "U:".$src) {
