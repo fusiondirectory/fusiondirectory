@@ -1068,8 +1068,7 @@ class user extends plugin
 
     /* Remove ACL dependencies too */
     if ($this->dn != $this->orig_dn && $this->orig_dn != "new") {
-      $tmp = new acl($this->config, $this->dn, $this->parent);
-      $tmp->update_acl_membership($this->orig_dn, $this->dn);
+      acl::update_acl_membership($this->orig_dn, $this->dn);
     }
 
     if($mode == "modify"){
@@ -1488,6 +1487,9 @@ class user extends plugin
           'icon'        => 'plugins/users/images/iconMini.png',
           'ou'          => get_ou('userRDN'),
         )),
+        'plForeignKeys'  => array(
+          'manager' => array('user','dn')
+        ),
 
         "plProvidedAcls" => array(
           "sn"                => _("Surname"),
@@ -1537,6 +1539,26 @@ class user extends plugin
       }
     }
     return $ret;
+  }
+
+  function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
+  {
+    if ($field == 'manager' && $source == 'dn') {
+      if ($this->manager == $oldvalue) {
+        $this->manager = $newvalue;
+      }
+    } else {
+      return parent::foreignKeyUpdate($field, $oldvalue, $newvalue, $source);
+    }
+  }
+
+  function foreignKeyCheck ($field, $value, $source)
+  {
+    if ($field == 'manager' && $source == 'dn') {
+      return ($this->manager == $value);
+    } else {
+      return parent::foreignKeyCheck($field, $value, $source);
+    }
   }
 
   function convertLoginRestriction()

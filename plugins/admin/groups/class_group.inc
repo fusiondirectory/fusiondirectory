@@ -980,8 +980,7 @@ class group extends plugin
     /* Remove ACL dependencies too,
      */
     if($this->dn != $this->orig_dn && $this->orig_dn != "new"){
-      $tmp = new acl($this->config,$this->dn,$this->parent);
-      $tmp->update_acl_membership($this->orig_dn,$this->dn);
+      acl::update_acl_membership($this->orig_dn,$this->dn);
     }
 
     if($this->initially_was_account){
@@ -1120,6 +1119,10 @@ class group extends plugin
         'icon'        => 'plugins/groups/images/iconMini.png',
         'mainAttr'    => 'cn',
       )),
+      'plForeignKeys'  => array(
+        'memberUid' => array('user','uid')
+      ),
+
 
       "plProvidedAcls"    => array(
         "cn"                => _("Name"),
@@ -1137,6 +1140,27 @@ class group extends plugin
         "memberUid"         => _("Group member")
       )
     );
+  }
+
+  function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
+  {
+    if ($field == 'memberUid' && $source == 'uid') {
+      if (isset($this->memberUid[$oldvalue])) {
+        $this->removeUser($oldvalue);
+        $this->addUser($newvalue);
+      }
+    } else {
+      return parent::foreignKeyUpdate($field, $oldvalue, $newvalue, $source);
+    }
+  }
+
+  function foreignKeyCheck ($field, $value, $source)
+  {
+    if ($field == 'memberUid' && $source == 'uid') {
+      return isset($this->memberUid[$value]);
+    } else {
+      return parent::foreignKeyCheck($field, $value, $source);
+    }
   }
 
   /*! \brief Get a new SambaSID for a group */
