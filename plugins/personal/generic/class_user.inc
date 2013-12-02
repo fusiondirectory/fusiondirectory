@@ -396,8 +396,7 @@ class user extends simplePlugin
 
     /* Remove ACL dependencies too */
     if (($this->dn != $this->orig_dn) && ($this->orig_dn != 'new') && (!$this->is_template)) {
-      $tmp = new acl($this->config, $this->dn, $this);
-      $tmp->update_acl_membership($this->orig_dn, $this->dn);
+      acl::update_acl_membership($this->orig_dn, $this->dn);
     }
   }
 
