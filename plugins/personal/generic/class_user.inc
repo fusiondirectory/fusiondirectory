@@ -149,6 +149,9 @@ class user extends simplePlugin
         'icon'        => 'plugins/users/images/iconMini.png',
         'ou'          => get_ou('userRDN'),
       )),
+      'plForeignKeys'  => array(
+        'manager' => array('user','dn')
+      ),
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())
     );
