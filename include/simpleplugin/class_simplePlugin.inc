@@ -860,83 +860,162 @@ class simplePlugin extends plugin
     if (($olddn !== NULL) && ($olddn == $newdn)) {
       return;
     }
+    $this->browseForeignKeys(
+      'handle',
+      $olddn,
+      $newdn
+    );
+  }
+
+  function browseForeignKeys($mode, $param1 = NULL, $param2 = NULL)
+  {
+    if ($mode == 'handle') {
+      $olddn    = $param1;
+      $newdn    = $param2;
+      $classes  = array(get_class($this));
+    } elseif ($mode == 'references') {
+      $classes = array_keys($this->parent->by_object);
+    }
     // We group by objetType concerned
-    $infos = pluglist::pluginInfos(get_class($this));
     $foreignRefs = array();
-    foreach ($infos['plForeignRefs'] as $field => $refs) {
-      if ($newdn !== NULL) {
-        if ($field != 'dn') {
-          continue;
-        }
-      } else {
-        if ($field != 'dn') {
-          if (!$this->attributesAccess[$field]->hasChanged()) {
-            continue;
+    foreach ($classes as $tabclass) {
+      $infos = pluglist::pluginInfos($tabclass);
+      foreach ($infos['plForeignRefs'] as $field => $refs) {
+        if ($mode == 'handle') {
+          if ($newdn !== NULL) {
+            if ($field != 'dn') {
+              continue;
+            }
+          } else {
+            if ($field != 'dn') {
+              if (!$this->attributesAccess[$field]->hasChanged()) {
+                continue;
+              }
+            }
           }
         }
-      }
-      foreach ($refs as $ref) {
-        $class  = $ref[0];
-        $ofield = $ref[1];
-        $cinfos = pluglist::pluginInfos($class);
-        foreach ($cinfos['plObjectType'] as $key => $objectType) {
-          if (!is_numeric($key)) {
-            $objectType = $key;
+        foreach ($refs as $ref) {
+          $class  = $ref[0];
+          $ofield = $ref[1];
+          $filter = $ref[2];
+          $cinfos = pluglist::pluginInfos($class);
+          foreach ($cinfos['plObjectType'] as $key => $objectType) {
+            if (!is_numeric($key)) {
+              $objectType = $key;
+            }
+            if ($mode == 'handle') {
+              if ($field == 'dn') {
+                $oldvalue = $olddn;
+                $newvalue = $newdn;
+              } elseif (($olddn !== NULL) && ($newdn === NULL)) {
+                $oldvalue = $this->attributesAccess[$field]->getInitialValue();
+                $newvalue = NULL;
+              } else {
+                $oldvalue = $this->attributesAccess[$field]->getInitialValue();
+                $newvalue = $this->attributesAccess[$field]->getValue();
+              }
+              $foreignRefs[$objectType]['refs'][$class][$ofield] =
+                array(
+                  'field'     => $field,
+                  'oldvalue'  => $oldvalue,
+                  'newvalue'  => $newvalue,
+                );
+              $filter = plugin::tpl_parse_string($filter, array('oldvalue' => $oldvalue, 'newvalue' => $newvalue));
+            } elseif ($mode == 'references') {
+              $foreignRefs[$objectType]['refs'][$class]['name'] = $cinfos['plShortName'];
+              $foreignRefs[$objectType]['refs'][$class]['fields'][$ofield] =
+                array(
+                  'tab'   => $this->parent->by_name[$tabclass],
+                  'field' => $field
+                );
+              $filter = plugin::tpl_parse_string($filter, array('oldvalue' => $this->parent->by_object[$tabclass]->$field));
+            }
+            if (!preg_match('/^\(.*\)$/', $filter)) {
+              $filter = '('.$filter.')';
+            }
+            $foreignRefs[$objectType]['filters'][$filter] = $filter;
           }
-          $foreignRefs[$objectType][$class][$ofield] = $field;
         }
       }
     }
 
+    $refs = array();
     // For each concerned objectType
     foreach ($foreignRefs as $objectType => $tabRefs) {
+      // Compute filter
+      $filters = array_values($tabRefs['filters']);
+      $filter = '(&'.join($filters).')';
       // Search objects
-      $objects = objects::ls($objectType, array('dn' => 'raw'));
+      $objects = objects::ls($objectType, array('dn' => 'raw'), NULL, $filter);
       // For each object of this type
       foreach (array_keys($objects) as $dn) {
-        // Build the object
-        $tabobject = objects::open($dn, $objectType);
-        // For each tab concerned
-        foreach ($tabRefs as $tab => $fieldRefs) {
-          // If the tab is activated on this object
-          if (isset($tabobject->by_object[$tab])) {
-            // For each field
-            foreach ($fieldRefs as $ofield => $field) {
-              // call plugin::foreignKeyUpdate(ldapname, oldvalue, newvalue) on the object
-              if ($field == 'dn') {
+        if ($mode == 'handle') {
+          // Build the object
+          $tabobject = objects::open($dn, $objectType);
+          // For each tab concerned
+          foreach ($tabRefs['refs'] as $tab => $fieldRefs) {
+            // If the tab is activated on this object
+            if (isset($tabobject->by_object[$tab])) {
+              // For each field
+              foreach ($fieldRefs as $ofield => $field) {
+                // call plugin::foreignKeyUpdate(ldapname, oldvalue, newvalue) on the object
                 $tabobject->by_object[$tab]->foreignKeyUpdate(
                   $ofield,
-                  $olddn,
-                  $newdn,
-                  $field
-                );
-              } elseif (($olddn !== NULL) && ($newdn === NULL)) {
-                $tabobject->by_object[$tab]->foreignKeyUpdate(
-                  $ofield,
-                  $this->attributesAccess[$field]->getInitialValue(),
-                  NULL,
-                  $field
-                );
-              } else {
-                $tabobject->by_object[$tab]->foreignKeyUpdate(
-                  $ofield,
-                  $this->attributesAccess[$field]->getInitialValue(),
-                  $this->attributesAccess[$field]->getValue(),
-                  $field
+                  $field['oldvalue'],
+                  $field['newvalue'],
+                  $field['field']
                 );
               }
+              $tabobject->by_object[$tab]->save_object();
+              $tabobject->by_object[$tab]->save();
             }
-            $tabobject->by_object[$tab]->save_object();
-            $tabobject->by_object[$tab]->save();
+          }
+        } elseif ($mode == 'references') {
+          // For each tab concerned
+          foreach ($tabRefs['refs'] as $tab => $tab_infos) {
+            // For each field
+            foreach ($tab_infos['fields'] as $ofield => $field) {
+              if (!isset($refs[$dn])) {
+                $refs[$dn] = array(
+                  'link'  => '',
+                  'tabs'  => array(),
+                );
+                try {
+                  $refs[$dn]['link'] = objects::link($dn, $objectType);
+                } catch (Exception $e) {
+                  $refs[$dn]['link'] = $dn;
+                }
+              }
+              if (!isset($refs[$dn]['tabs'][$tab])) {
+                $refs[$dn]['tabs'][$tab] = array(
+                  'link'    => '',
+                  'fields'  => array(),
+                );
+                try {
+                  $refs[$dn]['tabs'][$tab]['link'] = objects::link($dn, $objectType, "tab_$tab", sprintf(_('Tab "%s"'), $tab_infos['name']));
+                } catch (Exception $e) {
+                  $refs[$dn]['tabs'][$tab]['link'] = $tab;
+                }
+              }
+              $refs[$dn]['tabs'][$tab]['fields'][$ofield] = $field;
+            }
           }
         }
       }
+    }
+    if ($mode == 'references') {
+      return $refs;
     }
   }
 
   function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
   {
     $this->attributesAccess[$field]->foreignKeyUpdate($oldvalue, $newvalue, $source);
+  }
+
+  function foreignKeyCheck ($field, $value, $source)
+  {
+    return $this->attributesAccess[$field]->foreignKeyCheck($value, $source);
   }
 }
 

@@ -237,6 +237,94 @@ class DialogAttribute extends SetAttribute
   }
 }
 
+class DialogOrderedArrayAttribute extends OrderedArrayAttribute
+{
+  protected $dialogClass;
+
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $acl = "")
+  {
+    Attribute::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
+    $this->edit_enabled = TRUE;
+  }
+
+  function getAcl ()
+  {
+    return Attribute::getAcl();
+  }
+
+  function setAcl ($acl)
+  {
+    return Attribute::setAcl($acl);
+  }
+
+  function check ()
+  {
+    return Attribute::check();
+  }
+
+  function renderAttributeInput ($template = FALSE)
+  {
+  }
+
+  function renderAttribute(&$attributes, $readOnly)
+  {
+    Attribute::renderAttribute($attributes, $readOnly);
+  }
+
+  function setParent(&$plugin)
+  {
+    Attribute::setParent($plugin);
+  }
+
+  function loadPostValue ()
+  {
+    if ($this->isVisible()) {
+      parent::loadPostValue();
+      parent::applyPostValue();
+      if (isset($_POST['add'.$this->getHtmlId()])) {
+        $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
+      }
+    }
+  }
+
+  protected function handleAddAndEditValue ()
+  {
+  }
+
+  protected function handleEdit($key)
+  {
+    $this->editingValue = $this->value[$key];
+    $this->delPostValue($key);
+    $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this, $this->editingValue));
+  }
+
+  function applyPostValue ()
+  {
+  }
+
+  function addValue($value)
+  {
+    $this->value[] = $value;
+    $this->reIndexValues();
+  }
+
+  protected function getAttributeArrayValue($value)
+  {
+    /* Convert text value to displayable array value */
+    die('Pure virtual method');
+  }
+
+  function readValue($value)
+  {
+    die('Pure virtual method');
+  }
+
+  function writeValue($key, $value)
+  {
+    die('Pure virtual method');
+  }
+}
+
 class GenericDialogAttribute extends DialogAttribute
 {
   protected $displays     = array();
@@ -338,36 +426,31 @@ class UsersAttribute extends GenericDialogAttribute
  *
  * It looks like a SetAttribute, but clicking "Add" will open a dialog that allow to select one or more users or groups.
  * It stores their dn as values, but displays the cn.
- *"
  */
-class UsersGroupsAttribute extends DialogAttribute
+class UsersGroupsAttribute extends GenericDialogAttribute
 {
   protected $dialogClass = 'UserGroupSelectDialog';
 
-  function addValue ($dn, $entry)
+  protected function ldapAttributesToGet ()
   {
-    if (in_array("posixGroup", $entry['objectClass'])) {
-      $name = trim("%".$entry['cn'][0]);
-    } elseif (isset($entry['uid'][0])) {
-      $name = trim($entry['uid'][0]);
-    }
-    if (!in_array($name, $this->value) && !in_array("!".$name, $this->value)) {
-      $this->value[] = $name;
-    }
+    return array('cn', 'uid', 'objectClass');
   }
 
-  function getFilterBlackList ()
+  protected function fillDisplayValueFrom ($i, $attrs)
   {
-    $used = array();
-    foreach ($this->value as $name) {
-      $str = preg_replace("/^!/", "", $name);
-      if (preg_match("/^%/", $str)) {
-        $used['cn'][] = preg_replace("/^%/", "", $str);
+    if (!isset($attrs[$this->display_attr])) {
+      unset($this->value[$i]);
+    } else {
+      if ($this->display_attr == 'dn') {
+        $this->displays[$i] = $attrs['dn'];
+      } elseif (in_array("posixGroup", $attrs['objectClass'])) {
+        $this->displays[$i] = sprintf(_("Group %s"), trim($attrs['cn'][0]));
+      } elseif (isset($attrs['uid'][0])) {
+        $this->displays[$i] = trim($attrs['uid'][0]);
       } else {
-        $used['uid'][] = $str;
+        $this->displays[$i] = $attrs[$this->display_attr][0];
       }
     }
-    return $used;
   }
 }
 

@@ -542,6 +542,11 @@ class Attribute
       $this->setValue($newvalue);
     }
   }
+
+  function foreignKeyCheck($value, $source)
+  {
+    return ($this->getValue() == $value);
+  }
 }
 
 /*! \brief This class allow to handle easily a Boolean LDAP attribute
@@ -1814,6 +1819,11 @@ class ArrayAttribute extends Attribute
       }
     }
     unset($value);
+  }
+
+  function foreignKeyCheck($value, $source)
+  {
+    return in_array($value, $this->value);
   }
 }
 
