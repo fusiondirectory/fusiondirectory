@@ -387,7 +387,7 @@ class acl extends plugin
    */
   static function update_acl_membership($src, $dst)
   {
-    global $config
+    global $config;
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
     $ldap->search("(&(objectClass=gosaAcl)(gosaAclEntry=*".base64_encode($src)."*))", array("gosaAclEntry","dn"));
