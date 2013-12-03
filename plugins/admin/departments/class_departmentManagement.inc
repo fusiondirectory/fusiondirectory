@@ -31,14 +31,14 @@ class departmentManagement extends simpleManagement
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("Departments"),
-      "plDescription" => _("Manage departments"),
-      "plIcon"        => "plugins/departments/images/icon.png",
-      "plSection"     => array("admin" => array("name" => _("Administration"), "priority" => 0)),
-      "plCategory"    => array("department"),
-      "plPriority"    => 0,
+      'plShortName'   => _('Departments'),
+      'plDescription' => _('Manage departments'),
+      'plIcon'        => 'plugins/departments/images/icon.png',
+      'plSection'     => array('admin' => array('name' => _('Administration'), 'priority' => 0)),
+      'plPriority'    => 0,
+      'plManages'     => self::getDepartmentTypes(),
 
-      "plProvidedAcls" => array()
+      'plProvidedAcls' => array()
     );
   }
 
