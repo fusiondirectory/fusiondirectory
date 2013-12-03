@@ -97,21 +97,28 @@ class pluglist {
         }
         if (isset($infos['plForeignKeys'])) {
           foreach ($infos['plForeignKeys'] as $ofield => $pfk) {
+            $filter = NULL;
             if (!is_array($pfk)) {
               $class = $pfk;
               $field = 'dn';
-              $infos['plForeignKeys'][$ofield] = array($class, $field);
             } else {
               $class = $pfk[0];
               $field = $pfk[1];
+              if (isset($pfk[2])) {
+                $filter = $pfk[2];
+              }
             }
+            if ($filter === NULL) {
+              $filter = "$ofield=%oldvalue%";
+            }
+            $infos['plForeignKeys'][$ofield] = array($class, $field, $filter);
             if (!isset($foreign_refs[$class])) {
               $foreign_refs[$class] = array();
             }
             if (!isset($foreign_refs[$class][$field])) {
               $foreign_refs[$class][$field] = array();
             }
-            $foreign_refs[$class][$field][] = array($cname, $ofield);
+            $foreign_refs[$class][$field][] = array($cname, $ofield, $filter);
           }
         } else {
           $infos['plForeignKeys'] = array();

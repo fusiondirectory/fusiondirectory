@@ -70,77 +70,7 @@ class reference extends simplePlugin
       $this->refs = NULL;
       return;
     }
-    $foreignRefs  = array();
-    foreach (array_keys($this->parent->by_object) as $tabclass) {
-      $infos = pluglist::pluginInfos($tabclass);
-      foreach ($infos['plForeignRefs'] as $field => $refs) {
-        foreach ($refs as $ref) {
-          $class  = $ref[0];
-          $ofield = $ref[1];
-          $cinfos = pluglist::pluginInfos($class);
-          foreach ($cinfos['plObjectType'] as $key => $objectType) {
-            if (!is_numeric($key)) {
-              $objectType = $key;
-            }
-            $foreignRefs[$objectType][$class][$ofield] = array($tabclass,$field);
-          }
-        }
-      }
-    }
-    $refs         = array();
-    // For each concerned objectType
-    foreach ($foreignRefs as $objectType => $tabRefs) {
-      // Search objects
-      $objects = objects::ls($objectType, array('dn' => 'raw'));
-      // For each object of this type
-      foreach (array_keys($objects) as $dn) {
-        // Build the object
-        $tabobject = objects::open($dn, $objectType);
-        // For each tab concerned
-        foreach ($tabRefs as $tab => $fieldRefs) {
-          // If the tab is activated on this object
-          if (isset($tabobject->by_object[$tab])) {
-            // For each field
-            foreach ($fieldRefs as $ofield => $field_infos) {
-              list ($tabclass,$field) = $field_infos;
-              if ($tabobject->by_object[$tab]->foreignKeyCheck(
-                    $ofield,
-                    $this->parent->by_object[$tabclass]->$field,
-                    $field
-                  )) {
-                if (!isset($refs[$dn])) {
-                  $refs[$dn] = array(
-                    'link'  => '',
-                    'tabs'  => array(),
-                  );
-                  try {
-                    $refs[$dn]['link'] = objects::link($dn, $objectType);
-                  } catch (Exception $e) {
-                    $refs[$dn]['link'] = $dn;
-                  }
-                }
-                if (!isset($refs[$dn]['tabs'][$tab])) {
-                  $refs[$dn]['tabs'][$tab] = array(
-                    'link'    => '',
-                    'fields'  => array(),
-                  );
-                  try {
-                    $refs[$dn]['tabs'][$tab]['link'] = objects::link($dn, $objectType, "tab_$tab", sprintf(_('Tab "%s"'), $tabobject->by_name[$tab]));
-                  } catch (Exception $e) {
-                    $refs[$dn]['tabs'][$tab]['link'] = $tab;
-                  }
-                }
-                $refs[$dn]['tabs'][$tab]['fields'][$ofield] = array(
-                  'tab'   => $this->parent->by_name[$tabclass],
-                  'field' => $field
-                );
-              }
-            }
-          }
-        }
-      }
-    }
-    $this->refs = $refs;
+    $this->refs = $this->browseForeignKeys('references');
   }
 }
 
