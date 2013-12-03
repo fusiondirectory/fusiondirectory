@@ -45,6 +45,9 @@ class department extends simplePlugin
             'mainAttr'  => self::$namingAttr,
           )
         ),
+      'plForeignKeys'  => array(
+        'manager' => 'user'
+      ),
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())
     );
