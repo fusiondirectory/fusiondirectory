@@ -66,16 +66,10 @@ class Step_Schema extends setup_step
      * If the root object is missing we can't read any schema informations.
      * In this case we should display a message.
      */
-    $cv = $this->parent->captured_values;
 
     /* Establish ldap connection */
-    $ldap_l = new LDAP($cv['admin'],
-        $cv['password'],
-        $cv['connection'],
-        FALSE,
-        $cv['tls']);
-
-    $ldap = new ldapMultiplexer($ldap_l);
+    $cv   = $this->parent->captured_values;
+    $ldap = $this->get_ldap_link();
 
     /* Check if root object exists */
     $ldap->cd($cv['base']);
