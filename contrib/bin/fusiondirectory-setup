@@ -56,8 +56,10 @@ my $yes_flag = 0;
 my %classes_hash_result = ();
 my %i18n_hash_result = ();
 
-my $oupeople = "people";
-my $peopleou = "ou=$oupeople";
+my $oupeople  = "people";
+my $peopleou  = "ou=$oupeople";
+my $ouroles   = "aclroles";
+my $rolesou   = "ou=$ouroles";
 
 #################################################################################################################################################
 
@@ -498,7 +500,7 @@ eof
 # function that add the FusionDirectory's admin account
 # return nothing is it a problem?
 sub add_ldap_admin {
-  my ($base, $ldap, $acllines, $people_entries) = @_;
+  my ($base, $ldap, $admindns, $people_entries, $roles) = @_;
 
   # Get the configuration to know which attribute must be used in the dn
   my $mesg = $ldap->search(
@@ -563,7 +565,27 @@ sub add_ldap_admin {
     $admin_add->code && die "\n! failed to add LDAP's $dn entry - ".$admin_add->error_name.": ".$admin_add->error_text;
   }
 
-  # Add the acl that make him an administrator
+  # Create admin role if not existing
+  my $role;
+  if (scalar @$roles == 0) {
+    my %role = (
+      'cn'              => 'admin',
+      'objectclass'     => [ 'top', 'gosaRole' ],
+      'gosaAclTemplate' => '0:all;cmdrw'
+    );
+    my $role_dn = 'cn=admin'.",$rolesou,$base";
+    # Add the administator role object
+    my @options = %role;
+    my $role_add = $ldap->add( $role_dn, attr => \@options );
+    # send a warning if the ldap's admin's add didn't gone well
+    $role_add->code && die "\n! failed to add LDAP's $role_dn entry - ".$role_add->error_name.": ".$role_add->error_text;
+
+    $role = encode_base64($role_dn, '');
+  } else {
+    $role = shift(@$roles);
+  }
+
+  # Add the assignment that make him an administrator
   my $acls = $ldap->search (
     base    => "$base",
     scope   => 'base',
@@ -573,7 +595,7 @@ sub add_ldap_admin {
   $acls->code && die "\n! failed to search acls in '$base' - ".$acls->error_name.": ".$acls->error_text;
   my $oclass = ($acls->entries)[0]->get_value("objectClass", asref => 1);
   # Add admin acl
-  my $newacl = ["0:psub:".encode_base64($dn).":all;cmdrw"];
+  my $newacl = ["0:subtree:$role:".encode_base64($dn, '')];
   if (not (grep $_ eq 'gosaAcl', @$oclass)) {
     push (@$oclass, 'gosaAcl');
   } else {
@@ -581,13 +603,10 @@ sub add_ldap_admin {
     my $i = 1;
     if (defined $acl) {
       foreach my $line (@$acl) {
-        # Ignore existing admin acls
-        if (not (grep $_ eq $line, @$acllines)) {
-          # Reorder existing non-admin acls
-          $line =~ s/^\d+:/$i:/;
-          push (@$newacl, $line);
-          $i++;
-        }
+        # Reorder existing non-admin acls
+        $line =~ s/^\d+:/$i:/;
+        push (@$newacl, $line);
+        $i++;
       }
     }
   }
@@ -691,51 +710,82 @@ sub check_admin {
   my ($base, $ldap, $people_entries) = @_;
 
   # search for FusionDirectory's admin account
-  my $acls = $ldap->search (
+
+  # search for admin role
+  my $admin_roles = $ldap->search (
     base => "$base",
-    filter => "(objectClass=gosaAcl)",
-    attrs => ['gosaAclEntry']
+    filter => "(&(objectClass=gosaRole)(gosaAclTemplate=*:all;cmdrw))",
+    attrs => ['gosaAclTemplate']
   );
   my @dns = ();
-  if ($acls->count < 1) {
-    print ("! ACL entries are missing\n");
-  } else {
-    my $acl = ($acls->entries)[0]->get_value("gosaAclEntry", asref => 1);
-    if (defined $acl) {
+  my @roles = ();
+  my $count = 0;
+  while (my $entry = $admin_roles->shift_entry) {
+    my $role_dn64 = encode_base64($entry->dn, '');
+    push @roles, $role_dn64;
+    print ("Role ".$entry->dn." is an admin ACL role\n");
+    # Search for base-wide assignments
+    my $assignments = $ldap->search (
+      base    => "$base",
+      scope   => 'base',
+      filter  => "(&(objectClass=gosaAcl)(gosaAclEntry=*:subtree:$role_dn64:*))",
+      attrs   => ['gosaAclEntry']
+    );
+    while (my $assignment = $assignments->shift_entry) {
+      my $acl = $assignment->get_value("gosaAclEntry", asref => 1);
       foreach my $line (@$acl) {
-        my @parts = split(':',$line);
-        if ($parts[1] =~ /sub$/) {
-          my @domains = split(",",$parts[3]);
-          foreach my $domain (@domains) {
-            if ($domain eq 'all;cmdrw') {
-              push (@dns,$line);
-              last;
+        if ($line =~ m/^.:subtree:\Q$role_dn64\E/) {
+          my @parts = split(':',$line);
+          my @members = split(",",$parts[3]);
+          foreach my $member (@members) {
+            # Is this an existing user?
+            my $dn = decode_base64($member);
+            my $member_node = $ldap->search(
+              base    => $dn,
+              scope   => 'base',
+              filter  => "(objectClass=gosaAccount)"
+            );
+            if ($member_node->count == 1) {
+              print ("$dn is a valid admin\n");
+              return;
+            }
+            # Is this a group?
+            $member_node = $ldap->search(
+              base    => $dn,
+              scope   => 'base',
+              filter  => "(objectClass=posixGroup)",
+              attrs   => ['memberUid']
+            );
+            if ($member_node->count == 1) {
+              # Find group members
+              my $member_entry  = $member_node->shift_entry;
+              my $memberUids    = $member_entry->get_value("memberUid", asref => 1);
+              my $filter = '(&(objectClass=gosaAccount)(|(uid='.join(')(uid=', @$memberUids).')))';
+              my $group_members = $ldap->search(
+                base    => $base,
+                filter  => $filter,
+              );
+              if (my $group_member_entry = $group_members->shift_entry) {
+                print ($group_member_entry->dn." is a valid admin\n");
+                return;
+              }
+            } else {
+              push @dns, $dn;
             }
           }
         }
       }
     }
-    foreach my $line (@dns) {
-      my @parts = split(':',$line);
-      my $dn = decode_base64($parts[2]);
-      my $mesg = $ldap->search (
-        base    => $dn,
-        scope   => 'base',
-        filter  => "(objectClass=gosaAccount)"
-      );
-      if ( $mesg->count == 1 ) {
-        print ("$dn is a valid admin\n");
-        return;
-      }
-    }
+    $count++;
   }
-  foreach my $line (@dns) {
-    my @parts = split(':',$line);
-    my $dn = decode_base64($parts[2]);
+  if ($count < 1) {
+    print ("! There is no admin ACL role\n");
+  }
+  foreach my $dn (@dns) {
     print ("! $dn is supposed to be admin but does not exists\n");
   }
   if (ask_yn_question("No valid admin account found, do you want to create it ?")) {
-    return add_ldap_admin($base, $ldap, \@dns, $people_entries);
+    return add_ldap_admin($base, $ldap, \@dns, $people_entries, \@roles);
   }
 }
 
