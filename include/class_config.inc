@@ -1313,6 +1313,9 @@ class config  {
       if (isset($plInfo['plManages'])) {
         foreach ($plInfo['plManages'] as $type) {
           $obj = strtoupper($type);
+          if (!isset($this->data['OBJECTS'][$obj])) {
+            continue;
+          }
           $cat    = $this->data['OBJECTS'][$obj]['aclCategory'];
           $acl[]  = $cat;
 
@@ -1366,7 +1369,7 @@ class config  {
     foreach ($this->data['CATEGORIES'] as $name => &$infos) {
       $infos['classes'] = array_unique($infos['classes']);
       if (!isset($infos['description'])) {
-        trigger_error("ACL category '$name' has no definition");
+        trigger_error("ACL category '$name' for classes ".join(',',$infos['classes'])." has no definition");
         $infos['description'] = $name;
         $infos['objectClass'] = array();
       }

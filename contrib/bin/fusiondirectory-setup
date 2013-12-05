@@ -113,7 +113,7 @@ sub ask_user_input {
     my ($ldap,$base,$prefix) = @_;
     my ($cn,$dn,$mesg);
     do {
-      $cn = $prefix.'_'.$indice;
+      $cn = $prefix.'-'.$indice;
       $dn = "cn=$cn,$rolesou,$base";
       $indice++;
       $mesg = $ldap->search(
@@ -1122,7 +1122,7 @@ sub migrate_acls {
             next ACL;
           }
         } else {
-          my $cn = find_free_role_dn($ldap,$base,'migrated_acl');
+          my $cn = find_free_role_dn($ldap,$base,'migrated-acl');
           $role_dn = create_role($ldap,$base,$cn,$part2);
           $members = $part1;
           if ($scope =~ m/sub$/) {

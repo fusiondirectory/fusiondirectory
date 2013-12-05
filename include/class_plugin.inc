@@ -554,6 +554,11 @@ class plugin
         } else {
           return array(join($str));
         }
+      case 'b': // base64
+        if (isset($args[0]) && ($args[0] == 'd')) {
+          return array(base64_decode($str));
+        }
+        return array(base64_encode($str));
       case 'u': // uppercase
         return array(mb_strtoupper($str, 'UTF-8'));
       case 'l': // lowercase

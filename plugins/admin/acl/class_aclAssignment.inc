@@ -52,8 +52,7 @@ class aclAssignmentDialogWindow extends simplePlugin
           ),
           new BooleanAttribute(
             _('For all users'), _('Apply this ACL for all LDAP users'),
-            'allUsers', FALSE,
-            FALSE
+            'allUsers', FALSE
           ),
           new UsersGroupsAttribute(
             _('Members'), _('Users or groups to assign this role to.'),
@@ -82,6 +81,9 @@ class aclAssignmentDialogWindow extends simplePlugin
       $this->aclMode    = $value['scope'];
       $this->aclRole    = $value['role'];
       $this->aclMembers = $value['members'];
+      if ($value['members'][0] == '*') {
+        $this->allUsers = TRUE;
+      }
     }
   }
 
@@ -108,8 +110,9 @@ class aclAssignmentDialogWindow extends simplePlugin
       'members' => $this->aclMembers,
     );
     if ($this->allUsers) {
-      $entry['members'] = '*';
+      $entry['members'] = array('*');
     }
+    return $entry;
   }
 }
 
@@ -136,6 +139,7 @@ class ACLsAssignmentDialog extends GenericDialog
 
   function handle_finish ()
   {
+    $this->dialog->save_object();
     $this->attribute->addValue($this->dialog->getAclEntry());
     return FALSE;
   }
@@ -176,6 +180,31 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
   {
     return $key.':'.$value['scope'].':'.base64_encode($value['role']).':'.join(',', array_map('base64_encode', $value['members']));
   }
+
+  function foreignKeyUpdate($oldvalue, $newvalue, $source)
+  {
+    foreach ($this->value as $key => &$value) {
+      list ($key,$acl) = $this->readValue($value);
+      if (($source[0] == 'role') && ($acl['role'] == $oldvalue)) {
+        if ($newvalue === NULL) {
+          unset($this->value[$key]);
+        } else {
+          $acl['role'] = $newvalue;
+          $value = $this->writeValue($key,$acl);
+        }
+      } elseif (($source[0] == 'user' || $source[0] == 'group') && (($member_key = array_search($oldvalue, $acl['members'])) !== FALSE)) {
+        if ($newvalue === NULL) {
+          unset($acl['members'][$member_key]);
+        } else {
+          $acl['members'][$member_key] = $newvalue;
+        }
+        $value = $this->writeValue($key,$acl);
+      } else {
+        trigger_error('unknown source '.$source[0]);
+      }
+    }
+    unset($value);
+  }
 }
 
 class aclAssignment extends simplePlugin
@@ -198,6 +227,13 @@ class aclAssignment extends simplePlugin
         'special' => array(
           'name' => 'special'
         ),
+      ),
+      'plForeignKeys'  => array(
+        'gosaAclEntry' => array(
+          array('aclRole',  'dn', 'gosaAclEntry=*:*:%b|oldvalue%:*'),
+          array('user',     'dn', 'gosaAclEntry=*:*:*:*%b|oldvalue%*'),
+          array('group',    'dn', 'gosaAclEntry=*:*:*:*%b|oldvalue%*'),
+        )
       ),
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())
