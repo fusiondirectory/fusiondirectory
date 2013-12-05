@@ -883,16 +883,22 @@ class simplePlugin extends plugin
       foreach ($infos['plForeignRefs'] as $field => $refs) {
         if ($mode == 'handle') {
           if ($newdn !== NULL) {
+            // Move action
             if ($field != 'dn') {
+              // We only change dn
               continue;
             }
-          } else {
-            if ($field != 'dn') {
-              if (!$this->attributesAccess[$field]->hasChanged()) {
-                continue;
-              }
+          } elseif ($olddn === NULL) {
+            // Edit action
+            if ($field == 'dn') {
+              // dn did not change
+              continue;
+            } elseif (!$this->attributesAccess[$field]->hasChanged()) {
+              // only look at changed attributes
+              continue;
             }
           }
+          // else = delete action, all fields are concerned, nothing to do here
         }
         foreach ($refs as $ref) {
           $class  = $ref[0];
@@ -919,14 +925,17 @@ class simplePlugin extends plugin
                   'field'     => $field,
                   'oldvalue'  => $oldvalue,
                   'newvalue'  => $newvalue,
+                  'tab'       => $tabclass,
                 );
               $filter = plugin::tpl_parse_string($filter, array('oldvalue' => $oldvalue, 'newvalue' => $newvalue));
             } elseif ($mode == 'references') {
               $foreignRefs[$objectType]['refs'][$class]['name'] = $cinfos['plShortName'];
               $foreignRefs[$objectType]['refs'][$class]['fields'][$ofield] =
                 array(
-                  'tab'   => $this->parent->by_name[$tabclass],
-                  'field' => $field
+                  'tab'     => $tabclass,
+                  'tabname' => $this->parent->by_name[$tabclass],
+                  'field'   => $field,
+                  'value'   => $this->parent->by_object[$tabclass]->$field,
                 );
               $filter = plugin::tpl_parse_string($filter, array('oldvalue' => $this->parent->by_object[$tabclass]->$field));
             }
@@ -944,14 +953,18 @@ class simplePlugin extends plugin
     foreach ($foreignRefs as $objectType => $tabRefs) {
       // Compute filter
       $filters = array_values($tabRefs['filters']);
-      $filter = '(&'.join($filters).')';
+      $filter = '(|'.join($filters).')';
       // Search objects
-      $objects = objects::ls($objectType, array('dn' => 'raw'), NULL, $filter);
+      try {
+        $objects = objects::ls($objectType, array('dn' => 'raw'), NULL, $filter);
+      } catch (EmptyFilterException $e) {
+        continue;
+      }
       // For each object of this type
       foreach (array_keys($objects) as $dn) {
+        // Build the object
+        $tabobject = objects::open($dn, $objectType);
         if ($mode == 'handle') {
-          // Build the object
-          $tabobject = objects::open($dn, $objectType);
           // For each tab concerned
           foreach ($tabRefs['refs'] as $tab => $fieldRefs) {
             // If the tab is activated on this object
@@ -963,7 +976,7 @@ class simplePlugin extends plugin
                   $ofield,
                   $field['oldvalue'],
                   $field['newvalue'],
-                  $field['field']
+                  array($field['tab'],$field['field'])
                 );
               }
               $tabobject->by_object[$tab]->save_object();
@@ -973,31 +986,38 @@ class simplePlugin extends plugin
         } elseif ($mode == 'references') {
           // For each tab concerned
           foreach ($tabRefs['refs'] as $tab => $tab_infos) {
-            // For each field
-            foreach ($tab_infos['fields'] as $ofield => $field) {
-              if (!isset($refs[$dn])) {
-                $refs[$dn] = array(
-                  'link'  => '',
-                  'tabs'  => array(),
-                );
-                try {
-                  $refs[$dn]['link'] = objects::link($dn, $objectType);
-                } catch (Exception $e) {
-                  $refs[$dn]['link'] = $dn;
+            // If the tab is activated on this object
+            if (isset($tabobject->by_object[$tab])) {
+              // For each field
+              foreach ($tab_infos['fields'] as $ofield => $field) {
+                if ($tabobject->by_object[$tab]->foreignKeyCheck($ofield, $field['value'], array($field['tab'],$field['field']))) {
+                  if (!isset($refs[$dn])) {
+                    $refs[$dn] = array(
+                      'link'  => '',
+                      'tabs'  => array(),
+                    );
+                    try {
+                      $refs[$dn]['link'] = objects::link($dn, $objectType);
+                    } catch (Exception $e) {
+                      trigger_error("Could not create link to $dn: ".$e->getMessage());
+                      $refs[$dn]['link'] = $dn;
+                    }
+                  }
+                  if (!isset($refs[$dn]['tabs'][$tab])) {
+                    $refs[$dn]['tabs'][$tab] = array(
+                      'link'    => '',
+                      'fields'  => array(),
+                    );
+                    try {
+                      $refs[$dn]['tabs'][$tab]['link'] = objects::link($dn, $objectType, "tab_$tab", sprintf(_('Tab "%s"'), $tab_infos['name']));
+                    } catch (Exception $e) {
+                      trigger_error("Could not create link to $dn $tab: ".$e->getMessage());
+                      $refs[$dn]['tabs'][$tab]['link'] = $tab;
+                    }
+                  }
+                  $refs[$dn]['tabs'][$tab]['fields'][$ofield] = $field;
                 }
               }
-              if (!isset($refs[$dn]['tabs'][$tab])) {
-                $refs[$dn]['tabs'][$tab] = array(
-                  'link'    => '',
-                  'fields'  => array(),
-                );
-                try {
-                  $refs[$dn]['tabs'][$tab]['link'] = objects::link($dn, $objectType, "tab_$tab", sprintf(_('Tab "%s"'), $tab_infos['name']));
-                } catch (Exception $e) {
-                  $refs[$dn]['tabs'][$tab]['link'] = $tab;
-                }
-              }
-              $refs[$dn]['tabs'][$tab]['fields'][$ofield] = $field;
             }
           }
         }
