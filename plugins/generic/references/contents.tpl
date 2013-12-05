@@ -14,7 +14,11 @@
                   <ul>
                     {foreach from=$tab.fields key=ofield item=field}
                       <li style="list-style-type:disc;">
-                        {t escape=no 1=$ofield 2=$field.tab 3=$field.field}<strong>%1</strong> references our field <strong>%3</strong> from tab <strong>%2</strong>{/t}
+                        {if $field.field == 'dn'}
+                          {t escape=no 1=$ofield 2=$field.tabname 3=$field.field}<strong>%1</strong> references our <strong>%3</strong>{/t}
+                        {else}
+                          {t escape=no 1=$ofield 2=$field.tabname 3=$field.field}<strong>%1</strong> references our field <strong>%3</strong> from tab <strong>%2</strong>{/t}
+                        {/if}
                       </li>
                     {/foreach}
                   </ul>
