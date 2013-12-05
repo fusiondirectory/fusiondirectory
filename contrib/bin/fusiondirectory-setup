@@ -107,6 +107,41 @@ sub ask_user_input {
  return $answer;
 }
 
+{
+  my $indice = 0;
+  sub find_free_role_dn {
+    my ($ldap,$base,$prefix) = @_;
+    my ($cn,$dn,$mesg);
+    do {
+      $cn = $prefix.'_'.$indice;
+      $dn = "cn=$cn,$rolesou,$base";
+      $indice++;
+      $mesg = $ldap->search(
+        base    => "$dn",
+        scope   => 'base',
+        filter  => '(objectClass=*)'
+      );
+    } while ($mesg->count);
+    return $cn;
+  }
+}
+
+sub create_role {
+  my ($ldap,$base,$cn,$acl) = @_;
+  my %role = (
+    'cn'              => "$cn",
+    'objectclass'     => [ 'top', 'gosaRole' ],
+    'gosaAclTemplate' => "0:$acl"
+  );
+  my $role_dn = "cn=$cn,$rolesou,$base";
+  # Add the administator role object
+  my @options = %role;
+  my $role_add = $ldap->add( $role_dn, attr => \@options );
+  # send a warning if the ldap's admin's add didn't gone well
+  $role_add->code && die "\n! failed to add LDAP's $role_dn entry - ".$role_add->error_name.": ".$role_add->error_text;
+  return $role_dn;
+}
+
 ###################################################### Password encryption #########################################################################
 
 sub cred_encrypt {
@@ -568,18 +603,7 @@ sub add_ldap_admin {
   # Create admin role if not existing
   my $role;
   if (scalar @$roles == 0) {
-    my %role = (
-      'cn'              => 'admin',
-      'objectclass'     => [ 'top', 'gosaRole' ],
-      'gosaAclTemplate' => '0:all;cmdrw'
-    );
-    my $role_dn = 'cn=admin'.",$rolesou,$base";
-    # Add the administator role object
-    my @options = %role;
-    my $role_add = $ldap->add( $role_dn, attr => \@options );
-    # send a warning if the ldap's admin's add didn't gone well
-    $role_add->code && die "\n! failed to add LDAP's $role_dn entry - ".$role_add->error_name.": ".$role_add->error_text;
-
+    my $role_dn = create_role($ldap,$base,'admin','all;cmdrw');
     $role = encode_base64($role_dn, '');
   } else {
     $role = shift(@$roles);
@@ -1028,6 +1052,134 @@ sub migrate_users {
   $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
 }
 
+sub migrate_acls {
+  # initiate the LDAP connexion
+  my %hash_ldap_param = get_ldap_connexion();
+
+  # LDAP's connection's parameters
+  my $base = $hash_ldap_param{base};
+  my $ldap = $hash_ldap_param{ldap};
+
+  # Search for old formatted ACLs
+  my $mesg = $ldap->search(
+    base => "$base",
+    filter => "(gosaAclEntry=*)",
+    attrs => ['gosaAclEntry']
+  );
+  while (my $entry = $mesg->shift_entry) {
+    my $acls = $entry->get_value('gosaAclEntry', asref => 1);
+    my @nacls = ();
+    my $old_formats = 0;
+    ACL: foreach my $acl (@$acls) {
+      my $old_format = 0;
+      my ($index,$scope,$part1,$part2,$filter);
+      if ($acl =~ m/:(p?sub|role):/) {
+        $old_format = 1;
+        ($index,$scope,$part1,$part2,$filter) = split(':', $acl);
+      } elsif ($acl !~ m/:subtree:/) {
+        # With one or base scope we can't know, we have to check other parts
+        ($index,$scope,$part1,$part2,$filter) = split(':', $acl);
+        my $dn = decode_base64($part1);
+        $mesg = $ldap->search(
+          base    => "$dn",
+          scope   => 'base',
+          filter  => '(objectClass=gosaRole)'
+        );
+        if ($mesg->count == 0) {
+          $old_format = 1;
+        }
+      }
+      if ($old_format) {
+        $old_formats = 1;
+        print "$acl needs migration\n";
+        my ($role_dn, $members);
+        if ($scope eq 'role') {
+          $role_dn = decode_base64($part1);
+          $members = $part2;
+          # Find scope in role
+          $mesg = $ldap->search(
+            base    => $role_dn,
+            scope   => 'base',
+            filter  => '(objectClass=gosaRole)'
+          );
+          if (my $role_entry = $mesg->shift_entry) {
+            my $acl_templates = $role_entry->get_value('gosaAclTemplate', asref => 1);
+            my $scope = '';
+            foreach my $acl_template (@$acl_templates) {
+              my ($t_index,$t_scope,$t_acl) = split(':',$acl_template);
+              if ($scope eq '') {
+                $scope = $t_scope;
+              } elsif ($scope ne $t_scope) {
+                print "We don't know how to migrate role $role_dn as it contains several scopes\n";
+                push @nacls, $acl;
+                next ACL;
+              }
+            }
+            push @nacls, "$index:$scope:".encode_base64($role_dn).":$members";
+          } else {
+            # Removing invalid ACL
+            print "Removing acl as associated role $role_dn does not exists\n";
+            next ACL;
+          }
+        } else {
+          my $cn = find_free_role_dn($ldap,$base,'migrated_acl');
+          $role_dn = create_role($ldap,$base,$cn,$part2);
+          $members = $part1;
+          if ($scope =~ m/sub$/) {
+            $scope = 'subtree';
+          }
+          push @nacls, "$index:$scope:".encode_base64($role_dn).":$members";
+        }
+      } else {
+        push @nacls, $acl;
+      }
+    }
+    if ($old_formats) {
+      @nacls = sort @nacls;
+      my $i = 0;
+      map { s/^[0-9]*:/$i:/; $i++ } @nacls; # Re-index acls
+      my $result = $ldap->modify (
+        $entry->dn,
+        replace => {
+          'gosaAclEntry'  => \@nacls
+        }
+      );
+      $result->code && warn "\n! failed to migrate ACL for '".$entry->dn."' - ".$result->error_name.": ".$result->error_text;
+      print "Migrated acls for '".$entry->dn."'\n";
+    }
+  }
+
+  # Search for old formatted ACL roles
+  $mesg = $ldap->search(
+    base => "$base",
+    filter => "(gosaAclTemplate=*:*:*)",
+    attrs => ['gosaAclTemplate']
+  );
+  ROLE: while (my $role_entry = $mesg->shift_entry) {
+    my $acl_templates = $role_entry->get_value('gosaAclTemplate', asref => 1);
+    my $scope = '';
+    my @ntemplates = ();
+    foreach my $acl_template (@$acl_templates) {
+      my ($t_index,$t_scope,$t_acl) = split(':',$acl_template);
+      if ($scope eq '') {
+        $scope = $t_scope;
+      } elsif ($scope ne $t_scope) {
+        print "We don't know how to migrate role '".$role_entry->dn."' as it contains several scopes\n";
+        next ROLE;
+      }
+      push @ntemplates, $t_index.':'.$t_acl;
+    }
+    my $result = $ldap->modify (
+      $role_entry->dn,
+      replace => {
+        'gosaAclTemplate'  => \@ntemplates
+      }
+    );
+    $result->code && warn "\n! failed to migrate ACL for '".$role_entry->dn."' - ".$result->error_name.": ".$result->error_text;
+    print "Migrated role '".$role_entry->dn."'\n";
+  }
+}
+
 # function that set useful vars based on user specified folders and files
 sub set_vars {
   $fd_config        = $vars{fd_config_dir}."/".$vars{config_file};
@@ -1067,6 +1219,7 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--check-ldap"}           = ["Checking your LDAP tree",                       \&check_ldap];
   $commands{"--migrate-repositories"} = ["Migrating your FAI repositories",               \&migrate_repo];
   $commands{"--migrate-users"}        = ["Migrating your users",                          \&migrate_users];
+  $commands{"--migrate-acls"}         = ["Migrating your ACLs",                           \&migrate_acls];
   $commands{"--install-plugins"}      = ["Installing FusionDirectory's plugins",          \&install_plugins];
   $commands{"--encrypt-passwords"}    = ["Encrypt passwords in fusiondirectory.conf",     \&encrypt_passwords];
   $commands{"--write-vars"}           = ["Choose FusionDirectory Directories",            \&write_vars];
