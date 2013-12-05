@@ -192,7 +192,8 @@ class aclAssignment extends simplePlugin
           'aclCategory' => 'acl',
           'name'        => _('ACL assignment'),
           'filter'      => 'objectClass=gosaAcl',
-          'ou'          => ''
+          'ou'          => '',
+          'icon'        => 'plugins/acl/images/iconMini.png',
         ),
         'special' => array(
           'name' => 'special'
