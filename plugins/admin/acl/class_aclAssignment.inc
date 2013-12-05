@@ -184,26 +184,36 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
   function foreignKeyUpdate($oldvalue, $newvalue, $source)
   {
     foreach ($this->value as $key => &$value) {
-      list ($key,$acl) = $this->readValue($value);
-      if (($source[0] == 'role') && ($acl['role'] == $oldvalue)) {
+      if (($source[0] == 'aclRole') && ($value['role'] == $oldvalue)) {
         if ($newvalue === NULL) {
           unset($this->value[$key]);
         } else {
-          $acl['role'] = $newvalue;
-          $value = $this->writeValue($key,$acl);
+          $value['role'] = $newvalue;
         }
-      } elseif (($source[0] == 'user' || $source[0] == 'group') && (($member_key = array_search($oldvalue, $acl['members'])) !== FALSE)) {
+      } elseif (($source[0] == 'user' || $source[0] == 'group') && (($member_key = array_search($oldvalue, $value['members'])) !== FALSE)) {
         if ($newvalue === NULL) {
-          unset($acl['members'][$member_key]);
+          unset($value['members'][$member_key]);
         } else {
-          $acl['members'][$member_key] = $newvalue;
+          $value['members'][$member_key] = $newvalue;
         }
-        $value = $this->writeValue($key,$acl);
-      } else {
+      } elseif (!in_array($source[0], array('aclRole','user','group'))) {
         trigger_error('unknown source '.$source[0]);
       }
     }
     unset($value);
+  }
+
+  function foreignKeyCheck($oldvalue, $source)
+  {
+    foreach ($this->value as $key => $value) {
+      if (($source[0] == 'aclRole') && ($value['role'] == $oldvalue)) {
+        return TRUE;
+      } elseif (($source[0] == 'user' || $source[0] == 'group') && (($member_key = array_search($oldvalue, $value['members'])) !== FALSE)) {
+        return TRUE;
+      } elseif (!in_array($source[0], array('aclRole','user','group'))) {
+        trigger_error('unknown source '.$source[0]);
+      }
+    }
   }
 }
 

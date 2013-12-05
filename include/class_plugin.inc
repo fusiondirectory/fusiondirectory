@@ -1541,65 +1541,6 @@ class plugin
       session::global_set('ui', $ui);
       new log("view", "acl/".get_class($this), $this->dn, array(), "Updated current object dn from '".$old_dn."' to '".$new_dn."'");
     }
-
-    /* Object was moved, ensure that all acls will be moved too */
-    if (($new_dn != $old_dn) && ($old_dn != "new")) {
-
-      /* get_ldap configuration */
-      $update = array();
-      $ldap   = $this->config->get_ldap_link();
-      $ldap->cd ($this->config->current['BASE']);
-      $ldap->search("(&(objectClass=gosaAcl)(gosaAclEntry=*".base64_encode($old_dn)."*))", array("cn","gosaAclEntry"));
-      while ($attrs = $ldap->fetch()) {
-        $acls   = array();
-        $found  = FALSE;
-        for ($i = 0; $i < $attrs['gosaAclEntry']['count']; $i++) {
-          $acl_parts = explode(":", $attrs['gosaAclEntry'][$i]);
-
-          /* Roles uses antoher data storage order, members are stored in the third part,
-             while the members in direct ACL assignments are stored in the second part. */
-          $id = 3;
-
-          /* Update member entries to use $new_dn instead of old_dn */
-          $members = explode(",", $acl_parts[$id]);
-          foreach ($members as $key => $member) {
-            $member = base64_decode($member);
-            if ($member == $old_dn) {
-              $members[$key]  = base64_encode($new_dn);
-              $found          = TRUE;
-            }
-          }
-
-          /* Check if the selected role has to updated */
-          if ($acl_parts[2] == base64_encode($old_dn)) {
-            $acl_parts[2] = base64_encode($new_dn);
-            $found        = TRUE;
-          }
-
-          /* Build new acl string */
-          $acl_parts[$id] = implode($members, ",");
-          $acls[]         = implode($acl_parts, ":");
-        }
-
-        /* Acls for this object must be adjusted */
-        if ($found) {
-          $debug_info = _("Changing ACL dn")."&nbsp;:&nbsp;<br>&nbsp;-"._("from")."&nbsp;<b>&nbsp;".
-            $old_dn."</b><br>&nbsp;-"._("to")."&nbsp;<b>".$new_dn."</b><br>";
-          @DEBUG (DEBUG_ACL, __LINE__, __FUNCTION__, __FILE__, $debug_info, "ACL");
-
-          $update[$attrs['dn']] = array();
-          foreach ($acls as $acl) {
-            $update[$attrs['dn']]['gosaAclEntry'][] = $acl;
-          }
-        }
-      }
-
-      /* Write updated acls */
-      foreach ($update as $dn => $attrs) {
-        $ldap->cd($dn);
-        $ldap->modify($attrs);
-      }
-    }
   }
 
   /*!
