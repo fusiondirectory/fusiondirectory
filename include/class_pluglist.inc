@@ -96,30 +96,40 @@ class pluglist {
           $depends_infos[] = $cname;
         }
         if (isset($infos['plForeignKeys'])) {
-          foreach ($infos['plForeignKeys'] as $ofield => $pfk) {
-            $filter = NULL;
-            if (!is_array($pfk)) {
-              $class = $pfk;
-              $field = 'dn';
-            } else {
+          foreach ($infos['plForeignKeys'] as $ofield => &$pfks) {
+            if (!is_array($pfks)) {
+              $pfks = array($pfks);
+            }
+            if (!is_array($pfks[0])) {
+              $pfks = array($pfks);
+            }
+            foreach ($pfks as &$pfk) {
               $class = $pfk[0];
-              $field = $pfk[1];
+              if (isset($pfk[1])) {
+                $field = $pfk[1];
+              } else {
+                $field  = 'dn';
+                $pfk[1] = $field;
+              }
+              $filter = NULL;
               if (isset($pfk[2])) {
                 $filter = $pfk[2];
               }
+              if ($filter === NULL) {
+                $filter = "$ofield=%oldvalue%";
+              }
+              $pfk[2] = $filter;
+              if (!isset($foreign_refs[$class])) {
+                $foreign_refs[$class] = array();
+              }
+              if (!isset($foreign_refs[$class][$field])) {
+                $foreign_refs[$class][$field] = array();
+              }
+              $foreign_refs[$class][$field][] = array($cname, $ofield, $filter);
             }
-            if ($filter === NULL) {
-              $filter = "$ofield=%oldvalue%";
-            }
-            $infos['plForeignKeys'][$ofield] = array($class, $field, $filter);
-            if (!isset($foreign_refs[$class])) {
-              $foreign_refs[$class] = array();
-            }
-            if (!isset($foreign_refs[$class][$field])) {
-              $foreign_refs[$class][$field] = array();
-            }
-            $foreign_refs[$class][$field][] = array($cname, $ofield, $filter);
+            unset($pfk);
           }
+          unset($pfks);
         } else {
           $infos['plForeignKeys'] = array();
         }

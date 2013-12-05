@@ -192,7 +192,11 @@ class objects
       $ldap = $config->get_ldap_link();
       $ldap->cat($dn, array($infos['mainAttr']));
       if ($attrs = $ldap->fetch()) {
-        $text = $attrs[$infos['mainAttr']][0];
+        if (isset($attrs[$infos['mainAttr']][0])) {
+          $text = $attrs[$infos['mainAttr']][0];
+        } else {
+          $text = $dn;
+        }
       } else {
         throw new Exception('Dn '.$dn.' not found in LDAP');
       }
@@ -200,8 +204,8 @@ class objects
       $text = $text[$infos['mainAttr']][0];
     }
 
-    if ($icon) {
-      $text = '<img alt="'.$infos['name'].' '.$dn.'" src="'.$infos['icon'].'" class="center"/>'.$text;
+    if ($icon && isset($infos['icon'])) {
+      $text = '<img alt="'.$infos['name'].'" title="'.$dn.'" src="'.$infos['icon'].'" class="center"/>&nbsp;'.$text;
     }
 
     return '<a href="'.$href.'">'.$text.'</a>';
