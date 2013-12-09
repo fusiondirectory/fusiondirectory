@@ -165,7 +165,6 @@ class acl_createedit extends acl
   var $aclContents      = array();
   var $recipients       = array();
   var $savedAclContents = array();
-  var $isContainer      = FALSE;
 
   static function plInfo()
   {
