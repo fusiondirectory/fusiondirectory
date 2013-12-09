@@ -133,10 +133,14 @@ class ACLsAssignmentDialog extends GenericDialog
   function __construct($simplePlugin, &$attribute, $acl = NULL)
   {
     $isContainer = FALSE;
-    if (count(array_intersect(
-                $simplePlugin->attrs['objectClass'],
-                array('organizationalUnit', 'organization', 'domain', 'country', 'locality'))
-              )) {
+    if (isset($simplePlugin->attrs['objectClass'])) {
+      if (count(array_intersect(
+                  $simplePlugin->attrs['objectClass'],
+                  array('organizationalUnit', 'organization', 'domain', 'country', 'locality'))
+                )) {
+        $isContainer = TRUE;
+      }
+    } else {
       $isContainer = TRUE;
     }
     $this->attribute        = $attribute;
