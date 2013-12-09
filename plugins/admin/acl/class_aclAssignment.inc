@@ -42,7 +42,7 @@ class aclAssignmentDialogWindow extends simplePlugin
           new SelectAttribute(
             _('Mode'), _('Is this applying on complete subtree or only the base?'),
             'aclMode', TRUE,
-            array('subtree',    'base'), 'sub',
+            array('subtree',    'base'), 'base',
             array(_('Subtree'), _('Base only'))
           ),
           new SelectAttribute(
@@ -63,9 +63,16 @@ class aclAssignmentDialogWindow extends simplePlugin
     );
   }
 
-  function __construct (&$config, $value)
+  function __construct (&$config, $value, $isContainer = FALSE)
   {
     parent::__construct($config);
+    if ($isContainer) {
+      $this->attributesAccess['aclMode']->setDefaultValue('subtree');
+    } else {
+      $this->attributesAccess['aclMode']->setDefaultValue('base');
+    }
+    $this->attributesAccess['aclMode']->resetToDefault();
+
     $roles = objects::ls('aclRole', 'cn');
     $this->attributesAccess['aclRole']->setChoices(array_keys($roles), array_values($roles));
     $this->attributesAccess['allUsers']->setInLdap(FALSE);
@@ -125,8 +132,15 @@ class ACLsAssignmentDialog extends GenericDialog
 
   function __construct($simplePlugin, &$attribute, $acl = NULL)
   {
+    $isContainer = FALSE;
+    if (count(array_intersect(
+                $simplePlugin->attrs['objectClass'],
+                array('organizationalUnit', 'organization', 'domain', 'country', 'locality'))
+              )) {
+      $isContainer = TRUE;
+    }
     $this->attribute        = $attribute;
-    $this->dialog           = new $this->dialogClass($simplePlugin->config, $acl);
+    $this->dialog           = new $this->dialogClass($simplePlugin->config, $acl, $isContainer);
     $this->dialog->set_acl_base($simplePlugin->acl_base);
     $this->initialAclValue  = $acl;
   }
