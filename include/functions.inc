@@ -2092,10 +2092,8 @@ function gen_uids($rule, $attributes)
 {
   global $config;
 
-  // Strip out non ascii chars
+  // Attributes should be arrays
   foreach ($attributes as $name => $value) {
-      $value = iconv('UTF-8', 'US-ASCII//TRANSLIT', $value);
-      $value = preg_replace('/[^(\x20-\x7F)]*/', '', $value);
       $attributes[$name] = array($value);
   }
 
