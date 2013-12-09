@@ -1543,7 +1543,7 @@ class user extends plugin
 
   function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
   {
-    if ($field == 'manager' && $source == 'dn') {
+    if ($field == 'manager') {
       if ($this->manager == $oldvalue) {
         $this->manager = $newvalue;
       }
@@ -1554,7 +1554,7 @@ class user extends plugin
 
   function foreignKeyCheck ($field, $value, $source)
   {
-    if ($field == 'manager' && $source == 'dn') {
+    if ($field == 'manager') {
       return ($this->manager == $value);
     } else {
       return parent::foreignKeyCheck($field, $value, $source);
