@@ -1204,12 +1204,14 @@ class plugin
 
   function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
   {
-    die("Foreign key was declared but there is no method to handle it!");
+    die("Foreign key was declared but there is no method foreignKeyUpdate to handle it!".
+      " Class:".get_class($this).", Field:$field, Source:(".join(',', $source).").");
   }
 
   function foreignKeyCheck ($field, $value, $source)
   {
-    die("Foreign key was declared but there is no method to handle it!");
+    die("Foreign key was declared but there is no method foreignKeyCheck to handle it!".
+      " Class:".get_class($this).", Field:$field, Source:(".join(',', $source).").");
   }
 
 
