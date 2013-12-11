@@ -1399,6 +1399,9 @@ class plugin
       } elseif (is_array($arr)) {
         $str = implode("\n", $arr);
         @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Result: ".$str);
+        if (!empty($str) && $config->get_cfg_value("displayHookOutput", "FALSE") == "TRUE") {
+          msg_dialog::display('['.get_class($plugin).' '.strtolower($cmd)."hook] $command", $str, INFO_DIALOG);
+        }
       }
     }
   }
