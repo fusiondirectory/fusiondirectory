@@ -792,6 +792,11 @@ class LDAP{
     }
   }
 
+  /*
+   * $target is a dn, i.e. "ou=example,ou=orga,dc=base"
+   *
+   * Creates missing trees, in our example ou=orga,dc=base will get created if not existing, same thing for ou=example,ou=orga,dc=base
+   * */
   function create_missing_trees($srp, $target)
   {
     $real_path = substr($target, 0, strlen($target) - strlen($this->basedn) - 1);
@@ -838,7 +843,6 @@ class LDAP{
 
         /* Automatic or traditional? */
         if (count($classes)) {
-
           /* Get name of first matching objectClass */
           $ocname = "";
           foreach ($classes as $class) {
@@ -881,9 +885,7 @@ class LDAP{
               $na[$attr] = "filled";
             }
           }
-
         } else {
-
           /* Use alternative add... */
           switch ($type) {
             case 'ou':
@@ -904,7 +906,6 @@ class LDAP{
         $this->add($na);
 
         if (!$this->success()) {
-
           print_a(array($cdn,$na));
 
           msg_dialog::display(_("LDAP error"), msgPool::ldaperror($this->get_error(), $cdn, LDAP_ADD, get_class()));
