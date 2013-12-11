@@ -366,6 +366,12 @@ attributetype ( 1.3.6.1.4.1.38414.8.18.4 NAME 'fusionConfigMd5'
   SUBSTR caseExactIA5SubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
 
+attributetype ( 1.3.6.1.4.1.38414.8.18.5 NAME 'fdDisplayHookOutput'
+  DESC 'FusionDirectory - display hook execution output to the user'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE )
+
 # Plugins
 
 attributetype ( 1.3.6.1.4.1.38414.8.19.1 NAME 'fdOGroupRDN'
@@ -398,7 +404,7 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
     fdDisplayErrors $ fdLdapMaxQueryTime $ fdLdapStats $ fdDebugLevel $
     fdEnableSnapshots $ fdSnapshotBase $ fdSnapshotURI $
     fdSnapshotAdminDn $ fdSnapshotAdminPassword $
-    fdHonourIvbbAttributes $ fdTabHook $ fdShells
+    fdHonourIvbbAttributes $ fdTabHook $ fdShells $ fdDisplayHookOutput
    ) )
 
 objectclass ( 1.3.6.1.4.1.38414.8.2.2 NAME 'fusionDirectoryPluginsConf'

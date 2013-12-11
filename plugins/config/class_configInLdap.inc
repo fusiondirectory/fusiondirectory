@@ -293,6 +293,11 @@ class configInLdap extends simplePlugin
             array(),
             TRUE // edition
           ),
+          new BooleanAttribute (
+            _('Display hook output'),
+            _('When enabled successful hook execution output is displayed to the user using a dialog.'),
+            'fdDisplayHookOutput'
+          ),
           new SetAttribute(
             new StringAttribute (
               _('Available shells'), _('Available POSIX shells for FD users.'),
