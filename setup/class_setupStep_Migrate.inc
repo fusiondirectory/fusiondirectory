@@ -858,7 +858,6 @@ class Step_Migrate extends setup_step
                 }
               }
             } elseif ($tmp[1] == "role") {
-
               /* Check if acl owner is a valid FusionDirectory user account */
               $ldap->cat(base64_decode($tmp[2]), array("gosaAclTemplate"));
               $ret = $ldap->fetch();
@@ -1920,128 +1919,15 @@ class Step_Migrate extends setup_step
   }
 
 
-  function get_user_list()
+  function get_user_list($class = 'gosaAccount')
   {
     /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
     $ldap = $this->get_ldap_link();
-    $ldap->cd($cv['base']);
-    $ldap->search("(objectClass=gosaAccount)", array("dn"));
+    $ldap->search("(objectClass=$class)", array("dn"));
 
     $tmp = array();
     while ($attrs = $ldap->fetch()) {
       $tmp[base64_encode($attrs['dn'])] = LDAP::fix($attrs['dn']);
-    }
-    return $tmp;
-  }
-
-
-  function get_all_people_ous()
-  {
-    /* Get collected configuration settings */
-    $cv = $this->parent->captured_values;
-    $people_ou = trim($cv['peopleou']);
-
-    /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
-
-    /*****************
-     * If people ou is NOT empty
-     * search for for all objects matching the given container
-     *****************/
-    if (!empty($people_ou)) {
-      $ldap->search("(".$people_ou.")", array("dn"));
-
-      /* Create people ou if there is currently none */
-      if ($ldap->count() == 0) {
-        $add_dn = $cv['peopleou'].",".$cv['base'];
-        $naming_attr = preg_replace("/=.*$/", "", $add_dn);
-        $naming_value = preg_replace("/^[^=]*+=([^,]*).*$/", "\\1", $add_dn);
-        $add = array();
-        $add['objectClass'] = array("organizationalUnit");
-        $add[$naming_attr] = $naming_value;
-        $ldap->cd($cv['base']);
-        $ldap->create_missing_trees(preg_replace("/^[^,]+,/", "", $add_dn));
-        $ldap->cd($add_dn);
-        $ldap->add($add);
-      }
-
-      /* Create result */
-      $ldap->search("(".$cv['peopleou'].")", array("dn"));
-      $tmp = array();
-      while ($attrs = $ldap->fetch()) {
-        if (!preg_match("/ou=snapshots,/", $attrs['dn'])) {
-          $tmp[base64_encode($attrs['dn'])] = $ldap->fix($attrs['dn']);
-        }
-      }
-    } else {
-
-      /************
-       * If people ou is empty
-       * Get all valid gosaDepartments
-       ************/
-      $ldap->cd($cv['base']);
-      $tmp = array();
-      $ldap->search("(&(objectClass=gosaDepartment)(ou=*))", array("dn"));
-      $tmp[base64_encode($cv['base'])] = $ldap->fix($cv['base']);
-      while ($attrs = $ldap->fetch()) {
-        $tmp[base64_encode($attrs['dn'])] = $ldap->fix($attrs['dn']);;
-      }
-    }
-    return $tmp;
-  }
-
-  function get_all_group_ous()
-  {
-    /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
-
-    $group_ou = trim($cv['groupou']);
-    if (!empty($group_ou)) {
-      $group_ou = trim($group_ou);
-    }
-
-    /************
-     * If group ou is NOT empty
-     * Get all valid group ous, create one if necessary
-     ************/
-    $ldap->cd($cv['base']);
-    if (!empty($group_ou)) {
-      $ldap->search("(".$group_ou.")", array("dn"));
-      if ($ldap->count() == 0 ) {
-        $add_dn = $group_ou.$cv['base'];
-        $naming_attr = preg_replace("/=.*$/", "", $add_dn);
-        $naming_value = preg_replace("/^[^=]*+=([^,]*).*$/", "\\1", $add_dn);
-        $add = array();
-        $add['objectClass'] = array("organizationalUnit");
-        $add[$naming_attr] = $naming_value;
-
-        $ldap->cd($cv['base']);
-        $ldap->create_missing_trees(preg_replace("/^[^,]+,/", "", $add_dn));
-        $ldap->cd($add_dn);
-        $ldap->add($add);
-      }
-      $ldap->search("(".$group_ou.")", array("dn"));
-      $tmp = array();
-      while ($attrs = $ldap->fetch()) {
-        if (!preg_match("/ou=snapshots,/", $attrs['dn'])) {
-          $tmp[base64_encode($attrs['dn'])] = $ldap->fix($attrs['dn']);
-        }
-      }
-    } else {
-      /************
-       * If group ou is empty
-       * Get all valid gosaDepartments
-       ************/
-      $ldap->cd($cv['base']);
-      $tmp = array();
-      $ldap->search("(&(objectClass=gosaDepartment)(ou=*))", array("dn"));
-      $tmp[base64_encode($cv['base'])] = $ldap->fix($cv['base']);
-      while ($attrs = $ldap->fetch()) {
-        $tmp[base64_encode($attrs['dn'])] = $ldap->fix($attrs['dn']);;
-      }
     }
     return $tmp;
   }
@@ -2049,16 +1935,55 @@ class Step_Migrate extends setup_step
 
   function get_group_list()
   {
+    return $this->get_user_list('posixGroup');
+  }
+
+
+  function get_all_people_ous()
+  {
+    return $this->get_all_ous('peopleou');
+  }
+
+  function get_all_group_ous()
+  {
+    return $this->get_all_ous('groupou');
+  }
+
+  function get_all_ous($cv_key)
+  {
     /* Establish ldap connection */
     $cv   = $this->parent->captured_values;
     $ldap = $this->get_ldap_link();
+    $ou   = trim($cv[$cv_key]);
 
-    $ldap->cd($cv['base']);
-    $ldap->search("(objectClass=posixGroup)", array("dn"));
-
-    $tmp = array();
-    while ($attrs = $ldap->fetch()) {
-      $tmp[base64_encode($attrs['dn'])] = LDAP::fix($attrs['dn']);
+    /************
+     * If ou is NOT empty
+     * Get all valid ous, create one if necessary
+     ************/
+    if (!empty($ou)) {
+      $ldap->search("($ou)", array('dn'));
+      if ($ldap->count() == 0 ) {
+        $ldap->create_missing_trees($ou.$cv['base']);
+      }
+      $ldap->search("($ou)", array('dn'));
+      $tmp = array();
+      while ($attrs = $ldap->fetch()) {
+        if (!preg_match('/ou=snapshots,/', $attrs['dn'])) {
+          $tmp[base64_encode($attrs['dn'])] = $ldap->fix($attrs['dn']);
+        }
+      }
+    } else {
+      /************
+       * If ou is empty
+       * Get all valid gosaDepartments
+       ************/
+      $ldap->cd($cv['base']);
+      $tmp = array();
+      $ldap->search('(&(objectClass=gosaDepartment)(ou=*))', array('dn'));
+      $tmp[base64_encode($cv['base'])] = $ldap->fix($cv['base']);
+      while ($attrs = $ldap->fetch()) {
+        $tmp[base64_encode($attrs['dn'])] = $ldap->fix($attrs['dn']);;
+      }
     }
     return $tmp;
   }
@@ -2072,7 +1997,6 @@ class Step_Migrate extends setup_step
 
      /* Update object references in gosaGroupOfNames */
     $ogs_to_fix = array();
-    $ldap->cd($cv['base']);
     $ldap->search('(&(objectClass=gosaGroupOfNames)(member='.@LDAP::prepare4filter($source).'))', array('cn','member'));
     while ($attrs = $ldap->fetch()) {
       $dn = $attrs['dn'];
