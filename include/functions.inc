@@ -734,7 +734,6 @@ function add_lock($object, $user)
     unset($cache['READ_ONLY'][$object]);
   }
 
-
   /* Just a sanity check... */
   if ($object == "" || $user == "") {
     msg_dialog::display(_("Internal error"), _("Error while adding a lock. Contact the developers!"), ERROR_DIALOG);
@@ -1342,7 +1341,6 @@ function convert_department_dn($dn, $base = NULL)
     return "/";
   }
 
-
   $dep = "";
   foreach (explode(',', $dn) as $rdn) {
     $dep = preg_replace("/^[^=]+=/", "", $rdn)."/".$dep;
@@ -1872,7 +1870,6 @@ function range_selector($dcnt, $start, $range = 25, $post_var = FALSE)
     return "";
   }
   $ppage = (int)(($start / $range) + 0.5);
-
 
   /* Align selected page to +/- max_entries/2 */
   $begin  = $ppage - $max_entries / 2;
@@ -3098,13 +3095,14 @@ function generate_smb_nt_hash($password)
 /* Lock or unlock samba account */
 function lock_samba_account($mode, $attrs)
 {
+  global $config;
   $modify = array('sambaNTPassword' => $attrs['sambaNTPassword'][0]);
   if ($config->get_cfg_value("sambaGenLMPassword", "FALSE") == "TRUE") {
     $modify['sambaLMPassword'] = $attrs['sambaLMPassword'][0];
   } else {
     $modify['sambaLMPassword'] = array();
   }
-  foreach ($modify as $key => &$pwd) {
+  foreach ($modify as &$pwd) {
     if (is_array($pwd)) {
       continue;
     }
@@ -3118,7 +3116,7 @@ function lock_samba_account($mode, $attrs)
       $pwd = preg_replace("/^\!/",  "",   $pwd);
     }
   }
-  unset($value);
+  unset($pwd);
   return $modify;
 }
 
@@ -3659,7 +3657,8 @@ function fix_dos_linebreaks($str)
   return preg_replace('/\\r\\n/', "\n", $str);
 }
 
-function load_all_classes() {
+function load_all_classes()
+{
   global $BASE_DIR, $class_list, $class_mapping;
   /* Initially load all classes */
   $class_list = get_declared_classes();

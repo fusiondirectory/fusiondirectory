@@ -291,10 +291,10 @@ class ogroup_old extends plugin
             msg_dialog::display(_("Error"), sprintf(_("These systems are already configured by other object groups and cannot be added:")."<br><ul>%s</ul>", $str), ERROR_DIALOG);
           }
 
-          foreach($objects as $object){
+          foreach ($objects as $object){
 
               $tmp = "";
-              foreach($this->memberList as $obj){
+              foreach ($this->memberList as $obj){
                   $tmp .= $obj['type'];
               }
 

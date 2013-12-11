@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
@@ -30,7 +29,6 @@
  */
 class filter
 {
-
   var $xmlData;
   var $elements         = array();
   var $elementValues    = array();
@@ -55,8 +53,6 @@ class filter
    */
   function filter($filename)
   {
-    global $config;
-
     // Load eventually passed filename
     if (!$this->load($filename)) {
       die("Cannot parse $filename!");
@@ -629,7 +625,6 @@ class filter
    */
   function processAutocomplete()
   {
-    global $class_mapping;
     $result = array();
 
     // Introduce maximum number of entries

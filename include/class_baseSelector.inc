@@ -83,8 +83,8 @@ class baseSelector {
   function setBase($base)
   {
     if (isset($this->pathMapping[$base])) {
-      $this->base = $base;
-      $this->lastState = TRUE;
+      $this->base       = $base;
+      $this->lastState  = TRUE;
       return $this->update(TRUE);
     } else {
       $this->lastState = FALSE;
@@ -124,17 +124,14 @@ class baseSelector {
     global $config;
 
     $this->pathMapping = array();
-    $selected     = ($this->base == $config->current['BASE']?"Selected":"");
-    $first        = TRUE;
-    $last_indent  = 2;
+    $selected = ($this->base == $config->current['BASE']);
 
     foreach ($bases as $base => $dummy) {
-
       // Build path style display
       $elements = explode(',', substr($base, 0, strlen($base) - strlen($config->current['BASE'])));
       $elements = array_reverse($elements, TRUE);
 
-      $this->pathMapping[$base] = ($base == $config->current['BASE']? '/' : ldap::fix(preg_replace('/(^|,)[a-z0-9]+=/i', '/', implode(',', $elements))));
+      $this->pathMapping[$base] = ($selected? '/' : ldap::fix(preg_replace('/(^|,)[a-z0-9]+=/i', '/', implode(',', $elements))));
     }
 
     // Save bases to session for autocompletion

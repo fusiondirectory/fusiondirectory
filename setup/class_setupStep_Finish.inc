@@ -77,7 +77,8 @@ class Step_Finish extends setup_step
 
   function execute()
   {
-    global $config, $BASE_DIR;
+    global $BASE_DIR;
+
     if (!function_exists("posix_getgrgid")) {
       $webgroup = "";
     } else {
@@ -94,7 +95,7 @@ class Step_Finish extends setup_step
      *   - Permisssion are set correctly
      */
 
-    if(isset($_POST['next']) && $exists && !$this->is_world_readable(CONFIG_DIR."/".CONFIG_FILE)){
+    if (isset($_POST['next']) && $exists && !$this->is_world_readable(CONFIG_DIR."/".CONFIG_FILE)) {
       $this->insertConfigDefaults();
       session::destroy();
       header("Location: index.php");
@@ -110,13 +111,13 @@ class Step_Finish extends setup_step
 
     if ($exists && $this->is_world_readable(CONFIG_DIR."/".CONFIG_FILE)) {
       $err_msg = _("Your configuration file is currently world readable. Please update the file permissions!");
-    } elseif(!$exists) {
+    } elseif (!$exists) {
       $err_msg = _("The configuration is currently not readable or it does not exists.");
     }
 
     $smarty = get_smarty();
     $smarty->assign("err_msg",  $err_msg);
-    $smarty->assign("msg2",     sprintf(_("After downloading and placing the file under %s, please make sure that the user the webserver is running with is able to read %s, while other users shouldn't."),CONFIG_DIR,CONFIG_FILE));
+    $smarty->assign("msg2",     sprintf(_("After downloading and placing the file under %s, please make sure that the user the webserver is running with is able to read %s, while other users shouldn't."), CONFIG_DIR, CONFIG_FILE));
     $smarty->assign("cv",       $this->parent->captured_values);
 
     return $smarty->fetch("$BASE_DIR/setup/setup_finish.tpl");
