@@ -55,7 +55,7 @@ class ldapFilter
   function __invoke($array)
   {
     $stopValue = FALSE;
-    switch($this->operator) {
+    switch ($this->operator) {
       case '!':
         return !$this->subparts[0]($array);
       case '|':
@@ -83,7 +83,7 @@ class ldapFilter
       $offset = 0;
       $level  = 0;
       $open;
-      while(preg_match('/[^\\\\](\\(|\\))/', $filter, $m, PREG_OFFSET_CAPTURE, $offset)) {
+      while (preg_match('/[^\\\\](\\(|\\))/', $filter, $m, PREG_OFFSET_CAPTURE, $offset)) {
         $offset = $m[0][1] + 1;
         if ($m[1][0] == '(') {
           if ($level == 0) {
@@ -93,13 +93,13 @@ class ldapFilter
         } elseif ($m[1][0] == ')') {
           $level--;
           if ($level == 0) {
-            $subfilters[] = ldapFilter::parse(substr($filter, $open+1, $m[0][1] - $open));
+            $subfilters[] = ldapFilter::parse(substr($filter, $open + 1, $m[0][1] - $open));
           }
         }
       }
       return new ldapFilter($filter[0], $subfilters);
     } else {
-      preg_match('/^(.+)('.join('|',ldapFilterLeaf::$operators).')(.+)$/', $filter, $m);
+      preg_match('/^(.+)('.join('|', ldapFilterLeaf::$operators).')(.+)$/', $filter, $m);
       return new ldapFilterLeaf($m[1], $m[2], $m[3]);
     }
   }

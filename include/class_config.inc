@@ -1211,6 +1211,9 @@ class config  {
             if (!isset($value['mainAttr'])) {
               $value['mainAttr'] = 'cn';
             }
+            if (!isset($value['nameAttr'])) {
+              $value['nameAttr'] = $value['mainAttr'];
+            }
             if (!isset($value['tabClass'])) {
               $value['tabClass'] = 'simpleTabs';
             }
