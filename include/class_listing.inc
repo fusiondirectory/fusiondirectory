@@ -63,6 +63,8 @@ class listing {
   var $scrollPosition = 0;
   var $baseSelector;
 
+  var $typeCache = array();
+
   /*!
    * \brief Create a listing
    *
@@ -99,10 +101,11 @@ class listing {
     $this->showFooter = ($config->get_cfg_value("listSummary") == "TRUE");
 
     // Register build in filters
-    $this->registerElementFilter("objectType", "listing::filterObjectType");
-    $this->registerElementFilter("departmentLink", "listing::filterDepartmentLink");
-    $this->registerElementFilter("link", "listing::filterLink");
-    $this->registerElementFilter("actions", "listing::filterActions");
+    $this->registerElementFilter("objectType",      "listing::filterObjectType");
+    $this->registerElementFilter("departmentLink",  "listing::filterDepartmentLink");
+    $this->registerElementFilter("link",            "listing::filterLink");
+    $this->registerElementFilter("nameLink",        "listing::filterNameLink");
+    $this->registerElementFilter("actions",         "listing::filterActions");
 
     // Load exporters
     foreach (array_keys($class_mapping) as $class) {
@@ -218,18 +221,17 @@ class listing {
     $types = departmentManagement::getDepartmentTypes();
     foreach ($types as $type) {
       $i = objects::infos($type);
-      $objectClass = '';
-      if (preg_match('/objectClass=([^)]+)/', $i['filter'], $m)) {
-        $objectClass = $m[1];
-      }
       $this->objectTypes[strtoupper($type)] = array(
         'label'       => $i['name'],
         'image'       => $i['icon'],
-        'objectClass' => $objectClass,
         'category'    => $i['aclCategory'],
         'class'       => $i['mainTab'],
-        'filter'      => ldapFilter::parse($i['filter'])
+        'filter'      => ldapFilter::parse($i['filter']),
+        'nameAttr'    => $i['nameAttr'],
       );
+      if (!isset($i['nameAttr'])) {
+        print_r($i);
+      }
     }
     $this->categories = array();
     if (isset($this->xmlData['definition']['objectType'])) {
@@ -859,14 +861,18 @@ class listing {
    *
    * \param string $classes
    */
-  function getObjectType($attrs)
+  function getObjectType($dn, $attrs)
   {
+    if (isset($this->typeCache[$dn])) {
+      return $this->typeCache[$dn];
+    }
     $classes = $attrs['objectClass'];
     // Walk thru types and see if there's something matching
     foreach ($this->objectTypes as $type => $objectType) {
       if (isset($objectType['filter'])) {
         if ($objectType['filter']($attrs)) {
-          return $type;
+          $this->typeCache[$dn] = $type;
+          return $this->typeCache[$dn];
         } else {
           continue;
         }
@@ -898,9 +904,9 @@ class listing {
     return NULL;
   }
 
-  function getObjectTypeInfos($attrs)
+  function getObjectTypeInfos($dn, $attrs)
   {
-    $type = $this->getObjectType($attrs);
+    $type = $this->getObjectType($dn, $attrs);
     if ($type === NULL) {
       return NULL;
     }
@@ -940,9 +946,9 @@ class listing {
     $result = "&nbsp;";
 
     if (($attrs = $this->getEntry($dn)) != NULL) {
-      $type = $this->getObjectType($attrs);
+      $type = $this->getObjectType($dn, $attrs);
     } else {
-      $type = $this->getObjectType(array('objectClass' => $classes));
+      $type = $this->getObjectType($dn, array('objectClass' => $classes));
     }
     if ($type) {
       $this->objectDnMapping[$dn] = $type;
@@ -1033,7 +1039,7 @@ class listing {
       // Handle special types
       if ($action['type'] == "copypaste" || $action['type'] == "snapshot") {
 
-        $objectType = $this->getObjectTypeInfos($this->entries[$row]);
+        $objectType = $this->getObjectTypeInfos($dn, $this->entries[$row]);
         $category   = $class = NULL;
         if ($objectType) {
           $category = $objectType['category'];
@@ -1071,6 +1077,16 @@ class listing {
     }
     $result = htmlentities(sprintf("%s [%s]", $name, $description[0]), ENT_COMPAT, 'UTF-8');
     return "<a href='?plug=".$_GET['plug']."&amp;PID=$this->pid&amp;act=department_$row' title='$dn'>$result</a>";
+  }
+
+  /*!
+   * \brief Filter link with object name
+   */
+  function filterNameLink($row, $dn)
+  {
+    $infos  = $this->getObjectTypeInfos($dn, $this->entries[$row]);
+    $attr   = $infos['nameAttr'];
+    return $this->filterLink($row, $dn, "%s", $this->entries[$row][$attr]);
   }
 
   /*!
@@ -1379,9 +1395,9 @@ class listing {
 
     if (isset($action['acl'])) {
       if (($attrs = $this->getEntry($dn)) != NULL) {
-        $otype = $this->getObjectTypeInfos($attrs);
+        $otype = $this->getObjectTypeInfos($dn, $attrs);
       } elseif ($classes) {
-        $otype = $this->getObjectTypeInfos(array('objectClass' => $classes));
+        $otype = $this->getObjectTypeInfos($dn, array('objectClass' => $classes));
       } else {
         $otype = FALSE;
       }

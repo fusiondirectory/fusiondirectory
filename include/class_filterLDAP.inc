@@ -184,7 +184,7 @@ class filterLDAP {
           $result[] = $attrs;
         } else {
           // Check entry permission
-          $obj = $parent->headpage->getObjectTypeInfos($attrs);
+          $obj = $parent->headpage->getObjectTypeInfos($dn, $attrs);
           if (isset($obj['category'])) {
             $o = $obj['category']."/".$obj['class'];
             if (preg_match("/r/", $ui->get_permissions($dn, $o))) {
