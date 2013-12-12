@@ -183,7 +183,7 @@ class posixAccount extends simplePlugin
     return array(
       "plShortName"     => _("Unix"),
       "plDescription"   => _("Edit users POSIX settings"),
-      "plIcon"          => "icon.png",
+      "plIcon"          => "plugins/posix/images/icon.png",
       "plSmallIcon"     => "images/penguin.png",
       "plSelfModify"    => TRUE,
       "plPriority"      => 2,
