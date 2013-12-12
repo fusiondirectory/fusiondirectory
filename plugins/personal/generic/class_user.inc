@@ -1481,6 +1481,7 @@ class user extends plugin
     $ret = array(
         "plShortName"   => _("Generic"),
         "plDescription" => _("Generic user settings"),
+        "plIcon"        => "plugins/generic/images/icon.png",
         "plSelfModify"  => TRUE,
         "plCategory"    => array("users" => array("description" => _("Users"),
                                                   "objectClass" => "gosaAccount")),
