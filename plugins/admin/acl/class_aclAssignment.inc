@@ -202,20 +202,20 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
   function foreignKeyUpdate($oldvalue, $newvalue, $source)
   {
     foreach ($this->value as $key => &$value) {
-      if (($source[0] == 'aclRole') && ($value['role'] == $oldvalue)) {
+      if (($source['CLASS'] == 'aclRole') && ($value['role'] == $oldvalue)) {
         if ($newvalue === NULL) {
           unset($this->value[$key]);
         } else {
           $value['role'] = $newvalue;
         }
-      } elseif (($source[0] == 'user' || $source[0] == 'group') && (($member_key = array_search($oldvalue, $value['members'])) !== FALSE)) {
+      } elseif (($source['CLASS'] == 'user' || $source['CLASS'] == 'group') && (($member_key = array_search($oldvalue, $value['members'])) !== FALSE)) {
         if ($newvalue === NULL) {
           unset($value['members'][$member_key]);
         } else {
           $value['members'][$member_key] = $newvalue;
         }
-      } elseif (!in_array($source[0], array('aclRole','user','group'))) {
-        trigger_error('unknown source '.$source[0]);
+      } elseif (!in_array($source['CLASS'], array('aclRole','user','group'))) {
+        trigger_error('unknown source '.$source['CLASS']);
       }
     }
     unset($value);

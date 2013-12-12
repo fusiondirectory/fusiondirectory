@@ -28,8 +28,8 @@
 /*!
  * \brief This class contains all function to copy and paste
  */
-class CopyPasteHandler {
-
+class CopyPasteHandler
+{
   var $config;
   var $current;
 
@@ -57,9 +57,9 @@ class CopyPasteHandler {
    */
   function CopyPasteHandler(&$config)
   {
-    $this->config       = &$config;
-    $this->current      = NULL;
-    $this->queue        = array();
+    $this->config   = &$config;
+    $this->current  = NULL;
+    $this->queue    = array();
   }
 
 
@@ -185,24 +185,20 @@ class CopyPasteHandler {
       $this->objects_to_fix     = array();
       $this->disallowed_objects = array();
 
-      /* Put each queued object in one of the above arrays
-       */
+      /* Put each queued object in one of the above arrays */
       foreach ($this->queue as $key => $entry) {
 
-        /* Update entries on demand
-         */
+        /* Update entries on demand */
         if (!isset($entry['object'])) {
           $entry = $this->load_entry_from_queue($entry, $base);
           $this->queue[$key] = $entry;
         }
         $msgs = $entry['object']->check();
 
-        /* To copy an object we require full read access to the object category
-         */
+        /* To copy an object we require full read access to the object category */
         $copy_acl = preg_match("/r/", $ui->has_complete_category_acls($entry['dn'], $entry['tab_acl_category']));
 
-        /* In order to copy an object we require read an delete acls
-         */
+        /* In order to copy an object we require read an delete acls */
         $cut_acl  = preg_match("/d/", $ui->has_complete_category_acls($entry['dn'], $entry['tab_acl_category']));
         $cut_acl &= preg_match("/r/", $ui->has_complete_category_acls($entry['dn'], $entry['tab_acl_category']));
 
@@ -227,40 +223,29 @@ class CopyPasteHandler {
       $this->require_update = FALSE;
     }
 
-    /* Save objects that can be pasted directly
-     */
+    /* Save objects that can be pasted directly */
     if (count($this->clean_objects)) {
       $this->save_object();
       foreach ($this->clean_objects as $key => $entry) {
-
         /* Remove from queue -> avoid saving twice */
         unset($this->queue[$key]);
         unset($this->clean_objects[$key]);
 
-        /* Load next queue entry */
-        $this->current  = $entry;
-        $this->lastdn   = $this->current['object']->dn;
-        $this->current['object']->save();
-        $this->handleReferences();
+        $this->save_current($entry);
       }
-      $this->current = FALSE;
     }
 
-    /* Save edited entry and force loading new one
-     */
+    /* Save edited entry and force loading new one */
     if (isset($this->current['object'])) {
       $this->current['object']->save_object();
     }
 
+    /* Save current object if edition is finished */
     if (isset($_POST['edit_finish']) && $this->current) {
       $msgs = $this->current['object']->check();
 
-      /* Load next queue entry */
       if (!count($msgs)) {
-        $this->current['object']->save();
-        $this->handleReferences();
-        $this->lastdn   = $this->current['object']->dn;
-        $this->current  = FALSE;
+        $this->save_current();
       } else {
         foreach ($msgs as $msg) {
           msg_dialog::display(_("Error"), $msg, ERROR_DIALOG);
@@ -268,14 +253,13 @@ class CopyPasteHandler {
       }
     }
 
-    /* Display a list of all pastable entries
-     */
+    /* Display a list of all pastable entries */
     if ($this->current || count($this->objects_to_fix)) {
       $this->save_object();
       if (!$this->current) {
         $key = key($this->objects_to_fix);
-        if (isset($this->objects_to_fix[$key])) {
-          $this->current  = $this->objects_to_fix[$key];
+        if ($key !== NULL) {
+          $this->current = $this->objects_to_fix[$key];
           unset($this->objects_to_fix[$key]);
           unset($this->queue[$key]);
         }
@@ -298,6 +282,17 @@ class CopyPasteHandler {
       }
     }
     return "";
+  }
+
+  private function save_current($object = NULL)
+  {
+    if ($objet !== NULL) {
+      $this->current = $object;
+    }
+    $this->lastdn = $this->current['object']->dn;
+    $this->current['object']->save();
+    $this->handleReferences();
+    $this->current = FALSE;
   }
 
 
@@ -360,29 +355,6 @@ class CopyPasteHandler {
         $roleOccupants[] = $dst_dn;
         $role->roleOccupant = $roleOccupants;
         $role->save();
-      }
-    }
-
-    // Update groups
-    if (isset($this->current['object']->uid) && !empty($this->current['object']->uid)) {
-
-      $ldap = $this->config->get_ldap_link();
-      $ldap->cd($this->config->current['BASE']);
-      $ldap->cat($src_dn);
-      $attrs = $ldap->fetch();
-      if (isset($attrs['uid'][0])) {
-        $suid = $attrs['uid'][0];
-
-        $uid = $this->current['object']->uid;
-        $groups = get_sub_list("(&(objectClass=posixGroup)(memberUid={$suid}))",
-                "group", array(get_ou("groupRDN")), $this->config->current['BASE'], array("dn"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
-
-        // Walk through all POSIX groups
-        foreach ($groups as $group) {
-          $o_group = new group($this->config, $group['dn']);
-          $o_group->addUser($uid);
-          $o_group->save();
-        }
       }
     }
   }
