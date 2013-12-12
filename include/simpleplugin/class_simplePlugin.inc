@@ -451,8 +451,6 @@ class simplePlugin extends plugin
 
   protected function post_remove ()
   {
-    $this->handleForeignKeys($this->dn, NULL);
-
     new log("remove", "plugin/".get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
 
     /* Optionally execute a command after we're done */
@@ -572,8 +570,6 @@ class simplePlugin extends plugin
    */
   protected function post_save()
   {
-    /* Update foreign keys */
-    $this->handleForeignKeys();
     /* Propagate and log the event */
     if ($this->initially_was_account) {
       $this->handle_post_events("modify");
@@ -582,22 +578,6 @@ class simplePlugin extends plugin
       $this->handle_post_events("add");
       new log("create", "plugin/".get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
     }
-  }
-
-   /*!
-    * \brief Move ldap entries from one place to another
-    *
-    * \param  string  $src_dn the source DN.
-    *
-    * \param  string  $dst_dn the destination DN.
-    */
-  function move($src_dn, $dst_dn)
-  {
-    $result = parent::move($src_dn, $dst_dn);
-    if ($result) {
-      $this->handleForeignKeys($src_dn, $dst_dn);
-    }
-    return $result;
   }
 
   /*! \brief This function checks the attributes values and yell if something is wrong
@@ -855,88 +835,32 @@ class simplePlugin extends plugin
     $this->is_account = $this->is_this_account($this->attrs);
   }
 
-  function handleForeignKeys ($olddn = NULL, $newdn = NULL)
+  protected function attributeHaveChanged($field)
   {
-    if (($olddn !== NULL) && ($olddn == $newdn)) {
-      return;
-    }
-    // We group by objetType concerned
-    $infos = pluglist::pluginInfos(get_class($this));
-    $foreignRefs = array();
-    foreach ($infos['plForeignRefs'] as $field => $refs) {
-      if ($newdn !== NULL) {
-        if ($field != 'dn') {
-          continue;
-        }
-      } else {
-        if ($field != 'dn') {
-          if (!$this->attributesAccess[$field]->hasChanged()) {
-            continue;
-          }
-        }
-      }
-      foreach ($refs as $ref) {
-        $class  = $ref[0];
-        $ofield = $ref[1];
-        $cinfos = pluglist::pluginInfos($class);
-        foreach ($cinfos['plObjectType'] as $key => $objectType) {
-          if (!is_numeric($key)) {
-            $objectType = $key;
-          }
-          $foreignRefs[$objectType][$class][$ofield] = $field;
-        }
-      }
-    }
+    return $this->attributesAccess[$field]->hasChanged();
+  }
 
-    // For each concerned objectType
-    foreach ($foreignRefs as $objectType => $tabRefs) {
-      // Search objects
-      $objects = objects::ls($objectType, array('dn' => 'raw'));
-      // For each object of this type
-      foreach (array_keys($objects) as $dn) {
-        // Build the object
-        $tabobject = objects::open($dn, $objectType);
-        // For each tab concerned
-        foreach ($tabRefs as $tab => $fieldRefs) {
-          // If the tab is activated on this object
-          if (isset($tabobject->by_object[$tab])) {
-            // For each field
-            foreach ($fieldRefs as $ofield => $field) {
-              // call plugin::foreignKeyUpdate(ldapname, oldvalue, newvalue) on the object
-              if ($field == 'dn') {
-                $tabobject->by_object[$tab]->foreignKeyUpdate(
-                  $ofield,
-                  $olddn,
-                  $newdn,
-                  $field
-                );
-              } elseif (($olddn !== NULL) && ($newdn === NULL)) {
-                $tabobject->by_object[$tab]->foreignKeyUpdate(
-                  $ofield,
-                  $this->attributesAccess[$field]->getInitialValue(),
-                  NULL,
-                  $field
-                );
-              } else {
-                $tabobject->by_object[$tab]->foreignKeyUpdate(
-                  $ofield,
-                  $this->attributesAccess[$field]->getInitialValue(),
-                  $this->attributesAccess[$field]->getValue(),
-                  $field
-                );
-              }
-            }
-            $tabobject->by_object[$tab]->save_object();
-            $tabobject->by_object[$tab]->save();
-          }
-        }
-      }
-    }
+  protected function attributeValue($field)
+  {
+    return $this->attributesAccess[$field]->getValue();
+  }
+
+  protected function attributeInitialValue($field)
+  {
+    return $this->attributesAccess[$field]->getInitialValue();
   }
 
   function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
   {
+    if (!isset($source['MODE'])) {
+      $source['MODE'] = 'move';
+    }
     $this->attributesAccess[$field]->foreignKeyUpdate($oldvalue, $newvalue, $source);
+  }
+
+  function foreignKeyCheck ($field, $value, $source)
+  {
+    return $this->attributesAccess[$field]->foreignKeyCheck($value, $source);
   }
 }
 

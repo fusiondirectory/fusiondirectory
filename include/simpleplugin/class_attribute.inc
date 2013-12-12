@@ -538,9 +538,16 @@ class Attribute
 
   function foreignKeyUpdate($oldvalue, $newvalue, $source)
   {
-    if ($this->getValue() == $oldvalue) {
-      $this->setValue($newvalue);
+    if ($source['MODE'] == 'move') {
+      if ($this->getValue() == $oldvalue) {
+        $this->setValue($newvalue);
+      }
     }
+  }
+
+  function foreignKeyCheck($value, $source)
+  {
+    return ($this->getValue() == $value);
   }
 }
 
@@ -1808,12 +1815,19 @@ class ArrayAttribute extends Attribute
       if ($value == $oldvalue) {
         if ($newvalue === NULL) {
           unset($this->value[$key]);
-        } else {
+        } elseif ($source['MODE'] == 'copy') {
+          $this->value[] = $newvalue;
+        } elseif ($source['MODE'] == 'move') {
           $value = $newvalue;
         }
       }
     }
     unset($value);
+  }
+
+  function foreignKeyCheck($value, $source)
+  {
+    return in_array($value, $this->value);
   }
 }
 
