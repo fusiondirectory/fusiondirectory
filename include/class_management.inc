@@ -396,8 +396,7 @@ class management
 
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removel confirmed!");
 
-    foreach ($this->dns as $key => $dn) {
-
+    foreach ($this->dns as $dn) {
       // Check permissions, are we allowed to remove this object?
       $acl = $this->ui->get_permissions($dn, $aclCategory."/".$this->aclPlugin);
       if (preg_match("/d/", $acl)) {
@@ -758,7 +757,7 @@ class management
       $msgs = $this->tabObject->check();
       if (count($msgs)) {
         msg_dialog::displayChecks($msgs);
-        return "";
+        return;
       } else {
         $this->tabObject->save();
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, "Entry saved!");
@@ -770,7 +769,7 @@ class management
       $msgs = $this->dialogObject->check();
       if (count($msgs)) {
         msg_dialog::displayChecks($msgs);
-        return "";
+        return;
       } else {
         $this->dialogObject->save();
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, "Entry saved!");

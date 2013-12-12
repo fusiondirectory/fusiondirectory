@@ -41,8 +41,6 @@ class objects
    */
   static function ls ($type, $attrs = NULL, $ou = NULL, $filter = '')
   {
-    global $config;
-
     if ($attrs === NULL) {
       $infos = self::infos($type);
       $attrs = $infos['mainAttr'];
@@ -95,8 +93,6 @@ class objects
    */
   static function count ($type, $ou = NULL, $filter = '')
   {
-    global $config;
-
     try {
       $ldap = self::search($type, array('dn'), $ou, $filter);
     } catch (EmptyFilterException $e) {
@@ -229,8 +225,6 @@ class objects
 
   static function isOfType ($attrs, $type)
   {
-    global $config;
-
     //TODO : cache ldapFilter objects?
     $infos  = self::infos($type);
     $filter = ldapFilter::parse($infos['filter']);

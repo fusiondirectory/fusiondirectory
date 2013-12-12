@@ -163,7 +163,6 @@ class Step_Config3 extends setup_step
 
   function save_config_in_ldap ()
   {
-    global $BASE_DIR;
     $cv = $this->parent->captured_values;
 
     $attrs = array(

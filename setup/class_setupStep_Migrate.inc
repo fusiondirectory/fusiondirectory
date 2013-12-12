@@ -112,7 +112,7 @@ class Step_Migrate extends setup_step
   /* One valid admin dn */
   var $valid_admin = FALSE;
 
-  function Step_Migrate()
+  function __construct()
   {
     $this->update_strings();
   }
@@ -554,7 +554,6 @@ class Step_Migrate extends setup_step
     $this->show_details = $only_ldif;
 
     /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
     $ldap = $this->get_ldap_link();
 
     /* Add gosaAccount objectClass to the selected users */
@@ -679,7 +678,6 @@ class Step_Migrate extends setup_step
     $this->show_details = $only_ldif;
 
     /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
     $ldap = $this->get_ldap_link();
 
     /* Add gosaDepartment objectClass to each selected entry */
@@ -785,7 +783,7 @@ class Step_Migrate extends setup_step
                     $valid_admin = $member;
                   }
                   $valid_users    .= $users[$member].", ";
-                  $FD_1_0_8_found  = TRUE;
+                  $FD_1_0_8_found = TRUE;
                 }
                 if (isset($groups[$member])) {
                   $ldap->cat($member);
@@ -832,7 +830,7 @@ class Step_Migrate extends setup_step
                       $valid_admin = $member;
                     }
                     $valid_users    .= $users[$member].", ";
-                    $FD_1_0_7_found  = TRUE;
+                    $FD_1_0_7_found = TRUE;
                   }
                 }
                 if (isset($groups[$member])) {
@@ -878,7 +876,7 @@ class Step_Migrate extends setup_step
                           $valid_admin = $member;
                         }
                         $valid_users    .= $users[$member].", ";
-                        $FD_1_0_7_found  = TRUE;
+                        $FD_1_0_7_found = TRUE;
                       }
                       if (isset($groups[$member])) {
                         $ldap->cat($member);
@@ -963,12 +961,11 @@ class Step_Migrate extends setup_step
     if ($attrs = $ldap->fetch()) {
       $roledn = $attrs['dn'];
     } else {
-      $roledn = 'cn=admin,'.get_ou(aclRoleRDN).$cv['base'];
-      if ($only_ldif) {
-      } else {
+      $roledn = 'cn=admin,'.get_ou('aclRoleRDN').$cv['base'];
+      if (!$only_ldif) {
         $ldap->create_missing_trees($roledn);
         $ldap->cd($roledn);
-        $attrs_role =  array(
+        $attrs_role = array(
           'cn'              => 'admin',
           'objectclass'     => array( 'top', 'gosaRole' ),
           'gosaAclTemplate' => '0:all;cmdrw'
@@ -1992,7 +1989,6 @@ class Step_Migrate extends setup_step
   function move($source, $destination)
   {
     /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
     $ldap = $this->get_ldap_link();
 
      /* Update object references in gosaGroupOfNames */
@@ -2304,7 +2300,6 @@ class Step_Migrate extends setup_step
   function migrate_services()
   {
     /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
     $ldap = $this->get_ldap_link();
 
     /* Handle each service */

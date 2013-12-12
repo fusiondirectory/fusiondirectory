@@ -56,9 +56,9 @@ class Step_Checks extends setup_step
   /* Execute all checks */
   function run_checks()
   {
-    $this->basic_checks = array();
-    $this->config_checks = array();
-    $this->is_writeable = array();
+    $this->basic_checks   = array();
+    $this->config_checks  = array();
+    $this->is_writeable   = array();
 
     /* PHP version check */
     $N = _("Checking PHP version");
@@ -157,7 +157,6 @@ class Step_Checks extends setup_step
     $M = FALSE;
     $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
-
     /* PHP Configuration checks */
 
     /* Register_globals off */
@@ -167,7 +166,6 @@ class Step_Checks extends setup_step
     $R = ini_get("register_globals") == 0;
     $M = FALSE;
     $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
-
 
     /* session lifetime set to >=86400 seconds ? */
     $N = "session.gc_maxlifetime &gt;= <b>86400</b>";
@@ -227,9 +225,7 @@ class Step_Checks extends setup_step
     $M = FALSE;
     $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
-
-    /* Configuration file
-     */
+    /* Configuration file */
 
     /* Check if we can create a config file.*/
     $N = _("Configuration writeable");
@@ -240,7 +236,6 @@ class Step_Checks extends setup_step
           || (!file_exists(CONFIG_DIR."/".CONFIG_FILE) && is_writeable(CONFIG_DIR));
     $M = FALSE;
     $this->is_writeable[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
-
   }
 
 

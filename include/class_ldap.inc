@@ -34,8 +34,8 @@ define("SPECIALS_OVERRIDE", TRUE);
  * ldap operations easy
  */
 
-class LDAP{
-
+class LDAP
+{
   var $hascon         = FALSE;
   var $reconnect      = FALSE;
   var $tls            = FALSE;
@@ -1073,7 +1073,6 @@ class LDAP{
     $admin  = escapeshellarg($this->binddn);
     $filter = escapeshellarg($filter);
 
-
     $cmd = "ldapsearch -x -LLLL -D {$admin} {$filter} {$limit} {$scope} -H {$host} -b {$dn} -w {$pwd} ";
 
     // Create list of process pipes
@@ -1248,8 +1247,9 @@ class LDAP{
       trigger_error("Can't import ldif, can't read config object.");
     }
 
-
-    if ($this->reconnect) $this->connect();
+    if ($this->reconnect) {
+      $this->connect();
+    }
 
     $ret  = FALSE;
     $rows = preg_split("/\n/", $str_attr);
@@ -1520,7 +1520,7 @@ class LDAP{
       die ("Can't bind to LDAP. No check possible!");
     }
     ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
-    $r = ldap_bind ($ds, $admin, $password);
+    ldap_bind ($ds, $admin, $password);
 
     /* Get base to look for naming contexts */
     $sr   = @ldap_read ($ds, "", "objectClass=*", array("+"));
@@ -1538,7 +1538,7 @@ class LDAP{
       die ("Can't bind to LDAP. No check possible!");
     }
     ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
-    $r = ldap_bind ($ds, $admin, $password);
+    ldap_bind ($ds, $admin, $password);
 
     /* Get base to look for naming contexts */
     $sr   = @ldap_read ($ds, "", "objectClass=*", array("+"));
