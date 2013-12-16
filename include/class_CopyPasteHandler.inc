@@ -327,20 +327,11 @@ class CopyPasteHandler
     $dst_dn = $this->current['object']->dn;
     $src_dn = $this->current['dn'];
 
+    $this->current->handleForeignKeys($src_dn, $dst_dn, ($this->current['method'] == 'cut'?'move':'copy'));
+
     // Only copy references if required
     if ($this->current['method'] != 'copy') {
       return;
-    }
-
-    // Migrate objectgroups
-    $ogroups = get_sub_list("(&(objectClass=gosaGroupOfNames)(member=".LDAP::prepare4filter(LDAP::fix($src_dn))."))",
-            "ogroup", array(get_ou("ogroupRDN")), $this->config->current['BASE'], array("dn"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
-
-    // Walk through all objectGroups
-    foreach ($ogroups as $ogroup) {
-      $o_ogroup = new ogroup($this->config, $ogroup['dn']);
-      $o_ogroup->member[$dst_dn] = $dst_dn;
-      $o_ogroup->save();
     }
 
     if (class_available('roleGeneric')) {
