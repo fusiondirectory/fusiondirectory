@@ -1061,14 +1061,6 @@ class plugin
   {
     /* Rename dn in possible object groups */
     $ldap = $this->config->get_ldap_link();
-    $ldap->search('(&(objectClass=gosaGroupOfNames)(member='.@LDAP::prepare4filter($src_dn).'))',
-        array('cn'));
-    while ($attrs = $ldap->fetch()) {
-      $og = new ogroup($this->config, $ldap->getDN());
-      unset($og->member[$src_dn]);
-      $og->member[$dst_dn] = $dst_dn;
-      $og->save();
-    }
 
     $ldap->cat($dst_dn);
     $attrs = $ldap->fetch();
@@ -1165,6 +1157,7 @@ class plugin
 
     /* Get list of users,groups and roles within this tree,
         maybe we have to update ACL references.
+        * TODO : replace this with a call to handleForeignKeys on sub objects
      */
     $leaf_objs = get_list("(|(objectClass=posixGroup)(objectClass=gosaAccount)(objectClass=gosaRole))", array("all"), $dst_dn,
                           array("dn","objectClass"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
@@ -1172,24 +1165,6 @@ class plugin
       $new_dn = $obj['dn'];
       $old_dn = preg_replace("/".preg_quote(LDAP::convert($dst_dn), '/')."$/i", $src_dn, LDAP::convert($new_dn));
       $this->update_acls($old_dn, $new_dn);
-    }
-
-    // Migrate objectgroups if needed
-    $ogroups = get_sub_list("(&(objectClass=gosaGroupOfNames)(member=".LDAP::prepare4filter(LDAP::fix($src_dn))."))",
-                            "ogroup", array(get_ou("ogroupRDN")), $this->config->current['BASE'],
-                            array("dn"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
-
-    // Walk through all objectGroups
-    foreach ($ogroups as $ogroup) {
-      // Migrate old to new dn
-      $o_ogroup = new ogroup($this->config, $ogroup['dn']);
-      if (isset($o_ogroup->member[$src_dn])) {
-        unset($o_ogroup->member[$src_dn]);
-      }
-      $o_ogroup->member[$dst_dn] = $dst_dn;
-
-      // Save object group
-      $o_ogroup->save();
     }
 
     if (class_available('roleGeneric')) {
@@ -1204,20 +1179,6 @@ class plugin
           $role->roleOccupant[$key] = $dst_dn;
           $role->save();
         }
-      }
-    }
-
-    // Update 'manager' attributes from gosaDepartment and inetOrgPerson
-    $filter     = '(&(objectClass=inetOrgPerson)(manager='.LDAP::prepare4filter(LDAP::fix($src_dn)).'))';
-    $filter     = '(|'.$filter.'(&(objectClass=gosaDepartment)(manager='.LDAP::prepare4filter(LDAP::fix($src_dn)).')))';
-    $leaf_deps  = get_list($filter, array('all'), $this->config->current['BASE'],
-                            array('manager','dn','objectClass'), GL_SUBSEARCH | GL_NO_ACL_CHECK);
-    foreach ($leaf_deps as $entry) {
-      $update = array('manager' => $dst_dn);
-      $ldap->cd($entry['dn']);
-      $ldap->modify($update);
-      if (!$ldap->success()) {
-        trigger_error(sprintf("Failed to update manager for '%s', error was '%s'", $entry['dn'], $ldap->get_error()));
       }
     }
 
