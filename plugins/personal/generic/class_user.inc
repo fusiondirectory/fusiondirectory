@@ -705,38 +705,6 @@ class user extends plugin
 
     new log("remove","user/".get_class($this),$this->dn,$this->attributes,$ldap->get_error());
 
-    /* Delete references to groups */
-    $ldap->cd ($this->config->current['BASE']);
-    $ldap->search ("(&(objectClass=posixGroup)(memberUid=".$this->uid."))", array("uid"));
-    while ($ldap->fetch()){
-      $g= new group($this->config, $ldap->getDN());
-      $g->removeUser($this->uid);
-      $g->save ();
-    }
-
-    /* Delete references to object groups */
-    $ldap->cd ($this->config->current['BASE']);
-    $ldap->search ("(&(objectClass=gosaGroupOfNames)(member=".LDAP::prepare4filter($this->dn)."))", array("cn"));
-    while ($ldap->fetch()){
-      $og= new ogroup($this->config, $ldap->getDN());
-      unset($og->member[$this->dn]);
-      $og->save ();
-    }
-
-    // Update 'manager' attributes from gosaDepartment and inetOrgPerson
-    $filter = '(&(objectClass=inetOrgPerson)(manager='.$fixed_dn.'))';
-    $filter = '(|'.$filter.'(&(objectClass=gosaDepartment)(manager='.$fixed_dn.')))';
-    $leaf_deps = get_list($filter, array('all'), $this->config->current['BASE'],
-        array('manager','dn','objectClass'), GL_SUBSEARCH | GL_NO_ACL_CHECK);
-    foreach ($leaf_deps as $entry) {
-      $update = array('manager' => array());
-      $ldap->cd($entry['dn']);
-      $ldap->modify($update);
-      if(!$ldap->success()){
-        trigger_error(sprintf("Failed to update manager for '%s', error was '%s'", $entry['dn'], $ldap->get_error()));
-      }
-    }
-
     if (class_available('roleGeneric')) {
       /* Delete references to roles */
       $ldap->cd ($this->config->current['BASE']);

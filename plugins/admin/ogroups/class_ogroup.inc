@@ -894,7 +894,9 @@ class ogroup extends plugin
         if ($source['MODE'] != 'copy') {
           unset($this->member[$oldvalue]);
         }
-        $this->member[$newvalue] = $newvalue;
+        if ($newvalue !== NULL) {
+          $this->member[$newvalue] = $newvalue;
+        }
       }
     } else {
       return parent::foreignKeyUpdate($field, $oldvalue, $newvalue, $source);
