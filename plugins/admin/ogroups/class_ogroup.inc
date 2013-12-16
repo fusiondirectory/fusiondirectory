@@ -887,6 +887,29 @@ class ogroup extends plugin
     $this->handle_post_events("remove");
   }
 
+  function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
+  {
+    if (($field == 'member') && ($source['FIELD'] == 'dn')) {
+      if (isset($this->member[$oldvalue])) {
+        if ($source['MODE'] != 'copy') {
+          unset($this->member[$oldvalue]);
+        }
+        $this->member[$newvalue] = $newvalue;
+      }
+    } else {
+      return parent::foreignKeyUpdate($field, $oldvalue, $newvalue, $source);
+    }
+  }
+
+  function foreignKeyCheck ($field, $value, $source)
+  {
+    if (($field == 'member') && ($source['FIELD'] == 'dn')) {
+      return isset($this->member[$value]);
+    } else {
+      return parent::foreignKeyCheck($field, $value, $source);
+    }
+  }
+
   function IsReleaseManagementActivated()
   {
     /* Check if we should enable the release selection */
@@ -908,8 +931,21 @@ class ogroup extends plugin
         'icon'        => 'plugins/ogroups/images/iconMini.png',
         'tabClass'    => 'ogrouptabs',
       )),
+      'plForeignKeys'  => array(
+        'member' => array(
+          array('user'),
+          array('group'),
+          array('application'),
+          array('server'),
+          array('workstation'),
+          array('winstation'),
+          array('terminal'),
+          array('phone'),
+          array('printer'),
+        )
+      ),
 
-      "plProvidedAcls"=> array(
+      "plProvidedAcls" => array(
         "cn"                => _("Name"),
         "base"              => _("Base"),
         "description"       => _("Description"),

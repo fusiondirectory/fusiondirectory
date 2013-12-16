@@ -1144,9 +1144,11 @@ class group extends plugin
 
   function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
   {
-    if ($field == 'memberUid' && $source == 'uid') {
+    if (($field == 'memberUid') && ($source['CLASS'] == 'user') && ($source['FIELD'] == 'uid')) {
       if (isset($this->memberUid[$oldvalue])) {
-        $this->removeUser($oldvalue);
+        if ($source['MODE'] != 'copy') {
+          $this->removeUser($oldvalue);
+        }
         $this->addUser($newvalue);
       }
     } else {
@@ -1156,7 +1158,7 @@ class group extends plugin
 
   function foreignKeyCheck ($field, $value, $source)
   {
-    if ($field == 'memberUid' && $source == 'uid') {
+    if (($field == 'memberUid') && ($source['CLASS'] == 'user') && ($source['FIELD'] == 'uid')) {
       return isset($this->memberUid[$value]);
     } else {
       return parent::foreignKeyCheck($field, $value, $source);
