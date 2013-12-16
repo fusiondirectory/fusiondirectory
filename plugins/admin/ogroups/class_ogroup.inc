@@ -142,6 +142,17 @@ class ogroup extends simplePlugin
         'icon'        => 'plugins/ogroups/images/iconMini.png',
         'tabClass'    => 'ogrouptabs',
       )),
+      'plForeignKeys'  => array(
+        'member' => array_values(
+          array_map(
+            function ($a)
+            {
+              return array($a);
+            },
+            self::$objectTypes
+          )
+        )
+      ),
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(self::getAttributesInfo())
     );
