@@ -19,16 +19,18 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class aclManagement extends management
+class aclManagement extends simpleManagement
 {
-  // Tab definition
-  protected $tabClass     = "simpleTabs_noSpecial";
-  protected $tabType      = "ACLASSIGNMENTTABS";
-  protected $aclCategory  = "acl";
-  protected $aclPlugin    = "aclAssignment";
-  protected $objectName   = "ACL";
+  protected $objectTypes  = array('aclAssignment');
 
-  /* Return plugin informations for acl handling */
+  protected $autoFilterAttributes = array('dn', 'cn', 'description', 'ou', 'dc');
+
+  protected $departmentBrowser      = FALSE;
+  protected $departmentRootVisible  = FALSE;
+  protected $baseMode               = FALSE;
+  protected $skipCpHandler    = TRUE;
+  protected $skipSnapHandler  = TRUE;
+
   static function plInfo()
   {
     return array(
@@ -43,60 +45,26 @@ class aclManagement extends management
     );
   }
 
-  function __construct(&$config, $ui)
+  function configureFilter()
   {
-    $this->config = $config;
-    $this->ui     = $ui;
-
-    $this->storagePoints = array(''); // ACLs are attached to department containers
-
-    // Build filter
-    if (session::global_is_set(get_class($this)."_filter")) {
-      $filter = session::global_get(get_class($this)."_filter");
-    } else {
-      $filter = new filter(get_template_path("acl-filter.xml", TRUE));
-      $filter->setObjectStorage($this->storagePoints);
-    }
-    $this->setFilter($filter);
-
-    // Build headpage
-    $headpage = new listing(get_template_path("acl-list.xml", TRUE));
-    $headpage->registerElementFilter("filterLabel", "aclManagement::filterLabel");
-    $headpage->setFilter($filter);
-
-    parent::__construct($this->config, $ui, "acl", $headpage);
+    parent::configureFilter();
+    $this->filter->scope = 'sub';
   }
 
-  function removeEntryConfirmed ($action = "", $target = array(), $all = array(), $altTabClass = "", $altTabType = "", $altAclCategory = "")
+  function parseXML ($file)
   {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removal confirmed!");
-    $headpage = $this->getHeadpage();
-
-    foreach ($this->dns as $key => $dn) {
-      // Check permissions, are we allowed to remove this object?
-      $acl = $this->ui->get_permissions($dn, $this->aclCategory."/".$this->aclPlugin);
-      if (preg_match("/d/", $acl)) {
-        // Delete the object
-        $this->dn = $dn;
-        $this->tabObject = new $this->tabClass('aclAssignment', $this->dn);
-        $this->tabObject->set_acl_base($this->dn);
-        $this->tabObject->delete();
-        $this->tabObject->parent = &$this;
-
-        // Remove the lock for the current object.
-        del_lock($this->dn);
-      } else {
-        msg_dialog::display(_("Permission error"), msgPool::permDelete(), ERROR_DIALOG);
-        new log("security", "acl/".get_class($this), $dn, array(), "Tried to trick deletion.");
-      }
-    }
-
-    // Cleanup
-    $this->remove_lock();
-    $this->closeDialogs();
+    $data = parent::parseXML($file);
+    $data['list']['table']['column'][1]['value']          = '%{filter:filterLabel(row,dn,ou,cn,pid,base)}';
+    $data['list']['table']['column'][1]['sortAttribute']  = 'dn';
+    return $data;
   }
 
-  // A filter which allows to open a department by clicking on the departments name.
+  function configureHeadpage ()
+  {
+    $this->headpage->registerElementFilter('filterLabel', 'aclManagement::filterLabel');
+    parent::configureHeadpage();
+  }
+
   static function filterLabel($row, $dn, $ou = array(), $pid = 0, $base = "")
   {
     $ou = $ou[0];
@@ -107,6 +75,15 @@ class aclManagement extends management
 
     $dn = LDAP::fix($dn);
     return "<a href='?plug=".$_GET['plug']."&amp;PID=$pid&amp;act=listing_edit_$row' title='$dn'>$ou</a>";
+  }
+
+  protected function removeEntryRequested($action = "", $target = array(), $all = array())
+  {
+    $result = parent::removeEntryRequested($action, $target, $all);
+    if ($result != "") {
+      $smarty = get_smarty();
+      return $smarty->fetch(get_template_path('remove.tpl', TRUE, dirname(__FILE__)));
+    }
   }
 }
 ?>

@@ -99,12 +99,12 @@ class aclAssignmentDialogWindow extends simplePlugin
     $smarty = get_smarty();
     $display = parent::execute();
     if (!is_object($this->dialog)) {
-    $display .= $smarty->fetch('string:'.
-      '<p class="plugbottom">'.
-      '  <input type="submit" name="add_acl_finish" value="{msgPool type=addButton}"/>'.
-      '  &nbsp;'.
-      '  <input type="submit" name="add_acl_cancel" value="{msgPool type=cancelButton}"/>'.
-      '</p>');
+      $display .= $smarty->fetch('string:'.
+        '<p class="plugbottom">'.
+        '  <input type="submit" name="add_acl_finish" value="{msgPool type=addButton}"/>'.
+        '  &nbsp;'.
+        '  <input type="submit" name="add_acl_cancel" value="{msgPool type=cancelButton}"/>'.
+        '</p>');
     }
     return $display;
   }
@@ -173,13 +173,12 @@ class ACLsAssignmentDialog extends GenericDialog
 
 class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
 {
-  protected $order = TRUE;
-  protected $dialogClass = 'ACLsAssignmentDialog';
+  protected $order        = TRUE;
+  protected $dialogClass  = 'ACLsAssignmentDialog';
 
   protected function getAttributeArrayValue($value)
   {
     /* Convert text value to displayable array value */
-    //~ return explode(':', $value);
     $value['members'] = join(', ', $value['members']);
     return $value;
   }
@@ -225,7 +224,7 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
 
   function foreignKeyCheck($oldvalue, $source)
   {
-    foreach ($this->value as $key => $value) {
+    foreach ($this->value as $value) {
       if (($source['CLASS'] == 'aclRole') && ($value['role'] == $oldvalue)) {
         return TRUE;
       } elseif (($source['CLASS'] == 'user' || $source['CLASS'] == 'group') && in_array($oldvalue, $value['members'])) {
@@ -253,6 +252,7 @@ class aclAssignment extends simplePlugin
           'filter'      => 'objectClass=gosaAcl',
           'ou'          => '',
           'icon'        => 'plugins/acl/images/iconMini.png',
+          'tabClass'    => 'simpleTabs_noSpecial',
         ),
         'special' => array(
           'name' => 'special'
