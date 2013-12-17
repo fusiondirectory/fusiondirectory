@@ -286,7 +286,7 @@ class CopyPasteHandler
 
   private function save_current($object = NULL)
   {
-    if ($objet !== NULL) {
+    if ($object !== NULL) {
       $this->current = $object;
     }
     $this->lastdn = $this->current['object']->dn;
@@ -327,7 +327,7 @@ class CopyPasteHandler
     $dst_dn = $this->current['object']->dn;
     $src_dn = $this->current['dn'];
 
-    $this->current->handleForeignKeys($src_dn, $dst_dn, ($this->current['method'] == 'cut'?'move':'copy'));
+    $this->current['object']->getBaseObject()->handleForeignKeys($src_dn, $dst_dn, ($this->current['method'] == 'cut'?'move':'copy'));
 
     // Only copy references if required
     if ($this->current['method'] != 'copy') {
