@@ -203,11 +203,11 @@ class simpleManagement extends management
       }
       $filter .= ')';
       $attributes = array_values(array_unique($attributes));
-      $this->filter->query[0]['filter']     = '(&'.$filter.'$NAME)';
-      $this->filter->query[0]['attribute']  = $attributes;
-      $this->filter->elements['NAME']['set'] = '(|('.join('=*$*)(', $attributes).'=*$*))';
-      $this->filter->elements['NAME']['autocomplete']['filter'] = '(&'.$filter.'(|('.join('=*$NAME*)(', $attributes).'=*$NAME*))'.')';
-      $this->filter->elements['NAME']['autocomplete']['attribute'] = $attributes;
+      $this->filter->query[0]['filter']       = '(&'.$filter.'$NAME)';
+      $this->filter->query[0]['attribute']    = $attributes;
+      $this->filter->elements['NAME']['set']  = '(|('.join('=*$*)(', $attributes).'=*$*))';
+      $this->filter->elements['NAME']['autocomplete']['filter']     = '(&'.$filter.'(|('.join('=*$NAME*)(', $attributes).'=*$NAME*))'.')';
+      $this->filter->elements['NAME']['autocomplete']['attribute']  = $attributes;
       uasort($this->filter->elements, 'strlenSort');
       $this->filter->elements = array_reverse($this->filter->elements);
     }
