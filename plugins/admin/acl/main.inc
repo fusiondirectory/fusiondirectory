@@ -1,9 +1,7 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,36 +18,5 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/* Remove locks created by this plugin
-*/
-if ($remove_lock){
-  if(session::is_set('aclManagement')){
-      $macl = session::get('aclManagement');
-      $macl->remove_lock();
-  }
-}
-
-/* Remove this plugin from session
-*/
-if ( $cleanup ){
-  session::un_set('aclManagement');
-}else{
-  /* Reset requested? */
-  if (isset($_GET['reset']) && $_GET['reset'] == 1){
-    session::un_set ('aclManagement');
-  }
-
-  /* Create usermanagement object on demand */
-  if (!session::is_set('aclManagement')){
-    $aclManagement= new aclManagement ($config, $ui);
-    session::set('aclManagement',$aclManagement);
-  }
-  $aclManagement = session::get('aclManagement');
-  $display= $aclManagement->execute();
-
-  /* Show and save dialog */
-  session::set('aclManagement',$aclManagement);
-}
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
+simpleManagement::mainInc('aclManagement');
 ?>
