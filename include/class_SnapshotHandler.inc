@@ -130,9 +130,6 @@ class SnapshotHandler {
       return array();
     }
 
-    // Load user info
-    $ui = get_userinfo();
-
     list($ldap, $snapshotLdap) = $this->get_ldap_links();
 
     // Initialize base
@@ -144,7 +141,6 @@ class SnapshotHandler {
     $snapshotLdap->ls("(objectClass=gosaSnapshotObject)", $base,
                       array("gosaSnapshotType", "gosaSnapshotTimestamp", "gosaSnapshotDN", "description"));
     while ($entry = $snapshotLdap->fetch()) {
-
       $chk = str_replace($base, "", $entry['dn']);
       if (preg_match("/,ou=/", $chk)) {
         continue;
@@ -253,9 +249,6 @@ class SnapshotHandler {
       $dns = array($dn);
     }
 
-    /* Get configuration from fusiondirectory.conf */
-    $config = $this->config;
-
     list($ldap, $ldap_to) = $this->get_ldap_links();
 
     /* check if the dn exists */
@@ -309,7 +302,6 @@ class SnapshotHandler {
       if (!$ldap->success()) {
         msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $new_base, "", get_class()));
       }
-
     }
   }
 
@@ -389,7 +381,6 @@ class SnapshotHandler {
     /* Prepare bases */
     $new_base       = $this->snapshot_dn($base_of_object);
     /* Fetch all objects and check if they do not exist anymore */
-    $ui   = get_userinfo();
     $tmp  = array();
     $ldap_to->cd($new_base);
     $ldap_to->ls("(objectClass=gosaSnapshotObject)", $new_base, array("gosaSnapshotType","gosaSnapshotTimestamp","gosaSnapshotDN","description"));
@@ -442,7 +433,7 @@ class SnapshotHandler {
 
     /* Get the snapshot */
     $ldap_to->cat($dn);
-    $restoreObject = $ldap_to->fetch();
+    $ldap_to->fetch();
 
     /* Prepare import string */
     $data = gzuncompress($ldap_to->get_attribute($dn, 'gosaSnapshotData'));
@@ -450,7 +441,7 @@ class SnapshotHandler {
     /* Import the given data */
     try {
       $ldap->import_complete_ldif($data, FALSE, FALSE);
-    } catch(Exception $e) {
+    } catch (Exception $e) {
       msg_dialog::display(_('LDAP error'), $e->getMessage(), ERROR_DIALOG);
     }
     if (!$ldap->success()) {

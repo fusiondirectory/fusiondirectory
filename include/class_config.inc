@@ -1072,8 +1072,8 @@ class config  {
     /* Check if we have a current value for $name */
     if (isset($this->current[$name])) {
       $res = $this->current[$name];
-    /* Check if we have a global value for $name */
     } elseif (isset($this->data["MAIN"][$name])) {
+      /* Check if we have a global value for $name */
       $res = $this->data["MAIN"][$name];
     }
 
@@ -1372,7 +1372,7 @@ class config  {
     foreach ($this->data['CATEGORIES'] as $name => &$infos) {
       $infos['classes'] = array_unique($infos['classes']);
       if (!isset($infos['description'])) {
-        trigger_error("ACL category '$name' for classes ".join(',',$infos['classes'])." has no definition");
+        trigger_error("ACL category '$name' for classes ".join(',', $infos['classes'])." has no definition");
         $infos['description'] = $name;
         $infos['objectClass'] = array();
       }

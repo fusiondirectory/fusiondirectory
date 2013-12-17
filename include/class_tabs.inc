@@ -222,9 +222,9 @@ class tabs
     if (!$disabled) {
       $display .= '<input type="hidden" name="arg" value=""/>';
     }
-    $display .= '<table class="tabs_header"><tbody><tr>';
-    $index = 0;
-    $style = array("tab_left", "tab_active", "tab_near_active", "tab_right");
+    $display  .= '<table class="tabs_header"><tbody><tr>';
+    $index    = 0;
+    $style    = array("tab_left", "tab_active", "tab_near_active", "tab_right");
     foreach ($this->by_name as $class => $name) {
 
       /* Activate right tabs with style "tab_right"
@@ -270,8 +270,8 @@ class tabs
       }
     }
 
-    $display.= "<td>\n";
-    $display.= "<div class=\"tab_border\">&nbsp;</div></td></tr></tbody></table>";
+    $display .= "<td>\n";
+    $display .= "<div class=\"tab_border\">&nbsp;</div></td></tr></tbody></table>";
 
     return $display;
   }

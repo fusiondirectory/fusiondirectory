@@ -394,7 +394,7 @@ class management
     if (!empty($altTabType)) $tabType = $altTabType;
     if (!empty($altAclCategory)) $aclCategory = $altAclCategory;
 
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removel confirmed!");
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removal confirmed!");
 
     foreach ($this->dns as $dn) {
       // Check permissions, are we allowed to remove this object?

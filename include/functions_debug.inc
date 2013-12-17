@@ -183,7 +183,6 @@ class Print_a_class {
       $this->output .= '</td>';
       $this->output .= '<td nowrap="nowrap" style="background-color:#'.$this->value_bg_color.';font: '.$this->fontsize.' '.$this->fontfamily.'; color:black;">';
 
-
       // value output
       if ($type == 'array') {
         if (count($value)) {

@@ -206,13 +206,9 @@ class msg_dialog
     $return     = "";
     $dialog_ids = "";
 
-    $seen = "";
-    /*if (isset($_POST['closed_msg_dialogs'])) {
-      $seen = $_POST['closed_msg_dialogs'];
-    }*/
-
-    if (session::is_set('msg_dialogs') && is_array(session::get('msg_dialogs')) && count(session::get('msg_dialogs'))) {
-
+    if (session::is_set('msg_dialogs') &&
+        is_array(session::get('msg_dialogs')) &&
+        count(session::get('msg_dialogs'))) {
       /* Get frame one */
       $smarty = get_smarty();
       $smarty->assign("frame", TRUE);
@@ -220,9 +216,7 @@ class msg_dialog
 
       $msg_dialogs = session::get('msg_dialogs');
       foreach ($msg_dialogs as $key => $dialog) {
-        if (preg_match("/".$dialog->get_ID()."/", $seen)) {
-          unset($msg_dialogs[$key]);
-        } else {
+        if (!preg_match("/".$dialog->get_ID()."/", "")) {
           $return     .= $dialog->execute();
           $dialog_ids = $dialog->get_ID().",".$dialog_ids;
         }
@@ -239,6 +233,5 @@ class msg_dialog
     }
     return $return;
   }
-
 }
 ?>
