@@ -174,8 +174,7 @@ class CopyPasteHandler
    */
   function execute($base)
   {
-    $ui   = get_userinfo();
-    $type = $this->current['method'];
+    $ui = get_userinfo();
 
     /* Check which entries can be pasted directly.
      * Create a list of all entries that can be pasted directly.

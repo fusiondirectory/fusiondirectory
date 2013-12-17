@@ -180,7 +180,7 @@ class divSelectBox
       $cnt = 0;
 
       $this->cols = count($s_value);
-      foreach ($s_value as $s_key2 => $s_value2) {
+      foreach ($s_value as $s_value2) {
         $cnt++;
 
         if (!isset($s_value2['class'])) {

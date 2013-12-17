@@ -229,9 +229,6 @@ class listing {
         'filter'      => ldapFilter::parse($i['filter']),
         'nameAttr'    => $i['nameAttr'],
       );
-      if (!isset($i['nameAttr'])) {
-        print_r($i);
-      }
     }
     $this->categories = array();
     if (isset($this->xmlData['definition']['objectType'])) {
@@ -1178,7 +1175,6 @@ class listing {
    */
   function getAction()
   {
-    global $config;
     // Do not do anything if this is not our PID, or there's even no PID available...
     if (!isset($_REQUEST['dn']) && (!isset($_REQUEST['PID']) || $_REQUEST['PID'] != $this->pid)) {
       return;

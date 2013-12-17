@@ -1714,7 +1714,6 @@ class plugin
   */
   function get_allowed_bases()
   {
-    $ui = get_userinfo();
     $deps = array();
 
     /* Is this a new object ? Or just an edited existing object */
@@ -1735,9 +1734,7 @@ class plugin
     /* Add current base */
     if (isset($this->base) && isset($this->config->idepartments[$this->base])) {
       $deps[$this->base] = $this->config->idepartments[$this->base];
-    } elseif (strtolower($this->dn) == strtolower($this->config->current['BASE'])) {
-
-    } else {
+    } elseif (strtolower($this->dn) != strtolower($this->config->current['BASE'])) {
       trigger_error("Cannot return list of departments, no default base found in class ".get_class($this).". (base is '".$this->base."')");
     }
     return $deps;

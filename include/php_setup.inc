@@ -274,7 +274,6 @@ ini_set("include_path", ".:$BASE_DIR/include:".PHP_DIR.":".PEAR_DIR);
 /* Do smarty setup */
 require(SMARTY);
 
-/*require(SMARTY_PATH);*/
 $smarty = new Smarty;
 
 $smarty->template_dir = $BASE_DIR.'/ihtml/';

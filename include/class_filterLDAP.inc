@@ -51,11 +51,8 @@ class filterLDAP {
    */
   static function query($parent, $base, $scope, $filter, $attributes, $category, $objectStorage = array(""))
   {
-    $config = session::global_get('config');
-    $ldap   = $config->get_ldap_link(TRUE);
     $flag   = ($scope == "sub"?GL_SUBSEARCH:0);
-    $result = filterLDAP::get_list($parent, $base, $filter, $attributes, $category, $objectStorage, $flag | GL_SIZELIMIT);
-    return $result;
+    return filterLDAP::get_list($parent, $base, $filter, $attributes, $category, $objectStorage, $flag | GL_SIZELIMIT);
   }
 
   /*!
@@ -152,7 +149,7 @@ class filterLDAP {
       // In no-subsearch mode overwrite default method if
       // current base equals the initial base
       if ($base == $initial_base && !($flags & GL_SUBSEARCH)) {
-          $method = "ls";
+        $method = "ls";
       }
 
       if ($method == "ls") {
@@ -191,7 +188,7 @@ class filterLDAP {
               $result[] = $attrs;
             }
           } else {
-            //trigger_error("Invalid objectType given, please check listing.xml '{$dn}'!");
+            @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Invalid objectType given, please check listing.xml");
           }
         }
       }
