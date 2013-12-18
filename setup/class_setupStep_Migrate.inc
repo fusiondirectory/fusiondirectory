@@ -1798,7 +1798,7 @@ class Step_Migrate extends setup_step
 
         /* Create a minimal config object for objectType infos */
         global $config, $plist;
-        $config = new config();
+        $config = new config("");
         load_all_classes();
         $plist  = new pluglist($config, $ui);
         $config->loadPlist($plist);
