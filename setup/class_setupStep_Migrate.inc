@@ -1806,12 +1806,16 @@ class Step_Migrate extends setup_step
         /* Try to detect base class type, e.g. is it a dcObject */
         $dep_types  = departmentManagement::getDepartmentTypes();
         $dep_type   = "";
+        $attrs['objectClass'][] = 'gosaDepartment'; // This allow us to filter it as if it was already migrated
         foreach ($dep_types as $type) {
           if (objects::isOfType($attrs, $type)) {
             $dep_type = $type;
             break;
           }
         }
+        $key = array_search('gosaDepartment', $attrs['objectClass']);
+        unset($attrs['objectClass'][$key]);
+
 
         /* If no known base class was detect, abort with message */
         if (empty($dep_type)) {
