@@ -29,7 +29,7 @@ class Step_Ldap extends setup_step
   var $base         = "";
   var $admin_given  = "";
 
-  var $append_base_to_admin_dn = FALSE;
+  var $append_base_to_admin_dn = TRUE;
 
   var $connect_id = FALSE;
   var $bind_id    = FALSE;
@@ -72,6 +72,9 @@ class Step_Ldap extends setup_step
     /* Handle namingContext detection */
     $attr = @LDAP::get_naming_contexts($this->connection);
     unset($attr['count']);
+    if (!empty($attr) && !in_array($this->base, $attr)) {
+      $this->base = $attr[0];
+    }
     $smarty->assign("namingContexts", $attr);
     $smarty->assign("namingContextsCount", count($attr));
     $smarty->assign("bool", array(FALSE => _("No"), TRUE => _("Yes")));
