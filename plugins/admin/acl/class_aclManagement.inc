@@ -28,8 +28,9 @@ class aclManagement extends simpleManagement
   protected $departmentBrowser      = FALSE;
   protected $departmentRootVisible  = FALSE;
   protected $baseMode               = FALSE;
-  protected $skipCpHandler    = TRUE;
-  protected $skipSnapHandler  = TRUE;
+  protected $skipCpHandler          = TRUE;
+  protected $skipSnapHandler        = TRUE;
+  protected $autoActions            = FALSE;
 
   static function plInfo()
   {
@@ -56,11 +57,13 @@ class aclManagement extends simpleManagement
     $data = parent::parseXML($file);
     $data['list']['table']['column'][1]['value']          = '%{filter:filterLabel(row,dn,ou,cn,pid,base)}';
     $data['list']['table']['column'][1]['sortAttribute']  = 'dn';
+    array_shift($data['list']['actionmenu']['action']);
     return $data;
   }
 
   function configureHeadpage ()
   {
+    $this->headpage->objectTypes = array(); // Remove department types so that we don't mistake assignments with them.
     $this->headpage->registerElementFilter('filterLabel', 'aclManagement::filterLabel');
     parent::configureHeadpage();
   }
