@@ -1797,11 +1797,11 @@ class Step_Migrate extends setup_step
         }
 
         /* Try to detect base class type, e.g. is it a dcObject */
-        $dep_types  = departmentManagement::get_support_departments();
+        $dep_types  = departmentManagement::getDepartmentTypes();
         $dep_type   = "";
-        foreach ($dep_types as $dep_name => $dep_class) {
-          if (in_array($dep_class['CLASS'], $attrs['objectClass'])) {
-            $dep_type = $dep_name;
+        foreach ($dep_types as $type) {
+          if (objects::isOfType($attrs, $type)) {
+            $dep_type = $type;
             break;
           }
         }
@@ -1814,6 +1814,7 @@ class Step_Migrate extends setup_step
             sprintf(_("Cannot handle the structural object type of your root object. Please try to add the object class '%s' manually."), "gosaDepartment");
           return;
         }
+        $dep_infos = objects::infos($dep_type);
 
         /* Create 'current' and 'target' object properties, to be able to display
          *  a set of modifications required to create a valid FusionDirectory department.
@@ -1837,8 +1838,8 @@ class Step_Migrate extends setup_step
         /* Append attribute 'ou', it is required by gosaDepartment */
         if (!isset($attrs['ou'])) {
           $val = "GOsa";
-          if (isset($attrs[$dep_types[$dep_type]['ATTR']][0])) {
-            $val = $attrs[$dep_types[$dep_type]['ATTR']][0];
+          if (isset($attrs[$dep_infos['mainAttr']][0])) {
+            $val = $attrs[$dep_infos['mainAttr']][0];
           }
           $str .= "<b>ou: ".$val."</b>\n";
 
@@ -1848,8 +1849,8 @@ class Step_Migrate extends setup_step
         /*Append description, it is required by gosaDepartment too */
         if (!isset($attrs['description'])) {
           $val = "GOsa";
-          if (isset($attrs[$dep_types[$dep_type]['ATTR']][0])) {
-            $val = $attrs[$dep_types[$dep_type]['ATTR']][0];
+          if (isset($attrs[$dep_infos['mainAttr']][0])) {
+            $val = $attrs[$dep_infos['mainAttr']][0];
           }
           $str .= "<b>description: ".$val."</b>\n";
 
