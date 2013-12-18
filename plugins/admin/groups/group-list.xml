@@ -60,7 +60,7 @@
   <actionmenu>
 
     <action>
-      <name>create</name>
+      <name>new</name>
       <type>sub</type>
       <image>images/lists/new.png</image>
       <label>Create</label>
