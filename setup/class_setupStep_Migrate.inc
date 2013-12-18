@@ -1800,7 +1800,7 @@ class Step_Migrate extends setup_step
         global $config, $plist;
         $config = new config();
         load_all_classes();
-        $plist = new pluglist($config, NULL);
+        $plist  = new pluglist($config, $ui);
         $config->loadPlist($plist);
 
         /* Try to detect base class type, e.g. is it a dcObject */
