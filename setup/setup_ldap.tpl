@@ -83,7 +83,7 @@
     <div class='step4_name'>
     </div>
     <div class='step4_value'>
-      <input onClick='document.mainform.submit();' {if $append_base_to_admin_dn} checked {/if} type='checkbox' name='append_base_to_admin_dn' value='1'>&nbsp;{t}Automatically append LDAP base to admin DN{/t}
+      <input onClick='document.mainform.submit();' {if $append_base_to_admin_dn} checked {/if} type='checkbox' name='append_base_to_admin_dn' id='append_base_to_admin_dn' value='1'/><label for="append_base_to_admin_dn">&nbsp;{t}Automatically append LDAP base to admin DN{/t}</label>
     </div>
   </div>
 
