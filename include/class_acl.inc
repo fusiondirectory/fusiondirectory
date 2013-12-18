@@ -349,7 +349,7 @@ class acl extends plugin
       unset($attrs['gosaAclEntry']['count']);
 
       // Remove entry directly
-      foreach ($attrs['gosaAclEntry'] as $id => $entry) {
+      foreach ($attrs['gosaAclEntry'] as $entry) {
         $parts        = explode(':', $entry);
         $members      = explode(',', $parts[2]);
         $new_members  = array();

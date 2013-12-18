@@ -157,7 +157,6 @@ class SnapShotDialog extends plugin
 
       /* Should we only display all snapshots of already deleted objects
                 or the snapshots for the given object dn */
-      $res = array();
       $tmp = array();
       if ($this->display_all_removed_objects) {
         $snap_shot_bases = $this->snapHandler->getSnapshotBases();

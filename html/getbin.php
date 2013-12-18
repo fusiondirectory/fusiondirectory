@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
@@ -21,18 +20,18 @@
 */
 
 /* Basic setup, remove eventually registered sessions */
-@require_once ("../include/php_setup.inc");
-@require_once ("functions.inc");
-@require_once ("variables.inc");
+@require_once("../include/php_setup.inc");
+@require_once("functions.inc");
+@require_once("variables.inc");
 
 error_reporting (0);
 session_cache_limiter("private");
 session::start();
-session::global_set('errorsAlreadyPosted',array());
+session::global_set('errorsAlreadyPosted', array());
 
 /* Logged in? Simple security check */
-if (!session::global_is_set('ui')){
-  new log("security","unknown","",array(),"Error: getbin.php called without session") ;
+if (!session::global_is_set('ui')) {
+  new log("security", "unknown", "", array(), "Error: getbin.php called without session");
   header ("Location: index.php");
   exit;
 }
@@ -52,6 +51,4 @@ if (session::is_set('binaryfile')) {
 
 echo session::get('binary');
 error_reporting (E_ALL | E_STRICT);
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
