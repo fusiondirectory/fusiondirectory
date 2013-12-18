@@ -1796,6 +1796,13 @@ class Step_Migrate extends setup_step
           return;
         }
 
+        /* Create a minimal config object for objectType infos */
+        global $config, $plist;
+        $config = new config();
+        load_all_classes();
+        $plist = new pluglist($config, NULL);
+        $config->loadPlist($plist);
+
         /* Try to detect base class type, e.g. is it a dcObject */
         $dep_types  = departmentManagement::getDepartmentTypes();
         $dep_type   = "";
