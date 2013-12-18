@@ -54,7 +54,7 @@ class passwordRecovery {
   var $usealternates;
 
   /* Constructor */
-  function passwordRecovery()
+  function __construct()
   {
     global $config, $ssl;
     /* Destroy old session if exists.
@@ -152,8 +152,6 @@ class passwordRecovery {
     } else {
       $this->uid = "";
     }
-
-
   }
 
   function execute()
@@ -401,7 +399,6 @@ class passwordRecovery {
 
   function isValidPassword($new_password, $repeated_password)
   {
-    //$MinDiffer = $this->config->get_cfg_value("passwordMinDiffer", 0);
     $MinLength = $this->config->get_cfg_value("passwordMinLength", 0);
 
     if ($new_password != $repeated_password) {
