@@ -166,11 +166,11 @@ class Step_Config3 extends setup_step
     $cv = $this->parent->captured_values;
 
     $attrs = array(
-      'objectClass'         => 'fusionDirectoryConf',
+      'objectClass'           => 'fusionDirectoryConf',
       'fdPasswordDefaultHash' => $cv['encryption'],
       'fdUserRDN'             => $cv['peopleou'],
       'fdGroupRDN'            => $cv['groupou'],
-      'fdAclRoleRDN'             => $cv['aclroleou'],
+      'fdAclRoleRDN'          => $cv['aclroleou'],
       'fdGidNumberBase'       => $cv['uidbase'],
       'fdUidNumberBase'       => $cv['uidbase'],
     );
