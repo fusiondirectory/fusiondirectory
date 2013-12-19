@@ -55,8 +55,8 @@ class ogroup extends plugin
 
   function ogroup (&$config, $dn= NULL)
   {
-    plugin::plugin ($config, $dn);
-    $this->orig_dn= $dn;
+    parent::__construct ($config, $dn);
+    $this->orig_dn = $dn;
 
     $this->member = array();
 

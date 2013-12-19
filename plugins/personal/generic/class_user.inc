@@ -259,7 +259,7 @@ class user extends plugin
     }
 
     /* Load base attributes */
-    plugin::plugin ($config, $dn, $object);
+    parent::__construct ($config, $dn, $object);
 
     $this->orig_dn  = $this->dn;
     $this->new_dn   = $dn;

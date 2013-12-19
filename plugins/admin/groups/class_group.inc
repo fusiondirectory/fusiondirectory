@@ -82,7 +82,7 @@ class group extends plugin
        $this->objectclasses[]= "groupOfNames";
      }
 
-    plugin::plugin ($config, $dn);
+    parent::__construct ($config, $dn);
 
     /* Load attributes depending on the samba version */
     $this->orig_dn= $dn;
