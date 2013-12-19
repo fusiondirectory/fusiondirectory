@@ -603,9 +603,10 @@ class Step_Migrate extends setup_step
     $ldap = $this->get_ldap_link();
 
     /* Skip FusionDirectory internal departments */
-    $skip_dns = array("/".$cv['peopleou']."/","/".$cv['groupou']."/","/^ou=people,/","/^ou=groups,/","/^ou=sudoers,/",
+    $skip_dns = array("/".$cv['peopleou']."/","/".$cv['groupou']."/","/".$cv['aclroleou']."/",
+        "/^ou=people,/","/^ou=groups,/","/^ou=sudoers,/",
         "/(,|)ou=configs,/","/(,|)ou=systems,/","/(,|)ou=tokens,/",
-        "/(,|)ou=apps,/","/(,|)ou=mime,/","/(,|)ou=devices/","/^ou=aclroles,/",
+        "/(,|)ou=apps,/","/(,|)ou=mime,/","/(,|)ou=devices/",
         "/ou=snapshots,/","/(,|)dc=addressbook,/","/^(,|)ou=machineaccounts,/",
         "/(,|)ou=winstations,/","/^ou=hosts,/","/^ou=computers,/","/^ou=idmap,/","/^ou=Idmap,/","/(,|)ou=roles,/");
 
@@ -970,7 +971,8 @@ class Step_Migrate extends setup_step
           'objectclass'     => array( 'top', 'gosaRole' ),
           'gosaAclTemplate' => '0:all;cmdrw'
         );
-        if (!$ldap->add($attrs_role)) {
+        $ldap->add($attrs_role);
+        if (!$ldap->success()) {
           msg_dialog::display(_("Migration error"), sprintf(_("Cannot add ACL role '%s':")."<br><br><i>%s</i>", LDAP::fix($roledn), $ldap->get_error()), ERROR_DIALOG);
           return FALSE;
         }
@@ -1009,7 +1011,8 @@ class Step_Migrate extends setup_step
       $this->acl_create_changes .= $this->array_to_ldif($attrs_new);
     } else {
       $ldap->cd($cv['base']);
-      if (!$ldap->modify($attrs_new)) {
+      $ldap->modify($attrs_new);
+      if (!$ldap->success()) {
         msg_dialog::display(_("Migration error"), sprintf(_("Cannot add ACL for user '%s':")."<br><br><i>%s</i>", LDAP::fix($dn), $ldap->get_error()), ERROR_DIALOG);
         return FALSE;
       } else {
