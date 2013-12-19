@@ -25,6 +25,7 @@ class Step_Config1 extends setup_step
 
   var $peopleou   = "ou=people";
   var $groupou    = "ou=groups";
+  var $aclroleou  = "ou=aclroles";
   var $peopledn   = "uid";
   var $uidbase    = 1100;
   var $strict     = TRUE;
@@ -60,7 +61,7 @@ class Step_Config1 extends setup_step
 
   var $crypt_methods  = array();
 
-  var $attributes = array("peopleou","groupou","peopledn","uidbase","encryption","theme",
+  var $attributes = array("peopleou","groupou","aclroleou","peopledn","uidbase","encryption","theme",
                           "base_hook","base_hook_active","account_expiration","strict","include_personal_title",
                           "cngen_active","cngen");
 
@@ -131,6 +132,10 @@ class Step_Config1 extends setup_step
 
     if (preg_match("/,$/", $this->groupou)) {
       $message[] = sprintf(_("Don't add a trailing comma to '%s'."), _("Group storage ou"));
+    }
+
+    if (preg_match("/,$/", $this->aclroleou)) {
+      $message[] = sprintf(_("Don't add a trailing comma to '%s'."), _("ACL role storage ou"));
     }
 
     if (!is_numeric($this->uidbase)) {
