@@ -538,8 +538,10 @@ class Attribute
 
   function foreignKeyUpdate($oldvalue, $newvalue, $source)
   {
-    if ($this->getValue() == $oldvalue) {
-      $this->setValue($newvalue);
+    if ($source['MODE'] == 'move') {
+      if ($this->getValue() == $oldvalue) {
+        $this->setValue($newvalue);
+      }
     }
   }
 
@@ -714,8 +716,12 @@ class StringAttribute extends Attribute
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $display  = '<input type="text" name="'.$id.'" id="'.$id.'" value="{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}" '.
-                ($this->disabled? 'disabled="disabled"':'').'/>';
+    $display  = '<input type="text" name="'.$id.'" id="'.$id.'" value="{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}"';
+    if (!empty($this->managedAttributes)) {
+      $js       = $this->managedAttributesJS();
+      $display  .= ' onChange="javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8').'"';
+    }
+    $display .= ($this->disabled? ' disabled="disabled"':'').'/>';
     return $this->renderAcl($display);
   }
 
@@ -1045,11 +1051,15 @@ class IntAttribute extends Attribute
   {
     $id = $this->getHtmlId();
     $display = '<input type="number" name="'.$id.'" id="'.$id.'" value="{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}"'.
-    ($this->min !== FALSE?' min="'.$this->min.'"':'').
-    ($this->max !== FALSE?' max="'.$this->max.'"':'').
-    ($this->disabled? 'disabled="disabled"':'').
-    ($this->step !== FALSE?' step="'.$this->step.'"':'').
-    '/>';
+      ($this->min !== FALSE?' min="'.$this->min.'"':'').
+      ($this->max !== FALSE?' max="'.$this->max.'"':'').
+      ($this->disabled? 'disabled="disabled"':'').
+      ($this->step !== FALSE?' step="'.$this->step.'"':'');
+    if (!empty($this->managedAttributes)) {
+      $js       = $this->managedAttributesJS();
+      $display  .= ' onChange="javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8').'"';
+    }
+    $display .= '/>';
     return $this->renderAcl($display);
   }
 
@@ -1813,7 +1823,9 @@ class ArrayAttribute extends Attribute
       if ($value == $oldvalue) {
         if ($newvalue === NULL) {
           unset($this->value[$key]);
-        } else {
+        } elseif ($source['MODE'] == 'copy') {
+          $this->value[] = $newvalue;
+        } elseif ($source['MODE'] == 'move') {
           $value = $newvalue;
         }
       }

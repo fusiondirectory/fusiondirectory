@@ -280,7 +280,7 @@ class simpleManagement extends management
   protected function removeEntryRequested($action = "", $target = array(), $all = array())
   {
     $disallowed = array();
-    $this->dns = array();
+    $this->dns  = array();
 
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removal requested!");
 
