@@ -987,6 +987,7 @@ class Step_Migrate extends setup_step
     /* Add acls for the selcted user to the base */
     $attrs_new = array();
     $attrs_new['objectClass'] = $attrs['objectClass'];
+    unset($attrs_new['objectClass']['count']);
     if (!in_array_ics('gosaAcl', $attrs_new['objectClass'])) {
       $attrs_new['objectClass'][] = 'gosaAcl';
     }
@@ -997,7 +998,7 @@ class Step_Migrate extends setup_step
       for ($i = 0; $i < $attrs['gosaAclEntry']['count']; $i ++) {
 
         $prio = preg_replace("/[:].*$/", "", $attrs['gosaAclEntry'][$i]);
-        $rest = preg_replace("/^[^:]/", "", $attrs['gosaAclEntry'][$i]);
+        $rest = preg_replace("/^[^:]+/", "", $attrs['gosaAclEntry'][$i]);
 
         $data = ($prio + 1).$rest;
         $attrs_new['gosaAclEntry'][] = $data;
