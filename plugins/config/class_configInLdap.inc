@@ -57,7 +57,6 @@ class configInLdap extends simplePlugin
       "plShortName"     => _("Configuration"),
       "plDescription"   => _("FusionDirectory configuration"),
       "plIcon"          => "plugins/config/images/icon.png",
-      "plSelfModify"    => FALSE,
       "plObjectType"    => array("configuration" => array(
         "name"    => _("FusionDirectory configuration"),
         "filter"  => "objectClass=fusionDirectoryConf"
@@ -363,6 +362,11 @@ class configInLdap extends simplePlugin
             _('Groups RDN'), _('The branch where groups are stored.'),
             'fdGroupRDN', TRUE,
             'ou=groups'
+          ),
+          new StringAttribute (
+            _('ACL role RDN'), _('The branch where ACL roles are stored.'),
+            'fdAclRoleRDN', TRUE,
+            'ou=aclroles'
           ),
           new SelectAttribute (
             _('Id allocation method'), _('Method to allocate uid/gid numbers'),

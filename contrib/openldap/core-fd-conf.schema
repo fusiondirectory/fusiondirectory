@@ -148,6 +148,13 @@ attributetype ( 1.3.6.1.4.1.38414.8.12.16 NAME 'fdUidNumberPoolMax'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
   SINGLE-VALUE)
 
+attributetype ( 1.3.6.1.4.1.38414.8.12.17 NAME 'fdAclRoleRDN'
+  DESC 'FusionDirectory - ACL role RDN'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
 # Password
 
 attributetype ( 1.3.6.1.4.1.38414.8.13.1 NAME 'fdPasswordDefaultHash'
@@ -389,6 +396,7 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
     fdPersonalTitleInDN $ fdStrictNamingRules $ fdMinId $ fdUidNumberBase $
     fdGidNumberBase $ fdUserRDN $ fdGroupRDN $ fdIdAllocationMethod $
     fdGidNumberPoolMin $ fdUidNumberPoolMin $ fdGidNumberPoolMax $ fdUidNumberPoolMax $
+    fdAclRoleRDN
     fdPasswordDefaultHash $ fdPasswordMinLength $ fdPasswordMinDiffer $
     fdPasswordHook $ fdHandleExpiredAccounts $ fdSaslRealm $ fdSaslExop $
     fdForcePasswordDefaultHash $

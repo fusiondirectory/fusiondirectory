@@ -58,6 +58,15 @@
         </div>
     </div>
 
+  <div class="step4_container">
+      <div class="step4_name">
+        <label for="aclroleou">{t}ACL roles storage subtree{/t}</label>
+      </div>
+      <div class="step4_value">
+        <input type="text" name="aclroleou" id="aclroleou" maxlength="40" size="40" value="{$aclroleou}">
+      </div>
+    </div>
+
   <div class='step4_container'>
         <div class='step4_name'>
             {t}Include personal title in user DN{/t}

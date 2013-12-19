@@ -170,6 +170,7 @@ class Step_Config3 extends setup_step
       'fdPasswordDefaultHash' => $cv['encryption'],
       'fdUserRDN'             => $cv['peopleou'],
       'fdGroupRDN'            => $cv['groupou'],
+      'fdAclRoleRDN'             => $cv['aclroleou'],
       'fdGidNumberBase'       => $cv['uidbase'],
       'fdUidNumberBase'       => $cv['uidbase'],
     );

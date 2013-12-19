@@ -961,7 +961,7 @@ class Step_Migrate extends setup_step
     if ($attrs = $ldap->fetch()) {
       $roledn = $attrs['dn'];
     } else {
-      $roledn = 'cn=admin,'.get_ou('aclRoleRDN').$cv['base'];
+      $roledn = 'cn=admin,'.$cv['aclroleou'].$cv['base'];
       if (!$only_ldif) {
         $ldap->create_missing_trees($roledn);
         $ldap->cd($roledn);
