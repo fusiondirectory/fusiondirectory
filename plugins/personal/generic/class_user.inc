@@ -1510,6 +1510,32 @@ class user extends plugin
     return $ret;
   }
 
+  protected function attributeInitialValue($field)
+  {
+    if ($field == 'uid') {
+      if ($this->initially_was_account && isset($this->attrs[$field])) {
+        return $this->attrs[$field][0];
+      } else {
+        return NULL;
+      }
+    } else {
+      return parent::attributeInitialValue($field);
+    }
+  }
+
+  protected function attributeHaveChanged($field)
+  {
+    if ($field == 'uid') {
+      if (!$this->initially_was_account) {
+        return TRUE;
+      }
+      return ($this->$field != $this->attributeInitialValue($field));
+    } else {
+      return parent::attributeInitialValue($field);
+    }
+
+  }
+
   function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
   {
     if ($field == 'manager') {
@@ -1545,6 +1571,4 @@ class user extends plugin
     return($data);
   }
 }
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
