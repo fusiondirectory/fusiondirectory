@@ -25,6 +25,14 @@ class ObjectsAttribute extends GenericDialogAttribute
   protected $dialogClass  = 'ObjectSelectDialog';
   protected $types        = array();
 
+
+  function getFilterBlackList ()
+  {
+    return array(
+      'dn' => array_merge($this->getValue(), $this->plugin->used_workstations)
+    );
+  }
+
   protected function fillDisplayValueFrom ($i, $attrs)
   {
     if ($attrs) {
@@ -114,6 +122,8 @@ class ogroup extends simplePlugin
 {
   var $mainTab        = TRUE;
   var $objectclasses  = array('top', 'gosaGroupOfNames');
+
+  var $used_workstations = array();
 
   static $objectTypes = array(
     "U" => "user",
@@ -228,7 +238,7 @@ class ogroup extends simplePlugin
 
     /* Detect all workstations, which are already assigned to an object group
         - Those objects will be hidden in the add object dialog.
-        - Check() will complain if such a system is assigned to this object group.
+        - Check() will complain if such a system is assigned to this object group.*/
     $base = $this->config->current['BASE'];
     $res  = get_list("(|(objectClass=gotoWorkstation)(objectClass=gotoTerminal))", "none",
                       $base, array("dn"), GL_NO_ACL_CHECK | GL_SUBSEARCH);
@@ -236,19 +246,15 @@ class ogroup extends simplePlugin
     foreach ($res as $data) {
       $ws_dns[] = $data['dn'];
     }
-    $res = get_list("(&(member=*)(objectClass=gosaGroupOfNames))", "none",
-                    $base, array("dn","member","gosaGroupObjects"), GL_NO_ACL_CHECK | GL_SUBSEARCH);
+    $res = get_list("(&(member=*)(objectClass=gosaGroupOfNames)(|(gosaGroupObjects=[W])(gosaGroupObjects=[T])))", "none",
+                    $base, array("dn","member"), GL_NO_ACL_CHECK | GL_SUBSEARCH);
     $this->used_workstations = array();
     foreach ($res as $og) {
       if ($og['dn'] == $this->dn) {
         continue;
       }
-      $test = array_intersect($ws_dns, $og['member']);
-      if (($og['gosaGroupObjects'][0] == "[W]" || $og['gosaGroupObjects'][0] == "[T]") && count($test)) {
-        $this->used_workstations = array_merge($this->used_workstations, $test);
-      }
+      $this->used_workstations = array_merge($this->used_workstations, array_intersect($ws_dns, $og['member']));
     }
-     */
 
     $this->reload();
   }
@@ -280,65 +286,21 @@ class ogroup extends simplePlugin
     $this->gosaGroupObjects = $this->attributesAccess['member']->listObjectTypes();
   }
 
+  function check()
+  {
+    $message = parent::check();
+    $this->reload();
+    if (preg_match('/W/', $this->gosaGroupObjects) && preg_match('/T/', $this->gosaGroupObjects)) {
+      $message[] = _('Putting both workstations and terminals in the same group is not allowed');
+    }
+
+    return $message;
+  }
+
   function getGroupObjectTypes()
   {
     $this->reload();
     return $this->gosaGroupObjects;
-  }
-}
-
-class ogroup_old extends plugin
-{
-  function AddDelMembership()
-  {
-          $skipped = FALSE;
-
-          $test = array_unique(array_intersect($this->used_workstations, $objects_dns));
-          if(count($test)) {
-            $str = "";
-            foreach ($test as $dn) {
-              $str .= "<li>".$dn."</li>";
-            }
-            msg_dialog::display(_("Error"), sprintf(_("These systems are already configured by other object groups and cannot be added:")."<br><ul>%s</ul>", $str), ERROR_DIALOG);
-          }
-
-          foreach ($objects as $object){
-
-              $tmp = "";
-              foreach ($this->memberList as $obj){
-                  $tmp .= $obj['type'];
-              }
-
-              $type  = $this->getObjectType($object);
-              $name= $this->getObjectName($object);
-              $dn = $object['dn'];
-
-              /* Fill array */
-              if (isset($object["description"][0])){
-                  $object= array("text" => "$name [".$object["description"][0]."]", "type" => "$type");
-              } elseif (isset($object["uid"][0])) {
-                  $object= array("text" => "$name [".$object["uid"][0]."]", "type" => "$type");
-              } else {
-                  $object= array("text" => "$name", "type" => "$type");
-              }
-
-              if(preg_match("/T/",$tmp) && $type == "W"){
-                  $skipped =TRUE;
-              }elseif(preg_match("/W/",$tmp) && $type == "T"){
-                  $skipped =TRUE;
-              }elseif(in_array($dn, $this->used_workstations)) {
-                  continue;
-              }else{
-
-                  $this->memberList["$dn"]= $object;
-                  $this->member["$dn"]= $dn;
-                  uasort ($this->memberList, 'sort_list');
-                  reset ($this->memberList);
-              }
-          }
-          if($skipped){
-              msg_dialog::display(_("Information"), _("You cannot combine terminals and workstations in one object group!"), INFO_DIALOG);
-          }
   }
 }
 ?>
