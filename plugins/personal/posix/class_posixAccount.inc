@@ -123,7 +123,7 @@ class posixAccount extends simplePlugin
         'icon'  => 'plugins/posix/images/terminal_small.png',
         'attrs' => array(
           new BooleanAttribute(
-            _('User must change password on first login'), _('User must change password on first login (leave empty to disable)'),
+            _('User must change password on first login'), _('User must change password on first login (needs a value for Delay before forcing password change)'),
             'mustchangepassword', FALSE
           ),
           new IntAttribute(
@@ -230,6 +230,15 @@ class posixAccount extends simplePlugin
 
     $this->attributesAccess['mustchangepassword']->setInLdap(FALSE);
     $this->attributesAccess['shadowLastChange']->setVisible(FALSE);
+    $this->attributesAccess['shadowMax']->setManagedAttributes(
+      array(
+        'disable' => array (
+          '' => array (
+            'mustchangepassword',
+          )
+        )
+      )
+    );
 
     if ($dn !== NULL) {
 
