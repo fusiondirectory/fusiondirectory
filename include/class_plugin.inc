@@ -831,32 +831,32 @@ class plugin
    */
   function create_unique_dn2($data, $base)
   {
-    $ldap= $this->config->get_ldap_link();
-    $base= preg_replace("/^,*/", "", $base);
+    $ldap = $this->config->get_ldap_link();
+    $base = preg_replace("/^,*/", "", $base);
 
     /* Try to use plain entry first */
-    $dn= "$data,$base";
-    $attribute= preg_replace('/=.*$/', '', $data);
+    $dn         = "$data,$base";
+    $attribute  = preg_replace('/=.*$/', '', $data);
     $ldap->cat ($dn, array('dn'));
-    if (!$ldap->fetch()){
-      return ($dn);
+    if (!$ldap->fetch()) {
+      return $dn;
     }
 
     /* Look for additional attributes */
-    foreach ($this->attributes as $attr){
-      if ($attr == $attribute || $this->$attr == ""){
+    foreach ($this->attributes as $attr) {
+      if ($attr == $attribute || $this->$attr == "") {
         continue;
       }
 
-      $dn= "$data+$attr=".$this->$attr.",$base";
+      $dn = "$data+$attr=".$this->$attr.",$base";
       $ldap->cat ($dn, array('dn'));
-      if (!$ldap->fetch()){
-        return ($dn);
+      if (!$ldap->fetch()) {
+        return $dn;
       }
     }
 
     /* None found */
-    return ("none");
+    return "none";
   }
 
 
@@ -1238,8 +1238,8 @@ class plugin
                 );
               $filter = plugin::tpl_parse_string($filter, array('oldvalue' => $oldvalue, 'newvalue' => $newvalue));
             } elseif ($mode == 'references') {
-              $foreignRefs[$objectType]['refs'][$class]['name'] = $cinfos['plShortName'];
-              $foreignRefs[$objectType]['refs'][$class]['fields'][$ofield] =
+              $foreignRefs[$objectType]['refs'][$class]['name']             = $cinfos['plShortName'];
+              $foreignRefs[$objectType]['refs'][$class]['fields'][$ofield]  =
                 array(
                   'tab'     => $tabclass,
                   'tabname' => $this->parent->by_name[$tabclass],
