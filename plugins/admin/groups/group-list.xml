@@ -67,8 +67,8 @@
   <actionmenu>
 
     <action>
-      <name>create</name>
-      <type>sub</type>
+      <name>new</name>
+      <type>entry</type>
       <image>images/lists/new.png</image>
       <label>Create</label>
       <acl>[c]</acl>
