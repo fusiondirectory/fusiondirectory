@@ -39,8 +39,8 @@
 
               <!-- Plugin window -->
               <td id="maincell">
+                {$msg_dialogs}
                 <div class="plugin_window">
-                  {$msg_dialogs}
                   {$contents}
                 </div>
                 {if $channel != ""}
