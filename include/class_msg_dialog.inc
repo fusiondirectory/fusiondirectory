@@ -211,25 +211,25 @@ class msg_dialog
         count(session::get('msg_dialogs'))) {
       /* Get frame one */
       $smarty = get_smarty();
-      $smarty->assign("frame", TRUE);
+      $smarty->assign('frame', TRUE);
       $return = $smarty->fetch(get_template_path('msg_dialog.tpl'));
 
       $msg_dialogs = session::get('msg_dialogs');
       foreach ($msg_dialogs as $key => $dialog) {
-        if (!preg_match("/".$dialog->get_ID()."/", "")) {
+        if (!preg_match('/'.$dialog->get_ID().'/', '')) {
           $return     .= $dialog->execute();
-          $dialog_ids = $dialog->get_ID().",".$dialog_ids;
+          $dialog_ids = $dialog->get_ID().','.$dialog_ids;
         }
         unset($msg_dialogs[$key]);
       }
       session::set('msg_dialogs', $msg_dialogs);
-      $dialog_ids = preg_replace("/,$/", "", $dialog_ids);
+      $dialog_ids = preg_replace('/,$/', '', $dialog_ids);
 
-      $return .= "</div>";
-      $return .= "<input type='hidden' style='width:400px;' name='pending_msg_dialogs' id='pending_msg_dialogs' value='".$dialog_ids."'>";
-      $return .= "<input type='hidden' style='width:400px;' name='closed_msg_dialogs' id='closed_msg_dialogs' value=''>";
-      $return .= "<input type='hidden' style='width:400px;' name='current_msg_dialogs' id='current_msg_dialogs' value=''>";
-      $return .= "<input type='hidden' style='width:700px;' name='js_debug' id='js_debug'>";
+      $return .= '</div>'."\n";
+      $return .= '<input type="hidden" style="width:400px;" name="pending_msg_dialogs"  id="pending_msg_dialogs" value="'.$dialog_ids.'"/>'."\n";
+      $return .= '<input type="hidden" style="width:400px;" name="closed_msg_dialogs"   id="closed_msg_dialogs" value=""/>'."\n";
+      $return .= '<input type="hidden" style="width:400px;" name="current_msg_dialogs"  id="current_msg_dialogs" value=""/>'."\n";
+      $return .= '<input type="hidden" style="width:700px;" name="js_debug"             id="js_debug">'."\n";
     }
     return $return;
   }
