@@ -62,6 +62,7 @@ if ($_SERVER['REMOTE_ADDR'] != $ui->ip) {
   exit;
 }
 $config = session::global_get('config');
+IconTheme::loadThemes('themes');
 
 /* If SSL is forced, just forward to the SSL enabled site */
 if (($config->get_cfg_value("forcessl") == "TRUE") && ($ssl != '')) {

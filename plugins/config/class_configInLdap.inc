@@ -495,7 +495,7 @@ class configInLdap extends simplePlugin
   static function get_themes()
   {
     $themesdir  = '../ihtml/themes/';
-    $themes     = array();
+    $themes     = array_keys(IconTheme::$themes);
     if ($dir = opendir("$themesdir")) {
       while (($file = readdir($dir)) !== FALSE) {
         if (is_dir("$themesdir/$file") && !preg_match("/^\./", $file)) {
@@ -503,7 +503,7 @@ class configInLdap extends simplePlugin
         }
       }
     }
-    return $themes;
+    return array_unique($themes);
   }
 }
 ?>
