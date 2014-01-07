@@ -538,7 +538,7 @@ class passwordRecovery {
     $error = $this->storeToken($activatecode);
 
     if (!empty($error)) {
-      msg_dialog::display(_("LDAP error"), $error);
+      msg_dialog::display(_("LDAP error"), $error, LDAP_ERROR);
       return;
     }
 
