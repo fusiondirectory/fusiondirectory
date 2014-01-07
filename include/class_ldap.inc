@@ -934,7 +934,7 @@ class LDAP{
 
           print_a(array($cdn,$na));
 
-          msg_dialog::display(_("LDAP error"), msgPool::ldaperror($this->get_error(), $cdn, LDAP_ADD, get_class()));
+          msg_dialog::display(_("LDAP error"), msgPool::ldaperror($this->get_error(), $cdn, LDAP_ADD, get_class()), LDAP_ERROR);
           return FALSE;
         }
       }
@@ -1414,7 +1414,7 @@ class LDAP{
     }
 
     if (!$this->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($this->get_error(), $dn, "", get_class()));
+      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($this->get_error(), $dn, "", get_class()), LDAP_ERROR);
     }
 
     return $ret;

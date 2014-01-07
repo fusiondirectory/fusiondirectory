@@ -788,7 +788,7 @@ function add_lock($object, $user)
     $attrs["cn"] = "$name";
     $ldap->add($attrs);
     if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), "cn=$name,".$config->get_cfg_value("config"), 0, ERROR_DIALOG));
+      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), "cn=$name,".$config->get_cfg_value("config"), 0), LDAP_ERROR);
       return;
     }
   }
@@ -896,8 +896,8 @@ function get_lock ($object)
   $ldap->cd ($config->get_cfg_value("config"));
   $ldap->search("(&(objectClass=gosaLockEntry)(gosaObject=".base64_encode($object)."))", array("gosaUser"));
   if (!$ldap->success()) {
-    msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), "", LDAP_SEARCH, ERROR_DIALOG));
-    return("");
+    msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), "", LDAP_SEARCH), LDAP_ERROR);
+    return "";
   }
 
   /* Check for broken locking information in LDAP */
@@ -951,8 +951,8 @@ function get_multiple_locks($objects)
   $ldap->cd ($config->get_cfg_value("config"));
   $ldap->search($filter, array("gosaUser","gosaObject"));
   if (!$ldap->success()) {
-    msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), "", LDAP_SEARCH, ERROR_DIALOG));
-    return("");
+    msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), "", LDAP_SEARCH), LDAP_ERROR);
+    return "";
   }
 
   $users = array();
@@ -3092,7 +3092,7 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
     new log("modify","users/passwordMethod",$dn,array_keys($attrs),$ldap->get_error());
 
     if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD, ERROR_DIALOG));
+      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD), LDAP_ERROR);
     } else {
 
       /* Run backend method for change/create */
@@ -3365,7 +3365,7 @@ function update_accessTo($from, $to)
     $ldap->cd($dn);
     $ldap->modify($new_attrs);
     if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD, "update_accessTo($from,$to)"));
+      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD, "update_accessTo($from,$to)"), LDAP_ERROR);
     }
     new log("modify", "update_accessTo($from,$to)", $dn, array_keys($new_attrs), $ldap->get_error());
   }
