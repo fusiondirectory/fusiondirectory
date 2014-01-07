@@ -26,8 +26,8 @@
 define("INFO_DIALOG",         10001);
 define("WARNING_DIALOG",      10002);
 define("ERROR_DIALOG",        10003);
+define("LDAP_ERROR",          10003); // LDAP_ERROR is the same as ERROR_DIALOG
 define("CONFIRM_DIALOG",      10004);
-define("OK_CANCEL_DIALOG",    10005);
 define("FATAL_ERROR_DIALOG",  10006);
 
 /*!
@@ -60,7 +60,7 @@ class msg_dialog
       return;
     }
 
-    if (!in_array($i_type, array(INFO_DIALOG,WARNING_DIALOG,ERROR_DIALOG,CONFIRM_DIALOG,FATAL_ERROR_DIALOG,OK_CANCEL_DIALOG))) {
+    if (!in_array($i_type, array(INFO_DIALOG,WARNING_DIALOG,ERROR_DIALOG,CONFIRM_DIALOG,FATAL_ERROR_DIALOG))) {
       trigger_error("Invalid msg_dialog type.");
       $i_type = INFO_DIALOG;
     }

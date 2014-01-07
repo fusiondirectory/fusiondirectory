@@ -573,20 +573,32 @@ background:#fbe3e4;
 color:#8a1f11;
 border-color:#fbc2c4;
 }
+.error h1,.error h2,.error h3,.error h4,.error h5,.error h6 {
+color:#8a3700;
+}
 .notice {
 background:#fff6bf;
 color:#514721;
 border-color:#ffd324;
+}
+.notice h1,.notice h2,.notice h3,.notice h4,.notice h5,.notice h6 {
+color:#412701;
 }
 .success {
 background:#e6efc2;
 color:#264409;
 border-color:#c6d880;
 }
+.success h1,.success h2,.success h3,.success h4,.success h5,.success h6 {
+color:#378a00;
+}
 .info {
 background:#d5edf8;
 color:#205791;
 border-color:#92cae4;
+}
+.info h1,.info h2,.info h3,.info h4,.info h5,.info h6 {
+color:#00378a;
 }
 
 /* Header */

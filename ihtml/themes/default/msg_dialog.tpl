@@ -17,24 +17,26 @@
   </div>
   {/if}
 
-  {if $i_Type == $smarty.const.INFO_DIALOG || $i_Type == $smarty.const.CONFIRM_DIALOG || $i_Type == $smarty.const.OK_CANCEL_DIALOG}
+  {if $i_Type == $smarty.const.INFO_DIALOG || $i_Type == $smarty.const.CONFIRM_DIALOG}
   <div id="e_layer{$i_ID}" class="info msgdialog">
+  {elseif $i_Type == $smarty.const.WARNING_DIALOG}
+  <div id="e_layer{$i_ID}" class="notice msgdialog">
   {else}
   <div id="e_layer{$i_ID}" class="error msgdialog">
   {/if}
 
-  <div id="e_layerTitle{$i_ID}" class="msgtitle">
-    <h2>
-  {if $i_Type == $smarty.const.ERROR_DIALOG}
-      <img src="images/error.png" class="center" alt="{t}Error{/t}"/>
-  {elseif $i_Type == $smarty.const.WARNING_DIALOG}
-      <img src="images/warning.png" class="center"  alt="{t}Warning{/t}"/>
-  {elseif $i_Type == $smarty.const.INFO_DIALOG || $i_Type == $smarty.const.CONFIRM_DIALOG || $i_Type == $smarty.const.OK_CANCEL_DIALOG}
-      <img src="images/info.png" class="center" alt="{t}Information{/t}"/>
-  {/if}
-      {$s_Title}
-    </h2>
-  </div>
+    <div id="e_layerTitle{$i_ID}" class="msgtitle">
+      <h2>
+      {if $i_Type == $smarty.const.ERROR_DIALOG}
+        <img src="images/error.png" class="center" alt="{t}Error{/t}"/>
+      {elseif $i_Type == $smarty.const.WARNING_DIALOG}
+        <img src="images/warning.png" class="center"  alt="{t}Warning{/t}"/>
+      {elseif $i_Type == $smarty.const.INFO_DIALOG || $i_Type == $smarty.const.CONFIRM_DIALOG}
+        <img src="images/info.png" class="center" alt="{t}Information{/t}"/>
+      {/if}
+        {$s_Title}
+      </h2>
+    </div>
 
     <table style="z-index:250;width:100%;">
       <tr>
@@ -43,25 +45,17 @@
           <br/>
         </td>
         {if $s_Trace != "" && $i_TraceCnt != 0}
-        <td style="width:20px; vertical-align:top; cursor:pointer;">
-          <div onClick="$('trace_{$i_ID}').toggle();"><u>Trace</u></div>
-        </td>
+          <td style="width:20px; vertical-align:top; cursor:pointer;">
+            <div onClick="$('trace_{$i_ID}').toggle();"><u>Trace</u></div>
+          </td>
         {/if}
       </tr>
     </table>
     <div class="plugbottom">
-      {if $i_Type == $smarty.const.ERROR_DIALOG || $i_Type == $smarty.const.WARNING_DIALOG || $i_Type == $smarty.const.INFO_DIALOG}
-        <input type="button" id="MSG_OK{$i_ID}" type="button" name="MSG_OK{$i_ID}"
-          onClick="next_msg_dialog();" value="{t}Ok{/t}"/>
-      {elseif $i_Type == $smarty.const.CONFIRM_DIALOG}
-        <input type="button" id="MSG_OK{$i_ID}" type="submit" name="MSG_OK{$i_ID}"
-          onClick="next_msg_dialog();" value="{t}Ok{/t}"/>
-        <input type="button" type="button" name="MSG_CANCEL{$i_ID}"
-          onClick="next_msg_dialog();" value="{t}Cancel{/t}"/>
-      {elseif $i_Type == $smarty.const.OK_CANCEL_DIALOG}
-        <input type="button" id="MSG_OK{$i_ID}" type="submit" name="MSG_OK{$i_ID}"
-          onClick="next_msg_dialog();" value="{t}Ok{/t}"/>
-        <input type="button" type="submit" name="MSG_CANCEL{$i_ID}"
+      <input type="button" id="MSG_OK{$i_ID}" name="MSG_OK{$i_ID}"
+        onClick="next_msg_dialog();" value="{t}Ok{/t}"/>
+      {if $i_Type == $smarty.const.CONFIRM_DIALOG}
+        <input type="button" name="MSG_CANCEL{$i_ID}"
           onClick="next_msg_dialog();" value="{t}Cancel{/t}"/>
       {/if}
     </div>

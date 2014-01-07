@@ -471,8 +471,8 @@ function start_move_div_by_cursor(e)
     y = dialog.style.top;
     x = x.replace(/[^0-9]/g,"");
     y = y.replace(/[^0-9]/g,"");
-    if(!y) y = 1;
-    if(!x) x = 1;
+    if(!y) y = 200;
+    if(!x) x = 200;
   }
 
   /* Get mouse position within msg_dialog
@@ -527,12 +527,12 @@ function move_div_by_cursor(e)
        */
       if(window.event){
         event = window.event;
-        mouse_pos_x  =event.clientX;
-        mouse_pos_y  =event.clientY;
+        mouse_pos_x = event.clientX;
+        mouse_pos_y = event.clientY;
       }else if (e){
         event = e;
-        mouse_pos_x  =event.screenX;
-        mouse_pos_y  =event.screenY;
+        mouse_pos_x = event.screenX;
+        mouse_pos_y = event.screenY;
       }else{
         return;
       }
@@ -548,11 +548,12 @@ function move_div_by_cursor(e)
 
         /* Ensure that dialog can't be moved out of screen */
         if(cur_div_x < 0 ) cur_div_x = 0
-          if(cur_div_y < 0 ) cur_div_y = 0
+        if(cur_div_y < 0 ) cur_div_y = 0
 
-            /* Assign new values */
-            dialog.style.left = (cur_div_x ) + "px";
-        dialog.style.top  = (cur_div_y ) + "px";
+        /* Assign new values */
+        dialog.style.left   = (cur_div_x ) + "px";
+        dialog.style.top    = (cur_div_y ) + "px";
+        dialog.style.margin = "0";
       }
     }
   }
