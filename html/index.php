@@ -236,7 +236,7 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
   /* Admin-logon and verify */
   $ldap = $config->get_ldap_link();
   if (is_null($ldap) || (is_int($ldap) && $ldap == 0)) {
-    msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, 0, get_class()));
+    msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, 0, get_class()), LDAP_ERROR);
     displayLogin();
     exit();
   }

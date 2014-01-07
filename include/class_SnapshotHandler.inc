@@ -92,7 +92,7 @@ class SnapshotHandler {
     $this->snapshotLdapBase = $this->config->get_cfg_value("snapshotBase");
     $snapshotLdap->cd($this->snapshotLdapBase);
     if (!$snapshotLdap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($snapshotLdap->get_error(), $this->snapshotLdapBase, "", get_class()));
+      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($snapshotLdap->get_error(), $this->snapshotLdapBase, "", get_class()), LDAP_ERROR);
     }
 
     return $snapshotLdap;
@@ -296,11 +296,11 @@ class SnapshotHandler {
       $ldap_to->cd($new_dn);
       $ldap_to->add($target);
       if (!$ldap_to->success()) {
-        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap_to->get_error(), $new_dn, LDAP_ADD, get_class()));
+        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap_to->get_error(), $new_dn, LDAP_ADD, get_class()), LDAP_ERROR);
       }
 
       if (!$ldap->success()) {
-        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $new_base, "", get_class()));
+        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $new_base, "", get_class()), LDAP_ERROR);
       }
     }
   }
@@ -316,7 +316,7 @@ class SnapshotHandler {
     $ldap->cd($this->config->current['BASE']);
     $ldap->rmdir_recursive($dn);
     if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn));
+      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn), LDAP_ERROR);
     }
   }
 
@@ -445,7 +445,7 @@ class SnapshotHandler {
       msg_dialog::display(_('LDAP error'), $e->getMessage(), ERROR_DIALOG);
     }
     if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, "", get_class()));
+      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, "", get_class()), LDAP_ERROR);
     }
   }
 }
