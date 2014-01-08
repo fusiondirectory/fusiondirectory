@@ -131,7 +131,7 @@ class simpleManagement extends management
       $this->headpage->categories[] = $i['aclCategory'];
       if ($this->autoActions) {
         $this->registerAction('new_'.$object, 'newEntry');
-        $icon = 'images/lists/new.png';
+        $icon = 'geticon.php?context=actions&icon=document-new&size=16';
         if (isset($i['icon'])) {
           $icon = $i['icon'];
         } else {
