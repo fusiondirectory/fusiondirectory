@@ -62,7 +62,6 @@ if ($_SERVER['REMOTE_ADDR'] != $ui->ip) {
   exit;
 }
 $config = session::global_get('config');
-IconTheme::loadThemes('themes');
 
 /* If SSL is forced, just forward to the SSL enabled site */
 if (($config->get_cfg_value("forcessl") == "TRUE") && ($ssl != '')) {
@@ -299,13 +298,6 @@ if ($ui->ignore_acl_for_current_user()) {
 } else {
   $smarty->assign ("username", $ui->username);
 }
-$smarty->assign ("go_base", get_template_path('images/dtree.png'));
-$smarty->assign ("go_home", get_template_path('images/gohome.png'));
-$smarty->assign ("go_out", get_template_path('images/logout.png'));
-$smarty->assign ("go_top", get_template_path('images/go_top.png'));
-$smarty->assign ("go_corner", get_template_path('images/go_corner.png'));
-$smarty->assign ("go_left", get_template_path('images/go_left.png'));
-
 $smarty->assign ("menu", $plist->menu);
 $smarty->assign ("plug", "$plug");
 

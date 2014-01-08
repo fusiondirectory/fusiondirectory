@@ -23,7 +23,7 @@
 
 {if $changed}
 <div class='success'">
-<img class="center" src="images/true.png" alt="{t}Success{/t}" title="{t}Success{/t}">&nbsp;<b>{t}Your password has been changed successfully.{/t}</b>
+<img class="center" src="geticon.php?context=status&icon=task-complete&size=16" alt="{t}Success{/t}" title="{t}Success{/t}">&nbsp;<b>{t}Your password has been changed successfully.{/t}</b>
 </div>
 {else}
 <form action="password.php{$params}" method="post" name="mainform" onSubmit="js_check(this);return true;">

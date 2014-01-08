@@ -443,6 +443,8 @@ class config  {
       $debugLevel |= $this->data['MAIN']['DEBUGLEVEL'];
     }
     session::global_set('DEBUGLEVEL', $debugLevel);
+
+    IconTheme::loadThemes('themes');
   }
 
 

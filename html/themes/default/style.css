@@ -223,29 +223,6 @@ text-align:right;
 
 /********************** Template migration *********************/
 
-/* Account Expired screen */
-td.gosaAccountExpiredBack {
-width:550px;
-height:300px;
-background:url(images/accountexpired.png);
-vertical-align:top;
-}
-
-div.gosaAccountExpiredBack {
-padding-top:40px;
-margin-left:90px;
-margin-right:50px;
-padding-bottom:0;
-vertical-align:top;
-}
-
-p.gosaAccountExpiredHeader {
-text-align:left;
-font-size:14px;
-font-weight:bold;
-margin-bottom:15px;
-}
-
 table.framework {
 height:auto;
 width:100%;

@@ -44,7 +44,7 @@
 
     <action>
      <type>sub</type>
-     <image>images/lists/new.png</image>
+     <image>geticon.php?context=actions&amp;icon=document-new&amp;size=16</image>
      <label>Create</label>
     </action>
 
@@ -63,7 +63,7 @@
     <action>
       <name>remove</name>
       <type>entry</type>
-      <image>images/lists/trash.png</image>
+      <image>geticon.php?context=actions&amp;icon=edit-delete&amp;size=16</image>
       <label>Remove</label>
     </action>
 
@@ -83,7 +83,7 @@
       <name>remove</name>
       <type>entry</type>
       <nospan></nospan>
-      <image>images/lists/trash.png</image>
+      <image>geticon.php?context=actions&amp;icon=edit-delete&amp;size=16</image>
       <acl>department[d]</acl>
       <label>Remove</label>
     </action>

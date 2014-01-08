@@ -5,14 +5,11 @@ function smarty_function_iconPath($params, &$smarty)
   $config = session::global_get('config');
 
   /* Set theme */
-  $theme = "default";
+  $theme = IconTheme::$default_theme;
   if (isset ($config)) {
-    $theme = $config->get_cfg_value("theme", "default");
-    if (!isset(IconTheme::$themes[$theme])) {
-      $theme = 'default';
-    }
+    $theme = $config->get_cfg_value("theme");
   }
 
-  return IconTheme::$themes[$theme]->FindIcon($params['context'], $params['icon'], $params['size']);
+  return IconTheme::findThemeIcon($theme, $params['context'], $params['icon'], $params['size']);
 }
 ?>

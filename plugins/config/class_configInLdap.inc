@@ -495,7 +495,7 @@ class configInLdap extends simplePlugin
   static function get_themes()
   {
     $themesdir  = '../ihtml/themes/';
-    $themes     = array_keys(IconTheme::$themes);
+    $themes     = array_keys(session::global_get(IconTheme::$session_var));
     if ($dir = opendir("$themesdir")) {
       while (($file = readdir($dir)) !== FALSE) {
         if (is_dir("$themesdir/$file") && !preg_match("/^\./", $file)) {

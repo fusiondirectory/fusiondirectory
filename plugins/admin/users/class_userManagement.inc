@@ -51,7 +51,7 @@ class userManagement extends management
     return array(
       'plShortName'   => _('Users'),
       'plDescription' => _('Manage users'),
-      'plIcon'        => 'plugins/users/images/icon.png',
+      'plIcon'        => '/fusiondirectory/geticon.php?context=places&icon=user-identity&size=48',
       'plSection'     => 'admin',
       'plManages'     => array('user'),
       'plPriority'    => 1,

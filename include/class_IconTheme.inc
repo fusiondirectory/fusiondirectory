@@ -60,10 +60,10 @@ class IconTheme
   private $path;
   private $parent;
 
-  function __construct($folder, $default_parent = 'default')
+  function __construct($folder, $default_parent)
   {
     $this->path = $folder;
-    $datas  = parse_ini_file($folder.'/index.theme', TRUE, INI_SCANNER_RAW);
+    $datas  = @parse_ini_file($folder.'/index.theme', TRUE, INI_SCANNER_RAW);
     if ($datas === FALSE) {
       throw new Exception('Error while parsing theme file');
     }
@@ -93,10 +93,9 @@ class IconTheme
     }
 
     if ($this->parent !== NULL) {
-      if (isset(self::$themes[$this->parent])) {
-        $parent = self::$themes[$this->parent];
-      } else {
-        $parent = self::$themes['default'];
+      $parent = $this->findTheme($this->parent);
+      if ($parent === NULL) {
+        $parent = $this->findTheme(self::$default_theme);
       }
       return $parent->FindIconHelper($context, $icon, $size);
     }
@@ -136,19 +135,43 @@ class IconTheme
     return NULL;
   }
 
-  static public $themes;
+  static public $default_theme  = 'default';
+
+  /* We store themes in the session. To do otherwise, override these methods. */
+  static public $session_var    = 'IconThemes';
   static public function loadThemes($path)
   {
+    $themes = array();
     if ($dir = opendir("$path")) {
       while (($file = readdir($dir)) !== FALSE) {
         if (file_exists("$path/$file/index.theme") && !preg_match("/^\./", $file)) {
           try {
-            self::$themes[$file] = new IconTheme("$path/$file");
+            if ($file == self::$default_theme) {
+              $themes[$file] = new IconTheme("$path/$file",  NULL);
+            } else {
+              $themes[$file] = new IconTheme("$path/$file", self::$default_theme);
+            }
           } catch (Exception $e) {
           }
         }
       }
     }
+    $_SESSION[self::$session_var] = $themes;
+  }
+  static public function findThemeIcon($theme, $context, $icon, $size)
+  {
+    if (isset($_SESSION[self::$session_var][$theme])) {
+      return $_SESSION[self::$session_var][$theme]->FindIcon($context, $icon, $size);
+    }
+    return $_SESSION[self::$session_var][self::$default_theme]->FindIcon($context, $icon, $size);
+  }
+  public function findTheme($theme)
+  {
+    if (isset($_SESSION[self::$session_var][$theme])) {
+      $ret = &$_SESSION[self::$session_var][$theme];
+      return $ret;
+    }
+    return NULL;
   }
 }
 

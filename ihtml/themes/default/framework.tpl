@@ -5,13 +5,13 @@
   <form action="main.php{$plug}" name="mainform" id="mainform" method="post" enctype="multipart/form-data">
     <div class="setup_header">
       <div id="header_left">
-        <img id="fd_logo" class="optional" src="{filePath file="images/fd_logo.png"}" alt="FusionDirectory"/>
+        <img id="fd_logo" class="optional" src="geticon.php?context=applications&icon=fusiondirectory&size=48" alt="FusionDirectory"/>
         <a class="maintitlebar" href="main.php?reset=1">
-          <img src="{filePath file="images/home.png"}" alt="Main"/>&nbsp;{t}Main{/t}
+          <img src="geticon.php?context=actions&icon=go-home&size=22" alt="Main"/>&nbsp;{t}Main{/t}
         </a>
         &nbsp;
         <a class="maintitlebar logout" href="logout.php?request">
-          <img src="{filePath file="images/sign_out.png"}" alt="Sign out"/>&nbsp;{t}Sign out{/t}
+          <img src="geticon.php?context=actions&icon=application-exit&size=22" alt="Sign out"/>&nbsp;{t}Sign out{/t}
         </a>
         <a class="plugtop">
           <img src="{$headline_image}" alt="{t}{$headline}{/t}"/>{t}{$headline}{/t}
