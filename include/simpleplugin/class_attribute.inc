@@ -1329,7 +1329,7 @@ class FileTextAreaAttribute extends FileAttribute
                 ' value="'._('Upload').'"/>';
     $display  .= '<input type="image" name="download'.$id.'"'.
                 ($this->disabled? ' disabled="disabled"':'').
-                ' src="images/save.png" title="'._('Download').'" alt="'._('Download').'" class="center"/>';
+                ' src="geticon.php?context=actions&icon=document-save&size=16" title="'._('Download').'" alt="'._('Download').'" class="center"/>';
     return $this->renderAcl($display);
   }
 
@@ -2186,12 +2186,12 @@ class OrderedArrayAttribute extends SetAttribute
 
       if ($this->order) {
         if ($key != 0) {
-          $img .= '<input type="image" src="images/lists/sort-up.png" name="'.$id.'_up_'.$key.'" class="center" alt="'._('Sort up').'" title="'._('Sort up').'"/>&nbsp;';
+          $img .= '<input type="image" src="geticon.php?context=actions&icon=view-sort-descending&size=16" name="'.$id.'_up_'.$key.'" class="center" alt="'._('Sort up').'" title="'._('Sort up').'"/>&nbsp;';
         } else {
           $img .= '<img src="images/empty.png" alt="" style="width:10px;"/>';
         }
         if (($key + 1) < count($this->value)) {
-          $img .= '<input type="image" src="images/lists/sort-down.png" name="'.$id.'_down_'.$key.'" class="center" alt="'._('Sort down').'" title="'._('Sort down').'"/>&nbsp;';
+          $img .= '<input type="image" src="geticon.php?context=actions&icon=view-sort-ascending&size=16" name="'.$id.'_down_'.$key.'" class="center" alt="'._('Sort down').'" title="'._('Sort down').'"/>&nbsp;';
         } else {
           $img .= '<img src="images/empty.png" alt="" style="width:10px;"/>';
         }
@@ -2199,7 +2199,7 @@ class OrderedArrayAttribute extends SetAttribute
       if ($this->edit_enabled) {
         $img .= '<input type="image" src="images/lists/edit.png" name="'.$id.'_edit_'.$key.'" class="center" alt="'._('Edit').'" title="'._('Edit').'"/>&nbsp;';
       }
-      $img .= '<input type="image" src="images/lists/trash.png" name="'.$id.'_del_'.$key.'" class="center" alt="'._('Delete').'" title="'._('Delete').'"/>&nbsp;';
+      $img .= '<input type="image" src="geticon.php?context=actions&icon=edit-delete&size=16o" name="'.$id.'_del_'.$key.'" class="center" alt="'._('Delete').'" title="'._('Delete').'"/>&nbsp;';
 
       $fields = array();
       foreach ($this->getAttributeArrayValue($value) as $field) {

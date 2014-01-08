@@ -311,7 +311,7 @@ class simplePlugin extends plugin
           return $this->header.$this->inheritanceDisplay();
         }
       } elseif (!$this->is_account) {
-        $this->header = "<img alt=\"\" src=\"images/small-error.png\" align=\"middle\"/>&nbsp;<b>".
+        $this->header = '<img alt="" src="geticon.php?context=status&icon=dialog-error&size=16" align="middle"/>&nbsp;<b>'.
                         msgPool::noValidExtension($plInfo['plShortName'])."</b>";
         $this->header .= back_to_main();
         $this->displayPlugin = FALSE;
@@ -783,18 +783,16 @@ class simplePlugin extends plugin
           $display .= '<input type="submit" name="edit_finish" style="width:80px" value="'.msgPool::okButton().'"/>'."\n";
           $display .= "&nbsp;";
           $display .= '<input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
-          $info = '<img class="center" alt="locked" src="'.
-                  get_template_path('images/lists/locked.png').'"> '.
+          $info = '<img class="center" alt="locked" src="geticon.php?context=status&icon=object-locked&size=16"/> '.
                   $entry_dn."&nbsp;";
         } else {
-          $info = '<img class="center" alt="unlocked" src="'.
-                  get_template_path('images/lists/unlocked.png').'"> '.
+          $info = '<img class="center" alt="unlocked" src="geticon.php?context=status&icon=object-unlocked&size=16"/> '.
                   $entry_dn.'&nbsp;';
 
           /* Only display edit button if there is at least one attribute editable */
           if (preg_match("/r/", $ui->get_permissions($entry_dn, "$plCategory/$classname"))) {
-            $info .= '<div style="display:inline-block" class="optional"><img class="center" alt="lightbulb" src="'.
-                      get_template_path('images/lists/on.png').'"> '.
+            $info .= '<div style="display:inline-block" class="optional"><img class="center" alt="information" '.
+                      'src="geticon.php?context=status&icon=dialog-information&size=16"> '.
                       msgPool::clickEditToChange().'</div>';
 
             $display .= '<input type="submit" name="edit" value="'.msgPool::editButton().'"/>'."\n";

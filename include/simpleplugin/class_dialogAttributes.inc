@@ -652,7 +652,7 @@ class UserAttribute extends DialogButtonAttribute
                   'alt="'._('Edit').'" title="'._('Edit').'" name="'.$id.'" id="'.$id.'" '.
                   ($this->disabled? 'disabled="disabled"':'').'/>';
     if (!$this->isRequired()) {
-      $display .= '<input class="center" type="image" src="images/lists/trash.png" '.
+      $display .= '<input class="center" type="image" src="geticon.php?context=actions&icon=edit-delete&size=16" '.
                     'alt="'._('Remove').'" title="'._('Remove').'" name="'.$id.'_remove" id="'.$id.'_remove" '.
                     ($this->disabled? 'disabled="disabled"':'').'/>';
     }
