@@ -161,7 +161,7 @@ class msg_dialog
       $display .=
         "<table style='width:100%; border:2px solid red;'>
         <tr><td style='vertical-align:top;padding:10px'>
-        <img src='images/error.png' alt='{t}Error{/t}'>
+        <img src='geticon.php?context=status&icon=dialog-error&size=32' alt='{t}Error{/t}'/>
         </td><td style='width:100%'>
         <b>".$this->s_Title."</b><br>
         ".$this->s_Message."<br><br>

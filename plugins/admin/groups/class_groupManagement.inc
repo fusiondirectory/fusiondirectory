@@ -34,7 +34,7 @@ class groupManagement extends management
     return array(
       'plShortName'   => _('Groups'),
       'plDescription' => _('Manage groups'),
-      'plIcon'        => 'plugins/groups/images/icon.png',
+      'plIcon'        => '/fusiondirectory/geticon.php?context=applications&icon=system-users&size=48',
       'plSection'     => 'admin',
       'plManages'     => array('group'),
       'plPriority'    => 2,

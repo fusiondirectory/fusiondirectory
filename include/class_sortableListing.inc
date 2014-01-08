@@ -310,7 +310,7 @@ class sortableListing {
       if (strpos($this->acl, 'w') === false) {
           $delete_image= $this->deleteable?"<img class='center' src='images/lists/trash-grey.png' alt='"._("Delete")."'>":"";
       } else {
-          $delete_image= $this->deleteable?"<input class='center' type='image' src='images/lists/trash.png' alt='"._("Delete")."' name='%ID'    title='"._("Delete this entry")."'>":"";
+          $delete_image= $this->deleteable?"<input class='center' type='image' src='geticon.php?context=actions&icon=edit-delete&size=16' alt='"._("Delete")."' name='%ID'    title='"._("Delete this entry")."'>":"";
       }
 
     // Do we need colspecs?

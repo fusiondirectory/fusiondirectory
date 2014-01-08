@@ -303,7 +303,7 @@ class listing {
             isset($config['sortType'])) {
           $this->sortAttribute  = $config['sortAttribute'];
           $this->sortType       = $config['sortType'];
-          $sorter = "&nbsp;<img title='".($this->sortDirection[$index]?_("Up"):_("Down"))."' src='images/lists/sort-".($this->sortDirection[$index]?"up":"down").".png' alt='".($this->sortDirection[$index]?_('Sort up'):_('Sort down'))."'>";
+          $sorter = "&nbsp;<img title='".($this->sortDirection[$index]?_("Up"):_("Down"))."' src='geticon.php?context=actions&size=16&icon=view-sort-".($this->sortDirection[$index]?"descending":"ascending")."' alt='".($this->sortDirection[$index]?_('Sort up'):_('Sort down'))."'>";
         }
         $sortable = (isset($config['sortAttribute']));
 
@@ -1141,7 +1141,7 @@ class listing {
 
     /* Draw root button */
     if ($enableRoot) {
-      $result["ROOT"] = "<input class='center' type='image' src='images/lists/root.png' ".
+      $result["ROOT"] = "<input class='center' type='image' src='geticon.php?context=actions&icon=go-first&size=16' ".
                        "title='"._("Go to root department")."' name='ROOT' alt='"._("Root")."'>";
     } else {
       $result["ROOT"] = "<img src='images/lists/root_grey.png' class='center' alt='"._("Root")."'>";
@@ -1149,7 +1149,7 @@ class listing {
 
     /* Draw back button */
     if ($enableBack) {
-      $result["BACK"] = "<input class='center' type='image' src='images/lists/back.png' ".
+      $result["BACK"] = "<input class='center' type='image' src='geticon.php?context=actions&icon=go-up&size=16' ".
                        "title='"._("Go up one department")."' alt='"._("Up")."' name='BACK'>";
     } else {
       $result["BACK"] = "<img src='images/lists/back_grey.png' class='center' alt='"._("Up")."'>";
@@ -1157,14 +1157,14 @@ class listing {
 
     /* Draw home button */
     if ($enableHome) {
-      $result["HOME"] = "<input class='center' type='image' src='images/lists/home.png' ".
-                       "title='"._("Go to users department")."' alt='"._("Home")."' name='HOME'>";
+      $result["HOME"] = "<input class='center' type='image' src='geticon.php?context=actions&icon=go-home&size=16' ".
+                       "title='"._("Go to user's department")."' alt='"._("Home")."' name='HOME'>";
     } else {
       $result["HOME"] = "<img src='images/lists/home_grey.png' class='center' alt='"._("Home")."'>";
     }
 
     /* Draw reload button, this button is enabled everytime */
-    $result["RELOAD"] = "<input class='center optional' type='image' src='images/lists/reload.png' ".
+    $result["RELOAD"] = "<input class='center optional' type='image' src='geticon.php?context=actions&icon=view-refresh&size=16' ".
                        "title='"._("Reload list")."' name='REFRESH' alt='"._("Submit")."'>";
 
     return $result;
@@ -1280,7 +1280,7 @@ class listing {
     $actions  = &$this->xmlData['actionmenu']['action'];
     $result   = "<input type='hidden' name='act' id='actionmenu' value=''><div style='display:none'><input type='submit' name='exec_act' id='exec_act' value=''></div>".
              "<ul class='level1' id='root'><li><a href='#'>"._("Actions")."&nbsp;<img ".
-             "class='center optional' src='images/lists/sort-down.png' alt='down arrow'/></a>";
+             "class='center optional' src='geticon.php?context=actions&icon=view-sort-ascending&size=16' alt='down arrow'/></a>";
 
     // Build ul/li list
     $result .= $this->recurseActions($actions);
@@ -1574,13 +1574,13 @@ class listing {
     if ($read) {
       // Copy entry
       if ($copy) {
-        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"copy\";document.getElementById(\"exec_act\").click();'><img src='images/lists/copy.png' alt='copy' class='center'>&nbsp;"._("Copy")."</a></li>";
+        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"copy\";document.getElementById(\"exec_act\").click();'><img src='geticon.php?context=actions&icon=edit-copy&size=16' alt='copy' class='center'>&nbsp;"._("Copy")."</a></li>";
         $separator = "";
       }
 
       // Cut entry
       if ($cut) {
-        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"cut\";document.getElementById(\"exec_act\").click();'><img src='images/lists/cut.png' alt='cut' class='center'>&nbsp;"._("Cut")."</a></li>";
+        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"cut\";document.getElementById(\"exec_act\").click();'><img src='geticon.php?context=actions&icon=edit-cut&size=16' alt='cut' class='center'>&nbsp;"._("Cut")."</a></li>";
         $separator = "";
       }
     }
@@ -1588,7 +1588,7 @@ class listing {
     // Draw entries that allow pasting entries
     if ($paste) {
       if ($this->copyPasteHandler->entries_queued()) {
-        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"paste\";document.getElementById(\"exec_act\").click();'><img src='images/lists/paste.png' alt='paste' class='center'>&nbsp;"._("Paste")."</a></li>";
+        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"paste\";document.getElementById(\"exec_act\").click();'><img src='geticon.php?context=actions&icon=edit-paste&size=16' alt='paste' class='center'>&nbsp;"._("Paste")."</a></li>";
       } else {
         $result .= "<li$separator><a href='#'><img src='images/lists/paste-grey.png' alt='paste' class='center'>&nbsp;"._("Paste")."</a></li>";
       }
@@ -1600,6 +1600,7 @@ class listing {
 
   function renderCopyPasteActions($row, $dn, $category, $class, $copy = TRUE, $cut = TRUE)
   {
+    global $config;
     // We can only provide information if we've got a copypaste handler
     // instance
     if (!(isset($this->copyPasteHandler) && is_object($this->copyPasteHandler))) {
@@ -1613,8 +1614,10 @@ class listing {
     // Render cut entries
     if ($cut) {
       if ($ui->is_cutable($dn, $category, $class)) {
-        $result .= "<input class='center' type='image'
-          src='images/lists/cut.png' alt='"._("Cut")."' name='listing_cut_$row' title='"._("Cut this entry")."' style='padding:1px'>";
+        $result .= '<input class="center" type="image"'.
+                    ' src="geticon.php?context=actions&icon=edit-cut&size=16"'.
+                    ' alt="'._('Cut').'" name="listing_cut_'.$row.'" title="'._('Cut this entry').'"'.
+                    ' style="padding:1px">';
       } else {
         $result .= "<img src='images/empty.png' alt=' ' class='center optional' style='padding:1px'>";
       }
@@ -1623,8 +1626,10 @@ class listing {
     // Render copy entries
     if ($copy) {
       if ($ui->is_copyable($dn, $category, $class)) {
-        $result .= "<input class='center' type='image'
-          src='images/lists/copy.png' alt='"._("Copy")."' name='listing_copy_$row' title='"._("Copy this entry")."' style='padding:1px'>";
+        $result .= '<input class="center" type="image"'.
+                    ' src="geticon.php?context=actions&icon=edit-copy&size=16"'.
+                    ' alt="'._('Copy').'" name="listing_copy_'.$row.'" title="'._('Copy this entry').'"'.
+                    ' style="padding:1px">';
       } else {
         $result .= "<img src='images/empty.png' alt=' ' class='center optional' style='padding:1px'>";
       }
@@ -1672,7 +1677,7 @@ class listing {
     $result = "";
 
     // Draw entries
-    $result .= "<li$separator><a href='#'><img class='center' src='images/lists/export.png' alt='export'>&nbsp;"._("Export list")."&nbsp;<img src='images/forward-arrow.png' alt='arrow'></a><ul class='level3'>";
+    $result .= "<li$separator><a href='#'><img class='center' src='geticon.php?context=actions&icon=document-export&size=16' alt='export'>&nbsp;"._("Export list")."&nbsp;<img src='images/forward-arrow.png' alt='arrow'></a><ul class='level3'>";
 
     // Export CVS as build in exporter
     foreach ($this->exporter as $action => $exporter) {

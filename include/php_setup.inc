@@ -191,21 +191,19 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
                               "\n\n".
                               "*** PHP error information ***\n\n");
 
-    $warning_path = (is_callable('get_template_path') ? get_template_path('images/warning.png') : 'images/warning.png');
-
     $error_collector = '
       <div class="error">
         <table width="100%">
           <tr>
             <td>
-              <img src="'.$warning_path.'" alt="" class="center"/>&nbsp;
+              <img src="geticon.php?context=status&icon=dialog-warning&size=16" alt="" class="center"/>&nbsp;
               <strong style="font-size:14px">'.
                 _("Generating this page caused the PHP interpreter to raise some errors!").'
               </strong>
             </td>
             <td align=right>
               <a href="mailto:bugs@fusiondirectory.org?subject=FusionDirectory%20bugreport&amp;body=%BUGBODY%">
-                <img src="images/mailto.png" title="'._("Send bug report to the FusionDirectory Team").
+                <img src="geticon.php?context=applications&icon=internet-mail&size=16" title="'._("Send bug report to the FusionDirectory Team").
                 '" class="center" alt="'.("Mail icon").'">&nbsp;'._("Send bugreport").'
               </a>
             </td>

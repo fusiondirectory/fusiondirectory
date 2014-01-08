@@ -90,7 +90,7 @@ class csvExporter
    */
   static function getInfo()
   {
-    return array("exportCVS" => array( "label" => _("CSV"), "image" => "images/lists/csv.png", "class" => "csvExporter", "mime" => "text/x-csv", "filename" => "export.csv" ));
+    return array("exportCVS" => array( "label" => _("CSV"), "image" => "geticon.php?context=mimetypes&icon=text-csv&size=16", "class" => "csvExporter", "mime" => "text/x-csv", "filename" => "export.csv" ));
   }
 
 }
