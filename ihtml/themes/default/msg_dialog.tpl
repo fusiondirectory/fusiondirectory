@@ -31,10 +31,8 @@
         <img src="geticon.php?context=status&icon=dialog-error&size=32" class="center" alt="{t}Error{/t}"/>
       {elseif $i_Type == $smarty.const.WARNING_DIALOG}
         <img src="geticon.php?context=status&icon=dialog-warning&size=32" class="center"  alt="{t}Warning{/t}"/>
-      {elseif $i_Type == $smarty.const.INFO_DIALOG}
+      {elseif $i_Type == $smarty.const.INFO_DIALOG || $i_Type == $smarty.const.CONFIRM_DIALOG}
         <img src="geticon.php?context=status&icon=dialog-information&size=32" class="center" alt="{t}Information{/t}"/>
-      {elseif $i_Type == $smarty.const.CONFIRM_DIALOG}
-        <img src="geticon.php?context=status&icon=dialog-question&size=32" class="center" alt="{t}Question{/t}"/>
       {/if}
         {$s_Title}
       </h2>

@@ -24,7 +24,7 @@
       <objectClass>gosaAccount</objectClass>
       <category>user</category>
       <class>user</class>
-      <image>plugins/users/images/iconMini.png</image>
+      <image>geticon.php?context=types&amp;icon=user&amp;size=16</image>
     </objectType>
 
   </definition>
@@ -85,13 +85,13 @@
 
     <action>
      <type>sub</type>
-     <image>images/lists/new.png</image>
+     <image>geticon.php?context=actions&amp;icon=document-new&amp;size=16</image>
      <label>Create</label>
 
      <action>
       <name>new</name>
       <type>entry</type>
-      <image>plugins/users/images/iconMini.png</image>
+      <image>geticon.php?context=types&amp;icon=user&amp;size=16</image>
       <label>User</label>
      </action>
 
@@ -110,21 +110,21 @@
     <action>
       <name>edit</name>
       <type>entry</type>
-      <image>images/lists/edit.png</image>
+      <image>geticon.php?context=actions&amp;icon=document-edit&amp;size=16</image>
       <label>Edit</label>
     </action>
 
     <action>
       <name>remove</name>
       <type>entry</type>
-      <image>images/lists/trash.png</image>
+      <image>geticon.php?context=actions&amp;icon=edit-delete&amp;size=16</image>
       <label>Remove</label>
     </action>
 
     <action>
       <name>password</name>
       <type>entry</type>
-      <image>plugins/users/images/list_password.png</image>
+      <image>geticon.php?context=status&amp;icon=dialog-password&amp;size=16</image>
       <label>Change password</label>
       <acl>user/password[w]</acl>
     </action>
@@ -136,7 +136,7 @@
     <action>
       <name>lockUsers</name>
       <type>entry</type>
-      <image>images/lists/locked.png</image>
+      <image>geticon.php?context=status&amp;icon=object-locked&amp;size=16</image>
       <acl>user/password[w]</acl>
       <label>Lock users</label>
     </action>
@@ -144,7 +144,7 @@
     <action>
       <name>unlockUsers</name>
       <type>entry</type>
-      <image>images/lists/unlocked.png</image>
+      <image>geticon.php?context=status&amp;icon=object-unlocked&amp;size=16</image>
       <acl>user/password[w]</acl>
       <label>Unlock users</label>
     </action>
@@ -219,7 +219,7 @@
       <type>entry</type>
       <objectclass>!fdTemplate</objectclass>
       <acl>user/password[w]</acl>
-      <image>plugins/users/images/list_password.png</image>
+      <image>geticon.php?context=status&amp;icon=dialog-password&amp;size=16</image>
       <label>Change password</label>
     </action>
 

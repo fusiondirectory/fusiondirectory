@@ -33,7 +33,7 @@ class departmentManagement extends simpleManagement
     return array(
       'plShortName'   => _('Departments'),
       'plDescription' => _('Manage departments'),
-      'plIcon'        => 'plugins/departments/images/icon.png',
+      'plIcon'        => '/fusiondirectory/geticon.php?context=places&icon=folder&size=48',
       'plSection'     => array('admin' => array('name' => _('Administration'), 'priority' => 0)),
       'plPriority'    => 0,
       'plManages'     => self::getDepartmentTypes(),

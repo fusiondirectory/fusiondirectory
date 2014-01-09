@@ -35,7 +35,7 @@ class groupManagement extends simpleManagement
     return array(
       'plShortName'   => _('Groups'),
       'plDescription' => _('Manage groups'),
-      'plIcon'        => '/fusiondirectory/geticon.php?context=applications&icon=system-users&size=48',
+      'plIcon'        => '/fusiondirectory/geticon.php?context=types&icon=user-group&size=48',
       'plSection'     => 'admin',
       'plManages'     => array('group'),
       'plPriority'    => 2,

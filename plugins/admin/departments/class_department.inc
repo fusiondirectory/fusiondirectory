@@ -40,7 +40,7 @@ class department extends simplePlugin
             'name'      => _('Department'),
             'filter'    => '(&(objectClass=organizationalUnit)(objectClass=gosaDepartment))',
             'ou'        => '',
-            'icon'      => 'images/lists/folder.png',
+            'icon'      => '/fusiondirectory/geticon.php?context=places&icon=folder&size=16',
             'tabClass'  => 'deptabs',
             'mainAttr'  => self::$namingAttr,
           )

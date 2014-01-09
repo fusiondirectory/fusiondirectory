@@ -301,6 +301,7 @@ class ogroup extends simplePlugin
   {
     $this->reload();
     return $this->gosaGroupObjects;
+
   }
 }
 ?>
