@@ -1144,7 +1144,7 @@ class listing {
       $result["ROOT"] = "<input class='center' type='image' src='geticon.php?context=actions&icon=go-first&size=16' ".
                        "title='"._("Go to root department")."' name='ROOT' alt='"._("Root")."'>";
     } else {
-      $result["ROOT"] = "<img src='images/lists/root_grey.png' class='center' alt='"._("Root")."'>";
+      $result["ROOT"] = "<img src='geticon.php?context=actions&icon=go-first&size=16&disabled=1' class='center' alt='"._("Root")."'>";
     }
 
     /* Draw back button */
@@ -1152,7 +1152,7 @@ class listing {
       $result["BACK"] = "<input class='center' type='image' src='geticon.php?context=actions&icon=go-up&size=16' ".
                        "title='"._("Go up one department")."' alt='"._("Up")."' name='BACK'>";
     } else {
-      $result["BACK"] = "<img src='images/lists/back_grey.png' class='center' alt='"._("Up")."'>";
+      $result["BACK"] = "<img src='geticon.php?context=actions&icon=go-up&size=16&disabled=1' class='center' alt='"._("Up")."'>";
     }
 
     /* Draw home button */
@@ -1160,7 +1160,7 @@ class listing {
       $result["HOME"] = '<input class="center" type="image" src="geticon.php?context=actions&icon=go-home&size=16"'.
                         ' title="'._("Go to user's department").'" alt="'._('Home').'" name="HOME"/>';
     } else {
-      $result["HOME"] = "<img src='images/lists/home_grey.png' class='center' alt='"._("Home")."'>";
+      $result["HOME"] = "<img src='geticon.php?context=actions&icon=go-home&size=16&disabled=1' class='center' alt='"._("Home")."'>";
     }
 
     /* Draw reload button, this button is enabled everytime */
@@ -1278,9 +1278,10 @@ class listing {
 
     // Load shortcut
     $actions  = &$this->xmlData['actionmenu']['action'];
-    $result   = "<input type='hidden' name='act' id='actionmenu' value=''><div style='display:none'><input type='submit' name='exec_act' id='exec_act' value=''></div>".
-             "<ul class='level1' id='root'><li><a href='#'>"._("Actions")."&nbsp;<img ".
-             "class='center optional' src='geticon.php?context=actions&icon=view-sort-ascending&size=16' alt='down arrow'/></a>";
+    $result   = '<input type="hidden" name="act" id="actionmenu" value="">'.
+                '<div style="display:none"><input type="submit" name="exec_act" id="exec_act" value=""/></div>'.
+                '<ul class="level1" id="root"><li><a href="#">'._('Actions').
+                '&nbsp;<img class="center optional" src="images/down-arrow.png" alt="down arrow"/></a>';
 
     // Build ul/li list
     $result .= $this->recurseActions($actions);
@@ -1661,9 +1662,9 @@ class listing {
 
       // Draw icons according to the restore flag
       if ($restore) {
-        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"restore\";document.getElementById(\"exec_act\").click();'><img src='images/lists/restore.png' alt='restore' class='center'>&nbsp;"._("Restore snapshots")."</a></li>";
+        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"restore\";document.getElementById(\"exec_act\").click();'><img src='geticon.php?context=actions&icon=document-restore&size=16' alt='restore' class='center'>&nbsp;"._("Restore snapshots")."</a></li>";
       } else {
-        $result .= "<li$separator><a href='#'><img src='images/lists/restore_grey.png' alt='restore' class='center'>&nbsp;"._("Restore snapshots")."</a></li>";
+        $result .= "<li$separator><a href='#'><img src='geticon.php?context=actions&icon=document-restore&size=16&disabled=1' alt='restore' class='center'>&nbsp;"._("Restore snapshots")."</a></li>";
       }
     }
 
@@ -1711,11 +1712,11 @@ class listing {
 
         // Do we have snapshots for this dn?
         if ($this->snapshotHandler->hasSnapshots($dn)) {
-          $result .= "<input class='center' type='image' src='images/lists/restore.png' ".
+          $result .= "<input class='center' type='image' src='geticon.php?context=actions&icon=document-restore&size=16' ".
                      "alt='"._("Restore snapshot")."' name='listing_restore_$row' title='".
                      _("Restore snapshot")."' style='padding:1px'>";
         } else {
-          $result .= "<img src='images/lists/restore_grey.png' alt='restore' class='center' style='padding:1px'>";
+          $result .= "<img src='geticon.php?context=actions&icon=document-restore&size=16&disabled=1' alt='restore' class='center' style='padding:1px'>";
         }
       }
 

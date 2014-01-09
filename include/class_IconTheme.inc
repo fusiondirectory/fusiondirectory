@@ -144,7 +144,7 @@ class IconTheme
   }
 
   static public $default_theme  = 'default';
-  static public $extensions     = array('png', 'xpm');
+  static public $extensions     = array('png', 'xpm', 'svg');
 
   /* We store themes in the session. To do otherwise, override these methods. */
   static public $session_var    = 'IconThemes';
