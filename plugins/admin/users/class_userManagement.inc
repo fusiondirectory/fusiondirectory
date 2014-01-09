@@ -51,7 +51,7 @@ class userManagement extends management
     return array(
       'plShortName'   => _('Users'),
       'plDescription' => _('Manage users'),
-      'plIcon'        => '/fusiondirectory/geticon.php?context=places&icon=user-identity&size=48',
+      'plIcon'        => '/fusiondirectory/geticon.php?context=types&icon=user&size=48',
       'plSection'     => 'admin',
       'plManages'     => array('user'),
       'plPriority'    => 1,
@@ -850,9 +850,9 @@ class userManagement extends management
     $image = "images/empty.png";
     if (isset($userPassword[0]) && preg_match("/^\{[^\}]/", $userPassword[0])) {
       if (preg_match("/^[^\}]*+\}!/", $userPassword[0])) {
-        $image = "images/lists/locked.png";
+        $image = "geticon.php?context=status&amp;icon=object-locked&amp;size=16";
       } else {
-        $image = "images/lists/unlocked.png";
+        $image = "geticon.php?context=status&amp;icon=object-unlocked&amp;size=16";
       }
     }
     return $image;

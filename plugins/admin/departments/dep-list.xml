@@ -75,7 +75,7 @@
       <name>edit</name>
       <type>entry</type>
       <nospan></nospan>
-      <image>images/lists/edit.png</image>
+      <image>geticon.php?context=actions&amp;icon=document-edit&amp;size=16</image>
       <label>Edit</label>
     </action>
 

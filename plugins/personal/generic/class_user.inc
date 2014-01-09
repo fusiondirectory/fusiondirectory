@@ -1444,7 +1444,7 @@ class user extends plugin
     $ret = array(
         "plShortName"   => _("Generic"),
         "plDescription" => _("Generic user settings"),
-        "plIcon"        => "plugins/generic/images/icon.png",
+        "plIcon"        => '/fusiondirectory/geticon.php?context=applications&amp;icon=user-info&amp;size=48',
         "plSelfModify"  => TRUE,
         "plCategory"    => array("user" => array("description" => _("Users"),
                                                   "objectClass" => "gosaAccount")),
@@ -1453,7 +1453,7 @@ class user extends plugin
           'name'        => _('User'),
           'filter'      => 'objectClass=gosaAccount',
           'mainAttr'    => 'cn',
-          'icon'        => 'plugins/users/images/iconMini.png',
+          'icon'        => '/fusiondirectory/geticon.php?context=types&amp;icon=user&amp;size=16',
           'ou'          => get_ou('userRDN'),
         )),
         'plForeignKeys'  => array(

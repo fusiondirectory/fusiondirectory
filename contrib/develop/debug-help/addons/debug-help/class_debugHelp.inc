@@ -7,10 +7,10 @@ class debugHelp extends simplePlugin
   static function plInfo()
   {
     return array(
-      'plShortName'   => _('Diagrams'),
-      'plDescription' => _('Debug diagrams'),
+      'plShortName'   => _('Debug help'),
+      'plDescription' => _('Debug help tools'),
       'plSection'     => 'addons',
-      'plIcon'        => 'plugins/debug-help/images/icon.png',
+      'plIcon'        => '/fusiondirectory/geticon.php?context=categories&amp;icon=applications-development&amp;size=48',
       'plCategory'    => array('debug' => array('objectClass' => 'none', 'description' => _('Diagram'))),
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())

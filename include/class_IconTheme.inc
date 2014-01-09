@@ -91,6 +91,14 @@ class IconTheme
     if ($filename != NULL) {
       return $filename;
     }
+    if (isset(self::$fallbacks[$context.'/'.$icon])) {
+      foreach (self::$fallbacks[$context.'/'.$icon] as $fallback) {
+        $filename = $this->LookupIcon($fallback[0], $fallback[1], $size);
+        if ($filename != NULL) {
+          return $filename;
+        }
+      }
+    }
 
     if ($this->parent !== NULL) {
       $parent = $this->findTheme($this->parent);
@@ -107,7 +115,7 @@ class IconTheme
   {
     foreach ($this->subdirs[$context] as $path => &$subdir) {
       if ($subdir->MatchesSize($size)) {
-        foreach (array('png', 'svg', 'xpm') as $extension) {
+        foreach (self::$extensions as $extension) {
           $filename = $this->path.'/'.$path.'/'.$iconname.'.'.$extension;
           if (file_exists($filename)) {
             return $filename;
@@ -119,7 +127,7 @@ class IconTheme
     $minimal_size = PHP_INT_MAX;
     foreach ($this->subdirs[$context] as $path => &$subdir) {
       if (($sizedistance = $subdir->SizeDistance($size)) < $minimal_size) {
-        foreach (array('png', 'svg', 'xpm') as $extension) {
+        foreach (self::$extensions as $extension) {
           $filename = $this->path.'/'.$path.'/'.$iconname.'.'.$extension;
           if (file_exists($filename)) {
             $closest_filename = $filename;
@@ -136,6 +144,7 @@ class IconTheme
   }
 
   static public $default_theme  = 'default';
+  static public $extensions     = array('png', 'xpm');
 
   /* We store themes in the session. To do otherwise, override these methods. */
   static public $session_var    = 'IconThemes';
@@ -173,6 +182,62 @@ class IconTheme
     }
     return NULL;
   }
+
+  /* Fallback system */
+  static public $fallbacks = array(
+    'types/user-group'              => array(
+      array('applications','system-users')
+    ),
+    'types/resource-group'          => array(
+      array('actions','resource-group')
+    ),
+    'types/user'                    => array(
+      array('places','user-identity'),
+      array('status','avatar-default'),
+    ),
+    'applications/user-info'        => array(
+      array('actions','user-properties'),
+      array('types','contact'),
+      array('mimetypes','x-office-contact'),
+    ),
+    'types/contact'                 => array(
+      array('mimetypes','x-office-contact'),
+    ),
+    'applications/office-calendar'  => array(
+      array('mimetypes','x-office-calendar'),
+    ),
+    'actions/application-exit'      => array(
+      array('actions','system-log-out'),
+    ),
+    'mimetypes/text-csv'            => array(
+      array('mimetypes','x-office-spreadsheet'),
+      array('mimetypes','text-x-generic'),
+    ),
+    'mimetypes/application-pdf'     => array(
+      array('mimetypes','x-office-document'),
+    ),
+    'actions/document-export'      => array(
+      array('actions','document-send'),
+    ),
+    'actions/download'      => array(
+      array('actions','document-save'),
+    ),
+    'actions/document-restore'      => array(
+      array('actions','document-import'),
+      array('actions','document-open'),
+    ),
+    'actions/document-edit'      => array(
+      array('actions','edit'),
+      array('applications','text-editor'),
+      array('applications','accessories-text-editor'),
+      array('actions','document-open'),
+    ),
+    'categories/settings'      => array(
+      array('categories','gnome-settings'),
+      array('categories','preferences-other'),
+      array('categories','preferences-system'),
+    ),
+  );
 }
 
 ?>

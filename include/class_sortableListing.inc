@@ -305,7 +305,7 @@ class sortableListing {
       if (strpos($this->acl, 'w') === false) {
           $edit_image= $this->editable?"<img class='center' src='images/lists/edit-grey.png' alt='"._("Edit")."'>":"";
       } else {
-          $edit_image= $this->editable?"<input class='center' type='image' src='images/lists/edit.png' alt='"._("Edit")."' name='%ID' id='%ID'  title='"._("Edit this entry")."'>":"";
+          $edit_image= $this->editable?"<input class='center' type='image' src='geticon.php?context=actions&icon=document-edit&size=16' alt='"._("Edit")."' name='%ID' id='%ID'  title='"._("Edit this entry")."'>":"";
       }
       if (strpos($this->acl, 'w') === false) {
           $delete_image= $this->deleteable?"<img class='center' src='images/lists/trash-grey.png' alt='"._("Delete")."'>":"";

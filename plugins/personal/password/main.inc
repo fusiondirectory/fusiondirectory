@@ -48,7 +48,7 @@ if ($cleanup) {
   $display .= $password->execute();
 
   /* Page header*/
-  $display = print_header(get_template_path('plugins/password/images/icon.png'),
+  $display = print_header('geticon.php?context=status&icon=dialog-password&size=48',
                          _("Password settings"), "").$display;
 
 }

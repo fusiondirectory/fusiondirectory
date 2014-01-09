@@ -1157,8 +1157,8 @@ class listing {
 
     /* Draw home button */
     if ($enableHome) {
-      $result["HOME"] = "<input class='center' type='image' src='geticon.php?context=actions&icon=go-home&size=16' ".
-                       "title='"._("Go to user's department")."' alt='"._("Home")."' name='HOME'>";
+      $result["HOME"] = '<input class="center" type="image" src="geticon.php?context=actions&icon=go-home&size=16"'.
+                        ' title="'._("Go to user's department").'" alt="'._('Home').'" name="HOME"/>';
     } else {
       $result["HOME"] = "<img src='images/lists/home_grey.png' class='center' alt='"._("Home")."'>";
     }

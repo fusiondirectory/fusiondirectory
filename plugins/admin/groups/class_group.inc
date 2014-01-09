@@ -1089,7 +1089,7 @@ class group extends plugin
         "name"        => _("Group"),
         'ou'          => get_ou('groupRDN'),
         'filter'      => 'objectClass=posixGroup',
-        'icon'        => 'plugins/groups/images/iconMini.png',
+        'icon'        => '/fusiondirectory/geticon.php?context=types&icon=user-group&size=16',
         'mainAttr'    => 'cn',
       )),
       'plForeignKeys'  => array(

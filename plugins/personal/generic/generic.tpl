@@ -319,7 +319,7 @@
           title='{$manager}'>
 {/render}
 {render acl=$managerACL}
-        <input type='image' src='images/lists/edit.png' name='editManager' class='center'>
+        <input type='image' src='geticon.php?context=actions&icon=document-edit&size=16' name='editManager' class='center'>
 {/render}
         {if $manager!=""}
 {render acl=$managerACL}
@@ -356,7 +356,7 @@
 {render acl=$telephoneNumberACL}
           <input type="text" id="telephoneNumber" name="telephoneNumber" size=22 maxlength=60 value="{$telephoneNumber}"/>
         {if $phone_dialog_available}
-          <input type='image' src='images/lists/edit.png' name='editPhone' class='center'/>
+          <input type='image' src='geticon.php?context=actions&icon=document-edit&size=16' name='editPhone' class='center'/>
         {/if}
 {/render}
      </td>
@@ -368,7 +368,7 @@
 {render acl=$mobileACL}
     <input type="text" id="mobile" name="mobile" size=22 maxlength=60 value="{$mobile}"/>
         {if $mobile_dialog_available}
-          <input type='image' src='images/lists/edit.png' name='editMobile' class='center'/>
+          <input type='image' src='geticon.php?context=actions&icon=document-edit&size=16' name='editMobile' class='center'/>
         {/if}
 {/render}
      </td>

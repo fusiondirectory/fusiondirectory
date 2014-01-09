@@ -930,7 +930,7 @@ class ogroup extends plugin
         'name'        => _('Object group'),
         'ou'          => get_ou('ogroupRDN'),
         'filter'      => 'objectClass=gosaGroupOfNames',
-        'icon'        => 'plugins/ogroups/images/iconMini.png',
+        'icon'        => '/fusiondirectory/geticon.php?context=types&icon=resource-group&size=16',
         'tabClass'    => 'ogrouptabs',
       )),
       'plForeignKeys'  => array(

@@ -77,7 +77,7 @@
     <action>
       <name>edit</name>
       <type>entry</type>
-      <image>images/lists/edit.png</image>
+      <image>geticon.php?context=actions&amp;icon=document-edit&amp;size=16</image>
       <label>Edit</label>
       <acl>[r]</acl>
     </action>
@@ -121,7 +121,7 @@
     <action>
       <name>edit</name>
       <type>entry</type>
-      <image>images/lists/edit.png</image>
+      <image>geticon.php?context=actions&amp;icon=document-edit&amp;size=16</image>
       <label>Edit</label>
     </action>
 
