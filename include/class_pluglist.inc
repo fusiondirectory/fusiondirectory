@@ -423,7 +423,7 @@ class pluglist {
           if (isset($info['ICON'])) {
             $image = get_template_path('images/'.$info['ICON']);
           } else {
-            if (!preg_match("/\//", $plIcon)) {
+            if (!preg_match("/\//", $plIcon) && !preg_match("/^geticon/", $plIcon)) {
               $image = get_template_path("plugins/".preg_replace('%^.*/([^/]+)/[^/]+$%', '\1', $class_mapping[$info['CLASS']])."/images/$plIcon");
             } else {
               $image = $plIcon;

@@ -156,7 +156,7 @@
     <action>
       <name>templatize</name>
       <type>entry</type>
-      <image>plugins/users/images/wizard.png</image>
+      <image>geticon.php?context=actions&amp;icon=tools-wizard&amp;size=16</image>
       <label>Apply template</label>
     </action>
 

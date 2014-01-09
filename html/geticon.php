@@ -32,8 +32,18 @@ if (session::global_is_set('config')) {
   $config = session::global_get('config');
   $theme  = $config->get_cfg_value('theme');
 }
+IconTheme::$extensions = array('png');
 $src    = IconTheme::findThemeIcon($theme, $_GET['context'], $_GET['icon'], $_GET['size']);
-$size   = getimagesize($src);
-header("Content-Type: ".$size['mime']);
-echo readfile($src);
+
+header("Content-Type: image/png");
+if (isset($_GET['disabled']) && $_GET['disabled']) {
+  $im = imagecreatefrompng($src);
+  imageAlphaBlending($im, TRUE);
+  imageSaveAlpha($im, TRUE);
+  imagefilter($im, IMG_FILTER_GRAYSCALE);
+  imagepng($im);
+  imagedestroy($im);
+} else {
+  readfile($src);
+}
 ?>
