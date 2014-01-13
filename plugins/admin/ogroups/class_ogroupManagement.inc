@@ -179,19 +179,19 @@ class ogroupManagement extends management
 
   static function filterProperties($row, $gosaGroupObjects)
   {
-
     $conv= array(
-        "Y" => array("plugins/users/images/select_template.png",_("Templates") , "ogroup"),
-        "U" => array("plugins/users/images/iconMini.png"        ,_("User")        , "ogroup"),
-        "G" => array("plugins/groups/images/iconMini.png"       ,_("Group")       , "ogroup"),
-        "A" => array("plugins/ogroups/images/application.png" ,_("Application") , "ogroup"),
-        "D" => array("plugins/departments/department.png"     ,_("Department")  , "ogroup"),
-        "S" => array("plugins/ogroups/images/server.png"      ,_("Server")      , "ogroup"),
-        "F" => array("plugins/ogroups/images/asterisk.png"    ,_("Phone")       , "phonequeue"),
-        "W" => array("plugins/ogroups/images/workstation.png" ,_("Workstation") , "workstartup"),
-        "O" => array("plugins/ogroups/images/winstation.png"  ,_("Windows Install") , "ogroup"),
-        "T" => array("plugins/ogroups/images/terminal.png"    ,_("Terminal")    , "termgroup"),
-        "P" => array("plugins/ogroups/images/printer.png"     ,_("Printer")     , "ogroup"));
+      "Y" => array("plugins/users/images/select_template.png"                   ,_("Templates")       ,"ogroup"),
+      "U" => array('geticon.php?context=types&icon=user&size=16'                ,_("User")            ,"ogroup"),
+      "G" => array('geticon.php?context=types&icon=user-group&size=16'          ,_("Group")           ,"ogroup"),
+      "A" => array("plugins/ogroups/images/application.png"                     ,_("Application")     ,"ogroup"),
+      "D" => array('geticon.php?context=places&icon=folder&size=16'             ,_("Department")      ,"ogroup"),
+      "S" => array('geticon.php?context=devices&icon=server&size=16'            ,_("Server")          ,"ogroup"),
+      "F" => array('geticon.php?context=devices&icon=phone&size=16'             ,_("Phone")           ,"phonequeue"),
+      "W" => array('geticon.php?context=devices&icon=computer&size=16'          ,_("Workstation")     ,"workstartup"),
+      "O" => array('geticon.php?context=devices&icon=computer-windows&size=16'  ,_("Windows Install") ,"ogroup"),
+      "T" => array("plugins/ogroups/images/terminal.png"                        ,_("Terminal")        ,"termgroup"),
+      "P" => array('geticon.php?context=devices&icon=printer&size=16'           ,_("Printer")         ,"ogroup")
+    );
 
     $types = preg_replace("/[^a-z]/i","",$gosaGroupObjects[0]);
     $result ="";

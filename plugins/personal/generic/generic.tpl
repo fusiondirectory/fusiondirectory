@@ -3,7 +3,7 @@
  <!-- Headline container -->
  <tr>
   <td colspan="4">
-   <h2><img alt="" align="middle" src="plugins/users/images/iconMini.png" class="center"> {t}Personal information{/t}</h2>
+   <h2><img alt="" align="middle" src="geticon.php?context=types&icon=user&size=16" class="center"> {t}Personal information{/t}</h2>
   </td>
  </tr>
 
@@ -326,7 +326,7 @@
         <img src='images/info_small.png' title='{$manager}' class='center'>
 {/render}
 {render acl=$managerACL}
-        <input type='image' src='images/lists/trash.png' name='removeManager' class='center'>
+        <input type='image' src='geticon.php?context=actions&icon=edit-delete&size=16' name='removeManager' class='center'>
 {/render}
         {/if}
      </td>

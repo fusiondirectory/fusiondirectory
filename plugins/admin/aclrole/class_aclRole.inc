@@ -310,11 +310,11 @@ class acl_createedit extends acl
 
         $action = "";
         if ($this->acl_is_readable("gosaAclEntry")) {
-          $action .= "<input class='center' type='image' src='images/lists/edit.png'
+          $action .= "<input class='center' type='image' src='geticon.php?context=actions&icon=document-edit&size=16'
             alt='"._("Edit")."' name='cat_edit_$section'   title='"._("Edit category ACL")."'>";
         }
         if ($this->acl_is_writeable("gosaAclEntry")) {
-          $action .= "<input class='center' type='image' src='images/lists/trash.png'
+          $action .= "<input class='center' type='image' src='geticon.php?context=actions&icon=edit-delete&size=16'
             alt='"._("Delete")."' name='cat_del_$section' title='"._("Reset category ACL")."'>";
         }
 

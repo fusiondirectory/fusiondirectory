@@ -44,7 +44,7 @@ padding-right:8px;
 }
 
 div.tab_notify {
-background-image:url(../../images/lists/on.png);
+background-image:url(../../geticon.php?context=status&icon=dialog-information&size=16);
 background-repeat:no-repeat;
 background-position:1px 1px;
 }

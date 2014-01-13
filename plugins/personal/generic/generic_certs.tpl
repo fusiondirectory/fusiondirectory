@@ -1,13 +1,13 @@
 <input type="hidden" name="MAX_FILE_SIZE" value="2000000">
  <!-- Headline container -->
-<h2><img alt="" class="center" align="middle" src="images/lists/key.png"> {t}Certificates{/t}</h2>
+<h2><img alt="" class="center" align="middle" src="geticon.php?context=status&icon=dialog-password&size=16"> {t}Certificates{/t}</h2>
 
 <table summary="" style="vertical-align:top; text-align:left;border-top: 1px solid rgb(176,176,176);" width="100%" cellpadding=4 border=0>
  <tr>
    <td width="12%" style="vertical-align:top">
       {t}Standard certificate{/t}
    </td>
-  
+
    <td style="vertical-align:top">
    <LABEL for="userCertificate_file">{if $Certificate_readable}{$userCertificateinfo}{/if}</LABEL>
    </td>
@@ -30,7 +30,7 @@
  <table summary="" style="vertical-align:top; text-align:left;border-top: 1px solid rgb(176,176,176);" width="100%" cellpadding=4 border=0>
  <tr>
    <td width="12%" style="vertical-align:top">
-      {t}S/MIME certificate{/t} 
+      {t}S/MIME certificate{/t}
    </td>
    <td style="vertical-align:top">
      <LABEL for="userSMIMECertificate_file">{if $Certificate_readable}{$userSMIMECertificateinfo}{/if}</LABEL>
@@ -51,10 +51,10 @@
 
 <br>
 
-<table summary="" style="vertical-align:top; text-align:left;border-top: 1px solid rgb(176,176,176);" width="100%" cellpadding=4 border=0> 
+<table summary="" style="vertical-align:top; text-align:left;border-top: 1px solid rgb(176,176,176);" width="100%" cellpadding=4 border=0>
  <tr>
    <td width="12%" style="vertical-align:top">
-      {t}PKCS12 certificate{/t} 
+      {t}PKCS12 certificate{/t}
    </td>
    <td style="vertical-align:top">
      <LABEL for="userPKCS12_file">{if $Certificate_readable}{$userPKCS12info}{/if}</LABEL>
@@ -71,7 +71,7 @@
    {/if}
    </td>
  </tr>
- 
+
  {if $governmentmode eq "true"}
  <tr>
    <td>

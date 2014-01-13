@@ -36,7 +36,7 @@
       {/function}
       {call name=printNodes nodes=$attributes.dump}
     {else}
-      <img alt="{t}Insufficient rights{/t}" src="images/small-error.png" class="center"/>&nbsp;
+      <img alt="{t}Insufficient rights{/t}" src="geticon.php?context=status&icon=dialog-error&size=16" class="center"/>&nbsp;
       <b>You have insufficient rights for using this tab</b>
     {/if}
   </div>

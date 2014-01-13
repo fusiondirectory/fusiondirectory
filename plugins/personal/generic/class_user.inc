@@ -495,7 +495,7 @@ class user extends plugin
 
     /* Do we represent a valid gosaAccount? */
     if (!$this->is_account){
-      $str = "<img alt=\"\" src=\"images/small-error.png\" align=\"middle\">&nbsp;<b>".
+      $str = "<img alt=\"\" src=\"geticon.php?context=status&icon=dialog-error&size=16\" align=\"middle\">&nbsp;<b>".
         msgPool::noValidExtension("FusionDirectory")."</b>";
       return($str);
     }

@@ -33,7 +33,7 @@
    </table>
 
   <p class="seperator">&nbsp;</p>
-  <h2><img alt="" class="center" src="images/lists/locked.png" /> {t}System trust{/t}</h2>
+  <h2><img alt="" class="center" src="geticon.php?context=categories&icon=acl&size=16" /> {t}System trust{/t}</h2>
     {t}Trust mode{/t}&nbsp;
     {render acl=$trustmodeACL}
         <select name="trustmode" id="trustmode" size=1

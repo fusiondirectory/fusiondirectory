@@ -259,7 +259,7 @@ class group extends plugin
 
     /* Do we represent a valid group? */
     if (!$this->is_account && $this->parent === NULL){
-      $display= "<img alt=\"\" src=\"images/small-error.png\" align=\"middle\">&nbsp;<b>".msgPool::noValidExtension()."</b>";
+      $display= "<img alt=\"\" src=\"geticon.php?context=status&icon=dialog-error&size=16\" align=\"middle\">&nbsp;<b>".msgPool::noValidExtension()."</b>";
       return ($display);
     }
 
@@ -500,7 +500,7 @@ class group extends plugin
 
     /* Show main page */
     $smarty->assign("alphabet", generate_alphabet(10));
-    $smarty->assign("search_image", get_template_path('images/lists/search.png'));
+    $smarty->assign("search_image", 'geticon.php?context=actions&icon=system-search&size=16');
     $smarty->assign("launchimage", get_template_path('images/lists/action.png'));
     $smarty->assign("tree_image", get_template_path('images/lists/search-subtree.png'));
     $smarty->assign("deplist", $this->config->idepartments);

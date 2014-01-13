@@ -62,7 +62,7 @@
       {else}
         <input type='text' name='base' maxlength='80' size='40' value='{$base}'>
       {/if}
-      <input type='image' class='center' src='images/lists/reload.png' title='{t}Reload{/t}' name='reload' alt='{t}Reload{/t}'>
+      <input type='image' class='center' src='geticon.php?context=actions&icon=view-refresh&size=16' title='{t}Reload{/t}' name='reload' alt='{t}Reload{/t}'>
     </div>
   </div>
   <p style="margin-top:20px">
@@ -75,7 +75,7 @@
     <div class='step4_value'>
       <input type='text' name='admin_given' maxlength='160' size='40' value='{$admin_given}'>
       {if $append_base_to_admin_dn},{$base_to_append}{/if}
-      <input type='image' class='center' src='images/lists/folder.png' title='{t}Select user{/t}' name='resolve_user' alt='{t}Select user{/t}'>
+      <input type='image' class='center' src='geticon.php?context=places&icon=folder&size=16' title='{t}Select user{/t}' name='resolve_user' alt='{t}Select user{/t}'>
     </div>
   </div>
 

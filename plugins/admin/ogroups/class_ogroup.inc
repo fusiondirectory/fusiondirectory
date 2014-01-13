@@ -268,7 +268,7 @@ class ogroup extends plugin
 
     /* Do we represent a valid group? */
     if (!$this->is_account){
-      $display= "<img alt=\"\" src=\"images/small-error.png\" align=\"middle\">&nbsp;<b>".
+      $display= "<img alt=\"\" src=\"geticon.php?context=status&icon=dialog-error&size=16\" align=\"middle\">&nbsp;<b>".
         msgPool::noValidExtension("object group")."</b>";
       return ($display);
     }
@@ -651,17 +651,17 @@ class ogroup extends plugin
     $temp= "";
     $conv= array(
         "Y" => "plugins/users/images/select_template.png",
-        "U" => "plugins/users/images/iconMini.png",
-        "G" => "plugins/groups/images/iconMini.png",
+        "U" => 'geticon.php?context=types&icon=user&size=16',
+        "G" => 'geticon.php?context=types&icon=user-group&size=16',
         "A" => "plugins/ogroups/images/application.png",
-        "D" => "plugins/departments/images/department.png",
-        "S" => "plugins/ogroups/images/server.png",
-        "W" => "plugins/ogroups/images/workstation.png",
-        "O" => "plugins/ogroups/images/winstation.png",
+        "D" => 'geticon.php?context=places&icon=folder&size=16',
+        "S" => 'geticon.php?context=devices&icon=server&size=16',
+        "W" => 'geticon.php?context=devices&icon=computer&size=16',
+        "O" => 'geticon.php?context=devices&icon=computer-windows&size=16',
         "T" => "plugins/ogroups/images/terminal.png",
-        "F" => "plugins/ogroups/images/phone.png",
-        "P" => "plugins/ogroups/images/printer.png",
-        "I" => "images/false.png");
+        "F" => 'geticon.php?context=devices&icon=phone&size=16',
+        "P" => 'geticon.php?context=devices&icon=printer&size=16',
+        "I" => "geticon.php?context=status&icon=task-failure&size=16");
 
     foreach ($input as $key => $value){
       /* Generate output */

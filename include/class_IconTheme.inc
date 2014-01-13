@@ -237,6 +237,13 @@ class IconTheme
       array('categories','preferences-other'),
       array('categories','preferences-system'),
     ),
+    'devices/server'      => array(
+      array('places','server'),
+      array('places','network-server'),
+    ),
+    'devices/media-cdrom'      => array(
+      array('devices','media-optical'),
+    ),
   );
 }
 

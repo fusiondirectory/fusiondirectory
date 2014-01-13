@@ -2197,7 +2197,7 @@ class OrderedArrayAttribute extends SetAttribute
         }
       }
       if ($this->edit_enabled) {
-        $img .= '<input type="image" src="images/lists/edit.png" name="'.$id.'_edit_'.$key.'" class="center" alt="'._('Edit').'" title="'._('Edit').'"/>&nbsp;';
+        $img .= '<input type="image" src="geticon.php?context=actions&icon=document-edit&size=16" name="'.$id.'_edit_'.$key.'" class="center" alt="'._('Edit').'" title="'._('Edit').'"/>&nbsp;';
       }
       $img .= '<input type="image" src="geticon.php?context=actions&icon=edit-delete&size=16o" name="'.$id.'_del_'.$key.'" class="center" alt="'._('Delete').'" title="'._('Delete').'"/>&nbsp;';
 

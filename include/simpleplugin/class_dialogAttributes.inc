@@ -640,7 +640,7 @@ class UserAttribute extends DialogButtonAttribute
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $display  = '<img src="plugins/users/images/iconMini.png" alt="user icon" class="center"/>';
+    $display  = '<img src="geticon.php?context=types&icon=user&size=16" alt="user icon" class="center"/>';
     if ($this->getValue() == '') {
       $display  .= '<b>'._('None').'</b>';
     } elseif ($this->buttonText === NULL) {
@@ -648,7 +648,7 @@ class UserAttribute extends DialogButtonAttribute
     } else {
       $display  .= '<a>'.$this->buttonText.'</a>';
     }
-    $display .= '<input class="center" type="image" src="images/lists/edit.png" '.
+    $display .= '<input class="center" type="image" src="geticon.php?context=actions&icon=document-edit&size=16" '.
                   'alt="'._('Edit').'" title="'._('Edit').'" name="'.$id.'" id="'.$id.'" '.
                   ($this->disabled? 'disabled="disabled"':'').'/>';
     if (!$this->isRequired()) {

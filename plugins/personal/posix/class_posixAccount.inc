@@ -160,7 +160,7 @@ class posixAccount extends simplePlugin
       ),
       'system_trust' => array(
         'name'  => _('System trust'),
-        'icon'  => 'images/lists/locked.png',
+        'icon'  => 'geticon.php?context=categories&icon=acl&size=16',
         'attrs' => array(
           new SelectAttribute(
             _('Trust mode'), _('Type of authorization for those hosts'),
