@@ -251,7 +251,7 @@ class aclAssignment extends simplePlugin
           'name'        => _('ACL assignment'),
           'filter'      => 'objectClass=gosaAcl',
           'ou'          => '',
-          'icon'        => 'plugins/acl/images/iconMini.png',
+          'icon'        => 'geticon.php?context=categories&icon=acl&size=16',
           'tabClass'    => 'simpleTabs_noSpecial',
         ),
         'special' => array(

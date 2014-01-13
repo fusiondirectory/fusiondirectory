@@ -24,7 +24,7 @@
   <tr>
    <td>
     <label for="NAME">
-     <img src="images/lists/search.png" alt="search"/>&nbsp;{t}Name{/t}
+     <img src="geticon.php?context=actions&icon=system-search&size=16" alt="search"/>&nbsp;{t}Name{/t}
     </label>
    </td>
    <td>

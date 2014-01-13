@@ -361,7 +361,7 @@ class CopyPasteHandler
       $Copy_Paste .= "<input type='image' name='editPaste' class='center'
         src='geticon.php?context=actions&icon=edit-paste&size=16' alt='"._("Paste")."'>&nbsp;";
     } else {
-      $Copy_Paste .= "<img class='center' src='images/lists/paste-grey.png' alt=\""._("Cannot paste")."\">&nbsp;";
+      $Copy_Paste .= "<img class='center' src='geticon.php?context=actions&icon=edit-paste&size=16&disabled=1' alt=\""._("Cannot paste")."\">&nbsp;";
     }
     return $Copy_Paste;
   }

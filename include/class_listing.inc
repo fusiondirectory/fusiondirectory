@@ -1591,7 +1591,7 @@ class listing {
       if ($this->copyPasteHandler->entries_queued()) {
         $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"paste\";document.getElementById(\"exec_act\").click();'><img src='geticon.php?context=actions&icon=edit-paste&size=16' alt='paste' class='center'>&nbsp;"._("Paste")."</a></li>";
       } else {
-        $result .= "<li$separator><a href='#'><img src='images/lists/paste-grey.png' alt='paste' class='center'>&nbsp;"._("Paste")."</a></li>";
+        $result .= "<li$separator><a href='#'><img src='geticon.php?context=actions&icon=edit-paste&size=16&disabled=1' alt='paste' class='center'>&nbsp;"._("Paste")."</a></li>";
       }
     }
 
