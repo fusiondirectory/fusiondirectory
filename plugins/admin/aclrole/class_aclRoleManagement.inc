@@ -33,7 +33,7 @@ class aclRoleManagement extends simpleManagement
     return array(
       'plShortName'   => _('ACL roles'),
       'plDescription' => _('ACL roles management'),
-      'plIcon'        => 'plugins/acl/images/icon.png',
+      'plIcon'        => 'geticon.php?context=categories&icon=acl&size=48',
       'plSection'     => 'admin',
       'plPriority'    => 40,
       'plCategory'    => array('acl'),

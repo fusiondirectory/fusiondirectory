@@ -856,7 +856,7 @@ class userManagement extends management
     // Load information if needed
     $ldap = $config->get_ldap_link();
     $ldap->cat($dn);
-    $result = "<input class='center' type='image' src='plugins/users/images/iconMini.png' ".
+    $result = "<input class='center' type='image' src='geticon.php?context=applications&icon=user-info&size=16' ".
                        "alt='"._('Generic')."' title='"._("Generic properties")."' ".
                        "name='listing_edit_tab_user_$row' style='padding:1px'/>";
     if ($attrs = $ldap->fetch()) {
