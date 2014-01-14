@@ -244,6 +244,12 @@ class IconTheme
     'devices/media-cdrom'      => array(
       array('devices','media-optical'),
     ),
+    'status/object-locked'      => array(
+      array('status','changes-prevent'),
+    ),
+    'status/object-unlocked'      => array(
+      array('status','changes-allow'),
+    ),
   );
 }
 
