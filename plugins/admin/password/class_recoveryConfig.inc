@@ -63,21 +63,21 @@ class recoveryConfig extends simplePlugin
             _('Sender email address'),
             _('Email address from which mails will be sent'),
             'passwordRecoveryEmail',
-            FALSE,
+            TRUE,
             'to.be@chang.ed'
           ),
           new IntAttribute (
             _('Link validity (minutes)'),
             _('Number of minutes before a recovery link expires'),
             'passwordRecoveryValidity',
-            FALSE,
+            TRUE,
             0, FALSE, 10
           ),
           new StringAttribute (
             _('Salt for tokens'),
             _('Just a security measure, you can put anything in there, even random characters'),
             'passwordRecoverySalt',
-            FALSE,
+            TRUE,
             "SomethingSecretAndVeryLong"
           ),
           new BooleanAttribute (
@@ -95,14 +95,14 @@ class recoveryConfig extends simplePlugin
             _('Subject'),
             _('Subject of the first email'),
             'passwordRecoveryMailSubject',
-            FALSE,
+            TRUE,
             _("[FusionDirectory] Password recovery link")
           ),
           new TextAreaAttribute (
             _('Body (first %s is login, second is link)'),
             _('Body of the first email, sent when the user ask for a new password. Use %s for the login and the recovery link.'),
             'passwordRecoveryMailBody',
-            FALSE,
+            TRUE,
             _("Hello,\n\nHere are your informations : \n - Login : %s\n - Link : %s\n\nThis link is only valid for 10 minutes.")
           )
         )
@@ -114,14 +114,14 @@ class recoveryConfig extends simplePlugin
             _('Subject'),
             _('Subject of the second email'),
             'passwordRecoveryMail2Subject',
-            FALSE,
+            TRUE,
             _("[FusionDirectory] Password recovery successful")
           ),
           new TextAreaAttribute (
             _('Body (%s is login)'),
             _('Body of the second email, sent to confirm the password has been changed. Use %s for the user login.'),
             'passwordRecoveryMail2Body',
-            FALSE,
+            TRUE,
            _("Hello,\n\nYour password has been changed.\nYour login is still %s.")
           )
         )
