@@ -186,10 +186,10 @@ class ogroupManagement extends management
       "A" => array("plugins/ogroups/images/application.png"                     ,_("Application")     ,"ogroup"),
       "D" => array('geticon.php?context=places&icon=folder&size=16'             ,_("Department")      ,"ogroup"),
       "S" => array('geticon.php?context=devices&icon=server&size=16'            ,_("Server")          ,"ogroup"),
-      "F" => array('geticon.php?context=devices&icon=phone&size=16'             ,_("Phone")           ,"phonequeue"),
+      "F" => array('geticon.php?context=devices&icon=telephone&size=16'             ,_("Phone")           ,"phonequeue"),
       "W" => array('geticon.php?context=devices&icon=computer&size=16'          ,_("Workstation")     ,"workstartup"),
       "O" => array('geticon.php?context=devices&icon=computer-windows&size=16'  ,_("Windows Install") ,"ogroup"),
-      "T" => array("plugins/ogroups/images/terminal.png"                        ,_("Terminal")        ,"termgroup"),
+      "T" => array('geticon.php?context=devices&icon=terminal&size=16'          ,_("Terminal")        ,"termgroup"),
       "P" => array('geticon.php?context=devices&icon=printer&size=16'           ,_("Printer")         ,"ogroup")
     );
 

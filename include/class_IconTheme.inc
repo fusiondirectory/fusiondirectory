@@ -250,6 +250,9 @@ class IconTheme
     'status/object-unlocked'      => array(
       array('status','changes-allow'),
     ),
+    'devices/terminal'      => array(
+      array('applications','utilities-terminal'),
+    ),
   );
 }
 

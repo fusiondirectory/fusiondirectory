@@ -658,8 +658,8 @@ class ogroup extends plugin
         "S" => 'geticon.php?context=devices&icon=server&size=16',
         "W" => 'geticon.php?context=devices&icon=computer&size=16',
         "O" => 'geticon.php?context=devices&icon=computer-windows&size=16',
-        "T" => "plugins/ogroups/images/terminal.png",
-        "F" => 'geticon.php?context=devices&icon=phone&size=16',
+        "T" => 'geticon.php?context=devices&icon=terminal&size=16',
+        "F" => 'geticon.php?context=devices&icon=telephone&size=16',
         "P" => 'geticon.php?context=devices&icon=printer&size=16',
         "I" => "geticon.php?context=status&icon=task-failure&size=16");
 
