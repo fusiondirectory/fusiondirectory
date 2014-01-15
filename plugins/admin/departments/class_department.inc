@@ -62,7 +62,6 @@ class department extends simplePlugin
     $attributesInfo = array(
       'properties' => array(
         'name'  => _('Properties'),
-        'icon'  => 'images/rightarrow.png',
         'attrs' => array(
           new BaseSelectorAttribute(''),
           new HostNameAttribute(
@@ -85,7 +84,6 @@ class department extends simplePlugin
       ),
       'location' => array(
         'name'  => _('Location'),
-        'icon'  => 'plugins/departments/images/department.png',
         'attrs' => array(
           new StringAttribute(
             _('State'), _('State'), 'st', FALSE

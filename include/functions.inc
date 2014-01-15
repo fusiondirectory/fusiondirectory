@@ -1899,7 +1899,7 @@ function range_selector($dcnt, $start, $range = 25, $post_var = FALSE)
   if ($start > 0 ) {
     $output .= "  <a href= \"main.php?plug=".validate($_GET['plug'])."&amp;start=".
       ($start - $range)."\">".
-      '<img class="center" alt="back" src="images/back.png"/></a>';
+      '<img class="center" alt="back" src="geticon.php?context=actions&icon=previous&size=16"/></a>';
   }
 
   /* Draw pages */
@@ -1918,7 +1918,7 @@ function range_selector($dcnt, $start, $range = 25, $post_var = FALSE)
   if ($start < ($dcnt - $range)) {
     $output .= "  <a href= \"main.php?plug=".validate($_GET['plug'])."&amp;start=".
       ($start + $range)."\">".
-      '<img class="center" alt="forward" src="images/forward.png"/></a>';
+      '<img class="center" alt="forward" src="geticon.php?context=actions&icon=next&size=16"/></a>';
   }
 
   if ($post_var && $numpages) {

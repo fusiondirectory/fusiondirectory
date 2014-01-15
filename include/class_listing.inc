@@ -303,7 +303,7 @@ class listing {
             isset($config['sortType'])) {
           $this->sortAttribute  = $config['sortAttribute'];
           $this->sortType       = $config['sortType'];
-          $sorter = "&nbsp;<img title='".($this->sortDirection[$index]?_("Up"):_("Down"))."' src='geticon.php?context=actions&size=16&icon=view-sort-".($this->sortDirection[$index]?"descending":"ascending")."' alt='".($this->sortDirection[$index]?_('Sort up'):_('Sort down'))."'>";
+          $sorter = "&nbsp;<img class='center' title='".($this->sortDirection[$index]?_("Up"):_("Down"))."' src='geticon.php?context=actions&size=16&icon=view-sort-".($this->sortDirection[$index]?"descending":"ascending")."' alt='".($this->sortDirection[$index]?_('Sort up'):_('Sort down'))."'>";
         }
         $sortable = (isset($config['sortAttribute']));
 
@@ -1722,7 +1722,7 @@ class listing {
 
       // Draw snapshot button
       if ($ui->allow_snapshot_create($dn, $category)) {
-          $result .= "<input class='center' type='image' src='images/snapshot.png' ".
+          $result .= "<input class='center' type='image' src='geticon.php?context=actions&icon=snapshot&size=16' ".
                      "alt='"._("Create snapshot")."' name='listing_snapshot_$row' title='".
                      _("Create a new snapshot from this object")."' style='padding:1px'>";
       } else {

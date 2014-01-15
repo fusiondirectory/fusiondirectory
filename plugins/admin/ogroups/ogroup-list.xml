@@ -67,7 +67,7 @@
      <action>
       <name>new</name>
       <type>entry</type>
-      <image>plugins/ogroups/images/iconMini.png</image>
+      <image>geticon.php?context=types&amp;icon=resource-group&amp;size=16</image>
       <label>Objectgroup</label>
      </action>
     </action>
