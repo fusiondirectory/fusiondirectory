@@ -16,7 +16,7 @@
       <objectClass>posixGroup</objectClass>
       <category>group</category>
       <class>group</class>
-      <image>plugins/groups/images/iconMini.png</image>
+      <image>geticon.php?context=types&amp;icon=user-group&amp;size=16</image>
     </objectType>
   </definition>
 

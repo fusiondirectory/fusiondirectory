@@ -195,19 +195,26 @@ class IconTheme
       array('places','user-identity'),
       array('status','avatar-default'),
     ),
+    'types/contact'                 => array(
+      array('mimetypes','x-office-contact'),
+    ),
     'applications/user-info'        => array(
       array('actions','user-properties'),
       array('types','contact'),
       array('mimetypes','x-office-contact'),
     ),
-    'types/contact'                 => array(
-      array('mimetypes','x-office-contact'),
-    ),
     'applications/office-calendar'  => array(
       array('mimetypes','x-office-calendar'),
     ),
-    'actions/application-exit'      => array(
-      array('actions','system-log-out'),
+    'applications/os-linux'  => array(
+      array('applications','linux'),
+    ),
+    'applications/os-windows'  => array(
+      array('applications','windows'),
+    ),
+    'applications/samba'  => array(
+      array('applications','os-windows'),
+      array('applications','windows'),
     ),
     'mimetypes/text-csv'            => array(
       array('mimetypes','x-office-spreadsheet'),
@@ -215,6 +222,9 @@ class IconTheme
     ),
     'mimetypes/application-pdf'     => array(
       array('mimetypes','x-office-document'),
+    ),
+    'actions/application-exit'      => array(
+      array('actions','system-log-out'),
     ),
     'actions/document-export'      => array(
       array('actions','document-send'),
@@ -232,6 +242,25 @@ class IconTheme
       array('applications','accessories-text-editor'),
       array('actions','document-open'),
     ),
+    'actions/snapshot'      => array(
+      array('actions','document-save'),
+    ),
+    'actions/up'      => array(
+      array('actions','go-up'),
+      array('actions','arrow-up'),
+    ),
+    'actions/down'      => array(
+      array('actions','go-down'),
+      array('actions','arrow-down'),
+    ),
+    'actions/previous'      => array(
+      array('actions','go-previous'),
+      array('actions','arrow-left'),
+    ),
+    'actions/next'      => array(
+      array('actions','go-next'),
+      array('actions','arrow-right'),
+    ),
     'categories/settings'      => array(
       array('categories','gnome-settings'),
       array('categories','preferences-other'),
@@ -244,14 +273,18 @@ class IconTheme
     'devices/media-cdrom'      => array(
       array('devices','media-optical'),
     ),
+    'devices/terminal'      => array(
+      array('applications','utilities-terminal'),
+    ),
+    'devices/computer-windows'      => array(
+      array('applications','os-windows'),
+      array('applications','windows'),
+    ),
     'status/object-locked'      => array(
       array('status','changes-prevent'),
     ),
     'status/object-unlocked'      => array(
       array('status','changes-allow'),
-    ),
-    'devices/terminal'      => array(
-      array('applications','utilities-terminal'),
     ),
   );
 }

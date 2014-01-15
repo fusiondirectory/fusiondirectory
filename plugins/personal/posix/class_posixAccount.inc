@@ -113,14 +113,14 @@ class posixAccount extends simplePlugin
       ),
       'groups' => array(
         'name'  => _('Group membership'),
-        'icon'  => 'plugins/posix/images/members.png',
+        'icon'  => 'geticon.php?context=types&icon=user-group&size=16',
         'attrs' => array(
           new GroupsAttribute('', _('Group membership'), 'groupMembership')
         )
       ),
       'account' => array(
         'name'  => _('Account'),
-        'icon'  => 'plugins/posix/images/terminal_small.png',
+        'icon'  => 'geticon.php?context=devices&icon=terminal&size=16',
         'attrs' => array(
           new BooleanAttribute(
             _('User must change password on first login'), _('User must change password on first login (needs a value for Delay before forcing password change)'),
@@ -183,8 +183,8 @@ class posixAccount extends simplePlugin
     return array(
       "plShortName"     => _("Unix"),
       "plDescription"   => _("Edit users POSIX settings"),
-      "plIcon"          => "plugins/posix/images/icon.png",
-      "plSmallIcon"     => "images/penguin.png",
+      "plIcon"          => 'geticon.php?context=applications&icon=os-linux&size=48',
+      "plSmallIcon"     => 'geticon.php?context=applications&icon=os-linux&size=16',
       "plSelfModify"    => TRUE,
       "plPriority"      => 2,
       "plObjectType"    => array("user"),

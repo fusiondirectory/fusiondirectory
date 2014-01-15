@@ -90,57 +90,49 @@ class groupManagement extends management
 
   static function filterProperties($row, $classes)
   {
-    $result= "";
+    $result = "";
 
     $map = array(
-        "posixGroup" =>
+      "posixGroup" =>
         array(
-          "image" => "plugins/groups/images/iconMini.png",
-          "plugin" => "group",
-          "alt" => _("Posix"),
-          "title" => _("Edit posix properties")
-          ),
+          "image"   => 'geticon.php?context=types&icon=user-group&size=16',
+          "plugin"  => "group",
+          "alt"     => _("Posix"),
+          "title"   => _("Edit posix properties")
+        ),
 
-        "gosaMailAccount" =>
+      "gosaMailAccount" =>
         array(
-          "image" => "plugins/groups/images/mail.png",
-          "plugin" => "mailgroup",
-          "alt" => _("Mail"),
-          "title" => _("Edit mail properties")
-          ),
+          "image"   => 'geticon.php?context=applications&icon=internet-mail&size=16',
+          "plugin"  => "mailgroup",
+          "alt"     => _("Mail"),
+          "title"   => _("Edit mail properties")
+        ),
 
-        "sambaGroupMapping" =>
+      "sambaGroupMapping" =>
         array(
-          "image" => "plugins/groups/images/samba.png",
-          "plugin" => "group",
-          "alt" => _("Samba"),
-          "title" => _("Edit samba properties")
-          ),
+          "image"   => 'geticon.php?context=applications&icon=samba&size=16',
+          "plugin"  => "group",
+          "alt"     => _("Samba"),
+          "title"   => _("Edit samba properties")
+        ),
 
-        "goFonPickupGroup" =>
-          array(
-              "image" => "plugins/groups/images/asterisk.png",
-              "plugin" => "group",
-              "alt" => _("Phone"),
-              "title" => _("Edit phone properties")
-              ),
+      "goFonPickupGroup" =>
+        array(
+          "image"   => 'geticon.php?context=devices&icon=telephone&size=16',
+          "plugin"  => "group",
+          "alt"     => _("Phone"),
+          "title"   => _("Edit phone properties")
+        ),
 
-        "gotoMenuGroup" =>
-          array(
-              "image" => "plugins/groups/images/menu.png",
-              "plugin" => "appgroup",
-              "alt" => _("Menu"),
-              "title" => _("Edit start menu properties")
-              ),
-
-        "gotoEnvironment" =>
-          array(
-              "image" => "plugins/groups/images/environment.png",
-              "plugin" => "environment",
-              "alt" => _("Environment"),
-              "title" => _("Edit environment properties")
-              )
-          );
+      "gotoEnvironment" =>
+        array(
+          "image"   => "plugins/groups/images/environment.png",
+          "plugin"  => "environment",
+          "alt"     => _("Environment"),
+          "title"   => _("Edit environment properties")
+        )
+    );
 
 
     // Walk thru map

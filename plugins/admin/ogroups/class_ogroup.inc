@@ -653,7 +653,7 @@ class ogroup extends plugin
         "Y" => "plugins/users/images/select_template.png",
         "U" => 'geticon.php?context=types&icon=user&size=16',
         "G" => 'geticon.php?context=types&icon=user-group&size=16',
-        "A" => "plugins/ogroups/images/application.png",
+        "A" => 'geticon.php?context=types&icon=application&size=16',
         "D" => 'geticon.php?context=places&icon=folder&size=16',
         "S" => 'geticon.php?context=devices&icon=server&size=16',
         "W" => 'geticon.php?context=devices&icon=computer&size=16',
