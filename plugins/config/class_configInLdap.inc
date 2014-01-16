@@ -279,7 +279,7 @@ class configInLdap extends simplePlugin
                   'hookCmd', TRUE
                 )
               ),
-              '/^(.+)\\|(.+)\\|(.*)$/',
+              '/^([^\\|]+)\\|([^\\|]+)\\|(.*)$/',
               '%s|%s|%s',
               '', // acl
               _('Hooks')
