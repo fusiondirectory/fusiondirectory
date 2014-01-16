@@ -38,20 +38,14 @@
       </h2>
     </div>
 
-    <table style="z-index:250;width:100%;">
-      <tr>
-        <td style="width:100%;">
-          {$s_Message}
-          <br/>
-        </td>
-        {if $s_Trace != "" && $i_TraceCnt != 0}
-          <td style="width:20px; vertical-align:top; cursor:pointer;">
-            <div onClick="$('trace_{$i_ID}').toggle();"><u>Trace</u></div>
-          </td>
-        {/if}
-      </tr>
-    </table>
+    <div style="z-index:250;width:100%;">
+      {$s_Message}
+    </div>
     <div class="plugbottom">
+      {if $s_Trace != "" && $i_TraceCnt != 0}
+        <input type="button" id="Trace" name="Trace"
+          onClick="$('trace_{$i_ID}').toggle();" value="{t}Trace{/t}"/>
+      {/if}
       <input type="button" id="MSG_OK{$i_ID}" name="MSG_OK{$i_ID}"
         onClick="next_msg_dialog();" value="{t}Ok{/t}"/>
       {if $i_Type == $smarty.const.CONFIRM_DIALOG}

@@ -551,9 +551,10 @@ function move_div_by_cursor(e)
         if(cur_div_y < 0 ) cur_div_y = 0
 
         /* Assign new values */
-        dialog.style.left   = (cur_div_x ) + "px";
-        dialog.style.top    = (cur_div_y ) + "px";
-        dialog.style.margin = "0";
+        dialog.style.left     = (cur_div_x ) + "px";
+        dialog.style.top      = (cur_div_y ) + "px";
+        dialog.style.margin   = "0";
+        dialog.style.position = "absolute";
       }
     }
   }
