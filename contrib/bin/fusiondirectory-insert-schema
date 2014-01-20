@@ -27,6 +27,7 @@ use warnings;
 use 5.008;
 
 my $add_cmd         = "ldapadd -Y EXTERNAL -H ldapi:/// -f ";
+my $mod_cmd         = "ldapmodify -Y EXTERNAL -H ldapi:/// -f ";
 my $ldapsearch      = "ldapsearch -Y EXTERNAL -H ldapi:// ";
 my $search_cmd      = $ldapsearch." -b \"cn=schema,cn=config\" cn={*}";
 my $list_cmd        = $search_cmd."* cn 2>/dev/null";
@@ -37,15 +38,25 @@ my $ldap_utils_path = "/usr/bin/ldapadd";
 my $schema2ldif     = "schema2ldif";
 
 my $listschemas = 0;
+my $modify      = 0;
 my $schemalist  = 0;
 my $pathunset   = 1;
 my @schemas     = ();
 my @gen_files   = ();
 foreach my $arg ( @ARGV ) {
   if ((lc($arg) eq '-i') || (lc($arg) eq '--insert')) {
+    if ($schemalist) {
+      usage();
+    }
     $schemalist = 1;
   } elsif ((lc($arg) eq '-l') || (lc($arg) eq '--list')) {
     $listschemas = 1;
+  } elsif ((lc($arg) eq '-m') || (lc($arg) eq '--modify')) {
+    if ($schemalist) {
+      usage();
+    }
+    $modify = 1;
+    $schemalist = 1;
   } elsif ((lc($arg) eq '-h') || (lc($arg) eq '--help')) {
     usage();
   } elsif ($schemalist) {
@@ -123,23 +134,83 @@ foreach my $schema (@schemas) {
     $schema_name =~ s|^.*/||;
   }
 
-  $full_cmd = $search_cmd.$schema_name;
-  print ("\n");
-  my $search = `$full_cmd`;
-
-  # if the schema doesn't already exists in the LDAP server, adding it
-  if ($search !~ /# numEntries: 1/m) {
-    $full_cmd = $add_cmd.$path.$schema.".ldif";
-    print "executing '$full_cmd'\n";
-    if (system ($full_cmd) != 0) {
-      die_with_error ("Insertion failed!\n");
-    }
-  } else {
-    print "$schema_name already exists in the LDAP, skipping…\n";
-  }
+  insert_schema($schema, $schema_name);
 }
 
 remove_ldifs();
+
+sub insert_schema
+{
+  my($schema, $schema_name) = @_;
+
+  $full_cmd = $search_cmd.$schema_name." cn";
+  print ("\n");
+  my $search = `$full_cmd`;
+
+  if ($search !~ /# numEntries: 1/m) {
+    if ($modify) {
+      print "$schema_name does not exists in the LDAP, skipping…\n";
+    } else {
+      # if the schema doesn't already exists in the LDAP server, adding it
+      $full_cmd = $add_cmd.$path.$schema.".ldif";
+      print "executing '$full_cmd'\n";
+      if (system ($full_cmd) != 0) {
+        die_with_error ("Insertion failed!\n");
+      }
+    }
+  } else {
+    if ($modify) {
+      if ($search !~ m/dn: ([^,]+),cn=schema,cn=config/) {
+        print "Could not parse existing dn for $schema_name, skipping…\n";
+        return;
+      }
+      my $dn_part = $1;
+      # if the schema already exists in the LDAP server, modify it
+      open(SCHEMA, "<".$path.$schema.".ldif");
+      open(UPDATE, ">".$path.$schema."_update.ldif");
+      my $attrs   = 0;
+      my $classes = 0;
+      while (<SCHEMA>) {
+        next if m/^#/; # remove comments
+        chomp;
+        next if m/^$/; # remove empty lines
+        if (m/^dn: cn=([^,]+),cn=schema,cn=config$/) {
+          print UPDATE "dn: $dn_part,cn=schema,cn=config\n";
+          print UPDATE "changetype: modify\n";
+          next;
+        }
+        if (!m/^olcAttributeTypes:/ && !m/^olcObjectClasses:/ && !m/^ /) {
+          #skip cn, objectClass, …
+          next;
+        }
+
+        if (!$attrs && $classes) {
+          die "Malformed schema\n";
+        }
+
+        if (!$attrs && m/^olcAttributeTypes:/) {
+          $attrs = 1;
+          print UPDATE "replace: olcAttributeTypes\n";
+        }
+        if (!$classes && m/^olcObjectClasses:/) {
+          $classes = 1;
+          print UPDATE "-\n";
+          print UPDATE "replace: olcObjectClasses\n";
+        }
+
+        print UPDATE;
+        print UPDATE "\n";
+      }
+      $full_cmd = $mod_cmd.$path.$schema."_update.ldif";
+      print "executing '$full_cmd'\n";
+      if (system ($full_cmd) != 0) {
+        die_with_error ("Insertion failed!\n");
+      }
+    } else {
+      print "$schema_name already exists in the LDAP, skipping…\n";
+    }
+  }
+}
 
 sub remove_ldifs
 {
@@ -176,6 +247,7 @@ sub usage
   path          : where to find the schemas
   -i, --insert  : specify the schemas to insert
   -l, --list    : list inserted schemas
+  -m, --modify  : modify exising inserted schemas
 
 EOF
   exit -1;
