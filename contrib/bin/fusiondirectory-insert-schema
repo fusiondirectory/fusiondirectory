@@ -166,8 +166,9 @@ sub insert_schema
       }
       my $dn_part = $1;
       # if the schema already exists in the LDAP server, modify it
-      open(SCHEMA, "<".$path.$schema.".ldif");
-      open(UPDATE, ">".$path.$schema."_update.ldif");
+      open(SCHEMA, "<".$path.$schema.".ldif") or die_with_error('Could not open '."<".$path.$schema.".ldif: $!");
+      open(UPDATE, ">".$path.$schema."_update.ldif") or die_with_error('Could not open '.">".$path.$schema."_update.ldif: $!");
+      push @gen_files, $path.$schema."_update";
       my $attrs   = 0;
       my $classes = 0;
       while (<SCHEMA>) {
@@ -201,6 +202,8 @@ sub insert_schema
         print UPDATE;
         print UPDATE "\n";
       }
+      close SCHEMA;
+      close UPDATE;
       $full_cmd = $mod_cmd.$path.$schema."_update.ldif";
       print "executing '$full_cmd'\n";
       if (system ($full_cmd) != 0) {
@@ -241,7 +244,7 @@ sub usage
   (@_) && print STDERR "\n@_\n\n";
 
   print STDERR << "EOF";
- usage: $0 [-h] [path] [-i schema1 schema2 …]
+ usage: $0 [-h] [-l] [path] [-i|-m schema1 schema2 …]
 
   -h, --help    : this (help) message
   path          : where to find the schemas
@@ -261,12 +264,14 @@ fusiondirectory-insert-schema - insert schema needed by FusionDirectory into the
 
 =head1 SYNOPSIS
 
-fusiondirectory-insert-schema [<path of your schema files>] [-i schema1 schema2]
+fusiondirectory-insert-schema [<path of your schema files>] [-l] [-i|-m schema1 schema2]
 
 =head1 DESCRIPTION
 
 This program will insert the schema needed by FusionDirectory into the ldap server
 If -i is specified, insert the given list of schemas instead of the default list
+If -m is specified, insert the given list of schemas, replacing already inserted versions of those schemas
+If -l is specified, list inserted schemas
 
 =head1 EXAMPLES
 
@@ -281,6 +286,9 @@ If -i is specified, insert the given list of schemas instead of the default list
 
  fusion@catbert$ fusiondirectory-insert-schema -i myschema
    Insert the schema myschema.ldif from working directory
+
+ fusion@catbert$ fusiondirectory-insert-schema -m /etc/ldap/otherschema/myschema.schema
+   Convert /etc/ldap/otherschema/myschema.schema to ldif and replace the existing schema by this one
 
 =head1 BUGS
 
