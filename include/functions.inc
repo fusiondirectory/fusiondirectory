@@ -2816,6 +2816,7 @@ function get_languages($languages_in_own_language = FALSE, $strip_region_tag = F
     "pl_PL" => "Polish",
     "ru_RU" => "Russian",
     "vi_VN" => "Vietnamese",
+    "sv_SE" => "Swedish",
     "zh_CN" => "Chinese",
   );
 
@@ -2828,13 +2829,14 @@ function get_languages($languages_in_own_language = FALSE, $strip_region_tag = F
       "en_US" => "English",
       "es_ES" => "Español",
       "es_VE" => "Castellano",
-      "fa_IR" => "Persian",
+      "fa_IR" => "پارسی",
       "fr_FR" => "Français",
       "it_IT" => "Italiano",
       "nl_NL" => "Nederlands",
       "pl_PL" => "Polski",
       "ru_RU" => "русский язык",
       "vi_VN" => "Tiếng Việt",
+      "sv_SE" => "Svenska",
       "zh_CN" => "中文, 汉语, 漢語",
     );
 
