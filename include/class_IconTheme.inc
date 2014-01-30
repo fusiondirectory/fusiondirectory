@@ -124,27 +124,30 @@ class IconTheme
       }
     }
     unset($subdir);
-    $minimal_size = PHP_INT_MAX;
-    foreach ($this->subdirs[$context] as $path => &$subdir) {
-      if (($sizedistance = $subdir->SizeDistance($size)) < $minimal_size) {
-        foreach (self::$extensions as $extension) {
-          $filename = $this->path.'/'.$path.'/'.$iconname.'.'.$extension;
-          if (file_exists($filename)) {
-            $closest_filename = $filename;
-            $minimal_size     = $sizedistance;
+    if (self::$find_closest) {
+      $minimal_size = PHP_INT_MAX;
+      foreach ($this->subdirs[$context] as $path => &$subdir) {
+        if (($sizedistance = $subdir->SizeDistance($size)) < $minimal_size) {
+          foreach (self::$extensions as $extension) {
+            $filename = $this->path.'/'.$path.'/'.$iconname.'.'.$extension;
+            if (file_exists($filename)) {
+              $closest_filename = $filename;
+              $minimal_size     = $sizedistance;
+            }
           }
         }
       }
-    }
-    unset($subdir);
-    if (isset($closest_filename)) {
-      return $closest_filename;
+      unset($subdir);
+      if (isset($closest_filename)) {
+        return $closest_filename;
+      }
     }
     return NULL;
   }
 
   static public $default_theme  = 'default';
   static public $extensions     = array('png', 'xpm', 'svg');
+  static public $find_closest   = FALSE;
 
   /* We store themes in the session. To do otherwise, override these methods. */
   static public $session_var    = 'IconThemes';
