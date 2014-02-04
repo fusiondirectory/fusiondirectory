@@ -781,21 +781,28 @@ class FakeAttribute extends Attribute
   }
 }
 
+/*! \brief This class allow to display an attribute.
+ *
+ * It can be used to display an attribute value the user is never allowed to modify.
+ */
+class DisplayLDAPAttribute extends Attribute
+{
+  function renderFormInput ()
+  {
+    return $this->getValue();
+  }
+}
+
 /*! \brief This class allow to display a text in front of an attribute.
  *
  * For instance, it can be used to display a link.
  */
-class DisplayAttribute extends Attribute
+class DisplayAttribute extends DisplayLDAPAttribute
 {
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "")
   {
     parent::__construct ($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->setInLdap(FALSE);
-  }
-
-  function renderFormInput ()
-  {
-    return $this->getValue();
   }
 }
 
@@ -2199,7 +2206,7 @@ class OrderedArrayAttribute extends SetAttribute
       if ($this->edit_enabled) {
         $img .= '<input type="image" src="geticon.php?context=actions&icon=document-edit&size=16" name="'.$id.'_edit_'.$key.'" class="center" alt="'._('Edit').'" title="'._('Edit').'"/>&nbsp;';
       }
-      $img .= '<input type="image" src="geticon.php?context=actions&icon=edit-delete&size=16o" name="'.$id.'_del_'.$key.'" class="center" alt="'._('Delete').'" title="'._('Delete').'"/>&nbsp;';
+      $img .= '<input type="image" src="geticon.php?context=actions&icon=edit-delete&size=16" name="'.$id.'_del_'.$key.'" class="center" alt="'._('Delete').'" title="'._('Delete').'"/>&nbsp;';
 
       $fields = array();
       foreach ($this->getAttributeArrayValue($value) as $field) {

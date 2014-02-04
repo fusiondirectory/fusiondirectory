@@ -803,7 +803,10 @@ class simplePlugin extends plugin
       }
 
       /* Page header */
-      $display = print_header(get_template_path($plIcon), $plHeadline, $info).$display;
+      if (!preg_match('/^geticon/', $plIcon)) {
+        $plIcon = get_template_path($plIcon);
+      }
+      $display = print_header($plIcon, $plHeadline, $info).$display;
     }
   }
 
