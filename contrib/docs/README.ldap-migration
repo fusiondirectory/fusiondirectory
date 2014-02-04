@@ -1,4 +1,5 @@
-* Migrating an existing tree
+LDAP TREE MIGRATION
+===================
 
 To migrate an existing LDAP tree, you've to do all steps from above,
 plus some modifications:
@@ -33,7 +34,7 @@ Have fun!
 To improve this piece of software, please report all kind of errors using the bug tracker
 on https://forge.fusiondirectory.org
 
-Documentation: http://www.fusiondirectory.org/
+Documentation: http://documentation.fusiondirectory.org/
 Mailinglist:   http://lists.fusiondirectory.org/
 Irc:           #fusiondirectory on freenode
 
