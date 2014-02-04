@@ -1,6 +1,32 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.7.2
+
+[Fix] Bugs #2774: wrong size in chrome 29.0.1547.76
+[Fix] Bugs #2847: Template bug in memberUid
+[Fix] Bugs #2862: fusiondirectory-setup --check-ldap is broken
+[Fix] Bugs #2865: snapshot are broken nearly everywhere
+[Fix] Bugs #2900: Wrong plIcon in personal/generic and personal/posix
+[Fix] Bugs #2903: error in FD 1.0.7-1.1 installation
+[Fix] Bugs #2927: A double border is shown when there are errors at login
+[Fix] Bugs #2941: PHP error: Undefined index: passwordRecoverySalt
+[Fix] Bugs #2942: There is some leftover of multiedit support
+[Fix] Bugs #2947: In configuration screen hooks can't use placeholders
+[Fix] Bugs #2951: fusiondirectory-insert-schema need a -m option to allow to easyli insert ldif update-schema
+[Fix] Bugs #2952: Add Swedish language
+[Fix] Bugs #2955: add arabic language
+[Fix] Wishlist #2859: Fix the template grouping situation
+[Fix] Wishlist #2897: Provide a way to show hook execution results to the user via web
+[Fix] simple-plugin - Bugs #2863: sudo plugin is broken when saving 
+[Fix] Bugs #2861: memory exhaustion when supann plugin is installed
+[Fix] Bugs #2868: freeradius plugin have erroneous default value for Tunnel medium type
+[Fix] Bugs #2877: weblink should also be a tab for network device and printer
+[Fix] Bugs #2934: the ipmi puglin does not work
+[Fix] Bugs #2939: ldif error in 1.0.6 to 1.0.7 upgrade LDIFs for plugin-systems
+[Fix] Bugs #2940: PHP error: Undefined property: phoneAccount::$multi_boxes
+[Fix] Bugs #2945: Bug with InitialProgram (MungedDial) Samba field
+
 * FusionDirectory 1.0.7.1
 
 [Fix] Bugs #2830: refresh readme and install for 1.0.8
