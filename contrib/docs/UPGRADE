@@ -7,15 +7,12 @@ Upgrade FusionDirectory core package before other ones to avoid dependencies err
 ==== Debian ====
 
 === Add new debian-extra repo to you source list ===
-<code bash>
-deb http://repos.fusiondirectory.org/debian-extra wheezy main
-</code>
 
-<code bash>
+deb http://repos.fusiondirectory.org/debian-extra wheezy main
+
 root@fusion-install:~# apt-get update
 root@fusion-install:~# apt-get install fusiondirectory
 root@fusion-install:~# apt-get upgrade
-</code>
 
 ==== Upgrade of LDAP directory ====
 
@@ -30,12 +27,9 @@ The following schemas needs an update :
   * systems-fd-conf.schema
   * systems-fd.schema
 
-<code>
-fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema 
-</code>
+#fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema 
 
 You must do the same procedure for all other schema needing an update
-
 
 Migrate FusionDirectory from 1.0.7.0 or 1.0.7.1 to 1.0.7.2
 ==========================================================
