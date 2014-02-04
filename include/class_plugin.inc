@@ -632,6 +632,8 @@ class plugin
         } else {
           return array(join($str));
         }
+      case 'c': // comment
+        return array('');
       case 'b': // base64
         if (isset($args[0]) && ($args[0] == 'd')) {
           return array(base64_decode($str));
