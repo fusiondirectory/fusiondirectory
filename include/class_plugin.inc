@@ -559,6 +559,8 @@ class plugin
           return array(base64_decode($str));
         }
         return array(base64_encode($str));
+      case 'c': // comment
+        return array('');
       case 'u': // uppercase
         return array(mb_strtoupper($str, 'UTF-8'));
       case 'l': // lowercase
