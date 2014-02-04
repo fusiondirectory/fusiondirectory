@@ -1,0 +1,58 @@
+====== Migrate FusionDirectory from 1.0.6 to 1.0.7 ======
+
+==== Upgrade fusiondirectory first ====
+
+Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+
+==== Debian ====
+
+=== Add new debian-extra repo to you source list ===
+
+deb http://repos.fusiondirectory.org/debian-extra wheezy main
+
+root@fusion-install:~# apt-get update
+root@fusion-install:~# apt-get install fusiondirectory
+root@fusion-install:~# apt-get upgrade
+
+==== Upgrade of LDAP directory ====
+
+You have to update your LDAP schemas, first update the FusionDirectory core schemas. We have put a new option in fusiondirectory-insert-schema
+that allow you to update easily your schema without the use of ldif files.
+
+The following schemas needs an update :
+
+  * core-fd-conf.schema 
+  * mail-fd.schema
+  * service-fd.schema
+  * systems-fd-conf.schema
+  * systems-fd.schema
+
+#fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema 
+
+You must do the same procedure for all other schema needing an update
+
+Migrate FusionDirectory from 1.0.7.0 or 1.0.7.1 to 1.0.7.2
+==========================================================
+
+- Upgrade FusionDirectory first
+
+Upgrading FusionDirectory core package before other ones to avoid dependencies errors:
+
+- Upgrade of your LDAP directory
+
+You have to update your LDAP schemas, first update the FusionDirectory core schemas. We have put a new option in fusiondirectory-insert-schema that allow you to update easily your schema without the use of ldif files.
+
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema 
+
+---
+* Further information
+
+To improve this piece of software, please report all kind of errors using the bug tracker
+on https://forge.fusiondirectory.org
+
+Documentation: http://documentation.fusiondirectory.org/
+Mailinglist:   http://lists.fusiondirectory.org/
+Irc:           #fusiondirectory on freenode
+
+---
+The FusionDirectory project <contact@fusiondirectory.org>

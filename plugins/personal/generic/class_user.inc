@@ -1250,16 +1250,16 @@ class user extends plugin
       $message[]= msgPool::check_base();;
     }
 
-    if (!$this->is_template){
-      /* UID already used? */
-      $ldap= $this->config->get_ldap_link();
-      $ldap->cd($this->config->current['BASE']);
-      $ldap->search("(uid=$this->uid)", array("uid"));
-      $ldap->fetch();
-      if ($ldap->count() != 0 && $this->dn == 'new'){
-        $message[]= msgPool::duplicated(_("Login"));
-      }
+    /* UID already used? */
+    $ldap = $this->config->get_ldap_link();
+    $ldap->cd($this->config->current['BASE']);
+    $ldap->search("(uid=$this->uid)", array("uid"));
+    $ldap->fetch();
+    if ($ldap->count() != 0 && $this->dn == 'new') {
+      $message[] = msgPool::duplicated(_("Login"));
+    }
 
+    if (!$this->is_template){
       if ($this->givenName == ""){
         $message[]= msgPool::required(_("Given name"));
       }
@@ -1481,6 +1481,7 @@ class user extends plugin
     $ret = array(
         "plShortName"   => _("Generic"),
         "plDescription" => _("Generic user settings"),
+        "plIcon"        => "plugins/generic/images/icon.png",
         "plSelfModify"  => TRUE,
         "plCategory"    => array("users" => array("description" => _("Users"),
                                                   "objectClass" => "gosaAccount")),

@@ -2598,7 +2598,7 @@ function array_differs_recursive($src, $dst)
  */
 function normalizeLdap($input)
 {
-  return addcslashes($input, '()|');
+  return addcslashes($input, '*()\\/');
 }
 
 /*!
@@ -2867,6 +2867,7 @@ function check_schema($cfg, $rfc2307bis = FALSE)
 function get_languages($languages_in_own_language = FALSE, $strip_region_tag = FALSE)
 {
   $tmp_english = array( // locales in english
+    "ar"    => "Arabic",
     "ca_ES" => "Catalan",
     "cs_CZ" => "Czech",
     "de_DE" => "German",
@@ -2880,25 +2881,28 @@ function get_languages($languages_in_own_language = FALSE, $strip_region_tag = F
     "pl_PL" => "Polish",
     "ru_RU" => "Russian",
     "vi_VN" => "Vietnamese",
+    "sv_SE" => "Swedish",
     "zh_CN" => "Chinese",
   );
 
   $ret = array();
   if ($languages_in_own_language) {
     $tmp_ownlang = array( // locales in their own language
+      "ar"    => "عربية",
       "ca_ES" => "Català",
       "cs_CZ" => "Česky",
       "de_DE" => "Deutsch",
       "en_US" => "English",
       "es_ES" => "Español",
       "es_VE" => "Castellano",
-      "fa_IR" => "Persian",
+      "fa_IR" => "پارسی",
       "fr_FR" => "Français",
       "it_IT" => "Italiano",
       "nl_NL" => "Nederlands",
       "pl_PL" => "Polski",
       "ru_RU" => "русский язык",
       "vi_VN" => "Tiếng Việt",
+      "sv_SE" => "Svenska",
       "zh_CN" => "中文, 汉语, 漢語",
     );
 

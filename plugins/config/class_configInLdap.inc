@@ -284,7 +284,7 @@ class configInLdap extends simplePlugin
                   'hookCmd', TRUE
                 )
               ),
-              '/^(.+)\\|(.+)\\|(.*)$/',
+              '/^([^\\|]+)\\|([^\\|]+)\\|(.*)$/',
               '%s|%s|%s',
               '', // acl
               _('Hooks')
@@ -292,6 +292,11 @@ class configInLdap extends simplePlugin
             FALSE, // non-ordered
             array(),
             TRUE // edition
+          ),
+          new BooleanAttribute (
+            _('Display hook output'),
+            _('When enabled successful hook execution output is displayed to the user using a dialog.'),
+            'fdDisplayHookOutput'
           ),
           new SetAttribute(
             new StringAttribute (

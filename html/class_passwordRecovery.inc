@@ -89,6 +89,8 @@ class passwordRecovery {
 
     if (isset($_POST['server'])) {
       $this->directory = validate($_POST['server']);
+    } elseif (isset($_GET['directory']) && isset($servers[$_GET['directory']])) {
+      $this->directory = validate($_GET['directory']);
     } else {
       $this->directory = $this->config->data['MAIN']['DEFAULT'];
 
@@ -101,11 +103,6 @@ class passwordRecovery {
         $smarty->assign("server_options", $servers);
         $smarty->assign("server_id", $this->directory);
       }
-    }
-
-    if (isset($_GET['directory']) && isset($servers[$_GET['directory']])) {
-      $this->directory = validate($_GET['directory']);
-      $smarty->assign("show_directory_chooser", FALSE);
     }
 
     /* Set config to selected one */
@@ -247,26 +244,28 @@ class passwordRecovery {
    */
   function readLdapConfig()
   {
-    $ldap = $this->config->get_ldap_link();
-    $token = get_ou("tokenRDN").$this->config->current['BASE'];
-    $dn = "cn=config,$token";
+    $ldap   = $this->config->get_ldap_link();
+    $token  = get_ou("tokenRDN").$this->config->current['BASE'];
+    $dn     = "cn=config,$token";
     $ldap->cat($dn);
-    $attrs = $ldap->fetch();
+    if ($attrs = $ldap->fetch()) {
+      $this->salt           = $attrs['passwordRecoverySalt'][0];
+      $this->delay_allowed  = $attrs['passwordRecoveryValidity'][0];
 
-    $this->salt           = $attrs['passwordRecoverySalt'][0];
-    $this->delay_allowed  = $attrs['passwordRecoveryValidity'][0];
+      $this->mail_subject   = $attrs['passwordRecoveryMailSubject'][0];
+      $this->mail_body      = $attrs['passwordRecoveryMailBody'][0];
+      $this->mail2_subject  = $attrs['passwordRecoveryMail2Subject'][0];
+      $this->mail2_body     = $attrs['passwordRecoveryMail2Body'][0];
 
-    $this->mail_subject   = $attrs['passwordRecoveryMailSubject'][0];
-    $this->mail_body      = $attrs['passwordRecoveryMailBody'][0];
-    $this->mail2_subject  = $attrs['passwordRecoveryMail2Subject'][0];
-    $this->mail2_body     = $attrs['passwordRecoveryMail2Body'][0];
+      $this->from_mail      = $attrs['passwordRecoveryEmail'][0];
 
-    $this->from_mail      = $attrs['passwordRecoveryEmail'][0];
+      $this->usealternates  = $attrs['passwordRecoveryUseAlternate'][0];
 
-    $this->usealternates  = $attrs['passwordRecoveryUseAlternate'][0];
-
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $attrs['passwordRecoveryActivated'][0], "passwordRecoveryActivated");
-    return ($attrs['passwordRecoveryActivated'][0] == "TRUE");
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $attrs['passwordRecoveryActivated'][0], "passwordRecoveryActivated");
+      return ($attrs['passwordRecoveryActivated'][0] == "TRUE");
+    } else {
+      return FALSE;
+    }
   }
 
   function setupLanguage()

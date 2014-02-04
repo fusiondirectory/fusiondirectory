@@ -118,9 +118,9 @@ class UserGroupSelectDialog extends GenericSelectDialog
 
   function handle_finish ()
   {
-    $users = $this->userGroupSelect->save();
+    $users = $this->dialog->save();
     foreach ($users as $user) {
-      $this->dialogAttribute->addValue($user['dn'], $user);
+      $this->attribute->addValue($user['dn'], $user);
     }
     return FALSE;
   }
@@ -141,9 +141,9 @@ class MailSelectDialog extends GenericSelectDialog
 
   function handle_finish ()
   {
-    $list = $this->mailSelect->save();
+    $list = $this->dialog->save();
     foreach ($list as $entry) {
-      $this->mailsAttribute->addValue($entry['dn'], $entry);
+      $this->attribute->addValue($entry['dn'], $entry);
     }
     return FALSE;
   }
