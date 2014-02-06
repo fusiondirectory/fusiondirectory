@@ -133,6 +133,18 @@ sub create_role {
     'objectclass'     => [ 'top', 'gosaRole' ],
     'gosaAclTemplate' => "0:$acl"
   );
+  my $role_branch = $ldap->search (base => "$rolesou,$base", filter => "(objectClass=*)", attrs => ['dn']);
+  my @role_entries = $role_branch->entries;
+  if (not defined($role_entries[0])) {
+    my $role_add = $ldap->add("$rolesou,$base",
+      attr => [
+        'ou'  => $ouroles,
+        'objectClass' =>  'organizationalUnit'
+        ]
+    );
+
+    $role_add->code and die "! failed to add LDAP's $rolesou,$base branch\n";
+  }
   my $role_dn = "cn=$cn,$rolesou,$base";
   # Add the administator role object
   my @options = %role;
