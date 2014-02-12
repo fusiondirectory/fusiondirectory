@@ -340,7 +340,7 @@ class pluglist {
 
             $this->allowed_plugins[$index] = $index;
 
-            $entries = $entries.'<p class="menuitem" id="menuitem_'.$plHeadline.'">';
+            $entries = $entries.'<p class="menuitem" id="menuitem_'.$info['CLASS'].'">';
             $entries .= "<a href=\"$href\">$plHeadline</a></p>\n";
 
             if (!session::is_set('maxC')) {
@@ -430,7 +430,7 @@ class pluglist {
             }
           }
 
-          $entries  .= '<div class="iconmenu" id="menuitem_icon_'.$plHeadline.'" onClick=\'location.href="'.$href.'"\' title="'.$plDescription.'">';
+          $entries  .= '<div class="iconmenu" id="menuitem_icon_'.$info['CLASS'].'" onClick=\'location.href="'.$href.'"\' title="'.$plDescription.'">';
           $item     = "<img $isize src=\"$image\" alt=\"$plHeadline icon\"><span>&nbsp;$plHeadline</span>";
           $entries .= $item."</div>\n";
         }
