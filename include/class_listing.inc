@@ -1329,7 +1329,7 @@ class listing {
       if ($action['type'] == "sub" && isset($action['action'])) {
         $level++;
         if (isset($action['label'])) {
-          $result .= "<li$separator><a href='#'>$img"._($action['label'])."&nbsp;<img src='images/forward-arrow.png' alt='forward arrow'/></a>";
+          $result .= "<li$separator><a id='CREATE' href='#'>$img"._($action['label'])."&nbsp;<img src='images/forward-arrow.png' alt='forward arrow'/></a>";
         }
 
         // Ensure we've an array of actions, this enables sub menus with only one action.
@@ -1345,7 +1345,7 @@ class listing {
 
       // Render entry elseways
       if (isset($action['label'])) {
-        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"".$action['name']."\";mainform.submit();'>$img"._($action['label'])."</a></li>";
+        $result .= "<li$separator><a id='".$action['name']."' href='#' onClick='document.getElementById(\"actionmenu\").value= \"".$action['name']."\";mainform.submit();'>$img"._($action['label'])."</a></li>";
       }
 
       // Check for special types
