@@ -1678,11 +1678,11 @@ class listing {
     $result = "";
 
     // Draw entries
-    $result .= "<li$separator><a href='#'><img class='center' src='geticon.php?context=actions&icon=document-export&size=16' alt='export'>&nbsp;"._("Export list")."&nbsp;<img src='images/forward-arrow.png' alt='arrow'></a><ul class='level3'>";
+    $result .= "<li$separator><a id='exportList' href='#'><img class='center' src='geticon.php?context=actions&icon=document-export&size=16' alt='export'>&nbsp;"._("Export list")."&nbsp;<img src='images/forward-arrow.png' alt='arrow'></a><ul class='level3'>";
 
     // Export CVS as build in exporter
     foreach ($this->exporter as $action => $exporter) {
-      $result .= "<li><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"$action\";document.getElementById(\"exec_act\").click();'><img class='center' src='".$exporter['image']."' alt='$action'>&nbsp;".$exporter['label']."</a></li>";
+      $result .= "<li><a id=".$exporter['class']." href='#' onClick='document.getElementById(\"actionmenu\").value= \"$action\";document.getElementById(\"exec_act\").click();'><img class='center' src='".$exporter['image']."' alt='$action'>&nbsp;".$exporter['label']."</a></li>";
     }
 
     // Finalize list
