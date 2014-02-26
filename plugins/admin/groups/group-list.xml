@@ -11,13 +11,6 @@
     <label>List of groups</label>
     <defaultSortColumn>1</defaultSortColumn>
 
-    <objectType>
-      <label>Group</label>
-      <objectClass>posixGroup</objectClass>
-      <category>group</category>
-      <class>group</class>
-      <image>geticon.php?context=types&amp;icon=user-group&amp;size=16</image>
-    </objectType>
   </definition>
 
   <table>
@@ -54,7 +47,7 @@
 
     <column>
       <label>Properties</label>
-      <value>%{filter:filterProperties(row,objectClass)}</value>
+      <value>%{filter:filterProperties(row,dn)}</value>
     </column>
 
     <column>
@@ -67,8 +60,8 @@
   <actionmenu>
 
     <action>
-      <name>new</name>
-      <type>entry</type>
+      <name>create</name>
+      <type>sub</type>
       <image>geticon.php?context=actions&amp;icon=document-new&amp;size=16</image>
       <label>Create</label>
       <acl>[c]</acl>
@@ -87,6 +80,7 @@
       <type>entry</type>
       <image>geticon.php?context=actions&amp;icon=edit-delete&amp;size=16</image>
       <label>Remove</label>
+      <acl>[d]</acl>
     </action>
 
     <action>

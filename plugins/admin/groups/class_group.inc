@@ -1075,7 +1075,6 @@ class group extends plugin
     return ($message);
   }
 
-
   /* Return plugin informations for acl handling  */
   static function plInfo()
   {
@@ -1090,6 +1089,7 @@ class group extends plugin
         'filter'      => 'objectClass=posixGroup',
         'icon'        => '/fusiondirectory/geticon.php?context=types&icon=user-group&size=16',
         'mainAttr'    => 'cn',
+        'tabClass'    => 'grouptabs',
       )),
       'plForeignKeys'  => array(
         'memberUid' => array('user','uid')
