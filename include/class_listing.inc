@@ -1289,6 +1289,15 @@ class listing {
     return "<div id='pulldown'>".$result."</li></ul></div>";
   }
 
+  function renderActionMenuActionLink($separator, $action, $name, $icon)
+  {
+    return '<li'.$separator.' id="actionmenu_'.$action.'">'
+                  .'<a href="#" onClick="'
+                    ."document.getElementById('actionmenu').value='$action';document.getElementById('exec_act').click();"
+                  .'">'
+                  .'<img src="'.$icon.'" alt="'.$action.'" class="center">&nbsp;'.$name.'</a>'
+                  .'</li>';
+  }
 
   function recurseActions($actions)
   {
@@ -1314,12 +1323,6 @@ class listing {
         }
       }
 
-      // Fill image if set
-      $img = "";
-      if (isset($action['image'])) {
-        $img = "<img class='center' src='".$action['image']."' alt='".$action['type']."'/>&nbsp;";
-      }
-
       if ($action['type'] == "separator") {
         $separator = " style='border-top:1px solid #AAA' ";
         continue;
@@ -1329,7 +1332,11 @@ class listing {
       if ($action['type'] == "sub" && isset($action['action'])) {
         $level++;
         if (isset($action['label'])) {
-          $result .= "<li id='".strtolower($action['label'])."'$separator><a href='#'>$img"._($action['label'])."&nbsp;<img src='images/forward-arrow.png' alt='forward arrow'/></a>";
+          $img = "";
+          if (isset($action['image'])) {
+            $img = "<img class='center' src='".$action['image']."' alt='".$action['name']."'/>&nbsp;";
+          }
+          $result .= "<li id='actionmenu_".strtolower($action['label'])."'$separator><a href='#'>$img"._($action['label'])."&nbsp;<img src='images/forward-arrow.png' alt='forward arrow'/></a>";
         }
 
         // Ensure we've an array of actions, this enables sub menus with only one action.
@@ -1345,7 +1352,7 @@ class listing {
 
       // Render entry elseways
       if (isset($action['label'])) {
-        $result .= "<li$separator><a id='".$action['name']."' href='#' onClick='document.getElementById(\"actionmenu\").value= \"".$action['name']."\";mainform.submit();'>$img"._($action['label'])."</a></li>";
+        $result .= $this->renderActionMenuActionLink($separator, $action['name'], _($action['label']), $action['image']);
       }
 
       // Check for special types
@@ -1575,21 +1582,21 @@ class listing {
     if ($read) {
       // Copy entry
       if ($copy) {
-        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"copy\";document.getElementById(\"exec_act\").click();'><img src='geticon.php?context=actions&icon=edit-copy&size=16' alt='copy' class='center'>&nbsp;"._("Copy")."</a></li>";
-        $separator = "";
+        $result .= $this->renderActionMenuActionLink($separator, 'copy', _('Copy'), 'geticon.php?context=actions&icon=edit-copy&size=16');
+        $separator = '';
       }
 
       // Cut entry
       if ($cut) {
-        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"cut\";document.getElementById(\"exec_act\").click();'><img src='geticon.php?context=actions&icon=edit-cut&size=16' alt='cut' class='center'>&nbsp;"._("Cut")."</a></li>";
-        $separator = "";
+        $result .= $this->renderActionMenuActionLink($separator, 'cut', _('Cut'), 'geticon.php?context=actions&icon=edit-cut&size=16');
+        $separator = '';
       }
     }
 
     // Draw entries that allow pasting entries
     if ($paste) {
       if ($this->copyPasteHandler->entries_queued()) {
-        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"paste\";document.getElementById(\"exec_act\").click();'><img src='geticon.php?context=actions&icon=edit-paste&size=16' alt='paste' class='center'>&nbsp;"._("Paste")."</a></li>";
+        $result .= $this->renderActionMenuActionLink($separator, 'paste', _('Paste'), 'geticon.php?context=actions&icon=edit-paste&size=16');
       } else {
         $result .= "<li$separator><a href='#'><img src='geticon.php?context=actions&icon=edit-paste&size=16&disabled=1' alt='paste' class='center'>&nbsp;"._("Paste")."</a></li>";
       }
@@ -1662,7 +1669,7 @@ class listing {
 
       // Draw icons according to the restore flag
       if ($restore) {
-        $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value= \"restore\";document.getElementById(\"exec_act\").click();'><img src='geticon.php?context=actions&icon=document-restore&size=16' alt='restore' class='center'>&nbsp;"._("Restore snapshots")."</a></li>";
+        $result .= $this->renderActionMenuActionLink($separator, 'restore', _('Restore snapshots'), 'geticon.php?context=actions&icon=document-restore&size=16');
       } else {
         $result .= "<li$separator><a href='#'><img src='geticon.php?context=actions&icon=document-restore&size=16&disabled=1' alt='restore' class='center'>&nbsp;"._("Restore snapshots")."</a></li>";
       }
@@ -1678,11 +1685,11 @@ class listing {
     $result = "";
 
     // Draw entries
-    $result .= "<li$separator><a id='exportList' href='#'><img class='center' src='geticon.php?context=actions&icon=document-export&size=16' alt='export'>&nbsp;"._("Export list")."&nbsp;<img src='images/forward-arrow.png' alt='arrow'></a><ul class='level3'>";
+    $result .= "<li$separator id='actionmenu_exportList'><a href='#'><img class='center' src='geticon.php?context=actions&icon=document-export&size=16' alt='export'>&nbsp;"._("Export list")."&nbsp;<img src='images/forward-arrow.png' alt='arrow'></a><ul class='level3'>";
 
     // Export CVS as build in exporter
     foreach ($this->exporter as $action => $exporter) {
-      $result .= "<li><a id=".$exporter['class']." href='#' onClick='document.getElementById(\"actionmenu\").value= \"$action\";document.getElementById(\"exec_act\").click();'><img class='center' src='".$exporter['image']."' alt='$action'>&nbsp;".$exporter['label']."</a></li>";
+      $result .= $this->renderActionMenuActionLink('', $action, $exporter['label'], $exporter['image']);
     }
 
     // Finalize list
