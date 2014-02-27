@@ -537,7 +537,7 @@ class simplePlugin extends plugin
     $ldap->cat($this->dn, array("objectClass"));
     if ($this->mainTab && !$this->initially_was_account) {
       if ($ldap->count()) {
-        msg_dialog::display(_("Error when saving"), sprintf(_('There is already an entry with the same dn : %s'), $this->dn));
+        msg_dialog::display(_("Error when saving"), sprintf(_('There is already an entry with the same dn : %s'), $this->dn), ERROR_DIALOG);
         return;
       }
       $ldap->cd($this->config->current['BASE']);
@@ -545,7 +545,7 @@ class simplePlugin extends plugin
       $action = "add";
     } else {
       if (!$ldap->count()) {
-        msg_dialog::display(_("Error when saving"), sprintf(_('The entry %s is not existing'), $this->dn));
+        msg_dialog::display(_("Error when saving"), sprintf(_('The entry %s is not existing'), $this->dn), ERROR_DIALOG);
         return;
       }
       $action = "modify";

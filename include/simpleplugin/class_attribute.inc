@@ -2338,6 +2338,91 @@ class OrderedArrayAttribute extends SetAttribute
   }
 }
 
+class SubNodesAttribute extends OrderedArrayAttribute
+{
+  protected $objectClass;
+
+  function __construct ($label, $description, $ldapName, $objectClass, $attributes, $values = array(), $edit_enabled = FALSE, $acl = "")
+  {
+    $attributes_keys = array();
+    foreach ($attributes as $attribute) {
+      $attributes_keys[$attribute->getLdapName()] = $attribute;
+    }
+    $composite = new CompositeAttribute(
+      $description, $ldapName,
+      $attributes_keys,
+      FALSE, FALSE,
+      $acl, $label
+    );
+    parent::__construct($composite, FALSE, $values, $edit_enabled);
+    $this->objectClass = $objectClass;
+  }
+
+  protected function loadAttrValue ($attrs)
+  {
+    /* Should we take dn from attrs or plugin? */
+    if (isset($attrs['dn'])) {
+      $ldap = $this->plugin->config->get_ldap_link();
+      $ldap->ls('objectClass='.$this->objectClass, $attrs['dn']);
+      $this->value = array();
+      while ($subattrs = $ldap->fetch()) {
+        $this->attribute->resetToDefault();
+        foreach ($this->attribute->attributes as &$attribute) {
+          $attribute->loadAttrValue($subattrs);
+        }
+        unset($attribute);
+        $this->value[] = $this->attribute->getValue();
+      }
+    } else {
+      $this->resetToDefault();
+    }
+  }
+
+  /* Not saving anything into base node */
+  function fillLdapValue (&$attrs)
+  {
+    /* Remove crap made by plugin */
+    unset ($attrs[$this->getLdapName()]);
+  }
+
+  /* Special LDAP treatment that this attribute does after plugin ldap save */
+  function postLdapSave ($ldap)
+  {
+    /* First delete all old nodes */
+    $ldap->ls('objectClass='.$this->objectClass, $this->plugin->dn, array('dn'));
+    $delete = array();
+    while ($attrs = $ldap->fetch()) {
+      $delete[] = $attrs['dn'];
+    }
+    foreach ($delete as $dn) {
+      $ldap->rmdir($dn);
+    }
+    /* Then add our values */
+    foreach ($this->value as $val) {
+      $attrs = array('objectClass' => array($this->objectClass));
+      $this->attribute->setValue($val);
+      foreach ($this->attribute->attributes as &$attribute) {
+        $attribute->fillLdapValue($attrs);
+      }
+      unset($attribute);
+      $dn = $this->compute_attribute_dn();
+      $ldap->cd($dn);
+      $ldap->add($attrs);
+      if (!$ldap->success()) {
+        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_ADD, get_class()), LDAP_ERROR);
+      }
+    }
+  }
+
+  function compute_attribute_dn ()
+  {
+    /* Later we might want to be able to choose which attribute to use in the dn */
+    reset($this->attribute->attributes);
+    $attribute = key($this->attribute->attributes);
+    return $attribute.'='.$this->attribute->attributes[$attribute]->computeLdapValue().','.$this->plugin->dn;
+  }
+}
+
 
 /*! \brief This class allow to handle an attribute that stores flags based on other BooleanAttributes
  *
