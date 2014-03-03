@@ -36,17 +36,20 @@ class divSelectBox
   var $summary;
   var $cols;
 
+  private $id;
+
   // Members for page managment
   var $height = '200px';
 
   /*!
    * \brief Default divSelectBox constructor
    */
-  function __construct()
+  function __construct($id)
   {
     $this->s_summary  = '';
     $this->a_entries  = array();
     $this->cols       = 0;
+    $this->id         = $id;
   }
 
   /*!
@@ -93,6 +96,7 @@ class divSelectBox
     $s_return .= '<div style="overflow:auto; width:100%; height:100%;">'."\n";
     $s_return .= '<table '.
                     'class="listingTable" '.
+                    'id="'.$this->id.'" '.
                     'style="overflow:scroll; '.
                       'height:98%; '.
                       'width:100%; '.
