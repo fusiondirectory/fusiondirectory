@@ -2178,7 +2178,7 @@ class OrderedArrayAttribute extends SetAttribute
   function renderOnlyFormInput ()
   {
     $id = $this->getHtmlId();
-    $div = new divSelectBox($id);
+    $div = new divSelectBox('rows'.$id);
     $smarty = get_smarty();
     $div->SetHeight($this->height);
     foreach ($this->value as $key => $value) {
@@ -2342,7 +2342,7 @@ class SubNodesAttribute extends OrderedArrayAttribute
 {
   protected $objectClass;
 
-  function __construct ($label, $description, $ldapName, $objectClass, $attributes, $values = array(), $edit_enabled = FALSE, $acl = "")
+  function __construct ($label, $description, $ldapName, $objectClass, $attributes, $order, $values = array(), $edit_enabled = FALSE, $acl = "")
   {
     $attributes_keys = array();
     foreach ($attributes as $attribute) {
@@ -2354,7 +2354,7 @@ class SubNodesAttribute extends OrderedArrayAttribute
       FALSE, FALSE,
       $acl, $label
     );
-    parent::__construct($composite, FALSE, $values, $edit_enabled);
+    parent::__construct($composite, $order, $values, $edit_enabled);
     $this->objectClass = $objectClass;
   }
 
