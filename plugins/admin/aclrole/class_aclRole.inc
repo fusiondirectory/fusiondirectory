@@ -143,11 +143,18 @@ class aclRole extends simplePlugin
         'attrs' => array(
           new ACLsAttribute(
             '', _('ACLs which are part of this group'),
-            'gosaAclTemplate', FALSE
+            'gosaAclTemplate', TRUE
           ),
         )
       ),
     );
+  }
+
+  function __construct (&$config, $dn = NULL, $object = NULL)
+  {
+    parent::__construct($config, $dn, $object);
+
+    $this->attributesAccess['cn']->setUnique(TRUE);
   }
 
   function compute_dn()
