@@ -1334,7 +1334,7 @@ class listing {
         if (isset($action['label'])) {
           $img = "";
           if (isset($action['image'])) {
-            $img = "<img class='center' src='".$action['image']."' alt='".$action['name']."'/>&nbsp;";
+            $img = "<img class='center' src='".$action['image']."' alt='".$action['label']."'/>&nbsp;";
           }
           $result .= "<li id='actionmenu_".strtolower($action['label'])."'$separator><a href='#'>$img"._($action['label'])."&nbsp;<img src='images/forward-arrow.png' alt='forward arrow'/></a>";
         }
