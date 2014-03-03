@@ -201,7 +201,7 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
   function foreignKeyUpdate($oldvalue, $newvalue, $source)
   {
     foreach ($this->value as $key => &$value) {
-      if (($source['CLASS'] == 'aclRole') && ($value['role'] == $oldvalue)) {
+      if (($source['CLASS'] == 'aclRole') && ($value['role'] == $oldvalue) && ($source['MODE'] != 'copy')) {
         if ($newvalue === NULL) {
           unset($this->value[$key]);
         } else {
