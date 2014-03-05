@@ -55,7 +55,7 @@ class aclManagement extends simpleManagement
   function parseXML ($file)
   {
     $data = parent::parseXML($file);
-    $data['list']['table']['column'][1]['value']          = '%{filter:filterLabel(row,dn,ou,cn,pid,base)}';
+    $data['list']['table']['column'][1]['value']          = '%{filter:filterLabel(row,dn,pid,base,ou,cn,dc,o)}';
     $data['list']['table']['column'][1]['sortAttribute']  = 'dn';
     array_shift($data['list']['actionmenu']['action']);
     return $data;
@@ -68,7 +68,7 @@ class aclManagement extends simpleManagement
     parent::configureHeadpage();
   }
 
-  static function filterLabel($row, $dn, $ou = array(), $pid = 0, $base = "")
+  static function filterLabel($row, $dn, $pid = 0, $base = "", $ou = array())
   {
     $ou = $ou[0];
     if ($dn == $base) {
