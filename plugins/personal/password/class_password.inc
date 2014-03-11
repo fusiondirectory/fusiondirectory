@@ -204,7 +204,9 @@ class password extends plugin
       "plSection"       => "personal",
       "plIcon"          => '/fusiondirectory/geticon.php?context=status&icon=dialog-password&size=48',
 
-      "plProvidedAcls"  => array()
+      "plProvidedAcls"  => array(
+        "userPassword"  => _("Change user password"),
+      )
     );
   }
 
