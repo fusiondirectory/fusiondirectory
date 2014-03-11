@@ -45,7 +45,7 @@ class simpleService extends simplePlugin {
   function __construct(&$config, $dn, $object = NULL, $attributesInfo = NULL)
   {
     parent::__construct($config, $dn, $object, $attributesInfo);
-    $plInfos = $this->plInfo();
+    $plInfos = pluglist::pluginInfos(get_class($this));
     $this->DisplayName = $plInfos['plShortName'];
   }
 
