@@ -36,6 +36,8 @@ class Attribute
   /* \brief Should this attribute be saved into the LDAP */
   private $unique = FALSE;
 
+  /* \brief Prefix for the html id */
+  protected $htmlid_prefix = '';
   /* \brief Should this attribute be saved into the LDAP */
   protected $visible = TRUE;
   /* \brief Name of the ACL to use, empty if we need our own */
@@ -165,7 +167,7 @@ class Attribute
 
   function getHtmlId ()
   {
-    return preg_replace('/[\/\-,.#:;]/', '_', $this->getLdapName());
+    return $this->htmlid_prefix.preg_replace('/[\/\-,.#:;]/', '_', $this->getLdapName());
   }
 
   function getLabel ()
@@ -2347,6 +2349,7 @@ class SubNodesAttribute extends OrderedArrayAttribute
     $attributes_keys = array();
     foreach ($attributes as $attribute) {
       $attributes_keys[$attribute->getLdapName()] = $attribute;
+      $attributes_keys[$attribute->getLdapName()]->htmlid_prefix = $ldapName.'_';
     }
     $composite = new CompositeAttribute(
       $description, $ldapName,

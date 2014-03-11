@@ -43,6 +43,8 @@ class simpleManagement extends management
 
   protected $autoFilterAttributes = array('dn', 'cn', 'description');
 
+  protected $headpageClass = "listing";
+
   function __construct($config, $ui)
   {
     $this->config = $config;
@@ -88,7 +90,7 @@ class simpleManagement extends management
     $this->setFilter($filter);
 
     // Build headpage
-    $headpage = new listing($this->parseXML($this->listXMLPath));
+    $headpage = new $this->headpageClass($this->parseXML($this->listXMLPath));
     $headpage->setFilter($filter);
 
     parent::__construct($config, $ui, 'unused', $headpage);
