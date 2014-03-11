@@ -166,7 +166,7 @@ class acl extends plugin
 
     /* Handle unknown types */
     if (!in_array($type, array('subtree', 'base'))) {
-      msg_dialog::display(_("Internal error"), sprintf(_("Unkown ACL type '%s'!"), $type), ERROR_DIALOG);
+      msg_dialog::display(_("Internal error"), sprintf(_("Unkown ACL type '%s'!\nYou might need to run \"fusiondirectory-setup --migrate-acls\" to migrate your acls to the new format."), $type), ERROR_DIALOG);
       $a = array();
     }
     return $a;
