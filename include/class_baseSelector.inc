@@ -30,7 +30,7 @@
 class baseSelector {
 
   private $base;
-  private $pid;
+  protected $pid;
   private $action;
   private $height       = 500;
   private $submitButton = TRUE;
