@@ -488,7 +488,7 @@ class acl_createedit extends acl
                   "\n  <tr>".
                   "\n    <td style='background-color:{$back_color};height:1.8em;' colspan=".($cols - 1)."><b>"._("Object").": $name</b></td>".
                   "\n    <td align='right' style='background-color:{$back_color};height:1.8em;'>".
-                  "\n    <input type='button' onclick=\"$('{$tname}').toggle();\" value='"._("Show/hide advanced settings")."' /></td>".
+                  "\n    <input id=\"show$tname\" type='button' onclick=\"$('{$tname}').toggle();\" value='"._("Show/hide advanced settings")."' /></td>".
                   "\n  </tr>";
 
       /* Generate options */
