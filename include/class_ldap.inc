@@ -1188,6 +1188,7 @@ class LDAP{
       }
     }
 
+    $all = array();
     /* Every single line ... */
     foreach ($tmp as $entry) {
       $current_line ++;
