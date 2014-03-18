@@ -2350,6 +2350,7 @@ class OrderedArrayAttribute extends SetAttribute
 class SubNodesAttribute extends OrderedArrayAttribute
 {
   protected $objectClass;
+  protected $objectClasses;
 
   function __construct ($label, $description, $ldapName, $objectClass, $attributes, $order, $values = array(), $edit_enabled = FALSE, $acl = "")
   {
@@ -2365,7 +2366,13 @@ class SubNodesAttribute extends OrderedArrayAttribute
       $acl, $label
     );
     parent::__construct($composite, $order, $values, $edit_enabled);
-    $this->objectClass = $objectClass;
+    if (is_array($objectClass)) {
+      $this->objectClass    = $objectClass[0];
+      $this->objectClasses  = $objectClass;
+    } else {
+      $this->objectClass    = $objectClass;
+      $this->objectClasses  = array($objectClass);
+    }
   }
 
   protected function loadAttrValue ($attrs)
@@ -2409,7 +2416,7 @@ class SubNodesAttribute extends OrderedArrayAttribute
     }
     /* Then add our values */
     foreach ($this->value as $val) {
-      $attrs = array('objectClass' => array($this->objectClass));
+      $attrs = array('objectClass' => $this->objectClasses);
       $this->attribute->setValue($val);
       foreach ($this->attribute->attributes as &$attribute) {
         $attribute->fillLdapValue($attrs);
