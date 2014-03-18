@@ -1517,7 +1517,7 @@ class user extends plugin
       if ($this->initially_was_account && isset($this->attrs[$field])) {
         return $this->attrs[$field][0];
       } else {
-        return NULL;
+        return '';
       }
     } else {
       return parent::attributeInitialValue($field);
@@ -1532,7 +1532,7 @@ class user extends plugin
       }
       return ($this->$field != $this->attributeInitialValue($field));
     } else {
-      return parent::attributeInitialValue($field);
+      return parent::attributeHaveChanged($field);
     }
 
   }
