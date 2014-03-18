@@ -12,7 +12,13 @@
 {else}
 
   {if $s_Trace != "" && $i_TraceCnt != 0}
-  <div id="trace_{$i_ID}" style="display:none;">
+  <div id="trace_{$i_ID}"
+    style="
+      display:none;
+      position:absolute;
+      left:0px;
+      top:0px;
+      right:0px;">
     {$s_Trace}
   </div>
   {/if}
