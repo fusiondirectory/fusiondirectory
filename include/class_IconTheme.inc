@@ -205,6 +205,9 @@ class IconTheme
       array('actions','user-properties'),
       array('types','contact'),
       array('mimetypes','x-office-contact'),
+      array('types','user'),
+      array('places','user-identity'),
+      array('status','avatar-default'),
     ),
     'applications/office-calendar'  => array(
       array('mimetypes','x-office-calendar'),
