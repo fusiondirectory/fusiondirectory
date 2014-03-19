@@ -29,9 +29,9 @@ class Step_Config2 extends setup_step
 
   var $generic_settings  = array( "snapshot_active"     => FALSE,
                                   "snapshot_base"       => "ou=snapshots,%base%",
-                                  "snapshot_user"       => "%admin%",
+                                  "snapshot_user"       => "",
                                   "snapshot_password"   => "",
-                                  "snapshot_server"     => "%connection%");
+                                  "snapshot_server"     => "");
 
   var $timezone       = "Europe/Paris";
   var $timezones      = array();

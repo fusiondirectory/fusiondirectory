@@ -1135,7 +1135,7 @@ class config  {
         return FALSE;
       }
 
-      /* Check if the snapshot_base is defined */
+      /* Check if gzcompress is available */
       if (!is_callable("gzcompress")) {
 
         /* Send message if not done already */

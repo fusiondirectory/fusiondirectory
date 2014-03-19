@@ -90,6 +90,7 @@ class SnapshotHandler {
 
     /* Prepare bases */
     $this->snapshotLdapBase = $this->config->get_cfg_value("snapshotBase");
+    $snapshotLdap->create_missing_trees($this->snapshotLdapBase);
     $snapshotLdap->cd($this->snapshotLdapBase);
     if (!$snapshotLdap->success()) {
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($snapshotLdap->get_error(), $this->snapshotLdapBase, "", get_class()), LDAP_ERROR);
