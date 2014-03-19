@@ -1437,7 +1437,7 @@ class plugin
     /* Update foreign keys */
     if ($mode == 'remove') {
       $this->handleForeignKeys($this->dn, NULL);
-    } elseif (($mode == 'add') || ($mode == 'modify')) {
+    } elseif ($mode == 'modify') {
       $this->handleForeignKeys();
     }
     return $this->handle_hooks('POST', $mode, $addAttrs);

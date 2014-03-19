@@ -245,6 +245,8 @@ class user extends plugin
   var $mobiles_available;
   var $phones_available;
 
+  protected $orig_uid;
+
   /* constructor, if 'dn' is set, the node loads the given
      'dn' from LDAP */
   function user (&$config, $dn = NULL, $object = NULL)
@@ -393,6 +395,8 @@ class user extends plugin
 
     $this->phones_available   = class_available('phoneGeneric');
     $this->mobiles_available  = class_available('mobilePhoneGeneric');
+
+    $this->orig_uid = $this->uid;
   }
 
 
@@ -1514,11 +1518,7 @@ class user extends plugin
   protected function attributeInitialValue($field)
   {
     if ($field == 'uid') {
-      if ($this->initially_was_account && isset($this->attrs[$field])) {
-        return $this->attrs[$field][0];
-      } else {
-        return '';
-      }
+      return $this->orig_uid;
     } else {
       return parent::attributeInitialValue($field);
     }
@@ -1534,7 +1534,6 @@ class user extends plugin
     } else {
       return parent::attributeHaveChanged($field);
     }
-
   }
 
   function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
