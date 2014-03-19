@@ -1,9 +1,8 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2011-2014  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -40,7 +39,7 @@ class SnapshotHandler {
    */
   function __construct(&$config)
   {
-    $this->config     = $config;
+    $this->config = $config;
   }
 
   /*!
@@ -73,48 +72,12 @@ class SnapshotHandler {
     return $this->snapshotBases;
   }
 
-  /*!
-   * \brief Get a snapshot LDAP Multiplexer
-   */
-  protected function get_snapshot_link($default = NULL)
-  {
-    $snapshotLdap = $default;
-
-    /* check if there are special server configurations for snapshots */
-    if ($this->config->get_cfg_value("snapshotURI") != "") {
-      $server       = $this->config->get_cfg_value("snapshotURI");
-      $user         = $this->config->get_cfg_value("snapshotAdminDn");
-      $password     = $this->config->get_cfg_value("snapshotAdminPassword");
-      $snapshotLdap = new ldapMultiplexer(new LDAP($user, $password, $server));
-    }
-
-    /* Prepare bases */
-    $this->snapshotLdapBase = $this->config->get_cfg_value("snapshotBase");
-    $snapshotLdap->cd($this->snapshotLdapBase);
-    if (!$snapshotLdap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($snapshotLdap->get_error(), $this->snapshotLdapBase, "", get_class()), LDAP_ERROR);
-    }
-
-    return $snapshotLdap;
-  }
-
-  /* \brief Get an LDAP link and a snapshotlink
-   * */
-  protected function get_ldap_links()
-  {
-    /* Create an additional ldap object which
-       points to our ldap snapshot server */
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
-    return array($ldap, $this->get_snapshot_link($ldap));
-  }
-
   /* \brief Get the snapshot dn of an object dn
    */
   protected function snapshot_dn($dn)
   {
     return preg_replace("/".preg_quote($this->config->current['BASE'], '/')."$/", "", $dn)
-            .$this->snapshotLdapBase;
+            .$this->snapshotRDN;
   }
 
   /*!
@@ -130,21 +93,18 @@ class SnapshotHandler {
       return array();
     }
 
-    // Load user info
-    $ui = get_userinfo();
-
-    list($ldap, $snapshotLdap) = $this->get_ldap_links();
+    $ldap = $this->config->get_ldap_link();
 
     // Initialize base
     $base = $this->snapshot_dn($objectBase);
 
     /* Fetch all objects and check if they do not exist anymore */
     $objects = array();
-    $snapshotLdap->cd($base);
-    $snapshotLdap->ls("(objectClass=gosaSnapshotObject)", $base,
+    $ldap->cd($base);
+    $ldap->ls("(objectClass=gosaSnapshotObject)", $base,
                       array("gosaSnapshotType", "gosaSnapshotTimestamp", "gosaSnapshotDN", "description"));
-    while ($entry = $snapshotLdap->fetch()) {
 
+    while ($entry = $ldap->fetch()) {
       $chk = str_replace($base, "", $entry['dn']);
       if (preg_match("/,ou=/", $chk)) {
         continue;
@@ -199,7 +159,7 @@ class SnapshotHandler {
       return array();
     }
 
-    list(, $snapshotLdap) = $this->get_ldap_links();
+    $ldap = $this->config->get_ldap_link();
 
     $objectBase = preg_replace("/^[^,]*./", "", $dn);
 
@@ -207,13 +167,13 @@ class SnapshotHandler {
     $base = $this->snapshot_dn($objectBase);
 
     /* Fetch all objects with  gosaSnapshotDN=$dn */
-    $snapshotLdap->cd($base);
-    $snapshotLdap->ls("(&(objectClass=gosaSnapshotObject)(gosaSnapshotDN=".$dn."))", $base,
+    $ldap->cd($base);
+    $ldap->ls("(&(objectClass=gosaSnapshotObject)(gosaSnapshotDN=".$dn."))", $base,
         array("gosaSnapshotType","gosaSnapshotTimestamp","gosaSnapshotDN","description"));
 
     /* Put results into a list and add description if missing */
     $objects = array();
-    while ($entry = $snapshotLdap->fetch()) {
+    while ($entry = $ldap->fetch()) {
       if (!isset($entry['description'][0])) {
         $entry['description'][0]  = "";
       }
@@ -253,10 +213,7 @@ class SnapshotHandler {
       $dns = array($dn);
     }
 
-    /* Get configuration from fusiondirectory.conf */
-    $config = $this->config;
-
-    list($ldap, $ldap_to) = $this->get_ldap_links();
+    $ldap = $this->config->get_ldap_link();
 
     /* check if the dn exists */
     if ($ldap->dn_exists($dn)) {
@@ -288,23 +245,20 @@ class SnapshotHandler {
          But we have to check first, if the given gosaSnapshotTimestamp
          is already used, in this case we should increment this value till there is
          an unused value. */
-      $new_dn                           = "gosaSnapshotTimestamp=".$newName.",".$new_base;
-      $ldap_to->cat($new_dn);
-      while ($ldap_to->count()) {
-        $ldap_to->cat($new_dn);
+      $new_dn = "gosaSnapshotTimestamp=".$newName.",".$new_base;
+      $ldap->cat($new_dn);
+      while ($ldap->count()) {
+        $ldap->cat($new_dn);
         $newName = str_replace(".", "", $sec."-".(++$usec));
         $new_dn                           = "gosaSnapshotTimestamp=".$newName.",".$new_base;
         $target['gosaSnapshotTimestamp']  = $newName;
       }
       /* Inset this new snapshot */
-      $ldap_to->cd($this->snapshotLdapBase);
-      $ldap_to->create_missing_trees($this->snapshotLdapBase);
-      $ldap_to->create_missing_trees($new_base);
-      $ldap_to->cd($new_dn);
-      $ldap_to->add($target);
-      if (!$ldap_to->success()) {
-        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap_to->get_error(), $new_dn, LDAP_ADD, get_class()), LDAP_ERROR);
-      }
+      $ldap->cd($this->snapshotRDN);
+      $ldap->create_missing_trees($this->snapshotRDN);
+      $ldap->create_missing_trees($new_base);
+      $ldap->cd($new_dn);
+      $ldap->add($target);
 
       if (!$ldap->success()) {
         msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $new_base, "", get_class()), LDAP_ERROR);
@@ -339,7 +293,7 @@ class SnapshotHandler {
       return array();
     }
 
-    list (, $ldap_to) = $this->get_ldap_links();
+    $ldap = $this->config->get_ldap_link();
 
     /* Prepare bases and some other infos */
     $base_of_object = preg_replace ('/^[^,]+,/i', '', $dn);
@@ -347,12 +301,12 @@ class SnapshotHandler {
     $tmp            = array();
 
     /* Fetch all objects with  gosaSnapshotDN=$dn */
-    $ldap_to->cd($new_base);
-    $ldap_to->ls("(&(objectClass=gosaSnapshotObject)(gosaSnapshotDN=".$dn."))", $new_base,
+    $ldap->cd($new_base);
+    $ldap->ls("(&(objectClass=gosaSnapshotObject)(gosaSnapshotDN=".$dn."))", $new_base,
         array("gosaSnapshotType","gosaSnapshotTimestamp","gosaSnapshotDN","description"));
 
     /* Put results into a list and add description if missing */
-    while ($entry = $ldap_to->fetch()) {
+    while ($entry = $ldap->fetch()) {
       if (!isset($entry['description'][0])) {
         $entry['description'][0]  = "";
       }
@@ -384,16 +338,16 @@ class SnapshotHandler {
       return array();
     }
 
-    list ($ldap, $ldap_to) = $this->get_ldap_links();
+    $ldap = $this->config->get_ldap_link();
 
     /* Prepare bases */
     $new_base       = $this->snapshot_dn($base_of_object);
     /* Fetch all objects and check if they do not exist anymore */
     $ui   = get_userinfo();
     $tmp  = array();
-    $ldap_to->cd($new_base);
-    $ldap_to->ls("(objectClass=gosaSnapshotObject)", $new_base, array("gosaSnapshotType","gosaSnapshotTimestamp","gosaSnapshotDN","description"));
-    while ($entry = $ldap_to->fetch()) {
+    $ldap->cd($new_base);
+    $ldap->ls("(objectClass=gosaSnapshotObject)", $new_base, array("gosaSnapshotType","gosaSnapshotTimestamp","gosaSnapshotDN","description"));
+    while ($entry = $ldap->fetch()) {
 
       $chk = str_replace($new_base, "", $entry['dn']);
       if (preg_match("/,ou=/", $chk)) {
@@ -438,14 +392,14 @@ class SnapshotHandler {
       return array();
     }
 
-    list ($ldap, $ldap_to) = $this->get_ldap_links();
+    $ldap = $this->config->get_ldap_link();
 
     /* Get the snapshot */
-    $ldap_to->cat($dn);
-    $restoreObject = $ldap_to->fetch();
+    $ldap->cat($dn);
+    $ldap->fetch();
 
     /* Prepare import string */
-    $data = gzuncompress($ldap_to->get_attribute($dn, 'gosaSnapshotData'));
+    $data = gzuncompress($ldap->get_attribute($dn, 'gosaSnapshotData'));
 
     /* Import the given data */
     $err = "";

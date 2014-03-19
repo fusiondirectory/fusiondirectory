@@ -1214,27 +1214,6 @@ class config  {
         }
         return FALSE;
       }
-
-      /* check if there are special server configurations for snapshots */
-      if ($this->get_cfg_value("snapshotURI") != "") {
-
-        /* check if all required vars are available to create a new ldap connection */
-        $missing = "";
-        foreach (array("snapshotURI","snapshotAdminDn","snapshotAdminPassword","snapshotBase") as $var) {
-          if ($this->get_cfg_value($var) == "") {
-            $missing .= $var." ";
-
-            /* Send message if not done already */
-            if (!session::is_set("snapshotFailMessageSend")) {
-              session::set("snapshotFailMessageSend", TRUE);
-              msg_dialog::display(_("Configuration error"),
-                  sprintf(_("The snapshot functionality is enabled, but the required variable '%s' is not set."),
-                    $missing), ERROR_DIALOG);
-            }
-            return FALSE;
-          }
-        }
-      }
       return TRUE;
     }
     return FALSE;

@@ -210,9 +210,6 @@ class Step_Config3 extends setup_step
     $attrs['fdHandleExpiredAccounts'] = ($cv['account_expiration']?"TRUE":"FALSE");
     $attrs['fdEnableSnapshots']       = ($cv['generic_settings']['snapshot_active']?"TRUE":"FALSE");
     $attrs['fdSnapshotBase']          = $cv['generic_settings']['snapshot_base'];
-    $attrs['fdSnapshotAdminDn']       = $cv['generic_settings']['snapshot_user'];
-    $attrs['fdSnapshotAdminPassword'] = $cv['generic_settings']['snapshot_password'];
-    $attrs['fdSnapshotURI']           = $cv['generic_settings']['snapshot_server'];
 
     $attrs['fdLanguage']  = $cv['lang_selected'];
     $attrs['fdTheme']     = $cv['theme'];

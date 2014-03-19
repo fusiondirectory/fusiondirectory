@@ -27,11 +27,7 @@ class Step_Config2 extends setup_step
   var $sambaidmapping = FALSE;
   var $header_image   = "images/setup/server.png";
 
-  var $generic_settings  = array( "snapshot_active"     => FALSE,
-                                  "snapshot_base"       => "ou=snapshots,%base%",
-                                  "snapshot_user"       => "%admin%",
-                                  "snapshot_password"   => "",
-                                  "snapshot_server"     => "%connection%");
+  var $generic_settings  = array( "snapshot_active"     => TRUE);
 
   var $timezone       = "Europe/Paris";
   var $timezones      = array();
@@ -60,12 +56,10 @@ class Step_Config2 extends setup_step
     global $BASE_DIR;
 
     /* Update snapshot values, with already collected values */
-    foreach ($this->generic_settings as $key => $value) {
-      foreach (array("snapshot_base","snapshot_user","snapshot_server") as $attr) {
-        foreach ($this->parent->captured_values as $replace_name => $replace_value) {
-          if (is_string($replace_value))  {
-            $this->generic_settings[$attr] = preg_replace("/%".$replace_name."%/", $replace_value, $this->generic_settings[$attr]);
-          }
+    foreach (array("snapshot_base") as $attr) {
+      foreach ($this->parent->captured_values as $replace_name => $replace_value) {
+        if (is_string($replace_value))  {
+          $this->generic_settings[$attr] = preg_replace("/%".$replace_name."%/", $replace_value, $this->generic_settings[$attr]);
         }
       }
     }
@@ -102,15 +96,6 @@ class Step_Config2 extends setup_step
         $this->generic_settings['snapshot_active'] = TRUE;
         if (isset($_POST['snapshot_base'])) {
           $this->generic_settings['snapshot_base'] = get_post('snapshot_base');
-        }
-        if (isset($_POST['snapshot_user'])) {
-          $this->generic_settings['snapshot_user'] = get_post('snapshot_user');
-        }
-        if (isset($_POST['snapshot_password'])) {
-          $this->generic_settings['snapshot_password'] = get_post('snapshot_password');
-        }
-        if (isset($_POST['snapshot_server'])) {
-          $this->generic_settings['snapshot_server'] = get_post('snapshot_server');
         }
       } else {
         $this->generic_settings['snapshot_active'] = FALSE;
