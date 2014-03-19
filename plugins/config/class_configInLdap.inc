@@ -240,18 +240,6 @@ class configInLdap extends simplePlugin
             _('Snapshot base'), _('The base where snapshots should be stored inside of the LDAP.'),
             'fdSnapshotBase'
           ),
-          new StringAttribute (
-            _('Snapshot server'), _('LDAP URI for the server which is used to do object snapshots.'),
-            'fdSnapshotURI'
-          ),
-          new StringAttribute (
-            _('Snapshot user'), _('The user which is used to authenticate when connecting to snapshot server.'),
-            'fdSnapshotAdminDn'
-          ),
-          new PasswordAttribute (
-            _('Snapshot password'), _('The credentials which are used in combination with snapshot user in order to authenticate.'),
-            'fdSnapshotAdminPassword'
-          ),
         )
       ),
       'miscellaneous' => array(
@@ -455,9 +443,6 @@ class configInLdap extends simplePlugin
         'disable' => array (
           FALSE => array (
             'fdSnapshotBase',
-            'fdSnapshotURI',
-            'fdSnapshotAdminDn',
-            'fdSnapshotAdminPassword',
           )
         )
       )
