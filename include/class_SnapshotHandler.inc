@@ -225,7 +225,7 @@ class SnapshotHandler {
     $ldap = $this->config->get_ldap_link();
 
     /* check if the dn exists */
-    if ($ldap->dn_exists($dn)) {
+    if (!$ldap->dn_exists($dn)) {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Tried to snapshot non-existing dn');
       return;
     }
