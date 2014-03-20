@@ -40,6 +40,15 @@ class SnapshotHandler {
   function __construct(&$config)
   {
     $this->config = $config;
+
+    /* Prepare base */
+    $this->snapshotRDN = $this->config->get_cfg_value("snapshotBase");
+    $ldap = $this->config->get_ldap_link();
+    $ldap->cd($this->config->current['BASE']);
+    $ldap->create_missing_trees($this->snapshotRDN);
+    if (!$ldap->success()) {
+      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->snapshotRDN, "", get_class()), LDAP_ERROR);
+    }
   }
 
   /*!
