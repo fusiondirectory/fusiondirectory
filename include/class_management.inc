@@ -536,7 +536,7 @@ class management
     $entry = array_pop($target);
     if (!empty($entry) && $this->ui->allow_snapshot_restore($entry, $this->aclCategory)) {
       $this->snapHandler->restore_snapshot($entry);
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Snaptshot restored!");
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $entry, 'Snaptshot restored');
       $this->closeDialogs();
     } else {
       msg_dialog::display(_("Permission"), sprintf(_("You are not allowed to restore a snapshot for %s."), $entry),

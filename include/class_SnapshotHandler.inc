@@ -398,6 +398,7 @@ class SnapshotHandler {
   function restore_snapshot($dn)
   {
     if (!$this->enabled()) {
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot are disabled but tried to restore snapshot');
       return array();
     }
 
@@ -409,15 +410,19 @@ class SnapshotHandler {
 
     /* Prepare import string */
     $data = gzuncompress($ldap->get_attribute($dn, 'gosaSnapshotData'));
+    if ($data === FALSE) {
+      msg_dialog::display(_('Error'), _('There was a problem uncompressing snapshot data'), ERROR_DIALOG);
+    }
 
     /* Import the given data */
     try {
       $ldap->import_complete_ldif($data, FALSE, FALSE);
-    } catch(Exception $e) {
+
+      if (!$ldap->success()) {
+        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, "", get_class()), LDAP_ERROR);
+      }
+    } catch (Exception $e) {
       msg_dialog::display(_('LDAP error'), $e->getMessage(), ERROR_DIALOG);
-    }
-    if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, "", get_class()), LDAP_ERROR);
     }
   }
 }
