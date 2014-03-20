@@ -211,6 +211,7 @@ class SnapshotHandler {
   function create_snapshot($dn, $description = array())
   {
     if (!$this->enabled()) {
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot are disabled but tried to create snapshot');
       return;
     }
 
@@ -225,52 +226,56 @@ class SnapshotHandler {
 
     /* check if the dn exists */
     if ($ldap->dn_exists($dn)) {
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Tried to snapshot non-existing dn');
+      return;
+    }
 
-      /* Extract seconds & mysecs, they are used as entry index */
-      list($usec, $sec) = explode(" ", microtime());
+    /* Extract seconds & mysecs, they are used as entry index */
+    list($usec, $sec) = explode(" ", microtime());
 
-      /* Collect some infos */
-      $base_of_object = preg_replace ('/^[^,]+,/i', '', $dn);
-      $new_base       = $this->snapshot_dn($base_of_object);
-      /* Create object */
-      $data = '';
-      foreach ($dns as $tmp_dn) {
-        $data .= $ldap->generateLdif(LDAP::fix($tmp_dn),
-              '(&(!(objectClass=gosaDepartment))(!(objectClass=FAIclass)))', 'sub');
-      }
-
-      $newName  = str_replace(".", "", $sec."-".$usec);
-      $target   = array();
-
-      $target['objectClass']            = array("top", "gosaSnapshotObject");
-      $target['gosaSnapshotData']       = gzcompress($data, 6);
-      $target['gosaSnapshotType']       = "snapshot";
-      $target['gosaSnapshotDN']         = $dn;
-      $target['description']            = $description;
-      $target['gosaSnapshotTimestamp']  = $newName;
-
-      /* Insert the new snapshot
-         But we have to check first, if the given gosaSnapshotTimestamp
-         is already used, in this case we should increment this value till there is
-         an unused value. */
-      $new_dn = "gosaSnapshotTimestamp=".$newName.",".$new_base;
-      $ldap->cat($new_dn);
-      while ($ldap->count()) {
-        $ldap->cat($new_dn);
-        $newName = str_replace(".", "", $sec."-".(++$usec));
-        $new_dn                           = "gosaSnapshotTimestamp=".$newName.",".$new_base;
-        $target['gosaSnapshotTimestamp']  = $newName;
-      }
-      /* Inset this new snapshot */
-      $ldap->cd($this->snapshotRDN);
-      $ldap->create_missing_trees($this->snapshotRDN);
-      $ldap->create_missing_trees($new_base);
-      $ldap->cd($new_dn);
-      $ldap->add($target);
-
+    /* Collect some infos */
+    $base_of_object = preg_replace ('/^[^,]+,/i', '', $dn);
+    $new_base       = $this->snapshot_dn($base_of_object);
+    /* Create object */
+    $data = '';
+    foreach ($dns as $tmp_dn) {
+      $data .= $ldap->generateLdif(LDAP::fix($tmp_dn), '(!(objectClass=gosaDepartment))', 'sub');
       if (!$ldap->success()) {
-        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $new_base, "", get_class()), LDAP_ERROR);
+        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $tmp_dn, "", get_class()), LDAP_ERROR);
       }
+    }
+
+    $newName  = str_replace(".", "", $sec."-".$usec);
+    $target   = array();
+
+    $target['objectClass']            = array("top", "gosaSnapshotObject");
+    $target['gosaSnapshotData']       = gzcompress($data, 6);
+    $target['gosaSnapshotType']       = "snapshot";
+    $target['gosaSnapshotDN']         = $dn;
+    $target['description']            = $description;
+    $target['gosaSnapshotTimestamp']  = $newName;
+
+    /* Insert the new snapshot
+       But we have to check first, if the given gosaSnapshotTimestamp
+       is already used, in this case we should increment this value till there is
+       an unused value. */
+    $new_dn = "gosaSnapshotTimestamp=".$newName.",".$new_base;
+    $ldap->cat($new_dn);
+    while ($ldap->count()) {
+      $ldap->cat($new_dn);
+      $newName = str_replace(".", "", $sec."-".(++$usec));
+      $new_dn                           = "gosaSnapshotTimestamp=".$newName.",".$new_base;
+      $target['gosaSnapshotTimestamp']  = $newName;
+    }
+    /* Inset this new snapshot */
+    $ldap->cd($this->snapshotRDN);
+    $ldap->create_missing_trees($this->snapshotRDN);
+    $ldap->create_missing_trees($new_base);
+    $ldap->cd($new_dn);
+    $ldap->add($target);
+
+    if (!$ldap->success()) {
+      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $new_base, "", get_class()), LDAP_ERROR);
     }
   }
 

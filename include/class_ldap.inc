@@ -1098,6 +1098,9 @@ class LDAP
         $this->error = $err;
         return NULL;
       }
+    } else {
+      $this->error = _("proc_open failed to execute ldapsearch");
+      return NULL;
     }
     return $res;
   }
