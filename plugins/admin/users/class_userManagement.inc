@@ -315,16 +315,6 @@ class userManagement extends management
           return $smarty->fetch(get_template_path('password.tpl', TRUE));
         }
 
-        // Change password
-        if (isset($this->force_hash_type[$this->dn])) {
-          if (!change_password($this->dn, $new_password, 0, $this->force_hash_type[$this->dn])) {
-            return $smarty->fetch(get_template_path('password.tpl', TRUE));
-          }
-        } else {
-          if (!change_password($this->dn, $new_password)) {
-            return $smarty->fetch(get_template_path('password.tpl', TRUE));
-          }
-        }
         if ($this->config->get_cfg_value("passwordHook") != "") {
           $ldap = $this->config->get_ldap_link();
           $ldap->cd($this->config->current['BASE']);
@@ -339,6 +329,17 @@ class userManagement extends management
           if (!empty($check_hook_output)) {
             $message[] = sprintf(_("Check-hook reported a problem: %s. Password change canceled!"), $check_hook_output);
             msg_dialog::displayChecks($message);
+            return $smarty->fetch(get_template_path('password.tpl', TRUE));
+          }
+        }
+
+        // Change password
+        if (isset($this->force_hash_type[$this->dn])) {
+          if (!change_password($this->dn, $new_password, 0, $this->force_hash_type[$this->dn])) {
+            return $smarty->fetch(get_template_path('password.tpl', TRUE));
+          }
+        } else {
+          if (!change_password($this->dn, $new_password)) {
             return $smarty->fetch(get_template_path('password.tpl', TRUE));
           }
         }
