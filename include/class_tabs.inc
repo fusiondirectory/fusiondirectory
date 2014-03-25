@@ -270,7 +270,7 @@ class tabs
                   color: gray;'
           title=\"$title\">".$title."</div>";
       } else {
-        $display .= "<div class=\"$style[$index]$notify\"><a class=\"$style[$index]\" onclick=\"return true;\" href=\"javascript:document.mainform.arg.value='$class';document.mainform.submit();\">$title</a></div></td>";
+        $display .= "<div class=\"$style[$index]$notify\"><a id=\"tab_$class\" class=\"$style[$index]\" onclick=\"return true;\" href=\"javascript:document.mainform.arg.value='$class';document.mainform.submit();\">$title</a></div></td>";
       }
     }
 
