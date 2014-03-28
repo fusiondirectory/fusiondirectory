@@ -84,7 +84,7 @@
     </tr>
     <tr>
      <td colspan=2>
-{render acl=$fonGroupACL checked=$use_fon_group}
+{render acl=$fonGroupACL}
       <input class="center" type=checkbox name="fon_group" value="1" {$fon_group}>{t}Members are in a phone pickup group{/t}
 {/render}
      </td>
