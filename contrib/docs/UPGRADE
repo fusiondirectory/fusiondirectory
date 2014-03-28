@@ -44,6 +44,21 @@ You have to update your LDAP schemas, first update the FusionDirectory core sche
 
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema 
 
+Migrate FusionDirectory from 1.0.7.2 to 1.0.7.3
+==========================================================
+
+- Upgrade FusionDirectory first
+
+Upgrading FusionDirectory core package before other ones to avoid dependencies errors:
+
+- Upgrade of your LDAP directory
+
+You have to update your LDAP schemas, first update the FusionDirectory core schemas. We have put a new option in fusiondirectory-insert-schema that allow you to update easily your schema without the use of ldif files.
+
+in this version only the schema from the argonaut plugin needs to be update if you have the systems or argonaut plugins installed
+
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/argonaut-fd.schema 
+
 ---
 * Further information
 
