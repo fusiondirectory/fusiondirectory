@@ -3,12 +3,20 @@ FusionDirectory changelog
 
 * FusionDirectory 1.0.7.3
 
-[Fix] Bugs #3073: Snapshot (or restore snapshot) not working
+[Fix] Bugs #2397: cleaned SnapshotHandler	Côme Bernigaud
+[Fix] Bugs #2457: snapshot password should not be enc/decrypted	Côme Bernigaud
+[Fix] Bugs #2507: import_complete_ldif error handling is broken	Côme Bernigaud
+[Fix] Bugs #2566: SnapShotDialog now using Snapshothandler	Côme Bernigaud
+[Fix] Bugs #2929: LDAP dialog errors should have error style	Côme Bernigaud
+[Fix] Bugs #2931: LDAP dialog errors should have error style	Benoit Mortier
 [Fix] Bugs #2978: the old FAIstate is not stored anymore when you click on system (re)install
 [Fix] Bugs #2984: remove the entry for the static tftp path in argonaut fuse service
 [Fix] Bugs #3015: error when trying to create the cronjob for creating debian mirror
+[Fix] Bugs #3027: Moved gid check to check method
 [Fix] Bugs #3031: PHP error: Undefined index: use_fon_group
 [Fix] Bugs #3048: when adding pool entry inside a shared network entry in the dhcp i got a crash
+[Fix] Bugs #3073: Snapshot (or restore snapshot) not working
+[Fix] Bugs #3074: Removed snapshot field from setup template	Côme Bernigaud
 
 * FusionDirectory 1.0.7.2
 
