@@ -128,6 +128,20 @@ documentation and additional help.
   Configuration setting to force the use of a hash when setting or changing passwords
   Add support for crypt/sha-256 and crypt/sha-512
   Use the passwordDefaultHash for new users
+  Fix for icons in core plugins
+  Provide a way to show hook execution results to the user via web
 
 * Stefan Krüger <shadow_7@gmx.net>
   Add support for various database to the rsyslog plugin
+
+* Guillaume Chéramy <guillaume@cheramy.name>
+  Patches for the template system
+  
+* Mathias Friman mathias.friman@knorca.se
+  Translation to swedish
+
+* Alexandre Magnat <alexandre.magnat@mecaprotec.fr>
+  Snapshot bug reporter
+  
+* Guillaume RODRIGUEZ <rodriguez.guillaume@icloud.com>
+  asterisk plugin error reporter
