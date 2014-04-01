@@ -1291,6 +1291,11 @@ class FileAttribute extends Attribute
                 ($this->disabled? 'disabled="disabled"':'').'/>';
     return $this->renderAcl($display);
   }
+
+  function displayValue($value)
+  {
+    return sprintf(_('%s (%d bytes)'), $this->getLabel(), mb_strlen($value, '8bit'));
+  }
 }
 
 class FileTextAreaAttribute extends FileAttribute
@@ -1589,18 +1594,20 @@ class BaseSelectorAttribute extends Attribute
 /*! \brief This class allow to handle easily a multi-valuated attribute
  *
  */
-class ArrayAttribute extends Attribute
+class SetAttribute extends Attribute
 {
   public $attribute;
+  protected $valueUnicity     = TRUE;
   protected $editingValue     = FALSE;
   protected $linearRendering  = TRUE;
 
-  /*! \brief The constructor of ArrayAttribute
+  /*! \brief The constructor of SetAttribute
    *
    *  \param Attribute $attribute The attribute you want to see multi-valuated
    *  \param array $values The default values
+   *  \param boolean $valueUnicity Should the value unicity be checked
    */
-  function __construct ($attribute, $values = array())
+  function __construct ($attribute, $values = array(), $valueUnicity = TRUE)
   {
     parent::__construct(
       $attribute->getLabel(),     $attribute->getDescription(),
@@ -1609,11 +1616,12 @@ class ArrayAttribute extends Attribute
     );
     $this->attribute = $attribute;
     $this->attribute->setRequired(TRUE);
+    $this->valueUnicity = $valueUnicity;
   }
 
   function setManagedAttributes ($dontcare)
   {
-    trigger_error('method setManagedAttributes is not supported for ArrayAttributes');
+    trigger_error('method setManagedAttributes is not supported for SetAttributes');
   }
 
   function setLinearRendering ($bool)
@@ -1635,17 +1643,26 @@ class ArrayAttribute extends Attribute
 
   function getAcl ()
   {
+    if ($this->attribute === FALSE) {
+      return parent::getAcl();
+    }
     return $this->attribute->getAcl();
   }
 
   function setAcl ($acl)
   {
+    if ($this->attribute === FALSE) {
+      return parent::setAcl($acl);
+    }
     $this->attribute->setAcl($acl);
   }
 
   function addPostValue ($value)
   {
     if (empty($value)) {
+      return FALSE;
+    }
+    if ($this->valueUnicity && in_array($value, $this->postValue)) {
       return FALSE;
     }
     $this->postValue[] = $value;
@@ -1660,17 +1677,20 @@ class ArrayAttribute extends Attribute
   function loadPostValue ()
   {
     $this->editingValue = FALSE;
+    $id = $this->getHtmlId();
     if ($this->isVisible()) {
       $this->postValue = $this->value;
-      if (isset($_POST["add".$this->getHtmlId()])) {
-        $this->attribute->loadPostValue();
-        $this->attribute->applyPostValue();
-        $this->addPostValue($this->attribute->getValue());
-      } elseif (isset($_POST["del".$this->getHtmlId()]) && isset($_POST["row".$this->getHtmlId()])) {
-        foreach ($_POST["row".$this->getHtmlId()] as $key) {
+      if (isset($_POST["add".$id])) {
+        if ($this->attribute !== FALSE) {
+          $this->attribute->loadPostValue();
+          $this->attribute->applyPostValue();
+          $this->addPostValue($this->attribute->getValue());
+        }
+      } elseif (isset($_POST["del".$id]) && isset($_POST["row".$id])) {
+        foreach ($_POST["row".$id] as $key) {
           $this->delPostValue($key);
         }
-      } else {
+      } elseif ($this->attribute !== FALSE) {
         $this->attribute->loadPostValue();
         $this->attribute->applyPostValue();
         $this->editingValue = $this->attribute->getValue();
@@ -1681,7 +1701,7 @@ class ArrayAttribute extends Attribute
   function check ()
   {
     $error = parent::check();
-    if (!empty($error)) {
+    if (!empty($error) || ($this->attribute === FALSE)) {
       return $error;
     } else {
       foreach ($this->value as $value) {
@@ -1725,6 +1745,9 @@ class ArrayAttribute extends Attribute
 
   function getDisplayValues ()
   {
+    if ($this->attribute === FALSE) {
+      return $this->value;
+    }
     $attribute = $this->attribute;
     return array_map(
       function ($value) use($attribute)
@@ -1746,6 +1769,9 @@ class ArrayAttribute extends Attribute
 
   function renderAttributeInput ($template = FALSE)
   {
+    if ($this->attribute === FALSE) {
+      return;
+    }
     $this->handleEditingValue();
     if ($template) {
       return $this->attribute->renderTemplateInput();
@@ -1756,6 +1782,9 @@ class ArrayAttribute extends Attribute
 
   function renderAttribute(&$attributes, $readOnly)
   {
+    if ($this->attribute === FALSE) {
+      return parent::renderAttribute($attributes, $readOnly);
+    }
     if ($this->visible) {
       $this->attribute->setDisabled($this->disabled);
       if ($this->linearRendering || $readOnly) {
@@ -1809,7 +1838,9 @@ class ArrayAttribute extends Attribute
   function setParent (&$plugin)
   {
     parent::setParent($plugin);
-    $this->attribute->setParent($plugin);
+    if ($this->attribute !== FALSE) {
+      $this->attribute->setParent($plugin);
+    }
   }
 
   function getArrayValues()
@@ -1848,34 +1879,6 @@ class ArrayAttribute extends Attribute
   }
 }
 
-/*! \brief This class allow to handle easily a multi-valuated attribute with no duplicate values
- *
- */
-class SetAttribute extends ArrayAttribute
-{
-  /*! \brief The constructor of SetAttribute
-   *
-   *  \param Attribute $attribute The attribute you want to see multi-valuated
-   *  \param array $values The default values
-   */
-  function __construct ($attribute, $values = array())
-  {
-    parent::__construct($attribute, $values);
-  }
-
-  function addPostValue ($value)
-  {
-    if (empty($value)) {
-      return FALSE;
-    }
-    if (!in_array($value, $this->postValue)) {
-      $this->postValue[] = $value;
-      return TRUE;
-    }
-    return FALSE;
-  }
-}
-
 /*! \brief This class allow to handle easily a composite attribute
  *
  * That means this is only one attribute in the LDAP, but it is shown as several in the form.
@@ -1898,7 +1901,7 @@ class CompositeAttribute extends Attribute
    *  \param string $readFormat the preg_match format that's gonna be used in order to read values from LDAP
    *  \param string $writeFormat the printf format that's gonna be used in order to write values into LDAP
    *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
-   *  \param string $label The label to show for this attribute. Only useful if you put this attribute inside a Set or ArrayAttribute, or if you use a specific template that needs it.
+   *  \param string $label The label to show for this attribute. Only useful if you put this attribute inside a SetAttribute, or if you use a specific template that needs it.
    */
   function __construct ($description, $ldapName, $attributes, $readFormat, $writeFormat, $acl = "", $label = NULL)
   {
@@ -2320,8 +2323,11 @@ class OrderedArrayAttribute extends SetAttribute
 
   protected function htmlIds()
   {
-    $id = $this->getHtmlId();
-    $ids = array_merge(array('add'.$id), $this->attribute->htmlIds());
+    $id   = $this->getHtmlId();
+    $ids  = array('add'.$id);
+    if ($this->attribute !== FALSE) {
+      $ids  = array_merge($ids, $this->attribute->htmlIds());
+    }
     $nb_values = count($this->value);
     for ($i = 0; $i < $nb_values; ++$i) {
       if ($this->order) {
@@ -2424,6 +2430,11 @@ class SubNodesAttribute extends OrderedArrayAttribute
       unset($attribute);
       $dn = $this->compute_attribute_dn();
       $ldap->cd($dn);
+      foreach (array_keys($attrs) as $index) {
+        if (is_array($attrs[$index]) && (count($attrs[$index]) == 0)) {
+          unset($attrs[$index]);
+        }
+      }
       $ldap->add($attrs);
       if (!$ldap->success()) {
         msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_ADD, get_class()), LDAP_ERROR);

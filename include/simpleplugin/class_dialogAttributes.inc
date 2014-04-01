@@ -150,6 +150,17 @@ class DialogAttribute extends SetAttribute
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $acl = "")
   {
     Attribute::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
+    $this->attribute = FALSE;
+  }
+
+  function addPostValue ($value)
+  {
+    $this->addValue($value, NULL);
+  }
+
+  function delPostValue ($key)
+  {
+    $this->removeValue($key);
   }
 
   function addValue ($value, $attrs)
@@ -157,49 +168,27 @@ class DialogAttribute extends SetAttribute
     trigger_error("abstract method");
   }
 
-  function getFilterBlackList ()
-  {
-    trigger_error("abstract method");
-  }
-
-  function getDisplayValues ()
-  {
-    return $this->value;
-  }
-
-  function loadPostValue ()
-  {
-    if ($this->isVisible()) {
-      if (isset($_POST['add'.$this->getHtmlId().'_dialog'])) {
-        $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
-      } elseif (isset($_POST['del'.$this->getHtmlId()]) && isset($_POST['row'.$this->getHtmlId()])) {
-        foreach ($_POST['row'.$this->getHtmlId()] as $row) {
-          $this->removeValue($row);
-        }
-      }
-    }
-  }
-
   protected function removeValue ($row)
   {
     unset($this->value[$row]);
   }
 
+  function getFilterBlackList ()
+  {
+    trigger_error("abstract method");
+  }
+
+  function loadPostValue ()
+  {
+    parent::loadPostValue();
+    if ($this->isVisible()) {
+      if (isset($_POST['add'.$this->getHtmlId().'_dialog'])) {
+        $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
+      }
+    }
+  }
+
   function applyPostValue ()
-  {
-  }
-
-  function getAcl ()
-  {
-    return Attribute::getAcl();
-  }
-
-  function setAcl ($acl)
-  {
-    return Attribute::setAcl($acl);
-  }
-
-  function renderAttributeInput ($template = FALSE)
   {
   }
 
@@ -215,25 +204,10 @@ class DialogAttribute extends SetAttribute
     return $buttons;
   }
 
-  function renderAttribute(&$attributes, $readOnly)
-  {
-    Attribute::renderAttribute($attributes, $readOnly);
-  }
-
-  function check ()
-  {
-    return Attribute::check();
-  }
-
   protected function htmlIds()
   {
     $id = $this->getHtmlId();
     return array('add'.$id.'_dialog','del'.$id,'row'.$id);
-  }
-
-  function setParent(&$plugin)
-  {
-    Attribute::setParent($plugin);
   }
 }
 
@@ -245,43 +219,15 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
   {
     Attribute::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->edit_enabled = TRUE;
-  }
-
-  function getAcl ()
-  {
-    return Attribute::getAcl();
-  }
-
-  function setAcl ($acl)
-  {
-    return Attribute::setAcl($acl);
-  }
-
-  function check ()
-  {
-    return Attribute::check();
-  }
-
-  function renderAttributeInput ($template = FALSE)
-  {
-  }
-
-  function renderAttribute(&$attributes, $readOnly)
-  {
-    Attribute::renderAttribute($attributes, $readOnly);
-  }
-
-  function setParent(&$plugin)
-  {
-    Attribute::setParent($plugin);
+    $this->attribute    = FALSE;
   }
 
   function loadPostValue ()
   {
+    parent::loadPostValue();
     if ($this->isVisible()) {
-      parent::loadPostValue();
       parent::applyPostValue();
-      if (isset($_POST['add'.$this->getHtmlId()])) {
+      if (isset($_POST['add'.$this->getHtmlId().'_dialog'])) {
         $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
       }
     }
@@ -306,6 +252,21 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
   {
     $this->value[] = $value;
     $this->reIndexValues();
+  }
+
+  function renderButtons ()
+  {
+    $id = $this->getHtmlId();
+    $buttons  = '<input type="submit" name="add'.$id.'_dialog" id="add'.$id.'_dialog"'.
+                ($this->disabled? ' disabled="disabled"':'').
+                ' value="{msgPool type=addButton}"/>';
+    return $buttons;
+  }
+
+  protected function htmlIds()
+  {
+    $ids = parent::htmlIds();
+    $ids[0] .= '_dialog';
   }
 
   protected function getAttributeArrayValue($value)
@@ -519,23 +480,6 @@ class MailsAttribute extends DialogAttribute
     }
   }
 
-  function loadPostValue ()
-  {
-    parent::loadPostValue();
-    if ($this->isVisible()) {
-      if (isset($_POST['add'.$this->getHtmlId()])) {
-        $this->attribute->loadPostValue();
-        $this->attribute->applyPostValue();
-        $this->addValue($this->attribute->getValue(), NULL);
-      }
-    }
-  }
-
-  function renderAttributeInput ($template = FALSE)
-  {
-    return SetAttribute::renderAttributeInput($template);
-  }
-
   function renderButtons ()
   {
     $id = $this->getHtmlId();
@@ -549,11 +493,6 @@ class MailsAttribute extends DialogAttribute
                 ($this->disabled? ' disabled="disabled"':'').
                 ' value="{msgPool type=delButton}"/>';
     return $buttons;
-  }
-
-  function check ()
-  {
-    return SetAttribute::check();
   }
 
   protected function htmlIds()
