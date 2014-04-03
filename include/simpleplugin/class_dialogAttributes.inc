@@ -224,17 +224,13 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
 
   function loadPostValue ()
   {
-    parent::loadPostValue();
     if ($this->isVisible()) {
+      parent::loadPostValue();
       parent::applyPostValue();
       if (isset($_POST['add'.$this->getHtmlId().'_dialog'])) {
         $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
       }
     }
-  }
-
-  protected function handleAddAndEditValue ()
-  {
   }
 
   protected function handleEdit($key)

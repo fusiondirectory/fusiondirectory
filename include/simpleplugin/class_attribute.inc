@@ -795,6 +795,30 @@ class DisplayLDAPAttribute extends Attribute
   }
 }
 
+/*! \brief This class allow to display an attribute.
+ *
+ * It can be used to display an attribute value the user is never allowed to modify.
+ */
+class DisplayLDAPArrayAttribute extends Attribute
+{
+  protected function loadAttrValue ($attrs)
+  {
+    if (isset($attrs[$this->getLdapName()]['count'])) {
+      $this->value = array();
+      for ($i = 0; $i < $attrs[$this->getLdapName()]['count']; $i++) {
+        $this->value[] = $attrs[$this->getLdapName()][$i];
+      }
+    } else {
+      $this->resetToDefault();
+    }
+  }
+
+  function renderFormInput ()
+  {
+    return join(', ', $this->getValue());
+  }
+}
+
 /*! \brief This class allow to display a text in front of an attribute.
  *
  * For instance, it can be used to display a link.
@@ -2291,6 +2315,9 @@ class OrderedArrayAttribute extends SetAttribute
   protected function handleAddAndEditValue()
   {
     $id = $this->getHtmlId();
+    if ($this->attribute === FALSE) {
+      return;
+    }
     if (isset($_POST["add$id"])) {
       $this->attribute->loadPostValue();
       $this->attribute->applyPostValue();
