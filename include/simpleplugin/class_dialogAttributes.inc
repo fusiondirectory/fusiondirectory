@@ -270,16 +270,6 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
     /* Convert text value to displayable array value */
     die('Pure virtual method');
   }
-
-  function readValue($value)
-  {
-    die('Pure virtual method');
-  }
-
-  function writeValue($key, $value)
-  {
-    die('Pure virtual method');
-  }
 }
 
 class GenericDialogAttribute extends DialogAttribute
