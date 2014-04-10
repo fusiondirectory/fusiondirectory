@@ -2218,41 +2218,47 @@ class OrderedArrayAttribute extends SetAttribute
     $smarty = get_smarty();
     $div->SetHeight($this->height);
     foreach ($this->value as $key => $value) {
-      $img = '';
-
-      if ($this->order) {
-        if ($key != 0) {
-          $img .= '<input type="image" src="geticon.php?context=actions&icon=view-sort-descending&size=16" name="'.$id.'_up_'.$key.'" class="center" alt="'._('Sort up').'" title="'._('Sort up').'"/>&nbsp;';
-        } else {
-          $img .= '<img src="images/empty.png" alt="" style="width:10px;"/>';
-        }
-        if (($key + 1) < count($this->value)) {
-          $img .= '<input type="image" src="geticon.php?context=actions&icon=view-sort-ascending&size=16" name="'.$id.'_down_'.$key.'" class="center" alt="'._('Sort down').'" title="'._('Sort down').'"/>&nbsp;';
-        } else {
-          $img .= '<img src="images/empty.png" alt="" style="width:10px;"/>';
-        }
-      }
-      if ($this->edit_enabled) {
-        $img .= '<input type="image" src="geticon.php?context=actions&icon=document-edit&size=16" name="'.$id.'_edit_'.$key.'" class="center" alt="'._('Edit').'" title="'._('Edit').'"/>&nbsp;';
-      }
-      $img .= '<input type="image" src="geticon.php?context=actions&icon=edit-delete&size=16" name="'.$id.'_del_'.$key.'" class="center" alt="'._('Delete').'" title="'._('Delete').'"/>&nbsp;';
-
       $fields = array();
       foreach ($this->getAttributeArrayValue($value) as $field) {
         $fields[] = array("string" => $field);
       }
-      $width = 25;
-      if ($this->order) {
-        $width += 20;
-      }
-      if ($this->edit_enabled) {
-        $width += 15;
-      }
+
+      list ($img, $width) = $this->genRowIcons($key, $value);
+
       $fields[] = array("html" => $img, "attach" => 'style="border:0px;width:'.$width.'px;"');
       $div->AddEntry($fields);
     }
     $smarty->assign("div_$id", $div->DrawList());
     return '{$div_'.$id.'}'."\n";
+  }
+
+  protected function genRowIcons($key, $value)
+  {
+    $id = $this->getHtmlId();
+
+    $img = '';
+    $width = 25;
+
+    if ($this->order) {
+      $width += 20;
+      if ($key != 0) {
+        $img .= '<input type="image" src="geticon.php?context=actions&icon=view-sort-descending&size=16" name="'.$id.'_up_'.$key.'" class="center" alt="'._('Sort up').'" title="'._('Sort up').'"/>&nbsp;';
+      } else {
+        $img .= '<img src="images/empty.png" alt="" style="width:10px;"/>';
+      }
+      if (($key + 1) < count($this->value)) {
+        $img .= '<input type="image" src="geticon.php?context=actions&icon=view-sort-ascending&size=16" name="'.$id.'_down_'.$key.'" class="center" alt="'._('Sort down').'" title="'._('Sort down').'"/>&nbsp;';
+      } else {
+        $img .= '<img src="images/empty.png" alt="" style="width:10px;"/>';
+      }
+    }
+    if ($this->edit_enabled) {
+      $width += 15;
+      $img .= '<input type="image" src="geticon.php?context=actions&icon=document-edit&size=16" name="'.$id.'_edit_'.$key.'" class="center" alt="'._('Edit').'" title="'._('Edit').'"/>&nbsp;';
+    }
+    $img .= '<input type="image" src="geticon.php?context=actions&icon=edit-delete&size=16" name="'.$id.'_del_'.$key.'" class="center" alt="'._('Delete').'" title="'._('Delete').'"/>&nbsp;';
+
+    return array ($img, $width);
   }
 
   protected function getAttributeArrayValue($value)
