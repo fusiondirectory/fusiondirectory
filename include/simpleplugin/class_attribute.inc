@@ -982,6 +982,38 @@ class SelectAttribute extends Attribute
   }
 }
 
+/*! \brief This class allows to handle a select attribute which allow to choose an object
+ *
+ */
+class ObjectSelectAttribute extends SelectAttribute
+{
+  protected $objectType;
+  protected $objectAttrs  = NULL;
+  protected $objectFilter = '';
+
+  function __construct ($label, $description, $ldapName, $required, $objectType, $objectAttrs = NULL, $objectFilter = '', $acl = "")
+  {
+    parent::__construct($label, $description, $ldapName, $required, array(), "", NULL, $acl);
+    $this->objectType   = $objectType;
+    $this->objectAttrs  = $objectAttrs;
+    $this->objectFilter = $objectFilter;
+  }
+
+  function setParent (&$plugin)
+  {
+    parent::setParent($plugin);
+    if (is_object($this->plugin)) {
+      $this->updateChoices();
+    }
+  }
+
+  function updateChoices()
+  {
+    $objects = objects::ls($this->objectType, $this->objectAttrs, NULL, $this->objectFilter);
+    $this->setChoices(array_keys($objects), array_values($objects));
+  }
+}
+
 /*! \brief This class allow to handle easily an Integer LDAP attribute
  *
  */
