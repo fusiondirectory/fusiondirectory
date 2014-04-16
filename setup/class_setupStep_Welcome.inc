@@ -30,7 +30,7 @@ class Step_Welcome  extends setup_step
   {
     $this->is_enabled     = TRUE;
     $this->is_active      = TRUE;
-    $this->authPath       = CACHE_DIR.'/fusiondirectory.auth';
+    $this->authPath       = CACHE_DIR.'fusiondirectory.auth';
     $this->update_strings();
   }
 
