@@ -286,6 +286,12 @@ class aclAssignment extends simplePlugin
     );
   }
 
+  function __construct (&$config, $dn = NULL, $object = NULL, $attributesInfo = NULL)
+  {
+    parent::__construct ($config, $dn, $object);
+    $this->attributesInfo['main']['name'] = sprintf(_('Assignments on object or subtree %s'), $this->dn);
+  }
+
   function compute_dn()
   {
     return $this->dn;
