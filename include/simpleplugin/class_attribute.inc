@@ -611,17 +611,15 @@ class BooleanAttribute extends Attribute
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $display  = '<input type="checkbox" name="'.$id.'" id="'.$id.'" '.
-                ($this->disabled? 'disabled="disabled"':'').
-                ($this->value?    'checked="checked"':'');
+    $attributes = ($this->value?array('checked' => 'checked'): array());
     if ($this->submitForm) {
       $js       = 'document.mainform.submit();';
-      $display  .= 'onChange="javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8').'"';
+      $attributes['onChange'] = 'javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8');
     } elseif (!empty($this->managedAttributes)) {
       $js       = $this->managedAttributesJS();
-      $display  .= 'onClick="javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8').'"';
+      $attributes['onChange'] = 'javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8');
     }
-    $display .= '/>';
+    $display  = $this->renderInputField('checkbox', $id, $attributes);
     return $this->renderAcl($display);
   }
 
@@ -730,12 +728,14 @@ class StringAttribute extends Attribute
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $display  = '<input type="text" name="'.$id.'" id="'.$id.'" value="{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}"';
+    $attributes = array(
+      'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+    );
     if (!empty($this->managedAttributes)) {
       $js       = $this->managedAttributesJS();
-      $display  .= ' onChange="javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8').'"';
+      $attributes['onChange'] = 'javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8');
     }
-    $display .= ($this->disabled? ' disabled="disabled"':'').'/>';
+    $display  = $this->renderInputField('text', $id, $attributes);
     return $this->renderAcl($display);
   }
 
@@ -867,8 +867,12 @@ class PasswordAttribute extends StringAttribute
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $display  = '<input type="password" name="'.$id.'" id="'.$id.'" value="{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}" '.
-                ($this->disabled? 'disabled="disabled"':'').'/>';
+    $display  = $this->renderInputField(
+      'password', $id,
+      array(
+        'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+      )
+    );
     return $this->renderAcl($display);
   }
 
@@ -1127,24 +1131,35 @@ class IntAttribute extends Attribute
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $display = '<input type="number" name="'.$id.'" id="'.$id.'" value="{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}"'.
-      ($this->min !== FALSE?' min="'.$this->min.'"':'').
-      ($this->max !== FALSE?' max="'.$this->max.'"':'').
-      ($this->disabled? 'disabled="disabled"':'').
-      ($this->step !== FALSE?' step="'.$this->step.'"':'');
+    $attributes = array(
+      'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+    );
+    if ($this->min !== FALSE) {
+      $attributes['min'] = $this->min;
+    }
+    if ($this->max !== FALSE) {
+      $attributes['max'] = $this->max;
+    }
+    if ($this->step !== FALSE) {
+      $attributes['step'] = $this->step;
+    }
     if (!empty($this->managedAttributes)) {
       $js       = $this->managedAttributesJS();
-      $display  .= ' onChange="javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8').'"';
+      $attributes['onChange'] = 'javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8');
     }
-    $display .= '/>';
+    $display = $this->renderInputField('number', $id, $attributes);
     return $this->renderAcl($display);
   }
 
   function renderTemplateInput ()
   {
     $id = $this->getHtmlId();
-    $display  = '<input type="text" name="'.$id.'" id="'.$id.'" value="{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}" '.
-                ($this->disabled? 'disabled="disabled"':'').'/>';
+    $display = $this->renderInputField(
+      'text', $id,
+      array(
+        'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+      )
+    );
     return $this->renderAcl($display);
   }
 }
@@ -1299,8 +1314,13 @@ class DateAttribute extends Attribute
     $smarty = get_smarty();
     $smarty->assign('usePrototype', 'true');
     $id = $this->getHtmlId();
-    $display  = '<input type="text" class="date" name="'.$id.'" id="'.$id.'" value="{literal}'.$this->getValue().'{/literal}" '.
-                ($this->disabled? 'disabled="disabled"':'').'/>';
+    $display = $this->renderInputField(
+      'text', $id,
+      array(
+        'value' => '{literal}'.$this->getValue().'{/literal}',
+        'class' => 'date'
+      )
+    );
     $display  .= '{if $'.$this->getAcl().'ACL|regex_replace:"/[cdmr]/":"" == "w"}'.
         '<script type="text/javascript">
           {literal}
@@ -1355,8 +1375,7 @@ class FileAttribute extends Attribute
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $display  = '<input type="file" name="'.$id.'" id="'.$id.'" '.
-                ($this->disabled? 'disabled="disabled"':'').'/>';
+    $display = $this->renderInputField('file', $id);
     return $this->renderAcl($display);
   }
 
@@ -1404,14 +1423,17 @@ class FileTextAreaAttribute extends FileAttribute
     $display  = '<textarea name="'.$id.'_text" id="'.$id.'_text"'.
                 ($this->disabled? 'disabled="disabled"':'').'>'.
                 '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea>';
-    $display  .= '<input type="file" name="'.$id.'" id="'.$id.'" '.
-                ($this->disabled? 'disabled="disabled"':'').'/>';
-    $display  .= '<input type="submit" name="upload'.$id.'" id="upload'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="'._('Upload').'"/>';
-    $display  .= '<input type="image" name="download'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' src="geticon.php?context=actions&icon=document-save&size=16" title="'._('Download').'" alt="'._('Download').'" class="center"/>';
+    $display  .= $this->renderInputField('file', $id);
+    $display  .= $this->renderInputField('submit', 'upload'.$id, array('value' => _('Upload')));
+    $display  .= $this->renderInputField(
+      'image', 'download'.$id,
+      array(
+        'title' => _('Download'),
+        'alt'   => _('Download'),
+        'class' => 'center',
+        'src'   => 'geticon.php?context=actions&icon=document-save&size=16',
+      )
+    );
     return $this->renderAcl($display);
   }
 
@@ -1508,12 +1530,8 @@ class ImageAttribute extends FileAttribute
                 ' style="border:1px solid black;"'.
                 ' title="'.$this->getDescription().'"'
                 .' /><br/>';
-    $display  .= '<input type="file" name="'.$id.'" id="'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                '/>';
-    $display  .= '<input type="submit" name="upload'.$id.'" id="upload'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="'._('Upload').'"/>';
+    $display  .= $this->renderInputField('file', $id);
+    $display  .= $this->renderInputField('submit', 'upload'.$id, array('value' => _('Upload')));
     if (($this->getValue() == '') && ($this->placeholder != '')) {
       session::set('binary', $this->placeholder);
     } else {
@@ -1650,8 +1668,12 @@ class BaseSelectorAttribute extends Attribute
     $smarty = get_smarty();
     $smarty->assign('usePrototype', 'true');
     if ($this->disabled) {
-      $display = '<input type="text" value="{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}" '.
-                  'disabled="disabled"/>';
+      $display = $this->renderInputField(
+        'text', '',
+        array(
+          'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+        )
+      );
     } else {
       $display = '{literal}'.$this->baseSelector->render().'{/literal}';
     }
@@ -1879,12 +1901,8 @@ class SetAttribute extends Attribute
   function renderButtons ()
   {
     $id = $this->getHtmlId();
-    $buttons  = '<input type="submit" name="add'.$id.'" id="add'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="{msgPool type=addButton}"/>';
-    $buttons .= '<input type="submit" name="del'.$id.'" id="del'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="{msgPool type=delButton}"/>';
+    $buttons  = $this->renderInputField('submit', 'add'.$id, array('value' => '{msgPool type=addButton}'));
+    $buttons .= $this->renderInputField('submit', 'del'.$id, array('value' => '{msgPool type=delButton}'));
     return $buttons;
   }
 
@@ -2286,21 +2304,53 @@ class OrderedArrayAttribute extends SetAttribute
     if ($this->order) {
       $width += 20;
       if ($key != 0) {
-        $img .= '<input type="image" src="geticon.php?context=actions&icon=view-sort-descending&size=16" name="'.$id.'_up_'.$key.'" class="center" alt="'._('Sort up').'" title="'._('Sort up').'"/>&nbsp;';
+        $img .= $this->renderInputField(
+          'image', $id.'_up_'.$key,
+          array(
+            'src'   => 'geticon.php?context=actions&icon=view-sort-descending&size=16',
+            'title' => _('Sort up'),
+            'alt'   => _('Sort up'),
+            'class' => 'center'
+          )
+        ).'&nbsp;';
       } else {
         $img .= '<img src="images/empty.png" alt="" style="width:10px;"/>';
       }
       if (($key + 1) < count($this->value)) {
-        $img .= '<input type="image" src="geticon.php?context=actions&icon=view-sort-ascending&size=16" name="'.$id.'_down_'.$key.'" class="center" alt="'._('Sort down').'" title="'._('Sort down').'"/>&nbsp;';
+        $img .= $this->renderInputField(
+          'image', $id.'_down_'.$key,
+          array(
+            'src'   => 'geticon.php?context=actions&icon=view-sort-ascending&size=16',
+            'title' => _('Sort down'),
+            'alt'   => _('Sort down'),
+            'class' => 'center'
+          )
+        ).'&nbsp;';
       } else {
         $img .= '<img src="images/empty.png" alt="" style="width:10px;"/>';
       }
     }
     if ($this->edit_enabled) {
       $width += 15;
-      $img .= '<input type="image" src="geticon.php?context=actions&icon=document-edit&size=16" name="'.$id.'_edit_'.$key.'" class="center" alt="'._('Edit').'" title="'._('Edit').'"/>&nbsp;';
+      $img .= $this->renderInputField(
+        'image', $id.'_edit_'.$key,
+        array(
+          'src'   => 'geticon.php?context=actions&icon=document-edit&size=16',
+          'title' => _('Edit'),
+          'alt'   => _('Edit'),
+          'class' => 'center'
+        )
+      ).'&nbsp;';
     }
-    $img .= '<input type="image" src="geticon.php?context=actions&icon=edit-delete&size=16" name="'.$id.'_del_'.$key.'" class="center" alt="'._('Delete').'" title="'._('Delete').'"/>&nbsp;';
+    $img .= $this->renderInputField(
+      'image', $id.'_del_'.$key,
+      array(
+        'src'   => 'geticon.php?context=actions&icon=edit-delete&size=16',
+        'title' => _('Delete'),
+        'alt'   => _('Delete'),
+        'class' => 'center'
+      )
+    ).'&nbsp;';
 
     return array ($img, $width);
   }
@@ -2423,9 +2473,7 @@ class OrderedArrayAttribute extends SetAttribute
   function renderButtons ()
   {
     $id = $this->getHtmlId();
-    $buttons  = '<input type="submit" name="add'.$id.'" id="add'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="{msgPool type=addButton}"/>';
+    $buttons = $this->renderInputField('submit', 'add'.$id, array('value' => '{msgPool type=addButton}'));
     return $buttons;
   }
 }

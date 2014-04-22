@@ -195,12 +195,14 @@ class DialogAttribute extends SetAttribute
   function renderButtons ()
   {
     $id = $this->getHtmlId();
-    $buttons  = '<input type="submit" name="add'.$id.'_dialog" id="add'.$id.'_dialog"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="{msgPool type=addButton}"/>';
-    $buttons .= '<input type="submit" name="del'.$id.'" id="del'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="{msgPool type=delButton}"/>';
+    $buttons  = $this->renderInputField(
+      'submit', 'add'.$id.'_dialog',
+      array('value' => '{msgPool type=addButton}')
+    );
+    $buttons  .= $this->renderInputField(
+      'submit', 'del'.$id,
+      array('value' => '{msgPool type=delButton}')
+    );
     return $buttons;
   }
 
@@ -254,8 +256,7 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
   {
     $id = $this->getHtmlId();
     return $this->renderInputField(
-      'submit',
-      'add'.$id.'_dialog',
+      'submit', 'add'.$id.'_dialog',
       array('value' => '{msgPool type=addButton}')
     );
   }
@@ -470,15 +471,18 @@ class MailsAttribute extends DialogAttribute
   function renderButtons ()
   {
     $id = $this->getHtmlId();
-    $buttons  = '<input type="submit" name="add'.$id.'" id="add'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="{msgPool type=addButton}"/>';
-    $buttons  .= '<input type="submit" name="add'.$id.'_dialog" id="add'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="{msgPool type=addButton} (from list)"/>';
-    $buttons .= '<input type="submit" name="del'.$id.'" id="del'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="{msgPool type=delButton}"/>';
+    $buttons  = $this->renderInputField(
+      'submit', 'add'.$id,
+      array('value' => '{msgPool type=addButton}')
+    );
+    $buttons  .= $this->renderInputField(
+      'submit', 'add'.$id.'_dialog',
+      array('value' => '{msgPool type=addButton} (from list)')
+    );
+    $buttons  .= $this->renderInputField(
+      'submit', 'del'.$id,
+      array('value' => '{msgPool type=delButton}')
+    );
     return $buttons;
   }
 
@@ -520,8 +524,10 @@ class ButtonAttribute extends Attribute
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $display  = '<input type="submit" name="'.$id.'" id="'.$id.'" value="{literal}'.$this->buttonText.'{/literal}" '.
-                ($this->disabled? 'disabled="disabled"':'').'/>';
+    $display = $this->renderInputField(
+      'submit', $id,
+      array('value' => '{literal}'.$this->buttonText.'{/literal}')
+    );
     return $this->renderAcl($display);
   }
 
@@ -574,13 +580,25 @@ class UserAttribute extends DialogButtonAttribute
     } else {
       $display  .= '<a>'.$this->buttonText.'</a>';
     }
-    $display .= '<input class="center" type="image" src="geticon.php?context=actions&icon=document-edit&size=16" '.
-                  'alt="'._('Edit').'" title="'._('Edit').'" name="'.$id.'" id="'.$id.'" '.
-                  ($this->disabled? 'disabled="disabled"':'').'/>';
+    $display .= $this->renderInputField(
+      'image', $id,
+      array(
+        'class' => 'center',
+        'src'   => 'geticon.php?context=actions&icon=document-edit&size=16',
+        'title' => _('Edit'),
+        'alt'   => _('Edit')
+      )
+    );
     if (!$this->isRequired()) {
-      $display .= '<input class="center" type="image" src="geticon.php?context=actions&icon=edit-delete&size=16" '.
-                    'alt="'._('Remove').'" title="'._('Remove').'" name="'.$id.'_remove" id="'.$id.'_remove" '.
-                    ($this->disabled? 'disabled="disabled"':'').'/>';
+      $display .= $this->renderInputField(
+        'image', $id.'_remove',
+        array(
+          'class' => 'center',
+          'src'   => 'geticon.php?context=actions&icon=edit-delete&size=16',
+          'title' => _('Remove'),
+          'alt'   => _('Remove')
+        )
+      );
     }
     return $this->renderAcl($display);
   }
