@@ -112,9 +112,13 @@ class Step_Migrate extends setup_step
   /* One valid admin dn */
   var $valid_admin = FALSE;
 
+  /* Defaults ACL roles */
+  var $defaultRoles;
+
   function __construct()
   {
     $this->update_strings();
+    $this->fill_defaultRoles();
   }
 
   function update_strings()
@@ -122,6 +126,30 @@ class Step_Migrate extends setup_step
     $this->s_title      = _("LDAP inspection");
     $this->s_title_long = _("LDAP inspection");
     $this->s_info       = _("Analyze your current LDAP for FusionDirectory compatibility");
+  }
+
+  function fill_defaultRoles()
+  {
+    $this->defaultRoles = array(
+      array(
+        'cn'              => 'manager',
+        'description'     => _('Give all rights on users in the given branch'),
+        'objectclass'     => array('top', 'gosaRole'),
+        'gosaAclTemplate' => '0:user/password;cmdrw,user/user;cmdrw,user/posixAccount;cmdrw'
+      ),
+      array(
+        'cn'              => 'editowninfos',
+        'description'     => _('Allow users to edit their own information (main tab and posix − use only on base)'),
+        'objectclass'     => array('top', 'gosaRole'),
+        'gosaAclTemplate' => '0:user/posixAccount;srw,user/user;srw'
+      ),
+      array(
+        'cn'              => 'editowninfos',
+        'description'     => _('Allow users to edit their own password (use only on base)'),
+        'objectclass'     => array('top', 'gosaRole'),
+        'gosaAclTemplate' => '0:user/password;srw'
+      ),
+    );
   }
 
   function initialize_checks()
@@ -162,6 +190,12 @@ class Step_Migrate extends setup_step
     $this->checks['acls']['STATUS_MSG'] = "";
     $this->checks['acls']['ERROR_MSG']  = "";
     $this->check_administrativeAccount();
+
+    $this->checks['default_acls']['TITLE']      = _("Checking for default ACL roles and groupes");
+    $this->checks['default_acls']['STATUS']     = FALSE;
+    $this->checks['default_acls']['STATUS_MSG'] = "";
+    $this->checks['default_acls']['ERROR_MSG']  = "";
+    $this->check_defaultACLs();
 
     $this->checks['outside_users']['TITLE']       = _("Checking for users outside the people tree");
     $this->checks['outside_users']['STATUS']      = FALSE;
@@ -944,7 +978,74 @@ class Step_Migrate extends setup_step
     return $FD_1_0_8_found;
   }
 
+  /* Check if default roles and groupes have been inserted */
+  function check_defaultACLs()
+  {
+    /* Establish ldap connection */
+    $cv   = $this->parent->captured_values;
+    $ldap = $this->get_ldap_link();
+    $ldap->cd($cv['base']);
+    $res = $ldap->cat($cv['base']);
 
+    if (!$res) {
+      $this->checks['default_acls']['STATUS']     = FALSE;
+      $this->checks['default_acls']['STATUS_MSG'] = _("LDAP query failed");
+      $this->checks['default_acls']['ERROR_MSG']  = _("Possibly the 'root object' is missing.");
+      return FALSE;
+    }
+
+    $existings = 0;
+    foreach ($this->defaultRoles as $role) {
+      $dn = 'cn='.$role['cn'].','.$cv['aclroleou'].",".$cv['base'];
+      $ldap->cat($dn, array('dn'));
+      if ($ldap->count() > 0) {
+        $existings++;
+      }
+    }
+    $this->checks['default_acls']['STATUS'] = ($existings == count($this->defaultRoles));
+    if ($existings == 0) {
+      $this->checks['default_acls']['STATUS_MSG'] = _('Default ACL roles have not been inserted');
+    } elseif ($existings < count($this->defaultRoles)) {
+      $this->checks['default_acls']['STATUS_MSG'] = _('Some default ACL roles are missing');
+    } else {
+      $this->checks['default_acls']['STATUS_MSG'] = _('Default ACL roles have been inserted');
+    }
+    if ($this->checks['default_acls']['STATUS'] === FALSE) {
+      $this->checks['default_acls']['ERROR_MSG'] = '&nbsp;<input type="submit"
+          name="root_add_defaultroles" value="'._('Migrate').'"/>';
+    } else {
+      $this->checks['default_acls']['ERROR_MSG'] = '';
+    }
+  }
+
+  function insert_defaultRoles()
+  {
+    /* Establish ldap connection */
+    $cv   = $this->parent->captured_values;
+    $ldap = $this->get_ldap_link();
+    $ldap->cd($cv['base']);
+
+    foreach ($this->defaultRoles as $role) {
+      $dn = 'cn='.$role['cn'].','.$cv['aclroleou'].",".$cv['base'];
+      $ldap->cat($dn);
+      if ($ldap->count() == 0) {
+        $ldap->cd($dn);
+        $ldap->add($role);
+        if (!$ldap->success()) {
+          msg_dialog::display(
+            _("Migration error"),
+            sprintf(
+              _("Cannot add ACL role '%s':")."<br/><br/><i>%s</i>",
+              LDAP::fix($roledn), $ldap->get_error()
+            ),
+            ERROR_DIALOG
+          );
+          return FALSE;
+        }
+      }
+    }
+    return TRUE;
+  }
 
   function create_admin($only_ldif = FALSE)
   {
@@ -968,6 +1069,7 @@ class Step_Migrate extends setup_step
         $ldap->cd($roledn);
         $attrs_role = array(
           'cn'              => 'admin',
+          'description'     => _('Give all rights on all objects'),
           'objectclass'     => array( 'top', 'gosaRole' ),
           'gosaAclTemplate' => '0:all;cmdrw'
         );
@@ -1372,6 +1474,11 @@ class Step_Migrate extends setup_step
         $this->dialog       = FALSE;
         $this->show_details = FALSE;
       }
+    }
+
+    if (isset($_POST['root_add_defaultroles'])) {
+      $this->insert_defaultRoles();
+      $this->check_defaultACLs();
     }
 
     /* Add admin acls for the selected users to the ldap base */
