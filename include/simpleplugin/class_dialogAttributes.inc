@@ -253,10 +253,11 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
   function renderButtons ()
   {
     $id = $this->getHtmlId();
-    $buttons  = '<input type="submit" name="add'.$id.'_dialog" id="add'.$id.'_dialog"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="{msgPool type=addButton}"/>';
-    return $buttons;
+    return $this->renderInputField(
+      'submit',
+      'add'.$id.'_dialog',
+      array('value' => '{msgPool type=addButton}')
+    );
   }
 
   protected function htmlIds()

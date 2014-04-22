@@ -551,6 +551,18 @@ class Attribute
   {
     return ($this->getValue() == $value);
   }
+
+  protected function renderInputField($type, $name, $attributes = array())
+  {
+    $input  = '<input type="'.$type.'" '.
+              'name="'.$name.'" id="'.$name.'"'.
+              ($this->disabled? ' disabled="disabled"':'');
+    foreach ($attributes as $label => $value) {
+      $input .= $label.'="'.$value.'" ';
+    }
+    $input .= '/>';
+    return $input;
+  }
 }
 
 /*! \brief This class allow to handle easily a Boolean LDAP attribute
