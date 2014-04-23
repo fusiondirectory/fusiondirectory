@@ -90,6 +90,16 @@ class listingSortIterator implements Iterator {
           $b= (int)sprintf("%04d%02d%02d", $y, $m, $d);
           return $b-$a;
 
+        case 'ip':
+          $parts_a = explode('.', $a, 4);
+          $parts_b = explode('.', $b, 4);
+          for ($i = 0; $i < 4; $i++) {
+            if ((int)($parts_a[$i]) != (int)($parts_b[$i])) {
+              return (int)($parts_a[$i]) - (int)($parts_b[$i]);
+            }
+          }
+          return 0;
+
         // Sort for string by default
         default:
           return strcoll($a, $b);
