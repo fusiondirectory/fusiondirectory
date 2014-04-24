@@ -21,7 +21,7 @@
 
 class groupManagement extends simpleManagement
 {
-  protected $objectTypes  = array('group');
+  protected $objectTypes  = array('group', 'role');
 
   protected $departmentBrowser      = TRUE;
   protected $departmentRootVisible  = FALSE;
@@ -35,9 +35,9 @@ class groupManagement extends simpleManagement
     return array(
       'plShortName'   => _('Groups'),
       'plDescription' => _('Manage groups'),
-      'plIcon'        => '/fusiondirectory/geticon.php?context=types&icon=user-group&size=48',
+      'plIcon'        => 'geticon.php?context=types&icon=user-group&size=48',
       'plSection'     => 'admin',
-      'plManages'     => array('group'),
+      'plManages'     => array('group', 'role'),
       'plPriority'    => 2,
 
       'plProvidedAcls' => array()
@@ -50,7 +50,7 @@ class groupManagement extends simpleManagement
     $this->listXMLPath    = get_template_path('group-list.xml', TRUE, dirname(__FILE__));
 
     parent::__construct($config, $ui);
-    $this->headpage->registerElementFilter("filterProperties", "groupManagement::filterProperties");
+    $this->headpage->registerElementFilter('filterProperties', 'groupManagement::filterProperties');
   }
 
   static function filterProperties($row, $dn)
@@ -74,9 +74,12 @@ class groupManagement extends simpleManagement
     $ldap = $config->get_ldap_link();
     $ldap->cat($dn);
     $result = "<input class='center' type='image' src='geticon.php?context=types&icon=user-group&size=16' ".
-                       "alt='"._('Posix')."' title='"._("Edit posix properties")."' ".
+                       "alt='"._('Posix')."' title='"._('Edit posix properties')."' ".
                        "name='listing_edit_tab_group_$row' style='padding:1px'/>";
     if ($attrs = $ldap->fetch()) {
+      if (!objects::isOfType($attrs, 'group')) {
+        return '';
+      }
       foreach ($grouptabs as $class => $grouptab) {
         if ($grouptab->is_this_account($attrs)) {
           $infos = pluglist::pluginInfos($class);
@@ -85,7 +88,7 @@ class groupManagement extends simpleManagement
                        "alt='".$infos['plShortName']."' title='".$infos['plShortName']."' ".
                        "name='listing_edit_tab_".$class."_$row' style='padding:1px'/>";
           } else {
-            @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['plShortName']." ($class)", "No icon for");
+            @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['plShortName']." ($class)", 'No icon for');
           }
         } else {
           $result .= "<img src='images/empty.png' alt=' ' class='center optional $class' style='padding:1px'>";
@@ -94,6 +97,19 @@ class groupManagement extends simpleManagement
     }
 
     return $result;
+  }
+
+  function renderList()
+  {
+    $smarty = get_smarty();
+    $filters = array(
+      array('id'  => 'PRIMARY', 'label'  => _('Show primary groups')),
+      array('id'  => 'SAMBA',   'label'  => _('Show samba groups')),
+      array('id'  => 'MAIL',    'label'  => _('Show mail groups')),
+      array('id'  => 'ROLE',    'label'  => _('Show organizational roles')),
+    );
+    $smarty->assign('objectFilters', $filters);
+    return management::renderList();
   }
 }
 ?>

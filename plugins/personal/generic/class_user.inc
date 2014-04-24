@@ -709,21 +709,6 @@ class user extends plugin
 
     new log("remove","user/".get_class($this),$this->dn,$this->attributes,$ldap->get_error());
 
-    if (class_available('roleGeneric')) {
-      /* Delete references to roles */
-      $ldap->cd ($this->config->current['BASE']);
-      $ldap->search ("(&(objectClass=organizationalRole)(roleOccupant=".LDAP::prepare4filter($this->dn)."))", array("cn"));
-      while ($ldap->fetch()) {
-        $role = new roleGeneric($this->config, $ldap->getDN());
-        $key  = array_search($this->dn,$role->roleOccupant);
-        if ($key !== FALSE) {
-          unset($role->roleOccupant[$key]);
-          $role->roleOccupant = array_values($role->roleOccupant);
-          $role->save ();
-        }
-      }
-    }
-
     /* If needed, let the password method do some cleanup */
     $tmp = new passwordMethod($this->config);
     $available = $tmp->get_available_methods();
