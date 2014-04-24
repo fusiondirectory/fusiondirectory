@@ -1173,21 +1173,6 @@ class plugin
       $this->update_acls($old_dn, $new_dn);
     }
 
-    if (class_available('roleGeneric')) {
-      /* Update roles to use the new entry dn */
-      $roles = get_sub_list("(&(objectClass=organizationalRole)(roleOccupant=".LDAP::prepare4filter(LDAP::fix($src_dn))."))", "roles", array(get_ou("roleRDN")), $this->config->current['BASE'], array("dn"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
-
-      // Walk through all roles
-      foreach ($roles as $role) {
-        $role = new roleGeneric($this->config, $role['dn']);
-        $key  = array_search($src_dn, $role->roleOccupant);
-        if ($key !== FALSE) {
-          $role->roleOccupant[$key] = $dst_dn;
-          $role->save();
-        }
-      }
-    }
-
     /* Check if there are gosa departments moved.
        If there were deps moved, the force reload of config->deps.
      */
