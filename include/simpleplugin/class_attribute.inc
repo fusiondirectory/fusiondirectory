@@ -33,12 +33,18 @@ class Attribute
   private $required;
   /* \brief Should this attribute be saved into the LDAP */
   private $inLdap = TRUE;
-  /* \brief Should this attribute be saved into the LDAP */
+  /* \brief Should this attribute be unique
+   * FALSE  -> no unicity check
+   * one    -> unicity check in the same base (the default)
+   * sub    -> unicity check in the same subtree
+   *  \__> this should not be used as it’s breaking reciprocity
+   * whole  -> unicity check in the whole LDAP
+   */
   private $unique = FALSE;
 
   /* \brief Prefix for the html id */
   protected $htmlid_prefix = '';
-  /* \brief Should this attribute be saved into the LDAP */
+  /* \brief Should this attribute be shown */
   protected $visible = TRUE;
   /* \brief Name of the ACL to use, empty if we need our own */
   protected $acl;
@@ -115,7 +121,11 @@ class Attribute
 
   function setUnique ($unique)
   {
-    $this->unique = $unique;
+    if ($unique === TRUE) {
+      $this->unique = 'one';
+    } else {
+      $this->unique = $unique;
+    }
   }
 
   function isInLdap ()
@@ -398,24 +408,32 @@ class Attribute
     $value = $this->getValue();
     if ($this->isRequired() && !$this->disabled && (($value === "") || ($value === array()))) {
       return msgPool::required($this->getLabel());
-    } elseif ($this->unique && !$this->disabled) {
+    } elseif (($this->unique !== FALSE) && !$this->disabled) {
       $value = $this->computeLdapValue();
       if (($value === "") || ($value === array())) {
         return;
       }
       $ldap = $this->plugin->config->get_ldap_link();
-      if (isset($this->plugin->base) && !empty($this->plugin->base)) {
-        $base = $this->plugin->base;
+      if ($this->unique === "whole") {
+        $ldap->cd($this->plugin->config->current['BASE']);
       } else {
-        $base = dn2base($this->plugin->dn);
+        if (isset($this->plugin->base) && !empty($this->plugin->base)) {
+          $base = $this->plugin->base;
+        } else {
+          $base = dn2base($this->plugin->dn);
+        }
+        $ldap->cd($base);
       }
-      $ldap->cd($base);
       $filter = "(".$this->getLdapName()."=".$value.")";
       $pluginFilter = $this->plugin->getObjectClassFilter();
       if (!empty($pluginFilter)) {
         $filter = "(&$pluginFilter$filter)";
       }
-      $ldap->search($filter, array($this->getLdapName()));
+      if ($this->unique === "one") {
+        $ldap->ls($filter, '', array($this->getLdapName()));
+      } else {
+        $ldap->search($filter, array($this->getLdapName()));
+      }
       while ($attrs = $ldap->fetch()) {
         if ($attrs['dn'] != $this->plugin->dn) {
           return msgPool::duplicated($this->getLabel());
