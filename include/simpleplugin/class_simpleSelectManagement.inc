@@ -72,7 +72,8 @@ class simpleSelectManagement extends simpleManagement
     $pid    = func_get_arg(0);
     $row    = func_get_arg(1);
     $dn     = func_get_arg(2);
-    $trans  = func_get_arg(3)[0];
+    $trans  = func_get_arg(3);
+    $trans  = $trans[0];
     if ($trans != "") {
       return "<a href='?plug=".$_GET['plug']."&amp;PID=$pid&amp;act=listing_select_$row&amp;add_finish=1' title='$dn'>$trans</a>";
     }
