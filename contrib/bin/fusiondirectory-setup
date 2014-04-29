@@ -36,6 +36,7 @@ my %vars = (
  fd_config_dir    => "/etc/fusiondirectory",
  fd_smarty_dir    => "/usr/share/php/smarty3/Smarty.class.php",
  fd_spool_dir     => "/var/spool/fusiondirectory",
+ ldap_conf        => "/etc/ldap/ldap.conf",
  config_file      => "fusiondirectory.conf",
  secrets_file     => "fusiondirectory.secrets",
  locale_dir       => "locale",
@@ -658,12 +659,12 @@ sub add_ldap_admin {
 
 # function that initiate the ldap connexion, and bind as the ldap's admin
 sub get_ldap_connexion {
-
   my %hash_result = ();
   my $bind_dn = "";
   my $bind_pwd = "";
   my $uri = "";
   my $base = "";
+  my $tls = 0;
 
   # read ldap's server's info from /etc/fusiondirectory/fusiondirectory.conf
   if (-e $fd_config) {
@@ -674,10 +675,14 @@ sub get_ldap_connexion {
     foreach my $loc (@locs) {
       my $ref = $loc->first_child('referral');
       $locations{$loc->{'att'}->{'name'}} = {
+        'tls'       => 0,
         'uri'       => $ref->{'att'}->{'URI'},
         'bind_dn'   => $ref->{'att'}->{'adminDn'},
         'bind_pwd'  => $ref->{'att'}->{'adminPassword'}
       };
+      if (defined $loc->{'att'}->{'ldapTLS'} and $loc->{'att'}->{'ldapTLS'} =~ m/true/i) {
+        $locations{$loc->{'att'}->{'name'}}->{'tls'} = 1
+      }
     }
 
     my ($location) = keys(%locations);
@@ -698,6 +703,7 @@ sub get_ldap_connexion {
     }
     $bind_dn  = $locations{$location}->{'bind_dn'};
     $bind_pwd = $locations{$location}->{'bind_pwd'};
+    $tls      = $locations{$location}->{'tls'};
 
   # if can't find fusiondirectory.conf
   } else {
@@ -733,6 +739,35 @@ sub get_ldap_connexion {
     close(SECRETS);
     $bind_pwd = cred_decrypt($bind_pwd, $key);
   }
+
+  if ($tls) {
+    # Read LDAP config file
+    open (LDAPCONF,$vars{ldap_conf}) or die ("! Failed to open ldap config file '$vars{ldap_conf}': $!\n");
+
+    my %tls_options = (
+      'REQCERT'   => 'require',
+      'CERT'      => '',
+      'KEY'       => '',
+      'CACERTDIR' => ''
+    );
+    # Scan LDAP config
+    while (<LDAPCONF>) {
+      /^\s*(#|$)/ && next;
+      chomp;
+      if (m/^TLS_(REQCERT|CERT|KEY|CACERTDIR)\s+(.*)\s*$/) {
+        $tls_options{$1} = $2;
+      }
+    }
+    close(LDAPCONF);
+
+    $ldap->start_tls(
+      verify      => $tls_options{'REQCERT'},
+      clientcert  => $tls_options{'CERT'},
+      clientkey   => $tls_options{'KEY'},
+      capath      => $tls_options{'CACERTDIR'}
+    );
+  }
+
   my $bind = $ldap->bind ($bind_dn, password => $bind_pwd);
 
   # send a warning if the bind didn't gone well
