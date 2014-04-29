@@ -3,7 +3,7 @@
 <filterdef>
   <definition>
     <category>groups</category>
-    <template>../include/simpleplugin/systemSelect/systemSelect-filter.tpl</template>
+    <template>../include/select/systemSelect/systemSelect-filter.tpl</template>
     <initial>true</initial>
   </definition>
 

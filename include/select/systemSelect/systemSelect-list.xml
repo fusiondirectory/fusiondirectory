@@ -6,7 +6,7 @@
     <departmentRootVisible>false</departmentRootVisible>
     <baseMode>true</baseMode>
     <multiSelect>true</multiSelect>
-    <template>../include/simpleplugin/systemSelect/systemSelect-list.tpl</template>
+    <template>../include/select/systemSelect/systemSelect-list.tpl</template>
     <label>Please select the desired entries</label>
     <defaultSortColumn>1</defaultSortColumn>
 
