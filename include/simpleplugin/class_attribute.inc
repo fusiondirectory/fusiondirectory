@@ -35,7 +35,7 @@ class Attribute
   private $inLdap = TRUE;
   /* \brief Should this attribute be unique
    * FALSE  -> no unicity check
-   * one    -> unicity check in the same base (the default)
+   * one    -> unicity check in the same base -> broken right now because of object ous
    * sub    -> unicity check in the same subtree
    *  \__> this should not be used as it’s breaking reciprocity
    * whole  -> unicity check in the whole LDAP
@@ -122,7 +122,7 @@ class Attribute
   function setUnique ($unique)
   {
     if ($unique === TRUE) {
-      $this->unique = 'one';
+      $this->unique = 'sub';
     } else {
       $this->unique = $unique;
     }
@@ -409,12 +409,13 @@ class Attribute
     if ($this->isRequired() && !$this->disabled && (($value === "") || ($value === array()))) {
       return msgPool::required($this->getLabel());
     } elseif (($this->unique !== FALSE) && !$this->disabled) {
+      echo "<h1>unique ".$this->unique."</h1>\n";
       $value = $this->computeLdapValue();
       if (($value === "") || ($value === array())) {
         return;
       }
       $ldap = $this->plugin->config->get_ldap_link();
-      if ($this->unique === "whole") {
+      if ($this->unique === 'whole') {
         $ldap->cd($this->plugin->config->current['BASE']);
       } else {
         if (isset($this->plugin->base) && !empty($this->plugin->base)) {
@@ -429,8 +430,8 @@ class Attribute
       if (!empty($pluginFilter)) {
         $filter = "(&$pluginFilter$filter)";
       }
-      if ($this->unique === "one") {
-        $ldap->ls($filter, '', array($this->getLdapName()));
+      if ($this->unique === 'one') {
+        $ldap->ls($filter, "", array($this->getLdapName()));
       } else {
         $ldap->search($filter, array($this->getLdapName()));
       }
