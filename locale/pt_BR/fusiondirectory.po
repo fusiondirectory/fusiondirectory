@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-21 19:06+0200\n"
-"PO-Revision-Date: 2014-03-26 17:50+0000\n"
+"PO-Revision-Date: 2014-04-08 16:50+0000\n"
 "Last-Translator: marcosantos <marcoa.csantos@yahoo.it>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/FusionDirectory/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -1413,7 +1413,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:57
 msgid "Configuration"
-msgstr ""
+msgstr "Configuração"
 
 #: plugins/config/class_configInLdap.inc:58
 #: plugins/config/class_configInLdap.inc:62
@@ -2547,7 +2547,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:95
 msgid "Status"
-msgstr ""
+msgstr "Estado"
 
 #: plugins/personal/posix/class_posixAccount.inc:95
 msgid "Status of this user unix account"
@@ -2702,7 +2702,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:273
 msgid "automatic"
-msgstr ""
+msgstr "automático"
 
 #: plugins/personal/posix/class_posixAccount.inc:291
 msgid "expired"
@@ -4123,7 +4123,7 @@ msgstr ""
 
 #: include/class_msgPool.inc:647
 msgid "Click the 'Edit' button below to change informations in this dialog"
-msgstr ""
+msgstr "Clique no botão 'Editar' abaixo para mudar as informações neste diálogo"
 
 #: include/class_msgPool.inc:655
 msgid "January"
@@ -6225,13 +6225,13 @@ msgstr ""
 
 #: plugins/admin/departments/dep_iframe.tpl.c:2
 msgid "Processing the requested operation"
-msgstr ""
+msgstr "Processando a operação"
 
 #: plugins/admin/departments/dep_iframe.tpl.c:5
 msgid ""
 "Your browser doesn't support iframes, please use this link to perform the "
 "requested operation."
-msgstr ""
+msgstr "Seu navegador não tem suporte para iframes, favor usar este link para realizar a operação."
 
 #: plugins/admin/departments/country.tpl.c:8
 msgid "Name of country to create"
@@ -6356,7 +6356,7 @@ msgstr ""
 
 #: plugins/admin/users/user-filter.tpl.c:5
 msgid "Show templates"
-msgstr ""
+msgstr "Mostrar templates"
 
 #: plugins/admin/users/user-filter.tpl.c:8
 msgid "Show functional users"
