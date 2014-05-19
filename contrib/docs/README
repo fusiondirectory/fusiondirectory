@@ -45,6 +45,23 @@ like described for fusiondirectory.
 Always run fusiondirectory-setup --update-locales after you've added translations in
 order to let FusionDirectory compile and re-sync the translations.
 
+
+* Security related information
+
+FusionDirectory is running as the www-data user. This makes it possible for other
+web applications (well, this is the rule for allmost every web application
+that stores information somewhere around) to read the fusiondirectory.conf file, which
+may contain vital information about your LDAP service.
+
+To make it harder to extract these passwords, they get encrypted by a
+master password only readable by the FusionDirectory location.
+
+You can simply migrate old existing passwords by typing:
+
+    a2enmod headers
+    fusiondirectory-setup --encrypt-passwords
+    /etc/init.d/apache2 reload
+
 Have fun!
 
 ---
