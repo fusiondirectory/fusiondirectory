@@ -1145,6 +1145,10 @@ This option add FusionDirectory attributes to the people branch.
 
 This option will install the plugin from a tar.gz of the plugin. This option is intended for people wanting to install from the sources.
 
+=item --encrypt-passwords
+
+This option will encrypt the password inside your fusiondirectory.conf file, it need the headers module to be activated in your apache to work.
+
 =item --list_vars
 
 This option will list the variables you can change to install FusionDirectory on another set of directories. This option is intended for people wanting to install from the sources.
