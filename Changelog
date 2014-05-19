@@ -10,6 +10,7 @@ FusionDirectory changelog
 [Fix] Bugs #3108: adapting the doxyfile to make it run into the jenkins
 [Fix] Bugs #3109: There is no documentation for encrypt password option
 [Fix] Bugs #3110: fusiondirectory-setup is unable to use TLS
+[Feature] Bugs #3137 adding brazilian into FusionDirectory
 
 * FusionDirectory 1.0.7.3
 
