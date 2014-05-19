@@ -1,6 +1,16 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.7.4
+
+[Fix] Bugs #3089: Clean OPSI import code to reuse it for other imports
+[Fix] Bugs #3091: ssh public key issue with 1.0.7.3
+[Fix] Bugs #3095: the sort is not correct in the ip colum of the system list
+[Fix] Bugs #3098: the sort is not correct in the ip colum of the system list
+[Fix] Bugs #3108: adapting the doxyfile to make it run into the jenkins
+[Fix] Bugs #3109: There is no documentation for encrypt password option
+[Fix] Bugs #3110: fusiondirectory-setup is unable to use TLS
+
 * FusionDirectory 1.0.7.3
 
 [Fix] Bugs #2397: cleaned SnapshotHandler	Côme Bernigaud
