@@ -26,16 +26,10 @@ use warnings;
 
 use 5.008;
 
-my $add_cmd         = "ldapadd -Y EXTERNAL -H ldapi:/// -f ";
-my $mod_cmd         = "ldapmodify -Y EXTERNAL -H ldapi:/// -f ";
-my $ldapsearch      = "ldapsearch -Y EXTERNAL -H ldapi:// ";
-my $search_cmd      = $ldapsearch." -b \"cn=schema,cn=config\" cn={*}";
-my $list_cmd        = $search_cmd."* cn 2>/dev/null";
-my $cnconfig_cmd    = $ldapsearch." -b \"cn=config\" cn=config dn 2>/dev/null | grep dn:";
-my $path            = "/etc/ldap/schema/fusiondirectory/";
-my $full_cmd        = "";
-my $ldap_utils_path = "/usr/bin/ldapadd";
-my $schema2ldif     = "schema2ldif";
+my $ldap_host_options = '-Y EXTERNAL -H ldapi:///';
+my $path              = "/etc/ldap/schema/fusiondirectory/";
+my $full_cmd          = "";
+my $schema2ldif       = "schema2ldif";
 
 my $listschemas = 0;
 my $modify      = 0;
@@ -44,7 +38,9 @@ my $pathunset   = 1;
 my @schemas     = ();
 my @gen_files   = ();
 foreach my $arg ( @ARGV ) {
-  if ((lc($arg) eq '-i') || (lc($arg) eq '--insert')) {
+  if (not defined $ldap_host_options) {
+    $ldap_host_options = $arg;
+  } elsif ((lc($arg) eq '-i') || (lc($arg) eq '--insert')) {
     if ($schemalist) {
       usage();
     }
@@ -57,6 +53,8 @@ foreach my $arg ( @ARGV ) {
     }
     $modify = 1;
     $schemalist = 1;
+  } elsif ((lc($arg) eq '-o') || (lc($arg) eq '--options')) {
+    undef $ldap_host_options;
   } elsif ((lc($arg) eq '-h') || (lc($arg) eq '--help')) {
     usage();
   } elsif ($schemalist) {
@@ -80,8 +78,18 @@ foreach my $arg ( @ARGV ) {
   }
 }
 
+# if --options is used with no value
+usage () if (not defined $ldap_host_options);
+
 # die if user is not "root"
 die_with_error ("! You have to run this script as root\n") if ($<!=0);
+
+my $add_cmd         = "ldapadd $ldap_host_options -f ";
+my $mod_cmd         = "ldapmodify $ldap_host_options -f ";
+my $ldapsearch      = "ldapsearch $ldap_host_options ";
+my $search_cmd      = $ldapsearch." -b \"cn=schema,cn=config\" cn={*}";
+my $list_cmd        = $search_cmd."* cn 2>/dev/null";
+my $cnconfig_cmd    = $ldapsearch." -b \"cn=config\" cn=config dn 2>/dev/null | grep dn:";
 
 if ($listschemas) {
   list_schemas();
@@ -90,9 +98,6 @@ if ($listschemas) {
 
 # die if the path doesn't exists
 die_with_error ("! $path doesn't seems to exists\n") if (!-e $path);
-
-# die if ldap-utils are not installed
-die_with_error ("! ldap-utils doesn't seem to be installed") if (!-e $ldap_utils_path);
 
 #die if we are not in cn=config
 my $cnconfig = `$cnconfig_cmd`;
@@ -244,13 +249,14 @@ sub usage
   (@_) && print STDERR "\n@_\n\n";
 
   print STDERR << "EOF";
- usage: $0 [-h] [-l] [path] [-i|-m schema1 schema2 …]
+ usage: $0 [-h] [-l] [-o options] [path] [-i|-m schema1 schema2 …]
 
   -h, --help    : this (help) message
   path          : where to find the schemas
   -i, --insert  : specify the schemas to insert
   -l, --list    : list inserted schemas
   -m, --modify  : modify exising inserted schemas
+  -o, --options : set ldap options used (default is -Y EXTERNAL -H ldapi:///)
 
 EOF
   exit -1;
