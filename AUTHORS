@@ -145,3 +145,7 @@ documentation and additional help.
   
 * Guillaume RODRIGUEZ <rodriguez.guillaume@icloud.com>
   asterisk plugin error reporter
+
+* Guillard Olivier <fd@guillard.nom.fr>
+  SSH plugin key storage problem reporter
+  
