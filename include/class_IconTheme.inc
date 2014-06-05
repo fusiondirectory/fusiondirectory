@@ -251,6 +251,15 @@ class IconTheme
     'actions/snapshot'      => array(
       array('actions','document-save'),
     ),
+    'actions/system-reboot' => array(
+      array('actions','view-refresh'),
+    ),
+    'actions/system-update' => array(
+      array('applications','system-software-update'),
+    ),
+    'actions/system-reinstall' => array(
+      array('applications','system-installer'),
+    ),
     'actions/up'      => array(
       array('actions','go-up'),
       array('actions','arrow-up'),
