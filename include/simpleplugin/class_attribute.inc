@@ -2395,7 +2395,7 @@ class SubNodesAttribute extends OrderedArrayAttribute
 {
   protected $objectClass;
 
-  function __construct ($label, $description, $ldapName, $objectClass, $attributes, $order, $values = array(), $edit_enabled = FALSE, $acl = "")
+  function __construct ($label, $description, $ldapName, $objectClass, $attributes, $order = FALSE, $values = array(), $edit_enabled = FALSE, $acl = "")
   {
     $attributes_keys = array();
     foreach ($attributes as $attribute) {
