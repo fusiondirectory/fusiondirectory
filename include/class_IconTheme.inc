@@ -67,13 +67,15 @@ class IconTheme
     if ($datas === FALSE) {
       throw new Exception('Error while parsing theme file');
     }
-    $dirs   = preg_split('/,/', $datas['Icon Theme']['Directories']);
-    foreach ($dirs as $name) {
-      $this->subdirs[strtolower($datas[$name]['Context'])][$name] = new IconThemeDir($datas[$name]);
+    if (isset($datas['Icon Theme']['Directories']) && !empty($datas['Icon Theme']['Directories'])) {
+      $dirs   = preg_split('/,/', $datas['Icon Theme']['Directories']);
+      foreach ($dirs as $name) {
+        $this->subdirs[strtolower($datas[$name]['Context'])][$name] = new IconThemeDir($datas[$name]);
+      }
     }
 
-    if (isset($datas['Inherits'])) {
-      $this->parent = $datas['Inherits'];
+    if (isset($datas['Icon Theme']['Inherits'])) {
+      $this->parent = $datas['Icon Theme']['Inherits'];
     } else {
       $this->parent = $default_parent;
     }
@@ -172,6 +174,9 @@ class IconTheme
   }
   static public function findThemeIcon($theme, $context, $icon, $size)
   {
+    if (!isset($_SESSION[self::$session_var])) {
+      die('Error: no theme found in session');
+    }
     if (isset($_SESSION[self::$session_var][$theme])) {
       return $_SESSION[self::$session_var][$theme]->FindIcon($context, $icon, $size);
     }
