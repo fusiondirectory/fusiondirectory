@@ -409,7 +409,6 @@ class Attribute
     if ($this->isRequired() && !$this->disabled && (($value === "") || ($value === array()))) {
       return msgPool::required($this->getLabel());
     } elseif (($this->unique !== FALSE) && !$this->disabled) {
-      echo "<h1>unique ".$this->unique."</h1>\n";
       $value = $this->computeLdapValue();
       if (($value === "") || ($value === array())) {
         return;
