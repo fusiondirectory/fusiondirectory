@@ -150,6 +150,17 @@ class DialogAttribute extends SetAttribute
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $acl = "")
   {
     Attribute::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
+    $this->attribute = FALSE;
+  }
+
+  function addPostValue ($value)
+  {
+    $this->addValue($value, NULL);
+  }
+
+  function delPostValue ($key)
+  {
+    $this->removeValue($key);
   }
 
   function addValue ($value, $attrs)
@@ -157,72 +168,42 @@ class DialogAttribute extends SetAttribute
     trigger_error("abstract method");
   }
 
+  protected function removeValue ($row)
+  {
+    unset($this->value[$row]);
+  }
+
   function getFilterBlackList ()
   {
     trigger_error("abstract method");
   }
 
-  function getDisplayValues ()
-  {
-    return $this->value;
-  }
-
   function loadPostValue ()
   {
+    parent::loadPostValue();
     if ($this->isVisible()) {
       if (isset($_POST['add'.$this->getHtmlId().'_dialog'])) {
         $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
-      } elseif (isset($_POST['del'.$this->getHtmlId()]) && isset($_POST['row'.$this->getHtmlId()])) {
-        foreach ($_POST['row'.$this->getHtmlId()] as $row) {
-          $this->removeValue($row);
-        }
       }
     }
-  }
-
-  protected function removeValue ($row)
-  {
-    unset($this->value[$row]);
   }
 
   function applyPostValue ()
   {
   }
 
-  function getAcl ()
-  {
-    return Attribute::getAcl();
-  }
-
-  function setAcl ($acl)
-  {
-    return Attribute::setAcl($acl);
-  }
-
-  function renderAttributeInput ($template = FALSE)
-  {
-  }
-
   function renderButtons ()
   {
     $id = $this->getHtmlId();
-    $buttons  = '<input type="submit" name="add'.$id.'_dialog" id="add'.$id.'_dialog"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="{msgPool type=addButton}"/>';
-    $buttons .= '<input type="submit" name="del'.$id.'" id="del'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="{msgPool type=delButton}"/>';
+    $buttons  = $this->renderInputField(
+      'submit', 'add'.$id.'_dialog',
+      array('value' => '{msgPool type=addButton}')
+    );
+    $buttons  .= $this->renderInputField(
+      'submit', 'del'.$id,
+      array('value' => '{msgPool type=delButton}')
+    );
     return $buttons;
-  }
-
-  function renderAttribute(&$attributes, $readOnly)
-  {
-    Attribute::renderAttribute($attributes, $readOnly);
-  }
-
-  function check ()
-  {
-    return Attribute::check();
   }
 
   protected function htmlIds()
@@ -230,10 +211,66 @@ class DialogAttribute extends SetAttribute
     $id = $this->getHtmlId();
     return array('add'.$id.'_dialog','del'.$id,'row'.$id);
   }
+}
 
-  function setParent(&$plugin)
+class DialogOrderedArrayAttribute extends OrderedArrayAttribute
+{
+  protected $dialogClass;
+
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $acl = "")
   {
-    Attribute::setParent($plugin);
+    Attribute::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
+    $this->edit_enabled = TRUE;
+    $this->attribute    = FALSE;
+  }
+
+  function loadPostValue ()
+  {
+    if ($this->isVisible()) {
+      parent::loadPostValue();
+      parent::applyPostValue();
+      if (isset($_POST['add'.$this->getHtmlId().'_dialog'])) {
+        $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
+      }
+    }
+  }
+
+  protected function handleEdit($key)
+  {
+    $this->editingValue = $this->value[$key];
+    $this->delPostValue($key);
+    $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this, $this->editingValue));
+  }
+
+  function applyPostValue ()
+  {
+  }
+
+  function addValue($value)
+  {
+    $this->value[] = $value;
+    $this->reIndexValues();
+  }
+
+  function renderButtons ()
+  {
+    $id = $this->getHtmlId();
+    return $this->renderInputField(
+      'submit', 'add'.$id.'_dialog',
+      array('value' => '{msgPool type=addButton}')
+    );
+  }
+
+  protected function htmlIds()
+  {
+    $ids = parent::htmlIds();
+    $ids[0] .= '_dialog';
+  }
+
+  protected function getAttributeArrayValue($value)
+  {
+    /* Convert text value to displayable array value */
+    die('Pure virtual method');
   }
 }
 
@@ -338,36 +375,31 @@ class UsersAttribute extends GenericDialogAttribute
  *
  * It looks like a SetAttribute, but clicking "Add" will open a dialog that allow to select one or more users or groups.
  * It stores their dn as values, but displays the cn.
- *"
  */
-class UsersGroupsAttribute extends DialogAttribute
+class UsersGroupsAttribute extends GenericDialogAttribute
 {
   protected $dialogClass = 'UserGroupSelectDialog';
 
-  function addValue ($dn, $entry)
+  protected function ldapAttributesToGet ()
   {
-    if (in_array("posixGroup", $entry['objectClass'])) {
-      $name = trim("%".$entry['cn'][0]);
-    } elseif (isset($entry['uid'][0])) {
-      $name = trim($entry['uid'][0]);
-    }
-    if (!in_array($name, $this->value) && !in_array("!".$name, $this->value)) {
-      $this->value[] = $name;
-    }
+    return array('cn', 'uid', 'objectClass');
   }
 
-  function getFilterBlackList ()
+  protected function fillDisplayValueFrom ($i, $attrs)
   {
-    $used = array();
-    foreach ($this->value as $name) {
-      $str = preg_replace("/^!/", "", $name);
-      if (preg_match("/^%/", $str)) {
-        $used['cn'][] = preg_replace("/^%/", "", $str);
+    if (!isset($attrs[$this->display_attr])) {
+      unset($this->value[$i]);
+    } else {
+      if ($this->display_attr == 'dn') {
+        $this->displays[$i] = $attrs['dn'];
+      } elseif (in_array("posixGroup", $attrs['objectClass'])) {
+        $this->displays[$i] = sprintf(_("Group %s"), trim($attrs['cn'][0]));
+      } elseif (isset($attrs['uid'][0])) {
+        $this->displays[$i] = trim($attrs['uid'][0]);
       } else {
-        $used['uid'][] = $str;
+        $this->displays[$i] = $attrs[$this->display_attr][0];
       }
     }
-    return $used;
   }
 }
 
@@ -436,41 +468,22 @@ class MailsAttribute extends DialogAttribute
     }
   }
 
-  function loadPostValue ()
-  {
-    parent::loadPostValue();
-    if ($this->isVisible()) {
-      if (isset($_POST['add'.$this->getHtmlId()])) {
-        $this->attribute->loadPostValue();
-        $this->attribute->applyPostValue();
-        $this->addValue($this->attribute->getValue(), NULL);
-      }
-    }
-  }
-
-  function renderAttributeInput ($template = FALSE)
-  {
-    return SetAttribute::renderAttributeInput($template);
-  }
-
   function renderButtons ()
   {
     $id = $this->getHtmlId();
-    $buttons  = '<input type="submit" name="add'.$id.'" id="add'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="{msgPool type=addButton}"/>';
-    $buttons  .= '<input type="submit" name="add'.$id.'_dialog" id="add'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="{msgPool type=addButton} (from list)"/>';
-    $buttons .= '<input type="submit" name="del'.$id.'" id="del'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="{msgPool type=delButton}"/>';
+    $buttons  = $this->renderInputField(
+      'submit', 'add'.$id,
+      array('value' => '{msgPool type=addButton}')
+    );
+    $buttons  .= $this->renderInputField(
+      'submit', 'add'.$id.'_dialog',
+      array('value' => '{msgPool type=addButton} (from list)')
+    );
+    $buttons  .= $this->renderInputField(
+      'submit', 'del'.$id,
+      array('value' => '{msgPool type=delButton}')
+    );
     return $buttons;
-  }
-
-  function check ()
-  {
-    return SetAttribute::check();
   }
 
   protected function htmlIds()
@@ -511,8 +524,10 @@ class ButtonAttribute extends Attribute
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $display  = '<input type="submit" name="'.$id.'" id="'.$id.'" value="{literal}'.$this->buttonText.'{/literal}" '.
-                ($this->disabled? 'disabled="disabled"':'').'/>';
+    $display = $this->renderInputField(
+      'submit', $id,
+      array('value' => '{literal}'.$this->buttonText.'{/literal}')
+    );
     return $this->renderAcl($display);
   }
 
@@ -565,13 +580,25 @@ class UserAttribute extends DialogButtonAttribute
     } else {
       $display  .= '<a>'.$this->buttonText.'</a>';
     }
-    $display .= '<input class="center" type="image" src="geticon.php?context=actions&icon=document-edit&size=16" '.
-                  'alt="'._('Edit').'" title="'._('Edit').'" name="'.$id.'" id="'.$id.'" '.
-                  ($this->disabled? 'disabled="disabled"':'').'/>';
+    $display .= $this->renderInputField(
+      'image', $id,
+      array(
+        'class' => 'center',
+        'src'   => 'geticon.php?context=actions&icon=document-edit&size=16',
+        'title' => _('Edit'),
+        'alt'   => _('Edit')
+      )
+    );
     if (!$this->isRequired()) {
-      $display .= '<input class="center" type="image" src="geticon.php?context=actions&icon=edit-delete&size=16" '.
-                    'alt="'._('Remove').'" title="'._('Remove').'" name="'.$id.'_remove" id="'.$id.'_remove" '.
-                    ($this->disabled? 'disabled="disabled"':'').'/>';
+      $display .= $this->renderInputField(
+        'image', $id.'_remove',
+        array(
+          'class' => 'center',
+          'src'   => 'geticon.php?context=actions&icon=edit-delete&size=16',
+          'title' => _('Remove'),
+          'alt'   => _('Remove')
+        )
+      );
     }
     return $this->renderAcl($display);
   }

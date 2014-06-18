@@ -445,7 +445,7 @@ class simplePlugin extends plugin
     $this->ldap_error = $ldap->get_error();
 
     if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_MOD, get_class()));
+      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_MOD, get_class()), LDAP_ERROR);
     }
   }
 
@@ -560,7 +560,7 @@ class simplePlugin extends plugin
 
     /* Check for errors */
     if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error while $action"), msgPool::ldaperror($ldap->get_error(), $this->dn, 0, get_class()));
+      msg_dialog::display(_("LDAP error while $action"), msgPool::ldaperror($ldap->get_error(), $this->dn, 0, get_class()), LDAP_ERROR);
     }
   }
 
@@ -803,7 +803,10 @@ class simplePlugin extends plugin
       }
 
       /* Page header */
-      $display = print_header(get_template_path($plIcon), $plHeadline, $info).$display;
+      if (!preg_match('/^geticon/', $plIcon)) {
+        $plIcon = get_template_path($plIcon);
+      }
+      $display = print_header($plIcon, $plHeadline, $info).$display;
     }
   }
 

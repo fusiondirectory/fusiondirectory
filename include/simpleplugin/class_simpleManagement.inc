@@ -112,11 +112,6 @@ class simpleManagement extends management
     foreach ($this->objectTypes as $object) {
       $i = objects::infos($object);
 
-      $objectClass = '';
-      if (preg_match('/objectClass=([^)]+)/', $i['filter'], $m)) {
-        $objectClass = $m[1];
-      }
-
       if (!isset($i['icon'])) {
         trigger_error('Missing icon for type '.$object);
         $i['icon'] = '';
@@ -125,10 +120,11 @@ class simpleManagement extends management
       $this->headpage->objectTypes[$object] =
         array(
           'label'       => $i['name'],
-          'objectClass' => $objectClass,
           'category'    => $i['aclCategory'],
           'class'       => $i['mainTab'],
-          'image'       => $i['icon']
+          'image'       => $i['icon'],
+          'filter'      => ldapFilter::parse($i['filter']),
+          'nameAttr'    => $i['nameAttr'],
         );
       $this->headpage->categories[] = $i['aclCategory'];
       if ($this->autoActions) {
@@ -205,14 +201,15 @@ class simpleManagement extends management
         $this->filter->elementValues[$tag] = TRUE;
 
         $attributes[] = $i['mainAttr'];
+        $attributes[] = $i['nameAttr'];
       }
       $filter .= ')';
       $attributes = array_values(array_unique($attributes));
-      $this->filter->query[0]['filter']     = '(&'.$filter.'$NAME)';
-      $this->filter->query[0]['attribute']  = $attributes;
-      $this->filter->elements['NAME']['set'] = '(|('.join('=*$*)(', $attributes).'=*$*))';
-      $this->filter->elements['NAME']['autocomplete']['filter'] = '(&'.$filter.'(|('.join('=*$NAME*)(', $attributes).'=*$NAME*))'.')';
-      $this->filter->elements['NAME']['autocomplete']['attribute'] = $attributes;
+      $this->filter->query[0]['filter']       = '(&'.$filter.'$NAME)';
+      $this->filter->query[0]['attribute']    = $attributes;
+      $this->filter->elements['NAME']['set']  = '(|('.join('=*$*)(', $attributes).'=*$*))';
+      $this->filter->elements['NAME']['autocomplete']['filter']     = '(&'.$filter.'(|('.join('=*$NAME*)(', $attributes).'=*$NAME*))'.')';
+      $this->filter->elements['NAME']['autocomplete']['attribute']  = $attributes;
       uasort($this->filter->elements, 'strlenSort');
       $this->filter->elements = array_reverse($this->filter->elements);
     }
