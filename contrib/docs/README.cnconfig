@@ -28,6 +28,19 @@ SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
 SASL SSF: 0
 adding new entry "cn=mod_vhost_ldap,cn=schema,cn=config"
 
+our tool is also capable to update schema in place
+
+#fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema 
+
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+executing 'ldapmodify -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/fusiondirectory/core-fd-conf_update.ldif'
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+modifying entry "cn={6}core-fd-conf,cn=schema,cn=config"
+
 Have fun!
 
 ---
@@ -36,7 +49,7 @@ Have fun!
 To improve this piece of software, please report all kind of errors using the bug tracker
 on https://forge.fusiondirectory.org
 
-Documentation: http://www.fusiondirectory.org/
+Documentation: http://documentation.fusiondirectory.org/
 Mailinglist:   http://lists.fusiondirectory.org/
 Irc:           #fusiondirectory on freenode
 
