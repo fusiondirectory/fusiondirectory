@@ -1,6 +1,17 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.7.4
+
+[Fix] Bugs #3089: Clean OPSI import code to reuse it for other imports
+[Fix] Bugs #3091: ssh public key issue with 1.0.7.3
+[Fix] Bugs #3095: the sort is not correct in the ip colum of the system list
+[Fix] Bugs #3098: the sort is not correct in the ip colum of the system list
+[Fix] Bugs #3108: adapting the doxyfile to make it run into the jenkins
+[Fix] Bugs #3109: There is no documentation for encrypt password option
+[Fix] Bugs #3110: fusiondirectory-setup is unable to use TLS
+[Feature] Bugs #3137 adding brazilian into FusionDirectory
+
 * FusionDirectory 1.0.7.3
 
 [Fix] Bugs #2397: cleaned SnapshotHandler	Côme Bernigaud
@@ -221,26 +232,26 @@ FusionDirectory changelog
 
 * FusionDirectory 1.0.6
 
-Bugs #2136: check that on centos fusiondirectory-setup use the correct user for /var/cache/fusiondirectory stuff
-Bugs #2157: Incohérence sur la déclaration du workgroup samba
-Bugs #2304: when i select users i see windows workstations appearing in object groups
-Bugs #2336: kolab2 schema failed insertion
-Bugs #2346: Fusiondirectory 1.0.5 + wheezy + user management
-Bugs #2349: the dsa plugin should allow to select the password encoding method
-Bugs #2350: when i save a mail group i got a not needed gosaMailDelivery mode saved
-Bugs #2351: case of forcePasswordDefaultHash
-Bugs #2352: dsaManagement should use simpleManagement
-Bugs #2355: Severities in the FDstandard codesniffer standard should be set
-Bugs #2356: all checkbox=$multiple_support should be remove from the smarty templates
-Bugs #2357: all checkbox=$multiple_support should be remove from the smarty templates
-Bugs #2361: Login uses simple quotes for translated strings in smarty template
-Bugs #2362: remove the update schema from 1.0.4 for 1.0.6
-Bugs #2364: remove the update schema from 1.0.4 for 1.0.6
-Bugs #2365: remove the remaning readme into the plugins
-Bugs #2371: fusiondirectory-insert-schema should look for the right name
-Bugs #2374: the ldapFollowReferrals should be in fusiondirectory.conf.pod as it is a file config option
-Bugs #2377: config directory incorrect for the samba plugin
-simple-plugin - Bugs #2360: simpleManagement should allow to select an other list or filter xml file
+[Fix] Bugs #2136: check that on centos fusiondirectory-setup use the correct user for /var/cache/fusiondirectory stuff
+[Fix] Bugs #2157: Incohérence sur la déclaration du workgroup samba
+[Fix] Bugs #2304: when i select users i see windows workstations appearing in object groups
+[Fix] Bugs #2336: kolab2 schema failed insertion
+[Fix] Bugs #2346: Fusiondirectory 1.0.5 + wheezy + user management
+[Fix] Bugs #2349: the dsa plugin should allow to select the password encoding method
+[Fix] Bugs #2350: when i save a mail group i got a not needed gosaMailDelivery mode saved
+[Fix] Bugs #2351: case of forcePasswordDefaultHash
+[Feature] Bugs #2352: dsaManagement should use simpleManagement
+[Feature] Bugs #2355: Severities in the FDstandard codesniffer standard should be set
+[Fix] Bugs #2356: all checkbox=$multiple_support should be remove from the smarty templates
+[Fix] Bugs #2357: all checkbox=$multiple_support should be remove from the smarty templates
+[Fix] Bugs #2361: Login uses simple quotes for translated strings in smarty template
+[Fix] Bugs #2362: remove the update schema from 1.0.4 for 1.0.6
+[Fix] Bugs #2364: remove the update schema from 1.0.4 for 1.0.6
+[Fix] Bugs #2365: remove the remaning readme into the plugins
+[Fix] Bugs #2371: fusiondirectory-insert-schema should look for the right name
+[Fix] Bugs #2374: the ldapFollowReferrals should be in fusiondirectory.conf.pod as it is a file config option
+[Fix] Bugs #2377: config directory incorrect for the samba plugin
+[Feature] simple-plugin - Bugs #2360: simpleManagement should allow to select an other list or filter xml file
 
 * FusionDirectory 1.0.5
 
