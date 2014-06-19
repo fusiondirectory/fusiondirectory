@@ -327,26 +327,6 @@ class CopyPasteHandler
     $src_dn = $this->current['dn'];
 
     $this->current['object']->getBaseObject()->handleForeignKeys($src_dn, $dst_dn, ($this->current['method'] == 'cut'?'move':'copy'));
-
-    // Only copy references if required
-    if ($this->current['method'] != 'copy') {
-      return;
-    }
-
-    if (class_available('roleGeneric')) {
-      // Update roles
-      $roles = get_sub_list("(&(objectClass=organizationalRole)(roleOccupant=".LDAP::prepare4filter(LDAP::fix($src_dn))."))",
-              "roles", array(get_ou("roleRDN")), $this->config->current['BASE'], array("dn"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
-
-      // Walk through all roles
-      foreach ($roles as $role) {
-        $role = new roleGeneric($this->config, $role['dn']);
-        $roleOccupants = $role->roleOccupant;
-        $roleOccupants[] = $dst_dn;
-        $role->roleOccupant = $roleOccupants;
-        $role->save();
-      }
-    }
   }
 
   /*!
