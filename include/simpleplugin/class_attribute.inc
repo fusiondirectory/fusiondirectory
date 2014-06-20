@@ -419,8 +419,10 @@ class Attribute
       } else {
         if (isset($this->plugin->base) && !empty($this->plugin->base)) {
           $base = $this->plugin->base;
-        } else {
+        } elseif (isset($this->plugin->dn) && !empty($this->plugin->dn) && ($this->plugin->dn != 'new')) {
           $base = dn2base($this->plugin->dn);
+        } else {
+          $base = $this->plugin->config->current['BASE'];
         }
         $ldap->cd($base);
       }
