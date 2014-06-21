@@ -131,3 +131,7 @@ documentation and additional help.
 
 * Stefan Krüger <shadow_7@gmx.net>
   Add support for various database to the rsyslog plugin
+
+* Fabien Brachere <fabien.brachere@e-tera.com>
+  Fix support for special caracters in password
+
