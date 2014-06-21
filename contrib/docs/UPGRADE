@@ -59,6 +59,35 @@ in this version only the schema from the argonaut plugin needs to be update if y
 
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/argonaut-fd.schema 
 
+
+Migrate FusionDirectory from 1.0.7.4 to 1.0.8
+=============================================
+
+- Upgrade FusionDirectory first
+
+Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+
+- Remove the deprecated plugins
+
+The rolemanagement plugin has been integrated to the core so it must be removed.
+
+The board plugin has been renamed so it must be replaced
+
+- Upgrade of LDAP directory
+
+You have to update your LDAP schemas, first update the FusionDirectory core schemas. 
+
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd.schema 
+
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema 
+
+After that you have to update the schema for the plugins you are using. In this version the following schema have to be updated
+
+  * argonaut-fd-schema
+  * ipmi-fd.schema
+  * repository-fd.schema
+
+
 ---
 * Further information
 
