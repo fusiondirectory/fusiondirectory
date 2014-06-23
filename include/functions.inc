@@ -3001,7 +3001,7 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
     }
 
   } else {
-    // Use MD5 by default
+    // Use SSHA by default
     $hash = $config->get_cfg_value("passwordDefaultHash", "ssha");
     $test = new  $available[$hash]($config, $dn);
   }
