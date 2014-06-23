@@ -288,8 +288,8 @@ class user extends plugin
       $this->is_account = TRUE;
     }
 
-    /* Make hash default to md5 if not set in config */
-    $this->pw_storage = $this->config->get_cfg_value("passwordDefaultHash", "crypt/md5");
+    /* Make hash default to ssha if not set in config */
+    $this->pw_storage = $this->config->get_cfg_value("passwordDefaultHash", "ssha");
     if ($this->config->get_cfg_value("forcePasswordDefaultHash", "FALSE") === "TRUE") {
       $this->force_hash = $this->pw_storage;
     }
