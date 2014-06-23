@@ -617,6 +617,8 @@ class plugin
    * Returns an array of possible values */
   static function tpl_apply_modifier($m, $args, $str)
   {
+    mb_internal_encoding('UTF-8');
+    mb_regex_encoding('UTF-8');
     if (is_array($str) && (strtolower($m) == $m)) {
       /* $str is an array and $m is lowercase, so it's a string modifier */
       $str = $str[0];
@@ -649,6 +651,8 @@ class plugin
         $str = preg_replace('#&([A-za-z])(?:acute|cedil|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
         $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // handle ligatures
         return array(preg_replace('#&[^;]+;#', '', $str)); // delete unhandled characters
+      case 'p': // spaces
+        return array(preg_replace('/\s/u', '', $str));
       case 's': // substring
         if (count($args) < 1) {
           trigger_error("Missing 's' substr modifier parameter");
