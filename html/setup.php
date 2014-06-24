@@ -48,7 +48,7 @@ ini_set("session.gc_maxlifetime", 24 * 60 * 60);
 
 /* Start session */
 session::start();
-session::global_set('DEBUGLEVEL', 1);
+session::global_set('DEBUGLEVEL', 0);
 session::set('errorsAlreadyPosted', array());
 
 /* Attribute initialization, reset errors */

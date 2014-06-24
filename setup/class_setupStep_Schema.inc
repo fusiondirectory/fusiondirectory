@@ -22,16 +22,16 @@
 
 class Step_Schema extends setup_step
 {
-  var $checked = array();
-  var $not_checked = array();
-  var $schema_readable  = FALSE;
-  var $attributes       = array("enable_schema_check","samba_version");
-  var $enable_schema_check = TRUE;
-  var $samba_version       = 3;
+  var $checked              = array();
+  var $not_checked          = array();
+  var $schema_readable      = FALSE;
+  var $attributes           = array("enable_schema_check","samba_version");
+  var $enable_schema_check  = TRUE;
+  var $samba_version        = 3;
 
   var $found_ocs = 0;
 
-  function Step_Schema()
+  function __construct()
   {
     $this->update_strings();
   }
@@ -49,16 +49,16 @@ class Step_Schema extends setup_step
   {
     global $BASE_DIR;
     $this->check_schema();
-    $failed_checks = 0 ;
-    foreach($this->checked as $val) {
-      if(!$val['STATUS']){
+    $failed_checks = 0;
+    foreach ($this->checked as $val) {
+      if (!$val['STATUS']) {
         $failed_checks ++;
       }
     }
 
-    if($failed_checks == 0){
+    if ($failed_checks == 0) {
       $this->is_completed = TRUE;
-    }else{
+    } else {
       $this->is_completed = TRUE;
     }
 
@@ -66,16 +66,10 @@ class Step_Schema extends setup_step
      * If the root object is missing we can't read any schema informations.
      * In this case we should display a message.
      */
-    $cv = $this->parent->captured_values;
 
     /* Establish ldap connection */
-    $ldap_l = new LDAP($cv['admin'],
-        $cv['password'],
-        $cv['connection'],
-        FALSE,
-        $cv['tls']);
-
-    $ldap = new ldapMultiplexer($ldap_l);
+    $cv   = $this->parent->captured_values;
+    $ldap = $this->get_ldap_link();
 
     /* Check if root object exists */
     $ldap->cd($cv['base']);
@@ -84,24 +78,24 @@ class Step_Schema extends setup_step
     $ldap->set_size_limit(0);
 
     $smarty = get_smarty();
-    $smarty->assign("bool",array(FALSE => _("No"), TRUE => _("Yes")));
+    $smarty->assign("bool",                 array(FALSE => _("No"), TRUE => _("Yes")));
     $smarty->assign("database_initialised", ($res == TRUE));
-    $smarty->assign("found_ocs", $this->found_ocs);
-    $smarty->assign("schema_readable",$this->schema_readable);
-    $smarty->assign("enable_schema_check",$this->enable_schema_check);
-    $smarty->assign("checks",$this->checked);
-    $smarty->assign("not_checked",$this->not_checked);
-    $smarty->assign("failed_checks",$failed_checks);
+    $smarty->assign("found_ocs",            $this->found_ocs);
+    $smarty->assign("schema_readable",      $this->schema_readable);
+    $smarty->assign("enable_schema_check",  $this->enable_schema_check);
+    $smarty->assign("checks",               $this->checked);
+    $smarty->assign("not_checked",          $this->not_checked);
+    $smarty->assign("failed_checks",        $failed_checks);
+
     return $smarty->fetch("$BASE_DIR/setup/setup_schema.tpl");
   }
 
   function save_object()
   {
-    if(isset($_POST['step7_posted'])){
-
+    if (isset($_POST['step7_posted'])) {
       /* Get attributes */
-      foreach($this->attributes as $attr){
-        if(isset($_POST[$attr])){
+      foreach ($this->attributes as $attr) {
+        if (isset($_POST[$attr])) {
           $this->$attr = validate($_POST[$attr]);
         }
       }
@@ -113,22 +107,21 @@ class Step_Schema extends setup_step
     $cfg = $this->parent->captured_values;
 
     /* Get objectclasses */
-    $ldap = new LDAP($cfg['admin'],$cfg['password'],$cfg['connection'] ,FALSE,$cfg['tls']);
-    $objectclasses = $ldap->get_objectclasses(TRUE);
-    $this->found_ocs = count($objectclasses);
-    $rfc2307bis = $cfg['rfc2307bis'];
-    $this->checked = check_schema($cfg,$rfc2307bis);
+    $ldap             = new LDAP($cfg['admin'], $cfg['password'], $cfg['connection'], FALSE, $cfg['tls']);
+    $objectclasses    = $ldap->get_objectclasses(TRUE);
+    $this->found_ocs  = count($objectclasses);
+    $rfc2307bis       = $cfg['rfc2307bis'];
+    $this->checked    = check_schema($cfg, $rfc2307bis);
 
     /* Which samba version do we use? */
-    if(isset($objectclasses['sambaSamAccount'])){
+    if (isset($objectclasses['sambaSamAccount'])) {
       $this->samba_version = 3;
-    } elseif(isset($objectclasses['sambaAccount'])) {
+    } elseif (isset($objectclasses['sambaAccount'])) {
       $this->samba_version = 2;
-    }else{
+    } else {
       $this->samba_version = 0;
     }
   }
 }
 
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

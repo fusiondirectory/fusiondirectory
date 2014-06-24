@@ -41,12 +41,13 @@ class ldapMultiplexer {
    *
    * \param $object Object LDAP
    */
-  public function __construct(&$object) {
+  public function __construct(&$object)
+  {
     /* Store object */
-    $this->object= $object;
+    $this->object = $object;
 
     /* Set result resource */
-    $this->sr= $this->object->getSearchResource();
+    $this->sr = $this->object->getSearchResource();
   }
 
   /*!
@@ -56,14 +57,15 @@ class ldapMultiplexer {
    *
    * \param $parameters Parameters for the method
    */
-  public function __call($methodName, $parameters) {
+  public function __call($methodName, $parameters)
+  {
     /* Add resource pointer if the mentioned methods are used */
-    if (preg_match('/^(search|ls|cat|fetch|clearResult|resetResult|count|getDN|recursive_remove|rmdir_recursive|create_missing_trees|import_single_entry|import_complete_ldif)$/', $methodName)){
+    if (preg_match('/^(search|ls|cat|fetch|clearResult|resetResult|count|getDN|recursive_remove|rmdir_recursive|create_missing_trees|import_single_entry|import_complete_ldif)$/', $methodName)) {
       array_unshift($parameters, $this->sr);
     }
 
-    $class= new ReflectionClass($this->object);
-    $method= $class->getMethod($methodName);
+    $class  = new ReflectionClass($this->object);
+    $method = $class->getMethod($methodName);
 
     return $method->invokeArgs($this->object, $parameters);
   }
@@ -73,7 +75,8 @@ class ldapMultiplexer {
    *
    * \param string $memberName
    */
-  public function __get($memberName) {
+  public function __get($memberName)
+  {
     return $this->object->$memberName;
   }
 

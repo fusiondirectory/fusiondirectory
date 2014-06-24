@@ -27,7 +27,8 @@ class Step_Config2 extends setup_step
   var $sambaidmapping = FALSE;
   var $header_image   = "images/setup/server.png";
 
-  var $generic_settings  = array( "snapshot_active"     => TRUE);
+  var $generic_settings  = array( "snapshot_active"     => FALSE,
+                                  "snapshot_base"       => "ou=snapshots,%base%");
 
   var $timezone       = "Europe/Paris";
   var $timezones      = array();
@@ -35,7 +36,7 @@ class Step_Config2 extends setup_step
   var $attributes = array("timezone");
   var $called = FALSE;
 
-  function Step_Config2()
+  function __construct()
   {
     $this->update_strings();
 

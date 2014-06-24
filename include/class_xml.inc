@@ -106,9 +106,6 @@ class xml {
 
     //Initializations
     $xml_array    = array();
-    $parents      = array();
-    $opened_tags  = array();
-    $arr          = array();
 
     $current = &$xml_array; //Refference
 

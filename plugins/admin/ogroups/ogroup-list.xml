@@ -14,9 +14,9 @@
     <objectType>
       <label>Object group</label>
       <objectClass>gosaGroupOfNames</objectClass>
-      <category>ogroups</category>
+      <category>ogroup</category>
       <class>ogroup</class>
-      <image>plugins/ogroups/images/iconMini.png</image>
+      <image>geticon.php?context=types&amp;icon=resource-group&amp;size=16</image>
     </objectType>
 
   </definition>
@@ -69,13 +69,13 @@
 
     <action>
      <type>sub</type>
-     <image>images/lists/new.png</image>
+     <image>geticon.php?context=actions&amp;icon=document-new&amp;size=16</image>
      <label>Create</label>
 
      <action>
       <name>new</name>
       <type>entry</type>
-      <image>plugins/ogroups/images/iconMini.png</image>
+      <image>geticon.php?context=types&amp;icon=resource-group&amp;size=16</image>
       <label>Objectgroup</label>
      </action>
     </action>
@@ -87,14 +87,14 @@
     <action>
       <name>edit</name>
       <type>entry</type>
-      <image>images/lists/edit.png</image>
+      <image>geticon.php?context=actions&amp;icon=document-edit&amp;size=16</image>
       <label>Edit</label>
     </action>
 
     <action>
       <name>remove</name>
       <type>entry</type>
-      <image>images/lists/trash.png</image>
+      <image>geticon.php?context=actions&amp;icon=edit-delete&amp;size=16</image>
       <label>Remove</label>
     </action>
 
@@ -138,7 +138,7 @@
     <action>
       <name>edit</name>
       <type>entry</type>
-      <image>images/lists/edit.png</image>
+      <image>geticon.php?context=actions&amp;icon=document-edit&amp;size=16</image>
       <label>Edit object group</label>
     </action>
 
@@ -150,8 +150,8 @@
     <action>
       <name>remove</name>
       <type>entry</type>
-      <image>images/lists/trash.png</image>
-      <acl>ogroups/ogroup[d]</acl>
+      <image>geticon.php?context=actions&amp;icon=edit-delete&amp;size=16</image>
+      <acl>ogroup/ogroup[d]</acl>
       <label>Remove object group</label>
     </action>
 

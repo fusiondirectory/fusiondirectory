@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
@@ -25,6 +24,39 @@ class ogrouptabs extends tabs
   var $base = "";
   var $acl_category;
   var $dynamic_tabs;
+
+  function __construct($config, $data, $dn, $category = "ogroup", $copied_object = NULL)
+  {
+    parent::__construct($config, $data, $dn, $category, $copied_object);
+    $this->base = $this->by_object['ogroup']->base;
+    $this->acl_category = $category;
+
+    /* Add references/acls/snapshots */
+    $this->dynamic_tabs = array(
+      "/T/" => array(
+        'termservice'     => _('Devices'),
+        'termstartup'     => _('Startup'),
+      ),
+      "/[WT]/" => array(
+        'termgroup'       => _('Systems'),
+      ),
+      "/W/" => array(
+        'workservice'     => _('Devices'),
+      ),
+      "/[SW]/" => array(
+        'workstartup'     => _('Workstartup'),
+        'debconfStartup'  => _('Debconf'),
+        'faiStartup'      => _('FAI'),
+        'faiSummary'      => _('FAI summary'),
+        'argonautClient'  => _('Argonaut client'),
+      ),
+      "/O/" => array(
+        'opsiClient'      => _('OPSI'),
+      ),
+    );
+    $this->reload($this->by_object['ogroup']->gosaGroupObjects);
+    $this->addSpecialTabs();
+  }
 
   function reload($dd)
   {
@@ -212,41 +244,6 @@ class ogrouptabs extends tabs
     $str .= tabs::execute();
     return $str;
   }
-
-  function ogrouptabs($config, $data, $dn, $category = "ogroups", $copied_object = NULL)
-  {
-
-    tabs::tabs($config, $data, $dn, $category, $copied_object);
-    $this->base = $this->by_object['ogroup']->base;
-    $this->acl_category = $category;
-
-    /* Add references/acls/snapshots */
-    $this->dynamic_tabs = array(
-      "/T/" => array(
-        'termservice'     => _('Devices'),
-        'termstartup'     => _('Startup'),
-      ),
-      "/[WT]/" => array(
-        'termgroup'       => _('Systems'),
-      ),
-      "/W/" => array(
-        'workservice'     => _('Devices'),
-      ),
-      "/[SW]/" => array(
-        'workstartup'     => _('Workstartup'),
-        'debconfStartup'  => _('Debconf'),
-        'faiStartup'      => _('FAI'),
-        'faiSummary'      => _('FAI summary'),
-        'argonautClient'  => _('Argonaut client'),
-      ),
-      "/O/" => array(
-        'opsiClient'      => _('OPSI'),
-      ),
-    );
-    $this->reload($this->by_object['ogroup']->gosaGroupObjects);
-    $this->addSpecialTabs();
-  }
-
 
   function check($ignore_account = FALSE)
   {

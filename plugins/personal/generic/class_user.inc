@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
@@ -246,6 +245,8 @@ class user extends plugin
   var $mobiles_available;
   var $phones_available;
 
+  protected $orig_uid;
+
   /* constructor, if 'dn' is set, the node loads the given
      'dn' from LDAP */
   function user (&$config, $dn = NULL, $object = NULL)
@@ -260,7 +261,7 @@ class user extends plugin
     }
 
     /* Load base attributes */
-    plugin::plugin ($config, $dn, $object);
+    parent::__construct ($config, $dn, $object);
 
     $this->orig_dn  = $this->dn;
     $this->new_dn   = $dn;
@@ -287,7 +288,7 @@ class user extends plugin
       $this->is_account = TRUE;
     }
 
-    /* Make hash default to md5 if not set in config */
+    /* Make hash default to ssha if not set in config */
     $this->pw_storage = $this->config->get_cfg_value("passwordDefaultHash", "ssha");
     if ($this->config->get_cfg_value("forcePasswordDefaultHash", "FALSE") === "TRUE") {
       $this->force_hash = $this->pw_storage;
@@ -394,6 +395,8 @@ class user extends plugin
 
     $this->phones_available   = class_available('phoneGeneric');
     $this->mobiles_available  = class_available('mobilePhoneGeneric');
+
+    $this->orig_uid = $this->uid;
   }
 
 
@@ -423,7 +426,7 @@ class user extends plugin
     /* Log view */
     if($this->is_account && !$this->view_logged){
       $this->view_logged = TRUE;
-      new log("view","users/".get_class($this),$this->dn);
+      new log("view","user/".get_class($this),$this->dn);
     }
 
     // Clear manager attribute if requested
@@ -496,7 +499,7 @@ class user extends plugin
 
     /* Do we represent a valid gosaAccount? */
     if (!$this->is_account){
-      $str = "<img alt=\"\" src=\"images/small-error.png\" align=\"middle\">&nbsp;<b>".
+      $str = "<img alt=\"\" src=\"geticon.php?context=status&icon=dialog-error&size=16\" align=\"middle\">&nbsp;<b>".
         msgPool::noValidExtension("FusionDirectory")."</b>";
       return($str);
     }
@@ -701,60 +704,10 @@ class user extends plugin
     $ldap= $this->config->get_ldap_link();
     $ldap->rmdir ($this->dn);
     if (!$ldap->success()){
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_DEL, get_class()));
+      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_DEL, get_class()), LDAP_ERROR);
     }
 
-    new log("remove","users/".get_class($this),$this->dn,$this->attributes,$ldap->get_error());
-
-    /* Delete references to groups */
-    $ldap->cd ($this->config->current['BASE']);
-    $ldap->search ("(&(objectClass=posixGroup)(memberUid=".$this->uid."))", array("uid"));
-    while ($ldap->fetch()){
-      $g= new group($this->config, $ldap->getDN());
-      $g->removeUser($this->uid);
-      $g->save ();
-    }
-
-    /* Delete references to object groups */
-    $ldap->cd ($this->config->current['BASE']);
-    $ldap->search ("(&(objectClass=gosaGroupOfNames)(member=".LDAP::prepare4filter($this->dn)."))", array("cn"));
-    while ($ldap->fetch()){
-      $og= new ogroup($this->config, $ldap->getDN());
-      unset($og->member[$this->dn]);
-      $og->save ();
-    }
-
-    // Update 'manager' attributes from gosaDepartment and inetOrgPerson
-    $filter = "(&(objectClass=inetOrgPerson)(manager=".LDAP::prepare4filter($this->dn)."))";
-    $ocs = $ldap->get_objectclasses();
-    if(isset($ocs['gosaDepartment']['MAY']) && in_array('manager', $ocs['gosaDepartment']['MAY'])){
-      $filter = "(|".$filter."(&(objectClass=gosaDepartment)(manager=".LDAP::prepare4filter($this->dn).")))";
-    }
-    $leaf_deps=  get_list($filter,array("all"),$this->config->current['BASE'],
-        array("manager","dn","objectClass"),GL_SUBSEARCH | GL_NO_ACL_CHECK);
-    foreach($leaf_deps as $entry){
-      $update = array('manager' => array());
-      $ldap->cd($entry['dn']);
-      $ldap->modify($update);
-      if(!$ldap->success()){
-        trigger_error(sprintf("Failed to update manager for '%s', error was '%s'", $entry['dn'], $ldap->get_error()));
-      }
-    }
-
-    if (class_available('roleGeneric')) {
-      /* Delete references to roles */
-      $ldap->cd ($this->config->current['BASE']);
-      $ldap->search ("(&(objectClass=organizationalRole)(roleOccupant=".LDAP::prepare4filter($this->dn)."))", array("cn"));
-      while ($ldap->fetch()) {
-        $role = new roleGeneric($this->config, $ldap->getDN());
-        $key  = array_search($this->dn,$role->roleOccupant);
-        if ($key !== FALSE) {
-          unset($role->roleOccupant[$key]);
-          $role->roleOccupant = array_values($role->roleOccupant);
-          $role->save ();
-        }
-      }
-    }
+    new log("remove","user/".get_class($this),$this->dn,$this->attributes,$ldap->get_error());
 
     /* If needed, let the password method do some cleanup */
     $tmp = new passwordMethod($this->config);
@@ -1066,20 +1019,19 @@ class user extends plugin
     $ldap->cd ($this->dn);
     $ldap->$mode ($this->attrs);
     if (!$ldap->success()){
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_DEL, get_class()));
+      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_DEL, get_class()), LDAP_ERROR);
       return (1);
     }
 
     /* Remove ACL dependencies too */
     if ($this->dn != $this->orig_dn && $this->orig_dn != "new") {
-      $tmp = new acl($this->config, $this->dn, $this->parent);
-      $tmp->update_acl_membership($this->orig_dn, $this->dn);
+      acl::update_acl_membership($this->orig_dn, $this->dn);
     }
 
     if($mode == "modify"){
-      new log("modify","users/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
+      new log("modify","user/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
     }else{
-      new log("create","users/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
+      new log("create","user/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
     }
 
     /* If needed, let the password method do some cleanup */
@@ -1366,10 +1318,10 @@ class user extends plugin
   }
 
   /* Adapt from given 'dn' */
-  function adapt_from_template($dn, $skip= array())
+  function adapt_from_template($attrs, $skip= array())
   {
-    plugin::adapt_from_template($dn, $skip);
-
+    plugin::adapt_from_template($attrs, $skip);
+    $dn = $attrs['dn'];
     /* Get password method from template
      */
     $tmp_array  = explode('|', $this->attrs['userPassword'][0], 2);
@@ -1378,7 +1330,7 @@ class user extends plugin
     $tmp = passwordMethod::get_method($hash);
     if (is_object($tmp)) {
       if ($tmp->is_configurable()) {
-        $tmp->adapt_from_template($dn);
+        $tmp->adapt_from_template($attrs);
         $this->pwObject = &$tmp;
       }
       $this->pw_storage= $tmp->get_hash();
@@ -1481,12 +1433,22 @@ class user extends plugin
     $ret = array(
         "plShortName"   => _("Generic"),
         "plDescription" => _("Generic user settings"),
-        "plIcon"        => "plugins/generic/images/icon.png",
+        "plIcon"        => 'geticon.php?context=applications&amp;icon=user-info&amp;size=48',
+        "plSmallIcon"   => 'geticon.php?context=applications&amp;icon=user-info&amp;size=16',
         "plSelfModify"  => TRUE,
-        "plCategory"    => array("users" => array("description" => _("Users"),
+        "plCategory"    => array("user" => array("description" => _("Users"),
                                                   "objectClass" => "gosaAccount")),
-        "plObjectType"  => array("user" => array("name" => _("User"),
-                                                  "filter" => "objectClass=gosaAccount")),
+        "plObjectType"  => array("user" => array(
+          'description' => _('Users'),
+          'name'        => _('User'),
+          'filter'      => 'objectClass=gosaAccount',
+          'mainAttr'    => 'cn',
+          'icon'        => 'geticon.php?context=types&amp;icon=user&amp;size=16',
+          'ou'          => get_ou('userRDN'),
+        )),
+        'plForeignKeys'  => array(
+          'manager' => array('user','dn')
+        ),
 
         "plProvidedAcls" => array(
           "sn"                => _("Surname"),
@@ -1538,6 +1500,47 @@ class user extends plugin
     return $ret;
   }
 
+  protected function attributeInitialValue($field)
+  {
+    if ($field == 'uid') {
+      return $this->orig_uid;
+    } else {
+      return parent::attributeInitialValue($field);
+    }
+  }
+
+  protected function attributeHaveChanged($field)
+  {
+    if ($field == 'uid') {
+      if (!$this->initially_was_account) {
+        return TRUE;
+      }
+      return ($this->$field != $this->attributeInitialValue($field));
+    } else {
+      return parent::attributeHaveChanged($field);
+    }
+  }
+
+  function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
+  {
+    if ($field == 'manager') {
+      if ($this->manager == $oldvalue) {
+        $this->manager = $newvalue;
+      }
+    } else {
+      return parent::foreignKeyUpdate($field, $oldvalue, $newvalue, $source);
+    }
+  }
+
+  function foreignKeyCheck ($field, $value, $source)
+  {
+    if ($field == 'manager') {
+      return ($this->manager == $value);
+    } else {
+      return parent::foreignKeyCheck($field, $value, $source);
+    }
+  }
+
   function convertLoginRestriction()
   {
     $all = array_unique(array_merge($this->gosaLoginRestriction,$this->gosaLoginRestriction_some));
@@ -1553,6 +1556,4 @@ class user extends plugin
     return($data);
   }
 }
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

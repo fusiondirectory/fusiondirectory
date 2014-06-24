@@ -1,6 +1,155 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.8
+
+[Fix] Bugs #1922: Foreign key should be handled between plugins
+[Fix] Bugs #2313: Rethink categories and object types
+[Fix] Bugs #2397: The code should follow code guidelines
+[Fix] Bugs #2410: The code should follow code guidelines
+[Fix] Bugs #2412: Reading categories should not be done in acl constructor
+[Fix] Bugs #2418: All gosaUnitTag related code should be removed
+[Fix] Bugs #2420: All gosaUnitTag related code should be removed
+[Fix] Bugs #2425: IPMI interfaces should have a tab for credentials
+[Fix] Bugs #2432: locking conflict errors
+[Fix] Bugs #2438: Find out why schemaCheck disable get_objectclasses
+[Fix] Bugs #2446: TrustsAttribute should be replaced by ServersAttribute
+[Fix] Bugs #2447: TrustsAttribute should be replaced by ServersAttribute
+[Fix] Bugs #2483: Rethink categories and object types
+[Fix] Bugs #2502: divSelectBox should be able to display column titles
+[Fix] Bugs #2503: argonautLogView should not use divlist
+[Fix] Bugs #2505: class_tabs should be cleaned
+[Fix] Bugs #2511: FusionDirectory should provide valid HTML
+[Fix] Bugs #2512: class_tabs should be cleaned
+[Fix] Bugs #2530: User GPG keys info are not fetched when opening the tab
+[Fix] Bugs #2532: applications and mimetypes should be moved to their own plugin
+[Fix] Bugs #2544: class_config should follow code guidelines
+[Fix] Bugs #2547: ldap class has unused vars and methods
+[Fix] Bugs #2548: ldap class has unused vars and methods
+[Fix] Bugs #2550: divlist should not be used anymore
+[Fix] Bugs #2549: class certificate should follow code guidelines
+[Fix] Bugs #2551: divlist should be deleted
+[Fix] Bugs #2552: class_filter should follow code guidelines
+[Fix] Bugs #2553: class_msgPool should follow code guidelines
+[Fix] Bugs #2554: functions_debug should follow guidelines
+[Fix] Bugs #2555: class_plugin should follow code guidelines
+[Fix] Bugs #2560: Unused local vars in setupStep_Migrate
+[Fix] Bugs #2565: Password can't contains <
+[Fix] Bugs #2566: SnapShotDialog and SnapshotHandler have duplicated code
+[Fix] Bugs #2567: password-methods should follow code guidelines
+[Fix] Bugs #2575: Error warning header image should not break line
+[Feature] Bugs #2581: We should have a plugin for FusionInventory
+[Fix] Bugs #2596: Departments should be based on simplePlugin
+[Fix] Bugs #2607: PHP error "Undefined property: mailgroup::$uid"
+[Fix] Bugs #2609: There is an error in plugin::tpl_parse_mask
+[Fix] Bugs #2625: We should be able to create link to object edition easily
+[Fix] Bugs #2626: We should be able to create link to object edition easily
+[Fix] Bugs #2630: check hooks are not in the documentation
+[Fix] Bugs #2637: Errors about attrSort redifinition
+[Fix] Bugs #2638: listing should allow to set the baseMode outside of the xml
+[Fix] Bugs #2645: objects::ls should be used instead of config::getObjectList
+[Fix] Bugs #2662: the fusioninventory plugin should have a configuration plugin
+[Fix] Bugs #2670: Ease ACL handling
+[Fix] Bugs #2673: fix config get_department documentation
+[Fix] Bugs #2695: Dashboard should provide a link to the argonaut server
+[Fix] Bugs #2699: jsonRPCClient should not prevent from using HTTP auth
+[Fix] Bugs #2702: Connection problems to slapd when using TLS
+[Fix] Bugs #2709: Migration from Gosa 2.6.11 to fd 1.0.6 fails due to missing attribute
+[Fix] Bugs #2727: Password posthooks are broken
+[Fix] Bugs #2728: Locked account and samba
+[Fix] Bugs #2729: Samba munged attribute ACLs
+[Fix] Bugs #2731: Fix the 1.0.8 branch work
+[Fix] Bugs #2732: scope one for filter is ignored
+[Fix] Bugs #2733: Debconf should be reworked
+[Fix] Bugs #2736: Create an user and setup an acl as the same time
+[Fix] Bugs #2738: when creating a user in a template with accent and uppercase modifier
+[Fix] Bugs #2741: systems plugin needs to be adapted to new listing feature
+[Fix] Bugs #2744: OPSI plugin contains duplicated code
+[Fix] Bugs #2758: when installing FusionDirectory for the first time it put an error message about samba sid / rid right on the login page
+[Fix] Bugs #2784: shell_exec should not be used in the code it is present in class_ldap.inc
+[Fix] Bugs #2837: Fix filter.tpl files
+[Fix] Bugs #2838: Fix filter.tpl files
+[Fix] Bugs #2839: Fix the systemSelect situation
+[Fix] Bugs #2840: Fix the systemSelect situation
+[Fix] Bugs #2844: LDAP SIZE LIMIT should be fixed
+[Fix] Bugs #2846: Load acl category from plManages entry
+[Fix] Bugs #2848: Duplicated code in setup_stepFinish
+[Fix] Bugs #2852: rename the board plugin to dashboard
+[Fix] Bugs #2858: merge master of simple-plugin to fusiondirectory
+[Fix] Bugs #2867: The code should not fix default values
+[Fix] Bugs #2869: Fix the 1.0.8 branch work
+[Fix] Bugs #2884: Ease ACL handling
+[Fix] Bugs #2896: More plugins should be using simpleManagement
+[Fix] Bugs #2898: SimpleManagement should handle better the name column
+[Fix] Bugs #2901: We need to clarify role situation
+[Fix] Bugs #2904: setup is broken in 1.0.8 when inspecting department
+[Fix] Bugs #2910: argonaut server service should have an option to not get packages even if a mirror is created in FusionDirectory
+[Fix] Bugs #2915: in the LDAP connection setup page we should have a button in the authentifiacation section that allow us to test the conbimation of admin dn and admin password
+[Fix] Bugs #2916: Group creation is broken
+[Fix] Bugs #2917: Problem with Unix settings "Force UID/GID" and "User must change password on first login"
+[Fix] Bugs #2918: when creating the fd-admin user in the migration phase i got an error
+[Fix] Bugs #2921: the select for the systems doesn't work on 1.0.8
+[Fix] Bugs #2922: the samba plugin is broken on 1.0.8
+[Fix] Bugs #2926: We should use freedesktop Icon Theme Specification
+[Fix] Bugs #2928: Message dialog should be reworked
+[Fix] Bugs #2929: LDAP dialog errors should have error style
+[Fix] Bugs #2930: LDAP dialog errors should have error style
+[Fix] Bugs #2935: old board plugin still appears on fresh FD 1.0.8 install
+[Fix] Bugs #2936: some icons are missing I only see the alternate text
+[Feature] Bugs #2937: We should use freedesktop Icon Theme Specification
+[Fix] Bugs #2938: typo error in class_DaemonEvent.inc
+[Fix] Bugs #2946: Samba tslogin is broken
+[Fix] Bugs #2954: Samba is uselessy using plugin class
+[Fix] Bugs #2977: fusiondirectory-setup --migrate-acls fails if roles branch does not exists.
+[Fix] Bugs #2979: FusionDirectory could detect old ACL format
+[Fix] Bugs #3002: Improve HTML code in order to ease tests
+[Fix] Bugs #3005: how to fix broken acls
+[Fix] Bugs #3027: Warning the gidNumber is already in use when we edit a group
+[Fix] Bugs #3030: Info message when we copy/paste ACL roles in the same place
+[Fix] Bugs #3035: Cannot redeclare class SubNodesAttribute
+[Fix] Bugs #3036: Cannot redeclare class SubNodesAttribute
+[Fix] Bugs #3041: divSelectBox should take an html id in its constructor
+[Fix] Bugs #3044: Cannot apply an ACL
+[Fix] Bugs #3045: In acl assignments the base sometimes wrongly show
+[Fix] Bugs #3051: GUI corruption
+[Fix] Bugs #3052: Debug output when not specified during setup
+[Fix] Bugs #3058: GUI corruption
+[Fix] Bugs #3066: Copy user in an other base create the user in the root base
+[Fix] Bugs #3067: The copy of an user is not in the group of these user
+[Fix] Bugs #3072: Password hook not block the password change if you logged in fd-admin.
+[Fix] Bugs #3074: cleaning the snapshot management
+[Fix] Bugs #3087: Renommer un groupe
+[Fix] Bugs #3088: Ajout d'adresse mail alternative vide
+[Fix] Bugs #3090: We can’t use /tmp for auth token anymore
+[Fix] Bugs #3099: Role plugin moved to core
+[Fix] Bugs #3111: systemSelect crash the unix tab
+[Fix] Bugs #3120: samba domain don't appears !
+[Fix] Bugs #3145: when install fusiondirectory-plugins-opsi, php class couldn't be loaded
+[Fix] Bugs #3148: Argonaut queue is crashing when trying to load FAI logs
+[Fix] Bugs #3153: When creating an FAI branch, subbranches should be created as well
+[Fix] Bugs #3156: some icons are missing I only see the alternate text
+[Fix] Bugs #3157: some icons are missing I only see the alternate text
+[Fix] Bugs #3163: Icon theme inheritance is broken
+[Fix] Bugs #3164: Servers service tab causes trouble with pluginfo div
+[Fix] Bugs #3175: unable to copy / paste opsi software list and opsi profile on fd web interface
+[Feature] Wishlist #343: we need a webservice for fusiondirectory
+[Feature] Wishlist #2220: Snapshot URI and user should default to the same one as FD
+[Feature] Wishlist #2714: Samba Domain general attributes management
+[Fix] Wishlist #2720: Improving HTML&CSS code
+[Feature] Wishlist #2734: we need a webservice for fusiondirectory
+[Fix] Wishlist #2949: add ipmi as a system attribute and not as a new system
+[Feature] Wishlist #3065: Having some default roles
+[Feature] Wishlist #3092: Add a visual effect (change header color?) when editing
+[Fix] simple-plugin - Bugs #2589: Foreign key should be handled between plugins
+[Feature] simple-plugin - Bugs #2627: We should be able to create link to object edition easily
+[Fix] simple-plugin - Bugs #2841: Fix the systemSelect situation
+[Fix] simple-plugin - Bugs #2857: Use old template system with 1.0.8
+[Fix] simple-plugin - Bugs #2899: SimpleManagement should handle better the name column
+[Fix] simple-plugin - Bugs #2931: LDAP dialog errors should have error style
+[Feature] simple-plugin - Bugs #2932: We should use freedesktop Icon Theme Specification
+[Fix] simple-plugin - Bugs #3032: Info popup 'Error when saving' must be an error popup
+[Fix] simple-plugin - Bugs #3105: Syntax problem with PHP 5.3
+
 * FusionDirectory 1.0.7.4
 
 [Fix] Bugs #3089: Clean OPSI import code to reuse it for other imports

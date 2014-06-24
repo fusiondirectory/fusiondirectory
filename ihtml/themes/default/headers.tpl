@@ -4,25 +4,27 @@
 <head>
   <title>{if isset($title)}{$title}{else}FusionDirectory{/if}</title>
 
-  <meta name="description" content="FusionDirectory - Login">
-  <meta name="author" lang="en" content="FusionDirectory Project">
-  <meta name="viewport" content="width=device-width">
+  <meta charset="utf-8"/>
+
+  <meta name="description" content="FusionDirectory - Login"/>
+  <meta name="author" lang="en" content="FusionDirectory Project"/>
+  <meta name="viewport" content="width=device-width"/>
 
   {include file={filePath file="css.tpl"}}
-  <link rel="stylesheet" type="text/css" href="{filePath file="printer.css"}" media="print">
+  <link rel="stylesheet" type="text/css" href="{filePath file="printer.css"}" media="print"/>
 
-  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="shortcut icon" href="favicon.ico"/>
 
-  <script language="javascript" src="include/prototype.js" type="text/javascript"></script>
-  <script language="javascript" src="include/fusiondirectory.js" type="text/javascript"></script>
+  <script src="include/prototype.js" type="text/javascript"></script>
+  <script src="include/fusiondirectory.js" type="text/javascript"></script>
 {if $usePrototype == 'true'}
-  <script language="javascript" src="include/scriptaculous.js" type="text/javascript"></script>
-  <script language="javascript" src="include/builder.js" type="text/javascript"></script>
-  <script language="javascript" src="include/effects.js" type="text/javascript"></script>
-  <script language="javascript" src="include/dragdrop.js" type="text/javascript"></script>
-  <script language="javascript" src="include/controls.js" type="text/javascript"></script>
-  <script language="javascript" src="include/pulldown.js" type="text/javascript"></script>
-  <script language="javascript" src="include/datepicker.js" type="text/javascript"></script>
+  <script src="include/scriptaculous.js" type="text/javascript"></script>
+  <script src="include/builder.js" type="text/javascript"></script>
+  <script src="include/effects.js" type="text/javascript"></script>
+  <script src="include/dragdrop.js" type="text/javascript"></script>
+  <script src="include/controls.js" type="text/javascript"></script>
+  <script src="include/pulldown.js" type="text/javascript"></script>
+  <script src="include/datepicker.js" type="text/javascript"></script>
 {/if}
 </head>
 

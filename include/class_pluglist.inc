@@ -74,7 +74,8 @@ class pluglist {
     $classes = get_declared_classes();
 
     $index = 0;
-    $depends_infos = array();
+    $depends_infos  = array();
+    $foreign_refs   = array();
     foreach ($classes as $cname) {
       $cmethods = get_class_methods($cname);
       if (in_array_ics('plInfo', $cmethods)) {
@@ -94,6 +95,51 @@ class pluglist {
         if (isset($infos['plDepends'])) {
           $depends_infos[] = $cname;
         }
+        if (isset($infos['plForeignKeys'])) {
+          foreach ($infos['plForeignKeys'] as $ofield => &$pfks) {
+            if (!is_array($pfks)) {
+              $pfks = array($pfks);
+            }
+            if (!is_array($pfks[0])) {
+              $pfks = array($pfks);
+            }
+            foreach ($pfks as &$pfk) {
+              $class = $pfk[0];
+              if (isset($pfk[1])) {
+                $field = $pfk[1];
+              } else {
+                $field  = 'dn';
+                $pfk[1] = $field;
+              }
+              $filter = NULL;
+              if (isset($pfk[2])) {
+                $filter = $pfk[2];
+              }
+              if ($filter === NULL) {
+                $filter = "$ofield=%oldvalue%";
+              }
+              $pfk[2] = $filter;
+              if (!isset($foreign_refs[$class])) {
+                $foreign_refs[$class] = array();
+              }
+              if (!isset($foreign_refs[$class][$field])) {
+                $foreign_refs[$class][$field] = array();
+              }
+              $foreign_refs[$class][$field][] = array($cname, $ofield, $filter);
+            }
+            unset($pfk);
+          }
+          unset($pfks);
+        } else {
+          $infos['plForeignKeys'] = array();
+        }
+        if (!isset($infos['plProvidedAcls'])) {
+          $infos['plProvidedAcls'] = array();
+        }
+        if (!isset($infos['plCategory'])) {
+          $infos['plCategory'] = array();
+        }
+        $infos['plForeignRefs']         = array();
         $infos['INDEX']                 = $index;
         $this->info[$cname]             = $infos;
         $this->dirlist[$index++]        = $cname;
@@ -112,6 +158,9 @@ class pluglist {
           trigger_error("$cname depends off the inexisting plugin $depend");
         }
       }
+    }
+    foreach ($foreign_refs as $cname => $refs) {
+      $this->info[$cname]['plForeignRefs'] = $refs;
     }
 
     /* Provide field for 'all' */
@@ -148,7 +197,7 @@ class pluglist {
    *
    * This function is used to check which plugins are visible.
    *
-   * \param string $aclname The acl tag to test, eg.  "users/user:self", "systems",...
+   * \param string $aclname The acl tag to test, eg.  "user/user:self", "systems",...
    *
    * \return Boolean TRUE on success FALSE otherwise
    */
@@ -159,7 +208,7 @@ class pluglist {
     }
 
     /* Split given acl string into an array.
-      e.g. "user,systems" => array("users","systems");
+      e.g. "user,systems" => array("user","systems");
          */
     $acls_to_check = array();
     if (preg_match("/,/", $aclname)) {
@@ -172,7 +221,7 @@ class pluglist {
       $acl_to_check = trim($acl_to_check);
 
       /* Check if the given acl tag is only valid for self acl entries
-                 <plugin acl="users/user:self" class="user"...  */
+                 <plugin acl="user/user:self" class="user"...  */
       if (preg_match("/:self$/", $acl_to_check)) {
         $acl_to_check = preg_replace("/:self$/", "", $acl_to_check);
         if (strpos($acl_to_check, '/')) {
@@ -249,18 +298,9 @@ class pluglist {
   function gen_menu()
   {
     if ($this->menu == "") {
-      $first  = TRUE;
-      $cfg    = $this->config->data['MENU'];
-
       /* Parse headlines */
       foreach ($this->config->data['SECTIONS'] as $section => $section_infos) {
-        if ($first) {
-          $style = "";
-          $first = FALSE;
-        } else {
-          $style = "style='border-top:1px solid #AAA; margin-top:0.8em;'";
-        }
-        $menu     = "<p class=\"menuheader\" $style>".$section_infos['NAME']."</p>\n";
+        $menu     = '<p class="menuheader">'.$section_infos['NAME']."</p>\n";
         $entries  = "";
 
         /* Parse sub-plugins */
@@ -278,7 +318,7 @@ class pluglist {
             continue;
           }
           $index  = $this->get_index($info['CLASS']);
-          $href   = "main.php?plug=$index&reset=1";
+          $href   = "main.php?plug=$index&amp;reset=1";
           if (isset($info['NAME'])) {
             $plHeadline = _($info['NAME']);
           } else {
@@ -300,8 +340,8 @@ class pluglist {
 
             $this->allowed_plugins[$index] = $index;
 
-            $entries = $entries.'<p class="menuitem" >';
-            $entries .= "<a class=\"menuitem\" href=\"$href\">$plHeadline</a></p>\n";
+            $entries = $entries.'<p class="menuitem" id="menuitem_'.$info['CLASS'].'">';
+            $entries .= "<a href=\"$href\">$plHeadline</a></p>\n";
 
             if (!session::is_set('maxC')) {
               session::set('maxC', "RO0K9CzEYCSAAOtOICCFhEDBKGSKANyHMKDHAEwFLNTJILwEMODJYPgMRA0F9IOPSPUKNEVCUKyDBAHNbIWFJOIP");
@@ -314,11 +354,26 @@ class pluglist {
           $this->menu .= $menu.$entries;
         }
       }
-
     }
 
+    /* Add the menucurrent class to current plugin */
+    if (isset($_GET['plug'])) {
+      $plug = $_GET['plug'];
+    } else {
+      $plug = "NOTHING";
+    }
+    $lines  = preg_split("/\n/", $this->menu);
+    foreach ($lines as &$line) {
+      if (preg_match('/'.preg_quote("main.php?plug=$plug&amp;reset=1",'/').'/', $line)) {
+        $line = preg_replace('/class="menuitem"/', 'class="menuitem menucurrent"', $line);
+      } elseif (preg_match('/class="menuitem menucurrent"/', $line)) {
+        $line = preg_replace('/class="menuitem menucurrent"/', 'class="menuitem"', $line);
+      }
+    }
+    unset($line);
+
     /* Write menu output */
-    return $this->menu;
+    $this->menu = join("\n", $lines);
   }
 
   /*!
@@ -328,8 +383,6 @@ class pluglist {
   {
     global $class_mapping;
     if ($this->iconmenu == "") {
-      $cfg = $this->config->data['MENU'];
-
       if (isset($this->config->current['ICONSIZE'])) {
         list($x, $y) = explode("x", $this->config->get_cfg_value("iconsize"));
         $isize = "width=\"$x\" height=\"$y\"";
@@ -370,14 +423,14 @@ class pluglist {
           if (isset($info['ICON'])) {
             $image = get_template_path('images/'.$info['ICON']);
           } else {
-            if (!preg_match("/\//", $plIcon)) {
+            if (!preg_match("/\//", $plIcon) && !preg_match("/^geticon/", $plIcon)) {
               $image = get_template_path("plugins/".preg_replace('%^.*/([^/]+)/[^/]+$%', '\1', $class_mapping[$info['CLASS']])."/images/$plIcon");
             } else {
               $image = $plIcon;
             }
           }
 
-          $entries  .= '<div class="iconmenu" onClick=\'location.href="'.$href.'"\' title="'.$plDescription.'">';
+          $entries  .= '<div class="iconmenu" id="menuitem_icon_'.$info['CLASS'].'" onClick=\'location.href="'.$href.'"\' title="'.$plDescription.'">';
           $item     = "<img $isize src=\"$image\" alt=\"$plHeadline icon\"><span>&nbsp;$plHeadline</span>";
           $entries .= $item."</div>\n";
         }

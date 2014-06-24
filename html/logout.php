@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
@@ -30,33 +29,33 @@ header("Content-type: text/html; charset=UTF-8");
 /* try to start session, so we can remove userlocks,
   if the old session is still available */
 @session::start();
-session::set('errorsAlreadyPosted',array());
-if(session::global_is_set('ui')){
+session::set('errorsAlreadyPosted', array());
+if (session::global_is_set('ui')) {
 
   /* Get config & ui informations */
-  $ui= session::global_get("ui");
+  $ui = session::global_get("ui");
 
   /* config used for del_user_locks & some lines below to detect the language */
-  $config= session::global_get("config");
+  $config = session::global_get("config");
 
   /* Remove all locks of this user */
   del_user_locks($ui->dn);
 
   /* Write something to log */
-  new log("security","logout","",array(),"User \"".$ui->username."\" logged out") ;
+  new log("security", "logout", "", array(), "User \"".$ui->username."\" logged out");
 }
 
 /* Language setup */
-if ((!isset($config)) || $config->get_cfg_value("language") == ""){
-  $lang= get_browser_language();
+if ((!isset($config)) || $config->get_cfg_value("language") == "") {
+  $lang = get_browser_language();
 } else {
-  $lang= $config->get_cfg_value("language");
+  $lang = $config->get_cfg_value("language");
 }
 
 putenv("LANGUAGE=");
 putenv("LANG=$lang");
 setlocale(LC_ALL, $lang);
-$GLOBALS['t_language']= $lang;
+$GLOBALS['t_language']            = $lang;
 $GLOBALS['t_gettext_message_dir'] = $BASE_DIR.'/locale/';
 
 /* Set the text domain as 'fusiondirectory' */
@@ -65,22 +64,22 @@ bindtextdomain($domain, LOCALE_DIR);
 textdomain($domain);
 
 /* Set smarty template compile directory */
-if (isset($config)){
-  $smarty->compile_dir= $config->get_cfg_value("templateCompileDirectory", SPOOL_DIR);
+if (isset($config)) {
+  $smarty->compile_dir = $config->get_cfg_value("templateCompileDirectory", SPOOL_DIR);
 } else {
-  $smarty->compile_dir= SPOOL_DIR;
+  $smarty->compile_dir = SPOOL_DIR;
 }
 
 $smarty->assign("date", date("l, dS F Y H:i:s O"));
 
 /* If GET request is posted, the logout was forced by pressing the link */
-if (isset($_GET['request'])){
+if (isset($_GET['request'])) {
 
   /* destroy old session */
   session::destroy ();
 
   /* If we're not using htaccess authentication, just redirect... */
-  if (isset($config) && $config->get_cfg_value("htaccessAuthentication") == "TRUE"){
+  if (isset($config) && $config->get_cfg_value("htaccessAuthentication") == "TRUE") {
 
     /* Else notice that the user has to close the browser... */
     $smarty->assign("usePrototype", "false");
@@ -92,13 +91,12 @@ if (isset($_GET['request'])){
   header ("Location: index.php");
   exit();
 
-}else{  // The logout wasn't forced, so the session is invalid
+} else {  // The logout wasn't forced, so the session is invalid
 
   $smarty->assign("usePrototype", "false");
   $smarty->display (get_template_path('headers.tpl'));
   $smarty->display (get_template_path('logout.tpl'));
   exit;
 }
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>
 </html>

@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012  FusionDirectory
+  Copyright (C) 2012-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ class GenericDialog
     if (isset($_POST[$this->post_cancel])) {
       return $this->handle_cancel();
     }
-    if (isset($_POST[$this->post_finish])) {
+    if (isset($_POST[$this->post_finish]) || isset($_GET[$this->post_finish])) {
       return $this->handle_finish();
     }
     return $this->dialog_execute();
@@ -87,15 +87,11 @@ class GenericSelectDialog extends GenericDialog
 class UserSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'userSelect';
-  protected $post_cancel = 'add_users_cancel';
-  protected $post_finish = 'add_users_finish';
 }
 
 class SingleUserSelectDialog extends GenericDialog
 {
-  protected $dialogClass = 'userSelect';
-  protected $post_cancel = 'add_users_cancel';
-  protected $post_finish = 'add_users_finish';
+  protected $dialogClass = 'singleUserSelect';
 
   function handle_finish ()
   {
@@ -110,43 +106,26 @@ class SingleUserSelectDialog extends GenericDialog
   }
 }
 
+class SystemSelectDialog extends GenericSelectDialog
+{
+  protected $dialogClass = 'systemSelect';
+  protected $post_cancel = 'add_ws_cancel';
+  protected $post_finish = 'add_ws_finish';
+}
+
 class UserGroupSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'userGroupSelect';
-  protected $post_cancel = 'userGroupSelect_cancel';
-  protected $post_finish = 'userGroupSelect_save';
-
-  function handle_finish ()
-  {
-    $users = $this->dialog->save();
-    foreach ($users as $user) {
-      $this->attribute->addValue($user['dn'], $user);
-    }
-    return FALSE;
-  }
 }
 
 class GroupSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'groupSelect';
-  protected $post_cancel = 'add_groups_cancel';
-  protected $post_finish = 'add_groups_finish';
 }
 
 class MailSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'mailAddressSelect';
-  protected $post_cancel = 'mailAddressSelect_cancel';
-  protected $post_finish = 'mailAddressSelect_save';
-
-  function handle_finish ()
-  {
-    $list = $this->dialog->save();
-    foreach ($list as $entry) {
-      $this->attribute->addValue($entry['dn'], $entry);
-    }
-    return FALSE;
-  }
 }
 
 /*! \brief This class allows to handle an attribute with a popup for selection
@@ -171,6 +150,17 @@ class DialogAttribute extends SetAttribute
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $acl = "")
   {
     Attribute::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
+    $this->attribute = FALSE;
+  }
+
+  function addPostValue ($value)
+  {
+    $this->addValue($value, NULL);
+  }
+
+  function delPostValue ($key)
+  {
+    $this->removeValue($key);
   }
 
   function addValue ($value, $attrs)
@@ -178,72 +168,42 @@ class DialogAttribute extends SetAttribute
     trigger_error("abstract method");
   }
 
+  protected function removeValue ($row)
+  {
+    unset($this->value[$row]);
+  }
+
   function getFilterBlackList ()
   {
     trigger_error("abstract method");
   }
 
-  function getDisplayValues ()
-  {
-    return $this->value;
-  }
-
   function loadPostValue ()
   {
+    parent::loadPostValue();
     if ($this->isVisible()) {
       if (isset($_POST['add'.$this->getHtmlId().'_dialog'])) {
         $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
-      } elseif (isset($_POST['del'.$this->getHtmlId()]) && isset($_POST['row'.$this->getHtmlId()])) {
-        foreach ($_POST['row'.$this->getHtmlId()] as $row) {
-          $this->removeValue($row);
-        }
       }
     }
-  }
-
-  protected function removeValue ($row)
-  {
-    unset($this->value[$row]);
   }
 
   function applyPostValue ()
   {
   }
 
-  function getAcl ()
-  {
-    return Attribute::getAcl();
-  }
-
-  function setAcl ($acl)
-  {
-    return Attribute::setAcl($acl);
-  }
-
-  function renderAttributeInput ()
-  {
-  }
-
   function renderButtons ()
   {
     $id = $this->getHtmlId();
-    $buttons  = '<input type="submit" name="add'.$id.'_dialog" id="add'.$id.'_dialog"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="{msgPool type=addButton}"/>';
-    $buttons .= '<input type="submit" name="del'.$id.'" id="del'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="{msgPool type=delButton}"/>';
+    $buttons  = $this->renderInputField(
+      'submit', 'add'.$id.'_dialog',
+      array('value' => '{msgPool type=addButton}')
+    );
+    $buttons  .= $this->renderInputField(
+      'submit', 'del'.$id,
+      array('value' => '{msgPool type=delButton}')
+    );
     return $buttons;
-  }
-
-  function renderAttribute(&$attributes, $readOnly)
-  {
-    Attribute::renderAttribute($attributes, $readOnly);
-  }
-
-  function check ()
-  {
-    return Attribute::check();
   }
 
   protected function htmlIds()
@@ -251,16 +211,71 @@ class DialogAttribute extends SetAttribute
     $id = $this->getHtmlId();
     return array('add'.$id.'_dialog','del'.$id,'row'.$id);
   }
+}
 
-  function setParent(&$plugin)
+class DialogOrderedArrayAttribute extends OrderedArrayAttribute
+{
+  protected $dialogClass;
+
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $acl = "")
   {
-    Attribute::setParent($plugin);
+    Attribute::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
+    $this->edit_enabled = TRUE;
+    $this->attribute    = FALSE;
+  }
+
+  function loadPostValue ()
+  {
+    if ($this->isVisible()) {
+      parent::loadPostValue();
+      parent::applyPostValue();
+      if (isset($_POST['add'.$this->getHtmlId().'_dialog'])) {
+        $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
+      }
+    }
+  }
+
+  protected function handleEdit($key)
+  {
+    $this->editingValue = $this->value[$key];
+    $this->delPostValue($key);
+    $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this, $this->editingValue));
+  }
+
+  function applyPostValue ()
+  {
+  }
+
+  function addValue($value)
+  {
+    $this->value[] = $value;
+    $this->reIndexValues();
+  }
+
+  function renderButtons ()
+  {
+    $id = $this->getHtmlId();
+    return $this->renderInputField(
+      'submit', 'add'.$id.'_dialog',
+      array('value' => '{msgPool type=addButton}')
+    );
+  }
+
+  protected function htmlIds()
+  {
+    $ids = parent::htmlIds();
+    $ids[0] .= '_dialog';
+  }
+
+  protected function getAttributeArrayValue($value)
+  {
+    /* Convert text value to displayable array value */
+    die('Pure virtual method');
   }
 }
 
 class GenericDialogAttribute extends DialogAttribute
 {
-
   protected $displays     = array();
   protected $store_attr   = 'dn';
   protected $display_attr = 'cn';
@@ -285,12 +300,10 @@ class GenericDialogAttribute extends DialogAttribute
       $value = $attrs[$this->store_attr][0];
     }
     if (!in_array($value, $this->value)) {
-      $this->value[]    = $value;
-      if ($this->display_attr == 'dn') {
-        $this->displays[] = $dn;
-      } else {
-        $this->displays[] = $attrs[$this->display_attr][0];
-      }
+      end($this->value);
+      $new_key = key($this->value) + 1;
+      $this->value[$new_key] = $value;
+      $this->fillDisplayValueFrom($new_key, $attrs);
     }
   }
 
@@ -302,7 +315,7 @@ class GenericDialogAttribute extends DialogAttribute
 
   function getDisplayValues ()
   {
-    foreach ($this->value as $i => $dn) {
+    foreach (array_keys($this->value) as $i) {
       if (!isset($this->displays[$i])) {
         $this->fillDisplayValue($i);
       }
@@ -321,16 +334,25 @@ class GenericDialogAttribute extends DialogAttribute
 
     $value = $this->value[$i];
     if ($this->store_attr == 'dn') {
-      $ldap->cat($value, array($this->display_attr));
+      $ldap->cat($value, $this->ldapAttributesToGet());
     } else {
-      $ldap->search('('.$this->store_attr.'='.$value.')', array($this->display_attr));
+      $ldap->search('('.$this->store_attr.'='.$value.')', $this->ldapAttributesToGet());
     }
-    if (!$ldap->count()) {
+    $this->fillDisplayValueFrom($i, $ldap->fetch());
+  }
+
+  protected function ldapAttributesToGet ()
+  {
+    return array($this->display_attr);
+  }
+
+  protected function fillDisplayValueFrom ($i, $attrs)
+  {
+    if (!isset($attrs[$this->display_attr])) {
       unset($this->value[$i]);
     } else {
-      $attrs = $ldap->fetch();
-      if (!isset($attrs[$this->display_attr])) {
-        unset($this->value[$i]);
+      if ($this->display_attr == 'dn') {
+        $this->displays[$i] = $attrs['dn'];
       } else {
         $this->displays[$i] = $attrs[$this->display_attr][0];
       }
@@ -353,36 +375,31 @@ class UsersAttribute extends GenericDialogAttribute
  *
  * It looks like a SetAttribute, but clicking "Add" will open a dialog that allow to select one or more users or groups.
  * It stores their dn as values, but displays the cn.
- *
  */
-class UsersGroupsAttribute extends DialogAttribute
+class UsersGroupsAttribute extends GenericDialogAttribute
 {
   protected $dialogClass = 'UserGroupSelectDialog';
 
-  function addValue ($dn, $entry)
+  protected function ldapAttributesToGet ()
   {
-    if (in_array("posixGroup", $entry['objectClass'])) {
-      $name = trim("%".$entry['cn'][0]);
-    } elseif (isset($entry['uid'][0])) {
-      $name = trim($entry['uid'][0]);
-    }
-    if (!in_array($name, $this->value) && !in_array("!".$name, $this->value)) {
-      $this->value[] = $name;
-    }
+    return array('cn', 'uid', 'objectClass');
   }
 
-  function getFilterBlackList ()
+  protected function fillDisplayValueFrom ($i, $attrs)
   {
-    $used = array();
-    foreach ($this->value as $name) {
-      $str = preg_replace("/^!/", "", $name);
-      if (preg_match("/^%/", $str)) {
-        $used['cn'][] = preg_replace("/^%/", "", $str);
+    if (!isset($attrs[$this->display_attr])) {
+      unset($this->value[$i]);
+    } else {
+      if ($this->display_attr == 'dn') {
+        $this->displays[$i] = $attrs['dn'];
+      } elseif (in_array("posixGroup", $attrs['objectClass'])) {
+        $this->displays[$i] = sprintf(_("Group %s"), trim($attrs['cn'][0]));
+      } elseif (isset($attrs['uid'][0])) {
+        $this->displays[$i] = trim($attrs['uid'][0]);
       } else {
-        $used['uid'][] = $str;
+        $this->displays[$i] = $attrs[$this->display_attr][0];
       }
     }
-    return $used;
   }
 }
 
@@ -415,14 +432,14 @@ class GroupsAttribute extends GenericDialogAttribute
   }
 }
 
-/*! \brief This class allows to handle an attribute for selecting user
+/*! \brief This class allows to handle an attribute for selecting an mail address
  *
  * It looks like a SetAttribute, but clicking "Add" will open a dialog that allow to select one or more users.
  *
  */
 class MailsAttribute extends DialogAttribute
 {
-  protected $dialogClass = "MailSelectDialog";
+  protected $dialogClass = 'MailSelectDialog';
 
   /*! \brief The constructor of MailsAttribute
    *
@@ -451,47 +468,46 @@ class MailsAttribute extends DialogAttribute
     }
   }
 
-  function loadPostValue ()
-  {
-    parent::loadPostValue();
-    if ($this->isVisible()) {
-      if (isset($_POST['add'.$this->getHtmlId()])) {
-        $this->attribute->loadPostValue();
-        $this->attribute->applyPostValue();
-        $this->addValue($this->attribute->getValue(), NULL);
-      }
-    }
-  }
-
-  function renderAttributeInput ()
-  {
-    return SetAttribute::renderAttributeInput();
-  }
-
   function renderButtons ()
   {
     $id = $this->getHtmlId();
-    $buttons  = '<input type="submit" name="add'.$id.'" id="add'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="{msgPool type=addButton}"/>';
-    $buttons  .= '<input type="submit" name="add'.$id.'_dialog" id="add'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="{msgPool type=addButton} (from list)"/>';
-    $buttons .= '<input type="submit" name="del'.$id.'" id="del'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="{msgPool type=delButton}"/>';
+    $buttons  = $this->renderInputField(
+      'submit', 'add'.$id,
+      array('value' => '{msgPool type=addButton}')
+    );
+    $buttons  .= $this->renderInputField(
+      'submit', 'add'.$id.'_dialog',
+      array('value' => '{msgPool type=addButton} (from list)')
+    );
+    $buttons  .= $this->renderInputField(
+      'submit', 'del'.$id,
+      array('value' => '{msgPool type=delButton}')
+    );
     return $buttons;
-  }
-
-  function check ()
-  {
-    return SetAttribute::check();
   }
 
   protected function htmlIds()
   {
     $id = $this->getHtmlId();
     return array('add'.$id,'add'.$id.'_dialog','del'.$id,'row'.$id);
+  }
+}
+
+class SystemsAttribute extends DialogAttribute
+{
+  protected $dialogClass = 'SystemSelectDialog';
+
+  function addValue ($dn, $entry)
+  {
+    $value = $entry['cn'][0];
+    if (!in_array($value, $this->value)) {
+      $this->value[]    = $value;
+    }
+  }
+
+  function getFilterBlackList ()
+  {
+    return array('cn' => $this->getValue());
   }
 }
 
@@ -508,8 +524,10 @@ class ButtonAttribute extends Attribute
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $display  = '<input type="submit" name="'.$id.'" id="'.$id.'" value="{literal}'.$this->buttonText.'{/literal}" '.
-                ($this->disabled? 'disabled="disabled"':'').'/>';
+    $display = $this->renderInputField(
+      'submit', $id,
+      array('value' => '{literal}'.$this->buttonText.'{/literal}')
+    );
     return $this->renderAcl($display);
   }
 
@@ -525,7 +543,6 @@ class DialogButtonAttribute extends ButtonAttribute
   function __construct ($label, $description, $ldapName, $required, $dialogClass, $buttonText, $defaultValue = "", $acl = "")
   {
     parent::__construct($label, $description, $ldapName, $required, $buttonText, $defaultValue, $acl);
-
     $this->dialogClass  = $dialogClass;
   }
 
@@ -555,7 +572,7 @@ class UserAttribute extends DialogButtonAttribute
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $display  = '<img src="plugins/users/images/iconMini.png" alt="user icon" class="center"/>';
+    $display  = '<img src="geticon.php?context=types&icon=user&size=16" alt="user icon" class="center"/>';
     if ($this->getValue() == '') {
       $display  .= '<b>'._('None').'</b>';
     } elseif ($this->buttonText === NULL) {
@@ -563,13 +580,25 @@ class UserAttribute extends DialogButtonAttribute
     } else {
       $display  .= '<a>'.$this->buttonText.'</a>';
     }
-    $display  .=  '<input class="center" type="image" src="images/lists/edit.png" '.
-                  'alt="'._('Edit').'" title="'._('Edit').'" name="'.$id.'" id="'.$id.'" '.
-                  ($this->disabled? 'disabled="disabled"':'').'/>';
+    $display .= $this->renderInputField(
+      'image', $id,
+      array(
+        'class' => 'center',
+        'src'   => 'geticon.php?context=actions&icon=document-edit&size=16',
+        'title' => _('Edit'),
+        'alt'   => _('Edit')
+      )
+    );
     if (!$this->isRequired()) {
-      $display  .=  '<input class="center" type="image" src="images/lists/trash.png" '.
-                    'alt="'._('Remove').'" title="'._('Remove').'" name="'.$id.'_remove" id="'.$id.'_remove" '.
-                    ($this->disabled? 'disabled="disabled"':'').'/>';
+      $display .= $this->renderInputField(
+        'image', $id.'_remove',
+        array(
+          'class' => 'center',
+          'src'   => 'geticon.php?context=actions&icon=edit-delete&size=16',
+          'title' => _('Remove'),
+          'alt'   => _('Remove')
+        )
+      );
     }
     return $this->renderAcl($display);
   }
@@ -578,7 +607,7 @@ class UserAttribute extends DialogButtonAttribute
   {
     $id = $this->getHtmlId();
     if (!$this->disabled && $this->isVisible()) {
-      foreach ($_POST as $name => $value) {
+      foreach (array_keys($_POST) as $name) {
         if (!$this->isRequired()) {
           if (preg_match('/^'.$id.'_remove_/', $name)) {
             $this->setValue('');
@@ -618,5 +647,4 @@ class UserAttribute extends DialogButtonAttribute
     return $ids;
   }
 }
-
 ?>

@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
@@ -20,142 +19,97 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class groupManagement extends management
+class groupManagement extends simpleManagement
 {
-  // Tab definition
-  protected $tabClass = "grouptabs";
-  protected $tabType = "GROUPTABS";
-  protected $aclCategory = "groups";
-  protected $aclPlugin   = "group";
-  protected $objectName   = "group";
+  protected $objectTypes  = array('group', 'role');
+
+  protected $departmentBrowser      = TRUE;
+  protected $departmentRootVisible  = FALSE;
+  protected $baseMode               = TRUE;
+
+  protected $autoFilter = FALSE;
 
   /* Return plugin informations for acl handling */
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("Groups"),
-      "plDescription" => _("Manage groups"),
-      "plIcon"        => "plugins/groups/images/icon.png",
-      "plSection"     => "admin",
-      "plCategory"    => array("groups"),
-      "plPriority"    => 2,
+      'plShortName'   => _('Groups'),
+      'plDescription' => _('Manage groups'),
+      'plIcon'        => 'geticon.php?context=types&icon=user-group&size=48',
+      'plSection'     => 'admin',
+      'plManages'     => array('group', 'role'),
+      'plPriority'    => 2,
 
-      "plProvidedAcls" => array()
+      'plProvidedAcls' => array()
     );
   }
 
-  function __construct($config,$ui)
+  function __construct($config, $ui)
   {
-    $this->config = $config;
-    $this->ui = $ui;
+    $this->filterXMLPath  = get_template_path('group-filter.xml', TRUE, dirname(__FILE__));
+    $this->listXMLPath    = get_template_path('group-list.xml', TRUE, dirname(__FILE__));
 
-    $this->storagePoints = array(get_ou("groupRDN"));
-
-    // Build filter
-    if (session::global_is_set(get_class($this)."_filter")){
-      $filter= session::global_get(get_class($this)."_filter");
-    } else {
-      $filter = new filter(get_template_path("group-filter.xml", true));
-      $filter->setObjectStorage($this->storagePoints);
-    }
-    $this->setFilter($filter);
-
-    // Build headpage
-    $headpage = new listing(get_template_path("group-list.xml", true));
-    $headpage->registerElementFilter("filterProperties", "groupManagement::filterProperties");
-    $headpage->setFilter($filter);
-
-    parent::__construct($config, $ui, "groups", $headpage);
-
-    $this->registerAction("edit_group","editEntry");
-    $this->registerAction("edit_environment","editEntry");
-    $this->registerAction("edit_appgroup","editEntry");
-    $this->registerAction("edit_mailgroup","editEntry");
+    parent::__construct($config, $ui);
+    $this->headpage->registerElementFilter('filterProperties', 'groupManagement::filterProperties');
   }
 
-
-  function editEntry($action="",$target=array(),$all=array(), $altTabClass ="", $altTabType = "", $altAclCategory="")
+  static function filterProperties($row, $dn)
   {
-    $str = management::editEntry($action,$target);
+    global $config;
+    static $grouptabs = array();
+    if (empty($grouptabs)) {
+      foreach ($config->data['TABS']['GROUPTABS'] as $plug) {
+        if ($plug['CLASS'] == 'group') {
+          continue;
+        }
+        if (class_available($plug['CLASS'])) {
+          $name = $plug['CLASS'];
 
-    if(preg_match("/^edit_/",$action)){
-      $tab = preg_replace("/^edit_/","",$action);
-      if(isset($this->tabObject->by_object[$tab])){
-        $this->tabObject->current = $tab;
-      }else{
-        trigger_error("Unknown tab: ".$tab);
+          $grouptabs[$name] = new $name($config, $dn);
+        }
       }
     }
-    if(!empty($str)) return($str);
-  }
 
-  static function filterProperties($row, $classes)
-  {
-    $result= "";
-
-    $map = array(
-        "posixGroup" =>
-        array(
-          "image" => "plugins/groups/images/iconMini.png",
-          "plugin" => "group",
-          "alt" => _("Posix"),
-          "title" => _("Edit posix properties")
-          ),
-
-        "gosaMailAccount" =>
-        array(
-          "image" => "plugins/groups/images/mail.png",
-          "plugin" => "mailgroup",
-          "alt" => _("Mail"),
-          "title" => _("Edit mail properties")
-          ),
-
-        "sambaGroupMapping" =>
-        array(
-          "image" => "plugins/groups/images/samba.png",
-          "plugin" => "group",
-          "alt" => _("Samba"),
-          "title" => _("Edit samba properties")
-          ),
-
-        "goFonPickupGroup" =>
-          array(
-              "image" => "plugins/groups/images/asterisk.png",
-              "plugin" => "group",
-              "alt" => _("Phone"),
-              "title" => _("Edit phone properties")
-              ),
-
-        "gotoMenuGroup" =>
-          array(
-              "image" => "plugins/groups/images/menu.png",
-              "plugin" => "appgroup",
-              "alt" => _("Menu"),
-              "title" => _("Edit start menu properties")
-              ),
-
-        "gotoEnvironment" =>
-          array(
-              "image" => "plugins/groups/images/environment.png",
-              "plugin" => "environment",
-              "alt" => _("Environment"),
-              "title" => _("Edit environment properties")
-              )
-          );
-
-
-    // Walk thru map
-    foreach ($map as $oc => $properties) {
-      if (in_array_ics($oc, $classes)) {
-        $result.="<input class='center' type='image' src='".$properties['image']."' ".
-          "alt='".$properties['alt']."' title='".$properties['title'].
-                 "' name='listing_edit_".$properties['plugin']."_$row' style='padding:1px'>";
-      } else {
-        $result.="<img src='images/empty.png' alt=' ' class='center' style='padding:1px'>";
+    // Load information if needed
+    $ldap = $config->get_ldap_link();
+    $ldap->cat($dn);
+    $result = "<input class='center' type='image' src='geticon.php?context=types&icon=user-group&size=16' ".
+                       "alt='"._('Posix')."' title='"._('Edit posix properties')."' ".
+                       "name='listing_edit_tab_group_$row' style='padding:1px'/>";
+    if ($attrs = $ldap->fetch()) {
+      if (!objects::isOfType($attrs, 'group')) {
+        return '';
+      }
+      foreach ($grouptabs as $class => $grouptab) {
+        if ($grouptab->is_this_account($attrs)) {
+          $infos = pluglist::pluginInfos($class);
+          if (isset($infos['plSmallIcon'])) {
+            $result .= "<input class='center' type='image' src='".$infos['plSmallIcon']."' ".
+                       "alt='".$infos['plShortName']."' title='".$infos['plShortName']."' ".
+                       "name='listing_edit_tab_".$class."_$row' style='padding:1px'/>";
+          } else {
+            @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['plShortName']." ($class)", 'No icon for');
+          }
+        } else {
+          $result .= "<img src='images/empty.png' alt=' ' class='center optional $class' style='padding:1px'>";
+        }
       }
     }
+
     return $result;
   }
+
+  function renderList()
+  {
+    $smarty = get_smarty();
+    $filters = array(
+      array('id'  => 'PRIMARY', 'label'  => _('Show primary groups')),
+      array('id'  => 'SAMBA',   'label'  => _('Show samba groups')),
+      array('id'  => 'MAIL',    'label'  => _('Show mail groups')),
+      array('id'  => 'ROLE',    'label'  => _('Show organizational roles')),
+    );
+    $smarty->assign('objectFilters', $filters);
+    return management::renderList();
+  }
 }
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

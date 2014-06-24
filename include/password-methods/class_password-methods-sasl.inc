@@ -39,14 +39,14 @@ class passwordMethodsasl extends passwordMethod {
    *
    * \param string $dn The DN
    */
-  function __construct($config, $dn="")
+  function __construct($config, $dn = "")
   {
     if ($dn == "" || $dn == "new") {
       return;
     }
 
-    $this->realm  = trim($config->get_cfg_value('saslRealm',""));
-    $this->exop   = trim($config->get_cfg_value('saslExop',""));
+    $this->realm  = trim($config->get_cfg_value('saslRealm', ""));
+    $this->exop   = trim($config->get_cfg_value('saslExop', ""));
     if (empty($this->realm) && empty($this->exop)) {
       msg_dialog::display(_("Error"), msgPool::cmdnotfound("saslRealm or saslExop", _("SASL")), ERROR_DIALOG);
     }
@@ -60,7 +60,7 @@ class passwordMethodsasl extends passwordMethod {
       $attrs = $ldap->fetch();
       $this->uid = $attrs[$attr][0];
     } else {
-      msg_dialog::display(_("Error"), sprintf(_("Cannot change password, unknown user '%s'"),$dn), ERROR_DIALOG);
+      msg_dialog::display(_("Error"), sprintf(_("Cannot change password, unknown user '%s'"), $dn), ERROR_DIALOG);
     }
   }
 
@@ -106,6 +106,4 @@ class passwordMethodsasl extends passwordMethod {
     return FALSE;
   }
 }
-
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

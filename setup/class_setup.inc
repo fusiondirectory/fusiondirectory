@@ -31,7 +31,7 @@ class setup
   var $o_steps          = array();
   var $captured_values  = array();
 
-  function setup()
+  function __construct()
   {
     $i = 1;
     $this->o_steps[$i++] = new Step_Welcome();
@@ -54,9 +54,10 @@ class setup
       exit();
     }
 
-    foreach ($this->o_steps as $key => $step) {
-      $this->o_steps[$key]->parent = &$this;
+    foreach ($this->o_steps as &$step) {
+      $step->parent = &$this;
     }
+    unset($step);
   }
 
   function execute()
@@ -167,16 +168,17 @@ class setup
   function disable_steps_from($start)
   {
     $found = FALSE;
-    foreach ($this->o_steps as $key => $step) {
+    foreach ($this->o_steps as $key => &$step) {
       if ($key == $start) {
         $found = TRUE;
       }
 
       if ($found) {
-        $this->o_steps[$key]->set_enabled(FALSE);
-        $this->o_steps[$key]->set_completed(FALSE);
+        $step->set_enabled(FALSE);
+        $step->set_completed(FALSE);
       }
     }
+    unset($step);
   }
 
 
@@ -195,7 +197,7 @@ class setup
       $b_completed  = $step->is_completed();
 
       if ($b_completed) {
-        $s = "<img src='images/true.png' alt='"._("Completed")."' class='center'>&nbsp;";
+        $s = "<img src='geticon.php?context=status&icon=task-complete&size=16' alt='"._("Completed")."' class='center'>&nbsp;";
       } else {
         $s = "<img src='images/empty.png' alt=' ' class='center'>&nbsp;";
       }

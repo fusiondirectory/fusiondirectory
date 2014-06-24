@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# alejandrobarrios <alejandrobarrios@interlegis.leg.br>, 2014
+# ALEJANDRO BARRIOS <alejandrobarrios@interlegis.leg.br>, 2014
 # cfviotti <caioviotti@interlegis.leg.br>, 2014
 # Karine <karine_neumann@hotmail.com>, 2014
 # marcosantos <marcoa.csantos@yahoo.it>, 2014

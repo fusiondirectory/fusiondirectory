@@ -3,8 +3,8 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# mbbn <biabani.mohammad@gmail.com>, 2012
-# mbbn <biabani.mohammad@gmail.com>, 2012
+# Mohammad Biabani <biabani.mohammad@gmail.com>, 2012
+# Mohammad Biabani <biabani.mohammad@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory\n"

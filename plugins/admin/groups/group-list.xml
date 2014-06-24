@@ -6,35 +6,10 @@
     <departmentRootVisible>false</departmentRootVisible>
     <baseMode>true</baseMode>
     <multiSelect>true</multiSelect>
-    <template>group-list.tpl</template>
+    <template>simple-list.tpl</template>
     <module>groups</module>
     <label>List of groups</label>
     <defaultSortColumn>1</defaultSortColumn>
-
-    <objectType>
-      <label>Group</label>
-      <objectClass>posixGroup</objectClass>
-      <category>groups</category>
-      <class>group</class>
-      <image>plugins/groups/images/iconMini.png</image>
-    </objectType>
-
-    <objectType>
-      <label>Group submenu entry</label>
-      <objectClass>gotoSubmenuEntry</objectClass>
-      <category>groups</category>
-      <class>group</class>
-      <image>plugins/groups/images/iconMini.png</image>
-    </objectType>
-
-    <objectType>
-      <label>Group menu entry</label>
-      <objectClass>gotoMenuEntry</objectClass>
-      <category>groups</category>
-      <class>group</class>
-      <image>plugins/groups/images/iconMini.png</image>
-    </objectType>
-
 
   </definition>
 
@@ -72,7 +47,7 @@
 
     <column>
       <label>Properties</label>
-      <value>%{filter:filterProperties(row,objectClass)}</value>
+      <value>%{filter:filterProperties(row,dn)}</value>
     </column>
 
     <column>
@@ -85,34 +60,31 @@
   <actionmenu>
 
     <action>
-     <type>sub</type>
-     <image>images/lists/new.png</image>
-     <label>Create</label>
-
-     <action>
-      <name>new</name>
-      <type>entry</type>
-      <image>plugins/groups/images/iconMini.png</image>
-      <label>Group</label>
-     </action>
-    </action>
-
-    <action>
-      <type>separator</type>
+      <name>create</name>
+      <type>sub</type>
+      <image>geticon.php?context=actions&amp;icon=document-new&amp;size=16</image>
+      <label>Create</label>
+      <acl>[c]</acl>
     </action>
 
     <action>
       <name>edit</name>
       <type>entry</type>
-      <image>images/lists/edit.png</image>
+      <image>geticon.php?context=actions&amp;icon=document-edit&amp;size=16</image>
       <label>Edit</label>
+      <acl>[r]</acl>
     </action>
 
     <action>
       <name>remove</name>
       <type>entry</type>
-      <image>images/lists/trash.png</image>
+      <image>geticon.php?context=actions&amp;icon=edit-delete&amp;size=16</image>
       <label>Remove</label>
+      <acl>[d]</acl>
+    </action>
+
+    <action>
+      <type>separator</type>
     </action>
 
     <action>
@@ -143,8 +115,8 @@
     <action>
       <name>edit</name>
       <type>entry</type>
-      <image>images/lists/edit.png</image>
-      <label>Edit group</label>
+      <image>geticon.php?context=actions&amp;icon=document-edit&amp;size=16</image>
+      <label>Edit</label>
     </action>
 
     <action>
@@ -155,11 +127,10 @@
     <action>
       <name>remove</name>
       <type>entry</type>
-      <image>images/lists/trash.png</image>
-      <acl>groups/group[d]</acl>
-      <label>Remove group</label>
+      <image>geticon.php?context=actions&amp;icon=edit-delete&amp;size=16</image>
+      <acl>%acl[d]</acl>
+      <label>Remove</label>
     </action>
 
   </actiontriggers>
-
 </list>

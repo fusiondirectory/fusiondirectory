@@ -6,7 +6,7 @@
     <p>
     <b>{t}Please choose the LDAP user to be used by FusionDirectory{/t}</b>
     </p>
-    <select name='admin_to_use' size=20 style="width:100%; margin-bottom:10px;">        
+    <select name='admin_to_use' size=20 style="width:100%; margin-bottom:10px;">
       {html_options options=$resolved_users selected=$admin}
     </select>
     <input type='text' value='{$resolve_filter}' name='resolve_filter'>
@@ -16,8 +16,8 @@
     <input type='submit' value='{t}Apply{/t}' name='use_selected_user'>
     <input type='submit' value='{t}Cancel{/t}' name='resolve_user'>
     </div>
-  </div>    
-  
+  </div>
+
   <div style="clear:both;"></div>
 
   {else}
@@ -51,39 +51,39 @@
           </div>
         </div>
   <div class='step4_container'>
-    <div class='step4_name'> 
+    <div class='step4_name'>
       {t}Base{/t}
     </div>
     <div class='step4_value'>
       {if $namingContextsCount >= 1}
-        <select name='base'>    
+        <select name='base'>
           {html_options values=$namingContexts output=$namingContexts selected=$base}
         </select>
       {else}
         <input type='text' name='base' maxlength='80' size='40' value='{$base}'>
       {/if}
-      <input type='image' class='center' src='images/lists/reload.png' title='{t}Reload{/t}' name='reload' alt='{t}Reload{/t}'>
+      <input type='image' class='center' src='geticon.php?context=actions&icon=view-refresh&size=16' title='{t}Reload{/t}' name='reload' alt='{t}Reload{/t}'>
     </div>
   </div>
   <p style="margin-top:20px">
   <b>{t}Authentication{/t}</b>
   </p>
   <div class='step4_container'>
-    <div class='step4_name'> 
+    <div class='step4_name'>
       {t}Admin DN{/t}
     </div>
     <div class='step4_value'>
       <input type='text' name='admin_given' maxlength='160' size='40' value='{$admin_given}'>
       {if $append_base_to_admin_dn},{$base_to_append}{/if}
-      <input type='image' class='center' src='images/lists/folder.png' title='{t}Select user{/t}' name='resolve_user' alt='{t}Select user{/t}'>
+      <input type='image' class='center' src='geticon.php?context=places&icon=folder&size=16' title='{t}Select user{/t}' name='resolve_user' alt='{t}Select user{/t}'>
     </div>
   </div>
 
   <div class='step4_container'>
-    <div class='step4_name'> 
+    <div class='step4_name'>
     </div>
     <div class='step4_value'>
-      <input onClick='document.mainform.submit();' {if $append_base_to_admin_dn} checked {/if} type='checkbox' name='append_base_to_admin_dn' value='1'>&nbsp;{t}Automatically append LDAP base to admin DN{/t}
+      <input onClick='document.mainform.submit();' {if $append_base_to_admin_dn} checked {/if} type='checkbox' name='append_base_to_admin_dn' id='append_base_to_admin_dn' value='1'/><label for="append_base_to_admin_dn">&nbsp;{t}Automatically append LDAP base to admin DN{/t}</label>
     </div>
   </div>
 
@@ -128,7 +128,7 @@
 
 </div>
 <!-- Place cursor -->
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
   <!-- // First input field on page
   focus_field('location');
   -->

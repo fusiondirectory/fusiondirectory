@@ -26,7 +26,7 @@ class Step_Welcome  extends setup_step
   var $header_image   = "images/setup/welcome.png";
   var $authPath;
 
-  function Step_Welcome()
+  function __construct()
   {
     $this->is_enabled     = TRUE;
     $this->is_active      = TRUE;
@@ -66,6 +66,8 @@ class Step_Welcome  extends setup_step
     } else {
       $this->is_completed = FALSE;
     }
+
   }
 }
+
 ?>

@@ -33,7 +33,7 @@ function html_trace($errstr = "")
   }
   $trace = debug_backtrace();
 
-  $return_html    = "<table summary=\"\" width=\"100%\" cellspacing=0 style='background-color:#402005;color:white;border:2px solid red'><tr><td colspan=3><h1 style='color:white'>"._("PHP error")." \"$errstr\"</h1></td></tr>";
+  $return_html    = "<table width=\"100%\" cellspacing=0 style='background-color:#402005;color:white;border:2px solid red'><tr><td colspan=3><h1 style='color:white'>"._("PHP error")." \"$errstr\"</h1></td></tr>";
   $return_mailto  = rawurlencode("=== Trace ===");
   /* Generate trace history */
   for ($index = 0, $c = count($trace); $index < $c; $index++) {
@@ -191,21 +191,19 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
                               "\n\n".
                               "*** PHP error information ***\n\n");
 
-    $warning_path = (is_callable('get_template_path') ? get_template_path('images/warning.png') : 'images/warning.png');
-
     $error_collector = '
       <div class="error">
         <table width="100%">
           <tr>
             <td>
-              <img src="'.$warning_path.'" alt="" class="center"/>&nbsp;
+              <img src="geticon.php?context=status&icon=dialog-warning&size=16" alt="" class="center"/>&nbsp;
               <strong style="font-size:14px">'.
                 _("Generating this page caused the PHP interpreter to raise some errors!").'
               </strong>
             </td>
             <td align=right>
               <a href="mailto:bugs@fusiondirectory.org?subject=FusionDirectory%20bugreport&amp;body=%BUGBODY%">
-                <img src="images/mailto.png" title="'._("Send bug report to the FusionDirectory Team").
+                <img src="geticon.php?context=applications&icon=internet-mail&size=16" title="'._("Send bug report to the FusionDirectory Team").
                 '" class="center" alt="'.("Mail icon").'">&nbsp;'._("Send bugreport").'
               </a>
             </td>
@@ -274,7 +272,6 @@ ini_set("include_path", ".:$BASE_DIR/include:".PHP_DIR.":".PEAR_DIR);
 /* Do smarty setup */
 require(SMARTY);
 
-/*require(SMARTY_PATH);*/
 $smarty = new Smarty;
 
 $smarty->template_dir = $BASE_DIR.'/ihtml/';
@@ -292,4 +289,6 @@ if (!(isset($_SERVER['HTTPS']) && stristr($_SERVER['HTTPS'], "on"))) {
     $ssl = "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
   }
 }
+
+define('_OLD_TEMPLATES_', TRUE);
 ?>

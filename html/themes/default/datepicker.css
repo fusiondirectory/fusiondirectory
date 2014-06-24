@@ -96,9 +96,8 @@ background:#F4F3F3;
 div.datepicker-calendar table tbody tr td.today {
 border:1px #CCE9FF solid;
 background:#E9F5FF;
-background-image:url(../../images/date_active.gif);
+background-image:url(../../images/date_active.png);
 background-repeat:no-repeat;
-position:top left;
 width:21px;
 height:16px;
 line-height:16px;
@@ -107,9 +106,8 @@ line-height:16px;
 div.datepicker-calendar table tbody tr td.today:hover {
 border:1px #CCE9FF solid;
 background:#E9F5FF;
-background-image:url(../../images/date_active.gif);
+background-image:url(../../images/date_active.png);
 background-repeat:no-repeat;
-position:top left;
 }
 
 div.datepicker-calendar table tbody tr td.nclick,div.datepicker-calendar table tbody tr td.nclick_outbound {
@@ -159,7 +157,7 @@ border:1px solid transparent;
 padding:0;
 border-spacing:0;
 margin:0 0 0 93px;
-background:transparent url(../../images/datepicker.gif) no-repeat 0 0;
+background:transparent url(../../geticon.php?context=applications&icon=office-calendar&size=16) no-repeat 0 0;
 width:18px;
 height:18px;
 cursor:pointer;
@@ -183,10 +181,6 @@ left:3px;
 html.rtl .IE7 .datepicker-opener-table {
 right:3px;
 left:auto;
-}
-
-.datepicker-opener-table:hover {
-background:transparent url(../../images/datepicker_ro.gif) no-repeat 0 0;
 }
 
 .datepicker-opener {

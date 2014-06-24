@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
@@ -25,7 +24,7 @@ class ogroupManagement extends management
   // Tab definition
   protected $tabClass = "ogrouptabs";
   protected $tabType = "OGROUPTABS";
-  protected $aclCategory = "ogroups";
+  protected $aclCategory = "ogroup";
   protected $aclPlugin   = "ogroup";
   protected $objectName   = "object group";
 
@@ -33,18 +32,18 @@ class ogroupManagement extends management
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("Object groups"),
-      "plDescription" => _("Manage object groups"),
-      "plIcon"        => "plugins/ogroups/images/icon.png",
-      "plSection"     => "admin",
-      "plCategory"    => array("ogroups"),
-      "plPriority"    => 3,
+      'plShortName'   => _('Object groups'),
+      'plDescription' => _('Manage object groups'),
+      'plIcon'        => '/fusiondirectory/geticon.php?context=types&icon=resource-group&size=48',
+      'plSection'     => 'admin',
+      'plManages'     => array('ogroup'),
+      'plPriority'    => 3,
 
-      "plProvidedAcls" => array()
+      'plProvidedAcls' => array()
     );
   }
 
-  function __construct($config,$ui)
+  function __construct($config, $ui)
   {
     $this->config = $config;
     $this->ui = $ui;
@@ -65,7 +64,7 @@ class ogroupManagement extends management
     $headpage->registerElementFilter("filterProperties", "ogroupManagement::filterProperties");
     $headpage->setFilter($filter);
 
-    parent::__construct($config, $ui, "ogroups", $headpage);
+    parent::__construct($config, $ui, "ogroup", $headpage);
 
     $this->registerAction("edit_ogroup","editEntry");
     $this->registerAction("edit_phonequeue","editEntry");
@@ -180,19 +179,19 @@ class ogroupManagement extends management
 
   static function filterProperties($row, $gosaGroupObjects)
   {
-
     $conv= array(
-        "Y" => array("plugins/users/images/select_template.png",_("Templates") , "ogroup"),
-        "U" => array("plugins/users/images/iconMini.png"        ,_("User")        , "ogroup"),
-        "G" => array("plugins/groups/images/iconMini.png"       ,_("Group")       , "ogroup"),
-        "A" => array("plugins/ogroups/images/application.png" ,_("Application") , "ogroup"),
-        "D" => array("plugins/departments/department.png"     ,_("Department")  , "ogroup"),
-        "S" => array("plugins/ogroups/images/server.png"      ,_("Server")      , "ogroup"),
-        "F" => array("plugins/ogroups/images/asterisk.png"    ,_("Phone")       , "phonequeue"),
-        "W" => array("plugins/ogroups/images/workstation.png" ,_("Workstation") , "workstartup"),
-        "O" => array("plugins/ogroups/images/winstation.png"  ,_("Windows Install") , "ogroup"),
-        "T" => array("plugins/ogroups/images/terminal.png"    ,_("Terminal")    , "termgroup"),
-        "P" => array("plugins/ogroups/images/printer.png"     ,_("Printer")     , "ogroup"));
+      "Y" => array("plugins/users/images/select_template.png"                   ,_("Templates")       ,"ogroup"),
+      "U" => array('geticon.php?context=types&icon=user&size=16'                ,_("User")            ,"ogroup"),
+      "G" => array('geticon.php?context=types&icon=user-group&size=16'          ,_("Group")           ,"ogroup"),
+      "A" => array('geticon.php?context=types&icon=application&size=16'         ,_("Application")     ,"ogroup"),
+      "D" => array('geticon.php?context=places&icon=folder&size=16'             ,_("Department")      ,"ogroup"),
+      "S" => array('geticon.php?context=devices&icon=server&size=16'            ,_("Server")          ,"ogroup"),
+      "F" => array('geticon.php?context=devices&icon=telephone&size=16'         ,_("Phone")           ,"phonequeue"),
+      "W" => array('geticon.php?context=devices&icon=computer&size=16'          ,_("Workstation")     ,"workstartup"),
+      "O" => array('geticon.php?context=devices&icon=computer-windows&size=16'  ,_("Windows Install") ,"ogroup"),
+      "T" => array('geticon.php?context=devices&icon=terminal&size=16'          ,_("Terminal")        ,"termgroup"),
+      "P" => array('geticon.php?context=devices&icon=printer&size=16'           ,_("Printer")         ,"ogroup")
+    );
 
     $types = preg_replace("/[^a-z]/i","",$gosaGroupObjects[0]);
     $result ="";

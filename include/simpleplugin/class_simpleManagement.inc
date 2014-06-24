@@ -43,6 +43,8 @@ class simpleManagement extends management
 
   protected $autoFilterAttributes = array('dn', 'cn', 'description');
 
+  protected $headpageClass = "listing";
+
   function __construct($config, $ui)
   {
     $this->config = $config;
@@ -88,7 +90,7 @@ class simpleManagement extends management
     $this->setFilter($filter);
 
     // Build headpage
-    $headpage = new listing($this->parseXML($this->listXMLPath));
+    $headpage = new $this->headpageClass($this->parseXML($this->listXMLPath));
     $headpage->setFilter($filter);
 
     parent::__construct($config, $ui, 'unused', $headpage);
@@ -110,11 +112,6 @@ class simpleManagement extends management
     foreach ($this->objectTypes as $object) {
       $i = objects::infos($object);
 
-      $objectClass = '';
-      if (preg_match('/objectClass=([^)]+)/', $i['filter'], $m)) {
-        $objectClass = $m[1];
-      }
-
       if (!isset($i['icon'])) {
         trigger_error('Missing icon for type '.$object);
         $i['icon'] = '';
@@ -123,15 +120,16 @@ class simpleManagement extends management
       $this->headpage->objectTypes[$object] =
         array(
           'label'       => $i['name'],
-          'objectClass' => $objectClass,
           'category'    => $i['aclCategory'],
           'class'       => $i['mainTab'],
-          'image'       => $i['icon']
+          'image'       => $i['icon'],
+          'filter'      => ldapFilter::parse($i['filter']),
+          'nameAttr'    => $i['nameAttr'],
         );
       $this->headpage->categories[] = $i['aclCategory'];
       if ($this->autoActions) {
         $this->registerAction('new_'.$object, 'newEntry');
-        $icon = 'images/lists/new.png';
+        $icon = 'geticon.php?context=actions&icon=document-new&size=16';
         if (isset($i['icon'])) {
           $icon = $i['icon'];
         } else {
@@ -141,14 +139,16 @@ class simpleManagement extends management
           }
         }
         $this->headpage->xmlData['actionmenu']['action'][0]['action'][] = array(
-          'name' => 'new_'.$object,
-          'type' => 'entry',
+          'name'  => 'new_'.$object,
+          'type'  => 'entry',
           'image' => $icon,
           'label' => $i['name'],
+          'acl'   => $i['aclCategory'].'/'.$i['mainTab'].'[c]',
         );
       }
     }
     $this->headpage->registerElementFilter('filterRowLink', 'simpleManagement::filterRowLink');
+    $this->headpage->refreshBasesList();
   }
 
   function configureHeadline ()
@@ -201,14 +201,15 @@ class simpleManagement extends management
         $this->filter->elementValues[$tag] = TRUE;
 
         $attributes[] = $i['mainAttr'];
+        $attributes[] = $i['nameAttr'];
       }
       $filter .= ')';
       $attributes = array_values(array_unique($attributes));
-      $this->filter->query[0]['filter']     = '(&'.$filter.'$NAME)';
-      $this->filter->query[0]['attribute']  = $attributes;
-      $this->filter->elements['NAME']['set'] = '(|('.join('=*$*)(', $attributes).'=*$*))';
-      $this->filter->elements['NAME']['autocomplete']['filter'] = '(&'.$filter.'(|('.join('=*$NAME*)(', $attributes).'=*$NAME*))'.')';
-      $this->filter->elements['NAME']['autocomplete']['attribute'] = $attributes;
+      $this->filter->query[0]['filter']       = '(&'.$filter.'$NAME)';
+      $this->filter->query[0]['attribute']    = $attributes;
+      $this->filter->elements['NAME']['set']  = '(|('.join('=*$*)(', $attributes).'=*$*))';
+      $this->filter->elements['NAME']['autocomplete']['filter']     = '(&'.$filter.'(|('.join('=*$NAME*)(', $attributes).'=*$NAME*))'.')';
+      $this->filter->elements['NAME']['autocomplete']['attribute']  = $attributes;
       uasort($this->filter->elements, 'strlenSort');
       $this->filter->elements = array_reverse($this->filter->elements);
     }
@@ -260,10 +261,10 @@ class simpleManagement extends management
     $type   = $this->getType($target[0]);
     $infos  = $this->config->data['OBJECTS'][$type];
 
-    $str = management::editEntry( $action, $target, $all, $infos['tabClass'],
+    $str = management::editEntry($action, $target, $all, $infos['tabClass'],
                                 $infos['tabGroup'], $infos['aclCategory']);
-    if (preg_match('/^edit_/', $action)) {
-      $tab = preg_replace('/^edit_/', '', $action);
+    if (isset($all['subaction'])) {
+      $tab = preg_replace('/^tab_/', '', $all['subaction']);
       if (isset($this->tabObject->by_object[$tab])) {
         $this->tabObject->current = $tab;
       } else {
@@ -281,7 +282,7 @@ class simpleManagement extends management
   protected function removeEntryRequested($action = "", $target = array(), $all = array())
   {
     $disallowed = array();
-    $this->dns = array();
+    $this->dns  = array();
 
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removal requested!");
 
@@ -339,6 +340,8 @@ class simpleManagement extends management
   function removeEntryConfirmed($action = '', $target = array(), $all = array(),
                                 $altTabClass = '', $altTabType = '', $altAclCategory = '')
   {
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removal confirmed!");
+
     $targets = array();
     foreach ($this->dns as $dn) {
       $type = $this->getType($dn);
@@ -349,11 +352,32 @@ class simpleManagement extends management
     }
 
     $tInfo = $this->config->data['OBJECTS'];
-    foreach ($targets as $type => $dns) {
-      $this->dns = $dns;
-      management::removeEntryConfirmed($action, $target, $all, $tInfo[$type]['tabClass'],
-                                  $tInfo[$type]['tabGroup'], $tInfo[$type]['aclCategory']);
+    foreach ($this->dns as $dn) {
+      $type = $this->getType($dn);
+      if (empty($type)) {
+        continue;
+      }
+      $infos = objects::infos($type);
+      // Check permissions, are we allowed to remove this object?
+      $acl = $this->ui->get_permissions($dn, $infos['aclCategory']."/".$infos['mainTab']);
+      if (preg_match("/d/", $acl)) {
+        // Delete the object
+        $this->dn         = $dn;
+        $this->tabObject  = objects::open($this->dn, $type);
+        $this->tabObject->parent = &$this;
+        $this->tabObject->delete();
+
+        // Remove the lock for the current object.
+        del_lock($this->dn);
+      } else {
+        msg_dialog::display(_("Permission error"), msgPool::permDelete(), ERROR_DIALOG);
+        new log("security", "simpleManagement/".get_class($this), $dn, array(), "Tried to trick deletion.");
+      }
     }
+
+    // Cleanup
+    $this->remove_lock();
+    $this->closeDialogs();
   }
 
   /*!
@@ -485,7 +509,6 @@ class simpleManagement extends management
 
     foreach ($target as $dn) {
       $type   = $this->getType($dn);
-      $entry  = $headpage->getEntry($dn);
 
       $tabClass[$dn]    = $tInfo[$type]['tabClass'];
       $tabType[$dn]     = $tInfo[$type]['tabGroup'];

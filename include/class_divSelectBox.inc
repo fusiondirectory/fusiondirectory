@@ -36,17 +36,20 @@ class divSelectBox
   var $summary;
   var $cols;
 
+  private $id;
+
   // Members for page managment
   var $height = '200px';
 
   /*!
    * \brief Default divSelectBox constructor
    */
-  function __construct()
+  function __construct($id)
   {
     $this->s_summary  = '';
     $this->a_entries  = array();
     $this->cols       = 0;
+    $this->id         = $id;
   }
 
   /*!
@@ -89,15 +92,16 @@ class divSelectBox
   function DrawList()
   {
     $s_return = '';
-    $s_return .= '<div style="padding-right:1px;padding-bottom:2px;height:'.$this->height.';width:100%">'."\n";
+    $s_return .= '<div style="border:1px solid rgb(170,170,170);padding-right:1px;height:'.$this->height.';width:100%">'."\n";
     $s_return .= '<div style="overflow:auto; width:100%; height:100%;">'."\n";
     $s_return .= '<table '.
                     'class="listingTable" '.
+                    'id="'.$this->id.'" '.
                     'style="overflow:scroll; '.
                       'height:98%; '.
                       'width:100%; '.
-                      'padding-right:1px; '.
-                      'padding-bottom:2px;"'.
+                      'border:none; '.
+                    '"'.
                   ">\n";
     $s_return .= $this->_generatePage();
     $s_return .= '</table></div></div>';
@@ -152,7 +156,7 @@ class divSelectBox
     $s_return = '';
     $str      = '';
 
-    /* If divlist is empty, append a single white entry */
+    /* If divselectbox is empty, append a single white entry */
     if (count($this->a_entries) == 0) {
       if ($this->headers !== FALSE) {
         $this->cols = count($this->headers);
@@ -180,7 +184,7 @@ class divSelectBox
       $cnt = 0;
 
       $this->cols = count($s_value);
-      foreach ($s_value as $s_key2 => $s_value2) {
+      foreach ($s_value as $s_value2) {
         $cnt++;
 
         if (!isset($s_value2['class'])) {

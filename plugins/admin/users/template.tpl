@@ -10,7 +10,7 @@
 
 <br>
 
-<table summary="" style="vertical-align:top; text-align:left;" cellpadding=4 border=0>
+<table style="vertical-align:top; text-align:left;" cellpadding=4 border=0>
   <tr>
     <td><b><LABEL for="template">{t}Template{/t}</LABEL></b></td>
     <td>
@@ -53,7 +53,7 @@
 
 
 <!-- Place cursor -->
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
   <!-- // First input field on page
   focus_field('sn');
   -->

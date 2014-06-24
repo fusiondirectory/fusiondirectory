@@ -24,11 +24,11 @@
     <maxlength>60</maxlength>
     <default></default>
     <unset></unset>
-    <set>(|(cn=*$*)(description=*$*))</set>
+    <set>FILTER</set>
     <alphabet>true</alphabet>
     <autocomplete>
       <backend>LDAP</backend>
-      <filter>(&amp;(|$FAKEFILTER)(|(cn=*$NAME*)(description=*$NAME*)))</filter>
+      <filter>FILTER</filter>
       <attribute>cn</attribute>
       <attribute>description</attribute>
       <frequency>0.5</frequency>

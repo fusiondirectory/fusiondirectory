@@ -32,7 +32,6 @@ class Step_Config3 extends setup_step
                                 "uid,mail"  => "both");
   var $optional = array(
               "login_attribute"             => "uid",
-              "strict_units"                => FALSE,
               "list_summary"                => TRUE,
               "forceglobals"                => TRUE,
               "forcessl"                    => FALSE,
@@ -63,7 +62,7 @@ class Step_Config3 extends setup_step
 
   var $attributes = array("errorlvl");
 
-  function Step_Config3()
+  function __construct()
   {
     $this->update_strings();
   }
@@ -80,14 +79,12 @@ class Step_Config3 extends setup_step
   function execute()
   {
     global $BASE_DIR;
-    $cv = $this->parent->captured_values;
     $smarty = get_smarty();
     $smarty->assign("bool", array(FALSE => _("No"), TRUE => _("Yes")));
     $smarty->assign("uniq_identifiers", array("entryCSN" => "entryCSN",
                                               "contextCSN" => "contextCSN" ));
 
-    $smarty->assign("logging", $this->optional['logging']);
-
+    $smarty->assign("logging",  $this->optional['logging']);
     $smarty->assign("optional", reverse_html_entities($this->optional));
     foreach ($this->attributes as $attr) {
       $smarty->assign($attr, reverse_html_entities($this->$attr));
@@ -108,7 +105,7 @@ class Step_Config3 extends setup_step
         }
       }
 
-      foreach (array("login_attribute","list_summary","strict_units","noprimarygroup","forceglobals","forcessl","ldapstats","user_filter_cookie","warnssl","compile","debuglevel","session_lifetime","enableCopyPaste","logging") as $name) {
+      foreach (array("login_attribute","list_summary","noprimarygroup","forceglobals","forcessl","ldapstats","user_filter_cookie","warnssl","compile","debuglevel","session_lifetime","enableCopyPaste","logging") as $name) {
         if (isset($_POST[$name])) {
           $this->optional[$name] = get_post($name);
         }
@@ -166,14 +163,14 @@ class Step_Config3 extends setup_step
 
   function save_config_in_ldap ()
   {
-    global $BASE_DIR;
     $cv = $this->parent->captured_values;
 
     $attrs = array(
-      'objectClass'         => 'fusionDirectoryConf',
+      'objectClass'           => 'fusionDirectoryConf',
       'fdPasswordDefaultHash' => $cv['encryption'],
       'fdUserRDN'             => $cv['peopleou'],
       'fdGroupRDN'            => $cv['groupou'],
+      'fdAclRoleRDN'          => $cv['aclroleou'],
       'fdGidNumberBase'       => $cv['uidbase'],
       'fdUidNumberBase'       => $cv['uidbase'],
     );
@@ -191,7 +188,6 @@ class Step_Config3 extends setup_step
     if ($cv['timezone']) {
       $attrs['fdTimezone'] = $cv['timezone'];
     }
-    $attrs['fdHonourUnitTags']      = ($this->optional['strict_units']?"TRUE":"FALSE");
     $attrs['fdRfc2307bis']          = ($cv['rfc2307bis']?"TRUE":"FALSE");
     $attrs['fdPersonalTitleInDN']   = ($cv['include_personal_title']?"TRUE":"FALSE");
     if ($cv['base_hook_active']) {
@@ -204,9 +200,6 @@ class Step_Config3 extends setup_step
     if ($cv['id_settings']['minid_active']) {
       $attrs['fdMinId'] = $cv['id_settings']['minid'];
     }
-    //~ $attrs['fdGosaSharedPrefix'] = "";
-    //~ $attrs['fdLdapTLS']   = ($cv['tls']?"TRUE":"FALSE");
-    //~ $attrs['fdHonourIvbbAttributes']  = ($cv['governmentmode']?"TRUE":"FALSE");
     $attrs['fdHandleExpiredAccounts'] = ($cv['account_expiration']?"TRUE":"FALSE");
     $attrs['fdEnableSnapshots']       = ($cv['generic_settings']['snapshot_active']?"TRUE":"FALSE");
     $attrs['fdSnapshotBase']          = $cv['generic_settings']['snapshot_base'];

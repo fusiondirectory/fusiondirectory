@@ -113,17 +113,17 @@ class posixAccount extends simplePlugin
       ),
       'groups' => array(
         'name'  => _('Group membership'),
-        'icon'  => 'plugins/posix/images/members.png',
+        'icon'  => 'geticon.php?context=types&icon=user-group&size=16',
         'attrs' => array(
           new GroupsAttribute('', _('Group membership'), 'groupMembership')
         )
       ),
       'account' => array(
         'name'  => _('Account'),
-        'icon'  => 'plugins/posix/images/terminal_small.png',
+        'icon'  => 'geticon.php?context=devices&icon=terminal&size=16',
         'attrs' => array(
           new BooleanAttribute(
-            _('User must change password on first login'), _('User must change password on first login (leave empty to disable)'),
+            _('User must change password on first login'), _('User must change password on first login (needs a value for Delay before forcing password change)'),
             'mustchangepassword', FALSE
           ),
           new IntAttribute(
@@ -160,7 +160,7 @@ class posixAccount extends simplePlugin
       ),
       'system_trust' => array(
         'name'  => _('System trust'),
-        'icon'  => 'images/lists/locked.png',
+        'icon'  => 'geticon.php?context=categories&icon=acl&size=16',
         'attrs' => array(
           new SelectAttribute(
             _('Trust mode'), _('Type of authorization for those hosts'),
@@ -169,7 +169,7 @@ class posixAccount extends simplePlugin
             '',
             array(_('disabled'), _('full access'), _('allow access to these hosts'))
           ),
-          new TrustsAttribute(
+          new SystemsAttribute(
             '', _('Only allow this user to connect to this list of hosts'),
             'host', FALSE
           )
@@ -183,11 +183,10 @@ class posixAccount extends simplePlugin
     return array(
       "plShortName"     => _("Unix"),
       "plDescription"   => _("Edit users POSIX settings"),
-      "plIcon"          => "plugins/posix/images/icon.png",
-      "plSmallIcon"     => "images/penguin.png",
+      "plIcon"          => 'geticon.php?context=applications&icon=os-linux&size=48',
+      "plSmallIcon"     => 'geticon.php?context=applications&icon=os-linux&size=16',
       "plSelfModify"    => TRUE,
       "plPriority"      => 2,
-      "plCategory"      => array("users"),
       "plObjectType"    => array("user"),
 
       "plProvidedAcls"  => parent::generatePlProvidedAcls(self::getAttributesInfo())
@@ -215,7 +214,6 @@ class posixAccount extends simplePlugin
       $this->trustMode = 'byhost';
     }
 
-
     $this->attributesAccess['uidNumber']->setUnique(TRUE);
     $this->attributesAccess['force_ids']->setInLdap(FALSE);
     $this->attributesAccess['force_ids']->setManagedAttributes(
@@ -232,6 +230,15 @@ class posixAccount extends simplePlugin
 
     $this->attributesAccess['mustchangepassword']->setInLdap(FALSE);
     $this->attributesAccess['shadowLastChange']->setVisible(FALSE);
+    $this->attributesAccess['shadowMax']->setManagedAttributes(
+      array(
+        'disable' => array (
+          '' => array (
+            'mustchangepassword',
+          )
+        )
+      )
+    );
 
     if ($dn !== NULL) {
 
@@ -336,6 +343,7 @@ class posixAccount extends simplePlugin
     $ldap = $this->config->get_ldap_link();
     $ldap->cd($this->config->current['BASE']);
     $ldap->search("(&(objectClass=posixGroup)(gidNumber=".$this->gidNumber.")(cn=".$this->getUid()."))", array("cn","gidNumber"));
+
     if ($ldap->count() > 0) {
       /* The copied user had its own group */
       $this->primaryGroup = 0; // switch back to automatic
@@ -444,7 +452,7 @@ class posixAccount extends simplePlugin
 
       /* Are we forced to use a special gidNumber? */
       if ($this->force_ids) {
-        $ldap->search("(&(objectClass=posixGroup)(gidNumber=".$this->gidNumber."))", array("cn","gidNumber"));
+        $ldap->search('(&(objectClass=posixGroup)(gidNumber='.$this->gidNumber.'))', array('cn','gidNumber'));
       } else {
         $ldap->search("(&(objectClass=posixGroup)(gidNumber=*)(cn=".$this->getUid()."))", array("cn","gidNumber"));
       }
@@ -474,10 +482,11 @@ class posixAccount extends simplePlugin
 
         /* Create new primary group and enforce the new gidNumber */
         $g = new group($this->config, $groupdn);
-        $g->cn = $groupcn;
-        $g->force_gid = 1;
-        $g->gidNumber = $this->gidNumber;
-        $g->description = _("Group of user")." ".$this->givenName;
+
+        $g->cn          = $groupcn;
+        $g->force_gid   = 1;
+        $g->gidNumber   = $this->gidNumber;
+        $g->description = sprintf(_("Group of user %s"), $this->givenName);
         $g->save();
 
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
@@ -526,10 +535,10 @@ class posixAccount extends simplePlugin
     del_lock("uidnumber");
 
     /* Take care about groupMembership values: add to groups */
-    $groupMembership = $this->attributesInfo['groups']['attrs']['groupMembership']->getValue();
+    $groupMembership = $this->attributesAccess['groupMembership']->getValue();
     foreach ($groupMembership as $value) {
       if (!in_array($value, $this->savedGroupMembership)) {
-        $g = new grouptabs($this->config, $this->config->data['TABS']['GROUPTABS'], $value, "groups");
+        $g = new grouptabs($this->config, $this->config->data['TABS']['GROUPTABS'], $value, "group");
         $g->set_acl_base($value);
         $g->by_object['group']->addUser($this->getUid());
         $g->save();
@@ -539,7 +548,7 @@ class posixAccount extends simplePlugin
     /* Remove groups not listed in groupMembership */
     foreach ($this->savedGroupMembership as $value) {
       if (!in_array($value, $groupMembership)) {
-        $g = new grouptabs($this->config, $this->config->data['TABS']['GROUPTABS'], $value, "groups");
+        $g = new grouptabs($this->config, $this->config->data['TABS']['GROUPTABS'], $value, "group");
         $g->set_acl_base($value);
         $g->by_object['group']->removeUser($this->getUid());
         $g->save();
@@ -571,13 +580,13 @@ class posixAccount extends simplePlugin
   }
 
   /* Adapt from template, using 'dn' */
-  function adapt_from_template($dn, $skip = array())
+  function adapt_from_template($attrs, $skip = array())
   {
     /* Include global link_info */
     $ldap = $this->config->get_ldap_link();
 
-    parent::adapt_from_template($dn, $skip);
-    $template = $this->attrs['uid'][0];
+    parent::adapt_from_template($attrs, $skip);
+    $template = $attrs['uid'][0];
 
     /* Adapt group membership */
     $ldap->cd($this->config->current['BASE']);

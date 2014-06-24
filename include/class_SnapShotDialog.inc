@@ -157,7 +157,6 @@ class SnapShotDialog extends plugin
 
       /* Should we only display all snapshots of already deleted objects
                 or the snapshots for the given object dn */
-      $res = array();
       $tmp = array();
       if ($this->display_all_removed_objects) {
         $snap_shot_bases = $this->snapHandler->getSnapshotBases();
@@ -185,12 +184,12 @@ class SnapShotDialog extends plugin
       /* Sort generated list */
       krsort($list_of_elements);
 
-      /* Add Elements to divlist */
+      /* Add Elements to divselectbox */
       $this->last_list = array_values($list_of_elements);
       foreach ($this->last_list as $key => $entry) {
-        $actions = "<input type='image' src='images/lists/restore.png' name='RestoreSnapshot_$key'
+        $actions = "<input type='image' src='geticon.php?context=actions&icon=document-restore&size=16' name='RestoreSnapshot_$key'
           class='center' title='"._("Restore snapshot")."'>&nbsp;";
-        $actions .= "<input type='image' src='images/lists/trash.png' name='RemoveSnapshot_$key'
+        $actions .= "<input type='image' src='geticon.php?context=actions&icon=edit-delete&size=16' name='RemoveSnapshot_$key'
           class='center' title='"._("Remove snapshot")."'>&nbsp;";
 
         $time_stamp     = date(_("Y-m-d, H:i:s"), preg_replace("/\-.*$/", "", $entry['gosaSnapshotTimestamp'][0]));

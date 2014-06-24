@@ -149,3 +149,6 @@ documentation and additional help.
 * Guillard Olivier <fd@guillard.nom.fr>
   SSH plugin key storage problem reporter
   
+* Fabien Brachere <fabien.brachere@e-tera.com>
+  Fix support for special caracters in password
+

@@ -29,7 +29,7 @@ class Step_Language extends setup_step
   var $attributes     = array("lang","lang_selected");
   var $header_image   = "images/setup/locale.png";
 
-  function Step_Language()
+  function __construct()
   {
     $this->lang           = get_browser_language();
     $this->lang_selected  = "";
@@ -47,29 +47,28 @@ class Step_Language extends setup_step
   {
     $this->languages = get_languages(TRUE);
     asort($this->languages);
-    $this->languages = array_merge(array(""      => _("Automatic")),$this->languages);
+    $this->languages = array_merge(array("" => _("Automatic")), $this->languages);
     $smarty = get_smarty();
-    $smarty->assign("languages",    $this->languages);
-    $smarty->assign("lang",         $this->lang);
-    $smarty->assign("rtl",          language_is_rtl($this->lang));
-    $smarty->assign("lang_selected",$this->lang_selected);
-    return($smarty->fetch(get_template_path("setup_language.tpl",TRUE,dirname(__FILE__))));
+    $smarty->assign("languages",      $this->languages);
+    $smarty->assign("lang",           $this->lang);
+    $smarty->assign("rtl",            language_is_rtl($this->lang));
+    $smarty->assign("lang_selected",  $this->lang_selected);
+    return $smarty->fetch(get_template_path("setup_language.tpl", TRUE, dirname(__FILE__)));
   }
 
   function save_object()
   {
-    if((isset($_POST['lang_selected'])) && isset($this->languages[$_POST['lang_selected']])) {
-      $this->lang_selected = $_POST['lang_selected'];
-      $this->is_completed = TRUE;
+    if ((isset($_POST['lang_selected'])) && isset($this->languages[$_POST['lang_selected']])) {
+      $this->lang_selected  = $_POST['lang_selected'];
+      $this->is_completed   = TRUE;
 
-      if($this->lang_selected != ""){
-        session::set('lang',$this->lang_selected);
-      }else{
-        session::set('lang',$this->lang);
+      if ($this->lang_selected != "") {
+        session::set('lang', $this->lang_selected);
+      } else {
+        session::set('lang', $this->lang);
       }
     }
   }
 }
 
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
 ?>

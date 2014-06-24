@@ -41,10 +41,8 @@ class userinfo
   var $gidNumber    = -1;
   var $language     = "";
   var $config;
-  var $gosaUnitTag  = "";
   var $subtreeACL   = array();
   var $ACL          = array();
-  var $ocMapping    = array();
   var $groups       = array();
   var $result_cache = array();
   var $ignoreACL    = FALSE;
@@ -54,11 +52,11 @@ class userinfo
 
   /* get acl's an put them into the userinfo object
      attr subtreeACL (userdn:components, userdn:component1#sub1#sub2,component2,...) */
-  function userinfo(&$config, $userdn)
+  function __construct(&$config, $userdn)
   {
     $this->config = &$config;
     $ldap = $this->config->get_ldap_link();
-    $ldap->cat($userdn, array('sn', 'givenName', 'uid', 'gidNumber', 'preferredLanguage', 'gosaUnitTag', 'gosaLoginRestriction'));
+    $ldap->cat($userdn, array('sn', 'givenName', 'uid', 'gidNumber', 'preferredLanguage', 'gosaLoginRestriction'));
     $attrs = $ldap->fetch();
 
     if (isset($attrs['givenName'][0]) && isset($attrs['sn'][0])) {
@@ -79,10 +77,6 @@ class userinfo
     /* Assign user language */
     if (isset($attrs['preferredLanguage'][0])) {
       $this->language = $attrs['preferredLanguage'][0];
-    }
-
-    if (isset($attrs['gosaUnitTag'][0])) {
-      $this->gosaUnitTag = $attrs['gosaUnitTag'][0];
     }
 
     $this->dn   = $userdn;
@@ -138,29 +132,23 @@ class userinfo
       $aclc[$attrs['dn']] = $ol;
     }
 
-    /* Resolve roles here.
-     */
+    /* Resolve roles here */
     foreach ($aclc as $dn => $data) {
       foreach ($data as $prio => $aclc_value) {
-        if ($aclc_value['type'] == "role") {
+        unset($aclc[$dn][$prio]);
 
-          unset($aclc[$dn][$prio]);
+        $ldap->cat($aclc_value['acl'], array("gosaAclTemplate"));
+        $attrs = $ldap->fetch();
 
-          $ldap->cat($aclc_value['acl'], array("gosaAclTemplate"));
-          $attrs = $ldap->fetch();
-
-          if (isset($attrs['gosaAclTemplate'])) {
-            for ($i = 0; $i < $attrs['gosaAclTemplate']['count']; $i++) {
-              $tmp = @acl::explodeAcl($attrs['gosaAclTemplate'][$i]);
-
-              foreach ($tmp as $new_acl) {
-
-                /* Keep non role attributes here! */
-                $new_acl['filter']  = $aclc_value['filter'];
-                $new_acl['members'] = $aclc_value['members'];
-                $aclc[$dn][]        = $new_acl;
-              }
-            }
+        if (isset($attrs['gosaAclTemplate'])) {
+          $roleAcls = acl::explodeRole($attrs['gosaAclTemplate']);
+          foreach ($roleAcls as $roleAcl) {
+            $aclc[$dn][]  = array(
+              'acl'     => $roleAcl,
+              'type'    => $aclc_value['type'],
+              'members' => $aclc_value['members'],
+              'filter'  => $aclc_value['filter']
+            );
           }
         }
       }
@@ -180,7 +168,7 @@ class userinfo
           $interresting = FALSE;
         } else {
           /* Inspect members... */
-          foreach ($type['members'] as $grp => $grpdsc) {
+          foreach (array_keys($type['members']) as $grp) {
             /* Some group inside the members that is relevant for us? */
             if (in_array_ics(@LDAP::convert(preg_replace('/^G:/', '', $grp)), $this->groups)) {
               $interresting = TRUE;
@@ -294,7 +282,7 @@ class userinfo
    *
    * \param string $dn     The object dn
    *
-   * \param string $object The acl  category (e.g. users)
+   * \param string $object The acl  category (e.g. user)
    *
    * \param string $class  The acl  class (e.g. user)
    *
@@ -311,7 +299,7 @@ class userinfo
    *
    * \param string $dn     The object dn
    *
-   * \param string $object The acl  category (e.g. users)
+   * \param string $object The acl  category (e.g. user)
    *
    * \param string $class  The acl  class (e.g. user)
    *
@@ -330,7 +318,7 @@ class userinfo
    *
    * \param string $dn The destination dn
    *
-   * \param string $object The acl  category (e.g. users)
+   * \param string $object The acl  category (e.g. user)
    *
    * \return Boolean TRUE if we are allowed to paste an object.
    */
@@ -345,7 +333,7 @@ class userinfo
    *
    * \param string $dn     The destination dn
    *
-   * \param string $object The acl  category (e.g. users)
+   * \param string $object The acl  category (e.g. user)
    *
    * \return boolean TRUE if we are allowed to restore a snapshot.
    */
@@ -368,7 +356,7 @@ class userinfo
    *
    * \param string $dn     The source dn
    *
-   * \param string $object The acl category (e.g. users)
+   * \param string $object The acl category (e.g. user)
    *
    * \return boolean TRUE if we are allowed to restore a snapshot.
    */
@@ -389,7 +377,7 @@ class userinfo
    *
    * \param string $dn         The object dn
    *
-   * \param string $object     The acl category (e.g. users)
+   * \param string $object     The acl category (e.g. user)
    *
    * \param string $attribute  The acl class (e.g. user)
    *
@@ -485,11 +473,6 @@ class userinfo
             continue;
           }
 
-          if ($subacl['type'] == "role") {
-            echo "role skipped";
-            continue;
-          }
-
           /* With user filter */
           if (isset($subacl['filter']) && !empty($subacl['filter'])) {
             $id = $dn."-".$subacl['filter'];
@@ -538,13 +521,13 @@ class userinfo
            */
           if (strstr($object, "/0")) {
             $ocs = preg_replace("/\/0$/", "", $object);
-            if (isset($this->ocMapping[$ocs])) {
+            if (isset($this->config->data['CATEGORIES'][$ocs])) {
 
               /* if $attribute is "", then check every single attribute for this object.
                  if it is 0, then just check the object category ACL.
                */
               if ($attribute == "") {
-                foreach ($this->ocMapping[$ocs] as $oc) {
+                foreach ($this->config->data['CATEGORIES'][$ocs]['classes'] as $oc) {
                   if (isset($subacl['acl'][$ocs.'/'.$oc])) {
                     // Skip ACLs wich are defined for ourselfs only - if not checking against ($ui->dn)
                     if (isset($subacl['acl'][$ocs.'/'.$oc][0]) &&
@@ -627,7 +610,6 @@ class userinfo
       $module = array($module);
     }
 
-    global $plist;
     $res = array();
     foreach ($module as $mod) {
       if (isset($ACL_CACHE['MODULE_DEPARTMENTS'][$mod])) {
@@ -695,7 +677,7 @@ class userinfo
    */
   function mergeACL($acl, $type, $newACL)
   {
-    $at = array("psub" => "p", "sub" => "s", "one" => "1");
+    $at = array("subtree" => "s", "one" => "1");
 
     if ((strpos($newACL, 'w') !== FALSE) && (strpos($newACL, 'r') === FALSE)) {
       $newACL .= "r";
@@ -712,8 +694,8 @@ class userinfo
         continue;
       }
 
-      /* Skip permanent and subtree entries */
-      if (preg_match('/[sp]/', $acl[$char])) {
+      /* Skip subtree entries */
+      if ($acl[$char] == 's') {
         continue;
       }
 
@@ -737,8 +719,8 @@ class userinfo
   function cleanACL($acl, $reset = FALSE)
   {
     foreach ($acl as $key => $value) {
-      /* Continue, if value is empty or permanent */
-      if (($value == "") || ($value == "p")) {
+      /* Continue, if value is empty or subtree */
+      if (($value == "") || ($value == "s")) {
         continue;
       }
 
@@ -788,9 +770,9 @@ class userinfo
       $acl = "";
     } else {
       if (!isset($this->result_cache['has_complete_category_acls'][$dn][$category]))   {
-        if (isset($this->ocMapping[$category])) {
-          foreach ($this->ocMapping[$category] as $oc) {
-            /* Skip objectClass '0' (e.g. users/0) get_permissions will ever return '' ??  */
+        if (isset($this->config->data['CATEGORIES'][$category])) {
+          foreach ($this->config->data['CATEGORIES'][$category]['classes'] as $oc) {
+            /* Skip objectClass '0' (e.g. user/0) get_permissions will ever return '' ??  */
             if ($oc == "0") continue;
             $tmp = $this->get_permissions($dn, $category."/".$oc);
             for ($i = 0, $l = strlen($types); $i < $l; $i++) {
@@ -910,16 +892,14 @@ class userinfo
       $$attr = (isset($attrs[$attr][0])? $attrs[$attr][0] : NULL);
     }
 
-
     // Check if the account has reached its kick off limitations.
-    // ---------------------------------------------------------
+    // ----------------------------------------------------------
     // Once the accout reaches the kick off limit it has expired.
     if ($sambaKickoffTime !== NULL) {
       if (time() >= $sambaKickoffTime) {
         return POSIX_ACCOUNT_EXPIRED;
       }
     }
-
 
     // Check if the account has expired.
     // ---------------------------------
@@ -1003,7 +983,7 @@ class userinfo
     if (empty($this->ACLperPath)) {
       $this->loadACL();
     }
-    return ($this->get_category_permissions($this->config->current['BASE'], 'users') == 'rwcdm');
+    return ($this->get_category_permissions($this->config->current['BASE'], 'user') == 'rwcdm');
   }
 }
 ?>

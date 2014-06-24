@@ -25,6 +25,7 @@ class Step_Config1 extends setup_step
 
   var $peopleou   = "ou=people";
   var $groupou    = "ou=groups";
+  var $aclroleou  = "ou=aclroles";
   var $peopledn   = "uid";
   var $uidbase    = 1100;
   var $strict     = TRUE;
@@ -60,11 +61,11 @@ class Step_Config1 extends setup_step
 
   var $crypt_methods  = array();
 
-  var $attributes = array("peopleou","groupou","peopledn","uidbase","encryption","theme",
+  var $attributes = array("peopleou","groupou","aclroleou","peopledn","uidbase","encryption","theme",
                           "base_hook","base_hook_active","account_expiration","strict","include_personal_title",
                           "cngen_active","cngen");
 
-  function Step_Config1()
+  function __construct()
   {
     $this->update_strings();
 
@@ -131,6 +132,10 @@ class Step_Config1 extends setup_step
 
     if (preg_match("/,$/", $this->groupou)) {
       $message[] = sprintf(_("Don't add a trailing comma to '%s'."), _("Group storage ou"));
+    }
+
+    if (preg_match("/,$/", $this->aclroleou)) {
+      $message[] = sprintf(_("Don't add a trailing comma to '%s'."), _("ACL role storage ou"));
     }
 
     if (!is_numeric($this->uidbase)) {
@@ -218,14 +223,7 @@ class Step_Config1 extends setup_step
       }
 
       /* base hook settings */
-/*      if (isset($_POST['base_hook_active'])) {
-        $this->pwd_rules['base_hook_active'] = TRUE;
-        if (isset($_POST['base_hook'])) {
-          $this->pwd_rules['base_hook'] = get_post('base_hook');
-        }
-      } else {*/
-        $this->pwd_rules['base_hook_active'] = FALSE;
-/*      }*/
+      $this->pwd_rules['base_hook_active'] = FALSE;
 
       if (isset($_POST['cngen_active'])) {
         $this->cngen_active = TRUE;

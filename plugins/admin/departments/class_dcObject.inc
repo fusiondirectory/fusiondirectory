@@ -1,9 +1,7 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2013 FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -22,79 +20,38 @@
 
 class dcObject extends department
 {
-  /* attribute list for save action */
-  var $attributes     = array( "dc", "ou", "description","gosaUnitTag", "manager");
+  static $namingAttr  = "dc";
   var $objectclasses  = array("top", "dcObject", "gosaDepartment");
   var $structuralOC   = array("locality");
-  var $type       = "dcObject";
-  var $dc         = "";
-  var $orgi_dc    = "";
-  var $namingAttr = "dc";
 
-  var $manager_enabled = FALSE;
-  var $manager_name ="";
-  var $manager ="";
-
-
-  function check()
-  {
-    $message = plugin::check();
-
-    /* Check for presence of this department */
-    $ldap= $this->config->get_ldap_link();
-    $ldap->ls ("(&(dc=".$this->dc.")(objectClass=dcObject))", $this->base, array('dn'));
-    if ($this->orig_dc == "new" && $ldap->count()){
-      $message[]= msgPool::duplicated(_("Name"));
-    } elseif ($this->orig_dn != $this->dn && $ldap->count()){
-      $message[]= msgPool::duplicated(_("Name"));
-    }
-
-    /* All required fields are set? */
-    if ($this->dc == ""){
-      $message[]= msgPool::required(_("Name"));
-    }elseif(tests::is_department_name_reserved($this->dc,$this->base)){
-      $message[]= msgPool::reserved(_("Name"));
-    }elseif(!preg_match ('/[a-z0-9 \.,\-_]/i', $this->dc)){
-      $message[]= msgPool::invalid(_("Name"), $this->dc, "/[a-z0-9 \.,\-_]/");
-    }
-
-    /* Check description */
-    if ($this->description == ""){
-      $message[]= msgPool::required(_("Description"));
-    }
-
-    /* Check if we are allowed to create or move this object
-     */
-    if($this->orig_dn == "new" && !$this->acl_is_createable($this->base)){
-      $message[] = msgPool::permCreate();
-    }elseif($this->orig_dn != "new" && $this->base != $this->orig_base && !$this->acl_is_moveable($this->base)){
-      $message[] = msgPool::permMove();
-    }
-
-    return($message);
-  }
-
-
-  /* Return plugin informations for acl handling */
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("Domain Component"),
-      "plDescription" => _("Domain Component"),
-      "plSelfModify"  => FALSE,
-      "plCategory"    => array("department"),
-      "plObjectType"  => array("dcObject" => array("name" => _("Domain Component"), "filter" => "objectClass=dcObject")),
+      'plShortName'   => _('Domain Component'),
+      'plDescription' => _('Domain Component'),
+      'plObjectType'  => array('dcObject' => array(
+        'aclCategory' => 'department',
+        'name'        => _('Domain Component'),
+        'filter'      => '(&(objectClass=dcObject)(objectClass=gosaDepartment))',
+        'ou'          => '',
+        'icon'        => 'plugins/departments/images/dc.png',
+        'tabClass'    => 'deptabs',
+        'mainAttr'    => self::$namingAttr,
+      )),
+      'plForeignKeys'  => array(
+        'manager' => 'user'
+      ),
 
-      "plProvidedAcls" => array(
-        "dc"                => _("Name"),
-        "description"       => _("Description"),
-        "manager"           => _("Manager"),
-        "base"              => _("Base"),
-        "gosaUnitTag"       => _("Administrative settings")
-      )
+      'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())
     );
   }
-}
 
-// vim:tabstop=2:expandtab:shiftwidth=2:filetype=php:syntax:ruler:
+  static function getAttributesInfo ()
+  {
+    $attributesInfo = parent::getDepartmentAttributesInfo(_('domain component'), self::$namingAttr);
+    unset($attributesInfo['location']);
+    unset($attributesInfo['properties']['attrs'][3]); // category
+    return $attributesInfo;
+  }
+}
 ?>

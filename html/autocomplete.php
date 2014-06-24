@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
@@ -27,11 +26,11 @@
 
 session_cache_limiter("private");
 session::start();
-session::global_set('errorsAlreadyPosted',array());
+session::global_set('errorsAlreadyPosted', array());
 
 /* Logged in? Simple security check */
-if (!session::global_is_set('ui')){
-  new log("security","unknown","",array(),"Error: autocomplete.php called without session") ;
+if (!session::global_is_set('ui')) {
+  new log("security", "unknown", "", array(), "Error: autocomplete.php called without session");
   header ("Location: index.php");
   exit;
 }
@@ -41,25 +40,25 @@ if (isset($_GET['type']) && $_GET['type'] == "base") {
 
   // Find dn based on name and description
   if (session::is_set("pathMapping") && count($_POST) == 1) {
-    $res= "";
-    $pathMapping= session::get("pathMapping");
-    $search= preg_replace('/&quot;/', '"', current($_POST));
+    $res          = "";
+    $pathMapping  = session::get("pathMapping");
+    $search       = preg_replace('/&quot;/', '"', current($_POST));
 
     $config = session::global_get('config');
     foreach ($config->department_info as $dn => $info) {
       if (!isset($pathMapping[$dn])) {
         continue;
       }
-      if (mb_stristr($info['name'], $search) !== false) {
-        $res.= "<li>".mark($search, $pathMapping[$dn]).($info['description']==''?"":"<span class='informal'> [".mark($search, $info['description'])."]</span>")."</li>";
+      if (mb_stristr($info['name'], $search) !== FALSE) {
+        $res .= "<li>".mark($search, $pathMapping[$dn]).($info['description'] == ''?"":"<span class='informal'> [".mark($search, $info['description'])."]</span>")."</li>";
         continue;
       }
-      if (mb_stristr($info['description'], $search) !== false) {
-        $res.= "<li>".mark($search, $pathMapping[$dn]).($info['description']==''?"":"<span class='informal'> [".mark($search, $info['description'])."]</span>")."</li>";
+      if (mb_stristr($info['description'], $search) !== FALSE) {
+        $res .= "<li>".mark($search, $pathMapping[$dn]).($info['description'] == ''?"":"<span class='informal'> [".mark($search, $info['description'])."]</span>")."</li>";
         continue;
       }
-      if (mb_stristr($pathMapping[$dn], $search) !== false) {
-        $res.= "<li>".mark($search, $pathMapping[$dn]).($info['description']==''?"":"<span class='informal'> [".mark($search, $info['description'])."]</span>")."</li>";
+      if (mb_stristr($pathMapping[$dn], $search) !== FALSE) {
+        $res .= "<li>".mark($search, $pathMapping[$dn]).($info['description'] == ''?"":"<span class='informal'> [".mark($search, $info['description'])."]</span>")."</li>";
         continue;
       }
     }
@@ -75,8 +74,8 @@ if (isset($_GET['type']) && $_GET['type'] == "base") {
   $ui = session::global_get('ui');
 
   /* Is there a filter object arround? */
-  if (session::is_set("autocomplete")){
-    $filter= session::get("autocomplete");
+  if (session::is_set("autocomplete")) {
+    $filter = session::get("autocomplete");
     $filter->processAutocomplete();
   }
 }

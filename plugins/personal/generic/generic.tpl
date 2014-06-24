@@ -3,7 +3,7 @@
  <!-- Headline container -->
  <tr>
   <td colspan="4">
-   <h2><img alt="" align="middle" src="plugins/generic/images/head.png" class="center"> {t}Personal information{/t}</h2>
+   <h2><img alt="" align="middle" src="geticon.php?context=types&icon=user&size=16" class="center"> {t}Personal information{/t}</h2>
   </td>
  </tr>
 
@@ -260,7 +260,7 @@
  <!-- Headline container -->
  <tr>
   <td colspan="3">
-   <h2><img alt="" align="middle" src="plugins/generic/images/house.png" class="center">&nbsp;{t}Organizational information{/t}</h2>
+   <h2><img alt="" align="middle" src="plugins/users/images/house.png" class="center">&nbsp;{t}Organizational information{/t}</h2>
   </td>
  </tr>
 
@@ -319,14 +319,14 @@
           title='{$manager}'>
 {/render}
 {render acl=$managerACL}
-        <input type='image' src='images/lists/edit.png' name='editManager' class='center'>
+        <input type='image' src='geticon.php?context=actions&icon=document-edit&size=16' name='editManager' class='center'>
 {/render}
         {if $manager!=""}
 {render acl=$managerACL}
         <img src='images/info_small.png' title='{$manager}' class='center'>
 {/render}
 {render acl=$managerACL}
-        <input type='image' src='images/lists/trash.png' name='removeManager' class='center'>
+        <input type='image' src='geticon.php?context=actions&icon=edit-delete&size=16' name='removeManager' class='center'>
 {/render}
         {/if}
      </td>
@@ -356,7 +356,7 @@
 {render acl=$telephoneNumberACL}
           <input type="text" id="telephoneNumber" name="telephoneNumber" size=22 maxlength=60 value="{$telephoneNumber}"/>
         {if $phone_dialog_available}
-          <input type='image' src='images/lists/edit.png' name='editPhone' class='center'/>
+          <input type='image' src='geticon.php?context=actions&icon=document-edit&size=16' name='editPhone' class='center'/>
         {/if}
 {/render}
      </td>
@@ -368,7 +368,7 @@
 {render acl=$mobileACL}
     <input type="text" id="mobile" name="mobile" size=22 maxlength=60 value="{$mobile}"/>
         {if $mobile_dialog_available}
-          <input type='image' src='images/lists/edit.png' name='editMobile' class='center'/>
+          <input type='image' src='geticon.php?context=actions&icon=document-edit&size=16' name='editMobile' class='center'/>
         {/if}
 {/render}
      </td>

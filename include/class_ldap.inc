@@ -34,8 +34,8 @@ define("SPECIALS_OVERRIDE", TRUE);
  * ldap operations easy
  */
 
-class LDAP{
-
+class LDAP
+{
   var $hascon         = FALSE;
   var $reconnect      = FALSE;
   var $tls            = FALSE;
@@ -190,7 +190,7 @@ class LDAP{
       }
 
       $this->error = "No Error";
-      if ($bid = @ldap_bind($this->cid, LDAP::fix($this->binddn), $this->bindpw)) {
+      if (@ldap_bind($this->cid, LDAP::fix($this->binddn), $this->bindpw)) {
         $this->error  = "Success";
         $this->hascon = TRUE;
       } else {
@@ -711,7 +711,7 @@ class LDAP{
       reset($delarray);
 
       /* Really Delete ALL dn's in subtree */
-      foreach ($delarray as $key => $value) {
+      foreach (array_keys($delarray) as $key) {
         $this->rmdir_recursive($srp, $key);
       }
 
@@ -727,8 +727,6 @@ class LDAP{
 
   function makeReadableErrors($error, $attrs)
   {
-    global $config;
-
     if ($this->success()) {
       return "";
     }
@@ -794,10 +792,13 @@ class LDAP{
     }
   }
 
+  /*
+   * $target is a dn, i.e. "ou=example,ou=orga,dc=base"
+   *
+   * Creates missing trees, in our example ou=orga,dc=base will get created if not existing, same thing for ou=example,ou=orga,dc=base
+   * */
   function create_missing_trees($srp, $target)
   {
-    global $config;
-
     $real_path = substr($target, 0, strlen($target) - strlen($this->basedn) - 1);
 
     if ($target == $this->basedn) {
@@ -807,7 +808,6 @@ class LDAP{
     }
     unset($l['count']);
     $cdn = $this->basedn;
-    $tag = "";
 
     /* Load schema if available... */
     $classes = $this->get_objectclasses();
@@ -834,14 +834,7 @@ class LDAP{
       $attrs = $this->fetch($srp);
 
       /* Create missing entry? */
-      if (count ($attrs)) {
-
-        /* Catch the tag - if present */
-        if (isset($attrs['gosaUnitTag'][0])) {
-          $tag = $attrs['gosaUnitTag'][0];
-        }
-
-      } else {
+      if (!count($attrs)) {
         $type   = preg_replace('/^([^=]+)=.*$/', '\\1', $cdn);
         $param  = LDAP::fix(preg_replace('/^[^=]+=([^,]+).*$/', '\\1', $cdn));
         $param  = preg_replace(array('/\\\\,/','/\\\\"/'), array(',','"'), $param);
@@ -850,7 +843,6 @@ class LDAP{
 
         /* Automatic or traditional? */
         if (count($classes)) {
-
           /* Get name of first matching objectClass */
           $ocname = "";
           foreach ($classes as $class) {
@@ -876,12 +868,7 @@ class LDAP{
           }
 
           /* Assemble_entry */
-          if ($tag != "") {
-            $na['objectClass'] = array($ocname, "gosaAdministrativeUnitTag");
-            $na["gosaUnitTag"] = $tag;
-          } else {
-            $na['objectClass'] = array($ocname);
-          }
+          $na['objectClass'] = array($ocname);
           if (isset($classes[$ocname]['AUXILIARY'])) {
             $na['objectClass'][] = $classes[$ocname]['SUP'];
           }
@@ -898,28 +885,16 @@ class LDAP{
               $na[$attr] = "filled";
             }
           }
-
         } else {
-
           /* Use alternative add... */
           switch ($type) {
             case 'ou':
-              if ($tag != "") {
-                $na["objectClass"] = array("organizationalUnit", "gosaAdministrativeUnitTag");
-                $na["gosaUnitTag"] = $tag;
-              } else {
-                $na["objectClass"] = "organizationalUnit";
-              }
-              $na["ou"] = $param;
+              $na["objectClass"]  = "organizationalUnit";
+              $na["ou"]           = $param;
               break;
             case 'dc':
-              if ($tag != "") {
-                $na["objectClass"] = array("dcObject", "top", "locality", "gosaAdministrativeUnitTag");
-                $na["gosaUnitTag"] = $tag;
-              } else {
-                $na["objectClass"] = array("dcObject", "top", "locality");
-              }
-              $na["dc"] = $param;
+              $na["objectClass"]  = array("dcObject", "top", "locality");
+              $na["dc"]           = $param;
               break;
             default:
               msg_dialog::display(_("Internal error"), sprintf(_("Cannot automatically create subtrees with RDN '%s': not supported"), $type), FATAL_ERROR_DIALOG);
@@ -931,7 +906,6 @@ class LDAP{
         $this->add($na);
 
         if (!$this->success()) {
-
           print_a(array($cdn,$na));
 
           msg_dialog::display(_("LDAP error"), msgPool::ldaperror($this->get_error(), $cdn, LDAP_ADD, get_class()), LDAP_ERROR);
@@ -962,7 +936,7 @@ class LDAP{
     reset($delarray);
 
     /* Delete all dn's in subtree */
-    foreach ($delarray as $key => $value) {
+    foreach (array_keys($delarray) as $key) {
       $this->rmdir($key);
     }
   }
@@ -1075,11 +1049,8 @@ class LDAP{
    *
    * \param  $limit        Limits the result.
    */
-  function generateLdif ($dn, $filter = "(objectClass=*)", $attributes = array(), $scope = 'sub', $limit = 0)
+  function generateLdif ($dn, $filter = "(objectClass=*)", $scope = 'sub', $limit = 0)
   {
-    // Attributes are unused !!
-    $attrs = '';
-
     // Ensure that limit is numeric if not skip here.
     if (!empty($limit) && !is_numeric($limit)) {
         trigger_error(sprintf("Invalid parameter for limit '%s', a numeric value is required."), $limit);
@@ -1095,13 +1066,6 @@ class LDAP{
     }
     $scope = (!empty($scope))?' -s '.$scope: '';
 
-    // First check if we are able to call 'ldapsearch' on the command line.
-    $check = shell_exec('which ldapsearch');
-    if (empty($check)) {
-      $this->error = sprintf(_("Missing command line programm '%s'!"), 'ldapsearch');
-      return NULL;
-    }
-
     // Prepare parameters to be valid for shell execution
     $dn     = escapeshellarg($dn);
     $pwd    = $this->bindpw;
@@ -1109,14 +1073,14 @@ class LDAP{
     $admin  = escapeshellarg($this->binddn);
     $filter = escapeshellarg($filter);
 
-
     $cmd = "ldapsearch -x -LLLL -D {$admin} {$filter} {$limit} {$scope} -H {$host} -b {$dn} -w {$pwd} ";
 
     // Create list of process pipes
     $descriptorspec = array(
-            0 => array("pipe", "r"),  // stdin
-            1 => array("pipe", "w"),  // stdout
-            2 => array("pipe", "w")); // stderr
+      0 => array("pipe", "r"),  // stdin
+      1 => array("pipe", "w"),  // stdout
+      2 => array("pipe", "w")   // stderr
+    );
 
     // Try to open the process
     $process = proc_open($cmd, $descriptorspec, $pipes);
@@ -1134,6 +1098,9 @@ class LDAP{
         $this->error = $err;
         return NULL;
       }
+    } else {
+      $this->error = _("proc_open failed to execute ldapsearch");
+      return NULL;
     }
     return $res;
   }
@@ -1165,7 +1132,9 @@ class LDAP{
    */
   function import_complete_ldif($srp, $str_attr, $JustModify, $DeleteOldEntries)
   {
-    if ($this->reconnect) $this->connect();
+    if ($this->reconnect) {
+      $this->connect();
+    }
 
     /* First we have to split the string into empty lines.
        An empty line indicates an new Entry */
@@ -1176,7 +1145,6 @@ class LDAP{
     $current_line = 0;
 
     /* FIX ldif */
-    $last = "";
     $tmp  = "";
     $i    = 0;
     foreach ($entries as $entry) {
@@ -1247,28 +1215,10 @@ class LDAP{
         throw new Exception($error);
       }
 
-      /* Should we use Modify instead of Add */
-      $usemodify = FALSE;
-
       /* Delete before insert */
-      $usermdir = FALSE;
-
-      /* The dn address already exists, Don't delete destination entry, overwrite it */
-      if ($this->dn_exists($value) && (!$JustModify && !$DeleteOldEntries)) {
-
-        $usermdir = $usemodify = FALSE;
-
-      /* Delete old entry first, then add new */
-      } elseif ($this->dn_exists($value) && $DeleteOldEntries) {
-
-        /* Delete first, then add */
-        $usermdir = TRUE;
-
-      } elseif ($this->dn_exists($value) && $JustModify) {
-
-        /* Modify instead of Add */
-        $usemodify = TRUE;
-      }
+      $usermdir = ($this->dn_exists($value) && $DeleteOldEntries);
+      /* Should we use Modify instead of Add */
+      $usemodify = ($this->dn_exists($value) && $JustModify);
 
       /* If we can't Import, return with a file error */
       if (!$this->import_single_entry($srp, $single, $usemodify, $usermdir)) {
@@ -1301,8 +1251,9 @@ class LDAP{
       trigger_error("Can't import ldif, can't read config object.");
     }
 
-
-    if ($this->reconnect) $this->connect();
+    if ($this->reconnect) {
+      $this->connect();
+    }
 
     $ret  = FALSE;
     $rows = preg_split("/\n/", $str_attr);
@@ -1314,12 +1265,10 @@ class LDAP{
          Linenumbers) Linenumbers are use like this 123#attribute : value */
       if (!empty($row)) {
         if (strpos($row, "#") != FALSE) {
-
           /* We are using line numbers
              Because there is a # before a : */
-          $tmp1         = explode("#", $row);
-          $current_line = $tmp1[0];
-          $row          = base64_decode($tmp1[1]);
+          $tmp1 = explode("#", $row);
+          $row  = base64_decode($tmp1[1]);
         }
 
         /* Split the line into  attribute  and value */
@@ -1392,7 +1341,7 @@ class LDAP{
         if ($this->count($srp)) {
           /* The destination entry exists, overwrite it with the new entry */
           $attrs = $this->fetch($srp);
-          foreach ($attrs as $name => $value ) {
+          foreach (array_keys($attrs) as $name) {
             if (!is_numeric($name)) {
               if (in_array($name, array("dn","count"))) {
                 continue;
@@ -1421,31 +1370,6 @@ class LDAP{
   }
 
   /*!
-   * \brief Split a string
-   *
-   * \param string $str
-   */
-  function importcsv($str)
-  {
-    $lines = preg_split("/\n/", $str);
-    foreach ($lines as $line) {
-      /* continue if theres a comment */
-      if (substr(trim($line), 0, 1) == "#") {
-        continue;
-      }
-
-      $line = str_replace("\t\t", "\t", $line);
-      $line = str_replace("\t",   ",",  $line);
-      echo $line;
-
-      $cells = explode(",", $line );
-      $linet = str_replace("\t\t", ",", $line);
-      $cells = preg_split("/\t/", $line);
-      $count = count($cells);
-    }
-  }
-
-  /*!
    * \brief Get the object classes
    *
    * \param boolean $force_reload FALSE
@@ -1453,14 +1377,6 @@ class LDAP{
   function get_objectclasses($force_reload = FALSE)
   {
     $objectclasses = array();
-    global $config;
-
-    /* Only read schema if it is allowed */
-    if (isset($config) && preg_match("/config/i", get_class($config))) {
-      if ($config->get_cfg_value("schemaCheck") != "TRUE") {
-        return $objectclasses;
-      }
-    }
 
     /* Return the cached results. */
     if (class_available('session') && session::global_is_set("LDAP_CACHE::get_objectclasses") && !$force_reload) {
@@ -1608,7 +1524,7 @@ class LDAP{
       die ("Can't bind to LDAP. No check possible!");
     }
     ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
-    $r = ldap_bind ($ds, $admin, $password);
+    ldap_bind ($ds, $admin, $password);
 
     /* Get base to look for naming contexts */
     $sr   = @ldap_read ($ds, "", "objectClass=*", array("+"));
@@ -1626,7 +1542,7 @@ class LDAP{
       die ("Can't bind to LDAP. No check possible!");
     }
     ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
-    $r = ldap_bind ($ds, $admin, $password);
+    ldap_bind ($ds, $admin, $password);
 
     /* Get base to look for naming contexts */
     $sr   = @ldap_read ($ds, "", "objectClass=*", array("+"));

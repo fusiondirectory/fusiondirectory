@@ -1,5 +1,5 @@
 <div style="font-size:20px;">
-  <img alt="" src="images/encrypted.png" style="vertical-align:top;">&nbsp;{t}Locking conflict detected{/t}
+  <img alt="" src="geticon.php?context=status&icon=object-locked&size=32" style="vertical-align:top;"/>&nbsp;{t}Locking conflict detected{/t}
 </div>
 
 <p>
@@ -18,6 +18,6 @@
   &nbsp;
   <input type="submit" name="cancel_lock" value="{t}Cancel{/t}">
 </p>
-      
+
 <input type="hidden" name="dn" value="{$dn}">
 

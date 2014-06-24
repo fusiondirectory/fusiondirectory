@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
@@ -20,149 +19,74 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class aclManagement extends management
+class aclManagement extends simpleManagement
 {
-  // Tab definition
-  protected $tabClass     = "aclroletab";
-  protected $tabType      = "ACLROLETABS";
-  protected $aclCategory  = "acl";
-  protected $aclPlugin    = "acl";
-  protected $objectName   = "acl";
+  protected $objectTypes  = array('aclAssignment');
 
-  /* Return plugin informations for acl handling */
+  protected $autoFilterAttributes = array('dn', 'cn', 'description', 'ou', 'dc');
+
+  protected $departmentBrowser      = FALSE;
+  protected $departmentRootVisible  = FALSE;
+  protected $baseMode               = FALSE;
+  protected $skipCpHandler          = TRUE;
+  protected $skipSnapHandler        = TRUE;
+  protected $autoActions            = FALSE;
+
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("Acl"),
-      "plDescription" => _("Access control list management"),
-      "plIcon"        => "plugins/acl/images/icon.png",
-      "plSection"     => "admin",
-      "plPriority"    => 42,
-      "plCategory"    => array("acl"),
+      'plShortName'   => _('ACL assignments'),
+      'plDescription' => _('Access control list management'),
+      'plIcon'        => 'geticon.php?context=categories&icon=acl&size=48',
+      'plSection'     => 'admin',
+      'plPriority'    => 42,
+      'plManages'     => array('aclAssignment'),
 
-      "plProvidedAcls" => array()
+      'plProvidedAcls' => array()
     );
   }
 
-  function __construct(&$config, $ui)
+  function configureFilter()
   {
-    $this->config = $config;
-    $this->ui     = $ui;
-
-    $this->storagePoints = array(get_ou("aclRoleRDN")); // ACLs are attached to department containers
-
-    // Build filter
-    if (session::global_is_set(get_class($this)."_filter")) {
-      $filter = session::global_get(get_class($this)."_filter");
-    } else {
-      $filter = new filter(get_template_path("acl-filter.xml", TRUE));
-      $filter->setObjectStorage($this->storagePoints);
-    }
-    $this->setFilter($filter);
-
-    // Build headpage
-    $headpage = new listing(get_template_path("acl-list.xml", TRUE));
-    $headpage->registerElementFilter("filterLabel", "aclManagement::filterLabel");
-    $headpage->setFilter($filter);
-
-    parent::__construct($this->config, $ui, "acl", $headpage);
+    parent::configureFilter();
+    $this->filter->scope = 'sub';
   }
 
-  function removeEntryConfirmed ($action = "", $target = array(), $all = array(),
-      $altTabClass = "", $altTabType = "", $altAclCategory = "")
+  function parseXML ($file)
   {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removel confirmed!");
-
-    $headpage = $this->getHeadpage();
-    foreach ($this->dns as $key => $dn) {
-
-      // Check permissions, are we allowed to remove this object?
-      $acl = $this->ui->get_permissions($dn, $this->aclCategory."/".$this->aclPlugin);
-      if (preg_match("/d/", $acl)) {
-
-        if ($headpage->getType($dn) == "gosaRole") {
-          $tabClass = "aclroletab";
-          $tabType  = "ACLROLETABS";
-        } else {
-          $tabClass = "acltab";
-          $tabType  = "ACLTABS";
-        }
-
-        // Delete the object
-        $this->dn = $dn;
-        $this->tabObject = new $tabClass($this->config, $this->config->data['TABS'][$tabType], $this->dn, $aclCategory, TRUE, TRUE);
-        $this->tabObject->set_acl_base($this->dn);
-        $this->tabObject->delete ();
-        $this->tabObject->parent = &$this;
-
-        // Remove the lock for the current object.
-        del_lock($this->dn);
-      } else {
-        msg_dialog::display(_("Permission error"), msgPool::permDelete(), ERROR_DIALOG);
-        new log("security", "groups/".get_class($this), $dn, array(), "Tried to trick deletion.");
-      }
-    }
-
-    // Cleanup
-    $this->remove_lock();
-    $this->closeDialogs();
+    $data = parent::parseXML($file);
+    $data['list']['table']['column'][1]['value']          = '%{filter:filterLabel(row,dn,pid,base,ou,cn,dc,o)}';
+    $data['list']['table']['column'][1]['sortAttribute']  = 'dn';
+    array_shift($data['list']['actionmenu']['action']);
+    return $data;
   }
 
-
-  function newEntry($action = "", $target = array(), $all = array(), $altTabClass = "", $altTabType = "", $altAclCategory = "")
+  function configureHeadpage ()
   {
-    $this->skipFooter = TRUE;
-    $altTabClass      = "aclroletab";
-    $altTabType       = "ACLROLETABS";
-    return management::newEntry($action, $target, $all, $altTabClass, $altTabType, $altAclCategory);
+    $this->headpage->objectTypes = array(); // Remove department types so that we don't mistake assignments with them.
+    $this->headpage->registerElementFilter('filterLabel', 'aclManagement::filterLabel');
+    parent::configureHeadpage();
   }
 
-  function editEntry($action = "", $target = array(), $all = array(), $altTabClass = "", $altTabType = "", $altAclCategory = "")
-  {
-    $this->skipFooter = TRUE;
-    if (count($target) == 1) {
-
-      // Set dummy tab object...
-      $this->dn = array_pop($target);
-      $headpage = $this->getHeadpage();
-      if ($headpage->getType($this->dn) == "gosaRole") {
-        $altTabClass = "aclroletab";
-        $altTabType  = "ACLROLETABS";
-      } else {
-        $altTabClass = "acltab";
-        $altTabType  = "ACLTABS";
-      }
-      return management::editEntry($action, array($this->dn), $all, $altTabClass, $altTabType, $altAclCategory);
-    }
-  }
-
-
-  function detectPostActions()
-  {
-    $action = management::detectPostActions();
-    if (isset($_POST['edit_acl'])) {
-      $action['action'] = "edit_acl";
-    }
-    if (isset($_POST['edit_role'])) {
-      $action['action'] = "edit_role";
-    }
-    return $action;
-  }
-
-
-  // A filter which allows to open a department by clicking on the departments name.
-  static function filterLabel($row, $dn, $ou = array(), $pid = 0, $base = "")
+  static function filterLabel($row, $dn, $pid = 0, $base = "", $ou = array())
   {
     $ou = $ou[0];
     if ($dn == $base) {
       $ou = " . ";
     }
-    if (!preg_match("/^cn=/", $dn)) {
-      $ou .= "  &nbsp; ["._("ACL Assignment")."]";
-    }
+    $ou .= "  &nbsp; ["._("ACL Assignment")."]";
 
-    $dn = LDAP::fix(func_get_arg(1));
+    $dn = LDAP::fix($dn);
     return "<a href='?plug=".$_GET['plug']."&amp;PID=$pid&amp;act=listing_edit_$row' title='$dn'>$ou</a>";
+  }
+
+  protected function removeEntryRequested($action = "", $target = array(), $all = array())
+  {
+    $result = parent::removeEntryRequested($action, $target, $all);
+    if ($result != "") {
+      $smarty = get_smarty();
+      return $smarty->fetch(get_template_path('remove.tpl', TRUE, dirname(__FILE__)));
+    }
   }
 }
 ?>

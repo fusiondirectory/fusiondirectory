@@ -54,7 +54,7 @@ class passwordRecovery {
   var $usealternates;
 
   /* Constructor */
-  function passwordRecovery()
+  function __construct()
   {
     global $config, $ssl;
     /* Destroy old session if exists.
@@ -149,8 +149,6 @@ class passwordRecovery {
     } else {
       $this->uid = "";
     }
-
-
   }
 
   function execute()
@@ -308,7 +306,7 @@ class passwordRecovery {
     /* Check for old files in compile directory */
     clean_smarty_compile_dir($smarty->compile_dir);
 
-    $smarty->assign('password_img', get_template_path('images/password.png'));
+    $smarty->assign('password_img', 'geticon.php?context=status&icon=dialog-password&size=48');
     $smarty->assign('date', gmdate("D, d M Y H:i:s"));
     $smarty->assign('params', "");
     $smarty->assign('message', "");
@@ -400,7 +398,6 @@ class passwordRecovery {
 
   function isValidPassword($new_password, $repeated_password)
   {
-    //$MinDiffer = $this->config->get_cfg_value("passwordMinDiffer", 0);
     $MinLength = $this->config->get_cfg_value("passwordMinLength", 0);
 
     if ($new_password != $repeated_password) {

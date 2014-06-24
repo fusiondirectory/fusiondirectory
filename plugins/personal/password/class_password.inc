@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
@@ -30,7 +29,7 @@ class password extends plugin
 
   function password(&$config, $dn = NULL, $parent = NULL)
   {
-    plugin::plugin($config, $dn, $parent);
+    parent::__construct($config, $dn, $parent);
 
     // Try to generate a password proposal, if this is successfull
     //  then preselect the proposal usage.
@@ -47,8 +46,8 @@ class password extends plugin
 
   function refreshProposal()
   {
-    $this->proposal = passwordMethod::getPasswordProposal($this->config);
-    $this->proposalEnabled = (!empty($this->proposal));
+    $this->proposal         = passwordMethod::getPasswordProposal($this->config);
+    $this->proposalEnabled  = (!empty($this->proposal));
   }
 
   function execute()
@@ -59,7 +58,7 @@ class password extends plugin
     $ui = get_userinfo();
 
     /* Get acls */
-    $password_ACLS = $ui->get_permissions($ui->dn, "users/password");
+    $password_ACLS = $ui->get_permissions($ui->dn, "user/password");
     $smarty->assign("ChangeACL", $password_ACLS);
     $smarty->assign("NotAllowed", !preg_match("/w/i", $password_ACLS));
 
@@ -201,10 +200,13 @@ class password extends plugin
       "plDescription"   => _("Change user password"),
       "plSelfModify"    => TRUE,
       "plPriority"      => 10,
-      "plCategory"      => array("users"),
+      "plCategory"      => array("user"),
       "plSection"       => "personal",
+      "plIcon"          => '/fusiondirectory/geticon.php?context=status&icon=dialog-password&size=48',
 
-      "plProvidedAcls"  => array()
+      "plProvidedAcls"  => array(
+        "userPassword"  => _("Change user password"),
+      )
     );
   }
 

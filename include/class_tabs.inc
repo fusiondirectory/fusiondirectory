@@ -63,11 +63,11 @@ class tabs
    *
    * \param Object $attrs_object An object to copy values from
    */
-  function tabs(&$config, $data, $dn, $acl_category = "", $attrs_object = NULL)
+  function __construct(&$config, $data, $dn, $acl_category = "", $attrs_object = NULL)
   {
     /* Save dn */
-    $this->dn         = $dn;
-    $this->config     = &$config;
+    $this->dn     = $dn;
+    $this->config = &$config;
 
     if (!count($data)) {
       $data[] = array("CLASS" => 'plugin',"NAME" => 'Error');
@@ -135,9 +135,6 @@ class tabs
     $this->dn = 'new';
     foreach ($this->by_object as &$obj) {
       $obj->resetCopyInfos();
-      if ($obj->is_account || $obj->ignore_account) {
-        $obj->postCopyHook();
-      }
     }
     unset($obj);
   }
@@ -146,12 +143,16 @@ class tabs
   {
     $baseobject = $this->getBaseObject();
     if (isset($baseobject->base)) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, '', 'Fixing base');
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $baseobject->base, 'Fixing base');
       if (session::global_is_set('CurrentMainBase')) {
         $baseobject->base = dn2base('cn=dummy,'.session::global_get('CurrentMainBase'));
       } else {
         $baseobject->base = dn2base(get_userinfo()->dn);
       }
+      if (is_object($baseobject->baseSelector)) { // For some plugins not yet migrated to simple plugin.
+        $baseobject->baseSelector->setBase($baseobject->base);
+      }
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $baseobject->base, 'Fixed base');
     } else {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, '', 'no base');
     }
@@ -223,11 +224,11 @@ class tabs
   {
     $display = "";
     if (!$disabled) {
-      $display .= "<input type=\"hidden\" name=\"arg\" value=\"\">";
+      $display .= '<input type="hidden" name="arg" value=""/>';
     }
-    $display .= "<table summary=\"\" cellpadding=0 cellspacing=0 border=0 style=\"width:100%;\"><tr>";
-    $index = 0;
-    $style = array("tab_left", "tab_active", "tab_near_active", "tab_right");
+    $display  .= '<table class="tabs_header"><tbody><tr>';
+    $index    = 0;
+    $style    = array("tab_left", "tab_active", "tab_near_active", "tab_right");
     foreach ($this->by_name as $class => $name) {
 
       /* Activate right tabs with style "tab_right"
@@ -242,7 +243,7 @@ class tabs
       }
 
       /* Paint tab */
-      $display .= "<td style=\"vertical-align:bottom;width:1px;white-space:nowrap;\">";
+      $display .= '<td>';
 
       /* Shorten string if its too long for the tab headers*/
       $title = _($name);
@@ -262,20 +263,21 @@ class tabs
       }
 
       if ($disabled) {
-        $display.= "<div class=\"$style[$index]$notify\"
+        $display .= "<div class=\"$style[$index]$notify\"
           style=' font-family:arial,helvetica,sans-serif;
                   font-weight:bold;
                   font-size:13px;
                   color: gray;'
           title=\"$title\">".$title."</div>";
       } else {
-        $display.= "<div class=\"$style[$index]$notify\"><a class=\"$style[$index]\" onclick=\"return true;\" href=\"javascript:document.mainform.arg.value='$class';document.mainform.submit();\">$title</a></div></td>";
+        $display .= "<div class=\"$style[$index]$notify\"><a id=\"tab_$class\" class=\"$style[$index]\" onclick=\"return true;\" href=\"javascript:document.mainform.arg.value='$class';document.mainform.submit();\">$title</a></div></td>";
       }
     }
-    $display.= "<td style=\"vertical-align:bottom;\">\n";
-    $display.= "<div class=\"tab_border\">&nbsp;</div></td></tr></table>";
 
-    return($display);
+    $display .= "<td>\n";
+    $display .= "<div class=\"tab_border\">&nbsp;</div></td></tr></tbody></table>";
+
+    return $display;
   }
 
   /*!
@@ -284,34 +286,18 @@ class tabs
   function delete()
   {
     /* Check if all plugins will ACK for deletion */
-    foreach (array_reverse($this->by_object) as $key => $obj){
-      $reason= $obj->allow_remove();
-      if ($reason != ""){
+    foreach (array_reverse($this->by_object) as $key => $obj) {
+      $reason = $obj->allow_remove();
+      if ($reason != "") {
         msg_dialog::display(_("Warning"), sprintf(_("Delete process has been canceled by plugin '%s': %s"), $key, $reason), WARNING_DIALOG);
         return;
       }
     }
 
     /* Delete for all plugins */
-    foreach (array_reverse($this->by_object) as $obj){
+    foreach (array_reverse($this->by_object) as $obj) {
       $obj->remove_from_parent();
     }
-  }
-
-  /*
-   * \brief Ask all plugins for needed password changes
-   */
-  function password_change_needed()
-  {
-    /* Ask all plugins for needed password changes */
-    foreach ($this->by_object as &$obj){
-      if ($obj->password_change_needed()){
-        return TRUE;
-      }
-    }
-    unset($obj);
-
-    return FALSE;
   }
 
   /*!
@@ -328,7 +314,7 @@ class tabs
     /* Check all plugins */
     foreach ($this->by_object as $key => &$obj) {
       if ($obj->is_account || $obj->ignore_account) {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,$key, "Checking");
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Checking");
 
         $msg = $obj->check();
 
@@ -388,13 +374,12 @@ class tabs
    *
    * \param array $skip
    */
-  function adapt_from_template($dn, $skip= array())
+  function adapt_from_template($attrs, $skip = array())
   {
     foreach ($this->by_object as $key => &$obj) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
-          $key, "Adapting");
-      $obj->parent= &$this;
-      $obj->adapt_from_template($dn, $skip);
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Adapting");
+      $obj->parent = &$this;
+      $obj->adapt_from_template($attrs, $skip);
     }
     unset($obj);
   }

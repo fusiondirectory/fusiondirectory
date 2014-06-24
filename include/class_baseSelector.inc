@@ -30,7 +30,7 @@
 class baseSelector {
 
   private $base;
-  private $pid;
+  protected $pid;
   private $action;
   private $height       = 500;
   private $submitButton = TRUE;
@@ -83,8 +83,8 @@ class baseSelector {
   function setBase($base)
   {
     if (isset($this->pathMapping[$base])) {
-      $this->base = $base;
-      $this->lastState = TRUE;
+      $this->base       = $base;
+      $this->lastState  = TRUE;
       return $this->update(TRUE);
     } else {
       $this->lastState = FALSE;
@@ -124,17 +124,14 @@ class baseSelector {
     global $config;
 
     $this->pathMapping = array();
-    $selected     = ($this->base == $config->current['BASE']?"Selected":"");
-    $first        = TRUE;
-    $last_indent  = 2;
+    $selected = ($this->base == $config->current['BASE']);
 
     foreach ($bases as $base => $dummy) {
-
       // Build path style display
       $elements = explode(',', substr($base, 0, strlen($base) - strlen($config->current['BASE'])));
       $elements = array_reverse($elements, TRUE);
 
-      $this->pathMapping[$base] = ($base == $config->current['BASE']? '/' : ldap::fix(preg_replace('/(^|,)[a-z0-9]+=/i', '/', implode(',', $elements))));
+      $this->pathMapping[$base] = ($selected? '/' : ldap::fix(preg_replace('/(^|,)[a-z0-9]+=/i', '/', implode(',', $elements))));
     }
 
     // Save bases to session for autocompletion
@@ -149,6 +146,11 @@ class baseSelector {
   function update($force = FALSE)
   {
     global $config;
+
+    if (!isset($this->base) || ($this->base == "")) {
+      $this->lastState = FALSE;
+      return FALSE;
+    }
 
     // Analyze for base changes if needed
     $this->action = NULL;
@@ -186,12 +188,13 @@ class baseSelector {
     }
 
     /* Skip if there's no change */
-    if (($this->tree && $this->base == $last_base) && !$force) {
+    if ($this->tree && ($this->base == $last_base) && !$force) {
+      $this->lastState = TRUE;
       return TRUE;
     }
 
     $link = "onclick=\"\$('bs_rebase_".$this->pid."').value='".base64_encode($config->current['BASE'])."';  $('submit_tree_base_".$this->pid."').click();\"";
-    $this->tree = "<input class='base_selector' 'type='text' name='bs_input_".$this->pid."' id='bs_input_".$this->pid."' onkeydown=\"\$('bs_".$this->pid."').hide()\" onfocus=\"\$('bs_".$this->pid."').hide()\" onmouseover=\"Element.clonePosition(\$('bs_".$this->pid."'), 'bs_input_".$this->pid."', {setHeight: false, setWidth: false, offsetTop:(Element.getHeight('bs_input_".$this->pid."'))});\$('bs_".$this->pid."').show();\" onmouseout=\"rtimer= Element.hide.delay(0.25, 'bs_".$this->pid."')\" value=\"".preg_replace('/"/', '&quot;', $this->pathMapping[$this->base])."\">";
+    $this->tree = "<input class='base_selector' type='text' name='bs_input_".$this->pid."' id='bs_input_".$this->pid."' onkeydown=\"\$('bs_".$this->pid."').hide()\" onfocus=\"\$('bs_".$this->pid."').hide()\" onmouseover=\"Element.clonePosition(\$('bs_".$this->pid."'), 'bs_input_".$this->pid."', {setHeight: false, setWidth: false, offsetTop:(Element.getHeight('bs_input_".$this->pid."'))});\$('bs_".$this->pid."').show();\" onmouseout=\"rtimer= Element.hide.delay(0.25, 'bs_".$this->pid."')\" value=\"".preg_replace('/"/', '&quot;', $this->pathMapping[$this->base])."\">";
 
     // Autocompleter
     $this->tree .= "<div id='autocomplete_".$this->pid."' class='autocomplete'></div>".
@@ -230,10 +233,10 @@ class baseSelector {
         }
         $this->tree .= "</li>\n";
       }
-      $selected   = $this->base == $base?" class='treeListSelected'":"";
+      $selected   = ($this->base == $base?" class='treeListSelected'":"");
       $link       = "onclick=\"\$('bs_rebase_".$this->pid."').value='".base64_encode($base)."';$('submit_tree_base_".$this->pid."').click();\"";
       $this->tree .= "<li><a$selected $link>".
-                    "<img class='center' src='".$config->department_info[$base]['img']."'>&nbsp;".
+                    "<img class='center' src='".$config->department_info[$base]['img']."' alt='".$config->department_info[$base]['name']."'/>&nbsp;".
                     $this->gennonbreaks($config->department_info[$base]['name']).
                     ($config->department_info[$base]['description'] == ''?'':'&nbsp;<span class="informal">['.$this->gennonbreaks($config->department_info[$base]['description']).']</span>').
                     "</a>";
@@ -243,14 +246,14 @@ class baseSelector {
     }
 
     // Close tree
-    for ($i = 0; $i < $last_indent; $i++) {
+    for ($i = 1; $i < $last_indent; $i++) {
       $this->tree .= "</li></ul>\n";
     }
     $this->tree .= "</div>\n";
 
     // Draw submitter if required
     if ($this->submitButton) {
-      $this->tree .= "&nbsp;<input class='center' type='image' src='images/lists/submit.png' align='middle' title='"._("Submit")."' name='submit_base_".$this->pid."' id='submit_base_".$this->pid."' alt='"._("Submit")."'>";
+      $this->tree .= "&nbsp;<input class='center' type='image' src='images/lists/submit.png' title='"._("Submit")."' name='submit_base_".$this->pid."' id='submit_base_".$this->pid."' alt='"._("Submit")."'>";
     }
     $this->tree .= "<input type='submit' style='display:none' name='submit_tree_base_".$this->pid."' id='submit_tree_base_".$this->pid."'>";
     $this->tree .= "<input type='hidden' name='bs_rebase_".$this->pid."' id='bs_rebase_".$this->pid."'>";

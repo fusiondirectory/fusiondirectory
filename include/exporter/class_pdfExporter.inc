@@ -1,9 +1,8 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -29,8 +28,8 @@
 @include_once(FPDF);
 
 // Load supporter class only if FPDF is loaded
-$classes= get_declared_classes();
-if(in_array('FPDF', $classes)) {
+$classes = get_declared_classes();
+if (in_array('FPDF', $classes)) {
   include('class_PDF.php');
 }
 
@@ -52,64 +51,63 @@ class pdfExporter
    *
    * \param array $columns
    */
-  function pdfExporter($headline, $header, $entries, $columns= array()) {
+  function __construct($headline, $header, $entries, $columns = array())
+  {
     // Bail out if no FPDF available
-    if(!class_exists('FPDF')) {
+    if (!class_exists('FPDF')) {
       die(_("No PDF export possible: there is no FPDF library installed."));
     }
 
     // If no preset, render all columns
     if (!count($columns)) {
-      foreach ($header as $index => $dummy) {
-        $columns[]= $index;
-      }
+      $columns = array_keys($header);
     }
 
     // Create new PDF
-    $this->result=new PDF('L', 'mm', 'A4');
+    $this->result = new PDF('L', 'mm', 'A4');
     $this->result->AliasNbPages();
     $this->result->SetFont('Helvetica', '', 10);
     $this->result->setHeadline(utf8_decode($headline));
     $this->result->AddPage();
 
     // Analyze for width
-    $width= $this->calcWidth($header, $entries, $columns);
+    $width = $this->calcWidth($header, $entries, $columns);
 
     // Render head
-    $this->result->SetFont('','B');
+    $this->result->SetFont('', 'B');
     $this->result->SetTextColor(0);
-    $this->result->SetDrawColor(0,0,0);
+    $this->result->SetDrawColor(0, 0, 0);
     $this->result->SetLineWidth(.3);
 
     // Height calculator
-    $height= 0;
+    $height = 0;
 
-    $fill= false;
+    $fill = FALSE;
     foreach ($entries as $row) {
       // Render header
       if ($height == 0) {
         // Generate header
-        $this->result->SetFillColor(230,230,230);
-        $this->result->SetFont('','B');
+        $this->result->SetFillColor(230, 230, 230);
+        $this->result->SetFont('', 'B');
 
         foreach ($columns as $order => $index) {
-          if (isset($header[$index])){
+          if (isset($header[$index])) {
             $this->result->Cell($width[$order], 7, utf8_decode($header[$index]), 1, 0, 'C', 1);
           } else {
             $this->result->Cell($width[$order], 7, '', 1, 0, 'C', 1);
           }
         }
         $this->result->Ln();
-        $height= 7;
+        $height = 7;
 
         // Set entry collors
-        $this->result->SetFillColor(240,240,240);
+        $this->result->SetFillColor(240, 240, 240);
         $this->result->SetFont('');
       }
 
       foreach ($columns as $order => $index) {
 
-        if (isset($row["_sort$index"])){
+        if (isset($row["_sort$index"])) {
           $this->result->Cell($width[$order], 6, utf8_decode($row["_sort$index"]), 'LR', 0, 'L', $fill);
         } else {
           $this->result->Cell($width[$order], 6, '', 'LR', 0, 'L', $fill);
@@ -119,14 +117,14 @@ class pdfExporter
       $this->result->Ln();
 
       // Increase height to eventually create new page
-      $height+= 8;
+      $height += 8;
       if ($height > 220) {
-        $height= 0;
+        $height = 0;
         $this->result->Cell(array_sum($width), 0, '', 'T');
         $this->result->AddPage();
-        $fill= false;
+        $fill = FALSE;
       } else {
-        $fill= !$fill;
+        $fill = !$fill;
       }
     }
     $this->result->Cell(array_sum($width), 0, '', 'T');
@@ -143,37 +141,38 @@ class pdfExporter
    */
   function calcWidth($header, $entries, $columns)
   {
-    $width= array();
+    $width = array();
 
     // Locate longest value for each column
-    foreach ($columns as $order => $index) {
-      $max= 0;
+    foreach ($columns as $index) {
+      $max = 0;
 
-      if (isset($header[$index])){
-        $len= $this->result->GetStringWidth($header[$index]);
+      if (isset($header[$index])) {
+        $len = $this->result->GetStringWidth($header[$index]);
         if ($len > $max) {
-          $max= $len;
+          $max = $len;
         }
       }
 
       foreach ($entries as $row) {
-        if (isset($row["_sort$index"])){
-          $len= $this->result->GetStringWidth($row["_sort$index"]);
+        if (isset($row["_sort$index"])) {
+          $len = $this->result->GetStringWidth($row["_sort$index"]);
           if ($len > $max) {
-            $max= $len;
+            $max = $len;
           }
         }
       }
 
-      $width[]= $max;
+      $width[] = $max;
     }
 
     // Scale to page width
-    $printWidth= 280;
-    $scale= $printWidth / array_sum($width);
-    foreach ($width as $index => $w) {
-      $width[$index]= (int)($width[$index] * $scale);
+    $printWidth = 280;
+    $scale      = $printWidth / array_sum($width);
+    foreach ($width as &$w) {
+      $w *= $scale;
     }
+    unset($w);
 
     return $width;
   }
@@ -192,13 +191,12 @@ class pdfExporter
   static function getInfo()
   {
     // Check if class defined
-    $classes= get_declared_classes();
-    if(in_array('FPDF', $classes)) {
-      return array("exportPDF" => array( "label" => _("PDF"), "image" => "images/lists/pdf.png", "class"=> "pdfExporter", "mime" => "application/pdf", "filename" => "export.pdf" ));
+    $classes = get_declared_classes();
+    if (in_array('FPDF', $classes)) {
+      return array("exportPDF" => array( "label" => _("PDF"), "image" => "geticon.php?context=mimetypes&icon=application-pdf&size=16", "class" => "pdfExporter", "mime" => "application/pdf", "filename" => "export.pdf" ));
     } else {
-      return null;
+      return NULL;
     }
-
   }
 
 }

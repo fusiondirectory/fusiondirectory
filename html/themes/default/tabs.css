@@ -7,6 +7,12 @@ border-spacing:0px;
 
 table.tabs_header > tbody > tr > td {
 padding:0;
+vertical-align:bottom;
+white-space:nowrap;
+width:1px;
+}
+table.tabs_header > tbody > tr > td:last-child {
+width:auto;
 }
 
 div.tab_content {
@@ -38,7 +44,7 @@ padding-right:8px;
 }
 
 div.tab_notify {
-background-image:url(../../images/lists/on.png);
+background-image:url(../../geticon.php?context=status&icon=dialog-information&size=16);
 background-repeat:no-repeat;
 background-position:1px 1px;
 }

@@ -1,27 +1,27 @@
 <div class="contentboxh">
  <p class="contentboxh">
-  <img src="images/launch.png" align="right" alt="[F]">{t}Filter{/t}
+  <img src="images/launch.png" alt="[F]"/>{t}Filter{/t}
  </p>
 </div>
 
 <div class="contentboxb">
 
-{$TEMPLATES}&nbsp;<LABEL for='TEMPLATES'>{t}Show templates{/t}</LABEL><br>
-{$FUNCTIONAL}&nbsp;<LABEL for='FUNCTIONAL'>{t}Show functional users{/t}</LABEL><br>
-{$POSIX}&nbsp;<LABEL for='POSIX'>{t}Show POSIX users{/t}</LABEL><br>
+{$TEMPLATES}&nbsp;<label for='TEMPLATES'>{t}Show templates{/t}</label><br/>
+{$FUNCTIONAL}&nbsp;<label for='FUNCTIONAL'>{t}Show functional users{/t}</label><br/>
+{$POSIX}&nbsp;<label for='POSIX'>{t}Show POSIX users{/t}</label><br/>
 {if $USE_MAIL}
-  {$MAIL}&nbsp;<LABEL for='MAIL'>{t}Show Mail users{/t}</LABEL><br>
+  {$MAIL}&nbsp;<label for='MAIL'>{t}Show Mail users{/t}</label><br/>
 {/if}
-{$SAMBA}&nbsp;<LABEL for='SAMBA'>{t}Show Samba users{/t}</LABEL><br>
+{$SAMBA}&nbsp;<label for='SAMBA'>{t}Show Samba users{/t}</label><br/>
 
- <div style="border-top:1px solid #AAAAAA"></div>
+ <div style="width:100%;border-top:1px solid #AAAAAA"></div>
  {$SCOPE}
 
- <table summary="" style="width:100%;border-top:1px solid #B0B0B0;">
+ <table style="width:100%;border-top:1px solid #B0B0B0;">
   <tr>
    <td>
     <label for="NAME">
-     <img src="images/lists/search.png" align=middle>&nbsp;{t}Name{/t}
+     <img src="geticon.php?context=actions&icon=system-search&size=16" alt='search'/>&nbsp;{t}Name{/t}
     </label>
    </td>
    <td>
@@ -30,9 +30,9 @@
   </tr>
  </table>
 
- <table summary=""  width="100%"  style="background:#EEEEEE;border-top:1px solid #B0B0B0;">
+ <table style="width:100%;background:#EEEEEE;border-top:1px solid #B0B0B0;">
   <tr>
-   <td width="100%" align="right">
+   <td style="width:100%;text-align:right;">
     {$APPLY}
    </td>
   </tr>

@@ -32,7 +32,7 @@
       <label>Name</label>
       <sortAttribute>cn</sortAttribute>
       <sortType>string</sortType>
-      <value>%{filter:link(row,dn,"%s",cn)}</value>
+      <value>%{filter:nameLink(row,dn)}</value>
       <export>true</export>
     </column>
 
@@ -55,22 +55,25 @@
 
     <action>
      <type>sub</type>
-     <image>images/lists/new.png</image>
+     <image>geticon.php?context=actions&amp;icon=document-new&amp;size=16</image>
      <label>Create</label>
+     <acl>[c]</acl>
     </action>
 
     <action>
       <name>edit</name>
       <type>entry</type>
-      <image>images/lists/edit.png</image>
+      <image>geticon.php?context=actions&amp;icon=document-edit&amp;size=16</image>
       <label>Edit</label>
+      <acl>[r]</acl>
     </action>
 
      <action>
       <name>remove</name>
       <type>entry</type>
-      <image>images/lists/trash.png</image>
+      <image>geticon.php?context=actions&amp;icon=edit-delete&amp;size=16</image>
       <label>Remove</label>
+      <acl>[d]</acl>
     </action>
 
     <action>
@@ -105,7 +108,7 @@
     <action>
       <name>edit</name>
       <type>entry</type>
-      <image>images/lists/edit.png</image>
+      <image>geticon.php?context=actions&amp;icon=document-edit&amp;size=16</image>
       <label>Edit</label>
     </action>
 
@@ -117,7 +120,7 @@
     <action>
       <name>remove</name>
       <type>entry</type>
-      <image>images/lists/trash.png</image>
+      <image>geticon.php?context=actions&amp;icon=edit-delete&amp;size=16</image>
       <acl>%acl[d]</acl>
       <label>Remove</label>
     </action>

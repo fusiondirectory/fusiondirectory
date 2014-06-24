@@ -56,11 +56,11 @@ class configInLdap extends simplePlugin
     return array(
       "plShortName"     => _("Configuration"),
       "plDescription"   => _("FusionDirectory configuration"),
-      "plIcon"          => "plugins/config/images/icon.png",
-      "plSelfModify"    => FALSE,
-      "plCategory"      => array("configuration"),
-      "plObjectType"    => array("configuration" => array("name"  => _("FusionDirectory configuration"),
-                                                          "filter"  => "objectClass=fusionDirectoryConf")),
+      "plIcon"          => "/fusiondirectory/geticon.php?context=categories&icon=settings&size=48",
+      "plObjectType"    => array("configuration" => array(
+        "name"    => _("FusionDirectory configuration"),
+        "filter"  => "objectClass=fusionDirectoryConf"
+      )),
       "plSection"       => array("addons" => array("name" => _("Addons"), "priority" => 10)),
       "plPriority"      => 0,
 
@@ -170,11 +170,6 @@ class configInLdap extends simplePlugin
             _('Determines whether a status bar will be shown on the bottom of lists, displaying a short summary of type and number of elements in the list.'),
             'fdListSummary', FALSE,
             TRUE
-          ),
-          new BooleanAttribute (
-            _('Honour administrative units'),
-            _('Enables  checking  of unitTag attributes when using administrative units.'),
-            'fdHonourUnitTags'
           ),
           new SelectAttribute (
             _('Edit locking'),
@@ -328,7 +323,7 @@ class configInLdap extends simplePlugin
             _('GID/UID min id'),
             _('The minimum assignable user or group id number to avoid security leaks with uid 0 accounts.'),
             'fdMinId', FALSE,
-            0, FALSE
+            0, FALSE, 100
           ),
           new StringAttribute (
             _('Next id hook'), _('A script to be called for finding the next free id number for users or groups externaly.'),
@@ -355,6 +350,11 @@ class configInLdap extends simplePlugin
             _('Groups RDN'), _('The branch where groups are stored.'),
             'fdGroupRDN', TRUE,
             'ou=groups'
+          ),
+          new StringAttribute (
+            _('ACL role RDN'), _('The branch where ACL roles are stored.'),
+            'fdAclRoleRDN', TRUE,
+            'ou=aclroles'
           ),
           new SelectAttribute (
             _('Id allocation method'), _('Method to allocate uid/gid numbers'),
@@ -480,7 +480,7 @@ class configInLdap extends simplePlugin
   static function get_themes()
   {
     $themesdir  = '../ihtml/themes/';
-    $themes     = array();
+    $themes     = array_keys(session::global_get(IconTheme::$session_var));
     if ($dir = opendir("$themesdir")) {
       while (($file = readdir($dir)) !== FALSE) {
         if (is_dir("$themesdir/$file") && !preg_match("/^\./", $file)) {
@@ -488,7 +488,7 @@ class configInLdap extends simplePlugin
         }
       }
     }
-    return $themes;
+    return array_unique($themes);
   }
 }
 ?>

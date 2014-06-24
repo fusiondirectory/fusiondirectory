@@ -28,9 +28,35 @@ class simpleTabs extends tabs
 {
   protected $specialTabs = TRUE;
 
-  function __construct($config, $data, $dn, $category, $copied_object = NULL)
+  /*
+   * You should either call __construct($type, $dn, [$copied_object]) or __construct($config, $data, $dn, $category, [$copied_object])
+   * */
+  function __construct()
   {
-    parent::tabs($config, $data, $dn, $category, $copied_object);
+    global $config;
+    $copied_object = NULL;
+    if (is_string(func_get_arg(0))) {
+      $type   = func_get_arg(0);
+      $dn     = func_get_arg(1);
+      $infos = objects::infos($type);
+
+      $config_object  = $config;
+      $data           = $config->data['TABS'][$infos['tabGroup']];
+      $category       = $infos['aclCategory'];
+      if (func_num_args() >= 3) {
+        $copied_object  = func_get_arg(2);
+      }
+    } else {
+      $config_object  = func_get_arg(0);
+      $data           = func_get_arg(1);
+      $dn             = func_get_arg(2);
+      $category       = func_get_arg(3);
+      if (func_num_args() >= 5) {
+        $copied_object  = func_get_arg(4);
+      }
+    }
+
+    parent::__construct($config_object, $data, $dn, $category, $copied_object);
 
     if ($this->specialTabs) {
       /* Add references/acls/snapshots */

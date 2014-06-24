@@ -55,7 +55,7 @@ class management
   protected $tabClass     = "";      // e.g. usertabs
   protected $tabType      = "";      // e.g. USERTABS
   protected $aclPlugin    = "";      // e.g. generic
-  protected $aclCategory  = "";      // e.g. users
+  protected $aclCategory  = "";      // e.g. user
   protected $objectName   = "";      // e.g. users
 
   // The opened object.
@@ -96,6 +96,9 @@ class management
 
   // Attributes managed by this plugin, can be used in post events;
   public $attributes = array();
+
+  // Some management classes are used in tab groups and needs this set to FALSE.
+  var $is_template    = FALSE;
 
   function  __construct(&$config, $ui, $plugname, $headpage)
   {
@@ -166,6 +169,12 @@ class management
       if (!$this->filter->isValid()) {
         msg_dialog::display(_("Filter error"), _("The filter is incomplete!"), ERROR_DIALOG);
       }
+    }
+
+    // Pre-render list to init things if a dn is gonna be opened on first load
+    if (isset($_REQUEST['dn'])) {
+      $this->headpage->filter->scope = 'sub';
+      $this->renderList();
     }
 
     // Handle actions (POSTs and GETs)
@@ -247,12 +256,15 @@ class management
       $plIcon         = $this->plIcon;
     }
 
+    if (!preg_match('/^geticon/', $plIcon)) {
+      $plIcon = get_template_path($plIcon);
+    }
     if (get_object_info() != "") {
-      $display = print_header(get_template_path($plIcon), _($plDescription),
-          "<img alt=\"\" class=\"center\" src=\"".get_template_path('images/lists/locked.png')."\">".
+      $display = print_header($plIcon, _($plDescription),
+          '<img alt="" class="center" src="geticon.php?context=status&icon=object-locked&size=16"/>'.
           LDAP::fix(get_object_info()));
     } else {
-      $display = print_header(get_template_path($plIcon), _($plDescription));
+      $display = print_header($plIcon, _($plDescription));
     }
     return $display;
   }
@@ -385,10 +397,9 @@ class management
     if (!empty($altTabType)) $tabType = $altTabType;
     if (!empty($altAclCategory)) $aclCategory = $altAclCategory;
 
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removel confirmed!");
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removal confirmed!");
 
-    foreach ($this->dns as $key => $dn) {
-
+    foreach ($this->dns as $dn) {
       // Check permissions, are we allowed to remove this object?
       $acl = $this->ui->get_permissions($dn, $aclCategory."/".$this->aclPlugin);
       if (preg_match("/d/", $acl)) {
@@ -404,7 +415,7 @@ class management
         del_lock($this->dn);
       } else {
         msg_dialog::display(_("Permission error"), msgPool::permDelete(), ERROR_DIALOG);
-        new log("security", "groups/".get_class($this), $dn, array(), "Tried to trick deletion.");
+        new log("security", "group/".get_class($this), $dn, array(), "Tried to trick deletion.");
       }
     }
 
@@ -617,10 +628,10 @@ class management
      * {
      *   switch($action) {
      *     case 'newUser' : {
-     *       mangement::newEntry($action,$target,$all,"usertabs","USERTABS","users");
+     *       mangement::newEntry($action,$target,$all,"usertabs","USERTABS","user");
      *     }
      *     case 'newGroup' : {
-     *       mangement::newEntry($action,$target,$all,"grouptabs","GROUPTABS","groups");
+     *       mangement::newEntry($action,$target,$all,"grouptabs","GROUPTABS","group");
      *     }
      *   }
      * }
@@ -683,10 +694,10 @@ class management
      * {
      *   switch($action) {
      *     case 'editUser' : {
-     *       mangement::editEntry($action,$target,$all,"usertabs","USERTABS","users");
+     *       mangement::editEntry($action,$target,$all,"usertabs","USERTABS","user");
      *     }
      *     case 'editGroup' : {
-     *       mangement::editEntry($action,$target,$all,"grouptabs","GROUPTABS","groups");
+     *       mangement::editEntry($action,$target,$all,"grouptabs","GROUPTABS","group");
      *     }
      *   }
      * }
@@ -749,7 +760,7 @@ class management
       $msgs = $this->tabObject->check();
       if (count($msgs)) {
         msg_dialog::displayChecks($msgs);
-        return "";
+        return;
       } else {
         $this->tabObject->save();
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, "Entry saved!");
@@ -761,7 +772,7 @@ class management
       $msgs = $this->dialogObject->check();
       if (count($msgs)) {
         msg_dialog::displayChecks($msgs);
-        return "";
+        return;
       } else {
         $this->dialogObject->save();
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, "Entry saved!");

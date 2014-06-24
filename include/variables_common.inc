@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
@@ -29,16 +28,16 @@
  * \brief Allow setting the config file in the apache configuration
  * e.g. SetEnv CONFIG_DIR /etc/fusiondirectory
 */
-if(isset($_SERVER['CONFIG_DIR'])){
-  define ("CONFIG_DIR",$_SERVER['CONFIG_DIR']);
+if (isset($_SERVER['CONFIG_DIR'])) {
+  define ("CONFIG_DIR", $_SERVER['CONFIG_DIR']);
 }
 
 /*
  * \brief Allow setting the config file in the apache configuration
  *  e.g.  SetEnv CONFIG_FILE fusiondirectory.conf 1.0
  */
-if(isset($_SERVER['CONFIG_FILE'])){
-  define ("CONFIG_FILE",$_SERVER['CONFIG_FILE']);
+if (isset($_SERVER['CONFIG_FILE'])) {
+  define ("CONFIG_FILE", $_SERVER['CONFIG_FILE']);
 }
 
 /*!
@@ -54,7 +53,7 @@ define ("PEAR_DIR", "/usr/share/php"); /*! Define PEAR directory */
 /*!
  * \brief fpdf library path
  */
-define("FPDF","/usr/share/php/fpdf/fpdf.php"); /*! Define fpdf library path */
+define("FPDF", "/usr/share/php/fpdf/fpdf.php"); /*! Define fpdf library path */
 
 /*!
  * \brief Global FPDF FONT define
@@ -64,10 +63,11 @@ define("FPDF_FONTPATH", "/usr/share/php/fpdf/font/"); /*! Define fpdf font path 
 /*!
  * \brief FusionDirectory Version
  */
-define ("FD_VERSION", "1.0.7.4"); /*! Define FusionDirectory version */
+define ("FD_VERSION", "1.0.8"); /*! Define FusionDirectory version */
 
 /*!
  * \brief FusionDirectory config object RDN
  */
 define ("CONFIGRDN", "cn=fusiondirectory,ou=configs,"); /*! Define FusionDirectory config object */
+
 ?>

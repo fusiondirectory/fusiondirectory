@@ -41,7 +41,7 @@ class multiPlugin extends simplePlugin
   {
     parent::__construct($config, $dn, $parent);
 
-    $plInfos = $this->plInfo();
+    $plInfos = pluglist::pluginInfos(get_class($this));
 
     /* Load accounts */
     foreach ($config->data['TABS'][$this->tabClass] as $plug) {
@@ -63,9 +63,6 @@ class multiPlugin extends simplePlugin
   {
     $display = "";
 
-    /* Prepare templating */
-    $smarty = get_smarty();
-
     /* Do we represent a valid account? */
     if ($this->parent === NULL) {
       $enabled = FALSE;
@@ -77,7 +74,7 @@ class multiPlugin extends simplePlugin
       }
       unset($plug);
       if (!$enabled) {
-        $display = "<img alt=\"\" src=\"images/small-error.png\" align=\"middle\">&nbsp;<b>".
+        $display = '<img alt="" src="geticon.php?context=status&icon=dialog-error&size=16" align="middle"/>&nbsp;<b>'.
                     msgPool::noValidExtension()."</b>";
         $display .= back_to_main();
         return $display;
@@ -176,12 +173,12 @@ class multiPlugin extends simplePlugin
     unset($plug);
   }
 
-  function adapt_from_template($dn, $skip = array())
+  function adapt_from_template($attrs, $skip = array())
   {
     /* Adapt objects */
     foreach ($this->plugin as &$plug) {
       $plug->dn = $this->dn;
-      $plug->adapt_from_template($dn, $skip);
+      $plug->adapt_from_template($attrs, $skip);
     }
     unset($plug);
   }

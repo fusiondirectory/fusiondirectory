@@ -23,9 +23,9 @@
 class Step_Finish extends setup_step
 {
   var $cfg_file_written = FALSE;
-  var $header_image = "images/setup/server.png";
+  var $header_image     = "images/setup/server.png";
 
-  function Step_Finish()
+  function __construct()
   {
     $this->update_strings();
   }
@@ -42,10 +42,9 @@ class Step_Finish extends setup_step
   function get_conf_data()
   {
     $smarty = get_smarty();
-    $smarty->assign("cv",xmlentities($this->parent->captured_values));
-    $smarty->assign("config_checksum", md5(file_get_contents(CONFIG_TEMPLATE_DIR.CONFIG_FILE)));
-    $str =  $smarty->fetch(CONFIG_TEMPLATE_DIR.CONFIG_FILE);
-    return($str);
+    $smarty->assign("cv",               xmlentities($this->parent->captured_values));
+    $smarty->assign("config_checksum",  md5(file_get_contents(CONFIG_TEMPLATE_DIR.CONFIG_FILE)));
+    return $smarty->fetch(CONFIG_TEMPLATE_DIR.CONFIG_FILE);
   }
 
   function insertConfigDefaults()
@@ -78,11 +77,12 @@ class Step_Finish extends setup_step
 
   function execute()
   {
-    global $config, $BASE_DIR;
-    if(!function_exists("posix_getgrgid")){
+    global $BASE_DIR;
+
+    if (!function_exists("posix_getgrgid")) {
       $webgroup = "";
     } else {
-      $info= posix_getgrgid(posix_getgid());
+      $info     = posix_getgrgid(posix_getgid());
       $webgroup = $info['name'];
     }
 
@@ -94,7 +94,8 @@ class Step_Finish extends setup_step
      *   - fusiondirectory.conf exists
      *   - Permisssion are set correctly
      */
-    if(isset($_POST['next']) && $exists && !$this->is_world_readable(CONFIG_DIR."/".CONFIG_FILE)){
+
+    if (isset($_POST['next']) && $exists && !$this->is_world_readable(CONFIG_DIR."/".CONFIG_FILE)) {
       $this->insertConfigDefaults();
       session::destroy();
       header("Location: index.php");
@@ -102,43 +103,23 @@ class Step_Finish extends setup_step
     }
 
     /* Download config */
-    if(isset($_POST['getconf'])){
-
-      header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-      header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-      header("Cache-Control: no-cache");
-      header("Pragma: no-cache");
-      header("Cache-Control: post-check=0, pre-check=0");
-      header("Content-type: text/plain");
-
-      if (preg_match('/MSIE 5.5/', $_SERVER['HTTP_USER_AGENT']) ||
-          preg_match('/MSIE 6.0/', $_SERVER['HTTP_USER_AGENT'])){
-        header('Content-Disposition: filename="'.CONFIG_FILE.'"');
-      } else {
-        header('Content-Disposition: attachment; filename="'.CONFIG_FILE.'"');
-      }
-
-      $str = $this->get_conf_data();
-      $str = preg_replace("/\n[ ]*\n/","",$str);
-
-      echo $this->get_conf_data();
-      exit();
+    if (isset($_POST['getconf'])) {
+      send_binary_content($this->get_conf_data(), CONFIG_FILE, "text/plain");
     }
 
-    $err_msg= "";
+    $err_msg = "";
 
-    if($exists && $this->is_world_readable(CONFIG_DIR."/".CONFIG_FILE)){
+    if ($exists && $this->is_world_readable(CONFIG_DIR."/".CONFIG_FILE)) {
       $err_msg = _("Your configuration file is currently world readable. Please update the file permissions!");
-    }elseif(!$exists){
+    } elseif (!$exists) {
       $err_msg = _("The configuration is currently not readable or it does not exists.");
     }
 
     $smarty = get_smarty();
-    $smarty->assign("err_msg",$err_msg);
+    $smarty->assign("err_msg",  $err_msg);
+    $smarty->assign("msg2",     sprintf(_("After downloading and placing the file under %s, please make sure that the user the webserver is running with is able to read %s, while other users shouldn't."), CONFIG_DIR, CONFIG_FILE));
+    $smarty->assign("cv",       $this->parent->captured_values);
 
-    $smarty->assign("msg2", sprintf(_("After downloading and placing the file under %s, please make sure that the user the webserver is running with is able to read %s, while other users shouldn't."),CONFIG_DIR,CONFIG_FILE));
-
-    $smarty->assign("cv",$this->parent->captured_values);
     return $smarty->fetch("$BASE_DIR/setup/setup_finish.tpl");
   }
 
@@ -148,18 +129,16 @@ class Step_Finish extends setup_step
   {
     clearstatcache();
     $p = fileperms($file);
-    $w_r = (decbin($p & 4) == TRUE);
-    return($w_r);
+    return (decbin($p & 4) == TRUE);
   }
 
 
   function save_object()
   {
-    if(isset($_POST['step8_posted'])){
-
+    if (isset($_POST['step8_posted'])) {
       /* Get attributes */
-      foreach($this->attributes as $attr){
-        if(isset($_POST[$attr])){
+      foreach ($this->attributes as $attr) {
+        if (isset($_POST[$attr])) {
           $this->$attr = validate($_POST[$attr]);
         }
       }

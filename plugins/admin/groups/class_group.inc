@@ -82,7 +82,7 @@ class group extends plugin
        $this->objectclasses[]= "groupOfNames";
      }
 
-    plugin::plugin ($config, $dn);
+    parent::__construct ($config, $dn);
 
     /* Load attributes depending on the samba version */
     $this->orig_dn= $dn;
@@ -254,12 +254,12 @@ class group extends plugin
     /* Log view */
     if($this->is_account && !$this->view_logged){
       $this->view_logged = TRUE;
-      new log("view","groups/".get_class($this),$this->dn);
+      new log("view","group/".get_class($this),$this->dn);
     }
 
     /* Do we represent a valid group? */
     if (!$this->is_account && $this->parent === NULL){
-      $display= "<img alt=\"\" src=\"images/small-error.png\" align=\"middle\">&nbsp;<b>".msgPool::noValidExtension()."</b>";
+      $display= "<img alt=\"\" src=\"geticon.php?context=status&icon=dialog-error&size=16\" align=\"middle\">&nbsp;<b>".msgPool::noValidExtension()."</b>";
       return ($display);
     }
 
@@ -279,13 +279,13 @@ class group extends plugin
     }
 
     /* Add objects finished? */
-    if (isset($_POST["add_users_cancel"])){
+    if (isset($_POST["add_cancel"])){
       $this->userSelect= NULL;
       $this->dialog= FALSE;
     }
 
     /* Add user to group */
-    if (isset($_POST['add_users_finish']) && $this->userSelect){
+    if ((isset($_POST['add_finish']) || isset($_GET['add_finish'])) && $this->userSelect) {
 
       $users = $this->userSelect->detectPostActions();
       if(isset($users['targets'])){
@@ -500,7 +500,7 @@ class group extends plugin
 
     /* Show main page */
     $smarty->assign("alphabet", generate_alphabet(10));
-    $smarty->assign("search_image", get_template_path('images/lists/search.png'));
+    $smarty->assign("search_image", 'geticon.php?context=actions&icon=system-search&size=16');
     $smarty->assign("launchimage", get_template_path('images/lists/action.png'));
     $smarty->assign("tree_image", get_template_path('images/lists/search-subtree.png'));
     $smarty->assign("deplist", $this->config->idepartments);
@@ -622,7 +622,7 @@ class group extends plugin
     $i = 0;
 
 
-    $res = get_list($filter,"users",$base,array("dn", "uid", "sn", "givenName"),$flag);
+    $res = get_list($filter,"user",$base,array("dn", "uid", "sn", "givenName"),$flag);
 
     /* Fetch all users and skip already used users */
     foreach($res as $attrs){
@@ -662,6 +662,12 @@ class group extends plugin
     return($ret);
   }
 
+  protected function post_save()
+  {
+    del_lock("gidnumber");
+    parent::post_save();
+  }
+
 
   function remove_from_parent()
   {
@@ -670,39 +676,12 @@ class group extends plugin
     $ldap= $this->config->get_ldap_link();
     $ldap->rmdir($this->dn);
     if (!$ldap->success()){
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_DEL, get_class()));
+      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_DEL, get_class()), LDAP_ERROR);
     }
 
-    new log("remove","groups/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
+    new log("remove","group/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
 
-    /* Delete references to object groups */
-    $ldap->cd ($this->config->current['BASE']);
-    $ldap->search ("(&(objectClass=gosaGroupOfNames)(member=".LDAP::prepare4filter($this->dn)."))", array("cn"));
-    while ($ldap->fetch()){
-      $og= new ogroup($this->config, $ldap->getDN());
-      unset($og->member[$this->dn]);
-      $og->save ();
-    }
-
-    /* Remove ACL dependencies too,
-     */
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
-    $ldap->search("(&(objectClass=gosaAcl)(gosaAclEntry=*".base64_encode($this->dn)."*))",array("gosaAclEntry","dn"));
-    while($attrs = $ldap->fetch()){
-      $acl = new acl($this->config,$attrs['dn'],$this->parent);
-      foreach($acl->gosaAclEntry as $id => $entry){
-        foreach($entry['members'] as $m_id => $member){
-          if($m_id == "G:".$this->dn || $m_id == "U:".$this->dn){
-            unset($acl->gosaAclEntry[$id]['members'][$m_id]);
-            fusiondirectory_log("modify","groups/acl",$attrs['dn'],array(),sprintf("Removed acl for %s on object %s.",$this->dn,$attrs['dn']));
-          }
-        }
-      }
-      $acl->save();
-    }
-
-    /* Remove ACL dependencies, too */
+    /* Remove ACL dependencies */
     acl::remove_acl_for($this->dn);
 
     /* Send signal to the world that we've done */
@@ -961,19 +940,18 @@ class group extends plugin
     /* Remove ACL dependencies too,
      */
     if($this->dn != $this->orig_dn && $this->orig_dn != "new"){
-      $tmp = new acl($this->config,$this->dn,$this->parent);
-      $tmp->update_acl_membership($this->orig_dn,$this->dn);
+      acl::update_acl_membership($this->orig_dn,$this->dn);
     }
 
     if($this->initially_was_account){
-      new log("modify","groups/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
+      new log("modify","group/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
     }else{
-      new log("create","groups/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
+      new log("create","group/".get_class($this),$this->dn,array_keys($this->attrs),$ldap->get_error());
     }
 
     $ret= 0;
     if (!$ldap->success()){
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, 0, get_class()));
+      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, 0, get_class()), LDAP_ERROR);
       $ret= 1;
     }
 
@@ -1100,7 +1078,6 @@ class group extends plugin
     return ($message);
   }
 
-
   /* Return plugin informations for acl handling  */
   static function plInfo()
   {
@@ -1108,8 +1085,19 @@ class group extends plugin
       "plShortName"   => _("Generic"),
       "plDescription" => _("Generic group settings"),
       "plSelfModify"  => FALSE,
-      "plCategory"    => array("groups" => array("objectClass" => "posixGroup", "description" => _("Groups"))),
-      "plObjectType"  => array("group" => array("name" => _("Group"), "filter" => "objectClass=posixGroup")),
+      "plObjectType"  => array("group" => array(
+        "description" => _("Groups"),
+        "name"        => _("Group"),
+        'ou'          => get_ou('groupRDN'),
+        'filter'      => 'objectClass=posixGroup',
+        'icon'        => '/fusiondirectory/geticon.php?context=types&icon=user-group&size=16',
+        'mainAttr'    => 'cn',
+        'tabClass'    => 'grouptabs',
+      )),
+      'plForeignKeys'  => array(
+        'memberUid' => array('user','uid')
+      ),
+
 
       "plProvidedAcls"    => array(
         "cn"                => _("Name"),
@@ -1127,6 +1115,31 @@ class group extends plugin
         "memberUid"         => _("Group member")
       )
     );
+  }
+
+  function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
+  {
+    if (($field == 'memberUid') && ($source['CLASS'] == 'user') && ($source['FIELD'] == 'uid')) {
+      if (isset($this->memberUid[$oldvalue])) {
+        if ($source['MODE'] != 'copy') {
+          $this->removeUser($oldvalue);
+        }
+        if ($newvalue !== NULL) {
+          $this->addUser($newvalue);
+        }
+      }
+    } else {
+      return parent::foreignKeyUpdate($field, $oldvalue, $newvalue, $source);
+    }
+  }
+
+  function foreignKeyCheck ($field, $value, $source)
+  {
+    if (($field == 'memberUid') && ($source['CLASS'] == 'user') && ($source['FIELD'] == 'uid')) {
+      return isset($this->memberUid[$value]);
+    } else {
+      return parent::foreignKeyCheck($field, $value, $source);
+    }
   }
 
   /*! \brief Get a new SambaSID for a group */

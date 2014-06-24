@@ -1,7 +1,7 @@
-<table summary="" style="width:100%;">
+<table style="width:100%;">
  <tr>
   <td style="width:50%; vertical-align:top;">
-   <table summary="" style="width:100%">
+   <table style="width:100%">
     <tr>
      <td><LABEL for="cn">{t}Group name{/t}</LABEL>{$must}</td>
      <td>
@@ -99,7 +99,7 @@
     </tr>
     <tr>
      <td colspan=2>
-{render acl=$nagiosGroupACL checked=$use_nagios_group}
+{render acl=$nagiosGroupACL}
       <input class="center" type=checkbox name="nagios_group" value="1" {$nagios_group}>{t}Members are in a nagios group{/t}
 {/render}
      </td>
@@ -149,7 +149,7 @@
 
   <td style="vertical-align:top;">
 
-   <table summary="" style="width:100%">
+   <table style="width:100%">
     <tr>
      <td style="vertical-align:top; width:50%">
       <b><LABEL for="members">{t}Group members{/t}</LABEL></b>
@@ -180,7 +180,7 @@
 <input type="hidden" name="groupedit" value="1">
 
 <!-- Place cursor -->
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
   <!-- // First input field on page
   focus_field('cn');
   -->

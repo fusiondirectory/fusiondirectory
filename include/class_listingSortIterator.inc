@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
@@ -43,79 +42,79 @@ class listingSortIterator implements Iterator {
    *
    * \param string $type
    */
-  public function __construct($data, $direction, $attribute, $type= "string") {
+  public function __construct($data, $direction, $attribute, $type = "string")
+  {
     global $_sortAttribute;
     global $_sortType;
-    $_sortAttribute= $attribute;
-    $_sortType= $type;
-
-    // Inline function to
-    function attrSort($ao, $bo) {
-      global $_sortAttribute;
-      global $_sortType;
-
-      // Extract values from ao and bo
-      $a= $b= "";
-      if (isset($ao[$_sortAttribute])) {
-        $a= $ao[$_sortAttribute];
-        if (is_array($a)) {
-          $a= $a[0];
-        }
-      }
-      if (isset($bo[$_sortAttribute])) {
-        $b= $bo[$_sortAttribute];
-        if (is_array($b)) {
-          $b= $b[0];
-        }
-      }
-
-      // Take a look at the several types
-      switch ($_sortType) {
-        case 'string':
-          return strcoll($a, $b);
-
-        case 'integer':
-          return $b - $a;
-
-        case 'date':
-          if ($a == "") {
-            $a= "31.12.0000";
-          }
-          if ($b == "") {
-            $b= "31.12.0000";
-          }
-          list($d, $m, $y)= explode('.', $a);
-          $a= (int)sprintf("%04d%02d%02d", $y, $m, $d);
-          list($d, $m, $y)= explode('.', $b);
-          $b= (int)sprintf("%04d%02d%02d", $y, $m, $d);
-          return $b-$a;
-
-        case 'ip':
-          $parts_a = explode('.', $a, 4);
-          $parts_b = explode('.', $b, 4);
-          for ($i = 0; $i < 4; $i++) {
-            if ((int)($parts_a[$i]) != (int)($parts_b[$i])) {
-              return (int)($parts_a[$i]) - (int)($parts_b[$i]);
-            }
-          }
-          return 0;
-
-        // Sort for string by default
-        default:
-          return strcoll($a, $b);
-      }
-    }
+    $_sortAttribute = $attribute;
+    $_sortType      = $type;
 
     // Sort for attribute
     if ($attribute != "") {
-      uasort($data, "attrSort");
+      uasort(
+        $data,
+        function ($ao, $bo)
+        {
+          global $_sortAttribute;
+          global $_sortType;
+
+          // Extract values from ao and bo
+          $a = $b = "";
+          if (isset($ao[$_sortAttribute])) {
+            $a = $ao[$_sortAttribute];
+            if (is_array($a)) {
+              $a = $a[0];
+            }
+          }
+          if (isset($bo[$_sortAttribute])) {
+            $b = $bo[$_sortAttribute];
+            if (is_array($b)) {
+              $b = $b[0];
+            }
+          }
+
+          // Take a look at the several types
+          switch ($_sortType) {
+            // Sort for string by default
+            default:
+            case 'string':
+              return strcoll($a, $b);
+
+            case 'integer':
+              return $b - $a;
+
+            case 'date':
+              if ($a == "") {
+                $a = "31.12.0000";
+              }
+              if ($b == "") {
+                $b = "31.12.0000";
+              }
+              list($d, $m, $y) = explode('.', $a);
+              $a = (int)sprintf("%04d%02d%02d", $y, $m, $d);
+              list($d, $m, $y) = explode('.', $b);
+              $b = (int)sprintf("%04d%02d%02d", $y, $m, $d);
+              return $b - $a;
+
+            case 'ip':
+              $parts_a = explode('.', $a, 4);
+              $parts_b = explode('.', $b, 4);
+              for ($i = 0; $i < 4; $i++) {
+                if ((int)($parts_a[$i]) != (int)($parts_b[$i])) {
+                  return (int)($parts_a[$i]) - (int)($parts_b[$i]);
+                }
+              }
+              return 0;
+          }
+        }
+      );
     }
 
     // Invert if direction is set
     if ($direction) {
-      $this->data= array_reverse($data, true);
+      $this->data = array_reverse($data, TRUE);
     } else {
-      $this->data= $data;
+      $this->data = $data;
     }
   }
 
@@ -124,7 +123,8 @@ class listingSortIterator implements Iterator {
    *
    * \return the first element of the array
    */
-  function rewind() {
+  function rewind()
+  {
     return reset($this->data);
   }
 
@@ -133,7 +133,8 @@ class listingSortIterator implements Iterator {
    *
    * \return The current element pointed by array pointer
    */
-  function current() {
+  function current()
+  {
     return current($this->data);
   }
 
@@ -142,7 +143,8 @@ class listingSortIterator implements Iterator {
    *
    * \return the key element of the array
    */
-  function key() {
+  function key()
+  {
     return key($this->data);
   }
 
@@ -151,7 +153,8 @@ class listingSortIterator implements Iterator {
    *
    * \return The next element pointed by array pointer
    */
-  function next() {
+  function next()
+  {
     return next($this->data);
   }
 
@@ -160,9 +163,9 @@ class listingSortIterator implements Iterator {
    *
    * \return TRUE if the array is valid, return FALSE otherwise
    */
-  function valid() {
-    return key($this->data) !== null;
+  function valid()
+  {
+    return (key($this->data) !== NULL);
   }
 }
-
 ?>

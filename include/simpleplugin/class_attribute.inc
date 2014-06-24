@@ -33,10 +33,18 @@ class Attribute
   private $required;
   /* \brief Should this attribute be saved into the LDAP */
   private $inLdap = TRUE;
-  /* \brief Should this attribute be saved into the LDAP */
+  /* \brief Should this attribute be unique
+   * FALSE  -> no unicity check
+   * one    -> unicity check in the same base -> broken right now because of object ous
+   * sub    -> unicity check in the same subtree
+   *  \__> this should not be used as it’s breaking reciprocity
+   * whole  -> unicity check in the whole LDAP
+   */
   private $unique = FALSE;
 
-  /* \brief Should this attribute be saved into the LDAP */
+  /* \brief Prefix for the html id */
+  protected $htmlid_prefix = '';
+  /* \brief Should this attribute be shown */
   protected $visible = TRUE;
   /* \brief Name of the ACL to use, empty if we need our own */
   protected $acl;
@@ -113,7 +121,11 @@ class Attribute
 
   function setUnique ($unique)
   {
-    $this->unique = $unique;
+    if ($unique === TRUE) {
+      $this->unique = 'sub';
+    } else {
+      $this->unique = $unique;
+    }
   }
 
   function isInLdap ()
@@ -165,7 +177,7 @@ class Attribute
 
   function getHtmlId ()
   {
-    return preg_replace('/[\/\-,.#:;]/', '_', $this->getLdapName());
+    return $this->htmlid_prefix.preg_replace('/[\/\-,.#:;]/', '_', $this->getLdapName());
   }
 
   function getLabel ()
@@ -315,7 +327,7 @@ class Attribute
     if ($this->plugin === NULL) {
       return FALSE;
     }
-    foreach ($this->managedAttributes as $prefix => $array) {
+    foreach ($this->managedAttributes as $array) {
       foreach ($array as $value => $attributes) {
         foreach ($attributes as $attribute) {
           $disabled = $this->isValueManagingValue($myvalue, $value);
@@ -396,24 +408,34 @@ class Attribute
     $value = $this->getValue();
     if ($this->isRequired() && !$this->disabled && (($value === "") || ($value === array()))) {
       return msgPool::required($this->getLabel());
-    } elseif ($this->unique && !$this->disabled) {
+    } elseif (($this->unique !== FALSE) && !$this->disabled) {
       $value = $this->computeLdapValue();
       if (($value === "") || ($value === array())) {
         return;
       }
       $ldap = $this->plugin->config->get_ldap_link();
-      if (isset($this->plugin->base) && !empty($this->plugin->base)) {
-        $base = $this->plugin->base;
+      if ($this->unique === 'whole') {
+        $ldap->cd($this->plugin->config->current['BASE']);
       } else {
-        $base = dn2base($this->plugin->dn);
+        if (isset($this->plugin->base) && !empty($this->plugin->base)) {
+          $base = $this->plugin->base;
+        } elseif (isset($this->plugin->dn) && !empty($this->plugin->dn) && ($this->plugin->dn != 'new')) {
+          $base = dn2base($this->plugin->dn);
+        } else {
+          $base = $this->plugin->config->current['BASE'];
+        }
+        $ldap->cd($base);
       }
-      $ldap->cd($base);
       $filter = "(".$this->getLdapName()."=".$value.")";
       $pluginFilter = $this->plugin->getObjectClassFilter();
       if (!empty($pluginFilter)) {
         $filter = "(&$pluginFilter$filter)";
       }
-      $ldap->search($filter, array($this->getLdapName()));
+      if ($this->unique === 'one') {
+        $ldap->ls($filter, "", array($this->getLdapName()));
+      } else {
+        $ldap->search($filter, array($this->getLdapName()));
+      }
       while ($attrs = $ldap->fetch()) {
         if ($attrs['dn'] != $this->plugin->dn) {
           return msgPool::duplicated($this->getLabel());
@@ -433,6 +455,8 @@ class Attribute
     if ($this->visible) {
       if ($readOnly) {
         $input = $this->getValue();
+      } elseif (is_object($this->plugin) && $this->plugin->is_template) {
+        $input = $this->renderTemplateInput();
       } else {
         $input = $this->renderFormInput();
       }
@@ -441,6 +465,31 @@ class Attribute
         'label'       => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired()?'{$must}':''),
         'description' => ($this->isRequired()?sprintf(_("%s (required)"), $this->getDescription()):$this->getDescription()),
         'input'       => $input,
+      );
+    }
+  }
+
+  /*! \brief Serialize this attribute for RPC requests
+   *
+   *  \param array& attributes the attributes array
+   */
+  function serializeAttribute(&$attributes)
+  {
+    if ($this->visible) {
+      $class = get_class($this);
+      while ($class != 'Attribute') {
+        $type[] = $class;
+        $class  = get_parent_class($class);
+      }
+      $type[] = 'Attribute'; // To avoid empty array
+      $attributes[$this->getLdapName()] = array(
+        'id'          => $this->getHtmlId(),
+        'label'       => $this->getLabel(),
+        'required'    => $this->isRequired(),
+        'disabled'    => $this->disabled,
+        'description' => $this->getDescription(),
+        'value'       => $this->getValue(),
+        'type'        => $type,
       );
     }
   }
@@ -487,7 +536,7 @@ class Attribute
   {
     $js = '';
     $id = $this->getHtmlId();
-    foreach ($this->managedAttributes as $prefix => $array) {
+    foreach ($this->managedAttributes as $array) {
       foreach ($array as $value => $attributes) {
         if (isset($this->managedAttributesMultipleValues[$value])) {
           $js .= 'disableAttributes = inArray(document.getElementById('.json_encode($id).').value,'.json_encode($this->managedAttributesMultipleValues[$value]).');';
@@ -502,6 +551,37 @@ class Attribute
       }
     }
     return $js;
+  }
+
+  function renderTemplateInput ()
+  {
+    return $this->renderFormInput();
+  }
+
+  function foreignKeyUpdate($oldvalue, $newvalue, $source)
+  {
+    if ($source['MODE'] == 'move') {
+      if ($this->getValue() == $oldvalue) {
+        $this->setValue($newvalue);
+      }
+    }
+  }
+
+  function foreignKeyCheck($value, $source)
+  {
+    return ($this->getValue() == $value);
+  }
+
+  protected function renderInputField($type, $name, $attributes = array())
+  {
+    $input  = '<input type="'.$type.'" '.
+              'name="'.$name.'" id="'.$name.'"'.
+              ($this->disabled? ' disabled="disabled"':'');
+    foreach ($attributes as $label => $value) {
+      $input .= $label.'="'.$value.'" ';
+    }
+    $input .= '/>';
+    return $input;
   }
 }
 
@@ -551,17 +631,15 @@ class BooleanAttribute extends Attribute
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $display  = '<input type="checkbox" name="'.$id.'" id="'.$id.'" '.
-                ($this->disabled? 'disabled="disabled"':'').
-                ($this->value?    'checked="checked"':'');
+    $attributes = ($this->value?array('checked' => 'checked'): array());
     if ($this->submitForm) {
       $js       = 'document.mainform.submit();';
-      $display  .= 'onChange="javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8').'"';
+      $attributes['onChange'] = 'javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8');
     } elseif (!empty($this->managedAttributes)) {
       $js       = $this->managedAttributesJS();
-      $display  .= 'onClick="javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8').'"';
+      $attributes['onChange'] = 'javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8');
     }
-    $display .= '/>';
+    $display  = $this->renderInputField('checkbox', $id, $attributes);
     return $this->renderAcl($display);
   }
 
@@ -569,7 +647,7 @@ class BooleanAttribute extends Attribute
   {
     $js = '';
     $id = $this->getHtmlId();
-    foreach ($this->managedAttributes as $prefix => $array) {
+    foreach ($this->managedAttributes as $array) {
       foreach ($array as $value => $attributes) {
         if (isset($this->managedAttributesMultipleValues[$value])) {
           trigger_error('Multiple values are not available for boolean attributes');
@@ -670,8 +748,14 @@ class StringAttribute extends Attribute
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $display  = '<input type="text" name="'.$id.'" id="'.$id.'" value="{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}" '.
-                ($this->disabled? 'disabled="disabled"':'').'/>';
+    $attributes = array(
+      'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+    );
+    if (!empty($this->managedAttributes)) {
+      $js       = $this->managedAttributesJS();
+      $attributes['onChange'] = 'javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8');
+    }
+    $display  = $this->renderInputField('text', $id, $attributes);
     return $this->renderAcl($display);
   }
 
@@ -719,19 +803,51 @@ class HiddenAttribute extends Attribute
 /* Dummy attribute class in order to give stats information to the template */
 class FakeAttribute extends Attribute
 {
-  private $var_name;
-
-  function __construct ($var)
+  function __construct ($ldapName)
   {
-    parent::__construct("Fake one", "", $var, FALSE, "", "noacl");
+    parent::__construct("Fake one", "", $ldapName, FALSE, "", "noacl");
     $this->setInLdap(FALSE);
-    $this->var_name = $var;
   }
 
   function renderAttribute(&$attributes, $readOnly)
   {
-    $var = $this->var_name;
     $attributes[$this->getLdapName()] = $this->getValue();
+  }
+}
+
+/*! \brief This class allow to display an attribute.
+ *
+ * It can be used to display an attribute value the user is never allowed to modify.
+ */
+class DisplayLDAPAttribute extends Attribute
+{
+  function renderFormInput ()
+  {
+    return $this->getValue();
+  }
+}
+
+/*! \brief This class allow to display an attribute.
+ *
+ * It can be used to display an attribute value the user is never allowed to modify.
+ */
+class DisplayLDAPArrayAttribute extends Attribute
+{
+  protected function loadAttrValue ($attrs)
+  {
+    if (isset($attrs[$this->getLdapName()]['count'])) {
+      $this->value = array();
+      for ($i = 0; $i < $attrs[$this->getLdapName()]['count']; $i++) {
+        $this->value[] = $attrs[$this->getLdapName()][$i];
+      }
+    } else {
+      $this->resetToDefault();
+    }
+  }
+
+  function renderFormInput ()
+  {
+    return join(', ', $this->getValue());
   }
 }
 
@@ -739,17 +855,12 @@ class FakeAttribute extends Attribute
  *
  * For instance, it can be used to display a link.
  */
-class DisplayAttribute extends Attribute
+class DisplayAttribute extends DisplayLDAPAttribute
 {
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "")
   {
     parent::__construct ($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->setInLdap(FALSE);
-  }
-
-  function renderFormInput ()
-  {
-    return $this->getValue();
   }
 }
 
@@ -776,9 +887,18 @@ class PasswordAttribute extends StringAttribute
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $display  = '<input type="password" name="'.$id.'" id="'.$id.'" value="{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}" '.
-                ($this->disabled? 'disabled="disabled"':'').'/>';
+    $display  = $this->renderInputField(
+      'password', $id,
+      array(
+        'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+      )
+    );
     return $this->renderAcl($display);
+  }
+
+  function renderTemplateInput ()
+  {
+    return parent::renderFormInput();
   }
 }
 
@@ -913,6 +1033,20 @@ class SelectAttribute extends Attribute
   {
     return $this->choices;
   }
+
+  function serializeAttribute(&$attributes)
+  {
+    if ($this->visible) {
+      parent::serializeAttribute($attributes);
+
+      if ($this->outputs !== NULL) {
+        $outputs = array_values($this->outputs);
+      } else {
+        $outputs = $this->choices;
+      }
+      $attributes[$this->getLdapName()]['choices'] = array_combine($this->choices, $outputs);
+    }
+  }
 }
 
 /*! \brief This class allows to handle a select attribute which allow to choose an object
@@ -1017,12 +1151,35 @@ class IntAttribute extends Attribute
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $display = '<input type="number" name="'.$id.'" id="'.$id.'" value="{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}"'.
-    ($this->min !== FALSE?' min="'.$this->min.'"':'').
-    ($this->max !== FALSE?' max="'.$this->max.'"':'').
-    ($this->disabled? 'disabled="disabled"':'').
-    ($this->step !== FALSE?' step="'.$this->step.'"':'').
-    '/>';
+    $attributes = array(
+      'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+    );
+    if ($this->min !== FALSE) {
+      $attributes['min'] = $this->min;
+    }
+    if ($this->max !== FALSE) {
+      $attributes['max'] = $this->max;
+    }
+    if ($this->step !== FALSE) {
+      $attributes['step'] = $this->step;
+    }
+    if (!empty($this->managedAttributes)) {
+      $js       = $this->managedAttributesJS();
+      $attributes['onChange'] = 'javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8');
+    }
+    $display = $this->renderInputField('number', $id, $attributes);
+    return $this->renderAcl($display);
+  }
+
+  function renderTemplateInput ()
+  {
+    $id = $this->getHtmlId();
+    $display = $this->renderInputField(
+      'text', $id,
+      array(
+        'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+      )
+    );
     return $this->renderAcl($display);
   }
 }
@@ -1177,8 +1334,13 @@ class DateAttribute extends Attribute
     $smarty = get_smarty();
     $smarty->assign('usePrototype', 'true');
     $id = $this->getHtmlId();
-    $display  = '<input type="text" class="date" name="'.$id.'" id="'.$id.'" value="{literal}'.$this->getValue().'{/literal}" '.
-                ($this->disabled? 'disabled="disabled"':'').'/>';
+    $display = $this->renderInputField(
+      'text', $id,
+      array(
+        'value' => '{literal}'.$this->getValue().'{/literal}',
+        'class' => 'date'
+      )
+    );
     $display  .= '{if $'.$this->getAcl().'ACL|regex_replace:"/[cdmr]/":"" == "w"}'.
         '<script type="text/javascript">
           {literal}
@@ -1233,9 +1395,13 @@ class FileAttribute extends Attribute
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $display  = '<input type="file" name="'.$id.'" id="'.$id.'" '.
-                ($this->disabled? 'disabled="disabled"':'').'/>';
+    $display = $this->renderInputField('file', $id);
     return $this->renderAcl($display);
+  }
+
+  function displayValue($value)
+  {
+    return sprintf(_('%s (%d bytes)'), $this->getLabel(), mb_strlen($value, '8bit'));
   }
 }
 
@@ -1251,7 +1417,7 @@ class FileTextAreaAttribute extends FileAttribute
   function loadPostValue ()
   {
     if ($this->isVisible()) {
-      foreach ($_POST as $name => $value) {
+      foreach (array_keys($_POST) as $name) {
         if (preg_match('/^download'.$this->getHtmlId().'/', $name)) {
           session::set('binary', $this->value);
           session::set('binarytype', 'octet-stream');
@@ -1277,14 +1443,17 @@ class FileTextAreaAttribute extends FileAttribute
     $display  = '<textarea name="'.$id.'_text" id="'.$id.'_text"'.
                 ($this->disabled? 'disabled="disabled"':'').'>'.
                 '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea>';
-    $display  .= '<input type="file" name="'.$id.'" id="'.$id.'" '.
-                ($this->disabled? 'disabled="disabled"':'').'/>';
-    $display  .= '<input type="submit" name="upload'.$id.'" id="upload'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="'._('Upload').'"/>';
-    $display  .= '<input type="image" name="download'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' src="images/save.png" title="'._('Download').'" class="center"/>';
+    $display  .= $this->renderInputField('file', $id);
+    $display  .= $this->renderInputField('submit', 'upload'.$id, array('value' => _('Upload')));
+    $display  .= $this->renderInputField(
+      'image', 'download'.$id,
+      array(
+        'title' => _('Download'),
+        'alt'   => _('Download'),
+        'class' => 'center',
+        'src'   => 'geticon.php?context=actions&icon=document-save&size=16',
+      )
+    );
     return $this->renderAcl($display);
   }
 
@@ -1381,12 +1550,8 @@ class ImageAttribute extends FileAttribute
                 ' style="border:1px solid black;"'.
                 ' title="'.$this->getDescription().'"'
                 .' /><br/>';
-    $display  .= '<input type="file" name="'.$id.'" id="'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                '/>';
-    $display  .= '<input type="submit" name="upload'.$id.'" id="upload'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="'._('Upload').'"/>';
+    $display  .= $this->renderInputField('file', $id);
+    $display  .= $this->renderInputField('submit', 'upload'.$id, array('value' => _('Upload')));
     if (($this->getValue() == '') && ($this->placeholder != '')) {
       session::set('binary', $this->placeholder);
     } else {
@@ -1439,6 +1604,9 @@ class BaseSelectorAttribute extends Attribute
     parent::setParent($plugin);
     if (is_object($this->plugin)) {
       /* Do base conversation */
+      if ($this->plugin->is_template) {
+        $this->ou = 'ou=templates,'.$this->ou;
+      }
       if ($this->plugin->dn == "new") {
         $ui = get_userinfo();
         $this->setValue(dn2base(session::global_is_set("CurrentMainBase")?"cn=dummy,".session::global_get("CurrentMainBase"):$ui->dn));
@@ -1520,8 +1688,12 @@ class BaseSelectorAttribute extends Attribute
     $smarty = get_smarty();
     $smarty->assign('usePrototype', 'true');
     if ($this->disabled) {
-      $display = '<input type="text" value="{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}" '.
-                  'disabled="disabled"/>';
+      $display = $this->renderInputField(
+        'text', '',
+        array(
+          'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+        )
+      );
     } else {
       $display = '{literal}'.$this->baseSelector->render().'{/literal}';
     }
@@ -1532,18 +1704,20 @@ class BaseSelectorAttribute extends Attribute
 /*! \brief This class allow to handle easily a multi-valuated attribute
  *
  */
-class ArrayAttribute extends Attribute
+class SetAttribute extends Attribute
 {
   public $attribute;
+  protected $valueUnicity     = TRUE;
   protected $editingValue     = FALSE;
   protected $linearRendering  = TRUE;
 
-  /*! \brief The constructor of ArrayAttribute
+  /*! \brief The constructor of SetAttribute
    *
    *  \param Attribute $attribute The attribute you want to see multi-valuated
    *  \param array $values The default values
+   *  \param boolean $valueUnicity Should the value unicity be checked
    */
-  function __construct ($attribute, $values = array())
+  function __construct ($attribute, $values = array(), $valueUnicity = TRUE)
   {
     parent::__construct(
       $attribute->getLabel(),     $attribute->getDescription(),
@@ -1552,11 +1726,12 @@ class ArrayAttribute extends Attribute
     );
     $this->attribute = $attribute;
     $this->attribute->setRequired(TRUE);
+    $this->valueUnicity = $valueUnicity;
   }
 
   function setManagedAttributes ($dontcare)
   {
-    trigger_error('method setManagedAttributes is not supported for ArrayAttributes');
+    trigger_error('method setManagedAttributes is not supported for SetAttributes');
   }
 
   function setLinearRendering ($bool)
@@ -1578,17 +1753,26 @@ class ArrayAttribute extends Attribute
 
   function getAcl ()
   {
+    if ($this->attribute === FALSE) {
+      return parent::getAcl();
+    }
     return $this->attribute->getAcl();
   }
 
   function setAcl ($acl)
   {
+    if ($this->attribute === FALSE) {
+      return parent::setAcl($acl);
+    }
     $this->attribute->setAcl($acl);
   }
 
   function addPostValue ($value)
   {
     if (empty($value)) {
+      return FALSE;
+    }
+    if ($this->valueUnicity && in_array($value, $this->postValue)) {
       return FALSE;
     }
     $this->postValue[] = $value;
@@ -1603,17 +1787,20 @@ class ArrayAttribute extends Attribute
   function loadPostValue ()
   {
     $this->editingValue = FALSE;
+    $id = $this->getHtmlId();
     if ($this->isVisible()) {
       $this->postValue = $this->value;
-      if (isset($_POST["add".$this->getHtmlId()])) {
-        $this->attribute->loadPostValue();
-        $this->attribute->applyPostValue();
-        $this->addPostValue($this->attribute->getValue());
-      } elseif (isset($_POST["del".$this->getHtmlId()]) && isset($_POST["row".$this->getHtmlId()])) {
-        foreach ($_POST["row".$this->getHtmlId()] as $key) {
+      if (isset($_POST["add".$id])) {
+        if ($this->attribute !== FALSE) {
+          $this->attribute->loadPostValue();
+          $this->attribute->applyPostValue();
+          $this->addPostValue($this->attribute->getValue());
+        }
+      } elseif (isset($_POST["del".$id]) && isset($_POST["row".$id])) {
+        foreach ($_POST["row".$id] as $key) {
           $this->delPostValue($key);
         }
-      } else {
+      } elseif ($this->attribute !== FALSE) {
         $this->attribute->loadPostValue();
         $this->attribute->applyPostValue();
         $this->editingValue = $this->attribute->getValue();
@@ -1624,7 +1811,7 @@ class ArrayAttribute extends Attribute
   function check ()
   {
     $error = parent::check();
-    if (!empty($error)) {
+    if (!empty($error) || ($this->attribute === FALSE)) {
       return $error;
     } else {
       foreach ($this->value as $value) {
@@ -1640,7 +1827,15 @@ class ArrayAttribute extends Attribute
   function renderFormInput ()
   {
     $display      = $this->renderOnlyFormInput();
-    $attr_display = $this->renderAttributeInput();
+    $attr_display = $this->renderAttributeInput(FALSE);
+    $buttons      = $this->renderButtons();
+    return $this->renderAcl($display).$attr_display.$this->renderAcl($buttons);
+  }
+
+  function renderTemplateInput ()
+  {
+    $display      = $this->renderOnlyFormInput();
+    $attr_display = $this->renderAttributeInput(TRUE);
     $buttons      = $this->renderButtons();
     return $this->renderAcl($display).$attr_display.$this->renderAcl($buttons);
   }
@@ -1660,6 +1855,9 @@ class ArrayAttribute extends Attribute
 
   function getDisplayValues ()
   {
+    if ($this->attribute === FALSE) {
+      return $this->value;
+    }
     $attribute = $this->attribute;
     return array_map(
       function ($value) use($attribute)
@@ -1679,14 +1877,24 @@ class ArrayAttribute extends Attribute
     }
   }
 
-  function renderAttributeInput ()
+  function renderAttributeInput ($template = FALSE)
   {
+    if ($this->attribute === FALSE) {
+      return;
+    }
     $this->handleEditingValue();
-    return $this->attribute->renderFormInput();
+    if ($template) {
+      return $this->attribute->renderTemplateInput();
+    } else {
+      return $this->attribute->renderFormInput();
+    }
   }
 
   function renderAttribute(&$attributes, $readOnly)
   {
+    if ($this->attribute === FALSE) {
+      return parent::renderAttribute($attributes, $readOnly);
+    }
     if ($this->visible) {
       $this->attribute->setDisabled($this->disabled);
       if ($this->linearRendering || $readOnly) {
@@ -1713,12 +1921,8 @@ class ArrayAttribute extends Attribute
   function renderButtons ()
   {
     $id = $this->getHtmlId();
-    $buttons  = '<input type="submit" name="add'.$id.'" id="add'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="{msgPool type=addButton}"/>';
-    $buttons .= '<input type="submit" name="del'.$id.'" id="del'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="{msgPool type=delButton}"/>';
+    $buttons  = $this->renderInputField('submit', 'add'.$id, array('value' => '{msgPool type=addButton}'));
+    $buttons .= $this->renderInputField('submit', 'del'.$id, array('value' => '{msgPool type=delButton}'));
     return $buttons;
   }
 
@@ -1740,13 +1944,15 @@ class ArrayAttribute extends Attribute
   function setParent (&$plugin)
   {
     parent::setParent($plugin);
-    $this->attribute->setParent($plugin);
+    if ($this->attribute !== FALSE) {
+      $this->attribute->setParent($plugin);
+    }
   }
 
   function getArrayValues()
   {
     $result = array();
-    foreach ($this->value as $key => $value) {
+    foreach ($this->value as $value) {
       $this->attribute->setValue($value);
       $row = array();
       foreach ($this->attribute->getArrayValue() as $val) {
@@ -1756,33 +1962,26 @@ class ArrayAttribute extends Attribute
     }
     return $result;
   }
-}
 
-/*! \brief This class allow to handle easily a multi-valuated attribute with no duplicate values
- *
- */
-class SetAttribute extends ArrayAttribute
-{
-  /*! \brief The constructor of SetAttribute
-   *
-   *  \param Attribute $attribute The attribute you want to see multi-valuated
-   *  \param array $values The default values
-   */
-  function __construct ($attribute, $values = array())
+  function foreignKeyUpdate($oldvalue, $newvalue, $source)
   {
-    parent::__construct($attribute, $values);
+    foreach ($this->value as $key => &$value) {
+      if ($value == $oldvalue) {
+        if ($newvalue === NULL) {
+          unset($this->value[$key]);
+        } elseif ($source['MODE'] == 'copy') {
+          $this->value[] = $newvalue;
+        } elseif ($source['MODE'] == 'move') {
+          $value = $newvalue;
+        }
+      }
+    }
+    unset($value);
   }
 
-  function addPostValue ($value)
+  function foreignKeyCheck($value, $source)
   {
-    if (empty($value)) {
-      return FALSE;
-    }
-    if (!in_array($value, $this->postValue)) {
-      $this->postValue[] = $value;
-      return TRUE;
-    }
-    return FALSE;
+    return in_array($value, $this->value);
   }
 }
 
@@ -1808,7 +2007,7 @@ class CompositeAttribute extends Attribute
    *  \param string $readFormat the preg_match format that's gonna be used in order to read values from LDAP
    *  \param string $writeFormat the printf format that's gonna be used in order to write values into LDAP
    *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
-   *  \param string $label The label to show for this attribute. Only useful if you put this attribute inside a Set or ArrayAttribute, or if you use a specific template that needs it.
+   *  \param string $label The label to show for this attribute. Only useful if you put this attribute inside a SetAttribute, or if you use a specific template that needs it.
    */
   function __construct ($description, $ldapName, $attributes, $readFormat, $writeFormat, $acl = "", $label = NULL)
   {
@@ -1864,8 +2063,8 @@ class CompositeAttribute extends Attribute
     if ($res === 1) {
       $m = array_slice($m, 1);
       $values = array();
-      foreach ($this->attributes as $pname => $attr) {
-        $values[] = $m[$pname];
+      foreach (array_keys($this->attributes) as $name) {
+        $values[] = $m[$name];
       }
       return $values;
     } elseif ($res === FALSE) {
@@ -1991,6 +2190,17 @@ class CompositeAttribute extends Attribute
     }
   }
 
+  function serializeAttribute(&$attributes)
+  {
+    if ($this->visible) {
+      foreach ($this->attributes as &$attribute) {
+        $attribute->setDisabled($this->disabled);
+        $attribute->serializeAttribute($attributes);
+      }
+      unset($attribute);
+    }
+  }
+
   function renderFormInput()
   {
     $display = "";
@@ -2086,45 +2296,83 @@ class OrderedArrayAttribute extends SetAttribute
   function renderOnlyFormInput ()
   {
     $id = $this->getHtmlId();
-    $div = new divSelectBox($id);
+    $div = new divSelectBox('rows'.$id);
     $smarty = get_smarty();
     $div->SetHeight($this->height);
     foreach ($this->value as $key => $value) {
-      $img = '';
-
-      if ($this->order) {
-        if ($key != 0) {
-          $img .= '<input type="image" src="images/lists/sort-up.png" name="'.$id.'_up_'.$key.'" class="center"/>&nbsp;';
-        } else {
-          $img .= '<img src="images/empty.png" style="width:10px;"/>';
-        }
-        if (($key + 1) < count($this->value)) {
-          $img .= '<input type="image" src="images/lists/sort-down.png" name="'.$id.'_down_'.$key.'" class="center"/>&nbsp;';
-        } else {
-          $img .= '<img src="images/empty.png" style="width:10px;"/>';
-        }
-      }
-      if ($this->edit_enabled) {
-        $img .= '<input type="image" src="images/lists/edit.png" name="'.$id.'_edit_'.$key.'" class="center"/>&nbsp;';
-      }
-      $img .= '<input type="image" src="images/lists/trash.png" name="'.$id.'_del_'.$key.'" class="center"/>&nbsp;';
-
       $fields = array();
       foreach ($this->getAttributeArrayValue($value) as $field) {
         $fields[] = array("string" => $field);
       }
-      $width = 25;
-      if ($this->order) {
-        $width += 20;
-      }
-      if ($this->edit_enabled) {
-        $width += 15;
-      }
+
+      list ($img, $width) = $this->genRowIcons($key, $value);
+
       $fields[] = array("html" => $img, "attach" => 'style="border:0px;width:'.$width.'px;"');
       $div->AddEntry($fields);
     }
     $smarty->assign("div_$id", $div->DrawList());
     return '{$div_'.$id.'}'."\n";
+  }
+
+  protected function genRowIcons($key, $value)
+  {
+    $id = $this->getHtmlId();
+
+    $img = '';
+    $width = 25;
+
+    if ($this->order) {
+      $width += 20;
+      if ($key != 0) {
+        $img .= $this->renderInputField(
+          'image', $id.'_up_'.$key,
+          array(
+            'src'   => 'geticon.php?context=actions&icon=view-sort-descending&size=16',
+            'title' => _('Sort up'),
+            'alt'   => _('Sort up'),
+            'class' => 'center'
+          )
+        ).'&nbsp;';
+      } else {
+        $img .= '<img src="images/empty.png" alt="" style="width:10px;"/>';
+      }
+      if (($key + 1) < count($this->value)) {
+        $img .= $this->renderInputField(
+          'image', $id.'_down_'.$key,
+          array(
+            'src'   => 'geticon.php?context=actions&icon=view-sort-ascending&size=16',
+            'title' => _('Sort down'),
+            'alt'   => _('Sort down'),
+            'class' => 'center'
+          )
+        ).'&nbsp;';
+      } else {
+        $img .= '<img src="images/empty.png" alt="" style="width:10px;"/>';
+      }
+    }
+    if ($this->edit_enabled) {
+      $width += 15;
+      $img .= $this->renderInputField(
+        'image', $id.'_edit_'.$key,
+        array(
+          'src'   => 'geticon.php?context=actions&icon=document-edit&size=16',
+          'title' => _('Edit'),
+          'alt'   => _('Edit'),
+          'class' => 'center'
+        )
+      ).'&nbsp;';
+    }
+    $img .= $this->renderInputField(
+      'image', $id.'_del_'.$key,
+      array(
+        'src'   => 'geticon.php?context=actions&icon=edit-delete&size=16',
+        'title' => _('Delete'),
+        'alt'   => _('Delete'),
+        'class' => 'center'
+      )
+    ).'&nbsp;';
+
+    return array ($img, $width);
   }
 
   protected function getAttributeArrayValue($value)
@@ -2144,7 +2392,7 @@ class OrderedArrayAttribute extends SetAttribute
     if ($this->isVisible()) {
       $this->postValue = $this->value;
       $id = $this->getHtmlId();
-      foreach ($_POST as $name => $value) {
+      foreach (array_keys($_POST) as $name) {
         if ($this->order) {
           if (preg_match('/^'.$id.'_up_/', $name)) {
             $key = preg_replace('/^'.$id.'_up_/', '', $name);
@@ -2187,6 +2435,9 @@ class OrderedArrayAttribute extends SetAttribute
   protected function handleAddAndEditValue()
   {
     $id = $this->getHtmlId();
+    if ($this->attribute === FALSE) {
+      return;
+    }
     if (isset($_POST["add$id"])) {
       $this->attribute->loadPostValue();
       $this->attribute->applyPostValue();
@@ -2219,8 +2470,11 @@ class OrderedArrayAttribute extends SetAttribute
 
   protected function htmlIds()
   {
-    $id = $this->getHtmlId();
-    $ids = array_merge(array('add'.$id), $this->attribute->htmlIds());
+    $id   = $this->getHtmlId();
+    $ids  = array('add'.$id);
+    if ($this->attribute !== FALSE) {
+      $ids  = array_merge($ids, $this->attribute->htmlIds());
+    }
     $nb_values = count($this->value);
     for ($i = 0; $i < $nb_values; ++$i) {
       if ($this->order) {
@@ -2239,10 +2493,106 @@ class OrderedArrayAttribute extends SetAttribute
   function renderButtons ()
   {
     $id = $this->getHtmlId();
-    $buttons  = '<input type="submit" name="add'.$id.'" id="add'.$id.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
-                ' value="{msgPool type=addButton}"/>';
+    $buttons = $this->renderInputField('submit', 'add'.$id, array('value' => '{msgPool type=addButton}'));
     return $buttons;
+  }
+}
+
+class SubNodesAttribute extends OrderedArrayAttribute
+{
+  protected $objectClass;
+  protected $objectClasses;
+
+  function __construct ($label, $description, $ldapName, $objectClass, $attributes, $order = FALSE, $values = array(), $edit_enabled = FALSE, $acl = "")
+  {
+    $attributes_keys = array();
+    foreach ($attributes as $attribute) {
+      $attributes_keys[$attribute->getLdapName()] = $attribute;
+      $attributes_keys[$attribute->getLdapName()]->htmlid_prefix = $ldapName.'_';
+    }
+    $composite = new CompositeAttribute(
+      $description, $ldapName,
+      $attributes_keys,
+      FALSE, FALSE,
+      $acl, $label
+    );
+    parent::__construct($composite, $order, $values, $edit_enabled);
+    if (is_array($objectClass)) {
+      $this->objectClass    = $objectClass[0];
+      $this->objectClasses  = $objectClass;
+    } else {
+      $this->objectClass    = $objectClass;
+      $this->objectClasses  = array($objectClass);
+    }
+  }
+
+  protected function loadAttrValue ($attrs)
+  {
+    /* Should we take dn from attrs or plugin? */
+    if (isset($attrs['dn'])) {
+      $ldap = $this->plugin->config->get_ldap_link();
+      $ldap->ls('objectClass='.$this->objectClass, $attrs['dn']);
+      $this->value = array();
+      while ($subattrs = $ldap->fetch()) {
+        $this->attribute->resetToDefault();
+        foreach ($this->attribute->attributes as &$attribute) {
+          $attribute->loadAttrValue($subattrs);
+        }
+        unset($attribute);
+        $this->value[] = $this->attribute->getValue();
+      }
+    } else {
+      $this->resetToDefault();
+    }
+  }
+
+  /* Not saving anything into base node */
+  function fillLdapValue (&$attrs)
+  {
+    /* Remove crap made by plugin */
+    unset ($attrs[$this->getLdapName()]);
+  }
+
+  /* Special LDAP treatment that this attribute does after plugin ldap save */
+  function postLdapSave ($ldap)
+  {
+    /* First delete all old nodes */
+    $ldap->ls('objectClass='.$this->objectClass, $this->plugin->dn, array('dn'));
+    $delete = array();
+    while ($attrs = $ldap->fetch()) {
+      $delete[] = $attrs['dn'];
+    }
+    foreach ($delete as $dn) {
+      $ldap->rmdir($dn);
+    }
+    /* Then add our values */
+    foreach ($this->value as $val) {
+      $attrs = array('objectClass' => $this->objectClasses);
+      $this->attribute->setValue($val);
+      foreach ($this->attribute->attributes as &$attribute) {
+        $attribute->fillLdapValue($attrs);
+      }
+      unset($attribute);
+      $dn = $this->compute_attribute_dn();
+      $ldap->cd($dn);
+      foreach (array_keys($attrs) as $index) {
+        if (is_array($attrs[$index]) && (count($attrs[$index]) == 0)) {
+          unset($attrs[$index]);
+        }
+      }
+      $ldap->add($attrs);
+      if (!$ldap->success()) {
+        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_ADD, get_class()), LDAP_ERROR);
+      }
+    }
+  }
+
+  function compute_attribute_dn ()
+  {
+    /* Later we might want to be able to choose which attribute to use in the dn */
+    reset($this->attribute->attributes);
+    $attribute = key($this->attribute->attributes);
+    return $attribute.'='.$this->attribute->attributes[$attribute]->computeLdapValue().','.$this->plugin->dn;
   }
 }
 

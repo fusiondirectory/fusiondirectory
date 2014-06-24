@@ -20,6 +20,10 @@ td,p,b,th {
 font-size:12px;
 }
 
+img {
+border:none;
+}
+
 a:link {
 text-decoration:none;
 color:#00008F;
@@ -219,29 +223,6 @@ text-align:right;
 
 /********************** Template migration *********************/
 
-/* Account Expired screen */
-td.gosaAccountExpiredBack {
-width:550px;
-height:300px;
-background:url(images/accountexpired.png);
-vertical-align:top;
-}
-
-div.gosaAccountExpiredBack {
-padding-top:40px;
-margin-left:90px;
-margin-right:50px;
-padding-bottom:0;
-vertical-align:top;
-}
-
-p.gosaAccountExpiredHeader {
-text-align:left;
-font-size:14px;
-font-weight:bold;
-margin-bottom:15px;
-}
-
 table.framework {
 height:auto;
 width:100%;
@@ -262,6 +243,11 @@ table.framework td#maincell {
 background-color:white;
 width:auto;
 vertical-align:top;
+}
+
+/* cellpadding="0" */
+table.framework > tbody > tr > td {
+padding:0;
 }
 
 table.maintab {
@@ -377,7 +363,7 @@ border-bottom:1px solid #B0B0B0;
 .item {
 text-align:left;
 white-space:nowrap;
-font-family:bitstream vera sans, luxi sans, verdana, geneva, arial, helvetica, sans-serif;
+font-family:"bitstream vera sans", "luxi sans", verdana, geneva, arial, helvetica, sans-serif;
 font-size:12px;
 padding-top:2px;
 }
@@ -406,33 +392,6 @@ margin:2px 5px;
 height:0;
 font-size:1px;
 line-height:0;
-}
-
-div.errorMsgTitle {
-width:100%;
-font-size:1.4em;
-padding-bottom:.3em;
-padding-top:.3em;
-font-weight:bold;
-background-color:#F0F0F0;
-}
-
-div.errorMsgDialog {
-width:60%;
-background-color:#FFF;
-border:4px solid red;
-z-index:150;
-display:none;
-position:absolute;
-}
-
-div.infoMsgDialog {
-width:60%;
-background-color:#FFF;
-border:2px solid #000;
-z-index:150;
-display:none;
-position:absolute;
 }
 
 div.autocomplete {
@@ -579,12 +538,44 @@ color:#B22;
 }
 
 #debug_handling {
-background:#FFF6BF none repeat scroll 0 0;
-border-color:#FFD324;
-color:#514721;
-border:2px solid #DDDDDD;
+border-color:#ddd;
+}
+.error, .notice, .success, .info {
+border:2px solid #ddd;
 margin:.2em;
 padding:.3em;
+}
+.error {
+background:#fbe3e4;
+color:#8a1f11;
+border-color:#fbc2c4;
+}
+.error h1,.error h2,.error h3,.error h4,.error h5,.error h6 {
+color:#8a3700;
+}
+.notice {
+background:#fff6bf;
+color:#514721;
+border-color:#ffd324;
+}
+.notice h1,.notice h2,.notice h3,.notice h4,.notice h5,.notice h6 {
+color:#412701;
+}
+.success {
+background:#e6efc2;
+color:#264409;
+border-color:#c6d880;
+}
+.success h1,.success h2,.success h3,.success h4,.success h5,.success h6 {
+color:#378a00;
+}
+.info {
+background:#d5edf8;
+color:#205791;
+border-color:#92cae4;
+}
+.info h1,.info h2,.info h3,.info h4,.info h5,.info h6 {
+color:#00378a;
 }
 
 /* Header */

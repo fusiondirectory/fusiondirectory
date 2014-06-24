@@ -6,7 +6,7 @@
             {t}Enable primary group filter{/t}
         </div>
         <div class='step4_value'>
-  
+
             <select name="noprimarygroup" size="1" title="">
               {html_options options=$bool selected=$optional.noprimarygroup}
             </select>
@@ -18,21 +18,9 @@
             {t}Display summary in listings{/t}
         </div>
         <div class='step4_value'>
-  
+
             <select name="list_summary" size="1" title="">
               {html_options options=$bool selected=$optional.list_summary}
-            </select>
-        </div>
-    </div>
-
-    <div class='step4_container'>
-        <div class='step4_name'>
-            {t}Honour administrative units{/t}
-        </div>
-        <div class='step4_value'>
-  
-            <select name="strict_units" size="1" title="">
-              {html_options options=$bool selected=$optional.strict_units}
             </select>
         </div>
     </div>
@@ -99,7 +87,7 @@
             {t}Enforce register_globals to be deactivated{/t}
         </div>
         <div class='step4_value'>
-  
+
             <select name="forceglobals" size="1" title="">
               {html_options options=$bool selected=$optional.forceglobals}
             </select>
@@ -111,7 +99,7 @@
             {t}Enforce encrypted connections{/t}
         </div>
         <div class='step4_value'>
-  
+
             <select name="forcessl" size="1" title="">
               {html_options options=$bool selected=$optional.forcessl}
             </select>
@@ -123,7 +111,7 @@
             {t}Warn if session is not encrypted{/t}
         </div>
         <div class='step4_value'>
-  
+
             <select name="warnssl" size="1" title="">
               {html_options options=$bool selected=$optional.warnssl}
             </select>
@@ -135,7 +123,7 @@
             {t}Remember dialog filter settings{/t}
         </div>
         <div class='step4_value'>
-  
+
             <select name="user_filter_cookie" size="1" title="">
               {html_options options=$bool selected=$optional.user_filter_cookie}
             </select>
@@ -147,14 +135,14 @@
             {t}Session lifetime{/t}
         </div>
         <div class='step4_value'>
-      <input size=10 id='session_lifetime' name='session_lifetime' 
+      <input size=10 id='session_lifetime' name='session_lifetime'
         type='text' value='{$optional.session_lifetime}'>
         </div>
     </div>
 
 
     <p><b>{t}Debugging{/t}</b></p>
-  
+
     <div class='step4_container'>
         <div class='step4_name'>
             {t}Show PHP errors{/t}
@@ -175,11 +163,11 @@
             {if $optional.max_ldap_query_time_active == FALSE}
                 <input type='checkbox' value='1' name='max_ldap_query_time_active'
                     onClick='changeState("max_ldap_query_time");'>
-                <input size=10 id='max_ldap_query_time' name='max_ldap_query_time' 
+                <input size=10 id='max_ldap_query_time' name='max_ldap_query_time'
           type='text' value='{$optional.max_ldap_query_time}' disabled>
             {else}
                 <input type='checkbox' value='1' name='max_ldap_query_time_active' checked>
-                <input size=10 id='max_ldap_query_time' name='max_ldap_query_time' 
+                <input size=10 id='max_ldap_query_time' name='max_ldap_query_time'
           type='text' value='{$optional.max_ldap_query_time}'  >
             {/if}
         </div>
@@ -190,7 +178,7 @@
             {t}Log LDAP statistics{/t}
         </div>
         <div class='step4_value'>
-  
+
             <select name="ldapstats" size="1" title="">
               {html_options options=$bool selected=$optional.ldapstats}
             </select>
@@ -210,7 +198,7 @@
           <option value='0'>0 {t}Disabled{/t}</option>
           <option value='1' selected>1 {t}Enabled{/t}</option>
         {/if}
-      </select>   
+      </select>
         </div>
     </div>
 </div>

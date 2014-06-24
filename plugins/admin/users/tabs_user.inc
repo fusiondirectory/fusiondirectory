@@ -1,9 +1,8 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2013  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -26,14 +25,14 @@ class usertabs extends tabs
 
   /* Template adaption variables
    */
-  var $uid        = "";
-  var $givenName  = "";
-  var $sn         = "";
+  var $uid        = '';
+  var $givenName  = '';
+  var $sn         = '';
 
-  function usertabs($config, $data, $dn, $cat = "", $copied_object = NULL)
+  function __construct($config, $data, $dn, $cat = '', $copied_object = NULL)
   {
-    parent::tabs($config, $data, $dn, 'users', $copied_object);
-    $this->base = $this->by_object['user']->base;
+    parent::__construct($config, $data, $dn, 'user', $copied_object);
+    $this->base = $this->getBaseObject()->base;
 
     $this->uid        = &$this->by_object['user']->uid;
     $this->givenName  = &$this->by_object['user']->givenName;
@@ -49,30 +48,29 @@ class usertabs extends tabs
 
     /* Update reference, transfer variables */
     $baseobject = $this->getBaseObject();
-    foreach ($this->by_object as $name => $obj) {
+    foreach ($this->by_object as $name => &$obj) {
       /* Don't touch base object */
       if ($name != 'user') {
         $obj->parent    = &$this;
         $obj->uid       = $baseobject->uid;
-        $obj->givenName = $baseobject->uid;
-        $obj->sn        = $baseobject->uid;
+        $obj->givenName = $baseobject->givenName;
+        $obj->sn        = $baseobject->sn;
       }
 
       /* Copy mail if needed */
-      if ($name == "gofaxAccount") {
+      if ($name == 'gofaxAccount') {
         if (isset($this->by_object['mailAccount']) && $this->by_object['mailAccount']->is_account) {
           $obj->mail = $this->by_object['mailAccount']->mail;
         }
       }
-
-      $this->by_object[$name] = $obj;
-
-      /* Update parent in base object */
-      $this->by_object['user']->parent = &$this;
     }
+    unset($obj);
+
+    /* Update parent in base object */
+    $this->by_object['user']->parent = &$this;
 
     /* Move facsimile / phone number if nessecary */
-    if ($this->last == "user" && isset($this->by_object['gofaxAccount'])) {
+    if (($this->last == 'user') && isset($this->by_object['gofaxAccount'])) {
 
       /* Move number to fax plugin */
       $this->by_object['gofaxAccount']->facsimileTelephoneNumber =
@@ -82,20 +80,20 @@ class usertabs extends tabs
       if (isset($this->by_object['phoneAccount']) &&
           !$this->by_object['phoneAccount']->is_account) {
         $this->by_object['phoneAccount']->phoneNumbers = array();
-        if ($this->by_object['user']->telephoneNumber != "") {
+        if ($this->by_object['user']->telephoneNumber != '') {
           $this->by_object['phoneAccount']->phoneNumbers[$this->by_object['user']->telephoneNumber] = $this->by_object['user']->telephoneNumber;
         }
       }
     }
 
     /* Move number from fax plugin */
-    if ($this->last == "gofaxAccount") {
+    if ($this->last == 'gofaxAccount') {
       $this->by_object['user']->facsimileTelephoneNumber =
         $this->by_object['gofaxAccount']->facsimileTelephoneNumber;
     }
 
     /* Move number from fax plugin */
-    if ($this->last == "phoneAccount" && $this->by_object['phoneAccount']->is_account) {
+    if ($this->last == 'phoneAccount' && $this->by_object['phoneAccount']->is_account) {
       reset($this->by_object['phoneAccount']->phoneNumbers);
       $number = key($this->by_object['phoneAccount']->phoneNumbers);
 
@@ -113,7 +111,7 @@ class usertabs extends tabs
   {
     /* Check for new 'dn', in order to propagate the
        'dn' to all plugins */
-    $baseobject = $this->by_object['user'];
+    $baseobject = $this->getBaseObject();
     $baseobject->update_new_dn();
     if ($this->dn != 'new') {
 
@@ -124,10 +122,6 @@ class usertabs extends tabs
         /* Udpate acls */
         $baseobject->update_acls($this->dn, $new_dn);
         $baseobject->move($this->dn, $new_dn);
-        $this->by_object['user'] = $baseobject;
-
-        /* Did we change ourselves? Update ui object. */
-        change_ui_dn($this->dn, $new_dn);
       }
     }
 
