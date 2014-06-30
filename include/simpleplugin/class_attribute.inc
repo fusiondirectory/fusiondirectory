@@ -1462,7 +1462,7 @@ class FileTextAreaAttribute extends FileAttribute
     $id = $this->getHtmlId();
     $display  = '<textarea name="'.$id.'_text" id="'.$id.'_text"'.
                 ($this->disabled? 'disabled="disabled"':'').'>'.
-                '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea>';
+                '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea><br/>';
     $display  .= $this->renderInputField('file', $id);
     $display  .= $this->renderInputField('submit', 'upload'.$id, array('value' => _('Upload')));
     $display  .= $this->renderInputField(
