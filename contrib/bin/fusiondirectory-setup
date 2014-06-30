@@ -122,6 +122,7 @@ sub ask_user_input {
         scope   => 'base',
         filter  => '(objectClass=*)'
       );
+      $mesg->code && die $mesg->error;
     } while ($mesg->count);
     return $cn;
   }
@@ -135,6 +136,7 @@ sub create_role {
     'gosaAclTemplate' => "0:$acl"
   );
   my $role_branch = $ldap->search (base => "$rolesou,$base", filter => "(objectClass=*)", attrs => ['dn']);
+  $role_branch->code && die $role_branch->error;
   my @role_entries = $role_branch->entries;
   if (not defined($role_entries[0])) {
     my $role_add = $ldap->add("$rolesou,$base",
@@ -556,6 +558,7 @@ sub add_ldap_admin {
     filter => "(&(objectClass=fusionDirectoryConf)(cn=fusiondirectory))",
     attrs => ['fdAccountPrimaryAttribute']
   );
+  $mesg->code && die $mesg->error;
   my $attr;
   if ($mesg->count <= 0) {
     print "Could not find configuration object, using default value\n";
@@ -575,6 +578,7 @@ sub add_ldap_admin {
       filter => "(&(objectClass=gosaAccount)(uid=$fd_admin_uid))",
       attrs => ['uid']
     );
+    $mesg->code && die $mesg->error;
     if ($mesg->count) {
       print "User $fd_admin_uid already existing, adding admin acl to it\n";
       $dn = ($mesg->entries)[0]->dn;
@@ -788,6 +792,7 @@ sub check_admin {
     filter => "(&(objectClass=gosaRole)(gosaAclTemplate=*:all;cmdrw))",
     attrs => ['gosaAclTemplate']
   );
+  $admin_roles->code && die $admin_roles->error;
   my @dns = ();
   my @roles = ();
   my $count = 0;
@@ -802,6 +807,7 @@ sub check_admin {
       filter  => "(&(objectClass=gosaAcl)(gosaAclEntry=*:subtree:$role_dn64:*))",
       attrs   => ['gosaAclEntry']
     );
+    $assignments->code && die $assignments->error;
     while (my $assignment = $assignments->shift_entry) {
       my $acl = $assignment->get_value("gosaAclEntry", asref => 1);
       foreach my $line (@$acl) {
@@ -816,6 +822,7 @@ sub check_admin {
               scope   => 'base',
               filter  => "(objectClass=gosaAccount)"
             );
+            $member_node->code && die $member_node->error;
             if ($member_node->count == 1) {
               print ("$dn is a valid admin\n");
               return;
@@ -827,6 +834,7 @@ sub check_admin {
               filter  => "(objectClass=posixGroup)",
               attrs   => ['memberUid']
             );
+            $member_node->code && die $member_node->error;
             if ($member_node->count == 1) {
               # Find group members
               my $member_entry  = $member_node->shift_entry;
@@ -836,6 +844,7 @@ sub check_admin {
                 base    => $base,
                 filter  => $filter,
               );
+              $group_members->code && die $group_members->error;
               if (my $group_member_entry = $group_members->shift_entry) {
                 print ($group_member_entry->dn." is a valid admin\n");
                 return;
@@ -872,6 +881,7 @@ sub check_ldap {
 
   # search for branch people
   my $people = $ldap->search (base => $base, filter => $peopleou);
+  $people->code && die $people->error;
 
   # stock search results
   my @people_entries = $people->entries;
@@ -905,6 +915,7 @@ sub check_ldap {
 
   # search for ou=groups
   my $ldap_groups = $ldap->search ( base => $base, filter => "ou=groups" );
+  $ldap_groups->code && die $ldap_groups->error;
   my @groups_entries = $ldap_groups->entries;
 
   # if ou=groups don't exists
@@ -929,6 +940,7 @@ sub check_ldap {
   # search for workstations and object groups
   my $faiclasses = $ldap->search (base => "$base",
                                   filter => "(&(FAIclass=*)(!(objectClass~=FAIprofile)))" );
+  $faiclasses->code && die $faiclasses->error;
   my @faiclass_entries = $faiclasses->entries;
   foreach my $entry (@faiclass_entries) {
     my $faiclass = $entry->get_value('FAIclass');
@@ -957,6 +969,7 @@ sub migrate_repo {
 
   # search for FAI repository server
   my $fai_repo = $ldap->search (base => $base, filter => "(&(FAIrepository=*)(objectClass=FAIrepositoryServer))");
+  $fai_repo->code && die $fai_repo->error;
 
   # stock search's results
   my @fai_entries = $fai_repo->entries;
@@ -1082,9 +1095,12 @@ sub migrate_users {
   print ("Add FusionDirectory attributes for the following users from $peopleou,$base\n");
   print ("---------------------------------------------\n");
 
-  my $mesg = $ldap->search( filter=>"(|(!(objectClass~=gosaAccount))(!(objectClass~=organizationalPerson))(!(objectClass~=Person)))",
-                            base=>"$peopleou,$base",
-                            scope=>$scope);
+  my $mesg = $ldap->search(
+    filter => "(|(!(objectClass~=gosaAccount))(!(objectClass~=organizationalPerson))(!(objectClass~=Person)))",
+    base   => "$peopleou,$base",
+    scope  => $scope
+  );
+  $mesg->code && die $mesg->error;
   my @entries = $mesg->entries;
 
   foreach my $entry (@entries) {
@@ -1113,6 +1129,8 @@ sub migrate_acls {
     filter => "(gosaAclEntry=*)",
     attrs => ['gosaAclEntry']
   );
+  $mesg->code && die $mesg->error;
+
   while (my $entry = $mesg->shift_entry) {
     my $acls = $entry->get_value('gosaAclEntry', asref => 1);
     my @nacls = ();
@@ -1132,6 +1150,7 @@ sub migrate_acls {
           scope   => 'base',
           filter  => '(objectClass=gosaRole)'
         );
+        $mesg->code && die $mesg->error;
         if ($mesg->count == 0) {
           $old_format = 1;
         }
@@ -1149,6 +1168,7 @@ sub migrate_acls {
             scope   => 'base',
             filter  => '(objectClass=gosaRole)'
           );
+          $mesg->code && die $mesg->error;
           if (my $role_entry = $mesg->shift_entry) {
             my $acl_templates = $role_entry->get_value('gosaAclTemplate', asref => 1);
             my $scope = '';
@@ -1202,6 +1222,7 @@ sub migrate_acls {
     filter => "(gosaAclTemplate=*:*:*)",
     attrs => ['gosaAclTemplate']
   );
+  $mesg->code && die $mesg->error;
   ROLE: while (my $role_entry = $mesg->shift_entry) {
     my $acl_templates = $role_entry->get_value('gosaAclTemplate', asref => 1);
     my $scope = '';
