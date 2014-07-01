@@ -452,7 +452,7 @@ class Attribute
   {
     if ($this->visible) {
       if ($readOnly) {
-        $input = $this->getValue();
+        $input = '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}';
       } elseif (is_object($this->plugin) && $this->plugin->is_template) {
         $input = $this->renderTemplateInput();
       } else {
