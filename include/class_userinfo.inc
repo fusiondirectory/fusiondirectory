@@ -983,7 +983,7 @@ class userinfo
     if (empty($this->ACLperPath)) {
       $this->loadACL();
     }
-    return ($this->get_category_permissions($this->config->current['BASE'], 'user') == 'rwcdm');
+    return ($this->get_permissions($this->config->current['BASE'], 'user/user') == 'rwcdm');
   }
 }
 ?>
