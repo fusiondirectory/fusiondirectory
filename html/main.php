@@ -131,18 +131,7 @@ textdomain($domain);
 @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang, "Setting language to");
 
 /* Prepare plugin list */
-if (!session::global_is_set('plist')) {
-  /* Initially load all classes */
-  load_all_classes();
-
-  $plist = new pluglist($config, $ui);
-  session::global_set('plist', $plist);
-  $config->loadPlist($plist);
-  $config->get_departments();
-  $config->make_idepartments();
-  $config->checkLdapConfig();
-}
-$plist = session::global_get('plist');
+$plist = load_plist();
 
 /* Check for register globals */
 if (isset($global_check) && $config->get_cfg_value("forceglobals") == "TRUE") {
