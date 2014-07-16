@@ -28,10 +28,7 @@ require_once ("class_log.inc");
 header("Content-type: text/html; charset=UTF-8");
 
 
-/**
- * Display the login page and exit().
- *
- */
+/* Display the login page and exit() */
 function displayLogin()
 {
   global $smarty,$message,$config,$ssl,$error_collector,$error_collector_mailto;
@@ -104,8 +101,6 @@ function displayLogin()
   exit();
 }
 
-
-
 /*****************************************************************************
  *                               M   A   I   N                               *
  *****************************************************************************/
@@ -163,7 +158,6 @@ if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))) {
 
 /* Check for old files in compile directory */
 clean_smarty_compile_dir($smarty->compile_dir);
-
 
 /* Language setup */
 $lang = get_browser_language();
@@ -352,6 +346,9 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
         }
       }
 
+      /* We need a fully loaded plist and config to test account expiration */
+      $plist = load_plist();
+
       /* are we using accountexpiration */
       if ($config->get_cfg_value("handleExpiredAccounts") == "TRUE") {
         $expired = $ui->expired_status();
@@ -367,7 +364,7 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
 
       /* Not account expired or password forced change go to main page */
       new log("security", "login", "", array(), "User \"$username\" logged in successfully");
-      $plist = new pluglist($config, $ui);
+      $config->checkLdapConfig(); // check that newly installed plugins have their configuration in the LDAP
       if (isset($plug) && isset($plist->dirlist[$plug])) {
         header ("Location: main.php?plug=".$plug."&global_check=1");
       } else {

@@ -1,9 +1,8 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2011-2014  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -174,6 +173,25 @@ function plugin_available($plugin)
   } else {
     return is_readable($BASE_DIR."/".$class_mapping[$plugin]);
   }
+}
+
+/*!
+ * \brief Loads plist and load it in config object
+ */
+function load_plist ()
+{
+  global $config, $ui;
+  if (!session::global_is_set('plist')) {
+    /* Initially load all classes */
+    load_all_classes();
+
+    $plist = new pluglist($config, $ui);
+    session::global_set('plist', $plist);
+    $config->loadPlist($plist);
+    $config->get_departments();
+    $config->make_idepartments();
+  }
+  return session::global_get('plist');
 }
 
 
