@@ -321,31 +321,6 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
       /* Let FusionDirectory trigger a new connection for each POST, save config to session. */
       session::global_set('config', $config);
 
-      /* Restore filter settings from cookie, if available */
-      if ($config->get_cfg_value("storeFilterSettings") == "TRUE") {
-
-        if (isset($_COOKIE['FusionDirectory_Filter_Settings']) || isset($HTTP_COOKIE_VARS['FusionDirectory_Filter_Settings'])) {
-
-          if (isset($_COOKIE['FusionDirectory_Filter_Settings'])) {
-            $cookie_all = unserialize(base64_decode($_COOKIE['FusionDirectory_Filter_Settings']));
-          } else {
-            $cookie_all = unserialize(base64_decode($HTTP_COOKIE_VARS['FusionDirectory_Filter_Settings']));
-          }
-          if (isset($cookie_all[$ui->dn])) {
-            $cookie = $cookie_all[$ui->dn];
-            $cookie_vars = array("MultiDialogFilters","CurrentMainBase","plug");
-            foreach ($cookie_vars as $var) {
-              if (isset($cookie[$var])) {
-                session::global_set($var, $cookie[$var]);
-              }
-            }
-            if (isset($cookie['plug'])) {
-              $plug = $cookie['plug'];
-            }
-          }
-        }
-      }
-
       /* We need a fully loaded plist and config to test account expiration */
       $plist = load_plist();
 
@@ -365,11 +340,7 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
       /* Not account expired or password forced change go to main page */
       new log("security", "login", "", array(), "User \"$username\" logged in successfully");
       $config->checkLdapConfig(); // check that newly installed plugins have their configuration in the LDAP
-      if (isset($plug) && isset($plist->dirlist[$plug])) {
-        header ("Location: main.php?plug=".$plug."&global_check=1");
-      } else {
-        header ("Location: main.php?global_check=1");
-      }
+      header ("Location: main.php?global_check=1");
       exit;
     }
   }
