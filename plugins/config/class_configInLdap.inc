@@ -216,12 +216,6 @@ class configInLdap extends simplePlugin
             'fdWarnSSL', FALSE,
             TRUE
           ),
-          new BooleanAttribute (
-            _('Remember dialog filter settings'),
-            _('Store filter and plugin settings inside of a cookie.'),
-            'fdStoreFilterSettings', FALSE,
-            TRUE
-          ),
           new IntAttribute (
             _('Session lifetime'), _('Defines when a session will expire in seconds.'),
             'fdSessionLifeTime', TRUE,

@@ -394,31 +394,6 @@ if (class_available('Game')) {
 $display  = $smarty->fetch(get_template_path('headers.tpl')).
             $smarty->fetch(get_template_path('framework.tpl'));
 
-/* Save dialog filters and selected base in a cookie.
-   So we may be able to restore the filter an base settings on reload.
-*/
-$cookie = array();
-
-if (isset($_COOKIE['FusionDirectory_Filter_Settings'])) {
-  $cookie = unserialize(base64_decode($_COOKIE['FusionDirectory_Filter_Settings']));
-} elseif (isset($HTTP_COOKIE_VARS['FusionDirectory_Filter_Settings'])) {
-  $cookie = unserialize(base64_decode($HTTP_COOKIE_VARS['FusionDirectory_Filter_Settings']));
-}
-
-/* Save filters? */
-if ($config->get_cfg_value("storeFilterSettings") == "TRUE") {
-  $cookie_vars = array("MultiDialogFilters","CurrentMainBase");
-  foreach ($cookie_vars as $var) {
-    if (session::global_is_set($var)) {
-      $cookie[$ui->dn][$var] = session::global_get($var);
-    }
-  }
-  if (isset($_GET['plug'])) {
-    $cookie[$ui->dn]['plug'] = $_GET['plug'];
-  }
-  @setcookie("FusionDirectory_Filter_Settings", base64_encode(serialize($cookie)), time() + (60 * 60 * 24));
-}
-
 /* Show page... */
 echo $display;
 

@@ -120,18 +120,6 @@
 
     <div class='step4_container'>
         <div class='step4_name'>
-            {t}Remember dialog filter settings{/t}
-        </div>
-        <div class='step4_value'>
-
-            <select name="user_filter_cookie" size="1" title="">
-              {html_options options=$bool selected=$optional.user_filter_cookie}
-            </select>
-        </div>
-    </div>
-
-    <div class='step4_container'>
-        <div class='step4_name'>
             {t}Session lifetime{/t}
         </div>
         <div class='step4_value'>
