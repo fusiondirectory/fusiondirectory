@@ -507,6 +507,7 @@ sub add_ldap_admin {
     filter => "(&(objectClass=fusionDirectoryConf)(cn=fusiondirectory))",
     attrs => ['fdAccountPrimaryAttribute']
   );
+  $mesg->code && die $mesg->error;
   my $attr;
   if ($mesg->count <= 0) {
     print "Could not find configuration object, using default value\n";
@@ -526,6 +527,7 @@ sub add_ldap_admin {
       filter => "(&(objectClass=gosaAccount)(uid=$fd_admin_uid))",
       attrs => ['uid']
     );
+    $mesg->code && die $mesg->error;
     if ($mesg->count) {
       print "User $fd_admin_uid already existing, adding admin acl to it\n";
       $dn = ($mesg->entries)[0]->dn;
@@ -731,6 +733,7 @@ sub check_admin {
     filter => "(objectClass=gosaAcl)",
     attrs => ['gosaAclEntry']
   );
+  $acls->code && die "\n! failed to search acls in '$base' - ".$acls->error_name.": ".$acls->error_text;
   my @dns = ();
   if ($acls->count < 1) {
     print ("! ACL entries are missing\n");
@@ -758,6 +761,7 @@ sub check_admin {
         scope   => 'base',
         filter  => "(objectClass=gosaAccount)"
       );
+      $mesg->code && die "\n! failed to search dn '$dn' in '$base' - ".$mesg->error_name.": ".$mesg->error_text;
       if ( $mesg->count == 1 ) {
         print ("$dn is a valid admin\n");
         return;
@@ -786,6 +790,7 @@ sub check_ldap {
 
   # search for branch people
   my $people = $ldap->search (base => $base, filter => $peopleou);
+  $people->code && die $people->error;
 
   # stock search results
   my @people_entries = $people->entries;
@@ -819,6 +824,7 @@ sub check_ldap {
 
   # search for ou=groups
   my $ldap_groups = $ldap->search ( base => $base, filter => "ou=groups" );
+  $ldap_groups->code && die $ldap_groups->error;
   my @groups_entries = $ldap_groups->entries;
 
   # if ou=groups don't exists
@@ -843,6 +849,7 @@ sub check_ldap {
   # search for workstations and object groups
   my $faiclasses = $ldap->search (base => "$base",
                                   filter => "(&(FAIclass=*)(!(objectClass~=FAIprofile)))" );
+  $faiclasses->code && die $faiclasses->error;
   my @faiclass_entries = $faiclasses->entries;
   foreach my $entry (@faiclass_entries) {
     my $faiclass = $entry->get_value('FAIclass');
@@ -871,6 +878,7 @@ sub migrate_repo {
 
   # search for FAI repository server
   my $fai_repo = $ldap->search (base => $base, filter => "(&(FAIrepository=*)(objectClass=FAIrepositoryServer))");
+  $fai_repo->code && die $fai_repo->error;
 
   # stock search's results
   my @fai_entries = $fai_repo->entries;
@@ -996,9 +1004,12 @@ sub migrate_users {
   print ("Add FusionDirectory attributes for the following users from $peopleou,$base\n");
   print ("---------------------------------------------\n");
 
-  my $mesg = $ldap->search( filter=>"(|(!(objectClass~=gosaAccount))(!(objectClass~=organizationalPerson))(!(objectClass~=Person)))",
-                            base=>"$peopleou,$base",
-                            scope=>$scope);
+  my $mesg = $ldap->search(
+    filter => "(|(!(objectClass~=gosaAccount))(!(objectClass~=organizationalPerson))(!(objectClass~=Person)))",
+    base   => "$peopleou,$base",
+    scope  => $scope
+  );
+  $mesg->code && die $mesg->error;
   my @entries = $mesg->entries;
 
   foreach my $entry (@entries) {
