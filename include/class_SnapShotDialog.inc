@@ -64,18 +64,6 @@ class SnapShotDialog extends plugin
     $this->snapHandler = new SnapshotHandler($this->config);
   }
 
-  /*! \brief Test if snapshoting is enabled
-   *
-   * Test weither snapshotting is enabled or not. There will also be some errors posted,
-   * if the configuration failed
-   *
-   * \return TRUE if snapshots are enabled, and FALSE if it is disabled
-   */
-  function snapshotEnabled()
-  {
-    return $this->snapHandler->enabled();
-  }
-
   /*!
    * \brief Get all deleted snapshots
    */
