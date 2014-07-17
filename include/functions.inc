@@ -415,18 +415,6 @@ function array_remove_entries_ics($needles, $haystack)
 }
 
 /*!
- * \brief Removes duplicates in an array (case-insensitive)
- *
- * Removes duplicates in an array (case-insensitive), the returned array will be lower-case only
- *
- * \param array $array original array to remove duplicates from
- */
-function array_unique_ics($array)
-{
-  return array_values(array_unique(array_map('strtolower', $array)));
-}
-
-/*!
  * \brief Merge to array but remove duplicate entries (case-insensitive)
  *
  * Merges two arrays and removes duplicate entries. Triggers
@@ -445,11 +433,6 @@ function array_merge_unique($ar1, $ar2)
   } else {
     return array_values(array_unique(array_merge($ar1, $ar2)));
   }
-}
-function fusiondirectory_array_merge($ar1, $ar2)
-{
-  trigger_error("fusiondirectory_array_merge is deprecated, please use array_merge_unique");
-  return array_merge_unique($ar1, $ar2);
 }
 
 
@@ -1379,29 +1362,6 @@ function convert_department_dn($dn, $base = NULL)
   return trim($dep, "/");
 }
 
-
-/*!
- * \brief Return the last sub department part of a '/level1/level2/.../' style value.
- *
- * Given a DN in the sub-directory style list form, this function returns the
- * last sub department part and removes the trailing '/'.
- *
- * Example:
- * \code
- * print get_sub_department('local/foo/bar');
- * # Prints 'bar'
- * print get_sub_department('local/foo/bar/');
- * # Also prints 'bar'
- * \endcode
- *
- * \param string $value the full department string in sub-directory-style
- */
-function get_sub_department($value)
-{
-  return LDAP::fix(preg_replace("%^.*/([^/]+)/?$%", "\\1", $value));
-}
-
-
 /*! \brief Get the OU of a certain RDN
  *
  * Given a certain RDN name (ogroupRDN, applicationRDN etc.) this
@@ -1591,25 +1551,6 @@ function strict_uid_mode()
   }
   return TRUE;
 }
-
-
-/*!
- * \brief Get regular expression for checking uids based on the naming
- *         rules.
- *
- * \return string Returns the desired regular expression
- */
-function get_uid_regexp()
-{
-  /* STRICT adds spaces and case insenstivity to the uid check.
-     This is dangerous and should not be used. */
-  if (strict_uid_mode()) {
-    return "^[a-z0-9_-]+$";
-  } else {
-    return "^[a-zA-Z0-9 _.-]+$";
-  }
-}
-
 
 /*!
  * \brief Generate a lock message
@@ -2600,22 +2541,6 @@ function normalizeLdap($input)
   return addcslashes($input, '*()\\/');
 }
 
-/*!
- * \brief Test weither we are allowed to change the object
- *
- * \param string $dn the DN of the object to check
- *
- * \param string $object
- *
- * \param string $attribute the attribute to chec
- */
-function obj_is_writable($dn, $object, $attribute)
-{
-  global $ui;
-
-  return preg_match('/w/', $ui->get_permissions($dn, $object, $attribute));
-}
-
 
 /*!
  * \brief Explode a DN into its parts
@@ -3232,66 +3157,6 @@ function getEntryCSN($dn)
   return "";
 }
 
-
-/*!
- * \brief Add (a) given objectClass(es) to an attrs entry
- *
- * The function adds the specified objectClass(es) to the given
- * attrs entry.
- *
- * \param mixed $classes Either a single objectClass or several objectClasses
- * as an array
- *
- * \param array $attrs The attrs array to be modified.
- *
- */
-function add_objectClass($classes, &$attrs)
-{
-  if (is_array($classes)) {
-    $list = $classes;
-  } else {
-    $list = array($classes);
-  }
-
-  foreach ($list as $class) {
-    $attrs['objectClass'][] = $class;
-  }
-}
-
-
-/*!
- * \brief Removes a given objectClass from the attrs entry
- *
- * The function remove the specified objectClass(es) to the given
- * attrs entry.
- *
- * \param mixed $classes Either a single objectClass or several objectClasses
- * as an array
- *
- * \param array $attrs The attrs array to be removed.
- */
-function remove_objectClass($classes, &$attrs)
-{
-  if (isset($attrs['objectClass'])) {
-    if (is_array($classes)) {
-      $list = $classes;
-    } else {
-      $list = array($classes);
-    }
-
-    $tmp = array();
-    foreach ($attrs['objectClass'] as $oc) {
-      foreach ($list as $class) {
-        if (strtolower($oc) != strtolower($class)) {
-          $tmp[] = $oc;
-        }
-      }
-    }
-    $attrs['objectClass'] = $tmp;
-  }
-}
-
-
 /*!
  * \brief  Initialize a file download with given content, name and data type.
  *
@@ -3664,46 +3529,6 @@ function get_next_id_traditional($attrib, $dn)
   }
 }
 
-/*!
- * \brief Convert from date to seconds
- *
- * \param string $val a date
- *
- * \return Return the date converted into seconds
- */
-function convertToSeconds($val)
-{
-  if ($val != 0) {
-    $val *= 60 * 60 * 24;
-  } else {
-    $date = getdate();
-    $val  = floor($date[0] / (60 * 60 * 24)) * 60 * 60 * 24;
-  }
-  return $val;
-}
-
-/*!
- * \brief Sort multidimensional arrays for key 'text'
- *
- * \param string $val1
- *
- * \param string $val2
- *
- * \return Return -1 if val2 > val1, 0 if equal, 1 if val1 > val2
- */
-function sort_list($val1, $val2)
-{
-  $v1 = strtolower($val1['text']);
-  $v2 = strtolower($val2['text']);
-  if ($v1 > $v2) {
-    return 1;
-  }
-  if ($v1 < $v2) {
-    return -1;
-  }
-  return 0;
-}
-
 /* Mark the occurance of a string with a span */
 function mark($needle, $haystack)
 {
@@ -3722,18 +3547,6 @@ function reset_errors()
   session::set('errors', "");
   session::set('errorsAlreadyPosted', array());
   session::set('LastError', "");
-}
-
-/*!
- * \brief Convert dos linebreak to unix ones
- *
- * \param string $str
- *
- * \return Return the string with linebreak converted into unix mode
- */
-function fix_dos_linebreaks($str)
-{
-  return preg_replace('/\\r\\n/', "\n", $str);
 }
 
 function load_all_classes()

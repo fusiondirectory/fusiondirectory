@@ -263,22 +263,6 @@ class acl extends plugin
   }
 
   /*!
-   * \brief Prepare for Copy & Paste
-   *
-   * \see plugin::PrepareForCopyPaste($source)
-   *
-   * \param string $source Source to prepare for copy and paste
-   */
-  function PrepareForCopyPaste($source)
-  {
-    plugin::PrepareForCopyPaste($source);
-
-    $dn                 = $source['dn'];
-    $acl_c              = new acl($this->config, $dn);
-    $this->gosaAclEntry = $acl_c->gosaAclEntry;
-  }
-
-  /*!
    * \brief Removes object from parent
    */
   function remove_from_parent()
@@ -316,16 +300,6 @@ class acl extends plugin
       'plProvidedAcls'  => array()
     );
   }
-
-
-  /*!
-   * \brief Remove acls defined for $src
-   */
-  function remove_acl()
-  {
-    acl::remove_acl_for($this->dn);
-  }
-
 
   /*!
    * \brief Remove acls defined for $src

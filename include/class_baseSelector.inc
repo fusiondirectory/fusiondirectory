@@ -101,18 +101,6 @@ class baseSelector {
   }
 
   /*!
-   * \brief Check the base value
-   *
-   * \param String $base The base value which will be checked
-   *
-   * \return boolean
-   */
-  function checkBase($base)
-  {
-    return isset($this->pathMapping[$base]);
-  }
-
-  /*!
    * \brief Check the last base value updated
    *
    * \return Boolean the last state of the object
@@ -305,25 +293,6 @@ class baseSelector {
   function getBase()
   {
     return $this->base;
-  }
-
-  /*!
-   * \brief Accessor of the action
-   *
-   * \return action of the object if exists
-   */
-  function getAction()
-  {
-    // Do not do anything if this is not our BPID, or there's even no BPID available...
-    if (!isset($_REQUEST['BPID']) || ($_REQUEST['BPID'] != $this->pid)) {
-      return;
-    }
-
-    if ($this->action) {
-      return array("targets" => array($this->base), "action" => $this->action);
-    }
-
-    return NULL;
   }
 }
 ?>

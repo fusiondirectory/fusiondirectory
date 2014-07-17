@@ -28,53 +28,6 @@
  * \brief This class contains all the function needed to manage sessions
  */
 class session {
-
-  public static function get_session_size()
-  {
-  }
-
-  public static function get_element_size()
-  {
-  }
-
-  /*!
-   * \brief Add channel in the session
-   *
-   * \param string $name Name of the new channel
-   */
-  public static function add_channel($name)
-  {
-    /* If there's already such kind of channel, skip... */
-    if (isset($_SESSION[$name])) {
-      return FALSE;
-    }
-
-    /* Allocate it... */
-    $_SESSION[$name]    = array();
-    $_POST["_channel_"] = $name;
-    return TRUE;
-  }
-
-
-  /*
-   * \brief Remove a channel from a session
-   *
-   * \param string $name Name of the channel to remove
-   */
-  public static function remove_channel($name)
-  {
-    /* If there's already such kind of channel, skip... */
-    if (isset($_SESSION[$name])) {
-      unset($_SESSION[$name]);
-      if (isset($_POST["_channel_"])) {
-        unset($_POST["_channel_"]);
-      }
-      return TRUE;
-    }
-
-    return FALSE;
-  }
-
   /*!
    * \brief Check if the name of the session is set
    *
@@ -291,12 +244,6 @@ class session {
     @session_destroy();
   }
 
-  public static function set_lifetime($seconds = -1)
-  {
-    echo "Not implemented yet";
-  }
-
-
   /*!
    * \brief Get all sessions
    */
@@ -306,5 +253,4 @@ class session {
     return $ret;
   }
 }
-
 ?>

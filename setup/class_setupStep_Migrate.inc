@@ -34,7 +34,6 @@ check_administrativeAccount - Check if there is at least one acl entry available
 checkBase                   - Check if there is a root object available
 
 get_user_list               - Get list of available users
-get_group_list              - Get list of groups
 
 create_admin
 create_admin_user
@@ -2051,13 +2050,6 @@ class Step_Migrate extends setup_step
     }
     return $tmp;
   }
-
-
-  function get_group_list()
-  {
-    return $this->get_user_list('posixGroup');
-  }
-
 
   function get_all_people_ous()
   {

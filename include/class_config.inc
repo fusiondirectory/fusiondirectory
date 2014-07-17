@@ -872,87 +872,6 @@ class config  {
     return $ret;
   }
 
-
-  /*!
-   * \brief Get all available shares defined in the current LDAP
-   *
-   * This function returns all available Shares defined in this ldap
-   *
-   * \param boolean $listboxEntry If set to TRUE, only name and path are
-   *  attached to the array. If FALSE, the whole entry will be parsed an atached to the result.
-   *
-   * \return array list of share defined in the current LDAP
-   */
-  function getShareList($listboxEntry = FALSE)
-  {
-    $tmp    = get_sub_list("(&(objectClass=goShareServer)(goExportEntry=*))", "server", get_ou("serverRDN"),
-                $this->current['BASE'], array("goExportEntry","cn"), GL_NONE);
-    $return = array();
-    foreach ($tmp as $entry) {
-
-      if (isset($entry['goExportEntry']['count'])) {
-        unset($entry['goExportEntry']['count']);
-      }
-      if (isset($entry['goExportEntry'])) {
-        foreach ($entry['goExportEntry'] as $export) {
-          $shareAttrs = explode("|", $export);
-          if ($listboxEntry) {
-            $return[$shareAttrs[0]."|".$entry['cn'][0]] = $shareAttrs[0]." - ".$entry['cn'][0];
-          } else {
-            $return[$shareAttrs[0]."|".$entry['cn'][0]]['server']       = $entry['cn'][0];
-            $return[$shareAttrs[0]."|".$entry['cn'][0]]['name']         = $shareAttrs[0];
-            $return[$shareAttrs[0]."|".$entry['cn'][0]]['description']  = $shareAttrs[1];
-            $return[$shareAttrs[0]."|".$entry['cn'][0]]['type']         = $shareAttrs[2];
-            $return[$shareAttrs[0]."|".$entry['cn'][0]]['charset']      = $shareAttrs[3];
-            $return[$shareAttrs[0]."|".$entry['cn'][0]]['path']         = $shareAttrs[4];
-            $return[$shareAttrs[0]."|".$entry['cn'][0]]['option']       = $shareAttrs[5];
-          }
-        }
-      }
-    }
-    return $return;
-  }
-
-
-  /*!
-   * \brief Return all available share servers in LDAP
-   *
-   * This function returns all available ShareServers.
-   *
-   * \return array list of share defined in the current LDAP
-   */
-  function getShareServerList()
-  {
-    $return = array();
-    $ui     = get_userinfo();
-    $base   = $this->current['BASE'];
-    $res    = get_sub_list("(&(objectClass=goShareServer)(goExportEntry=*))", "server",
-              get_ou("serverRDN"), $base, array("goExportEntry","cn"), GL_NONE | GL_NO_ACL_CHECK);
-
-    foreach ($res as $entry) {
-      $acl = $ui->get_permissions($entry['dn'], "server", "");
-      if (isset($entry['goExportEntry']['count'])) {
-        unset($entry['goExportEntry']['count']);
-      }
-      foreach ($entry['goExportEntry'] as $share) {
-        $a_share    = explode("|", $share);
-        $sharename  = $a_share[0];
-        $data       = array();
-
-        $data['NAME']     = $sharename;
-        $data['ACL']      = $acl;
-        $data['SERVER']   = $entry['cn']['0'];
-        $data['SHARE']    = $sharename;
-        $data['DISPLAY']  = $entry['cn'][0]." [".$sharename."]";
-
-        $return[$entry['cn'][0]."|".$sharename] = $data;
-      }
-    }
-
-    return $return;
-  }
-
-
   /*!
    * \brief Check if there's the specified bool value set in the configuration
    *
@@ -1394,16 +1313,6 @@ class config  {
         return (($a['PRIORITY'] < $b['PRIORITY']) ? -1 : 1);
       }
     );
-  }
-
-  /*!
-   * \brief Get list of object of objectType $type in $ou
-   */
-  function getObjectList ($type, $attrs = array(), $ou = NULL, $filter = '')
-  {
-    trigger_error('Deprecated');
-
-    return objects::ls($type, $attrs, $ou, $filter);
   }
 }
 
