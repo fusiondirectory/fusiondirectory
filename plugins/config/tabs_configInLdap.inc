@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2013 FusionDirectory
+  Copyright (C) 2012-2014 FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -24,10 +24,17 @@ class tabs_configInLdap extends tabs
   {
     global $config;
     parent::save();
+    /* backup parts which are read from pluglist */
+    $saved_datas = array('OBJECTS', 'SECTIONS', 'CATEGORIES', 'TABS', 'MENU');
+    $save = array();
+    foreach ($saved_datas as $saved_data) {
+      $save[$saved_data] = $config->data[$saved_data];
+    }
+    /* check_and_reload */
     $config->check_and_reload(TRUE);
-    $plist = session::global_get('plist');
-    if ($plist) {
-      $config->loadPlist($plist);
+    /* restore backup */
+    foreach ($saved_datas as $saved_data) {
+      $config->data[$saved_data] = $save[$saved_data];
     }
   }
 }
