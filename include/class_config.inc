@@ -1153,8 +1153,8 @@ class config  {
 
   function loadPlist ($plist)
   {
-    $this->data['OBJECTS'] = array();
-    $this->data['SECTIONS'] = array();
+    $this->data['OBJECTS']    = array();
+    $this->data['SECTIONS']   = array();
     $this->data['CATEGORIES'] = array();
     foreach ($plist->info as $class => &$plInfo) {
       if (isset($plInfo['plObjectType'])) {
@@ -1225,7 +1225,7 @@ class config  {
           $cat    = (is_numeric($idx)?$data:$idx);
           $cats[] = $cat;
           if (!isset($this->data['CATEGORIES'][$cat])) {
-            $this->data['CATEGORIES'][$cat]   = array( 'classes' => array('0') );
+            $this->data['CATEGORIES'][$cat] = array( 'classes' => array('0') );
           }
           if (!empty($plInfo['plProvidedAcls'])) {
             $this->data['CATEGORIES'][$cat]['classes'][] = $class;
