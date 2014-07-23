@@ -82,11 +82,7 @@ class config  {
    */
   function __construct($filename, $basedir = "")
   {
-    $this->parser   = xml_parser_create();
     $this->basedir  = $basedir;
-
-    xml_set_object($this->parser, $this);
-    xml_set_element_handler($this->parser, "tag_open", "tag_close");
 
     /* Parse config file directly? */
     if ($filename != "") {
@@ -123,9 +119,6 @@ class config  {
       $this->section          = "";
       $this->currentLocation  = "";
 
-      $this->parser = xml_parser_create();
-      xml_set_object($this->parser, $this);
-      xml_set_element_handler($this->parser, "tag_open", "tag_close");
       $this->parse($this->filename);
       $this->set_current($this->current['NAME']);
     }
@@ -142,6 +135,16 @@ class config  {
    */
   function parse($filename)
   {
+    $this->last_modified  = filemtime($filename);
+    $this->filename       = $filename;
+    $fh       = fopen($filename, "r");
+    $xmldata  = fread($fh, 100000);
+    fclose($fh);
+    $this->parse_data($xmldata);
+  }
+
+  function parse_data ($xmldata)
+  {
     $this->data = array(
       "TABS"      => array(),
       "LOCATIONS" => array(),
@@ -149,11 +152,10 @@ class config  {
       "MENU"      => array()
     );
 
-    $this->last_modified  = filemtime($filename);
-    $this->filename       = $filename;
-    $fh       = fopen($filename, "r");
-    $xmldata  = fread($fh, 100000);
-    fclose($fh);
+    $this->parser = xml_parser_create();
+    xml_set_object($this->parser, $this);
+    xml_set_element_handler($this->parser, "tag_open", "tag_close");
+
     if (!xml_parse($this->parser, chop($xmldata))) {
       $msg = sprintf(_("XML error in fusiondirectory.conf: %s at line %d"),
             xml_error_string(xml_get_error_code($this->parser)),
@@ -161,6 +163,7 @@ class config  {
       msg_dialog::display(_("Configuration error"), $msg, FATAL_ERROR_DIALOG);
       exit;
     }
+    xml_parser_free($this->parser);
   }
 
 

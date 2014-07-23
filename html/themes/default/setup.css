@@ -1,30 +1,11 @@
-
-
 /*********
  * Setup
  *********/
-html.ltr body.setup div#header_left .plugtop {
-margin-left:80px;
-}
-html.rtl div.setup_dialog {
-text-align:left;
-}
-body.setup .plugin_window {
-border-radius:5px;
-}
 
 div.setup_menu {
 background-color:#F8F8F8;
 padding:4px 5px;
 border-bottom:1px solid #B0B0B0;
-}
-
-/* Setup content header container */
-div.setup_plug_header_container {
-}
-
-/* Setup content container */
-div.setup_contents_container {
 }
 
 /* Setup footer */
@@ -65,15 +46,8 @@ padding:2px 10px;
 vertical-align:middle;
 }
 
-/* Navigation col */
 #menucell.setup_navigation {
-width:19%;
-}
-html.ltr #menucell.setup_navigation {
-float:left;
-}
-html.rtl #menucell.setup_navigation {
-float:right;
+width:200px;
 }
 
 /* Navigation title */
@@ -94,6 +68,10 @@ padding-top:8px;
 padding-bottom:8px;
 margin-top:5px;
 margin-bottom:5px;
+}
+div.navigation_element:first-child, div.navigation_element_active:first-child {
+border-top:none;
+margin-top:0;
 }
 
 /* The box used for each setup step */
@@ -134,6 +112,10 @@ padding:4px 4px 3px 15px;
 }
 html.rtl #menucell.setup_navigation li.menuitem a.navigation_info {
 padding:4px 15px 3px 4px;
+}
+
+.setup_language select#lang_selected {
+width:100%;
 }
 
 /*

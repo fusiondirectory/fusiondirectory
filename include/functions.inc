@@ -178,7 +178,7 @@ function plugin_available($plugin)
 /*!
  * \brief Loads plist and load it in config object
  */
-function load_plist ()
+function load_plist ($ldap_available = TRUE)
 {
   global $config, $ui;
   if (!session::global_is_set('plist')) {
@@ -188,8 +188,10 @@ function load_plist ()
     $plist = new pluglist($config, $ui);
     session::global_set('plist', $plist);
     $config->loadPlist($plist);
-    $config->get_departments();
-    $config->make_idepartments();
+    if ($ldap_available) {
+      $config->get_departments();
+      $config->make_idepartments();
+    }
   }
   return session::global_get('plist');
 }

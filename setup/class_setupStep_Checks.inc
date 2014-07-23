@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
@@ -20,18 +19,35 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class Step_Checks extends setup_step
+class Step_Checks extends setupStep
 {
-  var $basic_checks   = array();
-  var $config_checks  = array();
-  var $is_writeable   = array();
   var $header_image   = 'geticon.php?context=categories&icon=checks&size=48';
+
+  static function getAttributesInfo()
+  {
+    return array(
+      'modules' => array(
+        'name'      => _('PHP module and extension checks'),
+        'template'  => get_template_path("setup_checks.tpl", TRUE, dirname(__FILE__)),
+        'attrs'     => array(
+          new FakeAttribute('basic_checks')
+        )
+      ),
+      'setup' => array(
+        'name'      => _('PHP setup configuration (<a href="?info" target="_blank">show information)</a>)'),
+        'template'  => get_template_path("setup_checks.tpl", TRUE, dirname(__FILE__)),
+        'attrs'     => array(
+          new FakeAttribute('config_checks')
+        )
+      )
+    );
+  }
 
   function __construct()
   {
+    parent::__construct();
     $this->update_strings();
   }
-
 
   function update_strings()
   {
@@ -40,25 +56,18 @@ class Step_Checks extends setup_step
     $this->s_info       = _("Basic checks for PHP compatibility and extensions");
   }
 
-
   /* Execute and display template */
   function execute()
   {
     $this->run_checks();
-    $smarty = get_smarty();
-    $smarty->assign("basic",        $this->basic_checks);
-    $smarty->assign("config",       $this->config_checks);
-    $smarty->assign("is_writeable", $this->is_writeable);
-    return $smarty->fetch(get_template_path("setup_checks.tpl", TRUE, dirname(__FILE__)));
+    return parent::execute();
   }
-
 
   /* Execute all checks */
   function run_checks()
   {
-    $this->basic_checks   = array();
-    $this->config_checks  = array();
-    $this->is_writeable   = array();
+    $basic_checks   = array();
+    $config_checks  = array();
 
     /* PHP version check */
     $N = _("Checking PHP version");
@@ -66,7 +75,7 @@ class Step_Checks extends setup_step
     $S = _("Please upgrade to a supported version.");
     $R = $this->check_php_version();
     $M = TRUE;
-    $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* Check for imap extension */
     $N = msgPool::checkingFor("LDAP");
@@ -74,7 +83,7 @@ class Step_Checks extends setup_step
     $S = msgPool::installPhpModule("LDAP");
     $R = is_callable("ldap_bind");
     $M = TRUE;
-    $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* Check for gettext support */
     $N = msgPool::checkingFor("gettext");
@@ -82,7 +91,7 @@ class Step_Checks extends setup_step
     $S = msgPool::installPhpModule("gettext");
     $R = is_callable("bindtextdomain");
     $M = TRUE;
-    $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* Check for php5-curl support */
     $N = msgPool::checkingFor("curl");
@@ -90,7 +99,7 @@ class Step_Checks extends setup_step
     $S = msgPool::installPhpModule("php5-curl");
     $R = is_callable("curl_init");
     $M = TRUE;
-    $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* Check for iconv */
     $N = msgPool::checkingFor("inconv");
@@ -98,7 +107,7 @@ class Step_Checks extends setup_step
     $S = msgPool::installPhpModule("iconv");
     $R = is_callable("iconv");
     $M = TRUE;
-    $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* Check for installed mhash module */
     $N = msgPool::checkingFor("hash method");
@@ -106,7 +115,7 @@ class Step_Checks extends setup_step
     $S = msgPool::installPhpModule("mhash/sha1");
     $R = is_callable('mhash') || is_callable('sha1');
     $M = FALSE;
-    $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* Check if imap module is available */
     $N = msgPool::checkingFor("IMAP");
@@ -114,7 +123,7 @@ class Step_Checks extends setup_step
     $S = msgPool::installPhpModule("IMAP");
     $R = is_callable("imap_open");
     $M = TRUE;
-    $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* Check if mbstring module is available */
     $N = msgPool::checkingFor(_("mbstring"));
@@ -122,7 +131,7 @@ class Step_Checks extends setup_step
     $S = msgPool::installPhpModule("mbstring");
     $R = is_callable("mb_strlen");
     $M = TRUE;
-    $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* Check if MDB2 module is available */
     $N = msgPool::checkingFor(_("MDB2"));
@@ -133,7 +142,7 @@ class Step_Checks extends setup_step
     if ($M) {
       $D .= "<br/>"._("If you do not want to install MDB2 and won't use databases, remove the class_databaseManagement.inc file.");
     }
-    $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     $N = msgPool::checkingFor(_("imagick"));
     $D = _("FusionDirectory requires this extension to handle images.");
@@ -148,14 +157,14 @@ class Step_Checks extends setup_step
     }
 
     $M = TRUE;
-    $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     $N = msgPool::checkingFor(_("compression module"));
     $D = _("FusionDirectory requires this extension to handle snapshots.");
     $S = msgPool::installPhpModule("compile with --with-zlib");
     $R = is_callable("gzcompress");
     $M = FALSE;
-    $this->basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* PHP Configuration checks */
 
@@ -165,7 +174,7 @@ class Step_Checks extends setup_step
     $S = _("Search for 'register_globals' in your php.ini and switch it to 'Off'.");
     $R = ini_get("register_globals") == 0;
     $M = FALSE;
-    $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* session lifetime set to >=86400 seconds ? */
     $N = "session.gc_maxlifetime &gt;= <b>86400</b>";
@@ -174,7 +183,7 @@ class Step_Checks extends setup_step
     $S = _("Search for 'session.gc_maxlifetime' in your php.ini and set it to 86400 or higher.");
     $R = ini_get("session.gc_maxlifetime") >= 86400;
     $M = FALSE;
-    $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* Session auto start must be turned off */
     $session_auto_start = ini_get('session.auto_start');
@@ -183,7 +192,7 @@ class Step_Checks extends setup_step
     $S = _("Search for 'session.auto_start' in your php.ini and set it to 'Off'.");
     $R = !$session_auto_start;
     $M = TRUE;
-    $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* Check if memory limit is set to 128 or > */
     $N = "memory_limit &gt;= <b>128</b>";
@@ -191,7 +200,7 @@ class Step_Checks extends setup_step
     $S = _("Search for 'memory_limit' in your php.ini and set it to '128M' or higher.");
     $R = ini_get('memory_limit') >= 128;
     $M = TRUE;
-    $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* Implicit Flush disabled can increase performance */
     $N = "implicit_flush = <b>"._("Off")."</b>";
@@ -199,7 +208,7 @@ class Step_Checks extends setup_step
     $S = _("Search for 'implicit_flush' in your php.ini and set it to 'Off'.");
     $R = !ini_get('implicit_flush');
     $M = FALSE;
-    $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* Check if execution time is set to 30 */
     $N = "max_execution_time &gt;= <b>30</b>";
@@ -207,7 +216,7 @@ class Step_Checks extends setup_step
     $S = _("Search for 'max_execution_time' in your php.ini and set it to '30' or higher.");
     $R = ini_get("max_execution_time") >= 30;
     $M = TRUE;
-    $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* Expose php should be set to off */
     $N = "expose_php = <b>"._("Off")."</b>";
@@ -215,7 +224,7 @@ class Step_Checks extends setup_step
     $S = _("Search for 'expose_php' in your php.ini and set if to 'Off'.");
     $R = !ini_get("expose_php");
     $M = FALSE;
-    $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* Emulating old stuff? */
     $N = "zend.ze1_compatibility_mode = <b>"._("Off")."</b>";
@@ -223,28 +232,19 @@ class Step_Checks extends setup_step
     $S = _("Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'.");
     $R = !ini_get('zend.ze1_compatibility_mode');
     $M = FALSE;
-    $this->config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
-    /* Configuration file */
-
-    /* Check if we can create a config file.*/
-    $N = _("Configuration writeable");
-    $D = _("The configuration file can't be written");
-    $S = sprintf(_("FusionDirectory reads its configuration from a file located in (%s/%s). The setup can write the configuration directly if it is writeable."), CONFIG_DIR, CONFIG_FILE);
-    /* is there a config file ? or There is none, but can we create a file there ?*/
-    $R = ( file_exists(CONFIG_DIR."/".CONFIG_FILE) && is_writeable(CONFIG_DIR."/".CONFIG_FILE))
-          || (!file_exists(CONFIG_DIR."/".CONFIG_FILE) && is_writeable(CONFIG_DIR));
-    $M = FALSE;
-    $this->is_writeable[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $this->basic_checks   = $basic_checks;
+    $this->config_checks  = $config_checks;
   }
-
 
   function save_object()
   {
+    parent::save_object();
      /* If everything is fine, set this step to completed
      *  and allow switching to next setup step */
     $failed = FALSE;
-    foreach (array("basic_checks","config_checks","is_writeable") as $type) {
+    foreach (array('basic_checks','config_checks') as $type) {
       foreach ($this->$type as $obj) {
         if ($obj['MUST'] && !$obj['RESULT']) {
           $failed = TRUE;
@@ -255,12 +255,11 @@ class Step_Checks extends setup_step
     $this->is_completed = !$failed;
   }
 
-
   /* Check if current PHP version is compatible
       with the current version of FusionDirectory */
   function check_php_version()
   {
-    return version_compare(phpversion(), "5.2.0", ">=");
+    return version_compare(phpversion(), '5.2.0', '>=');
   }
 }
 

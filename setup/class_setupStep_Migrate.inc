@@ -244,11 +244,10 @@ class Step_Migrate extends setup_step
   /* Check if there are uidNumbers which are used more than once */
   function check_uidNumber()
   {
-    /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
+    global $config;
+    $ldap = $config->get_ldap_link();
 
-    $ldap->cd($cv['base']);
+    $ldap->cd($config->current['BASE']);
     $res = $ldap->search("(&(objectClass=posixAccount)(uidNumber=*))", array("dn","uidNumber"));
     if (!$res) {
       $this->checks['uidNumber_usage']['STATUS']      = FALSE;
@@ -289,11 +288,10 @@ class Step_Migrate extends setup_step
   /* Check if there are duplicated gidNumbers present in ldap */
   function check_gidNumber()
   {
-    /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
+    global $config;
+    $ldap = $config->get_ldap_link();
 
-    $ldap->cd($cv['base']);
+    $ldap->cd($config->current['BASE']);
     $res = $ldap->search("(&(objectClass=posixGroup)(gidNumber=*))", array("dn","gidNumber"));
     if (!$res) {
       $this->checks['gidNumber_usage']['STATUS']      = FALSE;
@@ -333,19 +331,18 @@ class Step_Migrate extends setup_step
   /* Search for groups outside the group ou */
   function search_outside_groups()
   {
-    /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
+    global $config;
+    $ldap = $config->get_ldap_link();
 
-    $group_ou = $cv['groupou'];
-    $ldap->cd($cv['base']);
+    $group_ou = get_ou('groupRDN');
+    $ldap->cd($config->current['BASE']);
 
     /***********
      * Get all gosaDepartments to be able to
      *  validate correct ldap tree position of every single user
      ***********/
     $valid_deps = array();
-    $valid_deps['/'] = $cv['base'];
+    $valid_deps['/'] = $config->current['BASE'];
     $ldap->search("(&(objectClass=gosaDepartment)(ou=*))", array("dn","ou"));
     while ($attrs = $ldap->fetch()) {
       $valid_deps[] = $attrs['dn'];
@@ -365,7 +362,7 @@ class Step_Migrate extends setup_step
     $this->outside_groups = array();
     $this->groups_list = array();;
     while ($attrs = $ldap->fetch()) {
-      $group_db_base = preg_replace("/^[^,]+,".preg_quote($group_ou, '/')."+,/i", "", $attrs['dn']);
+      $group_db_base = preg_replace("/^[^,]+,".preg_quote($group_ou, '/')."+/i", "", $attrs['dn']);
 
       /* Check if entry is not an addressbook only user
        *  and verify that he is in a valid department
@@ -398,17 +395,17 @@ class Step_Migrate extends setup_step
   /* Search for users outside the people ou */
   function search_outside_users()
   {
-    /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
-    $ldap->cd($cv['base']);
+    global $config;
+    $ldap = $config->get_ldap_link();
+
+    $ldap->cd($config->current['BASE']);
 
     /***********
      * Get all gosaDepartments to be able to
      *  validate correct ldap tree position of every single user
      ***********/
     $valid_deps = array();
-    $valid_deps['/'] = $cv['base'];
+    $valid_deps['/'] = $config->current['BASE'];
     $ldap->search("(&(objectClass=gosaDepartment)(ou=*))", array("dn","ou"));
     while ($attrs = $ldap->fetch()) {
       $valid_deps[] = $attrs['dn'];
@@ -429,10 +426,7 @@ class Step_Migrate extends setup_step
      * Check if returned users are within a valid GOsa department. (peopleou,gosaDepartment,base)
      ***********/
     $this->outside_users = array();
-    $people_ou = trim($cv['peopleou']);
-    if (!empty($people_ou)) {
-      $people_ou = $people_ou.",";
-    }
+    $people_ou = trim(get_ou('userRDN'));
 
     while ($attrs = $ldap->fetch()) {
       $people_db_base = preg_replace("/^[^,]+,".preg_quote($people_ou, '/')."/i", "", $attrs['dn']);
@@ -471,13 +465,12 @@ class Step_Migrate extends setup_step
    */
   function check_ldap_permissions()
   {
-    /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
+    global $config;
+    $ldap = $config->get_ldap_link();
 
     /* Create dummy entry */
     $name       = "GOsa_setup_text_entry_".session_id().rand(0, 999999);
-    $dn         = "ou=".$name.",".$cv['base'];
+    $dn         = "ou=".$name.",".$config->current['BASE'];
     $testEntry  = array();
 
     $testEntry['objectClass'][] = "top";
@@ -487,7 +480,7 @@ class Step_Migrate extends setup_step
     $testEntry['ou']            = $name;
 
     /* check if simple ldap cat will be successful */
-    $res = $ldap->cat($cv['base']);
+    $res = $ldap->cat($config->current['BASE']);
     if (!$res) {
       $this->checks['permissions']['STATUS']      = FALSE;
       $this->checks['permissions']['STATUS_MSG']  = _("LDAP query failed");
@@ -505,7 +498,7 @@ class Step_Migrate extends setup_step
       $this->checks['permissions']['STATUS']      = FALSE;
       $this->checks['permissions']['STATUS_MSG']  = _("Failed");
       $this->checks['permissions']['ERROR_MSG']   =
-        sprintf(_("The specified user '%s' does not have full access to your ldap database."), $cv['admin']);
+        sprintf(_("The specified user '%s' does not have full access to your ldap database."), $config->current['ADMINDN']);
       return FALSE;
     }
 
@@ -517,7 +510,7 @@ class Step_Migrate extends setup_step
       $this->checks['permissions']['STATUS']      = FALSE;
       $this->checks['permissions']['STATUS_MSG']  = _("Failed");
       $this->checks['permissions']['ERROR_MSG']   =
-        sprintf(_("The specified user '%s' does not have full access to your ldap database."), $cv['admin']);
+        sprintf(_("The specified user '%s' does not have full access to your ldap database."), $config->current['ADMINDN']);
       return FALSE;
     }
 
@@ -534,18 +527,17 @@ class Step_Migrate extends setup_step
    */
   function check_gosaAccounts()
   {
+    global $config;
+    $ldap = $config->get_ldap_link();
+
     /* Remember old list of invisible users, to be able to set
      *  the 'html checked' status for the checkboxes again
      */
     $old    = $this->users_to_migrate;
     $this->users_to_migrate = array();
 
-    /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
-
     /* Get all invisible users */
-    $ldap->cd($cv['base']);
+    $ldap->cd($config->current['BASE']);
     $res = $ldap->search("(&(|(objectClass=posixAccount)(&(objectClass=inetOrgPerson)(objectClass=organizationalPerson))(objectClass=OpenLDAPperson))(!(objectClass=gosaAccount))(!(&(objectClass=Account)(objectClass=sambaSamAccount)))(uid=*))", array("sn","givenName","cn","uid"));
 
     while ($attrs = $ldap->fetch()) {
@@ -584,10 +576,10 @@ class Step_Migrate extends setup_step
   /* Start user account migration */
   function migrate_gosaAccounts($only_ldif = FALSE)
   {
-    $this->show_details = $only_ldif;
+    global $config;
+    $ldap = $config->get_ldap_link();
 
-    /* Establish ldap connection */
-    $ldap = $this->get_ldap_link();
+    $this->show_details = $only_ldif;
 
     /* Add gosaAccount objectClass to the selected users */
     foreach ($this->users_to_migrate as $key => $dep) {
@@ -628,23 +620,22 @@ class Step_Migrate extends setup_step
   /* Check if there are invisible organizational Units */
   function check_organizationalUnits()
   {
+    global $config;
+    $ldap = $config->get_ldap_link();
+
     $old                    = $this->deps_to_migrate;
     $this->deps_to_migrate  = array();
 
-    /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
-
     /* Skip FusionDirectory internal departments */
-    $skip_dns = array("/".$cv['peopleou']."/","/".$cv['groupou']."/","/".$cv['aclroleou']."/",
+    $skip_dns = array("/".get_ou('userRDN')."/","/".get_ou('groupRDN')."/","/".get_ou('aclRoleRDN')."/",
         "/^ou=people,/","/^ou=groups,/","/^ou=sudoers,/",
         "/(,|)ou=configs,/","/(,|)ou=systems,/","/(,|)ou=tokens,/",
         "/(,|)ou=apps,/","/(,|)ou=mime,/","/(,|)ou=devices/",
-        "/ou=snapshots,/","/(,|)dc=addressbook,/","/^(,|)ou=machineaccounts,/",
+        "/ou=snapshots,/","/(,|)dc=addressbook,/","/^(,|)ou=machineaccounts,/","/^ou=opsi,/","/^ou=structures,/",
         "/(,|)ou=winstations,/","/^ou=hosts,/","/^ou=computers,/","/^ou=idmap,/","/^ou=Idmap,/","/(,|)ou=roles,/");
 
     /* Get all invisible departments */
-    $ldap->cd($cv['base']);
+    $ldap->cd($config->current['BASE']);
     $res = $ldap->search("(&(objectClass=organizationalUnit)(!(objectClass=gosaDepartment)))", array("ou","description","dn"));
     while ($attrs = $ldap->fetch()) {
       $attrs['checked'] = FALSE;
@@ -709,10 +700,10 @@ class Step_Migrate extends setup_step
   /* Start deparmtment migration */
   function migrate_organizationalUnits($only_ldif = FALSE)
   {
-    $this->show_details = $only_ldif;
+    global $config;
+    $ldap = $config->get_ldap_link();
 
-    /* Establish ldap connection */
-    $ldap = $this->get_ldap_link();
+    $this->show_details = $only_ldif;
 
     /* Add gosaDepartment objectClass to each selected entry */
     foreach ($this->deps_to_migrate as $key => $dep) {
@@ -756,6 +747,8 @@ class Step_Migrate extends setup_step
   /* Check Acls if there is at least one object with acls defined */
   function check_administrativeAccount()
   {
+    global $config;
+
     /* Reset settings */
     $FD_1_0_8_found = FALSE;
     $this->migrate_users = array();
@@ -764,10 +757,9 @@ class Step_Migrate extends setup_step
     $valid_admin = FALSE;
 
     /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
-    $ldap->cd($cv['base']);
-    $res = $ldap->cat($cv['base']);
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
+    $res = $ldap->cat($config->current['BASE']);
 
     if (!$res) {
       $this->checks['acls']['STATUS']     = FALSE;
@@ -980,11 +972,10 @@ class Step_Migrate extends setup_step
   /* Check if default roles and groupes have been inserted */
   function check_defaultACLs()
   {
-    /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
-    $ldap->cd($cv['base']);
-    $res = $ldap->cat($cv['base']);
+    global $config;
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
+    $res = $ldap->cat($config->current['BASE']);
 
     if (!$res) {
       $this->checks['default_acls']['STATUS']     = FALSE;
@@ -995,7 +986,7 @@ class Step_Migrate extends setup_step
 
     $existings = 0;
     foreach ($this->defaultRoles as $role) {
-      $dn = 'cn='.$role['cn'].','.$cv['aclroleou'].",".$cv['base'];
+      $dn = 'cn='.$role['cn'].','.get_ou('aclRoleRDN').$config->current['BASE'];
       $ldap->cat($dn, array('dn'));
       if ($ldap->count() > 0) {
         $existings++;
@@ -1019,13 +1010,12 @@ class Step_Migrate extends setup_step
 
   function insert_defaultRoles()
   {
-    /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
-    $ldap->cd($cv['base']);
+    global $config;
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
 
     foreach ($this->defaultRoles as $role) {
-      $dn = 'cn='.$role['cn'].','.$cv['aclroleou'].",".$cv['base'];
+      $dn = 'cn='.$role['cn'].','.get_ou('aclRoleRDN').$config->current['BASE'];
       $ldap->cat($dn);
       if ($ldap->count() == 0) {
         $ldap->cd($dn);
@@ -1048,6 +1038,8 @@ class Step_Migrate extends setup_step
 
   function create_admin($only_ldif = FALSE)
   {
+    global $config;
+
     /* Reset '' */
     $this->acl_create_changes = "";
 
@@ -1055,16 +1047,15 @@ class Step_Migrate extends setup_step
     $dn = $this->acl_create_selected;
 
     /* Get collected configuration settings */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
+    $ldap = $config->get_ldap_link();
 
     $ldap->search("(&(objectClass=gosaRole)(gosaAclTemplate=*:all;cmdrw))", array('dn'));
     if ($attrs = $ldap->fetch()) {
       $roledn = $attrs['dn'];
     } else {
-      $roledn = 'cn=admin,'.$cv['aclroleou'].",".$cv['base'];
+      $roledn = 'cn=admin,'.get_ou('aclRoleRDN').$config->current['BASE'];
       if (!$only_ldif) {
-        $ldap->create_missing_trees($cv['aclroleou'].",".$cv['base']);
+        $ldap->create_missing_trees(get_ou('aclRoleRDN').$config->current['BASE']);
         $ldap->cd($roledn);
         $attrs_role = array(
           'cn'              => 'admin',
@@ -1081,8 +1072,8 @@ class Step_Migrate extends setup_step
     }
 
     /* Get current base attributes */
-    $ldap->cd($cv['base']);
-    $ldap->cat($cv['base'], array("dn","objectClass","gosaAclEntry"));
+    $ldap->cd($config->current['BASE']);
+    $ldap->cat($config->current['BASE'], array("dn","objectClass","gosaAclEntry"));
     $attrs = $ldap->fetch();
 
     /* Add acls for the selcted user to the base */
@@ -1107,12 +1098,12 @@ class Step_Migrate extends setup_step
     }
 
     if ($only_ldif) {
-      $this->acl_create_changes = "\n".($ldap->fix($cv['base']))."\n";
+      $this->acl_create_changes = "\n".($ldap->fix($config->current['BASE']))."\n";
       $this->acl_create_changes .= $this->array_to_ldif($attrs)."\n";
-      $this->acl_create_changes .= "\n".($ldap->fix($cv['base']))."\n";
+      $this->acl_create_changes .= "\n".($ldap->fix($config->current['BASE']))."\n";
       $this->acl_create_changes .= $this->array_to_ldif($attrs_new);
     } else {
-      $ldap->cd($cv['base']);
+      $ldap->cd($config->current['BASE']);
       $ldap->modify($attrs_new);
       if (!$ldap->success()) {
         msg_dialog::display(_("Migration error"), sprintf(_("Cannot add ACL for user '%s':")."<br><br><i>%s</i>", LDAP::fix($dn), $ldap->get_error()), ERROR_DIALOG);
@@ -1126,11 +1117,11 @@ class Step_Migrate extends setup_step
 
   function create_admin_user()
   {
+    global $config;
     $pw1 = $pw2 = "";
     $uid = "";
 
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
+    $ldap = $config->get_ldap_link();
 
     if (isset($_POST['new_user_uid'])) {
       $uid = $_POST['new_user_uid'];
@@ -1142,7 +1133,7 @@ class Step_Migrate extends setup_step
       $pw2 = $_POST['new_user_password2'];
     }
 
-    $ldap->cd($cv['base']);
+    $ldap->cd($config->current['BASE']);
     $ldap->search("(uid=".$uid.")");
     if ($ldap->count()) {
       msg_dialog::display(_("Input error"), msgPool::duplicated(_("Uid")), ERROR_DIALOG);
@@ -1160,20 +1151,20 @@ class Step_Migrate extends setup_step
     }
 
     /* Get current base attributes */
-    $ldap->cd($cv['base']);
+    $ldap->cd($config->current['BASE']);
 
-    $people_ou = trim($cv['peopleou']);
+    $people_ou = trim(get_ou('userRDN'));
     if (!empty($people_ou)) {
-      $people_ou = trim($people_ou).",";
+      $people_ou .= ",";
     }
 
-    if ($cv['peopledn'] == "cn") {
-      $dn = "cn=System Administrator-".$uid.",".$people_ou.$cv['base'];
+    if ($config->get_cfg_value('accountPrimaryAttribute') == 'cn') {
+      $dn = "cn=System Administrator-".$uid.",".$people_ou.$config->current['BASE'];
     } else {
-      $dn = "uid=".$uid.",".$people_ou.$cv['base'];
+      $dn = "uid=".$uid.",".$people_ou.$config->current['BASE'];
     }
 
-    $hash = passwordMethod::make_hash($pw2, $cv['encryption']);
+    $hash = passwordMethod::make_hash($pw2, $config->get_cfg_value('passwordDefaultHash', 'ssha'));
 
     $new_user = array();
 
@@ -1184,7 +1175,7 @@ class Step_Migrate extends setup_step
     $new_user['uid']          = $uid;
     $new_user['userPassword'] = $hash;
 
-    $ldap->cd($cv['base']);
+    $ldap->cd($config->current['BASE']);
 
     $ldap->cat($dn, array("dn"));
     if ($ldap->count()) {
@@ -1210,10 +1201,9 @@ class Step_Migrate extends setup_step
 
   function migrate_outside_groups($perform = FALSE)
   {
-    /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
-    $ldap->cd($cv['base']);
+    global $config;
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
 
     /* Check if there was a destination department posted */
     if (isset($_POST['move_group_to'])) {
@@ -1253,10 +1243,9 @@ class Step_Migrate extends setup_step
 
   function migrate_outside_users($perform = FALSE)
   {
-    /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
-    $ldap->cd($cv['base']);
+    global $config;
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
 
     /* Check if there was a destination department posted */
     if (isset($_POST['move_user_to'])) {
@@ -1295,6 +1284,7 @@ class Step_Migrate extends setup_step
 
   function execute()
   {
+    global $config;
     /* Initialise checks if this is the first call */
     if (!$this->checks_initialised || isset($_POST['reload'])) {
       $this->initialize_checks();
@@ -1821,12 +1811,11 @@ class Step_Migrate extends setup_step
    */
   function checkBase($just_check = TRUE)
   {
-    /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
+    global $config;
+    $ldap = $config->get_ldap_link();
 
     /* Check if root object exists */
-    $ldap->cd($cv['base']);
+    $ldap->cd($config->current['BASE']);
     $ldap->set_size_limit(1);
     $res = $ldap->search("(objectClass=*)");
     $ldap->set_size_limit(0);
@@ -1846,8 +1835,8 @@ class Step_Migrate extends setup_step
       } else {
 
         /* Add root object */
-        $ldap->cd($cv['base']);
-        $res = $ldap->create_missing_trees($cv['base']);
+        $ldap->cd($config->current['BASE']);
+        $res = $ldap->create_missing_trees($config->current['BASE']);
 
         /* If adding failed, tell the user */
         if (!$res) {
@@ -1872,13 +1861,12 @@ class Step_Migrate extends setup_step
    */
   function checkBaseOC($just_check = TRUE)
   {
-    /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
+    global $config;
+    $ldap = $config->get_ldap_link();
 
     /* Check if root object exists */
-    $ldap->cd($cv['base']);
-    $ldap->cat($cv['base']);
+    $ldap->cd($config->current['BASE']);
+    $ldap->cat($config->current['BASE']);
     if (!$ldap->count()) {
       $this->checks['rootOC']['STATUS']     = FALSE;
       $this->checks['rootOC']['STATUS_MSG'] = _("LDAP query failed");
@@ -1905,13 +1893,6 @@ class Step_Migrate extends setup_step
             "&nbsp;"._("Please check your installation.");
           return;
         }
-
-        /* Create a minimal config object for objectType infos */
-        global $config, $plist;
-        $config = new config("");
-        load_all_classes();
-        $plist  = new pluglist($config, $ui);
-        $config->loadPlist($plist);
 
         /* Try to detect base class type, e.g. is it a dcObject */
         $dep_types  = departmentManagement::getDepartmentTypes();
@@ -1940,14 +1921,14 @@ class Step_Migrate extends setup_step
         /* Create 'current' and 'target' object properties, to be able to display
          *  a set of modifications required to create a valid FusionDirectory department.
          */
-        $str = "dn: ".$cv['base']."\n";
+        $str = "dn: ".$config->current['BASE']."\n";
         for ($i = 0; $i < $attrs['objectClass']['count']; $i++) {
           $str .= "objectClass: ".$attrs['objectClass'][$i]."\n";
         }
         $this->rootOC_details['current'] = $str;
 
         /* Create target infos */
-        $str = "dn: ".$cv['base']."\n";
+        $str = "dn: ".$config->current['BASE']."\n";
         for ($i = 0; $i < $attrs['objectClass']['count']; $i++) {
           $str .= "objectClass: ".$attrs['objectClass'][$i]."\n";
           $mods['objectClass'][] = $attrs['objectClass'][$i];
@@ -1990,11 +1971,11 @@ class Step_Migrate extends setup_step
       } else {
 
         /* Add root object */
-        $ldap->cd($cv['base']);
+        $ldap->cd($config->current['BASE']);
         if (isset($this->rootOC_details['mods'])) {
           $res  = $ldap->modify($this->rootOC_details['mods']);
           if (!$res) {
-            msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $cv['base'], LDAP_MOD, get_class()), LDAP_ERROR);
+            msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $config->current['BASE'], LDAP_MOD, get_class()), LDAP_ERROR);
           }
           $this->checkBaseOC();
           $this->check_administrativeAccount();
@@ -2040,8 +2021,8 @@ class Step_Migrate extends setup_step
 
   function get_user_list($class = 'gosaAccount')
   {
-    /* Establish ldap connection */
-    $ldap = $this->get_ldap_link();
+    global $config;
+    $ldap = $config->get_ldap_link();
     $ldap->search("(objectClass=$class)", array("dn"));
 
     $tmp = array();
@@ -2053,20 +2034,20 @@ class Step_Migrate extends setup_step
 
   function get_all_people_ous()
   {
-    return $this->get_all_ous('peopleou');
+    return $this->get_all_ous('userRDN');
   }
 
   function get_all_group_ous()
   {
-    return $this->get_all_ous('groupou');
+    return $this->get_all_ous('groupRDN');
   }
 
-  function get_all_ous($cv_key)
+  function get_all_ous($ou_name)
   {
-    /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
-    $ou   = trim($cv[$cv_key]);
+    global $config;
+    $ldap = $config->get_ldap_link();
+    $ou   = trim(get_ou($ou_name));
+    $ou   = preg_replace('/,$/', '', $ou);
 
     /************
      * If ou is NOT empty
@@ -2075,7 +2056,7 @@ class Step_Migrate extends setup_step
     if (!empty($ou)) {
       $ldap->search("($ou)", array('dn'));
       if ($ldap->count() == 0 ) {
-        $ldap->create_missing_trees($ou.$cv['base']);
+        $ldap->create_missing_trees($ou.','.$config->current['BASE']);
       }
       $ldap->search("($ou)", array('dn'));
       $tmp = array();
@@ -2089,12 +2070,12 @@ class Step_Migrate extends setup_step
        * If ou is empty
        * Get all valid gosaDepartments
        ************/
-      $ldap->cd($cv['base']);
+      $ldap->cd($config->current['BASE']);
       $tmp = array();
       $ldap->search('(&(objectClass=gosaDepartment)(ou=*))', array('dn'));
-      $tmp[base64_encode($cv['base'])] = $ldap->fix($cv['base']);
+      $tmp[base64_encode($config->current['BASE'])] = $ldap->fix($config->current['BASE']);
       while ($attrs = $ldap->fetch()) {
-        $tmp[base64_encode($attrs['dn'])] = $ldap->fix($attrs['dn']);;
+        $tmp[base64_encode($attrs['dn'])] = $ldap->fix($attrs['dn']);
       }
     }
     return $tmp;
@@ -2103,8 +2084,8 @@ class Step_Migrate extends setup_step
 
   function move($source, $destination)
   {
-    /* Establish ldap connection */
-    $ldap = $this->get_ldap_link();
+    global $config;
+    $ldap = $config->get_ldap_link();
 
      /* Update object references in gosaGroupOfNames */
     $ogs_to_fix = array();
@@ -2181,10 +2162,9 @@ class Step_Migrate extends setup_step
    */
   function check_usb_devices ()
   {
-    /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
-    $ldap->cd($cv['base']);
+    global $config;
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
     $res = $ldap->search("(&(|(objectClass=posixAccount)(objectClass=posixGroup))(gotoHotplugDevice=*))",
         array("cn","gotoHotplugDevice"));
 
@@ -2270,9 +2250,8 @@ class Step_Migrate extends setup_step
    */
   function migrate_usb_devices ()
   {
-    /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
+    global $config;
+    $ldap = $config->get_ldap_link();
 
     /* Walk through migrateable devices and initiate migration for all
         devices that are checked (DETAILS==TRUE)
@@ -2283,7 +2262,7 @@ class Step_Migrate extends setup_step
         /* Get source object and verify that the specified device is a
             member attribute of it.
          */
-        $ldap->cd($cv['base']);
+        $ldap->cd($config->current['BASE']);
         $ldap->cat($device['DN']);
         $attrs = $ldap->fetch();
         if (in_array($device['OLD_DEVICE'], $attrs['gotoHotplugDevice'])) {
@@ -2297,7 +2276,7 @@ class Step_Migrate extends setup_step
           $new_attr['gotoHotplugDevice'] = "$desc|$serial|$vendor|$product";
 
           /* Add new object */
-          $ldap->cd($cv['base']);
+          $ldap->cd($config->current['BASE']);
           $ldap->create_missing_trees(preg_replace("/^[^,]+,/", "", $newdn));
           $ldap->cd($newdn);
           $ldap->add($new_attr);
@@ -2346,19 +2325,12 @@ class Step_Migrate extends setup_step
    */
   function check_services()
   {
-    /* Establish ldap connection */
-    $cv     = $this->parent->captured_values;
-    $ldap_l = new LDAP(
-      $cv['admin'], $cv['password'],
-      $cv['connection'], FALSE,
-      $cv['tls']
-    );
-
-    $ldap = new ldapMultiplexer($ldap_l);
+    global $config;
+    $ldap = $config->get_ldap_link();
     $this->service = array();
 
     /* Check for Ldap services that must be migrated */
-    $ldap->cd($cv['base']);
+    $ldap->cd($config->current['BASE']);
     $res = $ldap->search('(objectClass=goLdapServer)');
 
     /* Check if we were able to query the ldap server */
@@ -2414,8 +2386,8 @@ class Step_Migrate extends setup_step
    */
   function migrate_services()
   {
-    /* Establish ldap connection */
-    $ldap = $this->get_ldap_link();
+    global $config;
+    $ldap = $config->get_ldap_link();
 
     /* Handle each service */
     foreach ($this->service as $key => $service) {
@@ -2467,12 +2439,11 @@ class Step_Migrate extends setup_step
    */
   function check_menus()
   {
-    /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
+    global $config;
+    $ldap = $config->get_ldap_link();
 
     /* First detect all release names */
-    $ldap->cd($cv['base']);
+    $ldap->cd($config->current['BASE']);
     $res = $ldap->search("(&(objectClass=organizational)(objectClass=FAIbranch))", array("ou","objectClass"));
 
     /* Check if we were able to query the ldap server */
@@ -2488,7 +2459,7 @@ class Step_Migrate extends setup_step
      */
     $amap = array();
     $todo = array();
-    $ldap->cd($cv['base']);
+    $ldap->cd($config->current['BASE']);
     $ldap->search("(objectClass=gosaApplication)", array("cn", "gosaApplicationParameter"));
     while ($info = $ldap->fetch()) {
       if (isset($info['gosaApplicationParameter']['count'])) {
@@ -2505,7 +2476,7 @@ class Step_Migrate extends setup_step
     }
 
     /* Search for all groups that have an old style application menu configured */
-    $ldap->cd($cv['base']);
+    $ldap->cd($config->current['BASE']);
     $ldap->search("(&(objectClass=gosaApplicationGroup)(objectClass=posixGroup)(FAIrelease=*))",
         array("gosaMemberApplication","gosaApplicationParameter","FAIrelease","objectClass"));
 
@@ -2684,10 +2655,9 @@ class Step_Migrate extends setup_step
    */
   function migrate_menus()
   {
-    /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
-    $ldap->cd($cv['base']);
+    global $config;
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
 
     /* Walk through menus and detect selected menu */
     foreach ($this->menu as $key => $menu) {
@@ -2696,7 +2666,7 @@ class Step_Migrate extends setup_step
         /* Excute all LDAP-ADD actions */
         $success = TRUE;
         foreach ($menu['TODO']['ADD'] as $dn => $data) {
-          $ldap->cd($cv['base']);
+          $ldap->cd($config->current['BASE']);
           if (!$ldap->dn_exists($dn)) {
             $ldap->cd($dn);
             $ldap->add($data);
@@ -2709,7 +2679,7 @@ class Step_Migrate extends setup_step
 
         /* Execute all LDAP-MODIFY actions */
         foreach ($menu['TODO']['MODIFY'] as $dn => $data) {
-          $ldap->cd($cv['base']);
+          $ldap->cd($config->current['BASE']);
           if ($ldap->dn_exists($dn)) {
             $ldap->cd($dn);
             $ldap->modify($data);
@@ -2734,15 +2704,15 @@ class Step_Migrate extends setup_step
 
   function migrate_selected_admin_users()
   {
+    global $config;
+
     /* Updated ui selection */
     $this->migrate_users();
 
-    /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
+    $ldap = $config->get_ldap_link();
 
     /* Get current ACL configuration for the ldap base */
-    $ldap->cat($cv['base']);
+    $ldap->cat($config->current['BASE']);
     $base_attrs   = $ldap->fetch();
     $acl_entries  = array();
     $acl_id       = -1;
@@ -2777,13 +2747,13 @@ class Step_Migrate extends setup_step
     if (count($acl_entries)) {
       $new_entry['gosaAclEntry']  = $acl_entries;
       $new_entry['objectClass']   = $ocs;
-      $ldap->cd($cv['base']);
+      $ldap->cd($config->current['BASE']);
       $ldap->modify($new_entry);
       if (!$ldap->success()) {
         $this->checks['acls']['TITLE']      = _("Checking for super administrator");
         $this->checks['acls']['STATUS']     = FALSE;
         $this->checks['acls']['STATUS_MSG'] = _("Failed");
-        $this->checks['acls']['ERROR_MSG']  = "<br>".msgPool::ldaperror($cv['base'], $ldap->get_error(), LDAP_MOD);
+        $this->checks['acls']['ERROR_MSG']  = "<br>".msgPool::ldaperror($config->current['BASE'], $ldap->get_error(), LDAP_MOD);
       } else {
         $this->check_administrativeAccount();
       }
@@ -2791,14 +2761,13 @@ class Step_Migrate extends setup_step
   }
 
 
+  /* Collect a list of available FusionDirectory users and groups */
   function migrate_users()
   {
-    /* Collect a list of available FusionDirectory users and groups */
+    global $config;
+    $ldap = $config->get_ldap_link();
 
-    /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
-    $ldap->cd($cv['base']);
+    $ldap->cd($config->current['BASE']);
 
     $users = array();
     $ldap->search("(&(objectClass=gosaAccount)(objectClass=person)".
