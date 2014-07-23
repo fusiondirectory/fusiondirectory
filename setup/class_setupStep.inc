@@ -19,6 +19,147 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+class setupStep extends simplePlugin
+{
+  protected $s_title      = "Still undefined";
+  protected $s_title_long = "Still undefined";
+  protected $s_info       = "Still undefined";
+  var $is_active    = FALSE;
+  var $is_enabled   = FALSE;
+  var $is_completed = FALSE;
+
+  var $header_image = "images/setup/user.png";
+
+  static function getAttributesInfo()
+  {
+    return array();
+  }
+
+  function __construct()
+  {
+    global $config;
+    parent::__construct($config);
+    $this->update_strings();
+  }
+
+  function update_strings()
+  {
+    die('abstract method');
+  }
+
+  function get_title()
+  {
+    return $this->s_title;
+  }
+
+  function get_long_title()
+  {
+    return $this->s_title_long;
+  }
+
+  function get_small_info()
+  {
+    return $this->s_info;
+  }
+
+  function is_active()
+  {
+    return $this->is_active;
+  }
+
+  function is_enabled()
+  {
+    return $this->is_enabled;
+  }
+
+  function is_completed()
+  {
+    return $this->is_completed;
+  }
+
+  function set_active($value = TRUE)
+  {
+    $this->is_active = ($value == TRUE);
+  }
+
+  function set_enabled($value = TRUE)
+  {
+    $this->is_enabled = ($value == TRUE);
+  }
+
+  function set_completed($value = TRUE)
+  {
+    $this->is_completed = ($value == TRUE);
+  }
+
+  /* Return attributes handled by this setup step */
+  function get_attributes()
+  {
+    $tmp = array();
+    foreach (array_keys($this->attributesAccess) as $attr) {
+      $tmp[$attr] = $this->$attr;
+    }
+    return $tmp;
+  }
+
+  /* bypass acl system as there is no user login */
+  function acl_is_writeable($attribute, $skip_write = FALSE)
+  {
+    return TRUE;
+  }
+  function acl_is_readable($attribute)
+  {
+    return TRUE;
+  }
+  function acl_is_createable($base = "")
+  {
+    return TRUE;
+  }
+  function acl_is_removeable($base = "")
+  {
+    return TRUE;
+  }
+  function acl_is_moveable($base = "")
+  {
+    return TRUE;
+  }
+  function getacl($attribute, $skip_write = FALSE)
+  {
+    return 'cmdrw';
+  }
+
+  /* bypass LDAP loading */
+  protected function loadAttributes()
+  {
+    foreach ($this->attributesInfo as &$sectionInfo) {
+      foreach ($sectionInfo['attrs'] as $name => &$attr) {
+        $attr->setParent($this);
+      }
+      unset($attr);
+    }
+    unset($sectionInfo);
+
+    $this->updateAttributesValues();
+  }
+
+  /* Establish ldap connection */
+  function get_ldap_link()
+  {
+    $cv = $this->parent->captured_values;
+    $ldap_l = new LDAP(
+      $cv['admin'],
+      $cv['password'],
+      $cv['connection'],
+      FALSE,
+      $cv['tls']
+    );
+
+    $ldap = new ldapMultiplexer($ldap_l);
+    $ldap->cd($cv['base']);
+    return $ldap;
+  }
+}
+
 class setup_step extends plugin
 {
   var $s_title      = "Still undefined";
@@ -100,16 +241,6 @@ class setup_step extends plugin
       $tmp[$attr] = $this->$attr;
     }
     return $tmp;
-  }
-
-  function print_header()
-  {
-    $image    = get_template_path($this->header_image);
-    $display  = "<div style='padding:3px;'>";
-    $display  .= "  <p class=\"center\" style=\"margin:0px 0px 0px 5px;padding:0px;font-size:24px;font-weight:bold;\"><img class=\"center\" src=\"$image\" align=\"middle\" alt=\"*\">&nbsp;".$this->s_title_long."</p>\n";
-    $display  .= "</div>\n";
-
-    return $display;
   }
 
   function get_ldap_link()

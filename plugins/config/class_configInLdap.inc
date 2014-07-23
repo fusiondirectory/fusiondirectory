@@ -56,7 +56,7 @@ class configInLdap extends simplePlugin
     return array(
       "plShortName"     => _("Configuration"),
       "plDescription"   => _("FusionDirectory configuration"),
-      "plIcon"          => "/fusiondirectory/geticon.php?context=categories&icon=settings&size=48",
+      "plIcon"          => "geticon.php?context=categories&icon=settings&size=48",
       "plObjectType"    => array("configuration" => array(
         "name"    => _("FusionDirectory configuration"),
         "filter"  => "objectClass=fusionDirectoryConf"
@@ -70,6 +70,7 @@ class configInLdap extends simplePlugin
 
   static function getAttributesInfo ()
   {
+    global $config;
     $plugins = array();
     if (session::global_is_set('plist')) {
       $plugins = array_keys(session::global_get('plist')->info);
@@ -103,12 +104,12 @@ class configInLdap extends simplePlugin
         'attrs' => array(
           new BooleanAttribute (
             _('rfc2307bis'),
-            _('Enables rfc2307bis style groups. You can use member attributes instead of memberUid in this case.'),
+            _('Enables rfc2307bis style groups. You can use "member" attributes instead of "memberUid" with this schema.'),
             'fdRfc2307bis', FALSE,
             FALSE
           ),
           new BooleanAttribute (
-            _('schemaCheck'),
+            _('Schema validation'),
             _('Enables schema checking during login.'),
             'fdSchemaCheck', FALSE,
             FALSE
@@ -228,11 +229,13 @@ class configInLdap extends simplePlugin
         'attrs' => array(
           new BooleanAttribute (
             _('Enable snapshots'), _('This enables you to save certain states of entries and restore them later on.'),
-            'fdEnableSnapshots'
+            'fdEnableSnapshots', FALSE,
+            TRUE
           ),
           new StringAttribute (
             _('Snapshot base'), _('The base where snapshots should be stored inside of the LDAP.'),
-            'fdSnapshotBase'
+            'fdSnapshotBase', FALSE,
+            'ou=snapshots,'.$config->current['BASE']
           ),
         )
       ),

@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2007  Fabian Hickert
@@ -22,7 +21,6 @@
 
 class Step_Finish extends setup_step
 {
-  var $cfg_file_written = FALSE;
   var $header_image     = "images/setup/server.png";
 
   function __construct()
@@ -42,8 +40,9 @@ class Step_Finish extends setup_step
   function get_conf_data()
   {
     $smarty = get_smarty();
-    $smarty->assign("cv",               xmlentities($this->parent->captured_values));
-    $smarty->assign("config_checksum",  md5(file_get_contents(CONFIG_TEMPLATE_DIR.CONFIG_FILE)));
+    $smarty->assign("cv",                       xmlentities($this->parent->captured_values));
+    $smarty->assign("config_checksum",          md5(file_get_contents(CONFIG_TEMPLATE_DIR.CONFIG_FILE)));
+    $smarty->assign("templateCompileDirectory", SPOOL_DIR);
     return $smarty->fetch(CONFIG_TEMPLATE_DIR.CONFIG_FILE);
   }
 
@@ -79,15 +78,7 @@ class Step_Finish extends setup_step
   {
     global $BASE_DIR;
 
-    if (!function_exists("posix_getgrgid")) {
-      $webgroup = "";
-    } else {
-      $info     = posix_getgrgid(posix_getgid());
-      $webgroup = $info['name'];
-    }
-
-    /* Check if there is currently an active fusiondirectory.conf
-     */
+    /* Check if there is currently an active fusiondirectory.conf */
     $exists = file_exists(CONFIG_DIR."/".CONFIG_FILE);
 
     /* Redirect to FusionDirectory login, if :
@@ -118,11 +109,11 @@ class Step_Finish extends setup_step
     $smarty = get_smarty();
     $smarty->assign("err_msg",  $err_msg);
     $smarty->assign("msg2",     sprintf(_("After downloading and placing the file under %s, please make sure that the user the webserver is running with is able to read %s, while other users shouldn't."), CONFIG_DIR, CONFIG_FILE));
-    $smarty->assign("cv",       $this->parent->captured_values);
+
+    //~ Changer ça pour du sp.
 
     return $smarty->fetch("$BASE_DIR/setup/setup_finish.tpl");
   }
-
 
   /* check if given file is world readable */
   function is_world_readable($file)
@@ -130,19 +121,6 @@ class Step_Finish extends setup_step
     clearstatcache();
     $p = fileperms($file);
     return (decbin($p & 4) == TRUE);
-  }
-
-
-  function save_object()
-  {
-    if (isset($_POST['step8_posted'])) {
-      /* Get attributes */
-      foreach ($this->attributes as $attr) {
-        if (isset($_POST[$attr])) {
-          $this->$attr = validate($_POST[$attr]);
-        }
-      }
-    }
   }
 }
 

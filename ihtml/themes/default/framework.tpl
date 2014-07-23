@@ -25,31 +25,30 @@
       </div>
     </div>
 
-      <table class="framework">
-        <tbody>
-          <tr>
+    <table class="framework">
+      <tbody>
+        <tr>
+          {if !$hideMenus}
+            <!-- Menu -->
+            <td class="optional" id="menucell">
+              {$menu}
+              <br/>
+            </td>
+          {/if}
 
-            {if !$hideMenus}
-              <!-- Menu -->
-              <td class="optional" id="menucell">
-                {$menu}
-                <br/>
-              </td>
+          <!-- Plugin window -->
+          <td id="maincell">
+            {$msg_dialogs}
+            <div class="plugin_window">
+              {$contents}
+            </div>
+            {if $channel != ""}
+                <input type="hidden" name="_channel_" value="{$channel}"/>
             {/if}
-
-              <!-- Plugin window -->
-              <td id="maincell">
-                {$msg_dialogs}
-                <div class="plugin_window">
-                  {$contents}
-                </div>
-                {if $channel != ""}
-                    <input type="hidden" name="_channel_" value="{$channel}"/>
-                {/if}
-              </td>
-          </tr>
-        </tbody>
-      </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
     {$errors}
     {$focus}
