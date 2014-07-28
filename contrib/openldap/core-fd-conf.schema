@@ -305,7 +305,7 @@ attributetype ( 1.3.6.1.4.1.38414.8.16.4 NAME 'fdDebugLevel'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
   SINGLE-VALUE)
 
-# Snapshot / Undo
+# Snapshots
 
 attributetype ( 1.3.6.1.4.1.38414.8.17.1 NAME 'fdEnableSnapshots'
   DESC 'FusionDirectory - Weither or not to enable snapshots'

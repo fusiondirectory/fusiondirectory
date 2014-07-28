@@ -111,7 +111,7 @@ class SnapshotHandler {
     $objects = array();
     $ldap->cd($base);
     $ldap->ls("(objectClass=gosaSnapshotObject)", $base,
-                      array("gosaSnapshotType", "gosaSnapshotTimestamp", "gosaSnapshotDN", "description"));
+                      array("gosaSnapshotTimestamp", "gosaSnapshotDN", "description"));
     while ($entry = $ldap->fetch()) {
       $chk = str_replace($base, "", $entry['dn']);
       if (preg_match("/,ou=/", $chk)) {
@@ -177,7 +177,7 @@ class SnapshotHandler {
     /* Fetch all objects with  gosaSnapshotDN=$dn */
     $ldap->cd($base);
     $ldap->ls("(&(objectClass=gosaSnapshotObject)(gosaSnapshotDN=".$dn."))", $base,
-        array("gosaSnapshotType","gosaSnapshotTimestamp","gosaSnapshotDN","description"));
+        array("gosaSnapshotTimestamp","gosaSnapshotDN","description"));
 
     /* Put results into a list and add description if missing */
     $objects = array();
@@ -315,7 +315,7 @@ class SnapshotHandler {
     /* Fetch all objects with  gosaSnapshotDN=$dn */
     $ldap->cd($new_base);
     $ldap->ls("(&(objectClass=gosaSnapshotObject)(gosaSnapshotDN=".$dn."))", $new_base,
-        array("gosaSnapshotType","gosaSnapshotTimestamp","gosaSnapshotDN","description"));
+        array("gosaSnapshotTimestamp","gosaSnapshotDN","description"));
 
     /* Put results into a list and add description if missing */
     while ($entry = $ldap->fetch()) {
@@ -357,7 +357,7 @@ class SnapshotHandler {
     /* Fetch all objects and check if they do not exist anymore */
     $tmp  = array();
     $ldap->cd($new_base);
-    $ldap->ls("(objectClass=gosaSnapshotObject)", $new_base, array("gosaSnapshotType","gosaSnapshotTimestamp","gosaSnapshotDN","description"));
+    $ldap->ls("(objectClass=gosaSnapshotObject)", $new_base, array("gosaSnapshotTimestamp","gosaSnapshotDN","description"));
     while ($entry = $ldap->fetch()) {
 
       $chk = str_replace($new_base, "", $entry['dn']);

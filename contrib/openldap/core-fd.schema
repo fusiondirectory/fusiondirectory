@@ -51,7 +51,7 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.12.35 NAME 'gosaAclEntry'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.36 NAME 'gosaSnapshotType'
-  DESC 'Takes either undo or snapshot'
+  DESC 'DEPRECATED'
   EQUALITY caseIgnoreMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE)
 
@@ -135,7 +135,7 @@ objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.18 NAME 'gosaAcl'
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.19 NAME 'gosaSnapshotObject'
   DESC 'Container object for undo and snapshot data (v2.6.1)' SUP top STRUCTURAL
-  MUST ( gosaSnapshotType $ gosaSnapshotTimestamp $ gosaSnapshotDN $ gosaSnapshotData )
-  MAY  ( description ) )
+  MUST ( gosaSnapshotTimestamp $ gosaSnapshotDN $ gosaSnapshotData )
+  MAY  ( gosaSnapshotType $ description ) )
 
 
