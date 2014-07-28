@@ -71,12 +71,6 @@ class setup
       exit();
     }
 
-    /* display step error msgs */
-    $msgs = $this->o_steps[$this->i_current]->check();
-    foreach ($msgs as $msg) {
-      msg_dialog::display(_("Setup error"), $msg, ERROR_DIALOG);
-    }
-
     $smarty = get_smarty();
     $smarty->assign('usePrototype', 'true');
     $this->o_steps[$this->i_previous]->set_active(FALSE);
@@ -111,6 +105,12 @@ class setup
       if (preg_match("/^last_(x|y)/", $name)) {
         $_POST['last'] = TRUE;
       }
+    }
+
+    /* display step error msgs */
+    $msgs = $this->o_steps[$this->i_current]->check();
+    foreach ($msgs as $msg) {
+      msg_dialog::display(_("Setup error"), $msg, ERROR_DIALOG);
     }
 
     /* Check if step was selected */
