@@ -224,7 +224,7 @@ class configInLdap extends simplePlugin
         )
       ),
       'snapshots' => array(
-        'name'  => _('Snapshots / Undo'),
+        'name'  => _('Snapshots'),
         'attrs' => array(
           new BooleanAttribute (
             _('Enable snapshots'), _('This enables you to save certain states of entries and restore them later on.'),
