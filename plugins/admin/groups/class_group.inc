@@ -37,7 +37,7 @@ class group extends simplePlugin
         'name'        => _('Group'),
         'ou'          => get_ou('groupRDN'),
         'filter'      => 'objectClass=posixGroup',
-        'icon'        => 'plugins/groups/images/iconMini.png',
+        'icon'        => 'geticon.php?context=types&icon=user-group&size=16',
         'mainAttr'    => 'cn',
       )),
       'plForeignKeys'  => array(
@@ -53,7 +53,6 @@ class group extends simplePlugin
     return array(
       'main' => array(
         'name'  => _('Properties'),
-        'icon'  => 'images/rightarrow.png',
         'attrs' => array(
           new BaseSelectorAttribute(get_ou('groupRDN')),
           new HostNameAttribute(
@@ -87,7 +86,7 @@ class group extends simplePlugin
       ),
       'system_trust' => array(
         'name'  => _('System trust'),
-        'icon'  => 'images/lists/locked.png',
+        'icon'  => 'geticon.php?context=status&icon=locked&size=16',
         'attrs' => array(
           new SelectAttribute(
             _('Trust mode'), _('Type of authorization for those hosts'),

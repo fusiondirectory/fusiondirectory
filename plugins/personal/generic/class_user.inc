@@ -146,7 +146,7 @@ class user extends simplePlugin
         'name'        => _('User'),
         'filter'      => 'objectClass=gosaAccount',
         'mainAttr'    => 'cn',
-        'icon'        => 'plugins/users/images/iconMini.png',
+        'icon'        => 'geticon.php?context=types&icon=user&size=16',
         'ou'          => get_ou('userRDN'),
       )),
       'plForeignKeys'  => array(
@@ -164,7 +164,7 @@ class user extends simplePlugin
     return array(
       'perso' => array(
         'name'  => _('Personal information'),
-        'icon'  => 'plugins/users/images/iconMini.png',
+        'icon'  => 'geticon.php?context=types&icon=user&size=16',
         'attrs' => array(
           new HiddenAttribute('cn'),
           new StringAttribute (
@@ -234,7 +234,7 @@ class user extends simplePlugin
       ),
       'contact' => array(
         'name'  => _('Contact information'),
-        'icon'  => 'images/mailto.png',
+        'icon'  => 'geticon.php?context=types&icon=contact&size=16',
         'attrs' => array(
           new StringAttribute (
             _('Location'), _('Location'),
@@ -272,7 +272,7 @@ class user extends simplePlugin
       ),
       'organization' => array(
         'name'  => _('Organizational information'),
-        'icon'  => 'images/select_department.png',
+        'icon'  => 'geticon.php?context=places&icon=folder&size=16',
         'attrs' => array(
           new StringAttribute (
             _('Organization'), _('Organization'),
@@ -302,7 +302,7 @@ class user extends simplePlugin
       ),
       'homecontact' => array(
         'name'  => _('Personal contact information'),
-        'icon'  => 'plugins/users/images/house.png',
+        'icon'  => 'geticon.php?context=types&icon=contact&size=16',
         'attrs' => array(
           new TextAreaAttribute (
             _('Home address'), _('Home postal address'),

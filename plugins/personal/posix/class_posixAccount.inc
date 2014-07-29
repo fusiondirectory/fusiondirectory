@@ -76,7 +76,7 @@ class posixAccount extends simplePlugin
     return array(
       'main' => array(
         'name'  => _('Generic'),
-        'icon'  => 'images/rightarrow.png',
+        'icon'  => 'geticon.php?context=applications&icon=os-linux&size=16',
         'attrs' => array(
           new PathAttribute(
             _('Home directory'), _('The path to the home directory of this user'),

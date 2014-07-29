@@ -149,7 +149,7 @@ class ogroup extends simplePlugin
         'name'        => _('Object group'),
         'ou'          => get_ou('ogroupRDN'),
         'filter'      => 'objectClass=gosaGroupOfNames',
-        'icon'        => 'plugins/ogroups/images/iconMini.png',
+        'icon'        => 'geticon.php?context=types&icon=resource-group&size=16',
         'tabClass'    => 'ogrouptabs',
       )),
       'plForeignKeys'  => array(
@@ -173,7 +173,6 @@ class ogroup extends simplePlugin
     return array(
       'main' => array(
         'name'  => _('Properties'),
-        'icon'  => 'images/rightarrow.png',
         'attrs' => array(
           new BaseSelectorAttribute(get_ou('ogroupRDN')),
           new HostNameAttribute(
@@ -199,7 +198,7 @@ class ogroup extends simplePlugin
       ),
       'system_trust' => array(
         'name'  => _('System trust'),
-        'icon'  => 'images/lists/locked.png',
+        'icon'  => 'geticon.php?context=status&icon=locked&size=16',
         'attrs' => array(
           new SelectAttribute(
             _('Trust mode'), _('Type of authorization for those hosts'),

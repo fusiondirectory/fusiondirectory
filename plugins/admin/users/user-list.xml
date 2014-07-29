@@ -187,7 +187,7 @@
     <action>
       <name>newfromtpl</name>
       <type>entry</type>
-      <image>images/lists/new.png</image>
+      <image>geticon.php?context=action&amp;icon=document-new&amp;size=16</image>
       <objectclass>fdTemplate</objectclass>
       <label>New user from template</label>
     </action>
@@ -201,7 +201,7 @@
     <action>
       <name>edit</name>
       <type>entry</type>
-      <image>images/lists/edit.png</image>
+      <image>geticon.php?context=actions&amp;icon=document-edit&amp;size=16</image>
       <label>Edit user</label>
     </action>
 
@@ -232,7 +232,7 @@
     <action>
       <name>remove</name>
       <type>entry</type>
-      <image>images/lists/trash.png</image>
+      <image>geticon.php?context=actions&amp;icon=edit-delete&amp;size=16</image>
       <acl>user/user[d]</acl>
       <label>Remove user</label>
     </action>
