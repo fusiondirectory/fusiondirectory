@@ -46,9 +46,9 @@ array_to_ldif               - Create ldif output of an ldap result array
 
 class Step_Migrate extends setup_step
 {
+  var $header_image   = "geticon.php?context=applications&icon=utilities-system-monitor&size=48";
   var $languages      = array();
   var $attributes     = array('valid_admin');
-  var $header_image   = 'geticon.php?context=applications&icon=utilities-system-monitor&size=48';
   var $checks         = array();
 
   /* Department migration attributes */

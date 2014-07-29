@@ -28,7 +28,7 @@ class setupStep extends simplePlugin
   var $is_enabled   = FALSE;
   var $is_completed = FALSE;
 
-  var $header_image = "images/setup/user.png";
+  var $header_image = "";
 
   static function getAttributesInfo()
   {
