@@ -28,7 +28,7 @@ class setup
   var $i_steps;               // Number of setup steps
   var $i_current        = 0;  // Current step
   var $i_previous       = 0;  // Previous setup step;
-  var $i_config         = 5;
+  var $i_config         = 4;
   var $o_steps          = array();
   var $captured_values  = array();
 
@@ -39,7 +39,6 @@ class setup
       new Step_Language(),
       new Step_Checks(),
       new Step_Ldap(),
-      new Step_Schema(),
       new Step_Config_before_init(),
       new Step_Migrate(),
       new Step_Finish(),

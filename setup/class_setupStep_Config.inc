@@ -52,9 +52,7 @@ class Step_Config extends configInLdap
     global $config;
     parent::__construct($config, CONFIGRDN.$config->current['BASE']);
 
-    $this->fdRfc2307bis   = $cv['rfc2307bis'];
     $this->fdLanguage     = $cv['lang_selected'];
-    $this->fdSchemaCheck  = $cv['enable_schema_check'];
   }
 
   function update_strings()
