@@ -21,13 +21,12 @@
 
 class Step_Finish extends setup_step
 {
-  var $header_image     = "images/setup/server.png";
+  var $header_image = "geticon.php?context=devices&icon=server&size=48";
 
   function __construct()
   {
     $this->update_strings();
   }
-
 
   function update_strings()
   {
@@ -35,7 +34,6 @@ class Step_Finish extends setup_step
     $this->s_info       = _("Write configuration file");
     $this->s_title_long = _("Finish - write the configuration file");
   }
-
 
   function get_conf_data()
   {

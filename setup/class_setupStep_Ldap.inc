@@ -21,7 +21,7 @@
 
 class Step_Ldap extends setupStep
 {
-  var $header_image = "images/setup/ldap.png";
+  var $header_image = "geticon.php?context=places&icon=network-server&size=48";
 
   var $connect_id = FALSE;
   var $bind_id    = FALSE;

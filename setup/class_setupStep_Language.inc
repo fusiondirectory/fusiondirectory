@@ -21,7 +21,7 @@
 
 class Step_Language extends setupStep
 {
-  var $header_image = "images/setup/locale.png";
+  var $header_image = "geticon.php?context=applications&icon=config-language&size=48";
 
   static function getAttributesInfo()
   {
