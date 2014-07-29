@@ -1248,6 +1248,32 @@ sub migrate_acls {
   }
 }
 
+# List LDAP attributes which have been deprecateds
+sub list_deprecated {
+  # initiate the LDAP connexion
+  my %hash_ldap_param = get_ldap_connexion();
+
+  # LDAP's connection's parameters
+  my $base = $hash_ldap_param{base};
+  my $ldap = $hash_ldap_param{ldap};
+
+  my $schema_info = $ldap->schema();
+  print "Deprecated attributes:\n";
+  my @attributes = $schema_info->all_attributes();
+  foreach my $attribute (@attributes) {
+    if ($attribute->{'obsolete'}) {
+      printf(" %-30s\t%-60s\t- %s\n", $attribute->{'name'}, '('.$attribute->{'desc'}.')', $attribute->{'oid'});
+    }
+  }
+  print "Deprecated objectClasses:\n";
+  my @ocs = $schema_info->all_objectclasses();
+  foreach my $oc (@ocs) {
+    if ($oc->{'obsolete'}) {
+      printf(" %-30s\t%-60s\t- %s\n", $oc->{'name'}, '('.$oc->{'desc'}.')', $oc->{'oid'});
+    }
+  }
+}
+
 # function that set useful vars based on user specified folders and files
 sub set_vars {
   $fd_config        = $vars{fd_config_dir}."/".$vars{config_file};
@@ -1292,6 +1318,7 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--encrypt-passwords"}    = ["Encrypt passwords in fusiondirectory.conf",     \&encrypt_passwords];
   $commands{"--write-vars"}           = ["Choose FusionDirectory Directories",            \&write_vars];
   $commands{"--list-vars"}            = ["List possible vars to give --set",              \&list_vars];
+  $commands{"--list-deprecated"}      = ["List deprecated attributes and objectclasses",  \&list_deprecated];
   $commands{"--set-VAR=value"}        = ["Set the variable VAR to value see --list-vars", \&die]; # Won't be called because it contains uppercase
 
   my $usage = 0;
