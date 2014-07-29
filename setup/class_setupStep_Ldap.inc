@@ -79,15 +79,6 @@ class Step_Ldap extends setupStep
           ),
         )
       ),
-      'schema' => array(
-        'name'      => _('Schema settings'),
-        'attrs'     => array(
-          new BooleanAttribute(
-            _('Use rfc2307bis compliant groups'), _('Enables rfc2307bis style groups. You can use "member" attributes instead of "memberUid" with this schema.'),
-            'rfc2307bis', FALSE
-          ),
-        )
-      ),
       'status' => array(
         'name'      => _('Status'),
         'attrs'     => array(
@@ -183,6 +174,26 @@ class Step_Ldap extends setupStep
         $str = sprintf(_("Bind as user '%s' to server '%s' succeeded!"), $this->admin, $this->connection);
         return "<div style='color:green;'>".$str."</div>";
       }
+    }
+  }
+
+  function check()
+  {
+    $error = parent::check();
+    if (!empty($error)) {
+      return $error;
+    } elseif ($this->is_completed) {
+      $checked  = check_schema($this->parent->captured_values, "NO RFC CHECK");
+      $error    = array();
+      foreach ($this->checked as $check) {
+        if (!$check['STATUS']) {
+          $error[] = $check['MSG'];
+        }
+      }
+      if (!empty($error)) {
+        $this->is_completed = FALSE;
+      }
+      return $error;
     }
   }
 }

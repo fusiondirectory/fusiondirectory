@@ -2719,7 +2719,6 @@ function check_schema($cfg, $rfc2307bis = FALSE)
   }
   foreach ($checks as $name => $value) {
     foreach ($value['CLASSES_REQUIRED'] as $class) {
-
       if (!isset($objectclasses[$name])) {
         if ($value['IS_MUST_HAVE']) {
           $checks[$name]['STATUS'] = FALSE;
@@ -2752,7 +2751,7 @@ function check_schema($cfg, $rfc2307bis = FALSE)
   $checks['posixGroup']['INFO']             = "";
 
   /* Depending on selected rfc2307bis mode, we need different schema configurations */
-  if (isset($tmp['posixGroup'])) {
+  if (isset($tmp['posixGroup']) && is_bool($rfc2307bis)) {
     if ($rfc2307bis && isset($tmp['posixGroup']['STRUCTURAL'])) {
       $checks['posixGroup']['STATUS']           = FALSE;
       $checks['posixGroup']['MSG']              = _("You have enabled the rfc2307bis option on the 'ldap setup' step, but your schema    configuration do not support this option.");

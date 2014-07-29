@@ -112,7 +112,7 @@ class configInLdap extends simplePlugin
             _('Schema validation'),
             _('Enables schema checking during login.'),
             'fdSchemaCheck', FALSE,
-            FALSE
+            TRUE
           ),
         )
       ),
