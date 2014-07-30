@@ -185,7 +185,7 @@ class Step_Ldap extends setupStep
     } elseif ($this->is_completed) {
       $checked  = check_schema($this->parent->captured_values, "NO RFC CHECK");
       $error    = array();
-      foreach ($this->checked as $check) {
+      foreach ($checked as $check) {
         if (!$check['STATUS']) {
           $error[] = $check['MSG'];
         }

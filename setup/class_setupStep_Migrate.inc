@@ -362,7 +362,7 @@ class Step_Migrate extends setup_step
     $this->outside_groups = array();
     $this->groups_list = array();;
     while ($attrs = $ldap->fetch()) {
-      $group_db_base = preg_replace("/^[^,]+,".preg_quote($group_ou, '/')."+/i", "", $attrs['dn']);
+      $group_db_base = preg_replace("/^[^,]+,".preg_quote($group_ou, '/')."/i", "", $attrs['dn']);
 
       /* Check if entry is not an addressbook only user
        *  and verify that he is in a valid department
@@ -1049,12 +1049,14 @@ class Step_Migrate extends setup_step
     /* Get collected configuration settings */
     $ldap = $config->get_ldap_link();
 
+    $ldap->cd($config->current['BASE']);
     $ldap->search("(&(objectClass=gosaRole)(gosaAclTemplate=*:all;cmdrw))", array('dn'));
     if ($attrs = $ldap->fetch()) {
       $roledn = $attrs['dn'];
     } else {
       $roledn = 'cn=admin,'.get_ou('aclRoleRDN').$config->current['BASE'];
       if (!$only_ldif) {
+        $ldap->cd($config->current['BASE']);
         $ldap->create_missing_trees(get_ou('aclRoleRDN').$config->current['BASE']);
         $ldap->cd($roledn);
         $attrs_role = array(
@@ -2051,6 +2053,7 @@ class Step_Migrate extends setup_step
      * Get all valid ous, create one if necessary
      ************/
     if (!empty($ou)) {
+      $ldap->cd($config->current['BASE']);
       $ldap->search("($ou)", array('dn'));
       if ($ldap->count() == 0 ) {
         $ldap->create_missing_trees($ou.','.$config->current['BASE']);
