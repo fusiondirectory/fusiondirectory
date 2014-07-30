@@ -30,10 +30,7 @@ require_once("../setup/class_setupStep_Welcome.inc");
 require_once("../setup/class_setupStep_Language.inc");
 require_once("../setup/class_setupStep_Checks.inc");
 require_once("../setup/class_setupStep_Ldap.inc");
-require_once("../setup/class_setupStep_Config1.inc");
-require_once("../setup/class_setupStep_Config2.inc");
-require_once("../setup/class_setupStep_Config3.inc");
-require_once("../setup/class_setupStep_Schema.inc");
+require_once("../setup/class_setupStep_Config.inc");
 require_once("../setup/class_setupStep_Migrate.inc");
 require_once("../setup/class_setupStep_Finish.inc");
 
