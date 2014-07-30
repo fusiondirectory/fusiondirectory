@@ -1154,9 +1154,6 @@ class Step_Migrate extends setup_step
     $ldap->cd($config->current['BASE']);
 
     $people_ou = trim(get_ou('userRDN'));
-    if (!empty($people_ou)) {
-      $people_ou .= ",";
-    }
 
     if ($config->get_cfg_value('accountPrimaryAttribute') == 'cn') {
       $dn = "cn=System Administrator-".$uid.",".$people_ou.$config->current['BASE'];
