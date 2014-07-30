@@ -906,7 +906,8 @@ class PasswordAttribute extends StringAttribute
 class SelectAttribute extends Attribute
 {
   protected $choices;
-  protected $outputs    = NULL;
+  protected $outputs  = NULL;
+  protected $size     = 1;
 
   /*! \brief The constructor of SelectAttribute
    *
@@ -1014,6 +1015,9 @@ class SelectAttribute extends Attribute
     if ($this->disabled || (count($this->choices) == 0)) {
       $display .= 'disabled="disabled" ';
     }
+    if ($this->size > 1) {
+      $display .= 'size="'.$this->size.'" ';
+    }
     if ($this->submitForm) {
       $js       = 'document.mainform.submit();';
       $display  .= 'onChange="javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8').'"';
@@ -1044,6 +1048,11 @@ class SelectAttribute extends Attribute
       }
       $attributes[$this->getLdapName()]['choices'] = array_combine($this->choices, $outputs);
     }
+  }
+
+  function setSize($size)
+  {
+    $this->size = $size;
   }
 }
 
