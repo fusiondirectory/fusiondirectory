@@ -122,7 +122,6 @@ sub ask_user_input {
         scope   => 'base',
         filter  => '(objectClass=*)'
       );
-      $mesg->code && die $mesg->error;
     } while ($mesg->count);
     return $cn;
   }
