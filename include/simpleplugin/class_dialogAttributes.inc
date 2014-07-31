@@ -109,8 +109,6 @@ class SingleUserSelectDialog extends GenericDialog
 class SystemSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'systemSelect';
-  protected $post_cancel = 'add_ws_cancel';
-  protected $post_finish = 'add_ws_finish';
 }
 
 class UserGroupSelectDialog extends GenericSelectDialog
