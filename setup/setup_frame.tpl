@@ -1,5 +1,5 @@
 <!-- Headline -->
-<body>
+<body class="setup">
   {$php_errors}
   <form action="setup.php" name="mainform" id="mainform" method="post" enctype="multipart/form-data">
     <div class="setup_header">

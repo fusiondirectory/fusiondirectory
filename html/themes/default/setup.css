@@ -1,6 +1,15 @@
 /*********
  * Setup
  *********/
+body.setup a.plugtop img {
+height:48px;
+}
+html.ltr body.setup div#header_left .plugtop {
+margin-left:80px;
+}
+html.rtl body.setup div#header_left .plugtop {
+margin-right:80px;
+}
 
 div.setup_menu {
 background-color:#F8F8F8;
@@ -168,4 +177,17 @@ padding-left:25px;
 }
 html.rtl div.step2_warning_text {
 padding-right:25px;
+}
+
+/* On small screens */
+@media (max-width: 640px) {
+  body.setup a.plugtop img {
+  height:32px;
+  }
+  html.ltr body.setup div#header_left .plugtop {
+  margin-left:0px;
+  }
+  html.rtl body.setup div#header_left .plugtop {
+  margin-right:0px;
+  }
 }
