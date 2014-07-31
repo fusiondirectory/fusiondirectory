@@ -122,6 +122,9 @@ sub ask_user_input {
         scope   => 'base',
         filter  => '(objectClass=*)'
       );
+      if (($mesg->code != 0) && ($mesg->code != 32)) {
+        die $mesg->error;
+      }
     } while ($mesg->count);
     return $cn;
   }
@@ -877,6 +880,9 @@ sub branch_exists {
 
   # search for branch
   my $branch_mesg = $ldap->search (base => $branch, filter => '(objectClass=*)', scope => 'base');
+  if ($branch_mesg->code == 32) {
+    return 0;
+  }
   $branch_mesg->code && die $branch_mesg->error;
 
   my @entries = $branch_mesg->entries;
