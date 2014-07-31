@@ -241,60 +241,6 @@ class configInLdap extends simplePlugin
           ),
         )
       ),
-      'miscellaneous' => array(
-        'name'  => _('Miscellaneous'),
-        'class' => array('fullwidth'),
-        'attrs' => array(
-          new OrderedArrayAttribute (
-            new CompositeAttribute (
-              _('Hooks that are called when specific actions happens'),
-              'fdTabHook',
-              array(
-                new SelectAttribute(
-                  _('tab'), _('The tab that this hook concerns'),
-                  'hookTab', TRUE,
-                  $plugins
-                ),
-                new SelectAttribute(
-                  _('mode'), _('When to call this command'),
-                  'hookMode', TRUE,
-                  array('postcreate', 'postremove', 'postmodify',
-                        'precreate', 'preremove', 'premodify', 'check')
-                ),
-                new StringAttribute(
-                  _('cmd'), _('The command that will be called'),
-                  'hookCmd', TRUE
-                )
-              ),
-              '/^([^\\|]+)\\|([^\\|]+)\\|(.*)$/',
-              '%s|%s|%s',
-              '', // acl
-              _('Hooks')
-            ),
-            FALSE, // non-ordered
-            array(),
-            TRUE // edition
-          ),
-          new BooleanAttribute (
-            _('Display hook output'),
-            _('When enabled successful hook execution output is displayed to the user using a dialog.'),
-            'fdDisplayHookOutput'
-          ),
-          new SetAttribute(
-            new StringAttribute (
-              _('Available shells'), _('Available POSIX shells for FD users.'),
-              'fdShells', FALSE
-            ),
-            array('/bin/ash','/bin/bash','/bin/csh','/bin/sh','/bin/ksh',
-                  '/bin/tcsh','/bin/dash','/bin/zsh')
-          ),
-          new BooleanAttribute (
-            _('Show ACL tab on all objects'),
-            _('For very specific ACL rights setting where you might need to give right on a single object.'),
-            'fdAclTabOnObjects'
-          ),
-        )
-      ),
       'people_and_group' => array(
         'name'  => _('People and group storage'),
         'class' => array('critical'),
@@ -417,6 +363,60 @@ class configInLdap extends simplePlugin
               array('Trace',      'LDAP',     'Database', 'Shell',      'POST',
                     'SESSION',      'ACL',      'SI',     'Mail')
             )
+          ),
+        )
+      ),
+      'miscellaneous' => array(
+        'name'  => _('Miscellaneous'),
+        'class' => array('fullwidth'),
+        'attrs' => array(
+          new OrderedArrayAttribute (
+            new CompositeAttribute (
+              _('Hooks that are called when specific actions happens'),
+              'fdTabHook',
+              array(
+                new SelectAttribute(
+                  _('tab'), _('The tab that this hook concerns'),
+                  'hookTab', TRUE,
+                  $plugins
+                ),
+                new SelectAttribute(
+                  _('mode'), _('When to call this command'),
+                  'hookMode', TRUE,
+                  array('postcreate', 'postremove', 'postmodify',
+                        'precreate', 'preremove', 'premodify', 'check')
+                ),
+                new StringAttribute(
+                  _('cmd'), _('The command that will be called'),
+                  'hookCmd', TRUE
+                )
+              ),
+              '/^([^\\|]+)\\|([^\\|]+)\\|(.*)$/',
+              '%s|%s|%s',
+              '', // acl
+              _('Hooks')
+            ),
+            FALSE, // non-ordered
+            array(),
+            TRUE // edition
+          ),
+          new BooleanAttribute (
+            _('Display hook output'),
+            _('When enabled successful hook execution output is displayed to the user using a dialog.'),
+            'fdDisplayHookOutput'
+          ),
+          new SetAttribute(
+            new StringAttribute (
+              _('Available shells'), _('Available POSIX shells for FD users.'),
+              'fdShells', FALSE
+            ),
+            array('/bin/ash','/bin/bash','/bin/csh','/bin/sh','/bin/ksh',
+                  '/bin/tcsh','/bin/dash','/bin/zsh')
+          ),
+          new BooleanAttribute (
+            _('Show ACL tab on all objects'),
+            _('For very specific ACL rights setting where you might need to give right on a single object.'),
+            'fdAclTabOnObjects'
           ),
         )
       ),
