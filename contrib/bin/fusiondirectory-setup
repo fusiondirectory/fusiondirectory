@@ -134,19 +134,11 @@ sub create_role {
     'objectclass'     => [ 'top', 'gosaRole' ],
     'gosaAclTemplate' => "0:$acl"
   );
-  my $role_branch = $ldap->search (base => "$rolesou,$base", filter => "(objectClass=*)", attrs => ['dn']);
-  $role_branch->code && die $role_branch->error;
-  my @role_entries = $role_branch->entries;
-  if (not defined($role_entries[0])) {
-    my $role_add = $ldap->add("$rolesou,$base",
-      attr => [
-        'ou'  => $ouroles,
-        'objectClass' =>  'organizationalUnit'
-        ]
-    );
 
-    $role_add->code and die "! failed to add LDAP's $rolesou,$base branch\n";
+  if (!branch_exists($ldap, "$rolesou,$base")) {
+    create_branch($ldap, $base, $ouroles);
   }
+
   my $role_dn = "cn=$cn,$rolesou,$base";
   # Add the administator role object
   my @options = %role;
@@ -868,6 +860,29 @@ sub check_admin {
   }
 }
 
+sub create_branch {
+  my ($ldap, $base, $ou) = @_;
+  my $branch_add = $ldap->add( "ou=$ou,$base",
+    attr => [
+      'ou'  => $ou,
+      'objectClass' =>  'organizationalUnit'
+      ]
+  );
+
+  $branch_add->code && die "! failed to add LDAP's ou=$ou,$base branch: ".$branch_add->error."\n";
+}
+
+sub branch_exists {
+  my ($ldap, $branch) = @_;
+
+  # search for branch
+  my $branch_mesg = $ldap->search (base => $branch, filter => '(objectClass=*)', scope => 'base');
+  $branch_mesg->code && die $branch_mesg->error;
+
+  my @entries = $branch_mesg->entries;
+  return (defined ($entries[0]));
+}
+
 # function that check LDAP configuration
 sub check_ldap {
 
@@ -897,14 +912,7 @@ sub check_ldap {
 
     # if user's answer is "yes", creating ou=people branch
     if ( ask_yn_question("Do you want to create it ?: ") ) {
-      my $people_add = $ldap->add( "$peopleou,$base",
-        attr => [
-          'ou'  => $oupeople,
-          'objectClass' =>  'organizationalUnit'
-          ]
-      );
-
-      $people_add->code and warn "! failed to add LDAP's $peopleou,$base branch\n";
+      create_branch($ldap, $base, $oupeople);
       $admin_add = add_ldap_admin($base, $ldap);
       return -1 if ($admin_add eq "-1");
     } else {
@@ -912,25 +920,13 @@ sub check_ldap {
     }
   }
 
-  # search for ou=groups
-  my $ldap_groups = $ldap->search ( base => $base, filter => "ou=groups" );
-  $ldap_groups->code && die $ldap_groups->error;
-  my @groups_entries = $ldap_groups->entries;
-
-  # if ou=groups don't exists
-  if ( !defined $groups_entries[0] ) {
+  # if ou=groups does not exist
+  if (!branch_exists($ldap, "ou=groups,$base")) {
     print ("! ou=groups,$base not found in your LDAP directory\n");
 
     # if user's answer is "yes", creating ou=groups branch
     if ( ask_yn_question("Do you want to create it ?: ") ) {
-      my $group_add = $ldap->add( "ou=groups,$base",
-        attr => [
-          'ou'  => 'groups',
-          'objectClass' =>  'organizationalUnit'
-          ]
-      );
-
-      $group_add->code and warn "! failed to add LDAP's ou=groups,$base branch\n";
+      create_branch($ldap, $base, 'groups');
     } else {
       print ("skiping...\n");
     }
