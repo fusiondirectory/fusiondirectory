@@ -15,9 +15,11 @@ ul.menu li > a {
 display:block;
 }
 ul.menu > li {
-border:1px solid #AAA;
+border:0;
 margin-bottom:5px;
 padding-bottom:3px;
+border-radius:5px;
+box-shadow:0px 0px 3px black inset;
 }
 ul.menu > li > a {
 font-family:arial,helvetica,sans-serif;
@@ -25,13 +27,14 @@ font-size:12px;
 font-weight:bold;
 color:#00008F;
 text-decoration:none;
-border-bottom:1px solid #AAA;
 background-color:#dbe6c6;
 text-align:center;
 vertical-align:middle;
 margin-bottom:3px;
 padding-bottom:5px;
 padding-top:5px;
+border-radius:5px 5px 0 0;
+border:1px solid #AAA;
 }
 
 ul.menu ul > li > a {
@@ -43,7 +46,6 @@ vertical-align:middle;
 margin:2px 0px;
 padding-top:2px;
 padding-bottom:2px;
-transition:box-shadow .5s ease, background .5s ease;
 }
 html.ltr ul.menu ul > li > a {
 text-align:left;
@@ -68,6 +70,9 @@ text-decoration:none;
 color:#00008f;
 }
 
+.menuitem {
+transition:box-shadow .5s ease, background .5s ease;
+}
 .menuitem a:hover {
 text-decoration:none;
 }
@@ -93,6 +98,7 @@ border-top:none;
 {
 border:none;
 vertical-align:middle;
+flex:none;
 }
 
 h1.menuheader {
@@ -104,17 +110,21 @@ background-color:#DBE6C6;
 }
 html.ltr h1.menuheader {
 border-right:1px solid #AAAAAA;
+border-radius:0 0 5px 0;
 float:left;
 }
 html.rtl h1.menuheader {
 border-left:1px solid #AAAAAA;
+border-radius:0 0 0 5px;
 float:right;
 }
 
 .iconmenu {
 cursor:pointer;
-display:inline-block;
+display:flex;
+align-items:center;
 width:18%;
+min-width:130px;
 margin:.5%;
 padding:.5%;
 border-radius:5px;
@@ -158,6 +168,8 @@ background-color:#F0F0F0;
   margin:2px;
   padding:2px;
   min-width:70px;
+  min-height:80px;
+  display:inline-block;
   }
   .iconmenu img
   {

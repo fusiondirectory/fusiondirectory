@@ -241,6 +241,7 @@ border-spacing:5px;
 padding:0;
 margin-top:0;
 vertical-align:top;
+box-shadow:0px 0px 2px black;
 }
 html.ltr table.framework {
 margin-left:0;
@@ -660,7 +661,6 @@ text-align:left;
 div.setup_header {
 background-color:#bbcc99;
 padding:4px 5px 2px;
-border-bottom:1px solid #999;
 color:#000;
 }
 
