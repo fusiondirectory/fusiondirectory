@@ -11,32 +11,6 @@ border:1px solid #AAA;
 padding:0;
 }
 
-h1.plugtop {
-width:100%;
-padding-bottom:6px;
-text-align:left;
-font-family:arial,helvetica,sans-serif;
-font-size:24px;
-}
-html.rtl h1.plugtop {
-text-align:right;
-}
-
-a.plugtop {
-border:1px solid #B0B0B0;
-padding:5px;
-margin:0;
-text-align:center;
-vertical-align:middle;
-background-color:#dbe6c6;
-font-family:arial,helvetica,sans-serif;
-font-size:18px;
-}
-
-a.plugtop img {
-height:32px;
-}
-
 div.pluginfo {
 border-bottom:1px solid #AAA;
 width:100%;

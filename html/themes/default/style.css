@@ -135,12 +135,22 @@ text-align:center;
 vertical-align:middle;
 cursor:pointer;
 display:inline-block;
+padding:2px;
+border-radius:8px;
+transition:box-shadow .5s ease, background .5s ease;
+}
+html.ltr a.maintitlebar,html.ltr div.maintitlebar {
+padding-right:5px;
+}
+html.rtl a.maintitlebar,html.rtl div.maintitlebar {
+padding-left:5px;
 }
 
 a.maintitlebar:hover {
 text-decoration:none;
 background-color:#d7e6b4;
 cursor:pointer;
+box-shadow:0px 0px 2px black;
 }
 
 td.phonelist:hover {
@@ -587,6 +597,28 @@ html.rtl div#header_left {
 float:right;
 }
 
+
+.plugtop {
+border:none;
+border-radius:10px;
+box-shadow:0px 0px 4px black inset;
+padding:10px;
+margin:0;
+text-align:center;
+vertical-align:middle;
+background-color:#dbe6c6;
+font-family:arial,helvetica,sans-serif;
+font-size:18px;
+}
+.plugtop img {
+height:32px;
+}
+html.ltr .plugtop img {
+margin-right:4px;
+}
+html.rtl .plugtop img {
+margin-left:4px;
+}
 html.ltr div#header_left .plugtop {
 margin-left:35px;
 }
@@ -641,15 +673,17 @@ color:#000;
   width:34px;
   height:34px;
   overflow:hidden;
-  margin:0;
   display:inline-block;
-  padding:0;
   }
   html.ltr a.maintitlebar {
   float:left;
+  margin:0;
+  padding:0;
   }
   html.rtl a.maintitlebar {
   float:right;
+  margin:0;
+  padding:0;
   }
   a.maintitlebar img {
   padding:6px;
