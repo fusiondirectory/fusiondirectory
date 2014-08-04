@@ -35,14 +35,20 @@ font-weight:normal;
 font-size:12px;
 text-align:left;
 vertical-align:middle;
-margin:2px;
+margin:2px 0px;
 background-color:#FFF;
+transition:box-shadow .5s ease, background .5s ease;
 }
 html.rtl p.menuitem {
 text-align:right;
 }
 p.menuitem.menucurrent {
 background-color:#E5F5D5;
+box-shadow:0px 0px 2px black inset;
+}
+p.menuitem:hover {
+background-color:#F0F0F0;
+box-shadow:0px 0px 2px black inset;
 }
 
 p.menuitem a {
@@ -110,19 +116,25 @@ color:#00008f;
 
 p.menuitem a:hover {
 text-decoration:none;
-background-color:#F0F0F0;
 }
 
 .iconmenu {
 cursor:pointer;
 display:inline-block;
-float:left;
 width:18%;
 margin:.5%;
 padding:.5%;
+border-radius:5px;
+transition:box-shadow .5s ease, background .5s ease;
+}
+html.ltr .iconmenu {
+float:left;
 }
 html.rtl .iconmenu {
 float:right;
+}
+.iconmenu:hover {
+box-shadow:0px 0px 4px black;
 }
 
 .iconmenu:nth-child(2)
