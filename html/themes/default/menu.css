@@ -1,68 +1,75 @@
 #menucell {
-border:1px solid #AAA;
+border:none;
 width:140px;
 background-color:white;
 vertical-align:top;
 }
 
 /* Side menu */
-p.menuheader {
+ul.menu, ul.menu ul {
+ margin:0;
+ padding:0;
+ list-style-type:none;
+}
+ul.menu li > a {
+display:block;
+}
+ul.menu > li {
+border:1px solid #AAA;
+margin-bottom:5px;
+padding-bottom:3px;
+}
+ul.menu > li > a {
 font-family:arial,helvetica,sans-serif;
+font-size:12px;
+font-weight:bold;
 color:#00008F;
 text-decoration:none;
 border-bottom:1px solid #AAA;
-font-weight:bold;
 background-color:#dbe6c6;
-font-size:12px;
 text-align:center;
 vertical-align:middle;
-padding:5px;
-margin-top:0.8em;
 margin-bottom:3px;
-border-top:1px solid #AAA;
+padding-bottom:5px;
+padding-top:5px;
 }
 
-p.menuheader:first-child {
-border-top:none;
-margin-top:0;
-}
-
-p.menuitem {
-font-family:arial,helvetica,sans-serif;
+ul.menu ul > li > a {
 color:#00008F;
 text-decoration:none;
 font-weight:normal;
 font-size:12px;
-text-align:left;
 vertical-align:middle;
 margin:2px 0px;
-background-color:#FFF;
+padding-top:2px;
+padding-bottom:2px;
 transition:box-shadow .5s ease, background .5s ease;
 }
-html.rtl p.menuitem {
-text-align:right;
+html.ltr ul.menu ul > li > a {
+text-align:left;
+padding-left:15px;
 }
-p.menuitem.menucurrent {
+html.rtl ul.menu ul > li > a {
+text-align:right;
+padding-right:15px;
+}
+
+.menuitem.menucurrent {
 background-color:#E5F5D5;
 box-shadow:0px 0px 2px black inset;
 }
-p.menuitem:hover {
+.menuitem:hover {
 background-color:#F0F0F0;
 box-shadow:0px 0px 2px black inset;
 }
 
-p.menuitem a {
-padding-top:2px;
-padding-bottom:2px;
-display:block;
+.menuitem a:link, .menuitem a:visited {
+text-decoration:none;
+color:#00008f;
 }
-html.rtl p.menuitem a {
-padding-left:5px;
-padding-right:15px;
-}
-html.ltr p.menuitem a {
-padding-left:15px;
-padding-right:5px;
+
+.menuitem a:hover {
+text-decoration:none;
 }
 
 /* Main menu */
@@ -102,20 +109,6 @@ float:left;
 html.rtl h1.menuheader {
 border-left:1px solid #AAAAAA;
 float:right;
-}
-
-p.menuitem a:link {
-text-decoration:none;
-color:#00008f;
-}
-
-p.menuitem a:visited {
-text-decoration:none;
-color:#00008f;
-}
-
-p.menuitem a:hover {
-text-decoration:none;
 }
 
 .iconmenu {

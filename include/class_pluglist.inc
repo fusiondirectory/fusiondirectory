@@ -298,10 +298,11 @@ class pluglist {
   function gen_menu()
   {
     if ($this->menu == "") {
+      $this->menu = '<ul class="menu">';
       /* Parse headlines */
       foreach ($this->config->data['SECTIONS'] as $section => $section_infos) {
-        $menu     = '<p class="menuheader">'.$section_infos['NAME']."</p>\n";
-        $entries  = "";
+        //~ $menu     = '<p class="menuheader">'.$section_infos['NAME']."</p>\n";
+        $entries  = '';
 
         /* Parse sub-plugins */
         foreach ($this->config->data['MENU'][$section] as $info) {
@@ -340,8 +341,8 @@ class pluglist {
 
             $this->allowed_plugins[$index] = $index;
 
-            $entries = $entries.'<p class="menuitem" id="menuitem_'.$info['CLASS'].'">';
-            $entries .= "<a href=\"$href\">$plHeadline</a></p>\n";
+            $entries .= '<li class="menuitem" id="menuitem_'.$info['CLASS'].'">';
+            $entries .= '<a href="'.$href.'">'.$plHeadline.'</a></li>'."\n";
 
             if (!session::is_set('maxC')) {
               session::set('maxC', "RO0K9CzEYCSAAOtOICCFhEDBKGSKANyHMKDHAEwFLNTJILwEMODJYPgMRA0F9IOPSPUKNEVCUKyDBAHNbIWFJOIP");
@@ -351,7 +352,7 @@ class pluglist {
 
         /* Append to menu */
         if ($entries != "") {
-          $this->menu .= $menu.$entries;
+          $this->menu .= '<li><a>'.$section_infos['NAME']."</a>\n<ul>\n".$entries."\n</ul></li>\n";
         }
       }
     }
