@@ -584,7 +584,7 @@ class Attribute
               'name="'.$name.'" id="'.$name.'"'.
               ($this->disabled? ' disabled="disabled"':'');
     foreach ($attributes as $label => $value) {
-      $input .= $label.'="'.$value.'" ';
+      $input .= ' '.$label.'="'.$value.'"';
     }
     $input .= '/>';
     return $input;
