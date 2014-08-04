@@ -668,10 +668,11 @@ color:#000;
 @media (max-width: 640px) {
   div.setup_header {
   padding:2px;
+  height:36px;
   }
   a.maintitlebar {
-  width:34px;
-  height:34px;
+  width:36px;
+  height:36px;
   overflow:hidden;
   display:inline-block;
   }
@@ -683,7 +684,6 @@ color:#000;
   html.rtl a.maintitlebar {
   float:right;
   margin:0;
-  padding:0;
   }
   a.maintitlebar img {
   padding:6px;
@@ -699,14 +699,14 @@ color:#000;
   float:left;
   }
   html.ltr div#header_left, html.rtl div#header_left {
-  height:34px;
+  height:40px;
   width:100%;
   float:none;
   }
   html.ltr div#header_right, html.rtl div#header_right {
   padding-top:8px;
-  height:26px;
-  margin-top:-34px;
+  height:30px;
+  margin-top:-40px;
   width:100%;
   float:none;
   }
@@ -721,19 +721,17 @@ color:#000;
   hyphens:none;
   overflow:hidden;
   white-space: nowrap;
-  padding-top:0;
-  padding-bottom:0;
+  padding-top:2px;
+  padding-bottom:2px;
   font-size:1em;
   }
   html.ltr div#header_left .plugtop {
   margin:0;
-  padding-left:0;
-  padding-right:5px;
+  padding-left:6px;
   }
   html.rtl div#header_left .plugtop {
   margin:0;
-  padding-left:5px;
-  padding-right:0;
+  padding-right:6px;
   }
   div.logout-label {
   display:inline-block;
