@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013  FusionDirectory
+  Copyright (C) 2013-2014  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -244,35 +244,95 @@ class simpleManagement extends management
     return parent::renderList();
   }
 
-  // Overridden new handler - We've different types of departments to create!
-  function newEntry($action = '', $target = array(), $all = array(), $altTabClass = '',
-                    $altTabType = '', $altAclCategory = '')
+
+  /*!
+   * \brief  This method intiates the object creation.
+   *
+   * \param  String  $action  The name of the action which was the used as trigger.
+   *
+   * \param  Array   $target  A list of object dns, which should be affected by this method.
+   *
+   * \param  Array   $all     A combination of both 'action' and 'target'.
+   *
+   * \param String $altTabClass Empty string.
+   *
+   * \param String $altTabType Empty string.
+   *
+   * \param String $altAclCategory Empty string.
+   */
+  function newEntry($action = "", $target = array(), $all = array(), $altTabClass = "", $altTabType = "", $altAclCategory = "")
   {
     $type   = strtoupper(preg_replace('/^new_/', '', $action));
-    $infos  = $this->config->data['OBJECTS'][$type];
 
-    return management::newEntry($action, $target, $all, $infos['tabClass'],
-                                $infos['tabGroup'], $infos['aclCategory']);
+    $this->displayApplyBtn  = FALSE;
+    $this->dn               = 'new';
+    $this->is_new           = TRUE;
+    $this->is_single_edit   = FALSE;
+
+    set_object_info($this->dn);
+
+    // Open object
+    $this->tabObject = objects::open($this->dn, $type);
+    $this->tabObject->set_acl_base($this->headpage->getBase());
+    $this->tabObject->parent = &$this;
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Create new entry initiated!");
   }
 
-  function editEntry( $action = '', $target = array(), $all = array(), $altTabClass = '',
-                      $altTabType = '', $altAclCategory = '')
-  {
-    $type   = $this->getType($target[0]);
-    $infos  = $this->config->data['OBJECTS'][$type];
 
-    $str = management::editEntry($action, $target, $all, $infos['tabClass'],
-                                $infos['tabGroup'], $infos['aclCategory']);
-    if (isset($all['subaction'])) {
-      $tab = preg_replace('/^tab_/', '', $all['subaction']);
-      if (isset($this->tabObject->by_object[$tab])) {
-        $this->tabObject->current = $tab;
-      } else {
-        trigger_error('Unknown tab: '.$tab);
-      }
+  /*!
+   * \brief  This method opens an existing object or a list of existing objects to be edited.
+   *
+   * \param  String  $action  The name of the action which was the used as trigger.
+   *
+   * \param  Array   $target  A list of object dns, which should be affected by this method.
+   *
+   * \param  Array   $all     A combination of both 'action' and 'target'.
+   *
+   * \param String $altTabClass Empty string.
+   *
+   * \param String $altTabType Empty string.
+   *
+   * \param String $altAclCategory Empty string.
+   */
+  function editEntry($action = "", $target = array(), $all = array(), $altTabClass = "", $altTabType = "", $altAclCategory = "")
+  {
+    // Do not create a new tabObject while there is already one opened,
+    //  the user may have just pressed F5 to reload the page.
+    if (is_object($this->tabObject)) {
+      return;
     }
-    if (!empty($str)) {
-      return $str;
+
+    $this->displayApplyBtn = (count($target) == 1);
+
+    // Single edit - we only got one object dn.
+    if (count($target) == 1) {
+      $type = $this->getType($target[0]);
+
+      $this->is_new         = FALSE;
+      $this->is_single_edit = TRUE;
+
+      // Get the dn of the object and creates lock
+      $this->dn = array_pop($target);
+      set_object_info($this->dn);
+      $user = get_lock($this->dn);
+      if ($user != "") {
+        return gen_locked_message($user, $this->dn, TRUE);
+      }
+      add_lock ($this->dn, $this->ui->dn);
+
+      // Open object
+      $this->tabObject = objects::open($this->dn, $type);
+      $this->tabObject->set_acl_base($this->dn);
+      $this->tabObject->parent = &$this;
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Edit entry initiated!");
+      if (isset($all['subaction'])) {
+        $tab = preg_replace('/^tab_/', '', $all['subaction']);
+        if (isset($this->tabObject->by_object[$tab])) {
+          $this->tabObject->current = $tab;
+        } else {
+          trigger_error('Unknown tab: '.$tab);
+        }
+      }
     }
   }
 
