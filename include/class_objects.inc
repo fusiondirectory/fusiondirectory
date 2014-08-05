@@ -151,7 +151,12 @@ class objects
     $infos    = self::infos($type);
     $tabClass = $infos['tabClass'];
 
-    $tabObject = new $tabClass($config, $config->data['TABS'][$infos['tabGroup']], $dn, $infos['aclCategory']);
+    if (is_subclass_of($tabClass, 'simpleTabs')) {
+      $tabObject = new $tabClass($type, $dn);
+    } else {
+      // Deprecated
+      $tabObject = new $tabClass($config, $config->data['TABS'][$infos['tabGroup']], $dn, $infos['aclCategory']);
+    }
     if ($dn == 'new') {
       $tabObject->set_acl_base($config->current['BASE']);
     } else {
