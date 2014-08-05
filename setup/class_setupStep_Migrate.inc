@@ -49,7 +49,7 @@ class Step_Migrate extends setup_step
 {
   var $languages      = array();
   var $attributes     = array('valid_admin');
-  var $header_image   = "images/setup/migrate.png";
+  var $header_image   = 'geticon.php?context=applications&icon=utilities-system-monitor&size=48';
   var $checks         = array();
 
   /* Department migration attributes */
