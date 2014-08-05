@@ -220,6 +220,25 @@ class simplePlugin extends plugin
     return isset($this->attributesAccess[$name]);
   }
 
+  /*! \brief This function returns the dn this object should have
+   */
+  public function compute_dn()
+  {
+    if (!$this->mainTab) {
+      die('Only main tab can compute dn');
+    }
+    if (!isset($this->parent) || !($this->parent instanceof simpleTabs)) {
+      die('Could not compute dn: no parent tab class');
+    }
+    $infos = $this->parent->objectInfos();
+    if ($infos === FALSE) {
+      die('Could not compute dn: cloud not find objectType infos from tab class');
+    }
+    $attr = $infos['mainAttr'];
+    $ou   = $infos['ou'];
+    return $attr.'='.$this->attributesAccess[$attr]->computeLdapValue().','.$ou.$this->base;
+  }
+
   /*! \brief This function update the values of LDAP attributes as class attribute,
     so that plugin code works correctly
 

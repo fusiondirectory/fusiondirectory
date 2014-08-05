@@ -26,7 +26,8 @@
  * */
 class simpleTabs extends tabs
 {
-  protected $specialTabs = TRUE;
+  public    $objectType   = FALSE;
+  protected $specialTabs  = TRUE;
 
   /*
    * You should either call __construct($type, $dn, [$copied_object]) or __construct($config, $data, $dn, $category, [$copied_object])
@@ -38,7 +39,7 @@ class simpleTabs extends tabs
     if (is_string(func_get_arg(0))) {
       $type   = func_get_arg(0);
       $dn     = func_get_arg(1);
-      $infos = objects::infos($type);
+      $infos  = objects::infos($type);
 
       $config_object  = $config;
       $data           = $config->data['TABS'][$infos['tabGroup']];
@@ -46,6 +47,7 @@ class simpleTabs extends tabs
       if (func_num_args() >= 3) {
         $copied_object  = func_get_arg(2);
       }
+      $this->objectType = $type;
     } else {
       $config_object  = func_get_arg(0);
       $data           = func_get_arg(1);
@@ -89,6 +91,14 @@ class simpleTabs extends tabs
     }
 
     return parent::save();
+  }
+
+  function objectInfos()
+  {
+    if ($this->objectType === FALSE) {
+      return FALSE;
+    }
+    return objects::infos($this->objectType);
   }
 }
 
