@@ -1036,7 +1036,7 @@ class Step_Migrate extends setup_step
             _("Migration error"),
             sprintf(
               _("Cannot add ACL role '%s':")."<br/><br/><i>%s</i>",
-              LDAP::fix($roledn), $ldap->get_error()
+              LDAP::fix($dn), $ldap->get_error()
             ),
             ERROR_DIALOG
           );
