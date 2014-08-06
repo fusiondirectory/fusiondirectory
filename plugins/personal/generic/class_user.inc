@@ -325,7 +325,7 @@ class user extends simplePlugin
   {
     parent::__construct($config, $dn, $object);
 
-    $this->attributesAccess['uid']->setUnique(TRUE);
+    $this->attributesAccess['uid']->setUnique('whole');
     $this->attributesAccess['uid']->setDisabled($this->initially_was_account && !$this->is_template);
 
     $filename = './plugins/users/images/default.jpg';
