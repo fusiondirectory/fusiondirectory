@@ -1249,8 +1249,8 @@ sub migrate_acls {
   }
 }
 
-# List LDAP attributes which have been deprecateds
-sub list_deprecated {
+# Get LDAP attributes which have been deprecated
+sub get_deprecated {
   # initiate the LDAP connexion
   my %hash_ldap_param = get_ldap_connexion();
 
@@ -1259,19 +1259,81 @@ sub list_deprecated {
   my $ldap = $hash_ldap_param{ldap};
 
   my $schema_info = $ldap->schema();
-  print "Deprecated attributes:\n";
-  my @attributes = $schema_info->all_attributes();
+
+  my @attributes      = $schema_info->all_attributes();
+  my @obsolete_attrs  = ();
   foreach my $attribute (@attributes) {
     if ($attribute->{'obsolete'}) {
-      printf(" %-30s\t%-60s\t- %s\n", $attribute->{'name'}, '('.$attribute->{'desc'}.')', $attribute->{'oid'});
+      push @obsolete_attrs, $attribute;
     }
   }
-  print "Deprecated objectClasses:\n";
-  my @ocs = $schema_info->all_objectclasses();
+
+  my @ocs               = $schema_info->all_objectclasses();
+  my @obsolete_classes  = ();
   foreach my $oc (@ocs) {
     if ($oc->{'obsolete'}) {
-      printf(" %-30s\t%-60s\t- %s\n", $oc->{'name'}, '('.$oc->{'desc'}.')', $oc->{'oid'});
+      push @obsolete_classes, $oc;
     }
+  }
+
+  return (\@obsolete_attrs, \@obsolete_classes);
+}
+
+# List LDAP attributes which have been deprecated
+sub list_deprecated {
+  my ($obsolete_attrs, $obsolete_classes) = get_deprecated();
+
+  print "Deprecated attributes:\n";
+  foreach my $attribute (@$obsolete_attrs) {
+    printf(" %-30s\t%-60s\t- %s\n", $attribute->{'name'}, '('.$attribute->{'desc'}.')', $attribute->{'oid'});
+  }
+
+  print "Deprecated objectClasses:\n";
+  foreach my $oc (@$obsolete_classes) {
+    printf(" %-30s\t%-60s\t- %s\n", $oc->{'name'}, '('.$oc->{'desc'}.')', $oc->{'oid'});
+  }
+}
+
+# List LDAP entries using attributes which have been deprecated
+sub check_deprecated {
+  my ($obsolete_attrs, $obsolete_classes) = get_deprecated();
+
+  my $filterAttrs   = '(|'.join('', (map{ '('.$_->{'name'}.'=*)' } @$obsolete_attrs)).')';
+  my $filterClasses = '(|'.join('', (map{ '(objectClass='.$_->{'name'}.')' } @$obsolete_classes)).')';
+
+  # initiate the LDAP connexion
+  my %hash_ldap_param = get_ldap_connexion();
+
+  # LDAP's connection's parameters
+  my $base = $hash_ldap_param{base};
+  my $ldap = $hash_ldap_param{ldap};
+
+  my $entries = $ldap->search(
+    base    => "$base",
+    filter  => "$filterAttrs",
+  );
+  $entries->code && die $entries->error;
+
+  if ($entries->count > 0) {
+    while (my $entry = $entries->shift_entry) {
+      print $entry->dn." contains an obsolete attribute\n";
+    }
+  } else {
+    print "There are no entries in the LDAP using obsolete attributes\n";
+  }
+
+  $entries = $ldap->search(
+    base    => "$base",
+    filter  => "$filterClasses",
+  );
+  $entries->code && die $entries->error;
+
+  if ($entries->count > 0) {
+    while (my $entry = $entries->shift_entry) {
+      print $entry->dn." uses an obsolete object class\n";
+    }
+  } else {
+    print "There are no entries in the LDAP using obsolete classes\n";
   }
 }
 
@@ -1320,6 +1382,7 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--write-vars"}           = ["Choose FusionDirectory Directories",            \&write_vars];
   $commands{"--list-vars"}            = ["List possible vars to give --set",              \&list_vars];
   $commands{"--list-deprecated"}      = ["List deprecated attributes and objectclasses",  \&list_deprecated];
+  $commands{"--check-deprecated"}     = ["List LDAP entries using deprecated attributes or objectclasses", \&check_deprecated];
   $commands{"--set-VAR=value"}        = ["Set the variable VAR to value see --list-vars", \&die]; # Won't be called because it contains uppercase
 
   my $usage = 0;
