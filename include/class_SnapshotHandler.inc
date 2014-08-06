@@ -250,7 +250,6 @@ class SnapshotHandler {
 
     $target['objectClass']            = array("top", "gosaSnapshotObject");
     $target['gosaSnapshotData']       = gzcompress($data, 6);
-    $target['gosaSnapshotType']       = "snapshot";
     $target['gosaSnapshotDN']         = $dn;
     $target['description']            = $description;
     $target['gosaSnapshotTimestamp']  = $newName;
