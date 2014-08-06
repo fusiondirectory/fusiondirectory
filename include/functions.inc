@@ -3090,25 +3090,30 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
       if ($command != "") {
         /* Walk through attribute list */
         $addAttrs = array(
-          'userPassword' => escapeshellarg($password),
-          'dn'  => escapeshellarg($dn)
+          'userPassword'  => escapeshellarg($password),
+          'dn'            => escapeshellarg($dn)
         );
-        $command = plugin::tpl_parse_string($command, $addAttrs);
+        $addAttrsStars = array(
+          'userPassword'  => '******',
+          'dn'            => escapeshellarg($dn)
+        );
+        $commandHiddenPwd = plugin::tpl_parse_string($command, $addAttrsStars);
+        $command          = plugin::tpl_parse_string($command, $addAttrs);
 
         @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
         exec($command, $arr, $returnCode);
 
         if ($returnCode != 0) {
           $str = implode("\n", $arr);
-          @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execution failed code: ".$returnCode);
-          $message = msgPool::cmdexecfailed('POSTMODIFY', $command, 'password');
+          @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $commandHiddenPwd, "Execution failed code: ".$returnCode);
+          $message = msgPool::cmdexecfailed('POSTMODIFY', $commandHiddenPwd, 'password');
           if (!empty($str)) {
             $message .= "Result: ".$str;
           }
           msg_dialog::display(_("Error"), $message, ERROR_DIALOG);
         } elseif (is_array($arr)) {
           $str = implode("\n", $arr);
-          @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Result: ".$str);
+          @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $commandHiddenPwd, "Result: ".$str);
         }
       }
     }
