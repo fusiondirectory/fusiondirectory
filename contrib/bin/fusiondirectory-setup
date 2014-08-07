@@ -1337,6 +1337,39 @@ sub check_deprecated {
   }
 }
 
+# Print a LDIF file removing attributes which have been deprecated
+sub ldif_deprecated {
+  my ($obsolete_attrs, $obsolete_classes) = get_deprecated();
+
+  my $filterAttrs   = '(|'.join('', (map{ '('.$_->{'name'}.'=*)' } @$obsolete_attrs)).')';
+
+  # initiate the LDAP connexion
+  my %hash_ldap_param = get_ldap_connexion();
+
+  # LDAP's connection's parameters
+  my $base = $hash_ldap_param{base};
+  my $ldap = $hash_ldap_param{ldap};
+
+  my $entries = $ldap->search(
+    base    => "$base",
+    filter  => "$filterAttrs",
+  );
+  $entries->code && die $entries->error;
+
+  if ($entries->count > 0) {
+    while (my $entry = $entries->shift_entry) {
+      print 'dn:'.$entry->dn."\n";
+      print "changetype:modify\n";
+      foreach my $attr (@$obsolete_attrs) {
+        print "delete:$attr\n-\n";
+      }
+      print "\n";
+    }
+  } else {
+    print "# There are no entries in the LDAP using obsolete attributes\n";
+  }
+}
+
 # function that set useful vars based on user specified folders and files
 sub set_vars {
   $fd_config        = $vars{fd_config_dir}."/".$vars{config_file};
@@ -1383,6 +1416,7 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--list-vars"}            = ["List possible vars to give --set",              \&list_vars];
   $commands{"--list-deprecated"}      = ["List deprecated attributes and objectclasses",  \&list_deprecated];
   $commands{"--check-deprecated"}     = ["List LDAP entries using deprecated attributes or objectclasses", \&check_deprecated];
+  $commands{"--ldif-deprecated"}      = ["# Print an LDIF removing deprecated attributes",\&ldif_deprecated];
   $commands{"--set-VAR=value"}        = ["Set the variable VAR to value see --list-vars", \&die]; # Won't be called because it contains uppercase
 
   my $usage = 0;
