@@ -1361,7 +1361,7 @@ sub ldif_deprecated {
       print 'dn:'.$entry->dn."\n";
       print "changetype:modify\n";
       foreach my $attr (@$obsolete_attrs) {
-        if ($entries->exists($attr->{'name'})) {
+        if ($entry->exists($attr->{'name'})) {
           print "delete:".$attr->{'name'}."\n-\n";
         }
       }
