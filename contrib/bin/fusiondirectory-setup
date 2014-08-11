@@ -816,7 +816,6 @@ sub check_admin {
               scope   => 'base',
               filter  => "(objectClass=gosaAccount)"
             );
-            $member_node->code && die $member_node->error;
             if ($member_node->count == 1) {
               print ("$dn is a valid admin\n");
               return;
@@ -828,7 +827,6 @@ sub check_admin {
               filter  => "(objectClass=posixGroup)",
               attrs   => ['memberUid']
             );
-            $member_node->code && die $member_node->error;
             if ($member_node->count == 1) {
               # Find group members
               my $member_entry  = $member_node->shift_entry;
