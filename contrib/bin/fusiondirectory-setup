@@ -906,11 +906,13 @@ sub check_ldap {
 
   my $admin_add = "";
 
+  # Collect existing people branches (even if main one may not exists);
+  my $people = $ldap->search (base => $base, filter => $peopleou);
+  $people->code && die $people->error;
+  my @people_entries = map {$_->dn} @{$people->entries};
+
   # if ou=people exists
   if ( branch_exists($ldap, "$peopleou,$base") ) {
-    my $people = $ldap->search (base => $base, filter => $peopleou);
-    $people->code && die $people->error;
-    my @people_entries = map {$_->dn} @{$people->entries};
     check_admin($base, $ldap, \@people_entries);
 
   # if ou=people doesn't exists
@@ -921,6 +923,8 @@ sub check_ldap {
     if ( ask_yn_question("Do you want to create it ?: ") ) {
       create_branch($ldap, $base, $oupeople);
       $admin_add = add_ldap_admin($base, $ldap);
+      push @people_entries, "$peopleou,$base";
+      check_admin($base, $ldap, \@people_entries);
       return -1 if ($admin_add eq "-1");
     } else {
       print ("Skiping...\n");
