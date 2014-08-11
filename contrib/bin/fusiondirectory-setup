@@ -909,7 +909,8 @@ sub check_ldap {
   # Collect existing people branches (even if main one may not exists);
   my $people = $ldap->search (base => $base, filter => $peopleou);
   $people->code && die $people->error;
-  my @people_entries = map {$_->dn} @{$people->entries};
+  my @people_entries = $people->entries;
+  @people_entries = map {$_->dn} @people_entries;
 
   # if ou=people exists
   if ( branch_exists($ldap, "$peopleou,$base") ) {
