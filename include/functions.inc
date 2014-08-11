@@ -3425,7 +3425,7 @@ function cred_decrypt($input, $password)
   $key  = substr($data, 0, $key_len);
   $iv   = substr($data, $key_len, $iv_len);
 
-  return rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, $input, MCRYPT_MODE_CBC, $iv), "\0\3\n");
+  return rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, $input, MCRYPT_MODE_CBC, $iv), "\0\3\4\n");
 }
 
 
