@@ -204,7 +204,7 @@ sub encrypt_passwords {
   print "* creating '$fd_secrets'\n";
   my $fp_file = file($fd_secrets);
   my $fp = $fp_file->openw() or die "! Unable to open '$fd_secrets' in write mode\n";
-  $fp->print("RequestHeader set FD_KEY $master_key\n");
+  $fp->print("RequestHeader set FDKEY $master_key\n");
   $fp->close or die "! Can't close '$fd_secrets'\n";
   chmod 0600, $fd_secrets or die "! Unable to change '$fd_secrets' rights\n";
   my $root_uid = getpwnam("root");
@@ -736,7 +736,7 @@ sub get_ldap_connexion {
     open(SECRETS, $fd_secrets) || die ("Could not open $fd_secrets");
     my $key = "";
     while(<SECRETS>) {
-      if ($_ =~ m/RequestHeader set FD_KEY ([^ \n]+)\n/) {
+      if ($_ =~ m/RequestHeader set FDKEY ([^ \n]+)\n/) {
         $key = $1;
         last;
       }
