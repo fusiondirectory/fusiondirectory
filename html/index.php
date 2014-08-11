@@ -316,7 +316,6 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
 
       /* Save userinfo and plugin structure */
       session::global_set('ui', $ui);
-      session::global_set('session_cnt', 0);
 
       /* Let FusionDirectory trigger a new connection for each POST, save config to session. */
       session::global_set('config', $config);
@@ -339,6 +338,7 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
 
       /* Not account expired or password forced change go to main page */
       new log("security", "login", "", array(), "User \"$username\" logged in successfully");
+      session::global_set('connected', 1);
       $config->checkLdapConfig(); // check that newly installed plugins have their configuration in the LDAP
       header ("Location: main.php?global_check=1");
       exit;
