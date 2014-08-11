@@ -108,6 +108,15 @@ sub ask_user_input {
  return $answer;
 }
 
+# Die on all LDAP error except for «No such object»
+sub die_on_ldap_errors
+{
+  my $mesg = (@_);
+  if (($mesg->code != 0) && ($mesg->code != 32)) {
+    die $mesg->error;
+  }
+}
+
 {
   my $indice = 0;
   sub find_free_role_dn {
@@ -122,9 +131,7 @@ sub ask_user_input {
         scope   => 'base',
         filter  => '(objectClass=*)'
       );
-      if (($mesg->code != 0) && ($mesg->code != 32)) {
-        die $mesg->error;
-      }
+      die_on_ldap_errors($mesg);
     } while ($mesg->count);
     return $cn;
   }
@@ -897,17 +904,13 @@ sub check_ldap {
   my $base = $hash_ldap_param{base};
   my $ldap = $hash_ldap_param{ldap};
 
-  # search for branch people
-  my $people = $ldap->search (base => $base, filter => $peopleou);
-  $people->code && die $people->error;
-
-  # stock search results
-  my @people_entries = $people->entries;
   my $admin_add = "";
 
   # if ou=people exists
-  if ( defined ($people_entries[0]) ) {
-    @people_entries = map {$_->dn} @people_entries;
+  if ( branch_exists($ldap, "$peopleou,$base") ) {
+    my $people = $ldap->search (base => $base, filter => $peopleou);
+    $people->code && die $people->error;
+    my @people_entries = map {$_->dn} @{$people->entries};
     check_admin($base, $ldap, \@people_entries);
 
   # if ou=people doesn't exists
@@ -1149,7 +1152,7 @@ sub migrate_acls {
           scope   => 'base',
           filter  => '(objectClass=gosaRole)'
         );
-        $mesg->code && die $mesg->error;
+        die_on_ldap_errors($mesg);
         if ($mesg->count == 0) {
           $old_format = 1;
         }
@@ -1167,7 +1170,7 @@ sub migrate_acls {
             scope   => 'base',
             filter  => '(objectClass=gosaRole)'
           );
-          $mesg->code && die $mesg->error;
+          die_on_ldap_errors($mesg);
           if (my $role_entry = $mesg->shift_entry) {
             my $acl_templates = $role_entry->get_value('gosaAclTemplate', asref => 1);
             my $scope = '';
