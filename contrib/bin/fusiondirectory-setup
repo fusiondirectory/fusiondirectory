@@ -923,10 +923,8 @@ sub check_ldap {
     # if user's answer is "yes", creating ou=people branch
     if ( ask_yn_question("Do you want to create it ?: ") ) {
       create_branch($ldap, $base, $oupeople);
-      $admin_add = add_ldap_admin($base, $ldap);
       push @people_entries, "$peopleou,$base";
       check_admin($base, $ldap, \@people_entries);
-      return -1 if ($admin_add eq "-1");
     } else {
       print ("Skiping...\n");
     }
