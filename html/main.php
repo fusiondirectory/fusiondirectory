@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 @DEBUG (DEBUG_SESSION, __LINE__, __FUNCTION__, __FILE__, session::get_all(), "_SESSION");
 
 /* Logged in? Simple security check */
-if (!session::global_is_set('config')) {
+if (!session::global_is_set('connected')) {
   new log("security", "login", "", array(), "main.php called without session - logging out");
   header ("Location: logout.php");
   exit;
