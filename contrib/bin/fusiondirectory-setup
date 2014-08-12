@@ -236,7 +236,7 @@ sub encrypt_passwords {
   # Print reminder
   print "
 Please adapt your http fusiondirectory location declaration to include the newly
-created $fd_config.
+created $fd_secrets.
 
 Example:
 
