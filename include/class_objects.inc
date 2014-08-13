@@ -151,7 +151,7 @@ class objects
     $infos    = self::infos($type);
     $tabClass = $infos['tabClass'];
 
-    if (is_subclass_of($tabClass, 'simpleTabs')) {
+    if (is_a($tabClass, 'simpleTabs', TRUE)) {
       $tabObject = new $tabClass($type, $dn);
     } else {
       // Deprecated
