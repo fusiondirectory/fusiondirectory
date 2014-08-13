@@ -14,7 +14,7 @@ msgstr ""
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=charset=UTF-8\n\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: plugins/generic/welcome/main.inc:26
