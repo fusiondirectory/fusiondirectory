@@ -128,6 +128,11 @@ class Attribute
     }
   }
 
+  function getUnique ()
+  {
+    return $this->unique;
+  }
+
   function isInLdap ()
   {
     return $this->inLdap;

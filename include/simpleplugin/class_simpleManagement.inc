@@ -495,28 +495,53 @@ class simpleManagement extends management
    *  @param  Array   'target'  A list of object dns, which should be affected by this method.
    *  @param  Array   'all'     A combination of both 'action' and 'target'.
    */
-  function copyPasteHandler($action = '', $target = array(), $all = array(),
-      $altTabClass = '', $altTabType = '', $altAclCategory = '', $altAclPlugin = '')
+  function copyPasteHandler($action = "", $target = array(), $all = array(),
+      $altTabClass = "", $altTabType = "", $altAclCategory = "", $altAclPlugin = "")
   {
-    $tInfo = $this->config->data['OBJECTS'];
-
-    $tabClass     = array();
-    $tabType      = array();
-    $aclCategory  = array();
-    $aclPlugin    = array();
-
-    $headpage = $this->getHeadpage();
-
-    foreach ($target as $dn) {
-      $type   = $this->getType($dn);
-
-      $tabClass[$dn]    = $tInfo[$type]['tabClass'];
-      $tabType[$dn]     = $tInfo[$type]['tabGroup'];
-      $aclCategory[$dn] = $tInfo[$type]['aclCategory'];
-      $aclPlugin[$dn]   = $tInfo[$type]['mainTab'];
+    // Return without any actions while copy&paste handler is disabled.
+    if (!is_object($this->cpHandler)) {
+      return FALSE;
     }
 
-    return parent::copyPasteHandler($action, $target, $all, $tabClass, $tabType, $aclCategory, $aclPlugin);
+    // Save user input
+    $this->cpHandler->save_object();
+
+    // Add entries to queue
+    if ($action == "copy" || $action == "cut") {
+      $this->cpHandler->cleanup_queue();
+      foreach ($target as $dn) {
+        $type   = $this->getType($dn);
+        $infos  = objects::infos($type);
+
+        if ($action == "copy" && $this->ui->is_copyable($dn, $infos['aclCategory'], $infos['mainTab'])) {
+          $this->cpHandler->add_to_queue($dn, "copy", $type);
+          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Entry copied!");
+        }
+        if ($action == "cut" && $this->ui->is_cutable($dn, $infos['aclCategory'], $infos['mainTab'])) {
+          $this->cpHandler->add_to_queue($dn, "cut", $type);
+          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Entry cutted!");
+        }
+      }
+    }
+
+    // Initiate pasting
+    if ($action == "paste") {
+      $this->cpPastingStarted = TRUE;
+    }
+
+    // Display any c&p dialogs, eg. object modifications required before pasting.
+    if ($this->cpPastingStarted && $this->cpHandler->entries_queued()) {
+      $data = $this->cpHandler->execute($this->headpage->getBase());
+      if (!empty($data)) {
+        return $data;
+      }
+    }
+
+    // Automatically disable pasting process since there is no entry left to paste.
+    if (!$this->cpHandler->entries_queued()) {
+      $this->cpPastingStarted = FALSE;
+    }
+    return "";
   }
 
   static function filterRowLink()
