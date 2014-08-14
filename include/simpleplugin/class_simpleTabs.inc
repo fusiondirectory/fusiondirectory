@@ -61,7 +61,7 @@ class simpleTabs extends tabs
     parent::__construct($config_object, $data, $dn, $category, $copied_object);
 
     $infos = $this->objectInfos();
-    if ($infos) {
+    if ($infos && $infos['mainAttr']) {
       $baseobject = $this->getBaseObject();
       if (($baseobject instanceof simplePlugin) && $baseobject->attributesAccess[$infos['mainAttr']]->getUnique() === FALSE) {
         $baseobject->attributesAccess[$infos['mainAttr']]->setUnique(TRUE);
