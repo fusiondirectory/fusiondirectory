@@ -342,6 +342,7 @@ class GenericDialogAttribute extends DialogAttribute
     if ($this->store_attr == 'dn') {
       $ldap->cat($value, $this->ldapAttributesToGet());
     } else {
+      $ldap->cd($this->plugin->config->current['BASE']);
       $ldap->search('('.$this->store_attr.'='.$value.')', $this->ldapAttributesToGet());
     }
     $this->fillDisplayValueFrom($i, $ldap->fetch());
