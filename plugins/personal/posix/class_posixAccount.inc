@@ -200,6 +200,12 @@ class posixAccount extends simplePlugin
     $this->attributesAccess['gecos']->setVisible(FALSE);
 
     $this->attributesAccess['trustMode']->setInLdap(FALSE);
+    if (!class_available('systemManagement')) {
+      $this->attributesAccess['trustMode']->setChoices(
+            array('', 'fullaccess'),
+            array(_('disabled'), _('full access'))
+      );
+    }
     $this->attributesAccess['trustMode']->setManagedAttributes(
       array(
         'multiplevalues' => array('notbyhost' => array('','fullaccess')),
