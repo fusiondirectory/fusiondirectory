@@ -251,6 +251,7 @@ class aclAssignment extends simplePlugin
         'ou'          => '',
         'icon'        => 'geticon.php?context=categories&icon=acl&size=16',
         'tabClass'    => 'simpleTabs_noSpecial',
+        'mainAttr'    => FALSE
       ),
     );
     if ($config->get_cfg_value('aclTabOnObjects') == 'TRUE') {
