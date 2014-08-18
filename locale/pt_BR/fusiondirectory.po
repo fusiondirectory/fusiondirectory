@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: FusionDirectory\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-21 19:06+0200\n"
-"PO-Revision-Date: 2014-04-08 16:50+0000\n"
-"Last-Translator: marcosantos <marcoa.csantos@yahoo.it>\n"
+"PO-Revision-Date: 2014-08-13 13:01+0000\n"
+"Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/FusionDirectory/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1422,7 +1422,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:64
 msgid "Addons"
-msgstr ""
+msgstr "Plugins"
 
 #: plugins/config/class_configInLdap.inc:80
 msgid "Look n feel"
@@ -3432,7 +3432,7 @@ msgstr ""
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:227
 msgid "Startup"
-msgstr ""
+msgstr "Começar"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:230
 msgid "Systems"
@@ -6467,7 +6467,7 @@ msgstr ""
 #: plugins/admin/ogroups/ogroup_objects.tpl.c:17
 #: plugins/admin/ogroups/trust_machines.tpl.c:11
 msgid "Choose the department the search will be based on"
-msgstr ""
+msgstr "scolha o objeto a ser feita a pesquisa"
 
 #: plugins/admin/groups/trust_machines.tpl.c:14
 #: plugins/admin/ogroups/trust_machines.tpl.c:14

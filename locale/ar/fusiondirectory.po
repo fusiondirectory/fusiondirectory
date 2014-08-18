@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-21 19:06+0200\n"
-"PO-Revision-Date: 2013-12-02 23:20+0000\n"
+"PO-Revision-Date: 2014-08-04 17:30+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/FusionDirectory/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -230,7 +230,7 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:1946
 #: setup/class_setupStep_Migrate.inc:2985
 msgid "Failed"
-msgstr ""
+msgstr "خطأ"
 
 #: setup/class_setupStep_Migrate.inc:512 setup/class_setupStep_Migrate.inc:525
 #, php-format
@@ -1302,7 +1302,7 @@ msgstr ""
 
 #: plugins/generic/references/class_reference.inc:74
 msgid "FAX"
-msgstr ""
+msgstr "الفاكس"
 
 #: plugins/generic/references/class_reference.inc:78
 msgid "Proxy"
@@ -3428,7 +3428,7 @@ msgstr ""
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:227
 msgid "Startup"
-msgstr ""
+msgstr "البداية"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:230
 msgid "Systems"

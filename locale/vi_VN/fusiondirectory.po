@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-21 19:06+0200\n"
-"PO-Revision-Date: 2013-11-20 10:19+0000\n"
+"PO-Revision-Date: 2014-08-04 17:20+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Vietnamese (Viet Nam) (http://www.transifex.com/projects/p/FusionDirectory/language/vi_VN/)\n"
 "MIME-Version: 1.0\n"
@@ -317,7 +317,7 @@ msgstr "Lỗi nhập vào"
 
 #: setup/class_setupStep_Migrate.inc:1084
 msgid "Uid"
-msgstr ""
+msgstr "Số ID của người sử dụng"
 
 #: setup/class_setupStep_Migrate.inc:1089
 msgid "Password error"
@@ -3379,7 +3379,7 @@ msgstr "Danh sách các ads"
 #: plugins/admin/acl/acl-list.xml:15 plugins/admin/acl/acl-list.xml:82
 #: plugins/admin/acl/class_aclManagement.inc:36
 msgid "Acl"
-msgstr ""
+msgstr "ACL"
 
 #: plugins/admin/acl/class_aclManagement.inc:37
 msgid "Access control list management"
@@ -5829,7 +5829,7 @@ msgstr "Cài đặt"
 
 #: setup/setup_frame.tpl.c:8
 msgid "Setup"
-msgstr ""
+msgstr "Cài đặt"
 
 #: setup/setup_welcome.tpl.c:2
 msgid ""

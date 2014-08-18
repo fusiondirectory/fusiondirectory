@@ -6,6 +6,7 @@
 # gallak <antoine.gallavardin@free.fr>, 2013
 # gallak <antoine.gallavardin@free.fr>, 2012
 # Benoit Mortier <benoit.mortier@opensides.be>, 2005-2011,2013
+# MCMic, 2014
 # fusiondirectory <contact@fusiondirectory.org>, 2013
 # fusiondirectory <contact@fusiondirectory.org>, 2012
 # fusiondirectory <contact@fusiondirectory.org>, 2012-2013
@@ -19,7 +20,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-21 19:06+0200\n"
-"PO-Revision-Date: 2013-11-20 10:19+0000\n"
+"PO-Revision-Date: 2014-08-13 11:21+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/FusionDirectory/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -60,7 +61,7 @@ msgstr "La durée de la session doit être une valeur numérique !"
 
 #: setup/class_setupStep_Config3.inc:284
 msgid "Maximum LDAP query time must be a numeric value!"
-msgstr "Le temps maximumpour une requête ldap doit être une valeur numérique !"
+msgstr "Le temps maximum pour une requête LDAP doit être une valeur numérique !"
 
 #: setup/class_setupStep_Schema.inc:42 setup/class_setupStep_Schema.inc:43
 msgid "LDAP schema check"
@@ -68,7 +69,7 @@ msgstr "Vérification des schémas LDAP"
 
 #: setup/class_setupStep_Schema.inc:44
 msgid "Perform test on your current LDAP schema"
-msgstr "Exécuter des test sur vos schéma LDAP actuels"
+msgstr "Exécuter des tests sur vos schémas LDAP actuels"
 
 #: setup/class_setupStep_Language.inc:41 setup/class_setupStep_Language.inc:42
 msgid "Language setup"
@@ -105,32 +106,32 @@ msgstr "Vérification des permissions sur l'annuaire LDAP"
 
 #: setup/class_setupStep_Migrate.inc:147
 msgid "Checking for invisible departments"
-msgstr "Vérification des départements invisibles"
+msgstr "Recherche de départements invisibles"
 
 #: setup/class_setupStep_Migrate.inc:152
 msgid "Checking for invisible users"
-msgstr "Vérification des utilisateurs invisibles"
+msgstr "Recherche d’utilisateurs invisibles"
 
 #: setup/class_setupStep_Migrate.inc:159
 #: setup/class_setupStep_Migrate.inc:2983
 msgid "Checking for super administrator"
-msgstr "Vérification du superadministrateur"
+msgstr "Vérification du super administrateur"
 
 #: setup/class_setupStep_Migrate.inc:165
 msgid "Checking for users outside the people tree"
-msgstr "Vérification d'utilisateurs en dehors de la branche people"
+msgstr "Recherche d'utilisateurs en dehors de la branche people"
 
 #: setup/class_setupStep_Migrate.inc:171
 msgid "Checking for groups outside the groups tree"
-msgstr "Vérification des groupes en dehors de la branche groups"
+msgstr "Recherche de groupes en dehors de la branche groups"
 
 #: setup/class_setupStep_Migrate.inc:178
 msgid "Checking for duplicated UID numbers"
-msgstr "Vérification pour les uid en double"
+msgstr "Recherche d’UID en double"
 
 #: setup/class_setupStep_Migrate.inc:184
 msgid "Checking for duplicate GID numbers"
-msgstr "Vérification pour les gid en double"
+msgstr "Recherche de GID en double"
 
 #: setup/class_setupStep_Migrate.inc:190
 msgid "Checking for old style USB devices"
@@ -138,7 +139,7 @@ msgstr "Recherche de périphériques USB ancien style"
 
 #: setup/class_setupStep_Migrate.inc:196
 msgid "Checking for old services that have to be migrated"
-msgstr "Vérification des anciens services qui devront être migré."
+msgstr "Recherche d’anciens services qui devraient être migrés"
 
 #: setup/class_setupStep_Migrate.inc:202
 msgid "Checking for old style application menus"
@@ -153,7 +154,7 @@ msgstr "Vérifier pour les menu des applications ancienne mode"
 #: setup/class_setupStep_Migrate.inc:2464
 #: setup/class_setupStep_Migrate.inc:2604
 msgid "LDAP query failed"
-msgstr "La requête LDAP à échoué"
+msgstr "La requête LDAP a échoué"
 
 #: setup/class_setupStep_Migrate.inc:229 setup/class_setupStep_Migrate.inc:281
 #: setup/class_setupStep_Migrate.inc:348 setup/class_setupStep_Migrate.inc:419
@@ -192,7 +193,7 @@ msgstr "Avertissement"
 #: setup/class_setupStep_Migrate.inc:251
 #, php-format
 msgid "Found %s duplicate values for attribute 'uidNumber'."
-msgstr "J'ai trouvé %s valeur dupliquées pour l'attribut 'uidNumber'."
+msgstr "%s valeurs dupliquées trouvées pour l'attribut 'uidNumber'."
 
 #: setup/class_setupStep_Migrate.inc:255 setup/class_setupStep_Migrate.inc:307
 #: setup/class_setupStep_Migrate.inc:379 setup/class_setupStep_Migrate.inc:456
@@ -216,16 +217,16 @@ msgstr "Ok"
 #: setup/class_setupStep_Migrate.inc:303
 #, php-format
 msgid "Found %s duplicate values for attribute 'gidNumber'."
-msgstr "J'ai trouvé %s valeur dupliquées pour l'attribut 'gidNumber'."
+msgstr "%s valeurs dupliquées trouvées pour l'attribut 'gidNumber'."
 
 #: setup/class_setupStep_Migrate.inc:374
 #, php-format
 msgid "Found %s groups outside the configured tree '%s'."
-msgstr "J'ai trouvé %s groupes en dehors de la branche configurée '%s'."
+msgstr "%s groupes trouvés en dehors de la branche configurée '%s'."
 
 #: setup/class_setupStep_Migrate.inc:375 setup/class_setupStep_Migrate.inc:452
 msgid "Move"
-msgstr "Bouger"
+msgstr "Déplacer"
 
 #: setup/class_setupStep_Migrate.inc:451
 #, php-format
@@ -241,7 +242,7 @@ msgstr "J'ai trouvé %s utilsateur(s) en dehors de la branche configurée '%s'."
 #: setup/class_setupStep_Migrate.inc:1946
 #: setup/class_setupStep_Migrate.inc:2985
 msgid "Failed"
-msgstr "Echec"
+msgstr "Échec"
 
 #: setup/class_setupStep_Migrate.inc:512 setup/class_setupStep_Migrate.inc:525
 #, php-format
