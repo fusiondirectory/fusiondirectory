@@ -139,7 +139,7 @@ class Step_Migrate extends setup_step
       ),
       array(
         'cn'              => 'editowninfos',
-        'description'     => _('Allow users to edit their own information (main tab and posix − use only on base)'),
+        'description'     => _('Allow users to edit their own information (main tab and posix use only on base)'),
         'objectclass'     => array('top', 'gosaRole'),
         'gosaAclTemplate' => '0:user/posixAccount;srw,user/user;srw'
       ),
