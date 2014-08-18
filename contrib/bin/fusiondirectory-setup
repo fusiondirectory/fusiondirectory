@@ -111,7 +111,7 @@ sub ask_user_input {
 # Die on all LDAP error except for «No such object»
 sub die_on_ldap_errors
 {
-  my $mesg = (@_);
+  my ($mesg) = @_;
   if (($mesg->code != 0) && ($mesg->code != 32)) {
     die $mesg->error;
   }
