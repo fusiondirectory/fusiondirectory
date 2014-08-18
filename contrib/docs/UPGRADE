@@ -63,7 +63,14 @@ fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/argonaut-fd.sc
 
 - Upgrade FusionDirectory first ====
 
-Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+Upgrade FusionDirectory core package before other ones to avoid dependencies errors.
+
+====== Migrate FusionDirectory from 1.0.7.4 to 1.0.7.5 ======
+
+- Upgrade FusionDirectory first ====
+
+Upgrade FusionDirectory core package before other ones to avoid dependencies errors.
+
 
 ---
 * Further information

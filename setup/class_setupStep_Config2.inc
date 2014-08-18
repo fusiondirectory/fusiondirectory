@@ -27,7 +27,8 @@ class Step_Config2 extends setup_step
   var $sambaidmapping = FALSE;
   var $header_image   = "images/setup/server.png";
 
-  var $generic_settings  = array( "snapshot_active"     => TRUE);
+  var $generic_settings  = array( "snapshot_active"     => TRUE,
+                                  "snapshot_base"       => "ou=snapshots,%base%");
 
   var $timezone       = "Europe/Paris";
   var $timezones      = array();
@@ -66,8 +67,6 @@ class Step_Config2 extends setup_step
 
     $smarty = get_smarty();
     $smarty->assign("generic_settings",  reverse_html_entities($this->generic_settings));
-
-    $smarty->assign("bool", array(FALSE => _("No"), TRUE => _("Yes")));
 
     foreach ($this->attributes as $attr) {
       $smarty->assign($attr, reverse_html_entities($this->$attr));

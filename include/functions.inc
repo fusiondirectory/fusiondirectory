@@ -2252,6 +2252,36 @@ function to_byte($value) {
   }
 }
 
+/*!
+ * \brief Convert a size in bytes to a human readable version
+ *
+ * \param float $bytes size in bytes
+ *
+ * \param int $precision number of digits after comma, default is 2
+ *
+ * \return Returns something like '9.77KiB' for arguments (10000, 2)
+ */
+function humanReadableSize ($bytes, $precision = 2)
+{
+  $format = array(
+    _('%sB'),
+    _('%sKiB'),
+    _('%sMiB'),
+    _('%sGiB'),
+    _('%sTiB'),
+    _('%sPiB'),
+    _('%sEiB'),
+    _('%sZiB'),
+    _('%sYiB')
+  );
+  if ($bytes == 0) {
+    return sprintf($format[0], '0');
+  }
+  $base = log($bytes) / log(1024);
+
+  return sprintf($format[floor($base)], round(pow(1024, $base - floor($base)), $precision));
+}
+
 
 /*!
  * \brief Check if a value exists in an array (case-insensitive)
@@ -3167,6 +3197,33 @@ function generate_smb_nt_hash($password)
   $attrs['sambaBadPasswordCount'] = "0";
   $attrs['sambaBadPasswordTime']  = "0";
   return $attrs;
+}
+
+/* Lock or unlock samba account */
+function lock_samba_account($mode, $attrs)
+{
+  $modify = array('sambaNTPassword' => $attrs['sambaNTPassword'][0]);
+  if ($config->get_cfg_value("sambaGenLMPassword", "FALSE") == "TRUE") {
+    $modify['sambaLMPassword'] = $attrs['sambaLMPassword'][0];
+  } else {
+    $modify['sambaLMPassword'] = array();
+  }
+  foreach ($modify as $key => &$pwd) {
+    if (is_array($pwd)) {
+      continue;
+    }
+    if ($mode == 'LOCK') {
+      /* Lock entry */
+      if (!preg_match('/^\!/', $pwd)) {
+        $pwd = '!'.$pwd;
+      }
+    } else {
+      /* Unlock entry */
+      $pwd = preg_replace("/^\!/",  "",   $pwd);
+    }
+  }
+  unset($value);
+  return $modify;
 }
 
 
