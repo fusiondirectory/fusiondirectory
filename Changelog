@@ -1,6 +1,18 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.7.5
+
+[Fix] Bugs #2567: password-methods should follow code guidelines
+[Fix] Bugs #2728: Locked account and samba
+[Fix] Bugs #3064: Added a function for human readable sizes used in FAI 
+[Fix] Bugs #3150: FAI profiles with the same name as a class are causing troubles
+[Fix] Bugs #3153: When creating an FAI branch, subbranches should be created as well
+[Fix] Bugs #3159: only a part a OPSI netboot description is shown (wich isn't significant)
+[Fix] Bugs #3174: Supann have some problems
+[Fix] Bugs #3216: fusiondirectory-setup should die on ldap errors
+[Fix] Bugs #3223: The snapshot base is not proposed
+
 * FusionDirectory 1.0.7.4
 
 [Fix] Bugs #3089: Clean OPSI import code to reuse it for other imports
