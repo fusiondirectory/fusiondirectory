@@ -12,7 +12,7 @@
     <input type="submit" name="getconf" value="{t}Download configuration{/t}"/>
   </p>
     {if $err_msg != ""}
-      <p class="seperator">&nbsp;</p>
+      <hr/>
       <br/>
       {t}Status: {/t}
       <a style="color:red ; font-weight:bold ">{$err_msg}</a>

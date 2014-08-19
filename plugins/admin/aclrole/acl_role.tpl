@@ -2,7 +2,7 @@
   <h1>{t}List of available ACL categories{/t}</h1>
   {$aclList}
 
-  <p class="seperator">&nbsp;</p>
+  <hr/>
   <div style="text-align:right;margin-top:5px">
     {render acl=$gosaAclEntryACL}
       <input type="submit" name="submit_new_acl" value="{msgPool type=applyButton}"/>
@@ -19,7 +19,7 @@
     {$aclSelector}
   {/render}
 
-  <p class="seperator">&nbsp;</p>
+  <hr/>
   <div style="text-align:right;margin-top:5px">
     {render acl=$gosaAclEntryACL}
       <input type="submit" name="submit_edit_acl" value="{msgPool type=applyButton}"/>

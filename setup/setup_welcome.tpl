@@ -3,7 +3,8 @@
     {t}This seems to be the first time you start FusionDirectory - we didn't find any configuration right now. This simple wizard intends to help you while setting it up.{/t}
   </p>
 
-  <p style='border-top:1px solid #AAAAAA; padding-top:10px;'>
+  <hr/>
+  <p>
     <b>{t}What will the wizard do for you?{/t}</b>
   </p>
   <ul>
@@ -20,7 +21,8 @@
     <li>{t}Migrate every possible LDAP setup - create backup dumps!{/t}</li>
   </ul>
 
-  <p style='border-top:1px solid #AAAAAA; padding-top:10px;'>
+  <hr/>
+  <p>
     <b>{t}To continue:{/t}</b>
   </p>
   <p>
