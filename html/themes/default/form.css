@@ -1,36 +1,9 @@
-input {
+input, input:focus, select, textarea, textarea:focus {
 font-size:12px;
 }
 
-input[type=text] {
-border:1px solid #AAA;
+input[type=text], input[type=password], select {
 padding:2px;
-}
-
-input[type=text]:focus,input[type=password]:focus {
-border:1px solid #333;
-}
-
-input[type=password] {
-border:1px solid #AAA;
-padding:2px;
-}
-
-input:focus {
-font-size:12px;
-}
-
-select {
-font-size:12px;
-}
-
-textarea {
-border:1px solid #AAA;
-font-size:12px;
-}
-
-textarea:focus {
-font-size:12px;
 }
 
 input[disabled] {
@@ -38,12 +11,7 @@ color:#888;
 background-color:#DDD;
 }
 
-textarea[disabled] {
-color:#000;
-background-color:#DDD;
-}
-
-select[disabled] {
+textarea[disabled], select[disabled] {
 color:#000;
 background-color:#DDD;
 }
