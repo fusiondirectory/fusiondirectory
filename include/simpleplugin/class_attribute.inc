@@ -122,7 +122,7 @@ class Attribute
   function setUnique ($unique)
   {
     if ($unique === TRUE) {
-      $this->unique = 'sub';
+      $this->unique = 'one';
     } else {
       $this->unique = $unique;
     }
@@ -419,30 +419,65 @@ class Attribute
         return;
       }
       $ldap = $this->plugin->config->get_ldap_link();
-      if ($this->unique === 'whole') {
-        $ldap->cd($this->plugin->config->current['BASE']);
-      } else {
+      $base = $this->plugin->config->current['BASE'];
+      if ($this->unique !== 'whole') {
         if (isset($this->plugin->base) && !empty($this->plugin->base)) {
           $base = $this->plugin->base;
         } elseif (isset($this->plugin->dn) && !empty($this->plugin->dn) && ($this->plugin->dn != 'new')) {
           $base = dn2base($this->plugin->dn);
-        } else {
-          $base = $this->plugin->config->current['BASE'];
         }
-        $ldap->cd($base);
       }
+      $ldap->cd($base);
       $filter = "(".$this->getLdapName()."=".$value.")";
       $pluginFilter = $this->plugin->getObjectClassFilter();
       if (!empty($pluginFilter)) {
         $filter = "(&$pluginFilter$filter)";
       }
-      if ($this->unique === 'one') {
-        $ldap->ls($filter, "", array($this->getLdapName()));
-      } else {
-        $ldap->search($filter, array($this->getLdapName()));
-      }
+      $ldap->search($filter, array($this->getLdapName()));
+      $infos = pluglist::pluginInfos(get_class($this->plugin));
+      $branches = array_map(
+        function ($key, $ot)
+        {
+          if (!is_numeric($key)) {
+            $ot = $key;
+          }
+          $oinfos = objects::infos($ot);
+          return $oinfos['ou'];
+        },
+        array_keys($infos['plObjectType']),
+        array_values($infos['plObjectType'])
+      );
       while ($attrs = $ldap->fetch()) {
         if ($attrs['dn'] != $this->plugin->dn) {
+          $dn_base  = preg_replace('/^[^,]+,/', '', $attrs['dn']);
+          $found    = FALSE;
+          if ($this->unique === 'one') {
+            /* Check that this entry is in a concerned branch */
+            $dn_branch = preg_replace('/,'.preg_quote($base, '/').'$/', '', $dn_base);
+            foreach ($branches as $branch) {
+              if ($branch.$base == $dn_base) {
+                $dn_base  = preg_replace('/^'.preg_quote($branch, '/').'/', '', $dn_base);
+                $found    = TRUE;
+                break;
+              }
+            }
+          } else { /* whole (or sub) */
+            /* Check that this entry is in a concerned branch */
+            foreach ($branches as $branch) {
+              if (preg_match('/^'.preg_quote($branch, '/').'/', $dn_base)) {
+                $dn_base  = preg_replace('/^'.preg_quote($branch, '/').'/', '', $dn_base);
+                $found    = TRUE;
+                break;
+              }
+            }
+            if (!in_array($dn_base, $this->plugin->config->departments)) {
+              continue;
+            }
+          }
+          if (!$found) {
+            continue;
+          }
+
           return msgPool::duplicated($this->getLabel());
         }
       }
