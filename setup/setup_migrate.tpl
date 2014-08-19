@@ -1,5 +1,5 @@
 <div>
-    <div class='default'>
+    <div class="default">
 
   {if $method == "default"}
       <p>{t}During the LDAP inspection, we're going to check for several common pitfalls that may occur when migration to FusionDirectory base LDAP administration. You may want to fix the problems below, in order to provide smooth services.{/t}

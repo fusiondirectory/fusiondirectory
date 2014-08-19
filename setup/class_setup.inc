@@ -177,7 +177,7 @@ class setup
   /* Create navigation menu */
   function get_navigation_html()
   {
-    $str = "";
+    $str = '<ul class="menu"><li><a>FusionDirectory Setup</a><ul>';
     foreach ($this->o_steps as $key => $step) {
 
       $step->update_strings();
@@ -189,29 +189,30 @@ class setup
       $b_completed  = $step->is_completed();
 
       if ($b_completed) {
-        $s = "<img src='geticon.php?context=status&icon=task-complete&size=16' alt='"._("Completed")."' class='center optional'>&nbsp;";
+        $s = '<img src="geticon.php?context=status&icon=task-complete&size=16" alt="'._('Completed').'" class="center optional"/>&nbsp;';
       } else {
-        $s = "<img src='images/empty.png' alt=' ' class='center optional'>&nbsp;";
+        $s = '<img src="images/empty.png" alt=" " class="center optional"/>&nbsp;';
       }
 
       if ($b_enabled) {
         if ($b_active) {
-          $str .= "<div class='navigation_element_active'>";
-          $str .= "<div class='navigation_title_active'>".$s.$s_title."</div>";
-          $str .= "<div class='navigation_info'>".$s_info."</div>";
-          $str .= "</div>";
+          $str .= '<li class="menuitem menucurrent" title="'.$s_info.'">';
+          $str .= '<a class="navigation_title">'.$s.$s_title.'</a>';
+          $str .= '<a class="navigation_info">'.$s_info.'</a>';
+          $str .= '</li>';
         } else {
-          $str .= "<div class='navigation_element'>";
-          $str .= "<div onClick='document.mainform.setup_goto_step.value=\"$key\";document.mainform.submit();'
-            class='navigation_title_inactive'>".$s.$s_title."</div>";
-          $str .= "</div>";
+          $str .= '<li class="menuitem" title="'.$s_info.'">';
+          $str .= '<a onClick="document.mainform.setup_goto_step.value=\''.$key.'\';document.mainform.submit();"
+            class="navigation_title">'.$s.$s_title.'</a>';
+          $str .= '</li>';
         }
       } else {
-        $str .= "<div class='navigation_element'>";
-        $str .= "<div class='navigation_title_disabled'>".$s.$s_title."</div>";
-        $str .= "</div>";
+        $str .= '<li class="menuitem disabled" title="'.$s_info.'">';
+        $str .= '<a class="navigation_title">'.$s.$s_title.'</a>';
+        $str .= '</li>';
       }
     }
+    $str .= '</li></ul>';
     return $str;
   }
 
@@ -222,18 +223,17 @@ class setup
      *  if the currently opened step is a sub dialog
      */
     if ($this->o_steps[$this->i_current]->dialog) {
-      $str = "";
+      $str = '';
     } else {
-      $str = "<p class='seperator' style='margin-bottom:10px;'>&nbsp;</p>";
-      $str .= "   <div style='text-align:right;float:top;'>";
+      $str = '   <p class="plugbottom">';
       if (isset($this->o_steps[$this->i_current - 1]) && $this->o_steps[$this->i_current - 1]->is_enabled()) {
-        $str .= "<input type='submit' name='last' value='".msgPool::backButton()."'>";
+        $str .= '<input type="submit" name="last" value="'.msgPool::backButton().'"/>';
       } else {
-        $str .= "<input type='button' name='last' value='".msgPool::backButton()."' disabled>";
+        $str .= '<input type="button" name="last" value="'.msgPool::backButton().'" disabled="disabled"/>';
       }
-      $str .= "&nbsp;";
-      $str .= "<input type='submit' name='next' value='"._("Next")."'>";
-      $str .= "</div>";
+      $str .= '&nbsp;';
+      $str .= '<input type="submit" name="next" value="'._('Next').'"/>';
+      $str .= '</p>';
     }
     return $str;
   }
