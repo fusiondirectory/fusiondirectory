@@ -179,22 +179,11 @@ html.rtl div.copynotice {
 text-align:left;
 }
 
-p.seperator {
-border-style:solid;
-border-color:#AAA;
+hr {
 width:100%;
-border-top-width:0;
-border-bottom-width:1px;
-border-left-width:0;
-border-right-width:0;
-padding-top:0;
-padding-bottom:0;
-margin-top:0;
-margin-bottom:0;
-text-align:left;
-}
-html.rtl p.seperator {
-text-align:right;
+border:none;
+background-color:#AAA;
+height:1px;
 }
 
 .must {

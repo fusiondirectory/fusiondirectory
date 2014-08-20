@@ -6,7 +6,7 @@
  {t}Applying a template to several users will replace all user attributes defined in the template.{/t}
 </p>
 
-<p class="seperator">&nbsp;</p>
+<hr/>
 <br>
 
 {if $templates}

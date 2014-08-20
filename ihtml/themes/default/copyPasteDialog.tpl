@@ -9,7 +9,7 @@
 {t}Remember that some properties like taken snapshots will not be copied!{/t}&nbsp;
 {t}Or if you copy or cut an entry within FusionDirectory and delete the source object, you may get errors while pasting this object again!{/t}
 
-  <p class='seperator'>&nbsp;</p>
+  <hr/>
   <br>
   {$AttributesToFix}
   {if $SubDialog == false}
@@ -25,7 +25,7 @@
   </div>
   {/if}
 {else}
-  <p class="seperator">&nbsp;</p>
+  <hr/>
   <br>
   <h2>{t}Operation complete{/t}</h2>
   <div style="text-align:right;width:100%;">
