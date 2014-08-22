@@ -92,7 +92,14 @@ $domain = 'fusiondirectory';
 bindtextdomain($domain, LOCALE_DIR);
 textdomain($domain);
 
-
+/* Minimal config */
+if (!session::global_is_set('config')) {
+  $config = new config('');
+  session::global_set('config', $config);
+}
+$config = session::global_get('config');
+load_plist(FALSE);
+IconTheme::loadThemes('themes');
 /* Call setup */
 $display = "";
 require_once("../setup/main.inc");

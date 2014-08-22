@@ -33,7 +33,7 @@ class Step_Config1 extends setup_step
   var $cngen_active = FALSE;
   var $cngen        = "%sn% %givenName%";
 
-  var $header_image       = "images/setup/server.png";
+  var $header_image       = 'geticon.php?context=categories&icon=settings&size=48';
   var $account_expiration = FALSE;
   var $base_hook          = "";
   var $base_hook_active   = FALSE;

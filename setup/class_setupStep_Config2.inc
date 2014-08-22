@@ -25,7 +25,7 @@ class Step_Config2 extends setup_step
 {
   var $governmentmode = FALSE;
   var $sambaidmapping = FALSE;
-  var $header_image   = "images/setup/server.png";
+  var $header_image   = 'geticon.php?context=categories&icon=settings&size=48';
 
   var $generic_settings  = array( "snapshot_active"     => TRUE,
                                   "snapshot_base"       => "ou=snapshots,%base%");

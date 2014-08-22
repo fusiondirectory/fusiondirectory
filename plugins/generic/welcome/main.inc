@@ -23,7 +23,7 @@
 if (!$cleanup){
   session::set('plugin_dir',dirname(__FILE__));
   $smarty->assign("iconmenu", $plist->show_iconmenu());
-  $smarty->assign("header", print_header(get_template_path('images/welcome.png'), sprintf(_("Welcome %s!"), $ui->cn)));
+  $smarty->assign("header", print_header(get_template_path('themes/default/icons/48/apps/config-welcome.png'), sprintf(_("Welcome %s!"), $ui->cn)));
   $smarty->assign("year", date("Y"));
 
   $smarty->assign("revision",FD_VERSION);

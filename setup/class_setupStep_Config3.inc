@@ -23,7 +23,7 @@
 
 class Step_Config3 extends setup_step
 {
-  var $header_image = "images/setup/server.png";
+  var $header_image = 'geticon.php?context=categories&icon=settings&size=48';
 
   var $errorlvl   = FALSE;
 

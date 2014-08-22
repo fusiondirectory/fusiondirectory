@@ -28,7 +28,7 @@ class setup_step extends plugin
   var $is_enabled   = FALSE;
   var $is_completed = FALSE;
 
-  var $header_image = "images/setup/user.png";
+  var $header_image = "";
 
   var $attributes   = array();
   var $parent       = NULL;
