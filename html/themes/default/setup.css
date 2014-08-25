@@ -40,32 +40,38 @@ margin:0;
 }
 
 /* An enabled setup step will use this style in navigation*/
-li.menuitem.menucurrent a.navigation_title {
+#menucell.setup_navigation li.menuitem.menucurrent a.navigation_title {
 cursor:default;
 }
 
 /* Disabled setup steps */
-li.menuitem.disabled a.navigation_title {
+#menucell.setup_navigation li.menuitem.disabled a.navigation_title {
 cursor:default;
 color:#AAA;
 }
 
 /* Disabled setup steps */
-li.menuitem a.navigation_title {
+#menucell.setup_navigation li.menuitem a.navigation_title {
 font-size:1.2em;
 font-weight:bold;
 text-decoration:none;
 cursor:pointer;
-padding:3px;
+padding-top:3px;
+padding-bottom:3px;
 }
 
 /* The style for the info of an active setup */
-li.menuitem a.navigation_info {
+#menucell.setup_navigation li.menuitem a.navigation_info {
 font-size:1em;
 color:#000;
-padding:4px 4px 3px 23px;
 margin:0;
 cursor:default;
+}
+html.ltr #menucell.setup_navigation li.menuitem a.navigation_info {
+padding:4px 4px 3px 15px;
+}
+html.rtl #menucell.setup_navigation li.menuitem a.navigation_info {
+padding:4px 15px 3px 4px;
 }
 
 .setup_language select#lang_selected {
