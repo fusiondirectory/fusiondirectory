@@ -118,7 +118,8 @@ font-size:1.2em;
 font-weight:bold;
 text-decoration:none;
 cursor:pointer;
-padding:3px;
+padding-top:3px;
+padding-bottom:3px;
 }
 
 /* The style for the info of an active setup */
