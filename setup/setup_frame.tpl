@@ -10,7 +10,7 @@
 
   <div style="padding:10px;background-color:white;">
 
-    <div class='setup_navigation'>
+    <div class='setup_navigation' id='menucell'>
       {$navigation}
     </div>
 
