@@ -1510,25 +1510,19 @@ class plugin
       $addAttrs['dn']       = $plugin->dn;
       $addAttrs['location'] = $config->current['NAME'];
 
-      $command = self::tpl_parse_string($command, $addAttrs);
-
-      // If there are still some %.. in our command, try to fill these with some other tab vars
-      if (preg_match("/%/", $command)) {
-        $addAttrs = array();
-        if (isset($plugin->parent->by_object)) {
-          foreach ($plugin->parent->by_object as $object) {
-            foreach ($object->attributes as $attr) {
-              if (!isset($addAttrs[$attr])) {
-                $addAttrs[$attr] = $object->$attr;
-              }
+      if (isset($plugin->parent->by_object)) {
+        foreach ($plugin->parent->by_object as $object) {
+          foreach ($object->attributes as $attr) {
+            if (!isset($addAttrs[$attr])) {
+              $addAttrs[$attr] = $object->$attr;
             }
           }
         }
-
-        $command = self::tpl_parse_string($command, $addAttrs);
       }
 
-      // If there are still some %.. in our command, try to fill these with some other class vars
+      $command = self::tpl_parse_string($command, $addAttrs);
+
+      // If there are still some %.. in our command, try to fill these with some other class vars (FIXME: useless)
       if (preg_match("/%/", $command)) {
         $addAttrs = array();
         $attrs = get_object_vars($plugin);
