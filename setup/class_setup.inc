@@ -202,8 +202,6 @@ class setup
         $s = '<img src="images/empty.png" alt=" " class="center optional"/>&nbsp;';
       }
 
-      $str .= "<div >";
-
       if ($b_enabled) {
         if ($b_active) {
           $str .= '<li class="menuitem menucurrent" title="'.$s_info.'">';
@@ -221,7 +219,6 @@ class setup
         $str .= '<a class="navigation_title">'.$s.$s_title.'</a>';
         $str .= '</li>';
       }
-      $str .= "</div>";
     }
     $str .= '</li></ul>';
     return $str;
