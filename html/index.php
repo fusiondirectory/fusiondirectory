@@ -31,7 +31,7 @@ header("Content-type: text/html; charset=UTF-8");
 /* Display the login page and exit() */
 function displayLogin()
 {
-  global $smarty,$message,$config,$ssl,$error_collector,$error_collector_mailto;
+  global $smarty,$message,$config,$ssl,$error_collector,$error_collector_mailto,$lang;
   error_reporting(E_ALL | E_STRICT);
   /* Fill template with required values */
   $username = "";
