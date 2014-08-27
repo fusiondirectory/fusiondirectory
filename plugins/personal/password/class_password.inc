@@ -202,7 +202,7 @@ class password extends plugin
       "plPriority"      => 10,
       "plCategory"      => array("user"),
       "plSection"       => "personal",
-      "plIcon"          => '/fusiondirectory/geticon.php?context=status&icon=dialog-password&size=48',
+      "plIcon"          => 'geticon.php?context=status&icon=dialog-password&size=48',
 
       "plProvidedAcls"  => array(
         "userPassword"  => _("Change user password"),
