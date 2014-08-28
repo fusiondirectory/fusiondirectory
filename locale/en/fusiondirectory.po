@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: documentation@lists.fusiondirectory.org\n"
-"POT-Creation-Date: 2014-08-18 16:17+0200\n"
+"POT-Creation-Date: 2014-08-28 17:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -218,7 +218,7 @@ msgstr ""
 #: include/functions.inc:3569 include/functions.inc:3578
 #: include/functions.inc:3640 include/class_msg_dialog.inc:129
 #: include/class_databaseManagement.inc:78 include/class_xml.inc:58
-#: include/class_plugin.inc:1517 include/class_CopyPasteHandler.inc:250
+#: include/class_plugin.inc:1511 include/class_CopyPasteHandler.inc:250
 #: include/simpleplugin/class_attribute.inc:1365
 #: include/simpleplugin/class_attribute.inc:1368
 #: include/simpleplugin/class_attribute.inc:1371
@@ -3956,13 +3956,13 @@ msgid ""
 msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:80 setup/class_setupStep_Config3.inc:82
-#: setup/class_setupStep_Config1.inc:96 setup/class_setupStep_Schema.inc:81
+#: setup/class_setupStep_Config1.inc:96 setup/class_setupStep_Schema.inc:82
 #: setup/setup_feedback.tpl.c:32 setup/setup_feedback.tpl.c:44
 msgid "No"
 msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:80 setup/class_setupStep_Config3.inc:82
-#: setup/class_setupStep_Config1.inc:96 setup/class_setupStep_Schema.inc:81
+#: setup/class_setupStep_Config1.inc:96 setup/class_setupStep_Schema.inc:82
 #: setup/setup_feedback.tpl.c:29 setup/setup_feedback.tpl.c:41
 msgid "Yes"
 msgstr ""
@@ -4650,15 +4650,15 @@ msgstr ""
 msgid "Completed"
 msgstr ""
 
-#: setup/class_setup.inc:246 setup/setup_migrate.tpl.c:104
+#: setup/class_setup.inc:243 setup/setup_migrate.tpl.c:104
 msgid "Next"
 msgstr ""
 
-#: setup/class_setupStep_Schema.inc:42 setup/class_setupStep_Schema.inc:43
+#: setup/class_setupStep_Schema.inc:43 setup/class_setupStep_Schema.inc:44
 msgid "LDAP schema check"
 msgstr ""
 
-#: setup/class_setupStep_Schema.inc:44
+#: setup/class_setupStep_Schema.inc:45
 msgid "Perform test on your current LDAP schema"
 msgstr ""
 
@@ -5789,7 +5789,7 @@ msgid "Migrate every possible LDAP setup - create backup dumps!"
 msgstr ""
 
 #: setup/setup_welcome.tpl.c:29
-msgid "To continue..."
+msgid "To continue:"
 msgstr ""
 
 #: setup/setup_welcome.tpl.c:32
@@ -5886,14 +5886,6 @@ msgstr ""
 
 #: setup/setup_frame.tpl.c:2
 msgid "FusionDirectory setup wizard"
-msgstr ""
-
-#: setup/setup_frame.tpl.c:5
-msgid "Installation"
-msgstr ""
-
-#: setup/setup_frame.tpl.c:8
-msgid "Setup"
 msgstr ""
 
 #: setup/setup_config2.tpl.c:5
