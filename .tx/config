@@ -1,8 +1,9 @@
 [main]
 host = https://www.transifex.com
+type = PO
 
-[fusiondirectory-develop.fusiondirectory-core]
+[FusionDirectory-Dev.core]
 file_filter = locale/<lang>/fusiondirectory.po
-source_file = locale/fusiondirectory.po
+source_file = locale/en/fusiondirectory.po
 source_lang = en
 
