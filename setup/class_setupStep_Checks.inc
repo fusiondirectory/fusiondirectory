@@ -43,12 +43,6 @@ class Step_Checks extends setupStep
     );
   }
 
-  function __construct()
-  {
-    parent::__construct();
-    $this->update_strings();
-  }
-
   function update_strings()
   {
     $this->s_title      = _("Installation check");
