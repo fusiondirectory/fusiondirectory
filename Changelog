@@ -1,6 +1,51 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.8.1
+
+[Fix] Bugs #2702: Connection problems to slapd when using TLS
+[Feature] Bugs #3060: We should try to ease migrations when schema attributes are disappearing
+[Feature] Bugs #3134: fusiondirectory-insert-schema should allow ldap auth
+[Fix] Bugs #3189: ldap dump should escape html
+[Fix] Bugs #3190: html and smarty code should be escaped in read-only mode
+[Fix] Bugs #3203: remove overlib.js leftover
+[Fix] Bugs #3204: add a manpage for fusiondirectory-shell
+[Fix] Bugs #3212: After the upgrade the ACL system looks broken,
+[Fix] Bugs #3213: First time role installation on a default installation
+[Fix] Bugs #3216: fusiondirectory-setup should die on ldap search error
+[Fix] Bugs #3217: Editing the config triggers php errors
+[Fix] Bugs #3218: Remove the plugin restauration feature
+[Fix] Bugs #3223: The snapshot base is not proposed
+[Feature] Wishlist #3224: fusiondirectory-setup may contain help for migrating versions
+[Fix] Bugs #3227: Hide userPassword on change_password postmodfy hook error message
+[Fix] Bugs #3230: Snapshot type should be deprecated
+[Fix] Bugs #3235: When a manager changes its base the managed user attributes are changed
+[Fix] Bugs #3236: fusiondirectory-setup contains duplicated code for branch creation
+[Fix] Bugs #3238: Department creation is broken
+[Feature] Bugs #3239: Use some CSS3 features
+[Fix] Bugs #3241: Supann entite regexp is wrong
+[Fix] Bugs #3251: The list of objectTypes is no longer present in class_debugHelp.inc
+[Fix] Bugs #3256: don't base64 encode sshPublicKey
+[Feature] Wishlist #3257: Allow options in sshPublicKey
+[Fix] Wishlist #3260: Apache2.4 does not allow underscores in request header variables anymore
+[Fix] Wishlist #3261: Improve white-space trimming of mcrypt_decrypt() results
+[Feature] Wishlist #3262: Make non-default plugin tabs browseable when the plugin is viewed in non-editable mode
+[Fix] Bugs #3263: Login with expire password work if we modify the URL
+[Fix] Bugs #3266: We must remove update-from-1.0.6-to-1.0.7 for 1.0.8.1
+[Fix] Bugs #3268: fusiondirectory.secrets not included via fusiondirectory-apache.conf
+[Fix] Bugs #3270: no more "restore snapshot" button when listing system
+[Fix] Bugs #3271: Rename a server create PHP errors
+[Fix] Bugs #3274: When we migrate the acls we have an error
+[Fix] Bugs #3282: adding /en/ files to fusiondirectory to enable automatic update of the transifex po files
+[Fix] Bugs #3283: adding /en/ files to fusiondirectory to enable automatic update of the transifex po files
+[Fix] Bugs #3284: we are now allowed to use non-ascii string in gettext translation for en
+[Fix] Bugs #3287: Undefined variable lang in index.php
+[Fix] Bugs #3288: ACL does not seem to work 1.0.8
+[Fix] Bugs #3290: Cannot run a postCreate Hook by using uid field as parameters
+[Fix] Bugs #3295 Webservice is missing jsonrpc.php
+[Fix] Bugs #3297: Use relative path for geticon
+[Fix] Bugs #3298: Use relative path for geticon
+
 * FusionDirectory 1.0.8
 
 [Fix] Bugs #1922: Foreign key should be handled between plugins
