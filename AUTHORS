@@ -107,6 +107,9 @@ documentation and additional help.
 
 * Mike Gabriel <mike.gabriel@das-netzwerkteam.de>
   Various patches from debian-edu
+  Apache 2.4 support
+  Mcrypt decrypt enhancement
+  Browsing inactive tab 
 
 * Jeremy Williame <williamejeremy@hotmail.com>
   Cleanup and writer of the FusionDirectory doxygen api documentation
@@ -130,6 +133,7 @@ documentation and additional help.
   Use the passwordDefaultHash for new users
   Fix for icons in core plugins
   Provide a way to show hook execution results to the user via web
+  Hide userPassword on change_password postmodfy hook error message
 
 * Stefan Krüger <shadow_7@gmx.net>
   Add support for various database to the rsyslog plugin
