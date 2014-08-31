@@ -135,12 +135,22 @@ text-align:center;
 vertical-align:middle;
 cursor:pointer;
 display:inline-block;
+padding:2px;
+border-radius:8px;
+transition:box-shadow .5s ease, background .5s ease;
+}
+html.ltr a.maintitlebar,html.ltr div.maintitlebar {
+padding-right:5px;
+}
+html.rtl a.maintitlebar,html.rtl div.maintitlebar {
+padding-left:5px;
 }
 
 a.maintitlebar:hover {
 text-decoration:none;
 background-color:#d7e6b4;
 cursor:pointer;
+box-shadow:0px 0px 2px black;
 }
 
 td.phonelist:hover {
@@ -169,22 +179,11 @@ html.rtl div.copynotice {
 text-align:left;
 }
 
-p.seperator {
-border-style:solid;
-border-color:#AAA;
+hr {
 width:100%;
-border-top-width:0;
-border-bottom-width:1px;
-border-left-width:0;
-border-right-width:0;
-padding-top:0;
-padding-bottom:0;
-margin-top:0;
-margin-bottom:0;
-text-align:left;
-}
-html.rtl p.seperator {
-text-align:right;
+border:none;
+background-color:#AAA;
+height:1px;
 }
 
 .must {
@@ -231,6 +230,7 @@ border-spacing:5px;
 padding:0;
 margin-top:0;
 vertical-align:top;
+box-shadow:0px 0px 2px black;
 }
 html.ltr table.framework {
 margin-left:0;
@@ -587,6 +587,28 @@ html.rtl div#header_left {
 float:right;
 }
 
+
+.plugtop {
+border:none;
+border-radius:10px;
+box-shadow:0px 0px 4px black inset;
+padding:10px;
+margin:0;
+text-align:center;
+vertical-align:middle;
+background-color:#dbe6c6;
+font-family:arial,helvetica,sans-serif;
+font-size:18px;
+}
+.plugtop img {
+height:32px;
+}
+html.ltr .plugtop img {
+margin-right:4px;
+}
+html.rtl .plugtop img {
+margin-left:4px;
+}
 html.ltr div#header_left .plugtop {
 margin-left:35px;
 }
@@ -628,7 +650,6 @@ text-align:left;
 div.setup_header {
 background-color:#bbcc99;
 padding:4px 5px 2px;
-border-bottom:1px solid #999;
 color:#000;
 }
 
@@ -636,20 +657,22 @@ color:#000;
 @media (max-width: 640px) {
   div.setup_header {
   padding:2px;
+  height:36px;
   }
   a.maintitlebar {
-  width:34px;
-  height:34px;
+  width:36px;
+  height:36px;
   overflow:hidden;
-  margin:0;
   display:inline-block;
-  padding:0;
   }
   html.ltr a.maintitlebar {
   float:left;
+  margin:0;
+  padding:0;
   }
   html.rtl a.maintitlebar {
   float:right;
+  margin:0;
   }
   a.maintitlebar img {
   padding:6px;
@@ -665,14 +688,14 @@ color:#000;
   float:left;
   }
   html.ltr div#header_left, html.rtl div#header_left {
-  height:34px;
+  height:40px;
   width:100%;
   float:none;
   }
   html.ltr div#header_right, html.rtl div#header_right {
   padding-top:8px;
-  height:26px;
-  margin-top:-34px;
+  height:30px;
+  margin-top:-40px;
   width:100%;
   float:none;
   }
@@ -687,19 +710,17 @@ color:#000;
   hyphens:none;
   overflow:hidden;
   white-space: nowrap;
-  padding-top:0;
-  padding-bottom:0;
+  padding-top:2px;
+  padding-bottom:2px;
   font-size:1em;
   }
   html.ltr div#header_left .plugtop {
   margin:0;
-  padding-left:0;
-  padding-right:5px;
+  padding-left:6px;
   }
   html.rtl div#header_left .plugtop {
   margin:0;
-  padding-left:5px;
-  padding-right:0;
+  padding-right:6px;
   }
   div.logout-label {
   display:inline-block;

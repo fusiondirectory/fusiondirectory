@@ -92,6 +92,8 @@ $domain = 'fusiondirectory';
 bindtextdomain($domain, LOCALE_DIR);
 textdomain($domain);
 
+/* Load themes */
+IconTheme::loadThemes('themes');
 
 /* Call setup */
 $display = "";

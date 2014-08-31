@@ -23,7 +23,7 @@
 class Step_Finish extends setup_step
 {
   var $cfg_file_written = FALSE;
-  var $header_image     = "images/setup/server.png";
+  var $header_image     = 'geticon.php?context=devices&icon=server&size=48';
 
   function __construct()
   {

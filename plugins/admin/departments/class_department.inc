@@ -40,7 +40,7 @@ class department extends simplePlugin
             'name'      => _('Department'),
             'filter'    => '(&(objectClass=organizationalUnit)(objectClass=gosaDepartment))',
             'ou'        => '',
-            'icon'      => '/fusiondirectory/geticon.php?context=places&icon=folder&size=16',
+            'icon'      => 'geticon.php?context=places&icon=folder&size=16',
             'tabClass'  => 'deptabs',
             'mainAttr'  => self::$namingAttr,
           )
@@ -189,7 +189,7 @@ class department extends simplePlugin
     $namingAttr = $this->getNamingAttr();
     $nAV  = preg_replace('/,/', '\,', $this->$namingAttr);
     $nAV  = preg_replace('/"/', '\"', $nAV);
-    return @LDAP::convert(self::$namingAttr.'='.$nAV.','.$this->base);
+    return @LDAP::convert($namingAttr.'='.$nAV.','.$this->base);
   }
 
   function prepare_save()

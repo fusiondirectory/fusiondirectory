@@ -34,7 +34,7 @@ class ogroupManagement extends management
     return array(
       'plShortName'   => _('Object groups'),
       'plDescription' => _('Manage object groups'),
-      'plIcon'        => '/fusiondirectory/geticon.php?context=types&icon=resource-group&size=48',
+      'plIcon'        => 'geticon.php?context=types&icon=resource-group&size=48',
       'plSection'     => 'admin',
       'plManages'     => array('ogroup'),
       'plPriority'    => 3,

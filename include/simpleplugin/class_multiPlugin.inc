@@ -92,7 +92,7 @@ class multiPlugin extends simplePlugin
     $ReadOnly = (!isset($this->parent) || !$this->parent) && !session::is_set('edit');
 
     foreach ($this->plugin as &$plug) {
-      $plug->ReadOnly = $ReadOnly;
+      $plug->read_only = $ReadOnly;
       if (!$is_first) {
         $display .= '<p class="seperator plugbottom">&nbsp;</p>';
       } else {
@@ -144,6 +144,15 @@ class multiPlugin extends simplePlugin
     parent::set_acl_base($base);
     foreach ($this->plugin as &$plug) {
       $plug->set_acl_base($base);
+    }
+    unset($plug);
+  }
+
+  public function setNeedEditMode ($bool)
+  {
+    parent::setNeedEditMode($bool);
+    foreach ($this->plugin as &$plug) {
+      $plug->setNeedEditMode($bool);
     }
     unset($plug);
   }

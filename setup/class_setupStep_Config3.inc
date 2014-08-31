@@ -23,7 +23,7 @@
 
 class Step_Config3 extends setup_step
 {
-  var $header_image = "images/setup/server.png";
+  var $header_image = 'geticon.php?context=categories&icon=settings&size=48';
 
   var $errorlvl   = FALSE;
 
@@ -37,7 +37,6 @@ class Step_Config3 extends setup_step
               "forcessl"                    => FALSE,
               "ldapstats"                   => FALSE,
               "warnssl"                     => TRUE,
-              "user_filter_cookie"          => TRUE,
               "debuglevel"                  => 0,
               "session_lifetime"            => 1800,
               "compile"                     => SPOOL_DIR,
@@ -105,7 +104,7 @@ class Step_Config3 extends setup_step
         }
       }
 
-      foreach (array("login_attribute","list_summary","noprimarygroup","forceglobals","forcessl","ldapstats","user_filter_cookie","warnssl","compile","debuglevel","session_lifetime","enableCopyPaste","logging") as $name) {
+      foreach (array("login_attribute","list_summary","noprimarygroup","forceglobals","forcessl","ldapstats","warnssl","compile","debuglevel","session_lifetime","enableCopyPaste","logging") as $name) {
         if (isset($_POST[$name])) {
           $this->optional[$name] = get_post($name);
         }
@@ -211,7 +210,6 @@ class Step_Config3 extends setup_step
       $attrs['fdLdapMaxQueryTime'] = $this->optional['max_ldap_query_time'];
     }
     $attrs['fdPrimaryGroupFilter']  = ($this->optional['noprimarygroup']?"TRUE":"FALSE");
-    $attrs['fdStoreFilterSettings'] = ($this->optional['user_filter_cookie']?"TRUE":"FALSE");
     if ($this->optional['uniq_identifier_active']) {
       $attrs['fdModificationDetectionAttribute'] = $this->optional['uniq_identifier'];
     }

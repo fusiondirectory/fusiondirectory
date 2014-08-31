@@ -42,7 +42,7 @@ class Step_Ldap extends setup_step
   var $attributes = array("connection","location","admin","password","base","admin_given",
                           "append_base_to_admin_dn","tls","rfc2307bis");
 
-  var $header_image = "images/setup/ldap.png";
+  var $header_image = 'geticon.php?context=places&icon=network-server&size=48';
 
   function __construct()
   {

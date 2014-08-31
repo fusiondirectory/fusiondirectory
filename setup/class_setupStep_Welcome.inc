@@ -23,7 +23,7 @@ class Step_Welcome  extends setup_step
 {
   var $languages      = array();
   var $attributes     = array();
-  var $header_image   = "images/setup/welcome.png";
+  var $header_image   = 'geticon.php?context=applications&icon=config-welcome&size=48';
   var $authPath;
 
   function __construct()

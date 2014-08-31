@@ -1,7 +1,7 @@
 {if $RestoreMode}
 
 <h2>{t}Restoring object snapshots{/t}</h2>
-<p class="seperator">&nbsp;</p>
+<hr/>
 <br>
 {t}This procedure will restore a snapshot of the selected object. It will replace the existing object after pressing the folder icon.{/t}
 <br>
@@ -11,7 +11,7 @@
 <br>
 {t}Don't forget to check references to other objects, for example does the selected printer still exists ?{/t}
 <br>
-<p class="seperator">&nbsp;</p>
+<hr/>
 <br>
 <table style="width:100%">
   {if !$restore_deleted}
@@ -39,7 +39,7 @@
   </tr>
 </table>
 
-<p class="seperator">&nbsp;</p>
+<hr/>
 <div style="width:100%; text-align:right;">
     <input type="submit" name="CancelSnapshot" value="{t}Cancel{/t}">
 </div>
@@ -47,14 +47,14 @@
 {else}
 
 <h2>{t}Creating object snapshots{/t}</h2>
-<p class="seperator">&nbsp;</p>
+<hr/>
 <br>
 {t}This procedure will create a snapshot of the selected object. It will be stored inside a special branch of your directory system and can be restored later on.{/t}
 <br>
 <br>
 {t}Remember that database entries, DNS configurations and possibly created zones in server extensions will not be stored in the snapshot.{/t}
 <br>
-<p class="seperator">&nbsp;</p>
+<hr/>
 <br>
 <table style="width:100%">
   <tr>
@@ -82,7 +82,7 @@
   </tr>
 </table>
 
-<p class="seperator">&nbsp;</p>
+<hr/>
 <div style="width:100%; text-align:right;">
     <input type="submit" name="CreateSnapshot" value="{t}Continue{/t}">
     &nbsp;

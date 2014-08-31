@@ -1,9 +1,8 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2011-2014  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -174,6 +173,25 @@ function plugin_available($plugin)
   } else {
     return is_readable($BASE_DIR."/".$class_mapping[$plugin]);
   }
+}
+
+/*!
+ * \brief Loads plist and load it in config object
+ */
+function load_plist ()
+{
+  global $config, $ui;
+  if (!session::global_is_set('plist')) {
+    /* Initially load all classes */
+    load_all_classes();
+
+    $plist = new pluglist($config, $ui);
+    session::global_set('plist', $plist);
+    $config->loadPlist($plist);
+    $config->get_departments();
+    $config->make_idepartments();
+  }
+  return session::global_get('plist');
 }
 
 
@@ -3072,25 +3090,30 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
       if ($command != "") {
         /* Walk through attribute list */
         $addAttrs = array(
-          'userPassword' => escapeshellarg($password),
-          'dn'  => escapeshellarg($dn)
+          'userPassword'  => escapeshellarg($password),
+          'dn'            => escapeshellarg($dn)
         );
-        $command = plugin::tpl_parse_string($command, $addAttrs);
+        $addAttrsStars = array(
+          'userPassword'  => '******',
+          'dn'            => escapeshellarg($dn)
+        );
+        $commandHiddenPwd = plugin::tpl_parse_string($command, $addAttrsStars);
+        $command          = plugin::tpl_parse_string($command, $addAttrs);
 
         @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
         exec($command, $arr, $returnCode);
 
         if ($returnCode != 0) {
           $str = implode("\n", $arr);
-          @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execution failed code: ".$returnCode);
-          $message = msgPool::cmdexecfailed('POSTMODIFY', $command, 'password');
+          @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $commandHiddenPwd, "Execution failed code: ".$returnCode);
+          $message = msgPool::cmdexecfailed('POSTMODIFY', $commandHiddenPwd, 'password');
           if (!empty($str)) {
             $message .= "Result: ".$str;
           }
           msg_dialog::display(_("Error"), $message, ERROR_DIALOG);
         } elseif (is_array($arr)) {
           $str = implode("\n", $arr);
-          @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Result: ".$str);
+          @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $commandHiddenPwd, "Result: ".$str);
         }
       }
     }
@@ -3402,7 +3425,7 @@ function cred_decrypt($input, $password)
   $key  = substr($data, 0, $key_len);
   $iv   = substr($data, $key_len, $iv_len);
 
-  return rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, $input, MCRYPT_MODE_CBC, $iv), "\0\3\n");
+  return rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, $input, MCRYPT_MODE_CBC, $iv), "\x00..\x1F");
 }
 
 

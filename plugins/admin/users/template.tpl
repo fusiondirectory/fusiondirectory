@@ -6,7 +6,7 @@
  {t}Creating a new user can be assisted by using templates. Many database records will be filled automatically. Choose 'none' to skip the usage of templates.{/t}
 </p>
 
-<p class="seperator">&nbsp;</p>
+<hr/>
 
 <br>
 

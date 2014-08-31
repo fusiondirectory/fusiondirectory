@@ -56,7 +56,7 @@ class configInLdap extends simplePlugin
     return array(
       "plShortName"     => _("Configuration"),
       "plDescription"   => _("FusionDirectory configuration"),
-      "plIcon"          => "/fusiondirectory/geticon.php?context=categories&icon=settings&size=48",
+      "plIcon"          => "geticon.php?context=categories&icon=settings&size=48",
       "plObjectType"    => array("configuration" => array(
         "name"    => _("FusionDirectory configuration"),
         "filter"  => "objectClass=fusionDirectoryConf"
@@ -216,12 +216,6 @@ class configInLdap extends simplePlugin
             'fdWarnSSL', FALSE,
             TRUE
           ),
-          new BooleanAttribute (
-            _('Remember dialog filter settings'),
-            _('Store filter and plugin settings inside of a cookie.'),
-            'fdStoreFilterSettings', FALSE,
-            TRUE
-          ),
           new IntAttribute (
             _('Session lifetime'), _('Defines when a session will expire in seconds.'),
             'fdSessionLifeTime', TRUE,
@@ -230,7 +224,7 @@ class configInLdap extends simplePlugin
         )
       ),
       'snapshots' => array(
-        'name'  => _('Snapshots / Undo'),
+        'name'  => _('Snapshots'),
         'attrs' => array(
           new BooleanAttribute (
             _('Enable snapshots'), _('This enables you to save certain states of entries and restore them later on.'),

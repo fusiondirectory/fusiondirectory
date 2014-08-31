@@ -10,10 +10,7 @@
 
   <div style="padding:10px;background-color:white;">
 
-    <div class='setup_navigation'>
-      <div style='padding:4px'>
-        <img src='images/setup/fai.png' class='center' alt='{t}Installation{/t}'>&nbsp;&nbsp;<div style="font-size:24px;">{t}Setup{/t}</div>
-      </div>
+    <div class='setup_navigation' id='menucell'>
       {$navigation}
     </div>
 

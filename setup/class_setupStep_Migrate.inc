@@ -49,7 +49,7 @@ class Step_Migrate extends setup_step
 {
   var $languages      = array();
   var $attributes     = array('valid_admin');
-  var $header_image   = "images/setup/migrate.png";
+  var $header_image   = 'geticon.php?context=applications&icon=utilities-system-monitor&size=48';
   var $checks         = array();
 
   /* Department migration attributes */
@@ -139,7 +139,7 @@ class Step_Migrate extends setup_step
       ),
       array(
         'cn'              => 'editowninfos',
-        'description'     => _('Allow users to edit their own information (main tab and posix − use only on base)'),
+        'description'     => _('Allow users to edit their own information (main tab and posix use only on base)'),
         'objectclass'     => array('top', 'gosaRole'),
         'gosaAclTemplate' => '0:user/posixAccount;srw,user/user;srw'
       ),
@@ -1036,7 +1036,7 @@ class Step_Migrate extends setup_step
             _("Migration error"),
             sprintf(
               _("Cannot add ACL role '%s':")."<br/><br/><i>%s</i>",
-              LDAP::fix($roledn), $ldap->get_error()
+              LDAP::fix($dn), $ldap->get_error()
             ),
             ERROR_DIALOG
           );

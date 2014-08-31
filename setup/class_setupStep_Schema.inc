@@ -28,6 +28,7 @@ class Step_Schema extends setup_step
   var $attributes           = array("enable_schema_check","samba_version");
   var $enable_schema_check  = TRUE;
   var $samba_version        = 3;
+  var $header_image         = 'geticon.php?context=types&icon=user&size=48';
 
   var $found_ocs = 0;
 

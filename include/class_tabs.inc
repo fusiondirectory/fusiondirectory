@@ -168,6 +168,15 @@ class tabs
    */
   function execute()
   {
+    /* Look for pressed tab button first */
+    foreach ($this->by_object as $class => &$obj) {
+      if (isset($_POST[$class]) || (isset($_POST['arg']) && $_POST['arg'] == "$class")) {
+        $this->current = $class;
+        break;
+      }
+    }
+    unset($obj);
+    
     /* Show object */
     $display = '<div class="tab_content">'."\n";
 
@@ -197,15 +206,6 @@ class tabs
 
     /* Rotate current to last */
     $this->last = $this->current;
-
-    /* Look for pressed tab button */
-    foreach ($this->by_object as $class => &$obj) {
-      if (isset($_POST[$class]) || (isset($_POST['arg']) && $_POST['arg'] == "$class")) {
-        $this->current = $class;
-        break;
-      }
-    }
-    unset($obj);
 
     /* Save last tab */
     if ($this->last != "") {

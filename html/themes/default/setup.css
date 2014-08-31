@@ -3,23 +3,14 @@
 /*********
  * Setup
  *********/
-/* The body style */
-body.setup_body {
-margin:0;
-color:#00008F;
-font-family:arial,helvetica,sans-serif;
-font-size:12px;
-background-color:#FFF;
-background-image:none;
-}
-
-/* The setup complete setup dialog */
-div.setup_dialog {
-background-color:#FFF;
-text-align:left;
+html.ltr body.setup div#header_left .plugtop {
+margin-left:80px;
 }
 html.rtl div.setup_dialog {
 text-align:left;
+}
+body.setup .plugin_window {
+border-radius:5px;
 }
 
 div.setup_menu {
@@ -70,20 +61,18 @@ margin-left:2px;
 
 /* default.*/
 div.default {
-padding:2px;
+padding:2px 10px;
 vertical-align:middle;
 }
 
 /* Navigation col */
-div.setup_navigation {
+#menucell.setup_navigation {
 width:19%;
-background-color:#FFF;
-padding-left:2px;
-padding-right:2px;
-border:1px solid #AAA;
+}
+html.ltr #menucell.setup_navigation {
 float:left;
 }
-html.rtl div.setup_navigation {
+html.rtl #menucell.setup_navigation {
 float:right;
 }
 
@@ -99,59 +88,52 @@ border-top:1px solid #AAA;
 }
 
 /* The box used for each setup step */
-a.navigation_element,div.navigation_element {
+#menucell.setup_navigation li.menuitem {
 text-decoration:none;
 padding-top:8px;
 padding-bottom:8px;
-border-top:1px solid #AAA;
-width:100%;
+margin-top:5px;
+margin-bottom:5px;
 }
 
 /* The box used for each setup step */
-a.navigation_element_active,div.navigation_element_active {
-text-decoration:none;
-width:100%;
-padding-top:8px;
-padding-bottom:8px;
-border-top:1px solid #AAA;
-background-color:#F0F0F0;
+#menucell.setup_navigation li.menuitem > a {
+margin:0;
 }
 
 /* An enabled setup step will use this style in navigation*/
-div.navigation_title_active {
-font-size:1.2em;
-background-color:#F0F0F0;
-font-weight:bold;
+#menucell.setup_navigation li.menuitem.menucurrent a.navigation_title {
 cursor:default;
-padding:3px;
 }
 
 /* Disabled setup steps */
-div.navigation_title_disabled {
-font-size:1.2em;
-font-weight:bold;
-padding:3px;
+#menucell.setup_navigation li.menuitem.disabled a.navigation_title {
 cursor:default;
-text-decoration:none;
 color:#AAA;
 }
 
 /* Disabled setup steps */
-div.navigation_title_inactive {
+#menucell.setup_navigation li.menuitem a.navigation_title {
 font-size:1.2em;
 font-weight:bold;
 text-decoration:none;
 cursor:pointer;
-padding:3px;
+padding-top:3px;
+padding-bottom:3px;
 }
 
 /* The style for the info of an active setup */
-div.navigation_info {
+#menucell.setup_navigation li.menuitem a.navigation_info {
 font-size:1em;
 color:#000;
-padding:4px 4px 3px 23px;
 margin:0;
 cursor:default;
+}
+html.ltr #menucell.setup_navigation li.menuitem a.navigation_info {
+padding:4px 4px 3px 15px;
+}
+html.rtl #menucell.setup_navigation li.menuitem a.navigation_info {
+padding:4px 15px 3px 4px;
 }
 
 /*

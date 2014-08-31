@@ -4,8 +4,9 @@
   {t}This seems to be the first time you start FusionDirectory - we didn't find any configuration right now. This simple wizard intends to help you while setting it up.{/t}
   </p>
 
-  <p style='border-top:1px solid #AAAAAA; padding-top:10px;'>
-  <b>{t}What will the wizard do for you?{/t}</b>
+  <hr/>
+  <p>
+    <b>{t}What will the wizard do for you?{/t}</b>
   </p>
   <ul>
    <li>{t}Create a basic, single site configuration{/t}</li>
@@ -21,8 +22,9 @@
    <li>{t}Migrate every possible LDAP setup - create backup dumps!{/t}</li>
   </ul>
 
-  <p style='border-top:1px solid #AAAAAA; padding-top:10px;'>
-  <b>{t}To continue...{/t}</b>
+  <hr/>
+  <p>
+    <b>{t}To continue:{/t}</b>
   </p>
   <p>
   {t 1=$path}For security reasons you need to authenticate for the installation by creating the file '%1', containing the current session ID on the servers local filesystem. This can be done by executing the following command:{/t}

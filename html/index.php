@@ -28,13 +28,10 @@ require_once ("class_log.inc");
 header("Content-type: text/html; charset=UTF-8");
 
 
-/**
- * Display the login page and exit().
- *
- */
+/* Display the login page and exit() */
 function displayLogin()
 {
-  global $smarty,$message,$config,$ssl,$error_collector,$error_collector_mailto;
+  global $smarty,$message,$config,$ssl,$error_collector,$error_collector_mailto,$lang;
   error_reporting(E_ALL | E_STRICT);
   /* Fill template with required values */
   $username = "";
@@ -104,8 +101,6 @@ function displayLogin()
   exit();
 }
 
-
-
 /*****************************************************************************
  *                               M   A   I   N                               *
  *****************************************************************************/
@@ -163,7 +158,6 @@ if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))) {
 
 /* Check for old files in compile directory */
 clean_smarty_compile_dir($smarty->compile_dir);
-
 
 /* Language setup */
 $lang = get_browser_language();
@@ -322,35 +316,12 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
 
       /* Save userinfo and plugin structure */
       session::global_set('ui', $ui);
-      session::global_set('session_cnt', 0);
 
       /* Let FusionDirectory trigger a new connection for each POST, save config to session. */
       session::global_set('config', $config);
 
-      /* Restore filter settings from cookie, if available */
-      if ($config->get_cfg_value("storeFilterSettings") == "TRUE") {
-
-        if (isset($_COOKIE['FusionDirectory_Filter_Settings']) || isset($HTTP_COOKIE_VARS['FusionDirectory_Filter_Settings'])) {
-
-          if (isset($_COOKIE['FusionDirectory_Filter_Settings'])) {
-            $cookie_all = unserialize(base64_decode($_COOKIE['FusionDirectory_Filter_Settings']));
-          } else {
-            $cookie_all = unserialize(base64_decode($HTTP_COOKIE_VARS['FusionDirectory_Filter_Settings']));
-          }
-          if (isset($cookie_all[$ui->dn])) {
-            $cookie = $cookie_all[$ui->dn];
-            $cookie_vars = array("MultiDialogFilters","CurrentMainBase","plug");
-            foreach ($cookie_vars as $var) {
-              if (isset($cookie[$var])) {
-                session::global_set($var, $cookie[$var]);
-              }
-            }
-            if (isset($cookie['plug'])) {
-              $plug = $cookie['plug'];
-            }
-          }
-        }
-      }
+      /* We need a fully loaded plist and config to test account expiration */
+      $plist = load_plist();
 
       /* are we using accountexpiration */
       if ($config->get_cfg_value("handleExpiredAccounts") == "TRUE") {
@@ -367,12 +338,9 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
 
       /* Not account expired or password forced change go to main page */
       new log("security", "login", "", array(), "User \"$username\" logged in successfully");
-      $plist = new pluglist($config, $ui);
-      if (isset($plug) && isset($plist->dirlist[$plug])) {
-        header ("Location: main.php?plug=".$plug."&global_check=1");
-      } else {
-        header ("Location: main.php?global_check=1");
-      }
+      session::global_set('connected', 1);
+      $config->checkLdapConfig(); // check that newly installed plugins have their configuration in the LDAP
+      header ("Location: main.php?global_check=1");
       exit;
     }
   }

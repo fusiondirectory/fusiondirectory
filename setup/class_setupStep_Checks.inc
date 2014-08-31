@@ -25,7 +25,7 @@ class Step_Checks extends setup_step
   var $basic_checks   = array();
   var $config_checks  = array();
   var $is_writeable   = array();
-  var $header_image   = "images/setup/system.png";
+  var $header_image   = 'geticon.php?context=categories&icon=checks&size=48';
 
   function __construct()
   {

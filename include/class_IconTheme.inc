@@ -227,6 +227,10 @@ class IconTheme
       array('applications','os-windows'),
       array('applications','windows'),
     ),
+    'applications/config-language'  => array(
+      array('applications','locale'),
+      array('applications','preferences-desktop-locale'),
+    ),
     'mimetypes/text-csv'            => array(
       array('mimetypes','x-office-spreadsheet'),
       array('mimetypes','text-x-generic'),
@@ -285,6 +289,12 @@ class IconTheme
       array('categories','gnome-settings'),
       array('categories','preferences-other'),
       array('categories','preferences-system'),
+    ),
+    'categories/checks'      => array(
+      array('actions','view-task'),
+      array('actions','view-calendar-tasks'),
+      array('actions','checkbox'),
+      array('status','task-complete'),
     ),
     'devices/server'      => array(
       array('places','server'),

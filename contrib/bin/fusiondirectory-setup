@@ -108,6 +108,15 @@ sub ask_user_input {
  return $answer;
 }
 
+# Die on all LDAP error except for «No such object»
+sub die_on_ldap_errors
+{
+  my ($mesg) = @_;
+  if (($mesg->code != 0) && ($mesg->code != 32)) {
+    die $mesg->error;
+  }
+}
+
 {
   my $indice = 0;
   sub find_free_role_dn {
@@ -122,6 +131,7 @@ sub ask_user_input {
         scope   => 'base',
         filter  => '(objectClass=*)'
       );
+      die_on_ldap_errors($mesg);
     } while ($mesg->count);
     return $cn;
   }
@@ -134,18 +144,11 @@ sub create_role {
     'objectclass'     => [ 'top', 'gosaRole' ],
     'gosaAclTemplate' => "0:$acl"
   );
-  my $role_branch = $ldap->search (base => "$rolesou,$base", filter => "(objectClass=*)", attrs => ['dn']);
-  my @role_entries = $role_branch->entries;
-  if (not defined($role_entries[0])) {
-    my $role_add = $ldap->add("$rolesou,$base",
-      attr => [
-        'ou'  => $ouroles,
-        'objectClass' =>  'organizationalUnit'
-        ]
-    );
 
-    $role_add->code and die "! failed to add LDAP's $rolesou,$base branch\n";
+  if (!branch_exists($ldap, "$rolesou,$base")) {
+    create_branch($ldap, $base, $ouroles);
   }
+
   my $role_dn = "cn=$cn,$rolesou,$base";
   # Add the administator role object
   my @options = %role;
@@ -201,7 +204,7 @@ sub encrypt_passwords {
   print "* creating '$fd_secrets'\n";
   my $fp_file = file($fd_secrets);
   my $fp = $fp_file->openw() or die "! Unable to open '$fd_secrets' in write mode\n";
-  $fp->print("RequestHeader set FD_KEY $master_key\n");
+  $fp->print("RequestHeader set FDKEY $master_key\n");
   $fp->close or die "! Can't close '$fd_secrets'\n";
   chmod 0600, $fd_secrets or die "! Unable to change '$fd_secrets' rights\n";
   my $root_uid = getpwnam("root");
@@ -233,7 +236,7 @@ sub encrypt_passwords {
   # Print reminder
   print "
 Please adapt your http fusiondirectory location declaration to include the newly
-created $fd_config.
+created $fd_secrets.
 
 Example:
 
@@ -556,6 +559,7 @@ sub add_ldap_admin {
     filter => "(&(objectClass=fusionDirectoryConf)(cn=fusiondirectory))",
     attrs => ['fdAccountPrimaryAttribute']
   );
+  $mesg->code && die $mesg->error;
   my $attr;
   if ($mesg->count <= 0) {
     print "Could not find configuration object, using default value\n";
@@ -575,6 +579,7 @@ sub add_ldap_admin {
       filter => "(&(objectClass=gosaAccount)(uid=$fd_admin_uid))",
       attrs => ['uid']
     );
+    $mesg->code && die $mesg->error;
     if ($mesg->count) {
       print "User $fd_admin_uid already existing, adding admin acl to it\n";
       $dn = ($mesg->entries)[0]->dn;
@@ -731,7 +736,7 @@ sub get_ldap_connexion {
     open(SECRETS, $fd_secrets) || die ("Could not open $fd_secrets");
     my $key = "";
     while(<SECRETS>) {
-      if ($_ =~ m/RequestHeader set FD_KEY ([^ \n]+)\n/) {
+      if ($_ =~ m/RequestHeader set FDKEY ([^ \n]+)\n/) {
         $key = $1;
         last;
       }
@@ -788,6 +793,7 @@ sub check_admin {
     filter => "(&(objectClass=gosaRole)(gosaAclTemplate=*:all;cmdrw))",
     attrs => ['gosaAclTemplate']
   );
+  $admin_roles->code && die $admin_roles->error;
   my @dns = ();
   my @roles = ();
   my $count = 0;
@@ -802,6 +808,7 @@ sub check_admin {
       filter  => "(&(objectClass=gosaAcl)(gosaAclEntry=*:subtree:$role_dn64:*))",
       attrs   => ['gosaAclEntry']
     );
+    $assignments->code && die $assignments->error;
     while (my $assignment = $assignments->shift_entry) {
       my $acl = $assignment->get_value("gosaAclEntry", asref => 1);
       foreach my $line (@$acl) {
@@ -836,6 +843,7 @@ sub check_admin {
                 base    => $base,
                 filter  => $filter,
               );
+              $group_members->code && die $group_members->error;
               if (my $group_member_entry = $group_members->shift_entry) {
                 print ($group_member_entry->dn." is a valid admin\n");
                 return;
@@ -860,6 +868,32 @@ sub check_admin {
   }
 }
 
+sub create_branch {
+  my ($ldap, $base, $ou) = @_;
+  my $branch_add = $ldap->add( "ou=$ou,$base",
+    attr => [
+      'ou'  => $ou,
+      'objectClass' =>  'organizationalUnit'
+      ]
+  );
+
+  $branch_add->code && die "! failed to add LDAP's ou=$ou,$base branch: ".$branch_add->error."\n";
+}
+
+sub branch_exists {
+  my ($ldap, $branch) = @_;
+
+  # search for branch
+  my $branch_mesg = $ldap->search (base => $branch, filter => '(objectClass=*)', scope => 'base');
+  if ($branch_mesg->code == 32) {
+    return 0;
+  }
+  $branch_mesg->code && die $branch_mesg->error;
+
+  my @entries = $branch_mesg->entries;
+  return (defined ($entries[0]));
+}
+
 # function that check LDAP configuration
 sub check_ldap {
 
@@ -870,16 +904,16 @@ sub check_ldap {
   my $base = $hash_ldap_param{base};
   my $ldap = $hash_ldap_param{ldap};
 
-  # search for branch people
-  my $people = $ldap->search (base => $base, filter => $peopleou);
-
-  # stock search results
-  my @people_entries = $people->entries;
   my $admin_add = "";
 
+  # Collect existing people branches (even if main one may not exists);
+  my $people = $ldap->search (base => $base, filter => $peopleou);
+  $people->code && die $people->error;
+  my @people_entries = $people->entries;
+  @people_entries = map {$_->dn} @people_entries;
+
   # if ou=people exists
-  if ( defined ($people_entries[0]) ) {
-    @people_entries = map {$_->dn} @people_entries;
+  if ( branch_exists($ldap, "$peopleou,$base") ) {
     check_admin($base, $ldap, \@people_entries);
 
   # if ou=people doesn't exists
@@ -888,39 +922,21 @@ sub check_ldap {
 
     # if user's answer is "yes", creating ou=people branch
     if ( ask_yn_question("Do you want to create it ?: ") ) {
-      my $people_add = $ldap->add( "$peopleou,$base",
-        attr => [
-          'ou'  => $oupeople,
-          'objectClass' =>  'organizationalUnit'
-          ]
-      );
-
-      $people_add->code and warn "! failed to add LDAP's $peopleou,$base branch\n";
-      $admin_add = add_ldap_admin($base, $ldap);
-      return -1 if ($admin_add eq "-1");
+      create_branch($ldap, $base, $oupeople);
+      push @people_entries, "$peopleou,$base";
+      check_admin($base, $ldap, \@people_entries);
     } else {
       print ("Skiping...\n");
     }
   }
 
-  # search for ou=groups
-  my $ldap_groups = $ldap->search ( base => $base, filter => "ou=groups" );
-  my @groups_entries = $ldap_groups->entries;
-
-  # if ou=groups don't exists
-  if ( !defined $groups_entries[0] ) {
+  # if ou=groups does not exist
+  if (!branch_exists($ldap, "ou=groups,$base")) {
     print ("! ou=groups,$base not found in your LDAP directory\n");
 
     # if user's answer is "yes", creating ou=groups branch
     if ( ask_yn_question("Do you want to create it ?: ") ) {
-      my $group_add = $ldap->add( "ou=groups,$base",
-        attr => [
-          'ou'  => 'groups',
-          'objectClass' =>  'organizationalUnit'
-          ]
-      );
-
-      $group_add->code and warn "! failed to add LDAP's ou=groups,$base branch\n";
+      create_branch($ldap, $base, 'groups');
     } else {
       print ("skiping...\n");
     }
@@ -929,6 +945,7 @@ sub check_ldap {
   # search for workstations and object groups
   my $faiclasses = $ldap->search (base => "$base",
                                   filter => "(&(FAIclass=*)(!(objectClass~=FAIprofile)))" );
+  $faiclasses->code && die $faiclasses->error;
   my @faiclass_entries = $faiclasses->entries;
   foreach my $entry (@faiclass_entries) {
     my $faiclass = $entry->get_value('FAIclass');
@@ -957,6 +974,7 @@ sub migrate_repo {
 
   # search for FAI repository server
   my $fai_repo = $ldap->search (base => $base, filter => "(&(FAIrepository=*)(objectClass=FAIrepositoryServer))");
+  $fai_repo->code && die $fai_repo->error;
 
   # stock search's results
   my @fai_entries = $fai_repo->entries;
@@ -1082,9 +1100,12 @@ sub migrate_users {
   print ("Add FusionDirectory attributes for the following users from $peopleou,$base\n");
   print ("---------------------------------------------\n");
 
-  my $mesg = $ldap->search( filter=>"(|(!(objectClass~=gosaAccount))(!(objectClass~=organizationalPerson))(!(objectClass~=Person)))",
-                            base=>"$peopleou,$base",
-                            scope=>$scope);
+  my $mesg = $ldap->search(
+    filter => "(|(!(objectClass~=gosaAccount))(!(objectClass~=organizationalPerson))(!(objectClass~=Person)))",
+    base   => "$peopleou,$base",
+    scope  => $scope
+  );
+  $mesg->code && die $mesg->error;
   my @entries = $mesg->entries;
 
   foreach my $entry (@entries) {
@@ -1113,6 +1134,8 @@ sub migrate_acls {
     filter => "(gosaAclEntry=*)",
     attrs => ['gosaAclEntry']
   );
+  $mesg->code && die $mesg->error;
+
   while (my $entry = $mesg->shift_entry) {
     my $acls = $entry->get_value('gosaAclEntry', asref => 1);
     my @nacls = ();
@@ -1132,6 +1155,7 @@ sub migrate_acls {
           scope   => 'base',
           filter  => '(objectClass=gosaRole)'
         );
+        die_on_ldap_errors($mesg);
         if ($mesg->count == 0) {
           $old_format = 1;
         }
@@ -1149,6 +1173,7 @@ sub migrate_acls {
             scope   => 'base',
             filter  => '(objectClass=gosaRole)'
           );
+          die_on_ldap_errors($mesg);
           if (my $role_entry = $mesg->shift_entry) {
             my $acl_templates = $role_entry->get_value('gosaAclTemplate', asref => 1);
             my $scope = '';
@@ -1202,6 +1227,7 @@ sub migrate_acls {
     filter => "(gosaAclTemplate=*:*:*)",
     attrs => ['gosaAclTemplate']
   );
+  $mesg->code && die $mesg->error;
   ROLE: while (my $role_entry = $mesg->shift_entry) {
     my $acl_templates = $role_entry->get_value('gosaAclTemplate', asref => 1);
     my $scope = '';
@@ -1224,6 +1250,129 @@ sub migrate_acls {
     );
     $result->code && warn "\n! failed to migrate ACL for '".$role_entry->dn."' - ".$result->error_name.": ".$result->error_text;
     print "Migrated role '".$role_entry->dn."'\n";
+  }
+}
+
+# Get LDAP attributes which have been deprecated
+sub get_deprecated {
+  # initiate the LDAP connexion
+  my %hash_ldap_param = get_ldap_connexion();
+
+  # LDAP's connection's parameters
+  my $base = $hash_ldap_param{base};
+  my $ldap = $hash_ldap_param{ldap};
+
+  my $schema_info = $ldap->schema();
+
+  my @attributes      = $schema_info->all_attributes();
+  my @obsolete_attrs  = ();
+  foreach my $attribute (@attributes) {
+    if ($attribute->{'obsolete'}) {
+      push @obsolete_attrs, $attribute;
+    }
+  }
+
+  my @ocs               = $schema_info->all_objectclasses();
+  my @obsolete_classes  = ();
+  foreach my $oc (@ocs) {
+    if ($oc->{'obsolete'}) {
+      push @obsolete_classes, $oc;
+    }
+  }
+
+  return (\@obsolete_attrs, \@obsolete_classes);
+}
+
+# List LDAP attributes which have been deprecated
+sub list_deprecated {
+  my ($obsolete_attrs, $obsolete_classes) = get_deprecated();
+
+  print "Deprecated attributes:\n";
+  foreach my $attribute (@$obsolete_attrs) {
+    printf(" %-30s\t%-60s\t- %s\n", $attribute->{'name'}, '('.$attribute->{'desc'}.')', $attribute->{'oid'});
+  }
+
+  print "Deprecated objectClasses:\n";
+  foreach my $oc (@$obsolete_classes) {
+    printf(" %-30s\t%-60s\t- %s\n", $oc->{'name'}, '('.$oc->{'desc'}.')', $oc->{'oid'});
+  }
+}
+
+# List LDAP entries using attributes which have been deprecated
+sub check_deprecated {
+  my ($obsolete_attrs, $obsolete_classes) = get_deprecated();
+
+  my $filterAttrs   = '(|'.join('', (map{ '('.$_->{'name'}.'=*)' } @$obsolete_attrs)).')';
+  my $filterClasses = '(|'.join('', (map{ '(objectClass='.$_->{'name'}.')' } @$obsolete_classes)).')';
+
+  # initiate the LDAP connexion
+  my %hash_ldap_param = get_ldap_connexion();
+
+  # LDAP's connection's parameters
+  my $base = $hash_ldap_param{base};
+  my $ldap = $hash_ldap_param{ldap};
+
+  my $entries = $ldap->search(
+    base    => "$base",
+    filter  => "$filterAttrs",
+  );
+  $entries->code && die $entries->error;
+
+  if ($entries->count > 0) {
+    while (my $entry = $entries->shift_entry) {
+      print $entry->dn." contains an obsolete attribute\n";
+    }
+  } else {
+    print "There are no entries in the LDAP using obsolete attributes\n";
+  }
+
+  $entries = $ldap->search(
+    base    => "$base",
+    filter  => "$filterClasses",
+  );
+  $entries->code && die $entries->error;
+
+  if ($entries->count > 0) {
+    while (my $entry = $entries->shift_entry) {
+      print $entry->dn." uses an obsolete object class\n";
+    }
+  } else {
+    print "There are no entries in the LDAP using obsolete classes\n";
+  }
+}
+
+# Print a LDIF file removing attributes which have been deprecated
+sub ldif_deprecated {
+  my ($obsolete_attrs, $obsolete_classes) = get_deprecated();
+
+  my $filterAttrs   = '(|'.join('', (map{ '('.$_->{'name'}.'=*)' } @$obsolete_attrs)).')';
+
+  # initiate the LDAP connexion
+  my %hash_ldap_param = get_ldap_connexion();
+
+  # LDAP's connection's parameters
+  my $base = $hash_ldap_param{base};
+  my $ldap = $hash_ldap_param{ldap};
+
+  my $entries = $ldap->search(
+    base    => "$base",
+    filter  => "$filterAttrs",
+  );
+  $entries->code && die $entries->error;
+
+  if ($entries->count > 0) {
+    while (my $entry = $entries->shift_entry) {
+      print 'dn:'.$entry->dn."\n";
+      print "changetype:modify\n";
+      foreach my $attr (@$obsolete_attrs) {
+        if ($entry->exists($attr->{'name'})) {
+          print "delete:".$attr->{'name'}."\n-\n";
+        }
+      }
+      print "\n";
+    }
+  } else {
+    print "# There are no entries in the LDAP using obsolete attributes\n";
   }
 }
 
@@ -1271,6 +1420,9 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--encrypt-passwords"}    = ["Encrypt passwords in fusiondirectory.conf",     \&encrypt_passwords];
   $commands{"--write-vars"}           = ["Choose FusionDirectory Directories",            \&write_vars];
   $commands{"--list-vars"}            = ["List possible vars to give --set",              \&list_vars];
+  $commands{"--list-deprecated"}      = ["List deprecated attributes and objectclasses",  \&list_deprecated];
+  $commands{"--check-deprecated"}     = ["List LDAP entries using deprecated attributes or objectclasses", \&check_deprecated];
+  $commands{"--ldif-deprecated"}      = ["# Print an LDIF removing deprecated attributes",\&ldif_deprecated];
   $commands{"--set-VAR=value"}        = ["Set the variable VAR to value see --list-vars", \&die]; # Won't be called because it contains uppercase
 
   my $usage = 0;

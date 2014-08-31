@@ -36,11 +36,11 @@
         <!-- Inforamtion popup -->
         <div class='solution_visible' id='sol_{$key}'>
           {if $basic[$key].MUST}
-            <div class='step2_failed_text' style="background-image: url('images/small_error.png')">
+            <div class='step2_failed_text' style="background-image: url('geticon.php?context=status&icon=dialog-error&size=16')">
             {$basic[$key].SOLUTION}<br/>
             <b>{t}FusionDirectory will NOT run without fixing this.{/t}</b>
           {else}
-            <div class="step2_warning_text" style="background-image: url('images/small_warning.png')">
+            <div class="step2_warning_text" style="background-image: url('geticon.php?context=status&icon=dialog-warning&size=16')">
             {$basic[$key].SOLUTION}<br/>
             <b>{t}FusionDirectory will run without fixing this.{/t}</b>
           {/if}

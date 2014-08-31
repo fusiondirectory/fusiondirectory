@@ -1,22 +1,21 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR FusionDirectory Project
 # This file is distributed under the same license as the PACKAGE package.
-# 
-# Translators:
-# Jordi Mallach <jordi@softcatala.org>, 2011
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: FusionDirectory-108\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: documentation@lists.fusiondirectory.org\n"
-"POT-Creation-Date: 2014-08-18 16:17+0200\n"
-"PO-Revision-Date: 2014-08-28 10:52+0000\n"
-"Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
-"Language-Team: Catalan (http://www.transifex.com/projects/p/FusionDirectory-108/language/ca/)\n"
+"POT-Creation-Date: 2014-08-28 17:27+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ca\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: plugins/generic/welcome/main.inc:26
 #, php-format
@@ -55,7 +54,7 @@ msgstr ""
 #: plugins/personal/posix/class_posixAccount.inc:78
 #: setup/setup_feedback.tpl.c:23
 msgid "Generic"
-msgstr "Genèric"
+msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:61
 #: plugins/admin/groups/class_group.inc:981
@@ -88,7 +87,7 @@ msgstr "Genèric"
 #: include/select/groupSelect/group-filter.tpl.c:14
 #: setup/setup_feedback.tpl.c:11 setup/setup_migrate.tpl.c:116
 msgid "Name"
-msgstr "Nom"
+msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:61
 msgid "Name of the role"
@@ -118,12 +117,12 @@ msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:70
 msgid "Phone number"
-msgstr "Número de telèfon"
+msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:74
 #: plugins/personal/generic/class_user.inc:1481
 msgid "Fax number"
-msgstr "Número de fax"
+msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:78
 #: plugins/admin/users/class_userManagement.inc:52
@@ -149,7 +148,7 @@ msgstr ""
 #: html/index.php:138 html/index.php:184 html/main.php:235
 #: html/class_passwordRecovery.inc:299
 msgid "Configuration error"
-msgstr "Error de la configuració"
+msgstr ""
 
 #: plugins/admin/groups/class_group.inc:161
 msgid "Cannot find group SID in your configuration!"
@@ -219,7 +218,7 @@ msgstr ""
 #: include/functions.inc:3569 include/functions.inc:3578
 #: include/functions.inc:3640 include/class_msg_dialog.inc:129
 #: include/class_databaseManagement.inc:78 include/class_xml.inc:58
-#: include/class_plugin.inc:1517 include/class_CopyPasteHandler.inc:250
+#: include/class_plugin.inc:1511 include/class_CopyPasteHandler.inc:250
 #: include/simpleplugin/class_attribute.inc:1365
 #: include/simpleplugin/class_attribute.inc:1368
 #: include/simpleplugin/class_attribute.inc:1371
@@ -236,7 +235,7 @@ msgstr ""
 #: ihtml/themes/default/msg_dialog.tpl.c:2 setup/setup_checks.tpl.c:8
 #: setup/setup_checks.tpl.c:29
 msgid "Error"
-msgstr "Error"
+msgstr ""
 
 #: plugins/admin/groups/class_group.inc:524
 #, php-format
@@ -279,7 +278,7 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:2712
 #: setup/class_setupStep_Migrate.inc:2725
 msgid "LDAP error"
-msgstr "Error d'LDAP"
+msgstr ""
 
 #: plugins/admin/groups/class_group.inc:600
 msgid "! unknown UID"
@@ -326,7 +325,7 @@ msgstr ""
 #: ihtml/themes/default/msg_dialog.tpl.c:5 setup/setup_checks.tpl.c:11
 #: setup/setup_checks.tpl.c:32
 msgid "Warning"
-msgstr "Avís"
+msgstr ""
 
 #: plugins/admin/groups/class_group.inc:1074
 #, php-format
@@ -357,7 +356,7 @@ msgstr ""
 #: plugins/personal/generic/generic.tpl.c:50
 #: ihtml/themes/default/simple-list.tpl.c:2 setup/setup_ldap.tpl.c:26
 msgid "Base"
-msgstr "Base"
+msgstr ""
 
 #: plugins/admin/groups/class_group.inc:1109
 msgid "Samba group type"
@@ -490,7 +489,7 @@ msgstr ""
 #: plugins/admin/ogroups/class_ogroup.inc:250
 #: ihtml/themes/default/msg_dialog.tpl.c:8 setup/setup_ldap.tpl.c:62
 msgid "Information"
-msgstr "Informació"
+msgstr ""
 
 #: plugins/admin/ogroups/class_ogroup.inc:250
 msgid "You cannot combine terminals and workstations in one object group!"
@@ -550,7 +549,7 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:1470
 #: plugins/personal/generic/generic.tpl.c:83
 msgid "Department"
-msgstr "Departament"
+msgstr ""
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:188
 #: include/select/systemSelect/systemSelect-list.xml:14
@@ -563,7 +562,7 @@ msgstr ""
 #: plugins/personal/generic/generic.tpl.c:101
 #: plugins/personal/generic/generic.tpl.c:155
 msgid "Phone"
-msgstr "Telèfon"
+msgstr ""
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:190
 #: include/select/systemSelect/systemSelect-list.xml:22
@@ -774,8 +773,8 @@ msgstr ""
 #: plugins/admin/password/class_recoveryConfig.inc:122
 #, php-format
 msgid ""
-"Body of the second email, sent to confirm the password has been changed. Use"
-" %s for the user login."
+"Body of the second email, sent to confirm the password has been changed. Use "
+"%s for the user login."
 msgstr ""
 
 #: plugins/admin/password/class_recoveryConfig.inc:125
@@ -801,7 +800,7 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:36
 #: plugins/admin/departments/class_departmentManagement.inc:34
 msgid "Departments"
-msgstr "Departaments"
+msgstr ""
 
 #: plugins/admin/departments/class_department.inc:58
 msgid "department"
@@ -824,7 +823,7 @@ msgstr ""
 
 #: plugins/admin/departments/class_department.inc:76
 msgid "Category"
-msgstr "Categoria"
+msgstr ""
 
 #: plugins/admin/departments/class_department.inc:76
 #, php-format
@@ -835,7 +834,7 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:1473
 #: plugins/personal/generic/generic.tpl.c:95
 msgid "Manager"
-msgstr "Responsable"
+msgstr ""
 
 #: plugins/admin/departments/class_department.inc:80
 #, php-format
@@ -847,19 +846,19 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:1484
 #: plugins/personal/generic/generic.tpl.c:113
 msgid "Location"
-msgstr "Localització"
+msgstr ""
 
 #: plugins/admin/departments/class_department.inc:89
 #: plugins/personal/generic/class_user.inc:1483
 #: plugins/personal/generic/generic.tpl.c:116
 msgid "State"
-msgstr "Província"
+msgstr ""
 
 #: plugins/admin/departments/class_department.inc:95
 #: plugins/personal/generic/generic.tpl.c:53
 #: plugins/personal/generic/generic.tpl.c:119
 msgid "Address"
-msgstr "Adreça"
+msgstr ""
 
 #: plugins/admin/departments/class_department.inc:95
 #, php-format
@@ -875,7 +874,7 @@ msgstr ""
 #: plugins/personal/generic/generic.tpl.c:110
 #: plugins/personal/generic/generic.tpl.c:161
 msgid "Fax"
-msgstr "Fax"
+msgstr ""
 
 #: plugins/admin/departments/class_department.inc:103
 msgid "Facsimile telephone number"
@@ -893,7 +892,7 @@ msgstr ""
 #: plugins/admin/departments/class_locality.inc:31
 #: plugins/admin/departments/class_locality.inc:34
 msgid "Locality"
-msgstr "Localitat"
+msgstr ""
 
 #: plugins/admin/departments/class_locality.inc:51
 msgid "locality"
@@ -903,7 +902,7 @@ msgstr ""
 #: plugins/admin/departments/class_country.inc:30
 #: plugins/admin/departments/class_country.inc:33
 msgid "Country"
-msgstr "Estat"
+msgstr ""
 
 #: plugins/admin/departments/class_country.inc:50
 msgid "country"
@@ -929,7 +928,7 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:1469
 #: plugins/personal/generic/generic.tpl.c:80 setup/setup_feedback.tpl.c:8
 msgid "Organization"
-msgstr "Organització"
+msgstr ""
 
 #: plugins/admin/departments/class_organization.inc:51
 msgid "organization"
@@ -967,11 +966,11 @@ msgstr ""
 #: plugins/personal/generic/generic.tpl.c:29
 #: plugins/personal/generic/paste_generic.tpl.c:11
 msgid "Login"
-msgstr "Entrada"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:128 plugins/admin/users/user-list.xml:224
 msgid "Change password"
-msgstr "Canvia la contrasenya"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:141
 msgid "Lock users"
@@ -1024,7 +1023,7 @@ msgstr ""
 msgid ""
 "The passwords you've entered as 'New password' and 'Repeated new password' "
 "do not match."
-msgstr "Les contrasenyes que heu introduït com a «Contrasenya nova» i «Contrasenya nova repetida» no concorden."
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:308
 #: html/class_passwordRecovery.inc:406 plugins/admin/users/password.tpl.c:8
@@ -1038,7 +1037,7 @@ msgstr "Les contrasenyes que heu introduït com a «Contrasenya nova» i «Contr
 #: ihtml/themes/default/password.tpl.c:44
 #: ihtml/themes/default/password.tpl.c:47
 msgid "New password"
-msgstr "Contrasenya nova"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:329
 #: plugins/personal/password/class_password.inc:135
@@ -1051,7 +1050,7 @@ msgstr ""
 #: plugins/personal/password/class_password.inc:162 html/main.php:170
 #: ihtml/themes/default/password.tpl.c:20
 msgid "Password change"
-msgstr "Canvi de contrasenya"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:385
 msgid "You have no permission to change this users password!"
@@ -1061,7 +1060,7 @@ msgstr ""
 #: plugins/admin/users/class_userManagement.inc:492
 #: plugins/admin/users/class_userManagement.inc:523
 msgid "none"
-msgstr "cap"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:713
 #: plugins/admin/users/class_userManagement.inc:717
@@ -1181,7 +1180,7 @@ msgstr ""
 #: ihtml/themes/default/snapshotdialog.tpl.c:14
 #: ihtml/themes/default/snapshotdialog.tpl.c:35
 msgid "Object"
-msgstr "Objecte"
+msgstr ""
 
 #: plugins/admin/aclrole/class_aclRole.inc:491
 msgid "Show/hide advanced settings"
@@ -1290,7 +1289,7 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:601
 #: html/class_passwordRecovery.inc:129
 msgid "Password method"
-msgstr "Mètode de contrasenya"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:45
 msgid "Password hash method to use"
@@ -1305,7 +1304,7 @@ msgstr ""
 #: ihtml/themes/default/login.tpl.c:20 ihtml/themes/default/login.tpl.c:23
 #: setup/setup_migrate.tpl.c:122
 msgid "Password"
-msgstr "Contrasenya"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:50
 msgid "Password (Leave empty if you do not wish to change it)"
@@ -1335,11 +1334,11 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:490
 msgid "female"
-msgstr "home"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:490
 msgid "male"
-msgstr "dona"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:558
 msgid "Cannot upload file!"
@@ -1352,8 +1351,8 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:953
 #: include/simpleplugin/class_attribute.inc:1537
 msgid ""
-"Cannot save user picture, FusionDirectory requires the package "
-"'php5-imagick' to be installed!"
+"Cannot save user picture, FusionDirectory requires the package 'php5-"
+"imagick' to be installed!"
 msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1070
@@ -1376,23 +1375,23 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:1489
 #: plugins/personal/generic/generic.tpl.c:59
 msgid "Homepage"
-msgstr "Pàgina principal"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1249
 #: plugins/personal/generic/generic.tpl.c:104
 msgid "Mobile"
-msgstr "Mòbil"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1252
 #: plugins/personal/generic/generic.tpl.c:107
 msgid "Pager"
-msgstr "Buscapersones"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1257
 #: plugins/personal/generic/class_user.inc:1460
 #: plugins/personal/generic/generic.tpl.c:38
 msgid "Date of birth"
-msgstr "Data de naixement"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1420
 #: plugins/personal/generic/generic.tpl.c:140
@@ -1460,79 +1459,79 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:1457
 #: plugins/personal/generic/generic.tpl.c:32
 msgid "Personal title"
-msgstr "Tractament"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1458
 #: plugins/personal/generic/generic.tpl.c:35
 msgid "Academic title"
-msgstr "Titulació acadèmica"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1461
 #: plugins/personal/generic/generic.tpl.c:41
 msgid "Sex"
-msgstr "Gènere"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1462
 msgid "Preferred language"
-msgstr "Llengua preferida"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1465
 #: plugins/personal/generic/paste_generic.tpl.c:26
 msgid "User picture"
-msgstr "Imatge de l'usuari"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1467
 msgid "Login restrictions"
-msgstr "Restriccions d'entrada"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1471
 msgid "Department number"
-msgstr "Número de departament"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1474
 msgid "Employee number"
-msgstr "Número d'empleat"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1475
 #: plugins/personal/generic/generic.tpl.c:92
 msgid "Employee type"
-msgstr "Categoria professional"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1477
 msgid "Room number"
-msgstr "Número de sala"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1478
 msgid "Telefon number"
-msgstr "Número de telèfon"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1479
 msgid "Pager number"
-msgstr "Número de buscapersones"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1480
 msgid "Mobile number"
-msgstr "Número de mòbil"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1485
 msgid "Postal address"
-msgstr "Adreça postal"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1487
 msgid "Home postal address"
-msgstr "Adreça postal personal"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1488
 msgid "Home phone number"
-msgstr "Número de telèfon personal"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1490
 msgid "User password method"
-msgstr "Mètode de contrasenya de l'usuari"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:1551
 msgid "Entries differ"
-msgstr "Les entrades no coincideixen"
+msgstr ""
 
 #: plugins/personal/password/class_password.inc:110
 msgid "You need to specify your current password in order to proceed."
@@ -1544,11 +1543,11 @@ msgstr ""
 
 #: plugins/personal/password/class_password.inc:116
 msgid "The password used as new and current are too similar."
-msgstr "La contrasenya nova i l'actual són massa similars."
+msgstr ""
 
 #: plugins/personal/password/class_password.inc:118
 msgid "The password used as new is to short."
-msgstr "La contrasenya nova és massa curta."
+msgstr ""
 
 #: plugins/personal/password/class_password.inc:120
 #: html/class_passwordRecovery.inc:410
@@ -1573,11 +1572,11 @@ msgstr ""
 #: plugins/personal/password/main.inc:52
 #: plugins/config/class_configInLdap.inc:119 setup/setup_config1.tpl.c:41
 msgid "Password settings"
-msgstr "Paràmetres de la contrasenya"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:82
 msgid "Home directory"
-msgstr "Directori personal"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:82
 msgid "The path to the home directory of this user"
@@ -1585,7 +1584,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:87
 msgid "Shell"
-msgstr "Intèrpret d'ordres"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:87
 msgid "Which shell should be used when this user log in"
@@ -1618,7 +1617,7 @@ msgstr ""
 #: plugins/personal/posix/class_posixAccount.inc:103
 #: plugins/personal/posix/class_posixAccount.inc:372
 msgid "UID"
-msgstr "UID"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:103
 msgid "UID value for this user"
@@ -1635,7 +1634,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:122
 msgid "Account"
-msgstr "Compte"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:126
 msgid "User must change password on first login"
@@ -1916,8 +1915,8 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:164
 msgid ""
-"It is time consuming to evaluate which groups are primary and which are not,"
-" so you may want to disable it if your group plugin is slow."
+"It is time consuming to evaluate which groups are primary and which are not, "
+"so you may want to disable it if your group plugin is slow."
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:169 setup/setup_config3.tpl.c:8
@@ -2012,8 +2011,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:230
 msgid ""
-"This enables you to save certain states of entries and restore them later "
-"on."
+"This enables you to save certain states of entries and restore them later on."
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:234 setup/setup_config2.tpl.c:14
@@ -2066,8 +2064,8 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:275
 msgid ""
-"When enabled successful hook execution output is displayed to the user using"
-" a dialog."
+"When enabled successful hook execution output is displayed to the user using "
+"a dialog."
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:280
@@ -2237,8 +2235,8 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:386
 msgid ""
-"Shows PHP errors in the upper part of the screen. This should be disabled in"
-" productive deployments, because there might be some passwords in it."
+"Shows PHP errors in the upper part of the screen. This should be disabled in "
+"productive deployments, because there might be some passwords in it."
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:390 setup/setup_config3.tpl.c:44
@@ -2420,9 +2418,9 @@ msgstr ""
 #: include/class_config.inc:297
 #, php-format
 msgid ""
-"It seems you are trying to decode something which is not encoded : "
-"%s<br/>\\nPlease check you are not using a fusiondirectory.secrets file "
-"while your passwords are not encrypted."
+"It seems you are trying to decode something which is not encoded : %s<br/>"
+"\\nPlease check you are not using a fusiondirectory.secrets file while your "
+"passwords are not encrypted."
 msgstr ""
 
 #: include/class_config.inc:338
@@ -2441,8 +2439,8 @@ msgstr ""
 #: include/class_config.inc:1132
 #, php-format
 msgid ""
-"The snapshot functionality is enabled, but the required variable '%s' is not"
-" set."
+"The snapshot functionality is enabled, but the required variable '%s' is not "
+"set."
 msgstr ""
 
 #: include/class_config.inc:1145
@@ -2458,7 +2456,7 @@ msgstr ""
 
 #: include/class_config.inc:1362
 msgid "My account"
-msgstr "El meu compte"
+msgstr ""
 
 #: include/class_SnapShotDialog.inc:140
 #, php-format
@@ -2520,14 +2518,13 @@ msgstr ""
 #: include/class_ldap.inc:1214
 #, php-format
 msgid ""
-"This is not a valid DN: '%s'. A block for import should begin with 'dn: ...'"
-" in line %s"
+"This is not a valid DN: '%s'. A block for import should begin with 'dn: ...' "
+"in line %s"
 msgstr ""
 
 #: include/class_ldap.inc:1225
 #, php-format
-msgid ""
-"Error while importing dn: '%s', please check your LDIF from line %s on!"
+msgid "Error while importing dn: '%s', please check your LDIF from line %s on!"
 msgstr ""
 
 #: include/class_msgPool.inc:43
@@ -2804,7 +2801,7 @@ msgstr ""
 #: setup/setup_migrate.tpl.c:215 setup/setup_migrate.tpl.c:245
 #: setup/setup_migrate.tpl.c:275
 msgid "Cancel"
-msgstr "Canceŀla"
+msgstr ""
 
 #: include/class_msgPool.inc:477 setup/class_setupStep_Migrate.inc:283
 #: setup/class_setupStep_Migrate.inc:328 setup/class_setupStep_Migrate.inc:393
@@ -2819,7 +2816,7 @@ msgstr "Canceŀla"
 #: ihtml/themes/default/msg_dialog.tpl.c:14 setup/setup_checks.tpl.c:5
 #: setup/setup_checks.tpl.c:26
 msgid "Ok"
-msgstr "D'acord"
+msgstr ""
 
 #: include/class_msgPool.inc:485 ihtml/themes/default/acl.tpl.c:50
 #: ihtml/themes/default/acl.tpl.c:56 setup/setup_ldap.tpl.c:8
@@ -2829,11 +2826,11 @@ msgstr "D'acord"
 #: setup/setup_migrate.tpl.c:212 setup/setup_migrate.tpl.c:242
 #: setup/setup_migrate.tpl.c:272
 msgid "Apply"
-msgstr "Aplica"
+msgstr ""
 
 #: include/class_msgPool.inc:493 ihtml/themes/default/copyPasteDialog.tpl.c:14
 msgid "Save"
-msgstr "Desa"
+msgstr ""
 
 #: include/class_msgPool.inc:503 setup/class_setupStep_Migrate.inc:2521
 #: plugins/personal/generic/generic.tpl.c:74
@@ -2864,41 +2861,39 @@ msgstr ""
 #: include/class_msgPool.inc:533
 #, php-format
 msgid "Edit..."
-msgstr "Edita…"
+msgstr ""
 
 #: include/class_msgPool.inc:533
 #, php-format
 msgid "Edit %s..."
-msgstr "Edita %s…"
+msgstr ""
 
 #: include/class_msgPool.inc:541
 msgid "Back"
-msgstr "Enrere"
+msgstr ""
 
 #: include/class_msgPool.inc:570
 #, php-format
 msgid "This account has no valid %s extensions!"
-msgstr "Aquest compte no té extensions de %s vàlides!"
+msgstr ""
 
 #: include/class_msgPool.inc:583
 #, php-format
 msgid ""
-"This account has %s settings enabled. You can disable them by clicking "
-"below."
-msgstr "Aquest compte té paràmetres de %s habilitats. Podeu inhabilitar-los fent clic a sota."
+"This account has %s settings enabled. You can disable them by clicking below."
+msgstr ""
 
 #: include/class_msgPool.inc:589 include/class_msgPool.inc:596
 #, php-format
 msgid ""
-"This account has %s settings enabled. To disable them, you'll need to remove"
-" the %s settings first!"
+"This account has %s settings enabled. To disable them, you'll need to remove "
+"the %s settings first!"
 msgstr ""
 
 #: include/class_msgPool.inc:611
 #, php-format
 msgid ""
-"This account has %s settings disabled. You can enable them by clicking "
-"below."
+"This account has %s settings disabled. You can enable them by clicking below."
 msgstr ""
 
 #: include/class_msgPool.inc:617 include/class_msgPool.inc:624
@@ -2920,83 +2915,83 @@ msgstr ""
 
 #: include/class_msgPool.inc:655
 msgid "Click the 'Edit' button below to change informations in this dialog"
-msgstr "Feu clic al botó «Edita» a sota per canviar la informació d'aquest diàleg"
+msgstr ""
 
 #: include/class_msgPool.inc:663
 msgid "January"
-msgstr "gener"
+msgstr ""
 
 #: include/class_msgPool.inc:663
 msgid "February"
-msgstr "febrer"
+msgstr ""
 
 #: include/class_msgPool.inc:663
 msgid "March"
-msgstr "març"
+msgstr ""
 
 #: include/class_msgPool.inc:663
 msgid "April"
-msgstr "abril"
+msgstr ""
 
 #: include/class_msgPool.inc:664
 msgid "May"
-msgstr "maig"
+msgstr ""
 
 #: include/class_msgPool.inc:664
 msgid "June"
-msgstr "juny"
+msgstr ""
 
 #: include/class_msgPool.inc:664
 msgid "July"
-msgstr "juliol"
+msgstr ""
 
 #: include/class_msgPool.inc:664
 msgid "August"
-msgstr "agost"
+msgstr ""
 
 #: include/class_msgPool.inc:664
 msgid "September"
-msgstr "setembre"
+msgstr ""
 
 #: include/class_msgPool.inc:665
 msgid "October"
-msgstr "octubre"
+msgstr ""
 
 #: include/class_msgPool.inc:665
 msgid "November"
-msgstr "novembre"
+msgstr ""
 
 #: include/class_msgPool.inc:665
 msgid "December"
-msgstr "desembre"
+msgstr ""
 
 #: include/class_msgPool.inc:674
 msgid "Sunday"
-msgstr "diumenge"
+msgstr ""
 
 #: include/class_msgPool.inc:674
 msgid "Monday"
-msgstr "dilluns"
+msgstr ""
 
 #: include/class_msgPool.inc:674
 msgid "Tuesday"
-msgstr "dimarts"
+msgstr ""
 
 #: include/class_msgPool.inc:674
 msgid "Wednesday"
-msgstr "dimecres"
+msgstr ""
 
 #: include/class_msgPool.inc:674
 msgid "Thursday"
-msgstr "dijous"
+msgstr ""
 
 #: include/class_msgPool.inc:674
 msgid "Friday"
-msgstr "divendres"
+msgstr ""
 
 #: include/class_msgPool.inc:674
 msgid "Saturday"
-msgstr "dissabte"
+msgstr ""
 
 #: include/class_msgPool.inc:687
 msgid "Database operation failed!"
@@ -3146,7 +3141,7 @@ msgstr ""
 #: include/functions.inc:508 include/functions.inc:3727
 #: include/class_xml.inc:61 html/class_passwordRecovery.inc:227
 msgid "Fatal error"
-msgstr "Error fatal"
+msgstr ""
 
 #: include/functions.inc:509
 #, php-format
@@ -3543,8 +3538,8 @@ msgstr ""
 
 #: include/class_plugin.inc:488
 msgid ""
-"The object has changed since opened in FusionDirectory. All changes that may"
-" be done by others get lost if you save this entry!"
+"The object has changed since opened in FusionDirectory. All changes that may "
+"be done by others get lost if you save this entry!"
 msgstr ""
 
 #: include/class_plugin.inc:1320
@@ -3555,7 +3550,7 @@ msgstr ""
 #: include/class_CopyPasteHandler.inc:277
 #: ihtml/themes/default/copyPasteDialog.tpl.c:20
 msgid "Cancel all"
-msgstr "Canceŀla-ho tot"
+msgstr ""
 
 #: include/class_CopyPasteHandler.inc:344
 msgid "Cannot paste"
@@ -3588,7 +3583,7 @@ msgstr ""
 
 #: include/simpleplugin/class_dialogAttributes.inc:426
 msgid "Group of user"
-msgstr "Grup de l'usuari"
+msgstr ""
 
 #: include/simpleplugin/class_dialogAttributes.inc:577
 #: include/simpleplugin/class_attribute.inc:939
@@ -3710,7 +3705,8 @@ msgstr ""
 #, php-format
 msgid ""
 "Unkown ACL type '%s'!\n"
-"You might need to run \"fusiondirectory-setup --migrate-acls\" to migrate your acls to the new format."
+"You might need to run \"fusiondirectory-setup --migrate-acls\" to migrate "
+"your acls to the new format."
 msgstr ""
 
 #: include/class_acl.inc:211
@@ -3804,19 +3800,19 @@ msgstr ""
 
 #: html/index.php:258
 msgid "Your LDAP setup contains old schema definitions:"
-msgstr "La vostra configuració d'LDAP conté definicions d'esquema antigues:"
+msgstr ""
 
 #: html/index.php:281
 msgid "Please specify a valid username!"
-msgstr "Especifiqueu un nom d'usuari vàlid."
+msgstr ""
 
 #: html/index.php:284
 msgid "Please specify your password!"
-msgstr "Especifiqueu la vostra contrasenya."
+msgstr ""
 
 #: html/index.php:296
 msgid "Authentication error"
-msgstr "Error d'autenticació."
+msgstr ""
 
 #: html/index.php:296
 msgid "Cannot retrieve user information for htaccess authentication!"
@@ -3828,17 +3824,17 @@ msgstr ""
 
 #: html/index.php:331
 msgid "Account locked. Please contact your system administrator!"
-msgstr "El compte és blocat. Contacteu el vostre administrador de sistemes."
+msgstr ""
 
 #: html/index.php:350
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
-msgstr "El vostre navegador té les galetes inhabilitades. Habiliteu les galetes i torneu a carregar aquesta pàgina abans d'entrar."
+msgstr ""
 
 #: html/main.php:139
 msgid "PHP configuration"
-msgstr "Configuració del PHP"
+msgstr ""
 
 #: html/main.php:140
 msgid ""
@@ -3852,21 +3848,21 @@ msgstr ""
 
 #: html/main.php:235
 msgid "Running out of memory!"
-msgstr "S'està exhaurint la memòria!"
+msgstr ""
 
 #: html/main.php:286
 msgid "User ACL checks disabled"
-msgstr "S'han inhabilitat les comprovacions de les ACL dels usuaris"
+msgstr ""
 
 #: html/main.php:324
 msgid "Plugin"
-msgstr "Connector"
+msgstr ""
 
 #: html/main.php:325
 #, php-format
 msgid ""
-"Fatal error: Cannot find any plugin definitions for plugin '%s' ('%s' is not"
-" a file)!"
+"Fatal error: Cannot find any plugin definitions for plugin '%s' ('%s' is not "
+"a file)!"
 msgstr ""
 
 #: html/main.php:340
@@ -3887,7 +3883,7 @@ msgstr ""
 #: html/class_passwordRecovery.inc:228
 #, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
-msgstr "La configuració %s/%s del FusionDirectori no és llegible. S'està avortant."
+msgstr ""
 
 #: html/class_passwordRecovery.inc:408
 msgid "The password used as new is too short."
@@ -3895,11 +3891,11 @@ msgstr ""
 
 #: html/class_passwordRecovery.inc:435
 msgid "Session will not be encrypted."
-msgstr "No es xifrarà la sessió."
+msgstr ""
 
 #: html/class_passwordRecovery.inc:437
 msgid "Enter SSL session"
-msgstr "Entreu a la sessió amb SSL"
+msgstr ""
 
 #: html/class_passwordRecovery.inc:478
 #, php-format
@@ -3960,13 +3956,13 @@ msgid ""
 msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:80 setup/class_setupStep_Config3.inc:82
-#: setup/class_setupStep_Config1.inc:96 setup/class_setupStep_Schema.inc:81
+#: setup/class_setupStep_Config1.inc:96 setup/class_setupStep_Schema.inc:82
 #: setup/setup_feedback.tpl.c:32 setup/setup_feedback.tpl.c:44
 msgid "No"
 msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:80 setup/class_setupStep_Config3.inc:82
-#: setup/class_setupStep_Config1.inc:96 setup/class_setupStep_Schema.inc:81
+#: setup/class_setupStep_Config1.inc:96 setup/class_setupStep_Schema.inc:82
 #: setup/setup_feedback.tpl.c:29 setup/setup_feedback.tpl.c:41
 msgid "Yes"
 msgstr ""
@@ -4018,7 +4014,7 @@ msgstr ""
 #: setup/class_setupStep_Finish.inc:36
 #: ihtml/themes/default/copyPasteDialog.tpl.c:26
 msgid "Finish"
-msgstr "Finalitza"
+msgstr ""
 
 #: setup/class_setupStep_Finish.inc:37
 msgid "Write configuration file"
@@ -4182,7 +4178,7 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:1986
 #: setup/class_setupStep_Migrate.inc:2793
 msgid "Failed"
-msgstr "Error"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:509 setup/class_setupStep_Migrate.inc:521
 #, php-format
@@ -4273,7 +4269,7 @@ msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1149
 msgid "Uid"
-msgstr "UID"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1154
 msgid "Password error"
@@ -4613,8 +4609,7 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:207
 msgid ""
-"Search for 'max_execution_time' in your php.ini and set it to '30' or "
-"higher."
+"Search for 'max_execution_time' in your php.ini and set it to '30' or higher."
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:214
@@ -4633,8 +4628,7 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:223
 msgid ""
-"Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to "
-"'Off'."
+"Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'."
 msgstr ""
 
 #: setup/class_setupStep_Checks.inc:231
@@ -4656,15 +4650,15 @@ msgstr ""
 msgid "Completed"
 msgstr ""
 
-#: setup/class_setup.inc:246 setup/setup_migrate.tpl.c:104
+#: setup/class_setup.inc:243 setup/setup_migrate.tpl.c:104
 msgid "Next"
 msgstr ""
 
-#: setup/class_setupStep_Schema.inc:42 setup/class_setupStep_Schema.inc:43
+#: setup/class_setupStep_Schema.inc:43 setup/class_setupStep_Schema.inc:44
 msgid "LDAP schema check"
 msgstr ""
 
-#: setup/class_setupStep_Schema.inc:44
+#: setup/class_setupStep_Schema.inc:45
 msgid "Perform test on your current LDAP schema"
 msgstr ""
 
@@ -4878,18 +4872,18 @@ msgstr ""
 #: plugins/personal/generic/generic.tpl.c:20
 #: plugins/personal/generic/paste_generic.tpl.c:5
 msgid "Last name"
-msgstr "Cognoms"
+msgstr ""
 
 #: plugins/admin/users/template.tpl.c:14
 #: plugins/personal/generic/generic.tpl.c:26
 #: plugins/personal/generic/paste_generic.tpl.c:8
 msgid "First name"
-msgstr "Nom"
+msgstr ""
 
 #: plugins/admin/users/template.tpl.c:20
 #: ihtml/themes/default/snapshotdialog.tpl.c:44
 msgid "Continue"
-msgstr "Continua"
+msgstr ""
 
 #: plugins/admin/users/templatize.tpl.c:2
 msgid "Applying a template"
@@ -4910,7 +4904,7 @@ msgid ""
 "To change the user password use the fields below. The changes take effect "
 "immediately. Please memorize the new password, because the user wouldn't be "
 "able to login without it."
-msgstr "Per canviar la vostra contrasenya personal, empreu els camps següents. Els canvis tenen efecte immediatament. Memoritzeu la contrasenya nova, perquè l'usuari no podrà entrar sense ella."
+msgstr ""
 
 #: plugins/admin/users/password.tpl.c:5
 #: plugins/personal/generic/password.tpl.c:5
@@ -4918,7 +4912,7 @@ msgstr "Per canviar la vostra contrasenya personal, empreu els camps següents. 
 msgid ""
 "Changing the password affects your authentification on mail, proxy, samba "
 "and unix services."
-msgstr "Canviar la contrasenya afecta la vostra autenticació al correu, servidor intermediari, Samba i serveis UNIX."
+msgstr ""
 
 #: plugins/admin/users/password.tpl.c:11 plugins/admin/users/password.tpl.c:29
 #: plugins/personal/generic/password.tpl.c:14
@@ -4926,11 +4920,11 @@ msgstr "Canviar la contrasenya afecta la vostra autenticació al correu, servido
 #: plugins/personal/password/password.tpl.c:17
 #: plugins/personal/password/password.tpl.c:38
 msgid "Repeat new password"
-msgstr "Repeteix la contrasenya nova"
+msgstr ""
 
 #: plugins/admin/users/password.tpl.c:14 plugins/admin/users/password.tpl.c:32
 msgid "Strength"
-msgstr "Qualitat"
+msgstr ""
 
 #: plugins/admin/users/password.tpl.c:17
 #: plugins/personal/generic/password.tpl.c:23
@@ -4963,9 +4957,9 @@ msgstr ""
 
 #: plugins/admin/users/remove.tpl.c:5
 msgid ""
-"This includes all account data, system access rules, imap settings, etc. for"
-" this user. Please double check if your really want to do this since there "
-"is no way for FusionDirectory to get your data back."
+"This includes all account data, system access rules, imap settings, etc. for "
+"this user. Please double check if your really want to do this since there is "
+"no way for FusionDirectory to get your data back."
 msgstr ""
 
 #: plugins/admin/users/user-filter.tpl.c:5
@@ -4994,8 +4988,8 @@ msgstr ""
 
 #: plugins/admin/acl/remove.tpl.c:5
 msgid ""
-"This includes all ACL assignments made on this node(s). If you want the list"
-" of these assignments, please cancel and open the objects."
+"This includes all ACL assignments made on this node(s). If you want the list "
+"of these assignments, please cancel and open the objects."
 msgstr ""
 
 #: plugins/admin/acl/remove.tpl.c:8
@@ -5004,19 +4998,19 @@ msgstr ""
 
 #: plugins/personal/generic/generic_certs.tpl.c:2
 msgid "Certificates"
-msgstr "Certificats"
+msgstr ""
 
 #: plugins/personal/generic/generic_certs.tpl.c:5
 msgid "Standard certificate"
-msgstr "Certificat estàndard"
+msgstr ""
 
 #: plugins/personal/generic/generic_certs.tpl.c:11
 msgid "S/MIME certificate"
-msgstr "Certificat S/MIME"
+msgstr ""
 
 #: plugins/personal/generic/generic_certs.tpl.c:17
 msgid "PKCS12 certificate"
-msgstr "Certificat PKCS12"
+msgstr ""
 
 #: plugins/personal/generic/generic_certs.tpl.c:23
 msgid "Certificate serial number"
@@ -5044,7 +5038,7 @@ msgstr ""
 #: ihtml/themes/default/password.tpl.c:38
 #: ihtml/themes/default/password.tpl.c:41
 msgid "Current password"
-msgstr "Contrasenya actual"
+msgstr ""
 
 #: plugins/personal/generic/password.tpl.c:17
 #: plugins/personal/generic/password.tpl.c:38
@@ -5053,16 +5047,16 @@ msgstr "Contrasenya actual"
 #: ihtml/themes/default/recovery.tpl.c:53
 #: ihtml/themes/default/password.tpl.c:56
 msgid "Password strength"
-msgstr "Qualitat de la contrasenya"
+msgstr ""
 
 #: plugins/personal/generic/password.tpl.c:44
 #: plugins/personal/password/password.tpl.c:47
 msgid "Clear fields"
-msgstr "Neteja els camps"
+msgstr ""
 
 #: plugins/personal/generic/generic.tpl.c:2
 msgid "Personal information"
-msgstr "Informació personal"
+msgstr ""
 
 #: plugins/personal/generic/generic.tpl.c:5
 #: plugins/personal/generic/generic.tpl.c:8
@@ -5070,36 +5064,36 @@ msgstr "Informació personal"
 #: plugins/personal/generic/generic_picture.tpl.c:2
 #: plugins/personal/generic/paste_generic.tpl.c:23
 msgid "Personal picture"
-msgstr "Imatge personal"
+msgstr ""
 
 #: plugins/personal/generic/generic.tpl.c:11
 #: plugins/personal/generic/generic.tpl.c:17
 msgid "Change picture"
-msgstr "Canvia la imatge"
+msgstr ""
 
 #: plugins/personal/generic/generic.tpl.c:23
 msgid "Template name"
-msgstr "Nom de la plantilla"
+msgstr ""
 
 #: plugins/personal/generic/generic.tpl.c:44
 msgid "Preferred langage"
-msgstr "Llengua preferida"
+msgstr ""
 
 #: plugins/personal/generic/generic.tpl.c:56
 msgid "Private phone"
-msgstr "Telèfon privat"
+msgstr ""
 
 #: plugins/personal/generic/generic.tpl.c:62
 msgid "Password storage"
-msgstr "Emmagatzematge de contrasenyes"
+msgstr ""
 
 #: plugins/personal/generic/generic.tpl.c:68
 msgid "Restrict login to"
-msgstr "Restringeix l'entrada a"
+msgstr ""
 
 #: plugins/personal/generic/generic.tpl.c:71
 msgid "IP or network"
-msgstr "IP o xarxa"
+msgstr ""
 
 #: plugins/personal/generic/generic.tpl.c:77
 msgid "Organizational information"
@@ -5107,16 +5101,16 @@ msgstr ""
 
 #: plugins/personal/generic/generic.tpl.c:86
 msgid "Department No."
-msgstr "Núm de department"
+msgstr ""
 
 #: plugins/personal/generic/generic.tpl.c:89
 msgid "Employee No."
-msgstr "Núm d'empleat"
+msgstr ""
 
 #: plugins/personal/generic/generic.tpl.c:98
 #: plugins/personal/generic/generic.tpl.c:152
 msgid "Room No."
-msgstr "Núm de sala"
+msgstr ""
 
 #: plugins/personal/generic/generic.tpl.c:158
 msgid "Please use the phone tab"
@@ -5125,19 +5119,19 @@ msgstr ""
 #: plugins/personal/generic/generic_picture.tpl.c:5
 #: plugins/personal/generic/paste_generic.tpl.c:29
 msgid "Remove picture"
-msgstr "Suprimeix la imatge"
+msgstr ""
 
 #: plugins/personal/generic/paste_generic.tpl.c:2
 msgid "User settings"
-msgstr "Paràmetres de l'usuari"
+msgstr ""
 
 #: plugins/personal/generic/paste_generic.tpl.c:17
 msgid "Clear password"
-msgstr "Neteja la contrasenya"
+msgstr ""
 
 #: plugins/personal/generic/paste_generic.tpl.c:20
 msgid "Set new password"
-msgstr "Estableix una contrasenya nova"
+msgstr ""
 
 #: plugins/personal/generic/nochange.tpl.c:2
 #: plugins/personal/password/nochange.tpl.c:2
@@ -5165,13 +5159,13 @@ msgstr ""
 
 #: ihtml/themes/default/islocked.tpl.c:11
 msgid "Read only"
-msgstr "Només lectura"
+msgstr ""
 
 #: ihtml/themes/default/sizelimit.tpl.c:2
 msgid ""
-"The size limit option makes LDAP operations faster and saves the LDAP server"
-" from getting too much load. The easiest way to handle big databases without"
-" long timeouts would be to limit your search to smaller values and use "
+"The size limit option makes LDAP operations faster and saves the LDAP server "
+"from getting too much load. The easiest way to handle big databases without "
+"long timeouts would be to limit your search to smaller values and use "
 "filters to get the entries you are looking for."
 msgstr ""
 
@@ -5215,8 +5209,8 @@ msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:26
 msgid ""
-"If none of the above methods suits you, contact your administrator to change"
-" your password"
+"If none of the above methods suits you, contact your administrator to change "
+"your password"
 msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:29
@@ -5233,44 +5227,44 @@ msgstr ""
 #: ihtml/themes/default/password.tpl.c:29 ihtml/themes/default/login.tpl.c:29
 #: ihtml/themes/default/login.tpl.c:32 ihtml/themes/default/login.tpl.c:35
 msgid "Directory"
-msgstr "Directori"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:38
 #: ihtml/themes/default/password.tpl.c:32
 #: ihtml/themes/default/password.tpl.c:35 ihtml/themes/default/login.tpl.c:8
 #: ihtml/themes/default/login.tpl.c:11 ihtml/themes/default/login.tpl.c:14
 msgid "Username"
-msgstr "Nom d'usuari"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:47
 #: ihtml/themes/default/recovery.tpl.c:50
 #: ihtml/themes/default/password.tpl.c:50
 #: ihtml/themes/default/password.tpl.c:53
 msgid "New password repeated"
-msgstr "Contrasenya nova repetida"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:56
 #: ihtml/themes/default/recovery.tpl.c:89
 #: ihtml/themes/default/password.tpl.c:59
 msgid "Change"
-msgstr "Canvia"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:59
 #: ihtml/themes/default/recovery.tpl.c:92
 #: ihtml/themes/default/password.tpl.c:62
 msgid "Click here to change your password"
-msgstr "Feu clic aquí per canviar la vostra contrasenya"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:62
 #: ihtml/themes/default/recovery.tpl.c:65
 #: ihtml/themes/default/password.tpl.c:5 ihtml/themes/default/password.tpl.c:8
 msgid "Success"
-msgstr "Èxit"
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:68
 #: ihtml/themes/default/password.tpl.c:11
 msgid "Your password has been changed successfully."
-msgstr "S'ha canviat la vostra contrasenya amb èxit."
+msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:71
 msgid ""
@@ -5291,12 +5285,12 @@ msgstr ""
 
 #: ihtml/themes/default/password.tpl.c:2
 msgid "Change your password"
-msgstr "Canvieu la vostra contrasenya"
+msgstr ""
 
 #: ihtml/themes/default/password.tpl.c:23
 msgid ""
-"This dialog provides a simple way to change your password. Enter the current"
-" password and the new password (twice) in the fields below and press the "
+"This dialog provides a simple way to change your password. Enter the current "
+"password and the new password (twice) in the fields below and press the "
 "'Change' button."
 msgstr ""
 
@@ -5312,29 +5306,29 @@ msgstr ""
 
 #: ihtml/themes/default/conflict.tpl.c:2
 msgid "Session conflict detected"
-msgstr "S'ha detectat un conflicte de sessions"
+msgstr ""
 
 #: ihtml/themes/default/conflict.tpl.c:8
 msgid ""
 "Probably there's another active instance of your session. Multiple window "
 "operation is technical not possible and heavily depends on the browser "
-"you're using. Usage of different browsers at a time (i.e. IE and Mozilla) is"
-" possible. Pressing the Logout button will close this session."
+"you're using. Usage of different browsers at a time (i.e. IE and Mozilla) is "
+"possible. Pressing the Logout button will close this session."
 msgstr ""
 
 #: ihtml/themes/default/conflict.tpl.c:11
 msgid ""
-"Ignoring this message will change/destroy the data you're currently editing,"
-" so please close multiple windows and log in again."
+"Ignoring this message will change/destroy the data you're currently editing, "
+"so please close multiple windows and log in again."
 msgstr ""
 
 #: ihtml/themes/default/conflict.tpl.c:14
 msgid "Logout"
-msgstr "Surt"
+msgstr ""
 
 #: ihtml/themes/default/logout.tpl.c:2
 msgid "Your FusionDirectory session has expired!"
-msgstr "La vostra sessió del FusionDirectori ha caducat!"
+msgstr ""
 
 #: ihtml/themes/default/logout.tpl.c:5
 msgid ""
@@ -5345,7 +5339,7 @@ msgstr ""
 
 #: ihtml/themes/default/logout.tpl.c:8
 msgid "Sign in again"
-msgstr "Torneu a entrar-hi"
+msgstr ""
 
 #: ihtml/themes/default/remove.tpl.c:5
 msgid ""
@@ -5355,7 +5349,7 @@ msgstr ""
 
 #: ihtml/themes/default/login.tpl.c:2
 msgid "Login screen"
-msgstr "Pantalla d'entrada"
+msgstr ""
 
 #: ihtml/themes/default/login.tpl.c:5
 msgid ""
@@ -5369,11 +5363,11 @@ msgstr ""
 
 #: ihtml/themes/default/login.tpl.c:38 ihtml/themes/default/login.tpl.c:44
 msgid "Sign in"
-msgstr "Entra"
+msgstr ""
 
 #: ihtml/themes/default/login.tpl.c:41
 msgid "Click here to log in"
-msgstr "Feu clic ací per entrar"
+msgstr ""
 
 #: ihtml/themes/default/acl.tpl.c:2
 msgid "Assigned ACL for current entry"
@@ -5381,11 +5375,11 @@ msgstr ""
 
 #: ihtml/themes/default/acl.tpl.c:5
 msgid "New ACL"
-msgstr "ACL nou"
+msgstr ""
 
 #: ihtml/themes/default/acl.tpl.c:8
 msgid "ACL type"
-msgstr "Tipus d'ACL"
+msgstr ""
 
 #: ihtml/themes/default/acl.tpl.c:11 ihtml/themes/default/acl.tpl.c:14
 msgid "Select an acl type"
@@ -5442,7 +5436,7 @@ msgstr ""
 
 #: ihtml/themes/default/copyPasteDialog.tpl.c:23
 msgid "Operation complete"
-msgstr "S'ha completat l'operació"
+msgstr ""
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:2
 msgid "Restoring object snapshots"
@@ -5494,7 +5488,7 @@ msgstr ""
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:38
 msgid "Timestamp"
-msgstr "Marca de temps"
+msgstr ""
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:41
 msgid "Reason for generating this snapshot"
@@ -5502,15 +5496,15 @@ msgstr ""
 
 #: ihtml/themes/default/framework.tpl.c:2
 msgid "Main"
-msgstr "Principal"
+msgstr ""
 
 #: ihtml/themes/default/framework.tpl.c:5
 msgid "Sign out"
-msgstr "Surt"
+msgstr ""
 
 #: ihtml/themes/default/framework.tpl.c:8
 msgid "Signed in:"
-msgstr "Identificat com a:"
+msgstr ""
 
 #: ihtml/themes/default/framework.tpl.c:11
 #, c-format
@@ -5535,13 +5529,13 @@ msgstr ""
 
 #: setup/setup_language.tpl.c:2
 msgid "Please select the preferred language"
-msgstr "Seleccioneu la llengua preferida"
+msgstr ""
 
 #: setup/setup_language.tpl.c:5
 msgid ""
 "At this point, you can select the site wide default language. Choosing "
-"'automatic' will use the language requested by the browser. This setting can"
-" be overriden per user."
+"'automatic' will use the language requested by the browser. This setting can "
+"be overriden per user."
 msgstr ""
 
 #: setup/setup_language.tpl.c:8
@@ -5647,7 +5641,7 @@ msgstr ""
 
 #: setup/setup_feedback.tpl.c:14
 msgid "Mail address"
-msgstr "Adreça de correu"
+msgstr ""
 
 #: setup/setup_feedback.tpl.c:17
 msgid "Send feedback to the FusionDirectory project team"
@@ -5655,8 +5649,8 @@ msgstr ""
 
 #: setup/setup_feedback.tpl.c:20
 msgid ""
-"When checking this option, FusionDirectory will try to connect "
-"http://www.fusiondirectory.org in order to submit your form anonymously."
+"When checking this option, FusionDirectory will try to connect http://www."
+"fusiondirectory.org in order to submit your form anonymously."
 msgstr ""
 
 #: setup/setup_feedback.tpl.c:26
@@ -5716,8 +5710,7 @@ msgid "What features of FusionDirectory do you use?"
 msgstr ""
 
 #: setup/setup_feedback.tpl.c:80
-msgid ""
-"What features do you want to see in future versions of FusionDirectory?"
+msgid "What features do you want to see in future versions of FusionDirectory?"
 msgstr ""
 
 #: setup/setup_feedback.tpl.c:83
@@ -5746,8 +5739,8 @@ msgstr ""
 
 #: setup/setup_schema.tpl.c:17
 msgid ""
-"Could not read any schema informations, all checks skipped. Adjust your ldap"
-" acls."
+"Could not read any schema informations, all checks skipped. Adjust your ldap "
+"acls."
 msgstr ""
 
 #: setup/setup_schema.tpl.c:20
@@ -5796,7 +5789,7 @@ msgid "Migrate every possible LDAP setup - create backup dumps!"
 msgstr ""
 
 #: setup/setup_welcome.tpl.c:29
-msgid "To continue..."
+msgid "To continue:"
 msgstr ""
 
 #: setup/setup_welcome.tpl.c:32
@@ -5816,7 +5809,7 @@ msgstr ""
 
 #: setup/setup_ldap.tpl.c:5
 msgid "Search"
-msgstr "Cerca"
+msgstr ""
 
 #: setup/setup_ldap.tpl.c:14
 msgid "LDAP connection"
@@ -5895,22 +5888,14 @@ msgstr ""
 msgid "FusionDirectory setup wizard"
 msgstr ""
 
-#: setup/setup_frame.tpl.c:5
-msgid "Installation"
-msgstr ""
-
-#: setup/setup_frame.tpl.c:8
-msgid "Setup"
-msgstr ""
-
 #: setup/setup_config2.tpl.c:5
 msgid "Please choose your preferred timezone here"
 msgstr ""
 
 #: setup/setup_migrate.tpl.c:2
 msgid ""
-"During the LDAP inspection, we're going to check for several common pitfalls"
-" that may occur when migration to FusionDirectory base LDAP administration. "
+"During the LDAP inspection, we're going to check for several common pitfalls "
+"that may occur when migration to FusionDirectory base LDAP administration. "
 "You may want to fix the problems below, in order to provide smooth services."
 msgstr ""
 
@@ -6052,9 +6037,9 @@ msgstr ""
 
 #: setup/setup_migrate.tpl.c:188
 msgid ""
-"The listed devices are currently invisible in the FusionDirectory interface."
-" If you want to change this for a couple of devices, just select them and "
-"use the 'Migrate' button below."
+"The listed devices are currently invisible in the FusionDirectory interface. "
+"If you want to change this for a couple of devices, just select them and use "
+"the 'Migrate' button below."
 msgstr ""
 
 #: setup/setup_migrate.tpl.c:218
@@ -6067,8 +6052,8 @@ msgstr ""
 #: setup/setup_migrate.tpl.c:248
 msgid ""
 "The listed menus are currently invisible in the FusionDirectory interface. "
-"If you want to change this for a couple of devices, just select them and use"
-" the 'Migrate' button below."
+"If you want to change this for a couple of devices, just select them and use "
+"the 'Migrate' button below."
 msgstr ""
 
 #: setup/setup_config3.tpl.c:2

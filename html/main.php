@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 @DEBUG (DEBUG_SESSION, __LINE__, __FUNCTION__, __FILE__, session::get_all(), "_SESSION");
 
 /* Logged in? Simple security check */
-if (!session::global_is_set('config')) {
+if (!session::global_is_set('connected')) {
   new log("security", "login", "", array(), "main.php called without session - logging out");
   header ("Location: logout.php");
   exit;
@@ -131,18 +131,7 @@ textdomain($domain);
 @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang, "Setting language to");
 
 /* Prepare plugin list */
-if (!session::global_is_set('plist')) {
-  /* Initially load all classes */
-  load_all_classes();
-
-  $plist = new pluglist($config, $ui);
-  session::global_set('plist', $plist);
-  $config->loadPlist($plist);
-  $config->get_departments();
-  $config->make_idepartments();
-  $config->checkLdapConfig();
-}
-$plist = session::global_get('plist');
+$plist = load_plist();
 
 /* Check for register globals */
 if (isset($global_check) && $config->get_cfg_value("forceglobals") == "TRUE") {
@@ -404,31 +393,6 @@ if (class_available('Game')) {
 
 $display  = $smarty->fetch(get_template_path('headers.tpl')).
             $smarty->fetch(get_template_path('framework.tpl'));
-
-/* Save dialog filters and selected base in a cookie.
-   So we may be able to restore the filter an base settings on reload.
-*/
-$cookie = array();
-
-if (isset($_COOKIE['FusionDirectory_Filter_Settings'])) {
-  $cookie = unserialize(base64_decode($_COOKIE['FusionDirectory_Filter_Settings']));
-} elseif (isset($HTTP_COOKIE_VARS['FusionDirectory_Filter_Settings'])) {
-  $cookie = unserialize(base64_decode($HTTP_COOKIE_VARS['FusionDirectory_Filter_Settings']));
-}
-
-/* Save filters? */
-if ($config->get_cfg_value("storeFilterSettings") == "TRUE") {
-  $cookie_vars = array("MultiDialogFilters","CurrentMainBase");
-  foreach ($cookie_vars as $var) {
-    if (session::global_is_set($var)) {
-      $cookie[$ui->dn][$var] = session::global_get($var);
-    }
-  }
-  if (isset($_GET['plug'])) {
-    $cookie[$ui->dn]['plug'] = $_GET['plug'];
-  }
-  @setcookie("FusionDirectory_Filter_Settings", base64_encode(serialize($cookie)), time() + (60 * 60 * 24));
-}
 
 /* Show page... */
 echo $display;

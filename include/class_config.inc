@@ -283,15 +283,15 @@ class config  {
    */
   function get_credentials($creds)
   {
-    if (isset($_SERVER['HTTP_FD_KEY'])) {
-      if (!session::global_is_set('HTTP_FD_KEY_CACHE')) {
-        session::global_set('HTTP_FD_KEY_CACHE', array());
+    if (isset($_SERVER['HTTP_FDKEY'])) {
+      if (!session::global_is_set('HTTP_FDKEY_CACHE')) {
+        session::global_set('HTTP_FDKEY_CACHE', array());
       }
-      $cache = session::global_get('HTTP_FD_KEY_CACHE');
+      $cache = session::global_get('HTTP_FDKEY_CACHE');
       if (!isset($cache[$creds])) {
         try {
-          $cache[$creds] = cred_decrypt($creds, $_SERVER['HTTP_FD_KEY']);
-          session::global_set('HTTP_FD_KEY_CACHE', $cache);
+          $cache[$creds] = cred_decrypt($creds, $_SERVER['HTTP_FDKEY']);
+          session::global_set('HTTP_FDKEY_CACHE', $cache);
         } catch (Exception $e) {
           $msg = sprintf(
             _('It seems you are trying to decode something which is not encoded : %s<br/>\n'.
@@ -1153,8 +1153,8 @@ class config  {
 
   function loadPlist ($plist)
   {
-    $this->data['OBJECTS'] = array();
-    $this->data['SECTIONS'] = array();
+    $this->data['OBJECTS']    = array();
+    $this->data['SECTIONS']   = array();
     $this->data['CATEGORIES'] = array();
     foreach ($plist->info as $class => &$plInfo) {
       if (isset($plInfo['plObjectType'])) {
@@ -1225,7 +1225,7 @@ class config  {
           $cat    = (is_numeric($idx)?$data:$idx);
           $cats[] = $cat;
           if (!isset($this->data['CATEGORIES'][$cat])) {
-            $this->data['CATEGORIES'][$cat]   = array( 'classes' => array('0') );
+            $this->data['CATEGORIES'][$cat] = array( 'classes' => array('0') );
           }
           if (!empty($plInfo['plProvidedAcls'])) {
             $this->data['CATEGORIES'][$cat]['classes'][] = $class;
