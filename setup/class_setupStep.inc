@@ -102,32 +102,6 @@ class setupStep extends simplePlugin
     return $tmp;
   }
 
-  /* bypass acl system as there is no user login */
-  function acl_is_writeable($attribute, $skip_write = FALSE)
-  {
-    return TRUE;
-  }
-  function acl_is_readable($attribute)
-  {
-    return TRUE;
-  }
-  function acl_is_createable($base = "")
-  {
-    return TRUE;
-  }
-  function acl_is_removeable($base = "")
-  {
-    return TRUE;
-  }
-  function acl_is_moveable($base = "")
-  {
-    return TRUE;
-  }
-  function getacl($attribute, $skip_write = FALSE)
-  {
-    return 'cmdrw';
-  }
-
   /* bypass LDAP loading */
   protected function loadAttributes()
   {

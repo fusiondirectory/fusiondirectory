@@ -968,6 +968,8 @@ class Step_Migrate extends setupStep
       $dn = 'cn='.$role['cn'].','.get_ou('aclRoleRDN').$config->current['BASE'];
       $ldap->cat($dn);
       if ($ldap->count() == 0) {
+        $ldap->cd($config->current['BASE']);
+        $ldap->create_missing_trees(get_ou('aclRoleRDN').$config->current['BASE']);
         $ldap->cd($dn);
         $ldap->add($role);
         if (!$ldap->success()) {
@@ -975,7 +977,7 @@ class Step_Migrate extends setupStep
             _('Migration error'),
             sprintf(
               _('Cannot add ACL role "%s":').'<br/><br/><i>%s</i>',
-              LDAP::fix($roledn), $ldap->get_error()
+              LDAP::fix($dn), $ldap->get_error()
             ),
             ERROR_DIALOG
           );
