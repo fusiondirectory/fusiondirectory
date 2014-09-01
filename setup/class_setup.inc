@@ -22,6 +22,25 @@
 
 require_once("class_setupStep.inc");
 
+class fake_userinfo extends userinfo
+{
+  function __construct()
+  {
+    global $config;
+    $this->config = &$config;
+
+    $this->cn   = 'fake_cn';
+    $this->dn   = 'fake_dn';
+    $this->uid  = 'fake_uid';
+    $this->ip   = $_SERVER['REMOTE_ADDR'];
+
+    /* This fake user have all rights */
+    $this->ignoreACL = TRUE;
+
+    /* Initialize ACL_CACHE */
+    $this->reset_acl_cache();
+  }
+}
 
 class setup
 {

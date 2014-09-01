@@ -101,6 +101,8 @@ if (!session::global_is_set('config')) {
 $config = session::global_get('config');
 load_plist(FALSE);
 IconTheme::loadThemes('themes');
+/* Fake user bypassing acl system */
+$ui = new fake_userinfo();
 /* Call setup */
 $display = "";
 require_once("../setup/main.inc");
