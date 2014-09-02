@@ -28,8 +28,8 @@ initialize_checks           - Initialize migration steps.
 check_ldap_permissions      - Check if the used admin account has full access to the ldap database.
 check_gosaAccounts          - Check if there are users without the required objectClasses.
 migrate_gosaAccounts        - Migrate selected users to FusionDirectory user accounts.
-check_organizationalUnits   - Check if there are departments, that are not visible for FusionDirectory
-migrate_organizationalUnits - Migrate selected departments
+check_orgUnits   - Check if there are departments, that are not visible for FusionDirectory
+migrate_orgUnits - Migrate selected departments
 check_adminAccount - Check if there is at least one acl entry available
 checkBase                   - Check if there is a root object available
 
@@ -185,7 +185,10 @@ class Step_Migrate extends setupStep
   var $rootOC_details = array();
 
   /* Invisible users */
-  var $users_to_migrate = array();
+  var $gosaAccounts_toMigrate = array();
+
+  /* Invisible ous */
+  var $orgUnits_toMigrate = array();
 
   /* Defaults ACL roles */
   var $defaultRoles;
@@ -243,21 +246,46 @@ class Step_Migrate extends setupStep
 
   function initialize_checks()
   {
+    global $config;
+    $config->get_departments();
+
     $checks = array(
-      'base'                  => new StepMigrateCheck($this, 'base',                  _('Checking for root object')),
-      'baseOC'                => new StepMigrateCheck($this, 'baseOC',                _('Inspecting object classes in root object')),
-      'permissions'           => new StepMigrateCheck($this, 'permissions',           _('Checking permission for LDAP database')),
-      'gosaAccounts'          => new StepMigrateCheck($this, 'gosaAccounts',          _('Checking for invisible users')),
-      'adminAccount'          => new StepMigrateCheck($this, 'adminAccount',          _('Checking for super administrator')),
-      'defaultACLs'           => new StepMigrateCheck($this, 'defaultACLs',           _('Checking for default ACL roles and groups')),
-      'outsideUsers'          => new StepMigrateCheck($this, 'outsideUsers',          _('Checking for users outside the people tree')),
-      'outsideGroups'         => new StepMigrateCheck($this, 'outsideGroups',         _('Checking for groups outside the groups tree')),
-      'organizationalUnits'   => new StepMigrateCheck($this, 'organizationalUnits',   _('Checking for invisible departments')),
-      'uidNumber'             => new StepMigrateCheck($this, 'uidNumber',             _('Checking for duplicated UID numbers')),
-      'gidNumber'             => new StepMigrateCheck($this, 'gidNumber',             _('Checking for duplicate GID numbers')),
+      'base'          => new StepMigrateCheck($this, 'base',          _('Checking for root object')),
+      'baseOC'        => new StepMigrateCheck($this, 'baseOC',        _('Inspecting object classes in root object')),
+      'permissions'   => new StepMigrateCheck($this, 'permissions',   _('Checking permission for LDAP database')),
+      'gosaAccounts'  => new StepMigrateCheck($this, 'gosaAccounts',  _('Checking for invisible users')),
+      'adminAccount'  => new StepMigrateCheck($this, 'adminAccount',  _('Checking for super administrator')),
+      'defaultACLs'   => new StepMigrateCheck($this, 'defaultACLs',   _('Checking for default ACL roles and groups')),
+      'outsideUsers'  => new StepMigrateCheck($this, 'outsideUsers',  _('Checking for users outside the people tree')),
+      'outsideGroups' => new StepMigrateCheck($this, 'outsideGroups', _('Checking for groups outside the groups tree')),
+      'orgUnits'      => new StepMigrateCheck($this, 'orgUnits',      _('Checking for invisible departments')),
+      'uidNumber'     => new StepMigrateCheck($this, 'uidNumber',     _('Checking for duplicated UID numbers')),
+      'gidNumber'     => new StepMigrateCheck($this, 'gidNumber',     _('Checking for duplicate GID numbers')),
     );
 
     $this->checks = $checks;
+  }
+
+  /* Return ldif information for a given attribute array */
+  function array_to_ldif($attrs)
+  {
+    $ret = '';
+    unset($attrs['count']);
+    unset($attrs['dn']);
+    foreach ($attrs as $name => $value) {
+      if (is_numeric($name)) {
+        continue;
+      }
+      if (is_array($value)) {
+        unset($value['count']);
+        foreach ($value as $a_val) {
+          $ret .= $name.': '. $a_val."\n";
+        }
+      } else {
+        $ret .= $name.': '. $value."\n";
+      }
+    }
+    return preg_replace("/\n$/", '', $ret);
   }
 
   function execute()
@@ -543,8 +571,8 @@ class Step_Migrate extends setupStep
     /* Remember old list of invisible users, to be able to set
      *  the 'html checked' status for the checkboxes again
      */
-    $old    = $this->users_to_migrate;
-    $this->users_to_migrate = array();
+    $old    = $this->gosaAccounts_toMigrate;
+    $this->gosaAccounts_toMigrate = array();
 
     /* Get all invisible users */
     $ldap->cd($config->current['BASE']);
@@ -560,7 +588,7 @@ class Step_Migrate extends setupStep
         if (isset($old[base64_encode($attrs['dn'])])) {
           $attrs['checked'] = $old[base64_encode($attrs['dn'])]['checked'];
         }
-        $this->users_to_migrate[base64_encode($attrs['dn'])] = $attrs;
+        $this->gosaAccounts_toMigrate[base64_encode($attrs['dn'])] = $attrs;
       }
     }
 
@@ -569,7 +597,7 @@ class Step_Migrate extends setupStep
         _('LDAP query failed'),
         _('Possibly the "root object" is missing.')
       );
-    } elseif (count($this->users_to_migrate) == 0) {
+    } elseif (count($this->gosaAccounts_toMigrate) == 0) {
       /* No invisible */
       return '';
     } else {
@@ -577,7 +605,7 @@ class Step_Migrate extends setupStep
         "<div style='color:#F0A500'>"._("Warning")."</div>",
         sprintf(
           _('Found %s user(s) that will not be visible in FusionDirectory or which are incomplete.'),
-          count($this->users_to_migrate)
+          count($this->gosaAccounts_toMigrate)
         ).$checkobj->submit()
       );
     }
@@ -585,51 +613,81 @@ class Step_Migrate extends setupStep
 
   function check_gosaAccounts_migrate (&$check)
   {
-    /* Fix displayed dn syntax */
-    $tmp = $this->users_to_migrate;
-    foreach ($tmp as $key => $data) {
-      $tmp[$key]['dn'] = LDAP::fix($data['dn']);
-    }
-    $this->openDialog(new StepMigrateDialog($check, 'setup_migrate_gosaAccounts.tpl', $tmp));
+    $this->check_multipleGeneric_migrate($check, array('title' => _('User migration')));
   }
 
   function check_gosaAccounts_migrate_refresh (&$check)
   {
+    return $this->check_multipleGeneric_migrate_refresh($check, array('title' => _('User migration')));
+  }
+
+  function check_gosaAccounts_migrate_confirm(&$check, $only_ldif = FALSE)
+  {
+    return $this->check_multipleGeneric_migrate_confirm(
+      $check,
+      array('gosaAccount','inetOrgPerson','organizationalPerson','person'),
+      array(),
+      $only_ldif
+    );
+  }
+
+  function check_multipleGeneric_migrate (&$check, $infos)
+  {
+    $var = $check->name.'_toMigrate';
+    /* Fix displayed dn syntax */
+    $infos['entries'] = $this->$var;
+    foreach ($infos['entries'] as $key => $data) {
+      $infos['entries'][$key]['dn'] = LDAP::fix($data['dn']);
+    }
+    $this->openDialog(new StepMigrateDialog($check, 'setup_migrate_gosaAccounts.tpl', $infos));
+  }
+
+  function check_multipleGeneric_migrate_refresh (&$check, $infos)
+  {
     if (isset($_POST['dialog_showchanges'])) {
       /* Show changes */
-      $this->check_gosaAccounts_migrate_confirm($check, TRUE);
+      $fnc = 'check_'.$check->name.'_migrate_confirm';
+      $this->$fnc($check, TRUE);
     } else {
       /* Hide changes */
       $check->run();
     }
     /* Fix displayed dn syntax */
-    $tmp = $this->users_to_migrate;
-    foreach ($tmp as $key => $data) {
-      $tmp[$key]['dn'] = LDAP::fix($data['dn']);
+    $var = $check->name.'_toMigrate';
+    $infos['entries'] = $this->$var;
+    foreach ($infos['entries'] as $key => $data) {
+      $infos['entries'][$key]['dn'] = LDAP::fix($data['dn']);
     }
-    return $tmp;
+    return $infos;
   }
 
-  /* Start user account migration */
-  function check_gosaAccounts_migrate_confirm(&$check, $only_ldif = FALSE)
+  function check_multipleGeneric_migrate_confirm(&$check, $oc, $mandatory, $only_ldif)
   {
     global $config;
     $ldap = $config->get_ldap_link();
 
-    /* Add gosaAccount objectClass to the selected users */
-    foreach ($this->users_to_migrate as $key => $dep) {
-      if ($dep['checked']) {
-
+    /* Add objectClasses to the selected entries */
+    $var = $check->name.'_toMigrate';
+    foreach ($this->$var as $key => &$entry) {
+      $entry['checked'] = isset($_POST['migrate_'.$key]);
+      if ($entry['checked']) {
         /* Get old objectClasses */
-        $ldap->cat($dep['dn'], array("objectClass"));
-        $attrs      = $ldap->fetch();
+        $ldap->cat($entry['dn'], array_merge(array('objectClass'), array_keys($mandatory)));
+        $attrs = $ldap->fetch();
 
         /* Create new objectClass array */
         $new_attrs  = array();
-        $new_attrs['objectClass'] = array("gosaAccount","inetOrgPerson","organizationalPerson","person");
+        $new_attrs['objectClass'] = $oc;
         for ($i = 0; $i < $attrs['objectClass']['count']; $i++) {
           if (!in_array_ics($attrs['objectClass'][$i], $new_attrs['objectClass'])) {
-            $new_attrs['objectClass'][]   = $attrs['objectClass'][$i];
+            $new_attrs['objectClass'][] = $attrs['objectClass'][$i];
+          }
+        }
+
+        /* Append mandatories if missing */
+        foreach ($mandatory as $name => $value) {
+          if (!isset($attrs[$name])) {
+            $new_attrs[$name] = $value;
           }
         }
 
@@ -637,17 +695,25 @@ class Step_Migrate extends setupStep
          *  or write changes to the ldap database
          */
         if ($only_ldif) {
-          $this->users_to_migrate[$key]['before'] = $this->array_to_ldif($attrs);
-          $this->users_to_migrate[$key]['after']  = $this->array_to_ldif($new_attrs);
+          $entry['before'] = $this->array_to_ldif($attrs);
+          $entry['after']  = $this->array_to_ldif($new_attrs);
         } else {
           $ldap->cd($attrs['dn']);
           if (!$ldap->modify($new_attrs)) {
-            msg_dialog::display(_("Migration error"), sprintf(_("Cannot migrate department '%s':")."<br><br><i>%s</i>", LDAP::fix($attrs['dn']), $ldap->get_error()), ERROR_DIALOG);
+            msg_dialog::display(
+              _('Migration error'),
+              sprintf(
+                _('Cannot migrate entry "%s":').'<br/><br/><i>%s</i>',
+                LDAP::fix($attrs['dn']), $ldap->get_error()
+              ),
+              ERROR_DIALOG
+            );
             return FALSE;
           }
         }
       }
     }
+    unset($entry);
     return TRUE;
   }
 
@@ -1044,7 +1110,7 @@ class Step_Migrate extends setupStep
      ***********/
     $valid_deps = array();
     $valid_deps['/'] = $config->current['BASE'];
-    $ldap->search("(&(objectClass=gosaDepartment)(ou=*))", array("dn","ou"));
+    $ldap->search('(&(objectClass=gosaDepartment)(ou=*))', array('dn','ou'));
     while ($attrs = $ldap->fetch()) {
       $valid_deps[] = $attrs['dn'];
     }
@@ -1052,7 +1118,7 @@ class Step_Migrate extends setupStep
     /***********
      * Search for all users
      ***********/
-    $res = $ldap->search("(&(objectClass=gosaAccount)(!(uid=*$)))", array("dn"));
+    $res = $ldap->search('(&(objectClass=gosaAccount)(!(uid=*$)))', array('dn'));
     if (!$res) {
       throw new CheckFailedException(
         _('LDAP query failed'),
@@ -1061,34 +1127,99 @@ class Step_Migrate extends setupStep
     }
 
     /***********
-     * Check if returned users are within a valid GOsa department. (peopleou,gosaDepartment,base)
+     * Check if returned users are within a valid department. (peopleou,gosaDepartment,base)
      ***********/
-    $this->outside_users = array();
+    $this->outsideUsers_toMigrate = array();
     $people_ou = trim(get_ou('userRDN'));
 
     while ($attrs = $ldap->fetch()) {
-      $people_db_base = preg_replace("/^[^,]+,".preg_quote($people_ou, '/')."/i", "", $attrs['dn']);
+      $people_db_base = preg_replace('/^[^,]+,'.preg_quote($people_ou, '/').'/i', '', $attrs['dn']);
 
       /* Check if entry is not an addressbook only user
        *  and verify that he is in a valid department
        */
-      if ( !preg_match("/dc=addressbook,/", $people_db_base) &&
+      if ( !preg_match('/dc=addressbook,/', $people_db_base) &&
           !in_array($people_db_base, $valid_deps)
          ) {
         $attrs['selected'] = FALSE;
         $attrs['ldif']     = "";
-        $this->outside_users[base64_encode($attrs['dn'])] = $attrs;
+        $this->outsideUsers_toMigrate[base64_encode($attrs['dn'])] = $attrs;
       }
     }
 
-    if (count($this->outside_users)) {
+    if (count($this->outsideUsers_toMigrate)) {
       throw new CheckFailedException(
         "<div style='color:#F0A500'>"._("Warning")."</div>",
-        sprintf(_('Found %s user(s) outside the configured tree "%s".'), count($this->outside_users), $people_ou).
+        sprintf(_('Found %s user(s) outside the configured tree "%s".'), count($this->outsideUsers_toMigrate), $people_ou).
         $checkobj->submit()
       );
     } else {
       return '';
+    }
+  }
+
+  function check_outsideUsers_migrate(&$checkobj)
+  {
+    global $config;
+    $this->check_multipleGeneric_migrate(
+      $checkobj,
+      array(
+        'title'   => _('Move users into configured user tree'),
+        'outside' => TRUE,
+        'ous'     => $config->departments
+      )
+    );
+  }
+
+  function check_outsideUsers_migrate_refresh(&$checkobj)
+  {
+    return $this->check_multipleGeneric_migrate_refresh(
+      $checkobj,
+      array(
+        'title'   => _('Move users into configured user tree'),
+        'outside' => TRUE,
+        'ous'     => $config->departments
+      )
+    );
+  }
+
+  function check_outsideUsers_migrate_confirm(&$checkobj, $only_ldif = FALSE)
+  {
+    global $config;
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
+
+    /* Check if there was a destination department posted */
+    if (isset($_POST['destination'])) {
+      $destination_dep = $_POST['destination'];
+    } else {
+      msg_dialog::display(_('LDAP error'), _('Cannot move entries to the requested department!'), ERROR_DIALOG);
+      return FALSE;
+    }
+
+    $var = $check->name.'_toMigrate';
+    foreach ($this->$var as $b_dn => $data) {
+      $this->$var[$b_dn]['ldif'] = '';
+      if ($data['selected']) {
+        $dn = base64_decode($b_dn);
+        $d_dn = preg_replace('/,.*$/', ','.base64_decode($destination_dep), $dn);
+        if ($only_ldif) {
+          $this->$var[$b_dn]['ldif'] = _('Entry will be moved from').':<br/>\t'.($ldap->fix($dn)).'<br/>'._('to').':<br/>\t'.($ldap->fix($d_dn));
+
+          /* Check if there are references to this object */
+          $ldap->search('(&(member='.LDAP::prepare4filter($dn).')(|(objectClass=gosaGroupOfNames)(objectClass=groupOfNames)))', array('dn'));
+          $refs = '';
+          while ($attrs = $ldap->fetch()) {
+            $ref_dn = $attrs['dn'];
+            $refs .= '<br/>\t'.$ref_dn;
+          }
+          if (!empty($refs)) {
+            $this->$var[$b_dn]['ldif'] .= '<br/><br/><i>'._('The following references will be updated').':</i>'.$refs;
+          }
+        } else {
+          $this->move($dn, $d_dn);
+        }
+      }
     }
   }
 
@@ -1153,83 +1284,95 @@ class Step_Migrate extends setupStep
   }
 
   /* Check if there are invisible organizational Units */
-  function check_organizationalUnits(&$checkobj)
+  function check_orgUnits(&$checkobj)
   {
     global $config;
     $ldap = $config->get_ldap_link();
 
-    $old                    = $this->deps_to_migrate;
-    $this->deps_to_migrate  = array();
+    $old                      = $this->orgUnits_toMigrate;
+    $this->orgUnits_toMigrate = array();
 
-    /* TODO use objectTypes and ous for this!!! */
     /* Skip FusionDirectory internal departments */
-    $skip_dns = array("/".get_ou('userRDN')."/","/".get_ou('groupRDN')."/","/".get_ou('aclRoleRDN')."/",
-        "/^ou=people,/","/^ou=groups,/","/^ou=sudoers,/",
-        "/(,|)ou=configs,/","/(,|)ou=systems,/","/(,|)ou=tokens,/",
-        "/(,|)ou=apps,/","/(,|)ou=mime,/","/(,|)ou=devices/",
-        "/ou=snapshots,/","/(,|)dc=addressbook,/","/^(,|)ou=machineaccounts,/","/^ou=opsi,/","/^ou=structures,/",
-        "/(,|)ou=winstations,/","/^ou=hosts,/","/^ou=computers,/","/^ou=idmap,/","/^ou=Idmap,/","/(,|)ou=roles,/");
+    $skip_dns = array('/dc=addressbook,/');
+    foreach (objects::types() as $type) {
+      $infos = objects::infos($type);
+      if (isset($infos['ou']) && ($infos['ou'] != '')) {
+        $skip_dns[] = '/^'.preg_quote($infos['ou'], '/').'/';
+      }
+    }
 
     /* Get all invisible departments */
     $ldap->cd($config->current['BASE']);
-    $res = $ldap->search("(&(objectClass=organizationalUnit)(!(objectClass=gosaDepartment)))", array("ou","description","dn"));
+    $res = $ldap->search('(&(objectClass=organizationalUnit)(!(objectClass=gosaDepartment)))', array('ou','description','dn'));
+    if (!$res) {
+      throw new CheckFailedException(
+        _('LDAP query failed'),
+        _('Possibly the "root object" is missing.')
+      );
+    }
     while ($attrs = $ldap->fetch()) {
       $attrs['checked'] = FALSE;
-      $attrs['before']  = "";
-      $attrs['after']   = "";
+      $attrs['before']  = '';
+      $attrs['after']   = '';
 
       /* Set objects to selected, that were selected before reload */
       if (isset($old[base64_encode($attrs['dn'])])) {
         $attrs['checked'] = $old[base64_encode($attrs['dn'])]['checked'];
       }
-      $this->deps_to_migrate[base64_encode($attrs['dn'])] = $attrs;
+      $this->orgUnits_toMigrate[base64_encode($attrs['dn'])] = $attrs;
     }
 
     /* Filter returned list of departments and ensure that
      *  FusionDirectory internal departments will not be listed
      */
-    foreach ($this->deps_to_migrate as $key => $attrs) {
-      $dn = $attrs['dn'];
+    foreach ($this->orgUnits_toMigrate as $key => $attrs) {
+      $dn   = $attrs['dn'];
       $skip = FALSE;
-
-      /* Check if this object is an application release object
-          e.g. groups-> application menus.
-       */
-      if (preg_match("/^.*,[ ]*cn=/", $dn)) {
-        $cn_dn = preg_replace("/^.*,[ ]*cn=/", "cn=", $dn);
-        if (in_array($cn_dn, $this->group_list)) {
-          $skip = TRUE;
-        }
-      }
 
       foreach ($skip_dns as $skip_dn) {
         if (preg_match($skip_dn, $dn)) {
           $skip = TRUE;
+          break;
         }
       }
       if ($skip) {
-        unset($this->deps_to_migrate[$key]);
+        unset($this->orgUnits_toMigrate[$key]);
       }
     }
 
     /* If we have no invisible departments found
      *  tell the user that everything is ok
      */
-    if (!$res) {
-      throw new CheckFailedException(
-        _('LDAP query failed'),
-        _('Possibly the "root object" is missing.')
-      );
-    } elseif (count($this->deps_to_migrate) == 0 ) {
+    if (count($this->orgUnits_toMigrate) == 0) {
       return '';
     } else {
       throw new CheckFailedException(
         '<font style="color:#FFA500">'._("Warning").'</font>',
-        sprintf(_("Found %s department(s) that will not be visible in FusionDirectory."), count($this->deps_to_migrate)).
+        sprintf(_('Found %s department(s) that will not be visible in FusionDirectory.'), count($this->orgUnits_toMigrate)).
         '&nbsp;'.$checkobj->submit()
       );
-      /* TODO: maybe warnings should be an other kind of exception, saying status to true anyway? */
+      /* TODO: maybe warnings should be an other kind of exception? */
     }
+  }
+
+  function check_orgUnits_migrate(&$checkobj)
+  {
+    $this->check_multipleGeneric_migrate($checkobj, array('title' => _('Department migration')));
+  }
+
+  function check_orgUnits_migrate_refresh(&$checkobj)
+  {
+    return $this->check_multipleGeneric_migrate_refresh($checkobj, array('title' => _('Department migration')));
+  }
+
+  function check_orgUnits_migrate_confirm(&$checkobj, $only_ldif)
+  {
+    return $this->check_multipleGeneric_migrate_confirm(
+      $checkobj,
+      array('gosaDepartment'),
+      array('description' => 'FusionDirectory department'),
+      $only_ldif
+    );
   }
 
   /* Check if there are uidNumbers which are used more than once */
@@ -1320,12 +1463,12 @@ class Step_Migrate_old extends setup_step
 
   /* Department migration attributes */
   var $dep_migration_dialog = FALSE;
-  var $deps_to_migrate      = array();
+  var $orgUnits_toMigrate      = array();
   var $show_details         = FALSE;
 
   /* Department migration attributes */
   var $users_migration_dialog = FALSE;
-  var $users_to_migrate       = array();
+  var $gosaAccounts_toMigrate       = array();
 
   /* Create Acl attributes */
   var $acl_create_dialog    = FALSE;
@@ -1337,7 +1480,7 @@ class Step_Migrate_old extends setup_step
   var $checks_initialised = FALSE;
 
   /* Users outside to people ou */
-  var $outside_users        = array();
+  var $outsideUsers_toMigrate        = array();
   var $outside_users_dialog = FALSE;
 
   /* Users outside to groups ou */
@@ -1457,16 +1600,16 @@ class Step_Migrate_old extends setup_step
      ***********/
     $res = $ldap->search("(&(objectClass=gosaAccount)(!(uid=*$)))", array("dn"));
     if (!$res) {
-      $this->checks['outside_users']['STATUS']      = FALSE;
-      $this->checks['outside_users']['STATUS_MSG']  = _("LDAP query failed");
-      $this->checks['outside_users']['ERROR_MSG']   = _("Possibly the 'root object' is missing.");
+      $this->checks['outsideUsers_toMigrate']['STATUS']      = FALSE;
+      $this->checks['outsideUsers_toMigrate']['STATUS_MSG']  = _("LDAP query failed");
+      $this->checks['outsideUsers_toMigrate']['ERROR_MSG']   = _("Possibly the 'root object' is missing.");
       return FALSE;
     }
 
     /***********
      * Check if returned users are within a valid GOsa department. (peopleou,gosaDepartment,base)
      ***********/
-    $this->outside_users = array();
+    $this->outsideUsers_toMigrate = array();
     $people_ou = trim(get_ou('userRDN'));
 
     while ($attrs = $ldap->fetch()) {
@@ -1480,33 +1623,33 @@ class Step_Migrate_old extends setup_step
          ) {
         $attrs['selected'] = FALSE;
         $attrs['ldif']     = "";
-        $this->outside_users[base64_encode($attrs['dn'])] = $attrs;
+        $this->outsideUsers_toMigrate[base64_encode($attrs['dn'])] = $attrs;
       }
     }
 
-    if (count($this->outside_users)) {
-      $this->checks['outside_users']['STATUS']      = FALSE;
-      $this->checks['outside_users']['STATUS_MSG']  = "<div style='color:#F0A500'>"._("Warning")."</div>";
-      $this->checks['outside_users']['ERROR_MSG']   =
-        sprintf(_("Found %s user(s) outside the configured tree '%s'."), count($this->outside_users), $people_ou);
-      $this->checks['outside_users']['ERROR_MSG']   .= "<input type='submit' name='outside_users_dialog' value='"._("Move")."...'>";
+    if (count($this->outsideUsers_toMigrate)) {
+      $this->checks['outsideUsers_toMigrate']['STATUS']      = FALSE;
+      $this->checks['outsideUsers_toMigrate']['STATUS_MSG']  = "<div style='color:#F0A500'>"._("Warning")."</div>";
+      $this->checks['outsideUsers_toMigrate']['ERROR_MSG']   =
+        sprintf(_("Found %s user(s) outside the configured tree '%s'."), count($this->outsideUsers_toMigrate), $people_ou);
+      $this->checks['outsideUsers_toMigrate']['ERROR_MSG']   .= "<input type='submit' name='outside_users_dialog' value='"._("Move")."...'>";
       return FALSE;
     } else {
-      $this->checks['outside_users']['STATUS']      = TRUE;
-      $this->checks['outside_users']['STATUS_MSG']  = _("Ok");
-      $this->checks['outside_users']['ERROR_MSG']   = "";
+      $this->checks['outsideUsers_toMigrate']['STATUS']      = TRUE;
+      $this->checks['outsideUsers_toMigrate']['STATUS_MSG']  = _("Ok");
+      $this->checks['outsideUsers_toMigrate']['ERROR_MSG']   = "";
       return TRUE;
     }
   }
 
   /* Check if there are invisible organizational Units */
-  function check_organizationalUnits()
+  function check_orgUnits()
   {
     global $config;
     $ldap = $config->get_ldap_link();
 
-    $old                    = $this->deps_to_migrate;
-    $this->deps_to_migrate  = array();
+    $old                    = $this->orgUnits_toMigrate;
+    $this->orgUnits_toMigrate  = array();
 
     /* Skip FusionDirectory internal departments */
     $skip_dns = array("/".get_ou('userRDN')."/","/".get_ou('groupRDN')."/","/".get_ou('aclRoleRDN')."/",
@@ -1528,13 +1671,13 @@ class Step_Migrate_old extends setup_step
       if (isset($old[base64_encode($attrs['dn'])])) {
         $attrs['checked'] = $old[base64_encode($attrs['dn'])]['checked'];
       }
-      $this->deps_to_migrate[base64_encode($attrs['dn'])] = $attrs;
+      $this->orgUnits_toMigrate[base64_encode($attrs['dn'])] = $attrs;
     }
 
     /* Filter returned list of departments and ensure that
      *  FusionDirectory internal departments will not be listed
      */
-    foreach ($this->deps_to_migrate as $key => $attrs) {
+    foreach ($this->orgUnits_toMigrate as $key => $attrs) {
       $dn = $attrs['dn'];
       $skip = FALSE;
 
@@ -1554,7 +1697,7 @@ class Step_Migrate_old extends setup_step
         }
       }
       if ($skip) {
-        unset($this->deps_to_migrate[$key]);
+        unset($this->orgUnits_toMigrate[$key]);
       }
     }
 
@@ -1565,20 +1708,20 @@ class Step_Migrate_old extends setup_step
       $this->checks['deps_visible']['STATUS']     = FALSE;
       $this->checks['deps_visible']['STATUS_MSG'] = _("LDAP query failed");
       $this->checks['deps_visible']['ERROR_MSG']  = _("Possibly the 'root object' is missing.");
-    } elseif (count($this->deps_to_migrate) == 0 ) {
+    } elseif (count($this->orgUnits_toMigrate) == 0 ) {
       $this->checks['deps_visible']['STATUS']     = TRUE;
       $this->checks['deps_visible']['STATUS_MSG'] = _("Ok");
       $this->checks['deps_visible']['ERROR_MSG']  = "";
     } else {
       $this->checks['deps_visible']['STATUS']     = TRUE;
       $this->checks['deps_visible']['STATUS_MSG'] = '<font style="color:#FFA500">'._("Warning").'</font>';
-      $this->checks['deps_visible']['ERROR_MSG']  = sprintf(_("Found %s department(s) that will not be visible in FusionDirectory."), count($this->deps_to_migrate));
+      $this->checks['deps_visible']['ERROR_MSG']  = sprintf(_("Found %s department(s) that will not be visible in FusionDirectory."), count($this->orgUnits_toMigrate));
       $this->checks['deps_visible']['ERROR_MSG']  .= "&nbsp;<input type='submit' name='deps_visible_migrate' value='"._("Migrate")."...'>";
     }
   }
 
   /* Start deparmtment migration */
-  function migrate_organizationalUnits($only_ldif = FALSE)
+  function migrate_orgUnits($only_ldif = FALSE)
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -1586,7 +1729,7 @@ class Step_Migrate_old extends setup_step
     $this->show_details = $only_ldif;
 
     /* Add gosaDepartment objectClass to each selected entry */
-    foreach ($this->deps_to_migrate as $key => $dep) {
+    foreach ($this->orgUnits_toMigrate as $key => $dep) {
       if ($dep['checked']) {
 
         /* Get current objectClasses */
@@ -1609,8 +1752,8 @@ class Step_Migrate_old extends setup_step
          *  or we write our changes directly to the ldap database
          */
         if ($only_ldif) {
-          $this->deps_to_migrate[$key]['before'] = $this->array_to_ldif($attrs);
-          $this->deps_to_migrate[$key]['after']  = $this->array_to_ldif($new_attrs);
+          $this->orgUnits_toMigrate[$key]['before'] = $this->array_to_ldif($attrs);
+          $this->orgUnits_toMigrate[$key]['after']  = $this->array_to_ldif($new_attrs);
         } else {
           $ldap->cd($attrs['dn']);
           if (!$ldap->modify($new_attrs)) {
@@ -1839,13 +1982,13 @@ class Step_Migrate_old extends setup_step
       return FALSE;
     }
 
-    foreach ($this->outside_users as $b_dn => $data) {
-      $this->outside_users[$b_dn]['ldif'] = "";
+    foreach ($this->outsideUsers_toMigrate as $b_dn => $data) {
+      $this->outsideUsers_toMigrate[$b_dn]['ldif'] = "";
       if ($data['selected']) {
         $dn = base64_decode($b_dn);
         $d_dn = preg_replace("/,.*$/", ",".base64_decode($destination_dep), $dn);
         if (!$perform) {
-          $this->outside_users[$b_dn]['ldif'] = _("User will be moved from").":<br>\t".($ldap->fix($dn))."<br>"._("to").":<br>\t".($ldap->fix($d_dn));
+          $this->outsideUsers_toMigrate[$b_dn]['ldif'] = _("User will be moved from").":<br>\t".($ldap->fix($dn))."<br>"._("to").":<br>\t".($ldap->fix($d_dn));
 
           /* Check if there are references to this object */
           $ldap->search("(&(member=".LDAP::prepare4filter($dn).")(|(objectClass=gosaGroupOfNames)(objectClass=groupOfNames)))", array('dn'));
@@ -1855,7 +1998,7 @@ class Step_Migrate_old extends setup_step
             $refs .= "<br />\t".$ref_dn;
           }
           if (!empty($refs)) {
-            $this->outside_users[$b_dn]['ldif'] .= "<br /><br /><i>"._("The following references will be updated").":</i>".$refs;
+            $this->outsideUsers_toMigrate[$b_dn]['ldif'] .= "<br /><br /><i>"._("The following references will be updated").":</i>".$refs;
           }
 
         } else {
@@ -1957,15 +2100,15 @@ class Step_Migrate_old extends setup_step
     if ($this->outside_users_dialog) {
 
       /* Fix displayed dn syntax */
-      $tmp = $this->outside_users;
+      $tmp = $this->outsideUsers_toMigrate;
       foreach ($tmp as $key => $data) {
         $tmp[$key]['dn'] = LDAP::fix($data['dn']);
       }
 
       $smarty = get_smarty();
       $smarty->assign("ous", $this->get_all_people_ous());
-      $smarty->assign("method", "outside_users");
-      $smarty->assign("outside_users", $tmp);
+      $smarty->assign("method", "outsideUsers_toMigrate");
+      $smarty->assign("outsideUsers_toMigrate", $tmp);
       $smarty->assign("user_details", $this->show_details);
       return $smarty->fetch(get_template_path("setup_migrate.tpl", TRUE, dirname(__FILE__)));
     }
@@ -2139,13 +2282,13 @@ class Step_Migrate_old extends setup_step
     if ($this->users_migration_dialog) {
 
       /* Fix displayed dn syntax */
-      $tmp = $this->users_to_migrate;
+      $tmp = $this->gosaAccounts_toMigrate;
       foreach ($tmp as $key => $data) {
         $tmp[$key]['dn'] = LDAP::fix($data['dn']);
       }
 
       $smarty = get_smarty();
-      $smarty->assign("users_to_migrate", $tmp);
+      $smarty->assign("gosaAccounts_toMigrate", $tmp);
       $smarty->assign("method", "migrate_users");
       $smarty->assign("user_details", $this->show_details);
       return $smarty->fetch(get_template_path("setup_migrate.tpl", TRUE, dirname(__FILE__)));
@@ -2157,7 +2300,7 @@ class Step_Migrate_old extends setup_step
 
     /* Refresh list of deparments */
     if (isset($_POST['deps_visible_migrate_refresh'])) {
-      $this->check_organizationalUnits();
+      $this->check_orgUnits();
       $this->show_details = FALSE;
     }
 
@@ -2176,8 +2319,8 @@ class Step_Migrate_old extends setup_step
 
     /* Start migration */
     if (isset($_POST['deps_visible_migrate_migrate'])) {
-      if ($this->migrate_organizationalUnits()) {
-        $this->check_organizationalUnits();
+      if ($this->migrate_orgUnits()) {
+        $this->check_orgUnits();
         $this->show_details         = FALSE;
         $this->dialog               = FALSE;
         $this->dep_migration_dialog = FALSE;
@@ -2186,7 +2329,7 @@ class Step_Migrate_old extends setup_step
 
     /* Start migration */
     if (isset($_POST['deps_visible_migrate_whatsdone'])) {
-      $this->migrate_organizationalUnits(TRUE);
+      $this->migrate_orgUnits(TRUE);
     }
 
     /* Display migration dialog */
@@ -2194,12 +2337,12 @@ class Step_Migrate_old extends setup_step
       $smarty = get_smarty();
 
       /* Fix displayed dn syntax */
-      $tmp = $this->deps_to_migrate;
+      $tmp = $this->orgUnits_toMigrate;
       foreach ($tmp as $key => $data) {
         $tmp[$key]['dn'] = LDAP::fix($data['dn']);
       }
 
-      $smarty->assign("deps_to_migrate", $tmp);
+      $smarty->assign("orgUnits_toMigrate", $tmp);
       $smarty->assign("method", "migrate_deps");
       $smarty->assign("deps_details", $this->show_details);
       return $smarty->fetch(get_template_path("setup_migrate.tpl", TRUE, dirname(__FILE__)));
@@ -2228,11 +2371,11 @@ class Step_Migrate_old extends setup_step
 
     /* Capture all selected users from outside_users_dialog */
     if ($this->outside_users_dialog) {
-      foreach ($this->outside_users as $dn => $data) {
+      foreach ($this->outsideUsers_toMigrate as $dn => $data) {
         if (isset($_POST['select_user_'.$dn])) {
-          $this->outside_users[$dn]['selected'] = TRUE;
+          $this->outsideUsers_toMigrate[$dn]['selected'] = TRUE;
         } else {
-          $this->outside_users[$dn]['selected'] = FALSE;
+          $this->outsideUsers_toMigrate[$dn]['selected'] = FALSE;
         }
       }
     }
@@ -2247,22 +2390,22 @@ class Step_Migrate_old extends setup_step
 
     /* Get selected departments */
     if ($this->dep_migration_dialog) {
-      foreach ($this->deps_to_migrate as $id => $data) {
+      foreach ($this->orgUnits_toMigrate as $id => $data) {
         if (isset($_POST['migrate_'.$id])) {
-          $this->deps_to_migrate[$id]['checked'] = TRUE;
+          $this->orgUnits_toMigrate[$id]['checked'] = TRUE;
         } else {
-          $this->deps_to_migrate[$id]['checked'] = FALSE;
+          $this->orgUnits_toMigrate[$id]['checked'] = FALSE;
         }
       }
     }
 
     /* Get selected users */
     if ($this->users_migration_dialog) {
-      foreach ($this->users_to_migrate as $id => $data) {
+      foreach ($this->gosaAccounts_toMigrate as $id => $data) {
         if (isset($_POST['migrate_'.$id])) {
-          $this->users_to_migrate[$id]['checked'] = TRUE;
+          $this->gosaAccounts_toMigrate[$id]['checked'] = TRUE;
         } else {
-          $this->users_to_migrate[$id]['checked'] = FALSE;
+          $this->gosaAccounts_toMigrate[$id]['checked'] = FALSE;
         }
       }
     }
