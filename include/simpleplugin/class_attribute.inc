@@ -1800,9 +1800,13 @@ class BaseSelectorAttribute extends Attribute
     if (!$this->disabled && $this->isVisible()) {
       /* Refresh base */
       if  ($this->plugin->acl_is_moveable($this->value) ||
-          ($this->plugin->dn == "new" && $this->plugin->acl_is_createable($this->value))) {
+          ($this->plugin->dn == 'new' && $this->plugin->acl_is_createable($this->value))) {
         if (!$this->baseSelector->update()) {
-          msg_dialog::display(_("Error"), msgPool::permMove(), ERROR_DIALOG);
+          if ($this->plugin->dn == 'new') {
+            msg_dialog::display(_('Error'), msgPool::permMove($this->plugin->dn), ERROR_DIALOG);
+          } else {
+            msg_dialog::display(_('Error'), msgPool::permCreate(), ERROR_DIALOG);
+          }
         }
         if ($this->value != $this->baseSelector->getBase()) {
           $this->setValue($this->baseSelector->getBase());
@@ -1819,10 +1823,13 @@ class BaseSelectorAttribute extends Attribute
       return $error;
     } else {
       /* Check if we are allowed to create/move this user */
-      if ($this->orig_dn == "new" && !$this->plugin->acl_is_createable($this->value)) {
+      if (($this->orig_dn == 'new') && !$this->plugin->acl_is_createable($this->value)) {
         return msgPool::permCreate();
-      } elseif ($this->orig_dn != "new" && $this->plugin->dn != $this->orig_dn && !$this->plugin->acl_is_moveable($this->value)) {
-        return msgPool::permMove();
+      } elseif (
+        ($this->orig_dn != 'new') &&
+        ($this->plugin->dn != $this->orig_dn) &&
+        !$this->plugin->acl_is_moveable($this->value)) {
+        return msgPool::permMove($this->plugin->dn);
       }
       // Check if a wrong base was supplied
       if (!$this->baseSelector->checkLastBaseUpdate()) {
