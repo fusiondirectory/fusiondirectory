@@ -891,6 +891,29 @@ class Step_Migrate extends setupStep
 
   function check_adminAccount_migrate_confirm(&$checkobj)
   {
+    global $config;
+    session::global_set('CurrentMainBase', $config->current['BASE']);
+
+    /* Creating role */
+    $ldap = $config->get_ldap_link();
+
+    $ldap->cd($config->current['BASE']);
+    $ldap->search('(&(objectClass=gosaRole)(gosaAclTemplate=*:all;cmdrw))', array('dn'));
+    if ($attrs = $ldap->fetch()) {
+      $roledn = $attrs['dn'];
+    } else {
+      $tabObject  = objects::create('aclRole');
+      $baseObject = $tabObject->getBaseObject();
+
+      $baseObject->cn               = 'admin';
+      $baseObject->description      = _('Gives all rights on all objects');
+      $baseObject->gosaAclTemplate  = array(array('all' => array('0' => 'cmdrw')));
+
+      $tabObject->save();
+      $roledn = $tabObject->dn;
+    }
+
+    /* Creating user */
     $tabObject = objects::create('user');
     $_POST['givenName']                   = 'System';
     $_POST['sn']                          = 'Administrator';
@@ -905,6 +928,24 @@ class Step_Migrate extends setupStep
       return FALSE;
     }
     $tabObject->save();
+    $admindn = $tabObject->dn;
+
+    /* Assigning role */
+    $tabObject  = objects::open($config->current['BASE'], 'aclAssignment');
+    $baseObject = $tabObject->getBaseObject();
+
+    $assignments = $baseObject->gosaAclEntry;
+    array_unshift(
+      $assignments,
+      array(
+        'scope'   => 'subtree',
+        'role'    => $roledn,
+        'members' => array($admindn),
+      )
+    );
+    $baseObject->gosaAclEntry = $assignments;
+    $tabObject->save();
+
     return TRUE;
   }
 
