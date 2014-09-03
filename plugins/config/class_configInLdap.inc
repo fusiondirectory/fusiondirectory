@@ -54,19 +54,22 @@ class configInLdap extends simplePlugin
   static function plInfo()
   {
     return array(
-      "plShortName"     => _("Configuration"),
-      "plDescription"   => _("FusionDirectory configuration"),
-      "plIcon"          => "geticon.php?context=categories&icon=settings&size=48",
-      "plObjectType"    => array("configuration" => array(
-        "name"    => _("FusionDirectory configuration"),
-        "filter"  => "objectClass=fusionDirectoryConf",
-        "icon"    => "geticon.php?context=categories&icon=settings&size=16",
-      )),
-      "plSection"       => array("conf" => array("name" => _("Configuration"), "priority" => 20)),
+      'plShortName'     => _('Configuration'),
+      'plDescription'   => _('FusionDirectory configuration'),
+      'plIcon'          => 'geticon.php?context=categories&icon=settings&size=48',
+      'plObjectType'    => array(
+        'configuration' => array(
+          'name'    => _('FusionDirectory configuration'),
+          'filter'  => 'objectClass=fusionDirectoryConf',
+          'icon'    => 'geticon.php?context=categories&icon=settings&size=16',
+          'ou'      => preg_replace('/^[^,]+,/', '', CONFIGRDN)
+        )
+      ),
+      'plSection'       => array('conf' => array('name' => _('Configuration'), 'priority' => 20)),
       'plManages'       => array('configuration'),
-      "plPriority"      => 0,
+      'plPriority'      => 0,
 
-      "plProvidedAcls"  => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls'  => parent::generatePlProvidedAcls(self::getAttributesInfo())
     );
   }
 
