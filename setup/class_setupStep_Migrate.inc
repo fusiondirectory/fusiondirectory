@@ -142,7 +142,6 @@ class StepMigrateCheck
 
   public function save_object()
   {
-    $this->is_completed = TRUE;
     if (isset($_POST[$this->name.'_create'])) {
       $fnc = $this->fnc.'_create';
       $this->step->$fnc($this);
@@ -309,6 +308,7 @@ class Step_Migrate extends setupStep
 
   function save_object()
   {
+    $this->is_completed = TRUE;
     parent::save_object();
     foreach ($this->checks as &$check) {
       $check->save_object();
