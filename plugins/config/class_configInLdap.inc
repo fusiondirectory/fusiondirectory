@@ -54,17 +54,20 @@ class configInLdap extends simplePlugin
   static function plInfo()
   {
     return array(
-      "plShortName"     => _("Configuration"),
-      "plDescription"   => _("FusionDirectory configuration"),
-      "plIcon"          => "geticon.php?context=categories&icon=settings&size=48",
-      "plObjectType"    => array("configuration" => array(
-        "name"    => _("FusionDirectory configuration"),
-        "filter"  => "objectClass=fusionDirectoryConf"
-      )),
-      "plSection"       => array("addons" => array("name" => _("Addons"), "priority" => 10)),
-      "plPriority"      => 0,
+      'plShortName'     => _('Configuration'),
+      'plDescription'   => _('FusionDirectory configuration'),
+      'plIcon'          => 'geticon.php?context=categories&icon=settings&size=48',
+      'plObjectType'    => array(
+        'configuration' => array(
+          'name'    => _('FusionDirectory configuration'),
+          'filter'  => 'objectClass=fusionDirectoryConf',
+          'ou'      => preg_replace('/^[^,]+,/', '', CONFIGRDN)
+        )
+      ),
+      'plSection'       => array('addons' => array('name' => _('Addons'), 'priority' => 10)),
+      'plPriority'      => 0,
 
-      "plProvidedAcls"  => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls'  => parent::generatePlProvidedAcls(self::getAttributesInfo())
     );
   }
 
