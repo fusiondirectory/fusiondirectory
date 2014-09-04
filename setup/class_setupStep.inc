@@ -115,22 +115,5 @@ class setupStep extends simplePlugin
 
     $this->updateAttributesValues();
   }
-
-  /* Establish ldap connection */
-  function get_ldap_link()
-  {
-    $cv = $this->parent->captured_values;
-    $ldap_l = new LDAP(
-      $cv['admin'],
-      $cv['password'],
-      $cv['connection'],
-      FALSE,
-      $cv['tls']
-    );
-
-    $ldap = new ldapMultiplexer($ldap_l);
-    $ldap->cd($cv['base']);
-    return $ldap;
-  }
 }
 ?>
