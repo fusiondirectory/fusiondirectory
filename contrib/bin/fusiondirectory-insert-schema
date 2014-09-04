@@ -35,6 +35,7 @@ my $listschemas = 0;
 my $modify      = 0;
 my $schemalist  = 0;
 my $pathunset   = 1;
+my $continue    = 0;
 my @schemas     = ();
 my @gen_files   = ();
 foreach my $arg ( @ARGV ) {
@@ -47,6 +48,8 @@ foreach my $arg ( @ARGV ) {
     $schemalist = 1;
   } elsif ((lc($arg) eq '-l') || (lc($arg) eq '--list')) {
     $listschemas = 1;
+  } elsif ((lc($arg) eq '-c') || (lc($arg) eq '--continue')) {
+    $continue = 1;
   } elsif ((lc($arg) eq '-m') || (lc($arg) eq '--modify')) {
     if ($schemalist) {
       usage();
@@ -118,6 +121,8 @@ if (scalar(@schemas) == 0) {
 } elsif ($pathunset) {
   $path = "";
 }
+
+$continue++; # activating continue feature only for insertions
 
 foreach my $schema (@schemas) {
   my $schema_name = "";
@@ -230,8 +235,12 @@ sub remove_ldifs
 sub die_with_error
 {
   my ($error) = @_;
-  remove_ldifs();
-  die $error;
+  if ($continue == 2) {
+    print "Error: $error\nContinuing…\n";
+  } else {
+    remove_ldifs();
+    die $error;
+  }
 }
 
 sub list_schemas
