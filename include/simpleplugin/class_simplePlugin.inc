@@ -117,6 +117,28 @@ class simplePlugin extends plugin
     // We call plugin constructor
     parent::__construct($config, $dn, $object);
 
+    if ($this->is_template && $this->mainTab) {
+      /* Unshift special section for template infos */
+      $this->attributesInfo = array_merge(
+        array(
+          '_template' => array(
+            'class' => array('fullwidth'),
+            'name'  => _('Template settings'),
+            'attrs' => array(
+              '_template_cn' => new StringAttribute(
+                _('Template name'), _('This is the name of the template'),
+                '_template_cn', TRUE
+              )
+            )
+          )
+        ),
+        $this->attributesInfo
+      );
+      $this->attributesAccess['_template_cn'] =& $this->attributesInfo['_template']['attrs']['_template_cn'];
+      $this->attributesAccess['_template_cn']->setInLdap(FALSE);
+      $this->attributesAccess['_template_cn']->setValue($this->template_cn);
+    }
+
     $this->orig_dn = $dn;
 
     if ($this->mainTab) {
@@ -885,6 +907,14 @@ class simplePlugin extends plugin
   function foreignKeyCheck ($field, $value, $source)
   {
     return $this->attributesAccess[$field]->foreignKeyCheck($value, $source);
+  }
+
+  protected function templateSaveAttrs()
+  {
+    if ($this->mainTab) {
+      $this->template_cn = $this->_template_cn;
+    }
+    return parent::templateSaveAttrs();
   }
 }
 
