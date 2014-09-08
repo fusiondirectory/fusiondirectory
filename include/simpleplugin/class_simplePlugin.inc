@@ -130,13 +130,19 @@ class simplePlugin extends plugin
                 '_template_cn', TRUE
               )
             )
+          ),
+          '_template_dummy' => array(
+            'class' => array('invisible'),
+            'name'  => '_template_dummy',
+            'attrs' => array()
           )
         ),
         $this->attributesInfo
       );
       $this->attributesAccess['_template_cn'] =& $this->attributesInfo['_template']['attrs']['_template_cn'];
       $this->attributesAccess['_template_cn']->setInLdap(FALSE);
-      $this->attributesAccess['_template_cn']->setValue($this->template_cn);
+      $this->attributesAccess['_template_cn']->setValue($this->_template_cn);
+      unset($this->_template_cn);
     }
 
     $this->orig_dn = $dn;
@@ -258,6 +264,10 @@ class simplePlugin extends plugin
     }
     $attr = $infos['mainAttr'];
     $ou   = $infos['ou'];
+    if ($this->is_template) {
+      $dn = 'cn='.$this->_template_cn.',ou=templates,'.$ou.$this->base;
+      return $dn;
+    }
     return $attr.'='.$this->attributesAccess[$attr]->computeLdapValue().','.$ou.$this->base;
   }
 
@@ -903,14 +913,6 @@ class simplePlugin extends plugin
   function foreignKeyCheck ($field, $value, $source)
   {
     return $this->attributesAccess[$field]->foreignKeyCheck($value, $source);
-  }
-
-  protected function templateSaveAttrs()
-  {
-    if ($this->mainTab) {
-      $this->template_cn = $this->_template_cn;
-    }
-    return parent::templateSaveAttrs();
   }
 }
 
