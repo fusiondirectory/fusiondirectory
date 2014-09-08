@@ -176,7 +176,7 @@ class tabs
       }
     }
     unset($obj);
-    
+
     /* Show object */
     $display = '<div class="tab_content">'."\n";
 
@@ -426,7 +426,7 @@ class tabs
 
   function setTemplateMode($cn)
   {
-    $this->getBaseObject()->template_cn = $cn;
+    $this->getBaseObject()->_template_cn = $cn;
 
     foreach ($this->by_object as &$obj) {
       $obj->is_template = TRUE;

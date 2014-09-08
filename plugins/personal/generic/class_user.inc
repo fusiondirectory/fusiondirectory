@@ -356,7 +356,7 @@ class user extends simplePlugin
   function compute_dn()
   {
     if ($this->is_template) {
-      $dn = 'cn='.$this->template_cn.',ou=templates,'.get_ou("userRDN").$this->base;
+      $dn = 'cn='.$this->_template_cn.',ou=templates,'.get_ou("userRDN").$this->base;
       return $dn;
     }
 

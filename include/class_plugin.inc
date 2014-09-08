@@ -80,7 +80,6 @@ class plugin
     \sa plugin::save() plugin::execute()
    */
   var $is_template    = FALSE;
-  var $template_cn    = FALSE;
   var $ignore_account = FALSE;
   var $is_modified    = FALSE;
 
@@ -263,7 +262,7 @@ class plugin
   {
     $this->is_template = TRUE;
     if ($this->mainTab) {
-      $this->template_cn = $template_attrs['cn'][0];
+      $this->_template_cn = $template_attrs['cn'][0];
     }
     $this->attrs = self::tpl_template_to_attrs($template_attrs);
   }
@@ -291,7 +290,7 @@ class plugin
       unset($template_attrs['count']);
     }
     if ($this->mainTab) {
-      $template_attrs['cn'] = $this->template_cn;
+      $template_attrs['cn'] = $this->_template_cn;
     }
     /* First remove all concerned values */
     foreach ($template_attrs['fdTemplateField'] as $key => $value) {
@@ -317,6 +316,7 @@ class plugin
       }
     }
     sort($template_attrs['fdTemplateField']);
+    print_r($template_attrs);
     return $template_attrs;
   }
 
