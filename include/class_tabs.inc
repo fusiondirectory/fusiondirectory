@@ -433,7 +433,7 @@ class tabs
     $this->getBaseObject()->_template_cn = $cn;
 
     foreach ($this->by_object as &$obj) {
-      $obj->is_template = TRUE;
+      $obj->setTemplate(TRUE);
     }
     unset($obj);
   }

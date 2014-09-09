@@ -406,9 +406,10 @@ class management
 
         // Delete the object
         $this->dn = $dn;
-        $this->tabObject = new $tabClass($this->config, $this->config->data['TABS'][$tabType], $this->dn, $aclCategory);
-        $this->tabObject->set_acl_base($this->dn);
-        $this->tabObject->parent = &$this;
+        $this->openTabObject(
+          new $tabClass($this->config, $this->config->data['TABS'][$tabType], $this->dn, $aclCategory),
+          $this->dn
+        );
         $this->tabObject->delete ();
 
         // Remove the lock for the current object.
@@ -656,9 +657,10 @@ class management
       // No tab type defined
     } else {
       if (isset($this->config->data['TABS'][$tabType])) {
-        $this->tabObject = new $tabClass($this->config,$this->config->data['TABS'][$tabType], $this->dn, $aclCategory);
-        $this->tabObject->set_acl_base($this->headpage->getBase());
-        $this->tabObject->parent = &$this;
+        $this->openTabObject(
+          new $tabClass($this->config,$this->config->data['TABS'][$tabType], $this->dn, $aclCategory),
+          $this->headpage->getBase()
+        );
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Create new entry initiated!");
       } else {
         msg_dialog::display(_("Error"), sprintf(_("No tab declaration for '%s' found in your configuration file. Cannot create plugin instance!"), $tabType), ERROR_DIALOG);
@@ -737,10 +739,11 @@ class management
         trigger_error("We can't edit any object(s). 'tabClass' or 'tabType' is empty!");
       } else {
         $tab = $tabClass;
-        $this->tabObject = new $tab($this->config, $this->config->data['TABS'][$tabType], $this->dn, $aclCategory);
+        $this->openTabObject(
+          new $tab($this->config, $this->config->data['TABS'][$tabType], $this->dn, $aclCategory),
+          $this->dn
+        );
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Edit entry initiated!");
-        $this->tabObject->set_acl_base($this->dn);
-        $this->tabObject->parent = &$this;
       }
     }
   }
@@ -809,7 +812,7 @@ class management
    * \brief  This method closes dialogs
    *          and cleans up the cached object info and the ui.
    */
-  protected function closeDialogs()
+  public function closeDialogs()
   {
     $this->last_dn  = $this->dn;
     $this->dn       = "";
@@ -974,6 +977,13 @@ class management
   function is_modal_dialog()
   {
     return (is_object($this->tabObject) || is_object($this->dialogObject));
+  }
+
+  function openTabObject($object, $base)
+  {
+    $this->tabObject = $object;
+    $this->tabObject->set_acl_base($base);
+    $this->tabObject->parent = &$this;
   }
 }
 ?>

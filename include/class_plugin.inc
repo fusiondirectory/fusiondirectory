@@ -318,7 +318,6 @@ class plugin
       }
     }
     sort($template_attrs['fdTemplateField']);
-    print_r($template_attrs);
     return $template_attrs;
   }
 

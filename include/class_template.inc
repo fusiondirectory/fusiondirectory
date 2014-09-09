@@ -1,0 +1,131 @@
+<?php
+/*
+  This code is part of FusionDirectory (http://www.fusiondirectory.org/)
+  Copyright (C) 2014  FusionDirectory
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+*/
+
+/* Class for applying a template */
+class template
+{
+  protected $type;
+  protected $dn;
+  protected $needed;
+  protected $attrs;
+  protected $tabObject;
+  protected $attributes;
+
+  function __construct($type, $dn)
+  {
+    $this->type = $type;
+    $this->dn   = $dn;
+    list($this->attrs, $depends) = plugin::tpl_fetch_template($this->dn);
+    $this->needed     = plugin::tpl_needed_attrs($this->attrs, $depends);
+    $this->tabObject  = objects::create($this->type);
+    $this->attributes = array();
+    foreach ($this->tabObject->by_object as $class => &$plugin) {
+      $this->attributes[$class] = array();
+      $attrs = array_unique(array_merge($plugin->getRequiredAttributes(), $this->needed));
+      foreach ($attrs as $attr) {
+        if (isset($this->attrs[$attr])) {
+          continue;
+        }
+        if (isset($plugin->attributesAccess[$attr])) {
+          $this->attributes[$class][] = $attr;
+        }
+      }
+    }
+  }
+
+  function getDn()
+  {
+    return $this->dn;
+  }
+
+  function getBase()
+  {
+    $infos = objects::infos($this->type);
+    return dn2base($this->dn, 'ou=templates,'.$infos['ou']);
+  }
+
+  function save_object()
+  {
+    $this->tabObject->save_object();
+  }
+
+  function execute()
+  {
+    $smarty   = get_smarty();
+    $sections = array();
+    $posted   = array();
+    foreach ($this->tabObject->by_object as $class => &$plugin) {
+      $attributes = array();
+      foreach ($this->attributes[$class] as $attr) {
+        if ($plugin->attributesAccess[$attr]->getAclInfo() !== FALSE) {
+          // We assign ACLs so that attributes can use them in their template code
+          $smarty->assign($plugin->attributesAccess[$attr]->getAcl()."ACL", $plugin->getacl($plugin->attributesAccess[$attr]->getAcl()));
+        }
+        $plugin->attributesAccess[$attr]->renderAttribute($attributes, FALSE);
+      }
+
+      $smarty->assign('section', $class);
+      $smarty->assign('sectionId', $class);
+      $smarty->assign('sectionClasses', ' fullwidth');
+      $smarty->assign('attributes', $attributes);
+
+      $posted[]   = $class.'_posted';
+      $sections[] = $smarty->fetch(get_template_path('simpleplugin_section.tpl'));
+    }
+    unset($plugin);
+
+    $smarty->assign('sections', $sections);
+    $smarty->assign('hiddenPostedInput', $posted);
+    $smarty->assign('focusedField', '');
+
+    return $smarty->fetch(get_template_path('simpleplugin.tpl'));
+  }
+
+  /* Apply template and current values to an object and returns it for saving or edition */
+  function apply()
+  {
+    foreach ($this->tabObject->by_object as $class => &$plugin) {
+      foreach ($this->attributes[$class] as $attr) {
+        $plugin->attributesAccess[$attr]->fillLdapValue($this->attrs);
+      }
+    }
+    unset($plugin);
+    foreach ($this->tabObject->by_object as $class => &$plugin) {
+      foreach ($this->attributes[$class] as $attr) {
+        $plugin->attributesAccess[$attr]->fillLdapValueHook($this->attrs);
+      }
+    }
+    unset($plugin);
+    foreach ($this->attrs as &$array) {
+      if (!is_array($array)) {
+        $array = array($array);
+      }
+      if (!isset($array['count'])) {
+        $array['count'] = count($array);
+      }
+    }
+    unset($array);
+
+    $this->attrs = plugin::tpl_parse_attrs($this->attrs);
+    $this->tabObject->adapt_from_template($this->attrs, call_user_func_array('array_merge', $this->attributes));
+    $this->tabObject->getBaseObject()->base = $this->getBase();
+    return $this->tabObject;
+  }
+}
