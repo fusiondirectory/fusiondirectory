@@ -115,6 +115,8 @@ class simpleManagement extends management
 
   protected $headpageClass = "listing";
 
+  protected $skipTemplates = TRUE;
+
   function __construct($config, $ui)
   {
     $this->config = $config;
@@ -176,7 +178,24 @@ class simpleManagement extends management
   function configureHeadpage ()
   {
     if ($this->autoActions) {
-      $this->headpage->xmlData['actionmenu']['action'][0]['action'] = array();
+      if ($this->skipTemplates) {
+        $this->headpage->xmlData['actionmenu']['action'][0]['action'] = array();
+      } else {
+        $this->headpage->xmlData['actionmenu']['action'][0]['action'] = array(
+          array(
+            'type'    => 'sub',
+            'image'   => 'geticon.php?context=actions&amp;icon=document-new&amp;size=16',
+            'label'   => _('Template'),
+            'action'  => array(),
+          ),
+          array(
+            'type'    => 'sub',
+            'image'   => 'geticon.php?context=actions&amp;icon=document-new&amp;size=16',
+            'label'   => _('From template'),
+            'action'  => array(),
+          ),
+        );
+      }
     }
     $this->configureHeadline();
     foreach ($this->objectTypes as $object) {
@@ -199,8 +218,6 @@ class simpleManagement extends management
       $this->headpage->categories[] = $i['aclCategory'];
       if ($this->autoActions) {
         $this->registerAction('new_'.$object, 'newEntry');
-        $this->registerAction('new_template_'.$object, 'newEntryTemplate');
-        $this->registerAction('template_apply_'.$object, 'newEntryFromTemplate');
         $icon = 'geticon.php?context=actions&icon=document-new&size=16';
         if (isset($i['icon'])) {
           $icon = $i['icon'];
@@ -217,20 +234,24 @@ class simpleManagement extends management
           'label' => $i['name'],
           'acl'   => $i['aclCategory'].'/'.$i['mainTab'].'[c]',
         );
-        $this->headpage->xmlData['actionmenu']['action'][0]['action'][] = array(
-          'name'  => 'new_template_'.$object,
-          'type'  => 'entry',
-          'image' => $icon,
-          'label' => sprintf(_('%s template'), $i['name']),
-          'acl'   => $i['aclCategory'].'/'.$i['mainTab'].'[c]',
-        );
-        $this->headpage->xmlData['actionmenu']['action'][0]['action'][] = array(
-          'name'  => 'template_apply_'.$object,
-          'type'  => 'entry',
-          'image' => $icon,
-          'label' => sprintf(_('%s from template'), $i['name']),
-          'acl'   => $i['aclCategory'].'/'.$i['mainTab'].'[c]',
-        );
+        if (!$this->skipTemplates) {
+          $this->registerAction('new_template_'.$object, 'newEntryTemplate');
+          $this->registerAction('template_apply_'.$object, 'newEntryFromTemplate');
+          $this->headpage->xmlData['actionmenu']['action'][0]['action'][0]['action'][] = array(
+            'name'  => 'new_template_'.$object,
+            'type'  => 'entry',
+            'image' => $icon,
+            'label' => $i['name'],
+            'acl'   => $i['aclCategory'].'/'.$i['mainTab'].'[c]',
+          );
+          $this->headpage->xmlData['actionmenu']['action'][0]['action'][1]['action'][] = array(
+            'name'  => 'template_apply_'.$object,
+            'type'  => 'entry',
+            'image' => $icon,
+            'label' => $i['name'],
+            'acl'   => $i['aclCategory'].'/'.$i['mainTab'].'[c]',
+          );
+        }
       }
     }
     $this->headpage->registerElementFilter('filterRowLink', 'simpleManagement::filterRowLink');
@@ -364,6 +385,9 @@ class simpleManagement extends management
 
   function newEntryTemplate($action = "", $target = array(), $all = array())
   {
+    if ($this->skipTemplates) {
+      return;
+    }
     $action = preg_replace('/^new_template_/', 'new_', $action);
     $this->newEntry($action, $target, $all);
     $this->tabObject->setTemplateMode('template_cn');
@@ -371,6 +395,9 @@ class simpleManagement extends management
 
   function newEntryFromTemplate($action)
   {
+    if ($this->skipTemplates) {
+      return;
+    }
     $type = preg_replace('/^template_apply_/', '', $action);
     $this->dialogObject = new templateDialog($this, $type);
   }
