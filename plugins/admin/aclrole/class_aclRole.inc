@@ -156,11 +156,6 @@ class aclRole extends simplePlugin
 
     $this->attributesAccess['cn']->setUnique(TRUE);
   }
-
-  function compute_dn()
-  {
-    return 'cn='.$this->cn.",".get_ou('aclRoleRDN').$this->base;
-  }
 }
 
 class acl_createedit extends acl

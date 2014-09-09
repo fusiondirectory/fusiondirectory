@@ -174,7 +174,7 @@ class userManagement extends management
   function newTemplate($action, $entry)
   {
     $this->newEntry();
-    $this->tabObject->setTemplateMode('template_tmp'); // FIXME : this needs to be chosen by the user
+    $this->tabObject->setTemplateMode('template_tmp');
   }
 
 

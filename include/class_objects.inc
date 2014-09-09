@@ -241,6 +241,32 @@ class objects
     global $config;
     return array_keys($config->data['OBJECTS']);
   }
+
+  /* !\brief  This method returns a list of all available templates for the given type
+   */
+  static function getTemplates($type)
+  {
+    global $config;
+
+    $infos = self::infos($type);
+
+    $templates = array();
+    $ldap = $config->get_ldap_link();
+    foreach ($config->departments as $key => $value) {
+      // Search all templates from the current dn.
+      $ldap->cd($infos['ou'].$value);
+      // We could also adapt object filter to match templates
+      $ldap->search('(objectClass=fdTemplate)', array('cn'));
+      if ($ldap->count() != 0) {
+        while ($attrs = $ldap->fetch()) {
+          $templates[$ldap->getDN()] = $attrs['cn'][0]." - ".LDAP::fix($key);
+        }
+      }
+    }
+    natcasesort($templates);
+    reset($templates);
+    return $templates;
+  }
 }
 
 ?>

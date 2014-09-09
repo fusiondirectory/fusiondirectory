@@ -316,7 +316,6 @@ class plugin
       }
     }
     sort($template_attrs['fdTemplateField']);
-    print_r($template_attrs);
     return $template_attrs;
   }
 
@@ -581,6 +580,11 @@ class plugin
   {
   }
 
+  function setTemplate ($bool)
+  {
+    $this->is_template = $bool;
+  }
+
   static function tpl_fetch_template($dn)
   {
     global $config;
@@ -677,8 +681,8 @@ class plugin
 
   static function tpl_parse_mask($mask, $attrs)
   {
-    if ($mask == "|") {
-      return array("%");
+    if ($mask == '|') {
+      return array('%');
     }
     $modifiers = '';
     if (preg_match('/^([^|]+)\|/', $mask, $m)) {
