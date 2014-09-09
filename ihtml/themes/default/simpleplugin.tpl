@@ -4,7 +4,13 @@
   {/foreach}
 </div>
 
-<input name="{$hiddenPostedInput}" value="1" type="hidden"/>
+{if is_array($hiddenPostedInput)}
+  {foreach from=$hiddenPostedInput item=hiddenPostedInput_item}
+    <input name="{$hiddenPostedInput_item}" value="1" type="hidden"/>
+  {/foreach}
+{else}
+  <input name="{$hiddenPostedInput}" value="1" type="hidden"/>
+{/if}
 
 <!-- Place cursor -->
 <script type="text/javascript">

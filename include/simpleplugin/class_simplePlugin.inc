@@ -117,33 +117,7 @@ class simplePlugin extends plugin
     // We call plugin constructor
     parent::__construct($config, $dn, $object);
 
-    if ($this->is_template && $this->mainTab) {
-      /* Unshift special section for template infos */
-      $this->attributesInfo = array_merge(
-        array(
-          '_template' => array(
-            'class' => array('fullwidth'),
-            'name'  => _('Template settings'),
-            'attrs' => array(
-              '_template_cn' => new StringAttribute(
-                _('Template name'), _('This is the name of the template'),
-                '_template_cn', TRUE
-              )
-            )
-          ),
-          '_template_dummy' => array(
-            'class' => array('invisible'),
-            'name'  => '_template_dummy',
-            'attrs' => array()
-          )
-        ),
-        $this->attributesInfo
-      );
-      $this->attributesAccess['_template_cn'] =& $this->attributesInfo['_template']['attrs']['_template_cn'];
-      $this->attributesAccess['_template_cn']->setInLdap(FALSE);
-      $this->attributesAccess['_template_cn']->setValue($this->_template_cn);
-      unset($this->_template_cn);
-    }
+    $this->setTemplate($this->is_template);
 
     $this->orig_dn = $dn;
 
@@ -173,6 +147,38 @@ class simplePlugin extends plugin
           break;
         }
       }
+    }
+  }
+
+  function setTemplate ($bool)
+  {
+    parent::setTemplate($bool);
+    if ($this->is_template && $this->mainTab) {
+      /* Unshift special section for template infos */
+      $this->attributesInfo = array_merge(
+        array(
+          '_template' => array(
+            'class' => array('fullwidth'),
+            'name'  => _('Template settings'),
+            'attrs' => array(
+              '_template_cn' => new StringAttribute(
+                _('Template name'), _('This is the name of the template'),
+                '_template_cn', TRUE
+              )
+            )
+          ),
+          '_template_dummy' => array(
+            'class' => array('invisible'),
+            'name'  => '_template_dummy',
+            'attrs' => array()
+          )
+        ),
+        $this->attributesInfo
+      );
+      $this->attributesAccess['_template_cn'] =& $this->attributesInfo['_template']['attrs']['_template_cn'];
+      $this->attributesAccess['_template_cn']->setInLdap(FALSE);
+      $this->attributesAccess['_template_cn']->setValue($this->_template_cn);
+      unset($this->_template_cn);
     }
   }
 
@@ -269,6 +275,17 @@ class simplePlugin extends plugin
       return $dn;
     }
     return $attr.'='.$this->attributesAccess[$attr]->computeLdapValue().','.$ou.$this->base;
+  }
+
+  function getRequiredAttributes()
+  {
+    $tmp = array();
+    foreach ($this->attributesAccess as $attr) {
+      if ($attr->isRequired()) {
+        $tmp[] = $attr->getLdapName();
+      }
+    }
+    return $tmp;
   }
 
   /*! \brief This function update the values of LDAP attributes as class attribute,
