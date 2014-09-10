@@ -173,4 +173,21 @@ class ldapFilterLeaf extends ldapFilter
   }
 }
 
+function fdTemplateFilter($filter)
+{
+  if ($filter instanceof ldapFilterLeaf) {
+    if ($filter->operator == '=') {
+      $filter->subparts[1] = $filter->subparts[0].':'.$filter->subparts[1];
+      $filter->subparts[0] = 'fdTemplateField';
+    } else {
+      trigger_error('Not able to adapt this filter for templates');
+    }
+  } else {
+    foreach ($filter->subparts as &$subpart) {
+      $subpart = fdTemplateFilter($subpart);
+    }
+  }
+  return $filter;
+}
+
 ?>

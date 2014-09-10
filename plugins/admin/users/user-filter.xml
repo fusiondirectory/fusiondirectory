@@ -18,6 +18,7 @@
       <attribute>cn</attribute>
       <attribute>uid</attribute>
       <attribute>userPassword</attribute>
+      <attribute>fdTemplateField</attribute>
     </query>
     <scope>auto</scope>
   </search>

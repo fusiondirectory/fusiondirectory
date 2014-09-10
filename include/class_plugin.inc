@@ -173,6 +173,9 @@ class plugin
       /* Load data to 'attrs' and save 'dn' */
       if ($object !== NULL) {
         $this->attrs = $object->attrs;
+        if (isset($object->is_template)) {
+          $this->setTemplate($object->is_template);
+        }
       } else {
         $ldap = $this->config->get_ldap_link();
         $ldap->cat($this->dn);
@@ -181,8 +184,8 @@ class plugin
 
       /* Set the template flag according to the existence of objectClass fdTemplate */
       if (isset($this->attrs['objectClass'])) {
-        if (in_array_ics ("fdTemplate", $this->attrs['objectClass'])) {
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, "found", "Template check");
+        if (in_array_ics ('fdTemplate', $this->attrs['objectClass'])) {
+          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, 'found', 'Template check');
           $this->templateLoadAttrs($this->attrs);
         }
       }
@@ -190,7 +193,7 @@ class plugin
       /* Is Account? */
       if ($this->is_this_account($this->attrs)) {
         $this->is_account = TRUE;
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, "found", "Object check");
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, 'found', 'Object check');
       }
     }
 
@@ -437,22 +440,30 @@ class plugin
     /* Start with empty array */
     $this->attrs = array();
 
-    /* Get current objectClasses in order to add the required ones */
-    $ldap->cat($this->dn);
-
-    $tmp = $ldap->fetch ();
-
-    $oc = array();
-    if (isset($tmp['objectClass'])) {
-      $oc = $tmp["objectClass"];
-      unset($oc['count']);
-      $this->is_new = FALSE;
+    if ($this->is_template) {
+      // TODO: do it this way even if not a template?
+      $this->attrs['objectClass'] = $this->objectclasses;
+      if (!empty($this->saved_attributes)) {
+        $this->attrs['objectClass'] = array_merge_unique($this->saved_attributes['objectClass'], $this->attrs['objectClass']);
+      }
     } else {
-      $this->is_new = TRUE;
-    }
+      /* Get current objectClasses in order to add the required ones */
+      $ldap->cat($this->dn);
 
-    /* Load (minimum) attributes, add missing ones */
-    $this->attrs['objectClass'] = array_merge_unique($oc, $this->objectclasses);
+      $tmp = $ldap->fetch ();
+
+      $oc = array();
+      if (isset($tmp['objectClass'])) {
+        $oc = $tmp["objectClass"];
+        unset($oc['count']);
+        $this->is_new = FALSE;
+      } else {
+        $this->is_new = TRUE;
+      }
+
+      /* Load (minimum) attributes, add missing ones */
+      $this->attrs['objectClass'] = array_merge_unique($oc, $this->objectclasses);
+    }
 
     /* Copy standard attributes */
     foreach ($this->attributes as $val) {
