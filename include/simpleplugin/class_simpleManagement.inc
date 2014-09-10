@@ -215,6 +215,24 @@ class simpleManagement extends management
           'filter'      => ldapFilter::parse($i['filter']),
           'nameAttr'    => $i['nameAttr'],
         );
+      if (!$this->skipTemplates) {
+        $this->headpage->objectTypes['template_'.$object] =
+          array(
+            'label'       => sprintf(_('%s template'), $i['name']),
+            'category'    => $i['aclCategory'],
+            'class'       => 'fdTemplate',
+            'image'       => $i['icon'],//FIXME
+            'filter'      =>
+              new ldapFilter(
+                '&',
+                array(
+                  new ldapFilterLeaf('objectClass', '=', 'fdTemplate'),
+                  fdTemplateFilter(ldapFilter::parse($i['filter'])),
+                )
+              ),
+            'nameAttr'    => $i['nameAttr'],
+          );
+      }
       $this->headpage->categories[] = $i['aclCategory'];
       if ($this->autoActions) {
         $this->registerAction('new_'.$object, 'newEntry');
@@ -431,6 +449,9 @@ class simpleManagement extends management
     // Single edit - we only got one object dn.
     if (count($target) == 1) {
       $type = $this->getType($target[0]);
+      if (preg_match('/^template_/', $type) && !$this->skipTemplates) {
+        $type = preg_replace('/^template_/', '', $type);
+      }
 
       $this->is_new         = FALSE;
       $this->is_single_edit = TRUE;
@@ -469,9 +490,11 @@ class simpleManagement extends management
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removal requested!");
 
     // Check permissons for each target
-    $tInfo = $this->config->data['OBJECTS'];
     foreach ($target as $dn) {
       $type = $this->getType($dn);
+      if (preg_match('/^template_/', $type) && !$this->skipTemplates) {
+        $type = preg_replace('/^template_/', '', $type);
+      }
       try {
         $info = objects::infos($type);
         $acl  = $this->ui->get_permissions($dn, $info['aclCategory'].'/'.$info['mainTab']);
@@ -500,6 +523,9 @@ class simpleManagement extends management
       $objects = array();
       foreach ($this->dns as $dn) {
         $type   = $this->getType($dn);
+        if (preg_match('/^template_/', $type) && !$this->skipTemplates) {
+          $type = preg_replace('/^template_/', '', $type);
+        }
         $info   = objects::infos($type);
         $entry  = $this->getHeadpage()->getEntry($dn);
         $objects[] = array(
@@ -524,20 +550,13 @@ class simpleManagement extends management
   {
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removal confirmed!");
 
-    $targets = array();
     foreach ($this->dns as $dn) {
       $type = $this->getType($dn);
       if (empty($type)) {
         continue;
       }
-      $targets[$type][] = $dn;
-    }
-
-    $tInfo = $this->config->data['OBJECTS'];
-    foreach ($this->dns as $dn) {
-      $type = $this->getType($dn);
-      if (empty($type)) {
-        continue;
+      if (preg_match('/^template_/', $type) && !$this->skipTemplates) {
+        $type = preg_replace('/^template_/', '', $type);
       }
       $infos = objects::infos($type);
       // Check permissions, are we allowed to remove this object?
