@@ -469,14 +469,25 @@ class simpleManagement extends management
       $this->openTabObject(objects::open($this->dn, $type), $this->dn);
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Edit entry initiated!");
       if (isset($all['subaction'])) {
-        $tab = preg_replace('/^tab_/', '', $all['subaction']);
-        if (isset($this->tabObject->by_object[$tab])) {
-          $this->tabObject->current = $tab;
-        } else {
-          trigger_error('Unknown tab: '.$tab);
+        if ($this->handleSubAction($all) == FALSE) {
+          trigger_error('Was not able to handle subaction: '.$all['subaction']);
         }
       }
     }
+  }
+
+  function handleSubAction($all)
+  {
+    if (preg_match('/^tab_/', $all['subaction'])) {
+      $tab = preg_replace('/^tab_/', '', $all['subaction']);
+      if (isset($this->tabObject->by_object[$tab])) {
+        $this->tabObject->current = $tab;
+      } else {
+        trigger_error('Unknown tab: '.$tab);
+      }
+      return TRUE;
+    }
+    return FALSE;
   }
 
   /*! \brief    Queue selected objects to be removed.
