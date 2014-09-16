@@ -21,16 +21,11 @@
 
 class ogrouptabs extends simpleTabs_noSpecial
 {
-  var $base = "";
-  var $acl_category;
-
   private $groupObjects = NULL;
 
-  function __construct($config, $data, $dn, $category = "ogroup", $copied_object = NULL)
+  function __construct($type, $dn, $copied_object = NULL)
   {
-    parent::__construct($config, $data, $dn, $category, $copied_object);
-    $this->base         = $this->by_object['ogroup']->base;
-    $this->acl_category = $category;
+    parent::__construct($type, $dn, $copied_object);
 
     $this->loadtabs($this->getBaseObject()->gosaGroupObjects);
   }
@@ -112,7 +107,6 @@ class ogrouptabs extends simpleTabs_noSpecial
     $this->by_name["$class"]            = $plInfos['plShortName'];
     $this->by_object["$class"]          = new $class($this->config, $this->dn, $this->getBaseObject());
     $this->by_object["$class"]->parent  = &$this;
-    $this->by_object["$class"]->acl     = "#all#";
     $this->by_object["$class"]->set_acl_category($this->acl_category);
   }
 

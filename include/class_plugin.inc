@@ -99,7 +99,6 @@ class plugin
     dn
    */
   var $dn         = "";
-  var $acl        = "*none*";
   var $dialog     = FALSE;
 
   /* attribute list for save action */
