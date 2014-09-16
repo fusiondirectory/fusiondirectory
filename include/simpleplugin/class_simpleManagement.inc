@@ -328,6 +328,19 @@ class simpleManagement extends management
         $attributes[] = $i['mainAttr'];
         $attributes[] = $i['nameAttr'];
       }
+      if (!$this->skipTemplates) {
+        $tag    = 'FILTERTEMPLATE';
+        $filter .= '$'.$tag;
+        $this->filter->elements[$tag] = array(
+          'type'    => 'checkbox',
+          'tag'     => $tag,
+          'default' => TRUE,
+          'unset'   => array(),
+          'set'     => '(objectClass=fdTemplate)'
+        );
+        $this->filter->elementValues[$tag] = TRUE;
+        $attributes[] = 'fdTemplateField';
+      }
       $filter .= ')';
       $attributes = array_values(array_unique($attributes));
       $this->filter->query[0]['filter']       = '(&'.$filter.'$NAME)';
@@ -363,6 +376,12 @@ class simpleManagement extends management
       $filters[] = array(
         'id'    => 'FILTER'.$object,
         'label' => sprintf(_('Show %s'), $this->config->data['OBJECTS'][$object]['name'])
+      );
+    }
+    if (!$this->skipTemplates) {
+      $filters[] = array(
+        'id'    => 'FILTERTEMPLATE',
+        'label' => sprintf(_('Show %s'), _('Template'))
       );
     }
     $smarty->assign('objectFilters', $filters);
