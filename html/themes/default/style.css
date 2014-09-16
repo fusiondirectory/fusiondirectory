@@ -498,7 +498,7 @@ float:none;
 }
 
 /* End IE5-Mac hack */
-#pulldown ul.level2,#pulldown ul.level3 {
+#pulldown ul ul {
 position:absolute;
 top:0;
 left:0;
@@ -510,7 +510,7 @@ border-right:1px gray solid;
 background:#FFF;
 }
 
-#pulldown ul.level2 li,#pulldown ul.level3 li {
+#pulldown ul ul li {
 border-bottom:1px solid #fff;
 float:none;
 margin:0;
@@ -518,11 +518,11 @@ padding:0;
 width:200px;
 }
 
-#pulldown ul.level2 li a,#pulldown ul.level3 li a {
+#pulldown ul ul li a {
 padding:5px 9px 5px 5px;
 }
 
-#pulldown ul.level2 li a:hover,#pulldown ul.level3 li a:hover {
+#pulldown ul ul li a:hover {
 font-weight:normal;
 background-color:#418DD4;
 background-image:none;
