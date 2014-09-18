@@ -428,7 +428,11 @@ class Attribute
         }
       }
       $ldap->cd($base);
-      $filter = "(".$this->getLdapName()."=".$value.")";
+      if (is_array($value)) {
+        $filter = '(|('.$this->getLdapName().'='.join(')('.$this->getLdapName().'=', $value).'))';
+      } else {
+        $filter = '('.$this->getLdapName().'='.$value.')';
+      }
       $pluginFilter = $this->plugin->getObjectClassFilter();
       if (!empty($pluginFilter)) {
         $filter = "(&$pluginFilter$filter)";
