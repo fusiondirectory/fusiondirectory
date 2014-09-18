@@ -8,6 +8,7 @@
       right:0px;
       bottom:0px;
       z-index:100;
+      overflow:hidden;
       background-image:url(images/opacity_black.png);">
 {else}
 
