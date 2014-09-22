@@ -714,7 +714,9 @@ class plugin
         unset($result[0]['count']);
       }
     } else {
-      trigger_error("'$mask' was not found in attributes");
+      if (!preg_match('/c/', $modifiers)) {
+        trigger_error("'$mask' was not found in attributes");
+      }
       $result = array('');
     }
     $len    = strlen($modifiers);

@@ -2134,7 +2134,10 @@ function gen_uids($rule, $attributes)
     $ldap->search("(uid=".preg_replace('/[{}]/', '', $uid).")", array('dn'));
     if ($ldap->count() == 0) {
       /* Add uid, but remove {} first. These are invalid anyway. */
-      $ret[] = preg_replace('/[{}]/', '', $uid);
+      $uid = preg_replace('/[{}]/', '', $uid);
+      if ($uid != '') {
+        $ret[] = $uid;
+      }
     }
   }
 
