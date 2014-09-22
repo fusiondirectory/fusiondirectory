@@ -144,8 +144,6 @@ class UserPasswordAttribute extends CompositeAttribute
 
 class user extends plugin
 {
-  static $nouid = '{no-template-uid}';
-
   /* Plugin specific values */
   var $base       = "";
   var $orig_base  = "";
@@ -323,10 +321,6 @@ class user extends plugin
             $this->pw_storage = "clear";
           }
         }
-      }
-
-      if ($this->uid == self::$nouid) {
-        $this->uid = '';
       }
 
       /* Load extra attributes: picture */
@@ -834,6 +828,11 @@ class user extends plugin
     if($this->gender=="0") $this->gender ="";
     if($this->preferredLanguage=="0") $this->preferredLanguage ="";
 
+    /* Avoid empty uid */
+    if ($this->uid == '') {
+      $this->uid = '%c|uid of '.$this->cn.'%';
+    }
+
     /* First use parents methods to do some basic fillup in $this->attrs */
     plugin::save ();
 
@@ -994,11 +993,6 @@ class user extends plugin
           }
           break;
         }
-      }
-
-      /* Empty uid not allowed by LDAP schema */
-      if ($this->uid == '') {
-        $this->attrs['uid'] = self::$nouid;
       }
     }
 
