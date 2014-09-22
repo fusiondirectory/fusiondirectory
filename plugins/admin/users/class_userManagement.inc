@@ -647,7 +647,7 @@ class userManagement extends management
 
       $attrs = plugin::tpl_parse_attrs($attrs);
       $this->tabObject->adapt_from_template($attrs, array("cn"));
-      $template_base = preg_replace("/^[^,]+,".preg_quote(get_people_ou(), '/i')."/", '', $template_dn);
+      $template_base = preg_replace("/^[^,]+,".preg_quote(get_people_ou(), '/')."/i", '', $template_dn);
       $this->tabObject->by_object['user']->base = $template_base;
 
       // The user Tab object is already instantiated, so just go back and let the
