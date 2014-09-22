@@ -798,6 +798,11 @@ class user extends plugin
         /* Save current cn */
         $this->cn = $this->givenName." ".$this->sn;
       }
+
+      /* Avoid empty uid */
+      if ($this->uid == '') {
+        $this->uid = '%c|uid of '.$this->cn.'%';
+      }
     }
   }
 
@@ -1205,7 +1210,16 @@ class user extends plugin
       $message[] = msgPool::duplicated(_("Login"));
     }
 
-    if (!$this->is_template){
+    if ($this->is_template) {
+      if ($this->dn == 'new') {
+        $ldap->cd($this->config->current['BASE']);
+        $ldap->search("(cn=$this->cn)", array("cn"));
+        $ldap->fetch();
+        if ($ldap->count() != 0) {
+          $message[] = msgPool::duplicated(_("Template name"));
+        }
+      }
+    } else {
       if ($this->givenName == ""){
         $message[]= msgPool::required(_("Given name"));
       }
