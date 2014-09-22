@@ -260,12 +260,13 @@ sub usage
   print STDERR << "EOF";
  usage: $0 [-h] [-l] [-o options] [path] [-i|-m schema1 schema2 …]
 
-  -h, --help    : this (help) message
-  path          : where to find the schemas
-  -i, --insert  : specify the schemas to insert
-  -l, --list    : list inserted schemas
-  -m, --modify  : modify exising inserted schemas
-  -o, --options : set ldap options used (default is -Y EXTERNAL -H ldapi:///)
+  -h, --help      : this (help) message
+  path            : where to find the schemas
+  -i, --insert    : specify the schemas to insert
+  -l, --list      : list inserted schemas
+  -m, --modify    : modify exising inserted schemas
+  -o, --options   : set ldap options used (default is -Y EXTERNAL -H ldapi:///)
+  -c, --continue  : continue on error(s)
 
 EOF
   exit -1;
@@ -287,6 +288,9 @@ This program will insert the schema needed by FusionDirectory into the ldap serv
 If -i is specified, insert the given list of schemas instead of the default list
 If -m is specified, insert the given list of schemas, replacing already inserted versions of those schemas
 If -l is specified, list inserted schemas
+If -c is specified, an error won’t stop the command from continuing with other insertions
+You can use -o to give specifics options to give to ldap commands such as ldapmodify,
+but beware that you won’t be able to see things like password prompts as the output of these commands is piped.
 
 =head1 EXAMPLES
 
