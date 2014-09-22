@@ -445,7 +445,7 @@ class user extends plugin
         $this->dialog = NULL;
       }
     }
-    if(isset($_POST['add_users_cancel'])){
+    if(isset($_POST['add_cancel'])){
       $this->dialog = NULL;
     }
     if($this->dialog instanceOf singleUserSelect) {
