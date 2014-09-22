@@ -176,7 +176,7 @@ class tabs
       }
     }
     unset($obj);
-    
+
     /* Show object */
     $display = '<div class="tab_content">'."\n";
 
@@ -268,7 +268,7 @@ class tabs
                   font-weight:bold;
                   font-size:13px;
                   color: gray;'
-          title=\"$title\">".$title."</div>";
+          title=\"$title\"><a>".$title."</a></div>";
       } else {
         $display .= "<div class=\"$style[$index]$notify\"><a id=\"tab_$class\" class=\"$style[$index]\" onclick=\"return true;\" href=\"javascript:document.mainform.arg.value='$class';document.mainform.submit();\">$title</a></div></td>";
       }
