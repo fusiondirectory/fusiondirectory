@@ -5,6 +5,7 @@
 # Translators:
 # Pavel Borecki <pavel.borecki@gmail.com>, 2012
 # Pavel Borecki <pavel.borecki@gmail.com>, 2012
+# Pavel Borecki <pavel.borecki@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-108\n"

@@ -5,14 +5,17 @@
 # Translators:
 # ALEJANDRO BARRIOS <alejandrobarrios@interlegis.leg.br>, 2014
 # cfviotti <caioviotti@interlegis.leg.br>, 2014
+# cfviotti <caioviotti@interlegis.leg.br>, 2014
 # Karine <karine_neumann@hotmail.com>, 2014
+# Karine <karine_neumann@hotmail.com>, 2014
+# marcosantos <marcoa.csantos@yahoo.it>, 2014
 # marcosantos <marcoa.csantos@yahoo.it>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-108\n"
 "Report-Msgid-Bugs-To: documentation@lists.fusiondirectory.org\n"
 "POT-Creation-Date: 2014-08-18 16:17+0200\n"
-"PO-Revision-Date: 2014-08-28 10:52+0000\n"
+"PO-Revision-Date: 2014-09-05 13:10+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/FusionDirectory-108/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +33,7 @@ msgstr "Bem-vindo %s!"
 #: plugins/generic/references/class_reference.inc:27
 #: plugins/generic/references/class_reference.inc:40
 msgid "References"
-msgstr ""
+msgstr "Referências"
 
 #: plugins/admin/groups/class_roleGeneric.inc:31
 #: plugins/admin/groups/class_roleGeneric.inc:35
@@ -43,7 +46,7 @@ msgstr "Atribuição"
 
 #: plugins/admin/groups/class_roleGeneric.inc:32
 msgid "Role generic"
-msgstr ""
+msgstr "Função genérica"
 
 #: plugins/admin/groups/class_roleGeneric.inc:36
 msgid "Organizational role"
@@ -156,28 +159,28 @@ msgstr "Erro de configuração"
 
 #: plugins/admin/groups/class_group.inc:161
 msgid "Cannot find group SID in your configuration!"
-msgstr ""
+msgstr "Não foi possível encontrar grupo SID na sua configuração!"
 
 #: plugins/admin/groups/class_group.inc:413
 msgid "Samba group"
-msgstr ""
+msgstr "Grupo Samba"
 
 #: plugins/admin/groups/class_group.inc:413
 msgid "Domain admins"
-msgstr ""
+msgstr "Administradores do domínio"
 
 #: plugins/admin/groups/class_group.inc:413
 msgid "Domain users"
-msgstr ""
+msgstr "Usuários do domínio"
 
 #: plugins/admin/groups/class_group.inc:414
 msgid "Domain guests"
-msgstr ""
+msgstr "Convidados do domínio"
 
 #: plugins/admin/groups/class_group.inc:419
 #, php-format
 msgid "Special group (%d)"
-msgstr ""
+msgstr "Grupo especial (%d)"
 
 #: plugins/admin/groups/class_group.inc:446
 #: plugins/admin/ogroups/class_ogroup.inc:396
@@ -189,13 +192,13 @@ msgstr "desabilitado"
 #: plugins/admin/ogroups/class_ogroup.inc:396
 #: plugins/personal/posix/class_posixAccount.inc:170
 msgid "full access"
-msgstr ""
+msgstr "Acesso total"
 
 #: plugins/admin/groups/class_group.inc:447
 #: plugins/admin/ogroups/class_ogroup.inc:397
 #: plugins/personal/posix/class_posixAccount.inc:170
 msgid "allow access to these hosts"
-msgstr ""
+msgstr "Permitir acesso a esses servidores"
 
 #: plugins/admin/groups/class_group.inc:523
 #: plugins/admin/groups/class_group.inc:529
@@ -244,12 +247,12 @@ msgstr "Erro"
 #: plugins/admin/groups/class_group.inc:524
 #, php-format
 msgid "Adding UID '%s' to group '%s' failed: cannot find user object!"
-msgstr ""
+msgstr "Adicionando UID '%s' para o grupo '%s' falhou: Não se pode encontrar o objeto do usuário!"
 
 #: plugins/admin/groups/class_group.inc:530
 #, php-format
 msgid "Add UID '%s' to group '%s' failed: UID is used more than once!"
-msgstr ""
+msgstr "Adicionar UID '%s' para grupo '%s' falhou: UID é usado mais de uma vez!"
 
 #: plugins/admin/groups/class_group.inc:586
 #: plugins/admin/groups/class_group.inc:679
@@ -286,22 +289,22 @@ msgstr "Erro de LDAP"
 
 #: plugins/admin/groups/class_group.inc:600
 msgid "! unknown UID"
-msgstr ""
+msgstr "! UID desconhecido"
 
 #: plugins/admin/groups/class_group.inc:643
 #, php-format
 msgid "Search returned too many results. Not displaying more than %s entries!"
-msgstr ""
+msgstr "Busca retornou muitos resultados. Não aparecerá mais que %s entradas!"
 
 #: plugins/admin/groups/class_group.inc:849
 #, php-format
 msgid "Cannot find any SID for '%s'!"
-msgstr ""
+msgstr "Impossível encontrar qualquer SID para '%s'!"
 
 #: plugins/admin/groups/class_group.inc:854
 #, php-format
 msgid "Cannot find any RIDBASE for '%s'!"
-msgstr ""
+msgstr "Impossível encontrar qualquer RIDBASE para '%s'!"
 
 #: plugins/admin/groups/class_group.inc:1041
 #: plugins/admin/groups/class_group.inc:1044
@@ -309,7 +312,7 @@ msgstr ""
 #: plugins/personal/posix/class_posixAccount.inc:108
 #: plugins/personal/posix/class_posixAccount.inc:375
 msgid "GID"
-msgstr ""
+msgstr "GID"
 
 #: plugins/admin/groups/class_group.inc:1074
 #: plugins/personal/posix/class_posixAccount.inc:430 include/functions.inc:898
@@ -334,11 +337,11 @@ msgstr "Aviso"
 #: plugins/admin/groups/class_group.inc:1074
 #, php-format
 msgid "The gidNumber '%s' is already in use by %s!"
-msgstr ""
+msgstr "O gidNumber '%s' está sendo usado por %s!"
 
 #: plugins/admin/groups/class_group.inc:1086
 msgid "Generic group settings"
-msgstr ""
+msgstr "Configurações de grupos genéricos"
 
 #: plugins/admin/groups/class_group.inc:1089
 #: plugins/admin/groups/class_groupManagement.inc:36
@@ -364,34 +367,34 @@ msgstr "Base"
 
 #: plugins/admin/groups/class_group.inc:1109
 msgid "Samba group type"
-msgstr ""
+msgstr "Tipo de grupo Samba"
 
 #: plugins/admin/groups/class_group.inc:1110
 msgid "Samba domain name"
-msgstr ""
+msgstr "Nome do dominio Samba"
 
 #: plugins/admin/groups/class_group.inc:1111
 #: plugins/admin/ogroups/class_ogroup.inc:954
 #: plugins/personal/posix/class_posixAccount.inc:162
 #: plugins/admin/ogroups/generic.tpl.c:17
 msgid "System trust"
-msgstr ""
+msgstr "Sistema de confiança"
 
 #: plugins/admin/groups/class_group.inc:1112
 msgid "Phone pickup group"
-msgstr ""
+msgstr "Grupo atendente de telefone"
 
 #: plugins/admin/groups/class_group.inc:1113
 msgid "Nagios group"
-msgstr ""
+msgstr "grupo Nagios"
 
 #: plugins/admin/groups/class_group.inc:1115
 msgid "Group member"
-msgstr ""
+msgstr "Membro do grupo"
 
 #: plugins/admin/groups/group-list.xml:11
 msgid "List of groups"
-msgstr ""
+msgstr "Lista de grupos"
 
 #: plugins/admin/groups/group-list.xml:49
 #: plugins/admin/ogroups/ogroup-list.xml:57
@@ -458,11 +461,11 @@ msgstr "Gerenciar grupos"
 
 #: plugins/admin/groups/class_groupManagement.inc:77
 msgid "Posix"
-msgstr ""
+msgstr "Posix"
 
 #: plugins/admin/groups/class_groupManagement.inc:77
 msgid "Edit posix properties"
-msgstr ""
+msgstr "Editar propriedades do posix"
 
 #: plugins/admin/groups/class_groupManagement.inc:106
 #: include/select/groupSelect/group-filter.tpl.c:5
@@ -488,7 +491,7 @@ msgstr ""
 msgid ""
 "These systems are already configured by other object groups and cannot be "
 "added:"
-msgstr ""
+msgstr "Estes sistemas já são configurados por outros grupos de objetos e não pode ser adicionado:"
 
 #: plugins/admin/ogroups/class_ogroup.inc:250
 #: ihtml/themes/default/msg_dialog.tpl.c:8 setup/setup_ldap.tpl.c:62
@@ -497,24 +500,24 @@ msgstr "Informação"
 
 #: plugins/admin/ogroups/class_ogroup.inc:250
 msgid "You cannot combine terminals and workstations in one object group!"
-msgstr ""
+msgstr "Você não pode combinar terminais e estações de trabalho no mesmo objeto do grupo!"
 
 #: plugins/admin/ogroups/class_ogroup.inc:587
 msgid "Non existing dn:"
-msgstr ""
+msgstr "Não existe dn:"
 
 #: plugins/admin/ogroups/class_ogroup.inc:765
 msgid "You can combine two different object types at maximum, only!"
-msgstr ""
+msgstr "Você pode combinar no máximo dois tipos de objetos, apenas!"
 
 #: plugins/admin/ogroups/class_ogroup.inc:925
 msgid "Object group generic"
-msgstr ""
+msgstr "Objeto de grupo genérico"
 
 #: plugins/admin/ogroups/class_ogroup.inc:929
 #: plugins/admin/ogroups/class_ogroupManagement.inc:35
 msgid "Object groups"
-msgstr ""
+msgstr "Grupo de objetos"
 
 #: plugins/admin/ogroups/class_ogroup.inc:930
 #: plugins/admin/ogroups/ogroup-list.xml:15
@@ -527,15 +530,15 @@ msgstr "Membro"
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:36
 msgid "Manage object groups"
-msgstr ""
+msgstr "Gerenciar objetos de grupo"
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:118
 msgid "Infrastructure error"
-msgstr ""
+msgstr "Erro de infraestrutura"
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:183
 msgid "Templates"
-msgstr ""
+msgstr "Modelos"
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:184
 #: plugins/admin/users/user-list.xml:23 plugins/admin/users/user-list.xml:95
@@ -575,7 +578,7 @@ msgstr "Estação de trabalho"
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:191
 msgid "Windows Install"
-msgstr ""
+msgstr "Instalar janela"
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:192
 #: include/select/systemSelect/systemSelect-list.xml:38
@@ -588,7 +591,7 @@ msgstr "Impressora"
 
 #: plugins/admin/ogroups/ogroup-list.xml:11
 msgid "List of object groups"
-msgstr ""
+msgstr "Lista de objetos de grupo"
 
 #: plugins/admin/ogroups/ogroup-list.xml:79
 msgid "Objectgroup"
@@ -596,20 +599,20 @@ msgstr "Objectgroup"
 
 #: plugins/admin/ogroups/ogroup-list.xml:106
 msgid "Send message"
-msgstr ""
+msgstr "Enviar mensagem"
 
 #: plugins/admin/ogroups/ogroup-list.xml:142
 msgid "Edit object group"
-msgstr ""
+msgstr "Editar objeto de grupo"
 
 #: plugins/admin/ogroups/ogroup-list.xml:155
 msgid "Remove object group"
-msgstr ""
+msgstr "Remover objeto de grupo"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:37
 #: plugins/admin/ogroups/tabs_ogroups.inc:44
 msgid "Devices"
-msgstr ""
+msgstr "Dispositivo"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:38
 msgid "Startup"
@@ -621,7 +624,7 @@ msgstr "Sistemas"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:47
 msgid "Workstartup"
-msgstr ""
+msgstr "iniciar trabalho"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:48
 msgid "Debconf"
@@ -629,11 +632,11 @@ msgstr "Debconf"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:49
 msgid "FAI"
-msgstr ""
+msgstr "FAI"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:50
 msgid "FAI summary"
-msgstr ""
+msgstr "resumo FAI"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:51
 msgid "Argonaut client"
@@ -645,7 +648,7 @@ msgstr "OPSI"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:117
 msgid "Phone queue"
-msgstr ""
+msgstr "Fila de telefone"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:132
 #: ihtml/themes/default/recovery.tpl.c:86
@@ -666,27 +669,27 @@ msgstr "Recuperação de senha"
 
 #: plugins/admin/password/class_recoveryConfig.inc:36
 msgid "Settings for the password recovery feature"
-msgstr ""
+msgstr "Configurações para recuperar senha"
 
 #: plugins/admin/password/class_recoveryConfig.inc:54
 msgid "Password recovery settings"
-msgstr ""
+msgstr "Configurações de recuperação de senha"
 
 #: plugins/admin/password/class_recoveryConfig.inc:57
 msgid "Activate password recovery"
-msgstr ""
+msgstr "Ativar recuperador de senha"
 
 #: plugins/admin/password/class_recoveryConfig.inc:58
 msgid "Weither to activate or not password recovery feature"
-msgstr ""
+msgstr "Ativar ou não a opção de recuperação de senha"
 
 #: plugins/admin/password/class_recoveryConfig.inc:63
 msgid "Sender email address"
-msgstr ""
+msgstr "Endereço de e-mail do remetente"
 
 #: plugins/admin/password/class_recoveryConfig.inc:64
 msgid "Email address from which mails will be sent"
-msgstr ""
+msgstr "E-mail a partir dos e-mail que serão enviados"
 
 #: plugins/admin/password/class_recoveryConfig.inc:70
 msgid "Link validity (minutes)"
@@ -694,31 +697,31 @@ msgstr "Validade do link (minutos)"
 
 #: plugins/admin/password/class_recoveryConfig.inc:71
 msgid "Number of minutes before a recovery link expires"
-msgstr ""
+msgstr "Número de minutos antes do link de recuperação expirar"
 
 #: plugins/admin/password/class_recoveryConfig.inc:77
 msgid "Salt for tokens"
-msgstr ""
+msgstr "graça para simbolos "
 
 #: plugins/admin/password/class_recoveryConfig.inc:78
 msgid ""
 "Just a security measure, you can put anything in there, even random "
 "characters"
-msgstr ""
+msgstr "Apenas uma medida de segurança, você pode botar qualquer coisa lá, até caracteres aleatórios"
 
 #: plugins/admin/password/class_recoveryConfig.inc:84
 msgid "Allow the use of alternate addresses"
-msgstr ""
+msgstr "Permitir o uso de endereços alternativos"
 
 #: plugins/admin/password/class_recoveryConfig.inc:85
 msgid ""
 "Users will also be able to enter one of theirs alternate addresses to "
 "recover their password"
-msgstr ""
+msgstr "Os usuário também serão capazes de entrar no endereço alternativo para recuperar sua senha"
 
 #: plugins/admin/password/class_recoveryConfig.inc:92
 msgid "First email"
-msgstr ""
+msgstr "Primeiro e-mail"
 
 #: plugins/admin/password/class_recoveryConfig.inc:95
 #: plugins/admin/password/class_recoveryConfig.inc:114
@@ -731,19 +734,19 @@ msgstr "Assunto do primeiro e-mail"
 
 #: plugins/admin/password/class_recoveryConfig.inc:99
 msgid "[FusionDirectory] Password recovery link"
-msgstr ""
+msgstr "[FusionDirectory] Link de recuperação de senha"
 
 #: plugins/admin/password/class_recoveryConfig.inc:102
 #, php-format
 msgid "Body (first %s is login, second is link)"
-msgstr ""
+msgstr "Corpo(primeiro %s é o login, segundo é o link)"
 
 #: plugins/admin/password/class_recoveryConfig.inc:103
 #, php-format
 msgid ""
 "Body of the first email, sent when the user ask for a new password. Use %s "
 "for the login and the recovery link."
-msgstr ""
+msgstr "Corpo do primeiro e-mail, envie quando o usuário perguntar pela nova senha. Use %s para o login e o link de recuperação."
 
 #: plugins/admin/password/class_recoveryConfig.inc:106
 #, php-format
@@ -755,7 +758,7 @@ msgid ""
 " - Link : %s\n"
 "\n"
 "This link is only valid for 10 minutes."
-msgstr ""
+msgstr "Olá,\n\nAqui estão suas informações:\n-Login : %s\n-Link : %s\n\nEste link é válido por apenas 10 minutos."
 
 #: plugins/admin/password/class_recoveryConfig.inc:111
 msgid "Second email"
@@ -767,19 +770,19 @@ msgstr "Assunto do segundo e-mail"
 
 #: plugins/admin/password/class_recoveryConfig.inc:118
 msgid "[FusionDirectory] Password recovery successful"
-msgstr ""
+msgstr "[FusionDirectory] Senha recuperada com sucesso"
 
 #: plugins/admin/password/class_recoveryConfig.inc:121
 #, php-format
 msgid "Body (%s is login)"
-msgstr ""
+msgstr "Corpo (%s é o login)"
 
 #: plugins/admin/password/class_recoveryConfig.inc:122
 #, php-format
 msgid ""
 "Body of the second email, sent to confirm the password has been changed. Use"
 " %s for the user login."
-msgstr ""
+msgstr "Corpo do segundo e-mail, enviado para confirmar senha alterada. Use %s para Login de usuário. "
 
 #: plugins/admin/password/class_recoveryConfig.inc:125
 #, php-format
@@ -794,7 +797,7 @@ msgstr "Olá,\n\nSua senha foi alterada.\nSeu login permanece %s."
 #: plugins/admin/departments/class_dcObject.inc:31
 #: plugins/admin/departments/class_dcObject.inc:34
 msgid "Domain Component"
-msgstr ""
+msgstr "Componente de domínio"
 
 #: plugins/admin/departments/class_dcObject.inc:51
 msgid "domain component"
@@ -804,7 +807,7 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:36
 #: plugins/admin/departments/class_departmentManagement.inc:34
 msgid "Departments"
-msgstr ""
+msgstr "Departamentos"
 
 #: plugins/admin/departments/class_department.inc:58
 msgid "department"
@@ -827,7 +830,7 @@ msgstr ""
 
 #: plugins/admin/departments/class_department.inc:76
 msgid "Category"
-msgstr ""
+msgstr "Categoria"
 
 #: plugins/admin/departments/class_department.inc:76
 #, php-format
@@ -838,7 +841,7 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:1473
 #: plugins/personal/generic/generic.tpl.c:95
 msgid "Manager"
-msgstr ""
+msgstr "Gerente"
 
 #: plugins/admin/departments/class_department.inc:80
 #, php-format
@@ -896,7 +899,7 @@ msgstr "Administração"
 #: plugins/admin/departments/class_locality.inc:31
 #: plugins/admin/departments/class_locality.inc:34
 msgid "Locality"
-msgstr ""
+msgstr "Localização"
 
 #: plugins/admin/departments/class_locality.inc:51
 msgid "locality"
@@ -924,7 +927,7 @@ msgstr ""
 
 #: plugins/admin/departments/dep-list.xml:9
 msgid "List of departments"
-msgstr ""
+msgstr "Lista de departamentos"
 
 #: plugins/admin/departments/class_organization.inc:30
 #: plugins/admin/departments/class_organization.inc:31
@@ -940,13 +943,13 @@ msgstr ""
 
 #: plugins/admin/users/user-list.xml:11
 msgid "List of users"
-msgstr ""
+msgstr "Lista de usuários"
 
 #: plugins/admin/users/user-list.xml:15 plugins/admin/users/user-list.xml:102
 #: plugins/admin/users/class_userManagement.inc:530
 #: plugins/admin/users/template.tpl.c:8 plugins/admin/users/templatize.tpl.c:8
 msgid "Template"
-msgstr ""
+msgstr "Modelo"
 
 #: plugins/admin/users/user-list.xml:49
 #: plugins/personal/generic/class_user.inc:1454
@@ -978,35 +981,35 @@ msgstr "Alterar senha"
 
 #: plugins/admin/users/user-list.xml:141
 msgid "Lock users"
-msgstr ""
+msgstr "Usuários bloqueados"
 
 #: plugins/admin/users/user-list.xml:149
 msgid "Unlock users"
-msgstr ""
+msgstr "Usuários desbloqueados"
 
 #: plugins/admin/users/user-list.xml:160
 msgid "Apply template"
-msgstr ""
+msgstr "Aplicar modelo"
 
 #: plugins/admin/users/user-list.xml:192
 msgid "New user from template"
-msgstr ""
+msgstr "Novo usuário para modelo"
 
 #: plugins/admin/users/user-list.xml:206
 msgid "Edit user"
-msgstr ""
+msgstr "Editar usuário"
 
 #: plugins/admin/users/user-list.xml:215
 msgid "%{filter:lockLabel(userPassword)}"
-msgstr ""
+msgstr "%{filter:lockLabel(userPassword)}"
 
 #: plugins/admin/users/user-list.xml:239
 msgid "Remove user"
-msgstr ""
+msgstr "Remover usuário"
 
 #: plugins/admin/users/class_userManagement.inc:53
 msgid "Manage users"
-msgstr ""
+msgstr "Gerenciar usuários"
 
 #: plugins/admin/users/class_userManagement.inc:196
 #: plugins/admin/users/class_userManagement.inc:756
@@ -1047,7 +1050,7 @@ msgstr "Nova senha"
 #: plugins/personal/password/class_password.inc:135
 #, php-format
 msgid "Check-hook reported a problem: %s. Password change canceled!"
-msgstr ""
+msgstr "Check-hook detectou um problema:%s. Mudança de senha cancelada."
 
 #: plugins/admin/users/class_userManagement.inc:384
 #: plugins/personal/password/class_password.inc:156
@@ -1064,7 +1067,7 @@ msgstr "Você não tem possui permissão para mudar a senha deste usuário!"
 #: plugins/admin/users/class_userManagement.inc:492
 #: plugins/admin/users/class_userManagement.inc:523
 msgid "none"
-msgstr ""
+msgstr "nenhum"
 
 #: plugins/admin/users/class_userManagement.inc:713
 #: plugins/admin/users/class_userManagement.inc:717
@@ -1082,7 +1085,7 @@ msgstr "Bloqueando conta"
 msgid ""
 "Password method '%s' does not support locking. Account (%s) has not been "
 "locked!"
-msgstr ""
+msgstr "Método de senha '%s' não suporta bloqueio. Conta (%s) não será bloqueada!"
 
 #: plugins/admin/users/class_userManagement.inc:868
 msgid "Unlock account"
@@ -1112,11 +1115,11 @@ msgstr ""
 
 #: plugins/admin/aclrole/class_aclRole.inc:109
 msgid "Access control roles"
-msgstr ""
+msgstr "Cargos de controle de acesso"
 
 #: plugins/admin/aclrole/class_aclRole.inc:112
 msgid "ACL role"
-msgstr ""
+msgstr "Cargo ACL"
 
 #: plugins/admin/aclrole/class_aclRole.inc:131
 msgid "A name for this role"
@@ -1166,7 +1169,7 @@ msgstr ""
 
 #: plugins/admin/aclrole/class_aclRole.inc:347
 msgid "All objects in current subtree"
-msgstr ""
+msgstr "Todos objetos na atual sub-árvore"
 
 #: plugins/admin/aclrole/class_aclRole.inc:398
 #: plugins/admin/aclrole/class_aclRole.inc:402
@@ -1216,7 +1219,7 @@ msgstr ""
 
 #: plugins/admin/acl/class_aclManagement.inc:39
 msgid "Access control list management"
-msgstr ""
+msgstr "Gerenciamento da lista de controle de acesso"
 
 #: plugins/admin/acl/class_aclManagement.inc:77
 #: plugins/admin/acl/class_aclAssignment.inc:246
@@ -1334,7 +1337,7 @@ msgstr "Desconhecido"
 
 #: plugins/personal/generic/class_user.inc:422
 msgid "Please add a single IP address or a network/netmask combination!"
-msgstr ""
+msgstr "Por favor, adicione uma único combinação de endereço de IP ou network/netmask"
 
 #: plugins/personal/generic/class_user.inc:490
 msgid "female"
@@ -1346,34 +1349,34 @@ msgstr "masculino"
 
 #: plugins/personal/generic/class_user.inc:558
 msgid "Cannot upload file!"
-msgstr ""
+msgstr "Impossível enviar o arquivo"
 
 #: plugins/personal/generic/class_user.inc:601
 msgid "The selected password method is no longer available."
-msgstr ""
+msgstr "O método de senha selecionado não está disponível."
 
 #: plugins/personal/generic/class_user.inc:953
 #: include/simpleplugin/class_attribute.inc:1537
 msgid ""
 "Cannot save user picture, FusionDirectory requires the package "
 "'php5-imagick' to be installed!"
-msgstr ""
+msgstr "Não foi possível salvar esta imagem, FusionDirectory requer o pacote 'php5-omagick' instalado"
 
 #: plugins/personal/generic/class_user.inc:1070
 msgid "Cannot build RDN: no + allowed to build sub RDN!"
-msgstr ""
+msgstr "Não foi possível construir RDN: + não permitido construir sub RDN!"
 
 #: plugins/personal/generic/class_user.inc:1077
 msgid "Cannot build RDN: attribute is not defined!"
-msgstr ""
+msgstr "Não foi possível construir RDN: Atributo não definido!"
 
 #: plugins/personal/generic/class_user.inc:1095
 msgid "Cannot build RDN: invalid attribute parameters!"
-msgstr ""
+msgstr "Não foi possível construir RDN: Parametro de atributo inválido!"
 
 #: plugins/personal/generic/class_user.inc:1174
 msgid "The selected password method requires initial configuration!"
-msgstr ""
+msgstr "O método de senha selecionado requer uma configuração inicial!"
 
 #: plugins/personal/generic/class_user.inc:1238
 #: plugins/personal/generic/class_user.inc:1489
@@ -1400,52 +1403,52 @@ msgstr "Data de nascimento"
 #: plugins/personal/generic/class_user.inc:1420
 #: plugins/personal/generic/generic.tpl.c:140
 msgid "Unit"
-msgstr ""
+msgstr "Unidade"
 
 #: plugins/personal/generic/class_user.inc:1421
 #: plugins/personal/generic/generic.tpl.c:149
 msgid "House identifier"
-msgstr ""
+msgstr "Identificador principal"
 
 #: plugins/personal/generic/class_user.inc:1422
 #: plugins/personal/generic/generic.tpl.c:122
 msgid "Vocation"
-msgstr ""
+msgstr "Tendência"
 
 #: plugins/personal/generic/class_user.inc:1423
 #: plugins/personal/generic/generic.tpl.c:164
 msgid "Last delivery"
-msgstr ""
+msgstr "Última entrega"
 
 #: plugins/personal/generic/class_user.inc:1424
 #: plugins/personal/generic/generic.tpl.c:137
 msgid "Person locality"
-msgstr ""
+msgstr "Localização de pessoa"
 
 #: plugins/personal/generic/class_user.inc:1425
 #: plugins/personal/generic/generic.tpl.c:125
 msgid "Unit description"
-msgstr ""
+msgstr "Descrição da unidade"
 
 #: plugins/personal/generic/class_user.inc:1426
 #: plugins/personal/generic/generic.tpl.c:128
 msgid "Subject area"
-msgstr ""
+msgstr "Área subordinada"
 
 #: plugins/personal/generic/class_user.inc:1427
 #: plugins/personal/generic/generic.tpl.c:131
 msgid "Functional title"
-msgstr ""
+msgstr "Título funcional"
 
 #: plugins/personal/generic/class_user.inc:1428
 #: plugins/personal/generic/generic.tpl.c:167
 msgid "Public visible"
-msgstr ""
+msgstr "Visível ao público"
 
 #: plugins/personal/generic/class_user.inc:1429
 #: plugins/personal/generic/generic.tpl.c:143
 msgid "Street"
-msgstr ""
+msgstr "Rua"
 
 #: plugins/personal/generic/class_user.inc:1431
 #: plugins/personal/generic/generic.tpl.c:146
@@ -1454,7 +1457,7 @@ msgstr "Código postal"
 
 #: plugins/personal/generic/class_user.inc:1435
 msgid "Generic user settings"
-msgstr ""
+msgstr "Configurações de usuários genéricos"
 
 #: plugins/personal/generic/class_user.inc:1456
 msgid "User identification"
@@ -1468,7 +1471,7 @@ msgstr "Título pessoal"
 #: plugins/personal/generic/class_user.inc:1458
 #: plugins/personal/generic/generic.tpl.c:35
 msgid "Academic title"
-msgstr ""
+msgstr "Titulo Academico "
 
 #: plugins/personal/generic/class_user.inc:1461
 #: plugins/personal/generic/generic.tpl.c:41
@@ -1482,28 +1485,28 @@ msgstr "Idioma desejado"
 #: plugins/personal/generic/class_user.inc:1465
 #: plugins/personal/generic/paste_generic.tpl.c:26
 msgid "User picture"
-msgstr ""
+msgstr "Imagem de usuário"
 
 #: plugins/personal/generic/class_user.inc:1467
 msgid "Login restrictions"
-msgstr ""
+msgstr "Restrição de Login"
 
 #: plugins/personal/generic/class_user.inc:1471
 msgid "Department number"
-msgstr ""
+msgstr "Número do departamento"
 
 #: plugins/personal/generic/class_user.inc:1474
 msgid "Employee number"
-msgstr ""
+msgstr "Número do funcionário"
 
 #: plugins/personal/generic/class_user.inc:1475
 #: plugins/personal/generic/generic.tpl.c:92
 msgid "Employee type"
-msgstr ""
+msgstr "Tipo de funcionário"
 
 #: plugins/personal/generic/class_user.inc:1477
 msgid "Room number"
-msgstr ""
+msgstr "Número da sala"
 
 #: plugins/personal/generic/class_user.inc:1478
 msgid "Telefon number"
@@ -1511,7 +1514,7 @@ msgstr "Número de telefone"
 
 #: plugins/personal/generic/class_user.inc:1479
 msgid "Pager number"
-msgstr ""
+msgstr "Número do Pager"
 
 #: plugins/personal/generic/class_user.inc:1480
 msgid "Mobile number"
@@ -1531,19 +1534,19 @@ msgstr "Telefone residencial"
 
 #: plugins/personal/generic/class_user.inc:1490
 msgid "User password method"
-msgstr ""
+msgstr "Metódo de senha do usuário "
 
 #: plugins/personal/generic/class_user.inc:1551
 msgid "Entries differ"
-msgstr ""
+msgstr "Entradas diferem"
 
 #: plugins/personal/password/class_password.inc:110
 msgid "You need to specify your current password in order to proceed."
-msgstr ""
+msgstr "Você precisa especificar sua atual senha para prosseguir."
 
 #: plugins/personal/password/class_password.inc:114
 msgid "The password you've entered as 'New password' is empty."
-msgstr ""
+msgstr "A senha que você colocou em 'Nova senha' está vazia."
 
 #: plugins/personal/password/class_password.inc:116
 msgid "The password used as new and current are too similar."
@@ -1556,13 +1559,13 @@ msgstr "A nova senha é muito curta."
 #: plugins/personal/password/class_password.inc:120
 #: html/class_passwordRecovery.inc:410
 msgid "The password contains possibly problematic Unicode characters!"
-msgstr ""
+msgstr "A senha contém caracteres Unicode  problemáticos."
 
 #: plugins/personal/password/class_password.inc:157
 msgid ""
 "The password you've entered as your current password doesn't match the real "
 "one."
-msgstr ""
+msgstr "A senha que você inseriu não corresponde com a atual."
 
 #: plugins/personal/password/class_password.inc:163
 msgid "You have no permission to change your password."
@@ -1571,7 +1574,7 @@ msgstr "Você não possui permissão para alterar a sua senha."
 #: plugins/personal/password/class_password.inc:200
 #: plugins/personal/password/class_password.inc:208
 msgid "Change user password"
-msgstr ""
+msgstr "Mudar senha de usuário"
 
 #: plugins/personal/password/main.inc:52
 #: plugins/config/class_configInLdap.inc:119 setup/setup_config1.tpl.c:41
@@ -1580,11 +1583,11 @@ msgstr "Configurações de senha"
 
 #: plugins/personal/posix/class_posixAccount.inc:82
 msgid "Home directory"
-msgstr ""
+msgstr "Diretório principal"
 
 #: plugins/personal/posix/class_posixAccount.inc:82
 msgid "The path to the home directory of this user"
-msgstr ""
+msgstr "O pacote para o diretório principal deste usuário"
 
 #: plugins/personal/posix/class_posixAccount.inc:87
 msgid "Shell"
@@ -1703,7 +1706,7 @@ msgstr ""
 #: plugins/admin/groups/generic.tpl.c:38
 #: plugins/admin/ogroups/generic.tpl.c:20
 msgid "Trust mode"
-msgstr ""
+msgstr "Modo de confiança"
 
 #: plugins/personal/posix/class_posixAccount.inc:166
 msgid "Type of authorization for those hosts"
@@ -2029,7 +2032,7 @@ msgstr "A base onde os snapshots devem ser armazenados dentro do LDAP."
 
 #: plugins/config/class_configInLdap.inc:240
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Diversos"
 
 #: plugins/config/class_configInLdap.inc:245
 msgid "Hooks that are called when specific actions happens"
@@ -2061,7 +2064,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:267
 msgid "Hooks"
-msgstr ""
+msgstr "Ganchos"
 
 #: plugins/config/class_configInLdap.inc:274
 msgid "Display hook output"
@@ -2288,11 +2291,11 @@ msgstr ""
 #: include/class_listing.inc:306 include/class_listing.inc:1153
 #: include/class_listing.inc:1155 include/class_sortableListing.inc:343
 msgid "Up"
-msgstr ""
+msgstr "Subir"
 
 #: include/class_listing.inc:306 include/class_sortableListing.inc:343
 msgid "Down"
-msgstr ""
+msgstr "Descer"
 
 #: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2331
 #: include/simpleplugin/class_attribute.inc:2332
@@ -3463,7 +3466,7 @@ msgstr ""
 
 #: include/php_setup.inc:102
 msgid "File"
-msgstr ""
+msgstr "Arquivo"
 
 #: include/php_setup.inc:102
 msgid "Line"
@@ -3530,11 +3533,11 @@ msgstr "Por favor, selecione as entradas desejadas"
 
 #: include/select/systemSelect/systemSelect-list.xml:30
 msgid "Winstation"
-msgstr ""
+msgstr "Winstation"
 
 #: include/class_xml.inc:66
 msgid "in"
-msgstr ""
+msgstr "dentro"
 
 #: include/class_xml.inc:68
 msgid "on line"
@@ -6011,7 +6014,7 @@ msgstr ""
 
 #: setup/setup_migrate.tpl.c:107
 msgid "Abort"
-msgstr ""
+msgstr "Abortar"
 
 #: setup/setup_migrate.tpl.c:110
 msgid "Create a new FusionDirectory administrator account"

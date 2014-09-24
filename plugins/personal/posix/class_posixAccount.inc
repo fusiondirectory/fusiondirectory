@@ -586,11 +586,17 @@ class posixAccount extends simplePlugin
     $ldap = $this->config->get_ldap_link();
 
     parent::adapt_from_template($attrs, $skip);
-    $template = $attrs['uid'][0];
+
+    $templatedn = $attrs['dn'];
+    $ldap->cd($this->config->current['BASE']);
+    $ldap->cat($templatedn);
+    $templateattrs  = $ldap->fetch();
+    $templateuid    = $templateattrs['uid'][0];
+    $templatecn     = $templateattrs['cn'][0];
 
     /* Adapt group membership */
     $ldap->cd($this->config->current['BASE']);
-    $ldap->search("(&(objectClass=posixGroup)(memberUid=$template))", array("description", "cn"));
+    $ldap->search("(&(objectClass=posixGroup)(memberUid=$templateuid))", array("description", "cn"));
 
     while ($entry = $ldap->fetch()) {
       $this->attributesAccess['groupMembership']->addValue($ldap->getDN(), $entry);
@@ -605,14 +611,14 @@ class posixAccount extends simplePlugin
 
     if ($this->gidNumber) {
       $ldap->cd($this->config->current['BASE']);
-      $ldap->search("(&(objectClass=posixGroup)(cn=$template)(gidNumber=".$this->gidNumber."))", array("cn"));
+      $ldap->search("(&(objectClass=posixGroup)(cn=$templatecn)(gidNumber=".$this->gidNumber."))", array("cn"));
       if ($ldap->count() != 1) {
         $this->primaryGroup = $this->gidNumber;
       }
     }
 
     $ldap->cd($this->config->current['BASE']);
-    $ldap->search("(&(objectClass=gosaUserTemplate)(uid=$template)(accessTo=*))", array("cn","accessTo"));
+    $ldap->search("(&(objectClass=gosaUserTemplate)(uid=$templateuid)(accessTo=*))", array("cn","accessTo"));
     while ($attr = $ldap->fetch()) {
       $tmp = $attr['accessTo'];
       unset($tmp['count']);

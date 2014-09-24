@@ -493,6 +493,7 @@ class listing {
     $smarty->assign("FILTER", $this->filter->render());
     $smarty->assign("SIZELIMIT", print_sizelimit_warning());
     $smarty->assign("LIST", $result);
+    $smarty->assign("MULTISELECT", $this->multiSelect);
 
     // Assign navigation elements
     $nav = $this->renderNavigation();

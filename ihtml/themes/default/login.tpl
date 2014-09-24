@@ -26,7 +26,7 @@
 
     <div>
       <label for="username"><img class="center" src="{$personal_img}" alt="{t}Username{/t}" title="{t}Username{/t}"/>&nbsp;</label>
-      <input type="text" name="username" id="username" maxlength="40" value="{$username}"
+      <input type="text" name="username" id="username" maxlength="40" value="{$username|escape}"
        title="{t}Username{/t}" onFocus="nextfield= 'password';" />
       <br />
       <br />

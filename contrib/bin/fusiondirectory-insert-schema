@@ -35,6 +35,7 @@ my $listschemas = 0;
 my $modify      = 0;
 my $schemalist  = 0;
 my $pathunset   = 1;
+my $continue    = 0;
 my @schemas     = ();
 my @gen_files   = ();
 foreach my $arg ( @ARGV ) {
@@ -47,6 +48,8 @@ foreach my $arg ( @ARGV ) {
     $schemalist = 1;
   } elsif ((lc($arg) eq '-l') || (lc($arg) eq '--list')) {
     $listschemas = 1;
+  } elsif ((lc($arg) eq '-c') || (lc($arg) eq '--continue')) {
+    $continue = 1;
   } elsif ((lc($arg) eq '-m') || (lc($arg) eq '--modify')) {
     if ($schemalist) {
       usage();
@@ -118,6 +121,8 @@ if (scalar(@schemas) == 0) {
 } elsif ($pathunset) {
   $path = "";
 }
+
+$continue++; # activating continue feature only for insertions
 
 foreach my $schema (@schemas) {
   my $schema_name = "";
@@ -230,8 +235,12 @@ sub remove_ldifs
 sub die_with_error
 {
   my ($error) = @_;
-  remove_ldifs();
-  die $error;
+  if ($continue == 2) {
+    print "Error: $error\nContinuing…\n";
+  } else {
+    remove_ldifs();
+    die $error;
+  }
 }
 
 sub list_schemas
@@ -251,12 +260,13 @@ sub usage
   print STDERR << "EOF";
  usage: $0 [-h] [-l] [-o options] [path] [-i|-m schema1 schema2 …]
 
-  -h, --help    : this (help) message
-  path          : where to find the schemas
-  -i, --insert  : specify the schemas to insert
-  -l, --list    : list inserted schemas
-  -m, --modify  : modify exising inserted schemas
-  -o, --options : set ldap options used (default is -Y EXTERNAL -H ldapi:///)
+  -h, --help      : this (help) message
+  path            : where to find the schemas
+  -i, --insert    : specify the schemas to insert
+  -l, --list      : list inserted schemas
+  -m, --modify    : modify exising inserted schemas
+  -o, --options   : set ldap options used (default is -Y EXTERNAL -H ldapi:///)
+  -c, --continue  : continue on error(s)
 
 EOF
   exit -1;
@@ -278,6 +288,9 @@ This program will insert the schema needed by FusionDirectory into the ldap serv
 If -i is specified, insert the given list of schemas instead of the default list
 If -m is specified, insert the given list of schemas, replacing already inserted versions of those schemas
 If -l is specified, list inserted schemas
+If -c is specified, an error won’t stop the command from continuing with other insertions
+You can use -o to give specifics options to give to ldap commands such as ldapmodify,
+but beware that you won’t be able to see things like password prompts as the output of these commands is piped.
 
 =head1 EXAMPLES
 

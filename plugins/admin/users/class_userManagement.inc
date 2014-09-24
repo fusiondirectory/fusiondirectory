@@ -593,13 +593,11 @@ class userManagement extends management
         } else {
           $ldap->cat($_POST['template']);
           $attrs = $ldap->fetch();
-          if ($attrs['uid'][0] != user::$nouid) {
-            $uids = gen_uids($attrs['uid'][0], $attributes);
-            if (count($uids)) {
-              $smarty->assign("edit_uid", "false");
-              $smarty->assign("uids", $uids);
-              $this->uid = current($uids);
-            }
+          $uids = gen_uids($attrs['uid'][0], $attributes);
+          if (count($uids)) {
+            $smarty->assign("edit_uid", "false");
+            $smarty->assign("uids", $uids);
+            $this->uid = current($uids);
           }
         }
         $this->got_uid = TRUE;
@@ -649,7 +647,7 @@ class userManagement extends management
 
       $attrs = plugin::tpl_parse_attrs($attrs);
       $this->tabObject->adapt_from_template($attrs, array("cn"));
-      $template_base = preg_replace("/^[^,]+,".preg_quote(get_people_ou(), '/i')."/", '', $template_dn);
+      $template_base = preg_replace("/^[^,]+,".preg_quote(get_people_ou(), '/')."/i", '', $template_dn);
       $this->tabObject->by_object['user']->base = $template_base;
 
       // The user Tab object is already instantiated, so just go back and let the

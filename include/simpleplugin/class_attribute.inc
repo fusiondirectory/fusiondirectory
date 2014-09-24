@@ -372,7 +372,7 @@ class Attribute
   {
     if ($this->inLdap) {
       $value = $this->computeLdapValue();
-      if ($value != "") {
+      if ($value !== '') {
         $attrs[$this->getLdapName()] = $value;
       } else {
         $attrs[$this->getLdapName()] = array();

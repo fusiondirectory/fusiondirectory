@@ -1090,7 +1090,7 @@ class group extends plugin
         "name"        => _("Group"),
         'ou'          => get_ou('groupRDN'),
         'filter'      => 'objectClass=posixGroup',
-        'icon'        => '/fusiondirectory/geticon.php?context=types&icon=user-group&size=16',
+        'icon'        => 'geticon.php?context=types&icon=user-group&size=16',
         'mainAttr'    => 'cn',
         'tabClass'    => 'grouptabs',
       )),

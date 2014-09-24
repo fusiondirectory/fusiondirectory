@@ -1,6 +1,34 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.8.2
+
+[Fix] Bugs #1034: remove all dsc form the sources
+[Feature] Bugs #2619: fusiondirectory-insert-schema should have a -c option to continue on error
+[Fix] Bugs #3289: error: PHP error: Undefined index: o (/usr/share/fusiondirectory/plugins/personal/supann/class_supannAccount.inc, line 481)
+[Fix] Bugs #3297: Use relative path for geticon
+[Fix] Bugs #3303: debugHelp have problems with tabclasses contaning dashes
+[Feature] Bugs #3304: fusiondirectory-shell should have login and password mandatory
+[Fix] Bugs #3316: possible xss in login screen
+[Fix] Bugs #3321: Cannot import csv using a template
+[Fix] Bugs #3327: primary server in the dns service should not be numeric
+[Feature] Bugs #3335: adding lighttpd support in the doc
+[Fix] Bugs #3338: informations are misses in reference tab on user interface
+[Fix] Bugs #3347: update the doxygen file
+[Fix] Bugs #3348: add the licence to class_IconTheme.inc
+[Fix] Bugs #3350: correct the fsf address in licenses
+[Fix] Bugs #3351: lots of plugins files have no licenses at all
+[Fix] Bugs #3352: lots of plugins files have no licenses at all
+[Fix] Bugs #3356: trust selection mode is broken in group and ogroups
+[Fix] Bugs #3359: add user with templates didn't keep group affectation
+[Fix] Bugs #3361: unable to create a template with posixGroup
+[Fix] Bugs #3362: Bad aspect for tabs when a dialog is open
+[Fix] Bugs #3363: cannont add Etablissement
+[Fix] Bugs #3364: we can’t cancel manager selection
+[Fix] Bugs #3365: there is an error in userManagement template base regexp
+[Fix] Bugs #3372: remove the trust section from the sudo plugin
+[Fix] Bugs #3373: Default action displayed an error
+
 * FusionDirectory 1.0.8.1
 
 [Fix] Bugs #2702: Connection problems to slapd when using TLS

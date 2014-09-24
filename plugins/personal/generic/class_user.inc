@@ -144,8 +144,6 @@ class UserPasswordAttribute extends CompositeAttribute
 
 class user extends plugin
 {
-  static $nouid = '{no-template-uid}';
-
   /* Plugin specific values */
   var $base       = "";
   var $orig_base  = "";
@@ -325,10 +323,6 @@ class user extends plugin
         }
       }
 
-      if ($this->uid == self::$nouid) {
-        $this->uid = '';
-      }
-
       /* Load extra attributes: picture */
       $this->load_picture();
     }
@@ -451,7 +445,7 @@ class user extends plugin
         $this->dialog = NULL;
       }
     }
-    if(isset($_POST['add_users_cancel'])){
+    if(isset($_POST['add_cancel'])){
       $this->dialog = NULL;
     }
     if($this->dialog instanceOf singleUserSelect) {
@@ -804,6 +798,11 @@ class user extends plugin
         /* Save current cn */
         $this->cn = $this->givenName." ".$this->sn;
       }
+
+      /* Avoid empty uid */
+      if ($this->uid == '') {
+        $this->uid = '%c|uid of '.$this->cn.'%';
+      }
     }
   }
 
@@ -833,6 +832,11 @@ class user extends plugin
 
     if($this->gender=="0") $this->gender ="";
     if($this->preferredLanguage=="0") $this->preferredLanguage ="";
+
+    /* Avoid empty uid */
+    if ($this->uid == '') {
+      $this->uid = '%c|uid of '.$this->cn.'%';
+    }
 
     /* First use parents methods to do some basic fillup in $this->attrs */
     plugin::save ();
@@ -994,11 +998,6 @@ class user extends plugin
           }
           break;
         }
-      }
-
-      /* Empty uid not allowed by LDAP schema */
-      if ($this->uid == '') {
-        $this->attrs['uid'] = self::$nouid;
       }
     }
 
@@ -1211,7 +1210,16 @@ class user extends plugin
       $message[] = msgPool::duplicated(_("Login"));
     }
 
-    if (!$this->is_template){
+    if ($this->is_template) {
+      if ($this->dn == 'new') {
+        $ldap->cd($this->config->current['BASE']);
+        $ldap->search("(cn=$this->cn)", array("cn"));
+        $ldap->fetch();
+        if ($ldap->count() != 0) {
+          $message[] = msgPool::duplicated(_("Template name"));
+        }
+      }
+    } else {
       if ($this->givenName == ""){
         $message[]= msgPool::required(_("Given name"));
       }
