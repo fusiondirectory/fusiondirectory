@@ -138,6 +138,14 @@ There are no entries in the LDAP using obsolete classes
 
 fusiondirectory-setup --check-deprecated will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes and objectClass
 
+Migrate FusionDirectory from 1.0.8.1 to 1.0.8.2
+===============================================
+
+- Upgrade FusionDirectory first
+
+Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+
+
 ---
 * Further information
 
