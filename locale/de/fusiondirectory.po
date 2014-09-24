@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-108\n"
 "Report-Msgid-Bugs-To: documentation@lists.fusiondirectory.org\n"
 "POT-Creation-Date: 2014-08-18 16:17+0200\n"
-"PO-Revision-Date: 2014-08-28 10:52+0000\n"
+"PO-Revision-Date: 2014-09-21 15:10+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/FusionDirectory-108/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -815,7 +815,7 @@ msgstr "Abteilung"
 #: plugins/admin/departments/class_department.inc:68
 #, php-format
 msgid "Name of %s"
-msgstr ""
+msgstr "Name von %s"
 
 #: plugins/admin/departments/class_department.inc:68
 #, php-format
@@ -902,7 +902,7 @@ msgstr "Standort"
 
 #: plugins/admin/departments/class_locality.inc:51
 msgid "locality"
-msgstr ""
+msgstr "Ort"
 
 #: plugins/admin/departments/class_country.inc:29
 #: plugins/admin/departments/class_country.inc:30
@@ -912,7 +912,7 @@ msgstr "Land"
 
 #: plugins/admin/departments/class_country.inc:50
 msgid "country"
-msgstr ""
+msgstr "Land"
 
 #: plugins/admin/departments/class_domain.inc:30
 #: plugins/admin/departments/class_domain.inc:31
@@ -922,7 +922,7 @@ msgstr "Domain"
 
 #: plugins/admin/departments/class_domain.inc:51
 msgid "domain"
-msgstr ""
+msgstr "Domäne"
 
 #: plugins/admin/departments/dep-list.xml:9
 msgid "List of departments"
@@ -938,7 +938,7 @@ msgstr "Organisation"
 
 #: plugins/admin/departments/class_organization.inc:51
 msgid "organization"
-msgstr ""
+msgstr "Organisation"
 
 #: plugins/admin/users/user-list.xml:11
 msgid "List of users"
@@ -1255,7 +1255,7 @@ msgstr ""
 
 #: plugins/admin/acl/class_aclAssignment.inc:54
 msgid "For all users"
-msgstr ""
+msgstr "Für alle Benutzer"
 
 #: plugins/admin/acl/class_aclAssignment.inc:54
 msgid "Apply this ACL for all LDAP users"
@@ -2009,7 +2009,7 @@ msgstr "Bestimmt in Sekunden wann eine Sitzung abläuft."
 
 #: plugins/config/class_configInLdap.inc:227 setup/setup_config2.tpl.c:8
 msgid "Snapshots"
-msgstr ""
+msgstr "Schnappschüsse"
 
 #: plugins/config/class_configInLdap.inc:230 setup/setup_config2.tpl.c:11
 msgid "Enable snapshots"
@@ -3234,37 +3234,37 @@ msgstr "Filter anwenden"
 #: include/functions.inc:2239
 #, php-format
 msgid "%sB"
-msgstr ""
+msgstr "%sB"
 
 #: include/functions.inc:2240
 #, php-format
 msgid "%sKiB"
-msgstr ""
+msgstr "%sKiB"
 
 #: include/functions.inc:2241
 #, php-format
 msgid "%sMiB"
-msgstr ""
+msgstr "%sMiB"
 
 #: include/functions.inc:2242
 #, php-format
 msgid "%sGiB"
-msgstr ""
+msgstr "%sGiB"
 
 #: include/functions.inc:2243
 #, php-format
 msgid "%sTiB"
-msgstr ""
+msgstr "%sTiB"
 
 #: include/functions.inc:2244
 #, php-format
 msgid "%sPiB"
-msgstr ""
+msgstr "%sPiB"
 
 #: include/functions.inc:2245
 #, php-format
 msgid "%sEiB"
-msgstr ""
+msgstr "%sEiB"
 
 #: include/functions.inc:2246
 #, php-format
@@ -3274,7 +3274,7 @@ msgstr ""
 #: include/functions.inc:2247
 #, php-format
 msgid "%sYiB"
-msgstr ""
+msgstr "%sYiB"
 
 #: include/functions.inc:2279 include/class_filter.inc:343
 msgid "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -3555,7 +3555,7 @@ msgstr "Das Objekt wurde seit dem letzten Öffnen geändert. Alle Änderungen, d
 #: include/class_plugin.inc:1320
 #, php-format
 msgid "Tab \"%s\""
-msgstr ""
+msgstr "Tab \"%s\""
 
 #: include/class_CopyPasteHandler.inc:277
 #: ihtml/themes/default/copyPasteDialog.tpl.c:20
@@ -3589,7 +3589,7 @@ msgstr "Zeigen %s"
 #: include/simpleplugin/class_dialogAttributes.inc:396
 #, php-format
 msgid "Group %s"
-msgstr ""
+msgstr "Gruppe %s"
 
 #: include/simpleplugin/class_dialogAttributes.inc:426
 msgid "Group of user"
@@ -3663,7 +3663,7 @@ msgstr "Die Datei ist nicht lesbar"
 #: include/simpleplugin/class_attribute.inc:1404
 #, php-format
 msgid "%s (%d bytes)"
-msgstr ""
+msgstr "%s (%d Bytes)"
 
 #: include/simpleplugin/class_attribute.inc:1447
 #: include/simpleplugin/class_attribute.inc:1554
