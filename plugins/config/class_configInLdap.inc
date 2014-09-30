@@ -79,6 +79,7 @@ class configInLdap extends simplePlugin
       $plugins = array_keys(session::global_get('plist')->info);
     }
     sort($plugins);
+    array_unshift($plugins, 'password');
     return array(
       'look_n_feel' => array(
         'name'  => _('Look n feel'),
@@ -140,10 +141,6 @@ class configInLdap extends simplePlugin
             _('Password minimum differs'), _('Minimum number of different characters from last password'),
             'fdPasswordMinDiffer', FALSE,
             0 /*min*/, FALSE /*no max*/
-          ),
-          new StringAttribute (
-            _('Password hook'), _('External script to handle password settings'),
-            'fdPasswordHook'
           ),
           new BooleanAttribute (
             _('Use account expiration'),

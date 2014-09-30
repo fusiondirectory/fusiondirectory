@@ -2901,7 +2901,7 @@ function get_correct_class_name($cls)
  * \param int $mode if not 0 doesn't create the samba password hash
  *
  * \param string $hash which hash to use to encrypt it, default is empty
- * for cleartext storage.
+ * for reusing existing hash method for this password (or use the default one).
  *
  * \return boolean TRUE on success FALSE on error
  */
@@ -2916,24 +2916,24 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
   // Get all available encryption Methods
 
   // NON STATIC CALL :)
-  $methods = new passwordMethod(session::get('config'), $dn);
+  $methods = new passwordMethod($config, $dn);
   $available = $methods->get_available_methods();
 
   // read current password entry for $dn, to detect the encryption Method
-  $ldap       = $config->get_ldap_link();
-  $ldap->cat ($dn, array("shadowLastChange", "userPassword", "uid"));
-  $attrs      = $ldap->fetch ();
+  $ldap = $config->get_ldap_link();
+  $ldap->cat($dn, array('shadowLastChange', 'userPassword', 'uid'));
+  $attrs = $ldap->fetch ();
 
   /* Is ensure that clear passwords will stay clear */
-  if ($hash == "" && isset($attrs['userPassword'][0]) && !preg_match ("/^{([^}]+)}(.+)/", $attrs['userPassword'][0])) {
-    $hash = "clear";
+  if ($hash == '' && isset($attrs['userPassword'][0]) && !preg_match ("/^{([^}]+)}(.+)/", $attrs['userPassword'][0])) {
+    $hash = 'clear';
   }
 
   // Detect the encryption Method
-  if ($config->get_cfg_value("forcePasswordDefaultHash", "FALSE") == "TRUE") {
+  if ($config->get_cfg_value('forcePasswordDefaultHash', 'FALSE') == 'TRUE') {
     // if forcePasswordDefaultHash is TRUE we use the passwordDefaultHash
     // hash and if it is not defined we use 'ssha' as default
-    $hash = $config->get_cfg_value("passwordDefaultHash", "ssha");
+    $hash = $config->get_cfg_value('passwordDefaultHash', 'ssha');
     $test = new $available[$hash]($config, $dn);
   } elseif ((isset($attrs['userPassword'][0]) && preg_match ("/^{([^}]+)}(.+)/", $attrs['userPassword'][0])) || $hash != "") {
 
@@ -2950,103 +2950,106 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
 
   } else {
     // Use SSHA by default
-    $hash = $config->get_cfg_value("passwordDefaultHash", "ssha");
-    $test = new  $available[$hash]($config, $dn);
+    $hash = $config->get_cfg_value('passwordDefaultHash', 'ssha');
+    $test = new $available[$hash]($config, $dn);
   }
 
-  if ($test instanceOf passwordMethod) {
+  if (!($test instanceOf passwordMethod)) {
+    return FALSE;
+  }
 
-    $deactivated = $test->is_locked($config, $dn);
+  $deactivated = $test->is_locked($config, $dn);
 
-    /* Feed password backends with information */
-    $test->dn     = $dn;
-    $test->attrs  = $attrs;
-    $newpass      = $test->generate_hash($password);
+  /* Feed password backends with information */
+  $test->dn     = $dn;
+  $test->attrs  = $attrs;
+  $newpass      = $test->generate_hash($password);
 
-    // Update shadow timestamp?
-    if (isset($attrs["shadowLastChange"][0])) {
-      $shadow = (int)(date("U") / 86400);
+  // Update shadow timestamp?
+  if (isset($attrs['shadowLastChange'][0])) {
+    $shadow = (int)(date('U') / 86400);
+  } else {
+    $shadow = 0;
+  }
+
+  // Write back modified entry
+  $ldap->cd($dn);
+  $attrs = array();
+
+  // Not for groups
+  if ($mode == 0) {
+    if ($test->need_password()) {
+      // Create SMB Password
+      $attrs = generate_smb_nt_hash($password);
     } else {
-      $shadow = 0;
+      $attrs['sambaLMPassword']       = array();
+      $attrs['sambaNTPassword']       = array();
+      $attrs['sambaPwdLastSet']       = array();
+      $attrs['sambaBadPasswordCount'] = array();
+      $attrs['sambaBadPasswordTime']  = array();
+    }
+    if ($shadow != 0) {
+      $attrs['shadowLastChange'] = $shadow;
+    }
+  }
+
+  $attrs['userPassword'] = array();
+  $attrs['userPassword'] = $newpass;
+
+  $ldap->modify($attrs);
+
+  /* Read ! if user was deactivated */
+  if ($deactivated) {
+    $test->lock_account($config, $dn);
+  }
+
+  new log('modify', 'user/passwordMethod', $dn, array_keys($attrs), $ldap->get_error());
+
+  if (!$ldap->success()) {
+    msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD), LDAP_ERROR);
+  } else {
+
+    /* Run backend method for change/create */
+    if (!$test->set_password($password)) {
+      return FALSE;
     }
 
-    // Write back modified entry
-    $ldap->cd($dn);
-    $attrs = array();
+    /* Find postmodify entries for this class */
+    $command = $config->search('password', 'POSTMODIFY', array('menu', 'hooks'));
 
-    // Not for groups
-    if ($mode == 0) {
-      if ($test->need_password()) {
-        // Create SMB Password
-        $attrs = generate_smb_nt_hash($password);
-      } else {
-        $attrs['sambaLMPassword']       = array();
-        $attrs['sambaNTPassword']       = array();
-        $attrs['sambaPwdLastSet']       = array();
-        $attrs['sambaBadPasswordCount'] = array();
-        $attrs['sambaBadPasswordTime']  = array();
-      }
-      if ($shadow != 0) {
-        $attrs['shadowLastChange'] = $shadow;
-      }
-    }
+    if ($command != '') {
+      /* Walk through attribute list */
+      $addAttrs = array(
+        'userPassword'  => escapeshellarg($password),
+        'dn'            => escapeshellarg($dn),
+        'passwordHash'  => $hash,
+      );
+      $addAttrsStars = array(
+        'userPassword'  => '******',
+        'dn'            => escapeshellarg($dn),
+        'passwordHash'  => $hash,
+      );
+      $commandHiddenPwd = plugin::tpl_parse_string($command, $addAttrsStars);
+      $command          = plugin::tpl_parse_string($command, $addAttrs);
 
-    $attrs['userPassword'] = array();
-    $attrs['userPassword'] = $newpass;
+      @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Execute');
+      exec($command, $arr, $returnCode);
 
-    $ldap->modify($attrs);
-
-    /* Read ! if user was deactivated */
-    if ($deactivated) {
-      $test->lock_account($config, $dn);
-    }
-
-    new log("modify", "user/passwordMethod", $dn, array_keys($attrs), $ldap->get_error());
-
-    if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD), LDAP_ERROR);
-    } else {
-
-      /* Run backend method for change/create */
-      if (!$test->set_password($password)) {
-        return FALSE;
-      }
-
-      /* Find postmodify entries for this class */
-      $command = $config->search("password", "POSTMODIFY", array('menu', 'hooks'));
-
-      if ($command != "") {
-        /* Walk through attribute list */
-        $addAttrs = array(
-          'userPassword'  => escapeshellarg($password),
-          'dn'            => escapeshellarg($dn)
-        );
-        $addAttrsStars = array(
-          'userPassword'  => '******',
-          'dn'            => escapeshellarg($dn)
-        );
-        $commandHiddenPwd = plugin::tpl_parse_string($command, $addAttrsStars);
-        $command          = plugin::tpl_parse_string($command, $addAttrs);
-
-        @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
-        exec($command, $arr, $returnCode);
-
-        if ($returnCode != 0) {
-          $str = implode("\n", $arr);
-          @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $commandHiddenPwd, "Execution failed code: ".$returnCode);
-          $message = msgPool::cmdexecfailed('POSTMODIFY', $commandHiddenPwd, 'password');
-          if (!empty($str)) {
-            $message .= "Result: ".$str;
-          }
-          msg_dialog::display(_("Error"), $message, ERROR_DIALOG);
-        } elseif (is_array($arr)) {
-          $str = implode("\n", $arr);
-          @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $commandHiddenPwd, "Result: ".$str);
+      if ($returnCode != 0) {
+        $str = implode("\n", $arr);
+        @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $commandHiddenPwd, 'Execution failed code: '.$returnCode);
+        $message = msgPool::cmdexecfailed('POSTMODIFY', $commandHiddenPwd, 'password');
+        if (!empty($str)) {
+          $message .= 'Result: '.$str;
         }
+        msg_dialog::display(_('Error'), $message, ERROR_DIALOG);
+      } elseif (is_array($arr)) {
+        $str = implode("\n", $arr);
+        @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $commandHiddenPwd, 'Result: '.$str);
       }
     }
-    return TRUE;
   }
+  return TRUE;
 }
 
 
