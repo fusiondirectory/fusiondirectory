@@ -385,25 +385,6 @@ class user extends simplePlugin
     return parent::execute();
   }
 
-  function prepare_save()
-  {
-    parent::prepare_save();
-    unset($this->attrs['userPassword']);
-  }
-
-  function ldap_save($cleanup = TRUE)
-  {
-    parent::ldap_save($cleanup);
-    if ($this->attributesAccess['userPassword']->attributes[1]->getValue() != '') {
-      change_password(
-        $this->dn,
-        $this->attributesAccess['userPassword']->attributes[1]->getValue(), /*password*/
-        0,
-        $this->attributesAccess['userPassword']->attributes[0]->getValue() /*hash*/
-      );
-    }
-  }
-
   function save()
   {
     parent::save();

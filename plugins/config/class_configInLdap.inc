@@ -79,7 +79,6 @@ class configInLdap extends simplePlugin
       $plugins = array_keys(session::global_get('plist')->info);
     }
     sort($plugins);
-    array_unshift($plugins, 'password');
     return array(
       'look_n_feel' => array(
         'name'  => _('Look n feel'),

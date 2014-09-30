@@ -515,9 +515,12 @@ class posixAccount extends simplePlugin
 
     if ($this->mustchangepassword) {
       $this->shadowLastChange =
-        floor(date("U") / EpochDaysDateAttribute::$secondsPerDay) - $this->shadowMax - 1;
-    } elseif ($this->is_account && !$this->initially_was_account) {
-      $this->shadowLastChange = floor(date("U") / EpochDaysDateAttribute::$secondsPerDay);
+        floor(date('U') / EpochDaysDateAttribute::$secondsPerDay) - $this->shadowMax - 1;
+    } elseif (
+        ($this->is_account && !$this->initially_was_account) ||
+        $this->parent->getBaseObject()->attributesAccess['userPassword']->hasChanged()
+      ) {
+      $this->shadowLastChange = floor(date('U') / EpochDaysDateAttribute::$secondsPerDay);
     }
 
     $this->updateAttributesValues();
