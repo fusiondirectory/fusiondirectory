@@ -396,61 +396,6 @@ class user extends simplePlugin
       session::set('ui', $ui);
       session::set('Last_init_lang', 'update');
     }
-
-    /* Remove ACL dependencies too */
-    if (($this->dn != $this->orig_dn) && ($this->orig_dn != 'new') && (!$this->is_template)) {
-      acl::update_acl_membership($this->orig_dn, $this->dn);
-    }
-  }
-
-  function ldap_remove()
-  {
-    parent::ldap_remove();
-
-    $fixed_dn = LDAP::prepare4filter($this->dn);
-
-    $ldap = $this->config->get_ldap_link();
-
-    /* Delete references to object groups */
-    $ldap->cd ($this->config->current['BASE']);
-    $ldap->search ('(&(objectClass=gosaGroupOfNames)(member='.$fixed_dn.'))', array('cn'));
-    while ($ldap->fetch()) {
-      $og = new ogroup($this->config, $ldap->getDN());
-      unset($og->member[$this->dn]);
-      $og->save();
-    }
-
-    // Update 'manager' attributes from gosaDepartment and inetOrgPerson
-    $filter = '(&(objectClass=inetOrgPerson)(manager='.$fixed_dn.'))';
-    $filter = '(|'.$filter.'(&(objectClass=gosaDepartment)(manager='.$fixed_dn.')))';
-    $leaf_deps = get_list($filter, array('all'), $this->config->current['BASE'],
-        array('manager','dn','objectClass'), GL_SUBSEARCH | GL_NO_ACL_CHECK);
-    foreach ($leaf_deps as $entry) {
-      $update = array('manager' => array());
-      $ldap->cd($entry['dn']);
-      $ldap->modify($update);
-      if (!$ldap->success()) {
-        trigger_error(sprintf("Failed to update manager for '%s', error was '%s'", $entry['dn'], $ldap->get_error()));
-      }
-    }
-
-    if (class_available('roleGeneric')) {
-      /* Delete references to roles */
-      $ldap->cd ($this->config->current['BASE']);
-      $ldap->search ('(&(objectClass=organizationalRole)(roleOccupant='.$fixed_dn.'))', array('cn'));
-      while ($ldap->fetch()) {
-        $role = new roleGeneric($this->config, $ldap->getDN());
-        $key  = array_search($this->dn, $role->roleOccupant);
-        if ($key !== FALSE) {
-          unset($role->roleOccupant[$key]);
-          $role->roleOccupant = array_values($role->roleOccupant);
-          $role->save ();
-        }
-      }
-    }
-
-    /* Remove ACL dependencies too */
-    acl::remove_acl_for($this->dn);
   }
 }
 ?>

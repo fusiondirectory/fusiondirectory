@@ -227,44 +227,6 @@ class group extends simplePlugin
     parent::post_save();
   }
 
-
-  function remove_from_parent()
-  {
-    parent::remove_from_parent();
-
-    $ldap = $this->config->get_ldap_link();
-
-    /* Delete references to object groups TODO : replace with foreign key*/
-    $ldap->cd ($this->config->current['BASE']);
-    $ldap->search ("(&(objectClass=gosaGroupOfNames)(member=".LDAP::prepare4filter($this->dn)."))", array("cn"));
-    while ($ldap->fetch()) {
-      $og = new ogroup($this->config, $ldap->getDN());
-      unset($og->member[$this->dn]);
-      $og->save ();
-    }
-
-    /* Remove ACL dependencies too,
-     */
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
-    $ldap->search("(&(objectClass=gosaAcl)(gosaAclEntry=*".base64_encode($this->dn)."*))", array("gosaAclEntry","dn"));
-    while ($attrs = $ldap->fetch()) {
-      $acl = new acl($this->config, $attrs['dn'], $this->parent);
-      foreach ($acl->gosaAclEntry as $id => $entry) {
-        foreach ($entry['members'] as $m_id => $member) {
-          if ($m_id == "G:".$this->dn || $m_id == "U:".$this->dn) {
-            unset($acl->gosaAclEntry[$id]['members'][$m_id]);
-            fusiondirectory_log("modify", "group/acl", $attrs['dn'], array(), sprintf("Removed acl for %s on object %s.", $this->dn, $attrs['dn']));
-          }
-        }
-      }
-      $acl->save();
-    }
-
-    /* Remove ACL dependencies, too */
-    acl::remove_acl_for($this->dn);
-  }
-
   function compute_dn()
   {
     return 'cn='.$this->attributesAccess['cn']->getValue().','.get_groups_ou().$this->base;

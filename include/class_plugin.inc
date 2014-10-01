@@ -1115,10 +1115,6 @@ class plugin
    * Move a given ldap object indentified by $src_dn to the
    * given destination $dst_dn
    *
-   * - Ensure that all references are updated (ogroups)
-   * - Update ACLs
-   * - Update accessTo
-   *
    * \param  string  $src_dn the source DN.
    *
    * \param  string  $dst_dn the destination DN.
