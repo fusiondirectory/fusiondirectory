@@ -135,14 +135,19 @@ class UserPasswordAttribute extends CompositeAttribute
     }
   }
 
-  function isLocked()
-  {
-    return $this->attributes[4]->getValue();
-  }
-
   function getMethod()
   {
     return $this->attributes[0]->getValue();
+  }
+
+  function getClear()
+  {
+    return $this->attributes[1]->getValue();
+  }
+
+  function isLocked()
+  {
+    return $this->attributes[4]->getValue();
   }
 }
 
@@ -427,6 +432,14 @@ class user extends simplePlugin
       session::set('ui', $ui);
       session::set('Last_init_lang', 'update');
     }
+  }
+
+  function callHook($cmd, $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL)
+  {
+    $addAttrs['passwordMethod'] = $this->attributesAccess['userPassword']->getMethod();
+    $addAttrs['userLocked']     = $this->attributesAccess['userPassword']->isLocked();
+    $addAttrs['passwordClear']  = $this->attributesAccess['userPassword']->getClear();
+    return parent::callHook($cmd, $addAttrs, $returnOutput, $returnCode);
   }
 }
 ?>

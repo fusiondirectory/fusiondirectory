@@ -543,7 +543,7 @@ class plugin
       return $message;
     }
 
-    self::callHook($this, 'CHECK', array(), $returnOutput);
+    $this->callHook('CHECK', array(), $returnOutput);
     if (!empty($returnOutput)) {
       $message[] = join("\n", $returnOutput);
     }
@@ -1458,15 +1458,15 @@ class plugin
   {
     switch ($mode) {
       case 'add':
-        plugin::callHook($this, $when.'CREATE', $addAttrs);
+        $this->callHook($when.'CREATE', $addAttrs);
         break;
 
       case 'modify':
-        plugin::callHook($this, $when.'MODIFY', $addAttrs);
+        $this->callHook($when.'MODIFY', $addAttrs);
         break;
 
       case 'remove':
-        plugin::callHook($this, $when.'REMOVE', $addAttrs);
+        $this->callHook($when.'REMOVE', $addAttrs);
         break;
 
       default:
@@ -1503,25 +1503,25 @@ class plugin
    *           Replaces placeholder by class values of this plugin instance.
    *       Allows to a add special replacements.
    */
-  static function callHook($plugin, $cmd, $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL)
+  function callHook($cmd, $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL)
   {
     global $config;
-    $command = $config->search(get_class($plugin), $cmd, array('menu','tabs','hooks'));
+    $command = $config->search(get_class($this), $cmd, array('menu','tabs','hooks'));
 
     if ($command != "") {
       // Walk trough attributes list and add the plugins attributes.
-      foreach ($plugin->attributes as $attr) {
-        $addAttrs[$attr] = $plugin->$attr;
+      foreach ($this->attributes as $attr) {
+        $addAttrs[$attr] = $this->$attr;
       }
 
       $ui = get_userinfo();
 
       $addAttrs['callerDN'] = $ui->dn;
-      $addAttrs['dn']       = $plugin->dn;
+      $addAttrs['dn']       = $this->dn;
       $addAttrs['location'] = $config->current['NAME'];
 
-      if (isset($plugin->parent->by_object)) {
-        foreach ($plugin->parent->by_object as $object) {
+      if (isset($this->parent->by_object)) {
+        foreach ($this->parent->by_object as $object) {
           foreach ($object->attributes as $attr) {
             if (!isset($addAttrs[$attr])) {
               $addAttrs[$attr] = $object->$attr;
@@ -1535,7 +1535,7 @@ class plugin
       // If there are still some %.. in our command, try to fill these with some other class vars (FIXME: useless)
       if (preg_match("/%/", $command)) {
         $addAttrs = array();
-        $attrs = get_object_vars($plugin);
+        $attrs = get_object_vars($this);
         foreach ($attrs as $name => $value) {
           if (is_array($value)) {
             $s = "";
@@ -1561,7 +1561,7 @@ class plugin
       if ($returnCode != 0) {
         $str = implode("\n", $arr);
         @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execution failed code: ".$returnCode);
-        $message = msgPool::cmdexecfailed($cmd, $command, get_class($plugin));
+        $message = msgPool::cmdexecfailed($cmd, $command, get_class($this));
         if (!empty($str)) {
           $message .= "Result: ".$str;
         }
@@ -1570,7 +1570,7 @@ class plugin
         $str = implode("\n", $arr);
         @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Result: ".$str);
         if (!empty($str) && $config->get_cfg_value("displayHookOutput", "FALSE") == "TRUE") {
-          msg_dialog::display('['.get_class($plugin).' '.strtolower($cmd)."hook] $command", $str, INFO_DIALOG);
+          msg_dialog::display('['.get_class($this).' '.strtolower($cmd)."hook] $command", $str, INFO_DIALOG);
         }
       }
     }
