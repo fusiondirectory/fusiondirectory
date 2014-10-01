@@ -3156,6 +3156,9 @@ function generate_smb_nt_hash($password)
 function lock_samba_account($mode, $attrs)
 {
   global $config;
+  if (!isset($attrs['sambaNTPassword'][0])) {
+    return array();
+  }
   $modify = array('sambaNTPassword' => $attrs['sambaNTPassword'][0]);
   if ($config->get_cfg_value("sambaGenLMPassword", "FALSE") == "TRUE") {
     $modify['sambaLMPassword'] = $attrs['sambaLMPassword'][0];
