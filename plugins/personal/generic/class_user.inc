@@ -55,6 +55,10 @@ class UserPasswordAttribute extends CompositeAttribute
         ),
         new HiddenAttribute(
           $ldapName.'_hash'
+        ),
+        new HiddenAttribute(
+          $ldapName.'_locked', FALSE,
+          FALSE
         )
       ),
       '', '', $acl, $label
@@ -94,17 +98,19 @@ class UserPasswordAttribute extends CompositeAttribute
   function readValues($value)
   {
     $pw_storage = $this->plugin->config->get_cfg_value('passwordDefaultHash', 'ssha');
+    $locked     = FALSE;
     if (preg_match ('/^{[^}]+}/', $value)) {
       $tmp = passwordMethod::get_method($value);
       if (is_object($tmp)) {
         $pw_storage = $tmp->get_hash();
+        $locked     = $tmp->is_locked($this->plugin->config, $this->plugin->dn);
       }
     } else {
       if ($value != '') {
         $pw_storage = 'clear';
       }
     }
-    return array($pw_storage, '', '', $value);
+    return array($pw_storage, '', '', $value, $locked);
   }
 
   function writeValues($values)
@@ -128,12 +134,24 @@ class UserPasswordAttribute extends CompositeAttribute
       return _('Passwords does not match');
     }
   }
+
+  function isLocked()
+  {
+    return $this->attributes[4]->getValue();
+  }
+
+  function getMethod()
+  {
+    return $this->attributes[0]->getValue();
+  }
 }
 
 class user extends simplePlugin
 {
   var $objectclasses  = array('top','person','organizationalPerson','inetOrgPerson','gosaAccount');
   var $mainTab        = TRUE;
+
+  private $was_locked;
 
   static function plInfo()
   {
@@ -334,11 +352,13 @@ class user extends simplePlugin
     $filename = './plugins/users/images/default.jpg';
     $fd       = fopen ($filename, 'rb');
     $this->attributesAccess['jpegPhoto']->setPlaceholder(fread ($fd, filesize($filename)));
+
+    $this->was_locked = $this->attributesAccess['userPassword']->isLocked();
   }
 
   function postCopyHook()
   {
-    $this->attributesAccess['uid']->setDisabled($this->initially_was_account);
+    $this->attributesAccess['uid']->setDisabled($this->initially_was_account && !$this->is_template);
   }
 
   private function update_cn()
@@ -383,6 +403,17 @@ class user extends simplePlugin
     $smarty = get_smarty();
     $smarty->append('css_files', 'plugins/users/style/user_tab.css');
     return parent::execute();
+  }
+
+  function ldap_save($cleanup = TRUE)
+  {
+    parent::ldap_save($cleanup);
+
+    if (!$this->is_template && $this->was_locked && $this->attributesAccess['userPassword']->hasChanged()) {
+      $methods  = passwordMethod::get_available_methods();
+      $pmethod  = new $methods[$this->attributesAccess['userPassword']->getMethod()]($this->config, $this->dn);
+      $pmethod->lock_account($this->config, $this->dn);
+    }
   }
 
   function save()
