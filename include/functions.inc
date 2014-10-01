@@ -2915,34 +2915,6 @@ function change_password ($dn, $password, $hash = "")
   $userTabs->save();
 }
 
-
-/*!
- * \brief Generate samba hashes
- *
- * Given a certain password this constructs an array like
- * array['sambaLMPassword'] etc.
- *
- * \param string $password
- *
- * \return array contains several keys for lmPassword, ntPassword, pwdLastSet, etc.
- */
-function generate_smb_nt_hash($password)
-{
-  global $config;
-  $smbHash = new smbHash();
-  if ($config->get_cfg_value("sambaGenLMPassword", "FALSE") == "TRUE") {
-    $attrs['sambaLMPassword'] = $smbHash->lmhash($password);
-  } else {
-    $attrs['sambaLMPassword'] = array();
-  }
-  $attrs['sambaNTPassword'] = $smbHash->nthash($password);
-  $attrs['sambaPwdLastSet'] = date('U');
-
-  $attrs['sambaBadPasswordCount'] = "0";
-  $attrs['sambaBadPasswordTime']  = "0";
-  return $attrs;
-}
-
 /* Lock or unlock samba account */
 function lock_samba_account($mode, $attrs)
 {
