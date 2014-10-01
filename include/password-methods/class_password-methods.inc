@@ -133,7 +133,7 @@ class passwordMethod
   }
 
   /*!
-   * \brief Unlocks an account (gosaAccount) which was locked by 'lock_account()'.
+   * \brief (Un)locks an account (gosaAccount) which was locked by 'lock_account()'.
    *        For details about the locking mechanism see 'lock_account()'.
    */
   private function generic_modify_account($config, $dn, $mode)
@@ -175,9 +175,6 @@ class passwordMethod
       $modify = lock_samba_account($mode, $attrs);
 
       // (Un)lock the account by modifying the password hash.
-      $pwdClass = new password($config, $dn);
-      $pwdClass->callHook($pwdClass, 'PRE'.$mode, array(), $ret);
-
       if ($mode == 'LOCK') {
         /* Lock entry */
         $pwd = preg_replace("/(^[^\}]+\})(.*$)/",   "\\1!\\2",  $pwd);
@@ -189,10 +186,7 @@ class passwordMethod
       $ldap->cd($dn);
       $ldap->modify($modify);
 
-      // Call the password post-lock hook, if defined.
-      if ($ldap->success()) {
-        $pwdClass->callHook($pwdClass, 'POST'.$mode, array(), $ret);
-      } else {
+      if (!$ldap->success()) {
         msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD), LDAP_ERROR);
       }
       return $ldap->success();
