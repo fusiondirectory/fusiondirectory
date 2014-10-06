@@ -572,7 +572,7 @@ class UserAttribute extends DialogButtonAttribute
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $display  = '<img src="geticon.php?context=types&icon=user&size=16" alt="user icon" class="center"/>';
+    $display  = '<img src="geticon.php?context=types&amp;icon=user&amp;size=16" alt="user icon" class="center"/>';
     if ($this->getValue() == '') {
       $display  .= '<b>'._('None').'</b>';
     } elseif ($this->buttonText === NULL) {
@@ -584,7 +584,7 @@ class UserAttribute extends DialogButtonAttribute
       'image', $id,
       array(
         'class' => 'center',
-        'src'   => 'geticon.php?context=actions&icon=document-edit&size=16',
+        'src'   => 'geticon.php?context=actions&amp;icon=document-edit&amp;size=16',
         'title' => _('Edit'),
         'alt'   => _('Edit')
       )
@@ -594,7 +594,7 @@ class UserAttribute extends DialogButtonAttribute
         'image', $id.'_remove',
         array(
           'class' => 'center',
-          'src'   => 'geticon.php?context=actions&icon=edit-delete&size=16',
+          'src'   => 'geticon.php?context=actions&amp;icon=edit-delete&amp;size=16',
           'title' => _('Remove'),
           'alt'   => _('Remove')
         )
