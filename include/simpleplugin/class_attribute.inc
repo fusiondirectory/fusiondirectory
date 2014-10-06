@@ -1504,7 +1504,7 @@ class FileTextAreaAttribute extends FileAttribute
         'title' => _('Download'),
         'alt'   => _('Download'),
         'class' => 'center',
-        'src'   => 'geticon.php?context=actions&icon=document-save&size=16',
+        'src'   => 'geticon.php?context=actions&amp;icon=document-save&amp;size=16',
       )
     );
     return $this->renderAcl($display);
@@ -2387,7 +2387,7 @@ class OrderedArrayAttribute extends SetAttribute
         $img .= $this->renderInputField(
           'image', $id.'_up_'.$key,
           array(
-            'src'   => 'geticon.php?context=actions&icon=view-sort-descending&size=16',
+            'src'   => 'geticon.php?context=actions&amp;icon=view-sort-descending&amp;size=16',
             'title' => _('Sort up'),
             'alt'   => _('Sort up'),
             'class' => 'center'
@@ -2400,7 +2400,7 @@ class OrderedArrayAttribute extends SetAttribute
         $img .= $this->renderInputField(
           'image', $id.'_down_'.$key,
           array(
-            'src'   => 'geticon.php?context=actions&icon=view-sort-ascending&size=16',
+            'src'   => 'geticon.php?context=actions&amp;icon=view-sort-ascending&amp;size=16',
             'title' => _('Sort down'),
             'alt'   => _('Sort down'),
             'class' => 'center'
@@ -2415,7 +2415,7 @@ class OrderedArrayAttribute extends SetAttribute
       $img .= $this->renderInputField(
         'image', $id.'_edit_'.$key,
         array(
-          'src'   => 'geticon.php?context=actions&icon=document-edit&size=16',
+          'src'   => 'geticon.php?context=actions&amp;icon=document-edit&amp;size=16',
           'title' => _('Edit'),
           'alt'   => _('Edit'),
           'class' => 'center'
@@ -2425,7 +2425,7 @@ class OrderedArrayAttribute extends SetAttribute
     $img .= $this->renderInputField(
       'image', $id.'_del_'.$key,
       array(
-        'src'   => 'geticon.php?context=actions&icon=edit-delete&size=16',
+        'src'   => 'geticon.php?context=actions&amp;icon=edit-delete&amp;size=16',
         'title' => _('Delete'),
         'alt'   => _('Delete'),
         'class' => 'center'
