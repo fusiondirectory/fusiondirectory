@@ -1009,7 +1009,12 @@ class SelectAttribute extends Attribute
     if ($this->outputs !== NULL) {
       $smarty->assign($id."_outputs", array_values($this->outputs));
     } else {
-      $smarty->assign($id."_outputs", $this->choices);
+      $outputs = $this->choices;
+      $key = array_search('', $outputs);
+      if ($key !== FALSE) {
+        $outputs[$key] = '&nbsp;';
+      }
+      $smarty->assign($id."_outputs", $outputs);
     }
     $smarty->assign($id."_selected", $this->getValue());
     $display  = '<select name="'.$id.'" id="'.$id.'" ';
@@ -1901,7 +1906,7 @@ class SetAttribute extends Attribute
         parent::renderAttribute($attributes, $readOnly);
       } else {
         $attributes[$this->getLdapName()] = array(
-          'htmlid'      => $this->getHtmlId(),
+          'htmlid'      => $this->attribute->getHtmlId(), // Label should point to the attribute
           'label'       => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired()?'{$must}':''),
           'description' => ($this->isRequired()?sprintf(_("%s (required)"), $this->getDescription()):$this->getDescription()),
           'input'       => $this->renderOnlyFormInput(),
