@@ -298,10 +298,9 @@ class pluglist {
   function gen_menu()
   {
     if ($this->menu == "") {
-      $this->menu = '<ul class="menu">';
+      $this->menu = '<ul class="menu">'."\n";
       /* Parse headlines */
       foreach ($this->config->data['SECTIONS'] as $section => $section_infos) {
-        //~ $menu     = '<p class="menuheader">'.$section_infos['NAME']."</p>\n";
         $entries  = '';
 
         /* Parse sub-plugins */
@@ -355,6 +354,7 @@ class pluglist {
           $this->menu .= '<li><a>'.$section_infos['NAME']."</a>\n<ul>\n".$entries."\n</ul></li>\n";
         }
       }
+      $this->menu .= '</ul>'."\n";
     }
 
     /* Add the menucurrent class to current plugin */
@@ -427,7 +427,7 @@ class pluglist {
             if (!preg_match("/\//", $plIcon) && !preg_match("/^geticon/", $plIcon)) {
               $image = get_template_path("plugins/".preg_replace('%^.*/([^/]+)/[^/]+$%', '\1', $class_mapping[$info['CLASS']])."/images/$plIcon");
             } else {
-              $image = $plIcon;
+              $image = htmlentities($plIcon, ENT_COMPAT, 'UTF-8');
             }
           }
 

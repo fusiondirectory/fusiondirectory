@@ -1773,15 +1773,15 @@ function check_command($cmdline)
  *
  * \return the $display variable
  */
-function print_header($image, $headline, $info = "")
+function print_header($image, $headline, $info = '')
 {
     $smarty = get_smarty();
-    $smarty->assign("headline", $headline);
-    $smarty->assign("headline_image", $image);
-    $display = "";
+    $smarty->assign('headline', $headline);
+    $smarty->assign('headline_image', $image);
+    $display = '';
 
-  if ($info != "") {
-    $display .= "<div class=\"pluginfo\">\n";
+  if ($info != '') {
+    $display .= '<div class="pluginfo">'."\n";
     $display .= "$info";
     $display .= "</div>\n";
     $display .= "<div></div>\n";
