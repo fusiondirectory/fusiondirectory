@@ -800,7 +800,7 @@ class user extends plugin
       }
 
       /* Avoid empty uid */
-      if ($this->uid == '') {
+      if ($this->is_template && ($this->uid == '')) {
         $this->uid = '%c|uid of '.$this->cn.'%';
       }
     }
@@ -834,7 +834,7 @@ class user extends plugin
     if($this->preferredLanguage=="0") $this->preferredLanguage ="";
 
     /* Avoid empty uid */
-    if ($this->uid == '') {
+    if ($this->is_template && ($this->uid == '')) {
       $this->uid = '%c|uid of '.$this->cn.'%';
     }
 
