@@ -479,7 +479,7 @@ class acl_createedit extends acl
         $back_color = "#C8C8C8";
       }
 
-      $display .= "\n<table style='width:100%;border:1px solid #A0A0A0' cellspacing=0 cellpadding=2>".
+      $display .= "\n<table style='width:100%;border:1px solid #A0A0A0;border-spacing:0;border-collapse:collapse;'>".
                   "\n  <tr>".
                   "\n    <td style='background-color:{$back_color};height:1.8em;' colspan=".($cols - 1)."><b>"._("Object").": $name</b></td>".
                   "\n    <td align='right' style='background-color:{$back_color};height:1.8em;'>".
@@ -510,7 +510,7 @@ class acl_createedit extends acl
       $display .= "\n  <tr id='tr_$tname' style='vertical-align:top;height:0px;'>".
                   "\n    <td colspan=".$cols.">".
                   "\n      <div id='$tname' style='overflow:hidden; display:none;vertical-align:top;width:100%;'>".
-                  "\n        <table style='width:100%;'>";
+                  "\n        <table style='width:100%;border-collapse: collapse;' border='1'>";
 
       foreach ($splist as $attr => $dsc) {
         /* Skip pl* attributes, they are internal... */
@@ -526,11 +526,9 @@ class acl_createedit extends acl
         /* Close table row */
         if ($cnt == $cols) {
           $cnt  = 1;
-          $rb   = "";
           $end  = "\n  </tr>";
         } else {
           $cnt++;
-          $rb   = "border-right:1px solid #A0A0A0;";
           $end  = "";
         }
 
@@ -539,13 +537,13 @@ class acl_createedit extends acl
         if (isset($currentAcl[$attr])) {
           $state = $currentAcl[$attr];
         }
-        $display .= "\n    <td style='border-top:1px solid #A0A0A0;${rb}width:".(int)(100 / $cols)."%'>".
+        $display .= "\n    <td style='border:1px solid #A0A0A0;width:".(int)(100 / $cols)."%'>".
                     "\n      <b>$dsc</b> ($attr)<br>".$this->mkrwbx($key."_".$attr, $state)."</td>$end";
       }
 
       /* Fill missing td's if needed */
       if (--$cnt != $cols && $cnt != 0) {
-        $display .= str_repeat("\n    <td style='border-top:1px solid #A0A0A0; width:".(int)(100 / $cols)."%'>&nbsp;</td>", $cols - $cnt);
+        $display .= str_repeat("\n    <td style='border:1px solid #A0A0A0;width:".(int)(100 / $cols)."%'>&nbsp;</td>", $cols - $cnt);
       }
 
       $display .= "\n        </table>".
