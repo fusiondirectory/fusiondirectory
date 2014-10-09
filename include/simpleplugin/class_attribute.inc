@@ -1942,7 +1942,11 @@ class SetAttribute extends Attribute
   function getForHtmlId()
   {
     // Label should point to the attribute
-    return $this->attribute->getForHtmlId();
+    if (is_object($this->attribute)) {
+      return $this->attribute->getForHtmlId();
+    } else {
+      return '';
+    }
   }
 
   function renderButtons ()
