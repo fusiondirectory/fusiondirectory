@@ -32,6 +32,8 @@ width:175px;
 border:0;
 padding:0;
 text-align:center;
+border-spacing:0;
+border-collapse:collapse;
 }
 
 td.prev,td.prev_year,td.next,td.next_year {
