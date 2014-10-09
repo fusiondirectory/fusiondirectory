@@ -180,6 +180,12 @@ class Attribute
     return $this->htmlid_prefix.preg_replace('/[\/\-,.#:;]/', '_', $this->getLdapName());
   }
 
+  /* html id to put in the "for" attribute of our "label" tag */
+  function getForHtmlId ()
+  {
+    return $this->getHtmlId();
+  }
+
   function getLabel ()
   {
     return $this->label;
@@ -461,7 +467,7 @@ class Attribute
         $input = $this->renderFormInput();
       }
       $attributes[$this->getLdapName()] = array(
-        'htmlid'      => $this->getHtmlId(),
+        'htmlid'      => $this->getForHtmlId(),
         'label'       => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired()?'{$must}':''),
         'description' => ($this->isRequired()?sprintf(_("%s (required)"), $this->getDescription()):$this->getDescription()),
         'input'       => $input,
@@ -1007,15 +1013,15 @@ class SelectAttribute extends Attribute
     $id = $this->getHtmlId();
     $smarty->assign($id."_choices", $this->choices);
     if ($this->outputs !== NULL) {
-      $smarty->assign($id."_outputs", array_values($this->outputs));
+      $outputs = array_values($this->outputs);
     } else {
       $outputs = $this->choices;
-      $key = array_search('', $outputs);
-      if ($key !== FALSE) {
-        $outputs[$key] = '&nbsp;';
-      }
-      $smarty->assign($id."_outputs", $outputs);
     }
+    $key = array_search('', $outputs);
+    if ($key !== FALSE) {
+      $outputs[$key] = '&nbsp;';
+    }
+    $smarty->assign($id."_outputs", $outputs);
     $smarty->assign($id."_selected", $this->getValue());
     $display  = '<select name="'.$id.'" id="'.$id.'" ';
     if ($this->disabled || (count($this->choices) == 0)) {
@@ -1549,12 +1555,13 @@ class ImageAttribute extends FileAttribute
     $this->setValue($this->inputValue($this->getValue()));
     $id = $this->getHtmlId();
     srand((double)microtime() * 1000000); // Just to be sure the image is not cached
-    $display  = '<img name="'.$id.'_img" id="'.$id.'_img"'.
+    $display  = '<img id="'.$id.'_img"'.
                 ($this->disabled? 'disabled="disabled"':'').
                 ' src="getbin.php?rand='.rand(0, 10000).'"'.
                 ' style="border:1px solid black;"'.
-                ' title="'.$this->getDescription().'"'
-                .' /><br/>';
+                ' alt="'.$this->getDescription().'"'.
+                ' title="'.$this->getDescription().'"'.
+                ' /><br/>';
     $display  .= $this->renderInputField('file', $id);
     $display  .= $this->renderInputField('submit', 'upload'.$id, array('value' => _('Upload')));
     if (($this->getValue() == '') && ($this->placeholder != '')) {
@@ -1703,6 +1710,15 @@ class BaseSelectorAttribute extends Attribute
       $display = '{literal}'.$this->baseSelector->render().'{/literal}';
     }
     return $this->renderAcl($display);
+  }
+
+  function getForHtmlId()
+  {
+    if (isset($this->baseSelector)) {
+      return $this->baseSelector->getInputHtmlId();
+    } else {
+      return '';
+    }
   }
 }
 
@@ -1906,7 +1922,7 @@ class SetAttribute extends Attribute
         parent::renderAttribute($attributes, $readOnly);
       } else {
         $attributes[$this->getLdapName()] = array(
-          'htmlid'      => $this->attribute->getHtmlId(), // Label should point to the attribute
+          'htmlid'      => $this->getForHtmlId(),
           'label'       => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired()?'{$must}':''),
           'description' => ($this->isRequired()?sprintf(_("%s (required)"), $this->getDescription()):$this->getDescription()),
           'input'       => $this->renderOnlyFormInput(),
@@ -1921,6 +1937,12 @@ class SetAttribute extends Attribute
         );
       }
     }
+  }
+
+  function getForHtmlId()
+  {
+    // Label should point to the attribute
+    return $this->attribute->getForHtmlId();
   }
 
   function renderButtons ()
@@ -2195,6 +2217,16 @@ class CompositeAttribute extends Attribute
     }
   }
 
+  function getForHtmlId()
+  {
+    // Label (if any) should point to the first attribute
+    if (isset($this->attributes[0])) {
+      return $this->attributes[0]->getForHtmlId();
+    } else {
+      return '';
+    }
+  }
+
   function serializeAttribute(&$attributes)
   {
     if ($this->visible) {
@@ -2211,7 +2243,7 @@ class CompositeAttribute extends Attribute
     $display = "";
     foreach ($this->attributes as &$attribute) {
       $attribute->setDisabled($this->disabled);
-      $display .= '<label for="'.$attribute->getHtmlId().'">'.$attribute->getLabel().'</label>'." ".$attribute->renderFormInput()." ";
+      $display .= '<label for="'.$attribute->getForHtmlId().'">'.$attribute->getLabel().'</label>'." ".$attribute->renderFormInput()." ";
     }
     unset($attribute);
     return $display;
