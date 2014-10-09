@@ -409,7 +409,11 @@ class simplePlugin extends plugin
     foreach ($this->attributesInfo as $section => $sectionInfo) {
       $legend = $sectionInfo['name'];
       if (isset($sectionInfo['icon'])) {
-        $legend = '<img src="'.$sectionInfo['icon'].'" alt="icon" title="section '.$sectionInfo['name'].' icon"/>'.$legend;
+        $legend = '<img '.
+                  'src="'.htmlentities($sectionInfo['icon'], ENT_COMPAT, 'UTF-8').'" '.
+                  'alt="section '.$sectionInfo['name'].' icon" '.
+                  'title="section '.$sectionInfo['name'].' icon" '.
+                  '/>'.$legend;
       }
       $smarty->assign("section", $legend);
       $smarty->assign("sectionId", $section);
