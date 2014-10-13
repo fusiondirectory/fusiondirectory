@@ -239,7 +239,6 @@ class UnitIntAttribute extends CompositeAttribute
       ($value % $choices[$i] != 0) && ($i > 0);
       $i--
     );
-    print_r(array($value / $choices[$i], $i));
     return array($value / $choices[$i], $choices[$i]);
   }
 
