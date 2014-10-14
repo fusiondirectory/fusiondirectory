@@ -1,9 +1,5 @@
 ##
-## gosa-samba3 schema
-##
-## Version 030303
-##
-## Maintained by the FusionDirectory Project <contact@fusiondirectory.org>
+## core-fd.schema - Needed by FusionDirectory for its basic fonctionnalities
 ##
 
 
