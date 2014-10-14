@@ -61,6 +61,23 @@ class template
     return dn2base($this->dn, 'ou=templates,'.$infos['ou']);
   }
 
+  function getNeeded()
+  {
+    return $this->attributes;
+  }
+
+  function listAttributesByClass()
+  {
+    $attributes = array();
+    foreach ($this->tabObject->by_object as $class => &$plugin) {
+      foreach ($this->attributes[$class] as $attr) {
+        $attributes[$class.':'.$attr] = $this->tabObject->by_name[$class].' > '.$plugin->attributesAccess[$attr]->getLabel();
+      }
+    }
+
+    return $attributes;
+  }
+
   function save_object()
   {
     $this->tabObject->save_object();
