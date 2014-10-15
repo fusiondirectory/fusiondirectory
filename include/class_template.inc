@@ -37,14 +37,16 @@ class template
     $this->tabObject  = objects::create($this->type);
     $this->attributes = array();
     foreach ($this->tabObject->by_object as $class => &$plugin) {
-      $this->attributes[$class] = array();
-      $attrs = array_unique(array_merge($plugin->getRequiredAttributes(), $this->needed));
-      foreach ($attrs as $attr) {
-        if (isset($this->attrs[$attr])) {
-          continue;
-        }
-        if (isset($plugin->attributesAccess[$attr])) {
-          $this->attributes[$class][] = $attr;
+      if ($plugin->is_account || $plugin->ignore_account) {
+        $this->attributes[$class] = array();
+        $attrs = array_unique(array_merge($plugin->getRequiredAttributes(), $this->needed));
+        foreach ($attrs as $attr) {
+          if (isset($this->attrs[$attr])) {
+            continue;
+          }
+          if (isset($plugin->attributesAccess[$attr])) {
+            $this->attributes[$class][] = $attr;
+          }
         }
       }
     }

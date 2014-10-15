@@ -108,7 +108,7 @@ class departmentManagement extends simpleManagement
 
   static function getDepartmentTypes()
   {
-    return array('department','country','dcObject','domain','locality','organization');
+    return array('DEPARTMENT','COUNTRY','DCOBJECT','DOMAIN','LOCALITY','ORGANIZATION');
   }
 }
 ?>
