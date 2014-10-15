@@ -513,11 +513,16 @@ class SystemsAttribute extends DialogAttribute
 class ButtonAttribute extends Attribute
 {
   protected $buttonText = NULL;
+  protected $action;
 
-  function __construct ($label, $description, $ldapName, $required, $buttonText, $defaultValue = "", $acl = "")
+  function __construct ($label, $description, $ldapName, $buttonText, $action = NULL, $defaultValue = "", $acl = "")
   {
-    parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
-    $this->buttonText   = $buttonText;
+    parent::__construct($label, $description, $ldapName, FALSE, $defaultValue, $acl);
+    $this->buttonText = $buttonText;
+    if ($action === NULL) {
+      $action = 'handle_'.$ldapName;
+    }
+    $this->action = $action;
   }
 
   function renderFormInput ()
@@ -525,13 +530,27 @@ class ButtonAttribute extends Attribute
     $id = $this->getHtmlId();
     $display = $this->renderInputField(
       'submit', $id,
-      array('value' => '{literal}'.$this->buttonText.'{/literal}')
+      array('value' => '{literal}'.htmlentities($this->buttonText, ENT_COMPAT, 'UTF-8').'{/literal}')
     );
     return $this->renderAcl($display);
   }
 
+  function loadPostValue ()
+  {
+    $this->postValue = FALSE;
+    if ($this->isVisible()) {
+      if (isset($_POST[$this->getHtmlId()])) {
+        $this->setPostValue(TRUE);
+      }
+    }
+  }
+
   function applyPostValue ()
   {
+    if (!$this->disabled && $this->isVisible() && $this->postValue) {
+      $func = $this->action;
+      $this->plugin->$func();
+    }
   }
 }
 
@@ -545,12 +564,10 @@ class DialogButtonAttribute extends ButtonAttribute
     $this->dialogClass  = $dialogClass;
   }
 
-  function loadPostValue ()
+  function applyPostValue ()
   {
-    if (!$this->disabled && $this->isVisible()) {
-      if (isset($_POST[$this->getHtmlId()])) {
-        $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
-      }
+    if (!$this->disabled && $this->isVisible() && $this->postValue) {
+      $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
     }
   }
 }
