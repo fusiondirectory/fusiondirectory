@@ -297,10 +297,9 @@ class Step_Migrate extends setupStep
   {
     if (empty($this->checks) || isset($_POST['reload'])) {
       $this->initialize_checks();
-      foreach ($this->checks as &$check) {
+      foreach ($this->checks as $check) {
         $check->run();
       }
-      unset($check);
     }
     return parent::execute();
   }
@@ -309,10 +308,9 @@ class Step_Migrate extends setupStep
   {
     $this->is_completed = TRUE;
     parent::save_object();
-    foreach ($this->checks as &$check) {
+    foreach ($this->checks as $check) {
       $check->save_object();
     }
-    unset($check);
   }
 
   /* Check if the root object exists.
