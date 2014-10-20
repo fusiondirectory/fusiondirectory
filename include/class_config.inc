@@ -1347,6 +1347,20 @@ class config  {
         }
         $this->data['MENU'][$section][] = $attrs;
       }
+      if (isset($plInfo['plMenuProvider']) && $plInfo['plMenuProvider']) {
+        list($sections, $entries) = $class::getMenuEntries();
+        foreach ($sections as $section => $infos) {
+          $this->data['SECTIONS'][$section] = array_change_key_case($infos, CASE_UPPER);
+          if (!isset($this->data['MENU'][$section])) {
+            $this->data['MENU'][$section] = array();
+          }
+        }
+        foreach ($entries as $section => $section_entries) {
+          foreach ($section_entries as $entry) {
+            $this->data['MENU'][$section][] = $entry;
+          }
+        }
+      }
     }
     unset($plInfo);
     asort($this->data['CATEGORIES']);

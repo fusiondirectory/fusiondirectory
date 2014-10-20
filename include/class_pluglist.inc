@@ -258,6 +258,8 @@ class pluglist {
     $plHeadline     = FALSE;
     $plIcon         = FALSE;
     $plDescription  = FALSE;
+    $index          = $this->get_index($cname);
+    $href           = "main.php?plug=$index&amp;reset=1";
     if (isset($this->info[$cname])) {
       if (isset($this->info[$cname]['plShortName'])) {
         $plHeadline = $this->info[$cname]['plShortName'];
@@ -269,7 +271,7 @@ class pluglist {
         $plDescription = $this->info[$cname]['plDescription'];
       }
       if ($plHeadline && $plIcon && $plDescription) {
-        return array($plHeadline,$plDescription,$plIcon);
+        return array($plHeadline,$plDescription,$href,$plIcon);
       }
     }
     $vars = get_class_vars($cname);
@@ -284,12 +286,12 @@ class pluglist {
         $plIcon = $vars['plIcon'];
       }
     } else {
-      return FALSE;
+      die('Unknown class '.$cname);
     }
     if (!$plIcon) {
       $plIcon = "icon.png";
     }
-    return array($plHeadline,$plDescription,$plIcon);
+    return array($plHeadline,$plDescription,$href,$plIcon);
   }
 
   /*!
@@ -305,47 +307,28 @@ class pluglist {
 
         /* Parse sub-plugins */
         foreach ($this->config->data['MENU'][$section] as $info) {
-
-          /* Read information from class variable */
-          if (!isset($info['CLASS'])) {
-            msg_dialog::display(
-                _("Configuration error"),
-                _("The configuration format has changed. Please re-run setup!"),
-                FATAL_ERROR_DIALOG);
-            exit();
-          }
-          if (!plugin_available($info['CLASS'])) {
+          if (!$this->check_access($info['ACL'])) {
             continue;
           }
-          $index  = $this->get_index($info['CLASS']);
-          $href   = "main.php?plug=$index&amp;reset=1";
-          if (isset($info['NAME'])) {
-            $plHeadline = _($info['NAME']);
-          } else {
-            $plHeadline = FALSE;
-          }
-          $infos = $this->get_infos($info['CLASS']);
-          if ($infos) {
-            if (!$plHeadline) {
-              $plHeadline = $infos[0];
-            }
-            $plDescription = $infos[1];
-          } else {
-            $plHeadline     = _("Unknown");
-            $plDescription  = _("Unknown");
-            $href           = "main.php?reset=1";
-          }
-
-          if ($this->check_access($info['ACL'])) {
-
+          if (isset($info['CLASS']) && plugin_available($info['CLASS'])) {
+            $index  = $this->get_index($info['CLASS']);
             $this->allowed_plugins[$index] = $index;
+            list ($plHeadline, $plDescription, $href, ) = $this->get_infos($info['CLASS']);
+            $id             = $info['CLASS'];
+          } elseif (!isset($info['CLASS'])) {
+            $plHeadline     = $info['TITLE'];
+            $plDescription  = $info['DESCRIPTION'];
+            $href           = $info['LINK'];
+            $id             = $info['NAME'];
+          } else {
+            continue;
+          }
 
-            $entries .= '<li class="menuitem" id="menuitem_'.$info['CLASS'].'">';
-            $entries .= '<a href="'.$href.'">'.$plHeadline.'</a></li>'."\n";
+          $entries .= '<li class="menuitem" id="menuitem_'.$id.'">';
+          $entries .= '<a href="'.$href.'" title="'.$plDescription.'">'.$plHeadline.'</a></li>'."\n";
 
-            if (!session::is_set('maxC')) {
-              session::set('maxC', "RO0K9CzEYCSAAOtOICCFhEDBKGSKANyHMKDHAEwFLNTJILwEMODJYPgMRA0F9IOPSPUKNEVCUKyDBAHNbIWFJOIP");
-            }
+          if (!session::is_set('maxC')) {
+            session::set('maxC', "RO0K9CzEYCSAAOtOICCFhEDBKGSKANyHMKDHAEwFLNTJILwEMODJYPgMRA0F9IOPSPUKNEVCUKyDBAHNbIWFJOIP");
           }
         }
 
@@ -384,12 +367,6 @@ class pluglist {
   {
     global $class_mapping;
     if ($this->iconmenu == "") {
-      if (isset($this->config->current['ICONSIZE'])) {
-        list($x, $y) = explode("x", $this->config->get_cfg_value("iconsize"));
-        $isize = "width=\"$x\" height=\"$y\"";
-      } else {
-        $isize = 'width="48" height="48"';
-      }
 
       /* Parse headlines */
       foreach ($this->config->data['SECTIONS'] as $section => $section_infos) {
@@ -399,40 +376,32 @@ class pluglist {
         $menu     .= $section_infos['NAME']."</h1>\n";
 
         foreach ($this->config->data['MENU'][$section] as $info) {
-          if (!plugin_available($info['CLASS'])) {
-            continue;
-          }
           if (!$this->check_access($info['ACL'])) {
             continue;
           }
-
-          /* Read information from class variable */
-          $infos = $this->get_infos($info['CLASS']);
-          if ($infos) {
-            list ($plHeadline, $plDescription, $plIcon) = $infos;
-            $index  = $this->get_index($info['CLASS']);
-            $href   = "main.php?plug=".$index."&amp;reset=1";
+          if (isset($info['CLASS']) && plugin_available($info['CLASS'])) {
+            /* Read information from class variable */
+            list ($plHeadline, $plDescription, $href, $plIcon) = $this->get_infos($info['CLASS']);
+            $id             = $info['CLASS'];
+          } elseif (!isset($info['CLASS'])) {
+            $plHeadline     = $info['TITLE'];
+            $plDescription  = $info['DESCRIPTION'];
+            $href           = $info['LINK'];
+            $plIcon         = $info['ICONPATH'];
+            $id             = $info['NAME'];
           } else {
-            /* If the class doesn't exists display error symbol
-              to avoid that a user clicks on a non existing plugin  */
-            $plHeadline   = $plDescription = _("Unknown");
-            $info['ICON'] = "error.png";
-            $href         = "main.php?reset=1";
+            continue;
           }
 
           /* Load icon */
-          if (isset($info['ICON'])) {
-            $image = get_template_path('images/'.$info['ICON']);
+          if (isset($info['CLASS']) && !preg_match("/\//", $plIcon) && !preg_match("/^geticon/", $plIcon)) {
+            $image = get_template_path("plugins/".preg_replace('%^.*/([^/]+)/[^/]+$%', '\1', $class_mapping[$info['CLASS']])."/images/$plIcon");
           } else {
-            if (!preg_match("/\//", $plIcon) && !preg_match("/^geticon/", $plIcon)) {
-              $image = get_template_path("plugins/".preg_replace('%^.*/([^/]+)/[^/]+$%', '\1', $class_mapping[$info['CLASS']])."/images/$plIcon");
-            } else {
-              $image = htmlentities($plIcon, ENT_COMPAT, 'UTF-8');
-            }
+            $image = htmlentities($plIcon, ENT_COMPAT, 'UTF-8');
           }
 
-          $entries  .= '<div class="iconmenu" id="menuitem_icon_'.$info['CLASS'].'" onClick=\'location.href="'.$href.'"\' title="'.$plDescription.'">';
-          $item     = "<img $isize src=\"$image\" alt=\"$plHeadline icon\"><span>&nbsp;$plHeadline</span>";
+          $entries  .= '<div class="iconmenu" id="menuitem_icon_'.$id.'" onClick=\'location.href="'.$href.'"\' title="'.$plDescription.'">';
+          $item     = '<img width="48" height="48" src="'.$image.'" alt="'.$plHeadline.' icon"><span>&nbsp;'.$plHeadline.'</span>';
           $entries .= $item."</div>\n";
         }
 
