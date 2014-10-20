@@ -344,7 +344,7 @@ if (isset($_POST) && count($_POST)) {
   }
 }
 
-/* Assign erros to smarty */
+/* Assign errors to smarty */
 if (session::is_set('errors')) {
   $smarty->assign("errors", session::get('errors'));
 }
