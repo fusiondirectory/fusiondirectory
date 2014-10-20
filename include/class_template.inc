@@ -68,16 +68,31 @@ class template
     return $this->attributes;
   }
 
-  function listAttributesByClass()
+  function serialize()
   {
     $attributes = array();
     foreach ($this->tabObject->by_object as $class => &$plugin) {
+      if (!isset($this->attributes[$class])) {
+        continue;
+      }
+      $attributes[$class] = array('name' => $this->tabObject->by_name[$class], 'attrs' => array());
       foreach ($this->attributes[$class] as $attr) {
-        $attributes[$class.':'.$attr] = $this->tabObject->by_name[$class].' > '.$plugin->attributesAccess[$attr]->getLabel();
+        $plugin->attributesAccess[$attr]->serializeAttribute($attributes[$class]['attrs']);
       }
     }
 
     return $attributes;
+  }
+
+  function deserialize($values)
+  {
+    $SAVED_POST = $_POST;
+    foreach ($values as $class => $class_values) {
+      $_POST                    = $class_values;
+      $_POST[$class.'_posted']  = TRUE;
+      $this->tabObject->by_object[$class]->save_object();
+    }
+    $_POST = $SAVED_POST;
   }
 
   function save_object()
@@ -91,6 +106,9 @@ class template
     $sections = array();
     $posted   = array();
     foreach ($this->tabObject->by_object as $class => &$plugin) {
+      if (!isset($this->attributes[$class])) {
+        continue;
+      }
       $attributes = array();
       foreach ($this->attributes[$class] as $attr) {
         if ($plugin->attributesAccess[$attr]->getAclInfo() !== FALSE) {
@@ -121,12 +139,18 @@ class template
   function apply()
   {
     foreach ($this->tabObject->by_object as $class => &$plugin) {
+      if (!isset($this->attributes[$class])) {
+        continue;
+      }
       foreach ($this->attributes[$class] as $attr) {
         $plugin->attributesAccess[$attr]->fillLdapValue($this->attrs);
       }
     }
     unset($plugin);
     foreach ($this->tabObject->by_object as $class => &$plugin) {
+      if (!isset($this->attributes[$class])) {
+        continue;
+      }
       foreach ($this->attributes[$class] as $attr) {
         $plugin->attributesAccess[$attr]->fillLdapValueHook($this->attrs);
       }
