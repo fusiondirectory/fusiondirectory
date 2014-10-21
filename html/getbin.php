@@ -41,14 +41,20 @@ header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
 header("Cache-Control: no-cache");
 header("Pragma: no-cache");
 header("Cache-Control: post-check=0, pre-check=0");
-$bintype = session::is_set('binarytype')
-  ? session::get('binarytype') : "octet-stream";
-header("Content-type: " . $bintype);
-if (session::is_set('binaryfile')) {
-  header( "Content-disposition: attachment; filename="
-    . session::get('binaryfile'));
+
+$key = 'binary';
+if (isset ($_GET['key'])) {
+  $key .= $_GET['key'];
 }
 
-echo session::get('binary');
+$bintype = session::is_set($key.'type')
+  ? session::get($key.'type') : "octet-stream";
+header("Content-type: " . $bintype);
+if (session::is_set($key.'file')) {
+  header( "Content-disposition: attachment; filename="
+    . session::get($key.'file'));
+}
+
+echo session::get($key);
 error_reporting (E_ALL | E_STRICT);
 ?>

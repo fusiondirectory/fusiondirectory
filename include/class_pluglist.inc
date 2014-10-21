@@ -307,15 +307,18 @@ class pluglist {
 
         /* Parse sub-plugins */
         foreach ($this->config->data['MENU'][$section] as $info) {
-          if (!$this->check_access($info['ACL'])) {
-            continue;
-          }
           if (isset($info['CLASS']) && plugin_available($info['CLASS'])) {
+            if (!$this->check_access($info['ACL'])) {
+              continue;
+            }
             $index  = $this->get_index($info['CLASS']);
             $this->allowed_plugins[$index] = $index;
             list ($plHeadline, $plDescription, $href, ) = $this->get_infos($info['CLASS']);
             $id             = $info['CLASS'];
           } elseif (!isset($info['CLASS'])) {
+            if (isset($info['ACL']) && !$this->check_access($info['ACL'])) {
+              continue;
+            }
             $plHeadline     = $info['TITLE'];
             $plDescription  = $info['DESCRIPTION'];
             $href           = $info['LINK'];
@@ -376,14 +379,17 @@ class pluglist {
         $menu     .= $section_infos['NAME']."</h1>\n";
 
         foreach ($this->config->data['MENU'][$section] as $info) {
-          if (!$this->check_access($info['ACL'])) {
-            continue;
-          }
           if (isset($info['CLASS']) && plugin_available($info['CLASS'])) {
+            if (!$this->check_access($info['ACL'])) {
+              continue;
+            }
             /* Read information from class variable */
             list ($plHeadline, $plDescription, $href, $plIcon) = $this->get_infos($info['CLASS']);
             $id             = $info['CLASS'];
           } elseif (!isset($info['CLASS'])) {
+            if (isset($info['ACL']) && !$this->check_access($info['ACL'])) {
+              continue;
+            }
             $plHeadline     = $info['TITLE'];
             $plDescription  = $info['DESCRIPTION'];
             $href           = $info['LINK'];
