@@ -301,16 +301,10 @@ class userManagement extends management
         }
 
         // Check posted passwords now.
-        $message = array();
-        if ($new_password != $repeated_password) {
-          $message[] = _("The passwords you've entered as 'New password' and 'Repeated new password' do not match.");
-        } elseif ($new_password == "") {
-          $message[] = msgPool::required(_("New password"));
-        }
-
-        // Display errors
-        if (count($message) != 0) {
-          msg_dialog::displayChecks($message);
+        $problem = password::reportPasswordProblems($this->dn, $new_password, $repeated_password);
+        if ($problem) {
+          // Display errors
+          msg_dialog::displayChecks(array($problem));
           return $smarty->fetch(get_template_path('password.tpl', TRUE));
         }
 
