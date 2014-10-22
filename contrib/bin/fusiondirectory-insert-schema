@@ -291,13 +291,38 @@ fusiondirectory-insert-schema [<path of your schema files>] [-l] [-i|-m schema1 
 =head1 DESCRIPTION
 
 This program will insert the schema needed by FusionDirectory into the ldap server
-If -i is specified, insert the given list of schemas instead of the default list
-If -m is specified, insert the given list of schemas, replacing already inserted versions of those schemas
-If -l is specified, list inserted schemas
-If -n is specified, generated ldifs file won’t be deleted after execution. Might be useful to understand errors.
-If -c is specified, an error won’t stop the command from continuing with other insertions
-You can use -o to give specifics options to give to ldap commands such as ldapmodify,
+
+
+=head2 Options
+
+=over 6
+
+=item -i
+
+This option insert the given list of schemas instead of the default list
+
+=item -m 
+
+This option insert the given list of schemas, replacing already inserted versions of those schemas
+
+=item -l
+
+This option list inserted schemas
+
+=item -n
+
+This option will make generated ldifs file to not be deleted after execution. Might be useful to understand errors.
+
+=item -c 
+
+This option make the program continue even if an error occur
+
+=item -o 
+
+This option allow you to specify specifics options to give to ldap commands such as ldapmodify,
 but beware that you won’t be able to see things like password prompts as the output of these commands is piped.
+
+=back 
 
 =head1 EXAMPLES
 
