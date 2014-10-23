@@ -196,15 +196,15 @@ class password extends plugin
     global $config, $ui;
 
     /* Should we check different characters in new password */
-    $check_differ = ($this->config->get_cfg_value("passwordMinDiffer") != "");
-    $differ       = $this->config->get_cfg_value("passwordMinDiffer", 0);
+    $check_differ = ($config->get_cfg_value("passwordMinDiffer") != "");
+    $differ       = $config->get_cfg_value("passwordMinDiffer", 0);
     if ($current_password === NULL) {
       $check_differ = FALSE;
     }
 
     /* Enable length check ? */
-    $check_length = ($this->config->get_cfg_value("passwordMinLength") != "");
-    $length       = $this->config->get_cfg_value("passwordMinLength", 0);
+    $check_length = ($config->get_cfg_value("passwordMinLength") != "");
+    $length       = $config->get_cfg_value("passwordMinLength", 0);
 
     $ldap = $config->get_ldap_link();
     $ldap->cat($user, array('pwdPolicySubentry', 'pwdHistory', 'pwdChangedTime'));
