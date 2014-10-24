@@ -684,6 +684,7 @@ class userManagement extends management
     // Template readable?
     $template_dn  = get_post('template');
     $acl          = $this->ui->get_permissions($template_dn, $this->aclCategory."/".$this->aclPlugin);
+    $ldap         = $this->config->get_ldap_link();
     if (preg_match('/r/', $acl)) {
       $tab = $this->tabClass;
       foreach ($this->dns as $dn) {
@@ -693,8 +694,10 @@ class userManagement extends management
           list($attrs, $depends) = plugin::tpl_fetch_template($template_dn);
           $needed = plugin::tpl_needed_attrs($attrs, $depends);
           // Move user supplied data to sub plugins
+          $ldap->cat($dn, $needed);
+          $user_attrs = $ldap->fetch();
           foreach ($needed as $attr) {
-            $attrs[$attr] = array($this->$attr);
+            $attrs[$attr] = $user_attrs[$attr];
           }
           $attrs = plugin::tpl_parse_attrs($attrs);
 
