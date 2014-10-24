@@ -187,7 +187,7 @@
     <action>
       <name>newfromtpl</name>
       <type>entry</type>
-      <image>geticon.php?context=action&amp;icon=document-new&amp;size=16</image>
+      <image>geticon.php?context=actions&amp;icon=document-new&amp;size=16</image>
       <objectclass>gosaUserTemplate</objectclass>
       <label>New user from template</label>
     </action>
