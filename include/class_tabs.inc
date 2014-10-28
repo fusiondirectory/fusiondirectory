@@ -228,17 +228,14 @@ class tabs
     }
     $display  .= '<table class="tabs_header"><tbody><tr>';
     $index    = 0;
-    $style    = array("tab_left", "tab_active", "tab_near_active", "tab_right");
+    $style    = array('tab_left', 'tab_active', 'tab_right');
     foreach ($this->by_name as $class => $name) {
 
-      /* Activate right tabs with style "tab_right"
-         Activate near current with style "tab_near_active" */
-      if ($index == 2 || $index == 1) {
+      /* Activate right tabs with style "tab_right" */
+      if ($index == 1) {
         $index++;
-      }
-
-      /* Activate current tab with style "tab_active " */
-      if ($class == $this->current) {
+      } elseif ($class == $this->current) {
+        /* Activate current tab with style "tab_active " */
         $index++;
       }
 
@@ -252,30 +249,37 @@ class tabs
       }
 
       /* nobr causes w3c warnings so we use &nbsp; to keep the tab name in one line */
-      $title = str_replace(" ", "&nbsp;", $title);
+      $title = str_replace(' ', '&nbsp;', $title);
+
+      $cssClasses = $style[$index];
 
       /* Take care about notifications */
       $obj = $this->by_object[$class];
       if ($this->by_object[$class]->pl_notify && ($obj->is_account || $obj->ignore_account)) {
-        $notify = " tab_notify";
-      } else {
-        $notify = "";
+        $cssClasses .= ' tab_notify';
+      }
+      if ($disabled) {
+        $cssClasses .= ' tab_disabled';
+      }
+      if (!$obj->is_account && !$obj->ignore_account) {
+        $cssClasses .= ' tab_inactive';
       }
 
+
+      $display .= '<div class="'.$cssClasses.'">';
       if ($disabled) {
-        $display .= "<div class=\"$style[$index]$notify\"
-          style=' font-family:arial,helvetica,sans-serif;
-                  font-weight:bold;
-                  font-size:13px;
-                  color: gray;'
-          title=\"$title\"><a>".$title."</a></div>";
+        $display .= '<a>';
       } else {
-        $display .= "<div class=\"$style[$index]$notify\"><a id=\"tab_$class\" class=\"$style[$index]\" onclick=\"return true;\" href=\"javascript:document.mainform.arg.value='$class';document.mainform.submit();\">$title</a></div></td>";
+        $display .= '<a '.
+          'id="tab_'.$class.'" '.
+          'onclick="return true;" '.
+          'href="'."javascript:document.mainform.arg.value='$class';document.mainform.submit();".'">';
       }
+      $display .= $title.'</a></div></td>';
     }
 
     $display .= "<td>\n";
-    $display .= "<div class=\"tab_border\">&nbsp;</div></td></tr></tbody></table>";
+    $display .= '<div class="tab_border">&nbsp;</div></td></tr></tbody></table>';
 
     return $display;
   }
