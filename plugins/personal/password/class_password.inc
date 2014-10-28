@@ -209,9 +209,21 @@ class password extends plugin
     $ldap = $config->get_ldap_link();
     $ldap->cat($user, array('pwdPolicySubentry', 'pwdHistory', 'pwdChangedTime'));
     $attrs = $ldap->fetch();
+    $ppolicydn = '';
     if (isset($attrs['pwdPolicySubentry'])) {
-      $ldap->cat($attrs['pwdPolicySubentry'], array('pwdAllowUserChange', 'pwdMinLength', 'pwdMinAge', 'pwdSafeModify'));
+      $ppolicydn = $attrs['pwdPolicySubentry'];
+    } else {
+      $ppolicydn = $config->get_cfg_value('ppolicyDefaultCn', '');
+      if (!empty($ppolicydn)) {
+        $ppolicydn = 'cn='.$ppolicydn.','.get_ou('ppolicyRDN').$config->current['BASE'];
+      }
+    }
+    if (!empty($ppolicydn)) {
+      $ldap->cat($ppolicydn, array('pwdAllowUserChange', 'pwdMinLength', 'pwdMinAge', 'pwdSafeModify'));
       $policy = $ldap->fetch();
+      if (!$policy) {
+        return sprintf(_('Ppolicy "%s" could not be found in the LDAP!'), $ppolicydn);
+      }
       if (isset($policy['pwdAllowUserChange']) && ($policy['pwdAllowUserChange'] == 'FALSE') && ($ui->dn == $user)) {
         return _('You are not allowed to change your own password');
       }
