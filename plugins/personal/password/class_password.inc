@@ -210,8 +210,8 @@ class password extends plugin
     $ldap->cat($user, array('pwdPolicySubentry', 'pwdHistory', 'pwdChangedTime'));
     $attrs = $ldap->fetch();
     $ppolicydn = '';
-    if (isset($attrs['pwdPolicySubentry'])) {
-      $ppolicydn = $attrs['pwdPolicySubentry'];
+    if (isset($attrs['pwdPolicySubentry'][0])) {
+      $ppolicydn = $attrs['pwdPolicySubentry'][0];
     } else {
       $ppolicydn = $config->get_cfg_value('ppolicyDefaultCn', '');
       if (!empty($ppolicydn)) {
@@ -224,25 +224,25 @@ class password extends plugin
       if (!$policy) {
         return sprintf(_('Ppolicy "%s" could not be found in the LDAP!'), $ppolicydn);
       }
-      if (isset($policy['pwdAllowUserChange']) && ($policy['pwdAllowUserChange'] == 'FALSE') && ($ui->dn == $user)) {
+      if (isset($policy['pwdAllowUserChange'][0]) && ($policy['pwdAllowUserChange'][0] == 'FALSE') && ($ui->dn == $user)) {
         return _('You are not allowed to change your own password');
       }
-      if (isset($policy['pwdMinLength'])) {
+      if (isset($policy['pwdMinLength'][0])) {
         $check_length = TRUE;
-        $length       = $policy['pwdMinLength'];
+        $length       = $policy['pwdMinLength'][0];
       }
-      if (isset($policy['pwdMinAge']) && isset($attrs['pwdChangedTime'])) {
-        $date = DateTime::createFromFormat('YmdHis\Z', $attrs['pwdChangedTime'], new DateTimeZone('UTC'));
+      if (isset($policy['pwdMinAge'][0]) && isset($attrs['pwdChangedTime'][0])) {
+        $date = DateTime::createFromFormat('YmdHis\Z', $attrs['pwdChangedTime'][0], new DateTimeZone('UTC'));
         $now  = new DateTime('now');
-        if ($now->getTimeStamp() < $date->getTimeStamp() + $policy['pwdMinAge']) {
-          return sprintf(_('You must wait %d seconds before changing your password again'), $policy['pwdMinAge'] - ($now->getTimeStamp() - $date->getTimeStamp()));
+        if ($now->getTimeStamp() < $date->getTimeStamp() + $policy['pwdMinAge'][0]) {
+          return sprintf(_('You must wait %d seconds before changing your password again'), $policy['pwdMinAge'][0] - ($now->getTimeStamp() - $date->getTimeStamp()));
         }
       }
-      if (isset($policy['pwdSafeModify']) && ($policy['pwdSafeModify'] == 'FALSE')) {
+      if (isset($policy['pwdSafeModify'][0]) && ($policy['pwdSafeModify'][0] == 'FALSE')) {
         if (empty($current_password)) {
           $current_password = NULL;
         }
-      } elseif (isset($attrs['pwdHistory'])) {
+      } elseif (isset($attrs['pwdHistory'][0])) {
       }
     }
 
