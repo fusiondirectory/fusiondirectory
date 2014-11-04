@@ -141,8 +141,10 @@ if (!is_readable(CONFIG_DIR."/".CONFIG_FILE)) {
 
 /* Parse configuration file */
 $config = new config(CONFIG_DIR."/".CONFIG_FILE, $BASE_DIR);
-session::global_set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
-if ($_SERVER["REQUEST_METHOD"] != "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  session::global_set('DEBUGLEVEL', 0);
+} else {
+  session::global_set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
   @DEBUG (DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, "config");
 }
 
@@ -207,6 +209,9 @@ if (!$htaccess_authenticated) {
   }
 }
 $config->set_current($server);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  session::global_set('DEBUGLEVEL', 0);
+}
 
 /* If SSL is forced, just forward to the SSL enabled site */
 if (($config->get_cfg_value("forcessl") == "TRUE") && ($ssl != '')) {
