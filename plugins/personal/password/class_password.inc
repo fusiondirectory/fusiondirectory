@@ -122,7 +122,6 @@ class password extends plugin
       if (count($message)) {
         msg_dialog::displayChecks($message);
       } else {
-
         /* Try to connect via current password */
         $tldap = new LDAP(
           $ui->dn,
@@ -137,7 +136,6 @@ class password extends plugin
           msg_dialog::display(_("Password change"),
                               _("The password you've entered as your current password doesn't match the real one."), WARNING_DIALOG);
         } else {
-
           /* Check FusionDirectory permissions */
           if (!preg_match("/w/i", $password_ACLS)) {
             msg_dialog::display(_("Password change"),
