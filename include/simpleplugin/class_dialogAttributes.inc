@@ -672,4 +672,71 @@ class UserAttribute extends DialogButtonAttribute
     return $ids;
   }
 }
+
+class GenericSimplePluginDialog extends GenericDialog
+{
+  protected $initialDialogValue = NULL;
+
+  function __construct($simplePlugin, &$attribute, $value = array())
+  {
+    $this->attribute  = $attribute;
+    $this->dialog     = new $this->dialogClass($simplePlugin->config, 'new');
+
+    $base = $simplePlugin->dn;
+    if ($base == 'new') {
+      $base = $simplePlugin->base;
+    }
+    $this->dialog->set_acl_base($base);
+    $this->dialog->set_acl_category($simplePlugin->acl_category);
+    if (!empty($value)) {
+      $this->initialDialogValue = $value;
+      foreach ($this->dialog->attributes as $attr) {
+        if (isset($value[$attr])) {
+          $this->dialog->$attr = $value[$attr];
+        }
+      }
+    }
+  }
+
+  function buttons ()
+  {
+    return '<div style="width:100%; text-align:right; clear:both; float:none;">'.
+           '  <input type="submit" name="'.$this->post_finish.'" value="'.msgPool::saveButton().'"/>&nbsp;'.
+           '  <input type="submit" name="'.$this->post_cancel.'" value="'.msgPool::cancelButton().'"/>'.
+           '</div>';
+  }
+
+  function dialog_execute ()
+  {
+    $this->dialog->save_object();
+    return $this->dialog->execute().$this->buttons();
+  }
+
+  function handle_finish ()
+  {
+    $this->dialog->save_object();
+    if (count($this->dialog->check())) {
+      foreach ($this->dialog->check() as $msg) {
+        msg_dialog::display(_('Error'), $msg, ERROR_DIALOG);
+      }
+      return $this->dialog->execute().$this->buttons();
+    }
+
+    $value = array();
+    foreach ($this->dialog->attributes as $attr) {
+      $value[$attr] = $this->dialog->$attr;
+    }
+
+    $this->attribute->addValue($value);
+    return FALSE;
+  }
+
+  function handle_cancel ()
+  {
+    if ($this->initialDialogValue !== NULL) {
+      $this->attribute->addValue($this->initialDialogValue);
+    }
+    return FALSE;
+  }
+}
 ?>
