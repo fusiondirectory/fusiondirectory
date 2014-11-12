@@ -1425,15 +1425,24 @@ class FileAttribute extends Attribute
   }
 }
 
-class FileTextAreaAttribute extends FileAttribute
+/* FileAttribue with download button */
+class FileDownloadAttribute extends FileAttribute
 {
-  function computeFilename()
+  protected $extension;
+  protected $upload;
+
+  function __construct ($label, $description, $ldapName, $required = FALSE, $extension = '', $upload = FALSE, $defaultValue = "", $acl = "")
   {
-    return $this->getLdapName().".txt";
+    parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
+    $this->extension  = $extension;
+    $this->upload     = $upload;
   }
 
-  /*! \brief Update this attributes postValue depending of the $_POST values
-   */
+  function computeFilename()
+  {
+    return $this->getLdapName().$this->extension;
+  }
+
   function loadPostValue ()
   {
     if ($this->isVisible()) {
@@ -1446,13 +1455,8 @@ class FileTextAreaAttribute extends FileAttribute
           exit();
         }
       }
-      if (isset($_POST['upload'.$this->getHtmlId()])) {
+      if ($this->upload && isset($_POST['upload'.$this->getHtmlId()])) {
         parent::loadPostValue();
-      } else {
-        $id = $this->getHtmlId().'_text';
-        if (isset($_POST[$id])) {
-          $this->setPostValue($_POST[$id]);
-        }
       }
     }
   }
@@ -1460,11 +1464,11 @@ class FileTextAreaAttribute extends FileAttribute
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $display  = '<textarea name="'.$id.'_text" id="'.$id.'_text"'.
-                ($this->disabled? 'disabled="disabled"':'').'>'.
-                '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea><br/>';
-    $display  .= $this->renderInputField('file', $id);
-    $display  .= $this->renderInputField('submit', 'upload'.$id, array('value' => _('Upload')));
+    $display = '';
+    if ($this->upload) {
+      $display  .= $this->renderInputField('file', $id);
+      $display  .= $this->renderInputField('submit', 'upload'.$id, array('value' => _('Upload')));
+    }
     $display  .= $this->renderInputField(
       'image', 'download'.$id,
       array(
@@ -1479,8 +1483,75 @@ class FileTextAreaAttribute extends FileAttribute
 
   protected function htmlIds()
   {
+    $id   = $this->getHtmlId();
+    $ids  = array('download'.$id);
+    if ($this->upload) {
+      $ids[] =  $id;
+      $ids[] =  'upload'.$id;
+    }
+    return $ids;
+  }
+
+  function renderAttribute(&$attributes, $readOnly)
+  {
+    if ($this->upload == FALSE) {
+      parent::renderAttribute($attributes, FALSE);
+    } else {
+      parent::renderAttribute($attributes, $readOnly);
+    }
+  }
+}
+
+class FileTextAreaAttribute extends FileDownloadAttribute
+{
+  function __construct ($label, $description, $ldapName, $required = FALSE, $extension = '.txt', $upload = TRUE, $defaultValue = "", $acl = "")
+  {
+    parent::__construct(
+      $label, $description, $ldapName, $required,
+      $extension, $upload, $defaultValue, $acl
+    );
+  }
+  /*! \brief Update this attributes postValue depending of the $_POST values
+   */
+  function loadPostValue ()
+  {
+    if ($this->isVisible()) {
+      foreach (array_keys($_POST) as $name) {
+        if (preg_match('/^download'.$this->getHtmlId().'/', $name)) {
+          session::set('binary', $this->value);
+          session::set('binarytype', 'octet-stream');
+          session::set('binaryfile', $this->computeFilename());
+          header('location: getbin.php');
+          exit();
+        }
+      }
+      if ($this->upload) {
+        if (isset($_POST['upload'.$this->getHtmlId()])) {
+          parent::loadPostValue();
+        } else {
+          $id = $this->getHtmlId().'_text';
+          if (isset($_POST[$id])) {
+            $this->setPostValue($_POST[$id]);
+          }
+        }
+      }
+    }
+  }
+
+  function renderFormInput ()
+  {
     $id = $this->getHtmlId();
-    return array($id.'_text',$id,'upload'.$id,'download'.$id);
+    $display  = '<textarea name="'.$id.'_text" id="'.$id.'_text"'.
+                ($this->disabled? 'disabled="disabled"':'').'>'.
+                '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea><br/>';
+    return $this->renderAcl($display).parent::renderFormInput();
+  }
+
+  protected function htmlIds()
+  {
+    $ids    = parent::htmlIds();
+    $ids[]  = $id.'_text';
+    return $ids;
   }
 }
 
