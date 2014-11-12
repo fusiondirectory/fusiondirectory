@@ -303,7 +303,7 @@ class setup
     $cv['fdLogging']        = FALSE;
     $cv['fdDisplayErrors']  = FALSE;
     $cv['fdForceSSL']       = TRUE;
-    $cv['fdDebugLevel']     = 0;
+    $cv['debugLevel']       = 0;
     $smarty->assign("cv",                       xmlentities($cv));
     $smarty->assign("config_checksum",          md5(file_get_contents(CONFIG_TEMPLATE_DIR.CONFIG_FILE)));
     $smarty->assign("templateCompileDirectory", SPOOL_DIR);
@@ -313,6 +313,11 @@ class setup
     session::global_un_set('plist');
     load_plist();
     $this->o_steps[$this->i_config] = new Step_Config($this->captured_values);
+  }
+
+  function getDebugLevel ()
+  {
+    return $this->o_steps[$this->i_config]->attributesAccess['fdDebugLevel']->computeLdapValue();
   }
 }
 ?>
