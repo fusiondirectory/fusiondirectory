@@ -344,6 +344,7 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
       /* Not account expired or password forced change go to main page */
       new log("security", "login", "", array(), "User \"$username\" logged in successfully");
       session::global_set('connected', 1);
+      session::global_set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
       $config->checkLdapConfig(); // check that newly installed plugins have their configuration in the LDAP
       header ("Location: main.php?global_check=1");
       exit;
