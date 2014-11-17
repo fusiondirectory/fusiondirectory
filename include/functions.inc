@@ -3051,15 +3051,17 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
 
     // Not for groups
     if ($mode == 0) {
-      if ($test->need_password()) {
-        // Create SMB Password
-        $attrs = generate_smb_nt_hash($password);
-      } else {
-        $attrs['sambaLMPassword']       = array();
-        $attrs['sambaNTPassword']       = array();
-        $attrs['sambaPwdLastSet']       = array();
-        $attrs['sambaBadPasswordCount'] = array();
-        $attrs['sambaBadPasswordTime']  = array();
+      if (class_available('sambaAccount')) {
+        if ($test->need_password()) {
+          // Create SMB Password
+          $attrs = generate_smb_nt_hash($password);
+        } else {
+          $attrs['sambaLMPassword']       = array();
+          $attrs['sambaNTPassword']       = array();
+          $attrs['sambaPwdLastSet']       = array();
+          $attrs['sambaBadPasswordCount'] = array();
+          $attrs['sambaBadPasswordTime']  = array();
+        }
       }
       if ($shadow != 0) {
         $attrs['shadowLastChange'] = $shadow;
