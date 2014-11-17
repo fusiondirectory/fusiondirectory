@@ -97,9 +97,12 @@ sub ask_user_input {
 
  do
  {
-   $answer = <STDIN>;
-   chomp $answer;
-   $answer =~ s/^\s+|\s+$//g;
+   if ($answer = <STDIN>) {
+     chomp $answer;
+     $answer =~ s/^\s+|\s+$//g;
+   } else {
+     $answer = "";
+   }
  } while (($answer eq "") && (not defined $default_answer));
 
  if ($answer eq "") {
