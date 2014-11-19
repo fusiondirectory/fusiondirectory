@@ -58,12 +58,16 @@ class simpleService extends simplePlugin {
       new log("view", "server/".get_class($this), $this->dn);
     }
 
-    $str = "<div style='width:100%; text-align:right; clear:both; float:none;'>".
-           "  <input type='submit' name='SaveService' value='".msgPool::saveButton()."'>&nbsp;".
-           "  <input type='submit' name='CancelService' value='".msgPool::cancelButton()."'>".
-           "</div>";
+    $str = parent::execute();
 
-    return parent::execute().$str;
+    if (!$this->dialog) {
+      $str .= '<div class="plugbottom servicebottom">'.
+             '  <input type="submit" name="SaveService" value="'.msgPool::saveButton().'"/>&nbsp;'.
+             '  <input type="submit" name="CancelService" value="'.msgPool::cancelButton().'"/>'.
+             '</div>';
+    }
+
+    return $str;
   }
 
   protected function acl_skip_write()
