@@ -2474,7 +2474,11 @@ class OrderedArrayAttribute extends SetAttribute
     foreach ($this->value as $key => $value) {
       $fields = array();
       foreach ($this->getAttributeArrayValue($value) as $field) {
-        $fields[] = array("string" => $field);
+        if (is_array($field)) {
+          $fields[] = $field;
+        } else {
+          $fields[] = array('string' => $field);
+        }
       }
 
       list ($img, $width) = $this->genRowIcons($key, $value);
