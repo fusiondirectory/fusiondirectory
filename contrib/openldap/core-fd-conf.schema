@@ -382,6 +382,12 @@ attributetype ( 1.3.6.1.4.1.38414.8.18.5 NAME 'fdDisplayHookOutput'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
   SINGLE-VALUE )
 
+attributetype ( 1.3.6.1.4.1.38414.8.18.6 NAME 'fdAclTabOnObjects'
+  DESC 'FusionDirectory - Should acl tabs be shown on all objects'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE )
+
 # Plugins
 
 attributetype ( 1.3.6.1.4.1.38414.8.19.1 NAME 'fdOGroupRDN'
@@ -416,6 +422,7 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
     fdEnableSnapshots $ fdSnapshotBase $ fdSnapshotURI $
     fdSnapshotAdminDn $ fdSnapshotAdminPassword $
     fdHonourIvbbAttributes $ fdTabHook $ fdShells $ fdDisplayHookOutput $
+    fdAclTabOnObjects $
     fdHonourUnitTags
    ) )
 

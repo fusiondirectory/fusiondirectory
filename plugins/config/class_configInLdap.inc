@@ -283,6 +283,11 @@ class configInLdap extends simplePlugin
             array('/bin/ash','/bin/bash','/bin/csh','/bin/sh','/bin/ksh',
                   '/bin/tcsh','/bin/dash','/bin/zsh')
           ),
+          new BooleanAttribute (
+            _('Show ACL tab on all objects'),
+            _('For very specific ACL rights setting where you might need to give right on a single object.'),
+            'fdAclTabOnObjects'
+          ),
         )
       ),
       'people_and_group' => array(
