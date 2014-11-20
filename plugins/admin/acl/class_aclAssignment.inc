@@ -242,23 +242,27 @@ class aclAssignment extends simplePlugin
 
   static function plInfo()
   {
+    global $config;
+    $oc = array(
+      'aclAssignment' => array(
+        'aclCategory' => 'acl',
+        'name'        => _('ACL assignment'),
+        'filter'      => 'objectClass=gosaAcl',
+        'ou'          => '',
+        'icon'        => 'geticon.php?context=categories&icon=acl&size=16',
+        'tabClass'    => 'simpleTabs_noSpecial',
+        'mainAttr'    => FALSE
+      ),
+    );
+    if ($config->get_cfg_value('aclTabOnObjects') == 'TRUE') {
+      $oc[] = 'special';
+    } else {
+      $oc = array_merge($oc, departmentManagement::getDepartmentTypes());
+    }
     return array(
       'plShortName'   => _('ACL Assignment'),
       'plDescription' => _('Access control roles assignment'),
-      'plObjectType'  => array(
-        'aclAssignment' => array(
-          'aclCategory' => 'acl',
-          'name'        => _('ACL assignment'),
-          'filter'      => 'objectClass=gosaAcl',
-          'ou'          => '',
-          'icon'        => 'geticon.php?context=categories&icon=acl&size=16',
-          'tabClass'    => 'simpleTabs_noSpecial',
-          'mainAttr'    => FALSE
-        ),
-        'special' => array(
-          'name' => 'special'
-        ),
-      ),
+      'plObjectType'  => $oc,
       'plForeignKeys'  => array(
         'gosaAclEntry' => array(
           array('aclRole',  'dn', 'gosaAclEntry=*:*:%b|oldvalue%:*'),

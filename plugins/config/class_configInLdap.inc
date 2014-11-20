@@ -236,6 +236,11 @@ class configInLdap extends simplePlugin
             'fdSnapshotBase', FALSE,
             'ou=snapshots,'.$config->current['BASE']
           ),
+          new BooleanAttribute (
+            _('Show ACL tab on all objects'),
+            _('For very specific ACL rights setting where you might need to give right on a single object.'),
+            'fdAclTabOnObjects'
+          ),
         )
       ),
       'people_and_group' => array(

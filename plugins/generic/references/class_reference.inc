@@ -26,7 +26,11 @@ class reference extends simplePlugin
       "plShortName"   => _("References"),
       "plDescription" => _("References"),
       "plCategory"    => array('acl'),
-      "plObjectType"  => array('special'),
+      "plObjectType"  => array(
+        'special' => array(
+          'name' => 'special'
+        )
+      ),
       'plPriority'    => 10,
 
       "plProvidedAcls"  => array()
