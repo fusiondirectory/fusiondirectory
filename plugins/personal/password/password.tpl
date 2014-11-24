@@ -31,13 +31,13 @@
     <tr>
       <td><b><LABEL for="repeated_password">{t}Repeat new password{/t}</LABEL></b></td>
       <td><input id="repeated_password" type="password" name="repeated_password"
-          onFocus="nextfield= 'password_finish';"></td>
+          onFocus="nextfield= 'password_finish'"></td>
     </tr>
     <tr>
       <td><b>{t}Password strength{/t}</b></td>
       <td>
-      <span id="meterEmpty" style="padding:0;margin:0;width:100%;background-color:#DC143C;display:block;height:5px;">
-      <span id="meterFull" style="padding:0;margin:0;z-index:100;width:0;background-color:#006400;display:block;height:5px;"></span></span>
+          <span id="meterEmpty" style="padding:0;margin:0;width:100%;background-color:#DC143C;display:block;height:5px;">
+          <span id="meterFull" style="padding:0;margin:0;z-index:100;width:0;background-color:#006400;display:block;height:5px;"></span></span>
       </td>
     </tr>
   </table>
@@ -62,7 +62,6 @@
                   padding-top:3px;
                   padding-bottom:3px;
             '>{$proposal}</div>
-
       </td>
       <td>
         &nbsp;<input type='submit' name='refreshProposal' value='{t}Refresh{/t}'>
@@ -75,17 +74,17 @@
       </td>
     </tr>
     <tr>
-      <td  style='padding-left:40px;'><b><LABEL for="new_password">{t}New password{/t}</LABEL></b></td>
+      <td style='padding-left:40px;'><b><LABEL for="new_password">{t}New password{/t}</LABEL></b></td>
       <td><input id="new_password" type="password" name="new_password"
           onFocus="nextfield= 'repeated_password';" onkeyup="testPasswordCss(document.getElementById('new_password').value);"></td>
     </tr>
     <tr>
-      <td  style='padding-left:40px;'><b><LABEL for="repeated_password">{t}Repeat new password{/t}</LABEL></b></td>
+      <td style='padding-left:40px;'><b><LABEL for="repeated_password">{t}Repeat new password{/t}</LABEL></b></td>
       <td><input id="repeated_password" type="password" name="repeated_password"
-          onFocus="nextfield= 'password_finish';"></td>
+          onFocus="nextfield='password_finish'"></td>
     </tr>
     <tr>
-      <td  style='padding-left:40px;'><b>{t}Password strength{/t}</b></td>
+      <td style='padding-left:40px;'><b>{t}Password strength{/t}</b></td>
       <td>
       <span id="meterEmpty" style="padding:0;margin:0;width:100%;background-color:#DC143C;display:block;height:7px;">
       <span id="meterFull" style="padding:0;margin:0;z-index:100;width:0;background-color:#006400;display:block;height:7px;"></span></span>
@@ -104,24 +103,22 @@
   <input type='hidden' id='formSubmit'>
 </p>
 
-<input type="hidden" name="ignore">
 {literal}
 <script type="text/javascript">
     nextfield= 'current_password';
     focus_field('current_password');
 
-
     function updateFields()
     {
-        if($('proposalSelected').checked){
-            $('new_password').disable();
-            $('repeated_password').disable();
-            $('proposalText').setStyle(
-                 'background-color:#FFF;' +
-                 'color:#000;' +
-                 'width:180px;' +
-                 'border:1px solid #CCC;' +
-                 'padding:3px;' );
+      if($('proposalSelected').checked){
+          $('new_password').disable();
+          $('repeated_password').disable();
+          $('proposalText').setStyle(
+                'background-color:#FFF;' +
+                'color:#000;' +
+                'width:180px;' +
+                'border:1px solid #CCC;' +
+                'padding:3px;' );
         }else{
             $('new_password').enable();
             $('repeated_password').enable();
