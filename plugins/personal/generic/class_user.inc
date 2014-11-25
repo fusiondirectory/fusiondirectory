@@ -1018,8 +1018,8 @@ class user extends plugin
     $ldap->cd ($this->dn);
     $ldap->$mode ($this->attrs);
     if (!$ldap->success()){
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_DEL, get_class()), LDAP_ERROR);
-      return (1);
+      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, 0, get_class()), LDAP_ERROR);
+      return 1;
     }
 
     /* Remove ACL dependencies too */
