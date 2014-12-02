@@ -331,4 +331,13 @@ class aclAssignment extends simplePlugin
     $ui->loadACL();
     session::global_set('ui', $ui);
   }
+
+  function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
+  {
+    /* Handle foreign keys only as the main tab so that they are not handled twice */
+    if ($this->parent->getBaseObject() !== $this) {
+      return;
+    }
+    parent::foreignKeyUpdate($field, $oldvalue, $newvalue, $source);
+  }
 }
