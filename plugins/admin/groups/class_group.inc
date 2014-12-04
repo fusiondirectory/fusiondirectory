@@ -521,13 +521,13 @@ class group extends plugin
       $ldap->search("(&(objectClass=gosaAccount)(uid=".$uid."))",array("dn", "uid","sn","givenName"));
       if($ldap->count() == 0 ){
         msg_dialog::display(_("Error"),
-            sprintf(_("Adding UID '%s' to group '%s' failed: cannot find user object!"),
+            sprintf(_('Adding user "%s" to group "%s" failed: cannot find user object!'),
               $uid,$this->cn),
             ERROR_DIALOG);
         return;
       }elseif($ldap->count() >= 2){
         msg_dialog::display(_("Error"),
-            sprintf(_("Add UID '%s' to group '%s' failed: UID is used more than once!"),
+            sprintf(_('Adding user "%s" to group "%s" failed: this login is used by more than one user!'),
               $uid,$this->cn),
             ERROR_DIALOG);
         return;
@@ -597,7 +597,7 @@ class group extends plugin
         count($this->memberUid) < $this->config->get_cfg_value("ldapFilterNestingLimit")){
       foreach ($this->memberUid as $value){
         if(!isset($this->members[$value])){
-          $this->members[$value] =  _("! unknown UID")." [".$value."]";
+          $this->members[$value] =  _("! unknown user")." [".$value."]";
         }
       }
     }else{

@@ -475,10 +475,10 @@ class passwordRecovery {
     $ldap->search("(&(objectClass=gosaMailAccount)(uid=".$this->uid."))", array("dn"));
 
     if ($ldap->count() < 1) {
-      $this->message[] = sprintf(_("Did not found account %s"), $this->uid);
+      $this->message[] = sprintf(_('Did not found an account with login "%s"'), $this->uid);
       return;
     } elseif ($ldap->count() > 1) {
-      $this->message[] = sprintf(_("Found multiple accounts %s"), $this->uid);
+      $this->message[] = sprintf(_('Found multiple accounts with login "%s"'), $this->uid);
       return;
     }
 

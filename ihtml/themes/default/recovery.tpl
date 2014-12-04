@@ -78,7 +78,7 @@
       </tr>
       {/if}
       <tr>
-       <td><label for="uid">{t}Username{/t}</label></td>
+       <td><label for="uid">{t}Login{/t}</label></td>
        <td>
            <i>{$uid}</i>
        </td>

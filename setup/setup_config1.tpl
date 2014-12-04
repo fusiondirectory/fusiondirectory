@@ -91,7 +91,7 @@
 
     <div class='step4_container'>
         <div class='step4_name'>
-            {t}Automatic UIDs{/t}
+            {t}Automatic logins{/t}
         </div>
         <div class='step4_value'>
             {if $id_settings.idgen_active == FALSE}
@@ -107,7 +107,7 @@
 
   <div class='step4_container'>
         <div class='step4_name'>
-            {t}GID / UID min id{/t}
+            {t}Group/user min id{/t}
         </div>
         <div class='step4_value'>
             {if $id_settings.minid_active == FALSE}
@@ -123,7 +123,7 @@
 
     <div class='step4_container' style="margin-bottom:5px;">
         <div class='step4_name'>
-            {t}Number base for people/groups{/t}
+            {t}Base number for user/group id{/t}
         </div>
         <div class='step4_value'>
             <input type='text' name='uidbase' maxlength='20' size='10' value='{$uidbase}'>

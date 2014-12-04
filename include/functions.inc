@@ -587,7 +587,7 @@ function ldap_login_user_htaccess ($username)
   $ldap->search("(&(objectClass=gosaAccount)(uid=$username))", array("uid"));
   /* Found no uniq match? Strange, because we did above... */
   if ($ldap->count() != 1) {
-    msg_dialog::display(_("LDAP error"), _("Username / UID is not unique inside the LDAP tree!"), FATAL_ERROR_DIALOG);
+    msg_dialog::display(_("LDAP error"), _("Login (uid) is not unique inside the LDAP tree!"), FATAL_ERROR_DIALOG);
     return NULL;
   }
   $attrs = $ldap->fetch();
@@ -673,7 +673,7 @@ function ldap_login_user ($username, $password)
 
     /* found more than one matching id */
     default:
-      msg_dialog::display(_("Internal error"), _("Username / UID is not unique inside the LDAP tree. Please contact your Administrator."), FATAL_ERROR_DIALOG);
+      msg_dialog::display(_("Internal error"), _("Login (uid) is not unique inside the LDAP tree. Please contact your administrator."), FATAL_ERROR_DIALOG);
       return NULL;
   }
 

@@ -96,16 +96,16 @@ class posixAccount extends simplePlugin
             'posixStatus', FALSE
           ),
           new BooleanAttribute(
-            _('Force UID/GID'), _('Force UID and GID values for this user'),
+            _('Force user/group id'), _('Force user id and group id values for this user'),
             'force_ids', FALSE
           ),
           new IntAttribute(
-            _('UID'), _('UID value for this user'),
+            _('User id'), _('User id value for this user'),
             'uidNumber', FALSE,
             0, FALSE, ''
           ),
           new IntAttribute(
-            _('GID'), _('GID value for this user'),
+            _('Group id'), _('Group id value for this user'),
             'gidNumber', FALSE,
             0, FALSE, ''
           )

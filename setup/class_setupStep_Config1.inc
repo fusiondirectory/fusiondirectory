@@ -123,7 +123,7 @@ class Step_Config1 extends setup_step
     $message = array();
 
     if (isset($this->id_settings['minid_active']) && !is_numeric($this->id_settings['minid'])) {
-      $message[] = sprintf(_("The specified value for '%s' must be a numeric value"), _("GID / UID min id"));
+      $message[] = sprintf(_("The specified value for '%s' must be a numeric value"), _("Group/user min id"));
     }
 
     if (preg_match("/,$/", $this->peopleou)) {
@@ -139,7 +139,7 @@ class Step_Config1 extends setup_step
     }
 
     if (!is_numeric($this->uidbase)) {
-      $message[] = _("Uid base must be numeric");
+      $message[] = _("User id base must be numeric");
     }
 
     if (($this->pwd_rules['pwminlen_active']) && !is_numeric($this->pwd_rules['pwminlen'])) {
