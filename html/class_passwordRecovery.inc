@@ -28,7 +28,7 @@ class passwordRecovery {
   var $config;
   var $uid;
   var $message = array();
-  var $address_mail;
+  var $email_address;
   var $method;
   var $directory;
 
@@ -133,12 +133,12 @@ class passwordRecovery {
       }
     }
 
-    if (isset($_GET['address_mail']) && $_GET['address_mail'] != "") {
-      $this->address_mail = validate($_GET['address_mail']);
-      $smarty->assign('address_mail', $this->address_mail);
-    } elseif (isset($_POST['address_mail'])) {
-      $this->address_mail = validate($_POST['address_mail']);
-      $smarty->assign('address_mail', $this->address_mail);
+    if (isset($_GET['email_address']) && $_GET['email_address'] != "") {
+      $this->email_address = validate($_GET['email_address']);
+      $smarty->assign('email_address', $this->email_address);
+    } elseif (isset($_POST['email_address'])) {
+      $this->email_address = validate($_POST['email_address']);
+      $smarty->assign('email_address', $this->email_address);
     }
 
     /* Check for selected user... */
@@ -491,17 +491,17 @@ class passwordRecovery {
   function step2()
   {
     /* Ask for the method */
-    if ($_POST['address_mail'] == "") {
-      $this->message[] = msgPool::required(_("Adresse mail"));
+    if ($_POST['email_address'] == "") {
+      $this->message[] = msgPool::required(_("Email address"));
       return;
     }
-    $this->address_mail = $_POST['address_mail'];
+    $this->email_address = $_POST['email_address'];
 
     /* Search uid corresponding to the mail */
     if ($this->usealternates) {
-      $filter = "(&(objectClass=gosaMailAccount)(|(mail=".$this->address_mail.")(gosaMailAlternateAddress=".$this->address_mail.")))";
+      $filter = "(&(objectClass=gosaMailAccount)(|(mail=".$this->email_address.")(gosaMailAlternateAddress=".$this->email_address.")))";
     } else {
-      $filter = "(&(objectClass=gosaMailAccount)(mail=".$this->address_mail."))";
+      $filter = "(&(objectClass=gosaMailAccount)(mail=".$this->email_address."))";
     }
     $uids = get_list( $filter, "",
                       $this->config->current['BASE'], array("uid"),
@@ -509,10 +509,10 @@ class passwordRecovery {
 
     /* Only one uid should be found */
     if (count($uids) < 1) {
-      $this->message[] = sprintf(_("There is no account using email %s"), $this->address_mail);
+      $this->message[] = sprintf(_("There is no account using email %s"), $this->email_address);
       return;
     } elseif (count($uids) > 1) {
-      $this->message[] = sprintf(_("There are several accounts using email %s"), $this->address_mail);
+      $this->message[] = sprintf(_("There are several accounts using email %s"), $this->email_address);
       return;
     }
 
@@ -520,9 +520,9 @@ class passwordRecovery {
 
     $this->uid = $uids[0]['uid'][0];
     $smarty->assign('uid', $this->uid);
-    $smarty->assign('address_mail', $this->address_mail);
+    $smarty->assign('email_address', $this->email_address);
     $this->step = 2;
-    $params = $this->encodeParams(array('uid', 'method', 'directory', 'address_mail'));
+    $params = $this->encodeParams(array('uid', 'method', 'directory', 'email_address'));
     $smarty->assign('params', $params);
   }
 
@@ -544,7 +544,7 @@ class passwordRecovery {
     $reinit_link = $this->getPageURL();
     $reinit_link .= "?uniq=".$activatecode;
     $reinit_link .= "&uid=".$this->uid;
-    $reinit_link .= "&address_mail=".$this->address_mail;
+    $reinit_link .= "&email_address=".$this->email_address;
 
     @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $reinit_link, "Setting link to");
 
@@ -557,7 +557,7 @@ class passwordRecovery {
 
     $additional_parameters = "-f".$this->from_mail;
 
-    if (mail($this->address_mail, $this->mail_subject, $mail_body, $headers, $additional_parameters)) {
+    if (mail($this->email_address, $this->mail_subject, $mail_body, $headers, $additional_parameters)) {
       $this->step = 3;
     } else {
       $this->message[] = msgPool::invalid(_("Contact your administrator, there was a problem with mail server"));
@@ -581,7 +581,7 @@ class passwordRecovery {
     $this->uniq = $uniq_id_from_mail;
     $this->step = 4;
     $smarty->assign('uid', $this->uid);
-    $params = $this->encodeParams(array('uid', 'method', 'directory', 'address_mail', 'uniq'));
+    $params = $this->encodeParams(array('uid', 'method', 'directory', 'email_address', 'uniq'));
     $smarty->assign('params', $params);
 
     if (isset($_POST['change'])) {
@@ -629,7 +629,7 @@ class passwordRecovery {
 
     $additional_parameters = "-f".$this->from_mail;
 
-    if (mail($this->address_mail, $this->mail2_subject, $mail_body, $headers, $additional_parameters)) {
+    if (mail($this->email_address, $this->mail2_subject, $mail_body, $headers, $additional_parameters)) {
       $smarty = get_smarty();
       $this->step = 5;
       $smarty->assign('changed', TRUE);
