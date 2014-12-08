@@ -29,7 +29,7 @@ class roleGeneric extends simplePlugin
   {
     return array(
       'plShortName'   => _('Role'),
-      'plDescription' => _('Role generic'),
+      'plDescription' => _('Role information'),
       'plObjectType'  => array('role' =>
         array(
           'name'        => _('Role'),
@@ -55,7 +55,7 @@ class roleGeneric extends simplePlugin
   {
     return array(
       'section1' => array(
-        'name'  => _('Generic'),
+        'name'  => _('Informations'),
         'attrs' => array(
           new StringAttribute (
             _('Name'), _('Name of the role'),
