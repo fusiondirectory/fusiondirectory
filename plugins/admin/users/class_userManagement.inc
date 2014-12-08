@@ -890,7 +890,7 @@ class userManagement extends management
     $ldap = $config->get_ldap_link();
     $ldap->cat($dn);
     $result = "<input class='center' type='image' src='geticon.php?context=applications&icon=user-info&size=16' ".
-                       "alt='"._('Generic')."' title='"._("Generic properties")."' ".
+                       "alt='"._('User account')."' title='"._('User account information')."' ".
                        "name='listing_edit_tab_user_$row' style='padding:1px'/>";
     if ($attrs = $ldap->fetch()) {
       foreach ($usertabs as $class => $usertab) {

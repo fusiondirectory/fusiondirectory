@@ -1439,16 +1439,16 @@ class user extends plugin
         "postalCode"                                =>  _("Postal code"));
 
     $ret = array(
-        "plShortName"   => _("Generic"),
-        "plDescription" => _("Generic user settings"),
+        "plShortName"   => _('User'),
+        "plDescription" => _('User account information'),
         "plIcon"        => 'geticon.php?context=applications&icon=user-info&size=48',
         "plSmallIcon"   => 'geticon.php?context=applications&icon=user-info&size=16',
         "plSelfModify"  => TRUE,
         "plCategory"    => array("user" => array("description" => _("Users"),
                                                   "objectClass" => "gosaAccount")),
         "plObjectType"  => array("user" => array(
-          'description' => _('Users'),
           'name'        => _('User'),
+          'description' => _('User account'),
           'filter'      => 'objectClass=gosaAccount',
           'mainAttr'    => 'cn',
           'icon'        => 'geticon.php?context=types&icon=user&size=16',

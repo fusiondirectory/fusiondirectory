@@ -75,7 +75,7 @@ class posixAccount extends simplePlugin
   {
     return array(
       'main' => array(
-        'name'  => _('Generic'),
+        'name'  => _('Unix'),
         'icon'  => 'images/rightarrow.png',
         'attrs' => array(
           new PathAttribute(

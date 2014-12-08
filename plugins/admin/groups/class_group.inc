@@ -1082,12 +1082,12 @@ class group extends plugin
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("Generic"),
-      "plDescription" => _("Generic group settings"),
+      "plShortName"   => _('Group'),
+      "plDescription" => _('User group information'),
       "plSelfModify"  => FALSE,
       "plObjectType"  => array("group" => array(
-        "description" => _("Groups"),
-        "name"        => _("Group"),
+        'name'        => _('Group'),
+        'description' => _('User group'),
         'ou'          => get_ou('groupRDN'),
         'filter'      => 'objectClass=posixGroup',
         'icon'        => 'geticon.php?context=types&icon=user-group&size=16',
