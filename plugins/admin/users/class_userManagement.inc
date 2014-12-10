@@ -376,7 +376,7 @@ class userManagement extends management
         $this->dn = "";
       } else {
         msg_dialog::display(_("Password change"),
-                _("You have no permission to change this users password!"),
+                _("You have no permission to change this user's password!"),
                 WARNING_DIALOG);
       }
     }
