@@ -166,6 +166,14 @@ class DialogAttribute extends SetAttribute
     trigger_error("abstract method");
   }
 
+  function searchAndRemove ($value)
+  {
+    $row = array_search($value, $this->value);
+    if ($row !== FALSE) {
+      $this->removeValue($row);
+    }
+  }
+
   protected function removeValue ($row)
   {
     unset($this->value[$row]);
