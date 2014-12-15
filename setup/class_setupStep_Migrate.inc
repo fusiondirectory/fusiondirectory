@@ -845,7 +845,7 @@ class Step_Migrate extends setup_step
         }
       }
 
-      /* Try to find an old FD 1.0.7 administrative account that may be migrated */
+      /* Try to find an old FD 1.0.7 administrator account that may be migrated */
       if (!$FD_1_0_8_found) {
         $valid_users  = "";
         $valid_groups = "";
@@ -945,7 +945,7 @@ class Step_Migrate extends setup_step
       if ($FD_1_0_7_found) {
         $str = "";
         if (!empty($valid_groups)) {
-          $str .= "<i>".sprintf(_("FD 1.0.7 administrative accounts found: %s"), trim($valid_groups, ", "))."</i><br>";
+          $str .= "<i>".sprintf(_("FD 1.0.7 administrator accounts found: %s"), trim($valid_groups, ", "))."</i><br>";
         }
         $this->checks['acls']['STATUS']     = FALSE;
         $this->checks['acls']['STATUS_MSG'] = _("Failed");
@@ -1189,7 +1189,7 @@ class Step_Migrate extends setup_step
 
     $ldap->cat($dn, array("dn"));
     if ($ldap->count()) {
-      msg_dialog::display(_("Error"), sprintf(_("Adding an administrative user failed: object '%s' already exists!"), LDAP::fix($dn)), ERROR_DIALOG);
+      msg_dialog::display(_("Error"), sprintf(_("Adding an administrator user failed: object '%s' already exists!"), LDAP::fix($dn)), ERROR_DIALOG);
       return FALSE;
     }
 
@@ -1439,7 +1439,7 @@ class Step_Migrate extends setup_step
     }
 
     /*************
-     * Administrative Account -- Migrate/Create
+     * Administrator Account -- Migrate/Create
      *************/
 
     if (isset($_POST['retry_acls'])) {
@@ -2825,7 +2825,7 @@ class Step_Migrate extends setup_step
       $this->migrate_users[$id]['checked'] = isset($_POST['migrate_admin_'.$id]);
     }
 
-    /* Try to find an old GOsa 2.5 administrative account that may be migrated */
+    /* Try to find an old GOsa 2.5 administrator account that may be migrated */
     if (!count($this->migrate_users)) {
       //FIXME
     }

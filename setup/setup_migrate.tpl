@@ -168,7 +168,7 @@
 
 
     {elseif $method == "migrate_acls"}
-      <h2>{t}Migrate GOsa 2.5 administrative accounts{/t}</h2>
+      <h2>{t}Migrate GOsa 2.5 administrator accounts{/t}</h2>
             <p>
             {t}This dialog allows the migration of GOsa 2.5 admin accounts into FusionDirectory 1.0 useable accounts.{/t}
             </p>
