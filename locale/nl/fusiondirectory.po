@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-108\n"
 "Report-Msgid-Bugs-To: documentation@lists.fusiondirectory.org\n"
-"POT-Creation-Date: 2014-12-04 11:27+0100\n"
-"PO-Revision-Date: 2014-12-04 13:56+0000\n"
+"POT-Creation-Date: 2014-12-15 14:59+0100\n"
+"PO-Revision-Date: 2014-12-15 13:58+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/FusionDirectory-108/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -36,27 +36,20 @@ msgstr "Referenties"
 #: plugins/admin/groups/class_roleGeneric.inc:35
 #: plugins/admin/aclrole/class_aclRole.inc:108
 #: plugins/admin/acl/class_aclAssignment.inc:49
-#: plugins/personal/generic/class_user.inc:1438
 msgid "Role"
 msgstr "Funktie"
 
 #: plugins/admin/groups/class_roleGeneric.inc:32
-msgid "Role generic"
-msgstr "Generieke rol"
+msgid "Role information"
+msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:36
 msgid "Organizational role"
 msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:58
-#: plugins/admin/groups/class_group.inc:1085
-#: plugins/admin/ogroups/class_ogroup.inc:924
-#: plugins/admin/departments/class_department.inc:34
-#: plugins/admin/users/class_userManagement.inc:893
-#: plugins/personal/generic/class_user.inc:1442
-#: plugins/personal/posix/class_posixAccount.inc:78
-msgid "Generic"
-msgstr "Algemeen"
+msgid "Informations"
+msgstr "Informatie"
 
 #: plugins/admin/groups/class_roleGeneric.inc:61
 #: plugins/admin/groups/class_group.inc:981
@@ -76,9 +69,9 @@ msgstr "Algemeen"
 #: plugins/admin/users/class_userManagement.inc:527
 #: plugins/admin/users/class_userManagement.inc:574
 #: plugins/admin/aclrole/class_aclRole.inc:131
-#: plugins/personal/generic/class_user.inc:1196
-#: plugins/personal/generic/class_user.inc:1232
-#: plugins/personal/generic/class_user.inc:1274
+#: plugins/personal/generic/class_user.inc:1112
+#: plugins/personal/generic/class_user.inc:1148
+#: plugins/personal/generic/class_user.inc:1190
 #: plugins/personal/posix/trustSelect/trust-list.xml:64
 #: include/select/systemSelect/systemSelect-list.xml:64
 #: include/simpleplugin/simple-select-list.xml:32
@@ -98,7 +91,7 @@ msgstr "Naam van de rol"
 #: plugins/admin/departments/class_department.inc:72
 #: plugins/admin/departments/dep-list.xml:29
 #: plugins/admin/aclrole/class_aclRole.inc:135
-#: plugins/personal/generic/class_user.inc:1480
+#: plugins/personal/generic/class_user.inc:1356
 #: plugins/personal/posix/trustSelect/trust-list.xml:72
 #: include/class_SnapShotDialog.inc:229
 #: include/select/systemSelect/systemSelect-list.xml:72
@@ -116,14 +109,13 @@ msgid "Phone number"
 msgstr "Telefoonnummer"
 
 #: plugins/admin/groups/class_roleGeneric.inc:74
-#: plugins/personal/generic/class_user.inc:1489
+#: plugins/personal/generic/class_user.inc:1365
 msgid "Fax number"
 msgstr "FAX nummer"
 
 #: plugins/admin/groups/class_roleGeneric.inc:78
 #: plugins/admin/users/class_userManagement.inc:52
-#: plugins/personal/generic/class_user.inc:1447
-#: plugins/personal/generic/class_user.inc:1450
+#: plugins/personal/generic/class_user.inc:1323
 #: setup/class_setupStep_Migrate.inc:959
 msgid "Users"
 msgstr "Gebruikers"
@@ -195,18 +187,18 @@ msgstr "sta toegang op deze computers toe"
 #: plugins/admin/groups/class_group.inc:854
 #: plugins/admin/ogroups/class_ogroup.inc:214
 #: plugins/admin/ogroups/class_ogroup.inc:453
-#: plugins/personal/generic/class_user.inc:416
-#: plugins/personal/generic/class_user.inc:552
-#: plugins/personal/generic/class_user.inc:739
-#: plugins/personal/generic/class_user.inc:956
-#: plugins/personal/generic/class_user.inc:1069
-#: plugins/personal/generic/class_user.inc:1076
-#: plugins/personal/generic/class_user.inc:1094 include/class_listing.inc:537
+#: plugins/personal/generic/class_user.inc:385
+#: plugins/personal/generic/class_user.inc:521
+#: plugins/personal/generic/class_user.inc:694
+#: plugins/personal/generic/class_user.inc:872
+#: plugins/personal/generic/class_user.inc:985
+#: plugins/personal/generic/class_user.inc:992
+#: plugins/personal/generic/class_user.inc:1010 include/class_listing.inc:537
 #: include/class_management.inc:524 include/class_management.inc:664
 #: include/class_config.inc:476 include/class_msgPool.inc:215
 #: include/class_msgPool.inc:235 include/class_msgPool.inc:265
-#: include/class_msgPool.inc:688 include/class_msgPool.inc:719
-#: include/class_msgPool.inc:746 include/functions.inc:3118
+#: include/class_msgPool.inc:678 include/class_msgPool.inc:709
+#: include/class_msgPool.inc:736 include/functions.inc:3118
 #: include/functions.inc:3495 include/functions.inc:3516
 #: include/functions.inc:3546 include/functions.inc:3554
 #: include/functions.inc:3566 include/functions.inc:3570
@@ -247,8 +239,8 @@ msgstr ""
 #: plugins/admin/groups/class_group.inc:954
 #: plugins/admin/ogroups/class_ogroup.inc:867
 #: plugins/admin/ogroups/class_ogroup.inc:881
-#: plugins/personal/generic/class_user.inc:701
-#: plugins/personal/generic/class_user.inc:1021 include/class_config.inc:338
+#: plugins/personal/generic/class_user.inc:656
+#: plugins/personal/generic/class_user.inc:937 include/class_config.inc:338
 #: include/class_ldap.inc:911 include/class_ldap.inc:1366
 #: include/functions.inc:546 include/functions.inc:582
 #: include/functions.inc:590 include/functions.inc:634
@@ -320,24 +312,23 @@ msgstr "Waarschuwing"
 msgid "The gidNumber '%s' is already in use by %s!"
 msgstr "De gidNumber '%s' is al in gebruik door %s!"
 
-#: plugins/admin/groups/class_group.inc:1086
-msgid "Generic group settings"
-msgstr "Generieke groep opties"
-
+#: plugins/admin/groups/class_group.inc:1085
 #: plugins/admin/groups/class_group.inc:1089
-#: plugins/admin/groups/class_groupManagement.inc:36
-#: setup/class_setupStep_Migrate.inc:962
-msgid "Groups"
-msgstr "Groepen"
-
-#: plugins/admin/groups/class_group.inc:1090
 #: plugins/admin/ogroups/class_ogroupManagement.inc:185
 msgid "Group"
 msgstr "Groep"
 
+#: plugins/admin/groups/class_group.inc:1086
+msgid "User group information"
+msgstr ""
+
+#: plugins/admin/groups/class_group.inc:1090
+msgid "User group"
+msgstr ""
+
 #: plugins/admin/groups/class_group.inc:1105
 #: plugins/admin/ogroups/class_ogroup.inc:952
-#: plugins/personal/generic/class_user.inc:1471
+#: plugins/personal/generic/class_user.inc:1347
 #: include/simpleplugin/class_attribute.inc:1679
 msgid "Base"
 msgstr "Basis"
@@ -405,8 +396,8 @@ msgstr "Aanmaken"
 #: plugins/admin/users/user-list.xml:114
 #: plugins/admin/aclrole/class_aclRole.inc:321
 #: include/class_sortableListing.inc:306 include/class_sortableListing.inc:308
-#: include/simpleplugin/class_dialogAttributes.inc:588
-#: include/simpleplugin/class_dialogAttributes.inc:589
+#: include/simpleplugin/class_dialogAttributes.inc:596
+#: include/simpleplugin/class_dialogAttributes.inc:597
 #: include/simpleplugin/class_attribute.inc:2484
 #: include/simpleplugin/class_attribute.inc:2485
 #: include/simpleplugin/simple-list.xml:67
@@ -420,13 +411,18 @@ msgstr "Bewerken"
 #: plugins/admin/departments/dep-list.xml:67
 #: plugins/admin/departments/dep-list.xml:88
 #: plugins/admin/users/user-list.xml:121
-#: include/simpleplugin/class_dialogAttributes.inc:598
-#: include/simpleplugin/class_dialogAttributes.inc:599
+#: include/simpleplugin/class_dialogAttributes.inc:606
+#: include/simpleplugin/class_dialogAttributes.inc:607
 #: include/simpleplugin/simple-list.xml:75
 #: include/simpleplugin/simple-list.xml:125
 #: setup/class_setupStep_Migrate.inc:2522
 msgid "Remove"
 msgstr "Verwijderen"
+
+#: plugins/admin/groups/class_groupManagement.inc:36
+#: setup/class_setupStep_Migrate.inc:962
+msgid "Groups"
+msgstr "Groepen"
 
 #: plugins/admin/groups/class_groupManagement.inc:37
 msgid "Manage groups"
@@ -481,23 +477,24 @@ msgstr "Niet bestaande dn: "
 msgid "You can combine two different object types at maximum, only!"
 msgstr "Je kan maximum 2 verschillende object types combineren!"
 
-#: plugins/admin/ogroups/class_ogroup.inc:925
-msgid "Object group generic"
-msgstr "Object groep generiek"
-
+#: plugins/admin/ogroups/class_ogroup.inc:924
 #: plugins/admin/ogroups/class_ogroup.inc:929
-#: plugins/admin/ogroups/class_ogroupManagement.inc:35
-msgid "Object groups"
-msgstr "Objectgroepen"
-
 #: plugins/admin/ogroups/class_ogroup.inc:930
 #: plugins/admin/ogroups/ogroup-list.xml:15
 msgid "Object group"
 msgstr "Objectgroep"
 
+#: plugins/admin/ogroups/class_ogroup.inc:925
+msgid "Object group information"
+msgstr ""
+
 #: plugins/admin/ogroups/class_ogroup.inc:955
 msgid "Member"
 msgstr "Lid"
+
+#: plugins/admin/ogroups/class_ogroupManagement.inc:35
+msgid "Object groups"
+msgstr "Objectgroepen"
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:36
 msgid "Manage object groups"
@@ -513,7 +510,8 @@ msgstr "Sjablonen"
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:184
 #: plugins/admin/users/user-list.xml:23 plugins/admin/users/user-list.xml:95
-#: plugins/personal/generic/class_user.inc:1451
+#: plugins/personal/generic/class_user.inc:1318
+#: plugins/personal/generic/class_user.inc:1326
 msgid "User"
 msgstr "Gebruiker"
 
@@ -522,9 +520,10 @@ msgid "Application"
 msgstr "Programma"
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:187
+#: plugins/admin/departments/class_department.inc:34
 #: plugins/admin/departments/class_department.inc:40
 #: plugins/admin/departments/dep-list.xml:21
-#: plugins/personal/generic/class_user.inc:1478
+#: plugins/personal/generic/class_user.inc:1354
 msgid "Department"
 msgstr "Afdeling"
 
@@ -536,7 +535,8 @@ msgstr "Server"
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:189
 #: plugins/admin/departments/class_department.inc:99
-#: plugins/personal/generic/class_user.inc:1251
+#: plugins/personal/generic/class_user.inc:1167
+#: plugins/personal/generic/class_user.inc:1362
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:81
 msgid "Phone"
 msgstr "Telefoon"
@@ -811,7 +811,7 @@ msgid "Category of this %s"
 msgstr ""
 
 #: plugins/admin/departments/class_department.inc:80
-#: plugins/personal/generic/class_user.inc:1481
+#: plugins/personal/generic/class_user.inc:1357
 msgid "Manager"
 msgstr "Beheerder"
 
@@ -822,12 +822,12 @@ msgstr ""
 
 #: plugins/admin/departments/class_department.inc:86
 #: plugins/admin/departments/class_department.inc:92
-#: plugins/personal/generic/class_user.inc:1492
+#: plugins/personal/generic/class_user.inc:1368
 msgid "Location"
 msgstr "Plaats"
 
 #: plugins/admin/departments/class_department.inc:89
-#: plugins/personal/generic/class_user.inc:1491
+#: plugins/personal/generic/class_user.inc:1367
 msgid "State"
 msgstr "Provincie"
 
@@ -845,7 +845,7 @@ msgid "Telephone number"
 msgstr "Telefoonnummer"
 
 #: plugins/admin/departments/class_department.inc:103
-#: plugins/personal/generic/class_user.inc:1254
+#: plugins/personal/generic/class_user.inc:1170
 msgid "Fax"
 msgstr "Fax"
 
@@ -898,7 +898,7 @@ msgstr "Lijst met afdelingen"
 #: plugins/admin/departments/class_organization.inc:30
 #: plugins/admin/departments/class_organization.inc:31
 #: plugins/admin/departments/class_organization.inc:34
-#: plugins/personal/generic/class_user.inc:1477
+#: plugins/personal/generic/class_user.inc:1353
 msgid "Organization"
 msgstr "Organisatie"
 
@@ -921,17 +921,17 @@ msgstr "Achternaam"
 
 #: plugins/admin/users/user-list.xml:57
 #: plugins/admin/users/class_userManagement.inc:530
-#: plugins/personal/generic/class_user.inc:1224
-#: plugins/personal/generic/class_user.inc:1271
+#: plugins/personal/generic/class_user.inc:1140
+#: plugins/personal/generic/class_user.inc:1187
 msgid "Given name"
 msgstr "Naam"
 
 #: plugins/admin/users/user-list.xml:65
-#: plugins/personal/generic/class_user.inc:1210
-#: plugins/personal/generic/class_user.inc:1227
-#: plugins/personal/generic/class_user.inc:1240
-#: plugins/personal/generic/class_user.inc:1242
-#: plugins/personal/generic/class_user.inc:1464
+#: plugins/personal/generic/class_user.inc:1126
+#: plugins/personal/generic/class_user.inc:1143
+#: plugins/personal/generic/class_user.inc:1156
+#: plugins/personal/generic/class_user.inc:1158
+#: plugins/personal/generic/class_user.inc:1340
 msgid "Login"
 msgstr "Inlognaam"
 
@@ -997,8 +997,8 @@ msgid "Password change"
 msgstr "Paswoord wijzigen"
 
 #: plugins/admin/users/class_userManagement.inc:379
-msgid "You have no permission to change this users password!"
-msgstr "Je hebt geen rechten om deze gebruiker zijn paswoord te wijzigen!"
+msgid "You have no permission to change this user's password!"
+msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:451
 #: plugins/admin/users/class_userManagement.inc:486
@@ -1033,7 +1033,13 @@ msgid "Lock account"
 msgstr "Blokkeer account"
 
 #: plugins/admin/users/class_userManagement.inc:893
-msgid "Generic properties"
+#: plugins/personal/generic/class_user.inc:1327
+msgid "User account"
+msgstr ""
+
+#: plugins/admin/users/class_userManagement.inc:893
+#: plugins/personal/generic/class_user.inc:1319
+msgid "User account information"
 msgstr ""
 
 #: plugins/admin/aclrole/class_aclRoleManagement.inc:34
@@ -1120,7 +1126,7 @@ msgstr "alleen lezen"
 msgid "write"
 msgstr "afleveren, lezen & schrijven"
 
-#: plugins/admin/aclrole/class_aclRole.inc:489 include/class_msgPool.inc:716
+#: plugins/admin/aclrole/class_aclRole.inc:489 include/class_msgPool.inc:706
 msgid "Object"
 msgstr "Object"
 
@@ -1227,7 +1233,7 @@ msgid "Assignments on object or subtree %s"
 msgstr ""
 
 #: plugins/personal/generic/class_user.inc:45
-#: plugins/personal/generic/class_user.inc:595
+#: plugins/personal/generic/class_user.inc:564
 #: html/class_passwordRecovery.inc:129
 msgid "Password method"
 msgstr "Paswoord methode"
@@ -1257,201 +1263,143 @@ msgstr ""
 msgid "Passwords does not match"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:386
-#: include/simpleplugin/class_dialogAttributes.inc:579
+#: plugins/personal/generic/class_user.inc:355
+#: include/simpleplugin/class_dialogAttributes.inc:587
 msgid "Unknown"
 msgstr "Onbekend"
 
-#: plugins/personal/generic/class_user.inc:416
+#: plugins/personal/generic/class_user.inc:385
 msgid "Please add a single IP address or a network/netmask combination!"
 msgstr "Voeg aub een enkel IP adres of een netwerk/netmask combinatie toe!"
 
-#: plugins/personal/generic/class_user.inc:484
+#: plugins/personal/generic/class_user.inc:453
 msgid "female"
 msgstr "vrouw"
 
-#: plugins/personal/generic/class_user.inc:484
+#: plugins/personal/generic/class_user.inc:453
 msgid "male"
 msgstr "man"
 
-#: plugins/personal/generic/class_user.inc:552
+#: plugins/personal/generic/class_user.inc:521
 msgid "Cannot upload file!"
 msgstr "Kan bestand niet uploaden!"
 
-#: plugins/personal/generic/class_user.inc:595
+#: plugins/personal/generic/class_user.inc:564
 msgid "The selected password method is no longer available."
 msgstr "De geselecteerde paswoord methode is niet langer beschikbaar."
 
-#: plugins/personal/generic/class_user.inc:957
+#: plugins/personal/generic/class_user.inc:873
 #: include/simpleplugin/class_attribute.inc:1628
 msgid ""
 "Cannot save user picture, FusionDirectory requires the package "
 "'php5-imagick' to be installed!"
 msgstr "Kan gebruikersfoto niet opslaan, FusionDirectory heeft het pakket 'php5-imagick' nodig"
 
-#: plugins/personal/generic/class_user.inc:1069
+#: plugins/personal/generic/class_user.inc:985
 msgid "Cannot build RDN: no + allowed to build sub RDN!"
 msgstr "Kan RDN niet bouwen: no + allowed to build sub RDN!"
 
-#: plugins/personal/generic/class_user.inc:1076
+#: plugins/personal/generic/class_user.inc:992
 msgid "Cannot build RDN: attribute is not defined!"
 msgstr "Kan RDN niet bouwen: attribuut is niet gedefinieerd!"
 
-#: plugins/personal/generic/class_user.inc:1094
+#: plugins/personal/generic/class_user.inc:1010
 msgid "Cannot build RDN: invalid attribute parameters!"
 msgstr "Kan RDN niet bouwen: ongeldige attribuut parameters!"
 
-#: plugins/personal/generic/class_user.inc:1173
+#: plugins/personal/generic/class_user.inc:1089
 msgid "The selected password method requires initial configuration!"
 msgstr "De geselecteerde paswoord methode heeft een initiële configuratie nodig!"
 
-#: plugins/personal/generic/class_user.inc:1219
+#: plugins/personal/generic/class_user.inc:1135
 msgid "Template name"
 msgstr "Sjabloon naam"
 
-#: plugins/personal/generic/class_user.inc:1246
-#: plugins/personal/generic/class_user.inc:1497
+#: plugins/personal/generic/class_user.inc:1162
+#: plugins/personal/generic/class_user.inc:1373
 msgid "Homepage"
 msgstr "Homepage"
 
-#: plugins/personal/generic/class_user.inc:1257
+#: plugins/personal/generic/class_user.inc:1173
+#: plugins/personal/generic/class_user.inc:1364
 msgid "Mobile"
 msgstr "GSM"
 
-#: plugins/personal/generic/class_user.inc:1260
+#: plugins/personal/generic/class_user.inc:1176
+#: plugins/personal/generic/class_user.inc:1363
 msgid "Pager"
 msgstr "Pieper"
 
-#: plugins/personal/generic/class_user.inc:1265
-#: plugins/personal/generic/class_user.inc:1468
+#: plugins/personal/generic/class_user.inc:1181
+#: plugins/personal/generic/class_user.inc:1344
 msgid "Date of birth"
 msgstr "Geboortedatum"
 
-#: plugins/personal/generic/class_user.inc:1428
-msgid "Unit"
-msgstr "Eenheid"
-
-#: plugins/personal/generic/class_user.inc:1429
-msgid "House identifier"
-msgstr "Huis identificatie"
-
-#: plugins/personal/generic/class_user.inc:1430
-msgid "Vocation"
-msgstr "Beroep"
-
-#: plugins/personal/generic/class_user.inc:1431
-msgid "Last delivery"
-msgstr "Laatste levering"
-
-#: plugins/personal/generic/class_user.inc:1432
-msgid "Person locality"
-msgstr "Werkplaats"
-
-#: plugins/personal/generic/class_user.inc:1433
-msgid "Unit description"
-msgstr "Eenheid omschrijving"
-
-#: plugins/personal/generic/class_user.inc:1434
-msgid "Subject area"
-msgstr "Werkgebied"
-
-#: plugins/personal/generic/class_user.inc:1435
-msgid "Functional title"
-msgstr "Functionele titel"
-
-#: plugins/personal/generic/class_user.inc:1436
-msgid "Public visible"
-msgstr "Publiek zichtbaar"
-
-#: plugins/personal/generic/class_user.inc:1437
-msgid "Street"
-msgstr "Straat"
-
-#: plugins/personal/generic/class_user.inc:1439
-msgid "Postal code"
-msgstr "Postcode"
-
-#: plugins/personal/generic/class_user.inc:1443
-msgid "Generic user settings"
-msgstr "Generieke gebruikers opties"
-
-#: plugins/personal/generic/class_user.inc:1462
+#: plugins/personal/generic/class_user.inc:1338
 msgid "Last name"
 msgstr "Achternaam"
 
-#: plugins/personal/generic/class_user.inc:1463
+#: plugins/personal/generic/class_user.inc:1339
 msgid "First name"
 msgstr "Voornaam"
 
-#: plugins/personal/generic/class_user.inc:1465
+#: plugins/personal/generic/class_user.inc:1341
 msgid "Personal title"
 msgstr "Aanhef"
 
-#: plugins/personal/generic/class_user.inc:1466
+#: plugins/personal/generic/class_user.inc:1342
 msgid "Academic title"
 msgstr "Academische titel"
 
-#: plugins/personal/generic/class_user.inc:1469
+#: plugins/personal/generic/class_user.inc:1345
 msgid "Sex"
 msgstr "Geslacht"
 
-#: plugins/personal/generic/class_user.inc:1470
+#: plugins/personal/generic/class_user.inc:1346
 msgid "Preferred language"
 msgstr "Gewenste taal"
 
-#: plugins/personal/generic/class_user.inc:1473
+#: plugins/personal/generic/class_user.inc:1349
 msgid "User picture"
 msgstr "Persoonlijk plaatje"
 
-#: plugins/personal/generic/class_user.inc:1475
+#: plugins/personal/generic/class_user.inc:1351
 msgid "Login restrictions"
 msgstr "Login restricties"
 
-#: plugins/personal/generic/class_user.inc:1479
+#: plugins/personal/generic/class_user.inc:1355
 msgid "Department number"
 msgstr "Departement nummer"
 
-#: plugins/personal/generic/class_user.inc:1482
+#: plugins/personal/generic/class_user.inc:1358
 msgid "Employee number"
 msgstr "Werknemer nummer"
 
-#: plugins/personal/generic/class_user.inc:1483
+#: plugins/personal/generic/class_user.inc:1359
 msgid "Employee type"
 msgstr "Functie"
 
-#: plugins/personal/generic/class_user.inc:1485
+#: plugins/personal/generic/class_user.inc:1361
 msgid "Room number"
 msgstr "Kamernummer"
 
-#: plugins/personal/generic/class_user.inc:1486
-msgid "Telefon number"
-msgstr "Telefoonnummer"
-
-#: plugins/personal/generic/class_user.inc:1487
-msgid "Pager number"
-msgstr "Pagina nummer"
-
-#: plugins/personal/generic/class_user.inc:1488
-msgid "Mobile number"
-msgstr "GSM nummer"
-
-#: plugins/personal/generic/class_user.inc:1493
+#: plugins/personal/generic/class_user.inc:1369
 msgid "Postal address"
 msgstr "Adres thuis"
 
-#: plugins/personal/generic/class_user.inc:1495
+#: plugins/personal/generic/class_user.inc:1371
 msgid "Home postal address"
 msgstr "Adres thuis"
 
-#: plugins/personal/generic/class_user.inc:1496
+#: plugins/personal/generic/class_user.inc:1372
 msgid "Home phone number"
 msgstr "Prive nummer"
 
-#: plugins/personal/generic/class_user.inc:1498
+#: plugins/personal/generic/class_user.inc:1374
 msgid "User password method"
 msgstr "Gebruikers paswoord methode"
 
-#: plugins/personal/generic/class_user.inc:1559
+#: plugins/personal/generic/class_user.inc:1427
 msgid "Entries differ"
 msgstr "Inzendingen verschillen"
 
@@ -1556,6 +1504,11 @@ msgstr "Selecteer aub de gewenste inzendingen"
 #: include/select/systemSelect/systemSelect-list.xml:30
 msgid "Winstation"
 msgstr "Windows werkstation"
+
+#: plugins/personal/posix/class_posixAccount.inc:78
+#: plugins/personal/posix/class_posixAccount.inc:184
+msgid "Unix"
+msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:82
 msgid "Home directory"
@@ -1693,10 +1646,6 @@ msgstr ""
 msgid "Only allow this user to connect to this list of hosts"
 msgstr ""
 
-#: plugins/personal/posix/class_posixAccount.inc:184
-msgid "Unix"
-msgstr ""
-
 #: plugins/personal/posix/class_posixAccount.inc:185
 msgid "Edit users POSIX settings"
 msgstr "Wijzig gebruikers POSIX opties"
@@ -1743,6 +1692,19 @@ msgstr "Timeout tijdens het wachten voor een lock. lock is genegeerd!"
 #: plugins/personal/posix/class_posixAccount.inc:489
 #, php-format
 msgid "Group of user %s"
+msgstr ""
+
+#: plugins/personal/roles/class_userRoles.inc:28
+msgid "Roles"
+msgstr "Rolen"
+
+#: plugins/personal/roles/class_userRoles.inc:29
+msgid "Edit user's roles"
+msgstr ""
+
+#: plugins/personal/roles/class_userRoles.inc:43
+#: plugins/personal/roles/class_userRoles.inc:47
+msgid "Roles membership"
 msgstr ""
 
 #: plugins/config/class_mainPluginsConfig.inc:28
@@ -2756,13 +2718,13 @@ msgid "The required field '%s' is empty!"
 msgstr "Het vereiste veld '%s' is leeg!"
 
 #: include/class_msgPool.inc:426
-msgid "Example"
-msgstr "Voorbeeld"
+msgid "Example:"
+msgstr ""
 
-#: include/class_msgPool.inc:446
+#: include/class_msgPool.inc:446 include/class_msgPool.inc:450
 #, php-format
-msgid "The Field '%s' contains invalid characters"
-msgstr "Het veld '%s' bevat ongeldige karakters"
+msgid "The field '%s' contains invalid characters"
+msgstr ""
 
 #: include/class_msgPool.inc:447
 #, php-format
@@ -2773,11 +2735,6 @@ msgstr "'%s' is niet toegelaten:"
 #, php-format
 msgid "'%s' are not allowed!"
 msgstr "'%s' zijn niet toegelaten!"
-
-#: include/class_msgPool.inc:450
-#, php-format
-msgid "The Field '%s' contains invalid characters!"
-msgstr "Het veld '%s' bevat ongeldige karakters!"
 
 #: include/class_msgPool.inc:461
 #, php-format
@@ -2826,281 +2783,271 @@ msgstr "Verwijder %s"
 
 #: include/class_msgPool.inc:523
 #, php-format
-msgid "Set"
-msgstr "Stel in"
-
-#: include/class_msgPool.inc:523
-#, php-format
-msgid "Set %s"
-msgstr "Stel %s in"
-
-#: include/class_msgPool.inc:533
-#, php-format
 msgid "Edit..."
 msgstr "Wijzig..."
 
-#: include/class_msgPool.inc:533
+#: include/class_msgPool.inc:523
 #, php-format
 msgid "Edit %s..."
 msgstr "Wijzig %s..."
 
-#: include/class_msgPool.inc:541
+#: include/class_msgPool.inc:531
 msgid "Back"
 msgstr "Terug"
 
-#: include/class_msgPool.inc:570
+#: include/class_msgPool.inc:560
 #, php-format
 msgid "This account has no valid %s extensions!"
 msgstr "De account heeft geen geldige %s extensies!"
 
-#: include/class_msgPool.inc:583
+#: include/class_msgPool.inc:573
 #, php-format
 msgid ""
 "This account has %s settings enabled. You can disable them by clicking "
 "below."
 msgstr "Deze account heeft %s opties actief. Je kan deze desactiveren door op ze te klikken hieronder."
 
-#: include/class_msgPool.inc:589 include/class_msgPool.inc:596
+#: include/class_msgPool.inc:579 include/class_msgPool.inc:586
 #, php-format
 msgid ""
 "This account has %s settings enabled. To disable them, you'll need to remove"
 " the %s settings first!"
 msgstr "Deze account heeft %s opties actief. Om ze te desactiveren, zal je de %s opties eerst moeten verwijderen!"
 
-#: include/class_msgPool.inc:611
+#: include/class_msgPool.inc:601
 #, php-format
 msgid ""
 "This account has %s settings disabled. You can enable them by clicking "
 "below."
 msgstr "Deze account heeft %s opties op non-actief. Om ze te activeren kan je hieronder op ze klikken."
 
-#: include/class_msgPool.inc:617 include/class_msgPool.inc:624
+#: include/class_msgPool.inc:607 include/class_msgPool.inc:614
 #, php-format
 msgid ""
 "This account has %s settings disabled. To enable them, you'll need to add "
 "the %s settings first!"
 msgstr "Deze account heeft %s opties op non-actief. Om ze te activeren moet je de %s opties eerst toevoegen!"
 
-#: include/class_msgPool.inc:636
+#: include/class_msgPool.inc:626
 #, php-format
 msgid "Add %s settings"
 msgstr "Voeg %s opties toe"
 
-#: include/class_msgPool.inc:647
+#: include/class_msgPool.inc:637
 #, php-format
 msgid "Remove %s settings"
 msgstr "Verwijder %s opties"
 
-#: include/class_msgPool.inc:655
+#: include/class_msgPool.inc:645
 msgid "Click the 'Edit' button below to change informations in this dialog"
 msgstr "Gebruik de 'Bewerk' knop hieronder om de informatie in deze dialoog te veranderen"
 
-#: include/class_msgPool.inc:663
+#: include/class_msgPool.inc:653
 msgid "January"
 msgstr "Januari"
 
-#: include/class_msgPool.inc:663
+#: include/class_msgPool.inc:653
 msgid "February"
 msgstr "Februari"
 
-#: include/class_msgPool.inc:663
+#: include/class_msgPool.inc:653
 msgid "March"
 msgstr "Maart"
 
-#: include/class_msgPool.inc:663
+#: include/class_msgPool.inc:653
 msgid "April"
 msgstr "April"
 
-#: include/class_msgPool.inc:664
+#: include/class_msgPool.inc:654
 msgid "May"
 msgstr "Mei"
 
-#: include/class_msgPool.inc:664
+#: include/class_msgPool.inc:654
 msgid "June"
 msgstr "Juni"
 
-#: include/class_msgPool.inc:664
+#: include/class_msgPool.inc:654
 msgid "July"
 msgstr "Juli"
 
-#: include/class_msgPool.inc:664
+#: include/class_msgPool.inc:654
 msgid "August"
 msgstr "Augustus"
 
-#: include/class_msgPool.inc:664
+#: include/class_msgPool.inc:654
 msgid "September"
 msgstr "September"
 
-#: include/class_msgPool.inc:665
+#: include/class_msgPool.inc:655
 msgid "October"
 msgstr "Oktober"
 
-#: include/class_msgPool.inc:665
+#: include/class_msgPool.inc:655
 msgid "November"
 msgstr "November"
 
-#: include/class_msgPool.inc:665
+#: include/class_msgPool.inc:655
 msgid "December"
 msgstr "December"
 
-#: include/class_msgPool.inc:674
+#: include/class_msgPool.inc:664
 msgid "Sunday"
 msgstr "Zondag"
 
-#: include/class_msgPool.inc:674
+#: include/class_msgPool.inc:664
 msgid "Monday"
 msgstr "Maandag"
 
-#: include/class_msgPool.inc:674
+#: include/class_msgPool.inc:664
 msgid "Tuesday"
 msgstr "Dinsdag"
 
-#: include/class_msgPool.inc:674
+#: include/class_msgPool.inc:664
 msgid "Wednesday"
 msgstr "Woensdag"
 
-#: include/class_msgPool.inc:674
+#: include/class_msgPool.inc:664
 msgid "Thursday"
 msgstr "Donderdag"
 
-#: include/class_msgPool.inc:674
+#: include/class_msgPool.inc:664
 msgid "Friday"
 msgstr "Vrijdag"
 
-#: include/class_msgPool.inc:674
+#: include/class_msgPool.inc:664
 msgid "Saturday"
 msgstr "Zaterdag"
 
-#: include/class_msgPool.inc:687
+#: include/class_msgPool.inc:677
 msgid "Database operation failed!"
 msgstr "Databank operatie faalde!"
 
-#: include/class_msgPool.inc:705
+#: include/class_msgPool.inc:695
 msgid "read operation"
 msgstr "lees operatie"
 
-#: include/class_msgPool.inc:705
+#: include/class_msgPool.inc:695
 msgid "add operation"
 msgstr "voeg operatie toe"
 
-#: include/class_msgPool.inc:705
+#: include/class_msgPool.inc:695
 msgid "modify operation"
 msgstr "wijzig operatie"
 
-#: include/class_msgPool.inc:706
+#: include/class_msgPool.inc:696
 msgid "delete operation"
 msgstr "verwijder operatie"
 
-#: include/class_msgPool.inc:706
+#: include/class_msgPool.inc:696
 msgid "search operation"
 msgstr "zoek operatie"
 
-#: include/class_msgPool.inc:706
+#: include/class_msgPool.inc:696
 msgid "authentication"
 msgstr "authentificatie"
 
-#: include/class_msgPool.inc:709
+#: include/class_msgPool.inc:699
 #, php-format
 msgid "LDAP %s failed!"
 msgstr "LDAP %s faalde!"
 
-#: include/class_msgPool.inc:711
+#: include/class_msgPool.inc:701
 msgid "LDAP operation failed!"
 msgstr "LDAP operaite faalde!"
 
-#: include/class_msgPool.inc:730
+#: include/class_msgPool.inc:720
 msgid "Upload failed!"
 msgstr "Upload faalde!"
 
-#: include/class_msgPool.inc:733
+#: include/class_msgPool.inc:723
 #, php-format
 msgid "Upload failed: %s"
 msgstr "Upload faalde: %s"
 
-#: include/class_msgPool.inc:744
+#: include/class_msgPool.inc:734
 msgid "Communication failure with the infrastructure service!"
 msgstr "Communicatie met de infrastructuur dienst faalde!"
 
-#: include/class_msgPool.inc:746
+#: include/class_msgPool.inc:736
 #, php-format
 msgid "Communication failure with the infrastructure service: %s"
 msgstr "Communicatie met de infrastructuur dienst faalde: %s"
 
-#: include/class_msgPool.inc:759 include/class_msgPool.inc:762
+#: include/class_msgPool.inc:749 include/class_msgPool.inc:752
 #, php-format
 msgid "This '%s' is still in use by this object: %s"
 msgstr "De '%s' is nog steeds in gebruik door dit object: %s"
 
-#: include/class_msgPool.inc:765
+#: include/class_msgPool.inc:755
 #, php-format
 msgid "This '%s' is still in use."
 msgstr "De '%s' is nog steeds in gebruik."
 
-#: include/class_msgPool.inc:767
+#: include/class_msgPool.inc:757
 #, php-format
 msgid "This '%s' is still in use by these objects: %s"
 msgstr "De '%s' is nog steeds in gebruik door deze objecten: %s"
 
-#: include/class_msgPool.inc:777
+#: include/class_msgPool.inc:767
 #, php-format
 msgid "File '%s' does not exist!"
 msgstr "Bestand '%s' bestaat niet!"
 
-#: include/class_msgPool.inc:787
+#: include/class_msgPool.inc:777
 #, php-format
 msgid "Cannot open file '%s' for reading!"
 msgstr "Kan bestand '%s' niet openen om te lezen!"
 
-#: include/class_msgPool.inc:797
+#: include/class_msgPool.inc:787
 #, php-format
 msgid "Cannot open file '%s' for writing!"
 msgstr "Kan bestand '%s' niet openen om te schrijven!"
 
-#: include/class_msgPool.inc:807
+#: include/class_msgPool.inc:797
 #, php-format
 msgid ""
 "The value for '%s' is currently unconfigured or invalid, please check your "
 "configuration file!"
 msgstr "De waarde voor '%s' is momenteel niet geconfigureerd of niet geldig, verifieer aub je configuratie bestand!"
 
-#: include/class_msgPool.inc:817
+#: include/class_msgPool.inc:807
 #, php-format
 msgid "Cannot delete file '%s'!"
 msgstr "Kan bestand '%s' niet verwijderen!"
 
-#: include/class_msgPool.inc:827
+#: include/class_msgPool.inc:817
 #, php-format
 msgid "Cannot create folder '%s'!"
 msgstr "Kan folder '%s' niet maken!"
 
-#: include/class_msgPool.inc:837
+#: include/class_msgPool.inc:827
 #, php-format
 msgid "Cannot delete folder '%s'!"
 msgstr "Kan folder '%s' niet verwijderen!"
 
-#: include/class_msgPool.inc:847
+#: include/class_msgPool.inc:837
 #, php-format
 msgid "Checking for %s support"
 msgstr "Verificatie voor %s support"
 
-#: include/class_msgPool.inc:857
+#: include/class_msgPool.inc:847
 #, php-format
 msgid "Install and activate the %s PHP module."
 msgstr "Installeer en activeer de %s PHP module."
 
-#: include/class_msgPool.inc:867
+#: include/class_msgPool.inc:857
 #, php-format
 msgid "Install and activate the %s Pear module."
 msgstr "Installeer en activeer de %s Pear module."
 
-#: include/class_msgPool.inc:877
+#: include/class_msgPool.inc:867
 #, php-format
 msgid ""
 "Cannot initialize class '%s'! Maybe there is a plugin missing in your "
 "FusionDirectory setup?"
 msgstr "Kan class '%s' niet initializeren! Misschien ontbreekt er een plugin in je FusionDirectory setup?"
 
-#: include/class_msgPool.inc:885
+#: include/class_msgPool.inc:875
 msgid ""
 "The supplied base is not valid and has been reset to the previous value!"
 msgstr "De opgegeven base is niet geldig en is veranderd naar de vorige waarde!"
@@ -3540,16 +3487,16 @@ msgstr ""
 msgid "Show %s"
 msgstr ""
 
-#: include/simpleplugin/class_dialogAttributes.inc:396
+#: include/simpleplugin/class_dialogAttributes.inc:404
 #, php-format
 msgid "Group %s"
 msgstr ""
 
-#: include/simpleplugin/class_dialogAttributes.inc:426
+#: include/simpleplugin/class_dialogAttributes.inc:434
 msgid "Group of user"
 msgstr "Gebruikersgroep"
 
-#: include/simpleplugin/class_dialogAttributes.inc:577
+#: include/simpleplugin/class_dialogAttributes.inc:585
 #: include/simpleplugin/class_attribute.inc:946
 #: include/simpleplugin/class_attribute.inc:980
 msgid "None"
@@ -3681,9 +3628,9 @@ msgstr ""
 #: include/class_timezone.inc:59
 #, php-format
 msgid ""
-"The timezone setting '%s' in your fusiondirectory.conf is not valid. Cannot "
+"The timezone setting '%s' in your configuration is not valid. Cannot "
 "calculate correct timezone offset."
-msgstr "De tijdzone optie '%s' in je fusiondirectory.conf is niet geldig. Kan correcte tijdzone niet berekenen."
+msgstr ""
 
 #: include/class_certificate.inc:86
 msgid "Certificate is empty!"
@@ -3907,8 +3854,8 @@ msgid "Found multiple accounts with login \"%s\""
 msgstr ""
 
 #: html/class_passwordRecovery.inc:495
-msgid "Adresse mail"
-msgstr "Email adres"
+msgid "Email address"
+msgstr "E-mail adres"
 
 #: html/class_passwordRecovery.inc:512
 #, php-format
@@ -4218,7 +4165,7 @@ msgstr "Vond %s departement(en) die niet zichtbaar zullen zijn in FusionDirector
 
 #: setup/class_setupStep_Migrate.inc:948
 #, php-format
-msgid "FD 1.0.7 administrative accounts found: %s"
+msgid "FD 1.0.7 administrator accounts found: %s"
 msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:953
@@ -4281,8 +4228,8 @@ msgstr "Specifieer een geldige gebruikers ID!"
 
 #: setup/class_setupStep_Migrate.inc:1192
 #, php-format
-msgid "Adding an administrative user failed: object '%s' already exists!"
-msgstr "Het toevoegen van een administratieve gebruiker faalde: object '%s' bestaat al!"
+msgid "Adding an administrator user failed: object '%s' already exists!"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1223
 #: setup/class_setupStep_Migrate.inc:1266
@@ -4371,11 +4318,11 @@ msgstr "Er zin %s diensten die gemigreerd moeten worden"
 msgid "There are %s application menus which have to be migrated."
 msgstr "Er zijn %s applicaties menu's die gemigreerd moeten worden"
 
-#: setup/class_setupStep_Config2.inc:49 setup/class_setupStep_Config2.inc:50
+#: setup/class_setupStep_Config2.inc:48 setup/class_setupStep_Config2.inc:49
 msgid "FusionDirectory settings 2/3"
 msgstr "FusionDirectory opties 2/3"
 
-#: setup/class_setupStep_Config2.inc:51
+#: setup/class_setupStep_Config2.inc:50
 msgid "Customize special parameters"
 msgstr "Verander speciale parameters"
 
