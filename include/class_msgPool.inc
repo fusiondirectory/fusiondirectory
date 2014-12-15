@@ -423,7 +423,7 @@ class msgPool {
   {
     /* Stylize example */
     if ($example != "") {
-      $example = "<br><br><i>"._("Example").":</i> ".$example;
+      $example = "<br><br><i>"._("Example:")."</i> ".$example;
     }
 
     /* If validChars are posted, take data and paint all invalid
@@ -443,11 +443,11 @@ class msgPool {
         }
       }
 
-      return sprintf(_("The Field '%s' contains invalid characters"), $name).". ".
+      return sprintf(_("The field '%s' contains invalid characters"), $name).". ".
         (strlen($mismatch) == 1?sprintf(_("'%s' is not allowed:"), $mismatch):sprintf(_("'%s' are not allowed!"), $mismatch)).
         "<br><br> \"$result\"$example";
     } else {
-      return sprintf(_("The Field '%s' contains invalid characters!"), $name)."!$example";
+      return sprintf(_("The field '%s' contains invalid characters"), $name)."!$example";
     }
   }
 
@@ -511,16 +511,6 @@ class msgPool {
   public static function delButton($what = "")
   {
     return ($what == "" ? sprintf(_("Delete")): sprintf(_("Delete %s"), $what));
-  }
-
-  /*!
-   * \brief Text for an set button
-   *
-   * \param string $what Text for the button
-   */
-  public static function setButton($what = "")
-  {
-    return ($what == "" ? sprintf(_("Set")): sprintf(_("Set %s"), $what));
   }
 
   /*!
