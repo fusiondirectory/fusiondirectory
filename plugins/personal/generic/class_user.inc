@@ -231,15 +231,6 @@ class user extends plugin
   var $objectclasses = array("top", "person", "organizationalPerson", "inetOrgPerson",
       "gosaAccount");
 
-  /* attributes that are part of the government mode */
-  var $govattrs = array("gouvernmentOrganizationalUnit", "houseIdentifier", "vocation",
-      "ivbbLastDeliveryCollective", "gouvernmentOrganizationalPersonLocality",
-      "gouvernmentOrganizationalUnitDescription","gouvernmentOrganizationalUnitSubjectArea",
-      "functionalTitle", "publicVisible", "street", "role",
-      "postalCode");
-
-  var $governmentmode = FALSE;
-
   var $mobiles_available;
   var $phones_available;
 
@@ -252,34 +243,12 @@ class user extends plugin
     global $lang;
 
     $this->config = $config;
-    /* Configuration is fine, allways */
-    if ($this->config->get_cfg_value("honourIvbbAttributes") == "TRUE") {
-      $this->governmentmode = TRUE;
-      $this->attributes     = array_merge($this->attributes, $this->govattrs);
-    }
 
     /* Load base attributes */
     parent::__construct ($config, $dn, $object);
 
     $this->orig_dn  = $this->dn;
     $this->new_dn   = $dn;
-
-    if ($this->governmentmode) {
-      /* Fix public visible attribute if unset */
-      if (!isset($this->attrs['publicVisible'])) {
-        $this->publicVisible == "nein";
-      }
-    }
-
-    /* Load government mode attributes */
-    if ($this->governmentmode) {
-      /* Copy all attributs */
-      foreach ($this->govattrs as $val) {
-        if (isset($this->attrs["$val"][0])) {
-          $this->$val= $this->attrs["$val"][0];
-        }
-      }
-    }
 
     /* Create me for new accounts */
     if ($dn == "new") {
@@ -635,20 +604,6 @@ class user extends plugin
     /* Create base acls */
     $smarty->assign("base", $this->baseSelector->render());
 
-    /* Save government mode attributes */
-    if($this->governmentmode){
-      $smarty->assign("governmentmode", "true");
-      $ivbbmodes= array("nein", "ivbv", "testa", "ivbv,testa", "internet",
-          "internet,ivbv", "internet,testa", "internet,ivbv,testa");
-      $smarty->assign("ivbbmodes", $ivbbmodes);
-      foreach ($this->govattrs as $val){
-        $smarty->assign("$val", $this->$val);
-        $smarty->assign("$val"."ACL", $this->getacl($val,(!is_object($this->parent) && !session::is_set('edit'))));
-      }
-    } else {
-      $smarty->assign("governmentmode", "false");
-    }
-
     /* Special mode for uid */
     $uidACL = $this->getacl("uid", (!is_object($this->parent) && !session::is_set('edit')));
     if (!(isset($this->dn) && ($this->dn == "new")) && !$this->is_template) {
@@ -749,19 +704,6 @@ class user extends plugin
       if ($this->gosaLoginRestrictionWidget->isModified()) {
         $this->gosaLoginRestriction = array_values($this->gosaLoginRestrictionWidget->getMaintainedData());
         $this->gosaLoginRestrictionWidget->setListData($this->gosaLoginRestrictionWidget->getMaintainedData());
-      }
-
-      /* Save government mode attributes */
-      if ($this->governmentmode){
-        foreach ($this->govattrs as $val){
-          if ($this->acl_is_writeable($val,(!is_object($this->parent) && !session::is_set('edit'))) && isset($_POST["$val"])){
-            $data= stripcslashes($_POST["$val"]);
-            if ($data != $this->$val){
-              $this->is_modified= TRUE;
-            }
-            $this->$val= $data;
-          }
-        }
       }
 
       /* Get pw_storage mode */
@@ -871,32 +813,6 @@ class user extends plugin
     /* Add objectClasss for template mode? */
     if ($this->is_template){
       $this->attrs['objectClass'][]= "gosaUserTemplate";
-    }
-
-    /* Hard coded government mode? */
-    if ($this->governmentmode){
-      $this->attrs['objectClass'][]= "ivbbentry";
-
-      /* Copy standard attributes */
-      foreach ($this->govattrs as $val){
-        if ($this->$val != ""){
-          $this->attrs["$val"]= $this->$val;
-        } elseif (!$this->is_new) {
-          $this->attrs["$val"]= array();
-        }
-      }
-
-      /* Remove attribute if set to "nein" */
-      if ($this->publicVisible == "nein"){
-        $this->attrs['publicVisible']= array();
-        if($this->is_new){
-          unset($this->attrs['publicVisible']);
-        }else{
-          $this->attrs['publicVisible']=array();
-        }
-
-      }
-
     }
 
     /* Special handling for dateOfBirth value */
@@ -1358,32 +1274,6 @@ class user extends plugin
     $this->base= preg_replace('/^[^,]+,'.preg_quote(get_people_ou(), '/').'/i', '', $dn);
     $this->baseSelector->setBase($this->base);
 
-    if($this->governmentmode){
-
-      /* Walk through govattrs */
-      foreach ($this->govattrs as $val){
-
-        if (in_array($val, $skip)){
-          continue;
-        }
-
-        if (isset($this->attrs["$val"][0])) {
-
-          /* If attribute is set, replace dynamic parts:
-             %sn, %givenName and %uid. Fill these in our local variables. */
-          $value = $this->attrs["$val"][0];
-
-          foreach (array("sn", "givenName", "uid") as $repl) {
-            if (preg_match("/%$repl%/i", $value)) {
-              $value = preg_replace ("/%$repl%/i",
-                  $this->parent->$repl, $value);
-            }
-          }
-          $this->$val = $value;
-        }
-      }
-    }
-
     /* Get back uid/sn/givenName - only write if nothing's skipped */
     if ($this->parent !== NULL && count($skip) == 0){
       $this->uid= $this->parent->uid;
@@ -1424,88 +1314,66 @@ class user extends plugin
 
   static function plInfo()
   {
-    $govattrs = array(
-        "gouvernmentOrganizationalUnit"             =>  _("Unit"),
-        "houseIdentifier"                           =>  _("House identifier"),
-        "vocation"                                  =>  _("Vocation"),
-        "ivbbLastDeliveryCollective"                =>  _("Last delivery"),
-        "gouvernmentOrganizationalPersonLocality"   =>  _("Person locality"),
-        "gouvernmentOrganizationalUnitDescription"  =>  _("Unit description"),
-        "gouvernmentOrganizationalUnitSubjectArea"  =>  _("Subject area"),
-        "functionalTitle"                           =>  _("Functional title"),
-        "publicVisible"                             =>  _("Public visible"),
-        "street"                                    =>  _("Street"),
-        "role"                                      =>  _("Role"),
-        "postalCode"                                =>  _("Postal code"));
+    return array(
+      'plShortName'   => _('User'),
+      'plDescription' => _('User account information'),
+      'plIcon'        => 'geticon.php?context=applications&icon=user-info&size=48',
+      'plSmallIcon'   => 'geticon.php?context=applications&icon=user-info&size=16',
+      'plSelfModify'  => TRUE,
+      'plCategory'    => array('user' => array('description' => _('Users'),
+                                                'objectClass' => 'gosaAccount')),
+      'plObjectType'  => array('user' => array(
+        'name'        => _('User'),
+        'description' => _('User account'),
+        'filter'      => 'objectClass=gosaAccount',
+        'mainAttr'    => 'cn',
+        'icon'        => 'geticon.php?context=types&icon=user&size=16',
+        'ou'          => get_ou('userRDN'),
+      )),
+      'plForeignKeys'  => array(
+        'manager' => array('user','dn')
+      ),
 
-    $ret = array(
-        "plShortName"   => _('User'),
-        "plDescription" => _('User account information'),
-        "plIcon"        => 'geticon.php?context=applications&icon=user-info&size=48',
-        "plSmallIcon"   => 'geticon.php?context=applications&icon=user-info&size=16',
-        "plSelfModify"  => TRUE,
-        "plCategory"    => array("user" => array("description" => _("Users"),
-                                                  "objectClass" => "gosaAccount")),
-        "plObjectType"  => array("user" => array(
-          'name'        => _('User'),
-          'description' => _('User account'),
-          'filter'      => 'objectClass=gosaAccount',
-          'mainAttr'    => 'cn',
-          'icon'        => 'geticon.php?context=types&icon=user&size=16',
-          'ou'          => get_ou('userRDN'),
-        )),
-        'plForeignKeys'  => array(
-          'manager' => array('user','dn')
-        ),
+      'plProvidedAcls' => array(
+        'sn'                => _('Last name'),
+        'givenName'         => _('First name'),
+        'uid'               => _('Login'),
+        'personalTitle'     => _('Personal title'),
+        'academicTitle'     => _('Academic title'),
 
-        "plProvidedAcls" => array(
-          "sn"                => _("Last name"),
-          "givenName"         => _("First name"),
-          "uid"               => _("Login"),
-          "personalTitle"     => _("Personal title"),
-          "academicTitle"     => _("Academic title"),
+        'dateOfBirth'       => _('Date of birth'),
+        'gender'            => _('Sex'),
+        'preferredLanguage' => _('Preferred language'),
+        'base'              => _('Base'),
 
-          "dateOfBirth"       => _("Date of birth"),
-          "gender"            => _("Sex"),
-          "preferredLanguage" => _("Preferred language"),
-          "base"              => _("Base"),
+        'userPicture'       => _('User picture'),
 
-          "userPicture"       => _("User picture"),
+        'gosaLoginRestriction' => _('Login restrictions'),
 
-          "gosaLoginRestriction" => _("Login restrictions"),
+        'o'                 => _('Organization'),
+        'ou'                => _('Department'),
+        'departmentNumber'  => _('Department number'),
+        'description'       => _('Description'),
+        'manager'           => _('Manager'),
+        'employeeNumber'    => _('Employee number'),
+        'employeeType'      => _('Employee type'),
 
-          "o"                 => _("Organization"),
-          "ou"                => _("Department"),
-          "departmentNumber"  => _("Department number"),
-          "description"       => _("Description"),
-          "manager"           => _("Manager"),
-          "employeeNumber"    => _("Employee number"),
-          "employeeType"      => _("Employee type"),
+        'roomNumber'        => _('Room number'),
+        'telephoneNumber'   => _('Phone'),
+        'pager'             => _('Pager'),
+        'mobile'            => _('Mobile'),
+        'facsimileTelephoneNumber'     => _('Fax number'),
 
-          "roomNumber"        => _("Room number"),
-          "telephoneNumber"   => _("Telefon number"),
-          "pager"             => _("Pager number"),
-          "mobile"            => _("Mobile number"),
-          "facsimileTelephoneNumber"     => _("Fax number"),
+        'st'                => _('State'),
+        'l'                 => _('Location'),
+        'postalAddress'     => _('Postal address'),
 
-          "st"                => _("State"),
-          "l"                 => _("Location"),
-          "postalAddress"     => _("Postal address"),
-
-          "homePostalAddress" => _("Home postal address"),
-          "homePhone"         => _("Home phone number"),
-          "labeledURI"        => _("Homepage"),
-          "userPassword"      => _("User password method"),
-        ));
-
-    /* Append government attributes if required */
-    global $config;
-    if ($config->get_cfg_value("honourIvbbAttributes") == "TRUE") {
-      foreach ($govattrs as $attr => $desc) {
-        $ret["plProvidedAcls"][$attr] = $desc;
-      }
-    }
-    return $ret;
+        'homePostalAddress' => _('Home postal address'),
+        'homePhone'         => _('Home phone number'),
+        'labeledURI'        => _('Homepage'),
+        'userPassword'      => _('User password method'),
+      )
+    );
   }
 
   protected function attributeInitialValue($field)
