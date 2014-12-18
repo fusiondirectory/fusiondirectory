@@ -21,5 +21,6 @@
 class userGroupSelect extends simpleSelectManagement
 {
   protected $objectTypes = array('user', 'group');
+  protected $autoFilterAttributes = array('dn', 'cn', 'uid', 'description');
 }
 ?>
