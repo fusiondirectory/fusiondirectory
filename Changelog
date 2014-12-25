@@ -1,6 +1,11 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.8.4
+
+[Fix] Bugs #3530: the roles in the personal/roles miss an main.inc !
+[Fix] Bugs #3531: the roles icon is missing in my account
+
 * FusionDirectory 1.0.8.3
 
 [Feature] Wishlist #258: PKI infrastructure ?
