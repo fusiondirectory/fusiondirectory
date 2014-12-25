@@ -301,16 +301,10 @@ class userManagement extends management
         }
 
         // Check posted passwords now.
-        $message = array();
-        if ($new_password != $repeated_password) {
-          $message[] = _("The passwords you've entered as 'New password' and 'Repeated new password' do not match.");
-        } elseif ($new_password == "") {
-          $message[] = msgPool::required(_("New password"));
-        }
-
-        // Display errors
-        if (count($message) != 0) {
-          msg_dialog::displayChecks($message);
+        $problem = password::reportPasswordProblems($this->dn, $new_password, $repeated_password);
+        if ($problem) {
+          // Display errors
+          msg_dialog::displayChecks(array($problem));
           return $smarty->fetch(get_template_path('password.tpl', TRUE));
         }
 
@@ -382,7 +376,7 @@ class userManagement extends management
         $this->dn = "";
       } else {
         msg_dialog::display(_("Password change"),
-                _("You have no permission to change this users password!"),
+                _("You have no permission to change this user's password!"),
                 WARNING_DIALOG);
       }
     }
@@ -690,6 +684,7 @@ class userManagement extends management
     // Template readable?
     $template_dn  = get_post('template');
     $acl          = $this->ui->get_permissions($template_dn, $this->aclCategory."/".$this->aclPlugin);
+    $ldap         = $this->config->get_ldap_link();
     if (preg_match('/r/', $acl)) {
       $tab = $this->tabClass;
       foreach ($this->dns as $dn) {
@@ -699,8 +694,10 @@ class userManagement extends management
           list($attrs, $depends) = plugin::tpl_fetch_template($template_dn);
           $needed = plugin::tpl_needed_attrs($attrs, $depends);
           // Move user supplied data to sub plugins
+          $ldap->cat($dn, $needed);
+          $user_attrs = $ldap->fetch();
           foreach ($needed as $attr) {
-            $attrs[$attr] = array($this->$attr);
+            $attrs[$attr] = $user_attrs[$attr];
           }
           $attrs = plugin::tpl_parse_attrs($attrs);
 
@@ -893,7 +890,7 @@ class userManagement extends management
     $ldap = $config->get_ldap_link();
     $ldap->cat($dn);
     $result = "<input class='center' type='image' src='geticon.php?context=applications&icon=user-info&size=16' ".
-                       "alt='"._('Generic')."' title='"._("Generic properties")."' ".
+                       "alt='"._('User account')."' title='"._('User account information')."' ".
                        "name='listing_edit_tab_user_$row' style='padding:1px'/>";
     if ($attrs = $ldap->fetch()) {
       foreach ($usertabs as $class => $usertab) {

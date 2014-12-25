@@ -587,7 +587,7 @@ function ldap_login_user_htaccess ($username)
   $ldap->search("(&(objectClass=gosaAccount)(uid=$username))", array("uid"));
   /* Found no uniq match? Strange, because we did above... */
   if ($ldap->count() != 1) {
-    msg_dialog::display(_("LDAP error"), _("Username / UID is not unique inside the LDAP tree!"), FATAL_ERROR_DIALOG);
+    msg_dialog::display(_("LDAP error"), _("Login (uid) is not unique inside the LDAP tree!"), FATAL_ERROR_DIALOG);
     return NULL;
   }
   $attrs = $ldap->fetch();
@@ -673,7 +673,7 @@ function ldap_login_user ($username, $password)
 
     /* found more than one matching id */
     default:
-      msg_dialog::display(_("Internal error"), _("Username / UID is not unique inside the LDAP tree. Please contact your Administrator."), FATAL_ERROR_DIALOG);
+      msg_dialog::display(_("Internal error"), _("Login (uid) is not unique inside the LDAP tree. Please contact your administrator."), FATAL_ERROR_DIALOG);
       return NULL;
   }
 
@@ -1830,15 +1830,15 @@ function check_command($cmdline)
  *
  * \return the $display variable
  */
-function print_header($image, $headline, $info = "")
+function print_header($image, $headline, $info = '')
 {
     $smarty = get_smarty();
-    $smarty->assign("headline", $headline);
-    $smarty->assign("headline_image", $image);
-    $display = "";
+    $smarty->assign('headline', $headline);
+    $smarty->assign('headline_image', $image);
+    $display = '';
 
-  if ($info != "") {
-    $display .= "<div class=\"pluginfo\">\n";
+  if ($info != '') {
+    $display .= '<div class="pluginfo">'."\n";
     $display .= "$info";
     $display .= "</div>\n";
     $display .= "<div></div>\n";
@@ -3051,15 +3051,17 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
 
     // Not for groups
     if ($mode == 0) {
-      if ($test->need_password()) {
-        // Create SMB Password
-        $attrs = generate_smb_nt_hash($password);
-      } else {
-        $attrs['sambaLMPassword']       = array();
-        $attrs['sambaNTPassword']       = array();
-        $attrs['sambaPwdLastSet']       = array();
-        $attrs['sambaBadPasswordCount'] = array();
-        $attrs['sambaBadPasswordTime']  = array();
+      if (class_available('sambaAccount')) {
+        if ($test->need_password()) {
+          // Create SMB Password
+          $attrs = generate_smb_nt_hash($password);
+        } else {
+          $attrs['sambaLMPassword']       = array();
+          $attrs['sambaNTPassword']       = array();
+          $attrs['sambaPwdLastSet']       = array();
+          $attrs['sambaBadPasswordCount'] = array();
+          $attrs['sambaBadPasswordTime']  = array();
+        }
       }
       if ($shadow != 0) {
         $attrs['shadowLastChange'] = $shadow;
@@ -3156,6 +3158,9 @@ function generate_smb_nt_hash($password)
 function lock_samba_account($mode, $attrs)
 {
   global $config;
+  if (!isset($attrs['sambaNTPassword'][0])) {
+    return array();
+  }
   $modify = array('sambaNTPassword' => $attrs['sambaNTPassword'][0]);
   if ($config->get_cfg_value("sambaGenLMPassword", "FALSE") == "TRUE") {
     $modify['sambaLMPassword'] = $attrs['sambaLMPassword'][0];

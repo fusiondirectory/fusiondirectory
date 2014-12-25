@@ -1,6 +1,90 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.8.3
+
+[Feature] Wishlist #258: PKI infrastructure ?
+[Fix] Bugs #2613: new icon for debug-help aka diagrams has it is the same as ldapmanager
+[Fix] Bugs #3330: fai ldap support should be send to the fai project
+[Fix] Bugs #3368: Missing png for goServer (systems)
+[Fix] Bugs #3369: «&amp;» should be used in icon paths
+[Fix] Bugs #3379: The quota tab must have a dependance on the unix tab
+[Fix] Bugs #3387: When locking an account with no samba password it adds a samba attribute to it
+[Fix] Bugs #3393: update-from-1.0.6-to-1.0.7 in plugin-systems
+[Fix] Bugs #3396: remove old gosa spec from core-fd.schema
+[Fix] Bugs #3398: the field description is not show in the user list
+[Fix] Bugs #3399: sometime when refreshing the generic page on a user a get template placeholder in login
+[Fix] Bugs #3400: copyright and license is missing for include/functions_debug.inc
+[Fix] Bugs #3401: autofs/admin/autofs/main.inc have a gpl v3 licence and its wrong it should be gpl v2
+[Fix] Bugs #3402: remove the Authors.rst from the autofs plugin
+[Fix] Bugs #3403: remove the glp v3 licence from the autofs plugin
+[Fix] Bugs #3404: remove the sieve dir from the mail plugin
+[Fix] Bugs #3407: plugins are still using obsolete attribute cellspacing on table tags
+[Fix] Bugs #3408: update-from-1.0.6-to-1.0.7 in plugin-mail
+[Fix] Bugs #3415: application listing in the desktop plugin doesnt show the icons on the listing
+[Feature] Bugs #3416: create a new web-application plugin
+[Fix] Bugs #3417: the application tab crash in groups when i click on the menu tab
+[Fix] Bugs #3421: memory exhaustion when supann plugin is installed and i try to use the import csv
+[Fix] Bugs #3422: when i create a template in the user list i got a missing icon for the new user from template
+[Fix] Bugs #3423: cleaning the desktop-management plugin
+[Fix] Bugs #3426: cleaning the desktop-management plugin
+[Fix] Bugs #3427: in some user case we have a need to be able to add roles for users and have those users get rights for applications.
+[Fix] Bugs #3430: fusiondirectory-insert-schema man pages is wrong it misses an OPTIONS section
+[Fix] Bugs #3431: correct all the date and version on the man pages
+[Fix] Bugs #3433: when importing user and no selection of an field in the csv to be the uid it crash
+[Fix] Bugs #3435: when importing user via csv and using a template i cannot put %mail% in the template because it reject it as a non valid address
+[Fix] Bugs #3436: when using apply template after having sucessfully imported user, it wrongly rewrite the users entries
+[Fix] Bugs #3442: dashboard network tab links to dns servers are wrong
+[Fix] Bugs #3445: when saving a webapp with the applications plugin it doesnt show unless i click Search in subtrees
+[Fix] Bugs #3446: when creating a desktop application it doesnt save it
+[Fix] Bugs #3447: When debug trace level is on, we can’t log in anymore
+[Feature] Bugs #3450: create a plugin to manage certificates from ejbca
+[Fix] Bugs #3454: Error in the systems plugin documentation
+[Fix] Bugs #3455: the supann plugin doesn't want to save the etablissement field
+[Fix] Bugs #3457: when a create an etablissement with the supann strcuture plugin it create an object that is opened with the entity dialog
+[Fix] Bugs #3458: making the saving of the samba attributes optional in 1.0.8.x
+[Fix] Bugs #3459: the nis netgroup is always active
+[Fix] Bugs #3460: Fusiondirectory access
+[Fix] Bugs #3461: in the supann plugin the step double select and educational Element
+[Fix] Bugs #3462: update the official files for the supann plugin
+[Fix] Bugs #3468: Hook script with ldap array
+[Fix] Bugs #3470: FusionDirectory in Amazon Linux AMI
+[Feature] Bugs #3472: create a personal plugin to store all kind of personal data
+[Fix] Bugs #3476: We should remove the ACL tabs from special tabs
+[Fix] Bugs #3483: removing leftover of the desktop-management plugin
+[Fix] Bugs #3484: The user icon does not show up
+[Fix] Bugs #3485: The user icon does not show up
+[Fix] Bugs #3490: GPG plugin have some errors
+[Fix] Bugs #3491: User ldap error are wrongly reported
+[Fix] Bugs #3493: Department list should be updated after a department creation
+[Fix] Bugs #3495: foreignKey on acls is handle several times
+[Fix] Bugs #3496: EJBCA tab for the systems
+[Fix] Bugs #3497: EJBCA miss some icons
+[Fix] Bugs #3500: Error in user management
+[Fix] Bugs #3501: the uid id naming mess should be cleaned up
+[Fix] Bugs #3502: Argonaut is sometimes called «infastructure service» and sometimes «service infrastructure»
+[Fix] Bugs #3504: FD should stop using the word generic every where
+[Fix] Bugs #3505: setup_feedback.tpl is a useless file
+[Fix] Bugs #3506: we should have in core a tab in user to be able to assing him roles
+[Fix] Bugs #3508: There is some french in password recovery
+[Fix] Bugs #3510: Argonaut mirror settings fields have no descriptions
+[Fix] Bugs #3511: The comment for the ssh public key is mandatory
+[Fix] Bugs #3512: Application local seems wrong
+[Fix] Bugs #3514: Various problems in strings
+[Fix] Bugs #3516: Various problems in strings
+[Fix] Bugs #3517: remove gouvernement mode from fusiondirectory
+[Fix] Bugs #3518: remove the french inside the supann plugin
+[Fix] Bugs #3519: Where we add users in sudo plugin their are invisible
+[Fix] Bugs #3520: the default entry in the sudo plugin is not editable anymore
+[Fix] Bugs #3522: the sudo schema from the sudo-ldap package i using old openldap syntax and must be corrected and included
+[Fix] Bugs #3523: SASL exop and SASL relam can't be saved
+[Feature] Wishlist #3419: FD should allow plugins to act as menu entries providers
+[Feature] Wishlist #3429: fusiondirectory-insert-schema should have an option to keep ldifs files
+[Feature] Wishlist #3441: Inactive tabs could have a different style
+[Feature] Wishlist #3478: Message d'information concernant les propriétes que le mot de passe doit répondre
+[Feature] Wishlist #3480: Question : uid : comment ca se passe ?
+[Feature] Wishlist #3509: Should french translation use «courriel»?
+
 * FusionDirectory 1.0.8.2
 
 [Fix] Bugs #1034: remove all dsc form the sources

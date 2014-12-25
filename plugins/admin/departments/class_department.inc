@@ -31,7 +31,7 @@ class department extends simplePlugin
   static function plInfo()
   {
     return array(
-      'plShortName'   => _('Generic'),
+      'plShortName'   => _('Department'),
       'plDescription' => _('Departments'),
       'plCategory'    => array('department' => array('objectClass' => 'gosaDepartment', 'description' => _('Departments'))),
       'plObjectType'  =>

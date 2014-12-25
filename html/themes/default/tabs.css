@@ -39,7 +39,7 @@ padding-top:2px;
 padding-bottom:7px;
 }
 
-table.tabs_header > tbody > tr > td > div > a.tab_active {
+table.tabs_header > tbody > tr > td > div.tab_active > a {
 background-color:#f8f8f8;
 border-bottom:0;
 margin-top:2px;
@@ -47,29 +47,43 @@ padding-top:2px;
 padding-bottom:8px;
 }
 
-table.tabs_header > tbody > tr > td > div > a.tab_notify {
+table.tabs_header > tbody > tr > td > div.tab_inactive > a {
+color:grey;
+font-weight:normal;
+}
+
+table.tabs_header > tbody > tr > td > div.tab_disabled > a {
+color:grey;
+}
+table.tabs_header > tbody > tr > td > div.tab_disabled > a:hover {
+margin-top:5px;
+padding-top:1px;
+padding-bottom:5px;
+}
+
+table.tabs_header > tbody > tr > td > div.tab_notify > a {
 background-image:url(../../geticon.php?context=status&icon=dialog-information&size=16);
 background-repeat:no-repeat;
 background-position:1px 1px;
 }
-html.ltr table.tabs_header > tbody > tr > td > div > a.tab_notify {
+html.ltr table.tabs_header > tbody > tr > td > div.tab_notify > a {
 padding-left:18px;
 }
-html.rtl table.tabs_header > tbody > tr > td > div > a.tab_notify {
+html.rtl table.tabs_header > tbody > tr > td > div.tab_notify > a {
 padding-right:18px;
 }
 
-html.ltr table.tabs_header > tbody > tr > td > div > a.tab_left {
+html.ltr table.tabs_header > tbody > tr > td > div.tab_left > a {
 border-right-width:0;
 }
-html.rtl table.tabs_header > tbody > tr > td > div > a.tab_left {
+html.rtl table.tabs_header > tbody > tr > td > div.tab_left > a {
 border-left-width:0;
 }
 
-html.ltr table.tabs_header > tbody > tr > td > div > a.tab_right {
+html.ltr table.tabs_header > tbody > tr > td > div.tab_right > a {
 border-left-width:0;
 }
-html.rtl table.tabs_header > tbody > tr > td > div > a.tab_right {
+html.rtl table.tabs_header > tbody > tr > td > div.tab_right > a {
 border-right-width:0;
 }
 

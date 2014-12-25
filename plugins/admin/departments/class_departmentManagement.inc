@@ -65,10 +65,11 @@ class departmentManagement extends simpleManagement
 
   function refreshDeps()
   {
-    global $config;
+    global $config, $ui;
     $config->get_departments();
     $config->make_idepartments();
     $this->config = $config;
+    $ui->reset_acl_cache();
     $headpage     = $this->getHeadpage();
     $headpage->refreshBasesList();
   }

@@ -97,9 +97,12 @@ sub ask_user_input {
 
  do
  {
-   $answer = <STDIN>;
-   chomp $answer;
-   $answer =~ s/^\s+|\s+$//g;
+   if ($answer = <STDIN>) {
+     chomp $answer;
+     $answer =~ s/^\s+|\s+$//g;
+   } else {
+     $answer = "";
+   }
  } while (($answer eq "") && (not defined $default_answer));
 
  if ($answer eq "") {
@@ -1578,7 +1581,7 @@ This code is part of FusionDirectory (http://www.fusiondirectory.org/)
 
 =over 2
 
-=item Copyright (C) 2011-2013  FusionDirectory
+=item Copyright (C) 2011-2014  FusionDirectory
 
 =back
 

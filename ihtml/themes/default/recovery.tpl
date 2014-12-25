@@ -31,7 +31,7 @@
 
 {if $step==2}
     <p class="infotext">
-      {t}Password recovery for email {$address_mail}{/t}
+      {t}Password recovery for email {$email_address}{/t}
     </p>
 
     <p class="infotext">
@@ -42,7 +42,7 @@
         <li>{t}Receive by email a link that allows you to reset your password{/t} :
           <input type="submit" name="send"  value="{t}Send{/t}"
                  title="{t}Click here to send a reset link{/t}">
-          <input type="hidden" id="address_mail" maxlength="60" value="{$address_mail}">
+          <input type="hidden" id="email_address" maxlength="60" value="{$email_address}">
           <input type="hidden" id="uid" maxlength="60" value="{$uid}">
         </li>
         {if $other_method}
@@ -57,7 +57,7 @@
     </p>
 {elseif $step==3}
     <p class="infotext">
-      {t}Informations to reset password for {$uid} have been sent to email address {$address_mail}{/t}<br/>
+      {t}Informations to reset password for {$uid} have been sent to email address {$email_address}{/t}<br/>
       <div style="color:red;">{t}Warning : this email is only valid for {$delay_allowed} minutes.{/t}</div>
     </p>
 {elseif $step==4}
@@ -78,7 +78,7 @@
       </tr>
       {/if}
       <tr>
-       <td><label for="uid">{t}Username{/t}</label></td>
+       <td><label for="uid">{t}Login{/t}</label></td>
        <td>
            <i>{$uid}</i>
        </td>
@@ -104,7 +104,7 @@
 
     <div class="change" style="float:right; text-align:right;">
       <input type="submit" name="change" value="{t}Change{/t}" title="{t}Click here to change your password{/t}">
-      <input type="hidden" id="address_mail" maxlength="60" value="{$address_mail}">
+      <input type="hidden" id="email_address" maxlength="60" value="{$email_address}">
       <input type="hidden" id="uniq" maxlength="60" value="{$uniq}">
       <input type="hidden" id="formSubmit">
     </div>
@@ -133,9 +133,9 @@
       </tr>
       {/if}
       <tr>
-       <td><label for="mail">{t}Adresse mail{/t}</label></td>
+       <td><label for="email_address">{t}Email address{/t}</label></td>
        <td>
-           <input type="text" name="address_mail" id="address_mail" width="60" maxlength="60" value="{$address_mail}" title="{t}Mail{/t}" onFocus="">
+           <input type="text" name="email_address" id="email_address" width="60" maxlength="60" value="{$email_address}" title="{t}Mail{/t}" onFocus="">
        </td>
       </tr>
     </table>

@@ -23,7 +23,6 @@
 
 class Step_Config2 extends setup_step
 {
-  var $governmentmode = FALSE;
   var $sambaidmapping = FALSE;
   var $header_image   = 'geticon.php?context=categories&icon=settings&size=48';
 

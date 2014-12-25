@@ -108,7 +108,7 @@ class configInLdap extends simplePlugin
             FALSE
           ),
           new BooleanAttribute (
-            _('schemaCheck'),
+            _('Schema check'),
             _('Enables schema checking during login.'),
             'fdSchemaCheck', FALSE,
             FALSE
@@ -283,6 +283,11 @@ class configInLdap extends simplePlugin
             array('/bin/ash','/bin/bash','/bin/csh','/bin/sh','/bin/ksh',
                   '/bin/tcsh','/bin/dash','/bin/zsh')
           ),
+          new BooleanAttribute (
+            _('Show ACL tab on all objects'),
+            _('For very specific ACL rights setting where you might need to give right on a single object.'),
+            'fdAclTabOnObjects'
+          ),
         )
       ),
       'people_and_group' => array(
@@ -304,39 +309,39 @@ class configInLdap extends simplePlugin
             'fdAccountRDN', FALSE
           ),
           new StringAttribute (
-            _('Automatic UIDs'), _('Automatic way to generate new user ids'),
+            _('Automatic logins'), _('Automatic way to generate new users logins'),
             'fdIdGenerator', FALSE
           ),
           new BooleanAttribute (
             _('Strict naming policy'),
-            _('Enables strict checking of uids and group names'),
+            _('Enables strict checking of user and group names'),
             'fdStrictNamingRules', FALSE,
             TRUE
           ),
           new IntAttribute (
-            _('GID/UID min id'),
-            _('The minimum assignable user or group id number to avoid security leaks with uid 0 accounts.'),
+            _('Group/user min id'),
+            _('The minimum assignable user or group id to avoid security leaks with id 0 accounts.'),
             'fdMinId', FALSE,
             0, FALSE, 100
           ),
           new StringAttribute (
-            _('Next id hook'), _('A script to be called for finding the next free id number for users or groups externaly.'),
+            _('Next id hook'), _('A script to be called for finding the next free id number for users or groups.'),
             'fdNextIdHook', FALSE
           ),
           new IntAttribute (
-            _('Number base for people'),
-            _('Where to start looking for a new free user id number.'),
+            _('Base number for user id'),
+            _('Where to start looking for a new free user id.'),
             'fdUidNumberBase', FALSE,
             0, FALSE, 1100
           ),
           new IntAttribute (
-            _('Number base for groups'),
-            _('Where to start looking for a new free group id number.'),
+            _('Base number for group id'),
+            _('Where to start looking for a new free group id.'),
             'fdGidNumberBase', FALSE,
             0, FALSE, 1100
           ),
           new StringAttribute (
-            _('Users RDN'), _('The branch where user are stored.'),
+            _('Users RDN'), _('The branch where users are stored.'),
             'fdUserRDN', TRUE,
             'ou=people'
           ),
@@ -351,28 +356,28 @@ class configInLdap extends simplePlugin
             'ou=aclroles'
           ),
           new SelectAttribute (
-            _('Id allocation method'), _('Method to allocate uid/gid numbers'),
+            _('Id allocation method'), _('Method to allocate user/group ids'),
             'fdIdAllocationMethod', TRUE,
             array('traditional', 'pool'), 'traditional',
             array(_('Traditional'), _('Samba unix id pool'))
           ),
           new IntAttribute (
-            _('Pool uid min'), _('Minimum value for uid when using pool method'),
+            _('Pool user id min'), _('Minimum value for user id when using pool method'),
             'fdUidNumberPoolMin', FALSE,
             0, FALSE, 10000
           ),
           new IntAttribute (
-            _('Pool uid max'), _('Maximum value for uid when using pool method'),
+            _('Pool user id max'), _('Maximum value for user id when using pool method'),
             'fdUidNumberPoolMax', FALSE,
             0, FALSE, 40000
           ),
           new IntAttribute (
-            _('Pool gid min'), _('Minimum value for gid when using pool method'),
+            _('Pool group id min'), _('Minimum value for group id when using pool method'),
             'fdGidNumberPoolMin', FALSE,
             0, FALSE, 10000
           ),
           new IntAttribute (
-            _('Pool gid max'), _('Maximum value for gid when using pool method'),
+            _('Pool group id max'), _('Maximum value for group id when using pool method'),
             'fdGidNumberPoolMax', FALSE,
             0, FALSE, 40000
           ),

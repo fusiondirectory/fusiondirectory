@@ -211,4 +211,79 @@ class CommaListAttribute extends CompositeAttribute
   }
 }
 
+class UnitIntAttribute extends CompositeAttribute
+{
+  /* $units should contains 1 in its keys as a fallback unit */
+  function __construct ($label, $description, $ldapName, $required, $units, $min = FALSE, $max = FALSE, $defaultValue = "", $acl = "")
+  {
+    parent::__construct($description, $ldapName,
+      array(
+        new IntAttribute('', '', $ldapName.'_int', $required, $min, $max, $defaultValue),
+        new SelectAttribute('', '', $ldapName.'_select', TRUE, array_keys($units), '', array_values($units)),
+      ), '', '',
+      $acl, $label
+    );
+    $this->setLinearRendering(TRUE);
+  }
+
+  function readValues($value)
+  {
+    if ($value === '') {
+      return array('', 0);
+    }
+    $choices = $this->attributes[1]->getChoices();
+    sort($choices);
+    /* Find the approriate unit */
+    for (
+      $i = (count($choices) - 1);
+      ($value % $choices[$i] != 0) && ($i > 0);
+      $i--
+    );
+    return array($value / $choices[$i], $choices[$i]);
+  }
+
+  function writeValues($values)
+  {
+    if ($values[0] === '') {
+      return '';
+    }
+    return $values[0] * $values[1];
+  }
+
+  function displayValue($value)
+  {
+    $values = $this->readValues($value);
+    return $values[0].$this->attributes[1]->displayValue($values[1]);
+  }
+}
+
+class BytesSizeAttribute extends UnitIntAttribute
+{
+  function __construct ($label, $description, $ldapName, $required, $min = FALSE, $max = FALSE, $defaultValue = "", $acl = "")
+  {
+    $units = array(
+      1             => _('B'),
+      pow(1024, 1)  => _('KiB'),
+      pow(1024, 2)  => _('MiB'),
+      pow(1024, 3)  => _('GiB'),
+      pow(1024, 4)  => _('TiB'),
+    );
+    parent::__construct ($label, $description, $ldapName, $required, $units, $min, $max, $defaultValue, $acl);
+  }
+}
+
+class TimeAttribute extends UnitIntAttribute
+{
+  function __construct ($label, $description, $ldapName, $required, $min = FALSE, $max = FALSE, $defaultValue = "", $acl = "")
+  {
+    $units = array(
+      1     => _('seconds'),
+      60    => _('minutes'),
+      3600  => _('hours'),
+      86400 => _('days'),
+    );
+    parent::__construct ($label, $description, $ldapName, $required, $units, $min, $max, $defaultValue, $acl);
+  }
+}
+
 ?>

@@ -131,7 +131,7 @@ class Print_a_class {
     }
 
     // build a single table ... may be nested
-    $this->output .= '<table style="border:none;" cellspacing="1" '.( !$iteration && $this->export_flag ? 'onClick="document.getElementById(\'pa_form_'.$this->export_hash.'\').submit();" )' : '' ).'>';
+    $this->output .= '<table style="border:none;" '.( !$iteration && $this->export_flag ? 'onClick="document.getElementById(\'pa_form_'.$this->export_hash.'\').submit();" )' : '' ).'>';
     foreach ($array as $key => $value) {
 
       $value_style  = 'color:black;';

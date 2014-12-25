@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-108\n"
 "Report-Msgid-Bugs-To: documentation@lists.fusiondirectory.org\n"
-"POT-Creation-Date: 2014-08-18 16:17+0200\n"
-"PO-Revision-Date: 2014-08-28 10:52+0000\n"
+"POT-Creation-Date: 2014-12-15 14:59+0100\n"
+"PO-Revision-Date: 2014-12-15 13:58+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Persian (Iran) (http://www.transifex.com/projects/p/FusionDirectory-108/language/fa_IR/)\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +27,7 @@ msgstr ""
 
 #: plugins/generic/references/class_reference.inc:26
 #: plugins/generic/references/class_reference.inc:27
-#: plugins/generic/references/class_reference.inc:40
+#: plugins/generic/references/class_reference.inc:44
 msgid "References"
 msgstr ""
 
@@ -35,13 +35,11 @@ msgstr ""
 #: plugins/admin/groups/class_roleGeneric.inc:35
 #: plugins/admin/aclrole/class_aclRole.inc:108
 #: plugins/admin/acl/class_aclAssignment.inc:49
-#: plugins/personal/generic/class_user.inc:1430
-#: plugins/personal/generic/generic.tpl.c:134
 msgid "Role"
 msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:32
-msgid "Role generic"
+msgid "Role information"
 msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:36
@@ -49,14 +47,7 @@ msgid "Organizational role"
 msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:58
-#: plugins/admin/groups/class_group.inc:1085
-#: plugins/admin/ogroups/class_ogroup.inc:924
-#: plugins/admin/departments/class_department.inc:34
-#: plugins/admin/users/class_userManagement.inc:898
-#: plugins/personal/generic/class_user.inc:1434
-#: plugins/personal/posix/class_posixAccount.inc:78
-#: setup/setup_feedback.tpl.c:23
-msgid "Generic"
+msgid "Informations"
 msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:61
@@ -74,21 +65,16 @@ msgstr ""
 #: plugins/admin/ogroups/class_ogroup.inc:951
 #: plugins/admin/ogroups/ogroup-list.xml:41
 #: plugins/admin/departments/class_department.inc:157
-#: plugins/admin/users/class_userManagement.inc:533
-#: plugins/admin/users/class_userManagement.inc:580
+#: plugins/admin/users/class_userManagement.inc:527
+#: plugins/admin/users/class_userManagement.inc:574
 #: plugins/admin/aclrole/class_aclRole.inc:131
-#: plugins/personal/generic/class_user.inc:1197
-#: plugins/personal/generic/class_user.inc:1224
-#: plugins/personal/generic/class_user.inc:1266
+#: plugins/personal/generic/class_user.inc:1112
+#: plugins/personal/generic/class_user.inc:1148
+#: plugins/personal/generic/class_user.inc:1190
+#: plugins/personal/posix/trustSelect/trust-list.xml:64
 #: include/select/systemSelect/systemSelect-list.xml:64
 #: include/simpleplugin/simple-select-list.xml:32
 #: include/simpleplugin/simple-list.xml:32
-#: plugins/admin/ogroups/ogroup-filter.tpl.c:35
-#: plugins/admin/users/user-filter.tpl.c:20
-#: ihtml/themes/default/simple-filter.tpl.c:5
-#: include/select/systemSelect/systemSelect-filter.tpl.c:17
-#: include/select/groupSelect/group-filter.tpl.c:14
-#: setup/setup_feedback.tpl.c:11 setup/setup_migrate.tpl.c:116
 msgid "Name"
 msgstr ""
 
@@ -104,13 +90,12 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:72
 #: plugins/admin/departments/dep-list.xml:29
 #: plugins/admin/aclrole/class_aclRole.inc:135
-#: plugins/personal/generic/class_user.inc:1472
+#: plugins/personal/generic/class_user.inc:1356
+#: plugins/personal/posix/trustSelect/trust-list.xml:72
 #: include/class_SnapShotDialog.inc:229
 #: include/select/systemSelect/systemSelect-list.xml:72
 #: include/simpleplugin/simple-select-list.xml:40
 #: include/simpleplugin/simple-list.xml:40
-#: plugins/admin/groups/generic.tpl.c:8 plugins/admin/ogroups/generic.tpl.c:8
-#: plugins/personal/generic/generic.tpl.c:47
 msgid "Description"
 msgstr ""
 
@@ -123,14 +108,13 @@ msgid "Phone number"
 msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:74
-#: plugins/personal/generic/class_user.inc:1481
+#: plugins/personal/generic/class_user.inc:1365
 msgid "Fax number"
 msgstr "شماره فکس"
 
 #: plugins/admin/groups/class_roleGeneric.inc:78
 #: plugins/admin/users/class_userManagement.inc:52
-#: plugins/personal/generic/class_user.inc:1439
-#: plugins/personal/generic/class_user.inc:1442
+#: plugins/personal/generic/class_user.inc:1323
 #: setup/class_setupStep_Migrate.inc:959
 msgid "Users"
 msgstr ""
@@ -143,12 +127,11 @@ msgstr ""
 #: plugins/admin/groups/class_group.inc:643 include/class_config.inc:161
 #: include/class_config.inc:301 include/class_config.inc:638
 #: include/class_config.inc:1131 include/class_config.inc:1144
-#: include/functions.inc:767 include/class_pluglist.inc:313
-#: include/simpleplugin/class_simpleService.inc:141
+#: include/functions.inc:767 include/simpleplugin/class_simpleService.inc:145
 #: include/class_timezone.inc:59
 #: include/password-methods/class_password-methods-sha.inc:71
 #: include/password-methods/class_password-methods-ssha.inc:75
-#: html/index.php:138 html/index.php:184 html/main.php:235
+#: html/index.php:138 html/index.php:186 html/main.php:235
 #: html/class_passwordRecovery.inc:299
 msgid "Configuration error"
 msgstr ""
@@ -203,51 +186,51 @@ msgstr ""
 #: plugins/admin/groups/class_group.inc:854
 #: plugins/admin/ogroups/class_ogroup.inc:214
 #: plugins/admin/ogroups/class_ogroup.inc:453
-#: plugins/personal/generic/class_user.inc:422
-#: plugins/personal/generic/class_user.inc:558
-#: plugins/personal/generic/class_user.inc:745
-#: plugins/personal/generic/class_user.inc:952
-#: plugins/personal/generic/class_user.inc:1070
-#: plugins/personal/generic/class_user.inc:1077
-#: plugins/personal/generic/class_user.inc:1095 include/class_listing.inc:536
+#: plugins/personal/generic/class_user.inc:385
+#: plugins/personal/generic/class_user.inc:521
+#: plugins/personal/generic/class_user.inc:694
+#: plugins/personal/generic/class_user.inc:872
+#: plugins/personal/generic/class_user.inc:985
+#: plugins/personal/generic/class_user.inc:992
+#: plugins/personal/generic/class_user.inc:1010 include/class_listing.inc:537
 #: include/class_management.inc:524 include/class_management.inc:664
 #: include/class_config.inc:476 include/class_msgPool.inc:215
 #: include/class_msgPool.inc:235 include/class_msgPool.inc:265
-#: include/class_msgPool.inc:688 include/class_msgPool.inc:719
-#: include/class_msgPool.inc:746 include/functions.inc:3113
-#: include/functions.inc:3487 include/functions.inc:3508
-#: include/functions.inc:3538 include/functions.inc:3546
-#: include/functions.inc:3558 include/functions.inc:3562
-#: include/functions.inc:3569 include/functions.inc:3578
-#: include/functions.inc:3640 include/class_msg_dialog.inc:129
+#: include/class_msgPool.inc:678 include/class_msgPool.inc:709
+#: include/class_msgPool.inc:736 include/functions.inc:3118
+#: include/functions.inc:3495 include/functions.inc:3516
+#: include/functions.inc:3546 include/functions.inc:3554
+#: include/functions.inc:3566 include/functions.inc:3570
+#: include/functions.inc:3577 include/functions.inc:3586
+#: include/functions.inc:3648 include/class_msg_dialog.inc:129
 #: include/class_databaseManagement.inc:78 include/class_xml.inc:58
-#: include/class_plugin.inc:1517 include/class_CopyPasteHandler.inc:250
-#: include/simpleplugin/class_attribute.inc:1365
-#: include/simpleplugin/class_attribute.inc:1368
-#: include/simpleplugin/class_attribute.inc:1371
-#: include/simpleplugin/class_attribute.inc:1536
-#: include/simpleplugin/class_attribute.inc:1637
+#: include/class_plugin.inc:1513 include/class_CopyPasteHandler.inc:250
+#: include/simpleplugin/class_attribute.inc:1385
+#: include/simpleplugin/class_attribute.inc:1388
+#: include/simpleplugin/class_attribute.inc:1391
+#: include/simpleplugin/class_attribute.inc:1627
+#: include/simpleplugin/class_attribute.inc:1729
 #: include/password-methods/class_password-methods-sasl.inc:51
 #: include/password-methods/class_password-methods-sasl.inc:63
 #: include/password-methods/class_password-methods.inc:323
 #: include/password-methods/class_password-methods.inc:425
 #: include/password-methods/class_password-methods.inc:435
 #: include/class_SnapshotHandler.inc:415 include/class_tabs.inc:74
-#: html/index.php:192 html/index.php:196
+#: html/index.php:194 html/index.php:198
 #: setup/class_setupStep_Migrate.inc:1192
-#: ihtml/themes/default/msg_dialog.tpl.c:2 setup/setup_checks.tpl.c:8
-#: setup/setup_checks.tpl.c:29
 msgid "Error"
 msgstr "خطا"
 
 #: plugins/admin/groups/class_group.inc:524
 #, php-format
-msgid "Adding UID '%s' to group '%s' failed: cannot find user object!"
+msgid "Adding user \"%s\" to group \"%s\" failed: cannot find user object!"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:530
 #, php-format
-msgid "Add UID '%s' to group '%s' failed: UID is used more than once!"
+msgid ""
+"Adding user \"%s\" to group \"%s\" failed: this login is used by more than "
+"one user!"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:586
@@ -255,20 +238,20 @@ msgstr ""
 #: plugins/admin/groups/class_group.inc:954
 #: plugins/admin/ogroups/class_ogroup.inc:867
 #: plugins/admin/ogroups/class_ogroup.inc:881
-#: plugins/personal/generic/class_user.inc:707
-#: plugins/personal/generic/class_user.inc:1022 include/class_config.inc:338
+#: plugins/personal/generic/class_user.inc:656
+#: plugins/personal/generic/class_user.inc:937 include/class_config.inc:338
 #: include/class_ldap.inc:911 include/class_ldap.inc:1366
 #: include/functions.inc:546 include/functions.inc:582
 #: include/functions.inc:590 include/functions.inc:634
 #: include/functions.inc:782 include/functions.inc:829
 #: include/functions.inc:890 include/functions.inc:945
-#: include/functions.inc:3079 include/functions.inc:3377
-#: include/simpleplugin/class_simplePlugin.inc:448
-#: include/simpleplugin/class_attribute.inc:2585 include/class_acl.inc:376
+#: include/functions.inc:3084 include/functions.inc:3385
+#: include/simpleplugin/class_simplePlugin.inc:452
+#: include/simpleplugin/class_attribute.inc:2710 include/class_acl.inc:376
 #: include/class_SnapshotHandler.inc:50 include/class_SnapshotHandler.inc:244
 #: include/class_SnapshotHandler.inc:277 include/class_SnapshotHandler.inc:292
 #: include/class_SnapshotHandler.inc:422 include/class_SnapshotHandler.inc:425
-#: html/index.php:233 html/index.php:245 html/index.php:258
+#: html/index.php:238 html/index.php:250 html/index.php:263
 #: html/class_passwordRecovery.inc:540 setup/class_setupStep_Migrate.inc:1203
 #: setup/class_setupStep_Migrate.inc:1223
 #: setup/class_setupStep_Migrate.inc:1266
@@ -284,7 +267,7 @@ msgid "LDAP error"
 msgstr "خطای LDAP"
 
 #: plugins/admin/groups/class_group.inc:600
-msgid "! unknown UID"
+msgid "! unknown user"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:643
@@ -305,28 +288,21 @@ msgstr ""
 #: plugins/admin/groups/class_group.inc:1041
 #: plugins/admin/groups/class_group.inc:1044
 #: plugins/admin/groups/class_group.inc:1107
-#: plugins/personal/posix/class_posixAccount.inc:108
 #: plugins/personal/posix/class_posixAccount.inc:375
 msgid "GID"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:1074
 #: plugins/personal/posix/class_posixAccount.inc:430 include/functions.inc:898
-#: include/functions.inc:2705 include/class_xml.inc:55
-#: include/class_tabs.inc:292 html/index.php:56 html/index.php:62
-#: html/index.php:350 html/class_passwordRecovery.inc:434
+#: include/functions.inc:2708 include/class_xml.inc:55
+#: include/class_tabs.inc:296 html/index.php:56 html/index.php:62
+#: html/index.php:356 html/class_passwordRecovery.inc:434
 #: setup/class_setupStep_Migrate.inc:277 setup/class_setupStep_Migrate.inc:322
 #: setup/class_setupStep_Migrate.inc:386 setup/class_setupStep_Migrate.inc:455
 #: setup/class_setupStep_Migrate.inc:577 setup/class_setupStep_Migrate.inc:702
 #: setup/class_setupStep_Migrate.inc:2263
 #: setup/class_setupStep_Migrate.inc:2405
-#: setup/class_setupStep_Migrate.inc:2662 plugins/admin/ogroups/remove.tpl.c:2
-#: plugins/admin/users/remove.tpl.c:2 plugins/admin/acl/remove.tpl.c:2
-#: ihtml/themes/default/islocked.tpl.c:5 ihtml/themes/default/conflict.tpl.c:5
-#: ihtml/themes/default/remove.tpl.c:2
-#: ihtml/themes/default/simple-remove.tpl.c:2
-#: ihtml/themes/default/msg_dialog.tpl.c:5 setup/setup_checks.tpl.c:11
-#: setup/setup_checks.tpl.c:32
+#: setup/class_setupStep_Migrate.inc:2662
 msgid "Warning"
 msgstr ""
 
@@ -335,29 +311,24 @@ msgstr ""
 msgid "The gidNumber '%s' is already in use by %s!"
 msgstr ""
 
-#: plugins/admin/groups/class_group.inc:1086
-msgid "Generic group settings"
-msgstr ""
-
+#: plugins/admin/groups/class_group.inc:1085
 #: plugins/admin/groups/class_group.inc:1089
-#: plugins/admin/groups/class_groupManagement.inc:36
-#: setup/class_setupStep_Migrate.inc:962
-msgid "Groups"
-msgstr ""
-
-#: plugins/admin/groups/class_group.inc:1090
 #: plugins/admin/ogroups/class_ogroupManagement.inc:185
 msgid "Group"
 msgstr ""
 
+#: plugins/admin/groups/class_group.inc:1086
+msgid "User group information"
+msgstr ""
+
+#: plugins/admin/groups/class_group.inc:1090
+msgid "User group"
+msgstr ""
+
 #: plugins/admin/groups/class_group.inc:1105
 #: plugins/admin/ogroups/class_ogroup.inc:952
-#: plugins/personal/generic/class_user.inc:1463
-#: include/simpleplugin/class_attribute.inc:1587
-#: plugins/admin/groups/generic.tpl.c:14
-#: plugins/admin/ogroups/generic.tpl.c:14
-#: plugins/personal/generic/generic.tpl.c:50
-#: ihtml/themes/default/simple-list.tpl.c:2 setup/setup_ldap.tpl.c:26
+#: plugins/personal/generic/class_user.inc:1347
+#: include/simpleplugin/class_attribute.inc:1679
 msgid "Base"
 msgstr ""
 
@@ -372,7 +343,6 @@ msgstr ""
 #: plugins/admin/groups/class_group.inc:1111
 #: plugins/admin/ogroups/class_ogroup.inc:954
 #: plugins/personal/posix/class_posixAccount.inc:162
-#: plugins/admin/ogroups/generic.tpl.c:17
 msgid "System trust"
 msgstr ""
 
@@ -404,7 +374,7 @@ msgstr ""
 #: plugins/admin/groups/group-list.xml:54
 #: plugins/admin/ogroups/ogroup-list.xml:62
 #: plugins/admin/departments/dep-list.xml:37
-#: plugins/admin/users/user-list.xml:78 include/class_listing.inc:1283
+#: plugins/admin/users/user-list.xml:78 include/class_listing.inc:1284
 #: include/simpleplugin/simple-list.xml:48
 msgid "Actions"
 msgstr ""
@@ -425,10 +395,10 @@ msgstr ""
 #: plugins/admin/users/user-list.xml:114
 #: plugins/admin/aclrole/class_aclRole.inc:321
 #: include/class_sortableListing.inc:306 include/class_sortableListing.inc:308
-#: include/simpleplugin/class_dialogAttributes.inc:588
-#: include/simpleplugin/class_dialogAttributes.inc:589
-#: include/simpleplugin/class_attribute.inc:2359
-#: include/simpleplugin/class_attribute.inc:2360
+#: include/simpleplugin/class_dialogAttributes.inc:596
+#: include/simpleplugin/class_dialogAttributes.inc:597
+#: include/simpleplugin/class_attribute.inc:2484
+#: include/simpleplugin/class_attribute.inc:2485
 #: include/simpleplugin/simple-list.xml:67
 #: include/simpleplugin/simple-list.xml:112
 msgid "Edit"
@@ -440,15 +410,17 @@ msgstr ""
 #: plugins/admin/departments/dep-list.xml:67
 #: plugins/admin/departments/dep-list.xml:88
 #: plugins/admin/users/user-list.xml:121
-#: include/simpleplugin/class_dialogAttributes.inc:598
-#: include/simpleplugin/class_dialogAttributes.inc:599
+#: include/simpleplugin/class_dialogAttributes.inc:606
+#: include/simpleplugin/class_dialogAttributes.inc:607
 #: include/simpleplugin/simple-list.xml:75
 #: include/simpleplugin/simple-list.xml:125
 #: setup/class_setupStep_Migrate.inc:2522
-#: plugins/personal/generic/generic_certs.tpl.c:8
-#: plugins/personal/generic/generic_certs.tpl.c:14
-#: plugins/personal/generic/generic_certs.tpl.c:20
 msgid "Remove"
+msgstr ""
+
+#: plugins/admin/groups/class_groupManagement.inc:36
+#: setup/class_setupStep_Migrate.inc:962
+msgid "Groups"
 msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:37
@@ -456,25 +428,24 @@ msgid "Manage groups"
 msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:77
+#: plugins/personal/posix/trustSelect/class_trustSelect.inc:57
 msgid "Posix"
 msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:77
+#: plugins/personal/posix/trustSelect/class_trustSelect.inc:58
 msgid "Edit posix properties"
 msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:106
-#: include/select/groupSelect/group-filter.tpl.c:5
 msgid "Show primary groups"
 msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:107
-#: include/select/groupSelect/group-filter.tpl.c:8
 msgid "Show samba groups"
 msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:108
-#: include/select/groupSelect/group-filter.tpl.c:11
 msgid "Show mail groups"
 msgstr ""
 
@@ -490,7 +461,6 @@ msgid ""
 msgstr ""
 
 #: plugins/admin/ogroups/class_ogroup.inc:250
-#: ihtml/themes/default/msg_dialog.tpl.c:8 setup/setup_ldap.tpl.c:62
 msgid "Information"
 msgstr ""
 
@@ -506,22 +476,23 @@ msgstr ""
 msgid "You can combine two different object types at maximum, only!"
 msgstr ""
 
-#: plugins/admin/ogroups/class_ogroup.inc:925
-msgid "Object group generic"
-msgstr ""
-
+#: plugins/admin/ogroups/class_ogroup.inc:924
 #: plugins/admin/ogroups/class_ogroup.inc:929
-#: plugins/admin/ogroups/class_ogroupManagement.inc:35
-msgid "Object groups"
-msgstr ""
-
 #: plugins/admin/ogroups/class_ogroup.inc:930
 #: plugins/admin/ogroups/ogroup-list.xml:15
 msgid "Object group"
 msgstr ""
 
+#: plugins/admin/ogroups/class_ogroup.inc:925
+msgid "Object group information"
+msgstr ""
+
 #: plugins/admin/ogroups/class_ogroup.inc:955
 msgid "Member"
+msgstr ""
+
+#: plugins/admin/ogroups/class_ogroupManagement.inc:35
+msgid "Object groups"
 msgstr ""
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:36
@@ -538,7 +509,8 @@ msgstr ""
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:184
 #: plugins/admin/users/user-list.xml:23 plugins/admin/users/user-list.xml:95
-#: plugins/personal/generic/class_user.inc:1443
+#: plugins/personal/generic/class_user.inc:1318
+#: plugins/personal/generic/class_user.inc:1326
 msgid "User"
 msgstr ""
 
@@ -547,27 +519,29 @@ msgid "Application"
 msgstr ""
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:187
+#: plugins/admin/departments/class_department.inc:34
 #: plugins/admin/departments/class_department.inc:40
 #: plugins/admin/departments/dep-list.xml:21
-#: plugins/personal/generic/class_user.inc:1470
-#: plugins/personal/generic/generic.tpl.c:83
+#: plugins/personal/generic/class_user.inc:1354
 msgid "Department"
 msgstr "دپارتمان"
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:188
+#: plugins/personal/posix/trustSelect/trust-list.xml:14
 #: include/select/systemSelect/systemSelect-list.xml:14
 msgid "Server"
 msgstr ""
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:189
 #: plugins/admin/departments/class_department.inc:99
-#: plugins/personal/generic/class_user.inc:1243
-#: plugins/personal/generic/generic.tpl.c:101
-#: plugins/personal/generic/generic.tpl.c:155
+#: plugins/personal/generic/class_user.inc:1167
+#: plugins/personal/generic/class_user.inc:1362
+#: plugins/personal/posix/trustSelect/class_trustSelect.inc:81
 msgid "Phone"
 msgstr "تلفن"
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:190
+#: plugins/personal/posix/trustSelect/trust-list.xml:22
 #: include/select/systemSelect/systemSelect-list.xml:22
 msgid "Workstation"
 msgstr ""
@@ -577,6 +551,7 @@ msgid "Windows Install"
 msgstr ""
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:192
+#: plugins/personal/posix/trustSelect/trust-list.xml:38
 #: include/select/systemSelect/systemSelect-list.xml:38
 msgid "Terminal"
 msgstr ""
@@ -647,11 +622,12 @@ msgid "Phone queue"
 msgstr ""
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:132
-#: ihtml/themes/default/recovery.tpl.c:86
+#: plugins/personal/posix/trustSelect/class_trustSelect.inc:65
 msgid "Mail"
 msgstr ""
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:169
+#: plugins/personal/posix/trustSelect/class_trustSelect.inc:97
 msgid "Environment"
 msgstr ""
 
@@ -834,8 +810,7 @@ msgid "Category of this %s"
 msgstr ""
 
 #: plugins/admin/departments/class_department.inc:80
-#: plugins/personal/generic/class_user.inc:1473
-#: plugins/personal/generic/generic.tpl.c:95
+#: plugins/personal/generic/class_user.inc:1357
 msgid "Manager"
 msgstr ""
 
@@ -846,20 +821,16 @@ msgstr ""
 
 #: plugins/admin/departments/class_department.inc:86
 #: plugins/admin/departments/class_department.inc:92
-#: plugins/personal/generic/class_user.inc:1484
-#: plugins/personal/generic/generic.tpl.c:113
+#: plugins/personal/generic/class_user.inc:1368
 msgid "Location"
 msgstr ""
 
 #: plugins/admin/departments/class_department.inc:89
-#: plugins/personal/generic/class_user.inc:1483
-#: plugins/personal/generic/generic.tpl.c:116
+#: plugins/personal/generic/class_user.inc:1367
 msgid "State"
 msgstr ""
 
 #: plugins/admin/departments/class_department.inc:95
-#: plugins/personal/generic/generic.tpl.c:53
-#: plugins/personal/generic/generic.tpl.c:119
 msgid "Address"
 msgstr "آدرس"
 
@@ -873,9 +844,7 @@ msgid "Telephone number"
 msgstr ""
 
 #: plugins/admin/departments/class_department.inc:103
-#: plugins/personal/generic/class_user.inc:1246
-#: plugins/personal/generic/generic.tpl.c:110
-#: plugins/personal/generic/generic.tpl.c:161
+#: plugins/personal/generic/class_user.inc:1170
 msgid "Fax"
 msgstr ""
 
@@ -928,8 +897,7 @@ msgstr ""
 #: plugins/admin/departments/class_organization.inc:30
 #: plugins/admin/departments/class_organization.inc:31
 #: plugins/admin/departments/class_organization.inc:34
-#: plugins/personal/generic/class_user.inc:1469
-#: plugins/personal/generic/generic.tpl.c:80 setup/setup_feedback.tpl.c:8
+#: plugins/personal/generic/class_user.inc:1353
 msgid "Organization"
 msgstr ""
 
@@ -942,32 +910,27 @@ msgid "List of users"
 msgstr ""
 
 #: plugins/admin/users/user-list.xml:15 plugins/admin/users/user-list.xml:102
-#: plugins/admin/users/class_userManagement.inc:530
-#: plugins/admin/users/template.tpl.c:8 plugins/admin/users/templatize.tpl.c:8
+#: plugins/admin/users/class_userManagement.inc:524
 msgid "Template"
 msgstr ""
 
 #: plugins/admin/users/user-list.xml:49
-#: plugins/personal/generic/class_user.inc:1454
 msgid "Surname"
 msgstr ""
 
 #: plugins/admin/users/user-list.xml:57
-#: plugins/admin/users/class_userManagement.inc:536
-#: plugins/personal/generic/class_user.inc:1216
-#: plugins/personal/generic/class_user.inc:1263
-#: plugins/personal/generic/class_user.inc:1455
+#: plugins/admin/users/class_userManagement.inc:530
+#: plugins/personal/generic/class_user.inc:1140
+#: plugins/personal/generic/class_user.inc:1187
 msgid "Given name"
 msgstr ""
 
 #: plugins/admin/users/user-list.xml:65
-#: plugins/personal/generic/class_user.inc:1211
-#: plugins/personal/generic/class_user.inc:1219
-#: plugins/personal/generic/class_user.inc:1232
-#: plugins/personal/generic/class_user.inc:1234
-#: plugins/admin/users/template.tpl.c:17
-#: plugins/personal/generic/generic.tpl.c:29
-#: plugins/personal/generic/paste_generic.tpl.c:11
+#: plugins/personal/generic/class_user.inc:1126
+#: plugins/personal/generic/class_user.inc:1143
+#: plugins/personal/generic/class_user.inc:1156
+#: plugins/personal/generic/class_user.inc:1158
+#: plugins/personal/generic/class_user.inc:1340
 msgid "Login"
 msgstr ""
 
@@ -1008,7 +971,7 @@ msgid "Manage users"
 msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:196
-#: plugins/admin/users/class_userManagement.inc:756
+#: plugins/admin/users/class_userManagement.inc:751
 #: include/class_management.inc:347 include/class_management.inc:498
 #: include/class_management.inc:553 include/class_management.inc:598
 #: include/class_CopyPasteHandler.inc:220
@@ -1020,79 +983,62 @@ msgstr ""
 msgid "Permission"
 msgstr "جواز"
 
-#: plugins/admin/users/class_userManagement.inc:306
-#: plugins/personal/password/class_password.inc:112
-#: html/class_passwordRecovery.inc:404
-msgid ""
-"The passwords you've entered as 'New password' and 'Repeated new password' "
-"do not match."
-msgstr ""
-
-#: plugins/admin/users/class_userManagement.inc:308
-#: html/class_passwordRecovery.inc:406 plugins/admin/users/password.tpl.c:8
-#: plugins/admin/users/password.tpl.c:26
-#: plugins/personal/generic/password.tpl.c:11
-#: plugins/personal/generic/password.tpl.c:32
-#: plugins/personal/password/password.tpl.c:14
-#: plugins/personal/password/password.tpl.c:35
-#: ihtml/themes/default/recovery.tpl.c:41
-#: ihtml/themes/default/recovery.tpl.c:44
-#: ihtml/themes/default/password.tpl.c:44
-#: ihtml/themes/default/password.tpl.c:47
-msgid "New password"
-msgstr "کلمه عبور جدید"
-
-#: plugins/admin/users/class_userManagement.inc:329
-#: plugins/personal/password/class_password.inc:135
+#: plugins/admin/users/class_userManagement.inc:323
+#: plugins/personal/password/class_password.inc:116
 #, php-format
 msgid "Check-hook reported a problem: %s. Password change canceled!"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:384
-#: plugins/personal/password/class_password.inc:156
-#: plugins/personal/password/class_password.inc:162 html/main.php:170
-#: ihtml/themes/default/password.tpl.c:20
+#: plugins/admin/users/class_userManagement.inc:378
+#: plugins/personal/password/class_password.inc:136
+#: plugins/personal/password/class_password.inc:141 html/main.php:170
 msgid "Password change"
 msgstr "تغییر کلمه عبور"
 
-#: plugins/admin/users/class_userManagement.inc:385
-msgid "You have no permission to change this users password!"
+#: plugins/admin/users/class_userManagement.inc:379
+msgid "You have no permission to change this user's password!"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:457
-#: plugins/admin/users/class_userManagement.inc:492
-#: plugins/admin/users/class_userManagement.inc:523
+#: plugins/admin/users/class_userManagement.inc:451
+#: plugins/admin/users/class_userManagement.inc:486
+#: plugins/admin/users/class_userManagement.inc:517
 msgid "none"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:713
-#: plugins/admin/users/class_userManagement.inc:717
+#: plugins/admin/users/class_userManagement.inc:708
+#: plugins/admin/users/class_userManagement.inc:712
 #: include/class_management.inc:417
 #: include/simpleplugin/class_simpleManagement.inc:373
 msgid "Permission error"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:794
+#: plugins/admin/users/class_userManagement.inc:789
 msgid "Account locking"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:795
+#: plugins/admin/users/class_userManagement.inc:790
 #, php-format
 msgid ""
 "Password method '%s' does not support locking. Account (%s) has not been "
 "locked!"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:868
+#: plugins/admin/users/class_userManagement.inc:863
 msgid "Unlock account"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:870
+#: plugins/admin/users/class_userManagement.inc:865
 msgid "Lock account"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:898
-msgid "Generic properties"
+#: plugins/admin/users/class_userManagement.inc:893
+#: plugins/personal/generic/class_user.inc:1327
+msgid "User account"
+msgstr ""
+
+#: plugins/admin/users/class_userManagement.inc:893
+#: plugins/personal/generic/class_user.inc:1319
+msgid "User account information"
 msgstr ""
 
 #: plugins/admin/aclrole/class_aclRoleManagement.inc:34
@@ -1148,8 +1094,8 @@ msgstr ""
 
 #: plugins/admin/aclrole/class_aclRole.inc:325 include/class_msgPool.inc:513
 #: include/class_sortableListing.inc:311 include/class_sortableListing.inc:313
-#: include/simpleplugin/class_attribute.inc:2369
-#: include/simpleplugin/class_attribute.inc:2370
+#: include/simpleplugin/class_attribute.inc:2494
+#: include/simpleplugin/class_attribute.inc:2495
 #, php-format
 msgid "Delete"
 msgstr ""
@@ -1179,9 +1125,7 @@ msgstr ""
 msgid "write"
 msgstr ""
 
-#: plugins/admin/aclrole/class_aclRole.inc:489 include/class_msgPool.inc:716
-#: ihtml/themes/default/snapshotdialog.tpl.c:14
-#: ihtml/themes/default/snapshotdialog.tpl.c:35
+#: plugins/admin/aclrole/class_aclRole.inc:489 include/class_msgPool.inc:706
 msgid "Object"
 msgstr ""
 
@@ -1218,7 +1162,7 @@ msgid "Access control list management"
 msgstr ""
 
 #: plugins/admin/acl/class_aclManagement.inc:77
-#: plugins/admin/acl/class_aclAssignment.inc:246
+#: plugins/admin/acl/class_aclAssignment.inc:262
 msgid "ACL Assignment"
 msgstr ""
 
@@ -1259,7 +1203,6 @@ msgid "Apply this ACL for all LDAP users"
 msgstr ""
 
 #: plugins/admin/acl/class_aclAssignment.inc:58
-#: ihtml/themes/default/acl.tpl.c:32
 msgid "Members"
 msgstr ""
 
@@ -1267,29 +1210,29 @@ msgstr ""
 msgid "Users or groups to assign this role to."
 msgstr ""
 
-#: plugins/admin/acl/class_aclAssignment.inc:247
-msgid "Access control roles assignment"
-msgstr ""
-
-#: plugins/admin/acl/class_aclAssignment.inc:251
+#: plugins/admin/acl/class_aclAssignment.inc:249
 msgid "ACL assignment"
 msgstr ""
 
-#: plugins/admin/acl/class_aclAssignment.inc:277
-msgid "Assignments"
+#: plugins/admin/acl/class_aclAssignment.inc:263
+msgid "Access control roles assignment"
 msgstr ""
 
 #: plugins/admin/acl/class_aclAssignment.inc:281
+msgid "Assignments"
+msgstr ""
+
+#: plugins/admin/acl/class_aclAssignment.inc:285
 msgid "ACL role assignments for this base"
 msgstr ""
 
-#: plugins/admin/acl/class_aclAssignment.inc:292
+#: plugins/admin/acl/class_aclAssignment.inc:296
 #, php-format
 msgid "Assignments on object or subtree %s"
 msgstr ""
 
 #: plugins/personal/generic/class_user.inc:45
-#: plugins/personal/generic/class_user.inc:601
+#: plugins/personal/generic/class_user.inc:564
 #: html/class_passwordRecovery.inc:129
 msgid "Password method"
 msgstr ""
@@ -1299,13 +1242,7 @@ msgid "Password hash method to use"
 msgstr ""
 
 #: plugins/personal/generic/class_user.inc:50
-#: plugins/personal/password/class_password.inc:199
-#: plugins/personal/generic/paste_generic.tpl.c:14
-#: ihtml/themes/default/recovery.tpl.c:5 ihtml/themes/default/recovery.tpl.c:8
-#: ihtml/themes/default/password.tpl.c:14
-#: ihtml/themes/default/password.tpl.c:17 ihtml/themes/default/login.tpl.c:17
-#: ihtml/themes/default/login.tpl.c:20 ihtml/themes/default/login.tpl.c:23
-#: setup/setup_migrate.tpl.c:122
+#: plugins/personal/password/class_password.inc:178
 msgid "Password"
 msgstr ""
 
@@ -1325,256 +1262,251 @@ msgstr ""
 msgid "Passwords does not match"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:392 include/class_pluglist.inc:335
-#: include/class_pluglist.inc:336 include/class_pluglist.inc:418
-#: include/simpleplugin/class_dialogAttributes.inc:579
+#: plugins/personal/generic/class_user.inc:355
+#: include/simpleplugin/class_dialogAttributes.inc:587
 msgid "Unknown"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:422
+#: plugins/personal/generic/class_user.inc:385
 msgid "Please add a single IP address or a network/netmask combination!"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:490
+#: plugins/personal/generic/class_user.inc:453
 msgid "female"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:490
+#: plugins/personal/generic/class_user.inc:453
 msgid "male"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:558
+#: plugins/personal/generic/class_user.inc:521
 msgid "Cannot upload file!"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:601
+#: plugins/personal/generic/class_user.inc:564
 msgid "The selected password method is no longer available."
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:953
-#: include/simpleplugin/class_attribute.inc:1537
+#: plugins/personal/generic/class_user.inc:873
+#: include/simpleplugin/class_attribute.inc:1628
 msgid ""
 "Cannot save user picture, FusionDirectory requires the package "
 "'php5-imagick' to be installed!"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:1070
+#: plugins/personal/generic/class_user.inc:985
 msgid "Cannot build RDN: no + allowed to build sub RDN!"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:1077
+#: plugins/personal/generic/class_user.inc:992
 msgid "Cannot build RDN: attribute is not defined!"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:1095
+#: plugins/personal/generic/class_user.inc:1010
 msgid "Cannot build RDN: invalid attribute parameters!"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:1174
+#: plugins/personal/generic/class_user.inc:1089
 msgid "The selected password method requires initial configuration!"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:1238
-#: plugins/personal/generic/class_user.inc:1489
-#: plugins/personal/generic/generic.tpl.c:59
+#: plugins/personal/generic/class_user.inc:1135
+msgid "Template name"
+msgstr ""
+
+#: plugins/personal/generic/class_user.inc:1162
+#: plugins/personal/generic/class_user.inc:1373
 msgid "Homepage"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:1249
-#: plugins/personal/generic/generic.tpl.c:104
+#: plugins/personal/generic/class_user.inc:1173
+#: plugins/personal/generic/class_user.inc:1364
 msgid "Mobile"
 msgstr "تلفن همراه"
 
-#: plugins/personal/generic/class_user.inc:1252
-#: plugins/personal/generic/generic.tpl.c:107
+#: plugins/personal/generic/class_user.inc:1176
+#: plugins/personal/generic/class_user.inc:1363
 msgid "Pager"
 msgstr "پیجر"
 
-#: plugins/personal/generic/class_user.inc:1257
-#: plugins/personal/generic/class_user.inc:1460
-#: plugins/personal/generic/generic.tpl.c:38
+#: plugins/personal/generic/class_user.inc:1181
+#: plugins/personal/generic/class_user.inc:1344
 msgid "Date of birth"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:1420
-#: plugins/personal/generic/generic.tpl.c:140
-msgid "Unit"
-msgstr ""
+#: plugins/personal/generic/class_user.inc:1338
+msgid "Last name"
+msgstr "فامیل"
 
-#: plugins/personal/generic/class_user.inc:1421
-#: plugins/personal/generic/generic.tpl.c:149
-msgid "House identifier"
-msgstr ""
+#: plugins/personal/generic/class_user.inc:1339
+msgid "First name"
+msgstr "نام"
 
-#: plugins/personal/generic/class_user.inc:1422
-#: plugins/personal/generic/generic.tpl.c:122
-msgid "Vocation"
-msgstr ""
-
-#: plugins/personal/generic/class_user.inc:1423
-#: plugins/personal/generic/generic.tpl.c:164
-msgid "Last delivery"
-msgstr ""
-
-#: plugins/personal/generic/class_user.inc:1424
-#: plugins/personal/generic/generic.tpl.c:137
-msgid "Person locality"
-msgstr ""
-
-#: plugins/personal/generic/class_user.inc:1425
-#: plugins/personal/generic/generic.tpl.c:125
-msgid "Unit description"
-msgstr ""
-
-#: plugins/personal/generic/class_user.inc:1426
-#: plugins/personal/generic/generic.tpl.c:128
-msgid "Subject area"
-msgstr ""
-
-#: plugins/personal/generic/class_user.inc:1427
-#: plugins/personal/generic/generic.tpl.c:131
-msgid "Functional title"
-msgstr ""
-
-#: plugins/personal/generic/class_user.inc:1428
-#: plugins/personal/generic/generic.tpl.c:167
-msgid "Public visible"
-msgstr ""
-
-#: plugins/personal/generic/class_user.inc:1429
-#: plugins/personal/generic/generic.tpl.c:143
-msgid "Street"
-msgstr "خیابان"
-
-#: plugins/personal/generic/class_user.inc:1431
-#: plugins/personal/generic/generic.tpl.c:146
-msgid "Postal code"
-msgstr "کد پستی"
-
-#: plugins/personal/generic/class_user.inc:1435
-msgid "Generic user settings"
-msgstr ""
-
-#: plugins/personal/generic/class_user.inc:1456
-msgid "User identification"
-msgstr ""
-
-#: plugins/personal/generic/class_user.inc:1457
-#: plugins/personal/generic/generic.tpl.c:32
+#: plugins/personal/generic/class_user.inc:1341
 msgid "Personal title"
 msgstr "عنوان شخصی"
 
-#: plugins/personal/generic/class_user.inc:1458
-#: plugins/personal/generic/generic.tpl.c:35
+#: plugins/personal/generic/class_user.inc:1342
 msgid "Academic title"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:1461
-#: plugins/personal/generic/generic.tpl.c:41
+#: plugins/personal/generic/class_user.inc:1345
 msgid "Sex"
 msgstr "جنسیت"
 
-#: plugins/personal/generic/class_user.inc:1462
+#: plugins/personal/generic/class_user.inc:1346
 msgid "Preferred language"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:1465
-#: plugins/personal/generic/paste_generic.tpl.c:26
+#: plugins/personal/generic/class_user.inc:1349
 msgid "User picture"
 msgstr "عکس کاربر"
 
-#: plugins/personal/generic/class_user.inc:1467
+#: plugins/personal/generic/class_user.inc:1351
 msgid "Login restrictions"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:1471
+#: plugins/personal/generic/class_user.inc:1355
 msgid "Department number"
 msgstr "شماره دپارتمان"
 
-#: plugins/personal/generic/class_user.inc:1474
+#: plugins/personal/generic/class_user.inc:1358
 msgid "Employee number"
 msgstr "شماره کارمندی"
 
-#: plugins/personal/generic/class_user.inc:1475
-#: plugins/personal/generic/generic.tpl.c:92
+#: plugins/personal/generic/class_user.inc:1359
 msgid "Employee type"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:1477
+#: plugins/personal/generic/class_user.inc:1361
 msgid "Room number"
 msgstr "شماره اتاق"
 
-#: plugins/personal/generic/class_user.inc:1478
-msgid "Telefon number"
-msgstr "شماره تلفن"
-
-#: plugins/personal/generic/class_user.inc:1479
-msgid "Pager number"
-msgstr "شماره پیجر"
-
-#: plugins/personal/generic/class_user.inc:1480
-msgid "Mobile number"
-msgstr "شماره موبایل"
-
-#: plugins/personal/generic/class_user.inc:1485
+#: plugins/personal/generic/class_user.inc:1369
 msgid "Postal address"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:1487
+#: plugins/personal/generic/class_user.inc:1371
 msgid "Home postal address"
 msgstr "آدرس پستی منزل"
 
-#: plugins/personal/generic/class_user.inc:1488
+#: plugins/personal/generic/class_user.inc:1372
 msgid "Home phone number"
 msgstr "شماره تلفن منزل"
 
-#: plugins/personal/generic/class_user.inc:1490
+#: plugins/personal/generic/class_user.inc:1374
 msgid "User password method"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:1551
+#: plugins/personal/generic/class_user.inc:1427
 msgid "Entries differ"
 msgstr ""
 
-#: plugins/personal/password/class_password.inc:110
-msgid "You need to specify your current password in order to proceed."
-msgstr ""
-
-#: plugins/personal/password/class_password.inc:114
-msgid "The password you've entered as 'New password' is empty."
-msgstr ""
-
-#: plugins/personal/password/class_password.inc:116
-msgid "The password used as new and current are too similar."
-msgstr ""
-
-#: plugins/personal/password/class_password.inc:118
-msgid "The password used as new is to short."
-msgstr ""
-
-#: plugins/personal/password/class_password.inc:120
-#: html/class_passwordRecovery.inc:410
-msgid "The password contains possibly problematic Unicode characters!"
-msgstr ""
-
-#: plugins/personal/password/class_password.inc:157
+#: plugins/personal/password/class_password.inc:137
 msgid ""
 "The password you've entered as your current password doesn't match the real "
 "one."
 msgstr ""
 
-#: plugins/personal/password/class_password.inc:163
+#: plugins/personal/password/class_password.inc:142
 msgid "You have no permission to change your password."
 msgstr ""
 
-#: plugins/personal/password/class_password.inc:200
-#: plugins/personal/password/class_password.inc:208
+#: plugins/personal/password/class_password.inc:179
+#: plugins/personal/password/class_password.inc:187
 msgid "Change user password"
 msgstr ""
 
+#: plugins/personal/password/class_password.inc:223
+#, php-format
+msgid "Ppolicy \"%s\" could not be found in the LDAP!"
+msgstr ""
+
+#: plugins/personal/password/class_password.inc:226
+msgid "You are not allowed to change your own password"
+msgstr ""
+
+#: plugins/personal/password/class_password.inc:236
+#, php-format
+msgid "You must wait %d seconds before changing your password again"
+msgstr ""
+
+#: plugins/personal/password/class_password.inc:249
+msgid "You need to specify your current password in order to proceed."
+msgstr ""
+
+#: plugins/personal/password/class_password.inc:251
+#: html/class_passwordRecovery.inc:404
+msgid ""
+"The passwords you've entered as 'New password' and 'Repeated new password' "
+"do not match."
+msgstr ""
+
+#: plugins/personal/password/class_password.inc:253
+#: html/class_passwordRecovery.inc:406
+msgid "New password"
+msgstr "کلمه عبور جدید"
+
+#: plugins/personal/password/class_password.inc:255
+msgid "The password used as new and current are too similar."
+msgstr ""
+
+#: plugins/personal/password/class_password.inc:257
+msgid "The password used as new is to short."
+msgstr ""
+
+#: plugins/personal/password/class_password.inc:259
+#: html/class_passwordRecovery.inc:410
+msgid "The password contains possibly problematic Unicode characters!"
+msgstr ""
+
 #: plugins/personal/password/main.inc:52
-#: plugins/config/class_configInLdap.inc:119 setup/setup_config1.tpl.c:41
+#: plugins/config/class_configInLdap.inc:119
 msgid "Password settings"
+msgstr ""
+
+#: plugins/personal/posix/trustSelect/class_trustSelect.inc:66
+msgid "Edit mail properties"
+msgstr ""
+
+#: plugins/personal/posix/trustSelect/class_trustSelect.inc:73
+msgid "Samba"
+msgstr ""
+
+#: plugins/personal/posix/trustSelect/class_trustSelect.inc:74
+msgid "Edit samba properties"
+msgstr ""
+
+#: plugins/personal/posix/trustSelect/class_trustSelect.inc:82
+msgid "Edit phone properties"
+msgstr ""
+
+#: plugins/personal/posix/trustSelect/class_trustSelect.inc:89
+msgid "Menu"
+msgstr ""
+
+#: plugins/personal/posix/trustSelect/class_trustSelect.inc:90
+msgid "Edit start menu properties"
+msgstr ""
+
+#: plugins/personal/posix/trustSelect/class_trustSelect.inc:98
+msgid "Edit environment properties"
+msgstr ""
+
+#: plugins/personal/posix/trustSelect/trust-list.xml:10
+#: include/select/systemSelect/systemSelect-list.xml:10
+#: include/simpleplugin/simple-select-list.xml:11
+msgid "Please select the desired entries"
+msgstr ""
+
+#: plugins/personal/posix/trustSelect/trust-list.xml:30
+#: include/select/systemSelect/systemSelect-list.xml:30
+msgid "Winstation"
+msgstr ""
+
+#: plugins/personal/posix/class_posixAccount.inc:78
+#: plugins/personal/posix/class_posixAccount.inc:184
+msgid "Unix"
 msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:82
@@ -1610,24 +1542,27 @@ msgid "Status of this user unix account"
 msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:99
-msgid "Force UID/GID"
+msgid "Force user/group id"
 msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:99
-msgid "Force UID and GID values for this user"
+msgid "Force user id and group id values for this user"
 msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:103
-#: plugins/personal/posix/class_posixAccount.inc:372
-msgid "UID"
+msgid "User id"
 msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:103
-msgid "UID value for this user"
+msgid "User id value for this user"
 msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:108
-msgid "GID value for this user"
+msgid "Group id"
+msgstr ""
+
+#: plugins/personal/posix/class_posixAccount.inc:108
+msgid "Group id value for this user"
 msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:115
@@ -1699,8 +1634,6 @@ msgid ""
 msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:166
-#: plugins/admin/groups/generic.tpl.c:38
-#: plugins/admin/ogroups/generic.tpl.c:20
 msgid "Trust mode"
 msgstr ""
 
@@ -1710,10 +1643,6 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:173
 msgid "Only allow this user to connect to this list of hosts"
-msgstr ""
-
-#: plugins/personal/posix/class_posixAccount.inc:184
-msgid "Unix"
 msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:185
@@ -1751,6 +1680,10 @@ msgstr ""
 msgid "password not changeable"
 msgstr ""
 
+#: plugins/personal/posix/class_posixAccount.inc:372
+msgid "UID"
+msgstr ""
+
 #: plugins/personal/posix/class_posixAccount.inc:430
 msgid "Timeout while waiting for lock. Ignoring lock!"
 msgstr ""
@@ -1758,6 +1691,19 @@ msgstr ""
 #: plugins/personal/posix/class_posixAccount.inc:489
 #, php-format
 msgid "Group of user %s"
+msgstr ""
+
+#: plugins/personal/roles/class_userRoles.inc:28
+msgid "Roles"
+msgstr ""
+
+#: plugins/personal/roles/class_userRoles.inc:29
+msgid "Edit user's roles"
+msgstr ""
+
+#: plugins/personal/roles/class_userRoles.inc:43
+#: plugins/personal/roles/class_userRoles.inc:47
+msgid "Roles membership"
 msgstr ""
 
 #: plugins/config/class_mainPluginsConfig.inc:28
@@ -1807,7 +1753,7 @@ msgid ""
 "by the browser will be used. This setting can be overriden per user."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:88 setup/setup_config1.tpl.c:5
+#: plugins/config/class_configInLdap.inc:88
 msgid "Theme"
 msgstr ""
 
@@ -1815,7 +1761,7 @@ msgstr ""
 msgid "Theme to be used"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:94 setup/setup_config2.tpl.c:2
+#: plugins/config/class_configInLdap.inc:94
 msgid "Timezone"
 msgstr ""
 
@@ -1838,7 +1784,7 @@ msgid ""
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:111
-msgid "schemaCheck"
+msgid "Schema check"
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:112
@@ -1861,8 +1807,7 @@ msgstr ""
 msgid "Force the use of the default password hash"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:131 setup/setup_config1.tpl.c:50
-#: setup/setup_config1.tpl.c:53
+#: plugins/config/class_configInLdap.inc:131
 msgid "Password minimum length"
 msgstr ""
 
@@ -1886,7 +1831,7 @@ msgstr ""
 msgid "External script to handle password settings"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:145 setup/setup_config1.tpl.c:65
+#: plugins/config/class_configInLdap.inc:145
 msgid "Use account expiration"
 msgstr ""
 
@@ -1912,7 +1857,7 @@ msgstr ""
 msgid "Core settings"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:163 setup/setup_config3.tpl.c:5
+#: plugins/config/class_configInLdap.inc:163
 msgid "Enable primary group filter"
 msgstr ""
 
@@ -1922,7 +1867,7 @@ msgid ""
 " so you may want to disable it if your group plugin is slow."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:169 setup/setup_config3.tpl.c:8
+#: plugins/config/class_configInLdap.inc:169
 msgid "Display summary in listings"
 msgstr ""
 
@@ -1942,7 +1887,7 @@ msgid ""
 "FusionDirectory in the meantime."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:181 setup/setup_config3.tpl.c:14
+#: plugins/config/class_configInLdap.inc:181
 msgid "Enable Copy & Paste"
 msgstr ""
 
@@ -1966,11 +1911,11 @@ msgstr ""
 msgid "Defines the number of entries to get from LDAP by default."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:199 setup/setup_config3.tpl.c:20
+#: plugins/config/class_configInLdap.inc:199
 msgid "Login and session"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:202 setup/setup_config3.tpl.c:23
+#: plugins/config/class_configInLdap.inc:202
 msgid "Login attribute"
 msgstr ""
 
@@ -1978,7 +1923,7 @@ msgstr ""
 msgid "Which LDAP attribute should be used as the login name during login."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:209 setup/setup_config3.tpl.c:29
+#: plugins/config/class_configInLdap.inc:209
 msgid "Enforce encrypted connections"
 msgstr ""
 
@@ -1988,7 +1933,7 @@ msgid ""
 "interface."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:214 setup/setup_config3.tpl.c:32
+#: plugins/config/class_configInLdap.inc:214
 msgid "Warn if session is not encrypted"
 msgstr ""
 
@@ -1996,7 +1941,7 @@ msgstr ""
 msgid "will display a warning to the user when http is used instead of https."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:220 setup/setup_config3.tpl.c:35
+#: plugins/config/class_configInLdap.inc:220
 msgid "Session lifetime"
 msgstr ""
 
@@ -2004,11 +1949,11 @@ msgstr ""
 msgid "Defines when a session will expire in seconds."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:227 setup/setup_config2.tpl.c:8
+#: plugins/config/class_configInLdap.inc:227
 msgid "Snapshots"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:230 setup/setup_config2.tpl.c:11
+#: plugins/config/class_configInLdap.inc:230
 msgid "Enable snapshots"
 msgstr ""
 
@@ -2018,7 +1963,7 @@ msgid ""
 "on."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:234 setup/setup_config2.tpl.c:14
+#: plugins/config/class_configInLdap.inc:234
 msgid "Snapshot base"
 msgstr ""
 
@@ -2080,198 +2025,209 @@ msgstr ""
 msgid "Available POSIX shells for FD users."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:289 setup/setup_config1.tpl.c:8
+#: plugins/config/class_configInLdap.inc:287
+msgid "Show ACL tab on all objects"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:288
+msgid ""
+"For very specific ACL rights setting where you might need to give right on a"
+" single object."
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:294
 msgid "People and group storage"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:293 setup/setup_config1.tpl.c:11
+#: plugins/config/class_configInLdap.inc:298
 msgid "People DN attribute"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:293
+#: plugins/config/class_configInLdap.inc:298
 msgid "Attribute to use at the beginning of users dn"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:298
-#: plugins/config/class_configInLdap.inc:299 setup/setup_config1.tpl.c:26
+#: plugins/config/class_configInLdap.inc:303
+#: plugins/config/class_configInLdap.inc:304
 msgid "Include personal title in user DN"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:303 setup/setup_config1.tpl.c:14
+#: plugins/config/class_configInLdap.inc:308
 msgid "Customized CN"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:303
+#: plugins/config/class_configInLdap.inc:308
 msgid "Use a placeholder pattern for generating account cns"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:307 setup/setup_config1.tpl.c:32
-msgid "Automatic UIDs"
-msgstr ""
-
-#: plugins/config/class_configInLdap.inc:307
-msgid "Automatic way to generate new user ids"
-msgstr ""
-
-#: plugins/config/class_configInLdap.inc:311
-msgid "Strict naming policy"
+#: plugins/config/class_configInLdap.inc:312
+msgid "Automatic logins"
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:312
-msgid "Enables strict checking of uids and group names"
+msgid "Automatic way to generate new users logins"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:316
+msgid "Strict naming policy"
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:317
-msgid "GID/UID min id"
+msgid "Enables strict checking of user and group names"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:318
-msgid ""
-"The minimum assignable user or group id number to avoid security leaks with "
-"uid 0 accounts."
-msgstr ""
-
-#: plugins/config/class_configInLdap.inc:323
-msgid "Next id hook"
+#: plugins/config/class_configInLdap.inc:322
+#: setup/class_setupStep_Config1.inc:126
+msgid "Group/user min id"
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:323
 msgid ""
-"A script to be called for finding the next free id number for users or "
-"groups externaly."
-msgstr ""
-
-#: plugins/config/class_configInLdap.inc:327
-msgid "Number base for people"
+"The minimum assignable user or group id to avoid security leaks with id 0 "
+"accounts."
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:328
-msgid "Where to start looking for a new free user id number."
+msgid "Next id hook"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:328
+msgid ""
+"A script to be called for finding the next free id number for users or "
+"groups."
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:332
+msgid "Base number for user id"
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:333
-msgid "Number base for groups"
+msgid "Where to start looking for a new free user id."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:334
-msgid "Where to start looking for a new free group id number."
+#: plugins/config/class_configInLdap.inc:338
+msgid "Base number for group id"
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:339
+msgid "Where to start looking for a new free group id."
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:344
 msgid "Users RDN"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:339
-msgid "The branch where user are stored."
+#: plugins/config/class_configInLdap.inc:344
+msgid "The branch where users are stored."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:344
+#: plugins/config/class_configInLdap.inc:349
 msgid "Groups RDN"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:344
+#: plugins/config/class_configInLdap.inc:349
 msgid "The branch where groups are stored."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:349
+#: plugins/config/class_configInLdap.inc:354
 msgid "ACL role RDN"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:349
+#: plugins/config/class_configInLdap.inc:354
 msgid "The branch where ACL roles are stored."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:354
+#: plugins/config/class_configInLdap.inc:359
 msgid "Id allocation method"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:354
-msgid "Method to allocate uid/gid numbers"
+#: plugins/config/class_configInLdap.inc:359
+msgid "Method to allocate user/group ids"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:357
+#: plugins/config/class_configInLdap.inc:362
 msgid "Traditional"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:357
+#: plugins/config/class_configInLdap.inc:362
 msgid "Samba unix id pool"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:360
-msgid "Pool uid min"
-msgstr ""
-
-#: plugins/config/class_configInLdap.inc:360
-msgid "Minimum value for uid when using pool method"
+#: plugins/config/class_configInLdap.inc:365
+msgid "Pool user id min"
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:365
-msgid "Pool uid max"
-msgstr ""
-
-#: plugins/config/class_configInLdap.inc:365
-msgid "Maximum value for uid when using pool method"
+msgid "Minimum value for user id when using pool method"
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:370
-msgid "Pool gid min"
+msgid "Pool user id max"
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:370
-msgid "Minimum value for gid when using pool method"
+msgid "Maximum value for user id when using pool method"
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:375
-msgid "Pool gid max"
+msgid "Pool group id min"
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:375
-msgid "Maximum value for gid when using pool method"
+msgid "Minimum value for group id when using pool method"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:382 setup/setup_config3.tpl.c:38
+#: plugins/config/class_configInLdap.inc:380
+msgid "Pool group id max"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:380
+msgid "Maximum value for group id when using pool method"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:387
 msgid "Debugging"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:385
+#: plugins/config/class_configInLdap.inc:390
 msgid "Display errors"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:386
+#: plugins/config/class_configInLdap.inc:391
 msgid ""
 "Shows PHP errors in the upper part of the screen. This should be disabled in"
 " productive deployments, because there might be some passwords in it."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:390 setup/setup_config3.tpl.c:44
+#: plugins/config/class_configInLdap.inc:395
 msgid "Maximum LDAP query time"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:390
+#: plugins/config/class_configInLdap.inc:395
 msgid ""
 "Stop LDAP actions if there is no answer within the specified number of "
 "seconds."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:395 setup/setup_config3.tpl.c:47
+#: plugins/config/class_configInLdap.inc:400
 msgid "Log LDAP statistics"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:396
+#: plugins/config/class_configInLdap.inc:401
 msgid ""
 "Track LDAP timing statistics to the syslog. This may help to find indexing "
 "problems or bad search filters."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:401 setup/setup_config3.tpl.c:50
+#: plugins/config/class_configInLdap.inc:406
 msgid "Debug level"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:402
+#: plugins/config/class_configInLdap.inc:407
 msgid "Display certain information on each page load."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:422
+#: plugins/config/class_configInLdap.inc:427
 #: setup/class_setupStep_Language.inc:50
 msgid "Automatic"
 msgstr ""
@@ -2284,8 +2240,8 @@ msgstr ""
 msgid "Configuration for plugins"
 msgstr ""
 
-#: include/class_listing.inc:306 include/class_listing.inc:1153
-#: include/class_listing.inc:1155 include/class_sortableListing.inc:343
+#: include/class_listing.inc:306 include/class_listing.inc:1154
+#: include/class_listing.inc:1156 include/class_sortableListing.inc:343
 msgid "Up"
 msgstr ""
 
@@ -2293,95 +2249,92 @@ msgstr ""
 msgid "Down"
 msgstr ""
 
-#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2331
-#: include/simpleplugin/class_attribute.inc:2332
+#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2456
+#: include/simpleplugin/class_attribute.inc:2457
 msgid "Sort up"
 msgstr ""
 
-#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2344
-#: include/simpleplugin/class_attribute.inc:2345
+#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2469
+#: include/simpleplugin/class_attribute.inc:2470
 msgid "Sort down"
 msgstr ""
 
-#: include/class_listing.inc:367 setup/setup_migrate.tpl.c:35
-#: setup/setup_migrate.tpl.c:62 setup/setup_migrate.tpl.c:146
-#: setup/setup_migrate.tpl.c:173 setup/setup_migrate.tpl.c:200
-#: setup/setup_migrate.tpl.c:230 setup/setup_migrate.tpl.c:260
+#: include/class_listing.inc:367
 msgid "Select all"
 msgstr ""
 
-#: include/class_listing.inc:577
+#: include/class_listing.inc:578
 msgid "created by"
 msgstr ""
 
-#: include/class_listing.inc:1145
+#: include/class_listing.inc:1146
 msgid "Go to root department"
 msgstr ""
 
-#: include/class_listing.inc:1145 include/class_listing.inc:1147
-#: include/class_baseSelector.inc:209
+#: include/class_listing.inc:1146 include/class_listing.inc:1148
+#: include/class_baseSelector.inc:217
 msgid "Root"
 msgstr ""
 
-#: include/class_listing.inc:1153
+#: include/class_listing.inc:1154
 msgid "Go up one department"
 msgstr ""
 
-#: include/class_listing.inc:1161
+#: include/class_listing.inc:1162
 msgid "Go to user's department"
 msgstr ""
 
-#: include/class_listing.inc:1161 include/class_listing.inc:1163
+#: include/class_listing.inc:1162 include/class_listing.inc:1164
 msgid "Home"
 msgstr ""
 
-#: include/class_listing.inc:1168
+#: include/class_listing.inc:1169
 msgid "Reload list"
 msgstr ""
 
-#: include/class_listing.inc:1168 include/class_baseSelector.inc:256
+#: include/class_listing.inc:1169 include/class_baseSelector.inc:269
 msgid "Submit"
 msgstr ""
 
-#: include/class_listing.inc:1585 include/class_listing.inc:1639
+#: include/class_listing.inc:1586 include/class_listing.inc:1640
 msgid "Copy"
 msgstr ""
 
-#: include/class_listing.inc:1591 include/class_listing.inc:1627
+#: include/class_listing.inc:1592 include/class_listing.inc:1628
 msgid "Cut"
 msgstr ""
 
-#: include/class_listing.inc:1599 include/class_listing.inc:1601
+#: include/class_listing.inc:1600 include/class_listing.inc:1602
 #: include/class_CopyPasteHandler.inc:342
 msgid "Paste"
 msgstr ""
 
-#: include/class_listing.inc:1627
+#: include/class_listing.inc:1628
 msgid "Cut this entry"
 msgstr ""
 
-#: include/class_listing.inc:1639
+#: include/class_listing.inc:1640
 msgid "Copy this entry"
 msgstr ""
 
-#: include/class_listing.inc:1672 include/class_listing.inc:1674
+#: include/class_listing.inc:1673 include/class_listing.inc:1675
 msgid "Restore snapshots"
 msgstr ""
 
-#: include/class_listing.inc:1688
+#: include/class_listing.inc:1689
 msgid "Export list"
 msgstr ""
 
-#: include/class_listing.inc:1723 include/class_listing.inc:1724
+#: include/class_listing.inc:1724 include/class_listing.inc:1725
 #: include/class_SnapShotDialog.inc:191
 msgid "Restore snapshot"
 msgstr ""
 
-#: include/class_listing.inc:1733
+#: include/class_listing.inc:1734
 msgid "Create snapshot"
 msgstr ""
 
-#: include/class_listing.inc:1734
+#: include/class_listing.inc:1735
 msgid "Create a new snapshot from this object"
 msgstr ""
 
@@ -2458,7 +2411,7 @@ msgstr ""
 msgid "All categories"
 msgstr ""
 
-#: include/class_config.inc:1362
+#: include/class_config.inc:1376
 msgid "My account"
 msgstr ""
 
@@ -2487,8 +2440,8 @@ msgstr ""
 #: include/class_ldap.inc:866 include/class_ldap.inc:900
 #: include/functions.inc:676 include/functions.inc:757
 #: include/functions.inc:877 include/functions.inc:1296
-#: include/functions.inc:2416 include/functions.inc:2458
-#: include/functions.inc:2487 include/class_session.inc:97
+#: include/functions.inc:2419 include/functions.inc:2461
+#: include/functions.inc:2490 include/class_session.inc:97
 #: include/class_session.inc:134 include/class_session.inc:172
 #: include/class_log.inc:96 include/class_acl.inc:169
 msgid "Internal error"
@@ -2547,12 +2500,11 @@ msgstr ""
 msgid "Select to list objects that have '%s' enabled"
 msgstr ""
 
-#: include/class_msgPool.inc:49 plugins/admin/ogroups/ogroup_objects.tpl.c:8
+#: include/class_msgPool.inc:49
 msgid "Select to search within subtrees"
 msgstr ""
 
 #: include/class_msgPool.inc:51 include/class_filter.inc:392
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:11
 msgid "Search in subtrees"
 msgstr ""
 
@@ -2765,12 +2717,12 @@ msgid "The required field '%s' is empty!"
 msgstr ""
 
 #: include/class_msgPool.inc:426
-msgid "Example"
+msgid "Example:"
 msgstr ""
 
-#: include/class_msgPool.inc:446
+#: include/class_msgPool.inc:446 include/class_msgPool.inc:450
 #, php-format
-msgid "The Field '%s' contains invalid characters"
+msgid "The field '%s' contains invalid characters"
 msgstr ""
 
 #: include/class_msgPool.inc:447
@@ -2783,28 +2735,12 @@ msgstr ""
 msgid "'%s' are not allowed!"
 msgstr ""
 
-#: include/class_msgPool.inc:450
-#, php-format
-msgid "The Field '%s' contains invalid characters!"
-msgstr ""
-
 #: include/class_msgPool.inc:461
 #, php-format
 msgid "Missing %s PHP extension!"
 msgstr ""
 
-#: include/class_msgPool.inc:469 ihtml/themes/default/islocked.tpl.c:14
-#: ihtml/themes/default/remove.tpl.c:11 ihtml/themes/default/acl.tpl.c:53
-#: ihtml/themes/default/acl.tpl.c:59
-#: ihtml/themes/default/copyPasteDialog.tpl.c:17
-#: ihtml/themes/default/snapshotdialog.tpl.c:23
-#: ihtml/themes/default/snapshotdialog.tpl.c:47
-#: ihtml/themes/default/msg_dialog.tpl.c:17 setup/setup_ldap.tpl.c:11
-#: setup/setup_migrate.tpl.c:47 setup/setup_migrate.tpl.c:74
-#: setup/setup_migrate.tpl.c:101 setup/setup_migrate.tpl.c:131
-#: setup/setup_migrate.tpl.c:158 setup/setup_migrate.tpl.c:185
-#: setup/setup_migrate.tpl.c:215 setup/setup_migrate.tpl.c:245
-#: setup/setup_migrate.tpl.c:275
+#: include/class_msgPool.inc:469
 msgid "Cancel"
 msgstr ""
 
@@ -2818,27 +2754,18 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:2269
 #: setup/class_setupStep_Migrate.inc:2412
 #: setup/class_setupStep_Migrate.inc:2667
-#: ihtml/themes/default/msg_dialog.tpl.c:14 setup/setup_checks.tpl.c:5
-#: setup/setup_checks.tpl.c:26
 msgid "Ok"
 msgstr ""
 
-#: include/class_msgPool.inc:485 ihtml/themes/default/acl.tpl.c:50
-#: ihtml/themes/default/acl.tpl.c:56 setup/setup_ldap.tpl.c:8
-#: setup/setup_migrate.tpl.c:44 setup/setup_migrate.tpl.c:71
-#: setup/setup_migrate.tpl.c:98 setup/setup_migrate.tpl.c:128
-#: setup/setup_migrate.tpl.c:155 setup/setup_migrate.tpl.c:182
-#: setup/setup_migrate.tpl.c:212 setup/setup_migrate.tpl.c:242
-#: setup/setup_migrate.tpl.c:272
+#: include/class_msgPool.inc:485
 msgid "Apply"
 msgstr ""
 
-#: include/class_msgPool.inc:493 ihtml/themes/default/copyPasteDialog.tpl.c:14
+#: include/class_msgPool.inc:493
 msgid "Save"
 msgstr ""
 
 #: include/class_msgPool.inc:503 setup/class_setupStep_Migrate.inc:2521
-#: plugins/personal/generic/generic.tpl.c:74
 #, php-format
 msgid "Add"
 msgstr ""
@@ -2853,283 +2780,273 @@ msgstr ""
 msgid "Delete %s"
 msgstr ""
 
-#: include/class_msgPool.inc:523 ihtml/themes/default/sizelimit.tpl.c:14
-#, php-format
-msgid "Set"
-msgstr ""
-
 #: include/class_msgPool.inc:523
-#, php-format
-msgid "Set %s"
-msgstr ""
-
-#: include/class_msgPool.inc:533
 #, php-format
 msgid "Edit..."
 msgstr ""
 
-#: include/class_msgPool.inc:533
+#: include/class_msgPool.inc:523
 #, php-format
 msgid "Edit %s..."
 msgstr ""
 
-#: include/class_msgPool.inc:541
+#: include/class_msgPool.inc:531
 msgid "Back"
 msgstr ""
 
-#: include/class_msgPool.inc:570
+#: include/class_msgPool.inc:560
 #, php-format
 msgid "This account has no valid %s extensions!"
 msgstr ""
 
-#: include/class_msgPool.inc:583
+#: include/class_msgPool.inc:573
 #, php-format
 msgid ""
 "This account has %s settings enabled. You can disable them by clicking "
 "below."
 msgstr ""
 
-#: include/class_msgPool.inc:589 include/class_msgPool.inc:596
+#: include/class_msgPool.inc:579 include/class_msgPool.inc:586
 #, php-format
 msgid ""
 "This account has %s settings enabled. To disable them, you'll need to remove"
 " the %s settings first!"
 msgstr ""
 
-#: include/class_msgPool.inc:611
+#: include/class_msgPool.inc:601
 #, php-format
 msgid ""
 "This account has %s settings disabled. You can enable them by clicking "
 "below."
 msgstr ""
 
-#: include/class_msgPool.inc:617 include/class_msgPool.inc:624
+#: include/class_msgPool.inc:607 include/class_msgPool.inc:614
 #, php-format
 msgid ""
 "This account has %s settings disabled. To enable them, you'll need to add "
 "the %s settings first!"
 msgstr ""
 
-#: include/class_msgPool.inc:636
+#: include/class_msgPool.inc:626
 #, php-format
 msgid "Add %s settings"
 msgstr ""
 
-#: include/class_msgPool.inc:647
+#: include/class_msgPool.inc:637
 #, php-format
 msgid "Remove %s settings"
 msgstr ""
 
-#: include/class_msgPool.inc:655
+#: include/class_msgPool.inc:645
 msgid "Click the 'Edit' button below to change informations in this dialog"
 msgstr ""
 
-#: include/class_msgPool.inc:663
+#: include/class_msgPool.inc:653
 msgid "January"
 msgstr ""
 
-#: include/class_msgPool.inc:663
+#: include/class_msgPool.inc:653
 msgid "February"
 msgstr ""
 
-#: include/class_msgPool.inc:663
+#: include/class_msgPool.inc:653
 msgid "March"
 msgstr ""
 
-#: include/class_msgPool.inc:663
+#: include/class_msgPool.inc:653
 msgid "April"
 msgstr ""
 
-#: include/class_msgPool.inc:664
+#: include/class_msgPool.inc:654
 msgid "May"
 msgstr ""
 
-#: include/class_msgPool.inc:664
+#: include/class_msgPool.inc:654
 msgid "June"
 msgstr ""
 
-#: include/class_msgPool.inc:664
+#: include/class_msgPool.inc:654
 msgid "July"
 msgstr ""
 
-#: include/class_msgPool.inc:664
+#: include/class_msgPool.inc:654
 msgid "August"
 msgstr ""
 
-#: include/class_msgPool.inc:664
+#: include/class_msgPool.inc:654
 msgid "September"
 msgstr ""
 
-#: include/class_msgPool.inc:665
+#: include/class_msgPool.inc:655
 msgid "October"
 msgstr ""
 
-#: include/class_msgPool.inc:665
+#: include/class_msgPool.inc:655
 msgid "November"
 msgstr ""
 
-#: include/class_msgPool.inc:665
+#: include/class_msgPool.inc:655
 msgid "December"
 msgstr ""
 
-#: include/class_msgPool.inc:674
+#: include/class_msgPool.inc:664
 msgid "Sunday"
 msgstr ""
 
-#: include/class_msgPool.inc:674
+#: include/class_msgPool.inc:664
 msgid "Monday"
 msgstr ""
 
-#: include/class_msgPool.inc:674
+#: include/class_msgPool.inc:664
 msgid "Tuesday"
 msgstr ""
 
-#: include/class_msgPool.inc:674
+#: include/class_msgPool.inc:664
 msgid "Wednesday"
 msgstr ""
 
-#: include/class_msgPool.inc:674
+#: include/class_msgPool.inc:664
 msgid "Thursday"
 msgstr ""
 
-#: include/class_msgPool.inc:674
+#: include/class_msgPool.inc:664
 msgid "Friday"
 msgstr ""
 
-#: include/class_msgPool.inc:674
+#: include/class_msgPool.inc:664
 msgid "Saturday"
 msgstr ""
 
-#: include/class_msgPool.inc:687
+#: include/class_msgPool.inc:677
 msgid "Database operation failed!"
 msgstr ""
 
-#: include/class_msgPool.inc:705
+#: include/class_msgPool.inc:695
 msgid "read operation"
 msgstr ""
 
-#: include/class_msgPool.inc:705
+#: include/class_msgPool.inc:695
 msgid "add operation"
 msgstr ""
 
-#: include/class_msgPool.inc:705
+#: include/class_msgPool.inc:695
 msgid "modify operation"
 msgstr ""
 
-#: include/class_msgPool.inc:706
+#: include/class_msgPool.inc:696
 msgid "delete operation"
 msgstr ""
 
-#: include/class_msgPool.inc:706
+#: include/class_msgPool.inc:696
 msgid "search operation"
 msgstr ""
 
-#: include/class_msgPool.inc:706
+#: include/class_msgPool.inc:696
 msgid "authentication"
 msgstr ""
 
-#: include/class_msgPool.inc:709
+#: include/class_msgPool.inc:699
 #, php-format
 msgid "LDAP %s failed!"
 msgstr ""
 
-#: include/class_msgPool.inc:711
+#: include/class_msgPool.inc:701
 msgid "LDAP operation failed!"
 msgstr ""
 
-#: include/class_msgPool.inc:730
+#: include/class_msgPool.inc:720
 msgid "Upload failed!"
 msgstr ""
 
-#: include/class_msgPool.inc:733
+#: include/class_msgPool.inc:723
 #, php-format
 msgid "Upload failed: %s"
 msgstr ""
 
-#: include/class_msgPool.inc:744
+#: include/class_msgPool.inc:734
 msgid "Communication failure with the infrastructure service!"
 msgstr ""
 
-#: include/class_msgPool.inc:746
+#: include/class_msgPool.inc:736
 #, php-format
 msgid "Communication failure with the infrastructure service: %s"
 msgstr ""
 
-#: include/class_msgPool.inc:759 include/class_msgPool.inc:762
+#: include/class_msgPool.inc:749 include/class_msgPool.inc:752
 #, php-format
 msgid "This '%s' is still in use by this object: %s"
 msgstr ""
 
-#: include/class_msgPool.inc:765
+#: include/class_msgPool.inc:755
 #, php-format
 msgid "This '%s' is still in use."
 msgstr ""
 
-#: include/class_msgPool.inc:767
+#: include/class_msgPool.inc:757
 #, php-format
 msgid "This '%s' is still in use by these objects: %s"
 msgstr ""
 
-#: include/class_msgPool.inc:777
+#: include/class_msgPool.inc:767
 #, php-format
 msgid "File '%s' does not exist!"
 msgstr ""
 
-#: include/class_msgPool.inc:787
+#: include/class_msgPool.inc:777
 #, php-format
 msgid "Cannot open file '%s' for reading!"
 msgstr ""
 
-#: include/class_msgPool.inc:797
+#: include/class_msgPool.inc:787
 #, php-format
 msgid "Cannot open file '%s' for writing!"
 msgstr ""
 
-#: include/class_msgPool.inc:807
+#: include/class_msgPool.inc:797
 #, php-format
 msgid ""
 "The value for '%s' is currently unconfigured or invalid, please check your "
 "configuration file!"
 msgstr ""
 
-#: include/class_msgPool.inc:817
+#: include/class_msgPool.inc:807
 #, php-format
 msgid "Cannot delete file '%s'!"
 msgstr ""
 
-#: include/class_msgPool.inc:827
+#: include/class_msgPool.inc:817
 #, php-format
 msgid "Cannot create folder '%s'!"
 msgstr ""
 
-#: include/class_msgPool.inc:837
+#: include/class_msgPool.inc:827
 #, php-format
 msgid "Cannot delete folder '%s'!"
 msgstr ""
 
-#: include/class_msgPool.inc:847
+#: include/class_msgPool.inc:837
 #, php-format
 msgid "Checking for %s support"
 msgstr ""
 
-#: include/class_msgPool.inc:857
+#: include/class_msgPool.inc:847
 #, php-format
 msgid "Install and activate the %s PHP module."
 msgstr ""
 
-#: include/class_msgPool.inc:867
+#: include/class_msgPool.inc:857
 #, php-format
 msgid "Install and activate the %s Pear module."
 msgstr ""
 
-#: include/class_msgPool.inc:877
+#: include/class_msgPool.inc:867
 #, php-format
 msgid ""
 "Cannot initialize class '%s'! Maybe there is a plugin missing in your "
 "FusionDirectory setup?"
 msgstr ""
 
-#: include/class_msgPool.inc:885
+#: include/class_msgPool.inc:875
 msgid ""
 "The supplied base is not valid and has been reset to the previous value!"
 msgstr ""
@@ -3145,7 +3062,7 @@ msgid ""
 "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
 msgstr ""
 
-#: include/functions.inc:508 include/functions.inc:3727
+#: include/functions.inc:508 include/functions.inc:3735
 #: include/class_xml.inc:61 html/class_passwordRecovery.inc:227
 msgid "Fatal error"
 msgstr "خطا"
@@ -3156,13 +3073,13 @@ msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
 msgstr ""
 
 #: include/functions.inc:590
-msgid "Username / UID is not unique inside the LDAP tree!"
+msgid "Login (uid) is not unique inside the LDAP tree!"
 msgstr ""
 
 #: include/functions.inc:676
 msgid ""
-"Username / UID is not unique inside the LDAP tree. Please contact your "
-"Administrator."
+"Login (uid) is not unique inside the LDAP tree. Please contact your "
+"administrator."
 msgstr ""
 
 #: include/functions.inc:757 include/functions.inc:877
@@ -3199,7 +3116,7 @@ msgid ""
 "exceeds"
 msgstr ""
 
-#: include/functions.inc:1235 plugins/personal/generic/generic.tpl.c:65
+#: include/functions.inc:1235
 msgid "Configure"
 msgstr ""
 
@@ -3228,171 +3145,171 @@ msgstr ""
 msgid "Apply filter"
 msgstr ""
 
-#: include/functions.inc:2239
+#: include/functions.inc:2242
 #, php-format
 msgid "%sB"
 msgstr ""
 
-#: include/functions.inc:2240
+#: include/functions.inc:2243
 #, php-format
 msgid "%sKiB"
 msgstr ""
 
-#: include/functions.inc:2241
+#: include/functions.inc:2244
 #, php-format
 msgid "%sMiB"
 msgstr ""
 
-#: include/functions.inc:2242
+#: include/functions.inc:2245
 #, php-format
 msgid "%sGiB"
 msgstr ""
 
-#: include/functions.inc:2243
+#: include/functions.inc:2246
 #, php-format
 msgid "%sTiB"
 msgstr ""
 
-#: include/functions.inc:2244
+#: include/functions.inc:2247
 #, php-format
 msgid "%sPiB"
 msgstr ""
 
-#: include/functions.inc:2245
+#: include/functions.inc:2248
 #, php-format
 msgid "%sEiB"
 msgstr ""
 
-#: include/functions.inc:2246
+#: include/functions.inc:2249
 #, php-format
 msgid "%sZiB"
 msgstr ""
 
-#: include/functions.inc:2247
+#: include/functions.inc:2250
 #, php-format
 msgid "%sYiB"
 msgstr ""
 
-#: include/functions.inc:2279 include/class_filter.inc:343
+#: include/functions.inc:2282 include/class_filter.inc:343
 msgid "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 msgstr ""
 
-#: include/functions.inc:2416
+#: include/functions.inc:2419
 #, php-format
 msgid ""
 "File '%s' could not be deleted. Try fusiondirectory-setup --check-"
 "directories to fix permissions."
 msgstr ""
 
-#: include/functions.inc:2458
+#: include/functions.inc:2461
 msgid "Cannot write to revision file!"
 msgstr ""
 
-#: include/functions.inc:2487
+#: include/functions.inc:2490
 msgid "Cannot read to revision file!"
 msgstr ""
 
-#: include/functions.inc:2705
+#: include/functions.inc:2708
 msgid "'nextIdHook' is not available. Using default base!"
 msgstr ""
 
-#: include/functions.inc:2740
+#: include/functions.inc:2743
 msgid "LDAP warning"
 msgstr ""
 
-#: include/functions.inc:2740
+#: include/functions.inc:2743
 msgid "Cannot get schema information from server. No schema check possible!"
 msgstr ""
 
-#: include/functions.inc:2767
+#: include/functions.inc:2770
 msgid "Used to store account specific informations."
 msgstr ""
 
-#: include/functions.inc:2774
+#: include/functions.inc:2777
 msgid ""
 "Used to lock currently edited entries to avoid multiple changes at the same "
 "time."
 msgstr ""
 
-#: include/functions.inc:2799
+#: include/functions.inc:2802
 #, php-format
 msgid "Missing required object class '%s'!"
 msgstr ""
 
-#: include/functions.inc:2802
+#: include/functions.inc:2805
 #, php-format
 msgid "Missing optional object class '%s'!"
 msgstr ""
 
-#: include/functions.inc:2806
+#: include/functions.inc:2809
 #, php-format
 msgid "Version mismatch for required object class '%s' (!=%s)!"
 msgstr ""
 
-#: include/functions.inc:2809
+#: include/functions.inc:2812
 #, php-format
 msgid "Class(es) available"
 msgstr ""
 
-#: include/functions.inc:2831
+#: include/functions.inc:2834
 msgid ""
 "You have enabled the rfc2307bis option on the 'ldap setup' step, but your "
 "schema    configuration do not support this option."
 msgstr ""
 
-#: include/functions.inc:2832
+#: include/functions.inc:2835
 msgid ""
 "In order to use rfc2307bis conform groups the objectClass 'posixGroup' must "
 "be      AUXILIARY"
 msgstr ""
 
-#: include/functions.inc:2836
+#: include/functions.inc:2839
 msgid ""
 "Your schema is configured to support the rfc2307bis group, but you have "
 "disabled this option on the 'ldap setup' step."
 msgstr ""
 
-#: include/functions.inc:2837
+#: include/functions.inc:2840
 msgid "The objectClass 'posixGroup' must be STRUCTURAL"
 msgstr ""
 
-#: include/functions.inc:3487 include/functions.inc:3508
-#: include/functions.inc:3546 include/functions.inc:3558
-#: include/functions.inc:3562 include/functions.inc:3569
-#: include/functions.inc:3578
+#: include/functions.inc:3495 include/functions.inc:3516
+#: include/functions.inc:3554 include/functions.inc:3566
+#: include/functions.inc:3570 include/functions.inc:3577
+#: include/functions.inc:3586
 msgid "Cannot allocate a free ID:"
 msgstr ""
 
-#: include/functions.inc:3487
+#: include/functions.inc:3495
 msgid "unknown idAllocation method!"
 msgstr ""
 
-#: include/functions.inc:3508
+#: include/functions.inc:3516
 #, php-format
 msgid "%sPoolMin >= %sPoolMax!"
 msgstr ""
 
-#: include/functions.inc:3538
+#: include/functions.inc:3546
 msgid "Cannot create sambaUnixIdPool entry!"
 msgstr ""
 
-#: include/functions.inc:3546
+#: include/functions.inc:3554
 msgid "sambaUnixIdPool is not unique!"
 msgstr ""
 
-#: include/functions.inc:3558 include/functions.inc:3562
+#: include/functions.inc:3566 include/functions.inc:3570
 msgid "no ID available!"
 msgstr ""
 
-#: include/functions.inc:3578
+#: include/functions.inc:3586
 msgid "maximum tries exceeded!"
 msgstr ""
 
-#: include/functions.inc:3640
+#: include/functions.inc:3648
 msgid "Cannot allocate a free ID!"
 msgstr ""
 
-#: include/functions.inc:3728
+#: include/functions.inc:3736
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr "فایل '%s' را نمی توانم پیدا کنم برای رفع مشکل دستور '%s' را بزنید."
@@ -3416,10 +3333,6 @@ msgstr ""
 
 #: include/class_pluglist.inc:170
 msgid "All objects in this category"
-msgstr ""
-
-#: include/class_pluglist.inc:314
-msgid "The configuration format has changed. Please re-run setup!"
 msgstr ""
 
 #: include/class_log.inc:96
@@ -3456,7 +3369,7 @@ msgstr ""
 msgid "method"
 msgstr ""
 
-#: include/php_setup.inc:101 ihtml/themes/default/msg_dialog.tpl.c:11
+#: include/php_setup.inc:101
 msgid "Trace"
 msgstr ""
 
@@ -3522,15 +3435,6 @@ msgstr ""
 msgid "PDF"
 msgstr ""
 
-#: include/select/systemSelect/systemSelect-list.xml:10
-#: include/simpleplugin/simple-select-list.xml:11
-msgid "Please select the desired entries"
-msgstr ""
-
-#: include/select/systemSelect/systemSelect-list.xml:30
-msgid "Winstation"
-msgstr ""
-
 #: include/class_xml.inc:66
 msgid "in"
 msgstr ""
@@ -3549,13 +3453,12 @@ msgid ""
 " be done by others get lost if you save this entry!"
 msgstr ""
 
-#: include/class_plugin.inc:1320
+#: include/class_plugin.inc:1322
 #, php-format
 msgid "Tab \"%s\""
 msgstr ""
 
 #: include/class_CopyPasteHandler.inc:277
-#: ihtml/themes/default/copyPasteDialog.tpl.c:20
 msgid "Cancel all"
 msgstr ""
 
@@ -3563,17 +3466,17 @@ msgstr ""
 msgid "Cannot paste"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:540
-#: include/simpleplugin/class_simplePlugin.inc:548
+#: include/simpleplugin/class_simplePlugin.inc:544
+#: include/simpleplugin/class_simplePlugin.inc:552
 msgid "Error when saving"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:540
+#: include/simpleplugin/class_simplePlugin.inc:544
 #, php-format
 msgid "There is already an entry with the same dn : %s"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:548
+#: include/simpleplugin/class_simplePlugin.inc:552
 #, php-format
 msgid "The entry %s is not existing"
 msgstr ""
@@ -3583,100 +3486,136 @@ msgstr ""
 msgid "Show %s"
 msgstr ""
 
-#: include/simpleplugin/class_dialogAttributes.inc:396
+#: include/simpleplugin/class_dialogAttributes.inc:404
 #, php-format
 msgid "Group %s"
 msgstr ""
 
-#: include/simpleplugin/class_dialogAttributes.inc:426
+#: include/simpleplugin/class_dialogAttributes.inc:434
 msgid "Group of user"
 msgstr ""
 
-#: include/simpleplugin/class_dialogAttributes.inc:577
-#: include/simpleplugin/class_attribute.inc:939
-#: include/simpleplugin/class_attribute.inc:973
+#: include/simpleplugin/class_dialogAttributes.inc:585
+#: include/simpleplugin/class_attribute.inc:946
+#: include/simpleplugin/class_attribute.inc:980
 msgid "None"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:466
-#: include/simpleplugin/class_attribute.inc:1906
+#: include/simpleplugin/class_helpersAttribute.inc:265
+msgid "B"
+msgstr ""
+
+#: include/simpleplugin/class_helpersAttribute.inc:266
+msgid "KiB"
+msgstr ""
+
+#: include/simpleplugin/class_helpersAttribute.inc:267
+msgid "MiB"
+msgstr ""
+
+#: include/simpleplugin/class_helpersAttribute.inc:268
+msgid "GiB"
+msgstr ""
+
+#: include/simpleplugin/class_helpersAttribute.inc:269
+msgid "TiB"
+msgstr ""
+
+#: include/simpleplugin/class_helpersAttribute.inc:280
+msgid "seconds"
+msgstr ""
+
+#: include/simpleplugin/class_helpersAttribute.inc:281
+msgid "minutes"
+msgstr ""
+
+#: include/simpleplugin/class_helpersAttribute.inc:282
+msgid "hours"
+msgstr ""
+
+#: include/simpleplugin/class_helpersAttribute.inc:283
+msgid "days"
+msgstr ""
+
+#: include/simpleplugin/class_attribute.inc:472
+#: include/simpleplugin/class_attribute.inc:2007
 #, php-format
 msgid "%s (required)"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1113
+#: include/simpleplugin/class_attribute.inc:1133
 #, php-format
 msgid "An integer between %d and %d"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1115
+#: include/simpleplugin/class_attribute.inc:1135
 #, php-format
 msgid "An integer larger than %d"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1117
+#: include/simpleplugin/class_attribute.inc:1137
 #, php-format
 msgid "An integer smaller than %d"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1215
+#: include/simpleplugin/class_attribute.inc:1235
 #, php-format
 msgid "A float between %f and %f"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1217
+#: include/simpleplugin/class_attribute.inc:1237
 #, php-format
 msgid "A float larger than %f"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1219
+#: include/simpleplugin/class_attribute.inc:1239
 #, php-format
 msgid "A float smaller than %f"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1326
+#: include/simpleplugin/class_attribute.inc:1346
 msgid "Error, incorrect date: "
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1365
-#: include/simpleplugin/class_attribute.inc:1368
-#: include/simpleplugin/class_attribute.inc:1371
+#: include/simpleplugin/class_attribute.inc:1385
+#: include/simpleplugin/class_attribute.inc:1388
+#: include/simpleplugin/class_attribute.inc:1391
 #, php-format
 msgid "Cannot read uploaded file: %s"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1365
+#: include/simpleplugin/class_attribute.inc:1385
 msgid "file is empty"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1368
+#: include/simpleplugin/class_attribute.inc:1388
 msgid "file not found"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1371
+#: include/simpleplugin/class_attribute.inc:1391
 msgid "file not readable"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1404
+#: include/simpleplugin/class_attribute.inc:1424
 #, php-format
 msgid "%s (%d bytes)"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1447
-#: include/simpleplugin/class_attribute.inc:1554
+#: include/simpleplugin/class_attribute.inc:1470
+#: include/simpleplugin/class_attribute.inc:1646
 msgid "Upload"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1451
-#: include/simpleplugin/class_attribute.inc:1452
+#: include/simpleplugin/class_attribute.inc:1475
+#: include/simpleplugin/class_attribute.inc:1476
 msgid "Download"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1590
+#: include/simpleplugin/class_attribute.inc:1682
 msgid "Object base"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:2445
+#: include/simpleplugin/class_attribute.inc:2570
 #, php-format
 msgid "Invalid value for %s"
 msgstr ""
@@ -3688,7 +3627,7 @@ msgstr ""
 #: include/class_timezone.inc:59
 #, php-format
 msgid ""
-"The timezone setting '%s' in your fusiondirectory.conf is not valid. Cannot "
+"The timezone setting '%s' in your configuration is not valid. Cannot "
 "calculate correct timezone offset."
 msgstr ""
 
@@ -3757,7 +3696,7 @@ msgid ""
 "configuration file."
 msgstr ""
 
-#: include/class_tabs.inc:292
+#: include/class_tabs.inc:296
 #, php-format
 msgid "Delete process has been canceled by plugin '%s': %s"
 msgstr ""
@@ -3779,60 +3718,60 @@ msgid ""
 "fusiondirectory-setup --check-config to fix this."
 msgstr ""
 
-#: html/index.php:154
+#: html/index.php:156
 msgid "Smarty error"
 msgstr ""
 
-#: html/index.php:154 html/class_passwordRecovery.inc:300 html/setup.php:62
+#: html/index.php:156 html/class_passwordRecovery.inc:300 html/setup.php:62
 #, php-format
 msgid "Directory '%s' specified as compile directory is not accessible!"
 msgstr ""
 
-#: html/index.php:184
+#: html/index.php:186
 msgid "There is a problem with the authentication setup!"
 msgstr ""
 
-#: html/index.php:192
+#: html/index.php:194
 msgid "Cannot find a valid user for the current authentication setup!"
 msgstr ""
 
-#: html/index.php:196
+#: html/index.php:198
 msgid "User information is not unique across the configured LDAP trees!"
 msgstr ""
 
-#: html/index.php:245
+#: html/index.php:250
 msgid "Cannot detect information about the installed LDAP schema!"
 msgstr ""
 
-#: html/index.php:258
+#: html/index.php:263
 msgid "Your LDAP setup contains old schema definitions:"
 msgstr ""
 
-#: html/index.php:281
+#: html/index.php:286
 msgid "Please specify a valid username!"
 msgstr ""
 
-#: html/index.php:284
+#: html/index.php:289
 msgid "Please specify your password!"
 msgstr ""
 
-#: html/index.php:296
+#: html/index.php:301
 msgid "Authentication error"
 msgstr ""
 
-#: html/index.php:296
+#: html/index.php:301
 msgid "Cannot retrieve user information for htaccess authentication!"
 msgstr ""
 
-#: html/index.php:303
+#: html/index.php:308
 msgid "Please check the username/password combination."
 msgstr ""
 
-#: html/index.php:331
+#: html/index.php:336
 msgid "Account locked. Please contact your system administrator!"
 msgstr ""
 
-#: html/index.php:350
+#: html/index.php:356
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
@@ -3905,16 +3844,16 @@ msgstr ""
 
 #: html/class_passwordRecovery.inc:478
 #, php-format
-msgid "Did not found account %s"
+msgid "Did not found an account with login \"%s\""
 msgstr ""
 
 #: html/class_passwordRecovery.inc:481
 #, php-format
-msgid "Found multiple accounts %s"
+msgid "Found multiple accounts with login \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:495 ihtml/themes/default/recovery.tpl.c:83
-msgid "Adresse mail"
+#: html/class_passwordRecovery.inc:495
+msgid "Email address"
 msgstr ""
 
 #: html/class_passwordRecovery.inc:512
@@ -3962,14 +3901,12 @@ msgid ""
 msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:80 setup/class_setupStep_Config3.inc:82
-#: setup/class_setupStep_Config1.inc:96 setup/class_setupStep_Schema.inc:81
-#: setup/setup_feedback.tpl.c:32 setup/setup_feedback.tpl.c:44
+#: setup/class_setupStep_Config1.inc:96 setup/class_setupStep_Schema.inc:82
 msgid "No"
 msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:80 setup/class_setupStep_Config3.inc:82
-#: setup/class_setupStep_Config1.inc:96 setup/class_setupStep_Schema.inc:81
-#: setup/setup_feedback.tpl.c:29 setup/setup_feedback.tpl.c:41
+#: setup/class_setupStep_Config1.inc:96 setup/class_setupStep_Schema.inc:82
 msgid "Yes"
 msgstr ""
 
@@ -4018,7 +3955,6 @@ msgid "Maximum LDAP query time must be a numeric value!"
 msgstr ""
 
 #: setup/class_setupStep_Finish.inc:36
-#: ihtml/themes/default/copyPasteDialog.tpl.c:26
 msgid "Finish"
 msgstr ""
 
@@ -4108,11 +4044,11 @@ msgid "Checking for groups outside the groups tree"
 msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:213
-msgid "Checking for duplicated UID numbers"
+msgid "Checking for duplicated user ids"
 msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:219
-msgid "Checking for duplicate GID numbers"
+msgid "Checking for duplicate group ids"
 msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:225
@@ -4205,7 +4141,7 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:1988
 #: setup/class_setupStep_Migrate.inc:2266
 #: setup/class_setupStep_Migrate.inc:2409
-#: setup/class_setupStep_Migrate.inc:2664 setup/setup_migrate.tpl.c:17
+#: setup/class_setupStep_Migrate.inc:2664
 msgid "Migrate"
 msgstr ""
 
@@ -4228,7 +4164,7 @@ msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:948
 #, php-format
-msgid "FD 1.0.7 administrative accounts found: %s"
+msgid "FD 1.0.7 administrator accounts found: %s"
 msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:953
@@ -4291,7 +4227,7 @@ msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1192
 #, php-format
-msgid "Adding an administrative user failed: object '%s' already exists!"
+msgid "Adding an administrator user failed: object '%s' already exists!"
 msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:1223
@@ -4381,11 +4317,11 @@ msgstr ""
 msgid "There are %s application menus which have to be migrated."
 msgstr ""
 
-#: setup/class_setupStep_Config2.inc:49 setup/class_setupStep_Config2.inc:50
+#: setup/class_setupStep_Config2.inc:48 setup/class_setupStep_Config2.inc:49
 msgid "FusionDirectory settings 2/3"
 msgstr ""
 
-#: setup/class_setupStep_Config2.inc:51
+#: setup/class_setupStep_Config2.inc:50
 msgid "Customize special parameters"
 msgstr ""
 
@@ -4422,10 +4358,6 @@ msgstr ""
 msgid "The specified value for '%s' must be a numeric value"
 msgstr ""
 
-#: setup/class_setupStep_Config1.inc:126 setup/setup_config1.tpl.c:35
-msgid "GID / UID min id"
-msgstr ""
-
 #: setup/class_setupStep_Config1.inc:130 setup/class_setupStep_Config1.inc:134
 #: setup/class_setupStep_Config1.inc:138
 #, php-format
@@ -4445,7 +4377,7 @@ msgid "ACL role storage ou"
 msgstr ""
 
 #: setup/class_setupStep_Config1.inc:142
-msgid "Uid base must be numeric"
+msgid "User id base must be numeric"
 msgstr ""
 
 #: setup/class_setupStep_Config1.inc:146
@@ -4658,1445 +4590,14 @@ msgstr ""
 msgid "Completed"
 msgstr ""
 
-#: setup/class_setup.inc:246 setup/setup_migrate.tpl.c:104
+#: setup/class_setup.inc:243
 msgid "Next"
 msgstr ""
 
-#: setup/class_setupStep_Schema.inc:42 setup/class_setupStep_Schema.inc:43
+#: setup/class_setupStep_Schema.inc:43 setup/class_setupStep_Schema.inc:44
 msgid "LDAP schema check"
 msgstr ""
 
-#: setup/class_setupStep_Schema.inc:44
+#: setup/class_setupStep_Schema.inc:45
 msgid "Perform test on your current LDAP schema"
-msgstr ""
-
-#: plugins/generic/welcome/welcome.tpl.c:2
-msgid "The FusionDirectory team"
-msgstr ""
-
-#: plugins/generic/references/contents.tpl.c:2
-msgid "<strong>%1</strong> references our <strong>%3</strong>"
-msgstr ""
-
-#: plugins/generic/references/contents.tpl.c:5
-msgid ""
-"<strong>%1</strong> references our field <strong>%3</strong> from tab "
-"<strong>%2</strong>"
-msgstr ""
-
-#: plugins/generic/references/contents.tpl.c:8
-msgid "This object has no relationship to other objects."
-msgstr ""
-
-#: plugins/admin/groups/trust_machines.tpl.c:2
-#: plugins/admin/ogroups/trust_machines.tpl.c:2
-msgid "Select systems to add"
-msgstr ""
-
-#: plugins/admin/groups/trust_machines.tpl.c:5
-#: plugins/admin/ogroups/trust_machines.tpl.c:5
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:5
-msgid "Filters"
-msgstr ""
-
-#: plugins/admin/groups/trust_machines.tpl.c:8
-#: plugins/admin/ogroups/trust_machines.tpl.c:8
-msgid "Display systems of department"
-msgstr ""
-
-#: plugins/admin/groups/trust_machines.tpl.c:11
-#: plugins/admin/ogroups/trust_machines.tpl.c:11
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:17
-msgid "Choose the department the search will be based on"
-msgstr ""
-
-#: plugins/admin/groups/trust_machines.tpl.c:14
-#: plugins/admin/ogroups/trust_machines.tpl.c:14
-msgid "Display systems matching"
-msgstr ""
-
-#: plugins/admin/groups/trust_machines.tpl.c:17
-#: plugins/admin/ogroups/trust_machines.tpl.c:17
-msgid "Regular expression for matching addresses"
-msgstr ""
-
-#: plugins/admin/groups/generic.tpl.c:2
-#: plugins/admin/groups/paste_generic.tpl.c:5
-#: plugins/admin/ogroups/generic.tpl.c:2
-#: plugins/admin/ogroups/paste_generic.tpl.c:2
-msgid "Group name"
-msgstr ""
-
-#: plugins/admin/groups/generic.tpl.c:5
-#: plugins/admin/groups/paste_generic.tpl.c:8
-msgid "Posix name of the group"
-msgstr ""
-
-#: plugins/admin/groups/generic.tpl.c:11
-#: plugins/admin/ogroups/generic.tpl.c:11
-msgid "Descriptive text for this group"
-msgstr ""
-
-#: plugins/admin/groups/generic.tpl.c:17
-#: plugins/admin/groups/paste_generic.tpl.c:11
-msgid "Normally IDs are autogenerated, select to specify manually"
-msgstr ""
-
-#: plugins/admin/groups/generic.tpl.c:20
-#: plugins/admin/groups/paste_generic.tpl.c:14
-msgid "Force GID"
-msgstr ""
-
-#: plugins/admin/groups/generic.tpl.c:23
-#: plugins/admin/groups/paste_generic.tpl.c:17
-msgid "Forced ID number"
-msgstr ""
-
-#: plugins/admin/groups/generic.tpl.c:26
-msgid "Select to create a samba conform group"
-msgstr ""
-
-#: plugins/admin/groups/generic.tpl.c:29
-msgid "in domain"
-msgstr ""
-
-#: plugins/admin/groups/generic.tpl.c:32
-msgid "Members are in a phone pickup group"
-msgstr ""
-
-#: plugins/admin/groups/generic.tpl.c:35
-msgid "Members are in a nagios group"
-msgstr ""
-
-#: plugins/admin/groups/generic.tpl.c:41
-msgid "Group members"
-msgstr ""
-
-#: plugins/admin/groups/paste_generic.tpl.c:2
-msgid "Group settings"
-msgstr ""
-
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:2
-msgid "Select objects to add"
-msgstr ""
-
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:14
-msgid "Display objects of department"
-msgstr ""
-
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:20
-msgid "Display objects matching"
-msgstr ""
-
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:23
-msgid "Regular expression for matching object names"
-msgstr ""
-
-#: plugins/admin/ogroups/generic.tpl.c:5
-msgid "Name of the group"
-msgstr ""
-
-#: plugins/admin/ogroups/generic.tpl.c:23
-msgid "Member objects"
-msgstr ""
-
-#: plugins/admin/ogroups/remove.tpl.c:5
-#: ihtml/themes/default/simple-remove.tpl.c:5
-msgid ""
-"Please double check if you really want to do this since there is no way for "
-"FusionDirectory to get your data back."
-msgstr ""
-
-#: plugins/admin/ogroups/remove.tpl.c:8 plugins/admin/users/remove.tpl.c:8
-#: ihtml/themes/default/remove.tpl.c:8
-#: ihtml/themes/default/simple-remove.tpl.c:8
-msgid "So - if you're sure - press 'Delete' to continue or 'Cancel' to abort."
-msgstr ""
-
-#: plugins/admin/ogroups/ogroup-filter.tpl.c:2
-#: plugins/admin/users/user-filter.tpl.c:2
-#: ihtml/themes/default/simple-filter.tpl.c:2
-#: include/select/systemSelect/systemSelect-filter.tpl.c:2
-#: include/select/groupSelect/group-filter.tpl.c:2
-msgid "Filter"
-msgstr ""
-
-#: plugins/admin/ogroups/ogroup-filter.tpl.c:5
-msgid "user groups"
-msgstr ""
-
-#: plugins/admin/ogroups/ogroup-filter.tpl.c:8
-msgid "nested groups"
-msgstr ""
-
-#: plugins/admin/ogroups/ogroup-filter.tpl.c:11
-msgid "application groups"
-msgstr ""
-
-#: plugins/admin/ogroups/ogroup-filter.tpl.c:14
-msgid "department groups"
-msgstr ""
-
-#: plugins/admin/ogroups/ogroup-filter.tpl.c:17
-msgid "server groups"
-msgstr ""
-
-#: plugins/admin/ogroups/ogroup-filter.tpl.c:20
-msgid "workstation groups"
-msgstr ""
-
-#: plugins/admin/ogroups/ogroup-filter.tpl.c:23
-msgid "windows workstation groups"
-msgstr ""
-
-#: plugins/admin/ogroups/ogroup-filter.tpl.c:26
-msgid "terminal groups"
-msgstr ""
-
-#: plugins/admin/ogroups/ogroup-filter.tpl.c:29
-msgid "printer groups"
-msgstr ""
-
-#: plugins/admin/ogroups/ogroup-filter.tpl.c:32
-msgid "phone groups"
-msgstr ""
-
-#: plugins/admin/ogroups/paste_generic.tpl.c:5
-msgid "Please enter the new object group name"
-msgstr ""
-
-#: plugins/admin/users/template.tpl.c:2
-msgid "Creating a new user using templates"
-msgstr ""
-
-#: plugins/admin/users/template.tpl.c:5
-msgid ""
-"Creating a new user can be assisted by using templates. Many database "
-"records will be filled automatically. Choose 'none' to skip the usage of "
-"templates."
-msgstr ""
-
-#: plugins/admin/users/template.tpl.c:11
-#: plugins/personal/generic/generic.tpl.c:20
-#: plugins/personal/generic/paste_generic.tpl.c:5
-msgid "Last name"
-msgstr "فامیل"
-
-#: plugins/admin/users/template.tpl.c:14
-#: plugins/personal/generic/generic.tpl.c:26
-#: plugins/personal/generic/paste_generic.tpl.c:8
-msgid "First name"
-msgstr "نام"
-
-#: plugins/admin/users/template.tpl.c:20
-#: ihtml/themes/default/snapshotdialog.tpl.c:44
-msgid "Continue"
-msgstr ""
-
-#: plugins/admin/users/templatize.tpl.c:2
-msgid "Applying a template"
-msgstr ""
-
-#: plugins/admin/users/templatize.tpl.c:5
-msgid ""
-"Applying a template to several users will replace all user attributes "
-"defined in the template."
-msgstr ""
-
-#: plugins/admin/users/templatize.tpl.c:11
-msgid "No templates available!"
-msgstr ""
-
-#: plugins/admin/users/password.tpl.c:2
-msgid ""
-"To change the user password use the fields below. The changes take effect "
-"immediately. Please memorize the new password, because the user wouldn't be "
-"able to login without it."
-msgstr ""
-
-#: plugins/admin/users/password.tpl.c:5
-#: plugins/personal/generic/password.tpl.c:5
-#: plugins/personal/password/password.tpl.c:5
-msgid ""
-"Changing the password affects your authentification on mail, proxy, samba "
-"and unix services."
-msgstr ""
-
-#: plugins/admin/users/password.tpl.c:11 plugins/admin/users/password.tpl.c:29
-#: plugins/personal/generic/password.tpl.c:14
-#: plugins/personal/generic/password.tpl.c:35
-#: plugins/personal/password/password.tpl.c:17
-#: plugins/personal/password/password.tpl.c:38
-msgid "Repeat new password"
-msgstr ""
-
-#: plugins/admin/users/password.tpl.c:14 plugins/admin/users/password.tpl.c:32
-msgid "Strength"
-msgstr ""
-
-#: plugins/admin/users/password.tpl.c:17
-#: plugins/personal/generic/password.tpl.c:23
-#: plugins/personal/password/password.tpl.c:26
-msgid "Use proposal"
-msgstr ""
-
-#: plugins/admin/users/password.tpl.c:20
-#: plugins/personal/generic/password.tpl.c:26
-#: plugins/personal/password/password.tpl.c:29 setup/setup_migrate.tpl.c:206
-#: setup/setup_migrate.tpl.c:236 setup/setup_migrate.tpl.c:266
-msgid "Refresh"
-msgstr ""
-
-#: plugins/admin/users/password.tpl.c:23
-#: plugins/personal/generic/password.tpl.c:29
-#: plugins/personal/password/password.tpl.c:32
-msgid "Manually specify a password"
-msgstr ""
-
-#: plugins/admin/users/password.tpl.c:35
-msgid "Enforce password change on next login."
-msgstr ""
-
-#: plugins/admin/users/password.tpl.c:38
-#: plugins/personal/generic/password.tpl.c:41
-#: plugins/personal/password/password.tpl.c:44
-msgid "Set password"
-msgstr ""
-
-#: plugins/admin/users/remove.tpl.c:5
-msgid ""
-"This includes all account data, system access rules, imap settings, etc. for"
-" this user. Please double check if your really want to do this since there "
-"is no way for FusionDirectory to get your data back."
-msgstr ""
-
-#: plugins/admin/users/user-filter.tpl.c:5
-msgid "Show templates"
-msgstr ""
-
-#: plugins/admin/users/user-filter.tpl.c:8
-msgid "Show functional users"
-msgstr ""
-
-#: plugins/admin/users/user-filter.tpl.c:11
-msgid "Show POSIX users"
-msgstr ""
-
-#: plugins/admin/users/user-filter.tpl.c:14
-msgid "Show Mail users"
-msgstr ""
-
-#: plugins/admin/users/user-filter.tpl.c:17
-msgid "Show Samba users"
-msgstr ""
-
-#: plugins/admin/aclrole/acl_role.tpl.c:2 ihtml/themes/default/acl.tpl.c:41
-msgid "List of available ACL categories"
-msgstr ""
-
-#: plugins/admin/acl/remove.tpl.c:5
-msgid ""
-"This includes all ACL assignments made on this node(s). If you want the list"
-" of these assignments, please cancel and open the objects."
-msgstr ""
-
-#: plugins/admin/acl/remove.tpl.c:8
-msgid "Press 'Delete' to continue or 'Cancel' to abort."
-msgstr ""
-
-#: plugins/personal/generic/generic_certs.tpl.c:2
-msgid "Certificates"
-msgstr ""
-
-#: plugins/personal/generic/generic_certs.tpl.c:5
-msgid "Standard certificate"
-msgstr ""
-
-#: plugins/personal/generic/generic_certs.tpl.c:11
-msgid "S/MIME certificate"
-msgstr ""
-
-#: plugins/personal/generic/generic_certs.tpl.c:17
-msgid "PKCS12 certificate"
-msgstr ""
-
-#: plugins/personal/generic/generic_certs.tpl.c:23
-msgid "Certificate serial number"
-msgstr ""
-
-#: plugins/personal/generic/changed.tpl.c:2
-#: plugins/personal/password/changed.tpl.c:2
-msgid ""
-"You've successfully changed your password. Remember to change all programms "
-"configured to use it as well."
-msgstr ""
-
-#: plugins/personal/generic/password.tpl.c:2
-#: plugins/personal/password/password.tpl.c:2
-msgid ""
-"To change your personal password use the fields below. The changes take "
-"effect immediately. Please memorize the new password, because you wouldn't "
-"be able to login without it."
-msgstr ""
-
-#: plugins/personal/generic/password.tpl.c:8
-#: plugins/personal/generic/password.tpl.c:20
-#: plugins/personal/password/password.tpl.c:11
-#: plugins/personal/password/password.tpl.c:23
-#: ihtml/themes/default/password.tpl.c:38
-#: ihtml/themes/default/password.tpl.c:41
-msgid "Current password"
-msgstr ""
-
-#: plugins/personal/generic/password.tpl.c:17
-#: plugins/personal/generic/password.tpl.c:38
-#: plugins/personal/password/password.tpl.c:20
-#: plugins/personal/password/password.tpl.c:41
-#: ihtml/themes/default/recovery.tpl.c:53
-#: ihtml/themes/default/password.tpl.c:56
-msgid "Password strength"
-msgstr ""
-
-#: plugins/personal/generic/password.tpl.c:44
-#: plugins/personal/password/password.tpl.c:47
-msgid "Clear fields"
-msgstr ""
-
-#: plugins/personal/generic/generic.tpl.c:2
-msgid "Personal information"
-msgstr "اطلاعات شخصی"
-
-#: plugins/personal/generic/generic.tpl.c:5
-#: plugins/personal/generic/generic.tpl.c:8
-#: plugins/personal/generic/generic.tpl.c:14
-#: plugins/personal/generic/generic_picture.tpl.c:2
-#: plugins/personal/generic/paste_generic.tpl.c:23
-msgid "Personal picture"
-msgstr ""
-
-#: plugins/personal/generic/generic.tpl.c:11
-#: plugins/personal/generic/generic.tpl.c:17
-msgid "Change picture"
-msgstr "تغییر عکس"
-
-#: plugins/personal/generic/generic.tpl.c:23
-msgid "Template name"
-msgstr ""
-
-#: plugins/personal/generic/generic.tpl.c:44
-msgid "Preferred langage"
-msgstr ""
-
-#: plugins/personal/generic/generic.tpl.c:56
-msgid "Private phone"
-msgstr "شماره تماس خصوصی"
-
-#: plugins/personal/generic/generic.tpl.c:62
-msgid "Password storage"
-msgstr ""
-
-#: plugins/personal/generic/generic.tpl.c:68
-msgid "Restrict login to"
-msgstr ""
-
-#: plugins/personal/generic/generic.tpl.c:71
-msgid "IP or network"
-msgstr "آدرس IP یا شبکه"
-
-#: plugins/personal/generic/generic.tpl.c:77
-msgid "Organizational information"
-msgstr "اطلاعات سازمان"
-
-#: plugins/personal/generic/generic.tpl.c:86
-msgid "Department No."
-msgstr "شماره دپارتمان."
-
-#: plugins/personal/generic/generic.tpl.c:89
-msgid "Employee No."
-msgstr "شماره کارمندی."
-
-#: plugins/personal/generic/generic.tpl.c:98
-#: plugins/personal/generic/generic.tpl.c:152
-msgid "Room No."
-msgstr "شماره اتاق."
-
-#: plugins/personal/generic/generic.tpl.c:158
-msgid "Please use the phone tab"
-msgstr ""
-
-#: plugins/personal/generic/generic_picture.tpl.c:5
-#: plugins/personal/generic/paste_generic.tpl.c:29
-msgid "Remove picture"
-msgstr ""
-
-#: plugins/personal/generic/paste_generic.tpl.c:2
-msgid "User settings"
-msgstr "تنظیمات کاربر"
-
-#: plugins/personal/generic/paste_generic.tpl.c:17
-msgid "Clear password"
-msgstr "حذف کلمه عبور"
-
-#: plugins/personal/generic/paste_generic.tpl.c:20
-msgid "Set new password"
-msgstr "ثبت کلمه عبور جدید"
-
-#: plugins/personal/generic/nochange.tpl.c:2
-#: plugins/personal/password/nochange.tpl.c:2
-msgid "You have no permission to change your password at this time"
-msgstr ""
-
-#: plugins/personal/generic/nochange.tpl.c:5
-msgid "Your password hash method will not be changed!"
-msgstr ""
-
-#: plugins/personal/password/password.tpl.c:8
-msgid "Your Password has expired. Please choose a new password!"
-msgstr ""
-
-#: ihtml/themes/default/islocked.tpl.c:2
-msgid "Locking conflict detected"
-msgstr ""
-
-#: ihtml/themes/default/islocked.tpl.c:8
-msgid ""
-"If this lock detection is false, the other person has obviously closed the "
-"webbrowser during the edit operation. You may want to take over the lock by "
-"pressing the 'Edit anyway' button."
-msgstr ""
-
-#: ihtml/themes/default/islocked.tpl.c:11
-msgid "Read only"
-msgstr ""
-
-#: ihtml/themes/default/sizelimit.tpl.c:2
-msgid ""
-"The size limit option makes LDAP operations faster and saves the LDAP server"
-" from getting too much load. The easiest way to handle big databases without"
-" long timeouts would be to limit your search to smaller values and use "
-"filters to get the entries you are looking for."
-msgstr ""
-
-#: ihtml/themes/default/sizelimit.tpl.c:5
-msgid "Please choose the way to react for this session"
-msgstr ""
-
-#: ihtml/themes/default/sizelimit.tpl.c:8
-msgid "ignore this error and show all entries the LDAP server returns"
-msgstr ""
-
-#: ihtml/themes/default/sizelimit.tpl.c:11
-msgid ""
-"ignore this error and show all entries that fit into the defined sizelimit "
-"and let me use filters instead"
-msgstr ""
-
-#: ihtml/themes/default/recovery.tpl.c:2
-msgid "FusionDirectory password recovery"
-msgstr ""
-
-#: ihtml/themes/default/recovery.tpl.c:11
-msgid "Lost password"
-msgstr ""
-
-#: ihtml/themes/default/recovery.tpl.c:14
-msgid "Available methods"
-msgstr ""
-
-#: ihtml/themes/default/recovery.tpl.c:17
-msgid "Receive by email a link that allows you to reset your password"
-msgstr ""
-
-#: ihtml/themes/default/recovery.tpl.c:20
-msgid "Send"
-msgstr ""
-
-#: ihtml/themes/default/recovery.tpl.c:23
-msgid "Click here to send a reset link"
-msgstr ""
-
-#: ihtml/themes/default/recovery.tpl.c:26
-msgid ""
-"If none of the above methods suits you, contact your administrator to change"
-" your password"
-msgstr ""
-
-#: ihtml/themes/default/recovery.tpl.c:29
-msgid ""
-"This dialog provides a simple way to change your password. Enter the new "
-"password (twice) in the fields below and press the 'Change' button."
-msgstr ""
-
-#: ihtml/themes/default/recovery.tpl.c:32
-#: ihtml/themes/default/recovery.tpl.c:35
-#: ihtml/themes/default/recovery.tpl.c:77
-#: ihtml/themes/default/recovery.tpl.c:80
-#: ihtml/themes/default/password.tpl.c:26
-#: ihtml/themes/default/password.tpl.c:29 ihtml/themes/default/login.tpl.c:29
-#: ihtml/themes/default/login.tpl.c:32 ihtml/themes/default/login.tpl.c:35
-msgid "Directory"
-msgstr ""
-
-#: ihtml/themes/default/recovery.tpl.c:38
-#: ihtml/themes/default/password.tpl.c:32
-#: ihtml/themes/default/password.tpl.c:35 ihtml/themes/default/login.tpl.c:8
-#: ihtml/themes/default/login.tpl.c:11 ihtml/themes/default/login.tpl.c:14
-msgid "Username"
-msgstr ""
-
-#: ihtml/themes/default/recovery.tpl.c:47
-#: ihtml/themes/default/recovery.tpl.c:50
-#: ihtml/themes/default/password.tpl.c:50
-#: ihtml/themes/default/password.tpl.c:53
-msgid "New password repeated"
-msgstr ""
-
-#: ihtml/themes/default/recovery.tpl.c:56
-#: ihtml/themes/default/recovery.tpl.c:89
-#: ihtml/themes/default/password.tpl.c:59
-msgid "Change"
-msgstr ""
-
-#: ihtml/themes/default/recovery.tpl.c:59
-#: ihtml/themes/default/recovery.tpl.c:92
-#: ihtml/themes/default/password.tpl.c:62
-msgid "Click here to change your password"
-msgstr ""
-
-#: ihtml/themes/default/recovery.tpl.c:62
-#: ihtml/themes/default/recovery.tpl.c:65
-#: ihtml/themes/default/password.tpl.c:5 ihtml/themes/default/password.tpl.c:8
-msgid "Success"
-msgstr ""
-
-#: ihtml/themes/default/recovery.tpl.c:68
-#: ihtml/themes/default/password.tpl.c:11
-msgid "Your password has been changed successfully."
-msgstr ""
-
-#: ihtml/themes/default/recovery.tpl.c:71
-msgid ""
-"Enter your current e-mail address in the field below and press the 'Change' "
-"button."
-msgstr ""
-
-#: ihtml/themes/default/recovery.tpl.c:74
-msgid ""
-"=> Use your e-mail in the long format, e.g : John Doe => john.doe@ibcp.fr"
-msgstr ""
-
-#: ihtml/themes/default/recovery.tpl.c:95
-msgid ""
-"Password recovery is not activated. If you have lost your password, please "
-"contact your administrator"
-msgstr ""
-
-#: ihtml/themes/default/password.tpl.c:2
-msgid "Change your password"
-msgstr ""
-
-#: ihtml/themes/default/password.tpl.c:23
-msgid ""
-"This dialog provides a simple way to change your password. Enter the current"
-" password and the new password (twice) in the fields below and press the "
-"'Change' button."
-msgstr ""
-
-#: ihtml/themes/default/logout-close.tpl.c:2
-msgid "Your FusionDirectory session has been closed!"
-msgstr ""
-
-#: ihtml/themes/default/logout-close.tpl.c:5
-msgid ""
-"Please close this browser window and clean the authentication caches to "
-"avoid an automatic re-authentication by your browser."
-msgstr ""
-
-#: ihtml/themes/default/conflict.tpl.c:2
-msgid "Session conflict detected"
-msgstr ""
-
-#: ihtml/themes/default/conflict.tpl.c:8
-msgid ""
-"Probably there's another active instance of your session. Multiple window "
-"operation is technical not possible and heavily depends on the browser "
-"you're using. Usage of different browsers at a time (i.e. IE and Mozilla) is"
-" possible. Pressing the Logout button will close this session."
-msgstr ""
-
-#: ihtml/themes/default/conflict.tpl.c:11
-msgid ""
-"Ignoring this message will change/destroy the data you're currently editing,"
-" so please close multiple windows and log in again."
-msgstr ""
-
-#: ihtml/themes/default/conflict.tpl.c:14
-msgid "Logout"
-msgstr ""
-
-#: ihtml/themes/default/logout.tpl.c:2
-msgid "Your FusionDirectory session has expired!"
-msgstr ""
-
-#: ihtml/themes/default/logout.tpl.c:5
-msgid ""
-"The last interaction with the FusionDirectory web interface has been some "
-"time ago in the past. For security reasons, the session has been closed. To "
-"continue with administrative tasks, please sign in again."
-msgstr ""
-
-#: ihtml/themes/default/logout.tpl.c:8
-msgid "Sign in again"
-msgstr ""
-
-#: ihtml/themes/default/remove.tpl.c:5
-msgid ""
-"This may be used by several groups. Please double check if your really want "
-"to do this since there is no way for FusionDirectory to get your data back."
-msgstr ""
-
-#: ihtml/themes/default/login.tpl.c:2
-msgid "Login screen"
-msgstr ""
-
-#: ihtml/themes/default/login.tpl.c:5
-msgid ""
-"Please use your username and your password to log into the site "
-"administration system."
-msgstr ""
-
-#: ihtml/themes/default/login.tpl.c:26
-msgid "I forgot my password"
-msgstr ""
-
-#: ihtml/themes/default/login.tpl.c:38 ihtml/themes/default/login.tpl.c:44
-msgid "Sign in"
-msgstr ""
-
-#: ihtml/themes/default/login.tpl.c:41
-msgid "Click here to log in"
-msgstr ""
-
-#: ihtml/themes/default/acl.tpl.c:2
-msgid "Assigned ACL for current entry"
-msgstr ""
-
-#: ihtml/themes/default/acl.tpl.c:5
-msgid "New ACL"
-msgstr ""
-
-#: ihtml/themes/default/acl.tpl.c:8
-msgid "ACL type"
-msgstr ""
-
-#: ihtml/themes/default/acl.tpl.c:11 ihtml/themes/default/acl.tpl.c:14
-msgid "Select an acl type"
-msgstr ""
-
-#: ihtml/themes/default/acl.tpl.c:17
-msgid "Additional filter options"
-msgstr ""
-
-#: ihtml/themes/default/acl.tpl.c:20
-msgid "Use members from"
-msgstr ""
-
-#: ihtml/themes/default/acl.tpl.c:23
-msgid "Available members"
-msgstr ""
-
-#: ihtml/themes/default/acl.tpl.c:26 ihtml/themes/default/acl.tpl.c:29
-msgid "List message possible targets"
-msgstr ""
-
-#: ihtml/themes/default/acl.tpl.c:35 ihtml/themes/default/acl.tpl.c:38
-msgid "List message recipients"
-msgstr ""
-
-#: ihtml/themes/default/acl.tpl.c:44
-msgid "ACL for this object"
-msgstr ""
-
-#: ihtml/themes/default/acl.tpl.c:47
-msgid "Available roles"
-msgstr ""
-
-#: ihtml/themes/default/copyPasteDialog.tpl.c:2
-msgid "Copy & paste wizard"
-msgstr ""
-
-#: ihtml/themes/default/copyPasteDialog.tpl.c:5
-msgid ""
-"Some values need to be unique in the complete directory while some "
-"combinations make no sense. FusionDirectory shows the relevant attributes. "
-"Please maintain the values below to fulfill the policies."
-msgstr ""
-
-#: ihtml/themes/default/copyPasteDialog.tpl.c:8
-msgid "Remember that some properties like taken snapshots will not be copied!"
-msgstr ""
-
-#: ihtml/themes/default/copyPasteDialog.tpl.c:11
-msgid ""
-"Or if you copy or cut an entry within FusionDirectory and delete the source "
-"object, you may get errors while pasting this object again!"
-msgstr ""
-
-#: ihtml/themes/default/copyPasteDialog.tpl.c:23
-msgid "Operation complete"
-msgstr ""
-
-#: ihtml/themes/default/snapshotdialog.tpl.c:2
-msgid "Restoring object snapshots"
-msgstr ""
-
-#: ihtml/themes/default/snapshotdialog.tpl.c:5
-msgid ""
-"This procedure will restore a snapshot of the selected object. It will "
-"replace the existing object after pressing the folder icon."
-msgstr ""
-
-#: ihtml/themes/default/snapshotdialog.tpl.c:8
-msgid ""
-"Remember that DNS configuration and database entries could not be restored. "
-"For some objects it is only necessary to open and save them again (goFon), "
-"but some entries must be recreated manually."
-msgstr ""
-
-#: ihtml/themes/default/snapshotdialog.tpl.c:11
-msgid ""
-"Don't forget to check references to other objects, for example does the "
-"selected printer still exists ?"
-msgstr ""
-
-#: ihtml/themes/default/snapshotdialog.tpl.c:17
-msgid "There is no snapshot available that could be restored"
-msgstr ""
-
-#: ihtml/themes/default/snapshotdialog.tpl.c:20
-msgid "Choose a snapshot and click the folder image, to restore the snapshot"
-msgstr ""
-
-#: ihtml/themes/default/snapshotdialog.tpl.c:26
-msgid "Creating object snapshots"
-msgstr ""
-
-#: ihtml/themes/default/snapshotdialog.tpl.c:29
-msgid ""
-"This procedure will create a snapshot of the selected object. It will be "
-"stored inside a special branch of your directory system and can be restored "
-"later on."
-msgstr ""
-
-#: ihtml/themes/default/snapshotdialog.tpl.c:32
-msgid ""
-"Remember that database entries, DNS configurations and possibly created "
-"zones in server extensions will not be stored in the snapshot."
-msgstr ""
-
-#: ihtml/themes/default/snapshotdialog.tpl.c:38
-msgid "Timestamp"
-msgstr ""
-
-#: ihtml/themes/default/snapshotdialog.tpl.c:41
-msgid "Reason for generating this snapshot"
-msgstr ""
-
-#: ihtml/themes/default/framework.tpl.c:2
-msgid "Main"
-msgstr ""
-
-#: ihtml/themes/default/framework.tpl.c:5
-msgid "Sign out"
-msgstr ""
-
-#: ihtml/themes/default/framework.tpl.c:8
-msgid "Signed in:"
-msgstr ""
-
-#: ihtml/themes/default/framework.tpl.c:11
-#, c-format
-msgid "Session expires in %d!"
-msgstr ""
-
-#: include/select/systemSelect/systemSelect-filter.tpl.c:5
-msgid "Show servers"
-msgstr ""
-
-#: include/select/systemSelect/systemSelect-filter.tpl.c:8
-msgid "Show workstations"
-msgstr ""
-
-#: include/select/systemSelect/systemSelect-filter.tpl.c:11
-msgid "Show Windows PC"
-msgstr ""
-
-#: include/select/systemSelect/systemSelect-filter.tpl.c:14
-msgid "Show terminals"
-msgstr ""
-
-#: setup/setup_language.tpl.c:2
-msgid "Please select the preferred language"
-msgstr ""
-
-#: setup/setup_language.tpl.c:5
-msgid ""
-"At this point, you can select the site wide default language. Choosing "
-"'automatic' will use the language requested by the browser. This setting can"
-" be overriden per user."
-msgstr ""
-
-#: setup/setup_language.tpl.c:8
-msgid "Please select your preferred language here"
-msgstr ""
-
-#: setup/setup_config1.tpl.c:2
-msgid "Look and feel"
-msgstr ""
-
-#: setup/setup_config1.tpl.c:17
-msgid "People storage subtree"
-msgstr ""
-
-#: setup/setup_config1.tpl.c:20
-msgid "Group storage subtree"
-msgstr ""
-
-#: setup/setup_config1.tpl.c:23
-msgid "ACL roles storage subtree"
-msgstr ""
-
-#: setup/setup_config1.tpl.c:29
-msgid "Relaxed naming policies"
-msgstr ""
-
-#: setup/setup_config1.tpl.c:38
-msgid "Number base for people/groups"
-msgstr ""
-
-#: setup/setup_config1.tpl.c:44
-msgid "Password encryption algorithm"
-msgstr ""
-
-#: setup/setup_config1.tpl.c:47
-msgid "Password restrictions"
-msgstr ""
-
-#: setup/setup_config1.tpl.c:56 setup/setup_config1.tpl.c:59
-msgid "Different characters from old password"
-msgstr ""
-
-#: setup/setup_config1.tpl.c:62
-msgid "Password change hook"
-msgstr ""
-
-#: setup/setup_config1.tpl.c:68
-msgid ""
-"FusionDirectory supports several encryption types for your passwords. "
-"Normally this is adjustable via user templates, but you can specify a "
-"default method to be used here, too."
-msgstr ""
-
-#: setup/setup_config1.tpl.c:71
-msgid ""
-"FusionDirectory always acts as admin and manages access rights internally. "
-"This is a workaround till OpenLDAP's in directory ACI's are    fully "
-"implemented. For this to work, we need the admin DN and the corresponding "
-"password."
-msgstr ""
-
-#: setup/setup_config1.tpl.c:74
-msgid ""
-"Some basic LDAP parameters are tunable and affect the locations where "
-"FusionDirectory saves people and groups, including the way accounts get "
-"created. Check the values below if the fit your needs."
-msgstr ""
-
-#: setup/setup_config1.tpl.c:77
-msgid ""
-"FusionDirectory has modular support for several mail methods. These methods "
-"provide interfaces to users mailboxes and general handling    for quotas. "
-"You can choose the dummy plugin to leave all your mail settings untouched."
-msgstr ""
-
-#: setup/setup_finish.tpl.c:2
-msgid "Create your configuration file"
-msgstr ""
-
-#: setup/setup_finish.tpl.c:5
-msgid "Run "
-msgstr ""
-
-#: setup/setup_finish.tpl.c:8
-msgid "to put the correct right on fusiondirectory.conf"
-msgstr ""
-
-#: setup/setup_finish.tpl.c:11
-msgid "Download configuration"
-msgstr ""
-
-#: setup/setup_finish.tpl.c:14
-msgid "Status: "
-msgstr ""
-
-#: setup/setup_feedback.tpl.c:2
-msgid "Feedback successfully send"
-msgstr ""
-
-#: setup/setup_feedback.tpl.c:5
-msgid "Subscribe to the fusiondirectory-users mailinglist"
-msgstr ""
-
-#: setup/setup_feedback.tpl.c:14
-msgid "Mail address"
-msgstr ""
-
-#: setup/setup_feedback.tpl.c:17
-msgid "Send feedback to the FusionDirectory project team"
-msgstr ""
-
-#: setup/setup_feedback.tpl.c:20
-msgid ""
-"When checking this option, FusionDirectory will try to connect "
-"http://www.fusiondirectory.org in order to submit your form anonymously."
-msgstr ""
-
-#: setup/setup_feedback.tpl.c:26
-msgid "Did the setup procedure help you to get started?"
-msgstr ""
-
-#: setup/setup_feedback.tpl.c:35
-msgid "If not, what problems did you encounter"
-msgstr ""
-
-#: setup/setup_feedback.tpl.c:38
-msgid "Is this the first time you use FusionDirectory?"
-msgstr ""
-
-#: setup/setup_feedback.tpl.c:47
-msgid "I use it since"
-msgstr ""
-
-#: setup/setup_feedback.tpl.c:50
-msgid "Select the year since when you are using FusionDirectory"
-msgstr ""
-
-#: setup/setup_feedback.tpl.c:53
-msgid "What operating system / distribution do you use?"
-msgstr ""
-
-#: setup/setup_feedback.tpl.c:56
-msgid "What web server do you use?"
-msgstr ""
-
-#: setup/setup_feedback.tpl.c:59
-msgid "What PHP version do you use?"
-msgstr ""
-
-#: setup/setup_feedback.tpl.c:62
-msgid "FusionDirectory version"
-msgstr ""
-
-#: setup/setup_feedback.tpl.c:65
-msgid "LDAP"
-msgstr ""
-
-#: setup/setup_feedback.tpl.c:68
-msgid "What kind of LDAP server(s) do you use?"
-msgstr ""
-
-#: setup/setup_feedback.tpl.c:71
-msgid "How many objects are in your LDAP?"
-msgstr ""
-
-#: setup/setup_feedback.tpl.c:74
-msgid "Features"
-msgstr ""
-
-#: setup/setup_feedback.tpl.c:77
-msgid "What features of FusionDirectory do you use?"
-msgstr ""
-
-#: setup/setup_feedback.tpl.c:80
-msgid ""
-"What features do you want to see in future versions of FusionDirectory?"
-msgstr ""
-
-#: setup/setup_feedback.tpl.c:83
-msgid "Send feedback"
-msgstr ""
-
-#: setup/setup_schema.tpl.c:2
-msgid "Schema specific settings"
-msgstr ""
-
-#: setup/setup_schema.tpl.c:5
-msgid "Enable schema validation when logging in"
-msgstr ""
-
-#: setup/setup_schema.tpl.c:8
-msgid "Check status"
-msgstr ""
-
-#: setup/setup_schema.tpl.c:11
-msgid "Schema check succeeded"
-msgstr ""
-
-#: setup/setup_schema.tpl.c:14
-msgid "Schema check failed"
-msgstr ""
-
-#: setup/setup_schema.tpl.c:17
-msgid ""
-"Could not read any schema informations, all checks skipped. Adjust your ldap"
-" acls."
-msgstr ""
-
-#: setup/setup_schema.tpl.c:20
-msgid ""
-"It seems that your ldap database wasn't initialized yet. This might be the "
-"reason why FusionDirectory can't read your schema configuration!"
-msgstr ""
-
-#: setup/setup_welcome.tpl.c:2
-msgid ""
-"This seems to be the first time you start FusionDirectory - we didn't find "
-"any configuration right now. This simple wizard intends to help you while "
-"setting it up."
-msgstr ""
-
-#: setup/setup_welcome.tpl.c:5
-msgid "What will the wizard do for you?"
-msgstr ""
-
-#: setup/setup_welcome.tpl.c:8
-msgid "Create a basic, single site configuration"
-msgstr ""
-
-#: setup/setup_welcome.tpl.c:11
-msgid "Tries to find problems within your PHP and LDAP setup"
-msgstr ""
-
-#: setup/setup_welcome.tpl.c:14
-msgid "Let you choose from a set of basic and advanced configuration switches"
-msgstr ""
-
-#: setup/setup_welcome.tpl.c:17
-msgid "Guided migration of existing LDAP trees"
-msgstr ""
-
-#: setup/setup_welcome.tpl.c:20
-msgid "What will the wizard NOT do for you?"
-msgstr ""
-
-#: setup/setup_welcome.tpl.c:23
-msgid "Find every possible configuration error"
-msgstr ""
-
-#: setup/setup_welcome.tpl.c:26
-msgid "Migrate every possible LDAP setup - create backup dumps!"
-msgstr ""
-
-#: setup/setup_welcome.tpl.c:29
-msgid "To continue..."
-msgstr ""
-
-#: setup/setup_welcome.tpl.c:32
-msgid ""
-"For security reasons you need to authenticate for the installation by "
-"creating the file '%1', containing the current session ID on the servers "
-"local filesystem. This can be done by executing the following command:"
-msgstr ""
-
-#: setup/setup_welcome.tpl.c:35
-msgid "Click the 'Next' button when you've finished."
-msgstr ""
-
-#: setup/setup_ldap.tpl.c:2
-msgid "Please choose the LDAP user to be used by FusionDirectory"
-msgstr ""
-
-#: setup/setup_ldap.tpl.c:5
-msgid "Search"
-msgstr ""
-
-#: setup/setup_ldap.tpl.c:14
-msgid "LDAP connection"
-msgstr ""
-
-#: setup/setup_ldap.tpl.c:17
-msgid "Location name"
-msgstr ""
-
-#: setup/setup_ldap.tpl.c:20
-msgid "Connection URI"
-msgstr ""
-
-#: setup/setup_ldap.tpl.c:23
-msgid "TLS connection"
-msgstr ""
-
-#: setup/setup_ldap.tpl.c:29 setup/setup_ldap.tpl.c:32
-#: setup/setup_migrate.tpl.c:95
-msgid "Reload"
-msgstr ""
-
-#: setup/setup_ldap.tpl.c:35
-msgid "Authentication"
-msgstr ""
-
-#: setup/setup_ldap.tpl.c:38
-msgid "Admin DN"
-msgstr ""
-
-#: setup/setup_ldap.tpl.c:41 setup/setup_ldap.tpl.c:44
-msgid "Select user"
-msgstr ""
-
-#: setup/setup_ldap.tpl.c:47
-msgid "Automatically append LDAP base to admin DN"
-msgstr ""
-
-#: setup/setup_ldap.tpl.c:50
-msgid "Admin password"
-msgstr ""
-
-#: setup/setup_ldap.tpl.c:53
-msgid "Schema based settings"
-msgstr ""
-
-#: setup/setup_ldap.tpl.c:56
-msgid "Use rfc2307bis compliant groups"
-msgstr ""
-
-#: setup/setup_ldap.tpl.c:59
-msgid "Current status"
-msgstr ""
-
-#: setup/setup_checks.tpl.c:2
-msgid "PHP module and extension checks"
-msgstr ""
-
-#: setup/setup_checks.tpl.c:14 setup/setup_checks.tpl.c:35
-msgid "FusionDirectory will NOT run without fixing this."
-msgstr ""
-
-#: setup/setup_checks.tpl.c:17 setup/setup_checks.tpl.c:38
-msgid "FusionDirectory will run without fixing this."
-msgstr ""
-
-#: setup/setup_checks.tpl.c:20
-msgid "PHP setup configuration"
-msgstr ""
-
-#: setup/setup_checks.tpl.c:23
-msgid "show information"
-msgstr ""
-
-#: setup/setup_frame.tpl.c:2
-msgid "FusionDirectory setup wizard"
-msgstr ""
-
-#: setup/setup_frame.tpl.c:5
-msgid "Installation"
-msgstr ""
-
-#: setup/setup_frame.tpl.c:8
-msgid "Setup"
-msgstr ""
-
-#: setup/setup_config2.tpl.c:5
-msgid "Please choose your preferred timezone here"
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:2
-msgid ""
-"During the LDAP inspection, we're going to check for several common pitfalls"
-" that may occur when migration to FusionDirectory base LDAP administration. "
-"You may want to fix the problems below, in order to provide smooth services."
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:5
-msgid "Check again"
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:8
-msgid "Add required object classes to the LDAP base"
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:11 setup/setup_migrate.tpl.c:86
-#: setup/setup_migrate.tpl.c:140 setup/setup_migrate.tpl.c:167
-#: setup/setup_migrate.tpl.c:194 setup/setup_migrate.tpl.c:224
-#: setup/setup_migrate.tpl.c:254
-msgid "Current"
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:14 setup/setup_migrate.tpl.c:89
-#: setup/setup_migrate.tpl.c:143 setup/setup_migrate.tpl.c:170
-#: setup/setup_migrate.tpl.c:197 setup/setup_migrate.tpl.c:227
-#: setup/setup_migrate.tpl.c:257
-msgid "After migration"
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:20
-msgid "Close"
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:23
-msgid "Move groups into configured group tree"
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:26
-msgid ""
-"This dialog allows moving a couple of groups to the configured group tree. "
-"Doing this may straighten your LDAP service."
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:29
-msgid ""
-"Be careful with this option! There may be references pointing to these "
-"groups. The FusionDirectory setup can't migrate references, so you may want "
-"to cancel the migration in this case."
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:32
-msgid "Move selected groups into this group tree"
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:38 setup/setup_migrate.tpl.c:65
-#: setup/setup_migrate.tpl.c:92 setup/setup_migrate.tpl.c:149
-#: setup/setup_migrate.tpl.c:176 setup/setup_migrate.tpl.c:203
-#: setup/setup_migrate.tpl.c:233 setup/setup_migrate.tpl.c:263
-msgid "Hide changes"
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:41 setup/setup_migrate.tpl.c:68
-#: setup/setup_migrate.tpl.c:83 setup/setup_migrate.tpl.c:152
-#: setup/setup_migrate.tpl.c:179 setup/setup_migrate.tpl.c:209
-#: setup/setup_migrate.tpl.c:239 setup/setup_migrate.tpl.c:269
-msgid "Show changes"
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:50
-msgid "Move users into configured user tree"
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:53
-msgid ""
-"This dialog allows moving a couple of users to the configured user tree. "
-"Doing this may straighten your LDAP service."
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:56
-msgid ""
-"Be careful with this option! There may be references pointing to these "
-"users. The FusionDirectory setup can't migrate references, so you may want "
-"to cancel the migration in this case."
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:59
-msgid "Move selected users into this people tree"
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:77
-msgid "Migrate GOsa 2.5 administrative accounts"
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:80
-msgid ""
-"This dialog allows the migration of GOsa 2.5 admin accounts into "
-"FusionDirectory 1.0 useable accounts."
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:107
-msgid "Abort"
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:110
-msgid "Create a new FusionDirectory administrator account"
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:113
-msgid ""
-"This dialog will automatically add a new super administrator to your LDAP "
-"tree."
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:119
-msgid "User ID"
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:125
-msgid "Password (again)"
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:134
-msgid ""
-"The listed departments are currently invisible in the FusionDirectory user "
-"interface. If you want to change this for a couple of entries, select them "
-"and use the migrate button below."
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:137 setup/setup_migrate.tpl.c:164
-#: setup/setup_migrate.tpl.c:191 setup/setup_migrate.tpl.c:221
-#: setup/setup_migrate.tpl.c:251
-msgid ""
-"If you want to know what will be done when migrating the selected entries, "
-"use the 'Show changes' button to see the LDIF."
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:161
-msgid ""
-"The listed users are currently invisible in the FusionDirectory user "
-"interface. If you want to change this for a couple of users, just select "
-"them and use the 'Migrate' button below."
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:188
-msgid ""
-"The listed devices are currently invisible in the FusionDirectory interface."
-" If you want to change this for a couple of devices, just select them and "
-"use the 'Migrate' button below."
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:218
-msgid ""
-"The listed services are currently invalid for the FusionDirectory version "
-"you are going to install. If you want to update a couple of service, just "
-"select them and use the 'Migrate' button below."
-msgstr ""
-
-#: setup/setup_migrate.tpl.c:248
-msgid ""
-"The listed menus are currently invisible in the FusionDirectory interface. "
-"If you want to change this for a couple of devices, just select them and use"
-" the 'Migrate' button below."
-msgstr ""
-
-#: setup/setup_config3.tpl.c:2
-msgid "FusionDirectory core settings"
-msgstr ""
-
-#: setup/setup_config3.tpl.c:11
-msgid "Enable edit locking"
-msgstr ""
-
-#: setup/setup_config3.tpl.c:17
-msgid "FusionDirectory logging"
-msgstr ""
-
-#: setup/setup_config3.tpl.c:26
-msgid "Enforce register_globals to be deactivated"
-msgstr ""
-
-#: setup/setup_config3.tpl.c:41
-msgid "Show PHP errors"
-msgstr ""
-
-#: setup/setup_config3.tpl.c:53 setup/setup_config3.tpl.c:59
-msgid "Disabled"
-msgstr ""
-
-#: setup/setup_config3.tpl.c:56 setup/setup_config3.tpl.c:62
-msgid "Enabled"
 msgstr ""

@@ -71,19 +71,6 @@
    {/if}
    </td>
  </tr>
-
- {if $governmentmode eq "true"}
- <tr>
-   <td>
-     <LABEL for="certificateSerialNumber">{t}Certificate serial number{/t}</LABEL>
-   </td>
-   <td>
-  {render acl=$CertificateACL}
-     <input type='text' id="certificateSerialNumber" name="certificateSerialNumber" size=10 maxlength=20 value="{$certificateSerialNumber}">
-  {/render}
-   </td>
- </tr>
- {/if}
 </table>
 
 <p class="plugbottom">

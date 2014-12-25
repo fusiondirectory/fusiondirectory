@@ -180,6 +180,12 @@ class Attribute
     return $this->htmlid_prefix.preg_replace('/[\/\-,.#:;]/', '_', $this->getLdapName());
   }
 
+  /* html id to put in the "for" attribute of our "label" tag */
+  function getForHtmlId ()
+  {
+    return $this->getHtmlId();
+  }
+
   function getLabel ()
   {
     return $this->label;
@@ -454,14 +460,14 @@ class Attribute
   {
     if ($this->visible) {
       if ($readOnly) {
-        $input = $this->getValue();
+        $input = '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}';
       } elseif (is_object($this->plugin) && $this->plugin->is_template) {
         $input = $this->renderTemplateInput();
       } else {
         $input = $this->renderFormInput();
       }
       $attributes[$this->getLdapName()] = array(
-        'htmlid'      => $this->getHtmlId(),
+        'htmlid'      => $this->getForHtmlId(),
         'label'       => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired()?'{$must}':''),
         'description' => ($this->isRequired()?sprintf(_("%s (required)"), $this->getDescription()):$this->getDescription()),
         'input'       => $input,
@@ -578,7 +584,7 @@ class Attribute
               'name="'.$name.'" id="'.$name.'"'.
               ($this->disabled? ' disabled="disabled"':'');
     foreach ($attributes as $label => $value) {
-      $input .= $label.'="'.$value.'" ';
+      $input .= ' '.$label.'="'.$value.'"';
     }
     $input .= '/>';
     return $input;
@@ -908,7 +914,8 @@ class PasswordAttribute extends StringAttribute
 class SelectAttribute extends Attribute
 {
   protected $choices;
-  protected $outputs    = NULL;
+  protected $outputs  = NULL;
+  protected $size     = 1;
 
   /*! \brief The constructor of SelectAttribute
    *
@@ -1007,14 +1014,22 @@ class SelectAttribute extends Attribute
     $id = $this->getHtmlId();
     $smarty->assign($id."_choices", $this->choices);
     if ($this->outputs !== NULL) {
-      $smarty->assign($id."_outputs", array_values($this->outputs));
+      $outputs = array_values($this->outputs);
     } else {
-      $smarty->assign($id."_outputs", $this->choices);
+      $outputs = $this->choices;
     }
+    $key = array_search('', $outputs);
+    if ($key !== FALSE) {
+      $outputs[$key] = '&nbsp;';
+    }
+    $smarty->assign($id."_outputs", $outputs);
     $smarty->assign($id."_selected", $this->getValue());
     $display  = '<select name="'.$id.'" id="'.$id.'" ';
     if ($this->disabled || (count($this->choices) == 0)) {
       $display .= 'disabled="disabled" ';
+    }
+    if ($this->size > 1) {
+      $display .= 'size="'.$this->size.'" ';
     }
     if ($this->submitForm) {
       $js       = 'document.mainform.submit();';
@@ -1046,6 +1061,11 @@ class SelectAttribute extends Attribute
       }
       $attributes[$this->getLdapName()]['choices'] = array_combine($this->choices, $outputs);
     }
+  }
+
+  function setSize($size)
+  {
+    $this->size = $size;
   }
 }
 
@@ -1405,13 +1425,92 @@ class FileAttribute extends Attribute
   }
 }
 
-class FileTextAreaAttribute extends FileAttribute
+/* FileAttribue with download button */
+class FileDownloadAttribute extends FileAttribute
 {
-  function computeFilename()
+  protected $extension;
+  protected $upload;
+
+  function __construct ($label, $description, $ldapName, $required = FALSE, $extension = '', $upload = FALSE, $defaultValue = "", $acl = "")
   {
-    return $this->getLdapName().".txt";
+    parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
+    $this->extension  = $extension;
+    $this->upload     = $upload;
   }
 
+  function computeFilename()
+  {
+    return $this->getLdapName().$this->extension;
+  }
+
+  function loadPostValue ()
+  {
+    if ($this->isVisible()) {
+      foreach (array_keys($_POST) as $name) {
+        if (preg_match('/^download'.$this->getHtmlId().'/', $name)) {
+          session::set('binary', $this->value);
+          session::set('binarytype', 'octet-stream');
+          session::set('binaryfile', $this->computeFilename());
+          header('location: getbin.php');
+          exit();
+        }
+      }
+      if ($this->upload && isset($_POST['upload'.$this->getHtmlId()])) {
+        parent::loadPostValue();
+      }
+    }
+  }
+
+  function renderFormInput ()
+  {
+    $id = $this->getHtmlId();
+    $display = '';
+    if ($this->upload) {
+      $display  .= $this->renderInputField('file', $id);
+      $display  .= $this->renderInputField('submit', 'upload'.$id, array('value' => _('Upload')));
+    }
+    $display  .= $this->renderInputField(
+      'image', 'download'.$id,
+      array(
+        'title' => _('Download'),
+        'alt'   => _('Download'),
+        'class' => 'center',
+        'src'   => 'geticon.php?context=actions&amp;icon=document-save&amp;size=16',
+      )
+    );
+    return $this->renderAcl($display);
+  }
+
+  protected function htmlIds()
+  {
+    $id   = $this->getHtmlId();
+    $ids  = array('download'.$id);
+    if ($this->upload) {
+      $ids[] =  $id;
+      $ids[] =  'upload'.$id;
+    }
+    return $ids;
+  }
+
+  function renderAttribute(&$attributes, $readOnly)
+  {
+    if ($this->upload == FALSE) {
+      parent::renderAttribute($attributes, FALSE);
+    } else {
+      parent::renderAttribute($attributes, $readOnly);
+    }
+  }
+}
+
+class FileTextAreaAttribute extends FileDownloadAttribute
+{
+  function __construct ($label, $description, $ldapName, $required = FALSE, $extension = '.txt', $upload = TRUE, $defaultValue = "", $acl = "")
+  {
+    parent::__construct(
+      $label, $description, $ldapName, $required,
+      $extension, $upload, $defaultValue, $acl
+    );
+  }
   /*! \brief Update this attributes postValue depending of the $_POST values
    */
   function loadPostValue ()
@@ -1426,12 +1525,14 @@ class FileTextAreaAttribute extends FileAttribute
           exit();
         }
       }
-      if (isset($_POST['upload'.$this->getHtmlId()])) {
-        parent::loadPostValue();
-      } else {
-        $id = $this->getHtmlId().'_text';
-        if (isset($_POST[$id])) {
-          $this->setPostValue($_POST[$id]);
+      if ($this->upload) {
+        if (isset($_POST['upload'.$this->getHtmlId()])) {
+          parent::loadPostValue();
+        } else {
+          $id = $this->getHtmlId().'_text';
+          if (isset($_POST[$id])) {
+            $this->setPostValue($_POST[$id]);
+          }
         }
       }
     }
@@ -1442,25 +1543,15 @@ class FileTextAreaAttribute extends FileAttribute
     $id = $this->getHtmlId();
     $display  = '<textarea name="'.$id.'_text" id="'.$id.'_text"'.
                 ($this->disabled? 'disabled="disabled"':'').'>'.
-                '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea>';
-    $display  .= $this->renderInputField('file', $id);
-    $display  .= $this->renderInputField('submit', 'upload'.$id, array('value' => _('Upload')));
-    $display  .= $this->renderInputField(
-      'image', 'download'.$id,
-      array(
-        'title' => _('Download'),
-        'alt'   => _('Download'),
-        'class' => 'center',
-        'src'   => 'geticon.php?context=actions&icon=document-save&size=16',
-      )
-    );
-    return $this->renderAcl($display);
+                '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea><br/>';
+    return $this->renderAcl($display).parent::renderFormInput();
   }
 
   protected function htmlIds()
   {
-    $id = $this->getHtmlId();
-    return array($id.'_text',$id,'upload'.$id,'download'.$id);
+    $ids    = parent::htmlIds();
+    $ids[]  = $id.'_text';
+    return $ids;
   }
 }
 
@@ -1544,12 +1635,13 @@ class ImageAttribute extends FileAttribute
     $this->setValue($this->inputValue($this->getValue()));
     $id = $this->getHtmlId();
     srand((double)microtime() * 1000000); // Just to be sure the image is not cached
-    $display  = '<img name="'.$id.'_img" id="'.$id.'_img"'.
+    $display  = '<img id="'.$id.'_img"'.
                 ($this->disabled? 'disabled="disabled"':'').
                 ' src="getbin.php?rand='.rand(0, 10000).'"'.
                 ' style="border:1px solid black;"'.
-                ' title="'.$this->getDescription().'"'
-                .' /><br/>';
+                ' alt="'.$this->getDescription().'"'.
+                ' title="'.$this->getDescription().'"'.
+                ' /><br/>';
     $display  .= $this->renderInputField('file', $id);
     $display  .= $this->renderInputField('submit', 'upload'.$id, array('value' => _('Upload')));
     if (($this->getValue() == '') && ($this->placeholder != '')) {
@@ -1698,6 +1790,15 @@ class BaseSelectorAttribute extends Attribute
       $display = '{literal}'.$this->baseSelector->render().'{/literal}';
     }
     return $this->renderAcl($display);
+  }
+
+  function getForHtmlId()
+  {
+    if (isset($this->baseSelector)) {
+      return $this->baseSelector->getInputHtmlId();
+    } else {
+      return '';
+    }
   }
 }
 
@@ -1901,7 +2002,7 @@ class SetAttribute extends Attribute
         parent::renderAttribute($attributes, $readOnly);
       } else {
         $attributes[$this->getLdapName()] = array(
-          'htmlid'      => $this->getHtmlId(),
+          'htmlid'      => $this->getForHtmlId(),
           'label'       => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired()?'{$must}':''),
           'description' => ($this->isRequired()?sprintf(_("%s (required)"), $this->getDescription()):$this->getDescription()),
           'input'       => $this->renderOnlyFormInput(),
@@ -1915,6 +2016,16 @@ class SetAttribute extends Attribute
           'input'       => $this->renderButtons(),
         );
       }
+    }
+  }
+
+  function getForHtmlId()
+  {
+    // Label should point to the attribute
+    if (is_object($this->attribute)) {
+      return $this->attribute->getForHtmlId();
+    } else {
+      return '';
     }
   }
 
@@ -2190,6 +2301,16 @@ class CompositeAttribute extends Attribute
     }
   }
 
+  function getForHtmlId()
+  {
+    // Label (if any) should point to the first attribute
+    if (isset($this->attributes[0])) {
+      return $this->attributes[0]->getForHtmlId();
+    } else {
+      return '';
+    }
+  }
+
   function serializeAttribute(&$attributes)
   {
     if ($this->visible) {
@@ -2206,7 +2327,7 @@ class CompositeAttribute extends Attribute
     $display = "";
     foreach ($this->attributes as &$attribute) {
       $attribute->setDisabled($this->disabled);
-      $display .= '<label for="'.$attribute->getHtmlId().'">'.$attribute->getLabel().'</label>'." ".$attribute->renderFormInput()." ";
+      $display .= '<label for="'.$attribute->getForHtmlId().'">'.$attribute->getLabel().'</label>'." ".$attribute->renderFormInput()." ";
     }
     unset($attribute);
     return $display;
@@ -2302,7 +2423,11 @@ class OrderedArrayAttribute extends SetAttribute
     foreach ($this->value as $key => $value) {
       $fields = array();
       foreach ($this->getAttributeArrayValue($value) as $field) {
-        $fields[] = array("string" => $field);
+        if (is_array($field)) {
+          $fields[] = $field;
+        } else {
+          $fields[] = array('string' => $field);
+        }
       }
 
       list ($img, $width) = $this->genRowIcons($key, $value);
@@ -2327,7 +2452,7 @@ class OrderedArrayAttribute extends SetAttribute
         $img .= $this->renderInputField(
           'image', $id.'_up_'.$key,
           array(
-            'src'   => 'geticon.php?context=actions&icon=view-sort-descending&size=16',
+            'src'   => 'geticon.php?context=actions&amp;icon=view-sort-descending&amp;size=16',
             'title' => _('Sort up'),
             'alt'   => _('Sort up'),
             'class' => 'center'
@@ -2340,7 +2465,7 @@ class OrderedArrayAttribute extends SetAttribute
         $img .= $this->renderInputField(
           'image', $id.'_down_'.$key,
           array(
-            'src'   => 'geticon.php?context=actions&icon=view-sort-ascending&size=16',
+            'src'   => 'geticon.php?context=actions&amp;icon=view-sort-ascending&amp;size=16',
             'title' => _('Sort down'),
             'alt'   => _('Sort down'),
             'class' => 'center'
@@ -2355,7 +2480,7 @@ class OrderedArrayAttribute extends SetAttribute
       $img .= $this->renderInputField(
         'image', $id.'_edit_'.$key,
         array(
-          'src'   => 'geticon.php?context=actions&icon=document-edit&size=16',
+          'src'   => 'geticon.php?context=actions&amp;icon=document-edit&amp;size=16',
           'title' => _('Edit'),
           'alt'   => _('Edit'),
           'class' => 'center'
@@ -2365,7 +2490,7 @@ class OrderedArrayAttribute extends SetAttribute
     $img .= $this->renderInputField(
       'image', $id.'_del_'.$key,
       array(
-        'src'   => 'geticon.php?context=actions&icon=edit-delete&size=16',
+        'src'   => 'geticon.php?context=actions&amp;icon=edit-delete&amp;size=16',
         'title' => _('Delete'),
         'alt'   => _('Delete'),
         'class' => 'center'

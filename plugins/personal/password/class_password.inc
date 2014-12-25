@@ -96,32 +96,13 @@ class password extends plugin
         $repeated_password  = $_POST['repeated_password'];
       }
 
-      /* Should we check different characters in new password */
-      $check_differ = ($this->config->get_cfg_value("passwordMinDiffer") != "");
-      $differ       = $this->config->get_cfg_value("passwordMinDiffer", 0);
-
-      /* Enable length check ? */
-      $check_length = ($this->config->get_cfg_value("passwordMinLength") != "");
-      $length       = $this->config->get_cfg_value("passwordMinLength", 0);
-
       // Perform FusionDirectory password policy checks
       $message = array();
-      if (empty($current_password)) {
-        $message[] = _("You need to specify your current password in order to proceed.");
-      } elseif ($new_password != $repeated_password) {
-        $message[] = _("The passwords you've entered as 'New password' and 'Repeated new password' do not match.");
-      } elseif ($new_password == "") {
-        $message[] = _("The password you've entered as 'New password' is empty.");
-      } elseif ($check_differ && (substr($current_password, 0, $differ) == substr($new_password, 0, $differ))) {
-        $message[] = _("The password used as new and current are too similar.");
-      } elseif ($check_length && (strlen($new_password) < $length)) {
-        $message[] = _("The password used as new is to short.");
-      } elseif (!passwordMethod::is_harmless($new_password)) {
-        $message[] = _("The password contains possibly problematic Unicode characters!");
-      }
-
-      /* Call external password quality hook ?*/
-      if (!count($message)) {
+      $problem = self::reportPasswordProblems($ui->dn, $new_password, $repeated_password, $current_password);
+      if ($problem) {
+        $message[] = $problem;
+      } else {
+        /* Call external password quality hook ?*/
         $check_hook   = $this->config->get_cfg_value("passwordHook") != "";
         $hook         = $this->config->get_cfg_value("passwordHook")." ".
             escapeshellarg($ui->username)." ".escapeshellarg($new_password)." ".escapeshellarg($current_password);
@@ -141,7 +122,6 @@ class password extends plugin
       if (count($message)) {
         msg_dialog::displayChecks($message);
       } else {
-
         /* Try to connect via current password */
         $tldap = new LDAP(
           $ui->dn,
@@ -156,7 +136,6 @@ class password extends plugin
           msg_dialog::display(_("Password change"),
                               _("The password you've entered as your current password doesn't match the real one."), WARNING_DIALOG);
         } else {
-
           /* Check FusionDirectory permissions */
           if (!preg_match("/w/i", $password_ACLS)) {
             msg_dialog::display(_("Password change"),
@@ -210,5 +189,77 @@ class password extends plugin
     );
   }
 
+  static function reportPasswordProblems ($user, $new_password, $repeated_password, $current_password = NULL)
+  {
+    global $config, $ui;
+
+    /* Should we check different characters in new password */
+    $check_differ = ($config->get_cfg_value("passwordMinDiffer") != "");
+    $differ       = $config->get_cfg_value("passwordMinDiffer", 0);
+    if ($current_password === NULL) {
+      $check_differ = FALSE;
+    }
+
+    /* Enable length check ? */
+    $check_length = ($config->get_cfg_value("passwordMinLength") != "");
+    $length       = $config->get_cfg_value("passwordMinLength", 0);
+
+    $ldap = $config->get_ldap_link();
+    $ldap->cat($user, array('pwdPolicySubentry', 'pwdHistory', 'pwdChangedTime'));
+    $attrs = $ldap->fetch();
+    $ppolicydn = '';
+    if (isset($attrs['pwdPolicySubentry'][0])) {
+      $ppolicydn = $attrs['pwdPolicySubentry'][0];
+    } else {
+      $ppolicydn = $config->get_cfg_value('ppolicyDefaultCn', '');
+      if (!empty($ppolicydn)) {
+        $ppolicydn = 'cn='.$ppolicydn.','.get_ou('ppolicyRDN').$config->current['BASE'];
+      }
+    }
+    if (!empty($ppolicydn)) {
+      $ldap->cat($ppolicydn, array('pwdAllowUserChange', 'pwdMinLength', 'pwdMinAge', 'pwdSafeModify'));
+      $policy = $ldap->fetch();
+      if (!$policy) {
+        return sprintf(_('Ppolicy "%s" could not be found in the LDAP!'), $ppolicydn);
+      }
+      if (isset($policy['pwdAllowUserChange'][0]) && ($policy['pwdAllowUserChange'][0] == 'FALSE') && ($ui->dn == $user)) {
+        return _('You are not allowed to change your own password');
+      }
+      if (isset($policy['pwdMinLength'][0])) {
+        $check_length = TRUE;
+        $length       = $policy['pwdMinLength'][0];
+      }
+      if (isset($policy['pwdMinAge'][0]) && isset($attrs['pwdChangedTime'][0])) {
+        $date = DateTime::createFromFormat('YmdHis\Z', $attrs['pwdChangedTime'][0], new DateTimeZone('UTC'));
+        $now  = new DateTime('now');
+        if ($now->getTimeStamp() < $date->getTimeStamp() + $policy['pwdMinAge'][0]) {
+          return sprintf(_('You must wait %d seconds before changing your password again'), $policy['pwdMinAge'][0] - ($now->getTimeStamp() - $date->getTimeStamp()));
+        }
+      }
+      if (isset($policy['pwdSafeModify'][0]) && ($policy['pwdSafeModify'][0] == 'FALSE')) {
+        if (empty($current_password)) {
+          $current_password = NULL;
+        }
+      } elseif (isset($attrs['pwdHistory'][0])) {
+      }
+    }
+
+    // Perform FusionDirectory password policy checks
+    if (($current_password !== NULL) && empty($current_password)) {
+      return _("You need to specify your current password in order to proceed.");
+    } elseif ($new_password != $repeated_password) {
+      return _("The passwords you've entered as 'New password' and 'Repeated new password' do not match.");
+    } elseif ($new_password == "") {
+      return msgPool::required(_("New password"));
+    } elseif ($check_differ && (substr($current_password, 0, $differ) == substr($new_password, 0, $differ))) {
+      return _("The password used as new and current are too similar.");
+    } elseif ($check_length && (strlen($new_password) < $length)) {
+      return _("The password used as new is to short.");
+    } elseif (!passwordMethod::is_harmless($new_password)) {
+      return _("The password contains possibly problematic Unicode characters!");
+    }
+
+    return FALSE;
+  }
 }
 ?>
