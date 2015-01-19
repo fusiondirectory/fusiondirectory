@@ -829,7 +829,7 @@ class DisplayLDAPAttribute extends Attribute
 {
   function renderFormInput ()
   {
-    return $this->getValue();
+    return htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8');
   }
 }
 
@@ -853,7 +853,11 @@ class DisplayLDAPArrayAttribute extends Attribute
 
   function renderFormInput ()
   {
-    return join(', ', $this->getValue());
+    $value = $this->getValue();
+    if (is_array($value)) {
+      $value = join(', ', $value);
+    }
+    return htmlentities($value, ENT_COMPAT, 'UTF-8');
   }
 }
 
