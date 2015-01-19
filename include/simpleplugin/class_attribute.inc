@@ -1384,6 +1384,7 @@ class FileAttribute extends Attribute
 {
   function loadPostValue()
   {
+    $this->postValue = $this->value;
     if (!empty($_FILES[$this->getHtmlId()]['name']) && $this->isVisible()) {
       if ($_FILES[$this->getHtmlId()]['size'] <= 0) {
         msg_dialog::display(_("Error"), sprintf(_("Cannot read uploaded file: %s"), _("file is empty")), ERROR_DIALOG);
@@ -1450,6 +1451,7 @@ class FileDownloadAttribute extends FileAttribute
   function loadPostValue ()
   {
     if ($this->isVisible()) {
+      $this->postValue = $this->value;
       foreach (array_keys($_POST) as $name) {
         if (preg_match('/^download'.$this->getHtmlId().'/', $name)) {
           session::set('binary', $this->value);
@@ -1520,6 +1522,7 @@ class FileTextAreaAttribute extends FileDownloadAttribute
   function loadPostValue ()
   {
     if ($this->isVisible()) {
+      $this->postValue = $this->value;
       foreach (array_keys($_POST) as $name) {
         if (preg_match('/^download'.$this->getHtmlId().'/', $name)) {
           session::set('binary', $this->value);
