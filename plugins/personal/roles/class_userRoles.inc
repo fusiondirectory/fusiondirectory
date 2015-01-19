@@ -29,7 +29,7 @@ class userRoles extends simplePlugin
       'plDescription'   => _('Edit user\'s roles'),
       'plIcon'          => 'geticon.php?context=types&icon=role&size=48',
       'plSmallIcon'     => 'geticon.php?context=types&icon=role&size=16',
-      'plSelfModify'    => TRUE,
+      'plSelfModify'    => FALSE,
       'plObjectType'    => array('user'),
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(self::getAttributesInfo())
