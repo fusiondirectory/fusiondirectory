@@ -51,8 +51,8 @@ $bintype = session::is_set($key.'type')
   ? session::get($key.'type') : "octet-stream";
 header("Content-type: " . $bintype);
 if (session::is_set($key.'file')) {
-  header( "Content-disposition: attachment; filename="
-    . session::get($key.'file'));
+  header( 'Content-disposition: attachment; filename="'
+    . session::get($key.'file')).'"';
 }
 
 echo session::get($key);
