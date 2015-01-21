@@ -1259,6 +1259,8 @@ class plugin
       // Search objects
       try {
         $objects = objects::ls($objectType, array('dn' => 'raw'), NULL, $filter);
+      } catch (NonExistingObjectTypeException $e) {
+        continue;
       } catch (EmptyFilterException $e) {
         continue;
       }
