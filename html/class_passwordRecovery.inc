@@ -544,9 +544,9 @@ class passwordRecovery {
     }
 
     $reinit_link = $this->getPageURL();
-    $reinit_link .= "?uniq=".$activatecode;
-    $reinit_link .= "&uid=".$this->uid;
-    $reinit_link .= "&email_address=".$this->email_address;
+    $reinit_link .= "?uniq=".urlencode($activatecode);
+    $reinit_link .= "&uid=".urlencode($this->uid);
+    $reinit_link .= "&email_address=".urlencode($this->email_address);
 
     @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $reinit_link, "Setting link to");
 
