@@ -56,9 +56,9 @@
       </tr>
       {/if}
       <tr>
-       <td><label for="uid">{t}Username{/t}</label></td>
+       <td><label for="uid">{t}Login{/t}</label></td>
        <td>{if $display_username}
-           <input type="text" name="uid" id="uid" maxlength="40" value="{$uid}" title="{t}Username{/t}" onFocus="nextfield= 'current_password';">
+           <input type="text" name="uid" id="uid" maxlength="40" value="{$uid}" title="{t}Login{/t}" onFocus="nextfield= 'current_password';">
            {else}
            <i>{$uid}</i>
            {/if}
