@@ -171,7 +171,9 @@ class passwordRecovery {
         $this->step4();
       } elseif (isset($_POST['apply'])) {
         $this->step2();
-        $this->step3();
+        if ($this->step == 2) { /* No errors */
+          $this->step3();
+        }
       }
     } elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
       if (isset($_GET['uniq'])) {
