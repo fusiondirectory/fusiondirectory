@@ -894,13 +894,26 @@ class TextAreaAttribute extends StringAttribute
  */
 class PasswordAttribute extends StringAttribute
 {
+  protected $autocomplete = FALSE;
+
+  function setAutocomplete ($bool)
+  {
+    $this->autocomplete = $bool;
+  }
+
+  function getAutocomplete ()
+  {
+    return $this->autocomplete;
+  }
+
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
     $display  = $this->renderInputField(
       'password', $id,
       array(
-        'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+        'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}',
+        'autocomplete' => ($this->autocomplete?'on':'off'),
       )
     );
     return $this->renderAcl($display);
