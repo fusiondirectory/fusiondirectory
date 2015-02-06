@@ -116,12 +116,6 @@ class objects
       throw new EmptyFilterException();
     }
 
-    $object_ou = $infos['ou'];
-    if (!empty($object_ou)) {
-      if (!preg_match("/^$object_ou/", $ou)) {
-        $ou = $object_ou.$ou;
-      }
-    }
     $ldap = $config->get_ldap_link();
     if (!$ldap->dn_exists($ou)) {
       throw new NonExistingBranchException();
