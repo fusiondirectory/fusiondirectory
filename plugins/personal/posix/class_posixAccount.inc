@@ -181,15 +181,18 @@ class posixAccount extends simplePlugin
   static function plInfo()
   {
     return array(
-      "plShortName"     => _("Unix"),
-      "plDescription"   => _("Edit users POSIX settings"),
-      "plIcon"          => 'geticon.php?context=applications&icon=os-linux&size=48',
-      "plSmallIcon"     => 'geticon.php?context=applications&icon=os-linux&size=16',
-      "plSelfModify"    => TRUE,
-      "plPriority"      => 2,
-      "plObjectType"    => array("user"),
+      'plShortName'   => _('Unix'),
+      'plDescription' => _('Edit users POSIX settings'),
+      'plIcon'        => 'geticon.php?context=applications&icon=os-linux&size=48',
+      'plSmallIcon'   => 'geticon.php?context=applications&icon=os-linux&size=16',
+      'plSelfModify'  => TRUE,
+      'plPriority'    => 2,
+      'plObjectType'  => array('user'),
+      'plForeignKeys' => array(
+        'gidNumber' => array('group','gidNumber')
+      ),
 
-      "plProvidedAcls"  => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls'  => parent::generatePlProvidedAcls(self::getAttributesInfo())
     );
   }
 
