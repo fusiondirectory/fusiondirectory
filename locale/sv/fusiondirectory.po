@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-108\n"
 "Report-Msgid-Bugs-To: documentation@lists.fusiondirectory.org\n"
-"POT-Creation-Date: 2014-12-15 14:59+0100\n"
-"PO-Revision-Date: 2014-12-15 17:21+0000\n"
+"POT-Creation-Date: 2015-02-13 17:18+0100\n"
+"PO-Revision-Date: 2015-02-13 16:21+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/FusionDirectory-108/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -73,6 +73,13 @@ msgstr ""
 #: include/select/systemSelect/systemSelect-list.xml:64
 #: include/simpleplugin/simple-select-list.xml:32
 #: include/simpleplugin/simple-list.xml:32
+#: plugins/admin/ogroups/ogroup-filter.tpl.c:35
+#: plugins/admin/users/user-filter.tpl.c:20
+#: plugins/personal/posix/trustSelect/trust-filter.tpl.c:17
+#: ihtml/themes/default/simple-filter.tpl.c:5
+#: include/select/systemSelect/systemSelect-filter.tpl.c:17
+#: include/select/groupSelect/group-filter.tpl.c:14
+#: setup/setup_migrate.tpl.c:116
 msgid "Name"
 msgstr "Namn"
 
@@ -94,6 +101,8 @@ msgstr ""
 #: include/select/systemSelect/systemSelect-list.xml:72
 #: include/simpleplugin/simple-select-list.xml:40
 #: include/simpleplugin/simple-list.xml:40
+#: plugins/admin/groups/generic.tpl.c:8 plugins/admin/ogroups/generic.tpl.c:8
+#: plugins/personal/generic/generic.tpl.c:47
 msgid "Description"
 msgstr "Beskrivning"
 
@@ -130,7 +139,7 @@ msgstr ""
 #: include/password-methods/class_password-methods-sha.inc:71
 #: include/password-methods/class_password-methods-ssha.inc:75
 #: html/index.php:138 html/index.php:186 html/main.php:235
-#: html/class_passwordRecovery.inc:299
+#: html/class_passwordRecovery.inc:301
 msgid "Configuration error"
 msgstr "Konfigurationsfel"
 
@@ -202,12 +211,12 @@ msgstr "tillåt dessa hosts tillgång"
 #: include/functions.inc:3577 include/functions.inc:3586
 #: include/functions.inc:3648 include/class_msg_dialog.inc:129
 #: include/class_databaseManagement.inc:78 include/class_xml.inc:58
-#: include/class_plugin.inc:1513 include/class_CopyPasteHandler.inc:250
-#: include/simpleplugin/class_attribute.inc:1385
-#: include/simpleplugin/class_attribute.inc:1388
-#: include/simpleplugin/class_attribute.inc:1391
-#: include/simpleplugin/class_attribute.inc:1627
-#: include/simpleplugin/class_attribute.inc:1729
+#: include/class_plugin.inc:1515 include/class_CopyPasteHandler.inc:250
+#: include/simpleplugin/class_attribute.inc:1403
+#: include/simpleplugin/class_attribute.inc:1406
+#: include/simpleplugin/class_attribute.inc:1409
+#: include/simpleplugin/class_attribute.inc:1647
+#: include/simpleplugin/class_attribute.inc:1749
 #: include/password-methods/class_password-methods-sasl.inc:51
 #: include/password-methods/class_password-methods-sasl.inc:63
 #: include/password-methods/class_password-methods.inc:323
@@ -216,6 +225,8 @@ msgstr "tillåt dessa hosts tillgång"
 #: include/class_SnapshotHandler.inc:415 include/class_tabs.inc:74
 #: html/index.php:194 html/index.php:198
 #: setup/class_setupStep_Migrate.inc:1192
+#: ihtml/themes/default/msg_dialog.tpl.c:2 setup/setup_checks.tpl.c:8
+#: setup/setup_checks.tpl.c:29
 msgid "Error"
 msgstr "Fel"
 
@@ -245,12 +256,12 @@ msgstr ""
 #: include/functions.inc:890 include/functions.inc:945
 #: include/functions.inc:3084 include/functions.inc:3385
 #: include/simpleplugin/class_simplePlugin.inc:452
-#: include/simpleplugin/class_attribute.inc:2710 include/class_acl.inc:376
+#: include/simpleplugin/class_attribute.inc:2730 include/class_acl.inc:376
 #: include/class_SnapshotHandler.inc:50 include/class_SnapshotHandler.inc:244
 #: include/class_SnapshotHandler.inc:277 include/class_SnapshotHandler.inc:292
 #: include/class_SnapshotHandler.inc:422 include/class_SnapshotHandler.inc:425
 #: html/index.php:238 html/index.php:250 html/index.php:263
-#: html/class_passwordRecovery.inc:540 setup/class_setupStep_Migrate.inc:1203
+#: html/class_passwordRecovery.inc:542 setup/class_setupStep_Migrate.inc:1203
 #: setup/class_setupStep_Migrate.inc:1223
 #: setup/class_setupStep_Migrate.inc:1266
 #: setup/class_setupStep_Migrate.inc:1998
@@ -286,21 +297,25 @@ msgstr "Kan inte hitta någon RIDBASE för '%s'!"
 #: plugins/admin/groups/class_group.inc:1041
 #: plugins/admin/groups/class_group.inc:1044
 #: plugins/admin/groups/class_group.inc:1107
-#: plugins/personal/posix/class_posixAccount.inc:375
+#: plugins/personal/posix/class_posixAccount.inc:378
 msgid "GID"
 msgstr "GID"
 
 #: plugins/admin/groups/class_group.inc:1074
-#: plugins/personal/posix/class_posixAccount.inc:430 include/functions.inc:898
+#: plugins/personal/posix/class_posixAccount.inc:433 include/functions.inc:898
 #: include/functions.inc:2708 include/class_xml.inc:55
 #: include/class_tabs.inc:296 html/index.php:56 html/index.php:62
-#: html/index.php:356 html/class_passwordRecovery.inc:434
+#: html/index.php:356 html/class_passwordRecovery.inc:436
 #: setup/class_setupStep_Migrate.inc:277 setup/class_setupStep_Migrate.inc:322
 #: setup/class_setupStep_Migrate.inc:386 setup/class_setupStep_Migrate.inc:455
 #: setup/class_setupStep_Migrate.inc:577 setup/class_setupStep_Migrate.inc:702
 #: setup/class_setupStep_Migrate.inc:2263
 #: setup/class_setupStep_Migrate.inc:2405
-#: setup/class_setupStep_Migrate.inc:2662
+#: setup/class_setupStep_Migrate.inc:2662 plugins/admin/ogroups/remove.tpl.c:2
+#: plugins/admin/users/remove.tpl.c:2 plugins/admin/acl/remove.tpl.c:2
+#: ihtml/themes/default/islocked.tpl.c:5 ihtml/themes/default/conflict.tpl.c:5
+#: ihtml/themes/default/remove.tpl.c:2 ihtml/themes/default/msg_dialog.tpl.c:5
+#: setup/setup_checks.tpl.c:11 setup/setup_checks.tpl.c:32
 msgid "Warning"
 msgstr "Varning"
 
@@ -326,7 +341,12 @@ msgstr ""
 #: plugins/admin/groups/class_group.inc:1105
 #: plugins/admin/ogroups/class_ogroup.inc:952
 #: plugins/personal/generic/class_user.inc:1347
-#: include/simpleplugin/class_attribute.inc:1679
+#: include/simpleplugin/class_attribute.inc:1699
+#: plugins/admin/groups/generic.tpl.c:14
+#: plugins/admin/ogroups/generic.tpl.c:14
+#: plugins/personal/generic/generic.tpl.c:50
+#: plugins/personal/posix/trustSelect/trust-list.tpl.c:2
+#: ihtml/themes/default/simple-list.tpl.c:2 setup/setup_ldap.tpl.c:26
 msgid "Base"
 msgstr "Bas"
 
@@ -341,6 +361,7 @@ msgstr "Samba domännamn"
 #: plugins/admin/groups/class_group.inc:1111
 #: plugins/admin/ogroups/class_ogroup.inc:954
 #: plugins/personal/posix/class_posixAccount.inc:162
+#: plugins/admin/ogroups/generic.tpl.c:17
 msgid "System trust"
 msgstr "System trust"
 
@@ -395,8 +416,8 @@ msgstr "Skapa"
 #: include/class_sortableListing.inc:306 include/class_sortableListing.inc:308
 #: include/simpleplugin/class_dialogAttributes.inc:596
 #: include/simpleplugin/class_dialogAttributes.inc:597
-#: include/simpleplugin/class_attribute.inc:2484
-#: include/simpleplugin/class_attribute.inc:2485
+#: include/simpleplugin/class_attribute.inc:2504
+#: include/simpleplugin/class_attribute.inc:2505
 #: include/simpleplugin/simple-list.xml:67
 #: include/simpleplugin/simple-list.xml:112
 msgid "Edit"
@@ -413,6 +434,9 @@ msgstr "Redigera"
 #: include/simpleplugin/simple-list.xml:75
 #: include/simpleplugin/simple-list.xml:125
 #: setup/class_setupStep_Migrate.inc:2522
+#: plugins/personal/generic/generic_certs.tpl.c:8
+#: plugins/personal/generic/generic_certs.tpl.c:14
+#: plugins/personal/generic/generic_certs.tpl.c:20
 msgid "Remove"
 msgstr "Ta bort"
 
@@ -436,14 +460,17 @@ msgid "Edit posix properties"
 msgstr "Redigera posix-egenskaper"
 
 #: plugins/admin/groups/class_groupManagement.inc:106
+#: include/select/groupSelect/group-filter.tpl.c:5
 msgid "Show primary groups"
 msgstr "Visa primära grupper"
 
 #: plugins/admin/groups/class_groupManagement.inc:107
+#: include/select/groupSelect/group-filter.tpl.c:8
 msgid "Show samba groups"
 msgstr "Visa samba-grupper"
 
 #: plugins/admin/groups/class_groupManagement.inc:108
+#: include/select/groupSelect/group-filter.tpl.c:11
 msgid "Show mail groups"
 msgstr "Visa mail-grupper"
 
@@ -459,6 +486,7 @@ msgid ""
 msgstr "Dessa system är redan konfigurerade av andra objektgrupper och kan inte läggas till:"
 
 #: plugins/admin/ogroups/class_ogroup.inc:250
+#: ihtml/themes/default/msg_dialog.tpl.c:8 setup/setup_ldap.tpl.c:62
 msgid "Information"
 msgstr "Information"
 
@@ -521,6 +549,7 @@ msgstr "Applikation"
 #: plugins/admin/departments/class_department.inc:40
 #: plugins/admin/departments/dep-list.xml:21
 #: plugins/personal/generic/class_user.inc:1354
+#: plugins/personal/generic/generic.tpl.c:83
 msgid "Department"
 msgstr "Avdelning"
 
@@ -535,6 +564,7 @@ msgstr "Server"
 #: plugins/personal/generic/class_user.inc:1167
 #: plugins/personal/generic/class_user.inc:1362
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:81
+#: plugins/personal/generic/generic.tpl.c:101
 msgid "Phone"
 msgstr "Telefon"
 
@@ -621,6 +651,7 @@ msgstr "Telefonkö"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:132
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:65
+#: ihtml/themes/default/recovery.tpl.c:86
 msgid "Mail"
 msgstr "Epost"
 
@@ -809,6 +840,7 @@ msgstr ""
 
 #: plugins/admin/departments/class_department.inc:80
 #: plugins/personal/generic/class_user.inc:1357
+#: plugins/personal/generic/generic.tpl.c:95
 msgid "Manager"
 msgstr "Manager"
 
@@ -820,15 +852,19 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:86
 #: plugins/admin/departments/class_department.inc:92
 #: plugins/personal/generic/class_user.inc:1368
+#: plugins/personal/generic/generic.tpl.c:113
 msgid "Location"
 msgstr "Plats"
 
 #: plugins/admin/departments/class_department.inc:89
 #: plugins/personal/generic/class_user.inc:1367
+#: plugins/personal/generic/generic.tpl.c:116
 msgid "State"
 msgstr "Län"
 
 #: plugins/admin/departments/class_department.inc:95
+#: plugins/personal/generic/generic.tpl.c:53
+#: plugins/personal/generic/generic.tpl.c:119
 msgid "Address"
 msgstr "Adress"
 
@@ -843,6 +879,7 @@ msgstr ""
 
 #: plugins/admin/departments/class_department.inc:103
 #: plugins/personal/generic/class_user.inc:1170
+#: plugins/personal/generic/generic.tpl.c:110
 msgid "Fax"
 msgstr "Fax"
 
@@ -896,6 +933,7 @@ msgstr "Avdelningslista"
 #: plugins/admin/departments/class_organization.inc:31
 #: plugins/admin/departments/class_organization.inc:34
 #: plugins/personal/generic/class_user.inc:1353
+#: plugins/personal/generic/generic.tpl.c:80
 msgid "Organization"
 msgstr "Organisation"
 
@@ -909,6 +947,7 @@ msgstr "Användarlista"
 
 #: plugins/admin/users/user-list.xml:15 plugins/admin/users/user-list.xml:102
 #: plugins/admin/users/class_userManagement.inc:524
+#: plugins/admin/users/template.tpl.c:8 plugins/admin/users/templatize.tpl.c:8
 msgid "Template"
 msgstr "Mall"
 
@@ -929,6 +968,12 @@ msgstr "Förnamn"
 #: plugins/personal/generic/class_user.inc:1156
 #: plugins/personal/generic/class_user.inc:1158
 #: plugins/personal/generic/class_user.inc:1340
+#: plugins/admin/users/template.tpl.c:17
+#: plugins/personal/generic/generic.tpl.c:29
+#: plugins/personal/generic/paste_generic.tpl.c:11
+#: ihtml/themes/default/recovery.tpl.c:38
+#: ihtml/themes/default/password.tpl.c:32
+#: ihtml/themes/default/password.tpl.c:35
 msgid "Login"
 msgstr "Användarnamn"
 
@@ -990,6 +1035,7 @@ msgstr "Kontroll-hook rapporterade ett problem: %s. Lösenordsbyte avbrutet!"
 #: plugins/admin/users/class_userManagement.inc:378
 #: plugins/personal/password/class_password.inc:136
 #: plugins/personal/password/class_password.inc:141 html/main.php:170
+#: ihtml/themes/default/password.tpl.c:20
 msgid "Password change"
 msgstr "Ändra lösenord"
 
@@ -1092,8 +1138,8 @@ msgstr "Redigera kategori-ACL"
 
 #: plugins/admin/aclrole/class_aclRole.inc:325 include/class_msgPool.inc:513
 #: include/class_sortableListing.inc:311 include/class_sortableListing.inc:313
-#: include/simpleplugin/class_attribute.inc:2494
-#: include/simpleplugin/class_attribute.inc:2495
+#: include/simpleplugin/class_attribute.inc:2514
+#: include/simpleplugin/class_attribute.inc:2515
 #, php-format
 msgid "Delete"
 msgstr "Ta bort"
@@ -1124,6 +1170,8 @@ msgid "write"
 msgstr "skriv"
 
 #: plugins/admin/aclrole/class_aclRole.inc:489 include/class_msgPool.inc:706
+#: ihtml/themes/default/snapshotdialog.tpl.c:14
+#: ihtml/themes/default/snapshotdialog.tpl.c:35
 msgid "Object"
 msgstr "Objekt"
 
@@ -1201,6 +1249,7 @@ msgid "Apply this ACL for all LDAP users"
 msgstr ""
 
 #: plugins/admin/acl/class_aclAssignment.inc:58
+#: ihtml/themes/default/acl.tpl.c:32
 msgid "Members"
 msgstr "Medlemmar"
 
@@ -1241,6 +1290,12 @@ msgstr "Lösenords-hash att använda"
 
 #: plugins/personal/generic/class_user.inc:50
 #: plugins/personal/password/class_password.inc:178
+#: plugins/personal/generic/paste_generic.tpl.c:14
+#: ihtml/themes/default/recovery.tpl.c:5 ihtml/themes/default/recovery.tpl.c:8
+#: ihtml/themes/default/password.tpl.c:14
+#: ihtml/themes/default/password.tpl.c:17 ihtml/themes/default/login.tpl.c:17
+#: ihtml/themes/default/login.tpl.c:20 ihtml/themes/default/login.tpl.c:23
+#: setup/setup_migrate.tpl.c:122
 msgid "Password"
 msgstr "Lösenord"
 
@@ -1286,7 +1341,7 @@ msgid "The selected password method is no longer available."
 msgstr "Den valda lösenordsmetoden är inte tillgänglig längre."
 
 #: plugins/personal/generic/class_user.inc:873
-#: include/simpleplugin/class_attribute.inc:1628
+#: include/simpleplugin/class_attribute.inc:1648
 msgid ""
 "Cannot save user picture, FusionDirectory requires the package "
 "'php5-imagick' to be installed!"
@@ -1309,46 +1364,60 @@ msgid "The selected password method requires initial configuration!"
 msgstr "Den valda lösenordsmetoden kräver inledande konfiguration!"
 
 #: plugins/personal/generic/class_user.inc:1135
+#: plugins/personal/generic/generic.tpl.c:23
 msgid "Template name"
 msgstr "Mall-namn"
 
 #: plugins/personal/generic/class_user.inc:1162
 #: plugins/personal/generic/class_user.inc:1373
+#: plugins/personal/generic/generic.tpl.c:59
 msgid "Homepage"
 msgstr "Hemsida"
 
 #: plugins/personal/generic/class_user.inc:1173
 #: plugins/personal/generic/class_user.inc:1364
+#: plugins/personal/generic/generic.tpl.c:104
 msgid "Mobile"
 msgstr "Mobil"
 
 #: plugins/personal/generic/class_user.inc:1176
 #: plugins/personal/generic/class_user.inc:1363
+#: plugins/personal/generic/generic.tpl.c:107
 msgid "Pager"
 msgstr "Pager"
 
 #: plugins/personal/generic/class_user.inc:1181
 #: plugins/personal/generic/class_user.inc:1344
+#: plugins/personal/generic/generic.tpl.c:38
 msgid "Date of birth"
 msgstr "Födelsedatum"
 
 #: plugins/personal/generic/class_user.inc:1338
+#: plugins/admin/users/template.tpl.c:11
+#: plugins/personal/generic/generic.tpl.c:20
+#: plugins/personal/generic/paste_generic.tpl.c:5
 msgid "Last name"
 msgstr "Efternamn"
 
 #: plugins/personal/generic/class_user.inc:1339
+#: plugins/admin/users/template.tpl.c:14
+#: plugins/personal/generic/generic.tpl.c:26
+#: plugins/personal/generic/paste_generic.tpl.c:8
 msgid "First name"
 msgstr "Förnamn"
 
 #: plugins/personal/generic/class_user.inc:1341
+#: plugins/personal/generic/generic.tpl.c:32
 msgid "Personal title"
 msgstr "Personlig titel"
 
 #: plugins/personal/generic/class_user.inc:1342
+#: plugins/personal/generic/generic.tpl.c:35
 msgid "Academic title"
 msgstr "Akademisk titel"
 
 #: plugins/personal/generic/class_user.inc:1345
+#: plugins/personal/generic/generic.tpl.c:41
 msgid "Sex"
 msgstr "Kön"
 
@@ -1357,6 +1426,7 @@ msgid "Preferred language"
 msgstr "Föredraget språk"
 
 #: plugins/personal/generic/class_user.inc:1349
+#: plugins/personal/generic/paste_generic.tpl.c:26
 msgid "User picture"
 msgstr "Användarbild"
 
@@ -1373,6 +1443,7 @@ msgid "Employee number"
 msgstr "Anställningsnummer"
 
 #: plugins/personal/generic/class_user.inc:1359
+#: plugins/personal/generic/generic.tpl.c:92
 msgid "Employee type"
 msgstr "Anställningstyp"
 
@@ -1434,14 +1505,21 @@ msgid "You need to specify your current password in order to proceed."
 msgstr "Du behöver ange ditt nuvarande lösenord för att fortsätta."
 
 #: plugins/personal/password/class_password.inc:251
-#: html/class_passwordRecovery.inc:404
+#: html/class_passwordRecovery.inc:406
 msgid ""
 "The passwords you've entered as 'New password' and 'Repeated new password' "
 "do not match."
 msgstr "Lösenorden som du skrivit in som 'Nytt lösenord' och 'Återupprepa nytt lösenord' matchar inte."
 
 #: plugins/personal/password/class_password.inc:253
-#: html/class_passwordRecovery.inc:406
+#: html/class_passwordRecovery.inc:408 plugins/admin/users/password.tpl.c:8
+#: plugins/admin/users/password.tpl.c:26
+#: plugins/personal/password/password.tpl.c:14
+#: plugins/personal/password/password.tpl.c:35
+#: ihtml/themes/default/recovery.tpl.c:41
+#: ihtml/themes/default/recovery.tpl.c:44
+#: ihtml/themes/default/password.tpl.c:44
+#: ihtml/themes/default/password.tpl.c:47
 msgid "New password"
 msgstr "Nytt lösenord"
 
@@ -1454,12 +1532,12 @@ msgid "The password used as new is to short."
 msgstr "Det nya lösenordet är för kort."
 
 #: plugins/personal/password/class_password.inc:259
-#: html/class_passwordRecovery.inc:410
+#: html/class_passwordRecovery.inc:412
 msgid "The password contains possibly problematic Unicode characters!"
 msgstr "Lösenordet innehåller möjligtvis problematiska Unicode-tecken!"
 
 #: plugins/personal/password/main.inc:52
-#: plugins/config/class_configInLdap.inc:119
+#: plugins/config/class_configInLdap.inc:119 setup/setup_config1.tpl.c:41
 msgid "Password settings"
 msgstr "Lösenordsinställningar"
 
@@ -1632,6 +1710,8 @@ msgid ""
 msgstr "Användaren kommer att varnas så här många dagar innan lösenordet löper ut (lämna tomt för att avaktivera)"
 
 #: plugins/personal/posix/class_posixAccount.inc:166
+#: plugins/admin/groups/generic.tpl.c:38
+#: plugins/admin/ogroups/generic.tpl.c:20
 msgid "Trust mode"
 msgstr "Trust-läge"
 
@@ -1647,46 +1727,46 @@ msgstr "Tillåt användaren att endast logga in på denna lista av hosts"
 msgid "Edit users POSIX settings"
 msgstr "Redigera användarens POSIX-inställningar"
 
-#: plugins/personal/posix/class_posixAccount.inc:263
+#: plugins/personal/posix/class_posixAccount.inc:266
 #: include/class_management.inc:40 include/class_management.inc:41
 msgid "unconfigured"
 msgstr "okonfigurerad"
 
-#: plugins/personal/posix/class_posixAccount.inc:275
+#: plugins/personal/posix/class_posixAccount.inc:278
 msgid "automatic"
 msgstr "automatisk"
 
-#: plugins/personal/posix/class_posixAccount.inc:293
+#: plugins/personal/posix/class_posixAccount.inc:296
 msgid "expired"
 msgstr "har utgått"
 
-#: plugins/personal/posix/class_posixAccount.inc:295
+#: plugins/personal/posix/class_posixAccount.inc:298
 msgid "grace time active"
 msgstr "grace-tid aktiv"
 
-#: plugins/personal/posix/class_posixAccount.inc:298
-#: plugins/personal/posix/class_posixAccount.inc:300
-#: plugins/personal/posix/class_posixAccount.inc:302
+#: plugins/personal/posix/class_posixAccount.inc:301
+#: plugins/personal/posix/class_posixAccount.inc:303
+#: plugins/personal/posix/class_posixAccount.inc:305
 msgid "active"
 msgstr "aktiv"
 
-#: plugins/personal/posix/class_posixAccount.inc:298
+#: plugins/personal/posix/class_posixAccount.inc:301
 msgid "password expired"
 msgstr "lösenord har slutat gälla"
 
-#: plugins/personal/posix/class_posixAccount.inc:300
+#: plugins/personal/posix/class_posixAccount.inc:303
 msgid "password not changeable"
 msgstr "lösenord kan inte ändras"
 
-#: plugins/personal/posix/class_posixAccount.inc:372
+#: plugins/personal/posix/class_posixAccount.inc:375
 msgid "UID"
 msgstr "UID"
 
-#: plugins/personal/posix/class_posixAccount.inc:430
+#: plugins/personal/posix/class_posixAccount.inc:433
 msgid "Timeout while waiting for lock. Ignoring lock!"
 msgstr "Timeout under väntan på låsning. Ignorerar lås!"
 
-#: plugins/personal/posix/class_posixAccount.inc:489
+#: plugins/personal/posix/class_posixAccount.inc:492
 #, php-format
 msgid "Group of user %s"
 msgstr ""
@@ -1751,7 +1831,7 @@ msgid ""
 "by the browser will be used. This setting can be overriden per user."
 msgstr "Applikationens språk. Om inställd på 'automatisk' eller inte tillgänglig, kommer den som efterfrågas av webbläsaren att användas. Detta kan också ställas in per användare. "
 
-#: plugins/config/class_configInLdap.inc:88
+#: plugins/config/class_configInLdap.inc:88 setup/setup_config1.tpl.c:5
 msgid "Theme"
 msgstr "Tema"
 
@@ -1759,7 +1839,7 @@ msgstr "Tema"
 msgid "Theme to be used"
 msgstr "Tema som ska användas"
 
-#: plugins/config/class_configInLdap.inc:94
+#: plugins/config/class_configInLdap.inc:94 setup/setup_config2.tpl.c:2
 msgid "Timezone"
 msgstr "Tidszon"
 
@@ -1805,7 +1885,8 @@ msgstr "Tvinga standard hash"
 msgid "Force the use of the default password hash"
 msgstr "Tvinga användandet av den lösenords-hash som är standard"
 
-#: plugins/config/class_configInLdap.inc:131
+#: plugins/config/class_configInLdap.inc:131 setup/setup_config1.tpl.c:50
+#: setup/setup_config1.tpl.c:53
 msgid "Password minimum length"
 msgstr "Lösenordets minsta längd"
 
@@ -1829,7 +1910,7 @@ msgstr "Lösenords-hook"
 msgid "External script to handle password settings"
 msgstr "Externt script för att hantera lösenordsinställning"
 
-#: plugins/config/class_configInLdap.inc:145
+#: plugins/config/class_configInLdap.inc:145 setup/setup_config1.tpl.c:65
 msgid "Use account expiration"
 msgstr "Använd datum för kontots upphörande"
 
@@ -1855,7 +1936,7 @@ msgstr "Attribut att lagra i userPassword-attributet"
 msgid "Core settings"
 msgstr "Bas-inställningar"
 
-#: plugins/config/class_configInLdap.inc:163
+#: plugins/config/class_configInLdap.inc:163 setup/setup_config3.tpl.c:5
 msgid "Enable primary group filter"
 msgstr "Aktivera primärgruppsfilter"
 
@@ -1865,7 +1946,7 @@ msgid ""
 " so you may want to disable it if your group plugin is slow."
 msgstr "Det är tidskrävande att utvärdera vilka grupper som är primära och vilka som inte är det, så du kan vilja avaktivera det om din grupp-plugin är långsam."
 
-#: plugins/config/class_configInLdap.inc:169
+#: plugins/config/class_configInLdap.inc:169 setup/setup_config3.tpl.c:8
 msgid "Display summary in listings"
 msgstr "Visa sammanfattning i listningar"
 
@@ -1885,7 +1966,7 @@ msgid ""
 "FusionDirectory in the meantime."
 msgstr "Kontrollera om en post som just blir redigerad har blivit modifierad utanför FusionDirectory under tiden."
 
-#: plugins/config/class_configInLdap.inc:181
+#: plugins/config/class_configInLdap.inc:181 setup/setup_config3.tpl.c:14
 msgid "Enable Copy & Paste"
 msgstr "Aktivera Kopiera & Klistra in"
 
@@ -1909,11 +1990,11 @@ msgstr "LDAP storleksgräns"
 msgid "Defines the number of entries to get from LDAP by default."
 msgstr "Definierar antalet poster att få från LDAP som standard."
 
-#: plugins/config/class_configInLdap.inc:199
+#: plugins/config/class_configInLdap.inc:199 setup/setup_config3.tpl.c:20
 msgid "Login and session"
 msgstr "Inloggning och session"
 
-#: plugins/config/class_configInLdap.inc:202
+#: plugins/config/class_configInLdap.inc:202 setup/setup_config3.tpl.c:23
 msgid "Login attribute"
 msgstr "Inloggningsattribut"
 
@@ -1921,7 +2002,7 @@ msgstr "Inloggningsattribut"
 msgid "Which LDAP attribute should be used as the login name during login."
 msgstr "Vilket LDAP-attribut ska användas som inloggningnamn under inloggning."
 
-#: plugins/config/class_configInLdap.inc:209
+#: plugins/config/class_configInLdap.inc:209 setup/setup_config3.tpl.c:29
 msgid "Enforce encrypted connections"
 msgstr "Tvinga krypterade anslutningar"
 
@@ -1931,7 +2012,7 @@ msgid ""
 "interface."
 msgstr "Aktiverar PHPs säkerhetskontroller för att tvinga krypterad access (https) till webbgränssnittet."
 
-#: plugins/config/class_configInLdap.inc:214
+#: plugins/config/class_configInLdap.inc:214 setup/setup_config3.tpl.c:32
 msgid "Warn if session is not encrypted"
 msgstr "Varna om session inte är krypterad"
 
@@ -1939,7 +2020,7 @@ msgstr "Varna om session inte är krypterad"
 msgid "will display a warning to the user when http is used instead of https."
 msgstr "visar en varning till användaren när http används istället för https."
 
-#: plugins/config/class_configInLdap.inc:220
+#: plugins/config/class_configInLdap.inc:220 setup/setup_config3.tpl.c:35
 msgid "Session lifetime"
 msgstr "Sessioners livslängd"
 
@@ -1947,11 +2028,11 @@ msgstr "Sessioners livslängd"
 msgid "Defines when a session will expire in seconds."
 msgstr "Definierar när en session löper ut, i sekunder."
 
-#: plugins/config/class_configInLdap.inc:227
+#: plugins/config/class_configInLdap.inc:227 setup/setup_config2.tpl.c:8
 msgid "Snapshots"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:230
+#: plugins/config/class_configInLdap.inc:230 setup/setup_config2.tpl.c:11
 msgid "Enable snapshots"
 msgstr "Aktivera ögonblicksbilder"
 
@@ -1961,7 +2042,7 @@ msgid ""
 "on."
 msgstr "Detta aktiverar möjligheten att spara vissa posters tillstånd och återskapa dem senare."
 
-#: plugins/config/class_configInLdap.inc:234
+#: plugins/config/class_configInLdap.inc:234 setup/setup_config2.tpl.c:14
 msgid "Snapshot base"
 msgstr "Bas för ögonblicksbilder"
 
@@ -2033,11 +2114,11 @@ msgid ""
 " single object."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:294
+#: plugins/config/class_configInLdap.inc:294 setup/setup_config1.tpl.c:8
 msgid "People and group storage"
 msgstr "Lagring för personer och grupper"
 
-#: plugins/config/class_configInLdap.inc:298
+#: plugins/config/class_configInLdap.inc:298 setup/setup_config1.tpl.c:11
 msgid "People DN attribute"
 msgstr "Personer DN-attribut"
 
@@ -2046,11 +2127,11 @@ msgid "Attribute to use at the beginning of users dn"
 msgstr "Attribut att använda i början av användares dn"
 
 #: plugins/config/class_configInLdap.inc:303
-#: plugins/config/class_configInLdap.inc:304
+#: plugins/config/class_configInLdap.inc:304 setup/setup_config1.tpl.c:26
 msgid "Include personal title in user DN"
 msgstr "Inkludera titel i användar-DN"
 
-#: plugins/config/class_configInLdap.inc:308
+#: plugins/config/class_configInLdap.inc:308 setup/setup_config1.tpl.c:14
 msgid "Customized CN"
 msgstr "Anpassat CN"
 
@@ -2058,7 +2139,7 @@ msgstr "Anpassat CN"
 msgid "Use a placeholder pattern for generating account cns"
 msgstr "Använd ett platshållarmönster för att generera konto-cn"
 
-#: plugins/config/class_configInLdap.inc:312
+#: plugins/config/class_configInLdap.inc:312 setup/setup_config1.tpl.c:32
 msgid "Automatic logins"
 msgstr ""
 
@@ -2075,7 +2156,7 @@ msgid "Enables strict checking of user and group names"
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:322
-#: setup/class_setupStep_Config1.inc:126
+#: setup/class_setupStep_Config1.inc:126 setup/setup_config1.tpl.c:35
 msgid "Group/user min id"
 msgstr ""
 
@@ -2183,7 +2264,7 @@ msgstr ""
 msgid "Maximum value for group id when using pool method"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:387
+#: plugins/config/class_configInLdap.inc:387 setup/setup_config3.tpl.c:38
 msgid "Debugging"
 msgstr "Debugging"
 
@@ -2197,7 +2278,7 @@ msgid ""
 " productive deployments, because there might be some passwords in it."
 msgstr "Visa PHP-fel i övre delen av skärmen. Detta bör avaktiveras i produktionsmiljöer, för det kan vara lösenord i felkoden."
 
-#: plugins/config/class_configInLdap.inc:395
+#: plugins/config/class_configInLdap.inc:395 setup/setup_config3.tpl.c:44
 msgid "Maximum LDAP query time"
 msgstr "Maximal tid för LDAP-frågor"
 
@@ -2207,7 +2288,7 @@ msgid ""
 "seconds."
 msgstr "Stoppa LDAP-förfrågningar om det inte kommer något svar inom den specificerade mängden sekunder."
 
-#: plugins/config/class_configInLdap.inc:400
+#: plugins/config/class_configInLdap.inc:400 setup/setup_config3.tpl.c:47
 msgid "Log LDAP statistics"
 msgstr "Logga LDAP-statistik"
 
@@ -2217,7 +2298,7 @@ msgid ""
 "problems or bad search filters."
 msgstr "Spåra LDAP-timingstatistik till syslog. Detta kan hjälpa till att hitta indexeringsproblem eller dåliga sökfilter."
 
-#: plugins/config/class_configInLdap.inc:406
+#: plugins/config/class_configInLdap.inc:406 setup/setup_config3.tpl.c:50
 msgid "Debug level"
 msgstr "Debug-nivå"
 
@@ -2247,17 +2328,20 @@ msgstr "Upp"
 msgid "Down"
 msgstr "Ner"
 
-#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2456
-#: include/simpleplugin/class_attribute.inc:2457
+#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2476
+#: include/simpleplugin/class_attribute.inc:2477
 msgid "Sort up"
 msgstr ""
 
-#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2469
-#: include/simpleplugin/class_attribute.inc:2470
+#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2489
+#: include/simpleplugin/class_attribute.inc:2490
 msgid "Sort down"
 msgstr ""
 
-#: include/class_listing.inc:367
+#: include/class_listing.inc:367 setup/setup_migrate.tpl.c:35
+#: setup/setup_migrate.tpl.c:62 setup/setup_migrate.tpl.c:146
+#: setup/setup_migrate.tpl.c:173 setup/setup_migrate.tpl.c:200
+#: setup/setup_migrate.tpl.c:230 setup/setup_migrate.tpl.c:260
 msgid "Select all"
 msgstr "Välj alla"
 
@@ -2498,11 +2582,12 @@ msgstr "Välj att lista objekt som innehåller '%s'."
 msgid "Select to list objects that have '%s' enabled"
 msgstr "Välj att lista objekt som har '%s' aktiverat"
 
-#: include/class_msgPool.inc:49
+#: include/class_msgPool.inc:49 plugins/admin/ogroups/ogroup_objects.tpl.c:8
 msgid "Select to search within subtrees"
 msgstr "Välj för att söka i subträd"
 
 #: include/class_msgPool.inc:51 include/class_filter.inc:392
+#: plugins/admin/ogroups/ogroup_objects.tpl.c:11
 msgid "Search in subtrees"
 msgstr "Sök i subträd"
 
@@ -2738,7 +2823,18 @@ msgstr "'%s' är inte tillåtna!"
 msgid "Missing %s PHP extension!"
 msgstr "Saknar PHP-tillägget %s !"
 
-#: include/class_msgPool.inc:469
+#: include/class_msgPool.inc:469 ihtml/themes/default/islocked.tpl.c:14
+#: ihtml/themes/default/remove.tpl.c:11 ihtml/themes/default/acl.tpl.c:53
+#: ihtml/themes/default/acl.tpl.c:59
+#: ihtml/themes/default/copyPasteDialog.tpl.c:17
+#: ihtml/themes/default/snapshotdialog.tpl.c:23
+#: ihtml/themes/default/snapshotdialog.tpl.c:47
+#: ihtml/themes/default/msg_dialog.tpl.c:17 setup/setup_ldap.tpl.c:11
+#: setup/setup_migrate.tpl.c:47 setup/setup_migrate.tpl.c:74
+#: setup/setup_migrate.tpl.c:101 setup/setup_migrate.tpl.c:131
+#: setup/setup_migrate.tpl.c:158 setup/setup_migrate.tpl.c:185
+#: setup/setup_migrate.tpl.c:215 setup/setup_migrate.tpl.c:245
+#: setup/setup_migrate.tpl.c:275
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -2752,18 +2848,27 @@ msgstr "Avbryt"
 #: setup/class_setupStep_Migrate.inc:2269
 #: setup/class_setupStep_Migrate.inc:2412
 #: setup/class_setupStep_Migrate.inc:2667
+#: ihtml/themes/default/msg_dialog.tpl.c:14 setup/setup_checks.tpl.c:5
+#: setup/setup_checks.tpl.c:26
 msgid "Ok"
 msgstr "Ok"
 
-#: include/class_msgPool.inc:485
+#: include/class_msgPool.inc:485 ihtml/themes/default/acl.tpl.c:50
+#: ihtml/themes/default/acl.tpl.c:56 setup/setup_ldap.tpl.c:8
+#: setup/setup_migrate.tpl.c:44 setup/setup_migrate.tpl.c:71
+#: setup/setup_migrate.tpl.c:98 setup/setup_migrate.tpl.c:128
+#: setup/setup_migrate.tpl.c:155 setup/setup_migrate.tpl.c:182
+#: setup/setup_migrate.tpl.c:212 setup/setup_migrate.tpl.c:242
+#: setup/setup_migrate.tpl.c:272
 msgid "Apply"
 msgstr ""
 
-#: include/class_msgPool.inc:493
+#: include/class_msgPool.inc:493 ihtml/themes/default/copyPasteDialog.tpl.c:14
 msgid "Save"
 msgstr "Spara"
 
 #: include/class_msgPool.inc:503 setup/class_setupStep_Migrate.inc:2521
+#: plugins/personal/generic/generic.tpl.c:74
 #, php-format
 msgid "Add"
 msgstr "Lägg till"
@@ -3061,7 +3166,7 @@ msgid ""
 msgstr "Allvarligt fel: kan inte instansiera klassen '%s' - försök köra '%s' för att åtgärda detta"
 
 #: include/functions.inc:508 include/functions.inc:3735
-#: include/class_xml.inc:61 html/class_passwordRecovery.inc:227
+#: include/class_xml.inc:61 html/class_passwordRecovery.inc:229
 msgid "Fatal error"
 msgstr "Allvarligt fel"
 
@@ -3114,7 +3219,7 @@ msgid ""
 "exceeds"
 msgstr "Sätt ny storleksgräns till %s och visa mig meddelandet om gränsen fortfarande överskrids"
 
-#: include/functions.inc:1235
+#: include/functions.inc:1235 plugins/personal/generic/generic.tpl.c:65
 msgid "Configure"
 msgstr "Konfigurera"
 
@@ -3367,7 +3472,7 @@ msgstr "statisk"
 msgid "method"
 msgstr "metod"
 
-#: include/php_setup.inc:101
+#: include/php_setup.inc:101 ihtml/themes/default/msg_dialog.tpl.c:11
 msgid "Trace"
 msgstr "Spårning"
 
@@ -3451,12 +3556,13 @@ msgid ""
 " be done by others get lost if you save this entry!"
 msgstr "Objektet har ändrats sedan det öppnades i FusionDirectory. Alla ändringar som eventuellt gjorts av andra går förlorade om du sparar denna post!"
 
-#: include/class_plugin.inc:1322
+#: include/class_plugin.inc:1324
 #, php-format
 msgid "Tab \"%s\""
 msgstr ""
 
 #: include/class_CopyPasteHandler.inc:277
+#: ihtml/themes/default/copyPasteDialog.tpl.c:20
 msgid "Cancel all"
 msgstr "Avbryt allt"
 
@@ -3494,8 +3600,8 @@ msgid "Group of user"
 msgstr "Användarens grupp"
 
 #: include/simpleplugin/class_dialogAttributes.inc:585
-#: include/simpleplugin/class_attribute.inc:946
-#: include/simpleplugin/class_attribute.inc:980
+#: include/simpleplugin/class_attribute.inc:963
+#: include/simpleplugin/class_attribute.inc:997
 msgid "None"
 msgstr "Ingen"
 
@@ -3536,84 +3642,84 @@ msgid "days"
 msgstr ""
 
 #: include/simpleplugin/class_attribute.inc:472
-#: include/simpleplugin/class_attribute.inc:2007
+#: include/simpleplugin/class_attribute.inc:2027
 #, php-format
 msgid "%s (required)"
 msgstr "%s (krävs)"
 
-#: include/simpleplugin/class_attribute.inc:1133
+#: include/simpleplugin/class_attribute.inc:1150
 #, php-format
 msgid "An integer between %d and %d"
 msgstr "En siffra mellan %d och %d"
 
-#: include/simpleplugin/class_attribute.inc:1135
+#: include/simpleplugin/class_attribute.inc:1152
 #, php-format
 msgid "An integer larger than %d"
 msgstr "En siffra större än %d"
 
-#: include/simpleplugin/class_attribute.inc:1137
+#: include/simpleplugin/class_attribute.inc:1154
 #, php-format
 msgid "An integer smaller than %d"
 msgstr "En siffra mindre än %d"
 
-#: include/simpleplugin/class_attribute.inc:1235
+#: include/simpleplugin/class_attribute.inc:1252
 #, php-format
 msgid "A float between %f and %f"
 msgstr "Ett flyttal mellan %f och %f"
 
-#: include/simpleplugin/class_attribute.inc:1237
+#: include/simpleplugin/class_attribute.inc:1254
 #, php-format
 msgid "A float larger than %f"
 msgstr "Ett flyttal större än %f"
 
-#: include/simpleplugin/class_attribute.inc:1239
+#: include/simpleplugin/class_attribute.inc:1256
 #, php-format
 msgid "A float smaller than %f"
 msgstr "Ett flyttal mindre än %f"
 
-#: include/simpleplugin/class_attribute.inc:1346
+#: include/simpleplugin/class_attribute.inc:1363
 msgid "Error, incorrect date: "
 msgstr "Fel, inkorrekt datum:"
 
-#: include/simpleplugin/class_attribute.inc:1385
-#: include/simpleplugin/class_attribute.inc:1388
-#: include/simpleplugin/class_attribute.inc:1391
+#: include/simpleplugin/class_attribute.inc:1403
+#: include/simpleplugin/class_attribute.inc:1406
+#: include/simpleplugin/class_attribute.inc:1409
 #, php-format
 msgid "Cannot read uploaded file: %s"
 msgstr "Kan inte läsa uppladdad fil: %s"
 
-#: include/simpleplugin/class_attribute.inc:1385
+#: include/simpleplugin/class_attribute.inc:1403
 msgid "file is empty"
 msgstr "filen är tom"
 
-#: include/simpleplugin/class_attribute.inc:1388
+#: include/simpleplugin/class_attribute.inc:1406
 msgid "file not found"
 msgstr "filen kunde inte hittas"
 
-#: include/simpleplugin/class_attribute.inc:1391
+#: include/simpleplugin/class_attribute.inc:1409
 msgid "file not readable"
 msgstr "filen är inte läsbar"
 
-#: include/simpleplugin/class_attribute.inc:1424
+#: include/simpleplugin/class_attribute.inc:1442
 #, php-format
 msgid "%s (%d bytes)"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1470
-#: include/simpleplugin/class_attribute.inc:1646
+#: include/simpleplugin/class_attribute.inc:1489
+#: include/simpleplugin/class_attribute.inc:1666
 msgid "Upload"
 msgstr "Ladda upp"
 
-#: include/simpleplugin/class_attribute.inc:1475
-#: include/simpleplugin/class_attribute.inc:1476
+#: include/simpleplugin/class_attribute.inc:1494
+#: include/simpleplugin/class_attribute.inc:1495
 msgid "Download"
 msgstr "Ladda ner"
 
-#: include/simpleplugin/class_attribute.inc:1682
+#: include/simpleplugin/class_attribute.inc:1702
 msgid "Object base"
 msgstr "Objekt-bas"
 
-#: include/simpleplugin/class_attribute.inc:2570
+#: include/simpleplugin/class_attribute.inc:2590
 #, php-format
 msgid "Invalid value for %s"
 msgstr "Ogiltigt värde för %s"
@@ -3720,7 +3826,7 @@ msgstr "FusionDirectory-konfiguration %s/%s är inte läsbar. Vänligen kör fus
 msgid "Smarty error"
 msgstr "Smarty-fel"
 
-#: html/index.php:156 html/class_passwordRecovery.inc:300 html/setup.php:62
+#: html/index.php:156 html/class_passwordRecovery.inc:302 html/setup.php:62
 #, php-format
 msgid "Directory '%s' specified as compile directory is not accessible!"
 msgstr "Katalogen '%s' specificerat som kompileringskatalog är inte tillgänglig!"
@@ -3823,60 +3929,60 @@ msgstr "Allvarligt fel: inte alla POST-variabler överfördes av PHP - informera
 msgid "Error: Password method not available!"
 msgstr "Fel: Lösenordsmetod inte tillgänglig!"
 
-#: html/class_passwordRecovery.inc:228
+#: html/class_passwordRecovery.inc:230
 #, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
 msgstr "FusionDirectory-konfiguration %s/%s är inte läsbar. Avbryter."
 
-#: html/class_passwordRecovery.inc:408
+#: html/class_passwordRecovery.inc:410
 msgid "The password used as new is too short."
 msgstr "Det nya lösenordet är för kort."
 
-#: html/class_passwordRecovery.inc:435
+#: html/class_passwordRecovery.inc:437
 msgid "Session will not be encrypted."
 msgstr "Sessionen kommer inte att vara krypterad."
 
-#: html/class_passwordRecovery.inc:437
+#: html/class_passwordRecovery.inc:439
 msgid "Enter SSL session"
 msgstr "Påbörja SSL-session"
 
-#: html/class_passwordRecovery.inc:478
+#: html/class_passwordRecovery.inc:480
 #, php-format
 msgid "Did not found an account with login \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:481
+#: html/class_passwordRecovery.inc:483
 #, php-format
 msgid "Found multiple accounts with login \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:495
+#: html/class_passwordRecovery.inc:497 ihtml/themes/default/recovery.tpl.c:83
 msgid "Email address"
 msgstr "Epostadress"
 
-#: html/class_passwordRecovery.inc:512
+#: html/class_passwordRecovery.inc:514
 #, php-format
 msgid "There is no account using email %s"
 msgstr "Det finns inget konto som använder epostadressen %s"
 
-#: html/class_passwordRecovery.inc:515
+#: html/class_passwordRecovery.inc:517
 #, php-format
 msgid "There are several accounts using email %s"
 msgstr "Det är flera konton som använder epostadressen %s"
 
-#: html/class_passwordRecovery.inc:563
+#: html/class_passwordRecovery.inc:565
 msgid "Contact your administrator, there was a problem with mail server"
 msgstr "Kontakta din administratör, det uppstod ett problem med epostservern"
 
-#: html/class_passwordRecovery.inc:574
+#: html/class_passwordRecovery.inc:576
 msgid "This token is invalid"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:612
+#: html/class_passwordRecovery.inc:614
 msgid "External password changer reported a problem: "
 msgstr "Den externa lösenordsändringen rapporterade ett problem:"
 
-#: html/class_passwordRecovery.inc:637
+#: html/class_passwordRecovery.inc:638
 msgid "There was a problem with mail server, confirmation email not sent"
 msgstr "Det uppstod ett problem med epostservern, bekräftelsebrevet skickades inte"
 
@@ -3953,6 +4059,7 @@ msgid "Maximum LDAP query time must be a numeric value!"
 msgstr "Maximal tid för LDAP-frågor måste vara ett numeriskt värde!"
 
 #: setup/class_setupStep_Finish.inc:36
+#: ihtml/themes/default/copyPasteDialog.tpl.c:26
 msgid "Finish"
 msgstr "Slutför"
 
@@ -4139,7 +4246,7 @@ msgstr "Hittade %s användare som inte kommer att vara synlig(a) i FusionDirecto
 #: setup/class_setupStep_Migrate.inc:1988
 #: setup/class_setupStep_Migrate.inc:2266
 #: setup/class_setupStep_Migrate.inc:2409
-#: setup/class_setupStep_Migrate.inc:2664
+#: setup/class_setupStep_Migrate.inc:2664 setup/setup_migrate.tpl.c:17
 msgid "Migrate"
 msgstr "Migrera"
 
@@ -4588,7 +4695,7 @@ msgstr "FusionDirectory läser sin konfiguration från en fil placerad i (%s/%s)
 msgid "Completed"
 msgstr "Slutförd"
 
-#: setup/class_setup.inc:243
+#: setup/class_setup.inc:243 setup/setup_migrate.tpl.c:104
 msgid "Next"
 msgstr "Nästa"
 
@@ -4599,3 +4706,1309 @@ msgstr "LDAP-schemakontroll"
 #: setup/class_setupStep_Schema.inc:45
 msgid "Perform test on your current LDAP schema"
 msgstr "Utför test på ditt nuvarande LDAP-schema"
+
+#: plugins/generic/welcome/welcome.tpl.c:2
+msgid "The FusionDirectory team"
+msgstr "FusionDirectory-teamet"
+
+#: plugins/generic/references/contents.tpl.c:2
+msgid "<strong>%1</strong> references our <strong>%3</strong>"
+msgstr ""
+
+#: plugins/generic/references/contents.tpl.c:5
+msgid ""
+"<strong>%1</strong> references our field <strong>%3</strong> from tab "
+"<strong>%2</strong>"
+msgstr ""
+
+#: plugins/generic/references/contents.tpl.c:8
+msgid "This object has no relationship to other objects."
+msgstr "Detta objekt har ingen relation till andra objekt"
+
+#: plugins/admin/groups/trust_machines.tpl.c:2
+#: plugins/admin/ogroups/trust_machines.tpl.c:2
+msgid "Select systems to add"
+msgstr "Välj vilka system du vill lägga till"
+
+#: plugins/admin/groups/trust_machines.tpl.c:5
+#: plugins/admin/ogroups/trust_machines.tpl.c:5
+#: plugins/admin/ogroups/ogroup_objects.tpl.c:5
+msgid "Filters"
+msgstr "Filter"
+
+#: plugins/admin/groups/trust_machines.tpl.c:8
+#: plugins/admin/ogroups/trust_machines.tpl.c:8
+msgid "Display systems of department"
+msgstr "Visa system på avdelningen"
+
+#: plugins/admin/groups/trust_machines.tpl.c:11
+#: plugins/admin/ogroups/trust_machines.tpl.c:11
+#: plugins/admin/ogroups/ogroup_objects.tpl.c:17
+msgid "Choose the department the search will be based on"
+msgstr "Välj vilken avdelning sökningen ska baseras på"
+
+#: plugins/admin/groups/trust_machines.tpl.c:14
+#: plugins/admin/ogroups/trust_machines.tpl.c:14
+msgid "Display systems matching"
+msgstr "Visa matchande system"
+
+#: plugins/admin/groups/trust_machines.tpl.c:17
+#: plugins/admin/ogroups/trust_machines.tpl.c:17
+msgid "Regular expression for matching addresses"
+msgstr "Reguljärt uttryck för att matcha adresser"
+
+#: plugins/admin/groups/generic.tpl.c:2
+#: plugins/admin/groups/paste_generic.tpl.c:5
+#: plugins/admin/ogroups/generic.tpl.c:2
+#: plugins/admin/ogroups/paste_generic.tpl.c:2
+msgid "Group name"
+msgstr "Grupp-namn"
+
+#: plugins/admin/groups/generic.tpl.c:5
+#: plugins/admin/groups/paste_generic.tpl.c:8
+msgid "Posix name of the group"
+msgstr "Posix-namn för gruppen"
+
+#: plugins/admin/groups/generic.tpl.c:11
+#: plugins/admin/ogroups/generic.tpl.c:11
+msgid "Descriptive text for this group"
+msgstr "Beskrivande text för den här gruppen"
+
+#: plugins/admin/groups/generic.tpl.c:17
+#: plugins/admin/groups/paste_generic.tpl.c:11
+msgid "Normally IDs are autogenerated, select to specify manually"
+msgstr "Normalt autogenereras IDn, välj för att specificera manuellt"
+
+#: plugins/admin/groups/generic.tpl.c:20
+#: plugins/admin/groups/paste_generic.tpl.c:14
+msgid "Force GID"
+msgstr "Tvinga GID"
+
+#: plugins/admin/groups/generic.tpl.c:23
+#: plugins/admin/groups/paste_generic.tpl.c:17
+msgid "Forced ID number"
+msgstr "Tvinga ID-nummer"
+
+#: plugins/admin/groups/generic.tpl.c:26
+msgid "Select to create a samba conform group"
+msgstr "Välj för att skapa en samba-conform-grupp"
+
+#: plugins/admin/groups/generic.tpl.c:29
+msgid "in domain"
+msgstr "i domän"
+
+#: plugins/admin/groups/generic.tpl.c:32
+msgid "Members are in a phone pickup group"
+msgstr "Medlemmar är i en telefon-pickup-grupp"
+
+#: plugins/admin/groups/generic.tpl.c:35
+msgid "Members are in a nagios group"
+msgstr "Medlemmar är i en nagios-grupp"
+
+#: plugins/admin/groups/generic.tpl.c:41
+msgid "Group members"
+msgstr "Gruppmedlemmar"
+
+#: plugins/admin/groups/paste_generic.tpl.c:2
+msgid "Group settings"
+msgstr "Grupp-inställningar"
+
+#: plugins/admin/ogroups/ogroup_objects.tpl.c:2
+msgid "Select objects to add"
+msgstr "Välj objekt att lägga till"
+
+#: plugins/admin/ogroups/ogroup_objects.tpl.c:14
+msgid "Display objects of department"
+msgstr "Visa objekt på avdelningen"
+
+#: plugins/admin/ogroups/ogroup_objects.tpl.c:20
+msgid "Display objects matching"
+msgstr "Visa objekt som matchar"
+
+#: plugins/admin/ogroups/ogroup_objects.tpl.c:23
+msgid "Regular expression for matching object names"
+msgstr "Reguljärt uttryck för matchande objektnamn"
+
+#: plugins/admin/ogroups/generic.tpl.c:5
+msgid "Name of the group"
+msgstr "Namn  på gruppen"
+
+#: plugins/admin/ogroups/generic.tpl.c:23
+msgid "Member objects"
+msgstr "Medlemsobjekt"
+
+#: plugins/admin/ogroups/remove.tpl.c:5
+#: ihtml/themes/default/simple-remove.tpl.c:5
+msgid ""
+"Please double check if you really want to do this since there is no way for "
+"FusionDirectory to get your data back."
+msgstr "Dubbelkolla att du verkligen vill göra detta eftersom det inte finns något sätt för FusionDirectory att få tillbaka din information."
+
+#: plugins/admin/ogroups/remove.tpl.c:8 plugins/admin/users/remove.tpl.c:8
+#: ihtml/themes/default/remove.tpl.c:8
+#: ihtml/themes/default/simple-remove.tpl.c:8
+msgid "So - if you're sure - press 'Delete' to continue or 'Cancel' to abort."
+msgstr "Så - om du är säker - tryck 'Ta bort' för att fortsätta och 'Avbryt' för att avbryta."
+
+#: plugins/admin/ogroups/ogroup-filter.tpl.c:2
+#: plugins/admin/users/user-filter.tpl.c:2
+#: plugins/personal/posix/trustSelect/trust-filter.tpl.c:2
+#: ihtml/themes/default/simple-filter.tpl.c:2
+#: include/select/systemSelect/systemSelect-filter.tpl.c:2
+#: include/select/groupSelect/group-filter.tpl.c:2
+msgid "Filter"
+msgstr "Filter"
+
+#: plugins/admin/ogroups/ogroup-filter.tpl.c:5
+msgid "user groups"
+msgstr "användargrupper"
+
+#: plugins/admin/ogroups/ogroup-filter.tpl.c:8
+msgid "nested groups"
+msgstr "nästade grupper"
+
+#: plugins/admin/ogroups/ogroup-filter.tpl.c:11
+msgid "application groups"
+msgstr "applikationsgrupper"
+
+#: plugins/admin/ogroups/ogroup-filter.tpl.c:14
+msgid "department groups"
+msgstr "avdelningsgrupper"
+
+#: plugins/admin/ogroups/ogroup-filter.tpl.c:17
+msgid "server groups"
+msgstr "servergrupper"
+
+#: plugins/admin/ogroups/ogroup-filter.tpl.c:20
+msgid "workstation groups"
+msgstr "arbetsstationsgrupper"
+
+#: plugins/admin/ogroups/ogroup-filter.tpl.c:23
+msgid "windows workstation groups"
+msgstr "windowsarbetsstationsgrupper"
+
+#: plugins/admin/ogroups/ogroup-filter.tpl.c:26
+msgid "terminal groups"
+msgstr "terminalgrupper"
+
+#: plugins/admin/ogroups/ogroup-filter.tpl.c:29
+msgid "printer groups"
+msgstr "printergrupper"
+
+#: plugins/admin/ogroups/ogroup-filter.tpl.c:32
+msgid "phone groups"
+msgstr "telefongrupper"
+
+#: plugins/admin/ogroups/paste_generic.tpl.c:5
+msgid "Please enter the new object group name"
+msgstr "Skriv in det nya objektgruppsnamnet"
+
+#: plugins/admin/users/template.tpl.c:2
+msgid "Creating a new user using templates"
+msgstr "Skapa ny användare genom mallar"
+
+#: plugins/admin/users/template.tpl.c:5
+msgid ""
+"Creating a new user can be assisted by using templates. Many database "
+"records will be filled automatically. Choose 'none' to skip the usage of "
+"templates."
+msgstr "Att skapa en ny användare kan underlättas genom att använda mallar. Många databas-poster kommer att fyllas i automatiskt. Välj 'ingen' för att hoppa över användandet av mallar."
+
+#: plugins/admin/users/template.tpl.c:20
+#: ihtml/themes/default/snapshotdialog.tpl.c:44
+msgid "Continue"
+msgstr "Fortsätt"
+
+#: plugins/admin/users/templatize.tpl.c:2
+msgid "Applying a template"
+msgstr "Tillämpa en mall"
+
+#: plugins/admin/users/templatize.tpl.c:5
+msgid ""
+"Applying a template to several users will replace all user attributes "
+"defined in the template."
+msgstr "Att tillämpa en mall på flera användare kommer att ersätta alla användarattribut som definierats i mallen."
+
+#: plugins/admin/users/templatize.tpl.c:11
+msgid "No templates available!"
+msgstr "Inga mallar tillgängliga!"
+
+#: plugins/admin/users/password.tpl.c:2
+msgid ""
+"To change the user password use the fields below. The changes take effect "
+"immediately. Please memorize the new password, because the user wouldn't be "
+"able to login without it."
+msgstr "För att byta användarlösenord använd fälten nedan. Ändringarna sker omedelbart. Vänligen memorera det nya lösenordet, för användaren kan inte logga in utan det."
+
+#: plugins/admin/users/password.tpl.c:5
+#: plugins/personal/password/password.tpl.c:5
+msgid ""
+"Changing the password affects your authentification on mail, proxy, samba "
+"and unix services."
+msgstr "Byte av lösenordet påverkar din autentisering på epost-, proxy-, samba- och unix-tjänster."
+
+#: plugins/admin/users/password.tpl.c:11 plugins/admin/users/password.tpl.c:29
+#: plugins/personal/password/password.tpl.c:17
+#: plugins/personal/password/password.tpl.c:38
+msgid "Repeat new password"
+msgstr "Upprepa det nya lösenordet"
+
+#: plugins/admin/users/password.tpl.c:14 plugins/admin/users/password.tpl.c:32
+#: plugins/personal/password/password.tpl.c:20
+#: plugins/personal/password/password.tpl.c:41
+#: ihtml/themes/default/recovery.tpl.c:53
+#: ihtml/themes/default/password.tpl.c:56
+msgid "Password strength"
+msgstr "Lösenordsstyrka"
+
+#: plugins/admin/users/password.tpl.c:17
+#: plugins/personal/password/password.tpl.c:26
+msgid "Use proposal"
+msgstr "Använd förslag"
+
+#: plugins/admin/users/password.tpl.c:20
+#: plugins/personal/password/password.tpl.c:29 setup/setup_migrate.tpl.c:206
+#: setup/setup_migrate.tpl.c:236 setup/setup_migrate.tpl.c:266
+msgid "Refresh"
+msgstr "Uppdatera"
+
+#: plugins/admin/users/password.tpl.c:23
+#: plugins/personal/password/password.tpl.c:32
+msgid "Manually specify a password"
+msgstr "Manuellt ange lösenord"
+
+#: plugins/admin/users/password.tpl.c:35
+msgid "Enforce password change on next login."
+msgstr "Tvinga lösenordsbyte vid nästa login"
+
+#: plugins/admin/users/password.tpl.c:38
+#: plugins/personal/password/password.tpl.c:44
+msgid "Set password"
+msgstr "Ställ in lösenord"
+
+#: plugins/admin/users/remove.tpl.c:5
+msgid ""
+"This includes all account data, system access rules, imap settings, etc. for"
+" this user. Please double check if your really want to do this since there "
+"is no way for FusionDirectory to get your data back."
+msgstr "Detta inkluderar alla kontodata, systemrättighetsregler, imapinställningar, etc. för den här användaren. Vänligen dubbelkolla att du verkligen vill göra detta eftersom det inte finns något sätt för FusionDirectory att få tillbaka informationen."
+
+#: plugins/admin/users/user-filter.tpl.c:5
+msgid "Show templates"
+msgstr "Visa mallar"
+
+#: plugins/admin/users/user-filter.tpl.c:8
+msgid "Show functional users"
+msgstr "Visa fungerande användare"
+
+#: plugins/admin/users/user-filter.tpl.c:11
+msgid "Show POSIX users"
+msgstr "Visa POSIX-användare"
+
+#: plugins/admin/users/user-filter.tpl.c:14
+msgid "Show Mail users"
+msgstr "Visa Epost-användare"
+
+#: plugins/admin/users/user-filter.tpl.c:17
+msgid "Show Samba users"
+msgstr "Visa Samba-användare"
+
+#: plugins/admin/aclrole/acl_role.tpl.c:2 ihtml/themes/default/acl.tpl.c:41
+msgid "List of available ACL categories"
+msgstr "Lista tillgängliga ACL-kategorier"
+
+#: plugins/admin/acl/remove.tpl.c:5
+msgid ""
+"This includes all ACL assignments made on this node(s). If you want the list"
+" of these assignments, please cancel and open the objects."
+msgstr ""
+
+#: plugins/admin/acl/remove.tpl.c:8
+msgid "Press 'Delete' to continue or 'Cancel' to abort."
+msgstr ""
+
+#: plugins/personal/generic/generic_certs.tpl.c:2
+msgid "Certificates"
+msgstr "Certifikat"
+
+#: plugins/personal/generic/generic_certs.tpl.c:5
+msgid "Standard certificate"
+msgstr "Standardcertifikat"
+
+#: plugins/personal/generic/generic_certs.tpl.c:11
+msgid "S/MIME certificate"
+msgstr "S/MIME-certifikat"
+
+#: plugins/personal/generic/generic_certs.tpl.c:17
+msgid "PKCS12 certificate"
+msgstr "PKCS12-certifikat"
+
+#: plugins/personal/generic/changed.tpl.c:2
+#: plugins/personal/password/changed.tpl.c:2
+msgid ""
+"You've successfully changed your password. Remember to change all programms "
+"configured to use it as well."
+msgstr "Du har ändrat ditt lösenord. Kom ihåg att ändra alla program som är inställda på att använda det också."
+
+#: plugins/personal/generic/generic.tpl.c:2
+msgid "Personal information"
+msgstr "Personlig information"
+
+#: plugins/personal/generic/generic.tpl.c:5
+#: plugins/personal/generic/generic.tpl.c:8
+#: plugins/personal/generic/generic.tpl.c:14
+#: plugins/personal/generic/generic_picture.tpl.c:2
+#: plugins/personal/generic/paste_generic.tpl.c:23
+msgid "Personal picture"
+msgstr "Personlig bild"
+
+#: plugins/personal/generic/generic.tpl.c:11
+#: plugins/personal/generic/generic.tpl.c:17
+msgid "Change picture"
+msgstr "Byt bild"
+
+#: plugins/personal/generic/generic.tpl.c:44
+msgid "Preferred langage"
+msgstr "Föredraget språk"
+
+#: plugins/personal/generic/generic.tpl.c:56
+msgid "Private phone"
+msgstr "Privat telefon"
+
+#: plugins/personal/generic/generic.tpl.c:62
+msgid "Password storage"
+msgstr "Lösenordslagring"
+
+#: plugins/personal/generic/generic.tpl.c:68
+msgid "Restrict login to"
+msgstr "Begränsa inloggning till"
+
+#: plugins/personal/generic/generic.tpl.c:71
+msgid "IP or network"
+msgstr "IP eller nätverk"
+
+#: plugins/personal/generic/generic.tpl.c:77
+msgid "Organizational information"
+msgstr "Organisationsinformation"
+
+#: plugins/personal/generic/generic.tpl.c:86
+msgid "Department No."
+msgstr "Avdelningsnummer"
+
+#: plugins/personal/generic/generic.tpl.c:89
+msgid "Employee No."
+msgstr "Anställningsnummer"
+
+#: plugins/personal/generic/generic.tpl.c:98
+msgid "Room No."
+msgstr "Rumsnummer"
+
+#: plugins/personal/generic/generic_picture.tpl.c:5
+#: plugins/personal/generic/paste_generic.tpl.c:29
+msgid "Remove picture"
+msgstr "Ta bort bild"
+
+#: plugins/personal/generic/paste_generic.tpl.c:2
+msgid "User settings"
+msgstr "Användarinställningar"
+
+#: plugins/personal/generic/paste_generic.tpl.c:17
+msgid "Clear password"
+msgstr "Nollställ lösenord"
+
+#: plugins/personal/generic/paste_generic.tpl.c:20
+msgid "Set new password"
+msgstr "Ställ in nytt lösenord"
+
+#: plugins/personal/generic/nochange.tpl.c:2
+#: plugins/personal/password/nochange.tpl.c:2
+msgid "You have no permission to change your password at this time"
+msgstr "Du har inte tillåtelse att ändra lösenordet just nu"
+
+#: plugins/personal/generic/nochange.tpl.c:5
+msgid "Your password hash method will not be changed!"
+msgstr "Din lösenordsmetod kommer inte att ändras!"
+
+#: plugins/personal/password/password.tpl.c:2
+msgid ""
+"To change your personal password use the fields below. The changes take "
+"effect immediately. Please memorize the new password, because you wouldn't "
+"be able to login without it."
+msgstr "Använd fälten nedan för att ändra ditt personliga lösenord. Ändringarna sker omedelbart. Vänligen memorera det nya lösenordet, för användaren kan inte logga in utan det."
+
+#: plugins/personal/password/password.tpl.c:8
+msgid "Your Password has expired. Please choose a new password!"
+msgstr "Ditt lösenord har slutat gälla. Vänligen välj ett nytt lösenord!"
+
+#: plugins/personal/password/password.tpl.c:11
+#: plugins/personal/password/password.tpl.c:23
+#: ihtml/themes/default/password.tpl.c:38
+#: ihtml/themes/default/password.tpl.c:41
+msgid "Current password"
+msgstr "Nuvarande lösenord"
+
+#: plugins/personal/password/password.tpl.c:47
+msgid "Clear fields"
+msgstr "Rensa fält"
+
+#: plugins/personal/posix/trustSelect/trust-filter.tpl.c:5
+#: include/select/systemSelect/systemSelect-filter.tpl.c:5
+msgid "Show servers"
+msgstr "Visa servrar"
+
+#: plugins/personal/posix/trustSelect/trust-filter.tpl.c:8
+#: include/select/systemSelect/systemSelect-filter.tpl.c:8
+msgid "Show workstations"
+msgstr "Visa workstations"
+
+#: plugins/personal/posix/trustSelect/trust-filter.tpl.c:11
+#: include/select/systemSelect/systemSelect-filter.tpl.c:11
+msgid "Show Windows PC"
+msgstr "Visa Windows PC"
+
+#: plugins/personal/posix/trustSelect/trust-filter.tpl.c:14
+#: include/select/systemSelect/systemSelect-filter.tpl.c:14
+msgid "Show terminals"
+msgstr "Visa terminaler"
+
+#: ihtml/themes/default/islocked.tpl.c:2
+msgid "Locking conflict detected"
+msgstr "Låsningskonflikt detekterad"
+
+#: ihtml/themes/default/islocked.tpl.c:8
+msgid ""
+"If this lock detection is false, the other person has obviously closed the "
+"webbrowser during the edit operation. You may want to take over the lock by "
+"pressing the 'Edit anyway' button."
+msgstr "Om den här låsningsdetekteringen är falsk, har en annan person förmodligen stängt webbläsaren under en redigering utan att ha sparat. Du kan vilja ta över låsningen genom att trycka på 'Redigera ändå'-knappen"
+
+#: ihtml/themes/default/islocked.tpl.c:11
+msgid "Read only"
+msgstr "Endast läsning"
+
+#: ihtml/themes/default/sizelimit.tpl.c:2
+msgid ""
+"The size limit option makes LDAP operations faster and saves the LDAP server"
+" from getting too much load. The easiest way to handle big databases without"
+" long timeouts would be to limit your search to smaller values and use "
+"filters to get the entries you are looking for."
+msgstr ""
+
+#: ihtml/themes/default/sizelimit.tpl.c:5
+msgid "Please choose the way to react for this session"
+msgstr ""
+
+#: ihtml/themes/default/sizelimit.tpl.c:8
+msgid "ignore this error and show all entries the LDAP server returns"
+msgstr "ignorera det här felet och visa alla poster som LDAP-servern returnerar"
+
+#: ihtml/themes/default/sizelimit.tpl.c:11
+msgid ""
+"ignore this error and show all entries that fit into the defined sizelimit "
+"and let me use filters instead"
+msgstr "ignorera det här felet och visa alla poster som passar inom den definierade sizelimit och låt mig använda filter istället"
+
+#: ihtml/themes/default/sizelimit.tpl.c:14
+msgid "Set"
+msgstr ""
+
+#: ihtml/themes/default/recovery.tpl.c:2
+msgid "FusionDirectory password recovery"
+msgstr "FusionDirectory lösenordsåterställning"
+
+#: ihtml/themes/default/recovery.tpl.c:11
+msgid "Lost password"
+msgstr "Förlorat lösenord"
+
+#: ihtml/themes/default/recovery.tpl.c:14
+msgid "Available methods"
+msgstr "Tillgängliga metoder"
+
+#: ihtml/themes/default/recovery.tpl.c:17
+msgid "Receive by email a link that allows you to reset your password"
+msgstr "Få en länk via epost som låter dig återställa lösenordet"
+
+#: ihtml/themes/default/recovery.tpl.c:20
+msgid "Send"
+msgstr "Skicka"
+
+#: ihtml/themes/default/recovery.tpl.c:23
+msgid "Click here to send a reset link"
+msgstr "Klicka här för att skicka en återställningslänk"
+
+#: ihtml/themes/default/recovery.tpl.c:26
+msgid ""
+"If none of the above methods suits you, contact your administrator to change"
+" your password"
+msgstr "Om ingen av de ovanstående metoderna passar dig, kontakta din administratör för att byta lösenord"
+
+#: ihtml/themes/default/recovery.tpl.c:29
+msgid ""
+"This dialog provides a simple way to change your password. Enter the new "
+"password (twice) in the fields below and press the 'Change' button."
+msgstr "Den här dialogrutan erbjuder ett enkelt sätt att byta lösenord. Skriv in ditt nuvarande lösenord och det nya lösenordet (två gånger) i fälten nedan och tryck på 'Byt'-knappen."
+
+#: ihtml/themes/default/recovery.tpl.c:32
+#: ihtml/themes/default/recovery.tpl.c:35
+#: ihtml/themes/default/recovery.tpl.c:77
+#: ihtml/themes/default/recovery.tpl.c:80
+#: ihtml/themes/default/password.tpl.c:26
+#: ihtml/themes/default/password.tpl.c:29 ihtml/themes/default/login.tpl.c:29
+#: ihtml/themes/default/login.tpl.c:32 ihtml/themes/default/login.tpl.c:35
+msgid "Directory"
+msgstr "Katalog"
+
+#: ihtml/themes/default/recovery.tpl.c:47
+#: ihtml/themes/default/recovery.tpl.c:50
+#: ihtml/themes/default/password.tpl.c:50
+#: ihtml/themes/default/password.tpl.c:53
+msgid "New password repeated"
+msgstr "Repetera nytt lösenord"
+
+#: ihtml/themes/default/recovery.tpl.c:56
+#: ihtml/themes/default/recovery.tpl.c:89
+#: ihtml/themes/default/password.tpl.c:59
+msgid "Change"
+msgstr "Byt"
+
+#: ihtml/themes/default/recovery.tpl.c:59
+#: ihtml/themes/default/recovery.tpl.c:92
+#: ihtml/themes/default/password.tpl.c:62
+msgid "Click here to change your password"
+msgstr "Klicka här för att byta lösenord"
+
+#: ihtml/themes/default/recovery.tpl.c:62
+#: ihtml/themes/default/recovery.tpl.c:65
+#: ihtml/themes/default/password.tpl.c:5 ihtml/themes/default/password.tpl.c:8
+msgid "Success"
+msgstr ""
+
+#: ihtml/themes/default/recovery.tpl.c:68
+#: ihtml/themes/default/password.tpl.c:11
+msgid "Your password has been changed successfully."
+msgstr "Ditt lösenord har nu bytts."
+
+#: ihtml/themes/default/recovery.tpl.c:71
+msgid ""
+"Enter your current e-mail address in the field below and press the 'Change' "
+"button."
+msgstr "Skriv in din nuvarande epostadress i fältet nedan och tryck på 'Byt'-knappen"
+
+#: ihtml/themes/default/recovery.tpl.c:74
+msgid ""
+"=> Use your e-mail in the long format, e.g : John Doe => john.doe@ibcp.fr"
+msgstr "=> Använd din epostadress i det långa formatet, t ex : John Doe => john.doe@ibcp.fr"
+
+#: ihtml/themes/default/recovery.tpl.c:95
+msgid ""
+"Password recovery is not activated. If you have lost your password, please "
+"contact your administrator"
+msgstr "Återskapande av lösenord är inte aktiverat. Om du har förlorat ditt lösenord, kontakta din administratör"
+
+#: ihtml/themes/default/password.tpl.c:2
+msgid "Change your password"
+msgstr "Byt lösenord"
+
+#: ihtml/themes/default/password.tpl.c:23
+msgid ""
+"This dialog provides a simple way to change your password. Enter the current"
+" password and the new password (twice) in the fields below and press the "
+"'Change' button."
+msgstr "Den här dialogrutan erbjuder ett enkelt sätt att byta lösenord. Skriv in ditt nuvarande lösenord och det nya lösenordet (två gånger) i fälten nedan och tryck på 'Byt'-knappen."
+
+#: ihtml/themes/default/logout-close.tpl.c:2
+msgid "Your FusionDirectory session has been closed!"
+msgstr "Din FusionDirectory-session har stängts!"
+
+#: ihtml/themes/default/logout-close.tpl.c:5
+msgid ""
+"Please close this browser window and clean the authentication caches to "
+"avoid an automatic re-authentication by your browser."
+msgstr "Vänligen stäng detta webbläsarfönster och rensa autentiserings-cachen för att undvika en automatisk omautenticering av din webbläsare."
+
+#: ihtml/themes/default/conflict.tpl.c:2
+msgid "Session conflict detected"
+msgstr "Sessionskonflikt upptäckt"
+
+#: ihtml/themes/default/conflict.tpl.c:8
+msgid ""
+"Probably there's another active instance of your session. Multiple window "
+"operation is technical not possible and heavily depends on the browser "
+"you're using. Usage of different browsers at a time (i.e. IE and Mozilla) is"
+" possible. Pressing the Logout button will close this session."
+msgstr "Förmodligen finns det en annan aktiv instans av din session. Att köra i flera fönster samtidigt är inte tekniskt möjligt och beror på webbläsaren du använder. Att använda olika webbläsare samtidigt (ex. IE och Mozilla) är möjligt. Genom att trycka på Logga ut-knappen stänger du den här sessionen."
+
+#: ihtml/themes/default/conflict.tpl.c:11
+msgid ""
+"Ignoring this message will change/destroy the data you're currently editing,"
+" so please close multiple windows and log in again."
+msgstr "Att ignorera detta meddelande kommer att ändra/förstöra den data du redigerar för tillfället, så vänligen stäng alla fönster och logga in igen."
+
+#: ihtml/themes/default/conflict.tpl.c:14
+msgid "Logout"
+msgstr "Logga ut"
+
+#: ihtml/themes/default/logout.tpl.c:2
+msgid "Your FusionDirectory session has expired!"
+msgstr "Din FusionDirectory-session har gått ut!"
+
+#: ihtml/themes/default/logout.tpl.c:5
+msgid ""
+"The last interaction with the FusionDirectory web interface has been some "
+"time ago in the past. For security reasons, the session has been closed. To "
+"continue with administrative tasks, please sign in again."
+msgstr "Den senaste interaktionen med FusionDirectorys webbgränssnitt har ägt rum vid ett tidigare tillfälle. Av säkerhetsskäl har sessionen stängts. För att fortsätta med administrativa sysslor, vänligen logga in igen. "
+
+#: ihtml/themes/default/logout.tpl.c:8
+msgid "Sign in again"
+msgstr "Logga in igen"
+
+#: ihtml/themes/default/remove.tpl.c:5
+msgid ""
+"This may be used by several groups. Please double check if your really want "
+"to do this since there is no way for FusionDirectory to get your data back."
+msgstr "Det här kan användas av flertalet grupper. Dubbelkolla att du verkligen vill göra detta eftersom det inte finns något sätt för FusionDirectory att få tillbaka din information."
+
+#: ihtml/themes/default/login.tpl.c:2
+msgid "Login screen"
+msgstr "Inloggningsskärm"
+
+#: ihtml/themes/default/login.tpl.c:5
+msgid ""
+"Please use your username and your password to log into the site "
+"administration system."
+msgstr "Använd ditt användarnamn och lösenord för att logga in i administrationssystemet."
+
+#: ihtml/themes/default/login.tpl.c:8 ihtml/themes/default/login.tpl.c:11
+#: ihtml/themes/default/login.tpl.c:14
+msgid "Username"
+msgstr "Användarnamn"
+
+#: ihtml/themes/default/login.tpl.c:26
+msgid "I forgot my password"
+msgstr "Jag har glömt mitt lösenord"
+
+#: ihtml/themes/default/login.tpl.c:38 ihtml/themes/default/login.tpl.c:44
+msgid "Sign in"
+msgstr "Logga in"
+
+#: ihtml/themes/default/login.tpl.c:41
+msgid "Click here to log in"
+msgstr "Klicka här för att logga in"
+
+#: ihtml/themes/default/acl.tpl.c:2
+msgid "Assigned ACL for current entry"
+msgstr "Tilldelad ACL för nuvarande post"
+
+#: ihtml/themes/default/acl.tpl.c:5
+msgid "New ACL"
+msgstr "Ny ACL"
+
+#: ihtml/themes/default/acl.tpl.c:8
+msgid "ACL type"
+msgstr "ACL-typ"
+
+#: ihtml/themes/default/acl.tpl.c:11 ihtml/themes/default/acl.tpl.c:14
+msgid "Select an acl type"
+msgstr "Välj en acl-typ"
+
+#: ihtml/themes/default/acl.tpl.c:17
+msgid "Additional filter options"
+msgstr "Ytterligare filter-alternativ"
+
+#: ihtml/themes/default/acl.tpl.c:20
+msgid "Use members from"
+msgstr "Använd medlemmar från"
+
+#: ihtml/themes/default/acl.tpl.c:23
+msgid "Available members"
+msgstr "Tillgängliga medlemmar"
+
+#: ihtml/themes/default/acl.tpl.c:26 ihtml/themes/default/acl.tpl.c:29
+msgid "List message possible targets"
+msgstr ""
+
+#: ihtml/themes/default/acl.tpl.c:35 ihtml/themes/default/acl.tpl.c:38
+msgid "List message recipients"
+msgstr "Lista mottagare"
+
+#: ihtml/themes/default/acl.tpl.c:44
+msgid "ACL for this object"
+msgstr "ACL för detta objekt"
+
+#: ihtml/themes/default/acl.tpl.c:47
+msgid "Available roles"
+msgstr "Tillgängliga roller"
+
+#: ihtml/themes/default/simple-remove.tpl.c:2
+msgid "Warning: you are about to delete the following objects"
+msgstr ""
+
+#: ihtml/themes/default/copyPasteDialog.tpl.c:2
+msgid "Copy & paste wizard"
+msgstr "Kopiera & klistra in-wizard"
+
+#: ihtml/themes/default/copyPasteDialog.tpl.c:5
+msgid ""
+"Some values need to be unique in the complete directory while some "
+"combinations make no sense. FusionDirectory shows the relevant attributes. "
+"Please maintain the values below to fulfill the policies."
+msgstr "Vissa värden måste vara unika inom katalogtjänsten medan vissa kombinationer inte är gångbara. FusionDirectory visar de relevanta attributen. Vänligen behåll värdena nedan för att uppfylla systemets policy."
+
+#: ihtml/themes/default/copyPasteDialog.tpl.c:8
+msgid "Remember that some properties like taken snapshots will not be copied!"
+msgstr "Kom ihåg att vissa egenskaper som tagna ögonblicksbilder inte kommer att kopieras!"
+
+#: ihtml/themes/default/copyPasteDialog.tpl.c:11
+msgid ""
+"Or if you copy or cut an entry within FusionDirectory and delete the source "
+"object, you may get errors while pasting this object again!"
+msgstr "Eller om du kopierar och klipper en post inom FusionDirectory och tar bort källobjektet, kan du få fel när du klistrar in det här objektet igen!"
+
+#: ihtml/themes/default/copyPasteDialog.tpl.c:23
+msgid "Operation complete"
+msgstr "Operation klar"
+
+#: ihtml/themes/default/snapshotdialog.tpl.c:2
+msgid "Restoring object snapshots"
+msgstr "Återskapar ögonblicksbild av objekt"
+
+#: ihtml/themes/default/snapshotdialog.tpl.c:5
+msgid ""
+"This procedure will restore a snapshot of the selected object. It will "
+"replace the existing object after pressing the folder icon."
+msgstr "Den här proceduren kommer att återställa en ögonblicksbild av det valda objektet. Det kommer att ersätta det existerande objektet efter att du tryckt på mapp-ikonen."
+
+#: ihtml/themes/default/snapshotdialog.tpl.c:8
+msgid ""
+"Remember that DNS configuration and database entries could not be restored. "
+"For some objects it is only necessary to open and save them again (goFon), "
+"but some entries must be recreated manually."
+msgstr "Kom ihåg att DNS-konfigurationen och databas-poster inte kunde återskapas. För vissa objekt är det bara nödvändigt att öppna och spara dem igen (goFon), men andra poster måste återskapas manuellt."
+
+#: ihtml/themes/default/snapshotdialog.tpl.c:11
+msgid ""
+"Don't forget to check references to other objects, for example does the "
+"selected printer still exists ?"
+msgstr "Glöm inte att kontrollera referenser till andra objekt, till exempel existerar fortfarande vald skrivare?"
+
+#: ihtml/themes/default/snapshotdialog.tpl.c:17
+msgid "There is no snapshot available that could be restored"
+msgstr "Det finns ingen ögonblicksbild tillgänglig som kunde återskapas"
+
+#: ihtml/themes/default/snapshotdialog.tpl.c:20
+msgid "Choose a snapshot and click the folder image, to restore the snapshot"
+msgstr "Välj en ögonblicksbild och klicka på mapp-bilden för att återskapa ögonblicksbilden"
+
+#: ihtml/themes/default/snapshotdialog.tpl.c:26
+msgid "Creating object snapshots"
+msgstr "Skapa ögonblicksbilder av objekt"
+
+#: ihtml/themes/default/snapshotdialog.tpl.c:29
+msgid ""
+"This procedure will create a snapshot of the selected object. It will be "
+"stored inside a special branch of your directory system and can be restored "
+"later on."
+msgstr "Den här proceduren kommer att skapa en ögonblicksbild av valt objekt. Det kommer att sparas under en speciell gren av katalogsystemet och kan återskapas vid ett senare tillfälle."
+
+#: ihtml/themes/default/snapshotdialog.tpl.c:32
+msgid ""
+"Remember that database entries, DNS configurations and possibly created "
+"zones in server extensions will not be stored in the snapshot."
+msgstr "Kom ihåg att databas-poster, DNS-konfiguration och möjligen skapade zoner i server extensions inte kommer att lagras i ögonblicksbilden."
+
+#: ihtml/themes/default/snapshotdialog.tpl.c:38
+msgid "Timestamp"
+msgstr "Tidsstämpel"
+
+#: ihtml/themes/default/snapshotdialog.tpl.c:41
+msgid "Reason for generating this snapshot"
+msgstr "Anledning för att generera denna ögonblicksbild"
+
+#: ihtml/themes/default/framework.tpl.c:2
+msgid "Main"
+msgstr "Hem"
+
+#: ihtml/themes/default/framework.tpl.c:5
+msgid "Sign out"
+msgstr "Logga ut"
+
+#: ihtml/themes/default/framework.tpl.c:8
+msgid "Signed in:"
+msgstr "Inloggad:"
+
+#: ihtml/themes/default/framework.tpl.c:11
+#, c-format
+msgid "Session expires in %d!"
+msgstr "Sessionen löper ut om %d!"
+
+#: setup/setup_language.tpl.c:2
+msgid "Please select the preferred language"
+msgstr "Vänligen välj föredraget språk"
+
+#: setup/setup_language.tpl.c:5
+msgid ""
+"At this point, you can select the site wide default language. Choosing "
+"'automatic' will use the language requested by the browser. This setting can"
+" be overriden per user."
+msgstr "I det här läget kan du ställa in default-språk för sajten. Genom att välja 'automatiskt' så kommer webbläsarens inställning att välja språk. Detta kan också ställas in per användare."
+
+#: setup/setup_language.tpl.c:8
+msgid "Please select your preferred language here"
+msgstr "Välj föredraget språk här"
+
+#: setup/setup_config1.tpl.c:2
+msgid "Look and feel"
+msgstr "Utseende:"
+
+#: setup/setup_config1.tpl.c:17
+msgid "People storage subtree"
+msgstr "Subträd för Personer"
+
+#: setup/setup_config1.tpl.c:20
+msgid "Group storage subtree"
+msgstr "Subträd för Grupper"
+
+#: setup/setup_config1.tpl.c:23
+msgid "ACL roles storage subtree"
+msgstr ""
+
+#: setup/setup_config1.tpl.c:29
+msgid "Relaxed naming policies"
+msgstr "Avslappnad namnpolicy"
+
+#: setup/setup_config1.tpl.c:38
+msgid "Base number for user/group id"
+msgstr ""
+
+#: setup/setup_config1.tpl.c:44
+msgid "Password encryption algorithm"
+msgstr "Lösenordets krypteringsalgoritm"
+
+#: setup/setup_config1.tpl.c:47
+msgid "Password restrictions"
+msgstr "Lösenordsrestriktioner"
+
+#: setup/setup_config1.tpl.c:56 setup/setup_config1.tpl.c:59
+msgid "Different characters from old password"
+msgstr "Antalet skiljande tecken från gammalt lösenord"
+
+#: setup/setup_config1.tpl.c:62
+msgid "Password change hook"
+msgstr "Hook för lösenordsändring"
+
+#: setup/setup_config1.tpl.c:68
+msgid ""
+"FusionDirectory supports several encryption types for your passwords. "
+"Normally this is adjustable via user templates, but you can specify a "
+"default method to be used here, too."
+msgstr "FusionDirectory stödjer flera krypteringstyper för lösenord. Normalt sett är detta justerbart via användar-mallar, men du kan specificera en standardmetod att använda här också."
+
+#: setup/setup_config1.tpl.c:71
+msgid ""
+"FusionDirectory always acts as admin and manages access rights internally. "
+"This is a workaround till OpenLDAP's in directory ACI's are    fully "
+"implemented. For this to work, we need the admin DN and the corresponding "
+"password."
+msgstr "FusionDirectory agerar alltid som administratör och hanterar åtkomsträttigheter internt. Detta är en workaround tills OpenLDAPs directory ACL's är fullt implementerade. För att detta ska fungera, behöver vi admin DN och tillhörande lösenord."
+
+#: setup/setup_config1.tpl.c:74
+msgid ""
+"Some basic LDAP parameters are tunable and affect the locations where "
+"FusionDirectory saves people and groups, including the way accounts get "
+"created. Check the values below if the fit your needs."
+msgstr "Vissa LDAP-parametrar är inställningsbara och påverkar platserna där FusionDirectory sparar personer och grupper, inklusive sättet på vilket konton skapas. Kontrollera värdena nedan om de passar dina behov."
+
+#: setup/setup_config1.tpl.c:77
+msgid ""
+"FusionDirectory has modular support for several mail methods. These methods "
+"provide interfaces to users mailboxes and general handling    for quotas. "
+"You can choose the dummy plugin to leave all your mail settings untouched."
+msgstr "FusionDirectory har modulärt stöd för flera epostmetoder. Dessa metoder tillhandahåller gränssnitt för användares epostlådor och generell hantering för diskkvoter. Du kan välja dummy-pluginen för att lämna alla dina epostinställningar orörda."
+
+#: setup/setup_finish.tpl.c:2
+msgid "Create your configuration file"
+msgstr "Skapa konfigurationsfil"
+
+#: setup/setup_finish.tpl.c:5
+msgid "Run "
+msgstr "Kör"
+
+#: setup/setup_finish.tpl.c:8
+msgid "to put the correct right on fusiondirectory.conf"
+msgstr "för att sätta rätt rättigheter på fusiondirectory.conf"
+
+#: setup/setup_finish.tpl.c:11
+msgid "Download configuration"
+msgstr "Ladda ner konfiguration"
+
+#: setup/setup_finish.tpl.c:14
+msgid "Status: "
+msgstr "Status:"
+
+#: setup/setup_schema.tpl.c:2
+msgid "Schema specific settings"
+msgstr "Schemaspecifika inställningar"
+
+#: setup/setup_schema.tpl.c:5
+msgid "Enable schema validation when logging in"
+msgstr "Utför schemavalidering vid inloggning"
+
+#: setup/setup_schema.tpl.c:8
+msgid "Check status"
+msgstr "Kontrollera status"
+
+#: setup/setup_schema.tpl.c:11
+msgid "Schema check succeeded"
+msgstr "Schemakontroll lyckades"
+
+#: setup/setup_schema.tpl.c:14
+msgid "Schema check failed"
+msgstr "Schemakontroll misslyckades"
+
+#: setup/setup_schema.tpl.c:17
+msgid ""
+"Could not read any schema informations, all checks skipped. Adjust your ldap"
+" acls."
+msgstr "Kunde inte läsa schemainformation, alla kontroller avbröts. Justera din LDAP-acl."
+
+#: setup/setup_schema.tpl.c:20
+msgid ""
+"It seems that your ldap database wasn't initialized yet. This might be the "
+"reason why FusionDirectory can't read your schema configuration!"
+msgstr "Det verkar som att din ldap-databas inte har initialiserats än. Detta kan vara orsaken till varför FusionDirectory inte kan läsa din schemakonfiguration!"
+
+#: setup/setup_welcome.tpl.c:2
+msgid ""
+"This seems to be the first time you start FusionDirectory - we didn't find "
+"any configuration right now. This simple wizard intends to help you while "
+"setting it up."
+msgstr "Det verkar vara första gången du startar FusionDirectory - vi hittade ingen konfiguration just nu. Den här enkla wizarden ska hjälpa dig att ställa in programvaran.  "
+
+#: setup/setup_welcome.tpl.c:5
+msgid "What will the wizard do for you?"
+msgstr "Vad kommer denna wizard att göra för dig?"
+
+#: setup/setup_welcome.tpl.c:8
+msgid "Create a basic, single site configuration"
+msgstr "Skapa en grundläggande konfiguration för en enskild site"
+
+#: setup/setup_welcome.tpl.c:11
+msgid "Tries to find problems within your PHP and LDAP setup"
+msgstr "Försöka identifiera problem med din PHP- och LDAP-installation"
+
+#: setup/setup_welcome.tpl.c:14
+msgid "Let you choose from a set of basic and advanced configuration switches"
+msgstr "Låta dig välja från ett urval av grundläggande och avancerade konfigurationsinställningar"
+
+#: setup/setup_welcome.tpl.c:17
+msgid "Guided migration of existing LDAP trees"
+msgstr "Guida migreringen av existerande LDAP-träd"
+
+#: setup/setup_welcome.tpl.c:20
+msgid "What will the wizard NOT do for you?"
+msgstr "Vad kommer denna wizard INTE göra för dig?"
+
+#: setup/setup_welcome.tpl.c:23
+msgid "Find every possible configuration error"
+msgstr "Hitta varje tänkbart konfigurationsfel"
+
+#: setup/setup_welcome.tpl.c:26
+msgid "Migrate every possible LDAP setup - create backup dumps!"
+msgstr "Migrera varje tänkbar LDAP-installation - skapa backuper för säkerhets skull!"
+
+#: setup/setup_welcome.tpl.c:29
+msgid "To continue:"
+msgstr ""
+
+#: setup/setup_welcome.tpl.c:32
+msgid ""
+"For security reasons you need to authenticate for the installation by "
+"creating the file '%1', containing the current session ID on the servers "
+"local filesystem. This can be done by executing the following command:"
+msgstr ""
+
+#: setup/setup_welcome.tpl.c:35
+msgid "Click the 'Next' button when you've finished."
+msgstr "Klicka på 'Nästa'-knappen när du är klar."
+
+#: setup/setup_ldap.tpl.c:2
+msgid "Please choose the LDAP user to be used by FusionDirectory"
+msgstr "Ange LDAP-användare som ska användas av FusionDirectory"
+
+#: setup/setup_ldap.tpl.c:5
+msgid "Search"
+msgstr "Sök"
+
+#: setup/setup_ldap.tpl.c:14
+msgid "LDAP connection"
+msgstr "LDAP-koppling"
+
+#: setup/setup_ldap.tpl.c:17
+msgid "Location name"
+msgstr "Location name"
+
+#: setup/setup_ldap.tpl.c:20
+msgid "Connection URI"
+msgstr "Koppling-URI"
+
+#: setup/setup_ldap.tpl.c:23
+msgid "TLS connection"
+msgstr "TLS-koppling"
+
+#: setup/setup_ldap.tpl.c:29 setup/setup_ldap.tpl.c:32
+#: setup/setup_migrate.tpl.c:95
+msgid "Reload"
+msgstr "Läs om"
+
+#: setup/setup_ldap.tpl.c:35
+msgid "Authentication"
+msgstr "Autentisering"
+
+#: setup/setup_ldap.tpl.c:38
+msgid "Admin DN"
+msgstr "Admin DN"
+
+#: setup/setup_ldap.tpl.c:41 setup/setup_ldap.tpl.c:44
+msgid "Select user"
+msgstr "Välj användare"
+
+#: setup/setup_ldap.tpl.c:47
+msgid "Automatically append LDAP base to admin DN"
+msgstr "Lägg automatiskt till LDAP-bas till admin DN"
+
+#: setup/setup_ldap.tpl.c:50
+msgid "Admin password"
+msgstr "Adminlösenord"
+
+#: setup/setup_ldap.tpl.c:53
+msgid "Schema based settings"
+msgstr "Schemabaserade inställningar"
+
+#: setup/setup_ldap.tpl.c:56
+msgid "Use rfc2307bis compliant groups"
+msgstr "Använd grupper förenliga med rfc2307bis"
+
+#: setup/setup_ldap.tpl.c:59
+msgid "Current status"
+msgstr "Nuvarande status"
+
+#: setup/setup_checks.tpl.c:2
+msgid "PHP module and extension checks"
+msgstr "PHP modul- och tilläggskontroll"
+
+#: setup/setup_checks.tpl.c:14 setup/setup_checks.tpl.c:35
+msgid "FusionDirectory will NOT run without fixing this."
+msgstr "FusionDirectory kommer INTE att kunna köras utan att åtgärda detta."
+
+#: setup/setup_checks.tpl.c:17 setup/setup_checks.tpl.c:38
+msgid "FusionDirectory will run without fixing this."
+msgstr "FusionDirectory kommer att kunna köras utan att åtgärda detta."
+
+#: setup/setup_checks.tpl.c:20
+msgid "PHP setup configuration"
+msgstr "PHP-konfiguration"
+
+#: setup/setup_checks.tpl.c:23
+msgid "show information"
+msgstr "visa information"
+
+#: setup/setup_frame.tpl.c:2
+msgid "FusionDirectory setup wizard"
+msgstr "FusionDirectory setup wizard"
+
+#: setup/setup_config2.tpl.c:5
+msgid "Please choose your preferred timezone here"
+msgstr "Välj din föredragna tidszon här"
+
+#: setup/setup_migrate.tpl.c:2
+msgid ""
+"During the LDAP inspection, we're going to check for several common pitfalls"
+" that may occur when migration to FusionDirectory base LDAP administration. "
+"You may want to fix the problems below, in order to provide smooth services."
+msgstr "Under LDAP-inspektionen kommer vi att undersöka flera vanliga fallgropar som man kan ramla i när man migrerar till FusionDirectory LDAP-administration. Det är möjligt att du behöver åtgärda problemen nedan för att kunna tillhandahålla stabila tjänster."
+
+#: setup/setup_migrate.tpl.c:5
+msgid "Check again"
+msgstr "Kontrollera igen"
+
+#: setup/setup_migrate.tpl.c:8
+msgid "Add required object classes to the LDAP base"
+msgstr "Lägg till de objektklasser som krävs till LDAP-basen"
+
+#: setup/setup_migrate.tpl.c:11 setup/setup_migrate.tpl.c:86
+#: setup/setup_migrate.tpl.c:140 setup/setup_migrate.tpl.c:167
+#: setup/setup_migrate.tpl.c:194 setup/setup_migrate.tpl.c:224
+#: setup/setup_migrate.tpl.c:254
+msgid "Current"
+msgstr "Nuvarande"
+
+#: setup/setup_migrate.tpl.c:14 setup/setup_migrate.tpl.c:89
+#: setup/setup_migrate.tpl.c:143 setup/setup_migrate.tpl.c:170
+#: setup/setup_migrate.tpl.c:197 setup/setup_migrate.tpl.c:227
+#: setup/setup_migrate.tpl.c:257
+msgid "After migration"
+msgstr "Efter migrering"
+
+#: setup/setup_migrate.tpl.c:20
+msgid "Close"
+msgstr "Stäng"
+
+#: setup/setup_migrate.tpl.c:23
+msgid "Move groups into configured group tree"
+msgstr "Flytta grupper till konfigurerat gruppträd."
+
+#: setup/setup_migrate.tpl.c:26
+msgid ""
+"This dialog allows moving a couple of groups to the configured group tree. "
+"Doing this may straighten your LDAP service."
+msgstr "Den här dialogrutan låter dig migrera några grupper till det konfigurerade gruppträdet. Genom att göra detta kan du rätta till din LDAP-tjänst."
+
+#: setup/setup_migrate.tpl.c:29
+msgid ""
+"Be careful with this option! There may be references pointing to these "
+"groups. The FusionDirectory setup can't migrate references, so you may want "
+"to cancel the migration in this case."
+msgstr "Var försiktig med det här alternativet! Det kan finnas referenser som pekar på dessa grupper. FusionDirectorys installationswizard kan inte migrera referenser, så du kan vilja avbryta migreringen i så fall."
+
+#: setup/setup_migrate.tpl.c:32
+msgid "Move selected groups into this group tree"
+msgstr "Flytta valda grupper in i det här gruppträdet"
+
+#: setup/setup_migrate.tpl.c:38 setup/setup_migrate.tpl.c:65
+#: setup/setup_migrate.tpl.c:92 setup/setup_migrate.tpl.c:149
+#: setup/setup_migrate.tpl.c:176 setup/setup_migrate.tpl.c:203
+#: setup/setup_migrate.tpl.c:233 setup/setup_migrate.tpl.c:263
+msgid "Hide changes"
+msgstr "Göm ändringar"
+
+#: setup/setup_migrate.tpl.c:41 setup/setup_migrate.tpl.c:68
+#: setup/setup_migrate.tpl.c:83 setup/setup_migrate.tpl.c:152
+#: setup/setup_migrate.tpl.c:179 setup/setup_migrate.tpl.c:209
+#: setup/setup_migrate.tpl.c:239 setup/setup_migrate.tpl.c:269
+msgid "Show changes"
+msgstr "Visa ändringar"
+
+#: setup/setup_migrate.tpl.c:50
+msgid "Move users into configured user tree"
+msgstr "Flytta användare in i det konfigurerade användarträdet"
+
+#: setup/setup_migrate.tpl.c:53
+msgid ""
+"This dialog allows moving a couple of users to the configured user tree. "
+"Doing this may straighten your LDAP service."
+msgstr "Den här dialogrutan låter dig migrera några användare till det konfigurerade användarträdet. Genom att göra detta kan du rätta till din LDAP-tjänst."
+
+#: setup/setup_migrate.tpl.c:56
+msgid ""
+"Be careful with this option! There may be references pointing to these "
+"users. The FusionDirectory setup can't migrate references, so you may want "
+"to cancel the migration in this case."
+msgstr "Var försiktig med det här alternativet! Det kan finnas referenser som pekar på dessa användare. FusionDirectorys installationswizard kan inte migrera referenser, så du kan vilja avbryta migreringen i så fall."
+
+#: setup/setup_migrate.tpl.c:59
+msgid "Move selected users into this people tree"
+msgstr "Flytta valda användare in i det här personträdet"
+
+#: setup/setup_migrate.tpl.c:77
+msgid "Migrate GOsa 2.5 administrator accounts"
+msgstr ""
+
+#: setup/setup_migrate.tpl.c:80
+msgid ""
+"This dialog allows the migration of GOsa 2.5 admin accounts into "
+"FusionDirectory 1.0 useable accounts."
+msgstr "Den här dialogrutan låter dig migrera administrationskonton från GOsa 2.5 till konton som är användbara i FusionDirectory 1.0."
+
+#: setup/setup_migrate.tpl.c:107
+msgid "Abort"
+msgstr "Avbryt"
+
+#: setup/setup_migrate.tpl.c:110
+msgid "Create a new FusionDirectory administrator account"
+msgstr "Skapa ett nytt administrationskonto för FusionDirectory"
+
+#: setup/setup_migrate.tpl.c:113
+msgid ""
+"This dialog will automatically add a new super administrator to your LDAP "
+"tree."
+msgstr "Den här dialogrutan kommer att lägga till en ny superadministratör till ditt LDAP-träd"
+
+#: setup/setup_migrate.tpl.c:119
+msgid "User ID"
+msgstr "Användar-ID"
+
+#: setup/setup_migrate.tpl.c:125
+msgid "Password (again)"
+msgstr "Lösenord (igen)"
+
+#: setup/setup_migrate.tpl.c:134
+msgid ""
+"The listed departments are currently invisible in the FusionDirectory user "
+"interface. If you want to change this for a couple of entries, select them "
+"and use the migrate button below."
+msgstr "De listade avdelningarna är för närvarande osynliga i FusionDirectorys användargränssnitt. Om du vill ändra det för några poster, välj dem och använd migreringsknappen nedan."
+
+#: setup/setup_migrate.tpl.c:137 setup/setup_migrate.tpl.c:164
+#: setup/setup_migrate.tpl.c:191 setup/setup_migrate.tpl.c:221
+#: setup/setup_migrate.tpl.c:251
+msgid ""
+"If you want to know what will be done when migrating the selected entries, "
+"use the 'Show changes' button to see the LDIF."
+msgstr "Om du vill vet vad som kommer att göras när valda poster migreras, använd 'Visa ändringar'-knappen för att se LDIF-filen."
+
+#: setup/setup_migrate.tpl.c:161
+msgid ""
+"The listed users are currently invisible in the FusionDirectory user "
+"interface. If you want to change this for a couple of users, just select "
+"them and use the 'Migrate' button below."
+msgstr "De listade användarna är för närvarande osynliga i FusionDirectorys användargränssnitt. Om du vill ändra det för några poster, välj dem och använd 'Migrera'-knappen nedan."
+
+#: setup/setup_migrate.tpl.c:188
+msgid ""
+"The listed devices are currently invisible in the FusionDirectory interface."
+" If you want to change this for a couple of devices, just select them and "
+"use the 'Migrate' button below."
+msgstr "De listade enheterna är för närvarande osynliga i FusionDirectorys användargränssnitt. Om du vill ändra det för några poster, välj dem och använd 'Migrera'-knappen nedan."
+
+#: setup/setup_migrate.tpl.c:218
+msgid ""
+"The listed services are currently invalid for the FusionDirectory version "
+"you are going to install. If you want to update a couple of service, just "
+"select them and use the 'Migrate' button below."
+msgstr "De listade tjänsterna är för närvarande ogiltiga i FusionDirectory-versionen du ska installera. Om du vill uppdatera några tjänster, välj dem och använd 'Migrera'-knappen nedan."
+
+#: setup/setup_migrate.tpl.c:248
+msgid ""
+"The listed menus are currently invisible in the FusionDirectory interface. "
+"If you want to change this for a couple of devices, just select them and use"
+" the 'Migrate' button below."
+msgstr "De listade menyerna är för närvarande osynliga i FusionDirectorys användargränssnitt. Om du vill ändra det för några poster, välj dem och använd 'Migrera'-knappen nedan."
+
+#: setup/setup_config3.tpl.c:2
+msgid "FusionDirectory core settings"
+msgstr "Basinställningar för FusionDirectory"
+
+#: setup/setup_config3.tpl.c:11
+msgid "Enable edit locking"
+msgstr "Aktivera redigeringslåsning"
+
+#: setup/setup_config3.tpl.c:17
+msgid "FusionDirectory logging"
+msgstr "FusionDirectory-loggning"
+
+#: setup/setup_config3.tpl.c:26
+msgid "Enforce register_globals to be deactivated"
+msgstr "Tvinga register_globals att vara deaktiverad"
+
+#: setup/setup_config3.tpl.c:41
+msgid "Show PHP errors"
+msgstr "Visa PHP-fel"
+
+#: setup/setup_config3.tpl.c:53 setup/setup_config3.tpl.c:59
+msgid "Disabled"
+msgstr "Avaktiverad"
+
+#: setup/setup_config3.tpl.c:56 setup/setup_config3.tpl.c:62
+msgid "Enabled"
+msgstr "Aktiverad"
