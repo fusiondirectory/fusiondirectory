@@ -1142,6 +1142,27 @@ class group extends plugin
     }
   }
 
+  protected function attributeInitialValue($field)
+  {
+    if ($field == 'gidNumber') {
+      return $this->saved_gidNumber;
+    } else {
+      return parent::attributeInitialValue($field);
+    }
+  }
+
+  protected function attributeHaveChanged($field)
+  {
+    if ($field == 'gidNumber') {
+      if (!$this->initially_was_account) {
+        return TRUE;
+      }
+      return ($this->$field != $this->attributeInitialValue($field));
+    } else {
+      return parent::attributeHaveChanged($field);
+    }
+  }
+
   /*! \brief Get a new SambaSID for a group */
   function getSambaSID()
   {
