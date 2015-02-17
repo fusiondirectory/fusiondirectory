@@ -665,6 +665,15 @@ class plugin
         $str = preg_replace('#&([A-za-z])(?:acute|cedil|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
         $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // handle ligatures
         return array(preg_replace('#&[^;]+;#', '', $str)); // delete unhandled characters
+      case 't': // translit
+        $localesaved = setlocale(LC_CTYPE, 0);
+        $ret = array();
+        foreach ($args as $arg) {
+          setlocale(LC_CTYPE, $arg);
+          $ret[] = iconv('UTF8', 'ASCII//TRANSLIT', $str);
+        }
+        setlocale(LC_CTYPE, $localesaved);
+        return array($ret);
       case 'p': // spaces
         return array(preg_replace('/\s/u', '', $str));
       case 's': // substring
