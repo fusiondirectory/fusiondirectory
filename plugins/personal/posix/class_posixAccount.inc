@@ -628,6 +628,19 @@ class posixAccount extends simplePlugin
       $this->accessTo = $tmp;
     }
   }
+
+  function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
+  {
+    $ret = parent::foreignKeyUpdate($field, $oldvalue, $newvalue, $source);
+    if ($field == 'gidNumber') {
+      if ($newvalue === NULL) {
+        $this->primaryGroup = 0;
+      } else {
+        $this->primaryGroup = $this->gidNumber;
+      }
+    }
+    return $ret;
+  }
 }
 
 ?>
