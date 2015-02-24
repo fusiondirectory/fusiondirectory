@@ -825,7 +825,7 @@ sub check_admin {
       my $acl = $assignment->get_value("gosaAclEntry", asref => 1);
       foreach my $line (@$acl) {
         if ($line =~ m/^.:subtree:\Q$role_dn64\E/) {
-          my @parts = split(':',$line);
+          my @parts = split(':',$line,4);
           my @members = split(",",$parts[3]);
           foreach my $member (@members) {
             # Is this an existing user?
