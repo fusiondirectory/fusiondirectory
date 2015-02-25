@@ -7,7 +7,7 @@
 # gallak <antoine.gallavardin@free.fr>, 2013
 # gallak <antoine.gallavardin@free.fr>, 2012
 # Benoit Mortier <benoit.mortier@opensides.be>, 2005-2011,2013
-# MCMic, 2014
+# MCMic, 2014-2015
 # fusiondirectory <contact@fusiondirectory.org>, 2013-2014
 # fusiondirectory <contact@fusiondirectory.org>, 2012
 # fusiondirectory <contact@fusiondirectory.org>, 2012-2013
@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-108\n"
 "Report-Msgid-Bugs-To: documentation@lists.fusiondirectory.org\n"
 "POT-Creation-Date: 2015-02-13 17:18+0100\n"
-"PO-Revision-Date: 2015-02-13 16:21+0000\n"
-"Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
+"PO-Revision-Date: 2015-02-25 11:54+0000\n"
+"Last-Translator: MCMic\n"
 "Language-Team: French (http://www.transifex.com/projects/p/FusionDirectory-108/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1391,7 +1391,7 @@ msgstr "Page d'accueil"
 #: plugins/personal/generic/class_user.inc:1364
 #: plugins/personal/generic/generic.tpl.c:104
 msgid "Mobile"
-msgstr "GSM"
+msgstr "Mobile"
 
 #: plugins/personal/generic/class_user.inc:1176
 #: plugins/personal/generic/class_user.inc:1363
@@ -4726,13 +4726,13 @@ msgstr "L'équipe FusionDirectory"
 
 #: plugins/generic/references/contents.tpl.c:2
 msgid "<strong>%1</strong> references our <strong>%3</strong>"
-msgstr "<strong>%1</strong> fait référence à <strong>%3</strong>"
+msgstr "<strong>%1</strong> fait référence à notre <strong>%3</strong>"
 
 #: plugins/generic/references/contents.tpl.c:5
 msgid ""
 "<strong>%1</strong> references our field <strong>%3</strong> from tab "
 "<strong>%2</strong>"
-msgstr "<strong>%1</strong> fait référence au champ <strong>%3</strong> du tab <strong>%2</strong>"
+msgstr "<strong>%1</strong> fait référence au champ <strong>%3</strong> de notre onglet <strong>%2</strong>"
 
 #: plugins/generic/references/contents.tpl.c:8
 msgid "This object has no relationship to other objects."
@@ -4820,7 +4820,7 @@ msgstr "Les membres sont dans un groupe nagios"
 
 #: plugins/admin/groups/generic.tpl.c:41
 msgid "Group members"
-msgstr "Membre du groupe"
+msgstr "Membres du groupe"
 
 #: plugins/admin/groups/paste_generic.tpl.c:2
 msgid "Group settings"
@@ -4861,7 +4861,7 @@ msgstr "Veuillez vérifier que vous voulez effectuer cette action. Toutes les do
 #: ihtml/themes/default/remove.tpl.c:8
 #: ihtml/themes/default/simple-remove.tpl.c:8
 msgid "So - if you're sure - press 'Delete' to continue or 'Cancel' to abort."
-msgstr "D'accord - si vous êtes sur - cliquez sur 'Supprimer' pour continuer ou sur 'Annuler' pour abandonner."
+msgstr "Donc - si vous êtes sûr - cliquez sur 'Supprimer' pour continuer ou sur 'Annuler' pour abandonner."
 
 #: plugins/admin/ogroups/ogroup-filter.tpl.c:2
 #: plugins/admin/users/user-filter.tpl.c:2
@@ -4914,7 +4914,7 @@ msgstr "Groupes de téléphones"
 
 #: plugins/admin/ogroups/paste_generic.tpl.c:5
 msgid "Please enter the new object group name"
-msgstr "Veuillez entrer un nouveau nom pour le groupe d'objet"
+msgstr "Veuillez entrer le nom du nouveau groupe d'objet"
 
 #: plugins/admin/users/template.tpl.c:2
 msgid "Creating a new user using templates"
@@ -4925,7 +4925,7 @@ msgid ""
 "Creating a new user can be assisted by using templates. Many database "
 "records will be filled automatically. Choose 'none' to skip the usage of "
 "templates."
-msgstr "La création d'un nouvel utilisateur peut être facilité en utilisant les modèles. De nombreuses informations seront ainsi remplies automatiquement. Sélectionnez 'aucun' afin de ne pas utiliser les modèles."
+msgstr "La création d'un nouvel utilisateur peut être facilitée en utilisant les modèles. De nombreuses informations seront ainsi remplies automatiquement. Sélectionnez 'aucun' afin de ne pas utiliser de modèle."
 
 #: plugins/admin/users/template.tpl.c:20
 #: ihtml/themes/default/snapshotdialog.tpl.c:44
@@ -4940,7 +4940,7 @@ msgstr "Appliquer un modèle"
 msgid ""
 "Applying a template to several users will replace all user attributes "
 "defined in the template."
-msgstr "Appliquer un modèle à plusieurs utilisateurs remplacera tout les attributs de ces utilisateurs par ceux définis dans le modèle."
+msgstr "Appliquer un modèle à plusieurs utilisateurs remplacera tous les attributs de ces utilisateurs par ceux définis dans le modèle."
 
 #: plugins/admin/users/templatize.tpl.c:11
 msgid "No templates available!"
@@ -4951,7 +4951,7 @@ msgid ""
 "To change the user password use the fields below. The changes take effect "
 "immediately. Please memorize the new password, because the user wouldn't be "
 "able to login without it."
-msgstr "Pour changer le mot de passe des utilisateurs, utilisez le champ ci-dessous. Les changements prennent effet immédiatement. Veuillez mémoriser le nouveau mot de passe sinon l'utilisateur ne pourra pas s'identifier sans celui-ci."
+msgstr "Pour changer le mot de passe des utilisateurs, utilisez le champ ci-dessous. Les changements prennent effet immédiatement. Veuillez mémoriser le nouveau mot de passe car l'utilisateur ne pourra pas s'identifier sans celui-ci."
 
 #: plugins/admin/users/password.tpl.c:5
 #: plugins/personal/password/password.tpl.c:5
@@ -4972,12 +4972,12 @@ msgstr "Confirmation du nouveau mot de passe"
 #: ihtml/themes/default/recovery.tpl.c:53
 #: ihtml/themes/default/password.tpl.c:56
 msgid "Password strength"
-msgstr "Niveau de sécurité du mot de passe"
+msgstr "Sécurité du mot de passe"
 
 #: plugins/admin/users/password.tpl.c:17
 #: plugins/personal/password/password.tpl.c:26
 msgid "Use proposal"
-msgstr "Proposition"
+msgstr "Utiliser la proposition"
 
 #: plugins/admin/users/password.tpl.c:20
 #: plugins/personal/password/password.tpl.c:29 setup/setup_migrate.tpl.c:206
@@ -4988,23 +4988,23 @@ msgstr "Rafraîchir"
 #: plugins/admin/users/password.tpl.c:23
 #: plugins/personal/password/password.tpl.c:32
 msgid "Manually specify a password"
-msgstr "Choisir un mot de passe"
+msgstr "Choisissez un mot de passe"
 
 #: plugins/admin/users/password.tpl.c:35
 msgid "Enforce password change on next login."
-msgstr "Forcer le changement de mot de passe a la prochaine connexion."
+msgstr "Forcer le changement de mot de passe à la prochaine connexion."
 
 #: plugins/admin/users/password.tpl.c:38
 #: plugins/personal/password/password.tpl.c:44
 msgid "Set password"
-msgstr "Attribuer le mot de passe"
+msgstr "Changer le mot de passe"
 
 #: plugins/admin/users/remove.tpl.c:5
 msgid ""
 "This includes all account data, system access rules, imap settings, etc. for"
 " this user. Please double check if your really want to do this since there "
 "is no way for FusionDirectory to get your data back."
-msgstr "Cela inclut toutes les données des comptes, les droits d'accès, la configuration imap,etc. pour cet utilisateur. Veuillez vous assurez que vous voulez effectuez cette opération étant donné qu'il est impossible pour FusionDirectory de récupérer vos données."
+msgstr "Cela inclut toutes les données des comptes, les droits d'accès, la configuration imap, etc. pour cet utilisateur. Veuillez vous assurer que vous voulez effectuez cette opération étant donné qu'il sera impossible pour FusionDirectory de récupérer vos données."
 
 #: plugins/admin/users/user-filter.tpl.c:5
 msgid "Show templates"
@@ -5012,33 +5012,33 @@ msgstr "Afficher les modèles"
 
 #: plugins/admin/users/user-filter.tpl.c:8
 msgid "Show functional users"
-msgstr "montrer les utilisateurs fonctionnels"
+msgstr "Afficher les utilisateurs fonctionnels"
 
 #: plugins/admin/users/user-filter.tpl.c:11
 msgid "Show POSIX users"
-msgstr "Montrer les utilisateurs Posix"
+msgstr "Afficher les utilisateurs POSIX"
 
 #: plugins/admin/users/user-filter.tpl.c:14
 msgid "Show Mail users"
-msgstr "Montrer les utilisateurs de la messagerie"
+msgstr "Afficher les utilisateurs de courriel"
 
 #: plugins/admin/users/user-filter.tpl.c:17
 msgid "Show Samba users"
-msgstr "Montrer les utilisateurs samba"
+msgstr "Afficher les utilisateurs Samba"
 
 #: plugins/admin/aclrole/acl_role.tpl.c:2 ihtml/themes/default/acl.tpl.c:41
 msgid "List of available ACL categories"
-msgstr "Liste des catégories d'acl disponibles"
+msgstr "Liste des catégories d'ACL disponibles"
 
 #: plugins/admin/acl/remove.tpl.c:5
 msgid ""
 "This includes all ACL assignments made on this node(s). If you want the list"
 " of these assignments, please cancel and open the objects."
-msgstr "Cela comprend toutes les affectations ACL faites sur ce noeud (s). Si vous voulez la liste de ces assignations, annuler et ouvrez les objets."
+msgstr "Cela comprend toutes les affectations ACL faites sur ce(s) noeud(s). Si vous voulez la liste de ces assignations, annulez et ouvrez les objets."
 
 #: plugins/admin/acl/remove.tpl.c:8
 msgid "Press 'Delete' to continue or 'Cancel' to abort."
-msgstr "D'accord - si vous êtes sur - cliquez sur 'Supprimer' pour continuer ou sur 'Annuler' pour abandonner."
+msgstr "Cliquez sur 'Supprimer' pour continuer ou sur 'Annuler' pour abandonner."
 
 #: plugins/personal/generic/generic_certs.tpl.c:2
 msgid "Certificates"
@@ -5090,7 +5090,7 @@ msgstr "Numéro de téléphone privé"
 
 #: plugins/personal/generic/generic.tpl.c:62
 msgid "Password storage"
-msgstr "Format de stockage des mots de passe"
+msgstr "Chiffrement du mot de passe"
 
 #: plugins/personal/generic/generic.tpl.c:68
 msgid "Restrict login to"
@@ -5102,15 +5102,15 @@ msgstr "IP ou réseau"
 
 #: plugins/personal/generic/generic.tpl.c:77
 msgid "Organizational information"
-msgstr "Informations sur l'entreprise"
+msgstr "Informations organisationnelles"
 
 #: plugins/personal/generic/generic.tpl.c:86
 msgid "Department No."
-msgstr "No. du département."
+msgstr "No. de département"
 
 #: plugins/personal/generic/generic.tpl.c:89
 msgid "Employee No."
-msgstr "No. de l'employé."
+msgstr "No. d’employé"
 
 #: plugins/personal/generic/generic.tpl.c:98
 msgid "Room No."
@@ -5119,7 +5119,7 @@ msgstr "No. de bureau."
 #: plugins/personal/generic/generic_picture.tpl.c:5
 #: plugins/personal/generic/paste_generic.tpl.c:29
 msgid "Remove picture"
-msgstr "Suppression de l'image personnelle"
+msgstr "Supprimer l'image personnelle"
 
 #: plugins/personal/generic/paste_generic.tpl.c:2
 msgid "User settings"
@@ -5136,11 +5136,11 @@ msgstr "Attribuer un nouveau mot de passe"
 #: plugins/personal/generic/nochange.tpl.c:2
 #: plugins/personal/password/nochange.tpl.c:2
 msgid "You have no permission to change your password at this time"
-msgstr "Vous n'avez pas l'autorisation pour changer votre mot de passe à ce moment"
+msgstr "Vous n'avez pas le droit de changer votre mot de passe"
 
 #: plugins/personal/generic/nochange.tpl.c:5
 msgid "Your password hash method will not be changed!"
-msgstr "Votre méthode de cryptage des mots de passe ne sera pas changé !"
+msgstr "Votre méthode de chiffrement des mots de passe ne sera pas changée !"
 
 #: plugins/personal/password/password.tpl.c:2
 msgid ""
@@ -5151,7 +5151,7 @@ msgstr "Pour changer votre mot de passe, veuillez utiliser les champs ci-dessous
 
 #: plugins/personal/password/password.tpl.c:8
 msgid "Your Password has expired. Please choose a new password!"
-msgstr "Votre mot de passe à expiré. Choisissez un nouveau mot de passe !"
+msgstr "Votre mot de passe a expiré. Choisissez un nouveau mot de passe !"
 
 #: plugins/personal/password/password.tpl.c:11
 #: plugins/personal/password/password.tpl.c:23
@@ -5162,27 +5162,27 @@ msgstr "Mot de passe actuel"
 
 #: plugins/personal/password/password.tpl.c:47
 msgid "Clear fields"
-msgstr "Effacer les données dans les champs"
+msgstr "Vider les champs"
 
 #: plugins/personal/posix/trustSelect/trust-filter.tpl.c:5
 #: include/select/systemSelect/systemSelect-filter.tpl.c:5
 msgid "Show servers"
-msgstr "Montrez les serveurs"
+msgstr "Afficher les serveurs"
 
 #: plugins/personal/posix/trustSelect/trust-filter.tpl.c:8
 #: include/select/systemSelect/systemSelect-filter.tpl.c:8
 msgid "Show workstations"
-msgstr "Station de travail Windows"
+msgstr "Afficher les stations de travail"
 
 #: plugins/personal/posix/trustSelect/trust-filter.tpl.c:11
 #: include/select/systemSelect/systemSelect-filter.tpl.c:11
 msgid "Show Windows PC"
-msgstr "Montrer les systèmes Windows"
+msgstr "Afficher les systèmes Windows"
 
 #: plugins/personal/posix/trustSelect/trust-filter.tpl.c:14
 #: include/select/systemSelect/systemSelect-filter.tpl.c:14
 msgid "Show terminals"
-msgstr "Terminaux"
+msgstr "Afficher les terminaux"
 
 #: ihtml/themes/default/islocked.tpl.c:2
 msgid "Locking conflict detected"
@@ -5193,7 +5193,7 @@ msgid ""
 "If this lock detection is false, the other person has obviously closed the "
 "webbrowser during the edit operation. You may want to take over the lock by "
 "pressing the 'Edit anyway' button."
-msgstr "Si la détection de ce verrou est fausse, une autre personne a manifestement fermé la fenêtre de son navigateur durant une opération de modification d'une entrée. Dans ce cas, vous pouvez supprimez le verrou en cliquant sur le bouton 'Éditer malgré tout'."
+msgstr "Si la détection de ce verrou se trompe, une autre personne a manifestement fermé la fenêtre de son navigateur durant une opération de modification d'une entrée. Dans ce cas, vous pouvez supprimez le verrou en cliquant sur le bouton 'Éditer malgré tout'."
 
 #: ihtml/themes/default/islocked.tpl.c:11
 msgid "Read only"
@@ -5219,11 +5219,11 @@ msgstr "ignorer cette erreur et montrer toutes les entrées retournées par le s
 msgid ""
 "ignore this error and show all entries that fit into the defined sizelimit "
 "and let me use filters instead"
-msgstr "ignorer cette erreur et montrer toutes les entrées qui sont récupérées grâce au paramètre sizelimit défini et laissez moi utiliser les filtres pour restreindre les données a visualiser"
+msgstr "ignorer cette erreur et montrer toutes les entrées dans la limite de taille définie et laissez moi utiliser les filtres pour restreindre les données a visualiser"
 
 #: ihtml/themes/default/sizelimit.tpl.c:14
 msgid "Set"
-msgstr "Activer"
+msgstr "Valider"
 
 #: ihtml/themes/default/recovery.tpl.c:2
 msgid "FusionDirectory password recovery"
@@ -5239,7 +5239,7 @@ msgstr "Méthodes disponibles"
 
 #: ihtml/themes/default/recovery.tpl.c:17
 msgid "Receive by email a link that allows you to reset your password"
-msgstr "Recevoir un lien par email qui permettra de réinitialiser votre mot de passe"
+msgstr "Recevoir un lien par courriel qui permettra de réinitialiser votre mot de passe"
 
 #: ihtml/themes/default/recovery.tpl.c:20
 msgid "Send"
@@ -5247,7 +5247,7 @@ msgstr "Envoyé"
 
 #: ihtml/themes/default/recovery.tpl.c:23
 msgid "Click here to send a reset link"
-msgstr "Veuillez cliquer ici pour envoyer un lien permettant de réinitialiser votre mot de passe"
+msgstr "Veuillez cliquer ici pour envoyer un lien de réinitialisation"
 
 #: ihtml/themes/default/recovery.tpl.c:26
 msgid ""
@@ -5276,7 +5276,7 @@ msgstr "Répertoire"
 #: ihtml/themes/default/password.tpl.c:50
 #: ihtml/themes/default/password.tpl.c:53
 msgid "New password repeated"
-msgstr "Nouveau mot de passe"
+msgstr "Confirmation du nouveau mot de passe"
 
 #: ihtml/themes/default/recovery.tpl.c:56
 #: ihtml/themes/default/recovery.tpl.c:89
@@ -5294,7 +5294,7 @@ msgstr "Cliquez ici pour changer votre mot de passe"
 #: ihtml/themes/default/recovery.tpl.c:65
 #: ihtml/themes/default/password.tpl.c:5 ihtml/themes/default/password.tpl.c:8
 msgid "Success"
-msgstr "Réussi"
+msgstr "Succès"
 
 #: ihtml/themes/default/recovery.tpl.c:68
 #: ihtml/themes/default/password.tpl.c:11
@@ -5305,12 +5305,12 @@ msgstr "Votre mot de passe à été changé avec succès."
 msgid ""
 "Enter your current e-mail address in the field below and press the 'Change' "
 "button."
-msgstr "Entrez votre adresse de messagerie actuel dans le champ si dessous et appuyer sur le bouton 'Changer'"
+msgstr "Entrez votre adresse de courriel actuelle dans le champ si dessous et appuyer sur le bouton 'Changer'."
 
 #: ihtml/themes/default/recovery.tpl.c:74
 msgid ""
 "=> Use your e-mail in the long format, e.g : John Doe => john.doe@ibcp.fr"
-msgstr "indiquez votre email en forme longue, ex: Jules Martin => jules.martin@acme.com"
+msgstr "Indiquez votre adresse complète, ex: jules.martin@exemple.fr"
 
 #: ihtml/themes/default/recovery.tpl.c:95
 msgid ""
@@ -5331,7 +5331,7 @@ msgstr "Cette fenêtre vous permet de changer votre mot de passe de manière sim
 
 #: ihtml/themes/default/logout-close.tpl.c:2
 msgid "Your FusionDirectory session has been closed!"
-msgstr "Votre session FusionDirectory à expiré !"
+msgstr "Votre session FusionDirectory a expiré !"
 
 #: ihtml/themes/default/logout-close.tpl.c:5
 msgid ""
@@ -5349,7 +5349,7 @@ msgid ""
 "operation is technical not possible and heavily depends on the browser "
 "you're using. Usage of different browsers at a time (i.e. IE and Mozilla) is"
 " possible. Pressing the Logout button will close this session."
-msgstr "Une autre instance de votre session a été détectée. Les opérations multiples sont techniquement impossible et dépendent du navigateur utilisé. L'usage de navigateurs différents en même temps est possible (ex: IE et Mozilla) est possible. Cliquer sur le bouton 'Déconnexion' fermera cette session."
+msgstr "Une autre instance de votre session a été détectée. Les opérations multiples sont techniquement impossible et dépendent du navigateur utilisé. L'usage de navigateurs différents en même temps (ex: IE et Mozilla) est possible. Cliquer sur le bouton 'Déconnexion' fermera cette session."
 
 #: ihtml/themes/default/conflict.tpl.c:11
 msgid ""
@@ -5363,7 +5363,7 @@ msgstr "Déconnexion"
 
 #: ihtml/themes/default/logout.tpl.c:2
 msgid "Your FusionDirectory session has expired!"
-msgstr "Votre session FusionDirectory à expiré !"
+msgstr "Votre session FusionDirectory a expiré !"
 
 #: ihtml/themes/default/logout.tpl.c:5
 msgid ""
@@ -5380,7 +5380,7 @@ msgstr "Reconnexion"
 msgid ""
 "This may be used by several groups. Please double check if your really want "
 "to do this since there is no way for FusionDirectory to get your data back."
-msgstr "Cela peut être utilisé par plusieurs groupes. Veuillez vérifier que vous voulez effectuer cette opération étant donné qu'il est impossible pour FusionDirectory de récupérer vos données."
+msgstr "Cela peut être utilisé par plusieurs groupes. Veuillez vérifier que vous voulez effectuer cette opération étant donné qu'il sera impossible pour FusionDirectory de récupérer vos données."
 
 #: ihtml/themes/default/login.tpl.c:2
 msgid "Login screen"
@@ -5399,7 +5399,7 @@ msgstr "Nom d'utilisateur"
 
 #: ihtml/themes/default/login.tpl.c:26
 msgid "I forgot my password"
-msgstr "j'ai perdu mon mot de passe"
+msgstr "J’ai perdu mon mot de passe"
 
 #: ihtml/themes/default/login.tpl.c:38 ihtml/themes/default/login.tpl.c:44
 msgid "Sign in"
@@ -5419,15 +5419,15 @@ msgstr "Nouvelle ACL"
 
 #: ihtml/themes/default/acl.tpl.c:8
 msgid "ACL type"
-msgstr "Type ACL"
+msgstr "Type d’ACL"
 
 #: ihtml/themes/default/acl.tpl.c:11 ihtml/themes/default/acl.tpl.c:14
 msgid "Select an acl type"
-msgstr "Sélectionnez un type d'acl"
+msgstr "Sélectionnez un type d’ACL"
 
 #: ihtml/themes/default/acl.tpl.c:17
 msgid "Additional filter options"
-msgstr "Paramètres supplémentaire pour le filtre"
+msgstr "Paramètres supplémentaires pour le filtre"
 
 #: ihtml/themes/default/acl.tpl.c:20
 msgid "Use members from"
@@ -5439,11 +5439,11 @@ msgstr "Membres disponibles"
 
 #: ihtml/themes/default/acl.tpl.c:26 ihtml/themes/default/acl.tpl.c:29
 msgid "List message possible targets"
-msgstr "Liste les destinataires possibles pour les messages"
+msgstr "Liste des destinataires possibles des messages"
 
 #: ihtml/themes/default/acl.tpl.c:35 ihtml/themes/default/acl.tpl.c:38
 msgid "List message recipients"
-msgstr "Lister les destinataires du message"
+msgstr "Liste des destinataires du message"
 
 #: ihtml/themes/default/acl.tpl.c:44
 msgid "ACL for this object"
@@ -5451,32 +5451,32 @@ msgstr "ACL pour cet objet"
 
 #: ihtml/themes/default/acl.tpl.c:47
 msgid "Available roles"
-msgstr "Type de rôles disponibles"
+msgstr "Rôles disponibles"
 
 #: ihtml/themes/default/simple-remove.tpl.c:2
 msgid "Warning: you are about to delete the following objects"
-msgstr ""
+msgstr "Attention : Vous êtes sur le point de supprimer les objets suivants"
 
 #: ihtml/themes/default/copyPasteDialog.tpl.c:2
 msgid "Copy & paste wizard"
-msgstr "Assistant pour le copier &amp; coller"
+msgstr "Assistant copier & coller"
 
 #: ihtml/themes/default/copyPasteDialog.tpl.c:5
 msgid ""
 "Some values need to be unique in the complete directory while some "
 "combinations make no sense. FusionDirectory shows the relevant attributes. "
 "Please maintain the values below to fulfill the policies."
-msgstr "Certaines valeurs doivent être unique dans tout l'arbre et certaines combinaisons n'ont pas de sens. FusionDirectory vous montre les valeurs correspondantes. Veuillez maintenir les valeurs pour respecter les politiques de sécurité."
+msgstr "Certaines valeurs doivent être unique dans tout l'arbre et certaines combinaisons n'ont pas de sens. FusionDirectory vous montre les valeurs correspondantes. Veuillez régler les valeurs pour respecter les politiques de sécurité."
 
 #: ihtml/themes/default/copyPasteDialog.tpl.c:8
 msgid "Remember that some properties like taken snapshots will not be copied!"
-msgstr "Veuillez vous souvenir que certaines propriétés comme les copie instantanées ne seront pas copiés !"
+msgstr "Veuillez vous souvenir que certaines propriétés comme les instantanés ne seront pas copiés !"
 
 #: ihtml/themes/default/copyPasteDialog.tpl.c:11
 msgid ""
 "Or if you copy or cut an entry within FusionDirectory and delete the source "
 "object, you may get errors while pasting this object again!"
-msgstr "Ou si vous couper ou copiez un entrée avec FusionDirectory et que vous effacer la source, vous pouvez rencontrer des erreurs en tentant de le coller à nouveau !"
+msgstr "Ou si vous coupez ou copiez une entrée avec FusionDirectory et que vous effacez la source, vous pouvez rencontrer des erreurs en tentant de le coller à nouveau !"
 
 #: ihtml/themes/default/copyPasteDialog.tpl.c:23
 msgid "Operation complete"
@@ -5484,13 +5484,13 @@ msgstr "Opération réalisée"
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:2
 msgid "Restoring object snapshots"
-msgstr "Restaurer des copie instantanés des objets"
+msgstr "Restauration d’instantanés"
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:5
 msgid ""
 "This procedure will restore a snapshot of the selected object. It will "
 "replace the existing object after pressing the folder icon."
-msgstr "Cette procédure va restaurer un copie instantanée de l'objet sélectionné. Cela va remplacer l'objet existant après que vous ayez cliqué sur l’icône \"dossier\""
+msgstr "Cette procédure va restaurer un instantané de l'objet sélectionné. Cela va remplacer l'objet existant après que vous ayez cliqué sur l’icône de dossier."
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:8
 msgid ""
@@ -5503,32 +5503,32 @@ msgstr "Souvenez vous que la configuration DNS et les base de données ne peuven
 msgid ""
 "Don't forget to check references to other objects, for example does the "
 "selected printer still exists ?"
-msgstr "N'oubliez pas de vérifier les références avec les autres objets, par exemple est ce que l'imprimante sélectionnée existe encore ?"
+msgstr "N'oubliez pas de vérifier les références vers d’autres objets, par exemple est ce que l'imprimante sélectionnée existe encore ?"
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:17
 msgid "There is no snapshot available that could be restored"
-msgstr "Il n'y a pas de snapshots disponibles qui pourrait être restaurés"
+msgstr "Il n'y a pas d’instantané disponible qui pourrait être restauré"
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:20
 msgid "Choose a snapshot and click the folder image, to restore the snapshot"
-msgstr "Choisissez une copie instantanée et cliquez sur l'image du répertoire, pour restaurer la copie"
+msgstr "Choisissez un instantané et cliquez sur l'image de dossier pour le restaurer"
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:26
 msgid "Creating object snapshots"
-msgstr "Créer une copie instantanée des d'objets"
+msgstr "Création d’instantané"
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:29
 msgid ""
 "This procedure will create a snapshot of the selected object. It will be "
 "stored inside a special branch of your directory system and can be restored "
 "later on."
-msgstr "Cette procédure va créer une copie instantanée de l'objet sélectionné. Il sera stocké dans une branche spéciale de votre annuaire et pourra être restauré plus tard."
+msgstr "Cette procédure va créer un instantané de l'objet sélectionné. Il sera stocké dans une branche spéciale de votre annuaire et pourra être restauré plus tard."
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:32
 msgid ""
 "Remember that database entries, DNS configurations and possibly created "
 "zones in server extensions will not be stored in the snapshot."
-msgstr "Souvenez vous que les entrées dans les base de données, les configurations DNS et probablement les zones crées dans les serveurs ne seront pas stockées dans les copie instantanées."
+msgstr "Souvenez vous que les entrées dans les base de données, les configurations DNS et probablement les zones crées dans les serveurs ne seront pas stockées dans les instantanés."
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:38
 msgid "Timestamp"
@@ -5536,7 +5536,7 @@ msgstr "Date"
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:41
 msgid "Reason for generating this snapshot"
-msgstr "Raison pour la génération de cette copie instantanée"
+msgstr "Raison pour la génération de cet instantané"
 
 #: ihtml/themes/default/framework.tpl.c:2
 msgid "Main"
@@ -5548,12 +5548,12 @@ msgstr "Déconnexion"
 
 #: ihtml/themes/default/framework.tpl.c:8
 msgid "Signed in:"
-msgstr "Connecté:"
+msgstr "Connecté :"
 
 #: ihtml/themes/default/framework.tpl.c:11
 #, c-format
 msgid "Session expires in %d!"
-msgstr "La session expire dans %d !"
+msgstr "La session expire dans %d !"
 
 #: setup/setup_language.tpl.c:2
 msgid "Please select the preferred language"
@@ -5564,7 +5564,7 @@ msgid ""
 "At this point, you can select the site wide default language. Choosing "
 "'automatic' will use the language requested by the browser. This setting can"
 " be overriden per user."
-msgstr "Maintenant vous pouvez choisir la langue par défaut. Automatique utilisera la langue demandée par le navigateur. Ce paramètre peut être configuré par utilisateur."
+msgstr "Maintenant vous pouvez choisir la langue par défaut. «Automatique» utilisera la langue demandée par le navigateur. Ce paramètre peut être configuré par utilisateur."
 
 #: setup/setup_language.tpl.c:8
 msgid "Please select your preferred language here"
@@ -5572,35 +5572,35 @@ msgstr "Veuillez indiquer votre langue préférée ici"
 
 #: setup/setup_config1.tpl.c:2
 msgid "Look and feel"
-msgstr "Thèmes et apparences"
+msgstr "Thème et apparence"
 
 #: setup/setup_config1.tpl.c:17
 msgid "People storage subtree"
-msgstr "Branches de l'arbre ldap ou sont stockes les utilisateurs"
+msgstr "Branche où sont stockés les utilisateurs"
 
 #: setup/setup_config1.tpl.c:20
 msgid "Group storage subtree"
-msgstr "Branches de l'arbre ldap ou sont stockes les groupes"
+msgstr "Branche où sont stockés les groupes"
 
 #: setup/setup_config1.tpl.c:23
 msgid "ACL roles storage subtree"
-msgstr "Branches de l'arbre ldap ou sont stockes les ACL"
+msgstr "Branche où sont stockés les ACL"
 
 #: setup/setup_config1.tpl.c:29
 msgid "Relaxed naming policies"
-msgstr "Règles de de nommage souples"
+msgstr "Règles de nommage souples"
 
 #: setup/setup_config1.tpl.c:38
 msgid "Base number for user/group id"
-msgstr ""
+msgstr "Nombre de base pour les id de groupes/utilisateurs"
 
 #: setup/setup_config1.tpl.c:44
 msgid "Password encryption algorithm"
-msgstr "Algorithme de cryptage pour les mots de passe"
+msgstr "Algorithme de chiffrement des mots de passe"
 
 #: setup/setup_config1.tpl.c:47
 msgid "Password restrictions"
-msgstr "Restrictions pour les mot de passe"
+msgstr "Restrictions des mots de passe"
 
 #: setup/setup_config1.tpl.c:56 setup/setup_config1.tpl.c:59
 msgid "Different characters from old password"
@@ -5608,14 +5608,14 @@ msgstr "Nombre de caractères différents de l'ancien mot de passe"
 
 #: setup/setup_config1.tpl.c:62
 msgid "Password change hook"
-msgstr "Connexions pour le changement de mot de passe"
+msgstr "Hook pour le changement de mot de passe"
 
 #: setup/setup_config1.tpl.c:68
 msgid ""
 "FusionDirectory supports several encryption types for your passwords. "
 "Normally this is adjustable via user templates, but you can specify a "
 "default method to be used here, too."
-msgstr "FusionDirectory supporte différents types de cryptage pour vos mots de passe. Normalement ceci est ajustable avec des modèles utilisateurs, mais vous pouvez spécifier ici une méthode qui sera utilisée par défaut."
+msgstr "FusionDirectory supporte différents types de chiffrement pour vos mots de passe. Normalement ceci est ajustable avec des modèles utilisateurs, mais vous pouvez spécifier ici une méthode qui sera utilisée par défaut."
 
 #: setup/setup_config1.tpl.c:71
 msgid ""
@@ -5623,21 +5623,21 @@ msgid ""
 "This is a workaround till OpenLDAP's in directory ACI's are    fully "
 "implemented. For this to work, we need the admin DN and the corresponding "
 "password."
-msgstr "FusionDirectory agit toujours comme un administrateur et gère les droits (ACLs) en interne. C'est un procédé utilisé en attendant que les ACI de OpenLDAP soient finalisées. Pour ces raisons il est nécessaire d'indiquer le DN de l'administrateur et son mot de passe."
+msgstr "FusionDirectory agit toujours comme administrateur et gère les droits en interne. C'est un procédé utilisé en attendant que les ACL de OpenLDAP soient finalisées. Pour ces raisons il est nécessaire d'indiquer le DN de l'administrateur et son mot de passe."
 
 #: setup/setup_config1.tpl.c:74
 msgid ""
 "Some basic LDAP parameters are tunable and affect the locations where "
 "FusionDirectory saves people and groups, including the way accounts get "
 "created. Check the values below if the fit your needs."
-msgstr "Des paramètres basiques du serveur LDAP sont modifiables et affectent l'endroit où FusionDirectory va enregistrer les utilisateurs et les groupes, incluant la façon dont vont être créés les comptes. Vérifiez les valeurs suivantes afin quelles correspondent à vos besoins."
+msgstr "Des paramètres basiques du serveur LDAP sont modifiables et affectent l'endroit où FusionDirectory va enregistrer les utilisateurs et les groupes, incluant la façon dont vont être créés les comptes. Vérifiez les valeurs suivantes afin qu’elles correspondent à vos besoins."
 
 #: setup/setup_config1.tpl.c:77
 msgid ""
 "FusionDirectory has modular support for several mail methods. These methods "
 "provide interfaces to users mailboxes and general handling    for quotas. "
 "You can choose the dummy plugin to leave all your mail settings untouched."
-msgstr "FusionDirectory à un support modulaire des méthodes de messagerie. Ces méthodes fournissent des interfaces vers les boîtes à messages des utilisateurs ainsi que la gestion de leurs quotas. Vous pouvez choisir l'extension dummy pour que FusionDirectory ne touche a rien."
+msgstr "FusionDirectory a un support modulaire des méthodes de courriel. Ces méthodes fournissent des interfaces vers les boîtes des utilisateurs ainsi que la gestion de leurs quotas. Vous pouvez choisir l'extension dummy pour que FusionDirectory ne touche a rien."
 
 #: setup/setup_finish.tpl.c:2
 msgid "Create your configuration file"
@@ -5657,7 +5657,7 @@ msgstr "Télécharger la configuration"
 
 #: setup/setup_finish.tpl.c:14
 msgid "Status: "
-msgstr "Statut: "
+msgstr "Statut : "
 
 #: setup/setup_schema.tpl.c:2
 msgid "Schema specific settings"
@@ -5669,38 +5669,38 @@ msgstr "Activer la validation des schéma lors de la connexion"
 
 #: setup/setup_schema.tpl.c:8
 msgid "Check status"
-msgstr "Vérifier les statuts"
+msgstr "Statut de la vérification"
 
 #: setup/setup_schema.tpl.c:11
 msgid "Schema check succeeded"
-msgstr "La vérification des schéma à réussi"
+msgstr "La vérification des schémas a réussi"
 
 #: setup/setup_schema.tpl.c:14
 msgid "Schema check failed"
-msgstr "La vérification des schéma à échoué"
+msgstr "La vérification des schéma a échoué"
 
 #: setup/setup_schema.tpl.c:17
 msgid ""
 "Could not read any schema informations, all checks skipped. Adjust your ldap"
 " acls."
-msgstr "Impossible de lire les schémas, toutes les vérifications sont annulées. Ajuster les acl de votre annuaire ldap."
+msgstr "Impossible de lire les schémas, toutes les vérifications sont annulées. Ajuster les ACLs de votre annuaire ldap."
 
 #: setup/setup_schema.tpl.c:20
 msgid ""
 "It seems that your ldap database wasn't initialized yet. This might be the "
 "reason why FusionDirectory can't read your schema configuration!"
-msgstr "Il semble que votre annuaire LDAP n'a pas encore été configuré. C'est peut être cela qui empêche FusionDirectory de lire la configuration de vos schémas !"
+msgstr "Il semble que votre annuaire LDAP n'a pas encore été initialisé. C'est peut-être cela qui empêche FusionDirectory de lire la configuration de vos schémas !"
 
 #: setup/setup_welcome.tpl.c:2
 msgid ""
 "This seems to be the first time you start FusionDirectory - we didn't find "
 "any configuration right now. This simple wizard intends to help you while "
 "setting it up."
-msgstr "Il semble que c'est votre première installation de FusionDirectory - nous n'avons pas trouvé de configuration. Ce programme d'aide à l'installation vous aidera à configurer FusionDirectory."
+msgstr "Il semble que c’est votre première installation de FusionDirectory - nous n’avons pas trouvé de configuration. Ce programme d’aide à l’installation vous aidera à configurer FusionDirectory."
 
 #: setup/setup_welcome.tpl.c:5
 msgid "What will the wizard do for you?"
-msgstr "Qu'est ce que le programme d'aide à l'installation fera pour vous ?"
+msgstr "Qu’est-ce que le programme d'aide à l'installation fera pour vous ?"
 
 #: setup/setup_welcome.tpl.c:8
 msgid "Create a basic, single site configuration"
@@ -5708,46 +5708,46 @@ msgstr "Créer une simple configuration mono site"
 
 #: setup/setup_welcome.tpl.c:11
 msgid "Tries to find problems within your PHP and LDAP setup"
-msgstr "Essaye de trouver si il existe des problèmes dans votre configuration PHP ou LDAP"
+msgstr "Essayer de trouver s’il existe des problèmes dans votre configuration PHP ou LDAP"
 
 #: setup/setup_welcome.tpl.c:14
 msgid "Let you choose from a set of basic and advanced configuration switches"
-msgstr "Vous permet de choisir un jeu d'option de base ou avancées"
+msgstr "Vous permettre de choisir un jeu d’options de base ou avancées"
 
 #: setup/setup_welcome.tpl.c:17
 msgid "Guided migration of existing LDAP trees"
-msgstr "Migration assistée d'un annuaire LDAP existant"
+msgstr "Migration assistée d’un annuaire LDAP existant"
 
 #: setup/setup_welcome.tpl.c:20
 msgid "What will the wizard NOT do for you?"
-msgstr "Qu'est ce que le l'assistant d'installation ne fera pas pour vous ?"
+msgstr "Qu’est-ce que le l’assistant d’installation ne fera PAS pour vous ?"
 
 #: setup/setup_welcome.tpl.c:23
 msgid "Find every possible configuration error"
-msgstr "Trouver toutes les erreur possible dans votre configuration"
+msgstr "Trouver toutes les erreurs possibles dans votre configuration"
 
 #: setup/setup_welcome.tpl.c:26
 msgid "Migrate every possible LDAP setup - create backup dumps!"
-msgstr "Migrer tout les scénario LDAP possible - créez des sauvegardes !"
+msgstr "Migrer tous les scénarios LDAP possibles - créez des sauvegardes !"
 
 #: setup/setup_welcome.tpl.c:29
 msgid "To continue:"
-msgstr ""
+msgstr "Pour continuer :"
 
 #: setup/setup_welcome.tpl.c:32
 msgid ""
 "For security reasons you need to authenticate for the installation by "
 "creating the file '%1', containing the current session ID on the servers "
 "local filesystem. This can be done by executing the following command:"
-msgstr "Pour des raisons de sécurité vous devez vous authentifier en créant le fichier '%1', contenant l'ID de la session sur le(s) serveur(s). Ceci peut être réalisé en exécutant la commande suivante:"
+msgstr "Pour des raisons de sécurité vous devez vous authentifier en créant le fichier '%1', contenant l'ID de la session sur le serveur. Ceci peut être réalisé en exécutant la commande suivante :"
 
 #: setup/setup_welcome.tpl.c:35
 msgid "Click the 'Next' button when you've finished."
-msgstr "Cliquer sur 'Continuer' quand vous avez fini."
+msgstr "Cliquez sur 'Continuer' quand vous avez fini."
 
 #: setup/setup_ldap.tpl.c:2
 msgid "Please choose the LDAP user to be used by FusionDirectory"
-msgstr "Veuillez choisir l'utilisateur LDAP qui sera utilise par FusionDirectory"
+msgstr "Veuillez choisir l’utilisateur LDAP qui sera utilisé par FusionDirectory"
 
 #: setup/setup_ldap.tpl.c:5
 msgid "Search"
@@ -5759,7 +5759,7 @@ msgstr "Connexion LDAP"
 
 #: setup/setup_ldap.tpl.c:17
 msgid "Location name"
-msgstr "Nom de l'emplacement"
+msgstr "Nom de l’emplacement"
 
 #: setup/setup_ldap.tpl.c:20
 msgid "Connection URI"
@@ -5788,7 +5788,7 @@ msgstr "Sélectionner un utilisateur"
 
 #: setup/setup_ldap.tpl.c:47
 msgid "Automatically append LDAP base to admin DN"
-msgstr "Ajouter automatiquement la base de l'annuaire LDAP au DN de l'administrateur"
+msgstr "Ajouter automatiquement la base du LDAP au DN de l'administrateur"
 
 #: setup/setup_ldap.tpl.c:50
 msgid "Admin password"
@@ -5796,11 +5796,11 @@ msgstr "Mot de passe administrateur"
 
 #: setup/setup_ldap.tpl.c:53
 msgid "Schema based settings"
-msgstr "Paramètres basé sur les schéma"
+msgstr "Paramètres basés sur les schémas"
 
 #: setup/setup_ldap.tpl.c:56
 msgid "Use rfc2307bis compliant groups"
-msgstr "Utilisez des groupes rfc2307bis"
+msgstr "Utiliser des groupes rfc2307bis"
 
 #: setup/setup_ldap.tpl.c:59
 msgid "Current status"
@@ -5808,11 +5808,11 @@ msgstr "Statut actuel"
 
 #: setup/setup_checks.tpl.c:2
 msgid "PHP module and extension checks"
-msgstr "Extension PHP et vérification de celles-ci"
+msgstr "Extensions et modules PHP"
 
 #: setup/setup_checks.tpl.c:14 setup/setup_checks.tpl.c:35
 msgid "FusionDirectory will NOT run without fixing this."
-msgstr "FusionDirectory ne fonctionnera pas si vous ne corrigez pas cela."
+msgstr "FusionDirectory ne fonctionnera PAS si vous ne corrigez pas cela."
 
 #: setup/setup_checks.tpl.c:17 setup/setup_checks.tpl.c:38
 msgid "FusionDirectory will run without fixing this."
@@ -5839,7 +5839,7 @@ msgid ""
 "During the LDAP inspection, we're going to check for several common pitfalls"
 " that may occur when migration to FusionDirectory base LDAP administration. "
 "You may want to fix the problems below, in order to provide smooth services."
-msgstr "Pendant l'inspection LDAP, nous allons regarder pour les problèmes classiques qui peuvent arriver lorsque l'on migre vers une administration basée sur FusionDirectory. Vous pouvez fixer les problèmes si dessous afin de procurer une administration facilitée."
+msgstr "Pendant l'inspection LDAP, nous allons chercher les problèmes classiques qui peuvent arriver lorsque l'on migre vers une administration basée sur FusionDirectory. Vous devriez régler les problèmes ci-dessous afin de procurer une administration facilitée."
 
 #: setup/setup_migrate.tpl.c:5
 msgid "Check again"
@@ -5847,7 +5847,7 @@ msgstr "Vérifier à nouveau"
 
 #: setup/setup_migrate.tpl.c:8
 msgid "Add required object classes to the LDAP base"
-msgstr "Ajouter les Object class obligatoires a l'annuaire LDAP. "
+msgstr "Ajouter les Object class obligatoires à la base LDAP"
 
 #: setup/setup_migrate.tpl.c:11 setup/setup_migrate.tpl.c:86
 #: setup/setup_migrate.tpl.c:140 setup/setup_migrate.tpl.c:167
@@ -5869,24 +5869,24 @@ msgstr "Fermer"
 
 #: setup/setup_migrate.tpl.c:23
 msgid "Move groups into configured group tree"
-msgstr "Bouger les groupes dans le groupe configuré"
+msgstr "Déplacer les groupes dans la branche configurée"
 
 #: setup/setup_migrate.tpl.c:26
 msgid ""
 "This dialog allows moving a couple of groups to the configured group tree. "
 "Doing this may straighten your LDAP service."
-msgstr "Ce dialogue permet de bouger un couple de groupes dans le groupe configuré. Exécuter cela peut améliorer votre service LDAP."
+msgstr "Ce dialogue permet de déplacer des groupes dans la branche configurée. Cela peut améliorer votre service LDAP."
 
 #: setup/setup_migrate.tpl.c:29
 msgid ""
 "Be careful with this option! There may be references pointing to these "
 "groups. The FusionDirectory setup can't migrate references, so you may want "
 "to cancel the migration in this case."
-msgstr "Soyez prudent avec cette opération ! Il peut exister des références qui pointent vers ces groupes. Le programme d'installation de FusionDirectory ne peut pas migrer ces références, vous préférerez peut être annuler la migration dans ce cas."
+msgstr "Soyez prudent avec cette opération ! Il peut exister des références qui pointent vers ces groupes. Le programme d’installation de FusionDirectory ne peut pas migrer ces références, vous préférerez peut être annuler la migration dans ce cas."
 
 #: setup/setup_migrate.tpl.c:32
 msgid "Move selected groups into this group tree"
-msgstr "Bouger les groupes sélectionnés dans le groupe de base cet annuaire"
+msgstr "Déplacer les groupes sélectionnés dans la branche des groupes"
 
 #: setup/setup_migrate.tpl.c:38 setup/setup_migrate.tpl.c:65
 #: setup/setup_migrate.tpl.c:92 setup/setup_migrate.tpl.c:149
@@ -5904,28 +5904,28 @@ msgstr "Montrer les changements"
 
 #: setup/setup_migrate.tpl.c:50
 msgid "Move users into configured user tree"
-msgstr "Bouger les utilisateurs dans la branche utilisateur configurée"
+msgstr "Déplacer les utilisateurs dans la branche utilisateur configurée"
 
 #: setup/setup_migrate.tpl.c:53
 msgid ""
 "This dialog allows moving a couple of users to the configured user tree. "
 "Doing this may straighten your LDAP service."
-msgstr "Ce dialogue permet de bouger un ensemble d'utilisateurs dans la branche utilisateur configurée. Exécuter cette opération peut améliorer votre service LDAP."
+msgstr "Ce dialogue permet de déplacer un ensemble d'utilisateurs dans la branche utilisateur configurée. Cette opération peut améliorer votre service LDAP."
 
 #: setup/setup_migrate.tpl.c:56
 msgid ""
 "Be careful with this option! There may be references pointing to these "
 "users. The FusionDirectory setup can't migrate references, so you may want "
 "to cancel the migration in this case."
-msgstr "Soyez prudent avec cette opération ! Il peut exister des références qui pointent vers ces utilisateurs. Le programme d'installation de FusionDirectory ne peut pas migrer ces références, vous préférerez peut être annuler la migration dans ce cas."
+msgstr "Soyez prudent avec cette opération ! Il peut exister des références qui pointent vers ces utilisateurs. Le programme d’installation de FusionDirectory ne peut pas migrer ces références, vous préférerez peut être annuler la migration dans ce cas."
 
 #: setup/setup_migrate.tpl.c:59
 msgid "Move selected users into this people tree"
-msgstr "Bouger les utilisateurs sélectionnés dans la branche utilisateurs."
+msgstr "Déplacer les utilisateurs sélectionnés dans la branche utilisateurs"
 
 #: setup/setup_migrate.tpl.c:77
 msgid "Migrate GOsa 2.5 administrator accounts"
-msgstr ""
+msgstr "Migrer des comptes administrateurs GOsa 2.5"
 
 #: setup/setup_migrate.tpl.c:80
 msgid ""
@@ -5945,11 +5945,11 @@ msgstr "Créer un nouveau compte administrateur pour FusionDirectory"
 msgid ""
 "This dialog will automatically add a new super administrator to your LDAP "
 "tree."
-msgstr "Ce dialogue vas automatiquement créer un nouveau super utilisateur dans votre arbre LDAP."
+msgstr "Ce dialogue va automatiquement créer un nouveau super utilisateur dans votre arbre LDAP."
 
 #: setup/setup_migrate.tpl.c:119
 msgid "User ID"
-msgstr "ID de l'utilisateur"
+msgstr "ID de l’utilisateur"
 
 #: setup/setup_migrate.tpl.c:125
 msgid "Password (again)"
@@ -5960,7 +5960,7 @@ msgid ""
 "The listed departments are currently invisible in the FusionDirectory user "
 "interface. If you want to change this for a couple of entries, select them "
 "and use the migrate button below."
-msgstr "Les département listés sont actuellement invisibles dans l'interface utilisateur de FusionDirectory. Si vous voulez changer cela pour un certain nombre d'entrée, sélectionnez les et utilisez le bouton migration ci dessous."
+msgstr "Les départements listés sont actuellement invisibles dans l’interface utilisateur de FusionDirectory. Si vous voulez changer cela pour un certain nombre d'entrées, sélectionnez les et utilisez le bouton migration ci dessous."
 
 #: setup/setup_migrate.tpl.c:137 setup/setup_migrate.tpl.c:164
 #: setup/setup_migrate.tpl.c:191 setup/setup_migrate.tpl.c:221
@@ -5968,35 +5968,35 @@ msgstr "Les département listés sont actuellement invisibles dans l'interface u
 msgid ""
 "If you want to know what will be done when migrating the selected entries, "
 "use the 'Show changes' button to see the LDIF."
-msgstr "Si vous voulez savoir ce qui sera effectué lorsque vous migrerez les entrées sélectionnées, utilisez le bouton 'Montrer les changements' pour voir le fichier LDIF."
+msgstr "Si vous voulez savoir ce qui sera effectué lorsque vous migrerez les entrées sélectionnées, utilisez le bouton 'Montrer les changements' pour voir le LDIF."
 
 #: setup/setup_migrate.tpl.c:161
 msgid ""
 "The listed users are currently invisible in the FusionDirectory user "
 "interface. If you want to change this for a couple of users, just select "
 "them and use the 'Migrate' button below."
-msgstr "Les utilisateurs listés sont actuellement invisibles dans l'interface utilisateur de FusionDirectory. Si vous voulez changer ceci pour certains d'utilisateurs, veuillez les sélectionner et utiliser le bouton 'migration' ci dessous."
+msgstr "Les utilisateurs listés sont actuellement invisibles dans l'interface utilisateur de FusionDirectory. Si vous voulez changer ceci pour certains utilisateurs, veuillez les sélectionner et utiliser le bouton 'migration' ci-dessous."
 
 #: setup/setup_migrate.tpl.c:188
 msgid ""
 "The listed devices are currently invisible in the FusionDirectory interface."
 " If you want to change this for a couple of devices, just select them and "
 "use the 'Migrate' button below."
-msgstr "Les périphériques listés sont actuellement invisibles dans l'interface de FusionDirectory. Si vous voulez changer ceci pour certains périphériques, veuillez les sélectionner et utiliser le bouton 'migration' ci dessous."
+msgstr "Les périphériques listés sont actuellement invisibles dans l'interface de FusionDirectory. Si vous voulez changer ceci pour certains périphériques, veuillez les sélectionner et utiliser le bouton 'migration' ci-dessous."
 
 #: setup/setup_migrate.tpl.c:218
 msgid ""
 "The listed services are currently invalid for the FusionDirectory version "
 "you are going to install. If you want to update a couple of service, just "
 "select them and use the 'Migrate' button below."
-msgstr "Les services listés sont actuellement invisibles dans l'interface de FusionDirectory. Si vous voulez changer ceci certains services, veuillez les sélectionner et utiliser le bouton 'migration' ci dessous."
+msgstr "Les services listés sont actuellement invisibles dans l'interface de FusionDirectory. Si vous voulez changer ceci pour certains services, veuillez les sélectionner et utiliser le bouton 'migration' ci-dessous."
 
 #: setup/setup_migrate.tpl.c:248
 msgid ""
 "The listed menus are currently invisible in the FusionDirectory interface. "
 "If you want to change this for a couple of devices, just select them and use"
 " the 'Migrate' button below."
-msgstr "Les menus listés sont actuellement invisibles dans l'interface de FusionDirectory. Si vous voulez changer ceci pour certains menus, veuillez les sélectionner et utiliser le bouton 'migration' ci dessous."
+msgstr "Les menus listés sont actuellement invisibles dans l'interface de FusionDirectory. Si vous voulez changer ceci pour certains menus, veuillez les sélectionner et utiliser le bouton 'migration' ci-dessous."
 
 #: setup/setup_config3.tpl.c:2
 msgid "FusionDirectory core settings"
@@ -6004,7 +6004,7 @@ msgstr "Paramètres essentiels de FusionDirectory"
 
 #: setup/setup_config3.tpl.c:11
 msgid "Enable edit locking"
-msgstr "Activer le vérrouillage lors de l'édition"
+msgstr "Activer le verrouillage lors de l'édition"
 
 #: setup/setup_config3.tpl.c:17
 msgid "FusionDirectory logging"
@@ -6012,11 +6012,11 @@ msgstr "Journaux systèmes de FusionDirectory"
 
 #: setup/setup_config3.tpl.c:26
 msgid "Enforce register_globals to be deactivated"
-msgstr "Force register_globals à être désactivé"
+msgstr "Forcer register_globals à être désactivé"
 
 #: setup/setup_config3.tpl.c:41
 msgid "Show PHP errors"
-msgstr "Afficher les erreur PHP"
+msgstr "Afficher les erreurs PHP"
 
 #: setup/setup_config3.tpl.c:53 setup/setup_config3.tpl.c:59
 msgid "Disabled"
