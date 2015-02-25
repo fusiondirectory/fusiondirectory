@@ -581,7 +581,7 @@ class plugin
           $ret[] = iconv('UTF8', 'ASCII//TRANSLIT', $str);
         }
         setlocale(LC_CTYPE, $localesaved);
-        return array($ret);
+        return array_unique($ret);
       case 'p': // spaces
         return array(preg_replace('/\s/u', '', $str));
       case 's': // substring
