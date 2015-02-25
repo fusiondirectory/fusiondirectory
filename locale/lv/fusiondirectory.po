@@ -10,12 +10,12 @@ msgstr ""
 "POT-Creation-Date: 2014-08-04 19:08+0200\n"
 "PO-Revision-Date: 2014-08-27 17:02+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/FusionDirectory-Dev/language/nb/)\n"
+"Language-Team: Latvian (http://www.transifex.com/projects/p/FusionDirectory-Dev/language/lv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nb\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: lv\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);\n"
 
 #: plugins/generic/welcome/main.inc:26
 #, php-format
@@ -51,7 +51,7 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:141
 #: plugins/personal/posix/class_posixAccount.inc:78
 msgid "Generic"
-msgstr "Generisk"
+msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:61
 #: plugins/admin/groups/class_group.inc:59
@@ -70,7 +70,7 @@ msgstr "Generisk"
 #: include/select/groupSelect/group-filter.tpl.c:14
 #: setup/setup_migrate.tpl.c:116
 msgid "Name"
-msgstr "Navn"
+msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:61
 msgid "Name of the role"
@@ -89,7 +89,7 @@ msgstr ""
 #: include/simpleplugin/simple-select-list.xml:40
 #: include/simpleplugin/simple-list.xml:40
 msgid "Description"
-msgstr "Beskrivelse"
+msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:65
 msgid "Description of the role"
@@ -136,7 +136,7 @@ msgstr ""
 #: plugins/admin/aclrole/class_aclRole.inc:127
 #: plugins/admin/acl/class_aclAssignment.inc:40
 msgid "Properties"
-msgstr "Egenskaper"
+msgstr ""
 
 #: plugins/admin/groups/class_group.inc:59
 #: plugins/admin/ogroups/class_ogroup.inc:179
@@ -255,7 +255,7 @@ msgstr ""
 #: include/simpleplugin/simple-list.xml:59
 #: setup/class_setupStep_Migrate.inc:946 setup/class_setupStep_Migrate.inc:963
 msgid "Create"
-msgstr "Opprett"
+msgstr ""
 
 #: plugins/admin/groups/group-list.xml:74
 #: plugins/admin/groups/group-list.xml:119
@@ -270,7 +270,7 @@ msgstr "Opprett"
 #: include/simpleplugin/simple-list.xml:67
 #: include/simpleplugin/simple-list.xml:112
 msgid "Edit"
-msgstr "Endre"
+msgstr ""
 
 #: plugins/admin/groups/group-list.xml:82
 #: plugins/admin/groups/group-list.xml:132
@@ -284,7 +284,7 @@ msgstr "Endre"
 #: include/simpleplugin/simple-list.xml:125
 #: setup/class_setupStep_Migrate.inc:2485
 msgid "Remove"
-msgstr "Fjern"
+msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:37
 msgid "Manage groups"
@@ -676,11 +676,11 @@ msgstr ""
 #: plugins/admin/users/user-list.xml:23 plugins/admin/users/user-list.xml:95
 #: plugins/personal/generic/class_user.inc:146
 msgid "User"
-msgstr "Bruker"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:49
 msgid "Surname"
-msgstr "Etternavn"
+msgstr ""
 
 #: plugins/admin/users/user-list.xml:57
 #: plugins/admin/users/class_userManagement.inc:495
@@ -2014,7 +2014,7 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:1181
 #: ihtml/themes/default/msg_dialog.tpl.c:2 setup/setup_checks.tpl.c:5
 msgid "Error"
-msgstr "Feil"
+msgstr ""
 
 #: include/class_listing.inc:577
 msgid "created by"
@@ -2170,7 +2170,7 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:2674
 #: setup/class_setupStep_Migrate.inc:2687
 msgid "LDAP error"
-msgstr "LDAP-feil"
+msgstr ""
 
 #: include/class_config.inc:341
 msgid "Cannot bind to LDAP. Please contact the system administrator."
@@ -3938,7 +3938,7 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:1965
 #: setup/class_setupStep_Migrate.inc:2755
 msgid "Failed"
-msgstr "Feil"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:501 setup/class_setupStep_Migrate.inc:513
 #, php-format
@@ -4390,7 +4390,7 @@ msgstr ""
 #: ihtml/themes/default/simple-filter.tpl.c:2
 #: include/select/groupSelect/group-filter.tpl.c:2
 msgid "Filter"
-msgstr "Filter"
+msgstr ""
 
 #: plugins/admin/ogroups/ogroup-filter.tpl.c:5
 msgid "user groups"
