@@ -577,7 +577,7 @@ class plugin
         $localesaved = setlocale(LC_CTYPE, 0);
         $ret = array();
         foreach ($args as $arg) {
-          setlocale(LC_CTYPE, $arg);
+          setlocale(LC_CTYPE, array($arg,"$arg.UTF8"));
           $ret[] = iconv('UTF8', 'ASCII//TRANSLIT', $str);
         }
         setlocale(LC_CTYPE, $localesaved);
