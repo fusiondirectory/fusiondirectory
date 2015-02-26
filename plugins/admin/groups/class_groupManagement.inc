@@ -36,9 +36,9 @@ class groupManagement extends simpleManagement
       'plShortName'   => _('Groups'),
       'plDescription' => _('Manage groups'),
       'plIcon'        => 'geticon.php?context=types&icon=user-group&size=48',
-      'plSection'     => 'admin',
+      'plSection'     => 'accounts',
       'plManages'     => array('group', 'role'),
-      'plPriority'    => 2,
+      'plPriority'    => 20,
 
       'plProvidedAcls' => array()
     );

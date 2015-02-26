@@ -61,7 +61,7 @@ class configInLdap extends simplePlugin
         "name"    => _("FusionDirectory configuration"),
         "filter"  => "objectClass=fusionDirectoryConf"
       )),
-      "plSection"       => array("addons" => array("name" => _("Addons"), "priority" => 10)),
+      "plSection"       => array("conf" => array("name" => _("Configuration"), "priority" => 20)),
       "plPriority"      => 0,
 
       "plProvidedAcls"  => parent::generatePlProvidedAcls(self::getAttributesInfo())
