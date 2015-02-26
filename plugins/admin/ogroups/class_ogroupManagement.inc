@@ -35,9 +35,9 @@ class ogroupManagement extends simpleManagement
       'plShortName'   => _('Object groups'),
       'plDescription' => _('Manage object groups'),
       'plIcon'        => 'geticon.php?context=types&icon=resource-group&size=48',
-      'plSection'     => 'admin',
+      'plSection'     => 'accounts',
       'plManages'     => array('ogroup'),
-      'plPriority'    => 3,
+      'plPriority'    => 21,
 
       'plProvidedAcls' => array()
     );

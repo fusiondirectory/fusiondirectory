@@ -42,9 +42,9 @@ class userManagement extends simpleManagement
       'plShortName'   => _('Users'),
       'plDescription' => _('Manage users'),
       'plIcon'        => 'geticon.php?context=types&icon=user&size=48',
-      'plSection'     => 'admin',
+      'plSection'     => 'accounts',
       'plManages'     => array('user'),
-      'plPriority'    => 1,
+      'plPriority'    => 10,
 
       'plProvidedAcls' => array()
     );
