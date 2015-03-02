@@ -1373,7 +1373,7 @@ class config  {
       }
     }
     unset($infos);
-    $this->data['SECTIONS']['personal'] = array('NAME' => _('My account'), 'PRIORITY' => 20);
+    $this->data['SECTIONS']['personal'] = array('NAME' => _('My account'), 'PRIORITY' => 40);
     $personal = array();
     foreach ($this->data['TABS']['USERTABS'] as $tab) {
       $personal[] = array('CLASS' => $tab['CLASS'], 'ACL' => 'user/'.$tab['CLASS'].':self');
