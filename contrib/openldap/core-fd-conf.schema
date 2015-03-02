@@ -398,6 +398,26 @@ attributetype ( 1.3.6.1.4.1.38414.8.19.1 NAME 'fdOGroupRDN'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
   SINGLE-VALUE)
 
+# merged from dashboard-fd.schema - Needed by Fusion Directory for dashboard options
+
+attributetype ( 1.3.6.1.4.1.38414.27.1.1 NAME 'fdDashboardPrefix'
+  DESC 'FusionDirectory - Dashboard computer name prefix'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
+
+attributetype ( 1.3.6.1.4.1.38414.27.1.2 NAME 'fdDashboardNumberOfDigit'
+  DESC 'FusionDirectory - Dashboard number of digits after prefixes in computer names'
+  EQUALITY integerMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.27.1.3 NAME 'fdDashboardExpiredAccountsDays'
+  DESC 'FusionDirectory - Dashboard number of days before expiration to be shown in board user tab'
+  EQUALITY integerMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+  SINGLE-VALUE )
+
 
 # Object Class
 objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
@@ -432,3 +452,10 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.2 NAME 'fusionDirectoryPluginsConf'
   SUP top AUXILIARY
   MUST ( cn )
   MAY ( fdOGroupRDN ) )
+
+# Dashboard Object Class
+objectclass ( 1.3.6.1.4.1.38414.27.2.1 NAME 'fdDashboardPluginConf'
+  DESC 'FusionDirectory dashboard plugin configuration'
+  SUP top AUXILIARY
+  MUST ( cn )
+  MAY ( fdDashboardPrefix $ fdDashboardNumberOfDigit $ fdDashboardExpiredAccountsDays) )
