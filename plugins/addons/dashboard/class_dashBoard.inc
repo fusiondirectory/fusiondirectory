@@ -56,43 +56,46 @@ class dashboard extends simplePlugin
   /* Compute some statistics */
   function overview_stats()
   {
-    $ldap = $this->config->get_ldap_link();
-
-    $ldap->cd($this->config->current['BASE']);
-    $ldap->search("(&(!(objectClass=gosaUserTemplate))(objectClass=gosaAccount))", array("cn"));
-    $nb_accounts = $ldap->count();
-
-    $ldap->cd($this->config->current['BASE']);
-    $ldap->search("(objectClass=posixGroup)", array("cn"));
-    $nb_groups = $ldap->count();
-    $ldap->search("(objectClass=gosaGroupOfNames)", array("cn"));
-    $nb_ogroups = $ldap->count();
-
-    $stats = array(
-      array('name' => 'Accounts',      'nb' => $nb_accounts, 'img' => 'geticon.php?context=types&icon=user&size=16'),
-      array('name' => 'Groups',        'nb' => $nb_groups,   'img' => 'geticon.php?context=types&icon=user-group&size=16'),
-      array('name' => 'Object groups', 'nb' => $nb_ogroups,  'img' => 'geticon.php?context=types&icon=resource-group&size=16'),
-    );
-
-    if (class_available("systemManagement")) {
-      $ldap->cd($this->config->current['BASE']);
-      $workstations = '(objectClass=gotoWorkstation)';
-      $servers      = '(objectClass=goServer)';
-      $winstations  = '(&(objectClass=sambaSamAccount)(uid=*$))';
-      $terminals    = '(objectClass=gotoTerminal)';
-      $printers     = '(objectClass=gotoPrinter)';
-      $phones       = '(objectClass=goFonHardware)';
-      $devices      = '(objectClass=ieee802Device)';
-      $ldap->search(
-        "(|$workstations$servers$winstations$terminals$printers$phones$devices)",
-        array("cn")
+    $stats = array();
+    foreach ($this->config->data['OBJECTS'] as $type => $infos) {
+      try {
+        $nb = objects::count($type);
+      } catch (Exception $e) {
+        $nb = 0;
+        trigger_error($e->getMessage());
+      }
+      if ($nb == 0) {
+        continue;
+      }
+      $node = array(
+        'name'  => $infos['name'],
+        'nb'    => $nb
       );
-      $nb_systems = $ldap->count();
-      array_unshift(
-        $stats,
-        array('name' => 'Systems', 'nb' => $nb_systems, 'img' => 'geticon.php?context=devices&icon=server&size=16')
-      );
+      if (isset($infos['icon'])) {
+        $node['img'] = $infos['icon'];
+      } else {
+        $node['img'] = 'images/empty.png';
+      }
+      if (isset($infos['management']) && ($infos['management'] != '')) {
+        $pInfos = pluglist::pluginInfos($infos['management']);
+        $node['href']     = 'main.php?plug='.$pInfos['INDEX'].'&amp;reset=1';
+        $section = $pInfos['plSection'];
+        if (is_array($section)) {
+          $section = key($section);
+        }
+        $node['priority'] = $this->config->data['SECTIONS'][$section]['PRIORITY'] * 100 + $pInfos['plPriority'];
+      } else {
+        $node['priority'] = 10000;
+      }
+      $stats[] = $node;
     }
+
+    usort($stats,
+      function ($a, $b)
+      {
+        return ($b['priority'] < $a['priority']);
+      }
+    );
 
     return $stats;
   }
