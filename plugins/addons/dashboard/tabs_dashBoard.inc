@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
@@ -26,11 +25,8 @@ class tabs_dashboard extends tabs
   function __construct($config, $data, $dn = NULL, $category = 'dashboard', $copied_object = NULL)
   {
     foreach ($data as $key => $infos) {
-      if (($infos['CLASS'] == 'dashboardSystems') && (!class_available('systemManagement'))) {
-        unset($data[$key]);
-      }
       if (($infos['CLASS'] == 'dashboardNetwork') &&
-          (!class_available('systemManagement') || !(class_available('dhcpService') || class_available('serviceDNS')))) {
+          !(class_available('dhcpService') || class_available('serviceDNS'))) {
         unset($data[$key]);
       }
     }
