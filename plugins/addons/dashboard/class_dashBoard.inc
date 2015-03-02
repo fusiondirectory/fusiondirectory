@@ -1,8 +1,8 @@
 <?php
 /*
  * This code is part of FusionDirectory (http://www.fusiondirectory.org)
- * Copyright (C) 2010 Antoine Gallavardin
- * Copyright (C) 2011-2013 FusionDirectory project
+ * Copyright (C)  2010 Antoine Gallavardin
+ * Copyright (C)  2011-2015 FusionDirectory project
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,8 +21,30 @@
 
 class dashboard extends simplePlugin
 {
-  /* Generic */
-  var $view_logged    = FALSE;
+  static function plInfo()
+  {
+    return array(
+      'plShortName'   => _('Dashboard'),
+      'plDescription' => _('Statistics and various informations'),
+      'plIcon'        => 'geticon.php?context=applications&icon=utilities-system-monitor&size=48',
+      'plObjectType'  => array('dashboard' => array('name' => _('Dashboard'))),
+      'plSection'     => array('reporting' => array('name' => _('Reporting'), 'priority' => 30)),
+      'plPriority'    => 0,
+
+      'plProvidedAcls'  => array()
+    );
+  }
+
+  static function getAttributesInfo()
+  {
+    return array(
+      'stats' => array(
+        'name'  => _('Statistics'),
+        'attrs' => array(new FakeAttribute('stats')),
+        'template' => get_template_path('main_stats.tpl', TRUE, dirname(__FILE__)),
+      ),
+    );
+  }
 
   function __construct(&$config, $dn = NULL, $object = NULL)
   {
@@ -31,7 +53,7 @@ class dashboard extends simplePlugin
     $this->stats = $this->overview_stats();
   }
 
-    /* Compute some statistics */
+  /* Compute some statistics */
   function overview_stats()
   {
     $ldap = $this->config->get_ldap_link();
@@ -73,32 +95,6 @@ class dashboard extends simplePlugin
     }
 
     return $stats;
-  }
-
-  static function getAttributesInfo()
-  {
-    return array(
-      'stats' => array(
-        'name'  => _('Statistics'),
-        'attrs' => array(new FakeAttribute('stats')),
-        'template' => get_template_path('main_stats.tpl', TRUE, dirname(__FILE__)),
-      ),
-    );
-  }
-
-  /* Return plugin informations for acl handling  */
-  static function plInfo()
-  {
-    return array(
-      'plShortName'   => _('Dashboard'),
-      'plDescription' => _('Statistics and various informations'),
-      'plIcon'        => 'geticon.php?context=applications&icon=utilities-system-monitor&size=48',
-      'plObjectType'  => array('dashboard' => array('name' => _('Dashboard'))),
-      'plSection'     => 'addons',
-      'plPriority'    => 2,
-
-      'plProvidedAcls'  => array()
-    );
   }
 }
 ?>
