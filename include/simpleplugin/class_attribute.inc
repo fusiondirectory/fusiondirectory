@@ -479,7 +479,7 @@ class Attribute
             continue;
           }
 
-          return msgPool::duplicated($this->getLabel());
+          return msgPool::duplicated($this->getLabel(), $attrs['dn']);
         }
       }
     }
