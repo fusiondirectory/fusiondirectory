@@ -439,12 +439,25 @@ class Attribute
       } else {
         $filter = '('.$this->getLdapName().'='.$value.')';
       }
+      $infos = pluglist::pluginInfos(get_class($this->plugin));
+      $filters = array_map(
+        function ($key, $ot)
+        {
+          if (!is_numeric($key)) {
+            $ot = $key;
+          }
+          $oinfos = objects::infos($ot);
+          return $oinfos['filter'];
+        },
+        array_keys($infos['plObjectType']),
+        array_values($infos['plObjectType'])
+      );
       $pluginFilter = $this->plugin->getObjectClassFilter();
       if (!empty($pluginFilter)) {
-        $filter = "(&$pluginFilter$filter)";
+        $filters[] = $pluginFilter;
       }
+      $filter = '(&'.$filter.implode($filters).')';
       $ldap->search($filter, array($this->getLdapName()));
-      $infos = pluglist::pluginInfos(get_class($this->plugin));
       $branches = array_map(
         function ($key, $ot)
         {
@@ -463,7 +476,6 @@ class Attribute
           $found    = FALSE;
           if ($this->unique === 'one') {
             /* Check that this entry is in a concerned branch */
-            $dn_branch = preg_replace('/,'.preg_quote($base, '/').'$/', '', $dn_base);
             foreach ($branches as $branch) {
               if ($branch.$base == $dn_base) {
                 $dn_base  = preg_replace('/^'.preg_quote($branch, '/').'/', '', $dn_base);
