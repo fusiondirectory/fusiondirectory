@@ -89,9 +89,9 @@ class dashboardUsers extends simplePlugin
     while ($attrs = $ldap->fetch()) {
       // Test if account is expired now
       if ($attrs['shadowExpire'][0] <= $today) {
-        $expired_accounts[] = $this->get_user_infos($attrs);
+        $expired_accounts[] = self::get_user_infos($attrs);
       } elseif ($attrs['shadowExpire'][0] <= $next_expired_date) {
-        $next_expired_accounts[] = $this->get_user_infos($attrs);
+        $next_expired_accounts[] = self::get_user_infos($attrs);
       }
     }
 
@@ -102,31 +102,32 @@ class dashboardUsers extends simplePlugin
     );
   }
 
-  function get_user_infos($attrs)
+  static function get_user_infos($attrs)
   {
-    if (isset($attrs["manager"][0])) {
-      $ldap_manager = $this->config->get_ldap_link();
-      $ldap_manager->cd($this->config->current['BASE']);
-      $manager_cn     = $ldap_manager->get_attribute($attrs["manager"][0], "cn");
-      $manager_mail   = $ldap_manager->get_attribute($attrs["manager"][0], "mail");
-      $manager_phone  = $ldap_manager->get_attribute($attrs["manager"][0], "telephoneNumber");
+    global $config;
+    if (isset($attrs['manager'][0])) {
+      $ldap = $config->get_ldap_link();
+      $ldap->cd($config->current['BASE']);
+      $manager_cn     = $ldap->get_attribute($attrs['manager'][0], 'cn');
+      $manager_mail   = $ldap->get_attribute($attrs['manager'][0], 'mail');
+      $manager_phone  = $ldap->get_attribute($attrs['manager'][0], 'telephoneNumber');
     } else {
-      $manager_cn     = "";
-      $manager_mail   = "";
-      $manager_phone  = "";
+      $manager_cn     = '';
+      $manager_mail   = '';
+      $manager_phone  = '';
     }
 
-    $human_shadowExpire = date('d.m.Y', $attrs["shadowExpire"][0] * 86400); // 24 * 60 * 60
+    $human_shadowExpire = date('d.m.Y', $attrs['shadowExpire'][0] * 86400); // 24 * 60 * 60
 
     return array(
-      'uid' => $attrs["uid"][0],
-      'cn'  => $attrs["cn"][0],
-      'telephoneNumber' => (isset($attrs["telephoneNumber"][0])?$attrs["telephoneNumber"][0]:""),
-      'mail' => (isset($attrs["mail"][0])?$attrs["mail"][0]:""),
-      'manager_cn' => $manager_cn,
-      'manager_mail' => $manager_mail,
-      'manager_phone' => $manager_phone,
-      'shadowExpire' => $human_shadowExpire,
+      'uid'             => $attrs['uid'][0],
+      'cn'              => $attrs['cn'][0],
+      'telephoneNumber' => (isset($attrs['telephoneNumber'][0])?$attrs['telephoneNumber'][0]:''),
+      'mail'            => (isset($attrs['mail'][0])?$attrs['mail'][0]:''),
+      'manager_cn'      => $manager_cn,
+      'manager_mail'    => $manager_mail,
+      'manager_phone'   => $manager_phone,
+      'shadowExpire'    => $human_shadowExpire,
     );
   }
 
