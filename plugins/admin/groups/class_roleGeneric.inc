@@ -35,7 +35,7 @@ class roleGeneric extends simplePlugin
           'name'        => _('Role'),
           'description' => _('Organizational role'),
           'ou'          => get_ou('roleRDN'),
-          'filter'      => 'objectClass=organizationalRole',
+          'filter'      => '(&(objectClass=organizationalRole)(!(objectClass=simpleSecurityObject)))',
           'icon'        => 'geticon.php?context=types&icon=role&size=16',
           'mainAttr'    => 'cn',
         )
