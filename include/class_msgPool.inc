@@ -393,9 +393,13 @@ class msgPool {
    *
    * \param string $name The entry duplicated
    */
-  public static function duplicated($name)
+  public static function duplicated($name, $dn = NULL)
   {
-    return sprintf(_("There is already an entry with this '%s' attribute in the system!"), $name);
+    if ($dn == NULL) {
+      return sprintf(_("There is already an entry with this '%s' attribute in the system!"), $name);
+    } else {
+      return sprintf(_("The entry '%s' already use this '%s' attribute!"), $dn, $name);
+    }
   }
 
   /*!
