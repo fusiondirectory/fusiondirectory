@@ -62,7 +62,7 @@ class dashboard extends simplePlugin
         $nb = objects::count($type);
       } catch (Exception $e) {
         $nb = 0;
-        trigger_error($e->getMessage());
+        trigger_error("Problem with $type:".$e->getMessage());
       }
       if ($nb == 0) {
         continue;

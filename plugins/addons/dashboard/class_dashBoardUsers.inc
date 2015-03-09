@@ -23,17 +23,50 @@
 
 class dashboardUsers extends simplePlugin
 {
+  static function plInfo()
+  {
+    return array(
+      'plShortName'   => _('Users'),
+      'plDescription' => _('Statistics about users'),
+      'plObjectType'  => array('dashboard'),
+
+      'plProvidedAcls'    => array()
+    );
+  }
+
+  static function getAttributesInfo()
+  {
+    return array(
+      'userstats' => array(
+        'name'  => _('Users statistics'),
+        'attrs' => array(new FakeAttribute('users_stats')),
+        'template' => get_template_path('users_stats.tpl', TRUE, dirname(__FILE__)),
+      ),
+      'groupstats' => array(
+        'name'  => _('Groups statistics'),
+        'attrs' => array(new FakeAttribute('groups_stats')),
+        'template' => get_template_path('groups_stats.tpl', TRUE, dirname(__FILE__)),
+      ),
+      'expired_accounts' => array(
+        'name'  => _('Expired accounts'),
+        'attrs' => array(new FakeAttribute('expired')),
+        'template' => get_template_path('users_accounts.tpl', TRUE, dirname(__FILE__)),
+      ),
+    );
+  }
+
   function __construct(&$config, $dn = NULL, $object = NULL)
   {
     parent::__construct($config, $dn, $object);
 
-    $this->stats    = $this->users_stats();
-    $this->expired  = $this->expired_accounts_info();
+    $this->users_stats  = $this->computeUsersStats();
+    $this->groups_stats = $this->computeGroupsStats();
+    $this->expired      = $this->expired_accounts_info();
   }
 
-  function users_stats ()
+  function computeUsersStats ()
   {
-    /* User accounts statistics */
+    /* User statistics */
     $ldap = $this->config->get_ldap_link();
     $ldap->cd($this->config->current['BASE']);
     $ldap->search("(&(!(objectClass=gosaUserTemplate))(objectClass=gosaAccount))", array("userPassword"));
@@ -59,9 +92,31 @@ class dashboardUsers extends simplePlugin
         array('name' => 'posix',  'nb' => $nb_posix_accounts, 'img' => 'geticon.php?context=applications&icon=os-linux&size=16'),
         array('name' => 'samba',  'nb' => $nb_samba_accounts, 'img' => 'geticon.php?context=applications&icon=os-windows&size=16')
       ),
-      'nb_accounts' => $nb_accounts,
-      'user_img' => 'geticon.php?context=types&icon=user&size=16',
+      'nb' => $nb_accounts,
+      'img' => 'geticon.php?context=types&icon=user&size=16',
       'locked_accounts' => array('nb' => $nb_locked_accounts, 'img' => "geticon.php?context=status&icon=object-locked&size=16"),
+    );
+  }
+
+  function computeGroupsStats ()
+  {
+    /* Group statistics */
+    $ldap = $this->config->get_ldap_link();
+    $ldap->cd($this->config->current['BASE']);
+    $ldap->search('(objectClass=posixGroup)', array('cn'));
+    $nb = $ldap->count();
+    $ldap->search('(&(objectClass=posixGroup)(objectClass=gosaMailAccount))', array('cn'));
+    $nb_mail_groups = $ldap->count();
+    $ldap->search('(&(objectClass=posixGroup)(objectClass=sambaSamAccount))', array('cn'));
+    $nb_samba_groups = $ldap->count();
+
+    return array(
+      'groups' => array(
+        array('name' => 'mail',   'nb' => $nb_mail_groups,  'img' => 'geticon.php?context=applications&icon=internet-mail&size=16'),
+        array('name' => 'samba',  'nb' => $nb_samba_groups, 'img' => 'geticon.php?context=applications&icon=os-windows&size=16')
+      ),
+      'nb' => $nb,
+      'img' => 'geticon.php?context=types&icon=user-group&size=16',
     );
   }
 
@@ -128,34 +183,6 @@ class dashboardUsers extends simplePlugin
       'manager_mail'    => $manager_mail,
       'manager_phone'   => $manager_phone,
       'shadowExpire'    => $human_shadowExpire,
-    );
-  }
-
-  static function getAttributesInfo()
-  {
-    return array(
-      'stats' => array(
-        'name'  => _('Statistics'),
-        'attrs' => array(new FakeAttribute('stats')),
-        'template' => get_template_path('users_stats.tpl', TRUE, dirname(__FILE__)),
-      ),
-      'expired_accounts' => array(
-        'name'  => _('Expired accounts'),
-        'attrs' => array(new FakeAttribute('expired')),
-        'template' => get_template_path('users_accounts.tpl', TRUE, dirname(__FILE__)),
-      ),
-    );
-  }
-
-  /* Return plugin informations for acl handling  */
-  static function plInfo()
-  {
-    return array(
-      'plShortName'   => _('Users'),
-      'plDescription' => _('Statistics about users'),
-      'plObjectType'  => array('dashboard'),
-
-      'plProvidedAcls'    => array()
     );
   }
 }
