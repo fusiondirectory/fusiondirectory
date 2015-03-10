@@ -19,7 +19,7 @@
     {if $failed_checks == 0}
       <div style="color:green">{t}Schema check succeeded{/t}</div>
     {else}
-      <img src='images/small_warning.png' class='center'>
+      <img src="geticon.php?context=status&icon=dialog-warning&size=16" class="center">
         <div style="color:red">{t}Schema check failed{/t}</div>
 
 
