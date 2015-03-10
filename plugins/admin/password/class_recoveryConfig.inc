@@ -55,7 +55,7 @@ class recoveryConfig extends simplePlugin
         'attrs' => array (
           new BooleanAttribute (
             _('Activate password recovery'),
-            _('Weither to activate or not password recovery feature'),
+            _('Whether to activate or not password recovery feature'),
             'passwordRecoveryActivated',
             FALSE
           ),
