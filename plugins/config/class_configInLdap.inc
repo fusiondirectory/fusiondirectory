@@ -59,7 +59,8 @@ class configInLdap extends simplePlugin
       "plIcon"          => "geticon.php?context=categories&icon=settings&size=48",
       "plObjectType"    => array("configuration" => array(
         "name"    => _("FusionDirectory configuration"),
-        "filter"  => "objectClass=fusionDirectoryConf"
+        "filter"  => "objectClass=fusionDirectoryConf",
+        "icon"    => "geticon.php?context=categories&icon=settings&size=16",
       )),
       "plSection"       => array("conf" => array("name" => _("Configuration"), "priority" => 20)),
       "plPriority"      => 0,
