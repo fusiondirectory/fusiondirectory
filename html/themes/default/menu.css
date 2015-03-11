@@ -94,11 +94,22 @@ clear:both;
 border-top:none;
 }
 
+.iconmenu .imgcontainer
+{
+height:48px;
+width:48px;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
 .iconmenu img
 {
 border:none;
 vertical-align:middle;
 flex:none;
+max-height:48px;
+max-width:48px;
 }
 
 h1.menuheader {
@@ -171,7 +182,7 @@ background-color:#F0F0F0;
   min-height:80px;
   display:inline-block;
   }
-  .iconmenu img
+  .iconmenu .imgcontainer
   {
   margin:auto;
   display:block;
