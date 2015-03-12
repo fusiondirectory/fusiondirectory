@@ -191,7 +191,9 @@ class passwordMethod
 
       // Call the password post-lock hook, if defined.
       if ($ldap->success()) {
-          $pwdClass->callHook($pwdClass, 'POST'.$mode, array(), $ret);
+        $pwdClass->callHook($pwdClass, 'POST'.$mode, array(), $ret);
+      } else {
+        msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD), LDAP_ERROR);
       }
       return $ldap->success();
     }

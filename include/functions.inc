@@ -3073,16 +3073,17 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
 
     $ldap->modify($attrs);
 
-    /* Read ! if user was deactivated */
-    if ($deactivated) {
-      $test->lock_account($config, $dn);
-    }
-
     new log("modify", "user/passwordMethod", $dn, array_keys($attrs), $ldap->get_error());
 
     if (!$ldap->success()) {
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD), LDAP_ERROR);
     } else {
+      /* Re-add ! if user was deactivated */
+      if ($deactivated) {
+        if (!$test->lock_account($config, $dn)) {
+          msg_dialog::display(_('Error'), _('Could not re-lock the account after password change'), ERROR_DIALOG);
+        }
+      }
 
       /* Run backend method for change/create */
       if (!$test->set_password($password)) {
