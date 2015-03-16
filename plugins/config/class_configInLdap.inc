@@ -63,6 +63,7 @@ class configInLdap extends simplePlugin
         "icon"    => "geticon.php?context=categories&icon=settings&size=16",
       )),
       "plSection"       => array("conf" => array("name" => _("Configuration"), "priority" => 20)),
+      'plManages'       => array('configuration'),
       "plPriority"      => 0,
 
       "plProvidedAcls"  => parent::generatePlProvidedAcls(self::getAttributesInfo())
