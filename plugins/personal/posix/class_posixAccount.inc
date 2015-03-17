@@ -41,12 +41,12 @@ class EpochDaysDateAttribute extends DateAttribute
 
   protected function ldapToDate($ldapValue)
   {
-    $date = DateTime::createFromFormat('U', $ldapValue * self::$secondsPerDay, new DateTimeZone('UTC'));
+    $date = DateTime::createFromFormat('U', $ldapValue * self::$secondsPerDay, timezone::utc());
     if ($date !== FALSE) {
       return $date;
     } else {
       trigger_error('LDAP value for '.$this->getLdapName().' was not in the right date format.');
-      return new DateTime($ldapValue, new DateTimeZone('UTC'));
+      return new DateTime($ldapValue, timezone::utc());
     }
   }
 
