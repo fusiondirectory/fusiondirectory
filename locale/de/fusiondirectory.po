@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-108\n"
 "Report-Msgid-Bugs-To: documentation@lists.fusiondirectory.org\n"
-"POT-Creation-Date: 2015-02-13 17:18+0100\n"
-"PO-Revision-Date: 2015-02-13 16:31+0000\n"
+"POT-Creation-Date: 2015-02-25 16:21+0100\n"
+"PO-Revision-Date: 2015-03-08 14:10+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/FusionDirectory-108/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,7 @@ msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:36
 msgid "Organizational role"
-msgstr ""
+msgstr "Organisatorische Rolle"
 
 #: plugins/admin/groups/class_roleGeneric.inc:58
 msgid "Informations"
@@ -216,7 +216,7 @@ msgstr "erlaube Zugriff auf diese Hosts"
 #: include/functions.inc:3577 include/functions.inc:3586
 #: include/functions.inc:3648 include/class_msg_dialog.inc:129
 #: include/class_databaseManagement.inc:78 include/class_xml.inc:58
-#: include/class_plugin.inc:1515 include/class_CopyPasteHandler.inc:250
+#: include/class_plugin.inc:1524 include/class_CopyPasteHandler.inc:250
 #: include/simpleplugin/class_attribute.inc:1403
 #: include/simpleplugin/class_attribute.inc:1406
 #: include/simpleplugin/class_attribute.inc:1409
@@ -481,7 +481,7 @@ msgstr "Zeige Mail Gruppen"
 
 #: plugins/admin/groups/class_groupManagement.inc:109
 msgid "Show organizational roles"
-msgstr ""
+msgstr "Organisatorische Rollen anzeigen"
 
 #: plugins/admin/ogroups/class_ogroup.inc:214
 #, php-format
@@ -827,7 +827,7 @@ msgstr "Name von %s"
 #: plugins/admin/departments/class_department.inc:68
 #, php-format
 msgid "A name for this %s"
-msgstr ""
+msgstr "Ein Name für diesen %s"
 
 #: plugins/admin/departments/class_department.inc:72
 #, php-format
@@ -1097,7 +1097,7 @@ msgstr "ACL-Rollen"
 
 #: plugins/admin/aclrole/class_aclRoleManagement.inc:35
 msgid "ACL roles management"
-msgstr ""
+msgstr "ACL-Rollenverwaltung"
 
 #: plugins/admin/aclrole/class_aclRole.inc:68
 #, php-format
@@ -1114,11 +1114,11 @@ msgstr "ACL Rolle"
 
 #: plugins/admin/aclrole/class_aclRole.inc:131
 msgid "A name for this role"
-msgstr ""
+msgstr "Name für diese Rolle"
 
 #: plugins/admin/aclrole/class_aclRole.inc:135
 msgid "Short description of this role"
-msgstr ""
+msgstr "Kurze Beschreibung von dieser Rolle"
 
 #: plugins/admin/aclrole/class_aclRole.inc:141
 msgid "ACLs"
@@ -1156,7 +1156,7 @@ msgstr "ACL-Kategorie zurücksetzen"
 #: plugins/admin/aclrole/class_aclRole.inc:336
 #, php-format
 msgid "Edit ACL for '%s'"
-msgstr ""
+msgstr "ACL für '%s' bearbeiten"
 
 #: plugins/admin/aclrole/class_aclRole.inc:347
 msgid "All objects in current subtree"
@@ -1243,7 +1243,7 @@ msgstr ""
 
 #: plugins/admin/acl/class_aclAssignment.inc:49
 msgid "Role to apply"
-msgstr ""
+msgstr "Anzuwendende Rolle"
 
 #: plugins/admin/acl/class_aclAssignment.inc:54
 msgid "For all users"
@@ -1632,7 +1632,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:103
 msgid "User id"
-msgstr ""
+msgstr "Benutzerkennung"
 
 #: plugins/personal/posix/class_posixAccount.inc:103
 msgid "User id value for this user"
@@ -1640,7 +1640,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:108
 msgid "Group id"
-msgstr ""
+msgstr "Gruppenkennung"
 
 #: plugins/personal/posix/class_posixAccount.inc:108
 msgid "Group id value for this user"
@@ -1782,12 +1782,12 @@ msgstr "Rollen"
 
 #: plugins/personal/roles/class_userRoles.inc:29
 msgid "Edit user's roles"
-msgstr ""
+msgstr "Benutzerrollen bearbeiten"
 
 #: plugins/personal/roles/class_userRoles.inc:43
 #: plugins/personal/roles/class_userRoles.inc:47
 msgid "Roles membership"
-msgstr ""
+msgstr "Rollenmitgliedschaft"
 
 #: plugins/config/class_mainPluginsConfig.inc:28
 msgid "Plugins configuration"
@@ -2146,7 +2146,7 @@ msgstr "Nutzen Sie ein Plathaltermuster für die Generierung Konten cns"
 
 #: plugins/config/class_configInLdap.inc:312 setup/setup_config1.tpl.c:32
 msgid "Automatic logins"
-msgstr ""
+msgstr "Automatische Anmeldungen"
 
 #: plugins/config/class_configInLdap.inc:312
 msgid "Automatic way to generate new users logins"
@@ -2336,12 +2336,12 @@ msgstr "Ab"
 #: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2476
 #: include/simpleplugin/class_attribute.inc:2477
 msgid "Sort up"
-msgstr ""
+msgstr "Aufsteigend sortieren"
 
 #: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2489
 #: include/simpleplugin/class_attribute.inc:2490
 msgid "Sort down"
-msgstr ""
+msgstr "Absteigend sortieren"
 
 #: include/class_listing.inc:367 setup/setup_migrate.tpl.c:35
 #: setup/setup_migrate.tpl.c:62 setup/setup_migrate.tpl.c:146
@@ -2587,12 +2587,11 @@ msgstr "Wählen Sie dies um Objekte aufzulisten die '%s' enthalten."
 msgid "Select to list objects that have '%s' enabled"
 msgstr "Auswählen um Objekte des Typs '%s' aufzulisten"
 
-#: include/class_msgPool.inc:49 plugins/admin/ogroups/ogroup_objects.tpl.c:8
+#: include/class_msgPool.inc:49
 msgid "Select to search within subtrees"
 msgstr "Wählen Sie diese Option um auch in Teilbäumen zu suchen"
 
 #: include/class_msgPool.inc:51 include/class_filter.inc:392
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:11
 msgid "Search in subtrees"
 msgstr "Suche in Teilbäumen"
 
@@ -2806,7 +2805,7 @@ msgstr "Das Pflicht-Feld '%s' ist leer!"
 
 #: include/class_msgPool.inc:426
 msgid "Example:"
-msgstr ""
+msgstr "Beispiel:"
 
 #: include/class_msgPool.inc:446 include/class_msgPool.inc:450
 #, php-format
@@ -3561,7 +3560,7 @@ msgid ""
 " be done by others get lost if you save this entry!"
 msgstr "Das Objekt wurde seit dem letzten Öffnen geändert. Alle Änderungen, die von anderen durchgeführt werden sollten, werden verloren gehen, wenn Sie diesen Eintrag speichern!"
 
-#: include/class_plugin.inc:1324
+#: include/class_plugin.inc:1333
 #, php-format
 msgid "Tab \"%s\""
 msgstr "Tab \"%s\""
@@ -3616,15 +3615,15 @@ msgstr "B"
 
 #: include/simpleplugin/class_helpersAttribute.inc:266
 msgid "KiB"
-msgstr ""
+msgstr "KiB"
 
 #: include/simpleplugin/class_helpersAttribute.inc:267
 msgid "MiB"
-msgstr ""
+msgstr "MiB"
 
 #: include/simpleplugin/class_helpersAttribute.inc:268
 msgid "GiB"
-msgstr ""
+msgstr "GiB"
 
 #: include/simpleplugin/class_helpersAttribute.inc:269
 msgid "TiB"
@@ -4730,38 +4729,6 @@ msgstr ""
 msgid "This object has no relationship to other objects."
 msgstr "Dieses Objekt hat keine Referenzen zu anderen Objekten."
 
-#: plugins/admin/groups/trust_machines.tpl.c:2
-#: plugins/admin/ogroups/trust_machines.tpl.c:2
-msgid "Select systems to add"
-msgstr "Wählen Sie die hinzuzufügenden Systeme"
-
-#: plugins/admin/groups/trust_machines.tpl.c:5
-#: plugins/admin/ogroups/trust_machines.tpl.c:5
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:5
-msgid "Filters"
-msgstr "Filter"
-
-#: plugins/admin/groups/trust_machines.tpl.c:8
-#: plugins/admin/ogroups/trust_machines.tpl.c:8
-msgid "Display systems of department"
-msgstr "Zeige die Systeme der Abteilung"
-
-#: plugins/admin/groups/trust_machines.tpl.c:11
-#: plugins/admin/ogroups/trust_machines.tpl.c:11
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:17
-msgid "Choose the department the search will be based on"
-msgstr "Wählen Sie die Abteilung, auf die die Suchfunktion angewandt wird"
-
-#: plugins/admin/groups/trust_machines.tpl.c:14
-#: plugins/admin/ogroups/trust_machines.tpl.c:14
-msgid "Display systems matching"
-msgstr "Zeige die Systeme, auf die das Folgende passt"
-
-#: plugins/admin/groups/trust_machines.tpl.c:17
-#: plugins/admin/ogroups/trust_machines.tpl.c:17
-msgid "Regular expression for matching addresses"
-msgstr "Regulärer Ausdruck zum Erkennen von Mail-Adressen"
-
 #: plugins/admin/groups/generic.tpl.c:2
 #: plugins/admin/groups/paste_generic.tpl.c:5
 #: plugins/admin/ogroups/generic.tpl.c:2
@@ -4817,22 +4784,6 @@ msgstr "Gruppenmitglieder"
 #: plugins/admin/groups/paste_generic.tpl.c:2
 msgid "Group settings"
 msgstr "Gruppen-Einstellungen"
-
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:2
-msgid "Select objects to add"
-msgstr "Wählen Sie die hinzuzufügenden Objekte"
-
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:14
-msgid "Display objects of department"
-msgstr "Zeige die Objekte der Abteilung"
-
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:20
-msgid "Display objects matching"
-msgstr "Zeige die Objekte, auf die Folgendes passt"
-
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:23
-msgid "Regular expression for matching object names"
-msgstr "Regulärer Ausdruck zum Erkennen von Objekt-Namen"
 
 #: plugins/admin/ogroups/generic.tpl.c:5
 msgid "Name of the group"

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-108\n"
 "Report-Msgid-Bugs-To: documentation@lists.fusiondirectory.org\n"
-"POT-Creation-Date: 2015-02-13 17:18+0100\n"
-"PO-Revision-Date: 2015-02-13 16:31+0000\n"
+"POT-Creation-Date: 2015-02-25 16:21+0100\n"
+"PO-Revision-Date: 2015-02-25 16:51+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/FusionDirectory-108/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -214,7 +214,7 @@ msgstr "sta toegang op deze computers toe"
 #: include/functions.inc:3577 include/functions.inc:3586
 #: include/functions.inc:3648 include/class_msg_dialog.inc:129
 #: include/class_databaseManagement.inc:78 include/class_xml.inc:58
-#: include/class_plugin.inc:1515 include/class_CopyPasteHandler.inc:250
+#: include/class_plugin.inc:1524 include/class_CopyPasteHandler.inc:250
 #: include/simpleplugin/class_attribute.inc:1403
 #: include/simpleplugin/class_attribute.inc:1406
 #: include/simpleplugin/class_attribute.inc:1409
@@ -2585,12 +2585,11 @@ msgstr "Selecteer om objecten die '%s' bevatten te tonen."
 msgid "Select to list objects that have '%s' enabled"
 msgstr "Selecteer om objecten te tonen die '%s' actief hebben"
 
-#: include/class_msgPool.inc:49 plugins/admin/ogroups/ogroup_objects.tpl.c:8
+#: include/class_msgPool.inc:49
 msgid "Select to search within subtrees"
 msgstr "Selecteer om binnen subonderdelen te zoeken"
 
 #: include/class_msgPool.inc:51 include/class_filter.inc:392
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:11
 msgid "Search in subtrees"
 msgstr "Zoek in subtrees"
 
@@ -3559,7 +3558,7 @@ msgid ""
 " be done by others get lost if you save this entry!"
 msgstr "Het object is gewijzigd sinds het openen van FusionDirectory. Alle wijzigingen die gemaakt zijn door anderen zullen verloren gaan als je deze inzending opslaat!"
 
-#: include/class_plugin.inc:1324
+#: include/class_plugin.inc:1333
 #, php-format
 msgid "Tab \"%s\""
 msgstr ""
@@ -4728,38 +4727,6 @@ msgstr ""
 msgid "This object has no relationship to other objects."
 msgstr "Dit object heeft geen relatie met andere objecten."
 
-#: plugins/admin/groups/trust_machines.tpl.c:2
-#: plugins/admin/ogroups/trust_machines.tpl.c:2
-msgid "Select systems to add"
-msgstr "Selecteer de toe te voegen systemen"
-
-#: plugins/admin/groups/trust_machines.tpl.c:5
-#: plugins/admin/ogroups/trust_machines.tpl.c:5
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:5
-msgid "Filters"
-msgstr "Filters"
-
-#: plugins/admin/groups/trust_machines.tpl.c:8
-#: plugins/admin/ogroups/trust_machines.tpl.c:8
-msgid "Display systems of department"
-msgstr "Toon systemen van afdeling"
-
-#: plugins/admin/groups/trust_machines.tpl.c:11
-#: plugins/admin/ogroups/trust_machines.tpl.c:11
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:17
-msgid "Choose the department the search will be based on"
-msgstr "Selecteer de afdeling waarbinnen gezocht zal worden"
-
-#: plugins/admin/groups/trust_machines.tpl.c:14
-#: plugins/admin/ogroups/trust_machines.tpl.c:14
-msgid "Display systems matching"
-msgstr "Toon de overeenkomende systemen"
-
-#: plugins/admin/groups/trust_machines.tpl.c:17
-#: plugins/admin/ogroups/trust_machines.tpl.c:17
-msgid "Regular expression for matching addresses"
-msgstr "Reguliere expresie voor overeenkomende adressen"
-
 #: plugins/admin/groups/generic.tpl.c:2
 #: plugins/admin/groups/paste_generic.tpl.c:5
 #: plugins/admin/ogroups/generic.tpl.c:2
@@ -4815,22 +4782,6 @@ msgstr "Groepsleden"
 #: plugins/admin/groups/paste_generic.tpl.c:2
 msgid "Group settings"
 msgstr "Groep instellingen"
-
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:2
-msgid "Select objects to add"
-msgstr "Selecteer de toe te voegen objecten"
-
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:14
-msgid "Display objects of department"
-msgstr "Toon objecten van afdeling"
-
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:20
-msgid "Display objects matching"
-msgstr "Toon overeenkomende objecten"
-
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:23
-msgid "Regular expression for matching object names"
-msgstr "Reguliere expressie voor overeenkomende objectnamen"
 
 #: plugins/admin/ogroups/generic.tpl.c:5
 msgid "Name of the group"

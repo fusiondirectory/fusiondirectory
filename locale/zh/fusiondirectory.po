@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-108\n"
 "Report-Msgid-Bugs-To: documentation@lists.fusiondirectory.org\n"
-"POT-Creation-Date: 2015-02-13 17:18+0100\n"
-"PO-Revision-Date: 2015-02-13 16:31+0000\n"
+"POT-Creation-Date: 2015-02-25 16:21+0100\n"
+"PO-Revision-Date: 2015-02-25 16:51+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Chinese (http://www.transifex.com/projects/p/FusionDirectory-108/language/zh/)\n"
 "MIME-Version: 1.0\n"
@@ -211,7 +211,7 @@ msgstr "允许访问这些主机"
 #: include/functions.inc:3577 include/functions.inc:3586
 #: include/functions.inc:3648 include/class_msg_dialog.inc:129
 #: include/class_databaseManagement.inc:78 include/class_xml.inc:58
-#: include/class_plugin.inc:1515 include/class_CopyPasteHandler.inc:250
+#: include/class_plugin.inc:1524 include/class_CopyPasteHandler.inc:250
 #: include/simpleplugin/class_attribute.inc:1403
 #: include/simpleplugin/class_attribute.inc:1406
 #: include/simpleplugin/class_attribute.inc:1409
@@ -2582,12 +2582,11 @@ msgstr ""
 msgid "Select to list objects that have '%s' enabled"
 msgstr ""
 
-#: include/class_msgPool.inc:49 plugins/admin/ogroups/ogroup_objects.tpl.c:8
+#: include/class_msgPool.inc:49
 msgid "Select to search within subtrees"
 msgstr "选择在子树中查询"
 
 #: include/class_msgPool.inc:51 include/class_filter.inc:392
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:11
 msgid "Search in subtrees"
 msgstr ""
 
@@ -3556,7 +3555,7 @@ msgid ""
 " be done by others get lost if you save this entry!"
 msgstr ""
 
-#: include/class_plugin.inc:1324
+#: include/class_plugin.inc:1333
 #, php-format
 msgid "Tab \"%s\""
 msgstr ""
@@ -4725,38 +4724,6 @@ msgstr ""
 msgid "This object has no relationship to other objects."
 msgstr "这个对象和其他对象没有关系。"
 
-#: plugins/admin/groups/trust_machines.tpl.c:2
-#: plugins/admin/ogroups/trust_machines.tpl.c:2
-msgid "Select systems to add"
-msgstr "选择要添加的系统"
-
-#: plugins/admin/groups/trust_machines.tpl.c:5
-#: plugins/admin/ogroups/trust_machines.tpl.c:5
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:5
-msgid "Filters"
-msgstr "过滤器"
-
-#: plugins/admin/groups/trust_machines.tpl.c:8
-#: plugins/admin/ogroups/trust_machines.tpl.c:8
-msgid "Display systems of department"
-msgstr "显示部门的系统"
-
-#: plugins/admin/groups/trust_machines.tpl.c:11
-#: plugins/admin/ogroups/trust_machines.tpl.c:11
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:17
-msgid "Choose the department the search will be based on"
-msgstr "选择一个部门来做查询"
-
-#: plugins/admin/groups/trust_machines.tpl.c:14
-#: plugins/admin/ogroups/trust_machines.tpl.c:14
-msgid "Display systems matching"
-msgstr "显示匹配的系统"
-
-#: plugins/admin/groups/trust_machines.tpl.c:17
-#: plugins/admin/ogroups/trust_machines.tpl.c:17
-msgid "Regular expression for matching addresses"
-msgstr "匹配地址的正则表达式"
-
 #: plugins/admin/groups/generic.tpl.c:2
 #: plugins/admin/groups/paste_generic.tpl.c:5
 #: plugins/admin/ogroups/generic.tpl.c:2
@@ -4812,22 +4779,6 @@ msgstr "组成员"
 #: plugins/admin/groups/paste_generic.tpl.c:2
 msgid "Group settings"
 msgstr "组设置"
-
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:2
-msgid "Select objects to add"
-msgstr "选择要添加的对象"
-
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:14
-msgid "Display objects of department"
-msgstr "选择查看部门对象"
-
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:20
-msgid "Display objects matching"
-msgstr "显示匹配对象"
-
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:23
-msgid "Regular expression for matching object names"
-msgstr "匹配对象名的正则表达式"
 
 #: plugins/admin/ogroups/generic.tpl.c:5
 msgid "Name of the group"

@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-108\n"
 "Report-Msgid-Bugs-To: documentation@lists.fusiondirectory.org\n"
-"POT-Creation-Date: 2015-02-13 17:18+0100\n"
-"PO-Revision-Date: 2015-02-13 16:31+0000\n"
+"POT-Creation-Date: 2015-02-25 16:21+0100\n"
+"PO-Revision-Date: 2015-02-25 16:51+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/FusionDirectory-108/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -216,7 +216,7 @@ msgstr "permettere l'accesso  ai seguenti hosts"
 #: include/functions.inc:3577 include/functions.inc:3586
 #: include/functions.inc:3648 include/class_msg_dialog.inc:129
 #: include/class_databaseManagement.inc:78 include/class_xml.inc:58
-#: include/class_plugin.inc:1515 include/class_CopyPasteHandler.inc:250
+#: include/class_plugin.inc:1524 include/class_CopyPasteHandler.inc:250
 #: include/simpleplugin/class_attribute.inc:1403
 #: include/simpleplugin/class_attribute.inc:1406
 #: include/simpleplugin/class_attribute.inc:1409
@@ -2587,12 +2587,11 @@ msgstr "Seleziona per avere la lista degli oggetti che contengono '%s'."
 msgid "Select to list objects that have '%s' enabled"
 msgstr "Seleziona per avere la lista degli oggetti che hanno '%s' attivato"
 
-#: include/class_msgPool.inc:49 plugins/admin/ogroups/ogroup_objects.tpl.c:8
+#: include/class_msgPool.inc:49
 msgid "Select to search within subtrees"
 msgstr "Seleziona per ricercare nella sottostruttura"
 
 #: include/class_msgPool.inc:51 include/class_filter.inc:392
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:11
 msgid "Search in subtrees"
 msgstr "Cerca nella sottostruttura"
 
@@ -3561,7 +3560,7 @@ msgid ""
 " be done by others get lost if you save this entry!"
 msgstr "L'oggetto è cambiato da quando lo hai aperto nella corrente sessione FusionDirectory. Tutte le modifiche effettuate da altri andranno perse se tu registrerai adesso!"
 
-#: include/class_plugin.inc:1324
+#: include/class_plugin.inc:1333
 #, php-format
 msgid "Tab \"%s\""
 msgstr ""
@@ -4730,38 +4729,6 @@ msgstr ""
 msgid "This object has no relationship to other objects."
 msgstr "Questo oggetto non ha relazioni con altri oggetti."
 
-#: plugins/admin/groups/trust_machines.tpl.c:2
-#: plugins/admin/ogroups/trust_machines.tpl.c:2
-msgid "Select systems to add"
-msgstr "Seleziona i sistemi da aggiungere"
-
-#: plugins/admin/groups/trust_machines.tpl.c:5
-#: plugins/admin/ogroups/trust_machines.tpl.c:5
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:5
-msgid "Filters"
-msgstr "Filtri"
-
-#: plugins/admin/groups/trust_machines.tpl.c:8
-#: plugins/admin/ogroups/trust_machines.tpl.c:8
-msgid "Display systems of department"
-msgstr "Mostra i sistemi del dipartimento"
-
-#: plugins/admin/groups/trust_machines.tpl.c:11
-#: plugins/admin/ogroups/trust_machines.tpl.c:11
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:17
-msgid "Choose the department the search will be based on"
-msgstr "Scegli il dipartimento di base per la ricerca"
-
-#: plugins/admin/groups/trust_machines.tpl.c:14
-#: plugins/admin/ogroups/trust_machines.tpl.c:14
-msgid "Display systems matching"
-msgstr "Mostra i sistemi che corrispondono alla richiesta"
-
-#: plugins/admin/groups/trust_machines.tpl.c:17
-#: plugins/admin/ogroups/trust_machines.tpl.c:17
-msgid "Regular expression for matching addresses"
-msgstr "Espressione regolare per selezionare gli indirizzi corrispondenti"
-
 #: plugins/admin/groups/generic.tpl.c:2
 #: plugins/admin/groups/paste_generic.tpl.c:5
 #: plugins/admin/ogroups/generic.tpl.c:2
@@ -4817,22 +4784,6 @@ msgstr "Membri del gruppo"
 #: plugins/admin/groups/paste_generic.tpl.c:2
 msgid "Group settings"
 msgstr "Impostazioni dei gruppi"
-
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:2
-msgid "Select objects to add"
-msgstr "Seleziona gli oggetti da aggiungere"
-
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:14
-msgid "Display objects of department"
-msgstr "Mostra gli oggetti del dipartimento"
-
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:20
-msgid "Display objects matching"
-msgstr "Mostra gli oggetti corrispondenti"
-
-#: plugins/admin/ogroups/ogroup_objects.tpl.c:23
-msgid "Regular expression for matching object names"
-msgstr "Espressione regolare per trovare gli oggetti corrispondenti"
 
 #: plugins/admin/ogroups/generic.tpl.c:5
 msgid "Name of the group"
