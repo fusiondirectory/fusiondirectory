@@ -445,6 +445,8 @@ class config  {
     session::global_set('DEBUGLEVEL', $debugLevel);
 
     IconTheme::loadThemes('themes');
+
+    timezone::setDefaultTimezoneFromConfig();
   }
 
 

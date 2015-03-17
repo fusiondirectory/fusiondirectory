@@ -230,8 +230,8 @@ class password extends plugin
         $length       = $policy['pwdMinLength'][0];
       }
       if (isset($policy['pwdMinAge'][0]) && isset($attrs['pwdChangedTime'][0])) {
-        $date = DateTime::createFromFormat('YmdHis\Z', $attrs['pwdChangedTime'][0], new DateTimeZone('UTC'));
-        $now  = new DateTime('now');
+        $date = DateTime::createFromFormat('YmdHis\Z', $attrs['pwdChangedTime'][0], timezone::utc());
+        $now  = new DateTime('now', timezone::utc());
         if ($now->getTimeStamp() < $date->getTimeStamp() + $policy['pwdMinAge'][0]) {
           return sprintf(_('You must wait %d seconds before changing your password again'), $policy['pwdMinAge'][0] - ($now->getTimeStamp() - $date->getTimeStamp()));
         }

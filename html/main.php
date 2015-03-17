@@ -69,7 +69,7 @@ if (($config->get_cfg_value("forcessl") == "TRUE") && ($ssl != '')) {
   exit;
 }
 
-timezone::get_default_timezone();
+timezone::setDefaultTimezoneFromConfig();
 
 /* Check for invalid sessions */
 if (session::global_get('_LAST_PAGE_REQUEST') == "") {
