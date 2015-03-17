@@ -334,7 +334,7 @@ class passwordRecovery {
   {
     /* Store it in ldap with the salt */
     $salt_temp_password = $this->salt.$temp_password.$this->salt;
-    $sha1_temp_password = sha1($salt_temp_password);
+    $sha1_temp_password = "{SHA}".base64_encode(pack("H*", sha1($salt_temp_password)));
 
     $ldap = $this->config->get_ldap_link();
 
@@ -380,7 +380,7 @@ class passwordRecovery {
   function checkToken($token)
   {
     $salt_token = $this->salt.$token.$this->salt;
-    $sha1_token = sha1($salt_token);
+    $sha1_token = "{SHA}".base64_encode(pack("H*", sha1($salt_token)));
 
     /* Retrieve hash from the ldap */
     $ldap = $this->config->get_ldap_link();
