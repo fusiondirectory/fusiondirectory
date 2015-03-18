@@ -686,17 +686,22 @@ function ldap_login_user ($username, $password)
 
   /* password check, bind as user with supplied password  */
   $ldap->disconnect();
-  $ldap = new LDAP($ui->dn, $password, $config->current['SERVER'],
+  $ldap = new ldapMultiplexer(new LDAP($ui->dn, $password, $config->current['SERVER'],
       isset($config->current['LDAPFOLLOWREFERRALS']) &&
       $config->current['LDAPFOLLOWREFERRALS'] == "TRUE",
       isset($config->current['LDAPTLS'])
-      && $config->current['LDAPTLS'] == "TRUE");
+      && $config->current['LDAPTLS'] == "TRUE"));
   if (!$ldap->success()) {
     return NULL;
   }
   if (class_available('ppolicyAccount')) {
     $ldap->ls('(objectClass=*)', $config->current['BASE']);
     if (!$ldap->success()) {
+      msg_dialog::display(
+        _('Authentication error'),
+        _('It seems your user password have expired. Please use <a href="recovery.php">password recovery</a> to change it.'),
+        ERROR_DIALOG
+      );
       return NULL;
     }
   }
