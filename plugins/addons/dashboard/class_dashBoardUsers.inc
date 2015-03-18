@@ -105,7 +105,7 @@ class dashboardUsers extends simplePlugin
     $ldap->cd($this->config->current['BASE']);
     $ldap->search('(objectClass=posixGroup)', array('cn'));
     $nb = $ldap->count();
-    $ldap->search('(&(objectClass=posixGroup)(objectClass=gosaMailAccount))', array('cn'));
+    $ldap->search('(&(objectClass=posixGroup)(objectClass=fdGroupMail))', array('cn'));
     $nb_mail_groups = $ldap->count();
     $ldap->search('(&(objectClass=posixGroup)(objectClass=sambaSamAccount))', array('cn'));
     $nb_samba_groups = $ldap->count();
