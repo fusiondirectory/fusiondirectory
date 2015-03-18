@@ -694,6 +694,12 @@ function ldap_login_user ($username, $password)
   if (!$ldap->success()) {
     return NULL;
   }
+  if (class_available('ppolicyAccount')) {
+    $ldap->ls('(objectClass=*)', $config->current['BASE']);
+    if (!$ldap->success()) {
+      return NULL;
+    }
+  }
 
   /* Username is set, load subtreeACL's now */
   $ui->loadACL();
