@@ -699,7 +699,7 @@ function ldap_login_user ($username, $password)
     if (!$ldap->success()) {
       msg_dialog::display(
         _('Authentication error'),
-        _('It seems your user password have expired. Please use <a href="recovery.php">password recovery</a> to change it.'),
+        _('It seems your user password has expired. Please use <a href="recovery.php">password recovery</a> to change it.'),
         ERROR_DIALOG
       );
       return NULL;
