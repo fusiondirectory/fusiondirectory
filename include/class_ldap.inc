@@ -1260,7 +1260,6 @@ class LDAP
     $data = FALSE;
 
     foreach ($rows as $row) {
-
       /* Check if we use Linenumbers (when import_complete_ldif is called we use
          Linenumbers) Linenumbers are use like this 123#attribute : value */
       if (!empty($row)) {
@@ -1277,7 +1276,7 @@ class LDAP
         $attr[1]  = $attr[1];  /* value */
 
         /* Check :: was used to indicate base64_encoded strings */
-        if ($attr[1][0] == ":") {
+        if ((!empty($attr[1])) && ($attr[1][0] == ':')) {
           $attr[1]  = trim(preg_replace("/^:/", "", $attr[1]));
           $attr[1]  = base64_decode($attr[1]);
         }
