@@ -505,6 +505,9 @@ class passwordRecovery {
     } else {
       $filter = "(&(objectClass=gosaMailAccount)(mail=".$this->email_address."))";
     }
+    if (class_available('personalInfo') && ($this->config->get_cfg_value('privateEmailPasswordRecovery', 'FALSE') == 'TRUE')) {
+      $filter = '(|'.$filter.'(&(objectClass=fdPersonalInfo)(fdPrivateMail='.$this->email_address.')))';
+    }
     $uids = get_list( $filter, "",
                       $this->config->current['BASE'], array("uid"),
                       GL_SUBSEARCH | GL_NO_ACL_CHECK);
