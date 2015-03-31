@@ -1,6 +1,89 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.8.5
+
+[Fix] Bugs #3249: When a duplicate is found, its dn should be given
+[Feature] Wishlist #3264: Hidden password for fusiondirectory-setup --check-ldap
+[Fix] Bugs #3315: Warning message during adduser process
+[Feature] Wishlist #3397: Ppolicy plugin
+[Fix] Bugs #3437: Handle password policy checking inside FD
+[Feature] Wishlist #3477: use fai plugin without creating a repository debian bug.
+[Feature] Wishlist #3482: Plugin FAI - Centos support
+[Fix] Bugs #3489: Documentation pour installer les dépots RPM
+[Fix] Bugs #3492: Country error
+[Fix] Bugs #3507: Error in plugin-dns documentation
+[Fix] Bugs #3521: Can’t give group creation right through ACL system
+[Fix] Bugs #3524: Can't create/edit users with gosaMailServer Attributes via acl system
+[Fix] Bugs #3525: the sudo plugin doesnt allow to save the sudoOrder
+[Fix] Bugs #3527: Add the value ALL in systems and users and groups
+[Fix] Bugs #3528: misleading dialog box when trying to recover password for a non-existant user
+[Fix] Bugs #3533: Date d'expiration Unix and Samba
+[Feature] Wishlist #3534: gosaMailDeliveryMode in Group Mail Tab
+[Fix] Bugs #3536: Plugins Quota et msg :The field 'Device' contains invalid characters!
+[Fix] Bugs #3537: Error when I click on reference in EJBCA section
+[Fix] Bugs #3538: getbin.php should quote the file name
+[Fix] Bugs #3539: User tab roles should not appear in «My account» menu
+[Fix] Bugs #3540: Password Recovery error for a non-existant user
+[Fix] Bugs #3544: when adding ns record in the dns zone editor global name records it doesnt add the . at the end when saving
+[Fix] Bugs #3547: Password Recovery (Invalid Token)
+[Fix] Bugs #3551: Invalid uri in the password recovery mail
+[Feature] Bugs #3554: New functionnality: list all members for a primary group
+[Fix] Bugs #3555: editing a template inside fai provoke a crash
+[Fix] Bugs #3557: Plugin FAI - partition LVM
+[Fix] Bugs #3561: Remove the message "Take over DNS configuration from ..."
+[Feature] simple-plugin - Bugs #3562: In most password fields, autocomplete should be deactivated
+[Fix] Bugs #3564: References are only checked in the base
+[Fix] Bugs #3569: after the first load of the kernel to be use in the fai tab, they should be cached for the rest of the session
+[Fix] Bugs #3571: Informations for DHCP and DNS are lost after a copy paste
+[Fix] Bugs #3579: We should update copyright notices to 2015
+[Fix] Bugs #3580: We should update copyright notices to 2015
+[Fix] Bugs #3582: translation not complete
+[Fix] Wishlist #3586: Modifier for templates to convert german umlauts to 7-bit ASCII
+[Fix] Bugs #3590: Error message if we have an assignement with no members
+[Fix] Bugs #3592: the ppolicy exemple files should be changed to use a more generic dn
+[Feature] Bugs #3595: The menu should be reorganized
+[Feature] Bugs #3596: Dashboard plugin should go into core
+[Feature] Bugs #3600: Dashboard should be completed
+[Feature] Bugs #3601: The menu should be reorganized
+[Fix] Bugs #3607: in queue management we should remove the action create and the first 3 icons on the left
+[Feature] Bugs #3608: dashboard should be an exhaustive statistic plugin
+[Fix] Bugs #3609: system and newtork tab from the dashboard plugin goes to systems plugins to add the tab when needed
+[Feature] Bugs #3610: ppolicy should add a tab to dashboard
+[Feature] Bugs #3616: Dashboard plugin should go into core
+[Feature] Bugs #3620: system and newtork tab from the dashboard plugin goes to systems plugins to add the tab when needed
+[Fix] Bugs #3621: ejbca my account link is broken
+[Feature] Bugs #3622: ppolicy should add a tab to dashboard
+[Fix] Bugs #3623: Cannot create a role with the same name of an DSA object
+[Fix] simple-plugin - Bugs #3624: When a duplicate is found, its dn should be given
+[Fix] Bugs #3626: Export single entry give an error
+[Fix] Bugs #3627: OPSI import should not have an empty filter
+[Fix] Bugs #3628: DHCP plugin edit host error
+[Feature] Bugs #3630: Reset password must take the mail in personal plugin
+[Fix] Bugs #3631: User templates issues.
+[Fix] Bugs #3633: the small_warning.png icon is not present but used by the system dashboard tab
+[Fix] Bugs #3634: the configuration of fusiondirectory entry in dashboard first tab doesnt have an icon
+[Fix] Bugs #3635: the small_warning.png icon is not present but used by the system dashboard tab
+[Fix] Bugs #3637: Applications plugin should not set forceSize parameter
+[Fix] Bugs #3638: Error in cyrus template
+[Fix] Bugs #3640: Remove a user display an error if we have ppolicy
+[Fix] Bugs #3641: Token invalid when we use ppolicy
+[Fix] Bugs #3642: FTPStatus attribute must default set at true
+[Fix] Bugs #3644: Problem in regex to set release in FAI package list
+[Fix] Bugs #3645: Parent servers are empty
+[Fix] Bugs #3648: debconf variables field should take utf8
+[Fix] Bugs #3653: Uninitialized string offset: 0 in ldapmanager when importing an ldif
+[Fix] Bugs #3654: fai plugin empty with one repository on a server trigger an Undefined variable: prefix error
+[Fix] Bugs #3659: error when copying a system from a departement to the root
+[Fix] Bugs #3660: error when having two repo in one serveur and one repo in another system
+[Fix] Bugs #3663: No image for up/down in FAI profil
+[Fix] Bugs #3666: the dashboard doesnt show the icon associated to the fai objects and are not clickable
+[Feature] Bugs #3667: the reset password should use the fdPrivateMail from the personnal plugin as alternative address
+[Fix] Bugs #3669: in service we should not have the get status button if argonaut client tab is not activated
+[Fix] Bugs #3670: in service we could add a second button to trigger an action on the selected services
+[Fix] Bugs #3671: the reset password should use the fdPrivateMail from the personal plugin as alternative address
+[Fix] Bugs #3676: remove example.ldif that is incorrect
+
 * FusionDirectory 1.0.8.4
 
 [Fix] Bugs #3530: the roles in the personal/roles miss an main.inc !
