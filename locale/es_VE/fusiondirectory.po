@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-108\n"
 "Report-Msgid-Bugs-To: documentation@lists.fusiondirectory.org\n"
 "POT-Creation-Date: 2015-03-19 19:22+0100\n"
-"PO-Revision-Date: 2015-03-19 18:25+0000\n"
+"PO-Revision-Date: 2015-03-21 23:00+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Spanish (Venezuela) (http://www.transifex.com/projects/p/FusionDirectory-108/language/es_VE/)\n"
 "MIME-Version: 1.0\n"
@@ -897,7 +897,7 @@ msgstr ""
 
 #: plugins/admin/departments/class_departmentManagement.inc:37
 msgid "Users and groups"
-msgstr ""
+msgstr "Usuarios y grupos"
 
 #: plugins/admin/departments/class_locality.inc:30
 #: plugins/admin/departments/class_locality.inc:31
@@ -5087,7 +5087,7 @@ msgstr ""
 #: plugins/addons/dashboard/users_accounts.tpl.c:14
 #: plugins/addons/dashboard/users_accounts.tpl.c:47
 msgid "uid"
-msgstr ""
+msgstr "uid"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:17
 #: plugins/addons/dashboard/users_accounts.tpl.c:50
@@ -5099,7 +5099,7 @@ msgstr ""
 #: plugins/addons/dashboard/users_accounts.tpl.c:53
 #: plugins/addons/dashboard/users_accounts.tpl.c:65
 msgid "telephoneNumber"
-msgstr ""
+msgstr "telephoneNumber (Numero de Telefono)"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:23
 #: plugins/addons/dashboard/users_accounts.tpl.c:56

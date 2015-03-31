@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-108\n"
 "Report-Msgid-Bugs-To: documentation@lists.fusiondirectory.org\n"
 "POT-Creation-Date: 2015-03-19 19:22+0100\n"
-"PO-Revision-Date: 2015-03-19 18:25+0000\n"
+"PO-Revision-Date: 2015-03-21 23:00+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/FusionDirectory-108/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -901,7 +901,7 @@ msgstr "Gestisci i dipartimenti"
 
 #: plugins/admin/departments/class_departmentManagement.inc:37
 msgid "Users and groups"
-msgstr ""
+msgstr "Utenti e gruppi"
 
 #: plugins/admin/departments/class_locality.inc:30
 #: plugins/admin/departments/class_locality.inc:31
@@ -1293,7 +1293,7 @@ msgstr ""
 
 #: plugins/addons/dashboard/class_dashBoard.inc:28
 msgid "Statistics and various informations"
-msgstr ""
+msgstr "Statistiche e informazioni varie"
 
 #: plugins/addons/dashboard/class_dashBoard.inc:31
 msgid "Reporting"
@@ -1302,11 +1302,11 @@ msgstr ""
 #: plugins/addons/dashboard/class_dashBoard.inc:42
 #: plugins/addons/dashboard/main_stats.tpl.c:2
 msgid "Statistics"
-msgstr ""
+msgstr "Statistiche"
 
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:30
 msgid "Statistics about users"
-msgstr ""
+msgstr "Statistiche sugli utenti"
 
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:41
 msgid "Users statistics"
@@ -1319,7 +1319,7 @@ msgstr ""
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:51
 #: plugins/addons/dashboard/users_accounts.tpl.c:8
 msgid "Expired accounts"
-msgstr ""
+msgstr "Account scaduti"
 
 #: plugins/personal/generic/class_user.inc:45
 #: plugins/personal/generic/class_user.inc:564
@@ -5081,44 +5081,44 @@ msgstr[1] ""
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:5
 msgid "There is no expired account"
-msgstr ""
+msgstr "Non ci sono account scaduti"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:11
 #: plugins/addons/dashboard/users_accounts.tpl.c:44
 msgid "Manager concerned"
-msgstr ""
+msgstr "Responsabile interessato"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:14
 #: plugins/addons/dashboard/users_accounts.tpl.c:47
 msgid "uid"
-msgstr ""
+msgstr "uid"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:17
 #: plugins/addons/dashboard/users_accounts.tpl.c:50
 msgid "cn"
-msgstr ""
+msgstr "cn"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:20
 #: plugins/addons/dashboard/users_accounts.tpl.c:32
 #: plugins/addons/dashboard/users_accounts.tpl.c:53
 #: plugins/addons/dashboard/users_accounts.tpl.c:65
 msgid "telephoneNumber"
-msgstr ""
+msgstr "Numero di telefono"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:23
 #: plugins/addons/dashboard/users_accounts.tpl.c:56
 msgid "shadowExpire"
-msgstr ""
+msgstr "Data di scadenza della password"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:26
 #: plugins/addons/dashboard/users_accounts.tpl.c:59
 msgid "manager"
-msgstr ""
+msgstr "Responsabile"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:29
 #: plugins/addons/dashboard/users_accounts.tpl.c:62
 msgid "mail"
-msgstr ""
+msgstr "mail"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:35
 msgid "There is one account expiring in the next %1 days"
@@ -5132,7 +5132,7 @@ msgstr ""
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:41
 msgid "Next expired accounts"
-msgstr ""
+msgstr "Prossimi account che scadranno"
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:2
 msgid "There is 1 group:"
@@ -5174,7 +5174,7 @@ msgstr[1] ""
 
 #: plugins/addons/dashboard/users_stats.tpl.c:14
 msgid "None of them is locked"
-msgstr ""
+msgstr "Nessuno di loro è bloccato"
 
 #: plugins/personal/generic/generic_certs.tpl.c:2
 msgid "Certificates"

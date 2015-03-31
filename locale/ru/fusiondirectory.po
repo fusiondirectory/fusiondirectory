@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-108\n"
 "Report-Msgid-Bugs-To: documentation@lists.fusiondirectory.org\n"
 "POT-Creation-Date: 2015-03-19 19:22+0100\n"
-"PO-Revision-Date: 2015-03-20 06:38+0000\n"
+"PO-Revision-Date: 2015-03-31 06:31+0000\n"
 "Last-Translator: Alexey\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/FusionDirectory-108/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -1308,11 +1308,11 @@ msgstr "Статистика о пользователях"
 
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:41
 msgid "Users statistics"
-msgstr ""
+msgstr "Статистика по пользователям"
 
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:46
 msgid "Groups statistics"
-msgstr ""
+msgstr "Статистика по группам"
 
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:51
 #: plugins/addons/dashboard/users_accounts.tpl.c:8
@@ -2355,7 +2355,7 @@ msgstr "Настройка информационной панели"
 
 #: plugins/config/class_dashBoardConfig.inc:29
 msgid "FusionDirectory dashboard plugin configuration"
-msgstr ""
+msgstr "Настройка плагина информационной панели FusionDirectory"
 
 #: plugins/config/class_dashBoardConfig.inc:42
 msgid "Dashboard name schema"
@@ -2363,7 +2363,7 @@ msgstr ""
 
 #: plugins/config/class_dashBoardConfig.inc:45
 msgid "Number of digits"
-msgstr ""
+msgstr "Количество цифр"
 
 #: plugins/config/class_dashBoardConfig.inc:45
 msgid "Number of digits to use after prefix"
@@ -2540,7 +2540,7 @@ msgid ""
 "It seems you are trying to decode something which is not encoded : "
 "%s<br/>\\nPlease check you are not using a fusiondirectory.secrets file "
 "while your passwords are not encrypted."
-msgstr ""
+msgstr "Кажется вы пытаетесь расшифровать что то, что не было зашифровано: %s<br/>\\n Пожалуйста проверьте, что вы не используете файле fusiondirectory.secrets пароль в котором не зашифрован."
 
 #: include/class_config.inc:338
 msgid "Cannot bind to LDAP. Please contact the system administrator."
@@ -2645,7 +2645,7 @@ msgstr "Неправильный DN: '%s'. Блок для импорта дол
 #, php-format
 msgid ""
 "Error while importing dn: '%s', please check your LDIF from line %s on!"
-msgstr ""
+msgstr "Ошибка при импорте dn: '%s', проверьте ваш LDIF начиная со строки %s!"
 
 #: include/class_msgPool.inc:43
 #, php-format
@@ -3416,7 +3416,7 @@ msgstr "Предупреждение LDAP"
 
 #: include/functions.inc:2754
 msgid "Cannot get schema information from server. No schema check possible!"
-msgstr ""
+msgstr "Не могу получить информацию о схемах с сервера. Проверить схемы невозможно!"
 
 #: include/functions.inc:2781
 msgid "Used to store account specific informations."
@@ -3452,27 +3452,27 @@ msgstr "Доступные класс(ы)"
 msgid ""
 "You have enabled the rfc2307bis option on the 'ldap setup' step, but your "
 "schema    configuration do not support this option."
-msgstr ""
+msgstr "У вас включена опция rfc2307bis на шаге 'настройка ldap', но конфигурация схем не поддерживает эту опцию."
 
 #: include/functions.inc:2846
 msgid ""
 "In order to use rfc2307bis conform groups the objectClass 'posixGroup' must "
 "be      AUXILIARY"
-msgstr ""
+msgstr "Для того чтобы использовать rfc2307bis совместимые группы, объектный класс 'posixGroup' должен быть в AUXILIARY"
 
 #: include/functions.inc:2850
 msgid ""
 "Your schema is configured to support the rfc2307bis group, but you have "
 "disabled this option on the 'ldap setup' step."
-msgstr ""
+msgstr "В вашей схеме настроена поддержка групп rfc2307bis, но у вас отключена эта  опция на шаге 'настройка ldap'."
 
 #: include/functions.inc:2851
 msgid "The objectClass 'posixGroup' must be STRUCTURAL"
-msgstr ""
+msgstr "Объектный класс 'posixGroup' должен быть установлен в STRUCTURAL"
 
 #: include/functions.inc:3095
 msgid "Could not re-lock the account after password change"
-msgstr ""
+msgstr "Не удалось повторно заблокировать учетную запись после изменения пароля"
 
 #: include/functions.inc:3507 include/functions.inc:3528
 #: include/functions.inc:3566 include/functions.inc:3578
@@ -3504,7 +3504,7 @@ msgstr "нет доступных ID!"
 
 #: include/functions.inc:3598
 msgid "maximum tries exceeded!"
-msgstr ""
+msgstr "Превышено максимальное число попыток!"
 
 #: include/functions.inc:3660
 msgid "Cannot allocate a free ID!"
@@ -3518,11 +3518,11 @@ msgstr "Не могу обнаружить файл '%s' - пожалуйста 
 #: include/class_session.inc:97 include/class_session.inc:134
 #: include/class_session.inc:172
 msgid "Requested channel does not exist! Please contact your Administrator."
-msgstr ""
+msgstr "Запрашиваемый канал не существует! Пожалуйста свяжитесь с вашим системным администратором."
 
 #: include/class_sortableListing.inc:303
 msgid "Sortable list"
-msgstr ""
+msgstr "Сортировка списка"
 
 #: include/class_sortableListing.inc:308
 msgid "Edit this entry"
@@ -3548,7 +3548,7 @@ msgstr ""
 
 #: include/class_log.inc:119
 msgid "Specified objectType is empty or invalid!"
-msgstr ""
+msgstr "Указанный объектный тип пустой или неверный!"
 
 #: include/php_setup.inc:36
 msgid "PHP error"
@@ -3743,7 +3743,7 @@ msgstr "дни"
 #: include/simpleplugin/class_attribute.inc:2078
 #, php-format
 msgid "%s (required)"
-msgstr ""
+msgstr "%s (обязательный)"
 
 #: include/simpleplugin/class_attribute.inc:1201
 #, php-format
@@ -3845,7 +3845,7 @@ msgstr "Не удается извлечь информацию для не PEM 
 
 #: include/class_certificate.inc:253
 msgid "No valid certificate loaded!"
-msgstr ""
+msgstr "Загружен не действительный сертификат!"
 
 #: include/class_acl.inc:169
 #, php-format
@@ -3887,7 +3887,7 @@ msgstr "Не могу найти подходящего парольного м�
 
 #: include/class_SnapshotHandler.inc:415
 msgid "There was a problem uncompressing snapshot data"
-msgstr ""
+msgstr "Были проблемы при распаковке данных снапшота"
 
 #: include/class_tabs.inc:75
 #, php-format
@@ -3899,7 +3899,7 @@ msgstr ""
 #: include/class_tabs.inc:296
 #, php-format
 msgid "Delete process has been canceled by plugin '%s': %s"
-msgstr ""
+msgstr "Процесс удаления был отменен плагином '%s': %s"
 
 #: html/index.php:56
 msgid "Session is not encrypted!"
@@ -3920,7 +3920,7 @@ msgstr "Не прочесть конфигурацию FusionDirectory %s/%s. Ч
 
 #: html/index.php:156
 msgid "Smarty error"
-msgstr ""
+msgstr "Ошибка Smarty"
 
 #: html/index.php:156 html/class_passwordRecovery.inc:302 html/setup.php:62
 #, php-format
@@ -3937,15 +3937,15 @@ msgstr ""
 
 #: html/index.php:198
 msgid "User information is not unique across the configured LDAP trees!"
-msgstr ""
+msgstr "Информация о пользователе не уникальна во всех настроенных LDAP деревьях!"
 
 #: html/index.php:250
 msgid "Cannot detect information about the installed LDAP schema!"
-msgstr ""
+msgstr "Не удается обнаружить информацию об установленных LDAP схемах!"
 
 #: html/index.php:263
 msgid "Your LDAP setup contains old schema definitions:"
-msgstr ""
+msgstr "Ваша конфигурация LDAP содержит следующие старые схемы:"
 
 #: html/index.php:286
 msgid "Please specify a valid username!"
@@ -3975,7 +3975,7 @@ msgstr "В вашем браузере отключены куки. Пожалу
 
 #: html/main.php:139
 msgid "PHP configuration"
-msgstr ""
+msgstr "Настройки PHP"
 
 #: html/main.php:140
 msgid ""
@@ -4019,7 +4019,7 @@ msgstr "Критическая ошибка: не все POST переменны
 
 #: html/class_passwordRecovery.inc:130
 msgid "Error: Password method not available!"
-msgstr ""
+msgstr "Ошибка: Парольный метод не доступен!"
 
 #: html/class_passwordRecovery.inc:230
 #, php-format
@@ -4055,7 +4055,7 @@ msgstr "Адрес электронной почты"
 #: html/class_passwordRecovery.inc:514
 #, php-format
 msgid "There is no account using email %s"
-msgstr ""
+msgstr "Нет учетной записи использующей адрес электронной почты %s"
 
 #: html/class_passwordRecovery.inc:517
 #, php-format
@@ -4167,11 +4167,11 @@ msgstr "Завершение - запишите конфигурационный
 msgid ""
 "Your configuration file is currently world readable. Please update the file "
 "permissions!"
-msgstr ""
+msgstr "Конфигурационный файл доступе только для чтения. Пожалуйста обновите права на файл."
 
 #: setup/class_setupStep_Finish.inc:115
 msgid "The configuration is currently not readable or it does not exists."
-msgstr ""
+msgstr "Конфигурационный файл не читается или не существует вовсе."
 
 #: setup/class_setupStep_Finish.inc:120
 #, php-format
@@ -4179,7 +4179,7 @@ msgid ""
 "After downloading and placing the file under %s, please make sure that the "
 "user the webserver is running with is able to read %s, while other users "
 "shouldn't."
-msgstr ""
+msgstr "После скачивания и размещения файла в %s, убедитесь что пользователь из под которого запущен веб-сервера может читать %s, в то время как другие пользователи не должны."
 
 #: setup/class_setupStep_Migrate.inc:126 setup/class_setupStep_Migrate.inc:127
 msgid "LDAP inspection"
@@ -4191,7 +4191,7 @@ msgstr "Анализ вашего текущего LDAP для совмести�
 
 #: setup/class_setupStep_Migrate.inc:136
 msgid "Give all rights on users in the given branch"
-msgstr ""
+msgstr "Дать полные права на пользователей в данной ветке"
 
 #: setup/class_setupStep_Migrate.inc:142
 msgid ""
@@ -4205,7 +4205,7 @@ msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:158
 msgid "Checking for root object"
-msgstr ""
+msgstr "Проверка корневых объектов"
 
 #: setup/class_setupStep_Migrate.inc:164
 msgid "Inspecting object classes in root object"
@@ -4213,44 +4213,44 @@ msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:170
 msgid "Checking permission for LDAP database"
-msgstr ""
+msgstr "Проверка прав для LDAP базы"
 
 #: setup/class_setupStep_Migrate.inc:176
 msgid "Checking for invisible departments"
-msgstr ""
+msgstr "Проверка на невидимые подразделения"
 
 #: setup/class_setupStep_Migrate.inc:181
 msgid "Checking for invisible users"
-msgstr ""
+msgstr "Проверка на невидимых пользователей"
 
 #: setup/class_setupStep_Migrate.inc:188
 #: setup/class_setupStep_Migrate.inc:2791
 msgid "Checking for super administrator"
-msgstr ""
+msgstr "Проверка для супер администратора"
 
 #: setup/class_setupStep_Migrate.inc:194
 msgid "Checking for default ACL roles and groupes"
-msgstr ""
+msgstr "Проверка на ACL ролей по умолчанию и групп"
 
 #: setup/class_setupStep_Migrate.inc:200
 msgid "Checking for users outside the people tree"
-msgstr ""
+msgstr "Проверка на пользователей за пределами дерева людей"
 
 #: setup/class_setupStep_Migrate.inc:206
 msgid "Checking for groups outside the groups tree"
-msgstr ""
+msgstr "Проверка на группы за пределами дерева для них"
 
 #: setup/class_setupStep_Migrate.inc:213
 msgid "Checking for duplicated user ids"
-msgstr ""
+msgstr "Проверка на повторные идентификаторы пользователей"
 
 #: setup/class_setupStep_Migrate.inc:219
 msgid "Checking for duplicate group ids"
-msgstr ""
+msgstr "Проверка на повторные идентификаторы групп"
 
 #: setup/class_setupStep_Migrate.inc:225
 msgid "Checking for old style USB devices"
-msgstr ""
+msgstr "Проверка на старый стиль USB устройств"
 
 #: setup/class_setupStep_Migrate.inc:231
 msgid "Checking for old services that have to be migrated"
@@ -4258,7 +4258,7 @@ msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:237
 msgid "Checking for old style application menus"
-msgstr ""
+msgstr "Проверка для старого стиля меню приложений"
 
 #: setup/class_setupStep_Migrate.inc:256 setup/class_setupStep_Migrate.inc:301
 #: setup/class_setupStep_Migrate.inc:361 setup/class_setupStep_Migrate.inc:424
@@ -4297,7 +4297,7 @@ msgstr "Найдено %s, повторное значение для атриб
 #: setup/class_setupStep_Migrate.inc:388
 #, php-format
 msgid "Found %s groups outside the configured tree '%s'."
-msgstr ""
+msgstr "Найдены группы %s, выходящие за пределы настроенного дерева '%s'."
 
 #: setup/class_setupStep_Migrate.inc:389 setup/class_setupStep_Migrate.inc:458
 msgid "Move"
@@ -4306,7 +4306,7 @@ msgstr "Переместить"
 #: setup/class_setupStep_Migrate.inc:457
 #, php-format
 msgid "Found %s user(s) outside the configured tree '%s'."
-msgstr ""
+msgstr "Найден пользователь(и) %s, выходящие за пределы настроенного дерева '%s'."
 
 #: setup/class_setupStep_Migrate.inc:507 setup/class_setupStep_Migrate.inc:519
 #: setup/class_setupStep_Migrate.inc:951 setup/class_setupStep_Migrate.inc:970
@@ -4330,7 +4330,7 @@ msgstr "Указанный пользователь '%s' не имеет пол�
 msgid ""
 "Found %s user(s) that will not be visible in FusionDirectory or which are "
 "incomplete."
-msgstr ""
+msgstr "Найден пользователь(и) %s, которые будут не видны в FusionDirectory или которые не полные."
 
 #: setup/class_setupStep_Migrate.inc:580 setup/class_setupStep_Migrate.inc:704
 #: setup/class_setupStep_Migrate.inc:954
@@ -4368,7 +4368,7 @@ msgstr "FD 1.0.7 найдена учетная запись администра
 msgid ""
 "There is no valid FusionDirectory 1.0.8 administrator account inside your "
 "LDAP."
-msgstr ""
+msgstr "Нет рабочей учетной записи администратора FusionDirectory 1.0.8 в вашем LDAP."
 
 #: setup/class_setupStep_Migrate.inc:971
 msgid "There is no FusionDirectory administrator account inside your LDAP."
@@ -4394,7 +4394,7 @@ msgstr "Не могу добавить ACL роли '%s':"
 
 #: setup/class_setupStep_Migrate.inc:1072
 msgid "Give all rights on all objects"
-msgstr ""
+msgstr "Дать все права на все объекты"
 
 #: setup/class_setupStep_Migrate.inc:1119
 #, php-format
@@ -4425,7 +4425,7 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:1192
 #, php-format
 msgid "Adding an administrator user failed: object '%s' already exists!"
-msgstr ""
+msgstr "Ошибка добавления администратора: объект '%s' уже существует!"
 
 #: setup/class_setupStep_Migrate.inc:1223
 #: setup/class_setupStep_Migrate.inc:1266
@@ -4451,30 +4451,30 @@ msgstr "Пользователь будет перемещен из"
 
 #: setup/class_setupStep_Migrate.inc:1286
 msgid "The following references will be updated"
-msgstr ""
+msgstr "Следующие ссылки будут обновлены"
 
 #: setup/class_setupStep_Migrate.inc:1844
 msgid ""
 "The LDAP root object is missing. It is required to use your LDAP service."
-msgstr ""
+msgstr "В LDAP пропущена корневая запись. Она необходима для работы службы LDAP."
 
 #: setup/class_setupStep_Migrate.inc:1845
 #: setup/class_setupStep_Migrate.inc:1858
 msgid "Try to create root object"
-msgstr ""
+msgstr "Попробуйте создать корневую записи"
 
 #: setup/class_setupStep_Migrate.inc:1857
 msgid "Root object couldn't be created, you should try it on your own."
-msgstr ""
+msgstr "Корневая запись не может быть создана, вам нужно попробовать сделать ее самому."
 
 #: setup/class_setupStep_Migrate.inc:1905
 #, php-format
 msgid "Missing FusionDirectory object class '%s'!"
-msgstr ""
+msgstr "Пропущен объектный класс FusionDirectory '%s'!"
 
 #: setup/class_setupStep_Migrate.inc:1906
 msgid "Please check your installation."
-msgstr ""
+msgstr "Пожалуйста проверьте вашу установку."
 
 #: setup/class_setupStep_Migrate.inc:1936
 #, php-format
@@ -4496,23 +4496,23 @@ msgstr "Нужно перенести устройства %s."
 #: setup/class_setupStep_Migrate.inc:2316
 #, php-format
 msgid "Adding '%s' to the LDAP failed: %s"
-msgstr ""
+msgstr "Не удалось добавить '%s' в LDAP: %s"
 
 #: setup/class_setupStep_Migrate.inc:2335
 #: setup/class_setupStep_Migrate.inc:2439
 #, php-format
 msgid "Updating '%s' failed: %s"
-msgstr ""
+msgstr "Не удалось обновить '%s': %s"
 
 #: setup/class_setupStep_Migrate.inc:2407
 #, php-format
 msgid "There are %s services that need to be migrated."
-msgstr ""
+msgstr "Нужно перенести службы %s"
 
 #: setup/class_setupStep_Migrate.inc:2663
 #, php-format
 msgid "There are %s application menus which have to be migrated."
-msgstr ""
+msgstr "Меню приложений %s, которые должны быть перенесены."
 
 #: setup/class_setupStep_Config2.inc:48 setup/class_setupStep_Config2.inc:49
 msgid "FusionDirectory settings 2/3"
@@ -4536,7 +4536,7 @@ msgstr "Добро пожаловать"
 
 #: setup/class_setupStep_Welcome.inc:40
 msgid "The welcome message"
-msgstr ""
+msgstr "Сообщение приветствия"
 
 #: setup/class_setupStep_Welcome.inc:41
 msgid "Welcome to FusionDirectory setup wizard"
@@ -4553,13 +4553,13 @@ msgstr "Общие настройки FusionDirectory"
 #: setup/class_setupStep_Config1.inc:126
 #, php-format
 msgid "The specified value for '%s' must be a numeric value"
-msgstr ""
+msgstr "Указанное значение '%s' должно быть целым числом"
 
 #: setup/class_setupStep_Config1.inc:130 setup/class_setupStep_Config1.inc:134
 #: setup/class_setupStep_Config1.inc:138
 #, php-format
 msgid "Don't add a trailing comma to '%s'."
-msgstr ""
+msgstr "Не ставьте запятую в конце '%s'."
 
 #: setup/class_setupStep_Config1.inc:130
 msgid "People storage ou"
@@ -4579,11 +4579,11 @@ msgstr ""
 
 #: setup/class_setupStep_Config1.inc:146
 msgid "The given password minimum length is not numeric."
-msgstr ""
+msgstr "Введенная минимальная длинна пароля не число."
 
 #: setup/class_setupStep_Config1.inc:149
 msgid "The given password differ value is not numeric."
-msgstr ""
+msgstr "Введенное значение разности паролей не число."
 
 #: setup/class_setupStep_Checks.inc:38 setup/class_setupStep_Checks.inc:39
 msgid "Installation check"
@@ -4637,11 +4637,11 @@ msgstr "FusionDirectory требуется модуль для связи с IMA
 
 #: setup/class_setupStep_Checks.inc:120
 msgid "mbstring"
-msgstr ""
+msgstr "mbstring"
 
 #: setup/class_setupStep_Checks.inc:121
 msgid "FusionDirectory requires this module to handle unicode strings."
-msgstr ""
+msgstr "FusionDirectory требуется модуль для обработки юникод строк."
 
 #: setup/class_setupStep_Checks.inc:128
 msgid "MDB2"
@@ -4651,13 +4651,13 @@ msgstr "MDB2"
 msgid ""
 "FusionDirectory requires this module to communicate with several supported "
 "databases."
-msgstr ""
+msgstr "FusionDirectory требуется модуль для взаимодействия с несколькими поддерживаемыми базами данных."
 
 #: setup/class_setupStep_Checks.inc:134
 msgid ""
 "If you do not want to install MDB2 and won't use databases, remove the "
 "class_databaseManagement.inc file."
-msgstr ""
+msgstr "Если вы не собираетесь устанавливать MDB2 и не хотите использовать базы данных, удалите файл class_databaseManagement.inc."
 
 #: setup/class_setupStep_Checks.inc:138
 msgid "imagick"
@@ -4665,7 +4665,7 @@ msgstr "imagick"
 
 #: setup/class_setupStep_Checks.inc:139
 msgid "FusionDirectory requires this extension to handle images."
-msgstr ""
+msgstr "FusionDirectory требуется расширение для обработки изображений."
 
 #: setup/class_setupStep_Checks.inc:153
 msgid "compression module"
@@ -4673,22 +4673,22 @@ msgstr "модуль сжатия"
 
 #: setup/class_setupStep_Checks.inc:154
 msgid "FusionDirectory requires this extension to handle snapshots."
-msgstr ""
+msgstr "FusionDirectory требуется расширение для обработки снапшотов."
 
 #: setup/class_setupStep_Checks.inc:164
 msgid ""
 "register_globals is a PHP mechanism to register all global variables to be "
 "accessible from scripts without changing the scope. This may be a security "
 "risk."
-msgstr ""
+msgstr "register_globals механизм PHP, предоставляющий доступ ко всем глобальным переменным из скриптов без изменения области видимости. Это не безопасно."
 
 #: setup/class_setupStep_Checks.inc:165
 msgid "Search for 'register_globals' in your php.ini and switch it to 'Off'."
-msgstr ""
+msgstr "Найдите 'register_globals' в вашем php.ini и поменяйте на 'Off'."
 
 #: setup/class_setupStep_Checks.inc:172
 msgid "PHP uses this value for the garbage collector to delete old sessions."
-msgstr ""
+msgstr "Это значение используется PHP сборщиком мусора, чтобы удалять старые сессии."
 
 #: setup/class_setupStep_Checks.inc:173
 msgid ""
@@ -4711,22 +4711,22 @@ msgstr ""
 msgid ""
 "In Order to use FusionDirectory without any trouble, the session.auto_start "
 "option in your php.ini should be set to 'Off'."
-msgstr ""
+msgstr "Чтобы во время использования FusionDirectory не возникло ни каких проблем, опция 'session.auto_start' должна быть установлена в 'Off' в вашем php.ini."
 
 #: setup/class_setupStep_Checks.inc:183
 msgid "Search for 'session.auto_start' in your php.ini and set it to 'Off'."
-msgstr ""
+msgstr "Найдите 'session.auto_start' в вашем php.ini и установите его в 'Off'."
 
 #: setup/class_setupStep_Checks.inc:190
 msgid ""
 "FusionDirectory needs at least 128MB of memory. Setting it below this limit "
 "may cause errors that are not reproducable! Increase it for larger setups."
-msgstr ""
+msgstr "FusionDirectory нужно не меньше 128МБ памяти. Настройка этого предела ниже может привести к ошибкам, которые не воспроизводятся! Увеличьте его в большинстве случаев."
 
 #: setup/class_setupStep_Checks.inc:191
 msgid ""
 "Search for 'memory_limit' in your php.ini and set it to '128M' or higher."
-msgstr ""
+msgstr "Найдите 'memory_limit' в вашем php.ini и установите его в '128M' или больше."
 
 #: setup/class_setupStep_Checks.inc:198
 msgid ""
@@ -4736,27 +4736,27 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:199
 msgid "Search for 'implicit_flush' in your php.ini and set it to 'Off'."
-msgstr ""
+msgstr "Найдите 'implicit_flush' в вашем php.ini и установите его в 'Off'."
 
 #: setup/class_setupStep_Checks.inc:206
 msgid "The Execution time should be at least 30 seconds."
-msgstr ""
+msgstr "Время исполнения, должно быть не менее 30 секунд."
 
 #: setup/class_setupStep_Checks.inc:207
 msgid ""
 "Search for 'max_execution_time' in your php.ini and set it to '30' or "
 "higher."
-msgstr ""
+msgstr "Найдите 'max_execution_time' в вашем php.ini и установите его в значение '30' или больше."
 
 #: setup/class_setupStep_Checks.inc:214
 msgid ""
 "Increase the server security by setting expose_php to 'off'. PHP won't send "
 "any information about the server you are running in this case."
-msgstr ""
+msgstr "Повысить безопасность сервера установив опцию expose_php в 'off'. PHP не будет отправлять ни какую информацию о сервере, запускающему, в этом случае."
 
 #: setup/class_setupStep_Checks.inc:215
 msgid "Search for 'expose_php' in your php.ini and set if to 'Off'."
-msgstr ""
+msgstr "Найдите 'expose_php' в вашем php.ini и установите в 'Off'."
 
 #: setup/class_setupStep_Checks.inc:222
 msgid "Increase your server performance by setting magic_quotes_gpc to 'off'."
@@ -4766,7 +4766,7 @@ msgstr "Повысите производительность вашего се�
 msgid ""
 "Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to "
 "'Off'."
-msgstr ""
+msgstr "Найдите 'zend.ze1_compatibility_mode' в вашем php.ini и установите в 'Off'."
 
 #: setup/class_setupStep_Checks.inc:231
 msgid "Configuration writeable"
@@ -4774,7 +4774,7 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:232
 msgid "The configuration file can't be written"
-msgstr ""
+msgstr "Не могу сохранить конфигурационный файл"
 
 #: setup/class_setupStep_Checks.inc:233
 #, php-format
@@ -4871,7 +4871,7 @@ msgstr "Члены группы"
 
 #: plugins/admin/groups/paste_generic.tpl.c:2
 msgid "Group settings"
-msgstr ""
+msgstr "Настройки групп"
 
 #: plugins/admin/ogroups/generic.tpl.c:5
 msgid "Name of the group"
@@ -4965,13 +4965,13 @@ msgstr "Продолжить"
 
 #: plugins/admin/users/templatize.tpl.c:2
 msgid "Applying a template"
-msgstr ""
+msgstr "Применение шаблона"
 
 #: plugins/admin/users/templatize.tpl.c:5
 msgid ""
 "Applying a template to several users will replace all user attributes "
 "defined in the template."
-msgstr ""
+msgstr "Применение шаблона к нескольким пользователям приведет к замене всех атрибутов пользователя определенных в нем."
 
 #: plugins/admin/users/templatize.tpl.c:11
 msgid "No templates available!"
@@ -4982,14 +4982,14 @@ msgid ""
 "To change the user password use the fields below. The changes take effect "
 "immediately. Please memorize the new password, because the user wouldn't be "
 "able to login without it."
-msgstr ""
+msgstr "Для изменения пароля пользователя воспользуйтесь полями ниже. Изменения вступят в силу немедленно. Пожалуйста запомните новый пароль, потому что пользователь не сможет войти без него."
 
 #: plugins/admin/users/password.tpl.c:5
 #: plugins/personal/password/password.tpl.c:5
 msgid ""
 "Changing the password affects your authentification on mail, proxy, samba "
 "and unix services."
-msgstr ""
+msgstr "Изменение пароля затронет аутентификацию на почту, прокси, samba и unix службы."
 
 #: plugins/admin/users/password.tpl.c:11 plugins/admin/users/password.tpl.c:29
 #: plugins/personal/password/password.tpl.c:17
@@ -5019,11 +5019,11 @@ msgstr "Обновить"
 #: plugins/admin/users/password.tpl.c:23
 #: plugins/personal/password/password.tpl.c:32
 msgid "Manually specify a password"
-msgstr ""
+msgstr "Вручную укажите пароль"
 
 #: plugins/admin/users/password.tpl.c:35
 msgid "Enforce password change on next login."
-msgstr ""
+msgstr "Принудительно изменить пароль при следующем входе."
 
 #: plugins/admin/users/password.tpl.c:38
 #: plugins/personal/password/password.tpl.c:44
@@ -5074,13 +5074,13 @@ msgstr "Нажмите 'Удалить', чтобы продолжить или 
 #: plugins/addons/dashboard/users_accounts.tpl.c:2
 msgid "There is one expired account"
 msgid_plural "There are %1 expired accounts"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Есть одна учетная запись, срок действия которой закончился"
+msgstr[1] "Есть %1 учетных записи, срок действия которых закончился"
+msgstr[2] "Есть %1 учетных записи, срок действия которых закончился"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:5
 msgid "There is no expired account"
-msgstr ""
+msgstr "Нет учетных записей с истекшим сроком действия"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:11
 #: plugins/addons/dashboard/users_accounts.tpl.c:44
@@ -5173,13 +5173,13 @@ msgstr ""
 #: plugins/addons/dashboard/users_stats.tpl.c:11
 msgid "One of them is locked"
 msgid_plural "%1 of them are locked"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Из них одна заблокирована"
+msgstr[1] "Из них одна заблокирована"
+msgstr[2] "Из них %1 заблокированы"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:14
 msgid "None of them is locked"
-msgstr ""
+msgstr "Ни один из них не заблокирован"
 
 #: plugins/personal/generic/generic_certs.tpl.c:2
 msgid "Certificates"
@@ -5380,7 +5380,7 @@ msgstr "Доступные методы"
 
 #: ihtml/themes/default/recovery.tpl.c:17
 msgid "Receive by email a link that allows you to reset your password"
-msgstr ""
+msgstr "Получить по электронной почте ссылку, которая позволит сбросить ваш пароль"
 
 #: ihtml/themes/default/recovery.tpl.c:20
 msgid "Send"
@@ -5531,7 +5531,7 @@ msgstr "Окно входа"
 msgid ""
 "Please use your username and your password to log into the site "
 "administration system."
-msgstr ""
+msgstr "Пожалуйста используйте свое имя и пароль что бы войти в систему администрирования сайтом."
 
 #: ihtml/themes/default/login.tpl.c:8 ihtml/themes/default/login.tpl.c:11
 #: ihtml/themes/default/login.tpl.c:14
@@ -5631,14 +5631,14 @@ msgstr ""
 msgid ""
 "This procedure will restore a snapshot of the selected object. It will "
 "replace the existing object after pressing the folder icon."
-msgstr ""
+msgstr "Эта операция восстановит снапшот выбранного объекта. Существующий объект будет заменен после нажатия на иконку папки."
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:8
 msgid ""
 "Remember that DNS configuration and database entries could not be restored. "
 "For some objects it is only necessary to open and save them again (goFon), "
 "but some entries must be recreated manually."
-msgstr ""
+msgstr "Помните что настройки DNS и записи базы данных не могут быть восстановлены. Некоторых объекты нужно только открыть и сохранить заново (goFon), но некоторые записи должны быть восстановлены вручную."
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:11
 msgid ""
@@ -5652,24 +5652,24 @@ msgstr ""
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:20
 msgid "Choose a snapshot and click the folder image, to restore the snapshot"
-msgstr ""
+msgstr "Выберите снапшот и нажмите на изображение папки, чтобы восстановить снапшот"
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:26
 msgid "Creating object snapshots"
-msgstr ""
+msgstr "Создание объектов снапшотов"
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:29
 msgid ""
 "This procedure will create a snapshot of the selected object. It will be "
 "stored inside a special branch of your directory system and can be restored "
 "later on."
-msgstr ""
+msgstr "Эта операция создаст снапшот выбранного объекта. Он будет сохранен внутри специальной ветки вашего системного каталога, позже его можно будет восстановить."
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:32
 msgid ""
 "Remember that database entries, DNS configurations and possibly created "
 "zones in server extensions will not be stored in the snapshot."
-msgstr ""
+msgstr "Помните, что записи базы данных, настройки DNS и, возможно, созданные зоны в расширениях сервера не будут сохранены в снапшоте."
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:38
 msgid "Timestamp"
@@ -5677,7 +5677,7 @@ msgstr "Дата"
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:41
 msgid "Reason for generating this snapshot"
-msgstr ""
+msgstr "Причина создания этого снапшота"
 
 #: ihtml/themes/default/framework.tpl.c:2
 msgid "Main"
@@ -5717,15 +5717,15 @@ msgstr "Внешний вид"
 
 #: setup/setup_config1.tpl.c:17
 msgid "People storage subtree"
-msgstr ""
+msgstr "Поддерево с Пользователями"
 
 #: setup/setup_config1.tpl.c:20
 msgid "Group storage subtree"
-msgstr ""
+msgstr "Поддерево с Группами"
 
 #: setup/setup_config1.tpl.c:23
 msgid "ACL roles storage subtree"
-msgstr ""
+msgstr "Поддерево с ACL ролей"
 
 #: setup/setup_config1.tpl.c:29
 msgid "Relaxed naming policies"
@@ -5733,7 +5733,7 @@ msgstr ""
 
 #: setup/setup_config1.tpl.c:38
 msgid "Base number for user/group id"
-msgstr ""
+msgstr "Начальный номер для id пользователей/групп"
 
 #: setup/setup_config1.tpl.c:44
 msgid "Password encryption algorithm"
@@ -5782,7 +5782,7 @@ msgstr ""
 
 #: setup/setup_finish.tpl.c:2
 msgid "Create your configuration file"
-msgstr ""
+msgstr "Создайте конфигурационный файл"
 
 #: setup/setup_finish.tpl.c:5
 msgid "Run "
@@ -5830,7 +5830,7 @@ msgstr ""
 msgid ""
 "It seems that your ldap database wasn't initialized yet. This might be the "
 "reason why FusionDirectory can't read your schema configuration!"
-msgstr ""
+msgstr "По всей видимости ваша база данных ldap не была инициализирована. Это может являться причиной, почему FusionDirectory не может прочитать конфигурацию схем!"
 
 #: setup/setup_welcome.tpl.c:2
 msgid ""
@@ -5849,7 +5849,7 @@ msgstr ""
 
 #: setup/setup_welcome.tpl.c:11
 msgid "Tries to find problems within your PHP and LDAP setup"
-msgstr ""
+msgstr "Пробую найти проблемы с настройками PHP и LDAP"
 
 #: setup/setup_welcome.tpl.c:14
 msgid "Let you choose from a set of basic and advanced configuration switches"
@@ -6016,7 +6016,7 @@ msgstr "Перенести группы в сконфигурированное 
 msgid ""
 "This dialog allows moving a couple of groups to the configured group tree. "
 "Doing this may straighten your LDAP service."
-msgstr ""
+msgstr "Этот диалог позволяет переместить несколько групп в настроенное дерево групп. Это действие может помочь привести в порядок вашу LDAP службу."
 
 #: setup/setup_migrate.tpl.c:29
 msgid ""
@@ -6051,7 +6051,7 @@ msgstr "Переместить пользователей в настроенн�
 msgid ""
 "This dialog allows moving a couple of users to the configured user tree. "
 "Doing this may straighten your LDAP service."
-msgstr ""
+msgstr "Этот диалог позволяет переместить несколько пользователей в настроенное дерево пользователей. Это действие может помочь привести в порядок вашу LDAP службу."
 
 #: setup/setup_migrate.tpl.c:56
 msgid ""
@@ -6072,7 +6072,7 @@ msgstr "Переселить учетную запись администрат�
 msgid ""
 "This dialog allows the migration of GOsa 2.5 admin accounts into "
 "FusionDirectory 1.0 useable accounts."
-msgstr ""
+msgstr "Этот диалог позволяет перенести учетную запись администратора GOsa 2.5 в рабочую учетную запись FusionDirectory 1.0."
 
 #: setup/setup_migrate.tpl.c:107
 msgid "Abort"
@@ -6101,7 +6101,7 @@ msgid ""
 "The listed departments are currently invisible in the FusionDirectory user "
 "interface. If you want to change this for a couple of entries, select them "
 "and use the migrate button below."
-msgstr ""
+msgstr "Перечисленные подразделения сейчас не видны через пользовательский интерфейс FusionDirectory. Если вы хотите это изменить для нескольких записей, выделите их и воспользуйтесь кнопкой 'Перенести' снизу."
 
 #: setup/setup_migrate.tpl.c:137 setup/setup_migrate.tpl.c:164
 #: setup/setup_migrate.tpl.c:191 setup/setup_migrate.tpl.c:221
@@ -6116,14 +6116,14 @@ msgid ""
 "The listed users are currently invisible in the FusionDirectory user "
 "interface. If you want to change this for a couple of users, just select "
 "them and use the 'Migrate' button below."
-msgstr ""
+msgstr "Перечисленные пользователи сейчас не видны через пользовательский интерфейс FusionDirectory. Если вы хотите это изменить для нескольких пользователей, выделите их и воспользуйтесь кнопкой 'Перенести' снизу."
 
 #: setup/setup_migrate.tpl.c:188
 msgid ""
 "The listed devices are currently invisible in the FusionDirectory interface."
 " If you want to change this for a couple of devices, just select them and "
 "use the 'Migrate' button below."
-msgstr ""
+msgstr "Перечисленные устройства сейчас не видны через пользовательский интерфейс FusionDirectory. Если вы хотите это изменить для нескольких устройств, выделите их и воспользуйтесь кнопкой 'Перенести' снизу."
 
 #: setup/setup_migrate.tpl.c:218
 msgid ""
@@ -6137,7 +6137,7 @@ msgid ""
 "The listed menus are currently invisible in the FusionDirectory interface. "
 "If you want to change this for a couple of devices, just select them and use"
 " the 'Migrate' button below."
-msgstr ""
+msgstr "Перечисленные меню сейчас не видны через пользовательский интерфейс FusionDirectory. Если вы хотите это изменить для нескольких меню, выделите их и воспользуйтесь кнопкой 'Перенести' снизу."
 
 #: setup/setup_config3.tpl.c:2
 msgid "FusionDirectory core settings"
@@ -6153,7 +6153,7 @@ msgstr ""
 
 #: setup/setup_config3.tpl.c:26
 msgid "Enforce register_globals to be deactivated"
-msgstr ""
+msgstr "register_globals будет принудительно выключен"
 
 #: setup/setup_config3.tpl.c:41
 msgid "Show PHP errors"
