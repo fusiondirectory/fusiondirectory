@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2011-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -36,9 +36,9 @@ class groupManagement extends simpleManagement
       'plShortName'   => _('Groups'),
       'plDescription' => _('Manage groups'),
       'plIcon'        => 'geticon.php?context=types&icon=user-group&size=48',
-      'plSection'     => 'admin',
+      'plSection'     => 'accounts',
       'plManages'     => array('group', 'role'),
-      'plPriority'    => 2,
+      'plPriority'    => 20,
 
       'plProvidedAcls' => array()
     );

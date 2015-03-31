@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2011-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -191,7 +191,9 @@ class passwordMethod
 
       // Call the password post-lock hook, if defined.
       if ($ldap->success()) {
-          $pwdClass->callHook($pwdClass, 'POST'.$mode, array(), $ret);
+        $pwdClass->callHook($pwdClass, 'POST'.$mode, array(), $ret);
+      } else {
+        msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD), LDAP_ERROR);
       }
       return $ldap->success();
     }

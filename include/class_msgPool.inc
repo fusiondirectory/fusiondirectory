@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2011-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -393,9 +393,13 @@ class msgPool {
    *
    * \param string $name The entry duplicated
    */
-  public static function duplicated($name)
+  public static function duplicated($name, $dn = NULL)
   {
-    return sprintf(_("There is already an entry with this '%s' attribute in the system!"), $name);
+    if ($dn == NULL) {
+      return sprintf(_("There is already an entry with this '%s' attribute in the system!"), $name);
+    } else {
+      return sprintf(_("The entry '%s' already use this '%s' attribute!"), $dn, $name);
+    }
   }
 
   /*!

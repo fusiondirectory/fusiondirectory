@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -46,7 +46,8 @@ class simpleService extends simplePlugin {
   {
     parent::__construct($config, $dn, $object, $attributesInfo);
     $plInfos = pluglist::pluginInfos(get_class($this));
-    $this->DisplayName = $plInfos['plShortName'];
+    $this->DisplayName  = $plInfos['plShortName'];
+    $this->parent       = $object; /* $object is the instance of serverService in this case */
   }
 
   /*! \brief This function display the service and return the html code
@@ -84,11 +85,20 @@ class simpleService extends simplePlugin {
     /* Name displayed in service overview */
     $fields['Message']      = $this->DisplayName;
 
-    /* Allow/disallow some functions */
-    $fields['AllowStatus']  = ($this->status == "") && $this->showActions && $this->acl_is_writeable("start");
-    $fields['AllowStart']   = ($this->status == "stopped") && $this->showActions && $this->acl_is_writeable("start");
-    $fields['AllowStop']    = ($this->status == "running") && $this->showActions && $this->acl_is_writeable("stop");
-    $fields['AllowRestart'] = ($this->status == "running") && $this->showActions && $this->acl_is_writeable("restart");
+    if ($this->showActions && is_object($this->parent->parent) && $this->parent->parent->by_object['argonautClient']->is_account) {
+      /* Allow/disallow some functions */
+      $fields['AllowStatus']  = ($this->status == "") && $this->acl_is_writeable("start");
+      $fields['AllowStart']   = ($this->status == "stopped") && $this->acl_is_writeable("start");
+      $fields['AllowStop']    = ($this->status == "running") && $this->acl_is_writeable("stop");
+      $fields['AllowRestart'] = ($this->status == "running") && $this->acl_is_writeable("restart");
+    } else {
+      /* Disable some functions */
+      $fields['AllowStatus']  = FALSE;
+      $fields['AllowStart']   = FALSE;
+      $fields['AllowStop']    = FALSE;
+      $fields['AllowRestart'] = FALSE;
+    }
+
     $fields['AllowRemove']  = $this->acl_is_removeable();
     $fields['AllowEdit']    = $this->acl_is_readable("");
 

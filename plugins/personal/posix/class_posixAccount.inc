@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2011-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -41,12 +41,12 @@ class EpochDaysDateAttribute extends DateAttribute
 
   protected function ldapToDate($ldapValue)
   {
-    $date = DateTime::createFromFormat('U', $ldapValue * self::$secondsPerDay, new DateTimeZone('UTC'));
+    $date = DateTime::createFromFormat('U', $ldapValue * self::$secondsPerDay, timezone::utc());
     if ($date !== FALSE) {
       return $date;
     } else {
       trigger_error('LDAP value for '.$this->getLdapName().' was not in the right date format.');
-      return new DateTime($ldapValue, new DateTimeZone('UTC'));
+      return new DateTime($ldapValue, timezone::utc());
     }
   }
 
@@ -181,15 +181,18 @@ class posixAccount extends simplePlugin
   static function plInfo()
   {
     return array(
-      "plShortName"     => _("Unix"),
-      "plDescription"   => _("Edit users POSIX settings"),
-      "plIcon"          => 'geticon.php?context=applications&icon=os-linux&size=48',
-      "plSmallIcon"     => 'geticon.php?context=applications&icon=os-linux&size=16',
-      "plSelfModify"    => TRUE,
-      "plPriority"      => 2,
-      "plObjectType"    => array("user"),
+      'plShortName'   => _('Unix'),
+      'plDescription' => _('Edit users POSIX settings'),
+      'plIcon'        => 'geticon.php?context=applications&icon=os-linux&size=48',
+      'plSmallIcon'   => 'geticon.php?context=applications&icon=os-linux&size=16',
+      'plSelfModify'  => TRUE,
+      'plPriority'    => 2,
+      'plObjectType'  => array('user'),
+      'plForeignKeys' => array(
+        'gidNumber' => array('group','gidNumber')
+      ),
 
-      "plProvidedAcls"  => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls'  => parent::generatePlProvidedAcls(self::getAttributesInfo())
     );
   }
 
@@ -624,6 +627,19 @@ class posixAccount extends simplePlugin
       unset($tmp['count']);
       $this->accessTo = $tmp;
     }
+  }
+
+  function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
+  {
+    $ret = parent::foreignKeyUpdate($field, $oldvalue, $newvalue, $source);
+    if ($field == 'gidNumber') {
+      if ($newvalue === NULL) {
+        $this->primaryGroup = 0;
+      } else {
+        $this->primaryGroup = $this->gidNumber;
+      }
+    }
+    return $ret;
   }
 }
 

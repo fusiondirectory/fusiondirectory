@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2011-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -35,9 +35,9 @@ class ogroupManagement extends management
       'plShortName'   => _('Object groups'),
       'plDescription' => _('Manage object groups'),
       'plIcon'        => 'geticon.php?context=types&icon=resource-group&size=48',
-      'plSection'     => 'admin',
+      'plSection'     => 'accounts',
       'plManages'     => array('ogroup'),
-      'plPriority'    => 3,
+      'plPriority'    => 21,
 
       'plProvidedAcls' => array()
     );

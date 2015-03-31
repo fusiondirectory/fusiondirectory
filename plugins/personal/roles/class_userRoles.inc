@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2014  FusionDirectory
+  Copyright (C) 2014-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ class userRoles extends simplePlugin
       'plDescription'   => _('Edit user\'s roles'),
       'plIcon'          => 'geticon.php?context=types&icon=role&size=48',
       'plSmallIcon'     => 'geticon.php?context=types&icon=role&size=16',
-      'plSelfModify'    => TRUE,
+      'plSelfModify'    => FALSE,
       'plObjectType'    => array('user'),
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(self::getAttributesInfo())

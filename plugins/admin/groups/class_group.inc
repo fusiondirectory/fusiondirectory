@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2011-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -1139,6 +1139,27 @@ class group extends plugin
       return isset($this->memberUid[$value]);
     } else {
       return parent::foreignKeyCheck($field, $value, $source);
+    }
+  }
+
+  protected function attributeInitialValue($field)
+  {
+    if ($field == 'gidNumber') {
+      return $this->saved_gidNumber;
+    } else {
+      return parent::attributeInitialValue($field);
+    }
+  }
+
+  protected function attributeHaveChanged($field)
+  {
+    if ($field == 'gidNumber') {
+      if (!$this->initially_was_account) {
+        return TRUE;
+      }
+      return ($this->$field != $this->attributeInitialValue($field));
+    } else {
+      return parent::attributeHaveChanged($field);
     }
   }
 

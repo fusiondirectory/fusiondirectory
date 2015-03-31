@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2014  FusionDirectory
+  Copyright (C) 2011-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -701,13 +701,24 @@ function ldap_login_user ($username, $password)
 
   /* password check, bind as user with supplied password  */
   $ldap->disconnect();
-  $ldap = new LDAP($ui->dn, $password, $config->current['SERVER'],
+  $ldap = new ldapMultiplexer(new LDAP($ui->dn, $password, $config->current['SERVER'],
       isset($config->current['LDAPFOLLOWREFERRALS']) &&
       $config->current['LDAPFOLLOWREFERRALS'] == "TRUE",
       isset($config->current['LDAPTLS'])
-      && $config->current['LDAPTLS'] == "TRUE");
+      && $config->current['LDAPTLS'] == "TRUE"));
   if (!$ldap->success()) {
     return NULL;
+  }
+  if (class_available('ppolicyAccount')) {
+    $ldap->ls('(objectClass=*)', $config->current['BASE']);
+    if (!$ldap->success()) {
+      msg_dialog::display(
+        _('Authentication error'),
+        _('It seems your user password has expired. Please use <a href="recovery.php">password recovery</a> to change it.'),
+        ERROR_DIALOG
+      );
+      return NULL;
+    }
   }
 
   /* Username is set, load subtreeACL's now */
@@ -2866,6 +2877,7 @@ function get_languages($languages_in_own_language = FALSE, $strip_region_tag = F
     "it_IT" => "Italian",
     "nl_NL" => "Dutch",
     "pl_PL" => "Polish",
+    "pt_BR" => "Brazilian",
     "ru_RU" => "Russian",
     "vi_VN" => "Vietnamese",
     "sv_SE" => "Swedish",
@@ -2887,6 +2899,7 @@ function get_languages($languages_in_own_language = FALSE, $strip_region_tag = F
       "it_IT" => "Italiano",
       "nl_NL" => "Nederlands",
       "pl_PL" => "Polski",
+      "pt_BR" => "Portuguese (Brazil)",
       "ru_RU" => "русский язык",
       "vi_VN" => "Tiếng Việt",
       "sv_SE" => "Svenska",
@@ -3073,16 +3086,17 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
 
     $ldap->modify($attrs);
 
-    /* Read ! if user was deactivated */
-    if ($deactivated) {
-      $test->lock_account($config, $dn);
-    }
-
     new log("modify", "user/passwordMethod", $dn, array_keys($attrs), $ldap->get_error());
 
     if (!$ldap->success()) {
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD), LDAP_ERROR);
     } else {
+      /* Re-add ! if user was deactivated */
+      if ($deactivated) {
+        if (!$test->lock_account($config, $dn)) {
+          msg_dialog::display(_('Error'), _('Could not re-lock the account after password change'), ERROR_DIALOG);
+        }
+      }
 
       /* Run backend method for change/create */
       if (!$test->set_password($password)) {

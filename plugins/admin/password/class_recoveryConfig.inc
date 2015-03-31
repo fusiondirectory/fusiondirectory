@@ -2,7 +2,7 @@
 
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2011-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -36,8 +36,8 @@ class recoveryConfig extends simplePlugin
       "plDescription" => _("Settings for the password recovery feature"),
       "plIcon"        => "plugins/password/images/iconRecovery.png",
       "plSelfModify"  => FALSE,
-      "plSection"     => "addons",
-      "plPriority"    => 9,
+      "plSection"     => "conf",
+      "plPriority"    => 1,
       "plCategory"    => array("configuration"),
 
       "plProvidedAcls"  => parent::generatePlProvidedAcls(self::getAttributesInfo())
@@ -55,7 +55,7 @@ class recoveryConfig extends simplePlugin
         'attrs' => array (
           new BooleanAttribute (
             _('Activate password recovery'),
-            _('Weither to activate or not password recovery feature'),
+            _('Whether to activate or not password recovery feature'),
             'passwordRecoveryActivated',
             FALSE
           ),

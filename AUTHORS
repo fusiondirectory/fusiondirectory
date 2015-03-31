@@ -156,3 +156,13 @@ documentation and additional help.
 * Fabien Brachere <fabien.brachere@e-tera.com>
   Fix support for special caracters in password
 
+* Arnaud Patard <apatard@hupstream.com>
+  Fix for Invalid uri in the password recovery mail
+
+* Adrian Reyer <are+fd@lihas.de>
+  Modifier for templates to convert german umlauts to 7-bit ASCII
+
+* Samuel Bosquin samuel.bosquin@ibcp.fr
+  Plugin FAI - LVM partitions
+
+* 

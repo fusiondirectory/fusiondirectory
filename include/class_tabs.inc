@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2011-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -149,7 +149,7 @@ class tabs
       } else {
         $baseobject->base = dn2base(get_userinfo()->dn);
       }
-      if (is_object($baseobject->baseSelector)) { // For some plugins not yet migrated to simple plugin.
+      if (isset($baseobject->baseSelector) && is_object($baseobject->baseSelector)) { // For some plugins not yet migrated to simple plugin.
         $baseobject->baseSelector->setBase($baseobject->base);
       }
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $baseobject->base, 'Fixed base');

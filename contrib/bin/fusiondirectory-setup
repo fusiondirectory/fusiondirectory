@@ -29,6 +29,9 @@ use File::Copy::Recursive qw(rcopy);
 #XML parser
 use XML::Twig;
 
+# To hide password input
+use Term::ReadKey;
+
 # fd's directory and class.cache file's path declaration
 my %vars = (
  fd_home          => "/var/www/fusiondirectory",
@@ -87,13 +90,17 @@ sub ask_yn_question {
 
 # function that ask for an user input and do some checks
 sub ask_user_input {
- my ($thing_to_ask, $default_answer) = @_;
+ my ($thing_to_ask, $default_answer, $hide_input) = @_;
  my $answer;
 
  if (defined $default_answer) {
    $thing_to_ask .= " [$default_answer]";
  }
  print $thing_to_ask.":\n";
+
+ if (defined $hide_input && $hide_input) {
+   ReadMode('noecho');
+ }
 
  do
  {
@@ -104,6 +111,8 @@ sub ask_user_input {
      $answer = "";
    }
  } while (($answer eq "") && (not defined $default_answer));
+
+ ReadMode('restore');
 
  if ($answer eq "") {
    return $default_answer;
@@ -591,8 +600,8 @@ sub add_ldap_admin {
   }
 
   if ($dn eq "") {
-    my $fd_admin_pwd = ask_user_input ("Please enter FusionDirectory's admin password");
-    my $fd_admin_pwd_confirm = ask_user_input ("Please enter it again");
+    my $fd_admin_pwd = ask_user_input ("Please enter FusionDirectory's admin password", undef, 1);
+    my $fd_admin_pwd_confirm = ask_user_input ("Please enter it again", undef, 1);
 
     # while the confirmation password is not the same than the first one
     while ( ($fd_admin_pwd_confirm ne $fd_admin_pwd) && ($fd_admin_pwd_confirm ne "quit" ) ) {
@@ -722,7 +731,7 @@ sub get_ldap_connexion {
       $hash_result{base} = $base;
 
       $bind_dn = ask_user_input ("Bind DN");
-      $bind_pwd = ask_user_input("Bind password");
+      $bind_pwd = ask_user_input("Bind password", undef, 1);
     } else {
       return;
     }
@@ -816,7 +825,7 @@ sub check_admin {
       my $acl = $assignment->get_value("gosaAclEntry", asref => 1);
       foreach my $line (@$acl) {
         if ($line =~ m/^.:subtree:\Q$role_dn64\E/) {
-          my @parts = split(':',$line);
+          my @parts = split(':',$line,4);
           my @members = split(",",$parts[3]);
           foreach my $member (@members) {
             # Is this an existing user?

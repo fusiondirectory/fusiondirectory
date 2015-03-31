@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2011-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -171,7 +171,9 @@ class passwordRecovery {
         $this->step4();
       } elseif (isset($_POST['apply'])) {
         $this->step2();
-        $this->step3();
+        if ($this->step == 2) { /* No errors */
+          $this->step3();
+        }
       }
     } elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
       if (isset($_GET['uniq'])) {
@@ -332,7 +334,7 @@ class passwordRecovery {
   {
     /* Store it in ldap with the salt */
     $salt_temp_password = $this->salt.$temp_password.$this->salt;
-    $sha1_temp_password = sha1($salt_temp_password);
+    $sha1_temp_password = "{SHA}".base64_encode(pack("H*", sha1($salt_temp_password)));
 
     $ldap = $this->config->get_ldap_link();
 
@@ -378,7 +380,7 @@ class passwordRecovery {
   function checkToken($token)
   {
     $salt_token = $this->salt.$token.$this->salt;
-    $sha1_token = sha1($salt_token);
+    $sha1_token = "{SHA}".base64_encode(pack("H*", sha1($salt_token)));
 
     /* Retrieve hash from the ldap */
     $ldap = $this->config->get_ldap_link();
@@ -503,6 +505,9 @@ class passwordRecovery {
     } else {
       $filter = "(&(objectClass=gosaMailAccount)(mail=".$this->email_address."))";
     }
+    if (class_available('personalInfo') && ($this->config->get_cfg_value('privateEmailPasswordRecovery', 'FALSE') == 'TRUE')) {
+      $filter = '(|'.$filter.'(&(objectClass=fdPersonalInfo)(fdPrivateMail='.$this->email_address.')))';
+    }
     $uids = get_list( $filter, "",
                       $this->config->current['BASE'], array("uid"),
                       GL_SUBSEARCH | GL_NO_ACL_CHECK);
@@ -542,9 +547,9 @@ class passwordRecovery {
     }
 
     $reinit_link = $this->getPageURL();
-    $reinit_link .= "?uniq=".$activatecode;
-    $reinit_link .= "&uid=".$this->uid;
-    $reinit_link .= "&email_address=".$this->email_address;
+    $reinit_link .= "?uniq=".urlencode($activatecode);
+    $reinit_link .= "&uid=".urlencode($this->uid);
+    $reinit_link .= "&email_address=".urlencode($this->email_address);
 
     @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $reinit_link, "Setting link to");
 
@@ -610,7 +615,6 @@ class passwordRecovery {
            escapeshellarg($this->uid)." ".escapeshellarg($_POST['new_password']), $resarr);
       if (count($resarr) > 0) {
         $this->message[] = _("External password changer reported a problem: ".join('\n', $resarr));
-        msg_dialog::displayChecks($this->message);
         return;
       }
     }

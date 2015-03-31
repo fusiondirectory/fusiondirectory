@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2011-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -445,6 +445,8 @@ class config  {
     session::global_set('DEBUGLEVEL', $debugLevel);
 
     IconTheme::loadThemes('themes');
+
+    timezone::setDefaultTimezoneFromConfig();
   }
 
 
@@ -1373,7 +1375,7 @@ class config  {
       }
     }
     unset($infos);
-    $this->data['SECTIONS']['personal'] = array('NAME' => _('My account'), 'PRIORITY' => 20);
+    $this->data['SECTIONS']['personal'] = array('NAME' => _('My account'), 'PRIORITY' => 40);
     $personal = array();
     foreach ($this->data['TABS']['USERTABS'] as $tab) {
       $personal[] = array('CLASS' => $tab['CLASS'], 'ACL' => 'user/'.$tab['CLASS'].':self');

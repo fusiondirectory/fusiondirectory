@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2011-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -38,8 +38,8 @@ class aclManagement extends simpleManagement
       'plShortName'   => _('ACL assignments'),
       'plDescription' => _('Access control list management'),
       'plIcon'        => 'geticon.php?context=categories&icon=acl&size=48',
-      'plSection'     => 'admin',
-      'plPriority'    => 42,
+      'plSection'     => 'accounts',
+      'plPriority'    => 28,
       'plManages'     => array('aclAssignment'),
 
       'plProvidedAcls' => array()

@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2011-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ class departmentManagement extends simpleManagement
       'plShortName'   => _('Departments'),
       'plDescription' => _('Manage departments'),
       'plIcon'        => 'geticon.php?context=places&icon=folder&size=48',
-      'plSection'     => array('admin' => array('name' => _('Administration'), 'priority' => 0)),
+      'plSection'     => array('accounts' => array('name' => _('Users and groups'), 'priority' => 0)),
       'plPriority'    => 0,
       'plManages'     => self::getDepartmentTypes(),
 

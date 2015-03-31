@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2011-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -52,9 +52,9 @@ class userManagement extends management
       'plShortName'   => _('Users'),
       'plDescription' => _('Manage users'),
       'plIcon'        => 'geticon.php?context=types&icon=user&size=48',
-      'plSection'     => 'admin',
+      'plSection'     => 'accounts',
       'plManages'     => array('user'),
-      'plPriority'    => 1,
+      'plPriority'    => 10,
 
       'plProvidedAcls' => array()
     );

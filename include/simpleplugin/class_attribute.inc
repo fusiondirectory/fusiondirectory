@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012  FusionDirectory
+  Copyright (C) 2012-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -122,7 +122,7 @@ class Attribute
   function setUnique ($unique)
   {
     if ($unique === TRUE) {
-      $this->unique = 'sub';
+      $this->unique = 'one';
     } else {
       $this->unique = $unique;
     }
@@ -420,31 +420,82 @@ class Attribute
         return;
       }
       $ldap = $this->plugin->config->get_ldap_link();
-      if ($this->unique === 'whole') {
-        $ldap->cd($this->plugin->config->current['BASE']);
-      } else {
+      $base = $this->plugin->config->current['BASE'];
+      if ($this->unique !== 'whole') {
         if (isset($this->plugin->base) && !empty($this->plugin->base)) {
           $base = $this->plugin->base;
         } elseif (isset($this->plugin->dn) && !empty($this->plugin->dn) && ($this->plugin->dn != 'new')) {
           $base = dn2base($this->plugin->dn);
-        } else {
-          $base = $this->plugin->config->current['BASE'];
         }
-        $ldap->cd($base);
       }
-      $filter = "(".$this->getLdapName()."=".$value.")";
+      $ldap->cd($base);
+      if (is_array($value)) {
+        $filter = '(|('.$this->getLdapName().'='.join(')('.$this->getLdapName().'=', $value).'))';
+      } else {
+        $filter = '('.$this->getLdapName().'='.$value.')';
+      }
+      $infos = pluglist::pluginInfos(get_class($this->plugin));
+      $filters = array_map(
+        function ($key, $ot)
+        {
+          if (!is_numeric($key)) {
+            $ot = $key;
+          }
+          $oinfos = objects::infos($ot);
+          return $oinfos['filter'];
+        },
+        array_keys($infos['plObjectType']),
+        array_values($infos['plObjectType'])
+      );
       $pluginFilter = $this->plugin->getObjectClassFilter();
       if (!empty($pluginFilter)) {
-        $filter = "(&$pluginFilter$filter)";
+        $filters[] = $pluginFilter;
       }
-      if ($this->unique === 'one') {
-        $ldap->ls($filter, "", array($this->getLdapName()));
-      } else {
-        $ldap->search($filter, array($this->getLdapName()));
-      }
+      $filter = '(&'.$filter.implode($filters).')';
+      $ldap->search($filter, array($this->getLdapName()));
+      $branches = array_map(
+        function ($key, $ot)
+        {
+          if (!is_numeric($key)) {
+            $ot = $key;
+          }
+          $oinfos = objects::infos($ot);
+          return $oinfos['ou'];
+        },
+        array_keys($infos['plObjectType']),
+        array_values($infos['plObjectType'])
+      );
       while ($attrs = $ldap->fetch()) {
         if ($attrs['dn'] != $this->plugin->dn) {
-          return msgPool::duplicated($this->getLabel());
+          $dn_base  = preg_replace('/^[^,]+,/', '', $attrs['dn']);
+          $found    = FALSE;
+          if ($this->unique === 'one') {
+            /* Check that this entry is in a concerned branch */
+            foreach ($branches as $branch) {
+              if ($branch.$base == $dn_base) {
+                $dn_base  = preg_replace('/^'.preg_quote($branch, '/').'/', '', $dn_base);
+                $found    = TRUE;
+                break;
+              }
+            }
+          } else { /* whole (or sub) */
+            /* Check that this entry is in a concerned branch */
+            foreach ($branches as $branch) {
+              if (preg_match('/^'.preg_quote($branch, '/').'/', $dn_base)) {
+                $dn_base  = preg_replace('/^'.preg_quote($branch, '/').'/', '', $dn_base);
+                $found    = TRUE;
+                break;
+              }
+            }
+            if (!in_array($dn_base, $this->plugin->config->departments)) {
+              continue;
+            }
+          }
+          if (!$found) {
+            continue;
+          }
+
+          return msgPool::duplicated($this->getLabel(), $attrs['dn']);
         }
       }
     }
@@ -829,7 +880,7 @@ class DisplayLDAPAttribute extends Attribute
 {
   function renderFormInput ()
   {
-    return $this->getValue();
+    return htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8');
   }
 }
 
@@ -853,7 +904,11 @@ class DisplayLDAPArrayAttribute extends Attribute
 
   function renderFormInput ()
   {
-    return join(', ', $this->getValue());
+    $value = $this->getValue();
+    if (is_array($value)) {
+      $value = join(', ', $value);
+    }
+    return htmlentities($value, ENT_COMPAT, 'UTF-8');
   }
 }
 
@@ -890,13 +945,26 @@ class TextAreaAttribute extends StringAttribute
  */
 class PasswordAttribute extends StringAttribute
 {
+  protected $autocomplete = FALSE;
+
+  function setAutocomplete ($bool)
+  {
+    $this->autocomplete = $bool;
+  }
+
+  function getAutocomplete ()
+  {
+    return $this->autocomplete;
+  }
+
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
     $display  = $this->renderInputField(
       'password', $id,
       array(
-        'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+        'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}',
+        'autocomplete' => ($this->autocomplete?'on':'off'),
       )
     );
     return $this->renderAcl($display);
@@ -1380,6 +1448,7 @@ class FileAttribute extends Attribute
 {
   function loadPostValue()
   {
+    $this->postValue = $this->value;
     if (!empty($_FILES[$this->getHtmlId()]['name']) && $this->isVisible()) {
       if ($_FILES[$this->getHtmlId()]['size'] <= 0) {
         msg_dialog::display(_("Error"), sprintf(_("Cannot read uploaded file: %s"), _("file is empty")), ERROR_DIALOG);
@@ -1446,6 +1515,7 @@ class FileDownloadAttribute extends FileAttribute
   function loadPostValue ()
   {
     if ($this->isVisible()) {
+      $this->postValue = $this->value;
       foreach (array_keys($_POST) as $name) {
         if (preg_match('/^download'.$this->getHtmlId().'/', $name)) {
           session::set('binary', $this->value);
@@ -1516,6 +1586,7 @@ class FileTextAreaAttribute extends FileDownloadAttribute
   function loadPostValue ()
   {
     if ($this->isVisible()) {
+      $this->postValue = $this->value;
       foreach (array_keys($_POST) as $name) {
         if (preg_match('/^download'.$this->getHtmlId().'/', $name)) {
           session::set('binary', $this->value);

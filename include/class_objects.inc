@@ -2,7 +2,7 @@
 
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013  FusionDirectory
+  Copyright (C) 2013-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -116,12 +116,6 @@ class objects
       throw new EmptyFilterException();
     }
 
-    $object_ou = $infos['ou'];
-    if (!empty($object_ou)) {
-      if (!preg_match("/^$object_ou/", $ou)) {
-        $ou = $object_ou.$ou;
-      }
-    }
     $ldap = $config->get_ldap_link();
     if (!$ldap->dn_exists($ou)) {
       throw new NonExistingBranchException();
