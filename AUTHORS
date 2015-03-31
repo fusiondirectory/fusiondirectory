@@ -109,7 +109,7 @@ documentation and additional help.
   Various patches from debian-edu
   Apache 2.4 support
   Mcrypt decrypt enhancement
-  Browsing inactive tab 
+  Browsing inactive tab
 
 * Jeremy Williame <williamejeremy@hotmail.com>
   Cleanup and writer of the FusionDirectory doxygen api documentation
@@ -138,9 +138,6 @@ documentation and additional help.
 * Stefan Krüger <shadow_7@gmx.net>
   Add support for various database to the rsyslog plugin
 
-* Fabien Brachere <fabien.brachere@e-tera.com>
-  Fix support for special caracters in password
-
 * Guillaume Chéramy <guillaume@cheramy.name>
   Patches for the template system
 
@@ -155,3 +152,15 @@ documentation and additional help.
 
 * Guillard Olivier <fd@guillard.nom.fr>
   SSH plugin key storage problem reporter
+
+* Fabien Brachere <fabien.brachere@e-tera.com>
+  Fix support for special caracters in password
+
+* Arnaud Patard <apatard@hupstream.com>
+  Fix for Invalid uri in the password recovery mail
+
+* Adrian Reyer <are+fd@lihas.de>
+  Modifier for templates to convert german umlauts to 7-bit ASCII
+
+* Samuel Bosquin samuel.bosquin@ibcp.fr
+  Plugin FAI - LVM partitions
