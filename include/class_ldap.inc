@@ -1070,7 +1070,7 @@ class LDAP
 
     // Prepare parameters to be valid for shell execution
     $dn     = escapeshellarg($dn);
-    $pwd    = $this->bindpw;
+    $pwd    = escapeshellarg($this->bindpw);
     $host   = escapeshellarg($this->hostname);
     $admin  = escapeshellarg($this->binddn);
     $filter = escapeshellarg($filter);
