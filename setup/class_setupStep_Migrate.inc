@@ -167,7 +167,6 @@ class StepMigrateCheck
       $this->run();
     }
     return $res;
-    /* TODO rerun depending tests? (done by hand for now) */
   }
 
   public function dialog_refresh()
