@@ -61,6 +61,7 @@ class configInLdap extends simplePlugin
         'configuration' => array(
           'name'    => _('FusionDirectory configuration'),
           'filter'  => 'objectClass=fusionDirectoryConf',
+          'icon'    => 'geticon.php?context=categories&icon=settings&size=16',
           'ou'      => preg_replace('/^[^,]+,/', '', CONFIGRDN)
         )
       ),
@@ -237,11 +238,6 @@ class configInLdap extends simplePlugin
             'fdSnapshotBase', FALSE,
             'ou=snapshots,'.$config->current['BASE']
           ),
-          new BooleanAttribute (
-            _('Show ACL tab on all objects'),
-            _('For very specific ACL rights setting where you might need to give right on a single object.'),
-            'fdAclTabOnObjects'
-          ),
         )
       ),
       'people_and_group' => array(
@@ -415,6 +411,11 @@ class configInLdap extends simplePlugin
             ),
             array('/bin/ash','/bin/bash','/bin/csh','/bin/sh','/bin/ksh',
                   '/bin/tcsh','/bin/dash','/bin/zsh')
+          ),
+          new BooleanAttribute (
+            _('Show ACL tab on all objects'),
+            _('For very specific ACL rights setting where you might need to give right on a single object.'),
+            'fdAclTabOnObjects'
           ),
         )
       ),
