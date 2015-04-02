@@ -21,7 +21,7 @@
 
 class Step_Welcome extends setupStep
 {
-  var $header_image = "images/welcome.png";
+  var $header_image = 'geticon.php?context=applications&icon=config-welcome&size=48';
 
   static function getAttributesInfo()
   {

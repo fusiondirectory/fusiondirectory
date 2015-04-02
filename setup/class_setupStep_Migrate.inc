@@ -804,7 +804,7 @@ class Step_Migrate extends setupStep
         }
       }
 
-      /* Try to find an old FD 1.0.7 administrative account that may be migrated */
+      /* Try to find an old FD 1.0.7 administrator account that may be migrated */
       if (!$FD_1_0_8_found) {
         $valid_users  = "";
         $valid_groups = "";

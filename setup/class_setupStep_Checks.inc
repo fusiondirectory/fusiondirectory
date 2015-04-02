@@ -21,7 +21,7 @@
 
 class Step_Checks extends setupStep
 {
-  var $header_image   = "geticon.php?context=categories&icon=checks&size=48";
+  var $header_image = 'geticon.php?context=categories&icon=checks&size=48';
 
   static function getAttributesInfo()
   {
