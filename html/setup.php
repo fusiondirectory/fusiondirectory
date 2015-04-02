@@ -90,8 +90,6 @@ $domain = 'fusiondirectory';
 bindtextdomain($domain, LOCALE_DIR);
 textdomain($domain);
 
-/* Load themes */
-IconTheme::loadThemes('themes');
 
 /* Minimal config */
 if (!session::global_is_set('config')) {
