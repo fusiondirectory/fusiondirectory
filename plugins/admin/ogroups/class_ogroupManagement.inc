@@ -21,7 +21,6 @@
 
 class ogroupManagement extends simpleManagement
 {
-  protected $objectName   = 'ogroup';
   protected $objectTypes  = array('ogroup');
 
   protected $departmentBrowser      = TRUE;
