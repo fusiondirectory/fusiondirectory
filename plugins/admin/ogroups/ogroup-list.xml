@@ -10,6 +10,7 @@
     <module>ogroups</module>
     <label>List of object groups</label>
     <defaultSortColumn>1</defaultSortColumn>
+
   </definition>
 
   <table>

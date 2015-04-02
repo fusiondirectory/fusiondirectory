@@ -15,6 +15,7 @@
       <attribute>objectClass</attribute>
       <attribute>givenName</attribute>
       <attribute>sn</attribute>
+      <attribute>cn</attribute>
       <attribute>uid</attribute>
       <attribute>userPassword</attribute>
       <attribute>fdTemplateField</attribute>
