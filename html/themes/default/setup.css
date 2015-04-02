@@ -1,14 +1,14 @@
 /*********
  * Setup
  *********/
-body.setup a.plugtop img {
-height:48px;
-}
 html.ltr body.setup div#header_left .plugtop {
 margin-left:80px;
 }
 html.rtl body.setup div#header_left .plugtop {
 margin-right:80px;
+}
+body.setup .plugin_window {
+border-radius:5px;
 }
 
 div.setup_menu {
@@ -35,12 +35,6 @@ padding-bottom:8px;
 margin-top:5px;
 margin-bottom:5px;
 }
-div.navigation_element:first-child, div.navigation_element_active:first-child {
-border-top:none;
-margin-top:0;
-}
-
-/* The box used for each setup step */
 #menucell.setup_navigation li.menuitem > a {
 margin:0;
 }
