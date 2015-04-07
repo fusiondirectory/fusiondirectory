@@ -1910,6 +1910,11 @@ class Step_Migrate extends setup_step
         /* Create a minimal config object for objectType infos */
         global $config, $plist;
         $config = new config("");
+          /* We need to fill these because some plugin might use config->get_ldap_link */
+          $config->current['SERVER']        = $cv['connection'];
+          $config->current['BASE']          = $cv['base'];
+          $config->current['ADMINDN']       = $cv['admin'];
+          $config->current['ADMINPASSWORD'] = $cv['password'];
         load_all_classes();
         $plist  = new pluglist($config, $ui);
         $config->loadPlist($plist);
