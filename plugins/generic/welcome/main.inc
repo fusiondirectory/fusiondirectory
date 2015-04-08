@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2014 FusionDirectory
+  Copyright (C) 2011-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 if (!$cleanup) {
   session::set('plugin_dir', dirname(__FILE__));
   $smarty->assign('iconmenu', $plist->show_iconmenu());
-  $smarty->assign('header', print_header(get_template_path('geticon.php?context=status&icon=welcome&size=48'), sprintf(_('Welcome %s!'), $ui->cn)));
+  $smarty->assign('header', print_header(get_template_path('geticon.php?context=applications&icon=config-welcome&size=48'), sprintf(_('Welcome %s!'), $ui->cn)));
   $smarty->assign('year', date('Y'));
   $smarty->assign('revision', FD_VERSION);
 
