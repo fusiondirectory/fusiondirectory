@@ -186,6 +186,9 @@ class passwordMethod
       $ldap->cd($dn);
       $ldap->modify($modify);
 
+      if (!$ldap->success()) {
+        msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD), LDAP_ERROR);
+      }
       return $ldap->success();
     }
     return FALSE;
