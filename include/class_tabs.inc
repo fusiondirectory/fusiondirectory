@@ -149,7 +149,7 @@ class tabs
       } else {
         $baseobject->base = dn2base(get_userinfo()->dn);
       }
-      if (isset($baseobject->baseSelector) && is_object($baseobject->baseSelector)) { // For some plugins not yet migrated to simple plugin.
+      if (!($baseobject instanceOf simplePlugin) && is_object($baseobject->baseSelector)) { // For some plugins not yet migrated to simple plugin.
         $baseobject->baseSelector->setBase($baseobject->base);
       }
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $baseobject->base, 'Fixed base');

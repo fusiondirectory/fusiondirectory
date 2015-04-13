@@ -109,7 +109,7 @@ documentation and additional help.
   Various patches from debian-edu
   Apache 2.4 support
   Mcrypt decrypt enhancement
-  Browsing inactive tab 
+  Browsing inactive tab
 
 * Jeremy Williame <williamejeremy@hotmail.com>
   Cleanup and writer of the FusionDirectory doxygen api documentation
@@ -140,19 +140,19 @@ documentation and additional help.
 
 * Guillaume Chéramy <guillaume@cheramy.name>
   Patches for the template system
-  
+
 * Mathias Friman mathias.friman@knorca.se
   Translation to swedish
 
 * Alexandre Magnat <alexandre.magnat@mecaprotec.fr>
   Snapshot bug reporter
-  
+
 * Guillaume RODRIGUEZ <rodriguez.guillaume@icloud.com>
   asterisk plugin error reporter
 
 * Guillard Olivier <fd@guillard.nom.fr>
   SSH plugin key storage problem reporter
-  
+
 * Fabien Brachere <fabien.brachere@e-tera.com>
   Fix support for special caracters in password
 
@@ -164,5 +164,3 @@ documentation and additional help.
 
 * Samuel Bosquin samuel.bosquin@ibcp.fr
   Plugin FAI - LVM partitions
-
-* 
