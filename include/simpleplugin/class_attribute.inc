@@ -1863,7 +1863,7 @@ class BaseSelectorAttribute extends Attribute
     return $this->renderAcl($display);
   }
 
-  function getForHtmlId()
+  function getHtmlId()
   {
     if (isset($this->baseSelector)) {
       return $this->baseSelector->getInputHtmlId();
