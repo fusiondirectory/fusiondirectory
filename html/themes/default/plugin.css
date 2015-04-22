@@ -170,6 +170,11 @@ margin-bottom:0.5%;
 margin-right:0.5%;
 }
 
+html.ltr .plugin_section.alone, html.rtl .plugin_section.alone {
+float:none;
+clear:both;
+}
+
 html.ltr .plugin_section.invisible, html.rtl .plugin_section.invisible {
 display:none;
 }

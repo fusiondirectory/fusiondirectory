@@ -244,28 +244,20 @@ class passwordRecovery {
    */
   function readLdapConfig()
   {
-    $ldap   = $this->config->get_ldap_link();
-    $token  = get_ou('tokenRDN').get_ou('fusiondirectoryRDN').$this->config->current['BASE'];
-    $dn     = "cn=config,$token";
-    $ldap->cat($dn);
-    if ($attrs = $ldap->fetch()) {
-      $this->salt           = $attrs['passwordRecoverySalt'][0];
-      $this->delay_allowed  = $attrs['passwordRecoveryValidity'][0];
+    $this->salt           = $this->config->get_cfg_value('passwordRecoverySalt');
+    $this->delay_allowed  = $this->config->get_cfg_value('passwordRecoveryValidity');
 
-      $this->mail_subject   = $attrs['passwordRecoveryMailSubject'][0];
-      $this->mail_body      = $attrs['passwordRecoveryMailBody'][0];
-      $this->mail2_subject  = $attrs['passwordRecoveryMail2Subject'][0];
-      $this->mail2_body     = $attrs['passwordRecoveryMail2Body'][0];
+    $this->mail_subject   = $this->config->get_cfg_value('passwordRecoveryMailSubject');
+    $this->mail_body      = $this->config->get_cfg_value('passwordRecoveryMailBody');
+    $this->mail2_subject  = $this->config->get_cfg_value('passwordRecoveryMail2Subject');
+    $this->mail2_body     = $this->config->get_cfg_value('passwordRecoveryMail2Body');
 
-      $this->from_mail      = $attrs['passwordRecoveryEmail'][0];
+    $this->from_mail      = $this->config->get_cfg_value('passwordRecoveryEmail');
 
-      $this->usealternates  = $attrs['passwordRecoveryUseAlternate'][0];
+    $this->usealternates  = $this->config->get_cfg_value('passwordRecoveryUseAlternate');
 
-      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $attrs['passwordRecoveryActivated'][0], "passwordRecoveryActivated");
-      return ($attrs['passwordRecoveryActivated'][0] == "TRUE");
-    } else {
-      return FALSE;
-    }
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->config->get_cfg_value('passwordRecoveryActivated'), "passwordRecoveryActivated");
+    return ($this->config->get_cfg_value('passwordRecoveryActivated') == "TRUE");
   }
 
   function setupLanguage()
