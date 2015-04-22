@@ -94,4 +94,9 @@ class userRoles extends simplePlugin
       }
     }
   }
+
+  function is_this_account($attrs)
+  {
+    return (count($this->rolesMembership) > 0);
+  }
 }
