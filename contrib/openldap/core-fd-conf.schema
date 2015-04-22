@@ -419,6 +419,63 @@ attributetype ( 1.3.6.1.4.1.38414.27.1.3 NAME 'fdDashboardExpiredAccountsDays'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
   SINGLE-VALUE )
 
+# merged from recovery-fd.schema - Needed by Fusion Directory for password recovery options
+
+attributetype ( 1.3.6.1.4.1.38414.8.110.1 NAME 'fdPasswordRecoveryActivated'
+  DESC 'Fusion Directory - Password recovery enabled/disabled'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.8.110.2 NAME 'fdPasswordRecoveryEmail'
+  DESC 'Fusion Directory - Password recovery sender email'
+  EQUALITY caseExactIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.8.110.3 NAME 'fdPasswordRecoveryMailSubject'
+  DESC 'Fusion Directory - Password recovery first email subject'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.8.110.4 NAME 'fdPasswordRecoveryMailBody'
+  DESC 'Fusion Directory - Password recovery first email body'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.8.110.5 NAME 'fdPasswordRecoveryMail2Subject'
+  DESC 'Fusion Directory - Password recovery second email subject'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.8.110.6 NAME 'fdPasswordRecoveryMail2Body'
+  DESC 'Fusion Directory - Password recovery second email body'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.8.110.7 NAME 'fdPasswordRecoveryValidity'
+  DESC 'Fusion Directory - Password recovery link validity in minutes'
+  EQUALITY integerMatch
+  ORDERING integerOrderingMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.8.110.8 NAME 'fdPasswordRecoverySalt'
+  DESC 'Fusion Directory - Password recovery token salt'
+  EQUALITY caseExactIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.8.110.9 NAME 'fdPasswordRecoveryUseAlternate'
+  DESC 'Fusion Directory - Allow/disallow the use of alternate addresses for password recovery'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE )
+
 
 # Object Class
 objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
@@ -446,13 +503,24 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
     fdHonourIvbbAttributes $ fdTabHook $ fdShells $ fdDisplayHookOutput $
     fdAclTabOnObjects $
     fdHonourUnitTags
-   ) )
+  ) )
 
 objectclass ( 1.3.6.1.4.1.38414.8.2.2 NAME 'fusionDirectoryPluginsConf'
   DESC 'FusionDirectory plugins configuration'
   SUP top AUXILIARY
   MUST ( cn )
   MAY ( fdOGroupRDN ) )
+
+objectclass ( 1.3.6.1.4.1.38414.8.2.3 NAME 'fdPasswordRecoveryConf'
+  DESC 'FusionDirectory password recovery configuration'
+  MUST ( cn )
+  MAY (
+    fdPasswordRecoveryActivated     $ fdPasswordRecoveryEmail     $
+    fdPasswordRecoveryMailSubject   $ fdPasswordRecoveryMailBody  $
+    fdPasswordRecoveryMail2Subject  $ fdPasswordRecoveryMail2Body $
+    fdPasswordRecoveryValidity      $ fdPasswordRecoverySalt      $
+    fdPasswordRecoveryUseAlternate
+  ) )
 
 # Dashboard Object Class
 objectclass ( 1.3.6.1.4.1.38414.27.2.1 NAME 'fdDashboardPluginConf'

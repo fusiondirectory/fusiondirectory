@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2011-2015  FusionDirectory
@@ -21,69 +20,57 @@
 
 class recoveryConfig extends simplePlugin
 {
-  var $mainTab        = TRUE;
-  var $displayHeader  = FALSE;
+  var $objectclasses  = array('fdPasswordRecoveryConf');
 
-  /* This plugin only writes its objectClass */
-  var $objectclasses    = array("recoveryConfig");
-  var $StatusFlag       = "";
-
-  /* Return plugin informations for acl handling */
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("Password recovery"),
-      "plDescription" => _("Settings for the password recovery feature"),
-      "plIcon"        => "plugins/password/images/iconRecovery.png",
-      "plSelfModify"  => FALSE,
-      "plSection"     => "conf",
-      "plPriority"    => 1,
-      "plCategory"    => array("configuration"),
+      'plShortName'     => _('Password recovery configuration'),
+      'plDescription'   => _('Settings for the password recovery feature'),
+      'plObjectType'    => array('configuration'),
 
-      "plProvidedAcls"  => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls'  => parent::generatePlProvidedAcls(self::getAttributesInfo())
     );
   }
 
-  /*!
-   *  \brief The main function : information about attributes
-   */
   static function getAttributesInfo ()
   {
     return array (
-    'settings' => array (
+      'settings' => array (
         'name'  => _('Password recovery settings'),
+        'class' => array ('alone'),
         'attrs' => array (
           new BooleanAttribute (
             _('Activate password recovery'),
             _('Whether to activate or not password recovery feature'),
-            'passwordRecoveryActivated',
+            'fdPasswordRecoveryActivated',
             FALSE
           ),
           new MailAttribute (
             _('Sender email address'),
             _('Email address from which mails will be sent'),
-            'passwordRecoveryEmail',
+            'fdPasswordRecoveryEmail',
             TRUE,
             'to.be@chang.ed'
           ),
           new IntAttribute (
             _('Link validity (minutes)'),
             _('Number of minutes before a recovery link expires'),
-            'passwordRecoveryValidity',
+            'fdPasswordRecoveryValidity',
             TRUE,
             0, FALSE, 10
           ),
           new StringAttribute (
             _('Salt for tokens'),
             _('Just a security measure, you can put anything in there, even random characters'),
-            'passwordRecoverySalt',
+            'fdPasswordRecoverySalt',
             TRUE,
             "SomethingSecretAndVeryLong"
           ),
           new BooleanAttribute (
             _('Allow the use of alternate addresses'),
             _('Users will also be able to enter one of theirs alternate addresses to recover their password'),
-            'passwordRecoveryUseAlternate',
+            'fdPasswordRecoveryUseAlternate',
             FALSE
           ),
         )
@@ -94,14 +81,14 @@ class recoveryConfig extends simplePlugin
           new StringAttribute (
             _('Subject'),
             _('Subject of the first email'),
-            'passwordRecoveryMailSubject',
+            'fdPasswordRecoveryMailSubject',
             TRUE,
             _("[FusionDirectory] Password recovery link")
           ),
           new TextAreaAttribute (
             _('Body (first %s is login, second is link)'),
             _('Body of the first email, sent when the user ask for a new password. Use %s for the login and the recovery link.'),
-            'passwordRecoveryMailBody',
+            'fdPasswordRecoveryMailBody',
             TRUE,
             _("Hello,\n\nHere are your informations : \n - Login : %s\n - Link : %s\n\nThis link is only valid for 10 minutes.")
           )
@@ -113,14 +100,14 @@ class recoveryConfig extends simplePlugin
           new StringAttribute (
             _('Subject'),
             _('Subject of the second email'),
-            'passwordRecoveryMail2Subject',
+            'fdPasswordRecoveryMail2Subject',
             TRUE,
             _("[FusionDirectory] Password recovery successful")
           ),
           new TextAreaAttribute (
             _('Body (%s is login)'),
             _('Body of the second email, sent to confirm the password has been changed. Use %s for the user login.'),
-            'passwordRecoveryMail2Body',
+            'fdPasswordRecoveryMail2Body',
             TRUE,
            _("Hello,\n\nYour password has been changed.\nYour login is still %s.")
           )
@@ -146,27 +133,18 @@ class recoveryConfig extends simplePlugin
     }
 
     parent::__construct($config, $dn, $object);
-    $this->attributesInfo['settings']['attrs']['passwordRecoveryActivated']->setManagedAttributes(
+
+    $this->attributesAccess['fdPasswordRecoveryActivated']->setManagedAttributes(
       array(
         'disable' => array(
           FALSE => array(
-            'passwordRecoveryEmail','passwordRecoveryValidity','passwordRecoverySalt',
-            'passwordRecoveryMailSubject','passwordRecoveryMailBody',
-            'passwordRecoveryMail2Subject','passwordRecoveryMail2Body'
+            'fdPasswordRecoveryEmail','fdPasswordRecoveryValidity','fdPasswordRecoverySalt',
+            'fdPasswordRecoveryMailSubject','fdPasswordRecoveryMailBody',
+            'fdPasswordRecoveryMail2Subject','fdPasswordRecoveryMail2Body'
           )
         )
       )
     );
-  }
-  function execute()
-  {
-    $smarty = get_smarty();
-    parent::execute();
-    if ($this->displayPlugin) {
-      return $this->header.$smarty->fetch(get_template_path('recoveryConfig.tpl', TRUE, dirname(__FILE__)));
-    } else {
-      return $this->header;
-    }
   }
 }
 ?>
