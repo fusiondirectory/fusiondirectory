@@ -411,19 +411,21 @@ sub rescan_i18n {
 ############################################################# Directories checking ###################################################################################
 
 #get the apache user group name
-sub get_apache_user {
-  my $apache_user = "";
+sub get_apache_group {
+  my $apache_group = "";
 
   # try to identify the running distribution, if it's not debian or rehat like, script ask for user input
   if (-e "/etc/debian_version") {
-    $apache_user = "www-data";
+    $apache_group = "www-data";
   } elsif ((-e "/etc/redhat-release") || (-e "/etc/mageia-release")) {
-    $apache_user = "apache";
+    $apache_group = "apache";
+  } elsif (-e "/etc/SuSE-release") {
+    $apache_group = "www";
   } else {
-    print ("! Looks like you are not a Debian, Redhat or Mageia, I don't know your distribution !\n");
-    $apache_user = ask_user_input ("Who is your apache user ?");
+    print ("! Looks like you are not a Debian, Suse, Redhat or Mageia, I don't know your distribution !\n");
+    $apache_group = ask_user_input ("What is your apache group?");
   }
-  return $apache_user;
+  return $apache_group;
 }
 
 #check the rights of a directory or file, creates missing directory if needed
@@ -476,7 +478,7 @@ sub check_rights {
 
 # function that check FusionDirectory's directories
 sub check_directories {
-  my $apache_user = get_apache_user();
+  my $apache_group = get_apache_group();
 
   # for each config directory
   foreach my $dir (@config_dirs) {
@@ -485,19 +487,19 @@ sub check_directories {
       if ( grep (/.*$dir.*/, @root_config_dirs) ) {
         check_rights($dir,"root","root",0755,1);
 
-      # else if $dir is one of the dirs that remains to apache's user, and the dir's owner is not root or the group is not the apache's user, modifying owner
+      # else if $dir is one of the dirs that remains to apache's user group, and the dir's owner is not root or the group is not the apache's user group, modifying owner
       } elsif ( grep ( /.*$dir.*/, @apache_config_dirs) ) {
-        check_rights($dir,"root",$apache_user,0770,1);
+        check_rights($dir,"root",$apache_group,0770,1);
       }
   }
 }
 
 # function that check FusionDirectory's config file
 sub check_config {
-  my $apache_user = get_apache_user();
+  my $apache_group = get_apache_group();
 
   # check config file
-  check_rights($fd_config,"root",$apache_user,0640,0) or die 'The config file does not exists!';
+  check_rights($fd_config,"root",$apache_group,0640,0) or die 'The config file does not exists!';
 }
 
 ############################################################# Change install directories #################################################################################
