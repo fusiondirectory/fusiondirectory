@@ -68,6 +68,6 @@ define ("FD_VERSION", "1.0.9-dev"); /*! Define FusionDirectory version */
 /*!
  * \brief FusionDirectory config object RDN
  */
-define ("CONFIGRDN", "cn=fusiondirectory,ou=configs,"); /*! Define FusionDirectory config object */
+define ("CONFIGRDN", "cn=config,ou=fusiondirectory"); /*! Define FusionDirectory config object */
 
 ?>
