@@ -756,7 +756,7 @@ function add_lock($object, $user)
 
   /* Check for existing entries in lock area */
   $ldap = $config->get_ldap_link();
-  $ldap->cd ($config->get_cfg_value("config"));
+  $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
   $ldap->search("(&(objectClass=gosaLockEntry)(gosaUser=$user)(gosaObject=".base64_encode($object)."))",
       array("gosaUser"));
   if (!$ldap->success()) {
@@ -768,14 +768,14 @@ function add_lock($object, $user)
   if ($ldap->count() == 0) {
     $attrs  = array();
     $name   = md5($object);
-    $ldap->cd("cn=$name,".$config->get_cfg_value("config"));
+    $ldap->cd("cn=$name,".get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
     $attrs['objectClass'] = 'gosaLockEntry';
     $attrs['gosaUser']    = $user;
     $attrs['gosaObject']  = base64_encode($object);
     $attrs['cn']          = '$name';
     $ldap->add($attrs);
     if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), "cn=$name,".$config->get_cfg_value("config"), 0), LDAP_ERROR);
+      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), "cn=$name,".get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'], 0), LDAP_ERROR);
       return;
     }
   }
@@ -818,7 +818,7 @@ function del_lock ($object)
 
   /* Check for existance and remove the entry */
   $ldap = $config->get_ldap_link();
-  $ldap->cd($config->get_cfg_value('config'));
+  $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
   $ldap->search('(&(objectClass=gosaLockEntry)(gosaObject='.base64_encode($object).'))', array('gosaObject'));
   $ldap->fetch();
   if (!$ldap->success()) {
@@ -844,7 +844,7 @@ function del_user_locks($userdn)
 
   /* Get LDAP ressources */
   $ldap = $config->get_ldap_link();
-  $ldap->cd ($config->get_cfg_value("config"));
+  $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
 
   /* Remove all objects of this user, drop errors silently in this case. */
   $ldap->search("(&(objectClass=gosaLockEntry)(gosaUser=$userdn))", array("gosaUser"));
@@ -880,7 +880,7 @@ function get_lock ($object)
   /* Get LDAP link, check for presence of the lock entry */
   $user = "";
   $ldap = $config->get_ldap_link();
-  $ldap->cd ($config->get_cfg_value("config"));
+  $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
   $ldap->search("(&(objectClass=gosaLockEntry)(gosaObject=".base64_encode($object)."))", array("gosaUser"));
   if (!$ldap->success()) {
     msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), "", LDAP_SEARCH), LDAP_ERROR);
@@ -923,30 +923,30 @@ function get_multiple_locks($objects)
   global $config;
 
   if (is_array($objects)) {
-    $filter = "(&(objectClass=gosaLockEntry)(|";
+    $filter = '(&(objectClass=gosaLockEntry)(|';
     foreach ($objects as $obj) {
-      $filter .= "(gosaObject=".base64_encode($obj).")";
+      $filter .= '(gosaObject='.base64_encode($obj).')';
     }
-    $filter .= "))";
+    $filter .= '))';
   } else {
-    $filter = "(&(objectClass=gosaLockEntry)(gosaObject=".base64_encode($objects)."))";
+    $filter = '(&(objectClass=gosaLockEntry)(gosaObject='.base64_encode($objects).'))';
   }
 
   /* Get LDAP link, check for presence of the lock entry */
   $user = "";
   $ldap = $config->get_ldap_link();
-  $ldap->cd ($config->get_cfg_value("config"));
-  $ldap->search($filter, array("gosaUser","gosaObject"));
+  $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
+  $ldap->search($filter, array('gosaUser','gosaObject'));
   if (!$ldap->success()) {
-    msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), "", LDAP_SEARCH), LDAP_ERROR);
-    return "";
+    msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), '', LDAP_SEARCH), LDAP_ERROR);
+    return '';
   }
 
   $users = array();
   while ($attrs = $ldap->fetch()) {
     $dn   = base64_decode($attrs['gosaObject'][0]);
     $user = $attrs['gosaUser'][0];
-    $users[] = array("dn" => $dn, "user" => $user);
+    $users[] = array('dn' => $dn, 'user' => $user);
   }
   return $users;
 }
@@ -1387,74 +1387,77 @@ function get_ou($name)
   global $config;
 
   $map = array(
-                "roleRDN"                 => "ou=roles,",
-                "ogroupRDN"               => "ou=groups,",
-                "applicationRDN"          => "ou=apps,",
-                "systemRDN"               => "ou=systems,",
-                "serverRDN"               => "ou=servers,ou=systems,",
-                "terminalRDN"             => "ou=terminals,ou=systems,",
-                "workstationRDN"          => "ou=workstations,ou=systems,",
-                "printerRDN"              => "ou=printers,ou=systems,",
-                "phoneRDN"                => "ou=phones,ou=systems,",
-                "componentRDN"            => "ou=netdevices,ou=systems,",
-                "sambaMachineAccountRDN"  => "ou=computers,",
-                "mobilePhoneRDN"          => "ou=mobile,ou=systems,",
+    'fusiondirectoryRDN'      => 'ou=fusiondirectory,',
+    'lockRDN'                 => 'ou=locks,'
+    'tokenRDN'                => 'ou=tokens,'
 
-                "inventoryRDN"            => "ou=inventory,",
+    'roleRDN'                 => 'ou=roles,',
+    'ogroupRDN'               => 'ou=groups,',
+    'applicationRDN'          => 'ou=apps,',
+    'systemRDN'               => 'ou=systems,',
+    'serverRDN'               => 'ou=servers,ou=systems,',
+    'terminalRDN'             => 'ou=terminals,ou=systems,',
+    'workstationRDN'          => 'ou=workstations,ou=systems,',
+    'printerRDN'              => 'ou=printers,ou=systems,',
+    'phoneRDN'                => 'ou=phones,ou=systems,',
+    'componentRDN'            => 'ou=netdevices,ou=systems,',
+    'sambaMachineAccountRDN'  => 'ou=computers,',
+    'mobilePhoneRDN'          => 'ou=mobile,ou=systems,',
 
-                "ipmiRDN"                 => "ou=ipmi,",
+    'inventoryRDN'            => 'ou=inventory,',
 
-                "faxBlocklistRDN"     => "ou=gofax,ou=systems,",
-                "aclRoleRDN"          => "ou=aclroles,",
-                "phoneMacroRDN"       => "ou=macros,ou=asterisk,ou=configs,ou=systems,",
-                "phoneConferenceRDN"  => "ou=conferences,ou=asterisk,ou=configs,ou=systems,",
+    'ipmiRDN'                 => 'ou=ipmi,',
 
-                "faiBaseRDN"      => "ou=fai,ou=configs,ou=systems,",
-                "faiScriptRDN"    => "ou=scripts,",
-                "faiHookRDN"      => "ou=hooks,",
-                "faiTemplateRDN"  => "ou=templates,",
-                "faiVariableRDN"  => "ou=variables,",
-                "faiProfileRDN"   => "ou=profiles,",
-                "faiPackageRDN"   => "ou=packages,",
-                "faiPartitionRDN" => "ou=disk,",
+    'faxBlocklistRDN'     => 'ou=gofax,ou=systems,',
+    'aclRoleRDN'          => 'ou=aclroles,',
+    'phoneMacroRDN'       => 'ou=macros,ou=asterisk,ou=configs,ou=systems,',
+    'phoneConferenceRDN'  => 'ou=conferences,ou=asterisk,ou=configs,ou=systems,',
 
-                "debconfRDN"      => "ou=debconf,",
+    'faiBaseRDN'      => 'ou=fai,ou=configs,ou=systems,',
+    'faiScriptRDN'    => 'ou=scripts,',
+    'faiHookRDN'      => 'ou=hooks,',
+    'faiTemplateRDN'  => 'ou=templates,',
+    'faiVariableRDN'  => 'ou=variables,',
+    'faiProfileRDN'   => 'ou=profiles,',
+    'faiPackageRDN'   => 'ou=packages,',
+    'faiPartitionRDN' => 'ou=disk,',
 
-                "supannStructuresRDN" => "ou=structures,",
+    'debconfRDN'      => 'ou=debconf,',
 
-                "tokenRDN"    => "ou=tokens,",
+    'supannStructuresRDN' => 'ou=structures,',
 
-                "sudoRDN"     => "ou=sudoers,",
+    'sudoRDN'     => 'ou=sudoers,',
 
-                "netgroupRDN" => "ou=netgroup,",
+    'netgroupRDN' => 'ou=netgroup,',
 
-                "deviceRDN"   => "ou=devices,",
+    'deviceRDN'   => 'ou=devices,',
 
-                "aliasRDN"    => "ou=alias,",
+    'aliasRDN'    => 'ou=alias,',
 
-                "dsaRDN"    => "ou=dsa,",
+    'dsaRDN'    => 'ou=dsa,',
 
-                "mimetypeRDN" => "ou=mime,");
+    'mimetypeRDN' => 'ou=mime,'
+  );
 
   /* Preset ou... */
-  if ($config->get_cfg_value($name, "_not_set_") != "_not_set_") {
+  if ($config->get_cfg_value($name, '_not_set_') != '_not_set_') {
     $ou = $config->get_cfg_value($name);
   } elseif (isset($map[$name])) {
     $ou = $map[$name];
     return $ou;
   } else {
-    trigger_error("No department mapping found for type ".$name);
-    return "";
+    trigger_error('No department mapping found for type '.$name);
+    return '';
   }
 
-  if ($ou != "") {
+  if ($ou != '') {
     if (!preg_match('/^[^=]+=[^=]+/', $ou)) {
       $ou = @LDAP::convert("ou=$ou");
     } else {
       $ou = @LDAP::convert("$ou");
     }
 
-    if (preg_match("/".preg_quote($config->current['BASE'], '/')."$/", $ou)) {
+    if (preg_match('/'.preg_quote($config->current['BASE'], '/').'$/', $ou)) {
       return $ou;
     } else {
       if (preg_match('/,$/', $ou)) {
@@ -1463,9 +1466,8 @@ function get_ou($name)
         return "$ou,";
       }
     }
-
   } else {
-    return "";
+    return '';
   }
 }
 

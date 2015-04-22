@@ -270,11 +270,11 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
 
 
   /* Check for locking area */
-  $ldap->cat($config->get_cfg_value("config"), array("dn"));
+  $ldap->cat(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'], array('dn'));
   $attrs = $ldap->fetch();
-  if (!count ($attrs)) {
+  if (!count($attrs)) {
     $ldap->cd($config->current['BASE']);
-    $ldap->create_missing_trees($config->get_cfg_value("config"));
+    $ldap->create_missing_trees(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
   }
 
 
