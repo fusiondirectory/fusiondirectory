@@ -115,7 +115,7 @@ class passwordRecovery {
       return;
     }
 
-    $this->setupLanguage();
+    initLanguage();
 
     $ssl = $this->checkForSSL();
 
@@ -258,27 +258,6 @@ class passwordRecovery {
 
     @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->config->get_cfg_value('passwordRecoveryActivated'), "passwordRecoveryActivated");
     return ($this->config->get_cfg_value('passwordRecoveryActivated') == "TRUE");
-  }
-
-  function setupLanguage()
-  {
-    global $GLOBALS,$BASE_DIR;
-
-    /* Language setup */
-    $lang = get_browser_language();
-
-    putenv("LANGUAGE=");
-    putenv("LANG=$lang");
-    setlocale(LC_ALL, $lang);
-    $GLOBALS['t_language']            = $lang;
-    $GLOBALS['t_gettext_message_dir'] = $BASE_DIR.'/locale/';
-
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang, "Setting language to");
-
-    /* Set the text domain as 'messages' */
-    $domain = 'messages';
-    bindtextdomain($domain, LOCALE_DIR);
-    textdomain($domain);
   }
 
   function setupSmarty()
