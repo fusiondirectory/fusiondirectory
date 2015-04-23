@@ -514,6 +514,7 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.2 NAME 'fusionDirectoryPluginsConf'
 
 objectclass ( 1.3.6.1.4.1.38414.8.2.3 NAME 'fdPasswordRecoveryConf'
   DESC 'FusionDirectory password recovery configuration'
+  SUP top AUXILIARY
   MUST ( cn )
   MAY (
     fdPasswordRecoveryActivated     $ fdPasswordRecoveryEmail     $
