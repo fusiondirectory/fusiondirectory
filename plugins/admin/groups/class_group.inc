@@ -22,12 +22,12 @@
 
 class group extends simplePlugin
 {
-  var $mainTab        = TRUE;
-  var $objectclasses  = array("top", "posixGroup");
-  var $rfc2307bis     = FALSE;
+  var $mainTab          = TRUE;
+  var $objectclasses    = array('posixGroup');
 
   static function plInfo()
   {
+    global $config;
     return array(
       'plShortName'   => _('Generic'),
       'plDescription' => _('Generic group settings'),
@@ -106,12 +106,6 @@ class group extends simplePlugin
 
   function __construct (&$config, $dn = NULL, $object = NULL)
   {
-    /* Set rfc2307bis flag */
-    if ($config->get_cfg_value("rfc2307bis") == "TRUE") {
-      $this->rfc2307bis       = TRUE;
-      $this->objectclasses[]  = "groupOfNames";
-    }
-
     parent::__construct($config, $dn, $object);
 
     $this->attributesAccess['trustMode']->setInLdap(FALSE);
@@ -202,22 +196,6 @@ class group extends simplePlugin
       $this->attrs['objectClass'][] = 'hostObject';
     } elseif (($this->trustMode == "") && (($key = array_search('hostObject', $this->attrs['objectClass'])) !== FALSE)) {
       unset($this->attrs['objectClass'][$key]);
-    }
-
-    if ($this->rfc2307bis) {
-      $this->attrs['member'] = array();
-      $uids = $this->memberUid;
-      if (count($uids)) {
-        $ldap = $this->config->get_ldap_link();
-        foreach ($uids as $uid) {
-          $ldap->search('(uid='.$uid.')', array('dn'));
-          if ($attrs = $ldap->fetch()) {
-            $this->attrs['member'][] = $attrs['dn'];
-          }
-        }
-      } else {
-        $this->attrs['member'][] = $this->dn;
-      }
     }
   }
 
