@@ -81,14 +81,6 @@ initLanguage($lang);
 $smarty->assign("rtl", language_is_rtl($lang));
 
 /* Load themes */
-=======
-/* Minimal config */
-if (!session::global_is_set('config')) {
-  $config = new config('');
-  session::global_set('config', $config);
-}
-$config = session::global_get('config');
-load_plist(FALSE);
 IconTheme::loadThemes('themes');
 
 /* Call setup */
