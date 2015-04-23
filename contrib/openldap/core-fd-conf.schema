@@ -241,6 +241,7 @@ attributetype ( 1.3.6.1.4.1.38414.8.14.4 NAME 'fdModificationDetectionAttribute'
 
 attributetype ( 1.3.6.1.4.1.38414.8.14.5 NAME 'fdCopyPaste'
   DESC 'FusionDirectory - (de)Activate copy/paste'
+  OBSOLETE
   EQUALITY booleanMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
   SINGLE-VALUE )
@@ -483,9 +484,9 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
   DESC 'FusionDirectory configuration'
   SUP top STRUCTURAL
   MUST ( cn )
-  MAY (
+  MAY ($
     fusionConfigMd5 $
-    fdRfc2307bis $ fdSchemaCheck $
+    fdSchemaCheck $
     fdLanguage $ fdTheme $ fdTimezone $
     fdAccountPrimaryAttribute $ fdAccountRDN $ fdNextIdHook $ fdIdGenerator $
     fdPersonalTitleInDN $ fdStrictNamingRules $ fdMinId $ fdUidNumberBase $
@@ -496,14 +497,14 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
     fdPasswordHook $ fdHandleExpiredAccounts $ fdSaslRealm $ fdSaslExop $
     fdForcePasswordDefaultHash $
     fdPrimaryGroupFilter $ fdListSummary $
-    fdModificationDetectionAttribute $ fdCopyPaste $ fdLogging $ fdLdapSizeLimit $
+    fdModificationDetectionAttribute $ fdLogging $ fdLdapSizeLimit $
     fdLoginAttribute $ fdForceSSL $ fdWarnSSL $ fdStoreFilterSettings $ fdSessionLifeTime $
     fdDisplayErrors $ fdLdapMaxQueryTime $ fdLdapStats $ fdDebugLevel $
     fdEnableSnapshots $ fdSnapshotBase $ fdSnapshotURI $
     fdSnapshotAdminDn $ fdSnapshotAdminPassword $
     fdHonourIvbbAttributes $ fdTabHook $ fdShells $ fdDisplayHookOutput $
     fdAclTabOnObjects $
-    fdHonourUnitTags
+    fdHonourUnitTags $ fdRfc2307bis $ fdCopyPaste
   ) )
 
 objectclass ( 1.3.6.1.4.1.38414.8.2.2 NAME 'fusionDirectoryPluginsConf'
