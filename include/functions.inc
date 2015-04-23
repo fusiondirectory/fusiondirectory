@@ -3754,4 +3754,43 @@ function load_all_classes()
     }
   }
 }
+
+function initLanguage($lang = NULL)
+{
+  global $GLOBALS,$BASE_DIR;
+  if ($lang === NULL) {
+    $lang = get_browser_language();
+  }
+
+  putenv("LANGUAGE=");
+  putenv("LANG=$lang");
+  setlocale(LC_ALL, $lang);
+  $GLOBALS['t_language']            = $lang;
+  $GLOBALS['t_gettext_message_dir'] = $BASE_DIR.'/locale/';
+
+  /* Set the text domain as 'fusiondirectory' */
+  $domain = 'fusiondirectory';
+  bindtextdomain($domain, LOCALE_DIR);
+  textdomain($domain);
+  if ($_SERVER["REQUEST_METHOD"] != "POST") {
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang, "Setting language to");
+  }
+
+  $ret = FALSE;
+
+  /* Reset menu cache if language changed */
+  if ((!session::global_is_set('lang')) || (session::global_get('lang') != $lang)) {
+    $ret = TRUE;
+    if (session::global_is_set('plist')) {
+      if ($_SERVER["REQUEST_METHOD"] != "POST") {
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, session::global_get('lang'), "Plist already loaded with language ");
+      }
+      $plist = session::global_get('plist');
+      $plist->reset_menus();
+    }
+  }
+
+  session::global_set('lang', $lang);
+  return $ret;
+}
 ?>

@@ -65,34 +65,30 @@ if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))) {
 }
 
 /* Get posted language */
-if (isset($_POST['lang_selected'])) {
-  if ($_POST['lang_selected'] != "") {
-    session::global_set('lang', $_POST['lang_selected']);
-  } else {
-    session::global_set('lang', get_browser_language());
+if (isset($_POST['lang_selected']) && $_POST['lang_selected'] != "") {
+  $lang = $_POST['lang_selected']);
+
+  /* Append .UTF-8 to language string if necessary */
+  if (!preg_match("/utf(-)8$/i", $lang)) {
+    $lang .= ".UTF-8";
   }
-} elseif (!session::global_is_set('lang')) {
-  session::global_set('lang', get_browser_language());
+} else {
+  $lang = get_browser_language();
 }
 
-$lang = session::global_get('lang');
-/* Append .UTF-8 to language string if necessary */
-if (!preg_match("/utf(-)8$/i", $lang)) {
-  $lang .= ".UTF-8";
-}
-putenv("LANGUAGE=");
-putenv("LANG=$lang");
-setlocale(LC_ALL, $lang);
-$GLOBALS['t_language']            = $lang;
-$GLOBALS['t_gettext_message_dir'] = $BASE_DIR.'/locale/';
+initLanguage($lang);
+
 $smarty->assign("rtl", language_is_rtl($lang));
 
-/* Set the text domain as 'fusiondirectory' */
-$domain = 'fusiondirectory';
-bindtextdomain($domain, LOCALE_DIR);
-textdomain($domain);
-
 /* Load themes */
+=======
+/* Minimal config */
+if (!session::global_is_set('config')) {
+  $config = new config('');
+  session::global_set('config', $config);
+}
+$config = session::global_get('config');
+load_plist(FALSE);
 IconTheme::loadThemes('themes');
 
 /* Call setup */
