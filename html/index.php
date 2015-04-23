@@ -281,7 +281,6 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
   }
 
   if ($ok) {
-
     /* Login as user, initialize user ACL's */
     if ($htaccess_authenticated) {
       $ui = ldap_login_user_htaccess($username);
@@ -309,6 +308,9 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
 
       /* Save userinfo and plugin structure */
       session::global_set('ui', $ui);
+
+      /* User might have its own language, re-run initLanguage */
+      initLanguage();
 
       /* Let FusionDirectory trigger a new connection for each POST, save config to session. */
       session::global_set('config', $config);
