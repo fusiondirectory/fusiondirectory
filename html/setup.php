@@ -66,7 +66,7 @@ if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))) {
 
 /* Get posted language */
 if (isset($_POST['lang_selected']) && $_POST['lang_selected'] != "") {
-  $lang = $_POST['lang_selected']);
+  $lang = $_POST['lang_selected'];
 
   /* Append .UTF-8 to language string if necessary */
   if (!preg_match("/utf(-)8$/i", $lang)) {
