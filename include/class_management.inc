@@ -108,7 +108,7 @@ class management
     $this->config   = $config;
 
     // Add copy&paste and snapshot handler.
-    if (!$this->skipCpHandler && ($this->config->get_cfg_value("copyPaste") == "TRUE")) {
+    if (!$this->skipCpHandler) {
       $this->cpHandler = new CopyPasteHandler($this->config);
       $this->headpage->setCopyPasteHandler($this->cpHandler);
     }
@@ -129,11 +129,9 @@ class management
     $this->registerAction("remove",           "removeEntryRequested");
     $this->registerAction("removeConfirmed",  "removeEntryConfirmed");
 
-    if ($this->config->get_cfg_value("copyPaste") == "TRUE") {
-      $this->registerAction("copy",   "copyPasteHandler");
-      $this->registerAction("cut",    "copyPasteHandler");
-      $this->registerAction("paste",  "copyPasteHandler");
-    }
+    $this->registerAction("copy",   "copyPasteHandler");
+    $this->registerAction("cut",    "copyPasteHandler");
+    $this->registerAction("paste",  "copyPasteHandler");
 
     if ($this->config->get_cfg_value("enableSnapshots") == "TRUE") {
       $this->registerAction("snapshot", "createSnapshotDialog");

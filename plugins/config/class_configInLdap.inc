@@ -174,11 +174,6 @@ class configInLdap extends simplePlugin
             array('', 'entryCSN', 'contextCSN')
           ),
           new BooleanAttribute (
-            _('Enable Copy & Paste'),
-            _('Enables copy and paste for LDAP entries managed with FusionDirectory.'),
-            'fdCopyPaste'
-          ),
-          new BooleanAttribute (
             _('Enable logging'),
             _('Event logging on FusionDirectory side.'),
             'fdLogging', FALSE,
