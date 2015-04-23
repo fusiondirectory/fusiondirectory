@@ -25,7 +25,7 @@ class recoveryConfig extends simplePlugin
   static function plInfo()
   {
     return array(
-      'plShortName'     => _('Password recovery configuration'),
+      'plShortName'     => _('Password recovery'),
       'plDescription'   => _('Settings for the password recovery feature'),
       'plObjectType'    => array('configuration'),
 
