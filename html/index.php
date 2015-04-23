@@ -31,7 +31,9 @@ header("Content-type: text/html; charset=UTF-8");
 /* Display the login page and exit() */
 function displayLogin()
 {
-  global $smarty,$message,$config,$ssl,$error_collector,$error_collector_mailto,$lang;
+  global $smarty,$message,$config,$ssl,$error_collector,$error_collector_mailto;
+  $lang = session::global_get('lang');
+
   error_reporting(E_ALL | E_STRICT);
   /* Fill template with required values */
   $username = "";
@@ -161,23 +163,9 @@ if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))) {
 /* Check for old files in compile directory */
 clean_smarty_compile_dir($smarty->compile_dir);
 
-/* Language setup */
-$lang = get_browser_language();
-putenv("LANGUAGE=");
-putenv("LANG=$lang");
-setlocale(LC_ALL, $lang);
-$GLOBALS['t_language']            = $lang;
-$GLOBALS['t_gettext_message_dir'] = $BASE_DIR.'/locale/';
+initLanguage();
 
-/* Set the text domain as 'fusiondirectory' */
-$domain = 'fusiondirectory';
-bindtextdomain($domain, LOCALE_DIR);
-textdomain($domain);
 $smarty->assign ('nextfield', 'username');
-
-if ($_SERVER["REQUEST_METHOD"] != "POST") {
-  @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang, "Setting language to");
-}
 
 /* Do we have htaccess authentification enabled? */
 $htaccess_authenticated = FALSE;

@@ -450,6 +450,8 @@ class config  {
     IconTheme::loadThemes('themes');
 
     timezone::setDefaultTimezoneFromConfig();
+
+    initLanguage();
   }
 
 
