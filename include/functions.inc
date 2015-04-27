@@ -2905,21 +2905,31 @@ function get_correct_class_name($cls)
  *
  * \param string $password the password
  *
- * \param int $mode if not 0 doesn't create the samba password hash
- *
  * \param string $hash which hash to use to encrypt it, default is empty
  * for reusing existing hash method for this password (or use the default one).
  *
- * \return boolean TRUE on success FALSE on error
+ * \return boolean TRUE on success and an error strings array on failure.
  */
 function change_password ($dn, $password, $hash = "")
 {
   global $config;
   $userTabs = objects::open($dn, 'user');
   $userTab  = $userTabs->getBaseObject();
-  $userTab->userPassword = array($hash, $password, $password, $userTab->userPassword);
+  $userTab->userPassword = array(
+    $hash,
+    $password,
+    $password,
+    $userTab->userPassword,
+    $userTab->attributesAccess['userPassword']->isLocked()
+  );
+  $error = $userTabs->check();
+  if (!empty($error)) {
+    return $error;
+  }
   $userTabs->save_object();
   $userTabs->save();
+
+  return TRUE;
 }
 
 /* Lock or unlock samba account */
