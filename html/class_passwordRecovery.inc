@@ -369,21 +369,6 @@ class passwordRecovery {
            ($ldap_token == $sha1_token);
   }
 
-  function isValidPassword($new_password, $repeated_password)
-  {
-    $MinLength = $this->config->get_cfg_value("passwordMinLength", 0);
-
-    if ($new_password != $repeated_password) {
-      return _("The passwords you've entered as 'New password' and 'Repeated new password' do not match.");
-    } elseif ($new_password == "") {
-      return msgPool::required(_("New password"));
-    } elseif (strlen($new_password) < $MinLength) {
-      return _("The password used as new is too short.");
-    } elseif (!passwordMethod::is_harmless($new_password)) {
-      return _("The password contains possibly problematic Unicode characters!");
-    }
-  }
-
   function checkForSSL()
   {
     $smarty = get_smarty();
@@ -572,15 +557,26 @@ class passwordRecovery {
     if (!$dn) {
       return;
     }
-    /* Do new and repeated password fields match? */
-    $error = $this->isValidPassword( $_POST['new_password'],
-                                     $_POST['new_password_repeated']);
+
+    $userTabs = objects::open($dn, 'user');
+    $userTab  = $userTabs->getBaseObject();
+    $userTab->userPassword = array(
+      $this->method,
+      $_POST['new_password'],
+      $_POST['new_password_repeated'],
+      $userTab->userPassword,
+      $userTab->attributesAccess['userPassword']->isLocked()
+    );
+
+    /* Is there any problem with entered passwords? */
+    $error = $userTabs->check();
     if (!empty($error)) {
-      $this->message[] = $error;
+      $this->message = $error;
       return;
     }
 
-    change_password($dn, $_POST['new_password'], $this->method);
+    $userTabs->save_object();
+    $userTabs->save();
     fusiondirectory_log("User ".$this->uid." password has been changed");
     /* Send the mail */
     $mail_body = sprintf($this->mail2_body, $this->uid);
