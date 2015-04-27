@@ -24,6 +24,7 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.12.3 NAME 'gosaObject'
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.14 NAME 'gosaDefaultLanguage'
   DESC 'Defines the default language for a user'
+  OBSOLETE
   EQUALITY caseIgnoreIA5Match
   SUBSTR caseIgnoreIA5SubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
@@ -81,6 +82,7 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.12.46 NAME 'gosaLoginRestriction'
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.6.2 NAME 'academicTitle'
   DESC 'Field to represent the academic title'
+  OBSOLETE
   EQUALITY caseIgnoreMatch
   SUBSTR caseIgnoreSubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
@@ -118,10 +120,11 @@ objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.4 NAME 'gosaDepartment' SUP top AUXILIA
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.6 NAME 'gosaAccount' SUP top AUXILIARY
   DESC 'Class for GOsa Accounts (v2.6.6)'
-  MUST ( uid )
-        MAY ( sambaLMPassword $ sambaNTPassword $ sambaPwdLastSet $
-        gosaDefaultLanguage $ academicTitle $ personalTitle $ dateOfBirth $
-        sambaBadPasswordCount $ sambaBadPasswordTime $ gender $ gosaLoginRestriction ))
+  MUST ( )
+  MAY (
+    dateOfBirth $ personalTitle $ gender $ gosaLoginRestriction $
+    gosaDefaultLanguage $ academicTitle
+  ) )
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.11 NAME 'gosaUserTemplate' SUP top AUXILIARY
   DESC 'Class for GOsa User Templates (v2.6.1)'
