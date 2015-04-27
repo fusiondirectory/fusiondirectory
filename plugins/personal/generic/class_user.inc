@@ -204,12 +204,8 @@ class user extends simplePlugin
             '', '', '/[^,+"?()=<>;\\\\]/'
           ),
           new StringAttribute (
-            _('Personal title'), _('Personal title'),
+            _('Personal title'), _('Personal title - Examples of personal titles are "Ms", "Dr", "Prof" and "Rev"'),
             'personalTitle', FALSE
-          ),
-          new StringAttribute (
-            _('Academic title'), _('Academic title'),
-            'academicTitle', FALSE
           ),
           new DateAttribute (
             _('Date of birth'), _('Date of birth'),
@@ -300,6 +296,12 @@ class user extends simplePlugin
         'name'  => _('Organizational information'),
         'icon'  => 'geticon.php?context=places&icon=folder&size=16',
         'attrs' => array(
+          new SetAttribute (
+            new StringAttribute (
+              _('Title'), _('Title of a person in their organizational context. Each title is one value of this multi-valued attribute'),
+              'title', FALSE
+            )
+          ),
           new StringAttribute (
             _('Organization'), _('Organization'),
             'o', FALSE
