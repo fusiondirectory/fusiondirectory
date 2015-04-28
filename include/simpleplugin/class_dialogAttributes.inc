@@ -116,6 +116,11 @@ class UserGroupSelectDialog extends GenericSelectDialog
   protected $dialogClass = 'userGroupSelect';
 }
 
+class UserGroupRoleSelectDialog extends GenericSelectDialog
+{
+  protected $dialogClass = 'userGroupRoleSelect';
+}
+
 class GroupSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'groupSelect';
@@ -399,8 +404,10 @@ class UsersGroupsAttribute extends GenericDialogAttribute
     } else {
       if ($this->display_attr == 'dn') {
         $this->displays[$i] = $attrs['dn'];
-      } elseif (in_array("posixGroup", $attrs['objectClass'])) {
-        $this->displays[$i] = sprintf(_("Group %s"), trim($attrs['cn'][0]));
+      } elseif (in_array('posixGroup', $attrs['objectClass'])) {
+        $this->displays[$i] = sprintf(_('Group %s'), trim($attrs['cn'][0]));
+      } elseif (in_array('organizationalRole', $attrs['objectClass'])) {
+        $this->displays[$i] = sprintf(_('Role %s'), trim($attrs['cn'][0]));
       } elseif (isset($attrs['uid'][0])) {
         $this->displays[$i] = trim($attrs['uid'][0]);
       } else {
@@ -408,6 +415,11 @@ class UsersGroupsAttribute extends GenericDialogAttribute
       }
     }
   }
+}
+
+class UsersGroupsRolesAttribute extends UsersGroupsAttribute
+{
+  protected $dialogClass = 'UserGroupRoleSelectDialog';
 }
 
 /*! \brief This class allows to handle an attribute for selecting groups
