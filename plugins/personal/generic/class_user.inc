@@ -130,7 +130,9 @@ class UserPasswordAttribute extends CompositeAttribute
     if (!empty($error)) {
       return $error;
     }
-    return user::reportPasswordProblems($this->plugin->dn, $this->attributes[1]->getValue(), $this->attributes[2]->getValue());
+    if (($this->attributes[1]->getValue() != '') || ($this->attributes[2]->getValue() != '')) {
+      return user::reportPasswordProblems($this->plugin->dn, $this->attributes[1]->getValue(), $this->attributes[2]->getValue());
+    }
   }
 
   function getMethod()
