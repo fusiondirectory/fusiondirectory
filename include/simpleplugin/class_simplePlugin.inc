@@ -278,7 +278,7 @@ class simplePlugin extends plugin
       msg_dialog::display(
         _('Fatal error'),
         sprintf(
-          _('Could not compute dn: cloud not find objectType infos from tab class "%s"'),
+          _('Could not compute dn: could not find objectType infos from tab class "%s"'),
           get_class($this->parent)
         ),
         FATAL_ERROR_DIALOG
