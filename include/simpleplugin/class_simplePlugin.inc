@@ -259,14 +259,31 @@ class simplePlugin extends plugin
   public function compute_dn()
   {
     if (!$this->mainTab) {
-      die('Only main tab can compute dn');
+      msg_dialog::display(_('Fatal error'), _('Only main tab can compute dn'), FATAL_ERROR_DIALOG);
+      exit;
     }
     if (!isset($this->parent) || !($this->parent instanceof simpleTabs)) {
-      die('Could not compute dn: no parent tab class');
+      msg_dialog::display(
+        _('Fatal error'),
+        sprintf(
+          _('Could not compute dn: no parent tab class for "%s"'),
+          get_class($this)
+        ),
+        FATAL_ERROR_DIALOG
+      );
+      exit;
     }
     $infos = $this->parent->objectInfos();
     if ($infos === FALSE) {
-      die('Could not compute dn: cloud not find objectType infos from tab class');
+      msg_dialog::display(
+        _('Fatal error'),
+        sprintf(
+          _('Could not compute dn: cloud not find objectType infos from tab class "%s"'),
+          get_class($this->parent)
+        ),
+        FATAL_ERROR_DIALOG
+      );
+      exit;
     }
     $attr = $infos['mainAttr'];
     $ou   = $infos['ou'];
