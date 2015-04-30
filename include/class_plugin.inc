@@ -286,6 +286,7 @@ class plugin
       unset($template_attrs['dn']);
       unset($template_attrs['fdTemplateField']['count']);
       unset($template_attrs['objectClass']['count']);
+      unset($template_attrs['cn']['count']);
       for ($i = 0; $i < $template_attrs['count']; ++$i) { // Remove numeric keys
         unset($template_attrs[$i]);
       }
@@ -439,30 +440,28 @@ class plugin
     /* Start with empty array */
     $this->attrs = array();
 
+    /* Get current objectClasses in order to add the required ones */
+    $ldap->cat($this->dn);
+
+    $tmp = $ldap->fetch();
+    $oc = array();
+
     if ($this->is_template) {
-      // TODO: do it this way even if not a template?
-      $this->attrs['objectClass'] = $this->objectclasses;
-      if (!empty($this->saved_attributes)) {
-        $this->attrs['objectClass'] = array_merge_unique($this->saved_attributes['objectClass'], $this->attrs['objectClass']);
+      foreach ($tmp['fdTemplateField'] as $tpl_field) {
+        if (preg_match('/^objectClass:(.+)$/', $tpl_field, $m)) {
+          $oc[] = $m[1];
+        }
       }
     } else {
-      /* Get current objectClasses in order to add the required ones */
-      $ldap->cat($this->dn);
-
-      $tmp = $ldap->fetch ();
-
-      $oc = array();
       if (isset($tmp['objectClass'])) {
-        $oc = $tmp["objectClass"];
+        $oc = $tmp['objectClass'];
         unset($oc['count']);
-        $this->is_new = FALSE;
-      } else {
-        $this->is_new = TRUE;
       }
-
-      /* Load (minimum) attributes, add missing ones */
-      $this->attrs['objectClass'] = array_merge_unique($oc, $this->objectclasses);
     }
+    $this->is_new = !empty($oc);
+
+    /* Load (minimum) attributes, add missing ones */
+    $this->attrs['objectClass'] = array_merge_unique($oc, $this->objectclasses);
 
     /* Copy standard attributes */
     foreach ($this->attributes as $val) {
