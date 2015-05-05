@@ -261,5 +261,26 @@ class password extends plugin
 
     return FALSE;
   }
+
+  static function reportHashPasswordProblems ($userdn, $passwordHash, $attrs)
+  {
+    global $config;
+
+    $ldap = $config->get_ldap_link();
+    $ldap->cat($userdn, array('pwdHistory', 'userPassword'));
+    $attrs = $ldap->fetch();
+    if (isset($attrs['userPassword'][0])) {
+      if ($passwordHash == $attrs['userPassword'][0]) {
+        return _('Password is not being changed from existing value');
+      }
+    }
+    if (isset($attrs['pwdHistory'][0])) {
+      unset($attrs['pwdHistory']['count']);
+      if (in_array($passwordHash, $attrs['pwdHistory'])) {
+        return _('Password is in history of old passwords');
+      }
+    }
+    return TRUE;
+  }
 }
 ?>
