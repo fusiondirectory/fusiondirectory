@@ -284,7 +284,7 @@ class password extends plugin
         }
       }
     }
-    return TRUE;
+    return FALSE;
   }
 }
 ?>
