@@ -97,6 +97,7 @@ class Step_Ldap extends setupStep
     $this->update_strings();
     $this->attributesAccess['base']->setSubmitForm(TRUE);
     $this->attributesAccess['admin']->setLinearRendering(TRUE);
+    $this->attributesAccess['status']->setAllowHTML(TRUE);
     $this->update_base_choices();
     $this->status = $this->get_connection_status();
   }
@@ -161,8 +162,9 @@ class Step_Ldap extends setupStep
     }
 
     if (!$this->bind_id) {
-      $str = sprintf(_("Anonymous bind to server '%s' failed!"), $this->connection);
-      if (!empty($this->admin)) {
+      if (empty($this->admin)) {
+        $str = sprintf(_("Anonymous bind to server '%s' failed!"), $this->connection);
+      } else {
         $str = sprintf(_("Bind as user '%s' failed!"), $this->admin, $this->connection);
       }
       return "<div style='color:red;'>".$str."</div>";
