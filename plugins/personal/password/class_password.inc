@@ -263,7 +263,7 @@ class password extends plugin
     return FALSE;
   }
 
-  static function reportHashPasswordProblems ($userdn, $passwordHash, $attrs)
+  static function reportHashPasswordProblems ($userdn, $method, $password)
   {
     global $config;
 
@@ -271,14 +271,15 @@ class password extends plugin
     $ldap->cat($userdn, array('pwdHistory', 'userPassword'));
     $attrs = $ldap->fetch();
     if (isset($attrs['userPassword'][0])) {
-      if ($passwordHash == $attrs['userPassword'][0]) {
+      if ($method->checkPassword($password, $attrs['userPassword'][0])) {
         return _('Password is not being changed from existing value');
       }
     }
     if (isset($attrs['pwdHistory'][0])) {
       unset($attrs['pwdHistory']['count']);
       foreach ($attrs['pwdHistory'] as $pwdHistory) {
-        if (preg_match('/'.preg_quote($passwordHash, '/').'$/', $pwdHistory)) {
+        $pwdHistory = explode('#', $pwdHistory, 4);
+        if ($method->checkPassword($password, $pwdHistory[3])) {
           return _('Password is in history of old passwords');
         }
       }

@@ -78,6 +78,22 @@ class passwordMethodssha extends passwordMethod
     return $pwd;
   }
 
+  function checkPassword($pwd, $hash)
+  {
+    $hash = base64_decode(substr($hash, 6));
+    $salt = substr($hash, 20);
+    $hash = substr($hash, 0, 20);
+    if (function_exists("sha1")) {
+      $nhash = pack("H*", sha1($pwd . $salt));
+    } elseif (function_exists("mhash")) {
+      $nhash = mhash(MHASH_SHA1, $pwd.$salt);
+    } else {
+      msg_dialog::display(_("Configuration error"), msgPool::missingext("mhash"), ERROR_DIALOG);
+      return FALSE;
+    }
+    return ($nhash == $hash);
+  }
+
   /*!
    * \brief Get the hash name
    */
