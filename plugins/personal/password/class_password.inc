@@ -141,11 +141,12 @@ class password extends plugin
             msg_dialog::display(_("Password change"),
                                 _("You have no permission to change your password."), WARNING_DIALOG);
           } else {
-            $this->change_password($ui->dn, $new_password, $this->forcedHash);
-            fusiondirectory_log("User/password has been changed");
-            $ui->password = $new_password;
-            session::set('ui', $ui);
-            return $smarty->fetch(get_template_path("changed.tpl", TRUE));
+            if ($this->change_password($ui->dn, $new_password, $this->forcedHash)) {
+              fusiondirectory_log("User/password has been changed");
+              $ui->password = $new_password;
+              session::set('ui', $ui);
+              return $smarty->fetch(get_template_path("changed.tpl", TRUE));
+            }
           }
         }
       }
@@ -156,9 +157,9 @@ class password extends plugin
   function change_password($dn, $pwd, $hash)
   {
     if ($hash) {
-      change_password ($dn, $pwd, 0, $hash);
+      return change_password ($dn, $pwd, 0, $hash);
     } else {
-      change_password ($dn, $pwd);
+      return change_password ($dn, $pwd);
     }
   }
 

@@ -597,10 +597,8 @@ class passwordRecovery {
         return;
       }
     }
-    if ($this->method != "") {
-      change_password($dn, $_POST['new_password'], 0, $this->method);
-    } else {
-      change_password($dn, $_POST['new_password']);
+    if (!change_password($dn, $_POST['new_password'], 0, $this->method)) {
+      return;
     }
     fusiondirectory_log("User ".$this->uid." password has been changed");
     /* Send the mail */
