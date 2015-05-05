@@ -277,8 +277,10 @@ class password extends plugin
     }
     if (isset($attrs['pwdHistory'][0])) {
       unset($attrs['pwdHistory']['count']);
-      if (in_array($passwordHash, $attrs['pwdHistory'])) {
-        return _('Password is in history of old passwords');
+      foreach ($attrs['pwdHistory'] as $pwdHistory) {
+        if (preg_match('/'.preg_quote($passwordHash, '/').'$/', $pwdHistory)) {
+          return _('Password is in history of old passwords');
+        }
       }
     }
     return TRUE;
