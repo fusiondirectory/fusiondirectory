@@ -883,9 +883,20 @@ class FakeAttribute extends Attribute
  */
 class DisplayLDAPAttribute extends Attribute
 {
+  protected $allowHTML = FALSE;
+
   function renderFormInput ()
   {
-    return htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8');
+    if ($this->allowHTML) {
+      return $this->getValue();
+    } else {
+      return htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8');
+    }
+  }
+
+  function setAllowHTML ($allowHTML)
+  {
+    $this->allowHTML = $allowHTML;
   }
 }
 
