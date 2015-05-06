@@ -63,7 +63,6 @@ class config  {
     'MENU'      => array()
   );
   var $basedir        = "";
-  var $config_version = "NOT SET";
 
   /* Keep a copy of the current department list */
   var $departments      = array();
@@ -185,9 +184,6 @@ class config  {
     /* Trigger on CONF section */
     if ($tag == 'CONF') {
       $this->config_found = TRUE;
-      if (isset($attrs['CONFIGVERSION'])) {
-        $this->config_version = $attrs['CONFIGVERSION'];
-      }
     }
 
     /* Return if we're not in config section */
