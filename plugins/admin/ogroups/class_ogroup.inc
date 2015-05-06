@@ -83,7 +83,7 @@ class ObjectsAttribute extends GenericDialogAttribute
       if (isset($infos['icon'])) {
         $img = $infos['icon'];
       } else {
-        $img = 'images/false.png';
+        $img = 'images/empty.png';
       }
       $display .= '<option value="'.$key.'" class="select"'.
                   ' style="background-image:url(\''.get_template_path($img).'\');"'.

@@ -34,7 +34,7 @@ class organization extends department
         'name'        => _('Organization'),
         'filter'      => '(&(objectClass=organization)(objectClass=gosaDepartment))',
         'ou'          => '',
-        'icon'        => 'plugins/departments/images/organization.png',
+        'icon'        => 'geticon.php?context=types&icon=organization&size=16',
         'tabClass'    => 'deptabs',
         'mainAttr'    => self::$namingAttr,
       )),

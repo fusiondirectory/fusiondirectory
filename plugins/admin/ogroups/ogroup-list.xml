@@ -94,7 +94,7 @@
       <name>sendMessage</name>
       <type>entry</type>
       <depends>DaemonEvent_notify</depends>
-      <image>plugins/systems/images/notify.png</image>
+      <image>geticon.php?context=applications&amp;icon=internet-mail&amp;size=16</image>
       <label>Send message</label>
     </action>
 
