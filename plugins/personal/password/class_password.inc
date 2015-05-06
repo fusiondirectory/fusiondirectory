@@ -206,8 +206,9 @@ class password extends plugin
     $length       = $config->get_cfg_value("passwordMinLength", 0);
 
     $ldap = $config->get_ldap_link();
-    $ldap->cat($user, array('pwdPolicySubentry', 'pwdHistory', 'pwdChangedTime'));
+    $ldap->cat($user, array('pwdPolicySubentry', 'pwdHistory', 'pwdChangedTime', 'userPassword'));
     $attrs = $ldap->fetch();
+
     $ppolicydn = '';
     if (isset($attrs['pwdPolicySubentry'][0])) {
       $ppolicydn = $attrs['pwdPolicySubentry'][0];
@@ -242,6 +243,23 @@ class password extends plugin
           $current_password = NULL;
         }
       } elseif (isset($attrs['pwdHistory'][0])) {
+        unset($attrs['pwdHistory']['count']);
+        foreach ($attrs['pwdHistory'] as $pwdHistory) {
+          $pwdHistory = explode('#', $pwdHistory, 4);
+          $method = passwordMethod::get_method($pwdHistory[3], $user);
+          if (($method !== NULL) && $method->checkPassword($new_password, $pwdHistory[3])) {
+            return _('Password is in history of old passwords');
+          }
+        }
+      }
+    }
+
+    if (($current_password !== NULL) && ($current_password == $new_password)) {
+      return _('Password is not being changed from existing value');
+    } elseif (isset($attrs['userPassword'][0])) {
+      $method = passwordMethod::get_method($attrs['userPassword'][0], $user);
+      if (($method !== NULL) && $method->checkPassword($new_password, $attrs['userPassword'][0])) {
+        return _('Password is not being changed from existing value');
       }
     }
 
@@ -260,30 +278,6 @@ class password extends plugin
       return _("The password contains possibly problematic Unicode characters!");
     }
 
-    return FALSE;
-  }
-
-  static function reportHashPasswordProblems ($userdn, $method, $password)
-  {
-    global $config;
-
-    $ldap = $config->get_ldap_link();
-    $ldap->cat($userdn, array('pwdHistory', 'userPassword'));
-    $attrs = $ldap->fetch();
-    if (isset($attrs['userPassword'][0])) {
-      if ($method->checkPassword($password, $attrs['userPassword'][0])) {
-        return _('Password is not being changed from existing value');
-      }
-    }
-    if (isset($attrs['pwdHistory'][0])) {
-      unset($attrs['pwdHistory']['count']);
-      foreach ($attrs['pwdHistory'] as $pwdHistory) {
-        $pwdHistory = explode('#', $pwdHistory, 4);
-        if ($method->checkPassword($password, $pwdHistory[3])) {
-          return _('Password is in history of old passwords');
-        }
-      }
-    }
     return FALSE;
   }
 }

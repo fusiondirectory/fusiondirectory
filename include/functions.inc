@@ -3042,12 +3042,6 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
     $test->attrs  = $attrs;
     $newpass      = $test->generate_hash($password);
 
-    $error = password::reportHashPasswordProblems($dn, $test, $password);
-    if ($error !== FALSE) {
-      msg_dialog::display(_('Error'), $error, ERROR_DIALOG);
-      return FALSE;
-    }
-
     // Update shadow timestamp?
     if (isset($attrs["shadowLastChange"][0])) {
       $shadow = (int)(date("U") / 86400);

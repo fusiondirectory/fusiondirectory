@@ -71,8 +71,8 @@ class passwordMethodsmd5 extends passwordMethod
   function checkPassword($pwd, $hash)
   {
     $hash = base64_decode(substr($hash, 6));
-    $salt = substr($hash, 20);
-    $hash = substr($hash, 0, 20);
+    $salt = substr($hash, 16);
+    $hash = substr($hash, 0, 16);
     $nhash = pack("H*", md5($pwd . $salt));
     return ($nhash == $hash);
   }
