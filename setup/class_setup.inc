@@ -305,7 +305,6 @@ class setup
     $cv['fdForceSSL']       = TRUE;
     $cv['debugLevel']       = 0;
     $smarty->assign("cv",                       xmlentities($cv));
-    $smarty->assign("config_checksum",          md5(file_get_contents(CONFIG_TEMPLATE_DIR.CONFIG_FILE)));
     $smarty->assign("templateCompileDirectory", SPOOL_DIR);
     $xml = $smarty->fetch(CONFIG_TEMPLATE_DIR.CONFIG_FILE);
     $config->parse_data($xml);

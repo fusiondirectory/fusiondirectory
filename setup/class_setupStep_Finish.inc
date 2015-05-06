@@ -48,7 +48,6 @@ class Step_Finish extends setupStep
     $cv               = $this->parent->captured_values;
     $cv['debugLevel'] = $this->parent->getDebugLevel();
     $smarty->assign('cv',                       xmlentities($cv));
-    $smarty->assign('config_checksum',          md5(file_get_contents(CONFIG_TEMPLATE_DIR.CONFIG_FILE)));
     $smarty->assign('templateCompileDirectory', SPOOL_DIR);
     return $smarty->fetch(CONFIG_TEMPLATE_DIR.CONFIG_FILE);
   }
