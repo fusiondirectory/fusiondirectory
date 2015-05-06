@@ -248,7 +248,7 @@ class password extends plugin
         foreach ($attrs['pwdHistory'] as $pwdHistory) {
           $pwdHistory = explode('#', $pwdHistory, 4);
           $method = passwordMethod::get_method($pwdHistory[3], $user);
-          if (($method !== NULL) && $method->checkPassword($new_password, $pwdHistory[3])) {
+          if (($method !== NULL) && $method->checkPassword($new_password, $pwdHistory[3])) {
             return _('Password is in history of old passwords');
           }
         }
