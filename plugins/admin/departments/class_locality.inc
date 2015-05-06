@@ -34,7 +34,7 @@ class locality extends department
         'name'        => _('Locality'),
         'filter'      => '(&(objectClass=locality)(objectClass=gosaDepartment))',
         'ou'          => '',
-        'icon'        => 'plugins/departments/images/locality.png',
+        'icon'        => 'geticon.php?context=types&icon=locality&size=16',
         'tabClass'    => 'deptabs',
         'mainAttr'    => self::$namingAttr,
       )),

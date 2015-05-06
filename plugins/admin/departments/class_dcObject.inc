@@ -34,7 +34,7 @@ class dcObject extends department
         'name'        => _('Domain Component'),
         'filter'      => '(&(objectClass=dcObject)(objectClass=gosaDepartment))',
         'ou'          => '',
-        'icon'        => 'plugins/departments/images/dc.png',
+        'icon'        => 'geticon.php?context=types&icon=dc&size=16',
         'tabClass'    => 'deptabs',
         'mainAttr'    => self::$namingAttr,
       )),
