@@ -84,7 +84,6 @@ if (!session::global_is_set('config')) {
   session::global_set('config', $config);
 }
 $config = session::global_get('config');
-load_plist(FALSE);
 IconTheme::loadThemes('themes');
 /* Fake user bypassing acl system */
 $ui = new fake_userinfo();
