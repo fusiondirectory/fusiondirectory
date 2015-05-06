@@ -258,7 +258,7 @@ class password extends plugin
       return _('Password is not being changed from existing value');
     } elseif (isset($attrs['userPassword'][0])) {
       $method = passwordMethod::get_method($attrs['userPassword'][0], $user);
-      if (($method !== NULL) && $method->checkPassword($new_password, $attrs['userPassword'][0])) {
+      if (($method !== NULL) && $method->checkPassword($new_password, $attrs['userPassword'][0])) {
         return _('Password is not being changed from existing value');
       }
     }
