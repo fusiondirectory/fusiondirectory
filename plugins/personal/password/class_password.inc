@@ -242,7 +242,8 @@ class password extends plugin
         if (empty($current_password)) {
           $current_password = NULL;
         }
-      } elseif (isset($attrs['pwdHistory'][0])) {
+      }
+      if (isset($attrs['pwdHistory'][0])) {
         unset($attrs['pwdHistory']['count']);
         foreach ($attrs['pwdHistory'] as $pwdHistory) {
           $pwdHistory = explode('#', $pwdHistory, 4);
