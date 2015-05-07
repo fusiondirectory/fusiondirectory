@@ -100,35 +100,12 @@ if (session::global_get('_LAST_PAGE_REQUEST') == "") {
 /* Set template compile directory */
 $smarty->compile_dir = $config->get_cfg_value("templateCompileDirectory", SPOOL_DIR);
 
-/* Set default */
-$reload_navigation = FALSE;
-
-/* If last language != current force navi reload */
-$lang = get_browser_language();
-/* Set last initialised language to current, browser settings */
-if ((!session::global_is_set('Last_init_lang')) || (session::global_get('Last_init_lang') != $lang)) {
-  $reload_navigation = TRUE;
-}
-
-/* Language setup */
-session::global_set('Last_init_lang', $lang);
-
 /* Preset current main base */
 if (!session::global_is_set('CurrentMainBase')) {
   session::global_set('CurrentMainBase', get_base_from_people($ui->dn));
 }
 
-putenv("LANGUAGE=");
-putenv("LANG=$lang");
-setlocale(LC_ALL, $lang);
-$GLOBALS['t_language']            = $lang;
-$GLOBALS['t_gettext_message_dir'] = $BASE_DIR.'/locale/';
-
-/* Set the text domain as 'fusiondirectory' */
-$domain = 'fusiondirectory';
-bindtextdomain($domain, LOCALE_DIR);
-textdomain($domain);
-@DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang, "Setting language to");
+initLanguage();
 
 /* Prepare plugin list */
 $plist = load_plist();
@@ -152,10 +129,6 @@ if (session::global_is_set('plugin_dir')) {
   $old_plugin_dir = "";
 }
 
-/* reload navigation if language changed*/
-if ($reload_navigation) {
-  $plist->menu = "";
-}
 $plist->gen_menu();
 
 /* check if we are using account expiration */
@@ -273,6 +246,7 @@ if (isset($_GET['reset'])) {
 
 /* show web frontend */
 $smarty->assign ("date", date("l, dS F Y H:i:s O"));
+$lang = session::global_get('lang');
 $smarty->assign ("lang", preg_replace('/_.*$/', '', $lang));
 $smarty->assign ("rtl", language_is_rtl($lang));
 $smarty->assign ("must", '<span class="must">*</span>');

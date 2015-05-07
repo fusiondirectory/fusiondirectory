@@ -906,9 +906,11 @@ class LDAP
         $this->add($na);
 
         if (!$this->success()) {
-          print_a(array($cdn,$na));
+          @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $cdn, 'dn');
+          @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $na, 'Content');
+          @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->get_error(), 'LDAP error');
 
-          msg_dialog::display(_("LDAP error"), msgPool::ldaperror($this->get_error(), $cdn, LDAP_ADD, get_class()), LDAP_ERROR);
+          msg_dialog::display(_('LDAP error'), msgPool::ldaperror($this->get_error(), $cdn, LDAP_ADD, get_class()), LDAP_ERROR);
           return FALSE;
         }
       }
@@ -1068,7 +1070,7 @@ class LDAP
 
     // Prepare parameters to be valid for shell execution
     $dn     = escapeshellarg($dn);
-    $pwd    = $this->bindpw;
+    $pwd    = escapeshellarg($this->bindpw);
     $host   = escapeshellarg($this->hostname);
     $admin  = escapeshellarg($this->binddn);
     $filter = escapeshellarg($filter);

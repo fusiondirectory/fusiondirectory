@@ -1,6 +1,29 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.8.6
+
+Bugs #3235: When a manager changes its base the managed user attributes are changed
+Bugs #3604: Role icon is display for all users
+Bugs #3643: Ppolicy plugin should check password history
+Bugs #3685: generateLdif() fails with bind-passwords containg '$'
+Bugs #3687: Address book plugin show infos only in admin
+Bugs #3690: the setup doesnt find the ldap anymore when fai plugin is installed
+Wishlist #3691: Export sub entries with ldapmanager
+Bugs #3692: class_ldap.inc has leftover debug
+Bugs #3693: the apache icon for the apache plugin doesnt appaers in dashboard
+Bugs #3705: add the to faq that if user doesnt show up check if nis.schema is installed
+Bugs #3712: contributed doc for sles 11 SP3
+Bugs #3713: the group and user is different for apache on SLES 11 SP3
+Bugs #3719: ACLs of GPG-Plugin
+Bugs #3720: Language setting
+Bugs #3723: Missing icon
+Bugs #3731: A icon is missing when we set a manager
+Bugs #3732: When debug trace level is on, we can’t log in anymore
+Bugs #3738: rfc2307bis option should be removed
+Bugs #3750: fusiondirectory.conf attribute configVersion is unused and should be removed
+Wishlist #3746: Ppolicy should be applied in password recovery
+
 * FusionDirectory 1.0.8.5
 
 [Fix] Bugs #3249: When a duplicate is found, its dn should be given

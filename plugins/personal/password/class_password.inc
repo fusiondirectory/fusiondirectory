@@ -141,11 +141,12 @@ class password extends plugin
             msg_dialog::display(_("Password change"),
                                 _("You have no permission to change your password."), WARNING_DIALOG);
           } else {
-            $this->change_password($ui->dn, $new_password, $this->forcedHash);
-            fusiondirectory_log("User/password has been changed");
-            $ui->password = $new_password;
-            session::set('ui', $ui);
-            return $smarty->fetch(get_template_path("changed.tpl", TRUE));
+            if ($this->change_password($ui->dn, $new_password, $this->forcedHash)) {
+              fusiondirectory_log("User/password has been changed");
+              $ui->password = $new_password;
+              session::set('ui', $ui);
+              return $smarty->fetch(get_template_path("changed.tpl", TRUE));
+            }
           }
         }
       }
@@ -156,9 +157,9 @@ class password extends plugin
   function change_password($dn, $pwd, $hash)
   {
     if ($hash) {
-      change_password ($dn, $pwd, 0, $hash);
+      return change_password ($dn, $pwd, 0, $hash);
     } else {
-      change_password ($dn, $pwd);
+      return change_password ($dn, $pwd);
     }
   }
 
@@ -205,8 +206,9 @@ class password extends plugin
     $length       = $config->get_cfg_value("passwordMinLength", 0);
 
     $ldap = $config->get_ldap_link();
-    $ldap->cat($user, array('pwdPolicySubentry', 'pwdHistory', 'pwdChangedTime'));
+    $ldap->cat($user, array('pwdPolicySubentry', 'pwdHistory', 'pwdChangedTime', 'userPassword'));
     $attrs = $ldap->fetch();
+
     $ppolicydn = '';
     if (isset($attrs['pwdPolicySubentry'][0])) {
       $ppolicydn = $attrs['pwdPolicySubentry'][0];
@@ -240,7 +242,25 @@ class password extends plugin
         if (empty($current_password)) {
           $current_password = NULL;
         }
-      } elseif (isset($attrs['pwdHistory'][0])) {
+      }
+      if (isset($attrs['pwdHistory'][0])) {
+        unset($attrs['pwdHistory']['count']);
+        foreach ($attrs['pwdHistory'] as $pwdHistory) {
+          $pwdHistory = explode('#', $pwdHistory, 4);
+          $method = passwordMethod::get_method($pwdHistory[3], $user);
+          if (($method !== NULL) && $method->checkPassword($new_password, $pwdHistory[3])) {
+            return _('Password is in history of old passwords');
+          }
+        }
+      }
+    }
+
+    if (($current_password !== NULL) && ($current_password == $new_password)) {
+      return _('Password is not being changed from existing value');
+    } elseif (isset($attrs['userPassword'][0])) {
+      $method = passwordMethod::get_method($attrs['userPassword'][0], $user);
+      if (($method !== NULL) && $method->checkPassword($new_password, $attrs['userPassword'][0])) {
+        return _('Password is not being changed from existing value');
       }
     }
 

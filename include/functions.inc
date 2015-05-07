@@ -2740,10 +2740,8 @@ function check_schema_version($class, $version)
  * \brief Check if LDAP schema matches the requirements
  *
  * \param string $cfg A config object
- *
- * \param bool $rfc2307bis TRUE for checking for rfc2307bis FALSE otherwise
  */
-function check_schema($cfg, $rfc2307bis = FALSE)
+function check_schema($cfg)
 {
   $checks = array();
 
@@ -2838,18 +2836,11 @@ function check_schema($cfg, $rfc2307bis = FALSE)
   $checks['posixGroup']['MSG']              = "";
   $checks['posixGroup']['INFO']             = "";
 
-  /* Depending on selected rfc2307bis mode, we need different schema configurations */
-  if (isset($tmp['posixGroup'])) {
-    if ($rfc2307bis && isset($tmp['posixGroup']['STRUCTURAL'])) {
-      $checks['posixGroup']['STATUS']           = FALSE;
-      $checks['posixGroup']['MSG']              = _("You have enabled the rfc2307bis option on the 'ldap setup' step, but your schema    configuration do not support this option.");
-      $checks['posixGroup']['INFO']             = _("In order to use rfc2307bis conform groups the objectClass 'posixGroup' must be      AUXILIARY");
-    }
-    if (!$rfc2307bis && !isset($tmp['posixGroup']['STRUCTURAL'])) {
-      $checks['posixGroup']['STATUS']           = FALSE;
-      $checks['posixGroup']['MSG']              = _("Your schema is configured to support the rfc2307bis group, but you have disabled this option on the 'ldap setup' step.");
-      $checks['posixGroup']['INFO']             = _("The objectClass 'posixGroup' must be STRUCTURAL");
-    }
+  /* Detect obsolete schema configurations */
+  if (!isset($tmp['posixGroup']['STRUCTURAL'])) {
+    $checks['posixGroup']['STATUS']           = FALSE;
+    $checks['posixGroup']['MSG']              = _("You are using the obsolete rfc2307bis schema from previous FusionDirectory versions.");
+    $checks['posixGroup']['INFO']             = _("The objectClass 'posixGroup' must be STRUCTURAL");
   }
 
   return $checks;
@@ -3753,5 +3744,44 @@ function load_all_classes()
       }
     }
   }
+}
+
+function initLanguage($lang = NULL)
+{
+  global $GLOBALS,$BASE_DIR;
+  if ($lang === NULL) {
+    $lang = get_browser_language();
+  }
+
+  putenv("LANGUAGE=");
+  putenv("LANG=$lang");
+  setlocale(LC_ALL, $lang);
+  $GLOBALS['t_language']            = $lang;
+  $GLOBALS['t_gettext_message_dir'] = $BASE_DIR.'/locale/';
+
+  /* Set the text domain as 'fusiondirectory' */
+  $domain = 'fusiondirectory';
+  bindtextdomain($domain, LOCALE_DIR);
+  textdomain($domain);
+  if ($_SERVER["REQUEST_METHOD"] != "POST") {
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang, "Setting language to");
+  }
+
+  $ret = FALSE;
+
+  /* Reset menu cache if language changed */
+  if ((!session::global_is_set('lang')) || (session::global_get('lang') != $lang)) {
+    $ret = TRUE;
+    if (session::global_is_set('plist')) {
+      if ($_SERVER["REQUEST_METHOD"] != "POST") {
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, session::global_get('lang'), "Plist already loaded with language ");
+      }
+      $plist = session::global_get('plist');
+      $plist->reset_menus();
+    }
+  }
+
+  session::global_set('lang', $lang);
+  return $ret;
 }
 ?>

@@ -16,7 +16,7 @@ Layout example:
 
 <?xml version="1.0"?>
 
-   <conf configVersion="...." >
+   <conf>
 
      <!-- Global setup -->
      <main>

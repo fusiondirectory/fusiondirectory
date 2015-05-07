@@ -45,23 +45,7 @@ if (session::global_is_set('ui')) {
   new log("security", "logout", "", array(), "User \"".$ui->username."\" logged out");
 }
 
-/* Language setup */
-if ((!isset($config)) || $config->get_cfg_value("language") == "") {
-  $lang = get_browser_language();
-} else {
-  $lang = $config->get_cfg_value("language");
-}
-
-putenv("LANGUAGE=");
-putenv("LANG=$lang");
-setlocale(LC_ALL, $lang);
-$GLOBALS['t_language']            = $lang;
-$GLOBALS['t_gettext_message_dir'] = $BASE_DIR.'/locale/';
-
-/* Set the text domain as 'fusiondirectory' */
-$domain = 'fusiondirectory';
-bindtextdomain($domain, LOCALE_DIR);
-textdomain($domain);
+initLanguage();
 
 /* Set smarty template compile directory */
 if (isset($config)) {

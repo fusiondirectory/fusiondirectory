@@ -292,6 +292,20 @@ fusiondirectory-setup --check-deprecated will output an ldif file on the console
 
 !! Please read it carefully before applying !!
 
+Migrate FusionDirectory from 1.0.8.4 to 1.0.8.5
+===============================================
+
+- Upgrade FusionDirectory first
+
+Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+
+apt-get install fusiondirectory
+
+- Upgrade FusionDirectory schema package too.
+
+apt-get install fusiondirectory-schema
+
+
 ---
 * Further information
 

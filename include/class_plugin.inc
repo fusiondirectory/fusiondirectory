@@ -1259,6 +1259,8 @@ class plugin
       }
     }
 
+    /* Back up POST content */
+    $SAVED_POST = $_POST;
     $refs = array();
     // For each concerned objectType
     foreach ($foreignRefs as $objectType => $tabRefs) {
@@ -1275,6 +1277,8 @@ class plugin
       }
       // For each object of this type
       foreach (array_keys($objects) as $dn) {
+        /* Avoid sending POST to opened objects */
+        $_POST = array();
         // Build the object
         $tabobject = objects::open($dn, $objectType);
         if (preg_match('/^handle_/', $mode)) {
@@ -1344,6 +1348,8 @@ class plugin
         }
       }
     }
+    /* Restore POST */
+    $_POST = $SAVED_POST;
     if ($mode == 'references') {
       return $refs;
     }

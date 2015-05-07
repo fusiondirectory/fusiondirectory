@@ -115,7 +115,7 @@ class passwordRecovery {
       return;
     }
 
-    $this->setupLanguage();
+    initLanguage();
 
     $ssl = $this->checkForSSL();
 
@@ -268,27 +268,6 @@ class passwordRecovery {
     }
   }
 
-  function setupLanguage()
-  {
-    global $GLOBALS,$BASE_DIR;
-
-    /* Language setup */
-    $lang = get_browser_language();
-
-    putenv("LANGUAGE=");
-    putenv("LANG=$lang");
-    setlocale(LC_ALL, $lang);
-    $GLOBALS['t_language']            = $lang;
-    $GLOBALS['t_gettext_message_dir'] = $BASE_DIR.'/locale/';
-
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang, "Setting language to");
-
-    /* Set the text domain as 'messages' */
-    $domain = 'messages';
-    bindtextdomain($domain, LOCALE_DIR);
-    textdomain($domain);
-  }
-
   function setupSmarty()
   {
     $smarty = get_smarty();
@@ -396,21 +375,6 @@ class passwordRecovery {
     /* Return TRUE if the token match and is still valid */
     return ($last_time_recovery >= time()) &&
            ($ldap_token == $sha1_token);
-  }
-
-  function isValidPassword($new_password, $repeated_password)
-  {
-    $MinLength = $this->config->get_cfg_value("passwordMinLength", 0);
-
-    if ($new_password != $repeated_password) {
-      return _("The passwords you've entered as 'New password' and 'Repeated new password' do not match.");
-    } elseif ($new_password == "") {
-      return msgPool::required(_("New password"));
-    } elseif (strlen($new_password) < $MinLength) {
-      return _("The password used as new is too short.");
-    } elseif (!passwordMethod::is_harmless($new_password)) {
-      return _("The password contains possibly problematic Unicode characters!");
-    }
   }
 
   function checkForSSL()
@@ -602,9 +566,8 @@ class passwordRecovery {
       return;
     }
     /* Do new and repeated password fields match? */
-    $error = $this->isValidPassword( $_POST['new_password'],
-                                     $_POST['new_password_repeated']);
-    if (!empty($error)) {
+    $error = password::reportPasswordProblems($dn, $_POST['new_password'], $_POST['new_password_repeated']);
+    if ($error !== FALSE) {
       $this->message[] = $error;
       return;
     }
@@ -618,10 +581,8 @@ class passwordRecovery {
         return;
       }
     }
-    if ($this->method != "") {
-      change_password($dn, $_POST['new_password'], 0, $this->method);
-    } else {
-      change_password($dn, $_POST['new_password']);
+    if (!change_password($dn, $_POST['new_password'], 0, $this->method)) {
+      return;
     }
     fusiondirectory_log("User ".$this->uid." password has been changed");
     /* Send the mail */

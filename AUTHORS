@@ -165,4 +165,9 @@ documentation and additional help.
 * Samuel Bosquin samuel.bosquin@ibcp.fr
   Plugin FAI - LVM partitions
 
-* 
+* IOhannes umlaeute <noc@iem.at>
+  generateLdif() fails with bind-passwords containg '$' patch
+  
+* Karsten Becker <karsten.becker@ecologic.eu>
+  Suse install from tarballs Documentation
+

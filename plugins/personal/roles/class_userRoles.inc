@@ -56,6 +56,7 @@ class userRoles extends simplePlugin
   function __construct (&$config, $dn = NULL, $object = NULL)
   {
     parent::__construct($config, $dn, $object);
+    $this->ignore_account = FALSE;
 
     /* Roles handling */
     $roles    = objects::ls('role');
@@ -69,6 +70,27 @@ class userRoles extends simplePlugin
     $this->savedRolesMembership = array_keys($myRoles);
 
     $this->updateAttributesValues();
+  }
+
+  function is_this_account($attrs)
+  {
+    return (objects::count('role', NULL, '(roleOccupant='.$attrs['dn'].')') > 0);
+  }
+
+  function remove_from_parent()
+  {
+    /* Remove all roles */
+    foreach ($this->savedRolesMembership as $roledn) {
+      $r = objects::open($roledn, 'role');
+      $r->getBaseObject()->attributesAccess['roleOccupant']->searchAndRemove($this->dn);
+      $r->save();
+    }
+  }
+
+  function save_object()
+  {
+    parent::save_object();
+    $this->is_account = (count($this->rolesMembership) > 0);
   }
 
   function ldap_save($cleanup = TRUE)

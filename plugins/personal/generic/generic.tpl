@@ -322,7 +322,7 @@
 {/render}
         {if $manager!=""}
 {render acl=$managerACL}
-        <img src='images/info_small.png' title='{$manager}' class='center'>
+        <img src='geticon.php?context=status&icon=dialog-information&size=16' title='{$manager}' class='center'>
 {/render}
 {render acl=$managerACL}
         <input type='image' src='geticon.php?context=actions&icon=edit-delete&size=16' name='removeManager' class='center'>

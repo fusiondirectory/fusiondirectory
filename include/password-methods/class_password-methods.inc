@@ -262,7 +262,6 @@ class passwordMethod
   {
   }
 
-
   /*!
    * \brief Method to let passwords backends manage additional information
    *  besides the userAttribute entry
@@ -270,6 +269,14 @@ class passwordMethod
   function set_password($password)
   {
     return TRUE;
+  }
+
+  /*!
+   * \brief Method to check if a password matches a hash
+   */
+  function checkPassword($pwd, $hash)
+  {
+    return ($hash == $this->generate_hash($pwd));
   }
 
 
