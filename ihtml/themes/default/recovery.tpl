@@ -35,9 +35,6 @@
     </p>
 
     <p class="infotext">
-      {if $other_method}
-        {t}Available methods{/t}
-      {/if}
       <ul>
         <li>{t}Receive by email a link that allows you to reset your password{/t} :
           <input type="submit" name="send"  value="{t}Send{/t}"
@@ -45,14 +42,6 @@
           <input type="hidden" id="email_address" maxlength="60" value="{$email_address}">
           <input type="hidden" id="uid" maxlength="60" value="{$uid}">
         </li>
-        {if $other_method}
-          <li>
-             Dummy recuperation method
-          </li>
-          <li>
-            <div style="color:red;">{t}If none of the above methods suits you, contact your administrator to change your password{/t}</div>
-          </li>
-        {/if}
       </ul>
     </p>
 {elseif $step==3}
