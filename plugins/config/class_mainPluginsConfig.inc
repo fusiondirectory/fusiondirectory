@@ -38,13 +38,23 @@ class mainPluginsConfig extends simplePlugin
   static function getAttributesInfo ()
   {
     return array(
-      'main' => array(
-        'name'  => _('LDAP tree'),
+      'ogroups' => array(
+        'name'  => _('Object groups'),
         'attrs' => array(
           new StringAttribute (
             _('OGroup RDN'), _('Branch in which object groups will be stored'),
             'fdOGroupRDN', TRUE,
             'ou=groups'
+          ),
+        )
+      ),
+      'sasl' => array(
+        'name'  => _('SASL'),
+        'attrs' => array(
+          new BooleanAttribute (
+            _('Force Password asking'), _('Useful if you add a hook using password value when SASL user passwords are edited'),
+            'fdForceSaslPasswordAsk', TRUE,
+            FALSE
           ),
         )
       ),
