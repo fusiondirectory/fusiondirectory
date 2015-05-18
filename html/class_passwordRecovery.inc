@@ -29,7 +29,6 @@ class passwordRecovery {
   var $uid;
   var $message = array();
   var $email_address;
-  var $method;
   var $directory;
 
   var $step = 1;
@@ -118,20 +117,6 @@ class passwordRecovery {
     initLanguage();
 
     $ssl = $this->checkForSSL();
-
-    /* Check for selected password method */
-    $this->method = $this->config->get_cfg_value("passwordDefaultHash", "ssha");
-    if (isset($_GET['method'])) {
-      $this->method = validate($_GET['method']);
-      $tmp = new passwordMethod($this->config);
-      $available = $tmp->get_available_methods();
-      if (!isset($available[$this->method])) {
-        msg_dialog::display(_("Password method"),
-                            _("Error: Password method not available!"),
-                            FATAL_ERROR_DIALOG);
-        exit();
-      }
-    }
 
     if (isset($_GET['email_address']) && $_GET['email_address'] != "") {
       $this->email_address = validate($_GET['email_address']);
@@ -284,7 +269,6 @@ class passwordRecovery {
     $smarty->assign('params', "");
     $smarty->assign('message', "");
     $smarty->assign('changed', FALSE);
-    $smarty->assign('other_method', FALSE);
   }
 
   static function generateRandomHash()
@@ -448,7 +432,6 @@ class passwordRecovery {
   /* find the uid of for the given email address */
   function step2()
   {
-    /* Ask for the method */
     if ($_POST['email_address'] == "") {
       $this->message[] = msgPool::required(_("Email address"));
       return;
@@ -483,7 +466,7 @@ class passwordRecovery {
     $smarty->assign('uid', $this->uid);
     $smarty->assign('email_address', $this->email_address);
     $this->step = 2;
-    $params = $this->encodeParams(array('uid', 'method', 'directory', 'email_address'));
+    $params = $this->encodeParams(array('uid', 'directory', 'email_address'));
     $smarty->assign('params', $params);
   }
 
@@ -542,7 +525,7 @@ class passwordRecovery {
     $this->uniq = $uniq_id_from_mail;
     $this->step = 4;
     $smarty->assign('uid', $this->uid);
-    $params = $this->encodeParams(array('uid', 'method', 'directory', 'email_address', 'uniq'));
+    $params = $this->encodeParams(array('uid', 'directory', 'email_address', 'uniq'));
     $smarty->assign('params', $params);
 
     if (isset($_POST['change'])) {
@@ -561,7 +544,7 @@ class passwordRecovery {
     $userTabs = objects::open($dn, 'user');
     $userTab  = $userTabs->getBaseObject();
     $userTab->userPassword = array(
-      $this->method,
+      '',
       $_POST['new_password'],
       $_POST['new_password_repeated'],
       $userTab->userPassword,
