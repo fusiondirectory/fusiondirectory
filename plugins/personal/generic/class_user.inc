@@ -153,7 +153,7 @@ class UserPasswordAttribute extends CompositeAttribute
 
 class user extends simplePlugin
 {
-  var $objectclasses  = array('top','person','organizationalPerson','inetOrgPerson','gosaAccount');
+  var $objectclasses  = array('inetOrgPerson','pilotPerson','gosaAccount');
   var $mainTab        = TRUE;
 
   private $was_locked;
@@ -169,7 +169,7 @@ class user extends simplePlugin
       'plObjectType'  => array('user' => array(
         'description' => _('Users'),
         'name'        => _('User'),
-        'filter'      => 'objectClass=gosaAccount',
+        'filter'      => '(&(objectClass=inetOrgPerson)(objectClass=pilotPerson))',
         'mainAttr'    => 'uid',
         'nameAttr'    => 'cn',
         'icon'        => 'geticon.php?context=types&icon=user&size=16',

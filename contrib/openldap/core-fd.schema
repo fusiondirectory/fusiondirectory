@@ -122,8 +122,8 @@ objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.6 NAME 'gosaAccount' SUP top AUXILIARY
   DESC 'Class for GOsa Accounts (v2.6.6)'
   MUST ( )
   MAY (
-    dateOfBirth $ personalTitle $ gender $ gosaLoginRestriction $
-    gosaDefaultLanguage $ academicTitle
+    dateOfBirth $ gender $ gosaLoginRestriction $
+    gosaDefaultLanguage $ academicTitle $ personalTitle
   ) )
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.11 NAME 'gosaUserTemplate' SUP top AUXILIARY
