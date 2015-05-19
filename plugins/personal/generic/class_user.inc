@@ -21,16 +21,18 @@
 /* Handle a password and its hash method */
 class UserPasswordAttribute extends CompositeAttribute
 {
+  protected $needPassword;
+  protected $previousMethod;
+
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "")
   {
     $temp = passwordMethod::get_available_methods();
 
     /* Create password methods array */
     $pwd_methods = array();
+    $this->needPassword = array();
     foreach ($temp['name'] as $id => $name) {
-      if (!$temp[$id]['object']->need_password()) {
-        continue;
-      }
+      $this->needPassword[$name] = $temp[$id]['object']->need_password();
       $pwd_methods[$name] = $name;
       if (!empty($temp[$id]['desc'])) {
         $pwd_methods[$name] .= " (".$temp[$id]['desc'].")";
@@ -63,6 +65,7 @@ class UserPasswordAttribute extends CompositeAttribute
       ),
       '', '', $acl, $label
     );
+    $this->attributes[0]->setSubmitForm(TRUE);
   }
 
   public function setParent(&$plugin)
@@ -75,6 +78,7 @@ class UserPasswordAttribute extends CompositeAttribute
         $this->attributes[0]->setValue($hash);
         $this->attributes[0]->setDisabled(TRUE);
       }
+      $this->checkIfMethodNeedsPassword();
     }
   }
 
@@ -92,7 +96,37 @@ class UserPasswordAttribute extends CompositeAttribute
       $this->attributes[0]->resetToDefault();
       $this->attributes[1]->setRequired(TRUE);
       $this->attributes[2]->setRequired(TRUE);
+      $this->checkIfMethodNeedsPassword();
     }
+  }
+
+  function setValue ($value)
+  {
+    parent::setValue($value);
+    $this->checkIfMethodNeedsPassword();
+  }
+
+  function applyPostValue ()
+  {
+    parent::applyPostValue();
+    $this->checkIfMethodNeedsPassword();
+  }
+
+  function checkIfMethodNeedsPassword()
+  {
+    $method = $this->attributes[0]->getValue();
+    if ($method != $this->previousMethod) {
+      if ($this->needPassword[$method]) {
+        $this->attributes[1]->setVisible(TRUE);
+        $this->attributes[2]->setVisible(TRUE);
+      } else {
+        $this->attributes[1]->setVisible(FALSE);
+        $this->attributes[1]->setValue('');
+        $this->attributes[2]->setVisible(FALSE);
+        $this->attributes[2]->setValue('');
+      }
+    }
+    $this->previousMethod = $method;
   }
 
   function readValues($value)
@@ -115,7 +149,7 @@ class UserPasswordAttribute extends CompositeAttribute
 
   function writeValues($values)
   {
-    if ($values[1] == '') {
+    if ($this->needPassword[$values[0]] && ($values[1] == '')) {
       return $values[3];
     }
     $temp = passwordMethod::get_available_methods();
@@ -126,6 +160,11 @@ class UserPasswordAttribute extends CompositeAttribute
 
   function check()
   {
+    $method = $this->attributes[0]->getValue();
+    if (!$this->needPassword[$method]) {
+      $this->attributes[1]->setRequired(FALSE);
+      $this->attributes[2]->setRequired(FALSE);
+    }
     $error = parent::check();
     if (!empty($error)) {
       return $error;
