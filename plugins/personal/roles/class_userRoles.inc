@@ -74,6 +74,9 @@ class userRoles extends simplePlugin
 
   function is_this_account($attrs)
   {
+    if (!isset($attrs['dn'])) {
+      return FALSE;
+    }
     return (objects::count('role', NULL, '(roleOccupant='.$attrs['dn'].')') > 0);
   }
 
