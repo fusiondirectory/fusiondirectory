@@ -192,7 +192,7 @@ class UserPasswordAttribute extends CompositeAttribute
 
 class user extends simplePlugin
 {
-  var $objectclasses  = array('inetOrgPerson','pilotPerson','gosaAccount');
+  var $objectclasses  = array('inetOrgPerson','gosaAccount');
   var $mainTab        = TRUE;
 
   private $was_locked;
@@ -208,7 +208,7 @@ class user extends simplePlugin
       'plObjectType'  => array('user' => array(
         'description' => _('Users'),
         'name'        => _('User'),
-        'filter'      => '(&(objectClass=inetOrgPerson)(objectClass=pilotPerson))',
+        'filter'      => '(objectClass=inetOrgPerson)',
         'mainAttr'    => 'uid',
         'nameAttr'    => 'cn',
         'icon'        => 'geticon.php?context=types&icon=user&size=16',
@@ -241,20 +241,6 @@ class user extends simplePlugin
             _('First name'), _('First name of this user'),
             'givenName', TRUE,
             '', '', '/[^,+"?()=<>;\\\\]/'
-          ),
-          new StringAttribute (
-            _('Personal title'), _('Personal title - Examples of personal titles are "Ms", "Dr", "Prof" and "Rev"'),
-            'personalTitle', FALSE
-          ),
-          new DateAttribute (
-            _('Date of birth'), _('Date of birth'),
-            'dateOfBirth', FALSE,
-            'Y-m-d', ''
-          ),
-          new SelectAttribute (
-            _('Sex'), _('Gender'),
-            'gender', FALSE,
-            array('', 'M', 'F'), '', array('', 'male', 'female')
           ),
           new StringAttribute (
             _('Description'), _('Short description of the user'),

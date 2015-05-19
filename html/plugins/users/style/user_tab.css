@@ -4,10 +4,12 @@
   .plugin_section#perso img#jpegPhoto_img {
   position:absolute;
   left:5px;
-  top:35px;
+  top:32px;
+  box-sizing:border-box;
+  max-height:80%;
   }
 
   .plugin_section#perso > div > table {
-  margin-left:160px;
+  padding-left:160px;
   }
 }
