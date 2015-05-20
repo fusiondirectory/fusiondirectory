@@ -121,7 +121,7 @@ class ObjectSelectDialog extends GenericSelectDialog
 class ogroup extends simplePlugin
 {
   var $mainTab        = TRUE;
-  var $objectclasses  = array('top', 'gosaGroupOfNames');
+  var $objectclasses  = array('groupOfNames', 'gosaGroupOfNames');
 
   var $used_workstations = array();
 
@@ -191,7 +191,7 @@ class ogroup extends simplePlugin
         'attrs' => array(
           new ObjectsAttribute(
             '', _('Objects member of this group'),
-            'member', FALSE,
+            'member', TRUE,
             array(), 'dn'
           )
         )

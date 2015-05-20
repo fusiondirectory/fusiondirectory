@@ -133,7 +133,7 @@ objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.11 NAME 'gosaUserTemplate' SUP top AUXI
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.12 NAME 'gosaGroupOfNames'
   DESC 'GOsa object grouping (v2.6.1)'
-  SUP top STRUCTURAL
+  SUP top AUXILIARY
   MUST ( cn $ gosaGroupObjects ) MAY ( member $ description ) )
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.15 NAME 'gosaAdministrativeUnit'
