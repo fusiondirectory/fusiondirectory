@@ -2442,7 +2442,8 @@ class OrderedArrayAttribute extends SetAttribute
 {
   protected $order;
   protected $edit_enabled;
-  protected $height = 90;
+  protected $height   = 90;
+  protected $headers  = FALSE;
 
   /*! \brief The constructor of OrderedArrayAttribute
    *
@@ -2459,6 +2460,11 @@ class OrderedArrayAttribute extends SetAttribute
   function setHeight($h)
   {
     $this->height = $h;
+  }
+
+  function setHeaders($h)
+  {
+    $this->headers = $h;
   }
 
   function readValue($value)
@@ -2514,6 +2520,7 @@ class OrderedArrayAttribute extends SetAttribute
     $div = new divSelectBox('rows'.$id);
     $smarty = get_smarty();
     $div->SetHeight($this->height);
+    $div->SetHeaders($this->headers);
     foreach ($this->value as $key => $value) {
       $fields = array();
       foreach ($this->getAttributeArrayValue($value) as $field) {
@@ -2612,43 +2619,51 @@ class OrderedArrayAttribute extends SetAttribute
       $this->postValue = $this->value;
       $id = $this->getHtmlId();
       foreach (array_keys($_POST) as $name) {
-        if ($this->order) {
-          if (preg_match('/^'.$id.'_up_/', $name)) {
-            $key = preg_replace('/^'.$id.'_up_/', '', $name);
-            $key = preg_replace('/_[xy]$/', '', $key);
-
-            $tmp                        = $this->postValue[$key];
-            $this->postValue[$key]      = $this->postValue[$key - 1];
-            $this->postValue[$key - 1]  = $tmp;
-            break;
-          }
-          if (preg_match('/^'.$id.'_down_/', $name)) {
-            $key = preg_replace('/^'.$id.'_down_/', '', $name);
-            $key = preg_replace('/_[xy]$/', '', $key);
-
-            $tmp                        = $this->postValue[$key];
-            $this->postValue[$key]      = $this->postValue[$key + 1];
-            $this->postValue[$key + 1]  = $tmp;
-            break;
-          }
-        }
-        if ($this->edit_enabled) {
-          if (preg_match('/^'.$id.'_edit_/', $name)) {
-            $key = preg_replace('/^'.$id.'_edit_/', '', $name);
-            $key = preg_replace('/_[xy]$/', '', $key);
-            $this->handleEdit($key);
-            break;
-          }
-        }
-        if (preg_match('/^'.$id.'_del_/', $name)) {
-          $key = preg_replace('/^'.$id.'_del_/', '', $name);
-          $key = preg_replace('/_[xy]$/', '', $key);
-          $this->delPostValue($key);
+        if ($this->handlePostValueActions($id, $name)) {
           break;
         }
       }
       $this->handleAddAndEditValue();
     }
+  }
+
+  protected function handlePostValueActions($id, $postValue)
+  {
+    if ($this->order) {
+      if (preg_match('/^'.$id.'_up_/', $postValue)) {
+        $key = preg_replace('/^'.$id.'_up_/', '', $postValue);
+        $key = preg_replace('/_[xy]$/', '', $key);
+
+        $tmp                        = $this->postValue[$key];
+        $this->postValue[$key]      = $this->postValue[$key - 1];
+        $this->postValue[$key - 1]  = $tmp;
+        return TRUE;
+      }
+      if (preg_match('/^'.$id.'_down_/', $postValue)) {
+        $key = preg_replace('/^'.$id.'_down_/', '', $postValue);
+        $key = preg_replace('/_[xy]$/', '', $key);
+
+        $tmp                        = $this->postValue[$key];
+        $this->postValue[$key]      = $this->postValue[$key + 1];
+        $this->postValue[$key + 1]  = $tmp;
+        return TRUE;
+      }
+    }
+    if ($this->edit_enabled) {
+      if (preg_match('/^'.$id.'_edit_/', $postValue)) {
+        $key = preg_replace('/^'.$id.'_edit_/', '', $postValue);
+        $key = preg_replace('/_[xy]$/', '', $key);
+        $this->handleEdit($key);
+        return TRUE;
+      }
+    }
+    if (preg_match('/^'.$id.'_del_/', $postValue)) {
+      $key = preg_replace('/^'.$id.'_del_/', '', $postValue);
+      $key = preg_replace('/_[xy]$/', '', $key);
+      $this->delPostValue($key);
+      return TRUE;
+    }
+    return FALSE;
   }
 
   protected function handleAddAndEditValue()
