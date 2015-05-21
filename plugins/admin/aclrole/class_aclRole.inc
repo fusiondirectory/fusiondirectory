@@ -54,7 +54,7 @@ class ACLsAttribute extends DialogOrderedArrayAttribute
   protected $order = TRUE;
   protected $dialogClass = 'ACLDialog';
 
-  protected function getAttributeArrayValue($value)
+  protected function getAttributeArrayValue($key, $value)
   {
     /* Convert text value to displayable array value */
 

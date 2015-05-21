@@ -2523,7 +2523,7 @@ class OrderedArrayAttribute extends SetAttribute
     $div->SetHeaders($this->headers);
     foreach ($this->value as $key => $value) {
       $fields = array();
-      foreach ($this->getAttributeArrayValue($value) as $field) {
+      foreach ($this->getAttributeArrayValue($key, $value) as $field) {
         if (is_array($field)) {
           $fields[] = $field;
         } else {
@@ -2601,7 +2601,7 @@ class OrderedArrayAttribute extends SetAttribute
     return array ($img, $width);
   }
 
-  protected function getAttributeArrayValue($value)
+  protected function getAttributeArrayValue($key, $value)
   {
     $this->attribute->setValue($value);
     return $this->attribute->getArrayValue();
