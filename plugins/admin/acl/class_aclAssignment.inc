@@ -176,7 +176,7 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
   protected $order        = TRUE;
   protected $dialogClass  = 'ACLsAssignmentDialog';
 
-  protected function getAttributeArrayValue($value)
+  protected function getAttributeArrayValue($key, $value)
   {
     /* Convert text value to displayable array value */
     $value['members'] = join(', ', $value['members']);

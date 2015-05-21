@@ -276,9 +276,10 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
   {
     $ids = parent::htmlIds();
     $ids[0] .= '_dialog';
+    return $ids;
   }
 
-  protected function getAttributeArrayValue($value)
+  protected function getAttributeArrayValue($key, $value)
   {
     /* Convert text value to displayable array value */
     die('Pure virtual method');
