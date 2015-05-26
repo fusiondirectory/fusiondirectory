@@ -413,11 +413,16 @@ class passwordRecovery {
     /* Retrieve dn from the ldap */
     $ldap = $this->config->get_ldap_link();
 
+    if (class_available('personalInfo') && ($this->config->get_cfg_value('privateEmailPasswordRecovery', 'FALSE') == 'TRUE')) {
+      $filter = '(&(|(objectClass=gosaMailAccount)(objectClass=fdPersonalInfo))(uid='.$this->uid.'))';
+    } else {
+      $filter = '(&(objectClass=gosaMailAccount)(uid='.$this->uid.'))';
+    }
     $ldap->cd($this->config->current['BASE']);
-    $ldap->search("(&(objectClass=gosaMailAccount)(uid=".$this->uid."))", array("dn"));
+    $ldap->search($filter, array('dn'));
 
     if ($ldap->count() < 1) {
-      $this->message[] = sprintf(_('Did not found an account with login "%s"'), $this->uid);
+      $this->message[] = sprintf(_('Did not find an account with login "%s"'), $this->uid);
       return;
     } elseif ($ldap->count() > 1) {
       $this->message[] = sprintf(_('Found multiple accounts with login "%s"'), $this->uid);
