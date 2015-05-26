@@ -21,7 +21,8 @@
 
 class ogrouptabs extends simpleTabs_noSpecial
 {
-  private $groupObjects = NULL;
+  protected $groupObjects = NULL;
+  protected $removed_tabs = array();
 
   function __construct($type, $dn, $copied_object = NULL)
   {
@@ -105,14 +106,19 @@ class ogrouptabs extends simpleTabs_noSpecial
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class, "Adding tab ");
     $plInfos = pluglist::pluginInfos($class);
     $this->by_name["$class"]            = $plInfos['plShortName'];
-    $this->by_object["$class"]          = new $class($this->config, $this->dn, $this->getBaseObject());
-    $this->by_object["$class"]->parent  = &$this;
-    $this->by_object["$class"]->set_acl_category($this->acl_category);
+    if (isset($this->removed_tabs["$class"])) {
+      $this->by_object["$class"] = $this->removed_tabs["$class"];
+      unset($this->removed_tabs["$class"]);
+    } else {
+      $this->by_object["$class"]          = new $class($this->config, $this->dn, $this->getBaseObject());
+      $this->by_object["$class"]->parent  = &$this;
+      $this->by_object["$class"]->set_acl_category($this->acl_category);
+    }
   }
 
   function delTab ($class)
   {
-    $this->by_object["$class"]->remove_from_parent();
+    $this->removed_tabs["$class"] = $this->by_object["$class"];
     unset($this->by_object["$class"]);
     unset($this->by_name["$class"]);
   }
@@ -126,6 +132,22 @@ class ogrouptabs extends simpleTabs_noSpecial
   function check($ignore_account = FALSE)
   {
     return parent::check(FALSE);
+  }
+
+  function save()
+  {
+    foreach ($this->removed_tabs as $key => &$obj) {
+      if (isset($this->by_object[$key])) {
+        continue;
+      }
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Removing");
+
+      $obj->dn = $this->dn;
+      $obj->remove_from_parent();
+    }
+    unset($obj);
+
+    parent::save();
   }
 
   function save_object($save_current = FALSE)
