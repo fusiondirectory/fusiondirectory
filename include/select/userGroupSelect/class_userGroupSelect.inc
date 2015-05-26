@@ -23,4 +23,9 @@ class userGroupSelect extends simpleSelectManagement
   protected $objectTypes = array('user', 'group');
   protected $autoFilterAttributes = array('dn', 'cn', 'uid', 'description');
 }
+
+class userGroupRoleSelect extends userGroupSelect
+{
+  protected $objectTypes = array('user', 'group', 'role');
+}
 ?>
