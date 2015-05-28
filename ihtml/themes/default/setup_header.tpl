@@ -1,4 +1,3 @@
-{$php_errors}
 <div class="setup_header">
   <div style="float:left;">
     <img src="geticon.php?context=applications&amp;icon=fusiondirectory&amp;size=48" class="center" alt="FusionDirectory" />
