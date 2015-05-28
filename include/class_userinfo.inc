@@ -113,13 +113,16 @@ class userinfo
     $ldap->cd($this->config->current['BASE']);
 
     /* Get member groups... */
-    $ldap->search("(&(objectClass=posixGroup)(memberUid=".$this->uid."))", array('dn'));
+    $ldap->search('(&(objectClass=posixGroup)(memberUid='.$this->uid.'))', array('dn'));
     while ($attrs = $ldap->fetch()) {
       $this->groups[$attrs['dn']] = $attrs['dn'];
     }
 
     /* Get member roles... */
-    $this->roles = objects::ls('role', array('dn' => 'raw'), NULL, '(roleOccupant='.$this->dn.')');
+    $ldap->search('(&(objectClass=organizationalRole)(roleOccupant='.$this->dn.'))', array('dn'));
+    while ($attrs = $ldap->fetch()) {
+      $this->roles[$attrs['dn']] = $attrs['dn'];
+    }
 
     /* Crawl through ACLs and move relevant to the tree */
     $ldap->search("(objectClass=gosaACL)", array('dn', 'gosaAclEntry'));
