@@ -199,11 +199,16 @@ class acl extends plugin
         if ($ldap->count()) {
           $attrs = $ldap->fetch();
           if (in_array_ics('gosaAccount', $attrs['objectClass'])) {
-            $a['U:'.$dn] = $attrs['cn'][0]." [".$attrs['uid'][0]."]";
+            $a['U:'.$dn] = $attrs['cn'][0].' ['.$attrs['uid'][0].']';
+          } elseif (in_array_ics('organizationalRole', $attrs['objectClass'])) {
+            $a['R:'.$dn] = $attrs['cn'][0];
+            if (isset($attrs['description'][0])) {
+              $a['R:'.$dn] .= ' ['.$attrs['description'][0].']';
+            }
           } else {
             $a['G:'.$dn] = $attrs['cn'][0];
             if (isset($attrs['description'][0])) {
-              $a['G:'.$dn] .= " [".$attrs['description'][0]."]";
+              $a['G:'.$dn] .= ' ['.$attrs['description'][0].']';
             }
           }
           /* ... or not */

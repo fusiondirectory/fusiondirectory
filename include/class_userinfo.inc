@@ -44,6 +44,7 @@ class userinfo
   var $subtreeACL   = array();
   var $ACL          = array();
   var $groups       = array();
+  var $roles        = array();
   var $result_cache = array();
   var $ignoreACL    = FALSE;
 
@@ -105,6 +106,7 @@ class userinfo
   {
     $this->ACL          = array();
     $this->groups       = array();
+    $this->roles        = array();
     $this->result_cache = array();
     $this->reset_acl_cache();
     $ldap = $this->config->get_ldap_link();
@@ -115,6 +117,9 @@ class userinfo
     while ($attrs = $ldap->fetch()) {
       $this->groups[$attrs['dn']] = $attrs['dn'];
     }
+
+    /* Get member roles... */
+    $this->roles = objects::ls('role', array('dn' => 'raw'), NULL, '(roleOccupant='.$this->dn.')');
 
     /* Crawl through ACLs and move relevant to the tree */
     $ldap->search("(objectClass=gosaACL)", array('dn', 'gosaAclEntry'));
@@ -171,6 +176,11 @@ class userinfo
           foreach (array_keys($type['members']) as $grp) {
             /* Some group inside the members that is relevant for us? */
             if (in_array_ics(@LDAP::convert(preg_replace('/^G:/', '', $grp)), $this->groups)) {
+              $interresting = TRUE;
+            }
+
+            /* Some role inside the members that is relevant for us? */
+            if (in_array_ics(@LDAP::convert(preg_replace('/^R:/', '', $grp)), $this->roles)) {
               $interresting = TRUE;
             }
 
