@@ -102,6 +102,9 @@ class UserPasswordAttribute extends CompositeAttribute
 
   function setValue ($value)
   {
+    if ($value[0] == '') {
+      $value[0] = $this->attributes[0]->getValue();
+    }
     parent::setValue($value);
     $this->checkIfMethodNeedsPassword();
   }
@@ -153,6 +156,10 @@ class UserPasswordAttribute extends CompositeAttribute
       return $values[3];
     }
     $temp = passwordMethod::get_available_methods();
+    if (!isset($temp[$values[0]])) {
+      trigger_error('Unknown password method '.$values[0]);
+      return $values[3];
+    }
     $test = new $temp[$values[0]]($this->plugin->config, $this->plugin->dn);
     $test->set_hash($values[0]);
     return $test->generate_hash($values[1]);

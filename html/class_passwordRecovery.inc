@@ -55,7 +55,7 @@ class passwordRecovery {
   /* Constructor */
   function __construct()
   {
-    global $config, $ssl;
+    global $config, $ssl, $ui;
     /* Destroy old session if exists.
         Else you will get your old session back, if you not logged out correctly. */
     session::destroy();
@@ -115,6 +115,10 @@ class passwordRecovery {
     }
 
     initLanguage();
+
+    session::global_un_set('plist');
+    load_plist();
+    $ui = new fake_userinfo();
 
     $ssl = $this->checkForSSL();
 
