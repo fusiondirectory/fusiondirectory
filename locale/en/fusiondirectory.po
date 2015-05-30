@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2015-05-07 11:11+0200\n"
+"POT-Creation-Date: 2015-05-30 13:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FusionDirectory project <contact@fusiondirectory.org>\n"
 "Language-Team: English\n"
@@ -132,16 +132,16 @@ msgid "Add users for the role"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:153
-#: plugins/admin/groups/class_group.inc:635 include/class_config.inc:161
-#: include/class_config.inc:301 include/class_config.inc:642
-#: include/class_config.inc:1135 include/class_config.inc:1148
+#: plugins/admin/groups/class_group.inc:635 include/class_config.inc:160
+#: include/class_config.inc:297 include/class_config.inc:638
+#: include/class_config.inc:1131 include/class_config.inc:1144
 #: include/functions.inc:778 include/simpleplugin/class_simpleService.inc:155
 #: include/class_timezone.inc:51
 #: include/password-methods/class_password-methods-sha.inc:71
 #: include/password-methods/class_password-methods-ssha.inc:75
 #: include/password-methods/class_password-methods-ssha.inc:91
 #: html/index.php:140 html/index.php:174 html/main.php:208
-#: html/class_passwordRecovery.inc:280
+#: html/class_passwordRecovery.inc:265
 msgid "Configuration error"
 msgstr ""
 
@@ -203,7 +203,7 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:992
 #: plugins/personal/generic/class_user.inc:1010 include/class_listing.inc:537
 #: include/class_management.inc:524 include/class_management.inc:664
-#: include/class_config.inc:480 include/class_msgPool.inc:215
+#: include/class_config.inc:476 include/class_msgPool.inc:215
 #: include/class_msgPool.inc:235 include/class_msgPool.inc:265
 #: include/class_msgPool.inc:682 include/class_msgPool.inc:713
 #: include/class_msgPool.inc:740 include/functions.inc:3088
@@ -222,7 +222,6 @@ msgstr ""
 #: include/simpleplugin/class_attribute.inc:1800
 #: include/password-methods/class_password-methods-sasl.inc:51
 #: include/password-methods/class_password-methods-sasl.inc:63
-#: include/password-methods/class_password-methods.inc:332
 #: include/password-methods/class_password-methods.inc:434
 #: include/password-methods/class_password-methods.inc:444
 #: include/class_SnapshotHandler.inc:415 include/class_tabs.inc:74
@@ -251,7 +250,7 @@ msgstr ""
 #: plugins/admin/ogroups/class_ogroup.inc:867
 #: plugins/admin/ogroups/class_ogroup.inc:881
 #: plugins/personal/generic/class_user.inc:656
-#: plugins/personal/generic/class_user.inc:937 include/class_config.inc:338
+#: plugins/personal/generic/class_user.inc:937 include/class_config.inc:334
 #: include/class_ldap.inc:913 include/class_ldap.inc:1367
 #: include/functions.inc:546 include/functions.inc:582
 #: include/functions.inc:590 include/functions.inc:634
@@ -265,7 +264,7 @@ msgstr ""
 #: include/class_SnapshotHandler.inc:277 include/class_SnapshotHandler.inc:292
 #: include/class_SnapshotHandler.inc:422 include/class_SnapshotHandler.inc:425
 #: html/index.php:226 html/index.php:238 html/index.php:251
-#: html/class_passwordRecovery.inc:509 setup/class_setupStep_Migrate.inc:1203
+#: html/class_passwordRecovery.inc:497 setup/class_setupStep_Migrate.inc:1203
 #: setup/class_setupStep_Migrate.inc:1223
 #: setup/class_setupStep_Migrate.inc:1266
 #: setup/class_setupStep_Migrate.inc:2003
@@ -309,7 +308,7 @@ msgstr ""
 #: plugins/personal/posix/class_posixAccount.inc:433 include/functions.inc:909
 #: include/functions.inc:2719 include/class_xml.inc:55
 #: include/class_tabs.inc:296 html/index.php:58 html/index.php:64
-#: html/index.php:346 html/class_passwordRecovery.inc:400
+#: html/index.php:346 html/class_passwordRecovery.inc:384
 #: setup/class_setupStep_Migrate.inc:277 setup/class_setupStep_Migrate.inc:322
 #: setup/class_setupStep_Migrate.inc:386 setup/class_setupStep_Migrate.inc:455
 #: setup/class_setupStep_Migrate.inc:577 setup/class_setupStep_Migrate.inc:702
@@ -522,6 +521,7 @@ msgid "Member"
 msgstr ""
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:35
+#: plugins/config/class_mainPluginsConfig.inc:42
 msgid "Object groups"
 msgstr ""
 
@@ -655,7 +655,7 @@ msgstr ""
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:132
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:65
-#: ihtml/themes/default/recovery.tpl.c:86
+#: ihtml/themes/default/recovery.tpl.c:80
 msgid "Mail"
 msgstr ""
 
@@ -975,7 +975,7 @@ msgstr ""
 #: plugins/admin/users/template.tpl.c:17
 #: plugins/personal/generic/generic.tpl.c:29
 #: plugins/personal/generic/paste_generic.tpl.c:11
-#: ihtml/themes/default/recovery.tpl.c:38
+#: ihtml/themes/default/recovery.tpl.c:32
 #: ihtml/themes/default/password.tpl.c:32
 #: ihtml/themes/default/password.tpl.c:35
 msgid "Login"
@@ -1319,7 +1319,6 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:45
 #: plugins/personal/generic/class_user.inc:564
-#: html/class_passwordRecovery.inc:129
 msgid "Password method"
 msgstr ""
 
@@ -1562,8 +1561,8 @@ msgstr ""
 #: plugins/admin/users/password.tpl.c:8 plugins/admin/users/password.tpl.c:26
 #: plugins/personal/password/password.tpl.c:14
 #: plugins/personal/password/password.tpl.c:35
-#: ihtml/themes/default/recovery.tpl.c:41
-#: ihtml/themes/default/recovery.tpl.c:44
+#: ihtml/themes/default/recovery.tpl.c:35
+#: ihtml/themes/default/recovery.tpl.c:38
 #: ihtml/themes/default/password.tpl.c:44
 #: ihtml/themes/default/password.tpl.c:47
 msgid "New password"
@@ -1837,16 +1836,27 @@ msgstr ""
 msgid "FusionDirectory plugins configuration"
 msgstr ""
 
-#: plugins/config/class_mainPluginsConfig.inc:42
-msgid "LDAP tree"
-msgstr ""
-
 #: plugins/config/class_mainPluginsConfig.inc:45
 msgid "OGroup RDN"
 msgstr ""
 
 #: plugins/config/class_mainPluginsConfig.inc:45
 msgid "Branch in which object groups will be stored"
+msgstr ""
+
+#: plugins/config/class_mainPluginsConfig.inc:52
+#: include/password-methods/class_password-methods-sasl.inc:51
+msgid "SASL"
+msgstr ""
+
+#: plugins/config/class_mainPluginsConfig.inc:55
+msgid "Force Password asking"
+msgstr ""
+
+#: plugins/config/class_mainPluginsConfig.inc:55
+msgid ""
+"Useful if you add a hook using password value when SASL user passwords are "
+"edited"
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:57
@@ -1859,8 +1869,8 @@ msgstr ""
 msgid "FusionDirectory configuration"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:82
-msgid "Look n feel"
+#: plugins/config/class_configInLdap.inc:82 setup/setup_config1.tpl.c:2
+msgid "Look and feel"
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:85
@@ -2522,12 +2532,12 @@ msgid ""
 "plugin instance!"
 msgstr ""
 
-#: include/class_config.inc:158
+#: include/class_config.inc:157
 #, php-format
 msgid "XML error in fusiondirectory.conf: %s at line %d"
 msgstr ""
 
-#: include/class_config.inc:297
+#: include/class_config.inc:293
 #, php-format
 msgid ""
 "It seems you are trying to decode something which is not encoded : %s<br/>"
@@ -2535,38 +2545,38 @@ msgid ""
 "passwords are not encrypted."
 msgstr ""
 
-#: include/class_config.inc:338
+#: include/class_config.inc:334
 msgid "Cannot bind to LDAP. Please contact the system administrator."
 msgstr ""
 
-#: include/class_config.inc:481
+#: include/class_config.inc:477
 #, php-format
 msgid "The selected mail method (class %s) is not available"
 msgstr ""
 
-#: include/class_config.inc:642
+#: include/class_config.inc:638
 msgid "sambaSID and/or sambaRidBase missing in the configuration!"
 msgstr ""
 
-#: include/class_config.inc:1136
+#: include/class_config.inc:1132
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required variable '%s' is not "
 "set."
 msgstr ""
 
-#: include/class_config.inc:1149
+#: include/class_config.inc:1145
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required compression module "
 "is missing. Please install '%s'."
 msgstr ""
 
-#: include/class_config.inc:1252
+#: include/class_config.inc:1248
 msgid "All categories"
 msgstr ""
 
-#: include/class_config.inc:1380
+#: include/class_config.inc:1376
 msgid "My account"
 msgstr ""
 
@@ -3240,7 +3250,7 @@ msgid ""
 msgstr ""
 
 #: include/functions.inc:508 include/functions.inc:3740
-#: include/class_xml.inc:61 html/class_passwordRecovery.inc:229
+#: include/class_xml.inc:61 html/class_passwordRecovery.inc:214
 msgid "Fatal error"
 msgstr ""
 
@@ -3851,17 +3861,9 @@ msgstr ""
 msgid "Manage access control lists"
 msgstr ""
 
-#: include/password-methods/class_password-methods-sasl.inc:51
-msgid "SASL"
-msgstr ""
-
 #: include/password-methods/class_password-methods-sasl.inc:63
 #, php-format
 msgid "Cannot change password, unknown user '%s'"
-msgstr ""
-
-#: include/password-methods/class_password-methods.inc:332
-msgid "Cannot find a suitable password method for the current hash!"
 msgstr ""
 
 #: include/class_SnapshotHandler.inc:415
@@ -3901,7 +3903,7 @@ msgstr ""
 msgid "Smarty error"
 msgstr ""
 
-#: html/index.php:158 html/class_passwordRecovery.inc:281 html/setup.php:62
+#: html/index.php:158 html/class_passwordRecovery.inc:266 html/setup.php:62
 #, php-format
 msgid "Directory '%s' specified as compile directory is not accessible!"
 msgstr ""
@@ -3996,60 +3998,56 @@ msgid ""
 "inform your administrator!"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:130
-msgid "Error: Password method not available!"
-msgstr ""
-
-#: html/class_passwordRecovery.inc:230
+#: html/class_passwordRecovery.inc:215
 #, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
 msgstr ""
 
-#: html/class_passwordRecovery.inc:401
+#: html/class_passwordRecovery.inc:385
 msgid "Session will not be encrypted."
 msgstr ""
 
-#: html/class_passwordRecovery.inc:403
+#: html/class_passwordRecovery.inc:387
 msgid "Enter SSL session"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:444
+#: html/class_passwordRecovery.inc:433
 #, php-format
-msgid "Did not found an account with login \"%s\""
+msgid "Did not find an account with login \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:447
+#: html/class_passwordRecovery.inc:436
 #, php-format
 msgid "Found multiple accounts with login \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:461 ihtml/themes/default/recovery.tpl.c:83
+#: html/class_passwordRecovery.inc:449 ihtml/themes/default/recovery.tpl.c:77
 msgid "Email address"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:481
+#: html/class_passwordRecovery.inc:469
 #, php-format
 msgid "There is no account using email %s"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:484
+#: html/class_passwordRecovery.inc:472
 #, php-format
 msgid "There are several accounts using email %s"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:532
+#: html/class_passwordRecovery.inc:520
 msgid "Contact your administrator, there was a problem with mail server"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:543
+#: html/class_passwordRecovery.inc:531
 msgid "This token is invalid"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:580
+#: html/class_passwordRecovery.inc:568
 msgid "External password changer reported a problem: "
 msgstr ""
 
-#: html/class_passwordRecovery.inc:602
+#: html/class_passwordRecovery.inc:590
 msgid "There was a problem with mail server, confirmation email not sent"
 msgstr ""
 
@@ -4138,17 +4136,17 @@ msgstr ""
 msgid "Finish - write the configuration file"
 msgstr ""
 
-#: setup/class_setupStep_Finish.inc:113
+#: setup/class_setupStep_Finish.inc:114
 msgid ""
 "Your configuration file is currently world readable. Please update the file "
 "permissions!"
 msgstr ""
 
-#: setup/class_setupStep_Finish.inc:115
+#: setup/class_setupStep_Finish.inc:116
 msgid "The configuration is currently not readable or it does not exists."
 msgstr ""
 
-#: setup/class_setupStep_Finish.inc:120
+#: setup/class_setupStep_Finish.inc:121
 #, php-format
 msgid ""
 "After downloading and placing the file under %s, please make sure that the "
@@ -4973,7 +4971,7 @@ msgstr ""
 #: plugins/admin/users/password.tpl.c:14 plugins/admin/users/password.tpl.c:32
 #: plugins/personal/password/password.tpl.c:20
 #: plugins/personal/password/password.tpl.c:41
-#: ihtml/themes/default/recovery.tpl.c:53
+#: ihtml/themes/default/recovery.tpl.c:47
 #: ihtml/themes/default/password.tpl.c:56
 msgid "Password strength"
 msgstr ""
@@ -5341,85 +5339,75 @@ msgid "Lost password"
 msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:14
-msgid "Available methods"
-msgstr ""
-
-#: ihtml/themes/default/recovery.tpl.c:17
 msgid "Receive by email a link that allows you to reset your password"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:20
+#: ihtml/themes/default/recovery.tpl.c:17
 msgid "Send"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:23
+#: ihtml/themes/default/recovery.tpl.c:20
 msgid "Click here to send a reset link"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:26
-msgid ""
-"If none of the above methods suits you, contact your administrator to change "
-"your password"
-msgstr ""
-
-#: ihtml/themes/default/recovery.tpl.c:29
+#: ihtml/themes/default/recovery.tpl.c:23
 msgid ""
 "This dialog provides a simple way to change your password. Enter the new "
 "password (twice) in the fields below and press the 'Change' button."
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:32
-#: ihtml/themes/default/recovery.tpl.c:35
-#: ihtml/themes/default/recovery.tpl.c:77
-#: ihtml/themes/default/recovery.tpl.c:80
+#: ihtml/themes/default/recovery.tpl.c:26
+#: ihtml/themes/default/recovery.tpl.c:29
+#: ihtml/themes/default/recovery.tpl.c:71
+#: ihtml/themes/default/recovery.tpl.c:74
 #: ihtml/themes/default/password.tpl.c:26
 #: ihtml/themes/default/password.tpl.c:29 ihtml/themes/default/login.tpl.c:29
 #: ihtml/themes/default/login.tpl.c:32 ihtml/themes/default/login.tpl.c:35
 msgid "Directory"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:47
-#: ihtml/themes/default/recovery.tpl.c:50
+#: ihtml/themes/default/recovery.tpl.c:41
+#: ihtml/themes/default/recovery.tpl.c:44
 #: ihtml/themes/default/password.tpl.c:50
 #: ihtml/themes/default/password.tpl.c:53
 msgid "New password repeated"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:56
-#: ihtml/themes/default/recovery.tpl.c:89
+#: ihtml/themes/default/recovery.tpl.c:50
+#: ihtml/themes/default/recovery.tpl.c:83
 #: ihtml/themes/default/password.tpl.c:59
 msgid "Change"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:59
-#: ihtml/themes/default/recovery.tpl.c:92
+#: ihtml/themes/default/recovery.tpl.c:53
+#: ihtml/themes/default/recovery.tpl.c:86
 #: ihtml/themes/default/password.tpl.c:62
 msgid "Click here to change your password"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:62
-#: ihtml/themes/default/recovery.tpl.c:65
+#: ihtml/themes/default/recovery.tpl.c:56
+#: ihtml/themes/default/recovery.tpl.c:59
 #: ihtml/themes/default/password.tpl.c:5 ihtml/themes/default/password.tpl.c:8
 msgid "Success"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:68
+#: ihtml/themes/default/recovery.tpl.c:62
 #: ihtml/themes/default/password.tpl.c:11
 msgid "Your password has been changed successfully."
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:71
+#: ihtml/themes/default/recovery.tpl.c:65
 msgid ""
 "Enter your current e-mail address in the field below and press the 'Change' "
 "button."
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:74
+#: ihtml/themes/default/recovery.tpl.c:68
 msgid ""
 "=> Use your e-mail in the long format, e.g : John Doe => john.doe@ibcp.fr"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:95
+#: ihtml/themes/default/recovery.tpl.c:89
 msgid ""
 "Password recovery is not activated. If you have lost your password, please "
 "contact your administrator"
@@ -5675,10 +5663,6 @@ msgstr ""
 
 #: setup/setup_language.tpl.c:8
 msgid "Please select your preferred language here"
-msgstr ""
-
-#: setup/setup_config1.tpl.c:2
-msgid "Look and feel"
 msgstr ""
 
 #: setup/setup_config1.tpl.c:17
