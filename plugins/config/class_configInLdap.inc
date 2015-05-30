@@ -79,7 +79,7 @@ class configInLdap extends simplePlugin
     sort($plugins);
     return array(
       'look_n_feel' => array(
-        'name'  => _('Look n feel'),
+        'name'  => _('Look and feel'),
         'attrs' => array(
           new SelectAttribute (
             _('Language'), _('Language of the application. If \'automatic\' or not available, the one asked by the browser will be used. This setting can be overriden per user.'),
