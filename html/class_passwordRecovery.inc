@@ -194,16 +194,16 @@ class passwordRecovery {
       $smarty->assign("php_errors", "");
     }
 
-    $smarty->assign("msg_dialogs", msg_dialog::get_dialogs());
-    $smarty->assign("usePrototype", "FALSE");
-    $smarty->display (get_template_path('headers.tpl'));
+    $smarty->assign('msg_dialogs',  msg_dialog::get_dialogs());
+    $smarty->assign('usePrototype', 'FALSE');
+    $smarty->append('js_files',     'include/pwdStrengh.js');
+    $smarty->append('css_files',    get_template_path('login.css'));
+    $smarty->display(get_template_path('headers.tpl'));
 
-    $smarty->assign("version", FD_VERSION);
-    $smarty->assign("step", $this->step);
-    $smarty->assign("delay_allowed", $this->delay_allowed);
-
-    $smarty->assign("activated", $this->activated);
-    $smarty->append ('css_files',  get_template_path('login.css'));
+    $smarty->assign('version',        FD_VERSION);
+    $smarty->assign('step',           $this->step);
+    $smarty->assign('delay_allowed',  $this->delay_allowed);
+    $smarty->assign('activated',      $this->activated);
 
     $smarty->display(get_template_path('recovery.tpl'));
     exit();
