@@ -121,6 +121,12 @@ class passwordMethodCrypt extends passwordMethod
     return "{CRYPT}".crypt($pwd, $salt);
   }
 
+  function checkPassword($pwd, $hash)
+  {
+    // Not implemented
+    return FALSE;
+  }
+
   /*!
    * \brief Get the hash name
    */
