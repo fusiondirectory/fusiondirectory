@@ -187,6 +187,7 @@ class Step_Config3 extends setup_step
     if ($cv['timezone']) {
       $attrs['fdTimezone'] = $cv['timezone'];
     }
+    $attrs['fdRfc2307bis']          = ($cv['rfc2307bis']?"TRUE":"FALSE");
     $attrs['fdPersonalTitleInDN']   = ($cv['include_personal_title']?"TRUE":"FALSE");
     if ($cv['base_hook_active']) {
       $attrs['fdNextIdHook'] = $cv['base_hook'];
