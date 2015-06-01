@@ -277,6 +277,7 @@ $smarty = new Smarty;
 $smarty->template_dir = $BASE_DIR.'/ihtml/';
 $smarty->caching      = FALSE;
 $smarty->assign('css_files', array());
+$smarty->assign('js_files', array());
 
 $smarty->php_handling = Smarty::PHP_REMOVE;
 
