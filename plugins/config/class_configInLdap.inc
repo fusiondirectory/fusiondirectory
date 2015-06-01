@@ -104,7 +104,13 @@ class configInLdap extends simplePlugin
         'name'  => _('Schema setup'),
         'attrs' => array(
           new BooleanAttribute (
-            _('Schema validation'),
+            _('rfc2307bis'),
+            _('Enables rfc2307bis style groups. You can use member attributes instead of memberUid in this case.'),
+            'fdRfc2307bis', FALSE,
+            FALSE
+          ),
+          new BooleanAttribute (
+            _('Schema check'),
             _('Enables schema checking during login.'),
             'fdSchemaCheck', FALSE,
             FALSE
