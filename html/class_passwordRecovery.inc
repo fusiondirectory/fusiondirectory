@@ -196,7 +196,7 @@ class passwordRecovery {
 
     $smarty->assign('msg_dialogs',  msg_dialog::get_dialogs());
     $smarty->assign('usePrototype', 'FALSE');
-    $smarty->append('js_files',     'include/pwdStrengh.js');
+    $smarty->append('js_files',     'include/pwdStrength.js');
     $smarty->append('css_files',    get_template_path('login.css'));
     $smarty->display(get_template_path('headers.tpl'));
 
