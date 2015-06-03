@@ -224,6 +224,11 @@ class IconTheme
     'types/contact'                 => array(
       array('mimetypes','x-office-contact'),
     ),
+    'types/certificate'             => array(
+      array('mimetypes','stock_certificate'),
+      array('mimetypes','application-certificate'),
+      array('actions','view-certificate'),
+    ),
     'applications/user-info'        => array(
       array('actions','user-properties'),
       array('types','contact'),
