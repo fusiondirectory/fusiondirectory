@@ -364,9 +364,17 @@ class plugin
     $ldap->cat($this->dn);
     $tmp  = $ldap->fetch ();
     $oc   = array();
-    if (isset($tmp['objectClass'])) {
-      $oc = $tmp['objectClass'];
-      unset($oc['count']);
+    if ($this->is_template) {
+      foreach ($tmp['fdTemplateField'] as $tpl_field) {
+        if (preg_match('/^objectClass:(.+)$/', $tpl_field, $m)) {
+          $oc[] = $m[1];
+        }
+      }
+    } else {
+      if (isset($tmp['objectClass'])) {
+        $oc = $tmp['objectClass'];
+        unset($oc['count']);
+      }
     }
 
     /* Remove objectClasses from entry */

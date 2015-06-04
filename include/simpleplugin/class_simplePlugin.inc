@@ -510,6 +510,10 @@ class simplePlugin extends plugin
       return;
     }
     $this->prepare_remove();
+    if ($this->is_template && (!defined('_OLD_TEMPLATES_') || !_OLD_TEMPLATES_)) {
+      $this->attrs = $this->templateSaveAttrs();
+      $this->saved_attributes = array();
+    }
     $this->ldap_remove();
     $this->post_remove();
   }
