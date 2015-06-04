@@ -767,13 +767,14 @@ sub get_ldap_connexion {
       'REQCERT'   => 'require',
       'CERT'      => '',
       'KEY'       => '',
-      'CACERTDIR' => ''
+      'CACERTDIR' => '',
+      'CACERT'    => '',
     );
     # Scan LDAP config
     while (<LDAPCONF>) {
       /^\s*(#|$)/ && next;
       chomp;
-      if (m/^TLS_(REQCERT|CERT|KEY|CACERTDIR)\s+(.*)\s*$/i) {
+      if (m/^TLS_(REQCERT|CERT|KEY|CACERTDIR|CACERT)\s+(.*)\s*$/i) {
         $tls_options{uc $1} = $2;
       }
     }
@@ -783,7 +784,8 @@ sub get_ldap_connexion {
       verify      => $tls_options{'REQCERT'},
       clientcert  => $tls_options{'CERT'},
       clientkey   => $tls_options{'KEY'},
-      capath      => $tls_options{'CACERTDIR'}
+      capath      => $tls_options{'CACERTDIR'},
+      cafile      => $tls_options{'CACERT'}
     );
   }
 
