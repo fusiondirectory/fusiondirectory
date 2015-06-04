@@ -773,8 +773,8 @@ sub get_ldap_connexion {
     while (<LDAPCONF>) {
       /^\s*(#|$)/ && next;
       chomp;
-      if (m/^TLS_(REQCERT|CERT|KEY|CACERTDIR)\s+(.*)\s*$/) {
-        $tls_options{$1} = $2;
+      if (m/^TLS_(REQCERT|CERT|KEY|CACERTDIR)\s+(.*)\s*$/i) {
+        $tls_options{uc $1} = $2;
       }
     }
     close(LDAPCONF);
