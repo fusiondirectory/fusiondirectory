@@ -35,16 +35,18 @@ class template
     list($this->attrs, $depends) = plugin::tpl_fetch_template($this->dn);
     $this->needed     = plugin::tpl_needed_attrs($this->attrs, $depends);
     $this->tabObject  = objects::create($this->type);
+    $tempTabObject    = objects::open($this->dn, $this->type); /* Used to know which tab is activated */
     $this->attributes = array();
-    foreach ($this->tabObject->by_object as $class => &$plugin) {
+    foreach ($tempTabObject->by_object as $class => &$plugin) {
       if ($plugin->is_account || $plugin->ignore_account) {
+        $this->tabObject->by_object[$class]->is_account = $plugin->is_account;
         $this->attributes[$class] = array();
-        $attrs = array_unique(array_merge($plugin->getRequiredAttributes(), $this->needed));
+        $attrs = array_unique(array_merge($this->tabObject->by_object[$class]->getRequiredAttributes(), $this->needed));
         foreach ($attrs as $attr) {
           if (isset($this->attrs[$attr])) {
             continue;
           }
-          if (isset($plugin->attributesAccess[$attr])) {
+          if (isset($this->tabObject->by_object[$class]->attributesAccess[$attr])) {
             $this->attributes[$class][] = $attr;
           }
         }
@@ -97,7 +99,10 @@ class template
 
   function save_object()
   {
-    $this->tabObject->save_object();
+    foreach ($this->tabObject->by_object as $class => &$plugin) {
+      $plugin->save_object();
+    }
+    unset($plugin);
   }
 
   function execute()
