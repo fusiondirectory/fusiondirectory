@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-108\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2015-05-07 11:11+0200\n"
-"PO-Revision-Date: 2015-05-29 09:11+0000\n"
+"POT-Creation-Date: 2015-06-04 22:02+0200\n"
+"PO-Revision-Date: 2015-06-04 20:01+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/FusionDirectory-108/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -51,13 +51,13 @@ msgid "Informations"
 msgstr "Informace"
 
 #: plugins/admin/groups/class_roleGeneric.inc:61
-#: plugins/admin/groups/class_group.inc:958
-#: plugins/admin/groups/class_group.inc:969
-#: plugins/admin/groups/class_group.inc:971
-#: plugins/admin/groups/class_group.inc:988
-#: plugins/admin/groups/class_group.inc:1002
-#: plugins/admin/groups/class_group.inc:1009
-#: plugins/admin/groups/class_group.inc:1080
+#: plugins/admin/groups/class_group.inc:986
+#: plugins/admin/groups/class_group.inc:997
+#: plugins/admin/groups/class_group.inc:999
+#: plugins/admin/groups/class_group.inc:1016
+#: plugins/admin/groups/class_group.inc:1030
+#: plugins/admin/groups/class_group.inc:1037
+#: plugins/admin/groups/class_group.inc:1108
 #: plugins/admin/groups/group-list.xml:33
 #: plugins/admin/ogroups/class_ogroup.inc:741
 #: plugins/admin/ogroups/class_ogroup.inc:756
@@ -90,7 +90,7 @@ msgid "Name of the role"
 msgstr "Název role"
 
 #: plugins/admin/groups/class_roleGeneric.inc:65
-#: plugins/admin/groups/class_group.inc:1081
+#: plugins/admin/groups/class_group.inc:1109
 #: plugins/admin/groups/group-list.xml:41
 #: plugins/admin/ogroups/class_ogroup.inc:953
 #: plugins/admin/ogroups/ogroup-list.xml:49
@@ -133,68 +133,79 @@ msgstr "Uživatelé"
 msgid "Add users for the role"
 msgstr "Přidat uživatele pro tuto roli"
 
-#: plugins/admin/groups/class_group.inc:153
-#: plugins/admin/groups/class_group.inc:635 include/class_config.inc:161
-#: include/class_config.inc:301 include/class_config.inc:642
-#: include/class_config.inc:1135 include/class_config.inc:1148
+#: plugins/admin/groups/class_group.inc:102
+msgid "Inconsistent data"
+msgstr ""
+
+#: plugins/admin/groups/class_group.inc:102
+msgid ""
+"The member and memberUid fields of this groups are incoherent. "
+"FusionDirectory will use members from memberUid values upon saving. Cancel "
+"if you do not want this."
+msgstr ""
+
+#: plugins/admin/groups/class_group.inc:166
+#: plugins/admin/groups/class_group.inc:648 include/class_config.inc:160
+#: include/class_config.inc:297 include/class_config.inc:638
+#: include/class_config.inc:1131 include/class_config.inc:1144
 #: include/functions.inc:778 include/simpleplugin/class_simpleService.inc:155
 #: include/class_timezone.inc:51
 #: include/password-methods/class_password-methods-sha.inc:71
 #: include/password-methods/class_password-methods-ssha.inc:75
 #: include/password-methods/class_password-methods-ssha.inc:91
 #: html/index.php:140 html/index.php:174 html/main.php:208
-#: html/class_passwordRecovery.inc:280
+#: html/class_passwordRecovery.inc:265
 msgid "Configuration error"
 msgstr "Chyba v nastavení"
 
-#: plugins/admin/groups/class_group.inc:153
+#: plugins/admin/groups/class_group.inc:166
 msgid "Cannot find group SID in your configuration!"
 msgstr "Ve vašem nastavení nelze nalézt bezpečnostní identifikátor skupiny!"
 
-#: plugins/admin/groups/class_group.inc:405
+#: plugins/admin/groups/class_group.inc:418
 msgid "Samba group"
 msgstr "Skupina v Sambě"
 
-#: plugins/admin/groups/class_group.inc:405
+#: plugins/admin/groups/class_group.inc:418
 msgid "Domain admins"
 msgstr "Správci domény"
 
-#: plugins/admin/groups/class_group.inc:405
+#: plugins/admin/groups/class_group.inc:418
 msgid "Domain users"
 msgstr "Doménoví uživatelé"
 
-#: plugins/admin/groups/class_group.inc:406
+#: plugins/admin/groups/class_group.inc:419
 msgid "Domain guests"
 msgstr "Doménoví hosté"
 
-#: plugins/admin/groups/class_group.inc:411
+#: plugins/admin/groups/class_group.inc:424
 #, php-format
 msgid "Special group (%d)"
 msgstr "Zvláštní skupina (%d)"
 
-#: plugins/admin/groups/class_group.inc:438
+#: plugins/admin/groups/class_group.inc:451
 #: plugins/admin/ogroups/class_ogroup.inc:396
 #: plugins/personal/posix/class_posixAccount.inc:170
 msgid "disabled"
 msgstr "vypnuto"
 
-#: plugins/admin/groups/class_group.inc:438
+#: plugins/admin/groups/class_group.inc:451
 #: plugins/admin/ogroups/class_ogroup.inc:396
 #: plugins/personal/posix/class_posixAccount.inc:170
 msgid "full access"
 msgstr "plný přístup"
 
-#: plugins/admin/groups/class_group.inc:439
+#: plugins/admin/groups/class_group.inc:452
 #: plugins/admin/ogroups/class_ogroup.inc:397
 #: plugins/personal/posix/class_posixAccount.inc:170
 msgid "allow access to these hosts"
 msgstr "povolit přístup k těmto strojům"
 
-#: plugins/admin/groups/class_group.inc:515
-#: plugins/admin/groups/class_group.inc:521
-#: plugins/admin/groups/class_group.inc:700
-#: plugins/admin/groups/class_group.inc:841
-#: plugins/admin/groups/class_group.inc:846
+#: plugins/admin/groups/class_group.inc:528
+#: plugins/admin/groups/class_group.inc:534
+#: plugins/admin/groups/class_group.inc:713
+#: plugins/admin/groups/class_group.inc:854
+#: plugins/admin/groups/class_group.inc:859
 #: plugins/admin/ogroups/class_ogroup.inc:214
 #: plugins/admin/ogroups/class_ogroup.inc:453
 #: plugins/personal/generic/class_user.inc:385
@@ -205,15 +216,15 @@ msgstr "povolit přístup k těmto strojům"
 #: plugins/personal/generic/class_user.inc:992
 #: plugins/personal/generic/class_user.inc:1010 include/class_listing.inc:537
 #: include/class_management.inc:524 include/class_management.inc:664
-#: include/class_config.inc:480 include/class_msgPool.inc:215
+#: include/class_config.inc:476 include/class_msgPool.inc:215
 #: include/class_msgPool.inc:235 include/class_msgPool.inc:265
 #: include/class_msgPool.inc:682 include/class_msgPool.inc:713
-#: include/class_msgPool.inc:740 include/functions.inc:3088
-#: include/functions.inc:3123 include/functions.inc:3500
-#: include/functions.inc:3521 include/functions.inc:3551
-#: include/functions.inc:3559 include/functions.inc:3571
-#: include/functions.inc:3575 include/functions.inc:3582
-#: include/functions.inc:3591 include/functions.inc:3653
+#: include/class_msgPool.inc:740 include/functions.inc:3097
+#: include/functions.inc:3132 include/functions.inc:3509
+#: include/functions.inc:3530 include/functions.inc:3560
+#: include/functions.inc:3568 include/functions.inc:3580
+#: include/functions.inc:3584 include/functions.inc:3591
+#: include/functions.inc:3600 include/functions.inc:3662
 #: include/class_msg_dialog.inc:129 include/class_databaseManagement.inc:78
 #: include/class_xml.inc:58 include/class_plugin.inc:1530
 #: include/class_CopyPasteHandler.inc:250
@@ -224,7 +235,6 @@ msgstr "povolit přístup k těmto strojům"
 #: include/simpleplugin/class_attribute.inc:1800
 #: include/password-methods/class_password-methods-sasl.inc:51
 #: include/password-methods/class_password-methods-sasl.inc:63
-#: include/password-methods/class_password-methods.inc:332
 #: include/password-methods/class_password-methods.inc:434
 #: include/password-methods/class_password-methods.inc:444
 #: include/class_SnapshotHandler.inc:415 include/class_tabs.inc:74
@@ -235,31 +245,31 @@ msgstr "povolit přístup k těmto strojům"
 msgid "Error"
 msgstr "Chyba"
 
-#: plugins/admin/groups/class_group.inc:516
+#: plugins/admin/groups/class_group.inc:529
 #, php-format
 msgid "Adding user \"%s\" to group \"%s\" failed: cannot find user object!"
 msgstr "Přidání uživatele %s do skupiny %s se nezdařilo: nelze nalézt objekt uživatele!"
 
-#: plugins/admin/groups/class_group.inc:522
+#: plugins/admin/groups/class_group.inc:535
 #, php-format
 msgid ""
 "Adding user \"%s\" to group \"%s\" failed: this login is used by more than "
 "one user!"
 msgstr "Přidání uživatele %s do skupiny %s se nezdařilo: toto přihlašovací jméno je používáno vícero uživateli!"
 
-#: plugins/admin/groups/class_group.inc:578
-#: plugins/admin/groups/class_group.inc:671
-#: plugins/admin/groups/class_group.inc:931
+#: plugins/admin/groups/class_group.inc:591
+#: plugins/admin/groups/class_group.inc:684
+#: plugins/admin/groups/class_group.inc:959
 #: plugins/admin/ogroups/class_ogroup.inc:867
 #: plugins/admin/ogroups/class_ogroup.inc:881
 #: plugins/personal/generic/class_user.inc:656
-#: plugins/personal/generic/class_user.inc:937 include/class_config.inc:338
+#: plugins/personal/generic/class_user.inc:937 include/class_config.inc:334
 #: include/class_ldap.inc:913 include/class_ldap.inc:1367
 #: include/functions.inc:546 include/functions.inc:582
 #: include/functions.inc:590 include/functions.inc:634
 #: include/functions.inc:793 include/functions.inc:840
 #: include/functions.inc:901 include/functions.inc:956
-#: include/functions.inc:3083 include/functions.inc:3390
+#: include/functions.inc:3092 include/functions.inc:3399
 #: include/simpleplugin/class_simplePlugin.inc:452
 #: include/simpleplugin/class_attribute.inc:2781 include/class_acl.inc:376
 #: include/password-methods/class_password-methods.inc:196
@@ -267,7 +277,7 @@ msgstr "Přidání uživatele %s do skupiny %s se nezdařilo: toto přihlašovac
 #: include/class_SnapshotHandler.inc:277 include/class_SnapshotHandler.inc:292
 #: include/class_SnapshotHandler.inc:422 include/class_SnapshotHandler.inc:425
 #: html/index.php:226 html/index.php:238 html/index.php:251
-#: html/class_passwordRecovery.inc:509 setup/class_setupStep_Migrate.inc:1203
+#: html/class_passwordRecovery.inc:497 setup/class_setupStep_Migrate.inc:1203
 #: setup/class_setupStep_Migrate.inc:1223
 #: setup/class_setupStep_Migrate.inc:1266
 #: setup/class_setupStep_Migrate.inc:2003
@@ -281,37 +291,37 @@ msgstr "Přidání uživatele %s do skupiny %s se nezdařilo: toto přihlašovac
 msgid "LDAP error"
 msgstr "Chyba LDAP"
 
-#: plugins/admin/groups/class_group.inc:592
+#: plugins/admin/groups/class_group.inc:605
 msgid "! unknown user"
 msgstr "! neznámý uživatel"
 
-#: plugins/admin/groups/class_group.inc:635
+#: plugins/admin/groups/class_group.inc:648
 #, php-format
 msgid "Search returned too many results. Not displaying more than %s entries!"
 msgstr "Příliš mnoho vyhledaných výsledků. Zobrazeno bude pouze prvních %s položek!"
 
-#: plugins/admin/groups/class_group.inc:841
+#: plugins/admin/groups/class_group.inc:854
 #, php-format
 msgid "Cannot find any SID for '%s'!"
 msgstr "Nedaří se nalézt bezpečnostní identifikátor pro %s!"
 
-#: plugins/admin/groups/class_group.inc:846
+#: plugins/admin/groups/class_group.inc:859
 #, php-format
 msgid "Cannot find any RIDBASE for '%s'!"
 msgstr "Nedaří se nalézt základ relativního identifikátoru pro %s!"
 
-#: plugins/admin/groups/class_group.inc:1018
-#: plugins/admin/groups/class_group.inc:1021
-#: plugins/admin/groups/class_group.inc:1084
+#: plugins/admin/groups/class_group.inc:1046
+#: plugins/admin/groups/class_group.inc:1049
+#: plugins/admin/groups/class_group.inc:1112
 #: plugins/personal/posix/class_posixAccount.inc:378
 msgid "GID"
 msgstr ""
 
-#: plugins/admin/groups/class_group.inc:1051
+#: plugins/admin/groups/class_group.inc:1079
 #: plugins/personal/posix/class_posixAccount.inc:433 include/functions.inc:909
 #: include/functions.inc:2719 include/class_xml.inc:55
 #: include/class_tabs.inc:296 html/index.php:58 html/index.php:64
-#: html/index.php:346 html/class_passwordRecovery.inc:400
+#: html/index.php:346 html/class_passwordRecovery.inc:384
 #: setup/class_setupStep_Migrate.inc:277 setup/class_setupStep_Migrate.inc:322
 #: setup/class_setupStep_Migrate.inc:386 setup/class_setupStep_Migrate.inc:455
 #: setup/class_setupStep_Migrate.inc:577 setup/class_setupStep_Migrate.inc:702
@@ -325,26 +335,26 @@ msgstr ""
 msgid "Warning"
 msgstr "Varování"
 
-#: plugins/admin/groups/class_group.inc:1051
+#: plugins/admin/groups/class_group.inc:1079
 #, php-format
 msgid "The gidNumber '%s' is already in use by %s!"
 msgstr "Tento identifikátor skupiny %s je již používán %s!"
 
-#: plugins/admin/groups/class_group.inc:1062
-#: plugins/admin/groups/class_group.inc:1066
+#: plugins/admin/groups/class_group.inc:1090
+#: plugins/admin/groups/class_group.inc:1094
 #: plugins/admin/ogroups/class_ogroupManagement.inc:185
 msgid "Group"
 msgstr "skupina"
 
-#: plugins/admin/groups/class_group.inc:1063
+#: plugins/admin/groups/class_group.inc:1091
 msgid "User group information"
 msgstr "Informace o uživatelské skupině"
 
-#: plugins/admin/groups/class_group.inc:1067
+#: plugins/admin/groups/class_group.inc:1095
 msgid "User group"
 msgstr "Uživatelská skupina"
 
-#: plugins/admin/groups/class_group.inc:1082
+#: plugins/admin/groups/class_group.inc:1110
 #: plugins/admin/ogroups/class_ogroup.inc:952
 #: plugins/personal/generic/class_user.inc:1347
 #: include/simpleplugin/class_attribute.inc:1750
@@ -356,30 +366,30 @@ msgstr "Uživatelská skupina"
 msgid "Base"
 msgstr "Základ"
 
-#: plugins/admin/groups/class_group.inc:1086
+#: plugins/admin/groups/class_group.inc:1114
 msgid "Samba group type"
 msgstr "Typ Samba skupiny"
 
-#: plugins/admin/groups/class_group.inc:1087
+#: plugins/admin/groups/class_group.inc:1115
 msgid "Samba domain name"
 msgstr "Název Samba domény"
 
-#: plugins/admin/groups/class_group.inc:1088
+#: plugins/admin/groups/class_group.inc:1116
 #: plugins/admin/ogroups/class_ogroup.inc:954
 #: plugins/personal/posix/class_posixAccount.inc:162
 #: plugins/admin/ogroups/generic.tpl.c:17
 msgid "System trust"
 msgstr "Důvěra systému"
 
-#: plugins/admin/groups/class_group.inc:1089
+#: plugins/admin/groups/class_group.inc:1117
 msgid "Phone pickup group"
 msgstr "Skupina zvedající telefony"
 
-#: plugins/admin/groups/class_group.inc:1090
+#: plugins/admin/groups/class_group.inc:1118
 msgid "Nagios group"
 msgstr "Skupina pro Nagios"
 
-#: plugins/admin/groups/class_group.inc:1092
+#: plugins/admin/groups/class_group.inc:1120
 msgid "Group member"
 msgstr "Člen skupiny"
 
@@ -492,7 +502,7 @@ msgid ""
 msgstr "Tyto systémy jsou již nastaveny jinými skupinami objektů a nelze je proto přidat:"
 
 #: plugins/admin/ogroups/class_ogroup.inc:250
-#: ihtml/themes/default/msg_dialog.tpl.c:8 setup/setup_ldap.tpl.c:56
+#: ihtml/themes/default/msg_dialog.tpl.c:8 setup/setup_ldap.tpl.c:62
 msgid "Information"
 msgstr "Informace"
 
@@ -524,6 +534,7 @@ msgid "Member"
 msgstr "Člen"
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:35
+#: plugins/config/class_mainPluginsConfig.inc:42
 msgid "Object groups"
 msgstr "Skupiny objektů"
 
@@ -563,7 +574,7 @@ msgstr "Oddělení"
 #: plugins/personal/posix/trustSelect/trust-list.xml:14
 #: include/select/systemSelect/systemSelect-list.xml:14
 msgid "Server"
-msgstr ""
+msgstr "Server"
 
 #: plugins/admin/ogroups/class_ogroupManagement.inc:189
 #: plugins/admin/departments/class_department.inc:99
@@ -657,7 +668,7 @@ msgstr "Telefonní fronta"
 
 #: plugins/admin/ogroups/tabs_ogroups.inc:132
 #: plugins/personal/posix/trustSelect/class_trustSelect.inc:65
-#: ihtml/themes/default/recovery.tpl.c:86
+#: ihtml/themes/default/recovery.tpl.c:80
 msgid "Mail"
 msgstr "E-mail"
 
@@ -977,7 +988,7 @@ msgstr "Jméno"
 #: plugins/admin/users/template.tpl.c:17
 #: plugins/personal/generic/generic.tpl.c:29
 #: plugins/personal/generic/paste_generic.tpl.c:11
-#: ihtml/themes/default/recovery.tpl.c:38
+#: ihtml/themes/default/recovery.tpl.c:32
 #: ihtml/themes/default/password.tpl.c:32
 #: ihtml/themes/default/password.tpl.c:35
 msgid "Login"
@@ -1321,7 +1332,6 @@ msgstr "Účty, jejichž platnost skončila"
 
 #: plugins/personal/generic/class_user.inc:45
 #: plugins/personal/generic/class_user.inc:564
-#: html/class_passwordRecovery.inc:129
 msgid "Password method"
 msgstr "Způsob uložení hesla"
 
@@ -1545,46 +1555,46 @@ msgstr "Je třeba, abyste počkali %d sekund než budete moci znovu měnit své 
 msgid "Password is in history of old passwords"
 msgstr ""
 
-#: plugins/personal/password/class_password.inc:259
-#: plugins/personal/password/class_password.inc:263
+#: plugins/personal/password/class_password.inc:257
+#: plugins/personal/password/class_password.inc:261
 msgid "Password is not being changed from existing value"
 msgstr ""
 
-#: plugins/personal/password/class_password.inc:269
+#: plugins/personal/password/class_password.inc:268
 msgid "You need to specify your current password in order to proceed."
 msgstr "Pro pokračování je třeba zadat své stávající heslo."
 
-#: plugins/personal/password/class_password.inc:271
+#: plugins/personal/password/class_password.inc:270
 msgid ""
 "The passwords you've entered as 'New password' and 'Repeated new password' "
 "do not match."
 msgstr "Zadání v kolonce Nové heslo a Zopakování nového hesla se neshodují!"
 
-#: plugins/personal/password/class_password.inc:273
+#: plugins/personal/password/class_password.inc:272
 #: plugins/admin/users/password.tpl.c:8 plugins/admin/users/password.tpl.c:26
 #: plugins/personal/password/password.tpl.c:14
 #: plugins/personal/password/password.tpl.c:35
-#: ihtml/themes/default/recovery.tpl.c:41
-#: ihtml/themes/default/recovery.tpl.c:44
+#: ihtml/themes/default/recovery.tpl.c:35
+#: ihtml/themes/default/recovery.tpl.c:38
 #: ihtml/themes/default/password.tpl.c:44
 #: ihtml/themes/default/password.tpl.c:47
 msgid "New password"
 msgstr "Nové heslo"
 
-#: plugins/personal/password/class_password.inc:275
+#: plugins/personal/password/class_password.inc:274
 msgid "The password used as new and current are too similar."
 msgstr "Nové a staré heslo jsou si příliš podobné."
 
-#: plugins/personal/password/class_password.inc:277
+#: plugins/personal/password/class_password.inc:276
 msgid "The password used as new is to short."
 msgstr "Nové heslo nelze použít – je příliš krátké (není bezpečné)."
 
-#: plugins/personal/password/class_password.inc:279
+#: plugins/personal/password/class_password.inc:278
 msgid "The password contains possibly problematic Unicode characters!"
 msgstr "Heslo obsahuje znaky, které mohou být problematické (např. se nenacházejí přímo na klávesnici)."
 
 #: plugins/personal/password/main.inc:52
-#: plugins/config/class_configInLdap.inc:115 setup/setup_config1.tpl.c:41
+#: plugins/config/class_configInLdap.inc:121 setup/setup_config1.tpl.c:41
 msgid "Password settings"
 msgstr "Nastavení hesel"
 
@@ -1839,10 +1849,6 @@ msgstr "Nastavení zásuvných modulů"
 msgid "FusionDirectory plugins configuration"
 msgstr "Nastavení zásuvných modulů pro FusionDirectory"
 
-#: plugins/config/class_mainPluginsConfig.inc:42
-msgid "LDAP tree"
-msgstr "Strom LDAP"
-
 #: plugins/config/class_mainPluginsConfig.inc:45
 msgid "OGroup RDN"
 msgstr "Relativní rozlišený název OGroup"
@@ -1850,6 +1856,21 @@ msgstr "Relativní rozlišený název OGroup"
 #: plugins/config/class_mainPluginsConfig.inc:45
 msgid "Branch in which object groups will be stored"
 msgstr "Větev, ve které budou ukládány objekty skupin"
+
+#: plugins/config/class_mainPluginsConfig.inc:52
+#: include/password-methods/class_password-methods-sasl.inc:51
+msgid "SASL"
+msgstr ""
+
+#: plugins/config/class_mainPluginsConfig.inc:55
+msgid "Force Password asking"
+msgstr ""
+
+#: plugins/config/class_mainPluginsConfig.inc:55
+msgid ""
+"Useful if you add a hook using password value when SASL user passwords are "
+"edited"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:57
 #: plugins/config/class_configInLdap.inc:65
@@ -1861,8 +1882,8 @@ msgstr "Nastavení"
 msgid "FusionDirectory configuration"
 msgstr "Nastavení FusionDirectory"
 
-#: plugins/config/class_configInLdap.inc:82
-msgid "Look n feel"
+#: plugins/config/class_configInLdap.inc:82 setup/setup_config1.tpl.c:2
+msgid "Look and feel"
 msgstr "Vzhled a chování"
 
 #: plugins/config/class_configInLdap.inc:85
@@ -1896,451 +1917,461 @@ msgid "Schema setup"
 msgstr "Nastavení schématu"
 
 #: plugins/config/class_configInLdap.inc:107
-msgid "Schema validation"
-msgstr "Ověření schématu"
+msgid "rfc2307bis"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:108
+msgid ""
+"Enables rfc2307bis style groups. You can use member attributes instead of "
+"memberUid in this case."
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:113
+msgid "Schema check"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:114
 msgid "Enables schema checking during login."
 msgstr "Zapnout kontrolu schématu při přihlašování."
 
-#: plugins/config/class_configInLdap.inc:118
+#: plugins/config/class_configInLdap.inc:124
 msgid "Password default hash"
 msgstr "Výchozí algoritmus otisku hesla"
 
-#: plugins/config/class_configInLdap.inc:118
+#: plugins/config/class_configInLdap.inc:124
 msgid "Default hash to be used"
 msgstr "Výchozí algoritmus tvorby otisku, který použít"
 
-#: plugins/config/class_configInLdap.inc:123
+#: plugins/config/class_configInLdap.inc:129
 msgid "Force default hash"
 msgstr "Vynutit výchozí algoritmus tvorby otisku"
 
-#: plugins/config/class_configInLdap.inc:123
+#: plugins/config/class_configInLdap.inc:129
 msgid "Force the use of the default password hash"
 msgstr "Vynutit použití výchozího algoritmu tvorby otisku hesla"
 
-#: plugins/config/class_configInLdap.inc:127 setup/setup_config1.tpl.c:50
+#: plugins/config/class_configInLdap.inc:133 setup/setup_config1.tpl.c:50
 #: setup/setup_config1.tpl.c:53
 msgid "Password minimum length"
 msgstr "minimální délka hesla"
 
-#: plugins/config/class_configInLdap.inc:127
+#: plugins/config/class_configInLdap.inc:133
 msgid "Minimum length of user passwords"
 msgstr "Nejkratší přijatelná délka hesel uživatelů"
 
-#: plugins/config/class_configInLdap.inc:132
+#: plugins/config/class_configInLdap.inc:138
 msgid "Password minimum differs"
 msgstr "O kolik je třeba, aby se hesla lišila"
 
-#: plugins/config/class_configInLdap.inc:132
+#: plugins/config/class_configInLdap.inc:138
 msgid "Minimum number of different characters from last password"
 msgstr "Nejnižší přijatelný počet rozdílných znaků oproti předchozímu heslu"
 
-#: plugins/config/class_configInLdap.inc:137
+#: plugins/config/class_configInLdap.inc:143
 msgid "Password hook"
 msgstr "Háček hesla"
 
-#: plugins/config/class_configInLdap.inc:137
+#: plugins/config/class_configInLdap.inc:143
 msgid "External script to handle password settings"
 msgstr "Vnější skript pro obsluhu nastavení hesel"
 
-#: plugins/config/class_configInLdap.inc:141 setup/setup_config1.tpl.c:65
+#: plugins/config/class_configInLdap.inc:147 setup/setup_config1.tpl.c:65
 msgid "Use account expiration"
 msgstr "Omezovat platnost uživatelský účtů na základě platnosti jejich hesel"
 
-#: plugins/config/class_configInLdap.inc:142
+#: plugins/config/class_configInLdap.inc:148
 msgid ""
 "Enables shadow attribute tests during the login to FusionDirectory and "
 "forces password renewal or account locking"
 msgstr "Zapíná testy stínového atributy během přihlašování k FusionDirectory a vynucuje obnovu hesla nebo uzamčení účtu"
 
-#: plugins/config/class_configInLdap.inc:146
+#: plugins/config/class_configInLdap.inc:152
 msgid "SASL Realm"
 msgstr "SASL oblast"
 
-#: plugins/config/class_configInLdap.inc:150
+#: plugins/config/class_configInLdap.inc:156
 msgid "SASL Exop"
 msgstr "SASL rozšířená operace"
 
-#: plugins/config/class_configInLdap.inc:150
+#: plugins/config/class_configInLdap.inc:156
 msgid "Attribute to be stored in the userPassword attribute"
 msgstr "Atribut, který ukládat v atributu userPassword"
 
-#: plugins/config/class_configInLdap.inc:156
+#: plugins/config/class_configInLdap.inc:162
 msgid "Core settings"
 msgstr "Základní nastavení"
 
-#: plugins/config/class_configInLdap.inc:159 setup/setup_config3.tpl.c:5
+#: plugins/config/class_configInLdap.inc:165 setup/setup_config3.tpl.c:5
 msgid "Enable primary group filter"
 msgstr "povolit filtrování uživatelů dle jejich hlavních skupin"
 
-#: plugins/config/class_configInLdap.inc:160
+#: plugins/config/class_configInLdap.inc:166
 msgid ""
 "It is time consuming to evaluate which groups are primary and which are not,"
 " so you may want to disable it if your group plugin is slow."
 msgstr "Je časově náročné vyhodnotit, které skupiny jsou hlavní a které nikoli. Proto v případě, že je zásuvný modul skupin pomalý, bude lépe tuto funkci vypnout."
 
-#: plugins/config/class_configInLdap.inc:165 setup/setup_config3.tpl.c:8
+#: plugins/config/class_configInLdap.inc:171 setup/setup_config3.tpl.c:8
 msgid "Display summary in listings"
 msgstr "ve výpisech zobrazovat souhrny"
 
-#: plugins/config/class_configInLdap.inc:166
+#: plugins/config/class_configInLdap.inc:172
 msgid ""
 "Determines whether a status bar will be shown on the bottom of lists, "
 "displaying a short summary of type and number of elements in the list."
 msgstr "Určuje, zda bude na spodní části seznamů zobrazována stavová lišta s krátkým souhrnem typu a počtu prvků na seznamu."
 
-#: plugins/config/class_configInLdap.inc:171
+#: plugins/config/class_configInLdap.inc:177
 msgid "Edit locking"
 msgstr "Upravit vyhrazování prostředků"
 
-#: plugins/config/class_configInLdap.inc:172
+#: plugins/config/class_configInLdap.inc:178
 msgid ""
 "Check if a entry currently being edited has been modified outside of "
 "FusionDirectory in the meantime."
 msgstr "Kontrolovat, zda aktuálně upravovaná položka nebyla mezitím upravena mimo FusionDirectory."
 
-#: plugins/config/class_configInLdap.inc:177 setup/setup_config3.tpl.c:14
+#: plugins/config/class_configInLdap.inc:183 setup/setup_config3.tpl.c:14
 msgid "Enable Copy & Paste"
 msgstr "zapnout kopírování a vkládání položek"
 
-#: plugins/config/class_configInLdap.inc:178
+#: plugins/config/class_configInLdap.inc:184
 msgid "Enables copy and paste for LDAP entries managed with FusionDirectory."
 msgstr "Zapíná kopírování a vkládání pro LDAP položky, spravované FusionDirectory."
 
-#: plugins/config/class_configInLdap.inc:182
+#: plugins/config/class_configInLdap.inc:188
 msgid "Enable logging"
 msgstr "Zapnout protokolování"
 
-#: plugins/config/class_configInLdap.inc:183
+#: plugins/config/class_configInLdap.inc:189
 msgid "Event logging on FusionDirectory side."
 msgstr "Protokolování událostí na straně FusionDirectory."
 
-#: plugins/config/class_configInLdap.inc:188
+#: plugins/config/class_configInLdap.inc:194
 msgid "LDAP size limit"
 msgstr "Nejvyšší umožněná velikost LDAP"
 
-#: plugins/config/class_configInLdap.inc:188
+#: plugins/config/class_configInLdap.inc:194
 msgid "Defines the number of entries to get from LDAP by default."
 msgstr "Určuje počet položek, které budou ve výchozím nastavení získávány z LDAP."
 
-#: plugins/config/class_configInLdap.inc:195 setup/setup_config3.tpl.c:20
+#: plugins/config/class_configInLdap.inc:201 setup/setup_config3.tpl.c:20
 msgid "Login and session"
 msgstr "přihlašování a relace"
 
-#: plugins/config/class_configInLdap.inc:198 setup/setup_config3.tpl.c:23
+#: plugins/config/class_configInLdap.inc:204 setup/setup_config3.tpl.c:23
 msgid "Login attribute"
 msgstr "Atribut použitý pro přihlašování"
 
-#: plugins/config/class_configInLdap.inc:199
+#: plugins/config/class_configInLdap.inc:205
 msgid "Which LDAP attribute should be used as the login name during login."
 msgstr "Jaký LDAP atribut by měl být použit jako přihlašovací jméno."
 
-#: plugins/config/class_configInLdap.inc:205 setup/setup_config3.tpl.c:29
+#: plugins/config/class_configInLdap.inc:211 setup/setup_config3.tpl.c:29
 msgid "Enforce encrypted connections"
 msgstr "Vynutit šifrované spojení"
 
-#: plugins/config/class_configInLdap.inc:206
+#: plugins/config/class_configInLdap.inc:212
 msgid ""
 "Enables PHP security checks to force encrypted access (https) to the web "
 "interface."
 msgstr "Zapne kontroly zabezpečení PHP pro vynucení šifrovaného přístupu (https) na webové rozhraní."
 
-#: plugins/config/class_configInLdap.inc:210 setup/setup_config3.tpl.c:32
+#: plugins/config/class_configInLdap.inc:216 setup/setup_config3.tpl.c:32
 msgid "Warn if session is not encrypted"
 msgstr "Varovat, pokud sezení není šifrováno"
 
-#: plugins/config/class_configInLdap.inc:211
+#: plugins/config/class_configInLdap.inc:217
 msgid "will display a warning to the user when http is used instead of https."
 msgstr "zobrazí uživateli varování, když použije protokol http namísto https."
 
-#: plugins/config/class_configInLdap.inc:216 setup/setup_config3.tpl.c:35
+#: plugins/config/class_configInLdap.inc:222 setup/setup_config3.tpl.c:35
 msgid "Session lifetime"
 msgstr "Doba nečinnosti, po jejímž uplynutí bude relace automaticky ukončena."
 
-#: plugins/config/class_configInLdap.inc:216
+#: plugins/config/class_configInLdap.inc:222
 msgid "Defines when a session will expire in seconds."
 msgstr "Určuje, za jak dlouho (v sekundách) skončí platnost sezení."
 
-#: plugins/config/class_configInLdap.inc:223 setup/setup_config2.tpl.c:8
+#: plugins/config/class_configInLdap.inc:229 setup/setup_config2.tpl.c:8
 msgid "Snapshots"
 msgstr "Zachycené stavy"
 
-#: plugins/config/class_configInLdap.inc:226 setup/setup_config2.tpl.c:11
+#: plugins/config/class_configInLdap.inc:232 setup/setup_config2.tpl.c:11
 msgid "Enable snapshots"
 msgstr "Zapnout pořizování zachycování stavu"
 
-#: plugins/config/class_configInLdap.inc:226
+#: plugins/config/class_configInLdap.inc:232
 msgid ""
 "This enables you to save certain states of entries and restore them later "
 "on."
 msgstr "Toto umožňuje uložit určité stavy položek a později je zase obnovit."
 
-#: plugins/config/class_configInLdap.inc:230 setup/setup_config2.tpl.c:14
+#: plugins/config/class_configInLdap.inc:236 setup/setup_config2.tpl.c:14
 msgid "Snapshot base"
 msgstr "Základ pro uložení zachycených stavů"
 
-#: plugins/config/class_configInLdap.inc:230
+#: plugins/config/class_configInLdap.inc:236
 msgid "The base where snapshots should be stored inside of the LDAP."
 msgstr "Základ v LDAP, ve kterém by měly být ukládány zachycené stavy."
 
-#: plugins/config/class_configInLdap.inc:236
+#: plugins/config/class_configInLdap.inc:242
 msgid "Miscellaneous"
 msgstr "Různé"
 
-#: plugins/config/class_configInLdap.inc:241
+#: plugins/config/class_configInLdap.inc:247
 msgid "Hooks that are called when specific actions happens"
 msgstr "Háčky, které jsou volány pokud nastane konkrétní událost"
 
-#: plugins/config/class_configInLdap.inc:245
+#: plugins/config/class_configInLdap.inc:251
 msgid "tab"
 msgstr "panel"
 
-#: plugins/config/class_configInLdap.inc:245
+#: plugins/config/class_configInLdap.inc:251
 msgid "The tab that this hook concerns"
 msgstr "Panel, kterého se tento háček týká"
 
-#: plugins/config/class_configInLdap.inc:250
+#: plugins/config/class_configInLdap.inc:256
 msgid "mode"
 msgstr "režim"
 
-#: plugins/config/class_configInLdap.inc:250
+#: plugins/config/class_configInLdap.inc:256
 msgid "When to call this command"
 msgstr "Kdy tento příkaz spouštět"
 
-#: plugins/config/class_configInLdap.inc:256
+#: plugins/config/class_configInLdap.inc:262
 msgid "cmd"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:256
+#: plugins/config/class_configInLdap.inc:262
 msgid "The command that will be called"
 msgstr "Příkaz, který bude spuštěn"
 
-#: plugins/config/class_configInLdap.inc:263
+#: plugins/config/class_configInLdap.inc:269
 msgid "Hooks"
 msgstr "Háčky"
 
-#: plugins/config/class_configInLdap.inc:270
+#: plugins/config/class_configInLdap.inc:276
 msgid "Display hook output"
 msgstr "Zobrazit výstup háčku"
 
-#: plugins/config/class_configInLdap.inc:271
+#: plugins/config/class_configInLdap.inc:277
 msgid ""
 "When enabled successful hook execution output is displayed to the user using"
 " a dialog."
 msgstr "Pokud je zapnuto, je úspěšné vykonání háčku zobrazeno uživateli, prostřednictvím dialogu."
 
-#: plugins/config/class_configInLdap.inc:276
+#: plugins/config/class_configInLdap.inc:282
 msgid "Available shells"
 msgstr "Shelly k dispozici"
 
-#: plugins/config/class_configInLdap.inc:276
+#: plugins/config/class_configInLdap.inc:282
 msgid "Available POSIX shells for FD users."
 msgstr "POSIX shelly, dostupné pro uživatele F.D."
 
-#: plugins/config/class_configInLdap.inc:283
+#: plugins/config/class_configInLdap.inc:289
 msgid "Show ACL tab on all objects"
 msgstr "Zobrazit panel ACL u všech objektů"
 
-#: plugins/config/class_configInLdap.inc:284
+#: plugins/config/class_configInLdap.inc:290
 msgid ""
 "For very specific ACL rights setting where you might need to give right on a"
 " single object."
 msgstr "Pro velmi specifická nastavení ACL práv, kdy je zapotřebí udělit právo na jediném objektu."
 
-#: plugins/config/class_configInLdap.inc:290 setup/setup_config1.tpl.c:8
+#: plugins/config/class_configInLdap.inc:296 setup/setup_config1.tpl.c:8
 msgid "People and group storage"
 msgstr "umístění účtů uživatelů a skupin"
 
-#: plugins/config/class_configInLdap.inc:294 setup/setup_config1.tpl.c:11
+#: plugins/config/class_configInLdap.inc:300 setup/setup_config1.tpl.c:11
 msgid "People DN attribute"
 msgstr "atribut účtu uživatele použitý jako DN"
 
-#: plugins/config/class_configInLdap.inc:294
+#: plugins/config/class_configInLdap.inc:300
 msgid "Attribute to use at the beginning of users dn"
 msgstr "Atribut, který použít na začátku rozlišených jmen uživatelů"
 
-#: plugins/config/class_configInLdap.inc:299
-#: plugins/config/class_configInLdap.inc:300 setup/setup_config1.tpl.c:26
+#: plugins/config/class_configInLdap.inc:305
+#: plugins/config/class_configInLdap.inc:306 setup/setup_config1.tpl.c:26
 msgid "Include personal title in user DN"
 msgstr "do DN uživatelských účtů zahrnovat i oslovení"
 
-#: plugins/config/class_configInLdap.inc:304 setup/setup_config1.tpl.c:14
+#: plugins/config/class_configInLdap.inc:310 setup/setup_config1.tpl.c:14
 msgid "Customized CN"
 msgstr "Přizpůsobený běžný název"
 
-#: plugins/config/class_configInLdap.inc:304
+#: plugins/config/class_configInLdap.inc:310
 msgid "Use a placeholder pattern for generating account cns"
 msgstr "Použít výplňové vzory pro vytváření běžných názvů čtů"
 
-#: plugins/config/class_configInLdap.inc:308 setup/setup_config1.tpl.c:32
+#: plugins/config/class_configInLdap.inc:314 setup/setup_config1.tpl.c:32
 msgid "Automatic logins"
 msgstr "Samočinná přihlašování"
 
-#: plugins/config/class_configInLdap.inc:308
+#: plugins/config/class_configInLdap.inc:314
 msgid "Automatic way to generate new users logins"
 msgstr "Samočinný způsob vytváření přihlašovacích údajů novým uživatelům"
 
-#: plugins/config/class_configInLdap.inc:312
+#: plugins/config/class_configInLdap.inc:318
 msgid "Strict naming policy"
 msgstr "Přísné zásady pro pojmenovávání"
 
-#: plugins/config/class_configInLdap.inc:313
+#: plugins/config/class_configInLdap.inc:319
 msgid "Enables strict checking of user and group names"
 msgstr "Zapíná přísnou kontrolu uživatelských jmen a názvů skupin"
 
-#: plugins/config/class_configInLdap.inc:318
+#: plugins/config/class_configInLdap.inc:324
 #: setup/class_setupStep_Config1.inc:126 setup/setup_config1.tpl.c:35
 msgid "Group/user min id"
 msgstr "Nejnižší identifikátor skupiny/uživatele"
 
-#: plugins/config/class_configInLdap.inc:319
+#: plugins/config/class_configInLdap.inc:325
 msgid ""
 "The minimum assignable user or group id to avoid security leaks with id 0 "
 "accounts."
 msgstr "Nejnižší přiřaditelný identifikátor uživatele či skupiny – ochrana proti porušení zabezpečení neúmyslným přiřazením privilegovaného identifikátoru 0 (root)."
 
-#: plugins/config/class_configInLdap.inc:324
+#: plugins/config/class_configInLdap.inc:330
 msgid "Next id hook"
 msgstr "Háček příštího identifikátoru"
 
-#: plugins/config/class_configInLdap.inc:324
+#: plugins/config/class_configInLdap.inc:330
 msgid ""
 "A script to be called for finding the next free id number for users or "
 "groups."
 msgstr "Skript, který má být volán pro nalezení dalšího volného identifikátoru pro uživatele nebo skupiny."
 
-#: plugins/config/class_configInLdap.inc:328
+#: plugins/config/class_configInLdap.inc:334
 msgid "Base number for user id"
 msgstr "Od jakého čísla začít přidělovat identifikátory uživatelů"
 
-#: plugins/config/class_configInLdap.inc:329
+#: plugins/config/class_configInLdap.inc:335
 msgid "Where to start looking for a new free user id."
 msgstr "Kde začít s hledáním volných identifikátorů pro nové uživatele."
 
-#: plugins/config/class_configInLdap.inc:334
+#: plugins/config/class_configInLdap.inc:340
 msgid "Base number for group id"
 msgstr "Od jakého čísla začít přidělovat identifikátory skupin"
 
-#: plugins/config/class_configInLdap.inc:335
+#: plugins/config/class_configInLdap.inc:341
 msgid "Where to start looking for a new free group id."
 msgstr "Kde začít s hledáním volných identifikátorů pro nové skupiny."
 
-#: plugins/config/class_configInLdap.inc:340
+#: plugins/config/class_configInLdap.inc:346
 msgid "Users RDN"
 msgstr "Relativní rozlišený název uživatelů"
 
-#: plugins/config/class_configInLdap.inc:340
+#: plugins/config/class_configInLdap.inc:346
 msgid "The branch where users are stored."
 msgstr "Větev, ve které jsou uloženi uživatelé."
 
-#: plugins/config/class_configInLdap.inc:345
+#: plugins/config/class_configInLdap.inc:351
 msgid "Groups RDN"
 msgstr "Relativní rozlišený název skupin"
 
-#: plugins/config/class_configInLdap.inc:345
+#: plugins/config/class_configInLdap.inc:351
 msgid "The branch where groups are stored."
 msgstr "Větev, ve které jsou uloženy skupiny."
 
-#: plugins/config/class_configInLdap.inc:350
+#: plugins/config/class_configInLdap.inc:356
 msgid "ACL role RDN"
 msgstr "Relativní rozlišený název ACL role"
 
-#: plugins/config/class_configInLdap.inc:350
+#: plugins/config/class_configInLdap.inc:356
 msgid "The branch where ACL roles are stored."
 msgstr "Větev, ve které jsou uloženy ACL role."
 
-#: plugins/config/class_configInLdap.inc:355
+#: plugins/config/class_configInLdap.inc:361
 msgid "Id allocation method"
 msgstr "Metoda přiřazování identifikátorů"
 
-#: plugins/config/class_configInLdap.inc:355
+#: plugins/config/class_configInLdap.inc:361
 msgid "Method to allocate user/group ids"
 msgstr "Metoda přiřazování identifikátorů uživatelů/skupin"
 
-#: plugins/config/class_configInLdap.inc:358
+#: plugins/config/class_configInLdap.inc:364
 msgid "Traditional"
 msgstr "Tradiční"
 
-#: plugins/config/class_configInLdap.inc:358
+#: plugins/config/class_configInLdap.inc:364
 msgid "Samba unix id pool"
 msgstr "Rozsah unixových identifikátorů pro Samba"
 
-#: plugins/config/class_configInLdap.inc:361
+#: plugins/config/class_configInLdap.inc:367
 msgid "Pool user id min"
 msgstr "Nejnižší umožněný identifikátor uživatele"
 
-#: plugins/config/class_configInLdap.inc:361
+#: plugins/config/class_configInLdap.inc:367
 msgid "Minimum value for user id when using pool method"
 msgstr "Nejnižší umožněná hodnota pro identifikátor uživatele při použití metody rozsah"
 
-#: plugins/config/class_configInLdap.inc:366
+#: plugins/config/class_configInLdap.inc:372
 msgid "Pool user id max"
 msgstr "Nejvyšší umožněný identifikátor uživatele"
 
-#: plugins/config/class_configInLdap.inc:366
+#: plugins/config/class_configInLdap.inc:372
 msgid "Maximum value for user id when using pool method"
 msgstr "Nejvyšší umožněná hodnota pro identifikátor uživatele při použití metody rozsah"
 
-#: plugins/config/class_configInLdap.inc:371
+#: plugins/config/class_configInLdap.inc:377
 msgid "Pool group id min"
 msgstr "Nejnižší umožněný identifikátor skupiny"
 
-#: plugins/config/class_configInLdap.inc:371
+#: plugins/config/class_configInLdap.inc:377
 msgid "Minimum value for group id when using pool method"
 msgstr "Nejnižší umožněná hodnota pro identifikátor skupiny při použití metody rozsah"
 
-#: plugins/config/class_configInLdap.inc:376
+#: plugins/config/class_configInLdap.inc:382
 msgid "Pool group id max"
 msgstr "Nejvyšší umožněný identifikátor skupiny"
 
-#: plugins/config/class_configInLdap.inc:376
+#: plugins/config/class_configInLdap.inc:382
 msgid "Maximum value for group id when using pool method"
 msgstr "Nejvyšší umožněná hodnota pro identifikátor skupiny při použití metody rozsah"
 
-#: plugins/config/class_configInLdap.inc:383 setup/setup_config3.tpl.c:38
+#: plugins/config/class_configInLdap.inc:389 setup/setup_config3.tpl.c:38
 msgid "Debugging"
 msgstr "Diagnostika"
 
-#: plugins/config/class_configInLdap.inc:386
+#: plugins/config/class_configInLdap.inc:392
 msgid "Display errors"
 msgstr "Zobrazit chyby"
 
-#: plugins/config/class_configInLdap.inc:387
+#: plugins/config/class_configInLdap.inc:393
 msgid ""
 "Shows PHP errors in the upper part of the screen. This should be disabled in"
 " productive deployments, because there might be some passwords in it."
 msgstr "V horní části obrazovky vypisuje chyby, ke kterým došlo v PHP. V produkčním nasazení by toto mělo být vypnuto, protože se zde mohou objevovat hesla."
 
-#: plugins/config/class_configInLdap.inc:391 setup/setup_config3.tpl.c:44
+#: plugins/config/class_configInLdap.inc:397 setup/setup_config3.tpl.c:44
 msgid "Maximum LDAP query time"
 msgstr "Nejdelší přijatelná prodleva odpovědi LDAP"
 
-#: plugins/config/class_configInLdap.inc:391
+#: plugins/config/class_configInLdap.inc:397
 msgid ""
 "Stop LDAP actions if there is no answer within the specified number of "
 "seconds."
 msgstr "Zastavit LDAP akce pokud odpověď není obdržena v rámci zadaného počtu sekund."
 
-#: plugins/config/class_configInLdap.inc:396 setup/setup_config3.tpl.c:47
+#: plugins/config/class_configInLdap.inc:402 setup/setup_config3.tpl.c:47
 msgid "Log LDAP statistics"
 msgstr "Zaznamenávat statistiky LDAP"
 
-#: plugins/config/class_configInLdap.inc:397
+#: plugins/config/class_configInLdap.inc:403
 msgid ""
 "Track LDAP timing statistics to the syslog. This may help to find indexing "
 "problems or bad search filters."
 msgstr "Zaznamenávat statistiky časování LDAP pomocí standardu syslog. Může pomoci s hledáním problémů s indexováním či chybnými vyhledávacími filtry."
 
-#: plugins/config/class_configInLdap.inc:402 setup/setup_config3.tpl.c:50
+#: plugins/config/class_configInLdap.inc:408 setup/setup_config3.tpl.c:50
 msgid "Debug level"
 msgstr "Úroveň podrobností diagnostických informací"
 
-#: plugins/config/class_configInLdap.inc:403
+#: plugins/config/class_configInLdap.inc:409
 msgid "Display certain information on each page load."
 msgstr "Zobrazit určité údaje při každém načtení stránky."
 
-#: plugins/config/class_configInLdap.inc:423
+#: plugins/config/class_configInLdap.inc:429
 #: setup/class_setupStep_Language.inc:50
 msgid "Automatic"
 msgstr "Samočinně"
@@ -2525,12 +2556,12 @@ msgid ""
 "plugin instance!"
 msgstr "Ve vašem souboru nastaveními nebyla nalezena deklarace panelu %s. Zásuvný modul nelze spustit!"
 
-#: include/class_config.inc:158
+#: include/class_config.inc:157
 #, php-format
 msgid "XML error in fusiondirectory.conf: %s at line %d"
 msgstr "Chyba v XML ve fusiondirectory.conf: %s na řádku %d"
 
-#: include/class_config.inc:297
+#: include/class_config.inc:293
 #, php-format
 msgid ""
 "It seems you are trying to decode something which is not encoded : "
@@ -2538,38 +2569,38 @@ msgid ""
 "while your passwords are not encrypted."
 msgstr "Zdá se, že se pokoušíte dekódovat něco, co není zakódované : %s<br/>\\nOvěřte, zda nepoužíváte soubor fusiondirectory.secrets, byť jsou vaše hesla nešifrovaná."
 
-#: include/class_config.inc:338
+#: include/class_config.inc:334
 msgid "Cannot bind to LDAP. Please contact the system administrator."
 msgstr "Nedaří se spojit s LDAP databází. Kontaktujte správce systémů."
 
-#: include/class_config.inc:481
+#: include/class_config.inc:477
 #, php-format
 msgid "The selected mail method (class %s) is not available"
 msgstr "Zvolený e-mailová metoda (třída %s) není k dispozici"
 
-#: include/class_config.inc:642
+#: include/class_config.inc:638
 msgid "sambaSID and/or sambaRidBase missing in the configuration!"
 msgstr "V nastavení chybí jeden či oba tyto parametry: sambaSID a sambaRidBase"
 
-#: include/class_config.inc:1136
+#: include/class_config.inc:1132
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required variable '%s' is not"
 " set."
 msgstr "Funkce zachycování stavů je sice zapnutá, ale není nastavena potřebná proměnná %s."
 
-#: include/class_config.inc:1149
+#: include/class_config.inc:1145
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required compression module "
 "is missing. Please install '%s'."
 msgstr "Funkce zachycování stavů je sice zapnutá, ale chybí potřebný kompresní modul. Nainstalujte %s."
 
-#: include/class_config.inc:1252
+#: include/class_config.inc:1248
 msgid "All categories"
 msgstr "Všechny kategorie"
 
-#: include/class_config.inc:1380
+#: include/class_config.inc:1376
 msgid "My account"
 msgstr "Můj účet"
 
@@ -3245,8 +3276,8 @@ msgid ""
 "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
 msgstr "Fatální chyba: nelze vytvořit instanci třídy %s – pokuste se to napravit spuštěním %s --update-cache (na serveru)"
 
-#: include/functions.inc:508 include/functions.inc:3740
-#: include/class_xml.inc:61 html/class_passwordRecovery.inc:229
+#: include/functions.inc:508 include/functions.inc:3749
+#: include/class_xml.inc:61 html/class_passwordRecovery.inc:214
 msgid "Fatal error"
 msgstr "Fatální chyba"
 
@@ -3406,95 +3437,107 @@ msgstr "Nelze číst ze souboru s revizemi!"
 msgid "'nextIdHook' is not available. Using default base!"
 msgstr "nextIdHook není k dispozici. Bude použit výchozí základ!"
 
-#: include/functions.inc:2752
+#: include/functions.inc:2754
 msgid "LDAP warning"
 msgstr "Varování LDAP"
 
-#: include/functions.inc:2752
+#: include/functions.inc:2754
 msgid "Cannot get schema information from server. No schema check possible!"
 msgstr "Nedaří se získat informace o schématech ze serveru. Schémata proto nelze ověřit!"
 
-#: include/functions.inc:2779
+#: include/functions.inc:2781
 msgid "Used to store account specific informations."
 msgstr "Používá se k ukládání informací jednotlivých účtů."
 
-#: include/functions.inc:2786
+#: include/functions.inc:2788
 msgid ""
 "Used to lock currently edited entries to avoid multiple changes at the same "
 "time."
 msgstr "Používá se k uzamčení právě upravovaných položek, aby se zabránilo konfliktu vzniklém upravováním z více míst ve stejný okamžik."
 
-#: include/functions.inc:2811
+#: include/functions.inc:2813
 #, php-format
 msgid "Missing required object class '%s'!"
 msgstr "Chybí nezbytně nutná třída objektů %s!"
 
-#: include/functions.inc:2814
+#: include/functions.inc:2816
 #, php-format
 msgid "Missing optional object class '%s'!"
 msgstr "Chybí volitelná třída objektů %s!"
 
-#: include/functions.inc:2818
+#: include/functions.inc:2820
 #, php-format
 msgid "Version mismatch for required object class '%s' (!=%s)!"
 msgstr "Neshoda ve verzích požadovaných tříd objektů %s (!=%s)!"
 
-#: include/functions.inc:2821
+#: include/functions.inc:2823
 #, php-format
 msgid "Class(es) available"
 msgstr "Dostupné třídy"
 
-#: include/functions.inc:2842
+#: include/functions.inc:2845
 msgid ""
-"You are using the obsolete rfc2307bis schema from previous FusionDirectory "
-"versions."
+"You have enabled the rfc2307bis option on the 'ldap setup' step, but your "
+"schema    configuration do not support this option."
 msgstr ""
 
-#: include/functions.inc:2843
+#: include/functions.inc:2846
+msgid ""
+"In order to use rfc2307bis conform groups the objectClass 'posixGroup' must "
+"be      AUXILIARY"
+msgstr ""
+
+#: include/functions.inc:2850
+msgid ""
+"Your schema is configured to support the rfc2307bis group, but you have "
+"disabled this option on the 'ldap setup' step."
+msgstr ""
+
+#: include/functions.inc:2851
 msgid "The objectClass 'posixGroup' must be STRUCTURAL"
 msgstr "Je třeba, aby třída objektu (objectClass) posixGroup byla strukturální (STRUCTURAL)"
 
-#: include/functions.inc:3088
+#: include/functions.inc:3097
 msgid "Could not re-lock the account after password change"
 msgstr "Po změně hesla nebylo možné účet znovu uzamknout"
 
-#: include/functions.inc:3500 include/functions.inc:3521
-#: include/functions.inc:3559 include/functions.inc:3571
-#: include/functions.inc:3575 include/functions.inc:3582
-#: include/functions.inc:3591
+#: include/functions.inc:3509 include/functions.inc:3530
+#: include/functions.inc:3568 include/functions.inc:3580
+#: include/functions.inc:3584 include/functions.inc:3591
+#: include/functions.inc:3600
 msgid "Cannot allocate a free ID:"
 msgstr "Není k dispozici volný identifikátor, který by bylo možné přidělit:"
 
-#: include/functions.inc:3500
+#: include/functions.inc:3509
 msgid "unknown idAllocation method!"
 msgstr "Neznámá metoda přiřazování identifikátorů (idAllocation)!"
 
-#: include/functions.inc:3521
+#: include/functions.inc:3530
 #, php-format
 msgid "%sPoolMin >= %sPoolMax!"
 msgstr ""
 
-#: include/functions.inc:3551
+#: include/functions.inc:3560
 msgid "Cannot create sambaUnixIdPool entry!"
 msgstr "Nelze vytvořit položku sambaUnixIdPool!"
 
-#: include/functions.inc:3559
+#: include/functions.inc:3568
 msgid "sambaUnixIdPool is not unique!"
 msgstr "rozsah sambaUnixIdPool není jedinečný!"
 
-#: include/functions.inc:3571 include/functions.inc:3575
+#: include/functions.inc:3580 include/functions.inc:3584
 msgid "no ID available!"
 msgstr "Není k dispozici identifikátor!"
 
-#: include/functions.inc:3591
+#: include/functions.inc:3600
 msgid "maximum tries exceeded!"
 msgstr "překročen nejvyšší přijatelný počet neúspěšných pokusů!"
 
-#: include/functions.inc:3653
+#: include/functions.inc:3662
 msgid "Cannot allocate a free ID!"
 msgstr "Není k dispozici volný identifikátor, který by bylo možné přidělit!"
 
-#: include/functions.inc:3741
+#: include/functions.inc:3750
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr "Nelze nalézt soubor %s – opravte to spuštěním %s (na serveru)."
@@ -3856,18 +3899,10 @@ msgstr ""
 msgid "Manage access control lists"
 msgstr "Správa seznamů řízení přístupu (ACL)"
 
-#: include/password-methods/class_password-methods-sasl.inc:51
-msgid "SASL"
-msgstr ""
-
 #: include/password-methods/class_password-methods-sasl.inc:63
 #, php-format
 msgid "Cannot change password, unknown user '%s'"
 msgstr "Heslo nelze změnit, neznámý uživatel %s"
-
-#: include/password-methods/class_password-methods.inc:332
-msgid "Cannot find a suitable password method for the current hash!"
-msgstr "Pro tento otisk není k dispozici odpovídající mechanizmus šifrování hesla!"
 
 #: include/class_SnapshotHandler.inc:415
 msgid "There was a problem uncompressing snapshot data"
@@ -3906,7 +3941,7 @@ msgstr "Nastavení FusionDirectory %s/%s není čitelné. Napravte to spuštěn�
 msgid "Smarty error"
 msgstr "chyba ve Smarty"
 
-#: html/index.php:158 html/class_passwordRecovery.inc:281 html/setup.php:62
+#: html/index.php:158 html/class_passwordRecovery.inc:266 html/setup.php:62
 #, php-format
 msgid "Directory '%s' specified as compile directory is not accessible!"
 msgstr "Složka %s, nastavená jako místo pro provedení sestavení, není přístupná!"
@@ -4001,60 +4036,56 @@ msgid ""
 "inform your administrator!"
 msgstr "Fatální chyba: ne všechny proměnné POST byly PHP přeneseny – sdělte to svému správci systémů!"
 
-#: html/class_passwordRecovery.inc:130
-msgid "Error: Password method not available!"
-msgstr "Chyba: tento způsob uložení hesla není k dispozici!"
-
-#: html/class_passwordRecovery.inc:230
+#: html/class_passwordRecovery.inc:215
 #, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
 msgstr "Nastavení %s/%s FusionDirectory není čitelné. Akce byla zrušena."
 
-#: html/class_passwordRecovery.inc:401
+#: html/class_passwordRecovery.inc:385
 msgid "Session will not be encrypted."
 msgstr "Sezení nebude šifrováno."
 
-#: html/class_passwordRecovery.inc:403
+#: html/class_passwordRecovery.inc:387
 msgid "Enter SSL session"
 msgstr "Otevřít sezení šifrované pomocí protokolu SSL"
 
-#: html/class_passwordRecovery.inc:444
+#: html/class_passwordRecovery.inc:433
 #, php-format
-msgid "Did not found an account with login \"%s\""
-msgstr "Nebyl nalezen účet s přihlašovacím jménem %s"
+msgid "Did not find an account with login \"%s\""
+msgstr ""
 
-#: html/class_passwordRecovery.inc:447
+#: html/class_passwordRecovery.inc:436
 #, php-format
 msgid "Found multiple accounts with login \"%s\""
 msgstr "Bylo nalezeno hned několik účtů s přihlašovacím jménem %s"
 
-#: html/class_passwordRecovery.inc:461 ihtml/themes/default/recovery.tpl.c:83
+#: html/class_passwordRecovery.inc:449 ihtml/themes/default/recovery.tpl.c:77
 msgid "Email address"
 msgstr "E-mailová adresa"
 
-#: html/class_passwordRecovery.inc:481
+#: html/class_passwordRecovery.inc:469
 #, php-format
 msgid "There is no account using email %s"
 msgstr "Neexistuje účet používající e-mailovou adresu %s"
 
-#: html/class_passwordRecovery.inc:484
+#: html/class_passwordRecovery.inc:472
 #, php-format
 msgid "There are several accounts using email %s"
 msgstr "E-mailová adresa %s je využívána vícero účty"
 
-#: html/class_passwordRecovery.inc:532
+#: html/class_passwordRecovery.inc:520
 msgid "Contact your administrator, there was a problem with mail server"
 msgstr "Nastal problém s poštovním serverem – obraťte se na svého správce systémů"
 
-#: html/class_passwordRecovery.inc:543
+#: html/class_passwordRecovery.inc:531
 msgid "This token is invalid"
 msgstr "Tato poukázka (token) je neplatná"
 
-#: html/class_passwordRecovery.inc:580
+#: html/class_passwordRecovery.inc:568
 msgid "External password changer reported a problem: "
 msgstr "Externí program pro úpravu hesel ohlásil problém:"
 
-#: html/class_passwordRecovery.inc:602
+#: html/class_passwordRecovery.inc:590
 msgid "There was a problem with mail server, confirmation email not sent"
 msgstr "Vyskytl se problém s poštovním serverem, potvrzovací e-mail proto nebyl odeslán"
 
@@ -4062,50 +4093,50 @@ msgstr "Vyskytl se problém s poštovním serverem, potvrzovací e-mail proto ne
 msgid "Smarty"
 msgstr ""
 
-#: setup/class_setupStep_Ldap.inc:54
+#: setup/class_setupStep_Ldap.inc:55
 msgid "LDAP setup"
 msgstr "Nastavení LDAP"
 
-#: setup/class_setupStep_Ldap.inc:55
+#: setup/class_setupStep_Ldap.inc:56
 msgid "LDAP connection setup"
 msgstr "Nastavení připojení k LDAP"
 
-#: setup/class_setupStep_Ldap.inc:56
+#: setup/class_setupStep_Ldap.inc:57
 msgid ""
 "This dialog performs the basic configuration of the LDAP connectivity for "
 "FusionDirectory."
 msgstr "V tomto dialogu budou provedena základní nastavení pro komunikaci FusionDirectory s LDAP databází."
 
-#: setup/class_setupStep_Ldap.inc:79 setup/class_setupStep_Config3.inc:82
+#: setup/class_setupStep_Ldap.inc:80 setup/class_setupStep_Config3.inc:82
 #: setup/class_setupStep_Config1.inc:96 setup/class_setupStep_Schema.inc:82
 msgid "No"
 msgstr "Ne"
 
-#: setup/class_setupStep_Ldap.inc:79 setup/class_setupStep_Config3.inc:82
+#: setup/class_setupStep_Ldap.inc:80 setup/class_setupStep_Config3.inc:82
 #: setup/class_setupStep_Config1.inc:96 setup/class_setupStep_Schema.inc:82
 msgid "Yes"
 msgstr "Ano"
 
-#: setup/class_setupStep_Ldap.inc:119
+#: setup/class_setupStep_Ldap.inc:120
 #, php-format
 msgid "Anonymous bind to server '%s' failed!"
 msgstr "Anonymní spojení se serverem %s se nezdařilo!"
 
-#: setup/class_setupStep_Ldap.inc:121
+#: setup/class_setupStep_Ldap.inc:122
 #, php-format
 msgid "Bind as user '%s' failed!"
 msgstr "Spojení uživatelským účtem %s se nezdařilo!"
 
-#: setup/class_setupStep_Ldap.inc:126
+#: setup/class_setupStep_Ldap.inc:127
 #, php-format
 msgid "Anonymous bind to server '%s' succeeded."
 msgstr "Anonymní spojení se serverem %s proběhlo úspěšně."
 
-#: setup/class_setupStep_Ldap.inc:127
+#: setup/class_setupStep_Ldap.inc:128
 msgid "Please specify user and password!"
 msgstr "Zadejte uživatelské jména a heslo!"
 
-#: setup/class_setupStep_Ldap.inc:129
+#: setup/class_setupStep_Ldap.inc:130
 #, php-format
 msgid "Bind as user '%s' to server '%s' succeeded!"
 msgstr "Spojení uživatelským účtem %s se serverem %s proběhlo úspěšně!"
@@ -4122,11 +4153,11 @@ msgstr "Doladění chování jádra FusionDirectory"
 msgid "Setup error"
 msgstr "Chyba instalátoru"
 
-#: setup/class_setupStep_Config3.inc:269
+#: setup/class_setupStep_Config3.inc:270
 msgid "Session lifetime must be a numeric value!"
 msgstr "Je třeba, aby doba platnosti sezení bylo číslo!"
 
-#: setup/class_setupStep_Config3.inc:273
+#: setup/class_setupStep_Config3.inc:274
 msgid "Maximum LDAP query time must be a numeric value!"
 msgstr "Je třeba, aby hodnota nejdelší délky prodlevy odpovědi LDAP databáze bylo číslo!"
 
@@ -4143,17 +4174,17 @@ msgstr "Zapsat nastavení do souboru"
 msgid "Finish - write the configuration file"
 msgstr "Dokončit – zapsat nastavení do souboru"
 
-#: setup/class_setupStep_Finish.inc:113
+#: setup/class_setupStep_Finish.inc:114
 msgid ""
 "Your configuration file is currently world readable. Please update the file "
 "permissions!"
 msgstr "Váš soubor s nastaveními je v tuto chvíli čitelný úplně pro všechny. Upravte nastavení oprávnění pro přístup k němu."
 
-#: setup/class_setupStep_Finish.inc:115
+#: setup/class_setupStep_Finish.inc:116
 msgid "The configuration is currently not readable or it does not exists."
 msgstr "Soubor s nastaveními není v tuto chvíli čitelný, nebo zcela chybí."
 
-#: setup/class_setupStep_Finish.inc:120
+#: setup/class_setupStep_Finish.inc:121
 #, php-format
 msgid ""
 "After downloading and placing the file under %s, please make sure that the "
@@ -4980,7 +5011,7 @@ msgstr "Zopakujte nové heslo"
 #: plugins/admin/users/password.tpl.c:14 plugins/admin/users/password.tpl.c:32
 #: plugins/personal/password/password.tpl.c:20
 #: plugins/personal/password/password.tpl.c:41
-#: ihtml/themes/default/recovery.tpl.c:53
+#: ihtml/themes/default/recovery.tpl.c:47
 #: ihtml/themes/default/password.tpl.c:56
 msgid "Password strength"
 msgstr "Odolnost hesla"
@@ -5355,85 +5386,75 @@ msgid "Lost password"
 msgstr "Ztracené heslo"
 
 #: ihtml/themes/default/recovery.tpl.c:14
-msgid "Available methods"
-msgstr "Metody k dispozici"
-
-#: ihtml/themes/default/recovery.tpl.c:17
 msgid "Receive by email a link that allows you to reset your password"
 msgstr "Nechat si na e-mail poslat odkaz pro znovunastavení hesla"
 
-#: ihtml/themes/default/recovery.tpl.c:20
+#: ihtml/themes/default/recovery.tpl.c:17
 msgid "Send"
 msgstr "Odeslat"
 
-#: ihtml/themes/default/recovery.tpl.c:23
+#: ihtml/themes/default/recovery.tpl.c:20
 msgid "Click here to send a reset link"
 msgstr "Kliknutím sem odešlete odkaz na znovunastavení"
 
-#: ihtml/themes/default/recovery.tpl.c:26
-msgid ""
-"If none of the above methods suits you, contact your administrator to change"
-" your password"
-msgstr "Pokud pro vás žádný z výše uvedených způsobů není použitelný, požádejte o změnu hesla svého správce systémů"
-
-#: ihtml/themes/default/recovery.tpl.c:29
+#: ihtml/themes/default/recovery.tpl.c:23
 msgid ""
 "This dialog provides a simple way to change your password. Enter the new "
 "password (twice) in the fields below and press the 'Change' button."
 msgstr "V tomto dialogu si můžete jednoduše změnit heslo. Do políček níže zadejte (dvakrát) nové heslo a klikněte na Změnit."
 
-#: ihtml/themes/default/recovery.tpl.c:32
-#: ihtml/themes/default/recovery.tpl.c:35
-#: ihtml/themes/default/recovery.tpl.c:77
-#: ihtml/themes/default/recovery.tpl.c:80
+#: ihtml/themes/default/recovery.tpl.c:26
+#: ihtml/themes/default/recovery.tpl.c:29
+#: ihtml/themes/default/recovery.tpl.c:71
+#: ihtml/themes/default/recovery.tpl.c:74
 #: ihtml/themes/default/password.tpl.c:26
 #: ihtml/themes/default/password.tpl.c:29 ihtml/themes/default/login.tpl.c:29
 #: ihtml/themes/default/login.tpl.c:32 ihtml/themes/default/login.tpl.c:35
 msgid "Directory"
 msgstr "Adresář"
 
-#: ihtml/themes/default/recovery.tpl.c:47
-#: ihtml/themes/default/recovery.tpl.c:50
+#: ihtml/themes/default/recovery.tpl.c:41
+#: ihtml/themes/default/recovery.tpl.c:44
 #: ihtml/themes/default/password.tpl.c:50
 #: ihtml/themes/default/password.tpl.c:53
 msgid "New password repeated"
 msgstr "Nové heslo zopakováno"
 
-#: ihtml/themes/default/recovery.tpl.c:56
-#: ihtml/themes/default/recovery.tpl.c:89
+#: ihtml/themes/default/recovery.tpl.c:50
+#: ihtml/themes/default/recovery.tpl.c:83
 #: ihtml/themes/default/password.tpl.c:59
 msgid "Change"
 msgstr "Změnit"
 
-#: ihtml/themes/default/recovery.tpl.c:59
-#: ihtml/themes/default/recovery.tpl.c:92
+#: ihtml/themes/default/recovery.tpl.c:53
+#: ihtml/themes/default/recovery.tpl.c:86
 #: ihtml/themes/default/password.tpl.c:62
 msgid "Click here to change your password"
 msgstr "Pro změnu svého hesla klikněte sem"
 
-#: ihtml/themes/default/recovery.tpl.c:62
-#: ihtml/themes/default/recovery.tpl.c:65
+#: ihtml/themes/default/recovery.tpl.c:56
+#: ihtml/themes/default/recovery.tpl.c:59
 #: ihtml/themes/default/password.tpl.c:5 ihtml/themes/default/password.tpl.c:8
 msgid "Success"
 msgstr "Úspěch"
 
-#: ihtml/themes/default/recovery.tpl.c:68
+#: ihtml/themes/default/recovery.tpl.c:62
 #: ihtml/themes/default/password.tpl.c:11
 msgid "Your password has been changed successfully."
 msgstr "Vaše heslo bylo úspěšně změněno."
 
-#: ihtml/themes/default/recovery.tpl.c:71
+#: ihtml/themes/default/recovery.tpl.c:65
 msgid ""
 "Enter your current e-mail address in the field below and press the 'Change' "
 "button."
 msgstr "Do políčka níže zadejte svou stávající e-mailovou adresu a klikněte na Změnit."
 
-#: ihtml/themes/default/recovery.tpl.c:74
+#: ihtml/themes/default/recovery.tpl.c:68
 msgid ""
 "=> Use your e-mail in the long format, e.g : John Doe => john.doe@ibcp.fr"
 msgstr "=> zadejte svou e-mailovou adresu v dlouhém formátu, příklad : Jan Novák => jan.novak@vase_domena.cz"
 
-#: ihtml/themes/default/recovery.tpl.c:95
+#: ihtml/themes/default/recovery.tpl.c:89
 msgid ""
 "Password recovery is not activated. If you have lost your password, please "
 "contact your administrator"
@@ -5691,10 +5712,6 @@ msgstr "Nyní můžete zvolit výchozí jazyk. Volba samočinně použije jazyk 
 msgid "Please select your preferred language here"
 msgstr "Zvolte vámi upřednostňovaný jazyk"
 
-#: setup/setup_config1.tpl.c:2
-msgid "Look and feel"
-msgstr "Vzhled a chování"
-
 #: setup/setup_config1.tpl.c:17
 msgid "People storage subtree"
 msgstr "Podstrom pro osoby"
@@ -5916,6 +5933,14 @@ msgid "Admin password"
 msgstr "Heslo správce"
 
 #: setup/setup_ldap.tpl.c:53
+msgid "Schema based settings"
+msgstr ""
+
+#: setup/setup_ldap.tpl.c:56
+msgid "Use rfc2307bis compliant groups"
+msgstr ""
+
+#: setup/setup_ldap.tpl.c:59
 msgid "Current status"
 msgstr "Stávající stav"
 
