@@ -99,7 +99,7 @@ class group extends plugin
       if (($config->get_cfg_value("rfc2307bis") == "TRUE") &&
           isset($this->attrs['member']) &&
           ($this->attrs['member']['count'] !== $this->attrs['memberUid']['count'])) {
-        msg_dialog::display(_('Inconsitent data'), _('The member and memberUid fields of this groups are incoherent. FusionDirectory will use members from memberUid values upon saving. Cancel if you do not want this.'), WARNING_DIALOG);
+        msg_dialog::display(_('Inconsistent data'), _('The member and memberUid fields of this groups are incoherent. FusionDirectory will use members from memberUid values upon saving. Cancel if you do not want this.'), WARNING_DIALOG);
       }
     }
 
