@@ -819,16 +819,23 @@ class plugin
    *
    * return an array of attributes which are needed by the template
    */
-  static function tpl_needed_attrs($attrs, $flatdepends)
+  static function tpl_needed_attrs(&$attrs, $flatdepends)
   {
     $needed = array();
+    foreach ($flatdepends as $attr => $depends) {
+      if ($depends[0] == 'askme') {
+        $needed[] = $attr;
+        unset($flatdepends[$attr]);
+        unset($attrs[$attr]);
+      }
+    }
     $dependencies = array_unique(call_user_func_array('array_merge', $flatdepends));
     foreach ($dependencies as $attr) {
       if (empty($flatdepends[$attr])) {
         $needed[] = $attr;
       }
     }
-    return $needed;
+    return array_unique($needed);
   }
 
 
