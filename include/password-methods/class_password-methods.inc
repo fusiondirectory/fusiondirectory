@@ -329,9 +329,9 @@ class passwordMethod
       }
     }
 
-    msg_dialog::display(_("Error"), _("Cannot find a suitable password method for the current hash!"), ERROR_DIALOG);
-
-    return NULL;
+    $method = new passwordMethodClear($config, $dn);
+    $method->set_hash('clear');
+    return $method;
   }
 
   /*!

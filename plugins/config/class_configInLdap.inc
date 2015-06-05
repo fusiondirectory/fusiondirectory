@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2013 FusionDirectory
+  Copyright (C) 2012-2015 FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -79,7 +79,7 @@ class configInLdap extends simplePlugin
     sort($plugins);
     return array(
       'look_n_feel' => array(
-        'name'  => _('Look n feel'),
+        'name'  => _('Look and feel'),
         'attrs' => array(
           new SelectAttribute (
             _('Language'), _('Language of the application. If \'automatic\' or not available, the one asked by the browser will be used. This setting can be overriden per user.'),
@@ -104,7 +104,13 @@ class configInLdap extends simplePlugin
         'name'  => _('Schema setup'),
         'attrs' => array(
           new BooleanAttribute (
-            _('Schema validation'),
+            _('rfc2307bis'),
+            _('Enables rfc2307bis style groups. You can use member attributes instead of memberUid in this case.'),
+            'fdRfc2307bis', FALSE,
+            FALSE
+          ),
+          new BooleanAttribute (
+            _('Schema check'),
             _('Enables schema checking during login.'),
             'fdSchemaCheck', FALSE,
             FALSE
@@ -277,7 +283,7 @@ class configInLdap extends simplePlugin
               'fdShells', FALSE
             ),
             array('/bin/ash','/bin/bash','/bin/csh','/bin/sh','/bin/ksh',
-                  '/bin/tcsh','/bin/dash','/bin/zsh')
+                  '/bin/tcsh','/bin/dash','/bin/zsh','/sbin/nologin')
           ),
           new BooleanAttribute (
             _('Show ACL tab on all objects'),

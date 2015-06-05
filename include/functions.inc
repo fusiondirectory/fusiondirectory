@@ -2740,8 +2740,10 @@ function check_schema_version($class, $version)
  * \brief Check if LDAP schema matches the requirements
  *
  * \param string $cfg A config object
+ *
+ * \param bool $rfc2307bis TRUE for checking for rfc2307bis FALSE otherwise
  */
-function check_schema($cfg)
+function check_schema($cfg, $rfc2307bis = FALSE)
 {
   $checks = array();
 
@@ -2836,11 +2838,18 @@ function check_schema($cfg)
   $checks['posixGroup']['MSG']              = "";
   $checks['posixGroup']['INFO']             = "";
 
-  /* Detect obsolete schema configurations */
-  if (!isset($tmp['posixGroup']['STRUCTURAL'])) {
-    $checks['posixGroup']['STATUS']           = FALSE;
-    $checks['posixGroup']['MSG']              = _("You are using the obsolete rfc2307bis schema from previous FusionDirectory versions.");
-    $checks['posixGroup']['INFO']             = _("The objectClass 'posixGroup' must be STRUCTURAL");
+  /* Depending on selected rfc2307bis mode, we need different schema configurations */
+  if (isset($tmp['posixGroup'])) {
+    if ($rfc2307bis && isset($tmp['posixGroup']['STRUCTURAL'])) {
+      $checks['posixGroup']['STATUS']           = FALSE;
+      $checks['posixGroup']['MSG']              = _("You have enabled the rfc2307bis option on the 'ldap setup' step, but your schema    configuration do not support this option.");
+      $checks['posixGroup']['INFO']             = _("In order to use rfc2307bis conform groups the objectClass 'posixGroup' must be      AUXILIARY");
+    }
+    if (!$rfc2307bis && !isset($tmp['posixGroup']['STRUCTURAL'])) {
+      $checks['posixGroup']['STATUS']           = FALSE;
+      $checks['posixGroup']['MSG']              = _("Your schema is configured to support the rfc2307bis group, but you have disabled this option on the 'ldap setup' step.");
+      $checks['posixGroup']['INFO']             = _("The objectClass 'posixGroup' must be STRUCTURAL");
+    }
   }
 
   return $checks;

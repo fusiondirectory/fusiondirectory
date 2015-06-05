@@ -244,7 +244,7 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
       $cfg['password']    = $config->current['ADMINPASSWORD'];
       $cfg['connection']  = $config->current['SERVER'];
       $cfg['tls']         = $tls;
-      $str = check_schema($cfg);
+      $str = check_schema($cfg, $config->get_cfg_value("rfc2307bis") == "TRUE");
       $checkarr = array();
       foreach ($str as $tr) {
         if (isset($tr['IS_MUST_HAVE']) && !$tr['STATUS']) {

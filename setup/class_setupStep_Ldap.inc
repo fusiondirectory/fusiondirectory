@@ -38,8 +38,9 @@ class Step_Ldap extends setup_step
   var $resolve_user   = FALSE;
   var $tls            = FALSE;
 
+  var $rfc2307bis = FALSE;
   var $attributes = array("connection","location","admin","password","base","admin_given",
-                          "append_base_to_admin_dn","tls");
+                          "append_base_to_admin_dn","tls","rfc2307bis");
 
   var $header_image = 'geticon.php?context=places&icon=network-server&size=48';
 

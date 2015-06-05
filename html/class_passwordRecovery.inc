@@ -29,7 +29,6 @@ class passwordRecovery {
   var $uid;
   var $message = array();
   var $email_address;
-  var $method;
   var $directory;
 
   var $step = 1;
@@ -119,20 +118,6 @@ class passwordRecovery {
 
     $ssl = $this->checkForSSL();
 
-    /* Check for selected password method */
-    $this->method = $this->config->get_cfg_value("passwordDefaultHash", "ssha");
-    if (isset($_GET['method'])) {
-      $this->method = validate($_GET['method']);
-      $tmp = new passwordMethod($this->config);
-      $available = $tmp->get_available_methods();
-      if (!isset($available[$this->method])) {
-        msg_dialog::display(_("Password method"),
-                            _("Error: Password method not available!"),
-                            FATAL_ERROR_DIALOG);
-        exit();
-      }
-    }
-
     if (isset($_GET['email_address']) && $_GET['email_address'] != "") {
       $this->email_address = validate($_GET['email_address']);
       $smarty->assign('email_address', $this->email_address);
@@ -205,16 +190,16 @@ class passwordRecovery {
       $smarty->assign("php_errors", "");
     }
 
-    $smarty->assign("msg_dialogs", msg_dialog::get_dialogs());
-    $smarty->assign("usePrototype", "FALSE");
-    $smarty->display (get_template_path('headers.tpl'));
+    $smarty->assign('msg_dialogs',  msg_dialog::get_dialogs());
+    $smarty->assign('usePrototype', 'FALSE');
+    $smarty->append('js_files',     'include/pwdStrength.js');
+    $smarty->append('css_files',    get_template_path('login.css'));
+    $smarty->display(get_template_path('headers.tpl'));
 
-    $smarty->assign("version", FD_VERSION);
-    $smarty->assign("step", $this->step);
-    $smarty->assign("delay_allowed", $this->delay_allowed);
-
-    $smarty->assign("activated", $this->activated);
-    $smarty->append ('css_files',  get_template_path('login.css'));
+    $smarty->assign('version',        FD_VERSION);
+    $smarty->assign('step',           $this->step);
+    $smarty->assign('delay_allowed',  $this->delay_allowed);
+    $smarty->assign('activated',      $this->activated);
 
     $smarty->display(get_template_path('recovery.tpl'));
     exit();
@@ -292,7 +277,6 @@ class passwordRecovery {
     $smarty->assign('params', "");
     $smarty->assign('message', "");
     $smarty->assign('changed', FALSE);
-    $smarty->assign('other_method', FALSE);
   }
 
   static function generateRandomHash()
@@ -437,11 +421,16 @@ class passwordRecovery {
     /* Retrieve dn from the ldap */
     $ldap = $this->config->get_ldap_link();
 
+    if (class_available('personalInfo') && ($this->config->get_cfg_value('privateEmailPasswordRecovery', 'FALSE') == 'TRUE')) {
+      $filter = '(&(|(objectClass=gosaMailAccount)(objectClass=fdPersonalInfo))(uid='.$this->uid.'))';
+    } else {
+      $filter = '(&(objectClass=gosaMailAccount)(uid='.$this->uid.'))';
+    }
     $ldap->cd($this->config->current['BASE']);
-    $ldap->search("(&(objectClass=gosaMailAccount)(uid=".$this->uid."))", array("dn"));
+    $ldap->search($filter, array('dn'));
 
     if ($ldap->count() < 1) {
-      $this->message[] = sprintf(_('Did not found an account with login "%s"'), $this->uid);
+      $this->message[] = sprintf(_('Did not find an account with login "%s"'), $this->uid);
       return;
     } elseif ($ldap->count() > 1) {
       $this->message[] = sprintf(_('Found multiple accounts with login "%s"'), $this->uid);
@@ -456,7 +445,6 @@ class passwordRecovery {
   /* find the uid of for the given email address */
   function step2()
   {
-    /* Ask for the method */
     if ($_POST['email_address'] == "") {
       $this->message[] = msgPool::required(_("Email address"));
       return;
@@ -491,7 +479,7 @@ class passwordRecovery {
     $smarty->assign('uid', $this->uid);
     $smarty->assign('email_address', $this->email_address);
     $this->step = 2;
-    $params = $this->encodeParams(array('uid', 'method', 'directory', 'email_address'));
+    $params = $this->encodeParams(array('uid', 'directory', 'email_address'));
     $smarty->assign('params', $params);
   }
 
@@ -550,7 +538,7 @@ class passwordRecovery {
     $this->uniq = $uniq_id_from_mail;
     $this->step = 4;
     $smarty->assign('uid', $this->uid);
-    $params = $this->encodeParams(array('uid', 'method', 'directory', 'email_address', 'uniq'));
+    $params = $this->encodeParams(array('uid', 'directory', 'email_address', 'uniq'));
     $smarty->assign('params', $params);
 
     if (isset($_POST['change'])) {
@@ -581,7 +569,7 @@ class passwordRecovery {
         return;
       }
     }
-    if (!change_password($dn, $_POST['new_password'], 0, $this->method)) {
+    if (!change_password($dn, $_POST['new_password'])) {
       return;
     }
     fusiondirectory_log("User ".$this->uid." password has been changed");

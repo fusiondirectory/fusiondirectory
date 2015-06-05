@@ -158,6 +158,7 @@ documentation and additional help.
 
 * Arnaud Patard <apatard@hupstream.com>
   Fix for Invalid uri in the password recovery mail
+  Fix for start tls on fusiondirectory setup and gnutls
 
 * Adrian Reyer <are+fd@lihas.de>
   Modifier for templates to convert german umlauts to 7-bit ASCII
@@ -171,3 +172,6 @@ documentation and additional help.
 * Karsten Becker <karsten.becker@ecologic.eu>
   Suse install from tarballs Documentation
 
+* Felix Weissbeck <contact-fusiondirectory@w7k.de>
+  Method to add a change password dialog on sasl+kerberos
+  

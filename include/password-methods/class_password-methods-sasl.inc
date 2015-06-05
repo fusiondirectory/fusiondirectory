@@ -88,6 +88,12 @@ class passwordMethodsasl extends passwordMethod {
     }
   }
 
+  function checkPassword($pwd, $hash)
+  {
+    // We do not store passwords, can’t know if they’re the same
+    return FALSE;
+  }
+
   /*!
    * \brief Get the hash name
    */
@@ -103,7 +109,8 @@ class passwordMethodsasl extends passwordMethod {
    */
   function need_password()
   {
-    return FALSE;
+    global $config;
+    return ($config->get_cfg_value('forceSaslPasswordAsk', 'FALSE') == 'TRUE');
   }
 }
 ?>

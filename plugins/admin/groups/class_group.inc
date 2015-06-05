@@ -53,6 +53,7 @@ class group extends plugin
   var $nagios_group =FALSE;
   var $sambaGroupType;
   var $dialog;
+  var $rfc2307bis= FALSE;
   var $OnlyShowFirstEntries =200;
   var $dnMapping= array();
   var $view_logged = FALSE;
@@ -74,6 +75,13 @@ class group extends plugin
 
   function group (&$config, $dn= NULL)
   {
+     /* Set rfc2307bis flag */
+     if ($config->get_cfg_value("rfc2307bis") == "TRUE"){
+       $this->rfc2307bis= TRUE;
+       $this->attributes[]= "member";
+       $this->objectclasses[]= "groupOfNames";
+     }
+
     parent::__construct ($config, $dn);
 
     /* Load attributes depending on the samba version */
@@ -88,6 +96,11 @@ class group extends plugin
       }
       $this->memberUid= $tmp;
       ksort ($this->memberUid);
+      if (($config->get_cfg_value("rfc2307bis") == "TRUE") &&
+          isset($this->attrs['member']) &&
+          ($this->attrs['member']['count'] !== $this->attrs['memberUid']['count'])) {
+        msg_dialog::display(_('Inconsistent data'), _('The member and memberUid fields of this groups are incoherent. FusionDirectory will use members from memberUid values upon saving. Cancel if you do not want this.'), WARNING_DIALOG);
+      }
     }
 
     /* Save gidNumber for later use */
@@ -887,6 +900,21 @@ class group extends plugin
     /* New accounts need proper 'dn', propagate it to remaining objects */
     if ($this->dn == 'new'){
       $this->dn= 'cn='.$this->cn.','.get_groups_ou().$this->base;
+    }
+
+    /* Add member dn's for RFC2307bis Support */
+    if ($this->rfc2307bis){
+      $this->attrs['member'] = array();
+      if (count($this->memberUid)){
+        foreach($this->attrs['memberUid'] as $uid) {
+
+          if(isset($this->dnMapping[$uid])){
+            $this->attrs['member'][]= $this->dnMapping[$uid];
+          }
+        }
+      } else {
+        $this->attrs['member'][]= $this->config->current['ADMINDN'];
+      }
     }
 
     /* Save data. Using 'modify' implies that the entry is already present, use 'add' for

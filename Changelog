@@ -1,28 +1,47 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.8.7
+
+[Fix] Bugs #3753: Recovery password use default hash
+[Fix] Bugs #3754: Password method "clear" do SSHA
+[Fix] Bugs #3762: when copying 4 servers at once from a departement to another
+[Feature]Bugs #3769: Add /sbin/nologin in shells
+[Fix] Bugs #3772: Password recovery cannot find a suitable password method for current hash
+[Fix] Bugs #3776: Php error when editing a user
+[Fix] Bugs #3783: Using Password recovery with the Personal plugin fails.
+[Fix] Bugs #3785: Add TXT values in global zone record
+[Fix] Bugs #3808: password strength widget is broken from email redirection
+[Fix] Bugs #3816: Fix refresh DNS button in systems
+[Fix] Bugs #3817: Viewing a group removes all members that don't have a memberUid in addition to member attribute
+[Fix] Bugs #3837: fusiondirectory-setup doesn't handle correctly start_tls support
+[Feature] Wishlist #3706: Manage userCertificate attribute under User tab
+[Feature] Wishlist #3757: Let password-methods-sasl prompt for a password when a password-hook is configured
+[Feature] Wishlist #3809: authorize to set the same password when using simpel password system ( not ppolicy)
+[Feature] Wishlist #3815: Conversion of PEM certificate in DER (binary)
+
 * FusionDirectory 1.0.8.6
 
-Bugs #3235: When a manager changes its base the managed user attributes are changed
-Bugs #3604: Role icon is display for all users
-Bugs #3643: Ppolicy plugin should check password history
-Bugs #3685: generateLdif() fails with bind-passwords containg '$'
-Bugs #3687: Address book plugin show infos only in admin
-Bugs #3690: the setup doesnt find the ldap anymore when fai plugin is installed
-Wishlist #3691: Export sub entries with ldapmanager
-Bugs #3692: class_ldap.inc has leftover debug
-Bugs #3693: the apache icon for the apache plugin doesnt appaers in dashboard
-Bugs #3705: add the to faq that if user doesnt show up check if nis.schema is installed
-Bugs #3712: contributed doc for sles 11 SP3
-Bugs #3713: the group and user is different for apache on SLES 11 SP3
-Bugs #3719: ACLs of GPG-Plugin
-Bugs #3720: Language setting
-Bugs #3723: Missing icon
-Bugs #3731: A icon is missing when we set a manager
-Bugs #3732: When debug trace level is on, we can’t log in anymore
-Bugs #3738: rfc2307bis option should be removed
-Bugs #3750: fusiondirectory.conf attribute configVersion is unused and should be removed
-Wishlist #3746: Ppolicy should be applied in password recovery
+[Fix] Bugs #3235: When a manager changes its base the managed user attributes are changed
+[Fix] Bugs #3604: Role icon is display for all users
+[Feature] Bugs #3643: Ppolicy plugin should check password history
+[Fix] Bugs #3685: generateLdif() fails with bind-passwords containg '$'
+[Fix] Bugs #3687: Address book plugin show infos only in admin
+[Fix] Bugs #3690: the setup doesnt find the ldap anymore when fai plugin is installed
+[Fix] Bugs #3692: class_ldap.inc has leftover debug
+[Fix] Bugs #3693: the apache icon for the apache plugin doesnt appaers in dashboard
+[Fix] Bugs #3705: add the to faq that if user doesnt show up check if nis.schema is installed
+[Fix] Bugs #3712: contributed doc for sles 11 SP3
+[Fix] Bugs #3713: the group and user is different for apache on SLES 11 SP3
+[Fix] Bugs #3719: ACLs of GPG-Plugin
+[Fix] Bugs #3720: Language setting
+[Fix] Bugs #3723: Missing icon
+[Fix] Bugs #3731: A icon is missing when we set a manager
+[Fix] Bugs #3732: When debug trace level is on, we can’t log in anymore
+[Fix] Bugs #3738: rfc2307bis option should be removed
+[Fix] Bugs #3750: fusiondirectory.conf attribute configVersion is unused and should be removed
+[Feature] Wishlist #3691: Export sub entries with ldapmanager
+[Feature] Wishlist #3746: Ppolicy should be applied in password recovery
 
 * FusionDirectory 1.0.8.5
 
