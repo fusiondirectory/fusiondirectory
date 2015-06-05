@@ -306,6 +306,55 @@ apt-get install fusiondirectory
 apt-get install fusiondirectory-schema
 
 
+Migrate FusionDirectory from 1.0.8.6 to 1.0.8.7
+===============================================
+
+- Upgrade FusionDirectory first
+
+Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+
+apt-get install fusiondirectory
+
+- Upgrade FusionDirectory schema package too.
+
+apt-get install fusiondirectory-schema
+
+Upgrade of LDAP directory
+=========================
+
+- You may have to update your LDAP schemas, first update the FusionDirectory core schemas.
+ 
+!! You need to remove the dashboard.schema if installed, because now that dashboard is merged to core, its attribute are in core. !!
+
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema 
+
+Check for deprecated attributes and objectClasses in your LDAP
+==============================================================
+
+FusionDirectory 1.0.8.1 comes with two new options in fusiondirectory-setup
+
+fusiondirectory-setup --list-deprecated
+
+List deprecated attributes and objectclasses
+Deprecated attributes:
+ gosaUnitTag                    (Takes a list of relevant mime-type|priority settings)          - 1.3.6.1.4.1.10098.1.1.12.33
+ gosaSnapshotType               (Takes either undo or snapshot)                                 - 1.3.6.1.4.1.10098.1.1.12.36
+ fdHonourUnitTags               (FusionDirectory - Honour unit tags)                            - 1.3.6.1.4.1.38414.8.14.3
+Deprecated objectClasses:
+ gosaAdministrativeUnitTag      (Marker for objects below administrational units (v2.6.1))      - 1.3.6.1.4.1.10098.1.2.1.19.16
+ gosaAdministrativeUnit         (Marker for administrational units (v2.6.1))                    - 1.3.6.1.4.1.10098.1.2.1.19.15
+
+fusiondirectory-setup --list-deprecated show deprecated attributes and objectClasses for FusionDirectory
+
+fusiondirectory-setup --check-deprecated
+
+List LDAP entries using deprecated attributes or objectclasses
+There are no entries in the LDAP using obsolete attributes
+There are no entries in the LDAP using obsolete classes
+
+fusiondirectory-setup --check-deprecated will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes and objectClass
+
+!! Please read it carefully before applying !!
 
 ---
 * Further information
