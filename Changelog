@@ -1,6 +1,25 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.8.7
+
+[Fix] Bugs #3753: Recovery password use default hash
+[Fix] Bugs #3754: Password method "clear" do SSHA
+[Fix] Bugs #3762: when copying 4 servers at once from a departement to another
+[Feature]Bugs #3769: Add /sbin/nologin in shells
+[Fix] Bugs #3772: Password recovery cannot find a suitable password method for current hash
+[Fix] Bugs #3776: Php error when editing a user
+[Fix] Bugs #3783: Using Password recovery with the Personal plugin fails.
+[Fix] Bugs #3785: Add TXT values in global zone record
+[Fix] Bugs #3808: password strength widget is broken from email redirection
+[Fix] Bugs #3816: Fix refresh DNS button in systems
+[Fix] Bugs #3817: Viewing a group removes all members that don't have a memberUid in addition to member attribute
+[Fix] Bugs #3837: fusiondirectory-setup doesn't handle correctly start_tls support
+[Feature] Wishlist #3706: Manage userCertificate attribute under User tab
+[Feature] Wishlist #3757: Let password-methods-sasl prompt for a password when a password-hook is configured
+[Feature] Wishlist #3809: authorize to set the same password when using simpel password system ( not ppolicy)
+[Feature] Wishlist #3815: Conversion of PEM certificate in DER (binary)
+
 * FusionDirectory 1.0.8.6
 
 Bugs #3235: When a manager changes its base the managed user attributes are changed
