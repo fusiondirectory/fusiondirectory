@@ -240,13 +240,13 @@ class IconTheme
     'applications/office-calendar'  => array(
       array('mimetypes','x-office-calendar'),
     ),
-    'applications/os-linux'  => array(
+    'applications/os-linux'         => array(
       array('applications','linux'),
     ),
-    'applications/os-windows'  => array(
+    'applications/os-windows'       => array(
       array('applications','windows'),
     ),
-    'applications/samba'  => array(
+    'applications/samba'            => array(
       array('applications','os-windows'),
       array('applications','windows'),
     ),
@@ -264,79 +264,82 @@ class IconTheme
     'actions/application-exit'      => array(
       array('actions','system-log-out'),
     ),
-    'actions/document-export'      => array(
+    'actions/document-export'       => array(
       array('actions','document-send'),
     ),
-    'actions/download'      => array(
+    'actions/download'              => array(
       array('actions','document-save'),
     ),
     'actions/document-restore'      => array(
       array('actions','document-import'),
       array('actions','document-open'),
     ),
-    'actions/document-edit'      => array(
+    'actions/document-edit'         => array(
       array('actions','edit'),
       array('applications','text-editor'),
       array('applications','accessories-text-editor'),
       array('actions','document-open'),
     ),
-    'actions/snapshot'      => array(
+    'actions/snapshot'              => array(
       array('actions','document-save'),
     ),
-    'actions/system-reboot' => array(
+    'actions/system-reboot'         => array(
       array('actions','view-refresh'),
     ),
-    'actions/system-update' => array(
+    'actions/system-update'         => array(
       array('applications','system-software-update'),
     ),
-    'actions/system-reinstall' => array(
+    'actions/system-reinstall'      => array(
       array('applications','system-installer'),
     ),
-    'actions/up'      => array(
+    'actions/up'                    => array(
       array('actions','go-up'),
       array('actions','arrow-up'),
     ),
-    'actions/down'      => array(
+    'actions/down'                  => array(
       array('actions','go-down'),
       array('actions','arrow-down'),
     ),
-    'actions/previous'      => array(
+    'actions/previous'              => array(
       array('actions','go-previous'),
       array('actions','arrow-left'),
     ),
-    'actions/next'      => array(
+    'actions/next'                  => array(
       array('actions','go-next'),
       array('actions','arrow-right'),
     ),
-    'categories/settings'      => array(
+    'actions/submit'                => array(
+      array('actions','go-jump'),
+    ),
+    'categories/settings'           => array(
       array('categories','gnome-settings'),
       array('categories','preferences-other'),
       array('categories','preferences-system'),
     ),
-    'categories/checks'      => array(
+    'categories/checks'             => array(
       array('actions','view-task'),
       array('actions','view-calendar-tasks'),
       array('actions','checkbox'),
       array('status','task-complete'),
     ),
-    'devices/server'      => array(
+    'devices/server'                => array(
       array('places','server'),
       array('places','network-server'),
     ),
-    'devices/media-cdrom'      => array(
+    'devices/media-cdrom'           => array(
       array('devices','media-optical'),
     ),
-    'devices/terminal'      => array(
+    'devices/terminal'              => array(
       array('applications','utilities-terminal'),
     ),
     'devices/computer-windows'      => array(
       array('applications','os-windows'),
       array('applications','windows'),
     ),
-    'status/object-locked'      => array(
+    'status/object-locked'          => array(
       array('status','changes-prevent'),
     ),
-    'status/object-unlocked'      => array(
+    'status/object-unlocked'        => array(
       array('status','changes-allow'),
     ),
   );

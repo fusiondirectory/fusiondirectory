@@ -262,7 +262,7 @@ class user extends simplePlugin
       ),
       'account' => array(
         'name'  => _('Account information'),
-        'icon'  => 'images/lists/search-subtree.png',
+        'icon'  => 'geticon.php?context=applications&icon=ldap&size=16',
         'attrs' => array(
           new BaseSelectorAttribute (get_ou("userRDN")),
           new UidAttribute (
