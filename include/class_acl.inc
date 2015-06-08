@@ -198,7 +198,7 @@ class acl extends plugin
         /* Found entry... */
         if ($ldap->count()) {
           $attrs = $ldap->fetch();
-          if (in_array_ics('gosaAccount', $attrs['objectClass'])) {
+          if (in_array_ics('inetOrgPerson', $attrs['objectClass'])) {
             $a['U:'.$dn] = $attrs['cn'][0].' ['.$attrs['uid'][0].']';
           } elseif (in_array_ics('organizationalRole', $attrs['objectClass'])) {
             $a['R:'.$dn] = $attrs['cn'][0];

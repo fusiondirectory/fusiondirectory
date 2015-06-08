@@ -199,7 +199,7 @@ class UserPasswordAttribute extends CompositeAttribute
 
 class user extends simplePlugin
 {
-  var $objectclasses  = array('inetOrgPerson','gosaAccount');
+  var $objectclasses  = array('inetOrgPerson');
   var $mainTab        = TRUE;
 
   private $was_locked;
@@ -277,12 +277,6 @@ class user extends simplePlugin
           new UserPasswordAttribute(
             _('Password'), _('Password of the user'),
             'userPassword', FALSE
-          ),
-          new SetAttribute(
-            new IpAttribute(
-              _('Restrict FD login to'), _('The user will only be able to connect to FusionDirectory from these hosts or networks'),
-              'gosaLoginRestriction', FALSE
-            )
           )
         )
       ),

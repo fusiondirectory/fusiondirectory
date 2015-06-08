@@ -533,7 +533,7 @@ function process_htaccess ($username, $kerberos = FALSE)
           FATAL_ERROR_DIALOG);
       exit();
     }
-    $ldap->search("(&(objectClass=gosaAccount)(|(uid=$username)(userPassword={$mode}$username)))", array("uid"));
+    $ldap->search("(&(objectClass=inetOrgPerson)(|(uid=$username)(userPassword={$mode}$username)))", array("uid"));
 
     /* Found a uniq match? Return it... */
     if ($ldap->count() == 1) {
@@ -569,7 +569,7 @@ function ldap_login_user_htaccess ($username)
         FATAL_ERROR_DIALOG);
     exit();
   }
-  $ldap->search("(&(objectClass=gosaAccount)(uid=$username))", array("uid"));
+  $ldap->search("(&(objectClass=inetOrgPerson)(uid=$username))", array("uid"));
   /* Found no uniq match? Strange, because we did above... */
   if ($ldap->count() != 1) {
     msg_dialog::display(_("LDAP error"), _("Login (uid) is not unique inside the LDAP tree!"), FATAL_ERROR_DIALOG);
@@ -580,12 +580,6 @@ function ldap_login_user_htaccess ($username)
   /* got user dn, fill acl's */
   $ui = new userinfo($config, $ldap->getDN());
   $ui->username = $attrs['uid'][0];
-
-  /* Bail out if we have login restrictions set, for security reasons
-     the message is the same than failed user/pw */
-  if (!$ui->loginAllowed()) {
-    return NULL;
-  }
 
   /* No password check needed - the webserver did it for us */
   $ldap->disconnect();
@@ -643,7 +637,7 @@ function ldap_login_user ($username, $password)
   foreach ($verify_attr as $attr) {
     $filter .= "(".$attr."=".$username.")";
   }
-  $filter = "(&(|".$filter.")(objectClass=gosaAccount))";
+  $filter = "(&(|".$filter.")(objectClass=inetOrgPerson))";
   $ldap->search($filter, $tmp);
 
   /* get results, only a count of 1 is valid */
@@ -677,12 +671,6 @@ function ldap_login_user ($username, $password)
   /* got user dn, fill acl's */
   $ui = new userinfo($config, $ldap->getDN());
   $ui->username = $attrs['uid'][0];
-
-  /* Bail out if we have login restrictions set, for security reasons
-     the message is the same than failed user/pw */
-  if (!$ui->loginAllowed()) {
-    return NULL;
-  }
 
   /* password check, bind as user with supplied password  */
   $ldap->disconnect();
@@ -2700,13 +2688,6 @@ function check_schema($cfg)
   $checks['gosaObject']['CLASSES_REQUIRED'] = array('gosaObject');
   $checks['gosaObject']['IS_MUST_HAVE']     = TRUE;
 
-  /* FusionDirectory Account class */
-  $checks['gosaAccount']['REQUIRED_VERSION']  = '2.6.6';
-  $checks['gosaAccount']['SCHEMA_FILES']      = array('core-fd.schema');
-  $checks['gosaAccount']['CLASSES_REQUIRED']  = array('gosaAccount');
-  $checks['gosaAccount']['IS_MUST_HAVE']      = TRUE;
-  $checks['gosaAccount']['INFO']              = _('Used to store account specific informations.');
-
   /* FusionDirectory lock entry, used to mark currently edited objects as 'in use' */
   $checks['gosaLockEntry']['REQUIRED_VERSION'] = '2.6.1';
   $checks['gosaLockEntry']['SCHEMA_FILES']     = array('core-fd.schema');
@@ -2715,22 +2696,11 @@ function check_schema($cfg)
   $checks['gosaLockEntry']['INFO']             = _('Used to lock currently edited entries to avoid multiple changes at the same time.');
 
   /* Some other checks */
-  foreach (array(
-        "gosaCacheEntry"        => array("version" => "2.6.1", "class" => "gosaAccount"),
-        "gosaDepartment"        => array("version" => "2.6.1", "class" => "gosaAccount"),
-        "gosaUserTemplate"      => array("version" => "2.6.1", "class" => "posixAccount","file" => "nis.schema"),
-        ) as $name => $values) {
-    $checks[$name] = $def_check;
-    if (isset($values['version'])) {
-      $checks[$name]["REQUIRED_VERSION"] = $values['version'];
-    }
-    if (isset($values['file'])) {
-      $checks[$name]["SCHEMA_FILES"] = array($values['file']);
-    }
-    if (isset($values['class'])) {
-      $checks[$name]["CLASSES_REQUIRED"] = is_array($values['class'])?$values['class']:array($values['class']);
-    }
-  }
+  $checks['gosaUserTemplate']['REQUIRED_VERSION'] = '2.6.1';
+  $checks['gosaUserTemplate']['SCHEMA_FILES']     = array('nis.schema');
+  $checks['gosaUserTemplate']['CLASSES_REQUIRED'] = array('posixAccount');
+  $checks['gosaUserTemplate']['IS_MUST_HAVE']     = FALSE;
+
   foreach ($checks as $name => $value) {
     foreach ($value['CLASSES_REQUIRED'] as $class) {
       if (!isset($objectclasses[$name])) {

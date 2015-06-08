@@ -590,7 +590,7 @@ sub add_ldap_admin {
   foreach my $entry (@$people_entries) {
     my $mesg = $ldap->search(
       base => "$entry",
-      filter => "(&(objectClass=gosaAccount)(uid=$fd_admin_uid))",
+      filter => "(&(objectClass=inetOrgPerson)(uid=$fd_admin_uid))",
       attrs => ['uid']
     );
     $mesg->code && die $mesg->error;
@@ -616,7 +616,7 @@ sub add_ldap_admin {
       'sn'  =>  'Administrator',
       'uid' =>  $fd_admin_uid,
       'givenname'     =>  'System',
-      'objectclass'   =>  [ 'top', 'person', 'gosaAccount', 'organizationalPerson', 'inetOrgPerson' ],
+      'objectclass'   =>  [ 'top', 'person', 'organizationalPerson', 'inetOrgPerson' ],
       'userPassword'  => "{CRYPT}".unix_md5_crypt($fd_admin_pwd)
     );
     if (not defined $obj{$attr}) {
@@ -837,7 +837,7 @@ sub check_admin {
             my $member_node = $ldap->search(
               base    => $dn,
               scope   => 'base',
-              filter  => "(objectClass=gosaAccount)"
+              filter  => "(objectClass=inetOrgPerson)"
             );
             if ($member_node->count == 1) {
               print ("$dn is a valid admin\n");
@@ -854,7 +854,7 @@ sub check_admin {
               # Find group members
               my $member_entry  = $member_node->shift_entry;
               my $memberUids    = $member_entry->get_value("memberUid", asref => 1);
-              my $filter = '(&(objectClass=gosaAccount)(|(uid='.join(')(uid=', @$memberUids).')))';
+              my $filter = '(&(objectClass=inetOrgPerson)(|(uid='.join(')(uid=', @$memberUids).')))';
               my $group_members = $ldap->search(
                 base    => $base,
                 filter  => $filter,
@@ -1117,7 +1117,7 @@ sub migrate_users {
   print ("---------------------------------------------\n");
 
   my $mesg = $ldap->search(
-    filter => "(|(!(objectClass~=gosaAccount))(!(objectClass~=organizationalPerson))(!(objectClass~=Person)))",
+    filter => "(|(!(objectClass~=inetOrgPerson))(!(objectClass~=organizationalPerson))(!(objectClass~=Person)))",
     base   => "$peopleou,$base",
     scope  => $scope
   );
@@ -1125,7 +1125,7 @@ sub migrate_users {
   my @entries = $mesg->entries;
 
   foreach my $entry (@entries) {
-    $mesg = $ldap->modify($entry->dn(), add => { "ObjectClass" => "gosaAccount"});
+    $mesg = $ldap->modify($entry->dn(), add => { "ObjectClass" => "inetOrgPerson"});
     $mesg = $ldap->modify($entry->dn(), add => { "ObjectClass" => "organizationalPerson"});
     $mesg = $ldap->modify($entry->dn(), add => { "ObjectClass" => "Person"});
     print $entry->dn();

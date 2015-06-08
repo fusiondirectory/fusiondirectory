@@ -580,7 +580,7 @@ class Step_Migrate extends setupStep
 
     /* Get all invisible users */
     $ldap->cd($config->current['BASE']);
-    $res = $ldap->search("(&(|(objectClass=posixAccount)(&(objectClass=inetOrgPerson)(objectClass=organizationalPerson))(objectClass=OpenLDAPperson))(!(objectClass=gosaAccount))(!(&(objectClass=Account)(objectClass=sambaSamAccount)))(uid=*))", array("sn","givenName","cn","uid"));
+    $res = $ldap->search("(&(|(objectClass=posixAccount)(objectClass=organizationalPerson)(objectClass=OpenLDAPperson))(!(objectClass=inetOrgPerson))(!(&(objectClass=Account)(objectClass=sambaSamAccount)))(uid=*))", array("sn","givenName","cn","uid"));
 
     while ($attrs = $ldap->fetch()) {
       if (!preg_match("/,dc=addressbook,/", $attrs['dn'])) {
@@ -629,7 +629,7 @@ class Step_Migrate extends setupStep
   {
     return $this->check_multipleGeneric_migrate_confirm(
       $checkobj,
-      array('gosaAccount','inetOrgPerson','organizationalPerson','person'),
+      array('inetOrgPerson','organizationalPerson','person'),
       array(),
       $only_ldif
     );
@@ -747,8 +747,7 @@ class Step_Migrate extends setupStep
 
       /* Collect a list of available FusionDirectory users and groups */
       $users = array();
-      $ldap->search("(&(objectClass=gosaAccount)(objectClass=person)".
-        "(objectClass=inetOrgPerson)(objectClass=organizationalPerson))", array("uid","dn"));
+      $ldap->search('(objectClass=inetOrgPerson)', array('uid','dn'));
       while ($user_attrs = $ldap->fetch()) {
         $users[$user_attrs['dn']] = $user_attrs['uid'][0];
         $rusers[$user_attrs['uid'][0]] = $user_attrs['dn'];
@@ -1088,7 +1087,7 @@ class Step_Migrate extends setupStep
     /***********
      * Search for all users
      ***********/
-    $res = $ldap->search('(&(objectClass=gosaAccount)(!(uid=*$)))', array('dn'));
+    $res = $ldap->search('(&(objectClass=inetOrgPerson)(!(uid=*$)))', array('dn'));
     if (!$res) {
       throw new CheckFailedException(
         _('LDAP query failed'),
