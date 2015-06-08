@@ -1204,7 +1204,7 @@ class plugin
         maybe we have to update ACL references.
         * TODO : replace this with a call to handleForeignKeys on sub objects
      */
-    $leaf_objs = get_list("(|(objectClass=posixGroup)(objectClass=gosaAccount)(objectClass=gosaRole))", array("all"), $dst_dn,
+    $leaf_objs = get_list("(|(objectClass=posixGroup)(objectClass=inetOrgPerson)(objectClass=gosaRole))", array("all"), $dst_dn,
                           array("dn","objectClass"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
     foreach ($leaf_objs as $obj) {
       $new_dn = $obj['dn'];

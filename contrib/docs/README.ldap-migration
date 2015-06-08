@@ -4,15 +4,7 @@ LDAP TREE MIGRATION
 To migrate an existing LDAP tree, you've to do all steps from above,
 plus some modifications:
 
-- FusionDirectory only shows users that have the objectClass gosaAccount
-  This one has been introduced for several reasons. First, there are
-  cases you want to hide special accounts from regular admins (i.e.
-  a samba admin account which is used to log windows machines into
-  their domain, where changing a password by accident has bad consequences).
-  Secondly the gosaAccount keeps the lm/nt password hashes and the
-  attributes for the last password change - with the consequence that
-  adding a samba account "later" will not require the user to reset
-  the password.
+- FusionDirectory only shows users that have the objectClass inetOrgPerson
 
 - FusionDirectory only recognizes subtrees (or departments in FusionDirectory's
   view of things) that have the objectClass gosaDepartment. You can hide subtrees

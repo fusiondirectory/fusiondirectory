@@ -37,7 +37,6 @@ class userinfo
   var $username;
   var $cn;
   var $uid;
-  var $restrictions = array();
   var $gidNumber    = -1;
   var $language     = "";
   var $config;
@@ -57,7 +56,7 @@ class userinfo
   {
     $this->config = &$config;
     $ldap = $this->config->get_ldap_link();
-    $ldap->cat($userdn, array('sn', 'givenName', 'uid', 'gidNumber', 'preferredLanguage', 'gosaLoginRestriction'));
+    $ldap->cat($userdn, array('sn', 'givenName', 'uid', 'gidNumber', 'preferredLanguage'));
     $attrs = $ldap->fetch();
 
     if (isset($attrs['givenName'][0]) && isset($attrs['sn'][0])) {
@@ -67,12 +66,6 @@ class userinfo
     }
     if (isset($attrs['gidNumber'][0])) {
       $this->gidNumber = $attrs['gidNumber'][0];
-    }
-
-    /* Restrictions? */
-    if (isset($attrs['gosaLoginRestriction'])) {
-      $this->restrictions = $attrs['gosaLoginRestriction'];
-      unset($this->restrictions['count']);
     }
 
     /* Assign user language */
@@ -815,52 +808,6 @@ class userinfo
   function ignore_acl_for_current_user()
   {
     return $this->ignoreACL;
-  }
-
-  /*!
-   *  \brief Test if the login is allowed
-   */
-  function loginAllowed()
-  {
-    // Need to check restrictions?
-    if (count($this->restrictions)) {
-
-      // We have restrictions but cannot check them
-      if (!isset($_SERVER['REMOTE_ADDR'])) {
-        return FALSE;
-      }
-
-      // Move to binary...
-      $source = $_SERVER['REMOTE_ADDR'];
-      foreach ($this->restrictions as $restriction) {
-
-        // Single IP
-        if (preg_match('/^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/', $restriction)) {
-          if ($source == $restriction) {
-            return TRUE;
-          }
-        }
-
-        // Match with short netmask
-        if (preg_match('/^([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)\/([0-9]+)$/', $restriction, $matches)) {
-          if (isIpInNet($source, $matches[1], long2ip(~(pow(2, (32 - $matches[2])) - 1)))) {
-            return TRUE;
-          }
-        }
-
-        // Match with long netmask
-        if (preg_match('/^([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)\/([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)$/', $restriction, $matches)) {
-          if (isIpInNet($source, $matches[1], $matches[2])) {
-            return TRUE;
-          }
-        }
-
-      }
-
-      return FALSE;
-    }
-
-    return TRUE;
   }
 
   /*!
