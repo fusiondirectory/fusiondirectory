@@ -365,9 +365,11 @@ class plugin
     $tmp  = $ldap->fetch ();
     $oc   = array();
     if ($this->is_template) {
-      foreach ($tmp['fdTemplateField'] as $tpl_field) {
-        if (preg_match('/^objectClass:(.+)$/', $tpl_field, $m)) {
-          $oc[] = $m[1];
+      if (isset($tmp['fdTemplateField'])) {
+        foreach ($tmp['fdTemplateField'] as $tpl_field) {
+          if (preg_match('/^objectClass:(.+)$/', $tpl_field, $m)) {
+            $oc[] = $m[1];
+          }
         }
       }
     } else {
@@ -455,9 +457,11 @@ class plugin
     $oc = array();
 
     if ($this->is_template) {
-      foreach ($tmp['fdTemplateField'] as $tpl_field) {
-        if (preg_match('/^objectClass:(.+)$/', $tpl_field, $m)) {
-          $oc[] = $m[1];
+      if (isset($tmp['fdTemplateField'])) {
+        foreach ($tmp['fdTemplateField'] as $tpl_field) {
+          if (preg_match('/^objectClass:(.+)$/', $tpl_field, $m)) {
+            $oc[] = $m[1];
+          }
         }
       }
     } else {
