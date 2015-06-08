@@ -1,6 +1,6 @@
 <div class="contentboxh">
  <p class="contentboxh">
-  <img src="images/launch.png" alt="[F]"/>{t}Filter{/t}
+  {t}Filter{/t}
  </p>
 </div>
 
