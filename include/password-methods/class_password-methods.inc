@@ -175,8 +175,8 @@ class passwordMethod
       $modify = lock_samba_account($mode, $attrs);
 
       // (Un)lock the account by modifying the password hash.
-      $pwdClass = new password($config, $dn);
-      $pwdClass->callHook($pwdClass, 'PRE'.$mode, array(), $ret);
+      $pwdClass = new user($config, $dn);
+      $pwdClass->callHook('PRE'.$mode, array(), $ret);
 
       if ($mode == 'LOCK') {
         /* Lock entry */
@@ -191,7 +191,7 @@ class passwordMethod
 
       // Call the password post-lock hook, if defined.
       if ($ldap->success()) {
-        $pwdClass->callHook($pwdClass, 'POST'.$mode, array(), $ret);
+        $pwdClass->callHook('POST'.$mode, array(), $ret);
       } else {
         msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD), LDAP_ERROR);
       }
