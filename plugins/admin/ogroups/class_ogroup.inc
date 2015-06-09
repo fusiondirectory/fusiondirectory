@@ -111,6 +111,12 @@ class ObjectsAttribute extends GenericDialogAttribute
     $this->getDisplayValues(); // refresh types and displays
     return '['.join(array_unique($this->types)).']';
   }
+
+  protected function removeValue ($row)
+  {
+    parent::removeValue($row);
+    unset($this->types[$row]);
+  }
 }
 
 class ObjectSelectDialog extends GenericSelectDialog
