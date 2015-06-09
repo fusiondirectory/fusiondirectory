@@ -30,11 +30,18 @@ class templateDialog
   protected $post_finish = 'template_continue';
   protected $post_cancel = 'template_cancel';
 
-  function __construct($simpleManagement, $type)
+  function __construct($simpleManagement, $type, $dn = NULL)
   {
     $this->simpleManagement = $simpleManagement;
     $this->type             = $type;
     $this->templates        = objects::getTemplates($this->type);
+    if ($dn !== NULL) {
+      if (isset($this->templates[$dn])) {
+        $this->template = new template($this->type, $dn);
+      } else {
+        trigger_error('Unknown template "'.$dn.'"');
+      }
+    }
   }
 
   function save_object ()
@@ -430,13 +437,18 @@ class simpleManagement extends management
     $this->tabObject->setTemplateMode('template_cn');
   }
 
-  function newEntryFromTemplate($action)
+  function newEntryFromTemplate($action, $target = array())
   {
     if ($this->skipTemplates) {
       return;
     }
+    if (isset ($target[0])) {
+      $dn = $target[0];
+    } else {
+      $dn = NULL;
+    }
     $type = preg_replace('/^template_apply_/', '', $action);
-    $this->dialogObject = new templateDialog($this, $type);
+    $this->dialogObject = new templateDialog($this, $type, $dn);
   }
 
 

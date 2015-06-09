@@ -835,7 +835,7 @@ class plugin
   {
     $needed = array();
     foreach ($flatdepends as $attr => $depends) {
-      if ($depends[0] == 'askme') {
+      if ((isset($depends[0])) && ($depends[0] == 'askme')) {
         $needed[] = $attr;
         unset($flatdepends[$attr]);
         unset($attrs[$attr]);
