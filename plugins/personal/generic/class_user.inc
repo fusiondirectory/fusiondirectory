@@ -260,28 +260,8 @@ class user extends simplePlugin
           ),
         )
       ),
-      'account' => array(
-        'name'  => _('Account information'),
-        'icon'  => 'geticon.php?context=applications&icon=ldap&size=16',
-        'attrs' => array(
-          new BaseSelectorAttribute (get_ou("userRDN")),
-          new UidAttribute (
-            _('Login'), _('Login of this user'),
-            'uid', TRUE
-          ),
-          new SelectAttribute (
-            _('Preferred language'), _('Preferred language'),
-            'preferredLanguage', FALSE,
-            array_keys($languages), '', array_values($languages)
-          ),
-          new UserPasswordAttribute(
-            _('Password'), _('Password of the user'),
-            'userPassword', FALSE
-          )
-        )
-      ),
       'contact' => array(
-        'name'  => _('Contact information'),
+        'name'  => _('Organizational contact information'),
         'icon'  => 'geticon.php?context=types&icon=contact&size=16',
         'attrs' => array(
           new StringAttribute (
@@ -318,6 +298,44 @@ class user extends simplePlugin
           ),
         )
       ),
+      'account' => array(
+        'name'  => _('Account information'),
+        'icon'  => 'geticon.php?context=applications&icon=ldap&size=16',
+        'attrs' => array(
+          new BaseSelectorAttribute (get_ou("userRDN")),
+          new UidAttribute (
+            _('Login'), _('Login of this user'),
+            'uid', TRUE
+          ),
+          new SelectAttribute (
+            _('Preferred language'), _('Preferred language'),
+            'preferredLanguage', FALSE,
+            array_keys($languages), '', array_values($languages)
+          ),
+          new UserPasswordAttribute(
+            _('Password'), _('Password of the user'),
+            'userPassword', FALSE
+          )
+        )
+      ),
+      'homecontact' => array(
+        'name'  => _('Personal contact information'),
+        'icon'  => 'geticon.php?context=types&icon=contact&size=16',
+        'attrs' => array(
+          new TextAreaAttribute (
+            _('Home address'), _('Home postal address'),
+            'homePostalAddress', FALSE
+          ),
+          new StringAttribute (
+            _('Private phone'), _('Home phone number'),
+            'homePhone', FALSE
+          ),
+          new URLAttribute (
+            _('Homepage'), _('Personal homepage'),
+            'labeledURI', FALSE
+          ),
+        )
+      ),
       'organization' => array(
         'name'  => _('Organizational information'),
         'icon'  => 'geticon.php?context=places&icon=folder&size=16',
@@ -351,24 +369,6 @@ class user extends simplePlugin
           new UserAttribute(
             _('Manager'), _('Manager'),
             'manager', FALSE
-          ),
-        )
-      ),
-      'homecontact' => array(
-        'name'  => _('Personal contact information'),
-        'icon'  => 'geticon.php?context=types&icon=contact&size=16',
-        'attrs' => array(
-          new TextAreaAttribute (
-            _('Home address'), _('Home postal address'),
-            'homePostalAddress', FALSE
-          ),
-          new StringAttribute (
-            _('Private phone'), _('Home phone number'),
-            'homePhone', FALSE
-          ),
-          new URLAttribute (
-            _('Homepage'), _('Personal homepage'),
-            'labeledURI', FALSE
           ),
         )
       )
