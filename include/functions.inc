@@ -2696,10 +2696,10 @@ function check_schema($cfg)
   $checks['gosaLockEntry']['INFO']             = _('Used to lock currently edited entries to avoid multiple changes at the same time.');
 
   /* Some other checks */
-  $checks['gosaUserTemplate']['REQUIRED_VERSION'] = '2.6.1';
-  $checks['gosaUserTemplate']['SCHEMA_FILES']     = array('nis.schema');
-  $checks['gosaUserTemplate']['CLASSES_REQUIRED'] = array('posixAccount');
-  $checks['gosaUserTemplate']['IS_MUST_HAVE']     = FALSE;
+  $checks['posixAccount']['REQUIRED_VERSION'] = '2.6.1';
+  $checks['posixAccount']['SCHEMA_FILES']     = array('nis.schema');
+  $checks['posixAccount']['CLASSES_REQUIRED'] = array('posixAccount');
+  $checks['posixAccount']['IS_MUST_HAVE']     = FALSE;
 
   foreach ($checks as $name => $value) {
     foreach ($value['CLASSES_REQUIRED'] as $class) {

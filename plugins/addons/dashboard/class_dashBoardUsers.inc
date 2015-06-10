@@ -69,7 +69,7 @@ class dashboardUsers extends simplePlugin
     /* User statistics */
     $ldap = $this->config->get_ldap_link();
     $ldap->cd($this->config->current['BASE']);
-    $ldap->search("(&(!(objectClass=gosaUserTemplate))(objectClass=inetOrgPerson))", array("userPassword"));
+    $ldap->search("(objectClass=inetOrgPerson)", array("userPassword"));
     $nb_accounts = $ldap->count();
     $nb_locked_accounts = 0;
     while ($attrs = $ldap->fetch()) {
@@ -79,11 +79,11 @@ class dashboardUsers extends simplePlugin
         }
       }
     }
-    $ldap->search("(&(!(objectClass=gosaUserTemplate))(objectClass=inetOrgPerson)(objectClass=gosaMailAccount))", array("cn"));
+    $ldap->search("(&(objectClass=inetOrgPerson)(objectClass=gosaMailAccount))", array("cn"));
     $nb_mail_accounts = $ldap->count();
-    $ldap->search("(&(!(objectClass=gosaUserTemplate))(objectClass=inetOrgPerson)(objectClass=posixAccount))", array("cn"));
+    $ldap->search("(&(objectClass=inetOrgPerson)(objectClass=posixAccount))", array("cn"));
     $nb_posix_accounts = $ldap->count();
-    $ldap->search("(&(!(objectClass=gosaUserTemplate))(objectClass=inetOrgPerson)(objectClass=sambaSamAccount))", array("cn"));
+    $ldap->search("(&(objectClass=inetOrgPerson)(objectClass=sambaSamAccount))", array("cn"));
     $nb_samba_accounts = $ldap->count();
 
     return array(
