@@ -2639,21 +2639,6 @@ function get_next_id_hook($attrib, $dn)
 
 
 /*!
- * \brief Check if schema version matches the requirements
- *
- * \param string $class objectClass to check
- *
- * \param string $version version to check for
- *
- * \return TRUE if successfull FALSE otherwise
- */
-function check_schema_version($class, $version)
-{
-  return preg_match("/\(v$version\)/", $class['DESC']);
-}
-
-
-/*!
  * \brief Check if LDAP schema matches the requirements
  *
  * \param string $cfg A config object
@@ -2672,7 +2657,7 @@ function check_schema($cfg)
   /* This is the default block used for each entry.
    *  to avoid unset indexes.
    */
-  $def_check = array("REQUIRED_VERSION" => "0",
+  $def_check = array(
       "SCHEMA_FILES"     => array(),
       "CLASSES_REQUIRED" => array(),
       "STATUS"           => FALSE,
@@ -2683,20 +2668,17 @@ function check_schema($cfg)
   /* The FusionDirectory base schema */
   $checks['gosaObject'] = $def_check;
 
-  $checks['gosaObject']['REQUIRED_VERSION'] = '2.6.1';
   $checks['gosaObject']['SCHEMA_FILES']     = array('core-fd.schema');
   $checks['gosaObject']['CLASSES_REQUIRED'] = array('gosaObject');
   $checks['gosaObject']['IS_MUST_HAVE']     = TRUE;
 
   /* FusionDirectory lock entry, used to mark currently edited objects as 'in use' */
-  $checks['gosaLockEntry']['REQUIRED_VERSION'] = '2.6.1';
   $checks['gosaLockEntry']['SCHEMA_FILES']     = array('core-fd.schema');
   $checks['gosaLockEntry']['CLASSES_REQUIRED'] = array('gosaLockEntry');
   $checks['gosaLockEntry']['IS_MUST_HAVE']     = TRUE;
   $checks['gosaLockEntry']['INFO']             = _('Used to lock currently edited entries to avoid multiple changes at the same time.');
 
   /* Some other checks */
-  $checks['posixAccount']['REQUIRED_VERSION'] = '2.6.1';
   $checks['posixAccount']['SCHEMA_FILES']     = array('nis.schema');
   $checks['posixAccount']['CLASSES_REQUIRED'] = array('posixAccount');
   $checks['posixAccount']['IS_MUST_HAVE']     = FALSE;
@@ -2711,9 +2693,6 @@ function check_schema($cfg)
           $checks[$name]['STATUS'] = TRUE;
           $checks[$name]['MSG']    = sprintf(_("Missing optional object class '%s'!"), $class);
         }
-      } elseif (!check_schema_version($objectclasses[$name], $value['REQUIRED_VERSION'])) {
-        $checks[$name]['STATUS']  = FALSE;
-        $checks[$name]['MSG']     = sprintf(_("Version mismatch for required object class '%s' (!=%s)!"), $class,                           $value['REQUIRED_VERSION']);
       } else {
         $checks[$name]['STATUS']  = TRUE;
         $checks[$name]['MSG']     = sprintf(_("Class(es) available"));
@@ -2726,7 +2705,6 @@ function check_schema($cfg)
   /* The FusionDirectory base schema */
   $checks['posixGroup'] = $def_check;
 
-  $checks['posixGroup']['REQUIRED_VERSION'] = "2.6.1";
   $checks['posixGroup']['SCHEMA_FILES']     = array("core-fd.schema");
   $checks['posixGroup']['CLASSES_REQUIRED'] = array("posixGroup");
   $checks['posixGroup']['STATUS']           = TRUE;
