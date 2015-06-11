@@ -494,14 +494,6 @@ class config  {
       );
     }
 
-    /* Get cups servers */
-    $ldap->cd($this->current['BASE']);
-    $ldap->search("(objectClass=goCupsServer)");
-    $this->data['SERVERS']['CUPS'] = array();
-    while ($attrs = $ldap->fetch()) {
-      $this->data['SERVERS']['CUPS'][] = $attrs['cn'][0];
-    }
-
     /* Get fax servers */
     $ldap->cd($this->current['BASE']);
     $ldap->search("(objectClass=goFaxServer)");
