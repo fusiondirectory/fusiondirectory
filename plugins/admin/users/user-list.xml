@@ -80,6 +80,13 @@
      </action>
 
      <action>
+      <name>template_apply_user</name>
+      <type>entry</type>
+      <image>geticon.php?context=types&amp;icon=user&amp;size=16</image>
+      <label>From template</label>
+     </action>
+
+     <action>
       <name>new_template_user</name>
       <type>entry</type>
       <image>geticon.php?context=actions&amp;icon=document-new&amp;size=16</image>
