@@ -61,9 +61,9 @@ class userManagement extends simpleManagement
   function configureHeadpage ()
   {
     parent::configureHeadpage();
-    $this->registerAction('new_user',             'newEntry');
-    $this->registerAction('new_template_user',    'newEntryTemplate');
-    $this->registerAction('template_apply_user',  'newEntryFromTemplate');
+    $this->registerAction('new_user',               'newEntry');
+    $this->registerAction('new_template_user',      'newEntryTemplate');
+    $this->registerAction('template_apply_user',    'newEntryFromTemplate');
 
     $this->registerAction('lock',         'lockEntry');
     $this->registerAction('lockUsers',    'lockUsers');
