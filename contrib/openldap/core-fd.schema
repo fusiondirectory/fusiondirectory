@@ -35,13 +35,6 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.12.30 NAME 'gosaGroupObjects'
   SUBSTR caseIgnoreIA5SubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
 
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.33 NAME 'gosaUnitTag'
-  DESC 'Takes a list of relevant mime-type|priority settings'
-  OBSOLETE
-  EQUALITY caseIgnoreIA5Match
-  SUBSTR caseIgnoreIA5SubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
-
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.34 NAME 'gosaAclTemplate'
   DESC 'Takes ACL entries for gosaRoles'
   EQUALITY caseIgnoreIA5Match
@@ -53,12 +46,6 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.12.35 NAME 'gosaAclEntry'
   EQUALITY caseIgnoreIA5Match
   SUBSTR caseIgnoreIA5SubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.36 NAME 'gosaSnapshotType'
-  DESC 'Takes either undo or snapshot'
-  OBSOLETE
-  EQUALITY caseIgnoreMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.37 NAME 'gosaSnapshotTimestamp'
   DESC 'Unix timestamp of snapshot'
@@ -139,18 +126,6 @@ objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.12 NAME 'gosaGroupOfNames'
   SUP top AUXILIARY
   MUST ( cn $ gosaGroupObjects ) MAY ( member $ description ) )
 
-objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.15 NAME 'gosaAdministrativeUnit'
-  DESC 'Marker for administrational units'
-  OBSOLETE
-  SUP top AUXILIARY
-  MUST ( gosaUnitTag ))
-
-objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.16 NAME 'gosaAdministrativeUnitTag'
-  DESC 'Marker for objects below administrational units'
-  OBSOLETE
-  SUP top AUXILIARY
-  MUST ( gosaUnitTag ))
-
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.17 NAME 'gosaRole'
   DESC 'ACL container to define roles' SUP top STRUCTURAL
   MUST ( gosaAclTemplate $ cn )
@@ -163,6 +138,5 @@ objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.18 NAME 'gosaAcl'
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.19 NAME 'gosaSnapshotObject'
   DESC 'Container object for undo and snapshot data' SUP top STRUCTURAL
   MUST ( gosaSnapshotTimestamp $ gosaSnapshotDN $ gosaSnapshotData )
-  MAY  ( description $
-          gosaSnapshotType ) )
+  MAY  ( description ) )
 
