@@ -199,7 +199,7 @@ class UserPasswordAttribute extends CompositeAttribute
 
 class user extends simplePlugin
 {
-  var $objectclasses  = array('inetOrgPerson');
+  var $objectclasses  = array('inetOrgPerson','organizationalPerson','person');
   var $mainTab        = TRUE;
 
   private $was_locked;
