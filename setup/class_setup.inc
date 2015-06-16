@@ -311,12 +311,20 @@ class setup
     $config->set_current($config->data['MAIN']['DEFAULT']);
     session::global_un_set('plist');
     load_plist();
-    $this->o_steps[$this->i_config] = new Step_Config($this->captured_values);
+    $this->reBuildConfigStep();
   }
 
   function getDebugLevel ()
   {
     return $this->o_steps[$this->i_config]->attributesAccess['fdDebugLevel']->computeLdapValue();
+  }
+
+  function reBuildConfigStep ($completed = NULL)
+  {
+    $this->o_steps[$this->i_config] = new Step_Config($this->captured_values);
+    if ($completed !== NULL) {
+      $this->o_steps[$this->i_config]->is_completed = $completed;
+    }
   }
 }
 ?>
