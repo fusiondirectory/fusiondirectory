@@ -2649,7 +2649,7 @@ function check_schema($cfg)
 
   /* Get objectclasses */
   $ldap = new ldapMultiplexer(new LDAP($cfg['admin'], $cfg['password'], $cfg['connection'], FALSE, $cfg['tls']));
-  $objectclasses = $ldap->get_objectclasses();
+  $objectclasses = $ldap->get_objectclasses(TRUE);
   if (count($objectclasses) == 0) {
     msg_dialog::display(_("LDAP warning"), _("Cannot get schema information from server. No schema check possible!"), WARNING_DIALOG);
   }
