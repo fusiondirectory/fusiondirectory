@@ -102,7 +102,10 @@ class Step_Config extends configInLdap
       $this->save();
       /* Reload config from LDAP */
       $config->set_current($config->current['NAME']);
+      session::global_un_set('plist');
+      load_plist();
       $this->is_completed = TRUE;
+      $this->parent->reBuildConfigStep(TRUE);
     } else {
       $this->is_completed = FALSE;
     }
