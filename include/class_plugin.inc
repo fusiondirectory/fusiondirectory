@@ -1542,6 +1542,9 @@ class plugin
    */
   function callHook($cmd, $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL)
   {
+    if ($this->is_template) {
+      return;
+    }
     global $config;
     $command = $config->search(get_class($this), $cmd, array('menu','tabs','hooks'));
 
