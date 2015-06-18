@@ -333,8 +333,8 @@ sub get_classes {
           $file =~ s/^$vars{fd_home}//;
 
           foreach my $line ( @lines ) {
-          # remove \n from the end of each line
-          chomp $line;
+            # remove \n from the end of each line
+            chomp $line;
 
             # only process for lines beginning with "class", and extracting the 2nd word (the class name)
             if ( $line =~ /^class\s*(\w+).*/ ) {
@@ -1417,6 +1417,22 @@ sub ldif_deprecated {
   }
 }
 
+sub show_version {
+  my $variables_common_path = "$vars{fd_home}/include/variables_common.inc";
+  if (-e $variables_common_path) {
+    open(VARS, $variables_common_path) || die ("Could not open $variables_common_path");
+    while(<VARS>) {
+      if ($_ =~ m/^define \(["']FD_VERSION["'], "([^"]+)"\);/) {
+        print "FusionDirectory version is $1\n";
+        last;
+      }
+    }
+    close(VARS);
+  } else {
+    print "File $variables_common_path does not exists, can’t find out FusionDirectory version\n";
+  }
+}
+
 # function that set useful vars based on user specified folders and files
 sub set_vars {
   $fd_config        = $vars{fd_config_dir}."/".$vars{config_file};
@@ -1459,10 +1475,11 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--migrate-acls"}         = ["Migrating your ACLs",                           \&migrate_acls];
   $commands{"--install-plugins"}      = ["Installing FusionDirectory's plugins",          \&install_plugins];
   $commands{"--encrypt-passwords"}    = ["Encrypt passwords in fusiondirectory.conf",     \&encrypt_passwords];
+  $commands{"--show-version"}         = ["Show FusionDirectory version from variables_common.inc",          \&show_version];
   $commands{"--write-vars"}           = ["Choose FusionDirectory Directories",            \&write_vars];
   $commands{"--list-vars"}            = ["List possible vars to give --set",              \&list_vars];
   $commands{"--list-deprecated"}      = ["List deprecated attributes and objectclasses",  \&list_deprecated];
-  $commands{"--check-deprecated"}     = ["List LDAP entries using deprecated attributes or objectclasses", \&check_deprecated];
+  $commands{"--check-deprecated"}     = ["List LDAP entries using deprecated attributes or objectclasses",  \&check_deprecated];
   $commands{"--ldif-deprecated"}      = ["# Print an LDIF removing deprecated attributes",\&ldif_deprecated];
   $commands{"--set-VAR=value"}        = ["Set the variable VAR to value see --list-vars", \&die]; # Won't be called because it contains uppercase
 
@@ -1556,6 +1573,10 @@ This option will install the plugin from a tar.gz of the plugin. This option is 
 =item --encrypt-passwords
 
 This option will encrypt the password inside your fusiondirectory.conf file, it need the headers module to be activated in your apache to work.
+
+=item --show-version
+
+This option will parse the file variables_common.inc of FusionDirectory to find out which version of FusionDirectory is installed.
 
 =item --list_vars
 
