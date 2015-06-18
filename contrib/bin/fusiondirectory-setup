@@ -110,7 +110,6 @@ sub ask_yn_question {
       return 0;
     }
   }
-
 }
 
 # function that ask for an user input and do some checks
