@@ -63,6 +63,7 @@ class userManagement extends simpleManagement
     parent::configureHeadpage();
     $this->registerAction('new_user',               'newEntry');
     $this->registerAction('new_template_user',      'newEntryTemplate');
+    $this->registerAction('template_apply_to_user', 'applyTemplateToEntry');
     $this->registerAction('template_apply_user',    'newEntryFromTemplate');
 
     $this->registerAction('lock',         'lockEntry');

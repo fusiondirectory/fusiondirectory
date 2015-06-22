@@ -137,7 +137,7 @@
     </action>
 
     <action>
-      <name>template_apply_user</name>
+      <name>template_apply_to_user</name>
       <type>entry</type>
       <image>geticon.php?context=actions&amp;icon=tools-wizard&amp;size=16</image>
       <label>Apply template</label>

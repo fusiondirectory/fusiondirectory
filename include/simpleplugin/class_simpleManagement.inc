@@ -24,13 +24,14 @@ class templateDialog
   protected $type;
   protected $template = NULL;
   protected $templates;
+  protected $target = NULL;
 
   protected $tabObject;
 
   protected $post_finish = 'template_continue';
   protected $post_cancel = 'template_cancel';
 
-  function __construct($simpleManagement, $type, $dn = NULL)
+  function __construct($simpleManagement, $type, $dn = NULL, $target = NULL)
   {
     $this->simpleManagement = $simpleManagement;
     $this->type             = $type;
@@ -42,6 +43,7 @@ class templateDialog
         trigger_error('Unknown template "'.$dn.'"');
       }
     }
+    $this->target = $target;
   }
 
   function save_object ()
@@ -64,10 +66,21 @@ class templateDialog
       $this->template = new template($this->type, $_POST['template']);
     }
     if (is_object($this->template)) {
-      $this->template->save_object();
+      if ($this->target !== NULL) {
+        $this->simpleManagement->openTabObject($this->template->apply($this->target), $this->template->getBase());
+        $this->simpleManagement->handleTemplateApply();
+        return FALSE;
+      } else {
+        $this->template->save_object();
+      }
     }
 
     return TRUE;
+  }
+
+  function setNextTarget ($target)
+  {
+    $this->target = $target;
   }
 
   function execute ()
@@ -449,6 +462,54 @@ class simpleManagement extends management
     }
     $type = preg_replace('/^template_apply_/', '', $action);
     $this->dialogObject = new templateDialog($this, $type, $dn);
+  }
+
+  function applyTemplateToEntry($action, $target = array())
+  {
+    if ($this->skipTemplates) {
+      return;
+    }
+    if (empty($target)) {
+      return;
+    }
+    $type       = preg_replace('/^template_apply_to_/', '', $action);
+    $this->dns  = $target;
+
+    // check locks
+    if ($user = get_multiple_locks($this->dns)) {
+      return gen_locked_message($user, $this->dns);
+    }
+
+    // Add locks
+    add_lock ($this->dns, $this->ui->dn);
+
+    $this->dn           = array_pop($this->dns);
+    $this->dialogObject = new templateDialog($this, $type, NULL, $this->dn);
+  }
+
+  function handleTemplateApply ()
+  {
+    if ($this->skipTemplates) {
+      return;
+    }
+    $msgs = $this->tabObject->check();
+    if (count($msgs)) {
+      msg_dialog::displayChecks($msgs);
+      return;
+    } else {
+      $this->tabObject->save();
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Template applied!");
+      if (empty($this->dns)) {
+        $this->remove_lock();
+        $this->closeDialogs();
+      } else {
+        $this->last_tabObject = $this->tabObject;
+        $this->tabObject      = NULL;
+        $this->dn             = array_pop($this->dns);
+        $this->dialogObject->setNextTarget($this->dn);
+        $this->dialogObject->save_object();
+      }
+    }
   }
 
 

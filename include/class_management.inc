@@ -749,8 +749,8 @@ class management
 
   /*!
    * \brief  Save object modifications and closes dialogs (returns to object listing).
-   *          - Calls 'ldap::check' to validate the given input.
-   *          - Calls 'ldap::save' to save back object modifications (e.g. to ldap).
+   *          - Calls 'tab::check' to validate the given input.
+   *          - Calls 'tab::save' to save back object modifications (e.g. to ldap).
    *          - Calls 'management::remove_locks' to remove eventually created locks.
    *          - Calls 'management::closeDialogs' to return to the object listing.
    */
