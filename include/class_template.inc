@@ -28,13 +28,18 @@ class template
   protected $tabObject;
   protected $attributes;
 
-  function __construct($type, $dn)
+  function __construct($type, $dn, $targetdn = NULL)
   {
     $this->type = $type;
     $this->dn   = $dn;
     list($this->attrs, $depends) = plugin::tpl_fetch_template($this->dn);
     $this->needed     = plugin::tpl_needed_attrs($this->attrs, $depends);
-    $this->tabObject  = objects::create($this->type);
+    if ($targetdn === NULL) {
+      $this->tabObject  = objects::create($this->type);
+    } else {
+      trigger_error("This should not be used for now");
+      $this->tabObject  = objects::open($this->dn, $this->type);
+    }
     $tempTabObject    = objects::open($this->dn, $this->type); /* Used to know which tab is activated */
     $this->attributes = array();
     foreach ($tempTabObject->by_object as $class => &$plugin) {
@@ -141,8 +146,12 @@ class template
   }
 
   /* Apply template and current values to an object and returns it for saving or edition */
-  function apply()
+  function apply($targetdn = NULL)
   {
+    if ($targetdn !== NULL) {
+      $this->tabObject = objects::open($targetdn, $this->type);
+    }
+
     foreach ($this->tabObject->by_object as $class => &$plugin) {
       if (!isset($this->attributes[$class])) {
         continue;
