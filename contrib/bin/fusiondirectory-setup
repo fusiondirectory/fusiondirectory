@@ -445,6 +445,8 @@ sub get_apache_group {
     $apache_group = "apache";
   } elsif (-e "/etc/SuSE-release") {
     $apache_group = "www";
+  } elsif (-e "/etc/arch-release") {
+    $apache_group = "http";
   } else {
     print ("! Looks like you are not a Debian, Suse, Redhat or Mageia, I don't know your distribution !\n");
     $apache_group = ask_user_input ("What is your apache group?");
