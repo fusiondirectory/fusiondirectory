@@ -250,7 +250,6 @@ class posixAccount extends simplePlugin
     );
 
     if ($dn !== NULL) {
-
       /* Correct is_account. shadowAccount is not required. */
       if (isset($this->attrs['objectClass']) &&
           in_array ('posixAccount', $this->attrs['objectClass'])) {
@@ -312,24 +311,29 @@ class posixAccount extends simplePlugin
     }
     $this->attributesAccess['posixStatus']->setValue($status);
 
-    /* Groups handling */
-    $ldap->cd($this->config->current['BASE']);
-    $ldap->search("(&(objectClass=posixGroup)(memberUid=".$this->getUid()."))", array("cn", "description"));
-    $groupMembership = array();
-    while ($attrs = $ldap->fetch()) {
-      if (!isset($attrs["description"][0])) {
-        $entry = $attrs["cn"][0];
-      } else {
-        $entry = $attrs["cn"][0]." [".$attrs["description"][0]."]";
-      }
-      $groupMembership[$ldap->getDN()] = $entry;
-    }
-    asort($groupMembership);
-    reset($groupMembership);
     $this->attributesAccess['groupMembership']->setInLdap(FALSE);
-    $this->attributesAccess['groupMembership']->setValue(array_keys($groupMembership));
-    $this->attributesAccess['groupMembership']->setDisplayValues(array_values($groupMembership));
-    $this->savedGroupMembership = array_keys($groupMembership);
+    if ($this->is_template) {
+      unset($this->attrs['posixGroups']['count']);
+      $this->groupMembership = $this->attrs['posixGroups'];
+    } else {
+      /* Groups handling */
+      $ldap->cd($this->config->current['BASE']);
+      $ldap->search("(&(objectClass=posixGroup)(memberUid=".$this->getUid()."))", array("cn", "description"));
+      $groupMembership = array();
+      while ($attrs = $ldap->fetch()) {
+        if (!isset($attrs["description"][0])) {
+          $entry = $attrs["cn"][0];
+        } else {
+          $entry = $attrs["cn"][0]." [".$attrs["description"][0]."]";
+        }
+        $groupMembership[$ldap->getDN()] = $entry;
+      }
+      asort($groupMembership);
+      reset($groupMembership);
+      $this->attributesAccess['groupMembership']->setValue(array_keys($groupMembership));
+      $this->attributesAccess['groupMembership']->setDisplayValues(array_values($groupMembership));
+      $this->savedGroupMembership = array_keys($groupMembership);
+    }
   }
 
   function getUid()
@@ -539,6 +543,10 @@ class posixAccount extends simplePlugin
     } elseif (($this->trustMode == "") && (($key = array_search('hostObject', $this->attrs['objectClass'])) !== FALSE)) {
       unset($this->attrs['objectClass'][$key]);
     }
+
+    if ($this->is_template) {
+      $this->attrs['posixGroups'] = $this->groupMembership;
+    }
   }
 
   function save()
@@ -546,24 +554,24 @@ class posixAccount extends simplePlugin
     parent::save();
     del_lock("uidnumber");
 
-    /* Take care about groupMembership values: add to groups */
-    $groupMembership = $this->attributesAccess['groupMembership']->getValue();
-    foreach ($groupMembership as $value) {
-      if (!in_array($value, $this->savedGroupMembership)) {
-        $g = new grouptabs($this->config, $this->config->data['TABS']['GROUPTABS'], $value, "group");
-        $g->set_acl_base($value);
-        $g->by_object['group']->addUser($this->getUid());
-        $g->save();
+    if (!$this->is_template) {
+      /* Take care about groupMembership values: add to groups */
+      $groupMembership = $this->attributesAccess['groupMembership']->getValue();
+      foreach ($groupMembership as $value) {
+        if (!in_array($value, $this->savedGroupMembership)) {
+          $g = objects::open($value, 'group');
+          $g->by_object['group']->addUser($this->dn, $this->getUid());
+          $g->save();
+        }
       }
-    }
 
-    /* Remove groups not listed in groupMembership */
-    foreach ($this->savedGroupMembership as $value) {
-      if (!in_array($value, $groupMembership)) {
-        $g = new grouptabs($this->config, $this->config->data['TABS']['GROUPTABS'], $value, "group");
-        $g->set_acl_base($value);
-        $g->by_object['group']->removeUser($this->getUid());
-        $g->save();
+      /* Remove groups not listed in groupMembership */
+      foreach ($this->savedGroupMembership as $value) {
+        if (!in_array($value, $groupMembership)) {
+          $g = objects::open($value, 'group');
+          $g->by_object['group']->removeUser($this->getUid());
+          $g->save();
+        }
       }
     }
   }
@@ -599,13 +607,9 @@ class posixAccount extends simplePlugin
 
     parent::adapt_from_template($attrs, $skip);
     $template = $this->attrs['uid'][0];
-    //~ /* Adapt group membership */
-    //~ $ldap->cd($this->config->current['BASE']);
-    //~ $ldap->search("(&(objectClass=posixGroup)(memberUid=$template))", array("description", "cn"));
-    //~ while ($entry = $ldap->fetch()) {
-      //~ $this->attributesAccess['groupMembership']->addValue($ldap->getDN(), $entry);
-    //~ }
-    // FIXME : we need to find a way to handle group membership through templates
+    $this->savedGroupMembership = $this->groupMembership;
+    unset($this->attrs['posixGroups']['count']);
+    $this->groupMembership = $this->attrs['posixGroups'];
 
     $this->attributesAccess['uidNumber']->setInitialValue('');
 
