@@ -209,6 +209,16 @@ class group extends simplePlugin
   {
     return 'cn='.$this->attributesAccess['cn']->getValue().','.get_groups_ou().$this->base;
   }
+
+  function addUser($dn, $uid)
+  {
+    $this->attributesAccess['memberUid']->addValue($dn, array('uid' => array($uid), 'cn' => array($uid)));
+  }
+
+  function removeUser($uid)
+  {
+    $this->attributesAccess['memberUid']->searchAndRemove($uid);
+  }
 }
 
 ?>
