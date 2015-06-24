@@ -921,7 +921,9 @@ class simplePlugin extends plugin
         continue;
       }
       /* Load values */
-      $attr->loadValue($this->attrs);
+      if (!$attr->isDisabled()) {
+        $attr->loadValue($this->attrs);
+      }
     }
     unset($attr);
 

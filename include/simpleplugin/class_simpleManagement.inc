@@ -48,12 +48,14 @@ class templateDialog
 
   function save_object ()
   {
-    if (isset($_POST[$this->post_cancel])) {
-      return $this->handle_cancel();
-    }
-    if ((isset($_POST[$this->post_finish]) || isset($_GET[$this->post_finish])) && is_object($this->template)) {
-      $this->template->save_object();
-      return $this->handle_finish();
+    if ($this->target === NULL) {
+      if (isset($_POST[$this->post_cancel])) {
+        return $this->handle_cancel();
+      }
+      if ((isset($_POST[$this->post_finish]) || isset($_GET[$this->post_finish])) && is_object($this->template)) {
+        $this->template->save_object();
+        return $this->handle_finish();
+      }
     }
 
     if (
@@ -64,6 +66,7 @@ class templateDialog
         trigger_error('redefining template object');
       }
       $this->template = new template($this->type, $_POST['template']);
+      unset($_POST['template']); // This method can loop if there are several targets
     }
     if (is_object($this->template)) {
       if ($this->target !== NULL) {
@@ -499,8 +502,8 @@ class simpleManagement extends management
     } else {
       $this->tabObject->save();
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Template applied!");
+      del_lock($this->dn);
       if (empty($this->dns)) {
-        $this->remove_lock();
         $this->closeDialogs();
       } else {
         $this->last_tabObject = $this->tabObject;
