@@ -603,10 +603,9 @@ class posixAccount extends simplePlugin
   function adapt_from_template($attrs, $skip = array())
   {
     /* Include global link_info */
-    //~ $ldap = $this->config->get_ldap_link();
 
     parent::adapt_from_template($attrs, $skip);
-    $template = $this->attrs['uid'][0];
+
     $this->savedGroupMembership = $this->groupMembership;
     unset($this->attrs['posixGroups']['count']);
     $this->groupMembership = $this->attrs['posixGroups'];
@@ -616,14 +615,6 @@ class posixAccount extends simplePlugin
     /* Fix primary group settings */
     if ($this->gidNumber == 2147483647) {
       $this->gidNumber = "";
-    }
-
-    if ($this->gidNumber) {
-      $ldap->cd($this->config->current['BASE']);
-      $ldap->search("(&(objectClass=posixGroup)(cn=$template)(gidNumber=".$this->gidNumber."))", array("cn"));
-      if ($ldap->count() != 1) {
-        $this->primaryGroup = $this->gidNumber;
-      }
     }
 
     if ((count($this->host) == 1) && ($this->host[0] == '*')) {

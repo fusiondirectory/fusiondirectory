@@ -240,6 +240,11 @@ class Attribute
     $this->disabled = $disabled;
   }
 
+  function isDisabled ()
+  {
+    return $this->disabled;
+  }
+
   function setManagingDisabled ($sender, $value)
   {
     $this->managingAttributesOrders[$sender] = $value;
