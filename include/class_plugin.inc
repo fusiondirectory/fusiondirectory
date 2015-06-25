@@ -903,8 +903,9 @@ class plugin
         continue;
       }
       if (preg_match('/^([^|]+)\|/', $mask, $m)) {
-        $fields[] = substr($mask, strlen($m[0]));
+        $mask = substr($mask, strlen($m[0]));
       }
+      $fields[] = $mask;
     }
     return $fields;
   }
