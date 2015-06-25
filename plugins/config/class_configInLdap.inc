@@ -238,14 +238,10 @@ class configInLdap extends simplePlugin
             'fdAccountPrimaryAttribute', TRUE,
             array('uid', 'cn')
           ),
-          new BooleanAttribute (
-            _('Include personal title in user DN'),
-            _('Include personal title in user DN'),
-            'fdPersonalTitleInDN'
-          ),
           new StringAttribute (
-            _('Customized CN'), _('Use a placeholder pattern for generating account cns'),
-            'fdAccountRDN', FALSE
+            _('CN pattern'), _('The pattern to use to build the common name field'),
+            'fdCnPattern', TRUE,
+            '%givenName% %sn%'
           ),
           new StringAttribute (
             _('Automatic logins'), _('Automatic way to generate new users logins'),
@@ -435,15 +431,6 @@ class configInLdap extends simplePlugin
         'disable' => array (
           FALSE => array (
             'fdSnapshotBase',
-          )
-        )
-      )
-    );
-    $this->attributesAccess['fdAccountPrimaryAttribute']->setManagedAttributes(
-      array(
-        'erase' => array (
-          'uid' => array (
-            'fdPersonalTitleInDN',
           )
         )
       )

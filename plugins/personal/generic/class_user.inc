@@ -396,16 +396,9 @@ class user extends simplePlugin
 
   private function update_cn()
   {
-    // Fill cn (it may be overridden by accountRDN)
-    $pt = "";
-    if ($this->config->get_cfg_value('personalTitleInDN') == 'TRUE') {
-      if (!empty($this->personalTitle)) {
-        $pt = $this->personalTitle." ";
-      }
-    }
-
+    $pattern = $this->config->get_cfg_value('CnPattern', '%givenName% %sn%');
     $this->attributesAccess['cn']->setValue(
-      $pt.$this->attributesAccess['givenName']->getValue()." ".$this->attributesAccess['sn']->getValue()
+      $this->tpl_parse($pattern)
     );
   }
 
@@ -417,16 +410,7 @@ class user extends simplePlugin
     }
 
     $this->update_cn();
-    // Handle accountRDN if filled
-    $attribute  = '';
-    $pattern    = $this->config->get_cfg_value('accountRDN', '');
-    if ($pattern != '') {
-      $attribute  = preg_replace('/^([^=]+)=/', '\1', $pattern);
-      $pattern    = preg_replace('/^[^=]+=/',   '',   $pattern);
-      $this->attributesAccess[$attribute]->setValue($this->tpl_parse($pattern));
-    } else {
-      $attribute = $this->config->get_cfg_value('accountPrimaryAttribute', 'uid');
-    }
+    $attribute = $this->config->get_cfg_value('accountPrimaryAttribute', 'uid');
 
     return $this->create_unique_dn($attribute, get_people_ou().$this->base);
   }

@@ -55,6 +55,7 @@ attributetype ( 1.3.6.1.4.1.38414.8.12.1 NAME 'fdAccountPrimaryAttribute'
 
 attributetype ( 1.3.6.1.4.1.38414.8.12.2 NAME 'fdAccountRDN'
   DESC 'FusionDirectory - use a placeholder pattern for generating account RDNs'
+  OBSOLETE
   EQUALITY caseExactIA5Match
   SUBSTR caseExactIA5SubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
@@ -75,6 +76,7 @@ attributetype ( 1.3.6.1.4.1.38414.8.12.4 NAME 'fdIdGenerator'
   SINGLE-VALUE)
 
 attributetype ( 1.3.6.1.4.1.38414.8.12.5 NAME 'fdPersonalTitleInDN'
+  OBSOLETE
   DESC 'FusionDirectory - Personal title in dn'
   EQUALITY booleanMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
@@ -151,6 +153,13 @@ attributetype ( 1.3.6.1.4.1.38414.8.12.16 NAME 'fdUidNumberPoolMax'
 
 attributetype ( 1.3.6.1.4.1.38414.8.12.17 NAME 'fdAclRoleRDN'
   DESC 'FusionDirectory - ACL role RDN'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
+attributetype ( 1.3.6.1.4.1.38414.8.12.18 NAME 'fdCnPattern'
+  DESC 'FusionDirectory - Common Name pattern'
   EQUALITY caseExactIA5Match
   SUBSTR caseExactIA5SubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
@@ -483,11 +492,11 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
     fusionConfigMd5 $
     fdSchemaCheck $
     fdLanguage $ fdTheme $ fdTimezone $
-    fdAccountPrimaryAttribute $ fdAccountRDN $ fdNextIdHook $ fdIdGenerator $
-    fdPersonalTitleInDN $ fdStrictNamingRules $ fdMinId $ fdUidNumberBase $
+    fdAccountPrimaryAttribute $ fdNextIdHook $ fdIdGenerator $
+    fdStrictNamingRules $ fdMinId $ fdUidNumberBase $
     fdGidNumberBase $ fdUserRDN $ fdGroupRDN $ fdIdAllocationMethod $
     fdGidNumberPoolMin $ fdUidNumberPoolMin $ fdGidNumberPoolMax $ fdUidNumberPoolMax $
-    fdAclRoleRDN $
+    fdAclRoleRDN $ fdCnPattern
     fdPasswordDefaultHash $ fdPasswordMinLength $ fdPasswordMinDiffer $
     fdPasswordHook $ fdHandleExpiredAccounts $ fdSaslRealm $ fdSaslExop $
     fdForcePasswordDefaultHash $
@@ -499,7 +508,7 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
     fdTabHook $ fdShells $ fdDisplayHookOutput $
     fdAclTabOnObjects $
     fdRfc2307bis $ fdCopyPaste $ fdSnapshotURI $
-    fdSnapshotAdminDn $ fdSnapshotAdminPassword
+    fdSnapshotAdminDn $ fdSnapshotAdminPassword $ fdPersonalTitleInDN $ fdAccountRDN
   ) )
 
 objectclass ( 1.3.6.1.4.1.38414.8.2.2 NAME 'fusionDirectoryPluginsConf'
