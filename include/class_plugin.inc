@@ -898,7 +898,7 @@ class plugin
     $offset = 0;
     while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
       $mask   = $m[1][0];
-      $offset = $m[0][1] + strlen($mask);
+      $offset = $m[0][1] + strlen($m[0][0]);
       if ($mask == '|') {
         continue;
       }
