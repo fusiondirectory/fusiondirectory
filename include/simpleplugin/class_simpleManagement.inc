@@ -486,33 +486,69 @@ class simpleManagement extends management
     // Add locks
     add_lock ($this->dns, $this->ui->dn);
 
-    $this->dn           = array_pop($this->dns);
+    $this->dn           = array_shift($this->dns);
     $this->dialogObject = new templateDialog($this, $type, NULL, $this->dn);
   }
 
-  function handleTemplateApply ()
+  function handleTemplateApply ($cancel = FALSE)
   {
     if ($this->skipTemplates) {
       return;
     }
-    $msgs = $this->tabObject->check();
+    if ($cancel) {
+      $msgs = array();
+    } else {
+      $msgs = $this->tabObject->check();
+    }
     if (count($msgs)) {
       msg_dialog::displayChecks($msgs);
       return;
     } else {
-      $this->tabObject->save();
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Template applied!");
+      if (!$cancel) {
+        $this->tabObject->save();
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Template applied!");
+      }
       del_lock($this->dn);
       if (empty($this->dns)) {
         $this->closeDialogs();
       } else {
         $this->last_tabObject = $this->tabObject;
         $this->tabObject      = NULL;
-        $this->dn             = array_pop($this->dns);
+        $this->dn             = array_shift($this->dns);
         $this->dialogObject->setNextTarget($this->dn);
         $this->dialogObject->save_object();
       }
     }
+  }
+
+  /*!
+   * \brief  Save object modifications and closes dialogs (returns to object listing).
+   *          - Calls 'tab::check' to validate the given input.
+   *          - Calls 'tab::save' to save back object modifications (e.g. to ldap).
+   *          - Calls 'management::remove_locks' to remove eventually created locks.
+   *          - Calls 'management::closeDialogs' to return to the object listing.
+   */
+  protected function saveChanges()
+  {
+    if (($this->tabObject instanceOf tabs) && ($this->dialogObject instanceOf templateDialog)) {
+      $this->tabObject->save_object();
+      $this->handleTemplateApply();
+      return;
+    }
+    parent::saveChanges();
+  }
+
+  /*!
+   * \brief  Editing an object was caneled.
+   *          Close dialogs/tabs and remove locks.
+   */
+  protected function cancelEdit()
+  {
+    if (($this->tabObject instanceOf tabs) && ($this->dialogObject instanceOf templateDialog)) {
+      $this->handleTemplateApply(TRUE);
+      return;
+    }
+    parent::cancelEdit();
   }
 
 
