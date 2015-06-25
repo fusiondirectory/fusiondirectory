@@ -394,12 +394,28 @@ class user extends simplePlugin
     $this->attributesAccess['uid']->setDisabled($this->initially_was_account && !$this->is_template);
   }
 
-  private function update_cn()
+  private function update_cn ()
   {
-    $pattern = $this->config->get_cfg_value('CnPattern', '%givenName% %sn%');
-    $this->attributesAccess['cn']->setValue(
-      $this->tpl_parse($pattern)
-    );
+    $pattern  = $this->config->get_cfg_value('CnPattern', '%givenName% %sn%');
+    $fields   = plugin::tpl_list_fields($pattern);
+    $attrs    = array();
+    foreach ($fields as $field) {
+      if (in_array($field, $this->attributes)) {
+        $attrs[$field] = $this->$field;
+        continue;
+      }
+
+      if (isset($this->parent->by_object)) {
+        foreach ($this->parent->by_object as $object) {
+          if (in_array($field, $object->attributes)) {
+            $attrs[$field] = $object->$field;
+            continue 2;
+          }
+        }
+      }
+      trigger_error('Could not find field '.$field.' in any tab!');
+    }
+    $this->attributesAccess['cn']->setValue(plugin::tpl_parse_string($pattern, $attrs));
   }
 
   function compute_dn()
