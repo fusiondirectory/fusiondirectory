@@ -888,6 +888,27 @@ class plugin
     return $string;
   }
 
+  /*! Brief Parse template masks in a single string and list the fields it needs
+   *
+   * return An array with the names of the fields used in the string pattern
+   */
+  static function tpl_list_fields($string)
+  {
+    $fields = array();
+    $offset = 0;
+    while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
+      $mask   = $m[1][0];
+      $offset = $m[0][1] + strlen($mask);
+      if ($mask == '|') {
+        continue;
+      }
+      if (preg_match('/^([^|]+)\|/', $mask, $m)) {
+        $fields[] = substr($mask, strlen($m[0]));
+      }
+    }
+    return $fields;
+  }
+
   /*!
    * \brief Show header message for tab dialogs
    *
