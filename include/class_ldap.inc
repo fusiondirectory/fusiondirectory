@@ -670,7 +670,7 @@ class LDAP
 
     if ($this->hascon) {
       if ($this->reconnect) $this->connect();
-      $r = ldap_rename($this->cid, @LDAP::fix($source), @LDAP::fix($dest_rdn), @LDAP::fix($parent), TRUE);
+      $r = ldap_rename($this->cid, @LDAP::fix($source), @LDAP::fix($dest_rdn), @LDAP::fix($parent), FALSE);
       $this->error = ldap_error($this->cid);
 
       /* Check if destination dn exists, if not the
