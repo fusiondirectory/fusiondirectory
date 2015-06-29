@@ -98,6 +98,13 @@ class Step_Config extends configInLdap
     parent::save_object();
     $tmp = $this->check();
     if (count($tmp) == 0) {
+      /* Create root object if missing */
+      $ldap = $config->get_ldap_link();
+      $ldap->cd($config->current['BASE']);
+      $ldap->create_missing_trees($config->current['BASE']);
+      if (!$ldap->success()) {
+        return msgPool::ldaperror($ldap->get_error(), $config->current['BASE'], 'create_missing_trees', get_class());
+      }
       /* Save in LDAP */
       $this->save();
       /* Reload config from LDAP */

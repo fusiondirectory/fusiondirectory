@@ -255,7 +255,6 @@ class Step_Migrate extends setupStep
     $config->get_departments();
 
     $checks = array(
-      'base'          => new StepMigrateCheck($this, 'base',          _('Checking for root object')),
       'baseOC'        => new StepMigrateCheck($this, 'baseOC',        _('Inspecting object classes in root object')),
       'permissions'   => new StepMigrateCheck($this, 'permissions',   _('Checking permission for LDAP database')),
       'gosaAccounts'  => new StepMigrateCheck($this, 'gosaAccounts',  _('Checking for invisible users')),
@@ -311,53 +310,6 @@ class Step_Migrate extends setupStep
     foreach ($this->checks as $check) {
       $check->save_object();
     }
-  }
-
-  /* Check if the root object exists.
-   * If the parameter just_check is TRUE, then just check if the
-   *  root object is missing and update the info messages.
-   * If the Parameter is FALSE, try to create a new root object.
-   */
-  function check_base(&$checkobj)
-  {
-    global $config;
-
-    $ldap = $config->get_ldap_link();
-
-    /* Check if root object exists */
-    $ldap->cd($config->current['BASE']);
-    $ldap->set_size_limit(1);
-    $res = $ldap->search("(objectClass=*)");
-    $ldap->set_size_limit(0);
-    $err = ldap_errno($ldap->cid);
-
-    if ( !$res ||
-        $err == 0x20 || // LDAP_NO_SUCH_OBJECT
-        $err == 0x40) { // LDAP_NAMING_VIOLATION
-
-      /* Root object doesn't exists */
-      throw new CheckFailedException(
-        _('Failed'),
-        _('The LDAP root object is missing. It is required to use your LDAP service.').'&nbsp;'.
-        $checkobj->submit(_('Try to create root object'), 'create')
-      );
-    }
-
-    /* Root object exists */
-    return '';
-  }
-
-  function check_base_create (&$checkobj)
-  {
-    global $config;
-
-    $ldap = $config->get_ldap_link();
-
-    /* Add root object */
-    $ldap->cd($config->current['BASE']);
-    $ldap->create_missing_trees($config->current['BASE']);
-    /* Re-run test */
-    $checkobj->run();
   }
 
   /* Check if the root object includes the required object classes, e.g. gosaDepartment is required for ACLs.
