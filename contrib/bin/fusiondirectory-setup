@@ -1004,54 +1004,6 @@ sub check_ldap {
   $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
 }
 
-# function that migrate old FAI repos
-sub migrate_repo {
-
-  # initiate the LDAP connexion
-  my %hash_ldap_param = get_ldap_connexion();
-
-  # LDAP's connection's parameters
-  my $base = $hash_ldap_param{base};
-  my $ldap = $hash_ldap_param{ldap};
-
-  # search for FAI repository server
-  my $fai_repo = $ldap->search (base => $base, filter => "(&(FAIrepository=*)(objectClass=FAIrepositoryServer))");
-  $fai_repo->code && die $fai_repo->error;
-
-  # stock search's results
-  my @fai_entries = $fai_repo->entries;
-
-  foreach my $repoServer (@fai_entries) {
-    # retrieve the FAIrepository from the LDAP object
-    my $ref_FAIrepo = $repoServer->get_value('fairepository', asref=>1);
-    my @repos;
-
-    # foreach FAIrepository of the LDAP object
-    foreach my $repo (@{$ref_FAIrepo}) {
-      my (@items) = split('\|',$repo);
-      # Unless the FAIrepository has already been migrated
-      if (scalar @items < 5) {
-        print "modifying $repo\n";
-        push @repos, $repo."|install|local|i386";
-      } elsif (scalar @items < 6) {
-        print "repository $repo seems malformed\n";
-        push @repos, $repo;
-      } elsif (scalar @items < 7) {
-        print "modifying $repo\n";
-        push @repos, $repo."|i386";
-      } else {
-        print "keeping $repo\n";
-        push @repos, $repo;
-      }
-    }
-    my $modify = $ldap->modify ($repoServer->dn, replace => [ FAIrepository => \@repos]);
-    $modify->code && warn "! Unable to modify FAI repositories for ".$repoServer->dn." : ".$modify->error."\n";
-  }
-  # unbind to the LDAP server
-  my $unbind = $ldap->unbind;
-  $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
-}
-
 # function that create a directory and copy plugin files in it
 sub create_and_copy_plugin_dir {
   my ($plugin_dir,$dest_dir) = @_;
@@ -1471,7 +1423,6 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--check-directories"}    = ["Checking FusionDirectory's directories",        \&check_directories];
   $commands{"--check-config"}         = ["Checking FusionDirectory's config file",        \&check_config];
   $commands{"--check-ldap"}           = ["Checking your LDAP tree",                       \&check_ldap];
-  $commands{"--migrate-repositories"} = ["Migrating your FAI repositories",               \&migrate_repo];
   $commands{"--migrate-users"}        = ["Migrating your users",                          \&migrate_users];
   $commands{"--migrate-acls"}         = ["Migrating your ACLs",                           \&migrate_acls];
   $commands{"--install-plugins"}      = ["Installing FusionDirectory's plugins",          \&install_plugins];
@@ -1532,7 +1483,7 @@ fusiondirectory-setup - FusionDirectory setup script
 =head1 DESCRIPTION
 
 This script is designed to perform multiple checks on your FusionDirectory/LDAP architecture, and fix usual misconfiguration.
-Some extra features allow you to install FusionDirectory's plugins, changes destinations directories, and migrate your old FAIrepositories.
+Some extra features allow you to install FusionDirectory's plugins, and change destinations directories.
 
 =head2 Options
 
@@ -1558,10 +1509,6 @@ This option perform a check on FusionDirectory's config file.
 =item --check-ldap
 
 This option check your LDAP tree. Looking for admin account, and groups or people branch. If one of those don't exists, the script will ask you what to do.
-
-=item --migrate-repositories
-
-This option check the fairepository object in your ldap tree and add the new option for FusionDirectory 1.0.2.
 
 =item --migrate-users
 
