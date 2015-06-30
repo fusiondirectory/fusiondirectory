@@ -1,5 +1,30 @@
 #!/usr/bin/perl
 
+########################################################################
+#
+#  fusiondirectory-setup
+#
+#  Manage fusiondirectory installs from the command line
+#
+#  This code is part of FusionDirectory (http://www.fusiondirectory.org/)
+#  Copyright (C) 2011-2015  FusionDirectory
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+#
+########################################################################
+
 use strict;
 use warnings;
 use 5.008;
@@ -85,7 +110,6 @@ sub ask_yn_question {
       return 0;
     }
   }
-
 }
 
 # function that ask for an user input and do some checks
@@ -308,8 +332,8 @@ sub get_classes {
           $file =~ s/^$vars{fd_home}//;
 
           foreach my $line ( @lines ) {
-          # remove \n from the end of each line
-          chomp $line;
+            # remove \n from the end of each line
+            chomp $line;
 
             # only process for lines beginning with "class", and extracting the 2nd word (the class name)
             if ( $line =~ /^class\s*(\w+).*/ ) {
@@ -421,6 +445,8 @@ sub get_apache_group {
     $apache_group = "apache";
   } elsif (-e "/etc/SuSE-release") {
     $apache_group = "www";
+  } elsif (-e "/etc/arch-release") {
+    $apache_group = "http";
   } else {
     print ("! Looks like you are not a Debian, Suse, Redhat or Mageia, I don't know your distribution !\n");
     $apache_group = ask_user_input ("What is your apache group?");
@@ -978,54 +1004,6 @@ sub check_ldap {
   $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
 }
 
-# function that migrate old FAI repos
-sub migrate_repo {
-
-  # initiate the LDAP connexion
-  my %hash_ldap_param = get_ldap_connexion();
-
-  # LDAP's connection's parameters
-  my $base = $hash_ldap_param{base};
-  my $ldap = $hash_ldap_param{ldap};
-
-  # search for FAI repository server
-  my $fai_repo = $ldap->search (base => $base, filter => "(&(FAIrepository=*)(objectClass=FAIrepositoryServer))");
-  $fai_repo->code && die $fai_repo->error;
-
-  # stock search's results
-  my @fai_entries = $fai_repo->entries;
-
-  foreach my $repoServer (@fai_entries) {
-    # retrieve the FAIrepository from the LDAP object
-    my $ref_FAIrepo = $repoServer->get_value('fairepository', asref=>1);
-    my @repos;
-
-    # foreach FAIrepository of the LDAP object
-    foreach my $repo (@{$ref_FAIrepo}) {
-      my (@items) = split('\|',$repo);
-      # Unless the FAIrepository has already been migrated
-      if (scalar @items < 5) {
-        print "modifying $repo\n";
-        push @repos, $repo."|install|local|i386";
-      } elsif (scalar @items < 6) {
-        print "repository $repo seems malformed\n";
-        push @repos, $repo;
-      } elsif (scalar @items < 7) {
-        print "modifying $repo\n";
-        push @repos, $repo."|i386";
-      } else {
-        print "keeping $repo\n";
-        push @repos, $repo;
-      }
-    }
-    my $modify = $ldap->modify ($repoServer->dn, replace => [ FAIrepository => \@repos]);
-    $modify->code && warn "! Unable to modify FAI repositories for ".$repoServer->dn." : ".$modify->error."\n";
-  }
-  # unbind to the LDAP server
-  my $unbind = $ldap->unbind;
-  $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
-}
-
 # function that create a directory and copy plugin files in it
 sub create_and_copy_plugin_dir {
   my ($plugin_dir,$dest_dir) = @_;
@@ -1392,6 +1370,22 @@ sub ldif_deprecated {
   }
 }
 
+sub show_version {
+  my $variables_common_path = "$vars{fd_home}/include/variables_common.inc";
+  if (-e $variables_common_path) {
+    open(VARS, $variables_common_path) || die ("Could not open $variables_common_path");
+    while(<VARS>) {
+      if ($_ =~ m/^define \(["']FD_VERSION["'], "([^"]+)"\);/) {
+        print "FusionDirectory version is $1\n";
+        last;
+      }
+    }
+    close(VARS);
+  } else {
+    print "File $variables_common_path does not exists, can’t find out FusionDirectory version\n";
+  }
+}
+
 # function that set useful vars based on user specified folders and files
 sub set_vars {
   $fd_config        = $vars{fd_config_dir}."/".$vars{config_file};
@@ -1429,17 +1423,17 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--check-directories"}    = ["Checking FusionDirectory's directories",        \&check_directories];
   $commands{"--check-config"}         = ["Checking FusionDirectory's config file",        \&check_config];
   $commands{"--check-ldap"}           = ["Checking your LDAP tree",                       \&check_ldap];
-  $commands{"--migrate-repositories"} = ["Migrating your FAI repositories",               \&migrate_repo];
   $commands{"--migrate-users"}        = ["Migrating your users",                          \&migrate_users];
   $commands{"--migrate-acls"}         = ["Migrating your ACLs",                           \&migrate_acls];
   $commands{"--install-plugins"}      = ["Installing FusionDirectory's plugins",          \&install_plugins];
   $commands{"--encrypt-passwords"}    = ["Encrypt passwords in fusiondirectory.conf",     \&encrypt_passwords];
-  $commands{"--write-vars"}           = ["Choose FusionDirectory Directories",            \&write_vars];
+  $commands{"--show-version"}         = ["Show FusionDirectory version from variables_common.inc",          \&show_version];
   $commands{"--list-vars"}            = ["List possible vars to give --set",              \&list_vars];
-  $commands{"--list-deprecated"}      = ["List deprecated attributes and objectclasses",  \&list_deprecated];
-  $commands{"--check-deprecated"}     = ["List LDAP entries using deprecated attributes or objectclasses", \&check_deprecated];
-  $commands{"--ldif-deprecated"}      = ["# Print an LDIF removing deprecated attributes",\&ldif_deprecated];
+  $commands{"--write-vars"}           = ["Choose FusionDirectory Directories",            \&write_vars];
   $commands{"--set-VAR=value"}        = ["Set the variable VAR to value see --list-vars", \&die]; # Won't be called because it contains uppercase
+  $commands{"--list-deprecated"}      = ["List deprecated attributes and objectclasses",  \&list_deprecated];
+  $commands{"--check-deprecated"}     = ["List LDAP entries using deprecated attributes or objectclasses",  \&check_deprecated];
+  $commands{"--ldif-deprecated"}      = ["# Print an LDIF removing deprecated attributes",\&ldif_deprecated];
 
   my $usage = 0;
 
@@ -1489,7 +1483,7 @@ fusiondirectory-setup - FusionDirectory setup script
 =head1 DESCRIPTION
 
 This script is designed to perform multiple checks on your FusionDirectory/LDAP architecture, and fix usual misconfiguration.
-Some extra features allow you to install FusionDirectory's plugins, changes destinations directories, and migrate your old FAIrepositories.
+Some extra features allow you to install FusionDirectory's plugins, and change destinations directories.
 
 =head2 Options
 
@@ -1516,13 +1510,13 @@ This option perform a check on FusionDirectory's config file.
 
 This option check your LDAP tree. Looking for admin account, and groups or people branch. If one of those don't exists, the script will ask you what to do.
 
-=item --migrate-repositories
-
-This option check the fairepository object in your ldap tree and add the new option for FusionDirectory 1.0.2.
-
 =item --migrate-users
 
 This option add FusionDirectory attributes to the people branch.
+
+=item --migrate-acls
+
+This option will migrated old GOsa style acl from 1.0.7 into FusionDirectory acl roles in 1.0.8
 
 =item --install-plugins
 
@@ -1532,17 +1526,33 @@ This option will install the plugin from a tar.gz of the plugin. This option is 
 
 This option will encrypt the password inside your fusiondirectory.conf file, it need the headers module to be activated in your apache to work.
 
+=item --show-version
+
+This option will parse the file variables_common.inc of FusionDirectory to find out which version of FusionDirectory is installed.
+
 =item --list_vars
 
 This option will list the variables you can change to install FusionDirectory on another set of directories. This option is intended for people wanting to install from the sources.
+
+=item --write-vars
+
+This option will write back the variables.inc file with the updated variables and is only useful with --set-VAR=variable and for people installing from sources.
 
 =item --set-VAR=variable
 
 This option will change the variable for the FusionDirectory installation. it is only useful with --install-directories and for people installing from sources.
 
-=item --write-vars
+=item --list-deprecated
 
-This option will write back the variables.inc file with the updated variables and is only useful with --set-VAR=variable and for people installing from sources.
+This option will list the deprecated attributes and objectclasses still in your schemas and no longer used by FusionDirectory.
+
+=item --check-deprecated
+
+This option will list the dn of LDAP entries using deprecated attributes or objectclasses and no longer used by FusionDirectory.
+
+=item --ldif-deprecated
+
+This option will print an LDIF to allow you to remove deprecated attributes from you ldap server. Be carefull and check before applying.
 
 =item --yes
 
@@ -1594,7 +1604,7 @@ This code is part of FusionDirectory (http://www.fusiondirectory.org/)
 
 =over 2
 
-=item Copyright (C) 2011-2014  FusionDirectory
+=item Copyright (C) 2011-2015  FusionDirectory
 
 =back
 

@@ -283,7 +283,7 @@ class configInLdap extends simplePlugin
               'fdShells', FALSE
             ),
             array('/bin/ash','/bin/bash','/bin/csh','/bin/sh','/bin/ksh',
-                  '/bin/tcsh','/bin/dash','/bin/zsh','/sbin/nologin')
+                  '/bin/tcsh','/bin/dash','/bin/zsh','/sbin/nologin','/bin/false')
           ),
           new BooleanAttribute (
             _('Show ACL tab on all objects'),

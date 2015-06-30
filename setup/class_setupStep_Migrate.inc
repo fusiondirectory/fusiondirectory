@@ -31,7 +31,6 @@ migrate_gosaAccounts        - Migrate selected users to FusionDirectory user acc
 check_organizationalUnits   - Check if there are departments, that are not visible for FusionDirectory
 migrate_organizationalUnits - Migrate selected departments
 check_administrativeAccount - Check if there is at least one acl entry available
-checkBase                   - Check if there is a root object available
 
 get_user_list               - Get list of available users
 get_group_list              - Get list of groups
@@ -155,11 +154,6 @@ class Step_Migrate extends setup_step
   function initialize_checks()
   {
     $this->checks = array();
-    $this->checks['root']['TITLE']      = _("Checking for root object");
-    $this->checks['root']['STATUS']     = FALSE;
-    $this->checks['root']['STATUS_MSG'] = "";
-    $this->checks['root']['ERROR_MSG']  = "";
-    $this->checkBase();
 
     $this->checks['rootOC']['TITLE']      = _("Inspecting object classes in root object");
     $this->checks['rootOC']['STATUS']     = FALSE;
@@ -1399,19 +1393,6 @@ class Step_Migrate extends setup_step
     }
 
     /*************
-     * Root object check
-     *************/
-
-    if (isset($_POST['retry_root_create'])) {
-
-      $state = $this->checks['root']['STATUS'];
-      $this->checkBase(FALSE);
-      if ($state != $this->checks['root']['STATUS']) {
-        $this->initialize_checks();
-      }
-    }
-
-    /*************
      * Root object class check
      *************/
 
@@ -1812,58 +1793,6 @@ class Step_Migrate extends setup_step
         }
       }
     }
-  }
-
-
-  /* Check if the root object exists.
-   * If the parameter just_check is TRUE, then just check if the
-   *  root object is missing and update the info messages.
-   * If the Parameter is FALSE, try to create a new root object.
-   */
-  function checkBase($just_check = TRUE)
-  {
-    /* Establish ldap connection */
-    $cv   = $this->parent->captured_values;
-    $ldap = $this->get_ldap_link();
-
-    /* Check if root object exists */
-    $ldap->cd($cv['base']);
-    $ldap->set_size_limit(1);
-    $res = $ldap->search("(objectClass=*)");
-    $ldap->set_size_limit(0);
-    $err = ldap_errno($ldap->cid);
-
-    if ( !$res ||
-        $err == 0x20 || // LDAP_NO_SUCH_OBJECT
-        $err == 0x40) { // LDAP_NAMING_VIOLATION
-
-      /* Root object doesn't exists */
-      if ($just_check) {
-        $this->checks['root']['STATUS']     = FALSE;
-        $this->checks['root']['STATUS_MSG'] = _("Failed");
-        $this->checks['root']['ERROR_MSG']  = _("The LDAP root object is missing. It is required to use your LDAP service.").'&nbsp;';
-        $this->checks['root']['ERROR_MSG']  .= "<input type='submit' name='retry_root_create' value='"._("Try to create root object")."'>";
-        return FALSE;
-      } else {
-
-        /* Add root object */
-        $ldap->cd($cv['base']);
-        $res = $ldap->create_missing_trees($cv['base']);
-
-        /* If adding failed, tell the user */
-        if (!$res) {
-          $this->checks['root']['STATUS']     = FALSE;
-          $this->checks['root']['STATUS_MSG'] = _("Failed");
-          $this->checks['root']['ERROR_MSG']  = _("Root object couldn't be created, you should try it on your own.");
-          $this->checks['root']['ERROR_MSG']  .= "&nbsp;<input type='submit' name='retry_root_create' value='"._("Try to create root object")."'>";
-          return $res;
-        }
-      }
-    }
-
-    /* Create & remove of dummy object was successful */
-    $this->checks['root']['STATUS']     = TRUE;
-    $this->checks['root']['STATUS_MSG'] = _("Ok");
   }
 
 

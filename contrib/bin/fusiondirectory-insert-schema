@@ -1,25 +1,29 @@
 #!/usr/bin/perl
 
-#######################################################################
+########################################################################
 #
-# fusiondirectory-insert-schema -- insert schema needed into the ldap server
+# fusiondirectory-insert-schema
 #
-# Copyright (C) 2011-2013 FusionDirectory project
+# Manipulate and insert the needed schema into the ldap server
 #
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 2 of the License, or
-# (at your option) any later version.
+#  This code is part of FusionDirectory (http://www.fusiondirectory.org/)
+#  Copyright (C) 2011-2015  FusionDirectory
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
 #
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
 #
-#######################################################################
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+#
+########################################################################
 
 use strict;
 use warnings;
@@ -34,6 +38,7 @@ my $schema2ldif       = "schema2ldif";
 my $listschemas = 0;
 my $modify      = 0;
 my $schemalist  = 0;
+my $yes_flag    = 0;
 my $pathunset   = 1;
 my $continue    = 0;
 my @schemas     = ();
@@ -51,6 +56,12 @@ foreach my $arg ( @ARGV ) {
     $listschemas = 1;
   } elsif ((lc($arg) eq '-c') || (lc($arg) eq '--continue')) {
     $continue = 1;
+  } elsif ((lc($arg) eq '-e') || (lc($arg) eq '--empty')) {
+    if ($schemalist) {
+      usage();
+    }
+    $modify = 2;
+    $schemalist = 1;
   } elsif ((lc($arg) eq '-m') || (lc($arg) eq '--modify')) {
     if ($schemalist) {
       usage();
@@ -61,6 +72,8 @@ foreach my $arg ( @ARGV ) {
     undef $ldap_host_options;
   } elsif ((lc($arg) eq '-n') || (lc($arg) eq '--nodelete')) {
     $delete_ldif = 0;
+  } elsif ((lc($arg) eq '-y') || (lc($arg) eq '--yes')) {
+    $yes_flag = 1;
   } elsif ((lc($arg) eq '-h') || (lc($arg) eq '--help')) {
     usage();
   } elsif ($schemalist) {
@@ -112,6 +125,9 @@ if (!($cnconfig =~ m/^dn:\s*cn=config$/)) {
 }
 
 if (scalar(@schemas) == 0) {
+  if ($modify == 2) {
+    usage("Missing schema list for -e option\n");
+  }
   # insert the default schemas
   @schemas = ("samba","core-fd","core-fd-conf","ldapns","recovery-fd");
   foreach my $schema (@schemas) {
@@ -125,21 +141,30 @@ if (scalar(@schemas) == 0) {
   $path = "";
 }
 
+if ($modify == 2) {
+  unless (ask_yn_question("Are you sure you want to empty schema(s) ".join(", ",@schemas)."?"))
+  {
+    die_with_error("Aborting…\n");
+  }
+}
+
 $continue++; # activating continue feature only for insertions
 
 foreach my $schema (@schemas) {
   my $schema_name = "";
 
-  # Searching schema name in ldif file first line.
-  open FILE, '< '.$path.$schema.".ldif" or die "Count not open ldif file : $!\n";
-  my $dn = "";
-  while ($dn eq "") {
-    chomp($dn = <FILE>);
+  if ($modify < 2) {
+    # Searching schema name in ldif file first line.
+    open FILE, '< '.$path.$schema.".ldif" or die "Count not open ldif file : $!\n";
+    my $dn = "";
+    while ($dn eq "") {
+      chomp($dn = <FILE>);
+    }
+    if ($dn =~ /^dn: cn=([^,]+),/) {
+      $schema_name = $1;
+    }
+    close(FILE);
   }
-  if ($dn =~ /^dn: cn=([^,]+),/) {
-    $schema_name = $1;
-  }
-  close(FILE);
 
   # Fallback on file name
   if ($schema_name eq "") {
@@ -179,44 +204,56 @@ sub insert_schema
       }
       my $dn_part = $1;
       # if the schema already exists in the LDAP server, modify it
-      open(SCHEMA, "<".$path.$schema.".ldif") or die_with_error('Could not open '."<".$path.$schema.".ldif: $!");
-      open(UPDATE, ">".$path.$schema."_update.ldif") or die_with_error('Could not open '.">".$path.$schema."_update.ldif: $!");
-      push @gen_files, $path.$schema."_update";
-      my $attrs   = 0;
-      my $classes = 0;
-      while (<SCHEMA>) {
-        next if m/^#/; # remove comments
-        chomp;
-        next if m/^$/; # remove empty lines
-        if (m/^dn: cn=([^,]+),cn=schema,cn=config$/) {
-          print UPDATE "dn: $dn_part,cn=schema,cn=config\n";
-          print UPDATE "changetype: modify\n";
-          next;
-        }
-        if (!m/^olcAttributeTypes:/ && !m/^olcObjectClasses:/ && !m/^ /) {
-          #skip cn, objectClass, …
-          next;
-        }
+      if ($modify == 1) {
+        open(SCHEMA, "<".$path.$schema.".ldif") or die_with_error('Could not open '."<".$path.$schema.".ldif: $!");
+        open(UPDATE, ">".$path.$schema."_update.ldif") or die_with_error('Could not open '.">".$path.$schema."_update.ldif: $!");
+        push @gen_files, $path.$schema."_update";
+        my $attrs   = 0;
+        my $classes = 0;
+        while (<SCHEMA>) {
+          next if m/^#/; # remove comments
+          chomp;
+          next if m/^$/; # remove empty lines
+          if (m/^dn: cn=([^,]+),cn=schema,cn=config$/) {
+            print UPDATE "dn: $dn_part,cn=schema,cn=config\n";
+            print UPDATE "changetype: modify\n";
+            next;
+          }
+          if (!m/^olcAttributeTypes:/ && !m/^olcObjectClasses:/ && !m/^ /) {
+            #skip cn, objectClass, …
+            next;
+          }
 
-        if (!$attrs && $classes) {
-          die "Malformed schema\n";
-        }
+          if (!$attrs && $classes) {
+            die "Malformed schema\n";
+          }
 
-        if (!$attrs && m/^olcAttributeTypes:/) {
-          $attrs = 1;
-          print UPDATE "replace: olcAttributeTypes\n";
-        }
-        if (!$classes && m/^olcObjectClasses:/) {
-          $classes = 1;
-          print UPDATE "-\n";
-          print UPDATE "replace: olcObjectClasses\n";
-        }
+          if (!$attrs && m/^olcAttributeTypes:/) {
+            $attrs = 1;
+            print UPDATE "replace: olcAttributeTypes\n";
+          }
+          if (!$classes && m/^olcObjectClasses:/) {
+            $classes = 1;
+            print UPDATE "-\n";
+            print UPDATE "replace: olcObjectClasses\n";
+          }
 
-        print UPDATE;
-        print UPDATE "\n";
+          print UPDATE;
+          print UPDATE "\n";
+        }
+        close SCHEMA;
+        close UPDATE;
+      } else { # Emptying schema
+        open(UPDATE, ">".$path.$schema."_update.ldif") or die_with_error('Could not open '.">".$path.$schema."_update.ldif: $!");
+        push @gen_files, $path.$schema."_update";
+        print UPDATE "dn: $dn_part,cn=schema,cn=config\n";
+        print UPDATE "changetype: modify\n";
+        print UPDATE "delete: olcAttributeTypes\n";
+        print UPDATE "-\n";
+        print UPDATE "delete: olcObjectClasses\n";
+        print UPDATE "-\n";
+        close UPDATE;
       }
-      close SCHEMA;
-      close UPDATE;
       $full_cmd = $mod_cmd.$path.$schema."_update.ldif";
       print "executing '$full_cmd'\n";
       if (system ($full_cmd) != 0) {
@@ -258,21 +295,43 @@ sub list_schemas
   }
 }
 
+# ask a question send as parameter, and return true if the answer is "yes"
+sub ask_yn_question {
+  return 1 if ($yes_flag);
+  my ($question) = @_;
+  print ( "$question [Yes/No]?\n" );
+
+  while ( my $input = <STDIN> ) {
+    # remove the \n at the end of $input
+    chomp $input;
+
+    # if user's answer is "yes"
+    if ( lc($input) eq "yes" || lc($input) eq "y") {
+      return 1;
+    # else if he answer "no"
+    } elsif ( lc($input) eq "no" || lc($input) eq "n") {
+      return 0;
+    }
+  }
+}
+
 sub usage
 {
   (@_) && print STDERR "\n@_\n\n";
 
   print STDERR << "EOF";
- usage: $0 [-h] [-l] [-o options] [path] [-i|-m schema1 schema2 …]
+ usage: $0 [-h] [-y] [-l] [-o options] [path] [-i|-m|-e schema1 schema2 …]
 
   -h, --help      : this (help) message
   path            : where to find the schemas
   -i, --insert    : specify the schemas to insert
   -l, --list      : list inserted schemas
   -m, --modify    : modify exising inserted schemas
+  -e, --empty     : empty exising inserted schemas (do not remove them)
   -n, --nodelete  : do not delete generated ldifs at the end
   -o, --options   : set ldap options used (default is -Y EXTERNAL -H ldapi:///)
   -c, --continue  : continue on error(s)
+  -y, --yes       : answer yes to all questions
 
 EOF
   exit -1;
@@ -301,9 +360,14 @@ This program will insert the schema needed by FusionDirectory into the ldap serv
 
 This option insert the given list of schemas instead of the default list
 
-=item -m 
+=item -m
 
 This option insert the given list of schemas, replacing already inserted versions of those schemas
+
+=item -e
+
+This option empty the given list of schemas, removing attributes and objectClasses from those.
+This is useful because you cannot delete a schema without restarting slapd.
 
 =item -l
 
@@ -313,16 +377,20 @@ This option list inserted schemas
 
 This option will make generated ldifs file to not be deleted after execution. Might be useful to understand errors.
 
-=item -c 
+=item -c
 
 This option make the program continue even if an error occur
 
-=item -o 
+=item -y
+
+This option answer yes to all questions. The only question right now is the confirmation one when you ask to empty a schema.
+
+=item -o
 
 This option allow you to specify specifics options to give to ldap commands such as ldapmodify,
-but beware that you won’t be able to see things like password prompts as the output of these commands is piped.
+but beware that you will not be able to see things like password prompts as the output of these commands is piped.
 
-=back 
+=back
 
 =head1 EXAMPLES
 
@@ -341,6 +409,9 @@ but beware that you won’t be able to see things like password prompts as the o
  fusion@catbert$ fusiondirectory-insert-schema -m /etc/ldap/otherschema/myschema.schema
    Convert /etc/ldap/otherschema/myschema.schema to ldif and replace the existing schema by this one
 
+ fusion@catbert$ fusiondirectory-insert-schema -e myschema
+   Empty the schema myschema
+
 =head1 BUGS
 
 Please report any bugs, or post any suggestions, to the fusiondirectory mailing list fusiondirectory-users or to
@@ -356,7 +427,7 @@ This code is part of FusionDirectory <http://www.fusiondirectory.org>
 
 =over 1
 
-=item Copyright (C) 2011-2014 FusionDirectory Project
+=item Copyright (C) 2011-2015 FusionDirectory Project
 
 =back
 

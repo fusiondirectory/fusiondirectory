@@ -1,6 +1,22 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.8.8
+
+[Fix] Bugs #3864: correct all the date and version on the man pages
+[Fix] Bugs #3870: fusiondirectory-setup miss the explanation of --check-deprectaed into to manpages
+[Feature] Bugs #3878: we need an option in fusiondirectory-setup to tell us the fusiondirectory version
+[Feature] Bugs #3879: we need an option into fusiondirectory-insert-schema to empty a schema
+[Fix] Bugs #3884: Setup fails if root object is missing
+[Feature] Bugs #3887: Support apache group for Archlinux
+[Fix] Bugs #3890: Vacation range should be disabled on mail methods as none implements it
+[Fix] Bugs #3898: check if the demo plugin is current and use the current simple plugin api
+[Fix] Bugs #3913: remove screenshot and demosection.php from developers packages
+[Fix] Bugs #3917: remove the fusiondirectory-setup --migrate-repositories
+[Fix] Bugs #3919: fusiondirectory-setup miss the explanation of --migrate-acls into to manpage
+[Fix] Bugs #3920: reorganize the command for list, write, set vars
+[Fix] Wishlist #3824: Unix account - /bin/false
+
 * FusionDirectory 1.0.8.7
 
 [Fix] Bugs #3753: Recovery password use default hash
