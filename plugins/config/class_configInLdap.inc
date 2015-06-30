@@ -456,6 +456,11 @@ class configInLdap extends simplePlugin
     );
   }
 
+  function compute_dn()
+  {
+    return $this->dn;
+  }
+
   static function get_themes()
   {
     $themesdir  = '../ihtml/themes/';
