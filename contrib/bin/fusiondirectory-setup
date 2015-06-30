@@ -1514,6 +1514,10 @@ This option check your LDAP tree. Looking for admin account, and groups or peopl
 
 This option add FusionDirectory attributes to the people branch.
 
+=item --migrate-acls
+
+This option will migrated old GOsa style acl from 1.0.7 into FusionDirectory acl roles in 1.0.8
+
 =item --install-plugins
 
 This option will install the plugin from a tar.gz of the plugin. This option is intended for people wanting to install from the sources.
