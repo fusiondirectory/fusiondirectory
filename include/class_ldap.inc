@@ -797,7 +797,7 @@ class LDAP
    *
    * Creates missing trees, in our example ou=orga,dc=base will get created if not existing, same thing for ou=example,ou=orga,dc=base
    * */
-  function create_missing_trees($srp, $target)
+  function create_missing_trees($srp, $target, $ignoreReferralBases = TRUE)
   {
     $real_path = substr($target, 0, strlen($target) - strlen($this->basedn) - 1);
 
@@ -818,16 +818,18 @@ class LDAP
       }
 
       /* Ignore referrals */
-      $found = FALSE;
-      foreach ($this->referrals as $ref) {
-        $base = preg_replace('!^[^:]+://[^/]+/([^?]+).*$!', '\\1', $ref['URI']);
-        if ($base == $cdn) {
-          $found = TRUE;
-          break;
+      if ($ignoreReferralBases) {
+        $found = FALSE;
+        foreach ($this->referrals as $ref) {
+          $base = preg_replace('!^[^:]+://[^/]+/([^?]+).*$!', '\\1', $ref['URI']);
+          if ($base == $cdn) {
+            $found = TRUE;
+            break;
+          }
         }
-      }
-      if ($found) {
-        continue;
+        if ($found) {
+          continue;
+        }
       }
 
       $this->cat ($srp, $cdn);

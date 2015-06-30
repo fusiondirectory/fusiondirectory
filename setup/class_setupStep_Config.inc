@@ -101,7 +101,7 @@ class Step_Config extends configInLdap
       /* Create root object if missing */
       $ldap = $config->get_ldap_link();
       $ldap->cd($config->current['BASE']);
-      $ldap->create_missing_trees($config->current['BASE']);
+      $ldap->create_missing_trees($config->current['BASE'], FALSE);
       if (!$ldap->success()) {
         return msgPool::ldaperror($ldap->get_error(), $config->current['BASE'], 'create_missing_trees', get_class());
       }
