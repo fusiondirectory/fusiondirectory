@@ -133,7 +133,7 @@
 .\" ========================================================================
 .\"
 .IX Title "FUSIONDIRECTORY-INSERT-SCHEMA 1"
-.TH FUSIONDIRECTORY-INSERT-SCHEMA 1 "2015-06-12" "FusionDirectory 1.0.8.8" "FusionDirectory Documentation"
+.TH FUSIONDIRECTORY-INSERT-SCHEMA 1 "2015-06-30" "FusionDirectory 1.0.8.8" "FusionDirectory Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -154,6 +154,10 @@ This option insert the given list of schemas instead of the default list
 .IP "\-m" 6
 .IX Item "-m"
 This option insert the given list of schemas, replacing already inserted versions of those schemas
+.IP "\-e" 6
+.IX Item "-e"
+This option empty the given list of schemas, removing attributes and objectClasses from those.
+This is useful because you cannot delete a schema without restarting slapd.
 .IP "\-l" 6
 .IX Item "-l"
 This option list inserted schemas
@@ -163,6 +167,9 @@ This option will make generated ldifs file to not be deleted after execution. Mi
 .IP "\-c" 6
 .IX Item "-c"
 This option make the program continue even if an error occur
+.IP "\-y" 6
+.IX Item "-y"
+This option answer yes to all questions. The only question right now is the confirmation one when you ask to empty a schema.
 .IP "\-o" 6
 .IX Item "-o"
 This option allow you to specify specifics options to give to ldap commands such as ldapmodify,
@@ -184,6 +191,9 @@ but beware that you will not be able to see things like password prompts as the 
 \&
 \& fusion@catbert$ fusiondirectory\-insert\-schema \-m /etc/ldap/otherschema/myschema.schema
 \&   Convert /etc/ldap/otherschema/myschema.schema to ldif and replace the existing schema by this one
+\&
+\& fusion@catbert$ fusiondirectory\-insert\-schema \-e myschema
+\&   Empty the schema myschema
 .Ve
 .SH "BUGS"
 .IX Header "BUGS"
