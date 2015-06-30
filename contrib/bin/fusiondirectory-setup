@@ -1542,6 +1542,18 @@ This option will write back the variables.inc file with the updated variables an
 
 This option will change the variable for the FusionDirectory installation. it is only useful with --install-directories and for people installing from sources.
 
+=item --list-deprecated
+
+This option will list the deprecated attributes and objectclasses still in your schemas and no longer used by FusionDirectory.
+
+=item --check-deprecated
+
+This option will list the dn of LDAP entries using deprecated attributes or objectclasses and no longer used by FusionDirectory.
+
+=item --ldif-deprecated
+
+This option will print an LDIF to allow you to remove deprecated attributes from you ldap server. Be carefull and check before applying.
+
 =item --yes
 
 This flag will answer "yes" to every yes/no question asked by the script
