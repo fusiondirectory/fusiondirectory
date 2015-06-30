@@ -1428,12 +1428,12 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--install-plugins"}      = ["Installing FusionDirectory's plugins",          \&install_plugins];
   $commands{"--encrypt-passwords"}    = ["Encrypt passwords in fusiondirectory.conf",     \&encrypt_passwords];
   $commands{"--show-version"}         = ["Show FusionDirectory version from variables_common.inc",          \&show_version];
-  $commands{"--write-vars"}           = ["Choose FusionDirectory Directories",            \&write_vars];
   $commands{"--list-vars"}            = ["List possible vars to give --set",              \&list_vars];
+  $commands{"--write-vars"}           = ["Choose FusionDirectory Directories",            \&write_vars];
+  $commands{"--set-VAR=value"}        = ["Set the variable VAR to value see --list-vars", \&die]; # Won't be called because it contains uppercase
   $commands{"--list-deprecated"}      = ["List deprecated attributes and objectclasses",  \&list_deprecated];
   $commands{"--check-deprecated"}     = ["List LDAP entries using deprecated attributes or objectclasses",  \&check_deprecated];
   $commands{"--ldif-deprecated"}      = ["# Print an LDIF removing deprecated attributes",\&ldif_deprecated];
-  $commands{"--set-VAR=value"}        = ["Set the variable VAR to value see --list-vars", \&die]; # Won't be called because it contains uppercase
 
   my $usage = 0;
 
@@ -1530,13 +1530,13 @@ This option will parse the file variables_common.inc of FusionDirectory to find 
 
 This option will list the variables you can change to install FusionDirectory on another set of directories. This option is intended for people wanting to install from the sources.
 
-=item --set-VAR=variable
-
-This option will change the variable for the FusionDirectory installation. it is only useful with --install-directories and for people installing from sources.
-
 =item --write-vars
 
 This option will write back the variables.inc file with the updated variables and is only useful with --set-VAR=variable and for people installing from sources.
+
+=item --set-VAR=variable
+
+This option will change the variable for the FusionDirectory installation. it is only useful with --install-directories and for people installing from sources.
 
 =item --yes
 
