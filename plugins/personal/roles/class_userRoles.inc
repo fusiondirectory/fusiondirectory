@@ -60,14 +60,19 @@ class userRoles extends simplePlugin
 
     /* Roles handling */
     $roles    = objects::ls('role');
-    $myRoles  = objects::ls(
-      'role', NULL, NULL,
-      '(roleOccupant='.$this->dn.')'
-    );
     $this->attributesAccess['rolesMembership']->setInLdap(FALSE);
     $this->attributesAccess['rolesMembership']->attribute->setChoices(array_keys($roles), array_values($roles));
-    $this->attributesAccess['rolesMembership']->setValue(array_keys($myRoles));
-    $this->savedRolesMembership = array_keys($myRoles);
+    if ($this->is_template) {
+      unset($this->attrs['userRoles']['count']);
+      $this->rolesMembership = $this->attrs['userRoles'];
+    } else {
+      $myRoles  = objects::ls(
+        'role', NULL, NULL,
+        '(roleOccupant='.$this->dn.')'
+      );
+      $this->attributesAccess['rolesMembership']->setValue(array_keys($myRoles));
+      $this->savedRolesMembership = array_keys($myRoles);
+    }
 
     $this->updateAttributesValues();
   }
@@ -96,6 +101,14 @@ class userRoles extends simplePlugin
     $this->is_account = (count($this->rolesMembership) > 0);
   }
 
+  function prepare_save()
+  {
+    parent::prepare_save();
+    if ($this->is_template) {
+      $this->attrs['userRoles'] = $this->rolesMembership;
+    }
+  }
+
   function ldap_save($cleanup = TRUE)
   {
     parent::ldap_save($cleanup);
@@ -118,5 +131,14 @@ class userRoles extends simplePlugin
         $r->save();
       }
     }
+  }
+
+  function adapt_from_template($attrs, $skip = array())
+  {
+    parent::adapt_from_template($attrs, $skip);
+
+    $this->savedRolesMembership = $this->rolesMembership;
+    unset($this->attrs['userRoles']['count']);
+    $this->rolesMembership = $this->attrs['userRoles'];
   }
 }
