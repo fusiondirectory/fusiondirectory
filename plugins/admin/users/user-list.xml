@@ -166,7 +166,6 @@
   </actionmenu>
 
   <actiontriggers snapshot="true" copypaste="true">
-
     <action>
       <name>template_apply_user</name>
       <type>entry</type>
@@ -177,7 +176,7 @@
 
     <action>
       <name>cp</name>
-      <objectclass>!fdTemplate</objectclass>
+      <objectclass></objectclass>
       <type>copypaste</type>
     </action>
 

@@ -1268,6 +1268,9 @@ class plugin
     if (($olddn !== NULL) && ($olddn == $newdn)) {
       return;
     }
+    if ($this->is_template) {
+      return;
+    }
     $this->browseForeignKeys(
       'handle_'.$mode,
       $olddn,

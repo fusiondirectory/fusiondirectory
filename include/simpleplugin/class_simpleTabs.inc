@@ -341,7 +341,21 @@ class simpleTabs
    */
   function check()
   {
+    global $config;
     $messages = array();
+
+    if ($this->getBaseObject()->is_template) {
+      $ldap = $config->get_ldap_link();
+      $ldap->cd($config->current['BASE']);
+      $filter = '(&(objectClass=fdTemplate)(cn='.$this->getBaseObject()->_template_cn.'))';
+      $ldap->search($filter, array('dn'));
+      while ($attrs = $ldap->fetch()) {
+        if ($attrs['dn'] != $this->getBaseObject()->dn) {
+          $messages[] = msgPool::duplicated($this->getBaseObject()->attributesAccess['_template_cn']->getLabel(), $attrs['dn']);
+        }
+      }
+      return $messages;
+    }
 
     $current_set = FALSE;
 

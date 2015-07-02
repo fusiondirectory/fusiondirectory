@@ -178,6 +178,7 @@ class simplePlugin extends plugin
       $this->attributesAccess['_template_cn'] =& $this->attributesInfo['_template']['attrs']['_template_cn'];
       $this->attributesAccess['_template_cn']->setInLdap(FALSE);
       $this->attributesAccess['_template_cn']->setValue($this->_template_cn);
+      $this->attributesAccess['_template_cn']->setParent($this);
       unset($this->_template_cn);
     }
   }
