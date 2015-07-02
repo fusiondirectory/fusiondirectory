@@ -853,6 +853,9 @@ class simpleManagement extends management
       $this->cpHandler->cleanup_queue();
       foreach ($target as $dn) {
         $type   = $this->getType($dn);
+        if (preg_match('/^template_/', $type) && !$this->skipTemplates) {
+          $type = preg_replace('/^template_/', '', $type);
+        }
         $infos  = objects::infos($type);
 
         if ($action == "copy" && $this->ui->is_copyable($dn, $infos['aclCategory'], $infos['mainTab'])) {
