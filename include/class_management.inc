@@ -194,7 +194,7 @@ class management
     }
 
     // Display tab object.
-    if ($this->tabObject instanceOf tabs) {
+    if ($this->tabObject instanceOf simpleTabs) {
       $this->tabObject->save_object();
       $display = $this->tabObject->execute();
       $display .= $this->_getTabFooter();
@@ -275,7 +275,7 @@ class management
   protected function _getTabFooter()
   {
     // Do not display tab footer for non tab objects
-    if (!($this->tabObject instanceOf tabs)) {
+    if (!($this->tabObject instanceOf simpleTabs)) {
       return "";
     }
 
@@ -756,7 +756,7 @@ class management
    */
   protected function saveChanges()
   {
-    if ($this->tabObject instanceOf tabs) {
+    if ($this->tabObject instanceOf simpleTabs) {
       $this->tabObject->save_object();
       $msgs = $this->tabObject->check();
       if (count($msgs)) {
@@ -791,7 +791,7 @@ class management
    */
   protected function applyChanges()
   {
-    if ($this->tabObject instanceOf tabs) {
+    if ($this->tabObject instanceOf simpleTabs) {
       $this->tabObject->save_object();
       $msgs = $this->tabObject->check();
       if (count($msgs)) {
