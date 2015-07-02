@@ -224,6 +224,9 @@ class userManagement extends simpleManagement
                        'alt="'._('Generic').'" title="'._('Generic properties').'" '.
                        'name="listing_edit_tab_user_'.$row.'"/>';
     if ($attrs = $ldap->fetch()) {
+      if (in_array_ics ('fdTemplate', $attrs['objectClass'])) {
+        $attrs = plugin::tpl_template_to_attrs($attrs);
+      }
       foreach ($usertabs as $class => $usertab) {
         if ($usertab->is_this_account($attrs)) {
           $infos = pluglist::pluginInfos($class);
