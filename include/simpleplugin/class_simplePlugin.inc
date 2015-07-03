@@ -806,6 +806,8 @@ class simplePlugin extends plugin
         }
         if (($entry_dn != '') && ($entry_dn != 'new')) {
           $account->set_acl_base($entry_dn);
+        } else {
+          $account->set_acl_base($config->current['BASE']);
         }
         session::set($classname, $account);
       }
