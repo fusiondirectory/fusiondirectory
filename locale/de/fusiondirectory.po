@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: documentation@lists.fusiondirectory.org\n"
 "POT-Creation-Date: 2015-02-25 17:38+0100\n"
-"PO-Revision-Date: 2015-04-23 15:20+0000\n"
+"PO-Revision-Date: 2015-05-30 14:30+0000\n"
 "Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/FusionDirectory-109/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -344,7 +344,7 @@ msgstr "Zusammengefasste Objekte"
 
 #: plugins/admin/ogroups/class_ogroup.inc:193
 msgid "Objects member of this group"
-msgstr ""
+msgstr "Objektmitglied dieser Gruppe"
 
 #: plugins/admin/ogroups/class_ogroup.inc:293
 msgid ""
@@ -517,7 +517,7 @@ msgstr "Domänen-Komponente"
 
 #: plugins/admin/departments/class_dcObject.inc:51
 msgid "domain component"
-msgstr ""
+msgstr "Domänenkomponente"
 
 #: plugins/admin/departments/class_department.inc:35
 #: plugins/admin/departments/class_department.inc:36
@@ -548,7 +548,7 @@ msgstr "Ein Name für diesen %s"
 #: plugins/admin/departments/class_department.inc:72
 #, php-format
 msgid "Short description of this %s"
-msgstr ""
+msgstr "Kurze Beschreibung von diesem %s"
 
 #: plugins/admin/departments/class_department.inc:76
 msgid "Category"
@@ -557,7 +557,7 @@ msgstr "Kategorie"
 #: plugins/admin/departments/class_department.inc:76
 #, php-format
 msgid "Category of this %s"
-msgstr ""
+msgstr "Kategorie von diesem %s"
 
 #: plugins/admin/departments/class_department.inc:80
 #: plugins/personal/generic/class_user.inc:324
@@ -567,7 +567,7 @@ msgstr "Verwalter"
 #: plugins/admin/departments/class_department.inc:80
 #, php-format
 msgid "Manager of this %s"
-msgstr ""
+msgstr "Verwalter von diesem %s"
 
 #: plugins/admin/departments/class_department.inc:86
 #: plugins/admin/departments/class_department.inc:92
@@ -905,11 +905,11 @@ msgstr ""
 
 #: plugins/admin/acl/class_aclAssignment.inc:46
 msgid "Subtree"
-msgstr ""
+msgstr "Unterbaum"
 
 #: plugins/admin/acl/class_aclAssignment.inc:46
 msgid "Base only"
-msgstr ""
+msgstr "Nur Basis"
 
 #: plugins/admin/acl/class_aclAssignment.inc:49
 msgid "Role to apply"
@@ -1213,7 +1213,7 @@ msgstr "Benutzerkennung"
 
 #: plugins/personal/posix/class_posixAccount.inc:103
 msgid "User id value for this user"
-msgstr ""
+msgstr "Benutzerkennwert für diesen Benutzer"
 
 #: plugins/personal/posix/class_posixAccount.inc:108
 msgid "Group id"
@@ -1221,7 +1221,7 @@ msgstr "Gruppenkennung"
 
 #: plugins/personal/posix/class_posixAccount.inc:108
 msgid "Group id value for this user"
-msgstr ""
+msgstr "Gruppenkennwert für diesen Benutzer"
 
 #: plugins/personal/posix/class_posixAccount.inc:115
 #: plugins/personal/posix/class_posixAccount.inc:118
@@ -1341,7 +1341,7 @@ msgstr "UID"
 #: plugins/personal/posix/class_posixAccount.inc:498
 #, php-format
 msgid "Group of user %s"
-msgstr ""
+msgstr "Gruppe des Benutzers %s"
 
 #: plugins/personal/roles/class_userRoles.inc:28
 msgid "Roles"
@@ -3661,7 +3661,7 @@ msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:50
 msgid "The LDAP directory base"
-msgstr ""
+msgstr "Die LDAP-Verzeichnisbasis"
 
 #: setup/class_setupStep_Ldap.inc:56
 msgid "Authentication"
@@ -3971,7 +3971,7 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:1067
 #, php-format
 msgid "Cannot add ACL role \"%s\":"
-msgstr ""
+msgstr "Kann ACL-Rolle \"%s\" nicht hinzufügen:"
 
 #: setup/class_setupStep_Migrate.inc:1122
 #, php-format
@@ -4056,7 +4056,7 @@ msgstr "Willkommen im FusionDirectory Einrichtungsassistent"
 msgid ""
 "PHP setup configuration (<a href=\"?info\" target=\"_blank\">show "
 "information)</a>)"
-msgstr ""
+msgstr "PHP-Einrichtungskonfiguration (<a href=\"?info\" target=\"_blank\">Information anzeigen)</a>)"
 
 #: setup/class_setupStep_Checks.inc:48 setup/class_setupStep_Checks.inc:49
 msgid "Installation check"

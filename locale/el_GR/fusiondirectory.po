@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: documentation@lists.fusiondirectory.org\n"
 "POT-Creation-Date: 2015-02-25 17:38+0100\n"
-"PO-Revision-Date: 2015-05-30 11:45+0000\n"
+"PO-Revision-Date: 2015-06-07 12:52+0000\n"
 "Last-Translator: Benoit Mortier <benoit.mortier@opensides.be>\n"
 "Language-Team: Greek (Greece) (http://www.transifex.com/projects/p/FusionDirectory-109/language/el_GR/)\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgstr ""
 #: plugins/generic/references/class_reference.inc:27
 #: plugins/generic/references/class_reference.inc:44
 msgid "References"
-msgstr ""
+msgstr "Αναφορές"
 
 #: plugins/admin/groups/class_roleGeneric.inc:31
 #: plugins/admin/groups/class_roleGeneric.inc:35
@@ -68,7 +68,7 @@ msgstr ""
 #: include/select/groupSelect/group-filter.tpl.c:14
 #: setup/setup_migrate_adminAccount.tpl.c:8
 msgid "Name"
-msgstr ""
+msgstr "Όνομα"
 
 #: plugins/admin/groups/class_roleGeneric.inc:61
 msgid "Name of the role"
@@ -87,7 +87,7 @@ msgstr ""
 #: include/simpleplugin/simple-select-list.xml:40
 #: include/simpleplugin/simple-list.xml:40
 msgid "Description"
-msgstr ""
+msgstr "Περιγραφή"
 
 #: plugins/admin/groups/class_roleGeneric.inc:65
 msgid "Description of the role"
@@ -192,14 +192,14 @@ msgstr ""
 #: plugins/personal/posix/class_posixAccount.inc:170
 #: plugins/personal/posix/class_posixAccount.inc:209
 msgid "disabled"
-msgstr ""
+msgstr "απενεργοποιημένο"
 
 #: plugins/admin/groups/class_group.inc:96
 #: plugins/admin/ogroups/class_ogroup.inc:208
 #: plugins/personal/posix/class_posixAccount.inc:170
 #: plugins/personal/posix/class_posixAccount.inc:209
 msgid "full access"
-msgstr ""
+msgstr "Πλήρης Πρόσβαση"
 
 #: plugins/admin/groups/class_group.inc:96
 #: plugins/admin/ogroups/class_ogroup.inc:208
@@ -1935,7 +1935,7 @@ msgstr ""
 #: html/index.php:194 html/index.php:198 setup/class_setupStep_Migrate.inc:973
 #: ihtml/themes/default/msg_dialog.tpl.c:2 setup/setup_checks.tpl.c:5
 msgid "Error"
-msgstr ""
+msgstr "Σφάλμα"
 
 #: include/class_listing.inc:578
 msgid "created by"
@@ -2086,7 +2086,7 @@ msgstr ""
 #: html/class_passwordRecovery.inc:542 setup/class_setupStep_Migrate.inc:499
 #: setup/class_setupStep_Migrate.inc:1168
 msgid "LDAP error"
-msgstr ""
+msgstr "LDAP Λάθος"
 
 #: include/class_config.inc:341
 msgid "Cannot bind to LDAP. Please contact the system administrator."
@@ -3224,7 +3224,7 @@ msgstr ""
 #: include/simpleplugin/class_attribute.inc:1007
 #: include/simpleplugin/class_attribute.inc:1041
 msgid "None"
-msgstr ""
+msgstr "Κανένα"
 
 #: include/simpleplugin/class_dialogAttributes.inc:603
 msgid "Unknown"
