@@ -313,8 +313,10 @@ class posixAccount extends simplePlugin
 
     $this->attributesAccess['groupMembership']->setInLdap(FALSE);
     if ($this->is_template) {
-      unset($this->attrs['posixGroups']['count']);
-      $this->groupMembership = $this->attrs['posixGroups'];
+      if (isset($this->attrs['posixGroups'])) {
+        unset($this->attrs['posixGroups']['count']);
+        $this->groupMembership = $this->attrs['posixGroups'];
+      }
     } else {
       /* Groups handling */
       $ldap->cd($this->config->current['BASE']);

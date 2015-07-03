@@ -63,8 +63,10 @@ class userRoles extends simplePlugin
     $this->attributesAccess['rolesMembership']->setInLdap(FALSE);
     $this->attributesAccess['rolesMembership']->attribute->setChoices(array_keys($roles), array_values($roles));
     if ($this->is_template) {
-      unset($this->attrs['userRoles']['count']);
-      $this->rolesMembership = $this->attrs['userRoles'];
+      if (isset($this->attrs['userRoles'])) {
+        unset($this->attrs['userRoles']['count']);
+        $this->rolesMembership = $this->attrs['userRoles'];
+      }
     } else {
       $myRoles  = objects::ls(
         'role', NULL, NULL,
@@ -80,6 +82,9 @@ class userRoles extends simplePlugin
   function is_this_account($attrs)
   {
     if (!isset($attrs['dn'])) {
+      if (isset($attrs['userRoles'])) { /* Template roles field */
+        return TRUE;
+      }
       return FALSE;
     }
     return (objects::count('role', NULL, '(roleOccupant='.$attrs['dn'].')') > 0);
@@ -113,22 +118,24 @@ class userRoles extends simplePlugin
   {
     parent::ldap_save($cleanup);
 
-    /* Take care about rolesMembership values: add to roles */
-    $rolesMembership = $this->attributesAccess['rolesMembership']->getValue();
-    foreach ($rolesMembership as $roledn) {
-      if (!in_array($roledn, $this->savedRolesMembership)) {
-        $r = objects::open($roledn, 'role');
-        $r->getBaseObject()->attributesAccess['roleOccupant']->addValue($this->dn, array('cn' => 'user'));
-        $r->save();
+    if (!$this->is_template) {
+      /* Take care about rolesMembership values: add to roles */
+      $rolesMembership = $this->attributesAccess['rolesMembership']->getValue();
+      foreach ($rolesMembership as $roledn) {
+        if (!in_array($roledn, $this->savedRolesMembership)) {
+          $r = objects::open($roledn, 'role');
+          $r->getBaseObject()->attributesAccess['roleOccupant']->addValue($this->dn, array('cn' => 'user'));
+          $r->save();
+        }
       }
-    }
 
-    /* Remove roles not listed in rolesMembership */
-    foreach ($this->savedRolesMembership as $roledn) {
-      if (!in_array($roledn, $rolesMembership)) {
-        $r = objects::open($roledn, 'role');
-        $r->getBaseObject()->attributesAccess['roleOccupant']->searchAndRemove($this->dn);
-        $r->save();
+      /* Remove roles not listed in rolesMembership */
+      foreach ($this->savedRolesMembership as $roledn) {
+        if (!in_array($roledn, $rolesMembership)) {
+          $r = objects::open($roledn, 'role');
+          $r->getBaseObject()->attributesAccess['roleOccupant']->searchAndRemove($this->dn);
+          $r->save();
+        }
       }
     }
   }
