@@ -41,7 +41,11 @@ class ogrouptabs extends simpleTabs_noSpecial
 
     $tabs = array();
     if (strlen($objects)) {
-      $dtabs  = $this->config->data['TABS']['OGROUP-DYNAMICTABS'];
+      if (isset($this->config->data['TABS']['OGROUP-DYNAMICTABS'])) {
+        $dtabs  = $this->config->data['TABS']['OGROUP-DYNAMICTABS'];
+      } else {
+        $dtabs  = array();
+      }
       $tabs   = FALSE;
       for ($i = 0; $i < strlen($objects); $i++) {
         if ($objects[$i] == 'I') {
