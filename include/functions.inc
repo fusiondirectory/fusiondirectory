@@ -2712,11 +2712,15 @@ function check_schema($cfg)
   $checks['posixGroup']['MSG']              = "";
   $checks['posixGroup']['INFO']             = "";
 
-  /* Detect obsolete schema configurations */
-  if (!isset($tmp['posixGroup']['STRUCTURAL'])) {
-    $checks['posixGroup']['STATUS']           = FALSE;
-    $checks['posixGroup']['MSG']              = _("You are using the obsolete rfc2307bis schema from previous FD versions.");
-    $checks['posixGroup']['INFO']             = _("The objectClass 'posixGroup' must be STRUCTURAL");
+  /* Depending on mixed groups plugin installation status, we need different schema configurations */
+  if (class_available('mixedGroup') && isset($tmp['posixGroup']['STRUCTURAL'])) {
+    $checks['posixGroup']['STATUS'] = FALSE;
+    $checks['posixGroup']['MSG']    = _('You have installed the mixed groups plugin, but your schema configuration does not support this.');
+    $checks['posixGroup']['INFO']   = _('In order to use mixed groups the objectClass "posixGroup" must be AUXILIARY');
+  } elseif (!class_available('mixedGroup') && !isset($tmp['posixGroup']['STRUCTURAL'])) {
+    $checks['posixGroup']['STATUS'] = FALSE;
+    $checks['posixGroup']['MSG']    = _('Your schema is configured to support mixed groups, but this plugin is not present.');
+    $checks['posixGroup']['INFO']   = _('The objectClass "posixGroup" must be STRUCTURAL');
   }
 
   return $checks;
