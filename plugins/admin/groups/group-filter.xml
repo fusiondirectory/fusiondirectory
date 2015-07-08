@@ -25,7 +25,7 @@
     <tag>PRIMARY</tag>
     <default>true</default>
     <unset></unset>
-    <set>(&amp;(!(objectClass=gosaMailAccount))(!(objectClass=sambaGroupMapping)))</set>
+    <set>(!(objectClass=gosaObject))</set>
   </element>
 
   <element>
