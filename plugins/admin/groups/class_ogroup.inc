@@ -151,8 +151,8 @@ class ogroup extends simplePlugin
       'plSelfModify'  => FALSE,
       'plPriority'    => 1,
       'plObjectType'  => array('ogroup' => array(
-        'description' => _('Object groups'),
-        'name'        => _('Object group'),
+        'description' => _('Groups'),
+        'name'        => _('Group'),
         'ou'          => get_ou('ogroupRDN'),
         'filter'      => 'objectClass=gosaGroupOfNames',
         'icon'        => 'geticon.php?context=types&icon=resource-group&size=16',
