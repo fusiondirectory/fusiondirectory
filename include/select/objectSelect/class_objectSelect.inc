@@ -21,8 +21,8 @@
 class objectSelect extends simpleSelectManagement
 {
   protected $objectTypes = array(
-    'user',       'group',  'application',  'terminal', 'workstation',
-    'winstation', 'server', 'printer',      'phone'
+    'user', 'application',  'terminal', 'workstation',
+    'winstation', 'server', 'printer',  'phone'
   );
   protected $autoFilterAttributes = array('dn', 'cn', 'uid', 'description');
 }
