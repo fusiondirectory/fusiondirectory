@@ -27,14 +27,16 @@ class group extends simplePlugin
 
   static function plInfo()
   {
-    global $config;
+    if (class_available('mixedGroup')) {
+      return array();
+    }
     return array(
       'plShortName'   => _('Generic'),
-      'plDescription' => _('Generic group settings'),
+      'plDescription' => _('Generic POSIX group settings'),
       'plSelfModify'  => FALSE,
       'plObjectType'  => array('group' => array(
-        'description' => _('Groups'),
-        'name'        => _('Group'),
+        'description' => _('POSIX groups'),
+        'name'        => _('POSIX group'),
         'ou'          => get_ou('groupRDN'),
         'filter'      => 'objectClass=posixGroup',
         'icon'        => 'geticon.php?context=types&icon=user-group&size=16',

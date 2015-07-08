@@ -10,11 +10,12 @@
   <search>
     <query>
       <backend>LDAP</backend>
-      <filter>(&amp;(|(objectClass=posixGroup)$ROLE)$NAME(|$PRIMARY$MAIL$SAMBA$ROLE))</filter>
+      <filter>(&amp;(|(&amp;(objectClass=posixGroup)(|$PRIMARY$MAIL$SAMBA))$ROLE(&amp;(objectClass=groupOfNames)(|(gosaGroupObjects=[])$USER$GROUP$APPLICATION$DEPARTMENT$SERVER$WORKSTATION$WINDOWS$TERMINAL$PRINTER$PHONE)))$NAME)</filter>
       <attribute>dn</attribute>
       <attribute>objectClass</attribute>
       <attribute>cn</attribute>
       <attribute>description</attribute>
+      <attribute>gosaGroupObjects</attribute>
     </query>
     <scope>auto</scope>
   </search>
@@ -24,7 +25,7 @@
     <tag>PRIMARY</tag>
     <default>true</default>
     <unset></unset>
-    <set>(!(objectClass=gosaObject))</set>
+    <set>(&amp;(!(objectClass=gosaMailAccount))(!(objectClass=sambaGroupMapping)))</set>
   </element>
 
   <element>
@@ -51,6 +52,86 @@
     <set>(objectClass=organizationalRole)</set>
   </element>
 
+ <element>
+    <type>checkbox</type>
+    <tag>USER</tag>
+    <default>true</default>
+    <unset></unset>
+    <set>(gosaGroupObjects=*U*)</set>
+  </element>
+
+  <element>
+    <type>checkbox</type>
+    <tag>GROUP</tag>
+    <default>true</default>
+    <unset></unset>
+    <set>(gosaGroupObjects=*G*)</set>
+  </element>
+
+  <element>
+    <type>checkbox</type>
+    <tag>APPLICATION</tag>
+    <default>true</default>
+    <unset></unset>
+    <set>(gosaGroupObjects=*A*)</set>
+  </element>
+
+  <element>
+    <type>checkbox</type>
+    <tag>DEPARTMENT</tag>
+    <default>true</default>
+    <unset></unset>
+    <set>(gosaGroupObjects=*D*)</set>
+  </element>
+
+  <element>
+    <type>checkbox</type>
+    <tag>SERVER</tag>
+    <default>true</default>
+    <unset></unset>
+    <set>(gosaGroupObjects=*S*)</set>
+  </element>
+
+  <element>
+    <type>checkbox</type>
+    <tag>WORKSTATION</tag>
+    <default>true</default>
+    <unset></unset>
+    <set>(gosaGroupObjects=*W*)</set>
+  </element>
+
+  <element>
+    <type>checkbox</type>
+    <tag>WINDOWS</tag>
+    <default>true</default>
+    <unset></unset>
+    <set>(gosaGroupObjects=*O*)</set>
+  </element>
+
+  <element>
+    <type>checkbox</type>
+    <tag>TERMINAL</tag>
+    <default>true</default>
+    <unset></unset>
+    <set>(gosaGroupObjects=*T*)</set>
+  </element>
+
+  <element>
+    <type>checkbox</type>
+    <tag>PRINTER</tag>
+    <default>true</default>
+    <unset></unset>
+    <set>(gosaGroupObjects=*P*)</set>
+  </element>
+
+  <element>
+    <type>checkbox</type>
+    <tag>PHONE</tag>
+    <default>true</default>
+    <unset></unset>
+    <set>(gosaGroupObjects=*F*)</set>
+  </element>
+
   <element>
     <type>textfield</type>
     <tag>NAME</tag>
@@ -62,7 +143,7 @@
     <alphabet>true</alphabet>
     <autocomplete>
       <backend>LDAP</backend>
-      <filter>(&amp;(|(objectClass=posixGroup)$ROLE)(|(cn=*$NAME*)(description=*$NAME*)))</filter>
+      <filter>(&amp;(|(objectClass=posixGroup)$ROLE(objectClass=groupOfNames))(|(cn=*$NAME*)(description=*$NAME*)))</filter>
       <attribute>cn</attribute>
       <frequency>0.5</frequency>
       <characters>3</characters>
