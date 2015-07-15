@@ -1241,6 +1241,7 @@ class Step_Migrate extends setupStep
 
     /* Skip FusionDirectory internal departments */
     $skip_dns = array(
+      '/ou=fusiondirectory,'.preg_quote($config->current['BASE']).'$/',
       '/dc=addressbook,/',
       '/ou=systems,'.preg_quote($config->current['BASE']).'$/',
       '/ou=snapshots,/'
