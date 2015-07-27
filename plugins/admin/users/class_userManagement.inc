@@ -221,7 +221,7 @@ class userManagement extends simpleManagement
     $ldap = $config->get_ldap_link();
     $ldap->cat($dn);
     $result = '<input class="center" type="image" src="geticon.php?context=applications&icon=user-info&size=16" '.
-                       'alt="'._('Generic').'" title="'._('Generic properties').'" '.
+                       'alt="'._('User account').'" title="'._('User account information').'" '.
                        'name="listing_edit_tab_user_'.$row.'"/>';
     if ($attrs = $ldap->fetch()) {
       if (in_array_ics ('fdTemplate', $attrs['objectClass'])) {
