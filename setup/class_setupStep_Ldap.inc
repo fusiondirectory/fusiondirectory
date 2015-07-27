@@ -160,7 +160,7 @@ class Step_Ldap extends setup_step
         if (in_array($attr, array("base","connection")) && $this->$attr != get_post($attr)) {
           $reset = TRUE;
         }
-        $this->$attr = get_post($attr);
+        $this->$attr = $_POST[$attr];
       }
     }
 
