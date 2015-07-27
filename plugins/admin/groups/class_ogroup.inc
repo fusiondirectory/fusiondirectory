@@ -146,13 +146,13 @@ class ogroup extends simplePlugin
   static function plInfo()
   {
     return array(
-      'plShortName'   => _('Generic'),
-      'plDescription' => _('Object group generic'),
+      'plShortName'   => _('Object group'),
+      'plDescription' => _('Object group information'),
       'plSelfModify'  => FALSE,
       'plPriority'    => 1,
       'plObjectType'  => array('ogroup' => array(
-        'description' => _('Groups'),
         'name'        => _('Group'),
+        'description' => _('Group'),
         'ou'          => get_ou('ogroupRDN'),
         'filter'      => 'objectClass=gosaGroupOfNames',
         'icon'        => 'geticon.php?context=types&icon=resource-group&size=16',

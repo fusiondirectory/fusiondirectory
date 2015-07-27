@@ -75,7 +75,7 @@ class posixAccount extends simplePlugin
   {
     return array(
       'main' => array(
-        'name'  => _('Generic'),
+        'name'  => _('Unix'),
         'icon'  => 'geticon.php?context=applications&icon=os-linux&size=16',
         'attrs' => array(
           new PathAttribute(

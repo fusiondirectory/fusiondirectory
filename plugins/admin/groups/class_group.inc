@@ -31,12 +31,12 @@ class group extends simplePlugin
       return array();
     }
     return array(
-      'plShortName'   => _('Generic'),
-      'plDescription' => _('Generic POSIX group settings'),
+      'plShortName'   => _('Group'),
+      'plDescription' => _('POSIX group information'),
       'plSelfModify'  => FALSE,
       'plObjectType'  => array('group' => array(
-        'description' => _('POSIX groups'),
         'name'        => _('POSIX group'),
+        'description' => _('POSIX user group'),
         'ou'          => get_ou('groupRDN'),
         'filter'      => 'objectClass=posixGroup',
         'icon'        => 'geticon.php?context=types&icon=user-group&size=16',

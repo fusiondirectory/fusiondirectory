@@ -207,14 +207,14 @@ class user extends simplePlugin
   static function plInfo()
   {
     return array(
-      'plShortName'   => _('Generic'),
-      'plDescription' => _('Generic user settings'),
+      'plShortName'   => _('User'),
+      'plDescription' => _('User account information'),
       'plIcon'        => 'geticon.php?context=applications&icon=user-info&size=48',
       'plSmallIcon'   => 'geticon.php?context=applications&icon=user-info&size=16',
       'plSelfModify'  => TRUE,
       'plObjectType'  => array('user' => array(
-        'description' => _('Users'),
         'name'        => _('User'),
+        'description' => _('User account'),
         'filter'      => '(objectClass=inetOrgPerson)',
         'mainAttr'    => 'uid',
         'nameAttr'    => 'cn',
