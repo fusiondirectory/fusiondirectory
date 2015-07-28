@@ -613,7 +613,7 @@ sub add_ldap_admin {
     if (($mesg->entries)[0]->exists('fdForcePasswordDefaultHash') && ($mesg->entries)[0]->exists('fdPasswordDefaultHash')) {
       if ((($mesg->entries)[0]->get_value('fdForcePasswordDefaultHash') eq 'TRUE') &&
           (($mesg->entries)[0]->get_value('fdPasswordDefaultHash') ne 'ssha')) {
-        warn "Administator password will be hashed with ssha instead of ".($mesg->entries)[0]->get_value('fdPasswordDefaultHash')."\n";
+        warn "Warning: Administator password will be hashed with ssha instead of forced default ".($mesg->entries)[0]->get_value('fdPasswordDefaultHash')."\n";
       }
     }
   }
