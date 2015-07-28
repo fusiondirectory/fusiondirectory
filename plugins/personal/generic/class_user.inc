@@ -462,6 +462,14 @@ class user extends simplePlugin
     }
   }
 
+  function adapt_from_template($attrs, $skip = array())
+  {
+    if ($this->uid != '') {
+      $skip[] = 'uid';
+    }
+    parent::adapt_from_template($attrs, $skip);
+  }
+
   function callHook($cmd, $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL)
   {
     $addAttrs['passwordMethod'] = $this->attributesAccess['userPassword']->getMethod();
