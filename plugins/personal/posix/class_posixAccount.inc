@@ -619,6 +619,8 @@ class posixAccount extends simplePlugin
       $this->gidNumber = "";
     }
 
+    $this->primaryGroup = $this->gidNumber;
+
     if ((count($this->host) == 1) && ($this->host[0] == '*')) {
       $this->trustMode = 'fullaccess';
     } elseif (count($this->host) > 0) {
