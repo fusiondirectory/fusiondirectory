@@ -42,7 +42,7 @@ use Net::LDAP;
 use MIME::Base64;
 
 # used to generate {SSHA} password (for LDAP)
-use Digest::SHA1;
+use Digest::SHA;
 use Crypt::CBC;
 
 # used to uncompress tar.gz
@@ -645,7 +645,7 @@ sub add_ldap_admin {
     }
     return -1 if ($fd_admin_pwd_confirm eq "quit");
 
-    my $ctx = Digest::SHA1->new;
+    my $ctx = Digest::SHA->new(1);
     my $salt = get_random_string(8);
     $ctx->add($fd_admin_pwd);
     $ctx->add($salt);
