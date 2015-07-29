@@ -116,7 +116,9 @@ class passwordRecovery {
 
     initLanguage();
 
-    session::global_un_set('plist');
+    if (session::global_is_set('plist')) {
+      session::global_un_set('plist');
+    }
     load_plist();
     $ui = new fake_userinfo();
 
