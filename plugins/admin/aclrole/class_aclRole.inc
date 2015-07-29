@@ -113,7 +113,7 @@ class aclRole extends simplePlugin
         'filter'      => 'objectClass=gosaRole',
         'ou'          => get_ou('aclRoleRDN'),
         'tabClass'    => 'simpleTabs_noSpecial',
-        'icon'        => 'plugins/acl/images/role.png',
+        'icon'        => 'geticon.php?context=categories&icon=acl&size=16',
       )),
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())
