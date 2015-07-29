@@ -2665,13 +2665,6 @@ function check_schema($cfg)
       "MSG"              => "",
       "INFO"             => ""); // There is currently no information specified for this schema extension.;
 
-  /* The FusionDirectory base schema */
-  $checks['gosaObject'] = $def_check;
-
-  $checks['gosaObject']['SCHEMA_FILES']     = array('core-fd.schema');
-  $checks['gosaObject']['CLASSES_REQUIRED'] = array('gosaObject');
-  $checks['gosaObject']['IS_MUST_HAVE']     = TRUE;
-
   /* FusionDirectory lock entry, used to mark currently edited objects as 'in use' */
   $checks['gosaLockEntry']['SCHEMA_FILES']     = array('core-fd.schema');
   $checks['gosaLockEntry']['CLASSES_REQUIRED'] = array('gosaLockEntry');
