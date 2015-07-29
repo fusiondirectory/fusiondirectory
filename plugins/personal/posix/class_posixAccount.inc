@@ -312,29 +312,34 @@ class posixAccount extends simplePlugin
     $this->attributesAccess['posixStatus']->setValue($status);
 
     $this->attributesAccess['groupMembership']->setInLdap(FALSE);
-    if ($this->is_template) {
-      if (isset($this->attrs['posixGroups'])) {
-        unset($this->attrs['posixGroups']['count']);
-        $this->groupMembership = $this->attrs['posixGroups'];
-      }
+    if (class_available('mixedGroup')) {
+      $this->attributesAccess['groupMembership']->setDisabled(TRUE);
+      $this->attributesAccess['groupMembership']->setVisible(FALSE);
     } else {
-      /* Groups handling */
-      $ldap->cd($this->config->current['BASE']);
-      $ldap->search("(&(objectClass=posixGroup)(memberUid=".$this->getUid()."))", array("cn", "description"));
-      $groupMembership = array();
-      while ($attrs = $ldap->fetch()) {
-        if (!isset($attrs["description"][0])) {
-          $entry = $attrs["cn"][0];
-        } else {
-          $entry = $attrs["cn"][0]." [".$attrs["description"][0]."]";
+      if ($this->is_template) {
+        if (isset($this->attrs['posixGroups'])) {
+          unset($this->attrs['posixGroups']['count']);
+          $this->groupMembership = $this->attrs['posixGroups'];
         }
-        $groupMembership[$ldap->getDN()] = $entry;
+      } else {
+        /* Groups handling */
+        $ldap->cd($this->config->current['BASE']);
+        $ldap->search("(&(objectClass=posixGroup)(memberUid=".$this->getUid()."))", array("cn", "description"));
+        $groupMembership = array();
+        while ($attrs = $ldap->fetch()) {
+          if (!isset($attrs["description"][0])) {
+            $entry = $attrs["cn"][0];
+          } else {
+            $entry = $attrs["cn"][0]." [".$attrs["description"][0]."]";
+          }
+          $groupMembership[$ldap->getDN()] = $entry;
+        }
+        asort($groupMembership);
+        reset($groupMembership);
+        $this->attributesAccess['groupMembership']->setValue(array_keys($groupMembership));
+        $this->attributesAccess['groupMembership']->setDisplayValues(array_values($groupMembership));
+        $this->savedGroupMembership = array_keys($groupMembership);
       }
-      asort($groupMembership);
-      reset($groupMembership);
-      $this->attributesAccess['groupMembership']->setValue(array_keys($groupMembership));
-      $this->attributesAccess['groupMembership']->setDisplayValues(array_values($groupMembership));
-      $this->savedGroupMembership = array_keys($groupMembership);
     }
   }
 
@@ -460,7 +465,6 @@ class posixAccount extends simplePlugin
     if ($this->is_template && ($this->primaryGroup == 0)) {
       $this->gidNumber = 2147483647;
     } elseif (($this->primaryGroup == 0) || $this->force_ids) {
-
       /* Search for existing group */
       $ldap = $this->config->get_ldap_link();
       $ldap->cd($this->config->current['BASE']);
@@ -475,38 +479,43 @@ class posixAccount extends simplePlugin
       /* No primary group found, create a new one */
       if ($ldap->count() == 0) {
         $groupcn  = $this->getUid();
-        $pri_attr = $this->config->get_cfg_value("accountPrimaryAttribute");
-        $groupdn  = preg_replace ('/^'.preg_quote($pri_attr, '/').'=[^,]+,'.preg_quote(get_people_ou(), '/').'/i',
-            'cn='.$groupcn.','.get_groups_ou(), $this->dn);
 
         /* Request a new and uniqe gidNumber, if required */
         if (!$this->force_ids) {
-          $this->gidNumber = get_next_id("gidNumber", $this->dn);
+          $this->gidNumber = get_next_id('gidNumber', $this->dn);
         }
 
-        /* If forced gidNumber could not be found, then check if the given group name already exists
-           we do not want to modify the gidNumber of an existing group.
+        /* If forced gidNumber could not be found, then check if the given group name already exists.
          */
         $cnt = 0;
-        while ($ldap->dn_exists($groupdn) && ($cnt < 100)) {
+        $ldap->search('(&(objectClass=posixGroup)(cn='.$groupcn.'))', array('cn'));
+        while ($ldap->count() && ($cnt < 100)) {
           $cnt++;
-          $groupcn = $this->getUid()."_".$cnt;
-          $groupdn = preg_replace ('/^'.preg_quote($pri_attr, '/').'=[^,]+,'.preg_quote(get_people_ou(), '/').'/i',
-              'cn='.$groupcn.','.get_groups_ou(), $this->dn);
+          $groupcn = $this->getUid().'_'.$cnt;
+          $ldap->search('(&(objectClass=posixGroup)(cn='.$groupcn.'))', array('cn'));
         }
 
         /* Create new primary group and enforce the new gidNumber */
-        $g = new group($this->config, $groupdn);
+        if (class_available('mixedGroup')) {
+          $tabObject = objects::create('ogroup');
+          $posixTab   = $tabObject->by_object['mixedGroup'];
+        } else {
+          $tabObject  = objects::create('group');
+          $posixTab   = $tabObject->getBaseObject();
+        }
 
-        $g->cn          = $groupcn;
-        $g->force_gid   = 1;
-        $g->gidNumber   = $this->gidNumber;
-        $g->description = sprintf(_("Group of user %s"), $this->getUid());
-        $g->save();
+        $baseObject = $tabObject->getBaseObject();
+
+        $baseObject->cn           = $groupcn;
+        $baseObject->description  = sprintf(_('Group of user %s'), $this->getUid());
+        $posixTab->force_gid      = 1;
+        $posixTab->gidNumber      = $this->gidNumber;
+
+        $tabObject->save();
+        $groupdn = $tabObject->dn;
 
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
-          sprintf("Primary group '%s' created, using gidNumber '%s'.", $groupcn,
-          $this->gidNumber), "");
+          sprintf('Primary group "%s" created, using gidNumber "%s".', $groupdn, $this->gidNumber), '');
       } else {
         $attrs = $ldap->fetch();
         $this->gidNumber = $attrs['gidNumber'][0];
@@ -556,7 +565,7 @@ class posixAccount extends simplePlugin
     parent::save();
     del_lock("uidnumber");
 
-    if (!$this->is_template) {
+    if (!$this->is_template && !class_available('mixedGroup')) {
       /* Take care about groupMembership values: add to groups */
       $groupMembership = $this->attributesAccess['groupMembership']->getValue();
       foreach ($groupMembership as $value) {
