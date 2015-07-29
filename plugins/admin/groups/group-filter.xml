@@ -25,7 +25,7 @@
     <tag>PRIMARY</tag>
     <default>true</default>
     <unset></unset>
-    <set>(!(objectClass=gosaObject))</set>
+    <set>(objectClass=posixGroup)</set>
   </element>
 
   <element>
