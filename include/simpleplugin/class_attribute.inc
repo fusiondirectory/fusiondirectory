@@ -2205,9 +2205,9 @@ class SetAttribute extends Attribute
 class CompositeAttribute extends Attribute
 {
   public $attributes;
-  private $readFormat;
-  private $writeFormat;
-  private $linearRendering = FALSE;
+  protected $readFormat;
+  protected $writeFormat;
+  protected $linearRendering = FALSE;
 
   /*! \brief The constructor of CompositeAttribute
    *
