@@ -82,6 +82,27 @@ class UserPasswordAttribute extends CompositeAttribute
     }
   }
 
+  /* We need to handle method select disabling manually */
+  function renderAttribute(&$attributes, $readOnly)
+  {
+    global $config;
+    if ($this->visible) {
+      if ($this->linearRendering) {
+        parent::renderAttribute($attributes, $readOnly);
+      } else {
+        foreach ($this->attributes as $key => &$attribute) {
+          if (($key == 0) && ($config->get_cfg_value('forcePasswordDefaultHash', 'FALSE') == 'TRUE')) {
+            $attribute->setDisabled(TRUE);
+          } else {
+            $attribute->setDisabled($this->disabled);
+          }
+          $attribute->renderAttribute($attributes, $readOnly);
+        }
+        unset($attribute);
+      }
+    }
+  }
+
   /*! \brief Loads this attribute value from the attrs array
    */
   protected function loadAttrValue ($attrs)
