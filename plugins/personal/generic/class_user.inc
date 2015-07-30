@@ -123,7 +123,7 @@ class UserPasswordAttribute extends CompositeAttribute
 
   function setValue ($value)
   {
-    if ($value[0] == '') {
+    if ($this->attributes[0]->isDisabled() || ($value[0] == '')) {
       $value[0] = $this->attributes[0]->getValue();
     }
     parent::setValue($value);
