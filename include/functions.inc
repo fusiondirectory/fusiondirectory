@@ -2869,14 +2869,17 @@ function get_languages($languages_in_own_language = FALSE, $strip_region_tag = F
     "ca_ES" => "Catalan",
     "cs_CZ" => "Czech",
     "de_DE" => "German",
+    "el_GR" => "Greek",
     "en_US" => "English",
     "es_ES" => "Spanish",
     "es_VE" => "Venezuelan",
     "fa_IR" => "Persian",
     "fr_FR" => "French",
     "it_IT" => "Italian",
+    "nb"    => "Norwegian Bokmål",
     "nl_NL" => "Dutch",
     "pl_PL" => "Polish",
+    "pt"    => "Portuguese",
     "pt_BR" => "Brazilian",
     "ru_RU" => "Russian",
     "vi_VN" => "Vietnamese",
@@ -2891,14 +2894,17 @@ function get_languages($languages_in_own_language = FALSE, $strip_region_tag = F
       "ca_ES" => "Català",
       "cs_CZ" => "Česky",
       "de_DE" => "Deutsch",
+      "el_GR" => "ελληνικά",
       "en_US" => "English",
       "es_ES" => "Español",
       "es_VE" => "Castellano",
       "fa_IR" => "پارسی",
       "fr_FR" => "Français",
       "it_IT" => "Italiano",
+      "nb"    => "Norsk bokmål",
       "nl_NL" => "Nederlands",
       "pl_PL" => "Polski",
+      "pt"    => "Portuguese",
       "pt_BR" => "Portuguese (Brazil)",
       "ru_RU" => "русский язык",
       "vi_VN" => "Tiếng Việt",
@@ -3023,6 +3029,7 @@ function change_password ($dn, $password, $mode = 0, $hash = "")
     // hash and if it is not defined we use 'ssha' as default
     $hash = $config->get_cfg_value("passwordDefaultHash", "ssha");
     $test = new $available[$hash]($config, $dn);
+    $test->set_hash($hash);
   } elseif ((isset($attrs['userPassword'][0]) && preg_match ("/^{([^}]+)}(.+)/", $attrs['userPassword'][0])) || $hash != "") {
 
     /* Check for supported algorithm */

@@ -1,6 +1,18 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.8.9
+
+Bugs #3877: add a switch to select the good library when in wheezy or jessie for fusiondirectory-shell
+Bugs #3928: Doesn't work if ldap's cn=admin has password with "<" symbol
+Bugs #3930: updating the list of supported language in fusiondirectory
+Bugs #3932: Password default hashes of type CRYPT/XXX other than CRYPT/MD5 are not working
+Bugs #3941: fusiondirectory-setup --check-ldap should respect password encoding taken from the ldap
+Bugs #3943: Add a option to not touch at the reverse zone
+Bugs #3960: fusiondirectory-shell cannot cat a user
+Bugs #3961: the DESC of each attribute and object should describe exactly the purpose of it - ported description and formatting issues to 1.0.8.x
+Bugs #3962: fusiondirectory-shell should handle multivaluated attributes properly
+
 * FusionDirectory 1.0.8.8
 
 [Fix] Bugs #3864: correct all the date and version on the man pages

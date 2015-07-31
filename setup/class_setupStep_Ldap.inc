@@ -121,14 +121,14 @@ class Step_Ldap extends setup_step
       if (!empty($this->admin)) {
         $str = sprintf(_("Bind as user '%s' failed!"), $this->admin, $this->connection);
       }
-      return "<div style='color:red;'>".$str."</div>";
+      return "<div style='color:red;'>".htmlentities($str, ENT_QUOTES, "UTF-8")."</div>";
     } else {
       if (empty($this->admin)) {
         $str = sprintf(_("Anonymous bind to server '%s' succeeded."), $this->connection);
-        return "<div style='color:blue;'>".$str."</div> <div style='color:red;'>"._("Please specify user and password!")."</div>";
+        return "<div style='color:blue;'>".htmlentities($str, ENT_QUOTES, "UTF-8")."</div> <div style='color:red;'>"._("Please specify user and password!")."</div>";
       } else {
         $str = sprintf(_("Bind as user '%s' to server '%s' succeeded!"), $this->admin, $this->connection);
-        return "<div style='color:green;'>".$str."</div>";
+        return "<div style='color:green;'>".htmlentities($str, ENT_QUOTES, "UTF-8")."</div>";
       }
     }
   }
@@ -160,7 +160,7 @@ class Step_Ldap extends setup_step
         if (in_array($attr, array("base","connection")) && $this->$attr != get_post($attr)) {
           $reset = TRUE;
         }
-        $this->$attr = get_post($attr);
+        $this->$attr = $_POST[$attr];
       }
     }
 

@@ -41,8 +41,8 @@ use Net::LDAP;
 # used to base64 encode
 use MIME::Base64;
 
-# used to generate {CRYPT} password (for LDAP)
-use Crypt::PasswdMD5;
+# used to generate {SSHA} password (for LDAP)
+use Digest::SHA;
 use Crypt::CBC;
 
 # used to uncompress tar.gz
@@ -597,7 +597,7 @@ sub add_ldap_admin {
   my $mesg = $ldap->search(
     base => "$base",
     filter => "(&(objectClass=fusionDirectoryConf)(cn=fusiondirectory))",
-    attrs => ['fdAccountPrimaryAttribute']
+    attrs => ['fdAccountPrimaryAttribute', 'fdForcePasswordDefaultHash', 'fdPasswordDefaultHash']
   );
   $mesg->code && die $mesg->error;
   my $attr;
@@ -608,6 +608,14 @@ sub add_ldap_admin {
     $attr = ($mesg->entries)[0]->get_value('fdAccountPrimaryAttribute');
   } else {
     $attr = 'uid';
+  }
+  if ($mesg->count > 0) {
+    if (($mesg->entries)[0]->exists('fdForcePasswordDefaultHash') && ($mesg->entries)[0]->exists('fdPasswordDefaultHash')) {
+      if ((($mesg->entries)[0]->get_value('fdForcePasswordDefaultHash') eq 'TRUE') &&
+          (($mesg->entries)[0]->get_value('fdPasswordDefaultHash') ne 'ssha')) {
+        warn "Warning: Administator password will be hashed with ssha instead of forced default ".($mesg->entries)[0]->get_value('fdPasswordDefaultHash')."\n";
+      }
+    }
   }
 
   my $fd_admin_uid = ask_user_input ("Please enter a login for FusionDirectory's admin", "fd-admin");
@@ -637,13 +645,18 @@ sub add_ldap_admin {
     }
     return -1 if ($fd_admin_pwd_confirm eq "quit");
 
+    my $ctx = Digest::SHA->new(1);
+    my $salt = get_random_string(8);
+    $ctx->add($fd_admin_pwd);
+    $ctx->add($salt);
+    my $hashedPasswd = '{SSHA}'.encode_base64($ctx->digest.$salt, '');
     my %obj = (
       'cn'  =>  'System Administrator',
       'sn'  =>  'Administrator',
       'uid' =>  $fd_admin_uid,
       'givenname'     =>  'System',
       'objectclass'   =>  [ 'top', 'person', 'gosaAccount', 'organizationalPerson', 'inetOrgPerson' ],
-      'userPassword'  => "{CRYPT}".unix_md5_crypt($fd_admin_pwd)
+      'userPassword'  =>  $hashedPasswd
     );
     if (not defined $obj{$attr}) {
       print "Error : invalid account primary attribute $attr, using uid\n";

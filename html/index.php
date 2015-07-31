@@ -38,7 +38,7 @@ function displayLogin()
   /* Fill template with required values */
   $username = "";
   if (isset($_POST["username"])) {
-    $username = trim(get_post("username"));
+    $username = trim($_POST['username']);
   }
   $smarty->assign ('date', gmdate("D, d M Y H:i:s"));
   $smarty->assign ('username', $username);
@@ -70,7 +70,7 @@ function displayLogin()
   /* Generate server list */
   $servers = array();
   if (isset($_POST['server'])) {
-    $selected = get_post('server');
+    $selected = $_POST['server'];
   } else {
     $selected = $config->data['MAIN']['DEFAULT'];
   }
@@ -191,7 +191,7 @@ if ($config->get_cfg_value("htaccessAuthentication") == "TRUE" ) {
 }
 if (!$htaccess_authenticated) {
   if (isset($_POST['server'])) {
-    $server = get_post("server");
+    $server = $_POST['server'];
   } else {
     $server = $config->data['MAIN']['DEFAULT'];
   }
@@ -269,7 +269,7 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
   /* Check for valid input */
   $ok = TRUE;
   if (!$htaccess_authenticated) {
-    $username = trim(get_post("username"));
+    $username = trim($_POST['username']);
     if (!preg_match("/^[@A-Za-z0-9_.-]+$/", $username)) {
       $message = _("Please specify a valid username!");
       $ok = FALSE;
