@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-108\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2015-06-04 22:02+0200\n"
-"PO-Revision-Date: 2015-06-04 20:01+0000\n"
+"POT-Creation-Date: 2015-07-27 20:01+0200\n"
+"PO-Revision-Date: 2015-07-27 18:00+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Russian Petrine orthography (http://www.transifex.com/projects/p/FusionDirectory-108/language/ru@petr1708/)\n"
 "MIME-Version: 1.0\n"
@@ -122,7 +122,7 @@ msgstr ""
 #: plugins/admin/users/class_userManagement.inc:52
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:29
 #: plugins/personal/generic/class_user.inc:1323
-#: setup/class_setupStep_Migrate.inc:959
+#: setup/class_setupStep_Migrate.inc:953
 msgid "Users"
 msgstr ""
 
@@ -216,12 +216,12 @@ msgstr ""
 #: include/class_config.inc:476 include/class_msgPool.inc:215
 #: include/class_msgPool.inc:235 include/class_msgPool.inc:265
 #: include/class_msgPool.inc:682 include/class_msgPool.inc:713
-#: include/class_msgPool.inc:740 include/functions.inc:3097
-#: include/functions.inc:3132 include/functions.inc:3509
-#: include/functions.inc:3530 include/functions.inc:3560
-#: include/functions.inc:3568 include/functions.inc:3580
-#: include/functions.inc:3584 include/functions.inc:3591
-#: include/functions.inc:3600 include/functions.inc:3662
+#: include/class_msgPool.inc:740 include/functions.inc:3104
+#: include/functions.inc:3139 include/functions.inc:3516
+#: include/functions.inc:3537 include/functions.inc:3567
+#: include/functions.inc:3575 include/functions.inc:3587
+#: include/functions.inc:3591 include/functions.inc:3598
+#: include/functions.inc:3607 include/functions.inc:3669
 #: include/class_msg_dialog.inc:129 include/class_databaseManagement.inc:78
 #: include/class_xml.inc:58 include/class_plugin.inc:1530
 #: include/class_CopyPasteHandler.inc:250
@@ -236,7 +236,7 @@ msgstr ""
 #: include/password-methods/class_password-methods.inc:444
 #: include/class_SnapshotHandler.inc:415 include/class_tabs.inc:74
 #: html/index.php:182 html/index.php:186
-#: setup/class_setupStep_Migrate.inc:1192
+#: setup/class_setupStep_Migrate.inc:1186
 #: ihtml/themes/default/msg_dialog.tpl.c:2 setup/setup_checks.tpl.c:8
 #: setup/setup_checks.tpl.c:29
 msgid "Error"
@@ -266,7 +266,7 @@ msgstr ""
 #: include/functions.inc:590 include/functions.inc:634
 #: include/functions.inc:793 include/functions.inc:840
 #: include/functions.inc:901 include/functions.inc:956
-#: include/functions.inc:3092 include/functions.inc:3399
+#: include/functions.inc:3099 include/functions.inc:3406
 #: include/simpleplugin/class_simplePlugin.inc:452
 #: include/simpleplugin/class_attribute.inc:2781 include/class_acl.inc:376
 #: include/password-methods/class_password-methods.inc:196
@@ -274,17 +274,17 @@ msgstr ""
 #: include/class_SnapshotHandler.inc:277 include/class_SnapshotHandler.inc:292
 #: include/class_SnapshotHandler.inc:422 include/class_SnapshotHandler.inc:425
 #: html/index.php:226 html/index.php:238 html/index.php:251
-#: html/class_passwordRecovery.inc:497 setup/class_setupStep_Migrate.inc:1203
-#: setup/class_setupStep_Migrate.inc:1223
-#: setup/class_setupStep_Migrate.inc:1266
-#: setup/class_setupStep_Migrate.inc:2003
-#: setup/class_setupStep_Migrate.inc:2146
-#: setup/class_setupStep_Migrate.inc:2150
-#: setup/class_setupStep_Migrate.inc:2320
-#: setup/class_setupStep_Migrate.inc:2339
-#: setup/class_setupStep_Migrate.inc:2443
-#: setup/class_setupStep_Migrate.inc:2717
-#: setup/class_setupStep_Migrate.inc:2730
+#: html/class_passwordRecovery.inc:497 setup/class_setupStep_Migrate.inc:1197
+#: setup/class_setupStep_Migrate.inc:1217
+#: setup/class_setupStep_Migrate.inc:1260
+#: setup/class_setupStep_Migrate.inc:1932
+#: setup/class_setupStep_Migrate.inc:2075
+#: setup/class_setupStep_Migrate.inc:2079
+#: setup/class_setupStep_Migrate.inc:2249
+#: setup/class_setupStep_Migrate.inc:2268
+#: setup/class_setupStep_Migrate.inc:2372
+#: setup/class_setupStep_Migrate.inc:2646
+#: setup/class_setupStep_Migrate.inc:2659
 msgid "LDAP error"
 msgstr ""
 
@@ -319,12 +319,12 @@ msgstr ""
 #: include/functions.inc:2719 include/class_xml.inc:55
 #: include/class_tabs.inc:296 html/index.php:58 html/index.php:64
 #: html/index.php:346 html/class_passwordRecovery.inc:384
-#: setup/class_setupStep_Migrate.inc:277 setup/class_setupStep_Migrate.inc:322
-#: setup/class_setupStep_Migrate.inc:386 setup/class_setupStep_Migrate.inc:455
-#: setup/class_setupStep_Migrate.inc:577 setup/class_setupStep_Migrate.inc:702
-#: setup/class_setupStep_Migrate.inc:2268
-#: setup/class_setupStep_Migrate.inc:2410
-#: setup/class_setupStep_Migrate.inc:2667 plugins/admin/ogroups/remove.tpl.c:2
+#: setup/class_setupStep_Migrate.inc:271 setup/class_setupStep_Migrate.inc:316
+#: setup/class_setupStep_Migrate.inc:380 setup/class_setupStep_Migrate.inc:449
+#: setup/class_setupStep_Migrate.inc:571 setup/class_setupStep_Migrate.inc:696
+#: setup/class_setupStep_Migrate.inc:2197
+#: setup/class_setupStep_Migrate.inc:2339
+#: setup/class_setupStep_Migrate.inc:2596 plugins/admin/ogroups/remove.tpl.c:2
 #: plugins/admin/users/remove.tpl.c:2 plugins/admin/acl/remove.tpl.c:2
 #: ihtml/themes/default/islocked.tpl.c:5 ihtml/themes/default/conflict.tpl.c:5
 #: ihtml/themes/default/remove.tpl.c:2 ihtml/themes/default/msg_dialog.tpl.c:5
@@ -416,7 +416,7 @@ msgstr ""
 #: plugins/admin/departments/dep-list.xml:48
 #: plugins/admin/users/user-list.xml:89
 #: include/simpleplugin/simple-list.xml:59
-#: setup/class_setupStep_Migrate.inc:955 setup/class_setupStep_Migrate.inc:972
+#: setup/class_setupStep_Migrate.inc:949 setup/class_setupStep_Migrate.inc:966
 msgid "Create"
 msgstr ""
 
@@ -446,7 +446,7 @@ msgstr ""
 #: include/simpleplugin/class_dialogAttributes.inc:607
 #: include/simpleplugin/simple-list.xml:75
 #: include/simpleplugin/simple-list.xml:125
-#: setup/class_setupStep_Migrate.inc:2527
+#: setup/class_setupStep_Migrate.inc:2456
 #: plugins/personal/generic/generic_certs.tpl.c:8
 #: plugins/personal/generic/generic_certs.tpl.c:14
 #: plugins/personal/generic/generic_certs.tpl.c:20
@@ -454,7 +454,7 @@ msgid "Remove"
 msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:36
-#: setup/class_setupStep_Migrate.inc:962
+#: setup/class_setupStep_Migrate.inc:956
 msgid "Groups"
 msgstr ""
 
@@ -2946,16 +2946,15 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: include/class_msgPool.inc:481 setup/class_setupStep_Migrate.inc:283
-#: setup/class_setupStep_Migrate.inc:328 setup/class_setupStep_Migrate.inc:393
-#: setup/class_setupStep_Migrate.inc:462 setup/class_setupStep_Migrate.inc:527
-#: setup/class_setupStep_Migrate.inc:573 setup/class_setupStep_Migrate.inc:698
-#: setup/class_setupStep_Migrate.inc:965
-#: setup/class_setupStep_Migrate.inc:1866
-#: setup/class_setupStep_Migrate.inc:2017
-#: setup/class_setupStep_Migrate.inc:2274
-#: setup/class_setupStep_Migrate.inc:2417
-#: setup/class_setupStep_Migrate.inc:2672
+#: include/class_msgPool.inc:481 setup/class_setupStep_Migrate.inc:277
+#: setup/class_setupStep_Migrate.inc:322 setup/class_setupStep_Migrate.inc:387
+#: setup/class_setupStep_Migrate.inc:456 setup/class_setupStep_Migrate.inc:521
+#: setup/class_setupStep_Migrate.inc:567 setup/class_setupStep_Migrate.inc:692
+#: setup/class_setupStep_Migrate.inc:959
+#: setup/class_setupStep_Migrate.inc:1946
+#: setup/class_setupStep_Migrate.inc:2203
+#: setup/class_setupStep_Migrate.inc:2346
+#: setup/class_setupStep_Migrate.inc:2601
 #: ihtml/themes/default/msg_dialog.tpl.c:14 setup/setup_checks.tpl.c:5
 #: setup/setup_checks.tpl.c:26
 msgid "Ok"
@@ -2975,7 +2974,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: include/class_msgPool.inc:507 setup/class_setupStep_Migrate.inc:2526
+#: include/class_msgPool.inc:507 setup/class_setupStep_Migrate.inc:2455
 #: plugins/personal/generic/generic.tpl.c:74
 #, php-format
 msgid "Add"
@@ -3273,7 +3272,7 @@ msgid ""
 "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
 msgstr ""
 
-#: include/functions.inc:508 include/functions.inc:3749
+#: include/functions.inc:508 include/functions.inc:3756
 #: include/class_xml.inc:61 html/class_passwordRecovery.inc:214
 msgid "Fatal error"
 msgstr ""
@@ -3494,47 +3493,47 @@ msgstr ""
 msgid "The objectClass 'posixGroup' must be STRUCTURAL"
 msgstr ""
 
-#: include/functions.inc:3097
+#: include/functions.inc:3104
 msgid "Could not re-lock the account after password change"
 msgstr ""
 
-#: include/functions.inc:3509 include/functions.inc:3530
-#: include/functions.inc:3568 include/functions.inc:3580
-#: include/functions.inc:3584 include/functions.inc:3591
-#: include/functions.inc:3600
+#: include/functions.inc:3516 include/functions.inc:3537
+#: include/functions.inc:3575 include/functions.inc:3587
+#: include/functions.inc:3591 include/functions.inc:3598
+#: include/functions.inc:3607
 msgid "Cannot allocate a free ID:"
 msgstr ""
 
-#: include/functions.inc:3509
+#: include/functions.inc:3516
 msgid "unknown idAllocation method!"
 msgstr ""
 
-#: include/functions.inc:3530
+#: include/functions.inc:3537
 #, php-format
 msgid "%sPoolMin >= %sPoolMax!"
 msgstr ""
 
-#: include/functions.inc:3560
+#: include/functions.inc:3567
 msgid "Cannot create sambaUnixIdPool entry!"
 msgstr ""
 
-#: include/functions.inc:3568
+#: include/functions.inc:3575
 msgid "sambaUnixIdPool is not unique!"
 msgstr ""
 
-#: include/functions.inc:3580 include/functions.inc:3584
+#: include/functions.inc:3587 include/functions.inc:3591
 msgid "no ID available!"
 msgstr ""
 
-#: include/functions.inc:3600
+#: include/functions.inc:3607
 msgid "maximum tries exceeded!"
 msgstr ""
 
-#: include/functions.inc:3662
+#: include/functions.inc:3669
 msgid "Cannot allocate a free ID!"
 msgstr ""
 
-#: include/functions.inc:3750
+#: include/functions.inc:3757
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr ""
@@ -4150,11 +4149,11 @@ msgstr ""
 msgid "Setup error"
 msgstr ""
 
-#: setup/class_setupStep_Config3.inc:270
+#: setup/class_setupStep_Config3.inc:277
 msgid "Session lifetime must be a numeric value!"
 msgstr ""
 
-#: setup/class_setupStep_Config3.inc:274
+#: setup/class_setupStep_Config3.inc:281
 msgid "Maximum LDAP query time must be a numeric value!"
 msgstr ""
 
@@ -4189,335 +4188,315 @@ msgid ""
 "shouldn't."
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:126 setup/class_setupStep_Migrate.inc:127
+#: setup/class_setupStep_Migrate.inc:125 setup/class_setupStep_Migrate.inc:126
 msgid "LDAP inspection"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:128
+#: setup/class_setupStep_Migrate.inc:127
 msgid "Analyze your current LDAP for FusionDirectory compatibility"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:136
+#: setup/class_setupStep_Migrate.inc:135
 msgid "Give all rights on users in the given branch"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:142
+#: setup/class_setupStep_Migrate.inc:141
 msgid ""
 "Allow users to edit their own information (main tab and posix use only on "
 "base)"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:148
+#: setup/class_setupStep_Migrate.inc:147
 msgid "Allow users to edit their own password (use only on base)"
 msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:158
-msgid "Checking for root object"
-msgstr ""
-
-#: setup/class_setupStep_Migrate.inc:164
 msgid "Inspecting object classes in root object"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:170
+#: setup/class_setupStep_Migrate.inc:164
 msgid "Checking permission for LDAP database"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:176
+#: setup/class_setupStep_Migrate.inc:170
 msgid "Checking for invisible departments"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:181
+#: setup/class_setupStep_Migrate.inc:175
 msgid "Checking for invisible users"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:188
-#: setup/class_setupStep_Migrate.inc:2796
+#: setup/class_setupStep_Migrate.inc:182
+#: setup/class_setupStep_Migrate.inc:2725
 msgid "Checking for super administrator"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:194
+#: setup/class_setupStep_Migrate.inc:188
 msgid "Checking for default ACL roles and groupes"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:200
+#: setup/class_setupStep_Migrate.inc:194
 msgid "Checking for users outside the people tree"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:206
+#: setup/class_setupStep_Migrate.inc:200
 msgid "Checking for groups outside the groups tree"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:213
+#: setup/class_setupStep_Migrate.inc:207
 msgid "Checking for duplicated user ids"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:219
+#: setup/class_setupStep_Migrate.inc:213
 msgid "Checking for duplicate group ids"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:225
+#: setup/class_setupStep_Migrate.inc:219
 msgid "Checking for old style USB devices"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:231
+#: setup/class_setupStep_Migrate.inc:225
 msgid "Checking for old services that have to be migrated"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:237
+#: setup/class_setupStep_Migrate.inc:231
 msgid "Checking for old style application menus"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:256 setup/class_setupStep_Migrate.inc:301
-#: setup/class_setupStep_Migrate.inc:361 setup/class_setupStep_Migrate.inc:424
-#: setup/class_setupStep_Migrate.inc:494 setup/class_setupStep_Migrate.inc:569
-#: setup/class_setupStep_Migrate.inc:694 setup/class_setupStep_Migrate.inc:775
-#: setup/class_setupStep_Migrate.inc:992
-#: setup/class_setupStep_Migrate.inc:1885
-#: setup/class_setupStep_Migrate.inc:2206
-#: setup/class_setupStep_Migrate.inc:2380
-#: setup/class_setupStep_Migrate.inc:2494
+#: setup/class_setupStep_Migrate.inc:250 setup/class_setupStep_Migrate.inc:295
+#: setup/class_setupStep_Migrate.inc:355 setup/class_setupStep_Migrate.inc:418
+#: setup/class_setupStep_Migrate.inc:488 setup/class_setupStep_Migrate.inc:563
+#: setup/class_setupStep_Migrate.inc:688 setup/class_setupStep_Migrate.inc:769
+#: setup/class_setupStep_Migrate.inc:986
+#: setup/class_setupStep_Migrate.inc:1814
+#: setup/class_setupStep_Migrate.inc:2135
+#: setup/class_setupStep_Migrate.inc:2309
+#: setup/class_setupStep_Migrate.inc:2423
 msgid "LDAP query failed"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:257 setup/class_setupStep_Migrate.inc:302
-#: setup/class_setupStep_Migrate.inc:362 setup/class_setupStep_Migrate.inc:425
-#: setup/class_setupStep_Migrate.inc:495 setup/class_setupStep_Migrate.inc:570
-#: setup/class_setupStep_Migrate.inc:695 setup/class_setupStep_Migrate.inc:776
-#: setup/class_setupStep_Migrate.inc:993
-#: setup/class_setupStep_Migrate.inc:1886
-#: setup/class_setupStep_Migrate.inc:2207
-#: setup/class_setupStep_Migrate.inc:2381
-#: setup/class_setupStep_Migrate.inc:2495
+#: setup/class_setupStep_Migrate.inc:251 setup/class_setupStep_Migrate.inc:296
+#: setup/class_setupStep_Migrate.inc:356 setup/class_setupStep_Migrate.inc:419
+#: setup/class_setupStep_Migrate.inc:489 setup/class_setupStep_Migrate.inc:564
+#: setup/class_setupStep_Migrate.inc:689 setup/class_setupStep_Migrate.inc:770
+#: setup/class_setupStep_Migrate.inc:987
+#: setup/class_setupStep_Migrate.inc:1815
+#: setup/class_setupStep_Migrate.inc:2136
+#: setup/class_setupStep_Migrate.inc:2310
+#: setup/class_setupStep_Migrate.inc:2424
 msgid "Possibly the 'root object' is missing."
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:279
+#: setup/class_setupStep_Migrate.inc:273
 #, php-format
 msgid "Found %s duplicate values for attribute 'uidNumber'."
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:324
+#: setup/class_setupStep_Migrate.inc:318
 #, php-format
 msgid "Found %s duplicate values for attribute 'gidNumber'."
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:388
+#: setup/class_setupStep_Migrate.inc:382
 #, php-format
 msgid "Found %s groups outside the configured tree '%s'."
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:389 setup/class_setupStep_Migrate.inc:458
+#: setup/class_setupStep_Migrate.inc:383 setup/class_setupStep_Migrate.inc:452
 msgid "Move"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:457
+#: setup/class_setupStep_Migrate.inc:451
 #, php-format
 msgid "Found %s user(s) outside the configured tree '%s'."
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:507 setup/class_setupStep_Migrate.inc:519
-#: setup/class_setupStep_Migrate.inc:951 setup/class_setupStep_Migrate.inc:970
-#: setup/class_setupStep_Migrate.inc:1843
-#: setup/class_setupStep_Migrate.inc:1856
-#: setup/class_setupStep_Migrate.inc:1904
-#: setup/class_setupStep_Migrate.inc:1939
-#: setup/class_setupStep_Migrate.inc:1991
-#: setup/class_setupStep_Migrate.inc:2798
+#: setup/class_setupStep_Migrate.inc:501 setup/class_setupStep_Migrate.inc:513
+#: setup/class_setupStep_Migrate.inc:945 setup/class_setupStep_Migrate.inc:964
+#: setup/class_setupStep_Migrate.inc:1833
+#: setup/class_setupStep_Migrate.inc:1868
+#: setup/class_setupStep_Migrate.inc:1920
+#: setup/class_setupStep_Migrate.inc:2727
 msgid "Failed"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:509 setup/class_setupStep_Migrate.inc:521
+#: setup/class_setupStep_Migrate.inc:503 setup/class_setupStep_Migrate.inc:515
 #, php-format
 msgid ""
 "The specified user '%s' does not have full access to your ldap database."
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:578
+#: setup/class_setupStep_Migrate.inc:572
 #, php-format
 msgid ""
 "Found %s user(s) that will not be visible in FusionDirectory or which are "
 "incomplete."
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:580 setup/class_setupStep_Migrate.inc:704
-#: setup/class_setupStep_Migrate.inc:954
-#: setup/class_setupStep_Migrate.inc:1015
-#: setup/class_setupStep_Migrate.inc:1993
-#: setup/class_setupStep_Migrate.inc:2271
-#: setup/class_setupStep_Migrate.inc:2414
-#: setup/class_setupStep_Migrate.inc:2669 setup/setup_migrate.tpl.c:17
+#: setup/class_setupStep_Migrate.inc:574 setup/class_setupStep_Migrate.inc:698
+#: setup/class_setupStep_Migrate.inc:948
+#: setup/class_setupStep_Migrate.inc:1009
+#: setup/class_setupStep_Migrate.inc:1922
+#: setup/class_setupStep_Migrate.inc:2200
+#: setup/class_setupStep_Migrate.inc:2343
+#: setup/class_setupStep_Migrate.inc:2598 setup/setup_migrate.tpl.c:17
 msgid "Migrate"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:619 setup/class_setupStep_Migrate.inc:747
-#: setup/class_setupStep_Migrate.inc:1036
-#: setup/class_setupStep_Migrate.inc:1078
-#: setup/class_setupStep_Migrate.inc:1119
+#: setup/class_setupStep_Migrate.inc:613 setup/class_setupStep_Migrate.inc:741
+#: setup/class_setupStep_Migrate.inc:1030
+#: setup/class_setupStep_Migrate.inc:1072
+#: setup/class_setupStep_Migrate.inc:1113
 msgid "Migration error"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:619 setup/class_setupStep_Migrate.inc:747
+#: setup/class_setupStep_Migrate.inc:613 setup/class_setupStep_Migrate.inc:741
 #, php-format
 msgid "Cannot migrate department '%s':"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:703
+#: setup/class_setupStep_Migrate.inc:697
 #, php-format
 msgid "Found %s department(s) that will not be visible in FusionDirectory."
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:948
+#: setup/class_setupStep_Migrate.inc:942
 #, php-format
 msgid "FD 1.0.7 administrator accounts found: %s"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:953
+#: setup/class_setupStep_Migrate.inc:947
 msgid ""
 "There is no valid FusionDirectory 1.0.8 administrator account inside your "
 "LDAP."
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:971
+#: setup/class_setupStep_Migrate.inc:965
 msgid "There is no FusionDirectory administrator account inside your LDAP."
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:1007
+#: setup/class_setupStep_Migrate.inc:1001
 msgid "Default ACL roles have not been inserted"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:1009
+#: setup/class_setupStep_Migrate.inc:1003
 msgid "Some default ACL roles are missing"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:1011
+#: setup/class_setupStep_Migrate.inc:1005
 msgid "Default ACL roles have been inserted"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:1038
-#: setup/class_setupStep_Migrate.inc:1078
+#: setup/class_setupStep_Migrate.inc:1032
+#: setup/class_setupStep_Migrate.inc:1072
 #, php-format
 msgid "Cannot add ACL role '%s':"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:1072
+#: setup/class_setupStep_Migrate.inc:1066
 msgid "Give all rights on all objects"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:1119
+#: setup/class_setupStep_Migrate.inc:1113
 #, php-format
 msgid "Cannot add ACL for user '%s':"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:1149
-#: setup/class_setupStep_Migrate.inc:1159
+#: setup/class_setupStep_Migrate.inc:1143
+#: setup/class_setupStep_Migrate.inc:1153
 msgid "Input error"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:1149
+#: setup/class_setupStep_Migrate.inc:1143
 msgid "Uid"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:1154
+#: setup/class_setupStep_Migrate.inc:1148
 msgid "Password error"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:1154
+#: setup/class_setupStep_Migrate.inc:1148
 msgid "Provided passwords do not match!"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:1159
+#: setup/class_setupStep_Migrate.inc:1153
 msgid "Specify a valid user ID!"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:1192
+#: setup/class_setupStep_Migrate.inc:1186
 #, php-format
 msgid "Adding an administrator user failed: object '%s' already exists!"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:1223
-#: setup/class_setupStep_Migrate.inc:1266
+#: setup/class_setupStep_Migrate.inc:1217
+#: setup/class_setupStep_Migrate.inc:1260
 msgid "Cannot move users to the requested department!"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:1234
+#: setup/class_setupStep_Migrate.inc:1228
 msgid "Group will be moved from"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:1234
-#: setup/class_setupStep_Migrate.inc:1276
+#: setup/class_setupStep_Migrate.inc:1228
+#: setup/class_setupStep_Migrate.inc:1270
 msgid "to"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:1244
+#: setup/class_setupStep_Migrate.inc:1238
 msgid "Updating following references too"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:1276
+#: setup/class_setupStep_Migrate.inc:1270
 msgid "User will be moved from"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:1286
+#: setup/class_setupStep_Migrate.inc:1280
 msgid "The following references will be updated"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:1844
-msgid ""
-"The LDAP root object is missing. It is required to use your LDAP service."
-msgstr ""
-
-#: setup/class_setupStep_Migrate.inc:1845
-#: setup/class_setupStep_Migrate.inc:1858
-msgid "Try to create root object"
-msgstr ""
-
-#: setup/class_setupStep_Migrate.inc:1857
-msgid "Root object couldn't be created, you should try it on your own."
-msgstr ""
-
-#: setup/class_setupStep_Migrate.inc:1905
+#: setup/class_setupStep_Migrate.inc:1834
 #, php-format
 msgid "Missing FusionDirectory object class '%s'!"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:1906
+#: setup/class_setupStep_Migrate.inc:1835
 msgid "Please check your installation."
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:1941
+#: setup/class_setupStep_Migrate.inc:1870
 #, php-format
 msgid ""
 "Cannot handle the structural object type of your root object. Please try to "
 "add the object class '%s' manually."
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:2146
+#: setup/class_setupStep_Migrate.inc:2075
 #, php-format
 msgid "Copy '%s' to '%s' failed:"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:2270
+#: setup/class_setupStep_Migrate.inc:2199
 #, php-format
 msgid "There are %s devices that need to be migrated."
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:2321
+#: setup/class_setupStep_Migrate.inc:2250
 #, php-format
 msgid "Adding '%s' to the LDAP failed: %s"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:2340
-#: setup/class_setupStep_Migrate.inc:2444
+#: setup/class_setupStep_Migrate.inc:2269
+#: setup/class_setupStep_Migrate.inc:2373
 #, php-format
 msgid "Updating '%s' failed: %s"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:2412
+#: setup/class_setupStep_Migrate.inc:2341
 #, php-format
 msgid "There are %s services that need to be migrated."
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:2668
+#: setup/class_setupStep_Migrate.inc:2597
 #, php-format
 msgid "There are %s application menus which have to be migrated."
 msgstr ""
