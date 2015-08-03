@@ -498,16 +498,27 @@ class posixAccount extends simplePlugin
         /* Create new primary group and enforce the new gidNumber */
         if (class_available('mixedGroup')) {
           $tabObject = objects::create('ogroup');
-          $posixTab   = $tabObject->by_object['mixedGroup'];
         } else {
           $tabObject  = objects::create('group');
-          $posixTab   = $tabObject->getBaseObject();
         }
 
         $baseObject = $tabObject->getBaseObject();
 
         $baseObject->cn           = $groupcn;
         $baseObject->description  = sprintf(_('Group of user %s'), $this->getUid());
+        if (class_available('mixedGroup')) {
+          // fake attrs as this user may not exists yet
+          $attrs = array(
+            'objectClass' => array('inetOrgPerson','organizationalPerson','person','posixAccount','shadowAccount'),
+            'cn' => $this->getUid(),
+            'uid' => $this->getUid(),
+          );
+          $baseObject->attributesAccess['member']->addValue($this->dn, $attrs);
+          $tabObject->gen_tabs();
+          $posixTab = $tabObject->by_object['mixedGroup'];
+        } else {
+          $posixTab = $baseObject;
+        }
         $posixTab->force_gid      = 1;
         $posixTab->gidNumber      = $this->gidNumber;
 
