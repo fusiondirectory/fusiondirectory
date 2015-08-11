@@ -71,7 +71,7 @@ class Step_Checks extends setupStep
     $M = TRUE;
     $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
-    /* Check for imap extension */
+    /* Check for LDAP extension */
     $N = msgPool::checkingFor("LDAP");
     $D = _("FusionDirectory requires this module to talk with your LDAP server.");
     $S = msgPool::installPhpModule("LDAP");
