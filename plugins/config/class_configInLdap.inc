@@ -229,6 +229,26 @@ class configInLdap extends simplePlugin
           ),
         )
       ),
+      'ssl' => array(
+        'name'  => _('SSL'),
+        'attrs' => array(
+          new StringAttribute (
+            _('Key path'), _('Path to FusionDirectory private key. Unused for now.'),
+            'fdSslKeyPath', FALSE,
+            '/etc/ssl/private/fd.key'
+          ),
+          new StringAttribute (
+            _('Certificate path'), _('Path to FusionDirectory certificate. Unused for now.'),
+            'fdSslCertPath', FALSE,
+            '/etc/ssl/certs/fd.cert'
+          ),
+          new StringAttribute (
+            _('CA certificate path'), _('Path to the CA certificate. Used for validating Argonaut Server host.'),
+            'fdSslCaCertPath', FALSE,
+            '/etc/ssl/certs/ca.cert'
+          ),
+        )
+      ),
       'people_and_group' => array(
         'name'  => _('People and group storage'),
         'class' => array('critical'),
