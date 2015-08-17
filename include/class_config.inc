@@ -629,12 +629,11 @@ class config  {
 
       /* If no samba servers are found, look for configured sid/ridbase */
       if (count($this->data['SERVERS']['SAMBA']) == 0) {
-        if (!isset($this->current["SAMBASID"]) || !isset($this->current["SAMBARIDBASE"])) {
-          msg_dialog::display(_("Configuration error"), _("sambaSID and/or sambaRidBase missing in the configuration!"), ERROR_DIALOG);
-        } else {
+        if (isset($this->current['SAMBASID']) && isset($this->current['SAMBARIDBASE'])) {
           $this->data['SERVERS']['SAMBA']['DEFAULT'] = array(
-              "SID" => $this->current["SAMBASID"],
-              "RIDBASE" => $this->current["SAMBARIDBASE"]);
+            'SID'     => $this->get_cfg_value('SAMBASID'),
+            'RIDBASE' => $this->get_cfg_value('SAMBARIDBASE')
+          );
         }
       }
     }
