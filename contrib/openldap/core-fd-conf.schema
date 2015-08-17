@@ -405,6 +405,29 @@ attributetype ( 1.3.6.1.4.1.38414.8.19.2 NAME 'fdForceSaslPasswordAsk'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
   SINGLE-VALUE )
 
+# SSL
+
+attributetype ( 1.3.6.1.4.1.38414.8.20.1 NAME 'fdSslCaCertPath'
+  DESC 'FusionDirectory - CA certificate path'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
+attributetype ( 1.3.6.1.4.1.38414.8.20.2 NAME 'fdSslKeyPath'
+  DESC 'FusionDirectory - SSL key path'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
+attributetype ( 1.3.6.1.4.1.38414.8.20.3 NAME 'fdSslCertPath'
+  DESC 'FusionDirectory - SSL certificate path'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
 # merged from dashboard-fd.schema - Needed by Fusion Directory for dashboard options
 
 attributetype ( 1.3.6.1.4.1.38414.27.1.1 NAME 'fdDashboardPrefix'
@@ -508,7 +531,8 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
     fdTabHook $ fdShells $ fdDisplayHookOutput $
     fdAclTabOnObjects $
     fdRfc2307bis $ fdCopyPaste $ fdSnapshotURI $
-    fdSnapshotAdminDn $ fdSnapshotAdminPassword $ fdPersonalTitleInDN $ fdAccountRDN
+    fdSnapshotAdminDn $ fdSnapshotAdminPassword $ fdPersonalTitleInDN $ fdAccountRDN $
+    fdSslCaCertPath $ fdSslKeyPath $ fdSslCertPath
   ) )
 
 objectclass ( 1.3.6.1.4.1.38414.8.2.2 NAME 'fusionDirectoryPluginsConf'
