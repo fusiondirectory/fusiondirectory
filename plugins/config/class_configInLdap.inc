@@ -171,7 +171,7 @@ class configInLdap extends simplePlugin
             _('Edit locking'),
             _('Check if a entry currently being edited has been modified outside of FusionDirectory in the meantime.'),
             'fdModificationDetectionAttribute', FALSE,
-            array('', 'entryCSN', 'contextCSN')
+            array('', 'entryCSN', 'contextCSN'), 'entryCSN'
           ),
           new BooleanAttribute (
             _('Enable logging'),
