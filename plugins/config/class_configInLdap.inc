@@ -243,7 +243,7 @@ class configInLdap extends simplePlugin
             '/etc/ssl/certs/fd.cert'
           ),
           new StringAttribute (
-            _('CA certificate path'), _('Path to the CA certificate. Used for validating Argonaut Server host.'),
+            _('CA certificate path'), _('Path to the CA certificate. Used for validating Argonaut Server host.'),
             'fdSslCaCertPath', FALSE,
             '/etc/ssl/certs/ca.cert'
           ),
