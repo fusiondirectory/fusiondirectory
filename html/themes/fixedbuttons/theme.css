@@ -20,3 +20,18 @@ padding-bottom:5px;
 padding-top:5px;
 background:#BC9;
 }
+
+
+/* On small screens */
+@media (max-width: 640px) {
+  table.framework #maincell
+  {
+  padding-bottom:55px;
+  }
+
+  p.plugbottom
+  {
+  left:5px;
+  right:5px;
+  }
+}
