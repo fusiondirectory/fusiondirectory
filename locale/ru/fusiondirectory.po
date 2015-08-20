@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2015-08-12 11:04+0200\n"
-"PO-Revision-Date: 2015-08-12 09:03+0000\n"
+"POT-Creation-Date: 2015-08-18 17:39+0200\n"
+"PO-Revision-Date: 2015-08-18 15:39+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Russian (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -551,8 +551,6 @@ msgstr "Имя"
 #: plugins/personal/generic/class_user.inc:328
 #: plugins/personal/generic/paste_generic.tpl.c:11
 #: ihtml/themes/default/recovery.tpl.c:32
-#: ihtml/themes/default/password.tpl.c:32
-#: ihtml/themes/default/password.tpl.c:35
 msgid "Login"
 msgstr "Имя пользователя"
 
@@ -886,9 +884,8 @@ msgstr "Применяемый метод для хэша пароля"
 #: plugins/personal/generic/class_user.inc:337
 #: plugins/personal/generic/paste_generic.tpl.c:14
 #: ihtml/themes/default/recovery.tpl.c:5 ihtml/themes/default/recovery.tpl.c:8
-#: ihtml/themes/default/password.tpl.c:14
-#: ihtml/themes/default/password.tpl.c:17 ihtml/themes/default/login.tpl.c:17
-#: ihtml/themes/default/login.tpl.c:20 ihtml/themes/default/login.tpl.c:23
+#: ihtml/themes/default/login.tpl.c:17 ihtml/themes/default/login.tpl.c:20
+#: ihtml/themes/default/login.tpl.c:23
 #: setup/setup_migrate_adminAccount.tpl.c:14
 msgid "Password"
 msgstr "Пароль"
@@ -1094,8 +1091,6 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:580
 #: ihtml/themes/default/recovery.tpl.c:35
 #: ihtml/themes/default/recovery.tpl.c:38
-#: ihtml/themes/default/password.tpl.c:44
-#: ihtml/themes/default/password.tpl.c:47
 msgid "New password"
 msgstr "Новый пароль"
 
@@ -1559,256 +1554,284 @@ msgid "The base where snapshots should be stored inside of the LDAP."
 msgstr "Базовая запись, где снапшоты должны будут храниться внутри LDAP."
 
 #: plugins/config/class_configInLdap.inc:233
+msgid "SSL"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:236
+msgid "Key path"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:236
+msgid "Path to FusionDirectory private key. Unused for now."
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:241
+msgid "Certificate path"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:241
+msgid "Path to FusionDirectory certificate. Unused for now."
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:246
+msgid "CA certificate path"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:246
+msgid "Path to the CA certificate. Used for validating Argonaut Server host."
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:253
 msgid "People and group storage"
 msgstr "Местоположение пользователей и групп"
 
-#: plugins/config/class_configInLdap.inc:237
+#: plugins/config/class_configInLdap.inc:257
 msgid "People DN attribute"
 msgstr "DN атрибут пользователя"
 
-#: plugins/config/class_configInLdap.inc:237
+#: plugins/config/class_configInLdap.inc:257
 msgid "Attribute to use at the beginning of users dn"
 msgstr "Атрибут используемый у пользователей в начале dn"
 
-#: plugins/config/class_configInLdap.inc:242
+#: plugins/config/class_configInLdap.inc:262
 msgid "CN pattern"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:242
+#: plugins/config/class_configInLdap.inc:262
 msgid "The pattern to use to build the common name field"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:247
+#: plugins/config/class_configInLdap.inc:267
 msgid "Automatic logins"
 msgstr "Автоматические логины"
 
-#: plugins/config/class_configInLdap.inc:247
+#: plugins/config/class_configInLdap.inc:267
 msgid "Automatic way to generate new users logins"
 msgstr "Автоматический способ создания логинов для новых пользователей"
 
-#: plugins/config/class_configInLdap.inc:251
+#: plugins/config/class_configInLdap.inc:271
 msgid "Strict naming policy"
 msgstr "Политика строго присваивания имен"
 
-#: plugins/config/class_configInLdap.inc:252
+#: plugins/config/class_configInLdap.inc:272
 msgid "Enables strict checking of user and group names"
 msgstr "Включить строгую проверку имен для пользователей и групп"
 
-#: plugins/config/class_configInLdap.inc:257
+#: plugins/config/class_configInLdap.inc:277
 msgid "Group/user min id"
 msgstr "Минимальный id групп/пользователей"
 
-#: plugins/config/class_configInLdap.inc:258
+#: plugins/config/class_configInLdap.inc:278
 msgid ""
 "The minimum assignable user or group id to avoid security leaks with id 0 "
 "accounts."
 msgstr "Наименьший идентификатор пользователя или группы, который может быть назначен, чтобы избежать дыры в безопасности с идентификатором учетной записи равным 0."
 
-#: plugins/config/class_configInLdap.inc:263
+#: plugins/config/class_configInLdap.inc:283
 msgid "Next id hook"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:263
+#: plugins/config/class_configInLdap.inc:283
 msgid ""
 "A script to be called for finding the next free id number for users or "
 "groups."
 msgstr "Скрипт, который будет вызваться при нахождении следующего свободного номера id для пользователей иил групп."
 
-#: plugins/config/class_configInLdap.inc:267
+#: plugins/config/class_configInLdap.inc:287
 msgid "Base number for user id"
 msgstr "Начальное значение для id пользователя"
 
-#: plugins/config/class_configInLdap.inc:268
+#: plugins/config/class_configInLdap.inc:288
 msgid "Where to start looking for a new free user id."
 msgstr "Откуда начинать смотреть значение для нового свободного id пользователя."
 
-#: plugins/config/class_configInLdap.inc:273
+#: plugins/config/class_configInLdap.inc:293
 msgid "Base number for group id"
 msgstr "Начальное значение для id группы"
 
-#: plugins/config/class_configInLdap.inc:274
+#: plugins/config/class_configInLdap.inc:294
 msgid "Where to start looking for a new free group id."
 msgstr "Откуда начинать смотреть значение для нового свободного id группы."
 
-#: plugins/config/class_configInLdap.inc:279
+#: plugins/config/class_configInLdap.inc:299
 msgid "Users RDN"
 msgstr " RDN пользователей"
 
-#: plugins/config/class_configInLdap.inc:279
+#: plugins/config/class_configInLdap.inc:299
 msgid "The branch where users are stored."
 msgstr "Ветка где пользователели хранятся."
 
-#: plugins/config/class_configInLdap.inc:284
+#: plugins/config/class_configInLdap.inc:304
 msgid "Groups RDN"
 msgstr "RDN групп"
 
-#: plugins/config/class_configInLdap.inc:284
+#: plugins/config/class_configInLdap.inc:304
 msgid "The branch where groups are stored."
 msgstr "Ветка в которой хранятся группы."
 
-#: plugins/config/class_configInLdap.inc:289
+#: plugins/config/class_configInLdap.inc:309
 msgid "ACL role RDN"
 msgstr "RDN для ACL ролей"
 
-#: plugins/config/class_configInLdap.inc:289
+#: plugins/config/class_configInLdap.inc:309
 msgid "The branch where ACL roles are stored."
 msgstr "Ветка в которой хранятся ACL ролей."
 
-#: plugins/config/class_configInLdap.inc:294
+#: plugins/config/class_configInLdap.inc:314
 msgid "Id allocation method"
 msgstr "Метод выделения id"
 
-#: plugins/config/class_configInLdap.inc:294
+#: plugins/config/class_configInLdap.inc:314
 msgid "Method to allocate user/group ids"
 msgstr "Метод выделения идентификаторов для пользователей и групп"
 
-#: plugins/config/class_configInLdap.inc:297
+#: plugins/config/class_configInLdap.inc:317
 msgid "Traditional"
 msgstr "Традиционный"
 
-#: plugins/config/class_configInLdap.inc:297
+#: plugins/config/class_configInLdap.inc:317
 msgid "Samba unix id pool"
 msgstr "Пул id для samba и unix"
 
-#: plugins/config/class_configInLdap.inc:300
+#: plugins/config/class_configInLdap.inc:320
 msgid "Pool user id min"
 msgstr "Минимальное значение id пользователей в пуле"
 
-#: plugins/config/class_configInLdap.inc:300
+#: plugins/config/class_configInLdap.inc:320
 msgid "Minimum value for user id when using pool method"
 msgstr "Минимальное значение для id пользователя, при использовании пул метода"
 
-#: plugins/config/class_configInLdap.inc:305
+#: plugins/config/class_configInLdap.inc:325
 msgid "Pool user id max"
 msgstr "Максимальное значение id пользователя в пуле"
 
-#: plugins/config/class_configInLdap.inc:305
+#: plugins/config/class_configInLdap.inc:325
 msgid "Maximum value for user id when using pool method"
 msgstr "Максимальное значение для id пользователя, при использовании пул метода"
 
-#: plugins/config/class_configInLdap.inc:310
+#: plugins/config/class_configInLdap.inc:330
 msgid "Pool group id min"
 msgstr "Минимальное значение id группы в пуле"
 
-#: plugins/config/class_configInLdap.inc:310
+#: plugins/config/class_configInLdap.inc:330
 msgid "Minimum value for group id when using pool method"
 msgstr "Минимальное значение для id группы, при использовании пул метода"
 
-#: plugins/config/class_configInLdap.inc:315
+#: plugins/config/class_configInLdap.inc:335
 msgid "Pool group id max"
 msgstr "Максимальное значение id группы в пуле"
 
-#: plugins/config/class_configInLdap.inc:315
+#: plugins/config/class_configInLdap.inc:335
 msgid "Maximum value for group id when using pool method"
 msgstr "Максимальное значение для id группы, при использовании пул метода"
 
-#: plugins/config/class_configInLdap.inc:322
+#: plugins/config/class_configInLdap.inc:342
 msgid "Debugging"
 msgstr "Отладка"
 
-#: plugins/config/class_configInLdap.inc:325
+#: plugins/config/class_configInLdap.inc:345
 msgid "Display errors"
 msgstr "Отображение ошибок"
 
-#: plugins/config/class_configInLdap.inc:326
+#: plugins/config/class_configInLdap.inc:346
 msgid ""
 "Shows PHP errors in the upper part of the screen. This should be disabled in"
 " productive deployments, because there might be some passwords in it."
 msgstr "Показывать PHP ошибки в верхней части экрана. Следует отключить при рабочем использовании, потому что там могут быть отображены пароли."
 
-#: plugins/config/class_configInLdap.inc:330
+#: plugins/config/class_configInLdap.inc:350
 msgid "Maximum LDAP query time"
 msgstr "Максимальное время LDAP запроса"
 
-#: plugins/config/class_configInLdap.inc:330
+#: plugins/config/class_configInLdap.inc:350
 msgid ""
 "Stop LDAP actions if there is no answer within the specified number of "
 "seconds."
 msgstr "Остановить работу с LDAP если нет ответа за определенное количество секунд."
 
-#: plugins/config/class_configInLdap.inc:335
+#: plugins/config/class_configInLdap.inc:355
 msgid "Log LDAP statistics"
 msgstr "Лог статистики обращений к LDAP"
 
-#: plugins/config/class_configInLdap.inc:336
+#: plugins/config/class_configInLdap.inc:356
 msgid ""
 "Track LDAP timing statistics to the syslog. This may help to find indexing "
 "problems or bad search filters."
 msgstr "Отслеживать продолжительность обращений к LDAP в syslog. Это может помочь найти проблемы в индексировании и плохих фильтров поиска."
 
-#: plugins/config/class_configInLdap.inc:341
+#: plugins/config/class_configInLdap.inc:361
 msgid "Debug level"
 msgstr "Уровень отладки"
 
-#: plugins/config/class_configInLdap.inc:342
+#: plugins/config/class_configInLdap.inc:362
 msgid "Display certain information on each page load."
 msgstr "Отображать следующую информацию при каждой загрузке странице."
 
-#: plugins/config/class_configInLdap.inc:354
+#: plugins/config/class_configInLdap.inc:374
 msgid "Miscellaneous"
 msgstr "Разное"
 
-#: plugins/config/class_configInLdap.inc:359
+#: plugins/config/class_configInLdap.inc:379
 msgid "Hooks that are called when specific actions happens"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:363
+#: plugins/config/class_configInLdap.inc:383
 msgid "tab"
 msgstr "вкладка"
 
-#: plugins/config/class_configInLdap.inc:363
+#: plugins/config/class_configInLdap.inc:383
 msgid "The tab that this hook concerns"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:368
+#: plugins/config/class_configInLdap.inc:388
 msgid "mode"
 msgstr "Режим"
 
-#: plugins/config/class_configInLdap.inc:368
+#: plugins/config/class_configInLdap.inc:388
 msgid "When to call this command"
 msgstr "Когда вызывать эту команду"
 
-#: plugins/config/class_configInLdap.inc:374
+#: plugins/config/class_configInLdap.inc:394
 msgid "cmd"
 msgstr "cmd"
 
-#: plugins/config/class_configInLdap.inc:374
+#: plugins/config/class_configInLdap.inc:394
 msgid "The command that will be called"
 msgstr "Команда, которая будет вызвана"
 
-#: plugins/config/class_configInLdap.inc:381
+#: plugins/config/class_configInLdap.inc:401
 msgid "Hooks"
 msgstr "Хуки"
 
-#: plugins/config/class_configInLdap.inc:388
+#: plugins/config/class_configInLdap.inc:408
 msgid "Display hook output"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:389
+#: plugins/config/class_configInLdap.inc:409
 msgid ""
 "When enabled successful hook execution output is displayed to the user using"
 " a dialog."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:394
+#: plugins/config/class_configInLdap.inc:414
 msgid "Available shells"
 msgstr "Доступные оболочки"
 
-#: plugins/config/class_configInLdap.inc:394
+#: plugins/config/class_configInLdap.inc:414
 msgid "Available POSIX shells for FD users."
 msgstr "Доступные POSIX шеллы для пользователей FD"
 
-#: plugins/config/class_configInLdap.inc:401
+#: plugins/config/class_configInLdap.inc:421
 msgid "Show ACL tab on all objects"
 msgstr "Показать вкладку ACL для всех объектов."
 
-#: plugins/config/class_configInLdap.inc:402
+#: plugins/config/class_configInLdap.inc:422
 msgid ""
 "For very specific ACL rights setting where you might need to give right on a"
 " single object."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:416
+#: plugins/config/class_configInLdap.inc:436
 #: setup/class_setupStep_Language.inc:69
 msgid "Automatic"
 msgstr "Автоматически"
@@ -2161,9 +2184,8 @@ msgid "XML error in fusiondirectory.conf: %s at line %d"
 msgstr "Ошибка XML в fusiondirectory.conf: %s в строке %d"
 
 #: include/class_config.inc:162 include/class_config.inc:300
-#: include/class_config.inc:633 include/class_config.inc:1045
-#: include/class_config.inc:1058 include/functions.inc:751
-#: include/simpleplugin/class_simpleService.inc:155
+#: include/class_config.inc:1044 include/class_config.inc:1057
+#: include/functions.inc:751 include/simpleplugin/class_simpleService.inc:155
 #: include/class_timezone.inc:51
 #: include/password-methods/class_password-methods-sha.inc:71
 #: include/password-methods/class_password-methods-ssha.inc:75
@@ -2208,29 +2230,25 @@ msgstr "Не могу привязаться к LDAP. Пожалуйста св�
 msgid "The selected mail method (class %s) is not available"
 msgstr "Выбранные почтовый метод (класс %s) не доступен"
 
-#: include/class_config.inc:633
-msgid "sambaSID and/or sambaRidBase missing in the configuration!"
-msgstr "sambaSID и/или sambaRidBase пропущены в настройке!"
-
-#: include/class_config.inc:1046
+#: include/class_config.inc:1045
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required variable '%s' is not"
 " set."
 msgstr "Функционал снапшотов включен, но требуемая переменная '%s' не установлена."
 
-#: include/class_config.inc:1059
+#: include/class_config.inc:1058
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required compression module "
 "is missing. Please install '%s'."
 msgstr "Функционал снапшотов включен, но требуемый модуль сжатия отсутствует. Пожалуйста установите '%s'."
 
-#: include/class_config.inc:1162
+#: include/class_config.inc:1161
 msgid "All categories"
 msgstr "Все категории"
 
-#: include/class_config.inc:1290
+#: include/class_config.inc:1289
 msgid "My account"
 msgstr "Моя учетная запись"
 
@@ -3633,7 +3651,7 @@ msgid ""
 "unless this is fixed by an administrator."
 msgstr "Критическая ошибка: Register globals is on. FusionDirectory не позволит залогиниться до тех пор пока это не будет исправлено администратором."
 
-#: html/main.php:143 ihtml/themes/default/password.tpl.c:20
+#: html/main.php:143
 msgid "Password change"
 msgstr "Изменить пароль"
 
@@ -4613,45 +4631,36 @@ msgstr "Этот диалог предназначен для смены пар�
 #: ihtml/themes/default/recovery.tpl.c:26
 #: ihtml/themes/default/recovery.tpl.c:29
 #: ihtml/themes/default/recovery.tpl.c:71
-#: ihtml/themes/default/recovery.tpl.c:74
-#: ihtml/themes/default/password.tpl.c:26
-#: ihtml/themes/default/password.tpl.c:29 ihtml/themes/default/login.tpl.c:29
+#: ihtml/themes/default/recovery.tpl.c:74 ihtml/themes/default/login.tpl.c:29
 #: ihtml/themes/default/login.tpl.c:32 ihtml/themes/default/login.tpl.c:35
 msgid "Directory"
 msgstr "Каталог"
 
 #: ihtml/themes/default/recovery.tpl.c:41
 #: ihtml/themes/default/recovery.tpl.c:44
-#: ihtml/themes/default/password.tpl.c:50
-#: ihtml/themes/default/password.tpl.c:53
 msgid "New password repeated"
 msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:47
-#: ihtml/themes/default/password.tpl.c:56
 msgid "Password strength"
 msgstr "Надежность пароля"
 
 #: ihtml/themes/default/recovery.tpl.c:50
 #: ihtml/themes/default/recovery.tpl.c:83
-#: ihtml/themes/default/password.tpl.c:59
 msgid "Change"
 msgstr "Изменить"
 
 #: ihtml/themes/default/recovery.tpl.c:53
 #: ihtml/themes/default/recovery.tpl.c:86
-#: ihtml/themes/default/password.tpl.c:62
 msgid "Click here to change your password"
 msgstr "Нажмите, чтобы сменить пароль"
 
 #: ihtml/themes/default/recovery.tpl.c:56
 #: ihtml/themes/default/recovery.tpl.c:59
-#: ihtml/themes/default/password.tpl.c:5 ihtml/themes/default/password.tpl.c:8
 msgid "Success"
 msgstr "Успешно"
 
 #: ihtml/themes/default/recovery.tpl.c:62
-#: ihtml/themes/default/password.tpl.c:11
 msgid "Your password has been changed successfully."
 msgstr ""
 
@@ -4675,22 +4684,6 @@ msgid ""
 "Password recovery is not activated. If you have lost your password, please "
 "contact your administrator"
 msgstr "Функция восстановления пароля не активирована. Если вы потеряли пароль, обратитесь к системному администратору."
-
-#: ihtml/themes/default/password.tpl.c:2
-msgid "Change your password"
-msgstr "Сменить пароль"
-
-#: ihtml/themes/default/password.tpl.c:23
-msgid ""
-"This dialog provides a simple way to change your password. Enter the current"
-" password and the new password (twice) in the fields below and press the "
-"'Change' button."
-msgstr "Этот диалог предназначен для смены пароля. Введите текущий и новый пароль (дважды) в поля ниже и нажмите  кнопку \"Изменить\"."
-
-#: ihtml/themes/default/password.tpl.c:38
-#: ihtml/themes/default/password.tpl.c:41
-msgid "Current password"
-msgstr "Текущий пароль"
 
 #: ihtml/themes/default/logout-close.tpl.c:2
 msgid "Your FusionDirectory session has been closed!"
