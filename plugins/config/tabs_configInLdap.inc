@@ -36,6 +36,7 @@ class tabs_configInLdap extends simpleTabs_noSpecial
     foreach ($saved_datas as $saved_data) {
       $config->data[$saved_data] = $save[$saved_data];
     }
+    session::un_set('passwordMethod::get_available_methods');
   }
 }
 ?>
