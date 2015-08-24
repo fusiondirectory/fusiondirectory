@@ -41,14 +41,11 @@ class passwordMethodsasl extends passwordMethod {
    */
   function __construct($config, $dn = "")
   {
+    $this->realm  = trim($config->get_cfg_value('saslRealm', ''));
+    $this->exop   = trim($config->get_cfg_value('saslExop', ''));
+
     if ($dn == "" || $dn == "new") {
       return;
-    }
-
-    $this->realm  = trim($config->get_cfg_value('saslRealm', ""));
-    $this->exop   = trim($config->get_cfg_value('saslExop', ""));
-    if (empty($this->realm) && empty($this->exop)) {
-      msg_dialog::display(_("Error"), msgPool::cmdnotfound("saslRealm or saslExop", _("SASL")), ERROR_DIALOG);
     }
 
     $attr = (empty($this->exop)?'uid':$this->exop);
@@ -71,6 +68,9 @@ class passwordMethodsasl extends passwordMethod {
    */
   function is_available()
   {
+    if (empty($this->realm) && empty($this->exop)) {
+      return FALSE;
+    }
     return TRUE;
   }
 
@@ -82,9 +82,12 @@ class passwordMethodsasl extends passwordMethod {
   function generate_hash($pwd)
   {
     if (empty($this->exop)) {
-      return "{SASL}".$this->uid."@".$this->realm;
+      if (empty($this->realm)) {
+        msg_dialog::display(_('Error'), _('You need to fill saslRealm or saslExop in the configuration screen in order to use SASL'), ERROR_DIALOG);
+      }
+      return '{SASL}'.$this->uid.'@'.$this->realm;
     } else {
-      return "{SASL}".$this->uid; // may not be the uid, see saslExop option
+      return '{SASL}'.$this->uid; // may not be the uid, see saslExop option
     }
   }
 
@@ -99,7 +102,7 @@ class passwordMethodsasl extends passwordMethod {
    */
   static function get_hash_name()
   {
-    return "sasl";
+    return 'sasl';
   }
 
   /*!
