@@ -263,10 +263,6 @@ class configInLdap extends simplePlugin
             'fdCnPattern', TRUE,
             '%givenName% %sn%'
           ),
-          new StringAttribute (
-            _('Automatic logins'), _('Automatic way to generate new users logins'),
-            'fdIdGenerator', FALSE
-          ),
           new BooleanAttribute (
             _('Strict naming policy'),
             _('Enables strict checking of user and group names'),
