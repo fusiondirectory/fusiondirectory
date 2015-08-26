@@ -629,8 +629,12 @@ class posixAccount extends simplePlugin
     parent::adapt_from_template($attrs, $skip);
 
     $this->savedGroupMembership = $this->groupMembership;
-    unset($this->attrs['posixGroups']['count']);
-    $this->groupMembership = $this->attrs['posixGroups'];
+    if (isset($this->attrs['posixGroups'])) {
+      unset($this->attrs['posixGroups']['count']);
+      $this->groupMembership = $this->attrs['posixGroups'];
+    } else {
+      $this->groupMembership = array();
+    }
 
     $this->attributesAccess['uidNumber']->setInitialValue('');
 
