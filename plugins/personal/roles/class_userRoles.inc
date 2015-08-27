@@ -22,6 +22,9 @@ class userRoles extends simplePlugin
 {
   var $objectclasses = array();
 
+  protected $savedGroupsMembership  = array();
+  protected $savedRolesMembership   = array();
+
   static function plInfo()
   {
     return array(
@@ -126,17 +129,19 @@ class userRoles extends simplePlugin
 
   function remove_from_parent()
   {
-    /* Remove all groups */
-    foreach ($this->savedGroupsMembership as $ogroupdn) {
-      $g = objects::open($ogroupdn, 'ogroup');
-      $g->getBaseObject()->attributesAccess['member']->searchAndRemove($this->dn);
-      $g->save();
-    }
-    /* Remove all roles */
-    foreach ($this->savedRolesMembership as $roledn) {
-      $r = objects::open($roledn, 'role');
-      $r->getBaseObject()->attributesAccess['roleOccupant']->searchAndRemove($this->dn);
-      $r->save();
+    if (!$this->is_template) {
+      /* Remove all groups */
+      foreach ($this->savedGroupsMembership as $ogroupdn) {
+        $g = objects::open($ogroupdn, 'ogroup');
+        $g->getBaseObject()->attributesAccess['member']->searchAndRemove($this->dn);
+        $g->save();
+      }
+      /* Remove all roles */
+      foreach ($this->savedRolesMembership as $roledn) {
+        $r = objects::open($roledn, 'role');
+        $r->getBaseObject()->attributesAccess['roleOccupant']->searchAndRemove($this->dn);
+        $r->save();
+      }
     }
   }
 

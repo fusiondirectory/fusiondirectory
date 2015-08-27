@@ -667,8 +667,11 @@ class simpleManagement extends management
         $type   = $this->getType($dn);
         if (preg_match('/^template_/', $type) && !$this->skipTemplates) {
           $type = preg_replace('/^template_/', '', $type);
+          $info = objects::infos($type);
+          $info['mainAttr'] = 'cn';
+        } else {
+          $info = objects::infos($type);
         }
-        $info   = objects::infos($type);
         $entry  = $this->getHeadpage()->getEntry($dn);
         $objects[] = array(
           'name'  => $entry[$info['mainAttr']][0],
