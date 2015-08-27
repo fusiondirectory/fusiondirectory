@@ -159,7 +159,7 @@ class UserPasswordAttribute extends CompositeAttribute
     $locked     = FALSE;
     $password   = '';
     if ($this->plugin->is_template) {
-      list($value, $password) = split('/|/', $value, 2);
+      list($value, $password) = explode('|', $value, 2);
     }
     if (preg_match ('/^{[^}]+}/', $value)) {
       $tmp = passwordMethod::get_method($value);
