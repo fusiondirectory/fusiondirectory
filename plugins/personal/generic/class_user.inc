@@ -157,18 +157,25 @@ class UserPasswordAttribute extends CompositeAttribute
   {
     $pw_storage = $this->plugin->config->get_cfg_value('passwordDefaultHash', 'ssha');
     $locked     = FALSE;
+    $password   = '';
+    if ($this->plugin->is_template) {
+      list($value, $password) = split('/|/', $value, 2);
+    }
     if (preg_match ('/^{[^}]+}/', $value)) {
       $tmp = passwordMethod::get_method($value);
       if (is_object($tmp)) {
         $pw_storage = $tmp->get_hash();
         $locked     = $tmp->is_locked($this->plugin->config, $this->plugin->dn);
+        if ($this->plugin->is_template) {
+          $value = $tmp->generate_hash($password);
+        }
       }
     } else {
       if ($value != '') {
         $pw_storage = 'clear';
       }
     }
-    return array($pw_storage, '', '', $value, $locked);
+    return array($pw_storage, $password, $password, $value, $locked);
   }
 
   function writeValues($values)
@@ -183,7 +190,11 @@ class UserPasswordAttribute extends CompositeAttribute
     }
     $test = new $temp[$values[0]]($this->plugin->config, $this->plugin->dn);
     $test->set_hash($values[0]);
-    return $test->generate_hash($values[1]);
+    if ($this->plugin->is_template) {
+      return $test->generate_hash($values[1]).'|'.$values[1];
+    } else {
+      return $test->generate_hash($values[1]);
+    }
   }
 
   function check()
