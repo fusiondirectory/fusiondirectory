@@ -500,6 +500,22 @@ class user extends simplePlugin
       $skip[] = 'uid';
     }
     parent::adapt_from_template($attrs, $skip);
+    if (isset($this->attrs['userPassword'])) {
+      list($hash,$password) = explode('|', $this->attrs['userPassword'][0], 2);
+      if (preg_match ('/^{[^}]+}/', $hash)) {
+        $tmp = passwordMethod::get_method($hash);
+        if (is_object($tmp)) {
+          $hash = $tmp->generate_hash($password);
+        }
+      }
+      $this->userPassword = array(
+        '',
+        $password,
+        $password,
+        $hash,
+        $this->attributesAccess['userPassword']->isLocked()
+      );
+    }
   }
 
   function callHook($cmd, $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL)
