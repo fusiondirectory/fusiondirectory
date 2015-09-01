@@ -500,7 +500,7 @@ class user extends simplePlugin
       $skip[] = 'uid';
     }
     parent::adapt_from_template($attrs, $skip);
-    if (isset($this->attrs['userPassword'])) {
+    if (isset($this->attrs['userPassword']) && !in_array('userPassword', $skip)) {
       list($hash,$password) = explode('|', $this->attrs['userPassword'][0], 2);
       if (preg_match ('/^{[^}]+}/', $hash)) {
         $tmp = passwordMethod::get_method($hash);
