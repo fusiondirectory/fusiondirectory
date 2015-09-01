@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2015-08-26 09:15+0200\n"
+"POT-Creation-Date: 2015-08-31 20:03+0200\n"
 "PO-Revision-Date: 2015-08-26 07:13+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Swedish (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/sv/)\n"
@@ -74,7 +74,7 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:72
 #: plugins/admin/departments/dep-list.xml:29
 #: plugins/admin/aclrole/class_aclRole.inc:135
-#: plugins/personal/generic/class_user.inc:274
+#: plugins/personal/generic/class_user.inc:285
 #: include/class_SnapShotDialog.inc:217
 #: include/simpleplugin/simple-select-list.xml:40
 #: include/simpleplugin/simple-list.xml:40
@@ -307,7 +307,7 @@ msgid "Remove"
 msgstr "Ta bort"
 
 #: plugins/admin/groups/class_groupManagement.inc:31
-#: plugins/personal/roles/class_userRoles.inc:28
+#: plugins/personal/roles/class_userRoles.inc:31
 msgid "Groups and roles"
 msgstr ""
 
@@ -395,7 +395,7 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:34
 #: plugins/admin/departments/class_department.inc:40
 #: plugins/admin/departments/dep-list.xml:21
-#: plugins/personal/generic/class_user.inc:375
+#: plugins/personal/generic/class_user.inc:386
 msgid "Department"
 msgstr "Avdelning"
 
@@ -434,7 +434,7 @@ msgid "Category of this %s"
 msgstr ""
 
 #: plugins/admin/departments/class_department.inc:80
-#: plugins/personal/generic/class_user.inc:391
+#: plugins/personal/generic/class_user.inc:402
 msgid "Manager"
 msgstr "Manager"
 
@@ -445,17 +445,17 @@ msgstr ""
 
 #: plugins/admin/departments/class_department.inc:86
 #: plugins/admin/departments/class_department.inc:92
-#: plugins/personal/generic/class_user.inc:289
+#: plugins/personal/generic/class_user.inc:300
 msgid "Location"
 msgstr "Plats"
 
 #: plugins/admin/departments/class_department.inc:89
-#: plugins/personal/generic/class_user.inc:293
+#: plugins/personal/generic/class_user.inc:304
 msgid "State"
 msgstr "Län"
 
 #: plugins/admin/departments/class_department.inc:95
-#: plugins/personal/generic/class_user.inc:297
+#: plugins/personal/generic/class_user.inc:308
 msgid "Address"
 msgstr "Adress"
 
@@ -465,7 +465,7 @@ msgid "A postal address for this %s"
 msgstr ""
 
 #: plugins/admin/departments/class_department.inc:99
-#: plugins/personal/generic/class_user.inc:305
+#: plugins/personal/generic/class_user.inc:316
 msgid "Phone"
 msgstr "Telefon"
 
@@ -474,7 +474,7 @@ msgid "Telephone number"
 msgstr ""
 
 #: plugins/admin/departments/class_department.inc:103
-#: plugins/personal/generic/class_user.inc:317
+#: plugins/personal/generic/class_user.inc:328
 msgid "Fax"
 msgstr "Fax"
 
@@ -527,7 +527,7 @@ msgstr "Avdelningslista"
 #: plugins/admin/departments/class_organization.inc:30
 #: plugins/admin/departments/class_organization.inc:31
 #: plugins/admin/departments/class_organization.inc:34
-#: plugins/personal/generic/class_user.inc:371
+#: plugins/personal/generic/class_user.inc:382
 msgid "Organization"
 msgstr "Organisation"
 
@@ -548,15 +548,15 @@ msgid "Given name"
 msgstr "Förnamn"
 
 #: plugins/admin/users/user-list.xml:49
-#: plugins/personal/generic/class_user.inc:328
+#: plugins/personal/generic/class_user.inc:339
 #: plugins/personal/generic/paste_generic.tpl.c:11
 #: ihtml/themes/default/recovery.tpl.c:32
 msgid "Login"
 msgstr "Användarnamn"
 
 #: plugins/admin/users/user-list.xml:79
-#: plugins/personal/generic/class_user.inc:231
-#: plugins/personal/generic/class_user.inc:237
+#: plugins/personal/generic/class_user.inc:242
+#: plugins/personal/generic/class_user.inc:248
 msgid "User"
 msgstr "Användare"
 
@@ -609,10 +609,10 @@ msgstr "Hantera användare"
 #: include/class_management.inc:552 include/class_management.inc:597
 #: include/class_CopyPasteHandler.inc:248
 #: include/simpleplugin/class_simpleManagement.inc:653
-#: include/simpleplugin/class_simpleManagement.inc:745
-#: include/simpleplugin/class_simpleManagement.inc:789
-#: include/simpleplugin/class_simpleManagement.inc:804
-#: include/simpleplugin/class_simpleManagement.inc:829
+#: include/simpleplugin/class_simpleManagement.inc:748
+#: include/simpleplugin/class_simpleManagement.inc:792
+#: include/simpleplugin/class_simpleManagement.inc:807
+#: include/simpleplugin/class_simpleManagement.inc:832
 msgid "Permission"
 msgstr "Rättighet"
 
@@ -636,12 +636,12 @@ msgid "Lock account"
 msgstr "Lås konto"
 
 #: plugins/admin/users/class_userManagement.inc:224
-#: plugins/personal/generic/class_user.inc:238
+#: plugins/personal/generic/class_user.inc:249
 msgid "User account"
 msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:224
-#: plugins/personal/generic/class_user.inc:232
+#: plugins/personal/generic/class_user.inc:243
 msgid "User account information"
 msgstr ""
 
@@ -881,7 +881,7 @@ msgid "Password hash method to use"
 msgstr "Lösenords-hash att använda"
 
 #: plugins/personal/generic/class_user.inc:51
-#: plugins/personal/generic/class_user.inc:337
+#: plugins/personal/generic/class_user.inc:348
 #: plugins/personal/generic/paste_generic.tpl.c:14
 #: ihtml/themes/default/recovery.tpl.c:5 ihtml/themes/default/recovery.tpl.c:8
 #: ihtml/themes/default/login.tpl.c:17 ihtml/themes/default/login.tpl.c:20
@@ -902,207 +902,207 @@ msgstr "Lösenordet igen"
 msgid "Same password as above, to avoid errors"
 msgstr "Samma lösenord som ovan, för att undvika fel"
 
-#: plugins/personal/generic/class_user.inc:259
+#: plugins/personal/generic/class_user.inc:270
 msgid "Personal information"
 msgstr "Personlig information"
 
-#: plugins/personal/generic/class_user.inc:264
+#: plugins/personal/generic/class_user.inc:275
 #: plugins/personal/generic/paste_generic.tpl.c:5
 msgid "Last name"
 msgstr "Efternamn"
 
-#: plugins/personal/generic/class_user.inc:264
+#: plugins/personal/generic/class_user.inc:275
 msgid "Last name of this user"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:269
+#: plugins/personal/generic/class_user.inc:280
 #: plugins/personal/generic/paste_generic.tpl.c:8
 msgid "First name"
 msgstr "Förnamn"
 
-#: plugins/personal/generic/class_user.inc:269
+#: plugins/personal/generic/class_user.inc:280
 msgid "First name of this user"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:274
+#: plugins/personal/generic/class_user.inc:285
 msgid "Short description of the user"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:278
+#: plugins/personal/generic/class_user.inc:289
 msgid "Picture"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:278
+#: plugins/personal/generic/class_user.inc:289
 msgid "The avatar for this user"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:285
+#: plugins/personal/generic/class_user.inc:296
 msgid "Organizational contact information"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:297
+#: plugins/personal/generic/class_user.inc:308
 msgid "Business postal address"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:301
+#: plugins/personal/generic/class_user.inc:312
 msgid "Room No."
 msgstr "Rumsnummer"
 
-#: plugins/personal/generic/class_user.inc:301
+#: plugins/personal/generic/class_user.inc:312
 msgid "Room number"
 msgstr "Rumsnummer"
 
-#: plugins/personal/generic/class_user.inc:305
+#: plugins/personal/generic/class_user.inc:316
 msgid "Business phone number"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:309
+#: plugins/personal/generic/class_user.inc:320
 msgid "Mobile"
 msgstr "Mobil"
 
-#: plugins/personal/generic/class_user.inc:309
+#: plugins/personal/generic/class_user.inc:320
 msgid "Business mobile number"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:313
+#: plugins/personal/generic/class_user.inc:324
 msgid "Pager"
 msgstr "Pager"
 
-#: plugins/personal/generic/class_user.inc:313
+#: plugins/personal/generic/class_user.inc:324
 msgid "Business pager number"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:317
+#: plugins/personal/generic/class_user.inc:328
 msgid "Business fax number"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:323
+#: plugins/personal/generic/class_user.inc:334
 msgid "Account information"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:328
+#: plugins/personal/generic/class_user.inc:339
 msgid "Login of this user"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:332
+#: plugins/personal/generic/class_user.inc:343
 #: setup/class_setupStep_Language.inc:30
 msgid "Preferred language"
 msgstr "Föredraget språk"
 
-#: plugins/personal/generic/class_user.inc:337
+#: plugins/personal/generic/class_user.inc:348
 msgid "Password of the user"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:343
+#: plugins/personal/generic/class_user.inc:354
 msgid "Personal contact information"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:347
+#: plugins/personal/generic/class_user.inc:358
 msgid "Home address"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:347
+#: plugins/personal/generic/class_user.inc:358
 msgid "Home postal address"
 msgstr "Hempostadress"
 
-#: plugins/personal/generic/class_user.inc:351
+#: plugins/personal/generic/class_user.inc:362
 msgid "Private phone"
 msgstr "Privat telefon"
 
-#: plugins/personal/generic/class_user.inc:351
+#: plugins/personal/generic/class_user.inc:362
 msgid "Home phone number"
 msgstr "Hemtelefonnummer"
 
-#: plugins/personal/generic/class_user.inc:355
+#: plugins/personal/generic/class_user.inc:366
 msgid "Homepage"
 msgstr "Hemsida"
 
-#: plugins/personal/generic/class_user.inc:355
+#: plugins/personal/generic/class_user.inc:366
 msgid "Personal homepage"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:361
+#: plugins/personal/generic/class_user.inc:372
 msgid "Organizational information"
 msgstr "Organisationsinformation"
 
-#: plugins/personal/generic/class_user.inc:366
+#: plugins/personal/generic/class_user.inc:377
 msgid "Title"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:366
+#: plugins/personal/generic/class_user.inc:377
 msgid ""
 "Title of a person in their organizational context. Each title is one value "
 "of this multi-valued attribute"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:379
+#: plugins/personal/generic/class_user.inc:390
 msgid "Department No."
 msgstr "Avdelningsnummer"
 
-#: plugins/personal/generic/class_user.inc:379
+#: plugins/personal/generic/class_user.inc:390
 msgid "Department number"
 msgstr "Avdelningsnummer"
 
-#: plugins/personal/generic/class_user.inc:383
+#: plugins/personal/generic/class_user.inc:394
 msgid "Employee No."
 msgstr "Anställningsnummer"
 
-#: plugins/personal/generic/class_user.inc:383
+#: plugins/personal/generic/class_user.inc:394
 msgid "Employee number"
 msgstr "Anställningsnummer"
 
-#: plugins/personal/generic/class_user.inc:387
+#: plugins/personal/generic/class_user.inc:398
 msgid "Employee type"
 msgstr "Anställningstyp"
 
-#: plugins/personal/generic/class_user.inc:533
+#: plugins/personal/generic/class_user.inc:560
 #, php-format
 msgid "Ppolicy \"%s\" could not be found in the LDAP!"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:536
+#: plugins/personal/generic/class_user.inc:563
 msgid "You are not allowed to change your own password"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:546
+#: plugins/personal/generic/class_user.inc:573
 #, php-format
 msgid "You must wait %d seconds before changing your password again"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:560
+#: plugins/personal/generic/class_user.inc:587
 msgid "Password is in history of old passwords"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:565
-#: plugins/personal/generic/class_user.inc:569
+#: plugins/personal/generic/class_user.inc:592
+#: plugins/personal/generic/class_user.inc:596
 msgid "Password is not being changed from existing value"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:576
+#: plugins/personal/generic/class_user.inc:603
 msgid "You need to specify your current password in order to proceed."
 msgstr "Du behöver ange ditt nuvarande lösenord för att fortsätta."
 
-#: plugins/personal/generic/class_user.inc:578
+#: plugins/personal/generic/class_user.inc:605
 msgid ""
 "The passwords you've entered as \"New password\" and \"Repeated new "
 "password\" do not match."
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:580
+#: plugins/personal/generic/class_user.inc:607
 #: ihtml/themes/default/recovery.tpl.c:35
 #: ihtml/themes/default/recovery.tpl.c:38
 msgid "New password"
 msgstr "Nytt lösenord"
 
-#: plugins/personal/generic/class_user.inc:582
+#: plugins/personal/generic/class_user.inc:609
 msgid "The password used as new and current are too similar."
 msgstr "Det nya lösenordet och det nuvarande är för lika varandra."
 
-#: plugins/personal/generic/class_user.inc:584
+#: plugins/personal/generic/class_user.inc:611
 msgid "The password used as new is to short."
 msgstr "Det nya lösenordet är för kort."
 
-#: plugins/personal/generic/class_user.inc:586
+#: plugins/personal/generic/class_user.inc:613
 msgid "The password contains possibly problematic Unicode characters!"
 msgstr "Lösenordet innehåller möjligtvis problematiska Unicode-tecken!"
 
@@ -1284,17 +1284,17 @@ msgstr "UID"
 msgid "Group of user %s"
 msgstr ""
 
-#: plugins/personal/roles/class_userRoles.inc:29
+#: plugins/personal/roles/class_userRoles.inc:32
 msgid "Edit user's groups and roles"
 msgstr ""
 
-#: plugins/personal/roles/class_userRoles.inc:44
-#: plugins/personal/roles/class_userRoles.inc:48
+#: plugins/personal/roles/class_userRoles.inc:47
+#: plugins/personal/roles/class_userRoles.inc:51
 msgid "Groups membership"
 msgstr ""
 
-#: plugins/personal/roles/class_userRoles.inc:55
-#: plugins/personal/roles/class_userRoles.inc:59
+#: plugins/personal/roles/class_userRoles.inc:58
+#: plugins/personal/roles/class_userRoles.inc:62
 msgid "Roles membership"
 msgstr ""
 
@@ -2144,20 +2144,20 @@ msgid "The filter is incomplete!"
 msgstr "Filtret är inte komplett!"
 
 #: include/class_management.inc:416
-#: include/simpleplugin/class_simpleManagement.inc:715
+#: include/simpleplugin/class_simpleManagement.inc:718
 msgid "Permission error"
 msgstr "Rättighetsfel"
 
 #: include/class_management.inc:497
-#: include/simpleplugin/class_simpleManagement.inc:745
+#: include/simpleplugin/class_simpleManagement.inc:748
 #, php-format
 msgid "You are not allowed to create a snapshot for %s."
 msgstr "Du har inte tillåtelse att skapa en ögonblicksbild för %s."
 
 #: include/class_management.inc:552 include/class_management.inc:597
-#: include/simpleplugin/class_simpleManagement.inc:789
-#: include/simpleplugin/class_simpleManagement.inc:804
-#: include/simpleplugin/class_simpleManagement.inc:829
+#: include/simpleplugin/class_simpleManagement.inc:792
+#: include/simpleplugin/class_simpleManagement.inc:807
+#: include/simpleplugin/class_simpleManagement.inc:832
 #, php-format
 msgid "You are not allowed to restore a snapshot for %s."
 msgstr "Du är inte tillåten att återskapa en ögonblicksbild för %s."
