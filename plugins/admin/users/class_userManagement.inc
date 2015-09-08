@@ -220,7 +220,7 @@ class userManagement extends simpleManagement
     // Load information if needed
     $ldap = $config->get_ldap_link();
     $ldap->cat($dn);
-    $result = '<input class="center" type="image" src="geticon.php?context=applications&icon=user-info&size=16" '.
+    $result = '<input class="center" type="image" src="geticon.php?context=applications&amp;icon=user-info&amp;size=16" '.
                        'alt="'._('User account').'" title="'._('User account information').'" '.
                        'name="listing_edit_tab_user_'.$row.'"/>';
     if ($attrs = $ldap->fetch()) {
@@ -231,7 +231,7 @@ class userManagement extends simpleManagement
         if ($usertab->is_this_account($attrs)) {
           $infos = pluglist::pluginInfos($class);
           if (isset($infos['plSmallIcon'])) {
-            $result .= '<input class="center" type="image" src="'.$infos['plSmallIcon'].'" '.
+            $result .= '<input class="center" type="image" src="'.htmlentities($infos['plSmallIcon'], ENT_COMPAT, 'UTF-8').'" '.
                        'alt="'.$infos['plShortName'].'" title="'.$infos['plShortName'].'" '.
                        'name="listing_edit_tab_'.$class.'_'.$row.'"/>';
           } else {

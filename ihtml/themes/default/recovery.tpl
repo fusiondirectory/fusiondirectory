@@ -17,7 +17,7 @@
   {$msg_dialogs}
   <div id="window_titlebar">
     <p>
-      <img class="center" src="geticon.php?context=status&icon=dialog-password&size=48" alt="{t}Password{/t}" title="{t}Password{/t}"/>
+      <img class="center" src="geticon.php?context=status&amp;icon=dialog-password&amp;size=48" alt="{t}Password{/t}" title="{t}Password{/t}"/>
       {t}Lost password{/t}
     </p>
   </div>
@@ -100,7 +100,7 @@
     <div style="clear:both"></div>
 {elseif $changed}
     <div class="success">
-      <img class="center" src="geticon.php?context=status&icon=task-complete&size=16" alt="{t}Success{/t}" title="{t}Success{/t}">&nbsp;<b>{t}Your password has been changed successfully.{/t}</b><br/>
+      <img class="center" src="geticon.php?context=status&amp;icon=task-complete&amp;size=16" alt="{t}Success{/t}" title="{t}Success{/t}">&nbsp;<b>{t}Your password has been changed successfully.{/t}</b><br/>
       <br/><a href="./">Return to login screen</a>
     </div>
 {else}

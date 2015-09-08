@@ -71,12 +71,12 @@ class groupManagement extends simpleManagement
     // Load information if needed
     $ldap = $config->get_ldap_link();
     $ldap->cat($dn);
-    $result = "<input class='center' type='image' src='geticon.php?context=types&icon=user-group&size=16' ".
+    $result = "<input class='center' type='image' src='geticon.php?context=types&amp;icon=user-group&amp;size=16' ".
                        "alt='"._('Posix')."' title='"._('Edit posix properties')."' ".
                        "name='listing_edit_tab_group_$row' style='padding:1px'/>";
     if ($attrs = $ldap->fetch()) {
       if (!objects::isOfType($attrs, 'group')) {
-        return '<input class="center" type="image" src="geticon.php?context=types&icon=role&size=16" '.
+        return '<input class="center" type="image" src="geticon.php?context=types&amp;icon=role&amp;size=16" '.
                  'alt="'._('Role').'" title="'._('Edit role properties').'" '.
                  'name="listing_edit_'.$row.'" style="padding:1px"/>';
       }
@@ -84,7 +84,7 @@ class groupManagement extends simpleManagement
         if ($grouptab->is_this_account($attrs)) {
           $infos = pluglist::pluginInfos($class);
           if (isset($infos['plSmallIcon'])) {
-            $result .= "<input class='center' type='image' src='".$infos['plSmallIcon']."' ".
+            $result .= "<input class='center' type='image' src='".htmlentities($infos['plSmallIcon'], ENT_COMPAT, 'UTF-8')."' ".
                        "alt='".$infos['plShortName']."' title='".$infos['plShortName']."' ".
                        "name='listing_edit_tab_".$class."_$row' style='padding:1px'/>";
           } else {
@@ -108,7 +108,7 @@ class groupManagement extends simpleManagement
         continue;
       }
       $info   = objects::infos(ogroup::$objectTypes[$types[$i]]);
-      $result .= '<img class="center" src="'.$info['icon'].'" '.
+      $result .= '<img class="center" src="'.htmlentities($info['icon'], ENT_COMPAT, 'UTF-8').'" '.
         'alt="'.$info['name'].'" title="'.$info['name'].'" style="padding:1px"/>';
     }
     if ($result == "") {
