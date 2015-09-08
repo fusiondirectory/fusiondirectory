@@ -243,7 +243,7 @@ function DEBUG($level, $line, $function, $file, $data, $info = "")
   if (session::global_get('DEBUGLEVEL') & $level) {
     if ($first) {
       echo '<div id="debug_handling" class="notice">'.
-            '<img src="geticon.php?context=status&icon=dialog-information&size=22" alt="info icon" style="vertical-align:middle;margin-right:.2em;"/>'.
+            '<img src="geticon.php?context=status&amp;icon=dialog-information&amp;size=22" alt="info icon" style="vertical-align:middle;margin-right:.2em;"/>'.
             'There is some debug output '.
             '<button onClick="javascript:$$(\'div.debug_div\').each(function (a) { a.toggle(); });">Toggle</button>'.
           '</div>';
@@ -1861,7 +1861,7 @@ function range_selector($dcnt, $start, $range = 25, $post_var = FALSE)
   if ($start > 0 ) {
     $output .= "  <a href= \"main.php?plug=".validate($_GET['plug'])."&amp;start=".
       ($start - $range)."\">".
-      '<img class="center" alt="back" src="geticon.php?context=actions&icon=previous&size=16"/></a>';
+      '<img class="center" alt="back" src="geticon.php?context=actions&amp;icon=previous&amp;size=16"/></a>';
   }
 
   /* Draw pages */
@@ -1880,7 +1880,7 @@ function range_selector($dcnt, $start, $range = 25, $post_var = FALSE)
   if ($start < ($dcnt - $range)) {
     $output .= "  <a href= \"main.php?plug=".validate($_GET['plug'])."&amp;start=".
       ($start + $range)."\">".
-      '<img class="center" alt="forward" src="geticon.php?context=actions&icon=next&size=16"/></a>';
+      '<img class="center" alt="forward" src="geticon.php?context=actions&amp;icon=next&amp;size=16"/></a>';
   }
 
   if ($post_var && $numpages) {

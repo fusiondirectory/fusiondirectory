@@ -3,7 +3,7 @@
     {$section}
   </span>
   <div>
-    <img src="{$attributes.groups_stats.img}" alt="group icon"/>
+    <img src="{$attributes.groups_stats.img|escape}" alt="group icon"/>
     {t count=$attributes.groups_stats.nb 1=$attributes.groups_stats.nb plural="There are %1 groups:"}There is 1 group:{/t}
     <ul>
       {foreach from=$attributes.groups_stats.groups item=g}

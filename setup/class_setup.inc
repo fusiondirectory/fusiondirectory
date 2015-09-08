@@ -207,7 +207,7 @@ class setup
       $b_completed  = $step->is_completed();
 
       if ($b_completed) {
-        $s = '<img src="geticon.php?context=status&icon=task-complete&size=16" alt="'._('Completed').'" class="center optional"/>&nbsp;';
+        $s = '<img src="geticon.php?context=status&amp;icon=task-complete&amp;size=16" alt="'._('Completed').'" class="center optional"/>&nbsp;';
       } else {
         $s = '<img src="images/empty.png" alt=" " class="center optional"/>&nbsp;';
       }

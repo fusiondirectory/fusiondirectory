@@ -367,9 +367,9 @@ class CopyPasteHandler
     $Copy_Paste = "&nbsp;<img class='center' src='images/lists/seperator.png' alt='' height='16' width='1'>&nbsp;";
     if ($this->entries_queued()) {
       $Copy_Paste .= "<input type='image' name='editPaste' class='center'
-        src='geticon.php?context=actions&icon=edit-paste&size=16' alt='"._("Paste")."'>&nbsp;";
+        src='geticon.php?context=actions&amp;icon=edit-paste&amp;size=16' alt='"._("Paste")."'>&nbsp;";
     } else {
-      $Copy_Paste .= "<img class='center' src='geticon.php?context=actions&icon=edit-paste&size=16&disabled=1' alt=\""._("Cannot paste")."\">&nbsp;";
+      $Copy_Paste .= "<img class='center' src='geticon.php?context=actions&amp;icon=edit-paste&amp;size=16&amp;disabled=1' alt=\""._("Cannot paste")."\">&nbsp;";
     }
     return $Copy_Paste;
   }

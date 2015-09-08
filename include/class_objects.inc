@@ -195,7 +195,7 @@ class objects
     }
 
     if ($icon && isset($infos['icon'])) {
-      $text = '<img alt="'.$infos['name'].'" title="'.$dn.'" src="'.$infos['icon'].'" class="center"/>&nbsp;'.$text;
+      $text = '<img alt="'.$infos['name'].'" title="'.$dn.'" src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'" class="center"/>&nbsp;'.$text;
     }
 
     return '<a href="'.$href.'">'.$text.'</a>';

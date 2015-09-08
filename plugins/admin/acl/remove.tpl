@@ -1,6 +1,6 @@
 <div style="padding:5px;">
   <div style="font-size:18px;">
-   <img alt="" src="geticon.php?context=status&icon=dialog-warning&size=48" class="center"/>&nbsp;{t}Warning{/t}
+   <img alt="" src="geticon.php?context=status&amp;icon=dialog-warning&amp;size=48" class="center"/>&nbsp;{t}Warning{/t}
   </div>
   <p>
     <ul>
