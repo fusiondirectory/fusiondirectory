@@ -120,14 +120,13 @@ class baseSelector {
     global $config;
 
     $this->pathMapping = array();
-    $selected = ($this->base == $config->current['BASE']);
 
     foreach ($bases as $base => $dummy) {
       // Build path style display
       $elements = explode(',', substr($base, 0, strlen($base) - strlen($config->current['BASE'])));
       $elements = array_reverse($elements, TRUE);
 
-      $this->pathMapping[$base] = ($selected? '/' : ldap::fix(preg_replace('/(^|,)[a-z0-9]+=/i', '/', implode(',', $elements))));
+      $this->pathMapping[$base] = (($base == $config->current['BASE']) ? '/' : ldap::fix(preg_replace('/(^|,)[a-z0-9]+=/i', '/', implode(',', $elements))));
     }
 
     // Save bases to session for autocompletion
@@ -190,7 +189,13 @@ class baseSelector {
     }
 
     $link = "onclick=\"\$('bs_rebase_".$this->pid."').value='".base64_encode($config->current['BASE'])."';  $('submit_tree_base_".$this->pid."').click();\"";
-    $this->tree = "<input class='base_selector' type='text' name='".$this->getInputHtmlId()."' id='".$this->getInputHtmlId()."' onkeydown=\"\$('bs_".$this->pid."').hide()\" onfocus=\"\$('bs_".$this->pid."').hide()\" onmouseover=\"Element.clonePosition(\$('bs_".$this->pid."'), '".$this->getInputHtmlId()."', {setHeight: false, setWidth: false, offsetTop:(Element.getHeight('".$this->getInputHtmlId()."'))});\$('bs_".$this->pid."').show();\" onmouseout=\"rtimer= Element.hide.delay(0.25, 'bs_".$this->pid."')\" value=\"".preg_replace('/"/', '&quot;', $this->pathMapping[$this->base])."\">";
+    $this->tree = '<input class="base_selector" type="text" name="'.$this->getInputHtmlId().'"'.
+                  ' id="'.$this->getInputHtmlId().'"'.
+                  ' onkeydown="$(\'bs_'.$this->pid.'\').hide()"'.
+                  ' onfocus="$(\'bs_'.$this->pid.'\').hide()"'.
+                  ' onmouseover="Element.clonePosition($(\'bs_'.$this->pid.'\'), \''.$this->getInputHtmlId().'\', {setHeight: false, setWidth: false, offsetTop:(Element.getHeight(\''.$this->getInputHtmlId().'\'))});$(\'bs_'.$this->pid.'\').show();"'.
+                  ' onmouseout="rtimer= Element.hide.delay(0.25, \'bs_'.$this->pid.'\')"'.
+                  ' value="'.htmlentities($this->pathMapping[$this->base], ENT_COMPAT, 'UTF-8').'"/>';
 
     // Autocompleter
     $this->tree .= "<div id='autocomplete_".$this->pid."' class='autocomplete'></div>".
