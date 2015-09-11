@@ -10,7 +10,7 @@
           <img src="geticon.php?context=actions&amp;icon=go-home&amp;size=22" alt="Main"/>&nbsp;{t}Main{/t}
         </a>
         &nbsp;
-        <a class="maintitlebar logout" href="logout.php?request">
+        <a class="maintitlebar logout" href="index.php">
           <img src="geticon.php?context=actions&amp;icon=application-exit&amp;size=22" alt="Sign out"/>&nbsp;{t}Sign out{/t}
         </a>
         <a class="plugtop">
@@ -61,7 +61,7 @@
   {literal}
    function logout()
    {
-    document.location = 'logout.php';
+    document.location = 'index.php?message=expired';
    }
   {/literal}
 
