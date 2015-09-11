@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2015-08-31 20:03+0200\n"
-"PO-Revision-Date: 2015-08-26 07:13+0000\n"
+"POT-Creation-Date: 2015-09-11 11:58+0200\n"
+"PO-Revision-Date: 2015-09-11 09:58+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Spanish (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -209,19 +209,18 @@ msgid "Only allow this group to connect to this list of hosts"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:180
-#: plugins/personal/posix/class_posixAccount.inc:450 include/functions.inc:882
-#: include/functions.inc:2636 include/class_xml.inc:55
+#: plugins/personal/posix/class_posixAccount.inc:450 include/functions.inc:792
+#: include/functions.inc:2546 include/class_xml.inc:55
 #: include/simpleplugin/class_simpleTabs.inc:326 html/index.php:58
-#: html/index.php:64 html/index.php:346 html/class_passwordRecovery.inc:382
+#: html/index.php:64 html/index.php:324 html/class_passwordRecovery.inc:382
 #: setup/class_setupStep_Migrate.inc:561
 #: setup/class_setupStep_Migrate.inc:1072
 #: setup/class_setupStep_Migrate.inc:1191
 #: setup/class_setupStep_Migrate.inc:1302
 #: setup/class_setupStep_Migrate.inc:1361
 #: setup/class_setupStep_Migrate.inc:1400 plugins/admin/acl/remove.tpl.c:2
-#: ihtml/themes/default/islocked.tpl.c:5 ihtml/themes/default/conflict.tpl.c:5
-#: ihtml/themes/default/remove.tpl.c:2 ihtml/themes/default/msg_dialog.tpl.c:5
-#: setup/setup_checks.tpl.c:8
+#: ihtml/themes/default/islocked.tpl.c:5 ihtml/themes/default/remove.tpl.c:2
+#: ihtml/themes/default/msg_dialog.tpl.c:5 setup/setup_checks.tpl.c:8
 msgid "Warning"
 msgstr "Aviso"
 
@@ -2035,11 +2034,11 @@ msgstr "Seleccione todos"
 #: include/class_msgPool.inc:215 include/class_msgPool.inc:235
 #: include/class_msgPool.inc:265 include/class_msgPool.inc:682
 #: include/class_msgPool.inc:713 include/class_msgPool.inc:740
-#: include/functions.inc:3166 include/functions.inc:3187
-#: include/functions.inc:3217 include/functions.inc:3225
-#: include/functions.inc:3237 include/functions.inc:3241
-#: include/functions.inc:3248 include/functions.inc:3257
-#: include/functions.inc:3319 include/class_msg_dialog.inc:129
+#: include/functions.inc:3076 include/functions.inc:3097
+#: include/functions.inc:3127 include/functions.inc:3135
+#: include/functions.inc:3147 include/functions.inc:3151
+#: include/functions.inc:3158 include/functions.inc:3167
+#: include/functions.inc:3229 include/class_msg_dialog.inc:129
 #: include/class_databaseManagement.inc:78 include/class_xml.inc:58
 #: include/class_plugin.inc:1633 include/class_CopyPasteHandler.inc:278
 #: include/simpleplugin/class_dialogAttributes.inc:732
@@ -2054,8 +2053,7 @@ msgstr "Seleccione todos"
 #: include/password-methods/class_password-methods-sasl.inc:86
 #: include/password-methods/class_password-methods.inc:434
 #: include/password-methods/class_password-methods.inc:444
-#: include/class_SnapshotHandler.inc:415 html/index.php:182 html/index.php:186
-#: setup/class_setupStep_Migrate.inc:924
+#: include/class_SnapshotHandler.inc:415 setup/class_setupStep_Migrate.inc:924
 #: ihtml/themes/default/msg_dialog.tpl.c:2 setup/setup_checks.tpl.c:5
 msgid "Error"
 msgstr "Error"
@@ -2069,7 +2067,7 @@ msgid "Go to root department"
 msgstr "Ir al departamento raíz"
 
 #: include/class_listing.inc:1146 include/class_listing.inc:1148
-#: include/class_baseSelector.inc:205
+#: include/class_baseSelector.inc:210
 msgid "Root"
 msgstr "Raíz"
 
@@ -2089,7 +2087,7 @@ msgstr "Inicio"
 msgid "Reload list"
 msgstr "Recargar lista"
 
-#: include/class_listing.inc:1169 include/class_baseSelector.inc:257
+#: include/class_listing.inc:1169 include/class_baseSelector.inc:262
 msgid "Submit"
 msgstr "Enviar"
 
@@ -2176,13 +2174,12 @@ msgstr "Error XML en fusiondirectory.conf: %s en la línea %d"
 
 #: include/class_config.inc:162 include/class_config.inc:300
 #: include/class_config.inc:1044 include/class_config.inc:1057
-#: include/functions.inc:751 include/simpleplugin/class_simpleService.inc:155
+#: include/functions.inc:661 include/simpleplugin/class_simpleService.inc:155
 #: include/class_timezone.inc:51
 #: include/password-methods/class_password-methods-sha.inc:71
 #: include/password-methods/class_password-methods-ssha.inc:75
 #: include/password-methods/class_password-methods-ssha.inc:91
-#: html/index.php:140 html/index.php:174 html/main.php:208
-#: html/class_passwordRecovery.inc:263
+#: html/index.php:140 html/main.php:208 html/class_passwordRecovery.inc:263
 msgid "Configuration error"
 msgstr "Error en la configuración"
 
@@ -2195,18 +2192,16 @@ msgid ""
 msgstr ""
 
 #: include/class_config.inc:337 include/class_ldap.inc:915
-#: include/class_ldap.inc:1369 include/functions.inc:531
-#: include/functions.inc:567 include/functions.inc:575
-#: include/functions.inc:613 include/functions.inc:766
-#: include/functions.inc:813 include/functions.inc:874
-#: include/functions.inc:929 include/functions.inc:3056
-#: include/simpleplugin/class_simplePlugin.inc:542
+#: include/class_ldap.inc:1369 include/functions.inc:523
+#: include/functions.inc:676 include/functions.inc:723
+#: include/functions.inc:784 include/functions.inc:839
+#: include/functions.inc:2966 include/simpleplugin/class_simplePlugin.inc:542
 #: include/simpleplugin/class_attribute.inc:2824
 #: include/password-methods/class_password-methods.inc:196
 #: include/class_SnapshotHandler.inc:50 include/class_SnapshotHandler.inc:244
 #: include/class_SnapshotHandler.inc:277 include/class_SnapshotHandler.inc:292
 #: include/class_SnapshotHandler.inc:422 include/class_SnapshotHandler.inc:425
-#: html/index.php:226 html/index.php:238 html/index.php:251
+#: html/index.php:220 html/index.php:232 html/index.php:245
 #: html/class_passwordRecovery.inc:495 setup/class_setupStep_Migrate.inc:451
 #: setup/class_setupStep_Migrate.inc:1119
 msgid "LDAP error"
@@ -2266,10 +2261,10 @@ msgid "LDAP performance is poor: last query took about %.2fs!"
 msgstr "El rendimiento LDAP es bajo: ¡la última consulta tardó sobre %.2fs!"
 
 #: include/class_ldap.inc:868 include/class_ldap.inc:902
-#: include/functions.inc:655 include/functions.inc:741
-#: include/functions.inc:861 include/functions.inc:1280
-#: include/functions.inc:2363 include/functions.inc:2405
-#: include/functions.inc:2434 include/class_session.inc:50
+#: include/functions.inc:565 include/functions.inc:651
+#: include/functions.inc:771 include/functions.inc:1190
+#: include/functions.inc:2273 include/functions.inc:2315
+#: include/functions.inc:2344 include/class_session.inc:50
 #: include/class_session.inc:87 include/class_session.inc:125
 #: include/class_log.inc:96 include/class_acl.inc:169
 msgid "Internal error"
@@ -2897,7 +2892,7 @@ msgid ""
 "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
 msgstr "Error fatal: no se puede instanciar la clase '%s' - intente solucionarlo ejecutando '%s'"
 
-#: include/functions.inc:493 include/functions.inc:3354
+#: include/functions.inc:493 include/functions.inc:3264
 #: include/class_xml.inc:61 include/simpleplugin/class_simplePlugin.inc:263
 #: include/simpleplugin/class_simplePlugin.inc:268
 #: include/simpleplugin/class_simplePlugin.inc:280
@@ -2910,245 +2905,241 @@ msgstr "Error fatal"
 msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
 msgstr "FATAL: Ha habido un error conectando a LDAP. El servidor comunicó '%s'."
 
-#: include/functions.inc:575
-msgid "Login (uid) is not unique inside the LDAP tree!"
-msgstr ""
-
-#: include/functions.inc:655
+#: include/functions.inc:565
 msgid ""
 "Login (uid) is not unique inside the LDAP tree. Please contact your "
 "administrator."
 msgstr ""
 
-#: include/functions.inc:689 html/index.php:288
+#: include/functions.inc:599
 msgid "Authentication error"
 msgstr "Error de Autenticación"
 
-#: include/functions.inc:690
+#: include/functions.inc:600
 msgid ""
 "It seems your user password has expired. Please use <a "
 "href=\"recovery.php\">password recovery</a> to change it."
 msgstr ""
 
-#: include/functions.inc:741 include/functions.inc:861
+#: include/functions.inc:651 include/functions.inc:771
 msgid "Error while adding a lock. Contact the developers!"
 msgstr "Ha ocurrido un problema al añadir un bloqueo. ¡Contacte con los desarrolladores!"
 
-#: include/functions.inc:751
+#: include/functions.inc:661
 #, php-format
 msgid ""
 "Cannot create locking information in LDAP tree. Please contact your "
 "administrator!"
 msgstr "No puedo crear información de bloqueos en el árbol LDAP. ¡Por favor contacte con su Administrador!"
 
-#: include/functions.inc:751
+#: include/functions.inc:661
 #, php-format
 msgid "LDAP server returned: %s"
 msgstr "El servidor LDAP devolvio: %s"
 
-#: include/functions.inc:882
+#: include/functions.inc:792
 msgid ""
 "Found multiple locks for object to be locked. This should not happen - "
 "cleaning up multiple references."
 msgstr "Se han encontrado varios bloqueos para un objeto que iba a ser bloqueado. Esto no debería ocurrir - limpiando referencias multiples."
 
-#: include/functions.inc:1200
+#: include/functions.inc:1110
 #, php-format
 msgid "The size limit of %d entries is exceed!"
 msgstr "¡El límite máximo de %d entradas se ha sobrepasado!"
 
-#: include/functions.inc:1202
+#: include/functions.inc:1112
 #, php-format
 msgid ""
 "Set the new size limit to %s and show me this message if the limit still "
 "exceeds"
 msgstr "Introduzca un nuevo límite máximo a %s y se volvera a mostrar este mensaje si se supera el límite máximo"
 
-#: include/functions.inc:1219
+#: include/functions.inc:1129
 msgid "Configure"
 msgstr "Configurar"
 
-#: include/functions.inc:1224
+#: include/functions.inc:1134
 msgid "incomplete"
 msgstr "incompleto"
 
-#: include/functions.inc:1629
+#: include/functions.inc:1539
 msgid "Continue anyway"
 msgstr "Continuar de cualquier manera"
 
-#: include/functions.inc:1631
+#: include/functions.inc:1541
 msgid "Edit anyway"
 msgstr "Editar de cualquier manera"
 
-#: include/functions.inc:1633
+#: include/functions.inc:1543
 #, php-format
 msgid "You're going to edit the LDAP entry/entries %s"
 msgstr "Has decidido editar las siguientes entradas LDAP %s"
 
-#: include/functions.inc:1887
+#: include/functions.inc:1797
 msgid "Entries per page"
 msgstr "Entradas por página"
 
-#: include/functions.inc:1918 include/class_filter.inc:353
+#: include/functions.inc:1828 include/class_filter.inc:353
 msgid "Apply filter"
 msgstr "Aplicar filtro"
 
-#: include/functions.inc:2186
+#: include/functions.inc:2096
 #, php-format
 msgid "%sB"
 msgstr ""
 
-#: include/functions.inc:2187
+#: include/functions.inc:2097
 #, php-format
 msgid "%sKiB"
 msgstr ""
 
-#: include/functions.inc:2188
+#: include/functions.inc:2098
 #, php-format
 msgid "%sMiB"
 msgstr ""
 
-#: include/functions.inc:2189
+#: include/functions.inc:2099
 #, php-format
 msgid "%sGiB"
 msgstr ""
 
-#: include/functions.inc:2190
+#: include/functions.inc:2100
 #, php-format
 msgid "%sTiB"
 msgstr ""
 
-#: include/functions.inc:2191
+#: include/functions.inc:2101
 #, php-format
 msgid "%sPiB"
 msgstr ""
 
-#: include/functions.inc:2192
+#: include/functions.inc:2102
 #, php-format
 msgid "%sEiB"
 msgstr ""
 
-#: include/functions.inc:2193
+#: include/functions.inc:2103
 #, php-format
 msgid "%sZiB"
 msgstr ""
 
-#: include/functions.inc:2194
+#: include/functions.inc:2104
 #, php-format
 msgid "%sYiB"
 msgstr ""
 
-#: include/functions.inc:2226 include/class_filter.inc:315
+#: include/functions.inc:2136 include/class_filter.inc:315
 msgid "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 msgstr "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-#: include/functions.inc:2363
+#: include/functions.inc:2273
 #, php-format
 msgid ""
 "File '%s' could not be deleted. Try fusiondirectory-setup --check-"
 "directories to fix permissions."
 msgstr ""
 
-#: include/functions.inc:2405
+#: include/functions.inc:2315
 msgid "Cannot write to revision file!"
 msgstr "¡No se puede escribir en el archivo de revisión!"
 
-#: include/functions.inc:2434
+#: include/functions.inc:2344
 msgid "Cannot read to revision file!"
 msgstr "No se puede leer el archivo de revisión!"
 
-#: include/functions.inc:2636
+#: include/functions.inc:2546
 msgid "'nextIdHook' is not available. Using default base!"
 msgstr ""
 
-#: include/functions.inc:2654
+#: include/functions.inc:2564
 msgid "LDAP warning"
 msgstr "Aviso LDAP"
 
-#: include/functions.inc:2654
+#: include/functions.inc:2564
 msgid "Cannot get schema information from server. No schema check possible!"
 msgstr "No puedo obtener información de esquemas del servidor. ¡No es posible comprobar los esquemas!"
 
-#: include/functions.inc:2672
+#: include/functions.inc:2582
 msgid ""
 "Used to lock currently edited entries to avoid multiple changes at the same "
 "time."
 msgstr "Usado para bloquear entradas editadas actualmente y así evitar múltiples cambios simultáneos."
 
-#: include/functions.inc:2684
+#: include/functions.inc:2594
 #, php-format
 msgid "Missing required object class '%s'!"
 msgstr "¡No se ha encontrado la clase de objeto necesaria '%s'!"
 
-#: include/functions.inc:2687
+#: include/functions.inc:2597
 #, php-format
 msgid "Missing optional object class '%s'!"
 msgstr "¡No se ha encontrado la clase de objeto opcional '%s'!"
 
-#: include/functions.inc:2691
+#: include/functions.inc:2601
 #, php-format
 msgid "Class(es) available"
 msgstr "Clase(s) disponibles"
 
-#: include/functions.inc:2711
+#: include/functions.inc:2621
 msgid ""
 "You have installed the mixed groups plugin, but your schema configuration "
 "does not support this."
 msgstr ""
 
-#: include/functions.inc:2712
+#: include/functions.inc:2622
 msgid ""
 "In order to use mixed groups the objectClass \"posixGroup\" must be "
 "AUXILIARY"
 msgstr ""
 
-#: include/functions.inc:2715
+#: include/functions.inc:2625
 msgid ""
 "Your schema is configured to support mixed groups, but this plugin is not "
 "present."
 msgstr ""
 
-#: include/functions.inc:2716
+#: include/functions.inc:2626
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
 msgstr ""
 
-#: include/functions.inc:3166 include/functions.inc:3187
-#: include/functions.inc:3225 include/functions.inc:3237
-#: include/functions.inc:3241 include/functions.inc:3248
-#: include/functions.inc:3257
+#: include/functions.inc:3076 include/functions.inc:3097
+#: include/functions.inc:3135 include/functions.inc:3147
+#: include/functions.inc:3151 include/functions.inc:3158
+#: include/functions.inc:3167
 msgid "Cannot allocate a free ID:"
 msgstr "No se puede asignar un identificador (ID) libre:"
 
-#: include/functions.inc:3166
+#: include/functions.inc:3076
 msgid "unknown idAllocation method!"
 msgstr "¡método de asignación de id desconocido!"
 
-#: include/functions.inc:3187
+#: include/functions.inc:3097
 #, php-format
 msgid "%sPoolMin >= %sPoolMax!"
 msgstr "¡%sPoolMin >= %sPoolMax!"
 
-#: include/functions.inc:3217
+#: include/functions.inc:3127
 msgid "Cannot create sambaUnixIdPool entry!"
 msgstr "¡No se puede crear la entrada sambaUnixIdPool!"
 
-#: include/functions.inc:3225
+#: include/functions.inc:3135
 msgid "sambaUnixIdPool is not unique!"
 msgstr "¡sambaUnixIdPool no es único!"
 
-#: include/functions.inc:3237 include/functions.inc:3241
+#: include/functions.inc:3147 include/functions.inc:3151
 msgid "no ID available!"
 msgstr "¡No hay ID disponibles!"
 
-#: include/functions.inc:3257
+#: include/functions.inc:3167
 msgid "maximum tries exceeded!"
 msgstr "¡Excedido el número de intentos máximo!"
 
-#: include/functions.inc:3319
+#: include/functions.inc:3229
 msgid "Cannot allocate a free ID!"
 msgstr "¡No se puede asignar un identificador (ID) libre!"
 
-#: include/functions.inc:3355
+#: include/functions.inc:3265
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr "No se puede encontrar el archivo '%s' - por favor ejecute '%s' para solucionarlo"
@@ -3592,47 +3583,48 @@ msgstr "Error Smarty"
 msgid "Directory '%s' specified as compile directory is not accessible!"
 msgstr "¡No se puede acceder a el directorio de compilación '%s'!"
 
-#: html/index.php:174
-msgid "There is a problem with the authentication setup!"
-msgstr "¡Hay un problema con la configuración de autenticación!"
+#: html/index.php:190
+msgid "Your FusionDirectory session has expired!"
+msgstr "Su sesión de FusionDirectory ha expirado!"
 
-#: html/index.php:182
-msgid "Cannot find a valid user for the current authentication setup!"
-msgstr "¡No se puede encontrar un usuario válido para la configuración de autenticación seleccionada!"
+#: html/index.php:193
+msgid "Your IP has changed!"
+msgstr ""
 
-#: html/index.php:186
-msgid "User information is not unique across the configured LDAP trees!"
-msgstr "La información de usuario no es única entre todos los arboles LDAP configurados"
+#: html/index.php:196
+#, php-format
+msgid "Invalid plugin parameter \"%s\"!"
+msgstr ""
 
-#: html/index.php:238
+#: html/index.php:199
+msgid "No session found!"
+msgstr ""
+
+#: html/index.php:232
 msgid "Cannot detect information about the installed LDAP schema!"
 msgstr "¡No se puede acceder a la información sobre los esuqemas LDAP instalados!"
 
-#: html/index.php:251
+#: html/index.php:245
 msgid "Your LDAP setup contains old schema definitions:"
 msgstr "Su configuración LDAP tiene definiciones de esquemas antiguos:"
 
-#: html/index.php:274
+#: html/index.php:265
 msgid "Please specify a valid username!"
 msgstr "¡Por favor introduzca un nombre de usuario válido!"
 
-#: html/index.php:277
+#: html/index.php:267
 msgid "Please specify your password!"
 msgstr "¡Por favor introduzca una contraseña!"
 
-#: html/index.php:288
-msgid "Cannot retrieve user information for htaccess authentication!"
-msgstr "¡No se puede recuperar la información de usuario para autenticación htaccess!"
-
-#: html/index.php:295
+#: html/index.php:273
 msgid "Please check the username/password combination."
 msgstr "Por favor compruebe la combinación nombre de usuario/contraseña"
 
-#: html/index.php:326
+#: html/index.php:304
 msgid "Account locked. Please contact your system administrator!"
 msgstr "Cuenta bloqueada. ¡Por favor contacte con su administrador de sistemas!"
 
-#: html/index.php:346
+#: html/index.php:324
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
@@ -3660,26 +3652,26 @@ msgstr "Su contraseña va a caducar próximamente, ¡Por favor cambie su contras
 msgid "Running out of memory!"
 msgstr "¡Funcionando sin memoria!"
 
-#: html/main.php:260
+#: html/main.php:251
 msgid "User ACL checks disabled"
 msgstr "Desactivados chequeos de ACL de usuario"
 
-#: html/main.php:298
+#: html/main.php:289
 msgid "Plugin"
 msgstr "Extensión"
 
-#: html/main.php:299
+#: html/main.php:290
 #, php-format
 msgid ""
 "Fatal error: Cannot find any plugin definitions for plugin '%s' ('%s' is not"
 " a file)!"
 msgstr ""
 
-#: html/main.php:314
+#: html/main.php:305
 msgid "Configuration Error"
 msgstr "Error de configuración"
 
-#: html/main.php:315
+#: html/main.php:306
 #, php-format
 msgid ""
 "Fatal error: not all POST variables have been transfered by PHP - please "
@@ -4667,53 +4659,6 @@ msgid ""
 "Password recovery is not activated. If you have lost your password, please "
 "contact your administrator"
 msgstr ""
-
-#: ihtml/themes/default/logout-close.tpl.c:2
-msgid "Your FusionDirectory session has been closed!"
-msgstr "¡Su sesión de FusionDirectory se ha cerrado!"
-
-#: ihtml/themes/default/logout-close.tpl.c:5
-msgid ""
-"Please close this browser window and clean the authentication caches to "
-"avoid an automatic re-authentication by your browser."
-msgstr "Por favor cierre la ventana del navegador y limpie la cache para evitar una reautentificación automática de su navegador."
-
-#: ihtml/themes/default/conflict.tpl.c:2
-msgid "Session conflict detected"
-msgstr "Detectado conflicto de sesiones."
-
-#: ihtml/themes/default/conflict.tpl.c:8
-msgid ""
-"Probably there's another active instance of your session. Multiple window "
-"operation is technical not possible and heavily depends on the browser "
-"you're using. Usage of different browsers at a time (i.e. IE and Mozilla) is"
-" possible. Pressing the Logout button will close this session."
-msgstr "Probablemente exista otra instancia activa de sus sesión. Operaciones en ventanas múltiples no son técnicamente posibles y dependen  del navegador utilizado. El uso de diferentes navegadores a la vez (por ejemplo: IE y Mozilla) es posible. Presione el botón 'Salir' para cerrar esta sesión."
-
-#: ihtml/themes/default/conflict.tpl.c:11
-msgid ""
-"Ignoring this message will change/destroy the data you're currently editing,"
-" so please close multiple windows and log in again."
-msgstr "Ignorando este mensaje cambiara/eliminara los datos que esta actualmente editando. Por favor, cierre las otras ventanas y vuelva a entrar."
-
-#: ihtml/themes/default/conflict.tpl.c:14
-msgid "Logout"
-msgstr "Salir"
-
-#: ihtml/themes/default/logout.tpl.c:2
-msgid "Your FusionDirectory session has expired!"
-msgstr "Su sesión de FusionDirectory ha expirado!"
-
-#: ihtml/themes/default/logout.tpl.c:5
-msgid ""
-"The last interaction with the FusionDirectory web interface has been some "
-"time ago in the past. For security reasons, the session has been closed. To "
-"continue with administrative tasks, please sign in again."
-msgstr "La ultima interacción con la interfaz web de FusionDirectory ocurrió hace algún tiempo. Por razones de seguridad la sesión ha sido cerrada. Para continuar con las tareas administrativas, por favor entre nuevamente."
-
-#: ihtml/themes/default/logout.tpl.c:8
-msgid "Sign in again"
-msgstr "Entrando de nuevo"
 
 #: ihtml/themes/default/remove.tpl.c:5
 msgid ""
