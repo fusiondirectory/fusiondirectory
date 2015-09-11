@@ -193,7 +193,7 @@ if (isset($_REQUEST['message'])) {
       $message = _('Your IP has changed!');
       break;
     case 'invalidparameter':
-      $message = _('Invalid plugin parameter "'.$_REQUEST['plug'].'"!');
+      $message = sprintf(_('Invalid plugin parameter "%s"!'), $_REQUEST['plug']);
       break;
     case 'nosession':
       $message = _('No session found!');
