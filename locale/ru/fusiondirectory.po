@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Alexey Matveev, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2015-09-11 11:58+0200\n"
-"PO-Revision-Date: 2015-09-11 09:58+0000\n"
-"Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
+"POT-Creation-Date: 2015-09-11 22:07+0200\n"
+"PO-Revision-Date: 2015-09-14 06:56+0000\n"
+"Last-Translator: Alexey Matveev\n"
 "Language-Team: Russian (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -116,7 +117,7 @@ msgstr ""
 
 #: plugins/admin/groups/class_group.inc:38
 msgid "POSIX group"
-msgstr ""
+msgstr "POSIX группа"
 
 #: plugins/admin/groups/class_group.inc:39
 msgid "POSIX user group"
@@ -135,12 +136,12 @@ msgstr "Свойства"
 #: plugins/admin/groups/class_group.inc:61
 #: plugins/admin/groups/class_ogroup.inc:185
 msgid "Name of this group"
-msgstr ""
+msgstr "Название этой группы"
 
 #: plugins/admin/groups/class_group.inc:65
 #: plugins/admin/groups/class_ogroup.inc:189
 msgid "Short description of this group"
-msgstr ""
+msgstr "Краткое описание группы"
 
 #: plugins/admin/groups/class_group.inc:69
 msgid "Force GID"
@@ -158,7 +159,7 @@ msgstr "GID"
 
 #: plugins/admin/groups/class_group.inc:73
 msgid "GID value for this group"
-msgstr ""
+msgstr "GID значение для этой группы"
 
 #: plugins/admin/groups/class_group.inc:80
 #: plugins/admin/groups/class_group.inc:83
@@ -181,7 +182,7 @@ msgstr "Режим доверия"
 #: plugins/admin/groups/class_ogroup.inc:210
 #: plugins/personal/posix/class_posixAccount.inc:166
 msgid "Type of authorization for those hosts"
-msgstr ""
+msgstr "Тип авторизации для этих хостов"
 
 #: plugins/admin/groups/class_group.inc:98
 #: plugins/admin/groups/class_ogroup.inc:214
@@ -232,12 +233,12 @@ msgstr ""
 #: plugins/admin/groups/class_ogroup.inc:59
 #, php-format
 msgid "Unknown type : %s"
-msgstr ""
+msgstr "Неизвестный тип: %s"
 
 #: plugins/admin/groups/class_ogroup.inc:63
 #, php-format
 msgid "Non existing dn: %s"
-msgstr ""
+msgstr "Не существующий dn: %s"
 
 #: plugins/admin/groups/class_ogroup.inc:149
 msgid "Object group"
@@ -308,11 +309,11 @@ msgstr "Удалить"
 #: plugins/admin/groups/class_groupManagement.inc:31
 #: plugins/personal/roles/class_userRoles.inc:31
 msgid "Groups and roles"
-msgstr ""
+msgstr "Группы и роли"
 
 #: plugins/admin/groups/class_groupManagement.inc:32
 msgid "Manage groups and roles"
-msgstr ""
+msgstr "Управление группами и ролями"
 
 #: plugins/admin/groups/class_groupManagement.inc:75
 msgid "Posix"
@@ -324,7 +325,7 @@ msgstr "Редактировать posix свойства"
 
 #: plugins/admin/groups/class_groupManagement.inc:80
 msgid "Edit role properties"
-msgstr ""
+msgstr "Редактировать свойства роли"
 
 #: plugins/admin/groups/class_groupManagement.inc:124
 msgid "Show user groups"
@@ -912,7 +913,7 @@ msgstr "Фамилия"
 
 #: plugins/personal/generic/class_user.inc:275
 msgid "Last name of this user"
-msgstr ""
+msgstr "Фамилия пользователя"
 
 #: plugins/personal/generic/class_user.inc:280
 #: plugins/personal/generic/paste_generic.tpl.c:8
@@ -921,19 +922,19 @@ msgstr "Имя"
 
 #: plugins/personal/generic/class_user.inc:280
 msgid "First name of this user"
-msgstr ""
+msgstr "Имя пользователя"
 
 #: plugins/personal/generic/class_user.inc:285
 msgid "Short description of the user"
-msgstr ""
+msgstr "Краткое описание пользователя"
 
 #: plugins/personal/generic/class_user.inc:289
 msgid "Picture"
-msgstr ""
+msgstr "Фотография"
 
 #: plugins/personal/generic/class_user.inc:289
 msgid "The avatar for this user"
-msgstr ""
+msgstr "Аватар пользователя"
 
 #: plugins/personal/generic/class_user.inc:296
 msgid "Organizational contact information"
@@ -941,7 +942,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:308
 msgid "Business postal address"
-msgstr ""
+msgstr "Рабочий почтовый адрес"
 
 #: plugins/personal/generic/class_user.inc:312
 msgid "Room No."
@@ -953,7 +954,7 @@ msgstr "Номер комнаты"
 
 #: plugins/personal/generic/class_user.inc:316
 msgid "Business phone number"
-msgstr ""
+msgstr "Рабочий номер телефона"
 
 #: plugins/personal/generic/class_user.inc:320
 msgid "Mobile"
@@ -961,7 +962,7 @@ msgstr "Мобильный"
 
 #: plugins/personal/generic/class_user.inc:320
 msgid "Business mobile number"
-msgstr ""
+msgstr "Рабочий номер мобильного телефона"
 
 #: plugins/personal/generic/class_user.inc:324
 msgid "Pager"
@@ -969,11 +970,11 @@ msgstr "Пейджер"
 
 #: plugins/personal/generic/class_user.inc:324
 msgid "Business pager number"
-msgstr ""
+msgstr "Рабочий номер пейджера"
 
 #: plugins/personal/generic/class_user.inc:328
 msgid "Business fax number"
-msgstr ""
+msgstr "Рабочий номер факса"
 
 #: plugins/personal/generic/class_user.inc:334
 msgid "Account information"
@@ -990,7 +991,7 @@ msgstr "Предпочитаемый язык"
 
 #: plugins/personal/generic/class_user.inc:348
 msgid "Password of the user"
-msgstr ""
+msgstr "Пароль пользователя"
 
 #: plugins/personal/generic/class_user.inc:354
 msgid "Personal contact information"
@@ -998,7 +999,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:358
 msgid "Home address"
-msgstr ""
+msgstr "Домашний адрес"
 
 #: plugins/personal/generic/class_user.inc:358
 msgid "Home postal address"
@@ -1553,7 +1554,7 @@ msgstr "Базовая запись, где снапшоты должны буд
 
 #: plugins/config/class_configInLdap.inc:233
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: plugins/config/class_configInLdap.inc:236
 msgid "Key path"
@@ -2018,12 +2019,12 @@ msgstr "Вниз"
 #: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2562
 #: include/simpleplugin/class_attribute.inc:2563
 msgid "Sort up"
-msgstr ""
+msgstr "Сортировать по возврастанию"
 
 #: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2575
 #: include/simpleplugin/class_attribute.inc:2576
 msgid "Sort down"
-msgstr ""
+msgstr "Сортировать по убыванию"
 
 #: include/class_listing.inc:367 setup/setup_migrate_gosaAccounts.tpl.c:23
 msgid "Select all"
@@ -2060,7 +2061,7 @@ msgstr "Ошибка"
 
 #: include/class_listing.inc:578
 msgid "created by"
-msgstr ""
+msgstr "создано"
 
 #: include/class_listing.inc:1146
 msgid "Go to root department"
@@ -3295,7 +3296,7 @@ msgstr "Название шаблона"
 
 #: include/simpleplugin/class_simplePlugin.inc:165
 msgid "This is the name of the template"
-msgstr ""
+msgstr "Это название шаблона"
 
 #: include/simpleplugin/class_simplePlugin.inc:263
 msgid "Only main tab can compute dn"
@@ -3589,7 +3590,7 @@ msgstr "Время вашей сессии истекло!"
 
 #: html/index.php:193
 msgid "Your IP has changed!"
-msgstr ""
+msgstr "Ваш IP адрес изменен!"
 
 #: html/index.php:196
 #, php-format
@@ -3834,7 +3835,7 @@ msgstr "Привязка под пользователем '%s' к сервер�
 #: setup/class_setupStep_Finish.inc:30 setup/class_setupStep_Welcome.inc:30
 #: setup/class_setupStep_Welcome.inc:50
 msgid "Welcome"
-msgstr ""
+msgstr "Добро пожаловать"
 
 #: setup/class_setupStep_Finish.inc:40
 #: ihtml/themes/default/copyPasteDialog.tpl.c:26
@@ -4016,12 +4017,12 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:846
 #, php-format
 msgid "FD 1.0.7 administrative accounts found: %s"
-msgstr ""
+msgstr "Найдена учетная запись администратора FD 1.0.7: %s"
 
 #: setup/class_setupStep_Migrate.inc:849
 #, php-format
 msgid "FD 1.0.7 administrative groups found: %s"
-msgstr ""
+msgstr "Найдена административная группа FD 1.0.7: %s"
 
 #: setup/class_setupStep_Migrate.inc:851
 msgid ""
@@ -4159,12 +4160,12 @@ msgstr "Основная проверка совместимости PHP и ра
 
 #: setup/class_setupStep_Checks.inc:67
 msgid "Checking PHP version"
-msgstr ""
+msgstr "Проверка PHP версии"
 
 #: setup/class_setupStep_Checks.inc:68
 #, php-format
 msgid "PHP must be of version %s or above."
-msgstr ""
+msgstr "PHP должен быть %s версии или старше"
 
 #: setup/class_setupStep_Checks.inc:69
 msgid "Please upgrade to a supported version."
@@ -4308,7 +4309,7 @@ msgstr "Найдите 'expose_php' в вашем php.ini и установит�
 
 #: setup/class_setupStep_Checks.inc:214
 msgid "Increase your server performance by setting magic_quotes_gpc to 'off'."
-msgstr ""
+msgstr "Повысите производительность вашего сервер установив setting magic_quotes_gpc в 'off'."
 
 #: setup/class_setupStep_Checks.inc:215
 msgid ""
@@ -4511,7 +4512,7 @@ msgstr "Вы успешно сменили свой пароль. Не забу�
 
 #: plugins/personal/generic/paste_generic.tpl.c:2
 msgid "User settings"
-msgstr ""
+msgstr "Настройки пользователя"
 
 #: plugins/personal/generic/paste_generic.tpl.c:17
 msgid "Clear password"
@@ -4519,7 +4520,7 @@ msgstr ""
 
 #: plugins/personal/generic/paste_generic.tpl.c:20
 msgid "Set new password"
-msgstr ""
+msgstr "Установить новый пароль"
 
 #: plugins/personal/generic/paste_generic.tpl.c:23
 msgid "Personal picture"
@@ -4558,7 +4559,7 @@ msgstr "Только для чтения"
 
 #: ihtml/themes/default/template.tpl.c:2
 msgid "Creating a new object using templates"
-msgstr ""
+msgstr "Создание нового объекта используя шаблоны"
 
 #: ihtml/themes/default/template.tpl.c:8
 #: ihtml/themes/default/snapshotdialog.tpl.c:44
@@ -4651,13 +4652,13 @@ msgstr "Успешно"
 
 #: ihtml/themes/default/recovery.tpl.c:62
 msgid "Your password has been changed successfully."
-msgstr ""
+msgstr "Ваш пароль был успешно изменен."
 
 #: ihtml/themes/default/recovery.tpl.c:65
 msgid ""
 "Enter your current e-mail address in the field below and press the 'Change' "
 "button."
-msgstr ""
+msgstr "Введите ваш текущий адрес электронной почты в нижние поле и нажмите кнопку 'Изменить'."
 
 #: ihtml/themes/default/recovery.tpl.c:68
 msgid ""
