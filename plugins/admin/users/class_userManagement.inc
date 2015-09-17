@@ -179,9 +179,9 @@ class userManagement extends simpleManagement
     $image = 'images/empty.png';
     if (isset($userPassword[0]) && preg_match('/^\{[^\}]/', $userPassword[0])) {
       if (preg_match('/^[^\}]*+\}!/', $userPassword[0])) {
-        $image = 'geticon.php?context=status&amp;icon=object-locked&amp;size=16';
+        $image = 'geticon.php?context=status&icon=object-locked&size=16';
       } else {
-        $image = 'geticon.php?context=status&amp;icon=object-unlocked&amp;size=16';
+        $image = 'geticon.php?context=status&icon=object-unlocked&size=16';
       }
     }
     return $image;
