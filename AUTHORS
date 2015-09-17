@@ -109,7 +109,7 @@ documentation and additional help.
   Various patches from debian-edu
   Apache 2.4 support
   Mcrypt decrypt enhancement
-  Browsing inactive tab
+  Browsing inactive tab 
 
 * Jeremy Williame <williamejeremy@hotmail.com>
   Cleanup and writer of the FusionDirectory doxygen api documentation
@@ -158,9 +158,20 @@ documentation and additional help.
 
 * Arnaud Patard <apatard@hupstream.com>
   Fix for Invalid uri in the password recovery mail
+  Fix for start tls on fusiondirectory setup and gnutls
 
 * Adrian Reyer <are+fd@lihas.de>
   Modifier for templates to convert german umlauts to 7-bit ASCII
 
 * Samuel Bosquin samuel.bosquin@ibcp.fr
   Plugin FAI - LVM partitions
+
+* IOhannes umlaeute <noc@iem.at>
+  generateLdif() fails with bind-passwords containg '$' patch
+  
+* Karsten Becker <karsten.becker@ecologic.eu>
+  Suse install from tarballs Documentation
+
+* Felix Weissbeck <contact-fusiondirectory@w7k.de>
+  Method to add a change password dialog on sasl+kerberos
+  
