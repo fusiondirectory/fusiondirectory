@@ -1,17 +1,218 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.9
+
+[Feature] Bugs #955: write https support for PHP JSONRPC
+[Fix] Bugs #1608: ACL sur AddressBook
+[Fix] Bugs #1955: unique is checked only in the object base
+[Fix] Bugs #2126: post* scripts failure could trigger a revert
+[Feature] Bugs #2407: Migrate class_user to simple-plugin
+[Feature] Bugs #2509: LDAP manager should be using simplePlugin
+[Fix] Bugs #2595: The code should follow code guidelines
+[Fix] Bugs #2602: Improve debug-help plugin
+[Feature] Bugs #2608: group should use simplePlugin
+[Fix] Bugs #2622: Select classes should be cleaned and regrouped
+[Feature] Bugs #2624: ogroup should use simplePlugin
+[Fix] Bugs #2642: Select classes should be cleaned and regrouped
+[Feature] Bugs #2650: ogroup should use simplePlugin
+[Fix] Bugs #2678: sudoOption should allow to negate
+[Feature] Bugs #2696: FusionDirectory should have a CLI
+[Fix] Bugs #2894: More plugins should use foreignKeys
+[Feature] Bugs #2919: Setup should be rewritten
+[Feature] Bugs #3063: Migrate fai to simplePlugin
+[Feature] Bugs #3064: Migrate fai to simplePlugin
+[Fix] Bugs #3078: Clean ArrayAttribute hierarchy
+[Fix] Bugs #3162: We need to clarify role situation
+[Fix] Bugs #3181: Copy user in an other base create the user in the root base
+[Fix] Bugs #3182: We need to clarify role situation
+[Fix] Bugs #3186: when creating the fd-admin user in the migration phase i got an error
+[Fix] Bugs #3221: Clean dead code
+[Fix] Bugs #3222: Clean dead code
+[Fix] Bugs #3231: Remove useless snapshot fields from config ldap schema
+[Feature] Bugs #3233: We should use freedesktop Icon Theme Specification
+[Fix] Bugs #3237: System trust in Unix tab is broken
+[Fix] Bugs #3242: samba group tab is broken
+[Fix] Bugs #3247: Plugins needs to be able to know which objectType they are opened as
+[Fix] Bugs #3248: Plugins needs to be able to know which objectType they are opened as
+[Fix] Bugs #3250: unique is checked only in the object base
+[Fix] Bugs #3255: Better error message if release is not set
+[Feature] Bugs #3272: All systems object should use simpleTabs
+[Fix] Bugs #3299: Use relative path for geticon
+[Fix] Bugs #3342: Welcome icon is broken in 1.0.9
+[Fix] Bugs #3343: put the obsolete word into the system-fd.schema each time we see deprecated
+[Fix] Bugs #3345: remove the uw-imap plugin from fusiondirectory sources
+[Fix] Bugs #3354: Error about missing FAI class when creating a debian repository
+[Fix] Bugs #3355: weird things happens when moving error pop-ups
+[Feature] Bugs #3366: Supann should use objects class
+[Fix] Bugs #3384: We need to remove manual handling of foreignKeys
+[Fix] Bugs #3386: We need to remove manual handling of foreignKeys
+[Fix] Bugs #3418: ButtonAttribute API has changed
+[Fix] Bugs #3420: when creating a generic user, only filling the generic tab fusiondirectory create a samba and userpassword
+[Fix] Bugs #3424: PHP errors in setup step migrate
+[Fix] Bugs #3432: fdSaslRealm and fdSaslExop are booleans in the schema
+[Fix] Bugs #3440: Viewing a group removes all members that don't have a memberUid in addition to member attribute
+[Fix] Bugs #3451: Some fai code should be made generic
+[Fix] Bugs #3452: remove the obligation to have an gosaAccount on user entries to be displayed by FusionDirectory
+[Fix] Bugs #3471: move the objectgroup plugin inside the group plugin
+[Fix] Bugs #3503: Argonaut is sometimes called «infastructure service» and sometimes «service infrastructure»
+[Fix] Bugs #3587: Edit a template add bad characters
+[Fix] Bugs #3589: Must set blocksize > 0 to cancel
+[Fix] Bugs #3588: Copy LAST's scripts create an empty class
+[Fix] Bugs #3593: We should migrate DNS and DHCP services root objects
+[Feature] Bugs #3594: We should be able to use roles for ACL assignements
+[Fix] Bugs #3602: password recovery config should be merged with core configuration
+[Fix]  Bugs #3636: Main menu should handle better icon sizes
+[Fix] Bugs #3675: Roles icon is always activated
+[Fix] Bugs #3694: openstack-compute is obsolete and should be deleted
+[Fix] Bugs #3718: groupOfNames and rfc2307bis situation must be cleaned
+[Fix] Bugs #3722: We should remove the «enable copy&paste» option
+[Fix] Bugs #3733: Systems classes needs compute_dn methods
+[Fix] Bugs #3740: CSV import is broken
+[Fix] Bugs #3741: Error when I do fusiondirectory-insert-schema
+[Fix] Bugs #3743: In FAI plugin base propositions should contain distribution
+[Fix] Bugs #3745: Can’t create FAI profile
+[Fix] Bugs #3747: We cannot set a dhcp for a system
+[Fix] Bugs #3748: Set a default secure_path when we activate it
+[Fix] Bugs #3751: Systems plugin is broken
+[Fix] Bugs #3752: the setup doesnt find the ldap anymore when fai plugin is installed
+[Fix] Bugs #3755: fusiondirectory.conf attribute configVersion is unused and should be removed
+[Fix] Bugs #3756: Error in the setup if the schemas are not inserted
+[Feature] Bugs #3771: Add /sbin/nologin in shells
+[Fix] Bugs #3777: remove the obligation to have an gosaAccount on user entries to be displayed by FusionDirectory
+[Fix] Bugs #3779: Fatal error in recovery: Non-existing type "user"
+[Feature] Bugs #3780: We should migrate DNS and DHCP services root objects
+[Fix] Bugs #3787: template-fd.schema should be in the default schemas in fusiondirectory-insert-schema
+[Fix] Bugs #3788: template-fd.schema is not inserted
+[Fix] Bugs #3792: Copy of partition class does not copy the disks
+[Fix] Bugs #3795: Copy of fai objects is not working
+[Fix] Bugs #3800: Errors about base are shown when switching from FAI to an other plugin
+[Fix] Bugs #3801: ogroup hold previous icons
+[Fix] Bugs #3802: PHP error: undefined variable: dn
+[Feature] Bugs #3807: Fd should have three mode of fonction posixGroup / rcf2307bis (groupOfNames) / quirk mode (with modified core schema)
+[Fix] Bugs #3813: Ppolicy plugin should check password history
+[Fix] Bugs #3820: Some PHP errors on password recovery page
+[Fix] Bugs #3839: cleanup the icons situation
+[Fix] Bugs #3840: cleanup the icons situation
+[Fix] Bugs #3842: Trustmode in template is automaticaly desactivated
+[Fix] Bugs #3843: Error when we try to lock a user
+[Fix] Bugs #3844: Add title option on the tr
+[Fix] Bugs #3845: Error when we add a posix group
+[Fix] Bugs #3846: template are in their own branch now but code still reference gosaUserTemplate objectClass who is deprecated
+[Fix] Bugs #3847: template are in their own branch now but code still reference gosaUserTemplate objectClass who is deprecated
+[Feature] Bugs #3848: generic user view should be reorganized
+[Fix] Bugs #3849: we should remove (v2.6.1) from the schema descriptions
+[Fix] Bugs #3850: the DESC of each attribute and object should describe exactly the purpose of it
+[Fix] Bugs #3851: it seems the gosaCacheEntry objectClass is no longer used
+[Fix] Bugs #3852: we should remove (v2.6.1) from the schema descriptions
+[Fix] Bugs #3853: Remove deprecated objectClass and attributes of 1.0.8.7
+[Fix] Bugs #3855: Templates and hooks should be fixed
+[Fix] Bugs #3856: Delete CUPS service
+[Fix] Bugs #3857: We should be able to apply templates
+[Fix] Bugs #3858: Delete CUPS service references and goService
+[Fix] Bugs #3861: PHP error when we create a template
+[Fix] Bugs #3862: developement documentation should be updated for icons situation
+[Fix] Bugs #3896: Set deprecated the attributes gosaVacationStart and gosaVacationStop
+[Fix] Bugs #3897: Setup fails if root object is missing
+[Fix] Bugs #3903: values in gecos, cn, displayName (fields being derived from sn and givenName) have one trailing whitespace
+[Fix] Bugs #3904: fdAccountPrimaryAttribute set to uid, accounts get changed into accounts with cn based DN
+[Fix] Bugs #3905: Icons of actif tabs not appear on template
+[Fix] Bugs #3906: PHP error when I try to copy a template
+[Feature] Bugs #3907: Rework CN and DN related options
+[Fix] Bugs #3908: Create a user with template that force primary group not work
+[Fix] Bugs #3914: We should remove the class tabs
+[Fix] Bugs #3915: fd-admin creation fail in RHEL6
+[Fix] Bugs #3916: We should remove the class tabs
+[Feature] Bugs #3921: User templates should support roles
+[Feature] Bugs #3922: We need a plugin for support of ugly groups
+[Feature] Bugs #3929: Group synchronization Samba / UNIX
+[Feature] Bugs #3931: We need a plugin for support of ugly groups
+[Fix] Bugs #3938: Password default hashes of type CRYPT/XXX other than CRYPT/MD5 are not working
+[Fix] Bugs #3940: the in ldap inspection phase departements should not show fusiondirectory owned branch to migration
+[Feature] Bugs #3944: Add a option to not touch at the reverse zone
+[Fix] Bugs #3947: FD should stop using the word generic everywhere
+[Fix] Bugs #3949: We should get rid of get_post function
+[Fix] Bugs #3952: We miss dhcp service icon
+[Fix] Bugs #3953: Schema attributes and OC should be renamed
+[Fix] Bugs #3954: The ids in aclRole depend of the langage of FusionDirectory
+[Fix] Bugs #3955: ACL roles should use geticon as well
+[Fix] Bugs #3957: PHP error in simpleService
+[Fix] Bugs #3958: fusiondirectory-shell don't give a prompt to create an user
+[Fix] Bugs #3959: Password force default hash does not work
+[Feature] Bugs #3966: Argonaut server should support HTTPS
+[Fix] Bugs #3980: move phones out the asterisk plugin to the system plugins
+[Fix] Bugs #3981: remove the asterisk plugin from 1.0.9
+[Fix] Bugs #3990: removing the test in fusiondirectory web setup for the database library
+[Fix] Bugs #3991: comment is wrong on the test for the php ldap extension
+[Fix] Bugs #3992: remove the fax plugin
+[Fix] Bugs #4000: some entries in the supann plugin don't have english explanation next to the attribute name
+[Fix] Bugs #4002: password.tpl is not used anymore it should be deleted
+[Fix] Bugs #4007: when installing all plugins i got error message about samba sid-rid
+[Fix] Bugs #4008: edit locking should have a default value selected during web setup
+[Fix] Bugs #4009: The configured mail attribute '' is unsupported! when all plugin at installed at once
+[Feature] Bugs #4012: Argonaut server should support HTTPS
+[Fix] Bugs #4014: function missing in personal/generic/class_user.inc
+[Feature] Bugs #4016: Webservice must respect ACLs
+[Feature] Bugs #4022: We should be able to create a user with fusiondirectory-shell
+[Fix] Bugs #4034: Remove the FIXME in FAI about priority
+[Fix] Bugs #4037: It seem that force ssl not work for webservice
+[Fix] Bugs #4038: Mandatory for primary dns server and mailadress not work
+[Fix] Bugs #4039: Error when I update dns by dns service
+[Feature] Bugs #4040: add spanish colombian to FD
+[Fix] Bugs #4042: We missed a method to delete objects with fusiondirectory-shell
+[Fix] Bugs #4043: Display message about sasl but I not use it
+[Fix] Bugs #4045: Error when I edit FAIBASE partition class
+[Feature] Bugs #4047: creating an argonaut-fai-monitor service
+[Fix] Bugs #4050: we need a fonction to convert string into lowercase
+[Fix] Bugs #4051: Mac addresses should always be in lowercase
+[Fix] Bugs #4056: We should remove the Automatic logins option
+[Fix] Bugs #4058: FAIstate is not set when we click on reinstall in systems.
+[Fix] Bugs #4059: Manage argonaut-fuse with FusionDirectory and remove serviceRepository from the actions
+[Fix] Bugs #4060: Erreur plugin game lors de la création de serveur
+[Fix] Bugs #4061: PHP error when I use a template to create a user
+[Fix] Bugs #4062: Specify POSIX group in a message
+[Fix] Bugs #4063: Use a modifer for password in a template not work in SSHA
+[Fix] Bugs #4064: PHP error when I delete a template
+[Fix] Bugs #4065: I got a PHP error when I open a package class
+[Fix] Bugs #4066: Weblink refers to IPMI
+[Fix] Bugs #4068: password.tpl is not used anymore it should be deleted
+[Fix] Bugs #4072: CSV import is broken
+[Fix] Bugs #4073: CSV import is broken
+[Fix] Bugs #4076: eduPersonNickName isn't save if modified and generate an error if account with eduPersonNickName is deleted
+[Fix] Bugs #4083: the phone component should not have a nis group tab
+[Fix] Bugs #4092: Base field should show "/" instead of being empty for root.
+[Fix] Bugs #4093: There are HTML errors in the code
+[Fix] Bugs #4100: The logout screen should be redone (session expiry)
+[Fix] Bugs #4102: Kolab plugin should specify «Kolab 2»
+[Fix] Bugs #4107: the autodect button for the mac address should be removed
+[Fix] Bugs #4112: the dns plugin allow me to edit zone name and ip address in the global zone service tab
+[Fix] Bugs #4114: remove slapd.conf from contrib/openldap as no one use slapd.conf anymore and there is error in it
+[Feature] Wishlist #1887: Template system should be redone
+[Feature] Wishlist #2004: Object groups should be handled automatically
+[Feature] Wishlist #2516: Having a way of generating objectTypes graphs
+[Feature] Wishlist #2629: Object groups should be handled automatically
+[Feature] Wishlist #2948: we should add write features to the webservice
+[Feature] Wishlist #3158: FusionDirectory could have an alternate theme
+[Feature] Wishlist #3258: Paste SSH public key directly in FD interface
+[Feature] Wishlist #3317: LDAP reorganization
+[Feature] Wishlist #3334: userManagement should be using simpleManagement
+[Feature] Wishlist #3383: Password change and hooks should be cleaned
+[Feature] Wishlist #3388: Samba account should handle samba password
+[Feature] Wishlist #3730: Ppolicy plugin
+[Feature] Wishlist #3910: Move dashboard configuration in core
+[Feature] Wishlist #4075: Allow select Supann Role by choosing in several base
+
 * FusionDirectory 1.0.8.9
 
-Bugs #3877: add a switch to select the good library when in wheezy or jessie for fusiondirectory-shell
-Bugs #3928: Doesn't work if ldap's cn=admin has password with "<" symbol
-Bugs #3930: updating the list of supported language in fusiondirectory
-Bugs #3932: Password default hashes of type CRYPT/XXX other than CRYPT/MD5 are not working
-Bugs #3941: fusiondirectory-setup --check-ldap should respect password encoding taken from the ldap
-Bugs #3943: Add a option to not touch at the reverse zone
-Bugs #3960: fusiondirectory-shell cannot cat a user
-Bugs #3961: the DESC of each attribute and object should describe exactly the purpose of it - ported description and formatting issues to 1.0.8.x
-Bugs #3962: fusiondirectory-shell should handle multivaluated attributes properly
+[Fix] Bugs #3877: add a switch to select the good library when in wheezy or jessie for fusiondirectory-shell
+[Fix] Bugs #3928: Doesn't work if ldap's cn=admin has password with "<" symbol
+[Fix] Bugs #3930: updating the list of supported language in fusiondirectory
+[Fix] Bugs #3932: Password default hashes of type CRYPT/XXX other than CRYPT/MD5 are not working
+[Fix] Bugs #3941: fusiondirectory-setup --check-ldap should respect password encoding taken from the ldap
+[Feature] Bugs #3943: Add a option to not touch at the reverse zone
+[Fix] Bugs #3960: fusiondirectory-shell cannot cat a user
+[Feature] Bugs #3961: the DESC of each attribute and object should describe exactly the purpose of it - ported description and formatting issues to 1.0.8.x
+[Fix] Bugs #3962: fusiondirectory-shell should handle multivaluated attributes properly
 
 * FusionDirectory 1.0.8.8
 
