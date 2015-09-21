@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2015-09-11 22:07+0200\n"
-"PO-Revision-Date: 2015-09-16 20:53+0000\n"
+"PO-Revision-Date: 2015-09-18 22:04+0000\n"
 "Last-Translator: Miguel Ortiz <daychuzleo@gmail.com>\n"
 "Language-Team: Spanish (Colombia) (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/es_CO/)\n"
 "MIME-Version: 1.0\n"
@@ -1602,21 +1602,21 @@ msgstr "Este es el patrón que se usará para crear el campo de 'nombre común'"
 
 #: plugins/config/class_configInLdap.inc:267
 msgid "Strict naming policy"
-msgstr ""
+msgstr "Politica de nombres"
 
 #: plugins/config/class_configInLdap.inc:268
 msgid "Enables strict checking of user and group names"
-msgstr ""
+msgstr "Habilita la validación estricta de nombres para usuarios o grupos."
 
 #: plugins/config/class_configInLdap.inc:273
 msgid "Group/user min id"
-msgstr ""
+msgstr "Grupo/usuario min id"
 
 #: plugins/config/class_configInLdap.inc:274
 msgid ""
 "The minimum assignable user or group id to avoid security leaks with id 0 "
 "accounts."
-msgstr ""
+msgstr "El número 'id' mínimo asignable a un usuario o grupo para evitar fallas de seguridad como cuentas de usuario con id '0'."
 
 #: plugins/config/class_configInLdap.inc:279
 msgid "Next id hook"
@@ -1654,11 +1654,11 @@ msgstr "La rama donde los usuarios están guardados."
 
 #: plugins/config/class_configInLdap.inc:300
 msgid "Groups RDN"
-msgstr ""
+msgstr "Grupos RDN"
 
 #: plugins/config/class_configInLdap.inc:300
 msgid "The branch where groups are stored."
-msgstr ""
+msgstr "La rama donde se guardan los grupos."
 
 #: plugins/config/class_configInLdap.inc:305
 msgid "ACL role RDN"
@@ -1666,19 +1666,19 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:305
 msgid "The branch where ACL roles are stored."
-msgstr ""
+msgstr "La rama donde los rol ACL están almacenados."
 
 #: plugins/config/class_configInLdap.inc:310
 msgid "Id allocation method"
-msgstr ""
+msgstr "Método para asignar 'ids'"
 
 #: plugins/config/class_configInLdap.inc:310
 msgid "Method to allocate user/group ids"
-msgstr ""
+msgstr "Método para asignar 'ids' de grupo/usuario"
 
 #: plugins/config/class_configInLdap.inc:313
 msgid "Traditional"
-msgstr ""
+msgstr "Tradicional"
 
 #: plugins/config/class_configInLdap.inc:313
 msgid "Samba unix id pool"
@@ -1690,7 +1690,7 @@ msgstr "Pool user id min"
 
 #: plugins/config/class_configInLdap.inc:316
 msgid "Minimum value for user id when using pool method"
-msgstr ""
+msgstr "Valor mínimo para el valor 'id' del usuario cuando utilice el método 'pool'"
 
 #: plugins/config/class_configInLdap.inc:321
 msgid "Pool user id max"
@@ -1698,15 +1698,15 @@ msgstr "Pool user id max"
 
 #: plugins/config/class_configInLdap.inc:321
 msgid "Maximum value for user id when using pool method"
-msgstr ""
+msgstr "Valor máximo para el valor 'id' del usuario cuando utilice el método 'pool'"
 
 #: plugins/config/class_configInLdap.inc:326
 msgid "Pool group id min"
-msgstr ""
+msgstr "Pool group id min"
 
 #: plugins/config/class_configInLdap.inc:326
 msgid "Minimum value for group id when using pool method"
-msgstr ""
+msgstr "Valor mínimo para id de 'grupo' cuando se utilice el método 'pool'"
 
 #: plugins/config/class_configInLdap.inc:331
 msgid "Pool group id max"
@@ -1732,7 +1732,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:346
 msgid "Maximum LDAP query time"
-msgstr ""
+msgstr "Tiempo máximo de consultas LDAP."
 
 #: plugins/config/class_configInLdap.inc:346
 msgid ""
@@ -1742,7 +1742,7 @@ msgstr "Detenga las acciones sobre LDAP si no hay respuesta después del tiempo 
 
 #: plugins/config/class_configInLdap.inc:351
 msgid "Log LDAP statistics"
-msgstr ""
+msgstr "Escribir logs de las estadísticas LDAP."
 
 #: plugins/config/class_configInLdap.inc:352
 msgid ""
@@ -1934,7 +1934,7 @@ msgstr ""
 
 #: plugins/config/class_recoveryConfig.inc:105
 msgid "[FusionDirectory] Password recovery successful"
-msgstr ""
+msgstr "[FusionDirectory] ¡Recuperación de contraseña satisfactoria!"
 
 #: plugins/config/class_recoveryConfig.inc:108
 #, php-format
@@ -1959,11 +1959,11 @@ msgstr "Hola,\n\nSu contraseña se ha cambiado.\nSu cuenta de usuario sigue sien
 
 #: plugins/config/class_dashBoardConfig.inc:28
 msgid "Dashboard configuration"
-msgstr ""
+msgstr "Configuración del Panel"
 
 #: plugins/config/class_dashBoardConfig.inc:29
 msgid "FusionDirectory dashboard plugin configuration"
-msgstr ""
+msgstr "FusionDirectory panel de configuración de plugins."
 
 #: plugins/config/class_dashBoardConfig.inc:42
 msgid "Dashboard name schema"
@@ -1987,7 +1987,7 @@ msgstr ""
 
 #: plugins/config/class_dashBoardConfig.inc:59
 msgid "Dashboard expired users"
-msgstr ""
+msgstr "Panel de usuarios expirados"
 
 #: plugins/config/class_dashBoardConfig.inc:62
 msgid "Number of days"
@@ -2001,34 +2001,34 @@ msgstr ""
 
 #: plugins/config/class_pluginsConfigInLdap.inc:29
 msgid "Plugins"
-msgstr ""
+msgstr "Plugins"
 
 #: plugins/config/class_pluginsConfigInLdap.inc:30
 msgid "Configuration for plugins"
-msgstr ""
+msgstr "Configuración de plugins"
 
 #: include/class_listing.inc:306 include/class_listing.inc:1154
 #: include/class_listing.inc:1156
 msgid "Up"
-msgstr ""
+msgstr "Arriba"
 
 #: include/class_listing.inc:306
 msgid "Down"
-msgstr ""
+msgstr "Abajo"
 
 #: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2562
 #: include/simpleplugin/class_attribute.inc:2563
 msgid "Sort up"
-msgstr ""
+msgstr "Ordenar "
 
 #: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2575
 #: include/simpleplugin/class_attribute.inc:2576
 msgid "Sort down"
-msgstr ""
+msgstr "Ordenar de modo inverso"
 
 #: include/class_listing.inc:367 setup/setup_migrate_gosaAccounts.tpl.c:23
 msgid "Select all"
-msgstr ""
+msgstr "Seleccionar todo"
 
 #: include/class_listing.inc:537 include/class_management.inc:523
 #: include/class_management.inc:664 include/class_config.inc:479
@@ -2057,11 +2057,11 @@ msgstr ""
 #: include/class_SnapshotHandler.inc:415 setup/class_setupStep_Migrate.inc:924
 #: ihtml/themes/default/msg_dialog.tpl.c:2 setup/setup_checks.tpl.c:5
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 #: include/class_listing.inc:578
 msgid "created by"
-msgstr ""
+msgstr "creado por"
 
 #: include/class_listing.inc:1146
 msgid "Go to root department"
@@ -2070,7 +2070,7 @@ msgstr "Ir a la División raíz"
 #: include/class_listing.inc:1146 include/class_listing.inc:1148
 #: include/class_baseSelector.inc:210
 msgid "Root"
-msgstr ""
+msgstr "Root"
 
 #: include/class_listing.inc:1154
 msgid "Go up one department"
@@ -2082,70 +2082,70 @@ msgstr "Ir a la División del usuario"
 
 #: include/class_listing.inc:1162 include/class_listing.inc:1164
 msgid "Home"
-msgstr ""
+msgstr "Home"
 
 #: include/class_listing.inc:1169
 msgid "Reload list"
-msgstr ""
+msgstr "Refrescar lista"
 
 #: include/class_listing.inc:1169 include/class_baseSelector.inc:262
 msgid "Submit"
-msgstr ""
+msgstr "Enviar"
 
 #: include/class_listing.inc:1586 include/class_listing.inc:1640
 msgid "Copy"
-msgstr ""
+msgstr "Copiar"
 
 #: include/class_listing.inc:1592 include/class_listing.inc:1628
 msgid "Cut"
-msgstr ""
+msgstr "Cortar"
 
 #: include/class_listing.inc:1600 include/class_listing.inc:1602
 #: include/class_CopyPasteHandler.inc:370
 msgid "Paste"
-msgstr ""
+msgstr "Pegar"
 
 #: include/class_listing.inc:1628
 msgid "Cut this entry"
-msgstr ""
+msgstr "Cortar esta entrada"
 
 #: include/class_listing.inc:1640
 msgid "Copy this entry"
-msgstr ""
+msgstr "Copiar esta entrada"
 
 #: include/class_listing.inc:1673 include/class_listing.inc:1675
 msgid "Restore snapshots"
-msgstr ""
+msgstr "Restaurar 'snapshots'"
 
 #: include/class_listing.inc:1689
 msgid "Export list"
-msgstr ""
+msgstr "Exportar lista"
 
 #: include/class_listing.inc:1724 include/class_listing.inc:1725
 #: include/class_SnapShotDialog.inc:179
 msgid "Restore snapshot"
-msgstr ""
+msgstr "Restaurar 'snapshot'"
 
 #: include/class_listing.inc:1734
 msgid "Create snapshot"
-msgstr ""
+msgstr "Crear 'snapshot'"
 
 #: include/class_listing.inc:1735
 msgid "Create a new snapshot from this object"
-msgstr ""
+msgstr "Crear un nuevo 'snapshot' de este objeto"
 
 #: include/class_management.inc:168
 msgid "Filter error"
-msgstr ""
+msgstr "Error al filtrar"
 
 #: include/class_management.inc:168
 msgid "The filter is incomplete!"
-msgstr ""
+msgstr "¡El filtro está incompleto!"
 
 #: include/class_management.inc:416
 #: include/simpleplugin/class_simpleManagement.inc:718
 msgid "Permission error"
-msgstr ""
+msgstr "Error de permisos"
 
 #: include/class_management.inc:497
 #: include/simpleplugin/class_simpleManagement.inc:748
@@ -2182,7 +2182,7 @@ msgstr ""
 #: include/password-methods/class_password-methods-ssha.inc:91
 #: html/index.php:140 html/main.php:208 html/class_passwordRecovery.inc:263
 msgid "Configuration error"
-msgstr ""
+msgstr "Error de configuración"
 
 #: include/class_config.inc:296
 #, php-format
@@ -2210,7 +2210,7 @@ msgstr ""
 
 #: include/class_config.inc:337
 msgid "Cannot bind to LDAP. Please contact the system administrator."
-msgstr ""
+msgstr "No se puede contactar a LDAP. Por favor contacte al adminsitrador del sistema."
 
 #: include/class_config.inc:480
 #, php-format
@@ -2349,38 +2349,38 @@ msgstr "Este objeto será borrado: %s"
 #: include/class_msgPool.inc:76
 #, php-format
 msgid "This '%s' object will be deleted: %s"
-msgstr ""
+msgstr "Este '%s' objeto será borrado: %s"
 
 #: include/class_msgPool.inc:81
 msgid "This object will be deleted:"
-msgstr ""
+msgstr "Este objeto será borrado:"
 
 #: include/class_msgPool.inc:83
 #, php-format
 msgid "This '%s' object will be deleted:"
-msgstr ""
+msgstr "Este '%s' objeto será borrado:"
 
 #: include/class_msgPool.inc:87
 #, php-format
 msgid "These objects will be deleted: %s"
-msgstr ""
+msgstr "Estos objetos serán borrados: %s"
 
 #: include/class_msgPool.inc:89
 #, php-format
 msgid "These '%s' objects will be deleted: %s"
-msgstr ""
+msgstr "These '%s' objects will be deleted: %s"
 
 #: include/class_msgPool.inc:101
 msgid "You have no permission to delete this object!"
-msgstr ""
+msgstr "¡Usted no posee permisos para borrar este objeto!"
 
 #: include/class_msgPool.inc:105 include/class_msgPool.inc:109
 msgid "You have no permission to delete the object:"
-msgstr ""
+msgstr "Usted no posee permisos para borrar el objeto:"
 
 #: include/class_msgPool.inc:112
 msgid "You have no permission to delete these objects:"
-msgstr ""
+msgstr "Usted no posee permisos para borrar estos objetos:"
 
 #: include/class_msgPool.inc:123
 msgid "You have no permission to create this object!"
@@ -2609,7 +2609,7 @@ msgstr ""
 #: include/class_msgPool.inc:517
 #, php-format
 msgid "Delete %s"
-msgstr ""
+msgstr "Borrar %s"
 
 #: include/class_msgPool.inc:527
 #, php-format
@@ -2843,7 +2843,7 @@ msgstr ""
 #: include/class_msgPool.inc:811
 #, php-format
 msgid "Cannot delete file '%s'!"
-msgstr ""
+msgstr "No se puede eliminar el archivo '%s'!"
 
 #: include/class_msgPool.inc:821
 #, php-format
@@ -2853,7 +2853,7 @@ msgstr ""
 #: include/class_msgPool.inc:831
 #, php-format
 msgid "Cannot delete folder '%s'!"
-msgstr ""
+msgstr "¡No se puede borrar el directorio '%s'!"
 
 #: include/class_msgPool.inc:841
 #, php-format
@@ -4237,7 +4237,7 @@ msgstr ""
 
 #: setup/class_setupStep_Checks.inc:164
 msgid "PHP uses this value for the garbage collector to delete old sessions."
-msgstr ""
+msgstr "PHP utiliza este valor para que el colector de basura borre las sesiones obsoletas."
 
 #: setup/class_setupStep_Checks.inc:165
 msgid ""
@@ -4665,7 +4665,7 @@ msgstr "La recuperación de contraseña no está disponible. Si usted perdió su
 msgid ""
 "This may be used by several groups. Please double check if your really want "
 "to do this since there is no way for FusionDirectory to get your data back."
-msgstr ""
+msgstr "Esto puede ser utilizado por diversos grupos. Por favor revise dos veces y asegúrese que usted realmente desea hacer esto ya que no hay forma de que FusionDirectory recupere sus datos."
 
 #: ihtml/themes/default/remove.tpl.c:8
 #: ihtml/themes/default/simple-remove.tpl.c:8
@@ -4701,11 +4701,11 @@ msgstr "Clic aquí para ingresar"
 
 #: ihtml/themes/default/acl.tpl.c:2
 msgid "Assigned ACL for current entry"
-msgstr ""
+msgstr "ACL asignad a la entrada actual"
 
 #: ihtml/themes/default/acl.tpl.c:5
 msgid "New ACL"
-msgstr ""
+msgstr "Nuevo ACL"
 
 #: ihtml/themes/default/acl.tpl.c:8
 msgid "ACL type"
@@ -4717,11 +4717,11 @@ msgstr "Elija un tipo de acl"
 
 #: ihtml/themes/default/acl.tpl.c:17
 msgid "Additional filter options"
-msgstr ""
+msgstr "Opciones adicionales de filtrado"
 
 #: ihtml/themes/default/acl.tpl.c:20
 msgid "Use members from"
-msgstr ""
+msgstr "Usar los miembros de"
 
 #: ihtml/themes/default/acl.tpl.c:23
 msgid "Available members"
@@ -4729,11 +4729,11 @@ msgstr "Miembros disponibles"
 
 #: ihtml/themes/default/acl.tpl.c:26 ihtml/themes/default/acl.tpl.c:29
 msgid "List message possible targets"
-msgstr ""
+msgstr "Listar los posibles destinatarios"
 
 #: ihtml/themes/default/acl.tpl.c:35 ihtml/themes/default/acl.tpl.c:38
 msgid "List message recipients"
-msgstr ""
+msgstr "Listar destinatarios del mensaje"
 
 #: ihtml/themes/default/acl.tpl.c:44
 msgid "ACL for this object"
@@ -4772,7 +4772,7 @@ msgstr "¡Recuerde que algunas de las propiedades como los 'snapshots' realizado
 msgid ""
 "Or if you copy or cut an entry within FusionDirectory and delete the source "
 "object, you may get errors while pasting this object again!"
-msgstr ""
+msgstr "O si usted copia o corta na entrada dentro de FusionDirectory y borra el objeto original, usted podría tener errores en el futuro cuando pegue este objeto nuevamente."
 
 #: ihtml/themes/default/copyPasteDialog.tpl.c:23
 msgid "Operation complete"
