@@ -1310,7 +1310,6 @@ sub check_deprecated {
   my ($obsolete_attrs, $obsolete_classes) = get_deprecated();
 
   my $filterAttrs   = '(|'.join('', (map{ '('.$_->{'name'}.'=*)' } @$obsolete_attrs)).')';
-  my $filterClasses = '(|'.join('', (map{ '(objectClass='.$_->{'name'}.')' } @$obsolete_classes)).')';
 
   # initiate the LDAP connexion
   my %hash_ldap_param = get_ldap_connexion();
@@ -1333,17 +1332,23 @@ sub check_deprecated {
     print "There are no entries in the LDAP using obsolete attributes\n";
   }
 
-  $entries = $ldap->search(
-    base    => "$base",
-    filter  => "$filterClasses",
-  );
-  $entries->code && die $entries->error;
+  my $useobsoletes = 0;
+  foreach my $class (@$obsolete_classes) {
+    $entries = $ldap->search(
+      base    => "$base",
+      filter  => '(objectClass='.$class->{'name'}.')',
+    );
+    $entries->code && die $entries->error;
 
-  if ($entries->count > 0) {
-    while (my $entry = $entries->shift_entry) {
-      print $entry->dn." uses an obsolete object class\n";
+    if ($entries->count > 0) {
+      $useobsoletes = 1;
+      while (my $entry = $entries->shift_entry) {
+        print $entry->dn." uses the obsolete object class ".$class->{'name'}."\n";
+      }
     }
-  } else {
+  }
+
+  if (!$useobsoletes) {
     print "There are no entries in the LDAP using obsolete classes\n";
   }
 }
@@ -1353,6 +1358,7 @@ sub ldif_deprecated {
   my ($obsolete_attrs, $obsolete_classes) = get_deprecated();
 
   my $filterAttrs   = '(|'.join('', (map{ '('.$_->{'name'}.'=*)' } @$obsolete_attrs)).')';
+  my $filterClasses = '(|'.join('', (map{ '(objectClass='.$_->{'name'}.')' } @$obsolete_classes)).')';
 
   # initiate the LDAP connexion
   my %hash_ldap_param = get_ldap_connexion();
@@ -1380,6 +1386,18 @@ sub ldif_deprecated {
     }
   } else {
     print "# There are no entries in the LDAP using obsolete attributes\n";
+  }
+
+  $entries = $ldap->search(
+    base    => "$base",
+    filter  => "$filterClasses",
+  );
+  $entries->code && die $entries->error;
+
+  if ($entries->count > 0) {
+    print "# WARNING: There are entries in the LDAP using obsolete classes, you need to edit them manually\n";
+  } else {
+    print "# There are no entries in the LDAP using obsolete classes\n";
   }
 }
 
