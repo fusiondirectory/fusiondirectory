@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2015-09-11 22:07+0200\n"
-"PO-Revision-Date: 2015-09-18 22:04+0000\n"
+"PO-Revision-Date: 2015-09-22 19:20+0000\n"
 "Last-Translator: Miguel Ortiz <daychuzleo@gmail.com>\n"
 "Language-Team: Spanish (Colombia) (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/es_CO/)\n"
 "MIME-Version: 1.0\n"
@@ -1722,13 +1722,13 @@ msgstr "Rastreo de errores"
 
 #: plugins/config/class_configInLdap.inc:341
 msgid "Display errors"
-msgstr ""
+msgstr "Mostrar errores"
 
 #: plugins/config/class_configInLdap.inc:342
 msgid ""
 "Shows PHP errors in the upper part of the screen. This should be disabled in"
 " productive deployments, because there might be some passwords in it."
-msgstr ""
+msgstr "Muesta los errores PHP en la parte superior de la pantalla. esto debería estar deshabilitado en entornos productivos, ya que, en algunos casos podrían mostrarse contraseñas allí."
 
 #: plugins/config/class_configInLdap.inc:346
 msgid "Maximum LDAP query time"
@@ -1748,7 +1748,7 @@ msgstr "Escribir logs de las estadísticas LDAP."
 msgid ""
 "Track LDAP timing statistics to the syslog. This may help to find indexing "
 "problems or bad search filters."
-msgstr ""
+msgstr "Registrar estadísticas de tiempo de LDAP en 'syslog'. Esto puede ser útil para encontrar problemas o filtros de búsqueda erróneos."
 
 #: plugins/config/class_configInLdap.inc:357
 msgid "Debug level"
@@ -1756,7 +1756,7 @@ msgstr "Nivel del 'Rastreo de Errores'"
 
 #: plugins/config/class_configInLdap.inc:358
 msgid "Display certain information on each page load."
-msgstr ""
+msgstr "Mostrar determinados datos en cada página de carga."
 
 #: plugins/config/class_configInLdap.inc:370
 msgid "Miscellaneous"
@@ -1979,11 +1979,11 @@ msgstr "Cantidad de dígitos a usar después del prefijo."
 
 #: plugins/config/class_dashBoardConfig.inc:51
 msgid "Prefixes"
-msgstr ""
+msgstr "Prefijos"
 
 #: plugins/config/class_dashBoardConfig.inc:51
 msgid "Prefixes to be used for computer ids"
-msgstr ""
+msgstr "Prefijos que se usarán para las 'id' de computadoras."
 
 #: plugins/config/class_dashBoardConfig.inc:59
 msgid "Dashboard expired users"
@@ -2206,7 +2206,7 @@ msgstr ""
 #: html/class_passwordRecovery.inc:495 setup/class_setupStep_Migrate.inc:451
 #: setup/class_setupStep_Migrate.inc:1119
 msgid "LDAP error"
-msgstr ""
+msgstr "Error LDAP"
 
 #: include/class_config.inc:337
 msgid "Cannot bind to LDAP. Please contact the system administrator."
@@ -2215,14 +2215,14 @@ msgstr "No se puede contactar a LDAP. Por favor contacte al adminsitrador del si
 #: include/class_config.inc:480
 #, php-format
 msgid "The selected mail method (class %s) is not available"
-msgstr ""
+msgstr "El método de mail seleccionado (class%s) no está disponible."
 
 #: include/class_config.inc:1045
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required variable '%s' is not"
 " set."
-msgstr ""
+msgstr "La característica 'snapshot' está habilitada, pero la variable '%s' requerida no está configurada."
 
 #: include/class_config.inc:1058
 #, php-format
