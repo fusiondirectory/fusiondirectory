@@ -132,15 +132,15 @@ class ogroup extends simplePlugin
   var $used_workstations = array();
 
   static $objectTypes = array(
-    "U" => "user",
-    "G" => "group",
-    "A" => "application",
-    "S" => "server",
-    "W" => "workstation",
-    "O" => "winstation",
-    "T" => "terminal",
-    "F" => "phone",
-    "P" => "printer"
+    'U' => 'user',
+    'G' => 'group',
+    'A' => 'application',
+    'S' => 'server',
+    'W' => 'workstation',
+    'O' => 'winstation',
+    'T' => 'terminal',
+    'F' => 'phone',
+    'P' => 'printer'
   );
 
   static function plInfo()
@@ -159,14 +159,16 @@ class ogroup extends simplePlugin
         'tabClass'    => 'ogrouptabs',
       )),
       'plForeignKeys'  => array(
-        'member' => array_values(
-          array_map(
-            function ($a)
-            {
-              return array($a);
-            },
-            self::$objectTypes
-          )
+        'member' => array(
+          array('user'),
+          array('group'),
+          array('applicationGeneric'),
+          array('serverGeneric'),
+          array('workstationGeneric'),
+          array('winstationGeneric'),
+          array('terminalGeneric'),
+          array('phoneGeneric'),
+          array('printGeneric'),
         )
       ),
 
