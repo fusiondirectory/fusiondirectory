@@ -133,7 +133,7 @@
 .\" ========================================================================
 .\"
 .IX Title "FUSIONDIRECTORY-SETUP 1"
-.TH FUSIONDIRECTORY-SETUP 1 "2015-06-11" "FusionDirectory 1.0.9" "FusionDirectory Documentation"
+.TH FUSIONDIRECTORY-SETUP 1 "2015-09-22" "FusionDirectory 1.0.9" "FusionDirectory Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -143,7 +143,7 @@ fusiondirectory\-setup \- FusionDirectory setup script
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
 This script is designed to perform multiple checks on your FusionDirectory/LDAP architecture, and fix usual misconfiguration.
-Some extra features allow you to install FusionDirectory's plugins, changes destinations directories, and migrate your old FAIrepositories.
+Some extra features allow you to install FusionDirectory's plugins, and change destinations directories.
 .SS "Options"
 .IX Subsection "Options"
 .IP "\-\-update\-cache" 4
@@ -162,27 +162,39 @@ This option perform a check on FusionDirectory's config file.
 .IP "\-\-check\-ldap" 4
 .IX Item "--check-ldap"
 This option check your \s-1LDAP\s0 tree. Looking for admin account, and groups or people branch. If one of those don't exists, the script will ask you what to do.
-.IP "\-\-migrate\-repositories" 4
-.IX Item "--migrate-repositories"
-This option check the fairepository object in your ldap tree and add the new option for FusionDirectory 1.0.2.
 .IP "\-\-migrate\-users" 4
 .IX Item "--migrate-users"
 This option add FusionDirectory attributes to the people branch.
+.IP "\-\-migrate\-acls" 4
+.IX Item "--migrate-acls"
+This option will migrated old GOsa style acl from 1.0.7 into FusionDirectory acl roles in 1.0.8
 .IP "\-\-install\-plugins" 4
 .IX Item "--install-plugins"
 This option will install the plugin from a tar.gz of the plugin. This option is intended for people wanting to install from the sources.
 .IP "\-\-encrypt\-passwords" 4
 .IX Item "--encrypt-passwords"
 This option will encrypt the password inside your fusiondirectory.conf file, it need the headers module to be activated in your apache to work.
+.IP "\-\-show\-version" 4
+.IX Item "--show-version"
+This option will parse the file variables_common.inc of FusionDirectory to find out which version of FusionDirectory is installed.
 .IP "\-\-list_vars" 4
 .IX Item "--list_vars"
 This option will list the variables you can change to install FusionDirectory on another set of directories. This option is intended for people wanting to install from the sources.
-.IP "\-\-set\-VAR=variable" 4
-.IX Item "--set-VAR=variable"
-This option will change the variable for the FusionDirectory installation. it is only useful with \-\-install\-directories and for people installing from sources.
 .IP "\-\-write\-vars" 4
 .IX Item "--write-vars"
 This option will write back the variables.inc file with the updated variables and is only useful with \-\-set\-VAR=variable and for people installing from sources.
+.IP "\-\-set\-VAR=variable" 4
+.IX Item "--set-VAR=variable"
+This option will change the variable for the FusionDirectory installation. it is only useful with \-\-install\-directories and for people installing from sources.
+.IP "\-\-list\-deprecated" 4
+.IX Item "--list-deprecated"
+This option will list the deprecated attributes and objectclasses still in your schemas and no longer used by FusionDirectory.
+.IP "\-\-check\-deprecated" 4
+.IX Item "--check-deprecated"
+This option will list the dn of \s-1LDAP\s0 entries using deprecated attributes or objectclasses and no longer used by FusionDirectory.
+.IP "\-\-ldif\-deprecated" 4
+.IX Item "--ldif-deprecated"
+This option will print an \s-1LDIF\s0 to allow you to remove deprecated attributes from you ldap server. Be carefull and check before applying.
 .IP "\-\-yes" 4
 .IX Item "--yes"
 This flag will answer \*(L"yes\*(R" to every yes/no question asked by the script
@@ -207,7 +219,7 @@ This flag will answer \*(L"yes\*(R" to every yes/no question asked by the script
 \&locale_dir              [locale]
 \&class_cache             [class.cache]
 \&fd_config_dir           [/etc/fusiondirectory]
-\&fd_home                 [/var/www/fusiondirectory]
+\&fd_home [/var/www/fusiondirectory]
 \&
 \&
 \& benoit@catbert$ fusiondirectory\-setup \-\-set\-class_cache=class.cache \-\-write\-vars
