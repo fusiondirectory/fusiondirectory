@@ -7,9 +7,9 @@
     {foreach from=$attributes.stats item=stat}
     <li>
 {if isset($stat.href)}
-      <a href="{$stat.href}"><img style="vertical-align:middle;" src="{$stat.img}" alt=""/>&nbsp;{$stat.name}&nbsp;: {$stat.nb}</a>
+      <a href="{$stat.href}"><img style="vertical-align:middle;" src="{$stat.img|escape}" alt=""/>&nbsp;{$stat.name}&nbsp;: {$stat.nb}</a>
 {else}
-      <img style="vertical-align:middle;" src="{$stat.img}" alt=""/>&nbsp;{$stat.name}&nbsp;: {$stat.nb}
+      <img style="vertical-align:middle;" src="{$stat.img|escape}" alt=""/>&nbsp;{$stat.name}&nbsp;: {$stat.nb}
 {/if}
     </li>
     {/foreach}

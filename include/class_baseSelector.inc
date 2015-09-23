@@ -101,18 +101,6 @@ class baseSelector {
   }
 
   /*!
-   * \brief Check the base value
-   *
-   * \param String $base The base value which will be checked
-   *
-   * \return boolean
-   */
-  function checkBase($base)
-  {
-    return isset($this->pathMapping[$base]);
-  }
-
-  /*!
    * \brief Check the last base value updated
    *
    * \return Boolean the last state of the object
@@ -132,14 +120,13 @@ class baseSelector {
     global $config;
 
     $this->pathMapping = array();
-    $selected = ($this->base == $config->current['BASE']);
 
     foreach ($bases as $base => $dummy) {
       // Build path style display
       $elements = explode(',', substr($base, 0, strlen($base) - strlen($config->current['BASE'])));
       $elements = array_reverse($elements, TRUE);
 
-      $this->pathMapping[$base] = ($selected? '/' : ldap::fix(preg_replace('/(^|,)[a-z0-9]+=/i', '/', implode(',', $elements))));
+      $this->pathMapping[$base] = (($base == $config->current['BASE']) ? '/' : ldap::fix(preg_replace('/(^|,)[a-z0-9]+=/i', '/', implode(',', $elements))));
     }
 
     // Save bases to session for autocompletion
@@ -202,7 +189,13 @@ class baseSelector {
     }
 
     $link = "onclick=\"\$('bs_rebase_".$this->pid."').value='".base64_encode($config->current['BASE'])."';  $('submit_tree_base_".$this->pid."').click();\"";
-    $this->tree = "<input class='base_selector' type='text' name='".$this->getInputHtmlId()."' id='".$this->getInputHtmlId()."' onkeydown=\"\$('bs_".$this->pid."').hide()\" onfocus=\"\$('bs_".$this->pid."').hide()\" onmouseover=\"Element.clonePosition(\$('bs_".$this->pid."'), '".$this->getInputHtmlId()."', {setHeight: false, setWidth: false, offsetTop:(Element.getHeight('".$this->getInputHtmlId()."'))});\$('bs_".$this->pid."').show();\" onmouseout=\"rtimer= Element.hide.delay(0.25, 'bs_".$this->pid."')\" value=\"".preg_replace('/"/', '&quot;', $this->pathMapping[$this->base])."\">";
+    $this->tree = '<input class="base_selector" type="text" name="'.$this->getInputHtmlId().'"'.
+                  ' id="'.$this->getInputHtmlId().'"'.
+                  ' onkeydown="$(\'bs_'.$this->pid.'\').hide()"'.
+                  ' onfocus="$(\'bs_'.$this->pid.'\').hide()"'.
+                  ' onmouseover="Element.clonePosition($(\'bs_'.$this->pid.'\'), \''.$this->getInputHtmlId().'\', {setHeight: false, setWidth: false, offsetTop:(Element.getHeight(\''.$this->getInputHtmlId().'\'))});$(\'bs_'.$this->pid.'\').show();"'.
+                  ' onmouseout="rtimer= Element.hide.delay(0.25, \'bs_'.$this->pid.'\')"'.
+                  ' value="'.htmlentities($this->pathMapping[$this->base], ENT_COMPAT, 'UTF-8').'"/>';
 
     // Autocompleter
     $this->tree .= "<div id='autocomplete_".$this->pid."' class='autocomplete'></div>".
@@ -266,7 +259,7 @@ class baseSelector {
 
     // Draw submitter if required
     if ($this->submitButton) {
-      $this->tree .= "&nbsp;<input class='center' type='image' src='images/lists/submit.png' title='"._("Submit")."' name='submit_base_".$this->pid."' id='submit_base_".$this->pid."' alt='"._("Submit")."'>";
+      $this->tree .= "&nbsp;<input class='center' type='image' src='geticon.php?context=actions&amp;icon=submit&amp;size=16' title='"._("Submit")."' name='submit_base_".$this->pid."' id='submit_base_".$this->pid."' alt='"._("Submit")."'>";
     }
     $this->tree .= "<input type='submit' style='display:none' name='submit_tree_base_".$this->pid."' id='submit_tree_base_".$this->pid."'>";
     $this->tree .= "<input type='hidden' name='bs_rebase_".$this->pid."' id='bs_rebase_".$this->pid."'>";
@@ -305,25 +298,6 @@ class baseSelector {
   function getBase()
   {
     return $this->base;
-  }
-
-  /*!
-   * \brief Accessor of the action
-   *
-   * \return action of the object if exists
-   */
-  function getAction()
-  {
-    // Do not do anything if this is not our BPID, or there's even no BPID available...
-    if (!isset($_REQUEST['BPID']) || ($_REQUEST['BPID'] != $this->pid)) {
-      return;
-    }
-
-    if ($this->action) {
-      return array("targets" => array($this->base), "action" => $this->action);
-    }
-
-    return NULL;
   }
 }
 ?>

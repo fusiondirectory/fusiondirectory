@@ -21,23 +21,18 @@
 
 class groupManagement extends simpleManagement
 {
-  protected $objectTypes  = array('group', 'role');
-
-  protected $departmentBrowser      = TRUE;
-  protected $departmentRootVisible  = FALSE;
-  protected $baseMode               = TRUE;
+  protected $objectTypes  = array('ogroup', 'role', 'group');
 
   protected $autoFilter = FALSE;
 
-  /* Return plugin informations for acl handling */
   static function plInfo()
   {
     return array(
-      'plShortName'   => _('Groups'),
-      'plDescription' => _('Manage groups'),
-      'plIcon'        => 'geticon.php?context=types&icon=user-group&size=48',
+      'plShortName'   => _('Groups and roles'),
+      'plDescription' => _('Manage groups and roles'),
+      'plIcon'        => 'geticon.php?context=types&icon=resource-group&size=48',
       'plSection'     => 'accounts',
-      'plManages'     => array('group', 'role'),
+      'plManages'     => array('ogroup', 'group', 'role'),
       'plPriority'    => 20,
 
       'plProvidedAcls' => array()
@@ -53,8 +48,11 @@ class groupManagement extends simpleManagement
     $this->headpage->registerElementFilter('filterProperties', 'groupManagement::filterProperties');
   }
 
-  static function filterProperties($row, $dn)
+  static function filterProperties($row, $dn, $gosaGroupObjects = NULL)
   {
+    if (!empty($gosaGroupObjects)) {
+      return self::filterGroupObjects($row, $gosaGroupObjects);
+    }
     global $config;
     static $grouptabs = array();
     if (empty($grouptabs)) {
@@ -73,18 +71,20 @@ class groupManagement extends simpleManagement
     // Load information if needed
     $ldap = $config->get_ldap_link();
     $ldap->cat($dn);
-    $result = "<input class='center' type='image' src='geticon.php?context=types&icon=user-group&size=16' ".
+    $result = "<input class='center' type='image' src='geticon.php?context=types&amp;icon=user-group&amp;size=16' ".
                        "alt='"._('Posix')."' title='"._('Edit posix properties')."' ".
                        "name='listing_edit_tab_group_$row' style='padding:1px'/>";
     if ($attrs = $ldap->fetch()) {
       if (!objects::isOfType($attrs, 'group')) {
-        return '';
+        return '<input class="center" type="image" src="geticon.php?context=types&amp;icon=role&amp;size=16" '.
+                 'alt="'._('Role').'" title="'._('Edit role properties').'" '.
+                 'name="listing_edit_'.$row.'" style="padding:1px"/>';
       }
       foreach ($grouptabs as $class => $grouptab) {
         if ($grouptab->is_this_account($attrs)) {
           $infos = pluglist::pluginInfos($class);
           if (isset($infos['plSmallIcon'])) {
-            $result .= "<input class='center' type='image' src='".$infos['plSmallIcon']."' ".
+            $result .= "<input class='center' type='image' src='".htmlentities($infos['plSmallIcon'], ENT_COMPAT, 'UTF-8')."' ".
                        "alt='".$infos['plShortName']."' title='".$infos['plShortName']."' ".
                        "name='listing_edit_tab_".$class."_$row' style='padding:1px'/>";
           } else {
@@ -99,15 +99,49 @@ class groupManagement extends simpleManagement
     return $result;
   }
 
+  static function filterGroupObjects($row, $gosaGroupObjects)
+  {
+    $types  = preg_replace("/[^a-z]/i", "", $gosaGroupObjects[0]);
+    $result = "";
+    for ($i = 0; $i < strlen($types); $i++) {
+      if ($types[$i] == 'I') {
+        continue;
+      }
+      $info   = objects::infos(ogroup::$objectTypes[$types[$i]]);
+      $result .= '<img class="center" src="'.htmlentities($info['icon'], ENT_COMPAT, 'UTF-8').'" '.
+        'alt="'.$info['name'].'" title="'.$info['name'].'" style="padding:1px"/>';
+    }
+    if ($result == "") {
+      return '&nbsp;';
+    }
+    return $result;
+  }
+
   function renderList()
   {
     $smarty = get_smarty();
     $filters = array(
-      array('id'  => 'PRIMARY', 'label'  => _('Show primary groups')),
-      array('id'  => 'SAMBA',   'label'  => _('Show samba groups')),
-      array('id'  => 'MAIL',    'label'  => _('Show mail groups')),
-      array('id'  => 'ROLE',    'label'  => _('Show organizational roles')),
+      array('id'  => 'USER',        'label'  => _('Show user groups')),
+      array('id'  => 'PRIMARY',     'label'  => _('Show primary groups')),
+      array('id'  => 'SAMBA',       'label'  => _('Show samba groups')),
+      array('id'  => 'MAIL',        'label'  => _('Show mail groups')),
+      array('id'  => 'ROLE',        'label'  => _('Show organizational roles')),
+      array('id'  => 'APPLICATION', 'label'  => _('Show application groups')),
+      array('id'  => 'DEPARTMENT',  'label'  => _('Show department groups')),
     );
+    if (class_available('systemManagement')) {
+      $filters = array_merge(
+        $filters,
+        array(
+          array('id'  => 'SERVER',      'label'  => _('Show server groups')),
+          array('id'  => 'WORKSTATION', 'label'  => _('Show workstation groups')),
+          array('id'  => 'WINDOWS',     'label'  => _('Show windows groups')),
+          array('id'  => 'TERMINAL',    'label'  => _('Show terminal groups')),
+          array('id'  => 'PRINTER',     'label'  => _('Show printer groups')),
+          array('id'  => 'PHONE',       'label'  => _('Show phone groups')),
+        )
+      );
+    }
     $smarty->assign('objectFilters', $filters);
     return management::renderList();
   }

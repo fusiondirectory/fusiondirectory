@@ -35,11 +35,11 @@
     <div id="e_layerTitle{$i_ID}" class="msgtitle">
       <h2>
       {if $i_Type == $smarty.const.ERROR_DIALOG}
-        <img src="geticon.php?context=status&icon=dialog-error&size=32" class="center" alt="{t}Error{/t}"/>
+        <img src="geticon.php?context=status&amp;icon=dialog-error&amp;size=32" class="center" alt="{t}Error{/t}"/>
       {elseif $i_Type == $smarty.const.WARNING_DIALOG}
-        <img src="geticon.php?context=status&icon=dialog-warning&size=32" class="center"  alt="{t}Warning{/t}"/>
+        <img src="geticon.php?context=status&amp;icon=dialog-warning&amp;size=32" class="center"  alt="{t}Warning{/t}"/>
       {elseif $i_Type == $smarty.const.INFO_DIALOG || $i_Type == $smarty.const.CONFIRM_DIALOG}
-        <img src="geticon.php?context=status&icon=dialog-information&size=32" class="center" alt="{t}Information{/t}"/>
+        <img src="geticon.php?context=status&amp;icon=dialog-information&amp;size=32" class="center" alt="{t}Information{/t}"/>
       {/if}
         {$s_Title}
       </h2>

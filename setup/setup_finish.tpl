@@ -1,22 +1,20 @@
-<div class='default'>
+<div class="default">
   <p>
     <b>{t}Create your configuration file{/t}</b>
   </p>
-  <p> 
+  <p>
     {$msg2}
   </p>
-      {t}Run {/t}
-       <a style='color:black ; font-weight:bold '>   fusiondirectory-setup --check-config</a>
-      {t}to put the correct right on fusiondirectory.conf{/t}
-  <p> 
-    <input type='submit' name='getconf' value='{t}Download configuration{/t}'>
+  <p>
+    {t escape=no 1="<strong>fusiondirectory-setup --check-config</strong>"}Run %1 to put the correct right on fusiondirectory.conf{/t}
+  </p>
+  <p>
+    <input type="submit" name="getconf" value="{t}Download configuration{/t}"/>
   </p>
     {if $err_msg != ""}
       <hr/>
       <br/>
       {t}Status: {/t}
-      <a style='color:red ; font-weight:bold '>{$err_msg}</a>
+      <strong>{$err_msg}</strong>
     {/if}
-
 </div>
-<input type='hidden' value='1' name='step8_posted'>

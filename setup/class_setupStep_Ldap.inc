@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2007  Fabian Hickert
@@ -20,35 +19,88 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class Step_Ldap extends setup_step
+class Step_Ldap extends setupStep
 {
-  var $connection   = "ldap://localhost:389";
-  var $location     = "default";
-  var $admin        = "";
-  var $password     = "";
-  var $base         = "";
-  var $admin_given  = "";
-
-  var $append_base_to_admin_dn = TRUE;
+  var $header_image = 'geticon.php?context=places&icon=network-server&size=48';
 
   var $connect_id = FALSE;
   var $bind_id    = FALSE;
 
-  var $resolve_filter = "*";
-  var $resolve_user   = FALSE;
-  var $tls            = FALSE;
-
-  var $rfc2307bis = FALSE;
-  var $attributes = array("connection","location","admin","password","base","admin_given",
-                          "append_base_to_admin_dn","tls","rfc2307bis");
-
-  var $header_image = 'geticon.php?context=places&icon=network-server&size=48';
+  static function getAttributesInfo()
+  {
+    return array(
+      'connection' => array(
+        'name'      => _('LDAP connexion'),
+        'attrs'     => array(
+          new StringAttribute(
+            _('Location name'), _('Name of this connexion to show in the LDAP server list'),
+            'location', TRUE,
+            'default'
+          ),
+          new StringAttribute(
+            _('Connection URI'), _('URI to contact the LDAP server. Usually starts with ldap://'),
+            'connection', TRUE,
+            'ldap://localhost:389'
+          ),
+          new BooleanAttribute(
+            _('TLS connection'), _('Should TLS be used to connect to this LDAP server?'),
+            'tls', FALSE
+          ),
+          new SelectAttribute(
+            _('Base'), _('The LDAP directory base'),
+            'base', TRUE
+          )
+        )
+      ),
+      'auth' => array(
+        'name'      => _('Authentication'),
+        'attrs'     => array(
+          new CompositeAttribute(
+            _('DN of the admin account to use for binding to the LDAP. Base is automatically appended.'),
+            'admin',
+            array(
+              new StringAttribute(
+                '', '',
+                'admin_given', TRUE,
+                'cn=admin'
+              ),
+              new DisplayAttribute(
+                '', '', 'base_append'
+              )
+            ),
+            '^(.+)(.*)$',
+            '%s%s',
+            '',
+            _('Admin DN')
+          ),
+          new PasswordAttribute(
+            _('Admin password'), _('Password for the admin account to use for binding to the LDAP'),
+            'password', TRUE
+          ),
+        )
+      ),
+      'status' => array(
+        'name'      => _('Status'),
+        'attrs'     => array(
+          new DisplayAttribute(
+            _('Current status'), _('Result of last attempt at checking LDAP binding and basic schemas'),
+            'status', FALSE
+          ),
+        )
+      )
+    );
+  }
 
   function __construct()
   {
+    parent::__construct();
     $this->update_strings();
+    $this->attributesAccess['base']->setSubmitForm(TRUE);
+    $this->attributesAccess['admin']->setLinearRendering(TRUE);
+    $this->attributesAccess['status']->setAllowHTML(TRUE);
+    $this->update_base_choices();
+    $this->status = $this->get_connection_status();
   }
-
 
   function update_strings()
   {
@@ -57,43 +109,36 @@ class Step_Ldap extends setup_step
     $this->s_info       = _("This dialog performs the basic configuration of the LDAP connectivity for FusionDirectory.");
   }
 
-
-  function execute()
+  function update_base_choices()
   {
-    global $BASE_DIR;
-    $smarty = get_smarty();
-    foreach ($this->attributes as $attr) {
-      $smarty->assign($attr, htmlentities($this->$attr, ENT_QUOTES, "UTF-8"));
-    }
-
-    /* Assign connection status */
-    $smarty->assign("connection_status", $this->get_connection_status());
-
-    /* Handle namingContext detection */
     $attr = @LDAP::get_naming_contexts($this->connection);
     unset($attr['count']);
-    if (!empty($attr) && !in_array($this->base, $attr)) {
-      $this->base = $attr[0];
-    }
-    $smarty->assign("namingContexts", $attr);
-    $smarty->assign("namingContextsCount", count($attr));
-    $smarty->assign("bool", array(FALSE => _("No"), TRUE => _("Yes")));
+    $this->attributesAccess['base']->setChoices($attr);
+    $this->attributesAccess['admin']->attributes[1]->setValue(','.$this->base);
+  }
 
-    /* Assign resolved users */
-    $smarty->assign("resolve_user", $this->resolve_user);
-    if ($this->resolve_user) {
-      $tmp = $this->resolve_user();
-      $smarty->assign("resolved_users", $tmp);
-      $smarty->assign("resolved_users_count", count($tmp));
-      $smarty->assign("resolve_filter", $this->resolve_filter);
+  function save_object()
+  {
+    $base       = $this->base;
+    $connection = $this->connection;
+    parent::save_object();
+    $this->connection = preg_replace("/\/$/", "", $this->connection);
+    if (($this->base != $base) || ($this->connection != $connection)) {
+      $this->parent->disable_steps_from(($this->parent->step_name_to_id(get_class($this))) + 1);
+      if ($this->connection != $connection) {
+        $this->update_base_choices();
+      }
     }
 
-    $base_to_append = $this->base;
-    if (strlen($base_to_append) > 20) {
-      $base_to_append = substr($base_to_append, 0, 17)."...";
+    $this->attributesAccess['admin']->attributes[1]->setValue(','.$this->base);
+
+    $this->status = $this->get_connection_status();
+    if ($this->bind_id && !empty($this->admin) && !empty($this->base)) {
+      $this->is_completed = TRUE;
+      $this->parent->read_ldap_config();
+    } else {
+      $this->is_completed = FALSE;
     }
-    $smarty->assign("base_to_append", $base_to_append);
-    return $smarty->fetch("$BASE_DIR/setup/setup_ldap.tpl");
   }
 
   function get_connection_status()
@@ -117,112 +162,41 @@ class Step_Ldap extends setup_step
     }
 
     if (!$this->bind_id) {
-      $str = sprintf(_("Anonymous bind to server '%s' failed!"), $this->connection);
-      if (!empty($this->admin)) {
+      if (empty($this->admin)) {
+        $str = sprintf(_("Anonymous bind to server '%s' failed!"), $this->connection);
+      } else {
         $str = sprintf(_("Bind as user '%s' failed!"), $this->admin, $this->connection);
       }
-      return "<div style='color:red;'>".htmlentities($str, ENT_QUOTES, "UTF-8")."</div>";
+      return "<div style='color:red;'>".$str."</div>";
     } else {
       if (empty($this->admin)) {
         $str = sprintf(_("Anonymous bind to server '%s' succeeded."), $this->connection);
-        return "<div style='color:blue;'>".htmlentities($str, ENT_QUOTES, "UTF-8")."</div> <div style='color:red;'>"._("Please specify user and password!")."</div>";
+        return "<div style='color:blue;'>".$str."</div> <div style='color:red;'>"._("Please specify user and password!")."</div>";
       } else {
         $str = sprintf(_("Bind as user '%s' to server '%s' succeeded!"), $this->admin, $this->connection);
-        return "<div style='color:green;'>".htmlentities($str, ENT_QUOTES, "UTF-8")."</div>";
+        return "<div style='color:green;'>".$str."</div>";
       }
     }
   }
 
-
-  function resolve_user()
+  function check()
   {
-    $filter = $this->resolve_filter;
-
-    /* Establish ldap connection */
-    $ldap_l = new LDAP("", "", $this->connection, FALSE, $this->tls);
-    $ldap   = new ldapMultiplexer($ldap_l);
-    $ldap->cd($this->base);
-    $ldap->search("(&(objectClass=person)(|(uid=".$filter.")(cn=".$filter.")))");
-    $tmp = array();
-    while ($attrs = $ldap->fetch()) {
-      $tmp[base64_encode($attrs['dn'])] = LDAP::fix($attrs['dn']);
-      natcasesort($tmp);
-    }
-    return $tmp;
-  }
-
-
-  function save_object()
-  {
-    $reset = FALSE;
-    foreach ($this->attributes as $attr) {
-      if (isset($_POST[$attr])) {
-        if (in_array($attr, array("base","connection")) && $this->$attr != get_post($attr)) {
-          $reset = TRUE;
-        }
-        $this->$attr = $_POST[$attr];
-      }
-    }
-
-    $this->connection = preg_replace("/\/$/", "", $this->connection);
-
-    if ($reset) {
-      $this->parent->disable_steps_from(($this->parent->step_name_to_id(get_class($this))) + 1);
-      $attr = @LDAP::get_naming_contexts($this->connection);
-      if (is_array($attr) && !in_array(get_post("base"), $attr)) {
-        if (isset($attr[0])) {
-          $this->base = $attr[0];
+    $error = parent::check();
+    if (!empty($error)) {
+      return $error;
+    } elseif ($this->is_completed) {
+      $checked  = check_schema($this->parent->captured_values);
+      $error    = array();
+      foreach ($checked as $check) {
+        if (!$check['STATUS']) {
+          $error[] = $check['MSG'];
         }
       }
-    }
-
-    if ($this->resolve_user) {
-      if (isset($_POST['resolve_user'])) {
-        $this->resolve_user = FALSE;
-      } else {
-        if (isset($_POST['resolve_filter'])) {
-          $this->resolve_filter = get_post('resolve_filter');
-        }
-        if (isset($_POST['use_selected_user'])) {
-          if (isset($_POST['admin_to_use'])) {
-            $this->admin_given = base64_decode(get_post('admin_to_use'));
-            $this->append_base_to_admin_dn = FALSE;
-            $this->resolve_user = FALSE;
-          }
-        }
+      if (!empty($error)) {
+        $this->is_completed = FALSE;
       }
-    } else {
-      if (isset($_POST['resolve_user_x'])) {
-        $this->resolve_user = TRUE;
-      } else {
-        if (isset($_POST['append_base_to_admin_dn'])) {
-          $this->append_base_to_admin_dn = TRUE;
-        } else {
-          $this->append_base_to_admin_dn = FALSE;
-        }
-      }
-    }
-
-    /* Hide backward forward button*/
-    $this->dialog = $this->resolve_user;
-
-    if ($this->append_base_to_admin_dn) {
-      $base = $this->base;
-      if (!preg_match("/,$/", $this->admin_given)) {
-        $base = ",".$base;
-      }
-      $this->admin = $this->admin_given.$base;
-    } else {
-      $this->admin = $this->admin_given;
-    }
-
-    $this->get_connection_status();
-    if ($this->bind_id && !empty($this->admin) && !empty($this->base)) {
-      $this->is_completed = TRUE;
-    } else {
-      $this->is_completed = FALSE;
+      return $error;
     }
   }
 }
-
 ?>

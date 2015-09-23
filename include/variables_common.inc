@@ -63,11 +63,11 @@ define("FPDF_FONTPATH", "/usr/share/php/fpdf/font/"); /*! Define fpdf font path 
 /*!
  * \brief FusionDirectory Version
  */
-define ("FD_VERSION", "1.0.8.9"); /*! Define FusionDirectory version */
+define ("FD_VERSION", "1.0.9"); /*! Define FusionDirectory version */
 
 /*!
  * \brief FusionDirectory config object RDN
  */
-define ("CONFIGRDN", "cn=fusiondirectory,ou=configs,"); /*! Define FusionDirectory config object */
+define ("CONFIGRDN", "cn=config,ou=fusiondirectory,"); /*! Define FusionDirectory config object */
 
 ?>

@@ -19,21 +19,32 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class Step_Welcome  extends setup_step
+class Step_Welcome extends setupStep
 {
-  var $languages      = array();
-  var $attributes     = array();
-  var $header_image   = 'geticon.php?context=applications&icon=config-welcome&size=48';
-  var $authPath;
+  var $header_image = 'geticon.php?context=applications&icon=config-welcome&size=48';
+
+  static function getAttributesInfo()
+  {
+    return array(
+      'welcome' => array(
+        'name'      => _('Welcome'),
+        'template'  => get_template_path("setup_welcome.tpl", TRUE, dirname(__FILE__)),
+        'attrs'     => array(
+        )
+      )
+    );
+  }
 
   function __construct()
   {
+    parent::__construct();
+
     $this->is_enabled     = TRUE;
     $this->is_active      = TRUE;
     $this->authPath       = CACHE_DIR.'fusiondirectory.auth';
-    $this->update_strings();
   }
 
+  /* We need to init them with a method to be able to use _() */
   function update_strings()
   {
     $this->s_title      = _("Welcome");
@@ -46,12 +57,13 @@ class Step_Welcome  extends setup_step
     $smarty = get_smarty();
     $smarty->assign('auth_id', session_id());
 
-    $smarty->assign("path", $this->authPath);
-    return $smarty->fetch(get_template_path("setup_welcome.tpl", TRUE, dirname(__FILE__)));
+    $smarty->assign('path', $this->authPath);
+    return parent::execute();
   }
 
   function save_object()
   {
+    parent::save_object();
     $id = "";
 
     /* Get auth ID from file */
@@ -66,7 +78,6 @@ class Step_Welcome  extends setup_step
     } else {
       $this->is_completed = FALSE;
     }
-
   }
 }
 

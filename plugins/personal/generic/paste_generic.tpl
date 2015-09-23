@@ -34,7 +34,7 @@
       <table>
         <tr>
         <td width="147" height="200" bgcolor="gray">
-          <img align="middle" border="0" width="100%" src="getbin.php?rand={$rand}" alt="{t}Personal picture{/t}">
+          <img align="middle" border="0" width="100%" src="getbin.php?rand={$rand|escape}" alt="{t}Personal picture{/t}">
         </td>
         </tr>
       </table>

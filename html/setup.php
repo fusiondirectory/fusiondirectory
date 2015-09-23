@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2011-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -30,10 +30,7 @@ require_once("../setup/class_setupStep_Welcome.inc");
 require_once("../setup/class_setupStep_Language.inc");
 require_once("../setup/class_setupStep_Checks.inc");
 require_once("../setup/class_setupStep_Ldap.inc");
-require_once("../setup/class_setupStep_Config1.inc");
-require_once("../setup/class_setupStep_Config2.inc");
-require_once("../setup/class_setupStep_Config3.inc");
-require_once("../setup/class_setupStep_Schema.inc");
+require_once("../setup/class_setupStep_Config.inc");
 require_once("../setup/class_setupStep_Migrate.inc");
 require_once("../setup/class_setupStep_Finish.inc");
 
@@ -79,10 +76,17 @@ if (isset($_POST['lang_selected']) && $_POST['lang_selected'] != "") {
 initLanguage($lang);
 
 $smarty->assign("rtl", language_is_rtl($lang));
+$smarty->assign("must", '<span class="must">*</span>');
 
-/* Load themes */
+/* Minimal config */
+if (!session::global_is_set('config')) {
+  $config = new config('');
+  session::global_set('config', $config);
+}
+$config = session::global_get('config');
 IconTheme::loadThemes('themes');
-
+/* Fake user bypassing acl system */
+$ui = new fake_userinfo();
 /* Call setup */
 $display = "";
 require_once("../setup/main.inc");
@@ -107,11 +111,12 @@ $focus .= '</script>';
 
 /* show web frontend */
 $setup = session::global_get('setup');
-$smarty->assign("contents",     $display);
-$smarty->assign("navigation",   $setup->get_navigation_html());
-$smarty->assign("header",       $setup->get_header_html());
-$smarty->assign("bottom",       $focus.$setup->get_bottom_html());
-$smarty->assign("msg_dialogs",  msg_dialog::get_dialogs());
+$smarty->assign("contents",       $display.$setup->get_bottom_html());
+$smarty->assign("navigation",     $setup->get_navigation_html());
+$smarty->assign("headline_image", $setup->get_header_image());
+$smarty->assign("headline",       $setup->get_header_text());
+$smarty->assign("focus",          $focus);
+$smarty->assign("msg_dialogs",    msg_dialog::get_dialogs());
 
 if ($error_collector != "") {
   $smarty->assign("php_errors", preg_replace("/%BUGBODY%/", $error_collector_mailto, $error_collector)."</div>");

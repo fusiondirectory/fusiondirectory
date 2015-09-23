@@ -10,7 +10,7 @@
           <img src="geticon.php?context=actions&amp;icon=go-home&amp;size=22" alt="Main"/>&nbsp;{t}Main{/t}
         </a>
         &nbsp;
-        <a class="maintitlebar logout" href="logout.php?request">
+        <a class="maintitlebar logout" href="index.php">
           <img src="geticon.php?context=actions&amp;icon=application-exit&amp;size=22" alt="Sign out"/>&nbsp;{t}Sign out{/t}
         </a>
         <a class="plugtop">
@@ -25,31 +25,30 @@
       </div>
     </div>
 
-      <table class="framework">
-        <tbody>
-          <tr>
+    <table class="framework">
+      <tbody>
+        <tr>
+          {if !$hideMenus}
+            <!-- Menu -->
+            <td class="optional" id="menucell">
+              {$menu}
+              <br/>
+            </td>
+          {/if}
 
-            {if !$hideMenus}
-              <!-- Menu -->
-              <td class="optional" id="menucell">
-                {$menu}
-                <br/>
-              </td>
+          <!-- Plugin window -->
+          <td id="maincell">
+            {$msg_dialogs}
+            <div class="plugin_window">
+              {$contents}
+            </div>
+            {if $channel != ""}
+                <input type="hidden" name="_channel_" value="{$channel}"/>
             {/if}
-
-              <!-- Plugin window -->
-              <td id="maincell">
-                {$msg_dialogs}
-                <div class="plugin_window">
-                  {$contents}
-                </div>
-                {if $channel != ""}
-                    <input type="hidden" name="_channel_" value="{$channel}"/>
-                {/if}
-              </td>
-          </tr>
-        </tbody>
-      </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
     {$errors}
     {$focus}
@@ -62,7 +61,7 @@
   {literal}
    function logout()
    {
-    document.location = 'logout.php';
+    document.location = 'index.php?message=expired';
    }
   {/literal}
 

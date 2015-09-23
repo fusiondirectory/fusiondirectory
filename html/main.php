@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2011-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -49,22 +49,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 /* Logged in? Simple security check */
 if (!session::global_is_set('connected')) {
-  new log("security", "login", "", array(), "main.php called without session - logging out");
-  header ("Location: logout.php");
+  new log('security', 'login', '', array(), 'main.php called without session - logging out');
+  header ('Location: index.php?message=nosession');
   exit;
 }
 
 /* Check for uniqe ip address */
 $ui = session::global_get('ui');
 if ($_SERVER['REMOTE_ADDR'] != $ui->ip) {
-  new log("security", "login", "", array(), "main.php called with session which has a changed IP address.");
-  header ("Location: logout.php");
+  new log('security', 'login', '', array(), 'main.php called with session which has a changed IP address.');
+  header ('Location: index.php?message=newip');
   exit;
 }
 $config = session::global_get('config');
 
 /* If SSL is forced, just forward to the SSL enabled site */
-if (($config->get_cfg_value("forcessl") == "TRUE") && ($ssl != '')) {
+if (($config->get_cfg_value('forcessl') == 'TRUE') && ($ssl != '')) {
   header ("Location: $ssl");
   exit;
 }
@@ -87,8 +87,8 @@ if (session::global_get('_LAST_PAGE_REQUEST') == "") {
    */
   if ($request_time > $max_life) {
     session::destroy();
-    new log("security", "login", "", array(), "main.php called without session - logging out");
-    header ("Location: logout.php");
+    new log('security', 'login', '', array(), 'main.php called with expired session - logging out');
+    header ('Location: index.php?message=expired');
     exit;
   }
   session::global_set('_LAST_PAGE_REQUEST', time());
@@ -167,14 +167,14 @@ if (isset($_GET['plug']) && $plist->plugin_access_allowed($_GET['plug'])) {
   $plug       = validate($_GET['plug']);
   $plugin_dir = $plist->get_path($plug);
   session::global_set('plugin_dir', $plugin_dir);
-  if ($plugin_dir == "") {
-    new log("security", "fusiondirectory", "", array(), "main.php called with invalid plug parameter \"$plug\"");
-    header ("Location: logout.php");
+  if ($plugin_dir == '') {
+    new log('security', 'fusiondirectory', '', array(), "main.php called with invalid plug parameter \"$plug\"");
+    header ('Location: index.php?message=invalidparameter&plug='.$plug);
     exit;
   }
 } else {
   /* set to welcome page as default plugin */
-  session::global_set('plugin_dir', "welcome");
+  session::global_set('plugin_dir', 'welcome');
   $plugin_dir = "$BASE_DIR/plugins/generic/welcome";
 }
 
@@ -228,15 +228,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['password_back'])) {
   header ("Location: main.php");
   exit;
 }
-
-/* Check for multiple windows logout */
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  if (isset($_POST['reset_session'])) {
-    header ("Location: logout.php");
-    exit;
-  }
-}
-
 
 /* Load department list when plugin has changed. That is some kind of
    compromise between speed and beeing up to date */
@@ -318,7 +309,7 @@ if (isset($_POST) && count($_POST)) {
   }
 }
 
-/* Assign erros to smarty */
+/* Assign errors to smarty */
 if (session::is_set('errors')) {
   $smarty->assign("errors", session::get('errors'));
 }

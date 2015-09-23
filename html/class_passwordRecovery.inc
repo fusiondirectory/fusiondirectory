@@ -55,7 +55,7 @@ class passwordRecovery {
   /* Constructor */
   function __construct()
   {
-    global $config, $ssl;
+    global $config, $ssl, $ui;
     /* Destroy old session if exists.
         Else you will get your old session back, if you not logged out correctly. */
     session::destroy();
@@ -115,6 +115,12 @@ class passwordRecovery {
     }
 
     initLanguage();
+
+    if (session::global_is_set('plist')) {
+      session::global_un_set('plist');
+    }
+    load_plist();
+    $ui = new fake_userinfo();
 
     $ssl = $this->checkForSSL();
 
@@ -229,28 +235,20 @@ class passwordRecovery {
    */
   function readLdapConfig()
   {
-    $ldap   = $this->config->get_ldap_link();
-    $token  = get_ou("tokenRDN").$this->config->current['BASE'];
-    $dn     = "cn=config,$token";
-    $ldap->cat($dn);
-    if ($attrs = $ldap->fetch()) {
-      $this->salt           = $attrs['passwordRecoverySalt'][0];
-      $this->delay_allowed  = $attrs['passwordRecoveryValidity'][0];
+    $this->salt           = $this->config->get_cfg_value('passwordRecoverySalt');
+    $this->delay_allowed  = $this->config->get_cfg_value('passwordRecoveryValidity');
 
-      $this->mail_subject   = $attrs['passwordRecoveryMailSubject'][0];
-      $this->mail_body      = $attrs['passwordRecoveryMailBody'][0];
-      $this->mail2_subject  = $attrs['passwordRecoveryMail2Subject'][0];
-      $this->mail2_body     = $attrs['passwordRecoveryMail2Body'][0];
+    $this->mail_subject   = $this->config->get_cfg_value('passwordRecoveryMailSubject');
+    $this->mail_body      = $this->config->get_cfg_value('passwordRecoveryMailBody');
+    $this->mail2_subject  = $this->config->get_cfg_value('passwordRecoveryMail2Subject');
+    $this->mail2_body     = $this->config->get_cfg_value('passwordRecoveryMail2Body');
 
-      $this->from_mail      = $attrs['passwordRecoveryEmail'][0];
+    $this->from_mail      = $this->config->get_cfg_value('passwordRecoveryEmail');
 
-      $this->usealternates  = $attrs['passwordRecoveryUseAlternate'][0];
+    $this->usealternates  = $this->config->get_cfg_value('passwordRecoveryUseAlternate');
 
-      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $attrs['passwordRecoveryActivated'][0], "passwordRecoveryActivated");
-      return ($attrs['passwordRecoveryActivated'][0] == "TRUE");
-    } else {
-      return FALSE;
-    }
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->config->get_cfg_value('passwordRecoveryActivated'), "passwordRecoveryActivated");
+    return ($this->config->get_cfg_value('passwordRecoveryActivated') == "TRUE");
   }
 
   function setupSmarty()
@@ -302,7 +300,7 @@ class passwordRecovery {
     $ldap = $this->config->get_ldap_link();
 
     // Check if token branch is here
-    $token = get_ou("tokenRDN").$this->config->current['BASE'];
+    $token = get_ou('tokenRDN').get_ou('fusiondirectoryRDN').$this->config->current['BASE'];
     $ldap->cat($token, array('dn'));
     if (!$ldap->count()) {
       /* It's not, let's create it */
@@ -348,7 +346,7 @@ class passwordRecovery {
     /* Retrieve hash from the ldap */
     $ldap = $this->config->get_ldap_link();
 
-    $token  = get_ou("tokenRDN").$this->config->current['BASE'];
+    $token  = get_ou('tokenRDN').get_ou('fusiondirectoryRDN').$this->config->current['BASE'];
     $dn     = "ou=".$this->uid.",$token";
     $ldap->cat($dn);
     $attrs = $ldap->fetch();
@@ -553,25 +551,26 @@ class passwordRecovery {
     if (!$dn) {
       return;
     }
-    /* Do new and repeated password fields match? */
-    $error = password::reportPasswordProblems($dn, $_POST['new_password'], $_POST['new_password_repeated']);
-    if ($error !== FALSE) {
-      $this->message[] = $error;
+
+    $userTabs = objects::open($dn, 'user');
+    $userTab  = $userTabs->getBaseObject();
+    $userTab->userPassword = array(
+      '',
+      $_POST['new_password'],
+      $_POST['new_password_repeated'],
+      $userTab->userPassword,
+      $userTab->attributesAccess['userPassword']->isLocked()
+    );
+
+    /* Is there any problem with entered passwords? */
+    $error = $userTabs->check();
+    if (!empty($error)) {
+      $this->message = $error;
       return;
     }
 
-    /* Passed quality check, just try to change the password now */
-    if ($this->config->get_cfg_value("passwordHook") != "") {
-      exec($this->config->get_cfg_value("passwordHook")." ".
-           escapeshellarg($this->uid)." ".escapeshellarg($_POST['new_password']), $resarr);
-      if (count($resarr) > 0) {
-        $this->message[] = _("External password changer reported a problem: ".join('\n', $resarr));
-        return;
-      }
-    }
-    if (!change_password($dn, $_POST['new_password'])) {
-      return;
-    }
+    $userTabs->save_object();
+    $userTabs->save();
     fusiondirectory_log("User ".$this->uid." password has been changed");
     /* Send the mail */
     $mail_body = sprintf($this->mail2_body, $this->uid);

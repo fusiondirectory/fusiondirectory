@@ -128,6 +128,11 @@ class Attribute
     }
   }
 
+  function getUnique ()
+  {
+    return $this->unique;
+  }
+
   function isInLdap ()
   {
     return $this->inLdap;
@@ -233,6 +238,11 @@ class Attribute
   function setDisabled ($disabled)
   {
     $this->disabled = $disabled;
+  }
+
+  function isDisabled ()
+  {
+    return $this->disabled;
   }
 
   function setManagingDisabled ($sender, $value)
@@ -878,9 +888,20 @@ class FakeAttribute extends Attribute
  */
 class DisplayLDAPAttribute extends Attribute
 {
+  protected $allowHTML = FALSE;
+
   function renderFormInput ()
   {
-    return htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8');
+    if ($this->allowHTML) {
+      return $this->getValue();
+    } else {
+      return htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8');
+    }
+  }
+
+  function setAllowHTML ($allowHTML)
+  {
+    $this->allowHTML = $allowHTML;
   }
 }
 
@@ -1795,9 +1816,13 @@ class BaseSelectorAttribute extends Attribute
     if (!$this->disabled && $this->isVisible()) {
       /* Refresh base */
       if  ($this->plugin->acl_is_moveable($this->value) ||
-          ($this->plugin->dn == "new" && $this->plugin->acl_is_createable($this->value))) {
+          ($this->plugin->dn == 'new' && $this->plugin->acl_is_createable($this->value))) {
         if (!$this->baseSelector->update()) {
-          msg_dialog::display(_("Error"), msgPool::permMove(), ERROR_DIALOG);
+          if ($this->plugin->dn == 'new') {
+            msg_dialog::display(_('Error'), msgPool::permMove($this->plugin->dn), ERROR_DIALOG);
+          } else {
+            msg_dialog::display(_('Error'), msgPool::permCreate(), ERROR_DIALOG);
+          }
         }
         if ($this->value != $this->baseSelector->getBase()) {
           $this->setValue($this->baseSelector->getBase());
@@ -1814,10 +1839,13 @@ class BaseSelectorAttribute extends Attribute
       return $error;
     } else {
       /* Check if we are allowed to create/move this user */
-      if ($this->orig_dn == "new" && !$this->plugin->acl_is_createable($this->value)) {
+      if (($this->orig_dn == 'new') && !$this->plugin->acl_is_createable($this->value)) {
         return msgPool::permCreate();
-      } elseif ($this->orig_dn != "new" && $this->plugin->dn != $this->orig_dn && !$this->plugin->acl_is_moveable($this->value)) {
-        return msgPool::permMove();
+      } elseif (
+        ($this->orig_dn != 'new') &&
+        ($this->plugin->dn != $this->orig_dn) &&
+        !$this->plugin->acl_is_moveable($this->value)) {
+        return msgPool::permMove($this->plugin->dn);
       }
       // Check if a wrong base was supplied
       if (!$this->baseSelector->checkLastBaseUpdate()) {
@@ -2177,9 +2205,9 @@ class SetAttribute extends Attribute
 class CompositeAttribute extends Attribute
 {
   public $attributes;
-  private $readFormat;
-  private $writeFormat;
-  private $linearRendering = FALSE;
+  protected $readFormat;
+  protected $writeFormat;
+  protected $linearRendering = FALSE;
 
   /*! \brief The constructor of CompositeAttribute
    *
@@ -2419,7 +2447,8 @@ class OrderedArrayAttribute extends SetAttribute
 {
   protected $order;
   protected $edit_enabled;
-  protected $height = 90;
+  protected $height   = 90;
+  protected $headers  = FALSE;
 
   /*! \brief The constructor of OrderedArrayAttribute
    *
@@ -2436,6 +2465,11 @@ class OrderedArrayAttribute extends SetAttribute
   function setHeight($h)
   {
     $this->height = $h;
+  }
+
+  function setHeaders($h)
+  {
+    $this->headers = $h;
   }
 
   function readValue($value)
@@ -2491,9 +2525,10 @@ class OrderedArrayAttribute extends SetAttribute
     $div = new divSelectBox('rows'.$id);
     $smarty = get_smarty();
     $div->SetHeight($this->height);
+    $div->SetHeaders($this->headers);
     foreach ($this->value as $key => $value) {
       $fields = array();
-      foreach ($this->getAttributeArrayValue($value) as $field) {
+      foreach ($this->getAttributeArrayValue($key, $value) as $field) {
         if (is_array($field)) {
           $fields[] = $field;
         } else {
@@ -2571,7 +2606,7 @@ class OrderedArrayAttribute extends SetAttribute
     return array ($img, $width);
   }
 
-  protected function getAttributeArrayValue($value)
+  protected function getAttributeArrayValue($key, $value)
   {
     $this->attribute->setValue($value);
     return $this->attribute->getArrayValue();
@@ -2589,43 +2624,51 @@ class OrderedArrayAttribute extends SetAttribute
       $this->postValue = $this->value;
       $id = $this->getHtmlId();
       foreach (array_keys($_POST) as $name) {
-        if ($this->order) {
-          if (preg_match('/^'.$id.'_up_/', $name)) {
-            $key = preg_replace('/^'.$id.'_up_/', '', $name);
-            $key = preg_replace('/_[xy]$/', '', $key);
-
-            $tmp                        = $this->postValue[$key];
-            $this->postValue[$key]      = $this->postValue[$key - 1];
-            $this->postValue[$key - 1]  = $tmp;
-            break;
-          }
-          if (preg_match('/^'.$id.'_down_/', $name)) {
-            $key = preg_replace('/^'.$id.'_down_/', '', $name);
-            $key = preg_replace('/_[xy]$/', '', $key);
-
-            $tmp                        = $this->postValue[$key];
-            $this->postValue[$key]      = $this->postValue[$key + 1];
-            $this->postValue[$key + 1]  = $tmp;
-            break;
-          }
-        }
-        if ($this->edit_enabled) {
-          if (preg_match('/^'.$id.'_edit_/', $name)) {
-            $key = preg_replace('/^'.$id.'_edit_/', '', $name);
-            $key = preg_replace('/_[xy]$/', '', $key);
-            $this->handleEdit($key);
-            break;
-          }
-        }
-        if (preg_match('/^'.$id.'_del_/', $name)) {
-          $key = preg_replace('/^'.$id.'_del_/', '', $name);
-          $key = preg_replace('/_[xy]$/', '', $key);
-          $this->delPostValue($key);
+        if ($this->handlePostValueActions($id, $name)) {
           break;
         }
       }
       $this->handleAddAndEditValue();
     }
+  }
+
+  protected function handlePostValueActions($id, $postValue)
+  {
+    if ($this->order) {
+      if (preg_match('/^'.$id.'_up_/', $postValue)) {
+        $key = preg_replace('/^'.$id.'_up_/', '', $postValue);
+        $key = preg_replace('/_[xy]$/', '', $key);
+
+        $tmp                        = $this->postValue[$key];
+        $this->postValue[$key]      = $this->postValue[$key - 1];
+        $this->postValue[$key - 1]  = $tmp;
+        return TRUE;
+      }
+      if (preg_match('/^'.$id.'_down_/', $postValue)) {
+        $key = preg_replace('/^'.$id.'_down_/', '', $postValue);
+        $key = preg_replace('/_[xy]$/', '', $key);
+
+        $tmp                        = $this->postValue[$key];
+        $this->postValue[$key]      = $this->postValue[$key + 1];
+        $this->postValue[$key + 1]  = $tmp;
+        return TRUE;
+      }
+    }
+    if ($this->edit_enabled) {
+      if (preg_match('/^'.$id.'_edit_/', $postValue)) {
+        $key = preg_replace('/^'.$id.'_edit_/', '', $postValue);
+        $key = preg_replace('/_[xy]$/', '', $key);
+        $this->handleEdit($key);
+        return TRUE;
+      }
+    }
+    if (preg_match('/^'.$id.'_del_/', $postValue)) {
+      $key = preg_replace('/^'.$id.'_del_/', '', $postValue);
+      $key = preg_replace('/_[xy]$/', '', $key);
+      $this->delPostValue($key);
+      return TRUE;
+    }
+    return FALSE;
   }
 
   protected function handleAddAndEditValue()

@@ -76,6 +76,10 @@ class reference extends simplePlugin
     }
     $this->refs = $this->browseForeignKeys('references');
   }
+
+  function save()
+  {
+  }
 }
 
 ?>

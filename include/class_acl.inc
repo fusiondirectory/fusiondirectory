@@ -198,12 +198,17 @@ class acl extends plugin
         /* Found entry... */
         if ($ldap->count()) {
           $attrs = $ldap->fetch();
-          if (in_array_ics('gosaAccount', $attrs['objectClass'])) {
-            $a['U:'.$dn] = $attrs['cn'][0]." [".$attrs['uid'][0]."]";
+          if (in_array_ics('inetOrgPerson', $attrs['objectClass'])) {
+            $a['U:'.$dn] = $attrs['cn'][0].' ['.$attrs['uid'][0].']';
+          } elseif (in_array_ics('organizationalRole', $attrs['objectClass'])) {
+            $a['R:'.$dn] = $attrs['cn'][0];
+            if (isset($attrs['description'][0])) {
+              $a['R:'.$dn] .= ' ['.$attrs['description'][0].']';
+            }
           } else {
             $a['G:'.$dn] = $attrs['cn'][0];
             if (isset($attrs['description'][0])) {
-              $a['G:'.$dn] .= " [".$attrs['description'][0]."]";
+              $a['G:'.$dn] .= ' ['.$attrs['description'][0].']';
             }
           }
           /* ... or not */
@@ -263,22 +268,6 @@ class acl extends plugin
   }
 
   /*!
-   * \brief Prepare for Copy & Paste
-   *
-   * \see plugin::PrepareForCopyPaste($source)
-   *
-   * \param string $source Source to prepare for copy and paste
-   */
-  function PrepareForCopyPaste($source)
-  {
-    plugin::PrepareForCopyPaste($source);
-
-    $dn                 = $source['dn'];
-    $acl_c              = new acl($this->config, $dn);
-    $this->gosaAclEntry = $acl_c->gosaAclEntry;
-  }
-
-  /*!
    * \brief Removes object from parent
    */
   function remove_from_parent()
@@ -298,7 +287,6 @@ class acl extends plugin
     $this->handle_post_events('remove');
   }
 
-
   /*
    * \brief Return plugin informations for acl handling
    */
@@ -315,104 +303,6 @@ class acl extends plugin
 
       'plProvidedAcls'  => array()
     );
-  }
-
-
-  /*!
-   * \brief Remove acls defined for $src
-   */
-  function remove_acl()
-  {
-    acl::remove_acl_for($this->dn);
-  }
-
-
-  /*!
-   * \brief Remove acls defined for $src
-   *
-   * \param String $dn The DN
-   *
-   * FIXME
-   */
-  static function remove_acl_for($dn)
-  {
-    global $config;
-
-    $ldap = $config->get_ldap_link();
-    $ldap->cd($config->current['BASE']);
-    $ldap->search("(&(objectClass=gosaAcl)(gosaAclEntry=*".base64_encode($dn)."*))", array("gosaAclEntry","dn"));
-    $new_entries = array();
-    while ($attrs = $ldap->fetch()) {
-      if (!isset($attrs['gosaAclEntry'])) {
-        continue;
-      }
-      unset($attrs['gosaAclEntry']['count']);
-
-      // Remove entry directly
-      foreach ($attrs['gosaAclEntry'] as $entry) {
-        $parts        = explode(':', $entry);
-        $members      = explode(',', $parts[2]);
-        $new_members  = array();
-        foreach ($members as $member) {
-          if (base64_decode($member) != $dn) {
-            $new_members[] = $member;
-          } else {
-            fusiondirectory_log("modify", "user/acl", $attrs['dn'], array(), sprintf("Removed acl for %s on object %s.", $dn, $attrs['dn']));
-          }
-        }
-
-        /* We can completely remove the entry if there are no members anymore */
-        if (count($new_members)) {
-          $parts[2]       = implode(",", $new_members);
-          $new_entries[]  = implode(":", $parts);
-        }
-      }
-
-      // There should be a modification, so write it back
-      $ldap->cd($attrs['dn']);
-      $new_attrs = array("gosaAclEntry" => $new_entries);
-      $ldap->modify($new_attrs);
-      if (!$ldap->success()) {
-        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD, get_class()), ERROR_DIALOG);
-      }
-    }
-  }
-
-  /*!
-   * \brief Update the acl membership
-   *
-   * \param String $src The source
-   *
-   * \param String $dst The destination
-   */
-  static function update_acl_membership($src, $dst)
-  {
-    global $config;
-    $ldap = $config->get_ldap_link();
-    $ldap->cd($config->current['BASE']);
-    $ldap->search("(&(objectClass=gosaAcl)(gosaAclEntry=*".base64_encode($src)."*))", array("gosaAclEntry","dn"));
-    while ($attrs = $ldap->fetch()) {
-      $acl = new acl($config, $attrs['dn']);
-      foreach ($acl->gosaAclEntry as $id => $entry) {
-        foreach ($entry['members'] as $m_id => $member) {
-          if ($m_id == "U:".$src) {
-            unset($acl->gosaAclEntry[$id]['members'][$m_id]);
-            $new = "U:".$dst;
-
-            $acl->gosaAclEntry[$id]['members'][$new] = $new;
-            fusiondirectory_log("modify", "user/acl", $attrs['dn'], array(), sprintf("Updated acl for user %s on object %s.", $src, $attrs['dn']));
-          }
-          if ($m_id == "G:".$src) {
-            unset($acl->gosaAclEntry[$id]['members'][$m_id]);
-            $new = "G:".$dst;
-
-            $acl->gosaAclEntry[$id]['members'][$new] = $new;
-            fusiondirectory_log("modify", "group/acl", $attrs['dn'], array(), sprintf("Updated acl for group %s on object %s.", $src, $attrs['dn']));
-          }
-        }
-      }
-      $acl->save();
-    }
   }
 }
 

@@ -1,7 +1,6 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2003  Cajus Pollmeier
   Copyright (C) 2011-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
@@ -54,7 +53,7 @@ class ACLsAttribute extends DialogOrderedArrayAttribute
   protected $order = TRUE;
   protected $dialogClass = 'ACLDialog';
 
-  protected function getAttributeArrayValue($value)
+  protected function getAttributeArrayValue($key, $value)
   {
     /* Convert text value to displayable array value */
 
@@ -113,7 +112,7 @@ class aclRole extends simplePlugin
         'filter'      => 'objectClass=gosaRole',
         'ou'          => get_ou('aclRoleRDN'),
         'tabClass'    => 'simpleTabs_noSpecial',
-        'icon'        => 'plugins/acl/images/role.png',
+        'icon'        => 'geticon.php?context=categories&icon=acl&size=16',
       )),
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())
@@ -155,11 +154,6 @@ class aclRole extends simplePlugin
     parent::__construct($config, $dn, $object);
 
     $this->attributesAccess['cn']->setUnique(TRUE);
-  }
-
-  function compute_dn()
-  {
-    return 'cn='.$this->cn.",".get_ou('aclRoleRDN').$this->base;
   }
 }
 
@@ -317,11 +311,11 @@ class acl_createedit extends acl
 
         $action = "";
         if ($this->acl_is_readable("gosaAclEntry")) {
-          $action .= "<input class='center' type='image' src='geticon.php?context=actions&icon=document-edit&size=16'
+          $action .= "<input class='center' type='image' src='geticon.php?context=actions&amp;icon=document-edit&amp;size=16'
             alt='"._("Edit")."' name='cat_edit_$section'   title='"._("Edit category ACL")."'>";
         }
         if ($this->acl_is_writeable("gosaAclEntry")) {
-          $action .= "<input class='center' type='image' src='geticon.php?context=actions&icon=edit-delete&size=16'
+          $action .= "<input class='center' type='image' src='geticon.php?context=actions&amp;icon=edit-delete&amp;size=16'
             alt='"._("Delete")."' name='cat_del_$section' title='"._("Reset category ACL")."'>";
         }
 
@@ -476,7 +470,7 @@ class acl_createedit extends acl
       $expand = count($currentAcl) > 1 || $currentAcl[0] != "";
 
       /* Object header */
-      $tname = preg_replace("/[^a-z0-9]/i", "_", $name);
+      $tname = preg_replace("/[^a-z0-9]/i", "_", $key);
 
       if ($expand) {
         $back_color = "#C8C8FF";

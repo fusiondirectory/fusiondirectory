@@ -170,6 +170,15 @@ margin-bottom:0.5%;
 margin-right:0.5%;
 }
 
+html.ltr .plugin_section.alone, html.rtl .plugin_section.alone {
+float:none;
+clear:both;
+}
+
+html.ltr .plugin_section.invisible, html.rtl .plugin_section.invisible {
+display:none;
+}
+
 fieldset.plugin_section.critical legend span, .plugin_section.critical > span.legend {
 font-weight:bold;
 background-color:#BCF;
@@ -194,7 +203,9 @@ background-color:#DFEFFF;
   .plugin_section > div > table {
   width:100%;
   }
-  .plugin_section, .plugin_section:nth-child(even), .plugin_section.fullwidth {
+  html.ltr .plugin_section, html.ltr .plugin_section:nth-child(even), html.ltr .plugin_section.fullwidth,
+  html.rtl .plugin_section, html.rtl .plugin_section:nth-child(even), html.rtl .plugin_section.fullwidth
+  {
   display:block;
   float:none;
   clear:both;

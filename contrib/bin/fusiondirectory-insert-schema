@@ -129,7 +129,7 @@ if (scalar(@schemas) == 0) {
     usage("Missing schema list for -e option\n");
   }
   # insert the default schemas
-  @schemas = ("samba","core-fd","core-fd-conf","ldapns","recovery-fd");
+  @schemas = ("samba","core-fd","core-fd-conf","ldapns","template-fd");
   foreach my $schema (@schemas) {
     if (system("$schema2ldif $path$schema.schema > $path$schema.ldif") == 0) {
       push @gen_files, $path.$schema;
@@ -412,6 +412,9 @@ but beware that you will not be able to see things like password prompts as the 
  fusion@catbert$ fusiondirectory-insert-schema -e myschema
    Empty the schema myschema
 
+ fusion@catbert$ fusiondirectory-insert-schema -o "-H ldap://my.ldap.com -ZZ -D 'cn=admin,cn=config' -w password -x"
+   Connect to another ldap server to insert the schema
+   
 =head1 BUGS
 
 Please report any bugs, or post any suggestions, to the fusiondirectory mailing list fusiondirectory-users or to

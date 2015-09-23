@@ -1,38 +1,4 @@
 /* Login screen */
-table.gosaLoginMask {
-background-color:#8b898b;
-text-align:center;
-border:0;
-}
-
-td.gosaLoginBack {
-width:606px;
-height:406px;
-background:url(images/login.png);
-vertical-align:top;
-}
-
-div.gosaLoginBack {
-padding-top:35px;
-padding-bottom:0;
-vertical-align:top;
-}
-html.ltr div.gosaLoginBack {
-margin-left:100px;
-margin-right:50px;
-}
-html.rtl div.gosaLoginBack {
-margin-left:50px;
-margin-right:100px;
-}
-
-p.gosaLoginHeader {
-text-align:center;
-font-size:14px;
-font-weight:bold;
-margin-bottom:15px;
-}
-
 p.gosaLoginWarning {
 text-align:center;
 color:red;

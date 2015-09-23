@@ -47,7 +47,7 @@
 
     <column>
       <label>Properties</label>
-      <value>%{filter:filterProperties(row,dn)}</value>
+      <value>%{filter:filterProperties(row,dn,gosaGroupObjects)}</value>
     </column>
 
     <column>

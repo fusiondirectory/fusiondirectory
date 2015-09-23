@@ -1,5 +1,5 @@
 <div style="font-size:20px;">
-  <img alt="" src="geticon.php?context=status&icon=object-locked&size=32" style="vertical-align:top;"/>&nbsp;{t}Locking conflict detected{/t}
+  <img alt="" src="geticon.php?context=status&amp;icon=object-locked&amp;size=32" style="vertical-align:top;"/>&nbsp;{t}Locking conflict detected{/t}
 </div>
 
 <p>

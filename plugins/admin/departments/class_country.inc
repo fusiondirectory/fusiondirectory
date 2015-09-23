@@ -33,7 +33,7 @@ class country extends department
         'name'        => _('Country'),
         'filter'      => '(&(objectClass=country)(objectClass=gosaDepartment))',
         'ou'          => '',
-        'icon'        => 'plugins/departments/images/country.png',
+        'icon'        => 'geticon.php?context=types&icon=country&size=16',
         'tabClass'    => 'deptabs',
         'mainAttr'    => self::$namingAttr,
       )),

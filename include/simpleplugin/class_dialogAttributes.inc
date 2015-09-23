@@ -109,13 +109,16 @@ class SingleUserSelectDialog extends GenericDialog
 class SystemSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'systemSelect';
-  protected $post_cancel = 'add_ws_cancel';
-  protected $post_finish = 'add_ws_finish';
 }
 
 class UserGroupSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'userGroupSelect';
+}
+
+class UserGroupRoleSelectDialog extends GenericSelectDialog
+{
+  protected $dialogClass = 'userGroupRoleSelect';
 }
 
 class GroupSelectDialog extends GenericSelectDialog
@@ -273,9 +276,10 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
   {
     $ids = parent::htmlIds();
     $ids[0] .= '_dialog';
+    return $ids;
   }
 
-  protected function getAttributeArrayValue($value)
+  protected function getAttributeArrayValue($key, $value)
   {
     /* Convert text value to displayable array value */
     die('Pure virtual method');
@@ -344,6 +348,7 @@ class GenericDialogAttribute extends DialogAttribute
     if ($this->store_attr == 'dn') {
       $ldap->cat($value, $this->ldapAttributesToGet());
     } else {
+      $ldap->cd($this->plugin->config->current['BASE']);
       $ldap->search('('.$this->store_attr.'='.$value.')', $this->ldapAttributesToGet());
     }
     $this->fillDisplayValueFrom($i, $ldap->fetch());
@@ -400,8 +405,10 @@ class UsersGroupsAttribute extends GenericDialogAttribute
     } else {
       if ($this->display_attr == 'dn') {
         $this->displays[$i] = $attrs['dn'];
-      } elseif (in_array("posixGroup", $attrs['objectClass'])) {
-        $this->displays[$i] = sprintf(_("Group %s"), trim($attrs['cn'][0]));
+      } elseif (in_array('posixGroup', $attrs['objectClass'])) {
+        $this->displays[$i] = sprintf(_('Group %s'), trim($attrs['cn'][0]));
+      } elseif (in_array('organizationalRole', $attrs['objectClass'])) {
+        $this->displays[$i] = sprintf(_('Role %s'), trim($attrs['cn'][0]));
       } elseif (isset($attrs['uid'][0])) {
         $this->displays[$i] = trim($attrs['uid'][0]);
       } else {
@@ -409,6 +416,11 @@ class UsersGroupsAttribute extends GenericDialogAttribute
       }
     }
   }
+}
+
+class UsersGroupsRolesAttribute extends UsersGroupsAttribute
+{
+  protected $dialogClass = 'UserGroupRoleSelectDialog';
 }
 
 /*! \brief This class allows to handle an attribute for selecting groups
@@ -522,11 +534,16 @@ class SystemsAttribute extends DialogAttribute
 class ButtonAttribute extends Attribute
 {
   protected $buttonText = NULL;
+  protected $action;
 
-  function __construct ($label, $description, $ldapName, $required, $buttonText, $defaultValue = "", $acl = "")
+  function __construct ($label, $description, $ldapName, $buttonText, $action = NULL, $defaultValue = "", $acl = "")
   {
-    parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
-    $this->buttonText   = $buttonText;
+    parent::__construct($label, $description, $ldapName, FALSE, $defaultValue, $acl);
+    $this->buttonText = $buttonText;
+    if ($action === NULL) {
+      $action = 'handle_'.$ldapName;
+    }
+    $this->action = $action;
   }
 
   function renderFormInput ()
@@ -534,13 +551,27 @@ class ButtonAttribute extends Attribute
     $id = $this->getHtmlId();
     $display = $this->renderInputField(
       'submit', $id,
-      array('value' => '{literal}'.$this->buttonText.'{/literal}')
+      array('value' => '{literal}'.htmlentities($this->buttonText, ENT_COMPAT, 'UTF-8').'{/literal}')
     );
     return $this->renderAcl($display);
   }
 
+  function loadPostValue ()
+  {
+    $this->postValue = FALSE;
+    if ($this->isVisible()) {
+      if (isset($_POST[$this->getHtmlId()])) {
+        $this->setPostValue(TRUE);
+      }
+    }
+  }
+
   function applyPostValue ()
   {
+    if (!$this->disabled && $this->isVisible() && $this->postValue) {
+      $func = $this->action;
+      $this->plugin->$func();
+    }
   }
 }
 
@@ -554,12 +585,10 @@ class DialogButtonAttribute extends ButtonAttribute
     $this->dialogClass  = $dialogClass;
   }
 
-  function loadPostValue ()
+  function applyPostValue ()
   {
-    if (!$this->disabled && $this->isVisible()) {
-      if (isset($_POST[$this->getHtmlId()])) {
-        $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
-      }
+    if (!$this->disabled && $this->isVisible() && $this->postValue) {
+      $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
     }
   }
 }
@@ -653,6 +682,73 @@ class UserAttribute extends DialogButtonAttribute
       $ids[] = $ids[0].'_remove';
     }
     return $ids;
+  }
+}
+
+class GenericSimplePluginDialog extends GenericDialog
+{
+  protected $initialDialogValue = NULL;
+
+  function __construct($simplePlugin, &$attribute, $value = array())
+  {
+    $this->attribute  = $attribute;
+    $this->dialog     = new $this->dialogClass($simplePlugin->config, 'new');
+
+    $base = $simplePlugin->dn;
+    if ($base == 'new') {
+      $base = $simplePlugin->base;
+    }
+    $this->dialog->set_acl_base($base);
+    $this->dialog->set_acl_category($simplePlugin->acl_category);
+    if (!empty($value)) {
+      $this->initialDialogValue = $value;
+      foreach ($this->dialog->attributes as $attr) {
+        if (isset($value[$attr])) {
+          $this->dialog->$attr = $value[$attr];
+        }
+      }
+    }
+  }
+
+  function buttons ()
+  {
+    return '<div style="width:100%; text-align:right; clear:both; float:none;">'.
+           '  <input type="submit" name="'.$this->post_finish.'" value="'.msgPool::saveButton().'"/>&nbsp;'.
+           '  <input type="submit" name="'.$this->post_cancel.'" value="'.msgPool::cancelButton().'"/>'.
+           '</div>';
+  }
+
+  function dialog_execute ()
+  {
+    $this->dialog->save_object();
+    return $this->dialog->execute().$this->buttons();
+  }
+
+  function handle_finish ()
+  {
+    $this->dialog->save_object();
+    if (count($this->dialog->check())) {
+      foreach ($this->dialog->check() as $msg) {
+        msg_dialog::display(_('Error'), $msg, ERROR_DIALOG);
+      }
+      return $this->dialog->execute().$this->buttons();
+    }
+
+    $value = array();
+    foreach ($this->dialog->attributes as $attr) {
+      $value[$attr] = $this->dialog->$attr;
+    }
+
+    $this->attribute->addValue($value);
+    return FALSE;
+  }
+
+  function handle_cancel ()
+  {
+    if ($this->initialDialogValue !== NULL) {
+      $this->attribute->addValue($this->initialDialogValue);
+    }
+    return FALSE;
   }
 }
 ?>

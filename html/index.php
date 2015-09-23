@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2013  FusionDirectory
+  Copyright (C) 2011-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -167,35 +167,12 @@ initLanguage();
 
 $smarty->assign ('nextfield', 'username');
 
-/* Do we have htaccess authentification enabled? */
-$htaccess_authenticated = FALSE;
-if ($config->get_cfg_value("htaccessAuthentication") == "TRUE" ) {
-  if (!isset($_SERVER['REMOTE_USER'])) {
-    msg_dialog::display(_("Configuration error"), _("There is a problem with the authentication setup!"), FATAL_ERROR_DIALOG);
-    exit;
-  }
-
-  $tmp      = process_htaccess($_SERVER['REMOTE_USER'], isset($_SERVER['KRB5CCNAME']));
-  $username = $tmp['username'];
-  $server   = $tmp['server'];
-  if ($username == "") {
-    msg_dialog::display(_("Error"), _("Cannot find a valid user for the current authentication setup!"), FATAL_ERROR_DIALOG);
-    exit;
-  }
-  if ($server == "") {
-    msg_dialog::display(_("Error"), _("User information is not unique across the configured LDAP trees!"), FATAL_ERROR_DIALOG);
-    exit;
-  }
-
-  $htaccess_authenticated = TRUE;
+if (isset($_POST['server'])) {
+  $server = $_POST['server'];
+} else {
+  $server = $config->data['MAIN']['DEFAULT'];
 }
-if (!$htaccess_authenticated) {
-  if (isset($_POST['server'])) {
-    $server = $_POST['server'];
-  } else {
-    $server = $config->data['MAIN']['DEFAULT'];
-  }
-}
+
 $config->set_current($server);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   session::global_set('DEBUGLEVEL', 0);
@@ -207,13 +184,30 @@ if (($config->get_cfg_value("forcessl") == "TRUE") && ($ssl != '')) {
   exit;
 }
 
+if (isset($_REQUEST['message'])) {
+  switch($_REQUEST['message']) {
+    case 'expired':
+      $message = _('Your FusionDirectory session has expired!');
+      break;
+    case 'newip':
+      $message = _('Your IP has changed!');
+      break;
+    case 'invalidparameter':
+      $message = sprintf(_('Invalid plugin parameter "%s"!'), $_REQUEST['plug']);
+      break;
+    case 'nosession':
+      $message = _('No session found!');
+      break;
+    default:
+      $message = $_REQUEST['message'];
+  }
+}
 
 /* Got a formular answer, validate and try to log in */
-if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htaccess_authenticated) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
 
   /* Reset error messages */
   $message = "";
-
 
   /* Destroy old sessions, they cause a successfull login to relog again ...*/
   if (session::global_is_set('_LAST_PAGE_REQUEST')) {
@@ -244,7 +238,7 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
       $cfg['password']    = $config->current['ADMINPASSWORD'];
       $cfg['connection']  = $config->current['SERVER'];
       $cfg['tls']         = $tls;
-      $str = check_schema($cfg, $config->get_cfg_value("rfc2307bis") == "TRUE");
+      $str = check_schema($cfg);
       $checkarr = array();
       foreach ($str as $tr) {
         if (isset($tr['IS_MUST_HAVE']) && !$tr['STATUS']) {
@@ -258,39 +252,23 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
 
 
   /* Check for locking area */
-  $ldap->cat($config->get_cfg_value("config"), array("dn"));
+  $ldap->cat(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'], array('dn'));
   $attrs = $ldap->fetch();
-  if (!count ($attrs)) {
+  if (!count($attrs)) {
     $ldap->cd($config->current['BASE']);
-    $ldap->create_missing_trees($config->get_cfg_value("config"));
+    $ldap->create_missing_trees(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
   }
-
 
   /* Check for valid input */
-  $ok = TRUE;
-  if (!$htaccess_authenticated) {
-    $username = trim($_POST['username']);
-    if (!preg_match("/^[@A-Za-z0-9_.-]+$/", $username)) {
-      $message = _("Please specify a valid username!");
-      $ok = FALSE;
-    } elseif (mb_strlen($_POST["password"], 'UTF-8') == 0) {
-      $message = _("Please specify your password!");
-      $smarty->assign ('nextfield', 'password');
-      $ok = FALSE;
-    }
-  }
-
-  if ($ok) {
+  $username = trim($_POST['username']);
+  if (!preg_match("/^[@A-Za-z0-9_.-]+$/", $username)) {
+    $message = _("Please specify a valid username!");
+  } elseif (mb_strlen($_POST["password"], 'UTF-8') == 0) {
+    $message = _("Please specify your password!");
+    $smarty->assign ('nextfield', 'password');
+  } else {
     /* Login as user, initialize user ACL's */
-    if ($htaccess_authenticated) {
-      $ui = ldap_login_user_htaccess($username);
-      if ($ui === NULL || !$ui) {
-        msg_dialog::display(_("Authentication error"), _("Cannot retrieve user information for htaccess authentication!"), FATAL_ERROR_DIALOG);
-        exit;
-      }
-    } else {
-      $ui = ldap_login_user($username, $_POST["password"]);
-    }
+    $ui = ldap_login_user($username, $_POST["password"]);
     if ($ui === NULL || !$ui) {
       $message = _("Please check the username/password combination.");
       $smarty->assign ('nextfield', 'password');
@@ -334,8 +312,8 @@ if (($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) || $htacces
       /* Not account expired or password forced change go to main page */
       new log("security", "login", "", array(), "User \"$username\" logged in successfully");
       session::global_set('connected', 1);
-      session::global_set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
       $config->checkLdapConfig(); // check that newly installed plugins have their configuration in the LDAP
+      session::global_set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
       header ("Location: main.php?global_check=1");
       exit;
     }

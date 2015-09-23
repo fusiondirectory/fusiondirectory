@@ -34,7 +34,7 @@ class domain extends department
         'name'        => _('Domain'),
         'filter'      => '(&(objectClass=domain)(objectClass=gosaDepartment))',
         'ou'          => '',
-        'icon'        => 'plugins/departments/images/domain.png',
+        'icon'        => 'geticon.php?context=types&icon=domain&size=16',
         'tabClass'    => 'deptabs',
         'mainAttr'    => self::$namingAttr,
       )),

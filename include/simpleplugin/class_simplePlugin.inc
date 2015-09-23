@@ -117,6 +117,8 @@ class simplePlugin extends plugin
     // We call plugin constructor
     parent::__construct($config, $dn, $object);
 
+    $this->setTemplate($this->is_template);
+
     $this->orig_dn = $dn;
 
     if ($this->mainTab) {
@@ -145,6 +147,39 @@ class simplePlugin extends plugin
           break;
         }
       }
+    }
+  }
+
+  function setTemplate ($bool)
+  {
+    parent::setTemplate($bool);
+    if ($this->is_template && $this->mainTab) {
+      /* Unshift special section for template infos */
+      $this->attributesInfo = array_merge(
+        array(
+          '_template' => array(
+            'class' => array('fullwidth'),
+            'name'  => _('Template settings'),
+            'attrs' => array(
+              '_template_cn' => new StringAttribute(
+                _('Template name'), _('This is the name of the template'),
+                '_template_cn', TRUE
+              )
+            )
+          ),
+          '_template_dummy' => array(
+            'class' => array('invisible'),
+            'name'  => '_template_dummy',
+            'attrs' => array()
+          )
+        ),
+        $this->attributesInfo
+      );
+      $this->attributesAccess['_template_cn'] =& $this->attributesInfo['_template']['attrs']['_template_cn'];
+      $this->attributesAccess['_template_cn']->setInLdap(FALSE);
+      $this->attributesAccess['_template_cn']->setValue($this->_template_cn);
+      $this->attributesAccess['_template_cn']->setParent($this);
+      unset($this->_template_cn);
     }
   }
 
@@ -218,6 +253,57 @@ class simplePlugin extends plugin
       return TRUE;
     }
     return isset($this->attributesAccess[$name]);
+  }
+
+  /*! \brief This function returns the dn this object should have
+   */
+  public function compute_dn()
+  {
+    if (!$this->mainTab) {
+      msg_dialog::display(_('Fatal error'), _('Only main tab can compute dn'), FATAL_ERROR_DIALOG);
+      exit;
+    }
+    if (!isset($this->parent) || !($this->parent instanceof simpleTabs)) {
+      msg_dialog::display(
+        _('Fatal error'),
+        sprintf(
+          _('Could not compute dn: no parent tab class for "%s"'),
+          get_class($this)
+        ),
+        FATAL_ERROR_DIALOG
+      );
+      exit;
+    }
+    $infos = $this->parent->objectInfos();
+    if ($infos === FALSE) {
+      msg_dialog::display(
+        _('Fatal error'),
+        sprintf(
+          _('Could not compute dn: could not find objectType infos from tab class "%s"'),
+          get_class($this->parent)
+        ),
+        FATAL_ERROR_DIALOG
+      );
+      exit;
+    }
+    $attr = $infos['mainAttr'];
+    $ou   = $infos['ou'];
+    if ($this->is_template) {
+      $dn = 'cn='.$this->_template_cn.',ou=templates,'.$ou.$this->base;
+      return $dn;
+    }
+    return $attr.'='.$this->attributesAccess[$attr]->computeLdapValue().','.$ou.$this->base;
+  }
+
+  function getRequiredAttributes()
+  {
+    $tmp = array();
+    foreach ($this->attributesAccess as $attr) {
+      if ($attr->isRequired()) {
+        $tmp[] = $attr->getLdapName();
+      }
+    }
+    return $tmp;
   }
 
   /*! \brief This function update the values of LDAP attributes as class attribute,
@@ -425,6 +511,10 @@ class simplePlugin extends plugin
       return;
     }
     $this->prepare_remove();
+    if ($this->is_template && (!defined('_OLD_TEMPLATES_') || !_OLD_TEMPLATES_)) {
+      $this->attrs = $this->templateSaveAttrs();
+      $this->saved_attributes = array();
+    }
     $this->ldap_remove();
     $this->post_remove();
   }
@@ -716,6 +806,8 @@ class simplePlugin extends plugin
         }
         if (($entry_dn != '') && ($entry_dn != 'new')) {
           $account->set_acl_base($entry_dn);
+        } else {
+          $account->set_acl_base($config->current['BASE']);
         }
         session::set($classname, $account);
       }

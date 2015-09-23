@@ -23,25 +23,11 @@ class deptabs extends simpleTabs
 {
   function save()
   {
-    $baseobject = $this->getBaseObject();
-    $new_dn     = $baseobject->compute_dn();
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $new_dn, "Saving");
+    parent::save();
 
-    /* Move ? */
-    if ($this->dn != $new_dn) {
-      /* Write entry on new 'dn' */
-      if ($this->dn != 'new') {
-        $baseobject->move($this->dn, $new_dn);
-      }
-      /* Happen to use the new one */
-      $this->dn = $new_dn;
-
-      /* Update department cache */
-      global $config;
-      $config->get_departments();
-    }
-
-    tabs::save();
+    /* Update department cache */
+    global $config;
+    $config->get_departments();
   }
 }
 ?>

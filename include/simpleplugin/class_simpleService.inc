@@ -2,7 +2,6 @@
 
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2003  Cajus Pollmeier
   Copyright (C) 2011-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
@@ -85,7 +84,7 @@ class simpleService extends simplePlugin {
     /* Name displayed in service overview */
     $fields['Message']      = $this->DisplayName;
 
-    if ($this->showActions && is_object($this->parent->parent) && $this->parent->parent->by_object['argonautClient']->is_account) {
+    if ($this->showActions && is_object($this->parent->parent) && isset($this->parent->parent->by_object['argonautClient']) && $this->parent->parent->by_object['argonautClient']->is_account) {
       /* Allow/disallow some functions */
       $fields['AllowStatus']  = ($this->status == "") && $this->acl_is_writeable("start");
       $fields['AllowStart']   = ($this->status == "stopped") && $this->acl_is_writeable("start");

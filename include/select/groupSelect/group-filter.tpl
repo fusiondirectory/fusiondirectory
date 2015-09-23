@@ -1,6 +1,6 @@
 <div class="contentboxh">
  <p class="contentboxh">
-  <img src="images/launch.png" align="right" alt="[F]">{t}Filter{/t}
+  {t}Filter{/t}
  </p>
 </div>
 
@@ -16,7 +16,7 @@
   <tr>
    <td>
     <label for="NAME">
-     <img src="geticon.php?context=actions&icon=system-search&size=16" align=middle>&nbsp;{t}Name{/t}
+     <img src="geticon.php?context=actions&amp;icon=system-search&amp;size=16" align=middle>&nbsp;{t}Name{/t}
     </label>
    </td>
    <td>

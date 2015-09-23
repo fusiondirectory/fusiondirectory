@@ -25,19 +25,19 @@
     </div>
 
     <div>
-      <label for="username"><img class="center" src="{$personal_img}" alt="{t}Username{/t}" title="{t}Username{/t}"/>&nbsp;</label>
+      <label for="username"><img class="center" src="{$personal_img|escape}" alt="{t}Username{/t}" title="{t}Username{/t}"/>&nbsp;</label>
       <input type="text" name="username" id="username" maxlength="40" value="{$username|escape}"
        title="{t}Username{/t}" onFocus="nextfield= 'password';" />
       <br />
       <br />
-      <label for="password"><img class="center" src="{$password_img}" alt="{t}Password{/t}" title="{t}Password{/t}" />&nbsp;</label>
+      <label for="password"><img class="center" src="{$password_img|escape}" alt="{t}Password{/t}" title="{t}Password{/t}" />&nbsp;</label>
       <input type="password" name="password" id="password" maxlength="40" value=""
          title="{t}Password{/t}" onFocus="nextfield= 'login';" />
       <br />
       <a href="recovery.php">{t}I forgot my password{/t}</a>
     </div>
     <div>
-      <img class="center" src="{$directory_img}" alt="{t}Directory{/t}" title="{t}Directory{/t}" />&nbsp;
+      <img class="center" src="{$directory_img|escape}" alt="{t}Directory{/t}" title="{t}Directory{/t}" />&nbsp;
       <select name="server" title="{t}Directory{/t}" onchange="javascript:document.mainform.submit();">
         {html_options options=$server_options selected=$server_id}
       </select>

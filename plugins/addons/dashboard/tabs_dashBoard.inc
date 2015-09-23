@@ -1,7 +1,6 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2003-2010  Cajus Pollmeier
   Copyright (C) 2011-2015  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
@@ -19,19 +18,15 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class tabs_dashboard extends tabs
+class tabs_dashboard extends simpleTabs_noSpecial
 {
-
-  function __construct($config, $data, $dn = NULL, $category = 'dashboard', $copied_object = NULL)
+  function __construct($type, $dn, $copied_object = NULL)
   {
-    foreach ($data as $key => $infos) {
-      if (($infos['CLASS'] == 'dashboardNetwork') &&
-          !(class_available('dhcpService') || class_available('serviceDNS'))) {
-        unset($data[$key]);
-      }
+    parent::__construct($type, $dn, $copied_object);
+    if (!class_available('dhcpService') && !class_available('serviceDNS')) {
+      unset($this->by_object['dashboardNetwork']);
+      unset($this->by_name['dashboardNetwork']);
     }
-    $data = array_values($data);
-    parent::__construct($config, $data, $dn, $category);
   }
 
   function save()

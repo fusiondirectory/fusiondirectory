@@ -11,22 +11,6 @@
     <label>List of users</label>
     <defaultSortColumn>1</defaultSortColumn>
 
-    <objectType>
-      <label>Template</label>
-      <objectClass>gosaUserTemplate</objectClass>
-      <category>user</category>
-      <class>user</class>
-      <image>plugins/users/images/select_template.png</image>
-    </objectType>
-
-    <objectType>
-      <label>User</label>
-      <objectClass>gosaAccount</objectClass>
-      <category>user</category>
-      <class>user</class>
-      <image>geticon.php?context=types&amp;icon=user&amp;size=16</image>
-    </objectType>
-
   </definition>
 
   <table>
@@ -49,7 +33,7 @@
       <label>Surname</label>
       <sortAttribute>sn</sortAttribute>
       <sortType>string</sortType>
-      <value>%{filter:link(row,dn,"%s",sn)}</value>
+      <value>%{filter:filterRowLink(pid,row,dn,sn,cn)}</value>
       <export>true</export>
     </column>
 
@@ -89,16 +73,23 @@
      <label>Create</label>
 
      <action>
-      <name>new</name>
+      <name>new_user</name>
       <type>entry</type>
       <image>geticon.php?context=types&amp;icon=user&amp;size=16</image>
       <label>User</label>
      </action>
 
      <action>
-      <name>new_template</name>
+      <name>template_apply_user</name>
       <type>entry</type>
-      <image>plugins/users/images/select_template.png</image>
+      <image>geticon.php?context=types&amp;icon=user&amp;size=16</image>
+      <label>From template</label>
+     </action>
+
+     <action>
+      <name>new_template_user</name>
+      <type>entry</type>
+      <image>geticon.php?context=actions&amp;icon=document-new&amp;size=16</image>
       <label>Template</label>
      </action>
     </action>
@@ -119,14 +110,6 @@
       <type>entry</type>
       <image>geticon.php?context=actions&amp;icon=edit-delete&amp;size=16</image>
       <label>Remove</label>
-    </action>
-
-    <action>
-      <name>password</name>
-      <type>entry</type>
-      <image>geticon.php?context=status&amp;icon=dialog-password&amp;size=16</image>
-      <label>Change password</label>
-      <acl>user/password[w]</acl>
     </action>
 
     <action>
@@ -154,7 +137,7 @@
     </action>
 
     <action>
-      <name>templatize</name>
+      <name>template_apply_to_user</name>
       <type>entry</type>
       <image>geticon.php?context=actions&amp;icon=tools-wizard&amp;size=16</image>
       <label>Apply template</label>
@@ -183,25 +166,23 @@
   </actionmenu>
 
   <actiontriggers snapshot="true" copypaste="true">
-
     <action>
-      <name>newfromtpl</name>
+      <name>template_apply_user</name>
       <type>entry</type>
       <image>geticon.php?context=actions&amp;icon=document-new&amp;size=16</image>
-      <objectclass>gosaUserTemplate</objectclass>
+      <objectclass>fdTemplate</objectclass>
       <label>New user from template</label>
     </action>
 
     <action>
       <name>cp</name>
-      <objectclass>!gosaUserTemplate</objectclass>
+      <objectclass></objectclass>
       <type>copypaste</type>
     </action>
 
     <action>
       <name>edit</name>
       <type>entry</type>
-      <objectclass>gosaAccount</objectclass>
       <image>geticon.php?context=actions&amp;icon=document-edit&amp;size=16</image>
       <label>Edit user</label>
     </action>
@@ -209,32 +190,22 @@
     <action>
       <name>lock</name>
       <type>entry</type>
-      <objectclass>!gosaUserTemplate</objectclass>
+      <objectclass>!fdTemplate</objectclass>
       <image>%{filter:lockImage(userPassword)}</image>
       <acl>user/password[w]</acl>
       <label>%{filter:lockLabel(userPassword)}</label>
     </action>
 
     <action>
-      <name>password</name>
-      <type>entry</type>
-      <objectclass>!gosaUserTemplate</objectclass>
-      <acl>user/password[w]</acl>
-      <image>geticon.php?context=status&amp;icon=dialog-password&amp;size=16</image>
-      <label>Change password</label>
-    </action>
-
-    <action>
       <name>snapshot</name>
       <type>snapshot</type>
-      <objectclass>!gosaUserTemplate</objectclass>
+      <objectclass>!fdTemplate</objectclass>
     </action>
 
     <action>
       <name>remove</name>
       <type>entry</type>
       <image>geticon.php?context=actions&amp;icon=edit-delete&amp;size=16</image>
-      <objectclass>gosaAccount</objectclass>
       <acl>user/user[d]</acl>
       <label>Remove user</label>
     </action>

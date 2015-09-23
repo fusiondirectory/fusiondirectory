@@ -84,18 +84,11 @@ class CopyPasteHandler
    *
    * \param Object $parent the parent to set to the tab object
    */
-  function add_to_queue($dn, $action, $tab_class, $tab_object, $tab_acl_category, $parent = NULL)
+  function add_to_queue()
   {
+    $dn     = func_get_arg(0);
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "add_to_queue");
-    if (!class_available($tab_class)) {
-      trigger_error(sprintf("Specified class object '%s' does not exists.", $tab_class));
-      return FALSE;
-    }
-
-    if (!isset($this->config->data['TABS'][$tab_object])) {
-      trigger_error(sprintf("Specified tab object '%s' does not exists.", $tab_object));
-      return FALSE;
-    }
+    $action = func_get_arg(1);
 
     if (!in_array($action, array("cut","copy"))) {
       trigger_error(sprintf("Specified action '%s' does not exists for copy & paste.", $action));
@@ -104,12 +97,39 @@ class CopyPasteHandler
 
     $tmp = array();
 
-    $tmp['method']            = $action;
-    $tmp['dn']                = $dn;
-    $tmp['tab_class']         = $tab_class;
-    $tmp['tab_object']        = $tab_object;
-    $tmp['tab_acl_category']  = $tab_acl_category;
-    $tmp['parent']            = $parent;
+    $tmp['method']  = $action;
+    $tmp['dn']      = $dn;
+
+    if (func_num_args() == 3) {
+      $type                     = func_get_arg(2);
+      $tmp['type']              = $type;
+      $infos                    = objects::infos($type);
+      $tmp['tab_acl_category']  = $infos['aclCategory'];
+      $tmp['parent']            = NULL;
+    } else {
+      // Deprecated
+      $tab_class = func_get_arg(2);
+      $tab_object = func_get_arg(3);
+      $tab_acl_category = func_get_arg(4);
+      $parent = NULL;
+      if (func_num_args() > 5) {
+        $parent = func_get_arg(5);
+      }
+
+      if (!class_available($tab_class)) {
+        trigger_error(sprintf("Specified class object '%s' does not exists.", $tab_class));
+        return FALSE;
+      }
+
+      if (!isset($this->config->data['TABS'][$tab_object])) {
+        trigger_error(sprintf("Specified tab object '%s' does not exists.", $tab_object));
+        return FALSE;
+      }
+      $tmp['tab_class']         = $tab_class;
+      $tmp['tab_object']        = $tab_object;
+      $tmp['tab_acl_category']  = $tab_acl_category;
+      $tmp['parent']            = $parent;
+    }
 
     $this->queue[]        = $tmp;
     $this->require_update = TRUE;
@@ -145,15 +165,23 @@ class CopyPasteHandler
   function load_entry_from_queue($entry, $base)
   {
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $entry['dn'], "load_entry_from_queue");
-    if (!isset($entry['tab_class'])) {
+    if (!isset($entry['tab_class']) && !isset($entry['type'])) {
       return array();
     }
 
-    $tab_c  = $entry['tab_class'];
-    $tab_o  = $entry['tab_object'];
-    $tab_a  = $entry['tab_acl_category'];
+    if (isset($entry['type'])) {
+      $entry['object'] = objects::open($entry['dn'], $entry['type']);
+    } else {
+      trigger_error('Call to deprecated tabs constructor');
+      // old way
+      $tab_c  = $entry['tab_class'];
+      $tab_o  = $entry['tab_object'];
+      $tab_a  = $entry['tab_acl_category'];
 
-    $entry['object'] = new $tab_c($this->config, $this->config->data['TABS'][$tab_o], $entry['dn'], $tab_a);
+      // Deprecated
+      $entry['object'] = new $tab_c($this->config, $this->config->data['TABS'][$tab_o], $entry['dn'], $tab_a);
+    }
+
     $entry['object']->set_acl_base($base);
     if ($entry['parent'] !== NULL) {
       $entry['object']->parent = $entry['parent'];
@@ -339,9 +367,9 @@ class CopyPasteHandler
     $Copy_Paste = "&nbsp;<img class='center' src='images/lists/seperator.png' alt='' height='16' width='1'>&nbsp;";
     if ($this->entries_queued()) {
       $Copy_Paste .= "<input type='image' name='editPaste' class='center'
-        src='geticon.php?context=actions&icon=edit-paste&size=16' alt='"._("Paste")."'>&nbsp;";
+        src='geticon.php?context=actions&amp;icon=edit-paste&amp;size=16' alt='"._("Paste")."'>&nbsp;";
     } else {
-      $Copy_Paste .= "<img class='center' src='geticon.php?context=actions&icon=edit-paste&size=16&disabled=1' alt=\""._("Cannot paste")."\">&nbsp;";
+      $Copy_Paste .= "<img class='center' src='geticon.php?context=actions&amp;icon=edit-paste&amp;size=16&amp;disabled=1' alt=\""._("Cannot paste")."\">&nbsp;";
     }
     return $Copy_Paste;
   }

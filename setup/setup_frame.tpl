@@ -1,36 +1,45 @@
-<body class='setup_body'>
-{$php_errors}
-<form action='setup.php' name='mainform' method='post' enctype='multipart/form-data'>
-  {$msg_dialogs}
-<div class='setup_dialog'>
-  {include file={filePath file="setup_header.tpl"}}
-  <div class='setup_menu'>
-    <b>{t}FusionDirectory setup wizard{/t}</b>
-  </div>
-
-  <div style="padding:10px;background-color:white;">
-
-    <div class='setup_navigation' id='menucell'>
-      {$navigation}
-    </div>
-
-    <div class='setup_contents'>
-      <div style='border-bottom:1px dashed #AAAAAA'>
-        {$errors}
-        {$header}
+<!-- Headline -->
+<body class="setup">
+  {$php_errors}
+  <form action="setup.php" name="mainform" id="mainform" method="post" enctype="multipart/form-data">
+    <div class="setup_header">
+      <div id="header_left">
+        <img id="fd_logo" class="optional" src="geticon.php?context=applications&amp;icon=fusiondirectory&amp;size=48" alt="FusionDirectory"/>
+        <a class="plugtop">
+          <img src="{$headline_image|escape}" alt="{t}{$headline}{/t}"/>{t}{$headline}{/t}
+        </a>
       </div>
-      <div style='padding-left:12px;'>
-        {$contents}
-        {$bottom}
-        <br>
+      <div id="header_right">
+        <div class="logout-label">
+          {$version}
+        </div>
       </div>
     </div>
-    <div style="clear:both">  </div>
-  </div>
-</div>
 
+    <table class="framework">
+      <tbody>
+        <tr>
+          <!-- Menu -->
+          <td id="menucell" class="setup_navigation">
+            {$navigation}
+            <br/>
+          </td>
 
-<input type='hidden' name='setup_goto_step' value=''>
-</form>
+          <!-- Plugin window -->
+          <td id="maincell">
+            {$msg_dialogs}
+            <div class="plugin_window">
+              {$contents}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    {$errors}
+    {$focus}
+    <input type="hidden" name="setup_goto_step" value=""/>
+  </form>
+
 </body>
 </html>

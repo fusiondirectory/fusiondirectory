@@ -64,18 +64,6 @@ class SnapShotDialog extends plugin
     $this->snapHandler = new SnapshotHandler($this->config);
   }
 
-  /*! \brief Test if snapshoting is enabled
-   *
-   * Test weither snapshotting is enabled or not. There will also be some errors posted,
-   * if the configuration failed
-   *
-   * \return TRUE if snapshots are enabled, and FALSE if it is disabled
-   */
-  function snapshotEnabled()
-  {
-    return $this->snapHandler->enabled();
-  }
-
   /*!
    * \brief Get all deleted snapshots
    */
@@ -187,9 +175,9 @@ class SnapShotDialog extends plugin
       /* Add Elements to divselectbox */
       $this->last_list = array_values($list_of_elements);
       foreach ($this->last_list as $key => $entry) {
-        $actions = "<input type='image' src='geticon.php?context=actions&icon=document-restore&size=16' name='RestoreSnapshot_$key'
+        $actions = "<input type='image' src='geticon.php?context=actions&amp;icon=document-restore&amp;size=16' name='RestoreSnapshot_$key'
           class='center' title='"._("Restore snapshot")."'>&nbsp;";
-        $actions .= "<input type='image' src='geticon.php?context=actions&icon=edit-delete&size=16' name='RemoveSnapshot_$key'
+        $actions .= "<input type='image' src='geticon.php?context=actions&amp;icon=edit-delete&amp;size=16' name='RemoveSnapshot_$key'
           class='center' title='"._("Remove snapshot")."'>&nbsp;";
 
         $time_stamp     = date(_("Y-m-d, H:i:s"), preg_replace("/\-.*$/", "", $entry['gosaSnapshotTimestamp'][0]));

@@ -151,7 +151,7 @@ class objects
     $infos    = self::infos($type);
     $tabClass = $infos['tabClass'];
 
-    $tabObject = new $tabClass($config, $config->data['TABS'][$infos['tabGroup']], $dn, $infos['aclCategory']);
+    $tabObject = new $tabClass($type, $dn);
     if ($dn == 'new') {
       $tabObject->set_acl_base($config->current['BASE']);
     } else {
@@ -180,10 +180,10 @@ class objects
 
     if ($text === NULL) {
       $ldap = $config->get_ldap_link();
-      $ldap->cat($dn, array($infos['mainAttr']));
+      $ldap->cat($dn, array($infos['nameAttr']));
       if ($attrs = $ldap->fetch()) {
-        if (isset($attrs[$infos['mainAttr']][0])) {
-          $text = $attrs[$infos['mainAttr']][0];
+        if (isset($attrs[$infos['nameAttr']][0])) {
+          $text = $attrs[$infos['nameAttr']][0];
         } else {
           $text = $dn;
         }
@@ -191,11 +191,11 @@ class objects
         throw new Exception('Dn '.$dn.' not found in LDAP');
       }
     } elseif (is_array($text)) {
-      $text = $text[$infos['mainAttr']][0];
+      $text = $text[$infos['nameAttr']][0];
     }
 
     if ($icon && isset($infos['icon'])) {
-      $text = '<img alt="'.$infos['name'].'" title="'.$dn.'" src="'.$infos['icon'].'" class="center"/>&nbsp;'.$text;
+      $text = '<img alt="'.$infos['name'].'" title="'.$dn.'" src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'" class="center"/>&nbsp;'.$text;
     }
 
     return '<a href="'.$href.'">'.$text.'</a>';
@@ -229,6 +229,32 @@ class objects
   {
     global $config;
     return array_keys($config->data['OBJECTS']);
+  }
+
+  /* !\brief  This method returns a list of all available templates for the given type
+   */
+  static function getTemplates($type)
+  {
+    global $config;
+
+    $infos = self::infos($type);
+
+    $templates = array();
+    $ldap = $config->get_ldap_link();
+    foreach ($config->departments as $key => $value) {
+      // Search all templates from the current dn.
+      $ldap->cd($infos['ou'].$value);
+      // We could also adapt object filter to match templates
+      $ldap->search('(objectClass=fdTemplate)', array('cn'));
+      if ($ldap->count() != 0) {
+        while ($attrs = $ldap->fetch()) {
+          $templates[$ldap->getDN()] = $attrs['cn'][0]." - ".LDAP::fix($key);
+        }
+      }
+    }
+    natcasesort($templates);
+    reset($templates);
+    return $templates;
   }
 }
 

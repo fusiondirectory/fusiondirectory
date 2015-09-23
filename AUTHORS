@@ -140,19 +140,19 @@ documentation and additional help.
 
 * Guillaume Chéramy <guillaume@cheramy.name>
   Patches for the template system
-  
+
 * Mathias Friman mathias.friman@knorca.se
   Translation to swedish
 
 * Alexandre Magnat <alexandre.magnat@mecaprotec.fr>
   Snapshot bug reporter
-  
+
 * Guillaume RODRIGUEZ <rodriguez.guillaume@icloud.com>
   asterisk plugin error reporter
 
 * Guillard Olivier <fd@guillard.nom.fr>
   SSH plugin key storage problem reporter
-  
+
 * Fabien Brachere <fabien.brachere@e-tera.com>
   Fix support for special caracters in password
 

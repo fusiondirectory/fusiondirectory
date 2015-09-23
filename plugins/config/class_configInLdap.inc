@@ -54,24 +54,28 @@ class configInLdap extends simplePlugin
   static function plInfo()
   {
     return array(
-      "plShortName"     => _("Configuration"),
-      "plDescription"   => _("FusionDirectory configuration"),
-      "plIcon"          => "geticon.php?context=categories&icon=settings&size=48",
-      "plObjectType"    => array("configuration" => array(
-        "name"    => _("FusionDirectory configuration"),
-        "filter"  => "objectClass=fusionDirectoryConf",
-        "icon"    => "geticon.php?context=categories&icon=settings&size=16",
-      )),
-      "plSection"       => array("conf" => array("name" => _("Configuration"), "priority" => 20)),
+      'plShortName'     => _('Configuration'),
+      'plDescription'   => _('FusionDirectory configuration'),
+      'plIcon'          => 'geticon.php?context=categories&icon=settings&size=48',
+      'plObjectType'    => array(
+        'configuration' => array(
+          'name'    => _('FusionDirectory configuration'),
+          'filter'  => 'objectClass=fusionDirectoryConf',
+          'icon'    => 'geticon.php?context=categories&icon=settings&size=16',
+          'ou'      => preg_replace('/^[^,]+,/', '', CONFIGRDN)
+        )
+      ),
+      'plSection'       => array('conf' => array('name' => _('Configuration'), 'priority' => 20)),
       'plManages'       => array('configuration'),
-      "plPriority"      => 0,
+      'plPriority'      => 0,
 
-      "plProvidedAcls"  => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls'  => parent::generatePlProvidedAcls(self::getAttributesInfo())
     );
   }
 
   static function getAttributesInfo ()
   {
+    global $config;
     $plugins = array();
     if (session::global_is_set('plist')) {
       $plugins = array_keys(session::global_get('plist')->info);
@@ -104,16 +108,10 @@ class configInLdap extends simplePlugin
         'name'  => _('Schema setup'),
         'attrs' => array(
           new BooleanAttribute (
-            _('rfc2307bis'),
-            _('Enables rfc2307bis style groups. You can use member attributes instead of memberUid in this case.'),
-            'fdRfc2307bis', FALSE,
-            FALSE
-          ),
-          new BooleanAttribute (
-            _('Schema check'),
+            _('Schema validation'),
             _('Enables schema checking during login.'),
             'fdSchemaCheck', FALSE,
-            FALSE
+            TRUE
           ),
         )
       ),
@@ -138,10 +136,6 @@ class configInLdap extends simplePlugin
             _('Password minimum differs'), _('Minimum number of different characters from last password'),
             'fdPasswordMinDiffer', FALSE,
             0 /*min*/, FALSE /*no max*/
-          ),
-          new StringAttribute (
-            _('Password hook'), _('External script to handle password settings'),
-            'fdPasswordHook'
           ),
           new BooleanAttribute (
             _('Use account expiration'),
@@ -177,12 +171,7 @@ class configInLdap extends simplePlugin
             _('Edit locking'),
             _('Check if a entry currently being edited has been modified outside of FusionDirectory in the meantime.'),
             'fdModificationDetectionAttribute', FALSE,
-            array('', 'entryCSN', 'contextCSN')
-          ),
-          new BooleanAttribute (
-            _('Enable Copy & Paste'),
-            _('Enables copy and paste for LDAP entries managed with FusionDirectory.'),
-            'fdCopyPaste'
+            array('', 'entryCSN', 'contextCSN'), 'entryCSN'
           ),
           new BooleanAttribute (
             _('Enable logging'),
@@ -230,65 +219,33 @@ class configInLdap extends simplePlugin
         'attrs' => array(
           new BooleanAttribute (
             _('Enable snapshots'), _('This enables you to save certain states of entries and restore them later on.'),
-            'fdEnableSnapshots'
+            'fdEnableSnapshots', FALSE,
+            TRUE
           ),
           new StringAttribute (
             _('Snapshot base'), _('The base where snapshots should be stored inside of the LDAP.'),
-            'fdSnapshotBase'
+            'fdSnapshotBase', FALSE,
+            'ou=snapshots,'.$config->current['BASE']
           ),
         )
       ),
-      'miscellaneous' => array(
-        'name'  => _('Miscellaneous'),
-        'class' => array('fullwidth'),
+      'ssl' => array(
+        'name'  => _('SSL'),
         'attrs' => array(
-          new OrderedArrayAttribute (
-            new CompositeAttribute (
-              _('Hooks that are called when specific actions happens'),
-              'fdTabHook',
-              array(
-                new SelectAttribute(
-                  _('tab'), _('The tab that this hook concerns'),
-                  'hookTab', TRUE,
-                  $plugins
-                ),
-                new SelectAttribute(
-                  _('mode'), _('When to call this command'),
-                  'hookMode', TRUE,
-                  array('postcreate', 'postremove', 'postmodify',
-                        'precreate', 'preremove', 'premodify', 'check')
-                ),
-                new StringAttribute(
-                  _('cmd'), _('The command that will be called'),
-                  'hookCmd', TRUE
-                )
-              ),
-              '/^([^\\|]+)\\|([^\\|]+)\\|(.*)$/',
-              '%s|%s|%s',
-              '', // acl
-              _('Hooks')
-            ),
-            FALSE, // non-ordered
-            array(),
-            TRUE // edition
+          new StringAttribute (
+            _('Key path'), _('Path to FusionDirectory private key. Unused for now.'),
+            'fdSslKeyPath', FALSE,
+            '/etc/ssl/private/fd.key'
           ),
-          new BooleanAttribute (
-            _('Display hook output'),
-            _('When enabled successful hook execution output is displayed to the user using a dialog.'),
-            'fdDisplayHookOutput'
+          new StringAttribute (
+            _('Certificate path'), _('Path to FusionDirectory certificate. Unused for now.'),
+            'fdSslCertPath', FALSE,
+            '/etc/ssl/certs/fd.cert'
           ),
-          new SetAttribute(
-            new StringAttribute (
-              _('Available shells'), _('Available POSIX shells for FD users.'),
-              'fdShells', FALSE
-            ),
-            array('/bin/ash','/bin/bash','/bin/csh','/bin/sh','/bin/ksh',
-                  '/bin/tcsh','/bin/dash','/bin/zsh','/sbin/nologin','/bin/false')
-          ),
-          new BooleanAttribute (
-            _('Show ACL tab on all objects'),
-            _('For very specific ACL rights setting where you might need to give right on a single object.'),
-            'fdAclTabOnObjects'
+          new StringAttribute (
+            _('CA certificate path'), _('Path to the CA certificate. Used for validating Argonaut Server host.'),
+            'fdSslCaCertPath', FALSE,
+            '/etc/ssl/certs/ca.cert'
           ),
         )
       ),
@@ -301,18 +258,10 @@ class configInLdap extends simplePlugin
             'fdAccountPrimaryAttribute', TRUE,
             array('uid', 'cn')
           ),
-          new BooleanAttribute (
-            _('Include personal title in user DN'),
-            _('Include personal title in user DN'),
-            'fdPersonalTitleInDN'
-          ),
           new StringAttribute (
-            _('Customized CN'), _('Use a placeholder pattern for generating account cns'),
-            'fdAccountRDN', FALSE
-          ),
-          new StringAttribute (
-            _('Automatic logins'), _('Automatic way to generate new users logins'),
-            'fdIdGenerator', FALSE
+            _('CN pattern'), _('The pattern to use to build the common name field'),
+            'fdCnPattern', TRUE,
+            '%givenName% %sn%'
           ),
           new BooleanAttribute (
             _('Strict naming policy'),
@@ -417,6 +366,60 @@ class configInLdap extends simplePlugin
           ),
         )
       ),
+      'miscellaneous' => array(
+        'name'  => _('Miscellaneous'),
+        'class' => array('fullwidth'),
+        'attrs' => array(
+          new OrderedArrayAttribute (
+            new CompositeAttribute (
+              _('Hooks that are called when specific actions happens'),
+              'fdTabHook',
+              array(
+                new SelectAttribute(
+                  _('tab'), _('The tab that this hook concerns'),
+                  'hookTab', TRUE,
+                  $plugins
+                ),
+                new SelectAttribute(
+                  _('mode'), _('When to call this command'),
+                  'hookMode', TRUE,
+                  array('postcreate', 'postremove', 'postmodify',
+                        'precreate', 'preremove', 'premodify', 'check')
+                ),
+                new StringAttribute(
+                  _('cmd'), _('The command that will be called'),
+                  'hookCmd', TRUE
+                )
+              ),
+              '/^([^\\|]+)\\|([^\\|]+)\\|(.*)$/',
+              '%s|%s|%s',
+              '', // acl
+              _('Hooks')
+            ),
+            FALSE, // non-ordered
+            array(),
+            TRUE // edition
+          ),
+          new BooleanAttribute (
+            _('Display hook output'),
+            _('When enabled successful hook execution output is displayed to the user using a dialog.'),
+            'fdDisplayHookOutput'
+          ),
+          new SetAttribute(
+            new StringAttribute (
+              _('Available shells'), _('Available POSIX shells for FD users.'),
+              'fdShells', FALSE
+            ),
+            array('/bin/ash','/bin/bash','/bin/csh','/bin/sh','/bin/ksh',
+                  '/bin/tcsh','/bin/dash','/bin/zsh','/sbin/nologin', '/bin/false')
+          ),
+          new BooleanAttribute (
+            _('Show ACL tab on all objects'),
+            _('For very specific ACL rights setting where you might need to give right on a single object.'),
+            'fdAclTabOnObjects'
+          ),
+        )
+      ),
     );
   }
 
@@ -448,15 +451,6 @@ class configInLdap extends simplePlugin
         )
       )
     );
-    $this->attributesAccess['fdAccountPrimaryAttribute']->setManagedAttributes(
-      array(
-        'erase' => array (
-          'uid' => array (
-            'fdPersonalTitleInDN',
-          )
-        )
-      )
-    );
     $this->attributesAccess['fdForceSSL']->setManagedAttributes(
       array(
         'disable' => array (
@@ -476,6 +470,11 @@ class configInLdap extends simplePlugin
         )
       )
     );
+  }
+
+  function compute_dn()
+  {
+    return $this->dn;
   }
 
   static function get_themes()

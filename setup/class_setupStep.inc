@@ -19,32 +19,32 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class setup_step extends plugin
+class setupStep extends simplePlugin
 {
-  var $s_title      = "Still undefined";
-  var $s_title_long = "This is a still undefined long title";
-  var $s_info       = "This info is still undefined. This setup step detect the type of your ldap for FusionDirectory.This is a basic requirement for fusiondirectory.";
+  protected $s_title      = "Still undefined";
+  protected $s_title_long = "Still undefined";
+  protected $s_info       = "Still undefined";
   var $is_active    = FALSE;
   var $is_enabled   = FALSE;
   var $is_completed = FALSE;
 
   var $header_image = "";
 
-  var $attributes   = array();
-  var $parent       = NULL;
-  var $dialog       = FALSE;
+  static function getAttributesInfo()
+  {
+    return array();
+  }
 
   function __construct()
   {
+    global $config;
+    parent::__construct($config);
+    $this->update_strings();
   }
 
-  function execute()
+  function update_strings()
   {
-  }
-
-  function save_object()
-  {
-    /* Do not call plugin::save_object. This causes acl trouble  */
+    die('abstract method');
   }
 
   function get_title()
@@ -96,35 +96,24 @@ class setup_step extends plugin
   function get_attributes()
   {
     $tmp = array();
-    foreach ($this->attributes as $attr) {
+    foreach (array_keys($this->attributesAccess) as $attr) {
       $tmp[$attr] = $this->$attr;
     }
     return $tmp;
   }
 
-  function print_header()
+  /* bypass LDAP loading */
+  protected function loadAttributes()
   {
-    $image    = get_template_path($this->header_image);
-    $display  = "<div style='padding:3px;'>";
-    $display  .= "  <p class=\"center\" style=\"margin:0px 0px 0px 5px;padding:0px;font-size:24px;font-weight:bold;\"><img class=\"center\" src=\"$image\" align=\"middle\" alt=\"*\">&nbsp;".$this->s_title_long."</p>\n";
-    $display  .= "</div>\n";
+    foreach ($this->attributesInfo as &$sectionInfo) {
+      foreach ($sectionInfo['attrs'] as $name => &$attr) {
+        $attr->setParent($this);
+      }
+      unset($attr);
+    }
+    unset($sectionInfo);
 
-    return $display;
-  }
-
-  function get_ldap_link()
-  {
-    /* Establish ldap connection */
-    $cv = $this->parent->captured_values;
-    $ldap_l = new LDAP($cv['admin'],
-        $cv['password'],
-        $cv['connection'],
-        FALSE,
-        $cv['tls']);
-
-    $ldap = new ldapMultiplexer($ldap_l);
-    $ldap->cd($cv['base']);
-    return $ldap;
+    $this->updateAttributesValues();
   }
 }
 ?>

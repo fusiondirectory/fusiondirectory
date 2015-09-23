@@ -257,34 +257,6 @@ class filter
     }
   }
 
-  /*!
-   * \brief Get the current base
-   *
-   * \return String, the current base
-   */
-  function getCurrentBase()
-  {
-    if (isset($this->search->base) && ((string)$this->search->scope != "auto")) {
-      return FALSE;
-    }
-
-    return $this->base;
-  }
-
-  /*!
-   * \brief Get the current scope
-   *
-   * \return String, the current scope
-   */
-  function getCurrentScope()
-  {
-    if (isset($this->search->scope) && ((string)$this->search->scope != "auto")) {
-      return (string)$this->search->scope;
-    }
-
-    return $this->scope;
-  }
-
    /*!
    * \brief Set a converter
    *
@@ -647,34 +619,6 @@ class filter
         echo '</ul>';
       }
     }
-  }
-
-  /*!
-   * \brief Get the object base
-   *
-   * \param string $dn The DN
-   */
-  function getObjectBase($dn)
-  {
-    global $config;
-    $base = "";
-
-    // Try every object storage
-    $storage = $this->objectStorage;
-    if (!is_array($storage)) {
-      $storage = array($storage);
-    }
-    foreach ($storage as $location) {
-      $pattern  = "/^[^,]+,".preg_quote($location, '/')."/i";
-      $base     = preg_replace($pattern, '', $dn);
-    }
-
-    /* Set to base, if we're not on a correct subtree */
-    if (!isset($config->idepartments[$base])) {
-      $base = $config->current['BASE'];
-    }
-
-    return $base;
   }
 }
 

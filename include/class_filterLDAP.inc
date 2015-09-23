@@ -183,12 +183,12 @@ class filterLDAP {
           // Check entry permission
           $obj = $parent->headpage->getObjectTypeInfos($dn, $attrs);
           if (isset($obj['category'])) {
-            $o = $obj['category']."/".$obj['class'];
-            if (preg_match("/r/", $ui->get_permissions($dn, $o))) {
+            $o = $obj['category'].'/'.$obj['class'];
+            if (preg_match('/r/', $ui->get_permissions($dn, $o))) {
               $result[] = $attrs;
             }
           } else {
-            @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Invalid objectType given, please check listing.xml");
+            @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Invalid objectType given!");
           }
         }
       }

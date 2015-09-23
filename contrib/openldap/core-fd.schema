@@ -6,6 +6,7 @@
 # Attributes
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.1 NAME 'gosaSubtreeACL'
   DESC 'GOsa - ACL entry'
+  OBSOLETE
   EQUALITY caseIgnoreMatch
   SUBSTR caseIgnoreSubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
@@ -24,19 +25,13 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.12.3 NAME 'gosaObject'
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.14 NAME 'gosaDefaultLanguage'
   DESC 'GOsa - Defines the default language for a user'
+  OBSOLETE
   EQUALITY caseIgnoreIA5Match
   SUBSTR caseIgnoreIA5SubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.30 NAME 'gosaGroupObjects'
   DESC 'GOsa - List of all object types that are in a gosaGroupOfNames'
-  EQUALITY caseIgnoreIA5Match
-  SUBSTR caseIgnoreIA5SubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.33 NAME 'gosaUnitTag'
-  DESC 'GOsa - Takes a list of relevant mime-type|priority settings'
-  OBSOLETE
   EQUALITY caseIgnoreIA5Match
   SUBSTR caseIgnoreIA5SubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE)
@@ -52,12 +47,6 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.12.35 NAME 'gosaAclEntry'
   EQUALITY caseIgnoreIA5Match
   SUBSTR caseIgnoreIA5SubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.36 NAME 'gosaSnapshotType'
-  DESC 'GOsa - Takes either undo or snapshot'
-  OBSOLETE
-  EQUALITY caseIgnoreMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.37 NAME 'gosaSnapshotTimestamp'
   DESC 'GOsa - Unix timestamp of snapshot'
@@ -77,10 +66,12 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.12.39 NAME 'gosaSnapshotData'
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.46 NAME 'gosaLoginRestriction'
   DESC 'GOsa - Multivalue attribute to carry a number of allowed ips/subnets'
+  OBSOLETE
   SUP name)
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.6.2 NAME 'academicTitle'
   DESC 'Field to represent the academic title'
+  OBSOLETE
   EQUALITY caseIgnoreMatch
   SUBSTR caseIgnoreSubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
@@ -98,72 +89,60 @@ attributetype ( 1.3.6.1.4.1.15305.2.2 NAME ( 'dateOfBirth' 'dob' )
   SINGLE-VALUE )
 
 # Classes
-objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.1 NAME 'gosaObject'
-  DESC 'GOsa - Class for GOsa settings (v2.6.1)'
-  SUP top AUXILIARY
-  MUST ( gosaSubtreeACL ))
+objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.1 NAME 'gosaObject' SUP top AUXILIARY
+  DESC 'GOsa - Class for GOsa settings'
+  OBSOLETE
+  MUST ( )
+  MAY ( gosaSubtreeACL ))
 
-objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.2 NAME 'gosaLockEntry'
-  DESC 'GOsa - Class for GOsa locking (v2.6.1)'
-  SUP top STRUCTURAL
+objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.2 NAME 'gosaLockEntry' SUP top STRUCTURAL
+  DESC 'GOsa - Class for GOsa locking'
   MUST ( gosaUser $ gosaObject $ cn ))
 
-objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.3 NAME 'gosaCacheEntry'
-  DESC 'GOsa - Class for GOsa caching (v2.6.1)'
-  SUP top STRUCTURAL
-  MAY  ( gosaUser )
-  MUST ( cn ))
+objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.3 NAME 'gosaCacheEntry' SUP top STRUCTURAL
+  DESC 'GOsa - Class for GOsa caching'
+  OBSOLETE
+  MAY  ( )
+  MUST ( cn $ gosaUser ))
 
-objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.4 NAME 'gosaDepartment'
-  DESC 'GOsa - Class to mark Departments for GOsa (v2.6.1)'
-  SUP top AUXILIARY
+objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.4 NAME 'gosaDepartment' SUP top AUXILIARY
+  DESC 'GOsa - Class to mark Departments for GOsa'
   MUST  ( ou $ description )
   MAY   ( manager ))
 
-objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.6 NAME 'gosaAccount' 
-  DESC 'GOsa - Class for GOsa Accounts (v2.6.6)'
-  SUP top AUXILIARY
-  MUST ( uid )
-  MAY ( sambaLMPassword $ sambaNTPassword $ sambaPwdLastSet $
-        gosaDefaultLanguage $ academicTitle $ personalTitle $ dateOfBirth $
-        sambaBadPasswordCount $ sambaBadPasswordTime $ gender $ gosaLoginRestriction ))
+objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.6 NAME 'gosaAccount' SUP top AUXILIARY
+  DESC 'GOsa - Class for GOsa Accounts'
+  OBSOLETE
+  MUST ( )
+  MAY (
+    gosaLoginRestriction $
+    gosaDefaultLanguage $ academicTitle $ personalTitle $ dateOfBirth $ gender
+  ) )
 
-objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.11 NAME 'gosaUserTemplate'
-  DESC 'GOsa - Class for GOsa User Templates (v2.6.1)'
-  SUP top AUXILIARY
+objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.11 NAME 'gosaUserTemplate' SUP top AUXILIARY
+  DESC 'GOsa - Class for GOsa User Templates'
+  OBSOLETE
   MUST ( cn ))
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.12 NAME 'gosaGroupOfNames'
-  DESC 'GOsa - Adds the gosaGroupObjects field to groupOfNames (v2.6.1)'
-  SUP top STRUCTURAL
+  DESC 'GOsa - Adds the gosaGroupObjects field to groupOfNames'
+  SUP top AUXILIARY
   MUST ( cn $ gosaGroupObjects ) MAY ( member $ description ) )
 
-objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.15 NAME 'gosaAdministrativeUnit'
-  DESC 'Marker for administrational units (v2.6.1)'
-  OBSOLETE
-  SUP top AUXILIARY
-  MUST ( gosaUnitTag ))
-
-objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.16 NAME 'gosaAdministrativeUnitTag'
-  DESC 'Marker for objects below administrational units (v2.6.1)'
-  OBSOLETE
-  SUP top AUXILIARY
-  MUST ( gosaUnitTag ))
-
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.17 NAME 'gosaRole'
-  DESC 'GOsa - ACL container to define ACL roles (v2.6.1)'
-  SUP top STRUCTURAL 
+  DESC 'GOsa - ACL container to define ACL roles'
+  SUP top STRUCTURAL
   MUST ( gosaAclTemplate $ cn )
   MAY  ( description ) )
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.18 NAME 'gosaAcl'
-  DESC 'GOsa - ACL container to define single ACLs (v2.6.1)'
+  DESC 'GOsa - ACL container to define single ACLs'
   SUP top AUXILIARY
   MUST ( gosaAclEntry  ))
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.19 NAME 'gosaSnapshotObject'
-  DESC 'GOsa - Container object for undo and snapshot data (v2.6.1)'
+  DESC 'GOsa - Container object for undo and snapshot data'
   SUP top STRUCTURAL
   MUST ( gosaSnapshotTimestamp $ gosaSnapshotDN $ gosaSnapshotData )
-  MAY  ( description $
-          gosaSnapshotType ) )
+  MAY  ( description ) )
+

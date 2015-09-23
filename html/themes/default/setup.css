@@ -1,13 +1,11 @@
-
-
 /*********
  * Setup
  *********/
 html.ltr body.setup div#header_left .plugtop {
 margin-left:80px;
 }
-html.rtl div.setup_dialog {
-text-align:left;
+html.rtl body.setup div#header_left .plugtop {
+margin-right:80px;
 }
 body.setup .plugin_window {
 border-radius:5px;
@@ -19,72 +17,14 @@ padding:4px 5px;
 border-bottom:1px solid #B0B0B0;
 }
 
-/* Setup content header container */
-div.setup_plug_header_container {
-}
-
-/* Setup content container */
-div.setup_contents_container {
-}
-
-/* Setup footer */
-div.setup_bottom {
-clear:left;
-background-color:#DDD;
-border-top:solid 1px red;
-}
-html.rtl div.setup_bottom {
-clear:right;
-}
-
-/* Header col */
-div.setup_plug_header {
-padding:10px;
-border-bottom:solid 1px #D0D0D0;
-background-color:#E0E0F0;
-border:10px solid #FFF;
-}
-
-/* Content col */
-div.setup_contents {
-margin-right:2px;
-margin-left:20%;
-background-color:#FFF;
-width:80%;
-border:1px solid #AAA;
-padding:2px;
-}
-html.rtl div.setup_contents {
-margin-right:20%;
-margin-left:2px;
-}
-
 /* default.*/
 div.default {
 padding:2px 10px;
 vertical-align:middle;
 }
 
-/* Navigation col */
 #menucell.setup_navigation {
-width:19%;
-}
-html.ltr #menucell.setup_navigation {
-float:left;
-}
-html.rtl #menucell.setup_navigation {
-float:right;
-}
-
-/* Navigation title */
-div.setup_navigation_title {
-font-size:1.2em;
-font-weight:bold;
-text-decoration:none;
-width:100%;
-padding-top:8px;
-padding-bottom:8px;
-border-top:1px solid #AAA;
+width:200px;
 }
 
 /* The box used for each setup step */
@@ -95,8 +35,6 @@ padding-bottom:8px;
 margin-top:5px;
 margin-bottom:5px;
 }
-
-/* The box used for each setup step */
 #menucell.setup_navigation li.menuitem > a {
 margin:0;
 }
@@ -136,6 +74,10 @@ html.rtl #menucell.setup_navigation li.menuitem a.navigation_info {
 padding:4px 15px 3px 4px;
 }
 
+.setup_language select#lang_selected {
+width:100%;
+}
+
 /*
   Setup step 2 styles
 */
@@ -147,14 +89,6 @@ text-align:left;
 }
 html.rtl div.solution_visible {
 text-align:right;
-}
-
-/* Container headline */
-h2.step2_container_title {
-background-color:#F0F0F0;
-border:solid 1px #CCC;
-width:100%;
-padding:3px;
 }
 
 /* Container for name and status */
@@ -232,34 +166,15 @@ html.rtl div.step2_warning_text {
 padding-right:25px;
 }
 
-/*
-  Setup step 4 styles
-*/
-li.step4_name,div.step4_name {
-width:33%;
-height:2em;
-}
-html.ltr li.step4_name, html.ltr div.step4_name {
-float:left;
-}
-html.rtl li.step4_name, html.rtl div.step4_name {
-float:right;
-}
-
-li.step4_value,div.step4_value {
-width:50%;
-height:2em;
-}
-html.ltr li.step4_value, html.ltr div.step4_value {
-float:left;
-}
-html.rtl li.step4_value, html.rtl div.step4_value {
-float:right;
-}
-
-ul.step4_container,div.step4_container {
-height:2em;
-margin-top:2px;
-margin-left:2px;
-margin-right:2px;
+/* On small screens */
+@media (max-width: 640px) {
+  body.setup a.plugtop img {
+  height:32px;
+  }
+  html.ltr body.setup div#header_left .plugtop {
+  margin-left:0px;
+  }
+  html.rtl body.setup div#header_left .plugtop {
+  margin-right:0px;
+  }
 }

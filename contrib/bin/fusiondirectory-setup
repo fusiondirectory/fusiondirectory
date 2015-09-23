@@ -624,7 +624,7 @@ sub add_ldap_admin {
   foreach my $entry (@$people_entries) {
     my $mesg = $ldap->search(
       base => "$entry",
-      filter => "(&(objectClass=gosaAccount)(uid=$fd_admin_uid))",
+      filter => "(&(objectClass=inetOrgPerson)(uid=$fd_admin_uid))",
       attrs => ['uid']
     );
     $mesg->code && die $mesg->error;
@@ -655,7 +655,7 @@ sub add_ldap_admin {
       'sn'  =>  'Administrator',
       'uid' =>  $fd_admin_uid,
       'givenname'     =>  'System',
-      'objectclass'   =>  [ 'top', 'person', 'gosaAccount', 'organizationalPerson', 'inetOrgPerson' ],
+      'objectclass'   =>  [ 'top', 'person', 'organizationalPerson', 'inetOrgPerson' ],
       'userPassword'  =>  $hashedPasswd
     );
     if (not defined $obj{$attr}) {
@@ -876,7 +876,7 @@ sub check_admin {
             my $member_node = $ldap->search(
               base    => $dn,
               scope   => 'base',
-              filter  => "(objectClass=gosaAccount)"
+              filter  => "(objectClass=inetOrgPerson)"
             );
             if ($member_node->count == 1) {
               print ("$dn is a valid admin\n");
@@ -893,7 +893,7 @@ sub check_admin {
               # Find group members
               my $member_entry  = $member_node->shift_entry;
               my $memberUids    = $member_entry->get_value("memberUid", asref => 1);
-              my $filter = '(&(objectClass=gosaAccount)(|(uid='.join(')(uid=', @$memberUids).')))';
+              my $filter = '(&(objectClass=inetOrgPerson)(|(uid='.join(')(uid=', @$memberUids).')))';
               my $group_members = $ldap->search(
                 base    => $base,
                 filter  => $filter,
@@ -1108,7 +1108,7 @@ sub migrate_users {
   print ("---------------------------------------------\n");
 
   my $mesg = $ldap->search(
-    filter => "(|(!(objectClass~=gosaAccount))(!(objectClass~=organizationalPerson))(!(objectClass~=Person)))",
+    filter => "(|(!(objectClass~=inetOrgPerson))(!(objectClass~=organizationalPerson))(!(objectClass~=Person)))",
     base   => "$peopleou,$base",
     scope  => $scope
   );
@@ -1116,7 +1116,7 @@ sub migrate_users {
   my @entries = $mesg->entries;
 
   foreach my $entry (@entries) {
-    $mesg = $ldap->modify($entry->dn(), add => { "ObjectClass" => "gosaAccount"});
+    $mesg = $ldap->modify($entry->dn(), add => { "ObjectClass" => "inetOrgPerson"});
     $mesg = $ldap->modify($entry->dn(), add => { "ObjectClass" => "organizationalPerson"});
     $mesg = $ldap->modify($entry->dn(), add => { "ObjectClass" => "Person"});
     print $entry->dn();
@@ -1310,7 +1310,6 @@ sub check_deprecated {
   my ($obsolete_attrs, $obsolete_classes) = get_deprecated();
 
   my $filterAttrs   = '(|'.join('', (map{ '('.$_->{'name'}.'=*)' } @$obsolete_attrs)).')';
-  my $filterClasses = '(|'.join('', (map{ '(objectClass='.$_->{'name'}.')' } @$obsolete_classes)).')';
 
   # initiate the LDAP connexion
   my %hash_ldap_param = get_ldap_connexion();
@@ -1333,17 +1332,23 @@ sub check_deprecated {
     print "There are no entries in the LDAP using obsolete attributes\n";
   }
 
-  $entries = $ldap->search(
-    base    => "$base",
-    filter  => "$filterClasses",
-  );
-  $entries->code && die $entries->error;
+  my $useobsoletes = 0;
+  foreach my $class (@$obsolete_classes) {
+    $entries = $ldap->search(
+      base    => "$base",
+      filter  => '(objectClass='.$class->{'name'}.')',
+    );
+    $entries->code && die $entries->error;
 
-  if ($entries->count > 0) {
-    while (my $entry = $entries->shift_entry) {
-      print $entry->dn." uses an obsolete object class\n";
+    if ($entries->count > 0) {
+      $useobsoletes = 1;
+      while (my $entry = $entries->shift_entry) {
+        print $entry->dn." uses the obsolete object class ".$class->{'name'}."\n";
+      }
     }
-  } else {
+  }
+
+  if (!$useobsoletes) {
     print "There are no entries in the LDAP using obsolete classes\n";
   }
 }
@@ -1353,6 +1358,7 @@ sub ldif_deprecated {
   my ($obsolete_attrs, $obsolete_classes) = get_deprecated();
 
   my $filterAttrs   = '(|'.join('', (map{ '('.$_->{'name'}.'=*)' } @$obsolete_attrs)).')';
+  my $filterClasses = '(|'.join('', (map{ '(objectClass='.$_->{'name'}.')' } @$obsolete_classes)).')';
 
   # initiate the LDAP connexion
   my %hash_ldap_param = get_ldap_connexion();
@@ -1380,6 +1386,18 @@ sub ldif_deprecated {
     }
   } else {
     print "# There are no entries in the LDAP using obsolete attributes\n";
+  }
+
+  $entries = $ldap->search(
+    base    => "$base",
+    filter  => "$filterClasses",
+  );
+  $entries->code && die $entries->error;
+
+  if ($entries->count > 0) {
+    print "# WARNING: There are entries in the LDAP using obsolete classes, you need to edit them manually\n";
+  } else {
+    print "# There are no entries in the LDAP using obsolete classes\n";
   }
 }
 

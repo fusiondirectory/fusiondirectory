@@ -54,7 +54,7 @@ class aclAssignmentDialogWindow extends simplePlugin
             _('For all users'), _('Apply this ACL for all LDAP users'),
             'allUsers', FALSE
           ),
-          new UsersGroupsAttribute(
+          new UsersGroupsRolesAttribute(
             _('Members'), _('Users or groups to assign this role to.'),
             'aclMembers', TRUE
           )
@@ -176,7 +176,7 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
   protected $order        = TRUE;
   protected $dialogClass  = 'ACLsAssignmentDialog';
 
-  protected function getAttributeArrayValue($value)
+  protected function getAttributeArrayValue($key, $value)
   {
     /* Convert text value to displayable array value */
     $value['members'] = join(', ', $value['members']);
@@ -207,7 +207,7 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
         } else {
           $value['role'] = $newvalue;
         }
-      } elseif (($source['CLASS'] == 'user' || $source['CLASS'] == 'group') && (($member_key = array_search($oldvalue, $value['members'])) !== FALSE)) {
+      } elseif (in_array($source['CLASS'], array('user','group','roleGeneric')) && (($member_key = array_search($oldvalue, $value['members'])) !== FALSE)) {
         if ($newvalue === NULL) {
           unset($value['members'][$member_key]);
         } elseif ($source['MODE'] == 'move') {
@@ -215,7 +215,7 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
         } elseif ($source['MODE'] == 'copy') {
           $value['members'][] = $newvalue;
         }
-      } elseif (!in_array($source['CLASS'], array('aclRole','user','group'))) {
+      } elseif (!in_array($source['CLASS'], array('aclRole','user','group','roleGeneric'))) {
         trigger_error('unknown source '.$source['CLASS']);
       }
     }
@@ -227,9 +227,9 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
     foreach ($this->value as $value) {
       if (($source['CLASS'] == 'aclRole') && ($value['role'] == $oldvalue)) {
         return TRUE;
-      } elseif (($source['CLASS'] == 'user' || $source['CLASS'] == 'group') && in_array($oldvalue, $value['members'])) {
+      } elseif (in_array($source['CLASS'], array('user','group','roleGeneric')) && in_array($oldvalue, $value['members'])) {
         return TRUE;
-      } elseif (!in_array($source['CLASS'], array('aclRole','user','group'))) {
+      } elseif (!in_array($source['CLASS'], array('aclRole','user','group','roleGeneric'))) {
         trigger_error('unknown source '.$source['CLASS']);
       }
     }
@@ -251,6 +251,7 @@ class aclAssignment extends simplePlugin
         'ou'          => '',
         'icon'        => 'geticon.php?context=categories&icon=acl&size=16',
         'tabClass'    => 'simpleTabs_noSpecial',
+        'mainAttr'    => FALSE
       ),
     );
     if ($config->get_cfg_value('aclTabOnObjects') == 'TRUE') {
@@ -264,9 +265,10 @@ class aclAssignment extends simplePlugin
       'plObjectType'  => $oc,
       'plForeignKeys'  => array(
         'gosaAclEntry' => array(
-          array('aclRole',  'dn', 'gosaAclEntry=*:*:%b|oldvalue%:*'),
-          array('user',     'dn', 'gosaAclEntry=*:*:*:*%b|oldvalue%*'),
-          array('group',    'dn', 'gosaAclEntry=*:*:*:*%b|oldvalue%*'),
+          array('aclRole',      'dn', 'gosaAclEntry=*:*:%b|oldvalue%:*'),
+          array('user',         'dn', 'gosaAclEntry=*:*:*:*%b|oldvalue%*'),
+          array('group',        'dn', 'gosaAclEntry=*:*:*:*%b|oldvalue%*'),
+          array('roleGeneric',  'dn', 'gosaAclEntry=*:*:*:*%b|oldvalue%*'),
         )
       ),
 

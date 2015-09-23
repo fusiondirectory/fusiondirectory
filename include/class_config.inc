@@ -81,11 +81,7 @@ class config  {
    */
   function __construct($filename, $basedir = "")
   {
-    $this->parser   = xml_parser_create();
     $this->basedir  = $basedir;
-
-    xml_set_object($this->parser, $this);
-    xml_set_element_handler($this->parser, "tag_open", "tag_close");
 
     /* Parse config file directly? */
     if ($filename != "") {
@@ -122,9 +118,6 @@ class config  {
       $this->section          = "";
       $this->currentLocation  = "";
 
-      $this->parser = xml_parser_create();
-      xml_set_object($this->parser, $this);
-      xml_set_element_handler($this->parser, "tag_open", "tag_close");
       $this->parse($this->filename);
       $this->set_current($this->current['NAME']);
     }
@@ -141,6 +134,16 @@ class config  {
    */
   function parse($filename)
   {
+    $this->last_modified  = filemtime($filename);
+    $this->filename       = $filename;
+    $fh       = fopen($filename, "r");
+    $xmldata  = fread($fh, 100000);
+    fclose($fh);
+    $this->parse_data($xmldata);
+  }
+
+  function parse_data ($xmldata)
+  {
     $this->data = array(
       "TABS"      => array(),
       "LOCATIONS" => array(),
@@ -148,11 +151,10 @@ class config  {
       "MENU"      => array()
     );
 
-    $this->last_modified  = filemtime($filename);
-    $this->filename       = $filename;
-    $fh       = fopen($filename, "r");
-    $xmldata  = fread($fh, 100000);
-    fclose($fh);
+    $this->parser = xml_parser_create();
+    xml_set_object($this->parser, $this);
+    xml_set_element_handler($this->parser, "tag_open", "tag_close");
+
     if (!xml_parse($this->parser, chop($xmldata))) {
       $msg = sprintf(_("XML error in fusiondirectory.conf: %s at line %d"),
             xml_error_string(xml_get_error_code($this->parser)),
@@ -160,6 +162,7 @@ class config  {
       msg_dialog::display(_("Configuration error"), $msg, FATAL_ERROR_DIALOG);
       exit;
     }
+    xml_parser_free($this->parser);
   }
 
 
@@ -491,14 +494,6 @@ class config  {
       );
     }
 
-    /* Get cups servers */
-    $ldap->cd($this->current['BASE']);
-    $ldap->search("(objectClass=goCupsServer)");
-    $this->data['SERVERS']['CUPS'] = array();
-    while ($attrs = $ldap->fetch()) {
-      $this->data['SERVERS']['CUPS'][] = $attrs['cn'][0];
-    }
-
     /* Get fax servers */
     $ldap->cd($this->current['BASE']);
     $ldap->search("(objectClass=goFaxServer)");
@@ -634,12 +629,11 @@ class config  {
 
       /* If no samba servers are found, look for configured sid/ridbase */
       if (count($this->data['SERVERS']['SAMBA']) == 0) {
-        if (!isset($this->current["SAMBASID"]) || !isset($this->current["SAMBARIDBASE"])) {
-          msg_dialog::display(_("Configuration error"), _("sambaSID and/or sambaRidBase missing in the configuration!"), ERROR_DIALOG);
-        } else {
+        if (isset($this->current['SAMBASID']) && isset($this->current['SAMBARIDBASE'])) {
           $this->data['SERVERS']['SAMBA']['DEFAULT'] = array(
-              "SID" => $this->current["SAMBASID"],
-              "RIDBASE" => $this->current["SAMBARIDBASE"]);
+            'SID'     => $this->get_cfg_value('SAMBASID'),
+            'RIDBASE' => $this->get_cfg_value('SAMBARIDBASE')
+          );
         }
       }
     }
@@ -869,87 +863,6 @@ class config  {
 
     return $ret;
   }
-
-
-  /*!
-   * \brief Get all available shares defined in the current LDAP
-   *
-   * This function returns all available Shares defined in this ldap
-   *
-   * \param boolean $listboxEntry If set to TRUE, only name and path are
-   *  attached to the array. If FALSE, the whole entry will be parsed an atached to the result.
-   *
-   * \return array list of share defined in the current LDAP
-   */
-  function getShareList($listboxEntry = FALSE)
-  {
-    $tmp    = get_sub_list("(&(objectClass=goShareServer)(goExportEntry=*))", "server", get_ou("serverRDN"),
-                $this->current['BASE'], array("goExportEntry","cn"), GL_NONE);
-    $return = array();
-    foreach ($tmp as $entry) {
-
-      if (isset($entry['goExportEntry']['count'])) {
-        unset($entry['goExportEntry']['count']);
-      }
-      if (isset($entry['goExportEntry'])) {
-        foreach ($entry['goExportEntry'] as $export) {
-          $shareAttrs = explode("|", $export);
-          if ($listboxEntry) {
-            $return[$shareAttrs[0]."|".$entry['cn'][0]] = $shareAttrs[0]." - ".$entry['cn'][0];
-          } else {
-            $return[$shareAttrs[0]."|".$entry['cn'][0]]['server']       = $entry['cn'][0];
-            $return[$shareAttrs[0]."|".$entry['cn'][0]]['name']         = $shareAttrs[0];
-            $return[$shareAttrs[0]."|".$entry['cn'][0]]['description']  = $shareAttrs[1];
-            $return[$shareAttrs[0]."|".$entry['cn'][0]]['type']         = $shareAttrs[2];
-            $return[$shareAttrs[0]."|".$entry['cn'][0]]['charset']      = $shareAttrs[3];
-            $return[$shareAttrs[0]."|".$entry['cn'][0]]['path']         = $shareAttrs[4];
-            $return[$shareAttrs[0]."|".$entry['cn'][0]]['option']       = $shareAttrs[5];
-          }
-        }
-      }
-    }
-    return $return;
-  }
-
-
-  /*!
-   * \brief Return all available share servers in LDAP
-   *
-   * This function returns all available ShareServers.
-   *
-   * \return array list of share defined in the current LDAP
-   */
-  function getShareServerList()
-  {
-    $return = array();
-    $ui     = get_userinfo();
-    $base   = $this->current['BASE'];
-    $res    = get_sub_list("(&(objectClass=goShareServer)(goExportEntry=*))", "server",
-              get_ou("serverRDN"), $base, array("goExportEntry","cn"), GL_NONE | GL_NO_ACL_CHECK);
-
-    foreach ($res as $entry) {
-      $acl = $ui->get_permissions($entry['dn'], "server", "");
-      if (isset($entry['goExportEntry']['count'])) {
-        unset($entry['goExportEntry']['count']);
-      }
-      foreach ($entry['goExportEntry'] as $share) {
-        $a_share    = explode("|", $share);
-        $sharename  = $a_share[0];
-        $data       = array();
-
-        $data['NAME']     = $sharename;
-        $data['ACL']      = $acl;
-        $data['SERVER']   = $entry['cn']['0'];
-        $data['SHARE']    = $sharename;
-        $data['DISPLAY']  = $entry['cn'][0]." [".$sharename."]";
-
-        $return[$entry['cn'][0]."|".$sharename] = $data;
-      }
-    }
-
-    return $return;
-  }
-
 
   /*!
    * \brief Check if there's the specified bool value set in the configuration
@@ -1392,16 +1305,6 @@ class config  {
         return (($a['PRIORITY'] < $b['PRIORITY']) ? -1 : 1);
       }
     );
-  }
-
-  /*!
-   * \brief Get list of object of objectType $type in $ou
-   */
-  function getObjectList ($type, $attrs = array(), $ou = NULL, $filter = '')
-  {
-    trigger_error('Deprecated');
-
-    return objects::ls($type, $attrs, $ou, $filter);
   }
 }
 

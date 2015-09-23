@@ -1,5 +1,5 @@
 <div style="font-size:18px;">
-  <img alt="" src="geticon.php?context=status&icon=dialog-warning&size=32"/>&nbsp;{t}Warning{/t}
+  <img alt="" src="geticon.php?context=status&amp;icon=dialog-warning&amp;size=32"/>&nbsp;{t}Warning{/t}
 </div>
 <p>
  {$intro}

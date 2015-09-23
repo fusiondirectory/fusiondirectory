@@ -18,7 +18,7 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class tabs_configInLdap extends tabs
+class tabs_configInLdap extends simpleTabs_noSpecial
 {
   function save ()
   {
@@ -36,6 +36,7 @@ class tabs_configInLdap extends tabs
     foreach ($saved_datas as $saved_data) {
       $config->data[$saved_data] = $save[$saved_data];
     }
+    session::un_set('passwordMethod::get_available_methods');
   }
 }
 ?>

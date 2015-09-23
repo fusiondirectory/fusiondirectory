@@ -131,6 +131,11 @@ class IPv6Attribute extends TestValidateAttribute
  */
 class MacAddressAttribute extends StringAttribute
 {
+  function setValue ($value)
+  {
+    return parent::setValue(strtolower($value));
+  }
+
   function validate ()
   {
     if (!tests::is_mac($this->value)) {

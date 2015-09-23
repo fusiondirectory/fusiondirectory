@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
@@ -22,30 +21,48 @@
 
 require_once("class_setupStep.inc");
 
+class fake_userinfo extends userinfo
+{
+  function __construct()
+  {
+    global $config;
+    $this->config = &$config;
+
+    $this->cn   = 'fake_cn';
+    $this->dn   = 'fake_dn';
+    $this->uid  = 'fake_uid';
+    $this->ip   = $_SERVER['REMOTE_ADDR'];
+
+    /* This fake user have all rights */
+    $this->ignoreACL = TRUE;
+
+    /* Initialize ACL_CACHE */
+    $this->reset_acl_cache();
+  }
+}
 
 class setup
 {
-  var $i_steps          = 9;  // Number of setup steps
-  var $i_current        = 1;  // Current step
-  var $i_last           = 1;  // Last setup step;
+  var $i_steps;               // Number of setup steps
+  var $i_current        = 0;  // Current step
+  var $i_previous       = 0;  // Previous setup step;
+  var $i_config         = 4;
   var $o_steps          = array();
   var $captured_values  = array();
 
   function __construct()
   {
-    $i = 1;
-    $this->o_steps[$i++] = new Step_Welcome();
-    $this->o_steps[$i++] = new Step_Language();
-    $this->o_steps[$i++] = new Step_Checks();
-    $this->o_steps[$i++] = new Step_Ldap();
-    $this->o_steps[$i++] = new Step_Schema();
-    $this->o_steps[$i++] = new Step_Config1();
-    $this->o_steps[$i++] = new Step_Config2();
-    $this->o_steps[$i++] = new Step_Config3();
-    $this->o_steps[$i++] = new Step_Migrate();
-    $this->o_steps[$i++] = new Step_Finish();
+    $this->o_steps = array(
+      new Step_Welcome(),
+      new Step_Language(),
+      new Step_Checks(),
+      new Step_Ldap(),
+      new Step_Config_before_init(),
+      new Step_Migrate(),
+      new Step_Finish(),
+    );
 
-    $this->i_steps = $i - 1;
+    $this->i_steps = count($this->o_steps);
 
     /* Ensure that setup is not reachable if fusiondirectory.conf exist (CONFIG_FILE) */
     if (file_exists(CONFIG_DIR."/".CONFIG_FILE)) {
@@ -71,15 +88,9 @@ class setup
       exit();
     }
 
-    /* display step error msgs */
-    $msgs = $this->o_steps[$this->i_current]->check();
-    foreach ($msgs as $msg) {
-      msg_dialog::display(_("Setup error"), $msg, ERROR_DIALOG);
-    }
-
     $smarty = get_smarty();
     $smarty->assign('usePrototype', 'true');
-    $this->o_steps[$this->i_last]->set_active(FALSE);
+    $this->o_steps[$this->i_previous]->set_active(FALSE);
     $this->o_steps[$this->i_current]->set_active();
     $content = $this->o_steps[$this->i_current]->execute();
     return $content;
@@ -113,27 +124,34 @@ class setup
       }
     }
 
+    /* display step error msgs */
+    $msgs = $this->o_steps[$this->i_current]->check();
+    foreach ($msgs as $msg) {
+      msg_dialog::display(_("Setup error"), $msg, ERROR_DIALOG);
+    }
+
     /* Check if step was selected */
     if (isset($_GET['step']) || isset($_POST['next']) || isset($_POST['last'])) {
 
       /* check if current setup step is completed now
           and activate the next step if possible */
-      for ($i = 1; $i <= $this->i_steps; $i++) {
+      for ($i = 0; $i < $this->i_steps; $i++) {
         if ($this->o_steps[$i]->is_completed()) {
           if (isset($this->o_steps[($i + 1)])) {
             $this->o_steps[($i + 1)]->set_enabled();
           }
         } else {
           $this->disable_steps_from($i + 1);
+          break;
         }
       }
     }
 
     /* Disable all following steps, if one step isn't compelted right now .*/
-    for ($i = 1; $i <= $this->i_steps; $i++) {
-      if ($this->o_steps[$i]->is_completed()) {
-      } else {
+    for ($i = 0; $i < $this->i_steps; $i++) {
+      if (!$this->o_steps[$i]->is_completed()) {
         $this->disable_steps_from($i + 1);
+        break;
       }
     }
 
@@ -151,34 +169,26 @@ class setup
       $step = $this->i_current - 1;
     }
 
-    $once = TRUE;
     foreach ($_POST as $name => $value) {
-      if (preg_match("/^step_[0-9]*$/", $name) && $once) {
+      if (preg_match("/^step_[0-9]*$/", $name)) {
         $step = preg_replace("/^step_/", "", $name);
+        break;
       }
     }
 
     if ($this->selectable_step($step)) {
-      $this->i_last    = $this->i_current;
-      $this->i_current = $step;
+      $this->i_previous = $this->i_current;
+      $this->i_current  = $step;
     }
   }
 
 
   function disable_steps_from($start)
   {
-    $found = FALSE;
-    foreach ($this->o_steps as $key => &$step) {
-      if ($key == $start) {
-        $found = TRUE;
-      }
-
-      if ($found) {
-        $step->set_enabled(FALSE);
-        $step->set_completed(FALSE);
-      }
+    for ($i = $start; $i < $this->i_steps; $i++) {
+      $this->o_steps[$i]->set_enabled(FALSE);
+      $this->o_steps[$i]->set_completed(FALSE);
     }
-    unset($step);
   }
 
 
@@ -197,7 +207,7 @@ class setup
       $b_completed  = $step->is_completed();
 
       if ($b_completed) {
-        $s = '<img src="geticon.php?context=status&icon=task-complete&size=16" alt="'._('Completed').'" class="center optional"/>&nbsp;';
+        $s = '<img src="geticon.php?context=status&amp;icon=task-complete&amp;size=16" alt="'._('Completed').'" class="center optional"/>&nbsp;';
       } else {
         $s = '<img src="images/empty.png" alt=" " class="center optional"/>&nbsp;';
       }
@@ -246,12 +256,16 @@ class setup
     return $str;
   }
 
+  /* Create header entry */
+  function get_header_text()
+  {
+    return $this->o_steps[$this->i_current]->get_long_title();
+  }
 
   /* Create header entry */
-  function get_header_html()
+  function get_header_image()
   {
-    $str = $this->o_steps[$this->i_current]->print_header();
-    return $str;
+    return $this->o_steps[$this->i_current]->header_image;
   }
 
 
@@ -272,6 +286,45 @@ class setup
       }
     }
     return 0;
+  }
+
+  /* Called when LDAP is configured */
+  function read_ldap_config()
+  {
+    global $config;
+    /* Get attributes from current ldap step */
+    $tmp = $this->o_steps[$this->i_current]->get_attributes();
+    foreach ($tmp as $name => $value) {
+      $this->captured_values[$name] = $value;
+    }
+    $smarty = get_smarty();
+    $cv = $this->captured_values;
+    /* Fill missing values needed by config file template (config step not done yet) */
+    $cv['fdLogging']        = FALSE;
+    $cv['fdDisplayErrors']  = FALSE;
+    $cv['fdForceSSL']       = TRUE;
+    $cv['debugLevel']       = 0;
+    $smarty->assign("cv",                       xmlentities($cv));
+    $smarty->assign("templateCompileDirectory", SPOOL_DIR);
+    $xml = $smarty->fetch(CONFIG_TEMPLATE_DIR.CONFIG_FILE);
+    $config->parse_data($xml);
+    $config->set_current($config->data['MAIN']['DEFAULT']);
+    session::global_un_set('plist');
+    load_plist();
+    $this->reBuildConfigStep();
+  }
+
+  function getDebugLevel ()
+  {
+    return $this->o_steps[$this->i_config]->attributesAccess['fdDebugLevel']->computeLdapValue();
+  }
+
+  function reBuildConfigStep ($completed = NULL)
+  {
+    $this->o_steps[$this->i_config] = new Step_Config($this->captured_values);
+    if ($completed !== NULL) {
+      $this->o_steps[$this->i_config]->is_completed = $completed;
+    }
   }
 }
 ?>

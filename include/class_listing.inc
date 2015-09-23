@@ -303,7 +303,7 @@ class listing {
             isset($config['sortType'])) {
           $this->sortAttribute  = $config['sortAttribute'];
           $this->sortType       = $config['sortType'];
-          $sorter = "&nbsp;<img class='center' title='".($this->sortDirection[$index]?_("Up"):_("Down"))."' src='geticon.php?context=actions&size=16&icon=view-sort-".($this->sortDirection[$index]?"descending":"ascending")."' alt='".($this->sortDirection[$index]?_('Sort up'):_('Sort down'))."'>";
+          $sorter = "&nbsp;<img class='center' title='".($this->sortDirection[$index]?_("Up"):_("Down"))."' src='geticon.php?context=actions&amp;size=16&amp;icon=view-sort-".($this->sortDirection[$index]?"descending":"ascending")."' alt='".($this->sortDirection[$index]?_('Sort up'):_('Sort down'))."'>";
         }
         $sortable = (isset($config['sortAttribute']));
 
@@ -472,7 +472,7 @@ class listing {
       foreach ($this->objectTypes as $objectType) {
         if (isset($this->objectTypeCount[$objectType['label']])) {
           $label = _($objectType['label']);
-          $result .= "<img class='center' src='".$objectType['image']."' title='$label' alt='$label'>&nbsp;".$this->objectTypeCount[$objectType['label']]."&nbsp;&nbsp;&nbsp;&nbsp;";
+          $result .= "<img class='center' src='".htmlentities($objectType['image'], ENT_COMPAT, 'UTF-8')."' title='$label' alt='$label'>&nbsp;".$this->objectTypeCount[$objectType['label']]."&nbsp;&nbsp;&nbsp;&nbsp;";
         }
       }
 
@@ -950,7 +950,7 @@ class listing {
     }
     if ($type) {
       $this->objectDnMapping[$dn] = $type;
-      $result = "<img class='center' title='".LDAP::fix($dn)."' src='".$this->objectTypes[$type]["image"]."' alt='$type'/>";
+      $result = "<img class='center' title='".LDAP::fix($dn)."' src='".htmlentities($this->objectTypes[$type]['image'], ENT_COMPAT, 'UTF-8')."' alt='$type'/>";
       if (!isset($this->objectTypeCount[$this->objectTypes[$type]['label']])) {
         $this->objectTypeCount[$this->objectTypes[$type]['label']] = 0;
       }
@@ -1030,7 +1030,7 @@ class listing {
       if ($action['type'] == "entry") {
         $label = $this->processElementFilter($action['label'], $this->entries[$row], $row);
         $image = $this->processElementFilter($action['image'], $this->entries[$row], $row);
-        $result .= "<input class='center' type='image' src='$image' title='$label' alt='$label' ".
+        $result .= "<input class='center' type='image' src='".htmlentities($image, ENT_COMPAT, 'UTF-8')."' title='$label' alt='$label' ".
                  "name='listing_".$action['name']."_$row' style='padding:1px'>";
       }
 
@@ -1142,30 +1142,30 @@ class listing {
 
     /* Draw root button */
     if ($enableRoot) {
-      $result["ROOT"] = "<input class='center' type='image' src='geticon.php?context=actions&icon=go-first&size=16' ".
+      $result["ROOT"] = "<input class='center' type='image' src='geticon.php?context=actions&amp;icon=go-first&amp;size=16' ".
                        "title='"._("Go to root department")."' name='ROOT' alt='"._("Root")."'>";
     } else {
-      $result["ROOT"] = "<img src='geticon.php?context=actions&icon=go-first&size=16&disabled=1' class='center' alt='"._("Root")."'>";
+      $result["ROOT"] = "<img src='geticon.php?context=actions&amp;icon=go-first&amp;size=16&amp;disabled=1' class='center' alt='"._("Root")."'>";
     }
 
     /* Draw back button */
     if ($enableBack) {
-      $result["BACK"] = "<input class='center' type='image' src='geticon.php?context=actions&icon=go-up&size=16' ".
+      $result["BACK"] = "<input class='center' type='image' src='geticon.php?context=actions&amp;icon=go-up&amp;size=16' ".
                        "title='"._("Go up one department")."' alt='"._("Up")."' name='BACK'>";
     } else {
-      $result["BACK"] = "<img src='geticon.php?context=actions&icon=go-up&size=16&disabled=1' class='center' alt='"._("Up")."'>";
+      $result["BACK"] = "<img src='geticon.php?context=actions&amp;icon=go-up&amp;size=16&amp;disabled=1' class='center' alt='"._("Up")."'>";
     }
 
     /* Draw home button */
     if ($enableHome) {
-      $result["HOME"] = '<input class="center" type="image" src="geticon.php?context=actions&icon=go-home&size=16"'.
+      $result["HOME"] = '<input class="center" type="image" src="geticon.php?context=actions&amp;icon=go-home&amp;size=16"'.
                         ' title="'._("Go to user's department").'" alt="'._('Home').'" name="HOME"/>';
     } else {
-      $result["HOME"] = "<img src='geticon.php?context=actions&icon=go-home&size=16&disabled=1' class='center' alt='"._("Home")."'>";
+      $result["HOME"] = "<img src='geticon.php?context=actions&amp;icon=go-home&amp;size=16&amp;disabled=1' class='center' alt='"._("Home")."'>";
     }
 
     /* Draw reload button, this button is enabled everytime */
-    $result["RELOAD"] = "<input class='center optional' type='image' src='geticon.php?context=actions&icon=view-refresh&size=16' ".
+    $result["RELOAD"] = "<input class='center optional' type='image' src='geticon.php?context=actions&amp;icon=view-refresh&amp;size=16' ".
                        "title='"._("Reload list")."' name='REFRESH' alt='"._("Submit")."'>";
 
     return $result;
@@ -1296,7 +1296,7 @@ class listing {
                   .'<a href="#" onClick="'
                     ."document.getElementById('actionmenu').value='$action';document.getElementById('exec_act').click();"
                   .'">'
-                  .'<img src="'.$icon.'" alt="'.$action.'" class="center">&nbsp;'.$name.'</a>'
+                  .'<img src="'.htmlentities($icon, ENT_COMPAT, 'UTF-8').'" alt="'.$action.'" class="center">&nbsp;'.$name.'</a>'
                   .'</li>';
   }
 
@@ -1335,7 +1335,7 @@ class listing {
         if (isset($action['label'])) {
           $img = "";
           if (isset($action['image'])) {
-            $img = "<img class='center' src='".$action['image']."' alt='".$action['label']."'/>&nbsp;";
+            $img = "<img class='center' src='".htmlentities($action['image'], ENT_COMPAT, 'UTF-8')."' alt='".$action['label']."'/>&nbsp;";
           }
           $result .= "<li id='actionmenu_".strtolower($action['label'])."'$separator><a href='#'>$img"._($action['label'])."&nbsp;<img src='images/forward-arrow.png' alt='forward arrow'/></a>";
         }
@@ -1599,7 +1599,7 @@ class listing {
       if ($this->copyPasteHandler->entries_queued()) {
         $result .= $this->renderActionMenuActionLink($separator, 'paste', _('Paste'), 'geticon.php?context=actions&icon=edit-paste&size=16');
       } else {
-        $result .= "<li$separator><a href='#'><img src='geticon.php?context=actions&icon=edit-paste&size=16&disabled=1' alt='paste' class='center'>&nbsp;"._("Paste")."</a></li>";
+        $result .= "<li$separator><a href='#'><img src='geticon.php?context=actions&amp;icon=edit-paste&amp;size=16&amp;disabled=1' alt='paste' class='center'>&nbsp;"._("Paste")."</a></li>";
       }
     }
 
@@ -1624,7 +1624,7 @@ class listing {
     if ($cut) {
       if ($ui->is_cutable($dn, $category, $class)) {
         $result .= '<input class="center" type="image"'.
-                    ' src="geticon.php?context=actions&icon=edit-cut&size=16"'.
+                    ' src="geticon.php?context=actions&amp;icon=edit-cut&amp;size=16"'.
                     ' alt="'._('Cut').'" name="listing_cut_'.$row.'" title="'._('Cut this entry').'"'.
                     ' style="padding:1px">';
       } else {
@@ -1636,7 +1636,7 @@ class listing {
     if ($copy) {
       if ($ui->is_copyable($dn, $category, $class)) {
         $result .= '<input class="center" type="image"'.
-                    ' src="geticon.php?context=actions&icon=edit-copy&size=16"'.
+                    ' src="geticon.php?context=actions&amp;icon=edit-copy&amp;size=16"'.
                     ' alt="'._('Copy').'" name="listing_copy_'.$row.'" title="'._('Copy this entry').'"'.
                     ' style="padding:1px">';
       } else {
@@ -1672,7 +1672,7 @@ class listing {
       if ($restore) {
         $result .= $this->renderActionMenuActionLink($separator, 'restore', _('Restore snapshots'), 'geticon.php?context=actions&icon=document-restore&size=16');
       } else {
-        $result .= "<li$separator><a href='#'><img src='geticon.php?context=actions&icon=document-restore&size=16&disabled=1' alt='restore' class='center'>&nbsp;"._("Restore snapshots")."</a></li>";
+        $result .= "<li$separator><a href='#'><img src='geticon.php?context=actions&amp;icon=document-restore&amp;size=16&amp;disabled=1' alt='restore' class='center'>&nbsp;"._("Restore snapshots")."</a></li>";
       }
     }
 
@@ -1686,7 +1686,7 @@ class listing {
     $result = "";
 
     // Draw entries
-    $result .= "<li$separator id='actionmenu_exportList'><a href='#'><img class='center' src='geticon.php?context=actions&icon=document-export&size=16' alt='export'>&nbsp;"._("Export list")."&nbsp;<img src='images/forward-arrow.png' alt='arrow'></a><ul class='level3'>";
+    $result .= "<li$separator id='actionmenu_exportList'><a href='#'><img class='center' src='geticon.php?context=actions&amp;icon=document-export&amp;size=16' alt='export'>&nbsp;"._("Export list")."&nbsp;<img src='images/forward-arrow.png' alt='arrow'></a><ul class='level3'>";
 
     // Export CVS as build in exporter
     foreach ($this->exporter as $action => $exporter) {
@@ -1720,17 +1720,17 @@ class listing {
 
         // Do we have snapshots for this dn?
         if ($this->snapshotHandler->hasSnapshots($dn)) {
-          $result .= "<input class='center' type='image' src='geticon.php?context=actions&icon=document-restore&size=16' ".
+          $result .= "<input class='center' type='image' src='geticon.php?context=actions&amp;icon=document-restore&amp;size=16' ".
                      "alt='"._("Restore snapshot")."' name='listing_restore_$row' title='".
                      _("Restore snapshot")."' style='padding:1px'>";
         } else {
-          $result .= "<img src='geticon.php?context=actions&icon=document-restore&size=16&disabled=1' alt='restore' class='center' style='padding:1px'>";
+          $result .= "<img src='geticon.php?context=actions&amp;icon=document-restore&amp;size=16&amp;disabled=1' alt='restore' class='center' style='padding:1px'>";
         }
       }
 
       // Draw snapshot button
       if ($ui->allow_snapshot_create($dn, $category)) {
-          $result .= "<input class='center' type='image' src='geticon.php?context=actions&icon=snapshot&size=16' ".
+          $result .= "<input class='center' type='image' src='geticon.php?context=actions&amp;icon=snapshot&amp;size=16' ".
                      "alt='"._("Create snapshot")."' name='listing_snapshot_$row' title='".
                      _("Create a new snapshot from this object")."' style='padding:1px'>";
       } else {

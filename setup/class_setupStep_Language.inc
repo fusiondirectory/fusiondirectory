@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2007  Fabian Hickert
@@ -20,20 +19,39 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-
-class Step_Language extends setup_step
+class Step_Language extends setupStep
 {
-  var $lang_selected  = "";       /* Language selected from select box  */
-  var $lang           = "en_EN";  /* Detected language */
-  var $languages      = array();
-  var $attributes     = array("lang","lang_selected");
-  var $header_image   = 'geticon.php?context=applications&icon=config-language&size=48';
+  var $header_image = 'geticon.php?context=applications&icon=config-language&size=48';
+
+  static function getAttributesInfo()
+  {
+    return array(
+      'lang' => array(
+        'name'      => _('Preferred language'),
+        'class'     => array('fullwidth', 'setup_language'),
+        'attrs'     => array(
+          new DisplayAttribute(
+            '', '',
+            'msg', FALSE
+          ),
+          new SelectAttribute(
+            '', '',
+            'lang_selected', FALSE
+          ),
+          new HiddenAttribute(
+            'lang', FALSE,
+            'en_EN'
+          )
+        )
+      )
+    );
+  }
 
   function __construct()
   {
-    $this->lang           = get_browser_language();
-    $this->lang_selected  = "";
-    $this->update_strings();
+    parent::__construct();
+    $this->lang = get_browser_language();
+    $this->attributesAccess['lang_selected']->setSize(20);
   }
 
   function update_strings()
@@ -41,32 +59,27 @@ class Step_Language extends setup_step
     $this->s_title      = _("Language setup");
     $this->s_title_long = _("Language setup");
     $this->s_info       = _("This step allows you to select your preferred language.");
+    $this->msg          = _('At this point, you can select the site wide default language. Choosing "automatic" will use the language requested by the browser. This setting can be overriden per user.');
   }
 
   function execute()
   {
-    $this->languages = get_languages(TRUE);
-    asort($this->languages);
-    $this->languages = array_merge(array("" => _("Automatic")), $this->languages);
-    $smarty = get_smarty();
-    $smarty->assign("languages",      $this->languages);
-    $smarty->assign("lang",           $this->lang);
-    $smarty->assign("rtl",            language_is_rtl($this->lang));
-    $smarty->assign("lang_selected",  $this->lang_selected);
-    return $smarty->fetch(get_template_path("setup_language.tpl", TRUE, dirname(__FILE__)));
+    $languages = get_languages(TRUE);
+    asort($languages);
+    $languages = array_merge(array("" => _("Automatic")), $languages);
+    $this->attributesAccess['lang_selected']->setChoices(array_keys($languages), array_values($languages));
+    return parent::execute();
   }
 
   function save_object()
   {
-    if ((isset($_POST['lang_selected'])) && isset($this->languages[$_POST['lang_selected']])) {
-      $this->lang_selected  = $_POST['lang_selected'];
-      $this->is_completed   = TRUE;
+    parent::save_object();
+    $this->is_completed   = TRUE;
 
-      if ($this->lang_selected != "") {
-        session::set('lang', $this->lang_selected);
-      } else {
-        session::set('lang', $this->lang);
-      }
+    if ($this->lang_selected != "") {
+      session::set('lang', $this->lang_selected);
+    } else {
+      session::set('lang', $this->lang);
     }
   }
 }

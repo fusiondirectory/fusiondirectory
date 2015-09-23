@@ -18,6 +18,99 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+class templateDialog
+{
+  protected $simpleManagement;
+  protected $type;
+  protected $template = NULL;
+  protected $templates;
+  protected $target = NULL;
+
+  protected $tabObject;
+
+  protected $post_finish = 'template_continue';
+  protected $post_cancel = 'template_cancel';
+
+  function __construct($simpleManagement, $type, $dn = NULL, $target = NULL)
+  {
+    $this->simpleManagement = $simpleManagement;
+    $this->type             = $type;
+    $this->templates        = objects::getTemplates($this->type);
+    if ($dn !== NULL) {
+      if (isset($this->templates[$dn])) {
+        $this->template = new template($this->type, $dn);
+      } else {
+        trigger_error('Unknown template "'.$dn.'"');
+      }
+    }
+    $this->target = $target;
+  }
+
+  function save_object ()
+  {
+    if ($this->target === NULL) {
+      if (isset($_POST[$this->post_cancel])) {
+        return $this->handle_cancel();
+      }
+      if ((isset($_POST[$this->post_finish]) || isset($_GET[$this->post_finish])) && is_object($this->template)) {
+        $this->template->save_object();
+        return $this->handle_finish();
+      }
+    }
+
+    if (
+      isset($_POST['template']) &&
+      isset($this->templates[$_POST['template']])
+      ) {
+      if (is_object($this->template)) {
+        trigger_error('redefining template object');
+      }
+      $this->template = new template($this->type, $_POST['template']);
+      unset($_POST['template']); // This method can loop if there are several targets
+    }
+    if (is_object($this->template)) {
+      if ($this->target !== NULL) {
+        $this->simpleManagement->openTabObject($this->template->apply($this->target), $this->template->getBase());
+        $this->simpleManagement->handleTemplateApply();
+        return FALSE;
+      } else {
+        $this->template->save_object();
+      }
+    }
+
+    return TRUE;
+  }
+
+  function setNextTarget ($target)
+  {
+    $this->target = $target;
+  }
+
+  function execute ()
+  {
+    $smarty = get_smarty();
+    if (is_object($this->template)) {
+      $smarty->assign('template_dialog', $this->template->execute());
+    } else {
+      $smarty->assign('templates', $this->templates);
+    }
+    $display = $smarty->fetch(get_template_path('template.tpl'));
+    return $display;
+  }
+
+  function handle_finish ()
+  {
+    $this->simpleManagement->closeDialogs();
+    $this->simpleManagement->openTabObject($this->template->apply(), $this->template->getBase());
+    return FALSE;
+  }
+
+  function handle_cancel ()
+  {
+    $this->simpleManagement->closeDialogs();
+    return FALSE;
+  }
+}
 
 class simpleManagement extends management
 {
@@ -44,6 +137,8 @@ class simpleManagement extends management
   protected $autoFilterAttributes = array('dn', 'cn', 'description');
 
   protected $headpageClass = "listing";
+
+  protected $skipTemplates = TRUE;
 
   function __construct($config, $ui)
   {
@@ -106,7 +201,24 @@ class simpleManagement extends management
   function configureHeadpage ()
   {
     if ($this->autoActions) {
-      $this->headpage->xmlData['actionmenu']['action'][0]['action'] = array();
+      if ($this->skipTemplates) {
+        $this->headpage->xmlData['actionmenu']['action'][0]['action'] = array();
+      } else {
+        $this->headpage->xmlData['actionmenu']['action'][0]['action'] = array(
+          array(
+            'type'    => 'sub',
+            'image'   => 'geticon.php?context=actions&amp;icon=document-new&amp;size=16',
+            'label'   => _('Template'),
+            'action'  => array(),
+          ),
+          array(
+            'type'    => 'sub',
+            'image'   => 'geticon.php?context=actions&amp;icon=document-new&amp;size=16',
+            'label'   => _('From template'),
+            'action'  => array(),
+          ),
+        );
+      }
     }
     $this->configureHeadline();
     foreach ($this->objectTypes as $object) {
@@ -126,6 +238,24 @@ class simpleManagement extends management
           'filter'      => ldapFilter::parse($i['filter']),
           'nameAttr'    => $i['nameAttr'],
         );
+      if (!$this->skipTemplates) {
+        $this->headpage->objectTypes['template_'.$object] =
+          array(
+            'label'       => sprintf(_('%s template'), $i['name']),
+            'category'    => $i['aclCategory'],
+            'class'       => 'fdTemplate',
+            'image'       => $i['icon'],//FIXME
+            'filter'      =>
+              new ldapFilter(
+                '&',
+                array(
+                  new ldapFilterLeaf('objectClass', '=', 'fdTemplate'),
+                  fdTemplateFilter(ldapFilter::parse($i['filter'])),
+                )
+              ),
+            'nameAttr'    => $i['nameAttr'],
+          );
+      }
       $this->headpage->categories[] = $i['aclCategory'];
       if ($this->autoActions) {
         $this->registerAction('new_'.$object, 'newEntry');
@@ -145,6 +275,24 @@ class simpleManagement extends management
           'label' => $i['name'],
           'acl'   => $i['aclCategory'].'/'.$i['mainTab'].'[c]',
         );
+        if (!$this->skipTemplates) {
+          $this->registerAction('new_template_'.$object, 'newEntryTemplate');
+          $this->registerAction('template_apply_'.$object, 'newEntryFromTemplate');
+          $this->headpage->xmlData['actionmenu']['action'][0]['action'][0]['action'][] = array(
+            'name'  => 'new_template_'.$object,
+            'type'  => 'entry',
+            'image' => $icon,
+            'label' => $i['name'],
+            'acl'   => $i['aclCategory'].'/'.$i['mainTab'].'[c]',
+          );
+          $this->headpage->xmlData['actionmenu']['action'][0]['action'][1]['action'][] = array(
+            'name'  => 'template_apply_'.$object,
+            'type'  => 'entry',
+            'image' => $icon,
+            'label' => $i['name'],
+            'acl'   => $i['aclCategory'].'/'.$i['mainTab'].'[c]',
+          );
+        }
       }
     }
     $this->headpage->registerElementFilter('filterRowLink', 'simpleManagement::filterRowLink');
@@ -186,7 +334,7 @@ class simpleManagement extends management
     if ($this->autoFilter) {
       $this->configureFilterCategory();
       $attributes = $this->autoFilterAttributes;
-      $filter = '(|';
+      $filter     = '(|';
       foreach ($this->objectTypes as $object) {
         $tag    = 'FILTER'.$object;
         $filter .= '$'.$tag;
@@ -202,6 +350,19 @@ class simpleManagement extends management
 
         $attributes[] = $i['mainAttr'];
         $attributes[] = $i['nameAttr'];
+      }
+      if (!$this->skipTemplates) {
+        $tag    = 'FILTERTEMPLATE';
+        $filter .= '$'.$tag;
+        $this->filter->elements[$tag] = array(
+          'type'    => 'checkbox',
+          'tag'     => $tag,
+          'default' => TRUE,
+          'unset'   => array(),
+          'set'     => '(objectClass=fdTemplate)'
+        );
+        $this->filter->elementValues[$tag] = TRUE;
+        $attributes[] = 'fdTemplateField';
       }
       $filter .= ')';
       $attributes = array_values(array_unique($attributes));
@@ -220,7 +381,7 @@ class simpleManagement extends management
     $contents = file_get_contents($file);
     $data     = xml::xml2array($contents, 1);
     foreach (array('departmentBrowser','departmentRootVisible','baseMode','multiSelect') as $var) {
-      $data['list']['definition']["$var"] = ($this->$var?'true':'false');
+      $data['list']['definition']["$var"] = ($this->$var ? 'true' : 'false');
     }
     return $data;
   }
@@ -240,40 +401,224 @@ class simpleManagement extends management
         'label' => sprintf(_('Show %s'), $this->config->data['OBJECTS'][$object]['name'])
       );
     }
+    if (!$this->skipTemplates) {
+      $filters[] = array(
+        'id'    => 'FILTERTEMPLATE',
+        'label' => sprintf(_('Show %s'), _('Template'))
+      );
+    }
     $smarty->assign('objectFilters', $filters);
     return parent::renderList();
   }
 
-  // Overridden new handler - We've different types of departments to create!
-  function newEntry($action = '', $target = array(), $all = array(), $altTabClass = '',
-                    $altTabType = '', $altAclCategory = '')
+
+  /*!
+   * \brief  This method intiates the object creation.
+   *
+   * \param  String  $action  The name of the action which was the used as trigger.
+   *
+   * \param  Array   $target  A list of object dns, which should be affected by this method.
+   *
+   * \param  Array   $all     A combination of both 'action' and 'target'.
+   *
+   * \param String $altTabClass Empty string.
+   *
+   * \param String $altTabType Empty string.
+   *
+   * \param String $altAclCategory Empty string.
+   */
+  function newEntry($action = "", $target = array(), $all = array(), $altTabClass = "", $altTabType = "", $altAclCategory = "")
   {
     $type   = strtoupper(preg_replace('/^new_/', '', $action));
-    $infos  = $this->config->data['OBJECTS'][$type];
 
-    return management::newEntry($action, $target, $all, $infos['tabClass'],
-                                $infos['tabGroup'], $infos['aclCategory']);
+    $this->displayApplyBtn  = FALSE;
+    $this->dn               = 'new';
+    $this->is_new           = TRUE;
+    $this->is_single_edit   = FALSE;
+
+    set_object_info($this->dn);
+
+    // Open object
+    $this->openTabObject(objects::open($this->dn, $type), $this->headpage->getBase());
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Create new entry initiated!");
   }
 
-  function editEntry( $action = '', $target = array(), $all = array(), $altTabClass = '',
-                      $altTabType = '', $altAclCategory = '')
+  function newEntryTemplate($action = "", $target = array(), $all = array())
   {
-    $type   = $this->getType($target[0]);
-    $infos  = $this->config->data['OBJECTS'][$type];
+    if ($this->skipTemplates) {
+      return;
+    }
+    $action = preg_replace('/^new_template_/', 'new_', $action);
+    $this->newEntry($action, $target, $all);
+    $this->tabObject->setTemplateMode('template_cn');
+  }
 
-    $str = management::editEntry($action, $target, $all, $infos['tabClass'],
-                                $infos['tabGroup'], $infos['aclCategory']);
-    if (isset($all['subaction'])) {
+  function newEntryFromTemplate($action, $target = array())
+  {
+    if ($this->skipTemplates) {
+      return;
+    }
+    if (isset ($target[0])) {
+      $dn = $target[0];
+    } else {
+      $dn = NULL;
+    }
+    $type = preg_replace('/^template_apply_/', '', $action);
+    $this->dialogObject = new templateDialog($this, $type, $dn);
+  }
+
+  function applyTemplateToEntry($action, $target = array())
+  {
+    if ($this->skipTemplates) {
+      return;
+    }
+    if (empty($target)) {
+      return;
+    }
+    $type       = preg_replace('/^template_apply_to_/', '', $action);
+    $this->dns  = $target;
+
+    // check locks
+    if ($user = get_multiple_locks($this->dns)) {
+      return gen_locked_message($user, $this->dns);
+    }
+
+    // Add locks
+    add_lock ($this->dns, $this->ui->dn);
+
+    $this->dn           = array_shift($this->dns);
+    $this->dialogObject = new templateDialog($this, $type, NULL, $this->dn);
+  }
+
+  function handleTemplateApply ($cancel = FALSE)
+  {
+    if ($this->skipTemplates) {
+      return;
+    }
+    if ($cancel) {
+      $msgs = array();
+    } else {
+      $msgs = $this->tabObject->check();
+    }
+    if (count($msgs)) {
+      msg_dialog::displayChecks($msgs);
+      return;
+    } else {
+      if (!$cancel) {
+        $this->tabObject->save();
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Template applied!");
+      }
+      del_lock($this->dn);
+      if (empty($this->dns)) {
+        $this->closeDialogs();
+      } else {
+        $this->last_tabObject = $this->tabObject;
+        $this->tabObject      = NULL;
+        $this->dn             = array_shift($this->dns);
+        $this->dialogObject->setNextTarget($this->dn);
+        $this->dialogObject->save_object();
+      }
+    }
+  }
+
+  /*!
+   * \brief  Save object modifications and closes dialogs (returns to object listing).
+   *          - Calls 'tab::check' to validate the given input.
+   *          - Calls 'tab::save' to save back object modifications (e.g. to ldap).
+   *          - Calls 'management::remove_locks' to remove eventually created locks.
+   *          - Calls 'management::closeDialogs' to return to the object listing.
+   */
+  protected function saveChanges()
+  {
+    if (($this->tabObject instanceOf tabs) && ($this->dialogObject instanceOf templateDialog)) {
+      $this->tabObject->save_object();
+      $this->handleTemplateApply();
+      return;
+    }
+    parent::saveChanges();
+  }
+
+  /*!
+   * \brief  Editing an object was caneled.
+   *          Close dialogs/tabs and remove locks.
+   */
+  protected function cancelEdit()
+  {
+    if (($this->tabObject instanceOf tabs) && ($this->dialogObject instanceOf templateDialog)) {
+      $this->handleTemplateApply(TRUE);
+      return;
+    }
+    parent::cancelEdit();
+  }
+
+
+  /*!
+   * \brief  This method opens an existing object or a list of existing objects to be edited.
+   *
+   * \param  String  $action  The name of the action which was the used as trigger.
+   *
+   * \param  Array   $target  A list of object dns, which should be affected by this method.
+   *
+   * \param  Array   $all     A combination of both 'action' and 'target'.
+   *
+   * \param String $altTabClass Empty string.
+   *
+   * \param String $altTabType Empty string.
+   *
+   * \param String $altAclCategory Empty string.
+   */
+  function editEntry($action = "", $target = array(), $all = array(), $altTabClass = "", $altTabType = "", $altAclCategory = "")
+  {
+    // Do not create a new tabObject while there is already one opened,
+    //  the user may have just pressed F5 to reload the page.
+    if (is_object($this->tabObject)) {
+      return;
+    }
+
+    $this->displayApplyBtn = (count($target) == 1);
+
+    // Single edit - we only got one object dn.
+    if (count($target) == 1) {
+      $type = $this->getType($target[0]);
+      if (preg_match('/^template_/', $type) && !$this->skipTemplates) {
+        $type = preg_replace('/^template_/', '', $type);
+      }
+
+      $this->is_new         = FALSE;
+      $this->is_single_edit = TRUE;
+
+      // Get the dn of the object and creates lock
+      $this->dn = array_pop($target);
+      set_object_info($this->dn);
+      $user = get_lock($this->dn);
+      if ($user != "") {
+        return gen_locked_message($user, $this->dn, TRUE);
+      }
+      add_lock ($this->dn, $this->ui->dn);
+
+      // Open object
+      $this->openTabObject(objects::open($this->dn, $type), $this->dn);
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Edit entry initiated!");
+      if (isset($all['subaction'])) {
+        if ($this->handleSubAction($all) == FALSE) {
+          trigger_error('Was not able to handle subaction: '.$all['subaction']);
+        }
+      }
+    }
+  }
+
+  function handleSubAction($all)
+  {
+    if (preg_match('/^tab_/', $all['subaction'])) {
       $tab = preg_replace('/^tab_/', '', $all['subaction']);
       if (isset($this->tabObject->by_object[$tab])) {
         $this->tabObject->current = $tab;
       } else {
         trigger_error('Unknown tab: '.$tab);
       }
+      return TRUE;
     }
-    if (!empty($str)) {
-      return $str;
-    }
+    return FALSE;
   }
 
   /*! \brief    Queue selected objects to be removed.
@@ -287,9 +632,11 @@ class simpleManagement extends management
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removal requested!");
 
     // Check permissons for each target
-    $tInfo = $this->config->data['OBJECTS'];
     foreach ($target as $dn) {
       $type = $this->getType($dn);
+      if (preg_match('/^template_/', $type) && !$this->skipTemplates) {
+        $type = preg_replace('/^template_/', '', $type);
+      }
       try {
         $info = objects::infos($type);
         $acl  = $this->ui->get_permissions($dn, $info['aclCategory'].'/'.$info['mainTab']);
@@ -318,7 +665,13 @@ class simpleManagement extends management
       $objects = array();
       foreach ($this->dns as $dn) {
         $type   = $this->getType($dn);
-        $info   = objects::infos($type);
+        if (preg_match('/^template_/', $type) && !$this->skipTemplates) {
+          $type = preg_replace('/^template_/', '', $type);
+          $info = objects::infos($type);
+          $info['mainAttr'] = 'cn';
+        } else {
+          $info = objects::infos($type);
+        }
         $entry  = $this->getHeadpage()->getEntry($dn);
         $objects[] = array(
           'name'  => $entry[$info['mainAttr']][0],
@@ -342,29 +695,21 @@ class simpleManagement extends management
   {
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removal confirmed!");
 
-    $targets = array();
     foreach ($this->dns as $dn) {
       $type = $this->getType($dn);
       if (empty($type)) {
         continue;
       }
-      $targets[$type][] = $dn;
-    }
-
-    $tInfo = $this->config->data['OBJECTS'];
-    foreach ($this->dns as $dn) {
-      $type = $this->getType($dn);
-      if (empty($type)) {
-        continue;
+      if (preg_match('/^template_/', $type) && !$this->skipTemplates) {
+        $type = preg_replace('/^template_/', '', $type);
       }
       $infos = objects::infos($type);
       // Check permissions, are we allowed to remove this object?
       $acl = $this->ui->get_permissions($dn, $infos['aclCategory']."/".$infos['mainTab']);
       if (preg_match("/d/", $acl)) {
         // Delete the object
-        $this->dn         = $dn;
-        $this->tabObject  = objects::open($this->dn, $type);
-        $this->tabObject->parent = &$this;
+        $this->dn = $dn;
+        $this->openTabObject(objects::open($this->dn, $type), $this->dn);
         $this->tabObject->delete();
 
         // Remove the lock for the current object.
@@ -495,28 +840,56 @@ class simpleManagement extends management
    *  @param  Array   'target'  A list of object dns, which should be affected by this method.
    *  @param  Array   'all'     A combination of both 'action' and 'target'.
    */
-  function copyPasteHandler($action = '', $target = array(), $all = array(),
-      $altTabClass = '', $altTabType = '', $altAclCategory = '', $altAclPlugin = '')
+  function copyPasteHandler($action = "", $target = array(), $all = array(),
+      $altTabClass = "", $altTabType = "", $altAclCategory = "", $altAclPlugin = "")
   {
-    $tInfo = $this->config->data['OBJECTS'];
-
-    $tabClass     = array();
-    $tabType      = array();
-    $aclCategory  = array();
-    $aclPlugin    = array();
-
-    $headpage = $this->getHeadpage();
-
-    foreach ($target as $dn) {
-      $type   = $this->getType($dn);
-
-      $tabClass[$dn]    = $tInfo[$type]['tabClass'];
-      $tabType[$dn]     = $tInfo[$type]['tabGroup'];
-      $aclCategory[$dn] = $tInfo[$type]['aclCategory'];
-      $aclPlugin[$dn]   = $tInfo[$type]['mainTab'];
+    // Return without any actions while copy&paste handler is disabled.
+    if (!is_object($this->cpHandler)) {
+      return FALSE;
     }
 
-    return parent::copyPasteHandler($action, $target, $all, $tabClass, $tabType, $aclCategory, $aclPlugin);
+    // Save user input
+    $this->cpHandler->save_object();
+
+    // Add entries to queue
+    if ($action == "copy" || $action == "cut") {
+      $this->cpHandler->cleanup_queue();
+      foreach ($target as $dn) {
+        $type   = $this->getType($dn);
+        if (preg_match('/^template_/', $type) && !$this->skipTemplates) {
+          $type = preg_replace('/^template_/', '', $type);
+        }
+        $infos  = objects::infos($type);
+
+        if ($action == "copy" && $this->ui->is_copyable($dn, $infos['aclCategory'], $infos['mainTab'])) {
+          $this->cpHandler->add_to_queue($dn, "copy", $type);
+          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Entry copied!");
+        }
+        if ($action == "cut" && $this->ui->is_cutable($dn, $infos['aclCategory'], $infos['mainTab'])) {
+          $this->cpHandler->add_to_queue($dn, "cut", $type);
+          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Entry cutted!");
+        }
+      }
+    }
+
+    // Initiate pasting
+    if ($action == "paste") {
+      $this->cpPastingStarted = TRUE;
+    }
+
+    // Display any c&p dialogs, eg. object modifications required before pasting.
+    if ($this->cpPastingStarted && $this->cpHandler->entries_queued()) {
+      $data = $this->cpHandler->execute($this->headpage->getBase());
+      if (!empty($data)) {
+        return $data;
+      }
+    }
+
+    // Automatically disable pasting process since there is no entry left to paste.
+    if (!$this->cpHandler->entries_queued()) {
+      $this->cpPastingStarted = FALSE;
+    }
+    return "";
   }
 
   static function filterRowLink()

@@ -178,7 +178,7 @@ function plugin_available($plugin)
 /*!
  * \brief Loads plist and load it in config object
  */
-function load_plist ()
+function load_plist ($ldap_available = TRUE)
 {
   global $config, $ui;
   if (!session::global_is_set('plist')) {
@@ -188,8 +188,10 @@ function load_plist ()
     $plist = new pluglist($config, $ui);
     session::global_set('plist', $plist);
     $config->loadPlist($plist);
-    $config->get_departments();
-    $config->make_idepartments();
+    if ($ldap_available) {
+      $config->get_departments();
+      $config->make_idepartments();
+    }
   }
   return session::global_get('plist');
 }
@@ -241,7 +243,7 @@ function DEBUG($level, $line, $function, $file, $data, $info = "")
   if (session::global_get('DEBUGLEVEL') & $level) {
     if ($first) {
       echo '<div id="debug_handling" class="notice">'.
-            '<img src="geticon.php?context=status&icon=dialog-information&size=22" alt="info icon" style="vertical-align:middle;margin-right:.2em;"/>'.
+            '<img src="geticon.php?context=status&amp;icon=dialog-information&amp;size=22" alt="info icon" style="vertical-align:middle;margin-right:.2em;"/>'.
             'There is some debug output '.
             '<button onClick="javascript:$$(\'div.debug_div\').each(function (a) { a.toggle(); });">Toggle</button>'.
           '</div>';
@@ -415,18 +417,6 @@ function array_remove_entries_ics($needles, $haystack)
 }
 
 /*!
- * \brief Removes duplicates in an array (case-insensitive)
- *
- * Removes duplicates in an array (case-insensitive), the returned array will be lower-case only
- *
- * \param array $array original array to remove duplicates from
- */
-function array_unique_ics($array)
-{
-  return array_values(array_unique(array_map('strtolower', $array)));
-}
-
-/*!
  * \brief Merge to array but remove duplicate entries (case-insensitive)
  *
  * Merges two arrays and removes duplicate entries. Triggers
@@ -445,11 +435,6 @@ function array_merge_unique($ar1, $ar2)
   } else {
     return array_values(array_unique(array_merge($ar1, $ar2)));
   }
-}
-function fusiondirectory_array_merge($ar1, $ar2)
-{
-  trigger_error("fusiondirectory_array_merge is deprecated, please use array_merge_unique");
-  return array_merge_unique($ar1, $ar2);
 }
 
 
@@ -517,102 +502,6 @@ function ldap_init ($server, $base, $binddn = '', $pass = '')
 }
 
 /*!
- * \brief Process htaccess authentication
- *
- * Process htaccess authentication
- *
- * \param string $username The username we ant to check
- *
- * \param bool $kerberos TRUE to use kerberos FALSE otherwise
- *
- * \return array containing username and server
- */
-function process_htaccess ($username, $kerberos = FALSE)
-{
-  global $config;
-
-  /* Search for $username and optional @REALM in all configured LDAP trees */
-  foreach (array_keys($config->data["LOCATIONS"]) as $name) {
-
-    $config->set_current($name);
-    $mode = "kerberos";
-    if ($config->get_cfg_value("useSaslForKerberos") == "TRUE") {
-      $mode = "sasl";
-    }
-
-    /* Look for entry or realm */
-    $ldap = $config->get_ldap_link();
-    if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error"),
-          msgPool::ldaperror($ldap->get_error(), "", LDAP_AUTH)."<br><br>".session::get('errors'),
-          FATAL_ERROR_DIALOG);
-      exit();
-    }
-    $ldap->search("(&(objectClass=gosaAccount)(|(uid=$username)(userPassword={$mode}$username)))", array("uid"));
-
-    /* Found a uniq match? Return it... */
-    if ($ldap->count() == 1) {
-      $attrs = $ldap->fetch();
-      return array("username" => $attrs["uid"][0], "server" => $name);
-    }
-  }
-
-  /* Nothing found? Return emtpy array */
-  return array("username" => "", "server" => "");
-}
-
-
-/*!
- * \brief Verify user login against htaccess and then ldap
- *
- * Checks if the specified username is available in apache, maps the user
- * to an LDAP user. The password has been checked by apache already.
- *
- * \param string $username The username to check.
- *
- * \return TRUE on SUCCESS, NULL or FALSE on error
- */
-function ldap_login_user_htaccess ($username)
-{
-  global $config;
-
-  /* Look for entry or realm */
-  $ldap = $config->get_ldap_link();
-  if (!$ldap->success()) {
-    msg_dialog::display(_("LDAP error"),
-        msgPool::ldaperror($ldap->get_error(), "", LDAP_AUTH)."<br><br>".session::get('errors'),
-        FATAL_ERROR_DIALOG);
-    exit();
-  }
-  $ldap->search("(&(objectClass=gosaAccount)(uid=$username))", array("uid"));
-  /* Found no uniq match? Strange, because we did above... */
-  if ($ldap->count() != 1) {
-    msg_dialog::display(_("LDAP error"), _("Login (uid) is not unique inside the LDAP tree!"), FATAL_ERROR_DIALOG);
-    return NULL;
-  }
-  $attrs = $ldap->fetch();
-
-  /* got user dn, fill acl's */
-  $ui = new userinfo($config, $ldap->getDN());
-  $ui->username = $attrs['uid'][0];
-
-  /* Bail out if we have login restrictions set, for security reasons
-     the message is the same than failed user/pw */
-  if (!$ui->loginAllowed()) {
-    return NULL;
-  }
-
-  /* No password check needed - the webserver did it for us */
-  $ldap->disconnect();
-
-  /* Username is set, load subtreeACL's now */
-  $ui->loadACL();
-
-  return $ui;
-}
-
-
-/*!
  * \brief Verify user login against LDAP directory
  *
  * Checks if the specified username is in the LDAP and verifies if the
@@ -658,7 +547,7 @@ function ldap_login_user ($username, $password)
   foreach ($verify_attr as $attr) {
     $filter .= "(".$attr."=".$username.")";
   }
-  $filter = "(&(|".$filter.")(objectClass=gosaAccount))";
+  $filter = "(&(|".$filter.")(objectClass=inetOrgPerson))";
   $ldap->search($filter, $tmp);
 
   /* get results, only a count of 1 is valid */
@@ -692,12 +581,6 @@ function ldap_login_user ($username, $password)
   /* got user dn, fill acl's */
   $ui = new userinfo($config, $ldap->getDN());
   $ui->username = $attrs['uid'][0];
-
-  /* Bail out if we have login restrictions set, for security reasons
-     the message is the same than failed user/pw */
-  if (!$ui->loginAllowed()) {
-    return NULL;
-  }
 
   /* password check, bind as user with supplied password  */
   $ldap->disconnect();
@@ -771,7 +654,7 @@ function add_lock($object, $user)
 
   /* Check for existing entries in lock area */
   $ldap = $config->get_ldap_link();
-  $ldap->cd ($config->get_cfg_value("config"));
+  $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
   $ldap->search("(&(objectClass=gosaLockEntry)(gosaUser=$user)(gosaObject=".base64_encode($object)."))",
       array("gosaUser"));
   if (!$ldap->success()) {
@@ -783,14 +666,14 @@ function add_lock($object, $user)
   if ($ldap->count() == 0) {
     $attrs  = array();
     $name   = md5($object);
-    $ldap->cd("cn=$name,".$config->get_cfg_value("config"));
+    $ldap->cd("cn=$name,".get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
     $attrs['objectClass'] = 'gosaLockEntry';
     $attrs['gosaUser']    = $user;
     $attrs['gosaObject']  = base64_encode($object);
     $attrs['cn']          = '$name';
     $ldap->add($attrs);
     if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), "cn=$name,".$config->get_cfg_value("config"), 0), LDAP_ERROR);
+      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), "cn=$name,".get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'], 0), LDAP_ERROR);
       return;
     }
   }
@@ -833,7 +716,7 @@ function del_lock ($object)
 
   /* Check for existance and remove the entry */
   $ldap = $config->get_ldap_link();
-  $ldap->cd($config->get_cfg_value('config'));
+  $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
   $ldap->search('(&(objectClass=gosaLockEntry)(gosaObject='.base64_encode($object).'))', array('gosaObject'));
   $ldap->fetch();
   if (!$ldap->success()) {
@@ -859,7 +742,7 @@ function del_user_locks($userdn)
 
   /* Get LDAP ressources */
   $ldap = $config->get_ldap_link();
-  $ldap->cd ($config->get_cfg_value("config"));
+  $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
 
   /* Remove all objects of this user, drop errors silently in this case. */
   $ldap->search("(&(objectClass=gosaLockEntry)(gosaUser=$userdn))", array("gosaUser"));
@@ -895,7 +778,7 @@ function get_lock ($object)
   /* Get LDAP link, check for presence of the lock entry */
   $user = "";
   $ldap = $config->get_ldap_link();
-  $ldap->cd ($config->get_cfg_value("config"));
+  $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
   $ldap->search("(&(objectClass=gosaLockEntry)(gosaObject=".base64_encode($object)."))", array("gosaUser"));
   if (!$ldap->success()) {
     msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), "", LDAP_SEARCH), LDAP_ERROR);
@@ -938,30 +821,30 @@ function get_multiple_locks($objects)
   global $config;
 
   if (is_array($objects)) {
-    $filter = "(&(objectClass=gosaLockEntry)(|";
+    $filter = '(&(objectClass=gosaLockEntry)(|';
     foreach ($objects as $obj) {
-      $filter .= "(gosaObject=".base64_encode($obj).")";
+      $filter .= '(gosaObject='.base64_encode($obj).')';
     }
-    $filter .= "))";
+    $filter .= '))';
   } else {
-    $filter = "(&(objectClass=gosaLockEntry)(gosaObject=".base64_encode($objects)."))";
+    $filter = '(&(objectClass=gosaLockEntry)(gosaObject='.base64_encode($objects).'))';
   }
 
   /* Get LDAP link, check for presence of the lock entry */
   $user = "";
   $ldap = $config->get_ldap_link();
-  $ldap->cd ($config->get_cfg_value("config"));
-  $ldap->search($filter, array("gosaUser","gosaObject"));
+  $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
+  $ldap->search($filter, array('gosaUser','gosaObject'));
   if (!$ldap->success()) {
-    msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), "", LDAP_SEARCH), LDAP_ERROR);
-    return "";
+    msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), '', LDAP_SEARCH), LDAP_ERROR);
+    return '';
   }
 
   $users = array();
   while ($attrs = $ldap->fetch()) {
     $dn   = base64_decode($attrs['gosaObject'][0]);
     $user = $attrs['gosaUser'][0];
-    $users[] = array("dn" => $dn, "user" => $user);
+    $users[] = array('dn' => $dn, 'user' => $user);
   }
   return $users;
 }
@@ -1379,29 +1262,6 @@ function convert_department_dn($dn, $base = NULL)
   return trim($dep, "/");
 }
 
-
-/*!
- * \brief Return the last sub department part of a '/level1/level2/.../' style value.
- *
- * Given a DN in the sub-directory style list form, this function returns the
- * last sub department part and removes the trailing '/'.
- *
- * Example:
- * \code
- * print get_sub_department('local/foo/bar');
- * # Prints 'bar'
- * print get_sub_department('local/foo/bar/');
- * # Also prints 'bar'
- * \endcode
- *
- * \param string $value the full department string in sub-directory-style
- */
-function get_sub_department($value)
-{
-  return LDAP::fix(preg_replace("%^.*/([^/]+)/?$%", "\\1", $value));
-}
-
-
 /*! \brief Get the OU of a certain RDN
  *
  * Given a certain RDN name (ogroupRDN, applicationRDN etc.) this
@@ -1425,74 +1285,77 @@ function get_ou($name)
   global $config;
 
   $map = array(
-                "roleRDN"                 => "ou=roles,",
-                "ogroupRDN"               => "ou=groups,",
-                "applicationRDN"          => "ou=apps,",
-                "systemRDN"               => "ou=systems,",
-                "serverRDN"               => "ou=servers,ou=systems,",
-                "terminalRDN"             => "ou=terminals,ou=systems,",
-                "workstationRDN"          => "ou=workstations,ou=systems,",
-                "printerRDN"              => "ou=printers,ou=systems,",
-                "phoneRDN"                => "ou=phones,ou=systems,",
-                "componentRDN"            => "ou=netdevices,ou=systems,",
-                "sambaMachineAccountRDN"  => "ou=computers,",
-                "mobilePhoneRDN"          => "ou=mobile,ou=systems,",
+    'fusiondirectoryRDN'      => 'ou=fusiondirectory,',
+    'lockRDN'                 => 'ou=locks,',
+    'tokenRDN'                => 'ou=tokens,',
 
-                "inventoryRDN"            => "ou=inventory,",
+    'roleRDN'                 => 'ou=roles,',
+    'ogroupRDN'               => 'ou=groups,',
+    'applicationRDN'          => 'ou=apps,',
+    'systemRDN'               => 'ou=systems,',
+    'serverRDN'               => 'ou=servers,ou=systems,',
+    'terminalRDN'             => 'ou=terminals,ou=systems,',
+    'workstationRDN'          => 'ou=workstations,ou=systems,',
+    'printerRDN'              => 'ou=printers,ou=systems,',
+    'phoneRDN'                => 'ou=phones,ou=systems,',
+    'componentRDN'            => 'ou=netdevices,ou=systems,',
+    'sambaMachineAccountRDN'  => 'ou=computers,',
+    'mobilePhoneRDN'          => 'ou=mobile,ou=systems,',
 
-                "ipmiRDN"                 => "ou=ipmi,",
+    'inventoryRDN'            => 'ou=inventory,',
 
-                "faxBlocklistRDN"     => "ou=gofax,ou=systems,",
-                "aclRoleRDN"          => "ou=aclroles,",
-                "phoneMacroRDN"       => "ou=macros,ou=asterisk,ou=configs,ou=systems,",
-                "phoneConferenceRDN"  => "ou=conferences,ou=asterisk,ou=configs,ou=systems,",
+    'ipmiRDN'                 => 'ou=ipmi,',
 
-                "faiBaseRDN"      => "ou=fai,ou=configs,ou=systems,",
-                "faiScriptRDN"    => "ou=scripts,",
-                "faiHookRDN"      => "ou=hooks,",
-                "faiTemplateRDN"  => "ou=templates,",
-                "faiVariableRDN"  => "ou=variables,",
-                "faiProfileRDN"   => "ou=profiles,",
-                "faiPackageRDN"   => "ou=packages,",
-                "faiPartitionRDN" => "ou=disk,",
+    'faxBlocklistRDN'     => 'ou=gofax,ou=systems,',
+    'aclRoleRDN'          => 'ou=aclroles,',
+    'phoneMacroRDN'       => 'ou=macros,ou=asterisk,ou=configs,ou=systems,',
+    'phoneConferenceRDN'  => 'ou=conferences,ou=asterisk,ou=configs,ou=systems,',
 
-                "debconfRDN"      => "ou=debconf,",
+    'faiBaseRDN'      => 'ou=fai,ou=configs,ou=systems,',
+    'faiScriptRDN'    => 'ou=scripts,',
+    'faiHookRDN'      => 'ou=hooks,',
+    'faiTemplateRDN'  => 'ou=templates,',
+    'faiVariableRDN'  => 'ou=variables,',
+    'faiProfileRDN'   => 'ou=profiles,',
+    'faiPackageRDN'   => 'ou=packages,',
+    'faiPartitionRDN' => 'ou=disk,',
 
-                "supannStructuresRDN" => "ou=structures,",
+    'debconfRDN'      => 'ou=debconf,',
 
-                "tokenRDN"    => "ou=tokens,",
+    'supannStructuresRDN' => 'ou=structures,',
 
-                "sudoRDN"     => "ou=sudoers,",
+    'sudoRDN'     => 'ou=sudoers,',
 
-                "netgroupRDN" => "ou=netgroup,",
+    'netgroupRDN' => 'ou=netgroup,',
 
-                "deviceRDN"   => "ou=devices,",
+    'deviceRDN'   => 'ou=devices,',
 
-                "aliasRDN"    => "ou=alias,",
+    'aliasRDN'    => 'ou=alias,',
 
-                "dsaRDN"    => "ou=dsa,",
+    'dsaRDN'    => 'ou=dsa,',
 
-                "mimetypeRDN" => "ou=mime,");
+    'mimetypeRDN' => 'ou=mime,'
+  );
 
   /* Preset ou... */
-  if ($config->get_cfg_value($name, "_not_set_") != "_not_set_") {
+  if ($config->get_cfg_value($name, '_not_set_') != '_not_set_') {
     $ou = $config->get_cfg_value($name);
   } elseif (isset($map[$name])) {
     $ou = $map[$name];
     return $ou;
   } else {
-    trigger_error("No department mapping found for type ".$name);
-    return "";
+    trigger_error('No department mapping found for type '.$name);
+    return '';
   }
 
-  if ($ou != "") {
+  if ($ou != '') {
     if (!preg_match('/^[^=]+=[^=]+/', $ou)) {
       $ou = @LDAP::convert("ou=$ou");
     } else {
       $ou = @LDAP::convert("$ou");
     }
 
-    if (preg_match("/".preg_quote($config->current['BASE'], '/')."$/", $ou)) {
+    if (preg_match('/'.preg_quote($config->current['BASE'], '/').'$/', $ou)) {
       return $ou;
     } else {
       if (preg_match('/,$/', $ou)) {
@@ -1501,9 +1364,8 @@ function get_ou($name)
         return "$ou,";
       }
     }
-
   } else {
-    return "";
+    return '';
   }
 }
 
@@ -1591,25 +1453,6 @@ function strict_uid_mode()
   }
   return TRUE;
 }
-
-
-/*!
- * \brief Get regular expression for checking uids based on the naming
- *         rules.
- *
- * \return string Returns the desired regular expression
- */
-function get_uid_regexp()
-{
-  /* STRICT adds spaces and case insenstivity to the uid check.
-     This is dangerous and should not be used. */
-  if (strict_uid_mode()) {
-    return "^[a-z0-9_-]+$";
-  } else {
-    return "^[a-zA-Z0-9 _.-]+$";
-  }
-}
-
 
 /*!
  * \brief Generate a lock message
@@ -1928,7 +1771,7 @@ function range_selector($dcnt, $start, $range = 25, $post_var = FALSE)
   if ($start > 0 ) {
     $output .= "  <a href= \"main.php?plug=".validate($_GET['plug'])."&amp;start=".
       ($start - $range)."\">".
-      '<img class="center" alt="back" src="geticon.php?context=actions&icon=previous&size=16"/></a>';
+      '<img class="center" alt="back" src="geticon.php?context=actions&amp;icon=previous&amp;size=16"/></a>';
   }
 
   /* Draw pages */
@@ -1947,7 +1790,7 @@ function range_selector($dcnt, $start, $range = 25, $post_var = FALSE)
   if ($start < ($dcnt - $range)) {
     $output .= "  <a href= \"main.php?plug=".validate($_GET['plug'])."&amp;start=".
       ($start + $range)."\">".
-      '<img class="center" alt="forward" src="geticon.php?context=actions&icon=next&size=16"/></a>';
+      '<img class="center" alt="forward" src="geticon.php?context=actions&amp;icon=next&amp;size=16"/></a>';
   }
 
   if ($post_var && $numpages) {
@@ -2600,22 +2443,6 @@ function normalizeLdap($input)
   return addcslashes($input, '*()\\/');
 }
 
-/*!
- * \brief Test weither we are allowed to change the object
- *
- * \param string $dn the DN of the object to check
- *
- * \param string $object
- *
- * \param string $attribute the attribute to chec
- */
-function obj_is_writable($dn, $object, $attribute)
-{
-  global $ui;
-
-  return preg_match('/w/', $ui->get_permissions($dn, $object, $attribute));
-}
-
 
 /*!
  * \brief Explode a DN into its parts
@@ -2722,34 +2549,17 @@ function get_next_id_hook($attrib, $dn)
 
 
 /*!
- * \brief Check if schema version matches the requirements
- *
- * \param string $class objectClass to check
- *
- * \param string $version version to check for
- *
- * \return TRUE if successfull FALSE otherwise
- */
-function check_schema_version($class, $version)
-{
-  return preg_match("/\(v$version\)/", $class['DESC']);
-}
-
-
-/*!
  * \brief Check if LDAP schema matches the requirements
  *
  * \param string $cfg A config object
- *
- * \param bool $rfc2307bis TRUE for checking for rfc2307bis FALSE otherwise
  */
-function check_schema($cfg, $rfc2307bis = FALSE)
+function check_schema($cfg)
 {
   $checks = array();
 
   /* Get objectclasses */
   $ldap = new ldapMultiplexer(new LDAP($cfg['admin'], $cfg['password'], $cfg['connection'], FALSE, $cfg['tls']));
-  $objectclasses = $ldap->get_objectclasses();
+  $objectclasses = $ldap->get_objectclasses(TRUE);
   if (count($objectclasses) == 0) {
     msg_dialog::display(_("LDAP warning"), _("Cannot get schema information from server. No schema check possible!"), WARNING_DIALOG);
   }
@@ -2757,7 +2567,7 @@ function check_schema($cfg, $rfc2307bis = FALSE)
   /* This is the default block used for each entry.
    *  to avoid unset indexes.
    */
-  $def_check = array("REQUIRED_VERSION" => "0",
+  $def_check = array(
       "SCHEMA_FILES"     => array(),
       "CLASSES_REQUIRED" => array(),
       "STATUS"           => FALSE,
@@ -2765,48 +2575,19 @@ function check_schema($cfg, $rfc2307bis = FALSE)
       "MSG"              => "",
       "INFO"             => ""); // There is currently no information specified for this schema extension.;
 
-  /* The FusionDirectory base schema */
-  $checks['gosaObject'] = $def_check;
-
-  $checks['gosaObject']['REQUIRED_VERSION'] = '2.6.1';
-  $checks['gosaObject']['SCHEMA_FILES']     = array('core-fd.schema');
-  $checks['gosaObject']['CLASSES_REQUIRED'] = array('gosaObject');
-  $checks['gosaObject']['IS_MUST_HAVE']     = TRUE;
-
-  /* FusionDirectory Account class */
-  $checks['gosaAccount']['REQUIRED_VERSION']  = '2.6.6';
-  $checks['gosaAccount']['SCHEMA_FILES']      = array('core-fd.schema');
-  $checks['gosaAccount']['CLASSES_REQUIRED']  = array('gosaAccount');
-  $checks['gosaAccount']['IS_MUST_HAVE']      = TRUE;
-  $checks['gosaAccount']['INFO']              = _('Used to store account specific informations.');
-
   /* FusionDirectory lock entry, used to mark currently edited objects as 'in use' */
-  $checks['gosaLockEntry']['REQUIRED_VERSION'] = '2.6.1';
   $checks['gosaLockEntry']['SCHEMA_FILES']     = array('core-fd.schema');
   $checks['gosaLockEntry']['CLASSES_REQUIRED'] = array('gosaLockEntry');
   $checks['gosaLockEntry']['IS_MUST_HAVE']     = TRUE;
   $checks['gosaLockEntry']['INFO']             = _('Used to lock currently edited entries to avoid multiple changes at the same time.');
 
   /* Some other checks */
-  foreach (array(
-        "gosaCacheEntry"        => array("version" => "2.6.1", "class" => "gosaAccount"),
-        "gosaDepartment"        => array("version" => "2.6.1", "class" => "gosaAccount"),
-        "gosaUserTemplate"      => array("version" => "2.6.1", "class" => "posixAccount","file" => "nis.schema"),
-        ) as $name => $values) {
-    $checks[$name] = $def_check;
-    if (isset($values['version'])) {
-      $checks[$name]["REQUIRED_VERSION"] = $values['version'];
-    }
-    if (isset($values['file'])) {
-      $checks[$name]["SCHEMA_FILES"] = array($values['file']);
-    }
-    if (isset($values['class'])) {
-      $checks[$name]["CLASSES_REQUIRED"] = is_array($values['class'])?$values['class']:array($values['class']);
-    }
-  }
+  $checks['posixAccount']['SCHEMA_FILES']     = array('nis.schema');
+  $checks['posixAccount']['CLASSES_REQUIRED'] = array('posixAccount');
+  $checks['posixAccount']['IS_MUST_HAVE']     = FALSE;
+
   foreach ($checks as $name => $value) {
     foreach ($value['CLASSES_REQUIRED'] as $class) {
-
       if (!isset($objectclasses[$name])) {
         if ($value['IS_MUST_HAVE']) {
           $checks[$name]['STATUS'] = FALSE;
@@ -2815,9 +2596,6 @@ function check_schema($cfg, $rfc2307bis = FALSE)
           $checks[$name]['STATUS'] = TRUE;
           $checks[$name]['MSG']    = sprintf(_("Missing optional object class '%s'!"), $class);
         }
-      } elseif (!check_schema_version($objectclasses[$name], $value['REQUIRED_VERSION'])) {
-        $checks[$name]['STATUS']  = FALSE;
-        $checks[$name]['MSG']     = sprintf(_("Version mismatch for required object class '%s' (!=%s)!"), $class,                           $value['REQUIRED_VERSION']);
       } else {
         $checks[$name]['STATUS']  = TRUE;
         $checks[$name]['MSG']     = sprintf(_("Class(es) available"));
@@ -2830,7 +2608,6 @@ function check_schema($cfg, $rfc2307bis = FALSE)
   /* The FusionDirectory base schema */
   $checks['posixGroup'] = $def_check;
 
-  $checks['posixGroup']['REQUIRED_VERSION'] = "2.6.1";
   $checks['posixGroup']['SCHEMA_FILES']     = array("core-fd.schema");
   $checks['posixGroup']['CLASSES_REQUIRED'] = array("posixGroup");
   $checks['posixGroup']['STATUS']           = TRUE;
@@ -2838,18 +2615,15 @@ function check_schema($cfg, $rfc2307bis = FALSE)
   $checks['posixGroup']['MSG']              = "";
   $checks['posixGroup']['INFO']             = "";
 
-  /* Depending on selected rfc2307bis mode, we need different schema configurations */
-  if (isset($tmp['posixGroup'])) {
-    if ($rfc2307bis && isset($tmp['posixGroup']['STRUCTURAL'])) {
-      $checks['posixGroup']['STATUS']           = FALSE;
-      $checks['posixGroup']['MSG']              = _("You have enabled the rfc2307bis option on the 'ldap setup' step, but your schema    configuration do not support this option.");
-      $checks['posixGroup']['INFO']             = _("In order to use rfc2307bis conform groups the objectClass 'posixGroup' must be      AUXILIARY");
-    }
-    if (!$rfc2307bis && !isset($tmp['posixGroup']['STRUCTURAL'])) {
-      $checks['posixGroup']['STATUS']           = FALSE;
-      $checks['posixGroup']['MSG']              = _("Your schema is configured to support the rfc2307bis group, but you have disabled this option on the 'ldap setup' step.");
-      $checks['posixGroup']['INFO']             = _("The objectClass 'posixGroup' must be STRUCTURAL");
-    }
+  /* Depending on mixed groups plugin installation status, we need different schema configurations */
+  if (class_available('mixedGroup') && isset($tmp['posixGroup']['STRUCTURAL'])) {
+    $checks['posixGroup']['STATUS'] = FALSE;
+    $checks['posixGroup']['MSG']    = _('You have installed the mixed groups plugin, but your schema configuration does not support this.');
+    $checks['posixGroup']['INFO']   = _('In order to use mixed groups the objectClass "posixGroup" must be AUXILIARY');
+  } elseif (!class_available('mixedGroup') && !isset($tmp['posixGroup']['STRUCTURAL'])) {
+    $checks['posixGroup']['STATUS'] = FALSE;
+    $checks['posixGroup']['MSG']    = _('Your schema is configured to support mixed groups, but this plugin is not present.');
+    $checks['posixGroup']['INFO']   = _('The objectClass "posixGroup" must be STRUCTURAL');
   }
 
   return $checks;
@@ -2871,6 +2645,7 @@ function get_languages($languages_in_own_language = FALSE, $strip_region_tag = F
     "de_DE" => "German",
     "el_GR" => "Greek",
     "en_US" => "English",
+    "es_CO" => "Colombian Spanish",
     "es_ES" => "Spanish",
     "es_VE" => "Venezuelan",
     "fa_IR" => "Persian",
@@ -2896,6 +2671,7 @@ function get_languages($languages_in_own_language = FALSE, $strip_region_tag = F
       "de_DE" => "Deutsch",
       "el_GR" => "ελληνικά",
       "en_US" => "English",
+      "es_CO" => "Español Colombiano",
       "es_ES" => "Español",
       "es_VE" => "Castellano",
       "fa_IR" => "پارسی",
@@ -2992,187 +2768,31 @@ function get_correct_class_name($cls)
  *
  * \param string $password the password
  *
- * \param int $mode if not 0 doesn't create the samba password hash
- *
  * \param string $hash which hash to use to encrypt it, default is empty
- * for cleartext storage.
+ * for reusing existing hash method for this password (or use the default one).
  *
- * \return boolean TRUE on success FALSE on error
+ * \return boolean TRUE on success and an error strings array on failure.
  */
-function change_password ($dn, $password, $mode = 0, $hash = "")
+function change_password ($dn, $password, $hash = "")
 {
   global $config;
-  $newpass = "";
-
-  /* Convert to lower. Methods are lowercase */
-  $hash = strtolower($hash);
-
-  // Get all available encryption Methods
-
-  // NON STATIC CALL :)
-  $methods = new passwordMethod(session::get('config'), $dn);
-  $available = $methods->get_available_methods();
-
-  // read current password entry for $dn, to detect the encryption Method
-  $ldap       = $config->get_ldap_link();
-  $ldap->cat ($dn, array("shadowLastChange", "userPassword", "uid"));
-  $attrs      = $ldap->fetch ();
-
-  /* Is ensure that clear passwords will stay clear */
-  if ($hash == "" && isset($attrs['userPassword'][0]) && !preg_match ("/^{([^}]+)}(.+)/", $attrs['userPassword'][0])) {
-    $hash = "clear";
+  $userTabs = objects::open($dn, 'user');
+  $userTab  = $userTabs->getBaseObject();
+  $userTab->userPassword = array(
+    $hash,
+    $password,
+    $password,
+    $userTab->userPassword,
+    $userTab->attributesAccess['userPassword']->isLocked()
+  );
+  $error = $userTabs->check();
+  if (!empty($error)) {
+    return $error;
   }
+  $userTabs->save_object();
+  $userTabs->save();
 
-  // Detect the encryption Method
-  if ($config->get_cfg_value("forcePasswordDefaultHash", "FALSE") == "TRUE") {
-    // if forcePasswordDefaultHash is TRUE we use the passwordDefaultHash
-    // hash and if it is not defined we use 'ssha' as default
-    $hash = $config->get_cfg_value("passwordDefaultHash", "ssha");
-    $test = new $available[$hash]($config, $dn);
-    $test->set_hash($hash);
-  } elseif ((isset($attrs['userPassword'][0]) && preg_match ("/^{([^}]+)}(.+)/", $attrs['userPassword'][0])) || $hash != "") {
-
-    /* Check for supported algorithm */
-    mt_srand((double) microtime() * 1000000);
-
-    /* Extract used hash */
-    if ($hash == "") {
-      $test = passwordMethod::get_method($attrs['userPassword'][0], $dn);
-    } else {
-      $test = new $available[$hash]($config,$dn);
-      $test->set_hash($hash);
-    }
-
-  } else {
-    // Use SSHA by default
-    $hash = $config->get_cfg_value("passwordDefaultHash", "ssha");
-    $test = new  $available[$hash]($config, $dn);
-  }
-
-  if ($test instanceOf passwordMethod) {
-
-    $deactivated = $test->is_locked($config, $dn);
-
-    /* Feed password backends with information */
-    $test->dn     = $dn;
-    $test->attrs  = $attrs;
-    $newpass      = $test->generate_hash($password);
-
-    // Update shadow timestamp?
-    if (isset($attrs["shadowLastChange"][0])) {
-      $shadow = (int)(date("U") / 86400);
-    } else {
-      $shadow = 0;
-    }
-
-    // Write back modified entry
-    $ldap->cd($dn);
-    $attrs = array();
-
-    // Not for groups
-    if ($mode == 0) {
-      if (class_available('sambaAccount')) {
-        if ($test->need_password()) {
-          // Create SMB Password
-          $attrs = generate_smb_nt_hash($password);
-        } else {
-          $attrs['sambaLMPassword']       = array();
-          $attrs['sambaNTPassword']       = array();
-          $attrs['sambaPwdLastSet']       = array();
-          $attrs['sambaBadPasswordCount'] = array();
-          $attrs['sambaBadPasswordTime']  = array();
-        }
-      }
-      if ($shadow != 0) {
-        $attrs['shadowLastChange'] = $shadow;
-      }
-    }
-
-    $attrs['userPassword'] = array();
-    $attrs['userPassword'] = $newpass;
-
-    $ldap->modify($attrs);
-
-    new log("modify", "user/passwordMethod", $dn, array_keys($attrs), $ldap->get_error());
-
-    if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD), LDAP_ERROR);
-    } else {
-      /* Re-add ! if user was deactivated */
-      if ($deactivated) {
-        if (!$test->lock_account($config, $dn)) {
-          msg_dialog::display(_('Error'), _('Could not re-lock the account after password change'), ERROR_DIALOG);
-        }
-      }
-
-      /* Run backend method for change/create */
-      if (!$test->set_password($password)) {
-        return FALSE;
-      }
-
-      /* Find postmodify entries for this class */
-      $command = $config->search("password", "POSTMODIFY", array('menu', 'hooks'));
-
-      if ($command != "") {
-        /* Walk through attribute list */
-        $addAttrs = array(
-          'userPassword'  => escapeshellarg($password),
-          'dn'            => escapeshellarg($dn)
-        );
-        $addAttrsStars = array(
-          'userPassword'  => '******',
-          'dn'            => escapeshellarg($dn)
-        );
-        $commandHiddenPwd = plugin::tpl_parse_string($command, $addAttrsStars);
-        $command          = plugin::tpl_parse_string($command, $addAttrs);
-
-        @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
-        exec($command, $arr, $returnCode);
-
-        if ($returnCode != 0) {
-          $str = implode("\n", $arr);
-          @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $commandHiddenPwd, "Execution failed code: ".$returnCode);
-          $message = msgPool::cmdexecfailed('POSTMODIFY', $commandHiddenPwd, 'password');
-          if (!empty($str)) {
-            $message .= "Result: ".$str;
-          }
-          msg_dialog::display(_("Error"), $message, ERROR_DIALOG);
-        } elseif (is_array($arr)) {
-          $str = implode("\n", $arr);
-          @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $commandHiddenPwd, "Result: ".$str);
-        }
-      }
-    }
-    return TRUE;
-  }
-}
-
-
-/*!
- * \brief Generate samba hashes
- *
- * Given a certain password this constructs an array like
- * array['sambaLMPassword'] etc.
- *
- * \param string $password
- *
- * \return array contains several keys for lmPassword, ntPassword, pwdLastSet, etc.
- */
-function generate_smb_nt_hash($password)
-{
-  global $config;
-  $smbHash = new smbHash();
-  if ($config->get_cfg_value("sambaGenLMPassword", "FALSE") == "TRUE") {
-    $attrs['sambaLMPassword'] = $smbHash->lmhash($password);
-  } else {
-    $attrs['sambaLMPassword'] = array();
-  }
-  $attrs['sambaNTPassword'] = $smbHash->nthash($password);
-  $attrs['sambaPwdLastSet'] = date('U');
-
-  $attrs['sambaBadPasswordCount'] = "0";
-  $attrs['sambaBadPasswordTime']  = "0";
-  return $attrs;
+  return TRUE;
 }
 
 /* Lock or unlock samba account */
@@ -3238,66 +2858,6 @@ function getEntryCSN($dn)
   }
   return "";
 }
-
-
-/*!
- * \brief Add (a) given objectClass(es) to an attrs entry
- *
- * The function adds the specified objectClass(es) to the given
- * attrs entry.
- *
- * \param mixed $classes Either a single objectClass or several objectClasses
- * as an array
- *
- * \param array $attrs The attrs array to be modified.
- *
- */
-function add_objectClass($classes, &$attrs)
-{
-  if (is_array($classes)) {
-    $list = $classes;
-  } else {
-    $list = array($classes);
-  }
-
-  foreach ($list as $class) {
-    $attrs['objectClass'][] = $class;
-  }
-}
-
-
-/*!
- * \brief Removes a given objectClass from the attrs entry
- *
- * The function remove the specified objectClass(es) to the given
- * attrs entry.
- *
- * \param mixed $classes Either a single objectClass or several objectClasses
- * as an array
- *
- * \param array $attrs The attrs array to be removed.
- */
-function remove_objectClass($classes, &$attrs)
-{
-  if (isset($attrs['objectClass'])) {
-    if (is_array($classes)) {
-      $list = $classes;
-    } else {
-      $list = array($classes);
-    }
-
-    $tmp = array();
-    foreach ($attrs['objectClass'] as $oc) {
-      foreach ($list as $class) {
-        if (strtolower($oc) != strtolower($class)) {
-          $tmp[] = $oc;
-        }
-      }
-    }
-    $attrs['objectClass'] = $tmp;
-  }
-}
-
 
 /*!
  * \brief  Initialize a file download with given content, name and data type.
@@ -3671,46 +3231,6 @@ function get_next_id_traditional($attrib, $dn)
   }
 }
 
-/*!
- * \brief Convert from date to seconds
- *
- * \param string $val a date
- *
- * \return Return the date converted into seconds
- */
-function convertToSeconds($val)
-{
-  if ($val != 0) {
-    $val *= 60 * 60 * 24;
-  } else {
-    $date = getdate();
-    $val  = floor($date[0] / (60 * 60 * 24)) * 60 * 60 * 24;
-  }
-  return $val;
-}
-
-/*!
- * \brief Sort multidimensional arrays for key 'text'
- *
- * \param string $val1
- *
- * \param string $val2
- *
- * \return Return -1 if val2 > val1, 0 if equal, 1 if val1 > val2
- */
-function sort_list($val1, $val2)
-{
-  $v1 = strtolower($val1['text']);
-  $v2 = strtolower($val2['text']);
-  if ($v1 > $v2) {
-    return 1;
-  }
-  if ($v1 < $v2) {
-    return -1;
-  }
-  return 0;
-}
-
 /* Mark the occurance of a string with a span */
 function mark($needle, $haystack)
 {
@@ -3729,18 +3249,6 @@ function reset_errors()
   session::set('errors', "");
   session::set('errorsAlreadyPosted', array());
   session::set('LastError', "");
-}
-
-/*!
- * \brief Convert dos linebreak to unix ones
- *
- * \param string $str
- *
- * \return Return the string with linebreak converted into unix mode
- */
-function fix_dos_linebreaks($str)
-{
-  return preg_replace('/\\r\\n/', "\n", $str);
 }
 
 function load_all_classes()

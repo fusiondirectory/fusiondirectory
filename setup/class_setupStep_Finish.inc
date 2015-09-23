@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2007  Fabian Hickert
@@ -20,30 +19,35 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class Step_Finish extends setup_step
+class Step_Finish extends setupStep
 {
-  var $cfg_file_written = FALSE;
-  var $header_image     = 'geticon.php?context=devices&icon=server&size=48';
+  var $header_image = 'geticon.php?context=devices&icon=server&size=48';
 
-  function __construct()
+  static function getAttributesInfo()
   {
-    $this->update_strings();
+    return array(
+      'welcome' => array(
+        'name'      => _('Welcome'),
+        'template'  => get_template_path("setup_finish.tpl", TRUE, dirname(__FILE__)),
+        'attrs'     => array(
+        )
+      )
+    );
   }
-
 
   function update_strings()
   {
-    $this->s_title      = _("Finish");
-    $this->s_info       = _("Write configuration file");
-    $this->s_title_long = _("Finish - write the configuration file");
+    $this->s_title      = _('Finish');
+    $this->s_info       = _('Write configuration file');
+    $this->s_title_long = _('Finish - write the configuration file');
   }
-
 
   function get_conf_data()
   {
     $smarty           = get_smarty();
     $cv               = $this->parent->captured_values;
-    $smarty->assign('cv', xmlentities($cv));
+    $cv['debugLevel'] = $this->parent->getDebugLevel();
+    $smarty->assign('cv',                       xmlentities($cv));
     $smarty->assign('templateCompileDirectory', SPOOL_DIR);
     return $smarty->fetch(CONFIG_TEMPLATE_DIR.CONFIG_FILE);
   }
@@ -78,52 +82,44 @@ class Step_Finish extends setup_step
 
   function execute()
   {
-    global $BASE_DIR;
+    /* Check if there is currently an active fusiondirectory.conf */
+    $exists   = file_exists(CONFIG_DIR."/".CONFIG_FILE);
+    $err_msg  = '';
 
-    if (!function_exists("posix_getgrgid")) {
-      $webgroup = "";
-    } else {
-      $info     = posix_getgrgid(posix_getgid());
-      $webgroup = $info['name'];
+    if ($exists && $this->is_world_readable(CONFIG_DIR.'/'.CONFIG_FILE)) {
+      $err_msg = _('Your configuration file is currently world readable. Please update the file permissions!');
+    } elseif (!$exists) {
+      $err_msg = _('The configuration is currently not readable or it does not exists.');
     }
 
-    /* Check if there is currently an active fusiondirectory.conf
-     */
-    $exists = file_exists(CONFIG_DIR."/".CONFIG_FILE);
+    $smarty = get_smarty();
+    $smarty->assign('err_msg',  $err_msg);
+    $smarty->assign('msg2',     sprintf(_('After downloading and placing the file under %s, please make sure that the user the webserver is running with is able to read %s, while other users shouldn\'t.'), CONFIG_DIR, CONFIG_FILE));
+
+    return parent::execute();
+  }
+
+  function save_object()
+  {
+    parent::save_object();
+    $exists = file_exists(CONFIG_DIR.'/'.CONFIG_FILE);
 
     /* Redirect to FusionDirectory login, if :
      *   - fusiondirectory.conf exists
      *   - Permisssion are set correctly
      */
-
-    if (isset($_POST['next']) && $exists && !$this->is_world_readable(CONFIG_DIR."/".CONFIG_FILE)) {
+    if (isset($_POST['next']) && $exists && !$this->is_world_readable(CONFIG_DIR.'/'.CONFIG_FILE)) {
       $this->insertConfigDefaults();
       session::destroy();
-      header("Location: index.php");
+      header('Location: index.php');
       exit();
     }
 
     /* Download config */
     if (isset($_POST['getconf'])) {
-      send_binary_content($this->get_conf_data(), CONFIG_FILE, "text/plain");
+      send_binary_content($this->get_conf_data(), CONFIG_FILE, 'text/plain');
     }
-
-    $err_msg = "";
-
-    if ($exists && $this->is_world_readable(CONFIG_DIR."/".CONFIG_FILE)) {
-      $err_msg = _("Your configuration file is currently world readable. Please update the file permissions!");
-    } elseif (!$exists) {
-      $err_msg = _("The configuration is currently not readable or it does not exists.");
-    }
-
-    $smarty = get_smarty();
-    $smarty->assign("err_msg",  $err_msg);
-    $smarty->assign("msg2",     sprintf(_("After downloading and placing the file under %s, please make sure that the user the webserver is running with is able to read %s, while other users shouldn't."), CONFIG_DIR, CONFIG_FILE));
-    $smarty->assign("cv",       $this->parent->captured_values);
-
-    return $smarty->fetch("$BASE_DIR/setup/setup_finish.tpl");
   }
-
 
   /* check if given file is world readable */
   function is_world_readable($file)
@@ -132,19 +128,5 @@ class Step_Finish extends setup_step
     $p = fileperms($file);
     return (decbin($p & 4) == TRUE);
   }
-
-
-  function save_object()
-  {
-    if (isset($_POST['step8_posted'])) {
-      /* Get attributes */
-      foreach ($this->attributes as $attr) {
-        if (isset($_POST[$attr])) {
-          $this->$attr = validate($_POST[$attr]);
-        }
-      }
-    }
-  }
 }
-
 ?>
