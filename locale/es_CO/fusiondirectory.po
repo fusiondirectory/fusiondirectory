@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2015-09-11 22:07+0200\n"
-"PO-Revision-Date: 2015-09-22 19:20+0000\n"
+"PO-Revision-Date: 2015-09-23 14:56+0000\n"
 "Last-Translator: Miguel Ortiz <daychuzleo@gmail.com>\n"
 "Language-Team: Spanish (Colombia) (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/es_CO/)\n"
 "MIME-Version: 1.0\n"
@@ -2233,11 +2233,11 @@ msgstr ""
 
 #: include/class_config.inc:1161
 msgid "All categories"
-msgstr ""
+msgstr "Todas las categorías"
 
 #: include/class_config.inc:1289
 msgid "My account"
-msgstr ""
+msgstr "Mi cuenta"
 
 #: include/class_SnapShotDialog.inc:128
 #, php-format
@@ -2246,11 +2246,11 @@ msgstr "Usted está a punto de borrar los siguientes snapshot '%s'."
 
 #: include/class_SnapShotDialog.inc:181
 msgid "Remove snapshot"
-msgstr ""
+msgstr "Eliminar 'snapshot'"
 
 #: include/class_SnapShotDialog.inc:183 include/class_SnapShotDialog.inc:203
 msgid "Y-m-d, H:i:s"
-msgstr ""
+msgstr "Y-m-d, H:i:s"
 
 #: include/class_ldap.inc:315 include/class_ldap.inc:362
 msgid "Performance warning"
@@ -2259,7 +2259,7 @@ msgstr "Advertencia de Rendmiento"
 #: include/class_ldap.inc:315 include/class_ldap.inc:362
 #, php-format
 msgid "LDAP performance is poor: last query took about %.2fs!"
-msgstr ""
+msgstr "LDAP tiene un desempeño lento: su última consulta tomó %.2fs!"
 
 #: include/class_ldap.inc:868 include/class_ldap.inc:902
 #: include/functions.inc:565 include/functions.inc:651
@@ -2269,13 +2269,13 @@ msgstr ""
 #: include/class_session.inc:87 include/class_session.inc:125
 #: include/class_log.inc:96 include/class_acl.inc:169
 msgid "Internal error"
-msgstr ""
+msgstr "Error Interno"
 
 #: include/class_ldap.inc:868
 #, php-format
 msgid ""
 "Cannot automatically create subtrees with RDN '%s': no object class found!"
-msgstr ""
+msgstr "No se pueden crear automáticamente sub-árboles con RDN '%s': ¡no se encontró ningun objeto de clase!"
 
 #: include/class_ldap.inc:902
 #, php-format
@@ -2488,7 +2488,7 @@ msgstr ""
 #: include/class_msgPool.inc:334
 #, php-format
 msgid "Cannot execute '%s' command!"
-msgstr ""
+msgstr "¡No se puede ejecutar el comando '%s'!"
 
 #: include/class_msgPool.inc:336
 #, php-format
