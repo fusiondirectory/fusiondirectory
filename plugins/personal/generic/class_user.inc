@@ -181,7 +181,11 @@ class UserPasswordAttribute extends CompositeAttribute
   function writeValues($values)
   {
     if ($this->needPassword[$values[0]] && ($values[1] == '')) {
-      return $values[3];
+      if ($this->plugin->is_template) {
+        return '';
+      } else {
+        return $values[3];
+      }
     }
     $temp = passwordMethod::get_available_methods();
     if (!isset($temp[$values[0]])) {
