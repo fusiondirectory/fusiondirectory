@@ -187,6 +187,17 @@ FusionDirectory changelog
 [Fix] Bugs #4107: the autodect button for the mac address should be removed
 [Fix] Bugs #4112: the dns plugin allow me to edit zone name and ip address in the global zone service tab
 [Fix] Bugs #4114: remove slapd.conf from contrib/openldap as no one use slapd.conf anymore and there is error in it
+[Fix] Bugs #4137: Locked icon on users is broken
+[Fix] Bugs #4141: check-deprecated should say which obsolete objectClass an entry is using
+[Fix] Bugs #4143: the template management has completely changed in 1.0.9 so we need a new documentation about this
+[Fix] Bugs #4144: Reference for ogroup not work
+[Fix] Bugs #4145: Systems plugin needs to include obsolete asterisk attributes
+[Fix] Bugs #4146: check the copyright date on licence in each file
+[Fix] Bugs #4147: check the copyright date on licence in each file
+[Fix] Bugs #4148: PHP Errors when I set some informations in a template
+[Fix] Bugs #4150: PHP error on template after I remove the userPassword
+[Fix] Bugs #4151: we cannot save a phone because the ipHostNumber attribute is not saved
+[Fix] Bugs #4152: Add an example of -o option to man page of fusiondirectory-insert-schema
 [Feature] Wishlist #1887: Template system should be redone
 [Feature] Wishlist #2004: Object groups should be handled automatically
 [Feature] Wishlist #2516: Having a way of generating objectTypes graphs
