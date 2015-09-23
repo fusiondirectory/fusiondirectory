@@ -470,6 +470,38 @@ The template system has been completely rewritten, and the old template will not
 
 The new system is much cleaner because template are stored in they own branch now and are the basis for having template for the whole application in the future.
 
+Backup your phones
+==================
+
+You must backup all your phones in a LDIF and remove them.
+Modify your LDIF like below:
+
+Before
+======
+
+cn=namePhone,ou=phones,ou=systems,dc=labo,dc=opensides,dc=be
+cn: namePhone
+goFonType: friend
+goFonDmtfMode: inband
+goFonDefaultIP: dynamic
+ipHostNumber: 127.0.0.1
+macAddress: 00:0C:7F:31:33:F1
+objectClass: top
+
+After
+=====
+
+cn=namePhone,ou=phones,ou=systems
+cn: namePhone
+ipHostNumber: 127.0.0.1
+macAddress: 00:0C:7F:31:33:F1
+objectClass: fdPhone
+objectClass: device
+objectClass: ieee802Device
+objectClass: ipHost
+
+After the migration you may insert your phone again in your LDAP.
+
 Moved Attributes
 ================
 
