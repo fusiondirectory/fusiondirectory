@@ -133,7 +133,7 @@
 .\" ========================================================================
 .\"
 .IX Title "FUSIONDIRECTORY-INSERT-SCHEMA 1"
-.TH FUSIONDIRECTORY-INSERT-SCHEMA 1 "2015-09-11" "FusionDirectory 1.0.9" "FusionDirectory Documentation"
+.TH FUSIONDIRECTORY-INSERT-SCHEMA 1 "2015-09-23" "FusionDirectory 1.0.9" "FusionDirectory Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -194,6 +194,9 @@ but beware that you will not be able to see things like password prompts as the 
 \&
 \& fusion@catbert$ fusiondirectory\-insert\-schema \-e myschema
 \&   Empty the schema myschema
+\&
+\& fusion@catbert$ fusiondirectory\-insert\-schema \-o "\-H ldap://my.ldap.com \-ZZ \-D \*(Aqcn=admin,cn=config\*(Aq \-w password \-x"
+\&   Connect to another ldap server to insert the schema
 .Ve
 .SH "BUGS"
 .IX Header "BUGS"
