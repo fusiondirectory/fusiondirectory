@@ -297,7 +297,7 @@ class plugin
     }
     /* First remove all concerned values */
     foreach ($template_attrs['fdTemplateField'] as $key => $value) {
-      preg_match('/^([^:]+):(.*)$/', $value, $m);
+      preg_match('/^([^:]+):(.*)$/s', $value, $m);
       if (isset($this->attrs[$m[1]])) {
         unset($template_attrs['fdTemplateField'][$key]);
       }
@@ -626,7 +626,7 @@ class plugin
     sort($template_attrs['fdTemplateField']);
     $attrs = array();
     foreach ($template_attrs['fdTemplateField'] as $field) {
-      preg_match('/^([^:]+):(.*)$/', $field, $m);
+      preg_match('/^([^:]+):(.*)$/s', $field, $m);
       if (isset($attrs[$m[1]])) {
         $attrs[$m[1]][] = $m[2];
         $attrs[$m[1]]['count']++;
