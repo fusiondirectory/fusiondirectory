@@ -75,7 +75,7 @@ class groupManagement extends simpleManagement
                        "alt='"._('Posix')."' title='"._('Edit posix properties')."' ".
                        "name='listing_edit_tab_group_$row' style='padding:1px'/>";
     if ($attrs = $ldap->fetch()) {
-      if (!objects::isOfType($attrs, 'group')) {
+      if (objects::isOfType($attrs, 'role')) {
         return '<input class="center" type="image" src="geticon.php?context=types&amp;icon=role&amp;size=16" '.
                  'alt="'._('Role').'" title="'._('Edit role properties').'" '.
                  'name="listing_edit_'.$row.'" style="padding:1px"/>';
