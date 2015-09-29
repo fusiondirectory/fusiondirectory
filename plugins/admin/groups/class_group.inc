@@ -57,7 +57,7 @@ class group extends simplePlugin
         'name'  => _('Properties'),
         'attrs' => array(
           new BaseSelectorAttribute(get_ou('groupRDN')),
-          new HostNameAttribute(
+          new UidAttribute(
             _('Name'), _('Name of this group'),
             'cn', TRUE
           ),

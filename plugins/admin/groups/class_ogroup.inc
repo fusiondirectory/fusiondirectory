@@ -181,7 +181,7 @@ class ogroup extends simplePlugin
         'name'  => _('Properties'),
         'attrs' => array(
           new BaseSelectorAttribute(get_ou('ogroupRDN')),
-          new HostNameAttribute(
+          new UidAttribute(
             _('Name'), _('Name of this group'),
             'cn', TRUE
           ),
