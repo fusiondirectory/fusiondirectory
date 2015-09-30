@@ -154,7 +154,7 @@ class ogroup extends simplePlugin
         'name'        => _('Group'),
         'description' => _('Group'),
         'ou'          => get_ou('ogroupRDN'),
-        'filter'      => 'objectClass=gosaGroupOfNames',
+        'filter'      => 'objectClass=groupOfNames',
         'icon'        => 'geticon.php?context=types&icon=resource-group&size=16',
         'tabClass'    => 'ogrouptabs',
       )),
