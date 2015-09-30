@@ -451,8 +451,12 @@ class Attribute
           if (!is_numeric($key)) {
             $ot = $key;
           }
-          $oinfos = objects::infos($ot);
-          return $oinfos['filter'];
+          try {
+            $oinfos = objects::infos($ot);
+            return $oinfos['filter'];
+          } catch (NonExistingObjectTypeException $e) {
+            return '';
+          }
         },
         array_keys($infos['plObjectType']),
         array_values($infos['plObjectType'])
