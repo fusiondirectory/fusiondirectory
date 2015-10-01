@@ -532,10 +532,21 @@ class Step_Migrate extends setupStep
 
     /* Get all invisible users */
     $ldap->cd($config->current['BASE']);
-    $res = $ldap->search("(&(|(objectClass=posixAccount)(objectClass=organizationalPerson)(objectClass=OpenLDAPperson))(!(objectClass=inetOrgPerson))(!(&(objectClass=Account)(objectClass=sambaSamAccount)))(uid=*))", array("sn","givenName","cn","uid"));
+    $res = $ldap->search(
+      '(&'.
+        '(|'.
+          '(objectClass=posixAccount)'.
+          '(objectClass=organizationalPerson)'.
+          '(objectClass=OpenLDAPperson)'.
+        ')'.
+        '(!(objectClass=inetOrgPerson))'.
+        '(uid=*)'.
+      ')',
+      array('sn','givenName','cn','uid')
+    );
 
     while ($attrs = $ldap->fetch()) {
-      if (!preg_match("/,dc=addressbook,/", $attrs['dn'])) {
+      if (!preg_match('/,dc=addressbook,/', $attrs['dn'])) {
         $attrs['checked'] = FALSE;
         $attrs['before']  = "";
         $attrs['after']   = "";

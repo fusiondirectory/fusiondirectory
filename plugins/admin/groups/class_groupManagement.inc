@@ -123,12 +123,16 @@ class groupManagement extends simpleManagement
     $filters = array(
       array('id'  => 'USER',        'label'  => _('Show user groups')),
       array('id'  => 'PRIMARY',     'label'  => _('Show primary groups')),
-      array('id'  => 'SAMBA',       'label'  => _('Show samba groups')),
-      array('id'  => 'MAIL',        'label'  => _('Show mail groups')),
       array('id'  => 'ROLE',        'label'  => _('Show organizational roles')),
       array('id'  => 'APPLICATION', 'label'  => _('Show application groups')),
       array('id'  => 'DEPARTMENT',  'label'  => _('Show department groups')),
     );
+    if (class_available('mailAccount')) {
+      $filters[]= array('id'  => 'MAIL',        'label'  => _('Show mail groups'));
+    }
+    if (class_available('sambaAccount')) {
+      $filters[]= array('id'  => 'SAMBA',       'label'  => _('Show samba groups'));
+    }
     if (class_available('systemManagement')) {
       $filters = array_merge(
         $filters,
