@@ -80,19 +80,30 @@ class userManagement extends simpleManagement
   {
     parent::configureFilter();
 
-    if (!class_available('mailAccount')) {
+    $classes = array('posixAccount')
+    if (class_available('mailAccount')) {
+      $classes[]= 'gosaMailAccount';
+    } else {
       /* If mail plugin is not installed, ignore mail filter */
-      $this->filter->elements['MAIL']['unset']      = '';
-      $this->filter->elements['MAIL']['set']        = '';
-      /* The FUNCTIONAL filter must not use inexisting gosaMailAccount class */
-      $this->filter->elements['FUNCTIONAL']['set']  = '(!(|(objectClass=posixAccount)(objectClass=sambaSamAccount)))';
+      $this->filter->elements['MAIL']['unset']  = '';
+      $this->filter->elements['MAIL']['set']    = '';
     }
+    if (class_available('sambaAccount')) {
+      $classes[]= 'sambaSamAccount';
+    } else {
+      /* If samba plugin is not installed, ignore samba filter */
+      $this->filter->elements['SAMBA']['unset'] = '';
+      $this->filter->elements['SAMBA']['set']   = '';
+    }
+    /* The FUNCTIONAL filter must not use inexisting classes */
+    $this->filter->elements['FUNCTIONAL']['set']  = '(!(|(objectClass='.implode(')(objectClass=', $classes).')))';
   }
 
   function renderList ()
   {
     $smarty = get_smarty();
     $smarty->assign('USE_MAIL', class_available('mailAccount'));
+    $smarty->assign('USE_SAMBA', class_available('sambaAccount'));
     return parent::renderList();
   }
 

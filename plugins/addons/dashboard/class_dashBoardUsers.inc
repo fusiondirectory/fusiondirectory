@@ -79,11 +79,11 @@ class dashboardUsers extends simplePlugin
         }
       }
     }
-    $ldap->search("(&(objectClass=inetOrgPerson)(objectClass=gosaMailAccount))", array("cn"));
+    $ldap->search('(&(objectClass=inetOrgPerson)(objectClass=gosaMailAccount))', array('cn'));
     $nb_mail_accounts = $ldap->count();
-    $ldap->search("(&(objectClass=inetOrgPerson)(objectClass=posixAccount))", array("cn"));
+    $ldap->search('(&(objectClass=inetOrgPerson)(objectClass=posixAccount))', array('cn'));
     $nb_posix_accounts = $ldap->count();
-    $ldap->search("(&(objectClass=inetOrgPerson)(objectClass=sambaSamAccount))", array("cn"));
+    $ldap->search('(&(objectClass=inetOrgPerson)(objectClass=sambaSamAccount))', array('cn'));
     $nb_samba_accounts = $ldap->count();
 
     return array(
@@ -136,8 +136,10 @@ class dashboardUsers extends simplePlugin
     /* search all account with all date, mail, telephone */
     $ldap = $this->config->get_ldap_link();
     $ldap->cd($this->config->current['BASE']);
-    $ldap->search('(&(|(objectClass=posixAccount)(objectClass=sambaSamAccount))(shadowExpire=*))',
-                  array('uid','shadowExpire','mail','telephoneNumber','cn','manager'));
+    $ldap->search(
+      '(shadowExpire=*)',
+      array('uid','shadowExpire','mail','telephoneNumber','cn','manager')
+    );
 
     $expired_accounts = array();
     $next_expired_accounts = array();

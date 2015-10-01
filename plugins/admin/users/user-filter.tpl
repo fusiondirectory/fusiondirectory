@@ -12,7 +12,9 @@
 {if $USE_MAIL}
   {$MAIL}&nbsp;<label for='MAIL'>{t}Show Mail users{/t}</label><br/>
 {/if}
-{$SAMBA}&nbsp;<label for='SAMBA'>{t}Show Samba users{/t}</label><br/>
+{if $USE_SAMBA}
+  {$SAMBA}&nbsp;<label for='SAMBA'>{t}Show Samba users{/t}</label><br/>
+{/if}
 
  <div style="width:100%;border-top:1px solid #AAAAAA"></div>
  {$SCOPE}
