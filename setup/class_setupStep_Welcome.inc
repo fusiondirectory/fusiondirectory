@@ -47,9 +47,9 @@ class Step_Welcome extends setupStep
   /* We need to init them with a method to be able to use _() */
   function update_strings()
   {
-    $this->s_title      = _("Welcome");
-    $this->s_info       = _("The welcome message");
-    $this->s_title_long = _("Welcome to FusionDirectory setup wizard");
+    $this->s_short_name   = _('Welcome');
+    $this->s_title        = _('Welcome to FusionDirectory setup wizard');
+    $this->s_description  = _('The welcome message');
   }
 
   function execute()

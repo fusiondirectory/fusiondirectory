@@ -40,7 +40,8 @@ class userManagement extends simpleManagement
   {
     return array(
       'plShortName'   => _('Users'),
-      'plDescription' => _('Manage users'),
+      'plTitle'       => _('Manage users'),
+      'plDescription' => _('Manage user accounts and their properties'),
       'plIcon'        => 'geticon.php?context=types&icon=user&size=48',
       'plSection'     => 'accounts',
       'plManages'     => array('user'),

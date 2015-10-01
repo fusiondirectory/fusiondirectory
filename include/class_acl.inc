@@ -297,8 +297,12 @@ class acl extends plugin
       'plDescription' => _('Manage access control lists'),
       'plSelfModify'  => FALSE,
       'plPriority'    => 0,
-      'plCategory'    => array('acl' => array('description'  => _('ACL').'&nbsp;&amp;&nbsp;'._('ACL roles'),
-                                                      'objectClass'  => array('gosaAcl','gosaRole'))),
+      'plCategory'    => array(
+        'acl' => array(
+          'description'  => _('ACL').'&nbsp;&amp;&nbsp;'._('ACL roles'),
+          'objectClass'  => array('gosaAcl','gosaRole')
+        )
+      ),
       'plObjectType'  => array(),
 
       'plProvidedAcls'  => array()

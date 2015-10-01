@@ -36,7 +36,8 @@ class aclManagement extends simpleManagement
   {
     return array(
       'plShortName'   => _('ACL assignments'),
-      'plDescription' => _('Access control list management'),
+      'plTitle'       => _('ACL assignments management'),
+      'plDescription' => _('Manage ACL roles assignments to users'),
       'plIcon'        => 'geticon.php?context=categories&icon=acl&size=48',
       'plSection'     => 'accounts',
       'plPriority'    => 28,

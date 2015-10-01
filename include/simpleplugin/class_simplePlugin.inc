@@ -749,7 +749,7 @@ class simplePlugin extends plugin
 
     $plInfo     = pluglist::pluginInfos($classname);
     $plIcon     = (isset($plInfo['plIcon'])?$plInfo['plIcon']:"plugin.png");
-    $plHeadline = $plInfo['plShortName'];
+    $plHeadline = $plInfo['plTitle'];
     if (($tabs !== FALSE) && ($tabclass === FALSE)) {
       $key = key($plInfo['plObjectType']);
       if (is_numeric($key)) {

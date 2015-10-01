@@ -1121,7 +1121,6 @@ class config  {
             }
             array_unshift($this->data['TABS'][$tabclass], $entry);
           }
-
         }
       } elseif (class_available($class) && is_subclass_of($class, 'simpleService')) {
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class, "Adding service");

@@ -37,9 +37,9 @@ class Step_Finish extends setupStep
 
   function update_strings()
   {
-    $this->s_title      = _('Finish');
-    $this->s_info       = _('Write configuration file');
-    $this->s_title_long = _('Finish - write the configuration file');
+    $this->s_short_name   = _('Finish');
+    $this->s_title        = _('Finish - write the configuration file');
+    $this->s_description  = _('Write configuration file');
   }
 
   function get_conf_data()

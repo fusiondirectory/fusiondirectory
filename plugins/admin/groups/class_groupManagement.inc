@@ -29,7 +29,8 @@ class groupManagement extends simpleManagement
   {
     return array(
       'plShortName'   => _('Groups and roles'),
-      'plDescription' => _('Manage groups and roles'),
+      'plTitle'       => _('Manage groups and roles'),
+      'plDescription' => _('Allows you to manage object groups, POSIX groups and roles'),
       'plIcon'        => 'geticon.php?context=types&icon=resource-group&size=48',
       'plSection'     => 'accounts',
       'plManages'     => array('ogroup', 'group', 'role'),
@@ -84,14 +85,14 @@ class groupManagement extends simpleManagement
         if ($grouptab->is_this_account($attrs)) {
           $infos = pluglist::pluginInfos($class);
           if (isset($infos['plSmallIcon'])) {
-            $result .= "<input class='center' type='image' src='".htmlentities($infos['plSmallIcon'], ENT_COMPAT, 'UTF-8')."' ".
-                       "alt='".$infos['plShortName']."' title='".$infos['plShortName']."' ".
-                       "name='listing_edit_tab_".$class."_$row' style='padding:1px'/>";
+            $result .= '<input class="center" type="image" src="'.htmlentities($infos['plSmallIcon'], ENT_COMPAT, 'UTF-8').'" '.
+                       'alt="'.$infos['plTitle'].'" title="'.$infos['plTitle'].'" '.
+                       'name="listing_edit_tab_'.$class.'_'.$row.'" style="padding:1px"/>';
           } else {
             @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['plShortName']." ($class)", 'No icon for');
           }
         } else {
-          $result .= "<img src='images/empty.png' alt=' ' class='center optional $class' style='padding:1px'>";
+          $result .= '<img src="images/empty.png" alt=" " class="center optional '.$class.'" style="padding:1px"/>';
         }
       }
     }

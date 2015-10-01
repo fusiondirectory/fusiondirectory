@@ -45,9 +45,9 @@ class Step_Checks extends setupStep
 
   function update_strings()
   {
-    $this->s_title      = _("Installation check");
-    $this->s_title_long = _("Installation check");
-    $this->s_info       = _("Basic checks for PHP compatibility and extensions");
+    $this->s_short_name   = _('Installation check');
+    $this->s_title        = _('Installation check');
+    $this->s_description  = _('Basic checks for PHP compatibility and extensions');
   }
 
   /* Execute and display template */
