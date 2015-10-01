@@ -220,9 +220,9 @@ class Step_Migrate extends setupStep
 
   function update_strings()
   {
-    $this->s_title      = _("LDAP inspection");
-    $this->s_title_long = _("LDAP inspection");
-    $this->s_info       = _("Analyze your current LDAP for FusionDirectory compatibility");
+    $this->s_short_name   = _('LDAP inspection');
+    $this->s_title        = _('LDAP inspection');
+    $this->s_description  = _('Analyze your current LDAP for FusionDirectory compatibility');
   }
 
   function fill_defaultRoles()

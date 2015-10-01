@@ -104,9 +104,9 @@ class Step_Ldap extends setupStep
 
   function update_strings()
   {
-    $this->s_title      = _("LDAP setup");
-    $this->s_title_long = _("LDAP connection setup");
-    $this->s_info       = _("This dialog performs the basic configuration of the LDAP connectivity for FusionDirectory.");
+    $this->s_short_name   = _('LDAP setup');
+    $this->s_title        = _('LDAP connection setup');
+    $this->s_description  = _('This dialog performs the basic configuration of the LDAP connectivity for FusionDirectory.');
   }
 
   function update_base_choices()

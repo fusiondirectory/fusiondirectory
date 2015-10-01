@@ -139,6 +139,9 @@ class pluglist {
         if (!isset($infos['plCategory'])) {
           $infos['plCategory'] = array();
         }
+        if (!isset($infos['plTitle'])) {
+          $infos['plTitle'] = $infos['plShortName'];
+        }
         $infos['plForeignRefs']         = array();
         $infos['INDEX']                 = $index;
         $this->info[$cname]             = $infos;

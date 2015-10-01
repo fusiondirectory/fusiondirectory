@@ -55,7 +55,8 @@ class configInLdap extends simplePlugin
   {
     return array(
       'plShortName'     => _('Configuration'),
-      'plDescription'   => _('FusionDirectory configuration'),
+      'plTitle'         => _('FusionDirectory configuration'),
+      'plDescription'   => _('Configuration screen of FusionDirectory'),
       'plIcon'          => 'geticon.php?context=categories&icon=settings&size=48',
       'plObjectType'    => array(
         'configuration' => array(

@@ -242,23 +242,23 @@ class management
     }
 
     if (in_array_ics('plInfo', get_class_methods(get_class($this)))) {
-      $plInfos = $this->plInfo();
-      $plDescription  = $plInfos['plDescription'];
-      $plIcon         = $plInfos['plIcon'];
+      $plInfos  = $this->plInfo();
+      $plTitle  = $plInfos['plTitle'];
+      $plIcon   = $plInfos['plIcon'];
     } else {
-      $plDescription  = $this->plDescription;
-      $plIcon         = $this->plIcon;
+      $plTitle  = $this->plDescription;
+      $plIcon   = $this->plIcon;
     }
 
     if (!preg_match('/^geticon/', $plIcon)) {
       $plIcon = get_template_path($plIcon);
     }
-    if (get_object_info() != "") {
-      $display = print_header($plIcon, _($plDescription),
+    if (get_object_info() != '') {
+      $display = print_header($plIcon, _($plTitle),
           '<img alt="" class="center" src="geticon.php?context=status&amp;icon=object-locked&amp;size=16"/>'.
           LDAP::fix(get_object_info()));
     } else {
-      $display = print_header($plIcon, _($plDescription));
+      $display = print_header($plIcon, _($plTitle));
     }
     return $display;
   }
