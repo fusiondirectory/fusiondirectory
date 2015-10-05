@@ -79,7 +79,7 @@ class userManagement extends simpleManagement
   {
     parent::configureFilter();
 
-    $classes = array('posixAccount')
+    $classes = array('posixAccount');
     if (class_available('mailAccount')) {
       $classes[]= 'gosaMailAccount';
     } else {
