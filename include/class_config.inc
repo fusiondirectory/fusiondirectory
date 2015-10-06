@@ -1076,7 +1076,7 @@ class config  {
           if (is_numeric($key)) { // This is not the main tab
             $tabclass = strtoupper($value)."TABS";
             if (($tabclass == 'GROUPTABS') && class_available('mixedGroup')) {
-              $tabclass = 'OGROUPTABS';
+              $tabclass = 'OGROUP-USERTABS';
             }
             @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $tabclass, "Adding $class to tab list");
             if (!isset($this->data['TABS'][$tabclass])) {
