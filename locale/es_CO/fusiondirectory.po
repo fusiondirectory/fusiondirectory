@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2015-09-11 22:07+0200\n"
-"PO-Revision-Date: 2015-09-23 14:56+0000\n"
+"PO-Revision-Date: 2015-10-06 17:29+0000\n"
 "Last-Translator: Miguel Ortiz <daychuzleo@gmail.com>\n"
 "Language-Team: Spanish (Colombia) (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/es_CO/)\n"
 "MIME-Version: 1.0\n"
@@ -714,7 +714,7 @@ msgstr "Editar ACL para '%s'"
 
 #: plugins/admin/aclrole/class_aclRole.inc:342
 msgid "All objects in current subtree"
-msgstr "Todos los objetos en el sub-árbol actual."
+msgstr "Todos los objetos en el subárbol actual."
 
 #: plugins/admin/aclrole/class_aclRole.inc:393
 #: plugins/admin/aclrole/class_aclRole.inc:397
@@ -1330,7 +1330,7 @@ msgstr "Forzar para solicitar la contraseña"
 msgid ""
 "Useful if you add a hook using password value when SASL user passwords are "
 "edited"
-msgstr "Útil si usted añade un 'hook' utilizando una contraseña cuando las contraseñas de usuario SASL se editan."
+msgstr "Útil si usted agrega un 'hook' utilizando una contraseña cuando las contraseñas de usuario SASL se editan."
 
 #: plugins/config/class_configInLdap.inc:57
 #: plugins/config/class_configInLdap.inc:68
@@ -1344,7 +1344,7 @@ msgstr "Configuración de FusionDirectory"
 
 #: plugins/config/class_configInLdap.inc:86
 msgid "Look and feel"
-msgstr ""
+msgstr "Look and feel"
 
 #: plugins/config/class_configInLdap.inc:89
 msgid "Language"
@@ -1662,7 +1662,7 @@ msgstr "La rama donde se guardan los grupos."
 
 #: plugins/config/class_configInLdap.inc:305
 msgid "ACL role RDN"
-msgstr ""
+msgstr "ACL Rol RDN"
 
 #: plugins/config/class_configInLdap.inc:305
 msgid "The branch where ACL roles are stored."
@@ -1714,7 +1714,7 @@ msgstr "Pool group id max"
 
 #: plugins/config/class_configInLdap.inc:331
 msgid "Maximum value for group id when using pool method"
-msgstr ""
+msgstr "Valor máximo para el group id cuando se utilice el método pool."
 
 #: plugins/config/class_configInLdap.inc:338
 msgid "Debugging"
@@ -1926,11 +1926,11 @@ msgstr "Hola, \n\nAquí están sus datos:\n- Cuenta de usuario: %s\n- Enlace: %s
 
 #: plugins/config/class_recoveryConfig.inc:98
 msgid "Second email"
-msgstr ""
+msgstr "Email secundario"
 
 #: plugins/config/class_recoveryConfig.inc:102
 msgid "Subject of the second email"
-msgstr ""
+msgstr "Asunto del email secundario"
 
 #: plugins/config/class_recoveryConfig.inc:105
 msgid "[FusionDirectory] Password recovery successful"
@@ -1967,7 +1967,7 @@ msgstr "FusionDirectory panel de configuración de plugins."
 
 #: plugins/config/class_dashBoardConfig.inc:42
 msgid "Dashboard name schema"
-msgstr ""
+msgstr "Panel nombre del esquema"
 
 #: plugins/config/class_dashBoardConfig.inc:45
 msgid "Number of digits"
@@ -1997,7 +1997,7 @@ msgstr "Cantidad de días"
 msgid ""
 "Number of days before expiration needed for an account to show in the "
 "dashboard next expired accounts list"
-msgstr ""
+msgstr "Número de días antes previos antes de expirar una cuenta para mostrarlo en el panel de las próximas cuentas por expirar."
 
 #: plugins/config/class_pluginsConfigInLdap.inc:29
 msgid "Plugins"
@@ -2151,7 +2151,7 @@ msgstr "Error de permisos"
 #: include/simpleplugin/class_simpleManagement.inc:748
 #, php-format
 msgid "You are not allowed to create a snapshot for %s."
-msgstr ""
+msgstr "Usted no tiene permitido crear un 'snashot' para %s."
 
 #: include/class_management.inc:552 include/class_management.inc:597
 #: include/simpleplugin/class_simpleManagement.inc:792
@@ -2159,19 +2159,19 @@ msgstr ""
 #: include/simpleplugin/class_simpleManagement.inc:832
 #, php-format
 msgid "You are not allowed to restore a snapshot for %s."
-msgstr ""
+msgstr "Usted no tiene permitido restaurar un 'snapshot' para %s"
 
 #: include/class_management.inc:664
 #, php-format
 msgid ""
 "No tab declaration for '%s' found in your configuration file. Cannot create "
 "plugin instance!"
-msgstr ""
+msgstr "No se encontró la etiqueta '%s' en su archivo de configuración. ¡No se puede crear la instancia del plugin!"
 
 #: include/class_config.inc:159
 #, php-format
 msgid "XML error in fusiondirectory.conf: %s at line %d"
-msgstr ""
+msgstr "Error XML en fusiondirectory.conf: %s en la línea %d"
 
 #: include/class_config.inc:162 include/class_config.inc:300
 #: include/class_config.inc:1044 include/class_config.inc:1057
@@ -2190,7 +2190,7 @@ msgid ""
 "It seems you are trying to decode something which is not encoded : "
 "%s<br/>\\nPlease check you are not using a fusiondirectory.secrets file "
 "while your passwords are not encrypted."
-msgstr ""
+msgstr "Parece que usted intenta decodificar algo que no está codificado: %s<br/>\\nPor favor revise que no esté usando el archivo fusiondirectory.secrets mientras sus contraseñas no están encriptadas."
 
 #: include/class_config.inc:337 include/class_ldap.inc:915
 #: include/class_ldap.inc:1369 include/functions.inc:523
@@ -2229,7 +2229,7 @@ msgstr "La característica 'snapshot' está habilitada, pero la variable '%s' re
 msgid ""
 "The snapshot functionality is enabled, but the required compression module "
 "is missing. Please install '%s'."
-msgstr ""
+msgstr "La funcionalidad de 'snapshot' está habilitada, pero el módulo de compresión requerido no se encuentra. Por favor instale '%s'."
 
 #: include/class_config.inc:1161
 msgid "All categories"
@@ -2275,62 +2275,62 @@ msgstr "Error Interno"
 #, php-format
 msgid ""
 "Cannot automatically create subtrees with RDN '%s': no object class found!"
-msgstr "No se pueden crear automáticamente sub-árboles con RDN '%s': ¡no se encontró ningun objeto de clase!"
+msgstr "No se pueden crear automáticamente subárboles con RDN '%s': ¡no se encontró ningun objeto de clase!"
 
 #: include/class_ldap.inc:902
 #, php-format
 msgid "Cannot automatically create subtrees with RDN '%s': not supported"
-msgstr ""
+msgstr "No se pueden crear subárboles con RDN '%s': No soportado"
 
 #: include/class_ldap.inc:1014
 #, php-format
 msgid "while operating on '%s' using LDAP server '%s'"
-msgstr ""
+msgstr "mientras se realizan operaciones en '%s' usando el servidor LDAP %s"
 
 #: include/class_ldap.inc:1016
 #, php-format
 msgid "while operating on LDAP server %s"
-msgstr ""
+msgstr "mientras se realizan operaciones en el servidor LDAP %s"
 
 #: include/class_ldap.inc:1106
 msgid "proc_open failed to execute ldapsearch"
-msgstr ""
+msgstr "proc_open falló al ejecutar ldapsearch"
 
 #: include/class_ldap.inc:1218
 #, php-format
 msgid ""
 "This is not a valid DN: '%s'. A block for import should begin with 'dn: ...'"
 " in line %s"
-msgstr ""
+msgstr "Esto no es un DN válido: '%s'. Un bloque a importar debería comenzar con 'dn: ...' en la línea %s"
 
 #: include/class_ldap.inc:1229
 #, php-format
 msgid ""
 "Error while importing dn: '%s', please check your LDIF from line %s on!"
-msgstr ""
+msgstr "Eror mientras se importaba el dn: '%s', por favor revise su LDIF en la línea %s!"
 
 #: include/class_msgPool.inc:43
 #, php-format
 msgid "Select to list objects of type '%s'."
-msgstr ""
+msgstr "Elija para listar todos los objetos del tipo '%s'."
 
 #: include/class_msgPool.inc:45
 #, php-format
 msgid "Select to list objects containig '%s'."
-msgstr ""
+msgstr "Elegir para listar los objetos que posean '%s'."
 
 #: include/class_msgPool.inc:47
 #, php-format
 msgid "Select to list objects that have '%s' enabled"
-msgstr ""
+msgstr "Elegir para listar todos los objetos que posean '%s' habilitado."
 
 #: include/class_msgPool.inc:49
 msgid "Select to search within subtrees"
-msgstr ""
+msgstr "Seleccione para buscar dentro de subárboles"
 
 #: include/class_msgPool.inc:51 include/class_filter.inc:364
 msgid "Search in subtrees"
-msgstr ""
+msgstr "Buscar en subárboles"
 
 #: include/class_msgPool.inc:67
 msgid "This object will be deleted!"
@@ -2384,106 +2384,106 @@ msgstr "Usted no posee permisos para borrar estos objetos:"
 
 #: include/class_msgPool.inc:123
 msgid "You have no permission to create this object!"
-msgstr ""
+msgstr "¡No tienes permisos para crear este objeto!"
 
 #: include/class_msgPool.inc:127 include/class_msgPool.inc:131
 msgid "You have no permission to create the object:"
-msgstr ""
+msgstr "No tienes permisos para crear este objeto:"
 
 #: include/class_msgPool.inc:134
 msgid "You have no permission to create these objects:"
-msgstr ""
+msgstr "No tienes permisos para crear estos objetos:"
 
 #: include/class_msgPool.inc:145
 msgid "You have no permission to modify this object!"
-msgstr ""
+msgstr "!No tienes permisos para modificar este objeto!"
 
 #: include/class_msgPool.inc:149 include/class_msgPool.inc:153
 msgid "You have no permission to modify the object:"
-msgstr ""
+msgstr "No tienes permisos para modificar el objeto:"
 
 #: include/class_msgPool.inc:156
 msgid "You have no permission to modify these objects:"
-msgstr ""
+msgstr "No tienes permisos para modificar estos objetos:"
 
 #: include/class_msgPool.inc:167
 msgid "You have no permission to view this object!"
-msgstr ""
+msgstr "!No tienes permisos para ver este objeto!"
 
 #: include/class_msgPool.inc:171 include/class_msgPool.inc:175
 msgid "You have no permission to view the object:"
-msgstr ""
+msgstr "No tienes permisos para ver el objeto:"
 
 #: include/class_msgPool.inc:178
 msgid "You have no permission to view these objects:"
-msgstr ""
+msgstr "No tienes permisos para para ver estos objetos:"
 
 #: include/class_msgPool.inc:189
 msgid "You have no permission to move this object!"
-msgstr ""
+msgstr "!No tienes permisos para mover este objeto!"
 
 #: include/class_msgPool.inc:193 include/class_msgPool.inc:197
 msgid "You have no permission to move the object:"
-msgstr ""
+msgstr "No tienes permisos para mover el objeto:"
 
 #: include/class_msgPool.inc:200
 msgid "You have no permission to move these objects:"
-msgstr ""
+msgstr "No tienes permisos para mover estos objetos:"
 
 #: include/class_msgPool.inc:218 include/class_msgPool.inc:238
 #: include/class_msgPool.inc:268
 msgid "Connection information"
-msgstr ""
+msgstr "Información de la conexión"
 
 #: include/class_msgPool.inc:220
 #, php-format
 msgid "Cannot connect to %s database!"
-msgstr ""
+msgstr "¡No se puede conectar a la base de datos %s!"
 
 #: include/class_msgPool.inc:240
 #, php-format
 msgid "Cannot select %s database!"
-msgstr ""
+msgstr "¡No se puede seleccionar la base de datos %s!"
 
 #: include/class_msgPool.inc:250
 #, php-format
 msgid "No %s server defined!"
-msgstr ""
+msgstr "¡No se ha definido el servidor %s!"
 
 #: include/class_msgPool.inc:270
 #, php-format
 msgid "Cannot query %s database!"
-msgstr ""
+msgstr "¡No se puede consultar la base de datos %s!"
 
 #: include/class_msgPool.inc:280
 #, php-format
 msgid "The field '%s' contains a reserved keyword!"
-msgstr ""
+msgstr "¡El campo '%s' tiene una palabra especial reservada por el sistema!"
 
 #: include/class_msgPool.inc:292
 #, php-format
 msgid "Command specified as %s hook for plugin '%s' does not exist!"
-msgstr ""
+msgstr "¡El comando especificado como %s hook para el plugin '%s' no existe!"
 
 #: include/class_msgPool.inc:308
 #, php-format
 msgid "'%s' command is invalid!"
-msgstr ""
+msgstr "¡El comando '%s' es inválido!"
 
 #: include/class_msgPool.inc:310
 #, php-format
 msgid "'%s' command for plugin %s is invalid!"
-msgstr ""
+msgstr "¡El comando '%s' para el plugin %s es inválido!"
 
 #: include/class_msgPool.inc:314
 #, php-format
 msgid "'%s' command (%s) is invalid!"
-msgstr ""
+msgstr "¡El '%s' comando  (%s) es inválido!"
 
 #: include/class_msgPool.inc:316
 #, php-format
 msgid "'%s' command (%s) for plugin %s is invalid!"
-msgstr ""
+msgstr "¡'%s' comando (%s) para el plugin %s es inválido!"
 
 #: include/class_msgPool.inc:334
 #, php-format
@@ -2493,12 +2493,12 @@ msgstr "¡No se puede ejecutar el comando '%s'!"
 #: include/class_msgPool.inc:336
 #, php-format
 msgid "Cannot execute '%s' command for plugin %s!"
-msgstr ""
+msgstr "¡No se puede ejecutar el comando '%s' para el plugin %s!"
 
 #: include/class_msgPool.inc:340
 #, php-format
 msgid "Cannot execute '%s' command (%s)!"
-msgstr ""
+msgstr "¡No se puede ejecutar  '%s' comando (%s)!"
 
 #: include/class_msgPool.inc:342
 #, php-format
@@ -2579,12 +2579,12 @@ msgstr ""
 #: setup/setup_migrate_adminAccount.tpl.c:23
 #: setup/setup_migrate_gosaAccounts.tpl.c:32
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: include/class_msgPool.inc:481 setup/class_setupStep_Migrate.inc:133
 #: ihtml/themes/default/msg_dialog.tpl.c:14 setup/setup_checks.tpl.c:2
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: include/class_msgPool.inc:489 ihtml/themes/default/acl.tpl.c:50
 #: ihtml/themes/default/acl.tpl.c:56 setup/setup_migrate_adminAccount.tpl.c:20
@@ -2594,17 +2594,17 @@ msgstr "Aplicar"
 
 #: include/class_msgPool.inc:497 ihtml/themes/default/copyPasteDialog.tpl.c:14
 msgid "Save"
-msgstr ""
+msgstr "Salvar"
 
 #: include/class_msgPool.inc:507
 #, php-format
 msgid "Add"
-msgstr ""
+msgstr "Agregar"
 
 #: include/class_msgPool.inc:507
 #, php-format
 msgid "Add %s"
-msgstr ""
+msgstr "Agregar %s"
 
 #: include/class_msgPool.inc:517
 #, php-format
@@ -2614,21 +2614,21 @@ msgstr "Borrar %s"
 #: include/class_msgPool.inc:527
 #, php-format
 msgid "Edit..."
-msgstr ""
+msgstr "Editar..."
 
 #: include/class_msgPool.inc:527
 #, php-format
 msgid "Edit %s..."
-msgstr ""
+msgstr "Editar %s..."
 
 #: include/class_msgPool.inc:535
 msgid "Back"
-msgstr ""
+msgstr "Atrás"
 
 #: include/class_msgPool.inc:564
 #, php-format
 msgid "This account has no valid %s extensions!"
-msgstr ""
+msgstr "¡Esta cuenta no tiene extensiones %s válidas!"
 
 #: include/class_msgPool.inc:577
 #, php-format
@@ -2758,7 +2758,7 @@ msgstr "leer operación"
 
 #: include/class_msgPool.inc:699
 msgid "add operation"
-msgstr "añadir operación"
+msgstr "agregar operación"
 
 #: include/class_msgPool.inc:699
 msgid "modify operation"
@@ -2924,7 +2924,7 @@ msgstr "Al parecer tu contraseña expiró. Por favor acceda a<a href=\"recovery.
 
 #: include/functions.inc:651 include/functions.inc:771
 msgid "Error while adding a lock. Contact the developers!"
-msgstr "Error mientras se añadia un bloqueo. ¡Contacte a los desarrolladores!"
+msgstr "Error mientras agregando un bloqueo. ¡Contacte a los desarrolladores!"
 
 #: include/functions.inc:661
 #, php-format
@@ -3086,7 +3086,7 @@ msgstr ""
 msgid ""
 "You have installed the mixed groups plugin, but your schema configuration "
 "does not support this."
-msgstr ""
+msgstr "Usted ha instalado el plugin 'Mixed Groups', pero la configuración de su esquema no lo soporta."
 
 #: include/functions.inc:2622
 msgid ""
@@ -3098,7 +3098,7 @@ msgstr ""
 msgid ""
 "Your schema is configured to support mixed groups, but this plugin is not "
 "present."
-msgstr ""
+msgstr "Su esquema tiene configurado soporte para 'Mixed Groups', pero este plugin no está presente."
 
 #: include/functions.inc:2626
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
@@ -3170,7 +3170,7 @@ msgstr "¡El objectType especificado está vacío o es inválido!"
 
 #: include/php_setup.inc:36
 msgid "PHP error"
-msgstr ""
+msgstr "Error PHP"
 
 #: include/php_setup.inc:43
 msgid "class"
@@ -3182,7 +3182,7 @@ msgstr "función"
 
 #: include/php_setup.inc:54
 msgid "static"
-msgstr ""
+msgstr "static"
 
 #: include/php_setup.inc:58
 msgid "method"
@@ -3190,7 +3190,7 @@ msgstr "método"
 
 #: include/php_setup.inc:101 ihtml/themes/default/msg_dialog.tpl.c:11
 msgid "Trace"
-msgstr ""
+msgstr "Trace"
 
 #: include/php_setup.inc:102
 msgid "File"
@@ -3198,41 +3198,41 @@ msgstr "Archivo"
 
 #: include/php_setup.inc:102
 msgid "Line"
-msgstr ""
+msgstr "Line"
 
 #: include/php_setup.inc:102
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #: include/php_setup.inc:103
 msgid "Arguments"
-msgstr ""
+msgstr "Argumentos"
 
 #: include/php_setup.inc:201
 msgid "Generating this page caused the PHP interpreter to raise some errors!"
-msgstr ""
+msgstr "¡Al generar esta página se han generado errores en el intérprete PHP!"
 
 #: include/php_setup.inc:206
 msgid "Send bug report to the FusionDirectory Team"
-msgstr ""
+msgstr "Enviar un reporte de fallo al equipo de FusionDirectory"
 
 #: include/php_setup.inc:207
 msgid "Send bugreport"
-msgstr ""
+msgstr "Enviar reporte de errores"
 
 #: include/php_setup.inc:212
 msgid "Toggle information"
-msgstr ""
+msgstr "Alternar información"
 
 #: include/class_smbHash.inc:356
 msgid ""
 "Your PHP install does not have the mhash() nor the hash function. Cannot do "
 "MD4 hashes."
-msgstr ""
+msgstr "Su instalación PHP no tiene mhash() u otra función hash. No es posible hacer hashes MD4."
 
 #: include/class_msg_dialog.inc:168
 msgid "Please fix the above error and reload the page."
-msgstr ""
+msgstr "Por favor solucione el error anterior y recargue la página."
 
 #: include/class_databaseManagement.inc:80
 msgid "Please activate debugging for details!"
@@ -3240,51 +3240,51 @@ msgstr "¡Por favor active el 'Rastreo de errores' para más detalles!"
 
 #: include/exporter/class_PDF.php:61
 msgid "Page"
-msgstr ""
+msgstr "Página"
 
 #: include/exporter/class_cvsExporter.inc:93
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #: include/exporter/class_pdfExporter.inc:58
 msgid "No PDF export possible: there is no FPDF library installed."
-msgstr ""
+msgstr "No se puede exportar un PDF: no hay una librería FPDF instalada."
 
 #: include/exporter/class_pdfExporter.inc:196
 msgid "PDF"
-msgstr ""
+msgstr "PDF"
 
 #: include/class_xml.inc:66
 msgid "in"
-msgstr ""
+msgstr "in"
 
 #: include/class_xml.inc:68
 msgid "on line"
-msgstr ""
+msgstr "en línea"
 
 #: include/class_xml.inc:69
 msgid "XML error"
-msgstr ""
+msgstr "Erro XML"
 
 #: include/class_plugin.inc:567
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others get lost if you save this entry!"
-msgstr ""
+msgstr "El objeto ha cambiado desde que ha iniciado FusionDirectory. ¡Todos los cambios que se hayan hecho por 'otros' se perderán si usted salva esta entrada!"
 
 #: include/class_plugin.inc:1437
 #, php-format
 msgid "Tab \"%s\""
-msgstr ""
+msgstr "Pestaña \"%s\""
 
 #: include/class_CopyPasteHandler.inc:305
 #: ihtml/themes/default/copyPasteDialog.tpl.c:20
 msgid "Cancel all"
-msgstr ""
+msgstr "Cancelar todo"
 
 #: include/class_CopyPasteHandler.inc:372
 msgid "Cannot paste"
-msgstr ""
+msgstr "No se puede pegar"
 
 #: include/simpleplugin/class_simplePlugin.inc:162
 msgid "Template settings"
@@ -3292,84 +3292,84 @@ msgstr "Configuraciones de Plantilla"
 
 #: include/simpleplugin/class_simplePlugin.inc:165
 msgid "Template name"
-msgstr ""
+msgstr "Nombre de la plantilla"
 
 #: include/simpleplugin/class_simplePlugin.inc:165
 msgid "This is the name of the template"
-msgstr ""
+msgstr "Este es el nombre de la plantilla"
 
 #: include/simpleplugin/class_simplePlugin.inc:263
 msgid "Only main tab can compute dn"
-msgstr ""
+msgstr "Solo la pestaña principal puede calcular dn"
 
 #: include/simpleplugin/class_simplePlugin.inc:270
 #, php-format
 msgid "Could not compute dn: no parent tab class for \"%s\""
-msgstr ""
+msgstr "No es posible calcular dn: no hay pestaña de clase padre para \"%s\""
 
 #: include/simpleplugin/class_simplePlugin.inc:282
 #, php-format
 msgid ""
 "Could not compute dn: could not find objectType infos from tab class \"%s\""
-msgstr ""
+msgstr "No es posible calcular dn: No se encuentra el objectType infos desde la pestaña clase \"%s\""
 
 #: include/simpleplugin/class_simplePlugin.inc:634
 #: include/simpleplugin/class_simplePlugin.inc:642
 msgid "Error when saving"
-msgstr ""
+msgstr "Error al salvar"
 
 #: include/simpleplugin/class_simplePlugin.inc:634
 #, php-format
 msgid "There is already an entry with the same dn : %s"
-msgstr ""
+msgstr "Ya existe una entrada con el mismo dn: %s"
 
 #: include/simpleplugin/class_simplePlugin.inc:642
 #, php-format
 msgid "The entry %s is not existing"
-msgstr ""
+msgstr "La entrada %s no existe"
 
 #: include/simpleplugin/simple-select-list.xml:11
 msgid "Please select the desired entries"
-msgstr ""
+msgstr "Por favor elija las entradas que desea"
 
 #: include/simpleplugin/class_simpleManagement.inc:244
 #, php-format
 msgid "%s template"
-msgstr ""
+msgstr "%s plantilla"
 
 #: include/simpleplugin/class_simpleManagement.inc:401
 #: include/simpleplugin/class_simpleManagement.inc:407
 #, php-format
 msgid "Show %s"
-msgstr ""
+msgstr "Mostrar %s"
 
 #: include/simpleplugin/class_dialogAttributes.inc:409
 #, php-format
 msgid "Group %s"
-msgstr ""
+msgstr "Grupo %s"
 
 #: include/simpleplugin/class_dialogAttributes.inc:411
 #, php-format
 msgid "Role %s"
-msgstr ""
+msgstr "Rol %s"
 
 #: include/simpleplugin/class_dialogAttributes.inc:446
 msgid "Group of user"
-msgstr ""
+msgstr "Grupo del usuario"
 
 #: include/simpleplugin/class_dialogAttributes.inc:614
 #: include/simpleplugin/class_attribute.inc:1035
 #: include/simpleplugin/class_attribute.inc:1069
 msgid "None"
-msgstr ""
+msgstr "Ninguno"
 
 #: include/simpleplugin/class_dialogAttributes.inc:616
 msgid "Unknown"
-msgstr ""
+msgstr "Desconocido"
 
 #: include/simpleplugin/class_helpersAttribute.inc:270
 msgid "B"
-msgstr ""
+msgstr "B"
 
 #: include/simpleplugin/class_helpersAttribute.inc:271
 msgid "KiB"
@@ -3486,11 +3486,11 @@ msgstr "No se puede salvar la imágen del usuario, ¡FusionDirectory necesita te
 #: include/simpleplugin/class_attribute.inc:1771
 #: setup/class_setupStep_Ldap.inc:50 ihtml/themes/default/simple-list.tpl.c:2
 msgid "Base"
-msgstr ""
+msgstr "Base"
 
 #: include/simpleplugin/class_attribute.inc:1774
 msgid "Object base"
-msgstr ""
+msgstr "Objeto base"
 
 #: include/simpleplugin/class_attribute.inc:2684
 #, php-format
@@ -3528,7 +3528,7 @@ msgstr "¡Tipo de ACL '%s' desconocido!\nPuede que usted necesite ejecutar \"fus
 #: include/class_acl.inc:216
 #, php-format
 msgid "Unknown entry '%s'!"
-msgstr ""
+msgstr "¡Entrada desconocida '%s'!"
 
 #: include/class_acl.inc:219
 #, php-format
@@ -3541,7 +3541,7 @@ msgstr "ACL"
 
 #: include/class_acl.inc:297
 msgid "Manage access control lists"
-msgstr ""
+msgstr "Administrar listas de control de acceso"
 
 #: include/password-methods/class_password-methods-sasl.inc:60
 #, php-format
@@ -3552,7 +3552,7 @@ msgstr "No se puede cambiar la contraseña, usuario desconocido '%s'"
 msgid ""
 "You need to fill saslRealm or saslExop in the configuration screen in order "
 "to use SASL"
-msgstr ""
+msgstr "Usted debe completar saslRealm o saslExop en la pantalla de configuración para usar SASL"
 
 #: include/class_SnapshotHandler.inc:415
 msgid "There was a problem uncompressing snapshot data"
@@ -3577,33 +3577,33 @@ msgstr "El archivo de configuración de FusionDirectory  %s/%s no tiene privileg
 
 #: html/index.php:158
 msgid "Smarty error"
-msgstr ""
+msgstr "Error en Smarty"
 
 #: html/index.php:158 html/class_passwordRecovery.inc:264 html/setup.php:59
 #, php-format
 msgid "Directory '%s' specified as compile directory is not accessible!"
-msgstr ""
+msgstr "¡No se puede acceder al directorio '%s' especificado para compilar!"
 
 #: html/index.php:190
 msgid "Your FusionDirectory session has expired!"
-msgstr ""
+msgstr "¡Su sesión de FusionDirectory ha expirado!"
 
 #: html/index.php:193
 msgid "Your IP has changed!"
-msgstr ""
+msgstr "¡Tu IP ha cambiado!"
 
 #: html/index.php:196
 #, php-format
 msgid "Invalid plugin parameter \"%s\"!"
-msgstr ""
+msgstr "¡Parámetro \"%s\" de plugin inválido!"
 
 #: html/index.php:199
 msgid "No session found!"
-msgstr ""
+msgstr "¡No se encuentra la sesión!"
 
 #: html/index.php:232
 msgid "Cannot detect information about the installed LDAP schema!"
-msgstr ""
+msgstr "No se puede encontrar información del esquema LDAP instalado."
 
 #: html/index.php:245
 msgid "Your LDAP setup contains old schema definitions:"
@@ -3611,29 +3611,29 @@ msgstr "Su configuración de LDAP tiene definiciones de 'schema' obsoletos:"
 
 #: html/index.php:265
 msgid "Please specify a valid username!"
-msgstr ""
+msgstr "¡Por favor especifique un nombre de usuario válido!"
 
 #: html/index.php:267
 msgid "Please specify your password!"
-msgstr ""
+msgstr "¡Por favor especifique su contraseña!"
 
 #: html/index.php:273
 msgid "Please check the username/password combination."
-msgstr ""
+msgstr "Por favor verifique su combinación de usuario/contraseña"
 
 #: html/index.php:304
 msgid "Account locked. Please contact your system administrator!"
-msgstr ""
+msgstr "Cuenta bloqueada. ¡Por favor contacte a su administrador!"
 
 #: html/index.php:324
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
-msgstr ""
+msgstr "Su navegador tiene las cookies deshabilitadas. ¡Por favor habilítelas y recarge la página antes de iniciar sesión!"
 
 #: html/main.php:116
 msgid "PHP configuration"
-msgstr ""
+msgstr "Configuración PHP"
 
 #: html/main.php:117
 msgid ""
@@ -3643,54 +3643,54 @@ msgstr "Error fatal: Registrar 'globales' está habilitado. FusionDirectory rech
 
 #: html/main.php:143
 msgid "Password change"
-msgstr ""
+msgstr "Cambio de contraseña"
 
 #: html/main.php:143
 msgid "Your password is about to expire, please change your password!"
-msgstr ""
+msgstr "Su contraseña está a punto de expirar, ¡por favor cambie su contraseña!"
 
 #: html/main.php:208
 msgid "Running out of memory!"
-msgstr ""
+msgstr "¡El sistema se está quedando sin memoria!"
 
 #: html/main.php:251
 msgid "User ACL checks disabled"
-msgstr ""
+msgstr "Checks  ACL de usuario deshabiltiados"
 
 #: html/main.php:289
 msgid "Plugin"
-msgstr ""
+msgstr "Plugin"
 
 #: html/main.php:290
 #, php-format
 msgid ""
 "Fatal error: Cannot find any plugin definitions for plugin '%s' ('%s' is not"
 " a file)!"
-msgstr ""
+msgstr "Error Fatal: ¡No es posible encontrar ninguna definición de plugin para el plugin '%s' ('%s' no es un archivo)!"
 
 #: html/main.php:305
 msgid "Configuration Error"
-msgstr ""
+msgstr "Error de configuración"
 
 #: html/main.php:306
 #, php-format
 msgid ""
 "Fatal error: not all POST variables have been transfered by PHP - please "
 "inform your administrator!"
-msgstr ""
+msgstr "Error Fatal: ¡Algunas de las variables POST no se han transferido por PHP - por favor informe a su administrador!"
 
 #: html/class_passwordRecovery.inc:221
 #, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
-msgstr ""
+msgstr "La configuración %s/%s de FusionDirectory no tiene permisos de lectura. Abortado."
 
 #: html/class_passwordRecovery.inc:383
 msgid "Session will not be encrypted."
-msgstr ""
+msgstr "La sesión no será encriptada."
 
 #: html/class_passwordRecovery.inc:385
 msgid "Enter SSL session"
-msgstr ""
+msgstr "Ingresar sesión SSL"
 
 #: html/class_passwordRecovery.inc:431
 #, php-format
@@ -3704,75 +3704,75 @@ msgstr "Se encontraron varias cuentas identificadas como: \"%s\""
 
 #: html/class_passwordRecovery.inc:447 ihtml/themes/default/recovery.tpl.c:77
 msgid "Email address"
-msgstr ""
+msgstr "Dirección de correo"
 
 #: html/class_passwordRecovery.inc:467
 #, php-format
 msgid "There is no account using email %s"
-msgstr ""
+msgstr "No hay una cuenta usando el email %s"
 
 #: html/class_passwordRecovery.inc:470
 #, php-format
 msgid "There are several accounts using email %s"
-msgstr ""
+msgstr "Hay varias cuentas usando el email %s"
 
 #: html/class_passwordRecovery.inc:518
 msgid "Contact your administrator, there was a problem with mail server"
-msgstr ""
+msgstr "Contacte a su administrador, hubo un problema con el servidor de correo."
 
 #: html/class_passwordRecovery.inc:529
 msgid "This token is invalid"
-msgstr ""
+msgstr "Este token es inválido"
 
 #: html/class_passwordRecovery.inc:589
 msgid "There was a problem with mail server, confirmation email not sent"
-msgstr ""
+msgstr "Hay un problema con el servidor de correo, la confirmación de email no será enviada."
 
 #: html/setup.php:59
 msgid "Smarty"
-msgstr ""
+msgstr "Smarty"
 
 #: setup/class_setupStep_Ldap.inc:33
 msgid "LDAP connexion"
-msgstr ""
+msgstr "Conexión LDAP"
 
 #: setup/class_setupStep_Ldap.inc:36
 msgid "Location name"
-msgstr ""
+msgstr "Ubicación"
 
 #: setup/class_setupStep_Ldap.inc:36
 msgid "Name of this connexion to show in the LDAP server list"
-msgstr ""
+msgstr "Nombre de esta conexión para mostrar en la lista de servidores de LDAP."
 
 #: setup/class_setupStep_Ldap.inc:41
 msgid "Connection URI"
-msgstr ""
+msgstr "URI de conexión"
 
 #: setup/class_setupStep_Ldap.inc:41
 msgid "URI to contact the LDAP server. Usually starts with ldap://"
-msgstr ""
+msgstr "URI para contactar al servidor LDAP. Usualmente comienza con ldap://"
 
 #: setup/class_setupStep_Ldap.inc:46
 msgid "TLS connection"
-msgstr ""
+msgstr "Conexión TLS"
 
 #: setup/class_setupStep_Ldap.inc:46
 msgid "Should TLS be used to connect to this LDAP server?"
-msgstr ""
+msgstr "¿Debería usarse TLS para conectarse a este servidor LDAP?"
 
 #: setup/class_setupStep_Ldap.inc:50
 msgid "The LDAP directory base"
-msgstr ""
+msgstr "El directorio base de LDAP"
 
 #: setup/class_setupStep_Ldap.inc:56
 msgid "Authentication"
-msgstr ""
+msgstr "Autenticación"
 
 #: setup/class_setupStep_Ldap.inc:59
 msgid ""
 "DN of the admin account to use for binding to the LDAP. Base is "
 "automatically appended."
-msgstr ""
+msgstr "DN de la cuenta admin para conectarse a LDAP. La base se añade automáticamente."
 
 #: setup/class_setupStep_Ldap.inc:74
 msgid "Admin DN"
@@ -3970,35 +3970,35 @@ msgstr "Falló"
 #: setup/class_setupStep_Migrate.inc:347
 #, php-format
 msgid "Missing FusionDirectory object class '%s'!"
-msgstr ""
+msgstr "¡No se encuentra el objeto clase '%s' de FusionDirectory!"
 
 #: setup/class_setupStep_Migrate.inc:348
 msgid "Please check your installation."
-msgstr ""
+msgstr "Por favor verifique su instalación."
 
 #: setup/class_setupStep_Migrate.inc:369
 #, php-format
 msgid ""
 "Cannot handle the structural object type of your root object. Please try to "
 "add the object class '%s' manually."
-msgstr ""
+msgstr "No es posible utilizar el tipo de objeto estructurado de su objeto 'root'. Por favor intente agregar el objeto clase '%s' manualmente."
 
 #: setup/class_setupStep_Migrate.inc:500
 #, php-format
 msgid "The specified user \"%s\" does not have full access to your LDAP database."
-msgstr ""
+msgstr "El usuario \"%s\" especificado no tiene acceso completo a la base de datos LDAP."
 
 #: setup/class_setupStep_Migrate.inc:511
 #, php-format
 msgid "The specified user \"%s\" does not have full access to your ldap database."
-msgstr ""
+msgstr "El usuario \"%s\" especificado no tiene acceso completo a la base de datos ldap."
 
 #: setup/class_setupStep_Migrate.inc:563
 #, php-format
 msgid ""
 "Found %s user(s) that will not be visible in FusionDirectory or which are "
 "incomplete."
-msgstr ""
+msgstr "Se encontraron %s usuario(s) que no estarán visibles en FusionDirectory o que están incompletos."
 
 #: setup/class_setupStep_Migrate.inc:572 setup/class_setupStep_Migrate.inc:577
 msgid "User migration"
@@ -4050,30 +4050,30 @@ msgstr "Dar permisos en todos los objetos."
 
 #: setup/class_setupStep_Migrate.inc:984
 msgid "Default ACL roles have not been inserted"
-msgstr ""
+msgstr "Los roles ACL por defecto no han sido insertados"
 
 #: setup/class_setupStep_Migrate.inc:986
 msgid "Some default ACL roles are missing"
-msgstr ""
+msgstr "No se encuentran algunos de los roles ACL por defecto"
 
 #: setup/class_setupStep_Migrate.inc:988
 msgid "Default ACL roles have been inserted"
-msgstr ""
+msgstr "Los roles ACL por defecto han sido insertados"
 
 #: setup/class_setupStep_Migrate.inc:1018
 #, php-format
 msgid "Cannot add ACL role \"%s\":"
-msgstr ""
+msgstr "No es posible agregar el rol ACL \"%s\":"
 
 #: setup/class_setupStep_Migrate.inc:1073
 #, php-format
 msgid "Found %s user(s) outside the configured tree \"%s\"."
-msgstr ""
+msgstr "Se encontraron %s usuario(s) fuera del árbol configurado \"%s\"."
 
 #: setup/class_setupStep_Migrate.inc:1087
 #: setup/class_setupStep_Migrate.inc:1101
 msgid "Move users into configured user tree"
-msgstr ""
+msgstr "Mover usuarios dentro del árbol configurado"
 
 #: setup/class_setupStep_Migrate.inc:1119
 msgid "Cannot move entries to the requested department!"
@@ -4081,11 +4081,11 @@ msgstr "¡No se pueden mover entradas en la División seleccionada!"
 
 #: setup/class_setupStep_Migrate.inc:1131
 msgid "Entry will be moved from"
-msgstr ""
+msgstr "La entrada será movida desde "
 
 #: setup/class_setupStep_Migrate.inc:1131
 msgid "to"
-msgstr ""
+msgstr "a"
 
 #: setup/class_setupStep_Migrate.inc:1141
 msgid "The following references will be updated"
@@ -4094,12 +4094,12 @@ msgstr "Las siguientes referencias serán actualizadas"
 #: setup/class_setupStep_Migrate.inc:1192
 #, php-format
 msgid "Found %s groups outside the configured tree '%s'."
-msgstr ""
+msgstr "Se encontraron %s grupos fuera del árbol configurado '%s'."
 
 #: setup/class_setupStep_Migrate.inc:1206
 #: setup/class_setupStep_Migrate.inc:1220
 msgid "Move groups into configured groups tree"
-msgstr ""
+msgstr "Mover grupos dentro del árbol configurado"
 
 #: setup/class_setupStep_Migrate.inc:1303
 #, php-format
@@ -4119,7 +4119,7 @@ msgstr "Se encontraron %s valores duplicados para el atributo 'uidNumber'."
 #: setup/class_setupStep_Migrate.inc:1401
 #, php-format
 msgid "Found %s duplicate values for attribute \"gidNumber\"."
-msgstr ""
+msgstr "Se encontraron %s valores duplicados para el atributo \"gidNumber\"."
 
 #: setup/class_setupStep_Language.inc:59 setup/class_setupStep_Language.inc:60
 msgid "Language setup"
@@ -4127,7 +4127,7 @@ msgstr "Idioma de instalación"
 
 #: setup/class_setupStep_Language.inc:61
 msgid "This step allows you to select your preferred language."
-msgstr ""
+msgstr "Este paso le permitirá elegir su lenguaje preferido."
 
 #: setup/class_setupStep_Language.inc:62
 msgid ""
@@ -4152,39 +4152,39 @@ msgstr "Configuración de la instalación de PHP (<a href=\"?info\" target=\"_bl
 
 #: setup/class_setupStep_Checks.inc:48 setup/class_setupStep_Checks.inc:49
 msgid "Installation check"
-msgstr ""
+msgstr "Revisión de la instalación"
 
 #: setup/class_setupStep_Checks.inc:50
 msgid "Basic checks for PHP compatibility and extensions"
-msgstr ""
+msgstr "Revisión básica de Extensiones PHP y compatibilidad"
 
 #: setup/class_setupStep_Checks.inc:67
 msgid "Checking PHP version"
-msgstr ""
+msgstr "Revisando la versión PHP"
 
 #: setup/class_setupStep_Checks.inc:68
 #, php-format
 msgid "PHP must be of version %s or above."
-msgstr ""
+msgstr "PHP debe tener una versión %s o superior."
 
 #: setup/class_setupStep_Checks.inc:69
 msgid "Please upgrade to a supported version."
-msgstr ""
+msgstr "Por favor actualice a una versión soportada."
 
 #: setup/class_setupStep_Checks.inc:76
 msgid "FusionDirectory requires this module to talk with your LDAP server."
-msgstr ""
+msgstr "FusionDirectory requiere este módulo para comunicarse con su servidor LDAP."
 
 #: setup/class_setupStep_Checks.inc:84
 msgid ""
 "FusionDirectory requires this module for an internationalized interface."
-msgstr ""
+msgstr "FusionDirectory requiere este módulo para una inferfaz internacionalizada."
 
 #: setup/class_setupStep_Checks.inc:92
 msgid ""
 "FusionDirectory requires this module to communicate with different types of "
 "servers and protocols."
-msgstr ""
+msgstr "FusionDirectory requiere este módulo para comunicarse con diferentes tipos de servidores y protocolos."
 
 #: setup/class_setupStep_Checks.inc:100
 msgid "FusionDirectory requires this module for the samba integration."
@@ -4194,46 +4194,46 @@ msgstr "FusionDirectory necesita éste módulo para la integración con Samba"
 msgid ""
 "FusionDirectory requires either 'mhash' or the 'sha1' module to make use of "
 "SSHA encryption."
-msgstr ""
+msgstr "FusionDirectory requiere el módulo 'mhash' o bien 'sha1' para usar encripción por SSHA."
 
 #: setup/class_setupStep_Checks.inc:116
 msgid "FusionDirectory requires this module to talk to an IMAP server."
-msgstr ""
+msgstr "FusionDirectory requiere este módulo para comunicarse con un servidor IMAP."
 
 #: setup/class_setupStep_Checks.inc:123
 msgid "mbstring"
-msgstr ""
+msgstr "mbstring"
 
 #: setup/class_setupStep_Checks.inc:124
 msgid "FusionDirectory requires this module to handle unicode strings."
-msgstr ""
+msgstr "FusionDirectory requiere este módulo para manejar strings unicoide."
 
 #: setup/class_setupStep_Checks.inc:130
 msgid "imagick"
-msgstr ""
+msgstr "imagick"
 
 #: setup/class_setupStep_Checks.inc:131
 msgid "FusionDirectory requires this extension to handle images."
-msgstr ""
+msgstr "FusionDirectory requiere esta extensión para manejar imágenes."
 
 #: setup/class_setupStep_Checks.inc:145
 msgid "compression module"
-msgstr ""
+msgstr "módulo de compresión"
 
 #: setup/class_setupStep_Checks.inc:146
 msgid "FusionDirectory requires this extension to handle snapshots."
-msgstr ""
+msgstr "FusionDirectory requiere esta extensión para manejar snapshots."
 
 #: setup/class_setupStep_Checks.inc:156
 msgid ""
 "register_globals is a PHP mechanism to register all global variables to be "
 "accessible from scripts without changing the scope. This may be a security "
 "risk."
-msgstr ""
+msgstr "register_globals  es un mecanismo PHP para registrar todas las variables globales y que puedan accederse mediante scripts sin cambiar el foco. Esto puede ser un riesgo de seguridad."
 
 #: setup/class_setupStep_Checks.inc:157
 msgid "Search for 'register_globals' in your php.ini and switch it to 'Off'."
-msgstr ""
+msgstr "Buscar por 'register_globals' en su archivo php.ini y cámbielo a 'Off'."
 
 #: setup/class_setupStep_Checks.inc:164
 msgid "PHP uses this value for the garbage collector to delete old sessions."
@@ -4243,28 +4243,28 @@ msgstr "PHP utiliza este valor para que el colector de basura borre las sesiones
 msgid ""
 "Setting this value to one day will prevent loosing session and cookies "
 "before they really timeout."
-msgstr ""
+msgstr "Configurando este valor a 'un día' prevendrá perder sesiones y cookies antes de que realmente expiren."
 
 #: setup/class_setupStep_Checks.inc:166
 msgid ""
 "Search for 'session.gc_maxlifetime' in your php.ini and set it to 86400 or "
 "higher."
-msgstr ""
+msgstr "Buscar por  'session.gc_maxlifetime' en su archivo php.ini y configurarlo a 86400 o superior."
 
 #: setup/class_setupStep_Checks.inc:173 setup/class_setupStep_Checks.inc:189
 #: setup/class_setupStep_Checks.inc:205 setup/class_setupStep_Checks.inc:213
 msgid "Off"
-msgstr ""
+msgstr "Apagado"
 
 #: setup/class_setupStep_Checks.inc:174
 msgid ""
 "In Order to use FusionDirectory without any trouble, the session.auto_start "
 "option in your php.ini should be set to 'Off'."
-msgstr ""
+msgstr "Para utilizar FusionDirectory sin problemas la opción session.auto_start  en su archivo php.ini debe estar configurada en 'Off'."
 
 #: setup/class_setupStep_Checks.inc:175
 msgid "Search for 'session.auto_start' in your php.ini and set it to 'Off'."
-msgstr ""
+msgstr "Buscar  'session.auto_start'  en su archivo php.ini y configurarlo en 'Off'."
 
 #: setup/class_setupStep_Checks.inc:182
 msgid ""
@@ -4275,13 +4275,13 @@ msgstr "FusionDirectory requiere al menos 128MB de memoria. Si usted utiliza men
 #: setup/class_setupStep_Checks.inc:183
 msgid ""
 "Search for 'memory_limit' in your php.ini and set it to '128M' or higher."
-msgstr ""
+msgstr "Buscar 'memory_limit' en su archivo php.ini y configurarlo con '128MB' o superior."
 
 #: setup/class_setupStep_Checks.inc:190
 msgid ""
 "This option influences the PHP output handling. Turn this Option off, to "
 "increase performance."
-msgstr ""
+msgstr "Esta opción afecta el manejo de la salida PHP. Deshabilitar esta opción con 'off' mejorará el rendimiento."
 
 #: setup/class_setupStep_Checks.inc:191
 msgid "Search for 'implicit_flush' in your php.ini and set it to 'Off'."
@@ -4400,7 +4400,7 @@ msgstr "No hay una cuenta expirada"
 #: plugins/addons/dashboard/users_accounts.tpl.c:11
 #: plugins/addons/dashboard/users_accounts.tpl.c:44
 msgid "Manager concerned"
-msgstr ""
+msgstr "Manager concerned"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:14
 #: plugins/addons/dashboard/users_accounts.tpl.c:47
@@ -4417,17 +4417,17 @@ msgstr "cn"
 #: plugins/addons/dashboard/users_accounts.tpl.c:53
 #: plugins/addons/dashboard/users_accounts.tpl.c:65
 msgid "telephoneNumber"
-msgstr ""
+msgstr "telephoneNumber"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:23
 #: plugins/addons/dashboard/users_accounts.tpl.c:56
 msgid "shadowExpire"
-msgstr ""
+msgstr "shadowExpire"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:26
 #: plugins/addons/dashboard/users_accounts.tpl.c:59
 msgid "manager"
-msgstr ""
+msgstr "administrador"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:29
 #: plugins/addons/dashboard/users_accounts.tpl.c:62
@@ -4494,7 +4494,7 @@ msgstr "Ninguno de ellos está bloqueado"
 msgid ""
 "You've successfully changed your password. Remember to change all programms "
 "configured to use it as well."
-msgstr ""
+msgstr "Usted ha cambiado exitosamente su contraseña. Recuerde cambiar todos los programas configurados para usarla también."
 
 #: plugins/personal/generic/paste_generic.tpl.c:2
 msgid "User settings"
@@ -4510,38 +4510,38 @@ msgstr "Establecer nueva contraseña"
 
 #: plugins/personal/generic/paste_generic.tpl.c:23
 msgid "Personal picture"
-msgstr ""
+msgstr "Fotografía personal"
 
 #: plugins/personal/generic/paste_generic.tpl.c:26
 msgid "User picture"
-msgstr ""
+msgstr "Avatar"
 
 #: plugins/personal/generic/paste_generic.tpl.c:29
 msgid "Remove picture"
-msgstr ""
+msgstr "Borrar Avatar"
 
 #: plugins/personal/generic/nochange.tpl.c:2
 msgid "You have no permission to change your password at this time"
-msgstr ""
+msgstr "No tienes permisos para cambiar tu contraseña en este momento"
 
 #: plugins/personal/generic/nochange.tpl.c:5
 msgid "Your password hash method will not be changed!"
-msgstr ""
+msgstr "¡Su metodo de contraseña hash no será cambiado!"
 
 #: ihtml/themes/default/islocked.tpl.c:2
 msgid "Locking conflict detected"
-msgstr ""
+msgstr "Conflicto de bloqueo detectado"
 
 #: ihtml/themes/default/islocked.tpl.c:8
 msgid ""
 "If this lock detection is false, the other person has obviously closed the "
 "webbrowser during the edit operation. You may want to take over the lock by "
 "pressing the 'Edit anyway' button."
-msgstr ""
+msgstr "Si la opción detección de bloqueo está deshabilitada, otra persona obviamente ha cerrado el navegador web durante la operación. Si usted desea tomar el bloqueo presione el botón 'Editar de todos modos'."
 
 #: ihtml/themes/default/islocked.tpl.c:11
 msgid "Read only"
-msgstr ""
+msgstr "Solo lectura"
 
 #: ihtml/themes/default/template.tpl.c:2
 msgid "Creating a new object using templates"
@@ -4562,17 +4562,17 @@ msgstr ""
 
 #: ihtml/themes/default/sizelimit.tpl.c:5
 msgid "Please choose the way to react for this session"
-msgstr ""
+msgstr "Por favor elija la forma de interactuar con esta sesión"
 
 #: ihtml/themes/default/sizelimit.tpl.c:8
 msgid "ignore this error and show all entries the LDAP server returns"
-msgstr ""
+msgstr "ignore este error y muestre todas las entradas que regresa el servidor LDAP"
 
 #: ihtml/themes/default/sizelimit.tpl.c:11
 msgid ""
 "ignore this error and show all entries that fit into the defined sizelimit "
 "and let me use filters instead"
-msgstr ""
+msgstr "ignore este error y muestre todas las entradas que cumplen con el tamaño límite definido y en cambio permitame utilizar filtros "
 
 #: ihtml/themes/default/sizelimit.tpl.c:14
 msgid "Set"
@@ -4580,15 +4580,15 @@ msgstr "Asignar"
 
 #: ihtml/themes/default/recovery.tpl.c:2
 msgid "FusionDirectory password recovery"
-msgstr ""
+msgstr "FusionDirectory Recuperación de contraseña"
 
 #: ihtml/themes/default/recovery.tpl.c:11
 msgid "Lost password"
-msgstr ""
+msgstr "Recuperar contraseña"
 
 #: ihtml/themes/default/recovery.tpl.c:14
 msgid "Receive by email a link that allows you to reset your password"
-msgstr ""
+msgstr "Recibir por correo un enlace que le permite recuperar su contraseña"
 
 #: ihtml/themes/default/recovery.tpl.c:17
 msgid "Send"
@@ -4596,7 +4596,7 @@ msgstr "Enviar"
 
 #: ihtml/themes/default/recovery.tpl.c:20
 msgid "Click here to send a reset link"
-msgstr ""
+msgstr "Clic aquí para enviar un enlace de recuperación de contraseña"
 
 #: ihtml/themes/default/recovery.tpl.c:23
 msgid ""
@@ -4638,22 +4638,22 @@ msgstr "Realizado con éxito"
 
 #: ihtml/themes/default/recovery.tpl.c:62
 msgid "Your password has been changed successfully."
-msgstr ""
+msgstr "Su contraseña ha sido cambiada con éxito."
 
 #: ihtml/themes/default/recovery.tpl.c:65
 msgid ""
 "Enter your current e-mail address in the field below and press the 'Change' "
 "button."
-msgstr ""
+msgstr "Ingrese su dirección de correo actual en el siguiente campo y presione el botón 'Cambiar'."
 
 #: ihtml/themes/default/recovery.tpl.c:68
 msgid ""
 "=> Use your e-mail in the long format, e.g : John Doe => john.doe@ibcp.fr"
-msgstr ""
+msgstr "=> Use su correo en formato extendido, ej. :  John Doe => john.doe@ibcp.fr"
 
 #: ihtml/themes/default/recovery.tpl.c:80
 msgid "Mail"
-msgstr ""
+msgstr "Correo"
 
 #: ihtml/themes/default/recovery.tpl.c:89
 msgid ""
@@ -4857,7 +4857,7 @@ msgstr "¡La sesión va a expirar en %d!"
 
 #: setup/setup_migrate_baseOC.tpl.c:2
 msgid "Add required object classes to the LDAP base"
-msgstr "Añadir 'object classes' requeridos en la base de LDAP"
+msgstr "Agregar  'object classes' requeridos en la base de LDAP"
 
 #: setup/setup_migrate_baseOC.tpl.c:5
 #: setup/setup_migrate_gosaAccounts.tpl.c:17
@@ -4897,7 +4897,7 @@ msgstr "Crear una nueva cuenta de administrador para FusionDirectory"
 msgid ""
 "This dialog will automatically add a new super administrator to your LDAP "
 "tree."
-msgstr "En este paso se añadirá automáticamente un nuevo super administrador a su árbol LDAP."
+msgstr "En este paso agregará automáticamente un nuevo super administrador a su árbol LDAP."
 
 #: setup/setup_migrate_adminAccount.tpl.c:11
 msgid "User ID"
