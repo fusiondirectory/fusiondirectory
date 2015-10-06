@@ -86,9 +86,9 @@ class posixAccount extends simplePlugin
           array('mixedGroup','gidNumber'),
         ),
         'host'      => array(
-          array('serverGeneric'),
-          array('workstationGeneric'),
-          array('terminalGeneric'),
+          array('serverGeneric', 'cn'),
+          array('workstationGeneric', 'cn'),
+          array('terminalGeneric', 'cn'),
         )
       ),
 
