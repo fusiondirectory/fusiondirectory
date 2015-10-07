@@ -358,6 +358,10 @@ class user extends simplePlugin
         'name'  => _('Personal contact information'),
         'icon'  => 'geticon.php?context=types&icon=contact&size=16',
         'attrs' => array(
+          new StringAttribute (
+            _('Display name'), _('Name this user should appear as. Used by Exchange.'),
+            'displayName', FALSE
+          ),
           new TextAreaAttribute (
             _('Home address'), _('Home postal address'),
             'homePostalAddress', FALSE
