@@ -85,10 +85,14 @@ my $yes_flag = 0;
 my %classes_hash_result = ();
 my %i18n_hash_result = ();
 
-my $oupeople  = "people";
-my $peopleou  = "ou=$oupeople";
-my $ouroles   = "aclroles";
-my $rolesou   = "ou=$ouroles";
+#~ my $oupeople  = "people";
+#~ my $peopleou  = "ou=$oupeople";
+#~ my $ouroles   = "aclroles";
+#~ my $rolesou   = "ou=$ouroles";
+my $configrdn   = "cn=config,ou=fusiondirectory";
+my $userrdn     = "ou=people";
+my $aclrolerdn  = "ou=aclroles";
+my $grouprdn    = "ou=groups";
 
 #################################################################################################################################################
 
@@ -160,7 +164,7 @@ sub die_on_ldap_errors
     my ($cn,$dn,$mesg);
     do {
       $cn = $prefix.'-'.$indice;
-      $dn = "cn=$cn,$rolesou,$base";
+      $dn = "cn=$cn,$aclrolerdn,$base";
       $indice++;
       $mesg = $ldap->search(
         base    => "$dn",
@@ -181,11 +185,11 @@ sub create_role {
     'gosaAclTemplate' => "0:$acl"
   );
 
-  if (!branch_exists($ldap, "$rolesou,$base")) {
-    create_branch($ldap, $base, $ouroles);
+  if (!branch_exists($ldap, "$aclrolerdn,$base")) {
+    create_branch($ldap, $base, $aclrolerdn);
   }
 
-  my $role_dn = "cn=$cn,$rolesou,$base";
+  my $role_dn = "cn=$cn,$aclrolerdn,$base";
   # Add the administator role object
   my @options = %role;
   my $role_add = $ldap->add( $role_dn, attr => \@options );
@@ -662,7 +666,7 @@ sub add_ldap_admin {
       print "Error : invalid account primary attribute $attr, using uid\n";
       $attr = 'uid';
     }
-    $dn = "$attr=".$obj{$attr}.",$peopleou,$base";
+    $dn = "$attr=".$obj{$attr}.",$userrdn,$base";
 
     # Add the administator user object
     my @options = %obj;
@@ -925,14 +929,16 @@ sub check_admin {
 
 sub create_branch {
   my ($ldap, $base, $ou) = @_;
-  my $branch_add = $ldap->add( "ou=$ou,$base",
+  $ou =~ m/^ou=([^,]*),?$/ or die "Can’t create branch of unknown type $ou\n";
+  print "$1\n";
+  my $branch_add = $ldap->add( "$ou,$base",
     attr => [
-      'ou'  => $ou,
+      'ou'  => $1,
       'objectClass' =>  'organizationalUnit'
       ]
   );
 
-  $branch_add->code && die "! failed to add LDAP's ou=$ou,$base branch: ".$branch_add->error."\n";
+  $branch_add->code && die "! failed to add LDAP's $ou,$base branch: ".$branch_add->error."\n";
 }
 
 sub branch_exists {
@@ -962,36 +968,36 @@ sub check_ldap {
   my $admin_add = "";
 
   # Collect existing people branches (even if main one may not exists);
-  my $people = $ldap->search (base => $base, filter => $peopleou);
+  my $people = $ldap->search (base => $base, filter => $userrdn);
   $people->code && die $people->error;
   my @people_entries = $people->entries;
   @people_entries = map {$_->dn} @people_entries;
 
-  # if ou=people exists
-  if ( branch_exists($ldap, "$peopleou,$base") ) {
+  # if people branch exists
+  if ( branch_exists($ldap, "$userrdn,$base") ) {
     check_admin($base, $ldap, \@people_entries);
 
   # if ou=people doesn't exists
   } else {
-    print ( "! $peopleou,$base not found in your LDAP directory\n" );
+    print ( "! $userrdn,$base not found in your LDAP directory\n" );
 
     # if user's answer is "yes", creating ou=people branch
     if ( ask_yn_question("Do you want to create it ?: ") ) {
-      create_branch($ldap, $base, $oupeople);
-      push @people_entries, "$peopleou,$base";
+      create_branch($ldap, $base, $userrdn);
+      push @people_entries, "$userrdn,$base";
       check_admin($base, $ldap, \@people_entries);
     } else {
       print ("Skipping...\n");
     }
   }
 
-  # if ou=groups does not exist
-  if (!branch_exists($ldap, "ou=groups,$base")) {
-    print ("! ou=groups,$base not found in your LDAP directory\n");
+  # if groups branch does not exist
+  if (!branch_exists($ldap, "$grouprdn,$base")) {
+    print ("! $grouprdn,$base not found in your LDAP directory\n");
 
-    # if user's answer is "yes", creating ou=groups branch
+    # if user's answer is "yes", creating groups branch
     if ( ask_yn_question("Do you want to create it ?: ") ) {
-      create_branch($ldap, $base, 'groups');
+      create_branch($ldap, $base, $grouprdn);
     } else {
       print ("Skipping...\n");
     }
@@ -1020,7 +1026,7 @@ sub check_ldap {
 
     if ( ask_yn_question("Do you want to move and rename this entry? ") ) {
       if (!branch_exists($ldap, "ou=fusiondirectory,$base")) {
-        create_branch($ldap, $base, 'fusiondirectory');
+        create_branch($ldap, $base, 'ou=fusiondirectory');
       }
       my $result = $ldap->moddn (
         "cn=fusiondirectory,ou=configs,$base",
@@ -1118,8 +1124,6 @@ sub install_plugins {
 
 # function that add object classes to people branch users
 sub migrate_users {
-  my $scope="one";
-
   # initiate the LDAP connexion
   my %hash_ldap_param = get_ldap_connexion();
 
@@ -1127,24 +1131,60 @@ sub migrate_users {
   my $base = $hash_ldap_param{base};
   my $ldap = $hash_ldap_param{ldap};
 
-  print ("Add FusionDirectory attributes for the following users from $peopleou,$base\n");
-  print ("---------------------------------------------\n");
-
   my $mesg = $ldap->search(
-    filter => "(|(!(objectClass~=inetOrgPerson))(!(objectClass~=organizationalPerson))(!(objectClass~=Person)))",
-    base   => "$peopleou,$base",
-    scope  => $scope
+    filter => '(&'.
+        '(|'.
+          '(objectClass=posixAccount)'.
+          '(objectClass=person)'.
+          '(objectClass=OpenLDAPperson)'.
+        ')'.
+        '(!(objectClass=inetOrgPerson))'.
+        '(uid=*)'.
+      ')',
+    base   => $base
   );
   $mesg->code && die $mesg->error;
-  my @entries = $mesg->entries;
 
-  foreach my $entry (@entries) {
-    $mesg = $ldap->modify($entry->dn(), add => { "ObjectClass" => "inetOrgPerson"});
-    $mesg = $ldap->modify($entry->dn(), add => { "ObjectClass" => "organizationalPerson"});
-    $mesg = $ldap->modify($entry->dn(), add => { "ObjectClass" => "Person"});
-    print $entry->dn();
-    print "\n";
+  if ($mesg->count > 0) {
+    print ("The following users are missing objectClasses:\n");
+
+    my @entries = $mesg->entries;
+
+    foreach my $entry (@entries) {
+      print $entry->dn()."\n";
+    }
+
+    if (ask_yn_question("Add the inetOrgPerson objectClass to all these entries?")) {
+      foreach my $entry (@entries) {
+        $mesg = $ldap->modify($entry->dn(), add => { "objectClass" => ["person","organizationalPerson","inetOrgPerson"]});
+        $mesg->code && print $mesg->error;
+      }
+    }
   }
+
+  $mesg = $ldap->search(
+    filter => '(objectClass=gosaAccount)',
+    base   => $base
+  );
+  $mesg->code && die $mesg->error;
+
+  if ($mesg->count > 0) {
+    print ("The following users are using the obsolete gosaAccount objectClass:\n");
+
+    my @entries = $mesg->entries;
+
+    foreach my $entry (@entries) {
+      print $entry->dn()."\n";
+    }
+
+    if (ask_yn_question("Remove the gosaAccount objectClass from these entries?")) {
+      foreach my $entry (@entries) {
+        $mesg = $ldap->modify($entry->dn(), delete => { "objectClass" => "gosaAccount" });
+        $mesg->code && print $mesg->error;
+      }
+    }
+  }
+
   # unbind to the LDAP server
   my $unbind = $ldap->unbind;
   $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
@@ -1424,6 +1464,31 @@ sub ldif_deprecated {
   }
 }
 
+# Read FD config in the LDAP
+sub read_ldap_config {
+  # initiate the LDAP connexion
+  my %hash_ldap_param = get_ldap_connexion();
+
+  # LDAP's connection's parameters
+  my $base = $hash_ldap_param{base};
+  my $ldap = $hash_ldap_param{ldap};
+
+  my $mesg = $ldap->search (base => "$configrdn,$base", filter => '(objectClass=fusionDirectoryConf)', scope => 'base');
+  $mesg->code && die $mesg->error;
+
+  if ($mesg->count > 0) {
+    if (($mesg->entries)[0]->exists('fdUserRDN')) {
+      $userrdn = ($mesg->entries)[0]->get_value('fdUserRDN');
+    }
+    if (($mesg->entries)[0]->exists('fdGroupRDN')) {
+      $grouprdn = ($mesg->entries)[0]->get_value('fdGroupRDN');
+    }
+    if (($mesg->entries)[0]->exists('fdAclRoleRDN')) {
+      $aclrolerdn = ($mesg->entries)[0]->get_value('fdAclRoleRDN');
+    }
+  }
+}
+
 sub show_version {
   my $variables_common_path = "$vars{fd_home}/include/variables_common.inc";
   if (-e $variables_common_path) {
@@ -1492,6 +1557,8 @@ die ("! You have to run this script as root\n") if ($<!=0);
   my $usage = 0;
 
   set_vars();
+
+  read_ldap_config();
 
   foreach my $arg ( @ARGV ) {
     if (( lc($arg) =~ m/^--set-(.*)=(.*)/ ) && (grep {$_ eq lc($1)} @vars_keys)) {

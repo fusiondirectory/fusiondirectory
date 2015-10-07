@@ -536,7 +536,7 @@ class Step_Migrate extends setupStep
       '(&'.
         '(|'.
           '(objectClass=posixAccount)'.
-          '(objectClass=organizationalPerson)'.
+          '(objectClass=person)'.
           '(objectClass=OpenLDAPperson)'.
         ')'.
         '(!(objectClass=inetOrgPerson))'.
