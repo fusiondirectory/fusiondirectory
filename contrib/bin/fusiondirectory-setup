@@ -1033,7 +1033,7 @@ sub check_ldap {
         deleteoldrdn  => '1',
         newsuperior   => "ou=fusiondirectory,$base"
       );
-      $result->code && die $result->error;
+      $result->code && die "Migration of configuration entry failed, LDAP error: ".$result->error."\n";
     } else {
       print ("Skipping...\n");
     }
