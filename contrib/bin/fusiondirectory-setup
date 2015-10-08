@@ -1474,7 +1474,7 @@ sub read_ldap_config {
   my $ldap = $hash_ldap_param{ldap};
 
   my $mesg = $ldap->search (base => "$configrdn,$base", filter => '(objectClass=fusionDirectoryConf)', scope => 'base');
-  $mesg->code && die $mesg->error;
+  die_on_ldap_errors($mesg);
 
   if ($mesg->count > 0) {
     if (($mesg->entries)[0]->exists('fdUserRDN')) {
