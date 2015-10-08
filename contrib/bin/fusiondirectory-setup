@@ -85,10 +85,6 @@ my $yes_flag = 0;
 my %classes_hash_result = ();
 my %i18n_hash_result = ();
 
-#~ my $oupeople  = "people";
-#~ my $peopleou  = "ou=$oupeople";
-#~ my $ouroles   = "aclroles";
-#~ my $rolesou   = "ou=$ouroles";
 my $configrdn   = "cn=config,ou=fusiondirectory";
 my $userrdn     = "ou=people";
 my $aclrolerdn  = "ou=aclroles";
@@ -956,6 +952,7 @@ sub branch_exists {
 
 # function that check LDAP configuration
 sub check_ldap {
+  read_ldap_config();
 
   # initiate the LDAP connexion
   my %hash_ldap_param = get_ldap_connexion();
@@ -1551,8 +1548,6 @@ die ("! You have to run this script as root\n") if ($<!=0);
   my $usage = 0;
 
   set_vars();
-
-  read_ldap_config();
 
   foreach my $arg ( @ARGV ) {
     if (( lc($arg) =~ m/^--set-(.*)=(.*)/ ) && (grep {$_ eq lc($1)} @vars_keys)) {
