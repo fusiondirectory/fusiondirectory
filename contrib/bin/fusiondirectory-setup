@@ -1397,7 +1397,7 @@ sub ldif_deprecated {
   my ($obsolete_attrs, $obsolete_classes) = get_deprecated();
 
   my $filterAttrs   = '(|'.join('', (map{ '('.$_->{'name'}.'=*)' } @$obsolete_attrs)).')';
-  my $filterClasses = '(|'.join('', (map{ '(objectClass='.$_->{'name'}.')' } (grep {$_ != 'gosaAccount'} @$obsolete_classes))).')';
+  my $filterClasses = '(|'.join('', (map{ '(objectClass='.$_->{'name'}.')' } (grep {$_ ne 'gosaAccount'} @$obsolete_classes))).')';
 
   # initiate the LDAP connexion
   my %hash_ldap_param = get_ldap_connexion();
