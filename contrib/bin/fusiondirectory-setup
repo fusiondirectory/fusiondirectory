@@ -1161,29 +1161,6 @@ sub migrate_users {
     }
   }
 
-  $mesg = $ldap->search(
-    filter => '(objectClass=gosaAccount)',
-    base   => $base
-  );
-  $mesg->code && die $mesg->error;
-
-  if ($mesg->count > 0) {
-    print ("The following users are using the obsolete gosaAccount objectClass:\n");
-
-    my @entries = $mesg->entries;
-
-    foreach my $entry (@entries) {
-      print $entry->dn()."\n";
-    }
-
-    if (ask_yn_question("Remove the gosaAccount objectClass from these entries?")) {
-      foreach my $entry (@entries) {
-        $mesg = $ldap->modify($entry->dn(), delete => { "objectClass" => "gosaAccount" });
-        $mesg->code && print $mesg->error;
-      }
-    }
-  }
-
   # unbind to the LDAP server
   my $unbind = $ldap->unbind;
   $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
@@ -1420,7 +1397,7 @@ sub ldif_deprecated {
   my ($obsolete_attrs, $obsolete_classes) = get_deprecated();
 
   my $filterAttrs   = '(|'.join('', (map{ '('.$_->{'name'}.'=*)' } @$obsolete_attrs)).')';
-  my $filterClasses = '(|'.join('', (map{ '(objectClass='.$_->{'name'}.')' } @$obsolete_classes)).')';
+  my $filterClasses = '(|'.join('', (map{ '(objectClass='.$_->{'name'}.')' } (grep {$_ != 'gosaAccount'} @$obsolete_classes))).')';
 
   # initiate the LDAP connexion
   my %hash_ldap_param = get_ldap_connexion();
@@ -1444,6 +1421,24 @@ sub ldif_deprecated {
           print "delete:".$attr->{'name'}."\n-\n";
         }
       }
+      my @classes = $entry->get_value('objectClass');
+      if (grep {$_ eq 'gosaAccount'} @classes) {
+        print "# Removing obsolete objectClass gosaAccount\n";
+        print "replace:objectClass\n";
+        foreach my $class (@classes) {
+          if ($class ne 'gosaAccount') {
+            print "objectClass:$class\n";
+          }
+        }
+        if (
+            ($entry->exists('dateOfBirth') || $entry->exists('personalTitle') || $entry->exists('gender'))
+            && !(grep {$_ eq 'fdPersonalInfo'} @classes)
+          ) {
+          print "objectClass:fdPersonalInfo\n";
+          print "# Adding fdPersonalInfo because either dateOfBirth, personalTitle or gender is present. See personal plugin.\n";
+        }
+        print "-\n";
+      }
       print "\n";
     }
   } else {
@@ -1457,7 +1452,7 @@ sub ldif_deprecated {
   $entries->code && die $entries->error;
 
   if ($entries->count > 0) {
-    print "# WARNING: There are entries in the LDAP using obsolete classes, you need to edit them manually\n";
+    print "# WARNING: There are entries in the LDAP using obsolete classes (other than gosaAccount), you need to edit them manually\n";
   } else {
     print "# There are no entries in the LDAP using obsolete classes\n";
   }
