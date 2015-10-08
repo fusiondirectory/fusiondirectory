@@ -930,7 +930,6 @@ sub check_admin {
 sub create_branch {
   my ($ldap, $base, $ou) = @_;
   $ou =~ m/^ou=([^,]*),?$/ or die "Can’t create branch of unknown type $ou\n";
-  print "$1\n";
   my $branch_add = $ldap->add( "$ou,$base",
     attr => [
       'ou'  => $1,
