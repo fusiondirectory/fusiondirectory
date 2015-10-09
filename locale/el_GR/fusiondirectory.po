@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2015-09-11 22:07+0200\n"
-"PO-Revision-Date: 2015-10-06 10:35+0000\n"
+"PO-Revision-Date: 2015-10-07 10:01+0000\n"
 "Last-Translator: Kostas Papadimas <pkst@eellak.gr>\n"
 "Language-Team: Greek (Greece) (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/el_GR/)\n"
 "MIME-Version: 1.0\n"
@@ -4400,7 +4400,7 @@ msgstr ""
 #: plugins/addons/dashboard/users_accounts.tpl.c:11
 #: plugins/addons/dashboard/users_accounts.tpl.c:44
 msgid "Manager concerned"
-msgstr ""
+msgstr "Manager concerned"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:14
 #: plugins/addons/dashboard/users_accounts.tpl.c:47
@@ -4417,7 +4417,7 @@ msgstr "cn"
 #: plugins/addons/dashboard/users_accounts.tpl.c:53
 #: plugins/addons/dashboard/users_accounts.tpl.c:65
 msgid "telephoneNumber"
-msgstr ""
+msgstr "telephoneNumber"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:23
 #: plugins/addons/dashboard/users_accounts.tpl.c:56
@@ -4427,12 +4427,12 @@ msgstr ""
 #: plugins/addons/dashboard/users_accounts.tpl.c:26
 #: plugins/addons/dashboard/users_accounts.tpl.c:59
 msgid "manager"
-msgstr ""
+msgstr "διαχειριστής"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:29
 #: plugins/addons/dashboard/users_accounts.tpl.c:62
 msgid "mail"
-msgstr ""
+msgstr "αλληλογραφία"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:35
 msgid "There is one account expiring in the next %1 days"

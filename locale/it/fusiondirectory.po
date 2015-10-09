@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Penati <penati@avaya.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2015-09-11 22:07+0200\n"
-"PO-Revision-Date: 2015-09-11 09:58+0000\n"
-"Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
+"PO-Revision-Date: 2015-10-08 20:36+0000\n"
+"Last-Translator: Penati <penati@avaya.com>\n"
 "Language-Team: Italian (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -112,15 +113,15 @@ msgstr "Gruppo"
 
 #: plugins/admin/groups/class_group.inc:35
 msgid "POSIX group information"
-msgstr ""
+msgstr "Informazioni gruppo POSIX"
 
 #: plugins/admin/groups/class_group.inc:38
 msgid "POSIX group"
-msgstr ""
+msgstr "Gruppo POSIX"
 
 #: plugins/admin/groups/class_group.inc:39
 msgid "POSIX user group"
-msgstr ""
+msgstr "Gruppo utenti POSIX"
 
 #: plugins/admin/groups/class_group.inc:57
 #: plugins/admin/groups/class_ogroup.inc:181
@@ -135,12 +136,12 @@ msgstr "Proprietà"
 #: plugins/admin/groups/class_group.inc:61
 #: plugins/admin/groups/class_ogroup.inc:185
 msgid "Name of this group"
-msgstr ""
+msgstr "Nome del gruppo"
 
 #: plugins/admin/groups/class_group.inc:65
 #: plugins/admin/groups/class_ogroup.inc:189
 msgid "Short description of this group"
-msgstr ""
+msgstr "Breve descrizione del gruppo"
 
 #: plugins/admin/groups/class_group.inc:69
 msgid "Force GID"
@@ -158,7 +159,7 @@ msgstr "GID"
 
 #: plugins/admin/groups/class_group.inc:73
 msgid "GID value for this group"
-msgstr ""
+msgstr "Valore GID per questo gruppo"
 
 #: plugins/admin/groups/class_group.inc:80
 #: plugins/admin/groups/class_group.inc:83
@@ -232,7 +233,7 @@ msgstr "Il tempo d'attesa per il blocco è scaduto. Blocco ignorato !"
 #: plugins/admin/groups/class_ogroup.inc:59
 #, php-format
 msgid "Unknown type : %s"
-msgstr ""
+msgstr "Tipo sconosciuto : %s"
 
 #: plugins/admin/groups/class_ogroup.inc:63
 #, php-format
@@ -3372,19 +3373,19 @@ msgstr "B"
 
 #: include/simpleplugin/class_helpersAttribute.inc:271
 msgid "KiB"
-msgstr ""
+msgstr "KiB"
 
 #: include/simpleplugin/class_helpersAttribute.inc:272
 msgid "MiB"
-msgstr ""
+msgstr "MiB"
 
 #: include/simpleplugin/class_helpersAttribute.inc:273
 msgid "GiB"
-msgstr ""
+msgstr "GiB"
 
 #: include/simpleplugin/class_helpersAttribute.inc:274
 msgid "TiB"
-msgstr ""
+msgstr "TiB"
 
 #: include/simpleplugin/class_helpersAttribute.inc:285
 msgid "seconds"
@@ -3464,7 +3465,7 @@ msgstr "Il file non puó essere letto"
 #: include/simpleplugin/class_attribute.inc:1514
 #, php-format
 msgid "%s (%d bytes)"
-msgstr ""
+msgstr "%s (%d bytes)"
 
 #: include/simpleplugin/class_attribute.inc:1561
 #: include/simpleplugin/class_attribute.inc:1738
@@ -3494,7 +3495,7 @@ msgstr "Base dell'oggetto"
 #: include/simpleplugin/class_attribute.inc:2684
 #, php-format
 msgid "Invalid value for %s"
-msgstr ""
+msgstr "Valore non valido per %s"
 
 #: include/simpleplugin/simple-list.xml:11
 msgid "NO LABEL"
@@ -4947,7 +4948,7 @@ msgstr "Migra ogni possibile configurazione LDAP - fai delle copie !"
 
 #: setup/setup_welcome.tpl.c:29
 msgid "To continue:"
-msgstr ""
+msgstr "Per continuare:"
 
 #: setup/setup_welcome.tpl.c:32
 msgid ""
@@ -4983,7 +4984,7 @@ msgstr ""
 
 #: setup/setup_migrate_gosaAccounts.tpl.c:8
 msgid "Move selected entries into this tree"
-msgstr ""
+msgstr "Sposta gli utenti selezionati in questo ramo"
 
 #: setup/setup_migrate_gosaAccounts.tpl.c:11
 msgid ""
