@@ -1128,15 +1128,15 @@ sub migrate_users {
   my $ldap = $hash_ldap_param{ldap};
 
   my $mesg = $ldap->search(
-    filter => '(&'.
-        '(|'.
-          '(objectClass=posixAccount)'.
-          '(objectClass=person)'.
-          '(objectClass=OpenLDAPperson)'.
-        ')'.
-        '(!(objectClass=inetOrgPerson))'.
-        '(uid=*)'.
-      ')',
+     filter => '(&'.
+         '(|'.
+           '(objectClass=posixAccount)'.
+           '(objectClass=person)'.
+           '(objectClass=OpenLDAPperson)'.
+         ')'.
+         '(!(objectClass=inetOrgPerson))'.
+         '(uid=*)'.
+       ')',
     base   => $base
   );
   $mesg->code && die $mesg->error;
@@ -1154,6 +1154,45 @@ sub migrate_users {
       foreach my $entry (@entries) {
         $mesg = $ldap->modify($entry->dn(), add => { "objectClass" => ["person","organizationalPerson","inetOrgPerson"]});
         $mesg->code && print $mesg->error;
+      }
+    }
+  }
+
+  $mesg = $ldap->search(
+    filter => '(objectClass=gosaAccount)',
+    base   => $base
+  );
+  $mesg->code && die $mesg->error;
+
+  if ($mesg->count > 0) {
+    print ("The following users are using the obsolete gosaAccount objectClass:\n");
+
+    my @entries = $mesg->entries;
+
+    foreach my $entry (@entries) {
+      print $entry->dn()."\n";
+    }
+
+    if (ask_yn_question("Remove the gosaAccount objectClass from these entries?")) {
+      foreach my $entry (@entries) {
+        my @replace;      
+        my @classes = $entry->get_value('objectClass');
+        if (grep {$_ eq 'gosaAccount'} @classes) {
+          foreach my $class (@classes) {
+            if ($class ne 'gosaAccount') {
+              push(@replace, "$class");
+            }
+          }
+          if (
+              ($entry->exists('dateOfBirth') || $entry->exists('personalTitle') || $entry->exists('gender'))
+              && !(grep {$_ eq 'fdPersonalInfo'} @classes)
+            ) {
+            push(@replace, "fdPersonalInfo");
+          }
+        }
+        $mesg = $ldap->modify($entry->dn(), replace => { "objectClass" => \@replace });
+        $mesg->code && print $mesg->error;
+        undef @replace;
       }
     }
   }
