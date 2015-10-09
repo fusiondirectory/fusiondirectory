@@ -1129,14 +1129,14 @@ sub migrate_users {
 
   my $mesg = $ldap->search(
      filter => '(&'.
-         '(|'.
-           '(objectClass=posixAccount)'.
-           '(objectClass=person)'.
-           '(objectClass=OpenLDAPperson)'.
-         ')'.
-         '(!(objectClass=inetOrgPerson))'.
-         '(uid=*)'.
-       ')',
+        '(|'.
+          '(objectClass=posixAccount)'.
+          '(objectClass=person)'.
+          '(objectClass=OpenLDAPperson)'.
+        ')'.
+        '(!(objectClass=inetOrgPerson))'.
+        '(uid=*)'.
+      ')',
     base   => $base
   );
   $mesg->code && die $mesg->error;
