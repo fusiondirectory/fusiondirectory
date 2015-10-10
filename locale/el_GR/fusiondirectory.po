@@ -3,14 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Elissavet Botsaki <elisavet_b@hotmail.com>, 2015
+# Konstantinos Nikolou <kniko@kniko.net>, 2015
 # Nikos Charonitakis <charosn@her.forthnet.gr>, 2005
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2015-09-11 22:07+0200\n"
-"PO-Revision-Date: 2015-10-07 10:01+0000\n"
-"Last-Translator: Kostas Papadimas <pkst@eellak.gr>\n"
+"PO-Revision-Date: 2015-10-10 05:58+0000\n"
+"Last-Translator: Konstantinos Nikolou <kniko@kniko.net>\n"
 "Language-Team: Greek (Greece) (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/el_GR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -202,7 +204,7 @@ msgstr "πλήρης πρόσβαση"
 #: plugins/admin/groups/class_ogroup.inc:214
 #: plugins/personal/posix/class_posixAccount.inc:170
 msgid "allow access to these hosts"
-msgstr ""
+msgstr "να επιτραπεί η πρόσβαση σε αυτά τα host"
 
 #: plugins/admin/groups/class_group.inc:101
 #: plugins/admin/groups/class_ogroup.inc:217
@@ -1406,11 +1408,11 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:131
 msgid "Password minimum length"
-msgstr ""
+msgstr "Ελάχιστο μήκος κωδικού"
 
 #: plugins/config/class_configInLdap.inc:131
 msgid "Minimum length of user passwords"
-msgstr ""
+msgstr "Ελάχιστο μήκος κωδικού χρήστη"
 
 #: plugins/config/class_configInLdap.inc:136
 msgid "Password minimum differs"
@@ -1418,7 +1420,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:136
 msgid "Minimum number of different characters from last password"
-msgstr ""
+msgstr "Ελάχιστος αριθμός διαφορετικών χαρακτήρων από τον τελευταίο κωδικό"
 
 #: plugins/config/class_configInLdap.inc:141
 msgid "Use account expiration"
@@ -3825,7 +3827,7 @@ msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:174
 msgid "Please specify user and password!"
-msgstr ""
+msgstr "Παρακαλώ επαληθεύστε το όνομα χρήστη και τον κωδικό σας!"
 
 #: setup/class_setupStep_Ldap.inc:176
 #, php-format
@@ -3904,27 +3906,27 @@ msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:259
 msgid "Checking permission for LDAP database"
-msgstr ""
+msgstr "Έλεγχος έγκρισης για βάση δεδομένων  LDAP"
 
 #: setup/class_setupStep_Migrate.inc:260
 msgid "Checking for invisible users"
-msgstr ""
+msgstr "'Έλεγχος για αόρατους χρήστες"
 
 #: setup/class_setupStep_Migrate.inc:261
 msgid "Checking for super administrator"
-msgstr ""
+msgstr "Έλεγχος για υπερδιαχειριστές "
 
 #: setup/class_setupStep_Migrate.inc:262
 msgid "Checking for default ACL roles and groups"
-msgstr ""
+msgstr "Έλεγχος για προεπιλεγμένους ρόλους και ομάδες στην ACL"
 
 #: setup/class_setupStep_Migrate.inc:263
 msgid "Checking for users outside the people tree"
-msgstr ""
+msgstr "Έλεγχος για χρήστες εκτός της δομής δεδομένων "
 
 #: setup/class_setupStep_Migrate.inc:264
 msgid "Checking for groups outside the groups tree"
-msgstr ""
+msgstr "Έλεγχος για ομάδες εκτός της δομής δεδομένων"
 
 #: setup/class_setupStep_Migrate.inc:265
 msgid "Checking for invisible departments"
@@ -4670,7 +4672,7 @@ msgstr ""
 #: ihtml/themes/default/remove.tpl.c:8
 #: ihtml/themes/default/simple-remove.tpl.c:8
 msgid "So - if you're sure - press 'Delete' to continue or 'Cancel' to abort."
-msgstr ""
+msgstr "Αν είστε σίγουροι, πατήστε \"Διαγραφή\" για να συνεχίσετε ή \"Ακύρωση\" για να εγκαταλείψετε. "
 
 #: ihtml/themes/default/login.tpl.c:2
 msgid "Login screen"
