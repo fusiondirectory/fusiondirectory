@@ -3,13 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Elissavet Botsaki <elisavet_b@hotmail.com>, 2015
+# Konstantinos Nikolou <kniko@kniko.net>, 2015
+# Nikos Charonitakis <charosn@her.forthnet.gr>, 2005
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2015-09-11 22:07+0200\n"
-"PO-Revision-Date: 2015-09-11 09:58+0000\n"
-"Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
+"PO-Revision-Date: 2015-10-12 12:27+0000\n"
+"Last-Translator: Konstantinos Nikolou <kniko@kniko.net>\n"
 "Language-Team: Greek (Greece) (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/el_GR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +23,7 @@ msgstr ""
 #: plugins/generic/welcome/main.inc:25
 #, php-format
 msgid "Welcome %s!"
-msgstr ""
+msgstr "Καλώς ήλθατε στο %s!"
 
 #: plugins/generic/references/class_reference.inc:26
 #: plugins/generic/references/class_reference.inc:27
@@ -34,19 +37,19 @@ msgstr "Αναφορές"
 #: plugins/admin/aclrole/class_aclRole.inc:108
 #: plugins/admin/acl/class_aclAssignment.inc:49
 msgid "Role"
-msgstr ""
+msgstr "Ρόλος"
 
 #: plugins/admin/groups/class_roleGeneric.inc:32
 msgid "Role information"
-msgstr ""
+msgstr "Πληροφορίες ρόλου"
 
 #: plugins/admin/groups/class_roleGeneric.inc:36
 msgid "Organizational role"
-msgstr ""
+msgstr "Ρόλος οργανισμού"
 
 #: plugins/admin/groups/class_roleGeneric.inc:58
 msgid "Informations"
-msgstr ""
+msgstr "Πληροφορίες"
 
 #: plugins/admin/groups/class_roleGeneric.inc:61
 #: plugins/admin/groups/class_group.inc:61
@@ -65,7 +68,7 @@ msgstr "Όνομα"
 
 #: plugins/admin/groups/class_roleGeneric.inc:61
 msgid "Name of the role"
-msgstr ""
+msgstr "Όνομα του ρόλου"
 
 #: plugins/admin/groups/class_roleGeneric.inc:65
 #: plugins/admin/groups/class_group.inc:65
@@ -83,44 +86,44 @@ msgstr "Περιγραφή"
 
 #: plugins/admin/groups/class_roleGeneric.inc:65
 msgid "Description of the role"
-msgstr ""
+msgstr "Περιγραφή του ρόλου"
 
 #: plugins/admin/groups/class_roleGeneric.inc:70
 msgid "Phone number"
-msgstr ""
+msgstr "Αριθμός τηλεφώνου"
 
 #: plugins/admin/groups/class_roleGeneric.inc:74
 msgid "Fax number"
-msgstr ""
+msgstr "Αριθμός φαξ"
 
 #: plugins/admin/groups/class_roleGeneric.inc:78
 #: plugins/admin/users/class_userManagement.inc:42
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:29
 #: setup/class_setupStep_Migrate.inc:860
 msgid "Users"
-msgstr ""
+msgstr "Χρήστες"
 
 #: plugins/admin/groups/class_roleGeneric.inc:78
 msgid "Add users for the role"
-msgstr ""
+msgstr "Προσθήκη χρηστών για το ρόλο"
 
 #: plugins/admin/groups/class_group.inc:34
 #: plugins/admin/groups/class_ogroup.inc:154
 #: plugins/admin/groups/class_ogroup.inc:155
 msgid "Group"
-msgstr ""
+msgstr "Ομάδα"
 
 #: plugins/admin/groups/class_group.inc:35
 msgid "POSIX group information"
-msgstr ""
+msgstr "Πληροφορίες ομάδας POSIX"
 
 #: plugins/admin/groups/class_group.inc:38
 msgid "POSIX group"
-msgstr ""
+msgstr "Ομάδα POSIX"
 
 #: plugins/admin/groups/class_group.inc:39
 msgid "POSIX user group"
-msgstr ""
+msgstr "Ομάδα χρηστών POSIX"
 
 #: plugins/admin/groups/class_group.inc:57
 #: plugins/admin/groups/class_ogroup.inc:181
@@ -130,78 +133,78 @@ msgstr ""
 #: plugins/admin/aclrole/class_aclRole.inc:127
 #: plugins/admin/acl/class_aclAssignment.inc:40
 msgid "Properties"
-msgstr ""
+msgstr "Ιδιότητες"
 
 #: plugins/admin/groups/class_group.inc:61
 #: plugins/admin/groups/class_ogroup.inc:185
 msgid "Name of this group"
-msgstr ""
+msgstr "Όνομα αυτής της ομάδας"
 
 #: plugins/admin/groups/class_group.inc:65
 #: plugins/admin/groups/class_ogroup.inc:189
 msgid "Short description of this group"
-msgstr ""
+msgstr "Σύντομη περιγραφή αυτής της ομάδας"
 
 #: plugins/admin/groups/class_group.inc:69
 msgid "Force GID"
-msgstr ""
+msgstr "Εξαναγκασμός GID"
 
 #: plugins/admin/groups/class_group.inc:69
 msgid "Force GID value for this group"
-msgstr ""
+msgstr "Εξαναγκασμός τιμής GID για αυτή την ομάδα"
 
 #: plugins/admin/groups/class_group.inc:73
 #: plugins/admin/groups/class_group.inc:148
 #: plugins/personal/posix/class_posixAccount.inc:395
 msgid "GID"
-msgstr ""
+msgstr "GID"
 
 #: plugins/admin/groups/class_group.inc:73
 msgid "GID value for this group"
-msgstr ""
+msgstr "Τιμή GID για αυτήν την ομάδα"
 
 #: plugins/admin/groups/class_group.inc:80
 #: plugins/admin/groups/class_group.inc:83
 msgid "Group members"
-msgstr ""
+msgstr "Μέλη ομάδας"
 
 #: plugins/admin/groups/class_group.inc:90
 #: plugins/admin/groups/class_ogroup.inc:206
 #: plugins/personal/posix/class_posixAccount.inc:162
 msgid "System trust"
-msgstr ""
+msgstr "Επιστοσύνη συστήματος"
 
 #: plugins/admin/groups/class_group.inc:94
 #: plugins/admin/groups/class_ogroup.inc:210
 #: plugins/personal/posix/class_posixAccount.inc:166
 msgid "Trust mode"
-msgstr ""
+msgstr "Λειτουργία επιστοσύνης"
 
 #: plugins/admin/groups/class_group.inc:94
 #: plugins/admin/groups/class_ogroup.inc:210
 #: plugins/personal/posix/class_posixAccount.inc:166
 msgid "Type of authorization for those hosts"
-msgstr ""
+msgstr "Τύπος εξουσιοδότησή για αυτά τα συστήματα"
 
 #: plugins/admin/groups/class_group.inc:98
 #: plugins/admin/groups/class_ogroup.inc:214
 #: plugins/personal/posix/class_posixAccount.inc:170
 #: plugins/personal/posix/class_posixAccount.inc:209
 msgid "disabled"
-msgstr "απενεργοποιημένο"
+msgstr "δευτερόλεπτα"
 
 #: plugins/admin/groups/class_group.inc:98
 #: plugins/admin/groups/class_ogroup.inc:214
 #: plugins/personal/posix/class_posixAccount.inc:170
 #: plugins/personal/posix/class_posixAccount.inc:209
 msgid "full access"
-msgstr "Πλήρης Πρόσβαση"
+msgstr "πλήρης πρόσβαση"
 
 #: plugins/admin/groups/class_group.inc:98
 #: plugins/admin/groups/class_ogroup.inc:214
 #: plugins/personal/posix/class_posixAccount.inc:170
 msgid "allow access to these hosts"
-msgstr ""
+msgstr "να επιτραπεί η πρόσβαση σε αυτά τα host"
 
 #: plugins/admin/groups/class_group.inc:101
 #: plugins/admin/groups/class_ogroup.inc:217
@@ -222,38 +225,38 @@ msgstr ""
 #: ihtml/themes/default/islocked.tpl.c:5 ihtml/themes/default/remove.tpl.c:2
 #: ihtml/themes/default/msg_dialog.tpl.c:5 setup/setup_checks.tpl.c:8
 msgid "Warning"
-msgstr ""
+msgstr "Προειδοποίηση"
 
 #: plugins/admin/groups/class_group.inc:180
 #: plugins/personal/posix/class_posixAccount.inc:450
 msgid "Timeout while waiting for lock. Ignoring lock!"
-msgstr ""
+msgstr "Υπέρβαση χρόνου κατά την αναμονή για κλέιδωμα. Αγνόηση κλειδώματος!"
 
 #: plugins/admin/groups/class_ogroup.inc:59
 #, php-format
 msgid "Unknown type : %s"
-msgstr ""
+msgstr "'Αγνωστος τύπος: %s"
 
 #: plugins/admin/groups/class_ogroup.inc:63
 #, php-format
 msgid "Non existing dn: %s"
-msgstr ""
+msgstr "Ανύπαρκτο dn: %s"
 
 #: plugins/admin/groups/class_ogroup.inc:149
 msgid "Object group"
-msgstr ""
+msgstr "Ομάδα αντικειμένου"
 
 #: plugins/admin/groups/class_ogroup.inc:150
 msgid "Object group information"
-msgstr ""
+msgstr "Πληροφορίες ομάδας αντικειμένου"
 
 #: plugins/admin/groups/class_ogroup.inc:196
 msgid "Member objects"
-msgstr ""
+msgstr "Αντικείμενα μέλους"
 
 #: plugins/admin/groups/class_ogroup.inc:199
 msgid "Objects member of this group"
-msgstr ""
+msgstr "Αντικείμενα μέλους για αυτή την ομάδα"
 
 #: plugins/admin/groups/class_ogroup.inc:299
 msgid ""
@@ -262,14 +265,14 @@ msgstr ""
 
 #: plugins/admin/groups/group-list.xml:11
 msgid "List of groups"
-msgstr ""
+msgstr "Λίστα ομάδων"
 
 #: plugins/admin/groups/group-list.xml:54
 #: plugins/admin/departments/dep-list.xml:37
 #: plugins/admin/users/user-list.xml:62 include/class_listing.inc:1284
 #: include/simpleplugin/simple-list.xml:48
 msgid "Actions"
-msgstr ""
+msgstr "Ενέργειες"
 
 #: plugins/admin/groups/group-list.xml:66
 #: plugins/admin/departments/dep-list.xml:48
@@ -277,7 +280,7 @@ msgstr ""
 #: include/simpleplugin/simple-list.xml:59
 #: setup/class_setupStep_Migrate.inc:855 setup/class_setupStep_Migrate.inc:870
 msgid "Create"
-msgstr ""
+msgstr "Δημιουργία"
 
 #: plugins/admin/groups/group-list.xml:74
 #: plugins/admin/groups/group-list.xml:119
@@ -291,7 +294,7 @@ msgstr ""
 #: include/simpleplugin/simple-list.xml:67
 #: include/simpleplugin/simple-list.xml:112
 msgid "Edit"
-msgstr ""
+msgstr "Επεξεργασία"
 
 #: plugins/admin/groups/group-list.xml:82
 #: plugins/admin/groups/group-list.xml:132
@@ -303,139 +306,139 @@ msgstr ""
 #: include/simpleplugin/simple-list.xml:75
 #: include/simpleplugin/simple-list.xml:125
 msgid "Remove"
-msgstr ""
+msgstr "Αφαίρεση"
 
 #: plugins/admin/groups/class_groupManagement.inc:31
 #: plugins/personal/roles/class_userRoles.inc:31
 msgid "Groups and roles"
-msgstr ""
+msgstr "Ομάδες και ρόλοι"
 
 #: plugins/admin/groups/class_groupManagement.inc:32
 msgid "Manage groups and roles"
-msgstr ""
+msgstr "Διαχείριση ομάδων και ρόλων"
 
 #: plugins/admin/groups/class_groupManagement.inc:75
 msgid "Posix"
-msgstr ""
+msgstr "Posix"
 
 #: plugins/admin/groups/class_groupManagement.inc:75
 msgid "Edit posix properties"
-msgstr ""
+msgstr "Επεξεργασία ιδιοτήτων posix"
 
 #: plugins/admin/groups/class_groupManagement.inc:80
 msgid "Edit role properties"
-msgstr ""
+msgstr "Επεξεργασία ιδιοτήτων ρόλου"
 
 #: plugins/admin/groups/class_groupManagement.inc:124
 msgid "Show user groups"
-msgstr ""
+msgstr "Εμφάνιση ομάδων χρήστη"
 
 #: plugins/admin/groups/class_groupManagement.inc:125
 #: include/select/groupSelect/group-filter.tpl.c:5
 msgid "Show primary groups"
-msgstr ""
+msgstr "Εμφάνιση αρχικών ομάδων"
 
 #: plugins/admin/groups/class_groupManagement.inc:126
 #: include/select/groupSelect/group-filter.tpl.c:8
 msgid "Show samba groups"
-msgstr ""
+msgstr "Εμφάνιση ομάδων samba"
 
 #: plugins/admin/groups/class_groupManagement.inc:127
 #: include/select/groupSelect/group-filter.tpl.c:11
 msgid "Show mail groups"
-msgstr ""
+msgstr "Εμφάνιση ομάδων αλληλογραφίας"
 
 #: plugins/admin/groups/class_groupManagement.inc:128
 msgid "Show organizational roles"
-msgstr ""
+msgstr "Λίστα ρόλων οργανισμών"
 
 #: plugins/admin/groups/class_groupManagement.inc:129
 msgid "Show application groups"
-msgstr ""
+msgstr "Εμφάνιση ομάδων εφαρμογών"
 
 #: plugins/admin/groups/class_groupManagement.inc:130
 msgid "Show department groups"
-msgstr ""
+msgstr "Εμφάνιση ομάδων τμημάτων"
 
 #: plugins/admin/groups/class_groupManagement.inc:136
 msgid "Show server groups"
-msgstr ""
+msgstr "Εμφάνιση ομάδων server"
 
 #: plugins/admin/groups/class_groupManagement.inc:137
 msgid "Show workstation groups"
-msgstr ""
+msgstr "Εμφάνιση ομάδων σταθμών εργασίας"
 
 #: plugins/admin/groups/class_groupManagement.inc:138
 msgid "Show windows groups"
-msgstr ""
+msgstr "Εμφάνιση ομάδων windows"
 
 #: plugins/admin/groups/class_groupManagement.inc:139
 msgid "Show terminal groups"
-msgstr ""
+msgstr "Εμφάνιση ομάδων τερματικού"
 
 #: plugins/admin/groups/class_groupManagement.inc:140
 msgid "Show printer groups"
-msgstr ""
+msgstr "Εμφάνιση ομάδων εκτυπωτή"
 
 #: plugins/admin/groups/class_groupManagement.inc:141
 msgid "Show phone groups"
-msgstr ""
+msgstr "Εμφάνιση ομάδων τηλεφώνου"
 
 #: plugins/admin/departments/class_dcObject.inc:30
 #: plugins/admin/departments/class_dcObject.inc:31
 #: plugins/admin/departments/class_dcObject.inc:34
 msgid "Domain Component"
-msgstr ""
+msgstr "Συστατικό στοιχείο τομέα"
 
 #: plugins/admin/departments/class_dcObject.inc:51
 msgid "domain component"
-msgstr ""
+msgstr "συστατικό στοιχείο τομέα"
 
 #: plugins/admin/departments/class_department.inc:34
 #: plugins/admin/departments/class_department.inc:40
 #: plugins/admin/departments/dep-list.xml:21
 #: plugins/personal/generic/class_user.inc:386
 msgid "Department"
-msgstr ""
+msgstr "Τμήμα"
 
 #: plugins/admin/departments/class_department.inc:35
 #: plugins/admin/departments/class_department.inc:36
 #: plugins/admin/departments/class_departmentManagement.inc:34
 msgid "Departments"
-msgstr ""
+msgstr "Τμήματα"
 
 #: plugins/admin/departments/class_department.inc:58
 msgid "department"
-msgstr ""
+msgstr "τμήμα"
 
 #: plugins/admin/departments/class_department.inc:68
 #, php-format
 msgid "Name of %s"
-msgstr ""
+msgstr "Όνομα του %s"
 
 #: plugins/admin/departments/class_department.inc:68
 #, php-format
 msgid "A name for this %s"
-msgstr ""
+msgstr "Ένα όνομα για το %s"
 
 #: plugins/admin/departments/class_department.inc:72
 #, php-format
 msgid "Short description of this %s"
-msgstr ""
+msgstr "Σύντομη περιγραφή του %s"
 
 #: plugins/admin/departments/class_department.inc:76
 msgid "Category"
-msgstr ""
+msgstr "Κατηγορία"
 
 #: plugins/admin/departments/class_department.inc:76
 #, php-format
 msgid "Category of this %s"
-msgstr ""
+msgstr "Κατηγορία του %s"
 
 #: plugins/admin/departments/class_department.inc:80
 #: plugins/personal/generic/class_user.inc:402
 msgid "Manager"
-msgstr ""
+msgstr "Διαχειριστής"
 
 #: plugins/admin/departments/class_department.inc:80
 #, php-format
@@ -446,150 +449,150 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:92
 #: plugins/personal/generic/class_user.inc:300
 msgid "Location"
-msgstr ""
+msgstr "Τοποθεσία"
 
 #: plugins/admin/departments/class_department.inc:89
 #: plugins/personal/generic/class_user.inc:304
 msgid "State"
-msgstr ""
+msgstr "Πολιτεία"
 
 #: plugins/admin/departments/class_department.inc:95
 #: plugins/personal/generic/class_user.inc:308
 msgid "Address"
-msgstr ""
+msgstr "Διεύθυνση"
 
 #: plugins/admin/departments/class_department.inc:95
 #, php-format
 msgid "A postal address for this %s"
-msgstr ""
+msgstr "Μια ταχυδρομική διεύθυνση για %s"
 
 #: plugins/admin/departments/class_department.inc:99
 #: plugins/personal/generic/class_user.inc:316
 msgid "Phone"
-msgstr ""
+msgstr "Τηλέφωνο"
 
 #: plugins/admin/departments/class_department.inc:99
 msgid "Telephone number"
-msgstr ""
+msgstr "Αριθμός τηλεφώνου"
 
 #: plugins/admin/departments/class_department.inc:103
 #: plugins/personal/generic/class_user.inc:328
 msgid "Fax"
-msgstr ""
+msgstr "Φαξ"
 
 #: plugins/admin/departments/class_department.inc:103
 msgid "Facsimile telephone number"
-msgstr ""
+msgstr "Αριθμός φαξ"
 
 #: plugins/admin/departments/class_departmentManagement.inc:35
 msgid "Manage departments"
-msgstr ""
+msgstr "Διαχείριση τμημάτων"
 
 #: plugins/admin/departments/class_departmentManagement.inc:37
 msgid "Users and groups"
-msgstr ""
+msgstr "Χρήστες και ομάδες"
 
 #: plugins/admin/departments/class_locality.inc:30
 #: plugins/admin/departments/class_locality.inc:31
 #: plugins/admin/departments/class_locality.inc:34
 msgid "Locality"
-msgstr ""
+msgstr "Περιοχή"
 
 #: plugins/admin/departments/class_locality.inc:51
 msgid "locality"
-msgstr ""
+msgstr "τοπικότητα"
 
 #: plugins/admin/departments/class_country.inc:29
 #: plugins/admin/departments/class_country.inc:30
 #: plugins/admin/departments/class_country.inc:33
 msgid "Country"
-msgstr ""
+msgstr "Χώρα"
 
 #: plugins/admin/departments/class_country.inc:50
 msgid "country"
-msgstr ""
+msgstr "χώρα"
 
 #: plugins/admin/departments/class_domain.inc:30
 #: plugins/admin/departments/class_domain.inc:31
 #: plugins/admin/departments/class_domain.inc:34
 msgid "Domain"
-msgstr ""
+msgstr "Τομέας"
 
 #: plugins/admin/departments/class_domain.inc:51
 msgid "domain"
-msgstr ""
+msgstr "Τομέας"
 
 #: plugins/admin/departments/dep-list.xml:9
 msgid "List of departments"
-msgstr ""
+msgstr "Κατάλογος των τμημάτων"
 
 #: plugins/admin/departments/class_organization.inc:30
 #: plugins/admin/departments/class_organization.inc:31
 #: plugins/admin/departments/class_organization.inc:34
 #: plugins/personal/generic/class_user.inc:382
 msgid "Organization"
-msgstr ""
+msgstr "Οργανισμός"
 
 #: plugins/admin/departments/class_organization.inc:51
 msgid "organization"
-msgstr ""
+msgstr "οργανισμός"
 
 #: plugins/admin/users/user-list.xml:11
 msgid "List of users"
-msgstr ""
+msgstr "Λίστα χρηστών"
 
 #: plugins/admin/users/user-list.xml:33
 msgid "Surname"
-msgstr ""
+msgstr "Επίθετο"
 
 #: plugins/admin/users/user-list.xml:41
 msgid "Given name"
-msgstr ""
+msgstr "Βαπτιστικό"
 
 #: plugins/admin/users/user-list.xml:49
 #: plugins/personal/generic/class_user.inc:339
 #: plugins/personal/generic/paste_generic.tpl.c:11
 #: ihtml/themes/default/recovery.tpl.c:32
 msgid "Login"
-msgstr ""
+msgstr "Σύνδεση"
 
 #: plugins/admin/users/user-list.xml:79
 #: plugins/personal/generic/class_user.inc:242
 #: plugins/personal/generic/class_user.inc:248
 msgid "User"
-msgstr ""
+msgstr "Χρήστης"
 
 #: plugins/admin/users/user-list.xml:86
 #: include/simpleplugin/class_simpleManagement.inc:217
 msgid "From template"
-msgstr ""
+msgstr "Από πρότυπο"
 
 #: plugins/admin/users/user-list.xml:93
 #: include/simpleplugin/class_simpleManagement.inc:211
 #: include/simpleplugin/class_simpleManagement.inc:407
 #: ihtml/themes/default/template.tpl.c:5
 msgid "Template"
-msgstr ""
+msgstr "Πρότυπο"
 
 #: plugins/admin/users/user-list.xml:124
 msgid "Lock users"
-msgstr ""
+msgstr "Κλείδωμα χρηστών"
 
 #: plugins/admin/users/user-list.xml:132
 msgid "Unlock users"
-msgstr ""
+msgstr "Ξεκλείδωμα χρηστών"
 
 #: plugins/admin/users/user-list.xml:143
 msgid "Apply template"
-msgstr ""
+msgstr "Εφαρμογή προτύπου"
 
 #: plugins/admin/users/user-list.xml:174
 msgid "New user from template"
-msgstr ""
+msgstr "Νέος χρήστης από πρότυπο"
 
 #: plugins/admin/users/user-list.xml:187
 msgid "Edit user"
-msgstr ""
+msgstr "Επεργασία χρήστη"
 
 #: plugins/admin/users/user-list.xml:196
 msgid "%{filter:lockLabel(userPassword)}"
@@ -597,11 +600,11 @@ msgstr ""
 
 #: plugins/admin/users/user-list.xml:210
 msgid "Remove user"
-msgstr ""
+msgstr "Αφαίρεση χρήστη"
 
 #: plugins/admin/users/class_userManagement.inc:43
 msgid "Manage users"
-msgstr ""
+msgstr "Διαχείριση χρηστών"
 
 #: plugins/admin/users/class_userManagement.inc:128
 #: include/class_management.inc:345 include/class_management.inc:497
@@ -613,11 +616,11 @@ msgstr ""
 #: include/simpleplugin/class_simpleManagement.inc:807
 #: include/simpleplugin/class_simpleManagement.inc:832
 msgid "Permission"
-msgstr ""
+msgstr "Άδεια"
 
 #: plugins/admin/users/class_userManagement.inc:166
 msgid "Account locking"
-msgstr ""
+msgstr "Κλείδωμα λογαριασμού"
 
 #: plugins/admin/users/class_userManagement.inc:167
 #, php-format
@@ -628,51 +631,51 @@ msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:195
 msgid "Unlock account"
-msgstr ""
+msgstr "Ξεκλείδωμα λογαριασμού"
 
 #: plugins/admin/users/class_userManagement.inc:197
 msgid "Lock account"
-msgstr ""
+msgstr "Κλείδωμα λογαριασμού"
 
 #: plugins/admin/users/class_userManagement.inc:224
 #: plugins/personal/generic/class_user.inc:249
 msgid "User account"
-msgstr ""
+msgstr "Λογαριασμός χρήστη"
 
 #: plugins/admin/users/class_userManagement.inc:224
 #: plugins/personal/generic/class_user.inc:243
 msgid "User account information"
-msgstr ""
+msgstr "Πληροφορίες λογαριασμού χρήστη"
 
 #: plugins/admin/aclrole/class_aclRoleManagement.inc:34
 #: include/class_acl.inc:300
 msgid "ACL roles"
-msgstr ""
+msgstr "Ρόλοι ACL "
 
 #: plugins/admin/aclrole/class_aclRoleManagement.inc:35
 msgid "ACL roles management"
-msgstr ""
+msgstr "Διαχείριση ρόλων ACL"
 
 #: plugins/admin/aclrole/class_aclRole.inc:68
 #, php-format
 msgid "Contains settings for these objects: %s"
-msgstr ""
+msgstr "Περιέχει ρυθμίσεις για αυτά τα αντικείμενα: %s"
 
 #: plugins/admin/aclrole/class_aclRole.inc:109
 msgid "Access control roles"
-msgstr ""
+msgstr "Ρόλοι ελέγχου πρόσβασης"
 
 #: plugins/admin/aclrole/class_aclRole.inc:112
 msgid "ACL role"
-msgstr ""
+msgstr "Ρόλος ACL"
 
 #: plugins/admin/aclrole/class_aclRole.inc:131
 msgid "A name for this role"
-msgstr ""
+msgstr "Ένα όνομα για αυτόν τον ρόλο"
 
 #: plugins/admin/aclrole/class_aclRole.inc:135
 msgid "Short description of this role"
-msgstr ""
+msgstr "Σύντομν περιγραφή περιγραφή για αυτό το ρόλο"
 
 #: plugins/admin/aclrole/class_aclRole.inc:141
 msgid "ACLs"
@@ -680,107 +683,107 @@ msgstr ""
 
 #: plugins/admin/aclrole/class_aclRole.inc:145
 msgid "ACLs which are part of this group"
-msgstr ""
+msgstr "ACLs που είναι μέρος αυτής της ομάδας"
 
 #: plugins/admin/aclrole/class_aclRole.inc:308
 msgid "No ACL settings for this category"
-msgstr ""
+msgstr "Δεν υπάρχουν ρυθμίσεις ACLs για αυτήν την κατηγορία"
 
 #: plugins/admin/aclrole/class_aclRole.inc:310
 #, php-format
 msgid "ACL for these objects: %s"
-msgstr ""
+msgstr "ACL για αυτά τα αντικείμενα: %s"
 
 #: plugins/admin/aclrole/class_aclRole.inc:316
 msgid "Edit category ACL"
-msgstr ""
+msgstr "Επεξεργασία κατηγορίας ACL"
 
 #: plugins/admin/aclrole/class_aclRole.inc:320 include/class_msgPool.inc:517
 #: include/simpleplugin/class_attribute.inc:2600
 #: include/simpleplugin/class_attribute.inc:2601
 #, php-format
 msgid "Delete"
-msgstr ""
+msgstr "Διαγραφή"
 
 #: plugins/admin/aclrole/class_aclRole.inc:320
 msgid "Reset category ACL"
-msgstr ""
+msgstr "Επαναφορά κατηγορίας ACL"
 
 #: plugins/admin/aclrole/class_aclRole.inc:331
 #, php-format
 msgid "Edit ACL for '%s'"
-msgstr ""
+msgstr "Επεξεργασία ACL για '%s'"
 
 #: plugins/admin/aclrole/class_aclRole.inc:342
 msgid "All objects in current subtree"
-msgstr ""
+msgstr "Όλα τα αντικείμενα στο τρέχον υποδέντρο"
 
 #: plugins/admin/aclrole/class_aclRole.inc:393
 #: plugins/admin/aclrole/class_aclRole.inc:397
 #: plugins/admin/aclrole/class_aclRole.inc:499
 msgid "read"
-msgstr ""
+msgstr "ανάγνωση"
 
 #: plugins/admin/aclrole/class_aclRole.inc:395
 #: plugins/admin/aclrole/class_aclRole.inc:398
 #: plugins/admin/aclrole/class_aclRole.inc:500
 msgid "write"
-msgstr ""
+msgstr "εγγραφή"
 
 #: plugins/admin/aclrole/class_aclRole.inc:484 include/class_msgPool.inc:710
 #: ihtml/themes/default/snapshotdialog.tpl.c:14
 #: ihtml/themes/default/snapshotdialog.tpl.c:35
 msgid "Object"
-msgstr ""
+msgstr "Αντικείμενο"
 
 #: plugins/admin/aclrole/class_aclRole.inc:486
 msgid "Show/hide advanced settings"
-msgstr ""
+msgstr "Εμφάνιση.απόκρυψη προχωρημένων ρυθμίσεων"
 
 #: plugins/admin/aclrole/class_aclRole.inc:491
 msgid "Create objects"
-msgstr ""
+msgstr "Δημιουργία αντικειμένων"
 
 #: plugins/admin/aclrole/class_aclRole.inc:492
 msgid "Move objects"
-msgstr ""
+msgstr "Μετακίνηση αντικειμένων"
 
 #: plugins/admin/aclrole/class_aclRole.inc:493
 msgid "Remove objects"
-msgstr ""
+msgstr "Αφαίρεση αντικειμένων"
 
 #: plugins/admin/aclrole/class_aclRole.inc:495
 msgid "Grant permission to owner"
-msgstr ""
+msgstr "Παροχή δικαιωμάτων σε ιδιοκτήτη"
 
 #: plugins/admin/aclrole/class_aclRole.inc:504
 msgid "Complete object"
-msgstr ""
+msgstr "Ολοκλήρωση αντικειμένου"
 
 #: plugins/admin/acl/class_aclManagement.inc:38
 msgid "ACL assignments"
-msgstr ""
+msgstr "Αναθέσεις ACL"
 
 #: plugins/admin/acl/class_aclManagement.inc:39
 msgid "Access control list management"
-msgstr ""
+msgstr "Διαχείριση λίστας ελέγχου πρόσβασης"
 
 #: plugins/admin/acl/class_aclManagement.inc:77
 #: plugins/admin/acl/class_aclAssignment.inc:263
 msgid "ACL Assignment"
-msgstr ""
+msgstr "Ανάθεση ACL"
 
 #: plugins/admin/acl/class_aclAssignment.inc:28
 msgid "Acl Assignment Dialog"
-msgstr ""
+msgstr "Διάλογος ανάθεσης Acl"
 
 #: plugins/admin/acl/class_aclAssignment.inc:29
 msgid "Access control roles assignment dialog"
-msgstr ""
+msgstr "Διάλογος λίστας ελέγχου ανάθεσης ρόλων"
 
 #: plugins/admin/acl/class_aclAssignment.inc:43
 msgid "Mode"
-msgstr ""
+msgstr "Λειτουργία"
 
 #: plugins/admin/acl/class_aclAssignment.inc:43
 msgid "Is this applying on complete subtree or only the base?"
@@ -788,28 +791,28 @@ msgstr ""
 
 #: plugins/admin/acl/class_aclAssignment.inc:46
 msgid "Subtree"
-msgstr ""
+msgstr "Υποφάκελος"
 
 #: plugins/admin/acl/class_aclAssignment.inc:46
 msgid "Base only"
-msgstr ""
+msgstr "Base only"
 
 #: plugins/admin/acl/class_aclAssignment.inc:49
 msgid "Role to apply"
-msgstr ""
+msgstr "Ρόλος για εφαρμογή"
 
 #: plugins/admin/acl/class_aclAssignment.inc:54
 msgid "For all users"
-msgstr ""
+msgstr "Για όλους τους χρήστες"
 
 #: plugins/admin/acl/class_aclAssignment.inc:54
 msgid "Apply this ACL for all LDAP users"
-msgstr ""
+msgstr "Εφαρμογή αυτού του ACL για όλους τους χρήστες LDAP"
 
 #: plugins/admin/acl/class_aclAssignment.inc:58
 #: ihtml/themes/default/acl.tpl.c:32
 msgid "Members"
-msgstr ""
+msgstr "Μέλη"
 
 #: plugins/admin/acl/class_aclAssignment.inc:58
 msgid "Users or groups to assign this role to."
@@ -817,67 +820,67 @@ msgstr ""
 
 #: plugins/admin/acl/class_aclAssignment.inc:249
 msgid "ACL assignment"
-msgstr ""
+msgstr "Ανάθεση ACL"
 
 #: plugins/admin/acl/class_aclAssignment.inc:264
 msgid "Access control roles assignment"
-msgstr ""
+msgstr "Ανάθεση ρόλων ελέγχου πρόσβασης"
 
 #: plugins/admin/acl/class_aclAssignment.inc:283
 msgid "Assignments"
-msgstr ""
+msgstr "Ανάθεσεις"
 
 #: plugins/admin/acl/class_aclAssignment.inc:287
 msgid "ACL role assignments for this base"
-msgstr ""
+msgstr "Αναθέσεις ρόλου ACL για αυτή την βάση"
 
 #: plugins/admin/acl/class_aclAssignment.inc:298
 #, php-format
 msgid "Assignments on object or subtree %s"
-msgstr ""
+msgstr "Ανάθεσεις σε αντικείμενο ή υποδέντρο %s"
 
 #: plugins/addons/dashboard/class_dashBoard.inc:27
 #: plugins/addons/dashboard/class_dashBoard.inc:30
 msgid "Dashboard"
-msgstr ""
+msgstr "Πίνακας ελέγχου"
 
 #: plugins/addons/dashboard/class_dashBoard.inc:28
 msgid "Statistics and various informations"
-msgstr ""
+msgstr "Στατιστικά και διάφορες πληροφορίες"
 
 #: plugins/addons/dashboard/class_dashBoard.inc:31
 msgid "Reporting"
-msgstr ""
+msgstr "Αναφορά"
 
 #: plugins/addons/dashboard/class_dashBoard.inc:42
 #: plugins/addons/dashboard/main_stats.tpl.c:2
 msgid "Statistics"
-msgstr ""
+msgstr "Στατιστικά"
 
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:30
 msgid "Statistics about users"
-msgstr ""
+msgstr "Στατιστικά για τους χρήστες"
 
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:41
 msgid "Users statistics"
-msgstr ""
+msgstr "Στατιστικά χρηστών"
 
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:46
 msgid "Groups statistics"
-msgstr ""
+msgstr "Στατιστικά ομάδων"
 
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:51
 #: plugins/addons/dashboard/users_accounts.tpl.c:8
 msgid "Expired accounts"
-msgstr ""
+msgstr "Λογαριασμοί που έχουν λήξει"
 
 #: plugins/personal/generic/class_user.inc:46
 msgid "Password method"
-msgstr ""
+msgstr "Μέθοδος κωδικού"
 
 #: plugins/personal/generic/class_user.inc:46
 msgid "Password hash method to use"
-msgstr ""
+msgstr "Μέθοδος hash για χρήση κωδικού"
 
 #: plugins/personal/generic/class_user.inc:51
 #: plugins/personal/generic/class_user.inc:348
@@ -887,7 +890,7 @@ msgstr ""
 #: ihtml/themes/default/login.tpl.c:23
 #: setup/setup_migrate_adminAccount.tpl.c:14
 msgid "Password"
-msgstr ""
+msgstr "Κωδικός πρόσβασης"
 
 #: plugins/personal/generic/class_user.inc:51
 msgid "Password (Leave empty if you do not wish to change it)"
@@ -895,7 +898,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:55
 msgid "Password again"
-msgstr ""
+msgstr "Κωδικός ξανά"
 
 #: plugins/personal/generic/class_user.inc:55
 msgid "Same password as above, to avoid errors"
@@ -903,81 +906,81 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:270
 msgid "Personal information"
-msgstr ""
+msgstr "Προσωπικές πληροφορίες"
 
 #: plugins/personal/generic/class_user.inc:275
 #: plugins/personal/generic/paste_generic.tpl.c:5
 msgid "Last name"
-msgstr ""
+msgstr "Επίθετο"
 
 #: plugins/personal/generic/class_user.inc:275
 msgid "Last name of this user"
-msgstr ""
+msgstr "Το επίθετο του χρήστη."
 
 #: plugins/personal/generic/class_user.inc:280
 #: plugins/personal/generic/paste_generic.tpl.c:8
 msgid "First name"
-msgstr ""
+msgstr "Όνομα"
 
 #: plugins/personal/generic/class_user.inc:280
 msgid "First name of this user"
-msgstr ""
+msgstr "Το όνομα του χρήστη"
 
 #: plugins/personal/generic/class_user.inc:285
 msgid "Short description of the user"
-msgstr ""
+msgstr "Σύντομη περιγραφή του χρήστη"
 
 #: plugins/personal/generic/class_user.inc:289
 msgid "Picture"
-msgstr ""
+msgstr "Εικόνα"
 
 #: plugins/personal/generic/class_user.inc:289
 msgid "The avatar for this user"
-msgstr ""
+msgstr "Το άβαταρ του χρήστη"
 
 #: plugins/personal/generic/class_user.inc:296
 msgid "Organizational contact information"
-msgstr ""
+msgstr "Πληροφοριών επαφή οργανισμού"
 
 #: plugins/personal/generic/class_user.inc:308
 msgid "Business postal address"
-msgstr ""
+msgstr "Ταχυδρομική διεύθυνση εταιρίας"
 
 #: plugins/personal/generic/class_user.inc:312
 msgid "Room No."
-msgstr ""
+msgstr "Αρ. δωματίου"
 
 #: plugins/personal/generic/class_user.inc:312
 msgid "Room number"
-msgstr ""
+msgstr "Αριθμός δωματίου"
 
 #: plugins/personal/generic/class_user.inc:316
 msgid "Business phone number"
-msgstr ""
+msgstr "Αριθμός τηλεφώνου εργασίας"
 
 #: plugins/personal/generic/class_user.inc:320
 msgid "Mobile"
-msgstr ""
+msgstr "Κινητό"
 
 #: plugins/personal/generic/class_user.inc:320
 msgid "Business mobile number"
-msgstr ""
+msgstr "Αριθμός κινητού τηλεφώνου εργασίας"
 
 #: plugins/personal/generic/class_user.inc:324
 msgid "Pager"
-msgstr ""
+msgstr "Βομβητής"
 
 #: plugins/personal/generic/class_user.inc:324
 msgid "Business pager number"
-msgstr ""
+msgstr "Αριθμός βομβητή εργασίας"
 
 #: plugins/personal/generic/class_user.inc:328
 msgid "Business fax number"
-msgstr ""
+msgstr "Αριθμός φαξ εργασίας"
 
 #: plugins/personal/generic/class_user.inc:334
 msgid "Account information"
-msgstr ""
+msgstr "Πληροφορίες λογαριασμού"
 
 #: plugins/personal/generic/class_user.inc:339
 msgid "Login of this user"
@@ -986,47 +989,47 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:343
 #: setup/class_setupStep_Language.inc:30
 msgid "Preferred language"
-msgstr ""
+msgstr "Προτιμώμενη γλώσσα"
 
 #: plugins/personal/generic/class_user.inc:348
 msgid "Password of the user"
-msgstr ""
+msgstr "Ο κωδικός του χρήστη"
 
 #: plugins/personal/generic/class_user.inc:354
 msgid "Personal contact information"
-msgstr ""
+msgstr "Προσωπικές πληροφορίες επαφής"
 
 #: plugins/personal/generic/class_user.inc:358
 msgid "Home address"
-msgstr ""
+msgstr "Διεύθυνση οικίας"
 
 #: plugins/personal/generic/class_user.inc:358
 msgid "Home postal address"
-msgstr ""
+msgstr "Ταχυδρομική διεύθυνση οικίας"
 
 #: plugins/personal/generic/class_user.inc:362
 msgid "Private phone"
-msgstr ""
+msgstr "Ιδιωτικό τηλέφωνο"
 
 #: plugins/personal/generic/class_user.inc:362
 msgid "Home phone number"
-msgstr ""
+msgstr "Τηλέφωνο οικίας"
 
 #: plugins/personal/generic/class_user.inc:366
 msgid "Homepage"
-msgstr ""
+msgstr "Ιστοσελίδα"
 
 #: plugins/personal/generic/class_user.inc:366
 msgid "Personal homepage"
-msgstr ""
+msgstr "Προσωπική ιστοσελίδα"
 
 #: plugins/personal/generic/class_user.inc:372
 msgid "Organizational information"
-msgstr ""
+msgstr "Πληροφορίες οργανισμού"
 
 #: plugins/personal/generic/class_user.inc:377
 msgid "Title"
-msgstr ""
+msgstr "Τίτλος"
 
 #: plugins/personal/generic/class_user.inc:377
 msgid ""
@@ -1036,91 +1039,91 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:390
 msgid "Department No."
-msgstr ""
+msgstr "Αρ. τμήματος"
 
 #: plugins/personal/generic/class_user.inc:390
 msgid "Department number"
-msgstr ""
+msgstr "Αριθμός τμήματος"
 
 #: plugins/personal/generic/class_user.inc:394
 msgid "Employee No."
-msgstr ""
+msgstr "Αρ. Υπαλλήλου"
 
 #: plugins/personal/generic/class_user.inc:394
 msgid "Employee number"
-msgstr ""
+msgstr "Αριθμός Υπαλλήλου"
 
 #: plugins/personal/generic/class_user.inc:398
 msgid "Employee type"
-msgstr ""
+msgstr "Τύπος υπαλλήλου"
 
 #: plugins/personal/generic/class_user.inc:560
 #, php-format
 msgid "Ppolicy \"%s\" could not be found in the LDAP!"
-msgstr ""
+msgstr "Δεν ήταν δυνατή η εύρεση του Ppolicy \"%s\" στο LDAP!"
 
 #: plugins/personal/generic/class_user.inc:563
 msgid "You are not allowed to change your own password"
-msgstr ""
+msgstr "Δεν έχετε δικαίωμα αλλαγής του κωδικού σας"
 
 #: plugins/personal/generic/class_user.inc:573
 #, php-format
 msgid "You must wait %d seconds before changing your password again"
-msgstr ""
+msgstr "Θα πρέπει να περιμένετε %d δευτερόλεπτα για να αλλάξετε το κωδικό σας"
 
 #: plugins/personal/generic/class_user.inc:587
 msgid "Password is in history of old passwords"
-msgstr ""
+msgstr "Ο κωδικός είναι στο ιστορικό παλιών κωδικών πρόσβασης."
 
 #: plugins/personal/generic/class_user.inc:592
 #: plugins/personal/generic/class_user.inc:596
 msgid "Password is not being changed from existing value"
-msgstr ""
+msgstr "Ο κωδικός πρόσβασής σας δεν έχει αλλάξει από την τρέχουσα τιμή"
 
 #: plugins/personal/generic/class_user.inc:603
 msgid "You need to specify your current password in order to proceed."
-msgstr ""
+msgstr "Θα πρέπει να εισάγετε τον κύριο κωδικό σας για να συνεχίσετε"
 
 #: plugins/personal/generic/class_user.inc:605
 msgid ""
 "The passwords you've entered as \"New password\" and \"Repeated new "
 "password\" do not match."
-msgstr ""
+msgstr "Οι κωδικοί εισάγατε ως \"Νέο κωδικό\" και \"Επανάληψη νέου κωδικού\" δεν ταιριάζουν."
 
 #: plugins/personal/generic/class_user.inc:607
 #: ihtml/themes/default/recovery.tpl.c:35
 #: ihtml/themes/default/recovery.tpl.c:38
 msgid "New password"
-msgstr ""
+msgstr "Νέος κωδικός "
 
 #: plugins/personal/generic/class_user.inc:609
 msgid "The password used as new and current are too similar."
-msgstr ""
+msgstr "Ο παλιός και ο νέος κωδικός πρόσβασης μοιάζουν πολύ"
 
 #: plugins/personal/generic/class_user.inc:611
 msgid "The password used as new is to short."
-msgstr ""
+msgstr "Ο κωδικός που εισάγατε είναι πολύ μικρός"
 
 #: plugins/personal/generic/class_user.inc:613
 msgid "The password contains possibly problematic Unicode characters!"
-msgstr ""
+msgstr "Ο νέος κωδικός πρόσβασης περιέχει προβληματικούς χαρακτήρες Unicode!"
 
 #: plugins/personal/posix/class_posixAccount.inc:78
 #: plugins/personal/posix/class_posixAccount.inc:184
 msgid "Unix"
-msgstr ""
+msgstr "Unix"
 
 #: plugins/personal/posix/class_posixAccount.inc:82
 msgid "Home directory"
-msgstr ""
+msgstr "Προσωπικός κατάλογος"
 
 #: plugins/personal/posix/class_posixAccount.inc:82
 msgid "The path to the home directory of this user"
-msgstr ""
+msgstr "Η διαδρομή σγια τον αρχικό κατάλογο του χρήστη"
 
 #: plugins/personal/posix/class_posixAccount.inc:87
 msgid "Shell"
-msgstr ""
+msgstr "Κέλυφος"
 
 #: plugins/personal/posix/class_posixAccount.inc:87
 msgid "Which shell should be used when this user log in"
@@ -1128,24 +1131,24 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:91
 msgid "Primary group"
-msgstr ""
+msgstr "Κύρια ομάδα"
 
 #: plugins/personal/posix/class_posixAccount.inc:91
 msgid "Primary group for this user"
-msgstr ""
+msgstr "Κύρια ομάδα του χρήστη"
 
 #: plugins/personal/posix/class_posixAccount.inc:95
 #: setup/class_setupStep_Ldap.inc:83
 msgid "Status"
-msgstr ""
+msgstr "Κατάσταση"
 
 #: plugins/personal/posix/class_posixAccount.inc:95
 msgid "Status of this user unix account"
-msgstr ""
+msgstr "Κατάσταση του λογαριασμού unix του χρήστη"
 
 #: plugins/personal/posix/class_posixAccount.inc:99
 msgid "Force user/group id"
-msgstr ""
+msgstr "Εξαναγκασμός user/group id"
 
 #: plugins/personal/posix/class_posixAccount.inc:99
 msgid "Force user id and group id values for this user"
@@ -1153,32 +1156,32 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:103
 msgid "User id"
-msgstr ""
+msgstr "User id"
 
 #: plugins/personal/posix/class_posixAccount.inc:103
 msgid "User id value for this user"
-msgstr ""
+msgstr "Τιμή User id για αυτόν τον χρήστη."
 
 #: plugins/personal/posix/class_posixAccount.inc:108
 msgid "Group id"
-msgstr ""
+msgstr "Group id"
 
 #: plugins/personal/posix/class_posixAccount.inc:108
 msgid "Group id value for this user"
-msgstr ""
+msgstr "Τιμή Group id για αυτόν τον χρήστη"
 
 #: plugins/personal/posix/class_posixAccount.inc:115
 #: plugins/personal/posix/class_posixAccount.inc:118
 msgid "Group membership"
-msgstr ""
+msgstr "Μέλη ομάδας"
 
 #: plugins/personal/posix/class_posixAccount.inc:122
 msgid "Account"
-msgstr ""
+msgstr "Λογαριασμός"
 
 #: plugins/personal/posix/class_posixAccount.inc:126
 msgid "User must change password on first login"
-msgstr ""
+msgstr "Ο χρήστης θα πρέπει να αλλάξει τον κωδικό πρόσβασης κατά την πρώτη του σύνδεση"
 
 #: plugins/personal/posix/class_posixAccount.inc:126
 msgid ""
@@ -1188,7 +1191,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:130
 msgid "Delay before locking password (days)"
-msgstr ""
+msgstr "Καθυστέρηση πριν το κλείδωμα κωδικού (ημέρες)"
 
 #: plugins/personal/posix/class_posixAccount.inc:130
 msgid ""
@@ -1208,7 +1211,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:140
 msgid "Password expiration date"
-msgstr ""
+msgstr "Ημερομηνία λήξης κωδικού πρόσβασης"
 
 #: plugins/personal/posix/class_posixAccount.inc:140
 msgid ""
@@ -1227,7 +1230,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:150
 msgid "Delay for user warning before password expiry (days)"
-msgstr ""
+msgstr "Ημέρες μεταξύ προειδοποίησης χρήστη και λήξης κωδικού:"
 
 #: plugins/personal/posix/class_posixAccount.inc:150
 msgid ""
@@ -1237,24 +1240,24 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:173
 msgid "Only allow this user to connect to this list of hosts"
-msgstr ""
+msgstr "Επιτρέπεται σ'αυτόν τον χρήστη να συνδέεται στην ακόλουθη λίστα διακομιστών"
 
 #: plugins/personal/posix/class_posixAccount.inc:185
 msgid "Edit users POSIX settings"
-msgstr ""
+msgstr "Επεξεργασία ρυθμίσεων χρηστών POSIX"
 
 #: plugins/personal/posix/class_posixAccount.inc:271
 #: include/class_management.inc:40 include/class_management.inc:41
 msgid "unconfigured"
-msgstr ""
+msgstr "μη ρυθμισμένο"
 
 #: plugins/personal/posix/class_posixAccount.inc:283
 msgid "automatic"
-msgstr ""
+msgstr "αυτόματο"
 
 #: plugins/personal/posix/class_posixAccount.inc:301
 msgid "expired"
-msgstr ""
+msgstr " έληξε"
 
 #: plugins/personal/posix/class_posixAccount.inc:303
 msgid "grace time active"
@@ -1264,7 +1267,7 @@ msgstr ""
 #: plugins/personal/posix/class_posixAccount.inc:308
 #: plugins/personal/posix/class_posixAccount.inc:310
 msgid "active"
-msgstr ""
+msgstr "ενεργό"
 
 #: plugins/personal/posix/class_posixAccount.inc:306
 msgid "password expired"
@@ -1334,7 +1337,7 @@ msgstr ""
 #: plugins/config/class_configInLdap.inc:57
 #: plugins/config/class_configInLdap.inc:68
 msgid "Configuration"
-msgstr ""
+msgstr "Διαμόρφωση"
 
 #: plugins/config/class_configInLdap.inc:58
 #: plugins/config/class_configInLdap.inc:62
@@ -1357,7 +1360,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:94
 msgid "Theme"
-msgstr ""
+msgstr "Θέμα"
 
 #: plugins/config/class_configInLdap.inc:94
 msgid "Theme to be used"
@@ -1405,11 +1408,11 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:131
 msgid "Password minimum length"
-msgstr ""
+msgstr "Ελάχιστο μήκος κωδικού"
 
 #: plugins/config/class_configInLdap.inc:131
 msgid "Minimum length of user passwords"
-msgstr ""
+msgstr "Ελάχιστο μήκος κωδικού χρήστη"
 
 #: plugins/config/class_configInLdap.inc:136
 msgid "Password minimum differs"
@@ -1417,7 +1420,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:136
 msgid "Minimum number of different characters from last password"
-msgstr ""
+msgstr "Ελάχιστος αριθμός διαφορετικών χαρακτήρων από τον τελευταίο κωδικό"
 
 #: plugins/config/class_configInLdap.inc:141
 msgid "Use account expiration"
@@ -1531,7 +1534,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:218
 msgid "Snapshots"
-msgstr ""
+msgstr "Στιγμιότυπα"
 
 #: plugins/config/class_configInLdap.inc:221
 msgid "Enable snapshots"
@@ -1677,7 +1680,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:313
 msgid "Traditional"
-msgstr ""
+msgstr "Παραδοσιακή"
 
 #: plugins/config/class_configInLdap.inc:313
 msgid "Samba unix id pool"
@@ -1721,7 +1724,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:341
 msgid "Display errors"
-msgstr ""
+msgstr "Προβολή σφαλμάτων"
 
 #: plugins/config/class_configInLdap.inc:342
 msgid ""
@@ -1759,7 +1762,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:370
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Διάφορα"
 
 #: plugins/config/class_configInLdap.inc:375
 msgid "Hooks that are called when specific actions happens"
@@ -1791,7 +1794,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:397
 msgid "Hooks"
-msgstr ""
+msgstr "Hooks"
 
 #: plugins/config/class_configInLdap.inc:404
 msgid "Display hook output"
@@ -1874,7 +1877,7 @@ msgstr ""
 
 #: plugins/config/class_recoveryConfig.inc:71
 msgid "Allow the use of alternate addresses"
-msgstr ""
+msgstr "Να επιτρέπεται η χρήση εναλλακτικών διευθύνσεων."
 
 #: plugins/config/class_recoveryConfig.inc:72
 msgid ""
@@ -1884,16 +1887,16 @@ msgstr ""
 
 #: plugins/config/class_recoveryConfig.inc:79
 msgid "First email"
-msgstr ""
+msgstr "Πρώτο email"
 
 #: plugins/config/class_recoveryConfig.inc:82
 #: plugins/config/class_recoveryConfig.inc:101
 msgid "Subject"
-msgstr ""
+msgstr "Θέμα"
 
 #: plugins/config/class_recoveryConfig.inc:83
 msgid "Subject of the first email"
-msgstr ""
+msgstr "Θέμα του πρώτου email"
 
 #: plugins/config/class_recoveryConfig.inc:86
 msgid "[FusionDirectory] Password recovery link"
@@ -1925,15 +1928,15 @@ msgstr ""
 
 #: plugins/config/class_recoveryConfig.inc:98
 msgid "Second email"
-msgstr ""
+msgstr "Δεύτερο email"
 
 #: plugins/config/class_recoveryConfig.inc:102
 msgid "Subject of the second email"
-msgstr ""
+msgstr "Θέμα του δεύτερου email"
 
 #: plugins/config/class_recoveryConfig.inc:105
 msgid "[FusionDirectory] Password recovery successful"
-msgstr ""
+msgstr "[FusionDirectory] Επιτυχής επαναφορά κωδικού πρόσβασης"
 
 #: plugins/config/class_recoveryConfig.inc:108
 #, php-format
@@ -1954,43 +1957,43 @@ msgid ""
 "\n"
 "Your password has been changed.\n"
 "Your login is still %s."
-msgstr ""
+msgstr "Γειά σας,\n\nΟ κωδικός σας άλλαξε.\nΗ υνδεση σας είναι ακόμα %s."
 
 #: plugins/config/class_dashBoardConfig.inc:28
 msgid "Dashboard configuration"
-msgstr ""
+msgstr "Ρύθμιση Dashboard"
 
 #: plugins/config/class_dashBoardConfig.inc:29
 msgid "FusionDirectory dashboard plugin configuration"
-msgstr ""
+msgstr "Ρύθμιση προσθέτου FusionDirectory dashboard"
 
 #: plugins/config/class_dashBoardConfig.inc:42
 msgid "Dashboard name schema"
-msgstr ""
+msgstr "Όνομα σχήματος πίνακα dashboard"
 
 #: plugins/config/class_dashBoardConfig.inc:45
 msgid "Number of digits"
-msgstr ""
+msgstr "Αριθμός ψηφίων"
 
 #: plugins/config/class_dashBoardConfig.inc:45
 msgid "Number of digits to use after prefix"
-msgstr ""
+msgstr "Αριθμός ψηφίων για χρήση μετά το πρόθεμα"
 
 #: plugins/config/class_dashBoardConfig.inc:51
 msgid "Prefixes"
-msgstr ""
+msgstr "Προθέματα"
 
 #: plugins/config/class_dashBoardConfig.inc:51
 msgid "Prefixes to be used for computer ids"
-msgstr ""
+msgstr "Προθέματα που χρησιμοποιούνται για ids υπολογιστή"
 
 #: plugins/config/class_dashBoardConfig.inc:59
 msgid "Dashboard expired users"
-msgstr ""
+msgstr "Πίνακας dashboard χρηστών που έχουν λήξει"
 
 #: plugins/config/class_dashBoardConfig.inc:62
 msgid "Number of days"
-msgstr ""
+msgstr "Αριθμός ημερών"
 
 #: plugins/config/class_dashBoardConfig.inc:62
 msgid ""
@@ -2000,34 +2003,34 @@ msgstr ""
 
 #: plugins/config/class_pluginsConfigInLdap.inc:29
 msgid "Plugins"
-msgstr ""
+msgstr "Πρόσθετα"
 
 #: plugins/config/class_pluginsConfigInLdap.inc:30
 msgid "Configuration for plugins"
-msgstr ""
+msgstr "Ρύθμιση για πρόσθετα"
 
 #: include/class_listing.inc:306 include/class_listing.inc:1154
 #: include/class_listing.inc:1156
 msgid "Up"
-msgstr ""
+msgstr "Πάνω"
 
 #: include/class_listing.inc:306
 msgid "Down"
-msgstr ""
+msgstr "Κάτω"
 
 #: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2562
 #: include/simpleplugin/class_attribute.inc:2563
 msgid "Sort up"
-msgstr ""
+msgstr "Ταξινόμηση πάνω"
 
 #: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2575
 #: include/simpleplugin/class_attribute.inc:2576
 msgid "Sort down"
-msgstr ""
+msgstr "Ταξινόμηση κάτω"
 
 #: include/class_listing.inc:367 setup/setup_migrate_gosaAccounts.tpl.c:23
 msgid "Select all"
-msgstr ""
+msgstr "Επιλογή όλων"
 
 #: include/class_listing.inc:537 include/class_management.inc:523
 #: include/class_management.inc:664 include/class_config.inc:479
@@ -2060,20 +2063,20 @@ msgstr "Σφάλμα"
 
 #: include/class_listing.inc:578
 msgid "created by"
-msgstr ""
+msgstr "δημιουργήθηκε από"
 
 #: include/class_listing.inc:1146
 msgid "Go to root department"
-msgstr ""
+msgstr "Μετάβαση στον ριζικό τμήμα"
 
 #: include/class_listing.inc:1146 include/class_listing.inc:1148
 #: include/class_baseSelector.inc:210
 msgid "Root"
-msgstr ""
+msgstr "Root"
 
 #: include/class_listing.inc:1154
 msgid "Go up one department"
-msgstr ""
+msgstr "Μετάβαση ένα τμήμα επάνω"
 
 #: include/class_listing.inc:1162
 msgid "Go to user's department"
@@ -2081,76 +2084,76 @@ msgstr ""
 
 #: include/class_listing.inc:1162 include/class_listing.inc:1164
 msgid "Home"
-msgstr ""
+msgstr "Αρχή (Home)"
 
 #: include/class_listing.inc:1169
 msgid "Reload list"
-msgstr ""
+msgstr "Επαναφόρτωση λίστας"
 
 #: include/class_listing.inc:1169 include/class_baseSelector.inc:262
 msgid "Submit"
-msgstr ""
+msgstr "Υποβολή"
 
 #: include/class_listing.inc:1586 include/class_listing.inc:1640
 msgid "Copy"
-msgstr ""
+msgstr "Αντιγραφή"
 
 #: include/class_listing.inc:1592 include/class_listing.inc:1628
 msgid "Cut"
-msgstr ""
+msgstr "Αποκοπή"
 
 #: include/class_listing.inc:1600 include/class_listing.inc:1602
 #: include/class_CopyPasteHandler.inc:370
 msgid "Paste"
-msgstr ""
+msgstr "Επικόλληση"
 
 #: include/class_listing.inc:1628
 msgid "Cut this entry"
-msgstr ""
+msgstr "Αποκοπή αυτής της εγγραφής"
 
 #: include/class_listing.inc:1640
 msgid "Copy this entry"
-msgstr ""
+msgstr "Αντιγραφή αυτής της εγγραφής"
 
 #: include/class_listing.inc:1673 include/class_listing.inc:1675
 msgid "Restore snapshots"
-msgstr ""
+msgstr "Επαναφορά στιγμιοτύπων"
 
 #: include/class_listing.inc:1689
 msgid "Export list"
-msgstr ""
+msgstr "Εξαγωγή λίστας"
 
 #: include/class_listing.inc:1724 include/class_listing.inc:1725
 #: include/class_SnapShotDialog.inc:179
 msgid "Restore snapshot"
-msgstr ""
+msgstr "Επαναφορά στιγμιοτύπου"
 
 #: include/class_listing.inc:1734
 msgid "Create snapshot"
-msgstr ""
+msgstr "Δημιουργία στιγμιότυπου"
 
 #: include/class_listing.inc:1735
 msgid "Create a new snapshot from this object"
-msgstr ""
+msgstr "Δημιουργία νέου στιγμιότυπου από αυτό το αντικείμενο"
 
 #: include/class_management.inc:168
 msgid "Filter error"
-msgstr ""
+msgstr "Σφάλμα φίλτρου"
 
 #: include/class_management.inc:168
 msgid "The filter is incomplete!"
-msgstr ""
+msgstr "Το φίλτρο είναι μη ολοκληρωμένο!"
 
 #: include/class_management.inc:416
 #: include/simpleplugin/class_simpleManagement.inc:718
 msgid "Permission error"
-msgstr ""
+msgstr "Σφάλμα άδειας"
 
 #: include/class_management.inc:497
 #: include/simpleplugin/class_simpleManagement.inc:748
 #, php-format
 msgid "You are not allowed to create a snapshot for %s."
-msgstr ""
+msgstr "Δεν επιτρέπεται να δημιουργήσετε ένα στιγμιότυπο για %s."
 
 #: include/class_management.inc:552 include/class_management.inc:597
 #: include/simpleplugin/class_simpleManagement.inc:792
@@ -2158,7 +2161,7 @@ msgstr ""
 #: include/simpleplugin/class_simpleManagement.inc:832
 #, php-format
 msgid "You are not allowed to restore a snapshot for %s."
-msgstr ""
+msgstr "Δεν επιτρέπεται να επαναφέρετε ένα στιγμιότυπο για %s."
 
 #: include/class_management.inc:664
 #, php-format
@@ -2181,7 +2184,7 @@ msgstr ""
 #: include/password-methods/class_password-methods-ssha.inc:91
 #: html/index.php:140 html/main.php:208 html/class_passwordRecovery.inc:263
 msgid "Configuration error"
-msgstr ""
+msgstr "Σφάλμα ρύθμισης"
 
 #: include/class_config.inc:296
 #, php-format
@@ -2205,11 +2208,11 @@ msgstr ""
 #: html/class_passwordRecovery.inc:495 setup/class_setupStep_Migrate.inc:451
 #: setup/class_setupStep_Migrate.inc:1119
 msgid "LDAP error"
-msgstr "LDAP Λάθος"
+msgstr "Σφάλμα LDAP"
 
 #: include/class_config.inc:337
 msgid "Cannot bind to LDAP. Please contact the system administrator."
-msgstr ""
+msgstr "Αδυναμία bind σε LDAP. Επικοινωνήστε με τον διαχειριστή συστήματος"
 
 #: include/class_config.inc:480
 #, php-format
@@ -2232,7 +2235,7 @@ msgstr ""
 
 #: include/class_config.inc:1161
 msgid "All categories"
-msgstr ""
+msgstr "Όλες οι κατηγορίες"
 
 #: include/class_config.inc:1289
 msgid "My account"
@@ -2268,7 +2271,7 @@ msgstr ""
 #: include/class_session.inc:87 include/class_session.inc:125
 #: include/class_log.inc:96 include/class_acl.inc:169
 msgid "Internal error"
-msgstr ""
+msgstr "Εσωτερικό σφάλμα"
 
 #: include/class_ldap.inc:868
 #, php-format
@@ -2546,7 +2549,7 @@ msgstr ""
 
 #: include/class_msgPool.inc:430
 msgid "Example:"
-msgstr ""
+msgstr "Παράδειγμα:"
 
 #: include/class_msgPool.inc:450 include/class_msgPool.inc:454
 #, php-format
@@ -2578,51 +2581,51 @@ msgstr ""
 #: setup/setup_migrate_adminAccount.tpl.c:23
 #: setup/setup_migrate_gosaAccounts.tpl.c:32
 msgid "Cancel"
-msgstr ""
+msgstr "Ακύρωση"
 
 #: include/class_msgPool.inc:481 setup/class_setupStep_Migrate.inc:133
 #: ihtml/themes/default/msg_dialog.tpl.c:14 setup/setup_checks.tpl.c:2
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: include/class_msgPool.inc:489 ihtml/themes/default/acl.tpl.c:50
 #: ihtml/themes/default/acl.tpl.c:56 setup/setup_migrate_adminAccount.tpl.c:20
 #: setup/setup_migrate_gosaAccounts.tpl.c:29
 msgid "Apply"
-msgstr ""
+msgstr "Εφαρμογή"
 
 #: include/class_msgPool.inc:497 ihtml/themes/default/copyPasteDialog.tpl.c:14
 msgid "Save"
-msgstr ""
+msgstr "Αποθήκευση"
 
 #: include/class_msgPool.inc:507
 #, php-format
 msgid "Add"
-msgstr ""
+msgstr "Προσθήκη"
 
 #: include/class_msgPool.inc:507
 #, php-format
 msgid "Add %s"
-msgstr ""
+msgstr "Προσθήκη του %s"
 
 #: include/class_msgPool.inc:517
 #, php-format
 msgid "Delete %s"
-msgstr ""
+msgstr "Διαγραφή %s"
 
 #: include/class_msgPool.inc:527
 #, php-format
 msgid "Edit..."
-msgstr ""
+msgstr "Επεξεργασία..."
 
 #: include/class_msgPool.inc:527
 #, php-format
 msgid "Edit %s..."
-msgstr ""
+msgstr "Επεξεργασία %s..."
 
 #: include/class_msgPool.inc:535
 msgid "Back"
-msgstr ""
+msgstr "Πίσω"
 
 #: include/class_msgPool.inc:564
 #, php-format
@@ -2673,125 +2676,125 @@ msgstr ""
 
 #: include/class_msgPool.inc:657
 msgid "January"
-msgstr ""
+msgstr "Ιανουάριος"
 
 #: include/class_msgPool.inc:657
 msgid "February"
-msgstr ""
+msgstr "Φεβρουάριος"
 
 #: include/class_msgPool.inc:657
 msgid "March"
-msgstr ""
+msgstr "Μάρτιος"
 
 #: include/class_msgPool.inc:657
 msgid "April"
-msgstr ""
+msgstr "Απρίλιος"
 
 #: include/class_msgPool.inc:658
 msgid "May"
-msgstr ""
+msgstr "Μάιος"
 
 #: include/class_msgPool.inc:658
 msgid "June"
-msgstr ""
+msgstr "Ιούνιος"
 
 #: include/class_msgPool.inc:658
 msgid "July"
-msgstr ""
+msgstr "Ιούλιος"
 
 #: include/class_msgPool.inc:658
 msgid "August"
-msgstr ""
+msgstr "Αύγουστος"
 
 #: include/class_msgPool.inc:658
 msgid "September"
-msgstr ""
+msgstr "Σεπτέμβριος"
 
 #: include/class_msgPool.inc:659
 msgid "October"
-msgstr ""
+msgstr "Οκτώβριος"
 
 #: include/class_msgPool.inc:659
 msgid "November"
-msgstr ""
+msgstr "Νοέμβριος"
 
 #: include/class_msgPool.inc:659
 msgid "December"
-msgstr ""
+msgstr "Δεκέμβριος"
 
 #: include/class_msgPool.inc:668
 msgid "Sunday"
-msgstr ""
+msgstr "Κυριακή"
 
 #: include/class_msgPool.inc:668
 msgid "Monday"
-msgstr ""
+msgstr "Δευτέρα"
 
 #: include/class_msgPool.inc:668
 msgid "Tuesday"
-msgstr ""
+msgstr "Τρίτη"
 
 #: include/class_msgPool.inc:668
 msgid "Wednesday"
-msgstr ""
+msgstr "Τετάρτη"
 
 #: include/class_msgPool.inc:668
 msgid "Thursday"
-msgstr ""
+msgstr "Πέμπτη"
 
 #: include/class_msgPool.inc:668
 msgid "Friday"
-msgstr ""
+msgstr "Παρασκευή"
 
 #: include/class_msgPool.inc:668
 msgid "Saturday"
-msgstr ""
+msgstr "Σάββατο"
 
 #: include/class_msgPool.inc:681
 msgid "Database operation failed!"
-msgstr ""
+msgstr "Αποτυχία βάσης δεδομένων!"
 
 #: include/class_msgPool.inc:699
 msgid "read operation"
-msgstr ""
+msgstr "λειτουργία ανάγνωσης"
 
 #: include/class_msgPool.inc:699
 msgid "add operation"
-msgstr ""
+msgstr "λειτουργία προσθήκης"
 
 #: include/class_msgPool.inc:699
 msgid "modify operation"
-msgstr ""
+msgstr "λειτουργία τροποποίησης"
 
 #: include/class_msgPool.inc:700
 msgid "delete operation"
-msgstr ""
+msgstr "λειτουργία διαγραφής"
 
 #: include/class_msgPool.inc:700
 msgid "search operation"
-msgstr ""
+msgstr "λειτουργία αναζήτησης"
 
 #: include/class_msgPool.inc:700
 msgid "authentication"
-msgstr ""
+msgstr "πιστοποίηση"
 
 #: include/class_msgPool.inc:703
 #, php-format
 msgid "LDAP %s failed!"
-msgstr ""
+msgstr "LDAP %s απέτυχε!"
 
 #: include/class_msgPool.inc:705
 msgid "LDAP operation failed!"
-msgstr ""
+msgstr "Η λειτουργία LDAP απέτυχε!"
 
 #: include/class_msgPool.inc:724
 msgid "Upload failed!"
-msgstr ""
+msgstr "Η αποστολή απέτυχε!"
 
 #: include/class_msgPool.inc:727
 #, php-format
 msgid "Upload failed: %s"
-msgstr ""
+msgstr "Αποτυχία αποστολής: %s"
 
 #: include/class_msgPool.inc:738
 msgid "Communication failure with the infrastructure service!"
@@ -2800,7 +2803,7 @@ msgstr ""
 #: include/class_msgPool.inc:740
 #, php-format
 msgid "Communication failure with the infrastructure service: %s"
-msgstr ""
+msgstr "Αποτυχία επικοινωνίας με την υπηρεσία υποδομής: %s"
 
 #: include/class_msgPool.inc:753 include/class_msgPool.inc:756
 #, php-format
@@ -2810,7 +2813,7 @@ msgstr ""
 #: include/class_msgPool.inc:759
 #, php-format
 msgid "This '%s' is still in use."
-msgstr ""
+msgstr "Το '%s'  χρησιμοποιείται ήδη."
 
 #: include/class_msgPool.inc:761
 #, php-format
@@ -2820,17 +2823,17 @@ msgstr ""
 #: include/class_msgPool.inc:771
 #, php-format
 msgid "File '%s' does not exist!"
-msgstr ""
+msgstr "Το αρχείο '%s' δεν υπάρχει!"
 
 #: include/class_msgPool.inc:781
 #, php-format
 msgid "Cannot open file '%s' for reading!"
-msgstr ""
+msgstr "Αδυναμία ανοίγματος αρχείου '%s' για ανάγνωση!"
 
 #: include/class_msgPool.inc:791
 #, php-format
 msgid "Cannot open file '%s' for writing!"
-msgstr ""
+msgstr "Αδυναμία ανοίογματος αρχείου `%s' για εγγραφή!"
 
 #: include/class_msgPool.inc:801
 #, php-format
@@ -2842,22 +2845,22 @@ msgstr ""
 #: include/class_msgPool.inc:811
 #, php-format
 msgid "Cannot delete file '%s'!"
-msgstr ""
+msgstr "Αδύνατη η διαγραφή αρχείου '%s'!"
 
 #: include/class_msgPool.inc:821
 #, php-format
 msgid "Cannot create folder '%s'!"
-msgstr ""
+msgstr "Αδύνατη η δημιουργία του φακέλου '%s'!"
 
 #: include/class_msgPool.inc:831
 #, php-format
 msgid "Cannot delete folder '%s'!"
-msgstr ""
+msgstr "Αδύνατη η διαγραφή του φακέλου '%s'"
 
 #: include/class_msgPool.inc:841
 #, php-format
 msgid "Checking for %s support"
-msgstr ""
+msgstr "Έλεγχος για υποστήριξη %s "
 
 #: include/class_msgPool.inc:851
 #, php-format
@@ -2898,22 +2901,22 @@ msgstr ""
 #: include/simpleplugin/class_simplePlugin.inc:280
 #: html/class_passwordRecovery.inc:220
 msgid "Fatal error"
-msgstr ""
+msgstr "Μοιραίο σφάλμα"
 
 #: include/functions.inc:494
 #, php-format
 msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
-msgstr ""
+msgstr "ΣΦΑΛΜΑ: Σφάλμα σύνδεσης στον διακομιστή LDAP. Ο διακομιστής αποκρίθηκε '%s'."
 
 #: include/functions.inc:565
 msgid ""
 "Login (uid) is not unique inside the LDAP tree. Please contact your "
 "administrator."
-msgstr ""
+msgstr "Η σύνδεση (uid) δεν είναι μοναδική μέσα στο δέντρο LDAP. Παρακαλούμε επικοινωνήστε με τον διαχειριστή του συστήματος σας."
 
 #: include/functions.inc:599
 msgid "Authentication error"
-msgstr ""
+msgstr "Σφάλμα πιστοποίησης"
 
 #: include/functions.inc:600
 msgid ""
@@ -2923,19 +2926,19 @@ msgstr ""
 
 #: include/functions.inc:651 include/functions.inc:771
 msgid "Error while adding a lock. Contact the developers!"
-msgstr ""
+msgstr "Σφάλμα κατά την προσθήκη κλειδώματος. Επικοινωνήστε με τους προγραμματιστές!"
 
 #: include/functions.inc:661
 #, php-format
 msgid ""
 "Cannot create locking information in LDAP tree. Please contact your "
 "administrator!"
-msgstr ""
+msgstr "Αποτυχία δημιουργίας κλειδώματος στο δέντρο LDAP. Παρακαλούμε επικοινωνήστε με τον διαχειριστή του συστήματος σας."
 
 #: include/functions.inc:661
 #, php-format
 msgid "LDAP server returned: %s"
-msgstr ""
+msgstr "Ο διακομιστής LDAP επίστρεψε: %s"
 
 #: include/functions.inc:792
 msgid ""
@@ -2946,7 +2949,7 @@ msgstr ""
 #: include/functions.inc:1110
 #, php-format
 msgid "The size limit of %d entries is exceed!"
-msgstr ""
+msgstr "Έχει ξεπεραστεί το όριο %d καταχωρίσεων!"
 
 #: include/functions.inc:1112
 #, php-format
@@ -2957,19 +2960,19 @@ msgstr ""
 
 #: include/functions.inc:1129
 msgid "Configure"
-msgstr ""
+msgstr "Ρύθμιση"
 
 #: include/functions.inc:1134
 msgid "incomplete"
-msgstr ""
+msgstr "ελλιπής"
 
 #: include/functions.inc:1539
 msgid "Continue anyway"
-msgstr ""
+msgstr "Συνέχεια οπωσδήποτε"
 
 #: include/functions.inc:1541
 msgid "Edit anyway"
-msgstr ""
+msgstr "Επεξεργασία οπωσδήποτε"
 
 #: include/functions.inc:1543
 #, php-format
@@ -2978,16 +2981,16 @@ msgstr ""
 
 #: include/functions.inc:1797
 msgid "Entries per page"
-msgstr ""
+msgstr "Καταχωρήσεις ανά σελίδα"
 
 #: include/functions.inc:1828 include/class_filter.inc:353
 msgid "Apply filter"
-msgstr ""
+msgstr "Εφαρμογή φίλτρου"
 
 #: include/functions.inc:2096
 #, php-format
 msgid "%sB"
-msgstr ""
+msgstr "%sB"
 
 #: include/functions.inc:2097
 #, php-format
@@ -3031,7 +3034,7 @@ msgstr ""
 
 #: include/functions.inc:2136 include/class_filter.inc:315
 msgid "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-msgstr ""
+msgstr "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 #: include/functions.inc:2273
 #, php-format
@@ -3042,11 +3045,11 @@ msgstr ""
 
 #: include/functions.inc:2315
 msgid "Cannot write to revision file!"
-msgstr ""
+msgstr "Αδύνατη η εγγραφή σε αρχείο αναθεώρησης!"
 
 #: include/functions.inc:2344
 msgid "Cannot read to revision file!"
-msgstr ""
+msgstr "Αδύνατη η ανάγνωση σε αρχείο αναθεώρησης!"
 
 #: include/functions.inc:2546
 msgid "'nextIdHook' is not available. Using default base!"
@@ -3054,11 +3057,11 @@ msgstr ""
 
 #: include/functions.inc:2564
 msgid "LDAP warning"
-msgstr ""
+msgstr "Προειδοποίηση LDAP "
 
 #: include/functions.inc:2564
 msgid "Cannot get schema information from server. No schema check possible!"
-msgstr ""
+msgstr "Αδυναμία λήψης πληροφοριών σχήματος για τον εξυπηρετητή. Δεν υπάρχει η δυνατότητα ελέγχου σχήματος!"
 
 #: include/functions.inc:2582
 msgid ""
@@ -3069,7 +3072,7 @@ msgstr ""
 #: include/functions.inc:2594
 #, php-format
 msgid "Missing required object class '%s'!"
-msgstr ""
+msgstr "Λείπει η απαιτούμενη κλάση αντικειμένου '%s'!"
 
 #: include/functions.inc:2597
 #, php-format
@@ -3079,7 +3082,7 @@ msgstr ""
 #: include/functions.inc:2601
 #, php-format
 msgid "Class(es) available"
-msgstr ""
+msgstr "Δαθέσιμες κλάσεις"
 
 #: include/functions.inc:2621
 msgid ""
@@ -3108,11 +3111,11 @@ msgstr ""
 #: include/functions.inc:3151 include/functions.inc:3158
 #: include/functions.inc:3167
 msgid "Cannot allocate a free ID:"
-msgstr ""
+msgstr "Δεν είναι δυνατό να ανατεθεί μια free ID:"
 
 #: include/functions.inc:3076
 msgid "unknown idAllocation method!"
-msgstr ""
+msgstr "αγνωστη μέθοδος idAllocation"
 
 #: include/functions.inc:3097
 #, php-format
@@ -3121,28 +3124,28 @@ msgstr ""
 
 #: include/functions.inc:3127
 msgid "Cannot create sambaUnixIdPool entry!"
-msgstr ""
+msgstr "Αδυναμία δημιουργίας καταχώρισης sambaUnixIdPool!"
 
 #: include/functions.inc:3135
 msgid "sambaUnixIdPool is not unique!"
-msgstr ""
+msgstr "sambaUnixIdPool  δεν είναι μοναδική!"
 
 #: include/functions.inc:3147 include/functions.inc:3151
 msgid "no ID available!"
-msgstr ""
+msgstr "Μη διαθέσιμη ID!"
 
 #: include/functions.inc:3167
 msgid "maximum tries exceeded!"
-msgstr ""
+msgstr "Υπέρβαση μεγίστου ορίου προσπαθειών!"
 
 #: include/functions.inc:3229
 msgid "Cannot allocate a free ID!"
-msgstr ""
+msgstr "Δεν είναι δυνατή η διάθεση μιας  free ID!"
 
 #: include/functions.inc:3265
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
-msgstr ""
+msgstr "Αδύνατος ο εντοπισμός του αρχείου  '%s' - Παρακαλώ εκτελέστε την εντολή '%s' για να το διορθώσετε"
 
 #: include/class_session.inc:50 include/class_session.inc:87
 #: include/class_session.inc:125
@@ -3173,39 +3176,39 @@ msgstr ""
 
 #: include/php_setup.inc:43
 msgid "class"
-msgstr ""
+msgstr "κλάση"
 
 #: include/php_setup.inc:49
 msgid "function"
-msgstr ""
+msgstr "συνάρτηση"
 
 #: include/php_setup.inc:54
 msgid "static"
-msgstr ""
+msgstr "στατικό"
 
 #: include/php_setup.inc:58
 msgid "method"
-msgstr ""
+msgstr "μέθοδος"
 
 #: include/php_setup.inc:101 ihtml/themes/default/msg_dialog.tpl.c:11
 msgid "Trace"
-msgstr ""
+msgstr "Ανίχνευση"
 
 #: include/php_setup.inc:102
 msgid "File"
-msgstr ""
+msgstr "Αρχείο"
 
 #: include/php_setup.inc:102
 msgid "Line"
-msgstr ""
+msgstr "Γραμμή"
 
 #: include/php_setup.inc:102
 msgid "Type"
-msgstr ""
+msgstr "Τύπος"
 
 #: include/php_setup.inc:103
 msgid "Arguments"
-msgstr ""
+msgstr "Ορίσματα"
 
 #: include/php_setup.inc:201
 msgid "Generating this page caused the PHP interpreter to raise some errors!"
@@ -3217,11 +3220,11 @@ msgstr ""
 
 #: include/php_setup.inc:207
 msgid "Send bugreport"
-msgstr ""
+msgstr "Αποστολή αναφοράς σφάλματος"
 
 #: include/php_setup.inc:212
 msgid "Toggle information"
-msgstr ""
+msgstr "Εναλλαγή πληροφοριών"
 
 #: include/class_smbHash.inc:356
 msgid ""
@@ -3231,7 +3234,7 @@ msgstr ""
 
 #: include/class_msg_dialog.inc:168
 msgid "Please fix the above error and reload the page."
-msgstr ""
+msgstr "Παρακαλούμε διορθώστε το παραπάνω σφάλμα και φορτώστε την σελίδα ξανά."
 
 #: include/class_databaseManagement.inc:80
 msgid "Please activate debugging for details!"
@@ -3239,11 +3242,11 @@ msgstr ""
 
 #: include/exporter/class_PDF.php:61
 msgid "Page"
-msgstr ""
+msgstr "Σελίδα "
 
 #: include/exporter/class_cvsExporter.inc:93
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #: include/exporter/class_pdfExporter.inc:58
 msgid "No PDF export possible: there is no FPDF library installed."
@@ -3251,19 +3254,19 @@ msgstr ""
 
 #: include/exporter/class_pdfExporter.inc:196
 msgid "PDF"
-msgstr ""
+msgstr "PDF"
 
 #: include/class_xml.inc:66
 msgid "in"
-msgstr ""
+msgstr "σε"
 
 #: include/class_xml.inc:68
 msgid "on line"
-msgstr ""
+msgstr "σε γραμμή"
 
 #: include/class_xml.inc:69
 msgid "XML error"
-msgstr ""
+msgstr "Σφάλμα XML"
 
 #: include/class_plugin.inc:567
 msgid ""
@@ -3274,28 +3277,28 @@ msgstr ""
 #: include/class_plugin.inc:1437
 #, php-format
 msgid "Tab \"%s\""
-msgstr ""
+msgstr "Tab \"%s\""
 
 #: include/class_CopyPasteHandler.inc:305
 #: ihtml/themes/default/copyPasteDialog.tpl.c:20
 msgid "Cancel all"
-msgstr ""
+msgstr "Ακύρωση όλων"
 
 #: include/class_CopyPasteHandler.inc:372
 msgid "Cannot paste"
-msgstr ""
+msgstr "Αδυναμία επικόλλησης"
 
 #: include/simpleplugin/class_simplePlugin.inc:162
 msgid "Template settings"
-msgstr ""
+msgstr "Ρυθμίσεις προτύπου"
 
 #: include/simpleplugin/class_simplePlugin.inc:165
 msgid "Template name"
-msgstr ""
+msgstr "Όνομα προτύπου"
 
 #: include/simpleplugin/class_simplePlugin.inc:165
 msgid "This is the name of the template"
-msgstr ""
+msgstr "Αυτό είναι το όνομα του προτύπου"
 
 #: include/simpleplugin/class_simplePlugin.inc:263
 msgid "Only main tab can compute dn"
@@ -3304,7 +3307,7 @@ msgstr ""
 #: include/simpleplugin/class_simplePlugin.inc:270
 #, php-format
 msgid "Could not compute dn: no parent tab class for \"%s\""
-msgstr ""
+msgstr "Αδυναμία υπολογισμού dn: δεν υπάρχει γονική  tab class για \"%s\""
 
 #: include/simpleplugin/class_simplePlugin.inc:282
 #, php-format
@@ -3315,46 +3318,46 @@ msgstr ""
 #: include/simpleplugin/class_simplePlugin.inc:634
 #: include/simpleplugin/class_simplePlugin.inc:642
 msgid "Error when saving"
-msgstr ""
+msgstr "Σφάλμα κατά την αποθήκευση"
 
 #: include/simpleplugin/class_simplePlugin.inc:634
 #, php-format
 msgid "There is already an entry with the same dn : %s"
-msgstr ""
+msgstr "Υπάρχει ήδη μια καταχώριση με το ίδιο dn : %s"
 
 #: include/simpleplugin/class_simplePlugin.inc:642
 #, php-format
 msgid "The entry %s is not existing"
-msgstr ""
+msgstr "Η καταχώριση  %s  δεν υπάρχει."
 
 #: include/simpleplugin/simple-select-list.xml:11
 msgid "Please select the desired entries"
-msgstr ""
+msgstr "Παρακαλώ επιλέξτε τις επιθυμητλες καταχωρήσεις"
 
 #: include/simpleplugin/class_simpleManagement.inc:244
 #, php-format
 msgid "%s template"
-msgstr ""
+msgstr "πρότυπο %s"
 
 #: include/simpleplugin/class_simpleManagement.inc:401
 #: include/simpleplugin/class_simpleManagement.inc:407
 #, php-format
 msgid "Show %s"
-msgstr ""
+msgstr "Εμφάνιση %s"
 
 #: include/simpleplugin/class_dialogAttributes.inc:409
 #, php-format
 msgid "Group %s"
-msgstr ""
+msgstr "Ομάδα %s"
 
 #: include/simpleplugin/class_dialogAttributes.inc:411
 #, php-format
 msgid "Role %s"
-msgstr ""
+msgstr "Ρόλος %s"
 
 #: include/simpleplugin/class_dialogAttributes.inc:446
 msgid "Group of user"
-msgstr ""
+msgstr "Ομάδα του χρήστη"
 
 #: include/simpleplugin/class_dialogAttributes.inc:614
 #: include/simpleplugin/class_attribute.inc:1035
@@ -3364,69 +3367,69 @@ msgstr "Κανένα"
 
 #: include/simpleplugin/class_dialogAttributes.inc:616
 msgid "Unknown"
-msgstr ""
+msgstr "Άγνωστο"
 
 #: include/simpleplugin/class_helpersAttribute.inc:270
 msgid "B"
-msgstr ""
+msgstr "B"
 
 #: include/simpleplugin/class_helpersAttribute.inc:271
 msgid "KiB"
-msgstr ""
+msgstr "KiB"
 
 #: include/simpleplugin/class_helpersAttribute.inc:272
 msgid "MiB"
-msgstr ""
+msgstr "MiB"
 
 #: include/simpleplugin/class_helpersAttribute.inc:273
 msgid "GiB"
-msgstr ""
+msgstr "GiB"
 
 #: include/simpleplugin/class_helpersAttribute.inc:274
 msgid "TiB"
-msgstr ""
+msgstr "TiB"
 
 #: include/simpleplugin/class_helpersAttribute.inc:285
 msgid "seconds"
-msgstr ""
+msgstr "δευτερόλεπτα"
 
 #: include/simpleplugin/class_helpersAttribute.inc:286
 msgid "minutes"
-msgstr ""
+msgstr "λεπτά"
 
 #: include/simpleplugin/class_helpersAttribute.inc:287
 msgid "hours"
-msgstr ""
+msgstr "ώρες"
 
 #: include/simpleplugin/class_helpersAttribute.inc:288
 msgid "days"
-msgstr ""
+msgstr "ημέρες"
 
 #: include/simpleplugin/class_attribute.inc:533
 #: include/simpleplugin/class_attribute.inc:2106
 #, php-format
 msgid "%s (required)"
-msgstr ""
+msgstr "%s (απαιτείται)"
 
 #: include/simpleplugin/class_attribute.inc:1222
 #, php-format
 msgid "An integer between %d and %d"
-msgstr ""
+msgstr "Ένας ακέραιος μεταξύ %d και %d"
 
 #: include/simpleplugin/class_attribute.inc:1224
 #, php-format
 msgid "An integer larger than %d"
-msgstr ""
+msgstr "Ένας ακέραιος μεγαλύτερος από %d"
 
 #: include/simpleplugin/class_attribute.inc:1226
 #, php-format
 msgid "An integer smaller than %d"
-msgstr ""
+msgstr "Ένας ακέραιος μικρότερος από %d"
 
 #: include/simpleplugin/class_attribute.inc:1324
 #, php-format
 msgid "A float between %f and %f"
-msgstr ""
+msgstr "Δεκαδικός μεταξύ %f και %f"
 
 #: include/simpleplugin/class_attribute.inc:1326
 #, php-format
@@ -3451,7 +3454,7 @@ msgstr ""
 
 #: include/simpleplugin/class_attribute.inc:1475
 msgid "file is empty"
-msgstr ""
+msgstr "Το αρχείο είναι κενό"
 
 #: include/simpleplugin/class_attribute.inc:1478
 msgid "file not found"
@@ -3469,12 +3472,12 @@ msgstr ""
 #: include/simpleplugin/class_attribute.inc:1561
 #: include/simpleplugin/class_attribute.inc:1738
 msgid "Upload"
-msgstr ""
+msgstr "Αποστολή"
 
 #: include/simpleplugin/class_attribute.inc:1566
 #: include/simpleplugin/class_attribute.inc:1567
 msgid "Download"
-msgstr ""
+msgstr "Λήψη"
 
 #: include/simpleplugin/class_attribute.inc:1720
 msgid ""
@@ -3485,7 +3488,7 @@ msgstr ""
 #: include/simpleplugin/class_attribute.inc:1771
 #: setup/class_setupStep_Ldap.inc:50 ihtml/themes/default/simple-list.tpl.c:2
 msgid "Base"
-msgstr ""
+msgstr "Base"
 
 #: include/simpleplugin/class_attribute.inc:1774
 msgid "Object base"
@@ -3498,7 +3501,7 @@ msgstr ""
 
 #: include/simpleplugin/simple-list.xml:11
 msgid "NO LABEL"
-msgstr ""
+msgstr "ΧΩΡΙΣ ΕΤΙΚΕΤΑ"
 
 #: include/simpleplugin/class_simpleTabs.inc:92
 #, php-format
@@ -3532,11 +3535,11 @@ msgstr ""
 #: include/class_acl.inc:219
 #, php-format
 msgid "All users"
-msgstr ""
+msgstr "Όλοι οι χρήστες"
 
 #: include/class_acl.inc:296 include/class_acl.inc:300
 msgid "ACL"
-msgstr ""
+msgstr "ACL"
 
 #: include/class_acl.inc:297
 msgid "Manage access control lists"
@@ -3658,7 +3661,7 @@ msgstr ""
 
 #: html/main.php:289
 msgid "Plugin"
-msgstr ""
+msgstr "Πρόσθετο"
 
 #: html/main.php:290
 #, php-format
@@ -3669,7 +3672,7 @@ msgstr ""
 
 #: html/main.php:305
 msgid "Configuration Error"
-msgstr ""
+msgstr "Σφάλμα ρύθμισης"
 
 #: html/main.php:306
 #, php-format
@@ -3681,7 +3684,7 @@ msgstr ""
 #: html/class_passwordRecovery.inc:221
 #, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
-msgstr ""
+msgstr "Οι ρυθμίσεις FusionDirectory %s/%s  δεν είναι αναγνώσιμες. Ακύρωση."
 
 #: html/class_passwordRecovery.inc:383
 msgid "Session will not be encrypted."
@@ -3703,7 +3706,7 @@ msgstr ""
 
 #: html/class_passwordRecovery.inc:447 ihtml/themes/default/recovery.tpl.c:77
 msgid "Email address"
-msgstr ""
+msgstr "Διευθύνση ηλεκτρονικής αλληλογγραφίας"
 
 #: html/class_passwordRecovery.inc:467
 #, php-format
@@ -3824,7 +3827,7 @@ msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:174
 msgid "Please specify user and password!"
-msgstr ""
+msgstr "Παρακαλώ επαληθεύστε το όνομα χρήστη και τον κωδικό σας!"
 
 #: setup/class_setupStep_Ldap.inc:176
 #, php-format
@@ -3869,7 +3872,7 @@ msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:157 setup/setup_migrate_baseOC.tpl.c:11
 msgid "Migrate"
-msgstr ""
+msgstr "Μετακίνηση"
 
 #: setup/class_setupStep_Migrate.inc:206 setup/class_setupStep_Checks.inc:30
 msgid "PHP module and extension checks"
@@ -3903,27 +3906,27 @@ msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:259
 msgid "Checking permission for LDAP database"
-msgstr ""
+msgstr "Έλεγχος έγκρισης για βάση δεδομένων  LDAP"
 
 #: setup/class_setupStep_Migrate.inc:260
 msgid "Checking for invisible users"
-msgstr ""
+msgstr "'Έλεγχος για αόρατους χρήστες"
 
 #: setup/class_setupStep_Migrate.inc:261
 msgid "Checking for super administrator"
-msgstr ""
+msgstr "Έλεγχος για υπερδιαχειριστές "
 
 #: setup/class_setupStep_Migrate.inc:262
 msgid "Checking for default ACL roles and groups"
-msgstr ""
+msgstr "Έλεγχος για προεπιλεγμένους ρόλους και ομάδες στην ACL"
 
 #: setup/class_setupStep_Migrate.inc:263
 msgid "Checking for users outside the people tree"
-msgstr ""
+msgstr "Έλεγχος για χρήστες εκτός της δομής δεδομένων "
 
 #: setup/class_setupStep_Migrate.inc:264
 msgid "Checking for groups outside the groups tree"
-msgstr ""
+msgstr "Έλεγχος για ομάδες εκτός της δομής δεδομένων"
 
 #: setup/class_setupStep_Migrate.inc:265
 msgid "Checking for invisible departments"
@@ -4037,7 +4040,7 @@ msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:863
 msgid "Groups"
-msgstr ""
+msgstr "Ομάδες"
 
 #: setup/class_setupStep_Migrate.inc:869
 msgid "There is no FusionDirectory administrator account inside your LDAP."
@@ -4350,7 +4353,7 @@ msgstr ""
 #: ihtml/themes/default/simple-filter.tpl.c:2
 #: include/select/groupSelect/group-filter.tpl.c:2
 msgid "Filter"
-msgstr ""
+msgstr "Φίλτρο"
 
 #: plugins/admin/users/user-filter.tpl.c:5
 msgid "Show templates"
@@ -4399,24 +4402,24 @@ msgstr ""
 #: plugins/addons/dashboard/users_accounts.tpl.c:11
 #: plugins/addons/dashboard/users_accounts.tpl.c:44
 msgid "Manager concerned"
-msgstr ""
+msgstr "Manager concerned"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:14
 #: plugins/addons/dashboard/users_accounts.tpl.c:47
 msgid "uid"
-msgstr ""
+msgstr "uid"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:17
 #: plugins/addons/dashboard/users_accounts.tpl.c:50
 msgid "cn"
-msgstr ""
+msgstr "cn"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:20
 #: plugins/addons/dashboard/users_accounts.tpl.c:32
 #: plugins/addons/dashboard/users_accounts.tpl.c:53
 #: plugins/addons/dashboard/users_accounts.tpl.c:65
 msgid "telephoneNumber"
-msgstr ""
+msgstr "telephoneNumber"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:23
 #: plugins/addons/dashboard/users_accounts.tpl.c:56
@@ -4426,12 +4429,12 @@ msgstr ""
 #: plugins/addons/dashboard/users_accounts.tpl.c:26
 #: plugins/addons/dashboard/users_accounts.tpl.c:59
 msgid "manager"
-msgstr ""
+msgstr "διαχειριστής"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:29
 #: plugins/addons/dashboard/users_accounts.tpl.c:62
 msgid "mail"
-msgstr ""
+msgstr "αλληλογραφία"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:35
 msgid "There is one account expiring in the next %1 days"
@@ -4497,23 +4500,23 @@ msgstr ""
 
 #: plugins/personal/generic/paste_generic.tpl.c:2
 msgid "User settings"
-msgstr ""
+msgstr "Ρυθμίσεις χρηστών"
 
 #: plugins/personal/generic/paste_generic.tpl.c:17
 msgid "Clear password"
-msgstr ""
+msgstr "Εκκαθάριση κωδικού"
 
 #: plugins/personal/generic/paste_generic.tpl.c:20
 msgid "Set new password"
-msgstr ""
+msgstr "Ορισμός νέου κωδικού"
 
 #: plugins/personal/generic/paste_generic.tpl.c:23
 msgid "Personal picture"
-msgstr ""
+msgstr "Προσωπική εικόνα"
 
 #: plugins/personal/generic/paste_generic.tpl.c:26
 msgid "User picture"
-msgstr ""
+msgstr "Εικόνα χρήστη"
 
 #: plugins/personal/generic/paste_generic.tpl.c:29
 msgid "Remove picture"
@@ -4540,7 +4543,7 @@ msgstr ""
 
 #: ihtml/themes/default/islocked.tpl.c:11
 msgid "Read only"
-msgstr ""
+msgstr "Μόνο για ανάγνωση"
 
 #: ihtml/themes/default/template.tpl.c:2
 msgid "Creating a new object using templates"
@@ -4583,7 +4586,7 @@ msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:11
 msgid "Lost password"
-msgstr ""
+msgstr "Χαμένος κωδικός"
 
 #: ihtml/themes/default/recovery.tpl.c:14
 msgid "Receive by email a link that allows you to reset your password"
@@ -4591,7 +4594,7 @@ msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:17
 msgid "Send"
-msgstr ""
+msgstr "Αποστολή"
 
 #: ihtml/themes/default/recovery.tpl.c:20
 msgid "Click here to send a reset link"
@@ -4609,35 +4612,35 @@ msgstr ""
 #: ihtml/themes/default/recovery.tpl.c:74 ihtml/themes/default/login.tpl.c:29
 #: ihtml/themes/default/login.tpl.c:32 ihtml/themes/default/login.tpl.c:35
 msgid "Directory"
-msgstr ""
+msgstr "Κατάλογος"
 
 #: ihtml/themes/default/recovery.tpl.c:41
 #: ihtml/themes/default/recovery.tpl.c:44
 msgid "New password repeated"
-msgstr ""
+msgstr "Επανάληψη νέου κωδικού"
 
 #: ihtml/themes/default/recovery.tpl.c:47
 msgid "Password strength"
-msgstr ""
+msgstr "Ισχύς κωδικού"
 
 #: ihtml/themes/default/recovery.tpl.c:50
 #: ihtml/themes/default/recovery.tpl.c:83
 msgid "Change"
-msgstr ""
+msgstr "Αλλαγή"
 
 #: ihtml/themes/default/recovery.tpl.c:53
 #: ihtml/themes/default/recovery.tpl.c:86
 msgid "Click here to change your password"
-msgstr ""
+msgstr "Κάντε κλικ εδώ για να αλλάξετε τον κωδικό σας"
 
 #: ihtml/themes/default/recovery.tpl.c:56
 #: ihtml/themes/default/recovery.tpl.c:59
 msgid "Success"
-msgstr ""
+msgstr "Επιτυχία"
 
 #: ihtml/themes/default/recovery.tpl.c:62
 msgid "Your password has been changed successfully."
-msgstr ""
+msgstr "Ο κωδικός σας άλλαξε με επιτυχία"
 
 #: ihtml/themes/default/recovery.tpl.c:65
 msgid ""
@@ -4652,7 +4655,7 @@ msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:80
 msgid "Mail"
-msgstr ""
+msgstr "Αλληλογραφία"
 
 #: ihtml/themes/default/recovery.tpl.c:89
 msgid ""
@@ -4669,82 +4672,82 @@ msgstr ""
 #: ihtml/themes/default/remove.tpl.c:8
 #: ihtml/themes/default/simple-remove.tpl.c:8
 msgid "So - if you're sure - press 'Delete' to continue or 'Cancel' to abort."
-msgstr ""
+msgstr "Αν είστε σίγουροι, πατήστε \"Διαγραφή\" για να συνεχίσετε ή \"Ακύρωση\" για να εγκαταλείψετε. "
 
 #: ihtml/themes/default/login.tpl.c:2
 msgid "Login screen"
-msgstr ""
+msgstr "Οθόνη σύνδεσης"
 
 #: ihtml/themes/default/login.tpl.c:5
 msgid ""
 "Please use your username and your password to log into the site "
 "administration system."
-msgstr ""
+msgstr "Εισαγωγή ονόματος χρήστη και κωδικού πρόσβασης για σύνδεση στο σύστημα διαχείρισης σελίδας"
 
 #: ihtml/themes/default/login.tpl.c:8 ihtml/themes/default/login.tpl.c:11
 #: ihtml/themes/default/login.tpl.c:14
 msgid "Username"
-msgstr ""
+msgstr "Όνομα χρήστη"
 
 #: ihtml/themes/default/login.tpl.c:26
 msgid "I forgot my password"
-msgstr ""
+msgstr "Ξεχάσατε τον κωδικό σας;"
 
 #: ihtml/themes/default/login.tpl.c:38 ihtml/themes/default/login.tpl.c:44
 msgid "Sign in"
-msgstr ""
+msgstr "Σύνδεση"
 
 #: ihtml/themes/default/login.tpl.c:41
 msgid "Click here to log in"
-msgstr ""
+msgstr "Πατήστε εδώ για να συνδεθείτε"
 
 #: ihtml/themes/default/acl.tpl.c:2
 msgid "Assigned ACL for current entry"
-msgstr ""
+msgstr "Εκχωρημένο ACL για την τρέχουσα εγγραφή"
 
 #: ihtml/themes/default/acl.tpl.c:5
 msgid "New ACL"
-msgstr ""
+msgstr "Νέο ACL"
 
 #: ihtml/themes/default/acl.tpl.c:8
 msgid "ACL type"
-msgstr ""
+msgstr "Τύπος ACL"
 
 #: ihtml/themes/default/acl.tpl.c:11 ihtml/themes/default/acl.tpl.c:14
 msgid "Select an acl type"
-msgstr ""
+msgstr "Επιλέξτε ένα τύπο acl"
 
 #: ihtml/themes/default/acl.tpl.c:17
 msgid "Additional filter options"
-msgstr ""
+msgstr "Πρόσθετες επιλογές φίλτρου"
 
 #: ihtml/themes/default/acl.tpl.c:20
 msgid "Use members from"
-msgstr ""
+msgstr "Χρήση μελών από"
 
 #: ihtml/themes/default/acl.tpl.c:23
 msgid "Available members"
-msgstr ""
+msgstr "Διαθέσιμα μέλη"
 
 #: ihtml/themes/default/acl.tpl.c:26 ihtml/themes/default/acl.tpl.c:29
 msgid "List message possible targets"
-msgstr ""
+msgstr "Λίστα πιθανών στόχων μηνυμάτων"
 
 #: ihtml/themes/default/acl.tpl.c:35 ihtml/themes/default/acl.tpl.c:38
 msgid "List message recipients"
-msgstr ""
+msgstr "Λίστα παραληπτών μηνυμάτων"
 
 #: ihtml/themes/default/acl.tpl.c:44
 msgid "ACL for this object"
-msgstr ""
+msgstr " ACL για αυτό το προϊόν."
 
 #: ihtml/themes/default/acl.tpl.c:47
 msgid "Available roles"
-msgstr ""
+msgstr "Διαθέσιμοι ρόλοι"
 
 #: ihtml/themes/default/simple-remove.tpl.c:2
 msgid "Warning: you are about to delete the following objects"
-msgstr ""
+msgstr "Προειδοποίηση: Πρόκειται να διαγραφούν τα παρακάτω αντικείμενο"
 
 #: ihtml/themes/default/simple-remove.tpl.c:5
 msgid ""
@@ -4754,7 +4757,7 @@ msgstr ""
 
 #: ihtml/themes/default/copyPasteDialog.tpl.c:2
 msgid "Copy & paste wizard"
-msgstr ""
+msgstr "Οδηγός αντιγραφής και επικόλλησης"
 
 #: ihtml/themes/default/copyPasteDialog.tpl.c:5
 msgid ""
@@ -4775,11 +4778,11 @@ msgstr ""
 
 #: ihtml/themes/default/copyPasteDialog.tpl.c:23
 msgid "Operation complete"
-msgstr ""
+msgstr "Η ενέργεια ολοκληρώθηκε"
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:2
 msgid "Restoring object snapshots"
-msgstr ""
+msgstr "Γίνεται ανάκτηση στιγμιοτύπου αντικειμένου"
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:5
 msgid ""
@@ -4802,7 +4805,7 @@ msgstr ""
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:17
 msgid "There is no snapshot available that could be restored"
-msgstr ""
+msgstr "Δεν υπάρχει διαθέσιμο στιγμιότυπο για ανάκτηση"
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:20
 msgid "Choose a snapshot and click the folder image, to restore the snapshot"
@@ -4810,7 +4813,7 @@ msgstr ""
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:26
 msgid "Creating object snapshots"
-msgstr ""
+msgstr "Δημιουργία νέου στιγμιότυπου αντικειμένου"
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:29
 msgid ""
@@ -4827,32 +4830,32 @@ msgstr ""
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:38
 msgid "Timestamp"
-msgstr ""
+msgstr "Χρονική ένδειξη"
 
 #: ihtml/themes/default/snapshotdialog.tpl.c:41
 msgid "Reason for generating this snapshot"
-msgstr ""
+msgstr "Αιτία για την δημιουργία αυτού του στιγμιοτύπου"
 
 #: ihtml/themes/default/msg_dialog.tpl.c:8
 msgid "Information"
-msgstr ""
+msgstr "Πληροφορίες"
 
 #: ihtml/themes/default/framework.tpl.c:2
 msgid "Main"
-msgstr ""
+msgstr "Κύριο"
 
 #: ihtml/themes/default/framework.tpl.c:5
 msgid "Sign out"
-msgstr ""
+msgstr "Αποσύνδεση"
 
 #: ihtml/themes/default/framework.tpl.c:8
 msgid "Signed in:"
-msgstr ""
+msgstr "Συνδεδεμένος σε:"
 
 #: ihtml/themes/default/framework.tpl.c:11
 #, c-format
 msgid "Session expires in %d!"
-msgstr ""
+msgstr "Η συνεδρία λήγει σε  %d!"
 
 #: setup/setup_migrate_baseOC.tpl.c:2
 msgid "Add required object classes to the LDAP base"
@@ -4861,20 +4864,20 @@ msgstr ""
 #: setup/setup_migrate_baseOC.tpl.c:5
 #: setup/setup_migrate_gosaAccounts.tpl.c:17
 msgid "Current"
-msgstr ""
+msgstr "Τρέχουσα"
 
 #: setup/setup_migrate_baseOC.tpl.c:8
 #: setup/setup_migrate_gosaAccounts.tpl.c:20
 msgid "After migration"
-msgstr ""
+msgstr "Ύστερα από την μετάβαση"
 
 #: setup/setup_migrate_baseOC.tpl.c:14
 msgid "Close"
-msgstr ""
+msgstr "Κλείσιμο"
 
 #: setup/setup_finish.tpl.c:2
 msgid "Create your configuration file"
-msgstr ""
+msgstr "Δημιοτυγήστε το δικό σας αρχείο ρυθμίσεων"
 
 #: setup/setup_finish.tpl.c:5
 msgid "Run %1 to put the correct right on fusiondirectory.conf"
@@ -4882,15 +4885,15 @@ msgstr ""
 
 #: setup/setup_finish.tpl.c:8
 msgid "Download configuration"
-msgstr ""
+msgstr "Λήψη ρύθμισης"
 
 #: setup/setup_finish.tpl.c:11
 msgid "Status: "
-msgstr ""
+msgstr "Κατάσταση:"
 
 #: setup/setup_migrate_adminAccount.tpl.c:2
 msgid "Create a new FusionDirectory administrator account"
-msgstr ""
+msgstr "Δημιουργία ενός νέου λογαριασμού διαχειριστή FusionDirectory"
 
 #: setup/setup_migrate_adminAccount.tpl.c:5
 msgid ""
@@ -4900,11 +4903,11 @@ msgstr ""
 
 #: setup/setup_migrate_adminAccount.tpl.c:11
 msgid "User ID"
-msgstr ""
+msgstr "Αναγνωριστικό χρήστη"
 
 #: setup/setup_migrate_adminAccount.tpl.c:17
 msgid "Password (again)"
-msgstr ""
+msgstr "Κωδικός (ξανά)"
 
 #: setup/setup_welcome.tpl.c:2
 msgid ""
@@ -4919,7 +4922,7 @@ msgstr ""
 
 #: setup/setup_welcome.tpl.c:8
 msgid "Create a basic, single site configuration"
-msgstr ""
+msgstr "Δημιουργία μιας βασικής ρύθμισης απλού site"
 
 #: setup/setup_welcome.tpl.c:11
 msgid "Tries to find problems within your PHP and LDAP setup"
@@ -4939,7 +4942,7 @@ msgstr ""
 
 #: setup/setup_welcome.tpl.c:23
 msgid "Find every possible configuration error"
-msgstr ""
+msgstr "Βρείτε κάθε πιθανό σφάλμα ρύθμισης"
 
 #: setup/setup_welcome.tpl.c:26
 msgid "Migrate every possible LDAP setup - create backup dumps!"
@@ -4947,7 +4950,7 @@ msgstr ""
 
 #: setup/setup_welcome.tpl.c:29
 msgid "To continue:"
-msgstr ""
+msgstr "Για συνέχεια:"
 
 #: setup/setup_welcome.tpl.c:32
 msgid ""
@@ -4958,7 +4961,7 @@ msgstr ""
 
 #: setup/setup_welcome.tpl.c:35
 msgid "Click the 'Next' button when you've finished."
-msgstr ""
+msgstr "Πατήστε το κουμπί 'Επόμενο' για να τελειώσετε."
 
 #: setup/setup_checks.tpl.c:11
 msgid "FusionDirectory will NOT run without fixing this."
@@ -4983,7 +4986,7 @@ msgstr ""
 
 #: setup/setup_migrate_gosaAccounts.tpl.c:8
 msgid "Move selected entries into this tree"
-msgstr ""
+msgstr "Μετακίνηση επιλεγμένων εγγραφών σε αυτό το δέντρο"
 
 #: setup/setup_migrate_gosaAccounts.tpl.c:11
 msgid ""
@@ -5000,7 +5003,7 @@ msgstr ""
 
 #: setup/setup_migrate_gosaAccounts.tpl.c:26
 msgid "Show changes"
-msgstr ""
+msgstr "Εμφάνιση αλλαγών"
 
 #: setup/setup_migrate.tpl.c:2
 msgid ""
@@ -5011,4 +5014,4 @@ msgstr ""
 
 #: setup/setup_migrate.tpl.c:5
 msgid "Check again"
-msgstr ""
+msgstr "Επανάληψη ελέγχου"

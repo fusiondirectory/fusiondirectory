@@ -96,7 +96,7 @@ class Step_Checks extends setupStep
     $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* Check for iconv */
-    $N = msgPool::checkingFor("inconv");
+    $N = msgPool::checkingFor("iconv");
     $D = _("FusionDirectory requires this module for the samba integration.");
     $S = msgPool::installPhpModule("iconv");
     $R = is_callable("iconv");

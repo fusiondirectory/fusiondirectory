@@ -50,48 +50,53 @@ class groupManagement extends simpleManagement
 
   static function filterProperties($row, $dn, $gosaGroupObjects = NULL)
   {
-    if (!empty($gosaGroupObjects)) {
-      return self::filterGroupObjects($row, $gosaGroupObjects);
-    }
     global $config;
     static $grouptabs = array();
-    if (empty($grouptabs)) {
-      foreach ($config->data['TABS']['GROUPTABS'] as $plug) {
-        if ($plug['CLASS'] == 'group') {
-          continue;
-        }
-        if (class_available($plug['CLASS'])) {
-          $name = $plug['CLASS'];
-
-          $grouptabs[$name] = new $name($config, $dn);
-        }
-      }
-    }
 
     // Load information if needed
     $ldap = $config->get_ldap_link();
     $ldap->cat($dn);
-    $result = "<input class='center' type='image' src='geticon.php?context=types&amp;icon=user-group&amp;size=16' ".
-                       "alt='"._('Posix')."' title='"._('Edit posix properties')."' ".
-                       "name='listing_edit_tab_group_$row' style='padding:1px'/>";
+    $result = '&nbsp;';
     if ($attrs = $ldap->fetch()) {
-      if (!objects::isOfType($attrs, 'group')) {
+      if (objects::isOfType($attrs, 'ogroup')) {
+        if (empty($gosaGroupObjects)) {
+          return $result;
+        } else {
+          return self::filterGroupObjects($row, $gosaGroupObjects);
+        }
+      }
+      if (objects::isOfType($attrs, 'role')) {
         return '<input class="center" type="image" src="geticon.php?context=types&amp;icon=role&amp;size=16" '.
                  'alt="'._('Role').'" title="'._('Edit role properties').'" '.
                  'name="listing_edit_'.$row.'" style="padding:1px"/>';
       }
+      if (empty($grouptabs)) {
+        foreach ($config->data['TABS']['GROUPTABS'] as $plug) {
+          if ($plug['CLASS'] == 'group') {
+            continue;
+          }
+          if (class_available($plug['CLASS'])) {
+            $name = $plug['CLASS'];
+
+            $grouptabs[$name] = new $name($config, $dn);
+          }
+        }
+      }
+      $result = '<input class="center" type="image" src="geticon.php?context=types&amp;icon=user-group&amp;size=16" '.
+                       'alt="'._('Posix').'" title="'._('Edit posix properties').'" '.
+                       'name="listing_edit_tab_group_'.$row.'" style="padding:1px"/>';
       foreach ($grouptabs as $class => $grouptab) {
         if ($grouptab->is_this_account($attrs)) {
           $infos = pluglist::pluginInfos($class);
           if (isset($infos['plSmallIcon'])) {
-            $result .= "<input class='center' type='image' src='".htmlentities($infos['plSmallIcon'], ENT_COMPAT, 'UTF-8')."' ".
-                       "alt='".$infos['plShortName']."' title='".$infos['plShortName']."' ".
-                       "name='listing_edit_tab_".$class."_$row' style='padding:1px'/>";
+            $result .= '<input class="center" type="image" src="'.htmlentities($infos['plSmallIcon'], ENT_COMPAT, 'UTF-8').'" '.
+                       'alt="'.$infos['plShortName'].'" title="'.$infos['plShortName'].'" '.
+                       'name="listing_edit_tab_'.$class.'_'.$row.'" style="padding:1px"/>';
           } else {
             @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['plShortName']." ($class)", 'No icon for');
           }
         } else {
-          $result .= "<img src='images/empty.png' alt=' ' class='center optional $class' style='padding:1px'>";
+          $result .= '<img src="images/empty.png" alt=" " class="center optional '.$class.'" style="padding:1px"/>';
         }
       }
     }
@@ -101,8 +106,8 @@ class groupManagement extends simpleManagement
 
   static function filterGroupObjects($row, $gosaGroupObjects)
   {
-    $types  = preg_replace("/[^a-z]/i", "", $gosaGroupObjects[0]);
-    $result = "";
+    $types  = preg_replace('/[^a-z]/i', '', $gosaGroupObjects[0]);
+    $result = '';
     for ($i = 0; $i < strlen($types); $i++) {
       if ($types[$i] == 'I') {
         continue;
@@ -111,7 +116,7 @@ class groupManagement extends simpleManagement
       $result .= '<img class="center" src="'.htmlentities($info['icon'], ENT_COMPAT, 'UTF-8').'" '.
         'alt="'.$info['name'].'" title="'.$info['name'].'" style="padding:1px"/>';
     }
-    if ($result == "") {
+    if ($result == '') {
       return '&nbsp;';
     }
     return $result;
@@ -123,12 +128,16 @@ class groupManagement extends simpleManagement
     $filters = array(
       array('id'  => 'USER',        'label'  => _('Show user groups')),
       array('id'  => 'PRIMARY',     'label'  => _('Show primary groups')),
-      array('id'  => 'SAMBA',       'label'  => _('Show samba groups')),
-      array('id'  => 'MAIL',        'label'  => _('Show mail groups')),
       array('id'  => 'ROLE',        'label'  => _('Show organizational roles')),
       array('id'  => 'APPLICATION', 'label'  => _('Show application groups')),
       array('id'  => 'DEPARTMENT',  'label'  => _('Show department groups')),
     );
+    if (class_available('mailAccount')) {
+      $filters[]= array('id'  => 'MAIL',        'label'  => _('Show mail groups'));
+    }
+    if (class_available('sambaAccount')) {
+      $filters[]= array('id'  => 'SAMBA',       'label'  => _('Show samba groups'));
+    }
     if (class_available('systemManagement')) {
       $filters = array_merge(
         $filters,

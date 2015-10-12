@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Penati <penati@avaya.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2015-09-11 22:07+0200\n"
-"PO-Revision-Date: 2015-09-11 09:58+0000\n"
-"Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
+"PO-Revision-Date: 2015-10-09 16:56+0000\n"
+"Last-Translator: Penati <penati@avaya.com>\n"
 "Language-Team: Italian (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,11 +39,11 @@ msgstr "Ruolo"
 
 #: plugins/admin/groups/class_roleGeneric.inc:32
 msgid "Role information"
-msgstr ""
+msgstr "Informazioni sul ruolo"
 
 #: plugins/admin/groups/class_roleGeneric.inc:36
 msgid "Organizational role"
-msgstr ""
+msgstr "Ruolo organizzativo"
 
 #: plugins/admin/groups/class_roleGeneric.inc:58
 msgid "Informations"
@@ -112,15 +113,15 @@ msgstr "Gruppo"
 
 #: plugins/admin/groups/class_group.inc:35
 msgid "POSIX group information"
-msgstr ""
+msgstr "Informazioni gruppo POSIX"
 
 #: plugins/admin/groups/class_group.inc:38
 msgid "POSIX group"
-msgstr ""
+msgstr "Gruppo POSIX"
 
 #: plugins/admin/groups/class_group.inc:39
 msgid "POSIX user group"
-msgstr ""
+msgstr "Gruppo utenti POSIX"
 
 #: plugins/admin/groups/class_group.inc:57
 #: plugins/admin/groups/class_ogroup.inc:181
@@ -135,12 +136,12 @@ msgstr "Proprietà"
 #: plugins/admin/groups/class_group.inc:61
 #: plugins/admin/groups/class_ogroup.inc:185
 msgid "Name of this group"
-msgstr ""
+msgstr "Nome del gruppo"
 
 #: plugins/admin/groups/class_group.inc:65
 #: plugins/admin/groups/class_ogroup.inc:189
 msgid "Short description of this group"
-msgstr ""
+msgstr "Breve descrizione del gruppo"
 
 #: plugins/admin/groups/class_group.inc:69
 msgid "Force GID"
@@ -148,7 +149,7 @@ msgstr "Forza il GID"
 
 #: plugins/admin/groups/class_group.inc:69
 msgid "Force GID value for this group"
-msgstr ""
+msgstr "Forzare il valore GID per questo gruppo"
 
 #: plugins/admin/groups/class_group.inc:73
 #: plugins/admin/groups/class_group.inc:148
@@ -158,7 +159,7 @@ msgstr "GID"
 
 #: plugins/admin/groups/class_group.inc:73
 msgid "GID value for this group"
-msgstr ""
+msgstr "Valore GID per questo gruppo"
 
 #: plugins/admin/groups/class_group.inc:80
 #: plugins/admin/groups/class_group.inc:83
@@ -206,7 +207,7 @@ msgstr "autorizza l'accesso a questi host"
 #: plugins/admin/groups/class_group.inc:101
 #: plugins/admin/groups/class_ogroup.inc:217
 msgid "Only allow this group to connect to this list of hosts"
-msgstr ""
+msgstr "Consenti all'utente di connettersi solo a questo elenco di host "
 
 #: plugins/admin/groups/class_group.inc:180
 #: plugins/personal/posix/class_posixAccount.inc:450 include/functions.inc:792
@@ -232,12 +233,12 @@ msgstr "Il tempo d'attesa per il blocco è scaduto. Blocco ignorato !"
 #: plugins/admin/groups/class_ogroup.inc:59
 #, php-format
 msgid "Unknown type : %s"
-msgstr ""
+msgstr "Tipo sconosciuto : %s"
 
 #: plugins/admin/groups/class_ogroup.inc:63
 #, php-format
 msgid "Non existing dn: %s"
-msgstr ""
+msgstr "Non esiste il dn: %s"
 
 #: plugins/admin/groups/class_ogroup.inc:149
 msgid "Object group"
@@ -245,7 +246,7 @@ msgstr "Gruppo di oggetti"
 
 #: plugins/admin/groups/class_ogroup.inc:150
 msgid "Object group information"
-msgstr ""
+msgstr "Informazioni gruppo di oggetti"
 
 #: plugins/admin/groups/class_ogroup.inc:196
 msgid "Member objects"
@@ -253,12 +254,12 @@ msgstr "Oggetti membri"
 
 #: plugins/admin/groups/class_ogroup.inc:199
 msgid "Objects member of this group"
-msgstr ""
+msgstr "Oggetti membro di questo gruppo"
 
 #: plugins/admin/groups/class_ogroup.inc:299
 msgid ""
 "Putting both workstations and terminals in the same group is not allowed"
-msgstr ""
+msgstr "Non é consentito mettre workstations e terminali nello stesso gruppo"
 
 #: plugins/admin/groups/group-list.xml:11
 msgid "List of groups"
@@ -308,11 +309,11 @@ msgstr "Elimina"
 #: plugins/admin/groups/class_groupManagement.inc:31
 #: plugins/personal/roles/class_userRoles.inc:31
 msgid "Groups and roles"
-msgstr ""
+msgstr "Gruppi e ruoli"
 
 #: plugins/admin/groups/class_groupManagement.inc:32
 msgid "Manage groups and roles"
-msgstr ""
+msgstr "Gestione dei gruppi e dei ruoli"
 
 #: plugins/admin/groups/class_groupManagement.inc:75
 msgid "Posix"
@@ -324,11 +325,11 @@ msgstr "Modifica le proprietà posix"
 
 #: plugins/admin/groups/class_groupManagement.inc:80
 msgid "Edit role properties"
-msgstr ""
+msgstr "Modifica le proprietà del ruolo"
 
 #: plugins/admin/groups/class_groupManagement.inc:124
 msgid "Show user groups"
-msgstr ""
+msgstr "Mostra i gruppi di utenti"
 
 #: plugins/admin/groups/class_groupManagement.inc:125
 #: include/select/groupSelect/group-filter.tpl.c:5
@@ -347,23 +348,23 @@ msgstr "Mostra i gruppi di posta elettronica"
 
 #: plugins/admin/groups/class_groupManagement.inc:128
 msgid "Show organizational roles"
-msgstr ""
+msgstr "Mostra i ruoli organizzativi"
 
 #: plugins/admin/groups/class_groupManagement.inc:129
 msgid "Show application groups"
-msgstr ""
+msgstr "Mostra i gruppi di applicazioni"
 
 #: plugins/admin/groups/class_groupManagement.inc:130
 msgid "Show department groups"
-msgstr ""
+msgstr "Mostra i gruppi di dipartimenti"
 
 #: plugins/admin/groups/class_groupManagement.inc:136
 msgid "Show server groups"
-msgstr ""
+msgstr "Mostra i gruppi di servers"
 
 #: plugins/admin/groups/class_groupManagement.inc:137
 msgid "Show workstation groups"
-msgstr ""
+msgstr "Mostra i gruppi di workstations"
 
 #: plugins/admin/groups/class_groupManagement.inc:138
 msgid "Show windows groups"
@@ -371,15 +372,15 @@ msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:139
 msgid "Show terminal groups"
-msgstr ""
+msgstr "Mostra i gruppi di terminali"
 
 #: plugins/admin/groups/class_groupManagement.inc:140
 msgid "Show printer groups"
-msgstr ""
+msgstr "Mostra i gruppi di stampanti"
 
 #: plugins/admin/groups/class_groupManagement.inc:141
 msgid "Show phone groups"
-msgstr ""
+msgstr "Mostra i gruppi di telefoni"
 
 #: plugins/admin/departments/class_dcObject.inc:30
 #: plugins/admin/departments/class_dcObject.inc:31
@@ -389,7 +390,7 @@ msgstr "Oggetto di Dominio"
 
 #: plugins/admin/departments/class_dcObject.inc:51
 msgid "domain component"
-msgstr ""
+msgstr "Oggetto di dominio"
 
 #: plugins/admin/departments/class_department.inc:34
 #: plugins/admin/departments/class_department.inc:40
@@ -411,17 +412,17 @@ msgstr "dipartimento"
 #: plugins/admin/departments/class_department.inc:68
 #, php-format
 msgid "Name of %s"
-msgstr ""
+msgstr "Nome dell' %s "
 
 #: plugins/admin/departments/class_department.inc:68
 #, php-format
 msgid "A name for this %s"
-msgstr ""
+msgstr "Nome unico per questo  %s "
 
 #: plugins/admin/departments/class_department.inc:72
 #, php-format
 msgid "Short description of this %s"
-msgstr ""
+msgstr "Breve descrizione di questo  %s "
 
 #: plugins/admin/departments/class_department.inc:76
 msgid "Category"
@@ -430,7 +431,7 @@ msgstr "Categoria"
 #: plugins/admin/departments/class_department.inc:76
 #, php-format
 msgid "Category of this %s"
-msgstr ""
+msgstr "Categoria di questo  %s "
 
 #: plugins/admin/departments/class_department.inc:80
 #: plugins/personal/generic/class_user.inc:402
@@ -440,7 +441,7 @@ msgstr "Manager"
 #: plugins/admin/departments/class_department.inc:80
 #, php-format
 msgid "Manager of this %s"
-msgstr ""
+msgstr "Responsabile di questo %s "
 
 #: plugins/admin/departments/class_department.inc:86
 #: plugins/admin/departments/class_department.inc:92
@@ -461,7 +462,7 @@ msgstr "Indirizzo"
 #: plugins/admin/departments/class_department.inc:95
 #, php-format
 msgid "A postal address for this %s"
-msgstr ""
+msgstr "Indirizzo postale di questo %s "
 
 #: plugins/admin/departments/class_department.inc:99
 #: plugins/personal/generic/class_user.inc:316
@@ -479,7 +480,7 @@ msgstr "Fax"
 
 #: plugins/admin/departments/class_department.inc:103
 msgid "Facsimile telephone number"
-msgstr ""
+msgstr "Facsimile di numero di telefono"
 
 #: plugins/admin/departments/class_departmentManagement.inc:35
 msgid "Manage departments"
@@ -497,7 +498,7 @@ msgstr "Nome della località"
 
 #: plugins/admin/departments/class_locality.inc:51
 msgid "locality"
-msgstr ""
+msgstr "Località"
 
 #: plugins/admin/departments/class_country.inc:29
 #: plugins/admin/departments/class_country.inc:30
@@ -507,7 +508,7 @@ msgstr "Stato"
 
 #: plugins/admin/departments/class_country.inc:50
 msgid "country"
-msgstr ""
+msgstr "Paese"
 
 #: plugins/admin/departments/class_domain.inc:30
 #: plugins/admin/departments/class_domain.inc:31
@@ -517,7 +518,7 @@ msgstr "Dominio"
 
 #: plugins/admin/departments/class_domain.inc:51
 msgid "domain"
-msgstr ""
+msgstr "Dominio"
 
 #: plugins/admin/departments/dep-list.xml:9
 msgid "List of departments"
@@ -532,7 +533,7 @@ msgstr "Organizzazione"
 
 #: plugins/admin/departments/class_organization.inc:51
 msgid "organization"
-msgstr ""
+msgstr "Organizzazione"
 
 #: plugins/admin/users/user-list.xml:11
 msgid "List of users"
@@ -562,7 +563,7 @@ msgstr "Utente"
 #: plugins/admin/users/user-list.xml:86
 #: include/simpleplugin/class_simpleManagement.inc:217
 msgid "From template"
-msgstr ""
+msgstr "Modello"
 
 #: plugins/admin/users/user-list.xml:93
 #: include/simpleplugin/class_simpleManagement.inc:211
@@ -637,12 +638,12 @@ msgstr "Blocca l'account"
 #: plugins/admin/users/class_userManagement.inc:224
 #: plugins/personal/generic/class_user.inc:249
 msgid "User account"
-msgstr ""
+msgstr "Account utente"
 
 #: plugins/admin/users/class_userManagement.inc:224
 #: plugins/personal/generic/class_user.inc:243
 msgid "User account information"
-msgstr ""
+msgstr "Informazioni account utente"
 
 #: plugins/admin/aclrole/class_aclRoleManagement.inc:34
 #: include/class_acl.inc:300
@@ -651,7 +652,7 @@ msgstr "Ruoli ACL"
 
 #: plugins/admin/aclrole/class_aclRoleManagement.inc:35
 msgid "ACL roles management"
-msgstr ""
+msgstr "Gestione dei ruoli ACL"
 
 #: plugins/admin/aclrole/class_aclRole.inc:68
 #, php-format
@@ -668,19 +669,19 @@ msgstr "Ruolo ACL"
 
 #: plugins/admin/aclrole/class_aclRole.inc:131
 msgid "A name for this role"
-msgstr ""
+msgstr "Nome unico per questo ruolo"
 
 #: plugins/admin/aclrole/class_aclRole.inc:135
 msgid "Short description of this role"
-msgstr ""
+msgstr "Breve descrizione di questo ruolo"
 
 #: plugins/admin/aclrole/class_aclRole.inc:141
 msgid "ACLs"
-msgstr ""
+msgstr "ACL"
 
 #: plugins/admin/aclrole/class_aclRole.inc:145
 msgid "ACLs which are part of this group"
-msgstr ""
+msgstr "ACL appartenenti a questo gruppo"
 
 #: plugins/admin/aclrole/class_aclRole.inc:308
 msgid "No ACL settings for this category"
@@ -709,7 +710,7 @@ msgstr "Resetta la categoria di ACL"
 #: plugins/admin/aclrole/class_aclRole.inc:331
 #, php-format
 msgid "Edit ACL for '%s'"
-msgstr ""
+msgstr "Modifica ACL per '%s'"
 
 #: plugins/admin/aclrole/class_aclRole.inc:342
 msgid "All objects in current subtree"
@@ -759,7 +760,7 @@ msgstr "L'oggetto al completo"
 
 #: plugins/admin/acl/class_aclManagement.inc:38
 msgid "ACL assignments"
-msgstr ""
+msgstr "Assegnazioni ACL"
 
 #: plugins/admin/acl/class_aclManagement.inc:39
 msgid "Access control list management"
@@ -772,7 +773,7 @@ msgstr "Gestione delle ACL"
 
 #: plugins/admin/acl/class_aclAssignment.inc:28
 msgid "Acl Assignment Dialog"
-msgstr ""
+msgstr "Assegnazioni del dialog ACL"
 
 #: plugins/admin/acl/class_aclAssignment.inc:29
 msgid "Access control roles assignment dialog"
@@ -792,19 +793,19 @@ msgstr ""
 
 #: plugins/admin/acl/class_aclAssignment.inc:46
 msgid "Base only"
-msgstr ""
+msgstr "Base"
 
 #: plugins/admin/acl/class_aclAssignment.inc:49
 msgid "Role to apply"
-msgstr ""
+msgstr "Ruolo da applicare"
 
 #: plugins/admin/acl/class_aclAssignment.inc:54
 msgid "For all users"
-msgstr ""
+msgstr "Per tutti gli utenti"
 
 #: plugins/admin/acl/class_aclAssignment.inc:54
 msgid "Apply this ACL for all LDAP users"
-msgstr ""
+msgstr "Applica questo ACL a tutti gli utenti LDAP"
 
 #: plugins/admin/acl/class_aclAssignment.inc:58
 #: ihtml/themes/default/acl.tpl.c:32
@@ -813,11 +814,11 @@ msgstr "Membri"
 
 #: plugins/admin/acl/class_aclAssignment.inc:58
 msgid "Users or groups to assign this role to."
-msgstr ""
+msgstr "Utenti o gruppi a cui assegnare questo ruolo"
 
 #: plugins/admin/acl/class_aclAssignment.inc:249
 msgid "ACL assignment"
-msgstr ""
+msgstr "Assegnazioni ACL"
 
 #: plugins/admin/acl/class_aclAssignment.inc:264
 msgid "Access control roles assignment"
@@ -825,7 +826,7 @@ msgstr ""
 
 #: plugins/admin/acl/class_aclAssignment.inc:283
 msgid "Assignments"
-msgstr ""
+msgstr "Assegnazioni"
 
 #: plugins/admin/acl/class_aclAssignment.inc:287
 msgid "ACL role assignments for this base"
@@ -860,11 +861,11 @@ msgstr "Statistiche sugli utenti"
 
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:41
 msgid "Users statistics"
-msgstr ""
+msgstr "Statistiche utenti"
 
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:46
 msgid "Groups statistics"
-msgstr ""
+msgstr "Gruppi di statistiche"
 
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:51
 #: plugins/addons/dashboard/users_accounts.tpl.c:8
@@ -891,11 +892,11 @@ msgstr "Password"
 
 #: plugins/personal/generic/class_user.inc:51
 msgid "Password (Leave empty if you do not wish to change it)"
-msgstr ""
+msgstr "Password (lasciare vuoto se non si desidera cambiarla)"
 
 #: plugins/personal/generic/class_user.inc:55
 msgid "Password again"
-msgstr ""
+msgstr "Ripeti password"
 
 #: plugins/personal/generic/class_user.inc:55
 msgid "Same password as above, to avoid errors"
@@ -912,7 +913,7 @@ msgstr "Cognome"
 
 #: plugins/personal/generic/class_user.inc:275
 msgid "Last name of this user"
-msgstr ""
+msgstr "Cognome utente"
 
 #: plugins/personal/generic/class_user.inc:280
 #: plugins/personal/generic/paste_generic.tpl.c:8
@@ -921,19 +922,19 @@ msgstr "Nome"
 
 #: plugins/personal/generic/class_user.inc:280
 msgid "First name of this user"
-msgstr ""
+msgstr "Nme utente"
 
 #: plugins/personal/generic/class_user.inc:285
 msgid "Short description of the user"
-msgstr ""
+msgstr "Breve descrizione dell'utente"
 
 #: plugins/personal/generic/class_user.inc:289
 msgid "Picture"
-msgstr ""
+msgstr "Foto"
 
 #: plugins/personal/generic/class_user.inc:289
 msgid "The avatar for this user"
-msgstr ""
+msgstr "Avatar di questo utente"
 
 #: plugins/personal/generic/class_user.inc:296
 msgid "Organizational contact information"
@@ -941,7 +942,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:308
 msgid "Business postal address"
-msgstr ""
+msgstr "Indirizzo postale ufficio"
 
 #: plugins/personal/generic/class_user.inc:312
 msgid "Room No."
@@ -953,7 +954,7 @@ msgstr "Numero dell'ufficio"
 
 #: plugins/personal/generic/class_user.inc:316
 msgid "Business phone number"
-msgstr ""
+msgstr "Telefono ufficio"
 
 #: plugins/personal/generic/class_user.inc:320
 msgid "Mobile"
@@ -961,7 +962,7 @@ msgstr "Cellulare"
 
 #: plugins/personal/generic/class_user.inc:320
 msgid "Business mobile number"
-msgstr ""
+msgstr "Telefono cellulare professionale"
 
 #: plugins/personal/generic/class_user.inc:324
 msgid "Pager"
@@ -973,15 +974,15 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:328
 msgid "Business fax number"
-msgstr ""
+msgstr "Numero fax ufficio"
 
 #: plugins/personal/generic/class_user.inc:334
 msgid "Account information"
-msgstr ""
+msgstr "Informazioni account utente"
 
 #: plugins/personal/generic/class_user.inc:339
 msgid "Login of this user"
-msgstr ""
+msgstr "Login utente"
 
 #: plugins/personal/generic/class_user.inc:343
 #: setup/class_setupStep_Language.inc:30
@@ -990,15 +991,15 @@ msgstr "Lingua preferita"
 
 #: plugins/personal/generic/class_user.inc:348
 msgid "Password of the user"
-msgstr ""
+msgstr "Password dell'utente"
 
 #: plugins/personal/generic/class_user.inc:354
 msgid "Personal contact information"
-msgstr ""
+msgstr "Informazioni personali utente"
 
 #: plugins/personal/generic/class_user.inc:358
 msgid "Home address"
-msgstr ""
+msgstr "Indirizzo di casa"
 
 #: plugins/personal/generic/class_user.inc:358
 msgid "Home postal address"
@@ -1061,7 +1062,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:563
 msgid "You are not allowed to change your own password"
-msgstr ""
+msgstr "Non le é permesso cambiare la propria password"
 
 #: plugins/personal/generic/class_user.inc:573
 #, php-format
@@ -3372,19 +3373,19 @@ msgstr "B"
 
 #: include/simpleplugin/class_helpersAttribute.inc:271
 msgid "KiB"
-msgstr ""
+msgstr "KiB"
 
 #: include/simpleplugin/class_helpersAttribute.inc:272
 msgid "MiB"
-msgstr ""
+msgstr "MiB"
 
 #: include/simpleplugin/class_helpersAttribute.inc:273
 msgid "GiB"
-msgstr ""
+msgstr "GiB"
 
 #: include/simpleplugin/class_helpersAttribute.inc:274
 msgid "TiB"
-msgstr ""
+msgstr "TiB"
 
 #: include/simpleplugin/class_helpersAttribute.inc:285
 msgid "seconds"
@@ -3464,7 +3465,7 @@ msgstr "Il file non puó essere letto"
 #: include/simpleplugin/class_attribute.inc:1514
 #, php-format
 msgid "%s (%d bytes)"
-msgstr ""
+msgstr "%s (%d bytes)"
 
 #: include/simpleplugin/class_attribute.inc:1561
 #: include/simpleplugin/class_attribute.inc:1738
@@ -3494,7 +3495,7 @@ msgstr "Base dell'oggetto"
 #: include/simpleplugin/class_attribute.inc:2684
 #, php-format
 msgid "Invalid value for %s"
-msgstr ""
+msgstr "Valore non valido per %s"
 
 #: include/simpleplugin/simple-list.xml:11
 msgid "NO LABEL"
@@ -4482,8 +4483,8 @@ msgstr ""
 #: plugins/addons/dashboard/users_stats.tpl.c:11
 msgid "One of them is locked"
 msgid_plural "%1 of them are locked"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "L'1% di essi sono bloccati"
+msgstr[1] "L'1% di essi sono bloccati"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:14
 msgid "None of them is locked"
@@ -4544,7 +4545,7 @@ msgstr "Solo lettura"
 
 #: ihtml/themes/default/template.tpl.c:2
 msgid "Creating a new object using templates"
-msgstr ""
+msgstr "Crea un nuovo oggetto usando i modelli"
 
 #: ihtml/themes/default/template.tpl.c:8
 #: ihtml/themes/default/snapshotdialog.tpl.c:44
@@ -4744,7 +4745,7 @@ msgstr "Ruoli disponibili"
 
 #: ihtml/themes/default/simple-remove.tpl.c:2
 msgid "Warning: you are about to delete the following objects"
-msgstr ""
+msgstr "Attenzione! Stai per cancellare i seguenti oggetti"
 
 #: ihtml/themes/default/simple-remove.tpl.c:5
 msgid ""
@@ -4947,7 +4948,7 @@ msgstr "Migra ogni possibile configurazione LDAP - fai delle copie !"
 
 #: setup/setup_welcome.tpl.c:29
 msgid "To continue:"
-msgstr ""
+msgstr "Per continuare:"
 
 #: setup/setup_welcome.tpl.c:32
 msgid ""
@@ -4983,7 +4984,7 @@ msgstr ""
 
 #: setup/setup_migrate_gosaAccounts.tpl.c:8
 msgid "Move selected entries into this tree"
-msgstr ""
+msgstr "Sposta gli utenti selezionati in questo ramo"
 
 #: setup/setup_migrate_gosaAccounts.tpl.c:11
 msgid ""

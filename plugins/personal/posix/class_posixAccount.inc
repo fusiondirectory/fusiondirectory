@@ -68,7 +68,33 @@ class EpochDaysDateAttribute extends DateAttribute
 class posixAccount extends simplePlugin
 {
   var $displayHeader = TRUE;
-  var $objectclasses = array("posixAccount", "shadowAccount");
+  var $objectclasses = array('posixAccount', 'shadowAccount');
+
+  static function plInfo()
+  {
+    return array(
+      'plShortName'   => _('Unix'),
+      'plDescription' => _('Edit users POSIX settings'),
+      'plIcon'        => 'geticon.php?context=applications&icon=os-linux&size=48',
+      'plSmallIcon'   => 'geticon.php?context=applications&icon=os-linux&size=16',
+      'plSelfModify'  => TRUE,
+      'plPriority'    => 2,
+      'plObjectType'  => array('user'),
+      'plForeignKeys' => array(
+        'gidNumber' => array(
+          array('group','gidNumber'),
+          array('mixedGroup','gidNumber'),
+        ),
+        'host'      => array(
+          array('serverGeneric', 'cn'),
+          array('workstationGeneric', 'cn'),
+          array('terminalGeneric', 'cn'),
+        )
+      ),
+
+      'plProvidedAcls'  => parent::generatePlProvidedAcls(self::getAttributesInfo())
+    );
+  }
 
   // The main function : information about attributes
   static function getAttributesInfo ()
@@ -175,24 +201,6 @@ class posixAccount extends simplePlugin
           )
         )
       )
-    );
-  }
-
-  static function plInfo()
-  {
-    return array(
-      'plShortName'   => _('Unix'),
-      'plDescription' => _('Edit users POSIX settings'),
-      'plIcon'        => 'geticon.php?context=applications&icon=os-linux&size=48',
-      'plSmallIcon'   => 'geticon.php?context=applications&icon=os-linux&size=16',
-      'plSelfModify'  => TRUE,
-      'plPriority'    => 2,
-      'plObjectType'  => array('user'),
-      'plForeignKeys' => array(
-        'gidNumber' => array('group','gidNumber')
-      ),
-
-      'plProvidedAcls'  => parent::generatePlProvidedAcls(self::getAttributesInfo())
     );
   }
 

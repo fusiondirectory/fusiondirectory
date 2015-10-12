@@ -41,7 +41,7 @@ class ObjectsAttribute extends GenericDialogAttribute
           if (objects::isOfType($attrs, $objectType)) {
             $infos = objects::infos($objectType);
             $this->types[$i]    = $code;
-            $this->displays[$i] = $attrs[$infos['mainAttr']][0];
+            $this->displays[$i] = $attrs[$infos['nameAttr']][0];
             if (isset($attrs['description'][0])) {
               $this->displays[$i] .= ' ['.$attrs['description'][0].']';
             } elseif (isset($attrs['uid'][0])) {
@@ -154,7 +154,7 @@ class ogroup extends simplePlugin
         'name'        => _('Group'),
         'description' => _('Group'),
         'ou'          => get_ou('ogroupRDN'),
-        'filter'      => 'objectClass=gosaGroupOfNames',
+        'filter'      => 'objectClass=groupOfNames',
         'icon'        => 'geticon.php?context=types&icon=resource-group&size=16',
         'tabClass'    => 'ogrouptabs',
       )),
@@ -183,9 +183,10 @@ class ogroup extends simplePlugin
         'name'  => _('Properties'),
         'attrs' => array(
           new BaseSelectorAttribute(get_ou('ogroupRDN')),
-          new HostNameAttribute(
+          new StringAttribute(
             _('Name'), _('Name of this group'),
-            'cn', TRUE
+            'cn', TRUE,
+            '', '', (strict_uid_mode() ? '/^[a-z0-9_-]+$/' : '/^[a-z0-9_.-]+$/')
           ),
           new TextAreaAttribute(
             _('Description'), _('Short description of this group'),
@@ -269,6 +270,21 @@ class ogroup extends simplePlugin
   function compute_dn()
   {
     return 'cn='.$this->attributesAccess['cn']->getValue().','.get_ou('ogroupRDN').$this->base;
+  }
+
+  /*! \brief This function returns an LDAP filter for this plugin object classes
+   */
+  function getObjectClassFilter ()
+  {
+    return '(objectClass=groupOfNames)';
+  }
+
+  function is_this_account($attrs)
+  {
+    $this->objectclasses  = array('groupOfNames');
+    $found = parent::is_this_account($attrs);
+    $this->objectclasses  = array('groupOfNames', 'gosaGroupOfNames');
+    return $found;
   }
 
   function prepare_save()

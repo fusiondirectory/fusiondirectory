@@ -55,7 +55,8 @@
     <tag>FUNCTIONAL</tag>
     <default>true</default>
     <unset></unset>
-    <set>(!(|(objectClass=posixAccount)(objectClass=sambaSamAccount)(objectClass=gosaMailAccount)))</set>
+    <!-- The set tag content is defined in userManagement::configureFilter -->
+    <set>UNSET</set>
   </element>
 
   <element>

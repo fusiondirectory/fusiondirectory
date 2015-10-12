@@ -57,9 +57,10 @@ class group extends simplePlugin
         'name'  => _('Properties'),
         'attrs' => array(
           new BaseSelectorAttribute(get_ou('groupRDN')),
-          new HostNameAttribute(
+          new StringAttribute(
             _('Name'), _('Name of this group'),
-            'cn', TRUE
+            'cn', TRUE,
+            '', '', (strict_uid_mode() ? '/^[a-z0-9_-]+$/' : '/^[a-z0-9_.-]+$/')
           ),
           new TextAreaAttribute(
             _('Description'), _('Short description of this group'),
