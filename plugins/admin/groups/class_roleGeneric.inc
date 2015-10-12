@@ -60,7 +60,7 @@ class roleGeneric extends simplePlugin
           new StringAttribute(
             _('Name'), _('Name of this group'),
             'cn', TRUE,
-            '', '', (strict_uid_mode() ? '/^[a-z0-9_-]+$/' : '/^[a-z0-9_.-]+$/')
+            '', '', (strict_uid_mode() ? '/^[a-z0-9_-]+$/i' : '/^[a-z0-9_.-]+$/i')
           ),
           new StringAttribute (
             _('Description'), _('Description of the role'),
