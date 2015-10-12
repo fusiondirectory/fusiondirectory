@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2015-09-11 22:07+0200\n"
-"PO-Revision-Date: 2015-10-10 05:58+0000\n"
+"PO-Revision-Date: 2015-10-12 12:27+0000\n"
 "Last-Translator: Konstantinos Nikolou <kniko@kniko.net>\n"
 "Language-Team: Greek (Greece) (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/el_GR/)\n"
 "MIME-Version: 1.0\n"
@@ -1240,7 +1240,7 @@ msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:173
 msgid "Only allow this user to connect to this list of hosts"
-msgstr ""
+msgstr "Επιτρέπεται σ'αυτόν τον χρήστη να συνδέεται στην ακόλουθη λίστα διακομιστών"
 
 #: plugins/personal/posix/class_posixAccount.inc:185
 msgid "Edit users POSIX settings"
