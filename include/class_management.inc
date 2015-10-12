@@ -245,7 +245,7 @@ class management
       return "";
     }
 
-    if (in_array_ics('plInfo', get_class_methods(get_class($this))) {
+    if (in_array_ics('plInfo', get_class_methods(get_class($this)))) {
       $plInfos  = pluglist::pluginInfos(get_class($this));
       $plTitle  = $plInfos['plTitle'];
       $plIcon   = $plInfos['plIcon'];
