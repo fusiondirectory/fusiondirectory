@@ -50,40 +50,41 @@ class groupManagement extends simpleManagement
 
   static function filterProperties($row, $dn, $gosaGroupObjects = NULL)
   {
-    if (objects::isOfType($attrs, 'ogroup')) {
-      if (empty($gosaGroupObjects)) {
-        return '&nbsp;';
-      } else {
-        return self::filterGroupObjects($row, $gosaGroupObjects);
-      }
-    }
     global $config;
     static $grouptabs = array();
-    if (empty($grouptabs)) {
-      foreach ($config->data['TABS']['GROUPTABS'] as $plug) {
-        if ($plug['CLASS'] == 'group') {
-          continue;
-        }
-        if (class_available($plug['CLASS'])) {
-          $name = $plug['CLASS'];
-
-          $grouptabs[$name] = new $name($config, $dn);
-        }
-      }
-    }
 
     // Load information if needed
     $ldap = $config->get_ldap_link();
     $ldap->cat($dn);
-    $result = '<input class="center" type="image" src="geticon.php?context=types&amp;icon=user-group&amp;size=16" '.
-                       'alt="'._('Posix').'" title="'._('Edit posix properties').'" '.
-                       'name="listing_edit_tab_group_'.$row.'" style="padding:1px"/>';
+    $result = '&nbsp;';
     if ($attrs = $ldap->fetch()) {
+      if (objects::isOfType($attrs, 'ogroup')) {
+        if (empty($gosaGroupObjects)) {
+          return $result;
+        } else {
+          return self::filterGroupObjects($row, $gosaGroupObjects);
+        }
+      }
       if (objects::isOfType($attrs, 'role')) {
         return '<input class="center" type="image" src="geticon.php?context=types&amp;icon=role&amp;size=16" '.
                  'alt="'._('Role').'" title="'._('Edit role properties').'" '.
                  'name="listing_edit_'.$row.'" style="padding:1px"/>';
       }
+      if (empty($grouptabs)) {
+        foreach ($config->data['TABS']['GROUPTABS'] as $plug) {
+          if ($plug['CLASS'] == 'group') {
+            continue;
+          }
+          if (class_available($plug['CLASS'])) {
+            $name = $plug['CLASS'];
+
+            $grouptabs[$name] = new $name($config, $dn);
+          }
+        }
+      }
+      $result = '<input class="center" type="image" src="geticon.php?context=types&amp;icon=user-group&amp;size=16" '.
+                       'alt="'._('Posix').'" title="'._('Edit posix properties').'" '.
+                       'name="listing_edit_tab_group_'.$row.'" style="padding:1px"/>';
       foreach ($grouptabs as $class => $grouptab) {
         if ($grouptab->is_this_account($attrs)) {
           $infos = pluglist::pluginInfos($class);
@@ -95,7 +96,7 @@ class groupManagement extends simpleManagement
             @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['plShortName']." ($class)", 'No icon for');
           }
         } else {
-          $result .= "<img src='images/empty.png' alt=' ' class='center optional $class' style='padding:1px'>";
+          $result .= '<img src="images/empty.png" alt=" " class="center optional '.$class.'" style="padding:1px"/>';
         }
       }
     }
