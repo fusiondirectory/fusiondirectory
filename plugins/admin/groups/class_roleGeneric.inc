@@ -56,15 +56,16 @@ class roleGeneric extends simplePlugin
       'section1' => array(
         'name'  => _('Informations'),
         'attrs' => array(
-          new StringAttribute (
-            _('Name'), _('Name of the role'),
-            'cn', TRUE
+          new BaseSelectorAttribute (get_ou('roleRDN')),
+          new StringAttribute(
+            _('Name'), _('Name of this group'),
+            'cn', TRUE,
+            '', '', (strict_uid_mode() ? '/^[a-z0-9_-]+$/' : '/^[a-z0-9_.-]+$/')
           ),
           new StringAttribute (
             _('Description'), _('Description of the role'),
             'description'
           ),
-          new BaseSelectorAttribute (get_ou('roleRDN')),
           new StringAttribute (
             _('Phone number'), _('Phone number'),
             'telephoneNumber'
