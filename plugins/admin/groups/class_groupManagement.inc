@@ -51,8 +51,12 @@ class groupManagement extends simpleManagement
 
   static function filterProperties($row, $dn, $gosaGroupObjects = NULL)
   {
-    if (!empty($gosaGroupObjects)) {
-      return self::filterGroupObjects($row, $gosaGroupObjects);
+    if (objects::isOfType($attrs, 'ogroup')) {
+      if (empty($gosaGroupObjects)) {
+        return '&nbsp;';
+      } else {
+        return self::filterGroupObjects($row, $gosaGroupObjects);
+      }
     }
     global $config;
     static $grouptabs = array();
@@ -72,9 +76,9 @@ class groupManagement extends simpleManagement
     // Load information if needed
     $ldap = $config->get_ldap_link();
     $ldap->cat($dn);
-    $result = "<input class='center' type='image' src='geticon.php?context=types&amp;icon=user-group&amp;size=16' ".
-                       "alt='"._('Posix')."' title='"._('Edit posix properties')."' ".
-                       "name='listing_edit_tab_group_$row' style='padding:1px'/>";
+    $result = '<input class="center" type="image" src="geticon.php?context=types&amp;icon=user-group&amp;size=16" '.
+                       'alt="'._('Posix').'" title="'._('Edit posix properties').'" '.
+                       'name="listing_edit_tab_group_'.$row.'" style="padding:1px"/>';
     if ($attrs = $ldap->fetch()) {
       if (objects::isOfType($attrs, 'role')) {
         return '<input class="center" type="image" src="geticon.php?context=types&amp;icon=role&amp;size=16" '.
@@ -102,8 +106,8 @@ class groupManagement extends simpleManagement
 
   static function filterGroupObjects($row, $gosaGroupObjects)
   {
-    $types  = preg_replace("/[^a-z]/i", "", $gosaGroupObjects[0]);
-    $result = "";
+    $types  = preg_replace('/[^a-z]/i', '', $gosaGroupObjects[0]);
+    $result = '';
     for ($i = 0; $i < strlen($types); $i++) {
       if ($types[$i] == 'I') {
         continue;
@@ -112,7 +116,7 @@ class groupManagement extends simpleManagement
       $result .= '<img class="center" src="'.htmlentities($info['icon'], ENT_COMPAT, 'UTF-8').'" '.
         'alt="'.$info['name'].'" title="'.$info['name'].'" style="padding:1px"/>';
     }
-    if ($result == "") {
+    if ($result == '') {
       return '&nbsp;';
     }
     return $result;
