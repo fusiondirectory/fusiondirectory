@@ -467,17 +467,23 @@ class Attribute
       }
       $filter = '(&'.$filter.implode($filters).')';
       $ldap->search($filter, array($this->getLdapName()));
-      $branches = array_map(
-        function ($key, $ot)
-        {
-          if (!is_numeric($key)) {
-            $ot = $key;
-          }
-          $oinfos = objects::infos($ot);
-          return $oinfos['ou'];
-        },
-        array_keys($infos['plObjectType']),
-        array_values($infos['plObjectType'])
+      $branches = array_filter(
+        array_map(
+          function ($key, $ot)
+          {
+            if (!is_numeric($key)) {
+              $ot = $key;
+            }
+            try {
+              $oinfos = objects::infos($ot);
+              return $oinfos['ou'];
+            } catch (NonExistingObjectTypeException $e) {
+              return FALSE;
+            }
+          },
+          array_keys($infos['plObjectType']),
+          array_values($infos['plObjectType'])
+        )
       );
       while ($attrs = $ldap->fetch()) {
         if ($attrs['dn'] != $this->plugin->dn) {
