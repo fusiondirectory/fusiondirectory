@@ -279,6 +279,14 @@ class ogroup extends simplePlugin
     return '(objectClass=groupOfNames)';
   }
 
+  function is_this_account($attrs)
+  {
+    $this->objectclasses  = array('groupOfNames');
+    $found = parent::is_this_account($attrs);
+    $this->objectclasses  = array('groupOfNames', 'gosaGroupOfNames');
+    return $found;
+  }
+
   function prepare_save()
   {
     $this->reload();
