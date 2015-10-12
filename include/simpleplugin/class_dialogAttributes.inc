@@ -579,9 +579,9 @@ class DialogButtonAttribute extends ButtonAttribute
 {
   protected $dialogClass  = NULL;
 
-  function __construct ($label, $description, $ldapName, $required, $dialogClass, $buttonText, $defaultValue = "", $acl = "")
+  function __construct ($label, $description, $ldapName, $buttonText, $dialogClass, $defaultValue = '', $acl = '')
   {
-    parent::__construct($label, $description, $ldapName, $required, $buttonText, $defaultValue, $acl);
+    parent::__construct($label, $description, $ldapName, $buttonText, NULL, $defaultValue, $acl);
     $this->dialogClass  = $dialogClass;
   }
 
@@ -597,7 +597,8 @@ class UserAttribute extends DialogButtonAttribute
 {
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "")
   {
-    parent::__construct($label, $description, $ldapName, $required, 'SingleUserSelectDialog', '', $defaultValue, $acl);
+    parent::__construct($label, $description, $ldapName, '', 'SingleUserSelectDialog', $defaultValue, $acl);
+    $this->setRequired($required);
   }
 
   function handleDialogResult ($dn, $attrs)
