@@ -74,7 +74,15 @@ class userRoles extends simplePlugin
     $this->ignore_account = FALSE;
 
     /* Groups handling */
-    $groups    = objects::ls('ogroup');
+    $groups      = array();
+    $groupsattrs = objects::ls('ogroup', array('cn' => 1,  'description' => 1));
+    foreach($groupsattrs as $dn => $groupattr) {
+      $groupDisplay = $groupattr['cn'];
+      if(isset($groupattr['description'])) {
+        $groupDisplay .= ' ['.$groupattr['description'].']';
+      }
+      $groups[$dn] = $groupDisplay;
+    }
     $this->attributesAccess['groupsMembership']->setInLdap(FALSE);
     $this->attributesAccess['groupsMembership']->attribute->setChoices(array_keys($groups), array_values($groups));
     if ($this->is_template) {
