@@ -1,6 +1,30 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.9.1
+
+[Feature] Bugs #4136: we should remove the samba.schema from our contrib directory in core source
+[Fix] Bugs #4158: Fatal error after role creation
+[Fix] Bugs #4168: Underscores in group names not allowed anymore
+[Fix] Bugs #4169: Uncaught exception 'NonExistingObjectTypeException' with message 'Non-existing type "group"
+[Fix] Bugs #4172: Filter for ogroups should be on groupOfNames
+[Fix] Bugs #4173: When mixed group plugin is installed group and ogroup tabs should be merged
+[Fix] Bugs #4179: st field seems to be reading correctling but not setting correctly in a template
+[Fix] Bugs #4183: option host-name with winstations results in error
+[Fix] Bugs #4184: We missed a foreignkey in system trust in unix tab for user
+[Fix] Bugs #4185: The configuration is lost after upgrading to 1.0.9.1
+[Fix] Bugs #4190: fusiondirectory-setup should be improved
+[Fix] Bugs #4191: Error in the fusiondirectory-setup
+[Fix] Bugs #4193: Remove gosaAccount with fusiondirectory-setup --migrate-users
+[Fix] Bugs #4194: list of users membership in group when in mixed mode 1.0.9x is not showing the same info as in 1.0.8.9
+[Fix] Bugs #4195: when going to the page groups and roles with mixedgroup plugin installed
+[Fix] Bugs #4196: roles should no allow space in their name
+[Fix] Bugs #4199: the logon hours page is not correctly constructed
+[Fix] Wishlist #4180: on Droplist, put entries in alphetical order
+[Fix] Bugs #4206: when a mixed group posixGroup and groupOfNames without the extra fd objectClass and attributes is opened then saved it tell me a group with the same name already exist
+[Fix] Bugs #4208: list of group membership in user when in mixed mode 1.0.9x is not showing the same info as in 1.0.8.9
+[Feature] Wishlist #4154: add support for displayName attribute
+
 * FusionDirectory 1.0.9
 
 [Feature] Bugs #955: write https support for PHP JSONRPC
