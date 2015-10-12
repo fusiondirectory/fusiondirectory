@@ -79,6 +79,9 @@ class userRoles extends simplePlugin
     foreach($groupsattrs as $dn => $groupattr) {
       $groupDisplay = $groupattr['cn'];
       if(isset($groupattr['description'])) {
+        if (strlen($groupattr['description']) > 50) {
+          $groupattr['description'] = substr($groupattr['description'], 0, 50).'…';
+        }
         $groupDisplay .= ' ['.$groupattr['description'].']';
       }
       $groups[$dn] = $groupDisplay;
@@ -100,7 +103,18 @@ class userRoles extends simplePlugin
     }
 
     /* Roles handling */
-    $roles    = objects::ls('role');
+    $roles        = array();
+    $rolesattrs  = objects::ls('role', array('cn' => 1,  'description' => 1));
+    foreach($rolesattrs as $dn => $roleattr) {
+      $roleDisplay = $roleattr['cn'];
+      if(isset($roleattr['description'])) {
+        if (strlen($roleattr['description']) > 50) {
+          $roleattr['description'] = substr($roleattr['description'], 0, 50).'…';
+        }
+        $roleDisplay .= ' ['.$roleattr['description'].']';
+      }
+      $roles[$dn] = $roleDisplay;
+    }
     $this->attributesAccess['rolesMembership']->setInLdap(FALSE);
     $this->attributesAccess['rolesMembership']->attribute->setChoices(array_keys($roles), array_values($roles));
     if ($this->is_template) {
