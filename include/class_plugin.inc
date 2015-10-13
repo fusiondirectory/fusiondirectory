@@ -1397,6 +1397,7 @@ class plugin
                     'CLASS' => $field['tab'],
                     'FIELD' => $field['field'],
                     'MODE'  => preg_replace('/^handle_/', '', $mode),
+                    'DN'    => $this->dn,
                   )
                 );
               }
@@ -1414,7 +1415,11 @@ class plugin
                 if ($tabobject->by_object[$tab]->foreignKeyCheck(
                       $ofield,
                       $field['value'],
-                      array('CLASS' => $field['tab'], 'FIELD' => $field['field'])
+                      array(
+                        'CLASS' => $field['tab'],
+                        'FIELD' => $field['field'],
+                        'DN'    => $this->dn,
+                      )
                     )) {
                   if (!isset($refs[$dn])) {
                     $refs[$dn] = array(
@@ -1477,6 +1482,7 @@ class plugin
    * array(
    *  'CLASS' => class,
    *  'FIELD' => field,
+   *  'DN'    => dn,
    *  'MODE'  => mode
    * )
    * mode being either 'copy' or 'move', defaults to 'move'
