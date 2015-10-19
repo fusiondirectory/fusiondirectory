@@ -419,11 +419,14 @@ class passwordRecovery {
     /* Retrieve dn from the ldap */
     $ldap = $this->config->get_ldap_link();
 
+    $objectClasses = array('gosaMailAccount');
     if (class_available('personalInfo') && ($this->config->get_cfg_value('privateEmailPasswordRecovery', 'FALSE') == 'TRUE')) {
-      $filter = '(&(|(objectClass=gosaMailAccount)(objectClass=fdPersonalInfo))(uid='.$this->uid.'))';
-    } else {
-      $filter = '(&(objectClass=gosaMailAccount)(uid='.$this->uid.'))';
+      $objectClasses[] = 'fdPersonalInfo';
     }
+    if (class_available('supannAccount') && ($this->config->get_cfg_value('supannPasswordRecovery', 'TRUE') == 'TRUE')) {
+      $objectClasses[] = 'supannPerson';
+    }
+    $filter = '(&(|(objectClass='.join(')(objectClass=', $objectClasses).'))(uid='.$this->uid.'))';
     $ldap->cd($this->config->current['BASE']);
     $ldap->search($filter, array('dn'));
 
@@ -457,6 +460,9 @@ class passwordRecovery {
     }
     if (class_available('personalInfo') && ($this->config->get_cfg_value('privateEmailPasswordRecovery', 'FALSE') == 'TRUE')) {
       $filter = '(|'.$filter.'(&(objectClass=fdPersonalInfo)(fdPrivateMail='.$this->email_address.')))';
+    }
+    if (class_available('supannAccount') && ($this->config->get_cfg_value('supannPasswordRecovery', 'TRUE') == 'TRUE')) {
+      $filter = '(|'.$filter.'(&(objectClass=supannPerson)(supannMailPerso='.$this->email_address.')))';
     }
     $uids = get_list( $filter, "",
                       $this->config->current['BASE'], array("uid"),
