@@ -895,6 +895,7 @@ class FakeAttribute extends Attribute
 /*! \brief This class allow to display an attribute.
  *
  * It can be used to display an attribute value the user is never allowed to modify.
+ * (But FD might edit it)
  */
 class DisplayLDAPAttribute extends Attribute
 {
@@ -912,6 +913,19 @@ class DisplayLDAPAttribute extends Attribute
   function setAllowHTML ($allowHTML)
   {
     $this->allowHTML = $allowHTML;
+  }
+}
+
+/*! \brief This class allow to display an attribute.
+ *
+ * It can be used to display an attribute value the user and FD are never allowed to modify.
+ */
+class ReadOnlyLDAPAttribute extends DisplayLDAPAttribute
+{
+  function fillLdapValue (&$attrs)
+  {
+    /* Remove crap made by plugin */
+    unset($attrs[$this->getLdapName()]);
   }
 }
 
