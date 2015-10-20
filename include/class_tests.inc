@@ -128,19 +128,24 @@ class tests {
     }
   }
 
+  /*!
+   * \brief Test if the given string is an IP (v4 or v6)
+   *
+   * \param string $ip The IP to check
+   */
+  public static function is_ip($ip)
+  {
+    return filter_var($ip, FILTER_VALIDATE_IP);
+  }
 
   /*!
    * \brief Test if the given string is an IPv4
    *
    * \param string $ip The IPv4 to check
    */
-  public static function is_ip($ip)
+  public static function is_ipv4($ip)
   {
-    if (function_exists('filter_var')) {
-      return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
-    } else {
-      return preg_match("/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/", $ip);
-    }
+    return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
   }
 
   /*!
@@ -150,14 +155,7 @@ class tests {
    */
   public static function is_ipv6($ip)
   {
-    if (function_exists('filter_var')) {
-        return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
-    } else {
-        $ipv4 = '(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)';
-        $g    = '([0-9a-f]{1,4})'; //IPv6 group
-        return preg_match("/^$g:$g:$g:$g:$g:$g:$g:$g$/", $ip) ||
-               preg_match("/^$g:$g:$g:$g:$g:$g:$ipv4$/", $ip);
-    }
+    return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
   }
 
 
@@ -315,17 +313,17 @@ class tests {
 
 
   /*
-   * \brief Check if $ip1 and $ip2 represents a valid IP range
+   * \brief Check if $ip1 and $ip2 represents a valid IPv4 range
    *
-   * \param string $ip1 The first IP
+   * \param string $ip1 The first IPv4
    *
-   * \param string $ip2 The second IP
+   * \param string $ip2 The second IPv4
    *
    * \return TRUE in case of a valid range, FALSE in case of an error.
    */
   public static function is_ip_range($ip1, $ip2)
   {
-    if (!tests::is_ip($ip1) || !tests::is_ip($ip2)) {
+    if (!tests::is_ipv4($ip1) || !tests::is_ipv4($ip2)) {
       return FALSE;
     } else {
       $ar1  = explode(".", $ip1);
