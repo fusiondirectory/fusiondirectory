@@ -105,17 +105,20 @@ class PhoneNumberAttribute extends TestValidateAttribute
   protected $testFunc = 'is_phone_nr';
 }
 
+/*! \brief This class allow to handle easily a String LDAP attribute that contains an IP (v4 or v6)
+ *
+ */
+class IPAttribute extends TestValidateAttribute
+{
+  protected $testFunc = 'is_ip';
+}
+
 /*! \brief This class allow to handle easily a String LDAP attribute that contains an IPv4
  *
  */
-class IPv4Attribute extends StringAttribute
+class IPv4Attribute extends TestValidateAttribute
 {
-  function validate ()
-  {
-    if (!tests::is_ip($this->value)) {
-      return msgPool::invalid($this->getLabel(), $this->value);
-    }
-  }
+  protected $testFunc = 'is_ipv4';
 }
 
 /*! \brief This class allow to handle easily a String LDAP attribute that contains a IPv6
@@ -139,19 +142,6 @@ class MacAddressAttribute extends StringAttribute
   function validate ()
   {
     if (!tests::is_mac($this->value)) {
-      return msgPool::invalid($this->getLabel(), $this->value);
-    }
-  }
-}
-
-/*! \brief This class allow to handle easily a String LDAP attribute that contains an IP (v4 or v6)
- *
- */
-class IPAttribute extends StringAttribute
-{
-  function validate ()
-  {
-    if (!tests::is_ip($this->value) && !tests::is_ipv6($this->value)) {
       return msgPool::invalid($this->getLabel(), $this->value);
     }
   }
