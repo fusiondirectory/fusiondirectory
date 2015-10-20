@@ -864,8 +864,8 @@ class LDAP
           }
 
           /* Bail out, if we've nothing to do... */
-          if ($ocname == "") {
-            msg_dialog::display(_("Internal error"), sprintf(_("Cannot automatically create subtrees with RDN '%s': no object class found!"), $type), FATAL_ERROR_DIALOG);
+          if ($ocname == '') {
+            msg_dialog::display(_('Internal error'), sprintf(_('Cannot automatically create subtrees with RDN "%s": no object class found!'), $type), FATAL_ERROR_DIALOG);
             exit();
           }
 
@@ -874,9 +874,10 @@ class LDAP
           if (isset($classes[$ocname]['AUXILIARY'])) {
             $na['objectClass'][] = $classes[$ocname]['SUP'];
           }
-          if ($type == "dc") {
+          if ($type == 'dc') {
             /* This is bad actually, but - tell me a better way? */
-            $na['objectClass'][] = 'locality';
+            $na['objectClass'][] = 'organization';
+            $na['o'] = $param;
           }
           $na[$type] = $param;
 
@@ -884,22 +885,23 @@ class LDAP
           if (is_array($classes[$ocname]['MUST'])) {
             foreach ($classes[$ocname]['MUST'] as $attr) {
               if (isset($na[$attr]) && !empty($na[$attr])) continue;
-              $na[$attr] = "filled";
+              $na[$attr] = 'filled';
             }
           }
         } else {
           /* Use alternative add... */
           switch ($type) {
             case 'ou':
-              $na["objectClass"]  = "organizationalUnit";
-              $na["ou"]           = $param;
+              $na['objectClass']  = 'organizationalUnit';
+              $na['ou']           = $param;
               break;
             case 'dc':
-              $na["objectClass"]  = array("dcObject", "top", "locality");
-              $na["dc"]           = $param;
+              $na['objectClass']  = array('dcObject', 'top', 'organization');
+              $na['dc']           = $param;
+              $na['o']            = $param;
               break;
             default:
-              msg_dialog::display(_("Internal error"), sprintf(_("Cannot automatically create subtrees with RDN '%s': not supported"), $type), FATAL_ERROR_DIALOG);
+              msg_dialog::display(_('Internal error'), sprintf(_('Cannot automatically create subtrees with RDN "%s": not supported'), $type), FATAL_ERROR_DIALOG);
               exit();
           }
 
