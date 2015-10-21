@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2015-09-11 22:07+0200\n"
-"PO-Revision-Date: 2015-10-09 16:56+0000\n"
+"PO-Revision-Date: 2015-10-19 08:15+0000\n"
 "Last-Translator: Penati <penati@avaya.com>\n"
 "Language-Team: Italian (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -368,7 +368,7 @@ msgstr "Mostra i gruppi di workstations"
 
 #: plugins/admin/groups/class_groupManagement.inc:138
 msgid "Show windows groups"
-msgstr ""
+msgstr "Mostra i gruppi"
 
 #: plugins/admin/groups/class_groupManagement.inc:139
 msgid "Show terminal groups"
@@ -789,7 +789,7 @@ msgstr ""
 
 #: plugins/admin/acl/class_aclAssignment.inc:46
 msgid "Subtree"
-msgstr ""
+msgstr "Sottostruttura"
 
 #: plugins/admin/acl/class_aclAssignment.inc:46
 msgid "Base only"
@@ -822,7 +822,7 @@ msgstr "Assegnazioni ACL"
 
 #: plugins/admin/acl/class_aclAssignment.inc:264
 msgid "Access control roles assignment"
-msgstr ""
+msgstr "Gestione della lista di controllo degli accessi"
 
 #: plugins/admin/acl/class_aclAssignment.inc:283
 msgid "Assignments"
@@ -830,7 +830,7 @@ msgstr "Assegnazioni"
 
 #: plugins/admin/acl/class_aclAssignment.inc:287
 msgid "ACL role assignments for this base"
-msgstr ""
+msgstr "Assegnazioni ACL per questa base"
 
 #: plugins/admin/acl/class_aclAssignment.inc:298
 #, php-format
@@ -878,7 +878,7 @@ msgstr "Algoritmo di memorizzazione delle password"
 
 #: plugins/personal/generic/class_user.inc:46
 msgid "Password hash method to use"
-msgstr ""
+msgstr "Algoritmo da usare per la password"
 
 #: plugins/personal/generic/class_user.inc:51
 #: plugins/personal/generic/class_user.inc:348
@@ -900,7 +900,7 @@ msgstr "Ripeti password"
 
 #: plugins/personal/generic/class_user.inc:55
 msgid "Same password as above, to avoid errors"
-msgstr ""
+msgstr "Stessa password come sopra, per evitare errori"
 
 #: plugins/personal/generic/class_user.inc:270
 msgid "Personal information"
@@ -4467,8 +4467,8 @@ msgstr ""
 #: plugins/addons/dashboard/users_stats.tpl.c:2
 msgid "There is 1 user:"
 msgid_plural "There are %1 users:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ci sono %1 di utenti"
+msgstr[1] "Ci sono %1 di utenti"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:5
 msgid "One of them have a %1 account"
@@ -4879,7 +4879,7 @@ msgstr "Crea il file di configurazione"
 
 #: setup/setup_finish.tpl.c:5
 msgid "Run %1 to put the correct right on fusiondirectory.conf"
-msgstr ""
+msgstr "Eseguire %1 per mettere le giuste autorizzazioni su fusiondirectory.conf "
 
 #: setup/setup_finish.tpl.c:8
 msgid "Download configuration"
