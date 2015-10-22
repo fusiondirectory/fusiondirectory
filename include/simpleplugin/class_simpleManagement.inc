@@ -734,18 +734,21 @@ class simpleManagement extends management
    *
    * \param  Array   $all     A combination of both 'action' and 'target'.
    */
-  function createSnapshotDialog($action = "", $target = array(), $all = array())
+  function createSnapshotDialog($action = '', $target = array(), $all = array())
   {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Snaptshot creation initiated!");
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, 'Snaptshot creation initiated!');
 
-    foreach ($target as $dn) {
-      $aclCategory = $this->config->data['OBJECTS'][$this->getType($dn)]['aclCategory'];
-      if (!empty($dn) && $this->ui->allow_snapshot_create($dn, $aclCategory)) {
-        $this->dialogObject                 = new SnapShotDialog($this->config, $dn, $this);
-        $this->dialogObject->aclCategories  = array($aclCategory);
-        $this->dialogObject->parent         = &$this;
+    if (count($target) == 1) {
+      $this->dn = array_pop($target);
+      if (empty($this->dn)) {
+        return;
+      }
+      $aclCategory = $this->config->data['OBJECTS'][$this->getType($this->dn)]['aclCategory'];
+      if ($this->ui->allow_snapshot_create($this->dn, $aclCategory)) {
+        $this->dialogObject = new SnapshotCreateDialog($this->config, $this->dn, $this, $aclCategory);
+        $this->dialogObject->set_acl_base($this->dn);
       } else {
-        msg_dialog::display(_("Permission"), sprintf(_("You are not allowed to create a snapshot for %s."), $dn),
+        msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to create a snapshot for %s.'), $this->dn),
             ERROR_DIALOG);
       }
     }
@@ -761,7 +764,7 @@ class simpleManagement extends management
    *
    * \param  Array   $all'     A combination of both 'action' and 'target'.
    */
-  function restoreSnapshotDialog($action = "", $target = array(), $all = array())
+  function restoreSnapshotDialog($action = '', $target = array(), $all = array())
   {
     // Set current restore base for snapshot handling.
     if (is_object($this->snapHandler)) {
@@ -776,60 +779,26 @@ class simpleManagement extends management
       $bases[] = $this->headpage->getBase();
     }
 
-    // No target, open the restore removed object dialog.
     if (!count($target)) {
-      $entry = $this->headpage->getBase();
-      $aclCategory = $this->config->data['OBJECTS'][$this->getType($entry)]['aclCategory'];
-      if (!empty($entry) && $this->ui->allow_snapshot_restore($entry, $aclCategory)) {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $entry, "Snaptshot restoring initiated!");
-        $this->dialogObject = new SnapShotDialog($this->config, $entry, $this);
-        $this->dialogObject->set_snapshot_bases($bases);
-        $this->dialogObject->display_all_removed_objects  = TRUE;
-        $this->dialogObject->display_restore_dialog       = TRUE;
-        $this->dialogObject->parent                       = &$this;
-        $this->dialogObject->aclCategory                  = $aclCategory;
-      } else {
-        msg_dialog::display(_("Permission"), sprintf(_("You are not allowed to restore a snapshot for %s."), $entry),
-            ERROR_DIALOG);
-      }
+      // No target, open the restore removed object dialog.
+      $this->dn     = $this->headpage->getBase();
+      $aclCategory  = $this->headpage->categories;
     } else {
       // Display the restore points for a given object.
-      $entry = array_pop($target);
-      $aclCategory = $this->config->data['OBJECTS'][$this->getType($entry)]['aclCategory'];
-      if (!empty($entry) && $this->ui->allow_snapshot_restore($entry, $aclCategory)) {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $entry, "Snaptshot restoring initiated!");
-        $this->dialogObject = new SnapShotDialog($this->config, $entry, $this);
-        $this->dialogObject->set_snapshot_bases($bases);
-        $this->dialogObject->display_restore_dialog = TRUE;
-        $this->dialogObject->parent                 = &$this;
-        $this->dialogObject->aclCategory            = $aclCategory;
-      } else {
-        msg_dialog::display(_("Permission"), sprintf(_("You are not allowed to restore a snapshot for %s."), $entry),
-            ERROR_DIALOG);
+      $this->dn = $target[0];
+      if (empty($this->dn)) {
+        return;
       }
+      $aclCategory = $this->config->data['OBJECTS'][$this->getType($this->dn)]['aclCategory'];
     }
-  }
 
-  /*!
-   * \brief  Restores a snapshot object.
-   *         The dn of the snapshot entry has to be given as ['target'] parameter.
-   *
-   * \param  String  $action  The name of the action which was the used as trigger.
-   *
-   * \param  Array   $target  A list of object dns, which should be affected by this method.
-   *
-   * \param  Array   $all     A combination of both 'action' and 'target'.
-   */
-  function restoreSnapshot($action = "", $target = array(), $all = array())
-  {
-    $entry = array_pop($target);
-    $aclCategory = $this->dialogObject->aclCategory;
-    if (!empty($entry) && $this->ui->allow_snapshot_restore($entry, $aclCategory)) {
-      $this->snapHandler->restore_snapshot($entry);
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Snaptshot restored!");
-      $this->closeDialogs();
+    if ($this->ui->allow_snapshot_restore($this->dn, $aclCategory)) {
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Snaptshot restoring initiated!');
+      $this->snapHandler->setSnapshotBases($bases);
+      $this->dialogObject = new SnapshotRestoreDialog($this->config, $this->dn, $this, !count($target), $aclCategory);
+      $this->dialogObject->set_acl_base($this->dn);
     } else {
-      msg_dialog::display(_("Permission"), sprintf(_("You are not allowed to restore a snapshot for %s."), $entry),
+      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $this->dn),
           ERROR_DIALOG);
     }
   }
