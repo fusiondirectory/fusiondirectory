@@ -208,7 +208,7 @@ class SnapshotHandler {
    *
    * \param array $description Snapshot description
    */
-  function create_snapshot($dn, $description = array())
+  function createSnapshot($dn, $description = array())
   {
     if (!$this->enabled()) {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot are disabled but tried to create snapshot');
@@ -283,7 +283,7 @@ class SnapshotHandler {
    *
    * \param string $dn The DN
    */
-  function remove_snapshot($dn)
+  function removeSnapshot($dn)
   {
     $ldap = $this->config->get_ldap_link();
     $ldap->cd($this->config->current['BASE']);
@@ -298,7 +298,7 @@ class SnapshotHandler {
    *
    * \return available snapshots for the given base
    */
-  function Available_SnapsShots($dn, $raw = FALSE)
+  function getAvailableSnapsShots($dn, $raw = FALSE)
   {
     if (!$this->enabled()) {
       return array();
@@ -396,7 +396,7 @@ class SnapshotHandler {
    *
    * \param string $dn The DN
    */
-  function restore_snapshot($dn)
+  function restoreSnapshot($dn)
   {
     if (!$this->enabled()) {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot are disabled but tried to restore snapshot');
