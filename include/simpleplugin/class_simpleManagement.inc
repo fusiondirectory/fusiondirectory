@@ -344,7 +344,7 @@ class simpleManagement extends management
           'tag'     => $tag,
           'default' => TRUE,
           'unset'   => array(),
-          'set'     => $i['filter']
+          'set'     => preg_replace('/\$/', '\\\$', $i['filter'])
         );
         $this->filter->elementValues[$tag] = TRUE;
 
