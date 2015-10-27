@@ -737,10 +737,10 @@ class simplePlugin extends plugin
    *
    *  \param boolean $edit_mode wether or not this plugin can be edited
    *
-   *  \param string $tabclass The tabclass to use (will be taken in the plInfo if FALSE)
+   *  \param string $objectType The objectType to use (will be taken in the plInfo if FALSE)
    *
    */
-  static function mainInc ($classname, $entry_dn, $tabs = FALSE, $edit_mode = TRUE, $tabclass = FALSE)
+  static function mainInc ($classname, $entry_dn, $tabs = FALSE, $edit_mode = TRUE, $objectType = FALSE)
   {
     global $remove_lock, $cleanup, $display, $config, $plug, $ui;
     if ($tabs === TRUE) {
@@ -748,16 +748,16 @@ class simplePlugin extends plugin
     }
 
     $plInfo     = pluglist::pluginInfos($classname);
-    $plIcon     = (isset($plInfo['plIcon'])?$plInfo['plIcon']:"plugin.png");
+    $plIcon     = (isset($plInfo['plIcon'])?$plInfo['plIcon']:'plugin.png');
     $plHeadline = $plInfo['plShortName'];
-    if (($tabs !== FALSE) && ($tabclass === FALSE)) {
+    if (($tabs !== FALSE) && ($objectType === FALSE)) {
       $key = key($plInfo['plObjectType']);
       if (is_numeric($key)) {
         $key = $plInfo['plObjectType'][$key];
       }
-      $tabclass = strtoupper($key)."TABS";
+      $objectType = $key;
     }
-    $plCategory = (isset($plInfo['plCategory'])?$plInfo['plCategory']:array("user"));
+    $plCategory = (isset($plInfo['plCategory'])?$plInfo['plCategory']:array('user'));
     $key = key($plCategory);
     if (is_numeric($key)) {
       $plCategory = $plCategory[$key];
@@ -789,7 +789,7 @@ class simplePlugin extends plugin
       /* Create account object on demand */
       if (!session::is_set($classname) || (isset($_GET['reset']) && $_GET['reset'] == 1)) {
         if ($tabs) {
-          $account = new $tabs($config, $config->data['TABS'][$tabclass], $entry_dn, $plCategory);
+          $account = new $tabs($objectType, $entry_dn);
           if ($edit_mode) {
             foreach ($account->by_object as &$obj) {
               $obj->setNeedEditMode(TRUE);
