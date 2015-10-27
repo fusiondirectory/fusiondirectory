@@ -139,7 +139,7 @@ class pluglist {
         if (!isset($infos['plCategory'])) {
           $infos['plCategory'] = array();
         }
-        if (!isset($infos['plTitle'])) {
+        if (!isset($infos['plTitle']) && isset($infos['plShortName'])) {
           $infos['plTitle'] = $infos['plShortName'];
         }
         $infos['plForeignRefs']         = array();
