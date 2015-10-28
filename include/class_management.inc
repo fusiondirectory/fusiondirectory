@@ -661,7 +661,6 @@ class management
     // Check locking & lock entry if required
     $this->displayApplyBtn  = FALSE;
     $this->dn               = "new";
-    $this->is_new           = TRUE;
     $this->is_single_edit   = FALSE;
 
     set_object_info($this->dn);
@@ -736,7 +735,6 @@ class management
 
     // Single edit - we only got one object dn.
     if (count($target) == 1) {
-      $this->is_new         = FALSE;
       $this->is_single_edit = TRUE;
 
       // Get the dn of the object and creates lock

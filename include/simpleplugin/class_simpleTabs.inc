@@ -33,7 +33,6 @@ class simpleTabs
   var $config;
   var $acl;
   var $is_template;
-  var $is_new = FALSE;
 
   public    $objectType   = FALSE;
   protected $specialTabs  = TRUE;

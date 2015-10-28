@@ -433,7 +433,6 @@ class simpleManagement extends management
 
     $this->displayApplyBtn  = FALSE;
     $this->dn               = 'new';
-    $this->is_new           = TRUE;
     $this->is_single_edit   = FALSE;
 
     set_object_info($this->dn);
@@ -584,7 +583,6 @@ class simpleManagement extends management
         $type = preg_replace('/^template_/', '', $type);
       }
 
-      $this->is_new         = FALSE;
       $this->is_single_edit = TRUE;
 
       // Get the dn of the object and creates lock
