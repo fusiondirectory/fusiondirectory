@@ -167,14 +167,17 @@ class Step_Ldap extends setupStep
       } else {
         $str = sprintf(_("Bind as user '%s' failed!"), $this->admin, $this->connection);
       }
-      return "<div style='color:red;'>".$str."</div>";
+      $str .= '<input type="submit" name="ldap_retry" value="'._('Retry').'"/>';
+      return '<div style="color:red;">'.$str.'</div>';
     } else {
       if (empty($this->admin)) {
         $str = sprintf(_("Anonymous bind to server '%s' succeeded."), $this->connection);
-        return "<div style='color:blue;'>".$str."</div> <div style='color:red;'>"._("Please specify user and password!")."</div>";
+        $str .= '<input type="submit" name="ldap_refresh" value="'._('Refresh').'"/>';
+        return '<div style="color:blue;">'.$str.'</div> <div style="color:red;">'._('Please specify user and password!').'</div>';
       } else {
         $str = sprintf(_("Bind as user '%s' to server '%s' succeeded!"), $this->admin, $this->connection);
-        return "<div style='color:green;'>".$str."</div>";
+        $str .= '<input type="submit" name="ldap_refresh" value="'._('Refresh').'"/>';
+        return '<div style="color:green;">'.$str.'</div>';
       }
     }
   }
