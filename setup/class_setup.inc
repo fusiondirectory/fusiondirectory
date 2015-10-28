@@ -147,7 +147,7 @@ class setup
       }
     }
 
-    /* Disable all following steps, if one step isn't compelted right now .*/
+    /* Disable all following steps, if one step isn't completed right now .*/
     for ($i = 0; $i < $this->i_steps; $i++) {
       if (!$this->o_steps[$i]->is_completed()) {
         $this->disable_steps_from($i + 1);
