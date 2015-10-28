@@ -104,7 +104,6 @@ class plugin
   /* attribute list for save action */
   var $attributes       = array();
   var $objectclasses    = array();
-  var $is_new           = TRUE;
   var $saved_attributes = array();
 
   var $acl_base     = "";
@@ -470,7 +469,7 @@ class plugin
         unset($oc['count']);
       }
     }
-    $this->is_new = !empty($oc);
+    $is_new = empty($oc);
 
     /* Load (minimum) attributes, add missing ones */
     $this->attrs['objectClass'] = array_merge_unique($oc, $this->objectclasses);
@@ -479,15 +478,15 @@ class plugin
     foreach ($this->attributes as $val) {
       if ($this->$val != "") {
         $this->attrs["$val"] = $this->$val;
-      } elseif (!$this->is_new) {
+      } elseif (!$is_new) {
         $this->attrs["$val"] = array();
       }
     }
 
-    if ($this->is_new) {
-      $this->handle_pre_events('add');
-    } else {
+    if ($this->initially_was_account) {
       $this->handle_pre_events('modify');
+    } else {
+      $this->handle_pre_events('add');
     }
   }
 

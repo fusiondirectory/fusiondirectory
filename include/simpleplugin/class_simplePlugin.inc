@@ -666,11 +666,11 @@ class simplePlugin extends plugin
   {
     /* Propagate and log the event */
     if ($this->initially_was_account) {
-      $this->handle_post_events("modify");
-      new log("modify", "plugin/".get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
+      $this->handle_post_events('modify');
+      new log('modify', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
     } else {
-      $this->handle_post_events("add");
-      new log("create", "plugin/".get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
+      $this->handle_post_events('add');
+      new log('create', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
     }
   }
 
