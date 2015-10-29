@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2015-10-21 21:44+0200\n"
-"PO-Revision-Date: 2015-10-21 19:43+0000\n"
+"PO-Revision-Date: 2015-10-22 00:25+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Polish (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -995,7 +995,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:362
 msgid "Display name"
-msgstr ""
+msgstr "Wyświetl nazwę"
 
 #: plugins/personal/generic/class_user.inc:362
 msgid "Name this user should appear as. Used by Exchange."

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2015-10-21 21:44+0200\n"
-"PO-Revision-Date: 2015-10-21 19:48+0000\n"
+"PO-Revision-Date: 2015-10-22 12:13+0000\n"
 "Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -199,7 +199,7 @@ msgstr "Vollzugriff"
 #: plugins/admin/groups/class_ogroup.inc:217
 #: plugins/personal/posix/class_posixAccount.inc:196
 msgid "allow access to these hosts"
-msgstr "erlaube Zugriff auf diese Hosts"
+msgstr "Zugriff auf diese Hosts erlauben"
 
 #: plugins/admin/groups/class_group.inc:102
 #: plugins/admin/groups/class_ogroup.inc:220
@@ -658,7 +658,7 @@ msgstr "Enthält Einstellungen für diese Objekte: %s"
 
 #: plugins/admin/aclrole/class_aclRole.inc:108
 msgid "Access control roles"
-msgstr "Rollen für die Zugriffskontrolle"
+msgstr "Zugriffssteuerungsrollen"
 
 #: plugins/admin/aclrole/class_aclRole.inc:111
 msgid "ACL role"
@@ -674,7 +674,7 @@ msgstr "Kurze Beschreibung von dieser Rolle"
 
 #: plugins/admin/aclrole/class_aclRole.inc:140
 msgid "ACLs"
-msgstr ""
+msgstr "Zugriffssteuerungsrollen"
 
 #: plugins/admin/aclrole/class_aclRole.inc:144
 msgid "ACLs which are part of this group"
@@ -761,7 +761,7 @@ msgstr "ACL-Zuordnungen"
 
 #: plugins/admin/acl/class_aclManagement.inc:39
 msgid "Access control list management"
-msgstr "Access Control List Verwaltung"
+msgstr "Zugriffssteuerungslistenverwaltung"
 
 #: plugins/admin/acl/class_aclManagement.inc:77
 #: plugins/admin/acl/class_aclAssignment.inc:263
@@ -774,7 +774,7 @@ msgstr "ACL-Zuordnungsdialog"
 
 #: plugins/admin/acl/class_aclAssignment.inc:29
 msgid "Access control roles assignment dialog"
-msgstr ""
+msgstr "Zugriffssteuerungsrollen-Zuordnungsdialog"
 
 #: plugins/admin/acl/class_aclAssignment.inc:43
 msgid "Mode"
@@ -802,7 +802,7 @@ msgstr "Für alle Benutzer"
 
 #: plugins/admin/acl/class_aclAssignment.inc:54
 msgid "Apply this ACL for all LDAP users"
-msgstr ""
+msgstr "Diese ACL für alle LDAP-Benutzer übernehmen"
 
 #: plugins/admin/acl/class_aclAssignment.inc:58
 #: ihtml/themes/default/acl.tpl.c:32
@@ -819,7 +819,7 @@ msgstr "ACL-Zuordnung"
 
 #: plugins/admin/acl/class_aclAssignment.inc:264
 msgid "Access control roles assignment"
-msgstr ""
+msgstr "Zugriffssteuerungsrollen-Zuordnung"
 
 #: plugins/admin/acl/class_aclAssignment.inc:283
 msgid "Assignments"
@@ -827,7 +827,7 @@ msgstr "Zuordnungen"
 
 #: plugins/admin/acl/class_aclAssignment.inc:287
 msgid "ACL role assignments for this base"
-msgstr ""
+msgstr "ACL-Rollenzuordnungen für diese Basis"
 
 #: plugins/admin/acl/class_aclAssignment.inc:298
 #, php-format
@@ -1159,7 +1159,7 @@ msgstr "Benutzer-/Gruppenkennung erzwingen"
 
 #: plugins/personal/posix/class_posixAccount.inc:125
 msgid "Force user id and group id values for this user"
-msgstr ""
+msgstr "Benutzerkennungs- und Gruppenkennungswerte für diesen Benutzer erzwingen"
 
 #: plugins/personal/posix/class_posixAccount.inc:129
 msgid "User id"
@@ -1208,7 +1208,7 @@ msgstr "Der Benutzer wird nicht in der Lage sein, sein Passwort nach dieser Anza
 
 #: plugins/personal/posix/class_posixAccount.inc:161
 msgid "Delay before forcing password change (days)"
-msgstr "Verzögerung bevor die Passwortänderung forciert wird (Tage)"
+msgstr "Verzögerung bevor die Passwortänderung erzwungen wird (Tage)"
 
 #: plugins/personal/posix/class_posixAccount.inc:161
 msgid ""
@@ -1403,11 +1403,11 @@ msgstr "Standard hash, der verwendet werden soll"
 
 #: plugins/config/class_configInLdap.inc:127
 msgid "Force default hash"
-msgstr "Standardhash forcieren"
+msgstr "Standardhash erzwingen"
 
 #: plugins/config/class_configInLdap.inc:127
 msgid "Force the use of the default password hash"
-msgstr "Forciert die Nutzung des Standard Passworthashs"
+msgstr "Verwendung des Standard-Passworthashs erzwingen"
 
 #: plugins/config/class_configInLdap.inc:131
 msgid "Password minimum length"
@@ -1433,7 +1433,7 @@ msgstr "Verwende ablaufende Konten"
 msgid ""
 "Enables shadow attribute tests during the login to FusionDirectory and "
 "forces password renewal or account locking"
-msgstr "Aktiviert shadow Attributtests während des Logins in FusionDirectory und forciert Passworterneuerung und oder Kontensperrung"
+msgstr "Aktiviert shadow Attributtests während der Anmeldung in FusionDirectory und erzwingt eine Passworterneuerung oder Kontensperrung"
 
 #: plugins/config/class_configInLdap.inc:146
 msgid "SASL Realm"
@@ -1517,7 +1517,7 @@ msgstr "Erzwinge verschlüsselte Verbindungen"
 msgid ""
 "Enables PHP security checks to force encrypted access (https) to the web "
 "interface."
-msgstr "Aktiviert PHP-Sicherheitschecks zur Forcierung des verschlüsselten Zugangs (https) zur Webschnittstelle."
+msgstr "Aktiviert PHP-Sicherheitsprüfungen zur Erzwingung des verschlüsselten Zugangs (https) zur Webschnittstelle."
 
 #: plugins/config/class_configInLdap.inc:205
 msgid "Warn if session is not encrypted"
@@ -1635,7 +1635,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:283
 msgid "Base number for user id"
-msgstr ""
+msgstr "Basisnummer für Benutzerkennung"
 
 #: plugins/config/class_configInLdap.inc:284
 msgid "Where to start looking for a new free user id."
@@ -1643,7 +1643,7 @@ msgstr "Wo mit der Suche nach einer neuen freien user id gestartet werden soll."
 
 #: plugins/config/class_configInLdap.inc:289
 msgid "Base number for group id"
-msgstr ""
+msgstr "Basisnummer für Gruppenkennung"
 
 #: plugins/config/class_configInLdap.inc:290
 msgid "Where to start looking for a new free group id."
@@ -1819,7 +1819,7 @@ msgstr "Verfügbare POSIX-Shells für FD-Benutzer."
 
 #: plugins/config/class_configInLdap.inc:417
 msgid "Show ACL tab on all objects"
-msgstr ""
+msgstr "ACL-Reiter auf allen Objekten anzeigen"
 
 #: plugins/config/class_configInLdap.inc:418
 msgid ""
@@ -1980,7 +1980,7 @@ msgstr "Stellenzahl"
 
 #: plugins/config/class_dashBoardConfig.inc:45
 msgid "Number of digits to use after prefix"
-msgstr ""
+msgstr "Anzahl der Stellen nach dem Präfix"
 
 #: plugins/config/class_dashBoardConfig.inc:51
 msgid "Prefixes"
@@ -2543,7 +2543,7 @@ msgstr "Es existiert bereits ein Eintrag mit diesem '%s' Attribut im System!"
 #: include/class_msgPool.inc:401
 #, php-format
 msgid "The entry '%s' already use this '%s' attribute!"
-msgstr ""
+msgstr "Der Eintrag '%s' verwendet bereits dieses Attribut '%s'!"
 
 #: include/class_msgPool.inc:412
 #, php-format
@@ -2557,7 +2557,7 @@ msgstr "Beispiel:"
 #: include/class_msgPool.inc:450 include/class_msgPool.inc:454
 #, php-format
 msgid "The field '%s' contains invalid characters"
-msgstr ""
+msgstr "Das Feld '%s' enthält ungültige Zeichen"
 
 #: include/class_msgPool.inc:451
 #, php-format
@@ -3540,7 +3540,7 @@ msgstr "Zugriffsregeln"
 
 #: include/class_acl.inc:297
 msgid "Manage access control lists"
-msgstr "Zugriffskontrolllisten verwalten"
+msgstr "Zugriffssteuerungsrollen verwalten"
 
 #: include/password-methods/class_password-methods-sasl.inc:60
 #, php-format
@@ -3581,7 +3581,7 @@ msgstr "Smarty-Fehler"
 #: html/index.php:158 html/class_passwordRecovery.inc:264 html/setup.php:59
 #, php-format
 msgid "Directory '%s' specified as compile directory is not accessible!"
-msgstr "Auf das als Compile-Verzeichnis angegegebene Verzeichnis '%s' kann nicht zugegriffen werden!"
+msgstr "Auf das als Kompilierverzeichnis angegegebene Verzeichnis '%s' kann nicht zugegriffen werden!"
 
 #: html/index.php:190
 msgid "Your FusionDirectory session has expired!"
@@ -4045,7 +4045,7 @@ msgstr "Es gibt kein FusionDirectory Administratorkonto innerhalb Ihres LDAP."
 
 #: setup/class_setupStep_Migrate.inc:918
 msgid "Gives all rights on all objects"
-msgstr ""
+msgstr "Gibt alle Rechte auf alle Objekte"
 
 #: setup/class_setupStep_Migrate.inc:995
 msgid "Default ACL roles have not been inserted"
@@ -4436,12 +4436,12 @@ msgstr "mail"
 #: plugins/addons/dashboard/users_accounts.tpl.c:35
 msgid "There is one account expiring in the next %1 days"
 msgid_plural "There are %2 accounts expiring in the next %1 days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Es gibt ein Konto, das in den nächsten %1 Tagen abläuft"
+msgstr[1] "Es gibt %2 Konten, die in den nächsten %1 Tagen ablaufen"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:38
 msgid "There is no account expiring in the next %1 days"
-msgstr ""
+msgstr "Es gibt kein Konto, das in den nächsten %1 Tagen abläuft"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:41
 msgid "Next expired accounts"
