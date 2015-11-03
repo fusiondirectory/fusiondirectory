@@ -1384,13 +1384,13 @@ class LDAP
     $objectclasses = array();
 
     /* Return the cached results. */
-    if (class_available('session') && session::global_is_set("LDAP_CACHE::get_objectclasses") && !$force_reload) {
-      $objectclasses = session::global_get("LDAP_CACHE::get_objectclasses");
+    if (class_available('session') && session::global_is_set('LDAP_CACHE::get_objectclasses') && !$force_reload) {
+      $objectclasses = session::global_get('LDAP_CACHE::get_objectclasses');
       return $objectclasses;
     }
 
     // Get base to look for schema
-    $sr   = @ldap_read($this->cid, "", "objectClass=*", array("subschemaSubentry"));
+    $sr   = @ldap_read($this->cid, '', 'objectClass=*', array('subschemaSubentry'));
     $attr = @ldap_get_entries($this->cid, $sr);
     if (!isset($attr[0]['subschemasubentry'][0])) {
       return array();
@@ -1399,7 +1399,7 @@ class LDAP
     /* Get list of objectclasses and fill array */
     $nb = $attr[0]['subschemasubentry'][0];
     $objectclasses = array();
-    $sr = ldap_read ($this->cid, $nb, "objectClass=*", array("objectclasses"));
+    $sr = ldap_read ($this->cid, $nb, 'objectClass=*', array('objectclasses'));
     $attrs = ldap_get_entries($this->cid, $sr);
     if (!isset($attrs[0])) {
       return array();
@@ -1417,19 +1417,19 @@ class LDAP
         switch ($chunk) {
 
           case '(':
-            $value = "";
+            $value = '';
             break;
 
           case ')':
-            if ($name != "") {
+            if ($name != '') {
               $v = $this->value2container($value);
               if (in_array($name, array('MUST', 'MAY')) && !is_array($v)) {
                 $v = array($v);
               }
               $objectclasses[$ocname][$name] = $v;
             }
-            $name   = "";
-            $value  = "";
+            $name   = '';
+            $value  = '';
             break;
 
           case 'NAME':
@@ -1440,7 +1440,7 @@ class LDAP
           case 'AUXILIARY':
           case 'MUST':
           case 'MAY':
-            if ($name != "") {
+            if ($name != '') {
               $v = $this->value2container($value);
               if (in_array($name, array('MUST','MAY')) && !is_array($v)) {
                 $v = array($v);
@@ -1448,16 +1448,16 @@ class LDAP
               $objectclasses[$ocname][$name] = $v;
             }
             $name   = $chunk;
-            $value  = "";
+            $value  = '';
             break;
 
-          default:  $value .= $chunk." ";
+          default:  $value .= $chunk.' ';
         }
       }
 
     }
-    if (class_available("session")) {
-      session::global_set("LDAP_CACHE::get_objectclasses", $objectclasses);
+    if (class_available('session')) {
+      session::global_set('LDAP_CACHE::get_objectclasses', $objectclasses);
     }
 
     return $objectclasses;

@@ -72,12 +72,9 @@ if (($config->get_cfg_value('forcessl') == 'TRUE') && ($ssl != '')) {
 timezone::setDefaultTimezoneFromConfig();
 
 /* Check for invalid sessions */
-if (session::global_get('_LAST_PAGE_REQUEST') == "") {
-  session::global_set('_LAST_PAGE_REQUEST', time());
-} else {
-
+if (session::global_get('_LAST_PAGE_REQUEST') != '') {
   /* check FusionDirectory.conf for defined session lifetime */
-  $max_life = $config->get_cfg_value("sessionLifetime", 60 * 60 * 2);
+  $max_life = $config->get_cfg_value('sessionLifetime', 60 * 60 * 2);
 
   /* get time difference between last page reload */
   $request_time = (time() - session::global_get('_LAST_PAGE_REQUEST'));
@@ -91,8 +88,8 @@ if (session::global_get('_LAST_PAGE_REQUEST') == "") {
     header ('Location: index.php?message=expired');
     exit;
   }
-  session::global_set('_LAST_PAGE_REQUEST', time());
 }
+session::global_set('_LAST_PAGE_REQUEST', time());
 
 
 @DEBUG (DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, "config");
