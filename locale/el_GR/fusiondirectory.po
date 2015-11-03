@@ -5,6 +5,7 @@
 # Translators:
 # Elissavet Botsaki <elisavet_b@hotmail.com>, 2015
 # Konstantinos Nikolou <kniko@kniko.net>, 2015
+# Maria Nomikou <mnomikou@sch.gr>, 2015
 # MENTIS SPYROS <mentis.spyros@gmail.com>, 2015
 # Nikos Charonitakis <charosn@her.forthnet.gr>, 2005
 msgid ""
@@ -12,8 +13,8 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2015-10-21 21:44+0200\n"
-"PO-Revision-Date: 2015-10-22 00:25+0000\n"
-"Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
+"PO-Revision-Date: 2015-11-03 16:22+0000\n"
+"Last-Translator: Maria Nomikou <mnomikou@sch.gr>\n"
 "Language-Team: Greek (Greece) (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/el_GR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -441,7 +442,7 @@ msgstr "Διαχειριστής"
 #: plugins/admin/departments/class_department.inc:80
 #, php-format
 msgid "Manager of this %s"
-msgstr ""
+msgstr "Διαχειριστής του %s"
 
 #: plugins/admin/departments/class_department.inc:86
 #: plugins/admin/departments/class_department.inc:92
@@ -785,7 +786,7 @@ msgstr "Λειτουργία"
 
 #: plugins/admin/acl/class_aclAssignment.inc:43
 msgid "Is this applying on complete subtree or only the base?"
-msgstr ""
+msgstr "Αυτό εφαρμόζεται σε ολόκληρο το υποδένδρο ή μόνο στη βάση;"
 
 #: plugins/admin/acl/class_aclAssignment.inc:46
 msgid "Subtree"
@@ -814,7 +815,7 @@ msgstr "Μέλη"
 
 #: plugins/admin/acl/class_aclAssignment.inc:58
 msgid "Users or groups to assign this role to."
-msgstr ""
+msgstr "Χρήστες ή ομάδες που ανατίθεται αυτός ο ρόλος."
 
 #: plugins/admin/acl/class_aclAssignment.inc:249
 msgid "ACL assignment"
@@ -892,7 +893,7 @@ msgstr "Κωδικός πρόσβασης"
 
 #: plugins/personal/generic/class_user.inc:51
 msgid "Password (Leave empty if you do not wish to change it)"
-msgstr ""
+msgstr "Κωδικός Πρόσβασης (Αφήστε κενό εάν δεν επιθυμείτε να το αλλάξετε)"
 
 #: plugins/personal/generic/class_user.inc:55
 msgid "Password again"
@@ -900,7 +901,7 @@ msgstr "Κωδικός ξανά"
 
 #: plugins/personal/generic/class_user.inc:55
 msgid "Same password as above, to avoid errors"
-msgstr ""
+msgstr "Ίδιος Κωδικός Πρόσβασης με τον προηγούμενο, για αποφυγή λαθών."
 
 #: plugins/personal/generic/class_user.inc:274
 msgid "Personal information"
@@ -982,7 +983,7 @@ msgstr "Πληροφορίες λογαριασμού"
 
 #: plugins/personal/generic/class_user.inc:343
 msgid "Login of this user"
-msgstr ""
+msgstr "Λογαριασμός σύνδεσης αυτού του χρήστη."
 
 #: plugins/personal/generic/class_user.inc:347
 #: setup/class_setupStep_Language.inc:30
@@ -1003,7 +1004,7 @@ msgstr "Όνομα που εμφανίζεται"
 
 #: plugins/personal/generic/class_user.inc:362
 msgid "Name this user should appear as. Used by Exchange."
-msgstr ""
+msgstr "Το όνομα με το οποίο πρέπει να εμφανίζεται ο χρήστης. Χρησιμοποιείται από το Exchange."
 
 #: plugins/personal/generic/class_user.inc:366
 msgid "Home address"
@@ -1041,7 +1042,7 @@ msgstr "Τίτλος"
 msgid ""
 "Title of a person in their organizational context. Each title is one value "
 "of this multi-valued attribute"
-msgstr ""
+msgstr "Τίτλος προσώπου στο οργανωτικό του πλαίσιο. Κάθε τίτλος είναι μια από τις πολλές τιμές αυτού του χαρακτηριστικού"
 
 #: plugins/personal/generic/class_user.inc:398
 msgid "Department No."
@@ -1137,7 +1138,7 @@ msgstr "Κέλυφος"
 
 #: plugins/personal/posix/class_posixAccount.inc:113
 msgid "Which shell should be used when this user log in"
-msgstr ""
+msgstr "Ποιο κέλυφος πρέπει να χρησιμοποιηθεί όταν ο χρήστης συνδεθεί"
 
 #: plugins/personal/posix/class_posixAccount.inc:117
 msgid "Primary group"
@@ -1162,7 +1163,7 @@ msgstr "Εξαναγκασμός user/group id"
 
 #: plugins/personal/posix/class_posixAccount.inc:125
 msgid "Force user id and group id values for this user"
-msgstr ""
+msgstr "Υποχρέωση συμπλήρωσης τιμών για user id και group id για αυτόν τον χρήστη"
 
 #: plugins/personal/posix/class_posixAccount.inc:129
 msgid "User id"
@@ -1197,7 +1198,7 @@ msgstr "Ο χρήστης θα πρέπει να αλλάξει τον κωδι�
 msgid ""
 "User must change password on first login (needs a value for Delay before "
 "forcing password change)"
-msgstr ""
+msgstr "Ο χρήστης πρέπει να αλλάξει συνθηματικό στην πρώτη σύνδεση (η τιμή στο πεδίο Καθυστέρηση δηλώνει το πόσες φορές μπορεί ο χρήστης να συνδεθεί πριν αναγκαστεί να αλλάξει συνθηματικό)"
 
 #: plugins/personal/posix/class_posixAccount.inc:156
 msgid "Delay before locking password (days)"
@@ -1207,17 +1208,17 @@ msgstr "Καθυστέρηση πριν το κλείδωμα κωδικού (η
 msgid ""
 "The user won't be able to change his password after this number of days "
 "(leave empty to disable)"
-msgstr ""
+msgstr "Ο χρήστης δεν θα μπορεί να αλλάξει τον κωδικό πρόσβασής του μετά από αυτό τον αριθμό ημερών (αφήστε κενό για να το απενεργοποιήσετε)"
 
 #: plugins/personal/posix/class_posixAccount.inc:161
 msgid "Delay before forcing password change (days)"
-msgstr ""
+msgstr "Καθυστέρηση πριν την υποχρεωτική αλλαγή κωδικού πρόσβασης (σε ημέρες)"
 
 #: plugins/personal/posix/class_posixAccount.inc:161
 msgid ""
 "The user will be forced to change his password after this number of days "
 "(leave empty to disable)"
-msgstr ""
+msgstr "Ο χρήστης θα υποχρεωθεί να αλλάξει τον κωδικό πρόσβασής του μετά από αυτό τον αριθμό ημερών (αφήστε κενό για απενεργοποίηση)"
 
 #: plugins/personal/posix/class_posixAccount.inc:166
 msgid "Password expiration date"
@@ -1226,7 +1227,7 @@ msgstr "Ημερομηνία λήξης κωδικού πρόσβασης"
 #: plugins/personal/posix/class_posixAccount.inc:166
 msgid ""
 "Date after which this user password will expire (leave empty to disable)"
-msgstr ""
+msgstr "Ημερομηνία μετά από την οποία θα λήγει ο κωδικός πρόσβασης (αφήστε κενό για απενεργοποίηση)"
 
 #: plugins/personal/posix/class_posixAccount.inc:171
 msgid "Delay of inactivity before disabling user (days)"
@@ -1267,7 +1268,7 @@ msgstr " έληξε"
 
 #: plugins/personal/posix/class_posixAccount.inc:311
 msgid "grace time active"
-msgstr ""
+msgstr "χρονικό διάστημα χάριτος ενεργό"
 
 #: plugins/personal/posix/class_posixAccount.inc:314
 #: plugins/personal/posix/class_posixAccount.inc:316
@@ -1277,11 +1278,11 @@ msgstr "ενεργό"
 
 #: plugins/personal/posix/class_posixAccount.inc:314
 msgid "password expired"
-msgstr ""
+msgstr "ο κωδικός πρόσβασης έχει λήξει"
 
 #: plugins/personal/posix/class_posixAccount.inc:316
 msgid "password not changeable"
-msgstr ""
+msgstr "ο κωδικός πρόσβασης δεν μπορεί να αλλάξει"
 
 #: plugins/personal/posix/class_posixAccount.inc:400
 msgid "UID"
@@ -1294,7 +1295,7 @@ msgstr ""
 
 #: plugins/personal/roles/class_userRoles.inc:32
 msgid "Edit user's groups and roles"
-msgstr ""
+msgstr "Επεξεργασία ομάδων και ρόλων του χρήστη"
 
 #: plugins/personal/roles/class_userRoles.inc:47
 #: plugins/personal/roles/class_userRoles.inc:51
@@ -1308,7 +1309,7 @@ msgstr ""
 
 #: plugins/config/class_mainPluginsConfig.inc:28
 msgid "Plugins configuration"
-msgstr ""
+msgstr "Ρυθμίσεις επεκτάσεων"
 
 #: plugins/config/class_mainPluginsConfig.inc:29
 msgid "FusionDirectory plugins configuration"
@@ -1356,7 +1357,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:89
 msgid "Language"
-msgstr ""
+msgstr "Γλώσσα"
 
 #: plugins/config/class_configInLdap.inc:89
 msgid ""
@@ -1514,7 +1515,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:200
 msgid "Enforce encrypted connections"
-msgstr ""
+msgstr "Επιβολή κρυπτογραφημένων συνδέσεων"
 
 #: plugins/config/class_configInLdap.inc:201
 msgid ""
