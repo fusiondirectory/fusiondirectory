@@ -132,11 +132,11 @@ $plist->gen_menu();
 $smarty->assign("hideMenus", FALSE);
 if ($config->get_cfg_value("handleExpiredAccounts") == "TRUE") {
   $expired = $ui->expired_status();
-  if ($expired == POSIX_WARN_ABOUT_EXPIRATION && !session::is_set('POSIX_WARN_ABOUT_EXPIRATION__DONE')) {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, "This user account (".$ui->username.") is about to expire");
+  if (($expired == POSIX_WARN_ABOUT_EXPIRATION) && !session::is_set('POSIX_WARN_ABOUT_EXPIRATION__DONE')) {
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, "This user account (".$ui->uid.") is about to expire");
 
     // The users password is about to xpire soon, display a warning message.
-    new log("security", "fusiondirectory", "", array(), "password for user '".$ui->username."' is about to expire");
+    new log("security", "fusiondirectory", "", array(), "password for user '".$ui->uid."' is about to expire");
     msg_dialog::display(_("Password change"), _("Your password is about to expire, please change your password!"), INFO_DIALOG);
     session::set('POSIX_WARN_ABOUT_EXPIRATION__DONE', TRUE);
   } elseif ($expired == POSIX_FORCE_PASSWORD_CHANGE) {
@@ -245,9 +245,9 @@ if (isset($plug)) {
 }
 
 if ($ui->ignore_acl_for_current_user()) {
-  $smarty->assign ("username", "<div style='color:#FF0000;'>"._("User ACL checks disabled")."</div>&nbsp;".$ui->username);
+  $smarty->assign ('username', '<div style="color:#FF0000;">'._('User ACL checks disabled').'</div>&nbsp;'.$ui->uid);
 } else {
-  $smarty->assign ("username", $ui->username);
+  $smarty->assign ('username', $ui->uid);
 }
 $smarty->assign ("menu", $plist->menu);
 $smarty->assign ("plug", "$plug");

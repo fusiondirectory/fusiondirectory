@@ -450,14 +450,14 @@ function fusiondirectory_log ($message)
   global $ui;
 
   /* Preset to something reasonable */
-  $username = "[unauthenticated]";
+  $username = '[unauthenticated]';
 
   /* Replace username if object is present */
   if (isset($ui)) {
-    if ($ui->username != "") {
-      $username = "[$ui->username]";
+    if ($ui->uid != '') {
+      $username = '['.$ui->uid.']';
     } else {
-      $username = "[unknown]";
+      $username = '[unknown]';
     }
   }
 
@@ -527,10 +527,10 @@ function ldap_login_user ($username, $password)
   }
 
   $ldap->cd($config->current['BASE']);
-  $allowed_attributes = array("uid","mail");
+  $allowed_attributes = array('uid','mail');
   $verify_attr = array();
-  if ($config->get_cfg_value("loginAttribute") != "") {
-    $tmp = explode(",", $config->get_cfg_value("loginAttribute"));
+  if ($config->get_cfg_value('loginAttribute') != '') {
+    $tmp = explode(',', $config->get_cfg_value('loginAttribute'));
     foreach ($tmp as $attr) {
       if (in_array($attr, $allowed_attributes)) {
         $verify_attr[] = $attr;
@@ -539,15 +539,15 @@ function ldap_login_user ($username, $password)
   }
 
   if (count($verify_attr) == 0) {
-    $verify_attr = array("uid");
+    $verify_attr = array('uid');
   }
   $tmp    = $verify_attr;
-  $tmp[]  = "uid";
-  $filter = "";
+  $tmp[]  = 'uid';
+  $filter = '';
   foreach ($verify_attr as $attr) {
-    $filter .= "(".$attr."=".$username.")";
+    $filter .= '('.$attr.'='.$username.')';
   }
-  $filter = "(&(|".$filter.")(objectClass=inetOrgPerson))";
+  $filter = '(&(|'.$filter.')(objectClass=inetOrgPerson))';
   $ldap->search($filter, $tmp);
 
   /* get results, only a count of 1 is valid */
@@ -580,7 +580,6 @@ function ldap_login_user ($username, $password)
 
   /* got user dn, fill acl's */
   $ui = new userinfo($config, $ldap->getDN());
-  $ui->username = $attrs['uid'][0];
 
   /* password check, bind as user with supplied password  */
   $ldap->disconnect();

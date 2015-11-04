@@ -34,8 +34,8 @@ function displayLogin()
 
   error_reporting(E_ALL | E_STRICT);
   /* Fill template with required values */
-  $username = "";
-  if (isset($_POST["username"])) {
+  $username = '';
+  if (isset($_POST['username'])) {
     $username = trim($_POST['username']);
   }
   $smarty->assign ('date', gmdate("D, d M Y H:i:s"));
@@ -223,43 +223,22 @@ class Index {
     self::$password = NULL;
   }
 
-  /* Check LDAP connection */
-  static function checkLdapConnection()
-  {
-    global $config, $ldap;
-    $ldap = $config->get_ldap_link();
-    /* FIXME - The following line is needed to put objectClass list in cache otherwise schemaCheck fails but I don’t get why */
-    $ldap->get_objectclasses();
-    if (is_null($ldap) || (is_int($ldap) && $ldap == 0)) {
-      return msgPool::ldaperror($ldap->get_error(), $this->dn, 0, get_class());
-    }
-    return TRUE;
-  }
-
   /* Runs schemaCheck if activated in configuration */
   static function runSchemaCheck()
   {
-    global $config, $ldap;
+    global $config;
     if ($config->get_cfg_value('schemaCheck') != 'TRUE') {
       return TRUE;
     }
-    $recursive  = ($config->get_cfg_value('ldapFollowReferrals') == 'TRUE');
-    $tls        = ($config->get_cfg_value('ldapTLS') == 'TRUE');
-    if (!count($ldap->get_objectclasses())) {
-      return _('Cannot detect information about the installed LDAP schema!');
-    } else {
-      $cfg = array();
-      $cfg['admin']       = $config->current['ADMINDN'];
-      $cfg['password']    = $config->current['ADMINPASSWORD'];
-      $cfg['connection']  = $config->current['SERVER'];
-      $cfg['tls']         = $tls;
-      $str = check_schema($cfg);
-      $checkarr = array();
-      foreach ($str as $tr) {
-        if (isset($tr['IS_MUST_HAVE']) && !$tr['STATUS']) {
-          // FIXME - Is that the correct error message?
-          return _('Your LDAP setup contains old schema definitions:').'<br/><br/><i>'.$tr['MSG'].'</i>';
-        }
+    $cfg = array();
+    $cfg['admin']       = $config->current['ADMINDN'];
+    $cfg['password']    = $config->current['ADMINPASSWORD'];
+    $cfg['connection']  = $config->current['SERVER'];
+    $cfg['tls']         = ($config->get_cfg_value('ldapTLS') == 'TRUE');
+    $str = check_schema($cfg);
+    foreach ($str as $tr) {
+      if (isset($tr['IS_MUST_HAVE']) && !$tr['STATUS']) {
+        return _('LDAP schema check reported errors:').'<br/><br/><i>'.$tr['MSG'].'</i>';
       }
     }
     return TRUE;
@@ -268,7 +247,8 @@ class Index {
   /* Check locking LDAP branch is here or create it */
   static function checkForLockingBranch()
   {
-    global $config,$ldap;
+    global $config;
+    $ldap = $config->get_ldap_link();
     $ldap->cat(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'], array('dn'));
     $attrs = $ldap->fetch();
     if (!count($attrs)) {
@@ -389,8 +369,57 @@ class Index {
 
     $success = self::runSteps(array(
       'validateUserInput',
-      'checkLdapConnection',
       'ldapLoginUser',
+      'loginAndCheckExpired',
+      'runSchemaCheck',
+      'checkForLockingBranch',
+    ));
+
+    if ($success) {
+      /* Everything went well, redirect to main.php */
+      self::redirect();
+    }
+  }
+
+  /* All login steps in the right order for CAS login */
+  static function casLoginProcess()
+  {
+    global $config, $message;
+
+    self::init();
+
+    /* Reset error messages */
+    $message = '';
+
+    //~ phpCAS::setDebug();
+
+    // Initialize phpCAS
+    phpCAS::client(
+      CAS_VERSION_2_0,
+      $config->get_cfg_value('casHost', 'localhost'),
+      (int)($config->get_cfg_value('casPort', 443)),
+      $config->get_cfg_value('casContext', '/cas')
+    );
+
+    // Set the CA certificate that is the issuer of the cert
+    phpCAS::setCasServerCACert($config->get_cfg_value('casServerCaCertPath'));
+    //~ phpCAS::setNoCasServerValidation();
+
+    // force CAS authentication
+    phpCAS::forceAuthentication();
+    self::$username = phpCAS::getUser();
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
+    $verify_attr = explode(',', $config->get_cfg_value('loginAttribute', 'uid'));
+    $filter = '';
+    foreach ($verify_attr as $attr) {
+      $filter .= '('.$attr.'='.self::$username.')';
+    }
+    $ldap->search('(&(|'.$filter.')(objectClass=inetOrgPerson))');
+    $ldap->fetch();
+    $ui = new userinfo($config, $ldap->getDn());
+
+    $success = self::runSteps(array(
       'loginAndCheckExpired',
       'runSchemaCheck',
       'checkForLockingBranch',
@@ -403,8 +432,14 @@ class Index {
   }
 }
 
-/* Got a formular answer, validate and try to log in */
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
+if ($config->get_cfg_value('casActivated') == 'TRUE') {
+  require_once('CAS.php');
+  /* Move CAS autoload before FD autoload */
+  spl_autoload_unregister('CAS_autoload');
+  spl_autoload_register('CAS_autoload', TRUE, TRUE);
+  Index::casLoginProcess();
+} elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
+  /* Got a formular answer, validate and try to log in */
   Index::fullLoginProcess();
 }
 
