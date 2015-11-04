@@ -34,7 +34,6 @@ class userinfo
 {
   var $dn;
   var $ip;
-  var $username;
   var $cn;
   var $uid;
   var $gidNumber    = -1;
@@ -56,11 +55,13 @@ class userinfo
   {
     $this->config = &$config;
     $ldap = $this->config->get_ldap_link();
-    $ldap->cat($userdn, array('sn', 'givenName', 'uid', 'gidNumber', 'preferredLanguage'));
+    $ldap->cat($userdn, array('cn', 'sn', 'givenName', 'uid', 'gidNumber', 'preferredLanguage'));
     $attrs = $ldap->fetch();
 
-    if (isset($attrs['givenName'][0]) && isset($attrs['sn'][0])) {
-      $this->cn = $attrs['givenName'][0]." ".$attrs['sn'][0];
+    if (isset($attrs['cn'][0])) {
+      $this->cn = $attrs['cn'][0];
+    } elseif (isset($attrs['givenName'][0]) && isset($attrs['sn'][0])) {
+      $this->cn = $attrs['givenName'][0].' '.$attrs['sn'][0];
     } else {
       $this->cn = $attrs['uid'][0];
     }

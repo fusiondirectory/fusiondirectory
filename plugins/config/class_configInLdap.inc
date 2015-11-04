@@ -250,6 +250,36 @@ class configInLdap extends simplePlugin
           ),
         )
       ),
+      'cas' => array(
+        'name'  => _('CAS'),
+        'attrs' => array(
+          new BooleanAttribute (
+            _('Enable CAS'), _('CAS login will be used instead of LDAP bind'),
+            'fdCasActivated', FALSE,
+            FALSE
+          ),
+          new StringAttribute (
+            _('CA certificate path'), _('Path to the CA certificate of the CAS server'),
+            'fdCasServerCaCertPath', FALSE,
+            '/etc/ssl/certs/ca.cert'
+          ),
+          new StringAttribute (
+            _('Host'), _('Host of the CAS server'),
+            'fdCasHost', FALSE,
+            'localhost'
+          ),
+          new IntAttribute (
+            _('Port'), _('Port the CAS server is listening on'),
+            'fdCasPort', FALSE,
+            0 /*min*/, FALSE /*no max*/, 443
+          ),
+          new StringAttribute (
+            _('CAS context'), _('CAS context to be used'),
+            'fdCasContext', FALSE,
+            '/cas'
+          ),
+        )
+      ),
       'people_and_group' => array(
         'name'  => _('People and group storage'),
         'class' => array('critical'),
@@ -467,6 +497,18 @@ class configInLdap extends simplePlugin
           'traditional' => array (
             'fdUidNumberPoolMin','fdUidNumberPoolMax',
             'fdGidNumberPoolMin','fdGidNumberPoolMax',
+          )
+        )
+      )
+    );
+    $this->attributesAccess['fdCasActivated']->setManagedAttributes(
+      array(
+        'disable' => array (
+          FALSE => array (
+            'fdCasServerCaCertPath',
+            'fdCasHost',
+            'fdCasPort',
+            'fdCasContext',
           )
         )
       )
