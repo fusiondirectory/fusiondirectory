@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2015-10-21 21:44+0200\n"
-"PO-Revision-Date: 2015-10-22 00:25+0000\n"
+"PO-Revision-Date: 2015-11-03 10:43+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Italian (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -3498,7 +3498,7 @@ msgstr "Valore non valido per %s"
 
 #: include/simpleplugin/simple-list.xml:11
 msgid "NO LABEL"
-msgstr ""
+msgstr "Nessuna etichetta"
 
 #: include/simpleplugin/class_simpleTabs.inc:92
 #, php-format
