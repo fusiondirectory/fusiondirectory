@@ -238,7 +238,7 @@ class Index {
     $str = check_schema($cfg);
     foreach ($str as $tr) {
       if (isset($tr['IS_MUST_HAVE']) && !$tr['STATUS']) {
-        return _('LDAP schema check reported errors:').'<br/><br/><i>'.$tr['MSG'].'</i>';
+        return _('LDAP schema check reported errors:').'<br/><br/><i>'.$tr['MSG'].'</i>';
       }
     }
     return TRUE;
