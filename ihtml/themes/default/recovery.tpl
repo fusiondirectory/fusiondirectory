@@ -29,22 +29,7 @@
     <!-- Display error message on demand -->
     <p class="warning"> {$message} </p>
 
-{if $step==2}
-    <p class="infotext">
-      {t}Password recovery for email {$email_address}{/t}
-    </p>
-
-    <p class="infotext">
-      <ul>
-        <li>{t}Receive by email a link that allows you to reset your password{/t} :
-          <input type="submit" name="send"  value="{t}Send{/t}"
-                 title="{t}Click here to send a reset link{/t}">
-          <input type="hidden" id="email_address" maxlength="60" value="{$email_address}">
-          <input type="hidden" id="uid" maxlength="60" value="{$uid}">
-        </li>
-      </ul>
-    </p>
-{elseif $step==3}
+{if $step==3}
     <p class="infotext">
       {t}Informations to reset password for {$uid} have been sent to email address {$email_address}{/t}<br/>
       <div style="color:red;">{t}Warning : this email is only valid for {$delay_allowed} minutes.{/t}</div>
@@ -93,8 +78,6 @@
 
     <div class="change" style="float:right; text-align:right;">
       <input type="submit" name="change" value="{t}Change{/t}" title="{t}Click here to change your password{/t}">
-      <input type="hidden" id="email_address" maxlength="60" value="{$email_address}">
-      <input type="hidden" id="uniq" maxlength="60" value="{$uniq}">
       <input type="hidden" id="formSubmit">
     </div>
     <div style="clear:both"></div>
