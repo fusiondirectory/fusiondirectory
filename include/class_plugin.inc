@@ -702,6 +702,49 @@ class plugin
         } else {
           return array(substr($str, $args[0], $args[1]));
         }
+      case 'r': // random string
+        $length = 8;
+        $chars  = 'b';
+        if (count($args) >= 2) {
+          $length = mt_rand($args[0], $args[1]);
+          if (count($args) >= 3) {
+            $chars = $args[2];
+          }
+        } elseif (count($args) >= 1) {
+          $length = $args[0];
+        }
+        $res = '';
+        for ($i = 0; $i < $args[0]; ++$i) {
+          switch($chars) {
+            case 'l':
+              $res .= (string)rand(0,9);
+            break;
+            case 'd':
+              $nb = mt_rand(65,116);
+              if ($nb > 90) {
+                /* lowercase */
+                $nb += 6;
+              }
+              $res .= chr($nb);
+            break;
+            case 'b':
+            default:
+              $nb = mt_rand(65,126);
+              if ($nb > 116) {
+                /* digit */
+                $nb = (string)($nb - 117);
+              } else {
+                if ($nb > 90) {
+                  /* lowercase */
+                  $nb += 6;
+                }
+                $nb = chr($nb);
+              }
+              $res .= $nb;
+            break;
+          }
+        }
+        return $res;
       default:
         trigger_error("Unkown modifier '$m'");
         return array($str);
@@ -718,16 +761,14 @@ class plugin
       $modifiers = $m[1];
       $mask = substr($mask, strlen($m[0]));
     }
+    $result = array('');
     if (isset($attrs[$mask])) {
       $result = array($attrs[$mask]);
       if (is_array($result[0])) {
         unset($result[0]['count']);
       }
-    } else {
-      if (!preg_match('/c/', $modifiers)) {
-        trigger_error("'$mask' was not found in attributes");
-      }
-      $result = array('');
+    } elseif (($mask !== '') && !preg_match('/c/', $modifiers)) {
+      trigger_error("'$mask' was not found in attributes");
     }
     $len    = strlen($modifiers);
     for ($i = 0; $i < $len; ++$i) {
