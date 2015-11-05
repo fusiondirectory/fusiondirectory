@@ -260,12 +260,12 @@ class configInLdap extends simplePlugin
             FALSE
           ),
           new StringAttribute (
-            _('CA certificate path'), _('Path to the CA certificate of the CAS server'),
+            _('CA certificate path'), _('Path to the CA certificate of the CAS server'),
             'fdCasServerCaCertPath', FALSE,
             '/etc/ssl/certs/ca.cert'
           ),
           new StringAttribute (
-            _('Host'), _('Host of the CAS server'),
+            _('Host'), _('Host of the CAS server'),
             'fdCasHost', FALSE,
             'localhost'
           ),
