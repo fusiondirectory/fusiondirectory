@@ -150,15 +150,11 @@ class passwordRecovery {
 
     /* Got a formular answer, validate and try to log in */
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-      /* Destroy old sessions, they cause a successfull login to relog again ... */
       if (session::global_is_set('_LAST_PAGE_REQUEST')) {
         session::global_set('_LAST_PAGE_REQUEST', time());
       }
 
-      if (isset($_POST['send'])) {
-        /* should not happen */
-        $this->step3();
-      } elseif (isset($_POST['change'])) {
+      if (isset($_POST['change'])) {
         $this->step4();
       } elseif (isset($_POST['apply'])) {
         $this->step2();
