@@ -110,9 +110,7 @@ function displayLogin()
 session::start();
 session::set('errorsAlreadyPosted', array());
 
-/* Destroy old session if exists.
-   Else you will get your old session back, if you not logged out correctly. */
-if (is_array(session::get_all()) && count(session::get_all())) {
+if (isset($_REQUEST['signout']) && $_REQUEST['signout']) {
   session::destroy();
   session::start();
 }
@@ -181,7 +179,7 @@ if (isset($_POST['server'])) {
 }
 
 $config->set_current($server);
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if (($_SERVER['REQUEST_METHOD'] == 'POST') || ($config->get_cfg_value('casActivated') == 'TRUE')) {
   session::global_set('DEBUGLEVEL', 0);
 }
 
@@ -306,10 +304,11 @@ class Index {
     /* User might have its own language, re-run initLanguage */
     initLanguage();
 
-    /* Let FusionDirectory trigger a new connection for each POST, save config to session. */
+    /* Save config to session. */
     session::global_set('config', $config);
 
     /* We need a fully loaded plist and config to test account expiration */
+    session::global_un_set('plist');
     $plist = load_plist();
 
     /* Check account expiration */
@@ -384,7 +383,7 @@ class Index {
   /* All login steps in the right order for CAS login */
   static function casLoginProcess()
   {
-    global $config, $message;
+    global $config, $message, $ui;
 
     self::init();
 
@@ -417,6 +416,27 @@ class Index {
     }
     $ldap->search('(&(|'.$filter.')(objectClass=inetOrgPerson))');
     $ldap->fetch();
+    if ($ldap->count() < 1) {
+      msg_dialog::display(
+        _('Error'),
+        sprintf(
+          _('CAS user "%s" could not be found in the LDAP'),
+          self::$username
+        ),
+        FATAL_ERROR_DIALOG
+      );
+      exit();
+    } elseif ($ldap->count() > 1) {
+      msg_dialog::display(
+        _('Error'),
+        sprintf(
+          _('CAS user "%s" match several users in the LDAP'),
+          self::$username
+        ),
+        FATAL_ERROR_DIALOG
+      );
+      exit();
+    }
     $ui = new userinfo($config, $ldap->getDn());
 
     $success = self::runSteps(array(
