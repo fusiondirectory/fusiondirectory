@@ -1282,7 +1282,6 @@ class config  {
     foreach ($this->data['CATEGORIES'] as $name => &$infos) {
       $infos['classes'] = array_unique($infos['classes']);
       if (!isset($infos['description'])) {
-        trigger_error("ACL category '$name' for classes ".join(',', $infos['classes'])." has no definition");
         $infos['description'] = $name;
         $infos['objectClass'] = array();
       }
