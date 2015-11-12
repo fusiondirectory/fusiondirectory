@@ -543,7 +543,7 @@ class simplePlugin extends plugin
       return TRUE;
     } else {
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_MOD, get_class()), LDAP_ERROR);
-      return FALSE
+      return FALSE;
     }
   }
 
