@@ -515,8 +515,9 @@ class simplePlugin extends plugin
       $this->attrs = $this->templateSaveAttrs();
       $this->saved_attributes = array();
     }
-    $this->ldap_remove();
-    $this->post_remove();
+    if ($this->ldap_remove()) {
+      $this->post_remove();
+    }
   }
 
   protected function prepare_remove ()
@@ -538,8 +539,11 @@ class simplePlugin extends plugin
 
     $this->ldap_error = $ldap->get_error();
 
-    if (!$ldap->success()) {
+    if ($ldap->success()) {
+      return TRUE;
+    } else {
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_MOD, get_class()), LDAP_ERROR);
+      return FALSE
     }
   }
 
