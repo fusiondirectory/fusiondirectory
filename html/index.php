@@ -415,7 +415,7 @@ class Index {
       $filter .= '('.$attr.'='.self::$username.')';
     }
     $ldap->search('(&(|'.$filter.')(objectClass=inetOrgPerson))');
-    $ldap->fetch();
+    $attrs = $ldap->fetch();
     if ($ldap->count() < 1) {
       msg_dialog::display(
         _('Error'),
@@ -437,7 +437,8 @@ class Index {
       );
       exit();
     }
-    $ui = new userinfo($config, $ldap->getDn());
+    $ui = new userinfo($config, $attrs['dn']);
+    $ui->loadACL();
 
     $success = self::runSteps(array(
       'loginAndCheckExpired',
