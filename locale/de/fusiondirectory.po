@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2015-11-05 22:09+0100\n"
-"PO-Revision-Date: 2015-11-05 21:07+0000\n"
-"Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
+"PO-Revision-Date: 2015-11-09 10:12+0000\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -867,7 +867,7 @@ msgstr "Abgelaufene Konten"
 
 #: plugins/personal/generic/class_user.inc:46
 msgid "Password method"
-msgstr "Passwort-Methode"
+msgstr "Passwortmethode"
 
 #: plugins/personal/generic/class_user.inc:46
 msgid "Password hash method to use"
@@ -1387,7 +1387,7 @@ msgstr "Aktiviert Schema-Überprüfung während des Logins."
 
 #: plugins/config/class_configInLdap.inc:120
 msgid "Password settings"
-msgstr "Passwort-Einstellungen"
+msgstr "Passworteinstellungen"
 
 #: plugins/config/class_configInLdap.inc:123
 msgid "Password default hash"
@@ -1872,7 +1872,7 @@ msgstr "Automatisch"
 
 #: plugins/config/class_recoveryConfig.inc:28
 msgid "Password recovery"
-msgstr "Passwort-Wiederherstellung"
+msgstr "Passwortwiederherstellung"
 
 #: plugins/config/class_recoveryConfig.inc:29
 msgid "Settings for the password recovery feature"
@@ -1884,7 +1884,7 @@ msgstr "Passwortwiederherstellungseinstellungen"
 
 #: plugins/config/class_recoveryConfig.inc:44
 msgid "Activate password recovery"
-msgstr "Aktivieren der Passwort-Wiederherstellung"
+msgstr "Passwortwiederherstellung aktivieren"
 
 #: plugins/config/class_recoveryConfig.inc:45
 msgid "Whether to activate or not password recovery feature"
@@ -1977,7 +1977,7 @@ msgstr "Betreff der zweiten Email"
 
 #: plugins/config/class_recoveryConfig.inc:105
 msgid "[FusionDirectory] Password recovery successful"
-msgstr "[FusionDirectory] Passwort-Wiederherstellung erfolgreich"
+msgstr "[FusionDirectory] Passwortwiederherstellung erfolgreich"
 
 #: plugins/config/class_recoveryConfig.inc:108
 #, php-format
@@ -3699,7 +3699,7 @@ msgstr "Schwerer Fehler: Register globals ist aktiviert. FusionDirectory wird Lo
 
 #: html/main.php:140
 msgid "Password change"
-msgstr "Passwort-Änderung"
+msgstr "Passwortänderung"
 
 #: html/main.php:140
 msgid "Your password is about to expire, please change your password!"
@@ -4595,7 +4595,7 @@ msgstr "Sie haben keine Berechtigung Ihr Passwort zu ändern"
 
 #: plugins/personal/generic/nochange.tpl.c:5
 msgid "Your password hash method will not be changed!"
-msgstr "Ihr Passwort-Hash wird nicht geändert!"
+msgstr "Ihre Passwort-Hashmethode wird nicht geändert!"
 
 #: ihtml/themes/default/islocked.tpl.c:2
 msgid "Locking conflict detected"
@@ -4649,7 +4649,7 @@ msgstr "Setzen"
 
 #: ihtml/themes/default/recovery.tpl.c:2
 msgid "FusionDirectory password recovery"
-msgstr "FusionDirectory Passwort-Wiederherstellung"
+msgstr "FusionDirectory-Passwortwiederherstellung"
 
 #: ihtml/themes/default/recovery.tpl.c:11
 msgid "Lost password"
@@ -4676,7 +4676,7 @@ msgstr "Neues Passwort (Wiederholung)"
 
 #: ihtml/themes/default/recovery.tpl.c:38
 msgid "Password strength"
-msgstr "Passwort-Stärke"
+msgstr "Passwortstärke"
 
 #: ihtml/themes/default/recovery.tpl.c:41
 #: ihtml/themes/default/recovery.tpl.c:74
@@ -4716,7 +4716,7 @@ msgstr "Mail"
 msgid ""
 "Password recovery is not activated. If you have lost your password, please "
 "contact your administrator"
-msgstr "Passwort-Wiederherstellung ist nicht aktiviert. Wenn Sie Ihr Passwort verloren haben, kontaktieren Sie bitte Ihren Administrator"
+msgstr "Passwortwiederherstellung ist nicht aktiviert. Wenn Sie Ihr Passwort verloren haben, kontaktieren Sie bitte Ihren Administrator"
 
 #: ihtml/themes/default/remove.tpl.c:5
 msgid ""
