@@ -2559,6 +2559,9 @@ class OrderedArrayAttribute extends SetAttribute
           $fields[] = array('string' => $field);
         }
       }
+      if (empty($fields)) {
+        continue;
+      }
 
       list ($img, $width) = $this->genRowIcons($key, $value);
 
