@@ -143,9 +143,11 @@ transition:box-shadow .5s ease, background .5s ease;
 }
 html.ltr .iconmenu {
 float:left;
+text-align:left;
 }
 html.rtl .iconmenu {
 float:right;
+text-align:right;
 }
 .iconmenu:hover {
 box-shadow:0px 0px 4px black;
