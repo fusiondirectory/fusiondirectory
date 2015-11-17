@@ -330,9 +330,6 @@ class plugin
    */
   function execute()
   {
-    /* This one is empty currently. Fabian - please fill in the docu code */
-    session::global_set('current_class_for_help', get_class($this));
-
     /* Reset Lock message POST/GET check array, to prevent perg_match errors*/
     session::set('LOCK_VARS_TO_USE', array());
     session::set('LOCK_VARS_USED_GET', array());
