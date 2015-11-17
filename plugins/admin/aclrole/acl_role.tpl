@@ -4,7 +4,7 @@
 
   <hr/>
   <div style="text-align:right;margin-top:5px">
-    {render acl=$gosaAclEntryACL}
+    {render acl=$gosaAclTemplateACL}
       <input type="submit" name="submit_new_acl" value="{msgPool type=applyButton}"/>
       &nbsp;
     {/render}
@@ -15,13 +15,13 @@
 {if $dialogState eq 'edit'}
   <h1>{$headline}</h1>
 
-  {render acl=$gosaAclEntryACL}
+  {render acl=$gosaAclTemplateACL}
     {$aclSelector}
   {/render}
 
   <hr/>
   <div style="text-align:right;margin-top:5px">
-    {render acl=$gosaAclEntryACL}
+    {render acl=$gosaAclTemplateACL}
       <input type="submit" name="submit_edit_acl" value="{msgPool type=applyButton}"/>
       &nbsp;
     {/render}

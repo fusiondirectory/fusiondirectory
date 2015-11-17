@@ -33,6 +33,12 @@ class ACLDialog extends GenericDialog
     $this->initialAclValue  = $acl;
   }
 
+  function dialog_execute ()
+  {
+    $this->dialog->save_object();
+    return $this->dialog->execute();
+  }
+
   function handle_finish ()
   {
     $this->attribute->addValue($this->dialog->getAclEntry());
@@ -51,8 +57,8 @@ class ACLDialog extends GenericDialog
 /* complicated stuff */
 class ACLsAttribute extends DialogOrderedArrayAttribute
 {
-  protected $order = TRUE;
-  protected $dialogClass = 'ACLDialog';
+  protected $order        = TRUE;
+  protected $dialogClass  = 'ACLDialog';
 
   protected function getAttributeArrayValue($key, $value)
   {
@@ -158,34 +164,41 @@ class aclRole extends simplePlugin
   }
 }
 
-class acl_createedit extends acl
+class acl_createedit extends simplePlugin
 {
+  var $objectclasses  = array('gosaAcl');
+
   /* Helpers */
-  var $dialogState      = "create";
-  var $aclType          = "";
-  var $aclObject        = "";
+  var $dialogState      = 'create';
+  var $aclObject        = '';
   var $aclContents      = array();
-  var $recipients       = array();
   var $savedAclContents = array();
 
   static function plInfo()
   {
   }
 
+  static function getAttributesInfo()
+  {
+    return array();
+  }
+
   function __construct (&$config, $acl = NULL)
   {
     /* Include config object */
-    plugin::__construct($config, $config->current['BASE']);
+    parent::__construct($config, $config->current['BASE']);
 
-    $this->loadAclEntry($acl);
+    /* New entry gets presets... */
+    if ($acl === NULL) {
+      $this->aclContents  = array();
+    } else {
+      $this->aclContents  = $acl;
+    }
   }
 
-  function execute()
+  function save_object()
   {
-    /* Call parent execute */
-    plugin::execute();
-
-    $new_acl    = array();
+    $new_acl = array();
 
     foreach ($_POST as $name => $post) {
       /* Actions... */
@@ -196,12 +209,11 @@ class acl_createedit extends acl
           if (isset($this->aclContents[$oc])) {
             $this->savedAclContents[$oc] = $this->aclContents[$oc];
           }
+          if (isset($this->aclContents[$this->aclObject.'/'.$oc])) {
+            $this->savedAclContents[$this->aclObject.'/'.$oc] = $this->aclContents[$this->aclObject.'/'.$oc];
+          }
         }
-        continue;
-      }
-
-      if (!$this->acl_is_writeable("gosaAclEntry")) {
-        continue;
+        break;
       }
 
       if (preg_match('/^cat_del_.*_x/', $name)) {
@@ -209,10 +221,10 @@ class acl_createedit extends acl
         foreach ($this->config->data['CATEGORIES'][$idx]['classes'] as $key) {
           unset($this->aclContents["$idx/$key"]);
         }
-        continue;
+        break;
       }
 
-      /* ACL saving... */
+      /* ACL checkbox saving... */
       if (preg_match('/^acl_([^_]+)_(.*)_([^_yx])$/', $name, $matches)) {
         $object     = $matches[1];
         $attribute  = $matches[2];
@@ -236,7 +248,7 @@ class acl_createedit extends acl
     }
 
     /* Only be interested in new acl's, if we're in the right _POST place */
-    if (isset($_POST['acl_dummy_0_0_0']) && ($this->aclObject != "") && is_array($this->config->data['CATEGORIES'][$this->aclObject])) {
+    if (isset($_POST['acl_dummy_0_0_0']) && ($this->aclObject != '') && is_array($this->config->data['CATEGORIES'][$this->aclObject])) {
       foreach ($this->config->data['CATEGORIES'][$this->aclObject]['classes'] as $oc) {
         unset($this->aclContents[$oc]);
         unset($this->aclContents[$this->aclObject.'/'.$oc]);
@@ -256,40 +268,44 @@ class acl_createedit extends acl
         if (isset($this->savedAclContents[$oc])) {
           $this->aclContents[$oc] = $this->savedAclContents[$oc];
         }
-      }
-    }
-
-    if ($this->acl_is_writeable("gosaAclEntry")) {
-      /* Save edit acl? */
-      if (isset($_POST['submit_edit_acl'])) {
-        $this->dialogState = 'create';
-      }
-
-      /* Save common values */
-      foreach (array("aclObject") as $key) {
-        if (isset($_POST[$key])) {
-          $this->$key = validate($_POST[$key]);
+        if (isset($this->savedAclContents[$this->aclObject.'/'.$oc])) {
+          $this->aclContents[$this->aclObject.'/'.$oc] = $this->savedAclContents[$this->aclObject.'/'.$oc];
         }
       }
     }
 
+    /* Save edit acl? */
+    if (isset($_POST['submit_edit_acl'])) {
+      $this->dialogState = 'create';
+    }
+  }
+
+  function execute()
+  {
+    /* Call parent execute */
+    parent::execute();
+
     /* Create templating instance */
     $smarty = get_smarty();
-    $smarty->assign("usePrototype", "true");
+    $smarty->assign('usePrototype', 'true');
 
-    $smarty->assign("gosaAclEntryACL", $this->getacl('gosaAclEntry'));
+    $smarty->assign('gosaAclTemplateACL', $this->getacl('gosaAclTemplate'));
 
     if ($this->dialogState == 'create') {
       /* Draw list */
-      $aclList = new divSelectBox("aclList");
-      $aclList->SetHeight(450);
+      $aclList = new divSelectBox('aclList');
+      $aclList->setHeight('auto');
 
       /* Add settings for all categories to the (permanent) list */
       foreach ($this->config->data['CATEGORIES'] as $section => $infos) {
-        $summary = "";
+        if (($section != 'all') && (count($infos['classes']) == 1)) {
+          /* Hide empty categories */
+          continue;
+        }
+        $summary = '';
         foreach ($infos['classes'] as $oc) {
           if (isset($this->aclContents[$oc]) && count($this->aclContents[$oc]) && isset($this->aclContents[$oc][0]) &&
-              $this->aclContents[$oc][0] != "") {
+              $this->aclContents[$oc][0] != '') {
 
             $summary .= "$oc, ";
             continue;
@@ -311,14 +327,10 @@ class acl_createedit extends acl
         }
 
         $action = "";
-        if ($this->acl_is_readable("gosaAclEntry")) {
-          $action .= "<input class='center' type='image' src='geticon.php?context=actions&amp;icon=document-edit&amp;size=16'
-            alt='"._("Edit")."' name='cat_edit_$section'   title='"._("Edit category ACL")."'>";
-        }
-        if ($this->acl_is_writeable("gosaAclEntry")) {
-          $action .= "<input class='center' type='image' src='geticon.php?context=actions&amp;icon=edit-delete&amp;size=16'
-            alt='"._("Delete")."' name='cat_del_$section' title='"._("Reset category ACL")."'>";
-        }
+        $action .= "<input class='center' type='image' src='geticon.php?context=actions&amp;icon=document-edit&amp;size=16'
+          alt='"._("Edit")."' name='cat_edit_$section'   title='"._("Edit category ACL")."'>";
+        $action .= "<input class='center' type='image' src='geticon.php?context=actions&amp;icon=edit-delete&amp;size=16'
+          alt='"._("Delete")."' name='cat_del_$section' title='"._("Reset category ACL")."'>";
 
         $field1 = array("html" => $infos['description'], "attach" => "style='width:140px'");
         $field2 = array("html" => $summary);
@@ -326,11 +338,12 @@ class acl_createedit extends acl
         $aclList->AddEntry(array($field1, $field2, $field3));
       }
 
-      $smarty->assign("aclList", $aclList->DrawList());
+      $smarty->assign('aclList', $aclList->DrawList());
     } elseif ($this->dialogState == 'edit') {
       $smarty->assign('headline', sprintf(_("Edit ACL for '%s'"), $this->config->data['CATEGORIES'][$this->aclObject]['description']));
 
       /* Collect objects for selected category */
+      $aclObjects = array();
       foreach ($this->config->data['CATEGORIES'][$this->aclObject]['classes'] as $idx => $class) {
         if ($idx == 0) {
           continue;
@@ -339,13 +352,13 @@ class acl_createedit extends acl
         $aclObjects[$this->aclObject.'/'.$class] = $pInfos['plShortName'];
       }
       if ($this->aclObject == 'all') {
-        $aclObjects['all'] = _("All objects in current subtree");
+        $aclObjects['all'] = _('All objects in current subtree');
       }
       $smarty->assign('aclSelector', $this->buildAclSelector($aclObjects));
     }
 
     /* Show main page */
-    $smarty->assign("dialogState", $this->dialogState);
+    $smarty->assign('dialogState', $this->dialogState);
 
     return $smarty->fetch(get_template_path('acl_role.tpl', dirname(__FILE__)));
   }
@@ -363,14 +376,9 @@ class acl_createedit extends acl
    */
   function mkchkbx($name, $text, $state = FALSE)
   {
-    $state = ($state?"checked":"");
-    if ($this->acl_is_writeable("")) {
-      $tname = preg_replace("/[^a-z0-9]/i", "_", $name);
-      return  "\n      <input id='acl_$tname' type=checkbox name='acl_$name' $state>".
-              "\n      <label for='acl_$tname'>$text</label>";
-    } else {
-      return "\n <input type='checkbox' disabled name='dummy_".microtime(1)."' $state>$text";
-    }
+    $tname = preg_replace('/[^a-z0-9]/i', '_', $name);
+    return  '<input id="acl_'.$tname.'" type="checkbox" name="acl_'.$name.'"'.($state ? ' checked="checked"' : '').'/>'."\n".
+            '<label for="acl_'.$tname.'">'.$text.'</label>'."\n";
   }
 
   /*!
@@ -382,21 +390,16 @@ class acl_createedit extends acl
    *
    * \return String containing checkbox
    */
-  function mkrwbx($name, $state = "")
+  function mkrwbx($name, $state = '')
   {
-    $rstate = (preg_match('/r/', $state)?'checked':'');
-    $wstate = (preg_match('/w/', $state)?'checked':'');
+    $rstate = (preg_match('/r/', $state) ? 'checked' : '');
+    $wstate = (preg_match('/w/', $state) ? 'checked' : '');
     $tname  = preg_replace("/[^a-z0-9]/i", "_", $name);
 
-    if ($this->acl_is_writeable("")) {
-      return  "\n      <input id='acl_".$tname."_r' type=checkbox name='acl_${name}_r' $rstate>".
-              "\n      <label for='acl_".$tname."_r'>"._("read")."</label>".
-              "\n      <input id='acl_".$tname."_w' type=checkbox name='acl_${name}_w' $wstate>".
-              "\n      <label for='acl_".$tname."_w'>"._("write")."</label>";
-    } else {
-      return  "\n      <input disabled type=checkbox name='dummy_".microtime(1)."' $rstate>"._("read").
-              "\n      <input disabled type=checkbox name='dummy_".microtime(1)."' $wstate>"._("write");
-    }
+    return  "\n      <input id='acl_".$tname."_r' type=checkbox name='acl_${name}_r' $rstate>".
+            "\n      <label for='acl_".$tname."_r'>"._("read")."</label>".
+            "\n      <input id='acl_".$tname."_w' type=checkbox name='acl_${name}_w' $wstate>".
+            "\n      <label for='acl_".$tname."_w'>"._("write")."</label>";
   }
 
   /*!
@@ -448,7 +451,7 @@ class acl_createedit extends acl
     }
 
     /* Build general objects */
-    $list = $this->sort_by_priority($list);
+    $list = acl::sort_by_priority($list);
     foreach ($list as $key => $name) {
       /* Create sub acl if it does not exist */
       if (!isset($this->aclContents[$key])) {
@@ -557,24 +560,9 @@ class acl_createedit extends acl
     return $display;
   }
 
-  function loadAclEntry($acl = NULL)
-  {
-    /* New entry gets presets... */
-    if ($acl === NULL) {
-      $this->aclContents  = array();
-    } else {
-      $this->aclContents  = $acl;
-    }
-  }
-
   function getAclEntry()
   {
     return $this->aclContents;
-  }
-
-  function save_object()
-  {
-    plugin::save_object();
   }
 }
 ?>

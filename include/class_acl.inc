@@ -26,75 +26,24 @@
 
 /*!
  * \brief This class contains all the function needed to manage acl
- * \see class_plugin
  */
-class acl extends plugin
+class acl
 {
-  /* attribute list for save action */
-  var $attributes     = array('gosaAclEntry');
-  var $objectclasses  = array('gosaAcl');
-
-  /* Helpers */
-  var $dialogState      = "head";
-  var $gosaAclEntry     = array();
-  var $aclType          = "";
-  var $aclObject        = "";
-  var $aclContents      = array();
-  var $aclFilter        = "";
-  var $aclMyObjects     = array();
-  var $roles            = array();
-  var $recipients       = array();
-  var $currentIndex     = 0;
-  var $wasNewEntry      = FALSE;
-  var $savedAclContents = array();
-  var $acl_category     = "acl/";
-
-  /*!
-   * \brief Acl contructor
-   *
-   * \param String $config Configuration file for ACL
-   *
-   * \param String $parent
-   *
-   * \param String $dn The DN
-   */
-  function acl (&$config, $dn = NULL, $baseobject = NULL)
+  static function plInfo()
   {
-    /* Include config object */
-    parent::__construct($config, $dn, $baseobject);
+    return array(
+      'plShortName'   => _('ACL'),
+      'plDescription' => _('Manage access control lists'),
+      'plCategory'    => array(
+        'acl' => array(
+          'description'  => _('ACL').'&nbsp;&amp;&nbsp;'._('ACL roles'),
+          'objectClass'  => array('gosaAcl','gosaRole')
+        )
+      ),
+      'plObjectType'  => array(),
 
-    /* Load ACL's */
-    $this->gosaAclEntry = array();
-    if (isset($this->attrs['gosaAclEntry'])) {
-      for ($i = 0; $i < $this->attrs['gosaAclEntry']['count']; $i++) {
-        $acl = $this->attrs['gosaAclEntry'][$i];
-        $this->gosaAclEntry = array_merge($this->gosaAclEntry, acl::explodeACL($acl));
-      }
-    }
-    ksort($this->gosaAclEntry);
-
-    /* Save parent - we've to know more about it than other plugins... */
-    if (($baseobject !== NULL) && isset($baseobject->parent)) {
-      $this->parent =& $baseobject->parent;
-    }
-
-    $ldap = $config->get_ldap_link();
-
-    /* Roles TODO - use objects::ls?*/
-    $ldap->cd($config->current['BASE']);
-    $ldap->search('(objectClass=gosaRole)', array('cn', 'description','gosaAclTemplate','dn'));
-    while ($attrs = $ldap->fetch()) {
-      $role_id = $attrs['dn'];
-
-      $this->roles[$role_id]['acls']  = acl::explodeRole($attrs['gosaAclTemplate']);
-      $this->roles[$role_id]['cn']    = $attrs['cn'][0];
-      if (isset($attrs['description'][0])) {
-        $this->roles[$role_id]['description'] = $attrs['description'][0];
-      }
-    }
-
-    /* Finally - we want to get saved... */
-    $this->is_account = TRUE;
+      'plProvidedAcls'  => array()
+    );
   }
 
   /*!
@@ -102,7 +51,7 @@ class acl extends plugin
    *
    *  \param Array $list Array to be sorted
    */
-  function sort_by_priority($list)
+  static function sort_by_priority($list)
   {
     uksort($list,
       function ($a, $b)
@@ -266,48 +215,5 @@ class acl extends plugin
 
     return $a;
   }
-
-  /*!
-   * \brief Removes object from parent
-   */
-  function remove_from_parent()
-  {
-    parent::remove_from_parent();
-
-    /* include global link_info */
-    $ldap = $this->config->get_ldap_link();
-
-    $ldap->cd($this->dn);
-    $this->cleanup();
-    $ldap->modify($this->attrs);
-
-    new log('remove', 'acls/'.get_class($this), $this->dn, array_keys($this->attrs), $ldap->get_error());
-
-    /* Optionally execute a command after we're done */
-    $this->handle_post_events('remove');
-  }
-
-  /*
-   * \brief Return plugin informations for acl handling
-   */
-  static function plInfo()
-  {
-    return array(
-      'plShortName'   => _('ACL'),
-      'plDescription' => _('Manage access control lists'),
-      'plSelfModify'  => FALSE,
-      'plPriority'    => 0,
-      'plCategory'    => array(
-        'acl' => array(
-          'description'  => _('ACL').'&nbsp;&amp;&nbsp;'._('ACL roles'),
-          'objectClass'  => array('gosaAcl','gosaRole')
-        )
-      ),
-      'plObjectType'  => array(),
-
-      'plProvidedAcls'  => array()
-    );
-  }
 }
-
 ?>
