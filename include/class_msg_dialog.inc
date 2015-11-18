@@ -124,9 +124,8 @@ class msg_dialog
    */
   public static function displayChecks($messages)
   {
-    /* Assemble the message array to a plain string */
     foreach ($messages as $error) {
-      msg_dialog::display(_("Error"), $error, ERROR_DIALOG);
+      msg_dialog::display(_('Error'), $error, ERROR_DIALOG);
     }
   }
 

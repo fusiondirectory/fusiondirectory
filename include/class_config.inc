@@ -1118,7 +1118,7 @@ class config  {
     unset($plInfo);
     $this->data['CATEGORIES']['all'] = array(
       'classes'     => array('all'),
-      'description' => '*&nbsp;'._("All categories"),
+      'description' => '*&nbsp;'._('All categories'),
       'objectClass' => array(),
     );
     /* Extract categories definitions from object types */
@@ -1236,7 +1236,7 @@ class config  {
       }
     }
     unset($plInfo);
-    asort($this->data['CATEGORIES']);
+    ksort($this->data['CATEGORIES']);
     foreach ($this->data['CATEGORIES'] as $name => &$infos) {
       $infos['classes'] = array_unique($infos['classes']);
       if (!isset($infos['description'])) {
