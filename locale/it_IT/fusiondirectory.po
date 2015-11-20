@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2015-11-05 22:09+0100\n"
-"PO-Revision-Date: 2015-11-11 08:50+0000\n"
+"PO-Revision-Date: 2015-11-17 16:02+0000\n"
 "Last-Translator: Penati <penati@avaya.com>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -620,7 +620,7 @@ msgstr "Blocco dell'account"
 msgid ""
 "Password method \"%s\" does not support locking. Account \"%s\" has not been"
 " locked!"
-msgstr ""
+msgstr "La metodologia password \"%s\"  non sopporta il blocco. L'account \"%s\" non é stato bloccato!"
 
 #: plugins/admin/users/class_userManagement.inc:206
 msgid "Unlock account"
@@ -767,11 +767,11 @@ msgstr "Gestione delle ACL"
 
 #: plugins/admin/acl/class_aclAssignment.inc:28
 msgid "ACL Assignment Dialog"
-msgstr ""
+msgstr "Assegnazione Dialog ACL"
 
 #: plugins/admin/acl/class_aclAssignment.inc:29
 msgid "Access control roles assignment dialog"
-msgstr ""
+msgstr "Gestione della lista di controllo degli accessi"
 
 #: plugins/admin/acl/class_aclAssignment.inc:43
 msgid "Mode"
@@ -842,7 +842,7 @@ msgstr "Statistiche e informazioni varie"
 
 #: plugins/addons/dashboard/class_dashBoard.inc:36
 msgid "Reporting"
-msgstr ""
+msgstr "Reporting"
 
 #: plugins/addons/dashboard/class_dashBoard.inc:47
 #: plugins/addons/dashboard/main_stats.tpl.c:2
@@ -964,7 +964,7 @@ msgstr "Cercapersone"
 
 #: plugins/personal/generic/class_user.inc:328
 msgid "Business pager number"
-msgstr ""
+msgstr "Numero pager ufficio"
 
 #: plugins/personal/generic/class_user.inc:332
 msgid "Business fax number"
@@ -1021,7 +1021,7 @@ msgstr "Home Page"
 
 #: plugins/personal/generic/class_user.inc:374
 msgid "Personal homepage"
-msgstr ""
+msgstr "Pagina Web personale"
 
 #: plugins/personal/generic/class_user.inc:380
 msgid "Organizational information"
@@ -3257,7 +3257,7 @@ msgstr "Correggi l'errore qui sotto e ricarica la pagina."
 
 #: include/class_SnapshotDialogs.inc:30
 msgid "Creating an object snapshot"
-msgstr ""
+msgstr "Creare una copia instantanea degli oggetti"
 
 #: include/class_SnapshotDialogs.inc:33 include/class_SnapshotDialogs.inc:182
 msgid "DN of the object you are creating a snapshot of"
@@ -3273,11 +3273,11 @@ msgstr ""
 
 #: include/class_SnapshotDialogs.inc:41
 msgid "Reason"
-msgstr ""
+msgstr "Motivo"
 
 #: include/class_SnapshotDialogs.inc:41
 msgid "Reason for creating this snapshot"
-msgstr ""
+msgstr "Motivo della creazione di questa copia instantanea"
 
 #: include/class_SnapshotDialogs.inc:60 include/class_SnapshotDialogs.inc:118
 msgid "Y-m-d, H:i:s"
@@ -3285,7 +3285,7 @@ msgstr "Anno-mese-giorno, Ore:minuti:secondi"
 
 #: include/class_SnapshotDialogs.inc:135 include/class_SnapshotDialogs.inc:136
 msgid "Restore"
-msgstr ""
+msgstr "Restaura"
 
 #: include/class_SnapshotDialogs.inc:178
 msgid "Restoring snapshots"
