@@ -108,9 +108,18 @@ function displayLogin()
 /* Set error handler to own one, initialize time calculation
    and start session. */
 session::start();
-session::set('errorsAlreadyPosted', array());
 
 if (isset($_REQUEST['signout']) && $_REQUEST['signout']) {
+  if (session::global_is_set('connected')) {
+    $config = session::global_get('config');
+    if ($config->get_cfg_value('casActivated') == 'TRUE') {
+      require_once('CAS.php');
+      /* Move CAS autoload before FD autoload */
+      spl_autoload_unregister('CAS_autoload');
+      spl_autoload_register('CAS_autoload', TRUE, TRUE);
+      phpCas::logout();
+    }
+  }
   session::destroy();
   session::start();
 }
