@@ -117,6 +117,14 @@ if (isset($_REQUEST['signout']) && $_REQUEST['signout']) {
       /* Move CAS autoload before FD autoload */
       spl_autoload_unregister('CAS_autoload');
       spl_autoload_register('CAS_autoload', TRUE, TRUE);
+      phpCAS::client(
+        CAS_VERSION_2_0,
+        $config->get_cfg_value('casHost', 'localhost'),
+        (int)($config->get_cfg_value('casPort', 443)),
+        $config->get_cfg_value('casContext', '')
+      );
+      // Set the CA certificate that is the issuer of the cert
+      phpCAS::setCasServerCACert($config->get_cfg_value('casServerCaCertPath'));
       phpCas::logout();
     }
   }
@@ -406,7 +414,7 @@ class Index {
       CAS_VERSION_2_0,
       $config->get_cfg_value('casHost', 'localhost'),
       (int)($config->get_cfg_value('casPort', 443)),
-      $config->get_cfg_value('casContext', '/cas')
+      $config->get_cfg_value('casContext', '')
     );
 
     // Set the CA certificate that is the issuer of the cert
