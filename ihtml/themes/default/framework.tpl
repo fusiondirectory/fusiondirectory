@@ -61,7 +61,7 @@
   {literal}
    function logout()
    {
-    document.location = 'index.php?message=expired';
+    document.location = 'index.php?signout=1&message=expired';
    }
   {/literal}
 

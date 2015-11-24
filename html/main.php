@@ -58,7 +58,7 @@ if (!session::global_is_set('connected')) {
 $ui = session::global_get('ui');
 if ($_SERVER['REMOTE_ADDR'] != $ui->ip) {
   new log('security', 'login', '', array(), 'main.php called with session which has a changed IP address.');
-  header ('Location: index.php?message=newip');
+  header ('Location: index.php?signout=1&message=newip');
   exit;
 }
 $config = session::global_get('config');
@@ -85,7 +85,7 @@ if (session::global_get('_LAST_PAGE_REQUEST') != '') {
   if ($request_time > $max_life) {
     session::destroy();
     new log('security', 'login', '', array(), 'main.php called with expired session - logging out');
-    header ('Location: index.php?message=expired');
+    header ('Location: index.php?signout=1&message=expired');
     exit;
   }
 }
@@ -166,7 +166,7 @@ if (isset($_GET['plug']) && $plist->plugin_access_allowed($_GET['plug'])) {
   session::global_set('plugin_dir', $plugin_dir);
   if ($plugin_dir == '') {
     new log('security', 'fusiondirectory', '', array(), "main.php called with invalid plug parameter \"$plug\"");
-    header ('Location: index.php?message=invalidparameter&plug='.$plug);
+    header ('Location: index.php?signout=1&message=invalidparameter&plug='.$plug);
     exit;
   }
 } else {
