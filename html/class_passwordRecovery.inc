@@ -119,8 +119,8 @@ class passwordRecovery {
     if (session::global_is_set('plist')) {
       session::global_un_set('plist');
     }
-    load_plist();
     $ui = new fake_userinfo();
+    load_plist();
 
     $ssl = $this->checkForSSL();
 
