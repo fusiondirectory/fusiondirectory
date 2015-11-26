@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2015-11-05 22:09+0100\n"
-"PO-Revision-Date: 2015-11-17 16:02+0000\n"
+"PO-Revision-Date: 2015-11-24 16:13+0000\n"
 "Last-Translator: Penati <penati@avaya.com>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -4133,7 +4133,7 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:1029
 #, php-format
 msgid "Cannot add ACL role \"%s\":"
-msgstr ""
+msgstr "Impossibile aggiungere ruolo \"%s\" ACL "
 
 #: setup/class_setupStep_Migrate.inc:1084
 #, php-format
