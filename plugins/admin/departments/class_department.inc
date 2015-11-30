@@ -64,9 +64,10 @@ class department extends simplePlugin
         'name'  => _('Properties'),
         'attrs' => array(
           new BaseSelectorAttribute(''),
-          new HostNameAttribute(
+          new StringAttribute(
             sprintf(_('Name of %s'), $name), sprintf(_('A name for this %s'), $name),
-            $namingAttr, TRUE
+            $namingAttr, TRUE,
+            '', '', '/^[a-z0-9\._-]+$/i'
           ),
           new TextAreaAttribute(
             _('Description'), sprintf(_('Short description of this %s'), $name),
