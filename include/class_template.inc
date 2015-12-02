@@ -28,6 +28,8 @@ class template
   protected $tabObject;
   protected $attributes;
 
+  protected $applied = FALSE;
+
   function __construct($type, $dn, $targetdn = NULL)
   {
     $this->type = $type;
@@ -57,6 +59,20 @@ class template
         }
       }
     }
+  }
+
+  /* Used when you need to re-apply the same template with different values */
+  function reset()
+  {
+    list($this->attrs, ) = plugin::tpl_fetch_template($this->dn);
+    $this->tabObject  = objects::create($this->type);
+    $tempTabObject    = objects::open($this->dn, $this->type); /* Used to know which tab is activated */
+    foreach ($tempTabObject->by_object as $class => &$plugin) {
+      if ($plugin->is_account || $plugin->ignore_account) {
+        $this->tabObject->by_object[$class]->is_account = $plugin->is_account;
+      }
+    }
+    $this->applied = FALSE;
   }
 
   function getDn()
@@ -93,13 +109,9 @@ class template
 
   function deserialize($values)
   {
-    $SAVED_POST = $_POST;
     foreach ($values as $class => $class_values) {
-      $_POST                    = $class_values;
-      $_POST[$class.'_posted']  = TRUE;
-      $this->tabObject->by_object[$class]->save_object();
+      $this->tabObject->by_object[$class]->deserializeValues($class_values);
     }
-    $_POST = $SAVED_POST;
   }
 
   function save_object()
@@ -145,11 +157,15 @@ class template
     return $smarty->fetch(get_template_path('simpleplugin.tpl'));
   }
 
-  /* Apply template and current values to an object and returns it for saving or edition */
+  /* Apply template and current values to an object and returns it for saving or edition
+   * Cannot be called twice! If you need to, call reset between calls */
   function apply($targetdn = NULL)
   {
     if ($targetdn !== NULL) {
       $this->tabObject = objects::open($targetdn, $this->type);
+    } elseif ($this->applied) {
+      trigger_error('Templates can’t be applied twice without calling reset before');
+      return;
     }
 
     foreach ($this->tabObject->by_object as $class => &$plugin) {
@@ -183,6 +199,8 @@ class template
     $this->attrs = plugin::tpl_parse_attrs($this->attrs);
     $this->tabObject->adapt_from_template($this->attrs, call_user_func_array('array_merge', $this->attributes));
     $this->tabObject->getBaseObject()->base = $this->getBase();
+
+    $this->applied = TRUE;
     return $this->tabObject;
   }
 }

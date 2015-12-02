@@ -571,6 +571,17 @@ class Attribute
     }
   }
 
+  /*! \brief Apply value from RPC requests
+   *
+   *  \param array values the values array
+   */
+  function deserializeValue($values)
+  {
+    if (isset($values[$this->getLdapName()])) {
+      $this->setValue($values[$this->getLdapName()]);
+    }
+  }
+
   /*! \brief Add ACL information around display
    *
    *  \param string $display the display information to pass through ACL
@@ -1043,7 +1054,7 @@ class SelectAttribute extends Attribute
    */
   function __construct ($label, $description, $ldapName, $required = FALSE, $choices = array(), $defaultValue = "", $outputs = NULL, $acl = "")
   {
-    if (!in_array($defaultValue, $choices) && isset($choices[0])) {
+    if (!in_array($defaultValue, $choices, TRUE) && isset($choices[0])) {
       $defaultValue = $choices[0];
     }
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
@@ -1053,14 +1064,14 @@ class SelectAttribute extends Attribute
   function setChoices ($choices, $outputs = NULL)
   {
     $this->outputs = NULL;
-    if (!$this->isRequired() && !in_array("", $choices)) {
+    if (!$this->isRequired() && !in_array("", $choices, TRUE)) {
       array_unshift($choices, "");
       if (is_array($outputs)) {
         array_unshift($outputs, _("None"));
       }
     }
     $this->choices = $choices;
-    if (!in_array($this->defaultValue, $this->choices) && isset($this->choices[0])) {
+    if (!in_array($this->defaultValue, $this->choices, TRUE) && isset($this->choices[0])) {
       $this->defaultValue = $this->choices[0];
     }
     if (is_array($outputs)) {
@@ -1083,11 +1094,11 @@ class SelectAttribute extends Attribute
   protected function setRequired ($bool)
   {
     parent::setRequired($bool);
-    $key = array_search("", $this->choices);
+    $key = array_search("", $this->choices, TRUE);
     if ($this->isRequired() && ($key !== FALSE)) {
       unset($this->choices[$key]);
       unset($this->outputs[""]);
-    } elseif (!$this->isRequired() && !in_array("", $this->choices)) {
+    } elseif (!$this->isRequired() && !in_array("", $this->choices, TRUE)) {
       $this->choices[] = "";
       if (!isset($this->output[""])) {
         $this->output[""] = _("None");
@@ -1131,7 +1142,7 @@ class SelectAttribute extends Attribute
     } else {
       $outputs = $this->choices;
     }
-    $key = array_search('', $outputs);
+    $key = array_search('', $outputs, TRUE);
     if ($key !== FALSE) {
       $outputs[$key] = '&nbsp;';
     }
@@ -1993,10 +2004,10 @@ class SetAttribute extends Attribute
 
   function addPostValue ($value)
   {
-    if (empty($value)) {
+    if ($value === '') {
       return FALSE;
     }
-    if ($this->valueUnicity && in_array($value, $this->postValue)) {
+    if ($this->valueUnicity && in_array($value, $this->postValue, TRUE)) {
       return FALSE;
     }
     $this->postValue[] = $value;
@@ -2440,6 +2451,17 @@ class CompositeAttribute extends Attribute
       foreach ($this->attributes as &$attribute) {
         $attribute->setDisabled($this->disabled);
         $attribute->serializeAttribute($attributes);
+      }
+      unset($attribute);
+    }
+  }
+
+  function deserializeValue($values)
+  {
+    if ($this->visible) {
+      foreach ($this->attributes as &$attribute) {
+        $attribute->setDisabled($this->disabled);
+        $attribute->deserializeValue($values);
       }
       unset($attribute);
     }

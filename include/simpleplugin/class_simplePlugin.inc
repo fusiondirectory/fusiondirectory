@@ -963,6 +963,15 @@ class simplePlugin extends plugin
   {
     return $this->attributesAccess[$field]->foreignKeyCheck($value, $source);
   }
+
+  function deserializeValues($values) {
+    /* Walk through attributes */
+    foreach ($this->attributesAccess as $ldapName => &$attr) {
+      /* Load values */
+      $attr->deserializeValue($values);
+    }
+    unset($attr);
+  }
 }
 
 ?>
