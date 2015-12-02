@@ -1611,7 +1611,7 @@ class plugin
       return;
     }
     global $config;
-    $command = $config->search(get_class($this), $cmd, array('menu','tabs','hooks'));
+    $command = $config->searchHook(get_class($this), $cmd);
 
     if ($command != "") {
       // Walk trough attributes list and add the plugins attributes.
