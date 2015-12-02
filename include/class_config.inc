@@ -900,67 +900,24 @@ class config  {
     return FALSE;
   }
 
-
-  function __search(&$arr, $name, $return)
-  {
-    $return = strtoupper($return);
-    if (is_array($arr)) {
-      foreach ($arr as &$a) {
-        if (isset($a['CLASS']) && strcasecmp($name, $a['CLASS']) == 0) {
-          return (isset($a[$return])?$a[$return]:"");
-        } else {
-          $res = $this->__search ($a, $name, $return);
-          if ($res != "") {
-            return $res;
-          }
-        }
-      }
-      unset($a);
-    }
-    return "";
-  }
-
-
   /*!
-   * \brief Search for a configuration setting in different categories
-   *
-   *  Searches for the value of a given key in the configuration data.
-   *  Optionally the list of categories to search (tabs, main, locations) can
-   *  be specified. The first value that matches is returned.
+   * \brief Search for a hook
    *
    *  Example usage:
    *  \code
-   *  $postcmd = $this->config->search(get_class($this), "POSTCOMMAND", array("menu", "tabs"));
+   *  $postcmd = $this->config->search(get_class($this), 'POSTMODIFY');
    *  \endcode
    *
    *  \param string $class The class name
    *
-   *  \param string $value Key to search in the configuration data
-   *
-   *  \param array $categories Array where the search should run
-   *
-   *  \return string the value you asked for or empty
+   *  \param string $value Key to search in the hooks
    */
-  function search($class, $value, $categories = "")
+  function searchHook($class, $value)
   {
-    if (is_array($categories)) {
-      foreach ($categories as $category) {
-        $res = $this->__search($this->data[strtoupper($category)], $class, $value);
-        if ($res != "") {
-          return $res;
-        }
-      }
-    } else {
-      if ($categories == "") {
-        return $this->__search($this->data, $class, $value);
-      } else {
-        return $this->__search($this->data[strtoupper($categories)], $class, $value);
-      }
-    }
-
-    return "";
+    $class = strtoupper($class);
+    $value = strtoupper($value);
+    return (isset($this->data['HOOKS'][$class][$value]) ? $this->data['HOOKS'][$class][$value] : '');
   }
-
 
   /*!
    * \brief Get a configuration value from the config

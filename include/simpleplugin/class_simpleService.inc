@@ -114,47 +114,6 @@ class simpleService extends simplePlugin {
     }
 
     $this->status = $value;
-    $this->action_hook();
-  }
-
-  function action_hook($add_attrs = array())
-  {
-    /* Find postcreate entries for this class */
-    $command = $this->config->search(get_class($this), "SERVICEACTIONHOOK", array('menu', 'tabs'));
-    if ($command != "") {
-
-      /* Walk through attribute list */
-      foreach ($this->attributes as $attr) { // TODO : use attribuesInfo instead
-        if (!is_array($this->$attr)) {
-          $command = preg_replace("/%$attr%/", $this->$attr, $command);
-        }
-      }
-      $command = preg_replace("/%dn%/", $this->dn, $command);
-
-      /* Additional attributes */
-      foreach ($add_attrs as $name => $value) {
-        $command = preg_replace("/%$name%/", $value, $command);
-      }
-
-      /* If there are still some %.. in our command, try to fill these with some other class vars */
-      if (preg_match("/%/", $command)) {
-        $attrs = get_object_vars($this);
-        foreach ($attrs as $name => $value) {
-          if (!is_string($value)) {
-            continue;
-          }
-          $command = preg_replace("/%$name%/", escapeshellarg($value), $command);
-        }
-      }
-
-      if (check_command($command)) {
-        @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
-
-        exec($command);
-      } else {
-        msg_dialog::display(_("Configuration error"), msgPool::cmdnotfound("SERVICEACTIONHOOK", get_class($this)), ERROR_DIALOG);
-      }
-    }
   }
 }
 ?>
