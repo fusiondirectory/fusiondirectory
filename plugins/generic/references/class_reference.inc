@@ -23,17 +23,17 @@ class reference extends simplePlugin
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("References"),
-      "plDescription" => _("References"),
-      "plCategory"    => array('acl'),
-      "plObjectType"  => array(
+      'plShortName'   => _('References'),
+      'plDescription' => _('References'),
+      'plCategory'    => array('acl'),
+      'plObjectType'  => array(
         'special' => array(
           'name' => 'special'
         )
       ),
       'plPriority'    => 10,
 
-      "plProvidedAcls"  => array()
+      'plProvidedAcls'  => array()
     );
   }
 
@@ -75,6 +75,10 @@ class reference extends simplePlugin
       return;
     }
     $this->refs = $this->browseForeignKeys('references');
+  }
+
+  function check()
+  {
   }
 
   function save()
