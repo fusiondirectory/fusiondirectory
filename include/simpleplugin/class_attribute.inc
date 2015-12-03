@@ -888,6 +888,21 @@ class HiddenAttribute extends Attribute
   }
 }
 
+class HiddenArrayAttribute extends HiddenAttribute
+{
+  protected function loadAttrValue ($attrs)
+  {
+    if (isset($attrs[$this->getLdapName()]['count'])) {
+      $this->value = array();
+      for ($i = 0; $i < $attrs[$this->getLdapName()]['count']; $i++) {
+        $this->value[] = $attrs[$this->getLdapName()][$i];
+      }
+    } else {
+      $this->resetToDefault();
+    }
+  }
+}
+
 /* Dummy attribute class in order to give stats information to the template */
 class FakeAttribute extends Attribute
 {
