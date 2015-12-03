@@ -702,7 +702,8 @@ class LDAP
       $delarray = array();
 
       /* Get sorted list of dn's to delete */
-      $this->ls($srp, "(objectClass=*)", $deletedn);
+      $this->cd($deletedn);
+      $this->search($srp, "(objectClass=*)");
       while ($this->fetch($srp)) {
         $deldn            = $this->getDN($srp);
         $delarray[$deldn] = strlen($deldn);
@@ -712,11 +713,8 @@ class LDAP
 
       /* Really Delete ALL dn's in subtree */
       foreach (array_keys($delarray) as $key) {
-        $this->rmdir_recursive($srp, $key);
+        $r = @ldap_delete($this->cid, LDAP::fix($key));
       }
-
-      /* Finally Delete own Node */
-      $r = @ldap_delete($this->cid, LDAP::fix($deletedn));
       $this->error = @ldap_error($this->cid);
       return ($r ? $r : 0);
     } else {
