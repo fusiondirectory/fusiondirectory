@@ -64,10 +64,7 @@ class ldapMultiplexer {
       array_unshift($parameters, $this->sr);
     }
 
-    $class  = new ReflectionClass($this->object);
-    $method = $class->getMethod($methodName);
-
-    return $method->invokeArgs($this->object, $parameters);
+    return call_user_func_array(array($this->object, $methodName), $parameters);
   }
 
   /*
