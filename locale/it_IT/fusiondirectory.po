@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2015-11-05 22:09+0100\n"
-"PO-Revision-Date: 2015-11-24 16:13+0000\n"
+"PO-Revision-Date: 2015-12-02 07:32+0000\n"
 "Last-Translator: Penati <penati@avaya.com>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -1069,7 +1069,7 @@ msgstr "Non le é permesso cambiare la propria password"
 #: plugins/personal/generic/class_user.inc:581
 #, php-format
 msgid "You must wait %d seconds before changing your password again"
-msgstr ""
+msgstr "Devi attendere %d secondi prima di cambiare di nuovo la password"
 
 #: plugins/personal/generic/class_user.inc:595
 msgid "Password is in history of old passwords"
@@ -1738,7 +1738,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:352
 msgid "Pool user id max"
-msgstr ""
+msgstr "Id utente pool max"
 
 #: plugins/config/class_configInLdap.inc:352
 msgid "Maximum value for user id when using pool method"
@@ -1746,7 +1746,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:357
 msgid "Pool group id min"
-msgstr ""
+msgstr "Id utente pool min"
 
 #: plugins/config/class_configInLdap.inc:357
 msgid "Minimum value for group id when using pool method"
@@ -1754,7 +1754,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:362
 msgid "Pool group id max"
-msgstr ""
+msgstr "Id gruppo pool min"
 
 #: plugins/config/class_configInLdap.inc:362
 msgid "Maximum value for group id when using pool method"
@@ -2015,11 +2015,11 @@ msgstr ""
 
 #: plugins/config/class_dashBoardConfig.inc:45
 msgid "Number of digits"
-msgstr ""
+msgstr "Numero di cifre"
 
 #: plugins/config/class_dashBoardConfig.inc:45
 msgid "Number of digits to use after prefix"
-msgstr ""
+msgstr "NUmero di cifre da usare dopo il prefisso"
 
 #: plugins/config/class_dashBoardConfig.inc:51
 msgid "Prefixes"
@@ -2576,12 +2576,12 @@ msgstr "Il campo necessario '%s' è vuoto !"
 
 #: include/class_msgPool.inc:430
 msgid "Example:"
-msgstr ""
+msgstr "Esempio:"
 
 #: include/class_msgPool.inc:450 include/class_msgPool.inc:454
 #, php-format
 msgid "The field '%s' contains invalid characters"
-msgstr ""
+msgstr "Il campo '%s' contiene caratteri sbagliati"
 
 #: include/class_msgPool.inc:451
 #, php-format
@@ -4521,7 +4521,7 @@ msgstr "Prossimi account che scadranno"
 #: plugins/addons/dashboard/groups_stats.tpl.c:2
 msgid "There is 1 group:"
 msgid_plural "There are %1 groups:"
-msgstr[0] ""
+msgstr[0] "%2sono gruppi%1 "
 msgstr[1] ""
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:5
@@ -4532,7 +4532,7 @@ msgstr[1] ""
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:8
 msgid "There is no %1 group"
-msgstr ""
+msgstr "Non c'é alcun gruppo %1"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:2
 msgid "There is 1 user:"
@@ -4543,7 +4543,7 @@ msgstr[1] "Ci sono %1 di utenti"
 #: plugins/addons/dashboard/users_stats.tpl.c:5
 msgid "One of them have a %1 account"
 msgid_plural "%2 of them have a %1 account"
-msgstr[0] ""
+msgstr[0] "%2di essi hanno %1account"
 msgstr[1] ""
 
 #: plugins/addons/dashboard/users_stats.tpl.c:8
@@ -4759,7 +4759,7 @@ msgstr "Clicca qui per connetterti"
 
 #: ihtml/themes/default/restore-confirm.tpl.c:2
 msgid "Warning: you are about to restore the following snapshot"
-msgstr ""
+msgstr "Attenzione! Stai per cancellare i seguenti oggetti"
 
 #: ihtml/themes/default/restore-confirm.tpl.c:5
 msgid "Any modification made to the object since this snapshot will be lost."
