@@ -808,7 +808,7 @@ class ObjectClassBooleanAttribute extends BooleanAttribute
  */
 class StringAttribute extends Attribute
 {
-  private $pattern;
+  protected $pattern;
   protected $example;
 
   /*! \brief The constructor of StringAttribute
@@ -831,6 +831,11 @@ class StringAttribute extends Attribute
   function setExample ($example)
   {
     $this->example = $example;
+  }
+
+  function setPattern ($pattern)
+  {
+    $this->pattern = $pattern;
   }
 
   function renderFormInput ()
