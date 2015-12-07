@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2015-11-05 22:09+0100\n"
-"PO-Revision-Date: 2015-11-05 21:07+0000\n"
+"PO-Revision-Date: 2015-12-07 13:04+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Latvian (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -61,7 +61,7 @@ msgstr ""
 #: include/select/groupSelect/group-filter.tpl.c:14
 #: setup/setup_migrate_adminAccount.tpl.c:8
 msgid "Name"
-msgstr ""
+msgstr "Vārds "
 
 #: plugins/admin/groups/class_roleGeneric.inc:61
 #: plugins/admin/groups/class_group.inc:61
@@ -92,7 +92,7 @@ msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:74
 msgid "Fax number"
-msgstr ""
+msgstr "Faksa numurs"
 
 #: plugins/admin/groups/class_roleGeneric.inc:78
 #: plugins/admin/users/class_userManagement.inc:42
@@ -466,7 +466,7 @@ msgstr ""
 
 #: plugins/admin/departments/class_department.inc:99
 msgid "Telephone number"
-msgstr ""
+msgstr "Tālruņa numurs"
 
 #: plugins/admin/departments/class_department.inc:103
 #: plugins/personal/generic/class_user.inc:332
@@ -536,11 +536,11 @@ msgstr ""
 
 #: plugins/admin/users/user-list.xml:33
 msgid "Surname"
-msgstr ""
+msgstr "Uzvārds"
 
 #: plugins/admin/users/user-list.xml:41
 msgid "Given name"
-msgstr ""
+msgstr "Vārds"
 
 #: plugins/admin/users/user-list.xml:49
 #: plugins/personal/generic/class_user.inc:343
@@ -607,7 +607,7 @@ msgstr ""
 #: include/simpleplugin/class_simpleManagement.inc:749
 #: include/simpleplugin/class_simpleManagement.inc:799
 msgid "Permission"
-msgstr ""
+msgstr "Atļauja"
 
 #: plugins/admin/users/class_userManagement.inc:177
 msgid "Account locking"
@@ -950,7 +950,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:324
 msgid "Mobile"
-msgstr ""
+msgstr "Mobilais"
 
 #: plugins/personal/generic/class_user.inc:324
 msgid "Business mobile number"
@@ -958,7 +958,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:328
 msgid "Pager"
-msgstr ""
+msgstr "Peidžeris"
 
 #: plugins/personal/generic/class_user.inc:328
 msgid "Business pager number"
@@ -1011,7 +1011,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:370
 msgid "Home phone number"
-msgstr ""
+msgstr "Mājas tālruņa numurs"
 
 #: plugins/personal/generic/class_user.inc:374
 msgid "Homepage"
@@ -2099,7 +2099,7 @@ msgstr ""
 #: include/class_SnapshotHandler.inc:415 setup/class_setupStep_Migrate.inc:935
 #: ihtml/themes/default/msg_dialog.tpl.c:2 setup/setup_checks.tpl.c:5
 msgid "Error"
-msgstr ""
+msgstr "Kļūda"
 
 #: include/class_listing.inc:578
 msgid "created by"
@@ -2246,7 +2246,7 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:451
 #: setup/class_setupStep_Migrate.inc:1130
 msgid "LDAP error"
-msgstr ""
+msgstr "LDAP kļūda"
 
 #: include/class_config.inc:337
 msgid "Cannot bind to LDAP. Please contact the system administrator."
@@ -4922,7 +4922,7 @@ msgstr ""
 
 #: setup/setup_migrate_adminAccount.tpl.c:11
 msgid "User ID"
-msgstr ""
+msgstr "Lietotāja ID"
 
 #: setup/setup_migrate_adminAccount.tpl.c:17
 msgid "Password (again)"
