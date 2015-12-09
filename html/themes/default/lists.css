@@ -263,9 +263,12 @@ vertical-align:top;
 }
 
 table.listing_container > tbody >  tr > td.filter {
-min-width:230px;
 max-width:300px;
 vertical-align:top;
+}
+
+table.listing_container > tbody >  tr > td.filter .contentboxb {
+min-width:230px;
 }
 
 /* On small screens */
