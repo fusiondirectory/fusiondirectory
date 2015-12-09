@@ -31,7 +31,7 @@ function html_trace($errstr = "")
   if (!function_exists('debug_backtrace')) {
     return array ("", "");
   }
-  $trace = array_slice(debug_backtrace(), 2);
+  $trace = array_slice(debug_backtrace(), 1);
 
   $return_html    = "<table width=\"100%\" style='background-color:#402005;color:white;border:2px solid red;border-spacing:0;border-collapse:collapse;'><tr><td colspan=3><h1 style='color:white'>"._("PHP error")." \"$errstr\"</h1></td></tr>";
   $return_mailto  = rawurlencode("=== Trace ===");
