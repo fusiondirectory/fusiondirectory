@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2015-11-05 22:09+0100\n"
-"PO-Revision-Date: 2015-12-02 07:32+0000\n"
+"PO-Revision-Date: 2015-12-10 10:27+0000\n"
 "Last-Translator: Penati <penati@avaya.com>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -997,7 +997,7 @@ msgstr "Mostra il nome"
 
 #: plugins/personal/generic/class_user.inc:362
 msgid "Name this user should appear as. Used by Exchange."
-msgstr ""
+msgstr "Nome col quale questo utente dovrebbe apparire. Usato da Exchange."
 
 #: plugins/personal/generic/class_user.inc:366
 msgid "Home address"
@@ -1078,7 +1078,7 @@ msgstr "La password si trova nella cronologia delle vecchie password"
 #: plugins/personal/generic/class_user.inc:600
 #: plugins/personal/generic/class_user.inc:604
 msgid "Password is not being changed from existing value"
-msgstr ""
+msgstr "La password non è stata cambiata dal valore esistente"
 
 #: plugins/personal/generic/class_user.inc:611
 msgid "You need to specify your current password in order to proceed."
@@ -1164,15 +1164,15 @@ msgstr "Utente"
 
 #: plugins/personal/posix/class_posixAccount.inc:129
 msgid "User id value for this user"
-msgstr ""
+msgstr "Valore utente per questo utente"
 
 #: plugins/personal/posix/class_posixAccount.inc:134
 msgid "Group id"
-msgstr ""
+msgstr "numero del Gruppo"
 
 #: plugins/personal/posix/class_posixAccount.inc:134
 msgid "Group id value for this user"
-msgstr ""
+msgstr "Valore del numero del gruppo per questo utente"
 
 #: plugins/personal/posix/class_posixAccount.inc:141
 #: plugins/personal/posix/class_posixAccount.inc:144
@@ -1284,21 +1284,21 @@ msgstr "UID"
 #: plugins/personal/posix/class_posixAccount.inc:516
 #, php-format
 msgid "Group of user %s"
-msgstr ""
+msgstr "Gruppo di utenti %s"
 
 #: plugins/personal/roles/class_userRoles.inc:32
 msgid "Edit user's groups and roles"
-msgstr ""
+msgstr "Modifica gruppi e ruoli degli utenti"
 
 #: plugins/personal/roles/class_userRoles.inc:47
 #: plugins/personal/roles/class_userRoles.inc:51
 msgid "Groups membership"
-msgstr ""
+msgstr "Gruppi di appartenenza"
 
 #: plugins/personal/roles/class_userRoles.inc:58
 #: plugins/personal/roles/class_userRoles.inc:62
 msgid "Roles membership"
-msgstr ""
+msgstr "Ruoli di appartenenza"
 
 #: plugins/config/class_mainPluginsConfig.inc:28
 msgid "Plugins configuration"
@@ -1326,13 +1326,13 @@ msgstr "SASL"
 
 #: plugins/config/class_mainPluginsConfig.inc:55
 msgid "Force to ask for password"
-msgstr ""
+msgstr "Obbligare a chiedere la password"
 
 #: plugins/config/class_mainPluginsConfig.inc:55
 msgid ""
 "Useful if you add a hook using password value when SASL user passwords are "
 "edited"
-msgstr ""
+msgstr "Utile se si aggiunge un gancio con valore di password quando le password degli utenti SASL vengono modificate"
 
 #: plugins/config/class_configInLdap.inc:57
 #: plugins/config/class_configInLdap.inc:69
@@ -1380,7 +1380,7 @@ msgstr "Impostazione schema"
 
 #: plugins/config/class_configInLdap.inc:112
 msgid "Schema validation"
-msgstr ""
+msgstr "Convalida dello schema"
 
 #: plugins/config/class_configInLdap.inc:113
 msgid "Enables schema checking during login."
@@ -1535,7 +1535,7 @@ msgstr "Definisce, in secondi, quando una sessione scade"
 #: plugins/config/class_configInLdap.inc:219
 #: include/class_SnapshotDialogs.inc:186
 msgid "Snapshots"
-msgstr ""
+msgstr "Copie istantanee"
 
 #: plugins/config/class_configInLdap.inc:222
 msgid "Enable snapshots"
@@ -1557,7 +1557,7 @@ msgstr "La base dove gli snapshot saranno immagazzinati nell'annuario LDAP."
 
 #: plugins/config/class_configInLdap.inc:234
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: plugins/config/class_configInLdap.inc:237
 msgid "Key path"
@@ -1565,7 +1565,7 @@ msgstr "Percorso della chiave"
 
 #: plugins/config/class_configInLdap.inc:237
 msgid "Path to FusionDirectory private key. Unused for now."
-msgstr ""
+msgstr "Percorso a chiave privata FusionDirectory . Inutilizzato per ora."
 
 #: plugins/config/class_configInLdap.inc:242
 msgid "Certificate path"
@@ -1573,28 +1573,28 @@ msgstr "Percorso del Certificato"
 
 #: plugins/config/class_configInLdap.inc:242
 msgid "Path to FusionDirectory certificate. Unused for now."
-msgstr ""
+msgstr "Percorso al certificato di FusionDirectory;  Inutilizzato per ora."
 
 #: plugins/config/class_configInLdap.inc:247
 #: plugins/config/class_configInLdap.inc:262
 msgid "CA certificate path"
-msgstr ""
+msgstr "Percorso del certificato CA"
 
 #: plugins/config/class_configInLdap.inc:247
 msgid "Path to the CA certificate. Used for validating Argonaut Server host."
-msgstr ""
+msgstr "Percorso al certificato CA. Usato per convalidare l'host del Server Argonaut."
 
 #: plugins/config/class_configInLdap.inc:254
 msgid "CAS"
-msgstr ""
+msgstr "CAS"
 
 #: plugins/config/class_configInLdap.inc:257
 msgid "Enable CAS"
-msgstr ""
+msgstr "Abilita CAS"
 
 #: plugins/config/class_configInLdap.inc:257
 msgid "CAS login will be used instead of LDAP bind"
-msgstr ""
+msgstr "IL Login CAS verrà usato al posto del bind LDAP"
 
 #: plugins/config/class_configInLdap.inc:262
 msgid "Path to the CA certificate of the CAS server"
@@ -1606,7 +1606,7 @@ msgstr "Host"
 
 #: plugins/config/class_configInLdap.inc:267
 msgid "Host of the CAS server"
-msgstr ""
+msgstr "Host del server CAS"
 
 #: plugins/config/class_configInLdap.inc:272
 msgid "Port"
@@ -1614,15 +1614,15 @@ msgstr "Porta"
 
 #: plugins/config/class_configInLdap.inc:272
 msgid "Port the CAS server is listening on"
-msgstr ""
+msgstr "Porta sulla quale il server CAS è all'ascolto"
 
 #: plugins/config/class_configInLdap.inc:277
 msgid "CAS context"
-msgstr ""
+msgstr "Contesto CAS"
 
 #: plugins/config/class_configInLdap.inc:277
 msgid "CAS context to be used"
-msgstr ""
+msgstr "Contesto CAS da utilizzare"
 
 #: plugins/config/class_configInLdap.inc:284
 msgid "People and group storage"
@@ -1638,11 +1638,11 @@ msgstr "Attributo da usare all'inizio del dn degli utenti"
 
 #: plugins/config/class_configInLdap.inc:293
 msgid "CN pattern"
-msgstr ""
+msgstr "Modello CN"
 
 #: plugins/config/class_configInLdap.inc:293
 msgid "The pattern to use to build the common name field"
-msgstr ""
+msgstr "Modello da usare per costruire il nome comune del campo"
 
 #: plugins/config/class_configInLdap.inc:298
 msgid "Strict naming policy"
@@ -1650,11 +1650,11 @@ msgstr "Regola di denominazione rigorosa"
 
 #: plugins/config/class_configInLdap.inc:299
 msgid "Enables strict checking of user and group names"
-msgstr ""
+msgstr "Consente il controllo rigoroso di nomi utente e di gruppo"
 
 #: plugins/config/class_configInLdap.inc:304
 msgid "Group/user min id"
-msgstr ""
+msgstr "Gruppo/utente minimo ID"
 
 #: plugins/config/class_configInLdap.inc:305
 msgid ""
@@ -1670,11 +1670,11 @@ msgstr "Id hook successivo"
 msgid ""
 "A script to be called for finding the next free id number for users or "
 "groups."
-msgstr ""
+msgstr "Script da nominare per trovare il prossimo numero ID libero per gli utenti o i gruppi."
 
 #: plugins/config/class_configInLdap.inc:314
 msgid "Base number for user id"
-msgstr ""
+msgstr "Numero base per questo ID utente"
 
 #: plugins/config/class_configInLdap.inc:315
 msgid "Where to start looking for a new free user id."
@@ -1682,7 +1682,7 @@ msgstr "Dove cominciare a cercare un nuovo id libero per un utente."
 
 #: plugins/config/class_configInLdap.inc:320
 msgid "Base number for group id"
-msgstr ""
+msgstr "Numero base per questo id gruppo"
 
 #: plugins/config/class_configInLdap.inc:321
 msgid "Where to start looking for a new free group id."
@@ -1694,7 +1694,7 @@ msgstr "RDN utenti"
 
 #: plugins/config/class_configInLdap.inc:326
 msgid "The branch where users are stored."
-msgstr ""
+msgstr "Ramo nel quale gli utenti sono immagazzinati"
 
 #: plugins/config/class_configInLdap.inc:331
 msgid "Groups RDN"
@@ -1706,35 +1706,35 @@ msgstr "Il ramo nel quale i gruppi saranno immagazzinati."
 
 #: plugins/config/class_configInLdap.inc:336
 msgid "ACL role RDN"
-msgstr ""
+msgstr "Ruolo ACL RDN"
 
 #: plugins/config/class_configInLdap.inc:336
 msgid "The branch where ACL roles are stored."
-msgstr ""
+msgstr "Ramo nel quale i ruoli ACL sono immagazzinati"
 
 #: plugins/config/class_configInLdap.inc:341
 msgid "Id allocation method"
-msgstr ""
+msgstr "Metodo di assegnazione Id"
 
 #: plugins/config/class_configInLdap.inc:341
 msgid "Method to allocate user/group ids"
-msgstr ""
+msgstr "Metodo per allocare utente / gruppo id"
 
 #: plugins/config/class_configInLdap.inc:344
 msgid "Traditional"
-msgstr ""
+msgstr "Tradizionale"
 
 #: plugins/config/class_configInLdap.inc:344
 msgid "Samba unix id pool"
-msgstr ""
+msgstr "Id del pool di Samba unix"
 
 #: plugins/config/class_configInLdap.inc:347
 msgid "Pool user id min"
-msgstr ""
+msgstr "Minimo pool id dell'utente"
 
 #: plugins/config/class_configInLdap.inc:347
 msgid "Minimum value for user id when using pool method"
-msgstr ""
+msgstr "Valore minimo di un id utente quando si utilizza il metodo pool"
 
 #: plugins/config/class_configInLdap.inc:352
 msgid "Pool user id max"
@@ -1742,7 +1742,7 @@ msgstr "Id utente pool max"
 
 #: plugins/config/class_configInLdap.inc:352
 msgid "Maximum value for user id when using pool method"
-msgstr ""
+msgstr "Valore massimo di un id utente quando si utilizza il metodo pool"
 
 #: plugins/config/class_configInLdap.inc:357
 msgid "Pool group id min"
@@ -1750,7 +1750,7 @@ msgstr "Id utente pool min"
 
 #: plugins/config/class_configInLdap.inc:357
 msgid "Minimum value for group id when using pool method"
-msgstr ""
+msgstr "Valore minimo di un id gruppo quando si utilizza il metodo pool"
 
 #: plugins/config/class_configInLdap.inc:362
 msgid "Pool group id max"
@@ -1758,7 +1758,7 @@ msgstr "Id gruppo pool min"
 
 #: plugins/config/class_configInLdap.inc:362
 msgid "Maximum value for group id when using pool method"
-msgstr ""
+msgstr "Valore massimo di un id gruppo quando si utilizza il metodo pool"
 
 #: plugins/config/class_configInLdap.inc:369
 msgid "Debugging"
@@ -1858,7 +1858,7 @@ msgstr "Shell POSIX disponibili per gli utenti FD"
 
 #: plugins/config/class_configInLdap.inc:448
 msgid "Show ACL tab on all objects"
-msgstr ""
+msgstr "Mostra tab ACL su tutti gli oggetti"
 
 #: plugins/config/class_configInLdap.inc:449
 msgid ""
@@ -1889,7 +1889,7 @@ msgstr "Attivare il recupero della password"
 
 #: plugins/config/class_recoveryConfig.inc:45
 msgid "Whether to activate or not password recovery feature"
-msgstr ""
+msgstr "Sia che si attivi o no la funzione di recupero password"
 
 #: plugins/config/class_recoveryConfig.inc:50
 msgid "Sender email address"
@@ -2003,7 +2003,7 @@ msgstr "Salve,\n\nLa tua password è stata modificata.\nIl tuo login è sempre %
 
 #: plugins/config/class_dashBoardConfig.inc:28
 msgid "Dashboard configuration"
-msgstr ""
+msgstr "Configurazione dashboard"
 
 #: plugins/config/class_dashBoardConfig.inc:29
 msgid "FusionDirectory dashboard plugin configuration"
@@ -2023,11 +2023,11 @@ msgstr "NUmero di cifre da usare dopo il prefisso"
 
 #: plugins/config/class_dashBoardConfig.inc:51
 msgid "Prefixes"
-msgstr ""
+msgstr "Prefissi"
 
 #: plugins/config/class_dashBoardConfig.inc:51
 msgid "Prefixes to be used for computer ids"
-msgstr ""
+msgstr "Prefissi da usare per gli Id del computer"
 
 #: plugins/config/class_dashBoardConfig.inc:59
 msgid "Dashboard expired users"
@@ -2035,7 +2035,7 @@ msgstr ""
 
 #: plugins/config/class_dashBoardConfig.inc:62
 msgid "Number of days"
-msgstr ""
+msgstr "Numero di giorni"
 
 #: plugins/config/class_dashBoardConfig.inc:62
 msgid ""
@@ -2567,7 +2567,7 @@ msgstr "C'è un'altra entry con l'attributo '%s' nel sistema !"
 #: include/class_msgPool.inc:401
 #, php-format
 msgid "The entry '%s' already use this '%s' attribute!"
-msgstr ""
+msgstr "La entry '%s' usa già l'attributo '%s'!"
 
 #: include/class_msgPool.inc:412
 #, php-format
@@ -3336,7 +3336,7 @@ msgstr "L'oggetto è cambiato da quando lo hai aperto nella corrente sessione Fu
 #: include/class_plugin.inc:1477
 #, php-format
 msgid "Tab \"%s\""
-msgstr ""
+msgstr "Tab \"%s\""
 
 #: include/class_CopyPasteHandler.inc:305
 #: ihtml/themes/default/copyPasteDialog.tpl.c:20
@@ -3396,7 +3396,7 @@ msgstr "Seleziona le entries desiderate"
 #: include/simpleplugin/class_simpleManagement.inc:244
 #, php-format
 msgid "%s template"
-msgstr ""
+msgstr "Modello %s"
 
 #: include/simpleplugin/class_simpleManagement.inc:401
 #: include/simpleplugin/class_simpleManagement.inc:407
@@ -3412,7 +3412,7 @@ msgstr "Raggruppa %s"
 #: include/simpleplugin/class_dialogAttributes.inc:411
 #, php-format
 msgid "Role %s"
-msgstr ""
+msgstr "Ruolo %s"
 
 #: include/simpleplugin/class_dialogAttributes.inc:446
 msgid "Group of user"

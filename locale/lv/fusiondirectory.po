@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2015-11-05 22:09+0100\n"
-"PO-Revision-Date: 2015-12-07 13:04+0000\n"
+"PO-Revision-Date: 2015-12-07 13:38+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Latvian (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -80,7 +80,7 @@ msgstr ""
 #: include/simpleplugin/simple-select-list.xml:40
 #: include/simpleplugin/simple-list.xml:40
 msgid "Description"
-msgstr ""
+msgstr "Apraksts"
 
 #: plugins/admin/groups/class_roleGeneric.inc:66
 msgid "Description of the role"
@@ -99,7 +99,7 @@ msgstr "Faksa numurs"
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:29
 #: setup/class_setupStep_Migrate.inc:871
 msgid "Users"
-msgstr ""
+msgstr "Lietotāji"
 
 #: plugins/admin/groups/class_roleGeneric.inc:78
 msgid "Add users for the role"
@@ -218,7 +218,7 @@ msgstr ""
 #: ihtml/themes/default/islocked.tpl.c:5 ihtml/themes/default/remove.tpl.c:2
 #: ihtml/themes/default/msg_dialog.tpl.c:5 setup/setup_checks.tpl.c:8
 msgid "Warning"
-msgstr ""
+msgstr "Brīdinājums"
 
 #: plugins/admin/groups/class_group.inc:181
 #: plugins/personal/posix/class_posixAccount.inc:458
@@ -265,7 +265,7 @@ msgstr ""
 #: plugins/admin/users/user-list.xml:62 include/class_listing.inc:1284
 #: include/simpleplugin/simple-list.xml:48
 msgid "Actions"
-msgstr ""
+msgstr "Darbības"
 
 #: plugins/admin/groups/group-list.xml:66
 #: plugins/admin/departments/dep-list.xml:48
@@ -273,7 +273,7 @@ msgstr ""
 #: include/simpleplugin/simple-list.xml:59
 #: setup/class_setupStep_Migrate.inc:866 setup/class_setupStep_Migrate.inc:881
 msgid "Create"
-msgstr ""
+msgstr "Izveidot"
 
 #: plugins/admin/groups/group-list.xml:74
 #: plugins/admin/groups/group-list.xml:119
@@ -287,7 +287,7 @@ msgstr ""
 #: include/simpleplugin/simple-list.xml:67
 #: include/simpleplugin/simple-list.xml:112
 msgid "Edit"
-msgstr ""
+msgstr "Labot"
 
 #: plugins/admin/groups/group-list.xml:82
 #: plugins/admin/groups/group-list.xml:132
@@ -299,7 +299,7 @@ msgstr ""
 #: include/simpleplugin/simple-list.xml:75
 #: include/simpleplugin/simple-list.xml:125
 msgid "Remove"
-msgstr ""
+msgstr "Noņemt"
 
 #: plugins/admin/groups/class_groupManagement.inc:31
 #: plugins/personal/roles/class_userRoles.inc:31
@@ -392,7 +392,7 @@ msgstr ""
 #: plugins/admin/departments/dep-list.xml:21
 #: plugins/personal/generic/class_user.inc:394
 msgid "Department"
-msgstr ""
+msgstr "Nodaļa"
 
 #: plugins/admin/departments/class_department.inc:35
 #: plugins/admin/departments/class_department.inc:36
@@ -442,17 +442,17 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:92
 #: plugins/personal/generic/class_user.inc:304
 msgid "Location"
-msgstr ""
+msgstr "Atrašanās vieta"
 
 #: plugins/admin/departments/class_department.inc:89
 #: plugins/personal/generic/class_user.inc:308
 msgid "State"
-msgstr ""
+msgstr "Valsts"
 
 #: plugins/admin/departments/class_department.inc:95
 #: plugins/personal/generic/class_user.inc:312
 msgid "Address"
-msgstr ""
+msgstr "Adrese"
 
 #: plugins/admin/departments/class_department.inc:95
 #, php-format
@@ -462,7 +462,7 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:99
 #: plugins/personal/generic/class_user.inc:320
 msgid "Phone"
-msgstr ""
+msgstr "Tālrunis"
 
 #: plugins/admin/departments/class_department.inc:99
 msgid "Telephone number"
@@ -471,7 +471,7 @@ msgstr "Tālruņa numurs"
 #: plugins/admin/departments/class_department.inc:103
 #: plugins/personal/generic/class_user.inc:332
 msgid "Fax"
-msgstr ""
+msgstr "Fakss"
 
 #: plugins/admin/departments/class_department.inc:103
 msgid "Facsimile telephone number"
@@ -499,7 +499,7 @@ msgstr ""
 #: plugins/admin/departments/class_country.inc:30
 #: plugins/admin/departments/class_country.inc:33
 msgid "Country"
-msgstr ""
+msgstr "Valsts"
 
 #: plugins/admin/departments/class_country.inc:50
 msgid "country"
@@ -524,7 +524,7 @@ msgstr ""
 #: plugins/admin/departments/class_organization.inc:34
 #: plugins/personal/generic/class_user.inc:390
 msgid "Organization"
-msgstr ""
+msgstr "Organizācija"
 
 #: plugins/admin/departments/class_organization.inc:51
 msgid "organization"
@@ -802,7 +802,7 @@ msgstr ""
 #: plugins/admin/acl/class_aclAssignment.inc:58
 #: ihtml/themes/default/acl.tpl.c:32
 msgid "Members"
-msgstr ""
+msgstr "Biedri"
 
 #: plugins/admin/acl/class_aclAssignment.inc:58
 msgid "Users or groups to assign this role to."
@@ -901,7 +901,7 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:279
 #: plugins/personal/generic/paste_generic.tpl.c:5
 msgid "Last name"
-msgstr ""
+msgstr "Uzvārds"
 
 #: plugins/personal/generic/class_user.inc:279
 msgid "Last name of this user"
@@ -910,7 +910,7 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:284
 #: plugins/personal/generic/paste_generic.tpl.c:8
 msgid "First name"
-msgstr ""
+msgstr "Vārds"
 
 #: plugins/personal/generic/class_user.inc:284
 msgid "First name of this user"
@@ -1003,7 +1003,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:366
 msgid "Home postal address"
-msgstr ""
+msgstr "Mājas pasta adrese"
 
 #: plugins/personal/generic/class_user.inc:370
 msgid "Private phone"
@@ -1027,7 +1027,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:385
 msgid "Title"
-msgstr ""
+msgstr "Nosaukums"
 
 #: plugins/personal/generic/class_user.inc:385
 msgid ""
@@ -2296,7 +2296,7 @@ msgstr ""
 #: include/class_session.inc:87 include/class_session.inc:125
 #: include/class_log.inc:96 include/class_acl.inc:169
 msgid "Internal error"
-msgstr ""
+msgstr "Iekšējā kļūda"
 
 #: include/class_ldap.inc:868
 #, php-format
@@ -3227,7 +3227,7 @@ msgstr ""
 
 #: include/php_setup.inc:102
 msgid "Type"
-msgstr ""
+msgstr "Veids"
 
 #: include/php_setup.inc:103
 msgid "Arguments"
@@ -3764,7 +3764,7 @@ msgstr ""
 
 #: html/class_passwordRecovery.inc:446 ihtml/themes/default/recovery.tpl.c:68
 msgid "Email address"
-msgstr ""
+msgstr "E-pasta adrese"
 
 #: html/class_passwordRecovery.inc:469
 #, php-format
@@ -4419,7 +4419,7 @@ msgstr ""
 #: ihtml/themes/default/simple-filter.tpl.c:2
 #: include/select/groupSelect/group-filter.tpl.c:2
 msgid "Filter"
-msgstr ""
+msgstr "Filtrs"
 
 #: plugins/admin/users/user-filter.tpl.c:5
 msgid "Show templates"
@@ -4716,7 +4716,7 @@ msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:71
 msgid "Mail"
-msgstr ""
+msgstr "Pasts"
 
 #: ihtml/themes/default/recovery.tpl.c:80
 msgid ""
@@ -4733,7 +4733,7 @@ msgstr ""
 #: ihtml/themes/default/remove.tpl.c:8
 #: ihtml/themes/default/simple-remove.tpl.c:8
 msgid "So - if you're sure - press 'Delete' to continue or 'Cancel' to abort."
-msgstr ""
+msgstr "Ja esat pārliecināts, spiediet \"izdzēst\", lai turpinātu, vai \"Atcelt\", lai pārtrauktu. "
 
 #: ihtml/themes/default/login.tpl.c:2
 msgid "Login screen"
@@ -4857,7 +4857,7 @@ msgstr ""
 
 #: ihtml/themes/default/msg_dialog.tpl.c:8
 msgid "Information"
-msgstr ""
+msgstr "Informācija"
 
 #: ihtml/themes/default/framework.tpl.c:2
 msgid "Main"
