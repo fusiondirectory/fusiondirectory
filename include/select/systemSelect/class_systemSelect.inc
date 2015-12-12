@@ -20,6 +20,7 @@
 
 class systemSelect extends simpleSelectManagement
 {
+  protected $autoFilterAttributes = array('dn', 'cn', 'ipHostNumber', 'macAddress');
   protected $objectTypes = array(
     'terminal', 'workstation', 'server'
   );
