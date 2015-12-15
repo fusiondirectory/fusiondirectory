@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2015-11-05 22:09+0100\n"
-"PO-Revision-Date: 2015-12-10 10:27+0000\n"
+"PO-Revision-Date: 2015-12-15 06:05+0000\n"
 "Last-Translator: Penati <penati@avaya.com>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -779,7 +779,7 @@ msgstr "Modalità"
 
 #: plugins/admin/acl/class_aclAssignment.inc:43
 msgid "Is this applying on complete subtree or only the base?"
-msgstr ""
+msgstr "Si applica ad una sottostruttura completa oppure soltanto alla base?"
 
 #: plugins/admin/acl/class_aclAssignment.inc:46
 msgid "Subtree"
@@ -829,12 +829,12 @@ msgstr "Assegnazioni ACL per questa base"
 #: plugins/admin/acl/class_aclAssignment.inc:298
 #, php-format
 msgid "Assignments on object or subtree %s"
-msgstr ""
+msgstr "Assegnazioni su un ogetto o sottostruttura %s"
 
 #: plugins/addons/dashboard/class_dashBoard.inc:27
 #: plugins/addons/dashboard/class_dashBoard.inc:32
 msgid "Dashboard"
-msgstr ""
+msgstr "Dashboard"
 
 #: plugins/addons/dashboard/class_dashBoard.inc:28
 msgid "Statistics and various informations"
@@ -1088,7 +1088,7 @@ msgstr "Devi specificare la tua 'Password attuale' per procedere."
 msgid ""
 "The passwords you've entered as \"New password\" and \"Repeated new "
 "password\" do not match."
-msgstr ""
+msgstr "Le password che hai inserito come \" Nuova password \" e \"Ripeti nuova password\" non corrispondono."
 
 #: plugins/personal/generic/class_user.inc:615
 #: ihtml/themes/default/recovery.tpl.c:26
@@ -3078,7 +3078,7 @@ msgstr "Impossibile leggere il file di revisione !"
 
 #: include/functions.inc:2545
 msgid "'nextIdHook' is not available. Using default base!"
-msgstr ""
+msgstr "'prossimo Hook ID\" non é disponibile. Usa una base predefinita!"
 
 #: include/functions.inc:2563
 msgid "LDAP warning"
@@ -3113,13 +3113,13 @@ msgstr "Classe(i) disponibile(i)"
 msgid ""
 "You have installed the mixed groups plugin, but your schema configuration "
 "does not support this."
-msgstr ""
+msgstr "Avete installato il plugin di gruppi misti, ma la configurazione dello schema non supporta questo."
 
 #: include/functions.inc:2621
 msgid ""
 "In order to use mixed groups the objectClass \"posixGroup\" must be "
 "AUXILIARY"
-msgstr ""
+msgstr "Per usare gruppi misti l'objetClass \"posixGroup\" deve essere AUSILIARIO"
 
 #: include/functions.inc:2624
 msgid ""
@@ -3966,7 +3966,7 @@ msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:245
 msgid "Allow users to edit their own password (use only on base)"
-msgstr ""
+msgstr "Permette agli utenti di modificare la loro password (usare solo su base)"
 
 #: setup/class_setupStep_Migrate.inc:258
 msgid "Inspecting object classes in root object"
@@ -3986,7 +3986,7 @@ msgstr "Verifica del super amministratore"
 
 #: setup/class_setupStep_Migrate.inc:262
 msgid "Checking for default ACL roles and groups"
-msgstr ""
+msgstr "Controllo per i ruoli ed i gruppi ACL predefiniti"
 
 #: setup/class_setupStep_Migrate.inc:263
 msgid "Checking for users outside the people tree"
@@ -4028,7 +4028,7 @@ msgstr "La richiesta al database LDAP è fallita!"
 #: setup/class_setupStep_Migrate.inc:1352
 #: setup/class_setupStep_Migrate.inc:1391
 msgid "Possibly the \"root object\" is missing."
-msgstr ""
+msgstr "Forse l'\"oggetto radice\" é mancante"
 
 #: setup/class_setupStep_Migrate.inc:346 setup/class_setupStep_Migrate.inc:368
 #: setup/class_setupStep_Migrate.inc:419 setup/class_setupStep_Migrate.inc:499
@@ -4056,7 +4056,7 @@ msgstr "Impossibile gestire il tipo di oggetto strutturale del tuo oggetto radic
 #: setup/class_setupStep_Migrate.inc:500
 #, php-format
 msgid "The specified user \"%s\" does not have full access to your LDAP database."
-msgstr ""
+msgstr "L'utente \"%s\" non ha accesso completo al vostro database LDAP."
 
 #: setup/class_setupStep_Migrate.inc:511
 #, php-format
@@ -4072,7 +4072,7 @@ msgstr "Ho trovato %s utenti(e) che non saranno visibili in FusionDirectory che 
 
 #: setup/class_setupStep_Migrate.inc:583 setup/class_setupStep_Migrate.inc:588
 msgid "User migration"
-msgstr ""
+msgstr "Migrazione utente"
 
 #: setup/class_setupStep_Migrate.inc:671
 #: setup/class_setupStep_Migrate.inc:1027
@@ -4082,17 +4082,17 @@ msgstr "Errore durante la migrazione"
 #: setup/class_setupStep_Migrate.inc:673
 #, php-format
 msgid "Cannot migrate entry \"%s\":"
-msgstr ""
+msgstr "Impossibile eseguire la migrazione di voce \"%s\":"
 
 #: setup/class_setupStep_Migrate.inc:857
 #, php-format
 msgid "FD 1.0.7 administrative accounts found: %s"
-msgstr ""
+msgstr "FD 1.0.7 account amministrativi trovati: %s"
 
 #: setup/class_setupStep_Migrate.inc:860
 #, php-format
 msgid "FD 1.0.7 administrative groups found: %s"
-msgstr ""
+msgstr "FD 1.0.7 gruppi amministrativi trovati: %s"
 
 #: setup/class_setupStep_Migrate.inc:862
 msgid ""
@@ -4147,11 +4147,11 @@ msgstr "Sposta gli utenti nel ramo utenti configurato nell'annuario"
 
 #: setup/class_setupStep_Migrate.inc:1130
 msgid "Cannot move entries to the requested department!"
-msgstr ""
+msgstr "Impossibile spostare le entrate nel dipartimento richiesto!"
 
 #: setup/class_setupStep_Migrate.inc:1142
 msgid "Entry will be moved from"
-msgstr ""
+msgstr "L'entrata verrà spostata"
 
 #: setup/class_setupStep_Migrate.inc:1142
 msgid "to"
@@ -4179,7 +4179,7 @@ msgstr "Ho trovato %s departimenti(o) che non saranno visibili in FusionDirector
 #: setup/class_setupStep_Migrate.inc:1323
 #: setup/class_setupStep_Migrate.inc:1328
 msgid "Department migration"
-msgstr ""
+msgstr "Migrazione Dipartilento"
 
 #: setup/class_setupStep_Migrate.inc:1373
 #, php-format
@@ -4460,8 +4460,8 @@ msgstr ""
 #: plugins/addons/dashboard/users_accounts.tpl.c:2
 msgid "There is one expired account"
 msgid_plural "There are %1 expired accounts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ci sono% 1 account scaduti"
+msgstr[1] "Ci sono% 1 account scaduti"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:5
 msgid "There is no expired account"
@@ -4507,12 +4507,12 @@ msgstr "mail"
 #: plugins/addons/dashboard/users_accounts.tpl.c:35
 msgid "There is one account expiring in the next %1 days"
 msgid_plural "There are %2 accounts expiring in the next %1 days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ci sono% 2 account in scadenza nei prossimi 1 % giorni "
+msgstr[1] "Ci sono% 2 account in scadenza nei prossimi 1 % giorni "
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:38
 msgid "There is no account expiring in the next %1 days"
-msgstr ""
+msgstr "Non c'é alcun account in scadenza nei prossimi %1 giorni"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:41
 msgid "Next expired accounts"
@@ -4527,8 +4527,8 @@ msgstr[1] ""
 #: plugins/addons/dashboard/groups_stats.tpl.c:5
 msgid "One of them is a %1 group"
 msgid_plural "%2 are %1 groups"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%2 sono %1 gruppi"
+msgstr[1] "%2 sono %1 gruppi"
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:8
 msgid "There is no %1 group"
@@ -4763,7 +4763,7 @@ msgstr "Attenzione! Stai per cancellare i seguenti oggetti"
 
 #: ihtml/themes/default/restore-confirm.tpl.c:5
 msgid "Any modification made to the object since this snapshot will be lost."
-msgstr ""
+msgstr "Qualsiasi modifica apportata all'oggetto da questa istantanea sarà persa."
 
 #: ihtml/themes/default/restore-confirm.tpl.c:8
 #: ihtml/themes/default/simple-remove.tpl.c:5
