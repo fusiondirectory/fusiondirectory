@@ -1200,7 +1200,7 @@ sub migrate_users {
             @delete = ('sambaLMPassword','sambaNTPassword','sambaPwdLastSet','sambaBadPasswordCount','sambaBadPasswordTime');
           }
         }
-        if ($@delete > 0) {
+        if (scalar(@delete) > 0) {
           $mesg = $ldap->modify($entry->dn(), delete => \@delete );
           $mesg->code && print $mesg->error;
         }
