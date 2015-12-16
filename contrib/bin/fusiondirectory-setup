@@ -1175,7 +1175,8 @@ sub migrate_users {
 
     if (ask_yn_question("Remove the gosaAccount objectClass from these entries?")) {
       foreach my $entry (@entries) {
-        my @replace;      
+        my @replace;
+        my @delete;
         my @classes = $entry->get_value('objectClass');
         if (grep {$_ eq 'gosaAccount'} @classes) {
           foreach my $class (@classes) {
@@ -1189,6 +1190,18 @@ sub migrate_users {
             ) {
             push(@replace, "fdPersonalInfo");
           }
+          if (
+              ($entry->exists('sambaLMPassword') || $entry->exists('sambaNTPassword') ||
+                $entry->exists('sambaPwdLastSet') || $entry->exists('sambaBadPasswordCount') ||
+                $entry->exists('sambaBadPasswordTime'))
+              && !(grep {$_ eq 'sambaSamAccount'} @classes)
+            ) {
+            @delete = ('sambaLMPassword','sambaNTPassword','sambaPwdLastSet','sambaBadPasswordCount','sambaBadPasswordTime');
+          }
+        }
+        if ($@delete > 0) {
+          $mesg = $ldap->modify($entry->dn(), delete => \@delete );
+          $mesg->code && print $mesg->error;
         }
         $mesg = $ldap->modify($entry->dn(), replace => { "objectClass" => \@replace });
         $mesg->code && print $mesg->error;
