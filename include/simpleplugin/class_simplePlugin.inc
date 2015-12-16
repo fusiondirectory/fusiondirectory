@@ -323,7 +323,12 @@ class simplePlugin extends plugin
   function execute ()
   {
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "execute");
-    parent::execute();
+
+    /* Reset Lock message POST/GET check array, to prevent preg_match errors */
+    session::set('LOCK_VARS_TO_USE', array());
+    session::set('LOCK_VARS_USED_GET', array());
+    session::set('LOCK_VARS_USED_POST', array());
+    session::set('LOCK_VARS_USED_REQUEST', array());
 
     $this->displayPlugin  = TRUE;
     $this->header         = "";

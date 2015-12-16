@@ -308,18 +308,6 @@ class plugin
   }
 
   /*!
-   * \brief Generates the html output for this node
-   */
-  function execute()
-  {
-    /* Reset Lock message POST/GET check array, to prevent preg_match errors */
-    session::set('LOCK_VARS_TO_USE', array());
-    session::set('LOCK_VARS_USED_GET', array());
-    session::set('LOCK_VARS_USED_POST', array());
-    session::set('LOCK_VARS_USED_REQUEST', array());
-  }
-
-  /*!
    * \brief Save HTML posted data to object
    */
   function save_object()
@@ -329,7 +317,6 @@ class plugin
       $this->entryCSN = getEntryCSN($this->dn);
     }
   }
-
 
   /*!
    * \brief Save data to LDAP, depending on is_account we save or delete
