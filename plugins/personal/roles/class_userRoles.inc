@@ -130,8 +130,6 @@ class userRoles extends simplePlugin
       $this->attributesAccess['rolesMembership']->setValue(array_keys($myRoles));
       $this->savedRolesMembership = array_keys($myRoles);
     }
-
-    $this->updateAttributesValues();
   }
 
   function is_this_account($attrs)

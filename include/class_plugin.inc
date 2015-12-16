@@ -23,18 +23,6 @@
  * \file class_plugin.inc
  * Source code for the class plugin
  */
-
-/*!
- * \brief This is the base class for all plugins.
- *
- * \author  Cajus Pollmeier <pollmeier@gonicus.de>
- * \version 2.00
- * \date    24.07.2003
- *
- * This is the base class for all plugins. It can be used standalone or
- * can be included by the tabs class. All management should be done
- * within this class. Extend your plugins from this class.
- */
 class plugin
 {
   /*!
@@ -81,7 +69,6 @@ class plugin
    */
   var $is_template    = FALSE;
   var $ignore_account = FALSE;
-  var $is_modified    = FALSE;
 
   /*!
     \brief Represent temporary LDAP data
@@ -101,8 +88,6 @@ class plugin
   var $dn         = "";
   var $dialog     = FALSE;
 
-  /* attribute list for save action */
-  var $attributes       = array();
   var $objectclasses    = array();
   var $saved_attributes = array();
 
@@ -116,8 +101,6 @@ class plugin
   /* Object entry CSN */
   var $entryCSN         = "";
   var $CSN_check_active = FALSE;
-
-  var $selected_edit_values = array();
 
   /*!
    * \brief plugin constructor
@@ -146,16 +129,16 @@ class plugin
         if (is_numeric($c)) {
           $c = $tmp['plCategory'][0];
         }
-        $this->acl_category = $c."/";
+        $this->acl_category = $c.'/';
       }
     }
 
     /* Handle new accounts, don't read information from LDAP */
-    if ($this->dn != "new") {
+    if ($this->dn != 'new') {
       /* Check if this entry was opened in read only mode */
       if (isset($_POST['open_readonly'])) {
-        if (session::global_is_set("LOCK_CACHE")) {
-          $cache = &session::get("LOCK_CACHE");
+        if (session::global_is_set('LOCK_CACHE')) {
+          $cache = &session::get('LOCK_CACHE');
           if (isset($cache['READ_ONLY'][$this->dn])) {
             $this->read_only = TRUE;
           }
@@ -167,7 +150,7 @@ class plugin
     }
 
     /* Get LDAP descriptor */
-    if (($this->dn != "new" && $this->dn !== NULL) || ($object !== NULL)) {
+    if (($this->dn != 'new' && $this->dn !== NULL) || ($object !== NULL)) {
       /* Load data to 'attrs' and save 'dn' */
       if ($object !== NULL) {
         $this->attrs = $object->attrs;
@@ -201,17 +184,6 @@ class plugin
 
     /* Save initial account state */
     $this->initially_was_account = $this->is_account;
-  }
-
-  protected function loadAttributes()
-  {
-    /* Copy needed attributes */
-    foreach ($this->attributes as $val) {
-      $found = array_key_ics($val, $this->attrs);
-      if ($found != "") {
-        $this->$val = $found[0];
-      }
-    }
   }
 
   function is_this_account($attrs)
@@ -335,64 +307,17 @@ class plugin
     $this->postCopyHook();
   }
 
-
   /*!
    * \brief Generates the html output for this node
    */
   function execute()
   {
-    /* Reset Lock message POST/GET check array, to prevent perg_match errors*/
+    /* Reset Lock message POST/GET check array, to prevent preg_match errors */
     session::set('LOCK_VARS_TO_USE', array());
     session::set('LOCK_VARS_USED_GET', array());
     session::set('LOCK_VARS_USED_POST', array());
     session::set('LOCK_VARS_USED_REQUEST', array());
   }
-
-  /*!
-   * \brief Removes object from parent
-   */
-  function remove_from_parent()
-  {
-    /* include global link_info */
-    $ldap = $this->config->get_ldap_link();
-
-    /* Get current objectClasses in order to add the required ones */
-    $ldap->cat($this->dn);
-    $tmp  = $ldap->fetch ();
-    $oc   = array();
-    if ($this->is_template) {
-      if (isset($tmp['fdTemplateField'])) {
-        foreach ($tmp['fdTemplateField'] as $tpl_field) {
-          if (preg_match('/^objectClass:(.+)$/', $tpl_field, $m)) {
-            $oc[] = $m[1];
-          }
-        }
-      }
-    } else {
-      if (isset($tmp['objectClass'])) {
-        $oc = $tmp['objectClass'];
-        unset($oc['count']);
-      }
-    }
-
-    /* Remove objectClasses from entry */
-    $ldap->cd($this->dn);
-    $this->attrs                = array();
-    $this->attrs['objectClass'] = array_remove_entries_ics($this->objectclasses, $oc);
-
-    /* Unset attributes from entry */
-    foreach ($this->attributes as $val) {
-      $this->attrs["$val"] = array();
-    }
-
-    /* Do not write in plugin base class, this must be done by
-       children, since there are normally additional attribs,
-       lists, etc. */
-    if ($this->initially_was_account) {
-      $this->handle_pre_events('remove');
-    }
-  }
-
 
   /*!
    * \brief Save HTML posted data to object
@@ -402,32 +327,6 @@ class plugin
     /* Update entry CSN if it is empty. */
     if (empty($this->entryCSN) && $this->CSN_check_active) {
       $this->entryCSN = getEntryCSN($this->dn);
-    }
-
-    /* Save values to object */
-    foreach ($this->attributes as $val) {
-      if ($this->acl_is_writeable($val) && isset ($_POST["$val"])) {
-        /* Check for modifications */
-        $data = $_POST["$val"];
-
-        if ($this->$val != $data) {
-          $this->is_modified = TRUE;
-        }
-
-        $this->$val = $data;
-
-        /* Okay, how can I explain this fix ...
-         * In firefox, disabled option fields aren't selectable ... but in IE you can select these fileds.
-         * So IE posts these 'unselectable' option, with value = chr(194)
-         * chr(194) seems to be the &nbsp; in between the ...option>&nbsp;</option.. because there is no value=".." specified in these option fields
-         * This &nbsp; was added for W3c compliance, but now causes these ... ldap errors ...
-         * So we set these Fields to ""; a normal empty string, and we can check these values in plugin::check() again ...
-         */
-        if (isset($data[0]) && ($data[0] == chr(194))) {
-          $data = "";
-        }
-        $this->$val = $data;
-      }
     }
   }
 
@@ -441,7 +340,7 @@ class plugin
     $ldap = $this->config->get_ldap_link();
 
     /* Save all plugins */
-    $this->entryCSN = "";
+    $this->entryCSN = '';
 
     /* Start with empty array */
     $this->attrs = array();
@@ -466,19 +365,8 @@ class plugin
         unset($oc['count']);
       }
     }
-    $is_new = empty($oc);
 
-    /* Load (minimum) attributes, add missing ones */
     $this->attrs['objectClass'] = array_merge_unique($oc, $this->objectclasses);
-
-    /* Copy standard attributes */
-    foreach ($this->attributes as $val) {
-      if ($this->$val != "") {
-        $this->attrs["$val"] = $this->$val;
-      } elseif (!$is_new) {
-        $this->attrs["$val"] = array();
-      }
-    }
 
     if ($this->initially_was_account) {
       $this->handle_pre_events('modify');
@@ -560,41 +448,10 @@ class plugin
       $current_csn = getEntryCSN($this->dn);
       if (($current_csn != $this->entryCSN) && !empty($this->entryCSN) && !empty($current_csn)) {
         $this->entryCSN = $current_csn;
-        $message[] = _("The object has changed since opened in FusionDirectory. All changes that may be done by others get lost if you save this entry!");
+        $message[] = _('The object has changed since opened in FusionDirectory. All changes that may be done by others will get lost if you save this entry!');
       }
     }
     return $message;
-  }
-
-  /*
-   * \brief Adapt from template, using 'dn'
-   *
-   * \param string $dn The DN
-   *
-   * \param array $skip A new array
-   */
-  function adapt_from_template($attrs, $skip = array())
-  {
-    $this->attrs = $attrs;
-
-    /* Walk through attributes */
-    foreach ($this->attributes as $val) {
-      /* Skip the ones in skip list */
-      if (in_array($val, $skip)) {
-        continue;
-      }
-
-      if (isset($this->attrs["$val"][0])) {
-        $this->$val = $this->attrs["$val"][0];
-      }
-    }
-
-    /* Is Account? */
-    $this->is_account = $this->is_this_account($this->attrs);
-  }
-
-  public function setNeedEditMode ($bool)
-  {
   }
 
   function setTemplate ($bool)
@@ -887,7 +744,6 @@ class plugin
     return array_unique($needed);
   }
 
-
   /*! Brief Parse attrs template masks
    *
    * return an array with the final values of attributes
@@ -956,11 +812,10 @@ class plugin
    *
    * \param boolean $disabled FALSE
    */
-  function show_enable_header($button_text, $text, $disabled = FALSE, $name = "modify_state")
+  function show_enable_header($button_text, $text, $disabled = FALSE, $name = 'modify_state')
   {
     return $this->show_header($button_text, $text, FALSE, $disabled, $name);
   }
-
 
   /*!
    * \brief Show header message for tab dialogs
@@ -971,11 +826,10 @@ class plugin
    *
    * \param boolean $disabled FALSE
    */
-  function show_disable_header($button_text, $text, $disabled = FALSE, $name = "modify_state")
+  function show_disable_header($button_text, $text, $disabled = FALSE, $name = 'modify_state')
   {
     return $this->show_header($button_text, $text, TRUE, $disabled, $name);
   }
-
 
   /*!
    * \brief Show header message for tab dialogs
@@ -988,16 +842,15 @@ class plugin
    *
    * \param boolean $button_disabled FALSE
    */
-  function show_header($button_text, $text, $plugin_enabled, $button_disabled = FALSE, $name = "modify_state")
+  function show_header($button_text, $text, $plugin_enabled, $button_disabled = FALSE, $name = 'modify_state')
   {
-    if (($button_disabled) || ((!$this->acl_is_createable() && !$plugin_enabled) || (!$this->acl_is_removeable() && $plugin_enabled))) {
-        $state = "disabled=\"disabled\"";
+    if ($button_disabled || ((!$this->acl_is_createable() && !$plugin_enabled) || (!$this->acl_is_removeable() && $plugin_enabled))) {
+        $state = 'disabled="disabled"';
     } else {
-        $state = "";
+        $state = '';
     }
-    $display = "<div width=\"100%\"><p><b>$text</b><br/>\n";
-    $display .= "<input type=\"submit\" value=\"$button_text\" name=\"$name\" ".$state.
-      "></p></div><hr class=\"separator\"/>";
+    $display = '<div width="100%"><p><b>'.$text.'</b><br/>'."\n";
+    $display .= '<input type="submit" value="'.$button_text.'" name="'.$name.'" '.$state.'></p></div><hr class="separator"/>';
 
     return $display;
   }
@@ -1022,7 +875,7 @@ class plugin
     $base = preg_replace('/^,*/', '', $base);
 
     /* Try to use plain entry first */
-    $dn = "$attribute=".$this->$attribute.",$base";
+    $dn = $attribute.'='.$this->$attribute.','.$base;
     if ($dn == $this->orig_dn) {
       return $dn;
     }
@@ -1294,9 +1147,9 @@ class plugin
   function getObjectClassFilter ()
   {
     if (!empty($this->objectclasses)) {
-      return "(&(objectClass=".implode(")(objectClass=", $this->objectclasses)."))";
+      return '(&(objectClass='.implode(')(objectClass=', $this->objectclasses).'))';
     } else {
-      return "";
+      return '';
     }
   }
 
@@ -1495,59 +1348,6 @@ class plugin
     if ($mode == 'references') {
       return $refs;
     }
-  }
-
-  protected function attributeValue($field)
-  {
-    return $this->$field;
-  }
-
-  protected function attributeInitialValue($field)
-  {
-    die("Foreign key was declared but there is no method attributeInitialValue to handle it!".
-      " Class:".get_class($this).", Field:$field");
-  }
-
-  protected function attributeHaveChanged($field)
-  {
-    die("Foreign key was declared but there is no method attributeHaveChanged to handle it!".
-      " Class:".get_class($this).", Field:$field");
-  }
-
-  /*
-   * Source is an array like this:
-   * array(
-   *  'CLASS' => class,
-   *  'FIELD' => field,
-   *  'DN'    => dn,
-   *  'MODE'  => mode
-   * )
-   * mode being either 'copy' or 'move', defaults to 'move'
-   */
-  function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
-  {
-    die("Foreign key was declared but there is no method foreignKeyUpdate to handle it!".
-      " Class:".get_class($this).", Field:$field, Source:(".join(',', $source).").");
-  }
-
-  function foreignKeyCheck ($field, $value, $source)
-  {
-    die("Foreign key was declared but there is no method foreignKeyCheck to handle it!".
-      " Class:".get_class($this).", Field:$field, Source:(".join(',', $source).").");
-  }
-
-
-  /* \brief Move/Rename complete trees
-   *
-   * \param  string  $src_dn the source DN.
-   *
-   * \param  string  $dst_dn the destination DN.
-   */
-  function recursive_move($src_dn, $dst_dn)
-  {
-    trigger_error('Deprecated method : plugin::recursive_move, use plugin::move instead');
-
-    return $this->move($src_dn, $dst_dn);
   }
 
   /*! \brief Forward command execution requests
@@ -1805,7 +1605,6 @@ class plugin
     return $ui->get_permissions($this->acl_base, $this->acl_category.get_class($this), $attribute, $skip_write);
   }
 
-
   /*!
    * \brief Returns a list of all available departments for this object.
    *
@@ -1842,7 +1641,6 @@ class plugin
     }
     return $deps;
   }
-
 
   /*
    * \brief This function updates ACL settings if $old_dn was used.

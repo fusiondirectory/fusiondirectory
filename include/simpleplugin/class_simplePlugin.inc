@@ -203,8 +203,6 @@ class simplePlugin extends plugin
       unset($attr);
     }
     unset($sectionInfo);
-
-    $this->updateAttributesValues();
   }
 
   /*! \brief This function allows to use the syntax $plugin->attributeName to get attributes values
@@ -235,7 +233,9 @@ class simplePlugin extends plugin
    */
   public function __set($name, $value)
   {
-    if (isset($this->attributesAccess[$name])) {
+    if ($name == 'attributes') {
+      trigger_error('Tried to set obsolete attribute "attributes" (it is now dynamic)');
+    } elseif (isset($this->attributesAccess[$name])) {
       $this->attributesAccess[$name]->setValue($value);
     } else {
       /* Calling default behaviour */
@@ -304,18 +304,6 @@ class simplePlugin extends plugin
       }
     }
     return $tmp;
-  }
-
-  /*! \brief This function update the values of LDAP attributes as class attribute,
-    so that plugin code works correctly
-
-    This should be removed once plugin class is not used anymore
-   */
-  function updateAttributesValues ()
-  {
-    unset($this->attributes);
-    /* This will call __get with attributes, which will create the array */
-    $this->attributes = $this->attributes;
   }
 
   function editing_group ()
@@ -520,10 +508,44 @@ class simplePlugin extends plugin
     }
   }
 
+  /* Remove FusionDirectory attributes */
   protected function prepare_remove ()
   {
-    /* Remove FusionDirectory attributes */
-    plugin::remove_from_parent();
+    /* include global link_info */
+    $ldap = $this->config->get_ldap_link();
+
+    /* Get current objectClasses in order to add the required ones */
+    $ldap->cat($this->dn);
+    $tmp  = $ldap->fetch ();
+    $oc   = array();
+    if ($this->is_template) {
+      if (isset($tmp['fdTemplateField'])) {
+        foreach ($tmp['fdTemplateField'] as $tpl_field) {
+          if (preg_match('/^objectClass:(.+)$/', $tpl_field, $m)) {
+            $oc[] = $m[1];
+          }
+        }
+      }
+    } else {
+      if (isset($tmp['objectClass'])) {
+        $oc = $tmp['objectClass'];
+        unset($oc['count']);
+      }
+    }
+
+    /* Remove objectClasses from entry */
+    $ldap->cd($this->dn);
+    $this->attrs                = array();
+    $this->attrs['objectClass'] = array_remove_entries_ics($this->objectclasses, $oc);
+
+    /* Unset attributes from entry */
+    foreach ($this->attributes as $val) {
+      $this->attrs["$val"] = array();
+    }
+
+    if ($this->initially_was_account) {
+      $this->handle_pre_events('remove');
+    }
   }
 
   protected function ldap_remove ()
@@ -591,7 +613,6 @@ class simplePlugin extends plugin
         unset ($attrs);
       }
       unset($sectionInfo);
-      $this->updateAttributesValues();
     }
   }
 
@@ -682,7 +703,7 @@ class simplePlugin extends plugin
    */
   function check ()
   {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "check");
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'check');
     $message = parent::check();
 
     foreach ($this->attributesInfo as $sectionInfo) {
@@ -959,6 +980,16 @@ class simplePlugin extends plugin
     $this->attributesAccess[$field]->foreignKeyUpdate($oldvalue, $newvalue, $source);
   }
 
+  /*
+   * Source is an array like this:
+   * array(
+   *  'CLASS' => class,
+   *  'FIELD' => field,
+   *  'DN'    => dn,
+   *  'MODE'  => mode
+   * )
+   * mode being either 'copy' or 'move', defaults to 'move'
+   */
   function foreignKeyCheck ($field, $value, $source)
   {
     return $this->attributesAccess[$field]->foreignKeyCheck($value, $source);

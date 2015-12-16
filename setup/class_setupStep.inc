@@ -112,8 +112,6 @@ class setupStep extends simplePlugin
       unset($attr);
     }
     unset($sectionInfo);
-
-    $this->updateAttributesValues();
   }
 }
 ?>

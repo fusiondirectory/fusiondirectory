@@ -560,7 +560,6 @@ class posixAccount extends simplePlugin
       $this->shadowLastChange = floor(date('U') / EpochDaysDateAttribute::$secondsPerDay);
     }
 
-    $this->updateAttributesValues();
     parent::prepare_save();
 
     if ($this->trustMode == 'fullaccess') {

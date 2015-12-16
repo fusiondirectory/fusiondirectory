@@ -955,8 +955,6 @@ class ReadOnlyLDAPAttribute extends DisplayLDAPAttribute
 {
   function fillLdapValue (&$attrs)
   {
-    /* Remove crap made by plugin */
-    unset($attrs[$this->getLdapName()]);
   }
 }
 
@@ -1881,7 +1879,6 @@ class BaseSelectorAttribute extends Attribute
         }
         if ($this->value != $this->baseSelector->getBase()) {
           $this->setValue($this->baseSelector->getBase());
-          $this->plugin->is_modified = TRUE;
         }
       }
     }
@@ -2859,8 +2856,6 @@ class SubNodesAttribute extends OrderedArrayAttribute
   /* Not saving anything into base node */
   function fillLdapValue (&$attrs)
   {
-    /* Remove crap made by plugin */
-    unset ($attrs[$this->getLdapName()]);
   }
 
   /* Special LDAP treatment that this attribute does after plugin ldap save */
