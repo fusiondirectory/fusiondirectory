@@ -98,9 +98,14 @@ class plugin
   /* This can be set to render the tabulators in another stylesheet */
   var $pl_notify = FALSE;
 
-  /* Object entry CSN */
-  var $entryCSN         = "";
-  var $CSN_check_active = FALSE;
+  /*!
+   * \brief Object entry CSN
+   *
+   * If an entry was edited while we have edited the entry too,
+   * an error message will be shown.
+   * To configure this check correctly read the FAQ.
+   */
+  var $entryCSN = '';
 
   /*!
    * \brief plugin constructor
@@ -308,17 +313,6 @@ class plugin
   }
 
   /*!
-   * \brief Save HTML posted data to object
-   */
-  function save_object()
-  {
-    /* Update entry CSN if it is empty. */
-    if (empty($this->entryCSN) && $this->CSN_check_active) {
-      $this->entryCSN = getEntryCSN($this->dn);
-    }
-  }
-
-  /*!
    * \brief Save data to LDAP, depending on is_account we save or delete
    */
   function save()
@@ -326,7 +320,6 @@ class plugin
     /* include global link_info */
     $ldap = $this->config->get_ldap_link();
 
-    /* Save all plugins */
     $this->entryCSN = '';
 
     /* Start with empty array */
@@ -431,9 +424,9 @@ class plugin
     }
 
     /* Check entryCSN */
-    if ($this->CSN_check_active) {
+    if (!empty($this->entryCSN)) {
       $current_csn = getEntryCSN($this->dn);
-      if (($current_csn != $this->entryCSN) && !empty($this->entryCSN) && !empty($current_csn)) {
+      if (($current_csn != $this->entryCSN) && !empty($current_csn)) {
         $this->entryCSN = $current_csn;
         $message[] = _('The object has changed since opened in FusionDirectory. All changes that may be done by others will get lost if you save this entry!');
       }
@@ -1653,19 +1646,6 @@ class plugin
       session::global_set('ui', $ui);
       new log("view", "acl/".get_class($this), $this->dn, array(), "Updated current object dn from '".$old_dn."' to '".$new_dn."'");
     }
-  }
-
-  /*!
-   * \brief Enable the Serial ID check
-   *
-   * This function enables the entry Serial ID check.  If an entry was edited while
-   * we have edited the entry too, an error message will be shown.
-   * To configure this check correctly read the FAQ.
-   */
-  function enable_CSN_check()
-  {
-    $this->CSN_check_active = TRUE;
-    $this->entryCSN = getEntryCSN($this->dn);
   }
 
   function is_modal_dialog()
