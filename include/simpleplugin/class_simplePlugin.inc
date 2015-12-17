@@ -123,6 +123,8 @@ class simplePlugin extends plugin
 
     if ($this->mainTab) {
       $this->is_account = TRUE;
+      /* TODO: When merging plugin and simplePlugin we should find a way to avoid doing a separate LDAP fetch for this */
+      $this->entryCSN = getEntryCSN($this->dn);
     }
 
     if (!isset($this->templatePath)) {
@@ -808,7 +810,6 @@ class simplePlugin extends plugin
           }
         } else {
           $account = new $classname($config, $entry_dn);
-          $account->enable_CSN_check();
           $account->set_acl_category($plCategory);
           if ($edit_mode) {
             $account->setNeedEditMode(TRUE);

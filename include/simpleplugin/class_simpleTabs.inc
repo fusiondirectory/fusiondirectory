@@ -103,7 +103,6 @@ class simpleTabs
 
       if ($baseobject === NULL) {
         $baseobject = new $tab['CLASS']($this->config, $this->dn, $attrs_object);
-        $baseobject->enable_CSN_check();
         $this->by_object[$tab['CLASS']] = $baseobject;
         $this->baseclass                = $tab['CLASS'];
       } else {
@@ -149,7 +148,6 @@ class simpleTabs
       }
       if ($baseobject === NULL) {
         $baseobject = new $class($this->config, $this->dn);
-        $baseobject->enable_CSN_check();
         $this->by_object[$name] = $baseobject;
       } else {
         $this->by_object[$name] = new $class($this->config, $this->dn, $baseobject);
