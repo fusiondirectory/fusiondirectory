@@ -24,17 +24,6 @@
  * Source code for the class plugin
  */
 
-/*!
- * \brief This is the base class for all plugins.
- *
- * \author  Cajus Pollmeier <pollmeier@gonicus.de>
- * \version 2.00
- * \date    24.07.2003
- *
- * This is the base class for all plugins. It can be used standalone or
- * can be included by the tabs class. All management should be done
- * within this class. Extend your plugins from this class.
- */
 class plugin
 {
   /*!
