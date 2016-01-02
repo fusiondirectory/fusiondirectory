@@ -688,6 +688,7 @@ sub add_ldap_admin {
     attrs   => ['objectClass', 'gosaAclEntry']
   );
   $acls->code && die "\n! failed to search acls in '$base' - ".$acls->error_name.": ".$acls->error_text;
+  ($acls->count == 0) && die "\n! failed to search acls in '$base' - base not found";
   my $oclass = ($acls->entries)[0]->get_value("objectClass", asref => 1);
   # Add admin acl
   my $newacl = ["0:subtree:$role:".encode_base64($dn, '')];
