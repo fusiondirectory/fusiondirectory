@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2015-11-05 22:09+0100\n"
+"POT-Creation-Date: 2016-01-02 22:28+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FusionDirectory project <contact@fusiondirectory.org>\n"
 "Language-Team: English\n"
@@ -53,7 +53,7 @@ msgstr ""
 #: plugins/admin/groups/class_group.inc:61
 #: plugins/admin/groups/class_ogroup.inc:187
 #: plugins/admin/groups/group-list.xml:33
-#: plugins/admin/departments/class_department.inc:157
+#: plugins/admin/departments/class_department.inc:158
 #: plugins/admin/aclrole/class_aclRole.inc:130
 #: include/simpleplugin/simple-select-list.xml:32
 #: include/simpleplugin/simple-list.xml:32
@@ -74,7 +74,7 @@ msgstr ""
 #: plugins/admin/groups/class_group.inc:66
 #: plugins/admin/groups/class_ogroup.inc:192
 #: plugins/admin/groups/group-list.xml:41
-#: plugins/admin/departments/class_department.inc:72
+#: plugins/admin/departments/class_department.inc:73
 #: plugins/admin/departments/dep-list.xml:29
 #: plugins/admin/aclrole/class_aclRole.inc:134
 #: plugins/personal/generic/class_user.inc:289
@@ -209,7 +209,7 @@ msgstr ""
 #: plugins/personal/posix/class_posixAccount.inc:458 include/functions.inc:791
 #: include/functions.inc:2545 include/class_xml.inc:55
 #: include/simpleplugin/class_simpleTabs.inc:325 html/index.php:56
-#: html/index.php:62 html/index.php:447 html/class_passwordRecovery.inc:378
+#: html/index.php:62 html/index.php:485 html/class_passwordRecovery.inc:378
 #: setup/class_setupStep_Migrate.inc:572
 #: setup/class_setupStep_Migrate.inc:1083
 #: setup/class_setupStep_Migrate.inc:1202
@@ -283,8 +283,8 @@ msgstr ""
 #: plugins/admin/aclrole/class_aclRole.inc:315
 #: include/simpleplugin/class_dialogAttributes.inc:626
 #: include/simpleplugin/class_dialogAttributes.inc:627
-#: include/simpleplugin/class_attribute.inc:2614
-#: include/simpleplugin/class_attribute.inc:2615
+#: include/simpleplugin/class_attribute.inc:2661
+#: include/simpleplugin/class_attribute.inc:2662
 #: include/simpleplugin/simple-list.xml:67
 #: include/simpleplugin/simple-list.xml:112
 msgid "Edit"
@@ -415,66 +415,66 @@ msgstr ""
 msgid "A name for this %s"
 msgstr ""
 
-#: plugins/admin/departments/class_department.inc:72
+#: plugins/admin/departments/class_department.inc:73
 #, php-format
 msgid "Short description of this %s"
 msgstr ""
 
-#: plugins/admin/departments/class_department.inc:76
+#: plugins/admin/departments/class_department.inc:77
 msgid "Category"
 msgstr ""
 
-#: plugins/admin/departments/class_department.inc:76
+#: plugins/admin/departments/class_department.inc:77
 #, php-format
 msgid "Category of this %s"
 msgstr ""
 
-#: plugins/admin/departments/class_department.inc:80
+#: plugins/admin/departments/class_department.inc:81
 #: plugins/personal/generic/class_user.inc:410
 msgid "Manager"
 msgstr ""
 
-#: plugins/admin/departments/class_department.inc:80
+#: plugins/admin/departments/class_department.inc:81
 #, php-format
 msgid "Manager of this %s"
 msgstr ""
 
-#: plugins/admin/departments/class_department.inc:86
-#: plugins/admin/departments/class_department.inc:92
+#: plugins/admin/departments/class_department.inc:87
+#: plugins/admin/departments/class_department.inc:93
 #: plugins/personal/generic/class_user.inc:304
 msgid "Location"
 msgstr ""
 
-#: plugins/admin/departments/class_department.inc:89
+#: plugins/admin/departments/class_department.inc:90
 #: plugins/personal/generic/class_user.inc:308
 msgid "State"
 msgstr ""
 
-#: plugins/admin/departments/class_department.inc:95
+#: plugins/admin/departments/class_department.inc:96
 #: plugins/personal/generic/class_user.inc:312
 msgid "Address"
 msgstr ""
 
-#: plugins/admin/departments/class_department.inc:95
+#: plugins/admin/departments/class_department.inc:96
 #, php-format
 msgid "A postal address for this %s"
 msgstr ""
 
-#: plugins/admin/departments/class_department.inc:99
+#: plugins/admin/departments/class_department.inc:100
 #: plugins/personal/generic/class_user.inc:320
 msgid "Phone"
 msgstr ""
 
-#: plugins/admin/departments/class_department.inc:99
+#: plugins/admin/departments/class_department.inc:100
 msgid "Telephone number"
 msgstr ""
 
-#: plugins/admin/departments/class_department.inc:103
+#: plugins/admin/departments/class_department.inc:104
 #: plugins/personal/generic/class_user.inc:332
 msgid "Fax"
 msgstr ""
 
-#: plugins/admin/departments/class_department.inc:103
+#: plugins/admin/departments/class_department.inc:104
 msgid "Facsimile telephone number"
 msgstr ""
 
@@ -691,8 +691,8 @@ msgid "Edit category ACL"
 msgstr ""
 
 #: plugins/admin/aclrole/class_aclRole.inc:319 include/class_msgPool.inc:517
-#: include/simpleplugin/class_attribute.inc:2624
-#: include/simpleplugin/class_attribute.inc:2625
+#: include/simpleplugin/class_attribute.inc:2671
+#: include/simpleplugin/class_attribute.inc:2672
 #, php-format
 msgid "Delete"
 msgstr ""
@@ -2058,13 +2058,13 @@ msgstr ""
 msgid "Down"
 msgstr ""
 
-#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2586
-#: include/simpleplugin/class_attribute.inc:2587
+#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2633
+#: include/simpleplugin/class_attribute.inc:2634
 msgid "Sort up"
 msgstr ""
 
-#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2599
-#: include/simpleplugin/class_attribute.inc:2600
+#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2646
+#: include/simpleplugin/class_attribute.inc:2647
 msgid "Sort down"
 msgstr ""
 
@@ -2081,22 +2081,22 @@ msgstr ""
 #: include/functions.inc:3134 include/functions.inc:3146
 #: include/functions.inc:3150 include/functions.inc:3157
 #: include/functions.inc:3166 include/functions.inc:3228
-#: include/class_msg_dialog.inc:129 include/class_databaseManagement.inc:78
-#: include/class_xml.inc:58 include/class_plugin.inc:1673
-#: include/class_CopyPasteHandler.inc:278
+#: include/class_msg_dialog.inc:129 include/class_xml.inc:58
+#: include/class_plugin.inc:1662 include/class_CopyPasteHandler.inc:278
 #: include/simpleplugin/class_dialogAttributes.inc:733
-#: include/simpleplugin/class_attribute.inc:1499
-#: include/simpleplugin/class_attribute.inc:1502
-#: include/simpleplugin/class_attribute.inc:1505
-#: include/simpleplugin/class_attribute.inc:1743
-#: include/simpleplugin/class_attribute.inc:1846
-#: include/simpleplugin/class_attribute.inc:1848
+#: include/simpleplugin/class_attribute.inc:1530
+#: include/simpleplugin/class_attribute.inc:1533
+#: include/simpleplugin/class_attribute.inc:1536
+#: include/simpleplugin/class_attribute.inc:1774
+#: include/simpleplugin/class_attribute.inc:1877
+#: include/simpleplugin/class_attribute.inc:1879
 #: include/simpleplugin/class_simpleTabs.inc:90
 #: include/password-methods/class_password-methods-sasl.inc:60
 #: include/password-methods/class_password-methods-sasl.inc:86
 #: include/password-methods/class_password-methods.inc:434
 #: include/password-methods/class_password-methods.inc:444
-#: include/class_SnapshotHandler.inc:415 setup/class_setupStep_Migrate.inc:935
+#: include/class_SnapshotHandler.inc:415 html/index.php:438 html/index.php:448
+#: setup/class_setupStep_Migrate.inc:935
 #: ihtml/themes/default/msg_dialog.tpl.c:2 setup/setup_checks.tpl.c:5
 msgid "Error"
 msgstr ""
@@ -2214,13 +2214,12 @@ msgid "XML error in fusiondirectory.conf: %s at line %d"
 msgstr ""
 
 #: include/class_config.inc:162 include/class_config.inc:300
-#: include/class_config.inc:1044 include/class_config.inc:1057
-#: include/functions.inc:660 include/simpleplugin/class_simpleService.inc:154
-#: include/class_timezone.inc:51
+#: include/class_config.inc:1001 include/class_config.inc:1014
+#: include/functions.inc:660 include/class_timezone.inc:51
 #: include/password-methods/class_password-methods-sha.inc:71
 #: include/password-methods/class_password-methods-ssha.inc:75
 #: include/password-methods/class_password-methods-ssha.inc:91
-#: html/index.php:134 html/main.php:205 html/class_passwordRecovery.inc:259
+#: html/index.php:149 html/main.php:205 html/class_passwordRecovery.inc:259
 msgid "Configuration error"
 msgstr ""
 
@@ -2236,13 +2235,13 @@ msgstr ""
 #: include/class_ldap.inc:1371 include/functions.inc:523
 #: include/functions.inc:675 include/functions.inc:722
 #: include/functions.inc:783 include/functions.inc:838
-#: include/functions.inc:2965 include/simpleplugin/class_simplePlugin.inc:542
-#: include/simpleplugin/class_attribute.inc:2848
+#: include/functions.inc:2965 include/simpleplugin/class_simplePlugin.inc:545
+#: include/simpleplugin/class_attribute.inc:2895
 #: include/password-methods/class_password-methods.inc:196
 #: include/class_SnapshotHandler.inc:50 include/class_SnapshotHandler.inc:244
 #: include/class_SnapshotHandler.inc:277 include/class_SnapshotHandler.inc:292
 #: include/class_SnapshotHandler.inc:422 include/class_SnapshotHandler.inc:425
-#: html/index.php:348 html/class_passwordRecovery.inc:497
+#: html/index.php:364 html/class_passwordRecovery.inc:497
 #: setup/class_setupStep_Migrate.inc:451
 #: setup/class_setupStep_Migrate.inc:1130
 msgid "LDAP error"
@@ -2257,25 +2256,25 @@ msgstr ""
 msgid "The selected mail method (class %s) is not available"
 msgstr ""
 
-#: include/class_config.inc:1045
+#: include/class_config.inc:1002
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required variable '%s' is not "
 "set."
 msgstr ""
 
-#: include/class_config.inc:1058
+#: include/class_config.inc:1015
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required compression module "
 "is missing. Please install '%s'."
 msgstr ""
 
-#: include/class_config.inc:1164
+#: include/class_config.inc:1121
 msgid "All categories"
 msgstr ""
 
-#: include/class_config.inc:1292
+#: include/class_config.inc:1248
 msgid "My account"
 msgstr ""
 
@@ -3289,10 +3288,6 @@ msgstr ""
 msgid "Existing snapshots for this object"
 msgstr ""
 
-#: include/class_databaseManagement.inc:80
-msgid "Please activate debugging for details!"
-msgstr ""
-
 #: include/exporter/class_PDF.php:61
 msgid "Page"
 msgstr ""
@@ -3321,13 +3316,13 @@ msgstr ""
 msgid "XML error"
 msgstr ""
 
-#: include/class_plugin.inc:566
+#: include/class_plugin.inc:555
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may "
 "be done by others get lost if you save this entry!"
 msgstr ""
 
-#: include/class_plugin.inc:1477
+#: include/class_plugin.inc:1466
 #, php-format
 msgid "Tab \"%s\""
 msgstr ""
@@ -3368,17 +3363,17 @@ msgid ""
 "Could not compute dn: could not find objectType infos from tab class \"%s\""
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:634
-#: include/simpleplugin/class_simplePlugin.inc:642
+#: include/simpleplugin/class_simplePlugin.inc:638
+#: include/simpleplugin/class_simplePlugin.inc:646
 msgid "Error when saving"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:634
+#: include/simpleplugin/class_simplePlugin.inc:638
 #, php-format
 msgid "There is already an entry with the same dn : %s"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:642
+#: include/simpleplugin/class_simplePlugin.inc:646
 #, php-format
 msgid "The entry %s is not existing"
 msgstr ""
@@ -3413,8 +3408,8 @@ msgid "Group of user"
 msgstr ""
 
 #: include/simpleplugin/class_dialogAttributes.inc:615
-#: include/simpleplugin/class_attribute.inc:1059
-#: include/simpleplugin/class_attribute.inc:1093
+#: include/simpleplugin/class_attribute.inc:1090
+#: include/simpleplugin/class_attribute.inc:1124
 msgid "None"
 msgstr ""
 
@@ -3459,95 +3454,95 @@ msgid "days"
 msgstr ""
 
 #: include/simpleplugin/class_attribute.inc:543
-#: include/simpleplugin/class_attribute.inc:2130
+#: include/simpleplugin/class_attribute.inc:2161
 #, php-format
 msgid "%s (required)"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1246
+#: include/simpleplugin/class_attribute.inc:1277
 #, php-format
 msgid "An integer between %d and %d"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1248
+#: include/simpleplugin/class_attribute.inc:1279
 #, php-format
 msgid "An integer larger than %d"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1250
+#: include/simpleplugin/class_attribute.inc:1281
 #, php-format
 msgid "An integer smaller than %d"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1348
+#: include/simpleplugin/class_attribute.inc:1379
 #, php-format
 msgid "A float between %f and %f"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1350
+#: include/simpleplugin/class_attribute.inc:1381
 #, php-format
 msgid "A float larger than %f"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1352
+#: include/simpleplugin/class_attribute.inc:1383
 #, php-format
 msgid "A float smaller than %f"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1459
+#: include/simpleplugin/class_attribute.inc:1490
 msgid "Error, incorrect date: "
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1499
-#: include/simpleplugin/class_attribute.inc:1502
-#: include/simpleplugin/class_attribute.inc:1505
+#: include/simpleplugin/class_attribute.inc:1530
+#: include/simpleplugin/class_attribute.inc:1533
+#: include/simpleplugin/class_attribute.inc:1536
 #, php-format
 msgid "Cannot read uploaded file: %s"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1499
+#: include/simpleplugin/class_attribute.inc:1530
 msgid "file is empty"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1502
+#: include/simpleplugin/class_attribute.inc:1533
 msgid "file not found"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1505
+#: include/simpleplugin/class_attribute.inc:1536
 msgid "file not readable"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1538
+#: include/simpleplugin/class_attribute.inc:1569
 #, php-format
 msgid "%s (%d bytes)"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1585
-#: include/simpleplugin/class_attribute.inc:1762
+#: include/simpleplugin/class_attribute.inc:1616
+#: include/simpleplugin/class_attribute.inc:1793
 msgid "Upload"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1590
-#: include/simpleplugin/class_attribute.inc:1591
+#: include/simpleplugin/class_attribute.inc:1621
+#: include/simpleplugin/class_attribute.inc:1622
 msgid "Download"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1744
+#: include/simpleplugin/class_attribute.inc:1775
 msgid ""
 "Cannot save user picture, FusionDirectory requires the package 'php5-"
 "imagick' to be installed!"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1795
+#: include/simpleplugin/class_attribute.inc:1826
 #: setup/class_setupStep_Ldap.inc:50 ihtml/themes/default/simple-list.tpl.c:2
 msgid "Base"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1798
+#: include/simpleplugin/class_attribute.inc:1829
 msgid "Object base"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:2708
+#: include/simpleplugin/class_attribute.inc:2755
 #, php-format
 msgid "Invalid value for %s"
 msgstr ""
@@ -3624,60 +3619,70 @@ msgid ""
 "overridden by php.ini settings."
 msgstr ""
 
-#: html/index.php:136
+#: html/index.php:151
 #, php-format
 msgid ""
 "FusionDirectory configuration %s/%s is not readable. Please run "
 "fusiondirectory-setup --check-config to fix this."
 msgstr ""
 
-#: html/index.php:160
+#: html/index.php:175
 msgid "Smarty error"
 msgstr ""
 
-#: html/index.php:162
+#: html/index.php:177
 #, php-format
 msgid "Directory \"%s\" specified as compile directory is not accessible!"
 msgstr ""
 
-#: html/index.php:197
+#: html/index.php:212
 msgid "Your FusionDirectory session has expired!"
 msgstr ""
 
-#: html/index.php:200
+#: html/index.php:215
 msgid "Your IP has changed!"
 msgstr ""
 
-#: html/index.php:203
+#: html/index.php:218
 #, php-format
 msgid "Invalid plugin parameter \"%s\"!"
 msgstr ""
 
-#: html/index.php:206
+#: html/index.php:221
 msgid "No session found!"
 msgstr ""
 
-#: html/index.php:241
+#: html/index.php:256
 msgid "LDAP schema check reported errors:"
 msgstr ""
 
-#: html/index.php:267
+#: html/index.php:282
 msgid "Please specify a valid username!"
 msgstr ""
 
-#: html/index.php:270
+#: html/index.php:285
 msgid "Please specify your password!"
 msgstr ""
 
-#: html/index.php:289
+#: html/index.php:304
 msgid "Please check the username/password combination."
 msgstr ""
 
-#: html/index.php:321
+#: html/index.php:337
 msgid "Account locked. Please contact your system administrator!"
 msgstr ""
 
-#: html/index.php:447
+#: html/index.php:440
+#, php-format
+msgid "CAS user \"%s\" could not be found in the LDAP"
+msgstr ""
+
+#: html/index.php:450
+#, php-format
+msgid "CAS user \"%s\" match several users in the LDAP"
+msgstr ""
+
+#: html/index.php:485
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
