@@ -682,7 +682,7 @@ class simplePlugin extends plugin
    */
   function check ()
   {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "check");
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'check');
     $message = parent::check();
 
     foreach ($this->attributesInfo as $sectionInfo) {
@@ -754,7 +754,7 @@ class simplePlugin extends plugin
     $plInfo     = pluglist::pluginInfos($classname);
     $plIcon     = (isset($plInfo['plIcon'])?$plInfo['plIcon']:'plugin.png');
     $plHeadline = $plInfo['plTitle'];
-    if (($tabs !== FALSE) && ($tabclass === FALSE)) {
+    if (($tabs !== FALSE) && ($objectType === FALSE)) {
       $key = key($plInfo['plObjectType']);
       if (is_numeric($key)) {
         $key = $plInfo['plObjectType'][$key];
@@ -959,6 +959,16 @@ class simplePlugin extends plugin
     $this->attributesAccess[$field]->foreignKeyUpdate($oldvalue, $newvalue, $source);
   }
 
+  /*
+   * Source is an array like this:
+   * array(
+   *  'CLASS' => class,
+   *  'FIELD' => field,
+   *  'DN'    => dn,
+   *  'MODE'  => mode
+   * )
+   * mode being either 'copy' or 'move', defaults to 'move'
+   */
   function foreignKeyCheck ($field, $value, $source)
   {
     return $this->attributesAccess[$field]->foreignKeyCheck($value, $source);

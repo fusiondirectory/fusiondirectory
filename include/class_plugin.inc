@@ -23,7 +23,6 @@
  * \file class_plugin.inc
  * Source code for the class plugin
  */
-
 class plugin
 {
   /*!
@@ -102,11 +101,15 @@ class plugin
   /* This can be set to render the tabulators in another stylesheet */
   var $pl_notify = FALSE;
 
-  /* Object entry CSN */
-  var $entryCSN         = "";
+  /*!
+   * \brief Object entry CSN
+   *
+   * If an entry was edited while we have edited the entry too,
+   * an error message will be shown.
+   * To configure this check correctly read the FAQ.
+   */
+  var $entryCSN         = '';
   var $CSN_check_active = FALSE;
-
-  var $selected_edit_values = array();
 
   /*!
    * \brief plugin constructor
@@ -135,16 +138,16 @@ class plugin
         if (is_numeric($c)) {
           $c = $tmp['plCategory'][0];
         }
-        $this->acl_category = $c."/";
+        $this->acl_category = $c.'/';
       }
     }
 
     /* Handle new accounts, don't read information from LDAP */
-    if ($this->dn != "new") {
+    if ($this->dn != 'new') {
       /* Check if this entry was opened in read only mode */
       if (isset($_POST['open_readonly'])) {
-        if (session::global_is_set("LOCK_CACHE")) {
-          $cache = &session::get("LOCK_CACHE");
+        if (session::global_is_set('LOCK_CACHE')) {
+          $cache = &session::get('LOCK_CACHE');
           if (isset($cache['READ_ONLY'][$this->dn])) {
             $this->read_only = TRUE;
           }
@@ -156,7 +159,7 @@ class plugin
     }
 
     /* Get LDAP descriptor */
-    if (($this->dn != "new" && $this->dn !== NULL) || ($object !== NULL)) {
+    if (($this->dn != 'new' && $this->dn !== NULL) || ($object !== NULL)) {
       /* Load data to 'attrs' and save 'dn' */
       if ($object !== NULL) {
         $this->attrs = $object->attrs;
@@ -429,8 +432,7 @@ class plugin
     /* include global link_info */
     $ldap = $this->config->get_ldap_link();
 
-    /* Save all plugins */
-    $this->entryCSN = "";
+    $this->entryCSN = '';
 
     /* Start with empty array */
     $this->attrs = array();
@@ -549,7 +551,7 @@ class plugin
       $current_csn = getEntryCSN($this->dn);
       if (($current_csn != $this->entryCSN) && !empty($this->entryCSN) && !empty($current_csn)) {
         $this->entryCSN = $current_csn;
-        $message[] = _("The object has changed since opened in FusionDirectory. All changes that may be done by others get lost if you save this entry!");
+        $message[] = _('The object has changed since opened in FusionDirectory. All changes that may be done by others will get lost if you save this entry!');
       }
     }
     return $message;
@@ -876,7 +878,6 @@ class plugin
     return array_unique($needed);
   }
 
-
   /*! Brief Parse attrs template masks
    *
    * return an array with the final values of attributes
@@ -945,11 +946,10 @@ class plugin
    *
    * \param boolean $disabled FALSE
    */
-  function show_enable_header($button_text, $text, $disabled = FALSE, $name = "modify_state")
+  function show_enable_header($button_text, $text, $disabled = FALSE, $name = 'modify_state')
   {
     return $this->show_header($button_text, $text, FALSE, $disabled, $name);
   }
-
 
   /*!
    * \brief Show header message for tab dialogs
@@ -960,11 +960,10 @@ class plugin
    *
    * \param boolean $disabled FALSE
    */
-  function show_disable_header($button_text, $text, $disabled = FALSE, $name = "modify_state")
+  function show_disable_header($button_text, $text, $disabled = FALSE, $name = 'modify_state')
   {
     return $this->show_header($button_text, $text, TRUE, $disabled, $name);
   }
-
 
   /*!
    * \brief Show header message for tab dialogs
@@ -977,16 +976,15 @@ class plugin
    *
    * \param boolean $button_disabled FALSE
    */
-  function show_header($button_text, $text, $plugin_enabled, $button_disabled = FALSE, $name = "modify_state")
+  function show_header($button_text, $text, $plugin_enabled, $button_disabled = FALSE, $name = 'modify_state')
   {
-    if (($button_disabled) || ((!$this->acl_is_createable() && !$plugin_enabled) || (!$this->acl_is_removeable() && $plugin_enabled))) {
-        $state = "disabled=\"disabled\"";
+    if ($button_disabled || ((!$this->acl_is_createable() && !$plugin_enabled) || (!$this->acl_is_removeable() && $plugin_enabled))) {
+      $state = 'disabled="disabled"';
     } else {
-        $state = "";
+      $state = '';
     }
-    $display = "<div width=\"100%\"><p><b>$text</b><br/>\n";
-    $display .= "<input type=\"submit\" value=\"$button_text\" name=\"$name\" ".$state.
-      "></p></div><hr class=\"separator\"/>";
+    $display = '<div width="100%"><p><b>'.$text.'</b><br/>'."\n";
+    $display .= '<input type="submit" value="'.$button_text.'" name="'.$name.'" '.$state.'></p></div><hr class="separator"/>';
 
     return $display;
   }
@@ -1011,7 +1009,7 @@ class plugin
     $base = preg_replace('/^,*/', '', $base);
 
     /* Try to use plain entry first */
-    $dn = "$attribute=".$this->$attribute.",$base";
+    $dn = $attribute.'='.$this->$attribute.','.$base;
     if ($dn == $this->orig_dn) {
       return $dn;
     }
@@ -1283,9 +1281,9 @@ class plugin
   function getObjectClassFilter ()
   {
     if (!empty($this->objectclasses)) {
-      return "(&(objectClass=".implode(")(objectClass=", $this->objectclasses)."))";
+      return '(&(objectClass='.implode(')(objectClass=', $this->objectclasses).'))';
     } else {
-      return "";
+      return '';
     }
   }
 
@@ -1794,7 +1792,6 @@ class plugin
     return $ui->get_permissions($this->acl_base, $this->acl_category.get_class($this), $attribute, $skip_write);
   }
 
-
   /*!
    * \brief Returns a list of all available departments for this object.
    *
@@ -1831,7 +1828,6 @@ class plugin
     }
     return $deps;
   }
-
 
   /*
    * \brief This function updates ACL settings if $old_dn was used.
