@@ -578,7 +578,7 @@ class plugin
             break;
           }
         }
-        return $res;
+        return array($res);
       default:
         trigger_error("Unkown modifier '$m'");
         return array($str);
@@ -601,7 +601,7 @@ class plugin
       if (is_array($result[0])) {
         unset($result[0]['count']);
       }
-    } elseif (($mask !== '') && !preg_match('/c/', $modifiers)) {
+    } elseif (($mask != '') && !preg_match('/c/', $modifiers)) {
       trigger_error("'$mask' was not found in attributes");
     }
     $len    = strlen($modifiers);
