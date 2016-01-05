@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2016-01-04 11:54+0100\n"
-"PO-Revision-Date: 2016-01-04 10:56+0000\n"
+"PO-Revision-Date: 2016-01-05 10:36+0000\n"
 "Last-Translator: Penati <penati@avaya.com>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -313,7 +313,7 @@ msgstr "Gestione dei gruppi e dei ruoli"
 
 #: plugins/admin/groups/class_groupManagement.inc:33
 msgid "Allows you to manage object groups, POSIX groups and roles"
-msgstr ""
+msgstr "Permette di gestire  gli oggetti dei gruppi, i gruppi POSIX ed i ruoli"
 
 #: plugins/admin/groups/class_groupManagement.inc:71
 msgid "Edit role properties"
@@ -490,7 +490,7 @@ msgstr "Gestisci i dipartimenti"
 msgid ""
 "Manage departments, countries, domain components, domains, localities and "
 "organization nodes,"
-msgstr ""
+msgstr "Gestione di dipartimenti, paesi, componenti di dominio, domini , \nlocalità e nodi di organizzazione"
 
 #: plugins/admin/departments/class_departmentManagement.inc:38
 msgid "Users and groups"
@@ -612,7 +612,7 @@ msgstr "Gestisci gli utenti"
 
 #: plugins/admin/users/class_userManagement.inc:44
 msgid "Manage user accounts and their properties"
-msgstr ""
+msgstr "Gestione degli account utente e delle loro proprietà"
 
 #: plugins/admin/users/class_userManagement.inc:140
 #: include/class_management.inc:341 include/class_management.inc:488
@@ -779,11 +779,11 @@ msgstr "Assegnazioni ACL"
 
 #: plugins/admin/acl/class_aclManagement.inc:39
 msgid "ACL assignments management"
-msgstr ""
+msgstr "Gestione delle assegnazioni ACL"
 
 #: plugins/admin/acl/class_aclManagement.inc:40
 msgid "Manage ACL roles assignments to users"
-msgstr ""
+msgstr "Gestione delle assegnazioni dei ruoli ACL agli utenti"
 
 #: plugins/admin/acl/class_aclManagement.inc:78
 #: plugins/admin/acl/class_aclAssignment.inc:263
@@ -1061,7 +1061,7 @@ msgstr "Titolo"
 msgid ""
 "Title of a person in their organizational context. Each title is one value "
 "of this multi-valued attribute"
-msgstr ""
+msgstr "Titolo di una persona nel proprio contesto organizzativo. Ogni titolo è una valore di questo attributo multivalore"
 
 #: plugins/personal/generic/class_user.inc:398
 msgid "Department No."
@@ -1372,7 +1372,7 @@ msgstr "Configurazione di FusionDirectory"
 
 #: plugins/config/class_configInLdap.inc:59
 msgid "Configuration screen of FusionDirectory"
-msgstr ""
+msgstr "Schermo di configurazione di FusionDirectory"
 
 #: plugins/config/class_configInLdap.inc:88
 msgid "Look and feel"
@@ -1690,7 +1690,7 @@ msgstr "Gruppo/utente minimo ID"
 msgid ""
 "The minimum assignable user or group id to avoid security leaks with id 0 "
 "accounts."
-msgstr ""
+msgstr "Il minimo utente o grupp ID assegnabile per evitare perdite di sicurezza con iaccount ID 0."
 
 #: plugins/config/class_configInLdap.inc:311
 msgid "Next id hook"
@@ -1870,13 +1870,13 @@ msgstr "Connessioni"
 
 #: plugins/config/class_configInLdap.inc:436
 msgid "Display hook output"
-msgstr ""
+msgstr "Mostra hook di uscita"
 
 #: plugins/config/class_configInLdap.inc:437
 msgid ""
 "When enabled successful hook execution output is displayed to the user using"
 " a dialog."
-msgstr ""
+msgstr "Quando l'esecuzione dell'hook é abilitata con successo il risultato é mostrato all'utente tramite una finestra di dialogo."
 
 #: plugins/config/class_configInLdap.inc:442
 msgid "Available shells"
@@ -1894,7 +1894,7 @@ msgstr "Mostra tab ACL su tutti gli oggetti"
 msgid ""
 "For very specific ACL rights setting where you might need to give right on a"
 " single object."
-msgstr ""
+msgstr "Per l'impostazione di diritti ACL molto specifici potreste aver bisogno di dare accesso ad un singolo oggetto."
 
 #: plugins/config/class_configInLdap.inc:464
 #: setup/class_setupStep_Language.inc:69
@@ -2037,7 +2037,7 @@ msgstr "Configurazione dashboard"
 
 #: plugins/config/class_dashBoardConfig.inc:29
 msgid "FusionDirectory dashboard plugin configuration"
-msgstr ""
+msgstr "Configurazione del plugin dashbord di FusionDirectory"
 
 #: plugins/config/class_dashBoardConfig.inc:42
 msgid "Dashboard name schema"
@@ -2071,7 +2071,7 @@ msgstr "Numero di giorni"
 msgid ""
 "Number of days before expiration needed for an account to show in the "
 "dashboard next expired accounts list"
-msgstr ""
+msgstr "Numero di giorni prima della scadenza necessari per un account per mostrare nel dashboard la prossima scadenza degli account"
 
 #: plugins/config/class_pluginsConfigInLdap.inc:29
 msgid "Plugins"
@@ -2261,7 +2261,7 @@ msgid ""
 "It seems you are trying to decode something which is not encoded : "
 "%s<br/>\\nPlease check you are not using a fusiondirectory.secrets file "
 "while your passwords are not encrypted."
-msgstr ""
+msgstr "Sembrerebbe che stiate provando a decodificare qualcosa che non é codificato : %s<br/>\\nSi prega di controllare che non si stia utilizzando un file fusiondirectory.secrets mentre le password non sono crittografate."
 
 #: include/class_config.inc:337 include/class_ldap.inc:917
 #: include/class_ldap.inc:1371 include/functions.inc:523
@@ -2333,12 +2333,12 @@ msgstr "Errore interno"
 #, php-format
 msgid ""
 "Cannot automatically create subtrees with RDN \"%s\": no object class found!"
-msgstr ""
+msgstr "Impossibile creare automaticamente delle sottostrutture con RDN \"%s\": alcun class object trovato!"
 
 #: include/class_ldap.inc:904
 #, php-format
 msgid "Cannot automatically create subtrees with RDN \"%s\": not supported"
-msgstr ""
+msgstr "Impossibile creare automaticamente delle sottostrutture con RDN \"%s\": non supportato"
 
 #: include/class_ldap.inc:1016
 #, php-format
@@ -2352,7 +2352,7 @@ msgstr "durante l'operazione sul server LDAP %s"
 
 #: include/class_ldap.inc:1108
 msgid "proc_open failed to execute ldapsearch"
-msgstr ""
+msgstr "proc_open non é riuscito ad eseguire la ricerca LDAP"
 
 #: include/class_ldap.inc:1220
 #, php-format
@@ -2966,7 +2966,7 @@ msgstr "Fatale: Errore durante la connessione al server LDAP. Il server dice: '%
 msgid ""
 "Login (uid) is not unique inside the LDAP tree. Please contact your "
 "administrator."
-msgstr ""
+msgstr "Il login (uid) non é unico all'interno della struttura LDAP. Per favore contattare il vostro amministratore di sistema."
 
 #: include/functions.inc:598
 msgid "Authentication error"
@@ -2976,7 +2976,7 @@ msgstr "Errore di autentificazione"
 msgid ""
 "It seems your user password has expired. Please use <a "
 "href=\"recovery.php\">password recovery</a> to change it."
-msgstr ""
+msgstr "Sembrerebbe che la password sia scaduta. Per favore utilizzare <a href=\"recovery.php\"> recupero password </a> per cambiarla"
 
 #: include/functions.inc:650 include/functions.inc:770
 msgid "Error while adding a lock. Contact the developers!"
@@ -3154,7 +3154,7 @@ msgstr "Per usare gruppi misti l'objetClass \"posixGroup\" deve essere AUSILIARI
 msgid ""
 "Your schema is configured to support mixed groups, but this plugin is not "
 "present."
-msgstr ""
+msgstr "Il vostro schema é configurato per supportare gruppi misti, ma manca il plugin."
 
 #: include/functions.inc:2625
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
@@ -3298,7 +3298,7 @@ msgstr "Registrazione cronologica"
 
 #: include/class_SnapshotDialogs.inc:37
 msgid "Timestamp of this snapshot creation"
-msgstr ""
+msgstr "Timestamp di questa creazione di snapshot"
 
 #: include/class_SnapshotDialogs.inc:41
 msgid "Reason"
@@ -3318,7 +3318,7 @@ msgstr "Restaura"
 
 #: include/class_SnapshotDialogs.inc:178
 msgid "Restoring snapshots"
-msgstr ""
+msgstr "Ripristinare snapshots"
 
 #: include/class_SnapshotDialogs.inc:186
 msgid "Existing snapshots for this object"
@@ -3356,7 +3356,7 @@ msgstr "Errore XML"
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
-msgstr ""
+msgstr "L'oggetto é cambiato da quando aperto in FusionDirectory. Tutte le modifiche che possono essere effettuate da altri andranno perse se si salva questa voce !"
 
 #: include/class_plugin.inc:1466
 #, php-format
@@ -3386,18 +3386,18 @@ msgstr "Questo è il nome del template"
 
 #: include/simpleplugin/class_simplePlugin.inc:263
 msgid "Only main tab can compute dn"
-msgstr ""
+msgstr "Solo la scheda principale puo' calcolare il dn"
 
 #: include/simpleplugin/class_simplePlugin.inc:270
 #, php-format
 msgid "Could not compute dn: no parent tab class for \"%s\""
-msgstr ""
+msgstr "Non puo' calcolare il dn: nessuna scheda di classe parente per \"%s\""
 
 #: include/simpleplugin/class_simplePlugin.inc:282
 #, php-format
 msgid ""
 "Could not compute dn: could not find objectType infos from tab class \"%s\""
-msgstr ""
+msgstr "Impossibile calcolare il dn: impossibile trovare le informazioni di objectType in questa  classe scheda \"%s\""
 
 #: include/simpleplugin/class_simplePlugin.inc:638
 #: include/simpleplugin/class_simplePlugin.inc:646
@@ -3407,12 +3407,12 @@ msgstr "Errore durante il salvataggio"
 #: include/simpleplugin/class_simplePlugin.inc:638
 #, php-format
 msgid "There is already an entry with the same dn : %s"
-msgstr ""
+msgstr "C'é già un'altra entry con il medesimo dn: %s"
 
 #: include/simpleplugin/class_simplePlugin.inc:646
 #, php-format
 msgid "The entry %s is not existing"
-msgstr ""
+msgstr "La voce %s non esiste"
 
 #: include/simpleplugin/simple-select-list.xml:11
 msgid "Please select the desired entries"
@@ -3602,7 +3602,7 @@ msgstr "La cancellazione è stata interrotta dall'estensione '%s': %s"
 #: include/class_timezone.inc:52
 #, php-format
 msgid "The timezone setting \"%s\" in your configuration is not valid."
-msgstr ""
+msgstr "L'impostazione  \"%s\" del fuso orario nella vostra configurazione non é valida."
 
 #: include/class_acl.inc:35 include/class_acl.inc:39
 msgid "ACL"
@@ -3617,7 +3617,7 @@ msgstr "Gestire le liste di controllo degli accessi"
 msgid ""
 "Unkown ACL type '%s'!\n"
 "You might need to run \"fusiondirectory-setup --migrate-acls\" to migrate your acls to the new format."
-msgstr ""
+msgstr "Tipo '%s'! ACL sconosciuto! Potrebbe seere necessario eseguire \"fusiondirectory-impostazione --migrare-acls\" per migrare gli ACL verso un nuovo formato."
 
 #: include/class_acl.inc:165
 #, php-format
@@ -3638,11 +3638,11 @@ msgstr "Impossibile cambiare la password, '%s' utente sconosciuto"
 msgid ""
 "You need to fill saslRealm or saslExop in the configuration screen in order "
 "to use SASL"
-msgstr ""
+msgstr "é necessario compilare saslRealm o saslExop nello schermo di configurazione per usare SASL"
 
 #: include/class_SnapshotHandler.inc:415
 msgid "There was a problem uncompressing snapshot data"
-msgstr ""
+msgstr "C'é stato un problema nella decompressione dei dati di snapshot"
 
 #: html/index.php:56
 msgid "Session is not encrypted!"
@@ -3668,7 +3668,7 @@ msgstr "Errore Smarty"
 #: html/index.php:177
 #, php-format
 msgid "Directory \"%s\" specified as compile directory is not accessible!"
-msgstr ""
+msgstr "Il directory \"%s\" specificato come directory di compilazione non é accessibile!"
 
 #: html/index.php:212
 msgid "Your FusionDirectory session has expired!"
@@ -3685,11 +3685,11 @@ msgstr "Parametro \"%s\" di plugin invalido"
 
 #: html/index.php:221
 msgid "No session found!"
-msgstr ""
+msgstr "Nessuna sessione trovata!"
 
 #: html/index.php:256
 msgid "LDAP schema check reported errors:"
-msgstr ""
+msgstr "Lo schema LDAP verifica gli errori riportati:"
 
 #: html/index.php:282
 msgid "Please specify a valid username!"
@@ -3715,7 +3715,7 @@ msgstr "Impossibile trovare l'utente \"%s\" CAS nell'annuario LDAP"
 #: html/index.php:450
 #, php-format
 msgid "CAS user \"%s\" match several users in the LDAP"
-msgstr ""
+msgstr "L'utente CAS \"%s\" corrisponde a più utenti nell'annuario LDAP"
 
 #: html/index.php:485
 msgid ""
@@ -3792,12 +3792,12 @@ msgstr "Inizia una sessione SSL"
 #: html/class_passwordRecovery.inc:430
 #, php-format
 msgid "Did not find an account with login \"%s\""
-msgstr ""
+msgstr "Alcun account trovato con login \"%s\" "
 
 #: html/class_passwordRecovery.inc:433
 #, php-format
 msgid "Found multiple accounts with login \"%s\""
-msgstr ""
+msgstr "Trovati più accounts con login \"%s\""
 
 #: html/class_passwordRecovery.inc:446 ihtml/themes/default/recovery.tpl.c:68
 msgid "Email address"
@@ -3839,7 +3839,7 @@ msgstr "Nome del luogo"
 
 #: setup/class_setupStep_Ldap.inc:36
 msgid "Name of this connexion to show in the LDAP server list"
-msgstr ""
+msgstr "Nome di questo collegamento per mostrare nell'elenco dei server LDAP"
 
 #: setup/class_setupStep_Ldap.inc:41
 msgid "Connection URI"
@@ -3847,7 +3847,7 @@ msgstr "URI di connessione"
 
 #: setup/class_setupStep_Ldap.inc:41
 msgid "URI to contact the LDAP server. Usually starts with ldap://"
-msgstr ""
+msgstr "URI per contattare il server LDAP. Di solito inizia con ldap://"
 
 #: setup/class_setupStep_Ldap.inc:46
 msgid "TLS connection"
@@ -3869,7 +3869,7 @@ msgstr "Autentificazione"
 msgid ""
 "DN of the admin account to use for binding to the LDAP. Base is "
 "automatically appended."
-msgstr ""
+msgstr "DN dell'account amministratore da utilizzare per il legame alla LDAP . La base viene automaticamente aggiunta."
 
 #: setup/class_setupStep_Ldap.inc:74
 msgid "Admin DN"
@@ -3881,7 +3881,7 @@ msgstr "Password dell'amministratore"
 
 #: setup/class_setupStep_Ldap.inc:77
 msgid "Password for the admin account to use for binding to the LDAP"
-msgstr ""
+msgstr "Password dell'account amministratore da utilizzare per il legame alla LDAP . "
 
 #: setup/class_setupStep_Ldap.inc:86
 msgid "Current status"
@@ -3889,7 +3889,7 @@ msgstr "Stato attuale"
 
 #: setup/class_setupStep_Ldap.inc:86
 msgid "Result of last attempt at checking LDAP binding and basic schemas"
-msgstr ""
+msgstr "Risultato dell'ultimo tentativo di controllo dei vincoli LDAP e degli schemi di base."
 
 #: setup/class_setupStep_Ldap.inc:107
 msgid "LDAP setup"
@@ -3991,13 +3991,13 @@ msgstr "Analisi dell'annuario LDAP per la compatibilità con FusionDirectory"
 
 #: setup/class_setupStep_Migrate.inc:233
 msgid "Give all rights on users in the given branch"
-msgstr ""
+msgstr "Dare tutti i diritti sugli utenti nel ramo dato"
 
 #: setup/class_setupStep_Migrate.inc:239
 msgid ""
 "Allow users to edit their own information (main tab and posix use only on "
 "base)"
-msgstr ""
+msgstr "Permette agli utenti di modificare le proprie informazioni (uso di scheda e posix principale solo sulla base)"
 
 #: setup/class_setupStep_Migrate.inc:245
 msgid "Allow users to edit their own password (use only on base)"
@@ -4096,7 +4096,7 @@ msgstr "L'utente \"%s\" non ha accesso completo al vostro database LDAP."
 #: setup/class_setupStep_Migrate.inc:511
 #, php-format
 msgid "The specified user \"%s\" does not have full access to your ldap database."
-msgstr ""
+msgstr "L'utente \"%s\" non ha pieno accesso al database LDAP."
 
 #: setup/class_setupStep_Migrate.inc:574
 #, php-format
@@ -4133,13 +4133,13 @@ msgstr "FD 1.0.7 gruppi amministrativi trovati: %s"
 msgid ""
 "You may run <i>fusiondirectory-setup --migrate-acls</i> after saving config "
 "file at the end of the setup to migrate it.<br/>"
-msgstr ""
+msgstr "é possibile eseguire <i>fusiondirectory-setup --migrate-acls</i> dopo aver salvato il file do configurazione al termine della messa a punto per la migrazione."
 
 #: setup/class_setupStep_Migrate.inc:865
 msgid ""
 "There is no valid FusionDirectory 1.0.8 administrator account inside your "
 "LDAP."
-msgstr ""
+msgstr "Non vi è alcun account amministratore FusionDirectory 1.0.8 valido all'interno del vostro LDAP ."
 
 #: setup/class_setupStep_Migrate.inc:874
 msgid "Groups"
@@ -4151,15 +4151,15 @@ msgstr "Non ho trovato alcun amministratore di FusionDirectory nel tuo annuario 
 
 #: setup/class_setupStep_Migrate.inc:918
 msgid "Gives all rights on all objects"
-msgstr ""
+msgstr "Dà tutti i diritti su ogni oggetto"
 
 #: setup/class_setupStep_Migrate.inc:995
 msgid "Default ACL roles have not been inserted"
-msgstr ""
+msgstr "I ruoli ACL di default non sono stati inseriti"
 
 #: setup/class_setupStep_Migrate.inc:997
 msgid "Some default ACL roles are missing"
-msgstr ""
+msgstr "Mancano alcuni ruoli ACL di default"
 
 #: setup/class_setupStep_Migrate.inc:999
 msgid "Default ACL roles have been inserted"
@@ -4219,12 +4219,12 @@ msgstr "Migrazione Dipartilento"
 #: setup/class_setupStep_Migrate.inc:1373
 #, php-format
 msgid "Found %s duplicate values for attribute \"uidNumber\"."
-msgstr ""
+msgstr "Trovato valori duplicati %s per l'attributo \"uidNumber\""
 
 #: setup/class_setupStep_Migrate.inc:1412
 #, php-format
 msgid "Found %s duplicate values for attribute \"gidNumber\"."
-msgstr ""
+msgstr "Trovato valori duplicati %s per l'attributo \"gidNumber\""
 
 #: setup/class_setupStep_Language.inc:59 setup/class_setupStep_Language.inc:60
 msgid "Language setup"
@@ -4239,7 +4239,7 @@ msgid ""
 "At this point, you can select the site wide default language. Choosing "
 "\"automatic\" will use the language requested by the browser. This setting "
 "can be overriden per user."
-msgstr ""
+msgstr "A questo punto , è possibile selezionare la lingua predefinita a livello di sito . Scegliendo \" automatico\" utilizzerà la lingua richiesta dal browser. Questa impostazione può essere sovrascritto per utente ."
 
 #: setup/class_setupStep_Welcome.inc:51
 msgid "Welcome to FusionDirectory setup wizard"
@@ -4253,7 +4253,7 @@ msgstr "Messaggio di benvenuto"
 msgid ""
 "PHP setup configuration (<a href=\"?info\" target=\"_blank\">show "
 "information)</a>)"
-msgstr ""
+msgstr "Configurazione di installazione PHP (<a href=\"?info\" target=\"_blank\">mostra informazione)</a>)"
 
 #: setup/class_setupStep_Checks.inc:48 setup/class_setupStep_Checks.inc:49
 msgid "Installation check"
@@ -4440,13 +4440,13 @@ msgstr "Il team di FusionDirectory"
 
 #: plugins/generic/references/contents.tpl.c:2
 msgid "<strong>%1</strong> references our <strong>%3</strong>"
-msgstr ""
+msgstr "< strong> % 1 < / strong> referenze < strong> % 3 < / strong>"
 
 #: plugins/generic/references/contents.tpl.c:5
 msgid ""
 "<strong>%1</strong> references our field <strong>%3</strong> from tab "
 "<strong>%2</strong>"
-msgstr ""
+msgstr "<strong>%1</strong> referenze nostro campo <strong>%3</strong> dalla scheda <strong>%2</strong>"
 
 #: plugins/generic/references/contents.tpl.c:8
 msgid "This object has no relationship to other objects."
@@ -4482,7 +4482,7 @@ msgstr "Mostra gli utenti di Samba"
 msgid ""
 "This includes all ACL assignments made on this node(s). If you want the list"
 " of these assignments, please cancel and open the objects."
-msgstr ""
+msgstr "Cio' include tutte le assegnazioni ACL fatte su questo nodo(i). Se si desidera l'elenco delle assegnazioni, si prega di annullare e aprire l'oggetto."
 
 #: plugins/admin/acl/remove.tpl.c:8
 msgid "Press 'Delete' to continue or 'Cancel' to abort."
@@ -5002,7 +5002,7 @@ msgid ""
 "For security reasons you need to authenticate for the installation by "
 "creating the file '%1', containing the current session ID on the servers "
 "local filesystem. This can be done by executing the following command:"
-msgstr ""
+msgstr "Per motivi di sicurezza é necessario autenticarsi per l' installazione creando il file ' % 1 ', contenente l'ID di sessione corrente sui server filesystem locale. Questo può essere fatto eseguendo il comando seguente :"
 
 #: setup/setup_welcome.tpl.c:35
 msgid "Click the 'Next' button when you've finished."
@@ -5020,14 +5020,14 @@ msgstr "Fusiondirectory funzionerà anche senza aver corretto questo."
 msgid ""
 "This dialog allows moving a couple of entries to the configured tree. Doing "
 "this may straighten your LDAP service."
-msgstr ""
+msgstr "Questa finestra di dialogo consente di spostare un paio di voci nell'albero configurato. In questo modo si può raddrizzare il servizio LDAP ."
 
 #: setup/setup_migrate_gosaAccounts.tpl.c:5
 msgid ""
 "Be careful with this option! There may be references pointing to these "
 "entries. The FusionDirectory setup can't migrate references, so you may want"
 " to cancel the migration in this case."
-msgstr ""
+msgstr "Fate attenzione con questa opzione! Ci possono essere riferimenti che puntano a queste voci . Il setup di FusionDirectory non puo' migrare i riferimenti, di conseguenza potreste voler annullare la migrazione in questo caso."
 
 #: setup/setup_migrate_gosaAccounts.tpl.c:8
 msgid "Move selected entries into this tree"
@@ -5038,7 +5038,7 @@ msgid ""
 "The listed entries are currently invisible in the FusionDirectory interface."
 " If you want to change this for a couple of entries only, just select them "
 "and use the 'Migrate' button below."
-msgstr ""
+msgstr "Le voci listate sono al momento invisibili nell'interfaccia di FusionDirectory. Se desiderate cambiare questo solo per un paio di voci, selezionatele e usate il tasto \"Migrare\" qui di seguito."
 
 #: setup/setup_migrate_gosaAccounts.tpl.c:14
 msgid ""
