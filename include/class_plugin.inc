@@ -1020,12 +1020,13 @@ class plugin
 
     $ldap->cd($src_dn);
     $ldap->search("objectClass=*", array("dn"));
+    $res = TRUE;
     while ($attrs = $ldap->fetch()) {
       $src = $attrs['dn'];
       $dst = preg_replace("/".preg_quote($src_dn, '/')."$/", $dst_dn, $attrs['dn']);
-      $this->_copy($src, $dst);
+      $res = $res && $this->_copy($src, $dst);
     }
-    return TRUE;
+    return $res;
   }
 
 
@@ -1051,7 +1052,7 @@ class plugin
       new log("debug", "Ldap Protocol v3 implementation error, ldap_rename failed, falling back to manual copy.",
               "FROM: $src_dn  -- TO: $dst_dn", array(), $ldap->get_error());
       @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, "Rename failed FROM: $src_dn  -- TO:  $dst_dn",
-          "Ldap Protocol v3 implementation error, falling back to maunal method.");
+          "Ldap Protocol v3 implementation error, falling back to manual method. Error:".$ldap->get_error());
       return FALSE;
     }
 
