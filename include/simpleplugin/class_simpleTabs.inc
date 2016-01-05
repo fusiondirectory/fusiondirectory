@@ -89,7 +89,7 @@ class simpleTabs
       $data[] = array("CLASS" => 'plugin',"NAME" => 'Error');
       msg_dialog::display(_("Error"),
         sprintf(_("No plugin definitions found to initialize '%s', please check your configuration file."), get_class($this)),
-        "ERROR_DIALOG");
+        ERROR_DIALOG);
     }
 
     $baseobject         = NULL;
@@ -397,10 +397,15 @@ class simpleTabs
     if ($this->dn != $new_dn) {
       /* Write entry on new 'dn' */
       if ($this->dn != 'new') {
-        $baseobject->move($this->dn, $new_dn);
+        if ($baseobject->move($this->dn, $new_dn)) {
+          $this->dn = $new_dn;
+        } else {
+          msg_dialog::display(_('Error'), sprintf(_('Move from "%s" to "%s" failed'), $this->dn, $new_dn), ERROR_DIALOG);
+        }
+      } else {
+        /* use the new one */
+        $this->dn = $new_dn;
       }
-      /* Happen to use the new one */
-      $this->dn = $new_dn;
     }
 
     /* Save all plugins */
