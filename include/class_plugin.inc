@@ -1137,7 +1137,7 @@ class plugin
     $ldap->add($new);
 
     if (!$ldap->success()) {
-      trigger_error('Trying to save '.$dst_dn.' failed: '.$ldap->error(), E_USER_WARNING);
+      trigger_error('Trying to save '.$dst_dn.' failed: '.$ldap->get_error(), E_USER_WARNING);
       return FALSE;
     }
     return TRUE;
