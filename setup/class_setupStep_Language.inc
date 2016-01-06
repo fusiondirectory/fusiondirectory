@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2007  Fabian Hickert
-  Copyright (C) 2011-2015  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -56,10 +56,10 @@ class Step_Language extends setupStep
 
   function update_strings()
   {
-    $this->s_title      = _("Language setup");
-    $this->s_title_long = _("Language setup");
-    $this->s_info       = _("This step allows you to select your preferred language.");
-    $this->msg          = _('At this point, you can select the site wide default language. Choosing "automatic" will use the language requested by the browser. This setting can be overriden per user.');
+    $this->s_short_name   = _('Language setup');
+    $this->s_title        = _('Language setup');
+    $this->s_description  = _('This step allows you to select your preferred language.');
+    $this->msg            = _('At this point, you can select the site wide default language. Choosing "automatic" will use the language requested by the browser. This setting can be overriden per user.');
   }
 
   function execute()

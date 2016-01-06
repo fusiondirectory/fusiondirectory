@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2015  FusionDirectory
+  Copyright (C) 2012-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -571,6 +571,17 @@ class Attribute
     }
   }
 
+  /*! \brief Apply value from RPC requests
+   *
+   *  \param array values the values array
+   */
+  function deserializeValue($values)
+  {
+    if (isset($values[$this->getLdapName()])) {
+      $this->setValue($values[$this->getLdapName()]);
+    }
+  }
+
   /*! \brief Add ACL information around display
    *
    *  \param string $display the display information to pass through ACL
@@ -797,7 +808,7 @@ class ObjectClassBooleanAttribute extends BooleanAttribute
  */
 class StringAttribute extends Attribute
 {
-  private $pattern;
+  protected $pattern;
   protected $example;
 
   /*! \brief The constructor of StringAttribute
@@ -820,6 +831,11 @@ class StringAttribute extends Attribute
   function setExample ($example)
   {
     $this->example = $example;
+  }
+
+  function setPattern ($pattern)
+  {
+    $this->pattern = $pattern;
   }
 
   function renderFormInput ()
@@ -877,6 +893,21 @@ class HiddenAttribute extends Attribute
   }
 }
 
+class HiddenArrayAttribute extends HiddenAttribute
+{
+  protected function loadAttrValue ($attrs)
+  {
+    if (isset($attrs[$this->getLdapName()]['count'])) {
+      $this->value = array();
+      for ($i = 0; $i < $attrs[$this->getLdapName()]['count']; $i++) {
+        $this->value[] = $attrs[$this->getLdapName()][$i];
+      }
+    } else {
+      $this->resetToDefault();
+    }
+  }
+}
+
 /* Dummy attribute class in order to give stats information to the template */
 class FakeAttribute extends Attribute
 {
@@ -895,6 +926,7 @@ class FakeAttribute extends Attribute
 /*! \brief This class allow to display an attribute.
  *
  * It can be used to display an attribute value the user is never allowed to modify.
+ * (But FD might edit it)
  */
 class DisplayLDAPAttribute extends Attribute
 {
@@ -912,6 +944,19 @@ class DisplayLDAPAttribute extends Attribute
   function setAllowHTML ($allowHTML)
   {
     $this->allowHTML = $allowHTML;
+  }
+}
+
+/*! \brief This class allow to display an attribute.
+ *
+ * It can be used to display an attribute value the user and FD are never allowed to modify.
+ */
+class ReadOnlyLDAPAttribute extends DisplayLDAPAttribute
+{
+  function fillLdapValue (&$attrs)
+  {
+    /* Remove crap made by plugin */
+    unset($attrs[$this->getLdapName()]);
   }
 }
 
@@ -1029,7 +1074,7 @@ class SelectAttribute extends Attribute
    */
   function __construct ($label, $description, $ldapName, $required = FALSE, $choices = array(), $defaultValue = "", $outputs = NULL, $acl = "")
   {
-    if (!in_array($defaultValue, $choices) && isset($choices[0])) {
+    if (!in_array($defaultValue, $choices, TRUE) && isset($choices[0])) {
       $defaultValue = $choices[0];
     }
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
@@ -1039,14 +1084,14 @@ class SelectAttribute extends Attribute
   function setChoices ($choices, $outputs = NULL)
   {
     $this->outputs = NULL;
-    if (!$this->isRequired() && !in_array("", $choices)) {
+    if (!$this->isRequired() && !in_array("", $choices, TRUE)) {
       array_unshift($choices, "");
       if (is_array($outputs)) {
         array_unshift($outputs, _("None"));
       }
     }
     $this->choices = $choices;
-    if (!in_array($this->defaultValue, $this->choices) && isset($this->choices[0])) {
+    if (!in_array($this->defaultValue, $this->choices, TRUE) && isset($this->choices[0])) {
       $this->defaultValue = $this->choices[0];
     }
     if (is_array($outputs)) {
@@ -1069,11 +1114,11 @@ class SelectAttribute extends Attribute
   protected function setRequired ($bool)
   {
     parent::setRequired($bool);
-    $key = array_search("", $this->choices);
+    $key = array_search("", $this->choices, TRUE);
     if ($this->isRequired() && ($key !== FALSE)) {
       unset($this->choices[$key]);
       unset($this->outputs[""]);
-    } elseif (!$this->isRequired() && !in_array("", $this->choices)) {
+    } elseif (!$this->isRequired() && !in_array("", $this->choices, TRUE)) {
       $this->choices[] = "";
       if (!isset($this->output[""])) {
         $this->output[""] = _("None");
@@ -1117,7 +1162,7 @@ class SelectAttribute extends Attribute
     } else {
       $outputs = $this->choices;
     }
-    $key = array_search('', $outputs);
+    $key = array_search('', $outputs, TRUE);
     if ($key !== FALSE) {
       $outputs[$key] = '&nbsp;';
     }
@@ -1979,10 +2024,10 @@ class SetAttribute extends Attribute
 
   function addPostValue ($value)
   {
-    if (empty($value)) {
+    if ($value === '') {
       return FALSE;
     }
-    if ($this->valueUnicity && in_array($value, $this->postValue)) {
+    if ($this->valueUnicity && in_array($value, $this->postValue, TRUE)) {
       return FALSE;
     }
     $this->postValue[] = $value;
@@ -2431,12 +2476,25 @@ class CompositeAttribute extends Attribute
     }
   }
 
+  function deserializeValue($values)
+  {
+    if ($this->visible) {
+      foreach ($this->attributes as &$attribute) {
+        $attribute->setDisabled($this->disabled);
+        $attribute->deserializeValue($values);
+      }
+      unset($attribute);
+    }
+  }
+
   function renderFormInput()
   {
     $display = "";
     foreach ($this->attributes as &$attribute) {
       $attribute->setDisabled($this->disabled);
-      $display .= '<label for="'.$attribute->getForHtmlId().'">'.$attribute->getLabel().'</label>'." ".$attribute->renderFormInput()." ";
+      if ($attribute->isVisible()) {
+        $display .= '<label for="'.$attribute->getForHtmlId().'">'.$attribute->getLabel().'</label>'." ".$attribute->renderFormInput()." ";
+      }
     }
     unset($attribute);
     return $display;
@@ -2544,6 +2602,9 @@ class OrderedArrayAttribute extends SetAttribute
         } else {
           $fields[] = array('string' => $field);
         }
+      }
+      if (empty($fields)) {
+        continue;
       }
 
       list ($img, $width) = $this->genRowIcons($key, $value);

@@ -270,7 +270,7 @@ vertical-align:middle;
 width:auto;
 }
 
-p.contentboxh {
+div.contentboxh > p {
 margin:2px;
 font-family:arial,helvetica,sans-serif;
 font-size:16px;
@@ -292,6 +292,22 @@ padding:0;
 div.contentboxb > div {
 display:inline-block;
 margin:1px;
+}
+.filter div.contentboxb > div {
+width:100%;
+background:#EEEEEE;
+border-top:1px solid #B0B0B0;
+text-align:right;
+margin:0;
+padding:3px;
+box-sizing:border-box;
+}
+.filter div.contentboxb > label img {
+vertical-align:middle;
+padding:3px;
+}
+.filter div.contentboxb > hr {
+margin-bottom:3px;
 }
 div.contentboxb > img, div.contentboxb > input {
 display:inline-block;

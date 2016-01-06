@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2015  FusionDirectory
+  Copyright (C) 2012-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -515,8 +515,9 @@ class simplePlugin extends plugin
       $this->attrs = $this->templateSaveAttrs();
       $this->saved_attributes = array();
     }
-    $this->ldap_remove();
-    $this->post_remove();
+    if ($this->ldap_remove()) {
+      $this->post_remove();
+    }
   }
 
   protected function prepare_remove ()
@@ -538,8 +539,11 @@ class simplePlugin extends plugin
 
     $this->ldap_error = $ldap->get_error();
 
-    if (!$ldap->success()) {
+    if ($ldap->success()) {
+      return TRUE;
+    } else {
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_MOD, get_class()), LDAP_ERROR);
+      return FALSE;
     }
   }
 
@@ -666,11 +670,11 @@ class simplePlugin extends plugin
   {
     /* Propagate and log the event */
     if ($this->initially_was_account) {
-      $this->handle_post_events("modify");
-      new log("modify", "plugin/".get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
+      $this->handle_post_events('modify');
+      new log('modify', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
     } else {
-      $this->handle_post_events("add");
-      new log("create", "plugin/".get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
+      $this->handle_post_events('add');
+      new log('create', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
     }
   }
 
@@ -678,7 +682,7 @@ class simplePlugin extends plugin
    */
   function check ()
   {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "check");
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'check');
     $message = parent::check();
 
     foreach ($this->attributesInfo as $sectionInfo) {
@@ -737,10 +741,10 @@ class simplePlugin extends plugin
    *
    *  \param boolean $edit_mode wether or not this plugin can be edited
    *
-   *  \param string $tabclass The tabclass to use (will be taken in the plInfo if FALSE)
+   *  \param string $objectType The objectType to use (will be taken in the plInfo if FALSE)
    *
    */
-  static function mainInc ($classname, $entry_dn, $tabs = FALSE, $edit_mode = TRUE, $tabclass = FALSE)
+  static function mainInc ($classname, $entry_dn, $tabs = FALSE, $edit_mode = TRUE, $objectType = FALSE)
   {
     global $remove_lock, $cleanup, $display, $config, $plug, $ui;
     if ($tabs === TRUE) {
@@ -748,16 +752,16 @@ class simplePlugin extends plugin
     }
 
     $plInfo     = pluglist::pluginInfos($classname);
-    $plIcon     = (isset($plInfo['plIcon'])?$plInfo['plIcon']:"plugin.png");
-    $plHeadline = $plInfo['plShortName'];
-    if (($tabs !== FALSE) && ($tabclass === FALSE)) {
+    $plIcon     = (isset($plInfo['plIcon'])?$plInfo['plIcon']:'plugin.png');
+    $plHeadline = $plInfo['plTitle'];
+    if (($tabs !== FALSE) && ($objectType === FALSE)) {
       $key = key($plInfo['plObjectType']);
       if (is_numeric($key)) {
         $key = $plInfo['plObjectType'][$key];
       }
-      $tabclass = strtoupper($key)."TABS";
+      $objectType = $key;
     }
-    $plCategory = (isset($plInfo['plCategory'])?$plInfo['plCategory']:array("user"));
+    $plCategory = (isset($plInfo['plCategory'])?$plInfo['plCategory']:array('user'));
     $key = key($plCategory);
     if (is_numeric($key)) {
       $plCategory = $plCategory[$key];
@@ -789,7 +793,7 @@ class simplePlugin extends plugin
       /* Create account object on demand */
       if (!session::is_set($classname) || (isset($_GET['reset']) && $_GET['reset'] == 1)) {
         if ($tabs) {
-          $account = new $tabs($config, $config->data['TABS'][$tabclass], $entry_dn, $plCategory);
+          $account = new $tabs($objectType, $entry_dn);
           if ($edit_mode) {
             foreach ($account->by_object as &$obj) {
               $obj->setNeedEditMode(TRUE);
@@ -955,9 +959,28 @@ class simplePlugin extends plugin
     $this->attributesAccess[$field]->foreignKeyUpdate($oldvalue, $newvalue, $source);
   }
 
+  /*
+   * Source is an array like this:
+   * array(
+   *  'CLASS' => class,
+   *  'FIELD' => field,
+   *  'DN'    => dn,
+   *  'MODE'  => mode
+   * )
+   * mode being either 'copy' or 'move', defaults to 'move'
+   */
   function foreignKeyCheck ($field, $value, $source)
   {
     return $this->attributesAccess[$field]->foreignKeyCheck($value, $source);
+  }
+
+  function deserializeValues($values) {
+    /* Walk through attributes */
+    foreach ($this->attributesAccess as $ldapName => &$attr) {
+      /* Load values */
+      $attr->deserializeValue($values);
+    }
+    unset($attr);
   }
 }
 

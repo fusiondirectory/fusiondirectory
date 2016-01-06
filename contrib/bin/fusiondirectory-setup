@@ -7,7 +7,7 @@
 #  Manage fusiondirectory installs from the command line
 #
 #  This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-#  Copyright (C) 2011-2015  FusionDirectory
+#  Copyright (C) 2011-2016  FusionDirectory
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -688,6 +688,7 @@ sub add_ldap_admin {
     attrs   => ['objectClass', 'gosaAclEntry']
   );
   $acls->code && die "\n! failed to search acls in '$base' - ".$acls->error_name.": ".$acls->error_text;
+  ($acls->count == 0) && die "\n! failed to search acls in '$base' - base not found";
   my $oclass = ($acls->entries)[0]->get_value("objectClass", asref => 1);
   # Add admin acl
   my $newacl = ["0:subtree:$role:".encode_base64($dn, '')];
@@ -1175,7 +1176,8 @@ sub migrate_users {
 
     if (ask_yn_question("Remove the gosaAccount objectClass from these entries?")) {
       foreach my $entry (@entries) {
-        my @replace;      
+        my @replace;
+        my @delete;
         my @classes = $entry->get_value('objectClass');
         if (grep {$_ eq 'gosaAccount'} @classes) {
           foreach my $class (@classes) {
@@ -1189,6 +1191,18 @@ sub migrate_users {
             ) {
             push(@replace, "fdPersonalInfo");
           }
+          if (
+              ($entry->exists('sambaLMPassword') || $entry->exists('sambaNTPassword') ||
+                $entry->exists('sambaPwdLastSet') || $entry->exists('sambaBadPasswordCount') ||
+                $entry->exists('sambaBadPasswordTime'))
+              && !(grep {$_ eq 'sambaSamAccount'} @classes)
+            ) {
+            @delete = ('sambaLMPassword','sambaNTPassword','sambaPwdLastSet','sambaBadPasswordCount','sambaBadPasswordTime');
+          }
+        }
+        if (scalar(@delete) > 0) {
+          $mesg = $ldap->modify($entry->dn(), delete => \@delete );
+          $mesg->code && print $mesg->error;
         }
         $mesg = $ldap->modify($entry->dn(), replace => { "objectClass" => \@replace });
         $mesg->code && print $mesg->error;
@@ -1753,7 +1767,7 @@ This code is part of FusionDirectory (http://www.fusiondirectory.org/)
 
 =over 2
 
-=item Copyright (C) 2011-2015  FusionDirectory
+=item Copyright (C) 2011-2016  FusionDirectory
 
 =back
 

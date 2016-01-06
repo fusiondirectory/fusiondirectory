@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2015 FusionDirectory
+  Copyright (C) 2012-2016 FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -55,14 +55,16 @@ class configInLdap extends simplePlugin
   {
     return array(
       'plShortName'     => _('Configuration'),
-      'plDescription'   => _('FusionDirectory configuration'),
+      'plTitle'         => _('FusionDirectory configuration'),
+      'plDescription'   => _('Configuration screen of FusionDirectory'),
       'plIcon'          => 'geticon.php?context=categories&icon=settings&size=48',
       'plObjectType'    => array(
         'configuration' => array(
-          'name'    => _('FusionDirectory configuration'),
-          'filter'  => 'objectClass=fusionDirectoryConf',
-          'icon'    => 'geticon.php?context=categories&icon=settings&size=16',
-          'ou'      => preg_replace('/^[^,]+,/', '', CONFIGRDN)
+          'name'      => _('FusionDirectory configuration'),
+          'filter'    => 'objectClass=fusionDirectoryConf',
+          'icon'      => 'geticon.php?context=categories&icon=settings&size=16',
+          'mainAttr'  => FALSE,
+          'ou'        => preg_replace('/^[^,]+,/', '', CONFIGRDN)
         )
       ),
       'plSection'       => array('conf' => array('name' => _('Configuration'), 'priority' => 20)),
@@ -246,6 +248,36 @@ class configInLdap extends simplePlugin
             _('CA certificate path'), _('Path to the CA certificate. Used for validating Argonaut Server host.'),
             'fdSslCaCertPath', FALSE,
             '/etc/ssl/certs/ca.cert'
+          ),
+        )
+      ),
+      'cas' => array(
+        'name'  => _('CAS'),
+        'attrs' => array(
+          new BooleanAttribute (
+            _('Enable CAS'), _('CAS login will be used instead of LDAP bind'),
+            'fdCasActivated', FALSE,
+            FALSE
+          ),
+          new StringAttribute (
+            _('CA certificate path'), _('Path to the CA certificate of the CAS server'),
+            'fdCasServerCaCertPath', FALSE,
+            '/etc/ssl/certs/ca.cert'
+          ),
+          new StringAttribute (
+            _('Host'), _('Host of the CAS server'),
+            'fdCasHost', FALSE,
+            'localhost'
+          ),
+          new IntAttribute (
+            _('Port'), _('Port the CAS server is listening on'),
+            'fdCasPort', FALSE,
+            0 /*min*/, FALSE /*no max*/, 443
+          ),
+          new StringAttribute (
+            _('CAS context'), _('CAS context to be used'),
+            'fdCasContext', FALSE,
+            '/cas'
           ),
         )
       ),
@@ -466,6 +498,18 @@ class configInLdap extends simplePlugin
           'traditional' => array (
             'fdUidNumberPoolMin','fdUidNumberPoolMax',
             'fdGidNumberPoolMin','fdGidNumberPoolMax',
+          )
+        )
+      )
+    );
+    $this->attributesAccess['fdCasActivated']->setManagedAttributes(
+      array(
+        'disable' => array (
+          FALSE => array (
+            'fdCasServerCaCertPath',
+            'fdCasHost',
+            'fdCasPort',
+            'fdCasContext',
           )
         )
       )

@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2015  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ function html_trace($errstr = "")
   if (!function_exists('debug_backtrace')) {
     return array ("", "");
   }
-  $trace = debug_backtrace();
+  $trace = array_slice(debug_backtrace(), 1);
 
   $return_html    = "<table width=\"100%\" style='background-color:#402005;color:white;border:2px solid red;border-spacing:0;border-collapse:collapse;'><tr><td colspan=3><h1 style='color:white'>"._("PHP error")." \"$errstr\"</h1></td></tr>";
   $return_mailto  = rawurlencode("=== Trace ===");

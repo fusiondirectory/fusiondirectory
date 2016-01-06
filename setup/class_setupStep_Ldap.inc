@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2007  Fabian Hickert
-  Copyright (C) 2011-2015  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -104,9 +104,9 @@ class Step_Ldap extends setupStep
 
   function update_strings()
   {
-    $this->s_title      = _("LDAP setup");
-    $this->s_title_long = _("LDAP connection setup");
-    $this->s_info       = _("This dialog performs the basic configuration of the LDAP connectivity for FusionDirectory.");
+    $this->s_short_name   = _('LDAP setup');
+    $this->s_title        = _('LDAP connection setup');
+    $this->s_description  = _('This dialog performs the basic configuration of the LDAP connectivity for FusionDirectory.');
   }
 
   function update_base_choices()
@@ -167,14 +167,17 @@ class Step_Ldap extends setupStep
       } else {
         $str = sprintf(_("Bind as user '%s' failed!"), $this->admin, $this->connection);
       }
-      return "<div style='color:red;'>".$str."</div>";
+      $str .= '<input type="submit" name="ldap_retry" value="'._('Retry').'"/>';
+      return '<div style="color:red;">'.$str.'</div>';
     } else {
       if (empty($this->admin)) {
         $str = sprintf(_("Anonymous bind to server '%s' succeeded."), $this->connection);
-        return "<div style='color:blue;'>".$str."</div> <div style='color:red;'>"._("Please specify user and password!")."</div>";
+        $str .= '<input type="submit" name="ldap_refresh" value="'._('Refresh').'"/>';
+        return '<div style="color:blue;">'.$str.'</div> <div style="color:red;">'._('Please specify user and password!').'</div>';
       } else {
         $str = sprintf(_("Bind as user '%s' to server '%s' succeeded!"), $this->admin, $this->connection);
-        return "<div style='color:green;'>".$str."</div>";
+        $str .= '<input type="submit" name="ldap_refresh" value="'._('Refresh').'"/>';
+        return '<div style="color:green;">'.$str.'</div>';
       }
     }
   }

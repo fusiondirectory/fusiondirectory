@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2015  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -32,7 +32,8 @@ class departmentManagement extends simpleManagement
   {
     return array(
       'plShortName'   => _('Departments'),
-      'plDescription' => _('Manage departments'),
+      'plTitle'       => _('Manage departments'),
+      'plDescription' => _('Manage departments, countries, domain components, domains, localities and organization nodes,'),
       'plIcon'        => 'geticon.php?context=places&icon=folder&size=48',
       'plSection'     => array('accounts' => array('name' => _('Users and groups'), 'priority' => 0)),
       'plPriority'    => 0,
@@ -62,7 +63,6 @@ class departmentManagement extends simpleManagement
     $this->refreshDeps();
   }
 
-
   function refreshDeps()
   {
     global $config, $ui;
@@ -73,7 +73,6 @@ class departmentManagement extends simpleManagement
     $headpage     = $this->getHeadpage();
     $headpage->refreshBasesList();
   }
-
 
   // An action handler which enables to switch into deparmtment by clicking the names.
   function openEntry($action, $entry)

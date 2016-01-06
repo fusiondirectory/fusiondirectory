@@ -1,9 +1,8 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2015  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -27,7 +26,6 @@ require_once ("variables.inc");
 require_once ("class_log.inc");
 header("Content-type: text/html; charset=UTF-8");
 
-
 /* Display the login page and exit() */
 function displayLogin()
 {
@@ -36,8 +34,8 @@ function displayLogin()
 
   error_reporting(E_ALL | E_STRICT);
   /* Fill template with required values */
-  $username = "";
-  if (isset($_POST["username"])) {
+  $username = '';
+  if (isset($_POST['username'])) {
     $username = trim($_POST['username']);
   }
   $smarty->assign ('date', gmdate("D, d M Y H:i:s"));
@@ -110,53 +108,77 @@ function displayLogin()
 /* Set error handler to own one, initialize time calculation
    and start session. */
 session::start();
-session::set('errorsAlreadyPosted', array());
 
-/* Destroy old session if exists.
-   Else you will get your old session back, if you not logged out correctly. */
-if (is_array(session::get_all()) && count(session::get_all())) {
+if (isset($_REQUEST['signout']) && $_REQUEST['signout']) {
+  if (session::global_is_set('connected')) {
+    $config = session::global_get('config');
+    if ($config->get_cfg_value('casActivated') == 'TRUE') {
+      require_once('CAS.php');
+      /* Move CAS autoload before FD autoload */
+      spl_autoload_unregister('CAS_autoload');
+      spl_autoload_register('CAS_autoload', TRUE, TRUE);
+      phpCAS::client(
+        CAS_VERSION_2_0,
+        $config->get_cfg_value('casHost', 'localhost'),
+        (int)($config->get_cfg_value('casPort', 443)),
+        $config->get_cfg_value('casContext', '')
+      );
+      // Set the CA certificate that is the issuer of the cert
+      phpCAS::setCasServerCACert($config->get_cfg_value('casServerCaCertPath'));
+      phpCas::logout();
+    }
+  }
   session::destroy();
   session::start();
 }
 
-$username = "";
-
 /* Reset errors */
-session::set('errors', "");
-session::set('errorsAlreadyPosted', "");
-session::set('LastError', "");
+session::set('errors', '');
+session::set('errorsAlreadyPosted', '');
+session::set('LastError', '');
 
 /* Check if we need to run setup */
-if (!file_exists(CONFIG_DIR."/".CONFIG_FILE)) {
-  header("location:setup.php");
+if (!file_exists(CONFIG_DIR.'/'.CONFIG_FILE)) {
+  header('location:setup.php');
   exit();
 }
 
-/* Reset errors */
-session::set('errors', "");
-
 /* Check if fusiondirectory.conf (.CONFIG_FILE) is accessible */
-if (!is_readable(CONFIG_DIR."/".CONFIG_FILE)) {
-  msg_dialog::display(_("Configuration error"), sprintf(_("FusionDirectory configuration %s/%s is not readable. Please run fusiondirectory-setup --check-config to fix this."), CONFIG_DIR, CONFIG_FILE), FATAL_ERROR_DIALOG);
+if (!is_readable(CONFIG_DIR.'/'.CONFIG_FILE)) {
+  msg_dialog::display(
+    _('Configuration error'),
+    sprintf(
+      _('FusionDirectory configuration %s/%s is not readable. Please run fusiondirectory-setup --check-config to fix this.'),
+      CONFIG_DIR,
+      CONFIG_FILE
+    ),
+    FATAL_ERROR_DIALOG
+  );
   exit();
 }
 
 /* Parse configuration file */
-$config = new config(CONFIG_DIR."/".CONFIG_FILE, $BASE_DIR);
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$config = new config(CONFIG_DIR.'/'.CONFIG_FILE, $BASE_DIR);
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   session::global_set('DEBUGLEVEL', 0);
 } else {
   session::global_set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
-  @DEBUG (DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, "config");
+  @DEBUG (DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, 'config');
 }
 
 /* Set template compile directory */
-$smarty->compile_dir = $config->get_cfg_value("templateCompileDirectory", SPOOL_DIR);
+$smarty->compile_dir = $config->get_cfg_value('templateCompileDirectory', SPOOL_DIR);
 
 /* Check for compile directory */
 if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))) {
-  msg_dialog::display(_("Smarty error"), sprintf(_("Directory '%s' specified as compile directory is not accessible!"),
-        $smarty->compile_dir), FATAL_ERROR_DIALOG);
+  msg_dialog::display(
+    _('Smarty error'),
+    sprintf(
+      _('Directory "%s" specified as compile directory is not accessible!'),
+      $smarty->compile_dir
+    ),
+    FATAL_ERROR_DIALOG
+  );
   exit();
 }
 
@@ -174,12 +196,12 @@ if (isset($_POST['server'])) {
 }
 
 $config->set_current($server);
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (($_SERVER['REQUEST_METHOD'] == 'POST') || ($config->get_cfg_value('casActivated') == 'TRUE')) {
   session::global_set('DEBUGLEVEL', 0);
 }
 
 /* If SSL is forced, just forward to the SSL enabled site */
-if (($config->get_cfg_value("forcessl") == "TRUE") && ($ssl != '')) {
+if (($config->get_cfg_value('forcessl') == 'TRUE') && ($ssl != '')) {
   header ("Location: $ssl");
   exit;
 }
@@ -203,136 +225,275 @@ if (isset($_REQUEST['message'])) {
   }
 }
 
-/* Got a formular answer, validate and try to log in */
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
+/* Class with a function for each login step
+ * Each function can return a string to display an LDAP error, or FALSE to redirect to login
+ * In this case it can set global $message and assign nextfield in smarty before hand */
+class Index {
+  static protected $username;
+  static protected $password;
 
-  /* Reset error messages */
-  $message = "";
-
-  /* Destroy old sessions, they cause a successfull login to relog again ...*/
-  if (session::global_is_set('_LAST_PAGE_REQUEST')) {
-    session::global_set('_LAST_PAGE_REQUEST', time());
+  static function init()
+  {
+    self::$username = NULL;
+    self::$password = NULL;
   }
 
-  /* Admin-logon and verify */
-  $ldap = $config->get_ldap_link();
-  if (is_null($ldap) || (is_int($ldap) && $ldap == 0)) {
-    msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, 0, get_class()), LDAP_ERROR);
-    displayLogin();
-    exit();
-  }
-
-
-  /* Check for schema file presence */
-  if ($config->get_cfg_value("schemaCheck") == "TRUE") {
-    $recursive  = ($config->get_cfg_value("ldapFollowReferrals") == "TRUE");
-    $tls        = ($config->get_cfg_value("ldapTLS") == "TRUE");
-
-    if (!count($ldap->get_objectclasses())) {
-      msg_dialog::display(_("LDAP error"), _("Cannot detect information about the installed LDAP schema!"), ERROR_DIALOG);
-      displayLogin();
-      exit();
-    } else {
-      $cfg = array();
-      $cfg['admin']       = $config->current['ADMINDN'];
-      $cfg['password']    = $config->current['ADMINPASSWORD'];
-      $cfg['connection']  = $config->current['SERVER'];
-      $cfg['tls']         = $tls;
-      $str = check_schema($cfg);
-      $checkarr = array();
-      foreach ($str as $tr) {
-        if (isset($tr['IS_MUST_HAVE']) && !$tr['STATUS']) {
-          msg_dialog::display(_("LDAP error"), _("Your LDAP setup contains old schema definitions:")."<br><br><i>".$tr['MSG']."</i>", ERROR_DIALOG);
-          displayLogin();
-          exit();
-        }
+  /* Runs schemaCheck if activated in configuration */
+  static function runSchemaCheck()
+  {
+    global $config;
+    if ($config->get_cfg_value('schemaCheck') != 'TRUE') {
+      return TRUE;
+    }
+    $cfg = array();
+    $cfg['admin']       = $config->current['ADMINDN'];
+    $cfg['password']    = $config->current['ADMINPASSWORD'];
+    $cfg['connection']  = $config->current['SERVER'];
+    $cfg['tls']         = ($config->get_cfg_value('ldapTLS') == 'TRUE');
+    $str = check_schema($cfg);
+    foreach ($str as $tr) {
+      if (isset($tr['IS_MUST_HAVE']) && !$tr['STATUS']) {
+        return _('LDAP schema check reported errors:').'<br/><br/><i>'.$tr['MSG'].'</i>';
       }
+    }
+    return TRUE;
+  }
+
+  /* Check locking LDAP branch is here or create it */
+  static function checkForLockingBranch()
+  {
+    global $config;
+    $ldap = $config->get_ldap_link();
+    $ldap->cat(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'], array('dn'));
+    $attrs = $ldap->fetch();
+    if (!count($attrs)) {
+      $ldap->cd($config->current['BASE']);
+      $ldap->create_missing_trees(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
     }
   }
 
-
-  /* Check for locking area */
-  $ldap->cat(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'], array('dn'));
-  $attrs = $ldap->fetch();
-  if (!count($attrs)) {
-    $ldap->cd($config->current['BASE']);
-    $ldap->create_missing_trees(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
+  /* Check username for invalid characters and check password is not empty
+   * Also trims username */
+  static function validateUserInput()
+  {
+    global $message, $smarty;
+    self::$username = trim(self::$username);
+    if (!preg_match('/^[@A-Za-z0-9_.-]+$/', self::$username)) {
+      $message = _('Please specify a valid username!');
+      return FALSE;
+    } elseif (mb_strlen(self::$password, 'UTF-8') == 0) {
+      $message = _('Please specify your password!');
+      $smarty->assign ('nextfield', 'password');
+      return FALSE;
+    }
+    return TRUE;
   }
 
-  /* Check for valid input */
-  $username = trim($_POST['username']);
-  if (!preg_match("/^[@A-Za-z0-9_.-]+$/", $username)) {
-    $message = _("Please specify a valid username!");
-  } elseif (mb_strlen($_POST["password"], 'UTF-8') == 0) {
-    $message = _("Please specify your password!");
-    $smarty->assign ('nextfield', 'password');
-  } else {
+  /* Performs an LDAP bind with $username and $password */
+  static function ldapLoginUser()
+  {
+    global $ui, $config, $message, $smarty;
     /* Login as user, initialize user ACL's */
-    $ui = ldap_login_user($username, $_POST["password"]);
+    $ui = ldap_login_user(self::$username, self::$password);
     if ($ui === NULL || !$ui) {
-      $message = _("Please check the username/password combination.");
-      $smarty->assign ('nextfield', 'password');
-      session::global_set('config', $config);
-
       if (isset($_SERVER['REMOTE_ADDR'])) {
-        $ip = $_SERVER['REMOTE_ADDR'];
-        new log("security", "login", "", array(), "Authentication failed for user \"$username\" [from $ip]");
+        new log('security', 'login', '', array(), 'Authentication failed for user "'.self::$username.'" [from '.$_SERVER['REMOTE_ADDR'].']');
       } else {
-        new log("security", "login", "", array(), "Authentication failed for user \"$username\"");
+        new log('security', 'login', '', array(), 'Authentication failed for user "'.self::$username.'"');
       }
-    } else {
-      /* Remove all locks of this user */
-      del_user_locks($ui->dn);
+      $message = _('Please check the username/password combination.');
+      $smarty->assign ('nextfield', 'password');
+      return FALSE;
+    }
+    return TRUE;
+  }
 
-      /* Save userinfo and plugin structure */
-      session::global_set('ui', $ui);
+  /* Called after successful login, return FALSE if account is expired */
+  static function loginAndCheckExpired()
+  {
+    global $ui, $config, $plist, $message, $smarty;
+    /* Remove all locks of this user */
+    del_user_locks($ui->dn);
 
-      /* User might have its own language, re-run initLanguage */
-      initLanguage();
+    /* Save userinfo and plugin structure */
+    session::global_set('ui', $ui);
 
-      /* Let FusionDirectory trigger a new connection for each POST, save config to session. */
-      session::global_set('config', $config);
+    /* User might have its own language, re-run initLanguage */
+    initLanguage();
 
-      /* We need a fully loaded plist and config to test account expiration */
-      $plist = load_plist();
+    /* Save config to session. */
+    session::global_set('config', $config);
 
-      /* are we using accountexpiration */
-      if ($config->get_cfg_value("handleExpiredAccounts") == "TRUE") {
-        $expired = $ui->expired_status();
+    /* We need a fully loaded plist and config to test account expiration */
+    session::global_un_set('plist');
+    $plist = load_plist();
 
-        if ($expired == POSIX_ACCOUNT_EXPIRED) {
-          $message = _("Account locked. Please contact your system administrator!");
-          $smarty->assign ('nextfield', 'password');
-          new log("security", "login", "", array(), "Account for user \"$username\" has expired");
-          displayLogin();
-          exit();
-        }
+    /* Check account expiration */
+    if ($config->get_cfg_value('handleExpiredAccounts') == 'TRUE') {
+      $expired = $ui->expired_status();
+
+      if ($expired == POSIX_ACCOUNT_EXPIRED) {
+        new log('security', 'login', '', array(), 'Account for user "'.self::$username.'" has expired');
+        $message = _('Account locked. Please contact your system administrator!');
+        $smarty->assign ('nextfield', 'password');
+        return FALSE;
       }
+    }
+    return TRUE;
+  }
 
-      /* Not account expired or password forced change go to main page */
-      new log("security", "login", "", array(), "User \"$username\" logged in successfully");
-      session::global_set('connected', 1);
-      $config->checkLdapConfig(); // check that newly installed plugins have their configuration in the LDAP
-      session::global_set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
-      header ("Location: main.php?global_check=1");
-      exit;
+  /* Final step of successful login: redirect to main.php */
+  static function redirect()
+  {
+    global $config;
+    /* Not account expired or password forced change go to main page */
+    new log('security', 'login', '', array(), 'User "'.self::$username.'" logged in successfully.');
+    session::global_set('connected', 1);
+    $config->checkLdapConfig(); // check that newly installed plugins have their configuration in the LDAP
+    session::global_set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
+    header ('Location: main.php?global_check=1');
+    exit;
+  }
+
+  /* Run each step in $steps, stop on errors */
+  static function runSteps($steps)
+  {
+    foreach($steps as $step) {
+      $status = self::$step();
+      if (is_string($status)) {
+        msg_dialog::display(_('LDAP error'), $status, LDAP_ERROR);
+        return FALSE;
+      } elseif ($status === FALSE) {
+        return FALSE;
+      }
+    }
+    return TRUE;
+  }
+
+  /* All login steps in the right order for standard POST login */
+  static function fullLoginProcess()
+  {
+    global $config, $message;
+
+    self::init();
+
+    /* Reset error messages */
+    $message = '';
+
+    self::$username = $_POST['username'];
+    self::$password = $_POST['password'];
+
+    $success = self::runSteps(array(
+      'validateUserInput',
+      'ldapLoginUser',
+      'loginAndCheckExpired',
+      'runSchemaCheck',
+      'checkForLockingBranch',
+    ));
+
+    if ($success) {
+      /* Everything went well, redirect to main.php */
+      self::redirect();
+    }
+  }
+
+  /* All login steps in the right order for CAS login */
+  static function casLoginProcess()
+  {
+    global $config, $message, $ui;
+
+    self::init();
+
+    /* Reset error messages */
+    $message = '';
+
+    //~ phpCAS::setDebug();
+
+    // Initialize phpCAS
+    phpCAS::client(
+      CAS_VERSION_2_0,
+      $config->get_cfg_value('casHost', 'localhost'),
+      (int)($config->get_cfg_value('casPort', 443)),
+      $config->get_cfg_value('casContext', '')
+    );
+
+    // Set the CA certificate that is the issuer of the cert
+    phpCAS::setCasServerCACert($config->get_cfg_value('casServerCaCertPath'));
+    //~ phpCAS::setNoCasServerValidation();
+
+    // force CAS authentication
+    phpCAS::forceAuthentication();
+    self::$username = phpCAS::getUser();
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
+    $verify_attr = explode(',', $config->get_cfg_value('loginAttribute', 'uid'));
+    $filter = '';
+    foreach ($verify_attr as $attr) {
+      $filter .= '('.$attr.'='.self::$username.')';
+    }
+    $ldap->search('(&(|'.$filter.')(objectClass=inetOrgPerson))');
+    $attrs = $ldap->fetch();
+    if ($ldap->count() < 1) {
+      msg_dialog::display(
+        _('Error'),
+        sprintf(
+          _('CAS user "%s" could not be found in the LDAP'),
+          self::$username
+        ),
+        FATAL_ERROR_DIALOG
+      );
+      exit();
+    } elseif ($ldap->count() > 1) {
+      msg_dialog::display(
+        _('Error'),
+        sprintf(
+          _('CAS user "%s" match several users in the LDAP'),
+          self::$username
+        ),
+        FATAL_ERROR_DIALOG
+      );
+      exit();
+    }
+    $ui = new userinfo($config, $attrs['dn']);
+    $ui->loadACL();
+
+    $success = self::runSteps(array(
+      'loginAndCheckExpired',
+      'runSchemaCheck',
+      'checkForLockingBranch',
+    ));
+
+    if ($success) {
+      /* Everything went well, redirect to main.php */
+      self::redirect();
     }
   }
 }
 
+if ($config->get_cfg_value('casActivated') == 'TRUE') {
+  require_once('CAS.php');
+  /* Move CAS autoload before FD autoload */
+  spl_autoload_unregister('CAS_autoload');
+  spl_autoload_register('CAS_autoload', TRUE, TRUE);
+  Index::casLoginProcess();
+} elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
+  /* Got a formular answer, validate and try to log in */
+  Index::fullLoginProcess();
+}
+
 /* Translation of cookie-warning. Whether to display it, is determined by JavaScript */
-$smarty->assign ("cookies", "<b>"._("Warning").":<\/b> "._("Your browser has cookies disabled. Please enable cookies and reload this page before logging in!"));
+$smarty->assign ('cookies', '<b>'._('Warning').':</b> '._('Your browser has cookies disabled. Please enable cookies and reload this page before logging in!'));
 
 /* Set focus to the error button if we've an error message */
-$focus = "";
-if (session::is_set('errors') && session::get('errors') != "") {
+$focus = '';
+if (session::is_set('errors') && session::get('errors') != '') {
   $focus = '<script type="text/javascript">';
   $focus .= 'document.forms[0].error_accept.focus();';
   $focus .= '</script>';
 }
-$smarty->assign("focus", $focus);
-displayLogin();
+$smarty->assign('focus', $focus);
 
+displayLogin();
 ?>
 
 </body>

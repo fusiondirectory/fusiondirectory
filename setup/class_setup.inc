@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2015  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -147,7 +147,7 @@ class setup
       }
     }
 
-    /* Disable all following steps, if one step isn't compelted right now .*/
+    /* Disable all following steps, if one step isn't completed right now .*/
     for ($i = 0; $i < $this->i_steps; $i++) {
       if (!$this->o_steps[$i]->is_completed()) {
         $this->disable_steps_from($i + 1);
@@ -200,11 +200,11 @@ class setup
 
       $step->update_strings();
 
-      $s_title      = $step->get_title();
-      $s_info       = $step->get_small_info();
-      $b_active     = $step->is_active();
-      $b_enabled    = $step->is_enabled();
-      $b_completed  = $step->is_completed();
+      $s_short_name   = $step->get_short_name();
+      $s_description  = $step->get_description();
+      $b_active       = $step->is_active();
+      $b_enabled      = $step->is_enabled();
+      $b_completed    = $step->is_completed();
 
       if ($b_completed) {
         $s = '<img src="geticon.php?context=status&amp;icon=task-complete&amp;size=16" alt="'._('Completed').'" class="center optional"/>&nbsp;';
@@ -214,19 +214,19 @@ class setup
 
       if ($b_enabled) {
         if ($b_active) {
-          $str .= '<li class="menuitem menucurrent" title="'.$s_info.'">';
-          $str .= '<a class="navigation_title">'.$s.$s_title.'</a>';
-          $str .= '<a class="navigation_info">'.$s_info.'</a>';
+          $str .= '<li class="menuitem menucurrent" title="'.$s_description.'">';
+          $str .= '<a class="navigation_title">'.$s.$s_short_name.'</a>';
+          $str .= '<a class="navigation_info">'.$s_description.'</a>';
           $str .= '</li>';
         } else {
-          $str .= '<li class="menuitem" title="'.$s_info.'">';
+          $str .= '<li class="menuitem" title="'.$s_description.'">';
           $str .= '<a onClick="document.mainform.setup_goto_step.value=\''.$key.'\';document.mainform.submit();"
-            class="navigation_title">'.$s.$s_title.'</a>';
+            class="navigation_title">'.$s.$s_short_name.'</a>';
           $str .= '</li>';
         }
       } else {
-        $str .= '<li class="menuitem disabled" title="'.$s_info.'">';
-        $str .= '<a class="navigation_title">'.$s.$s_title.'</a>';
+        $str .= '<li class="menuitem disabled" title="'.$s_description.'">';
+        $str .= '<a class="navigation_title">'.$s.$s_short_name.'</a>';
         $str .= '</li>';
       }
     }
@@ -259,7 +259,7 @@ class setup
   /* Create header entry */
   function get_header_text()
   {
-    return $this->o_steps[$this->i_current]->get_long_title();
+    return $this->o_steps[$this->i_current]->get_title();
   }
 
   /* Create header entry */

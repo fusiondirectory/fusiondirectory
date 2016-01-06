@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2007  Fabian Hickert
-  Copyright (C) 2011-2015  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -47,9 +47,9 @@ class Step_Welcome extends setupStep
   /* We need to init them with a method to be able to use _() */
   function update_strings()
   {
-    $this->s_title      = _("Welcome");
-    $this->s_info       = _("The welcome message");
-    $this->s_title_long = _("Welcome to FusionDirectory setup wizard");
+    $this->s_short_name   = _('Welcome');
+    $this->s_title        = _('Welcome to FusionDirectory setup wizard');
+    $this->s_description  = _('The welcome message');
   }
 
   function execute()

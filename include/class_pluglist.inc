@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2015  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -138,6 +138,9 @@ class pluglist {
         }
         if (!isset($infos['plCategory'])) {
           $infos['plCategory'] = array();
+        }
+        if (!isset($infos['plTitle']) && isset($infos['plShortName'])) {
+          $infos['plTitle'] = $infos['plShortName'];
         }
         $infos['plForeignRefs']         = array();
         $infos['INDEX']                 = $index;

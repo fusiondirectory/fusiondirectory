@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2015  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -33,7 +33,6 @@ class simpleTabs
   var $config;
   var $acl;
   var $is_template;
-  var $is_new = FALSE;
 
   public    $objectType   = FALSE;
   protected $specialTabs  = TRUE;
@@ -90,7 +89,7 @@ class simpleTabs
       $data[] = array("CLASS" => 'plugin',"NAME" => 'Error');
       msg_dialog::display(_("Error"),
         sprintf(_("No plugin definitions found to initialize '%s', please check your configuration file."), get_class($this)),
-        "ERROR_DIALOG");
+        ERROR_DIALOG);
     }
 
     $baseobject         = NULL;
@@ -400,10 +399,15 @@ class simpleTabs
     if ($this->dn != $new_dn) {
       /* Write entry on new 'dn' */
       if ($this->dn != 'new') {
-        $baseobject->move($this->dn, $new_dn);
+        if ($baseobject->move($this->dn, $new_dn)) {
+          $this->dn = $new_dn;
+        } else {
+          msg_dialog::display(_('Error'), sprintf(_('Move from "%s" to "%s" failed'), $this->dn, $new_dn), ERROR_DIALOG);
+        }
+      } else {
+        /* use the new one */
+        $this->dn = $new_dn;
       }
-      /* Happen to use the new one */
-      $this->dn = $new_dn;
     }
 
     /* Save all plugins */

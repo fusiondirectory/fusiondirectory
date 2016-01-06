@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013-2015  FusionDirectory
+  Copyright (C) 2013-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -50,6 +50,8 @@ class country extends department
     $attributesInfo = parent::getDepartmentAttributesInfo(_('country'), self::$namingAttr);
     unset($attributesInfo['location']);
     unset($attributesInfo['properties']['attrs'][3]); // category
+    /* Country c attribut cannot contain any underscore */
+    $attributesInfo['properties']['attrs'][1]->setPattern('/^[a-z0-9\.-]+$/i');
     return $attributesInfo;
   }
 }

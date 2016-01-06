@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2015 FusionDirectory
+  Copyright (C) 2012-2016 FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -24,18 +24,11 @@ class tabs_configInLdap extends simpleTabs_noSpecial
   {
     global $config;
     parent::save();
-    /* backup parts which are read from pluglist */
-    $saved_datas = array('OBJECTS', 'SECTIONS', 'CATEGORIES', 'TABS', 'MENU');
-    $save = array();
-    foreach ($saved_datas as $saved_data) {
-      $save[$saved_data] = $config->data[$saved_data];
-    }
     /* check_and_reload */
     $config->check_and_reload(TRUE);
-    /* restore backup */
-    foreach ($saved_datas as $saved_data) {
-      $config->data[$saved_data] = $save[$saved_data];
-    }
+    /* reload plist as well as some plInfo might use $config or get_ou */
+    session::global_un_set('plist');
+    load_plist();
     session::un_set('passwordMethod::get_available_methods');
   }
 }

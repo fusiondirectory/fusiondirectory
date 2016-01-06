@@ -5,7 +5,7 @@
   Copyright (C) 2003-2010  Cajus Pollmeier
   Copyright (C) 2003 Alejandro Escanero Blanco <aescanero@chaosdimension.org>
   Copyright (C) 1998  Eric Kilfoil <eric@ipass.net>
-  Copyright (C) 2011-2015  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -864,8 +864,8 @@ class LDAP
           }
 
           /* Bail out, if we've nothing to do... */
-          if ($ocname == "") {
-            msg_dialog::display(_("Internal error"), sprintf(_("Cannot automatically create subtrees with RDN '%s': no object class found!"), $type), FATAL_ERROR_DIALOG);
+          if ($ocname == '') {
+            msg_dialog::display(_('Internal error'), sprintf(_('Cannot automatically create subtrees with RDN "%s": no object class found!'), $type), FATAL_ERROR_DIALOG);
             exit();
           }
 
@@ -874,9 +874,10 @@ class LDAP
           if (isset($classes[$ocname]['AUXILIARY'])) {
             $na['objectClass'][] = $classes[$ocname]['SUP'];
           }
-          if ($type == "dc") {
+          if ($type == 'dc') {
             /* This is bad actually, but - tell me a better way? */
-            $na['objectClass'][] = 'locality';
+            $na['objectClass'][] = 'organization';
+            $na['o'] = $param;
           }
           $na[$type] = $param;
 
@@ -884,22 +885,23 @@ class LDAP
           if (is_array($classes[$ocname]['MUST'])) {
             foreach ($classes[$ocname]['MUST'] as $attr) {
               if (isset($na[$attr]) && !empty($na[$attr])) continue;
-              $na[$attr] = "filled";
+              $na[$attr] = 'filled';
             }
           }
         } else {
           /* Use alternative add... */
           switch ($type) {
             case 'ou':
-              $na["objectClass"]  = "organizationalUnit";
-              $na["ou"]           = $param;
+              $na['objectClass']  = 'organizationalUnit';
+              $na['ou']           = $param;
               break;
             case 'dc':
-              $na["objectClass"]  = array("dcObject", "top", "locality");
-              $na["dc"]           = $param;
+              $na['objectClass']  = array('dcObject', 'top', 'organization');
+              $na['dc']           = $param;
+              $na['o']            = $param;
               break;
             default:
-              msg_dialog::display(_("Internal error"), sprintf(_("Cannot automatically create subtrees with RDN '%s': not supported"), $type), FATAL_ERROR_DIALOG);
+              msg_dialog::display(_('Internal error'), sprintf(_('Cannot automatically create subtrees with RDN "%s": not supported'), $type), FATAL_ERROR_DIALOG);
               exit();
           }
 
@@ -1382,13 +1384,13 @@ class LDAP
     $objectclasses = array();
 
     /* Return the cached results. */
-    if (class_available('session') && session::global_is_set("LDAP_CACHE::get_objectclasses") && !$force_reload) {
-      $objectclasses = session::global_get("LDAP_CACHE::get_objectclasses");
+    if (class_available('session') && session::global_is_set('LDAP_CACHE::get_objectclasses') && !$force_reload) {
+      $objectclasses = session::global_get('LDAP_CACHE::get_objectclasses');
       return $objectclasses;
     }
 
     // Get base to look for schema
-    $sr   = @ldap_read($this->cid, "", "objectClass=*", array("subschemaSubentry"));
+    $sr   = @ldap_read($this->cid, '', 'objectClass=*', array('subschemaSubentry'));
     $attr = @ldap_get_entries($this->cid, $sr);
     if (!isset($attr[0]['subschemasubentry'][0])) {
       return array();
@@ -1397,7 +1399,7 @@ class LDAP
     /* Get list of objectclasses and fill array */
     $nb = $attr[0]['subschemasubentry'][0];
     $objectclasses = array();
-    $sr = ldap_read ($this->cid, $nb, "objectClass=*", array("objectclasses"));
+    $sr = ldap_read ($this->cid, $nb, 'objectClass=*', array('objectclasses'));
     $attrs = ldap_get_entries($this->cid, $sr);
     if (!isset($attrs[0])) {
       return array();
@@ -1415,19 +1417,19 @@ class LDAP
         switch ($chunk) {
 
           case '(':
-            $value = "";
+            $value = '';
             break;
 
           case ')':
-            if ($name != "") {
+            if ($name != '') {
               $v = $this->value2container($value);
               if (in_array($name, array('MUST', 'MAY')) && !is_array($v)) {
                 $v = array($v);
               }
               $objectclasses[$ocname][$name] = $v;
             }
-            $name   = "";
-            $value  = "";
+            $name   = '';
+            $value  = '';
             break;
 
           case 'NAME':
@@ -1438,7 +1440,7 @@ class LDAP
           case 'AUXILIARY':
           case 'MUST':
           case 'MAY':
-            if ($name != "") {
+            if ($name != '') {
               $v = $this->value2container($value);
               if (in_array($name, array('MUST','MAY')) && !is_array($v)) {
                 $v = array($v);
@@ -1446,16 +1448,16 @@ class LDAP
               $objectclasses[$ocname][$name] = $v;
             }
             $name   = $chunk;
-            $value  = "";
+            $value  = '';
             break;
 
-          default:  $value .= $chunk." ";
+          default:  $value .= $chunk.' ';
         }
       }
 
     }
-    if (class_available("session")) {
-      session::global_set("LDAP_CACHE::get_objectclasses", $objectclasses);
+    if (class_available('session')) {
+      session::global_set('LDAP_CACHE::get_objectclasses', $objectclasses);
     }
 
     return $objectclasses;

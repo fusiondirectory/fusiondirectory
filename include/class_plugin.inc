@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2015  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -22,18 +22,6 @@
 /*!
  * \file class_plugin.inc
  * Source code for the class plugin
- */
-
-/*!
- * \brief This is the base class for all plugins.
- *
- * \author  Cajus Pollmeier <pollmeier@gonicus.de>
- * \version 2.00
- * \date    24.07.2003
- *
- * This is the base class for all plugins. It can be used standalone or
- * can be included by the tabs class. All management should be done
- * within this class. Extend your plugins from this class.
  */
 class plugin
 {
@@ -104,7 +92,6 @@ class plugin
   /* attribute list for save action */
   var $attributes       = array();
   var $objectclasses    = array();
-  var $is_new           = TRUE;
   var $saved_attributes = array();
 
   var $acl_base     = "";
@@ -114,11 +101,15 @@ class plugin
   /* This can be set to render the tabulators in another stylesheet */
   var $pl_notify = FALSE;
 
-  /* Object entry CSN */
-  var $entryCSN         = "";
+  /*!
+   * \brief Object entry CSN
+   *
+   * If an entry was edited while we have edited the entry too,
+   * an error message will be shown.
+   * To configure this check correctly read the FAQ.
+   */
+  var $entryCSN         = '';
   var $CSN_check_active = FALSE;
-
-  var $selected_edit_values = array();
 
   /*!
    * \brief plugin constructor
@@ -147,16 +138,16 @@ class plugin
         if (is_numeric($c)) {
           $c = $tmp['plCategory'][0];
         }
-        $this->acl_category = $c."/";
+        $this->acl_category = $c.'/';
       }
     }
 
     /* Handle new accounts, don't read information from LDAP */
-    if ($this->dn != "new") {
+    if ($this->dn != 'new') {
       /* Check if this entry was opened in read only mode */
       if (isset($_POST['open_readonly'])) {
-        if (session::global_is_set("LOCK_CACHE")) {
-          $cache = &session::get("LOCK_CACHE");
+        if (session::global_is_set('LOCK_CACHE')) {
+          $cache = &session::get('LOCK_CACHE');
           if (isset($cache['READ_ONLY'][$this->dn])) {
             $this->read_only = TRUE;
           }
@@ -168,7 +159,7 @@ class plugin
     }
 
     /* Get LDAP descriptor */
-    if (($this->dn != "new" && $this->dn !== NULL) || ($object !== NULL)) {
+    if (($this->dn != 'new' && $this->dn !== NULL) || ($object !== NULL)) {
       /* Load data to 'attrs' and save 'dn' */
       if ($object !== NULL) {
         $this->attrs = $object->attrs;
@@ -342,9 +333,6 @@ class plugin
    */
   function execute()
   {
-    /* This one is empty currently. Fabian - please fill in the docu code */
-    session::global_set('current_class_for_help', get_class($this));
-
     /* Reset Lock message POST/GET check array, to prevent perg_match errors*/
     session::set('LOCK_VARS_TO_USE', array());
     session::set('LOCK_VARS_USED_GET', array());
@@ -444,8 +432,7 @@ class plugin
     /* include global link_info */
     $ldap = $this->config->get_ldap_link();
 
-    /* Save all plugins */
-    $this->entryCSN = "";
+    $this->entryCSN = '';
 
     /* Start with empty array */
     $this->attrs = array();
@@ -470,7 +457,7 @@ class plugin
         unset($oc['count']);
       }
     }
-    $this->is_new = !empty($oc);
+    $is_new = empty($oc);
 
     /* Load (minimum) attributes, add missing ones */
     $this->attrs['objectClass'] = array_merge_unique($oc, $this->objectclasses);
@@ -479,15 +466,15 @@ class plugin
     foreach ($this->attributes as $val) {
       if ($this->$val != "") {
         $this->attrs["$val"] = $this->$val;
-      } elseif (!$this->is_new) {
+      } elseif (!$is_new) {
         $this->attrs["$val"] = array();
       }
     }
 
-    if ($this->is_new) {
-      $this->handle_pre_events('add');
-    } else {
+    if ($this->initially_was_account) {
       $this->handle_pre_events('modify');
+    } else {
+      $this->handle_pre_events('add');
     }
   }
 
@@ -564,7 +551,7 @@ class plugin
       $current_csn = getEntryCSN($this->dn);
       if (($current_csn != $this->entryCSN) && !empty($this->entryCSN) && !empty($current_csn)) {
         $this->entryCSN = $current_csn;
-        $message[] = _("The object has changed since opened in FusionDirectory. All changes that may be done by others get lost if you save this entry!");
+        $message[] = _('The object has changed since opened in FusionDirectory. All changes that may be done by others will get lost if you save this entry!');
       }
     }
     return $message;
@@ -703,6 +690,49 @@ class plugin
         } else {
           return array(substr($str, $args[0], $args[1]));
         }
+      case 'r': // random string
+        $length = 8;
+        $chars  = 'b';
+        if (count($args) >= 2) {
+          $length = mt_rand($args[0], $args[1]);
+          if (count($args) >= 3) {
+            $chars = $args[2];
+          }
+        } elseif (count($args) >= 1) {
+          $length = $args[0];
+        }
+        $res = '';
+        for ($i = 0; $i < $args[0]; ++$i) {
+          switch ($chars) {
+            case 'l':
+              $res .= (string)rand(0, 9);
+            break;
+            case 'd':
+              $nb = mt_rand(65, 116);
+              if ($nb > 90) {
+                /* lowercase */
+                $nb += 6;
+              }
+              $res .= chr($nb);
+            break;
+            case 'b':
+            default:
+              $nb = mt_rand(65, 126);
+              if ($nb > 116) {
+                /* digit */
+                $nb = (string)($nb - 117);
+              } else {
+                if ($nb > 90) {
+                  /* lowercase */
+                  $nb += 6;
+                }
+                $nb = chr($nb);
+              }
+              $res .= $nb;
+            break;
+          }
+        }
+        return array($res);
       default:
         trigger_error("Unkown modifier '$m'");
         return array($str);
@@ -719,16 +749,14 @@ class plugin
       $modifiers = $m[1];
       $mask = substr($mask, strlen($m[0]));
     }
+    $result = array('');
     if (isset($attrs[$mask])) {
       $result = array($attrs[$mask]);
       if (is_array($result[0])) {
         unset($result[0]['count']);
       }
-    } else {
-      if (!preg_match('/c/', $modifiers)) {
-        trigger_error("'$mask' was not found in attributes");
-      }
-      $result = array('');
+    } elseif (($mask != '') && !preg_match('/c/', $modifiers)) {
+      trigger_error("'$mask' was not found in attributes");
     }
     $len    = strlen($modifiers);
     for ($i = 0; $i < $len; ++$i) {
@@ -850,7 +878,6 @@ class plugin
     return array_unique($needed);
   }
 
-
   /*! Brief Parse attrs template masks
    *
    * return an array with the final values of attributes
@@ -919,11 +946,10 @@ class plugin
    *
    * \param boolean $disabled FALSE
    */
-  function show_enable_header($button_text, $text, $disabled = FALSE, $name = "modify_state")
+  function show_enable_header($button_text, $text, $disabled = FALSE, $name = 'modify_state')
   {
     return $this->show_header($button_text, $text, FALSE, $disabled, $name);
   }
-
 
   /*!
    * \brief Show header message for tab dialogs
@@ -934,11 +960,10 @@ class plugin
    *
    * \param boolean $disabled FALSE
    */
-  function show_disable_header($button_text, $text, $disabled = FALSE, $name = "modify_state")
+  function show_disable_header($button_text, $text, $disabled = FALSE, $name = 'modify_state')
   {
     return $this->show_header($button_text, $text, TRUE, $disabled, $name);
   }
-
 
   /*!
    * \brief Show header message for tab dialogs
@@ -951,16 +976,15 @@ class plugin
    *
    * \param boolean $button_disabled FALSE
    */
-  function show_header($button_text, $text, $plugin_enabled, $button_disabled = FALSE, $name = "modify_state")
+  function show_header($button_text, $text, $plugin_enabled, $button_disabled = FALSE, $name = 'modify_state')
   {
-    if (($button_disabled) || ((!$this->acl_is_createable() && !$plugin_enabled) || (!$this->acl_is_removeable() && $plugin_enabled))) {
-        $state = "disabled=\"disabled\"";
+    if ($button_disabled || ((!$this->acl_is_createable() && !$plugin_enabled) || (!$this->acl_is_removeable() && $plugin_enabled))) {
+      $state = 'disabled="disabled"';
     } else {
-        $state = "";
+      $state = '';
     }
-    $display = "<div width=\"100%\"><p><b>$text</b><br/>\n";
-    $display .= "<input type=\"submit\" value=\"$button_text\" name=\"$name\" ".$state.
-      "></p></div><hr class=\"separator\"/>";
+    $display = '<div width="100%"><p><b>'.$text.'</b><br/>'."\n";
+    $display .= '<input type="submit" value="'.$button_text.'" name="'.$name.'" '.$state.'></p></div><hr class="separator"/>';
 
     return $display;
   }
@@ -985,7 +1009,7 @@ class plugin
     $base = preg_replace('/^,*/', '', $base);
 
     /* Try to use plain entry first */
-    $dn = "$attribute=".$this->$attribute.",$base";
+    $dn = $attribute.'='.$this->$attribute.','.$base;
     if ($dn == $this->orig_dn) {
       return $dn;
     }
@@ -1113,8 +1137,7 @@ class plugin
     $ldap->add($new);
 
     if (!$ldap->success()) {
-      trigger_error("Trying to save $dst_dn failed.",
-          E_USER_WARNING);
+      trigger_error('Trying to save '.$dst_dn.' failed: '.$ldap->get_error(), E_USER_WARNING);
       return FALSE;
     }
     return TRUE;
@@ -1151,12 +1174,13 @@ class plugin
 
     $ldap->cd($src_dn);
     $ldap->search("objectClass=*", array("dn"));
+    $res = TRUE;
     while ($attrs = $ldap->fetch()) {
       $src = $attrs['dn'];
       $dst = preg_replace("/".preg_quote($src_dn, '/')."$/", $dst_dn, $attrs['dn']);
-      $this->_copy($src, $dst);
+      $res = $res && $this->_copy($src, $dst);
     }
-    return TRUE;
+    return $res;
   }
 
 
@@ -1182,7 +1206,7 @@ class plugin
       new log("debug", "Ldap Protocol v3 implementation error, ldap_rename failed, falling back to manual copy.",
               "FROM: $src_dn  -- TO: $dst_dn", array(), $ldap->get_error());
       @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, "Rename failed FROM: $src_dn  -- TO:  $dst_dn",
-          "Ldap Protocol v3 implementation error, falling back to maunal method.");
+          "Ldap Protocol v3 implementation error, falling back to manual method. Error:".$ldap->get_error());
       return FALSE;
     }
 
@@ -1217,7 +1241,7 @@ class plugin
       $ldap = $this->config->get_ldap_link();
       $ldap->rmdir_recursive($src_dn);
       if (!$ldap->success()) {
-        trigger_error("Trying to delete $src_dn failed.", E_USER_WARNING);
+        trigger_error('Trying to delete '.$src_dn.' failed: '.$ldap->get_error(), E_USER_WARNING);
         return FALSE;
       }
     }
@@ -1257,9 +1281,9 @@ class plugin
   function getObjectClassFilter ()
   {
     if (!empty($this->objectclasses)) {
-      return "(&(objectClass=".implode(")(objectClass=", $this->objectclasses)."))";
+      return '(&(objectClass='.implode(')(objectClass=', $this->objectclasses).'))';
     } else {
-      return "";
+      return '';
     }
   }
 
@@ -1397,6 +1421,7 @@ class plugin
                     'CLASS' => $field['tab'],
                     'FIELD' => $field['field'],
                     'MODE'  => preg_replace('/^handle_/', '', $mode),
+                    'DN'    => $this->dn,
                   )
                 );
               }
@@ -1414,7 +1439,11 @@ class plugin
                 if ($tabobject->by_object[$tab]->foreignKeyCheck(
                       $ofield,
                       $field['value'],
-                      array('CLASS' => $field['tab'], 'FIELD' => $field['field'])
+                      array(
+                        'CLASS' => $field['tab'],
+                        'FIELD' => $field['field'],
+                        'DN'    => $this->dn,
+                      )
                     )) {
                   if (!isset($refs[$dn])) {
                     $refs[$dn] = array(
@@ -1477,6 +1506,7 @@ class plugin
    * array(
    *  'CLASS' => class,
    *  'FIELD' => field,
+   *  'DN'    => dn,
    *  'MODE'  => mode
    * )
    * mode being either 'copy' or 'move', defaults to 'move'
@@ -1571,7 +1601,7 @@ class plugin
       return;
     }
     global $config;
-    $command = $config->search(get_class($this), $cmd, array('menu','tabs','hooks'));
+    $command = $config->searchHook(get_class($this), $cmd);
 
     if ($command != "") {
       // Walk trough attributes list and add the plugins attributes.
@@ -1762,7 +1792,6 @@ class plugin
     return $ui->get_permissions($this->acl_base, $this->acl_category.get_class($this), $attribute, $skip_write);
   }
 
-
   /*!
    * \brief Returns a list of all available departments for this object.
    *
@@ -1799,7 +1828,6 @@ class plugin
     }
     return $deps;
   }
-
 
   /*
    * \brief This function updates ACL settings if $old_dn was used.

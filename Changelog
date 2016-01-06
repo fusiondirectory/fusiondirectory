@@ -1,6 +1,59 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.9.2
+
+[Fix] Bugs #3880: mailbox deletion through sieve and cyrus does not work
+[Fix] Bugs #4067: Argonaut Server documentation should mention «Get packages informations» option
+[Fix] Bugs #4109: The fai tab should not contain kernel options
+[Fix] Bugs #4111: Clean FAI support daemon method
+[Fix] Bugs #4200: I must tick "Search in subtrees" to see the elements in repository management
+[Fix] Bugs #4209: we can no longer select a windows workstation in the user samba tab systeme trust
+[Fix] Bugs #4216: the setup in the ldap inspection step need a refresh button
+[Feature] Bugs #4217: the reset password system should look for supannMailPerso if the supann plugin is installed
+[Feature] Bugs #4219: allow FusionDirectory to be integrated into a cas infrastructure
+[Fix] Bugs #4220: Add a function to list the tab that are activate on an object in fusiondirectory-shell
+[Fix] Bugs #4221: developer doc on documentation.fusiondirectory.org should have an explanation of the is_this_account system
+[Feature] Bugs #4225: the reset password system should look for supannMailPerso if the supann plugin is installed
+[Fix] Bugs #4227: Change default block size value in 1024
+[Fix] Bugs #4231: difference in provided ldap server in debian and Centos
+[Feature] Bugs #4238: ReadOnlyLDAPAttribute should be moved to class_attribute.inc
+[Fix] Bugs #4239: ReadOnlyLDAPAttribute should be moved to class_attribute.inc
+[Fix] Bugs #4241: Problem when I try to save an already existing supann entry - dropdown dependancy not already filled
+[Fix] Bugs #4253: PHP error when I go at dashboard
+[Fix] Bugs #4254: we can no longer select a windows workstation in the user samba tab systeme trust
+[Fix] Bugs #4261: It appears that prehooks not work with password recovery
+[Feature] Bugs #4272: the recovery password page should be customizable to tell user where to go / call
+[Feature] Bugs #4273: the recovery password page should be customizable
+[Fix] Bugs #4281: PHP error about wrong acl when I edit the configuration
+[Fix] Bugs #4288: the documentation about automation should be added
+[Fix] Bugs #4292: Migrate last FAI classes to simplePlugin
+[Fix] Bugs #4298: the usage of the fusiondirectory-shell doesnt explain the various options for connecting
+[Fix] Bugs #4334: the url in the webservice-shell should have the jsonrpc.php added automatically
+[Fix] Bugs #4344: when saving the configuration with the application plugin installed
+[Fix] Bugs #4345: password recovery show an error when activating recovery password
+[Fix] Bugs #4346: CSV import is broken
+[Fix] Bugs #4347: Remove config search method
+[Fix] Bugs #4353: Error when I try to grab centos packages with an argonaut-server on centos
+[Fix] Bugs #4364: Clean up the DaemonEvent mess
+[Fix] Bugs #4365: We should delete the rsyslog plugin
+[Fix] Bugs #4367: We should delete the databaseManagement class
+[Fix] Bugs #4378: user deleted when we change its base
+[Fix] Bugs #4379: can't change informations in "Network Settings" in a network component object in systems
+[Fix] Bugs #4380: when migrating users with fusiondirectory-setup –migrate-users it cannot migrate user with samba attributes
+[Fix] Bugs #4382: SSH plugin: error while adding keys with space(s) in comment
+[Fix] Bugs #4386: We have an error when we try to start / stop a service from FusionDirectory
+[Fix] Bugs #4392: Error when I open a system from the inventory menu
+[Fix] Bugs #4393: The diff between 1.0.9.2 and 1.1 should as short as possible
+[Fix] Bugs #4394: Remove the mail method Cyrus Sendmail
+[Fix] Bugs #4395: PHP errors when I open inventory tab from a system
+[Fix] Bugs #4409: the ssh plugin doesnt support ecdsa-sha2-nistp256 ssh public key format
+[Fix] Bugs #4419: remove the class_BootKernelAttribute.inc
+[Fix] Bugs #4425: remove fix_munged from the samba plugin
+[Fix] Wishlist #2166: Semantic of plDescription and plShortname
+[Feature] Wishlist #4001: passwordProposalHook
+[Fix] Wishlist #4343: Underscores in departement/domain component names not allowed
+
 * FusionDirectory 1.0.9.1
 
 [Feature] Bugs #4136: we should remove the samba.schema from our contrib directory in core source

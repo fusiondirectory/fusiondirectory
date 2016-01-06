@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2015  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -58,7 +58,7 @@ if (!session::global_is_set('connected')) {
 $ui = session::global_get('ui');
 if ($_SERVER['REMOTE_ADDR'] != $ui->ip) {
   new log('security', 'login', '', array(), 'main.php called with session which has a changed IP address.');
-  header ('Location: index.php?message=newip');
+  header ('Location: index.php?signout=1&message=newip');
   exit;
 }
 $config = session::global_get('config');
@@ -72,12 +72,9 @@ if (($config->get_cfg_value('forcessl') == 'TRUE') && ($ssl != '')) {
 timezone::setDefaultTimezoneFromConfig();
 
 /* Check for invalid sessions */
-if (session::global_get('_LAST_PAGE_REQUEST') == "") {
-  session::global_set('_LAST_PAGE_REQUEST', time());
-} else {
-
+if (session::global_get('_LAST_PAGE_REQUEST') != '') {
   /* check FusionDirectory.conf for defined session lifetime */
-  $max_life = $config->get_cfg_value("sessionLifetime", 60 * 60 * 2);
+  $max_life = $config->get_cfg_value('sessionLifetime', 60 * 60 * 2);
 
   /* get time difference between last page reload */
   $request_time = (time() - session::global_get('_LAST_PAGE_REQUEST'));
@@ -88,11 +85,11 @@ if (session::global_get('_LAST_PAGE_REQUEST') == "") {
   if ($request_time > $max_life) {
     session::destroy();
     new log('security', 'login', '', array(), 'main.php called with expired session - logging out');
-    header ('Location: index.php?message=expired');
+    header ('Location: index.php?signout=1&message=expired');
     exit;
   }
-  session::global_set('_LAST_PAGE_REQUEST', time());
 }
+session::global_set('_LAST_PAGE_REQUEST', time());
 
 
 @DEBUG (DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, "config");
@@ -135,11 +132,11 @@ $plist->gen_menu();
 $smarty->assign("hideMenus", FALSE);
 if ($config->get_cfg_value("handleExpiredAccounts") == "TRUE") {
   $expired = $ui->expired_status();
-  if ($expired == POSIX_WARN_ABOUT_EXPIRATION && !session::is_set('POSIX_WARN_ABOUT_EXPIRATION__DONE')) {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, "This user account (".$ui->username.") is about to expire");
+  if (($expired == POSIX_WARN_ABOUT_EXPIRATION) && !session::is_set('POSIX_WARN_ABOUT_EXPIRATION__DONE')) {
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, "This user account (".$ui->uid.") is about to expire");
 
     // The users password is about to xpire soon, display a warning message.
-    new log("security", "fusiondirectory", "", array(), "password for user '".$ui->username."' is about to expire");
+    new log("security", "fusiondirectory", "", array(), "password for user '".$ui->uid."' is about to expire");
     msg_dialog::display(_("Password change"), _("Your password is about to expire, please change your password!"), INFO_DIALOG);
     session::set('POSIX_WARN_ABOUT_EXPIRATION__DONE', TRUE);
   } elseif ($expired == POSIX_FORCE_PASSWORD_CHANGE) {
@@ -169,7 +166,7 @@ if (isset($_GET['plug']) && $plist->plugin_access_allowed($_GET['plug'])) {
   session::global_set('plugin_dir', $plugin_dir);
   if ($plugin_dir == '') {
     new log('security', 'fusiondirectory', '', array(), "main.php called with invalid plug parameter \"$plug\"");
-    header ('Location: index.php?message=invalidparameter&plug='.$plug);
+    header ('Location: index.php?signout=1&message=invalidparameter&plug='.$plug);
     exit;
   }
 } else {
@@ -248,9 +245,9 @@ if (isset($plug)) {
 }
 
 if ($ui->ignore_acl_for_current_user()) {
-  $smarty->assign ("username", "<div style='color:#FF0000;'>"._("User ACL checks disabled")."</div>&nbsp;".$ui->username);
+  $smarty->assign ('username', '<div style="color:#FF0000;">'._('User ACL checks disabled').'</div>&nbsp;'.$ui->uid);
 } else {
-  $smarty->assign ("username", $ui->username);
+  $smarty->assign ('username', $ui->uid);
 }
 $smarty->assign ("menu", $plist->menu);
 $smarty->assign ("plug", "$plug");

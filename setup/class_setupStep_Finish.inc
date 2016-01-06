@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2007  Fabian Hickert
-  Copyright (C) 2011-2015  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -37,9 +37,9 @@ class Step_Finish extends setupStep
 
   function update_strings()
   {
-    $this->s_title      = _('Finish');
-    $this->s_info       = _('Write configuration file');
-    $this->s_title_long = _('Finish - write the configuration file');
+    $this->s_short_name   = _('Finish');
+    $this->s_title        = _('Finish - write the configuration file');
+    $this->s_description  = _('Write configuration file');
   }
 
   function get_conf_data()
@@ -66,8 +66,7 @@ class Step_Finish extends setupStep
     /* Create ui object */
 
     /* got user dn, fill acl's */
-    $ui           = new userinfo($config, $cv['valid_admin']);
-    $ui->username = 'fd-admin';
+    $ui = new userinfo($config, $cv['valid_admin']);
     /* Username is set, load subtreeACL's now */
     $ui->loadACL();
 

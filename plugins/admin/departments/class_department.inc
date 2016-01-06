@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2015  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -64,9 +64,10 @@ class department extends simplePlugin
         'name'  => _('Properties'),
         'attrs' => array(
           new BaseSelectorAttribute(''),
-          new HostNameAttribute(
+          new StringAttribute(
             sprintf(_('Name of %s'), $name), sprintf(_('A name for this %s'), $name),
-            $namingAttr, TRUE
+            $namingAttr, TRUE,
+            '', '', '/^[a-z0-9\._-]+$/i'
           ),
           new TextAreaAttribute(
             _('Description'), sprintf(_('Short description of this %s'), $name),

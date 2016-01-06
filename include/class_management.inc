@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2015  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -133,13 +133,9 @@ class management
     $this->registerAction("cut",    "copyPasteHandler");
     $this->registerAction("paste",  "copyPasteHandler");
 
-    if ($this->config->get_cfg_value("enableSnapshots") == "TRUE") {
-      $this->registerAction("snapshot", "createSnapshotDialog");
-      $this->registerAction("restore",  "restoreSnapshotDialog");
-
-      $this->registerAction("saveSnapshot",     "saveSnapshot");
-      $this->registerAction("restoreSnapshot",  "restoreSnapshot");
-      $this->registerAction("cancelSnapshot",   "closeDialogs");
+    if ($this->config->get_cfg_value('enableSnapshots') == 'TRUE') {
+      $this->registerAction('snapshot', 'createSnapshotDialog');
+      $this->registerAction('restore',  'restoreSnapshotDialog');
     }
   }
 
@@ -246,23 +242,23 @@ class management
     }
 
     if (in_array_ics('plInfo', get_class_methods(get_class($this)))) {
-      $plInfos = $this->plInfo();
-      $plDescription  = $plInfos['plDescription'];
-      $plIcon         = $plInfos['plIcon'];
+      $plInfos  = pluglist::pluginInfos(get_class($this));
+      $plTitle  = $plInfos['plTitle'];
+      $plIcon   = $plInfos['plIcon'];
     } else {
-      $plDescription  = $this->plDescription;
-      $plIcon         = $this->plIcon;
+      $plTitle  = $this->plDescription;
+      $plIcon   = $this->plIcon;
     }
 
     if (!preg_match('/^geticon/', $plIcon)) {
       $plIcon = get_template_path($plIcon);
     }
-    if (get_object_info() != "") {
-      $display = print_header($plIcon, _($plDescription),
+    if (get_object_info() != '') {
+      $display = print_header($plIcon, _($plTitle),
           '<img alt="" class="center" src="geticon.php?context=status&amp;icon=object-locked&amp;size=16"/>'.
           LDAP::fix(get_object_info()));
     } else {
-      $display = print_header($plIcon, _($plDescription));
+      $display = print_header($plIcon, _($plTitle));
     }
     return $display;
   }
@@ -435,23 +431,15 @@ class management
       return array();
     }
     $action = $this->headpage->getAction();
-    if (isset($_POST['edit_apply']))  $action['action'] = "apply";
-    if (isset($_POST['edit_finish'])) $action['action'] = "save";
-    if (isset($_POST['edit_cancel'])) $action['action'] = "cancel";
-    if (isset($_POST['delete_confirmed'])) $action['action'] = "removeConfirmed";
-    if (isset($_POST['delete_cancel'])) $action['action'] = "cancelDelete";
-
-    // Detect Snapshot actions
-    if (isset($_POST['CreateSnapshot'])) $action['action'] = "saveSnapshot";
-    if (isset($_POST['CancelSnapshot'])) $action['action'] = "cancelSnapshot";
-    $matches = array();
-    foreach ($_POST as $name => $value) {
-      if (preg_match("/^RestoreSnapshot_(.*)_[xy]/", $name, $matches)) {
-        $entry = intval($matches[1]);
-        if (isset($this->dialogObject->last_list[$entry])) {
-          $action['action'] = "restoreSnapshot";
-          $action['targets'] = array($this->dialogObject->last_list[$entry]['dn']);
-        }
+    if (isset($_POST['edit_apply']))  $action['action'] = 'apply';
+    if (isset($_POST['edit_finish'])) $action['action'] = 'save';
+    if (isset($_POST['edit_cancel'])) $action['action'] = 'cancel';
+    if (!$this->is_modal_dialog()) {
+      if (isset($_POST['delete_confirmed'])) {
+        $action['action'] = 'removeConfirmed';
+      }
+      if (isset($_POST['delete_cancel'])) {
+        $action['action'] = 'cancelDelete';
       }
     }
 
@@ -474,7 +462,6 @@ class management
     }
   }
 
-
   /*!
    * \brief  Opens the snapshot creation dialog for the given target.
    *
@@ -484,72 +471,57 @@ class management
    *
    * \param  Array   $all     A combination of both 'action' and 'target'.
    */
-  function createSnapshotDialog($action = "", $target = array(), $all = array())
+  function createSnapshotDialog($action = '', $target = array(), $all = array())
   {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Snaptshot creation initiated!");
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, 'Snaptshot creation initiated!');
 
-    foreach ($target as $entry) {
-      if (!empty($entry) && $this->ui->allow_snapshot_create($entry, $this->aclCategory)) {
-        $this->dialogObject = new SnapShotDialog($this->config, $entry, $this);
-        $this->dialogObject->aclCategories = array($this->aclCategory);
-        $this->dialogObject->parent = &$this;
+    if (count($target) == 1) {
+      $this->dn = array_pop($target);
+      if (empty($this->dn)) {
+        return;
+      }
+      $aclCategory = $this->aclCategory;
+      if ($this->ui->allow_snapshot_create($this->dn, $aclCategory)) {
+        $this->dialogObject = new SnapshotCreateDialog($this->config, $this->dn, $this, $aclCategory);
+        $this->dialogObject->set_acl_base($this->dn);
       } else {
-        msg_dialog::display(_("Permission"), sprintf(_("You are not allowed to create a snapshot for %s."), $entry),
+        msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to create a snapshot for %s.'), $this->dn),
             ERROR_DIALOG);
       }
     }
   }
 
-
   /*!
-   * \brief  Creates a snapshot new entry - This method is called when the somebody
-   *           clicks 'save' in the "Create snapshot dialog" (see management::createSnapshotDialog).
-   *
-   *  \param  String  $action  The name of the action which was the used as trigger.
-   *
-   *  \param  Array   $target  A list of object dns, which should be affected by this method.
-   *
-   *  \param  Array   $all     A combination of both 'action' and 'target'.
+   * \brief  Creates a new snapshot entry
    */
-  function saveSnapshot($action = "", $target = array(), $all = array())
+  function createSnapshot($dn, $description)
   {
-    if (!is_object($this->dialogObject)) {
+    if ($this->dn !== $dn) {
+      trigger_error('There was a problem with the snapshot workflow');
       return;
     }
-    $this->dialogObject->save_object();
-    $msgs = $this->dialogObject->check();
-    if (count($msgs)) {
-      foreach ($msgs as $msg) {
-        msg_dialog::display(_("Error"), $msg, ERROR_DIALOG);
-      }
+    if (!empty($dn) && $this->ui->allow_snapshot_create($dn, $this->dialogObject->aclCategory)) {
+      $this->snapHandler->createSnapshot($dn, $description);
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot created!');
     } else {
-      $this->dn = $this->dialogObject->dn;
-      $this->snapHandler->create_snapshot($this->dn, $this->dialogObject->CurrentDescription);
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Snaptshot created!");
-      $this->closeDialogs();
+      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $dn),
+          ERROR_DIALOG);
     }
   }
 
-
   /*!
    * \brief  Restores a snapshot object.
-   *         The dn of the snapshot entry has to be given as ['target'] parameter.
    *
-   * \param  String  $action  The name of the action which was the used as trigger.
-   *
-   * \param  Array   $target  A list of object dns, which should be affected by this method.
-   *
-   * \param  Array   $all     A combination of both 'action' and 'target'.
+   * \param  String  $dn  The DN of the snapshot
    */
-  function restoreSnapshot($action = "", $target = array(), $all = array())
+  function restoreSnapshot($dn)
   {
-    $entry = array_pop($target);
-    if (!empty($entry) && $this->ui->allow_snapshot_restore($entry, $this->aclCategory)) {
-      $this->snapHandler->restore_snapshot($entry);
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $entry, 'Snaptshot restored');
+    if (!empty($dn) && $this->ui->allow_snapshot_restore($dn, $this->dialogObject->aclCategory)) {
+      $this->snapHandler->restoreSnapshot($dn);
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot restored');
       $this->closeDialogs();
     } else {
-      msg_dialog::display(_("Permission"), sprintf(_("You are not allowed to restore a snapshot for %s."), $entry),
+      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $dn),
           ERROR_DIALOG);
     }
   }
@@ -565,7 +537,7 @@ class management
    *
    * \param  Array   $all'     A combination of both 'action' and 'target'.
    */
-  function restoreSnapshotDialog($action = "", $target = array(), $all = array())
+  function restoreSnapshotDialog($action = '', $target = array(), $all = array())
   {
     // Set current restore base for snapshot handling.
     if (is_object($this->snapHandler)) {
@@ -580,25 +552,69 @@ class management
 
     if (!count($target)) {
       // No target, open the restore removed object dialog.
-      $entry = $this->headpage->getBase();
+      $this->dn = $this->headpage->getBase();
     } else {
       // Display the restore points for a given object.
-      $entry = $target[0];
+      $this->dn = $target[0];
+    }
+    if (empty($this->dn)) {
+      return;
     }
 
-    if (!empty($entry) && $this->ui->allow_snapshot_restore($entry, $this->aclCategory)) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $entry, "Snaptshot restoring initiated!");
-      $this->dialogObject = new SnapShotDialog($this->config, $entry, $this);
-      $this->dialogObject->set_snapshot_bases($bases);
-      $this->dialogObject->display_all_removed_objects  = !count($target);
-      $this->dialogObject->display_restore_dialog       = TRUE;
-      $this->dialogObject->parent                       = &$this;
+    $aclCategory = $this->aclCategory;
+    if ($this->ui->allow_snapshot_restore($this->dn, $aclCategory)) {
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Snaptshot restoring initiated!');
+      $this->snapHandler->setSnapshotBases($bases);
+      $this->dialogObject = new SnapshotRestoreDialog($this->config, $this->dn, $this, !count($target), $aclCategory);
+      $this->dialogObject->set_acl_base($this->dn);
     } else {
-      msg_dialog::display(_("Permission"), sprintf(_("You are not allowed to restore a snapshot for %s."), $entry),
+      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $this->dn),
           ERROR_DIALOG);
     }
   }
 
+  /*!
+   * \brief Get all deleted snapshots
+   *
+   * \param string $base The base
+   *
+   * \param string boolean $raw
+   */
+  function getAllDeletedSnapshots($raw = FALSE)
+  {
+    $tmp = array();
+    $snapshotBases = $this->snapHandler->getSnapshotBases();
+    if (is_array($snapshotBases)) {
+      foreach ($snapshotBases as $base) {
+        $tmp = array_merge($tmp, $this->snapHandler->getAllDeletedSnapshots($base, $raw));
+      }
+    } else {
+      $tmp = $this->snapHandler->getAllDeletedSnapshots($snapshotBases, $raw);
+    }
+    return $tmp;
+  }
+
+  /*
+   * \brief Return available snapshots for the given base
+   *
+   * \param string $dn The DN
+   *
+   * \param string boolean $raw
+   */
+  function getAvailableSnapsShots($dn, $raw = FALSE)
+  {
+    return $this->snapHandler->getAvailableSnapsShots($dn, $raw);
+  }
+
+  /*!
+   * \brief Delete a snapshot
+   *
+   * \param string $dn DN of the snapshot
+   */
+  function removeSnapshot($dn)
+  {
+    $this->snapHandler->removeSnapshot($dn);
+  }
 
   /*!
    * \brief  This method intiates the object creation.
@@ -645,7 +661,6 @@ class management
     // Check locking & lock entry if required
     $this->displayApplyBtn  = FALSE;
     $this->dn               = "new";
-    $this->is_new           = TRUE;
     $this->is_single_edit   = FALSE;
 
     set_object_info($this->dn);
@@ -720,7 +735,6 @@ class management
 
     // Single edit - we only got one object dn.
     if (count($target) == 1) {
-      $this->is_new         = FALSE;
       $this->is_single_edit = TRUE;
 
       // Get the dn of the object and creates lock
@@ -764,7 +778,7 @@ class management
         return;
       } else {
         $this->tabObject->save();
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, "Entry saved!");
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Entry saved!');
         $this->remove_lock();
         $this->closeDialogs();
       }
@@ -776,7 +790,7 @@ class management
         return;
       } else {
         $this->dialogObject->save();
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, "Entry saved!");
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Entry saved!');
         $this->remove_lock();
         $this->closeDialogs();
       }

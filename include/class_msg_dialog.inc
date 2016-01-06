@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2015  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -124,9 +124,8 @@ class msg_dialog
    */
   public static function displayChecks($messages)
   {
-    /* Assemble the message array to a plain string */
     foreach ($messages as $error) {
-      msg_dialog::display(_("Error"), $error, ERROR_DIALOG);
+      msg_dialog::display(_('Error'), $error, ERROR_DIALOG);
     }
   }
 

@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2007  Fabian Hickert
-  Copyright (C) 2011-2015  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -220,9 +220,9 @@ class Step_Migrate extends setupStep
 
   function update_strings()
   {
-    $this->s_title      = _("LDAP inspection");
-    $this->s_title_long = _("LDAP inspection");
-    $this->s_info       = _("Analyze your current LDAP for FusionDirectory compatibility");
+    $this->s_short_name   = _('LDAP inspection');
+    $this->s_title        = _('LDAP inspection');
+    $this->s_description  = _('Analyze your current LDAP for FusionDirectory compatibility');
   }
 
   function fill_defaultRoles()

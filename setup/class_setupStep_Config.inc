@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2007 Fabian Hickert
-  Copyright (C) 2011-2015  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -28,10 +28,10 @@ class Step_Config_before_init extends setupStep
       $config->current['BASE'] = '';
     }
     $infos = configInLdap::plInfo();
-    $this->header_image = $infos['plIcon'];
-    $this->s_title      = $infos['plShortName'];
-    $this->s_title_long = $infos['plDescription'];
-    $this->s_info       = $infos['plDescription'];
+    $this->header_image   = $infos['plIcon'];
+    $this->s_short_name   = $infos['plShortName'];
+    $this->s_title        = $infos['plTitle'];
+    $this->s_description  = $infos['plDescription'];
   }
 }
 
@@ -64,19 +64,19 @@ class Step_Config extends configInLdap
     $this->header_image = $infos['plIcon'];
   }
 
-  function get_title()
+  function get_short_name()
   {
     $infos = parent::plInfo();
-    return $infos['plShortName'];
+    return $infos['plTitle'];
   }
 
-  function get_long_title()
+  function get_title()
   {
     $infos = parent::plInfo();
     return $infos['plDescription'];
   }
 
-  function get_small_info()
+  function get_description()
   {
     $infos = parent::plInfo();
     return $infos['plDescription'];

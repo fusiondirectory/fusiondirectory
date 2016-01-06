@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013-2015  FusionDirectory
+  Copyright (C) 2013-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -23,17 +23,17 @@ class reference extends simplePlugin
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("References"),
-      "plDescription" => _("References"),
-      "plCategory"    => array('acl'),
-      "plObjectType"  => array(
+      'plShortName'   => _('References'),
+      'plDescription' => _('References'),
+      'plCategory'    => array('acl'),
+      'plObjectType'  => array(
         'special' => array(
           'name' => 'special'
         )
       ),
       'plPriority'    => 10,
 
-      "plProvidedAcls"  => array()
+      'plProvidedAcls'  => array()
     );
   }
 
@@ -75,6 +75,10 @@ class reference extends simplePlugin
       return;
     }
     $this->refs = $this->browseForeignKeys('references');
+  }
+
+  function check()
+  {
   }
 
   function save()

@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2007 Fabian Hickert
-  Copyright (C) 2011-2015  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,14 +21,14 @@
 
 class setupStep extends simplePlugin
 {
-  protected $s_title      = "Still undefined";
-  protected $s_title_long = "Still undefined";
-  protected $s_info       = "Still undefined";
+  protected $s_short_name   = 'Still undefined';
+  protected $s_title        = 'Still undefined';
+  protected $s_description  = 'Still undefined';
   var $is_active    = FALSE;
   var $is_enabled   = FALSE;
   var $is_completed = FALSE;
 
-  var $header_image = "";
+  var $header_image = '';
 
   static function getAttributesInfo()
   {
@@ -47,19 +47,19 @@ class setupStep extends simplePlugin
     die('abstract method');
   }
 
+  function get_short_name()
+  {
+    return $this->s_short_name;
+  }
+
   function get_title()
   {
     return $this->s_title;
   }
 
-  function get_long_title()
+  function get_description()
   {
-    return $this->s_title_long;
-  }
-
-  function get_small_info()
-  {
-    return $this->s_info;
+    return $this->s_description;
   }
 
   function is_active()
