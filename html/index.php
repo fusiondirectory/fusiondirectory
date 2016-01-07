@@ -132,6 +132,10 @@ if (isset($_REQUEST['signout']) && $_REQUEST['signout']) {
   session::start();
 }
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  session::global_set('DEBUGLEVEL', 0);
+}
+
 /* Reset errors */
 session::set('errors', '');
 session::set('errorsAlreadyPosted', '');
