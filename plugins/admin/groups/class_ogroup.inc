@@ -265,6 +265,7 @@ class ogroup extends simplePlugin
     }
 
     $this->reload();
+    $this->updateAttributesValues();
   }
 
   function compute_dn()
