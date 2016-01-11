@@ -187,12 +187,19 @@ class userRoles extends simplePlugin
     parent::ldap_save($cleanup);
 
     if (!$this->is_template) {
+      /* We need to give an array which looks like an ldap fetch and match user filter */
+      $fake_attrs = array(
+        'objectClass' => array('inetOrgPerson','organizationalPerson','person'),
+        'cn'          => array($this->dn),
+        'dn'          => $this->dn
+      );
+
       /* Take care about groupsMembership values: add to groups */
       $groupsMembership = $this->attributesAccess['groupsMembership']->getValue();
       foreach ($groupsMembership as $ogroupdn) {
         if (!in_array($ogroupdn, $this->savedGroupsMembership)) {
           $g = objects::open($ogroupdn, 'ogroup');
-          $g->getBaseObject()->attributesAccess['member']->addValue($this->dn, array('cn' => 'user'));
+          $g->getBaseObject()->attributesAccess['member']->addValue($this->dn, $fake_attrs);
           $g->save();
         }
       }
@@ -211,7 +218,7 @@ class userRoles extends simplePlugin
       foreach ($rolesMembership as $roledn) {
         if (!in_array($roledn, $this->savedRolesMembership)) {
           $r = objects::open($roledn, 'role');
-          $r->getBaseObject()->attributesAccess['roleOccupant']->addValue($this->dn, array('cn' => 'user'));
+          $r->getBaseObject()->attributesAccess['roleOccupant']->addValue($this->dn, $fake_attrs);
           $r->save();
         }
       }
