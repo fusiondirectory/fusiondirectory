@@ -132,10 +132,6 @@ if (isset($_REQUEST['signout']) && $_REQUEST['signout']) {
   session::start();
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  session::global_set('DEBUGLEVEL', 0);
-}
-
 /* Reset errors */
 session::set('errors', '');
 session::set('errorsAlreadyPosted', '');
@@ -163,12 +159,8 @@ if (!is_readable(CONFIG_DIR.'/'.CONFIG_FILE)) {
 
 /* Parse configuration file */
 $config = new config(CONFIG_DIR.'/'.CONFIG_FILE, $BASE_DIR);
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  session::global_set('DEBUGLEVEL', 0);
-} else {
-  session::global_set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
-  @DEBUG (DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, 'config');
-}
+session::global_set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
+@DEBUG (DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, 'config');
 
 /* Set template compile directory */
 $smarty->compile_dir = $config->get_cfg_value('templateCompileDirectory', SPOOL_DIR);
@@ -200,7 +192,7 @@ if (isset($_POST['server'])) {
 }
 
 $config->set_current($server);
-if (($_SERVER['REQUEST_METHOD'] == 'POST') || ($config->get_cfg_value('casActivated') == 'TRUE')) {
+if ($config->get_cfg_value('casActivated') == 'TRUE') {
   session::global_set('DEBUGLEVEL', 0);
 }
 
