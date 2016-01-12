@@ -240,6 +240,9 @@ function make_seed()
 function DEBUG($level, $line, $function, $file, $data, $info = "")
 {
   static $first = TRUE;
+  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    return;
+  }
   if (session::global_get('DEBUGLEVEL') & $level) {
     if ($first) {
       echo '<div id="debug_handling" class="notice">'.
