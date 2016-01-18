@@ -3052,6 +3052,17 @@ function isIpInNet($ip, $net, $mask)
 }
 
 /*!
+ * \brief Expands an IP v6
+ */
+function expandIPv6 ($ip)
+{
+  $hex  = unpack('H*hex', inet_pton($ip));
+  $ip   = substr(preg_replace('/([A-f0-9]{4})/', "$1:", $hex['hex']), 0, -1);
+
+  return $ip;
+}
+
+/*!
  * \brief Get next id
  *
  * \param string $attrib attribute to use to find the next id.
