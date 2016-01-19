@@ -52,7 +52,7 @@ class log {
    *
    * \sa log()
    */
-  function log($action, $objecttype, $object, $changes_array = array(), $result = "")
+  function __construct($action, $objecttype, $object, $changes_array = array(), $result = "")
   {
     if (!is_array($changes_array)) {
       trigger_error("log(string,string,string,array(),bool). Forth parameter must be an array.");
