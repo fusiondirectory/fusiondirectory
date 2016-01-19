@@ -537,22 +537,6 @@ class config  {
       $this->data['SERVERS']['FON'][$attrs['dn']] = $entry;
     }
 
-    /* Get logdb server */
-    $ldap->cd($this->current['BASE']);
-    $ldap->search("(objectClass=goLogDBServer)");
-    if ($ldap->count()) {
-      $attrs = $ldap->fetch();
-      if (!isset($attrs['gosaLogDB'][0])) {
-        $attrs['gosaLogDB'][0] = "gomon";
-      }
-      $this->data['SERVERS']['LOG'] = array(
-        'SERVER'    => $attrs['cn'][0],
-        'LOGIN'     => $attrs['goLogAdmin'][0],
-        'DB'        => $attrs['gosaLogDB'][0],
-        'PASSWORD'  => $attrs['goLogPassword'][0]
-      );
-    }
-
     /* Get NFS server lists */
     $tmp  = array("default");
     $tmp2 = array("default");
