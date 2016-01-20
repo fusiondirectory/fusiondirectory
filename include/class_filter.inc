@@ -51,7 +51,7 @@ class filter
    *
    * \param string $filename
    */
-  function filter($filename)
+  function __construct($filename)
   {
     // Load eventually passed filename
     if (!$this->load($filename)) {

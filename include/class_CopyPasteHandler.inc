@@ -55,7 +55,7 @@ class CopyPasteHandler
    *
    * \param string $config
    */
-  function CopyPasteHandler(&$config)
+  function __construct(&$config)
   {
     $this->config   = &$config;
     $this->current  = NULL;
