@@ -2828,6 +2828,23 @@ function lock_samba_account($mode, $attrs)
   return $modify;
 }
 
+/* Lock or unlock ssh account */
+function lock_ssh_account($mode, $attrs, &$modify)
+{
+  global $config;
+  if (!isset($attrs['sshPublicKey'])) {
+    return;
+  }
+  $modify['sshPublicKey'] = array();
+  for ($i = 0; $i < $attrs['sshPublicKey']['count']; ++$i) {
+    if ($mode == 'LOCK') {
+      $modify['sshPublicKey'][] = preg_replace('/^/', 'disabled-', $attrs['sshPublicKey'][0]);
+    } else {
+      $modify['sshPublicKey'][] = preg_replace('/^disabled-/', '', $attrs['sshPublicKey'][0]);
+    }
+  }
+}
+
 
 /*!
  * \brief Get the Change Sequence Number of a certain DN

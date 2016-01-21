@@ -174,6 +174,9 @@ class passwordMethod
       // (Un)lock the samba account
       $modify = lock_samba_account($mode, $attrs);
 
+      // (Un)lock SSH keys
+      lock_ssh_account($mode, $attrs, $modify);
+
       // (Un)lock the account by modifying the password hash.
       $pwdClass = new user($config, $dn);
       $pwdClass->callHook('PRE'.$mode, array(), $ret);
