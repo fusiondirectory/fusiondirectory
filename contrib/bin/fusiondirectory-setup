@@ -1675,7 +1675,7 @@ __END__
 
 =head1 NAME
 
-fusiondirectory-setup - FusionDirectory setup script
+fusiondirectory-setup - FusionDirectory configuration management tool
 
 =head1 DESCRIPTION
 
@@ -1753,12 +1753,12 @@ This option will print an LDIF to allow you to remove deprecated attributes from
 
 =item --show-config
 
-This option will print a dump of the FusionDirectory configuration LDAP node.
+This option will print a dump of the FusionDirectory configuration LDAP node.
 
 =item --set-config-VAR=value
 
-This option sets the value of a configuration field in the LDAP. The value needs to be in the correct LDAP format.
-You can’t set multivaluated field with this. The var name can be provided with or without the fd prefix.
+This option sets the value of a configuration field in the LDAP. The value needs to be in the correct LDAP format.
+You cannot set multivalued field with this. The var name can be provided with or without the fd prefix.
 
 =item --yes
 
