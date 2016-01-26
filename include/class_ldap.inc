@@ -27,7 +27,7 @@
  * Source code for Class LDAP
  */
 
-define("SPECIALS_OVERRIDE", TRUE);
+define("SPECIALS_OVERRIDE", FALSE);
 
 /*!
  * \brief This class contains all ldap function needed to make
@@ -112,6 +112,7 @@ class LDAP
    * (   => OB
    * )   => CB
    * /   => SL
+   * "   => DQ
    * \22 => DQ
    * \endcode
    *
