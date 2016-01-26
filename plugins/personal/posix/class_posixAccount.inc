@@ -288,7 +288,7 @@ class posixAccount extends simplePlugin
     $this->ui = get_userinfo();
 
     $secondaryGroups = array();
-    $secondaryGroups[0] = "- "._("automatic")." -";
+    $secondaryGroups[''] = "- "._("automatic")." -";
     $ldap = $this->config->get_ldap_link();
     $ldap->cd($this->config->current['BASE']);
     $ldap->search("(objectClass=posixGroup)", array("cn", "gidNumber"));
