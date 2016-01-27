@@ -27,7 +27,7 @@
  * Source code for Class LDAP
  */
 
-define("SPECIALS_OVERRIDE", FALSE);
+define("SPECIALS_OVERRIDE", TRUE);
 
 /*!
  * \brief This class contains all ldap function needed to make
