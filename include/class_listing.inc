@@ -1786,6 +1786,7 @@ class listing {
    */
   function getType($dn)
   {
+    $dn = LDAP::fix($dn);
     if (isset($this->objectDnMapping[$dn])) {
       return $this->objectDnMapping[$dn];
     }
