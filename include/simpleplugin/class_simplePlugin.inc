@@ -291,10 +291,10 @@ class simplePlugin extends plugin
     $attr = $infos['mainAttr'];
     $ou   = $infos['ou'];
     if ($this->is_template) {
-      $dn = 'cn='.$this->_template_cn.',ou=templates,'.$ou.$this->base;
+      $dn = 'cn='.ldap_escape($this->_template_cn, '', LDAP_ESCAPE_DN).',ou=templates,'.$ou.$this->base;
       return $dn;
     }
-    return $attr.'='.$this->attributesAccess[$attr]->computeLdapValue().','.$ou.$this->base;
+    return $attr.'='.ldap_escape($this->attributesAccess[$attr]->computeLdapValue(), '', LDAP_ESCAPE_DN).','.$ou.$this->base;
   }
 
   function getRequiredAttributes()
