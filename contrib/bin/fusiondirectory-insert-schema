@@ -84,6 +84,7 @@ foreach my $arg ( @ARGV ) {
         push @schemas, $1;
         push @gen_files, $1;
       } else {
+        push @gen_files, $1;
         die_with_error("Something went wrong while trying to convert $arg to ldif\n");
       }
     } else {
