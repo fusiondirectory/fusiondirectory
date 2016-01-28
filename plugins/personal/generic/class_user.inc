@@ -461,14 +461,14 @@ class user extends simplePlugin
   function compute_dn()
   {
     if ($this->is_template) {
-      $dn = 'cn='.$this->_template_cn.',ou=templates,'.get_ou("userRDN").$this->base;
+      $dn = 'cn='.ldap_escape($this->_template_cn, '', LDAP_ESCAPE_DN).',ou=templates,'.get_ou('userRDN').$this->base;
       return $dn;
     }
 
     $this->update_cn();
     $attribute = $this->config->get_cfg_value('accountPrimaryAttribute', 'uid');
 
-    return $this->create_unique_dn($attribute, get_people_ou().$this->base);
+    return $this->create_unique_dn($attribute, get_ou('userRDN').$this->base);
   }
 
   function execute()

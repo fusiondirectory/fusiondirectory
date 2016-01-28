@@ -208,11 +208,6 @@ class group extends simplePlugin
     parent::post_save();
   }
 
-  function compute_dn()
-  {
-    return 'cn='.$this->attributesAccess['cn']->getValue().','.get_groups_ou().$this->base;
-  }
-
   function addUser($dn, $uid)
   {
     $this->attributesAccess['memberUid']->addValue($dn,

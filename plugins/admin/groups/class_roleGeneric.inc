@@ -91,10 +91,5 @@ class roleGeneric extends simplePlugin
     parent::__construct($config, $dn, $object);
     $this->attributesAccess['cn']->setUnique(TRUE);
   }
-
-  function compute_dn()
-  {
-    return 'cn='.$this->cn.','.get_ou('roleRDN').$this->base;
-  }
 }
 ?>
