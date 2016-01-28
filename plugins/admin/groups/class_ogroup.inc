@@ -267,11 +267,6 @@ class ogroup extends simplePlugin
     $this->reload();
   }
 
-  function compute_dn()
-  {
-    return 'cn='.$this->attributesAccess['cn']->getValue().','.get_ou('ogroupRDN').$this->base;
-  }
-
   /*! \brief This function returns an LDAP filter for this plugin object classes
    */
   function getObjectClassFilter ()

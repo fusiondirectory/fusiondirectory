@@ -185,14 +185,6 @@ class department extends simplePlugin
     return $bases;
   }
 
-  function compute_dn()
-  {
-    $namingAttr = $this->getNamingAttr();
-    $nAV  = preg_replace('/,/', '\,', $this->$namingAttr);
-    $nAV  = preg_replace('/"/', '\"', $nAV);
-    return @LDAP::convert($namingAttr.'='.$nAV.','.$this->base);
-  }
-
   function prepare_save()
   {
     if ($this->getNamingAttr() != 'ou') {

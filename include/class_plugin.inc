@@ -855,7 +855,7 @@ class plugin
     $base = preg_replace('/^,*/', '', $base);
 
     /* Try to use plain entry first */
-    $dn = $attribute.'='.$this->$attribute.','.$base;
+    $dn = $attribute.'='.ldap_escape($this->$attribute, '', LDAP_ESCAPE_DN).','.$base;
     if ($dn == $this->orig_dn) {
       return $dn;
     }
@@ -870,7 +870,7 @@ class plugin
         continue;
       }
 
-      $dn = "$attribute=".$this->$attribute."+$attr=".$this->$attr.",$base";
+      $dn = "$attribute=".ldap_escape($this->$attribute, '', LDAP_ESCAPE_DN)."+$attr=".ldap_escape($this->$attr, '', LDAP_ESCAPE_DN).",$base";
       if ($dn == $this->orig_dn) {
         return $dn;
       }
