@@ -1362,7 +1362,7 @@ class plugin
                   'newvalue'  => $newvalue,
                   'tab'       => $tabclass,
                 );
-              $filter = plugin::tpl_parse_string($filter, array('oldvalue' => $oldvalue, 'newvalue' => $newvalue));
+              $filter = plugin::tpl_parse_string($filter, array('oldvalue' => ldap_escape($oldvalue, '', LDAP_ESCAPE_FILTER), 'newvalue' => ldap_escape($newvalue, '', LDAP_ESCAPE_FILTER)));
             } elseif ($mode == 'references') {
               $foreignRefs[$objectType]['refs'][$class]['name'] = $cinfos['plShortName'];
               $foreignRefs[$objectType]['refs'][$class]['fields'][$ofield] =
@@ -1372,7 +1372,7 @@ class plugin
                   'field'   => $field,
                   'value'   => $this->parent->by_object[$tabclass]->$field,
                 );
-              $filter = plugin::tpl_parse_string($filter, array('oldvalue' => $this->parent->by_object[$tabclass]->$field));
+              $filter = plugin::tpl_parse_string($filter, array('oldvalue' => ldap_escape($this->parent->by_object[$tabclass]->$field, '', LDAP_ESCAPE_FILTER)));
             }
             if (!preg_match('/^\(.*\)$/', $filter)) {
               $filter = '('.$filter.')';

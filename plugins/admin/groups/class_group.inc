@@ -215,7 +215,13 @@ class group extends simplePlugin
 
   function addUser($dn, $uid)
   {
-    $this->attributesAccess['memberUid']->addValue($dn, array('uid' => array($uid), 'cn' => array($uid)));
+    $this->attributesAccess['memberUid']->addValue($dn,
+      array(
+        'dn'  => $dn,
+        'uid' => array($uid),
+        'cn'  => array($uid)
+      )
+    );
   }
 
   function removeUser($uid)

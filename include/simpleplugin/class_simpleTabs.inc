@@ -392,7 +392,7 @@ class simpleTabs
   function save()
   {
     $baseobject = $this->getBaseObject();
-    $new_dn     = $baseobject->compute_dn();
+    $new_dn     = LDAP::convert($baseobject->compute_dn());
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $new_dn, "Saving");
 
     /* Move ? */

@@ -240,6 +240,9 @@ function make_seed()
 function DEBUG($level, $line, $function, $file, $data, $info = "")
 {
   static $first = TRUE;
+  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    return;
+  }
   if (session::global_get('DEBUGLEVEL') & $level) {
     if ($first) {
       echo '<div id="debug_handling" class="notice">'.
@@ -1991,7 +1994,7 @@ function gen_uids($rule, $attributes)
     if (preg_match('/\{id(:|!)(\d+)}/', $uid, $m)) {
       $size = $m[2];
 
-      $start = ($m[1] == ":"?0:-1);
+      $start = ($m[1] == ":" ? 0 : -1);
       for ($i = $start, $p = pow(10, $size) - 1; $i < $p; $i++) {
         if ($i == -1) {
           $number = "";
@@ -2074,7 +2077,7 @@ function to_byte($value)
         break;
     }
 
-    return ($mult * (int)substr($value, 0, -1));
+    return $mult * (int)substr($value, 0, -1);
   } else {
     return $value;
   }
@@ -2825,6 +2828,23 @@ function lock_samba_account($mode, $attrs)
   return $modify;
 }
 
+/* Lock or unlock ssh account */
+function lock_ssh_account($mode, $attrs, &$modify)
+{
+  global $config;
+  if (!isset($attrs['sshPublicKey'])) {
+    return;
+  }
+  $modify['sshPublicKey'] = array();
+  for ($i = 0; $i < $attrs['sshPublicKey']['count']; ++$i) {
+    if ($mode == 'LOCK') {
+      $modify['sshPublicKey'][] = preg_replace('/^/', 'disabled-', $attrs['sshPublicKey'][0]);
+    } else {
+      $modify['sshPublicKey'][] = preg_replace('/^disabled-/', '', $attrs['sshPublicKey'][0]);
+    }
+  }
+}
+
 
 /*!
  * \brief Get the Change Sequence Number of a certain DN
@@ -3046,6 +3066,17 @@ function isIpInNet($ip, $net, $mask)
 
    // Mask given IP with mask. If it returns "net", we're in...
    return (($ip & $mask) == $net);
+}
+
+/*!
+ * \brief Expands an IP v6
+ */
+function expandIPv6 ($ip)
+{
+  $hex  = unpack('H*hex', inet_pton($ip));
+  $ip   = substr(preg_replace('/([A-f0-9]{4})/', "$1:", $hex['hex']), 0, -1);
+
+  return $ip;
 }
 
 /*!
@@ -3306,5 +3337,80 @@ function initLanguage($lang = NULL)
 
   session::global_set('lang', $lang);
   return $ret;
+}
+
+if (!function_exists('ldap_escape')) {
+  /* This bloc is for PHP<5.6 */
+  define('LDAP_ESCAPE_FILTER', 0x01);
+  define('LDAP_ESCAPE_DN',     0x02);
+
+  /**
+   * @param string $subject The subject string
+   * @param string $ignore Set of characters to leave untouched
+   * @param int $flags Any combination of LDAP_ESCAPE_* flags to indicate the
+   *                   set(s) of characters to escape.
+   * @return string
+   */
+  function ldap_escape($subject, $ignore = '', $flags = 0)
+  {
+    static $charMaps = array(
+      LDAP_ESCAPE_FILTER => array('\\', '*', '(', ')', "\x00"),
+      LDAP_ESCAPE_DN     => array('\\', ',', '=', '+', '<', '>', ';', '"', '#'),
+    );
+
+    // Pre-process the char maps on first call
+    if (!isset($charMaps[0])) {
+      $charMaps[0] = array();
+      for ($i = 0; $i < 256; $i++) {
+        $charMaps[0][chr($i)] = sprintf('\\%02x', $i);;
+      }
+
+      for ($i = 0, $l = count($charMaps[LDAP_ESCAPE_FILTER]); $i < $l; $i++) {
+        $chr = $charMaps[LDAP_ESCAPE_FILTER][$i];
+        unset($charMaps[LDAP_ESCAPE_FILTER][$i]);
+        $charMaps[LDAP_ESCAPE_FILTER][$chr] = $charMaps[0][$chr];
+      }
+
+      for ($i = 0, $l = count($charMaps[LDAP_ESCAPE_DN]); $i < $l; $i++) {
+        $chr = $charMaps[LDAP_ESCAPE_DN][$i];
+        unset($charMaps[LDAP_ESCAPE_DN][$i]);
+        $charMaps[LDAP_ESCAPE_DN][$chr] = $charMaps[0][$chr];
+      }
+    }
+
+    // Create the base char map to escape
+    $flags = (int)$flags;
+    $charMap = array();
+    if ($flags & LDAP_ESCAPE_FILTER) {
+      $charMap += $charMaps[LDAP_ESCAPE_FILTER];
+    }
+    if ($flags & LDAP_ESCAPE_DN) {
+      $charMap += $charMaps[LDAP_ESCAPE_DN];
+    }
+    if (!$charMap) {
+      $charMap = $charMaps[0];
+    }
+
+    // Remove any chars to ignore from the list
+    $ignore = (string)$ignore;
+    for ($i = 0, $l = strlen($ignore); $i < $l; $i++) {
+      unset($charMap[$ignore[$i]]);
+    }
+
+    // Do the main replacement
+    $result = strtr($subject, $charMap);
+
+    // Encode leading/trailing spaces if LDAP_ESCAPE_DN is passed
+    if ($flags & LDAP_ESCAPE_DN) {
+      if ($result[0] === ' ') {
+        $result = '\\20' . substr($result, 1);
+      }
+      if ($result[strlen($result) - 1] === ' ') {
+        $result = substr($result, 0, -1) . '\\20';
+      }
+    }
+
+    return $result;
+  }
 }
 ?>

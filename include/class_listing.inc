@@ -70,7 +70,7 @@ class listing {
    *
    * \param string $data either a filename or an array representation of the XML
    */
-  function listing($data)
+  function __construct($data)
   {
     global $config;
     global $class_mapping;
@@ -1786,6 +1786,7 @@ class listing {
    */
   function getType($dn)
   {
+    $dn = LDAP::fix($dn);
     if (isset($this->objectDnMapping[$dn])) {
       return $this->objectDnMapping[$dn];
     }

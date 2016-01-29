@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-01-04 11:54+0100\n"
-"PO-Revision-Date: 2016-01-04 10:52+0000\n"
+"POT-Creation-Date: 2016-01-22 11:26+0100\n"
+"PO-Revision-Date: 2016-01-22 10:24+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Swedish (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -95,7 +95,7 @@ msgstr "Fax-nummer"
 
 #: plugins/admin/groups/class_roleGeneric.inc:78
 #: plugins/admin/users/class_userManagement.inc:42
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:29
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:27
 #: setup/class_setupStep_Migrate.inc:871
 msgid "Users"
 msgstr "Användare"
@@ -204,10 +204,10 @@ msgid "Only allow this group to connect to this list of hosts"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:181
-#: plugins/personal/posix/class_posixAccount.inc:458 include/functions.inc:791
-#: include/functions.inc:2545 include/class_xml.inc:55
+#: plugins/personal/posix/class_posixAccount.inc:458 include/functions.inc:794
+#: include/functions.inc:2548 include/class_xml.inc:55
 #: include/simpleplugin/class_simpleTabs.inc:325 html/index.php:56
-#: html/index.php:62 html/index.php:485 html/class_passwordRecovery.inc:378
+#: html/index.php:62 html/index.php:481 html/class_passwordRecovery.inc:378
 #: setup/class_setupStep_Migrate.inc:572
 #: setup/class_setupStep_Migrate.inc:1083
 #: setup/class_setupStep_Migrate.inc:1202
@@ -250,7 +250,7 @@ msgstr "Medlemsobjekt"
 msgid "Objects member of this group"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:317
+#: plugins/admin/groups/class_ogroup.inc:318
 msgid ""
 "Putting both workstations and terminals in the same group is not allowed"
 msgstr ""
@@ -873,19 +873,19 @@ msgstr ""
 msgid "Statistics"
 msgstr ""
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:30
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:28
 msgid "Statistics about users"
 msgstr ""
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:41
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:39
 msgid "Users statistics"
 msgstr ""
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:46
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:44
 msgid "Groups statistics"
 msgstr ""
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:51
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:49
 #: plugins/addons/dashboard/users_accounts.tpl.c:8
 msgid "Expired accounts"
 msgstr ""
@@ -2106,11 +2106,11 @@ msgstr "Välj alla"
 #: include/class_config.inc:479 include/class_msgPool.inc:215
 #: include/class_msgPool.inc:235 include/class_msgPool.inc:265
 #: include/class_msgPool.inc:682 include/class_msgPool.inc:713
-#: include/class_msgPool.inc:740 include/functions.inc:3075
-#: include/functions.inc:3096 include/functions.inc:3126
-#: include/functions.inc:3134 include/functions.inc:3146
-#: include/functions.inc:3150 include/functions.inc:3157
-#: include/functions.inc:3166 include/functions.inc:3228
+#: include/class_msgPool.inc:740 include/functions.inc:3106
+#: include/functions.inc:3127 include/functions.inc:3157
+#: include/functions.inc:3165 include/functions.inc:3177
+#: include/functions.inc:3181 include/functions.inc:3188
+#: include/functions.inc:3197 include/functions.inc:3259
 #: include/class_msg_dialog.inc:128 include/class_xml.inc:58
 #: include/class_plugin.inc:1663 include/class_CopyPasteHandler.inc:278
 #: include/simpleplugin/class_dialogAttributes.inc:733
@@ -2121,11 +2121,12 @@ msgstr "Välj alla"
 #: include/simpleplugin/class_attribute.inc:1877
 #: include/simpleplugin/class_attribute.inc:1879
 #: include/simpleplugin/class_simpleTabs.inc:90
+#: include/simpleplugin/class_simpleTabs.inc:405
 #: include/password-methods/class_password-methods-sasl.inc:60
 #: include/password-methods/class_password-methods-sasl.inc:86
-#: include/password-methods/class_password-methods.inc:434
-#: include/password-methods/class_password-methods.inc:444
-#: include/class_SnapshotHandler.inc:415 html/index.php:438 html/index.php:448
+#: include/password-methods/class_password-methods.inc:437
+#: include/password-methods/class_password-methods.inc:447
+#: include/class_SnapshotHandler.inc:415 html/index.php:434 html/index.php:444
 #: setup/class_setupStep_Migrate.inc:935
 #: ihtml/themes/default/msg_dialog.tpl.c:2 setup/setup_checks.tpl.c:5
 msgid "Error"
@@ -2244,8 +2245,8 @@ msgid "XML error in fusiondirectory.conf: %s at line %d"
 msgstr "XML-fel i fusiondirectory.conf: %s på rad %d"
 
 #: include/class_config.inc:162 include/class_config.inc:300
-#: include/class_config.inc:1001 include/class_config.inc:1014
-#: include/functions.inc:660 include/class_timezone.inc:51
+#: include/class_config.inc:985 include/class_config.inc:998
+#: include/functions.inc:663 include/class_timezone.inc:51
 #: include/password-methods/class_password-methods-sha.inc:71
 #: include/password-methods/class_password-methods-ssha.inc:75
 #: include/password-methods/class_password-methods-ssha.inc:91
@@ -2262,16 +2263,16 @@ msgid ""
 msgstr "Det verkar som att du försöker avkoda något som inte är kodat : %s<br/>\\nVänligen kontroller att du inte använder en fusiondirectory.secrets-fil medan dina lösenord inte är krypterade."
 
 #: include/class_config.inc:337 include/class_ldap.inc:917
-#: include/class_ldap.inc:1371 include/functions.inc:523
-#: include/functions.inc:675 include/functions.inc:722
-#: include/functions.inc:783 include/functions.inc:838
-#: include/functions.inc:2965 include/simpleplugin/class_simplePlugin.inc:545
+#: include/class_ldap.inc:1371 include/functions.inc:526
+#: include/functions.inc:678 include/functions.inc:725
+#: include/functions.inc:786 include/functions.inc:841
+#: include/functions.inc:2985 include/simpleplugin/class_simplePlugin.inc:545
 #: include/simpleplugin/class_attribute.inc:2895
-#: include/password-methods/class_password-methods.inc:196
+#: include/password-methods/class_password-methods.inc:199
 #: include/class_SnapshotHandler.inc:50 include/class_SnapshotHandler.inc:244
 #: include/class_SnapshotHandler.inc:277 include/class_SnapshotHandler.inc:292
 #: include/class_SnapshotHandler.inc:422 include/class_SnapshotHandler.inc:425
-#: html/index.php:364 html/class_passwordRecovery.inc:497
+#: html/index.php:360 html/class_passwordRecovery.inc:497
 #: setup/class_setupStep_Migrate.inc:451
 #: setup/class_setupStep_Migrate.inc:1130
 msgid "LDAP error"
@@ -2286,25 +2287,25 @@ msgstr "Kan inte koppla mot LDAP. Vänligen kontakta systemadministratören"
 msgid "The selected mail method (class %s) is not available"
 msgstr "Den valda epostmetoden (klassen %s) är inte tillgänglig"
 
-#: include/class_config.inc:1002
+#: include/class_config.inc:986
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required variable '%s' is not"
 " set."
 msgstr "Funktionen för ögonblicksbilder är aktiverad, men värdet '%s' som krävs för funktionen är inte satt."
 
-#: include/class_config.inc:1015
+#: include/class_config.inc:999
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required compression module "
 "is missing. Please install '%s'."
 msgstr "Funktionen för ögonblicksbilder är aktiverad, men kompressionsmodulen som krävs saknas. Vänligen installera '%s'."
 
-#: include/class_config.inc:1120
+#: include/class_config.inc:1104
 msgid "All categories"
 msgstr "Alla kategorier"
 
-#: include/class_config.inc:1247
+#: include/class_config.inc:1231
 msgid "My account"
 msgstr "Mitt konto"
 
@@ -2318,10 +2319,10 @@ msgid "LDAP performance is poor: last query took about %.2fs!"
 msgstr "LDAP-prestanda är låg: senaste frågan tog runt %.2fs!"
 
 #: include/class_ldap.inc:868 include/class_ldap.inc:904
-#: include/functions.inc:565 include/functions.inc:650
-#: include/functions.inc:770 include/functions.inc:1189
-#: include/functions.inc:2272 include/functions.inc:2314
-#: include/functions.inc:2343 include/class_session.inc:50
+#: include/functions.inc:568 include/functions.inc:653
+#: include/functions.inc:773 include/functions.inc:1192
+#: include/functions.inc:2275 include/functions.inc:2317
+#: include/functions.inc:2346 include/class_session.inc:50
 #: include/class_session.inc:87 include/class_session.inc:125
 #: include/class_log.inc:96 include/class_acl.inc:118
 msgid "Internal error"
@@ -2947,7 +2948,7 @@ msgid ""
 "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
 msgstr "Allvarligt fel: kan inte instansiera klassen '%s' - försök köra '%s' för att åtgärda detta"
 
-#: include/functions.inc:493 include/functions.inc:3263
+#: include/functions.inc:496 include/functions.inc:3294
 #: include/class_xml.inc:61 include/simpleplugin/class_simplePlugin.inc:263
 #: include/simpleplugin/class_simplePlugin.inc:268
 #: include/simpleplugin/class_simplePlugin.inc:280
@@ -2955,246 +2956,246 @@ msgstr "Allvarligt fel: kan inte instansiera klassen '%s' - försök köra '%s' 
 msgid "Fatal error"
 msgstr "Allvarligt fel"
 
-#: include/functions.inc:494
+#: include/functions.inc:497
 #, php-format
 msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
 msgstr "ALLVARLIGT: Fel vid försöka att koppla mot LDAP. Servern sa '%s'."
 
-#: include/functions.inc:565
+#: include/functions.inc:568
 msgid ""
 "Login (uid) is not unique inside the LDAP tree. Please contact your "
 "administrator."
 msgstr ""
 
-#: include/functions.inc:598
+#: include/functions.inc:601
 msgid "Authentication error"
 msgstr "Autentiseringsfel"
 
-#: include/functions.inc:599
+#: include/functions.inc:602
 msgid ""
 "It seems your user password has expired. Please use <a "
 "href=\"recovery.php\">password recovery</a> to change it."
 msgstr ""
 
-#: include/functions.inc:650 include/functions.inc:770
+#: include/functions.inc:653 include/functions.inc:773
 msgid "Error while adding a lock. Contact the developers!"
 msgstr "Fel uppstod när lås skulle läggas till. Kontakta utvecklarna!"
 
-#: include/functions.inc:660
+#: include/functions.inc:663
 #, php-format
 msgid ""
 "Cannot create locking information in LDAP tree. Please contact your "
 "administrator!"
 msgstr "Kan inte skapa låsinformation i LDAP-trädet. Vänligen kontakta din administratör!"
 
-#: include/functions.inc:660
+#: include/functions.inc:663
 #, php-format
 msgid "LDAP server returned: %s"
 msgstr "LDAP-server returnerade %s"
 
-#: include/functions.inc:791
+#: include/functions.inc:794
 msgid ""
 "Found multiple locks for object to be locked. This should not happen - "
 "cleaning up multiple references."
 msgstr "Hittade flera lås för objektet som ska låsas. Detta ska inte hända - rensar upp multipla referenser."
 
-#: include/functions.inc:1109
+#: include/functions.inc:1112
 #, php-format
 msgid "The size limit of %d entries is exceed!"
 msgstr "Storleksgränsen på %d poster har överskridits!"
 
-#: include/functions.inc:1111
+#: include/functions.inc:1114
 #, php-format
 msgid ""
 "Set the new size limit to %s and show me this message if the limit still "
 "exceeds"
 msgstr "Sätt ny storleksgräns till %s och visa mig meddelandet om gränsen fortfarande överskrids"
 
-#: include/functions.inc:1128
+#: include/functions.inc:1131
 msgid "Configure"
 msgstr "Konfigurera"
 
-#: include/functions.inc:1133
+#: include/functions.inc:1136
 msgid "incomplete"
 msgstr "ofullständig"
 
-#: include/functions.inc:1538
+#: include/functions.inc:1541
 msgid "Continue anyway"
 msgstr "Fortsätt ändå"
 
-#: include/functions.inc:1540
+#: include/functions.inc:1543
 msgid "Edit anyway"
 msgstr "Redigera ändå"
 
-#: include/functions.inc:1542
+#: include/functions.inc:1545
 #, php-format
 msgid "You're going to edit the LDAP entry/entries %s"
 msgstr "Du kommer att redigera LDAP-posten/posterna %s"
 
-#: include/functions.inc:1796
+#: include/functions.inc:1799
 msgid "Entries per page"
 msgstr "Poster per sida"
 
-#: include/functions.inc:1827 include/class_filter.inc:353
+#: include/functions.inc:1830 include/class_filter.inc:353
 msgid "Apply filter"
 msgstr "Aktivera filter"
 
-#: include/functions.inc:2095
+#: include/functions.inc:2098
 #, php-format
 msgid "%sB"
 msgstr ""
 
-#: include/functions.inc:2096
+#: include/functions.inc:2099
 #, php-format
 msgid "%sKiB"
 msgstr ""
 
-#: include/functions.inc:2097
+#: include/functions.inc:2100
 #, php-format
 msgid "%sMiB"
 msgstr ""
 
-#: include/functions.inc:2098
+#: include/functions.inc:2101
 #, php-format
 msgid "%sGiB"
 msgstr ""
 
-#: include/functions.inc:2099
+#: include/functions.inc:2102
 #, php-format
 msgid "%sTiB"
 msgstr ""
 
-#: include/functions.inc:2100
+#: include/functions.inc:2103
 #, php-format
 msgid "%sPiB"
 msgstr ""
 
-#: include/functions.inc:2101
+#: include/functions.inc:2104
 #, php-format
 msgid "%sEiB"
 msgstr ""
 
-#: include/functions.inc:2102
+#: include/functions.inc:2105
 #, php-format
 msgid "%sZiB"
 msgstr ""
 
-#: include/functions.inc:2103
+#: include/functions.inc:2106
 #, php-format
 msgid "%sYiB"
 msgstr ""
 
-#: include/functions.inc:2135 include/class_filter.inc:315
+#: include/functions.inc:2138 include/class_filter.inc:315
 msgid "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 msgstr "*ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789"
 
-#: include/functions.inc:2272
+#: include/functions.inc:2275
 #, php-format
 msgid ""
 "File '%s' could not be deleted. Try fusiondirectory-setup --check-"
 "directories to fix permissions."
 msgstr "Filen '%s' kunde inte tas bort. Försök med fusiondirectory-setup --check-directories för att åtgärda rättighetsproblem."
 
-#: include/functions.inc:2314
+#: include/functions.inc:2317
 msgid "Cannot write to revision file!"
 msgstr "Kan inte skriva till revisionsfil!"
 
-#: include/functions.inc:2343
+#: include/functions.inc:2346
 msgid "Cannot read to revision file!"
 msgstr "Kan inte läsa revisionsfil!"
 
-#: include/functions.inc:2545
+#: include/functions.inc:2548
 msgid "'nextIdHook' is not available. Using default base!"
 msgstr "'nextIdHook' är inte tillgänglig. Använder standard-bas!"
 
-#: include/functions.inc:2563
+#: include/functions.inc:2566
 msgid "LDAP warning"
 msgstr "LDAP-varning"
 
-#: include/functions.inc:2563
+#: include/functions.inc:2566
 msgid "Cannot get schema information from server. No schema check possible!"
 msgstr "Kan inte hämta schemainformation från servern. Ingen schemakontroll är möjlig!"
 
-#: include/functions.inc:2581
+#: include/functions.inc:2584
 msgid ""
 "Used to lock currently edited entries to avoid multiple changes at the same "
 "time."
 msgstr "Används för att låsa aktuella poster under redigering för att undvika multipla ändringar på samma gång. "
 
-#: include/functions.inc:2593
+#: include/functions.inc:2596
 #, php-format
 msgid "Missing required object class '%s'!"
 msgstr "Saknar objektklass '%s' som krävs!"
 
-#: include/functions.inc:2596
+#: include/functions.inc:2599
 #, php-format
 msgid "Missing optional object class '%s'!"
 msgstr "Saknar valfri objektklass '%s' !"
 
-#: include/functions.inc:2600
+#: include/functions.inc:2603
 #, php-format
 msgid "Class(es) available"
 msgstr "Klass(er) tillgänglig(a)"
 
-#: include/functions.inc:2620
+#: include/functions.inc:2623
 msgid ""
 "You have installed the mixed groups plugin, but your schema configuration "
 "does not support this."
 msgstr ""
 
-#: include/functions.inc:2621
+#: include/functions.inc:2624
 msgid ""
 "In order to use mixed groups the objectClass \"posixGroup\" must be "
 "AUXILIARY"
 msgstr ""
 
-#: include/functions.inc:2624
+#: include/functions.inc:2627
 msgid ""
 "Your schema is configured to support mixed groups, but this plugin is not "
 "present."
 msgstr ""
 
-#: include/functions.inc:2625
+#: include/functions.inc:2628
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
 msgstr ""
 
-#: include/functions.inc:3075 include/functions.inc:3096
-#: include/functions.inc:3134 include/functions.inc:3146
-#: include/functions.inc:3150 include/functions.inc:3157
-#: include/functions.inc:3166
+#: include/functions.inc:3106 include/functions.inc:3127
+#: include/functions.inc:3165 include/functions.inc:3177
+#: include/functions.inc:3181 include/functions.inc:3188
+#: include/functions.inc:3197
 msgid "Cannot allocate a free ID:"
 msgstr "Kan inte allokera ett fritt ID:"
 
-#: include/functions.inc:3075
+#: include/functions.inc:3106
 msgid "unknown idAllocation method!"
 msgstr "okänd idAllocation-metod!"
 
-#: include/functions.inc:3096
+#: include/functions.inc:3127
 #, php-format
 msgid "%sPoolMin >= %sPoolMax!"
 msgstr "%sPoolMin >= %sPoolMax!"
 
-#: include/functions.inc:3126
+#: include/functions.inc:3157
 msgid "Cannot create sambaUnixIdPool entry!"
 msgstr "Kan inte skapa sambaUnixIdPool-post!"
 
-#: include/functions.inc:3134
+#: include/functions.inc:3165
 msgid "sambaUnixIdPool is not unique!"
 msgstr "sambaUnixIdPool är inte unik!"
 
-#: include/functions.inc:3146 include/functions.inc:3150
+#: include/functions.inc:3177 include/functions.inc:3181
 msgid "no ID available!"
 msgstr "inget ID tillgängligt!"
 
-#: include/functions.inc:3166
+#: include/functions.inc:3197
 msgid "maximum tries exceeded!"
 msgstr "maximalt antal försök överskridet!"
 
-#: include/functions.inc:3228
+#: include/functions.inc:3259
 msgid "Cannot allocate a free ID!"
 msgstr "Kan inte allokera ett fritt ID!"
 
-#: include/functions.inc:3264
+#: include/functions.inc:3295
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr "Kan inte lokalisera filen '%s' - vänligen kör '%s' för att åtgärda detta"
@@ -3597,6 +3598,11 @@ msgstr "Inga plugin-definitioner kunde hittas för att initialisera '%s', vänli
 msgid "Delete process has been canceled by plugin '%s': %s"
 msgstr "Borttagningsprocess har avbrutits av pluginen '%s': %s"
 
+#: include/simpleplugin/class_simpleTabs.inc:405
+#, php-format
+msgid "Move from \"%s\" to \"%s\" failed"
+msgstr ""
+
 #: include/class_timezone.inc:52
 #, php-format
 msgid "The timezone setting \"%s\" in your configuration is not valid."
@@ -3659,63 +3665,63 @@ msgid ""
 "fusiondirectory-setup --check-config to fix this."
 msgstr "FusionDirectory-konfiguration %s/%s är inte läsbar. Vänligen kör fusiondirectory-setup --check-config för att åtgärda detta."
 
-#: html/index.php:175
+#: html/index.php:171
 msgid "Smarty error"
 msgstr "Smarty-fel"
 
-#: html/index.php:177
+#: html/index.php:173
 #, php-format
 msgid "Directory \"%s\" specified as compile directory is not accessible!"
 msgstr ""
 
-#: html/index.php:212
+#: html/index.php:208
 msgid "Your FusionDirectory session has expired!"
 msgstr "Din FusionDirectory-session har gått ut!"
 
-#: html/index.php:215
+#: html/index.php:211
 msgid "Your IP has changed!"
 msgstr ""
 
-#: html/index.php:218
+#: html/index.php:214
 #, php-format
 msgid "Invalid plugin parameter \"%s\"!"
 msgstr ""
 
-#: html/index.php:221
+#: html/index.php:217
 msgid "No session found!"
 msgstr ""
 
-#: html/index.php:256
+#: html/index.php:252
 msgid "LDAP schema check reported errors:"
 msgstr ""
 
-#: html/index.php:282
+#: html/index.php:278
 msgid "Please specify a valid username!"
 msgstr "Ange ett giltigt användarnamn!"
 
-#: html/index.php:285
+#: html/index.php:281
 msgid "Please specify your password!"
 msgstr "Ange ditt lösenord!"
 
-#: html/index.php:304
+#: html/index.php:300
 msgid "Please check the username/password combination."
 msgstr "Kontrollera användarnamn/lösenord-kombinationen."
 
-#: html/index.php:337
+#: html/index.php:333
 msgid "Account locked. Please contact your system administrator!"
 msgstr "Kontot låst. Kontakta systemadministratören!"
 
-#: html/index.php:440
+#: html/index.php:436
 #, php-format
 msgid "CAS user \"%s\" could not be found in the LDAP"
 msgstr ""
 
-#: html/index.php:450
+#: html/index.php:446
 #, php-format
 msgid "CAS user \"%s\" match several users in the LDAP"
 msgstr ""
 
-#: html/index.php:485
+#: html/index.php:481
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"

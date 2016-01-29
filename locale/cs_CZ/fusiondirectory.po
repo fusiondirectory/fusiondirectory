@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-109\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-01-04 11:54+0100\n"
-"PO-Revision-Date: 2016-01-04 10:52+0000\n"
+"POT-Creation-Date: 2016-01-22 11:26+0100\n"
+"PO-Revision-Date: 2016-01-22 10:24+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/fusiondirectory/FusionDirectory-109/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -96,7 +96,7 @@ msgstr "Faxové číslo"
 
 #: plugins/admin/groups/class_roleGeneric.inc:78
 #: plugins/admin/users/class_userManagement.inc:42
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:29
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:27
 #: setup/class_setupStep_Migrate.inc:871
 msgid "Users"
 msgstr "Uživatelé"
@@ -205,10 +205,10 @@ msgid "Only allow this group to connect to this list of hosts"
 msgstr "Této skupině umožnit připojení pouze na počítače z tohoto seznamu"
 
 #: plugins/admin/groups/class_group.inc:181
-#: plugins/personal/posix/class_posixAccount.inc:458 include/functions.inc:791
-#: include/functions.inc:2545 include/class_xml.inc:55
+#: plugins/personal/posix/class_posixAccount.inc:458 include/functions.inc:794
+#: include/functions.inc:2548 include/class_xml.inc:55
 #: include/simpleplugin/class_simpleTabs.inc:325 html/index.php:56
-#: html/index.php:62 html/index.php:485 html/class_passwordRecovery.inc:378
+#: html/index.php:62 html/index.php:481 html/class_passwordRecovery.inc:378
 #: setup/class_setupStep_Migrate.inc:572
 #: setup/class_setupStep_Migrate.inc:1083
 #: setup/class_setupStep_Migrate.inc:1202
@@ -251,7 +251,7 @@ msgstr "členské objekty"
 msgid "Objects member of this group"
 msgstr "Objekty spadající do této skupiny"
 
-#: plugins/admin/groups/class_ogroup.inc:317
+#: plugins/admin/groups/class_ogroup.inc:318
 msgid ""
 "Putting both workstations and terminals in the same group is not allowed"
 msgstr "Není možné umístit počítače a terminály do jedné skupiny"
@@ -874,19 +874,19 @@ msgstr "Hlášení"
 msgid "Statistics"
 msgstr "Statistiky"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:30
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:28
 msgid "Statistics about users"
 msgstr "Statistiky o uživatelích"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:41
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:39
 msgid "Users statistics"
 msgstr "Statistiky uživatelů"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:46
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:44
 msgid "Groups statistics"
 msgstr "Statistiky skupin"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:51
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:49
 #: plugins/addons/dashboard/users_accounts.tpl.c:8
 msgid "Expired accounts"
 msgstr "Účty, jejichž platnost skončila"
@@ -2107,11 +2107,11 @@ msgstr "Vybrat vše"
 #: include/class_config.inc:479 include/class_msgPool.inc:215
 #: include/class_msgPool.inc:235 include/class_msgPool.inc:265
 #: include/class_msgPool.inc:682 include/class_msgPool.inc:713
-#: include/class_msgPool.inc:740 include/functions.inc:3075
-#: include/functions.inc:3096 include/functions.inc:3126
-#: include/functions.inc:3134 include/functions.inc:3146
-#: include/functions.inc:3150 include/functions.inc:3157
-#: include/functions.inc:3166 include/functions.inc:3228
+#: include/class_msgPool.inc:740 include/functions.inc:3106
+#: include/functions.inc:3127 include/functions.inc:3157
+#: include/functions.inc:3165 include/functions.inc:3177
+#: include/functions.inc:3181 include/functions.inc:3188
+#: include/functions.inc:3197 include/functions.inc:3259
 #: include/class_msg_dialog.inc:128 include/class_xml.inc:58
 #: include/class_plugin.inc:1663 include/class_CopyPasteHandler.inc:278
 #: include/simpleplugin/class_dialogAttributes.inc:733
@@ -2122,11 +2122,12 @@ msgstr "Vybrat vše"
 #: include/simpleplugin/class_attribute.inc:1877
 #: include/simpleplugin/class_attribute.inc:1879
 #: include/simpleplugin/class_simpleTabs.inc:90
+#: include/simpleplugin/class_simpleTabs.inc:405
 #: include/password-methods/class_password-methods-sasl.inc:60
 #: include/password-methods/class_password-methods-sasl.inc:86
-#: include/password-methods/class_password-methods.inc:434
-#: include/password-methods/class_password-methods.inc:444
-#: include/class_SnapshotHandler.inc:415 html/index.php:438 html/index.php:448
+#: include/password-methods/class_password-methods.inc:437
+#: include/password-methods/class_password-methods.inc:447
+#: include/class_SnapshotHandler.inc:415 html/index.php:434 html/index.php:444
 #: setup/class_setupStep_Migrate.inc:935
 #: ihtml/themes/default/msg_dialog.tpl.c:2 setup/setup_checks.tpl.c:5
 msgid "Error"
@@ -2245,8 +2246,8 @@ msgid "XML error in fusiondirectory.conf: %s at line %d"
 msgstr "Chyba XML ve fusiondirectory.conf: %s na řádku %d"
 
 #: include/class_config.inc:162 include/class_config.inc:300
-#: include/class_config.inc:1001 include/class_config.inc:1014
-#: include/functions.inc:660 include/class_timezone.inc:51
+#: include/class_config.inc:985 include/class_config.inc:998
+#: include/functions.inc:663 include/class_timezone.inc:51
 #: include/password-methods/class_password-methods-sha.inc:71
 #: include/password-methods/class_password-methods-ssha.inc:75
 #: include/password-methods/class_password-methods-ssha.inc:91
@@ -2263,16 +2264,16 @@ msgid ""
 msgstr "Zdá se, že se pokoušíte dekódovat něco, co není zakódované : %s<br/>\\nOvěřte, zda nepoužíváte soubor fusiondirectory.secrets byť jsou vaše hesla nešifrovaná."
 
 #: include/class_config.inc:337 include/class_ldap.inc:917
-#: include/class_ldap.inc:1371 include/functions.inc:523
-#: include/functions.inc:675 include/functions.inc:722
-#: include/functions.inc:783 include/functions.inc:838
-#: include/functions.inc:2965 include/simpleplugin/class_simplePlugin.inc:545
+#: include/class_ldap.inc:1371 include/functions.inc:526
+#: include/functions.inc:678 include/functions.inc:725
+#: include/functions.inc:786 include/functions.inc:841
+#: include/functions.inc:2985 include/simpleplugin/class_simplePlugin.inc:545
 #: include/simpleplugin/class_attribute.inc:2895
-#: include/password-methods/class_password-methods.inc:196
+#: include/password-methods/class_password-methods.inc:199
 #: include/class_SnapshotHandler.inc:50 include/class_SnapshotHandler.inc:244
 #: include/class_SnapshotHandler.inc:277 include/class_SnapshotHandler.inc:292
 #: include/class_SnapshotHandler.inc:422 include/class_SnapshotHandler.inc:425
-#: html/index.php:364 html/class_passwordRecovery.inc:497
+#: html/index.php:360 html/class_passwordRecovery.inc:497
 #: setup/class_setupStep_Migrate.inc:451
 #: setup/class_setupStep_Migrate.inc:1130
 msgid "LDAP error"
@@ -2287,25 +2288,25 @@ msgstr "Nedaří se přihlášení do LDAPu. Kontaktujte prosím správce systé
 msgid "The selected mail method (class %s) is not available"
 msgstr "Zvolený způsob e-mailu (třída %s) není dostupný"
 
-#: include/class_config.inc:1002
+#: include/class_config.inc:986
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required variable '%s' is not"
 " set."
 msgstr "Pořizování zachycených stavů je sice zapnuté, ale není nastavena potřebná proměnná %s."
 
-#: include/class_config.inc:1015
+#: include/class_config.inc:999
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required compression module "
 "is missing. Please install '%s'."
 msgstr "Pořizování snímků je sice povolené, ale chybí modul pro jejich kompresi. Nainstalujte prosím '%s'."
 
-#: include/class_config.inc:1120
+#: include/class_config.inc:1104
 msgid "All categories"
 msgstr "Všechny kategorie"
 
-#: include/class_config.inc:1247
+#: include/class_config.inc:1231
 msgid "My account"
 msgstr "Můj účet"
 
@@ -2319,10 +2320,10 @@ msgid "LDAP performance is poor: last query took about %.2fs!"
 msgstr "Výkonnost LDAPu je špatná: poslední dotaz trval celých %.2fs!"
 
 #: include/class_ldap.inc:868 include/class_ldap.inc:904
-#: include/functions.inc:565 include/functions.inc:650
-#: include/functions.inc:770 include/functions.inc:1189
-#: include/functions.inc:2272 include/functions.inc:2314
-#: include/functions.inc:2343 include/class_session.inc:50
+#: include/functions.inc:568 include/functions.inc:653
+#: include/functions.inc:773 include/functions.inc:1192
+#: include/functions.inc:2275 include/functions.inc:2317
+#: include/functions.inc:2346 include/class_session.inc:50
 #: include/class_session.inc:87 include/class_session.inc:125
 #: include/class_log.inc:96 include/class_acl.inc:118
 msgid "Internal error"
@@ -2948,7 +2949,7 @@ msgid ""
 "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
 msgstr "fatální chyba: nelze vytvořit instanci třídy '%s' – pokuste se to napravit spuštěním '%s' --update-cache (na serveru) a restartujte svůj webový prohlížeč"
 
-#: include/functions.inc:493 include/functions.inc:3263
+#: include/functions.inc:496 include/functions.inc:3294
 #: include/class_xml.inc:61 include/simpleplugin/class_simplePlugin.inc:263
 #: include/simpleplugin/class_simplePlugin.inc:268
 #: include/simpleplugin/class_simplePlugin.inc:280
@@ -2956,246 +2957,246 @@ msgstr "fatální chyba: nelze vytvořit instanci třídy '%s' – pokuste se to
 msgid "Fatal error"
 msgstr "Fatální chyba"
 
-#: include/functions.inc:494
+#: include/functions.inc:497
 #, php-format
 msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
 msgstr "FATÁLNÍ: chyba při připojování do LDAPu. Server ohlásil '%s'."
 
-#: include/functions.inc:565
+#: include/functions.inc:568
 msgid ""
 "Login (uid) is not unique inside the LDAP tree. Please contact your "
 "administrator."
 msgstr "Přihlašovací údaj (uid) není v rámci LDAP stromu jedinečný! Kontaktujte svého správce systémů."
 
-#: include/functions.inc:598
+#: include/functions.inc:601
 msgid "Authentication error"
 msgstr "Chyba ověření"
 
-#: include/functions.inc:599
+#: include/functions.inc:602
 msgid ""
 "It seems your user password has expired. Please use <a "
 "href=\"recovery.php\">password recovery</a> to change it."
 msgstr "Zdá se, že platnost vašeho hesla skončila. Změňte jej pomocí funkce <a href=\"recovery.php\">obnovení hesla</a>."
 
-#: include/functions.inc:650 include/functions.inc:770
+#: include/functions.inc:653 include/functions.inc:773
 msgid "Error while adding a lock. Contact the developers!"
 msgstr "Nastala chyba při pokusu o přidání zámku. Nahlaste to prosím vývojářům!"
 
-#: include/functions.inc:660
+#: include/functions.inc:663
 #, php-format
 msgid ""
 "Cannot create locking information in LDAP tree. Please contact your "
 "administrator!"
 msgstr "Nedaří se vytvořit informaci o zamykání ve stromu LDAP. Kontaktujte svého správce systémů!"
 
-#: include/functions.inc:660
+#: include/functions.inc:663
 #, php-format
 msgid "LDAP server returned: %s"
 msgstr "LDAP server odpověděl: %s"
 
-#: include/functions.inc:791
+#: include/functions.inc:794
 msgid ""
 "Found multiple locks for object to be locked. This should not happen - "
 "cleaning up multiple references."
 msgstr "Při pokusu o vyhrazení přístupu k objektu bylo nalezeno několik již existujících zámků. To by se nemělo stávat – probíhá jejich odstraňování."
 
-#: include/functions.inc:1109
+#: include/functions.inc:1112
 #, php-format
 msgid "The size limit of %d entries is exceed!"
 msgstr "Limit velikosti položek %d je překročen!"
 
-#: include/functions.inc:1111
+#: include/functions.inc:1114
 #, php-format
 msgid ""
 "Set the new size limit to %s and show me this message if the limit still "
 "exceeds"
 msgstr "nastavit novou hodnotu limitu %s a v případě, že ani to nebude stačit, zobrazit toto hlášení znovu"
 
-#: include/functions.inc:1128
+#: include/functions.inc:1131
 msgid "Configure"
 msgstr "Nastavit"
 
-#: include/functions.inc:1133
+#: include/functions.inc:1136
 msgid "incomplete"
 msgstr "neúplné"
 
-#: include/functions.inc:1538
+#: include/functions.inc:1541
 msgid "Continue anyway"
 msgstr "Přesto pokračovat"
 
-#: include/functions.inc:1540
+#: include/functions.inc:1543
 msgid "Edit anyway"
 msgstr "Přesto upravit"
 
-#: include/functions.inc:1542
+#: include/functions.inc:1545
 #, php-format
 msgid "You're going to edit the LDAP entry/entries %s"
 msgstr "chystáte se upravit položky LDAPu %s"
 
-#: include/functions.inc:1796
+#: include/functions.inc:1799
 msgid "Entries per page"
 msgstr "Položek na stránku"
 
-#: include/functions.inc:1827 include/class_filter.inc:353
+#: include/functions.inc:1830 include/class_filter.inc:353
 msgid "Apply filter"
 msgstr "Použít filtr"
 
-#: include/functions.inc:2095
+#: include/functions.inc:2098
 #, php-format
 msgid "%sB"
 msgstr "%sB"
 
-#: include/functions.inc:2096
+#: include/functions.inc:2099
 #, php-format
 msgid "%sKiB"
 msgstr "%sKiB"
 
-#: include/functions.inc:2097
+#: include/functions.inc:2100
 #, php-format
 msgid "%sMiB"
 msgstr "%sMiB"
 
-#: include/functions.inc:2098
+#: include/functions.inc:2101
 #, php-format
 msgid "%sGiB"
 msgstr "%sGiB"
 
-#: include/functions.inc:2099
+#: include/functions.inc:2102
 #, php-format
 msgid "%sTiB"
 msgstr "%sTiB"
 
-#: include/functions.inc:2100
+#: include/functions.inc:2103
 #, php-format
 msgid "%sPiB"
 msgstr "%sPiB"
 
-#: include/functions.inc:2101
+#: include/functions.inc:2104
 #, php-format
 msgid "%sEiB"
 msgstr "%sEiB"
 
-#: include/functions.inc:2102
+#: include/functions.inc:2105
 #, php-format
 msgid "%sZiB"
 msgstr "%sZiB"
 
-#: include/functions.inc:2103
+#: include/functions.inc:2106
 #, php-format
 msgid "%sYiB"
 msgstr "%sYiB"
 
-#: include/functions.inc:2135 include/class_filter.inc:315
+#: include/functions.inc:2138 include/class_filter.inc:315
 msgid "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 msgstr "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-#: include/functions.inc:2272
+#: include/functions.inc:2275
 #, php-format
 msgid ""
 "File '%s' could not be deleted. Try fusiondirectory-setup --check-"
 "directories to fix permissions."
 msgstr "Soubor %s nebylo možné smazat. Zkuste opravit přístupová práva spuštěním příkazu fusiondirectory-setup --check-directories"
 
-#: include/functions.inc:2314
+#: include/functions.inc:2317
 msgid "Cannot write to revision file!"
 msgstr "Nelze zapsat do souboru s revizemi!"
 
-#: include/functions.inc:2343
+#: include/functions.inc:2346
 msgid "Cannot read to revision file!"
 msgstr "Nelze číst ze souboru s revizemi!"
 
-#: include/functions.inc:2545
+#: include/functions.inc:2548
 msgid "'nextIdHook' is not available. Using default base!"
 msgstr "nextIdHook není k dispozici. Bude použit výchozí základ!"
 
-#: include/functions.inc:2563
+#: include/functions.inc:2566
 msgid "LDAP warning"
 msgstr "Varování LDAP"
 
-#: include/functions.inc:2563
+#: include/functions.inc:2566
 msgid "Cannot get schema information from server. No schema check possible!"
 msgstr "Nedaří se získat informace o schématech ze serveru. Schémata proto nelze ověřit!"
 
-#: include/functions.inc:2581
+#: include/functions.inc:2584
 msgid ""
 "Used to lock currently edited entries to avoid multiple changes at the same "
 "time."
 msgstr "Používá se k uzamčení právě upravovaných položek, aby se zabránilo vícero (vzájemně si vadícím) úpravám naráz."
 
-#: include/functions.inc:2593
+#: include/functions.inc:2596
 #, php-format
 msgid "Missing required object class '%s'!"
 msgstr "Chybí nezbytně nutná třída objektů '%s'!"
 
-#: include/functions.inc:2596
+#: include/functions.inc:2599
 #, php-format
 msgid "Missing optional object class '%s'!"
 msgstr "Chybí volitelná třída objektů %s!"
 
-#: include/functions.inc:2600
+#: include/functions.inc:2603
 #, php-format
 msgid "Class(es) available"
 msgstr "Dostupné třídy"
 
-#: include/functions.inc:2620
+#: include/functions.inc:2623
 msgid ""
 "You have installed the mixed groups plugin, but your schema configuration "
 "does not support this."
 msgstr "Zásuvný modul smíšených skupin je nainstalován, ale vaše nastavení schématu ho nepodporuje."
 
-#: include/functions.inc:2621
+#: include/functions.inc:2624
 msgid ""
 "In order to use mixed groups the objectClass \"posixGroup\" must be "
 "AUXILIARY"
 msgstr "Aby bylo možné použít smíšené skupiny v objectClass posixGroup, je třeba aby byly POMOCNÉ"
 
-#: include/functions.inc:2624
+#: include/functions.inc:2627
 msgid ""
 "Your schema is configured to support mixed groups, but this plugin is not "
 "present."
 msgstr "Stávající schéma je nastaveno pro smíšené skupiny, ale není přítomen příslušný zásuvný modul."
 
-#: include/functions.inc:2625
+#: include/functions.inc:2628
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
 msgstr "Je třeba, aby ObjectClass posixGroup bylo STRUKTURÁLNÍ"
 
-#: include/functions.inc:3075 include/functions.inc:3096
-#: include/functions.inc:3134 include/functions.inc:3146
-#: include/functions.inc:3150 include/functions.inc:3157
-#: include/functions.inc:3166
+#: include/functions.inc:3106 include/functions.inc:3127
+#: include/functions.inc:3165 include/functions.inc:3177
+#: include/functions.inc:3181 include/functions.inc:3188
+#: include/functions.inc:3197
 msgid "Cannot allocate a free ID:"
 msgstr "Není k dispozici volné ID:"
 
-#: include/functions.inc:3075
+#: include/functions.inc:3106
 msgid "unknown idAllocation method!"
 msgstr "Neznámá metoda idAllocation (přiřazování ID)!"
 
-#: include/functions.inc:3096
+#: include/functions.inc:3127
 #, php-format
 msgid "%sPoolMin >= %sPoolMax!"
 msgstr ""
 
-#: include/functions.inc:3126
+#: include/functions.inc:3157
 msgid "Cannot create sambaUnixIdPool entry!"
 msgstr "Nedaří se vytvořit položku sambaUnixIdPool!"
 
-#: include/functions.inc:3134
+#: include/functions.inc:3165
 msgid "sambaUnixIdPool is not unique!"
 msgstr "Identifikátor sambaUnixIdPool není jedinečný!"
 
-#: include/functions.inc:3146 include/functions.inc:3150
+#: include/functions.inc:3177 include/functions.inc:3181
 msgid "no ID available!"
 msgstr "Není k dispozici ID!"
 
-#: include/functions.inc:3166
+#: include/functions.inc:3197
 msgid "maximum tries exceeded!"
 msgstr "Překročen nejvyšší přijatelný počet neúspěšných pokusů!"
 
-#: include/functions.inc:3228
+#: include/functions.inc:3259
 msgid "Cannot allocate a free ID!"
 msgstr "Není k dispozici volné ID – není co přidělit!"
 
-#: include/functions.inc:3264
+#: include/functions.inc:3295
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr "Nelze nalézt soubor %s – opravte to spuštěním %s (na serveru)"
@@ -3598,6 +3599,11 @@ msgstr "Nebylo nalezeno žádné určení zásuvného modulu pro inicializaci %s
 msgid "Delete process has been canceled by plugin '%s': %s"
 msgstr "Průběh mazání byl přerušen zásuvným modulem %s: %s"
 
+#: include/simpleplugin/class_simpleTabs.inc:405
+#, php-format
+msgid "Move from \"%s\" to \"%s\" failed"
+msgstr ""
+
 #: include/class_timezone.inc:52
 #, php-format
 msgid "The timezone setting \"%s\" in your configuration is not valid."
@@ -3660,63 +3666,63 @@ msgid ""
 "fusiondirectory-setup --check-config to fix this."
 msgstr "Nastavení FusionDirectory %s/%s není čitelné. Pro nápravu spusťte (na serveru) příkaz fusiondirectory-setup --check-config ."
 
-#: html/index.php:175
+#: html/index.php:171
 msgid "Smarty error"
 msgstr "Chyba ve Smarty"
 
-#: html/index.php:177
+#: html/index.php:173
 #, php-format
 msgid "Directory \"%s\" specified as compile directory is not accessible!"
 msgstr "Složka %s, zadaná jako kompilační, není přístupná!"
 
-#: html/index.php:212
+#: html/index.php:208
 msgid "Your FusionDirectory session has expired!"
 msgstr "Platnost vašeho sezení ve FusionDirectory skončila!"
 
-#: html/index.php:215
+#: html/index.php:211
 msgid "Your IP has changed!"
 msgstr "Vaše IP adresa byla změněna!"
 
-#: html/index.php:218
+#: html/index.php:214
 #, php-format
 msgid "Invalid plugin parameter \"%s\"!"
 msgstr "Neplatný parametr %s pro zásuvný modul!"
 
-#: html/index.php:221
+#: html/index.php:217
 msgid "No session found!"
 msgstr "Nebyla nalezena žádná relace!"
 
-#: html/index.php:256
+#: html/index.php:252
 msgid "LDAP schema check reported errors:"
 msgstr "Chyby nahlášené při kontrole LDAP schématu:"
 
-#: html/index.php:282
+#: html/index.php:278
 msgid "Please specify a valid username!"
 msgstr "Zadejte platné uživatelské jméno!"
 
-#: html/index.php:285
+#: html/index.php:281
 msgid "Please specify your password!"
 msgstr "Zadejte své heslo!"
 
-#: html/index.php:304
+#: html/index.php:300
 msgid "Please check the username/password combination."
 msgstr "Zkontrolujte prosím správnost kombinace zadaného uživatelského jména a hesla."
 
-#: html/index.php:337
+#: html/index.php:333
 msgid "Account locked. Please contact your system administrator!"
 msgstr "Účet je uzamčen. Kontaktujte svého správce systémů!"
 
-#: html/index.php:440
+#: html/index.php:436
 #, php-format
 msgid "CAS user \"%s\" could not be found in the LDAP"
 msgstr ""
 
-#: html/index.php:450
+#: html/index.php:446
 #, php-format
 msgid "CAS user \"%s\" match several users in the LDAP"
 msgstr ""
 
-#: html/index.php:485
+#: html/index.php:481
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"

@@ -1531,6 +1531,37 @@ sub read_ldap_config {
       $aclrolerdn = ($mesg->entries)[0]->get_value('fdAclRoleRDN');
     }
   }
+
+  return ($mesg->entries)[0];
+}
+
+sub show_ldap_config {
+  my $config_node = read_ldap_config();
+  $config_node->dump();
+}
+
+sub set_config_var {
+  my ($var, $value) = @_;
+  if (!($var =~ m/^fd/)) {
+    $var = "fd$var";
+  }
+
+  print "Setting configuration var $var to $value\n";
+
+  # initiate the LDAP connexion
+  my %hash_ldap_param = get_ldap_connexion();
+
+  # LDAP's connection's parameters
+  my $base = $hash_ldap_param{base};
+  my $ldap = $hash_ldap_param{ldap};
+
+  my $result = $ldap->modify (
+    "$configrdn,$base",
+    replace => {
+      $var  => $value
+    }
+  );
+  $result->code && warn "! failed to set value for '".$var."' - ".$result->error_name.": ".$result->error_text;
 }
 
 sub show_version {
@@ -1597,21 +1628,24 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--list-deprecated"}      = ["List deprecated attributes and objectclasses",  \&list_deprecated];
   $commands{"--check-deprecated"}     = ["List LDAP entries using deprecated attributes or objectclasses",  \&check_deprecated];
   $commands{"--ldif-deprecated"}      = ["# Print an LDIF removing deprecated attributes",\&ldif_deprecated];
+  $commands{"--show-config"}          = ["Show an LDAP dump of the FusionDirectory configuration",\&show_ldap_config];
+  $commands{"--set-config-VAR=value"} = ["Set the value in LDAP of a configuration field",\&set_config_var];
 
   my $usage = 0;
 
   set_vars();
 
   foreach my $arg ( @ARGV ) {
-    if (( lc($arg) =~ m/^--set-(.*)=(.*)/ ) && (grep {$_ eq lc($1)} @vars_keys)) {
+    if (( lc($arg) =~ m/^--set-(.*)=(.*)$/ ) && (grep {$_ eq lc($1)} @vars_keys)) {
       $vars{lc($1)} = $2;
       print "Setting $1 to $2\n";
       set_vars();
+    } elsif ( $arg =~ m/^--set-config-(.*)=(.*)$/ ) {
+      set_config_var($1, $2);
     } elsif ( defined $commands { lc ( $arg ) } ) {
       my @command = @{ $commands{ $arg } };
       print( $command[0]."\n" );
       $command[1]();
-
     } elsif ( ( lc($arg) eq "--help" ) || ( lc($arg) eq "-h" ) ) {
       print ( "\nCommands:\n" );
       while ( my ( $key,$value ) = each %commands ) {
@@ -1641,7 +1675,7 @@ __END__
 
 =head1 NAME
 
-fusiondirectory-setup - FusionDirectory setup script
+fusiondirectory-setup - FusionDirectory configuration management tool
 
 =head1 DESCRIPTION
 
@@ -1716,6 +1750,15 @@ This option will list the dn of LDAP entries using deprecated attributes or obje
 =item --ldif-deprecated
 
 This option will print an LDIF to allow you to remove deprecated attributes from you ldap server. Be carefull and check before applying.
+
+=item --show-config
+
+This option will print a dump of the FusionDirectory configuration LDAP node.
+
+=item --set-config-VAR=value
+
+This option sets the value of a configuration field in the LDAP. The value needs to be in the correct LDAP format.
+You cannot set multivalued field with this. The var name can be provided with or without the fd prefix.
 
 =item --yes
 

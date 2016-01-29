@@ -225,6 +225,7 @@ attributetype ( 1.3.6.1.4.1.38414.8.13.8 NAME 'fdForcePasswordDefaultHash'
 
 attributetype ( 1.3.6.1.4.1.38414.8.14.1 NAME 'fdPrimaryGroupFilter'
   DESC 'FusionDirectory - Primary group filter'
+  OBSOLETE
   EQUALITY booleanMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
   SINGLE-VALUE )

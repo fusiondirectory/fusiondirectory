@@ -68,7 +68,7 @@ class LDAP
    *
    * \param boolean $tls FALSE
    */
-  function LDAP($binddn, $bindpw, $hostname, $follow_referral = FALSE, $tls = FALSE)
+  function __construct($binddn, $bindpw, $hostname, $follow_referral = FALSE, $tls = FALSE)
   {
     global $config;
     $this->follow_referral  = $follow_referral;
@@ -112,6 +112,7 @@ class LDAP
    * (   => OB
    * )   => CB
    * /   => SL
+   * "   => DQ
    * \22 => DQ
    * \endcode
    *

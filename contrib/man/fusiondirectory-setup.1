@@ -133,13 +133,13 @@
 .\" ========================================================================
 .\"
 .IX Title "FUSIONDIRECTORY-SETUP 1"
-.TH FUSIONDIRECTORY-SETUP 1 "2016-01-05" "FusionDirectory 1.0.9.2" "FusionDirectory Documentation"
+.TH FUSIONDIRECTORY-SETUP 1 "2016-01-29" "FusionDirectory 1.0.9.3" "FusionDirectory Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
 .nh
 .SH "NAME"
-fusiondirectory\-setup \- FusionDirectory setup script
+fusiondirectory\-setup \- FusionDirectory configuration management tool
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
 This script is designed to perform multiple checks on your FusionDirectory/LDAP architecture, and fix usual misconfiguration.
@@ -195,6 +195,13 @@ This option will list the dn of \s-1LDAP\s0 entries using deprecated attributes 
 .IP "\-\-ldif\-deprecated" 4
 .IX Item "--ldif-deprecated"
 This option will print an \s-1LDIF\s0 to allow you to remove deprecated attributes from you ldap server. Be carefull and check before applying.
+.IP "\-\-show\-config" 4
+.IX Item "--show-config"
+This option will print a dump of the FusionDirectory configuration \s-1LDAP\s0 node.
+.IP "\-\-set\-config\-VAR=value" 4
+.IX Item "--set-config-VAR=value"
+This option sets the value of a configuration field in the \s-1LDAP.\s0 The value needs to be in the correct \s-1LDAP\s0 format.
+You cannot set multivalued field with this. The var name can be provided with or without the fd prefix.
 .IP "\-\-yes" 4
 .IX Item "--yes"
 This flag will answer \*(L"yes\*(R" to every yes/no question asked by the script

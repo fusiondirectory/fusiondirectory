@@ -158,12 +158,6 @@ class configInLdap extends simplePlugin
         'name'  => _('Core settings'),
         'attrs' => array(
           new BooleanAttribute (
-            _('Enable primary group filter'),
-            _('It is time consuming to evaluate which groups are primary and which are not, so you may want to disable it if your group plugin is slow.'),
-            'fdPrimaryGroupFilter', FALSE,
-            TRUE
-          ),
-          new BooleanAttribute (
             _('Display summary in listings'),
             _('Determines whether a status bar will be shown on the bottom of lists, displaying a short summary of type and number of elements in the list.'),
             'fdListSummary', FALSE,
