@@ -1293,7 +1293,11 @@ class IntAttribute extends Attribute
       // value is "" or array()
       return "";
     }
-    return intval($value);
+    if (is_object($this->plugin) && $this->plugin->is_template) {
+      return $value;
+    } else {
+      return intval($value);
+    }
   }
 
   function check ()
@@ -1390,7 +1394,11 @@ class FloatAttribute extends IntAttribute
       // value is "" or array()
       return "";
     }
-    return floatval($value);
+    if (is_object($this->plugin) && $this->plugin->is_template) {
+      return $value;
+    } else {
+      return floatval($value);
+    }
   }
 }
 
@@ -1421,6 +1429,8 @@ class DateAttribute extends Attribute
   function inputValue ($value)
   {
     if ($value === "" && !$this->isRequired()) {
+      return $value;
+    } elseif (is_object($this->plugin) && $this->plugin->is_template && (preg_match('/%/', $value))) {
       return $value;
     } else {
       return $this->ldapToDate($value);
