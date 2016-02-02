@@ -22,6 +22,23 @@ class userSelect extends simpleSelectManagement
 {
   protected $objectTypes          = array('user');
   protected $autoFilterAttributes = array('dn', 'cn', 'uid', 'description');
+
+  function parseXML ($file)
+  {
+    $data = parent::parseXML($file);
+    $data['list']['table']['layout'] = '|20px;c||||';
+    $columns = array (
+      array (
+        'label'         => _('Login'),
+        'sortAttribute' => 'uid',
+        'sortType'      => 'string',
+        'value'         => '%{filter:link(row,dn,"%s",uid)}',
+        'export'        => 'true',
+      ),
+    );
+    array_splice($data['list']['table']['column'], 2, 0, $columns);
+    return $data;
+  }
 }
 
 class singleUserSelect extends userSelect
