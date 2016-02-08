@@ -259,6 +259,7 @@ class simplePlugin extends plugin
    */
   public function compute_dn()
   {
+    global $config;
     if (!$this->mainTab) {
       msg_dialog::display(_('Fatal error'), _('Only main tab can compute dn'), FATAL_ERROR_DIALOG);
       exit;
@@ -288,11 +289,16 @@ class simplePlugin extends plugin
     }
     $attr = $infos['mainAttr'];
     $ou   = $infos['ou'];
+    if (isset($this->base)) {
+      $base = $this->base;
+    } else {
+      $base = $config->current['BASE'];
+    }
     if ($this->is_template) {
-      $dn = 'cn='.ldap_escape($this->_template_cn, '', LDAP_ESCAPE_DN).',ou=templates,'.$ou.$this->base;
+      $dn = 'cn='.ldap_escape($this->_template_cn, '', LDAP_ESCAPE_DN).',ou=templates,'.$ou.$base;
       return $dn;
     }
-    return $attr.'='.ldap_escape($this->attributesAccess[$attr]->computeLdapValue(), '', LDAP_ESCAPE_DN).','.$ou.$this->base;
+    return $attr.'='.ldap_escape($this->attributesAccess[$attr]->computeLdapValue(), '', LDAP_ESCAPE_DN).','.$ou.$base;
   }
 
   function getRequiredAttributes()
