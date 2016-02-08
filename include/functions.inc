@@ -654,8 +654,8 @@ function add_lock($object, $user)
   /* Check for existing entries in lock area */
   $ldap = $config->get_ldap_link();
   $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
-  $ldap->search("(&(objectClass=gosaLockEntry)(gosaUser=$user)(gosaObject=".base64_encode($object)."))",
-      array("gosaUser"));
+  $ldap->search('(&(objectClass=gosaLockEntry)(gosaUser='.ldap_escape_f($user).')(gosaObject='.base64_encode($object).'))',
+      array('gosaUser'));
   if (!$ldap->success()) {
     msg_dialog::display(_("Configuration error"), sprintf(_("Cannot create locking information in LDAP tree. Please contact your administrator!")."<br><br>"._('LDAP server returned: %s'), "<br><br><i>".$ldap->get_error()."</i>"), ERROR_DIALOG);
     return;
@@ -744,7 +744,7 @@ function del_user_locks($userdn)
   $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
 
   /* Remove all objects of this user, drop errors silently in this case. */
-  $ldap->search("(&(objectClass=gosaLockEntry)(gosaUser=$userdn))", array("gosaUser"));
+  $ldap->search('(&(objectClass=gosaLockEntry)(gosaUser='.ldap_escape_f($userdn).'))', array('gosaUser'));
   while ($attrs = $ldap->fetch()) {
     $ldap->rmdir($attrs['dn']);
   }
@@ -778,7 +778,7 @@ function get_lock ($object)
   $user = "";
   $ldap = $config->get_ldap_link();
   $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
-  $ldap->search("(&(objectClass=gosaLockEntry)(gosaObject=".base64_encode($object)."))", array("gosaUser"));
+  $ldap->search('(&(objectClass=gosaLockEntry)(gosaObject='.base64_encode($object).'))', array('gosaUser'));
   if (!$ldap->success()) {
     msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), "", LDAP_SEARCH), LDAP_ERROR);
     return "";
@@ -2000,7 +2000,7 @@ function gen_uids($rule, $attributes)
         }
         $res = preg_replace('/{id(:|!)\d+}/', $number, $uid);
 
-        $ldap->search("(uid=".preg_replace('/[{}]/', '', $res).")", array('dn'));
+        $ldap->search('(uid='.ldap_escape_f(preg_replace('/[{}]/', '', $res)).')', array('dn'));
         if ($ldap->count() == 0) {
           $uid = $res;
           break;
@@ -2018,7 +2018,7 @@ function gen_uids($rule, $attributes)
         mt_srand((double)microtime() * 1000000);
         $number = sprintf("%0".$size."d", mt_rand(0, pow(10, $size) - 1));
         $res    = preg_replace('/{id#(\d+)}/', $number, $uid);
-        $ldap->search("(uid=".preg_replace('/[{}]/', '', $res).")", array('dn'));
+        $ldap->search('(uid='.ldap_escape_f(preg_replace('/[{}]/', '', $res)).')', array('dn'));
         if ($ldap->count() == 0) {
           $uid = $res;
           break;
@@ -2030,7 +2030,7 @@ function gen_uids($rule, $attributes)
     }
 
     /* Don't assign used ones */
-    $ldap->search("(uid=".preg_replace('/[{}]/', '', $uid).")", array('dn'));
+    $ldap->search('(uid='.ldap_escape_f(preg_replace('/[{}]/', '', $uid)).')', array('dn'));
     if ($ldap->count() == 0) {
       /* Add uid, but remove {} first. These are invalid anyway. */
       $uid = preg_replace('/[{}]/', '', $uid);
@@ -2439,6 +2439,7 @@ function array_differs_recursive($src, $dst)
  */
 function normalizeLdap($input)
 {
+  trigger_error('deprecated, use ldap_escape_f');
   return addcslashes($input, '*()\\/');
 }
 
@@ -2960,9 +2961,9 @@ function update_accessTo($from, $to)
   global $config;
   $ldap = $config->get_ldap_link();
   $ldap->cd($config->current['BASE']);
-  $ldap->search("(&(objectClass=trustAccount)(accessTo=".$from."))", array("objectClass","accessTo"));
+  $ldap->search('(&(objectClass=trustAccount)(accessTo='.ldap_escape_f($from).'))', array('objectClass','accessTo'));
   while ($attrs = $ldap->fetch()) {
-    $new_attrs = array("accessTo" => array());
+    $new_attrs = array('accessTo' => array());
     $dn = $attrs['dn'];
     for ($i = 0; $i < $attrs['objectClass']['count']; $i++) {
       $new_attrs['objectClass'][] = $attrs['objectClass'][$i];
@@ -3409,5 +3410,15 @@ if (!function_exists('ldap_escape')) {
 
     return $result;
   }
+}
+
+function ldap_escape_f($str, $ignore = '')
+{
+  return ldap_escape($str, $ignore, LDAP_ESCAPE_FILTER);
+}
+
+function ldap_escape_dn($str, $ignore = '')
+{
+  return ldap_escape($str, $ignore, LDAP_ESCAPE_DN);
 }
 ?>

@@ -334,13 +334,13 @@ class posixAccount extends simplePlugin
       } else {
         /* Groups handling */
         $ldap->cd($this->config->current['BASE']);
-        $ldap->search("(&(objectClass=posixGroup)(memberUid=".$this->getUid()."))", array("cn", "description"));
+        $ldap->search('(&(objectClass=posixGroup)(memberUid='.ldap_escape_f($this->getUid()).'))', array('cn', 'description'));
         $groupMembership = array();
         while ($attrs = $ldap->fetch()) {
-          if (!isset($attrs["description"][0])) {
-            $entry = $attrs["cn"][0];
+          if (!isset($attrs['description'][0])) {
+            $entry = $attrs['cn'][0];
           } else {
-            $entry = $attrs["cn"][0]." [".$attrs["description"][0]."]";
+            $entry = $attrs['cn'][0].' ['.$attrs['description'][0].']';
           }
           $groupMembership[$ldap->getDN()] = $entry;
         }
@@ -377,7 +377,7 @@ class posixAccount extends simplePlugin
 
     $ldap = $this->config->get_ldap_link();
     $ldap->cd($this->config->current['BASE']);
-    $ldap->search("(&(objectClass=posixGroup)(gidNumber=".$this->gidNumber.")(cn=".$this->getUid()."))", array("cn","gidNumber"));
+    $ldap->search('(&(objectClass=posixGroup)(gidNumber='.ldap_escape_f($this->gidNumber).')(cn='.ldap_escape_f($this->getUid()).'))', array('cn','gidNumber'));
 
     if ($ldap->count() > 0) {
       /* The copied user had its own group */
@@ -385,10 +385,10 @@ class posixAccount extends simplePlugin
     }
 
     $this->force_ids = FALSE;
-    $this->attributesAccess['uidNumber']->setInitialValue("");
-    $this->attributesAccess['gidNumber']->setInitialValue("");
-    $this->uidNumber = "";
-    $this->gidNumber = "";
+    $this->attributesAccess['uidNumber']->setInitialValue('');
+    $this->attributesAccess['gidNumber']->setInitialValue('');
+    $this->uidNumber = '';
+    $this->gidNumber = '';
   }
 
   function check()
@@ -488,9 +488,9 @@ class posixAccount extends simplePlugin
 
       /* Are we forced to use a special gidNumber? */
       if ($this->force_ids) {
-        $ldap->search('(&(objectClass=posixGroup)(gidNumber='.$this->gidNumber.'))',      array('cn','gidNumber'));
+        $ldap->search('(&(objectClass=posixGroup)(gidNumber='.ldap_escape_f($this->gidNumber).'))',      array('cn','gidNumber'));
       } else {
-        $ldap->search('(&(objectClass=posixGroup)(gidNumber=*)(cn='.$this->getUid().'))', array('cn','gidNumber'));
+        $ldap->search('(&(objectClass=posixGroup)(gidNumber=*)(cn='.ldap_escape_f($this->getUid()).'))', array('cn','gidNumber'));
       }
 
       /* No primary group found, create a new one */
@@ -505,11 +505,11 @@ class posixAccount extends simplePlugin
         /* If forced gidNumber could not be found, then check if the given group name already exists.
          */
         $cnt = 0;
-        $ldap->search('(&(objectClass=posixGroup)(cn='.$groupcn.'))', array('cn'));
+        $ldap->search('(&(objectClass=posixGroup)(cn='.ldap_escape_f($groupcn).'))', array('cn'));
         while ($ldap->count() && ($cnt < 100)) {
           $cnt++;
           $groupcn = $this->getUid().'_'.$cnt;
-          $ldap->search('(&(objectClass=posixGroup)(cn='.$groupcn.'))', array('cn'));
+          $ldap->search('(&(objectClass=posixGroup)(cn='.ldap_escape_f($groupcn).'))', array('cn'));
         }
 
         /* Create new primary group and enforce the new gidNumber */
@@ -638,7 +638,7 @@ class posixAccount extends simplePlugin
     /* Delete group only if cn is uid and there are no other members inside */
     $ldap = $this->config->get_ldap_link();
     $ldap->cd ($this->config->current['BASE']);
-    $ldap->search ('(&(objectClass=posixGroup)(gidNumber='.$this->gidNumber.')(cn='.$this->getUid().'))', array('cn', 'memberUid'));
+    $ldap->search ('(&(objectClass=posixGroup)(gidNumber='.ldap_escape_f($this->gidNumber).')(cn='.ldap_escape_f($this->getUid()).'))', array('cn', 'memberUid'));
     if ($ldap->count() != 0) {
       $attrs = $ldap->fetch();
       if ($attrs['cn'][0] == $this->getUid() && !isset($this->attrs['memberUid'])) {

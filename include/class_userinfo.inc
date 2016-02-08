@@ -107,13 +107,13 @@ class userinfo
     $ldap->cd($this->config->current['BASE']);
 
     /* Get member groups... */
-    $ldap->search('(&(objectClass=posixGroup)(memberUid='.$this->uid.'))', array('dn'));
+    $ldap->search('(&(objectClass=posixGroup)(memberUid='.ldap_escape_f($this->uid).'))', array('dn'));
     while ($attrs = $ldap->fetch()) {
       $this->groups[$attrs['dn']] = $attrs['dn'];
     }
 
     /* Get member roles... */
-    $ldap->search('(&(objectClass=organizationalRole)(roleOccupant='.$this->dn.'))', array('dn'));
+    $ldap->search('(&(objectClass=organizationalRole)(roleOccupant='.ldap_escape_f($this->dn).'))', array('dn'));
     while ($attrs = $ldap->fetch()) {
       $this->roles[$attrs['dn']] = $attrs['dn'];
     }

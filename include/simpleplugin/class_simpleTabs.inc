@@ -346,7 +346,7 @@ class simpleTabs
     if ($this->getBaseObject()->is_template) {
       $ldap = $config->get_ldap_link();
       $ldap->cd($config->current['BASE']);
-      $filter = '(&(objectClass=fdTemplate)(cn='.$this->getBaseObject()->_template_cn.'))';
+      $filter = '(&(objectClass=fdTemplate)(cn='.ldap_escape_f($this->getBaseObject()->_template_cn).'))';
       $ldap->search($filter, array('dn'));
       while ($attrs = $ldap->fetch()) {
         if ($attrs['dn'] != $this->getBaseObject()->dn) {

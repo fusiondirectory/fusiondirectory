@@ -466,11 +466,11 @@ class filter
 
         // Do not replace escaped \$ - This is required to be able to search for e.g. windows machines.
         if ($this->elementValues[$tag] == "") {
-          $e_unset  = preg_replace('/([^\\\\])\$/', '${1}'.normalizeLdap($this->elementValues[$tag]), $e_unset);
+          $e_unset  = preg_replace('/([^\\\\])\$/', '${1}'.ldap_escape_f($this->elementValues[$tag]), $e_unset);
           $e_unset  = preg_replace('/\\\\\$/', '$', $e_unset);
           $filter   = preg_replace("/\\$$tag/", $e_unset, $filter);
         } else {
-          $e_set  = preg_replace('/([^\\\\])\$/', '${1}'.normalizeLdap($this->elementValues[$tag]), $e_set);
+          $e_set  = preg_replace('/([^\\\\])\$/', '${1}'.ldap_escape_f($this->elementValues[$tag]), $e_set);
           $e_set  = preg_replace('/\\\\\$/', '$', $e_set);
           $filter = preg_replace("/\\$$tag/", $e_set, $filter);
         }
@@ -566,7 +566,7 @@ class filter
     }
 
     // Make filter
-    $filter = preg_replace("/\\$$tag/", normalizeLdap($value), $filter);
+    $filter = preg_replace("/\\$$tag/", ldap_escape_f($value), $filter);
     if (isset($config['base']) && isset($config['scope']) && isset($config['category'])) {
       $result = call_user_func(array($backend, 'query'), $this, $config['base'], $config['scope'], $filter, $attributes,
                            $config["category"], $config["objectStorage"]);
