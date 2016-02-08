@@ -167,8 +167,8 @@ class LDAP
    */
   static function prepare4filter($dn)
   {
-    $fixed = normalizeLdap(str_replace('\\\\', '\\\\\\', LDAP::fix($dn)));
-    return str_replace('\\,', '\\\\,', $fixed);
+    trigger_error('deprecated, use ldap_escape_f instead');
+    return ldap_escape_f($dn);
   }
 
   /*!

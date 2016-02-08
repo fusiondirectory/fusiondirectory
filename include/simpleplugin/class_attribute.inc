@@ -440,9 +440,9 @@ class Attribute
       }
       $ldap->cd($base);
       if (is_array($value)) {
-        $filter = '(|('.$this->getLdapName().'='.join(')('.$this->getLdapName().'=', $value).'))';
+        $filter = '(|('.$this->getLdapName().'='.join(')('.$this->getLdapName().'=', array_map('ldap_escape_f', $value)).'))';
       } else {
-        $filter = '('.$this->getLdapName().'='.$value.')';
+        $filter = '('.$this->getLdapName().'='.ldap_escape_f($value).')';
       }
       $infos = pluglist::pluginInfos(get_class($this->plugin));
       $filters = array_map(

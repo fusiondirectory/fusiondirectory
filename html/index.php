@@ -425,7 +425,7 @@ class Index {
     $verify_attr = explode(',', $config->get_cfg_value('loginAttribute', 'uid'));
     $filter = '';
     foreach ($verify_attr as $attr) {
-      $filter .= '('.$attr.'='.self::$username.')';
+      $filter .= '('.$attr.'='.ldap_escape_f(self::$username).')';
     }
     $ldap->search('(&(|'.$filter.')(objectClass=inetOrgPerson))');
     $attrs = $ldap->fetch();

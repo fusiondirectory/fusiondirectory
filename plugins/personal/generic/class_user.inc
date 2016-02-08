@@ -461,7 +461,7 @@ class user extends simplePlugin
   function compute_dn()
   {
     if ($this->is_template) {
-      $dn = 'cn='.ldap_escape($this->_template_cn, '', LDAP_ESCAPE_DN).',ou=templates,'.get_ou('userRDN').$this->base;
+      $dn = 'cn='.ldap_escape_dn($this->_template_cn).',ou=templates,'.get_ou('userRDN').$this->base;
       return $dn;
     }
 

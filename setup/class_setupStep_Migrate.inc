@@ -1142,7 +1142,7 @@ class Step_Migrate extends setupStep
           $entry['ldif'] = _('Entry will be moved from').":<br/>\t".($ldap->fix($dn)).'<br/>'._('to').":<br/>\t".($ldap->fix($d_dn));
 
           /* Check if there are references to this object */
-          $ldap->search('(&(member='.LDAP::prepare4filter($dn).')(|(objectClass=gosaGroupOfNames)(objectClass=groupOfNames)))', array('dn'));
+          $ldap->search('(&(member='.ldap_escape_f($dn).')(|(objectClass=gosaGroupOfNames)(objectClass=groupOfNames)))', array('dn'));
           $refs = '';
           while ($attrs = $ldap->fetch()) {
             $ref_dn = $attrs['dn'];
