@@ -2339,7 +2339,11 @@ class CompositeAttribute extends Attribute
       $m = array_slice($m, 1);
       $values = array();
       foreach (array_keys($this->attributes) as $name) {
-        $values[] = $m[$name];
+        if (isset($m[$name])) {
+          $values[] = $m[$name];
+        } else {
+          $values[] = '';
+        }
       }
       return $values;
     } elseif ($res === FALSE) {
