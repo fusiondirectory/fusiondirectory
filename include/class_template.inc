@@ -49,11 +49,11 @@ class template
         $this->tabObject->by_object[$class]->is_account = $plugin->is_account;
         $this->attributes[$class] = array();
         $attrs = array_unique(array_merge($this->tabObject->by_object[$class]->getRequiredAttributes(), $this->needed));
-        foreach ($attrs as $attr) {
+        foreach (array_keys($this->tabObject->by_object[$class]->attributesAccess) as $attr) {
           if (isset($this->attrs[$attr])) {
             continue;
           }
-          if (isset($this->tabObject->by_object[$class]->attributesAccess[$attr])) {
+          if (in_array($attr, $attrs)) {
             $this->attributes[$class][] = $attr;
           }
         }
