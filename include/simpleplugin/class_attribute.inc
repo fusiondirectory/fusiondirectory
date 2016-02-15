@@ -633,7 +633,7 @@ class Attribute
         }
         foreach ($attributes as $attribute) {
           foreach ($this->plugin->attributesAccess[$attribute]->htmlIds() as $htmlId) {
-            $js .= 'document.getElementById('.json_encode($htmlId).').disabled = disableAttributes;'."\n";
+            $js .= 'if (document.getElementById('.json_encode($htmlId).')) { document.getElementById('.json_encode($htmlId).').disabled = disableAttributes; }'."\n";
           }
         }
       }
