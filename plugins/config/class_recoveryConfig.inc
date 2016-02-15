@@ -37,9 +37,10 @@ class recoveryConfig extends simplePlugin
   {
     return array (
       'settings' => array (
-        'name'  => _('Password recovery settings'),
-        'class' => array ('alone'),
-        'attrs' => array (
+        'name'      => _('Password recovery settings'),
+        'class'     => array ('alone'),
+        'template'  => get_template_path('simpleplugin_section_alone.tpl'),
+        'attrs'     => array (
           new BooleanAttribute (
             _('Activate password recovery'),
             _('Whether to activate or not password recovery feature'),
