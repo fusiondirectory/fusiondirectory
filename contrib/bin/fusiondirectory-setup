@@ -1154,7 +1154,7 @@ sub migrate_users {
     if (ask_yn_question("Add the inetOrgPerson objectClass to all these entries?")) {
       foreach my $entry (@entries) {
         $mesg = $ldap->modify($entry->dn(), add => { "objectClass" => ["person","organizationalPerson","inetOrgPerson"]});
-        $mesg->code && print $mesg->error;
+        $mesg->code && print $mesg->error."\n";
       }
     }
   }
@@ -1202,10 +1202,10 @@ sub migrate_users {
         }
         if (scalar(@delete) > 0) {
           $mesg = $ldap->modify($entry->dn(), delete => \@delete );
-          $mesg->code && print $mesg->error;
+          $mesg->code && print $entry->dn()." (deleting samba attributes): ".$mesg->error."\n";
         }
         $mesg = $ldap->modify($entry->dn(), replace => { "objectClass" => \@replace });
-        $mesg->code && print $mesg->error;
+        $mesg->code && print $entry->dn().": ".$mesg->error."\n";
         undef @replace;
       }
     }
