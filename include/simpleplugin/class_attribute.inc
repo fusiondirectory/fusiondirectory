@@ -1145,7 +1145,7 @@ class SelectAttribute extends Attribute
       return $error;
     } else {
       if (!$this->disabled && !in_array($this->value, $this->choices)) {
-        return msgPool::invalid($this->getLabel());
+        return sprintf(_('The value "%s" for field "%s" is not in the list of possible choices'), $this->value, $this->getLabel());
       }
     }
   }
