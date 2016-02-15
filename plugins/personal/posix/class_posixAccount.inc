@@ -536,8 +536,8 @@ class posixAccount extends simplePlugin
         } else {
           $posixTab = $baseObject;
         }
-        $posixTab->force_gid      = 1;
-        $posixTab->gidNumber      = $this->gidNumber;
+        $posixTab->force_id   = 1;
+        $posixTab->gidNumber  = $this->gidNumber;
 
         $tabObject->save();
         $groupdn = $tabObject->dn;
