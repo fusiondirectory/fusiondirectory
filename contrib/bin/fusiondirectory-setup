@@ -1200,15 +1200,16 @@ sub migrate_users {
           }
         }
         if (scalar(@delete) > 0) {
-          $mesg = $ldap->modify($entry->dn(), delete => \@delete );
+          $mesg = $ldap->modify($entry->dn(), delete  => \@delete, replace => [ "objectClass" => \@replace ]);
           $mesg->code && print $entry->dn()." (deleting samba attributes): ".$mesg->error."\n";
+        } else {
+          $mesg = $ldap->modify($entry->dn(), replace => [ "objectClass" => \@replace ]);
+          $mesg->code && print $entry->dn().": ".$mesg->error."\n";
         }
-        $mesg = $ldap->modify($entry->dn(), replace => { "objectClass" => \@replace });
-        $mesg->code && print $entry->dn().": ".$mesg->error."\n";
         undef @replace;
+        undef @delete;
       }
     }
-  }
 
   # unbind to the LDAP server
   my $unbind = $ldap->unbind;
