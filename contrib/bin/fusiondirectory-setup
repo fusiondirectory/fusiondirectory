@@ -1191,13 +1191,12 @@ sub migrate_users {
             ) {
             push(@replace, "fdPersonalInfo");
           }
-          if (
-              ($entry->exists('sambaLMPassword') || $entry->exists('sambaNTPassword') ||
-                $entry->exists('sambaPwdLastSet') || $entry->exists('sambaBadPasswordCount') ||
-                $entry->exists('sambaBadPasswordTime'))
-              && !(grep {$_ eq 'sambaSamAccount'} @classes)
-            ) {
-            @delete = ('sambaLMPassword','sambaNTPassword','sambaPwdLastSet','sambaBadPasswordCount','sambaBadPasswordTime');
+          if (!(grep {$_ eq 'sambaSamAccount'} @classes)) {
+            foreach my $sambaAttr ('sambaLMPassword','sambaNTPassword','sambaPwdLastSet','sambaBadPasswordCount','sambaBadPasswordTime') {
+              if ($entry->exists($sambaAttr)) {
+                push(@delete, $sambaAttr);
+              }
+            }
           }
         }
         if (scalar(@delete) > 0) {
