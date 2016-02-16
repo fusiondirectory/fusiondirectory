@@ -1210,6 +1210,7 @@ sub migrate_users {
         undef @delete;
       }
     }
+  }
 
   # unbind to the LDAP server
   my $unbind = $ldap->unbind;
