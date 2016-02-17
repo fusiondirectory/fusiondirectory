@@ -89,6 +89,8 @@ my $configrdn   = "cn=config,ou=fusiondirectory";
 my $userrdn     = "ou=people";
 my $aclrolerdn  = "ou=aclroles";
 my $grouprdn    = "ou=groups";
+my $systemrdn  = "ou=systems";
+my $dnsrdn    = "ou=dns";
 
 #################################################################################################################################################
 
@@ -1217,6 +1219,52 @@ sub migrate_users {
   $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
 }
 
+# function that moves DNS zones from systems to ou=dns
+sub migrate_dns {
+  # initiate the LDAP connexion
+  my %hash_ldap_param = get_ldap_connexion();
+
+  # LDAP's connection's parameters
+  my $base = $hash_ldap_param{base};
+  my $ldap = $hash_ldap_param{ldap};
+
+  # Search for DNS zones
+  my $mesg = $ldap->search(
+    base => "$systemrdn,$base",
+    filter => "(&(objectClass=dNSZone)(relativeDomainName=@)(!(|(zoneName=*.arpa)(zoneName=*.arpa.))))",
+    attrs => ['gosaAclEntry']
+  );
+  $mesg->code && die $mesg->error;
+
+  if ($mesg->count > 0) {
+    print ("The following DNS zones are in the systems branch ($systemrdn):\n");
+
+    my @entries = $mesg->entries;
+
+    foreach my $entry (@entries) {
+      print $entry->dn()."\n";
+    }
+
+    if (ask_yn_question("Move these entries to the DNS branch ($dnsrdn)?")) {
+      foreach my $entry (@entries) {
+        $entry->dn() =~ m/^([^,]+),.+$systemrdn,(.+)$/ or die "Could not parse dn ".$entry->dn()."\n";
+        my $rdn = $1;
+        my $entrybase = $2;
+        if (!branch_exists($ldap, "$dnsrdn,$entrybase")) {
+          create_branch($ldap, $entrybase, $dnsrdn);
+        }
+        my $result = $ldap->moddn (
+          $entry->dn(),
+          newrdn        => $rdn,
+          deleteoldrdn  => '1',
+          newsuperior   => "$dnsrdn,$entrybase"
+        );
+        $result->code && die "Migration of DNS zone entry failed, LDAP error: ".$result->error."\n";
+      }
+    }
+  }
+}
+
 sub migrate_acls {
   # initiate the LDAP connexion
   my %hash_ldap_param = get_ldap_connexion();
@@ -1530,6 +1578,12 @@ sub read_ldap_config {
     }
     if (($mesg->entries)[0]->exists('fdAclRoleRDN')) {
       $aclrolerdn = ($mesg->entries)[0]->get_value('fdAclRoleRDN');
+    }
+    if (($mesg->entries)[0]->exists('fdSystemRDN')) {
+      $systemrdn = ($mesg->entries)[0]->get_value('fdSystemRDN');
+    }
+    if (($mesg->entries)[0]->exists('fdDnsRDN')) {
+      $dnsrdn = ($mesg->entries)[0]->get_value('fdDnsRDN');
     }
   }
 
