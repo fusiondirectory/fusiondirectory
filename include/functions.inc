@@ -240,7 +240,7 @@ function make_seed()
 function DEBUG($level, $line, $function, $file, $data, $info = "")
 {
   static $first = TRUE;
-  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  if (($_SERVER['REQUEST_METHOD'] == 'POST') && preg_match('/index.php$/', $_SERVER['REQUEST_URI'])) {
     return;
   }
   if (session::global_get('DEBUGLEVEL') & $level) {
