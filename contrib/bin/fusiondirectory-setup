@@ -1230,31 +1230,41 @@ sub migrate_dns {
 
   # Search for DNS zones
   my $mesg = $ldap->search(
-    base => "$systemrdn,$base",
+    base => "$base",
     filter => "(&(objectClass=dNSZone)(relativeDomainName=@)(!(|(zoneName=*.arpa)(zoneName=*.arpa.))))",
     attrs => ['gosaAclEntry']
   );
   $mesg->code && die $mesg->error;
 
-  if ($mesg->count > 0) {
-    print ("The following DNS zones are in the systems branch ($systemrdn):\n");
+  my @entries = $mesg->entries;
 
-    my @entries = $mesg->entries;
+  print "There are ".$mesg->count." DNS zones in the LDAP\n";
 
-    foreach my $entry (@entries) {
+  my @baddns  = ();
+
+  foreach my $entry (@entries) {
+    if ($entry->dn() !~ m/$dnsrdn/) {
+      if (scalar(@baddns) == 0) {
+        print "The following are not in the DNS branch ($dnsrdn):\n";
+      }
       print $entry->dn()."\n";
+      push @baddns, $entry->dn();
     }
+  }
 
+  if (scalar(@baddns) == 0) {
+    print "They all already are in the DNS branch ($dnsrdn):\n";
+  } else {
     if (ask_yn_question("Move these entries to the DNS branch ($dnsrdn)?")) {
-      foreach my $entry (@entries) {
-        $entry->dn() =~ m/^([^,]+),.+$systemrdn,(.+)$/ or die "Could not parse dn ".$entry->dn()."\n";
+      foreach my $entrydn (@baddns) {
+        $entrydn =~ m/^([^,]+),.+$systemrdn,(.+)$/ or die "Could not parse dn ".$entrydn."\n";
         my $rdn = $1;
         my $entrybase = $2;
         if (!branch_exists($ldap, "$dnsrdn,$entrybase")) {
           create_branch($ldap, $entrybase, $dnsrdn);
         }
         my $result = $ldap->moddn (
-          $entry->dn(),
+          $entrydn,
           newrdn        => $rdn,
           deleteoldrdn  => '1',
           newsuperior   => "$dnsrdn,$entrybase"
