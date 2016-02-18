@@ -1673,6 +1673,7 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--check-config"}         = ["Checking FusionDirectory's config file",        \&check_config];
   $commands{"--check-ldap"}           = ["Checking your LDAP tree",                       \&check_ldap];
   $commands{"--migrate-users"}        = ["Migrating your users",                          \&migrate_users];
+  $commands{"--migrate-dns"}          = ["Migrating DNS zones for FD 1.0.10",             \&migrate_dns];
   $commands{"--migrate-acls"}         = ["Migrating your ACLs",                           \&migrate_acls];
   $commands{"--install-plugins"}      = ["Installing FusionDirectory's plugins",          \&install_plugins];
   $commands{"--encrypt-passwords"}    = ["Encrypt passwords in fusiondirectory.conf",     \&encrypt_passwords];
@@ -1765,6 +1766,10 @@ This option check your LDAP tree. Looking for admin account, and groups or peopl
 =item --migrate-users
 
 This option add FusionDirectory attributes to the people branch.
+
+=item --migrate-dns
+
+This option moves DNS zones from systems branch to DNS branch, which is necessary for FusionDirectory 1.0.10 and above.
 
 =item --migrate-acls
 
