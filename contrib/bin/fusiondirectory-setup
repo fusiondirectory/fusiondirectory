@@ -1779,7 +1779,7 @@ This option add FusionDirectory attributes to the people branch.
 
 =item --migrate-dns
 
-This option moves DNS zones from systems branch to DNS branch, which is necessary for FusionDirectory 1.0.10 and above.
+This option moves DNS zones from systems branch to DNS branch, which is necessary for FusionDirectory 1.0.10 and above.
 
 =item --migrate-acls
 
