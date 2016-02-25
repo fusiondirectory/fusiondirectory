@@ -77,6 +77,10 @@ class department extends simplePlugin
             _('Category'), sprintf(_('Category of this %s'), $name),
             'businessCategory', FALSE
           ),
+          new StringAttribute(
+            _('Web Site'), sprintf(_('Web site of this %s'), $name),
+            'labeledURI', FALSE
+          ),
           new UserAttribute(
             _('Manager'), sprintf(_('Manager of this %s'), $name),
             'manager', FALSE
