@@ -370,10 +370,6 @@ class user extends simplePlugin
             _('Private phone'), _('Home phone number'),
             'homePhone', FALSE
           ),
-          new StringAttribute (
-            _('Mobile phone'), _('Mobile phone number'),
-            'mobile', FALSE
-          ),
           new URLAttribute (
             _('Homepage'), _('Personal homepage'),
             'labeledURI', FALSE
