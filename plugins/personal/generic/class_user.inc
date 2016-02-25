@@ -332,6 +332,10 @@ class user extends simplePlugin
             _('Fax'), _('Business fax number'),
             'facsimileTelephoneNumber', FALSE
           ),
+          new URLAttribute (
+            _('Homepage'), _('Personal homepage'),
+            'labeledURI', FALSE
+          ),
         )
       ),
       'account' => array(
@@ -369,10 +373,6 @@ class user extends simplePlugin
           new StringAttribute (
             _('Private phone'), _('Home phone number'),
             'homePhone', FALSE
-          ),
-          new URLAttribute (
-            _('Homepage'), _('Personal homepage'),
-            'labeledURI', FALSE
           ),
         )
       ),
