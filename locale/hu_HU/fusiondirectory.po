@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Szabi Fekete <szabi@equio.co.uk>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-02-10 15:59+0100\n"
-"PO-Revision-Date: 2016-01-22 15:11+0000\n"
-"Last-Translator: FusionDirectory project <contact@fusiondirectory.org>\n"
+"POT-Creation-Date: 2016-02-19 17:44+0100\n"
+"PO-Revision-Date: 2016-02-20 23:25+0000\n"
+"Last-Translator: Szabi Fekete <szabi@equio.co.uk>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,13 +61,13 @@ msgstr ""
 #: include/select/groupSelect/group-filter.tpl.c:14
 #: setup/setup_migrate_adminAccount.tpl.c:8
 msgid "Name"
-msgstr ""
+msgstr "Név"
 
 #: plugins/admin/groups/class_roleGeneric.inc:61
 #: plugins/admin/groups/class_group.inc:61
 #: plugins/admin/groups/class_ogroup.inc:187
 msgid "Name of this group"
-msgstr ""
+msgstr "Csoport neve"
 
 #: plugins/admin/groups/class_roleGeneric.inc:66
 #: plugins/admin/groups/class_group.inc:66
@@ -79,7 +80,7 @@ msgstr ""
 #: include/simpleplugin/simple-select-list.xml:40
 #: include/simpleplugin/simple-list.xml:40
 msgid "Description"
-msgstr ""
+msgstr "Leírás"
 
 #: plugins/admin/groups/class_roleGeneric.inc:66
 msgid "Description of the role"
@@ -87,18 +88,18 @@ msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:70
 msgid "Phone number"
-msgstr ""
+msgstr "Telefonszám"
 
 #: plugins/admin/groups/class_roleGeneric.inc:74
 msgid "Fax number"
-msgstr ""
+msgstr "Faxszám"
 
 #: plugins/admin/groups/class_roleGeneric.inc:78
 #: plugins/admin/users/class_userManagement.inc:42
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:27
 #: setup/class_setupStep_Migrate.inc:871
 msgid "Users"
-msgstr ""
+msgstr "Felhasználók"
 
 #: plugins/admin/groups/class_roleGeneric.inc:78
 msgid "Add users for the role"
@@ -1902,80 +1903,80 @@ msgstr ""
 msgid "Password recovery settings"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:44
+#: plugins/config/class_recoveryConfig.inc:45
 msgid "Activate password recovery"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:45
+#: plugins/config/class_recoveryConfig.inc:46
 msgid "Whether to activate or not password recovery feature"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:50
+#: plugins/config/class_recoveryConfig.inc:51
 msgid "Sender email address"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:51
+#: plugins/config/class_recoveryConfig.inc:52
 msgid "Email address from which mails will be sent"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:57
+#: plugins/config/class_recoveryConfig.inc:58
 msgid "Link validity (minutes)"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:58
+#: plugins/config/class_recoveryConfig.inc:59
 msgid "Number of minutes before a recovery link expires"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:64
+#: plugins/config/class_recoveryConfig.inc:65
 msgid "Salt for tokens"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:65
+#: plugins/config/class_recoveryConfig.inc:66
 msgid ""
 "Just a security measure, you can put anything in there, even random "
 "characters"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:71
+#: plugins/config/class_recoveryConfig.inc:72
 msgid "Allow the use of alternate addresses"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:72
+#: plugins/config/class_recoveryConfig.inc:73
 msgid ""
 "Users will also be able to enter one of theirs alternate addresses to "
 "recover their password"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:79
+#: plugins/config/class_recoveryConfig.inc:80
 msgid "First email"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:82
-#: plugins/config/class_recoveryConfig.inc:101
+#: plugins/config/class_recoveryConfig.inc:83
+#: plugins/config/class_recoveryConfig.inc:102
 msgid "Subject"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:83
+#: plugins/config/class_recoveryConfig.inc:84
 msgid "Subject of the first email"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:86
+#: plugins/config/class_recoveryConfig.inc:87
 msgid "[FusionDirectory] Password recovery link"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:89
+#: plugins/config/class_recoveryConfig.inc:90
 #, php-format
 msgid "Body (first %s is login, second is link)"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:90
+#: plugins/config/class_recoveryConfig.inc:91
 #, php-format
 msgid ""
 "Body of the first email, sent when the user ask for a new password. Use %s "
 "for the login and the recovery link."
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:93
+#: plugins/config/class_recoveryConfig.inc:94
 #, php-format
 msgid ""
 "Hello,\n"
@@ -1987,31 +1988,31 @@ msgid ""
 "This link is only valid for 10 minutes."
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:98
+#: plugins/config/class_recoveryConfig.inc:99
 msgid "Second email"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:102
+#: plugins/config/class_recoveryConfig.inc:103
 msgid "Subject of the second email"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:105
+#: plugins/config/class_recoveryConfig.inc:106
 msgid "[FusionDirectory] Password recovery successful"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:108
+#: plugins/config/class_recoveryConfig.inc:109
 #, php-format
 msgid "Body (%s is login)"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:109
+#: plugins/config/class_recoveryConfig.inc:110
 #, php-format
 msgid ""
 "Body of the second email, sent to confirm the password has been changed. Use"
 " %s for the user login."
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:112
+#: plugins/config/class_recoveryConfig.inc:113
 #, php-format
 msgid ""
 "Hello,\n"
@@ -2103,7 +2104,7 @@ msgstr ""
 #: include/functions.inc:3182 include/functions.inc:3189
 #: include/functions.inc:3198 include/functions.inc:3260
 #: include/class_msg_dialog.inc:128 include/class_xml.inc:58
-#: include/class_plugin.inc:1663 include/class_CopyPasteHandler.inc:278
+#: include/class_plugin.inc:1662 include/class_CopyPasteHandler.inc:278
 #: include/simpleplugin/class_dialogAttributes.inc:733
 #: include/simpleplugin/class_attribute.inc:1540
 #: include/simpleplugin/class_attribute.inc:1543
@@ -2236,7 +2237,7 @@ msgid "XML error in fusiondirectory.conf: %s at line %d"
 msgstr ""
 
 #: include/class_config.inc:162 include/class_config.inc:300
-#: include/class_config.inc:985 include/class_config.inc:998
+#: include/class_config.inc:923 include/class_config.inc:936
 #: include/functions.inc:663 include/class_timezone.inc:51
 #: include/password-methods/class_password-methods-sha.inc:71
 #: include/password-methods/class_password-methods-ssha.inc:75
@@ -2278,25 +2279,25 @@ msgstr ""
 msgid "The selected mail method (class %s) is not available"
 msgstr ""
 
-#: include/class_config.inc:986
+#: include/class_config.inc:924
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required variable '%s' is not"
 " set."
 msgstr ""
 
-#: include/class_config.inc:999
+#: include/class_config.inc:937
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required compression module "
 "is missing. Please install '%s'."
 msgstr ""
 
-#: include/class_config.inc:1104
+#: include/class_config.inc:1042
 msgid "All categories"
 msgstr ""
 
-#: include/class_config.inc:1231
+#: include/class_config.inc:1169
 msgid "My account"
 msgstr ""
 
@@ -3342,13 +3343,13 @@ msgstr ""
 msgid "XML error"
 msgstr ""
 
-#: include/class_plugin.inc:554
+#: include/class_plugin.inc:553
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
 msgstr ""
 
-#: include/class_plugin.inc:1466
+#: include/class_plugin.inc:1465
 #, php-format
 msgid "Tab \"%s\""
 msgstr ""
@@ -3483,6 +3484,11 @@ msgstr ""
 #: include/simpleplugin/class_attribute.inc:2171
 #, php-format
 msgid "%s (required)"
+msgstr ""
+
+#: include/simpleplugin/class_attribute.inc:1150
+#, php-format
+msgid "The value \"%s\" for field \"%s\" is not in the list of possible choices"
 msgstr ""
 
 #: include/simpleplugin/class_attribute.inc:1277

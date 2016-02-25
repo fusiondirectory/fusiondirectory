@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-02-10 15:59+0100\n"
-"PO-Revision-Date: 2016-02-12 17:08+0000\n"
-"Last-Translator: Penati <penati@avaya.com>\n"
+"POT-Creation-Date: 2016-02-19 17:44+0100\n"
+"PO-Revision-Date: 2016-02-19 16:47+0000\n"
+"Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1904,80 +1904,80 @@ msgstr "Gestione delle impostazioni per il recupero della password"
 msgid "Password recovery settings"
 msgstr "Impostazioni per il recupero della password"
 
-#: plugins/config/class_recoveryConfig.inc:44
+#: plugins/config/class_recoveryConfig.inc:45
 msgid "Activate password recovery"
 msgstr "Attivare il recupero della password"
 
-#: plugins/config/class_recoveryConfig.inc:45
+#: plugins/config/class_recoveryConfig.inc:46
 msgid "Whether to activate or not password recovery feature"
 msgstr "Sia che si attivi o no la funzione di recupero password"
 
-#: plugins/config/class_recoveryConfig.inc:50
+#: plugins/config/class_recoveryConfig.inc:51
 msgid "Sender email address"
 msgstr "Indirizzo email del mittente"
 
-#: plugins/config/class_recoveryConfig.inc:51
+#: plugins/config/class_recoveryConfig.inc:52
 msgid "Email address from which mails will be sent"
 msgstr "Indirizzo e-mail da cui la mail sarà inviata"
 
-#: plugins/config/class_recoveryConfig.inc:57
+#: plugins/config/class_recoveryConfig.inc:58
 msgid "Link validity (minutes)"
 msgstr "Durata del link (minuti)"
 
-#: plugins/config/class_recoveryConfig.inc:58
+#: plugins/config/class_recoveryConfig.inc:59
 msgid "Number of minutes before a recovery link expires"
 msgstr "Numero di minuti prima che il link di recupero scada"
 
-#: plugins/config/class_recoveryConfig.inc:64
+#: plugins/config/class_recoveryConfig.inc:65
 msgid "Salt for tokens"
 msgstr "Stringa aleatoria per il tokens"
 
-#: plugins/config/class_recoveryConfig.inc:65
+#: plugins/config/class_recoveryConfig.inc:66
 msgid ""
 "Just a security measure, you can put anything in there, even random "
 "characters"
 msgstr "Solo una misura di sicurezza, potete mettere qualsiasi cosa dentro, anche dei caratteri casuali"
 
-#: plugins/config/class_recoveryConfig.inc:71
+#: plugins/config/class_recoveryConfig.inc:72
 msgid "Allow the use of alternate addresses"
 msgstr "Consentire l'uso di indirizzi alternativi"
 
-#: plugins/config/class_recoveryConfig.inc:72
+#: plugins/config/class_recoveryConfig.inc:73
 msgid ""
 "Users will also be able to enter one of theirs alternate addresses to "
 "recover their password"
 msgstr "Gli utenti possono usare uno dei loro indirizzi email alternativi per il recupero della loro password"
 
-#: plugins/config/class_recoveryConfig.inc:79
+#: plugins/config/class_recoveryConfig.inc:80
 msgid "First email"
 msgstr "Prima email"
 
-#: plugins/config/class_recoveryConfig.inc:82
-#: plugins/config/class_recoveryConfig.inc:101
+#: plugins/config/class_recoveryConfig.inc:83
+#: plugins/config/class_recoveryConfig.inc:102
 msgid "Subject"
 msgstr "Oggetto"
 
-#: plugins/config/class_recoveryConfig.inc:83
+#: plugins/config/class_recoveryConfig.inc:84
 msgid "Subject of the first email"
 msgstr "Soggetto della prima email"
 
-#: plugins/config/class_recoveryConfig.inc:86
+#: plugins/config/class_recoveryConfig.inc:87
 msgid "[FusionDirectory] Password recovery link"
 msgstr "[FusionDirectory] link verso il recupero della password"
 
-#: plugins/config/class_recoveryConfig.inc:89
+#: plugins/config/class_recoveryConfig.inc:90
 #, php-format
 msgid "Body (first %s is login, second is link)"
 msgstr "Corpo del messaggio (il primo %s è il login, il secondo è il link)"
 
-#: plugins/config/class_recoveryConfig.inc:90
+#: plugins/config/class_recoveryConfig.inc:91
 #, php-format
 msgid ""
 "Body of the first email, sent when the user ask for a new password. Use %s "
 "for the login and the recovery link."
 msgstr "Corpo del messaggio della prima email, inviata quando l'utente chiede una nuova password. %s è usato per il login utente e il link di recupero."
 
-#: plugins/config/class_recoveryConfig.inc:93
+#: plugins/config/class_recoveryConfig.inc:94
 #, php-format
 msgid ""
 "Hello,\n"
@@ -1989,31 +1989,31 @@ msgid ""
 "This link is only valid for 10 minutes."
 msgstr "Salve,\n\necco le informazioni sul tuo account : \n - Login : %s\n - Link : %s\n\nQuesto link sarà valido solo per 10 minuti."
 
-#: plugins/config/class_recoveryConfig.inc:98
+#: plugins/config/class_recoveryConfig.inc:99
 msgid "Second email"
 msgstr "Seconda email"
 
-#: plugins/config/class_recoveryConfig.inc:102
+#: plugins/config/class_recoveryConfig.inc:103
 msgid "Subject of the second email"
 msgstr "Soggetto della seconda email"
 
-#: plugins/config/class_recoveryConfig.inc:105
+#: plugins/config/class_recoveryConfig.inc:106
 msgid "[FusionDirectory] Password recovery successful"
 msgstr "[FusionDirectory] Il recupero della password è stato eseguito con successo"
 
-#: plugins/config/class_recoveryConfig.inc:108
+#: plugins/config/class_recoveryConfig.inc:109
 #, php-format
 msgid "Body (%s is login)"
 msgstr "Corpo del messaggio (%s è il login utente)"
 
-#: plugins/config/class_recoveryConfig.inc:109
+#: plugins/config/class_recoveryConfig.inc:110
 #, php-format
 msgid ""
 "Body of the second email, sent to confirm the password has been changed. Use"
 " %s for the user login."
 msgstr "Corpo del messaggio della seconda email, inviata per confermare la modifica della password. %s è usato per il login dell'utente."
 
-#: plugins/config/class_recoveryConfig.inc:112
+#: plugins/config/class_recoveryConfig.inc:113
 #, php-format
 msgid ""
 "Hello,\n"
@@ -2105,7 +2105,7 @@ msgstr "Seleziona tutto"
 #: include/functions.inc:3182 include/functions.inc:3189
 #: include/functions.inc:3198 include/functions.inc:3260
 #: include/class_msg_dialog.inc:128 include/class_xml.inc:58
-#: include/class_plugin.inc:1663 include/class_CopyPasteHandler.inc:278
+#: include/class_plugin.inc:1662 include/class_CopyPasteHandler.inc:278
 #: include/simpleplugin/class_dialogAttributes.inc:733
 #: include/simpleplugin/class_attribute.inc:1540
 #: include/simpleplugin/class_attribute.inc:1543
@@ -2238,7 +2238,7 @@ msgid "XML error in fusiondirectory.conf: %s at line %d"
 msgstr "Errore XML nel file fusiondirectory.conf: %s alla linea %d"
 
 #: include/class_config.inc:162 include/class_config.inc:300
-#: include/class_config.inc:985 include/class_config.inc:998
+#: include/class_config.inc:923 include/class_config.inc:936
 #: include/functions.inc:663 include/class_timezone.inc:51
 #: include/password-methods/class_password-methods-sha.inc:71
 #: include/password-methods/class_password-methods-ssha.inc:75
@@ -2280,25 +2280,25 @@ msgstr "Errore di connessione al server LDAP. Contatta l'amministratore del sist
 msgid "The selected mail method (class %s) is not available"
 msgstr "Il metodo mail (classe %s) selezionato non è disponibile "
 
-#: include/class_config.inc:986
+#: include/class_config.inc:924
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required variable '%s' is not"
 " set."
 msgstr "La funzione 'copia istantanea' è attivata, ma la variabile richiesta '%s' non è configurata."
 
-#: include/class_config.inc:999
+#: include/class_config.inc:937
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required compression module "
 "is missing. Please install '%s'."
 msgstr "La funzione 'copia istantanea' è attivata, ma il modulo di compressione richiesto è introvabile. Per favore installa '%s'."
 
-#: include/class_config.inc:1104
+#: include/class_config.inc:1042
 msgid "All categories"
 msgstr "Tutte le categorie"
 
-#: include/class_config.inc:1231
+#: include/class_config.inc:1169
 msgid "My account"
 msgstr "Identità personale"
 
@@ -3344,13 +3344,13 @@ msgstr "on line"
 msgid "XML error"
 msgstr "Errore XML"
 
-#: include/class_plugin.inc:554
+#: include/class_plugin.inc:553
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
 msgstr ""
 
-#: include/class_plugin.inc:1466
+#: include/class_plugin.inc:1465
 #, php-format
 msgid "Tab \"%s\""
 msgstr "Tab \"%s\""
@@ -3486,6 +3486,11 @@ msgstr "giorni"
 #, php-format
 msgid "%s (required)"
 msgstr "%s (necessario)"
+
+#: include/simpleplugin/class_attribute.inc:1150
+#, php-format
+msgid "The value \"%s\" for field \"%s\" is not in the list of possible choices"
+msgstr ""
 
 #: include/simpleplugin/class_attribute.inc:1277
 #, php-format

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-02-10 15:59+0100\n"
-"PO-Revision-Date: 2016-02-10 14:56+0000\n"
+"POT-Creation-Date: 2016-02-19 17:44+0100\n"
+"PO-Revision-Date: 2016-02-19 16:47+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Swedish (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -1902,80 +1902,80 @@ msgstr "Inställningar för funktionen för återställning av lösenord"
 msgid "Password recovery settings"
 msgstr "Inställningar för återskapande av lösenord"
 
-#: plugins/config/class_recoveryConfig.inc:44
+#: plugins/config/class_recoveryConfig.inc:45
 msgid "Activate password recovery"
 msgstr "Aktivera återställning av lösenord"
 
-#: plugins/config/class_recoveryConfig.inc:45
+#: plugins/config/class_recoveryConfig.inc:46
 msgid "Whether to activate or not password recovery feature"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:50
+#: plugins/config/class_recoveryConfig.inc:51
 msgid "Sender email address"
 msgstr "Avsändaradress för epost"
 
-#: plugins/config/class_recoveryConfig.inc:51
+#: plugins/config/class_recoveryConfig.inc:52
 msgid "Email address from which mails will be sent"
 msgstr "Epostadress från vilken epostmeddelanden sänds"
 
-#: plugins/config/class_recoveryConfig.inc:57
+#: plugins/config/class_recoveryConfig.inc:58
 msgid "Link validity (minutes)"
 msgstr "Länkens giltighetstid (minuter)"
 
-#: plugins/config/class_recoveryConfig.inc:58
+#: plugins/config/class_recoveryConfig.inc:59
 msgid "Number of minutes before a recovery link expires"
 msgstr "Antalet minuter innan en återställningslänk slutar gälla"
 
-#: plugins/config/class_recoveryConfig.inc:64
+#: plugins/config/class_recoveryConfig.inc:65
 msgid "Salt for tokens"
 msgstr "Salt för tokens"
 
-#: plugins/config/class_recoveryConfig.inc:65
+#: plugins/config/class_recoveryConfig.inc:66
 msgid ""
 "Just a security measure, you can put anything in there, even random "
 "characters"
 msgstr "Bara en säkerhetsåtgärd, du kan skriva vad som helst där, till och med slumpmässiga tecken"
 
-#: plugins/config/class_recoveryConfig.inc:71
+#: plugins/config/class_recoveryConfig.inc:72
 msgid "Allow the use of alternate addresses"
 msgstr "Tillåt användande av alternativa adresser"
 
-#: plugins/config/class_recoveryConfig.inc:72
+#: plugins/config/class_recoveryConfig.inc:73
 msgid ""
 "Users will also be able to enter one of theirs alternate addresses to "
 "recover their password"
 msgstr "Användare kommer också att kunna skriva in en av deras alternativa epostadresser för att återställa lösenordet"
 
-#: plugins/config/class_recoveryConfig.inc:79
+#: plugins/config/class_recoveryConfig.inc:80
 msgid "First email"
 msgstr "Första epost"
 
-#: plugins/config/class_recoveryConfig.inc:82
-#: plugins/config/class_recoveryConfig.inc:101
+#: plugins/config/class_recoveryConfig.inc:83
+#: plugins/config/class_recoveryConfig.inc:102
 msgid "Subject"
 msgstr "Ämne"
 
-#: plugins/config/class_recoveryConfig.inc:83
+#: plugins/config/class_recoveryConfig.inc:84
 msgid "Subject of the first email"
 msgstr "Ämne på första epostmeddelandet"
 
-#: plugins/config/class_recoveryConfig.inc:86
+#: plugins/config/class_recoveryConfig.inc:87
 msgid "[FusionDirectory] Password recovery link"
 msgstr "[FusionDirectory] Länk för återskapande av lösenord"
 
-#: plugins/config/class_recoveryConfig.inc:89
+#: plugins/config/class_recoveryConfig.inc:90
 #, php-format
 msgid "Body (first %s is login, second is link)"
 msgstr "Meddelandekropp (första %s är inläggnings-ID, andra är länken)"
 
-#: plugins/config/class_recoveryConfig.inc:90
+#: plugins/config/class_recoveryConfig.inc:91
 #, php-format
 msgid ""
 "Body of the first email, sent when the user ask for a new password. Use %s "
 "for the login and the recovery link."
 msgstr "Meddelandekropp för det första epostmeddelandet, skickat när en användare frågar efter ett nytt lösenord. Använd %s för inläggnings-ID och återställningslänk."
 
-#: plugins/config/class_recoveryConfig.inc:93
+#: plugins/config/class_recoveryConfig.inc:94
 #, php-format
 msgid ""
 "Hello,\n"
@@ -1987,31 +1987,31 @@ msgid ""
 "This link is only valid for 10 minutes."
 msgstr "Hej,\n\nHär är informationen för återställning:\n - Inloggning : %s\n - Länk : %s\n\nDen här länken är bara giltig i 10 minuter."
 
-#: plugins/config/class_recoveryConfig.inc:98
+#: plugins/config/class_recoveryConfig.inc:99
 msgid "Second email"
 msgstr "Andre epostmeddelandet"
 
-#: plugins/config/class_recoveryConfig.inc:102
+#: plugins/config/class_recoveryConfig.inc:103
 msgid "Subject of the second email"
 msgstr "Ämne på det andra epostmeddelandet"
 
-#: plugins/config/class_recoveryConfig.inc:105
+#: plugins/config/class_recoveryConfig.inc:106
 msgid "[FusionDirectory] Password recovery successful"
 msgstr "[FusionDirectory] Återställning av lösenord lyckades"
 
-#: plugins/config/class_recoveryConfig.inc:108
+#: plugins/config/class_recoveryConfig.inc:109
 #, php-format
 msgid "Body (%s is login)"
 msgstr "Meddelandekropp (%s är login)"
 
-#: plugins/config/class_recoveryConfig.inc:109
+#: plugins/config/class_recoveryConfig.inc:110
 #, php-format
 msgid ""
 "Body of the second email, sent to confirm the password has been changed. Use"
 " %s for the user login."
 msgstr "Meddelandekropp på det andra epostmeddelandet, som skickas för att bekräfta att lösenordet har ändrats. Använd %s för användarens inloggnings-ID."
 
-#: plugins/config/class_recoveryConfig.inc:112
+#: plugins/config/class_recoveryConfig.inc:113
 #, php-format
 msgid ""
 "Hello,\n"
@@ -2103,7 +2103,7 @@ msgstr "Välj alla"
 #: include/functions.inc:3182 include/functions.inc:3189
 #: include/functions.inc:3198 include/functions.inc:3260
 #: include/class_msg_dialog.inc:128 include/class_xml.inc:58
-#: include/class_plugin.inc:1663 include/class_CopyPasteHandler.inc:278
+#: include/class_plugin.inc:1662 include/class_CopyPasteHandler.inc:278
 #: include/simpleplugin/class_dialogAttributes.inc:733
 #: include/simpleplugin/class_attribute.inc:1540
 #: include/simpleplugin/class_attribute.inc:1543
@@ -2236,7 +2236,7 @@ msgid "XML error in fusiondirectory.conf: %s at line %d"
 msgstr "XML-fel i fusiondirectory.conf: %s på rad %d"
 
 #: include/class_config.inc:162 include/class_config.inc:300
-#: include/class_config.inc:985 include/class_config.inc:998
+#: include/class_config.inc:923 include/class_config.inc:936
 #: include/functions.inc:663 include/class_timezone.inc:51
 #: include/password-methods/class_password-methods-sha.inc:71
 #: include/password-methods/class_password-methods-ssha.inc:75
@@ -2278,25 +2278,25 @@ msgstr "Kan inte koppla mot LDAP. Vänligen kontakta systemadministratören"
 msgid "The selected mail method (class %s) is not available"
 msgstr "Den valda epostmetoden (klassen %s) är inte tillgänglig"
 
-#: include/class_config.inc:986
+#: include/class_config.inc:924
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required variable '%s' is not"
 " set."
 msgstr "Funktionen för ögonblicksbilder är aktiverad, men värdet '%s' som krävs för funktionen är inte satt."
 
-#: include/class_config.inc:999
+#: include/class_config.inc:937
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required compression module "
 "is missing. Please install '%s'."
 msgstr "Funktionen för ögonblicksbilder är aktiverad, men kompressionsmodulen som krävs saknas. Vänligen installera '%s'."
 
-#: include/class_config.inc:1104
+#: include/class_config.inc:1042
 msgid "All categories"
 msgstr "Alla kategorier"
 
-#: include/class_config.inc:1231
+#: include/class_config.inc:1169
 msgid "My account"
 msgstr "Mitt konto"
 
@@ -3342,13 +3342,13 @@ msgstr "online"
 msgid "XML error"
 msgstr "XML-fel"
 
-#: include/class_plugin.inc:554
+#: include/class_plugin.inc:553
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
 msgstr ""
 
-#: include/class_plugin.inc:1466
+#: include/class_plugin.inc:1465
 #, php-format
 msgid "Tab \"%s\""
 msgstr ""
@@ -3484,6 +3484,11 @@ msgstr ""
 #, php-format
 msgid "%s (required)"
 msgstr "%s (krävs)"
+
+#: include/simpleplugin/class_attribute.inc:1150
+#, php-format
+msgid "The value \"%s\" for field \"%s\" is not in the list of possible choices"
+msgstr ""
 
 #: include/simpleplugin/class_attribute.inc:1277
 #, php-format
