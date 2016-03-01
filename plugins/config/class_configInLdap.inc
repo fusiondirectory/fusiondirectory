@@ -444,6 +444,13 @@ class configInLdap extends simplePlugin
             _('For very specific ACL rights setting where you might need to give right on a single object.'),
             'fdAclTabOnObjects'
           ),
+          new SetAttribute(
+            new StringAttribute (
+              _('Available department categories'), _('Available categories in the departments dropdown'),
+              'fdDepartmentCategories', FALSE
+            ),
+            array()
+          ),
         )
       ),
     );
