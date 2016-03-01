@@ -96,6 +96,9 @@ class department extends simplePlugin
           new StringAttribute(
             _('Location'), _('Location'), 'l', FALSE
           ),
+          new StringAttribute(
+            _('Country'), _('Country'), 'co', FALSE
+          ),
           new TextAreaAttribute(
             _('Address'), sprintf(_('A postal address for this %s'), $name),
             'postalAddress', FALSE
