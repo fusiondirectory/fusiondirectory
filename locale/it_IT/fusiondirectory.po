@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2016-03-01 18:07+0100\n"
-"PO-Revision-Date: 2016-03-01 17:05+0000\n"
-"Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
+"PO-Revision-Date: 2016-03-01 18:01+0000\n"
+"Last-Translator: Penati <penati@avaya.com>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -435,12 +435,12 @@ msgstr "Categoria di questo  %s "
 
 #: plugins/admin/departments/class_department.inc:81
 msgid "Website"
-msgstr ""
+msgstr "Sito Web"
 
 #: plugins/admin/departments/class_department.inc:81
 #, php-format
 msgid "Website of this %s"
-msgstr ""
+msgstr "Sito Web di questo %s"
 
 #: plugins/admin/departments/class_department.inc:85
 #: plugins/personal/generic/class_user.inc:410
@@ -1899,11 +1899,11 @@ msgstr "Per l'impostazione di diritti ACL molto specifici potreste aver bisogno 
 
 #: plugins/config/class_configInLdap.inc:449
 msgid "Available department categories"
-msgstr ""
+msgstr "Categorie di reparto disponibili"
 
 #: plugins/config/class_configInLdap.inc:449
 msgid "Available categories in the departments dropdown"
-msgstr ""
+msgstr "Categorie disponibili nel menu a discesa"
 
 #: plugins/config/class_configInLdap.inc:465
 #: setup/class_setupStep_Language.inc:69
@@ -4061,7 +4061,7 @@ msgstr "Verifica dei possibili doppioni UID"
 
 #: setup/class_setupStep_Migrate.inc:267
 msgid "Checking for duplicated GID numbers"
-msgstr ""
+msgstr "Verifica dei possibili doppioni GID"
 
 #: setup/class_setupStep_Migrate.inc:329 setup/class_setupStep_Migrate.inc:487
 #: setup/class_setupStep_Migrate.inc:564 setup/class_setupStep_Migrate.inc:702
