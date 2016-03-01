@@ -1500,6 +1500,10 @@ class listing {
       }
     }
 
+    if (!isset($this->bases[$this->base])) {
+      $this->base = key($this->bases);
+    }
+
     // Populate base selector if already present
     if ($this->baseSelector && $this->baseMode) {
       $this->baseSelector->setBases($this->bases);
