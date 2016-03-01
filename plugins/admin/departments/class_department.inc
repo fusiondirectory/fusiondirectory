@@ -78,7 +78,7 @@ class department extends simplePlugin
             'businessCategory', FALSE
           ),
           new StringAttribute(
-            _('Web Site'), sprintf(_('Web site of this %s'), $name),
+            _('Website'), sprintf(_('Website of this %s'), $name),
             'labeledURI', FALSE
           ),
           new UserAttribute(
