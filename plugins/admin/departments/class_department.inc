@@ -73,7 +73,7 @@ class department extends simplePlugin
             _('Description'), sprintf(_('Short description of this %s'), $name),
             'description', TRUE
           ),
-          new StringAttribute(
+          new SelectAttribute(
             _('Category'), sprintf(_('Category of this %s'), $name),
             'businessCategory', FALSE
           ),
@@ -140,6 +140,15 @@ class department extends simplePlugin
     $this->objectclasses = array_unique($this->objectclasses);
 
     parent::__construct($config, $dn, $object);
+
+    $categoriesList = $this->config->get_cfg_value('DepartmentCategories', array());
+
+    /* Insert current value to possibilities */
+    $businessCategory = $this->attributesAccess['businessCategory']->getValue();
+    if (($businessCategory != "") && !in_array($businessCategory, $categoriesList)) {
+      $categoriesList[] = $businessCategory;
+    }
+    $this->attributesAccess['businessCategory']->setChoices($categoriesList);
 
     $this->attributesAccess[$this->getNamingAttr()]->setUnique(TRUE);
   }
