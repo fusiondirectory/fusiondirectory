@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-02-19 17:44+0100\n"
-"PO-Revision-Date: 2016-02-19 16:47+0000\n"
+"POT-Creation-Date: 2016-03-01 18:07+0100\n"
+"PO-Revision-Date: 2016-03-01 17:05+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,7 @@ msgstr "Informatie"
 #: plugins/admin/groups/class_group.inc:61
 #: plugins/admin/groups/class_ogroup.inc:187
 #: plugins/admin/groups/group-list.xml:33
-#: plugins/admin/departments/class_department.inc:158
+#: plugins/admin/departments/class_department.inc:174
 #: plugins/admin/aclrole/class_aclRole.inc:101
 #: include/simpleplugin/simple-select-list.xml:32
 #: include/simpleplugin/simple-list.xml:32
@@ -212,8 +212,8 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:1083
 #: setup/class_setupStep_Migrate.inc:1202
 #: setup/class_setupStep_Migrate.inc:1313
-#: setup/class_setupStep_Migrate.inc:1372
-#: setup/class_setupStep_Migrate.inc:1411 plugins/admin/acl/remove.tpl.c:2
+#: setup/class_setupStep_Migrate.inc:1377
+#: setup/class_setupStep_Migrate.inc:1421 plugins/admin/acl/remove.tpl.c:2
 #: ihtml/themes/default/islocked.tpl.c:5 ihtml/themes/default/remove.tpl.c:2
 #: ihtml/themes/default/msg_dialog.tpl.c:5 setup/setup_checks.tpl.c:8
 msgid "Warning"
@@ -432,51 +432,67 @@ msgid "Category of this %s"
 msgstr ""
 
 #: plugins/admin/departments/class_department.inc:81
+msgid "Website"
+msgstr ""
+
+#: plugins/admin/departments/class_department.inc:81
+#, php-format
+msgid "Website of this %s"
+msgstr ""
+
+#: plugins/admin/departments/class_department.inc:85
 #: plugins/personal/generic/class_user.inc:410
 msgid "Manager"
 msgstr "Beheerder"
 
-#: plugins/admin/departments/class_department.inc:81
+#: plugins/admin/departments/class_department.inc:85
 #, php-format
 msgid "Manager of this %s"
 msgstr ""
 
-#: plugins/admin/departments/class_department.inc:87
-#: plugins/admin/departments/class_department.inc:93
+#: plugins/admin/departments/class_department.inc:91
+#: plugins/admin/departments/class_department.inc:97
 #: plugins/personal/generic/class_user.inc:304
 msgid "Location"
 msgstr "Plaats"
 
-#: plugins/admin/departments/class_department.inc:90
+#: plugins/admin/departments/class_department.inc:94
 #: plugins/personal/generic/class_user.inc:308
 msgid "State"
 msgstr "Provincie"
 
-#: plugins/admin/departments/class_department.inc:96
+#: plugins/admin/departments/class_department.inc:100
+#: plugins/admin/departments/class_country.inc:29
+#: plugins/admin/departments/class_country.inc:30
+#: plugins/admin/departments/class_country.inc:33
+msgid "Country"
+msgstr "Land"
+
+#: plugins/admin/departments/class_department.inc:103
 #: plugins/personal/generic/class_user.inc:312
 msgid "Address"
 msgstr "Adres"
 
-#: plugins/admin/departments/class_department.inc:96
+#: plugins/admin/departments/class_department.inc:103
 #, php-format
 msgid "A postal address for this %s"
 msgstr ""
 
-#: plugins/admin/departments/class_department.inc:100
+#: plugins/admin/departments/class_department.inc:107
 #: plugins/personal/generic/class_user.inc:320
 msgid "Phone"
 msgstr "Telefoon"
 
-#: plugins/admin/departments/class_department.inc:100
+#: plugins/admin/departments/class_department.inc:107
 msgid "Telephone number"
 msgstr "Telefoonnummer"
 
-#: plugins/admin/departments/class_department.inc:104
+#: plugins/admin/departments/class_department.inc:111
 #: plugins/personal/generic/class_user.inc:332
 msgid "Fax"
 msgstr "Fax"
 
-#: plugins/admin/departments/class_department.inc:104
+#: plugins/admin/departments/class_department.inc:111
 msgid "Facsimile telephone number"
 msgstr ""
 
@@ -503,12 +519,6 @@ msgstr "Localiteit"
 #: plugins/admin/departments/class_locality.inc:51
 msgid "locality"
 msgstr ""
-
-#: plugins/admin/departments/class_country.inc:29
-#: plugins/admin/departments/class_country.inc:30
-#: plugins/admin/departments/class_country.inc:33
-msgid "Country"
-msgstr "Land"
 
 #: plugins/admin/departments/class_country.inc:50
 msgid "country"
@@ -552,7 +562,7 @@ msgid "Given name"
 msgstr "Naam"
 
 #: plugins/admin/users/user-list.xml:49
-#: plugins/personal/generic/class_user.inc:343
+#: plugins/personal/generic/class_user.inc:347
 #: include/select/userSelect/class_userSelect.inc:32
 #: plugins/personal/generic/paste_generic.tpl.c:11
 #: ihtml/themes/default/recovery.tpl.c:23
@@ -900,7 +910,7 @@ msgid "Password hash method to use"
 msgstr ""
 
 #: plugins/personal/generic/class_user.inc:51
-#: plugins/personal/generic/class_user.inc:352
+#: plugins/personal/generic/class_user.inc:356
 #: plugins/personal/generic/paste_generic.tpl.c:14
 #: ihtml/themes/default/recovery.tpl.c:5 ihtml/themes/default/recovery.tpl.c:8
 #: ihtml/themes/default/login.tpl.c:17 ihtml/themes/default/login.tpl.c:20
@@ -995,58 +1005,58 @@ msgstr ""
 msgid "Business fax number"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:338
+#: plugins/personal/generic/class_user.inc:336
+msgid "Homepage"
+msgstr "Homepage"
+
+#: plugins/personal/generic/class_user.inc:336
+msgid "Personal homepage"
+msgstr ""
+
+#: plugins/personal/generic/class_user.inc:342
 msgid "Account information"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:343
+#: plugins/personal/generic/class_user.inc:347
 msgid "Login of this user"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:347
+#: plugins/personal/generic/class_user.inc:351
 #: setup/class_setupStep_Language.inc:30
 msgid "Preferred language"
 msgstr "Gewenste taal"
 
-#: plugins/personal/generic/class_user.inc:352
+#: plugins/personal/generic/class_user.inc:356
 msgid "Password of the user"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:358
+#: plugins/personal/generic/class_user.inc:362
 msgid "Personal contact information"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:362
+#: plugins/personal/generic/class_user.inc:366
 msgid "Display name"
 msgstr "Getoonde naam"
 
-#: plugins/personal/generic/class_user.inc:362
+#: plugins/personal/generic/class_user.inc:366
 msgid "Name this user should appear as. Used by Exchange."
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:366
+#: plugins/personal/generic/class_user.inc:370
 msgid "Home address"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:366
+#: plugins/personal/generic/class_user.inc:370
 msgid "Home postal address"
 msgstr "Postadres thuis"
 
-#: plugins/personal/generic/class_user.inc:370
+#: plugins/personal/generic/class_user.inc:374
 msgid "Private phone"
 msgstr "Telefoon privé"
 
-#: plugins/personal/generic/class_user.inc:370
+#: plugins/personal/generic/class_user.inc:374
 msgid "Home phone number"
 msgstr "Prive nummer"
-
-#: plugins/personal/generic/class_user.inc:374
-msgid "Homepage"
-msgstr "Homepage"
-
-#: plugins/personal/generic/class_user.inc:374
-msgid "Personal homepage"
-msgstr ""
 
 #: plugins/personal/generic/class_user.inc:380
 msgid "Organizational information"
@@ -1885,7 +1895,15 @@ msgid ""
 " single object."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:458
+#: plugins/config/class_configInLdap.inc:449
+msgid "Available department categories"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:449
+msgid "Available categories in the departments dropdown"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:465
 #: setup/class_setupStep_Language.inc:69
 msgid "Automatic"
 msgstr "Automatisch"
@@ -2156,44 +2174,44 @@ msgstr "Lijst herladen"
 msgid "Submit"
 msgstr "Verwerk"
 
-#: include/class_listing.inc:1586 include/class_listing.inc:1640
+#: include/class_listing.inc:1590 include/class_listing.inc:1644
 msgid "Copy"
 msgstr "Kopieer"
 
-#: include/class_listing.inc:1592 include/class_listing.inc:1628
+#: include/class_listing.inc:1596 include/class_listing.inc:1632
 msgid "Cut"
 msgstr "Knip"
 
-#: include/class_listing.inc:1600 include/class_listing.inc:1602
+#: include/class_listing.inc:1604 include/class_listing.inc:1606
 #: include/class_CopyPasteHandler.inc:370
 msgid "Paste"
 msgstr "Plakken"
 
-#: include/class_listing.inc:1628
+#: include/class_listing.inc:1632
 msgid "Cut this entry"
 msgstr "Deze invoer knippen"
 
-#: include/class_listing.inc:1640
+#: include/class_listing.inc:1644
 msgid "Copy this entry"
 msgstr "Deze invoer kopieren"
 
-#: include/class_listing.inc:1673 include/class_listing.inc:1675
+#: include/class_listing.inc:1677 include/class_listing.inc:1679
 msgid "Restore snapshots"
 msgstr "Restaureer snapshots"
 
-#: include/class_listing.inc:1689
+#: include/class_listing.inc:1693
 msgid "Export list"
 msgstr "Export lijst"
 
-#: include/class_listing.inc:1724 include/class_listing.inc:1725
+#: include/class_listing.inc:1728 include/class_listing.inc:1729
 msgid "Restore snapshot"
 msgstr "Restaureer snapshot"
 
-#: include/class_listing.inc:1734
+#: include/class_listing.inc:1738
 msgid "Create snapshot"
 msgstr "Maak snapshot"
 
-#: include/class_listing.inc:1735
+#: include/class_listing.inc:1739
 msgid "Create a new snapshot from this object"
 msgstr "Maak een nieuw snapshot van dit object"
 
@@ -2236,7 +2254,7 @@ msgid "XML error in fusiondirectory.conf: %s at line %d"
 msgstr "XML fout in fusiondirectory.conf: %s op regel %d"
 
 #: include/class_config.inc:162 include/class_config.inc:300
-#: include/class_config.inc:923 include/class_config.inc:936
+#: include/class_config.inc:915 include/class_config.inc:928
 #: include/functions.inc:663 include/class_timezone.inc:51
 #: include/password-methods/class_password-methods-sha.inc:71
 #: include/password-methods/class_password-methods-ssha.inc:75
@@ -2278,25 +2296,25 @@ msgstr "Kan niet binden met de LDAP. Gelie je systeembeheerder te contacteren."
 msgid "The selected mail method (class %s) is not available"
 msgstr "De geselecteerde mail methode (class %s) is niet beschikbaar"
 
-#: include/class_config.inc:924
+#: include/class_config.inc:916
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required variable '%s' is not"
 " set."
 msgstr "De snapshot functionaliteit is aan, maar de vereiste variabele '%s' is niet ingesteld."
 
-#: include/class_config.inc:937
+#: include/class_config.inc:929
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required compression module "
 "is missing. Please install '%s'."
 msgstr "De snapshot funcionaliteit is geactiveerd, maar de vereiste compressie module ontbreekt. Installeer aub '%s'."
 
-#: include/class_config.inc:1042
+#: include/class_config.inc:1034
 msgid "All categories"
 msgstr "Alle categoriën"
 
-#: include/class_config.inc:1169
+#: include/class_config.inc:1161
 msgid "My account"
 msgstr "Mijn account"
 
@@ -4040,8 +4058,8 @@ msgid "Checking for duplicated UID numbers"
 msgstr "Verificatie voor duplicate UID nummers"
 
 #: setup/class_setupStep_Migrate.inc:267
-msgid "Checking for duplicate GID numbers"
-msgstr "Verificatie voor duplicate GID nummers"
+msgid "Checking for duplicated GID numbers"
+msgstr ""
 
 #: setup/class_setupStep_Migrate.inc:329 setup/class_setupStep_Migrate.inc:487
 #: setup/class_setupStep_Migrate.inc:564 setup/class_setupStep_Migrate.inc:702
@@ -4050,7 +4068,7 @@ msgstr "Verificatie voor duplicate GID nummers"
 #: setup/class_setupStep_Migrate.inc:1179
 #: setup/class_setupStep_Migrate.inc:1272
 #: setup/class_setupStep_Migrate.inc:1351
-#: setup/class_setupStep_Migrate.inc:1390
+#: setup/class_setupStep_Migrate.inc:1395
 msgid "LDAP query failed"
 msgstr "LDAP query faalde"
 
@@ -4061,7 +4079,7 @@ msgstr "LDAP query faalde"
 #: setup/class_setupStep_Migrate.inc:1180
 #: setup/class_setupStep_Migrate.inc:1273
 #: setup/class_setupStep_Migrate.inc:1352
-#: setup/class_setupStep_Migrate.inc:1391
+#: setup/class_setupStep_Migrate.inc:1396
 msgid "Possibly the \"root object\" is missing."
 msgstr ""
 
@@ -4216,14 +4234,14 @@ msgstr "Vond %s departement(en) die niet zichtbaar zullen zijn in FusionDirector
 msgid "Department migration"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:1373
+#: setup/class_setupStep_Migrate.inc:1378
 #, php-format
-msgid "Found %s duplicate values for attribute \"uidNumber\"."
+msgid "Found %s duplicate values for attribute \"uidNumber\":%s"
 msgstr ""
 
-#: setup/class_setupStep_Migrate.inc:1412
+#: setup/class_setupStep_Migrate.inc:1422
 #, php-format
-msgid "Found %s duplicate values for attribute \"gidNumber\"."
+msgid "Found %s duplicate values for attribute \"gidNumber\":%s"
 msgstr ""
 
 #: setup/class_setupStep_Language.inc:59 setup/class_setupStep_Language.inc:60
