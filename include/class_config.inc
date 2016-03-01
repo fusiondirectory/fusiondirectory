@@ -526,14 +526,6 @@ class config  {
       $this->data['SERVERS']['LDAP'][$attrs['dn']] = $attrs;
     }
 
-    /* Get misc server lists */
-    $this->data['SERVERS']['NTP']     = array('default');
-    $ldap->cd($this->current['BASE']);
-    $ldap->search('(objectClass=goNtpServer)');
-    while ($attrs = $ldap->fetch()) {
-      $this->data['SERVERS']['NTP'][] = $attrs['cn'][0];
-    }
-
     /* Get samba servers from LDAP */
     $this->data['SERVERS']['SAMBA'] = array();
     if (class_available('sambaAccount')) {
