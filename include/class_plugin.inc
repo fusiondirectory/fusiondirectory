@@ -492,6 +492,8 @@ class plugin
         } else {
           return array(join($str));
         }
+      case 'C': // Count
+        return array(count($str));
       case 'c': // comment
         return array('');
       case 'b': // base64
@@ -621,7 +623,7 @@ class plugin
     }
     foreach ($result as &$r) { // Array that were not converted by a modifier into a string are now converted to strings
       if (is_array($r)) {
-        $r = $r[0];
+        $r = reset($r);
       }
     }
     unset($r);
