@@ -208,6 +208,11 @@ class configInLdap extends simplePlugin
             'fdSessionLifeTime', TRUE,
             0 /*min*/, FALSE /*no max*/, 1800
           ),
+          new BooleanAttribute (
+            _('HTTP authentication'), _('Use HTTP authentication protocol instead of the login form.'),
+            'fdHttpAuthActivated', FALSE,
+            FALSE
+          ),
         )
       ),
       'snapshots' => array(
@@ -475,6 +480,15 @@ class configInLdap extends simplePlugin
 
     $this->fusionConfigMd5 = md5_file(CACHE_DIR."/".CLASS_CACHE);
 
+    $this->attributesAccess['fdHttpAuthActivated']->setManagedAttributes(
+      array(
+        'erase' => array (
+          TRUE => array (
+            'fdCasActivated',
+          )
+        )
+      )
+    );
     $this->attributesAccess['fdEnableSnapshots']->setManagedAttributes(
       array(
         'disable' => array (

@@ -192,7 +192,7 @@ if (isset($_POST['server'])) {
 }
 
 $config->set_current($server);
-if ($config->get_cfg_value('casActivated') == 'TRUE') {
+if (($config->get_cfg_value('casActivated') == 'TRUE') || ($config->get_cfg_value('httpAuthActivated') == 'TRUE')) {
   session::global_set('DEBUGLEVEL', 0);
 }
 
@@ -351,6 +351,15 @@ class Index {
     exit;
   }
 
+  /* Return HTTP authentication header */
+  static function authenticateHeader($message = 'Authentication required')
+  {
+    header('WWW-Authenticate: Basic realm="FusionDirectory"');
+    header('HTTP/1.0 401 Unauthorized');
+    echo "$message\n";
+    exit;
+  }
+
   /* Run each step in $steps, stop on errors */
   static function runSteps($steps)
   {
@@ -390,6 +399,36 @@ class Index {
     if ($success) {
       /* Everything went well, redirect to main.php */
       self::redirect();
+    }
+  }
+
+  /* All login steps in the right order for HTTP auth login */
+  static function authLoginProcess()
+  {
+    global $config, $message, $ui;
+
+    self::init();
+
+    if (!isset($_SERVER['PHP_AUTH_USER'])) {
+      self::authenticateHeader();
+    }
+
+    self::$username = $_SERVER['PHP_AUTH_USER'];
+    self::$password = $_SERVER['PHP_AUTH_PW'];
+
+    $success = self::runSteps(array(
+      'validateUserInput',
+      'ldapLoginUser',
+      'loginAndCheckExpired',
+      'runSchemaCheck',
+      'checkForLockingBranch',
+    ));
+
+    if ($success) {
+      /* Everything went well, redirect to main.php */
+      self::redirect();
+    } else {
+      self::authenticateHeader($message);
     }
   }
 
@@ -466,7 +505,9 @@ class Index {
   }
 }
 
-if ($config->get_cfg_value('casActivated') == 'TRUE') {
+if ($config->get_cfg_value('httpAuthActivated') == 'TRUE') {
+  Index::authLoginProcess();
+} elseif ($config->get_cfg_value('casActivated') == 'TRUE') {
   require_once('CAS.php');
   /* Move CAS autoload before FD autoload */
   spl_autoload_unregister('CAS_autoload');
