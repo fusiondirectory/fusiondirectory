@@ -57,6 +57,8 @@ use XML::Twig;
 # To hide password input
 use Term::ReadKey;
 
+use Data::Dumper;
+
 # fd's directory and class.cache file's path declaration
 my %vars = (
  fd_home          => "/var/www/fusiondirectory",
@@ -89,8 +91,8 @@ my $configrdn   = "cn=config,ou=fusiondirectory";
 my $userrdn     = "ou=people";
 my $aclrolerdn  = "ou=aclroles";
 my $grouprdn    = "ou=groups";
-my $systemrdn  = "ou=systems";
-my $dnsrdn    = "ou=dns";
+my $systemrdn   = "ou=systems";
+my $dnsrdn      = "ou=dns";
 
 #################################################################################################################################################
 
@@ -1045,6 +1047,58 @@ sub check_ldap {
   $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
 }
 
+# function that check for duplicated uid or gid numbers
+sub check_id_numbers {
+  read_ldap_config();
+
+  # initiate the LDAP connexion
+  my %hash_ldap_param = get_ldap_connexion();
+
+  # LDAP's connection's parameters
+  my $ldap = $hash_ldap_param{ldap};
+  my $base = $hash_ldap_param{base};
+
+  check_id_numbers_generic($ldap, $base, 'posixAccount','uidNumber','users');
+
+  check_id_numbers_generic($ldap, $base, 'posixGroup','gidNumber','groups');
+}
+
+sub check_id_numbers_generic {
+  my ($ldap, $base, $objectClass, $attribute, $type) = @_;
+
+  my $mesg = $ldap->search(
+    filter  => "(&(objectClass=$objectClass)($attribute=*))",
+    base    => $base,
+    attrs   => [$attribute]
+  );
+  $mesg->code && die $mesg->error;
+
+  my @entries = $mesg->entries;
+
+  my %tmp = ();
+
+  foreach my $entry (@entries) {
+    if (not defined $tmp{$entry->get_value($attribute)}) {
+      $tmp{$entry->get_value($attribute)} = ();
+    }
+    push @{$tmp{$entry->get_value($attribute)}}, $entry->dn();
+  }
+
+  my $dups = 0;
+  while (my ($id, $dns) = each %tmp) {
+    if (scalar(@$dns) > 1) {
+      $dups = 1;
+      print "The following $type use the same $attribute $id:\n";
+      foreach my $dn (@$dns) {
+        print "\t$dn\n";
+      }
+    }
+  }
+  if ($dups == 0) {
+    print "There are no duplicated ${attribute}s\n";
+  }
+}
+
 # function that create a directory and copy plugin files in it
 sub create_and_copy_plugin_dir {
   my ($plugin_dir,$dest_dir) = @_;
@@ -1682,19 +1736,20 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--check-directories"}    = ["Checking FusionDirectory's directories",        \&check_directories];
   $commands{"--check-config"}         = ["Checking FusionDirectory's config file",        \&check_config];
   $commands{"--check-ldap"}           = ["Checking your LDAP tree",                       \&check_ldap];
+  $commands{"--check-ids"}            = ["Checking for duplicated uid or gid numbers",    \&check_id_numbers];
   $commands{"--migrate-users"}        = ["Migrating your users",                          \&migrate_users];
   $commands{"--migrate-dns"}          = ["Migrating DNS zones for FD 1.0.10",             \&migrate_dns];
   $commands{"--migrate-acls"}         = ["Migrating your ACLs",                           \&migrate_acls];
   $commands{"--install-plugins"}      = ["Installing FusionDirectory's plugins",          \&install_plugins];
   $commands{"--encrypt-passwords"}    = ["Encrypt passwords in fusiondirectory.conf",     \&encrypt_passwords];
-  $commands{"--show-version"}         = ["Show FusionDirectory version from variables_common.inc",          \&show_version];
+  $commands{"--show-version"}         = ["Show FusionDirectory version from variables_common.inc", \&show_version];
   $commands{"--list-vars"}            = ["List possible vars to give --set",              \&list_vars];
   $commands{"--write-vars"}           = ["Choose FusionDirectory Directories",            \&write_vars];
   $commands{"--set-VAR=value"}        = ["Set the variable VAR to value see --list-vars", \&die]; # Won't be called because it contains uppercase
   $commands{"--list-deprecated"}      = ["List deprecated attributes and objectclasses",  \&list_deprecated];
-  $commands{"--check-deprecated"}     = ["List LDAP entries using deprecated attributes or objectclasses",  \&check_deprecated];
+  $commands{"--check-deprecated"}     = ["List LDAP entries using deprecated attributes or objectclasses", \&check_deprecated];
   $commands{"--ldif-deprecated"}      = ["# Print an LDIF removing deprecated attributes",\&ldif_deprecated];
-  $commands{"--show-config"}          = ["Show an LDAP dump of the FusionDirectory configuration",\&show_ldap_config];
+  $commands{"--show-config"}          = ["Show an LDAP dump of the FusionDirectory configuration", \&show_ldap_config];
   $commands{"--set-config-VAR=value"} = ["Set the value in LDAP of a configuration field",\&set_config_var];
 
   my $usage = 0;
@@ -1772,6 +1827,10 @@ This option perform a check on FusionDirectory's config file.
 =item --check-ldap
 
 This option check your LDAP tree. Looking for admin account, and groups or people branch. If one of those don't exists, the script will ask you what to do.
+
+=item --check-ids
+
+This option check your LDAP tree for duplicated uidNumber or gidNumber among users and groups.
 
 =item --migrate-users
 
