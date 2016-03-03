@@ -222,6 +222,10 @@ text-align:right;
 
 /********************** Template migration *********************/
 
+form#mainform {
+margin:0;
+}
+
 table.framework {
 height:auto;
 width:100%;
@@ -243,6 +247,7 @@ table.framework td#maincell {
 background-color:white;
 width:auto;
 vertical-align:top;
+padding-bottom:35px;
 }
 
 /* cellpadding="0" */
@@ -747,5 +752,9 @@ color:#000;
   border:none;
   width:100%;
   border-spacing:0;
+  }
+  table.framework #maincell
+  {
+  padding-bottom:55px;
   }
 }
