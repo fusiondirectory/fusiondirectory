@@ -363,6 +363,10 @@ class configInLdap extends simplePlugin
             'fdGidNumberPoolMax', FALSE,
             0, FALSE, 40000
           ),
+          new BooleanAttribute (
+            _('Restrict role members'), _('When enabled only users from the same branch or members of groups from the same branch can be added to a role.'),
+            'fdRestrictRoleMembers'
+          ),
         )
       ),
       'debug' => array(

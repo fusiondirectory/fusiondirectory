@@ -66,6 +66,7 @@ class GenericSelectDialog extends GenericDialog
   function dialog_execute ()
   {
     session::set('filterBlacklist', $this->attribute->getFilterBlackList());
+    session::set('filterWhitelist', $this->attribute->getFilterWhiteList());
     return parent::dialog_execute();
   }
 
@@ -187,6 +188,11 @@ class DialogAttribute extends SetAttribute
   function getFilterBlackList ()
   {
     trigger_error("abstract method");
+  }
+
+  function getFilterWhiteList ()
+  {
+    return array();
   }
 
   function loadPostValue ()

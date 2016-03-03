@@ -18,6 +18,29 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+class RoleMembersAttribute extends UsersAttribute
+{
+  protected $whitelistDns = NULL;
+
+  function getFilterWhiteList()
+  {
+    global $config;
+    if ($config->get_cfg_value('RestrictRoleMembers') == 'TRUE') {
+      if ($this->whitelistDns === NULL) {
+        /* Computes a list of members of all groups within our branch */
+        $groups = objects::ls('ogroup', array('member' => '*'), $this->plugin->base);
+        $this->whitelistDns = call_user_func_array('array_merge_recursive', $groups)['member'];
+      }
+      return array(
+        'branches'  => array($this->plugin->base),
+        'dn'        => $this->whitelistDns,
+      );
+    } else {
+      return array();
+    }
+  }
+}
+
 class roleGeneric extends simplePlugin
 {
   var $mainTab = TRUE;
@@ -74,7 +97,7 @@ class roleGeneric extends simplePlugin
             _('Fax number'), _('Fax number'),
             'facsimileTelephoneNumber'
           ),
-          new UsersAttribute(
+          new RoleMembersAttribute (
             _('Users'), _('Add users for the role'),
             'roleOccupant', FALSE
           )
