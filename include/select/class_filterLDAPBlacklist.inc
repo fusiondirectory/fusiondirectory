@@ -22,30 +22,51 @@
 
 class filterLDAPBlacklist {
 
-  static function query($parent,$base, $scope, $filter, $attributes, $category, $objectStorage= "")
+  static function query($parent, $base, $scope, $filter, $attributes, $category, $objectStorage = "")
   {
-    $result = filterLDAP::query($parent,$base, $scope, $filter, $attributes, $category, $objectStorage);
-    return(filterLDAPBlacklist::filterByBlacklist($result));
+    $result = filterLDAP::query($parent, $base, $scope, $filter, $attributes, $category, $objectStorage);
+    return filterLDAPBlacklist::filterByBlacklist($result);
   }
 
   static function filterByBlacklist($entries)
   {
-    if(session::is_set('filterBlacklist')){
+    if (session::is_set('filterWhitelist')) {
+      $wlist = session::get('filterWhitelist');
+      if (!empty($wlist)) {
+        foreach ($entries as $id => $entry) {
+          $dn1 = $entry['dn'];
+          $dn2 = $wlist['dn'];
+          if (in_array($entry['dn'], $wlist['dn'])) {
+            continue;
+          }
+          foreach ($wlist['branches'] as $branch) {
+            if (preg_match('/'.preg_quote($branch, '/').'$/', $entry['dn'])) {
+              continue 2;
+            }
+          }
+          unset($entries[$id]);
+        }
+      }
+    }
+    if (session::is_set('filterBlacklist')) {
       $blist = session::get('filterBlacklist');
-      foreach($blist as $attr_name => $attr_values){
-        foreach($attr_values as $match){
-          foreach($entries as $id => $entry){
-            if(isset($entry[$attr_name])){
+      foreach ($blist as $attr_name => $attr_values) {
+        foreach ($attr_values as $match) {
+          foreach ($entries as $id => $entry) {
+            if (isset($entry[$attr_name])) {
               $test = $entry[$attr_name];
-              if(!is_array($test)) $test = array($test);
-              if(in_array($match, $test)) unset($entries[$id]);
+              if (!is_array($test)) {
+                $test = array($test);
+              }
+              if (in_array($match, $test)) {
+                unset($entries[$id]);
+              }
             }
           }
         }
       }
     }
-    return(array_values($entries));
+    return array_values($entries);
   }
 }
-
 ?>
