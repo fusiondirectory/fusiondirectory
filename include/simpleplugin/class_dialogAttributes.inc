@@ -734,10 +734,9 @@ class GenericSimplePluginDialog extends GenericDialog
   function handle_finish ()
   {
     $this->dialog->save_object();
-    if (count($this->dialog->check())) {
-      foreach ($this->dialog->check() as $msg) {
-        msg_dialog::display(_('Error'), $msg, ERROR_DIALOG);
-      }
+    $msgs = $this->dialog->check();
+    if (count($msgs)) {
+      msg_dialog::displayChecks($msgs);
       return $this->dialog->execute().$this->buttons();
     }
 
