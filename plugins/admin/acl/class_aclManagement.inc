@@ -31,7 +31,7 @@ class aclAssignmentCreationDialog extends simplePlugin
       'plShortName'   => _('ACL assignment creation'),
       'plShortName'   => _('ACL assignment creation'),
       'plDescription' => _('Create an ACL assignment on an arbitrary dn'),
-      'plCategory'    => 'acl',
+      'plCategory'    => array('acl'),
 
       'plProvidedAcls' => array()
     );
