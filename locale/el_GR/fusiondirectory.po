@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-03-01 18:07+0100\n"
-"PO-Revision-Date: 2016-03-01 17:05+0000\n"
+"POT-Creation-Date: 2016-03-07 13:11+0100\n"
+"PO-Revision-Date: 2016-03-07 12:09+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Greek (Greece) (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/el_GR/)\n"
 "MIME-Version: 1.0\n"
@@ -34,27 +34,27 @@ msgstr "Καλώς ήλθατε στο %s!"
 msgid "References"
 msgstr "Αναφορές"
 
-#: plugins/admin/groups/class_roleGeneric.inc:30
-#: plugins/admin/groups/class_roleGeneric.inc:34
+#: plugins/admin/groups/class_roleGeneric.inc:53
+#: plugins/admin/groups/class_roleGeneric.inc:57
 #: plugins/admin/groups/class_groupManagement.inc:71
 #: plugins/admin/aclrole/class_aclRole.inc:78
 #: plugins/admin/acl/class_aclAssignment.inc:49
 msgid "Role"
 msgstr "Ρόλος"
 
-#: plugins/admin/groups/class_roleGeneric.inc:31
+#: plugins/admin/groups/class_roleGeneric.inc:54
 msgid "Role information"
 msgstr "Πληροφορίες ρόλου"
 
-#: plugins/admin/groups/class_roleGeneric.inc:35
+#: plugins/admin/groups/class_roleGeneric.inc:58
 msgid "Organizational role"
 msgstr "Ρόλος οργανισμού"
 
-#: plugins/admin/groups/class_roleGeneric.inc:57
+#: plugins/admin/groups/class_roleGeneric.inc:80
 msgid "Informations"
 msgstr "Πληροφορίες"
 
-#: plugins/admin/groups/class_roleGeneric.inc:61
+#: plugins/admin/groups/class_roleGeneric.inc:84
 #: plugins/admin/groups/class_group.inc:61
 #: plugins/admin/groups/class_ogroup.inc:187
 #: plugins/admin/groups/group-list.xml:33
@@ -68,13 +68,13 @@ msgstr "Πληροφορίες"
 msgid "Name"
 msgstr "Όνομα"
 
-#: plugins/admin/groups/class_roleGeneric.inc:61
+#: plugins/admin/groups/class_roleGeneric.inc:84
 #: plugins/admin/groups/class_group.inc:61
 #: plugins/admin/groups/class_ogroup.inc:187
 msgid "Name of this group"
 msgstr "Όνομα αυτής της ομάδας"
 
-#: plugins/admin/groups/class_roleGeneric.inc:66
+#: plugins/admin/groups/class_roleGeneric.inc:89
 #: plugins/admin/groups/class_group.inc:66
 #: plugins/admin/groups/class_ogroup.inc:192
 #: plugins/admin/groups/group-list.xml:41
@@ -87,26 +87,26 @@ msgstr "Όνομα αυτής της ομάδας"
 msgid "Description"
 msgstr "Περιγραφή"
 
-#: plugins/admin/groups/class_roleGeneric.inc:66
+#: plugins/admin/groups/class_roleGeneric.inc:89
 msgid "Description of the role"
 msgstr "Περιγραφή του ρόλου"
 
-#: plugins/admin/groups/class_roleGeneric.inc:70
+#: plugins/admin/groups/class_roleGeneric.inc:93
 msgid "Phone number"
 msgstr "Αριθμός τηλεφώνου"
 
-#: plugins/admin/groups/class_roleGeneric.inc:74
+#: plugins/admin/groups/class_roleGeneric.inc:97
 msgid "Fax number"
 msgstr "Αριθμός φαξ"
 
-#: plugins/admin/groups/class_roleGeneric.inc:78
+#: plugins/admin/groups/class_roleGeneric.inc:101
 #: plugins/admin/users/class_userManagement.inc:42
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:27
 #: setup/class_setupStep_Migrate.inc:871
 msgid "Users"
 msgstr "Χρήστες"
 
-#: plugins/admin/groups/class_roleGeneric.inc:78
+#: plugins/admin/groups/class_roleGeneric.inc:101
 msgid "Add users for the role"
 msgstr "Προσθήκη χρηστών για το ρόλο"
 
@@ -213,7 +213,7 @@ msgstr "Επιτρέπεται σ'αυτή την ομάδα να συνδέετ
 #: plugins/personal/posix/class_posixAccount.inc:465 include/functions.inc:794
 #: include/functions.inc:2549 include/class_xml.inc:55
 #: include/simpleplugin/class_simpleTabs.inc:325 html/index.php:56
-#: html/index.php:62 html/index.php:481 html/class_passwordRecovery.inc:378
+#: html/index.php:62 html/index.php:522 html/class_passwordRecovery.inc:378
 #: setup/class_setupStep_Migrate.inc:572
 #: setup/class_setupStep_Migrate.inc:1083
 #: setup/class_setupStep_Migrate.inc:1202
@@ -285,8 +285,8 @@ msgstr "Δημιουργία"
 #: plugins/admin/departments/dep-list.xml:79
 #: plugins/admin/users/user-list.xml:105
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:192
-#: include/simpleplugin/class_dialogAttributes.inc:626
-#: include/simpleplugin/class_dialogAttributes.inc:627
+#: include/simpleplugin/class_dialogAttributes.inc:632
+#: include/simpleplugin/class_dialogAttributes.inc:633
 #: include/simpleplugin/class_attribute.inc:2675
 #: include/simpleplugin/class_attribute.inc:2676
 #: include/simpleplugin/simple-list.xml:67
@@ -299,8 +299,8 @@ msgstr "Επεξεργασία"
 #: plugins/admin/departments/dep-list.xml:67
 #: plugins/admin/departments/dep-list.xml:88
 #: plugins/admin/users/user-list.xml:112
-#: include/simpleplugin/class_dialogAttributes.inc:636
-#: include/simpleplugin/class_dialogAttributes.inc:637
+#: include/simpleplugin/class_dialogAttributes.inc:642
+#: include/simpleplugin/class_dialogAttributes.inc:643
 #: include/simpleplugin/simple-list.xml:75
 #: include/simpleplugin/simple-list.xml:125
 msgid "Remove"
@@ -349,8 +349,8 @@ msgid "Show application groups"
 msgstr "Εμφάνιση ομάδων εφαρμογών"
 
 #: plugins/admin/groups/class_groupManagement.inc:134
-msgid "Show department groups"
-msgstr "Εμφάνιση ομάδων τμημάτων"
+msgid "Show unidentified groups"
+msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:137
 #: include/select/groupSelect/group-filter.tpl.c:11
@@ -788,19 +788,37 @@ msgstr ""
 msgid "ACLs which are part of this group"
 msgstr "ACLs που είναι μέρος αυτής της ομάδας"
 
-#: plugins/admin/acl/class_aclManagement.inc:38
+#: plugins/admin/acl/class_aclManagement.inc:31
+#: plugins/admin/acl/class_aclManagement.inc:32
+#: plugins/admin/acl/class_aclManagement.inc:45
+msgid "ACL assignment creation"
+msgstr ""
+
+#: plugins/admin/acl/class_aclManagement.inc:33
+msgid "Create an ACL assignment on an arbitrary dn"
+msgstr ""
+
+#: plugins/admin/acl/class_aclManagement.inc:49
+msgid "Dn"
+msgstr ""
+
+#: plugins/admin/acl/class_aclManagement.inc:49
+msgid "DN you wish to add assignments for"
+msgstr ""
+
+#: plugins/admin/acl/class_aclManagement.inc:135
 msgid "ACL assignments"
 msgstr "Αναθέσεις ACL"
 
-#: plugins/admin/acl/class_aclManagement.inc:39
+#: plugins/admin/acl/class_aclManagement.inc:136
 msgid "ACL assignments management"
 msgstr ""
 
-#: plugins/admin/acl/class_aclManagement.inc:40
+#: plugins/admin/acl/class_aclManagement.inc:137
 msgid "Manage ACL roles assignments to users"
 msgstr ""
 
-#: plugins/admin/acl/class_aclManagement.inc:78
+#: plugins/admin/acl/class_aclManagement.inc:199
 #: plugins/admin/acl/class_aclAssignment.inc:263
 msgid "ACL Assignment"
 msgstr "Ανάθεση ACL"
@@ -1567,349 +1585,367 @@ msgstr "Διάρκεια συνεδρίας"
 msgid "Defines when a session will expire in seconds."
 msgstr "Καθορίζει πότε μια συνεδρία θα λήξει μέσα σε δευτερόλεπτα"
 
-#: plugins/config/class_configInLdap.inc:214
+#: plugins/config/class_configInLdap.inc:212
+msgid "HTTP authentication"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:212
+msgid "Use HTTP authentication protocol instead of the login form."
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:219
 #: include/class_SnapshotDialogs.inc:186
 msgid "Snapshots"
 msgstr "Στιγμιότυπα"
 
-#: plugins/config/class_configInLdap.inc:217
+#: plugins/config/class_configInLdap.inc:222
 msgid "Enable snapshots"
 msgstr "Ενεργοποίηση λήψεων στιγμιότυπων"
 
-#: plugins/config/class_configInLdap.inc:217
+#: plugins/config/class_configInLdap.inc:222
 msgid ""
 "This enables you to save certain states of entries and restore them later "
 "on."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:222
+#: plugins/config/class_configInLdap.inc:227
 msgid "Snapshot base"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:222
+#: plugins/config/class_configInLdap.inc:227
 msgid "The base where snapshots should be stored inside of the LDAP."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:229
+#: plugins/config/class_configInLdap.inc:234
 msgid "SSL"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:232
+#: plugins/config/class_configInLdap.inc:237
 msgid "Key path"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:232
+#: plugins/config/class_configInLdap.inc:237
 msgid "Path to FusionDirectory private key. Unused for now."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:237
+#: plugins/config/class_configInLdap.inc:242
 msgid "Certificate path"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:237
+#: plugins/config/class_configInLdap.inc:242
 msgid "Path to FusionDirectory certificate. Unused for now."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:242
-#: plugins/config/class_configInLdap.inc:257
+#: plugins/config/class_configInLdap.inc:247
+#: plugins/config/class_configInLdap.inc:262
 msgid "CA certificate path"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:242
+#: plugins/config/class_configInLdap.inc:247
 msgid "Path to the CA certificate. Used for validating Argonaut Server host."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:249
+#: plugins/config/class_configInLdap.inc:254
 msgid "CAS"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:252
+#: plugins/config/class_configInLdap.inc:257
 msgid "Enable CAS"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:252
+#: plugins/config/class_configInLdap.inc:257
 msgid "CAS login will be used instead of LDAP bind"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:257
+#: plugins/config/class_configInLdap.inc:262
 msgid "Path to the CA certificate of the CAS server"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:262
+#: plugins/config/class_configInLdap.inc:267
 msgid "Host"
 msgstr "Σ'υστημα"
 
-#: plugins/config/class_configInLdap.inc:262
+#: plugins/config/class_configInLdap.inc:267
 msgid "Host of the CAS server"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:267
+#: plugins/config/class_configInLdap.inc:272
 msgid "Port"
 msgstr "Θύρα"
 
-#: plugins/config/class_configInLdap.inc:267
+#: plugins/config/class_configInLdap.inc:272
 msgid "Port the CAS server is listening on"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:272
+#: plugins/config/class_configInLdap.inc:277
 msgid "CAS context"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:272
+#: plugins/config/class_configInLdap.inc:277
 msgid "CAS context to be used"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:279
+#: plugins/config/class_configInLdap.inc:284
 msgid "People and group storage"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:283
+#: plugins/config/class_configInLdap.inc:288
 msgid "People DN attribute"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:283
+#: plugins/config/class_configInLdap.inc:288
 msgid "Attribute to use at the beginning of users dn"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:288
+#: plugins/config/class_configInLdap.inc:293
 msgid "CN pattern"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:288
+#: plugins/config/class_configInLdap.inc:293
 msgid "The pattern to use to build the common name field"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:293
+#: plugins/config/class_configInLdap.inc:298
 msgid "Strict naming policy"
 msgstr "Αυστηρή πολιτική ονοματοδοσίας"
 
-#: plugins/config/class_configInLdap.inc:294
+#: plugins/config/class_configInLdap.inc:299
 msgid "Enables strict checking of user and group names"
 msgstr "Ενεργοποίηση αυστηρού ελέγχου στα ονόματα χρηστών και ομάδων"
 
-#: plugins/config/class_configInLdap.inc:299
+#: plugins/config/class_configInLdap.inc:304
 msgid "Group/user min id"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:300
+#: plugins/config/class_configInLdap.inc:305
 msgid ""
 "The minimum assignable user or group id to avoid security leaks with id 0 "
 "accounts."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:305
+#: plugins/config/class_configInLdap.inc:310
 msgid "Next id hook"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:305
+#: plugins/config/class_configInLdap.inc:310
 msgid ""
 "A script to be called for finding the next free id number for users or "
 "groups."
 msgstr "Ένα σενάριο που θα κληθεί για την εύρεση του επόμενου ελεύθερου id για χρήστες ή ομάδες."
 
-#: plugins/config/class_configInLdap.inc:309
+#: plugins/config/class_configInLdap.inc:314
 msgid "Base number for user id"
 msgstr "Αριθμός βάση για user id"
 
-#: plugins/config/class_configInLdap.inc:310
+#: plugins/config/class_configInLdap.inc:315
 msgid "Where to start looking for a new free user id."
 msgstr "Τοποθεσία εύρεσης νέου ελεύθερου user id."
 
-#: plugins/config/class_configInLdap.inc:315
+#: plugins/config/class_configInLdap.inc:320
 msgid "Base number for group id"
 msgstr "Αριθμός βάση για group id"
 
-#: plugins/config/class_configInLdap.inc:316
+#: plugins/config/class_configInLdap.inc:321
 msgid "Where to start looking for a new free group id."
 msgstr "Τοποθεσία εύρεσης νέου ελεύθερου group id."
 
-#: plugins/config/class_configInLdap.inc:321
+#: plugins/config/class_configInLdap.inc:326
 msgid "Users RDN"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:321
+#: plugins/config/class_configInLdap.inc:326
 msgid "The branch where users are stored."
 msgstr "Κλάδος στον οποίο αποθηκεύονται χρήστες."
 
-#: plugins/config/class_configInLdap.inc:326
+#: plugins/config/class_configInLdap.inc:331
 msgid "Groups RDN"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:326
+#: plugins/config/class_configInLdap.inc:331
 msgid "The branch where groups are stored."
 msgstr "Κλάδος στον οποίο αποθηκεύονται ομάδες."
 
-#: plugins/config/class_configInLdap.inc:331
+#: plugins/config/class_configInLdap.inc:336
 msgid "ACL role RDN"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:331
+#: plugins/config/class_configInLdap.inc:336
 msgid "The branch where ACL roles are stored."
 msgstr "Κλάδος στον οποίο αποθηκεύονται ρόλοι ACL."
 
-#: plugins/config/class_configInLdap.inc:336
+#: plugins/config/class_configInLdap.inc:341
 msgid "Id allocation method"
 msgstr "Μέθοδος διανομής id"
 
-#: plugins/config/class_configInLdap.inc:336
+#: plugins/config/class_configInLdap.inc:341
 msgid "Method to allocate user/group ids"
 msgstr "Μέθοδος για την διανομή user/group id"
 
-#: plugins/config/class_configInLdap.inc:339
+#: plugins/config/class_configInLdap.inc:344
 msgid "Traditional"
 msgstr "Παραδοσιακή"
 
-#: plugins/config/class_configInLdap.inc:339
+#: plugins/config/class_configInLdap.inc:344
 msgid "Samba unix id pool"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:342
+#: plugins/config/class_configInLdap.inc:347
 msgid "Pool user id min"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:342
+#: plugins/config/class_configInLdap.inc:347
 msgid "Minimum value for user id when using pool method"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:347
+#: plugins/config/class_configInLdap.inc:352
 msgid "Pool user id max"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:347
+#: plugins/config/class_configInLdap.inc:352
 msgid "Maximum value for user id when using pool method"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:352
+#: plugins/config/class_configInLdap.inc:357
 msgid "Pool group id min"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:352
+#: plugins/config/class_configInLdap.inc:357
 msgid "Minimum value for group id when using pool method"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:357
+#: plugins/config/class_configInLdap.inc:362
 msgid "Pool group id max"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:357
+#: plugins/config/class_configInLdap.inc:362
 msgid "Maximum value for group id when using pool method"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:364
+#: plugins/config/class_configInLdap.inc:367
+msgid "Restrict role members"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:367
+msgid ""
+"When enabled only users from the same branch or members of groups from the "
+"same branch can be added to a role."
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:373
 msgid "Debugging"
 msgstr "Αποσφαλμάτωση"
 
-#: plugins/config/class_configInLdap.inc:367
+#: plugins/config/class_configInLdap.inc:376
 msgid "Display errors"
 msgstr "Προβολή σφαλμάτων"
 
-#: plugins/config/class_configInLdap.inc:368
+#: plugins/config/class_configInLdap.inc:377
 msgid ""
 "Shows PHP errors in the upper part of the screen. This should be disabled in"
 " productive deployments, because there might be some passwords in it."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:372
+#: plugins/config/class_configInLdap.inc:381
 msgid "Maximum LDAP query time"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:372
+#: plugins/config/class_configInLdap.inc:381
 msgid ""
 "Stop LDAP actions if there is no answer within the specified number of "
 "seconds."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:377
+#: plugins/config/class_configInLdap.inc:386
 msgid "Log LDAP statistics"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:378
+#: plugins/config/class_configInLdap.inc:387
 msgid ""
 "Track LDAP timing statistics to the syslog. This may help to find indexing "
 "problems or bad search filters."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:383
+#: plugins/config/class_configInLdap.inc:392
 msgid "Debug level"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:384
+#: plugins/config/class_configInLdap.inc:393
 msgid "Display certain information on each page load."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:396
+#: plugins/config/class_configInLdap.inc:405
 msgid "Miscellaneous"
 msgstr "Διάφορα"
 
-#: plugins/config/class_configInLdap.inc:401
+#: plugins/config/class_configInLdap.inc:410
 msgid "Hooks that are called when specific actions happens"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:405
+#: plugins/config/class_configInLdap.inc:414
 msgid "tab"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:405
+#: plugins/config/class_configInLdap.inc:414
 msgid "The tab that this hook concerns"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:410
+#: plugins/config/class_configInLdap.inc:419
 msgid "mode"
 msgstr "λειτουργία"
 
-#: plugins/config/class_configInLdap.inc:410
+#: plugins/config/class_configInLdap.inc:419
 msgid "When to call this command"
 msgstr "Πότε καλείται αυτή η εντολή"
 
-#: plugins/config/class_configInLdap.inc:416
+#: plugins/config/class_configInLdap.inc:425
 msgid "cmd"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:416
+#: plugins/config/class_configInLdap.inc:425
 msgid "The command that will be called"
 msgstr "Η εντολή που θα κληθεί"
 
-#: plugins/config/class_configInLdap.inc:423
+#: plugins/config/class_configInLdap.inc:432
 msgid "Hooks"
 msgstr "Hooks"
 
-#: plugins/config/class_configInLdap.inc:430
+#: plugins/config/class_configInLdap.inc:439
 msgid "Display hook output"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:431
+#: plugins/config/class_configInLdap.inc:440
 msgid ""
 "When enabled successful hook execution output is displayed to the user using"
 " a dialog."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:436
+#: plugins/config/class_configInLdap.inc:445
 msgid "Available shells"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:436
+#: plugins/config/class_configInLdap.inc:445
 msgid "Available POSIX shells for FD users."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:443
+#: plugins/config/class_configInLdap.inc:452
 msgid "Show ACL tab on all objects"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:444
+#: plugins/config/class_configInLdap.inc:453
 msgid ""
 "For very specific ACL rights setting where you might need to give right on a"
 " single object."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:449
+#: plugins/config/class_configInLdap.inc:458
 msgid "Available department categories"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:449
+#: plugins/config/class_configInLdap.inc:458
 msgid "Available categories in the departments dropdown"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:465
+#: plugins/config/class_configInLdap.inc:474
 #: setup/class_setupStep_Language.inc:69
 msgid "Automatic"
 msgstr ""
@@ -2127,8 +2163,7 @@ msgstr "Επιλογή όλων"
 #: include/functions.inc:3182 include/functions.inc:3189
 #: include/functions.inc:3198 include/functions.inc:3260
 #: include/class_msg_dialog.inc:128 include/class_xml.inc:58
-#: include/class_plugin.inc:1662 include/class_CopyPasteHandler.inc:278
-#: include/simpleplugin/class_dialogAttributes.inc:733
+#: include/class_plugin.inc:1664 include/class_CopyPasteHandler.inc:278
 #: include/simpleplugin/class_attribute.inc:1540
 #: include/simpleplugin/class_attribute.inc:1543
 #: include/simpleplugin/class_attribute.inc:1546
@@ -2141,7 +2176,7 @@ msgstr "Επιλογή όλων"
 #: include/password-methods/class_password-methods-sasl.inc:86
 #: include/password-methods/class_password-methods.inc:437
 #: include/password-methods/class_password-methods.inc:447
-#: include/class_SnapshotHandler.inc:415 html/index.php:434 html/index.php:444
+#: include/class_SnapshotHandler.inc:415 html/index.php:473 html/index.php:483
 #: setup/class_setupStep_Migrate.inc:935
 #: ihtml/themes/default/msg_dialog.tpl.c:2 setup/setup_checks.tpl.c:5
 msgid "Error"
@@ -2287,7 +2322,7 @@ msgstr ""
 #: include/class_SnapshotHandler.inc:50 include/class_SnapshotHandler.inc:244
 #: include/class_SnapshotHandler.inc:277 include/class_SnapshotHandler.inc:292
 #: include/class_SnapshotHandler.inc:422 include/class_SnapshotHandler.inc:425
-#: html/index.php:360 html/class_passwordRecovery.inc:497
+#: html/index.php:369 html/class_passwordRecovery.inc:497
 #: setup/class_setupStep_Migrate.inc:451
 #: setup/class_setupStep_Migrate.inc:1130
 msgid "LDAP error"
@@ -3372,7 +3407,7 @@ msgid ""
 " be done by others will get lost if you save this entry!"
 msgstr ""
 
-#: include/class_plugin.inc:1465
+#: include/class_plugin.inc:1467
 #, php-format
 msgid "Tab \"%s\""
 msgstr "Tab \"%s\""
@@ -3443,27 +3478,27 @@ msgstr "πρότυπο %s"
 msgid "Show %s"
 msgstr "Εμφάνιση %s"
 
-#: include/simpleplugin/class_dialogAttributes.inc:409
+#: include/simpleplugin/class_dialogAttributes.inc:415
 #, php-format
 msgid "Group %s"
 msgstr "Ομάδα %s"
 
-#: include/simpleplugin/class_dialogAttributes.inc:411
+#: include/simpleplugin/class_dialogAttributes.inc:417
 #, php-format
 msgid "Role %s"
 msgstr "Ρόλος %s"
 
-#: include/simpleplugin/class_dialogAttributes.inc:446
+#: include/simpleplugin/class_dialogAttributes.inc:452
 msgid "Group of user"
 msgstr "Ομάδα του χρήστη"
 
-#: include/simpleplugin/class_dialogAttributes.inc:615
+#: include/simpleplugin/class_dialogAttributes.inc:621
 #: include/simpleplugin/class_attribute.inc:1090
 #: include/simpleplugin/class_attribute.inc:1124
 msgid "None"
 msgstr "Κανένα"
 
-#: include/simpleplugin/class_dialogAttributes.inc:617
+#: include/simpleplugin/class_dialogAttributes.inc:623
 msgid "Unknown"
 msgstr "Άγνωστο"
 
@@ -3731,17 +3766,17 @@ msgstr "Παρακαλώ ελέγξτε το συνδυασμό όνομα χρ�
 msgid "Account locked. Please contact your system administrator!"
 msgstr ""
 
-#: html/index.php:436
+#: html/index.php:475
 #, php-format
 msgid "CAS user \"%s\" could not be found in the LDAP"
 msgstr ""
 
-#: html/index.php:446
+#: html/index.php:485
 #, php-format
 msgid "CAS user \"%s\" match several users in the LDAP"
 msgstr ""
 
-#: html/index.php:481
+#: html/index.php:522
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
