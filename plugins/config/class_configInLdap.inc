@@ -209,7 +209,7 @@ class configInLdap extends simplePlugin
             0 /*min*/, FALSE /*no max*/, 1800
           ),
           new BooleanAttribute (
-            _('HTTP authentication'), _('Use HTTP authentication protocol instead of the login form.'),
+            _('HTTP authentication'), _('Use HTTP authentication protocol instead of the login form.'),
             'fdHttpAuthActivated', FALSE,
             FALSE
           ),
