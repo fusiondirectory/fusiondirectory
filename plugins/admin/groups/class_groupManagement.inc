@@ -131,7 +131,7 @@ class groupManagement extends simpleManagement
       array('id'  => 'PRIMARY',     'label'  => _('Show primary groups')),
       array('id'  => 'ROLE',        'label'  => _('Show organizational roles')),
       array('id'  => 'APPLICATION', 'label'  => _('Show application groups')),
-      array('id'  => 'DEPARTMENT',  'label'  => _('Show department groups')),
+      array('id'  => 'UNKNOWN',     'label'  => _('Show unidentified groups')),
     );
     if (class_available('mailAccount')) {
       $filters[]= array('id'  => 'MAIL',        'label'  => _('Show mail groups'));
