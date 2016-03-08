@@ -1336,10 +1336,10 @@ sub migrate_dns {
         @entries = $mesg->entries;
 
         foreach my $entry (@entries) {
-          $entry->dn() =~ m/^([^,]+),(relativeDomainName=[^,]+),$zoneDn$/ or die "Could not parse dn ".$entry->dn()."\n";
+          $entry->dn() =~ m/^([^,]+),(relativeDomainName=[^,]+),$zoneDn$/ or next;
           $rdn = $1;
           my $relativeDomainName = $2;
-          if ($rdn == $relativeDomainName) {
+          if ($rdn eq $relativeDomainName) {
             my %replace = ();
             foreach my $attr (@{$entry->attributes()}) {
               $replace{$attr} = $entry->get_value($attr, asref => 1)
