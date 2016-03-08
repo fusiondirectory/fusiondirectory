@@ -1286,7 +1286,7 @@ sub migrate_dns {
   my $mesg = $ldap->search(
     base => "$base",
     filter => "(&(objectClass=dNSZone)(relativeDomainName=@)(!(|(zoneName=*.arpa)(zoneName=*.arpa.))))",
-    attrs => ['gosaAclEntry']
+    attrs => ['zoneName']
   );
   $mesg->code && die $mesg->error;
 
@@ -1324,6 +1324,42 @@ sub migrate_dns {
           newsuperior   => "$dnsrdn,$entrybase"
         );
         $result->code && die "Migration of DNS zone entry failed, LDAP error: ".$result->error."\n";
+
+        my $zoneDn = "$rdn,$dnsrdn,$entrybase";
+
+        $mesg = $ldap->search(
+          base    => $zoneDn,
+          filter  => "(&(objectClass=dNSZone)(relativeDomainName=*)(!(|(zoneName=*.arpa)(zoneName=*.arpa.))))"
+        );
+        $mesg->code && die $mesg->error;
+
+        @entries = $mesg->entries;
+
+        foreach my $entry (@entries) {
+          $entry->dn() =~ m/^([^,]+),(relativeDomainName=[^,]+),$zoneDn$/ or die "Could not parse dn ".$entry->dn()."\n";
+          $rdn = $1;
+          my $relativeDomainName = $2;
+          if ($rdn == $relativeDomainName) {
+            my %replace = ();
+            foreach my $attr (@{$entry->attributes()}) {
+              $replace{$attr} = $entry->get_value($attr, asref => 1)
+            }
+            $result = $ldap->modify (
+              "$rdn,$zoneDn",
+              replace => %replace
+            );
+            $result->code && die "Migration of DNS zone subentry failed, LDAP error: ".$result->error."\n";
+            $result = $ldap->delete ($entry->dn());
+          } else {
+            $result = $ldap->moddn (
+              $entry->dn(),
+              newrdn        => $rdn,
+              deleteoldrdn  => '1',
+              newsuperior   => $zoneDn
+            );
+          }
+          $result->code && die "Migration of DNS zone subentry failed, LDAP error: ".$result->error."\n";
+        }
       }
     }
   }
