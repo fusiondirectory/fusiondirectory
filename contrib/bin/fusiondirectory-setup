@@ -1363,13 +1363,32 @@ sub migrate_dns {
           $result->code && die "Migration of DNS zone subentry failed, LDAP error: ".$result->error."\n";
         }
 
-        $result = $ldap->modify (
-          "$systemdn",
-          add => {
-            'fdDNSZoneDn' => 'zoneName=fd.org.,ou=dns,dc=opensides,dc=be',
-            'objectClass' => 'fdDNSHost'
-          }
+
+        $mesg = $ldap->search(
+          base    => $systemdn,
+          scope   => 'base',
+          filter  => '(objectClass=*)'
         );
+        $mesg->code && die $mesg->error;
+        my $system_entry = $mesg->shift_entry;
+        $system_entry->get_value('objectClass');
+        my @classes = $system_entry->get_value('objectClass');
+        if (grep {$_ eq 'fdDNSHost'} @classes) {
+          $result = $ldap->modify (
+            "$systemdn",
+            add => {
+              'fdDNSZoneDn' => $zoneDn,
+            }
+          );
+        } else {
+          $result = $ldap->modify (
+            "$systemdn",
+            add => {
+              'fdDNSZoneDn' => $zoneDn,
+              'objectClass' => 'fdDNSHost'
+            }
+          );
+        }
         $result->code && print "Could not add DNS tab on $systemdn, LDAP error: ".$result->error."\nYou'll need to activate it yourself\n";
       }
     }
