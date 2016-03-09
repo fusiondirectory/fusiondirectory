@@ -1311,9 +1311,10 @@ sub migrate_dns {
   } else {
     if (ask_yn_question("Move these entries to the DNS branch ($dnsrdn)?")) {
       foreach my $entrydn (@baddns) {
-        $entrydn =~ m/^([^,]+),.+$systemrdn,(.+)$/ or die "Could not parse dn ".$entrydn."\n";
+        $entrydn =~ m/^([^,]+),(.+$systemrdn,(.+))$/ or die "Could not parse dn ".$entrydn."\n";
         my $rdn = $1;
-        my $entrybase = $2;
+        my $systemdn = $2;
+        my $entrybase = $3;
         if (!branch_exists($ldap, "$dnsrdn,$entrybase")) {
           create_branch($ldap, $entrybase, $dnsrdn);
         }
@@ -1361,6 +1362,15 @@ sub migrate_dns {
           }
           $result->code && die "Migration of DNS zone subentry failed, LDAP error: ".$result->error."\n";
         }
+
+        $result = $ldap->modify (
+          "$systemdn",
+          add => {
+            'fdDNSZoneDn' => 'zoneName=fd.org.,ou=dns,dc=opensides,dc=be',
+            'objectClass' => 'fdDNSHost'
+          }
+        );
+        $result->code && print "Could not add DNS tab on $systemdn, LDAP error: ".$result->error."\nYou'll need to activate it yourself\n";
       }
     }
   }
