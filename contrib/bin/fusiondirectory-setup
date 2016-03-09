@@ -1341,12 +1341,13 @@ sub migrate_dns {
           my $relativeDomainName = $2;
           if ($rdn eq $relativeDomainName) {
             my %replace = ();
-            foreach my $attr (@{$entry->attributes()}) {
+            my @attributes = $entry->attributes();
+            foreach my $attr (@attributes) {
               $replace{$attr} = $entry->get_value($attr, asref => 1)
             }
             $result = $ldap->modify (
               "$rdn,$zoneDn",
-              replace => %replace
+              replace => \%replace
             );
             $result->code && die "Migration of DNS zone subentry failed, LDAP error: ".$result->error."\n";
             $result = $ldap->delete ($entry->dn());
