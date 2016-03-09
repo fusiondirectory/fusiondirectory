@@ -29,7 +29,11 @@ class RoleMembersAttribute extends UsersAttribute
       if ($this->whitelistDns === NULL) {
         /* Computes a list of members of all groups within our branch */
         $groups = objects::ls('ogroup', array('member' => '*'), $this->plugin->base);
-        $this->whitelistDns = call_user_func_array('array_merge_recursive', $groups)['member'];
+        if (empty($groups)) {
+          $this->whitelistDns = array();
+        } else {
+          $this->whitelistDns = call_user_func_array('array_merge_recursive', $groups)['member'];
+        }
       }
       return array(
         'branches'  => array($this->plugin->base),
