@@ -192,7 +192,7 @@ class simpleManagement extends management
 
     $this->configureHeadpage();
     $this->configureFilter();
-    if ($this->departmentBrowser === FALSE) {
+    if ($this->baseMode === FALSE) {
       $this->headpage->setBase($this->config->current['BASE']);
     }
   }
