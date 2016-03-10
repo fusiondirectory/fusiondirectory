@@ -1500,7 +1500,7 @@ class listing {
       }
     }
 
-    if (!isset($this->bases[$this->base])) {
+    if (!empty($this->bases) && !isset($this->bases[$this->base])) {
       $this->base = key($this->bases);
     }
 
