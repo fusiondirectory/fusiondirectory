@@ -1,6 +1,24 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.9.3
+
+Bugs #4444: Debug log prevent connection in some cases
+Bugs #4452: Adding a user to a group using "Groups and roles" tab creates some PHP errors
+Bugs #4453: Adding a user to a group using "Groups and roles" with trustMode fails
+Bugs #4456: Can't find a way to specify a '/' in distribution or media name in the repository plugin
+Bugs #4457: FusionDirectory don't find the dns server if he is in a department
+Bugs #4459: Desactivate other authentification method from configuration file
+Bugs #4463: There are still traces of the rsyslog plugin in the schema and config class
+Bugs #4464: There are still traces of the rsyslog plugin in the schema and config class
+Bugs #4465: remove from the service-fd.schema objectClass no longer used
+Bugs #4466: Pull request 11 from github
+Bugs #4479: In primary group in unix tab there is a «None» option
+Bugs #4481: «Enable primary group filter» option is obsolete
+Bugs #4485: 'fusiondirectory-insert-schema -m' should check if the specificed file exists
+Wishlist #4385: Locked users can connect using SSH keys
+Wishlist #4473: Locked users can connect using SSH keys
+
 * FusionDirectory 1.0.9.2
 
 [Fix] Bugs #3880: mailbox deletion through sieve and cyrus does not work
