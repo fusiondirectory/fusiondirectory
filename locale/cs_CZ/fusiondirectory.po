@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-03-08 17:12+0100\n"
+"POT-Creation-Date: 2016-03-14 12:07+0100\n"
 "PO-Revision-Date: 2016-03-07 12:09+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/cs_CZ/)\n"
@@ -28,27 +28,27 @@ msgstr "Vítejte, %s!"
 msgid "References"
 msgstr "Odkazy"
 
-#: plugins/admin/groups/class_roleGeneric.inc:53
 #: plugins/admin/groups/class_roleGeneric.inc:57
+#: plugins/admin/groups/class_roleGeneric.inc:61
 #: plugins/admin/groups/class_groupManagement.inc:71
 #: plugins/admin/aclrole/class_aclRole.inc:78
 #: plugins/admin/acl/class_aclAssignment.inc:49
 msgid "Role"
 msgstr "Role"
 
-#: plugins/admin/groups/class_roleGeneric.inc:54
+#: plugins/admin/groups/class_roleGeneric.inc:58
 msgid "Role information"
 msgstr "Informace o roli"
 
-#: plugins/admin/groups/class_roleGeneric.inc:58
+#: plugins/admin/groups/class_roleGeneric.inc:62
 msgid "Organizational role"
 msgstr "Organizační role"
 
-#: plugins/admin/groups/class_roleGeneric.inc:80
+#: plugins/admin/groups/class_roleGeneric.inc:84
 msgid "Informations"
 msgstr "Informace"
 
-#: plugins/admin/groups/class_roleGeneric.inc:84
+#: plugins/admin/groups/class_roleGeneric.inc:88
 #: plugins/admin/groups/class_group.inc:61
 #: plugins/admin/groups/class_ogroup.inc:187
 #: plugins/admin/groups/group-list.xml:33
@@ -62,13 +62,13 @@ msgstr "Informace"
 msgid "Name"
 msgstr "Název"
 
-#: plugins/admin/groups/class_roleGeneric.inc:84
+#: plugins/admin/groups/class_roleGeneric.inc:88
 #: plugins/admin/groups/class_group.inc:61
 #: plugins/admin/groups/class_ogroup.inc:187
 msgid "Name of this group"
 msgstr "Název této skupiny"
 
-#: plugins/admin/groups/class_roleGeneric.inc:89
+#: plugins/admin/groups/class_roleGeneric.inc:93
 #: plugins/admin/groups/class_group.inc:66
 #: plugins/admin/groups/class_ogroup.inc:192
 #: plugins/admin/groups/group-list.xml:41
@@ -81,26 +81,26 @@ msgstr "Název této skupiny"
 msgid "Description"
 msgstr "Popis"
 
-#: plugins/admin/groups/class_roleGeneric.inc:89
+#: plugins/admin/groups/class_roleGeneric.inc:93
 msgid "Description of the role"
 msgstr "Popis role"
 
-#: plugins/admin/groups/class_roleGeneric.inc:93
+#: plugins/admin/groups/class_roleGeneric.inc:97
 msgid "Phone number"
 msgstr "Telefonní číslo"
 
-#: plugins/admin/groups/class_roleGeneric.inc:97
+#: plugins/admin/groups/class_roleGeneric.inc:101
 msgid "Fax number"
 msgstr "Faxové číslo"
 
-#: plugins/admin/groups/class_roleGeneric.inc:101
+#: plugins/admin/groups/class_roleGeneric.inc:105
 #: plugins/admin/users/class_userManagement.inc:42
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:27
 #: setup/class_setupStep_Migrate.inc:871
 msgid "Users"
 msgstr "Uživatelé"
 
-#: plugins/admin/groups/class_roleGeneric.inc:101
+#: plugins/admin/groups/class_roleGeneric.inc:105
 msgid "Add users for the role"
 msgstr "Přidat uživatele pro tuto roli"
 

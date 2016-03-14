@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-03-08 17:12+0100\n"
+"POT-Creation-Date: 2016-03-14 12:07+0100\n"
 "PO-Revision-Date: 2016-03-07 12:34+0000\n"
 "Last-Translator: Benoit Mortier <benoit.mortier@opensides.be>\n"
 "Language-Team: French (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/fr/)\n"
@@ -31,27 +31,27 @@ msgstr "Bienvenue %s !"
 msgid "References"
 msgstr "Références"
 
-#: plugins/admin/groups/class_roleGeneric.inc:53
 #: plugins/admin/groups/class_roleGeneric.inc:57
+#: plugins/admin/groups/class_roleGeneric.inc:61
 #: plugins/admin/groups/class_groupManagement.inc:71
 #: plugins/admin/aclrole/class_aclRole.inc:78
 #: plugins/admin/acl/class_aclAssignment.inc:49
 msgid "Role"
 msgstr "Rôle"
 
-#: plugins/admin/groups/class_roleGeneric.inc:54
+#: plugins/admin/groups/class_roleGeneric.inc:58
 msgid "Role information"
 msgstr "Information du rôle"
 
-#: plugins/admin/groups/class_roleGeneric.inc:58
+#: plugins/admin/groups/class_roleGeneric.inc:62
 msgid "Organizational role"
 msgstr "Rôle organisationnel"
 
-#: plugins/admin/groups/class_roleGeneric.inc:80
+#: plugins/admin/groups/class_roleGeneric.inc:84
 msgid "Informations"
 msgstr "Informations"
 
-#: plugins/admin/groups/class_roleGeneric.inc:84
+#: plugins/admin/groups/class_roleGeneric.inc:88
 #: plugins/admin/groups/class_group.inc:61
 #: plugins/admin/groups/class_ogroup.inc:187
 #: plugins/admin/groups/group-list.xml:33
@@ -65,13 +65,13 @@ msgstr "Informations"
 msgid "Name"
 msgstr "Nom"
 
-#: plugins/admin/groups/class_roleGeneric.inc:84
+#: plugins/admin/groups/class_roleGeneric.inc:88
 #: plugins/admin/groups/class_group.inc:61
 #: plugins/admin/groups/class_ogroup.inc:187
 msgid "Name of this group"
 msgstr "Nom du groupe"
 
-#: plugins/admin/groups/class_roleGeneric.inc:89
+#: plugins/admin/groups/class_roleGeneric.inc:93
 #: plugins/admin/groups/class_group.inc:66
 #: plugins/admin/groups/class_ogroup.inc:192
 #: plugins/admin/groups/group-list.xml:41
@@ -84,26 +84,26 @@ msgstr "Nom du groupe"
 msgid "Description"
 msgstr "Description"
 
-#: plugins/admin/groups/class_roleGeneric.inc:89
+#: plugins/admin/groups/class_roleGeneric.inc:93
 msgid "Description of the role"
 msgstr "Description du rôle"
 
-#: plugins/admin/groups/class_roleGeneric.inc:93
+#: plugins/admin/groups/class_roleGeneric.inc:97
 msgid "Phone number"
 msgstr "Numéro de téléphone"
 
-#: plugins/admin/groups/class_roleGeneric.inc:97
+#: plugins/admin/groups/class_roleGeneric.inc:101
 msgid "Fax number"
 msgstr "Numéro de fax"
 
-#: plugins/admin/groups/class_roleGeneric.inc:101
+#: plugins/admin/groups/class_roleGeneric.inc:105
 #: plugins/admin/users/class_userManagement.inc:42
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:27
 #: setup/class_setupStep_Migrate.inc:871
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: plugins/admin/groups/class_roleGeneric.inc:101
+#: plugins/admin/groups/class_roleGeneric.inc:105
 msgid "Add users for the role"
 msgstr "Ajouter des utilisateurs au rôle"
 
