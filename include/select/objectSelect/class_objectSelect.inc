@@ -18,7 +18,8 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class objectSelect extends simpleSelectManagement
+/* We extend userSelect to have the login column */
+class objectSelect extends userSelect
 {
   protected $objectTypes = array(
     'user', 'application',  'terminal', 'workstation',
