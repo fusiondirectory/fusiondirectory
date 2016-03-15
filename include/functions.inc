@@ -3149,10 +3149,10 @@ function get_next_id_pool($attrib)
 
       /* Add as default */
       $attrs = array(
-        'objectClass' => array('organizationalUnit', 'sambaUnixIdPool')
-        'ou'          => 'idmap';
-        'uidNumber'   => $minUserId;
-        'gidNumber'   => $minGroupId;
+        'objectClass' => array('organizationalUnit', 'sambaUnixIdPool'),
+        'ou'          => 'idmap',
+        'uidNumber'   => $minUserId,
+        'gidNumber'   => $minGroupId,
       );
       $ldap->cd('ou=idmap,'.$config->current['BASE']);
       $ldap->add($attrs);
