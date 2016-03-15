@@ -220,7 +220,7 @@ class Attribute
     return $this->required;
   }
 
-  protected function setRequired ($bool)
+  function setRequired ($bool)
   {
     $this->required = $bool;
   }
@@ -1109,7 +1109,7 @@ class SelectAttribute extends Attribute
     }
   }
 
-  protected function setRequired ($bool)
+  function setRequired ($bool)
   {
     parent::setRequired($bool);
     $key = array_search("", $this->choices, TRUE);
