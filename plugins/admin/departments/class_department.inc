@@ -99,7 +99,7 @@ class department extends simplePlugin
           new StringAttribute(
             _('Country'), _('Country'), 'co', FALSE
           ),
-          new TextAreaAttribute(
+          new PostalAddressAttribute(
             _('Address'), sprintf(_('A postal address for this %s'), $name),
             'postalAddress', FALSE
           ),
