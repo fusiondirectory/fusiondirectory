@@ -233,6 +233,42 @@ class UserPasswordAttribute extends CompositeAttribute
   }
 }
 
+class PostalAddressAttribute extends TextAreaAttribute
+{
+  function inputValue ($ldapValue)
+  {
+    $string = $ldapValue;
+    $offset = 0;
+    $lastslash = NULL;
+    while (preg_match('/[\\\$]/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
+      $offset   = $m[0][1] + 1;
+      if ($m[0][0] == '\\') {
+        if ($lastslash == $m[0][1] - 1) {
+          $string = substr_replace($string, '\\', $m[0][1] - 1, 2);
+          $offset = $m[0][1];
+          $lastslash = NULL;
+        } else {
+          $lastslash = $m[0][1];
+        }
+      } elseif ($m[0][0] == '$') {
+        if ($lastslash == $m[0][1] - 1) {
+          $string = substr_replace($string, '$', $m[0][1] - 1, 2);
+          $offset = $m[0][1];
+        } else {
+          $string = substr_replace($string, "\n", $m[0][1], 1);
+          $offset = $m[0][1];
+        }
+      }
+    }
+    return $string;
+  }
+
+  function computeLdapValue ()
+  {
+    return preg_replace("/\n/", '$', addcslashes($this->getValue(), '$\\'));
+  }
+}
+
 class user extends simplePlugin
 {
   var $objectclasses  = array('inetOrgPerson','organizationalPerson','person');
@@ -308,7 +344,7 @@ class user extends simplePlugin
             _('State'), _('State'),
             'st', FALSE
           ),
-          new TextAreaAttribute (
+          new PostalAddressAttribute (
             _('Address'), _('Business postal address'),
             'postalAddress', FALSE
           ),
@@ -366,7 +402,7 @@ class user extends simplePlugin
             _('Display name'), _('Name this user should appear as. Used by Exchange.'),
             'displayName', FALSE
           ),
-          new TextAreaAttribute (
+          new PostalAddressAttribute (
             _('Home address'), _('Home postal address'),
             'homePostalAddress', FALSE
           ),
