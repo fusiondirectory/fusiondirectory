@@ -265,7 +265,7 @@ class PostalAddressAttribute extends TextAreaAttribute
 
   function computeLdapValue ()
   {
-    return preg_replace("/\n/", '$', addcslashes($this->getValue(), '$\\'));
+    return str_replace(array("\r\n", "\n", "\r"), '$', addcslashes($this->getValue(), '$\\'));
   }
 }
 
