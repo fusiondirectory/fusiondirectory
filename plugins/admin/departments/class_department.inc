@@ -147,11 +147,13 @@ class department extends simplePlugin
     $categoriesList = $this->config->get_cfg_value('DepartmentCategories', array());
 
     /* Insert current value to possibilities */
-    $businessCategory = $this->attributesAccess['businessCategory']->getValue();
-    if (($businessCategory != "") && !in_array($businessCategory, $categoriesList)) {
-      $categoriesList[] = $businessCategory;
+    if (isset($this->attributesAccess['businessCategory'])) {
+      $businessCategory = $this->attributesAccess['businessCategory']->getValue();
+      if (($businessCategory != "") && !in_array($businessCategory, $categoriesList)) {
+        $categoriesList[] = $businessCategory;
+      }
+      $this->attributesAccess['businessCategory']->setChoices($categoriesList);
     }
-    $this->attributesAccess['businessCategory']->setChoices($categoriesList);
 
     $this->attributesAccess[$this->getNamingAttr()]->setUnique(TRUE);
   }
