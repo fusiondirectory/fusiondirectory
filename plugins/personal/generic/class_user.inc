@@ -237,35 +237,24 @@ class PostalAddressAttribute extends TextAreaAttribute
 {
   function inputValue ($ldapValue)
   {
-    $string = $ldapValue;
-    $offset = 0;
-    $lastslash = NULL;
-    while (preg_match('/[\\\$]/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
-      $offset   = $m[0][1] + 1;
-      if ($m[0][0] == '\\') {
-        if ($lastslash == $m[0][1] - 1) {
-          $string = substr_replace($string, '\\', $m[0][1] - 1, 2);
-          $offset = $m[0][1];
-          $lastslash = NULL;
-        } else {
-          $lastslash = $m[0][1];
-        }
-      } elseif ($m[0][0] == '$') {
-        if ($lastslash == $m[0][1] - 1) {
-          $string = substr_replace($string, '$', $m[0][1] - 1, 2);
-          $offset = $m[0][1];
-        } else {
-          $string = substr_replace($string, "\n", $m[0][1], 1);
-          $offset = $m[0][1];
-        }
-      }
-    }
-    return $string;
+    return str_replace(
+      array('$',  '\24','\5C'),
+      array("\n", '$',  '\\'),
+      $ldapValue
+    );
   }
 
   function computeLdapValue ()
   {
-    return str_replace(array("\r\n", "\n", "\r"), '$', addcslashes($this->getValue(), '$\\'));
+    return str_replace(
+      array("\r\n", "\n", "\r"),
+      '$',
+      str_replace(
+        array('\\', '$'),
+        array('\5C','\24'),
+        $this->getValue()
+      )
+    );
   }
 }
 
