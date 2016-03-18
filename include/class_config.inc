@@ -476,65 +476,10 @@ class config  {
       $this->data['SERVERS']['IMAP']  = $mailMethodClass::get_server_list($this);
     } elseif (class_available('mailMethod')) {
       msg_dialog::display(
-        _("Error"),
-        sprintf(_("The selected mail method (class %s) is not available"), $mailMethodClass),
+        _('Error'),
+        sprintf(_('The selected mail method (class %s) is not available'), $mailMethodClass),
         ERROR_DIALOG
       );
-    }
-
-    /* Get kerberos servers */
-    $ldap->cd($this->current['BASE']);
-    $ldap->search("(objectClass=goKrbServer)(goKrbRealm=*)(goKrbAdmin=*))");
-    $this->data['SERVERS']['KERBEROS'] = array();
-    while ($attrs = $ldap->fetch()) {
-      $this->data['SERVERS']['KERBEROS'][] = array(
-        'SERVER'  => $attrs['cn'][0],
-        'REALM'   => $attrs['goKrbRealm'][0],
-        'ADMIN'   => $attrs['goKrbAdmin'][0]
-      );
-    }
-
-    /* Get fax servers */
-    $ldap->cd($this->current['BASE']);
-    $ldap->search("(objectClass=goFaxServer)");
-    $this->data['SERVERS']['FAX'] = array();
-    while ($attrs = $ldap->fetch()) {
-      $this->data['SERVERS']['FAX'][] = array(
-        'SERVER'    => $attrs['cn'][0],
-        'LOGIN'     => $attrs['goFaxAdmin'][0],
-        'PASSWORD'  => $attrs['goFaxPassword'][0]
-      );
-    }
-
-    /* Get asterisk servers */
-    $ldap->cd($this->current['BASE']);
-    $ldap->search("(objectClass=goFonServer)");
-    $this->data['SERVERS']['FON'] = array();
-    while ($attrs = $ldap->fetch()) {
-
-      $entry = array(
-        'DN'                  => $attrs['dn'],
-        'SERVER'              => $attrs['cn'][0],
-        'LOGIN'               => $attrs['goFonAdmin'][0],
-        'PASSWORD'            => $attrs['goFonPassword'][0],
-        'DB'                  => "gophone",
-        'SIP_TABLE'           => "sip_users",
-        'EXT_TABLE'           => "extensions",
-        'VOICE_TABLE'         => "voicemail_users",
-        'QUEUE_TABLE'         => "queues",
-        'QUEUE_MEMBER_TABLE'  => "queue_members"
-      );
-      if (isset($attrs['fdAsteriskDriver'][0])) {
-        $entry['DRIVER'] = $attrs['fdAsteriskDriver'][0];
-      }
-
-      /* Add 0 entry for development */
-      if (count($this->data['SERVERS']['FON']) == 0) {
-        $this->data['SERVERS']['FON'][0] = $entry;
-      }
-
-      /* Add entry with 'dn' as index */
-      $this->data['SERVERS']['FON'][$attrs['dn']] = $entry;
     }
 
     /* Get NFS server lists */
@@ -559,55 +504,40 @@ class config  {
 
     /* Load Terminalservers */
     $ldap->cd ($this->current['BASE']);
-    $ldap->search ("(objectClass=goTerminalServer)", array("cn","gotoSessionType"));
+    $ldap->search ('(objectClass=goTerminalServer)', array('cn','gotoSessionType'));
     $this->data['SERVERS']['TERMINAL']                = array();
-    $this->data['SERVERS']['TERMINAL'][]              = "default";
+    $this->data['SERVERS']['TERMINAL'][]              = 'default';
     $this->data['SERVERS']['TERMINAL_SESSION_TYPES']  = array();
 
     while ($attrs = $ldap->fetch()) {
-      $this->data['SERVERS']['TERMINAL'][] = $attrs["cn"][0];
-      if (isset( $attrs["gotoSessionType"]['count'])) {
-        for ($i = 0; $i < $attrs["gotoSessionType"]['count']; $i++) {
-          $this->data['SERVERS']['TERMINAL_SESSION_TYPES'][$attrs["cn"][0]][] = $attrs["gotoSessionType"][$i];
+      $this->data['SERVERS']['TERMINAL'][] = $attrs['cn'][0];
+      if (isset( $attrs['gotoSessionType']['count'])) {
+        for ($i = 0; $i < $attrs['gotoSessionType']['count']; $i++) {
+          $this->data['SERVERS']['TERMINAL_SESSION_TYPES'][$attrs['cn'][0]][] = $attrs['gotoSessionType'][$i];
         }
       }
     }
 
-    /* Ldap Server
-     */
+    /* Ldap Server */
     $this->data['SERVERS']['LDAP'] = array();
     $ldap->cd($this->current['BASE']);
-    $ldap->search("(&(objectClass=goLdapServer)(goLdapBase=*))");
+    $ldap->search('(&(objectClass=goLdapServer)(goLdapBase=*))');
     while ($attrs = $ldap->fetch()) {
       $this->data['SERVERS']['LDAP'][$attrs['dn']] = $attrs;
-    }
-
-    /* Get misc server lists */
-    $this->data['SERVERS']['SYSLOG']  = array("default");
-    $this->data['SERVERS']['NTP']     = array("default");
-    $ldap->cd($this->current['BASE']);
-    $ldap->search("(objectClass=goNtpServer)");
-    while ($attrs = $ldap->fetch()) {
-      $this->data['SERVERS']['NTP'][] = $attrs["cn"][0];
-    }
-    $ldap->cd($this->current['BASE']);
-    $ldap->search("(objectClass=goSyslogServer)");
-    while ($attrs = $ldap->fetch()) {
-      $this->data['SERVERS']['SYSLOG'][] = $attrs["cn"][0];
     }
 
     /* Get samba servers from LDAP */
     $this->data['SERVERS']['SAMBA'] = array();
     if (class_available('sambaAccount')) {
       $ldap->cd($this->current['BASE']);
-      $ldap->search("(objectClass=sambaDomain)");
+      $ldap->search('(objectClass=sambaDomain)');
       while ($attrs = $ldap->fetch()) {
-        $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]] = array( "SID" => "","RIDBASE" => "");
-        if (isset($attrs["sambaSID"][0])) {
-          $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]]["SID"] = $attrs["sambaSID"][0];
+        $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]] = array( 'SID' => '','RIDBASE' => '');
+        if (isset($attrs['sambaSID'][0])) {
+          $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]]['SID'] = $attrs['sambaSID'][0];
         }
-        if (isset($attrs["sambaAlgorithmicRidBase"][0])) {
-          $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]]["RIDBASE"] = $attrs["sambaAlgorithmicRidBase"][0];
+        if (isset($attrs['sambaAlgorithmicRidBase'][0])) {
+          $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]]['RIDBASE'] = $attrs['sambaAlgorithmicRidBase'][0];
         }
       }
 

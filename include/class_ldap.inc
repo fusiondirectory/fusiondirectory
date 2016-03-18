@@ -27,7 +27,7 @@
  * Source code for Class LDAP
  */
 
-define("SPECIALS_OVERRIDE", TRUE);
+define("SPECIALS_OVERRIDE", FALSE);
 
 /*!
  * \brief This class contains all ldap function needed to make
@@ -167,8 +167,8 @@ class LDAP
    */
   static function prepare4filter($dn)
   {
-    $fixed = normalizeLdap(str_replace('\\\\', '\\\\\\', LDAP::fix($dn)));
-    return str_replace('\\,', '\\\\,', $fixed);
+    trigger_error('deprecated, use ldap_escape_f instead');
+    return ldap_escape_f($dn);
   }
 
   /*!
@@ -703,21 +703,21 @@ class LDAP
       $delarray = array();
 
       /* Get sorted list of dn's to delete */
-      $this->ls($srp, "(objectClass=*)", $deletedn);
-      while ($this->fetch($srp)) {
-        $deldn            = $this->getDN($srp);
-        $delarray[$deldn] = strlen($deldn);
+      $this->cd($deletedn);
+      $this->search($srp, "(objectClass=*)", array('dn'));
+      while ($attrs = $this->fetch($srp)) {
+        $delarray[$attrs['dn']] = strlen($attrs['dn']);
       }
       arsort($delarray);
       reset($delarray);
 
       /* Really Delete ALL dn's in subtree */
       foreach (array_keys($delarray) as $key) {
-        $this->rmdir_recursive($srp, $key);
+        $r = @ldap_delete($this->cid, LDAP::fix($key));
+        if ($r === FALSE) {
+          break;
+        }
       }
-
-      /* Finally Delete own Node */
-      $r = @ldap_delete($this->cid, LDAP::fix($deletedn));
       $this->error = @ldap_error($this->cid);
       return ($r ? $r : 0);
     } else {

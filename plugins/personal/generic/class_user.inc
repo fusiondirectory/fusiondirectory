@@ -233,6 +233,31 @@ class UserPasswordAttribute extends CompositeAttribute
   }
 }
 
+class PostalAddressAttribute extends TextAreaAttribute
+{
+  function inputValue ($ldapValue)
+  {
+    return str_replace(
+      array('$',  '\24','\5C'),
+      array("\n", '$',  '\\'),
+      $ldapValue
+    );
+  }
+
+  function computeLdapValue ()
+  {
+    return str_replace(
+      array("\r\n", "\n", "\r"),
+      '$',
+      str_replace(
+        array('\\', '$'),
+        array('\5C','\24'),
+        $this->getValue()
+      )
+    );
+  }
+}
+
 class user extends simplePlugin
 {
   var $objectclasses  = array('inetOrgPerson','organizationalPerson','person');
@@ -308,7 +333,7 @@ class user extends simplePlugin
             _('State'), _('State'),
             'st', FALSE
           ),
-          new TextAreaAttribute (
+          new PostalAddressAttribute (
             _('Address'), _('Business postal address'),
             'postalAddress', FALSE
           ),
@@ -331,6 +356,10 @@ class user extends simplePlugin
           new PhoneNumberAttribute (
             _('Fax'), _('Business fax number'),
             'facsimileTelephoneNumber', FALSE
+          ),
+          new URLAttribute (
+            _('Homepage'), _('Personal homepage'),
+            'labeledURI', FALSE
           ),
         )
       ),
@@ -362,17 +391,13 @@ class user extends simplePlugin
             _('Display name'), _('Name this user should appear as. Used by Exchange.'),
             'displayName', FALSE
           ),
-          new TextAreaAttribute (
+          new PostalAddressAttribute (
             _('Home address'), _('Home postal address'),
             'homePostalAddress', FALSE
           ),
           new StringAttribute (
             _('Private phone'), _('Home phone number'),
             'homePhone', FALSE
-          ),
-          new URLAttribute (
-            _('Homepage'), _('Personal homepage'),
-            'labeledURI', FALSE
           ),
         )
       ),
@@ -461,14 +486,14 @@ class user extends simplePlugin
   function compute_dn()
   {
     if ($this->is_template) {
-      $dn = 'cn='.$this->_template_cn.',ou=templates,'.get_ou("userRDN").$this->base;
+      $dn = 'cn='.ldap_escape_dn($this->_template_cn).',ou=templates,'.get_ou('userRDN').$this->base;
       return $dn;
     }
 
     $this->update_cn();
     $attribute = $this->config->get_cfg_value('accountPrimaryAttribute', 'uid');
 
-    return $this->create_unique_dn($attribute, get_people_ou().$this->base);
+    return $this->create_unique_dn($attribute, get_ou('userRDN').$this->base);
   }
 
   function execute()

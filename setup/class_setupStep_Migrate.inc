@@ -264,7 +264,7 @@ class Step_Migrate extends setupStep
       'outsideGroups' => new StepMigrateCheck($this, 'outsideGroups', _('Checking for groups outside the groups tree')),
       'orgUnits'      => new StepMigrateCheck($this, 'orgUnits',      _('Checking for invisible departments')),
       'uidNumber'     => new StepMigrateCheck($this, 'uidNumber',     _('Checking for duplicated UID numbers')),
-      'gidNumber'     => new StepMigrateCheck($this, 'gidNumber',     _('Checking for duplicate GID numbers')),
+      'gidNumber'     => new StepMigrateCheck($this, 'gidNumber',     _('Checking for duplicated GID numbers')),
     );
 
     $this->checks = $checks;
@@ -1142,7 +1142,7 @@ class Step_Migrate extends setupStep
           $entry['ldif'] = _('Entry will be moved from').":<br/>\t".($ldap->fix($dn)).'<br/>'._('to').":<br/>\t".($ldap->fix($d_dn));
 
           /* Check if there are references to this object */
-          $ldap->search('(&(member='.LDAP::prepare4filter($dn).')(|(objectClass=gosaGroupOfNames)(objectClass=groupOfNames)))', array('dn'));
+          $ldap->search('(&(member='.ldap_escape_f($dn).')(|(objectClass=gosaGroupOfNames)(objectClass=groupOfNames)))', array('dn'));
           $refs = '';
           while ($attrs = $ldap->fetch()) {
             $ref_dn = $attrs['dn'];
@@ -1362,15 +1362,20 @@ class Step_Migrate extends setupStep
     foreach ($tmp as $entries) {
       if (count($entries) > 1) {
         foreach ($entries as $entry) {
-          $this->check_uidNumbers[base64_encode($entry['dn'])] = $entry;
+          $this->check_uidNumbers[$entry['dn']] = $entry;
         }
       }
     }
 
     if ($this->check_uidNumbers) {
+      $list = '<ul>';
+      foreach ($this->check_uidNumbers as $dn => $entry) {
+        $list .= '<li>'.$dn.' ('.$entry['uidNumber'][0].')</li>';
+      }
+      $list .= '</ul>';
       throw new CheckFailedException(
         "<div style='color:#F0A500'>"._("Warning")."</div>",
-        sprintf(_('Found %s duplicate values for attribute "uidNumber".'), count($this->check_uidNumbers))
+        sprintf(_('Found %s duplicate values for attribute "uidNumber":%s'), count($this->check_uidNumbers), $list)
       );
     } else {
       return '';
@@ -1401,15 +1406,20 @@ class Step_Migrate extends setupStep
     foreach ($tmp as $entries) {
       if (count($entries) > 1) {
         foreach ($entries as $entry) {
-          $this->check_gidNumbers[base64_encode($entry['dn'])] = $entry;
+          $this->check_gidNumbers[$entry['dn']] = $entry;
         }
       }
     }
 
     if ($this->check_gidNumbers) {
+      $list = '<ul>';
+      foreach ($this->check_gidNumbers as $dn => $entry) {
+        $list .= '<li>'.$dn.' ('.$entry['gidNumber'][0].')</li>';
+      }
+      $list .= '</ul>';
       throw new CheckFailedException(
         "<div style='color:#F0A500'>"._("Warning")."</div>",
-        sprintf(_('Found %s duplicate values for attribute "gidNumber".'), count($this->check_gidNumbers))
+        sprintf(_('Found %s duplicate values for attribute "gidNumber":%s'), count($this->check_gidNumbers), $list)
       );
     } else {
       return '';

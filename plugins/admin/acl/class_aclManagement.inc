@@ -19,6 +19,103 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+class aclAssignmentCreationDialog extends simplePlugin
+{
+  protected $post_finish = 'add_finish';
+  protected $post_cancel = 'add_cancel';
+  protected $simpleManagement;
+
+  static function plInfo()
+  {
+    return array(
+      'plShortName'   => _('ACL assignment creation'),
+      'plShortName'   => _('ACL assignment creation'),
+      'plDescription' => _('Create an ACL assignment on an arbitrary dn'),
+      'plCategory'    => array('acl'),
+
+      'plProvidedAcls' => array()
+    );
+  }
+
+  static function getAttributesInfo ()
+  {
+    global $config;
+    return array(
+      'main' => array(
+        'name'  => _('ACL assignment creation'),
+        'class' => array('fullwidth'),
+        'attrs' => array(
+          new StringAttribute (
+            _('Dn'), _('DN you wish to add assignments for'),
+            'baseDn', TRUE,
+            $config->current['BASE'], 'aclMode',
+            '/^([^=,]+=[^=,]+,)+'.preg_quote($config->current['BASE'], '/').'$/',
+            'ou=people,'.$config->current['BASE']
+          ),
+        )
+      ),
+    );
+  }
+
+  function __construct ($parent)
+  {
+    global $config;
+
+    $this->simpleManagement = $parent;
+
+    parent::__construct($config, $config->current['BASE']);
+
+    $this->attributesAccess['baseDn']->setInLdap(FALSE);
+  }
+
+  function save_object()
+  {
+    parent::save_object();
+    if (isset($_POST[$this->post_cancel])) {
+      return $this->handle_cancel();
+    }
+    if (isset($_POST[$this->post_finish])) {
+      return $this->handle_finish();
+    }
+    return TRUE;
+  }
+
+  function save()
+  {
+  }
+
+  function execute()
+  {
+    if ($this->save_object()) {
+      $smarty = get_smarty();
+      $smarty->assign($this->attributesAccess['baseDn']->getAcl().'ACL', 'rwcdm');
+      return parent::execute()."\n".
+      '<p class="plugbottom">'."\n".
+      '  <input type="submit" name="'.$this->post_finish.'" value="'.msgPool::addButton().'"/>&nbsp;'."\n".
+      '  <input type="submit" name="'.$this->post_cancel.'" value="'.msgPool::cancelButton().'"/>'."\n".
+      '</p>';
+    }
+  }
+
+  function handle_finish ()
+  {
+    $msgs = $this->check();
+    if (count($msgs)) {
+      msg_dialog::displayChecks($msgs);
+      return TRUE;
+    }
+    $this->simpleManagement->closeDialogs();
+    $this->simpleManagement->newEntryConfirmed($this->baseDn);
+    return FALSE;
+  }
+
+  function handle_cancel ()
+  {
+    $this->simpleManagement->closeDialogs();
+    return FALSE;
+  }
+}
+
 class aclManagement extends simpleManagement
 {
   protected $objectTypes  = array('aclAssignment');
@@ -58,7 +155,8 @@ class aclManagement extends simpleManagement
     $data = parent::parseXML($file);
     $data['list']['table']['column'][1]['value']          = '%{filter:filterLabel(row,dn,pid,base,ou,cn,dc,o)}';
     $data['list']['table']['column'][1]['sortAttribute']  = 'dn';
-    array_shift($data['list']['actionmenu']['action']);
+    $data['list']['actionmenu']['action'][0]['type'] = 'entry';
+    $data['list']['actionmenu']['action'][0]['name'] = 'new';
     return $data;
   }
 
@@ -67,6 +165,29 @@ class aclManagement extends simpleManagement
     $this->headpage->objectTypes = array(); // Remove department types so that we don't mistake assignments with them.
     $this->headpage->registerElementFilter('filterLabel', 'aclManagement::filterLabel');
     parent::configureHeadpage();
+  }
+
+  /*!
+   * \brief  This method intiates the object creation.
+   */
+  function newEntry($action = '', $target = array(), $all = array(), $altTabClass = '', $altTabType = '', $altAclCategory = '')
+  {
+    $this->dialogObject = new aclAssignmentCreationDialog($this);
+  }
+
+  function newEntryConfirmed($dn)
+  {
+    $type = 'aclAssignment';
+
+    $this->displayApplyBtn  = FALSE;
+    $this->dn               = $dn;
+    $this->is_single_edit   = FALSE;
+
+    set_object_info($this->dn);
+
+    // Open object
+    $this->openTabObject(objects::open($this->dn, $type), $this->headpage->getBase());
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Creating new ACL assignment');
   }
 
   static function filterLabel($row, $dn, $pid = 0, $base = "", $ou = array())

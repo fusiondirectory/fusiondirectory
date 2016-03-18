@@ -166,6 +166,12 @@ attributetype ( 1.3.6.1.4.1.38414.8.12.18 NAME 'fdCnPattern'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
   SINGLE-VALUE)
 
+attributetype ( 1.3.6.1.4.1.38414.8.12.19 NAME 'fdRestrictRoleMembers'
+  DESC 'FusionDirectory - Restrict role members to users from the same LDAP branch'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE )
+
 # Password
 
 attributetype ( 1.3.6.1.4.1.38414.8.13.1 NAME 'fdPasswordDefaultHash'
@@ -295,6 +301,12 @@ attributetype ( 1.3.6.1.4.1.38414.8.15.5 NAME 'fdSessionLifeTime'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
   SINGLE-VALUE)
 
+attributetype ( 1.3.6.1.4.1.38414.8.15.6 NAME 'fdHttpAuthActivated'
+  DESC 'FusionDirectory - HTTP Auth activation'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE )
+
 # Debugging
 
 attributetype ( 1.3.6.1.4.1.38414.8.16.1 NAME 'fdDisplayErrors'
@@ -391,6 +403,12 @@ attributetype ( 1.3.6.1.4.1.38414.8.18.6 NAME 'fdAclTabOnObjects'
   EQUALITY booleanMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
   SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.8.18.7 NAME 'fdDepartmentCategories'
+  DESC 'FusionDirectory - available categories for departments'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
 
 # Plugins
 
@@ -556,17 +574,18 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
     fdStrictNamingRules $ fdMinId $ fdUidNumberBase $
     fdGidNumberBase $ fdUserRDN $ fdGroupRDN $ fdIdAllocationMethod $
     fdGidNumberPoolMin $ fdUidNumberPoolMin $ fdGidNumberPoolMax $ fdUidNumberPoolMax $
-    fdAclRoleRDN $ fdCnPattern $
+    fdAclRoleRDN $ fdCnPattern $ fdRestrictRoleMembers $
     fdPasswordDefaultHash $ fdPasswordMinLength $ fdPasswordMinDiffer $
     fdPasswordHook $ fdHandleExpiredAccounts $ fdSaslRealm $ fdSaslExop $
     fdForcePasswordDefaultHash $
     fdPrimaryGroupFilter $ fdListSummary $
     fdModificationDetectionAttribute $ fdLogging $ fdLdapSizeLimit $
     fdLoginAttribute $ fdForceSSL $ fdWarnSSL $ fdStoreFilterSettings $ fdSessionLifeTime $
+    fdHttpAuthActivated $
     fdDisplayErrors $ fdLdapMaxQueryTime $ fdLdapStats $ fdDebugLevel $
     fdEnableSnapshots $ fdSnapshotBase $
     fdTabHook $ fdShells $ fdDisplayHookOutput $
-    fdAclTabOnObjects $
+    fdAclTabOnObjects $ fdDepartmentCategories $
     fdRfc2307bis $ fdCopyPaste $ fdSnapshotURI $
     fdSnapshotAdminDn $ fdSnapshotAdminPassword $ fdPersonalTitleInDN $ fdAccountRDN $
     fdSslCaCertPath $ fdSslKeyPath $ fdSslCertPath $

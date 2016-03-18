@@ -208,6 +208,11 @@ class configInLdap extends simplePlugin
             'fdSessionLifeTime', TRUE,
             0 /*min*/, FALSE /*no max*/, 1800
           ),
+          new BooleanAttribute (
+            _('HTTP authentication'), _('Use HTTP authentication protocol instead of the login form.'),
+            'fdHttpAuthActivated', FALSE,
+            FALSE
+          ),
         )
       ),
       'snapshots' => array(
@@ -358,6 +363,10 @@ class configInLdap extends simplePlugin
             'fdGidNumberPoolMax', FALSE,
             0, FALSE, 40000
           ),
+          new BooleanAttribute (
+            _('Restrict role members'), _('When enabled only users from the same branch or members of groups from the same branch can be added to a role.'),
+            'fdRestrictRoleMembers'
+          ),
         )
       ),
       'debug' => array(
@@ -444,6 +453,13 @@ class configInLdap extends simplePlugin
             _('For very specific ACL rights setting where you might need to give right on a single object.'),
             'fdAclTabOnObjects'
           ),
+          new SetAttribute(
+            new StringAttribute (
+              _('Available department categories'), _('Available categories in the departments dropdown'),
+              'fdDepartmentCategories', FALSE
+            ),
+            array()
+          ),
         )
       ),
     );
@@ -468,6 +484,15 @@ class configInLdap extends simplePlugin
 
     $this->fusionConfigMd5 = md5_file(CACHE_DIR."/".CLASS_CACHE);
 
+    $this->attributesAccess['fdHttpAuthActivated']->setManagedAttributes(
+      array(
+        'erase' => array (
+          TRUE => array (
+            'fdCasActivated',
+          )
+        )
+      )
+    );
     $this->attributesAccess['fdEnableSnapshots']->setManagedAttributes(
       array(
         'disable' => array (

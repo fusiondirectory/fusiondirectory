@@ -346,7 +346,7 @@ class simpleTabs
     if ($this->getBaseObject()->is_template) {
       $ldap = $config->get_ldap_link();
       $ldap->cd($config->current['BASE']);
-      $filter = '(&(objectClass=fdTemplate)(cn='.$this->getBaseObject()->_template_cn.'))';
+      $filter = '(&(objectClass=fdTemplate)(cn='.ldap_escape_f($this->getBaseObject()->_template_cn).'))';
       $ldap->search($filter, array('dn'));
       while ($attrs = $ldap->fetch()) {
         if ($attrs['dn'] != $this->getBaseObject()->dn) {
@@ -392,7 +392,7 @@ class simpleTabs
   function save()
   {
     $baseobject = $this->getBaseObject();
-    $new_dn     = LDAP::convert($baseobject->compute_dn());
+    $new_dn     = $baseobject->compute_dn();
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $new_dn, "Saving");
 
     /* Move ? */

@@ -1500,6 +1500,10 @@ class listing {
       }
     }
 
+    if (!empty($this->bases) && !isset($this->bases[$this->base])) {
+      $this->base = key($this->bases);
+    }
+
     // Populate base selector if already present
     if ($this->baseSelector && $this->baseMode) {
       $this->baseSelector->setBases($this->bases);
@@ -1786,7 +1790,6 @@ class listing {
    */
   function getType($dn)
   {
-    $dn = LDAP::fix($dn);
     if (isset($this->objectDnMapping[$dn])) {
       return $this->objectDnMapping[$dn];
     }

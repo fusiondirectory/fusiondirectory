@@ -345,41 +345,40 @@ class plugin
    */
   function remove_from_parent()
   {
-    /* include global link_info */
-    $ldap = $this->config->get_ldap_link();
+    $this->attrs = array();
 
-    /* Get current objectClasses in order to add the required ones */
-    $ldap->cat($this->dn);
-    $tmp  = $ldap->fetch ();
-    $oc   = array();
-    if ($this->is_template) {
-      if (isset($tmp['fdTemplateField'])) {
-        foreach ($tmp['fdTemplateField'] as $tpl_field) {
-          if (preg_match('/^objectClass:(.+)$/', $tpl_field, $m)) {
-            $oc[] = $m[1];
+    if (!$this->mainTab) {
+      /* include global link_info */
+      $ldap = $this->config->get_ldap_link();
+
+      /* Get current objectClasses in order to add the required ones */
+      $ldap->cat($this->dn);
+      $tmp  = $ldap->fetch ();
+      $oc   = array();
+      if ($this->is_template) {
+        if (isset($tmp['fdTemplateField'])) {
+          foreach ($tmp['fdTemplateField'] as $tpl_field) {
+            if (preg_match('/^objectClass:(.+)$/', $tpl_field, $m)) {
+              $oc[] = $m[1];
+            }
           }
         }
+      } else {
+        if (isset($tmp['objectClass'])) {
+          $oc = $tmp['objectClass'];
+          unset($oc['count']);
+        }
       }
-    } else {
-      if (isset($tmp['objectClass'])) {
-        $oc = $tmp['objectClass'];
-        unset($oc['count']);
+
+      /* Remove objectClasses from entry */
+      $this->attrs['objectClass'] = array_remove_entries_ics($this->objectclasses, $oc);
+
+      /* Unset attributes from entry */
+      foreach ($this->attributes as $val) {
+        $this->attrs["$val"] = array();
       }
     }
 
-    /* Remove objectClasses from entry */
-    $ldap->cd($this->dn);
-    $this->attrs                = array();
-    $this->attrs['objectClass'] = array_remove_entries_ics($this->objectclasses, $oc);
-
-    /* Unset attributes from entry */
-    foreach ($this->attributes as $val) {
-      $this->attrs["$val"] = array();
-    }
-
-    /* Do not write in plugin base class, this must be done by
-       children, since there are normally additional attribs,
-       lists, etc. */
     if ($this->initially_was_account) {
       $this->handle_pre_events('remove');
     }
@@ -646,6 +645,8 @@ class plugin
         } else {
           return array(join($str));
         }
+      case 'C': // Count
+        return array(count($str));
       case 'c': // comment
         return array('');
       case 'b': // base64
@@ -775,7 +776,7 @@ class plugin
     }
     foreach ($result as &$r) { // Array that were not converted by a modifier into a string are now converted to strings
       if (is_array($r)) {
-        $r = $r[0];
+        $r = reset($r);
       }
     }
     unset($r);
@@ -1009,7 +1010,7 @@ class plugin
     $base = preg_replace('/^,*/', '', $base);
 
     /* Try to use plain entry first */
-    $dn = $attribute.'='.$this->$attribute.','.$base;
+    $dn = $attribute.'='.ldap_escape_dn($this->$attribute).','.$base;
     if ($dn == $this->orig_dn) {
       return $dn;
     }
@@ -1024,7 +1025,7 @@ class plugin
         continue;
       }
 
-      $dn = "$attribute=".$this->$attribute."+$attr=".$this->$attr.",$base";
+      $dn = $attribute.'='.ldap_escape_dn($this->$attribute).'+'.$attr.'='.ldap_escape_dn($this->$attr).','.$base;
       if ($dn == $this->orig_dn) {
         return $dn;
       }

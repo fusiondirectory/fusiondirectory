@@ -73,9 +73,13 @@ class department extends simplePlugin
             _('Description'), sprintf(_('Short description of this %s'), $name),
             'description', TRUE
           ),
-          new StringAttribute(
+          new SelectAttribute(
             _('Category'), sprintf(_('Category of this %s'), $name),
             'businessCategory', FALSE
+          ),
+          new StringAttribute(
+            _('Website'), sprintf(_('Website of this %s'), $name),
+            'labeledURI', FALSE
           ),
           new UserAttribute(
             _('Manager'), sprintf(_('Manager of this %s'), $name),
@@ -92,7 +96,10 @@ class department extends simplePlugin
           new StringAttribute(
             _('Location'), _('Location'), 'l', FALSE
           ),
-          new TextAreaAttribute(
+          new StringAttribute(
+            _('Country'), _('Country'), 'co', FALSE
+          ),
+          new PostalAddressAttribute(
             _('Address'), sprintf(_('A postal address for this %s'), $name),
             'postalAddress', FALSE
           ),
@@ -136,6 +143,17 @@ class department extends simplePlugin
     $this->objectclasses = array_unique($this->objectclasses);
 
     parent::__construct($config, $dn, $object);
+
+    $categoriesList = $this->config->get_cfg_value('DepartmentCategories', array());
+
+    /* Insert current value to possibilities */
+    if (isset($this->attributesAccess['businessCategory'])) {
+      $businessCategory = $this->attributesAccess['businessCategory']->getValue();
+      if (($businessCategory != "") && !in_array($businessCategory, $categoriesList)) {
+        $categoriesList[] = $businessCategory;
+      }
+      $this->attributesAccess['businessCategory']->setChoices($categoriesList);
+    }
 
     $this->attributesAccess[$this->getNamingAttr()]->setUnique(TRUE);
   }
@@ -183,14 +201,6 @@ class department extends simplePlugin
       }
     }
     return $bases;
-  }
-
-  function compute_dn()
-  {
-    $namingAttr = $this->getNamingAttr();
-    $nAV  = preg_replace('/,/', '\,', $this->$namingAttr);
-    $nAV  = preg_replace('/"/', '\"', $nAV);
-    return @LDAP::convert($namingAttr.'='.$nAV.','.$this->base);
   }
 
   function prepare_save()

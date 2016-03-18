@@ -41,6 +41,20 @@ text-align:right;
 font-family:arial,helvetica,sans-serif;
 clear:both;
 }
+p.plugbottom {
+position:fixed;
+bottom:0px;
+right:10px;
+margin:0;
+box-shadow:0px 0px 2px black;
+border-radius:5px 5px 0 0;
+width:auto;
+padding-left:10px;
+padding-right:10px;
+padding-bottom:5px;
+padding-top:5px;
+background:#BC9;
+}
 html.rtl .plugbottom {
 text-align:left;
 }
@@ -222,6 +236,10 @@ background-color:#DFEFFF;
   padding-left:1px;
   padding-right:1px;
   border:none;
+  }
+  p.plugbottom {
+  left:5px;
+  right:5px;
   }
   .plugbottom input[type=submit], .plugbottom input[type=button] {
   border:1px solid #DDD;

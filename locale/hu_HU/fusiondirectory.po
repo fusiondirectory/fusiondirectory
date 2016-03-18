@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Szabi Fekete <szabi@equio.co.uk>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
@@ -10,12 +11,12 @@ msgstr ""
 "POT-Creation-Date: 2016-03-14 12:07+0100\n"
 "PO-Revision-Date: 2016-03-07 12:09+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
-"Language-Team: Uighur (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/ug/)\n"
+"Language-Team: Hungarian (Hungary) (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ug\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: hu_HU\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: plugins/generic/welcome/main.inc:25
 #, php-format
@@ -60,13 +61,13 @@ msgstr ""
 #: include/select/groupSelect/group-filter.tpl.c:14
 #: setup/setup_migrate_adminAccount.tpl.c:8
 msgid "Name"
-msgstr ""
+msgstr "Név"
 
 #: plugins/admin/groups/class_roleGeneric.inc:88
 #: plugins/admin/groups/class_group.inc:61
 #: plugins/admin/groups/class_ogroup.inc:187
 msgid "Name of this group"
-msgstr ""
+msgstr "Csoport neve"
 
 #: plugins/admin/groups/class_roleGeneric.inc:93
 #: plugins/admin/groups/class_group.inc:66
@@ -79,7 +80,7 @@ msgstr ""
 #: include/simpleplugin/simple-select-list.xml:40
 #: include/simpleplugin/simple-list.xml:40
 msgid "Description"
-msgstr ""
+msgstr "Leírás"
 
 #: plugins/admin/groups/class_roleGeneric.inc:93
 msgid "Description of the role"
@@ -87,18 +88,18 @@ msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:97
 msgid "Phone number"
-msgstr ""
+msgstr "Telefonszám"
 
 #: plugins/admin/groups/class_roleGeneric.inc:101
 msgid "Fax number"
-msgstr ""
+msgstr "Faxszám"
 
 #: plugins/admin/groups/class_roleGeneric.inc:105
 #: plugins/admin/users/class_userManagement.inc:42
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:27
 #: setup/class_setupStep_Migrate.inc:871
 msgid "Users"
-msgstr ""
+msgstr "Felhasználók"
 
 #: plugins/admin/groups/class_roleGeneric.inc:105
 msgid "Add users for the role"
@@ -4545,6 +4546,7 @@ msgstr ""
 msgid "There is one expired account"
 msgid_plural "There are %1 expired accounts"
 msgstr[0] ""
+msgstr[1] ""
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:5
 msgid "There is no expired account"
@@ -4591,6 +4593,7 @@ msgstr ""
 msgid "There is one account expiring in the next %1 days"
 msgid_plural "There are %2 accounts expiring in the next %1 days"
 msgstr[0] ""
+msgstr[1] ""
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:38
 msgid "There is no account expiring in the next %1 days"
@@ -4604,11 +4607,13 @@ msgstr ""
 msgid "There is 1 group:"
 msgid_plural "There are %1 groups:"
 msgstr[0] ""
+msgstr[1] ""
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:5
 msgid "One of them is a %1 group"
 msgid_plural "%2 are %1 groups"
 msgstr[0] ""
+msgstr[1] ""
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:8
 msgid "There is no %1 group"
@@ -4618,11 +4623,13 @@ msgstr ""
 msgid "There is 1 user:"
 msgid_plural "There are %1 users:"
 msgstr[0] ""
+msgstr[1] ""
 
 #: plugins/addons/dashboard/users_stats.tpl.c:5
 msgid "One of them have a %1 account"
 msgid_plural "%2 of them have a %1 account"
 msgstr[0] ""
+msgstr[1] ""
 
 #: plugins/addons/dashboard/users_stats.tpl.c:8
 msgid "None of them have a %1 account"
@@ -4632,6 +4639,7 @@ msgstr ""
 msgid "One of them is locked"
 msgid_plural "%1 of them are locked"
 msgstr[0] ""
+msgstr[1] ""
 
 #: plugins/addons/dashboard/users_stats.tpl.c:14
 msgid "None of them is locked"

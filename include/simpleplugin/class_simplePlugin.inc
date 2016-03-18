@@ -135,9 +135,9 @@ class simplePlugin extends plugin
       $ldap->cd($this->config->current['BASE']);
       foreach ($this->inheritance as $oc => $at) {
         if ($this->mainTab) {
-          $filter = "(&(objectClass=$oc)($at=".LDAP::prepare4filter($this->dn)."))";
+          $filter = '(&(objectClass='.$oc.')('.$at.'='.ldap_escape_f($this->dn).'))';
         } else {
-          $filter = "(&(objectClass=$oc)".$this->getObjectClassFilter()."($at=".LDAP::prepare4filter($this->dn)."))";
+          $filter = '(&(objectClass='.$oc.')'.$this->getObjectClassFilter().'('.$at.'='.ldap_escape_f($this->dn).'))';
         }
         $ldap->search($filter, $this->attributes);
         if ($ldap->count() == 1) {
@@ -259,6 +259,7 @@ class simplePlugin extends plugin
    */
   public function compute_dn()
   {
+    global $config;
     if (!$this->mainTab) {
       msg_dialog::display(_('Fatal error'), _('Only main tab can compute dn'), FATAL_ERROR_DIALOG);
       exit;
@@ -288,11 +289,16 @@ class simplePlugin extends plugin
     }
     $attr = $infos['mainAttr'];
     $ou   = $infos['ou'];
+    if (isset($this->base)) {
+      $base = $this->base;
+    } else {
+      $base = $config->current['BASE'];
+    }
     if ($this->is_template) {
-      $dn = 'cn='.ldap_escape($this->_template_cn, '', LDAP_ESCAPE_DN).',ou=templates,'.$ou.$this->base;
+      $dn = 'cn='.ldap_escape_dn($this->_template_cn).',ou=templates,'.$ou.$base;
       return $dn;
     }
-    return $attr.'='.ldap_escape($this->attributesAccess[$attr]->computeLdapValue(), '', LDAP_ESCAPE_DN).','.$ou.$this->base;
+    return $attr.'='.ldap_escape_dn($this->attributesAccess[$attr]->computeLdapValue()).','.$ou.$base;
   }
 
   function getRequiredAttributes()

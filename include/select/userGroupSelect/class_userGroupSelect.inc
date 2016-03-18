@@ -18,7 +18,7 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class userGroupSelect extends simpleSelectManagement
+class userGroupSelect extends userSelect
 {
   protected $objectTypes = array('user', 'group');
   protected $autoFilterAttributes = array('dn', 'cn', 'uid', 'description');

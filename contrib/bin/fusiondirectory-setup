@@ -57,6 +57,8 @@ use XML::Twig;
 # To hide password input
 use Term::ReadKey;
 
+use Data::Dumper;
+
 # fd's directory and class.cache file's path declaration
 my %vars = (
  fd_home          => "/var/www/fusiondirectory",
@@ -89,6 +91,8 @@ my $configrdn   = "cn=config,ou=fusiondirectory";
 my $userrdn     = "ou=people";
 my $aclrolerdn  = "ou=aclroles";
 my $grouprdn    = "ou=groups";
+my $systemrdn   = "ou=systems";
+my $dnsrdn      = "ou=dns";
 
 #################################################################################################################################################
 
@@ -1043,6 +1047,58 @@ sub check_ldap {
   $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
 }
 
+# function that check for duplicated uid or gid numbers
+sub check_id_numbers {
+  read_ldap_config();
+
+  # initiate the LDAP connexion
+  my %hash_ldap_param = get_ldap_connexion();
+
+  # LDAP's connection's parameters
+  my $ldap = $hash_ldap_param{ldap};
+  my $base = $hash_ldap_param{base};
+
+  check_id_numbers_generic($ldap, $base, 'posixAccount','uidNumber','users');
+
+  check_id_numbers_generic($ldap, $base, 'posixGroup','gidNumber','groups');
+}
+
+sub check_id_numbers_generic {
+  my ($ldap, $base, $objectClass, $attribute, $type) = @_;
+
+  my $mesg = $ldap->search(
+    filter  => "(&(objectClass=$objectClass)($attribute=*))",
+    base    => $base,
+    attrs   => [$attribute]
+  );
+  $mesg->code && die $mesg->error;
+
+  my @entries = $mesg->entries;
+
+  my %tmp = ();
+
+  foreach my $entry (@entries) {
+    if (not defined $tmp{$entry->get_value($attribute)}) {
+      $tmp{$entry->get_value($attribute)} = ();
+    }
+    push @{$tmp{$entry->get_value($attribute)}}, $entry->dn();
+  }
+
+  my $dups = 0;
+  while (my ($id, $dns) = each %tmp) {
+    if (scalar(@$dns) > 1) {
+      $dups = 1;
+      print "The following $type use the same $attribute $id:\n";
+      foreach my $dn (@$dns) {
+        print "\t$dn\n";
+      }
+    }
+  }
+  if ($dups == 0) {
+    print "There are no duplicated ${attribute}s\n";
+  }
+}
+
 # function that create a directory and copy plugin files in it
 sub create_and_copy_plugin_dir {
   my ($plugin_dir,$dest_dir) = @_;
@@ -1154,7 +1210,7 @@ sub migrate_users {
     if (ask_yn_question("Add the inetOrgPerson objectClass to all these entries?")) {
       foreach my $entry (@entries) {
         $mesg = $ldap->modify($entry->dn(), add => { "objectClass" => ["person","organizationalPerson","inetOrgPerson"]});
-        $mesg->code && print $mesg->error;
+        $mesg->code && print $mesg->error."\n";
       }
     }
   }
@@ -1191,22 +1247,23 @@ sub migrate_users {
             ) {
             push(@replace, "fdPersonalInfo");
           }
-          if (
-              ($entry->exists('sambaLMPassword') || $entry->exists('sambaNTPassword') ||
-                $entry->exists('sambaPwdLastSet') || $entry->exists('sambaBadPasswordCount') ||
-                $entry->exists('sambaBadPasswordTime'))
-              && !(grep {$_ eq 'sambaSamAccount'} @classes)
-            ) {
-            @delete = ('sambaLMPassword','sambaNTPassword','sambaPwdLastSet','sambaBadPasswordCount','sambaBadPasswordTime');
+          if (!(grep {$_ eq 'sambaSamAccount'} @classes)) {
+            foreach my $sambaAttr ('sambaLMPassword','sambaNTPassword','sambaPwdLastSet','sambaBadPasswordCount','sambaBadPasswordTime') {
+              if ($entry->exists($sambaAttr)) {
+                push(@delete, $sambaAttr);
+              }
+            }
           }
         }
         if (scalar(@delete) > 0) {
-          $mesg = $ldap->modify($entry->dn(), delete => \@delete );
-          $mesg->code && print $mesg->error;
+          $mesg = $ldap->modify($entry->dn(), delete  => \@delete, replace => [ "objectClass" => \@replace ]);
+          $mesg->code && print $entry->dn()." (deleting samba attributes): ".$mesg->error."\n";
+        } else {
+          $mesg = $ldap->modify($entry->dn(), replace => [ "objectClass" => \@replace ]);
+          $mesg->code && print $entry->dn().": ".$mesg->error."\n";
         }
-        $mesg = $ldap->modify($entry->dn(), replace => { "objectClass" => \@replace });
-        $mesg->code && print $mesg->error;
         undef @replace;
+        undef @delete;
       }
     }
   }
@@ -1214,6 +1271,128 @@ sub migrate_users {
   # unbind to the LDAP server
   my $unbind = $ldap->unbind;
   $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
+}
+
+# function that moves DNS zones from systems to ou=dns
+sub migrate_dns {
+  # initiate the LDAP connexion
+  my %hash_ldap_param = get_ldap_connexion();
+
+  # LDAP's connection's parameters
+  my $base = $hash_ldap_param{base};
+  my $ldap = $hash_ldap_param{ldap};
+
+  # Search for DNS zones
+  my $mesg = $ldap->search(
+    base => "$base",
+    filter => "(&(objectClass=dNSZone)(relativeDomainName=@)(!(|(zoneName=*.arpa)(zoneName=*.arpa.))))",
+    attrs => ['zoneName']
+  );
+  $mesg->code && die $mesg->error;
+
+  my @entries = $mesg->entries;
+
+  print "There are ".$mesg->count." DNS zones in the LDAP\n";
+
+  my @baddns  = ();
+
+  foreach my $entry (@entries) {
+    if ($entry->dn() !~ m/$dnsrdn/) {
+      if (scalar(@baddns) == 0) {
+        print "The following are not in the DNS branch ($dnsrdn):\n";
+      }
+      print $entry->dn()."\n";
+      push @baddns, $entry->dn();
+    }
+  }
+
+  if (scalar(@baddns) == 0) {
+    print "They all already are in the DNS branch ($dnsrdn):\n";
+  } else {
+    if (ask_yn_question("Move these entries to the DNS branch ($dnsrdn)?")) {
+      foreach my $entrydn (@baddns) {
+        $entrydn =~ m/^([^,]+),(.+$systemrdn,(.+))$/ or die "Could not parse dn ".$entrydn."\n";
+        my $rdn = $1;
+        my $systemdn = $2;
+        my $entrybase = $3;
+        if (!branch_exists($ldap, "$dnsrdn,$entrybase")) {
+          create_branch($ldap, $entrybase, $dnsrdn);
+        }
+        my $result = $ldap->moddn (
+          $entrydn,
+          newrdn        => $rdn,
+          deleteoldrdn  => '1',
+          newsuperior   => "$dnsrdn,$entrybase"
+        );
+        $result->code && die "Migration of DNS zone entry failed, LDAP error: ".$result->error."\n";
+
+        my $zoneDn = "$rdn,$dnsrdn,$entrybase";
+
+        $mesg = $ldap->search(
+          base    => $zoneDn,
+          filter  => "(&(objectClass=dNSZone)(relativeDomainName=*)(!(|(zoneName=*.arpa)(zoneName=*.arpa.))))"
+        );
+        $mesg->code && die $mesg->error;
+
+        @entries = $mesg->entries;
+
+        foreach my $entry (@entries) {
+          $entry->dn() =~ m/^([^,]+),(relativeDomainName=[^,]+),$zoneDn$/ or next;
+          $rdn = $1;
+          my $relativeDomainName = $2;
+          if ($rdn eq $relativeDomainName) {
+            my %replace = ();
+            my @attributes = $entry->attributes();
+            foreach my $attr (@attributes) {
+              $replace{$attr} = $entry->get_value($attr, asref => 1)
+            }
+            $result = $ldap->modify (
+              "$rdn,$zoneDn",
+              replace => \%replace
+            );
+            $result->code && die "Migration of DNS zone subentry failed, LDAP error: ".$result->error."\n";
+            $result = $ldap->delete ($entry->dn());
+          } else {
+            $result = $ldap->moddn (
+              $entry->dn(),
+              newrdn        => $rdn,
+              deleteoldrdn  => '1',
+              newsuperior   => $zoneDn
+            );
+          }
+          $result->code && die "Migration of DNS zone subentry failed, LDAP error: ".$result->error."\n";
+        }
+
+
+        $mesg = $ldap->search(
+          base    => $systemdn,
+          scope   => 'base',
+          filter  => '(objectClass=*)'
+        );
+        $mesg->code && die $mesg->error;
+        my $system_entry = $mesg->shift_entry;
+        $system_entry->get_value('objectClass');
+        my @classes = $system_entry->get_value('objectClass');
+        if (grep {$_ eq 'fdDNSHost'} @classes) {
+          $result = $ldap->modify (
+            "$systemdn",
+            add => {
+              'fdDNSZoneDn' => $zoneDn,
+            }
+          );
+        } else {
+          $result = $ldap->modify (
+            "$systemdn",
+            add => {
+              'fdDNSZoneDn' => $zoneDn,
+              'objectClass' => 'fdDNSHost'
+            }
+          );
+        }
+        $result->code && print "Could not add DNS tab on $systemdn, LDAP error: ".$result->error."\nYou'll need to activate it yourself\n";
+      }
+    }
+  }
 }
 
 sub migrate_acls {
@@ -1530,6 +1709,12 @@ sub read_ldap_config {
     if (($mesg->entries)[0]->exists('fdAclRoleRDN')) {
       $aclrolerdn = ($mesg->entries)[0]->get_value('fdAclRoleRDN');
     }
+    if (($mesg->entries)[0]->exists('fdSystemRDN')) {
+      $systemrdn = ($mesg->entries)[0]->get_value('fdSystemRDN');
+    }
+    if (($mesg->entries)[0]->exists('fdDnsRDN')) {
+      $dnsrdn = ($mesg->entries)[0]->get_value('fdDnsRDN');
+    }
   }
 
   return ($mesg->entries)[0];
@@ -1617,18 +1802,20 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--check-directories"}    = ["Checking FusionDirectory's directories",        \&check_directories];
   $commands{"--check-config"}         = ["Checking FusionDirectory's config file",        \&check_config];
   $commands{"--check-ldap"}           = ["Checking your LDAP tree",                       \&check_ldap];
+  $commands{"--check-ids"}            = ["Checking for duplicated uid or gid numbers",    \&check_id_numbers];
   $commands{"--migrate-users"}        = ["Migrating your users",                          \&migrate_users];
+  $commands{"--migrate-dns"}          = ["Migrating DNS zones for FD 1.0.10",             \&migrate_dns];
   $commands{"--migrate-acls"}         = ["Migrating your ACLs",                           \&migrate_acls];
   $commands{"--install-plugins"}      = ["Installing FusionDirectory's plugins",          \&install_plugins];
   $commands{"--encrypt-passwords"}    = ["Encrypt passwords in fusiondirectory.conf",     \&encrypt_passwords];
-  $commands{"--show-version"}         = ["Show FusionDirectory version from variables_common.inc",          \&show_version];
+  $commands{"--show-version"}         = ["Show FusionDirectory version from variables_common.inc", \&show_version];
   $commands{"--list-vars"}            = ["List possible vars to give --set",              \&list_vars];
   $commands{"--write-vars"}           = ["Choose FusionDirectory Directories",            \&write_vars];
   $commands{"--set-VAR=value"}        = ["Set the variable VAR to value see --list-vars", \&die]; # Won't be called because it contains uppercase
   $commands{"--list-deprecated"}      = ["List deprecated attributes and objectclasses",  \&list_deprecated];
-  $commands{"--check-deprecated"}     = ["List LDAP entries using deprecated attributes or objectclasses",  \&check_deprecated];
+  $commands{"--check-deprecated"}     = ["List LDAP entries using deprecated attributes or objectclasses", \&check_deprecated];
   $commands{"--ldif-deprecated"}      = ["# Print an LDIF removing deprecated attributes",\&ldif_deprecated];
-  $commands{"--show-config"}          = ["Show an LDAP dump of the FusionDirectory configuration",\&show_ldap_config];
+  $commands{"--show-config"}          = ["Show an LDAP dump of the FusionDirectory configuration", \&show_ldap_config];
   $commands{"--set-config-VAR=value"} = ["Set the value in LDAP of a configuration field",\&set_config_var];
 
   my $usage = 0;
@@ -1707,9 +1894,17 @@ This option perform a check on FusionDirectory's config file.
 
 This option check your LDAP tree. Looking for admin account, and groups or people branch. If one of those don't exists, the script will ask you what to do.
 
+=item --check-ids
+
+This option check your LDAP tree for duplicated uidNumber or gidNumber among users and groups.
+
 =item --migrate-users
 
 This option add FusionDirectory attributes to the people branch.
+
+=item --migrate-dns
+
+This option moves DNS zones from systems branch to DNS branch, which is necessary for FusionDirectory 1.0.10 and above.
 
 =item --migrate-acls
 

@@ -66,6 +66,7 @@ class GenericSelectDialog extends GenericDialog
   function dialog_execute ()
   {
     session::set('filterBlacklist', $this->attribute->getFilterBlackList());
+    session::set('filterWhitelist', $this->attribute->getFilterWhiteList());
     return parent::dialog_execute();
   }
 
@@ -187,6 +188,11 @@ class DialogAttribute extends SetAttribute
   function getFilterBlackList ()
   {
     trigger_error("abstract method");
+  }
+
+  function getFilterWhiteList ()
+  {
+    return array();
   }
 
   function loadPostValue ()
@@ -349,7 +355,7 @@ class GenericDialogAttribute extends DialogAttribute
       $ldap->cat($value, $this->ldapAttributesToGet());
     } else {
       $ldap->cd($this->plugin->config->current['BASE']);
-      $ldap->search('('.$this->store_attr.'='.$value.')', $this->ldapAttributesToGet());
+      $ldap->search('('.$this->store_attr.'='.ldap_escape_f($value).')', $this->ldapAttributesToGet());
     }
     $this->fillDisplayValueFrom($i, $ldap->fetch());
   }
@@ -728,10 +734,9 @@ class GenericSimplePluginDialog extends GenericDialog
   function handle_finish ()
   {
     $this->dialog->save_object();
-    if (count($this->dialog->check())) {
-      foreach ($this->dialog->check() as $msg) {
-        msg_dialog::display(_('Error'), $msg, ERROR_DIALOG);
-      }
+    $msgs = $this->dialog->check();
+    if (count($msgs)) {
+      msg_dialog::displayChecks($msgs);
       return $this->dialog->execute().$this->buttons();
     }
 

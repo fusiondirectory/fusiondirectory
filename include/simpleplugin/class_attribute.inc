@@ -220,7 +220,7 @@ class Attribute
     return $this->required;
   }
 
-  protected function setRequired ($bool)
+  function setRequired ($bool)
   {
     $this->required = $bool;
   }
@@ -440,9 +440,9 @@ class Attribute
       }
       $ldap->cd($base);
       if (is_array($value)) {
-        $filter = '(|('.$this->getLdapName().'='.join(')('.$this->getLdapName().'=', $value).'))';
+        $filter = '(|('.$this->getLdapName().'='.join(')('.$this->getLdapName().'=', array_map('ldap_escape_f', $value)).'))';
       } else {
-        $filter = '('.$this->getLdapName().'='.$value.')';
+        $filter = '('.$this->getLdapName().'='.ldap_escape_f($value).')';
       }
       $infos = pluglist::pluginInfos(get_class($this->plugin));
       $filters = array_map(
@@ -633,7 +633,7 @@ class Attribute
         }
         foreach ($attributes as $attribute) {
           foreach ($this->plugin->attributesAccess[$attribute]->htmlIds() as $htmlId) {
-            $js .= 'document.getElementById('.json_encode($htmlId).').disabled = disableAttributes;'."\n";
+            $js .= 'if (document.getElementById('.json_encode($htmlId).')) { document.getElementById('.json_encode($htmlId).').disabled = disableAttributes; }'."\n";
           }
         }
       }
@@ -744,7 +744,7 @@ class BooleanAttribute extends Attribute
         }
         foreach ($attributes as $attribute) {
           foreach ($this->plugin->attributesAccess[$attribute]->htmlIds() as $htmlId) {
-            $js .= 'document.getElementById('.json_encode($htmlId).').disabled = disableAttributes;'."\n";
+            $js .= 'if (document.getElementById('.json_encode($htmlId).')) { document.getElementById('.json_encode($htmlId).').disabled = disableAttributes; }'."\n";
           }
         }
       }
@@ -1111,7 +1111,7 @@ class SelectAttribute extends Attribute
     }
   }
 
-  protected function setRequired ($bool)
+  function setRequired ($bool)
   {
     parent::setRequired($bool);
     $key = array_search("", $this->choices, TRUE);
@@ -1147,7 +1147,7 @@ class SelectAttribute extends Attribute
       return $error;
     } else {
       if (!$this->disabled && !in_array($this->value, $this->choices)) {
-        return msgPool::invalid($this->getLabel());
+        return sprintf(_('The value "%s" for field "%s" is not in the list of possible choices'), $this->value, $this->getLabel());
       }
     }
   }
@@ -1293,7 +1293,11 @@ class IntAttribute extends Attribute
       // value is "" or array()
       return "";
     }
-    return intval($value);
+    if (is_object($this->plugin) && $this->plugin->is_template) {
+      return $value;
+    } else {
+      return intval($value);
+    }
   }
 
   function check ()
@@ -1390,7 +1394,11 @@ class FloatAttribute extends IntAttribute
       // value is "" or array()
       return "";
     }
-    return floatval($value);
+    if (is_object($this->plugin) && $this->plugin->is_template) {
+      return $value;
+    } else {
+      return floatval($value);
+    }
   }
 }
 
@@ -1421,6 +1429,8 @@ class DateAttribute extends Attribute
   function inputValue ($value)
   {
     if ($value === "" && !$this->isRequired()) {
+      return $value;
+    } elseif (is_object($this->plugin) && $this->plugin->is_template && (preg_match('/%/', $value))) {
       return $value;
     } else {
       return $this->ldapToDate($value);
@@ -2329,7 +2339,11 @@ class CompositeAttribute extends Attribute
       $m = array_slice($m, 1);
       $values = array();
       foreach (array_keys($this->attributes) as $name) {
-        $values[] = $m[$name];
+        if (isset($m[$name])) {
+          $values[] = $m[$name];
+        } else {
+          $values[] = '';
+        }
       }
       return $values;
     } elseif ($res === FALSE) {
