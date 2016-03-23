@@ -3023,7 +3023,7 @@ function cred_decrypt($input, $password)
   $input  = substr($input, 16);
 
   $key_len  = 32;
-  $iv_len   = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
+  $iv_len   = openssl_cipher_iv_length('aes-256-cbc');
 
   $data = '';
   $d    = '';
@@ -3034,7 +3034,7 @@ function cred_decrypt($input, $password)
   $key  = substr($data, 0, $key_len);
   $iv   = substr($data, $key_len, $iv_len);
 
-  return rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, $input, MCRYPT_MODE_CBC, $iv), "\x00..\x1F");
+  return openssl_decrypt($input, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
 }
 
 
