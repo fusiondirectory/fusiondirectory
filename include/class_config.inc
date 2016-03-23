@@ -616,13 +616,10 @@ class config  {
     }
   }
 
-
   /*!
    * \brief Store the departments from ldap in $this->departments
-   *
-   * \param string $ignore_dn dn of the department
    */
-  function get_departments($ignore_dn = "")
+  function get_departments()
   {
     /* Initialize result hash */
     $result = array();
@@ -637,14 +634,14 @@ class config  {
     $types = departmentManagement::getDepartmentTypes();
 
     /* Create a list of attributes to fetch */
-    $filter       = "";
-    $ldap_values  = array("objectClass", "description");
+    $filter       = '';
+    $ldap_values  = array('objectClass', 'description');
     foreach ($types as $type) {
       $i = objects::infos($type);
       $filter         .= $i['filter'];
       $ldap_values[]  = $i['mainAttr']; // Specific key for departement objectTypes
     }
-    $filter = "(|".$filter.")";
+    $filter = '(|'.$filter.')';
 
     /* Get list of department objects */
     $ldap = $this->get_ldap_link();
@@ -668,17 +665,15 @@ class config  {
 
       $dn   = $ldap->getDN();
       $data = objects::infos($oc);
-      $this->department_info[$dn] = array("img"         => $data['icon'],
-                                         "description"  => isset($attrs['description'][0])?$attrs['description'][0]:"",
-                                         "name"         => $attrs[$data['mainAttr']][0]);
-
-      if ($dn == $ignore_dn) {
-        continue;
-      }
-      $c_dn = convert_department_dn($dn)." (".$data['mainAttr'].")";
+      $this->department_info[$dn] = array(
+        'img'         => $data['icon'],
+        'description' => (isset($attrs['description'][0]) ? $attrs['description'][0] : ''),
+        'name'        => $attrs[$data['mainAttr']][0]
+      );
 
       /* Only assign non-root departments */
       if ($dn != $result['/']) {
+        $c_dn = convert_department_dn($dn).' ('.$data['mainAttr'].')';
         $result[$c_dn] = $dn;
       }
     }
