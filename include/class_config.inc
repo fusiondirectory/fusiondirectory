@@ -293,11 +293,12 @@ class config  {
           session::global_set('HTTP_FDKEY_CACHE', $cache);
         } catch (Exception $e) {
           $msg = sprintf(
-            _('It seems you are trying to decode something which is not encoded : %s<br/>\n'.
+            _('It seems you are trying to decode something which is not encoded : %s<br/>'."\n".
               'Please check you are not using a fusiondirectory.secrets file while your passwords are not encrypted.'),
             $e->getMessage()
           );
-          msg_dialog::display(_("Configuration error"), $msg, FATAL_ERROR_DIALOG);
+          msg_dialog::display(_('Configuration error'), $msg, FATAL_ERROR_DIALOG);
+          exit;
         }
       }
       return $cache[$creds];
@@ -368,6 +369,10 @@ class config  {
    */
   function set_current($name)
   {
+    if (!isset($this->data['LOCATIONS'][$name])) {
+      msg_dialog::display(_('Error'), sprintf(_('Location "%s" could not be found in the configuration file'), $name), FATAL_ERROR_DIALOG);
+      exit;
+    }
     $this->current = $this->data['LOCATIONS'][$name];
 
     if (isset($this->current['INITIAL_BASE'])) {
