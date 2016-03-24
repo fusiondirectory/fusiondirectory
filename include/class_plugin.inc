@@ -1040,152 +1040,6 @@ class plugin
   }
 
   /*!
-   * \brief ldap rebind
-   *
-   * \param string $ldap
-   *
-   * \param string $referral
-   */
-  function rebind($ldap, $referral)
-  {
-    $credentials = LDAP::get_credentials($referral, $this->config->current['REFERRAL']);
-    if (ldap_bind($ldap, $credentials['ADMIN'], $this->config->get_credentials($credentials['PASSWORD']))) {
-      $this->error      = "Success";
-      $this->hascon     = TRUE;
-      $this->reconnect  = TRUE;
-      return 0;
-    } else {
-      $this->error = "Could not bind to " . $credentials['ADMIN'];
-      return NULL;
-    }
-  }
-
-  /*
-   * \brief Recursively copy ldap object
-   *
-   * \param string $src_dn The DN source
-   *
-   * \param string $dst_dn The DN destination
-   */
-  function _copy($src_dn, $dst_dn)
-  {
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cat($src_dn);
-    $attrs = $ldap->fetch();
-
-    /* Grummble. This really sucks. PHP ldap doesn't support rdn stuff. */
-    $ds = ldap_connect($this->config->current['SERVER']);
-    ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
-    if (function_exists("ldap_set_rebind_proc") && isset($this->config->current['REFERRAL'])) {
-      ldap_set_rebind_proc($ds, array(&$this, "rebind"));
-    }
-
-    $pwd  = $this->config->get_credentials($this->config->current['ADMINPASSWORD']);
-    ldap_bind($ds, $this->config->current['ADMINDN'], $pwd);
-
-    /* Fill data from LDAP */
-    $new = array();
-    if ($sr = ldap_read($ds, LDAP::fix($src_dn), "objectClass=*")) {
-      if ($ei = ldap_first_entry($ds, $sr)) {
-        foreach (array_keys($attrs) as $attr) {
-          if ($info = @ldap_get_values_len($ds, $ei, $attr)) {
-            for ($i = 0; $i < $info['count']; $i++) {
-              if ($info['count'] == 1) {
-                $new[$attr] = $info[$i];
-              } else {
-                $new[$attr][] = $info[$i];
-              }
-            }
-          }
-        }
-      }
-    }
-
-    /* close connexion */
-    ldap_unbind($ds);
-
-    /* Adapt naming attribute */
-    $dst_name       = preg_replace("/^([^=]+)=.*$/", "\\1", $dst_dn);
-    $dst_val        = preg_replace("/^[^=]+=([^,+]+).*,.*$/", "\\1", $dst_dn);
-    $new[$dst_name] = LDAP::fix($dst_val);
-
-    /* Check if this is a department.
-     * If it is a dep. && there is a , override in his ou
-     *  change \2C to , again, else this entry can't be saved ...
-     */
-    if (isset($new['ou']) && preg_match("/\\,/", $new['ou'])) {
-      $new['ou'] = str_replace("\\\\,", ",", $new['ou']);
-    }
-
-    /* Save copy */
-    $ldap->connect();
-    $ldap->cd($this->config->current['BASE']);
-
-    $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $dst_dn));
-
-    /* FAIvariable=.../..., cn=..
-        could not be saved, because the attribute FAIvariable was different to
-        the dn FAIvariable=..., cn=... */
-
-    if (!is_array($new['objectClass'])) {
-      $new['objectClass'] = array($new['objectClass']);
-    }
-
-    if (in_array_ics("FAIdebconfInfo", $new['objectClass'])) {
-      $new['FAIvariable'] = $ldap->fix($new['FAIvariable']);
-    }
-    $ldap->cd($dst_dn);
-    $ldap->add($new);
-
-    if (!$ldap->success()) {
-      trigger_error('Trying to save '.$dst_dn.' failed: '.$ldap->get_error(), E_USER_WARNING);
-      return FALSE;
-    }
-    return TRUE;
-  }
-
-  /*
-   * \brief Copy ldap object.
-   * This is a workaround function
-   *
-   * \param string $src_dn The DN source
-   *
-   * \param string $dst_dn The DN destination
-   */
-  function copy($src_dn, $dst_dn)
-  {
-    /* Rename dn in possible object groups */
-    $ldap = $this->config->get_ldap_link();
-
-    $ldap->cat($dst_dn);
-    $attrs = $ldap->fetch();
-    if (count($attrs)) {
-      trigger_error("Trying to overwrite ".LDAP::fix($dst_dn).", which already exists.",
-          E_USER_WARNING);
-      return FALSE;
-    }
-
-    $ldap->cat($src_dn);
-    $attrs = $ldap->fetch();
-    if (!count($attrs)) {
-      trigger_error("Trying to move ".LDAP::fix($src_dn).", which does not seem to exist.",
-          E_USER_WARNING);
-      return FALSE;
-    }
-
-    $ldap->cd($src_dn);
-    $ldap->search("objectClass=*", array("dn"));
-    $res = TRUE;
-    while ($attrs = $ldap->fetch()) {
-      $src = $attrs['dn'];
-      $dst = preg_replace("/".preg_quote($src_dn, '/')."$/", $dst_dn, $attrs['dn']);
-      $res = $res && $this->_copy($src, $dst);
-    }
-    return $res;
-  }
-
-
-  /*!
    * \brief  Rename/Move a given src_dn to the given dest_dn
    *
    * Move a given ldap object indentified by $src_dn to the
@@ -1202,12 +1056,12 @@ class plugin
     /* Try to move the source entry to the destination position */
     $ldap = $this->config->get_ldap_link();
     $ldap->cd($this->config->current['BASE']);
-    $ldap->create_missing_trees(preg_replace("/^[^,]+,/", "", $dst_dn));
+    $ldap->create_missing_trees(preg_replace("/^[^,]+,/", '', $dst_dn));
     if (!$ldap->rename_dn($src_dn, $dst_dn)) {
-      new log("debug", "Ldap Protocol v3 implementation error, ldap_rename failed, falling back to manual copy.",
+      new log('debug', 'Ldap Protocol v3 implementation error, ldap_rename failed.',
               "FROM: $src_dn  -- TO: $dst_dn", array(), $ldap->get_error());
       @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, "Rename failed FROM: $src_dn  -- TO:  $dst_dn",
-          "Ldap Protocol v3 implementation error, falling back to manual method. Error:".$ldap->get_error());
+          'Ldap Protocol v3 implementation error. Error:'.$ldap->get_error());
       return FALSE;
     }
 
@@ -1229,22 +1083,9 @@ class plugin
       return TRUE;
     }
 
-    /* Try to move with ldap routines, if this was not successfull
-        fall back to the old style copy & remove method
-     */
+    /* Try to move with ldap routines */
     if (!$this->rename($src_dn, $dst_dn)) {
-      /* Copy source to destination */
-      if (!$this->copy($src_dn, $dst_dn)) {
-        return FALSE;
-      }
-
-      /* Delete source */
-      $ldap = $this->config->get_ldap_link();
-      $ldap->rmdir_recursive($src_dn);
-      if (!$ldap->success()) {
-        trigger_error('Trying to delete '.$src_dn.' failed: '.$ldap->get_error(), E_USER_WARNING);
-        return FALSE;
-      }
+      return FALSE;
     }
 
     /* Get list of users,groups and roles within this tree,
