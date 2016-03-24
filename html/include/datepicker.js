@@ -256,8 +256,12 @@ DatePicker.prototype  = {
 
     /* arguments */
     this._relative= h_p["relative"];
-    if (h_p["language"])
+    if (h_p["language"]) {
       this._language = h_p["language"];
+      if (this._language_close.get(this._language) == undefined) {
+        this._language = 'en';
+      }
+    }
     this._zindex = ( h_p["zindex"] ) ? parseInt(Number(h_p["zindex"])) : 999;
     if (!Object.isUndefined(h_p["keepFieldEmpty"]))
       this._keepFieldEmpty  = h_p["keepFieldEmpty"];
