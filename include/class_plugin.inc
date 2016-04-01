@@ -644,7 +644,12 @@ class plugin
       array_map(
         function ($a) use (&$cache, $depends, $forbidden)
         {
-          return plugin::tpl_depends_of ($cache, $depends, $a, $forbidden);
+          $deps = plugin::tpl_depends_of ($cache, $depends, $a, $forbidden);
+          if (($askmeKey = array_search('askme', $deps)) !== FALSE) {
+            /* Do not flat special askme dependency */
+            unset($deps[$askmeKey]);
+          }
+          return $deps;
         },
         $depends[$key]
       );
