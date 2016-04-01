@@ -50,7 +50,7 @@ class template
         $this->attributes[$class] = array();
         $attrs = array_unique(array_merge($this->tabObject->by_object[$class]->getRequiredAttributes(), $this->needed));
         foreach (array_keys($this->tabObject->by_object[$class]->attributesAccess) as $attr) {
-          if (isset($this->attrs[$attr])) {
+          if (!$plugin->showInTemplate($attr, $this->attrs)) {
             continue;
           }
           if (in_array($attr, $attrs)) {
