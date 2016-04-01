@@ -1017,6 +1017,15 @@ class simplePlugin extends plugin
     }
     unset($attr);
   }
+
+  /* Returns TRUE if this attribute should be asked in the creation by template dialog */
+  function showInTemplate($attr, $templateAttrs)
+  {
+    if (isset($templateAttrs[$attr])) {
+      return FALSE;
+    }
+    return TRUE;
+  }
 }
 
 ?>
