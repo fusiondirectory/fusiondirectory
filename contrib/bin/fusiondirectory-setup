@@ -732,7 +732,7 @@ sub get_ldap_connexion {
   # read ldap's server's info from /etc/fusiondirectory/fusiondirectory.conf
   if (-e $fd_config) {
     my $twig = XML::Twig->new();    # create the twig
-    $twig->parsefile($fd_config); # build it
+    $twig->safe_parsefile($fd_config) or die("There is an error in $fd_config XML code: ".(split /\n/, $@)[1]."\n");
     my @locs = $twig->root->first_child('main')->children('location');
     my %locations = ();
     foreach my $loc (@locs) {
