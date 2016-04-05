@@ -64,7 +64,8 @@ class template
   /* Used when you need to re-apply the same template with different values */
   function reset()
   {
-    list($this->attrs, ) = plugin::tpl_fetch_template($this->dn);
+    list($this->attrs, $depends) = plugin::tpl_fetch_template($this->dn);
+    $this->needed     = plugin::tpl_needed_attrs($this->attrs, $depends); // This is needed because it removes %askme% values from attrs
     $this->tabObject  = objects::create($this->type);
     $tempTabObject    = objects::open($this->dn, $this->type); /* Used to know which tab is activated */
     foreach ($tempTabObject->by_object as $class => &$plugin) {
