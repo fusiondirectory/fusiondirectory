@@ -421,7 +421,7 @@ class user extends simplePlugin
             'o', FALSE
           ),
           new StringAttribute (
-            _('Department'), _('Department'),
+            _('Department'), _('Department to which the user belongs'),
             'ou', FALSE
           ),
           new StringAttribute (
