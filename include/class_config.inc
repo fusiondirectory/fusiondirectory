@@ -293,11 +293,12 @@ class config  {
           session::global_set('HTTP_FDKEY_CACHE', $cache);
         } catch (Exception $e) {
           $msg = sprintf(
-            _('It seems you are trying to decode something which is not encoded : %s<br/>\n'.
+            _('It seems you are trying to decode something which is not encoded : %s<br/>'."\n".
               'Please check you are not using a fusiondirectory.secrets file while your passwords are not encrypted.'),
             $e->getMessage()
           );
-          msg_dialog::display(_("Configuration error"), $msg, FATAL_ERROR_DIALOG);
+          msg_dialog::display(_('Configuration error'), $msg, FATAL_ERROR_DIALOG);
+          exit;
         }
       }
       return $cache[$creds];
@@ -368,6 +369,10 @@ class config  {
    */
   function set_current($name)
   {
+    if (!isset($this->data['LOCATIONS'][$name])) {
+      msg_dialog::display(_('Error'), sprintf(_('Location "%s" could not be found in the configuration file'), $name), FATAL_ERROR_DIALOG);
+      exit;
+    }
     $this->current = $this->data['LOCATIONS'][$name];
 
     if (isset($this->current['INITIAL_BASE'])) {
@@ -608,13 +613,10 @@ class config  {
     }
   }
 
-
   /*!
    * \brief Store the departments from ldap in $this->departments
-   *
-   * \param string $ignore_dn dn of the department
    */
-  function get_departments($ignore_dn = "")
+  function get_departments()
   {
     /* Initialize result hash */
     $result = array();
@@ -629,14 +631,14 @@ class config  {
     $types = departmentManagement::getDepartmentTypes();
 
     /* Create a list of attributes to fetch */
-    $filter       = "";
-    $ldap_values  = array("objectClass", "description");
+    $filter       = '';
+    $ldap_values  = array('objectClass', 'description');
     foreach ($types as $type) {
       $i = objects::infos($type);
       $filter         .= $i['filter'];
       $ldap_values[]  = $i['mainAttr']; // Specific key for departement objectTypes
     }
-    $filter = "(|".$filter.")";
+    $filter = '(|'.$filter.')';
 
     /* Get list of department objects */
     $ldap = $this->get_ldap_link();
@@ -660,17 +662,15 @@ class config  {
 
       $dn   = $ldap->getDN();
       $data = objects::infos($oc);
-      $this->department_info[$dn] = array("img"         => $data['icon'],
-                                         "description"  => isset($attrs['description'][0])?$attrs['description'][0]:"",
-                                         "name"         => $attrs[$data['mainAttr']][0]);
-
-      if ($dn == $ignore_dn) {
-        continue;
-      }
-      $c_dn = convert_department_dn($dn)." (".$data['mainAttr'].")";
+      $this->department_info[$dn] = array(
+        'img'         => $data['icon'],
+        'description' => (isset($attrs['description'][0]) ? $attrs['description'][0] : ''),
+        'name'        => $attrs[$data['mainAttr']][0]
+      );
 
       /* Only assign non-root departments */
       if ($dn != $result['/']) {
+        $c_dn = convert_department_dn($dn).' ('.$data['mainAttr'].')';
         $result[$c_dn] = $dn;
       }
     }

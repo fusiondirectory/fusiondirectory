@@ -595,29 +595,6 @@ class LDAP
   }
 
   /*!
-   * \brief Rename the dn
-   *
-   * \param string $attrs
-   *
-   * \param string $dn The DN
-   */
-  function rename($attrs, $dn = "")
-  {
-    if ($this->hascon) {
-      if ($this->reconnect) $this->connect();
-      if ($dn == "")
-        $dn = $this->basedn;
-
-      $r = @ldap_mod_replace($this->cid, LDAP::fix($dn), $attrs);
-      $this->error = @ldap_error($this->cid);
-      return $r;
-    } else {
-      $this->error = "Could not connect to LDAP server";
-      return "";
-    }
-  }
-
-  /*!
    * \brief Remove directory
    *
    * \param string $deletedn The DN to be deleted

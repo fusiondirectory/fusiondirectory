@@ -145,6 +145,7 @@ class management
    */
   function execute()
   {
+    global $config;
     // Ensure that html posts and gets are kept even if we see a 'Entry islocked' dialog.
     $vars = array('/^act$/','/^listing/','/^PID$/','/^FILTER_PID$/');
     session::set('LOCK_VARS_TO_USE', $vars);
@@ -167,6 +168,7 @@ class management
 
     // Pre-render list to init things if a dn is gonna be opened on first load
     if (isset($_REQUEST['dn'])) {
+      $this->headpage->setBase($config->current['BASE']);
       $this->headpage->filter->setCurrentScope('sub');
       $this->renderList();
     }

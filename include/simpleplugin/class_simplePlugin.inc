@@ -778,8 +778,8 @@ class simplePlugin extends plugin
     $lock_msg = "";
     if ($edit_mode) {
       /* Remove locks created by this plugin */
-      if ($remove_lock || isset($_POST['edit_cancel'])) {
-        if (session::is_set($classname) && session::is_set('edit')) {
+      if ($remove_lock || (isset($_POST['edit_cancel']) && session::is_set('edit'))) {
+        if (session::is_set($classname)) {
           del_lock($entry_dn);
         }
       }
@@ -792,8 +792,8 @@ class simplePlugin extends plugin
     } else {
       /* Reset requested? */
       if ($edit_mode && isset($_POST['edit_cancel'])) {
-        session::un_set('edit');
         session::un_set($classname);
+        session::un_set('edit');
       }
 
       /* Create account object on demand */
@@ -987,6 +987,15 @@ class simplePlugin extends plugin
       $attr->deserializeValue($values);
     }
     unset($attr);
+  }
+
+  /* Returns TRUE if this attribute should be asked in the creation by template dialog */
+  function showInTemplate($attr, $templateAttrs)
+  {
+    if (isset($templateAttrs[$attr])) {
+      return FALSE;
+    }
+    return TRUE;
   }
 }
 

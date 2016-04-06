@@ -732,7 +732,7 @@ sub get_ldap_connexion {
   # read ldap's server's info from /etc/fusiondirectory/fusiondirectory.conf
   if (-e $fd_config) {
     my $twig = XML::Twig->new();    # create the twig
-    $twig->parsefile($fd_config); # build it
+    $twig->safe_parsefile($fd_config) or die("There is an error in $fd_config XML code: ".(split /\n/, $@)[1]."\n");
     my @locs = $twig->root->first_child('main')->children('location');
     my %locations = ();
     foreach my $loc (@locs) {
@@ -1363,7 +1363,27 @@ sub migrate_dns {
           $result->code && die "Migration of DNS zone subentry failed, LDAP error: ".$result->error."\n";
         }
 
+        # Fix reverse zone PTR records DNs
+        $mesg = $ldap->search(
+          base    => $zoneDn,
+          filter  => "(&(objectClass=dNSZone)(!(relativeDomainName=@))(|(zoneName=*.arpa)(zoneName=*.arpa.)))"
+        );
+        $mesg->code && die $mesg->error;
 
+        @entries = $mesg->entries;
+
+        foreach my $entry (@entries) {
+          $entry->dn() =~ m/^([^,]+),relativeDomainName=[^,]+,$zoneDn$/ or next;
+          $result = $ldap->moddn (
+            $entry->dn(),
+            newrdn        => $1,
+            deleteoldrdn  => '1',
+            newsuperior   => 'zoneName='.$entry->get_value('zoneName').','.$zoneDn
+          );
+          $result->code && die "Migration of DNS reverse zone subentry ".$entry->dn()." failed, LDAP error: ".$result->error."\n";
+        }
+
+        # Add DNS tab on server
         $mesg = $ldap->search(
           base    => $systemdn,
           scope   => 'base',

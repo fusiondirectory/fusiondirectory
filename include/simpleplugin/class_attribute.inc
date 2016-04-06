@@ -1738,6 +1738,7 @@ class ImageAttribute extends FileAttribute
    */
   function loadPostValue ()
   {
+    $this->postValue = $this->value;
     if (isset($_POST['upload'.$this->getHtmlId()])) {
       parent::loadPostValue();
     }

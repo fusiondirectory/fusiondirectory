@@ -179,16 +179,6 @@ class department extends simplePlugin
     return $message;
   }
 
-  function execute()
-  {
-    /* Reload departments */
-    $this->config->get_departments($this->dn);
-    $this->config->make_idepartments();
-
-    /* Call parent execute */
-    return parent::execute();
-  }
-
   function get_allowed_bases()
   {
     /* Hide all departments, that are subtrees of this department */
