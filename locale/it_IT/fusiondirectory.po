@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Ilaria Montaruli <Ilaria.Montaruli@gmail.com>, 2015
-# Penati <penati@avaya.com>, 2016
+# Paola Penati <penati@avaya.com>, 2016
+# Paola Penati <penati@avaya.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-04-03 16:45+0200\n"
-"PO-Revision-Date: 2016-03-25 16:48+0000\n"
-"Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
+"POT-Creation-Date: 2016-04-06 11:27+0200\n"
+"PO-Revision-Date: 2016-04-06 09:32+0000\n"
+"Last-Translator: Paola Penati <penati@avaya.com>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -283,8 +284,8 @@ msgstr "Crea"
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:192
 #: include/simpleplugin/class_dialogAttributes.inc:632
 #: include/simpleplugin/class_dialogAttributes.inc:633
-#: include/simpleplugin/class_attribute.inc:2675
 #: include/simpleplugin/class_attribute.inc:2676
+#: include/simpleplugin/class_attribute.inc:2677
 #: include/simpleplugin/simple-list.xml:67
 #: include/simpleplugin/simple-list.xml:112
 msgid "Edit"
@@ -678,8 +679,8 @@ msgid "Edit category ACL"
 msgstr "Modifica la categoria di ACL"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:194
-#: include/class_msgPool.inc:517 include/simpleplugin/class_attribute.inc:2685
-#: include/simpleplugin/class_attribute.inc:2686
+#: include/class_msgPool.inc:517 include/simpleplugin/class_attribute.inc:2686
+#: include/simpleplugin/class_attribute.inc:2687
 #, php-format
 msgid "Delete"
 msgstr "Elimina"
@@ -1091,6 +1092,10 @@ msgid ""
 "Title of a person in their organizational context. Each title is one value "
 "of this multi-valued attribute"
 msgstr "Titolo di una persona nel proprio contesto organizzativo. Ogni titolo è una valore di questo attributo multivalore"
+
+#: plugins/personal/generic/class_user.inc:419
+msgid "Department to which the user belongs"
+msgstr "Dipartimento al quale appartiene l'utente"
 
 #: plugins/personal/generic/class_user.inc:423
 msgid "Department No."
@@ -2135,13 +2140,13 @@ msgstr "Sopra"
 msgid "Down"
 msgstr "Sotto"
 
-#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2647
-#: include/simpleplugin/class_attribute.inc:2648
+#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2648
+#: include/simpleplugin/class_attribute.inc:2649
 msgid "Sort up"
 msgstr "Ordina in modo crescente"
 
-#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2660
-#: include/simpleplugin/class_attribute.inc:2661
+#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2661
+#: include/simpleplugin/class_attribute.inc:2662
 msgid "Sort down"
 msgstr "Ordina in modo decrescente"
 
@@ -2163,9 +2168,9 @@ msgstr "Seleziona tutto"
 #: include/simpleplugin/class_attribute.inc:1540
 #: include/simpleplugin/class_attribute.inc:1543
 #: include/simpleplugin/class_attribute.inc:1546
-#: include/simpleplugin/class_attribute.inc:1784
-#: include/simpleplugin/class_attribute.inc:1887
-#: include/simpleplugin/class_attribute.inc:1889
+#: include/simpleplugin/class_attribute.inc:1785
+#: include/simpleplugin/class_attribute.inc:1888
+#: include/simpleplugin/class_attribute.inc:1890
 #: include/simpleplugin/class_simpleTabs.inc:90
 #: include/simpleplugin/class_simpleTabs.inc:405
 #: include/password-methods/class_password-methods-sasl.inc:60
@@ -2305,7 +2310,7 @@ msgstr "Errore di configurazione"
 msgid ""
 "It seems you are trying to decode something which is not encoded : %s<br/>\n"
 "Please check you are not using a fusiondirectory.secrets file while your passwords are not encrypted."
-msgstr ""
+msgstr "Sembra che si stia tentando di decodificare qualcosa che non è codificato : \n%s <br/> Si prega di controllare non si stia utilizzando un file fusiondirectory.secrets mentre le password non sono crittografate."
 
 #: include/class_config.inc:338 include/class_ldap.inc:895
 #: include/class_ldap.inc:1349 include/functions.inc:526
@@ -2313,7 +2318,7 @@ msgstr ""
 #: include/functions.inc:786 include/functions.inc:841
 #: include/functions.inc:2986 include/functions.inc:3160
 #: include/simpleplugin/class_simplePlugin.inc:551
-#: include/simpleplugin/class_attribute.inc:2909
+#: include/simpleplugin/class_attribute.inc:2910
 #: include/password-methods/class_password-methods.inc:199
 #: include/class_SnapshotHandler.inc:50 include/class_SnapshotHandler.inc:244
 #: include/class_SnapshotHandler.inc:277 include/class_SnapshotHandler.inc:292
@@ -2331,7 +2336,7 @@ msgstr "Errore di connessione al server LDAP. Contatta l'amministratore del sist
 #: include/class_config.inc:373
 #, php-format
 msgid "Location \"%s\" could not be found in the configuration file"
-msgstr ""
+msgstr "Location \" %s\" non è stata trovata nel file di configurazione"
 
 #: include/class_config.inc:485
 #, php-format
@@ -3536,7 +3541,7 @@ msgid "days"
 msgstr "giorni"
 
 #: include/simpleplugin/class_attribute.inc:543
-#: include/simpleplugin/class_attribute.inc:2171
+#: include/simpleplugin/class_attribute.inc:2172
 #, php-format
 msgid "%s (required)"
 msgstr "%s (necessario)"
@@ -3605,7 +3610,7 @@ msgid "%s (%d bytes)"
 msgstr "%s (%d bytes)"
 
 #: include/simpleplugin/class_attribute.inc:1626
-#: include/simpleplugin/class_attribute.inc:1803
+#: include/simpleplugin/class_attribute.inc:1804
 msgid "Upload"
 msgstr "Caricare"
 
@@ -3614,22 +3619,22 @@ msgstr "Caricare"
 msgid "Download"
 msgstr "Scarica"
 
-#: include/simpleplugin/class_attribute.inc:1785
+#: include/simpleplugin/class_attribute.inc:1786
 msgid ""
 "Cannot save user picture, FusionDirectory requires the package "
 "'php5-imagick' to be installed!"
 msgstr "Impossibile salvare la foto dell'utente, FusionDirectory richiede che il pacchetto 'php5-imagick' sia installato!"
 
-#: include/simpleplugin/class_attribute.inc:1836
+#: include/simpleplugin/class_attribute.inc:1837
 #: setup/class_setupStep_Ldap.inc:50 ihtml/themes/default/simple-list.tpl.c:2
 msgid "Base"
 msgstr "Base"
 
-#: include/simpleplugin/class_attribute.inc:1839
+#: include/simpleplugin/class_attribute.inc:1840
 msgid "Object base"
 msgstr "Base dell'oggetto"
 
-#: include/simpleplugin/class_attribute.inc:2769
+#: include/simpleplugin/class_attribute.inc:2770
 #, php-format
 msgid "Invalid value for %s"
 msgstr "Valore non valido per %s"
