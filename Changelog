@@ -1,6 +1,34 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.11
+
+|Fix] FusionDirectory plugins - Bugs #4391: Choices order seems random in shell
+|Fix] Bugs #4621: Use of mcrypt should be removed
+|Fix] FusionDirectory plugins - Bugs #4630: DNS adding reverse zone issue (tested on FD 1.0.10) in class B and class A
+|Fix] FusionDirectory plugins - Bugs #4631: DNS menu is not displayed without systems plugin
+|Fix] FusionDirectory plugins - Bugs #4632: Webservice needs a better method for modification
+|Fix] Bugs #4633: change requirement to php 5.4 for centos
+|Fix] Bugs #4634: DNS PTR migration does not work
+|Fix] FusionDirectory plugins - Bugs #4635: [DNS] Reverse zone association breaks when there are several A record for the same domain.
+|Fix] FusionDirectory plugins - Bugs #4636: [SYSTEMS] When add Windows Workstation (winStation) and enable DHCP it will not be enabled when edit again
+|Fix] FusionDirectory plugins - Bugs #4637: DNS tab won’t work on winstations
+|Fix] Bugs #4638: UI issue, entry disappear in 'Base' dropdown
+|Fix] Bugs #4639: depending on FD language setting, the calendar doesn't show up on icon click
+|Fix] Bugs #4640: strange error when following org's link from user "references" tab
+|Fix] Bugs #4652: The weird _copy fallback should be removed
+|Fix] Bugs #4653: Having a wrong default location should trigger a fatal error
+|Fix] FusionDirectory plugins - Bugs #4654: DHCP seems to use inexistant method getCn
+|Fix] Bugs #4655: The edit anyway button does not work in my account menu
+|Fix] FusionDirectory plugins - Bugs #4658: csv import with empty field
+|Fix] Bugs #4659: when creating a user via template or csv import, mandatory , alreay defined fields have to be re-inputed even if already defined
+|Fix] Bugs #4667: Samba munged dial fields are always asked when using a template
+|Fix] Bugs #4673: ImageAttribute are broken
+|Fix] FusionDirectory plugins - Bugs #4675: csv import, add an option for not importing anything in case of error
+|Fix] FusionDirectory plugins - Bugs #4676: Edit IDs problems related to our selenium test
+|Fix] FusionDirectory plugins - Wishlist #4657: community organization membership type
+|Fix] FusionDirectory plugins - Wishlist #4660: csv import lacks an option or help on what to do with the first line
+
 * FusionDirectory 1.0.10
 
 [Feature] Bugs #1217: DNS service must be redone
