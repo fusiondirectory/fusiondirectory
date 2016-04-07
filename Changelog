@@ -1,6 +1,132 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.11
+
+|Fix] FusionDirectory plugins - Bugs #4391: Choices order seems random in shell
+|Fix] Bugs #4621: Use of mcrypt should be removed
+|Fix] FusionDirectory plugins - Bugs #4630: DNS adding reverse zone issue (tested on FD 1.0.10) in class B and class A
+|Fix] FusionDirectory plugins - Bugs #4631: DNS menu is not displayed without systems plugin
+|Fix] FusionDirectory plugins - Bugs #4632: Webservice needs a better method for modification
+|Fix] Bugs #4633: change requirement to php 5.4 for centos
+|Fix] Bugs #4634: DNS PTR migration does not work
+|Fix] FusionDirectory plugins - Bugs #4635: [DNS] Reverse zone association breaks when there are several A record for the same domain.
+|Fix] FusionDirectory plugins - Bugs #4636: [SYSTEMS] When add Windows Workstation (winStation) and enable DHCP it will not be enabled when edit again
+|Fix] FusionDirectory plugins - Bugs #4637: DNS tab won’t work on winstations
+|Fix] Bugs #4638: UI issue, entry disappear in 'Base' dropdown
+|Fix] Bugs #4639: depending on FD language setting, the calendar doesn't show up on icon click
+|Fix] Bugs #4640: strange error when following org's link from user "references" tab
+|Fix] Bugs #4652: The weird _copy fallback should be removed
+|Fix] Bugs #4653: Having a wrong default location should trigger a fatal error
+|Fix] FusionDirectory plugins - Bugs #4654: DHCP seems to use inexistant method getCn
+|Fix] Bugs #4655: The edit anyway button does not work in my account menu
+|Fix] FusionDirectory plugins - Bugs #4658: csv import with empty field
+|Fix] Bugs #4659: when creating a user via template or csv import, mandatory , alreay defined fields have to be re-inputed even if already defined
+|Fix] Bugs #4667: Samba munged dial fields are always asked when using a template
+|Fix] Bugs #4673: ImageAttribute are broken
+|Fix] FusionDirectory plugins - Bugs #4675: csv import, add an option for not importing anything in case of error
+|Fix] FusionDirectory plugins - Bugs #4676: Edit IDs problems related to our selenium test
+|Fix] FusionDirectory plugins - Wishlist #4657: community organization membership type
+|Fix] FusionDirectory plugins - Wishlist #4660: csv import lacks an option or help on what to do with the first line
+
+* FusionDirectory 1.0.10
+
+[Feature] Bugs #1217: DNS service must be redone
+|Fix] Bugs #2171: creating CNAME entries is not intuitive
+|Fix] Bugs #2573: when changing the address range of a no used zone name, the reverse of the dns of this zone break
+|Fix] Bugs #4251: When I have DNS zone created, DNS plugin asks for subnet and netmask for that zone.
+|Fix] Bugs #4468: Error when I try to move a system with the DNS tab activate
+|Fix] Bugs #4476: rewrite the part about fusiondirectory core in the documentation
+|Fix] Bugs #4477: rewrite the configuration password recovery page as this as been integrated into the configuration in core
+|Fix] Bugs #4480: LDAP::convert and LDAP::fix functions are causing problems
+|Fix] Bugs #4482: Debug log prevent connection in some cases
+[Feature] Bugs #4484: allow ldap ipv6 uris
+|Fix] Bugs #4490: nagios.tpl file is not used anymore
+|Fix] Bugs #4495: Use ldap_escape in compute_dn
+[Feature] Bugs #4496: DNS plugin should support RFC 2317 for reverse zones
+|Fix] Bugs #4498: Bad error message when we will use a GID with a non-existent group
+[Feature] Bugs #4504: Support for split horizon should be added
+|Fix] Bugs #4505: fusiondirectory-setup --migrate-users not work when the users don't have all the samba attributs
+|Fix] Bugs #4508: second email and first email are inverted in the password recovery configuration page
+|Fix] Bugs #4509: Force GID option is broken
+|Fix] Bugs #4511: Add a button to launch argonaut-ldap2zone from FusionDirectory
+|Fix] Bugs #4512: when using cyrus in unix hierarchy mode and creating a user and activating mail tab at the same time, the mailbox is not created
+|Fix] Bugs #4514: It takes too long to load the reference tab for a DNS zone
+[Feature] Bugs #4515: fusiondirectory-setup need an option to migrate the dns 1.0.9.x version to 1.0.10
+|Fix] Bugs #4517: Some obsolete objectClass are still searched for in config
+|Fix] Bugs #4518: Plugin deletion contains some useless ldap operation
+|Fix] Bugs #4519: ldap::rmdir_recursive is not optimal
+|Fix] Bugs #4520: Syslog server field should be removed
+|Fix] Bugs #4521: LDAP server field should be removed (gotoLdapField)
+|Fix] Bugs #4523: ntp server should be removed
+[Feature] Bugs #4525: we should have attribute for start and end date into the personal-fd.schema and add it to the personal schema
+[Feature] Bugs #4526: add "co" attribute into personal-fd.schema and into personal plugin
+[Feature] Bugs #4527: create a community plugin to manage community aka organization and projects
+[Feature] Bugs #4528: tab community on the user
+[Feature] Bugs #4529: The category in department and organization should be a dropdown filled from the configuration backend
+[Feature] Bugs #4530: in the department and organization we need to add the labeledUri
+[Feature] Bugs #4531: The co (country friendlyName) in department and organization should be added and be dropdown filled from the configuration backend
+[Feature] Bugs #4532: the personal plugin should have a field where we can put the badge number
+[Feature] Bugs #4533: make a subcontracting plugin
+|Fix] Bugs #4540: Problème avec les vcf (vcards)
+|Fix] Bugs #4541: [intégration du schéma OPENNEBULA et création du plugin de gestion des groupes]
+|Fix] Bugs #4542: fusiondirectory-setup --deprecated-ldif not found the asterisk deprecated
+[Feature] Bugs #4543: Add an option to fusiondirectory-setup to see the uid that are duplicated
+[Feature] Bugs #4544: Possibility to see the uid that are duplicate when we install FusionDirectory
+|Fix] Bugs #4545: When we migrate an old FusionDirectory we not have argonautClientProtocol attribute
+|Fix] Bugs #4555: the terminal plugin has an error with the latest ntp removal fix
+|Fix] Bugs #4557: when a user is on top people branch and get an acl in subtree for a lower branch i get " The supplied base is not valid and has been reset to the previous value! "
+[Feature] Bugs #4561: be able to select all user from ou=people,dc=opensides,dc=be but be confined to your branch for all the rest
+[Feature] Bugs #4562: add http auth
+|Fix] Bugs #4563: DNS zone serial is not updated when record are changed through the DNS tab of a system
+|Fix] Bugs #4569: Groups containing unknown type objects or deleted objects does not appear
+|Fix] Bugs #4575: Error with samba plugin and sambantpassword attribute
+[Feature] Bugs #4576: create tab for the plugin community onto organization and department
+[Feature] Bugs #4580: Newsletter plugin
+|Fix] Bugs #4591: It’s impossible to delete root records in DNS zones
+|Fix] Bugs #4592: its best if we use the /html/themes everywher in place of /html/images evertime is possible
+|Fix] Bugs #4600: 'base' sticky or not ?
+|Fix] Bugs #4602: assignements / object selection step : sometimes the current object doesn't shows up
+|Fix] Bugs #4603: With debug set, toggle button is absent when selecting users to add them to a group
+|Fix] Bugs #4605: inside group selections of users, the selections is not showing all users
+[Feature] Bugs #4606: the login column is missing in the groupOfname user selection list
+|Fix] Bugs #4608: assignements / object selection step : sometimes the current object doesn't shows up
+|Fix] Bugs #4610: postalAddress (and homepostalAddress) content should stick to the RFC
+|Fix] Bugs #4610: postalAddress (and homepostalAddress) content should stick to the RFC
+|Fix] Bugs #4611: setRequired should be public
+|Fix] Bugs #4613: Error about sambaUnixIdPool is unclear
+|Fix] FusionDirectory plugins - Bugs #4620: postalAddress (and homepostalAddress) content should stick to the RFC
+|Fix] FusionDirectory plugins - Bugs #4622: DNS record should be sorted
+[Feature] Wishlist #2843: Assigning multiple domain names for servers.
+[Feature] Wishlist #3265: rewrite DNS plugins
+|Fix] Wishlist #4252: Systems plugin - when enable "Add to DNS" should be able to check about adding PTR and more A records
+|Fix] Wishlist #4478: Using %askme% in User id and group id in templates does not work
+|Fix] Wishlist #4486: possible documentation tweaks
+|Fix] Wishlist #4492: "login" name in group add page
+|Fix] Wishlist #4497: The order of user id and group id are inverted
+[Feature] Wishlist #4560: community users and entities management specifications
+[Feature] Wishlist #4564: Add a C modifier for counting an array
+[Feature] Wishlist #4565: Fixedbutton themes should replace the default one
+[Feature] Wishlist #4609: Add "project/org full name" attribute in dep community's tab
+
+* FusionDirectory 1.0.9.3
+
+[Fix] Bugs #4444: Debug log prevent connection in some cases
+[Fix] Bugs #4452: Adding a user to a group using "Groups and roles" tab creates some PHP errors
+[Fix] Bugs #4453: Adding a user to a group using "Groups and roles" with trustMode fails
+[Fix] Bugs #4456: Can't find a way to specify a '/' in distribution or media name in the repository plugin
+[Fix] Bugs #4457: FusionDirectory don't find the dns server if he is in a department
+[Feature] Bugs #4459: Desactivate other authentification method from configuration file
+[Fix] Bugs #4463: There are still traces of the rsyslog plugin in the schema and config class
+[Fix] Bugs #4464: There are still traces of the rsyslog plugin in the schema and config class
+[Fix] Bugs #4465: remove from the service-fd.schema objectClass no longer used
+[Fix] Bugs #4466: Pull request 11 from github
+[Fix] Bugs #4479: In primary group in unix tab there is a «None» option
+[Fix] Bugs #4481: «Enable primary group filter» option is obsolete
+[Fix] Bugs #4485: 'fusiondirectory-insert-schema -m' should check if the specificed file exists
+[Fix] Wishlist #4385: Locked users can connect using SSH keys
+[Fix] Wishlist #4473: Locked users can connect using SSH keys
+
 * FusionDirectory 1.0.9.2
 
 [Fix] Bugs #3880: mailbox deletion through sieve and cyrus does not work
