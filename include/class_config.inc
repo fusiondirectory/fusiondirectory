@@ -470,22 +470,7 @@ class config  {
       return;
     }
 
-    /* Fill imap servers */
     $ldap = $this->get_ldap_link();
-    $ldap->cd ($this->current['BASE']);
-
-    /* Search mailMethod configuration in main section too */
-    $this->current['MAILMETHOD']    = $this->get_cfg_value("mailMethod", "");
-    $mailMethodClass                = 'mailMethod'.$this->current['MAILMETHOD'];
-    if (class_available($mailMethodClass)) {
-      $this->data['SERVERS']['IMAP']  = $mailMethodClass::get_server_list($this);
-    } elseif (class_available('mailMethod')) {
-      msg_dialog::display(
-        _('Error'),
-        sprintf(_('The selected mail method (class %s) is not available'), $mailMethodClass),
-        ERROR_DIALOG
-      );
-    }
 
     /* Get NFS server lists */
     $tmp  = array("default");
