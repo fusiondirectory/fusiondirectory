@@ -412,9 +412,11 @@ class UsersGroupsAttribute extends GenericDialogAttribute
       if ($this->display_attr == 'dn') {
         $this->displays[$i] = $attrs['dn'];
       } elseif (in_array('posixGroup', $attrs['objectClass'])) {
-        $this->displays[$i] = sprintf(_('Group %s'), trim($attrs['cn'][0]));
+        $this->displays[$i] = sprintf(_('POSIX group %s'), trim($attrs['cn'][0]));
       } elseif (in_array('organizationalRole', $attrs['objectClass'])) {
         $this->displays[$i] = sprintf(_('Role %s'), trim($attrs['cn'][0]));
+      } elseif (in_array('groupOfNames', $attrs['objectClass'])) {
+        $this->displays[$i] = sprintf(_('Group %s'), trim($attrs['cn'][0]));
       } elseif (isset($attrs['uid'][0])) {
         $this->displays[$i] = trim($attrs['uid'][0]);
       } else {
