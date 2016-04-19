@@ -107,6 +107,12 @@ class userinfo
     $ldap->cd($this->config->current['BASE']);
 
     /* Get member groups... */
+    $ldap->search('(&(objectClass=groupOfNames)(member='.ldap_escape_f($this->dn).'))', array('dn'));
+    while ($attrs = $ldap->fetch()) {
+      $this->groups[$attrs['dn']] = $attrs['dn'];
+    }
+
+    /* Get member POSIX groups... */
     $ldap->search('(&(objectClass=posixGroup)(memberUid='.ldap_escape_f($this->uid).'))', array('dn'));
     while ($attrs = $ldap->fetch()) {
       $this->groups[$attrs['dn']] = $attrs['dn'];
@@ -202,7 +208,7 @@ class userinfo
       }
     }
 
-    /* Create an array which represenet all relevant permissions settings
+    /* Create an array which represent all relevant permissions settings
         per dn.
 
       The array will look like this:
