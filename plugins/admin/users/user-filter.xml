@@ -19,6 +19,7 @@
       <attribute>uid</attribute>
       <attribute>userPassword</attribute>
       <attribute>fdTemplateField</attribute>
+      <attribute>mail</attribute>
     </query>
     <scope>auto</scope>
   </search>
@@ -30,11 +31,11 @@
     <maxlength>60</maxlength>
     <default></default>
     <unset></unset>
-    <set>(|(cn=*$*)(sn=*$*)(givenName=*$*)(uid=*$*))</set>
+    <set>(|(cn=*$*)(sn=*$*)(givenName=*$*)(uid=*$*)(mail=*$*))</set>
     <alphabet>true</alphabet>
     <autocomplete>
       <backend>LDAP</backend>
-      <filter>(&amp;(objectClass=inetOrgPerson)(|(cn=*$NAME*)(sn=*$NAME*)(givenName=*$NAME*)(uid=*$NAME*)))</filter>
+      <filter>(&amp;(objectClass=inetOrgPerson)(|(cn=*$NAME*)(sn=*$NAME*)(givenName=*$NAME*)(uid=*$NAME*)(mail=*$NAME*)))</filter>
       <attribute>cn</attribute>
       <attribute>uid</attribute>
       <frequency>0.5</frequency>
