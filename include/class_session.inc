@@ -175,7 +175,7 @@ class session {
    */
   public static function global_delete($name)
   {
-    if ($_SESSION[$name]) {
+    if (isset($_SESSION[$name])) {
       unset($_SESSION[$name]);
     }
   }
