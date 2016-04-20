@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-04-06 11:27+0200\n"
-"PO-Revision-Date: 2016-04-06 09:32+0000\n"
+"POT-Creation-Date: 2016-04-19 14:14+0200\n"
+"PO-Revision-Date: 2016-04-19 13:34+0000\n"
 "Last-Translator: Paola Penati <penati@avaya.com>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -282,8 +282,8 @@ msgstr "Crea"
 #: plugins/admin/departments/dep-list.xml:79
 #: plugins/admin/users/user-list.xml:105
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:192
-#: include/simpleplugin/class_dialogAttributes.inc:632
-#: include/simpleplugin/class_dialogAttributes.inc:633
+#: include/simpleplugin/class_dialogAttributes.inc:634
+#: include/simpleplugin/class_dialogAttributes.inc:635
 #: include/simpleplugin/class_attribute.inc:2676
 #: include/simpleplugin/class_attribute.inc:2677
 #: include/simpleplugin/simple-list.xml:67
@@ -296,8 +296,8 @@ msgstr "Modifica"
 #: plugins/admin/departments/dep-list.xml:67
 #: plugins/admin/departments/dep-list.xml:88
 #: plugins/admin/users/user-list.xml:112
-#: include/simpleplugin/class_dialogAttributes.inc:642
-#: include/simpleplugin/class_dialogAttributes.inc:643
+#: include/simpleplugin/class_dialogAttributes.inc:644
+#: include/simpleplugin/class_dialogAttributes.inc:645
 #: include/simpleplugin/simple-list.xml:75
 #: include/simpleplugin/simple-list.xml:125
 msgid "Remove"
@@ -2155,16 +2155,16 @@ msgid "Select all"
 msgstr "Seleziona tutto"
 
 #: include/class_listing.inc:537 include/class_management.inc:681
-#: include/class_config.inc:373 include/class_config.inc:484
-#: include/class_msgPool.inc:215 include/class_msgPool.inc:235
-#: include/class_msgPool.inc:265 include/class_msgPool.inc:682
-#: include/class_msgPool.inc:713 include/class_msgPool.inc:740
-#: include/functions.inc:3107 include/functions.inc:3128
-#: include/functions.inc:3168 include/functions.inc:3180
-#: include/functions.inc:3184 include/functions.inc:3191
-#: include/functions.inc:3200 include/functions.inc:3262
-#: include/class_msg_dialog.inc:128 include/class_xml.inc:58
-#: include/class_plugin.inc:1510 include/class_CopyPasteHandler.inc:278
+#: include/class_config.inc:373 include/class_msgPool.inc:215
+#: include/class_msgPool.inc:235 include/class_msgPool.inc:265
+#: include/class_msgPool.inc:682 include/class_msgPool.inc:713
+#: include/class_msgPool.inc:740 include/functions.inc:3107
+#: include/functions.inc:3128 include/functions.inc:3168
+#: include/functions.inc:3180 include/functions.inc:3184
+#: include/functions.inc:3191 include/functions.inc:3200
+#: include/functions.inc:3262 include/class_msg_dialog.inc:128
+#: include/class_xml.inc:58 include/class_plugin.inc:1510
+#: include/class_CopyPasteHandler.inc:278
 #: include/simpleplugin/class_attribute.inc:1540
 #: include/simpleplugin/class_attribute.inc:1543
 #: include/simpleplugin/class_attribute.inc:1546
@@ -2296,7 +2296,7 @@ msgid "XML error in fusiondirectory.conf: %s at line %d"
 msgstr "Errore XML nel file fusiondirectory.conf: %s alla linea %d"
 
 #: include/class_config.inc:162 include/class_config.inc:300
-#: include/class_config.inc:915 include/class_config.inc:928
+#: include/class_config.inc:900 include/class_config.inc:913
 #: include/functions.inc:663 include/class_timezone.inc:51
 #: include/password-methods/class_password-methods-sha.inc:71
 #: include/password-methods/class_password-methods-ssha.inc:75
@@ -2338,30 +2338,25 @@ msgstr "Errore di connessione al server LDAP. Contatta l'amministratore del sist
 msgid "Location \"%s\" could not be found in the configuration file"
 msgstr "Location \" %s\" non è stata trovata nel file di configurazione"
 
-#: include/class_config.inc:485
-#, php-format
-msgid "The selected mail method (class %s) is not available"
-msgstr "Il metodo mail (classe %s) selezionato non è disponibile "
-
-#: include/class_config.inc:916
+#: include/class_config.inc:901
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required variable '%s' is not"
 " set."
 msgstr "La funzione 'copia istantanea' è attivata, ma la variabile richiesta '%s' non è configurata."
 
-#: include/class_config.inc:929
+#: include/class_config.inc:914
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required compression module "
 "is missing. Please install '%s'."
 msgstr "La funzione 'copia istantanea' è attivata, ma il modulo di compressione richiesto è introvabile. Per favore installa '%s'."
 
-#: include/class_config.inc:1034
+#: include/class_config.inc:1019
 msgid "All categories"
 msgstr "Tutte le categorie"
 
-#: include/class_config.inc:1161
+#: include/class_config.inc:1146
 msgid "My account"
 msgstr "Identità personale"
 
@@ -3482,25 +3477,30 @@ msgstr "Mostra %s"
 
 #: include/simpleplugin/class_dialogAttributes.inc:415
 #, php-format
-msgid "Group %s"
-msgstr "Raggruppa %s"
+msgid "POSIX group %s"
+msgstr "Gruppo POSIX %s"
 
 #: include/simpleplugin/class_dialogAttributes.inc:417
 #, php-format
 msgid "Role %s"
 msgstr "Ruolo %s"
 
-#: include/simpleplugin/class_dialogAttributes.inc:452
+#: include/simpleplugin/class_dialogAttributes.inc:419
+#, php-format
+msgid "Group %s"
+msgstr "Raggruppa %s"
+
+#: include/simpleplugin/class_dialogAttributes.inc:454
 msgid "Group of user"
 msgstr "Gruppo di utenti"
 
-#: include/simpleplugin/class_dialogAttributes.inc:621
+#: include/simpleplugin/class_dialogAttributes.inc:623
 #: include/simpleplugin/class_attribute.inc:1090
 #: include/simpleplugin/class_attribute.inc:1124
 msgid "None"
 msgstr "Nessuno"
 
-#: include/simpleplugin/class_dialogAttributes.inc:623
+#: include/simpleplugin/class_dialogAttributes.inc:625
 msgid "Unknown"
 msgstr "Sconosciuto"
 

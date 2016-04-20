@@ -4,12 +4,13 @@
 # 
 # Translators:
 # Alexey Matveev, 2015
+# Alexey Matveev, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-04-06 11:27+0200\n"
-"PO-Revision-Date: 2016-04-06 09:24+0000\n"
+"POT-Creation-Date: 2016-04-19 14:14+0200\n"
+"PO-Revision-Date: 2016-04-19 12:12+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Russian (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -113,7 +114,7 @@ msgstr "Группа"
 
 #: plugins/admin/groups/class_group.inc:35
 msgid "POSIX group information"
-msgstr ""
+msgstr "Информация об POSIX группе"
 
 #: plugins/admin/groups/class_group.inc:38
 msgid "POSIX group"
@@ -280,8 +281,8 @@ msgstr "Создать"
 #: plugins/admin/departments/dep-list.xml:79
 #: plugins/admin/users/user-list.xml:105
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:192
-#: include/simpleplugin/class_dialogAttributes.inc:632
-#: include/simpleplugin/class_dialogAttributes.inc:633
+#: include/simpleplugin/class_dialogAttributes.inc:634
+#: include/simpleplugin/class_dialogAttributes.inc:635
 #: include/simpleplugin/class_attribute.inc:2676
 #: include/simpleplugin/class_attribute.inc:2677
 #: include/simpleplugin/simple-list.xml:67
@@ -294,8 +295,8 @@ msgstr "Изменить"
 #: plugins/admin/departments/dep-list.xml:67
 #: plugins/admin/departments/dep-list.xml:88
 #: plugins/admin/users/user-list.xml:112
-#: include/simpleplugin/class_dialogAttributes.inc:642
-#: include/simpleplugin/class_dialogAttributes.inc:643
+#: include/simpleplugin/class_dialogAttributes.inc:644
+#: include/simpleplugin/class_dialogAttributes.inc:645
 #: include/simpleplugin/simple-list.xml:75
 #: include/simpleplugin/simple-list.xml:125
 msgid "Remove"
@@ -312,7 +313,7 @@ msgstr "Управление группами и ролями"
 
 #: plugins/admin/groups/class_groupManagement.inc:33
 msgid "Allows you to manage object groups, POSIX groups and roles"
-msgstr ""
+msgstr "Управление объектами группы, POSIX группы и роли"
 
 #: plugins/admin/groups/class_groupManagement.inc:71
 msgid "Edit role properties"
@@ -328,7 +329,7 @@ msgstr "Редактировать posix свойства"
 
 #: plugins/admin/groups/class_groupManagement.inc:130
 msgid "Show user groups"
-msgstr ""
+msgstr "Показать группы пользователей"
 
 #: plugins/admin/groups/class_groupManagement.inc:131
 #: include/select/groupSelect/group-filter.tpl.c:5
@@ -341,11 +342,11 @@ msgstr "Показать организационные роли"
 
 #: plugins/admin/groups/class_groupManagement.inc:133
 msgid "Show application groups"
-msgstr ""
+msgstr "Показать группы приложений"
 
 #: plugins/admin/groups/class_groupManagement.inc:134
 msgid "Show unidentified groups"
-msgstr ""
+msgstr "Показать неопознанные группы"
 
 #: plugins/admin/groups/class_groupManagement.inc:137
 #: include/select/groupSelect/group-filter.tpl.c:11
@@ -359,27 +360,27 @@ msgstr "Показать группы samba"
 
 #: plugins/admin/groups/class_groupManagement.inc:146
 msgid "Show server groups"
-msgstr ""
+msgstr "Показать группы серверов"
 
 #: plugins/admin/groups/class_groupManagement.inc:147
 msgid "Show workstation groups"
-msgstr ""
+msgstr "Показать группы рабочих станций"
 
 #: plugins/admin/groups/class_groupManagement.inc:148
 msgid "Show windows groups"
-msgstr ""
+msgstr "Показать группы рабочих станций с Windows"
 
 #: plugins/admin/groups/class_groupManagement.inc:149
 msgid "Show terminal groups"
-msgstr ""
+msgstr "Показать группы терминалов"
 
 #: plugins/admin/groups/class_groupManagement.inc:150
 msgid "Show printer groups"
-msgstr ""
+msgstr "Показать группы принтеров"
 
 #: plugins/admin/groups/class_groupManagement.inc:151
 msgid "Show phone groups"
-msgstr ""
+msgstr "Показать группы телефонов"
 
 #: plugins/admin/departments/class_dcObject.inc:30
 #: plugins/admin/departments/class_dcObject.inc:31
@@ -434,12 +435,12 @@ msgstr "Категория для %s"
 
 #: plugins/admin/departments/class_department.inc:81
 msgid "Website"
-msgstr ""
+msgstr "Сайт"
 
 #: plugins/admin/departments/class_department.inc:81
 #, php-format
 msgid "Website of this %s"
-msgstr ""
+msgstr "Сайт %s"
 
 #: plugins/admin/departments/class_department.inc:85
 #: plugins/personal/generic/class_user.inc:435
@@ -505,7 +506,7 @@ msgstr "Управление подразделениями"
 msgid ""
 "Manage departments, countries, domain components, domains, localities and "
 "organization nodes,"
-msgstr ""
+msgstr "Управление подразделениями, странами, доменными компонентами, доменами, местоположениями и организационными удиницами"
 
 #: plugins/admin/departments/class_departmentManagement.inc:38
 msgid "Users and groups"
@@ -548,7 +549,7 @@ msgstr "Организация"
 
 #: plugins/admin/departments/class_organization.inc:51
 msgid "organization"
-msgstr "организация"
+msgstr "организации"
 
 #: plugins/admin/users/user-list.xml:11
 msgid "List of users"
@@ -574,12 +575,12 @@ msgstr "Имя пользователя"
 #: plugins/personal/generic/class_user.inc:271
 #: plugins/personal/generic/class_user.inc:277
 msgid "User"
-msgstr "Пользователь"
+msgstr "Пользователя"
 
 #: plugins/admin/users/user-list.xml:86
 #: include/simpleplugin/class_simpleManagement.inc:217
 msgid "From template"
-msgstr ""
+msgstr "Из шаблона"
 
 #: plugins/admin/users/user-list.xml:93
 #: include/simpleplugin/class_simpleManagement.inc:211
@@ -622,7 +623,7 @@ msgstr "Управление пользователями"
 
 #: plugins/admin/users/class_userManagement.inc:44
 msgid "Manage user accounts and their properties"
-msgstr ""
+msgstr "Управление аккаунтами пользователей и их свойствами"
 
 #: plugins/admin/users/class_userManagement.inc:140
 #: include/class_management.inc:343 include/class_management.inc:490
@@ -643,7 +644,7 @@ msgstr "Блокировка учётной записи"
 msgid ""
 "Password method \"%s\" does not support locking. Account \"%s\" has not been"
 " locked!"
-msgstr ""
+msgstr "Парольный метод \"%s\" не поддерживает блокирование. Аккаунт \"%s\" не будет заблокирован!"
 
 #: plugins/admin/users/class_userManagement.inc:207
 msgid "Unlock account"
@@ -752,7 +753,7 @@ msgstr "Управление ACL ролей"
 
 #: plugins/admin/aclrole/class_aclRoleManagement.inc:36
 msgid "Manage ACL roles"
-msgstr ""
+msgstr "Управление ACL ролей"
 
 #: plugins/admin/aclrole/class_aclRole.inc:38
 #, php-format
@@ -811,7 +812,7 @@ msgstr ""
 
 #: plugins/admin/acl/class_aclManagement.inc:137
 msgid "Manage ACL roles assignments to users"
-msgstr ""
+msgstr "Управление назначением ACL ролей пользователям"
 
 #: plugins/admin/acl/class_aclManagement.inc:199
 #: plugins/admin/acl/class_aclAssignment.inc:263
@@ -986,7 +987,7 @@ msgstr "Аватар пользователя"
 
 #: plugins/personal/generic/class_user.inc:325
 msgid "Organizational contact information"
-msgstr ""
+msgstr "Рабочая контактная информация"
 
 #: plugins/personal/generic/class_user.inc:337
 msgid "Business postal address"
@@ -1030,15 +1031,15 @@ msgstr "Домашняя страница"
 
 #: plugins/personal/generic/class_user.inc:361
 msgid "Personal homepage"
-msgstr ""
+msgstr "Персональная домашняя страница"
 
 #: plugins/personal/generic/class_user.inc:367
 msgid "Account information"
-msgstr ""
+msgstr "Информация об учетной записи"
 
 #: plugins/personal/generic/class_user.inc:372
 msgid "Login of this user"
-msgstr ""
+msgstr "Логин этого пользователя"
 
 #: plugins/personal/generic/class_user.inc:376
 #: setup/class_setupStep_Language.inc:30
@@ -1051,7 +1052,7 @@ msgstr "Пароль пользователя"
 
 #: plugins/personal/generic/class_user.inc:387
 msgid "Personal contact information"
-msgstr ""
+msgstr "Личная контактная информация"
 
 #: plugins/personal/generic/class_user.inc:391
 msgid "Display name"
@@ -1586,11 +1587,11 @@ msgstr "Определяет, через сколько секунд сесси�
 
 #: plugins/config/class_configInLdap.inc:212
 msgid "HTTP authentication"
-msgstr ""
+msgstr "HTTP аутентификация"
 
 #: plugins/config/class_configInLdap.inc:212
 msgid "Use HTTP authentication protocol instead of the login form."
-msgstr ""
+msgstr "Использовать HTTP протокол аутентификации вместо формы входа"
 
 #: plugins/config/class_configInLdap.inc:219
 #: include/class_SnapshotDialogs.inc:186
@@ -1646,11 +1647,11 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:254
 msgid "CAS"
-msgstr ""
+msgstr "CAS"
 
 #: plugins/config/class_configInLdap.inc:257
 msgid "Enable CAS"
-msgstr ""
+msgstr "Включить CAS"
 
 #: plugins/config/class_configInLdap.inc:257
 msgid "CAS login will be used instead of LDAP bind"
@@ -1938,11 +1939,11 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:458
 msgid "Available department categories"
-msgstr ""
+msgstr "Доступные категории подразделений"
 
 #: plugins/config/class_configInLdap.inc:458
 msgid "Available categories in the departments dropdown"
-msgstr ""
+msgstr "Доступные категории подразделений в раскрывающемся списке"
 
 #: plugins/config/class_configInLdap.inc:474
 #: setup/class_setupStep_Language.inc:69
@@ -2153,16 +2154,16 @@ msgid "Select all"
 msgstr "Выбрать все"
 
 #: include/class_listing.inc:537 include/class_management.inc:681
-#: include/class_config.inc:373 include/class_config.inc:484
-#: include/class_msgPool.inc:215 include/class_msgPool.inc:235
-#: include/class_msgPool.inc:265 include/class_msgPool.inc:682
-#: include/class_msgPool.inc:713 include/class_msgPool.inc:740
-#: include/functions.inc:3107 include/functions.inc:3128
-#: include/functions.inc:3168 include/functions.inc:3180
-#: include/functions.inc:3184 include/functions.inc:3191
-#: include/functions.inc:3200 include/functions.inc:3262
-#: include/class_msg_dialog.inc:128 include/class_xml.inc:58
-#: include/class_plugin.inc:1510 include/class_CopyPasteHandler.inc:278
+#: include/class_config.inc:373 include/class_msgPool.inc:215
+#: include/class_msgPool.inc:235 include/class_msgPool.inc:265
+#: include/class_msgPool.inc:682 include/class_msgPool.inc:713
+#: include/class_msgPool.inc:740 include/functions.inc:3107
+#: include/functions.inc:3128 include/functions.inc:3168
+#: include/functions.inc:3180 include/functions.inc:3184
+#: include/functions.inc:3191 include/functions.inc:3200
+#: include/functions.inc:3262 include/class_msg_dialog.inc:128
+#: include/class_xml.inc:58 include/class_plugin.inc:1510
+#: include/class_CopyPasteHandler.inc:278
 #: include/simpleplugin/class_attribute.inc:1540
 #: include/simpleplugin/class_attribute.inc:1543
 #: include/simpleplugin/class_attribute.inc:1546
@@ -2294,7 +2295,7 @@ msgid "XML error in fusiondirectory.conf: %s at line %d"
 msgstr "Ошибка XML в fusiondirectory.conf: %s в строке %d"
 
 #: include/class_config.inc:162 include/class_config.inc:300
-#: include/class_config.inc:915 include/class_config.inc:928
+#: include/class_config.inc:900 include/class_config.inc:913
 #: include/functions.inc:663 include/class_timezone.inc:51
 #: include/password-methods/class_password-methods-sha.inc:71
 #: include/password-methods/class_password-methods-ssha.inc:75
@@ -2336,30 +2337,25 @@ msgstr "Не могу привязаться к LDAP. Пожалуйста св�
 msgid "Location \"%s\" could not be found in the configuration file"
 msgstr ""
 
-#: include/class_config.inc:485
-#, php-format
-msgid "The selected mail method (class %s) is not available"
-msgstr "Выбранные почтовый метод (класс %s) не доступен"
-
-#: include/class_config.inc:916
+#: include/class_config.inc:901
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required variable '%s' is not"
 " set."
 msgstr "Функционал снапшотов включен, но требуемая переменная '%s' не установлена."
 
-#: include/class_config.inc:929
+#: include/class_config.inc:914
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required compression module "
 "is missing. Please install '%s'."
 msgstr "Функционал снапшотов включен, но требуемый модуль сжатия отсутствует. Пожалуйста установите '%s'."
 
-#: include/class_config.inc:1034
+#: include/class_config.inc:1019
 msgid "All categories"
 msgstr "Все категории"
 
-#: include/class_config.inc:1161
+#: include/class_config.inc:1146
 msgid "My account"
 msgstr "Моя учетная запись"
 
@@ -3480,25 +3476,30 @@ msgstr "Показать %s"
 
 #: include/simpleplugin/class_dialogAttributes.inc:415
 #, php-format
-msgid "Group %s"
-msgstr "Группа %s"
+msgid "POSIX group %s"
+msgstr ""
 
 #: include/simpleplugin/class_dialogAttributes.inc:417
 #, php-format
 msgid "Role %s"
 msgstr ""
 
-#: include/simpleplugin/class_dialogAttributes.inc:452
+#: include/simpleplugin/class_dialogAttributes.inc:419
+#, php-format
+msgid "Group %s"
+msgstr "Группа %s"
+
+#: include/simpleplugin/class_dialogAttributes.inc:454
 msgid "Group of user"
 msgstr "Группа пользователя"
 
-#: include/simpleplugin/class_dialogAttributes.inc:621
+#: include/simpleplugin/class_dialogAttributes.inc:623
 #: include/simpleplugin/class_attribute.inc:1090
 #: include/simpleplugin/class_attribute.inc:1124
 msgid "None"
 msgstr ""
 
-#: include/simpleplugin/class_dialogAttributes.inc:623
+#: include/simpleplugin/class_dialogAttributes.inc:625
 msgid "Unknown"
 msgstr "Неизвестно"
 
@@ -4615,50 +4616,50 @@ msgstr "Следующая просроченная учетная запись"
 #: plugins/addons/dashboard/groups_stats.tpl.c:2
 msgid "There is 1 group:"
 msgid_plural "There are %1 groups:"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Есть %1 группа:"
+msgstr[1] "Есть %1 группы:"
+msgstr[2] "Есть %1 групп:"
+msgstr[3] "Есть %1 групп:"
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:5
 msgid "One of them is a %1 group"
 msgid_plural "%2 are %1 groups"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "У одной из них %1 группа"
+msgstr[1] "У %2 из них %1 группа"
+msgstr[2] "У %2 из них %1 группа"
+msgstr[3] "У %2 из них %1 группа"
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:8
 msgid "There is no %1 group"
-msgstr "Ни у одного нету %1 группы"
+msgstr "Ни у кого нету %1 группы"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:2
 msgid "There is 1 user:"
 msgid_plural "There are %1 users:"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Есть %1 пользователь:"
+msgstr[1] "Есть %1 пользователя:"
+msgstr[2] "Есть %1 пользователей:"
+msgstr[3] "Есть %1 пользователей:"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:5
 msgid "One of them have a %1 account"
 msgid_plural "%2 of them have a %1 account"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "У одного из них есть %1 аккаунт"
+msgstr[1] "У %2 из них есть %1 аккаунт"
+msgstr[2] "У %2 из них есть %1 аккаунт"
+msgstr[3] "У %2 из них есть %1 аккаунт"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:8
 msgid "None of them have a %1 account"
-msgstr "Ни у кого из них нету %1 аккаунта"
+msgstr "Ни у одногр из них нету %1 аккаунта"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:11
 msgid "One of them is locked"
 msgid_plural "%1 of them are locked"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Один из них заблокирован"
+msgstr[1] "%1 из них заблокированы"
+msgstr[2] "%1 из них заблокированы"
+msgstr[3] "%1 из них заблокированы"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:14
 msgid "None of them is locked"
