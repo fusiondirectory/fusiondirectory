@@ -1973,6 +1973,7 @@ class SetAttribute extends Attribute
   protected $valueUnicity     = TRUE;
   protected $editingValue     = FALSE;
   protected $linearRendering  = TRUE;
+  protected $size = 4;
 
   /*! \brief The constructor of SetAttribute
    *
@@ -2105,10 +2106,13 @@ class SetAttribute extends Attribute
 
   function renderOnlyFormInput()
   {
+    if (($this->size < 15) && ($this->size < count($this->value))) {
+      $this->size = min(15, count($this->value));
+    }
     $id = $this->getHtmlId();
     $smarty = get_smarty();
     $smarty->assign($id.'_values', $this->getDisplayValues());
-    $display = '<select multiple="multiple"  name="row'.$id.'[]" id="row'.$id.'"'.
+    $display = '<select multiple="multiple"  name="row'.$id.'[]" id="row'.$id.'" size="'.$this->size.'"'.
                 ($this->disabled? ' disabled="disabled"':'').
                 ' >'."\n";
     $display .= '{html_options options=$'.$id.'_values}';
@@ -2255,6 +2259,11 @@ class SetAttribute extends Attribute
   function foreignKeyCheck($value, $source)
   {
     return in_array($value, $this->value);
+  }
+
+  function setSize($size)
+  {
+    $this->size = $size;
   }
 }
 
