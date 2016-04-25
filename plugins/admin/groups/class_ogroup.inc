@@ -42,10 +42,14 @@ class ObjectsAttribute extends GenericDialogAttribute
             $infos = objects::infos($objectType);
             $this->types[$i]    = $code;
             $this->displays[$i] = $attrs[$infos['nameAttr']][0];
-            if (isset($attrs['description'][0])) {
+            if ($objectType == 'user') {
+              if (isset($attrs['description'][0])) {
+                $this->displays[$i] .= ' ['.$attrs['uid'][0].' - '.$attrs['description'][0].']';
+              } else {
+                $this->displays[$i] .= ' ['.$attrs['uid'][0].']';
+              }
+            } elseif (isset($attrs['description'][0])) {
               $this->displays[$i] .= ' ['.$attrs['description'][0].']';
-            } elseif (isset($attrs['uid'][0])) {
-              $this->displays[$i] .= ' ['.$attrs['uid'][0].']';
             }
             break;
           }
