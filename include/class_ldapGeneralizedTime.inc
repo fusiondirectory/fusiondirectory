@@ -19,7 +19,7 @@
 */
 
 /*! \file class_ldapGeneralizedTime.inc
-    \brief ldapGeneralizedTime allows you to convert from and to LDAP GeneralizedTime format PHP DateTime objects
+    \brief LdapGeneralizedTime allows you to convert from and to LDAP GeneralizedTime format PHP DateTime objects
 
     ABNF syntax was taken from RFC 4517 - https://tools.ietf.org/html/rfc4517#page-13
 
@@ -32,25 +32,25 @@
     '19941216101255,5Z'
 */
 
-/*! \class ldapGeneralizedTimeBadFormatException
-    \brief Exception class which can be thrown by ldapGeneralizedTime if the format does not match
+/*! \class LdapGeneralizedTimeBadFormatException
+    \brief Exception class which can be thrown by LdapGeneralizedTime if the format does not match
 */
-class ldapGeneralizedTimeBadFormatException extends Exception {};
+class LdapGeneralizedTimeBadFormatException extends Exception {};
 
-/*! \class ldapGeneralizedTime
-    \brief ldapGeneralizedTime allows you to convert from and to LDAP GeneralizedTime format PHP DateTime objects
+/*! \class LdapGeneralizedTime
+    \brief LdapGeneralizedTime allows you to convert from and to LDAP GeneralizedTime format PHP DateTime objects
 
     This class provides function to convert from LDAP GeneralizedTime to DateTime and the other way.
     Please note that leap seconds will be lost as PHP has no support for it (see https://bugs.php.net/bug.php?id=70335). 01:60 will become 02:00.
     Also, this class does not support fraction of hours or fraction of minutes (fraction of seconds are supported).
 */
-class ldapGeneralizedTime
+class LdapGeneralizedTime
 {
 
   /*!
     \brief Convert from LDAP GeneralizedTime formatted string to DateTime object
     \param string GeneralizedTime formatted string to convert
-    \param useException Whether or not to throw a ldapGeneralizedTimeBadFormatException on failure. Defaults to TRUE.
+    \param useException Whether or not to throw a LdapGeneralizedTimeBadFormatException on failure. Defaults to TRUE.
   */
   public static function fromString ($string, $useException = TRUE)
   {
@@ -105,7 +105,7 @@ class ldapGeneralizedTime
       $date->setTimezone(new DateTimeZone('UTC'));
       return $date;
     } elseif ($useException) {
-      throw new ldapGeneralizedTimeBadFormatException("$string does not match LDAP GeneralizedTime format");
+      throw new LdapGeneralizedTimeBadFormatException("$string does not match LDAP GeneralizedTime format");
     } else {
       return FALSE;
     }
