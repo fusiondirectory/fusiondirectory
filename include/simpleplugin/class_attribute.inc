@@ -1525,6 +1525,29 @@ class DateAttribute extends Attribute
   }
 }
 
+class GeneralizedTimeDateAttribute extends DateAttribute
+{
+  function __construct ($label, $description, $ldapName, $required, $defaultValue = 'now', $acl = "")
+  {
+    parent::__construct($label, $description, $ldapName, $required, '', $defaultValue, $acl);
+  }
+
+  protected function ldapToDate($ldapValue)
+  {
+    try {
+      return LdapGeneralizedTime::fromString($ldapValue);
+    } catch (LdapGeneralizedTimeBadFormatException $e) {
+      trigger_error('LDAP value "'.$ldapValue.'" for '.$this->getLdapName().' is not in the right date format.');
+      return new DateTime($ldapValue, timezone::utc());
+    }
+  }
+
+  protected function dateToLdap($dateValue)
+  {
+    return LdapGeneralizedTime::toString($dateValue);
+  }
+}
+
 /*! \brief This class allow to handle easily an File LDAP attribute
  *
  */
