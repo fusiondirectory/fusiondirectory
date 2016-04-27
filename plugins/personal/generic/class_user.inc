@@ -454,6 +454,12 @@ class user extends simplePlugin
     $this->was_locked = $this->attributesAccess['userPassword']->isLocked();
   }
 
+  function is_this_account($attrs)
+  {
+    /* Only inetOrgPerson is needed, it has the two others as SUP classes */
+    return (isset($attrs['objectClass']) && in_array_ics('inetOrgPerson', $attrs['objectClass']));
+  }
+
   function postCopyHook()
   {
     $this->attributesAccess['uid']->setDisabled($this->initially_was_account && !$this->is_template);
