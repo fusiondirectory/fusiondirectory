@@ -91,6 +91,10 @@ class UserPasswordAttribute extends CompositeAttribute
         parent::renderAttribute($attributes, $readOnly);
       } else {
         foreach ($this->attributes as $key => &$attribute) {
+          if (is_object($this->plugin) && $this->plugin->is_template && ($key == 2)) {
+            /* Do not display confirmation field in template mode */
+            continue;
+          }
           if (($key == 0) && ($config->get_cfg_value('forcePasswordDefaultHash', 'FALSE') == 'TRUE')) {
             $attribute->setDisabled(TRUE);
           } else {
