@@ -34,9 +34,13 @@ class CopyPasteHandler
   var $current;
 
   /*!
-   * \brief This array contains all dns of the currently copyied objects
+   * \brief This array contains all dns of the currently copied objects
    */
-  var $queue = array();
+  protected $objectList = array();
+  /*!
+   * \brief This array contains all remaining objects to paste
+   */
+  protected $queue = array();
 
   /*!
    *  \brief The dn of the last edited object
@@ -132,6 +136,9 @@ class CopyPasteHandler
     }
 
     $this->queue[]        = $tmp;
+    if ($action == 'copy') {
+      $this->objectList[]   = $tmp;
+    }
     $this->require_update = TRUE;
 
     return TRUE;
@@ -148,6 +155,17 @@ class CopyPasteHandler
     $this->current        = FALSE;
     $this->require_update = TRUE;
     $this->queue          = array();
+    $this->objectList     = array();
+  }
+
+  /*!
+   * \brief This resets the queue to allow pasting again.
+   */
+  function resetPaste()
+  {
+    $this->current        = FALSE;
+    $this->require_update = TRUE;
+    $this->queue          = $this->objectList;
   }
 
   /*!
@@ -158,13 +176,12 @@ class CopyPasteHandler
     return ((count($this->queue) > 0) || ($this->current != FALSE));
   }
 
-
   /*!
-   * \brief Paste one entry from queue
+   * \brief Paste one entry from LDAP
    */
-  function load_entry_from_queue($entry, $base)
+  protected function load_entry_from_ldap($entry, $base)
   {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $entry['dn'], "load_entry_from_queue");
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $entry['dn'], 'load_entry_from_ldap');
     if (!isset($entry['tab_class']) && !isset($entry['type'])) {
       return array();
     }
@@ -217,7 +234,7 @@ class CopyPasteHandler
 
         /* Update entries on demand */
         if (!isset($entry['object'])) {
-          $entry = $this->load_entry_from_queue($entry, $base);
+          $entry = $this->load_entry_from_ldap($entry, $base);
           $this->queue[$key] = $entry;
         }
         $msgs = $entry['object']->check();
@@ -354,7 +371,11 @@ class CopyPasteHandler
     $dst_dn = $this->current['object']->dn;
     $src_dn = $this->current['dn'];
 
-    $this->current['object']->getBaseObject()->handleForeignKeys($src_dn, $dst_dn, ($this->current['method'] == 'cut'?'move':'copy'));
+    $this->current['object']->getBaseObject()->handleForeignKeys(
+      $src_dn,
+      $dst_dn,
+      ($this->current['method'] == 'cut' ? 'move' : 'copy')
+    );
   }
 
   /*!

@@ -855,6 +855,7 @@ class simpleManagement extends management
     // Automatically disable pasting process since there is no entry left to paste.
     if (!$this->cpHandler->entries_queued()) {
       $this->cpPastingStarted = FALSE;
+      $this->cpHandler->resetPaste();
     }
     return "";
   }

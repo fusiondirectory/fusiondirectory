@@ -1603,7 +1603,7 @@ class listing {
       if ($this->copyPasteHandler->entries_queued()) {
         $result .= $this->renderActionMenuActionLink($separator, 'paste', _('Paste'), 'geticon.php?context=actions&icon=edit-paste&size=16');
       } else {
-        $result .= "<li$separator><a href='#'><img src='geticon.php?context=actions&amp;icon=edit-paste&amp;size=16&amp;disabled=1' alt='paste' class='center'>&nbsp;"._("Paste")."</a></li>";
+        $result .= "<li$separator>".'<a href="#"><img src="geticon.php?context=actions&amp;icon=edit-paste&amp;size=16&amp;disabled=1" alt="paste" class="center">&nbsp;'._('Paste').'</a></li>';
       }
     }
 
