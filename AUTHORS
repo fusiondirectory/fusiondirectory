@@ -175,3 +175,9 @@ documentation and additional help.
 * Felix Weissbeck <contact-fusiondirectory@w7k.de>
   Method to add a change password dialog on sasl+kerberos
   
+* Tobias Göbel
+  Fixes for PHP7 compatibility
+
+* Christian Kreidl <christian.kreidl@ziti.uni-heidelberg.de>
+  ppolicy improvement
+  
