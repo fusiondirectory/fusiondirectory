@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-04-19 14:14+0200\n"
+"POT-Creation-Date: 2016-05-02 09:30+0200\n"
 "PO-Revision-Date: 2016-04-19 12:12+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Spanish (Colombia) (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/es_CO/)\n"
@@ -51,7 +51,7 @@ msgstr "Datos"
 
 #: plugins/admin/groups/class_roleGeneric.inc:88
 #: plugins/admin/groups/class_group.inc:61
-#: plugins/admin/groups/class_ogroup.inc:187
+#: plugins/admin/groups/class_ogroup.inc:191
 #: plugins/admin/groups/group-list.xml:33
 #: plugins/admin/departments/class_department.inc:176
 #: plugins/admin/aclrole/class_aclRole.inc:101
@@ -65,18 +65,18 @@ msgstr "Nombre"
 
 #: plugins/admin/groups/class_roleGeneric.inc:88
 #: plugins/admin/groups/class_group.inc:61
-#: plugins/admin/groups/class_ogroup.inc:187
+#: plugins/admin/groups/class_ogroup.inc:191
 msgid "Name of this group"
 msgstr "Nombre de este grupo"
 
 #: plugins/admin/groups/class_roleGeneric.inc:93
 #: plugins/admin/groups/class_group.inc:66
-#: plugins/admin/groups/class_ogroup.inc:192
+#: plugins/admin/groups/class_ogroup.inc:196
 #: plugins/admin/groups/group-list.xml:41
 #: plugins/admin/departments/class_department.inc:73
 #: plugins/admin/departments/dep-list.xml:29
 #: plugins/admin/aclrole/class_aclRole.inc:105
-#: plugins/personal/generic/class_user.inc:314
+#: plugins/personal/generic/class_user.inc:318
 #: include/simpleplugin/simple-select-list.xml:40
 #: include/simpleplugin/simple-list.xml:40
 msgid "Description"
@@ -106,8 +106,8 @@ msgid "Add users for the role"
 msgstr "Agregar usuarios al rol"
 
 #: plugins/admin/groups/class_group.inc:34
-#: plugins/admin/groups/class_ogroup.inc:154
-#: plugins/admin/groups/class_ogroup.inc:155
+#: plugins/admin/groups/class_ogroup.inc:158
+#: plugins/admin/groups/class_ogroup.inc:159
 msgid "Group"
 msgstr "Grupo"
 
@@ -124,7 +124,7 @@ msgid "POSIX user group"
 msgstr "Grupo de Usuarios POSIX"
 
 #: plugins/admin/groups/class_group.inc:57
-#: plugins/admin/groups/class_ogroup.inc:183
+#: plugins/admin/groups/class_ogroup.inc:187
 #: plugins/admin/groups/group-list.xml:49
 #: plugins/admin/departments/class_department.inc:64
 #: plugins/admin/users/user-list.xml:57
@@ -134,7 +134,7 @@ msgid "Properties"
 msgstr "Propiedades"
 
 #: plugins/admin/groups/class_group.inc:66
-#: plugins/admin/groups/class_ogroup.inc:192
+#: plugins/admin/groups/class_ogroup.inc:196
 msgid "Short description of this group"
 msgstr "Una descripción corta de este grupo."
 
@@ -162,45 +162,45 @@ msgid "Group members"
 msgstr "Miembros del Grupo"
 
 #: plugins/admin/groups/class_group.inc:91
-#: plugins/admin/groups/class_ogroup.inc:209
+#: plugins/admin/groups/class_ogroup.inc:213
 #: plugins/personal/posix/class_posixAccount.inc:188
 msgid "System trust"
 msgstr "Confianza del Sistema"
 
 #: plugins/admin/groups/class_group.inc:95
-#: plugins/admin/groups/class_ogroup.inc:213
+#: plugins/admin/groups/class_ogroup.inc:217
 #: plugins/personal/posix/class_posixAccount.inc:192
 msgid "Trust mode"
 msgstr "Modo de Confianza"
 
 #: plugins/admin/groups/class_group.inc:95
-#: plugins/admin/groups/class_ogroup.inc:213
+#: plugins/admin/groups/class_ogroup.inc:217
 #: plugins/personal/posix/class_posixAccount.inc:192
 msgid "Type of authorization for those hosts"
 msgstr "Tipo de autorización para ésos equipos"
 
 #: plugins/admin/groups/class_group.inc:99
-#: plugins/admin/groups/class_ogroup.inc:217
+#: plugins/admin/groups/class_ogroup.inc:221
 #: plugins/personal/posix/class_posixAccount.inc:196
 #: plugins/personal/posix/class_posixAccount.inc:217
 msgid "disabled"
 msgstr "deshabilitado"
 
 #: plugins/admin/groups/class_group.inc:99
-#: plugins/admin/groups/class_ogroup.inc:217
+#: plugins/admin/groups/class_ogroup.inc:221
 #: plugins/personal/posix/class_posixAccount.inc:196
 #: plugins/personal/posix/class_posixAccount.inc:217
 msgid "full access"
 msgstr "Acceso Completo"
 
 #: plugins/admin/groups/class_group.inc:99
-#: plugins/admin/groups/class_ogroup.inc:217
+#: plugins/admin/groups/class_ogroup.inc:221
 #: plugins/personal/posix/class_posixAccount.inc:196
 msgid "allow access to these hosts"
 msgstr "Permitir acceso a ésos equipos"
 
 #: plugins/admin/groups/class_group.inc:102
-#: plugins/admin/groups/class_ogroup.inc:220
+#: plugins/admin/groups/class_ogroup.inc:224
 msgid "Only allow this group to connect to this list of hosts"
 msgstr "Habilitar solamente a éste grupo para conectarse a ésta lista de equipos."
 
@@ -225,33 +225,33 @@ msgstr "Advertencia"
 msgid "Timeout while waiting for lock. Ignoring lock!"
 msgstr "Tiempo de espera superado mientras se esperaba el bloqueo. ¡Ignorando el bloqueo!"
 
-#: plugins/admin/groups/class_ogroup.inc:59
+#: plugins/admin/groups/class_ogroup.inc:63
 #, php-format
 msgid "Unknown type : %s"
 msgstr "Tipo desconocido: %s"
 
-#: plugins/admin/groups/class_ogroup.inc:63
+#: plugins/admin/groups/class_ogroup.inc:67
 #, php-format
 msgid "Non existing dn: %s"
 msgstr "¡dn: %s Inexsitente!"
 
-#: plugins/admin/groups/class_ogroup.inc:149
+#: plugins/admin/groups/class_ogroup.inc:153
 msgid "Object group"
 msgstr "Objeto grupo"
 
-#: plugins/admin/groups/class_ogroup.inc:150
+#: plugins/admin/groups/class_ogroup.inc:154
 msgid "Object group information"
 msgstr "Datos del 'objeto grupo'"
 
-#: plugins/admin/groups/class_ogroup.inc:199
+#: plugins/admin/groups/class_ogroup.inc:203
 msgid "Member objects"
 msgstr "Objetos miembro"
 
-#: plugins/admin/groups/class_ogroup.inc:202
+#: plugins/admin/groups/class_ogroup.inc:206
 msgid "Objects member of this group"
 msgstr "Objetos miembro de este grupo"
 
-#: plugins/admin/groups/class_ogroup.inc:313
+#: plugins/admin/groups/class_ogroup.inc:317
 msgid ""
 "Putting both workstations and terminals in the same group is not allowed"
 msgstr "Alojar estaciones de trabajo y terminales en el mismo grupo no está permitido."
@@ -282,8 +282,8 @@ msgstr "Crear"
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:192
 #: include/simpleplugin/class_dialogAttributes.inc:634
 #: include/simpleplugin/class_dialogAttributes.inc:635
-#: include/simpleplugin/class_attribute.inc:2676
-#: include/simpleplugin/class_attribute.inc:2677
+#: include/simpleplugin/class_attribute.inc:2685
+#: include/simpleplugin/class_attribute.inc:2686
 #: include/simpleplugin/simple-list.xml:67
 #: include/simpleplugin/simple-list.xml:112
 msgid "Edit"
@@ -394,7 +394,7 @@ msgstr "componente de dominio"
 #: plugins/admin/departments/class_department.inc:34
 #: plugins/admin/departments/class_department.inc:40
 #: plugins/admin/departments/dep-list.xml:21
-#: plugins/personal/generic/class_user.inc:419
+#: plugins/personal/generic/class_user.inc:423
 msgid "Department"
 msgstr "División"
 
@@ -442,7 +442,7 @@ msgid "Website of this %s"
 msgstr ""
 
 #: plugins/admin/departments/class_department.inc:85
-#: plugins/personal/generic/class_user.inc:435
+#: plugins/personal/generic/class_user.inc:439
 msgid "Manager"
 msgstr "Mánager"
 
@@ -453,12 +453,12 @@ msgstr "Mánager de este %s"
 
 #: plugins/admin/departments/class_department.inc:91
 #: plugins/admin/departments/class_department.inc:97
-#: plugins/personal/generic/class_user.inc:329
+#: plugins/personal/generic/class_user.inc:333
 msgid "Location"
 msgstr "Ubicación"
 
 #: plugins/admin/departments/class_department.inc:94
-#: plugins/personal/generic/class_user.inc:333
+#: plugins/personal/generic/class_user.inc:337
 msgid "State"
 msgstr "Estado"
 
@@ -470,7 +470,7 @@ msgid "Country"
 msgstr "País"
 
 #: plugins/admin/departments/class_department.inc:103
-#: plugins/personal/generic/class_user.inc:337
+#: plugins/personal/generic/class_user.inc:341
 msgid "Address"
 msgstr "Dirección"
 
@@ -480,7 +480,7 @@ msgid "A postal address for this %s"
 msgstr "Dirección postal de este  %s"
 
 #: plugins/admin/departments/class_department.inc:107
-#: plugins/personal/generic/class_user.inc:345
+#: plugins/personal/generic/class_user.inc:349
 msgid "Phone"
 msgstr "Teléfono"
 
@@ -489,7 +489,7 @@ msgid "Telephone number"
 msgstr "Número telefónico"
 
 #: plugins/admin/departments/class_department.inc:111
-#: plugins/personal/generic/class_user.inc:357
+#: plugins/personal/generic/class_user.inc:361
 msgid "Fax"
 msgstr "Fax"
 
@@ -542,7 +542,7 @@ msgstr "Lista de categorías"
 #: plugins/admin/departments/class_organization.inc:30
 #: plugins/admin/departments/class_organization.inc:31
 #: plugins/admin/departments/class_organization.inc:34
-#: plugins/personal/generic/class_user.inc:415
+#: plugins/personal/generic/class_user.inc:419
 msgid "Organization"
 msgstr "Organización"
 
@@ -563,7 +563,7 @@ msgid "Given name"
 msgstr "Nombre"
 
 #: plugins/admin/users/user-list.xml:49
-#: plugins/personal/generic/class_user.inc:372
+#: plugins/personal/generic/class_user.inc:376
 #: include/select/userSelect/class_userSelect.inc:32
 #: plugins/personal/generic/paste_generic.tpl.c:11
 #: ihtml/themes/default/recovery.tpl.c:23
@@ -571,8 +571,8 @@ msgid "Login"
 msgstr "Cuenta de usuario"
 
 #: plugins/admin/users/user-list.xml:79
-#: plugins/personal/generic/class_user.inc:271
-#: plugins/personal/generic/class_user.inc:277
+#: plugins/personal/generic/class_user.inc:275
+#: plugins/personal/generic/class_user.inc:281
 msgid "User"
 msgstr "Usuario"
 
@@ -654,12 +654,12 @@ msgid "Lock account"
 msgstr "Bloquear cuenta"
 
 #: plugins/admin/users/class_userManagement.inc:236
-#: plugins/personal/generic/class_user.inc:278
+#: plugins/personal/generic/class_user.inc:282
 msgid "User account"
 msgstr "Cuenta de Usuario"
 
 #: plugins/admin/users/class_userManagement.inc:236
-#: plugins/personal/generic/class_user.inc:272
+#: plugins/personal/generic/class_user.inc:276
 msgid "User account information"
 msgstr "Información de Cuentas de Usuario"
 
@@ -677,8 +677,8 @@ msgid "Edit category ACL"
 msgstr "Editar categioría ACL"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:194
-#: include/class_msgPool.inc:517 include/simpleplugin/class_attribute.inc:2686
-#: include/simpleplugin/class_attribute.inc:2687
+#: include/class_msgPool.inc:517 include/simpleplugin/class_attribute.inc:2695
+#: include/simpleplugin/class_attribute.inc:2696
 #, php-format
 msgid "Delete"
 msgstr "Borrar"
@@ -929,7 +929,7 @@ msgid "Password hash method to use"
 msgstr "Tipo de 'hash' para la contraseña"
 
 #: plugins/personal/generic/class_user.inc:51
-#: plugins/personal/generic/class_user.inc:381
+#: plugins/personal/generic/class_user.inc:385
 #: plugins/personal/generic/paste_generic.tpl.c:14
 #: ihtml/themes/default/recovery.tpl.c:5 ihtml/themes/default/recovery.tpl.c:8
 #: ihtml/themes/default/login.tpl.c:17 ihtml/themes/default/login.tpl.c:20
@@ -950,219 +950,219 @@ msgstr "Su contraseña de nuevo"
 msgid "Same password as above, to avoid errors"
 msgstr "Igual a la contraseña anterior para evitar errores"
 
-#: plugins/personal/generic/class_user.inc:299
+#: plugins/personal/generic/class_user.inc:303
 msgid "Personal information"
 msgstr "Información personal"
 
-#: plugins/personal/generic/class_user.inc:304
+#: plugins/personal/generic/class_user.inc:308
 #: plugins/personal/generic/paste_generic.tpl.c:5
 msgid "Last name"
 msgstr "Apellido"
 
-#: plugins/personal/generic/class_user.inc:304
+#: plugins/personal/generic/class_user.inc:308
 msgid "Last name of this user"
 msgstr "Apellido de este usuario"
 
-#: plugins/personal/generic/class_user.inc:309
+#: plugins/personal/generic/class_user.inc:313
 #: plugins/personal/generic/paste_generic.tpl.c:8
 msgid "First name"
 msgstr "Primer nombre"
 
-#: plugins/personal/generic/class_user.inc:309
+#: plugins/personal/generic/class_user.inc:313
 msgid "First name of this user"
 msgstr "Primer nombre de este usuario"
 
-#: plugins/personal/generic/class_user.inc:314
+#: plugins/personal/generic/class_user.inc:318
 msgid "Short description of the user"
 msgstr "Descripción corta para éste usuario"
 
-#: plugins/personal/generic/class_user.inc:318
+#: plugins/personal/generic/class_user.inc:322
 msgid "Picture"
 msgstr "Imagen"
 
-#: plugins/personal/generic/class_user.inc:318
+#: plugins/personal/generic/class_user.inc:322
 msgid "The avatar for this user"
 msgstr "El avatar para este usuario"
 
-#: plugins/personal/generic/class_user.inc:325
+#: plugins/personal/generic/class_user.inc:329
 msgid "Organizational contact information"
 msgstr "Información de contacto Profesional"
 
-#: plugins/personal/generic/class_user.inc:337
+#: plugins/personal/generic/class_user.inc:341
 msgid "Business postal address"
 msgstr "Dirección postal de trabajo"
 
-#: plugins/personal/generic/class_user.inc:341
+#: plugins/personal/generic/class_user.inc:345
 msgid "Room No."
 msgstr "Habitación Nro."
 
-#: plugins/personal/generic/class_user.inc:341
+#: plugins/personal/generic/class_user.inc:345
 msgid "Room number"
 msgstr "Número de habitación"
 
-#: plugins/personal/generic/class_user.inc:345
+#: plugins/personal/generic/class_user.inc:349
 msgid "Business phone number"
 msgstr "Número telefónico de trabajo"
 
-#: plugins/personal/generic/class_user.inc:349
+#: plugins/personal/generic/class_user.inc:353
 msgid "Mobile"
 msgstr "Celular"
 
-#: plugins/personal/generic/class_user.inc:349
+#: plugins/personal/generic/class_user.inc:353
 msgid "Business mobile number"
 msgstr "Celular de trabajo"
 
-#: plugins/personal/generic/class_user.inc:353
+#: plugins/personal/generic/class_user.inc:357
 msgid "Pager"
 msgstr "Bíper"
 
-#: plugins/personal/generic/class_user.inc:353
+#: plugins/personal/generic/class_user.inc:357
 msgid "Business pager number"
 msgstr "Bíper laboral"
 
-#: plugins/personal/generic/class_user.inc:357
+#: plugins/personal/generic/class_user.inc:361
 msgid "Business fax number"
 msgstr "Nro. Fax de trabajo"
 
-#: plugins/personal/generic/class_user.inc:361
+#: plugins/personal/generic/class_user.inc:365
 msgid "Homepage"
 msgstr "Página web"
 
-#: plugins/personal/generic/class_user.inc:361
+#: plugins/personal/generic/class_user.inc:365
 msgid "Personal homepage"
 msgstr "Página web personal"
 
-#: plugins/personal/generic/class_user.inc:367
+#: plugins/personal/generic/class_user.inc:371
 msgid "Account information"
 msgstr "Información de cuenta"
 
-#: plugins/personal/generic/class_user.inc:372
+#: plugins/personal/generic/class_user.inc:376
 msgid "Login of this user"
 msgstr "Cuenta de este usuario"
 
-#: plugins/personal/generic/class_user.inc:376
+#: plugins/personal/generic/class_user.inc:380
 #: setup/class_setupStep_Language.inc:30
 msgid "Preferred language"
 msgstr "Idioma preferido"
 
-#: plugins/personal/generic/class_user.inc:381
+#: plugins/personal/generic/class_user.inc:385
 msgid "Password of the user"
 msgstr "Contraseña del usuario"
 
-#: plugins/personal/generic/class_user.inc:387
+#: plugins/personal/generic/class_user.inc:391
 msgid "Personal contact information"
 msgstr "Información de contacto 'Personal'"
 
-#: plugins/personal/generic/class_user.inc:391
+#: plugins/personal/generic/class_user.inc:395
 msgid "Display name"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:391
+#: plugins/personal/generic/class_user.inc:395
 msgid "Name this user should appear as. Used by Exchange."
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:395
+#: plugins/personal/generic/class_user.inc:399
 msgid "Home address"
 msgstr "Dirección personal"
 
-#: plugins/personal/generic/class_user.inc:395
+#: plugins/personal/generic/class_user.inc:399
 msgid "Home postal address"
 msgstr "Código postal personal"
 
-#: plugins/personal/generic/class_user.inc:399
+#: plugins/personal/generic/class_user.inc:403
 msgid "Private phone"
 msgstr "Teléfono personal"
 
-#: plugins/personal/generic/class_user.inc:399
+#: plugins/personal/generic/class_user.inc:403
 msgid "Home phone number"
 msgstr "Teléfono de domicilio personal"
 
-#: plugins/personal/generic/class_user.inc:405
+#: plugins/personal/generic/class_user.inc:409
 msgid "Organizational information"
 msgstr "Información Profesional"
 
-#: plugins/personal/generic/class_user.inc:410
+#: plugins/personal/generic/class_user.inc:414
 msgid "Title"
 msgstr "Tratamiento 'Sr, Sra...'"
 
-#: plugins/personal/generic/class_user.inc:410
+#: plugins/personal/generic/class_user.inc:414
 msgid ""
 "Title of a person in their organizational context. Each title is one value "
 "of this multi-valued attribute"
 msgstr "Tratamiento 'Dr, Ing, Sr, Sra ...' en un contexto profesional. Cada tratamiento es un valor de sus múltiples atributos."
 
-#: plugins/personal/generic/class_user.inc:419
+#: plugins/personal/generic/class_user.inc:423
 msgid "Department to which the user belongs"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:423
+#: plugins/personal/generic/class_user.inc:427
 msgid "Department No."
 msgstr "División No."
 
-#: plugins/personal/generic/class_user.inc:423
+#: plugins/personal/generic/class_user.inc:427
 msgid "Department number"
 msgstr "Número de División"
 
-#: plugins/personal/generic/class_user.inc:427
+#: plugins/personal/generic/class_user.inc:431
 msgid "Employee No."
 msgstr "Empleado N°"
 
-#: plugins/personal/generic/class_user.inc:427
+#: plugins/personal/generic/class_user.inc:431
 msgid "Employee number"
 msgstr "Número de empleado"
 
-#: plugins/personal/generic/class_user.inc:431
+#: plugins/personal/generic/class_user.inc:435
 msgid "Employee type"
 msgstr "Tipo de empleado"
 
-#: plugins/personal/generic/class_user.inc:593
+#: plugins/personal/generic/class_user.inc:603
 #, php-format
 msgid "Ppolicy \"%s\" could not be found in the LDAP!"
 msgstr "¡No se pudo encontrar la política \"%s\" en LDAP!"
 
-#: plugins/personal/generic/class_user.inc:596
+#: plugins/personal/generic/class_user.inc:606
 msgid "You are not allowed to change your own password"
 msgstr "Usted no tiene permitido cambiar su propia contraseña."
 
-#: plugins/personal/generic/class_user.inc:606
+#: plugins/personal/generic/class_user.inc:616
 #, php-format
 msgid "You must wait %d seconds before changing your password again"
 msgstr "Usted debe esperar %d segundos antes de cambiar su contraseña de nuevo."
 
-#: plugins/personal/generic/class_user.inc:620
+#: plugins/personal/generic/class_user.inc:630
 msgid "Password is in history of old passwords"
 msgstr "La contraseña está en el historial de viejas contraseñas."
 
-#: plugins/personal/generic/class_user.inc:625
-#: plugins/personal/generic/class_user.inc:629
+#: plugins/personal/generic/class_user.inc:635
+#: plugins/personal/generic/class_user.inc:639
 msgid "Password is not being changed from existing value"
 msgstr "La contraseña no será cambiada por este valor"
 
-#: plugins/personal/generic/class_user.inc:636
+#: plugins/personal/generic/class_user.inc:646
 msgid "You need to specify your current password in order to proceed."
 msgstr "Usted debe especificar su contraseña actual para poder proceder."
 
-#: plugins/personal/generic/class_user.inc:638
+#: plugins/personal/generic/class_user.inc:648
 msgid ""
 "The passwords you've entered as \"New password\" and \"Repeated new "
 "password\" do not match."
 msgstr "Las contraseñas que usted ingresó como \"Nueva contraseña\" y \"Repetir nueva contraseña\" no coinciden."
 
-#: plugins/personal/generic/class_user.inc:640
+#: plugins/personal/generic/class_user.inc:650
 #: ihtml/themes/default/recovery.tpl.c:26
 #: ihtml/themes/default/recovery.tpl.c:29
 msgid "New password"
 msgstr "Nueva contraseña"
 
-#: plugins/personal/generic/class_user.inc:642
+#: plugins/personal/generic/class_user.inc:652
 msgid "The password used as new and current are too similar."
 msgstr "La contraseña anterior y la nueva son muy parecidas."
 
-#: plugins/personal/generic/class_user.inc:644
+#: plugins/personal/generic/class_user.inc:654
 msgid "The password used as new is to short."
 msgstr "La contraseña nueva es muy corta."
 
-#: plugins/personal/generic/class_user.inc:646
+#: plugins/personal/generic/class_user.inc:656
 msgid "The password contains possibly problematic Unicode characters!"
 msgstr "La contraseña posiblemente contiene caracteres 'Unicoide' que son problemáticos."
 
@@ -2138,13 +2138,13 @@ msgstr "Arriba"
 msgid "Down"
 msgstr "Abajo"
 
-#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2648
-#: include/simpleplugin/class_attribute.inc:2649
+#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2657
+#: include/simpleplugin/class_attribute.inc:2658
 msgid "Sort up"
 msgstr "Ordenar "
 
-#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2661
-#: include/simpleplugin/class_attribute.inc:2662
+#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2670
+#: include/simpleplugin/class_attribute.inc:2671
 msgid "Sort down"
 msgstr "Ordenar de modo inverso"
 
@@ -2316,7 +2316,7 @@ msgstr ""
 #: include/functions.inc:786 include/functions.inc:841
 #: include/functions.inc:2986 include/functions.inc:3160
 #: include/simpleplugin/class_simplePlugin.inc:551
-#: include/simpleplugin/class_attribute.inc:2910
+#: include/simpleplugin/class_attribute.inc:2919
 #: include/password-methods/class_password-methods.inc:199
 #: include/class_SnapshotHandler.inc:50 include/class_SnapshotHandler.inc:244
 #: include/class_SnapshotHandler.inc:277 include/class_SnapshotHandler.inc:292
@@ -3539,7 +3539,7 @@ msgid "days"
 msgstr "días"
 
 #: include/simpleplugin/class_attribute.inc:543
-#: include/simpleplugin/class_attribute.inc:2172
+#: include/simpleplugin/class_attribute.inc:2176
 #, php-format
 msgid "%s (required)"
 msgstr "%s (necesario)"
@@ -3632,7 +3632,7 @@ msgstr "Base"
 msgid "Object base"
 msgstr "Objeto base"
 
-#: include/simpleplugin/class_attribute.inc:2770
+#: include/simpleplugin/class_attribute.inc:2779
 #, php-format
 msgid "Invalid value for %s"
 msgstr "Valor inválido para %s"
