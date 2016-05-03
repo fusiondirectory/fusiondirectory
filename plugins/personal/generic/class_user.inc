@@ -91,6 +91,10 @@ class UserPasswordAttribute extends CompositeAttribute
         parent::renderAttribute($attributes, $readOnly);
       } else {
         foreach ($this->attributes as $key => &$attribute) {
+          if (is_object($this->plugin) && $this->plugin->is_template && ($key == 2)) {
+            /* Do not display confirmation field in template mode */
+            continue;
+          }
           if (($key == 0) && ($config->get_cfg_value('forcePasswordDefaultHash', 'FALSE') == 'TRUE')) {
             $attribute->setDisabled(TRUE);
           } else {
@@ -452,6 +456,12 @@ class user extends simplePlugin
     $this->attributesAccess['jpegPhoto']->setPlaceholder(fread ($fd, filesize($filename)));
 
     $this->was_locked = $this->attributesAccess['userPassword']->isLocked();
+  }
+
+  function is_this_account($attrs)
+  {
+    /* Only inetOrgPerson is needed, it has the two others as SUP classes */
+    return (isset($attrs['objectClass']) && in_array_ics('inetOrgPerson', $attrs['objectClass']));
   }
 
   function postCopyHook()

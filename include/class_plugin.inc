@@ -703,7 +703,7 @@ class plugin
           $length = $args[0];
         }
         $res = '';
-        for ($i = 0; $i < $args[0]; ++$i) {
+        for ($i = 0; $i < $length; ++$i) {
           switch ($chars) {
             case 'l':
               $res .= (string)rand(0, 9);

@@ -26,6 +26,6 @@ class userGroupSelect extends userSelect
 
 class userGroupRoleSelect extends userGroupSelect
 {
-  protected $objectTypes = array('user', 'group', 'role');
+  protected $objectTypes = array('user', 'group', 'role', 'ogroup');
 }
 ?>
