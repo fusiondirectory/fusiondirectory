@@ -1,6 +1,33 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.12
+
+Bugs #4645: Could not add groups to user templates
+FusionDirectory plugins - Bugs #4658: csv import with empty field
+Bugs #4678: group : member objects list
+FusionDirectory plugins - Bugs #4689: we should be able to create mail address without having a server and a service referenced
+FusionDirectory plugins - Bugs #4692: remove the antivirus service
+FusionDirectory plugins - Bugs #4699: move postfix service in his own plugin
+FusionDirectory plugins - Bugs #4706: move the spamassasin service to his own plugin
+Bugs #4713: remove the antivirus service icons
+FusionDirectory plugins - Bugs #4714: leftover in services-fd.schema of the removal of the asterisk plugin
+FusionDirectory plugins - Bugs #4721: move the spam options for the mail user tab to a spamassasin user tab
+Bugs #4735: nginx + php-fpm with fusiondirectory
+Bugs #4737: we should remove data['SERVERS']['IMAP'] from config
+FusionDirectory plugins - Bugs #4739: remove the option Use custom sieve script (disables all Mail options!)
+FusionDirectory plugins - Bugs #4740: in the cyrus service the hostname, port should be mandatory
+FusionDirectory plugins - Bugs #4741: in the dovecot service the hostname, port should be mandatory
+FusionDirectory plugins - Bugs #4742: ppolicy: description cannot be set
+Bugs #4746: Error when saving user if objectClass person is missing.
+Bugs #4754: user template : %r|% does not work in password
+Bugs #4756: Update documentation with fixes/dev repos info.
+Wishlist #4687: ACL assignments can’t give rights to groups.
+Wishlist #4722: Use Nginx instead of Apache2
+Wishlist #4738: extend the search query to email
+FusionDirectory plugins - Wishlist #4743: ppolicy: user interface improvements
+Wishlist #4755: user template: password should show only one field
+
 * FusionDirectory 1.0.11
 
 |Fix] FusionDirectory plugins - Bugs #4391: Choices order seems random in shell
