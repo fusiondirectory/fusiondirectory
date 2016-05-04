@@ -117,8 +117,9 @@ class recoveryConfig extends simplePlugin
     );
   }
 
-  function __construct(&$config, $dn = NULL, $object = NULL)
+  function __construct($unused, $dn = NULL, $object = NULL)
   {
+    global $config;
     // Check if token branch is here
     $ldap = $config->get_ldap_link();
     $tokenBranch = get_ou('tokenRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'];
@@ -133,7 +134,7 @@ class recoveryConfig extends simplePlugin
       fusiondirectory_log("Created token branch ".$tokenBranch);
     }
 
-    parent::__construct($config, $dn, $object);
+    parent::__construct($unused, $dn, $object);
 
     $this->attributesAccess['fdPasswordRecoveryActivated']->setManagedAttributes(
       array(

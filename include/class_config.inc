@@ -316,7 +316,7 @@ class config  {
    *
    * Example usage:
    * \code
-   * $ldap = $this->config->get_ldap_link();
+   * $ldap = $config->get_ldap_link();
    * \endcode
    *
    * \param boolean $sizelimit Weither to impose a sizelimit on the LDAP object or not.
@@ -780,7 +780,7 @@ class config  {
    *
    *  Example usage:
    *  \code
-   *  if ($this->config->boolValueIsTrue("main", "copyPaste")) {
+   *  if ($config->boolValueIsTrue("main", "copyPaste")) {
    *    echo "Copy Paste Handling is enabled";
    *  }
    *  \endcode
@@ -812,7 +812,7 @@ class config  {
    *
    *  Example usage:
    *  \code
-   *  $postcmd = $this->config->search(get_class($this), 'POSTMODIFY');
+   *  $postcmd = $config->search(get_class($this), 'POSTMODIFY');
    *  \endcode
    *
    *  \param string $class The class name

@@ -34,10 +34,8 @@
 class pluglist {
   var $menu             = "";
   var $iconmenu         = "";
-  var $config           = NULL;
   var $ui               = NULL;
   var $current          = "";
-
 
   /*!
    * \brief The plInfo result for all plugin, using class as key.
@@ -63,12 +61,11 @@ class pluglist {
    *
    * \param $ui UI
    */
-  function __construct(&$config, &$ui)
+  function __construct($unused, &$ui)
   {
-    global $class_mapping;
+    global $class_mapping, $config;
 
     $this->ui     = &$ui;
-    $this->config = &$config;
 
     /* Fill info part of pluglist */
     $classes = get_declared_classes();
@@ -302,14 +299,15 @@ class pluglist {
    */
   function gen_menu()
   {
+    global $config;
     if ($this->menu == "") {
       $this->menu = '<ul class="menu">'."\n";
       /* Parse headlines */
-      foreach ($this->config->data['SECTIONS'] as $section => $section_infos) {
+      foreach ($config->data['SECTIONS'] as $section => $section_infos) {
         $entries  = '';
 
         /* Parse sub-plugins */
-        foreach ($this->config->data['MENU'][$section] as $info) {
+        foreach ($config->data['MENU'][$section] as $info) {
           if (isset($info['CLASS']) && plugin_available($info['CLASS'])) {
             if (!$this->check_access($info['ACL'])) {
               continue;
@@ -371,17 +369,17 @@ class pluglist {
    */
   function show_iconmenu()
   {
-    global $class_mapping;
+    global $class_mapping, $config;
     if ($this->iconmenu == "") {
 
       /* Parse headlines */
-      foreach ($this->config->data['SECTIONS'] as $section => $section_infos) {
+      foreach ($config->data['SECTIONS'] as $section => $section_infos) {
         $entries  = '';
         $menu     = '';
         $menu     = '<div class="iconmenu_section"><h1 class="menuheader">';
         $menu     .= $section_infos['NAME']."</h1>\n";
 
-        foreach ($this->config->data['MENU'][$section] as $info) {
+        foreach ($config->data['MENU'][$section] as $info) {
           if (isset($info['CLASS']) && plugin_available($info['CLASS'])) {
             if (!$this->check_access($info['ACL'])) {
               continue;

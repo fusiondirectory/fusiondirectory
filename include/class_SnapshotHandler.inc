@@ -29,7 +29,6 @@
  * the snapshot functionality
  */
 class SnapshotHandler {
-  var $config;
   var $snapshotBases  = array();
 
   /*!
@@ -37,14 +36,13 @@ class SnapshotHandler {
    *
    * \param config $config
    */
-  function __construct(&$config)
+  function __construct()
   {
-    $this->config = $config;
-
+    global $config;
     /* Prepare base */
-    $this->snapshotRDN = $this->config->get_cfg_value("snapshotBase");
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
+    $this->snapshotRDN = $config->get_cfg_value("snapshotBase");
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
     $ldap->create_missing_trees($this->snapshotRDN);
     if (!$ldap->success()) {
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->snapshotRDN, "", get_class()), LDAP_ERROR);
@@ -58,7 +56,8 @@ class SnapshotHandler {
    */
   function enabled()
   {
-    return $this->config->snapshotEnabled();
+    global $config;
+    return $config->snapshotEnabled();
   }
 
   /*!
@@ -85,7 +84,8 @@ class SnapshotHandler {
    */
   protected function snapshot_dn($dn)
   {
-    return preg_replace("/".preg_quote($this->config->current['BASE'], '/')."$/", "", $dn)
+    global $config;
+    return preg_replace("/".preg_quote($config->current['BASE'], '/')."$/", "", $dn)
             .$this->snapshotRDN;
   }
 
@@ -98,11 +98,12 @@ class SnapshotHandler {
    */
   function getDeletedSnapshots($objectBase, $raw = FALSE)
   {
+    global $config;
     if (!$this->enabled()) {
       return array();
     }
 
-    $ldap = $this->config->get_ldap_link();
+    $ldap = $config->get_ldap_link();
 
     // Initialize base
     $base = $this->snapshot_dn($objectBase);
@@ -163,11 +164,12 @@ class SnapshotHandler {
    */
   function getSnapshots($dn, $raw = FALSE)
   {
+    global $config;
     if (!$this->enabled()) {
       return array();
     }
 
-    $ldap = $this->config->get_ldap_link();
+    $ldap = $config->get_ldap_link();
 
     $objectBase = preg_replace("/^[^,]*./", "", $dn);
 
@@ -210,6 +212,7 @@ class SnapshotHandler {
    */
   function createSnapshot($dn, $description = array())
   {
+    global $config;
     if (!$this->enabled()) {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot are disabled but tried to create snapshot');
       return;
@@ -222,7 +225,7 @@ class SnapshotHandler {
       $dns = array($dn);
     }
 
-    $ldap = $this->config->get_ldap_link();
+    $ldap = $config->get_ldap_link();
 
     /* check if the dn exists */
     if (!$ldap->dn_exists($dn)) {
@@ -285,8 +288,9 @@ class SnapshotHandler {
    */
   function removeSnapshot($dn)
   {
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
+    global $config;
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
     $ldap->rmdir_recursive($dn);
     if (!$ldap->success()) {
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn), LDAP_ERROR);
@@ -300,11 +304,12 @@ class SnapshotHandler {
    */
   function getAvailableSnapsShots($dn, $raw = FALSE)
   {
+    global $config;
     if (!$this->enabled()) {
       return array();
     }
 
-    $ldap = $this->config->get_ldap_link();
+    $ldap = $config->get_ldap_link();
 
     /* Prepare bases and some other infos */
     $base_of_object = preg_replace ('/^[^,]+,/i', '', $dn);
@@ -345,11 +350,12 @@ class SnapshotHandler {
    */
   function getAllDeletedSnapshots($base_of_object, $raw = FALSE)
   {
+    global $config;
     if (!$this->enabled()) {
       return array();
     }
 
-    $ldap = $this->config->get_ldap_link();
+    $ldap = $config->get_ldap_link();
 
     /* Prepare bases */
     $new_base       = $this->snapshot_dn($base_of_object);
@@ -398,12 +404,13 @@ class SnapshotHandler {
    */
   function restoreSnapshot($dn)
   {
+    global $config;
     if (!$this->enabled()) {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot are disabled but tried to restore snapshot');
       return array();
     }
 
-    $ldap = $this->config->get_ldap_link();
+    $ldap = $config->get_ldap_link();
 
     /* Get the snapshot */
     $ldap->cat($dn);

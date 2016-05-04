@@ -37,8 +37,7 @@ class setupStep extends simplePlugin
 
   function __construct()
   {
-    global $config;
-    parent::__construct($config);
+    parent::__construct();
     $this->update_strings();
   }
 

@@ -51,12 +51,12 @@ class userManagement extends simpleManagement
     );
   }
 
-  function __construct($config, $ui)
+  function __construct($unused, $ui)
   {
     $this->filterXMLPath  = get_template_path('user-filter.xml',  TRUE, dirname(__FILE__));
     $this->listXMLPath    = get_template_path('user-list.xml',    TRUE, dirname(__FILE__));
 
-    parent::__construct($config, $ui);
+    parent::__construct($unused, $ui);
   }
 
   function configureHeadpage ()
@@ -126,6 +126,7 @@ class userManagement extends simpleManagement
    */
   function lockEntry($action, $entry, $all, $type = 'toggle')
   {
+    global $config;
     // Filter out entries we are not allowed to modify
     $disallowed = array();
     $dns        = array();
@@ -141,7 +142,7 @@ class userManagement extends simpleManagement
     }
 
     // Try to lock/unlock the rest of the entries.
-    $ldap = $this->config->get_ldap_link();
+    $ldap = $config->get_ldap_link();
     foreach ($allowed as $dn) {
       $ldap->cat($dn, array('userPassword'));
       if ($ldap->count() == 1) {
@@ -158,15 +159,15 @@ class userManagement extends simpleManagement
         $success  = TRUE;
         if ($method instanceOf passwordMethod) {
           if ($type == 'toggle') {
-            if ($method->is_locked($this->config, $val['dn'])) {
-              $success = $method->unlock_account($this->config, $val['dn']);
+            if ($method->is_locked($val['dn'])) {
+              $success = $method->unlock_account($val['dn']);
             } else {
-              $success = $method->lock_account($this->config, $val['dn']);
+              $success = $method->lock_account($val['dn']);
             }
-          } elseif ($type == 'lock' && !$method->is_locked($this->config, $val['dn'])) {
-            $success = $method->lock_account($this->config, $val['dn']);
-          } elseif ($type == 'unlock' && $method->is_locked($this->config, $val['dn'])) {
-            $success = $method->unlock_account($this->config, $val['dn']);
+          } elseif ($type == 'lock' && !$method->is_locked($val['dn'])) {
+            $success = $method->lock_account($val['dn']);
+          } elseif ($type == 'unlock' && $method->is_locked($val['dn'])) {
+            $success = $method->unlock_account($val['dn']);
           }
 
           // Check if everything went fine.

@@ -25,9 +25,6 @@ class fake_userinfo extends userinfo
 {
   function __construct()
   {
-    global $config;
-    $this->config = &$config;
-
     $this->cn   = 'fake_cn';
     $this->dn   = 'fake_dn';
     $this->uid  = 'fake_uid';

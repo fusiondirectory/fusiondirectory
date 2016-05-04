@@ -140,9 +140,9 @@ class simpleManagement extends management
 
   protected $skipTemplates = TRUE;
 
-  function __construct($config, $ui)
+  function __construct($unused, $ui)
   {
-    $this->config = $config;
+    global $config;
     $this->ui     = $ui;
 
     if ($this->filterXMLPath === NULL) {
@@ -188,12 +188,12 @@ class simpleManagement extends management
     $headpage = new $this->headpageClass($this->parseXML($this->listXMLPath));
     $headpage->setFilter($filter);
 
-    parent::__construct($config, $ui, 'unused', $headpage);
+    parent::__construct(NULL, $ui, 'unused', $headpage);
 
     $this->configureHeadpage();
     $this->configureFilter();
     if ($this->baseMode === FALSE) {
-      $this->headpage->setBase($this->config->current['BASE']);
+      $this->headpage->setBase($config->current['BASE']);
     }
   }
 
@@ -393,12 +393,13 @@ class simpleManagement extends management
 
   function renderList()
   {
+    global $config;
     $smarty = get_smarty();
     $filters = array();
     foreach ($this->objectTypes as $object) {
       $filters[] = array(
         'id'    => 'FILTER'.$object,
-        'label' => sprintf(_('Show %s'), $this->config->data['OBJECTS'][$object]['name'])
+        'label' => sprintf(_('Show %s'), $config->data['OBJECTS'][$object]['name'])
       );
     }
     if (!$this->skipTemplates) {
@@ -734,6 +735,7 @@ class simpleManagement extends management
    */
   function createSnapshotDialog($action = '', $target = array(), $all = array())
   {
+    global $config;
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, 'Snaptshot creation initiated!');
 
     if (count($target) == 1) {
@@ -741,9 +743,9 @@ class simpleManagement extends management
       if (empty($this->dn)) {
         return;
       }
-      $aclCategory = $this->config->data['OBJECTS'][$this->getType($this->dn)]['aclCategory'];
+      $aclCategory = $config->data['OBJECTS'][$this->getType($this->dn)]['aclCategory'];
       if ($this->ui->allow_snapshot_create($this->dn, $aclCategory)) {
-        $this->dialogObject = new SnapshotCreateDialog($this->config, $this->dn, $this, $aclCategory);
+        $this->dialogObject = new SnapshotCreateDialog(NULL, $this->dn, $this, $aclCategory);
         $this->dialogObject->set_acl_base($this->dn);
       } else {
         msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to create a snapshot for %s.'), $this->dn),
@@ -764,6 +766,7 @@ class simpleManagement extends management
    */
   function restoreSnapshotDialog($action = '', $target = array(), $all = array())
   {
+    global $config;
     // Set current restore base for snapshot handling.
     if (is_object($this->snapHandler)) {
       $bases = array();
@@ -787,13 +790,13 @@ class simpleManagement extends management
       if (empty($this->dn)) {
         return;
       }
-      $aclCategory = $this->config->data['OBJECTS'][$this->getType($this->dn)]['aclCategory'];
+      $aclCategory = $config->data['OBJECTS'][$this->getType($this->dn)]['aclCategory'];
     }
 
     if ($this->ui->allow_snapshot_restore($this->dn, $aclCategory)) {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Snaptshot restoring initiated!');
       $this->snapHandler->setSnapshotBases($bases);
-      $this->dialogObject = new SnapshotRestoreDialog($this->config, $this->dn, $this, !count($target), $aclCategory);
+      $this->dialogObject = new SnapshotRestoreDialog(NULL, $this->dn, $this, !count($target), $aclCategory);
       $this->dialogObject->set_acl_base($this->dn);
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $this->dn),
@@ -893,7 +896,7 @@ class simpleManagement extends management
     } else {
       if (!session::is_set($classname) || (isset($_GET['reset']) && $_GET['reset'] == 1)) {
         /* Create the object if missing or reset requested */
-        $managementObject = new $classname($config, $ui);
+        $managementObject = new $classname(NULL, $ui);
       } else {
         /* Retrieve the object from session */
         $managementObject = session::get($classname);

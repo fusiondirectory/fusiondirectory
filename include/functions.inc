@@ -1236,7 +1236,7 @@ function &get_smarty()
  *
  * \param string $dn the subject for the conversion
  *
- * \param string $base the base dn, default: $this->config->current['BASE']
+ * \param string $base the base dn, default: $config->current['BASE']
  *
  * \return a string in the form as described above
  */
@@ -1273,7 +1273,7 @@ function convert_department_dn($dn, $base = NULL)
  * Example:
  * \code
  * # Determine LDAP base where systems are stored
- * $base = get_ou('systemRDN') . $this->config->current['BASE'];
+ * $base = get_ou('systemRDN') . $config->current['BASE'];
  * $ldap->cd($base);
  * \endcode
  *

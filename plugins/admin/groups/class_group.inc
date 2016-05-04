@@ -107,9 +107,9 @@ class group extends simplePlugin
     );
   }
 
-  function __construct (&$config, $dn = NULL, $object = NULL)
+  function __construct ($unused, $dn = NULL, $object = NULL)
   {
-    parent::__construct($config, $dn, $object);
+    parent::__construct($unused, $dn, $object);
 
     $this->attributesAccess['trustMode']->setInLdap(FALSE);
     $this->attributesAccess['trustMode']->setManagedAttributes(
@@ -141,12 +141,13 @@ class group extends simplePlugin
 
   function check()
   {
+    global $config;
     $message = parent::check();
 
     /* Check ID's if they are forced by user */
     if ($this->force_id) {
-      if ($this->gidNumber < $this->config->get_cfg_value("minId")) {
-        $message[] = msgPool::toosmall(_("GID"), $this->config->get_cfg_value("minId"));
+      if ($this->gidNumber < $config->get_cfg_value("minId")) {
+        $message[] = msgPool::toosmall(_("GID"), $config->get_cfg_value("minId"));
       }
     }
 

@@ -120,8 +120,9 @@ class department extends simplePlugin
     return $attributesInfo;
   }
 
-  function __construct (&$config, $dn = NULL, $object = NULL)
+  function __construct ($unused, $dn = NULL, $object = NULL)
   {
+    global $config;
     /* Add the default structural object class if this is a new entry */
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
@@ -142,9 +143,9 @@ class department extends simplePlugin
     }
     $this->objectclasses = array_unique($this->objectclasses);
 
-    parent::__construct($config, $dn, $object);
+    parent::__construct($unused, $dn, $object);
 
-    $categoriesList = $this->config->get_cfg_value('DepartmentCategories', array());
+    $categoriesList = $config->get_cfg_value('DepartmentCategories', array());
 
     /* Insert current value to possibilities */
     if (isset($this->attributesAccess['businessCategory'])) {
@@ -204,7 +205,7 @@ class department extends simplePlugin
     /* Hide base selector, if this object represents the base itself
 
     $smarty->assign("is_root_dse", FALSE);
-    if ($this->dn == $this->config->current['BASE']) {
+    if ($this->dn == $config->current['BASE']) {
       $smarty->assign("is_root_dse", TRUE);
       $nA = $this->namingAttr."ACL";
       $smarty->assign($nA, $this->getacl($this->namingAttr, TRUE));

@@ -204,9 +204,10 @@ class posixAccount extends simplePlugin
     );
   }
 
-  function __construct (&$config, $dn = NULL, $object = NULL)
+  function __construct ($unused, $dn = NULL, $object = NULL)
   {
-    parent::__construct($config, $dn, $object);
+    global $config;
+    parent::__construct($unused, $dn, $object);
 
     $this->attributesAccess['gecos']->setVisible(FALSE);
 
@@ -276,7 +277,7 @@ class posixAccount extends simplePlugin
     }
 
     /* Generate shell list from config */
-    $loginShellList = $this->config->get_cfg_value('Shells', array(_('unconfigured')));
+    $loginShellList = $config->get_cfg_value('Shells', array(_('unconfigured')));
 
     /* Insert possibly missing loginShell */
     $loginShell = $this->attributesAccess['loginShell']->getValue();
@@ -289,8 +290,8 @@ class posixAccount extends simplePlugin
 
     $secondaryGroups = array();
     $secondaryGroups[''] = "- "._("automatic")." -";
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
     $ldap->search("(objectClass=posixGroup)", array("cn", "gidNumber"));
     while ($attrs = $ldap->fetch()) {
       $secondaryGroups[$attrs['gidNumber'][0]] = $attrs['cn'][0];
@@ -333,7 +334,7 @@ class posixAccount extends simplePlugin
         }
       } else {
         /* Groups handling */
-        $ldap->cd($this->config->current['BASE']);
+        $ldap->cd($config->current['BASE']);
         $ldap->search('(&(objectClass=posixGroup)(memberUid='.ldap_escape_f($this->getUid()).'))', array('cn', 'description'));
         $groupMembership = array();
         while ($attrs = $ldap->fetch()) {
@@ -371,12 +372,13 @@ class posixAccount extends simplePlugin
 
   function resetCopyInfos()
   {
+    global $config;
     parent::resetCopyInfos();
 
     $this->savedGroupMembership = array();
 
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
     $ldap->search('(&(objectClass=posixGroup)(gidNumber='.ldap_escape_f($this->gidNumber).')(cn='.ldap_escape_f($this->getUid()).'))', array('cn','gidNumber'));
 
     if ($ldap->count() > 0) {
@@ -393,6 +395,7 @@ class posixAccount extends simplePlugin
 
   function check()
   {
+    global $config;
     if (isset($this->parent) &&
         isset($this->parent->getBaseObject()->is_template) &&
         $this->parent->getBaseObject()->is_template) {
@@ -403,11 +406,11 @@ class posixAccount extends simplePlugin
 
     /* Check ID's if they are forced by user */
     if ($this->force_ids) {
-      if ($this->uidNumber < $this->config->get_cfg_value("minId")) {
-        $message[] = msgPool::toosmall(_("UID"), $this->config->get_cfg_value("minId"));
+      if ($this->uidNumber < $config->get_cfg_value("minId")) {
+        $message[] = msgPool::toosmall(_("UID"), $config->get_cfg_value("minId"));
       }
-      if ($this->gidNumber < $this->config->get_cfg_value("minId")) {
-        $message[] = msgPool::toosmall(_("GID"), $this->config->get_cfg_value("minId"));
+      if ($this->gidNumber < $config->get_cfg_value("minId")) {
+        $message[] = msgPool::toosmall(_("GID"), $config->get_cfg_value("minId"));
       }
     }
 
@@ -437,6 +440,7 @@ class posixAccount extends simplePlugin
 
   function prepare_save()
   {
+    global $config;
     /* Fill gecos */
     if (isset($this->parent) && $this->parent !== NULL) {
       $this->gecos = rewrite($this->parent->getBaseObject()->cn);
@@ -483,8 +487,8 @@ class posixAccount extends simplePlugin
       $this->gidNumber = 2147483647;
     } elseif (($this->primaryGroup == 0) || $this->force_ids) {
       /* Search for existing group */
-      $ldap = $this->config->get_ldap_link();
-      $ldap->cd($this->config->current['BASE']);
+      $ldap = $config->get_ldap_link();
+      $ldap->cd($config->current['BASE']);
 
       /* Are we forced to use a special gidNumber? */
       if ($this->force_ids) {
@@ -626,6 +630,7 @@ class posixAccount extends simplePlugin
   /* remove object from parent */
   function remove_from_parent()
   {
+    global $config;
     /* Cancel if there's nothing to do here */
     if ((!$this->initially_was_account) || (!$this->acl_is_removeable())) {
       return;
@@ -635,8 +640,8 @@ class posixAccount extends simplePlugin
     parent::remove_from_parent();
 
     /* Delete group only if cn is uid and there are no other members inside */
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cd ($this->config->current['BASE']);
+    $ldap = $config->get_ldap_link();
+    $ldap->cd ($config->current['BASE']);
     $ldap->search ('(&(objectClass=posixGroup)(gidNumber='.ldap_escape_f($this->gidNumber).')(cn='.ldap_escape_f($this->getUid()).'))', array('cn', 'memberUid'));
     if ($ldap->count() != 0) {
       $attrs = $ldap->fetch();

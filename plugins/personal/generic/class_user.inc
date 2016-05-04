@@ -70,11 +70,12 @@ class UserPasswordAttribute extends CompositeAttribute
 
   public function setParent(&$plugin)
   {
+    global $config;
     parent::setParent($plugin);
     if (is_object($this->plugin)) {
-      $hash = $this->plugin->config->get_cfg_value('passwordDefaultHash', 'ssha');
+      $hash = $config->get_cfg_value('passwordDefaultHash', 'ssha');
       $this->attributes[0]->setDefaultValue($hash);
-      if ($this->plugin->config->get_cfg_value('forcePasswordDefaultHash', 'FALSE') == 'TRUE') {
+      if ($config->get_cfg_value('forcePasswordDefaultHash', 'FALSE') == 'TRUE') {
         $this->attributes[0]->setValue($hash);
         $this->attributes[0]->setDisabled(TRUE);
       }
@@ -159,7 +160,8 @@ class UserPasswordAttribute extends CompositeAttribute
 
   function readValues($value)
   {
-    $pw_storage = $this->plugin->config->get_cfg_value('passwordDefaultHash', 'ssha');
+    global $config;
+    $pw_storage = $config->get_cfg_value('passwordDefaultHash', 'ssha');
     $locked     = FALSE;
     $password   = '';
     if ($this->plugin->is_template) {
@@ -169,7 +171,7 @@ class UserPasswordAttribute extends CompositeAttribute
       $tmp = passwordMethod::get_method($value);
       if (is_object($tmp)) {
         $pw_storage = $tmp->get_hash();
-        $locked     = $tmp->is_locked($this->plugin->config, $this->plugin->dn);
+        $locked     = $tmp->is_locked($this->plugin->dn);
         if ($this->plugin->is_template) {
           $value = $tmp->generate_hash($password);
         }
@@ -196,7 +198,7 @@ class UserPasswordAttribute extends CompositeAttribute
       trigger_error('Unknown password method '.$values[0]);
       return $values[3];
     }
-    $test = new $temp[$values[0]]($this->plugin->config, $this->plugin->dn);
+    $test = new $temp[$values[0]]($this->plugin->dn);
     $test->set_hash($values[0]);
     if ($this->plugin->is_template) {
       return $test->generate_hash($values[1]).'|'.$values[1];
@@ -444,9 +446,9 @@ class user extends simplePlugin
     );
   }
 
-  function __construct (&$config, $dn = NULL, $object = NULL)
+  function __construct ($unused, $dn = NULL, $object = NULL)
   {
-    parent::__construct($config, $dn, $object);
+    parent::__construct($unused, $dn, $object);
 
     $this->attributesAccess['uid']->setUnique('whole');
     $this->attributesAccess['uid']->setDisabled($this->initially_was_account && !$this->is_template);
@@ -471,7 +473,8 @@ class user extends simplePlugin
 
   private function update_cn ()
   {
-    $pattern  = $this->config->get_cfg_value('CnPattern', '%givenName% %sn%');
+    global $config;
+    $pattern  = $config->get_cfg_value('CnPattern', '%givenName% %sn%');
     $fields   = plugin::tpl_list_fields($pattern);
     $attrs    = array();
     foreach ($fields as $field) {
@@ -495,13 +498,14 @@ class user extends simplePlugin
 
   function compute_dn()
   {
+    global $config;
     if ($this->is_template) {
       $dn = 'cn='.ldap_escape_dn($this->_template_cn).',ou=templates,'.get_ou('userRDN').$this->base;
       return $dn;
     }
 
     $this->update_cn();
-    $attribute = $this->config->get_cfg_value('accountPrimaryAttribute', 'uid');
+    $attribute = $config->get_cfg_value('accountPrimaryAttribute', 'uid');
 
     return $this->create_unique_dn($attribute, get_ou('userRDN').$this->base);
   }
@@ -519,8 +523,8 @@ class user extends simplePlugin
 
     if (!$this->is_template && $this->was_locked && $this->attributesAccess['userPassword']->hasChanged()) {
       $methods  = passwordMethod::get_available_methods();
-      $pmethod  = new $methods[$this->attributesAccess['userPassword']->getMethod()]($this->config, $this->dn);
-      $pmethod->lock_account($this->config, $this->dn);
+      $pmethod  = new $methods[$this->attributesAccess['userPassword']->getMethod()]($this->dn);
+      $pmethod->lock_account($this->dn);
     }
   }
 

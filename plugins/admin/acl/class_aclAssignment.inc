@@ -63,9 +63,9 @@ class aclAssignmentDialogWindow extends simplePlugin
     );
   }
 
-  function __construct (&$config, $value, $isContainer = FALSE)
+  function __construct ($unused, $value, $isContainer = FALSE)
   {
-    parent::__construct($config);
+    parent::__construct($unused);
     if ($isContainer) {
       $this->attributesAccess['aclMode']->setDefaultValue('subtree');
     } else {
@@ -144,7 +144,7 @@ class ACLsAssignmentDialog extends GenericDialog
       $isContainer = TRUE;
     }
     $this->attribute        = $attribute;
-    $this->dialog           = new $this->dialogClass($simplePlugin->config, $acl, $isContainer);
+    $this->dialog           = new $this->dialogClass(NULL, $acl, $isContainer);
     $this->dialog->set_acl_base($simplePlugin->acl_base);
     $this->initialAclValue  = $acl;
   }
@@ -292,9 +292,9 @@ class aclAssignment extends simplePlugin
     );
   }
 
-  function __construct (&$config, $dn = NULL, $object = NULL, $attributesInfo = NULL)
+  function __construct ($unused, $dn = NULL, $object = NULL, $attributesInfo = NULL)
   {
-    parent::__construct ($config, $dn, $object);
+    parent::__construct ($unused, $dn, $object);
     $this->attributesInfo['main']['name'] = sprintf(_('Assignments on object or subtree %s'), $this->dn);
   }
 

@@ -35,15 +35,14 @@ class simpleService extends simplePlugin {
 
   /*! \brief constructor
    *
-   *  \param mixed $config The config object
    *  \param string $dn The dn of this instance
    *  \param Object $object An object to copy values from
    *  \param array $attributesInfo An attributesInfo array, if NULL, getAttributesInfo will be used.
    *
    */
-  function __construct(&$config, $dn, $object = NULL, $attributesInfo = NULL)
+  function __construct($unused, $dn, $object = NULL, $attributesInfo = NULL)
   {
-    parent::__construct($config, $dn, $object, $attributesInfo);
+    parent::__construct($unused, $dn, $object, $attributesInfo);
     $plInfos = pluglist::pluginInfos(get_class($this));
     $this->DisplayName  = $plInfos['plShortName'];
     $this->parent       = $object; /* $object is the instance of serverService in this case */

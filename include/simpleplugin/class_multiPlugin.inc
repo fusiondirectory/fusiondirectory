@@ -37,9 +37,10 @@ class multiPlugin extends simplePlugin
     return array();
   }
 
-  function __construct (&$config, $dn = NULL, $parent = NULL)
+  function __construct ($unused = NULL, $dn = NULL, $parent = NULL)
   {
-    parent::__construct($config, $dn, $parent);
+    global $config;
+    parent::__construct($unused, $dn, $parent);
 
     $plInfos = pluglist::pluginInfos(get_class($this));
 
@@ -49,7 +50,7 @@ class multiPlugin extends simplePlugin
         continue;
       }
       $name = $plug['CLASS'];
-      $this->plugin[$name] = new $name($config, $dn, $parent);
+      $this->plugin[$name] = new $name($unused, $dn, $parent);
 
       /* Acl base && category configuration,
           these settings will be overloaded in main.inc,

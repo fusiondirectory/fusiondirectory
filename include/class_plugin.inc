@@ -38,13 +38,6 @@ class plugin
   var $parent = NULL;
 
   /*!
-    \brief Configuration container
-
-    Access to global configuration
-   */
-  var $config = NULL;
-
-  /*!
     \brief Mark plugin as account
 
     Defines whether this plugin is defined as an account or not.
@@ -120,10 +113,10 @@ class plugin
    *
    * \sa plugin()
    */
-  function __construct (&$config, $dn = NULL, $object = NULL)
+  function __construct ($unused, $dn = NULL, $object = NULL)
   {
+    global $config;
     /* Configuration is fine, allways */
-    $this->config = &$config;
     $this->dn     = $dn;
 
     // Ensure that we've a valid acl_category set.
@@ -163,7 +156,7 @@ class plugin
           $this->setTemplate($object->is_template);
         }
       } else {
-        $ldap = $this->config->get_ldap_link();
+        $ldap = $config->get_ldap_link();
         $ldap->cat($this->dn);
         $this->attrs = $ldap->fetch();
       }
@@ -247,7 +240,8 @@ class plugin
 
   protected function templateSaveAttrs()
   {
-    $ldap = $this->config->get_ldap_link();
+    global $config;
+    $ldap = $config->get_ldap_link();
     $ldap->cat($this->dn);
     $template_attrs = $ldap->fetch();
     if (!$template_attrs) {
@@ -317,8 +311,9 @@ class plugin
    */
   function save()
   {
+    global $config;
     /* include global link_info */
-    $ldap = $this->config->get_ldap_link();
+    $ldap = $config->get_ldap_link();
 
     $this->entryCSN = '';
 
@@ -412,11 +407,6 @@ class plugin
   function check()
   {
     $message = array();
-
-    /* Skip if we've no config object */
-    if (!isset($this->config) || !is_object($this->config)) {
-      return $message;
-    }
 
     $this->callHook('CHECK', array(), $returnOutput);
     if (!empty($returnOutput)) {
@@ -858,7 +848,8 @@ class plugin
    */
   function create_unique_dn($attribute, $base)
   {
-    $ldap = $this->config->get_ldap_link();
+    global $config;
+    $ldap = $config->get_ldap_link();
     $base = preg_replace('/^,*/', '', $base);
 
     /* Try to use plain entry first */
@@ -905,9 +896,10 @@ class plugin
    */
   private function rename($src_dn, $dst_dn)
   {
+    global $config;
     /* Try to move the source entry to the destination position */
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
     $ldap->create_missing_trees(preg_replace("/^[^,]+,/", '', $dst_dn));
     if (!$ldap->rename_dn($src_dn, $dst_dn)) {
       new log('debug', 'Ldap Protocol v3 implementation error, ldap_rename failed.',
@@ -930,6 +922,7 @@ class plugin
     */
   function move($src_dn, $dst_dn)
   {
+    global $config;
     /* Do not move if only upper- lowercase has changed */
     if (strtolower($src_dn) == strtolower($dst_dn)) {
       return TRUE;
@@ -959,9 +952,9 @@ class plugin
                             array("dn","objectClass"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
 
     if (count($leaf_deps)) {
-      $this->config->get_departments();
-      $this->config->make_idepartments();
-      session::global_set("config", $this->config);
+      $config->get_departments();
+      $config->make_idepartments();
+      session::global_set("config", $config);
       $ui = get_userinfo();
       $ui->reset_acl_cache();
     }
@@ -1444,6 +1437,7 @@ class plugin
   */
   function get_allowed_bases()
   {
+    global $config;
     $deps = array();
 
     /* Is this a new object ? Or just an edited existing object */
@@ -1453,7 +1447,7 @@ class plugin
       $new = FALSE;
     }
 
-    foreach ($this->config->idepartments as $dn => $name) {
+    foreach ($config->idepartments as $dn => $name) {
       if ($new && $this->acl_is_createable($dn)) {
         $deps[$dn] = $name;
       } elseif (!$new && $this->acl_is_moveable($dn)) {
@@ -1462,9 +1456,9 @@ class plugin
     }
 
     /* Add current base */
-    if (isset($this->base) && isset($this->config->idepartments[$this->base])) {
-      $deps[$this->base] = $this->config->idepartments[$this->base];
-    } elseif (strtolower($this->dn) != strtolower($this->config->current['BASE'])) {
+    if (isset($this->base) && isset($config->idepartments[$this->base])) {
+      $deps[$this->base] = $config->idepartments[$this->base];
+    } elseif (strtolower($this->dn) != strtolower($config->current['BASE'])) {
       trigger_error("Cannot return list of departments, no default base found in class ".get_class($this).". (base is '".$this->base."')");
     }
     return $deps;

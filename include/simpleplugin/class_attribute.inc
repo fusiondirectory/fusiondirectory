@@ -421,6 +421,7 @@ class Attribute
    */
   function check ()
   {
+    global $config;
     $value = $this->getValue();
     if ($this->isRequired() && !$this->disabled && (($value === "") || ($value === array()))) {
       return msgPool::required($this->getLabel());
@@ -429,8 +430,8 @@ class Attribute
       if (($value === "") || ($value === array())) {
         return;
       }
-      $ldap = $this->plugin->config->get_ldap_link();
-      $base = $this->plugin->config->current['BASE'];
+      $ldap = $config->get_ldap_link();
+      $base = $config->current['BASE'];
       if ($this->unique !== 'whole') {
         if (isset($this->plugin->base) && !empty($this->plugin->base)) {
           $base = $this->plugin->base;
@@ -507,7 +508,7 @@ class Attribute
                 break;
               }
             }
-            if (!in_array($dn_base, $this->plugin->config->departments)) {
+            if (!in_array($dn_base, $config->departments)) {
               continue;
             }
           }
@@ -2882,9 +2883,10 @@ class SubNodesAttribute extends OrderedArrayAttribute
 
   protected function loadAttrValue ($attrs)
   {
+    global $config;
     /* Should we take dn from attrs or plugin? */
     if (isset($attrs['dn'])) {
-      $ldap = $this->plugin->config->get_ldap_link();
+      $ldap = $config->get_ldap_link();
       $ldap->ls('objectClass='.$this->objectClass, $attrs['dn']);
       $this->value = array();
       while ($subattrs = $ldap->fetch()) {

@@ -30,7 +30,6 @@
 class simpleTabs
 {
   var $dn;
-  var $config;
   var $acl;
   var $is_template;
 
@@ -53,7 +52,7 @@ class simpleTabs
   /*!
    * \brief Tabs classes constructor
    *
-   * You should either call __construct($type, $dn, [$copied_object]) or (deprecated) __construct($config, $data, $dn, $category, [$copied_object])
+   * You should either call __construct($type, $dn, [$copied_object]) or (deprecated) __construct(NULL, $data, $dn, $category, [$copied_object])
    * */
   function __construct()
   {
@@ -83,7 +82,6 @@ class simpleTabs
 
     /* Save dn */
     $this->dn     = $dn;
-    $this->config = &$config;
 
     if (!count($data)) {
       $data[] = array("CLASS" => 'plugin',"NAME" => 'Error');
@@ -102,11 +100,11 @@ class simpleTabs
       $this->by_name[$tab['CLASS']] = $tab['NAME'];
 
       if ($baseobject === NULL) {
-        $baseobject = new $tab['CLASS']($this->config, $this->dn, $attrs_object);
+        $baseobject = new $tab['CLASS'](NULL, $this->dn, $attrs_object);
         $this->by_object[$tab['CLASS']] = $baseobject;
         $this->baseclass                = $tab['CLASS'];
       } else {
-        $this->by_object[$tab['CLASS']] = new $tab['CLASS']($this->config, $this->dn, $baseobject);
+        $this->by_object[$tab['CLASS']] = new $tab['CLASS'](NULL, $this->dn, $baseobject);
       }
 
       $this->read_only |= $this->by_object[$tab['CLASS']]->read_only;
@@ -147,10 +145,10 @@ class simpleTabs
         continue;
       }
       if ($baseobject === NULL) {
-        $baseobject = new $class($this->config, $this->dn);
+        $baseobject = new $class(NULL, $this->dn);
         $this->by_object[$name] = $baseobject;
       } else {
-        $this->by_object[$name] = new $class($this->config, $this->dn, $baseobject);
+        $this->by_object[$name] = new $class(NULL, $this->dn, $baseobject);
       }
       $this->by_object[$name]->parent = &$this;
       $this->by_object[$name]->set_acl_category($this->acl_category);
@@ -453,19 +451,18 @@ class simpleTabs
    */
   function addSpecialTabs()
   {
-    $data       = $this->config->data['TABS']['SPECIALTABS'];
+    global $config;
     $baseobject = $this->getBaseObject();
-    foreach ($data as &$tab) {
+    foreach ($config->data['TABS']['SPECIALTABS'] as $tab) {
       if (!plugin_available($tab['CLASS'])) {
         continue;
       }
 
       $this->by_name[$tab['CLASS']] = $tab['NAME'];
-      $this->by_object[$tab['CLASS']] = new $tab['CLASS']($this->config, $this->dn, $baseobject);
+      $this->by_object[$tab['CLASS']] = new $tab['CLASS'](NULL, $this->dn, $baseobject);
       $this->by_object[$tab['CLASS']]->parent = &$this;
       $this->by_object[$tab['CLASS']]->set_acl_category($this->acl_category);
     }
-    unset($tab);
   }
 
   /*!
